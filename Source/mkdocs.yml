@@ -24,7 +24,7 @@ theme:
     - content.code.copy
 
 extra_css:
-  - stylesheets/wd-theme.v19.css
+  - stylesheets/wd-theme.v20.css
 
 markdown_extensions:
   - admonition
