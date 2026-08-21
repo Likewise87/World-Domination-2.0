@@ -1,0 +1,638 @@
+/* World Domination guide — matches WD_OverviewPages art (Orbitron / Rajdhani / cyan space). */
+
+:root,
+[data-md-color-scheme="slate"] {
+  --wd-bg-deep: #07080c;
+  --wd-bg-panel: rgba(14, 18, 28, 0.72);
+  --wd-border: rgba(120, 170, 210, 0.28);
+  --wd-border-strong: rgba(3, 182, 205, 0.4);
+  --wd-text: #e8eef6;
+  --wd-text-muted: #9aa8b8;
+  --wd-cyan: #03b6cd;
+  --wd-silver: #d7dee8;
+  --wd-red: #e1262a;
+  /* Shared left edge for header brand + primary nav labels */
+  --wd-chrome-inset: 1.5rem;
+  /* Right TOC column + header search share this width */
+  --wd-secondary-width: 13.5rem;
+
+  --md-primary-fg-color: #03b6cd;
+  --md-primary-fg-color--light: #4fd0e0;
+  --md-primary-fg-color--dark: #028a9c;
+  --md-primary-bg-color: #07080c;
+  --md-primary-bg-color--light: #e8eef6;
+  --md-accent-fg-color: #03b6cd;
+  --md-accent-fg-color--transparent: rgba(3, 182, 205, 0.12);
+  --md-accent-bg-color: #07080c;
+  --md-accent-bg-color--light: #e8eef6;
+
+  --md-default-fg-color: #e8eef6;
+  --md-default-fg-color--light: #9aa8b8;
+  --md-default-fg-color--lighter: #7a8796;
+  --md-default-fg-color--lightest: rgba(154, 168, 184, 0.35);
+  --md-default-bg-color: #07080c;
+  --md-default-bg-color--light: #0e121c;
+  --md-default-bg-color--lighter: #121826;
+  --md-default-bg-color--lightest: #181e2e;
+
+  --md-code-fg-color: #d7dee8;
+  --md-code-bg-color: rgba(14, 18, 28, 0.92);
+  --md-code-hl-color: rgba(3, 182, 205, 0.2);
+
+  --md-typeset-a-color: #03b6cd;
+  --md-typeset-table-color: rgba(120, 170, 210, 0.22);
+  --md-typeset-table-color--light: rgba(14, 18, 28, 0.55);
+
+  --md-footer-bg-color: #05060a;
+  --md-footer-bg-color--dark: #03040a;
+  --md-footer-fg-color: #9aa8b8;
+  --md-footer-fg-color--light: #e8eef6;
+  --md-footer-fg-color--lighter: #9aa8b8;
+
+  --md-admonition-bg-color: rgba(14, 18, 28, 0.85);
+}
+
+html {
+  background: var(--wd-bg-deep);
+}
+
+body {
+  color: var(--wd-text);
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 500;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 8%, rgba(30, 55, 90, 0.35), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(12, 20, 36, 0.9), transparent 60%),
+    radial-gradient(circle at 20% 30%, rgba(3, 182, 205, 0.05), transparent 25%),
+    radial-gradient(circle at 80% 20%, rgba(225, 38, 42, 0.05), transparent 22%),
+    var(--wd-bg-deep);
+}
+
+/* Starfield (same idea as overview pages). */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  z-index: 0;
+  background-image:
+    radial-gradient(1px 1px at 8% 12%, rgba(255, 255, 255, 0.85), transparent),
+    radial-gradient(1px 1px at 22% 48%, rgba(255, 255, 255, 0.55), transparent),
+    radial-gradient(1.5px 1.5px at 41% 18%, rgba(255, 255, 255, 0.75), transparent),
+    radial-gradient(1px 1px at 63% 72%, rgba(255, 255, 255, 0.45), transparent),
+    radial-gradient(1px 1px at 78% 28%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 91% 61%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 14% 81%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 52% 39%, rgba(255, 255, 255, 0.65), transparent),
+    radial-gradient(1px 1px at 33% 66%, rgba(255, 255, 255, 0.35), transparent),
+    radial-gradient(1px 1px at 71% 9%, rgba(255, 255, 255, 0.55), transparent);
+  animation: wdStarPulse 8s ease-in-out infinite;
+}
+
+@keyframes wdStarPulse {
+  0%, 100% { opacity: 0.42; }
+  50% { opacity: 0.68; }
+}
+
+/* Keep page chrome above the starfield, but do not restack sidebars over search.
+   Forcing position/z-index on .md-sidebar broke sticky TOC and let it paint over results. */
+.md-container,
+.md-main,
+.md-content,
+.md-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.md-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  /* backdrop-filter can make absolute search output composite under sticky TOC in Chrome */
+  backdrop-filter: none;
+}
+
+.md-search,
+.md-search__inner {
+  z-index: 110;
+}
+
+.md-search__output,
+.md-search__scrollwrap {
+  z-index: 120;
+  isolation: isolate;
+}
+
+/* TOC shares the search column — hide it while search is open. */
+[data-md-toggle="search"]:checked ~ .md-container .md-sidebar--secondary {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.md-typeset {
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--wd-text);
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-header__topic {
+  font-family: "Orbitron", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.md-typeset h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--wd-silver);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
+  border-bottom: 1px solid var(--wd-border);
+  padding-bottom: 0.35em;
+}
+
+.md-typeset h2 {
+  font-size: 22px;
+  color: var(--wd-cyan);
+  text-shadow: 0 0 12px rgba(3, 182, 205, 0.25);
+  border-bottom: 1px solid rgba(3, 182, 205, 0.22);
+  padding-bottom: 0.25em;
+}
+
+.md-typeset h3 {
+  color: var(--wd-silver);
+  letter-spacing: 0.05em;
+}
+
+.md-typeset a {
+  color: var(--wd-cyan);
+}
+
+.md-typeset a:hover {
+  color: #4fd0e0;
+}
+
+.md-header {
+  background: rgba(7, 8, 12, 0.96);
+  border-bottom: 1px solid var(--wd-border);
+  box-shadow: 0 0 24px rgba(3, 182, 205, 0.08);
+}
+
+.md-header__title {
+  font-family: "Orbitron", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-left: 0 !important;
+  padding-left: var(--wd-chrome-inset);
+}
+
+/* Hide Material's default logo so it cannot sit on the brand. */
+.md-header__button.md-logo {
+  display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.md-header__topic .md-ellipsis {
+  color: var(--wd-silver);
+}
+
+.md-header .md-header__button.md-icon,
+.md-header label[for="__search"],
+.md-header .md-search__icon {
+  color: #ffffff !important;
+}
+
+.md-header .md-header__button.md-icon svg,
+.md-header .md-search__icon svg {
+  fill: currentColor;
+}
+
+a.wd-brand {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.wd-brand:hover {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.92;
+}
+
+/* Repo link before search so the search control is the rightmost header item. */
+.md-header__inner {
+  display: flex;
+  align-items: center;
+}
+
+.md-header__source {
+  order: 4;
+}
+
+.md-header__inner > label[for="__search"] {
+  order: 5;
+}
+
+.md-header__inner > .md-search {
+  order: 6;
+}
+
+.md-tabs {
+  background: rgba(7, 8, 12, 0.88);
+  border-bottom: 1px solid var(--wd-border);
+}
+
+.md-nav__link--active,
+.md-nav__link:focus,
+.md-nav__link:hover {
+  color: var(--wd-cyan);
+}
+
+/* —— Left nav hierarchy —— */
+
+/* Hide site name in the left drawer (header already brands the site). */
+.md-nav--primary > .md-nav__title {
+  display: none;
+}
+
+/* Top-level entries (Home, Getting started, Travelers, …) */
+.md-nav--primary > .md-nav__list > .md-nav__item > .md-nav__link {
+  font-family: "Orbitron", sans-serif;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wd-silver);
+  margin-top: 0.35rem;
+  padding: 0.45rem 0.6rem 0.45rem var(--wd-chrome-inset);
+}
+
+/* Section headers with children (Concepts, Raids, Outposts, …) — collapsible */
+.md-nav--primary .md-nav__item--nested > .md-nav__link {
+  font-family: "Orbitron", sans-serif;
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--wd-cyan);
+  text-shadow: 0 0 10px rgba(3, 182, 205, 0.28);
+  margin-top: 0.65rem;
+  padding: 0.55rem 0.6rem 0.55rem var(--wd-chrome-inset);
+  border-top: 1px solid rgba(120, 170, 210, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+
+.md-nav--primary .md-nav__item--nested > .md-nav__link .md-nav__icon {
+  position: static;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  color: var(--wd-cyan);
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.md-nav--primary .md-nav__item--nested > .md-nav__link .md-nav__icon:after {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: currentColor;
+}
+
+/* Override Material indeterminate (from expand/section modes) so labels can collapse. */
+.md-sidebar--primary .md-nav--primary > .md-nav__list > .md-nav__item--nested > .md-nav__toggle.md-toggle--indeterminate:not(:checked) ~ .md-nav {
+  display: grid;
+  grid-template-rows: minmax(0.4rem, 0fr);
+  opacity: 0;
+  visibility: collapse;
+  transition:
+    grid-template-rows 0.25s cubic-bezier(0.86, 0, 0.07, 1),
+    opacity 0.25s,
+    visibility 0ms 0.25s;
+}
+
+.md-sidebar--primary .md-nav--primary > .md-nav__list > .md-nav__item--nested > .md-nav__toggle:checked ~ .md-nav {
+  display: grid;
+  grid-template-rows: minmax(0.4rem, 1fr);
+  opacity: 1;
+  visibility: visible;
+  transition:
+    grid-template-rows 0.25s cubic-bezier(0.86, 0, 0.07, 1),
+    opacity 0.15s 0.1s,
+    visibility 0ms;
+}
+
+.md-nav--primary > .md-nav__list > .md-nav__item:first-child > .md-nav__link,
+.md-nav--primary > .md-nav__list > .md-nav__item--nested:first-child > .md-nav__link {
+  border-top: 0;
+  margin-top: 0.15rem;
+}
+
+/* Nested page links under a section:
+   cyan rule under the section title, shifted 10px right; children 10px past the rule. */
+.md-nav--primary .md-nav__item--nested > .md-nav > .md-nav__list {
+  margin-left: calc(var(--wd-chrome-inset) + 10px);
+  padding-left: 10px;
+  border-left: 2px solid rgba(3, 182, 205, 0.45);
+}
+
+.md-nav--primary .md-nav__item--nested > .md-nav > .md-nav__list > .md-nav__item > .md-nav__link {
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 400;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--wd-text-muted);
+  text-shadow: none;
+  margin-top: 0;
+  margin-left: 0;
+  padding: 0.25rem 0.5rem 0.25rem 0;
+  border-top: 0;
+  border-left: 0;
+}
+
+.md-nav--primary .md-nav__item--nested > .md-nav > .md-nav__list > .md-nav__item > .md-nav__link--active,
+.md-nav--primary .md-nav__item--nested > .md-nav > .md-nav__list > .md-nav__item > .md-nav__link:hover {
+  color: var(--wd-cyan);
+}
+
+/* Right-side on-page TOC stays quieter */
+.md-nav--secondary .md-nav__title {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--wd-cyan);
+}
+
+.md-nav--secondary .md-nav__link {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 0.8rem;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: var(--wd-text-muted);
+}
+
+.md-sidebar {
+  background: transparent;
+}
+
+.md-sidebar__scrollwrap {
+  background: transparent;
+}
+
+.md-search__form {
+  background: var(--wd-bg-deep);
+  border: 1px solid var(--wd-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.md-search__input {
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 400;
+}
+
+/* Opaque search dropdown so results stay readable over the page. */
+.md-search__output,
+.md-search__scrollwrap {
+  background-color: #07080c !important;
+}
+
+.md-search-result__meta {
+  background-color: #0e121c !important;
+}
+
+.md-search-result__item,
+.md-search-result__link,
+.md-search-result__article {
+  background-color: #07080c;
+}
+
+.md-search-result__item:hover,
+.md-search-result__item:focus,
+.md-search-result a:hover,
+.md-search-result a:focus,
+.md-search-result__link:hover,
+.md-search-result__link:focus {
+  background-color: #0e121c;
+}
+
+[data-md-toggle="search"]:checked ~ .md-header .md-search__form {
+  background-color: var(--wd-bg-deep) !important;
+  border-color: var(--wd-border-strong);
+}
+
+.md-typeset table:not([class]) {
+  background: var(--wd-bg-panel);
+  border: 1px solid var(--wd-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 0 24px rgba(3, 182, 205, 0.05);
+}
+
+.md-typeset table:not([class]) th {
+  background: rgba(3, 182, 205, 0.1);
+  color: var(--wd-silver);
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--wd-border-strong);
+}
+
+.md-typeset table:not([class]) td {
+  border-top: 1px solid rgba(120, 170, 210, 0.16);
+}
+
+.md-typeset .admonition,
+.md-typeset details {
+  background: var(--wd-bg-panel);
+  border: 1px solid var(--wd-border);
+  border-left-color: var(--wd-cyan);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 0 28px rgba(3, 182, 205, 0.06);
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 400;
+}
+
+.md-typeset .admonition.warning,
+.md-typeset details.warning {
+  border-left-color: var(--wd-red);
+}
+
+.md-typeset .admonition-title,
+.md-typeset summary {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(3, 182, 205, 0.08);
+}
+
+.md-typeset .warning > .admonition-title,
+.md-typeset .warning > summary {
+  background: rgba(225, 38, 42, 0.12);
+}
+
+.md-typeset code {
+  background: rgba(14, 18, 28, 0.95);
+  border: 1px solid rgba(120, 170, 210, 0.18);
+  border-radius: 2px;
+}
+
+.md-typeset pre > code {
+  border: 0;
+}
+
+.md-typeset .md-button {
+  font-family: "Orbitron", sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 2px;
+}
+
+.md-footer {
+  border-top: 1px solid var(--wd-border);
+}
+
+/* Soften Material's default purple-ish slate leftovers on chips/tabs. */
+.md-typeset .tabbed-set > input:checked + label {
+  color: var(--wd-cyan);
+  border-color: var(--wd-cyan);
+}
+
+.md-top {
+  background: rgba(14, 18, 28, 0.9);
+  border: 1px solid var(--wd-border);
+  color: var(--wd-cyan);
+}
+
+/* Header brand: WORLD DOMINATION with red DOMINATION (overview pages). */
+.wd-brand {
+  font-family: "Orbitron", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wd-silver);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
+}
+
+.wd-brand .wd-dom {
+  color: var(--wd-red);
+  text-shadow:
+    0 0 10px rgba(225, 38, 42, 0.75),
+    0 0 28px rgba(225, 38, 42, 0.35),
+    0 2px 12px rgba(0, 0, 0, 0.65);
+}
+
+/* Wider content: Material default ~61rem leaves large empty sides on big screens. */
+.md-grid {
+  max-width: 100%;
+  margin-inline: 0;
+}
+
+.md-header__inner,
+.md-main__inner,
+.md-footer__inner {
+  max-width: 100%;
+}
+
+@media screen and (min-width: 76.25em) {
+  .md-main__inner {
+    margin-top: 0;
+  }
+
+  .md-sidebar--primary {
+    width: 14.5rem;
+  }
+
+  .md-sidebar--primary .md-sidebar__scrollwrap {
+    margin-left: 0 !important;
+  }
+
+  .md-sidebar--secondary {
+    width: var(--wd-secondary-width);
+  }
+
+  /* Search column = TOC column (same width, flush right with header). */
+  .md-header__inner {
+    padding-right: 0;
+  }
+
+  .md-header__inner > label[for="__search"] {
+    display: none;
+  }
+
+  .md-header__inner > .md-search {
+    display: block;
+    flex: 0 0 var(--wd-secondary-width);
+    width: var(--wd-secondary-width);
+    max-width: var(--wd-secondary-width);
+    margin: 0;
+    padding: 0.2rem 0;
+  }
+
+  .md-header__inner > .md-search .md-search__inner {
+    float: none !important;
+    width: 100% !important;
+    padding: 0;
+  }
+
+  .md-header__inner > .md-search .md-search__form {
+    width: 100%;
+  }
+
+  .md-header__inner > .md-search .md-search__output,
+  .md-header__inner > .md-search .md-search__scrollwrap {
+    width: 100% !important;
+  }
+
+  /* Closed: search matches TOC width. Open: expand left like Material default. */
+  [data-md-toggle="search"]:checked ~ .md-header .md-search {
+    flex: 0 0 23.4rem;
+    width: 23.4rem;
+    max-width: 23.4rem;
+  }
+
+  [data-md-toggle="search"]:checked ~ .md-header .md-search__inner {
+    width: 100% !important;
+  }
+
+  [data-md-toggle="search"]:checked ~ .md-header .md-search__output,
+  [data-md-toggle="search"]:checked ~ .md-header .md-search__scrollwrap {
+    width: 100% !important;
+  }
+
+  .md-content {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  .md-content__inner {
+    margin: 0 0.5rem 1.5rem;
+    padding-top: 1rem;
+  }
+}
+
+@media screen and (min-width: 100em) {
+  .md-content {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+}
