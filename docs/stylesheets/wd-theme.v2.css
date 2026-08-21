@@ -55,7 +55,7 @@ html {
 body {
   color: var(--wd-text);
   font-family: "Rajdhani", sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   background:
     radial-gradient(ellipse 90% 55% at 50% 8%, rgba(30, 55, 90, 0.35), transparent 55%),
     radial-gradient(ellipse 70% 50% at 50% 100%, rgba(12, 20, 36, 0.9), transparent 60%),
@@ -103,9 +103,9 @@ body::before {
 
 .md-typeset {
   font-family: "Rajdhani", sans-serif;
-  font-weight: 600;
-  font-size: 0.95rem;
-  line-height: 1.45;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
   color: var(--wd-text);
 }
 
@@ -183,7 +183,7 @@ body::before {
 .md-nav--primary .md-nav__title {
   font-family: "Orbitron", sans-serif;
   font-weight: 800;
-  font-size: 0.78rem;
+  font-size: 18px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--wd-silver);
@@ -231,7 +231,7 @@ body::before {
 /* Nested page links under a section */
 .md-nav--primary .md-nav__item--nested > .md-nav > .md-nav__list > .md-nav__item > .md-nav__link {
   font-family: "Rajdhani", sans-serif;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 0.82rem;
   letter-spacing: 0.02em;
   text-transform: none;
@@ -283,7 +283,7 @@ body::before {
 
 .md-search__input {
   font-family: "Rajdhani", sans-serif;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .md-typeset table:not([class]) {
@@ -317,6 +317,7 @@ body::before {
     inset 0 1px 0 rgba(255, 255, 255, 0.04),
     0 0 28px rgba(3, 182, 205, 0.06);
   font-family: "Rajdhani", sans-serif;
+  font-weight: 400;
 }
 
 .md-typeset .admonition.warning,
