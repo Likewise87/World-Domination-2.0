@@ -56,7 +56,7 @@ Construction and logistics appear on the world map as travelers. A project can t
 ## Workshop and credits
 
 - [Steam Workshop page](https://steamcommunity.com/sharedfiles/filedetails/?id=3680501610)
+- Published under [Creative Commons Attribution-NonCommercial (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
 - Icons contributed by **Geneva**
-- Licensed under **CC BY-NC 4.0**
 
 > Numbers checked against packageId TSA.WorldDominationExperimental (RimWorld 1.6 Experimental), Settings.cs defaults as of August 2026 local build. Settings can change any Default.
