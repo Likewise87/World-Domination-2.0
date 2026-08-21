@@ -11,7 +11,7 @@ World Domination 2.0 is the successor to **World Domination**. It is the answer 
 ## Main features
 
 - **NPC world actions:** factions perform actions on the world map by launching travelers to attack and trade with settlements, build roads, fortify the front lines, or intercept passing caravans.
-- **Player outposts:** establish specialized sites for production, logistics, recruitment, research, artillery, rapid response, and more.
+- **Player outposts:** choose from a wide array of outposts. Some produce goods for your colony, some feed other outposts, and others launch interception travelers or mortars at passing enemies.
 - **Building projects:** create roads and world fortifications, clear pollution, and improve outposts through dispatched travelers.
 - **Two outpost defense modes:** allow an attack to resolve automatically or defend on a generated map.
 - **Tiered NPC bases:** camps, villages, fortresses, and citadels differ in strength, reach, and map layout.
