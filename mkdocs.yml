@@ -19,7 +19,6 @@ theme:
     accent: custom
   font: false
   features:
-    - navigation.expand
     - navigation.top
     - navigation.indexes
     - search.suggest
