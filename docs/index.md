@@ -3,16 +3,14 @@
 !!! warning "Work in progress"
     This player guide is unfinished and not linked from the Steam Workshop yet. Expect gaps and wording that still changes. Prefer in-game tooltips if something here disagrees with the live mod.
 
-World Domination 2.0 is the successor to **World Domination**. Its Steam description gives the shortest pitch: if RimWar and Vanilla Outposts Expanded had a child, this would be it.
-
-The mod turns the world map into an active strategic layer. NPC factions gather strength, send travelers, fight, expand, improve routes, and pressure the player. Your faction answers with colonies, real pawn Caravans, a network of specialized outposts, diplomacy, and reinforcements.
+World Domination 2.0 is the successor to **World Domination**. It is the answer to the question "What if RimWar and Vanilla Outposts Expanded had a child?" It was created as a separate mod because instead of all actions like raids between factions happening instantly, WD travelers now move across the map as visible caravans, making the world feel much more alive. Also, the old version was tied to Vanilla Outposts Expanded, whereas this one has its own comprehensive outpost framework.
 
 !!! warning "World Domination is a massive mod"
-    World Domination replaces or extends many world-map systems. By default, storyteller raids from factions managed by WD are deactivated. Those factions attack through WD raid travelers instead. Storyteller raids from factions not managed by WD remain available by default.
+    World Domination replaces or extends many world-map systems. By default, storyteller raids from factions managed by WD are deactivated. Those factions attack through WD raid caravans traveling to you instead. Storyteller raids from factions not managed by WD remain active by default (Mechanoids, manhunter packs).
 
 ## Main features
 
-- **NPC world actions:** factions act through visible travelers that carry abstract strength pools.
+- **NPC world actions:** factions perform actions on the world map by launching travelers to attack and trade with settlements, build roads, fortify the front lines, or intercept passing caravans.
 - **Player outposts:** establish specialized sites for production, logistics, recruitment, research, artillery, rapid response, and more.
 - **Building projects:** create roads and world fortifications, clear pollution, and improve outposts through dispatched travelers.
 - **Two outpost defense modes:** allow an attack to resolve automatically or defend on a generated map.
