@@ -12,6 +12,17 @@ World Domination 2.0 requires:
 
 Load **Harmony** and **Vanilla Expanded Framework** before **World Domination 2.0**. WD must load after both required frameworks.
 
+### Recommended extras
+
+Not required to run, but recommended for layouts, props, vehicles, and map selection:
+
+- **Vanilla Furniture Expanded - Props and Decor** (Vanilla Expanded Props)
+- **Vehicle Framework**
+- **Drag Select**
+- **Gerrymon's Misc Props: Graveyard** (`gmmp.graveyard`)
+
+When you use any of those, keep them **above** World Domination 2.0 in the mod list (WD already lists them under `loadAfter`).
+
 Do not enable either incompatible mod:
 
 - The original World Domination, packageId `TSA.WorldDomination`
