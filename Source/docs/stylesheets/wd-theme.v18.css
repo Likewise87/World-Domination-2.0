@@ -99,10 +99,21 @@ body::before {
 .md-main,
 .md-content,
 .md-sidebar,
-.md-header,
 .md-footer {
   position: relative;
   z-index: 1;
+}
+
+/* Keep header (and search dropdown) above the TOC / sidebars. */
+.md-header {
+  z-index: 10;
+}
+
+.md-search,
+.md-search__inner,
+.md-search__output,
+.md-search__scrollwrap {
+  z-index: 12;
 }
 
 .md-typeset {
