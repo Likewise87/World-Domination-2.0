@@ -1,0 +1,722 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>World Domination 2.0 — Outpost Details</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-deep: #07080c;
+      --bg-panel: rgba(14, 18, 28, 0.72);
+      --border: rgba(120, 170, 210, 0.28);
+      --border-strong: rgba(3, 182, 205, 0.4);
+      --text: #e8eef6;
+      --text-muted: #9aa8b8;
+      /* Matches in-game outpost icon tint (#03b6cd). */
+      --cyan: #03b6cd;
+      --silver: #d7dee8;
+      --red: #e1262a;
+      --icon-size-grid: 48px;
+      --icon-size-detail: 64px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-deep);
+      color: var(--text);
+      font-family: "Rajdhani", sans-serif;
+      font-weight: 600;
+      line-height: 1.35;
+      /* Hug content so full-page screenshots are not viewport-wide. */
+      width: fit-content;
+    }
+
+    /* Space field + vignette (not a flat fill). */
+    body {
+      min-height: 100%;
+      background:
+        radial-gradient(ellipse 90% 55% at 50% 8%, rgba(30, 55, 90, 0.35), transparent 55%),
+        radial-gradient(ellipse 70% 50% at 50% 100%, rgba(12, 20, 36, 0.9), transparent 60%),
+        radial-gradient(circle at 20% 30%, rgba(3, 182, 205, 0.05), transparent 25%),
+        radial-gradient(circle at 80% 20%, rgba(225, 38, 42, 0.05), transparent 22%),
+        var(--bg-deep);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.55;
+      background-image:
+        radial-gradient(1px 1px at 8% 12%, rgba(255,255,255,0.85), transparent),
+        radial-gradient(1px 1px at 22% 48%, rgba(255,255,255,0.55), transparent),
+        radial-gradient(1.5px 1.5px at 41% 18%, rgba(255,255,255,0.75), transparent),
+        radial-gradient(1px 1px at 63% 72%, rgba(255,255,255,0.45), transparent),
+        radial-gradient(1px 1px at 78% 28%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1.5px 1.5px at 91% 61%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 14% 81%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 52% 39%, rgba(255,255,255,0.65), transparent),
+        radial-gradient(1px 1px at 33% 66%, rgba(255,255,255,0.35), transparent),
+        radial-gradient(1px 1px at 71% 9%, rgba(255,255,255,0.55), transparent);
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: 860px;
+      max-width: 860px;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-family: "Orbitron", sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 4vw, 2.75rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--silver);
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
+    }
+
+    .brand h1 .dom {
+      color: var(--red);
+      text-shadow:
+        0 0 10px rgba(225, 38, 42, 0.75),
+        0 0 28px rgba(225, 38, 42, 0.35),
+        0 2px 12px rgba(0, 0, 0, 0.65);
+    }
+
+    .brand .subtitle {
+      margin-top: 10px;
+      font-family: "Orbitron", sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      text-shadow: 0 0 12px rgba(3, 182, 205, 0.4);
+    }
+
+    /*
+      RimWorld GUI.color tint: each channel of the texture is multiplied (shades kept).
+      #03b6cd => R=3/255, G=182/255, B=205/255. Alpha unchanged.
+    */
+    .icon-cyan {
+      filter: url(#rimworldCyanTint);
+      image-rendering: auto;
+    }
+
+    /* â€”â€” Top overview grid â€”â€” */
+    .overview {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 18px 12px;
+      padding: 28px 20px 32px;
+      margin-bottom: 40px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 0 40px rgba(3, 182, 205, 0.06);
+    }
+
+    .overview-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .overview-cell img {
+      width: var(--icon-size-grid);
+      height: var(--icon-size-grid);
+      object-fit: contain;
+    }
+
+    .overview-cell span {
+      font-family: "Rajdhani", sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      line-height: 1.15;
+    }
+
+    /* â€”â€” Detail rows â€”â€” */
+    .details {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .tier-block {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tier-heading {
+      margin: 8px 0 4px;
+      font-family: "Orbitron", sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      text-shadow: 0 0 14px rgba(3, 182, 205, 0.35);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+    .detail-row {
+      display: grid;
+      grid-template-columns: 190px minmax(100px, 0.55fr) minmax(200px, 1.35fr);
+      gap: 14px 16px;
+      align-items: center;
+      padding: 14px 16px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--border-strong);
+    }
+
+    .detail-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .detail-left img {
+      width: var(--icon-size-detail);
+      height: var(--icon-size-detail);
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .detail-left h2 {
+      margin: 0;
+      font-family: "Orbitron", sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--silver);
+      line-height: 1.25;
+    }
+
+    .detail-mid {
+      margin: 0;
+      padding-left: 10px;
+      color: var(--text);
+      font-size: 0.98rem;
+      font-weight: 600;
+      line-height: 1.3;
+      align-self: center;
+    }
+
+    .detail-mid .blurb {
+      margin: 0 0 8px;
+    }
+
+    .cost-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 12px;
+    }
+
+    .cost {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: "Rajdhani", sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--silver);
+      letter-spacing: 0.02em;
+    }
+
+    .cost img {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      flex-shrink: 0;
+      image-rendering: auto;
+    }
+
+    .cost .amt {
+      opacity: 0.92;
+    }
+
+    .detail-right ul {
+      margin: 0;
+      padding-left: 1.15rem;
+      color: var(--text);
+      font-size: 0.98rem;
+      font-weight: 600;
+    }
+
+    .detail-right li {
+      margin: 0.2em 0;
+    }
+
+    .detail-right li .note {
+      color: var(--text-muted);
+    }
+
+    /* Special capability lines: list bullet stays; icon sits inline before the text. */
+    .detail-right li.feat img {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      vertical-align: -5px;
+      margin-right: 2px;
+    }
+
+    @media (max-width: 900px) {
+      .overview { grid-template-columns: repeat(3, 1fr); }
+      .detail-row { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      body { background: #07080c; }
+      body::before { display: none; }
+      .page { max-width: none; }
+    }
+  
+    a.section-link {
+      color: inherit;
+      text-decoration: none;
+    }
+    a.section-link:hover {
+      color: var(--cyan);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+    <defs>
+      <filter id="rimworldCyanTint" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="
+          0.0118 0      0      0 0
+          0      0.7137 0      0 0
+          0      0      0.8039 0 0
+          0      0      0      1 0" />
+      </filter>
+    </defs>
+  </svg>
+  <div class="page">
+    <header class="brand">
+      <h1>WORLD <span class="dom">DOMINATION</span> 2.0</h1>
+      <div class="subtitle">Outposts</div>
+    </header>
+    <section class="details" aria-label="Outpost details">
+
+      <div class="tier-block">
+        <h2 class="tier-heading">Tier 1</h2>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Farming.png" alt="" />
+            <h2>Farming Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Produces goods from crops (food, cloth).</p>
+            <div class="cost-row">
+              <span class="cost" title="Wood"><img src="cost-icons/wood.png" alt=""><span class="amt">Ã—100</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Scales with Plants skill of garrisoned pawns</li>
+              <li>Scales with Fertility of the world tile placed on</li>
+              <li class="feat"><img src="../../Textures/UI/Commands/ShowFoodRadius.png" alt="" />Can feed surrounding outposts</li>
+              <li class="feat"><img class="icon-cyan" src="../../Textures/WorldObjects/Caravan_OutpostUpgrade.png" alt="" />Outpost-specific upgrades</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Hunting.png" alt="" />
+            <h2>Hunting Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Produces meat, leather, and wool.</p>
+            <div class="cost-row">
+              <span class="cost" title="Wood"><img src="cost-icons/wood.png" alt=""><span class="amt">Ã—100</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Scales with Animals skill of garrisoned pawns</li>
+              <li>Scales with Animal abundance of the world tile placed on</li>
+              <li class="feat"><img src="../../Textures/UI/Commands/ShowFoodRadius.png" alt="" />Can feed surrounding outposts</li>
+              <li class="feat"><img class="icon-cyan" src="../../Textures/WorldObjects/Caravan_OutpostUpgrade.png" alt="" />Outpost-specific upgrades</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Fishing.png" alt="" />
+            <h2>Fishing Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Produces one selected fish species from coastal waters.</p>
+            <div class="cost-row">
+              <span class="cost" title="Wood"><img src="cost-icons/wood.png" alt=""><span class="amt">Ã—100</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Scales with Animals skill of garrisoned pawns</li>
+              <li>Scales with fish stocks of the world tile placed on</li>
+              <li class="feat"><img src="../../Textures/UI/Commands/ShowFoodRadius.png" alt="" />Can feed surrounding outposts</li>
+              <li class="feat"><img class="icon-cyan" src="../../Textures/WorldObjects/Caravan_OutpostUpgrade.png" alt="" />Outpost-specific upgrades</li>
+              <li><span class="note">Requires Odyssey</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Ranch.png" alt="" />
+            <h2>Ranch Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Produces milk, eggs, and wool.</p>
+            <div class="cost-row">
+              <span class="cost" title="Wood"><img src="cost-icons/wood.png" alt=""><span class="amt">Ã—100</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Scales with Animals skill of garrisoned pawns</li>
+              <li>Scales with Fertility of the world tile placed on</li>
+              <li class="feat"><img src="../../Textures/UI/Commands/ShowFoodRadius.png" alt="" />Can feed surrounding outposts</li>
+              <li class="feat"><img class="icon-cyan" src="../../Textures/WorldObjects/Caravan_OutpostUpgrade.png" alt="" />Outpost-specific upgrades</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Mining.png" alt="" />
+            <h2>Mining Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Produces stone blocks, ores or components.</p>
+            <div class="cost-row">
+              <span class="cost" title="Wood"><img src="cost-icons/wood.png" alt=""><span class="amt">Ã—100</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Scales with Mining skill of garrisoned pawns</li>
+              <li>Scales with Mining efficiency of the world tile placed on</li>
+              <li class="feat"><img class="icon-cyan" src="../../Textures/WorldObjects/Caravan_OutpostUpgrade.png" alt="" />Outpost-specific upgrades</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Scavenging.png" alt="" />
+            <h2>Scavenging Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Produces random goods.</p>
+            <div class="cost-row">
+              <span class="cost" title="Wood"><img src="cost-icons/wood.png" alt=""><span class="amt">Ã—100</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Scales with colonist count at the outpost</li>
+              <li>Fixed cycle time</li>
+              <li>Needs at least 2 colonists to found</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Research.png" alt="" />
+            <h2>Research Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Progresses your active research project.</p>
+            <div class="cost-row">
+              <span class="cost" title="Wood"><img src="cost-icons/wood.png" alt=""><span class="amt">Ã—100</span></span>
+              <span class="cost" title="Component"><img src="cost-icons/component.png" alt=""><span class="amt">Ã—4</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Scales with Intellectual skill of garrisoned pawns</li>
+              <li>Requires Complex Furniture research</li>
+              <li class="feat"><img class="icon-cyan" src="../../Textures/WorldObjects/Caravan_OutpostUpgrade.png" alt="" />Outpost-specific upgrades</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Warehouse.png" alt="" />
+            <h2>Warehouse Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Stores items from outpost and boosts their output.</p>
+            <div class="cost-row">
+              <span class="cost" title="Wood"><img src="cost-icons/wood.png" alt=""><span class="amt">Ã—100</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Ship stock manually to colonies or other warehouses</li>
+              <li class="feat"><img src="../../Textures/UI/Commands/WarehouseRadius.png" alt="" />Can boost productivity of nearby outposts</li>
+              <li class="feat"><img class="icon-cyan" src="../../Textures/WorldObjects/Caravan_OutpostUpgrade.png" alt="" />Outpost-specific upgrades</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Powerplant.png" alt="" />
+            <h2>Power Plant Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Sends remote power to your colony. No local wiring or fuel needed.</p>
+            <div class="cost-row">
+              <span class="cost" title="Component"><img src="cost-icons/component.png" alt=""><span class="amt">Ã—10</span></span>
+              <span class="cost" title="Wood"><img src="cost-icons/wood.png" alt=""><span class="amt">Ã—100</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Does not scale with pawn skill</li>
+              <li>Requires Electricity research</li>
+              <li class="feat"><img class="icon-cyan" src="../../Textures/WorldObjects/Caravan_OutpostUpgrade.png" alt="" />Outpost-specific upgrades</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="tier-block">
+        <h2 class="tier-heading">Tier 2</h2>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Recruiting.png" alt="" />
+            <h2>Recruiting Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Recruits new colonists each cycle from nearby factions.</p>
+            <div class="cost-row">
+              <span class="cost" title="Wood"><img src="cost-icons/wood.png" alt=""><span class="amt">Ã—100</span></span>
+              <span class="cost" title="Component"><img src="cost-icons/component.png" alt=""><span class="amt">Ã—6</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Scales with Social skill of garrisoned pawns</li>
+              <li>Scales with up to the top 3 nearby partners per faction</li>
+              <li>Needs neutral or allied settlements in range</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Trading.png" alt="" />
+            <h2>Trading Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Produces silver each cycle from nearby trade partners.</p>
+            <div class="cost-row">
+              <span class="cost" title="Wood"><img src="cost-icons/wood.png" alt=""><span class="amt">Ã—100</span></span>
+              <span class="cost" title="Component"><img src="cost-icons/component.png" alt=""><span class="amt">Ã—6</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Scales with Social skill of garrisoned pawns</li>
+              <li>Scales with up to the top 3 nearby partners per faction</li>
+              <li>Needs neutral or allied settlements in range</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_BiofuelRefinery.png" alt="" />
+            <h2>Biofuel Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Produces chemfuel. With CE in place also FSX or Prometheum.</p>
+            <div class="cost-row">
+              <span class="cost" title="Wood"><img src="cost-icons/wood.png" alt=""><span class="amt">Ã—100</span></span>
+              <span class="cost" title="Component"><img src="cost-icons/component.png" alt=""><span class="amt">Ã—6</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Scales with Crafting skill of garrisoned pawns</li>
+              <li>Requires Biofuel Refining research</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_DrugLab.png" alt="" />
+            <h2>Drug Lab Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Produces drugs (smokeleaf, psychite, go-juice, wake-up).</p>
+            <div class="cost-row">
+              <span class="cost" title="Wood"><img src="cost-icons/wood.png" alt=""><span class="amt">Ã—100</span></span>
+              <span class="cost" title="Component"><img src="cost-icons/component.png" alt=""><span class="amt">Ã—8</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Scales with Intellectual skill of garrisoned pawns</li>
+              <li>Requires Drug Production research</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Academy.png" alt="" />
+            <h2>Academy Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Trains colonist in a skill of your choose.</p>
+            <div class="cost-row">
+              <span class="cost" title="Wood"><img src="cost-icons/wood.png" alt=""><span class="amt">Ã—100</span></span>
+              <span class="cost" title="Component"><img src="cost-icons/component.png" alt=""><span class="amt">Ã—6</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Scales with teacher skill of garrisoned pawns</li>
+              <li>Requires Complex Furniture research</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_RapidResponse.png" alt="" />
+            <h2>Rapid Response</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Sends interception caravans at enemy targets.</p>
+            <div class="cost-row">
+              <span class="cost" title="Steel"><img src="cost-icons/steel.png" alt=""><span class="amt">Ã—100</span></span>
+              <span class="cost" title="Component"><img src="cost-icons/component.png" alt=""><span class="amt">Ã—6</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Uses garrison combat strength</li>
+              <li>Scales with Shooting and Melee skill</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="tier-block">
+        <h2 class="tier-heading">Tier 3</h2>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Embassy.png" alt="" />
+            <h2>Embassy Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Improves goodwill with nearby factions.</p>
+            <div class="cost-row">
+              <span class="cost" title="Steel"><img src="cost-icons/steel.png" alt=""><span class="amt">Ã—120</span></span>
+              <span class="cost" title="Plasteel"><img src="cost-icons/plasteel.png" alt=""><span class="amt">Ã—30</span></span>
+              <span class="cost" title="Component"><img src="cost-icons/component.png" alt=""><span class="amt">Ã—12</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Scales with Social skill of garrisoned pawns</li>
+              <li>Uses the highest tier settlement per faction</li>
+              <li>Hostiles optional via settings</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Fabrication.png" alt="" />
+            <h2>Fabrication Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Produces industrial and advanced components.</p>
+            <div class="cost-row">
+              <span class="cost" title="Wood"><img src="cost-icons/wood.png" alt=""><span class="amt">Ã—100</span></span>
+              <span class="cost" title="Component"><img src="cost-icons/component.png" alt=""><span class="amt">Ã—4</span></span>
+              <span class="cost" title="Advanced component"><img src="cost-icons/adv-component.png" alt=""><span class="amt">Ã—2</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Scales with Crafting skill of garrisoned pawns</li>
+              <li>Requires Fabrication research</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="detail-row">
+          <div class="detail-left">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Mortar.png" alt="" />
+            <h2>Artillery Outpost</h2>
+          </div>
+          <div class="detail-mid">
+            <p class="blurb">Fires mortar strikes at hostiles. Anti-Air if upgraded.</p>
+            <div class="cost-row">
+              <span class="cost" title="Steel"><img src="cost-icons/steel.png" alt=""><span class="amt">Ã—100</span></span>
+              <span class="cost" title="Reinforced barrel"><img src="cost-icons/reinforced-barrel.png" alt=""><span class="amt">Ã—1</span></span>
+              <span class="cost" title="Component"><img src="cost-icons/component.png" alt=""><span class="amt">Ã—12</span></span>
+              <span class="cost" title="Chemfuel"><img src="cost-icons/chemfuel.png" alt=""><span class="amt">Ã—80</span></span>
+            </div>
+          </div>
+          <div class="detail-right">
+            <ul>
+              <li>Scales with Shooting skill of garrisoned pawns</li>
+              <li>Requires Mortars research</li>
+              <li class="feat"><img class="icon-cyan" src="../../Textures/WorldObjects/Caravan_OutpostUpgrade.png" alt="" />Outpost-specific upgrades</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+    </section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,564 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>World Domination 2.0 — Snapshot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-deep: #07080c;
+      --bg-panel: rgba(14, 18, 28, 0.72);
+      --border: rgba(120, 170, 210, 0.28);
+      --border-strong: rgba(3, 182, 205, 0.4);
+      --text: #e8eef6;
+      --text-muted: #9aa8b8;
+      --cyan: #03b6cd;
+      --silver: #d7dee8;
+      --red: #e1262a;
+      --green: #3cb86a;
+      --grey: #b0b8c0;
+      --icon-size-grid: 48px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-deep);
+      color: var(--text);
+      font-family: "Rajdhani", sans-serif;
+      font-weight: 600;
+      line-height: 1.35;
+      width: fit-content;
+    }
+
+    body {
+      min-height: 100%;
+      background:
+        radial-gradient(ellipse 90% 55% at 50% 8%, rgba(30, 55, 90, 0.35), transparent 55%),
+        radial-gradient(ellipse 70% 50% at 50% 100%, rgba(12, 20, 36, 0.9), transparent 60%),
+        radial-gradient(circle at 20% 30%, rgba(3, 182, 205, 0.05), transparent 25%),
+        radial-gradient(circle at 80% 20%, rgba(225, 38, 42, 0.05), transparent 22%),
+        var(--bg-deep);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.55;
+      background-image:
+        radial-gradient(1px 1px at 8% 12%, rgba(255,255,255,0.85), transparent),
+        radial-gradient(1px 1px at 22% 48%, rgba(255,255,255,0.55), transparent),
+        radial-gradient(1.5px 1.5px at 41% 18%, rgba(255,255,255,0.75), transparent),
+        radial-gradient(1px 1px at 63% 72%, rgba(255,255,255,0.45), transparent),
+        radial-gradient(1px 1px at 78% 28%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1.5px 1.5px at 91% 61%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 14% 81%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 52% 39%, rgba(255,255,255,0.65), transparent),
+        radial-gradient(1px 1px at 33% 66%, rgba(255,255,255,0.35), transparent),
+        radial-gradient(1px 1px at 71% 9%, rgba(255,255,255,0.55), transparent);
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: 980px;
+      max-width: 980px;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-family: "Orbitron", sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 4vw, 2.75rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--silver);
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
+    }
+
+    .brand h1 .dom {
+      color: var(--red);
+      text-shadow:
+        0 0 10px rgba(225, 38, 42, 0.75),
+        0 0 28px rgba(225, 38, 42, 0.35),
+        0 2px 12px rgba(0, 0, 0, 0.65);
+    }
+
+    .section-heading {
+      margin: 8px 0 12px;
+      font-family: "Orbitron", sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+
+    .snapshot-block {
+      margin-bottom: 36px;
+    }
+
+    .icon-cyan,
+    .icon-red,
+    .icon-green,
+    .icon-grey {
+      image-rendering: auto;
+    }
+    .icon-cyan { filter: url(#rimworldCyanTint); }
+    .icon-red { filter: url(#tintRed); }
+    .icon-green { filter: url(#tintGreen); }
+    .icon-grey { filter: url(#tintGrey); }
+
+    .overview {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 18px 12px;
+      padding: 28px 20px 32px;
+      margin-bottom: 0;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 0 40px rgba(3, 182, 205, 0.06);
+    }
+
+    .overview-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .overview-cell img {
+      width: var(--icon-size-grid);
+      height: var(--icon-size-grid);
+      object-fit: contain;
+    }
+
+    .overview-cell span {
+      font-family: "Rajdhani", sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      line-height: 1.15;
+    }
+
+    .overview-buckets {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 0;
+    }
+
+    .overview-bucket {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 0 40px rgba(3, 182, 205, 0.06);
+      padding: 16px 20px 22px;
+    }
+
+    .overview-bucket .bucket-label {
+      margin: 0 0 14px;
+      font-family: "Orbitron", sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      text-shadow: 0 0 12px rgba(3, 182, 205, 0.3);
+    }
+
+    .overview-buckets .overview {
+      padding: 0;
+      margin: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    @media (max-width: 900px) {
+      .overview { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media print {
+      body { background: #07080c; }
+      body::before { display: none; }
+      .page { max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+    <defs>
+      <filter id="rimworldCyanTint" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="
+          0.0118 0      0      0 0
+          0      0.7137 0      0 0
+          0      0      0.8039 0 0
+          0      0      0      1 0" />
+      </filter>
+      <filter id="tintRed" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="
+          0.8824 0      0      0 0
+          0      0.1490 0      0 0
+          0      0      0.1647 0 0
+          0      0      0      1 0" />
+      </filter>
+      <filter id="tintGreen" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="
+          0.2353 0      0      0 0
+          0      0.7216 0      0 0
+          0      0      0.4157 0 0
+          0      0      0      1 0" />
+      </filter>
+      <filter id="tintGrey" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="
+          0.6902 0      0      0 0
+          0      0.7216 0      0 0
+          0      0      0.7529 0 0
+          0      0      0      1 0" />
+      </filter>
+    </defs>
+  </svg>
+  <div class="page">
+    <header class="brand">
+      <h1>WORLD <span class="dom">DOMINATION</span> 2.0</h1>
+    </header>
+
+    <div class="snapshot-block">
+      <h2 class="section-heading">Outposts</h2>
+<section class="overview" aria-label="All outpost types">
+      <!-- Tier 1 -->
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Farming.png" alt="" />
+        <span>Farming</span>
+      </div>
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Hunting.png" alt="" />
+        <span>Hunting</span>
+      </div>
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Fishing.png" alt="" />
+        <span>Fishing</span>
+      </div>
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Ranch.png" alt="" />
+        <span>Ranch</span>
+      </div>
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Mining.png" alt="" />
+        <span>Mining</span>
+      </div>
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Scavenging.png" alt="" />
+        <span>Scavenging</span>
+      </div>
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Research.png" alt="" />
+        <span>Research</span>
+      </div>
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Warehouse.png" alt="" />
+        <span>Warehouse</span>
+      </div>
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Powerplant.png" alt="" />
+        <span>Power Plant</span>
+      </div>
+
+      <!-- Tier 2 -->
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Recruiting.png" alt="" />
+        <span>Recruiting</span>
+      </div>
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Trading.png" alt="" />
+        <span>Trading</span>
+      </div>
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_BiofuelRefinery.png" alt="" />
+        <span>Biofuel</span>
+      </div>
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_DrugLab.png" alt="" />
+        <span>Drug Lab</span>
+      </div>
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Academy.png" alt="" />
+        <span>Academy</span>
+      </div>
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_RapidResponse.png" alt="" />
+        <span>Rapid Response</span>
+      </div>
+
+      <!-- Tier 3 -->
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Embassy.png" alt="" />
+        <span>Embassy</span>
+      </div>
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Fabrication.png" alt="" />
+        <span>Fabrication</span>
+      </div>
+      <div class="overview-cell">
+        <img class="icon-cyan" src="../../Textures/WorldObjects/WD_Outpost_Mortar.png" alt="" />
+        <span>Artillery</span>
+      </div>
+    </section>
+    </div>
+
+    <div class="snapshot-block">
+      <h2 class="section-heading">Outpost Upgrades</h2>
+<section class="overview" aria-label="Upgrade overview">
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/Palisades.png" alt="" />
+        <span>Palisade Walls</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/StoneWall.png" alt="" />
+        <span>Stone Wall</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/Spikes.png" alt="" />
+        <span>Spike Traps</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/AutoTurret.png" alt="" />
+        <span>Auto Turrets</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/BasicHospital.png" alt="" />
+        <span>Basic Hospital</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/AdvancedHospital.png" alt="" />
+        <span>Advanced Hospital</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/MiningLift.png" alt="" />
+        <span>Mining Lift</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/ImprovedMiningLift.png" alt="" />
+        <span>Improved Mining Lift</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/AdvancedMiningLift.png" alt="" />
+        <span>Advanced Mining Lift</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/IrrigationCanals.png" alt="" />
+        <span>Irrigation Canals</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/IrrigationIndustrial.png" alt="" />
+        <span>Industrial Irrigation</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/IndustrialMeatHooks.png" alt="" />
+        <span>Industrial Meat Hooks</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/WoodenWatchTower.png" alt="" />
+        <span>Wooden Watch Tower</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/ImprovedWatchTower.png" alt="" />
+        <span>Improved Watch Tower</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/AdvancedWatchTower.png" alt="" />
+        <span>Advanced Watch Tower</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/FishingNets.png" alt="" />
+        <span>Fishing Nets</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/CoastalPier.png" alt="" />
+        <span>Coastal Pier</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/TrawlerGear.png" alt="" />
+        <span>Trawler Gear</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/AntiAirGun.png" alt="" />
+        <span>Anti-Air Gun</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/TargetingSystem.png" alt="" />
+        <span>Targeting System</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/ImprovedMortarShells.png" alt="" />
+        <span>Improved Shells</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/AdvancedMortarShell.png" alt="" />
+        <span>Advanced Shells</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/AdvancedMicroscopes.png" alt="" />
+        <span>Advanced Microscopes</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/AdvancedLabEquipment.png" alt="" />
+        <span>Advanced Lab Equipment</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/PowerPlant_SolarArrays.png" alt="" />
+        <span>Solar Arrays</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/PowerPlant_ChemfuelGenerators.png" alt="" />
+        <span>Chemfuel Generators</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/PowerPlant_AdvancedGridControls.png" alt="" />
+        <span>Advanced Grid Controls</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/PowerPlant_GeothermalPowerPlant.png" alt="" />
+        <span>Geothermal Power Plant</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/BasicBarn.png" alt="" />
+        <span>Basic Barn</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/InsulatedBarn.png" alt="" />
+        <span>Insulated Barn</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/TechBarn.png" alt="" />
+        <span>Tech Barn</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/WarehouseLogisticsNetwork.png" alt="" />
+        <span>Logistics Network</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/WarehouseForklifter.png" alt="" />
+        <span>Warehouse Forklifters</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/TunnelNetwork.png" alt="" />
+        <span>Tunnel Network</span>
+      </div>
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/DecontaminationEquipment.png" alt="" />
+        <span>Decontamination Equipment</span>
+      </div>
+    </section>
+    </div>
+
+    <div class="snapshot-block">
+      <h2 class="section-heading">Caravans</h2>
+<section class="overview-buckets" aria-label="Caravan overview">
+      <div class="overview-bucket">
+        <h2 class="bucket-label">Joint</h2>
+        <div class="overview">
+          <div class="overview-cell">
+            <img class="icon-grey" src="../../Textures/WorldObjects/Caravan_RoadBuilder.png" alt="" />
+            <span>Road Builder</span>
+          </div>
+          <div class="overview-cell">
+            <img class="icon-grey" src="../../Textures/WorldObjects/Caravan_Trader.png" alt="" />
+            <span>Trader</span>
+          </div>
+          <div class="overview-cell">
+            <img class="icon-grey" src="../../Textures/WorldObjects/Caravan_Builder.png" alt="" />
+            <span>Builder Crew</span>
+          </div>
+          <div class="overview-cell">
+            <img class="icon-grey" src="../../Textures/WorldObjects/Artillery_Shell.png" alt="" />
+            <span>Mortar Shell</span>
+          </div>
+          <div class="overview-cell">
+            <img class="icon-grey" src="../../Textures/WorldObjects/Flak_Shell.png" alt="" />
+            <span>Flak Shell</span>
+          </div>
+          <div class="overview-cell">
+            <img class="icon-grey" src="../../Textures/WorldObjects/Caravan_Decontamination.png" alt="" />
+            <span>Decontamination</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="overview-bucket">
+        <h2 class="bucket-label">Player</h2>
+        <div class="overview">
+          <div class="overview-cell">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/Caravan_Raiders.png" alt="" />
+            <span>Outpost Raid</span>
+          </div>
+          <div class="overview-cell">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/Caravan_OutpostGoods.png" alt="" />
+            <span>Delivery</span>
+          </div>
+          <div class="overview-cell">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/Caravan_OutpostUpgrade.png" alt="" />
+            <span>Upgrade</span>
+          </div>
+          <div class="overview-cell">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/Caravan_RapidResponse.png" alt="" />
+            <span>Rapid Response</span>
+          </div>
+          <div class="overview-cell">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/DropPod_RapidResponse.png" alt="" />
+            <span>RR Drop Pods</span>
+          </div>
+          <div class="overview-cell">
+            <img class="icon-cyan" src="../../Textures/WorldObjects/Caravan_Trader.png" alt="" />
+            <span>Diplomacy</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="overview-bucket">
+        <h2 class="bucket-label">NPC</h2>
+        <div class="overview">
+          <div class="overview-cell">
+            <img class="icon-red" src="../../Textures/WorldObjects/Caravan_Raiders.png" alt="" />
+            <span>Raider</span>
+          </div>
+          <div class="overview-cell">
+            <img class="icon-red" src="../../Textures/WorldObjects/DropPod_Raiders.png" alt="" />
+            <span>Raider Drop Pods</span>
+          </div>
+          <div class="overview-cell">
+            <img class="icon-green" src="../../Textures/WorldObjects/Caravan_Expansion.png" alt="" />
+            <span>Expansion</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    </div>
+  </div>
+</body>
+</html>
