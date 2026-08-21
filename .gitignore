@@ -26,8 +26,9 @@ Source/bin/
 **/[Bb]in/
 **/[Oo]bj/
 
-# MkDocs
+# MkDocs (guide lives under Source/; excluded from Steam ship with the rest of Source)
 site/
+Source/site/
 .venv/
 venv/
 __pycache__/

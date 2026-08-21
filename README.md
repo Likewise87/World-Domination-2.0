@@ -24,4 +24,4 @@ RimWorld mod by **TSA**. If [Rim War](https://steamcommunity.com/sharedfiles/fil
 
 Published under **Creative Commons Attribution-NonCommercial (CC BY-NC 4.0)**. Icons by **Geneva**.
 
-This repository also contains source for contributors. Players: install from Steam Workshop; you do not need this repo to play.
+This repository also contains C# source and the MkDocs player guide under `Source/`. Players: install from Steam Workshop; you do not need this repo to play. When packaging for Steam, ship everything except the `Source/` folder.
