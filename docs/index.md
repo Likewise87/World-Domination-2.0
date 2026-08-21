@@ -46,11 +46,11 @@ Construction and logistics appear on the world map as travelers. A project can t
 - [Travelers](travelers.md)
 - [Raids on you](raids/raids-on-you.md)
 - [World map battles](raids/world-map-battles.md)
-- [Outposts](outposts/index.md) (types, actions, upgrades, experts, logistics)
-- [Dashboards and overlays](ui/dashboards-and-overlays.md)
+- [Outposts](outposts/index.md) (overview, types, actions, upgrades, experts, logistics)
+- [UI](ui/dashboards-and-overlays.md) (dashboards and overlays)
 - [Diplomacy and escalation](diplomacy.md)
 - [Spy ops](spy-ops.md)
-- [Settings reference](settings/index.md)
+- [Settings](settings/index.md)
 - [FAQ and compatibility](faq.md)
 
 ## Workshop and credits
