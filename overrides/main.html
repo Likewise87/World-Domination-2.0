@@ -41,6 +41,26 @@
         return el.getBoundingClientRect().right - pad;
       }
 
+      function textContentLeft(el) {
+        if (!el) return null;
+        var pad = parseFloat(window.getComputedStyle(el).paddingLeft) || 0;
+        return el.getBoundingClientRect().left + pad;
+      }
+
+      function navTextAnchor() {
+        return (
+          document.querySelector(
+            ".md-nav--primary > .md-nav__list > .md-nav__item.md-nav__item--active > .md-nav__link"
+          ) ||
+          document.querySelector(
+            ".md-nav--primary > .md-nav__list > .md-nav__item--nested.md-nav__item--active > .md-nav__link"
+          ) ||
+          document.querySelector(
+            ".md-nav--primary > .md-nav__list > .md-nav__item > .md-nav__link"
+          )
+        );
+      }
+
       function alignSearchToContent() {
         var header = document.querySelector(".md-header__inner");
         if (!header) return;
@@ -52,18 +72,45 @@
         header.style.paddingRight = inset + "px";
       }
 
+      /* Keep header brand text on the same left edge as the active left-nav label. */
+      function alignHeaderTitleToNav() {
+        var title = document.querySelector(".md-header__title");
+        if (!title) return;
+        title.style.marginLeft = "";
+        var nav = navTextAnchor();
+        if (!nav) return;
+        var brand =
+          title.querySelector(".wd-brand") ||
+          title.querySelector(".md-ellipsis") ||
+          title;
+        var want = textContentLeft(nav);
+        var have = brand.getBoundingClientRect().left;
+        if (want == null || have == null) return;
+        var delta = want - have;
+        if (Math.abs(delta) < 0.5) return;
+        var base = parseFloat(window.getComputedStyle(title).marginLeft) || 0;
+        title.style.marginLeft = base + delta + "px";
+      }
+
+      function alignChrome() {
+        alignHeaderTitleToNav();
+        alignSearchToContent();
+      }
+
       function run() {
         document.querySelectorAll(".md-header__topic .md-ellipsis").forEach(brandize);
-        alignSearchToContent();
+        alignChrome();
       }
 
       run();
       document.addEventListener("DOMContentLoaded", run);
-      window.addEventListener("resize", alignSearchToContent);
+      window.addEventListener("resize", alignChrome);
       document.addEventListener("DOMContentLoaded", function () {
         var content = document.querySelector(".md-content");
-        if (content && window.ResizeObserver) {
-          new ResizeObserver(alignSearchToContent).observe(content);
+        var sidebar = document.querySelector(".md-sidebar--primary");
+        if (window.ResizeObserver) {
+          if (content) new ResizeObserver(alignChrome).observe(content);
+          if (sidebar) new ResizeObserver(alignChrome).observe(sidebar);
         }
       });
     })();
