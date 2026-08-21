@@ -14,6 +14,8 @@ WD raises the default maximum goodwill to **200**. Gifts, trades, embassies, con
 
 ## Gifts and settlement investment
 
+Concept overview: [Buying and gifting](concepts/buying-and-gifting.md). Hostile ceasefires and raid payoffs: [Bribing, sabotage and disinformation](concepts/hostile-influence.md).
+
 Select an allied or neutral settlement and use **Send gift**. Goods leave from your nearest colony or warehouse. When the gift arrives:
 
 - goodwill increases

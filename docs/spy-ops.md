@@ -1,6 +1,6 @@
 # Spy operations
 
-Sabotage and disinformation let a normal player caravan weaken nearby WD settlements without launching a raid. Both actions risk the selected pawn and can destroy a settlement if the strength reduction brings it to zero.
+Sabotage and disinformation let a normal player caravan weaken nearby WD settlements without launching a raid. Both actions risk the selected pawn and can destroy a settlement if the strength reduction brings it to zero. For bribes and the soft-power overview, see [Bribing, sabotage and disinformation](concepts/hostile-influence.md).
 
 ## Where to find them
 
