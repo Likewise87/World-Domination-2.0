@@ -1,0 +1,46 @@
+# Cursor / agent (never publish)
+.cursor/
+**/.cursor/
+Source/dev/
+
+# Local IDE / editor
+.vscode/
+.idea/
+Source/.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+**/*.code-workspace
+
+# Local scripts
+**/*.ps1
+**/*.psm1
+**/*.psd1
+**/*.bat
+**/*.cmd
+
+# Build outputs (includes vanilla_decomp)
+Source/obj/
+Source/bin/
+**/[Bb]in/
+**/[Oo]bj/
+
+# MkDocs
+site/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# OS junk
+Thumbs.db
+Desktop.ini
+.DS_Store
+ehthumbs.db
+
+# Secrets / env
+.env
+.env.*
+*.pem
+credentials.json

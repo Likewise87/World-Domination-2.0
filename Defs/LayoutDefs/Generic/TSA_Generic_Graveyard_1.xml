@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+<KCSG.StructureLayoutDef MayRequire="gmmp.graveyard">
+  <defName>Generic_Graveyard_1</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>Fence_BlocksGranite,Fence_BlocksGranite,Fence_BlocksGranite,FenceGate_BlocksGranite,Fence_BlocksGranite,Fence_BlocksGranite,Fence_BlocksGranite,FenceGate_BlocksGranite,Fence_BlocksGranite,Fence_BlocksGranite,Fence_BlocksGranite</li>
+      <li>Fence_BlocksGranite,VFEPD_GrassShort_North,.,.,.,.,.,.,.,VFEPD_GrassShort_North,Fence_BlocksGranite</li>
+      <li>Fence_BlocksGranite,VFEPD_GrassShort_North,.,.,Plant_TreeWillow,VFEPD_GrassShort_North,Plant_TreeWillow,.,.,VFEPD_GrassLong_North,Fence_BlocksGranite</li>
+      <li>VFEP_ShortWalls_BlocksGranite,VFEPD_GrassShort_North,.,GM_1x2BenchProp_East,.,.,GM_1x2BenchProp_East,.,.,VFEPD_GrassLong_North,VFEP_ShortWalls_BlocksGranite</li>
+      <li>VFEP_ShortWalls_BlocksGranite,.,VFEPD_FilthDirt_North,VFEPD_FilthDirt_North,VFEPD_FilthDirt_North,.,.,.,.,VFEPD_GrassShort_North,VFEP_ShortWalls_BlocksGranite</li>
+      <li>VFEP_ShortWalls_BlocksGranite,.,.,VFEPD_FilthDirt_North,.,.,.,.,.,.,VFEP_ShortWalls_BlocksGranite</li>
+      <li>VFEP_ShortWalls_BlocksGranite,.,GM_EmptyGraveProps_South,GM_ShovelProp_North,GM_EmptyGraveProps_South,.,GM_FilledGraveProps_South,.,GM_FilledGraveProps_South,.,VFEP_ShortWalls_BlocksGranite</li>
+      <li>VFEP_ShortWalls_BlocksGranite,.,GM_HeadstoneT2_B_South,.,GM_HeadstoneT2_A_South,.,GM_HeadstoneT3_A_South,.,GM_HeadstoneT3_B_South,.,VFEP_ShortWalls_BlocksGranite</li>
+      <li>Fence_BlocksGranite,.,.,.,.,.,.,.,.,.,Fence_BlocksGranite</li>
+      <li>FenceGate_BlocksGranite,.,GM_SarcophagusPropA_North,.,GM_SarcophagusPropB_North,.,GM_SarcophagusPropD_North,.,GM_SarcophagusPropC_North,.,FenceGate_BlocksGranite</li>
+      <li>Fence_BlocksGranite,.,.,.,.,.,.,.,.,.,Fence_BlocksGranite</li>
+      <li>Fence_BlocksGranite,.,.,.,.,.,.,.,.,.,Fence_BlocksGranite</li>
+      <li>VFEP_ShortWalls_BlocksGranite,VFEPD_Rose,GM_ColumbariumPropB_North,.,.,VFEPD_Rose,.,GM_ColumbariumPropB_North,.,VFEPD_Rose,VFEP_ShortWalls_BlocksGranite</li>
+      <li>VFEP_ShortWalls_BlocksGranite,.,.,.,.,VFEPD_Rose,.,.,.,.,VFEP_ShortWalls_BlocksGranite</li>
+      <li>VFEP_ShortWalls_BlocksGranite,.,.,.,.,.,.,.,.,.,VFEP_ShortWalls_BlocksGranite</li>
+      <li>VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite</li>
+    </li>
+    <li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,VFEPD_BurnedTree,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,GM_GraveFenceRope_South,.,GM_GraveFenceRope_South,.,GM_GraveFenceBrick_South,.,GM_GraveFencePlain_South,.,.</li>
+      <li>.,.,.,.,.,.,GM_HeadstoneT4_A_South,.,GM_HeadstoneT4_B_South,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,Plant_TreeMaple,.,.,.,Plant_TreeTeak,.,.,.,Plant_TreeMaple,.</li>
+	  <li>.,.,.,.,.,.,.,.,.,.,.</li>
+    </li>
+    <li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,GM_LargeBouquetProp_North,.,GM_LargeBouquetProp_North,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,TileGranite,TileGranite,.,.,.,TileGranite,TileGranite,.,.</li>
+    <li>.,.,TileGranite,TileGranite,.,.,.,TileGranite,TileGranite,.,.</li>
+    <li>.,.,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.,.</li>
+    <li>.,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.,.</li>
+    <li>.,TileGranite,.,.,.,.,.,.,.,TileGranite,.</li>
+    <li>.,TileGranite,.,.,.,.,.,.,.,TileGranite,.</li>
+    <li>.,TileGranite,.,.,.,.,.,.,.,TileGranite,.</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
+    <li>.,.,TileGranite,TileGranite,.,.,.,TileGranite,TileGranite,.,.</li>
+    <li>.,.,TileGranite,TileGranite,.,.,.,TileGranite,TileGranite,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.</li>
+  </terrainGrid>
+  <modRequirements>
+    <li>vanillaexpanded.vfepropsanddecor</li>
+    <li>gmmp.graveyard</li>
+  </modRequirements>
+     <tags>
+    <li>Generic_Graveyard</li>
+  </tags>
+</KCSG.StructureLayoutDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_1x2BenchProp</defName>
+  <thing>GM_1x2BenchProp</thing>
+  <rotation>East</rotation>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_FilledGraveProps</defName>
+  <thing>GM_FilledGraveProps</thing>
+  <rotation>South</rotation>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_GraveFencePlain</defName>
+  <thing>GM_GraveFencePlain</thing>
+  <rotation>South</rotation>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_LargeBouquetProp</defName>
+  <thing>GM_LargeBouquetProp</thing>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_GraveFenceBrick</defName>
+  <thing>GM_GraveFenceBrick</thing>
+  <rotation>South</rotation>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_EmptyGraveProps</defName>
+  <thing>GM_EmptyGraveProps</thing>
+  <rotation>South</rotation>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_GraveFenceRope</defName>
+  <thing>GM_GraveFenceRope</thing>
+  <rotation>South</rotation>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_SmallBouquetProp</defName>
+  <thing>GM_SmallBouquetProp</thing>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_FlowerWreathProp</defName>
+  <thing>GM_FlowerWreathProp</thing>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_ShovelProp</defName>
+  <thing>GM_ShovelProp</thing>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_HeadstoneT3_A</defName>
+  <thing>GM_HeadstoneT3_A</thing>
+  <rotation>South</rotation>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_HeadstoneT4_A</defName>
+  <thing>GM_HeadstoneT4_A</thing>
+  <rotation>South</rotation>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_HeadstoneT3_B</defName>
+  <thing>GM_HeadstoneT3_B</thing>
+  <rotation>South</rotation>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_HeadstoneT4_B</defName>
+  <thing>GM_HeadstoneT4_B</thing>
+  <rotation>South</rotation>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_HeadstoneT2_B</defName>
+  <thing>GM_HeadstoneT2_B</thing>
+  <rotation>South</rotation>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_HeadstoneT2_A</defName>
+  <thing>GM_HeadstoneT2_A</thing>
+  <rotation>South</rotation>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_SarcophagusPropC</defName>
+  <thing>GM_SarcophagusPropC</thing>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_SarcophagusPropD</defName>
+  <thing>GM_SarcophagusPropD</thing>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_SarcophagusPropB</defName>
+  <thing>GM_SarcophagusPropB</thing>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_SarcophagusPropA</defName>
+  <thing>GM_SarcophagusPropA</thing>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_ColumbariumPropB</defName>
+  <thing>GM_ColumbariumPropB</thing>
+</KCSG.SymbolDef>
+
+</Defs>

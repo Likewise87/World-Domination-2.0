@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <KCSG.StructureLayoutDef>
+    <defName>Generic_Bedroom_5</defName>
+    <layouts>
+      <li>
+        <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
+        <li>Wall_WoodLog,Wall_WoodLog,DiningChair_WoodLog_East,.,Table1x2c_WoodLog_West,DiningChair_WoodLog_West,Wall_WoodLog</li>
+        <li>Wall_WoodLog,.,.,.,.,.,Wall_WoodLog</li>
+        <li>Wall_WoodLog,TorchLamp,.,.,.,.,Door_WoodLog</li>
+        <li>Wall_WoodLog,.,.,.,.,.,Wall_WoodLog</li>
+        <li>Wall_WoodLog,Wall_WoodLog,Bed_WoodLog_South,Stool_WoodLog_West,ChessTable_WoodLog,Stool_WoodLog_West,Wall_WoodLog</li>
+        <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
+      </li>
+    </layouts>
+    <roofGrid>
+      <li>.,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1</li>
+      <li>.,1,1,1,1,1,1</li>
+    </roofGrid>
+    <terrainGrid>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+    </terrainGrid>
+    <tags>
+      <li>Generic_Bedroom</li>
+    </tags>
+  </KCSG.StructureLayoutDef>
+</Defs>

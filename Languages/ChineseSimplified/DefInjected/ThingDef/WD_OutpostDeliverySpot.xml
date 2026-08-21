@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <TSA_WD_OutpostDeliverySpot.label>WD前哨配送点</TSA_WD_OutpostDeliverySpot.label>
+  <TSA_WD_OutpostDeliverySpot.description>指定来自 World Domination 前哨的货物投放位置。每张地图只能有一个。若未放置，货物将到达地图边缘。</TSA_WD_OutpostDeliverySpot.description>
+</LanguageData>

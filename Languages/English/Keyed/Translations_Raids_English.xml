@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <TSA_WD_AlliedFaction>ally</TSA_WD_AlliedFaction>
+  <TSA_WD_AlliedRaidOrder_AwardToPlayer>Attack and award to player (-{0} goodwill. Current goodwill: {1})</TSA_WD_AlliedRaidOrder_AwardToPlayer>
+  <TSA_WD_AlliedRaidOrder_ClaimForAlly>Attack and claim for themselves (-{0} goodwill. Current goodwill: {1})</TSA_WD_AlliedRaidOrder_ClaimForAlly>
+  <TSA_WD_AlliedRaidOrder_DestroyTurret>Attack and destroy (-{0} goodwill. Current goodwill: {1})</TSA_WD_AlliedRaidOrder_DestroyTurret>
+  <TSA_WD_Log_Raid_Aborted_BelowMinRatio>Raid aborted: launch ratio {0}× below minimum {1}×. No strength committed.</TSA_WD_Log_Raid_Aborted_BelowMinRatio>
+  <TSA_WD_Log_Raid_Aborted_Pollution>{0} cancelled a raid on {1}: the route would lose about {2} strength to pollution.</TSA_WD_Log_Raid_Aborted_Pollution>
+  <TSA_WD_AlliedRaidOrder_DisabledGoodwill>Costs {0} goodwill. You have {1}; at least {2} goodwill must remain.</TSA_WD_AlliedRaidOrder_DisabledGoodwill>
+  <TSA_WD_AlliedRaidOrder_DisabledLowWinChance>Success probability is below the configured minimum.</TSA_WD_AlliedRaidOrder_DisabledLowWinChance>
+  <TSA_WD_AlliedRaidOrder_GizmoDesc>Ask this allied settlement to launch a raid against one of its enemies.</TSA_WD_AlliedRaidOrder_GizmoDesc>
+  <TSA_WD_AlliedRaidOrder_GizmoLabel>Order Allied Raid</TSA_WD_AlliedRaidOrder_GizmoLabel>
+  <TSA_WD_AlliedRaidOrder_Launched>{0} has launched a raid against {1}.</TSA_WD_AlliedRaidOrder_Launched>
+  <TSA_WD_AlliedRaidOrder_NotEnoughGoodwill>Costs {0} goodwill. You have {1}; at least {2} goodwill must remain.</TSA_WD_AlliedRaidOrder_NotEnoughGoodwill>
+  <TSA_WD_AlliedRaidOrder_PreviewTitle>Allied raid order from {0}</TSA_WD_AlliedRaidOrder_PreviewTitle>
+  <TSA_WD_AlliedRaidOrder_WinChanceTooLow>Success probability is below the required {0}. Improve the odds before launching.</TSA_WD_AlliedRaidOrder_WinChanceTooLow>
+  <TSA_WD_Ally>Ally</TSA_WD_Ally>
+  <TSA_WD_AttackerPower>Projected Attack Force</TSA_WD_AttackerPower>
+  <TSA_WD_Attackers>Attackers</TSA_WD_Attackers>
+  <TSA_WD_ContribStrength>Contributed {0} Strength</TSA_WD_ContribStrength>
+  <TSA_WD_RaidForce_ClickExclude>Click to exclude this ally from the raid.</TSA_WD_RaidForce_ClickExclude>
+  <TSA_WD_RaidForce_ClickInclude>Click to include this ally in the raid.</TSA_WD_RaidForce_ClickInclude>
+  <TSA_WD_RaidForce_SupportingAllies>Supporting allies</TSA_WD_RaidForce_SupportingAllies>
+  <TSA_WD_RaidForce_SelectAllAlliesTip>Click to select or clear all supporting allies.</TSA_WD_RaidForce_SelectAllAlliesTip>
+  <TSA_WD_Defender>Defender</TSA_WD_Defender>
+  <TSA_WD_DefenderPower>Defender Power</TSA_WD_DefenderPower>
+  <TSA_WD_ExecuteRaid>Execute Raid</TSA_WD_ExecuteRaid>
+  <TSA_WD_ExpeditionForce>Expedition Force</TSA_WD_ExpeditionForce>
+  <TSA_WD_ForceNeutralized>Fully Wiped Out</TSA_WD_ForceNeutralized>
+  <TSA_WD_Header_Raid>Expedition</TSA_WD_Header_Raid>
+  <TSA_WD_InterceptionFailed>Caravan clash lost. {0} has broken off and is continuing its mission.</TSA_WD_InterceptionFailed>
+  <TSA_WD_InterceptionVictory>Caravan clash won! Hostile forces have been eliminated and their mission is over.</TSA_WD_InterceptionVictory>
+  <TSA_WD_OutpostDefense_ChoiceTitle>Outpost Under Attack</TSA_WD_OutpostDefense_ChoiceTitle>
+  <TSA_WD_OutpostDefense_ChoiceText>{0} is under attack by {1}. Choose whether to auto-resolve the raid or fight it manually on a temporary map.</TSA_WD_OutpostDefense_ChoiceText>
+  <TSA_WD_OutpostDefense_SkirmishTitle>Skirmishes Going Badly</TSA_WD_OutpostDefense_SkirmishTitle>
+  <TSA_WD_OutpostDefense_SkirmishLossBanner>Your outpost lost {0} strength and some pawns got hurt.</TSA_WD_OutpostDefense_SkirmishLossBanner>
+  <TSA_WD_OutpostDefense_SkirmishText>The initial skirmishes at {0} have not gone in your favor against {1}. Some defenders are wounded and the outpost's fighting strength is reduced. What do you do?</TSA_WD_OutpostDefense_SkirmishText>
+  <TSA_WD_OutpostDefense_SkirmishLetter_Label>Skirmishes going badly</TSA_WD_OutpostDefense_SkirmishLetter_Label>
+  <TSA_WD_OutpostDefense_SkirmishLetter_Text>The first clashes at {0} went poorly against {1}. Some defenders are wounded and garrison strength is down. Choose how to continue the defense.</TSA_WD_OutpostDefense_SkirmishLetter_Text>
+  <TSA_WD_OutpostDefense_SkirmishLog>Skirmishes at {0} went poorly against {1}. Defenders wounded; outpost strength reduced.</TSA_WD_OutpostDefense_SkirmishLog>
+  <TSA_WD_OutpostDefense_AttackerStrength>Attacker strength: {0}</TSA_WD_OutpostDefense_AttackerStrength>
+  <TSA_WD_OutpostDefense_DefenderStrength>Defender strength: {0}</TSA_WD_OutpostDefense_DefenderStrength>
+  <TSA_WD_OutpostDefense_DefenderRatio>Defender ratio: {0}x</TSA_WD_OutpostDefense_DefenderRatio>
+  <TSA_WD_OutpostDefense_DefenderRatioTip>Relative strength of your defending forces vs. the attacking forces.</TSA_WD_OutpostDefense_DefenderRatioTip>
+  <TSA_WD_OutpostDefense_FrozenDuringManualDefense>This outpost is locked while a manual defense is underway.</TSA_WD_OutpostDefense_FrozenDuringManualDefense>
+  <TSA_WD_OutpostDefense_JoinBattle>Join defense</TSA_WD_OutpostDefense_JoinBattle>
+  <TSA_WD_OutpostDefense_JoinBattleDesc>Enter the temporary battlefield defending {0}. Extra fighters return as a caravan when the battle ends.</TSA_WD_OutpostDefense_JoinBattleDesc>
+  <TSA_WD_OutpostDefense_DefenderWinChance>Defense win likelihood: {0}</TSA_WD_OutpostDefense_DefenderWinChance>
+  <TSA_WD_OutpostDefense_GoToOutpost>Go to outpost</TSA_WD_OutpostDefense_GoToOutpost>
+  <TSA_WD_OutpostDefense_ViewDefenders>View defenders</TSA_WD_OutpostDefense_ViewDefenders>
+  <TSA_WD_OutpostDefense_DefendersTitle>Defenders at {0}</TSA_WD_OutpostDefense_DefendersTitle>
+  <TSA_WD_OutpostDefense_DefendersHint>Click a defender to inspect skills, health, equipment, and apparel.</TSA_WD_OutpostDefense_DefendersHint>
+  <TSA_WD_OutpostDefense_PawnStrength>Combat strength: {0}</TSA_WD_OutpostDefense_PawnStrength>
+  <TSA_WD_OutpostDefense_Unarmed>Unarmed</TSA_WD_OutpostDefense_Unarmed>
+  <TSA_WD_OutpostDefense_ApparelCount>{0} apparel item(s)</TSA_WD_OutpostDefense_ApparelCount>
+  <TSA_WD_OutpostDefense_NoApparel>No apparel</TSA_WD_OutpostDefense_NoApparel>
+  <TSA_WD_OutpostDefense_NoEquipmentIcons>No equipped items</TSA_WD_OutpostDefense_NoEquipmentIcons>
+  <TSA_WD_OutpostDefense_AutoResolve>Auto-resolve</TSA_WD_OutpostDefense_AutoResolve>
+  <TSA_WD_OutpostDefense_FightManually>Fight manually</TSA_WD_OutpostDefense_FightManually>
+  <TSA_WD_OutpostDefense_Letter_Label>Enemies arriving in 15 seconds</TSA_WD_OutpostDefense_Letter_Label>
+  <TSA_WD_OutpostDefense_Letter_Text>{0} is being attacked by {1}. Your outpost occupants have deployed to a temporary battlefield. Enemies will arrive in about 15 seconds.</TSA_WD_OutpostDefense_Letter_Text>
+  <TSA_WD_OutpostDefense_LetterImmediate_Label>Enemies arriving now</TSA_WD_OutpostDefense_LetterImmediate_Label>
+  <TSA_WD_OutpostDefense_LetterImmediate_Text>{0} is being attacked by {1}. Your outpost occupants have deployed to a temporary battlefield. Enemies are arriving immediately.</TSA_WD_OutpostDefense_LetterImmediate_Text>
+  <TSA_WD_OutpostDefense_RaidLabel>Outpost raid</TSA_WD_OutpostDefense_RaidLabel>
+  <TSA_WD_OutpostDefense_Victory>Outpost defense won. {0} survivor(s) returned to {1}.</TSA_WD_OutpostDefense_Victory>
+  <TSA_WD_OutpostDefense_Defeat>Outpost defense lost. Applying simulated raid defeat to {0}.</TSA_WD_OutpostDefense_Defeat>
+  <TSA_WD_OutpostDefense_VictoryLetter_Label>Outpost Defense Won</TSA_WD_OutpostDefense_VictoryLetter_Label>
+  <TSA_WD_OutpostDefense_VictoryLetter_Text>Your defenders at {0} defeated the attack by {1} on the temporary battlefield.\n\n{2} surviving defender(s) returned to the outpost.</TSA_WD_OutpostDefense_VictoryLetter_Text>
+  <TSA_WD_OutpostDefense_DefeatLetter_Label>Outpost Defense Lost</TSA_WD_OutpostDefense_DefeatLetter_Label>
+  <TSA_WD_OutpostDefense_DefeatLetter_Text>Your defenders at {0} were defeated by {1}.\n\nThe outpost raid has been resolved as a lost defense.</TSA_WD_OutpostDefense_DefeatLetter_Text>
+  <TSA_WD_OutpostRetreat_Letter_Label>Retreating garrison</TSA_WD_OutpostRetreat_Letter_Label>
+  <TSA_WD_OutpostRetreat_Letter_Text>Some defenders escaped from {0} before it fell. {1} colonists retreated in a caravan.</TSA_WD_OutpostRetreat_Letter_Text>
+  <TSA_WD_OutpostDefense_MapFailed>Could not create a manual defense map for {0}; returning defenders.</TSA_WD_OutpostDefense_MapFailed>
+  <TSA_WD_OutpostDefense_ExtraPawnsReturned>{0} extra pawn(s) returned from the temporary battlefield as a caravan at {1}.</TSA_WD_OutpostDefense_ExtraPawnsReturned>
+  <TSA_WD_LaunchExpedition>Launch Attack</TSA_WD_LaunchExpedition>
+  <TSA_WD_LaunchExpeditionDesc>Dispatch a strike force from this outpost to raid a nearby enemy settlement or AT turret.</TSA_WD_LaunchExpeditionDesc>
+  <TSA_WD_Letter_IncomingRaid_Label>Incoming Raid: {0}</TSA_WD_Letter_IncomingRaid_Label>
+  <TSA_WD_Letter_IncomingRaid_Text>A hostile expedition from {0} has been launched! They are traveling across the world map to raid {1}.\n\nYou have time to prepare your defenses or intercept them on the world map before they arrive.</TSA_WD_Letter_IncomingRaid_Text>
+  <TSA_WD_Letter_IncomingRaid_Colony_Label>WD raid on colony launched: {0} ({1})</TSA_WD_Letter_IncomingRaid_Colony_Label>
+  <TSA_WD_Letter_IncomingRaid_Colony_Text>A hostile expedition from {0} is heading for your colony {1} across the world map.\n\nExpected raid points on arrival: {2}\nEstimated arrival in {3} days.\n\nYou have time to prepare defenses at {1} or intercept them on the world map before they arrive.</TSA_WD_Letter_IncomingRaid_Colony_Text>
+  <TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Label>WD raid on colony launched: {0} ({1})</TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Label>
+  <TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Text>{0} has dispatched a force from {1} against your colony {2}.\n\nExpected raid points on arrival: {3}\nEstimated arrival in {4} days.\n\nYou have time to prepare defenses at {2} or intercept them on the world map before they arrive.</TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Text>
+  <TSA_WD_Letter_IncomingDropRaid_Label>WD Drop Raid incoming</TSA_WD_Letter_IncomingDropRaid_Label>
+  <TSA_WD_Letter_IncomingDropRaid_Text>Drop pods from {0} are inbound on your colony {1}.\n\nExpected raid points on arrival: {2}\nEstimated arrival in {3} days.</TSA_WD_Letter_IncomingDropRaid_Text>
+  <TSA_WD_Letter_IncomingDropRaid_Dispatch_Label>WD Drop Raid incoming ({0})</TSA_WD_Letter_IncomingDropRaid_Dispatch_Label>
+  <TSA_WD_Letter_IncomingDropRaid_Dispatch_Text>{0} has dispatched drop pods from {1} against your colony {2}.\n\nExpected raid points on arrival: {3}\nEstimated arrival in {4} days.</TSA_WD_Letter_IncomingDropRaid_Dispatch_Text>
+  <TSA_WD_Letter_IncomingRaid_Outpost_Label>WD raid on {0} launched ({1})</TSA_WD_Letter_IncomingRaid_Outpost_Label>
+  <TSA_WD_Letter_IncomingRaid_Outpost_Text>A hostile expedition from {0} is heading for your outpost {1} across the world map.\n\nExpected raid points on arrival: {2}\nOutpost strength: {3}\nDefense win likelihood (auto-resolve): {4}\nEstimated arrival in {5} days.\n\nYou have time to prepare defenses or intercept them on the world map before they arrive.</TSA_WD_Letter_IncomingRaid_Outpost_Text>
+  <TSA_WD_Letter_IncomingRaid_JumpAttacker>Jump to attacker</TSA_WD_Letter_IncomingRaid_JumpAttacker>
+  <TSA_WD_Letter_IncomingRaid_JumpTarget>Jump to target</TSA_WD_Letter_IncomingRaid_JumpTarget>
+  <TSA_WD_Letter_OutpostDefended_Label>Outpost Defended</TSA_WD_Letter_OutpostDefended_Label>
+  <TSA_WD_Letter_OutpostDefended_Text>{0} successfully repelled an attack by {1}.</TSA_WD_Letter_OutpostDefended_Text>
+  <TSA_WD_Letter_OutpostDefended_Captives>{0} prisoner(s) were taken and held at the outpost.</TSA_WD_Letter_OutpostDefended_Captives>
+  <TSA_WD_Letter_OutpostRaided_Label>Outpost Raided</TSA_WD_Letter_OutpostRaided_Label>
+  <TSA_WD_Letter_OutpostRaided_Text>{0} was overrun by {1}. Personnel lost.</TSA_WD_Letter_OutpostRaided_Text>
+  <TSA_WD_Letter_RaidPlayer_Label>WD Raid: {0}</TSA_WD_Letter_RaidPlayer_Label>
+  <TSA_WD_Letter_RaidPlayer_Text>An assault has been launched from the world map by {0}.</TSA_WD_Letter_RaidPlayer_Text>
+  <TSA_WD_Letter_RaidPlayer_Colony_Label>WD raid on colony: {0} ({1})</TSA_WD_Letter_RaidPlayer_Colony_Label>
+  <TSA_WD_Letter_RaidPlayer_Colony_Text>Raiders from {0} have arrived at your colony {1} and are attacking.\n\nRespond on the map immediately.</TSA_WD_Letter_RaidPlayer_Colony_Text>
+  <TSA_WD_Log_AttemptHeader>Attempted Raid Analysis</TSA_WD_Log_AttemptHeader>
+  <TSA_WD_Log_AttemptHeader_Aborted>Expedition Aborted</TSA_WD_Log_AttemptHeader_Aborted>
+  <TSA_WD_Log_AttemptHeader_Launched>Expedition Launched</TSA_WD_Log_AttemptHeader_Launched>
+  <TSA_WD_Log_Clash_Detail>{0} ({2}) — Strength: {1}</TSA_WD_Log_Clash_Detail>
+  <TSA_WD_Log_AlliedRaidLaunchedByPlayer>EXPEDITION: Allied settlement {0} launched a raid against {1} (initialized by player)</TSA_WD_Log_AlliedRaidLaunchedByPlayer>
+  <TSA_WD_Log_PlayerRaidLaunched>EXPEDITION: Your Outpost {0} launched a raid against {1}</TSA_WD_Log_PlayerRaidLaunched>
+  <TSA_WD_Log_RaidCancelled>{0} mission cancelled: Target destroyed or invalid.</TSA_WD_Log_RaidCancelled>
+  <TSA_WD_Log_DebugRaidCancelled>{0} (debug path) cancelled: destination became invalid.</TSA_WD_Log_DebugRaidCancelled>
+  <TSA_WD_Log_Raid_Aborted>RAID ABORTED: Target is no longer valid or has been destroyed.</TSA_WD_Log_Raid_Aborted>
+  <TSA_WD_Log_Raid_AbortedSpace>RAID: Aborted (attacker in space)</TSA_WD_Log_Raid_AbortedSpace>
+  <TSA_WD_Log_Raid_Aborted_Detail>This expedition was aborted before combat.</TSA_WD_Log_Raid_Aborted_Detail>
+  <TSA_WD_Log_Raid_Aborted_SameFaction>RAID: Aborted (same faction)</TSA_WD_Log_Raid_Aborted_SameFaction>
+  <TSA_WD_Log_Raid_Aborted_TargetDespawned>RAID: Aborted (target despawned)</TSA_WD_Log_Raid_Aborted_TargetDespawned>
+  <TSA_WD_Log_Raid_Aborted_TargetNull>RAID: Aborted (target no longer exists)</TSA_WD_Log_Raid_Aborted_TargetNull>
+  <TSA_WD_Log_Raid_Aborted_NoLongerHostile>RAID: Aborted — {0} and {1} are no longer at war. Committed strength refunded.</TSA_WD_Log_Raid_Aborted_NoLongerHostile>
+  <TSA_WD_Log_Raid_DefBase>Garrison at {0}: {1} strength.</TSA_WD_Log_Raid_DefBase>
+  <TSA_WD_Log_Raid_DefContrib>{0} ({1}) provided +{2} defense power. (Raw: {3}, Eff: {4}% over {5} tiles).</TSA_WD_Log_Raid_DefContrib>
+  <TSA_WD_Log_Raid_ExpeditionLaunched>Raid dispatched: Caravan is underway.</TSA_WD_Log_Raid_ExpeditionLaunched>
+  <TSA_WD_Log_Raid_FactionDispatch>{0} dispatched a raid from {1} against {2}.</TSA_WD_Log_Raid_FactionDispatch>
+  <TSA_WD_Log_Raid_ColonyDelegated>Picked Colony as target and delegated to closer ally</TSA_WD_Log_Raid_ColonyDelegated>
+  <TSA_WD_Log_Raid_Failed>Raid Failed: The attackers were repelled.</TSA_WD_Log_Raid_Failed>
+  <TSA_WD_Log_Raid_ChokeIntercept>Raid intercepted: {0} walked into fortress {1} (original target: {2}).</TSA_WD_Log_Raid_ChokeIntercept>
+  <TSA_WD_Log_TargetOfOpportunity>{0} picked a target of opportunity: {1} -> {2}.</TSA_WD_Log_TargetOfOpportunity>
+  <TSA_WD_Log_Marauding>{0} keeps marauding after victory: {1} -> {2}.</TSA_WD_Log_Marauding>
+  <TSA_WD_Log_AT_TurretProximityDetour>{0} diverted to assault AT Turret {2} (was targeting {1}).</TSA_WD_Log_AT_TurretProximityDetour>
+  <TSA_WD_Log_AT_TurretHitDetour>{0} diverted to assault AT Turret {2} after being shelled (was targeting {1}).</TSA_WD_Log_AT_TurretHitDetour>
+  <TSA_WD_Log_AT_TurretClash>{0} ({1}) clashes with {2} ({3}).</TSA_WD_Log_AT_TurretClash>
+  <TSA_WD_Log_AT_TurretClash_TravelerWon>{0} destroyed {1} and continues with {2} strength.</TSA_WD_Log_AT_TurretClash_TravelerWon>
+  <TSA_WD_Log_AT_TurretClash_TurretWon>{0} destroyed {1} and remains at {2} strength.</TSA_WD_Log_AT_TurretClash_TurretWon>
+  <TSA_WD_Log_AT_TurretClash_Mutual>{0} and {1} destroyed each other.</TSA_WD_Log_AT_TurretClash_Mutual>
+  <TSA_WD_Log_AT_TurretResume>{0} resumes original target: {1}.</TSA_WD_Log_AT_TurretResume>
+  <TSA_WD_Log_SettlementAmbush>{0} ambushes a passing {1}: {2}.</TSA_WD_Log_SettlementAmbush>
+  <TSA_WD_Log_SettlementAmbushPursuitStopped>{0}'s interceptor stopped the pursuit. The target escaped.</TSA_WD_Log_SettlementAmbushPursuitStopped>
+  <TSA_WD_Message_SettlementAmbushPursuitStopped>Target escaped. Interceptor stopped the pursuit.</TSA_WD_Message_SettlementAmbushPursuitStopped>
+  <TSA_WD_TargetKind_Caravan>caravan</TSA_WD_TargetKind_Caravan>
+  <TSA_WD_TargetKind_TraderCaravan>trader caravan</TSA_WD_TargetKind_TraderCaravan>
+  <TSA_WD_TargetKind_GiftCaravan>gift caravan</TSA_WD_TargetKind_GiftCaravan>
+  <TSA_WD_TargetKind_BribeCaravan>bribe caravan</TSA_WD_TargetKind_BribeCaravan>
+  <TSA_WD_TargetKind_Raid>raid</TSA_WD_TargetKind_Raid>
+  <TSA_WD_Letter_RaidDivertedFromPlayer_Label>Raid diverted</TSA_WD_Letter_RaidDivertedFromPlayer_Label>
+  <TSA_WD_Letter_RaidDivertedFromPlayer_Text>{0} spotted a target of opportunity and diverted away from you to attack {1} instead.</TSA_WD_Letter_RaidDivertedFromPlayer_Text>
+  <TSA_WD_Log_Raid_PlayerAttack>RAID: Attack on player colony</TSA_WD_Log_Raid_PlayerAttack>
+  <TSA_WD_Log_Raid_SkippedLowRaidPower>RAID: {0} skipped (available raid power {1}; minimum 50 required).</TSA_WD_Log_Raid_SkippedLowRaidPower>
+  <TSA_WD_Log_Raid_SkippedLowStrength>RAID: {0} skipped (strength {1}; needs {2} to launch raids at this tier).</TSA_WD_Log_Raid_SkippedLowStrength>
+  <TSA_WD_Log_Raid_SkippedNoTarget>RAID: Skipped (no valid target in range)</TSA_WD_Log_Raid_SkippedNoTarget>
+  <TSA_WD_Log_Raid_BandPicked>Band {0} picked.</TSA_WD_Log_Raid_BandPicked>
+  <TSA_WD_Log_Raid_BandFallback>Band {0} picked but no valid target. Fallback Band {1}.</TSA_WD_Log_Raid_BandFallback>
+  <TSA_WD_Log_OutpostIncident>Outpost incident at {0}: lost {1} defensive strength ({2} → {3}).</TSA_WD_Log_OutpostIncident>
+  <TSA_WD_Log_OutpostIncident_Destroyed>Outpost incident destroyed {0}: lost {1} strength (offense {2}, defense {3}). Ruins remain.</TSA_WD_Log_OutpostIncident_Destroyed>
+  <TSA_WD_Letter_OutpostIncident_Label>Outpost incident: {0}</TSA_WD_Letter_OutpostIncident_Label>
+  <TSA_WD_Letter_OutpostIncident_Text>A minor world incident has reduced defensive strength at {0} by {1}.</TSA_WD_Letter_OutpostIncident_Text>
+  <TSA_WD_Letter_OutpostIncidentDestroyed_Label>Outpost destroyed: {0}</TSA_WD_Letter_OutpostIncidentDestroyed_Label>
+  <TSA_WD_Letter_OutpostIncidentDestroyed_Text>A world incident wiped out {0} (lost {1} strength). Ruins remain for a while and block new outposts nearby.</TSA_WD_Letter_OutpostIncidentDestroyed_Text>
+  <TSA_WD_Log_Raid_Successful>Raid Successful: {0} has been conquered.</TSA_WD_Log_Raid_Successful>
+  <TSA_WD_MinGarrisonCap>Garrison retain floor: {0} Strength</TSA_WD_MinGarrisonCap>
+  <TSA_WD_Raid_GarrisonRetain>Garrison retain (%)</TSA_WD_Raid_GarrisonRetain>
+  <TSA_WD_Raid_GarrisonRetainTooltip>Settlements and outposts always keep at least this percentage of their maximum strength at home when sending a raid, trader caravan, or building crew (roads, roadblocks, spike traps, fortify). Tier max for settlements, occupant max for outposts. Decontamination crews are exempt. Primary attackers and allies use the same rule for raids.</TSA_WD_Raid_GarrisonRetainTooltip>
+  <TSA_WD_OfCurrentStrength>Of {0} Current Strength</TSA_WD_OfCurrentStrength>
+  <TSA_WD_OfCurrentOffStrength>Of {0} Current Off. Strength</TSA_WD_OfCurrentOffStrength>
+  <TSA_WD_PredictedEfficiency>Strength at Arrival</TSA_WD_PredictedEfficiency>
+  <TSA_WD_Primary>Primary</TSA_WD_Primary>
+  <TSA_WD_PrimaryAttacker>Primary Attacker</TSA_WD_PrimaryAttacker>
+  <TSA_WD_RaidAnalysis>Raid Analysis</TSA_WD_RaidAnalysis>
+  <TSA_WD_RaidAnalysis_OutpostPreview>Raid Analysis (Preview)</TSA_WD_RaidAnalysis_OutpostPreview>
+  <TSA_WD_RaidDet_Defeat>Defeat</TSA_WD_RaidDet_Defeat>
+  <TSA_WD_RaidDet_Victory>Victory</TSA_WD_RaidDet_Victory>
+  <TSA_WD_RaidLabel>Raid: {0}</TSA_WD_RaidLabel>
+  <TSA_WD_RaidPointsMult>Raid points: x{0}</TSA_WD_RaidPointsMult>
+  <TSA_WD_RaidResolution_Header>Raid Resolved</TSA_WD_RaidResolution_Header>
+  <TSA_WD_Raid_AllowOutpost>Allow Player Outposts to be Raided</TSA_WD_Raid_AllowOutpost>
+  <TSA_WD_Raid_AllowOutpostTooltip>If enabled, NPC settlements can launch simulated raids against your Outposts in range.</TSA_WD_Raid_AllowOutpostTooltip>
+  <TSA_WD_Raid_AllowPlayer>Allow Player Colony to be Raided</TSA_WD_Raid_AllowPlayer>
+  <TSA_WD_Raid_AllowPlayerTooltip>If enabled, NPC settlements within range can launch actual raids against your colony map.</TSA_WD_Raid_AllowPlayerTooltip>
+  <TSA_WD_Raid_AllyRadius>Ally pull radius</TSA_WD_Raid_AllyRadius>
+  <TSA_WD_Raid_AllyRadiusTooltip>Base world-tile radius for same-faction and allied-faction neighbors that can join attacks or defenses. Mid/Late Game and the Tunnel Network upgrade can raise the effective radius per site.</TSA_WD_Raid_AllyRadiusTooltip>
+  <TSA_WD_Raid_CdPlayer>Player Raid Cooldown</TSA_WD_Raid_CdPlayer>
+  <TSA_WD_Raid_CdPlayerTooltip>How many days must pass before your colony can be targeted again by a world-triggered raid.</TSA_WD_Raid_CdPlayerTooltip>
+  <TSA_WD_Raid_MaxPerDay>Max player WD raids per day</TSA_WD_Raid_MaxPerDay>
+  <TSA_WD_Raid_MaxPerDayTooltip>Global limit on World Domination world raids against your colonies and outposts combined in any 1-day window. Stacks on top of per-colony and per-outpost raid cooldowns. Does not affect storyteller raids.</TSA_WD_Raid_MaxPerDayTooltip>
+  <TSA_WD_Raid_MaxPer4Days>Max player WD raids per 4 days</TSA_WD_Raid_MaxPer4Days>
+  <TSA_WD_Raid_MaxPer4DaysTooltip>Global limit on World Domination world raids against your colonies and outposts combined in any 4-day window. Cannot be lower than the per-day limit. Stacks on top of per-target cooldowns. Does not affect storyteller raids.</TSA_WD_Raid_MaxPer4DaysTooltip>
+  <TSA_WD_Raid_MaxPer7Days>Max player WD raids per 7 days</TSA_WD_Raid_MaxPer7Days>
+  <TSA_WD_Raid_MaxPer7DaysTooltip>Global limit on World Domination world raids against your colonies and outposts combined in any 7-day window. Cannot be lower than the per-4-day limit. Stacks on top of per-target cooldowns. Does not affect storyteller raids.</TSA_WD_Raid_MaxPer7DaysTooltip>
+  <TSA_WD_Raid_DisabledPlayer>Player raiding is currently disabled.</TSA_WD_Raid_DisabledPlayer>
+  <TSA_WD_Raid_HeaderOutcome>Battle Outcome Tiers (Auto-Balancing)</TSA_WD_Raid_HeaderOutcome>
+  <TSA_WD_Raid_HeaderPlayer>World Raids on Player Colony</TSA_WD_Raid_HeaderPlayer>
+  <TSA_WD_Raid_HeaderSim>World Raid Simulation Parameters</TSA_WD_Raid_HeaderSim>
+  <TSA_WD_Raid_TravelPrepExactPct>Pre-raid exact path and travel cost calculation</TSA_WD_Raid_TravelPrepExactPct>
+  <TSA_WD_Raid_TravelPrepExactPctTip>Share of raid/trader destination prep assessments that use full world pathfinding (FindPath). 0% always uses the crow-flies heuristic (often the biggest performance gain on huge worlds). 100% always pathfinds. In between, a deterministic cadence uses exact pathing that share of the time. Prep can understate mountain/sea detours (e.g. real path 4× longer), so a raid may launch that arrives weaker: acceptable fog of war, not a bug. Launch still uses a real path. Also managed by Setting presets → Performance when you use those packs.</TSA_WD_Raid_TravelPrepExactPctTip>
+  <TSA_WD_Raid_LossPerHour>Strength Attrition (% per hour)</TSA_WD_Raid_LossPerHour>
+  <TSA_WD_Raid_LossPerHourTooltip>The percentage of current strength lost every hour during travel. The longer a raid force is on the road, the more strength they lose.</TSA_WD_Raid_LossPerHourTooltip>
+  <TSA_WD_Raid_MaxTravelDays>Max Travel Duration (Days)</TSA_WD_Raid_MaxTravelDays>
+  <TSA_WD_Raid_MaxTravelDaysTooltip>The hard limit for how long a WD Traveler (Raid, Expansion, Road Building Caravan) can remain in the field. If a caravan reaches this limit before hitting its target, the mission is aborted and the force is lost.</TSA_WD_Raid_MaxTravelDaysTooltip>
+  <TSA_WD_Raid_HeaderArrivalStyles>Raid arrival styles</TSA_WD_Raid_HeaderArrivalStyles>
+  <TSA_WD_Raid_DropPodChanceT3>T3 drop-pod raid chance</TSA_WD_Raid_DropPodChanceT3>
+  <TSA_WD_Raid_DropPodChanceT3Tip>When a tier-3 settlement launches a raid and meets the tech gate, this is the chance it uses ballistic drop pods instead of a walking caravan. Same attrition formula as T4 drop pods.</TSA_WD_Raid_DropPodChanceT3Tip>
+  <TSA_WD_Raid_DropPodChance>T4 drop-pod raid chance</TSA_WD_Raid_DropPodChance>
+  <TSA_WD_Raid_DropPodChanceTip>When a tier-4 settlement launches a raid and meets the tech gate, this is the chance it uses ballistic drop pods instead of a walking caravan. Launch gate, letter, and arrival strength all use the same drop-pod attrition formula.</TSA_WD_Raid_DropPodChanceTip>
+  <TSA_WD_Raid_DropPodMinTech>Drop-pod raids: min tech level</TSA_WD_Raid_DropPodMinTech>
+  <TSA_WD_Raid_DropPodMinTechTip>Only factions at this tech level or higher may launch drop-pod raids. Neolithic allows essentially all factions.</TSA_WD_Raid_DropPodMinTechTip>
+  <TSA_WD_Raid_DropPodAttritionMult>Drop-pod attrition multiplier</TSA_WD_Raid_DropPodAttritionMult>
+  <TSA_WD_Raid_DropPodAttritionMultTip>Multiplies strength loss per hour for drop-pod raids. Attrition uses crow-flies distance (ignore terrain) and is applied at launch so gate, letter, and traveler strength match.</TSA_WD_Raid_DropPodAttritionMultTip>
+  <TSA_WD_Raid_ColonySiegeChance>Colony siege chance (walk raids)</TSA_WD_Raid_ColonySiegeChance>
+  <TSA_WD_Raid_ColonySiegeChanceTip>When a normal (walking) raid caravan from a T3 or T4 settlement arrives at your colony, chance the map raid uses the Siege strategy. Drop-pod raids never roll siege.</TSA_WD_Raid_ColonySiegeChanceTip>
+  <TSA_WD_Raid_MinRatio>Min Strength Ratio</TSA_WD_Raid_MinRatio>
+  <TSA_WD_Raid_MinRatioTooltip>Minimum strength advantage required for an NPC to consider a raid on an outpost or NPC settlement viable. Raids on your colony use a separate storyteller-points gate: attackers need at least 0.7× those points, then −0.1× per quiet day (floor 0). Quiet means days since the colony was last picked as a WD raid target. When a settlement would raid the colony, the nearest same-faction settlement that still passes that gate launches instead.</TSA_WD_Raid_MinRatioTooltip>
+  <TSA_WD_Raid_RazeChance>Raze Chance</TSA_WD_Raid_RazeChance>
+  <TSA_WD_Raid_RazeChanceTooltip>Chance that a successful automatic NPC raid razes the target instead of founding a conqueror settlement. Razed tiles leave timed ruins that block new settlements and outposts nearby until they clear.</TSA_WD_Raid_RazeChanceTooltip>
+  <TSA_WD_Raid_RuinLingerDays>Ruin linger (days)</TSA_WD_Raid_RuinLingerDays>
+  <TSA_WD_Raid_RuinLingerDaysTooltip>How long WD settlement ruins remain on the map after a raze. They use the same neighbor blocking distance as settlements and outposts, then despawn.</TSA_WD_Raid_RuinLingerDaysTooltip>
+  <TSA_WD_Raid_Reset>Reset this Page to Defaults</TSA_WD_Raid_Reset>
+  <TSA_WD_Raid_TargetRad>Target Search Range</TSA_WD_Raid_TargetRad>
+  <TSA_WD_Raid_TargetRadTooltip>Max distance (in tiles) a settlement will look to find a target.</TSA_WD_Raid_TargetRadTooltip>
+  <TSA_WD_Raid_AttackRangeHeader>NPC Attack Range</TSA_WD_Raid_AttackRangeHeader>
+  <TSA_WD_Raid_T1AttackRange>T1 baseline range</TSA_WD_Raid_T1AttackRange>
+  <TSA_WD_Raid_T1AttackRangeTooltip>Base attack search radius (tiles) for tier 1 NPC settlements, before Mid/Late and settlement age.</TSA_WD_Raid_T1AttackRangeTooltip>
+  <TSA_WD_Raid_T2AttackRange>T2 baseline range</TSA_WD_Raid_T2AttackRange>
+  <TSA_WD_Raid_T2AttackRangeTooltip>Base attack search radius (tiles) for tier 2 NPC settlements, before Mid/Late and settlement age.</TSA_WD_Raid_T2AttackRangeTooltip>
+  <TSA_WD_Raid_T3AttackRange>T3 baseline range</TSA_WD_Raid_T3AttackRange>
+  <TSA_WD_Raid_T3AttackRangeTooltip>Base attack search radius (tiles) for tier 3 NPC settlements, before Mid/Late and settlement age.</TSA_WD_Raid_T3AttackRangeTooltip>
+  <TSA_WD_Raid_T4AttackRange>T4 baseline range</TSA_WD_Raid_T4AttackRange>
+  <TSA_WD_Raid_T4AttackRangeTooltip>Base attack search radius (tiles) for tier 4 NPC settlements, before Mid/Late and settlement age.</TSA_WD_Raid_T4AttackRangeTooltip>
+  <TSA_WD_Raid_AttackRangeTimeBonus>Settlement age range bonus</TSA_WD_Raid_AttackRangeTimeBonus>
+  <TSA_WD_Raid_AttackRangeTimeBonusTooltip>Maximum percentage added to that settlement's attack range after it ages to Days to max age. Tier changes do not reset age. Scales from founding day 0 to Days to max age.</TSA_WD_Raid_AttackRangeTimeBonusTooltip>
+  <TSA_WD_Raid_AttackRangeDaysToMax>Days to max age bonus</TSA_WD_Raid_AttackRangeDaysToMax>
+  <TSA_WD_Raid_AttackRangeDaysToMaxTooltip>In-game days of settlement age until its attack range reaches the full age bonus.</TSA_WD_Raid_AttackRangeDaysToMaxTooltip>
+  <TSA_WD_Raid_PlayerOutpostAttackRange>Player outpost attack range</TSA_WD_Raid_PlayerOutpostAttackRange>
+  <TSA_WD_Raid_PlayerOutpostAttackRangeTooltip>Max distance (tiles) when manually launching raids from player outposts. Does not affect NPC settlement range.</TSA_WD_Raid_PlayerOutpostAttackRangeTooltip>
+  <TSA_WD_ReinforcementBreakdown>Force Breakdown</TSA_WD_ReinforcementBreakdown>
+  <TSA_WD_ReinforcementsArrived>Reinforcements: {0}</TSA_WD_ReinforcementsArrived>
+  <TSA_WD_ReinforcementsIncoming_Label>Enemy Reinforcements in ({0})</TSA_WD_ReinforcementsIncoming_Label>
+  <TSA_WD_ReinforcementsIncoming_Text>{0} forces have been diverted to support the defense and are estimated to arrive in {1}.</TSA_WD_ReinforcementsIncoming_Text>
+  <TSA_WD_ResultingEfficiencyFactor>Efficiency After Travel</TSA_WD_ResultingEfficiencyFactor>
+  <TSA_WD_TravelExceedsMaxDays>Exceeds max travel days ({0} &gt; {1})</TSA_WD_TravelExceedsMaxDays>
+  <TSA_WD_SameFaction>same faction</TSA_WD_SameFaction>
+  <TSA_WD_Status_DefShielded>Cannot be Raided</TSA_WD_Status_DefShielded>
+  <TSA_WD_Status_DefVulnerable>Can be Raided</TSA_WD_Status_DefVulnerable>
+  <TSA_WD_Status_ColonyDefVulnerable>Colony can be raided</TSA_WD_Status_ColonyDefVulnerable>
+  <TSA_WD_Status_RaidCooldown>Cannot launch Raids</TSA_WD_Status_RaidCooldown>
+  <TSA_WD_Status_RaidReady>Can Raid</TSA_WD_Status_RaidReady>
+  <TSA_WD_StrengthAfter>Strength after: {0}</TSA_WD_StrengthAfter>
+  <TSA_WD_Target>Target</TSA_WD_Target>
+  <TSA_WD_WinChance>Success Probability</TSA_WD_WinChance>
+  <TSA_WD_Margin_AttWinDecisive>Decisive victory</TSA_WD_Margin_AttWinDecisive>
+  <TSA_WD_Margin_AttWinNormal>Normal victory</TSA_WD_Margin_AttWinNormal>
+  <TSA_WD_Margin_AttWinClose>Close victory</TSA_WD_Margin_AttWinClose>
+  <TSA_WD_Margin_DefWinDecisive>Decisive defeat</TSA_WD_Margin_DefWinDecisive>
+  <TSA_WD_Margin_DefWinNormal>Normal defeat</TSA_WD_Margin_DefWinNormal>
+  <TSA_WD_Margin_DefWinClose>Close defeat</TSA_WD_Margin_DefWinClose>
+  <TSA_WD_MarginFlavor_AttWinDecisive>Clean sweep; defenders routed.</TSA_WD_MarginFlavor_AttWinDecisive>
+  <TSA_WD_MarginFlavor_AttWinNormal>Target taken with moderate losses.</TSA_WD_MarginFlavor_AttWinNormal>
+  <TSA_WD_MarginFlavor_AttWinClose>Hard-fought win; heavy casualties on both sides.</TSA_WD_MarginFlavor_AttWinClose>
+  <TSA_WD_MarginFlavor_DefWinDecisive>Attackers routed; most strength lost.</TSA_WD_MarginFlavor_DefWinDecisive>
+  <TSA_WD_MarginFlavor_DefWinNormal>Attackers repelled with significant losses.</TSA_WD_MarginFlavor_DefWinNormal>
+  <TSA_WD_MarginFlavor_DefWinClose>Tactical retreat; most of the expedition survives.</TSA_WD_MarginFlavor_DefWinClose>
+  <TSA_WD_RaidForecast_WinType>Win type if victorious</TSA_WD_RaidForecast_WinType>
+  <TSA_WD_RaidForecast_LossType>Loss type if raid fails</TSA_WD_RaidForecast_LossType>
+  <TSA_WD_RaidForecast_DefWinType>Win type if defense holds</TSA_WD_RaidForecast_DefWinType>
+  <TSA_WD_RaidForecast_DefLossType>Loss type if defense fails</TSA_WD_RaidForecast_DefLossType>
+  <TSA_WD_RaidForecast_SegmentLikelihood>Likelihood: {0}%</TSA_WD_RaidForecast_SegmentLikelihood>
+  <TSA_WD_RaidForecast_SegmentStrengthLoss>Strength loss: {0}%</TSA_WD_RaidForecast_SegmentStrengthLoss>
+  <TSA_WD_RaidLog_Retreated>retreated</TSA_WD_RaidLog_Retreated>
+  <TSA_WD_RaidResolution_AttackerVictory>Attacker Victory</TSA_WD_RaidResolution_AttackerVictory>
+  <TSA_WD_RaidResolution_AttackerDefeat>Attacker Defeat</TSA_WD_RaidResolution_AttackerDefeat>
+  <TSA_WD_RaidResolution_DefenderVictory>Defender Victory</TSA_WD_RaidResolution_DefenderVictory>
+  <TSA_WD_RaidResolution_DefenderDefeat>Defender Defeat</TSA_WD_RaidResolution_DefenderDefeat>
+  <TSA_WD_RaidResolution_MarginLoss>{0}: -{1}% strength</TSA_WD_RaidResolution_MarginLoss>
+  <TSA_WD_RaidResolution_AttLoss>Attacker strength lost: {0}%</TSA_WD_RaidResolution_AttLoss>
+  <TSA_WD_RaidResolution_DefLoss>Defender strength lost: {0}%</TSA_WD_RaidResolution_DefLoss>
+  <TSA_WD_OrderedRoad_GizmoLabel>Order Road for Player</TSA_WD_OrderedRoad_GizmoLabel>
+  <TSA_WD_OrderedRoad_GizmoDesc>Pay goodwill to have this settlement build a road toward a destination you choose.</TSA_WD_OrderedRoad_GizmoDesc>
+  <TSA_WD_OrderedRoad_AlreadyBuilding>Already building a road for you.</TSA_WD_OrderedRoad_AlreadyBuilding>
+  <TSA_WD_OrderedRoad_SettlementBusy>Settlement is busy with another road project.</TSA_WD_OrderedRoad_SettlementBusy>
+  <TSA_WD_OrderedRoad_Status>Building road to {0} ({1}%)</TSA_WD_OrderedRoad_Status>
+  <TSA_WD_OrderedRoad_CancelDesc>Cancel the player-ordered road. Unbuilt segments refund goodwill.</TSA_WD_OrderedRoad_CancelDesc>
+  <TSA_WD_OrderedRoad_PreviewTitle>Order road from {0}</TSA_WD_OrderedRoad_PreviewTitle>
+  <TSA_WD_OrderedRoad_PreviewSectionProject>Road project</TSA_WD_OrderedRoad_PreviewSectionProject>
+  <TSA_WD_OrderedRoad_PreviewSectionCost>Goodwill</TSA_WD_OrderedRoad_PreviewSectionCost>
+  <TSA_WD_OrderedRoad_PreviewLabelTarget>Destination</TSA_WD_OrderedRoad_PreviewLabelTarget>
+  <TSA_WD_OrderedRoad_PreviewLabelRoadType>Road type</TSA_WD_OrderedRoad_PreviewLabelRoadType>
+  <TSA_WD_OrderedRoad_PreviewLabelSegments>Segments to build</TSA_WD_OrderedRoad_PreviewLabelSegments>
+  <TSA_WD_OrderedRoad_PreviewLabelDaysPerSegment>Est. days per segment</TSA_WD_OrderedRoad_PreviewLabelDaysPerSegment>
+  <TSA_WD_OrderedRoad_PreviewLabelPerSegment>Goodwill per segment</TSA_WD_OrderedRoad_PreviewLabelPerSegment>
+  <TSA_WD_OrderedRoad_PreviewLabelTotal>Total upfront cost</TSA_WD_OrderedRoad_PreviewLabelTotal>
+  <TSA_WD_OrderedRoad_PreviewTotalValue>{0} goodwill</TSA_WD_OrderedRoad_PreviewTotalValue>
+  <TSA_WD_OrderedRoad_PreviewLabelCurrentGoodwill>Current goodwill</TSA_WD_OrderedRoad_PreviewLabelCurrentGoodwill>
+  <TSA_WD_OrderedRoad_PreviewLabelCannotAfford>Cannot afford</TSA_WD_OrderedRoad_PreviewLabelCannotAfford>
+  <TSA_WD_OrderedRoad_PreviewCannotAfford>Costs {0} goodwill. You have {1}; at least {2} goodwill must remain.</TSA_WD_OrderedRoad_PreviewCannotAfford>
+  <TSA_WD_OrderedRoad_Confirm>Confirm order</TSA_WD_OrderedRoad_Confirm>
+  <TSA_WD_OrderedRoad_Started>{0} will build a road toward {1}.</TSA_WD_OrderedRoad_Started>
+  <TSA_WD_OrderedRoad_CancelTitle>Cancel ordered road?</TSA_WD_OrderedRoad_CancelTitle>
+  <TSA_WD_OrderedRoad_CancelBuilt>{0} of {1} segments built.</TSA_WD_OrderedRoad_CancelBuilt>
+  <TSA_WD_OrderedRoad_CancelRefund>Refund: {0} goodwill ({1} unbuilt segments).</TSA_WD_OrderedRoad_CancelRefund>
+  <TSA_WD_OrderedRoad_CancelConfirm>Cancel road</TSA_WD_OrderedRoad_CancelConfirm>
+  <TSA_WD_OrderedRoad_Cancelled>Cancelled road order at {0}.</TSA_WD_OrderedRoad_Cancelled>
+  <TSA_WD_OrderedRoad_FactionActiveTooltip>At least one settlement of this faction is building a road for you.</TSA_WD_OrderedRoad_FactionActiveTooltip>
+  <TSA_WD_OrderedTrader_GizmoLabel>Order Trader Caravan</TSA_WD_OrderedTrader_GizmoLabel>
+  <TSA_WD_OrderedTrader_GizmoDesc>Pay goodwill to send a trader caravan from this settlement to your nearest colony with a map.</TSA_WD_OrderedTrader_GizmoDesc>
+  <TSA_WD_OrderedTrader_NoColony>No player colony with a loaded map found.</TSA_WD_OrderedTrader_NoColony>
+  <TSA_WD_OrderedTrader_NoKinds>This faction has no caravan trader types.</TSA_WD_OrderedTrader_NoKinds>
+  <TSA_WD_OrderedTrader_ColonyOnCooldown>Your colony is on trader cooldown ({0} days left).</TSA_WD_OrderedTrader_ColonyOnCooldown>
+  <TSA_WD_OrderedTrader_DisabledGoodwill>Needs {0} goodwill (you have {1}; at least {2} must remain).</TSA_WD_OrderedTrader_DisabledGoodwill>
+  <TSA_WD_OrderedTrader_PreviewTitle>Order trader from {0}</TSA_WD_OrderedTrader_PreviewTitle>
+  <TSA_WD_OrderedTrader_PreviewSectionOrder>Order</TSA_WD_OrderedTrader_PreviewSectionOrder>
+  <TSA_WD_OrderedTrader_PreviewSectionCost>Goodwill</TSA_WD_OrderedTrader_PreviewSectionCost>
+  <TSA_WD_OrderedTrader_PreviewLabelKind>Trader type</TSA_WD_OrderedTrader_PreviewLabelKind>
+  <TSA_WD_OrderedTrader_PreviewLabelDestination>Destination</TSA_WD_OrderedTrader_PreviewLabelDestination>
+  <TSA_WD_OrderedTrader_PreviewLabelTotal>Total cost</TSA_WD_OrderedTrader_PreviewLabelTotal>
+  <TSA_WD_OrderedTrader_PreviewTotalValue>{0} goodwill</TSA_WD_OrderedTrader_PreviewTotalValue>
+  <TSA_WD_OrderedTrader_PreviewLabelCurrentGoodwill>Current goodwill</TSA_WD_OrderedTrader_PreviewLabelCurrentGoodwill>
+  <TSA_WD_OrderedTrader_PreviewLabelCannotAfford>Cannot afford</TSA_WD_OrderedTrader_PreviewLabelCannotAfford>
+  <TSA_WD_OrderedTrader_PreviewCannotAfford>Costs {0} goodwill. You have {1}; at least {2} goodwill must remain.</TSA_WD_OrderedTrader_PreviewCannotAfford>
+  <TSA_WD_OrderedTrader_Confirm>Confirm order</TSA_WD_OrderedTrader_Confirm>
+  <TSA_WD_OrderedTrader_Started>{0} is sending a {2} caravan to {1}.</TSA_WD_OrderedTrader_Started>
+  <TSA_WD_OrderedTrader_LaunchFailed>Could not launch the trader caravan.</TSA_WD_OrderedTrader_LaunchFailed>
+  <TSA_WD_OrderedTrader_SpawnSkippedHostile>{0} is hostile — trader did not arrive at {1}.</TSA_WD_OrderedTrader_SpawnSkippedHostile>
+  <TSA_WD_OrderedTrader_SpawnSkippedNoMap>{0} has no map — trader could not arrive.</TSA_WD_OrderedTrader_SpawnSkippedNoMap>
+  <TSA_WD_OrderedTrader_SpawnFailed>Trader arrival at {0} failed.</TSA_WD_OrderedTrader_SpawnFailed>
+  <TSA_WD_Trader_SpawnSkippedHostileVisitor>{0} did not enter {2} because {1} traders are already visiting and the factions are hostile. Trade rewards still applied.</TSA_WD_Trader_SpawnSkippedHostileVisitor>
+  <TSA_WD_Log_OrderedTraderLaunched>{0} sent ordered trader ({2}) to {1}.</TSA_WD_Log_OrderedTraderLaunched>
+</LanguageData>

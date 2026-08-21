@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <QuestScriptDef>
+    <defName>TSA_WD_WorldDominationVictory</defName>
+    <autoAccept>true</autoAccept>
+    <isRootSpecial>true</isRootSpecial>
+    <defaultChallengeRating>3</defaultChallengeRating>
+    <questAvailableLetterTextIsDescription>true</questAvailableLetterTextIsDescription>
+
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->World Domination</li>
+        <li>questName->Hold the planet</li>
+        <li>questName->Strongest on the map</li>
+      </rulesStrings>
+    </questNameRules>
+
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->Become the strongest World Domination faction and hold that lead for 15 continuous days.\n\nYour ranking uses WD outposts only. If you lose the lead, the streak resets. There is no time limit.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_QuestUnique">
+          <tag>TSA_WD_WorldDominationVictory</tag>
+        </li>
+
+        <li Class="QuestNode_WdVictoryHold">
+          <holdDays>15</holdDays>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>

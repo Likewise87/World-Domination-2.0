@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.StructureLayoutDef>
+    <defName>TSA_Tribal_Barracks_3</defName>
+<layouts>
+      <li>
+        <li>.,.,.,.,.,.,.,.,.,VFEPD_Banner_Leather_Bird_North</li>
+        <li>VFEPD_Bush,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,AnimalFlap_Leather_Plain,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,VFEPD_WoodenLogs_South,.</li>
+        <li>Wall_BlocksGranite,Wall_BlocksGranite,Bedroll_Leather_Light_North,Bedroll_Leather_Light_North,.,Bedroll_Leather_Light_North,Bedroll_Leather_Light_North,Wall_BlocksGranite,Wall_BlocksGranite,.</li>
+        <li>Wall_BlocksGranite,VFEPD_BoxLarge_West,.,.,.,VFEPD_FilthDirt_North,.,VFEPD_BoxSmall_West,Wall_BlocksGranite,VFEPD_PoplarTree</li>
+        <li>Wall_BlocksGranite,PlantPot_WoodLog,.,.,VFEPD_BoxLarge_West,.,.,.,Wall_BlocksGranite,.</li>
+        <li>AnimalFlap_Leather_Plain,.,VFEPD_FilthDirt_North,.,.,.,.,.,VFEPD_FilthDirt_North,.</li>
+        <li>Wall_BlocksGranite,.,Table1x2c_WoodLog_West,DiningChair_WoodLog_West,.,.,VFEPD_FilthDirt_North,VFEPD_BrewingBarrel,Wall_BlocksGranite,.</li>
+        <li>Wall_BlocksGranite,DiningChair_WoodLog_South,DiningChair_WoodLog_South,.,VFEPD_FilthDirt_North,.,.,VFEPD_BrewingBarrel,Wall_BlocksGranite,VFEPD_Bush</li>
+        <li>Wall_BlocksGranite,Wall_BlocksGranite,.,.,.,VFEPD_ArmorStandFull_South,Bedroll_Leather_Light_South,Wall_BlocksGranite,Wall_BlocksGranite,.</li>
+        <li>.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,AnimalFlap_Leather_Plain,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,.,.</li>
+      </li>
+      <li>
+        <li>.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,AnimalFlap_Leather_Plain,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.</li>
+      </li>
+    </layouts>
+    <terrainGrid>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,FlagstoneGranite,.,.,.,.,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.</li>
+      <li>FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.</li>
+      <li>.,.,.,.,FlagstoneGranite,.,.,.,.,.</li>
+    </terrainGrid>
+    <tags>
+      <li>TSA_Tribal_Barracks</li>
+    </tags>
+  </KCSG.StructureLayoutDef>
+</Defs>

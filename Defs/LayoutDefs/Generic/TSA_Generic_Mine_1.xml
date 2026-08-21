@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<KCSG.StructureLayoutDef>
+		<defName>Generic_Mine_1</defName>
+		<spawnConduits>false</spawnConduits>
+		<layouts>
+			<li>
+				<li>VFEPD_AncientCraneColumn,.,MineableSteel,.,.,Steel,Steel</li>
+				<li>.,.,MineableSteel,.,VFEPD_WoodenWagon_South,MineableSteel,MineableSteel</li>
+				<li>.,Steel,Steel,.,.,.,.</li>
+				<li>VFEPD_WoodenSign,MineableSteel,MineableSteel,MineableSteel,MineableSteel,VFEPD_HeavyHammer_East,MineableSteel</li>
+				<li>MineableSteel,MineableSteel,MineableSteel,MineableSteel,VFEPD_BlocksPileC_North,MineableSteel,VFEPD_BrickPile</li>
+				<li>VFEPD_PalletBoxes,.,.,MineableSteel,Steel,MineableSteel,VFEPD_BrickPile</li>
+				<li>.,.,MineableSteel,MineableSteel,Steel,MineableSteel,VFEPD_BoxLarge_South</li>
+			</li>
+		</layouts>
+		<tags>
+			<li>Generic_Mine</li>
+		</tags>
+	</KCSG.StructureLayoutDef>
+</Defs>

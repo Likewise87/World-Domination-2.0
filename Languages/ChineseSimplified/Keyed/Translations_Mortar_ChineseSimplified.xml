@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <TSA_WD_Mortar_OutpostLabel>火炮前哨</TSA_WD_Mortar_OutpostLabel>
+  <TSA_WD_Mortar_OutpostDesc>火炮前哨：可向远处敌对目标发射迫击炮炮弹；开启自动攻击时可拦截路过的敌对商队。炮弹强度来自模组设置与前哨升级；命中率取驻地最高射击等级；冷却随全体射击技能总和缩短。</TSA_WD_Mortar_OutpostDesc>
+
+  <TSA_WD_Traveler_MortarStrike>迫击炮炮弹</TSA_WD_Traveler_MortarStrike>
+  <TSA_WD_Traveler_AT_Shell>AT 炮弹</TSA_WD_Traveler_AT_Shell>
+
+  <TSA_WD_Mortar_LaunchLabel>发射迫击炮</TSA_WD_Mortar_LaunchLabel>
+  <TSA_WD_Mortar_LaunchDesc>在 {0} 格内选择敌对聚居地、敌对商队或敌对 WD 旅行者。
+
+命中时造成 {1} 强度伤害。
+
+命中率使用前哨设置中的距离分段,再加上最佳射手每级射击技能 {2} 的 1 个百分点加成。
+
+冷却由驻地射击技能总和 {3} 缩短:每点 −2% 时长,可与升级叠加(最低为基础天数的 25%)。</TSA_WD_Mortar_LaunchDesc>
+  <TSA_WD_Mortar_LaunchDescCooldown>迫击炮正在装填——剩余 {0} 天可用。</TSA_WD_Mortar_LaunchDescCooldown>
+  <TSA_WD_Mortar_LaunchDescNoSkill>该前哨没有可用的射击技能。</TSA_WD_Mortar_LaunchDescNoSkill>
+  <TSA_WD_Mortar_ReasonCooldown>冷却中</TSA_WD_Mortar_ReasonCooldown>
+  <TSA_WD_Mortar_ReasonNoSkill>需要至少一名拥有射击技能的成员</TSA_WD_Mortar_ReasonNoSkill>
+
+  <TSA_WD_Mortar_AutoAttackDesc>未选择「关」时自动向射程内的敌对商队开火。与手动发射共用冷却与规则:距离分段、最佳射手命中、升级命中加成,以及射击总和缩短冷却。</TSA_WD_Mortar_AutoAttackDesc>
+  <TSA_WD_Mortar_AutoAttack_Off>自动迫击炮:关</TSA_WD_Mortar_AutoAttack_Off>
+  <TSA_WD_Mortar_AutoAttack_AllCaravans>自动迫击炮:全部商队</TSA_WD_Mortar_AutoAttack_AllCaravans>
+  <TSA_WD_Mortar_AutoAttack_RaiderCaravans>自动迫击炮:袭击者商队</TSA_WD_Mortar_AutoAttack_RaiderCaravans>
+  <TSA_WD_Mortar_AutoAttack_TraderCaravans>自动迫击炮:贸易商队</TSA_WD_Mortar_AutoAttack_TraderCaravans>
+  <TSA_WD_Mortar_AutoAttack_ExpansionCaravans>自动迫击炮:扩张队商队</TSA_WD_Mortar_AutoAttack_ExpansionCaravans>
+  <TSA_WD_Mortar_AutoAttack_RoadCaravans>自动迫击炮:筑路队商队</TSA_WD_Mortar_AutoAttack_RoadCaravans>
+  <TSA_WD_Mortar_AutoAttack_GroupCaravans>自动迫击炮: {0}</TSA_WD_Mortar_AutoAttack_GroupCaravans>
+  <TSA_WD_Mortar_AutoAttack_Menu_Off>关</TSA_WD_Mortar_AutoAttack_Menu_Off>
+  <TSA_WD_Mortar_AutoAttack_Menu_All>全部</TSA_WD_Mortar_AutoAttack_Menu_All>
+  <TSA_WD_Mortar_AutoAttack_Menu_Raider>袭击者</TSA_WD_Mortar_AutoAttack_Menu_Raider>
+  <TSA_WD_Mortar_AutoAttack_Menu_Trader>贸易商</TSA_WD_Mortar_AutoAttack_Menu_Trader>
+  <TSA_WD_Mortar_AutoAttack_Menu_Expansion>扩张队</TSA_WD_Mortar_AutoAttack_Menu_Expansion>
+  <TSA_WD_Mortar_AutoAttack_Menu_Road>筑路队</TSA_WD_Mortar_AutoAttack_Menu_Road>
+  <TSA_WD_Mortar_AutoAttack_Menu_Fortify>设防队</TSA_WD_Mortar_AutoAttack_Menu_Fortify>
+
+  <TSA_WD_Mortar_Filter_All>全部</TSA_WD_Mortar_Filter_All>
+  <TSA_WD_Mortar_Filter_Raider>袭击者</TSA_WD_Mortar_Filter_Raider>
+  <TSA_WD_Mortar_Filter_Expansion>扩张队</TSA_WD_Mortar_Filter_Expansion>
+  <TSA_WD_Mortar_Filter_Road>筑路队</TSA_WD_Mortar_Filter_Road>
+  <TSA_WD_Mortar_Filter_Trader>商队</TSA_WD_Mortar_Filter_Trader>
+  <TSA_WD_Mortar_Filter_Fortify>设防队</TSA_WD_Mortar_Filter_Fortify>
+
+  <TSA_WD_Mortar_Hit_Label>迫击炮命中</TSA_WD_Mortar_Hit_Label>
+  <TSA_WD_Mortar_Hit_Settlement_Line>迫击炮命中: 强度 {0} --> {1}</TSA_WD_Mortar_Hit_Settlement_Line>
+  <TSA_WD_Mortar_Hit_DestroyedSuffix>。聚居地已摧毁</TSA_WD_Mortar_Hit_DestroyedSuffix>
+  <TSA_WD_Mortar_Hit_DestroyedMobileSuffix>。部队已消灭</TSA_WD_Mortar_Hit_DestroyedMobileSuffix>
+  <TSA_WD_Mortar_Hit_DestroyedOutpostSuffix>。前哨已摧毁，所有驻员损失</TSA_WD_Mortar_Hit_DestroyedOutpostSuffix>
+  <TSA_WD_Mortar_Hit_Traveler_Text>来自 {0} 的迫击炮炮弹摧毁了敌对的 {1}。</TSA_WD_Mortar_Hit_Traveler_Text>
+  <TSA_WD_Mortar_Destroyed_Label>迫击炮摧毁目标</TSA_WD_Mortar_Destroyed_Label>
+  <TSA_WD_Mortar_Destroyed_Text>来自 {0} 的迫击炮摧毁了 {1}。</TSA_WD_Mortar_Destroyed_Text>
+  <TSA_WD_Mortar_Destroyed_Caravan>商队</TSA_WD_Mortar_Destroyed_Caravan>
+  <TSA_WD_Mortar_Destroyed_CaravanWithFaction>{0} 商队</TSA_WD_Mortar_Destroyed_CaravanWithFaction>
+  <TSA_WD_Mortar_AttackerWithFaction>{0}（{1}）</TSA_WD_Mortar_AttackerWithFaction>
+  <TSA_WD_Mortar_HitOnYou_Label>迫击炮命中你的部队</TSA_WD_Mortar_HitOnYou_Label>
+  <TSA_WD_Mortar_HitOnYou_Text>来自 {0} 的迫击炮命中了 {1}。强度 {2} 降至 {3}。</TSA_WD_Mortar_HitOnYou_Text>
+  <TSA_WD_Mortar_DestroyedYou_Label>迫击炮摧毁了你的部队</TSA_WD_Mortar_DestroyedYou_Label>
+  <TSA_WD_Mortar_DestroyedYou_Text>来自 {0} 的迫击炮摧毁了 {1}。</TSA_WD_Mortar_DestroyedYou_Text>
+  <TSA_WD_Mortar_Miss_Label>迫击炮脱靶</TSA_WD_Mortar_Miss_Label>
+  <TSA_WD_Mortar_Miss_Text>来自 {0} 瞄准 {1} 的迫击炮炮弹偏离了目标。</TSA_WD_Mortar_Miss_Text>
+
+  <TSA_WD_Log_MortarLaunched>{0} 向 {1} 发射了迫击炮(强度 {2})。</TSA_WD_Log_MortarLaunched>
+
+  <TSA_WD_Outpost_HeaderMortar>玩家火炮前哨</TSA_WD_Outpost_HeaderMortar>
+  <TSA_WD_Settings_Mortar_Section>火炮前哨 / 拦截</TSA_WD_Settings_Mortar_Section>
+  <TSA_WD_Settings_MortarRange>火炮射程(格)</TSA_WD_Settings_MortarRange>
+  <TSA_WD_Settings_MortarRangeTooltip>手动瞄准与防御自动射击的最大世界距离(格)。</TSA_WD_Settings_MortarRangeTooltip>
+  <TSA_WD_Settings_CooldownMortarDays>火炮冷却(天)</TSA_WD_Settings_CooldownMortarDays>
+  <TSA_WD_Settings_CooldownMortarDaysTooltip>再次开火前的基础天数;玩家前哨会按射击总和(每点 −2%,最低 25%)与冷却类升级缩短。</TSA_WD_Settings_CooldownMortarDaysTooltip>
+  <TSA_WD_Settings_MortarBaseShellDamage>基础炮弹强度</TSA_WD_Settings_MortarBaseShellDamage>
+  <TSA_WD_Settings_MortarBaseShellDamageTooltip>升级加成(mortarShellDamageBonus × 等级)之前的命中强度。</TSA_WD_Settings_MortarBaseShellDamageTooltip>
+  <TSA_WD_Settings_MortarHitBand0To50>最大射程 0–50% 距离时的命中率</TSA_WD_Settings_MortarHitBand0To50>
+  <TSA_WD_Settings_MortarHitBand0To50Tooltip>0–50% 最大射程段的基础命中。在 20 级最佳射手加成（+20 百分点）下，半射程命中率可达 100%。升级会增加迫击炮命中加成。</TSA_WD_Settings_MortarHitBand0To50Tooltip>
+  <TSA_WD_Settings_MortarHitBand51To75>最大射程 51–75% 距离时的命中率</TSA_WD_Settings_MortarHitBand51To75>
+  <TSA_WD_Settings_MortarHitBand51To75Tooltip>51–75% 最大射程段的基础命中（与内、外段一并调整，使同等技能下远距离射击仍更难）。</TSA_WD_Settings_MortarHitBand51To75Tooltip>
+  <TSA_WD_Settings_MortarHitBand76To100>最大射程 76–100% 距离时的命中率</TSA_WD_Settings_MortarHitBand76To100>
+  <TSA_WD_Settings_MortarHitBand76To100Tooltip>76–100% 最大射程段;最佳射手仍按等级每级 +1% 命中。</TSA_WD_Settings_MortarHitBand76To100Tooltip>
+  <TSA_WD_Outpost_HeaderRapidResponse>快速反应前哨</TSA_WD_Outpost_HeaderRapidResponse>
+  <TSA_WD_Outpost_RapidResponseOffenseBonus>快速反应进攻实力加成</TSA_WD_Outpost_RapidResponseOffenseBonus>
+  <TSA_WD_Outpost_RapidResponseOffenseBonusTooltip>快速反应前哨的额外进攻实力上限。未来升级会在此数值上额外增加固定百分点。</TSA_WD_Outpost_RapidResponseOffenseBonusTooltip>
+  <TSA_WD_Outpost_RapidResponseRecoveryBonus>快速反应进攻恢复加成</TSA_WD_Outpost_RapidResponseRecoveryBonus>
+  <TSA_WD_Outpost_RapidResponseRecoveryBonusTooltip>快速反应前哨的额外进攻恢复速度。未来升级会在此数值上额外增加固定百分点。</TSA_WD_Outpost_RapidResponseRecoveryBonusTooltip>
+  <TSA_WD_Outpost_RapidResponseAutoRange>快速反应自动拦截范围</TSA_WD_Outpost_RapidResponseAutoRange>
+  <TSA_WD_Outpost_RapidResponseAutoRangeTooltip>自动快速反应虚拟反制商队的最大世界格距离。选择前哨时会显示为紫色范围圈。</TSA_WD_Outpost_RapidResponseAutoRangeTooltip>
+  <TSA_WD_Outpost_RapidResponseDropPodRange>快速反应空投范围</TSA_WD_Outpost_RapidResponseDropPodRange>
+  <TSA_WD_Outpost_RapidResponseDropPodRangeTooltip>从人员标签页手动空投派遣殖民者的最大世界格距离。</TSA_WD_Outpost_RapidResponseDropPodRangeTooltip>
+  <TSA_WD_Outpost_RapidResponseSpeedMult>快速反应旅行时间倍率</TSA_WD_Outpost_RapidResponseSpeedMult>
+  <TSA_WD_Outpost_RapidResponseSpeedMultTooltip>虚拟快速反应/定居点伏击反制商队的每步 tick 倍率。数值越低，移动越快。另有约 10% 追击加成，便于追上速度相近的目标。</TSA_WD_Outpost_RapidResponseSpeedMultTooltip>
+  <TSA_WD_Settings_DropPodTicksPerMove>空投舱每格旅行 ticks</TSA_WD_Settings_DropPodTicksPerMove>
+  <TSA_WD_Settings_DropPodTicksPerMoveTooltip>弹道空投旅行者（袭击与空投交付）每世界格的 ticks。越低越快。不影响快速反应虚拟反制商队（请用下方旅行时间倍率）。</TSA_WD_Settings_DropPodTicksPerMoveTooltip>
+  <TSA_WD_Settings_MortarShellTicksPerMove>迫击炮弹每格旅行 ticks</TSA_WD_Settings_MortarShellTicksPerMove>
+  <TSA_WD_Settings_MortarShellTicksPerMoveTooltip>世界地图上迫击炮弹旅行者每格的 ticks。越低越快。</TSA_WD_Settings_MortarShellTicksPerMoveTooltip>
+  <TSA_WD_Settings_FlakShellTicksPerMove>防空高射弹每格旅行 ticks</TSA_WD_Settings_FlakShellTicksPerMove>
+  <TSA_WD_Settings_FlakShellTicksPerMoveTooltip>防空高射弹每世界格的 ticks。越低越快。预判移动目标时也会使用该值。</TSA_WD_Settings_FlakShellTicksPerMoveTooltip>
+  <TSA_WD_Settings_NpcMortarDamage>敌对聚居地迫击炮伤害</TSA_WD_Settings_NpcMortarDamage>
+  <TSA_WD_Settings_NpcMortarDamageTooltip>敌对 T4 聚居地防御迫击炮命中旅行者或商队时扣除的强度。</TSA_WD_Settings_NpcMortarDamageTooltip>
+  <TSA_WD_Settings_NpcMortarSkillEquivalent>敌对聚居地等效射击技能</TSA_WD_Settings_NpcMortarSkillEquivalent>
+  <TSA_WD_Settings_NpcMortarSkillEquivalentTooltip>聚居地的“最佳射手”等效等级:每级 +1% 命中;无玩家式前哨升级。</TSA_WD_Settings_NpcMortarSkillEquivalentTooltip>
+  <TSA_WD_Settings_InterceptionScanIntervalSec>拦截扫描间隔(秒)</TSA_WD_Settings_InterceptionScanIntervalSec>
+  <TSA_WD_Settings_InterceptionScanIntervalSecTooltip>共享性能设置。玩家火炮与快速反应前哨使用该间隔；敌方 T4 聚居地使用其三倍（每周期扫描次数有上限）。</TSA_WD_Settings_InterceptionScanIntervalSecTooltip>
+  <TSA_WD_Settings_ResetMortarInterception>重置火炮 / 拦截参数</TSA_WD_Settings_ResetMortarInterception>
+
+  <!-- 敌方 T4 聚居地迫击炮窗口（与玩家迫击炮数值完全独立） -->
+  <TSA_WD_T4Mortar_Header>敌方 T4 聚居地迫击炮</TSA_WD_T4Mortar_Header>
+  <TSA_WD_T4Mortar_EnableAll>敌方 T4 聚居地发射迫击炮</TSA_WD_T4Mortar_EnableAll>
+  <TSA_WD_T4Mortar_EnableAllTooltip>主开关。开启时，四级敌方聚居地会作为防御性拦截器：向射程内的敌对非玩家 WD 旅行者开火；若没有，则炮击最近的敌对聚居地。是否也会攻击你由下方单独的选项控制。</TSA_WD_T4Mortar_EnableAllTooltip>
+  <TSA_WD_T4Mortar_MinTech>T4 迫击炮：最低科技等级</TSA_WD_T4Mortar_MinTech>
+  <TSA_WD_T4Mortar_MinTechTip>仅此科技等级及以上的派系可使用 T4 定居点迫击炮与防空。新石器时代几乎允许所有派系。</TSA_WD_T4Mortar_MinTechTip>
+  <TSA_WD_T4Mortar_TargetPlayer>可攻击你的 WD 商队与前哨</TSA_WD_T4Mortar_TargetPlayer>
+  <TSA_WD_T4Mortar_TargetPlayerTooltip>开启时，敌方 T4 迫击炮也可向你的 WD 商队和前哨开火，但仅在后期游戏激活时。关闭时，后期不会攻击你。中期游戏有单独开关；打开中期游戏会强制打开此后期游戏开关。</TSA_WD_T4Mortar_TargetPlayerTooltip>
+  <TSA_WD_T4Mortar_Range>T4 迫击炮射程(格)</TSA_WD_T4Mortar_Range>
+  <TSA_WD_T4Mortar_RangeTooltip>敌方 T4 聚居地迫击炮可达的最大世界距离(格)。与玩家火炮射程相互独立。</TSA_WD_T4Mortar_RangeTooltip>
+  <TSA_WD_T4Mortar_Cooldown>T4 迫击炮冷却(天)</TSA_WD_T4Mortar_Cooldown>
+  <TSA_WD_T4Mortar_CooldownTooltip>敌方 T4 聚居地迫击炮两次开火之间的天数。与玩家火炮冷却相互独立。</TSA_WD_T4Mortar_CooldownTooltip>
+  <TSA_WD_T4Mortar_HitBand0To50>最大射程 0–50% 距离时的命中率</TSA_WD_T4Mortar_HitBand0To50>
+  <TSA_WD_T4Mortar_HitBand0To50Tooltip>T4 迫击炮在 0–50% 最大射程的基础命中率（计入等效射击技能加成之前）。</TSA_WD_T4Mortar_HitBand0To50Tooltip>
+  <TSA_WD_T4Mortar_HitBand51To75>最大射程 51–75% 距离时的命中率</TSA_WD_T4Mortar_HitBand51To75>
+  <TSA_WD_T4Mortar_HitBand51To75Tooltip>T4 迫击炮在 51–75% 最大射程的基础命中率。</TSA_WD_T4Mortar_HitBand51To75Tooltip>
+  <TSA_WD_T4Mortar_HitBand76To100>最大射程 76–100% 距离时的命中率</TSA_WD_T4Mortar_HitBand76To100>
+  <TSA_WD_T4Mortar_HitBand76To100Tooltip>T4 迫击炮在 76–100% 最大射程的基础命中率。</TSA_WD_T4Mortar_HitBand76To100Tooltip>
+  <TSA_WD_T4Mortar_ScanSharedNote>注意：上方的射程、冷却、伤害与命中率仅作用于 T4。下方的扫描间隔是共享的：玩家火炮与快速反应前哨按此值扫描；敌方 T4 聚居地使用其三倍。</TSA_WD_T4Mortar_ScanSharedNote>
+  <TSA_WD_T4Mortar_DisabledHint>敌方 T4 聚居地迫击炮已禁用。</TSA_WD_T4Mortar_DisabledHint>
+  <TSA_WD_T4Mortar_Reset>重置敌方 T4 迫击炮设置</TSA_WD_T4Mortar_Reset>
+  <TSA_WD_Food_Header>食物物流</TSA_WD_Food_Header>
+
+  <TSA_WD_MortarTab_Label>迫击炮</TSA_WD_MortarTab_Label>
+  <TSA_WD_MortarTab_Headline>迫击炮数据</TSA_WD_MortarTab_Headline>
+  <TSA_WD_MortarTab_DamageHeadline>每发强度伤害: {0}</TSA_WD_MortarTab_DamageHeadline>
+  <TSA_WD_MortarTab_HeaderDamageTitle>每发伤害</TSA_WD_MortarTab_HeaderDamageTitle>
+  <TSA_WD_MortarTab_HeaderCooldownTitle>冷却</TSA_WD_MortarTab_HeaderCooldownTitle>
+  <TSA_WD_MortarTab_HeaderCooldownValue>{0} 天</TSA_WD_MortarTab_HeaderCooldownValue>
+  <TSA_WD_MortarTab_HeaderAccuracyTitle>精度</TSA_WD_MortarTab_HeaderAccuracyTitle>
+  <TSA_WD_MortarTab_HeaderAccRange0_50>0-50 % 段: {0}%</TSA_WD_MortarTab_HeaderAccRange0_50>
+  <TSA_WD_MortarTab_HeaderAccRange51_75>51-75 % 段: {0}%</TSA_WD_MortarTab_HeaderAccRange51_75>
+  <TSA_WD_MortarTab_HeaderAccRange76_100>76-100 % 段: {0}%</TSA_WD_MortarTab_HeaderAccRange76_100>
+  <TSA_WD_MortarTab_HeaderRangeTitle>射程</TSA_WD_MortarTab_HeaderRangeTitle>
+  <TSA_WD_MortarTab_HeaderRangeValue>{0} 格</TSA_WD_MortarTab_HeaderRangeValue>
+  <TSA_WD_MortarTab_HeaderBaseShell>基础（模组设置）: {0}</TSA_WD_MortarTab_HeaderBaseShell>
+  <TSA_WD_MortarTab_ReloadHeadline>冷却: {0} 天</TSA_WD_MortarTab_ReloadHeadline>
+  <TSA_WD_MortarTab_CooldownClampedMark>（已夹紧）</TSA_WD_MortarTab_CooldownClampedMark>
+  <TSA_WD_MortarTab_CooldownClampTip>技能与升级不能把冷却缩短到低于基础时长的 {0}%（按当前基础最低约 {1} 天）。</TSA_WD_MortarTab_CooldownClampTip>
+  <TSA_WD_MortarTab_AccuracyHeadline0_50>0-50 % 射程段精度: {0}%</TSA_WD_MortarTab_AccuracyHeadline0_50>
+  <TSA_WD_MortarTab_AccuracyHeadline51_75>51-75 % 射程段精度: {0}%</TSA_WD_MortarTab_AccuracyHeadline51_75>
+  <TSA_WD_MortarTab_AccuracyHeadline76_100>76-100 % 射程段精度: {0}%</TSA_WD_MortarTab_AccuracyHeadline76_100>
+  <TSA_WD_MortarTab_HeaderBaseRangeTiles>基础（模组设置）: {0} 格</TSA_WD_MortarTab_HeaderBaseRangeTiles>
+  <TSA_WD_MortarTab_ColumnAccuracy>精度</TSA_WD_MortarTab_ColumnAccuracy>
+  <TSA_WD_MortarTab_RangeHeadline>射程: {0} 格</TSA_WD_MortarTab_RangeHeadline>
+  <TSA_WD_MortarTab_SectionBaseValue>基础值</TSA_WD_MortarTab_SectionBaseValue>
+  <TSA_WD_MortarTab_SectionPawnModifiers>角色修正</TSA_WD_MortarTab_SectionPawnModifiers>
+  <TSA_WD_MortarTab_SectionOutpostUpgrades>前哨升级</TSA_WD_MortarTab_SectionOutpostUpgrades>
+  <TSA_WD_MortarTab_NoRelevantOutpostUpgrade>无相关前哨升级</TSA_WD_MortarTab_NoRelevantOutpostUpgrade>
+  <TSA_WD_MortarTab_PawnModsDamageNone>射击技能不改变炮弹伤害。</TSA_WD_MortarTab_PawnModsDamageNone>
+  <TSA_WD_MortarTab_PawnModsRangeNone>射击技能不改变最大射程。</TSA_WD_MortarTab_PawnModsRangeNone>
+  <TSA_WD_MortarTab_BaseDamageLine>基础炮弹伤害（模组设置）: {0}</TSA_WD_MortarTab_BaseDamageLine>
+  <TSA_WD_MortarTab_BaseCooldownLine>基础冷却（模组设置）: {0} 天</TSA_WD_MortarTab_BaseCooldownLine>
+  <TSA_WD_MortarTab_ShootingCooldownLine>累计射击技能 {0}: −{1}% CD</TSA_WD_MortarTab_ShootingCooldownLine>
+  <TSA_WD_MortarTab_UpgradeCooldownTotalLine>已建升级（合计）: −{0}% 时长</TSA_WD_MortarTab_UpgradeCooldownTotalLine>
+  <TSA_WD_MortarTab_MultiplierFloorLine>有效时长倍率: 基础的 {0}%（见表头冷却）。</TSA_WD_MortarTab_MultiplierFloorLine>
+  <TSA_WD_MortarTab_BaseAccSummary>分段基础（最大射程的 50% / 75% / 100% 处）: {0}% | {1}% | {2}%</TSA_WD_MortarTab_BaseAccSummary>
+  <TSA_WD_MortarTab_AccuracyBandBaseOnly50>最大射程 50% 处分段基础: {0}%</TSA_WD_MortarTab_AccuracyBandBaseOnly50>
+  <TSA_WD_MortarTab_AccuracyBandBaseOnly75>最大射程 75% 处分段基础: {0}%</TSA_WD_MortarTab_AccuracyBandBaseOnly75>
+  <TSA_WD_MortarTab_AccuracyBandBaseOnly100>最大射程 100% 处分段基础: {0}%</TSA_WD_MortarTab_AccuracyBandBaseOnly100>
+  <TSA_WD_MortarTab_BestShooterLine>最佳射手（射击 {0}）: +{1}% 命中（模组每级固定加成）</TSA_WD_MortarTab_BestShooterLine>
+  <TSA_WD_MortarTab_BestShooterPpLine>最佳射手 Lv.{0}: +{1}pp 精度</TSA_WD_MortarTab_BestShooterPpLine>
+  <TSA_WD_MortarTab_AccuracyAt50Pct>最大距离 50% 处精度: {0}%</TSA_WD_MortarTab_AccuracyAt50Pct>
+  <TSA_WD_MortarTab_AccuracyAt75Pct>最大距离 75% 处精度: {0}%</TSA_WD_MortarTab_AccuracyAt75Pct>
+  <TSA_WD_MortarTab_AccuracyAt100Pct>最大距离 100% 处精度: {0}%</TSA_WD_MortarTab_AccuracyAt100Pct>
+  <TSA_WD_MortarTab_RangeDetailLine>最大射程（模组设置）: {0} 世界格</TSA_WD_MortarTab_RangeDetailLine>
+  <TSA_WD_MortarTab_UpgradeShellDamage>{0}: +{1} 炮弹伤害（已建等级）</TSA_WD_MortarTab_UpgradeShellDamage>
+  <TSA_WD_MortarTab_UpgradeCooldown>{0}: −{1}% 基础时长（已建等级）</TSA_WD_MortarTab_UpgradeCooldown>
+  <TSA_WD_MortarTab_UpgradeHit>{0}: +{1}% 命中（已建等级）</TSA_WD_MortarTab_UpgradeHit>
+  <TSA_WD_MortarTab_UpgradeHitPp>{0}: +{1}pp 命中（已建等级）</TSA_WD_MortarTab_UpgradeHitPp>
+  <TSA_WD_MortarTab_UpgradeRange>{0}: +{1} 最大射程格（已建等级）</TSA_WD_MortarTab_UpgradeRange>
+
+  <TSA_WD_Traveler_FlakShell>高射炮弹</TSA_WD_Traveler_FlakShell>
+  <TSA_WD_Mortar_AutoAttackDescWithAA>自动向射程内匹配的敌对商队开火。建有防空炮升级时，也会拦截敌对空投袭击（独立短冷却）。</TSA_WD_Mortar_AutoAttackDescWithAA>
+  <TSA_WD_AntiAir_Auto_On>自动防空：开</TSA_WD_AntiAir_Auto_On>
+  <TSA_WD_AntiAir_Auto_Off>自动防空：关</TSA_WD_AntiAir_Auto_Off>
+  <TSA_WD_AntiAir_Auto_Toggle>自动防空 开/关</TSA_WD_AntiAir_Auto_Toggle>
+  <TSA_WD_AntiAir_AutoDesc>开启时，自动拦截防空射程内的敌对空投、迫击炮弹与运输舱。独立于迫击炮自动攻击；使用防空冷却。红/橙/黄环表示防空对空投与飞行器的命中段；迫击炮弹使用固定击落概率。</TSA_WD_AntiAir_AutoDesc>
+  <TSA_WD_Log_AntiAirLaunched>{0} 对 {1} 开火高射（{2} 伤害）。</TSA_WD_Log_AntiAirLaunched>
+  <TSA_WD_AntiAir_Miss_Label>高射未命中</TSA_WD_AntiAir_Miss_Label>
+  <TSA_WD_AntiAir_Miss_Text>{0} 的高射齐射未命中 {1}。</TSA_WD_AntiAir_Miss_Text>
+  <TSA_WD_AntiAir_Hit_Label>高射命中</TSA_WD_AntiAir_Hit_Label>
+  <TSA_WD_AntiAir_Hit_Text>{0} 的高射命中 {1}（{2} → {3} 力量，−{4}）。</TSA_WD_AntiAir_Hit_Text>
+  <TSA_WD_AntiAir_Hit_Destroyed_Label>空投已摧毁</TSA_WD_AntiAir_Hit_Destroyed_Label>
+  <TSA_WD_AntiAir_Hit_Destroyed_Text>{0} 的高射摧毁了 {1}（原力量 {2}）。</TSA_WD_AntiAir_Hit_Destroyed_Text>
+  <TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Label>升级运输舱被摧毁</TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Label>
+  <TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Text>{0} 的防空击落了前哨升级运输舱（{1}）。升级材料已损失。</TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Text>
+  <TSA_WD_AntiAir_GoodsDropPod_Destroyed_Label>货物运输舱被摧毁</TSA_WD_AntiAir_GoodsDropPod_Destroyed_Label>
+  <TSA_WD_AntiAir_GoodsDropPod_Destroyed_Text>{0} 的防空击落了货物运输舱（{1}）。货物已损失。</TSA_WD_AntiAir_GoodsDropPod_Destroyed_Text>
+  <TSA_WD_AntiAir_RapidResponsePawnsKilled_Label>空投舱人员阵亡</TSA_WD_AntiAir_RapidResponsePawnsKilled_Label>
+  <TSA_WD_AntiAir_RapidResponsePawnsKilled_Text>{0} 的防空火力摧毁了一个空投舱。以下人员阵亡：\n\n{1}</TSA_WD_AntiAir_RapidResponsePawnsKilled_Text>
+  <TSA_WD_Inspect_MortarReady>迫击炮：就绪</TSA_WD_Inspect_MortarReady>
+  <TSA_WD_Inspect_AntiAirReady>防空：就绪</TSA_WD_Inspect_AntiAirReady>
+  <TSA_WD_Inspect_AntiAirCD>防空冷却中：{0}秒</TSA_WD_Inspect_AntiAirCD>
+  <TSA_WD_Outpost_HeaderAntiAir>防空（火炮升级）</TSA_WD_Outpost_HeaderAntiAir>
+  <TSA_WD_Settings_AntiAirBaseDamage>防空基础伤害</TSA_WD_Settings_AntiAirBaseDamage>
+  <TSA_WD_Settings_AntiAirBaseDamageTooltip>高射命中时从敌对空投袭击扣除的力量（在迫击炮弹升级加成之前）。</TSA_WD_Settings_AntiAirBaseDamageTooltip>
+  <TSA_WD_Settings_CooldownAntiAirSeconds>防空冷却（秒）</TSA_WD_Settings_CooldownAntiAirSeconds>
+  <TSA_WD_Settings_CooldownAntiAirSecondsTooltip>两次防空交战之间的基础秒数。受射击技能与迫击炮冷却升级减免，再受下限约束。</TSA_WD_Settings_CooldownAntiAirSecondsTooltip>
+  <TSA_WD_Settings_AntiAirCooldownFloorSeconds>防空冷却下限（秒）</TSA_WD_Settings_AntiAirCooldownFloorSeconds>
+  <TSA_WD_Settings_AntiAirCooldownFloorSecondsTooltip>技能与升级减免后的最短防空冷却。</TSA_WD_Settings_AntiAirCooldownFloorSecondsTooltip>
+  <TSA_WD_OutpostStats_Row_AntiAirDamage>防空伤害</TSA_WD_OutpostStats_Row_AntiAirDamage>
+  <TSA_WD_OutpostStats_Row_AntiAirDamageTip>高射结算伤害（防空基础 + 炮弹升级）。</TSA_WD_OutpostStats_Row_AntiAirDamageTip>
+  <TSA_WD_OutpostStats_Row_AntiAirCooldown>防空冷却（秒）</TSA_WD_OutpostStats_Row_AntiAirCooldown>
+  <TSA_WD_OutpostStats_Row_AntiAirCooldownTip>累计射击与迫击炮冷却升级减免后的有效防空冷却（秒，再套绝对下限）。</TSA_WD_OutpostStats_Row_AntiAirCooldownTip>
+  <TSA_WD_OutpostStats_Row_AntiAirStatus>防空状态</TSA_WD_OutpostStats_Row_AntiAirStatus>
+  <TSA_WD_OutpostStats_Row_AntiAirStatusTip>防空当前是否可开火。</TSA_WD_OutpostStats_Row_AntiAirStatusTip>
+  <TSA_WD_OutpostStats_Value_AntiAirCooldown>冷却中（{0}秒）</TSA_WD_OutpostStats_Value_AntiAirCooldown>
+  <TSA_WD_OutpostStats_Tip_BestShooter>最佳射手（射击 {0}）</TSA_WD_OutpostStats_Tip_BestShooter>
+  <TSA_WD_OutpostStats_Tip_CumShooting>累计射击 {0}</TSA_WD_OutpostStats_Tip_CumShooting>
+  <TSA_WD_OutpostStats_Tip_AntiAirAbsFloor>已应用绝对下限：{0}秒（下限前为 {1}秒）。</TSA_WD_OutpostStats_Tip_AntiAirAbsFloor>
+  <TSA_WD_OutpostStats_Row_AntiAirAcc50>命中率 0-50% 防空射程</TSA_WD_OutpostStats_Row_AntiAirAcc50>
+  <TSA_WD_OutpostStats_Row_AntiAirAcc75>命中率 51-75% 防空射程</TSA_WD_OutpostStats_Row_AntiAirAcc75>
+  <TSA_WD_OutpostStats_Row_AntiAirAcc100>命中率 76-100% 防空射程</TSA_WD_OutpostStats_Row_AntiAirAcc100>
+  <TSA_WD_OutpostStats_Row_AntiAirAccTip>防空对空投、运输舱与飞行器的距离段命中率（按防空最大射程比例）。段基础值加上最佳射手（射击每级 +1 百分点）。迫击炮弹使用下方的固定防空对炮弹概率。</TSA_WD_OutpostStats_Row_AntiAirAccTip>
+  <TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>解锁防空炮塔（对空投舱与炮弹）</TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>
+  <TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>解锁净化任务</TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>
+  <TSA_WD_AntiAir_GroupDesc>防空字母分组。同组可继续射击已宣称目标；其他字母被阻挡。Off = 未分组（从不宣称/不被挡）。</TSA_WD_AntiAir_GroupDesc>
+  <TSA_WD_AntiAir_Group_Off>防空分组 Off</TSA_WD_AntiAir_Group_Off>
+  <TSA_WD_AntiAir_Group_A>防空分组 A</TSA_WD_AntiAir_Group_A>
+  <TSA_WD_AntiAir_Group_B>防空分组 B</TSA_WD_AntiAir_Group_B>
+  <TSA_WD_AntiAir_Group_C>防空分组 C</TSA_WD_AntiAir_Group_C>
+  <TSA_WD_AntiAir_Group_D>防空分组 D</TSA_WD_AntiAir_Group_D>
+  <TSA_WD_AntiAir_Group_Menu_Off>Off（未分组）</TSA_WD_AntiAir_Group_Menu_Off>
+  <TSA_WD_AntiAir_Group_Menu_A>分组 A</TSA_WD_AntiAir_Group_Menu_A>
+  <TSA_WD_AntiAir_Group_Menu_B>分组 B</TSA_WD_AntiAir_Group_Menu_B>
+  <TSA_WD_AntiAir_Group_Menu_C>分组 C</TSA_WD_AntiAir_Group_Menu_C>
+  <TSA_WD_AntiAir_Group_Menu_D>分组 D</TSA_WD_AntiAir_Group_Menu_D>
+  <TSA_WD_AntiAir_MortarShell_Destroyed_Label>迫击炮弹被摧毁</TSA_WD_AntiAir_MortarShell_Destroyed_Label>
+  <TSA_WD_AntiAir_MortarShell_Destroyed_Text>你的前哨「{0}」的防空炮摧毁了派系「{2}」定居点「{1}」的一枚迫击炮弹。</TSA_WD_AntiAir_MortarShell_Destroyed_Text>
+  <TSA_WD_AntiAir_MortarShell_Destroyed_Npc_Text>「{0}」的防空炮摧毁了派系「{2}」定居点「{1}」的一枚迫击炮弹。</TSA_WD_AntiAir_MortarShell_Destroyed_Npc_Text>
+  <TSA_WD_AntiAir_MortarShell_Miss_Label>高射未命中迫击炮弹</TSA_WD_AntiAir_MortarShell_Miss_Label>
+  <TSA_WD_AntiAir_MortarShell_Miss_Text>{0} 的高射齐射未命中来自 {1} 的迫击炮弹。</TSA_WD_AntiAir_MortarShell_Miss_Text>
+  <TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Label>迫击炮弹被击落</TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Label>
+  <TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Text>来自你前哨 {0} 的迫击炮弹被 {1}（{2}）击落。</TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Text>
+  <TSA_WD_AntiAir_PlayerMortarShell_Miss_Label>敌方高射未命中你的迫击炮弹</TSA_WD_AntiAir_PlayerMortarShell_Miss_Label>
+  <TSA_WD_AntiAir_PlayerMortarShell_Miss_Text>{1}（{2}）的高射未命中来自你前哨 {0} 的迫击炮弹。</TSA_WD_AntiAir_PlayerMortarShell_Miss_Text>
+  <TSA_WD_AntiAir_VanillaPods_Destroyed_Label>运输舱被摧毁</TSA_WD_AntiAir_VanillaPods_Destroyed_Label>
+  <TSA_WD_AntiAir_VanillaPods_Destroyed_Text>{0} 的高射炮摧毁了 {1}。</TSA_WD_AntiAir_VanillaPods_Destroyed_Text>
+  <TSA_WD_AntiAir_VanillaPods_Wiped_Label>运输舱全灭</TSA_WD_AntiAir_VanillaPods_Wiped_Label>
+  <TSA_WD_AntiAir_VanillaPods_Wiped_Text>{0} 的高射炮摧毁了 {1}。以下小人死亡：\n\n{2}</TSA_WD_AntiAir_VanillaPods_Wiped_Text>
+  <TSA_WD_AntiAir_VanillaPods_Wounded_Label>运输舱受击</TSA_WD_AntiAir_VanillaPods_Wounded_Label>
+  <TSA_WD_AntiAir_VanillaPods_Wounded_Text>{0} 的高射炮击中 {1}：{2} 人死亡，{3} 人受伤。幸存者继续飞行。</TSA_WD_AntiAir_VanillaPods_Wounded_Text>
+  <TSA_WD_AntiAir_VanillaPods_Wounded_WithNames_Text>{0} 的高射炮击中 {1}：{2} 人死亡，{3} 人受伤。幸存者继续飞行。以下小人死亡：\n\n{4}</TSA_WD_AntiAir_VanillaPods_Wounded_WithNames_Text>
+  <TSA_WD_AntiAir_VfAerial_Destroyed_Label>飞行载具被击落</TSA_WD_AntiAir_VfAerial_Destroyed_Label>
+  <TSA_WD_AntiAir_VfAerial_Destroyed_Text>{0} 的高射炮击落了 {1}。</TSA_WD_AntiAir_VfAerial_Destroyed_Text>
+  <TSA_WD_AntiAir_VfAerial_CrashReason>防空高射炮</TSA_WD_AntiAir_VfAerial_CrashReason>
+  <TSA_WD_AntiAir_VfAerial_AaWarning>你的空中载具可能被来自 {0} 的防空火力拦截。仍要起飞吗？</TSA_WD_AntiAir_VfAerial_AaWarning>
+  <TSA_WD_AntiAir_TransportPods_AaWarning>你的运输舱可能被来自 {0} 的防空火力拦截。仍要发射吗？</TSA_WD_AntiAir_TransportPods_AaWarning>
+  <TSA_WD_AntiAir_Shuttle_AaWarning>你的穿梭机可能被来自 {0} 的防空火力拦截。仍要起飞吗？</TSA_WD_AntiAir_Shuttle_AaWarning>
+  <TSA_WD_Settings_AntiAirRange>防空射程（格）</TSA_WD_Settings_AntiAirRange>
+  <TSA_WD_Settings_AntiAirRangeTooltip>防空交战的最大世界距离。与迫击炮射程相互独立。地图上的红、橙、黄环是防空对空投、运输舱与飞行器的命中段（不适用于迫击炮弹）。</TSA_WD_Settings_AntiAirRangeTooltip>
+  <TSA_WD_Settings_AntiAirHitBand0To50>防空命中率（最大射程的 0–50%）</TSA_WD_Settings_AntiAirHitBand0To50>
+  <TSA_WD_Settings_AntiAirHitBand0To50Tooltip>防空对空投、运输舱与飞行器在最大防空射程 0-50% 处的基础命中。最佳射手射击每级 +1 百分点。不适用于迫击炮弹。</TSA_WD_Settings_AntiAirHitBand0To50Tooltip>
+  <TSA_WD_Settings_AntiAirHitBand51To75>防空命中率（最大射程的 51–75%）</TSA_WD_Settings_AntiAirHitBand51To75>
+  <TSA_WD_Settings_AntiAirHitBand51To75Tooltip>防空对空投与飞行器在最大防空射程 51-75% 处的基础命中。最佳射手仍每级 +1%。迫击炮弹改用固定的防空对炮弹概率。</TSA_WD_Settings_AntiAirHitBand51To75Tooltip>
+  <TSA_WD_Settings_AntiAirHitBand76To100>防空命中率（最大射程的 76–100%）</TSA_WD_Settings_AntiAirHitBand76To100>
+  <TSA_WD_Settings_AntiAirHitBand76To100Tooltip>防空对空投与飞行器在最大防空射程 76–100% 处的基础命中。最佳射手仍每级 +1%。迫击炮弹改用固定的防空对炮弹概率。</TSA_WD_Settings_AntiAirHitBand76To100Tooltip>
+  <TSA_WD_Settings_AntiAirVsMortarHitChance>防空对迫击炮弹命中率</TSA_WD_Settings_AntiAirVsMortarHitChance>
+  <TSA_WD_Settings_AntiAirVsMortarHitChanceTooltip>一次防空交战摧毁敌对迫击炮弹的固定概率（反应延迟之后）。忽略防空射程段与射手技能。</TSA_WD_Settings_AntiAirVsMortarHitChanceTooltip>
+  <TSA_WD_OutpostStats_Section_Mortar>迫击炮</TSA_WD_OutpostStats_Section_Mortar>
+  <TSA_WD_OutpostStats_Section_AntiAir>防空炮塔</TSA_WD_OutpostStats_Section_AntiAir>
+  <TSA_WD_OutpostStats_Row_AntiAirRange>防空射程</TSA_WD_OutpostStats_Row_AntiAirRange>
+  <TSA_WD_OutpostStats_Row_AntiAirRangeTip>当前防空射程（可设为低于最大值）。</TSA_WD_OutpostStats_Row_AntiAirRangeTip>
+  <TSA_WD_OutpostStats_Row_AntiAirVsMortar>防空对迫击炮弹</TSA_WD_OutpostStats_Row_AntiAirVsMortar>
+  <TSA_WD_OutpostStats_Row_AntiAirVsMortarTip>摧毁敌对迫击炮弹的固定概率。忽略防空射程段与射手技能。</TSA_WD_OutpostStats_Row_AntiAirVsMortarTip>
+  <TSA_WD_OutpostStats_Row_AntiAirGroup>防空分组</TSA_WD_OutpostStats_Row_AntiAirGroup>
+  <TSA_WD_OutpostStats_Row_AntiAirGroupTip>防空独占字母组（Off = 未分组）。</TSA_WD_OutpostStats_Row_AntiAirGroupTip>
+  <TSA_WD_OutpostStats_Row_MortarAcc50>精度 0-50% 射程</TSA_WD_OutpostStats_Row_MortarAcc50>
+  <TSA_WD_OutpostStats_Row_MortarAcc75>精度 51-75% 射程</TSA_WD_OutpostStats_Row_MortarAcc75>
+  <TSA_WD_OutpostStats_Row_MortarAcc100>精度 76-100% 射程</TSA_WD_OutpostStats_Row_MortarAcc100>
+  <TSA_WD_OutpostStats_Row_MortarAccTip>距离段基础命中率 + 最佳射手（射击每级 +1pp）+ 命中升级。</TSA_WD_OutpostStats_Row_MortarAccTip>
+  <TSA_WD_T4_HoverMortarRange>悬停查看迫击炮射程</TSA_WD_T4_HoverMortarRange>
+  <TSA_WD_T4_HoverMortarRangeDesc>将鼠标悬停在此命令上可在世界地图上绘制该聚居地的 T4 迫击炮射程。不是开关。</TSA_WD_T4_HoverMortarRangeDesc>
+  <TSA_WD_T4_HoverAARange>悬停查看防空射程</TSA_WD_T4_HoverAARange>
+  <TSA_WD_T4_HoverAARangeDesc>将鼠标悬停在此命令上可在世界地图上绘制该聚居地的 T4 防空射程。红、橙、黄环是防空对空投与飞行器的命中段（迫击炮弹使用固定击落概率）。不是开关。</TSA_WD_T4_HoverAARangeDesc>
+  <TSA_WD_T4_AutoMortar_On>自动迫击炮 开</TSA_WD_T4_AutoMortar_On>
+  <TSA_WD_T4_AutoMortar_Off>自动迫击炮 关</TSA_WD_T4_AutoMortar_Off>
+  <TSA_WD_T4_AutoMortar_Desc>开启后，该 T4 聚居地会自动向射程内的敌对地面目标开火。</TSA_WD_T4_AutoMortar_Desc>
+  <TSA_WD_T4_AutoAA_On>自动防空 开</TSA_WD_T4_AutoAA_On>
+  <TSA_WD_T4_AutoAA_Off>自动防空 关</TSA_WD_T4_AutoAA_Off>
+  <TSA_WD_T4_AutoAA_Desc>开启后，该 T4 聚居地会自动交战防空射程内的敌对空中目标。</TSA_WD_T4_AutoAA_Desc>
+  <TSA_WD_T4AA_EnableAll>敌方 T4 聚居地使用防空</TSA_WD_T4AA_EnableAll>
+  <TSA_WD_T4AA_EnableAllTooltip>T4 聚居地防空主开关，对抗敌对空中目标。</TSA_WD_T4AA_EnableAllTooltip>
+  <TSA_WD_T4AA_TargetPlayer>防空可攻击你的空中单位</TSA_WD_T4AA_TargetPlayer>
+  <TSA_WD_T4AA_TargetPlayerTooltip>开启时，T4 防空可在后期游戏激活时攻击你的空投与炮弹。中期游戏有单独开关；打开中期游戏会强制打开此后期游戏开关。</TSA_WD_T4AA_TargetPlayerTooltip>
+  <TSA_WD_T4AA_Range>T4 防空射程（格）</TSA_WD_T4AA_Range>
+  <TSA_WD_T4AA_RangeTooltip>敌方 T4 聚居地防空的最大交战距离。</TSA_WD_T4AA_RangeTooltip>
+  <TSA_WD_T4AA_Cooldown>T4 防空冷却（秒）</TSA_WD_T4AA_Cooldown>
+  <TSA_WD_T4AA_CooldownTooltip>T4 防空两次交战之间的秒数。</TSA_WD_T4AA_CooldownTooltip>
+  <TSA_WD_T4AA_Damage>T4 防空伤害</TSA_WD_T4AA_Damage>
+  <TSA_WD_T4AA_DamageTooltip>T4 聚居地防空高射炮结算伤害。</TSA_WD_T4AA_DamageTooltip>
+  <TSA_WD_T4AA_Skill>T4 防空等效射击技能</TSA_WD_T4AA_Skill>
+  <TSA_WD_T4AA_SkillTooltip>T4 防空对空投、运输舱与飞行器命中段使用的等效射击技能（每级 +1 百分点）。不影响固定的防空对迫击炮弹概率。</TSA_WD_T4AA_SkillTooltip>
+  <TSA_WD_T4AA_HitBand0To50>T4 防空命中率（最大射程的 0–50%）</TSA_WD_T4AA_HitBand0To50>
+  <TSA_WD_T4AA_HitBand0To50Tooltip>T4 防空对空投与飞行器在最大防空射程 0-50% 处的基础命中。等效技能每级 +1 百分点。不适用于迫击炮弹。</TSA_WD_T4AA_HitBand0To50Tooltip>
+  <TSA_WD_T4AA_HitBand51To75>T4 防空命中率（最大射程的 51–75%）</TSA_WD_T4AA_HitBand51To75>
+  <TSA_WD_T4AA_HitBand51To75Tooltip>T4 防空对空投与飞行器在最大防空射程 51-75% 处的基础命中。迫击炮弹改用固定的 T4 防空对炮弹概率。</TSA_WD_T4AA_HitBand51To75Tooltip>
+  <TSA_WD_T4AA_HitBand76To100>T4 防空命中率（最大射程的 76–100%）</TSA_WD_T4AA_HitBand76To100>
+  <TSA_WD_T4AA_HitBand76To100Tooltip>T4 防空对空投与飞行器在最大防空射程 76–100% 处的基础命中。迫击炮弹改用固定的 T4 防空对炮弹概率。</TSA_WD_T4AA_HitBand76To100Tooltip>
+  <TSA_WD_T4AA_VsMortar>T4 防空对迫击炮弹命中率</TSA_WD_T4AA_VsMortar>
+  <TSA_WD_T4AA_VsMortarTooltip>T4 防空摧毁敌对迫击炮弹的固定概率。忽略防空射程段与等效技能。</TSA_WD_T4AA_VsMortarTooltip>
+  <TSA_WD_T4Mortar_Header>敌方 T4 聚居地炮塔</TSA_WD_T4Mortar_Header>
+  <TSA_WD_T4Mortar_MinTech>T4 炮塔：最低科技等级</TSA_WD_T4Mortar_MinTech>
+  <TSA_WD_T4Mortar_MinTechTip>仅此科技等级及以上的派系可使用 T4 定居点迫击炮与防空。新石器时代几乎允许所有派系。</TSA_WD_T4Mortar_MinTechTip>
+  <TSA_WD_T4Mortar_Reset>重置敌方 T4 炮塔设置</TSA_WD_T4Mortar_Reset>
+</LanguageData>

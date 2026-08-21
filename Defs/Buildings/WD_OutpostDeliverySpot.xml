@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- Walkable, no-cost marker. Outpost deliveries land here when one exists on the map. Only one allowed per map (see PlaceWorker_UniqueOnMap). -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>TSA_WD_OutpostDeliverySpot</defName>
+    <label>WD Outpost Delivery Spot</label>
+    <description>Designates where goods delivered from your World Domination outposts should land. Only one can exist per map. If none is placed, deliveries arrive at the map edge instead.</description>
+    <category>Building</category>
+    <thingClass>Building</thingClass>
+    <selectable>true</selectable>
+    <drawerType>MapMeshOnly</drawerType>
+    <altitudeLayer>FloorEmplacement</altitudeLayer>
+    <passability>Standable</passability>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <tickerType>Never</tickerType>
+    <useHitPoints>false</useHitPoints>
+    <rotatable>false</rotatable>
+    <scatterableOnMapGen>false</scatterableOnMapGen>
+    <size>(1,1)</size>
+    <statBases>
+      <WorkToBuild>0</WorkToBuild>
+    </statBases>
+    <designationCategory>Misc</designationCategory>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <graphicData>
+      <texPath>WorldObjects/Caravan_OutpostGoods</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(0.55, 0.85, 1)</color>
+    </graphicData>
+    <building>
+      <isEdifice>false</isEdifice>
+      <ai_chillDestination>false</ai_chillDestination>
+    </building>
+    <placeWorkers>
+      <li>TSA_WorldDomination.PlaceWorker_UniqueOnMap</li>
+    </placeWorkers>
+  </ThingDef>
+</Defs>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <TSA_WD_ActionLog>行动日志</TSA_WD_ActionLog>
+  <TSA_WD_AttritionRate>损耗</TSA_WD_AttritionRate>
+  <TSA_WD_Day>天</TSA_WD_Day>
+  <TSA_WD_Days>天</TSA_WD_Days>
+  <TSA_WD_ExpansionCaravan>扩张商队</TSA_WD_ExpansionCaravan>
+  <TSA_WD_Inspect_AidCD>援助冷却:{0} 天</TSA_WD_Inspect_AidCD>
+  <TSA_WD_Inspect_AttackRange>攻击范围:{0} 格</TSA_WD_Inspect_AttackRange>
+  <TSA_WD_Inspect_AttackRange_Zeal>攻击范围(狂热):{0} 格</TSA_WD_Inspect_AttackRange_Zeal>
+  <TSA_WD_Inspect_AllyRadius>盟友半径:{0} 格</TSA_WD_Inspect_AllyRadius>
+  <TSA_WD_Inspect_MortarRadius>迫击炮射程:{0} 格</TSA_WD_Inspect_MortarRadius>
+  <TSA_WD_Inspect_AT_TurretStrength>实力:{0}</TSA_WD_Inspect_AT_TurretStrength>
+  <TSA_WD_Inspect_AT_TurretDamage>伤害:{0}</TSA_WD_Inspect_AT_TurretDamage>
+  <TSA_WD_Inspect_AT_TurretRange>射程:{0} 格</TSA_WD_Inspect_AT_TurretRange>
+  <TSA_WD_Inspect_AT_TurretBuilder>建造者:{0}</TSA_WD_Inspect_AT_TurretBuilder>
+  <TSA_WD_Inspect_AT_TurretCD>AT 炮塔冷却：{0} 天</TSA_WD_Inspect_AT_TurretCD>
+  <TSA_WD_Inspect_AT_TurretReady>AT 炮塔：就绪</TSA_WD_Inspect_AT_TurretReady>
+  <TSA_WD_Inspect_AT_TurretStatus>{0} 前往“{2}”\n进度：{1}%</TSA_WD_Inspect_AT_TurretStatus>
+  <TSA_WD_Inspect_AT_TurretStatus_InTransit>{0} 车队前往“{1}”（筹备 {2}%）</TSA_WD_Inspect_AT_TurretStatus_InTransit>
+  <TSA_WD_AT_Turret_SetFacingLabel>设置待机角度</TSA_WD_AT_Turret_SetFacingLabel>
+  <TSA_WD_AT_Turret_SetFacingDesc>点击世界地图上的一格，设定此 AT 炮塔待机时的朝向。每次射击后会以相同速度转回该朝向。</TSA_WD_AT_Turret_SetFacingDesc>
+  <TSA_WD_AT_Turret_SetFacingPrompt>点击一格以设置 AT 炮塔待机朝向。右键或 Esc 取消。</TSA_WD_AT_Turret_SetFacingPrompt>
+  <TSA_WD_AT_Turret_SetFacingDone>AT 炮塔待机朝向已更新。</TSA_WD_AT_Turret_SetFacingDone>
+  <TSA_WD_Inspect_AARadius>防空射程:{0} 格</TSA_WD_Inspect_AARadius>
+  <TSA_WD_Inspect_AttackRangeBreakdown>基础 {0} × 中/后期 {1}% × 年龄 {2}%</TSA_WD_Inspect_AttackRangeBreakdown>
+  <TSA_WD_Inspect_DailyActions>每日行动:{0} / {1}</TSA_WD_Inspect_DailyActions>
+  <TSA_WD_Inspect_DailyActionsRemaining>潜在每日行动:{0} / {1}</TSA_WD_Inspect_DailyActionsRemaining>
+  <TSA_WD_Inspect_DefenseCD>袭击保护:{0} 天</TSA_WD_Inspect_DefenseCD>
+  <TSA_WD_Inspect_EspionageCD>谍报冷却:{0} 天</TSA_WD_Inspect_EspionageCD>
+  <TSA_WD_Inspect_IncidentCD>事件冷却:{0} 天</TSA_WD_Inspect_IncidentCD>
+  <TSA_WD_Inspect_MortarCD>迫击炮冷却：{0} 天</TSA_WD_Inspect_MortarCD>
+  <TSA_WD_Inspect_Outpost>强度:{0} / {1}</TSA_WD_Inspect_Outpost>
+  <TSA_WD_Inspect_OffDefLine>进攻: {0}  防御: {1}</TSA_WD_Inspect_OffDefLine>
+  <TSA_WD_Inspect_StrengthSimpleLine>强度: {0}/{1}</TSA_WD_Inspect_StrengthSimpleLine>
+  <TSA_WD_Inspect_StrengthWithHumanoidsLine>强度: {0}/{1}，类人单位: {2}</TSA_WD_Inspect_StrengthWithHumanoidsLine>
+  <TSA_WD_Inspect_StrengthCompactLine>强度: {0}/{1}, 进攻: {2}/{3}, 防御: {4}/{5}</TSA_WD_Inspect_StrengthCompactLine>
+  <TSA_WD_Inspect_StrengthCombinedLine>强度 {0}/{1},防 {2}/{3},攻 {4}/{5}</TSA_WD_Inspect_StrengthCombinedLine>
+  <TSA_WD_Inspect_OutpostRecoveryLine>每日恢复:{0}(防),{1}(攻)</TSA_WD_Inspect_OutpostRecoveryLine>
+  <TSA_WD_Inspect_PlayerColony>活跃玩家殖民地</TSA_WD_Inspect_PlayerColony>
+  <TSA_WD_Inspect_HoldsPrisoners>关押 {0} 名囚犯</TSA_WD_Inspect_HoldsPrisoners>
+  <TSA_WD_Inspect_RoadStatus>道路建设:{0}({1}%)至 {2}</TSA_WD_Inspect_RoadStatus>
+  <TSA_WD_Inspect_RoadStatus_InTransit>状态:{0} 队伍正在前往 {1}（筹备 {2}%）…</TSA_WD_Inspect_RoadStatus_InTransit>
+  <TSA_WD_Inspect_RoadClearStatus>正在移除通往 {0} 的道路：{1}%</TSA_WD_Inspect_RoadClearStatus>
+  <TSA_WD_Inspect_RoadClearStatus_InTransit>状态: 移除道路队伍正在前往 {0}（筹备 {1}%）…</TSA_WD_Inspect_RoadClearStatus_InTransit>
+  <TSA_WD_Inspect_RoadBlockBuild>路障</TSA_WD_Inspect_RoadBlockBuild>
+  <TSA_WD_Inspect_RoadBlockClear>清除路障</TSA_WD_Inspect_RoadBlockClear>
+  <TSA_WD_Inspect_RoadBlockStatus>{0}：{1}% 至 {2}</TSA_WD_Inspect_RoadBlockStatus>
+  <TSA_WD_Inspect_RoadBlockStatus_InTransit>{0}：施工队前往 {1}（筹备 {2}%）…</TSA_WD_Inspect_RoadBlockStatus_InTransit>
+  <TSA_WD_RoadBlock_MovementExplanation>路障：+{0}</TSA_WD_RoadBlock_MovementExplanation>
+  <TSA_WD_RoadBlock_TileInspect>{0}：+{1} 移动难度 (HP {2}/{3})</TSA_WD_RoadBlock_TileInspect>
+  <TSA_WD_RoadBlock_DestroyedByTraffic>路障被路过的车队摧毁了。</TSA_WD_RoadBlock_DestroyedByTraffic>
+  <TSA_WD_Log_RoadBlock_DestroyedByTraffic>路障被 {0} 摧毁（伤害 {1}）。</TSA_WD_Log_RoadBlock_DestroyedByTraffic>
+  <TSA_WD_Inspect_SpikeTrapBuild>刺钉陷阱</TSA_WD_Inspect_SpikeTrapBuild>
+  <TSA_WD_Inspect_SpikeTrapClear>清除刺钉陷阱</TSA_WD_Inspect_SpikeTrapClear>
+  <TSA_WD_Inspect_SpikeTrapStatus>{0}：{1}% 至 {2}</TSA_WD_Inspect_SpikeTrapStatus>
+  <TSA_WD_Inspect_SpikeTrapStatus_InTransit>{0}：施工队前往 {1}（筹备 {2}%）…</TSA_WD_Inspect_SpikeTrapStatus_InTransit>
+  <TSA_WD_SpikeTrap_Triggered>{0} 触发了刺钉陷阱（−{1} 实力）。</TSA_WD_SpikeTrap_Triggered>
+  <TSA_WD_SpikeTrap_TriggeredDestroyed>{0} 触发了陷阱（−{1} 实力）。陷阱被摧毁。</TSA_WD_SpikeTrap_TriggeredDestroyed>
+  <TSA_WD_SpikeTrap_TileInspect>{0}：敌对通过时造成 {1} 伤害 (HP {2}/{3})</TSA_WD_SpikeTrap_TileInspect>
+  <TSA_WD_Log_SpikeTrap_Triggered>刺钉陷阱被 {0} 触发（伤害 {1}）。</TSA_WD_Log_SpikeTrap_Triggered>
+  <TSA_WD_Log_SpikeTrap_DestroyedTraveler>{0} 被刺钉陷阱摧毁。</TSA_WD_Log_SpikeTrap_DestroyedTraveler>
+  <TSA_WD_Log_Pollution_DamagedTraveler>{0} 离开受污染格子时损失了 {1} 力量（污染 {2}%）。</TSA_WD_Log_Pollution_DamagedTraveler>
+  <TSA_WD_Log_Pollution_DestroyedTraveler>{0} 被污染摧毁。</TSA_WD_Log_Pollution_DestroyedTraveler>
+  <TSA_WD_Log_Pollution_DamagedSite>{0} 因附近污染损失了 {1} 力量（平均 {2}%）。</TSA_WD_Log_Pollution_DamagedSite>
+  <TSA_WD_Log_Pollution_DestroyedSite>{0} 被污染摧毁。</TSA_WD_Log_Pollution_DestroyedSite>
+  <TSA_WD_Message_OutpostPollutionDamage>{0} 因附近污染损失了 {1} 力量。</TSA_WD_Message_OutpostPollutionDamage>
+  <TSA_WD_Letter_OutpostDestroyedByPollution_Label>前哨因污染被摧毁</TSA_WD_Letter_OutpostDestroyedByPollution_Label>
+  <TSA_WD_Letter_OutpostDestroyedByPollution_Text>{0} 已被废弃。附近污染将其力量降至零。所有驻员均已损失。废墟会残留一段时间，并阻止附近新建前哨。</TSA_WD_Letter_OutpostDestroyedByPollution_Text>
+  <TSA_WD_Letter_PollutionDamage_Label>污染伤害</TSA_WD_Letter_PollutionDamage_Label>
+  <TSA_WD_Letter_PollutionDamage_Text>{0} 离开受污染世界格后损失了 {1} 力量。该旅行者之后的污染伤害不会再发送信件。</TSA_WD_Letter_PollutionDamage_Text>
+  <TSA_WD_Traveler_Outpost_RoadBlock>路障施工队</TSA_WD_Traveler_Outpost_RoadBlock>
+  <TSA_WD_Traveler_Outpost_SpikeTrap>刺钉陷阱施工队</TSA_WD_Traveler_Outpost_SpikeTrap>
+  <TSA_WD_Traveler_NpcFortify>设防施工队</TSA_WD_Traveler_NpcFortify>
+  <TSA_WD_Traveler_NpcAtTurret>反坦克炮施工队</TSA_WD_Traveler_NpcAtTurret>
+  <TSA_WD_Traveler_AtTurret>反坦克炮施工队</TSA_WD_Traveler_AtTurret>
+  <TSA_WD_Traveler_Outpost_Decontamination>净化小队</TSA_WD_Traveler_Outpost_Decontamination>
+  <TSA_WD_Inspect_DecontaminationBuild>净化</TSA_WD_Inspect_DecontaminationBuild>
+  <TSA_WD_Inspect_DecontaminationStatus>{0}：{1}% 至 {2}</TSA_WD_Inspect_DecontaminationStatus>
+  <TSA_WD_Inspect_DecontaminationStatus_InTransit>{0}：小队前往 {1}（筹备 {2}%）…</TSA_WD_Inspect_DecontaminationStatus_InTransit>
+  <TSA_WD_Inspect_Settlement>{0} {1}</TSA_WD_Inspect_Settlement>
+  <TSA_WD_JumpToOutpost>跳转到 {0}</TSA_WD_JumpToOutpost>
+  <TSA_WD_Interception_Label>商队冲突</TSA_WD_Interception_Label>
+  <TSA_WD_Letter_Interception_Label>商队冲突</TSA_WD_Letter_Interception_Label>
+  <TSA_WD_Letter_Interception_Text>你的商队与来自 {1} 的一支 {0} 发生冲突。准备战斗！</TSA_WD_Letter_Interception_Text>
+  <TSA_WD_ClashLoot_Title>冲突战利品</TSA_WD_ClashLoot_Title>
+  <TSA_WD_ClashLoot_Desc>选择要带走的俘虏与物品。留下的会在遭遇结束时失去。重量不可超过商队运载能力。</TSA_WD_ClashLoot_Desc>
+  <TSA_WD_ClashLoot_SearchPlaceholder>按名称筛选…</TSA_WD_ClashLoot_SearchPlaceholder>
+  <TSA_WD_ClashLoot_ResetAll>全部重置</TSA_WD_ClashLoot_ResetAll>
+  <TSA_WD_ClashLoot_PrisonerSub>{0}（重量 {1}）</TSA_WD_ClashLoot_PrisonerSub>
+  <TSA_WD_ClashLoot_ItemSub>可用 {0}（每个重量 {1}）</TSA_WD_ClashLoot_ItemSub>
+  <TSA_WD_ClashLoot_Mass>商队重量：{0} / {1}</TSA_WD_ClashLoot_Mass>
+  <TSA_WD_ClashLoot_Take>带走</TSA_WD_ClashLoot_Take>
+  <TSA_WD_ClashLoot_Selected>已选</TSA_WD_ClashLoot_Selected>
+  <TSA_WD_ClashLoot_Max>最大</TSA_WD_ClashLoot_Max>
+  <TSA_WD_ClashLoot_Confirm>确认</TSA_WD_ClashLoot_Confirm>
+  <TSA_WD_ClashLoot_TakeNothing>什么都不拿</TSA_WD_ClashLoot_TakeNothing>
+  <TSA_WD_Letter_PlayerCaravanClashWon_Label>玩家商队赢得冲突</TSA_WD_Letter_PlayerCaravanClashWon_Label>
+  <TSA_WD_Letter_PlayerCaravanClashWon_Text>你的商队在商队冲突中击败了 {0}。</TSA_WD_Letter_PlayerCaravanClashWon_Text>
+  <TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>玩家商队在冲突中被摧毁</TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>
+  <TSA_WD_Letter_PlayerCaravanClashDestroyed_Text>你的商队被 {0} 击败。敌方商队可以继续旅程。</TSA_WD_Letter_PlayerCaravanClashDestroyed_Text>
+  <TSA_WD_Letter_RapidResponseClashWon_Label>快速反应拦截并击败敌人</TSA_WD_Letter_RapidResponseClashWon_Label>
+  <TSA_WD_Letter_RapidResponseClashWon_Text>{0} 的快速反应部队拦截并击败了 {1}。</TSA_WD_Letter_RapidResponseClashWon_Text>
+  <TSA_WD_Letter_RapidResponseClashLost_Label>快速反应拦截敌人但失败</TSA_WD_Letter_RapidResponseClashLost_Label>
+  <TSA_WD_Letter_RapidResponseClashLost_Text>{OUTPOST} 的快速反应部队拦截了 {TARGET}，但被击败。敌方商队继续前进，实力为 {AFTER}（原为 {BEFORE}）。</TSA_WD_Letter_RapidResponseClashLost_Text>
+  <TSA_WD_Letter_MajorInc_Label>定居点被毁</TSA_WD_Letter_MajorInc_Label>
+  <TSA_WD_Letter_MajorInc_Text>一起重大事件已彻底摧毁你附近的定居点 {0}。废墟会残留一段时间，并阻止附近新建定居点。</TSA_WD_Letter_MajorInc_Text>
+  <TSA_WD_Letter_MinorInc_Label>定居点被抹除</TSA_WD_Letter_MinorInc_Label>
+  <TSA_WD_Letter_MinorInc_Text>一起轻微事件已彻底抹除你附近的定居点 {0}。废墟会残留一段时间，并阻止附近新建定居点。</TSA_WD_Letter_MinorInc_Text>
+  <TSA_WD_Letter_NewSettlement_Label>附近有定居点建立</TSA_WD_Letter_NewSettlement_Label>
+  <TSA_WD_Letter_NewSettlement_Text>{1} 在你附近建立了 {0}。</TSA_WD_Letter_NewSettlement_Text>
+  <TSA_WD_Letter_SettlementCaptured_Label>定居点被攻占</TSA_WD_Letter_SettlementCaptured_Label>
+  <TSA_WD_Letter_SettlementCaptured_Text>{0} 从 {2} 手中攻占了 {1}。</TSA_WD_Letter_SettlementCaptured_Text>
+  <TSA_WD_Letter_SettlementRazed_Label>附近有定居点被夷平</TSA_WD_Letter_SettlementRazed_Label>
+  <TSA_WD_Letter_SettlementRazed_Text>{0} 遭到 {1} 袭击并在过程中被摧毁。该格子现已空置。</TSA_WD_Letter_SettlementRazed_Text>
+  <TSA_WD_Log_MajorInc_Obliterated>重大事件:定居点被毁。实力 {0} → {1}。</TSA_WD_Log_MajorInc_Obliterated>
+  <TSA_WD_Log_MajorInc_Downgrade>重大事件:损失 {0} 实力({1} → {2})。降级为 {3}。</TSA_WD_Log_MajorInc_Downgrade>
+  <TSA_WD_Log_MajorInc_Standard>重大事件:损失 {0} 实力({1} → {2})。</TSA_WD_Log_MajorInc_Standard>
+  <TSA_WD_Log_MinorInc_Obliterated>轻微事件:定居点被毁。实力 {0} → {1}。</TSA_WD_Log_MinorInc_Obliterated>
+  <TSA_WD_Log_MinorInc_Downgrade>轻微事件:损失 {0} 实力({1} → {2})。降级为 {3}。</TSA_WD_Log_MinorInc_Downgrade>
+  <TSA_WD_Log_MinorInc_Standard>轻微事件:损失 {0} 实力({1} → {2})。</TSA_WD_Log_MinorInc_Standard>
+  <TSA_WD_Letter_Revolt_Label>阵营再度崛起</TSA_WD_Letter_Revolt_Label>
+  <TSA_WD_Letter_Revolt_Text>政局动荡！阵营 {0} 从沉寂中崛起，夺取了：{1}。在起义中失守的势力：{2}。</TSA_WD_Letter_Revolt_Text>
+  <TSA_WD_Log_ActionNoWeights>{0} 的每日行动:无可用加权行动(所有行动权重为零)。</TSA_WD_Log_ActionNoWeights>
+  <TSA_WD_Log_ActionSkip>为 {0} 跳过行动:无可用活跃定居点。</TSA_WD_Log_ActionSkip>
+  <TSA_WD_Log_BtnDetails>详情</TSA_WD_Log_BtnDetails>
+  <TSA_WD_Log_ExpandSuccess>扩张:成功。{0} 建立了新 T1 {1}。</TSA_WD_Log_ExpandSuccess>
+  <TSA_WD_Log_ConquestSettlementFounded>征服:{0} 在成功突袭后建立了 {1}（{2}）。</TSA_WD_Log_ConquestSettlementFounded>
+  <TSA_WD_Log_ExpansionCancelled>{0} 任务取消:地块已被占领或饱和。</TSA_WD_Log_ExpansionCancelled>
+  <TSA_WD_Log_ExpeditionLaunched>扩张尝试:{0} 已派遣定居者建立新殖民地。</TSA_WD_Log_ExpeditionLaunched>
+  <TSA_WD_Log_Expand_SkippedGlobalCap>扩张:{0} 已跳过(世界 NPC 定居点数 {1},上限 {2})。</TSA_WD_Log_Expand_SkippedGlobalCap>
+  <TSA_WD_Log_Expand_SkippedNoValidTile>扩张:{0} 已跳过(范围内无可用新定居点地块)。</TSA_WD_Log_Expand_SkippedNoValidTile>
+  <TSA_WD_Log_Grow>成长:强度 {0} -> {1}</TSA_WD_Log_Grow>
+  <TSA_WD_Log_Grow_NoChange_ExpandCooldown>成长:{0} 已达本地强度上限;无法升级;扩张冷却中。</TSA_WD_Log_Grow_NoChange_ExpandCooldown>
+  <TSA_WD_Log_Grow_NoChange_ExpandRoll>成长:{0} 已达本地强度上限;无法升级;扩张判定未通过(成功几率 {1})。</TSA_WD_Log_Grow_NoChange_ExpandRoll>
+  <TSA_WD_Log_HeaderAction>行动</TSA_WD_Log_HeaderAction>
+  <TSA_WD_Log_HeaderActor>Actor A</TSA_WD_Log_HeaderActor>
+  <TSA_WD_Log_HeaderTarget>Actor B</TSA_WD_Log_HeaderTarget>
+  <TSA_WD_Log_HeaderTime>时间戳</TSA_WD_Log_HeaderTime>
+  <TSA_WD_Log_MissionAborted_TargetInvalid>任务中止:目标已无效。</TSA_WD_Log_MissionAborted_TargetInvalid>
+  <TSA_WD_Log_Revolt_Entry>叛乱:{0} 从 {1} 解放。强度:{2} -> {3}{4}</TSA_WD_Log_Revolt_Entry>
+  <TSA_WD_Log_Revolt_TierDrop>(降级为 {0})</TSA_WD_Log_Revolt_TierDrop>
+  <TSA_WD_Log_TravelerExpired>{0} 已超过最大行程时间或耗尽补给,已损失。</TSA_WD_Log_TravelerExpired>
+  <TSA_WD_Log_TravelerAborted_Stranded>{0} 丢失路线无法继续,任务已中止。</TSA_WD_Log_TravelerAborted_Stranded>
+  <TSA_WD_Log_Trader_SkippedCooldown>贸易商队:{0} 已跳过(贸易商冷却中)。</TSA_WD_Log_Trader_SkippedCooldown>
+  <TSA_WD_Log_Trader_SkippedGarrison>贸易商队:{0} 已跳过(派出会突破守军底线:消耗 {1},底线 {2},当前强度 {3})。</TSA_WD_Log_Trader_SkippedGarrison>
+  <TSA_WD_Log_Trader_SkippedNoDef>贸易商队:{0} 已跳过(缺少旅行者定义;拟定目的地 {1})。</TSA_WD_Log_Trader_SkippedNoDef>
+  <TSA_WD_Log_Trader_SkippedNoTarget>贸易商队:{0} 已跳过(范围内无有效中立或盟友定居点)。</TSA_WD_Log_Trader_SkippedNoTarget>
+  <TSA_WD_Log_TraderLaunched>贸易商队:已从 {0} 派往 {1}。</TSA_WD_Log_TraderLaunched>
+  <TSA_WD_Log_TraderTrade_Header>贸易：WD 贸易商队已从 {0} 抵达 {1} 并完成交易。</TSA_WD_Log_TraderTrade_Header>
+  <TSA_WD_Log_TraderTrade_HeaderIntercept>贸易：{0} 截获商队（{1}）；已应用接收方交易奖励。</TSA_WD_Log_TraderTrade_HeaderIntercept>
+  <TSA_WD_Log_TraderTrade_Line>{0}：{1}</TSA_WD_Log_TraderTrade_Line>
+  <TSA_WD_Log_TraderTrade_RoleSender>出发方（{0}）</TSA_WD_Log_TraderTrade_RoleSender>
+  <TSA_WD_Log_TraderTrade_RoleReceiver>接收方（{0}）</TSA_WD_Log_TraderTrade_RoleReceiver>
+  <TSA_WD_Log_TraderTrade_RoleInterceptor>拦截方（{0}）</TSA_WD_Log_TraderTrade_RoleInterceptor>
+  <TSA_WD_Log_TraderTrade_OutcomeStrength>进攻实力提升（本次交易未升级阶层）。</TSA_WD_Log_TraderTrade_OutcomeStrength>
+  <TSA_WD_Log_TraderTrade_OutcomeUpgrade>进攻实力提升且定居点阶层已升级（贸易途径；不受同阶邻居要求限制）。</TSA_WD_Log_TraderTrade_OutcomeUpgrade>
+  <TSA_WD_Log_TraderTrade_NoStrengthLine>{0}：未应用 WD 定居点实力（非 WD 定居点或已排除）。</TSA_WD_Log_TraderTrade_NoStrengthLine>
+  <TSA_WD_Log_TraderArrived>贸易商队:已从 {0} 抵达 {1}。</TSA_WD_Log_TraderArrived>
+  <TSA_WD_Log_OutpostUpgradeLaunched>前哨升级:商队从 {0} 前往 {1},运送 {2}(等级 {3})。</TSA_WD_Log_OutpostUpgradeLaunched>
+  <TSA_WD_Log_OutpostUpgradeApplied>前哨升级:{0} 已完成升级 {1}(等级 {2})。</TSA_WD_Log_OutpostUpgradeApplied>
+  <TSA_WD_Log_OutpostUpgradeApplyFailed>前哨升级:{0} 抵达时未能应用待定升级。</TSA_WD_Log_OutpostUpgradeApplyFailed>
+  <TSA_WD_Log_Upgrade>升级:{0} -&gt; {1}（范围内另有 {2} 个同等级己方定居点；至少需 2 个，不含正在升级的这个）</TSA_WD_Log_Upgrade>
+  <TSA_WD_Log_TileActor>地块 {0}</TSA_WD_Log_TileActor>
+  <TSA_WD_Log_Fortify>{0} 向地块 {1} 派出了设防施工队。</TSA_WD_Log_Fortify>
+  <TSA_WD_Log_Fortify_Delegated>{0} 通过 {1} 下令向地块 {2} 设防。</TSA_WD_Log_Fortify_Delegated>
+  <TSA_WD_Log_Fortify_RoadBlockComplete>{0} 在地块 {1} 完成了路障。</TSA_WD_Log_Fortify_RoadBlockComplete>
+  <TSA_WD_Log_Fortify_SpikeTrapComplete>{0} 在地块 {1} 完成了刺钉陷阱。</TSA_WD_Log_Fortify_SpikeTrapComplete>
+  <TSA_WD_Log_Fortify_AT_TurretComplete>{0} 在地块 {1} 完成了 AT 炮塔。</TSA_WD_Log_Fortify_AT_TurretComplete>
+  <TSA_WD_Log_Fortify_DedicatedAtTurret>{0} 向地块 {1} 派出了反坦克炮施工队。</TSA_WD_Log_Fortify_DedicatedAtTurret>
+  <TSA_WD_Log_AT_TurretBuilt>{0} 在地块 {1} 完成了 AT 炮塔。</TSA_WD_Log_AT_TurretBuilt>
+  <TSA_WD_AT_Turret_DestroyedTarget_Label>AT 炮塔击杀</TSA_WD_AT_Turret_DestroyedTarget_Label>
+  <TSA_WD_AT_Turret_DestroyedTarget_Text>{0} 摧毁了 {1}。</TSA_WD_AT_Turret_DestroyedTarget_Text>
+  <TSA_WD_AT_Turret_DamagedTarget_Label>AT 炮塔命中</TSA_WD_AT_Turret_DamagedTarget_Label>
+  <TSA_WD_AT_Turret_DamagedTarget_Text>{0} 击中了 {1}（实力 {2} → {3}）。</TSA_WD_AT_Turret_DamagedTarget_Text>
+  <TSA_WD_AT_Turret_NpcKilledYou_Label>AT 炮塔摧毁了你的部队</TSA_WD_AT_Turret_NpcKilledYou_Label>
+  <TSA_WD_AT_Turret_NpcKilledYou_Text>{0} 摧毁了你的 {1}。</TSA_WD_AT_Turret_NpcKilledYou_Text>
+  <TSA_WD_AT_Turret_NpcDamagedYou_Label>AT 炮塔击伤了你的部队</TSA_WD_AT_Turret_NpcDamagedYou_Label>
+  <TSA_WD_AT_Turret_NpcDamagedYou_Text>{0} 击中了你的 {1}（实力 {2} → {3}）。</TSA_WD_AT_Turret_NpcDamagedYou_Text>
+  <TSA_WD_AT_Turret_NpcCaravanDestroyed_Label>AT 炮塔摧毁了你的商队</TSA_WD_AT_Turret_NpcCaravanDestroyed_Label>
+  <TSA_WD_AT_Turret_NpcCaravanDestroyed_Text>{0} 摧毁了你的商队 {1}。</TSA_WD_AT_Turret_NpcCaravanDestroyed_Text>
+  <TSA_WD_AT_Turret_NpcCaravanEmptyDestroyed_Text>{0} 摧毁了你的空商队 {1}。</TSA_WD_AT_Turret_NpcCaravanEmptyDestroyed_Text>
+  <TSA_WD_AT_Turret_NpcCaravanWiped_Text>{0} 歼灭了你的商队 {1}。以下人员阵亡：\n\n{2}</TSA_WD_AT_Turret_NpcCaravanWiped_Text>
+  <TSA_WD_AT_Turret_NpcCaravanWounded_Label>AT 炮塔击中了你的商队</TSA_WD_AT_Turret_NpcCaravanWounded_Label>
+  <TSA_WD_AT_Turret_NpcCaravanWounded_Text>{0} 击中了你的商队 {1}（{2} 人死亡，{3} 人受伤）。</TSA_WD_AT_Turret_NpcCaravanWounded_Text>
+  <TSA_WD_AT_Turret_NpcCaravanWounded_WithNames_Text>{0} 击中了你的商队 {1}（{2} 人死亡，{3} 人受伤）。以下人员阵亡：\n\n{4}</TSA_WD_AT_Turret_NpcCaravanWounded_WithNames_Text>
+  <TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label>商队人员阵亡</TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label>
+  <TSA_WD_AT_Turret_PlayerDestroyed_Label>AT 炮塔被毁</TSA_WD_AT_Turret_PlayerDestroyed_Label>
+  <TSA_WD_AT_Turret_PlayerDestroyed_Text>你的 {0} 被摧毁了。</TSA_WD_AT_Turret_PlayerDestroyed_Text>
+  <TSA_WD_AT_Turret_PlayerDestroyedBy_Text>你的 {0} 被 {1} 摧毁了。</TSA_WD_AT_Turret_PlayerDestroyedBy_Text>
+  <TSA_WD_AT_Turret_PlayerOverran_Text>你的商队碾过了 {0}。</TSA_WD_AT_Turret_PlayerOverran_Text>
+  <TSA_WD_AT_Turret_Miss_Text>{0} 未命中 {1}。</TSA_WD_AT_Turret_Miss_Text>
+  <TSA_WD_Log_WindowTitle>行动日志(最近 500 条)</TSA_WD_Log_WindowTitle>
+  <TSA_WD_RaiderCaravan>袭击者商队</TSA_WD_RaiderCaravan>
+  <TSA_WD_RaiderDropPods>袭击者空投舱</TSA_WD_RaiderDropPods>
+  <TSA_WD_TraderCaravan>贸易商队</TSA_WD_TraderCaravan>
+  <TSA_WD_RoadBuilderCaravan>筑路商队</TSA_WD_RoadBuilderCaravan>
+  <TSA_WD_Traveler_Outpost_Delivery>携带前哨物资的商队</TSA_WD_Traveler_Outpost_Delivery>
+  <TSA_WD_Traveler_Outpost_Upgrade>前哨升级商队</TSA_WD_Traveler_Outpost_Upgrade>
+  <TSA_WD_StrengthAtArrival>抵达时强度</TSA_WD_StrengthAtArrival>
+  <TSA_WD_StrengthAtDeparture>强度(出发时)</TSA_WD_StrengthAtDeparture>
+  <TSA_WD_TimeSinceDeparture>出发后经过时间</TSA_WD_TimeSinceDeparture>
+  <TSA_WD_TimeToDestination>预计总行程时间</TSA_WD_TimeToDestination>
+  <TSA_WD_Traveler_AttackCaravan>袭击商队</TSA_WD_Traveler_AttackCaravan>
+  <TSA_WD_Traveler_CancelChase>取消追击</TSA_WD_Traveler_CancelChase>
+  <TSA_WD_Traveler_CancelChase_Desc>停止追击并令商队原地停下。下达其他移动命令不会结束追击,必须通过此按钮才能停止跟随目标。</TSA_WD_Traveler_CancelChase_Desc>
+  <TSA_WD_Traveler_MoveHere>移动至此</TSA_WD_Traveler_MoveHere>
+  <TSA_WD_Traveller_Destination>目的地</TSA_WD_Traveller_Destination>
+  <TSA_WD_Traveller_Origin>出发地</TSA_WD_Traveller_Origin>
+  <TSA_WD_Traveller_Unknown>未知</TSA_WD_Traveller_Unknown>
+  <TSA_WD_Traveller_TotalExpectedTravelTime>总行程时间</TSA_WD_Traveller_TotalExpectedTravelTime>
+  <TSA_WD_Traveller_DiploStatus>关系</TSA_WD_Traveller_DiploStatus>
+  <TSA_WD_ZealAttritionBuff>扩张狂热</TSA_WD_ZealAttritionBuff>
+  <TS_WD_Log_FactionLabel>阵营:{0}</TS_WD_Log_FactionLabel>
+  <!-- 聚落子类型（用于传播组件） -->
+  <TSA_WD_SubType_Logging>伐木营地</TSA_WD_SubType_Logging>
+  <TSA_WD_SubType_Mining>采矿营地</TSA_WD_SubType_Mining>
+  <TSA_WD_SubType_Farming>农耕营地</TSA_WD_SubType_Farming>
+  <TSA_WD_SubType_Production>生产村落</TSA_WD_SubType_Production>
+  <TSA_WD_SubType_Slavery>奴隶村落</TSA_WD_SubType_Slavery>
+  <TSA_WD_SubType_Fortress>城镇</TSA_WD_SubType_Fortress>
+  <TSA_WD_SubType_Citadel>要塞城堡</TSA_WD_SubType_Citadel>
+  <TSA_WD_SubType_Generic>定居点</TSA_WD_SubType_Generic>
+  <TSA_WD_DebugRaidTravelerLabel>DEBUG 袭击车队(500)</TSA_WD_DebugRaidTravelerLabel>
+  <TSA_WD_DebugRaidPickStart>WD 调试:点击起点地块。生成敌对袭击旅行者(强度500);终点为约10格随机可达地块;抵达后消失(迫击炮拦截仍生效)。</TSA_WD_DebugRaidPickStart>
+  <TSA_WD_DebugRaidNoPath>WD 调试:从该起点找不到约10格外的随机可达终点。请换一块起点再试。</TSA_WD_DebugRaidNoPath>
+  <TSA_WD_DebugRaidSpawned>WD 调试:已生成 {0} 袭击旅行者 地块 {1} → {2}。</TSA_WD_DebugRaidSpawned>
+  <TSA_WD_DebugRaidNoHostileFaction>WD 调试:未找到对殖民地敌对的非玩家阵营。</TSA_WD_DebugRaidNoHostileFaction>
+  <TSA_WD_DebugOutpostRaidPickTarget>WD 调试:点击一个玩家前哨。将在约 4 格外生成真实敌对袭击车队(强度500),并让其攻击该前哨。</TSA_WD_DebugOutpostRaidPickTarget>
+  <TSA_WD_DebugOutpostRaidNoOutpost>WD 调试:所选地块没有玩家前哨。</TSA_WD_DebugOutpostRaidNoOutpost>
+  <TSA_WD_DebugOutpostRaidNoStart>WD 调试:找不到约 4 格外且能通往此前哨的有效起点。</TSA_WD_DebugOutpostRaidNoStart>
+  <TSA_WD_DebugOutpostRaidSpawned>WD 调试:已生成 {0} 前哨袭击旅行者,从地块 {1} 前往 {2}。</TSA_WD_DebugOutpostRaidSpawned>
+</LanguageData>

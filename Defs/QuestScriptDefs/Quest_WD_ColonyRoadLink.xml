@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <QuestScriptDef>
+    <defName>TSA_WD_ColonyRoadLink</defName>
+    <autoAccept>true</autoAccept>
+    <isRootSpecial>true</isRootSpecial>
+    <defaultChallengeRating>1</defaultChallengeRating>
+    <questAvailableLetterTextIsDescription>true</questAvailableLetterTextIsDescription>
+
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->Road to [askerSettlement_label]</li>
+        <li>questName->Link with [askerSettlement_label]</li>
+        <li>questName->[faction_name] road request</li>
+      </rulesStrings>
+    </questNameRules>
+
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->[faction_name] wants a road between your colony and [askerSettlement_label]. Connect the two towns by road. How the road gets built does not matter.\n\nYou have 30 days.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_GetWdColonyRoadLinkTargets">
+          <storeAskerAs>faction</storeAskerAs>
+          <storeSettlementAs>askerSettlement</storeSettlementAs>
+          <storeGoodwillAs>goodwillAmount</storeGoodwillAs>
+        </li>
+
+        <li Class="QuestNode_QuestUnique">
+          <tag>TSA_WD_ColonyRoadLink</tag>
+        </li>
+
+        <li Class="QuestNode_WdColonyRoadLinkGoodwillReward">
+          <faction>$faction</faction>
+          <amount>$goodwillAmount</amount>
+        </li>
+
+        <li Class="QuestNode_Letter">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <label TKey="TSA_WD_ColonyRoadLink_LetterLabelFailed">Quest failed: [resolvedQuestName]</label>
+          <text TKey="TSA_WD_ColonyRoadLink_LetterTextHostile">[faction_name] became hostile. The road-link request has failed.</text>
+        </li>
+        <li Class="QuestNode_End">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <outcome>Fail</outcome>
+        </li>
+
+        <li Class="QuestNode_Delay">
+          <delayTicks>1800000</delayTicks>
+          <outSignalComplete>ColonyRoadLinkTimeout</outSignalComplete>
+        </li>
+        <li Class="QuestNode_Signal">
+          <inSignal>ColonyRoadLinkTimeout</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="TSA_WD_ColonyRoadLink_LetterLabelExpired">Quest expired: [resolvedQuestName]</label>
+                <text TKey="TSA_WD_ColonyRoadLink_LetterTextExpired">Time ran out on the request from [faction_name] for a road to [askerSettlement_label].</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>

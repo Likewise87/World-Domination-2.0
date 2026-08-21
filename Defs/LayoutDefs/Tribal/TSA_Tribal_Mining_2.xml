@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.StructureLayoutDef>
+    <defName>TSA_Tribal_Mining_2</defName>
+    <layouts>
+      <li>
+        <li>.,.,.,.,.,.,.,.,.,.,Granite,Granite,Granite,.</li>
+        <li>.,VFEPD_OakTree,.,.,.,VFEPD_BrickPile_BlocksGranite,.,.,.,Granite,Granite,Granite,Granite,Granite</li>
+        <li>.,MineableSteel,MineableSteel,.,.,VFEPD_FilthRubbleRock_North,.,.,.,MineableSteel,MineableSteel,Granite,.,.</li>
+        <li>VFEPD_FilthRubbleRock_North,MineableSteel,MineableSteel,MineableSteel,.,.,.,.,.,MineableSteel,MineableSteel,Granite,.,.</li>
+        <li>.,MineableSteel,MineableSteel,Granite,Granite,.,.,.,.,.,VFEPD_FilthRubbleRock_North,.,VFEPD_PoplarTree,.</li>
+        <li>Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.,.,VFEPD_BrickPile_BlocksGranite,.,.,.,.,.</li>
+        <li>Wall_WoodLog,Bedroll_Leather_Light_East,.,.,Wall_WoodLog,.,.,.,.,.,.,MineableSteel,MineableSteel,VFEPD_WoodenSign</li>
+        <li>Wall_WoodLog,.,.,Bedroll_Leather_Light_South,AnimalFlap_Leather_Plain,.,.,.,.,.,MineableSteel,MineableSteel,MineableSteel,.</li>
+        <li>Wall_WoodLog,Bedroll_Leather_Light_North,.,.,Wall_WoodLog,.,VFEPD_BoxSmall_South,.,.,Granite,Granite,Granite,Granite,.</li>
+        <li>Wall_WoodLog,Wall_WoodLog,.,.,Wall_WoodLog,.,VFEPD_BoxLarge_South,.,.,Granite,Granite,Granite,VFEPD_FilthRubbleRock_North,.</li>
+        <li>.,Wall_WoodLog,VFEPD_BrewingBarrel,VFEPD_BrewingBarrel,Wall_WoodLog,.,Campfire_East,.,.,.,.,.,.,.</li>
+        <li>.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.,.,.,.,VFEPD_OakTree,.,.,.</li>
+      </li>
+    </layouts>
+    <terrainGrid>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.,.,.,.,.,.,.,.</li>
+      <li>StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.,.,.,.,.,.,.,.</li>
+      <li>StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.,.,.,.,.,.,.,.,.</li>
+      <li>StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.,.,.,.,.,.,.,.</li>
+      <li>StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.,.,.,.,.,.,.,.</li>
+      <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    </terrainGrid>
+    <tags>
+      <li>TSA_Tribal_Mining</li>
+    </tags>
+  </KCSG.StructureLayoutDef>
+</Defs>

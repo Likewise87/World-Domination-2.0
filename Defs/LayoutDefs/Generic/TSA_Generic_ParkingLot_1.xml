@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+<KCSG.StructureLayoutDef MayRequire="vanillaexpanded.vfepropsanddecor">
+  <defName>TSA_ParkingLot_1</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,VFEPD_LargeDecalLineDoubleCornerInner_South,.,VFEPD_LargeDecalLineDouble_South,VFEPD_LargeDecalLineDouble_South,VFEPD_LargeDecalLineDouble_South,VFEPD_LargeDecalLineDouble_South,.,VFEPD_LargeDecalLineDoubleCornerInner_East,.</li>
+      <li>.,VFEPD_LargeDecalLineDouble_West,VFEPD_AncientLamppost,.,.,.,.,.,VFEPD_LargeDecalLineDouble_East,.</li>
+      <li>.,.,.,.,.,VFEPD_AncientMediumContainer,.,.,.,.</li>
+      <li>.,VFEPD_LargeDecalLineDouble_West,.,.,.,VFEPD_AncientOpenContainer,.,.,VFEPD_LargeDecalLineDouble_East,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,VFEPD_LargeDecalLineDouble_West,.,.,.,.,.,.,VFEPD_LargeDecalLineDouble_East,.</li>
+      <li>.,.,.,.,VFEPD_LargeDecalSymbolA_North,VFEPD_LargeDecalSymbolX_North,.,VFEPD_AncientFilingCabinet_North,.,.</li>
+      <li>.,VFEPD_LargeDecalLineDouble_West,.,.,.,.,VFEPD_AncientIndustrialTruck_West,.,VFEPD_LargeDecalLineDouble_East,.</li>
+      <li>.,VFEPD_Pallet_SurvivalMeals,.,.,.,.,.,.,.,.</li>
+      <li>.,VFEPD_LargeDecalLineDoubleCornerInner_West,.,VFEPD_LargeDecalLineDouble_North,VFEPD_LargeDecalLineDouble_North,VFEPD_LargeDecalLineDouble_North,VFEPD_LargeDecalLineDouble_North,.,VFEPD_LargeDecalLineDoubleCornerInner_North,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+    </li>
+    <li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,.</li>
+    <li>.,PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,.</li>
+    <li>.,PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,.</li>
+    <li>.,PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,.</li>
+    <li>.,PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,.</li>
+    <li>.,PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,.</li>
+    <li>.,PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,.</li>
+    <li>.,PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,.</li>
+    <li>.,PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,.</li>
+    <li>.,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.</li>
+  </terrainGrid>
+  <needRoofClearance>true</needRoofClearance>
+  <modRequirements>
+    <li>vanillaexpanded.vfepropsanddecor</li>
+  </modRequirements>
+     <tags>
+      <li>TSA_ParkingLot</li>
+    </tags>
+  
+</KCSG.StructureLayoutDef>
+</Defs>

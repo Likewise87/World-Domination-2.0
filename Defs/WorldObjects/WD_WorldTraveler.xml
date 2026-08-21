@@ -1,0 +1,188 @@
+<Defs>
+  <WorldObjectDef Name="TSA_WD_TravelerBase" Abstract="True">
+    <worldObjectClass>TSA_WorldDomination.WorldObject_Traveler, TSA_WorldDomination</worldObjectClass>
+    <selectable>true</selectable>
+	<useDynamicDrawer>true</useDynamicDrawer>
+	<expandingIcon>true</expandingIcon>
+	<!-- Match vanilla Caravan (100); settlements are 10. Ballistic flights override higher in code. -->
+	<expandingIconPriority>100</expandingIconPriority>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_Raid</defName>
+    <label>Raider Caravan</label>
+    <texture>WorldObjects/Caravan_Raiders</texture>
+    <expandingIconTexture>WorldObjects/Caravan_Raiders</expandingIconTexture>
+  </WorldObjectDef>
+
+  <!-- T4 settlement ballistic drop-pod raid (virtual strength; crow-flies attrition at launch). -->
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_RaidDropPod</defName>
+    <label>Raider Drop Pods</label>
+    <texture>WorldObjects/DropPod_Raiders</texture>
+    <expandingIconTexture>WorldObjects/DropPod_Raiders</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_Expansion</defName>
+    <label>Expansion Caravan</label>
+    <texture>WorldObjects/Caravan_Expansion</texture>
+    <expandingIconTexture>WorldObjects/Caravan_Expansion</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_RoadBuilder</defName>
+    <label>Road Builder Caravan</label>
+    <texture>WorldObjects/Caravan_RoadBuilder</texture>
+    <expandingIconTexture>WorldObjects/Caravan_RoadBuilder</expandingIconTexture>
+  </WorldObjectDef>
+  
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_Outpost_RoadBuilder</defName>
+    <label>Outpost Road Builder Caravan</label>
+	<worldObjectClass>TSA_WorldDomination.WorldObject_Traveler_Outpost_RoadBuilder, TSA_WorldDomination</worldObjectClass>
+    <texture>WorldObjects/Caravan_RoadBuilder</texture>
+    <expandingIconTexture>WorldObjects/Caravan_RoadBuilder</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_Outpost_RoadBlock</defName>
+    <label>Outpost Road Block Crew</label>
+    <texture>WorldObjects/Caravan_Builder</texture>
+    <expandingIconTexture>WorldObjects/Caravan_Builder</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_Outpost_SpikeTrap</defName>
+    <label>Outpost Spike Trap Crew</label>
+    <texture>WorldObjects/Caravan_Builder</texture>
+    <expandingIconTexture>WorldObjects/Caravan_Builder</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_Outpost_Decontamination</defName>
+    <label>Outpost Decontamination Crew</label>
+    <texture>WorldObjects/Caravan_Decontamination</texture>
+    <expandingIconTexture>WorldObjects/Caravan_Decontamination</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_Outpost_Raid</defName>
+    <label>Outpost Raider Caravan</label>
+	<worldObjectClass>TSA_WorldDomination.WorldObject_Traveler_Outpost_Raid, TSA_WorldDomination</worldObjectClass>
+    <texture>WorldObjects/Caravan_Raiders</texture>
+    <expandingIconTexture>WorldObjects/Caravan_Raiders</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_Outpost_Delivery</defName>
+    <label>Outpost Delivery</label>
+    <worldObjectClass>TSA_WorldDomination.WorldObject_Traveler_Outpost_Delivery, TSA_WorldDomination</worldObjectClass>
+    <texture>WorldObjects/Caravan_OutpostGoods</texture>
+    <expandingIconTexture>WorldObjects/Caravan_OutpostGoods</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_Trader</defName>
+    <label>Trader Caravan</label>
+    <texture>WorldObjects/Caravan_Trader</texture>
+    <expandingIconTexture>WorldObjects/Caravan_Trader</expandingIconTexture>
+  </WorldObjectDef>
+
+  <!-- Mortar shell: single ballistic hop (great-circle arc), very fast ticksPerMove, ignores terrain. -->
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_MortarStrike</defName>
+    <label>Mortar Shell</label>
+    <texture>WorldObjects/Artillery_Shell</texture>
+    <expandingIconTexture>WorldObjects/Artillery_Shell</expandingIconTexture>
+  </WorldObjectDef>
+
+  <!-- AT Turret shell: same ballistic hop as mortar; AT_Shell art. -->
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_AT_Shell</defName>
+    <label>AT Shell</label>
+    <texture>WorldObjects/AT_Shell</texture>
+    <expandingIconTexture>WorldObjects/AT_Shell</expandingIconTexture>
+  </WorldObjectDef>
+
+  <!-- AA flak shell: same ballistic hop as mortar; Flak_Shell art. -->
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_FlakShell</defName>
+    <label>Flak Shell</label>
+    <texture>WorldObjects/Flak_Shell</texture>
+    <expandingIconTexture>WorldObjects/Flak_Shell</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_RapidResponseIntercept</defName>
+    <label>Rapid Response Caravan</label>
+    <texture>WorldObjects/Caravan_RapidResponse</texture>
+    <expandingIconTexture>WorldObjects/Caravan_RapidResponse</expandingIconTexture>
+  </WorldObjectDef>
+
+  <!-- Ballistic RR drop-pod dispatch (pawn delivery); warehouse drop-pod flight speed. -->
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_RapidResponseDropPod</defName>
+    <label>Rapid Response Drop Pods</label>
+    <worldObjectClass>TSA_WorldDomination.WorldObject_Traveler_RapidResponseDropPod, TSA_WorldDomination</worldObjectClass>
+    <texture>WorldObjects/DropPod_RapidResponse</texture>
+    <expandingIconTexture>WorldObjects/DropPod_RapidResponse</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_Outpost_Upgrade</defName>
+    <label>Outpost Upgrade Caravan</label>
+    <worldObjectClass>TSA_WorldDomination.WorldObject_Traveler_Outpost_Upgrade, TSA_WorldDomination</worldObjectClass>
+    <texture>WorldObjects/Caravan_OutpostUpgrade</texture>
+    <expandingIconTexture>WorldObjects/Caravan_OutpostUpgrade</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_SettlementBuy</defName>
+    <label>Settlement Purchase Caravan</label>
+    <worldObjectClass>TSA_WorldDomination.WorldObject_Traveler_SettlementBuy, TSA_WorldDomination</worldObjectClass>
+    <texture>WorldObjects/Caravan_Trader</texture>
+    <expandingIconTexture>WorldObjects/Caravan_Trader</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_SettlementGift</defName>
+    <label>Settlement Gift Caravan</label>
+    <worldObjectClass>TSA_WorldDomination.WorldObject_Traveler_SettlementGift, TSA_WorldDomination</worldObjectClass>
+    <texture>WorldObjects/Caravan_Trader</texture>
+    <expandingIconTexture>WorldObjects/Caravan_Trader</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_SettlementBribe</defName>
+    <label>Settlement Bribe Caravan</label>
+    <worldObjectClass>TSA_WorldDomination.WorldObject_Traveler_SettlementBribe, TSA_WorldDomination</worldObjectClass>
+    <texture>WorldObjects/Caravan_Trader</texture>
+    <expandingIconTexture>WorldObjects/Caravan_Trader</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_DiplomacyNegotiate</defName>
+    <label>Diplomacy Negotiate Caravan</label>
+    <worldObjectClass>TSA_WorldDomination.WorldObject_Traveler_DiplomacyNegotiate, TSA_WorldDomination</worldObjectClass>
+    <texture>WorldObjects/Caravan_Trader</texture>
+    <expandingIconTexture>WorldObjects/Caravan_Trader</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef>
+    <defName>TSA_WD_OutpostDefenseSite</defName>
+    <label>outpost defense</label>
+    <description>A temporary battlefield for defending a World Domination outpost.</description>
+    <worldObjectClass>MapParent</worldObjectClass>
+    <texture>World/WorldObjects/Ambush</texture>
+    <expandingIcon>true</expandingIcon>
+    <expandingIconTexture>World/WorldObjects/Expanding/Ambush</expandingIconTexture>
+    <expandingIconPriority>80</expandingIconPriority>
+    <expandMore>true</expandMore>
+    <isTempIncidentMapOwner>true</isTempIncidentMapOwner>
+    <IncidentTargetTags>
+      <li>Map_TempIncident</li>
+    </IncidentTargetTags>
+  </WorldObjectDef>
+  
+</Defs>

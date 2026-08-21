@@ -1,0 +1,573 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <TSA_WD_ActiveTravelers_H_Actor>Actor</TSA_WD_ActiveTravelers_H_Actor>
+  <TSA_WD_ActiveTravelers_H_ArrivalStrength>Arrival strength</TSA_WD_ActiveTravelers_H_ArrivalStrength>
+  <TSA_WD_ActiveTravelers_H_CurrentStrength>Current strength</TSA_WD_ActiveTravelers_H_CurrentStrength>
+  <TSA_WD_ActiveTravelers_H_DepartureStrength>Departure strength</TSA_WD_ActiveTravelers_H_DepartureStrength>
+  <TSA_WD_ActiveTravelers_H_Jump>Jump</TSA_WD_ActiveTravelers_H_Jump>
+  <TSA_WD_ActiveTravelers_H_Target>Target</TSA_WD_ActiveTravelers_H_Target>
+  <TSA_WD_ActiveTravelers_H_TimeSinceDeparture>Time since departure</TSA_WD_ActiveTravelers_H_TimeSinceDeparture>
+  <TSA_WD_ActiveTravelers_H_TimeToDestination>Total travel time (path start)</TSA_WD_ActiveTravelers_H_TimeToDestination>
+  <TSA_WD_ActiveTravelers_H_Type>Type</TSA_WD_ActiveTravelers_H_Type>
+  <TSA_WD_ActiveTravelers_Jump>Jump</TSA_WD_ActiveTravelers_Jump>
+  <TSA_WD_ActiveTravelers_Open>Active Travelers</TSA_WD_ActiveTravelers_Open>
+  <TSA_WD_ActiveTravelers_Title>Active Travelers</TSA_WD_ActiveTravelers_Title>
+  <TSA_WD_Dash_LastEvent>Last world event</TSA_WD_Dash_LastEvent>
+  <TSA_WD_Dash_ImportantRecentEvents>Important recent events</TSA_WD_Dash_ImportantRecentEvents>
+  <TSA_WD_Dash_NegFood>Outposts (negative food)</TSA_WD_Dash_NegFood>
+  <TSA_WD_Dash_NegFoodLine>{0}: {1}/day</TSA_WD_Dash_NegFoodLine>
+  <TSA_WD_Dash_NoOutposts>No outposts.</TSA_WD_Dash_NoOutposts>
+  <TSA_WD_Dash_NoThreats>No hostile factions.</TSA_WD_Dash_NoThreats>
+  <TSA_WD_Dash_NoTravelers>No active travelers.</TSA_WD_Dash_NoTravelers>
+  <TSA_WD_Dash_OpenModSettingsTip>Open World Domination mod settings.</TSA_WD_Dash_OpenModSettingsTip>
+  <TSA_WD_Dash_NavTip_Diplomacy>See all diplomatic relationships between any faction. Also shows bribe cooldowns and cooldowns after diplomatic changes by WD.\n\nHotkey: {0}</TSA_WD_Dash_NavTip_Diplomacy>
+  <TSA_WD_Dash_NavTip_Outposts>Browse and manage all of your World Domination outposts in one place.\n\nHotkey: {0}</TSA_WD_Dash_NavTip_Outposts>
+  <TSA_WD_Dash_NavTip_Travelers>See every active traveler on the world map (raids, deliveries, expansion, and more).\n\nHotkey: {0}</TSA_WD_Dash_NavTip_Travelers>
+  <TSA_WD_Dash_NavTip_WorldStats>Faction strength rankings and world power breakdown.\n\nHotkey: {0}</TSA_WD_Dash_NavTip_WorldStats>
+  <TSA_WD_Dash_NavTip_ActionLog>Recent World Domination events and actions (last 500 entries).</TSA_WD_Dash_NavTip_ActionLog>
+  <TSA_WD_Dash_NavTip_Prisoners>Review colony prisoners and assign post-recruit outpost destinations.\n\nHotkey: {0}</TSA_WD_Dash_NavTip_Prisoners>
+  <TSA_WD_Dash_NavTip_YourPawns>List, filter, and move your pawns across colonies and outposts.\n\nHotkey: {0}</TSA_WD_Dash_NavTip_YourPawns>
+  <TSA_WD_Dash_Goodwill_Best>Highest goodwill</TSA_WD_Dash_Goodwill_Best>
+  <TSA_WD_Dash_Goodwill_Worst>Lowest goodwill</TSA_WD_Dash_Goodwill_Worst>
+  <TSA_WD_Dash_Goodwill_None>No factions to show.</TSA_WD_Dash_Goodwill_None>
+  <TSA_WD_Dash_Goodwill_Tip>Your three highest and three lowest goodwill relationships among visible factions.</TSA_WD_Dash_Goodwill_Tip>
+  <TSA_WD_Dash_OutpostSort_FoodTip>Sort outposts by current food (lowest first). Click to cycle: F food, S strength, P pawn count.</TSA_WD_Dash_OutpostSort_FoodTip>
+  <TSA_WD_Dash_OutpostSort_StrengthTip>Sort outposts by strength (highest first). Click to cycle: F food, S strength, P pawn count.</TSA_WD_Dash_OutpostSort_StrengthTip>
+  <TSA_WD_Dash_OutpostSort_PawnTip>Sort outposts by pawn count (highest first). Click to cycle: F food, S strength, P pawn count.</TSA_WD_Dash_OutpostSort_PawnTip>
+  <TSA_WD_Dash_ThreatLine>{0} (attack-capable offense: {1})</TSA_WD_Dash_ThreatLine>
+  <TSA_WD_Dash_TopThreats>Threats</TSA_WD_Dash_TopThreats>
+  <TSA_WD_Dash_Threats>Threats</TSA_WD_Dash_Threats>
+  <TSA_WD_Dash_NearbyThreats>Nearby threats</TSA_WD_Dash_NearbyThreats>
+  <TSA_WD_Dash_FarThreats>Far threats</TSA_WD_Dash_FarThreats>
+  <TSA_WD_Dash_NearbyThreatsTip>Hostiles that can hit your colony and sit in the inner half of their own attack range (closer two of four equal distance bands).\nSorted closest first.</TSA_WD_Dash_NearbyThreatsTip>
+  <TSA_WD_Dash_FarThreatsTip>Hostiles that can still reach you but sit in the outer half of their own attack range (farther two of four equal distance bands).\nSorted by attack strength (strongest first).</TSA_WD_Dash_FarThreatsTip>
+  <TSA_WD_Dash_NoNearbyThreats>No hostiles in Nearby range.</TSA_WD_Dash_NoNearbyThreats>
+  <TSA_WD_Dash_NoFarThreats>No hostiles beyond Nearby range.</TSA_WD_Dash_NoFarThreats>
+  <TSA_WD_Dash_ThreatTiles>{0} tiles</TSA_WD_Dash_ThreatTiles>
+  <TSA_WD_Dash_TopThreatsTooltip>Nearby and Far hostiles that can target your colony (including supporting allies). Current storyteller raid points: {0}. Raid points on arrival are clamped: at least {1} of storyteller, maximum {2} (mod settings). Hover Nearby / Far for how the split works.</TSA_WD_Dash_TopThreatsTooltip>
+  <TSA_WD_Dash_TopThreatsTooltip_NoClamp>Nearby and Far hostiles that can target your colony (including supporting allies). Current storyteller raid points: {0}. Hover Nearby / Far for how the split works.</TSA_WD_Dash_TopThreatsTooltip_NoClamp>
+  <TSA_WD_Dash_ThreatsTooltip>Nearby and Far hostiles that can target your colony (including supporting allies). Current storyteller raid points: {0}. Raid points on arrival are clamped: at least {1} of storyteller, maximum {2} (mod settings). Hover Nearby / Far for how the split works.</TSA_WD_Dash_ThreatsTooltip>
+  <TSA_WD_Dash_ThreatsTooltip_Staged>Nearby and Far hostiles that can target your colony (including supporting allies). Current storyteller raid points: {0}. Raid points on arrival are clamped ({3}): at least {1} of storyteller, maximum {2} (mod settings). Hover Nearby / Far for how the split works.</TSA_WD_Dash_ThreatsTooltip_Staged>
+  <TSA_WD_Dash_ThreatsTooltip_NoClamp>Nearby and Far hostiles that can target your colony (including supporting allies). Current storyteller raid points: {0}. Hover Nearby / Far for how the split works.</TSA_WD_Dash_ThreatsTooltip_NoClamp>
+  <TSA_WD_Dash_ThreatToggle_PercentAbsoluteTip>% = Strength as a percentage of current storyteller raid points.\n# = Absolute raid points (color still relative to storyteller raid points).</TSA_WD_Dash_ThreatToggle_PercentAbsoluteTip>
+  <TSA_WD_Dash_ThreatToggle_RawClampedTip>R = Raw strength of the potential raid.\nC = Clamped strength as per the min/max percentage of the storyteller raid points defined in the mod settings.</TSA_WD_Dash_ThreatToggle_RawClampedTip>
+  <TSA_WD_Dash_ThreatSettlementLineAbsolute>{0} ({1})</TSA_WD_Dash_ThreatSettlementLineAbsolute>
+  <TSA_WD_Dash_ThreatSettlementLinePercent>{0} ({1}%)</TSA_WD_Dash_ThreatSettlementLinePercent>
+  <TSA_WD_Dash_ThreatRaw>Raw potential raid strength: {0}</TSA_WD_Dash_ThreatRaw>
+  <TSA_WD_Dash_ThreatSettlementTipHeader>{0}: {1} strength, {2}% of storyteller raid points</TSA_WD_Dash_ThreatSettlementTipHeader>
+  <TSA_WD_Dash_ThreatAlliesHeader>Supporting allies:</TSA_WD_Dash_ThreatAlliesHeader>
+  <TSA_WD_Dash_ThreatAlliesNone>No supporting allies.</TSA_WD_Dash_ThreatAlliesNone>
+  <TSA_WD_Dash_ThreatEta>Estimated raid travel time: {0} days (approx)</TSA_WD_Dash_ThreatEta>
+  <TSA_WD_Dash_ThreatClamped>Expected raid points after storyteller clamp: {0}</TSA_WD_Dash_ThreatClamped>
+  <TSA_WD_Dash_NoThreatSettlements>No hostile settlements can reach you.</TSA_WD_Dash_NoThreatSettlements>
+  <TSA_WD_Dash_ColonyRaidCD>Colony Raid CD: {0} Days</TSA_WD_Dash_ColonyRaidCD>
+  <TSA_WD_Dash_ColonyRaidProtectionTip_Vulnerable>Raid cooldown inactive. When a raid caravan targets you, a cooldown will be applied.</TSA_WD_Dash_ColonyRaidProtectionTip_Vulnerable>
+  <TSA_WD_Dash_ColonyRaidProtectionTip_OnCooldown>{0} is under WD raid cooldown and cannot be targeted until it expires.</TSA_WD_Dash_ColonyRaidProtectionTip_OnCooldown>
+  <TSA_WD_Dash_StorytellerRaidsBlocked>Storyteller raids deactivated for factions controlled by WD.</TSA_WD_Dash_StorytellerRaidsBlocked>
+  <TSA_WD_Dash_StorytellerRaidsBlockedTip>Can be activated in the mod settings.</TSA_WD_Dash_StorytellerRaidsBlockedTip>
+  <TSA_WD_Dash_StorytellerRaidsActive>Storyteller raids active for factions controlled by WD.</TSA_WD_Dash_StorytellerRaidsActive>
+  <TSA_WD_Dash_StorytellerRaidsActiveTip>Can be deactivated in the mod settings.</TSA_WD_Dash_StorytellerRaidsActiveTip>
+  <TSA_WD_Dash_FactionRank>You are the {0} strongest of {1} factions.</TSA_WD_Dash_FactionRank>
+  <TSA_WD_Dash_FactionRankLeader>Congrats. You are the world leader</TSA_WD_Dash_FactionRankLeader>
+  <TSA_WD_Dash_FactionRankTip>Your Strength: {0}\nGlobal Strength Share: {1} %</TSA_WD_Dash_FactionRankTip>
+  <TSA_WD_Dash_OutpostPawnSummary>You have {0} Pawns across {1} Outposts and your Colony.</TSA_WD_Dash_OutpostPawnSummary>
+  <TSA_WD_Dash_MidGameDifficultyActive>Mid game difficulty active</TSA_WD_Dash_MidGameDifficultyActive>
+  <TSA_WD_Dash_LateGameDifficultyActive>Late game difficulty active</TSA_WD_Dash_LateGameDifficultyActive>
+  <TSA_WD_Dash_EscalationTip_AllyRadius>Ally pull radius for you and NPC factions: +{0}%</TSA_WD_Dash_EscalationTip_AllyRadius>
+  <TSA_WD_Dash_EscalationTip_AllyRadiusOff>Ally pull radius for you and NPC factions: unchanged (scaling off)</TSA_WD_Dash_EscalationTip_AllyRadiusOff>
+  <TSA_WD_Dash_EscalationTip_AttackRange>NPC settlement attack range: +{0}%</TSA_WD_Dash_EscalationTip_AttackRange>
+  <TSA_WD_Dash_EscalationTip_RaidBias>Raid bias toward you: +{0}%</TSA_WD_Dash_EscalationTip_RaidBias>
+  <TSA_WD_Dash_EscalationTip_Growth>Hostile settlement growth: x{0}</TSA_WD_Dash_EscalationTip_Growth>
+  <TSA_WD_Dash_EscalationTip_Garrison>Settlement garrison strength: +{0}%</TSA_WD_Dash_EscalationTip_Garrison>
+  <TSA_WD_Dash_EscalationTip_Expand>Hostile expansion toward you: up to {0} tiles</TSA_WD_Dash_EscalationTip_Expand>
+  <TSA_WD_Dash_EscalationTip_T4MortarOn>Enemy T4 mortars vs your caravans and outposts: on</TSA_WD_Dash_EscalationTip_T4MortarOn>
+  <TSA_WD_Dash_EscalationTip_T4MortarOff>Enemy T4 mortars vs your caravans and outposts: off</TSA_WD_Dash_EscalationTip_T4MortarOff>
+  <TSA_WD_Dash_EscalationTip_T4AaOn>Enemy T4 anti-air vs your pods and projectiles: on</TSA_WD_Dash_EscalationTip_T4AaOn>
+  <TSA_WD_Dash_EscalationTip_T4AaOff>Enemy T4 anti-air vs your pods and projectiles: off</TSA_WD_Dash_EscalationTip_T4AaOff>
+  <TSA_WD_Dash_EscalationTip_IncidentsOn>Outpost incidents: {0} strength loss, {1}% chance per day</TSA_WD_Dash_EscalationTip_IncidentsOn>
+  <TSA_WD_Dash_EscalationTip_IncidentsOff>Outpost incidents: off</TSA_WD_Dash_EscalationTip_IncidentsOff>
+  <TSA_WD_Dash_EscalationTip_Goodwill>Goodwill drain: -{0} every {1} days</TSA_WD_Dash_EscalationTip_Goodwill>
+  <TSA_WD_Dash_EscalationTip_GoodwillOff>Goodwill drain: off</TSA_WD_Dash_EscalationTip_GoodwillOff>
+  <TSA_WD_Dash_EscalationTip_Upkeep>Silver upkeep: {0} per outpost colonist every {1} days</TSA_WD_Dash_EscalationTip_Upkeep>
+  <TSA_WD_Dash_EscalationTip_UpkeepOff>Silver upkeep: off</TSA_WD_Dash_EscalationTip_UpkeepOff>
+  <TSA_WD_Upkeep_AlertLabel>WD: Upkeep due {0} Days. {1}/{2}</TSA_WD_Upkeep_AlertLabel>
+  <TSA_WD_Upkeep_AlertTip>Your {0} outpost colonists cost {1} upkeep. You have {2}. If you cannot provide real silver until the deadline, {3} colonists will leave your faction. Mechanoids, prisoners, animals, and vehicles do not cost upkeep.</TSA_WD_Upkeep_AlertTip>
+  <TSA_WD_Upkeep_LeaveLetterLabel>{0} pawns left your faction</TSA_WD_Upkeep_LeaveLetterLabel>
+  <TSA_WD_Upkeep_LeaveLetterText>{0} have decided to leave your company as you could not sustain their silver upkeep.</TSA_WD_Upkeep_LeaveLetterText>
+  <TSA_WD_Upkeep_PaidMsg>Paid {0} silver upkeep for {1} outpost colonists.</TSA_WD_Upkeep_PaidMsg>
+  <TSA_WD_Upkeep_PartialPaidMsg>Paid {0} of {1} silver upkeep (shortfall below one colonist's rate).</TSA_WD_Upkeep_PartialPaidMsg>
+  <TSA_WD_Notify_OutpostUpkeep>Show outpost silver upkeep alert (right side)</TSA_WD_Notify_OutpostUpkeep>
+  <TSA_WD_Notify_OutpostUpkeepTooltip>Shows a right-side alert whenever silver upkeep is active (Need/Have and days left). Turns red when you do not have enough silver. Requires Experimental outpost silver upkeep and Mid/Late escalation.</TSA_WD_Notify_OutpostUpkeepTooltip>
+  <TSA_WD_Dash_OutpostPawnTip_Humanoid>Humanoid: {0}</TSA_WD_Dash_OutpostPawnTip_Humanoid>
+  <TSA_WD_Dash_OutpostPawnTip_Mechanoid>Mechanoids: {0}</TSA_WD_Dash_OutpostPawnTip_Mechanoid>
+  <TSA_WD_Dash_OutpostPawnTip_Animal>Animals: {0}</TSA_WD_Dash_OutpostPawnTip_Animal>
+  <TSA_WD_Dash_OutpostPawnTip_Vehicle>Vehicles: {0}</TSA_WD_Dash_OutpostPawnTip_Vehicle>
+  <TSA_WD_Dash_RaidsLaunchedAtYou_Header>Raids launched at you</TSA_WD_Dash_RaidsLaunchedAtYou_Header>
+  <TSA_WD_Dash_RaidsLaunchedAtYou_Today>Today: {0} (max. {1})</TSA_WD_Dash_RaidsLaunchedAtYou_Today>
+  <TSA_WD_Dash_RaidsLaunchedAtYou_Last4Days>Last 4 Days: {0} (max. {1})</TSA_WD_Dash_RaidsLaunchedAtYou_Last4Days>
+  <TSA_WD_Dash_RaidsLaunchedAtYou_Last7Days>Last 7 Days: {0} (max. {1})</TSA_WD_Dash_RaidsLaunchedAtYou_Last7Days>
+  <TSA_WD_Dash_RaidsLaunchedAtYou_Tip>WD raids launched against your colonies and outposts. Values are current raids in each time window. The max. values are global caps and can be configured in mod settings.</TSA_WD_Dash_RaidsLaunchedAtYou_Tip>
+  <TSA_WD_Dash_OutpostLine>{0} ({1}/{2}, {3})</TSA_WD_Dash_OutpostLine>
+  <TSA_WD_Dash_OutpostTooltip>{0}: {1} current food, {2} maximum food, {3} per day</TSA_WD_Dash_OutpostTooltip>
+  <TSA_WD_Dash_OutpostLine_Strength>{0} ({1}/{2}, {3}/{4})</TSA_WD_Dash_OutpostLine_Strength>
+  <TSA_WD_Dash_OutpostTooltip_Strength>{0}\nStrength: {1} current / {2} max\nPawns: {3} humanoid / {4} total (humanoids + mechanoids)</TSA_WD_Dash_OutpostTooltip_Strength>
+  <TSA_WD_Dash_OutpostLine_Pawns>{0} ({1}/{2})</TSA_WD_Dash_OutpostLine_Pawns>
+  <TSA_WD_Dash_OutpostTooltip_Pawns>{0}\nPawns: {1} humanoid / {2} total (humanoids + mechanoids)</TSA_WD_Dash_OutpostTooltip_Pawns>
+  <TSA_WD_Dash_Traveler_StartTip>Start: </TSA_WD_Dash_Traveler_StartTip>
+  <TSA_WD_Dash_Traveler_DestTip>Destination: </TSA_WD_Dash_Traveler_DestTip>
+  <TSA_WD_Dash_Traveler_StrengthTooltip>Current strength: {0}\nDeparture strength: {1}\nArrival strength: {2}</TSA_WD_Dash_Traveler_StrengthTooltip>
+  <TSA_WD_Dash_Traveler_TimeTooltip>Time since departure: {0} days\nTotal travel time (full route at path start): {1}</TSA_WD_Dash_Traveler_TimeTooltip>
+  <TSA_WD_Dash_Travelers>Active travelers</TSA_WD_Dash_Travelers>
+  <TSA_WD_Dash_TravelersTargetingYou>{0} traveler(s) targeting you</TSA_WD_Dash_TravelersTargetingYou>
+  <TSA_WD_Dash_YourOutposts>Your outposts</TSA_WD_Dash_YourOutposts>
+  <TSA_WD_Dash_MoreEntries>…</TSA_WD_Dash_MoreEntries>
+  <TSA_WD_HostileForcesFallback>Hostile forces</TSA_WD_HostileForcesFallback>
+  <TSA_WD_NoHostileFactions>No hostile factions detected.</TSA_WD_NoHostileFactions>
+  <TSA_WD_Notify_HeaderWorldMapIcons>World map icons</TSA_WD_Notify_HeaderWorldMapIcons>
+  <TSA_WD_Notify_AlwaysShowOutpostTravelerIcons>Always show outpost/traveler images regardless of zoom level</TSA_WD_Notify_AlwaysShowOutpostTravelerIcons>
+  <TSA_WD_Notify_AlwaysShowOutpostTravelerIconsTip>When on, WD outposts and travelers keep their upright map icons at every zoom and hide the tilted globe mesh. When off, vanilla zoom behavior returns (upright icons far out, globe mesh when zoomed in).</TSA_WD_Notify_AlwaysShowOutpostTravelerIconsTip>
+  <TSA_WD_Notify_AlwaysShowSettlementIcons>Always show settlement images regardless of zoom level</TSA_WD_Notify_AlwaysShowSettlementIcons>
+  <TSA_WD_Notify_AlwaysShowSettlementIconsTip>When on, settlements keep their upright map icons at every zoom and hide the tilted globe mesh. When off, vanilla zoom behavior returns (upright icons far out, globe mesh when zoomed in).</TSA_WD_Notify_AlwaysShowSettlementIconsTip>
+  <TSA_WD_Notify_HeaderMortarAntiAir>Mortar and anti-air</TSA_WD_Notify_HeaderMortarAntiAir>
+  <TSA_WD_Notify_HeaderAtTurrets>AT Turrets</TSA_WD_Notify_HeaderAtTurrets>
+  <TSA_WD_Notify_PlayerAtTurretKilledTarget>Notify when your AT Turret kills a target</TSA_WD_Notify_PlayerAtTurretKilledTarget>
+  <TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>Receive a letter when your AT Turret destroys a hostile traveler by shell or melee clash.</TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>
+  <TSA_WD_Notify_PlayerAtTurretDamagedTarget>Notify when your AT Turret damages a target</TSA_WD_Notify_PlayerAtTurretDamagedTarget>
+  <TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>Receive a letter when your AT Turret shells a hostile traveler that survives. Can be noisy.</TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>
+  <TSA_WD_Notify_PlayerAtTurretDestroyed>Notify when your AT Turret is destroyed</TSA_WD_Notify_PlayerAtTurretDestroyed>
+  <TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>Receive a letter when one of your AT Turrets is destroyed in combat. Ownership wipe when a settlement falls stays silent.</TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>
+  <TSA_WD_Notify_NpcAtTurretDamagedPlayer>Notify when an enemy AT Turret damages your forces</TSA_WD_Notify_NpcAtTurretDamagedPlayer>
+  <TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>Receive a letter when an enemy AT Turret shells one of your travelers or caravans and it survives.</TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>
+  <TSA_WD_Notify_NpcAtTurretKilledPlayer>Notify when an enemy AT Turret kills your forces</TSA_WD_Notify_NpcAtTurretKilledPlayer>
+  <TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>Receive a letter when an enemy AT Turret destroys one of your travelers or caravans by shell or melee clash.</TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>
+  <TSA_WD_Notify_IncomingRaidColony>Notify when a WD Raid is launched at your Colony</TSA_WD_Notify_IncomingRaidColony>
+  <TSA_WD_Notify_IncomingRaidColonyTooltip>Receive a high-priority letter when a hostile expedition is launched against your colony.</TSA_WD_Notify_IncomingRaidColonyTooltip>
+  <TSA_WD_Notify_IncomingRaidOutpost>Notify when a WD Raid is launched at one of your Outposts</TSA_WD_Notify_IncomingRaidOutpost>
+  <TSA_WD_Notify_IncomingRaidOutpostTooltip>Receive a high-priority letter when a hostile expedition is launched against one of your outposts.</TSA_WD_Notify_IncomingRaidOutpostTooltip>
+  <TSA_WD_Notify_RaidDivertedFromPlayer>Notify when a raid diverts away from you</TSA_WD_Notify_RaidDivertedFromPlayer>
+  <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>Receive a letter when a raid that was headed at your colony or an outpost spots a target of opportunity and diverts to attack it instead.</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
+  <TSA_WD_Notify_MortarHit>Notify when your mortar fires</TSA_WD_Notify_MortarHit>
+  <TSA_WD_Notify_MortarHitTooltip>Receive a silent blue letter when your artillery outpost destroys a target. Partial hits only go to the action log. Misses still send a letter when this is on.</TSA_WD_Notify_MortarHitTooltip>
+  <TSA_WD_Notify_AntiAirHit>Notify when your anti-air fires</TSA_WD_Notify_AntiAirHit>
+  <TSA_WD_Notify_AntiAirHitTooltip>Receive a letter when your anti-air flak hits or misses a hostile airborne target. Hostile mortar shells use a separate setting below.</TSA_WD_Notify_AntiAirHitTooltip>
+  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>Notify when your anti-air shoots down hostile mortar shells</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>
+  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>Receive a letter when your flak destroys or misses a hostile mortar shell (e.g. "Mortar shell destroyed"). Can be noisy.</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>
+  <TSA_WD_Notify_NpcMortarHitPlayer>Notify when enemy mortars target you</TSA_WD_Notify_NpcMortarHitPlayer>
+  <TSA_WD_Notify_NpcMortarHitPlayerTooltip>Receive a letter when an enemy T4 settlement mortar fires at one of your WD outposts, caravans, or travelers.</TSA_WD_Notify_NpcMortarHitPlayerTooltip>
+  <TSA_WD_Notify_T4AntiAirHitPlayer>Notify when enemy anti-air targets your drop pods</TSA_WD_Notify_T4AntiAirHitPlayer>
+  <TSA_WD_Notify_T4AntiAirHitPlayerTooltip>Receive a letter when enemy T4 anti-air hits or misses your drop pods, transport pods, or other non-shell airborne targets. Mortar shells use a separate setting below. If colonists die in a shot-down pod, a who-died letter is always sent.</TSA_WD_Notify_T4AntiAirHitPlayerTooltip>
+  <TSA_WD_Notify_PlayerMortarShellShotDown>Notify when enemy anti-air shoots down your mortar shells</TSA_WD_Notify_PlayerMortarShellShotDown>
+  <TSA_WD_Notify_PlayerMortarShellShotDownTooltip>Receive a neutral letter when enemy flak destroys or misses a mortar shell from one of your outposts. Can be noisy.</TSA_WD_Notify_PlayerMortarShellShotDownTooltip>
+  <TSA_WD_Notify_NpcMortarHitNpc>Notify when enemies fire mortars at each other</TSA_WD_Notify_NpcMortarHitNpc>
+  <TSA_WD_Notify_NpcMortarHitNpcTooltip>Receive a letter when an enemy mortar fires at another NPC (settlement, caravan, or traveler), or when enemy anti-air destroys another NPC's airborne target (including mortar shells). Can be noisy.</TSA_WD_Notify_NpcMortarHitNpcTooltip>
+  <TSA_WD_Notify_WarehouseGoodsArrived>Notify when goods arrive at a Warehouse Outpost</TSA_WD_Notify_WarehouseGoodsArrived>
+  <TSA_WD_Notify_WarehouseGoodsArrivedTooltip>Receive a notification when goods are deposited into one of your Warehouse Outposts.</TSA_WD_Notify_WarehouseGoodsArrivedTooltip>
+  <TSA_WD_Notify_OutpostDeliveryToColonyArrived>Notify when outpost deliveries arrive at your colony</TSA_WD_Notify_OutpostDeliveryToColonyArrived>
+  <TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>Receive a letter when an outpost delivery reaches a player colony map and drops its goods.</TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>
+  <TSA_WD_Notify_PrisonerRecruitedUnderway>Notify when an outpost prisoner is recruited and leaves</TSA_WD_Notify_PrisonerRecruitedUnderway>
+  <TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>Show a message when an outpost prisoner finishes recruiting and starts traveling to their scheduled destination.</TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>
+  <TSA_WD_Notify_PlayerCaravanClash>Notify when a player caravan has a clash</TSA_WD_Notify_PlayerCaravanClash>
+  <TSA_WD_Notify_PlayerCaravanClashTooltip>Receive letters when one of your caravans enters, wins, or loses a WD caravan clash.</TSA_WD_Notify_PlayerCaravanClashTooltip>
+  <TSA_WD_Show_CaravanClashLootDialog>Show loot dialog after caravan clash win</TSA_WD_Show_CaravanClashLootDialog>
+  <TSA_WD_Show_CaravanClashLootDialogTooltip>After your caravan wins a clash, pause to pick prisoners and items before the encounter map closes. Weight cannot exceed your caravan capacity.</TSA_WD_Show_CaravanClashLootDialogTooltip>
+  <TSA_WD_Notify_RapidResponseCaravanClash>Notify about Rapid Response caravan clashes</TSA_WD_Notify_RapidResponseCaravanClash>
+  <TSA_WD_Notify_RapidResponseCaravanClashTooltip>Receive letters when a Rapid Response interceptor defeats an enemy caravan or is defeated.</TSA_WD_Notify_RapidResponseCaravanClashTooltip>
+  <TSA_WD_Notify_TravelerPollutionDamage>Notify when a traveler takes pollution damage</TSA_WD_Notify_TravelerPollutionDamage>
+  <TSA_WD_Notify_TravelerPollutionDamageTooltip>Receive one yellow letter the first time each of your WD travelers loses strength leaving a polluted tile. Later polluted tiles on the same traveler stay silent.</TSA_WD_Notify_TravelerPollutionDamageTooltip>
+  <TSA_WD_Notify_OutpostPollutionDamage>Notify when an outpost takes pollution damage</TSA_WD_Notify_OutpostPollutionDamage>
+  <TSA_WD_Notify_OutpostPollutionDamageTooltip>Show a message when one of your WD outposts loses strength from average pollution nearby (once per day when damage applies), and a letter if pollution wipes the outpost. Dev log always records these events.</TSA_WD_Notify_OutpostPollutionDamageTooltip>
+  <TSA_WD_Notify_HeaderNearby>Nearby world events</TSA_WD_Notify_HeaderNearby>
+  <TSA_WD_Notify_HeaderOutpostsRaids>Your outposts and raids</TSA_WD_Notify_HeaderOutpostsRaids>
+  <TSA_WD_Notify_HeaderAlerts>Right-side alerts</TSA_WD_Notify_HeaderAlerts>
+  <TSA_WD_Notify_NotificationRadius>Notification radius (tiles)</TSA_WD_Notify_NotificationRadius>
+  <TSA_WD_Notify_NotificationRadiusTooltip>How far from your colony (or nearest outpost if you have no colony) a world event must be to send a Nearby world event letter. Does not affect your outposts, incoming raids, or diplomacy letters.</TSA_WD_Notify_NotificationRadiusTooltip>
+  <TSA_WD_Notify_NewSettlement>Notify when a settlement is founded nearby</TSA_WD_Notify_NewSettlement>
+  <TSA_WD_Notify_NewSettlementTooltip>Letter when a faction founds a new settlement by expansion within the notification radius. Does not cover conquest after an NPC raid.</TSA_WD_Notify_NewSettlementTooltip>
+  <TSA_WD_Notify_NpcConquestSettlement>Notify when a settlement is captured</TSA_WD_Notify_NpcConquestSettlement>
+  <TSA_WD_Notify_NpcConquestSettlementTooltip>Letter when an NPC raid wins and the attacker takes the settlement (replacement settlement on the tile) within the notification radius.</TSA_WD_Notify_NpcConquestSettlementTooltip>
+  <TSA_WD_Notify_OutpostDestroyed>Notify when a player outpost is destroyed</TSA_WD_Notify_OutpostDestroyed>
+  <TSA_WD_Notify_OutpostDestroyedTooltip>Urgent letter when one of your outposts is lost in a simulated world raid or a manual defense map defeat. Fires at any distance. Does not cover mortar wipe or voluntary evacuate.</TSA_WD_Notify_OutpostDestroyedTooltip>
+  <TSA_WD_Notify_Reset>Reset this page to defaults</TSA_WD_Notify_Reset>
+  <TSA_WD_Notify_SettlementRaided>Notify when a settlement is destroyed nearby</TSA_WD_Notify_SettlementRaided>
+  <TSA_WD_Notify_SettlementRaidedTooltip>Letter when a major or minor world incident completely wipes a settlement within the notification radius. Not for NPC raids.</TSA_WD_Notify_SettlementRaidedTooltip>
+  <TSA_WD_Notify_SettlementRazed>Notify when a settlement is razed nearby</TSA_WD_Notify_SettlementRazed>
+  <TSA_WD_Notify_SettlementRazedTooltip>Letter when an NPC raid wins and the settlement is destroyed in the process (tile left empty) within the notification radius.</TSA_WD_Notify_SettlementRazedTooltip>
+  <TSA_WD_Notify_ThreatLevel>Show world threat alert (right side)</TSA_WD_Notify_ThreatLevel>
+  <TSA_WD_Notify_ThreatLevelTooltip>Shows a silent, persistent alert with Nearby and Far landing raid points (after storyteller clamp). Click jumps to the strongest Nearby hostile when present.</TSA_WD_Notify_ThreatLevelTooltip>
+  <TSA_WD_Notify_CriticalFood>Show critical outpost food alert (right side)</TSA_WD_Notify_CriticalFood>
+  <TSA_WD_Notify_CriticalFoodTooltip>Shows a silent, persistent alert on the right-side readout when at least one of your WD outposts has critical virtual food: negative stock, or at most 3 in-game days until empty while net food is negative. Stable or surplus outposts do not trigger this alert. Click to jump to the most severe outpost. Requires food logistics to be enabled.</TSA_WD_Notify_CriticalFoodTooltip>
+  <TSA_WD_Notify_DropPodDeliveryInAaRange>WD: Drop Pod Delivery in range of AA</TSA_WD_Notify_DropPodDeliveryInAaRange>
+  <TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>Shows a right-side alert when one of your warehouses is set to drop pod delivery and sits within anti-air range of a hostile Tier 4 settlement with AA active. Checks the warehouse tile only (not the full flight path). Switch that warehouse to land delivery or clear the AA threat.</TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>
+  <TSA_WD_Alert_DropPodDeliveryInAaRange>WD: Drop Pod Delivery in range of AA</TSA_WD_Alert_DropPodDeliveryInAaRange>
+  <TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>These warehouses use drop pod delivery while inside enemy Tier 4 anti-air range:</TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>
+  <TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>- {0}</TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>
+  <TSA_WD_Notify_ConstructionInsufficientStrength>Show construction insufficient-strength alert (right side)</TSA_WD_Notify_ConstructionInsufficientStrength>
+  <TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>Shows a silent, persistent alert on the right-side readout when a WD outpost has finished preparing a road-block or trap segment but lacks the strength to dispatch the crew. Click to jump to an affected outpost.</TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>
+  <TSA_WD_Alert_ConstructionInsufficientStrength>WD: Construction waiting on strength</TSA_WD_Alert_ConstructionInsufficientStrength>
+  <TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>These outposts are ready to dispatch a construction crew but lack strength:</TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>
+  <TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>- {0}: {1}</TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>
+  <TSA_WD_Notify_OutpostNoProduction>Show outposts without production alert (right side)</TSA_WD_Notify_OutpostNoProduction>
+  <TSA_WD_Notify_OutpostNoProductionTooltip>Shows a silent, persistent alert on the right-side readout when at least one of your WD outposts needs a production pick but has nothing selected. Mouseover lists all affected outposts. Click to jump to the first.</TSA_WD_Notify_OutpostNoProductionTooltip>
+  <TSA_WD_Notify_OutpostUnusedExperts>Show outposts without experts alert (right side)</TSA_WD_Notify_OutpostUnusedExperts>
+  <TSA_WD_Notify_OutpostUnusedExpertsTooltip>Shows a silent, persistent alert on the right-side readout when at least one of your WD outposts has unused expert slots. Mouseover lists all affected outposts with assigned/max. Click to jump to the first.</TSA_WD_Notify_OutpostUnusedExpertsTooltip>
+  <TSA_WD_Alert_OutpostNoProduction>WD: Outposts w/o Production</TSA_WD_Alert_OutpostNoProduction>
+  <TSA_WD_Alert_OutpostNoProductionDescHeader>These outposts have nothing to produce selected:</TSA_WD_Alert_OutpostNoProductionDescHeader>
+  <TSA_WD_Alert_OutpostNoProductionDescLine>- {0}</TSA_WD_Alert_OutpostNoProductionDescLine>
+  <TSA_WD_Alert_OutpostUnusedExperts>WD: Outposts w/o Experts</TSA_WD_Alert_OutpostUnusedExperts>
+  <TSA_WD_Alert_OutpostUnusedExpertsDescHeader>These outposts have unused expert slots:</TSA_WD_Alert_OutpostUnusedExpertsDescHeader>
+  <TSA_WD_Alert_OutpostUnusedExpertsDescLine>- {0}: {1}/{2} experts</TSA_WD_Alert_OutpostUnusedExpertsDescLine>
+  <TSA_WD_Notify_MidGameActive>Show Mid Game alert (right side)</TSA_WD_Notify_MidGameActive>
+  <TSA_WD_Notify_MidGameActiveTooltip>Shows a silent, persistent alert on the right-side readout while Mid Game is active (not Late Game). No letters are sent.</TSA_WD_Notify_MidGameActiveTooltip>
+  <TSA_WD_Notify_LateGameActive>Show Late Game alert (right side)</TSA_WD_Notify_LateGameActive>
+  <TSA_WD_Notify_LateGameActiveTooltip>Shows a silent, persistent alert on the right-side readout while Late Game is active. No letters are sent.</TSA_WD_Notify_LateGameActiveTooltip>
+  <TSA_WD_TargetingYou>Inbound</TSA_WD_TargetingYou>
+  <TSA_WD_ThreatBreakdownHeader>Attack-capable offensive strength:</TSA_WD_ThreatBreakdownHeader>
+  <TSA_WD_WorldThreatTier_None>None</TSA_WD_WorldThreatTier_None>
+  <TSA_WD_WorldThreatTier_Low>Low</TSA_WD_WorldThreatTier_Low>
+  <TSA_WD_WorldThreatTier_Moderate>Moderate</TSA_WD_WorldThreatTier_Moderate>
+  <TSA_WD_WorldThreatTier_Heightened>Heightened</TSA_WD_WorldThreatTier_Heightened>
+  <TSA_WD_WorldThreatTier_High>High</TSA_WD_WorldThreatTier_High>
+  <TSA_WD_WorldThreatTier_Critical>Critical</TSA_WD_WorldThreatTier_Critical>
+  <TSA_WD_Alert_WorldThreat_NearFar>WD: Threat {0}|{1}</TSA_WD_Alert_WorldThreat_NearFar>
+  <TSA_WD_Alert_WorldThreat_NearOnly>WD: Threat {0}|0</TSA_WD_Alert_WorldThreat_NearOnly>
+  <TSA_WD_Alert_WorldThreat_FarOnly>WD: Threat 0|{0}</TSA_WD_Alert_WorldThreat_FarOnly>
+  <TSA_WD_Alert_WorldThreatDesc_Storyteller>Current Storyteller Raid Points: {0}</TSA_WD_Alert_WorldThreatDesc_Storyteller>
+  <TSA_WD_Alert_WorldThreatDesc_Clamp>Clamping from Mod Settings: Min {0} %, Max {1} % of Storyteller Raid Points</TSA_WD_Alert_WorldThreatDesc_Clamp>
+  <TSA_WD_Alert_WorldThreatDesc_Clamp_Staged>Clamping from Mod Settings ({2}): Min {0} %, Max {1} % of Storyteller Raid Points</TSA_WD_Alert_WorldThreatDesc_Clamp_Staged>
+  <TSA_WD_Alert_WorldThreatDesc_NearRaid>Strongest Near Raid that could hit you: {0} (Clamped to {1})</TSA_WD_Alert_WorldThreatDesc_NearRaid>
+  <TSA_WD_Alert_WorldThreatDesc_FarRaid>Strongest Far Raid that could hit you: {0} (Clamped to {1})</TSA_WD_Alert_WorldThreatDesc_FarRaid>
+  <TSA_WD_Alert_WorldThreatDesc_NearFarDefs>Near = Inner half of a settlement's attack radius\nFar = Outer half of a settlement's attack radius</TSA_WD_Alert_WorldThreatDesc_NearFarDefs>
+  <TSA_WD_Alert_WorldThreatDesc_NearPreferred>Near is more likely to get chosen than Far</TSA_WD_Alert_WorldThreatDesc_NearPreferred>
+  <TSA_WD_Alert_WorldThreatDesc_Tier>World threat: {0}. Nearby is the inner half of each settlement's attack range; Far is the outer half.</TSA_WD_Alert_WorldThreatDesc_Tier>
+  <TSA_WD_Alert_WorldThreatDesc_Nearby>Nearby: {0}. Raid points you will get: {1} ({2} tiles, ~{3} days).</TSA_WD_Alert_WorldThreatDesc_Nearby>
+  <TSA_WD_Alert_WorldThreatDesc_Far>Far: {0}. Raid points you will get: {1}.</TSA_WD_Alert_WorldThreatDesc_Far>
+  <TSA_WD_Alert_WorldThreatDesc_AttackerStrength>Attacker strength before clamp: {0}.</TSA_WD_Alert_WorldThreatDesc_AttackerStrength>
+  <TSA_WD_Alert_WorldThreatDesc_StorytellerBudget>Colony storyteller raid budget: {0}.</TSA_WD_Alert_WorldThreatDesc_StorytellerBudget>
+  <TSA_WD_Alert_CriticalFood>WD: Outpost with critical food level</TSA_WD_Alert_CriticalFood>
+  <TSA_WD_Alert_CriticalFoodDescHeader>Critical food levels at the following outpost(s):</TSA_WD_Alert_CriticalFoodDescHeader>
+  <TSA_WD_Alert_CriticalFoodDescLine>- {0}, {1} food, {2} days of food left</TSA_WD_Alert_CriticalFoodDescLine>
+  <TSA_WD_WorldThreat_ClampTooltip>Actual raid points will be clamped between {0} and {1} of the current storyteller raid points: {2}.</TSA_WD_WorldThreat_ClampTooltip>
+  <TSA_WD_WorldThreat_ClampTooltip_Staged>Actual raid points will be clamped between {0} and {1} of the current storyteller raid points ({3}): {2}.</TSA_WD_WorldThreat_ClampTooltip_Staged>
+  <TSA_WD_NotificationStrength_BreakdownHeader>{0}: {1} total offensive strength able to reach your colony\n</TSA_WD_NotificationStrength_BreakdownHeader>
+  <TSA_WD_NotificationStrength_Line>- {0}: {1} offensive</TSA_WD_NotificationStrength_Line>
+  <TSA_WD_Threat_HeaderCalc>Absolute raid point limits</TSA_WD_Threat_HeaderCalc>
+  <TSA_WD_Threat_HeaderWDClamp>Raid point clamping</TSA_WD_Threat_HeaderWDClamp>
+  <TS_WD_CaravanRaidAlwaysUseStrength>Always use Strength as Raid points</TS_WD_CaravanRaidAlwaysUseStrength>
+  <TS_WD_CaravanRaidAlwaysUseStrengthTooltip>Strictly uses the raid points of a caravan when a raid on the colony happens or when your caravan clashes with a NPC caravan.</TS_WD_CaravanRaidAlwaysUseStrengthTooltip>
+  <TS_WD_OutpostDefenseAlwaysUseStrength>Always use Strength for manual outpost defense</TS_WD_OutpostDefenseAlwaysUseStrength>
+  <TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>When on, manual outpost defense map fights use traveler strength as raid points with no storyteller band clamp. When off, the same floor and ceiling as other WD raids apply. Colony raids and caravan clashes use the setting above.</TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>
+  <TSA_WD_Alert_MidGameActive>WD: Mid Game active</TSA_WD_Alert_MidGameActive>
+  <TSA_WD_Alert_MidGameActiveDesc>Your outpost strength has triggered Mid Game. Hostile settlements grow faster, gain more attack range, and bias raids toward you. Settlements expand toward your holdings, goodwill drifts down over time, and your outposts may suffer lighter attrition incidents. T4 mortars and AA do not target you yet unless the Mid Game toggles are on.</TSA_WD_Alert_MidGameActiveDesc>
+  <TSA_WD_Alert_LateGameActive>WD: Late Game active</TSA_WD_Alert_LateGameActive>
+  <TSA_WD_Alert_LateGameActiveDesc>Your outpost strength has triggered Late Game. Hostile settlements grow much faster, gain more attack range, and bias raids harder toward you. Settlements expand farther toward your holdings, goodwill drops faster, enemy T4 mortars and AA may target your WD caravans and outposts if enabled, and your outposts may suffer fuller attrition incidents.</TSA_WD_Alert_LateGameActiveDesc>
+  <TSA_WD_Difficulty_HeaderScaling>Late Game</TSA_WD_Difficulty_HeaderScaling>
+  <TSA_WD_Difficulty_EnableLateGame>Enable Mid Game and Late Game</TSA_WD_Difficulty_EnableLateGame>
+  <TSA_WD_Difficulty_EnableLateGameTooltip>When you grow strong, hostile factions push back in two steps: Mid Game, then Late Game. Effects include faster hostile growth, higher NPC attack range, biased raids, expansion toward you, goodwill drain, outpost incidents, and (when toggles allow) T4 fire on your caravans/outposts. Driven by your total outpost strength and world share.</TSA_WD_Difficulty_EnableLateGameTooltip>
+  <TSA_WD_Difficulty_ActivationHint>Each of Mid Game and Late Game activates when either of its share or strength thresholds is met. Late Game replaces Mid Game.</TSA_WD_Difficulty_ActivationHint>
+  <TSA_WD_Difficulty_ShareThreshold>Activate at global strength share</TSA_WD_Difficulty_ShareThreshold>
+  <TSA_WD_Difficulty_ShareThresholdTooltip>Late Game activates when your total outpost strength reaches this fraction of all world strength (same numbers as the World Stats window).</TSA_WD_Difficulty_ShareThresholdTooltip>
+  <TSA_WD_Difficulty_OutpostStrengthThreshold>Activate at outpost strength</TSA_WD_Difficulty_OutpostStrengthThreshold>
+  <TSA_WD_Difficulty_OutpostStrengthThresholdTooltip>Late Game activates when your total outpost strength reaches this absolute value, regardless of world share.</TSA_WD_Difficulty_OutpostStrengthThresholdTooltip>
+  <TSA_WD_Difficulty_RaidBias>Player raid bias</TSA_WD_Difficulty_RaidBias>
+  <TSA_WD_Difficulty_RaidBiasTooltip>While Late Game is active, hostile raids that can already reach a player target weight your outposts and colony this much more within the same distance band.</TSA_WD_Difficulty_RaidBiasTooltip>
+  <TSA_WD_Difficulty_GrowthMult>Enemy growth multiplier</TSA_WD_Difficulty_GrowthMult>
+  <TSA_WD_Difficulty_GrowthMultTooltip>Hostile settlements grow this many times faster while Late Game is active.</TSA_WD_Difficulty_GrowthMultTooltip>
+  <TSA_WD_LateGame_AttackRangeBonus>Attack range bonus</TSA_WD_LateGame_AttackRangeBonus>
+  <TSA_WD_LateGame_AttackRangeBonusTooltip>Added to every NPC settlement attack range while Late Game is active (100% doubles early baselines). Replaces the Mid Game bonus. Applies even to newly founded towns.</TSA_WD_LateGame_AttackRangeBonusTooltip>
+  <TSA_WD_LateGame_ScaleAllyRadius>Scale Ally radius in Late game</TSA_WD_LateGame_ScaleAllyRadius>
+  <TSA_WD_LateGame_ScaleAllyRadiusTooltip>When on, Late Game multiplies the base ally pull radius by (1 + Late ally radius bonus). Replaces Mid ally scaling. If this is off during Late Game, ally radius stays at base (no Mid fallback).</TSA_WD_LateGame_ScaleAllyRadiusTooltip>
+  <TSA_WD_LateGame_AllyRadiusBonus>Ally radius bonus</TSA_WD_LateGame_AllyRadiusBonus>
+  <TSA_WD_LateGame_AllyRadiusBonusTooltip>Added to the base ally pull radius while Late Game is active and scaling is on (100% raises base 6 to 12). Replaces the Mid Game ally bonus.</TSA_WD_LateGame_AllyRadiusBonusTooltip>
+  <TSA_WD_Difficulty_GarrisonBoost>Garrison boost</TSA_WD_Difficulty_GarrisonBoost>
+  <TSA_WD_Difficulty_GarrisonBoostTooltip>While Late Game is active, settlement garrisons are multiplied by (1 + this value). Stacks multiplicatively with the per-tier garrison sliders.</TSA_WD_Difficulty_GarrisonBoostTooltip>
+  <TSA_WD_Difficulty_ExpandTiles>Expansion creep max tiles from parent</TSA_WD_Difficulty_ExpandTiles>
+  <TSA_WD_Difficulty_ExpandTilesTooltip>While Late Game is active, hostile settlements expand toward your nearest outpost/colony but no farther than this many tiles from the parent settlement.</TSA_WD_Difficulty_ExpandTilesTooltip>
+  <TSA_WD_Difficulty_EnableT4Mortar>T4 settlement mortars</TSA_WD_Difficulty_EnableT4Mortar>
+  <TSA_WD_Difficulty_EnableT4MortarTooltip>Tier-4 enemy settlements fire mortars at hostile WD travelers in range. When no hostile caravan is in range they shell the nearest hostile settlement instead. They may also hit your WD caravans and outposts while Late Game is active.</TSA_WD_Difficulty_EnableT4MortarTooltip>
+  <TSA_WD_Difficulty_CoalitionRaidBias>Anti-leader coalition raid priority</TSA_WD_Difficulty_CoalitionRaidBias>
+  <TSA_WD_Difficulty_CoalitionRaidBiasTooltip>When an anti-leader coalition is active, member factions roll this often to prioritize raids against the coalition target.</TSA_WD_Difficulty_CoalitionRaidBiasTooltip>
+  <TSA_WD_Difficulty_EnableOutpostIncidents>Outpost incidents (Late Game)</TSA_WD_Difficulty_EnableOutpostIncidents>
+  <TSA_WD_Difficulty_EnableOutpostIncidentsTooltip>While Late Game is active, a random player outpost may lose strength each day (simulated attrition), chipping offensive and defensive equally.</TSA_WD_Difficulty_EnableOutpostIncidentsTooltip>
+  <TSA_WD_Difficulty_OutpostIncSev>Outpost incident severity</TSA_WD_Difficulty_OutpostIncSev>
+  <TSA_WD_Difficulty_OutpostIncSevTooltip>Strength removed from both the offensive and defensive pools of the outpost.</TSA_WD_Difficulty_OutpostIncSevTooltip>
+  <TSA_WD_Difficulty_OutpostIncChance>Daily outpost incident chance</TSA_WD_Difficulty_OutpostIncChance>
+  <TSA_WD_Difficulty_OutpostIncChanceTooltip>Chance per day to attempt one outpost incident while Late Game is active.</TSA_WD_Difficulty_OutpostIncChanceTooltip>
+  <TSA_WD_Difficulty_NotifyOutpostInc>Letter on outpost incident</TSA_WD_Difficulty_NotifyOutpostInc>
+  <TSA_WD_Difficulty_NotifyOutpostIncTooltip>Send a letter when an outpost incident reduces strength.</TSA_WD_Difficulty_NotifyOutpostIncTooltip>
+  <TSA_WD_Difficulty_EnableGoodwillDrain>Periodic goodwill drain</TSA_WD_Difficulty_EnableGoodwillDrain>
+  <TSA_WD_Difficulty_EnableGoodwillDrainTooltip>While Mid Game or Late Game is active, periodically reduce goodwill with non-permanent-enemy factions. Permanent enemies are skipped. One batch message per pulse; extra messages only when Ally/Neutral/Hostile flips.</TSA_WD_Difficulty_EnableGoodwillDrainTooltip>
+  <TSA_WD_Difficulty_GoodwillDrainInterval>Goodwill drain interval (days)</TSA_WD_Difficulty_GoodwillDrainInterval>
+  <TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>Days between goodwill drain pulses while Mid Game or Late Game is active.</TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>
+  <TSA_WD_MidGame_Header>Mid Game</TSA_WD_MidGame_Header>
+  <TSA_WD_MidGame_ShareThreshold>Activate at global strength share</TSA_WD_MidGame_ShareThreshold>
+  <TSA_WD_MidGame_ShareThresholdTooltip>Mid Game activates when your total outpost strength reaches this fraction of all world strength.</TSA_WD_MidGame_ShareThresholdTooltip>
+  <TSA_WD_MidGame_OutpostStrengthThreshold>Activate at outpost strength</TSA_WD_MidGame_OutpostStrengthThreshold>
+  <TSA_WD_MidGame_OutpostStrengthThresholdTooltip>Mid Game activates when your total outpost strength reaches this absolute value, regardless of world share.</TSA_WD_MidGame_OutpostStrengthThresholdTooltip>
+  <TSA_WD_MidGame_RaidBias>Player raid bias</TSA_WD_MidGame_RaidBias>
+  <TSA_WD_MidGame_RaidBiasTooltip>While Mid Game is active, hostile raids that can already reach a player target weight your outposts and colony this much more within the same distance band.</TSA_WD_MidGame_RaidBiasTooltip>
+  <TSA_WD_MidGame_GrowthMult>Enemy growth multiplier</TSA_WD_MidGame_GrowthMult>
+  <TSA_WD_MidGame_GrowthMultTooltip>Hostile settlements grow this many times faster while Mid Game is active.</TSA_WD_MidGame_GrowthMultTooltip>
+  <TSA_WD_MidGame_AttackRangeBonus>Attack range bonus</TSA_WD_MidGame_AttackRangeBonus>
+  <TSA_WD_MidGame_AttackRangeBonusTooltip>Added to every NPC settlement attack range while Mid Game is active (50% raises early baselines by half). Late Game replaces this bonus. Applies even to newly founded towns.</TSA_WD_MidGame_AttackRangeBonusTooltip>
+  <TSA_WD_MidGame_ScaleAllyRadius>Scale Ally radius in Mid game</TSA_WD_MidGame_ScaleAllyRadius>
+  <TSA_WD_MidGame_ScaleAllyRadiusTooltip>When on, Mid Game multiplies the base ally pull radius by (1 + Mid ally radius bonus). Late Game uses its own toggle instead (no Mid fallback).</TSA_WD_MidGame_ScaleAllyRadiusTooltip>
+  <TSA_WD_MidGame_AllyRadiusBonus>Ally radius bonus</TSA_WD_MidGame_AllyRadiusBonus>
+  <TSA_WD_MidGame_AllyRadiusBonusTooltip>Added to the base ally pull radius while Mid Game is active and scaling is on (40% raises base 6 to 9). Late Game replaces this bonus when its scale toggle is on.</TSA_WD_MidGame_AllyRadiusBonusTooltip>
+  <TSA_WD_MidGame_GarrisonBoost>Garrison boost</TSA_WD_MidGame_GarrisonBoost>
+  <TSA_WD_MidGame_GarrisonBoostTooltip>While Mid Game is active, settlement garrisons are multiplied by (1 + this value). Stacks multiplicatively with the per-tier garrison sliders.</TSA_WD_MidGame_GarrisonBoostTooltip>
+  <TSA_WD_MidGame_ExpandTiles>Expansion creep max tiles from parent</TSA_WD_MidGame_ExpandTiles>
+  <TSA_WD_MidGame_ExpandTilesTooltip>While Mid Game is active, hostile settlements expand toward your nearest outpost/colony but no farther than this many tiles from the parent settlement.</TSA_WD_MidGame_ExpandTilesTooltip>
+  <TSA_WD_MidGame_EnableOutpostIncidents>Outpost incidents (Mid Game)</TSA_WD_MidGame_EnableOutpostIncidents>
+  <TSA_WD_MidGame_EnableOutpostIncidentsTooltip>While Mid Game is active, a random player outpost may lose strength each day (lighter than Late Game).</TSA_WD_MidGame_EnableOutpostIncidentsTooltip>
+  <TSA_WD_MidGame_OutpostIncSev>Outpost incident severity</TSA_WD_MidGame_OutpostIncSev>
+  <TSA_WD_MidGame_OutpostIncSevTooltip>Strength removed from both the offensive and defensive pools of the outpost.</TSA_WD_MidGame_OutpostIncSevTooltip>
+  <TSA_WD_MidGame_OutpostIncChance>Daily outpost incident chance</TSA_WD_MidGame_OutpostIncChance>
+  <TSA_WD_MidGame_OutpostIncChanceTooltip>Chance per day to attempt one outpost incident while Mid Game is active.</TSA_WD_MidGame_OutpostIncChanceTooltip>
+  <TSA_WD_MidGame_GoodwillDrainAmount>Goodwill drain per pulse</TSA_WD_MidGame_GoodwillDrainAmount>
+  <TSA_WD_MidGame_GoodwillDrainAmountTooltip>Goodwill lost per faction each Mid Game pulse. Permanent enemies are skipped.</TSA_WD_MidGame_GoodwillDrainAmountTooltip>
+  <TSA_WD_MidGame_T4Mortar_TargetPlayerTooltip>When on, enemy T4 mortars may fire at your WD caravans and outposts while Mid Game is active. Turning this on also turns on the Late Game mortar toggle.</TSA_WD_MidGame_T4Mortar_TargetPlayerTooltip>
+  <TSA_WD_MidGame_T4AA_TargetPlayerTooltip>When on, T4 AA may engage your drop pods and shells while Mid Game is active. Turning this on also turns on the Late Game AA toggle.</TSA_WD_MidGame_T4AA_TargetPlayerTooltip>
+  <TSA_WD_LateGame_HeaderScaling>Late Game</TSA_WD_LateGame_HeaderScaling>
+  <TSA_WD_LateGame_GoodwillDrainAmount>Goodwill drain per pulse</TSA_WD_LateGame_GoodwillDrainAmount>
+  <TSA_WD_LateGame_GoodwillDrainAmountTooltip>Goodwill lost per faction each Late Game pulse. Permanent enemies are skipped.</TSA_WD_LateGame_GoodwillDrainAmountTooltip>
+  <TSA_WD_Escalation_StageNone>None</TSA_WD_Escalation_StageNone>
+  <TSA_WD_Escalation_StageEarly>Early Game</TSA_WD_Escalation_StageEarly>
+  <TSA_WD_Escalation_StageMid>Mid Game</TSA_WD_Escalation_StageMid>
+  <TSA_WD_Escalation_StageLate>Late Game</TSA_WD_Escalation_StageLate>
+  <TSA_WD_Relation_Ally>Ally</TSA_WD_Relation_Ally>
+  <TSA_WD_Relation_Neutral>Neutral</TSA_WD_Relation_Neutral>
+  <TSA_WD_Relation_Hostile>Hostile</TSA_WD_Relation_Hostile>
+  <TSA_WD_GoodwillMsg_EscalationDrainBatch>{0}: −{1} goodwill with {2} faction(s).</TSA_WD_GoodwillMsg_EscalationDrainBatch>
+  <TSA_WD_GoodwillMsg_EscalationRelationFlip>{0} relation flipped from {1} to {2}.</TSA_WD_GoodwillMsg_EscalationRelationFlip>
+  <TSA_WD_Stats_EscalationStage>Stage: {0}</TSA_WD_Stats_EscalationStage>
+  <TSA_WD_Stats_EscalationTip>Active stage: {0}.\nPlayer outpost strength: {1}\nShare of world strength: {2}\nMid Game then Late Game activate from thresholds in Mid Game and Late Game settings. Late Game replaces Mid Game.</TSA_WD_Stats_EscalationTip>
+  <TS_WD_CaravanRaidMinFrac>Minimum fraction of storyteller threat</TS_WD_CaravanRaidMinFrac>
+  <TS_WD_CaravanRaidMinFracTooltip>Floor for raid points: storyteller threat baseline × this value. Effective traveler/caravan strength (after travel efficiency) cannot spawn a raid below this. On interception, baseline is usually your strongest player colony map, not the empty encounter map.</TS_WD_CaravanRaidMinFracTooltip>
+  <TS_WD_CaravanRaidMaxFrac>Maximum fraction of storyteller threat</TS_WD_CaravanRaidMaxFrac>
+  <TS_WD_CaravanRaidMaxFracTooltip>Ceiling for raid points: storyteller threat baseline × this value (slider up to 50×). Effective strength cannot exceed this when spawning the raid. If strength is inside the band, no clamping is applied.</TS_WD_CaravanRaidMaxFracTooltip>
+  <TS_WD_RaidClamp_ScaleWithEscalation>Scale with mid and late game difficulty</TS_WD_RaidClamp_ScaleWithEscalation>
+  <TS_WD_RaidClamp_ScaleWithEscalationTooltip>When on (and Mid/Late Game is enabled), raid point floor and ceiling use separate Early / Mid / Late bands from your current escalation stage. When Mid/Late Game is disabled, the single min/max pair below is used instead.</TS_WD_RaidClamp_ScaleWithEscalationTooltip>
+  <TS_WD_RaidClamp_EscalationOffHint>Mid/Late Game scaling is off. The single min/max pair below is active. Enable Mid Game and Late Game in that settings page to use Early / Mid / Late bands.</TS_WD_RaidClamp_EscalationOffHint>
+  <TS_WD_RaidClamp_EarlyMin>Min Early Game</TS_WD_RaidClamp_EarlyMin>
+  <TS_WD_RaidClamp_EarlyMinTooltip>Storyteller-threat floor while escalation is Early (before Mid Game thresholds).</TS_WD_RaidClamp_EarlyMinTooltip>
+  <TS_WD_RaidClamp_EarlyMax>Max Early Game</TS_WD_RaidClamp_EarlyMax>
+  <TS_WD_RaidClamp_EarlyMaxTooltip>Storyteller-threat ceiling while escalation is Early. Default 130%.</TS_WD_RaidClamp_EarlyMaxTooltip>
+  <TS_WD_RaidClamp_MidMin>Min Mid Game</TS_WD_RaidClamp_MidMin>
+  <TS_WD_RaidClamp_MidMinTooltip>Storyteller-threat floor while Mid Game is active.</TS_WD_RaidClamp_MidMinTooltip>
+  <TS_WD_RaidClamp_MidMax>Max Mid Game</TS_WD_RaidClamp_MidMax>
+  <TS_WD_RaidClamp_MidMaxTooltip>Storyteller-threat ceiling while Mid Game is active. Default 180%.</TS_WD_RaidClamp_MidMaxTooltip>
+  <TS_WD_RaidClamp_LateMin>Min Late Game</TS_WD_RaidClamp_LateMin>
+  <TS_WD_RaidClamp_LateMinTooltip>Storyteller-threat floor while Late Game is active.</TS_WD_RaidClamp_LateMinTooltip>
+  <TS_WD_RaidClamp_LateMax>Max Late Game</TS_WD_RaidClamp_LateMax>
+  <TS_WD_RaidClamp_LateMaxTooltip>Storyteller-threat ceiling while Late Game is active. Default 230%.</TS_WD_RaidClamp_LateMaxTooltip>
+  <TS_WD_Threat_BlockStorytellerRaids>Block storyteller raids (only World Domination raids)</TS_WD_Threat_BlockStorytellerRaids>
+  <TS_WD_Threat_BlockStorytellerRaidsTooltip>When enabled, random enemy raids from the vanilla storyteller are blocked for WD-managed factions. Raids from World Domination (world map), quests, comms, dev tools, and other scripted incidents (including those flagged as forced or tied to a quest) are not blocked.</TS_WD_Threat_BlockStorytellerRaidsTooltip>
+  <TS_WD_Threat_AllowNonWdStorytellerRaids>Allow storyteller raids from non-WD factions</TS_WD_Threat_AllowNonWdStorytellerRaids>
+  <TS_WD_Threat_AllowNonWdStorytellerRaidsTooltip>When enabled, vanilla storyteller raids can still come from factions not controlled by World Domination, such as factions without physical WD settlements on the planet. Disable this to restore the old behavior and block all random storyteller enemy raids.</TS_WD_Threat_AllowNonWdStorytellerRaidsTooltip>
+  <TS_WD_Threat_MaxPoints>Max Raid Points</TS_WD_Threat_MaxPoints>
+  <TS_WD_Threat_MaxPointsTooltip>The absolute ceiling for raid points used by some WD reinforcement-style spawns. Vanilla storyteller raid points are not scaled by this page.</TS_WD_Threat_MaxPointsTooltip>
+  <TS_WD_Threat_MinPoints>Min Raid Points</TS_WD_Threat_MinPoints>
+  <TS_WD_Threat_MinPointsTooltip>The absolute floor for raid points in those same WD flows. Very low values can prevent spawning enemies.</TS_WD_Threat_MinPointsTooltip>
+  <TS_WD_Threat_NoGoodwillHostiles>No Goodwill from Hostile factions on Settlement Conquest</TS_WD_Threat_NoGoodwillHostiles>
+  <TS_WD_Threat_NoGoodwillHostilesTooltip>When enabled, conquering a settlement will not grant goodwill with factions that are hostile to you. Only non-hostile factions can gain goodwill from your conquests.</TS_WD_Threat_NoGoodwillHostilesTooltip>
+  <TS_WD_Threat_Reset>Reset this page to Defaults</TS_WD_Threat_Reset>
+  <TSA_WD_AllPlayerPawns>Your Pawns</TSA_WD_AllPlayerPawns>
+  <TSA_WD_Prisoners>Prisoners</TSA_WD_Prisoners>
+  <TSA_WD_Prisoners_Title>Prisoners</TSA_WD_Prisoners_Title>
+  <TSA_WD_Prisoners_ColInteraction>Interaction</TSA_WD_Prisoners_ColInteraction>
+  <TSA_WD_Prisoners_ColResistance>Resistance</TSA_WD_Prisoners_ColResistance>
+  <TSA_WD_Prisoners_ColDestination>Destination</TSA_WD_Prisoners_ColDestination>
+  <TSA_WD_Prisoners_NoDestination>Pawn stays at colony after recruitment.\nClick to change</TSA_WD_Prisoners_NoDestination>
+  <TSA_WD_Prisoners_NoDestinationOutpost>Stays at this outpost after recruitment.\nClick to change</TSA_WD_Prisoners_NoDestinationOutpost>
+  <TSA_WD_Prisoners_DestinationUnset>No destination</TSA_WD_Prisoners_DestinationUnset>
+  <TSA_WD_Prisoners_DestinationDefaultTip>Default home location. Set a destination to send them elsewhere after recruitment.</TSA_WD_Prisoners_DestinationDefaultTip>
+  <TSA_WD_Prisoners_SetDestination>Set Destination</TSA_WD_Prisoners_SetDestination>
+  <TSA_WD_Prisoners_SetDestinationTip>Assign a colony or outpost where selected prisoners will go after they are recruited.</TSA_WD_Prisoners_SetDestinationTip>
+  <TSA_WD_Prisoners_SmartAssign>Smart Assign</TSA_WD_Prisoners_SmartAssign>
+  <TSA_WD_Prisoners_SmartAssignTip>Picks each selected prisoner's best skill then sends them to the closest outpost that uses that skill. If none matches it tries their next best skill. Only useful once you have about five or more outposts.</TSA_WD_Prisoners_SmartAssignTip>
+  <TSA_WD_Prisoners_SmartAssignDone>Smart assigned {0} prisoner(s).</TSA_WD_Prisoners_SmartAssignDone>
+  <TSA_WD_Prisoners_SmartAssignPartial>Smart assigned {0} prisoner(s). Could not match {1}.</TSA_WD_Prisoners_SmartAssignPartial>
+  <TSA_WD_Prisoners_SmartAssignNone>No matching outpost for the selected prisoners.</TSA_WD_Prisoners_SmartAssignNone>
+  <TSA_WD_Prisoners_SmartAssignConfigTip>Choose which outposts Smart Assign may use.</TSA_WD_Prisoners_SmartAssignConfigTip>
+  <TSA_WD_Prisoners_SmartAssignConfigTitle>Smart Assign outposts</TSA_WD_Prisoners_SmartAssignConfigTitle>
+  <TSA_WD_Prisoners_SmartAssignConfigSubtitle>Unchecked outposts are ignored by Smart Assign. Manual Set Destination still works for any outpost.</TSA_WD_Prisoners_SmartAssignConfigSubtitle>
+  <TSA_WD_Prisoners_SmartAssignEnableAll>Enable all shown</TSA_WD_Prisoners_SmartAssignEnableAll>
+  <TSA_WD_Prisoners_SmartAssignDisableAll>Disable all shown</TSA_WD_Prisoners_SmartAssignDisableAll>
+  <TSA_WD_Prisoners_SmartAssignColCumSkill>Cum. Skill</TSA_WD_Prisoners_SmartAssignColCumSkill>
+  <TSA_WD_Prisoners_SmartAssignColType>Type</TSA_WD_Prisoners_SmartAssignColType>
+  <TSA_WD_Prisoners_SmartAssignCumSkillTip>Cum. {0}: {1}</TSA_WD_Prisoners_SmartAssignCumSkillTip>
+  <TSA_WD_Prisoners_SmartAssignGroupHeader>{0} (Cum. {1})</TSA_WD_Prisoners_SmartAssignGroupHeader>
+  <TSA_WD_Prisoners_SmartAssignSelectColumnTip>Click to enable or disable all outposts shown in the list for Smart Assign.</TSA_WD_Prisoners_SmartAssignSelectColumnTip>
+  <TSA_WD_Prisoners_ClearDestination>Clear Destination</TSA_WD_Prisoners_ClearDestination>
+  <TSA_WD_Prisoners_ClearDestinationTip>This means that pawns will stay where they currently are once recruited.</TSA_WD_Prisoners_ClearDestinationTip>
+  <TSA_WD_Prisoners_ScheduleTitle>Schedule recruit destination</TSA_WD_Prisoners_ScheduleTitle>
+  <TSA_WD_Prisoners_ScheduleSubtitle>Choose a colony or outpost for {0} prisoner(s). They leave as a caravan with 150 pemmican when recruited.</TSA_WD_Prisoners_ScheduleSubtitle>
+  <TSA_WD_Prisoners_DestinationClickTip>Click to set or change the post-recruit destination.</TSA_WD_Prisoners_DestinationClickTip>
+  <TSA_WD_Prisoners_ColTraits>Traits</TSA_WD_Prisoners_ColTraits>
+  <TSA_WD_Prisoners_SelectColumnTip>Click to select or clear all prisoners shown in the list.</TSA_WD_Prisoners_SelectColumnTip>
+  <TSA_WD_Prisoners_RecruitSent>{0} was recruited and sent to {1}.</TSA_WD_Prisoners_RecruitSent>
+  <TSA_WD_Prisoners_RecruitStayed>{0} was recruited and joined {1}.</TSA_WD_Prisoners_RecruitStayed>
+  <TSA_WD_Prisoners_RecruitUnderway>{0} has been successfully recruited at Outpost {1} and is underway to {2}.</TSA_WD_Prisoners_RecruitUnderway>
+  <TSA_WD_Prisoners_Filter_All>All</TSA_WD_Prisoners_Filter_All>
+  <TSA_WD_Prisoners_Filter_Colony>Colony</TSA_WD_Prisoners_Filter_Colony>
+  <TSA_WD_Prisoners_Filter_Outpost>Outpost</TSA_WD_Prisoners_Filter_Outpost>
+  <TSA_WD_Prisoners_GroupOutpost>Outpost Prisoners</TSA_WD_Prisoners_GroupOutpost>
+  <TSA_WD_Prisoners_GroupOutpostHeader>Outpost Prisoners (Up to {0} at a time)</TSA_WD_Prisoners_GroupOutpostHeader>
+  <TSA_WD_Prisoners_GroupOutpostTip>Outpost prisoners cannot be moved until they are recruited.\n\nThey are recruited automatically in list order (top first).\nUse the arrows to change priority.\n\nSocial skill sets how many can be recruited at once (1 per 10 Social, always at least 1).\nIt also sets how fast resistance drops. A Warden expert makes that faster.\n\nPrisoners also consume food.\nRelease them if they are not worth keeping.</TSA_WD_Prisoners_GroupOutpostTip>
+  <TSA_WD_Prisoners_QueueTopTip>Send to top of the recruit queue.</TSA_WD_Prisoners_QueueTopTip>
+  <TSA_WD_Prisoners_QueueUpTip>Move up one place in the recruit queue.</TSA_WD_Prisoners_QueueUpTip>
+  <TSA_WD_Prisoners_QueueDownTip>Move down one place in the recruit queue.</TSA_WD_Prisoners_QueueDownTip>
+  <TSA_WD_Prisoners_QueueBottomTip>Send to bottom of the recruit queue.</TSA_WD_Prisoners_QueueBottomTip>
+  <TSA_WD_Prisoners_ModeRecruit>Recruit</TSA_WD_Prisoners_ModeRecruit>
+  <TSA_WD_Prisoners_ModeMaintain>Maintain</TSA_WD_Prisoners_ModeMaintain>
+  <TSA_WD_Prisoners_ModeLetGo>Let go</TSA_WD_Prisoners_ModeLetGo>
+  <TSA_WD_Prisoners_OutpostBeingRecruited>Being Recruited</TSA_WD_Prisoners_OutpostBeingRecruited>
+  <TSA_WD_Prisoners_LetGoSelected>Kick out</TSA_WD_Prisoners_LetGoSelected>
+  <TSA_WD_Prisoners_LetGoSelectedTip>Release the selected outpost prisoners. They are removed with no map drop. This cannot be undone.</TSA_WD_Prisoners_LetGoSelectedTip>
+  <TSA_WD_Prisoners_LetGoConfirm>Are you sure? This action cannot be undone.</TSA_WD_Prisoners_LetGoConfirm>
+  <TSA_WD_Prisoners_KickOutNeedOutpost>Kick out only works for prisoners held at outposts.</TSA_WD_Prisoners_KickOutNeedOutpost>
+  <TSA_WD_Prisoners_OutpostInteractionTip>Outpost captives recruit automatically in queue order. Social skill sets how many can be recruited at once. Select only outpost prisoners and use Let Prisoners go to release them (removed with no map drop).</TSA_WD_Prisoners_OutpostInteractionTip>
+  <TSA_WD_AllPlayerPawns_Title>All Player Pawns</TSA_WD_AllPlayerPawns_Title>
+  <TSA_WD_AllPlayerPawns_MoveOrder>Transfer pawns</TSA_WD_AllPlayerPawns_MoveOrder>
+  <TSA_WD_AllPlayerPawns_Transfer>Transfer to Destination</TSA_WD_AllPlayerPawns_Transfer>
+  <TSA_WD_AllPlayerPawns_TransferTip>Sends the selected pawns to a colony or outpost you choose. Same selection as Smart Send Now.</TSA_WD_AllPlayerPawns_TransferTip>
+  <TSA_WD_AllPlayerPawns_EstablishOutpost>Establish outpost</TSA_WD_AllPlayerPawns_EstablishOutpost>
+  <TSA_WD_AllPlayerPawns_EstablishOutpostTip>Send selected colony pawns to found an outpost on a world tile you choose. Needs at least two pawns. Goods are taken from your colony and warehouses. Companions from the same colony may come along.</TSA_WD_AllPlayerPawns_EstablishOutpostTip>
+  <TSA_WD_AllPlayerPawns_RestoreDefault>Restore default view</TSA_WD_AllPlayerPawns_RestoreDefault>
+  <TSA_WD_PawnRoster_Highlight>Highlight:</TSA_WD_PawnRoster_Highlight>
+  <TSA_WD_PawnRoster_HighlightOff>Off</TSA_WD_PawnRoster_HighlightOff>
+  <TSA_WD_PawnRoster_HighlightBest>Best Skill(s) per pawn</TSA_WD_PawnRoster_HighlightBest>
+  <TSA_WD_PawnRoster_HighlightGlobal>0-20 Globally</TSA_WD_PawnRoster_HighlightGlobal>
+  <TSA_WD_PawnRoster_ColumnsToShow>Columns to Show</TSA_WD_PawnRoster_ColumnsToShow>
+  <TSA_WD_PawnRoster_ColumnsToShowTip>Toggle which columns appear in this list. Choices are saved with this world.</TSA_WD_PawnRoster_ColumnsToShowTip>
+  <TSA_WD_PawnRoster_ColumnsReset>Reset columns</TSA_WD_PawnRoster_ColumnsReset>
+  <TSA_WD_PawnRoster_ColAge>Age</TSA_WD_PawnRoster_ColAge>
+  <TSA_WD_PawnRoster_ColAgeTip>Biological age in years.</TSA_WD_PawnRoster_ColAgeTip>
+  <TSA_WD_PawnRoster_ColXenotype>Xenotype</TSA_WD_PawnRoster_ColXenotype>
+  <TSA_WD_PawnRoster_ColXenotypeTip>Biotech xenotype label. Hover a cell for the description.</TSA_WD_PawnRoster_ColXenotypeTip>
+  <TSA_WD_PawnRoster_ColPsycasts>Psycasts</TSA_WD_PawnRoster_ColPsycasts>
+  <TSA_WD_PawnRoster_ColPsycastsTip>Known psycast abilities. Hover for the full list.</TSA_WD_PawnRoster_ColPsycastsTip>
+  <TSA_WD_TraitFilter_Title>Filter by traits</TSA_WD_TraitFilter_Title>
+  <TSA_WD_TraitFilter_Subtitle>Hide roster rows that do not match. Counts include all player humanlikes (colony, outposts, caravans, prisoners).</TSA_WD_TraitFilter_Subtitle>
+  <TSA_WD_TraitFilter_Search>Search traits...</TSA_WD_TraitFilter_Search>
+  <TSA_WD_TraitFilter_Or>Or</TSA_WD_TraitFilter_Or>
+  <TSA_WD_TraitFilter_OrTip>Match pawns with any selected trait.</TSA_WD_TraitFilter_OrTip>
+  <TSA_WD_TraitFilter_And>And</TSA_WD_TraitFilter_And>
+  <TSA_WD_TraitFilter_AndTip>Match pawns with every selected trait.</TSA_WD_TraitFilter_AndTip>
+  <TSA_WD_TraitFilter_Logic>Filter logic:</TSA_WD_TraitFilter_Logic>
+  <TSA_WD_TraitFilter_Clear>Clear selection</TSA_WD_TraitFilter_Clear>
+  <TSA_WD_TraitFilter_FoundHeader>{0} traits on {1} pawns</TSA_WD_TraitFilter_FoundHeader>
+  <TSA_WD_TraitFilter_FoundTip>Traits present on at least one player humanlike.</TSA_WD_TraitFilter_FoundTip>
+  <TSA_WD_TraitFilter_AllHeader>All traits ({0})</TSA_WD_TraitFilter_AllHeader>
+  <TSA_WD_TraitFilter_AllTip>Every trait degree in the game, including those on no pawn.</TSA_WD_TraitFilter_AllTip>
+  <TSA_WD_TraitFilter_CountPct>{0} ({1}%)</TSA_WD_TraitFilter_CountPct>
+  <TSA_WD_TraitFilter_CountTip>{0} pawns have this trait. That is {1}% of your population.</TSA_WD_TraitFilter_CountTip>
+  <TSA_WD_TraitFilter_ButtonTip>Filter rows by trait. Only applies while the Traits column is visible.</TSA_WD_TraitFilter_ButtonTip>
+  <TSA_WD_PawnRoster_ColPortrait>Portrait</TSA_WD_PawnRoster_ColPortrait>
+  <TSA_WD_PawnRoster_ColSelect>Select</TSA_WD_PawnRoster_ColSelect>
+  <TSA_WD_PawnRoster_ColReorder>Reorder</TSA_WD_PawnRoster_ColReorder>
+  <TSA_WD_PawnRoster_ColShooting>Shooting</TSA_WD_PawnRoster_ColShooting>
+  <TSA_WD_PawnRoster_ColMelee>Melee</TSA_WD_PawnRoster_ColMelee>
+  <TSA_WD_PawnRoster_ColStrength>Strength</TSA_WD_PawnRoster_ColStrength>
+  <TSA_WD_PawnRoster_ColRelevant>Relevant skills</TSA_WD_PawnRoster_ColRelevant>
+  <TSA_WD_PawnRoster_ColConstruction>Construction</TSA_WD_PawnRoster_ColConstruction>
+  <TSA_WD_PawnRoster_ColDailyFood>Daily food</TSA_WD_PawnRoster_ColDailyFood>
+  <TSA_WD_PawnRoster_ColHurt>Bleeding</TSA_WD_PawnRoster_ColHurt>
+  <TSA_WD_AllPlayerPawns_ColLocation>Location</TSA_WD_AllPlayerPawns_ColLocation>
+  <TSA_WD_AllPlayerPawns_LocationColony>{0} (Colony)</TSA_WD_AllPlayerPawns_LocationColony>
+  <TSA_WD_AllPlayerPawns_LocationCamp>{0} (Camp)</TSA_WD_AllPlayerPawns_LocationCamp>
+  <TSA_WD_AllPlayerPawns_LocationPhysicalMap>{0} (Physical Map)</TSA_WD_AllPlayerPawns_LocationPhysicalMap>
+  <TSA_WD_AllPlayerPawns_PhysicalMapDefault>Physical Map</TSA_WD_AllPlayerPawns_PhysicalMapDefault>
+  <TSA_WD_AllPlayerPawns_LocPhysicalMap>Physical Map</TSA_WD_AllPlayerPawns_LocPhysicalMap>
+  <TSA_WD_AllPlayerPawns_Selected>Selected ({0})</TSA_WD_AllPlayerPawns_Selected>
+  <TSA_WD_AllPlayerPawns_SelectedTip>These selected pawns are used by Transfer to Destination and by Smart Send Now.</TSA_WD_AllPlayerPawns_SelectedTip>
+  <TSA_WD_AllPlayerPawns_SearchName>Search name…</TSA_WD_AllPlayerPawns_SearchName>
+  <TSA_WD_AllPlayerPawns_SearchLocation>Search location…</TSA_WD_AllPlayerPawns_SearchLocation>
+  <TSA_WD_AllPlayerPawns_ColPawnType>Type</TSA_WD_AllPlayerPawns_ColPawnType>
+  <TSA_WD_AllPlayerPawns_SearchPawnType>Search type…</TSA_WD_AllPlayerPawns_SearchPawnType>
+  <TSA_WD_AllPlayerPawns_Filter_AllTypes>All types</TSA_WD_AllPlayerPawns_Filter_AllTypes>
+  <TSA_WD_PawnType_Humanoid>Humanoid</TSA_WD_PawnType_Humanoid>
+  <TSA_WD_PawnType_Prisoner>Prisoner</TSA_WD_PawnType_Prisoner>
+  <TSA_WD_PawnType_Animal>Animal</TSA_WD_PawnType_Animal>
+  <TSA_WD_PawnType_Mechanoid>Mechanoid</TSA_WD_PawnType_Mechanoid>
+  <TSA_WD_PawnType_Vehicle>Vehicle</TSA_WD_PawnType_Vehicle>
+  <TSA_WD_AllPlayerPawns_ColLocationType>Location type</TSA_WD_AllPlayerPawns_ColLocationType>
+  <TSA_WD_AllPlayerPawns_ColLocationName>Location name</TSA_WD_AllPlayerPawns_ColLocationName>
+  <TSA_WD_PawnCol_PawnName>Pawn name</TSA_WD_PawnCol_PawnName>
+  <TSA_WD_FilterByPawnName>Filter by pawn name</TSA_WD_FilterByPawnName>
+  <TSA_WD_FilterByLocationName>Filter by location name</TSA_WD_FilterByLocationName>
+  <TSA_WD_FilterByLocationType>Filter by location type</TSA_WD_FilterByLocationType>
+  <TSA_WD_FilterByStar>Filter by star</TSA_WD_FilterByStar>
+  <TSA_WD_FilterBySource>Filter by source</TSA_WD_FilterBySource>
+  <TSA_WD_FilterByXenotype>Filter by xenotype</TSA_WD_FilterByXenotype>
+  <TSA_WD_Filter_AllXenotypes>All xenotypes</TSA_WD_Filter_AllXenotypes>
+  <TSA_WD_FilterByPsycast>Filter by psycast</TSA_WD_FilterByPsycast>
+  <TSA_WD_Filter_AllPsycasts>All pawns</TSA_WD_Filter_AllPsycasts>
+  <TSA_WD_Filter_NoPsycasts>No psycasts</TSA_WD_Filter_NoPsycasts>
+  <TSA_WD_AllPlayerPawns_LocColony>Colony</TSA_WD_AllPlayerPawns_LocColony>
+  <TSA_WD_AllPlayerPawns_LocCamp>Camp</TSA_WD_AllPlayerPawns_LocCamp>
+  <TSA_WD_AllPlayerPawns_LocOutpost>Outpost</TSA_WD_AllPlayerPawns_LocOutpost>
+  <TSA_WD_AllPlayerPawns_LocCaravan>World map caravan</TSA_WD_AllPlayerPawns_LocCaravan>
+  <TSA_WD_AllPlayerPawns_LocTempFight>Temporary fighting map</TSA_WD_AllPlayerPawns_LocTempFight>
+  <TSA_WD_AllPlayerPawns_TempFightDefault>Fight map</TSA_WD_AllPlayerPawns_TempFightDefault>
+  <TSA_WD_AllPlayerPawns_JumpTip>Jump to {0}</TSA_WD_AllPlayerPawns_JumpTip>
+  <TSA_WD_AllPlayerPawns_ColStar>★</TSA_WD_AllPlayerPawns_ColStar>
+  <TSA_WD_AllPlayerPawns_StarTip>Mark favorite pawns you want to keep. Stars are saved with this world. They do not block transfer; use the filter to hide them when mass-moving.</TSA_WD_AllPlayerPawns_StarTip>
+  <TSA_WD_AllPlayerPawns_Filter_AllAnywhere>All Anywhere</TSA_WD_AllPlayerPawns_Filter_AllAnywhere>
+  <TSA_WD_AllPlayerPawns_Filter_StarredAnywhere>Starred</TSA_WD_AllPlayerPawns_Filter_StarredAnywhere>
+  <TSA_WD_AllPlayerPawns_Filter_NotStarredAnywhere>Not Starred</TSA_WD_AllPlayerPawns_Filter_NotStarredAnywhere>
+  <TSA_WD_AllPlayerPawns_Filter_AllColony>All</TSA_WD_AllPlayerPawns_Filter_AllColony>
+  <TSA_WD_AllPlayerPawns_Filter_StarredColony>Starred</TSA_WD_AllPlayerPawns_Filter_StarredColony>
+  <TSA_WD_AllPlayerPawns_Filter_NotStarredColony>Not Starred</TSA_WD_AllPlayerPawns_Filter_NotStarredColony>
+  <TSA_WD_OutpostPawns_Filter_AllPawns>All pawns</TSA_WD_OutpostPawns_Filter_AllPawns>
+  <TSA_WD_OutpostPawns_Filter_Starred>Starred pawns</TSA_WD_OutpostPawns_Filter_Starred>
+  <TSA_WD_OutpostPawns_Filter_NotStarred>Not starred</TSA_WD_OutpostPawns_Filter_NotStarred>
+  <TSA_WD_TypeFilter_CountTip>{0} pawns. That is {1}% of the current list.</TSA_WD_TypeFilter_CountTip>
+  <TSA_WD_StarFilterTip_AllAnywhere>Select all pawns, at any location.</TSA_WD_StarFilterTip_AllAnywhere>
+  <TSA_WD_StarFilterTip_StarredAnywhere>Select pawns which are tagged with a ★, at any location.</TSA_WD_StarFilterTip_StarredAnywhere>
+  <TSA_WD_StarFilterTip_NotStarredAnywhere>Select pawns which are not tagged with a ★, at any location.</TSA_WD_StarFilterTip_NotStarredAnywhere>
+  <TSA_WD_StarFilterTip_AllColony>Select all pawns on a colony map.</TSA_WD_StarFilterTip_AllColony>
+  <TSA_WD_StarFilterTip_StarredColony>Select pawns which are tagged with a ★ on a colony map.</TSA_WD_StarFilterTip_StarredColony>
+  <TSA_WD_StarFilterTip_NotStarredColony>Select pawns which are not tagged with a ★ on a colony map.</TSA_WD_StarFilterTip_NotStarredColony>
+  <TSA_WD_OutpostStarFilterTip_All>Select all pawns at this outpost.</TSA_WD_OutpostStarFilterTip_All>
+  <TSA_WD_OutpostStarFilterTip_Starred>Select pawns which are tagged with a ★.</TSA_WD_OutpostStarFilterTip_Starred>
+  <TSA_WD_OutpostStarFilterTip_NotStarred>Select pawns which are not tagged with a ★.</TSA_WD_OutpostStarFilterTip_NotStarred>
+  <TSA_WD_AllPlayerPawns_DeselectAll>Deselect all</TSA_WD_AllPlayerPawns_DeselectAll>
+  <TSA_WD_AllPlayerPawns_DeselectAllTip>Clears the current selection. Does not select anyone.</TSA_WD_AllPlayerPawns_DeselectAllTip>
+  <TSA_WD_AllPlayerPawns_SmartSendNow>Smart Send Now</TSA_WD_AllPlayerPawns_SmartSendNow>
+  <TSA_WD_AllPlayerPawns_SmartSendTip>Immediately sends the selected pawns as caravans. For each pawn it picks their best skill, then the closest matching outpost from where they are now, and launches right away. This is not a schedule. Uses the same outpost exclusion list as prisoner Smart Assign.</TSA_WD_AllPlayerPawns_SmartSendTip>
+  <TSA_WD_AllPlayerPawns_SmartAssignDone>Smart assigned and sent {0} pawn(s).</TSA_WD_AllPlayerPawns_SmartAssignDone>
+  <TSA_WD_AllPlayerPawns_SmartAssignPartial>Smart assigned and sent {0} pawn(s). Could not match or send {1}.</TSA_WD_AllPlayerPawns_SmartAssignPartial>
+  <TSA_WD_AllPlayerPawns_SmartAssignNone>No matching outpost for the selected pawns (or none were ready to travel).</TSA_WD_AllPlayerPawns_SmartAssignNone>
+  <TSA_WD_PawnTransfer_DialogTitle>Choose destination</TSA_WD_PawnTransfer_DialogTitle>
+  <TSA_WD_PawnTransfer_DialogSubtitle>Moving {0} pawn(s)</TSA_WD_PawnTransfer_DialogSubtitle>
+  <TSA_WD_PawnTransfer_SendHere>Send here</TSA_WD_PawnTransfer_SendHere>
+  <TSA_WD_PawnTransfer_SearchDest>Search destination…</TSA_WD_PawnTransfer_SearchDest>
+  <TSA_WD_PawnTransfer_Colonies>Colonies</TSA_WD_PawnTransfer_Colonies>
+  <TSA_WD_PawnTransfer_Outposts>Outposts</TSA_WD_PawnTransfer_Outposts>
+  <TSA_WD_PawnTransfer_ExitHere>Exit here</TSA_WD_PawnTransfer_ExitHere>
+  <TSA_WD_PawnTransfer_ExitHereSubtitle>Form a caravan on this outpost tile</TSA_WD_PawnTransfer_ExitHereSubtitle>
+  <TSA_WD_PawnTransfer_ExitHereUnavailable>Exit here is only available when all selected pawns are from one outpost.</TSA_WD_PawnTransfer_ExitHereUnavailable>
+  <TSA_WD_PawnTransfer_ExitedHere>Pawns exited at {0}.</TSA_WD_PawnTransfer_ExitedHere>
+  <TSA_WD_PawnTransfer_NoColonies>No player colonies with maps.</TSA_WD_PawnTransfer_NoColonies>
+  <TSA_WD_PawnTransfer_NoOutposts>No player outposts.</TSA_WD_PawnTransfer_NoOutposts>
+  <TSA_WD_PawnTransfer_NoSelection>Select at least one pawn.</TSA_WD_PawnTransfer_NoSelection>
+  <TSA_WD_PawnTransfer_NotMovable>Only pawns at outposts or colonies can be moved from this window.</TSA_WD_PawnTransfer_NotMovable>
+  <TSA_WD_PawnTransfer_NotTravelReady>{0} cannot travel right now.</TSA_WD_PawnTransfer_NotTravelReady>
+  <TSA_WD_PawnTransfer_NotTravelReady_Dead>{0} is dead or gone.</TSA_WD_PawnTransfer_NotTravelReady_Dead>
+  <TSA_WD_PawnTransfer_NotTravelReady_Downed>{0} is downed and cannot travel.</TSA_WD_PawnTransfer_NotTravelReady_Downed>
+  <TSA_WD_PawnTransfer_NotTravelReady_Mental>{0} is in a mental state and cannot travel.</TSA_WD_PawnTransfer_NotTravelReady_Mental>
+  <TSA_WD_PawnTransfer_NotTravelReady_Labor>{0} is in labor and cannot travel.</TSA_WD_PawnTransfer_NotTravelReady_Labor>
+  <TSA_WD_PawnTransfer_NotTravelReady_Immobile>{0} cannot move and cannot travel.</TSA_WD_PawnTransfer_NotTravelReady_Immobile>
+  <TSA_WD_PawnTransfer_InvalidDestination>Invalid destination.</TSA_WD_PawnTransfer_InvalidDestination>
+  <TSA_WD_PawnTransfer_SameDestination>Cannot move to the same location.</TSA_WD_PawnTransfer_SameDestination>
+  <TSA_WD_PawnTransfer_MultipleOutposts>selected outposts</TSA_WD_PawnTransfer_MultipleOutposts>
+  <TSA_WD_PawnTransfer_MultiSourceTip>Each source outpost or colony spawns its own caravan.</TSA_WD_PawnTransfer_MultiSourceTip>
+  <TSA_WD_PawnTransfer_LeaveOneBehind>At least one colonist must remain at the colony.</TSA_WD_PawnTransfer_LeaveOneBehind>
+  <TSA_WD_PawnTransfer_CaravanFailed>Could not create transfer caravan.</TSA_WD_PawnTransfer_CaravanFailed>
+  <TSA_WD_PawnTransfer_CaravanRoutedToColony>Transfer caravan routed to {0}; pawns will enter on arrival.</TSA_WD_PawnTransfer_CaravanRoutedToColony>
+  <TSA_WD_PawnTransfer_CaravanRoutedToOutpost>Transfer caravan routed to {0}. Pawns join the outpost when it has Auto-add arrivals enabled.</TSA_WD_PawnTransfer_CaravanRoutedToOutpost>
+  <TSA_WD_PawnTransfer_Log>Transfer ordered: {0} pawn(s) from {1} to {2}</TSA_WD_PawnTransfer_Log>
+  <TSA_WD_PawnTransfer_WithoutFood>Pawn being transferred without food.</TSA_WD_PawnTransfer_WithoutFood>
+  <TSA_WD_PawnTransfer_WithoutFoodPlural>{0} pawns being transferred without food.</TSA_WD_PawnTransfer_WithoutFoodPlural>
+</LanguageData>

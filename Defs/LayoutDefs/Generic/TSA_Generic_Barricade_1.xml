@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.StructureLayoutDef>
+    <defName>TSA_Generic_Barricade_1</defName>
+    <layouts>
+      <li>
+        <li>Barricade_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite</li>
+      </li>
+    </layouts>
+    <tags>
+      <li>TSA_Generic_Barricade</li>
+    </tags>
+  </KCSG.StructureLayoutDef>
+</Defs>

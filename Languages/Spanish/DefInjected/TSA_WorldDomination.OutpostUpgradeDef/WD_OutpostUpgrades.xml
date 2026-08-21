@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <TSA_WD_Upgrade_PalisadeWalls.label>Muros de empalizada</TSA_WD_Upgrade_PalisadeWalls.label>
+  <TSA_WD_Upgrade_PalisadeWalls.description>Muros perimetrales básicos de madera.</TSA_WD_Upgrade_PalisadeWalls.description>
+
+  <TSA_WD_Upgrade_StoneWall.label>Muro de piedra</TSA_WD_Upgrade_StoneWall.label>
+  <TSA_WD_Upgrade_StoneWall.description>Muros reforzados con piedra que sustituyen a las empalizadas.</TSA_WD_Upgrade_StoneWall.description>
+
+  <TSA_WD_Upgrade_SpikeTraps.label>Trampas de pinchos</TSA_WD_Upgrade_SpikeTraps.label>
+  <TSA_WD_Upgrade_SpikeTraps.description>Un denso perímetro de trampas alrededor de la avanzadilla.</TSA_WD_Upgrade_SpikeTraps.description>
+
+  <TSA_WD_Upgrade_AutoTurrets.label>Torreta automática</TSA_WD_Upgrade_AutoTurrets.label>
+  <TSA_WD_Upgrade_AutoTurrets.description>Torretas automáticas para la defensa perimetral.</TSA_WD_Upgrade_AutoTurrets.description>
+
+  <TSA_WD_Upgrade_BasicHospital.label>Hospital básico</TSA_WD_Upgrade_BasicHospital.label>
+  <TSA_WD_Upgrade_BasicHospital.description>Mejora el tratamiento local y la recuperación de fuerzas.</TSA_WD_Upgrade_BasicHospital.description>
+
+  <TSA_WD_Upgrade_AdvancedHospital.label>Hospital avanzado</TSA_WD_Upgrade_AdvancedHospital.label>
+  <TSA_WD_Upgrade_AdvancedHospital.description>Infraestructura médica avanzada que sustituye al hospital básico.</TSA_WD_Upgrade_AdvancedHospital.description>
+
+  <TSA_WD_Upgrade_MiningLift.label>Elevador minero</TSA_WD_Upgrade_MiningLift.label>
+  <TSA_WD_Upgrade_MiningLift.description>Mueve personas y mercancías.</TSA_WD_Upgrade_MiningLift.description>
+
+  <TSA_WD_Upgrade_ImprovedMiningLift.label>Elevador minero mejorado</TSA_WD_Upgrade_ImprovedMiningLift.label>
+  <TSA_WD_Upgrade_ImprovedMiningLift.description>Mueve personas y mercancías aún más rápido.</TSA_WD_Upgrade_ImprovedMiningLift.description>
+
+  <TSA_WD_Upgrade_AdvancedMiningLift.label>Elevador minero avanzado</TSA_WD_Upgrade_AdvancedMiningLift.label>
+  <TSA_WD_Upgrade_AdvancedMiningLift.description>Mueve personas y mercancías aún más rápido.</TSA_WD_Upgrade_AdvancedMiningLift.description>
+
+  <TSA_WD_Upgrade_IrrigationCanals.label>Canales de riego</TSA_WD_Upgrade_IrrigationCanals.label>
+  <TSA_WD_Upgrade_IrrigationCanals.description>Canalizan agua hacia los campos para mejorar la productividad del suelo.</TSA_WD_Upgrade_IrrigationCanals.description>
+
+  <TSA_WD_Upgrade_IndustrialMeatHooks.label>Ganchos industriales para carne</TSA_WD_Upgrade_IndustrialMeatHooks.label>
+  <TSA_WD_Upgrade_IndustrialMeatHooks.description>Facilitan el transporte de cadáveres y carne.</TSA_WD_Upgrade_IndustrialMeatHooks.description>
+
+  <TSA_WD_Upgrade_WoodenWatchTower.label>Torre de vigilancia de madera</TSA_WD_Upgrade_WoodenWatchTower.label>
+  <TSA_WD_Upgrade_WoodenWatchTower.description>Permite a los cazadores ver más lejos.</TSA_WD_Upgrade_WoodenWatchTower.description>
+
+  <TSA_WD_Upgrade_ImprovedWatchTower.label>Torre de vigilancia mejorada</TSA_WD_Upgrade_ImprovedWatchTower.label>
+  <TSA_WD_Upgrade_ImprovedWatchTower.description>Permite a los cazadores ver aún más lejos.</TSA_WD_Upgrade_ImprovedWatchTower.description>
+
+  <TSA_WD_Upgrade_AdvancedWatchTower.label>Torre de vigilancia avanzada</TSA_WD_Upgrade_AdvancedWatchTower.label>
+  <TSA_WD_Upgrade_AdvancedWatchTower.description>Permite a los cazadores ver muy lejos.</TSA_WD_Upgrade_AdvancedWatchTower.description>
+
+  <TSA_WD_Upgrade_MortarTargetingSystem.label>Sistema de puntería</TSA_WD_Upgrade_MortarTargetingSystem.label>
+  <TSA_WD_Upgrade_MortarTargetingSystem.description>Hace que el mortero recargue más rápido y sea más preciso.</TSA_WD_Upgrade_MortarTargetingSystem.description>
+
+  <TSA_WD_Upgrade_AntiAirGun.label>Cañón antiaéreo</TSA_WD_Upgrade_AntiAirGun.label>
+  <TSA_WD_Upgrade_AntiAirGun.description>Desbloquea fuego de flak automático contra incursiones hostiles en cápsulas. Usa el alcance, acierto y daño de proyectiles del mortero. Enfriamiento corto aparte.</TSA_WD_Upgrade_AntiAirGun.description>
+
+  <TSA_WD_Upgrade_ImprovedMortarShells.label>Proyectiles mejorados</TSA_WD_Upgrade_ImprovedMortarShells.label>
+  <TSA_WD_Upgrade_ImprovedMortarShells.description>Aumenta el daño de los proyectiles de mortero y antiaéreos.</TSA_WD_Upgrade_ImprovedMortarShells.description>
+
+  <TSA_WD_Upgrade_AdvancedMortarShells.label>Proyectiles avanzados</TSA_WD_Upgrade_AdvancedMortarShells.label>
+  <TSA_WD_Upgrade_AdvancedMortarShells.description>Aumenta aún más el daño de los proyectiles de mortero y antiaéreos.</TSA_WD_Upgrade_AdvancedMortarShells.description>
+
+  <TSA_WD_Upgrade_AdvancedMicroscopes.label>Microscopios avanzados</TSA_WD_Upgrade_AdvancedMicroscopes.label>
+  <TSA_WD_Upgrade_AdvancedMicroscopes.description>Instrumentos de laboratorio y óptica de precisión que mejoran la investigación continua en esta avanzadilla.</TSA_WD_Upgrade_AdvancedMicroscopes.description>
+
+  <TSA_WD_Upgrade_AdvancedLabEquipment.label>Equipo de laboratorio avanzado</TSA_WD_Upgrade_AdvancedLabEquipment.label>
+  <TSA_WD_Upgrade_AdvancedLabEquipment.description>Equipo de laboratorio de alta precisión que mejora la investigación continua en esta avanzadilla.</TSA_WD_Upgrade_AdvancedLabEquipment.description>
+
+  <TSA_WD_Upgrade_PowerPlant_SolarArrays.label>Paneles solares</TSA_WD_Upgrade_PowerPlant_SolarArrays.label>
+  <TSA_WD_Upgrade_PowerPlant_SolarArrays.description>Campos fotovoltaicos que alimentan la red remota.</TSA_WD_Upgrade_PowerPlant_SolarArrays.description>
+
+  <TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators.label>Generadores de combustible químico</TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators.label>
+  <TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators.description>Un banco de generadores robustos de combustible químico dedicado a la exportación remota.</TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators.description>
+
+  <TSA_WD_Upgrade_PowerPlant_AdvancedGridControls.label>Controles de red avanzados</TSA_WD_Upgrade_PowerPlant_AdvancedGridControls.label>
+  <TSA_WD_Upgrade_PowerPlant_AdvancedGridControls.description>Hardware de control que mejora la eficiencia de transmisión y el equilibrado de carga.</TSA_WD_Upgrade_PowerPlant_AdvancedGridControls.description>
+
+  <TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant.label>Central geotérmica</TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant.label>
+  <TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant.description>Infraestructura térmica profunda que alimenta una gran toma de energía remota.</TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant.description>
+
+  <TSA_WD_Upgrade_BasicBarn.label>Granero básico</TSA_WD_Upgrade_BasicBarn.label>
+  <TSA_WD_Upgrade_BasicBarn.description>Un granero sencillo de madera que alberga el ganado y mejora el rendimiento del manejo.</TSA_WD_Upgrade_BasicBarn.description>
+
+  <TSA_WD_Upgrade_InsulatedBarn.label>Granero aislado</TSA_WD_Upgrade_InsulatedBarn.label>
+  <TSA_WD_Upgrade_InsulatedBarn.description>Granero de piedra y acero con control climático para rebaños más sanos y rendimientos más estables.</TSA_WD_Upgrade_InsulatedBarn.description>
+
+  <TSA_WD_Upgrade_FactoryFarm.label>Granja industrial</TSA_WD_Upgrade_FactoryFarm.label>
+  <TSA_WD_Upgrade_FactoryFarm.description>Infraestructura ganadera industrial que maximiza la producción de productos animales renovables.</TSA_WD_Upgrade_FactoryFarm.description>
+
+  <TSA_WD_Upgrade_DecontaminationEquipment.label>Equipo de descontaminación</TSA_WD_Upgrade_DecontaminationEquipment.label>
+  <TSA_WD_Upgrade_DecontaminationEquipment.description>Desbloquea misiones de descontaminación. Envía una cuadrilla a limpiar la contaminación de casillas del mundo.</TSA_WD_Upgrade_DecontaminationEquipment.description>
+
+  <TSA_WD_Upgrade_TunnelNetwork.label>Red de túneles</TSA_WD_Upgrade_TunnelNetwork.label>
+  <TSA_WD_Upgrade_TunnelNetwork.description>Rutas subterráneas que permiten a aliados cercanos responder a llamadas de apoyo desde más lejos.</TSA_WD_Upgrade_TunnelNetwork.description>
+
+  <TSA_WD_Upgrade_FishingNets.label>Redes de pesca</TSA_WD_Upgrade_FishingNets.label>
+  <TSA_WD_Upgrade_FishingNets.description>Redes costeras que aumentan las capturas y refuerzan el campamento.</TSA_WD_Upgrade_FishingNets.description>
+
+  <TSA_WD_Upgrade_CoastalPier.label>Muelle costero</TSA_WD_Upgrade_CoastalPier.label>
+  <TSA_WD_Upgrade_CoastalPier.description>Un muelle más resistente para aguas más profundas y mejores capturas.</TSA_WD_Upgrade_CoastalPier.description>
+
+  <TSA_WD_Upgrade_TrawlerGear.label>Equipo de arrastre</TSA_WD_Upgrade_TrawlerGear.label>
+  <TSA_WD_Upgrade_TrawlerGear.description>Equipo costero pesado para máxima captura y una defensa más dura en la orilla.</TSA_WD_Upgrade_TrawlerGear.description>
+
+  <TSA_WD_Upgrade_Warehouse_LogisticsNetwork.label>Red logística</TSA_WD_Upgrade_Warehouse_LogisticsNetwork.label>
+  <TSA_WD_Upgrade_Warehouse_LogisticsNetwork.description>Almacenamiento y rutas coordinadas que refuerzan el aura de productividad de este almacén para productores cercanos.</TSA_WD_Upgrade_Warehouse_LogisticsNetwork.description>
+
+  <TSA_WD_Upgrade_Warehouse_ExtendedDistribution.label>Distribución ampliada</TSA_WD_Upgrade_Warehouse_ExtendedDistribution.label>
+  <TSA_WD_Upgrade_Warehouse_ExtendedDistribution.description>Rutas más largas y señalización que amplían el radio del aura de productividad de este almacén.</TSA_WD_Upgrade_Warehouse_ExtendedDistribution.description>
+
+  <TSA_WD_Upgrade_Silo.label>Silo</TSA_WD_Upgrade_Silo.label>
+  <TSA_WD_Upgrade_Silo.description>Silos de gran capacidad que aumentan el almacenamiento máximo de comida virtual de esta avanzadilla.</TSA_WD_Upgrade_Silo.description>
+
+  <TSA_WD_Upgrade_HydroponicsBasin.label>Cuenca hidropónica</TSA_WD_Upgrade_HydroponicsBasin.label>
+  <TSA_WD_Upgrade_HydroponicsBasin.description>Infraestructura hidropónica que añade producción plana diaria de comida en esta avanzadilla.</TSA_WD_Upgrade_HydroponicsBasin.description>
+</LanguageData>

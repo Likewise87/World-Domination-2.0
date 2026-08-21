@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<OutputPath>..\Assemblies\</OutputPath>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<Optimize>true</Optimize>
+		<DebugType>portable</DebugType>
+	</PropertyGroup>
+	<ItemGroup>
+	  <None Include="RaidLogic\Reinforcements_Physical.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Lib.Harmony" Version="2.3.2" />
+		<Reference Include="Assembly-CSharp">
+			<HintPath>C:\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		
+		<Reference Include="KCSG">
+		  <HintPath>..\..\..\..\..\workshop\content\294100\2023507013\1.6\Assemblies\KCSG.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		
+		<Reference Include="Outposts">
+		  <HintPath>..\..\..\..\..\workshop\content\294100\2023507013\1.6\Assemblies\Outposts.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>C:\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+			<Private>False</Private>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.IMGUIModule">
+		  <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.InputLegacyModule">
+		  <HintPath>C:\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.TextRenderingModule">
+		  <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+</Project>

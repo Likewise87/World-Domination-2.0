@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.SettlementLayoutDef>
+    <defName>Player_Outpost</defName>
+    <settlementSize>40,40</settlementSize>
+    <avoidBridgeable>true</avoidBridgeable>
+    <avoidMountains>true</avoidMountains>
+    
+    <centerBuildings>
+      <centerSize>35,35</centerSize>
+      <spaceAround>1</spaceAround>
+	  <centralBuildingTags>
+        <li>TSA_Tribal_BigBarracks</li>
+      </centralBuildingTags>
+      <allowedStructures>
+        <li>
+          <tag>Generic_Bedroom</tag>
+          <count>2~4</count>
+        </li>
+
+        <li>
+          <tag>TSA_Tribal_Logging</tag>
+          <count>0~1</count>
+        </li>
+		
+		<li>
+          <tag>Generic_Stockpile</tag>
+          <count>0~1</count>
+        </li>
+      </allowedStructures>
+    </centerBuildings>
+
+    <defenseOptions>
+      <pawnGroupMultiplier>0.35</pawnGroupMultiplier>
+    </defenseOptions>
+
+    <propsOptions>
+      <scatterProps>true</scatterProps>
+      <scatterMinDistance>5</scatterMinDistance>
+      <scatterMaxAmount>12</scatterMaxAmount>
+      <scatterPropsDefs>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_BoxSmall</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleLarge</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleMedium</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleSmall</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogs</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogsLarge</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenWagon</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Hayball_1a</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Wagon_3a</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Wagon_5a</li>
+		<li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenChest</li>
+      </scatterPropsDefs>
+    </propsOptions>
+
+    <roadOptions>
+      <addLinkRoad>true</addLinkRoad>
+      <linkRoadDef>PackedDirt</linkRoadDef>
+    </roadOptions>
+  </KCSG.SettlementLayoutDef>
+</Defs>

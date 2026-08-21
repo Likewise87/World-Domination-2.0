@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+<KCSG.StructureLayoutDef>
+  <defName>TSA_ParkingLot_2</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,FloodLight,.</li>
+      <li>.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.</li>
+      <li>.,FloodLight,.,ShelfSmall_BlocksSlate_South,ShelfSmall_BlocksSlate_South,ShelfSmall_BlocksSlate_South,ShelfSmall_BlocksSlate_South,.</li>
+      <li>.,.,.,.,.,.,.,.</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile</li>
+    <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile</li>
+    <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile</li>
+    <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile</li>
+    <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile</li>
+    <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile</li>
+    <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile</li>
+    <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile</li>
+    <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile</li>
+    <li>PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile</li>
+  </terrainGrid>
+  <tags>
+	<li>TSA_ParkingLot</li>
+  </tags>
+</KCSG.StructureLayoutDef>
+</Defs>

@@ -1,0 +1,859 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <!-- MainButtonDef injection (tab bar label and tooltip) -->
+  <MainButtonDef.TSA_WD_WorldDomination.label>WD</MainButtonDef.TSA_WD_WorldDomination.label>
+  <MainButtonDef.TSA_WD_WorldDomination.description>世界霸权：外交矩阵、前哨站、世界统计、行动日志。</MainButtonDef.TSA_WD_WorldDomination.description>
+  <TSA_WD_BtnClear>清除</TSA_WD_BtnClear>
+  <TSA_WD_BtnDailyActions>世界行动</TSA_WD_BtnDailyActions>
+  <TSA_WD_BtnDiplomacy>外交、增益与减益</TSA_WD_BtnDiplomacy>
+  <TSA_WD_BtnDisinformation>虚假情报</TSA_WD_BtnDisinformation>
+  <TSA_WD_BtnGarrisonSettings>驻军倍率</TSA_WD_BtnGarrisonSettings>
+  <TSA_WD_BtnGrowthExpand>发展与扩张</TSA_WD_BtnGrowthExpand>
+  <TSA_WD_BtnMiningBaselines>采矿基准</TSA_WD_BtnMiningBaselines>
+  <TSA_WD_BtnNotifications>通知</TSA_WD_BtnNotifications>
+  <TSA_WD_BtnOutpostFood>前哨站</TSA_WD_BtnOutpostFood>
+  <TSA_WD_BtnOutpostSettings>前哨站设置</TSA_WD_BtnOutpostSettings>
+  <TSA_WD_BtnOutpostSkillScaling>前哨技能缩放</TSA_WD_BtnOutpostSkillScaling>
+  <TSA_WD_DescOutpostSkillScaling>决定像“种植”技能堆在“农业前哨”上是否应无限提高产量，还是在某些阈值之后递减。</TSA_WD_DescOutpostSkillScaling>
+  <TSA_WD_BtnUpdateNotes>显示更新说明</TSA_WD_BtnUpdateNotes>
+  <TSA_WD_BtnRaidMult>袭击点数倍率</TSA_WD_BtnRaidMult>
+  <TSA_WD_BtnResetAll>重置全部设置</TSA_WD_BtnResetAll>
+  <TSA_WD_ResetPageToDefaults>将此页恢复为默认</TSA_WD_ResetPageToDefaults>
+  <TSA_WD_BtnSabotage>破坏</TSA_WD_BtnSabotage>
+  <TSA_WD_BtnWorldGen>初始世界生成</TSA_WD_BtnWorldGen>
+  <TSA_WD_BtnWorldRaids>世界地图袭击</TSA_WD_BtnWorldRaids>
+  <TSA_WD_BtnCaravans>远行队与贸易</TSA_WD_BtnCaravans>
+  <TSA_WD_BtnExperimental>实验性</TSA_WD_BtnExperimental>
+  <TSA_WD_BtnPlayerArtillery>玩家火炮</TSA_WD_BtnPlayerArtillery>
+  <TSA_WD_Category>世界霸权</TSA_WD_Category>
+  <TSA_WD_Daily_CapTip>该定居点单日可发起的最大不同行动数(袭击、修路、发展等)。</TSA_WD_Daily_CapTip>
+  <TSA_WD_Daily_CdBeingRaided>防御护盾</TSA_WD_Daily_CdBeingRaided>
+  <TSA_WD_Daily_CdBeingRaidedTip>该定居点被袭击后获得的袭击免疫天数。不会阻止该定居点作为进攻方行动。</TSA_WD_Daily_CdBeingRaidedTip>
+  <TSA_WD_Daily_CdExpand>扩张后冷却</TSA_WD_Daily_CdExpand>
+  <TSA_WD_Daily_CdExpandTip>该定居点再次建立新定居点前需要等待的天数。不会阻止其他行动类型。</TSA_WD_Daily_CdExpandTip>
+  <TSA_WD_Daily_CdGrow>筑路后冷却</TSA_WD_Daily_CdGrow>
+  <TSA_WD_Daily_CdGrowTip>该定居点再次开始筑路工程前需要等待的天数。不会阻止其他行动类型。发展本身没有冷却。</TSA_WD_Daily_CdGrowTip>
+  <TSA_WD_Daily_CdIncident>事件冷却</TSA_WD_Daily_CdIncident>
+  <TSA_WD_Daily_CdIncidentTip>该定居点再次触发次要或主要世界事件前需要等待的天数。不会阻止其他行动类型。</TSA_WD_Daily_CdIncidentTip>
+  <TSA_WD_Daily_CdRaid>袭击后冷却</TSA_WD_Daily_CdRaid>
+  <TSA_WD_Daily_CdRaidTip>该定居点再次发起袭击前需要等待的天数。不会阻止发展、扩张、筑路、贸易商队或事件。</TSA_WD_Daily_CdRaidTip>
+  <TSA_WD_Daily_HeaderActionCaps>定居点行动容量</TSA_WD_Daily_HeaderActionCaps>
+  <TSA_WD_Daily_HeaderCooldowns>行动专属冷却</TSA_WD_Daily_HeaderCooldowns>
+  <TSA_WD_Daily_HeaderTiers>各等级定居点每日行动</TSA_WD_Daily_HeaderTiers>
+  <TSA_WD_Daily_HeaderWeights>行动概率</TSA_WD_Daily_HeaderWeights>
+  <TSA_WD_Daily_MaxRoadRange>最大修路距离</TSA_WD_Daily_MaxRoadRange>
+  <TSA_WD_Daily_MaxRoadRangeTip>定居点不会尝试向超过此格数的目标修路。</TSA_WD_Daily_MaxRoadRangeTip>
+  <TSA_WD_Daily_Reset>重置本页为默认</TSA_WD_Daily_Reset>
+  <TSA_WD_Daily_Tier1Tip>每个 T1 定居点每日增加的行动数。</TSA_WD_Daily_Tier1Tip>
+  <TSA_WD_Daily_Tier2Tip>每个 T2 定居点每日增加的行动数。</TSA_WD_Daily_Tier2Tip>
+  <TSA_WD_Daily_Tier3Tip>每个 T3 定居点每日增加的行动数。</TSA_WD_Daily_Tier3Tip>
+  <TSA_WD_Daily_Tier4Tip>每个 T4 定居点每日增加的行动数。</TSA_WD_Daily_Tier4Tip>
+  <TSA_WD_Daily_WeightGrow>发展概率</TSA_WD_Daily_WeightGrow>
+  <TSA_WD_Daily_WeightGrowTip>接近上限的定居点升级或扩张的概率。仅当实力至少达到等级上限的 95% 时才会被选中。</TSA_WD_Daily_WeightGrowTip>
+  <TSA_WD_Daily_HeaderNearCapActions>等级上限实力 95-100% 时的行动</TSA_WD_Daily_HeaderNearCapActions>
+  <TSA_WD_Daily_IncludeDevelopInPercent>将发展计入上方百分比</TSA_WD_Daily_IncludeDevelopInPercent>
+  <TSA_WD_Daily_IncludeDevelopInPercentTip>仅影响设置菜单。开启后，发展会计入上方常见行动旁的百分比。游戏内掷骰不变：只有接近等级上限时，发展才会参与竞争。</TSA_WD_Daily_IncludeDevelopInPercentTip>
+  <TSA_WD_Daily_WeightMajor>重大事件概率</TSA_WD_Daily_WeightMajor>
+  <TSA_WD_Daily_WeightMajorTip>定居点遭遇重大事件的概率。</TSA_WD_Daily_WeightMajorTip>
+  <TSA_WD_Daily_WeightMinor>次要事件概率</TSA_WD_Daily_WeightMinor>
+  <TSA_WD_Daily_WeightMinorTip>定居点遭遇次要事件的概率。</TSA_WD_Daily_WeightMinorTip>
+  <TSA_WD_Daily_WeightRaid>袭击概率</TSA_WD_Daily_WeightRaid>
+  <TSA_WD_Daily_WeightRaidTip>定居点袭击附近定居点或玩家前哨站的概率。</TSA_WD_Daily_WeightRaidTip>
+  <TSA_WD_Daily_WeightTrader>贸易商队概率</TSA_WD_Daily_WeightTrader>
+  <TSA_WD_Daily_WeightTraderTip>定居点向范围内的中立或盟友目标派遣贸易商队的相对概率。</TSA_WD_Daily_WeightTraderTip>
+  <TSA_WD_Daily_WeightFortify>设防概率</TSA_WD_Daily_WeightFortify>
+  <TSA_WD_Daily_WeightFortifyTip>受威胁定居点朝最近敌对方向放置路障或陷阱的概率。高等级可能一次派出多支设防施工队（T1 多为 1 支，T3 固定 2 支，T4 最多 3 支）。仅当攻击范围内有敌对目标且还有空闲环时才会被选中。</TSA_WD_Daily_WeightFortifyTip>
+  <TSA_WD_Daily_CdFortify>设防后冷却</TSA_WD_Daily_CdFortify>
+  <TSA_WD_Daily_CdFortifyTip>该定居点再次设防前需要等待的天数。不会阻止其他行动类型。</TSA_WD_Daily_CdFortifyTip>
+  <TSA_WD_Daily_CdTrader>贸易商队行动后冷却</TSA_WD_Daily_CdTrader>
+  <TSA_WD_Daily_CdTraderTip>该定居点再次发起贸易商队前需要等待的天数。不会阻止其他行动类型。</TSA_WD_Daily_CdTraderTip>
+  <TSA_WD_DescDailyActions>定居点每日可执行多少行动?各行动类型概率?行动后应用何种冷却?</TSA_WD_DescDailyActions>
+  <TSA_WD_DescDiplomacy>随机外交、叛乱概率、好感上限与原版好感调整、盟友袭击命令、有序筑路、购买定居点、派系投资，以及领袖/弱势/狂热/联盟增益与减益。</TSA_WD_DescDiplomacy>
+  <TSA_WD_DescDisinformation>虚假情报任务的成功/失败概率、冷却与技能影响。</TSA_WD_DescDisinformation>
+  <TSA_WD_DescGarrison>用"真实"商队袭击 T1、T2、T3、T4 定居点时遭遇的敌人数量与强度。</TSA_WD_DescGarrison>
+  <TSA_WD_DescGrowthExpand>定居点发展多快?升级需满足何条件?扩张距离与饱和上限。</TSA_WD_DescGrowthExpand>
+  <TSA_WD_DescMiningBaselines>根据采矿技能等级配置采矿前哨每石头/矿石可获基准量。</TSA_WD_DescMiningBaselines>
+  <TSA_WD_DescNotifications>切换哪些世界霸权事件生成通知。</TSA_WD_DescNotifications>
+  <TSA_WD_DescOutpostFood>前哨站的食物消耗、产量、物流范围与效率。</TSA_WD_DescOutpostFood>
+  <TSA_WD_DescOutpostSettings>前哨站建立条件、生产速度与产量及食物物流。</TSA_WD_DescOutpostSettings>
+  <TSA_WD_DescUpdateNotes>查看世界霸权的更新说明与更新日志。</TSA_WD_DescUpdateNotes>
+  <TSA_WD_DescRaidMult>配置袭击点数倍率、前哨是否可被袭击及是否保留叙事者袭击。</TSA_WD_DescRaidMult>
+  <TSA_WD_DescResetAll>将所有模组设置恢复为默认。</TSA_WD_DescResetAll>
+  <TSA_WD_DescSabotage>破坏任务的成功/失败概率、冷却与技能影响。</TSA_WD_DescSabotage>
+  <TSA_WD_DescWorldGen>初始世界生成时 T1、T2、T3、T4 定居点的生成概率?</TSA_WD_DescWorldGen>
+  <TSA_WD_DescWorldRaids>配置模拟袭击结果：胜率曲线、损失与进攻所需的最低实力比。行进中的实力损失见「远行队与贸易」。</TSA_WD_DescWorldRaids>
+  <TSA_WD_DescCaravans>行进损耗、WD 商队水路寻路、贸易商队、玩家殖民地商人间隔、前哨配送成本及叙事者商人屏蔽。水路寻路也可在「设置预设 → 性能」中配置。</TSA_WD_DescCaravans>
+  <TSA_WD_DescExperimental>世界行动与袭击逻辑实验、世界地图图标缩放行为、叠加层按住键、NPC 设防旅行者、旅行者污染伤害，以及污染寻路开关。</TSA_WD_DescExperimental>
+  <TSA_WD_FacDet_BtnView>查看</TSA_WD_FacDet_BtnView>
+  <TSA_WD_FacDet_HeaderName>定居点名称</TSA_WD_FacDet_HeaderName>
+  <TSA_WD_FacDet_HeaderStrength>实力</TSA_WD_FacDet_HeaderStrength>
+  <TSA_WD_FacDet_StrengthTip>本地防御合计（进攻+防御），与世界统计排名用同一数字。不是袭击发动池或事件池。</TSA_WD_FacDet_StrengthTip>
+  <TSA_WD_FacDet_HeaderTier>等级</TSA_WD_FacDet_HeaderTier>
+  <TSA_WD_FacDet_Title>派系定居点概览:{0}</TSA_WD_FacDet_Title>
+  <TSA_WD_Garrison_T1>等级 1(营地)倍率</TSA_WD_Garrison_T1>
+  <TSA_WD_Garrison_T2>等级 2(城镇)倍率</TSA_WD_Garrison_T2>
+  <TSA_WD_Garrison_T3>等级 3(城市)倍率</TSA_WD_Garrison_T3>
+  <TSA_WD_Garrison_T4>等级 4(要塞)倍率</TSA_WD_Garrison_T4>
+  <TSA_WD_Garrison_Title>定居点驻军缩放</TSA_WD_Garrison_Title>
+  <TSA_WD_Garrison_Tooltip>缩放用于生成防守者的点数。更高值增加人数与质量。</TSA_WD_Garrison_Tooltip>
+  <TSA_WD_Gen_HeaderWeights>初始世界生成权重</TSA_WD_Gen_HeaderWeights>
+  <TSA_WD_Gen_RerollAll>立即重掷定居点等级</TSA_WD_Gen_RerollAll>
+  <TSA_WD_Gen_Reset>重置为默认</TSA_WD_Gen_Reset>
+  <TSA_WD_Gen_Tier1Tip>定居点以等级 1 前哨开始的概率。</TSA_WD_Gen_Tier1Tip>
+  <TSA_WD_Gen_Tier2Tip>定居点以等级 2 城镇开始的概率。</TSA_WD_Gen_Tier2Tip>
+  <TSA_WD_Gen_Tier3Tip>定居点以等级 3 堡垒开始的概率。</TSA_WD_Gen_Tier3Tip>
+  <TSA_WD_Gen_Tier4Tip>定居点以等级 4 要塞开始的概率。</TSA_WD_Gen_Tier4Tip>
+  <TSA_WD_WorldSetup_Title>WD: 世界设置</TSA_WD_WorldSetup_Title>
+  <TSA_WD_WorldSetup_Subtitle>在落脚前调整定居点、道路与派系关系。</TSA_WD_WorldSetup_Subtitle>
+  <TSA_WD_WorldSetup_ButtonTooltip>打开 World Domination 世界设置。拖动可移动此图标。</TSA_WD_WorldSetup_ButtonTooltip>
+  <TSA_WD_WorldSetup_Recreate>重建定居点</TSA_WD_WorldSetup_Recreate>
+  <TSA_WD_WorldSetup_RecreateTooltip>摧毁所有 NPC 定居点，并按本节的数量、间距、派系密度与到其他派系的距离重新放置。使用定居点最小距离设置。工事是否清除取决于重建时摧毁工事的开关。</TSA_WD_WorldSetup_RecreateTooltip>
+  <TSA_WD_WorldSetup_RecreateConfirmHeader>重建全部 NPC 定居点？\n\n将放置：</TSA_WD_WorldSetup_RecreateConfirmHeader>
+  <TSA_WD_WorldSetup_RecreateConfirmLine>{0}：{1}</TSA_WD_WorldSetup_RecreateConfirmLine>
+  <TSA_WD_WorldSetup_RecreateConfirmTotal>合计：{0}（世界生成时为 {1}）</TSA_WD_WorldSetup_RecreateConfirmTotal>
+  <TSA_WD_WorldSetup_RecreateConfirmFooter>会清除 NPC 路障、陷阱与反载具炮塔。玩家地点不受影响。</TSA_WD_WorldSetup_RecreateConfirmFooter>
+  <TSA_WD_WorldSetup_RecreateConfirmFooterKeepForts>NPC 路障、陷阱与反载具炮塔会保留。玩家地点不受影响。</TSA_WD_WorldSetup_RecreateConfirmFooterKeepForts>
+  <TSA_WD_WorldSetup_RecreateConfirmEmpty>世界生成时没有可重建的 NPC 定居点。</TSA_WD_WorldSetup_RecreateConfirmEmpty>
+  <TSA_WD_WorldSetup_RecreateDone>已重建 {0} 个定居点。</TSA_WD_WorldSetup_RecreateDone>
+  <TSA_WD_WorldSetup_RecreatePartial>已重建 {0} 个定居点。跳过 {1} 个（没有可用地块）。</TSA_WD_WorldSetup_RecreatePartial>
+  <TSA_WD_WorldSetup_RecreateResultTitle>定居点重建完成</TSA_WD_WorldSetup_RecreateResultTitle>
+  <TSA_WD_WorldSetup_RecreateResultFull>已放置全部 {0} 个定居点。</TSA_WD_WorldSetup_RecreateResultFull>
+  <TSA_WD_WorldSetup_RecreateResultPartial>按你的设置尝试放置 {0} 个定居点。已放置 {1} 个。{2} 个无法放置——在当前间距与派系规则下没有可用地块。</TSA_WD_WorldSetup_RecreateResultPartial>
+  <TSA_WD_WorldSetup_RecreateResultFactionAbort>{0}：连续 {1} 次失败后停止（无可用地块）。</TSA_WD_WorldSetup_RecreateResultFactionAbort>
+  <TSA_WD_WorldSetup_RecreateResultError>定居点重建失败。详情请查看 Player.log。</TSA_WD_WorldSetup_RecreateResultError>
+  <TSA_WD_WorldSetup_Coherence>成簇概率</TSA_WD_WorldSetup_Coherence>
+  <TSA_WD_WorldSetup_CoherenceTooltip>重建时加入已有同派系簇的概率。低 = 仅按间距开新定居点。高 = 尽量填满簇（受每簇上限限制）。</TSA_WD_WorldSetup_CoherenceTooltip>
+  <TSA_WD_WorldSetup_CoherenceRandom>随机</TSA_WD_WorldSetup_CoherenceRandom>
+  <TSA_WD_WorldSetup_CoherenceClustered>聚集</TSA_WD_WorldSetup_CoherenceClustered>
+  <TSA_WD_WorldSetup_Spacing>间距</TSA_WD_WorldSetup_Spacing>
+  <TSA_WD_WorldSetup_SpacingTooltip>定居点之间的最小间距（同派系或其他派系）。随滑条提高，100% 时约为建立最小距离的 4 倍。</TSA_WD_WorldSetup_SpacingTooltip>
+  <TSA_WD_WorldSetup_SpacingClose>紧密</TSA_WD_WorldSetup_SpacingClose>
+  <TSA_WD_WorldSetup_SpacingSpread>分散</TSA_WD_WorldSetup_SpacingSpread>
+  <TSA_WD_WorldSetup_OtherFactionDistance>到其他派系的距离</TSA_WD_WorldSetup_OtherFactionDistance>
+  <TSA_WD_WorldSetup_OtherFactionDistanceTooltip>邻居为其他派系时，在间距之上额外拉开。为 0 时其他派系只遵守间距。为 100 时在间距上再加 3×建立最小距离。</TSA_WD_WorldSetup_OtherFactionDistanceTooltip>
+  <TSA_WD_WorldSetup_MaxPerCluster>每簇定居点上限</TSA_WD_WorldSetup_MaxPerCluster>
+  <TSA_WD_WorldSetup_MaxPerClusterTooltip>重建时，同派系聚在一起的定居点，每个簇不得超过此数量。超出的会开新簇。</TSA_WD_WorldSetup_MaxPerClusterTooltip>
+  <TSA_WD_WorldSetup_MinClusterDistance>簇间最小距离</TSA_WD_WorldSetup_MinClusterDistance>
+  <TSA_WD_WorldSetup_MinClusterDistanceTooltip>因上一簇已满或加入失败而开新同派系簇时的额外分隔。成簇概率只是选择不加入时不生效。为 0 关闭。默认 20。</TSA_WD_WorldSetup_MinClusterDistanceTooltip>
+  <TSA_WD_WorldSetup_FactionShares>派系份额</TSA_WD_WorldSetup_FactionShares>
+  <TSA_WD_WorldSetup_FactionSharesTooltip>调整重建时各派系获得的定居点数量。初始为世界生成时的比例。</TSA_WD_WorldSetup_FactionSharesTooltip>
+  <TSA_WD_WorldSetup_FactionSharesTitle>派系定居点份额</TSA_WD_WorldSetup_FactionSharesTitle>
+  <TSA_WD_WorldSetup_FactionSharesTip>拖动各派系份额。百分比与定居点数量由份额总和以及“定居点数量”滑块决定。</TSA_WD_WorldSetup_FactionSharesTip>
+  <TSA_WD_WorldSetup_FactionShares_H_Faction>派系</TSA_WD_WorldSetup_FactionShares_H_Faction>
+  <TSA_WD_WorldSetup_FactionShares_H_Share>份额</TSA_WD_WorldSetup_FactionShares_H_Share>
+  <TSA_WD_WorldSetup_FactionShares_H_Pct>%</TSA_WD_WorldSetup_FactionShares_H_Pct>
+  <TSA_WD_WorldSetup_FactionShares_H_Count>定居点</TSA_WD_WorldSetup_FactionShares_H_Count>
+  <TSA_WD_WorldSetup_FactionShares_Reset>恢复为世界生成</TSA_WD_WorldSetup_FactionShares_Reset>
+  <TSA_WD_WorldSetup_FactionShares_Empty>本世界没有可用的 NPC 派系。</TSA_WD_WorldSetup_FactionShares_Empty>
+  <TSA_WD_WorldSetup_SettlementCount>定居点数量</TSA_WD_WorldSetup_SettlementCount>
+  <TSA_WD_WorldSetup_SettlementCountTooltip>重建时放置的 NPC 定居点数量。默认是原版世界生成的数量。派系份额（“派系份额”按钮）决定如何分配该总数。</TSA_WD_WorldSetup_SettlementCountTooltip>
+  <TSA_WD_WorldSetup_TierLikelihood>定居点等级</TSA_WD_WorldSetup_TierLikelihood>
+  <TSA_WD_WorldSetup_TierLikelihoodTooltip>编辑各等级出现频率。下次重建会使用这些权重。</TSA_WD_WorldSetup_TierLikelihoodTooltip>
+  <TSA_WD_WorldSetup_Allegiances>派系关系</TSA_WD_WorldSetup_Allegiances>
+  <TSA_WD_WorldSetup_AllegiancesTooltip>在 NPC 派系间设置中立、同盟或敌对，锁定 WD 外交变更，并可选择冻结。</TSA_WD_WorldSetup_AllegiancesTooltip>
+  <TSA_WD_WorldSetup_AllegiancesTitle>世界派系关系</TSA_WD_WorldSetup_AllegiancesTitle>
+  <TSA_WD_WorldSetup_AllegiancesSubtitle>编辑本世界的 NPC 关系。可选冻结持续 {0} 天（与随机外交相同）。</TSA_WD_WorldSetup_AllegiancesSubtitle>
+  <TSA_WD_WorldSetup_FreezeOnApply>冻结 {0} 天</TSA_WD_WorldSetup_FreezeOnApply>
+  <TSA_WD_WorldSetup_FreezeOnApplyTooltip>勾选后，中立 / 同盟 / 敌对还会施加 {0} 天冻结，使随机 WD 外交在冻结期内不改动该对。</TSA_WD_WorldSetup_FreezeOnApplyTooltip>
+  <TSA_WD_WorldSetup_GoodwillFieldTooltip>输入好感度（-100 到 {0}）并按 Enter。同盟 = +75，敌对 = -75，中立 = 0。上限与模组设置中的最大好感度一致。</TSA_WD_WorldSetup_GoodwillFieldTooltip>
+  <TSA_WD_WorldSetup_PermanentlyHostile>永久敌对</TSA_WD_WorldSetup_PermanentlyHostile>
+  <TSA_WD_WorldSetup_ResetAllegiancesDefault>将派系关系重置为默认</TSA_WD_WorldSetup_ResetAllegiancesDefault>
+  <TSA_WD_WorldSetup_ResetAllegiancesDefaultTooltip>将列表中的每对关系恢复为该派系对的初始自然好感度。</TSA_WD_WorldSetup_ResetAllegiancesDefaultTooltip>
+  <TSA_WD_WorldSetup_ResetAllegiancesDone>派系关系已恢复为默认。</TSA_WD_WorldSetup_ResetAllegiancesDone>
+  <TSA_WD_WorldSetup_RelNeutral>中立</TSA_WD_WorldSetup_RelNeutral>
+  <TSA_WD_WorldSetup_RelAllied>同盟</TSA_WD_WorldSetup_RelAllied>
+  <TSA_WD_WorldSetup_RelHostile>敌对</TSA_WD_WorldSetup_RelHostile>
+  <TSA_WD_WorldSetup_RelationFailed>无法更改该关系（缺少关系数据）。</TSA_WD_WorldSetup_RelationFailed>
+  <TSA_WD_WorldSetup_ToolsHeader>放置工具</TSA_WD_WorldSetup_ToolsHeader>
+  <TSA_WD_WorldSetup_SectionGeneral>常规设置</TSA_WD_WorldSetup_SectionGeneral>
+  <TSA_WD_WorldSetup_SectionDistribution>定居点分布</TSA_WD_WorldSetup_SectionDistribution>
+  <TSA_WD_WorldSetup_SectionLayout>手动调整定居点</TSA_WD_WorldSetup_SectionLayout>
+  <TSA_WD_WorldSetup_DestroyFortsOnRecreate>重建时摧毁工事</TSA_WD_WorldSetup_DestroyFortsOnRecreate>
+  <TSA_WD_WorldSetup_DestroyFortsOnRecreateTip>开启后，重建定居点时也会移除 NPC 路障、尖刺陷阱与反载具炮塔。玩家地点不受影响。</TSA_WD_WorldSetup_DestroyFortsOnRecreateTip>
+  <TSA_WD_WorldSetup_SectionDiplomacy>外交</TSA_WD_WorldSetup_SectionDiplomacy>
+  <TSA_WD_WorldSetup_SectionTools>放置工具</TSA_WD_WorldSetup_SectionTools>
+  <TSA_WD_WorldSetup_SectionRoadsFortify>道路与工事</TSA_WD_WorldSetup_SectionRoadsFortify>
+  <TSA_WD_WorldSetup_ToolPlaceSettlement>放置定居点</TSA_WD_WorldSetup_ToolPlaceSettlement>
+  <TSA_WD_WorldSetup_ToolRemoveSettlement>移除定居点</TSA_WD_WorldSetup_ToolRemoveSettlement>
+  <TSA_WD_WorldSetup_ToolStrengthPlus>增加实力 +100</TSA_WD_WorldSetup_ToolStrengthPlus>
+  <TSA_WD_WorldSetup_ToolStrengthMinus>减少实力 -100</TSA_WD_WorldSetup_ToolStrengthMinus>
+  <TSA_WD_WorldSetup_ToolTierUp>提升等级</TSA_WD_WorldSetup_ToolTierUp>
+  <TSA_WD_WorldSetup_ToolTierDown>降低等级</TSA_WD_WorldSetup_ToolTierDown>
+  <TSA_WD_WorldSetup_ToolTurret>放置反载具炮塔</TSA_WD_WorldSetup_ToolTurret>
+  <TSA_WD_WorldSetup_ToolRoadBlock>放置路障</TSA_WD_WorldSetup_ToolRoadBlock>
+  <TSA_WD_WorldSetup_ToolTrap>放置陷阱</TSA_WD_WorldSetup_ToolTrap>
+  <TSA_WD_WorldSetup_ToolPlaceRoad>放置道路</TSA_WD_WorldSetup_ToolPlaceRoad>
+  <TSA_WD_WorldSetup_ToolRemoveFortify>移除此处工事</TSA_WD_WorldSetup_ToolRemoveFortify>
+  <TSA_WD_WorldSetup_ToolRemoveRoad>移除道路</TSA_WD_WorldSetup_ToolRemoveRoad>
+  <TSA_WD_WorldSetup_InvalidTile>该地块无效。</TSA_WD_WorldSetup_InvalidTile>
+  <TSA_WD_WorldSetup_TileOccupied>地块 {0} 已有世界物体。</TSA_WD_WorldSetup_TileOccupied>
+  <TSA_WD_WorldSetup_TileInvalidSettlement>地块 {0} 无法建立定居点。</TSA_WD_WorldSetup_TileInvalidSettlement>
+  <TSA_WD_WorldSetup_TooClose>距离其他定居点或前哨过近。</TSA_WD_WorldSetup_TooClose>
+  <TSA_WD_WorldSetup_FactionMissing>缺少派系。</TSA_WD_WorldSetup_FactionMissing>
+  <TSA_WD_WorldSetup_WorldMissing>世界尚未就绪。</TSA_WD_WorldSetup_WorldMissing>
+  <TSA_WD_WorldSetup_NoFactions>没有可放置的派系。</TSA_WD_WorldSetup_NoFactions>
+  <TSA_WD_WorldSetup_PlaceSettlementHint>点击地块放置 {1} 的 {0} 定居点。右键或 Esc 停止。</TSA_WD_WorldSetup_PlaceSettlementHint>
+  <TSA_WD_WorldSetup_PlacedSettlement>已在地块 {2} 放置 {1} 的 {0} 定居点。</TSA_WD_WorldSetup_PlacedSettlement>
+  <TSA_WD_WorldSetup_SpawnFailed>无法放置定居点。</TSA_WD_WorldSetup_SpawnFailed>
+  <TSA_WD_WorldSetup_ClickSettlementHint>在世界地图上点击一个定居点。</TSA_WD_WorldSetup_ClickSettlementHint>
+  <TSA_WD_WorldSetup_NeedSettlement>请点击定居点或 WD 前哨。</TSA_WD_WorldSetup_NeedSettlement>
+  <TSA_WD_WorldSetup_TierChanged>{0} 现在是 {1}。</TSA_WD_WorldSetup_TierChanged>
+  <TSA_WD_WorldSetup_StrengthChanged>{0} 实力现为 {1}（{2}）。</TSA_WD_WorldSetup_StrengthChanged>
+  <TSA_WD_WorldSetup_NoRoadBlockKinds>没有可放置的路障类型。</TSA_WD_WorldSetup_NoRoadBlockKinds>
+  <TSA_WD_WorldSetup_PlaceFortifyHint>点击地块放置。右键或 Esc 停止。</TSA_WD_WorldSetup_PlaceFortifyHint>
+  <TSA_WD_WorldSetup_PlaceFortifyFailed>无法在此处放置。</TSA_WD_WorldSetup_PlaceFortifyFailed>
+  <TSA_WD_WorldSetup_PlaceFortifyDone>已放置。</TSA_WD_WorldSetup_PlaceFortifyDone>
+  <TSA_WD_WorldSetup_RemoveFortifyHint>点击路障、陷阱或反载具炮塔以移除。</TSA_WD_WorldSetup_RemoveFortifyHint>
+  <TSA_WD_WorldSetup_RemoveFortifyNone>该地块没有可移除物。</TSA_WD_WorldSetup_RemoveFortifyNone>
+  <TSA_WD_WorldSetup_RemoveFortifyDone>已移除工事。</TSA_WD_WorldSetup_RemoveFortifyDone>
+  <TSA_WD_WorldSetup_RoadDirt>土路</TSA_WD_WorldSetup_RoadDirt>
+  <TSA_WD_WorldSetup_RoadStone>石路</TSA_WD_WorldSetup_RoadStone>
+  <TSA_WD_WorldSetup_RoadAsphalt>沥青路</TSA_WD_WorldSetup_RoadAsphalt>
+  <TSA_WD_WorldSetup_RoadDefMissing>找不到道路定义。</TSA_WD_WorldSetup_RoadDefMissing>
+  <TSA_WD_WorldSetup_RoadNeedTwoTiles>请选择两个不同地块。</TSA_WD_WorldSetup_RoadNeedTwoTiles>
+  <TSA_WD_WorldSetup_RoadNoPath>这两块地之间没有路径。</TSA_WD_WorldSetup_RoadNoPath>
+  <TSA_WD_WorldSetup_PlaceRoadHint>先点击起点，再点击终点。</TSA_WD_WorldSetup_PlaceRoadHint>
+  <TSA_WD_WorldSetup_PlaceRoadPickEnd>现在点击终点地块。</TSA_WD_WorldSetup_PlaceRoadPickEnd>
+  <TSA_WD_WorldSetup_PlaceRoadDone>已沿路径铺设道路。</TSA_WD_WorldSetup_PlaceRoadDone>
+  <TSA_WD_WorldSetup_RemoveRoadHint>点击有道路的地块以移除其道路连接。</TSA_WD_WorldSetup_RemoveRoadHint>
+  <TSA_WD_WorldSetup_RemoveRoadNone>该地块没有道路。</TSA_WD_WorldSetup_RemoveRoadNone>
+  <TSA_WD_WorldSetup_RemoveRoadDone>已移除 {0} 条道路连接。</TSA_WD_WorldSetup_RemoveRoadDone>
+  <TSA_WD_WorldSetup_RemoveSettlementHint>点击一个 NPC 定居点以移除。右键或 Esc 停止。</TSA_WD_WorldSetup_RemoveSettlementHint>
+  <TSA_WD_WorldSetup_RemoveSettlementDone>已移除 {0}。</TSA_WD_WorldSetup_RemoveSettlementDone>
+  <TSA_WD_WorldSetup_RemoveSettlementPlayer>此处不能移除玩家地点。</TSA_WD_WorldSetup_RemoveSettlementPlayer>
+  <TSA_WD_Growth_BaseGrowth>被动实力获得</TSA_WD_Growth_BaseGrowth>
+  <TSA_WD_Growth_BaseGrowthTooltip>NPC 定居点每天自动获得的进攻实力（尚未计入规模缩放与中后期倍率）。</TSA_WD_Growth_BaseGrowthTooltip>
+  <TSA_WD_Growth_PassiveT1>T1 每日被动</TSA_WD_Growth_PassiveT1>
+  <TSA_WD_Growth_PassiveT2>T2 每日被动</TSA_WD_Growth_PassiveT2>
+  <TSA_WD_Growth_PassiveT3>T3 每日被动</TSA_WD_Growth_PassiveT3>
+  <TSA_WD_Growth_PassiveT4>T4 每日被动</TSA_WD_Growth_PassiveT4>
+  <TSA_WD_Growth_PassiveTierTip>该等级每天自动获得的进攻实力（尚未计入中后期与弱者倍率）。按等级固定，无规模曲线。</TSA_WD_Growth_PassiveTierTip>
+  <TSA_WD_Growth_ExpandChance>扩张成功概率</TSA_WD_Growth_ExpandChance>
+  <TSA_WD_Growth_ExpandChanceTooltip>满实力定居点成功建立新定居点的概率。</TSA_WD_Growth_ExpandChanceTooltip>
+  <TSA_WD_Growth_GoodwillFromTrade>与派系交易时授予好感</TSA_WD_Growth_GoodwillFromTrade>
+  <TSA_WD_Growth_GoodwillFromTradeTooltip>启用后,完成基于白银的交易会获得该派系好感。人情交易不计。</TSA_WD_Growth_GoodwillFromTradeTooltip>
+  <TSA_WD_Growth_GoodwillPer1000Silver>每 1000 白银等价好感</TSA_WD_Growth_GoodwillPer1000Silver>
+  <TSA_WD_Growth_GoodwillPer1000SilverTooltip>每 1000 白银总交易价值(交换货物市值)获得的好感。</TSA_WD_Growth_GoodwillPer1000SilverTooltip>
+  <TSA_WD_Growth_HeaderExpansion>扩张与本地密度上限</TSA_WD_Growth_HeaderExpansion>
+  <TSA_WD_Growth_HeaderGoodwillFromTrade>交易好感</TSA_WD_Growth_HeaderGoodwillFromTrade>
+  <TSA_WD_Growth_HeaderGrowth>通用发展设置</TSA_WD_Growth_HeaderGrowth>
+  <TSA_WD_Growth_HeaderDefensiveBaselines>防御强度基准</TSA_WD_Growth_HeaderDefensiveBaselines>
+  <TSA_WD_Growth_T1DefensiveStrength>T1 防御强度</TSA_WD_Growth_T1DefensiveStrength>
+  <TSA_WD_Growth_T1DefensiveStrengthTooltip>1 级定居点的基础本地防御强度。</TSA_WD_Growth_T1DefensiveStrengthTooltip>
+  <TSA_WD_Growth_T2DefensiveStrength>T2 防御强度</TSA_WD_Growth_T2DefensiveStrength>
+  <TSA_WD_Growth_T2DefensiveStrengthTooltip>2 级定居点的基础本地防御强度。</TSA_WD_Growth_T2DefensiveStrengthTooltip>
+  <TSA_WD_Growth_T3DefensiveStrength>T3 防御强度</TSA_WD_Growth_T3DefensiveStrength>
+  <TSA_WD_Growth_T3DefensiveStrengthTooltip>3 级定居点的基础本地防御强度。</TSA_WD_Growth_T3DefensiveStrengthTooltip>
+  <TSA_WD_Growth_T4DefensiveStrength>T4 防御强度</TSA_WD_Growth_T4DefensiveStrength>
+  <TSA_WD_Growth_T4DefensiveStrengthTooltip>4 级定居点的基础本地防御强度。</TSA_WD_Growth_T4DefensiveStrengthTooltip>
+  <TSA_WD_Growth_PlayerOutpostDefensiveStrength>玩家前哨防御强度</TSA_WD_Growth_PlayerOutpostDefensiveStrength>
+  <TSA_WD_Growth_PlayerOutpostDefensiveStrengthTooltip>玩家前哨的基础本地防御强度(不含升级)。</TSA_WD_Growth_PlayerOutpostDefensiveStrengthTooltip>
+  <TSA_WD_Growth_HeaderIncidents>事件严重度</TSA_WD_Growth_HeaderIncidents>
+  <TSA_WD_Growth_LocalMaxT1>本地最大 T1 前哨</TSA_WD_Growth_LocalMaxT1>
+  <TSA_WD_Growth_LocalMaxT1Tooltip>在最大扩张半径内允许的 T1 定居点上限,超过则禁止继续扩张。</TSA_WD_Growth_LocalMaxT1Tooltip>
+  <TSA_WD_Growth_LocalMaxT2>本地最大 T2 村落</TSA_WD_Growth_LocalMaxT2>
+  <TSA_WD_Growth_LocalMaxT2Tooltip>在最大扩张半径内允许的 T2 定居点上限。</TSA_WD_Growth_LocalMaxT2Tooltip>
+  <TSA_WD_Growth_LocalMaxT3>本地最大 T3 城镇</TSA_WD_Growth_LocalMaxT3>
+  <TSA_WD_Growth_LocalMaxT3Tooltip>在最大扩张半径内允许的 T3 定居点上限。</TSA_WD_Growth_LocalMaxT3Tooltip>
+  <TSA_WD_Growth_LocalMaxT4>本地最大 T4 要塞</TSA_WD_Growth_LocalMaxT4>
+  <TSA_WD_Growth_LocalMaxT4Tooltip>在最大扩张半径内允许的 T4 定居点上限。</TSA_WD_Growth_LocalMaxT4Tooltip>
+  <TSA_WD_Growth_MajorInc>重大事件实力损失</TSA_WD_Growth_MajorInc>
+  <TSA_WD_Growth_MajorIncTooltip>重大灾难中损失的实力点。</TSA_WD_Growth_MajorIncTooltip>
+  <TSA_WD_Growth_MaxRadius>最大扩张半径</TSA_WD_Growth_MaxRadius>
+  <TSA_WD_Growth_MaxRadiusTooltip>扩张允许的最大格距及计算本地密度所用的半径。</TSA_WD_Growth_MaxRadiusTooltip>
+  <TSA_WD_Growth_MaxSettlements>星球最大定居点</TSA_WD_Growth_MaxSettlements>
+  <TSA_WD_Growth_MaxSettlementsTooltip>全球定居点总数上限,超过则禁止扩张。性能预设也会设置此项（200 / 400 / 800）。</TSA_WD_Growth_MaxSettlementsTooltip>
+  <TSA_WD_Growth_MinRadius>最小扩张半径</TSA_WD_Growth_MinRadius>
+  <TSA_WD_Growth_MinRadiusTooltip>寻找新扩张位置所需的最小格距。</TSA_WD_Growth_MinRadiusTooltip>
+  <TSA_WD_Growth_MinorInc>次要事件实力损失</TSA_WD_Growth_MinorInc>
+  <TSA_WD_Growth_MinorIncTooltip>次要内部挫折中损失的实力点。</TSA_WD_Growth_MinorIncTooltip>
+  <TSA_WD_Growth_Reset>重置本页为默认</TSA_WD_Growth_Reset>
+  <TSA_WD_Growth_Roads>道路设置</TSA_WD_Growth_Roads>
+  <TSA_WD_Growth_Scaling>按定居点规模缩放</TSA_WD_Growth_Scaling>
+  <TSA_WD_Growth_ScalingTooltip>100% 时小定居点每日被动获得更多、大定居点更少（仅规模曲线）。</TSA_WD_Growth_ScalingTooltip>
+  <TSA_WD_HeaderGeneral>常规设置</TSA_WD_HeaderGeneral>
+  <TSA_WD_HeaderGenericGarrisons>工业/外地人派系</TSA_WD_HeaderGenericGarrisons>
+  <TSA_WD_HeaderMisc>杂项</TSA_WD_HeaderMisc>
+  <TSA_WD_HeaderInGameOnlySettings>仅游戏中可用的设置（主菜单不可用）</TSA_WD_HeaderInGameOnlySettings>
+  <TSA_WD_HeaderOutposts>WD 前哨站与商队/行进者</TSA_WD_HeaderOutposts>
+  <TSA_WD_HeaderPlayerInteractions>手动玩家互动</TSA_WD_HeaderPlayerInteractions>
+  <TSA_WD_HeaderSystem>系统操作</TSA_WD_HeaderSystem>
+  <TSA_WD_HeaderTribalGarrisons>部落派系</TSA_WD_HeaderTribalGarrisons>
+  <TSA_WD_HeaderWorldActions>世界行动</TSA_WD_HeaderWorldActions>
+  <TSA_WD_OpenAllegianceMatrix>允许的外交变化</TSA_WD_OpenAllegianceMatrix>
+  <TSA_WD_DescAllegianceMatrix>仅游戏中:派系对方阵。切换世界霸权是否可改变一方对另一方的关系(盟友、敌对、中立)。已锁定的对方不受 WD 外交随机影响。</TSA_WD_DescAllegianceMatrix>
+  <TSA_WD_AllegianceMatrixInGameOnly>「允许的外交变化」仅可在进行游戏时打开(主菜单中不可用)。</TSA_WD_AllegianceMatrixInGameOnly>
+  <TSA_WD_Outpost_MaxTravelStrengthLoss>最大行进实力损失</TSA_WD_Outpost_MaxTravelStrengthLoss>
+  <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>行进者(袭击、扩张、修路)在行进中可损失的最大出发实力百分比。75% 时至少保留 25% 初始实力,不会仅因损耗而消失。</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
+  <TSA_WD_Caravans_OnlyWaterIfNoLandPath>行进者：仅当没有陆路时才穿越水域</TSA_WD_Caravans_OnlyWaterIfNoLandPath>
+  <TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>启用时，WD 行进者先使用原版世界寻路，仅当失败时才使用可涉水路线。关闭时会同时计算两条路线并选用耗时更短的一条（与下方难度单位一致）。</TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>
+  <TSA_WD_Caravans_WaterMovementDifficulty>行进者：水域地块移动难度</TSA_WD_Caravans_WaterMovementDifficulty>
+  <TSA_WD_Caravans_WaterMovementDifficultyTip>行进者进入被水覆盖的世界地块时使用的难度单位（原版世界移动刻度）。用于路径代价、旅行时间与损耗估算。</TSA_WD_Caravans_WaterMovementDifficultyTip>
+  <TSA_WD_Caravans_WaterPathThreshold>水路路径：陆路短于此天数时跳过</TSA_WD_Caravans_WaterPathThreshold>
+  <TSA_WD_Caravans_WaterPathThresholdTip>如果存在陆路且行程少于此天数，将完全跳过水路计算。设为 0 则始终计算水路。较高数值可提升性能，但可能偶尔错过更快的水路捷径。</TSA_WD_Caravans_WaterPathThresholdTip>
+  <TSA_WD_ModUpdated>世界霸权已更新至 {0}。\n点击「打开」可查看更新日志。</TSA_WD_ModUpdated>
+  <TSA_WD_ShowUpdatePopups>显示模组更新提示</TSA_WD_ShowUpdatePopups>
+  <TSA_WD_ShowUpdatePopups_Tooltip>启用后,当此模组更新到新版本且你加载地图时,会弹出一次简短提示窗口。</TSA_WD_ShowUpdatePopups_Tooltip>
+  <TSA_WD_WorldMapOverlayHoldKey>世界地图叠加层按住键</TSA_WD_WorldMapOverlayHoldKey>
+  <TSA_WD_WorldMapOverlayHoldKey_Tooltip>按住此键并按 A 打开你的殖民者，按 X 打开 WD 主标签，按 S 打开世界统计，按 D 打开外交，按 Y 打开囚犯，按 F 打开前哨总览，按 G 打开活跃旅行者。在世界地图上还可按 1–7 切换 WD 叠加层（禁建格、肥力、动物、鱼类、采矿、移动、污染）；按 Q/W/E/R/T 可切换关系高亮、玩家高亮、定居点等级标签、路障与陷阱，以及前哨标签。</TSA_WD_WorldMapOverlayHoldKey_Tooltip>
+  <TSA_WD_VerboseLogging>详细日志</TSA_WD_VerboseLogging>
+  <TSA_WD_VerboseLogging_Tooltip>启用后，模组会向日志写入额外的关联诊断行（[WD] 与 [WD Perf]），例如食物结算、寻路、威胁更新以及世界设置中的定居点重建。用于排查卡顿或放置问题。</TSA_WD_VerboseLogging_Tooltip>
+  <TSA_WD_UpdatePopup_Open>打开</TSA_WD_UpdatePopup_Open>
+  <TSA_WD_UpdatePopup_Close>关闭</TSA_WD_UpdatePopup_Close>
+  <TSA_WD_UpdatePopup_Disable>不再显示</TSA_WD_UpdatePopup_Disable>
+  <TSA_WD_UpdatePopup_ViewLog>查看更新日志</TSA_WD_UpdatePopup_ViewLog>
+  <TSA_WD_UpdateLog_Title>世界霸权 – {0}:{1}</TSA_WD_UpdateLog_Title>
+  <TSA_WD_UpdateLog_Prev>&lt; 更早版本</TSA_WD_UpdateLog_Prev>
+  <TSA_WD_UpdateLog_Next>较新版本 ></TSA_WD_UpdateLog_Next>
+  <TSA_WD_UpdateLog_Current>当前版本</TSA_WD_UpdateLog_Current>
+  <TSA_WD_UpdateLog_Older>更旧</TSA_WD_UpdateLog_Older>
+  <TSA_WD_UpdateLog_Newer>更新</TSA_WD_UpdateLog_Newer>
+  <TSA_WD_UpdateLog_Oldest>最早版本</TSA_WD_UpdateLog_Oldest>
+  <TSA_WD_UpdateLog_ReleaseDate>发布日期:{0}</TSA_WD_UpdateLog_ReleaseDate>
+  <TSA_WD_Outpost_ReqBiome>要求符合前哨类型的生物群落</TSA_WD_Outpost_ReqBiome>
+  <TSA_WD_Outpost_ReqBiome_Tooltip>关闭后,即使前哨类型通常限制可建生物群落,也可以在任何生物群落中建立前哨。</TSA_WD_Outpost_ReqBiome_Tooltip>
+  <TSA_WD_Outpost_ReqFertility>要求农业前哨所在格子足够肥沃</TSA_WD_Outpost_ReqFertility>
+  <TSA_WD_Outpost_ReqFertility_Tooltip>关闭后,农场/伐木前哨可以建在低肥力或被水覆盖的格子上。</TSA_WD_Outpost_ReqFertility_Tooltip>
+  <TSA_WD_Outpost_PollutionEcologyPenalty>污染降低肥力、动物与鱼类</TSA_WD_Outpost_PollutionEcologyPenalty>
+  <TSA_WD_Outpost_PollutionEcologyPenaltyTooltip>启用后,世界格子的农业肥力、动物丰度和鱼类储量会乘以 (1 - 污染)。例如:20% 污染会使这些分数降低 20%。采矿不受影响。</TSA_WD_Outpost_PollutionEcologyPenaltyTooltip>
+  <TSA_WD_Outpost_ReqAnimals>要求狩猎前哨有足够动物丰度</TSA_WD_Outpost_ReqAnimals>
+  <TSA_WD_Outpost_ReqAnimals_Tooltip>关闭后,狩猎前哨可以建在动物极少(或被水覆盖)的格子上。</TSA_WD_Outpost_ReqAnimals_Tooltip>
+  <TSA_WD_Outpost_ReqFish>要求钓鱼前哨有足够鱼类丰度</TSA_WD_Outpost_ReqFish>
+  <TSA_WD_Outpost_ReqFish_Tooltip>关闭后,钓鱼前哨可以建在鱼类丰度很低的沿岸格上(仍需沿岸)。</TSA_WD_Outpost_ReqFish_Tooltip>
+  <TSA_WD_Outpost_ReqMining>要求矿业前哨所在格子有丘陵</TSA_WD_Outpost_ReqMining>
+  <TSA_WD_Outpost_ReqMining_Tooltip>关闭后,矿业前哨可以建在无丘陵的平原格子上。</TSA_WD_Outpost_ReqMining_Tooltip>
+  <TSA_WD_Outpost_ReqResearch>要求完成高级前哨所需研究</TSA_WD_Outpost_ReqResearch>
+  <TSA_WD_Outpost_ReqResearch_Tooltip>关闭后,即使尚未完成所需研究项目,也可以建立本应受研究限制的前哨。</TSA_WD_Outpost_ReqResearch_Tooltip>
+  <TSA_WD_Outpost_ReqNearby>要求附近存在中立/友好定居点</TSA_WD_Outpost_ReqNearby>
+  <TSA_WD_Outpost_ReqNearby_Tooltip>关闭后,即使周围没有其他派系定居点,也可以在偏远地区建立这些前哨。</TSA_WD_Outpost_ReqNearby_Tooltip>
+  <TSA_WD_Outpost_ReqMinPawns>要求建立前哨的最少殖民者数量</TSA_WD_Outpost_ReqMinPawns>
+  <TSA_WD_Outpost_ReqMinPawns_Tooltip>关闭后,即使少于前哨类型要求的殖民者数量,商队也能建立前哨。</TSA_WD_Outpost_ReqMinPawns_Tooltip>
+  <TSA_WD_Outpost_ReqMinSkill>要求最小累计技能值</TSA_WD_Outpost_ReqMinSkill>
+  <TSA_WD_Outpost_ReqMinSkill_Tooltip>关闭后,商队和前哨在建立及持续生产时都会忽略最小累计技能要求。</TSA_WD_Outpost_ReqMinSkill_Tooltip>
+  <TSA_WD_Outpost_ReqCost>要求支付建站成本</TSA_WD_Outpost_ReqCost>
+  <TSA_WD_Outpost_ReqCost_Tooltip>关闭后,商队在建立前哨时无需支付木材或自定义资源成本。</TSA_WD_Outpost_ReqCost_Tooltip>
+  <TSA_WD_Caravans_HeaderTravel>旅行与损耗</TSA_WD_Caravans_HeaderTravel>
+  <TSA_WD_Caravans_HeaderWaterTravel>水域通行</TSA_WD_Caravans_HeaderWaterTravel>
+  <TSA_WD_Caravans_AllowTravelOverWater>允许商队穿越水域</TSA_WD_Caravans_AllowTravelOverWater>
+  <TSA_WD_Caravans_AllowTravelOverWaterTip>启用后，WD 行进者可使用针对被水覆盖地格的特殊寻路（见下方选项）。关闭后仅使用原版世界路径，不运行任何水路寻路。使用这些预设包时也可在「设置预设 → 性能」中管理。</TSA_WD_Caravans_AllowTravelOverWaterTip>
+  <TSA_WD_Caravans_HeaderTrader>WD 贸易商队</TSA_WD_Caravans_HeaderTrader>
+  <TSA_WD_Caravans_HeaderOutpostDelivery>前哨配送商队</TSA_WD_Caravans_HeaderOutpostDelivery>
+  <TSA_WD_Caravans_HeaderStoryteller>叙事者商人</TSA_WD_Caravans_HeaderStoryteller>
+  <TSA_WD_Caravans_Cost>贸易商队消耗的实力</TSA_WD_Caravans_Cost>
+  <TSA_WD_Caravans_CostTip>发起贸易商队时,出发定居点支付的实力点数。</TSA_WD_Caravans_CostTip>
+  <TSA_WD_Caravans_SenderReward>抵达时发送方奖励</TSA_WD_Caravans_SenderReward>
+  <TSA_WD_Caravans_SenderRewardTip>贸易商队成功抵达时,授予出发定居点的实力。</TSA_WD_Caravans_SenderRewardTip>
+  <TSA_WD_Caravans_ReceiverReward>抵达时接收方奖励</TSA_WD_Caravans_ReceiverReward>
+  <TSA_WD_Caravans_ReceiverRewardTip>WD 贸易商队抵达时授予接收定居点的实力。玩家前哨不能作为目标。</TSA_WD_Caravans_ReceiverRewardTip>
+  <TSA_WD_Caravans_Goodwill>抵达时双方好感</TSA_WD_Caravans_Goodwill>
+  <TSA_WD_Caravans_GoodwillTip>贸易商队成功抵达时,双方派系各自获得的好感。</TSA_WD_Caravans_GoodwillTip>
+  <TSA_WD_Caravans_HeaderTraderTierUps>贸易商队阶层升级（达上限时）</TSA_WD_Caravans_HeaderTraderTierUps>
+  <TSA_WD_Caravans_TierUpT1ToT2>升级概率 T1 至 T2</TSA_WD_Caravans_TierUpT1ToT2>
+  <TSA_WD_Caravans_TierUpT1ToT2Tip>WD 贸易商队成功交易后，若实力奖励只会把定居点顶到当前阶层实力上限，则按此概率升为 T2。常规阶层成长所需的同阶邻居等条件不适用。</TSA_WD_Caravans_TierUpT1ToT2Tip>
+  <TSA_WD_Caravans_TierUpT2ToT3>升级概率 T2 至 T3</TSA_WD_Caravans_TierUpT2ToT3>
+  <TSA_WD_Caravans_TierUpT2ToT3Tip>与 T1→T2 相同，但在已达 T2 实力上限时用于升为 T3。</TSA_WD_Caravans_TierUpT2ToT3Tip>
+  <TSA_WD_Caravans_TierUpT3ToT4>升级概率 T3 至 T4</TSA_WD_Caravans_TierUpT3ToT4>
+  <TSA_WD_Caravans_TierUpT3ToT4Tip>与 T1→T2 相同，但在已达 T3 实力上限时用于升为 T4。</TSA_WD_Caravans_TierUpT3ToT4Tip>
+  <TSA_WD_Caravans_HeaderTraderEscort>商队护卫实力</TSA_WD_Caravans_HeaderTraderEscort>
+  <TSA_WD_Caravans_EscortFloorT1>护卫实力下限(T1 派出方)</TSA_WD_Caravans_EscortFloorT1>
+  <TSA_WD_Caravans_EscortFloorT1Tip>由 T1 定居点派出的商队在战斗/拦截判定中的最低实力，与出发时扣除的固定实力成本无关。使贸易始终是一个有意义、需要权衡的伏击/拦截目标，而不是随处可见的免费目标。</TSA_WD_Caravans_EscortFloorT1Tip>
+  <TSA_WD_Caravans_EscortFloorT2>护卫实力下限(T2 派出方)</TSA_WD_Caravans_EscortFloorT2>
+  <TSA_WD_Caravans_EscortFloorT2Tip>与 T1 下限相同，适用于由 T2 定居点派出的商队。</TSA_WD_Caravans_EscortFloorT2Tip>
+  <TSA_WD_Caravans_EscortFloorT3>护卫实力下限(T3 派出方)</TSA_WD_Caravans_EscortFloorT3>
+  <TSA_WD_Caravans_EscortFloorT3Tip>与 T1 下限相同，适用于由 T3 定居点派出的商队。</TSA_WD_Caravans_EscortFloorT3Tip>
+  <TSA_WD_Caravans_EscortFloorT4>护卫实力下限(T4 派出方)</TSA_WD_Caravans_EscortFloorT4>
+  <TSA_WD_Caravans_EscortFloorT4Tip>与 T1 下限相同，适用于由 T4 定居点派出的商队。</TSA_WD_Caravans_EscortFloorT4Tip>
+  <TSA_WD_Caravans_EscortRecentInterceptWindow>商队被截获后的全力时长(天)</TSA_WD_Caravans_EscortRecentInterceptWindow>
+  <TSA_WD_Caravans_EscortRecentInterceptWindowTip>当某定居点的一支商队被伏击、快速反应部队或迫击炮火摧毁后，该定居点后续派出的商队会在这么多游戏天内以其满级进攻实力(而非上面的固定下限)出发，用于震慑反复袭击同一条补给线的行为。设为 0 可禁用。</TSA_WD_Caravans_EscortRecentInterceptWindowTip>
+  <TSA_WD_Caravans_PlayerColonyTraderCooldown>前往玩家殖民地的 WD 贸易商队最短间隔(天)</TSA_WD_Caravans_PlayerColonyTraderCooldown>
+  <TSA_WD_Caravans_PlayerColonyTraderCooldownTip>每个有地图的玩家殖民地只有在自上次向该殖民地派出 WD 贸易商队以来经过这么多游戏天后,才能再次被选为目的地(以派出时刻为准,而非抵达)。按殖民地分别计算。设为 0 表示不限。</TSA_WD_Caravans_PlayerColonyTraderCooldownTip>
+  <TSA_WD_Caravans_WindowSubtitle>高级选项：旅行、WD 贸易商队、配送消耗</TSA_WD_Caravans_WindowSubtitle>
+  <TSA_WD_Caravans_BlockStorytellerTraders>禁用叙事者生成的贸易商队</TSA_WD_Caravans_BlockStorytellerTraders>
+  <TSA_WD_Caravans_BlockStorytellerTradersTip>启用后,由叙事者生成的贸易商队将被阻止;WD 贸易商队仍可使用。</TSA_WD_Caravans_BlockStorytellerTradersTip>
+  <TSA_WD_Caravans_Reset>将本页重置为默认</TSA_WD_Caravans_Reset>
+  <TSA_WD_ShowAdvanced>显示高级设置</TSA_WD_ShowAdvanced>
+  <TSA_WD_ShowAdvanced_Tooltip>显示额外菜单(WD 远行队、驻军、破坏、虚假情报、采矿基准、世界生成、允许的外交变化)及各设置对话框中的更多选项。</TSA_WD_ShowAdvanced_Tooltip>
+  <TSA_WD_Stats_H_Faction>派系名称</TSA_WD_Stats_H_Faction>
+  <TSA_WD_Stats_FactionDefeated>已覆灭</TSA_WD_Stats_FactionDefeated>
+  <TSA_WD_Stats_FactionDefeatedTip>该派系可能根据「外交、增益与减益」模组设置菜单中的每日叛乱概率卷土重来。</TSA_WD_Stats_FactionDefeatedTip>
+  <TSA_WD_Stats_H_Influence>总计</TSA_WD_Stats_H_Influence>
+  <TSA_WD_Stats_H_Status>增益与减益</TSA_WD_Stats_H_Status>
+  <TSA_WD_Stats_H_T1>等级 1</TSA_WD_Stats_H_T1>
+  <TSA_WD_Stats_H_T2>等级 2</TSA_WD_Stats_H_T2>
+  <TSA_WD_Stats_H_T3>等级 3</TSA_WD_Stats_H_T3>
+  <TSA_WD_Stats_H_T4>等级 4</TSA_WD_Stats_H_T4>
+  <TSA_WD_Stats_TierHeaderTip_Npc>本列中的 NPC 定居点为真实的等级 {0} 据点。</TSA_WD_Stats_TierHeaderTip_Npc>
+  <TSA_WD_Stats_TierHeaderTip_Player>对你的派系而言，前哨按实力（进攻 + 防御合计）归入这些列。它们没有固定的定居点等级。</TSA_WD_Stats_TierHeaderTip_Player>
+  <TSA_WD_Stats_TierHeaderTip_Bands>前哨实力区间：\n等级 1：低于 {0}\n等级 2：{1}–{2}\n等级 3：{3}–{4}\n等级 4：{5}+</TSA_WD_Stats_TierHeaderTip_Bands>
+  <TSA_WD_Stats_TierHeaderTip_ThisColumn>本列：等级 {0}（{1}）</TSA_WD_Stats_TierHeaderTip_ThisColumn>
+  <TSA_WD_Stats_TierHeader_BandUnder>低于 {0}</TSA_WD_Stats_TierHeader_BandUnder>
+  <TSA_WD_Stats_TierHeader_BandRange>{0}–{1}</TSA_WD_Stats_TierHeader_BandRange>
+  <TSA_WD_Stats_TierHeader_BandAtLeast>{0}+</TSA_WD_Stats_TierHeader_BandAtLeast>
+  <TSA_WD_Stats_H_Threat>邻近进攻强度（通知半径）</TSA_WD_Stats_H_Threat>
+  <TSA_WD_Stats_Title>全球派系统计</TSA_WD_Stats_Title>
+  <TSA_WD_Stats_WorldTotals>总计</TSA_WD_Stats_WorldTotals>
+  <TSA_WD_Stats_RowTierTip>此派系的等级 {0}。\n\n定居点：{1}\n实力：{2}\n占全球等级 {0} 实力：{3}</TSA_WD_Stats_RowTierTip>
+  <TSA_WD_Stats_RowTotalsTip>此派系合计。\n\n定居点：{0}\n实力：{1}\n占全球实力：{2}</TSA_WD_Stats_RowTotalsTip>
+  <TSA_WD_Stats_FooterTierTip>等级 {0} 全球合计。\n\n定居点：{1}\n实力：{2}</TSA_WD_Stats_FooterTierTip>
+  <TSA_WD_Stats_FooterTotalsTip>所有等级的全球合计。\n\n定居点：{0}\n实力：{1}</TSA_WD_Stats_FooterTotalsTip>
+  <TSA_WD_WorldDominationWindows>世界霸权窗口</TSA_WD_WorldDominationWindows>
+  <TSA_WD_WorldStats>世界统计</TSA_WD_WorldStats>
+  <!-- Diplomacy window: vanilla goodwill tweaks -->
+  <TSA_WD_Diplo_VanillaGoodwillHeader>原版好感</TSA_WD_Diplo_VanillaGoodwillHeader>
+  <TSA_WD_Diplo_MaxGoodwill>最大好感</TSA_WD_Diplo_MaxGoodwill>
+  <TSA_WD_Diplo_MaxGoodwillTooltip>限制与任意派系的好感上限（原版默认通常为 100）。WD 可提高此值，避免大额赠礼与投资在达到上限时被浪费。</TSA_WD_Diplo_MaxGoodwillTooltip>
+  <TSA_WD_DisableSettlementProximityGoodwill>禁用过近定居点导致的好感损失</TSA_WD_DisableSettlementProximityGoodwill>
+  <TSA_WD_DisableSettlementProximityGoodwillTooltip>启用后,原版每隔一段时间对"定居点离其他派系基地过近"的检测将不再改变好感,也不会发送邻近基地信件。NPC 派系之后在您旁边扩张不会因此惩罚您。选择地块定居时的确认提示不受影响。</TSA_WD_DisableSettlementProximityGoodwillTooltip>
+  <!-- World Raids settings: Battle Outcome Tiers table column headers -->
+  <TSA_WD_Raid_Col0>相对实力</TSA_WD_Raid_Col0>
+  <TSA_WD_Raid_Col0Tip>进攻方实力与防守方实力的比值。</TSA_WD_Raid_Col0Tip>
+  <TSA_WD_Raid_Col1>胜率</TSA_WD_Raid_Col1>
+  <TSA_WD_Raid_Col1Tip>该情况下进攻方获胜的概率。</TSA_WD_Raid_Col1Tip>
+  <TSA_WD_Raid_Col2>进攻方胜利</TSA_WD_Raid_Col2>
+  <TSA_WD_Raid_Col2Tip>进攻方胜利时损失的实力。</TSA_WD_Raid_Col2Tip>
+  <TSA_WD_Raid_Col3>防守方失败</TSA_WD_Raid_Col3>
+  <TSA_WD_Raid_Col3Tip>防守方失败时损失的实力。</TSA_WD_Raid_Col3Tip>
+  <TSA_WD_Raid_Col4>进攻方失败</TSA_WD_Raid_Col4>
+  <TSA_WD_Raid_Col4Tip>进攻方失败时损失的实力。</TSA_WD_Raid_Col4Tip>
+  <TSA_WD_Raid_Col5>防守方胜利</TSA_WD_Raid_Col5>
+  <TSA_WD_Raid_Col5Tip>防守方胜利时损失的实力(成功防守)。</TSA_WD_Raid_Col5Tip>
+  <TSA_WD_Notify_HeaderDiplomacyBuffs>WD 外交与实力平衡通知信件</TSA_WD_Notify_HeaderDiplomacyBuffs>
+  <TSA_WD_Notify_LeaderHandicap>通知:世界领袖减益</TSA_WD_Notify_LeaderHandicap>
+  <TSA_WD_Notify_LeaderHandicapTooltip>当主导阵营受到临时领袖减益时发送信件。</TSA_WD_Notify_LeaderHandicapTooltip>
+  <TSA_WD_Notify_UnderdogBuff>通知:弱势阵营增益</TSA_WD_Notify_UnderdogBuff>
+  <TSA_WD_Notify_UnderdogBuffTooltip>当弱势阵营获得临时弱势增益时发送信件。</TSA_WD_Notify_UnderdogBuffTooltip>
+  <TSA_WD_Notify_ExpansionistZeal>通知:扩张狂热</TSA_WD_Notify_ExpansionistZeal>
+  <TSA_WD_Notify_ExpansionistZealTooltip>当阵营进入扩张狂热(更远袭击范围等)时发送信件。</TSA_WD_Notify_ExpansionistZealTooltip>
+  <TSA_WD_Notify_AntiLeaderCoalition>通知:反领袖联盟</TSA_WD_Notify_AntiLeaderCoalition>
+  <TSA_WD_Notify_AntiLeaderCoalitionTooltip>当较弱阵营联合对抗过度主导的领袖时发送信件。</TSA_WD_Notify_AntiLeaderCoalitionTooltip>
+  <TSA_WD_Notify_RandomDiplomacy>通知:随机外交变化</TSA_WD_Notify_RandomDiplomacy>
+  <TSA_WD_Notify_RandomDiplomacyTooltip>当「世界霸权」随机改变一对 NPC 阵营关系（战争、和平、结盟）时发送信件。</TSA_WD_Notify_RandomDiplomacyTooltip>
+  <TSA_WD_Notify_TradeAllyDiplomacy>通知:贸易结盟</TSA_WD_Notify_TradeAllyDiplomacy>
+  <TSA_WD_Notify_TradeAllyDiplomacyTooltip>当两个 NPC 阵营因 WD 商队好感越过结盟门槛而成为盟友时发送信件。</TSA_WD_Notify_TradeAllyDiplomacyTooltip>
+  <TSA_WD_Notify_StrongFactionWar>通知:强势阵营互宣战</TSA_WD_Notify_StrongFactionWar>
+  <TSA_WD_Notify_StrongFactionWarTooltip>当强势 NPC 阵营将结盟降为中立，或由中立升级为开战时发送信件。</TSA_WD_Notify_StrongFactionWarTooltip>
+  <TSA_WD_WorldMap_MenuTooltip>世界统治地图工具</TSA_WD_WorldMap_MenuTooltip>
+  <TSA_WD_WorldMap_HotkeyLine>快捷键：{0}</TSA_WD_WorldMap_HotkeyLine>
+  <TSA_WD_WorldMap_ToggleTierTexts>定居点等级标签</TSA_WD_WorldMap_ToggleTierTexts>
+  <TSA_WD_WorldMap_ToggleTierTextsTip>切换 NPC 定居点上方显示的 T1–T4 标签。</TSA_WD_WorldMap_ToggleTierTextsTip>
+  <TSA_WD_WorldMap_OutpostLabels>前哨站标签</TSA_WD_WorldMap_OutpostLabels>
+  <TSA_WD_WorldMap_OutpostLabelsTip>在玩家前哨站上显示当前食物、当前实力、名称、袭击冷却，或不显示。</TSA_WD_WorldMap_OutpostLabelsTip>
+  <TSA_WD_OutpostWorldMapLabel_Off>关闭</TSA_WD_OutpostWorldMapLabel_Off>
+  <TSA_WD_OutpostWorldMapLabel_Name>名称</TSA_WD_OutpostWorldMapLabel_Name>
+  <TSA_WD_OutpostWorldMapLabel_NameTip>显示前哨站名称。</TSA_WD_OutpostWorldMapLabel_NameTip>
+  <TSA_WD_OutpostWorldMapLabel_Food>食物</TSA_WD_OutpostWorldMapLabel_Food>
+  <TSA_WD_OutpostWorldMapLabel_FoodTip>显示当前/最大食物及每日净变化。</TSA_WD_OutpostWorldMapLabel_FoodTip>
+  <TSA_WD_OutpostWorldMapLabel_Strength>实力</TSA_WD_OutpostWorldMapLabel_Strength>
+  <TSA_WD_OutpostWorldMapLabel_StrengthTip>显示当前/最大实力及每日净变化。</TSA_WD_OutpostWorldMapLabel_StrengthTip>
+  <TSA_WD_OutpostWorldMapLabel_RaidCooldown>袭击冷却</TSA_WD_OutpostWorldMapLabel_RaidCooldown>
+  <TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>显示前哨站是否可被袭击，或冷却还剩多久。</TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>
+  <TSA_WD_WorldMap_Raidable>可袭击</TSA_WD_WorldMap_Raidable>
+  <TSA_WD_WorldMap_RaidProtectionDays>{0} 天</TSA_WD_WorldMap_RaidProtectionDays>
+  <TSA_WD_WorldMap_OutpostSimulation>建立前哨站模拟</TSA_WD_WorldMap_OutpostSimulation>
+  <TSA_WD_WorldMap_OutpostSimulationTip>点击世界格预览在该处建立前哨站（例如肥力是否足以建农场）。也会显示各前哨站材料消耗，避免白跑一趟。</TSA_WD_WorldMap_OutpostSimulationTip>
+  <TSA_WD_WorldMap_SectionProductivityOverlays>-- 世界格子叠加层 --</TSA_WD_WorldMap_SectionProductivityOverlays>
+  <TSA_WD_WorldMap_ToggleActivated>已启用：{0}</TSA_WD_WorldMap_ToggleActivated>
+  <TSA_WD_WorldMap_ToggleDeactivated>已关闭：{0}</TSA_WD_WorldMap_ToggleDeactivated>
+  <TSA_WD_WorldMap_ProductivityOverlayNotifyLabel>{0}叠加层</TSA_WD_WorldMap_ProductivityOverlayNotifyLabel>
+  <TSA_WD_WorldMap_OutpostLabelsNotify>前哨标签：{0}</TSA_WD_WorldMap_OutpostLabelsNotify>
+  <TSA_WD_WorldMap_OverlayFertility>肥力</TSA_WD_WorldMap_OverlayFertility>
+  <TSA_WD_WorldMap_OverlayFertilityTip>显示光标附近的格子肥力。适合农场与牧场。\n\n颜色（悬停 %）：\n• 红：0–35%（差）\n• 橙/黄：36–70%\n• 绿：71–100%\n• 紫：超过 100%（最佳；突变可更高）\n\n同时只能开一层；再点一次关闭。</TSA_WD_WorldMap_OverlayFertilityTip>
+  <TSA_WD_WorldMap_OverlayAnimalAbundance>动物丰度</TSA_WD_WorldMap_OverlayAnimalAbundance>
+  <TSA_WD_WorldMap_OverlayAnimalAbundanceTip>显示光标附近的动物丰度。适合狩猎前哨站。\n\n颜色（悬停 %）：\n• 红：0–35%（差）\n• 橙/黄：36–70%\n• 绿：71–100%\n• 紫：超过 100%（最佳；突变可更高）\n\n同时只能开一层；再点一次关闭。</TSA_WD_WorldMap_OverlayAnimalAbundanceTip>
+  <TSA_WD_WorldMap_OverlayFishAbundance>鱼类储量</TSA_WD_WorldMap_OverlayFishAbundance>
+  <TSA_WD_WorldMap_OverlayFishAbundanceTip>显示光标附近的鱼类丰度。适合钓鱼前哨站(仅海洋沿岸)。\n\n颜色（悬停 %）：\n• 红：0–35%（差）\n• 橙/黄：36–70%\n• 绿：71–100%\n• 紫：超过 100%（最佳；突变可更高）\n\n同时只能开一层；再点一次关闭。</TSA_WD_WorldMap_OverlayFishAbundanceTip>
+  <TSA_WD_WorldMap_OverlayMiningEfficiency>采矿效率</TSA_WD_WorldMap_OverlayMiningEfficiency>
+  <TSA_WD_WorldMap_OverlayMiningEfficiencyTip>显示光标附近的采矿效率。适合采矿前哨站。\n\n颜色（悬停 %）：\n• 红：0–35%（差）\n• 橙/黄：36–70%\n• 绿：71–100%\n• 紫：超过 100%（最佳；突变可更高）\n\n同时只能开一层；再点一次关闭。</TSA_WD_WorldMap_OverlayMiningEfficiencyTip>
+  <TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>叠加层不考虑前哨站升级，仅反映世界格子本身的情况。</TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>
+  <TSA_WD_WorldMap_OverlayMovementDifficulty>移动难度</TSA_WD_WorldMap_OverlayMovementDifficulty>
+  <TSA_WD_WorldMap_OverlayMovementDifficultyTip>显示光标附近的移动难度（地形 × 道路，含路障）。\n\n颜色：\n• 紫：0–0.59（最佳）\n• 绿：0.6–1.49\n• 黄：1.5–2.49\n• 红：2.5–3.49\n• 深红：3.5+\n• 黑：不可通行\n\n同时只能开一层；再点一次关闭。</TSA_WD_WorldMap_OverlayMovementDifficultyTip>
+  <TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>移动难度：{0}</TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>
+  <TSA_WD_WorldMap_OverlayMovementDifficulty_Impassable>不可通行</TSA_WD_WorldMap_OverlayMovementDifficulty_Impassable>
+  <TSA_WD_WorldMap_OverlayPollution>污染</TSA_WD_WorldMap_OverlayPollution>
+  <TSA_WD_WorldMap_OverlayPollutionTip>显示光标附近的生物科技格子污染。便于规划净化小队任务。\n\n颜色（悬停 %）：\n• 绿：0%\n• 浅绿：1–20%\n• 黄：21–40%\n• 橙：41–69%\n• 红：70–100%\n\n同时只能开一层；再点一次关闭。需要生物科技DLC。</TSA_WD_WorldMap_OverlayPollutionTip>
+  <TSA_WD_WorldMap_OverlayPollution_Hover>污染：{0}%</TSA_WD_WorldMap_OverlayPollution_Hover>
+  <TSA_WD_WorldMap_SectionOutpostLabels>-- 前哨站标签 --</TSA_WD_WorldMap_SectionOutpostLabels>
+  <TSA_WD_WorldMap_ToggleCaravanBlockedTiles>禁建格叠加层</TSA_WD_WorldMap_ToggleCaravanBlockedTiles>
+  <TSA_WD_WorldMap_ToggleCaravanBlockedTilesTip>默认前哨站需要与定居点及其他前哨站保持一定空地。开启后，光标附近不可建前哨站的格子会按阻挡派系的颜色画斜线（无派系时为深灰）。多派系重叠时会稳定地选其中一个。</TSA_WD_WorldMap_ToggleCaravanBlockedTilesTip>
+  <TSA_WD_WorldMap_ChangeNotes>更新说明</TSA_WD_WorldMap_ChangeNotes>
+  <TSA_WD_WorldMap_ChangeNotesTip>打开世界统治更新/变更日志。</TSA_WD_WorldMap_ChangeNotesTip>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>路障与陷阱</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>切换世界地图上的青色路障与刺钉/蒺藜陷阱图标。缩放过远时也会自动隐藏。</TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>
+  <TSA_WD_WorldMap_ToggleFortifyBlacklist>NPC 设防封锁地块</TSA_WD_WorldMap_ToggleFortifyBlacklist>
+  <TSA_WD_WorldMap_ToggleFortifyBlacklistTip>显示已标记地块：盟友（若开启则含中立）不得在此新建路障或陷阱。已有设防需「移除设防」。使用标记/清除工具时也会显示。</TSA_WD_WorldMap_ToggleFortifyBlacklistTip>
+  <TSA_WD_WorldMap_NoFortifyMarks>禁设防标记</TSA_WD_WorldMap_NoFortifyMarks>
+  <TSA_WD_WorldMap_NoFortifyMarksTip>显示标记，或逐格添加/移除封锁地块。</TSA_WD_WorldMap_NoFortifyMarksTip>
+  <TSA_WD_WorldMap_AddBlockedTiles>标记 NPC 不得设防的地块</TSA_WD_WorldMap_AddBlockedTiles>
+  <TSA_WD_WorldMap_AddBlockedTilesTip>逐格点击以标记。盟友（若开启则含中立）不得在此新建设防。右键或 Esc 结束。</TSA_WD_WorldMap_AddBlockedTilesTip>
+  <TSA_WD_WorldMap_RemoveBlockedTiles>清除 NPC 不得设防的地块</TSA_WD_WorldMap_RemoveBlockedTiles>
+  <TSA_WD_WorldMap_RemoveBlockedTilesTip>逐格点击已标记地块以清除。右键或 Esc 结束。</TSA_WD_WorldMap_RemoveBlockedTilesTip>
+  <TSA_WD_WorldMap_BlockedTilesDisabledTip>请在世界行动 → NPC 设防中启用「标记盟友不得设防的地块」。</TSA_WD_WorldMap_BlockedTilesDisabledTip>
+  <TSA_WD_WorldMap_ToggleRelationUnderlays>高亮关系</TSA_WD_WorldMap_ToggleRelationUnderlays>
+  <TSA_WD_WorldMap_ToggleRelationUnderlaysTip>定居点与旅行队上的半透明色盘：红色敌对、灰色中立、绿色同盟。紫色标记正在袭击你殖民地或玩家前哨的敌方袭击商队。大小随缩放变化。与定居点等级标签在相同远距缩放时隐藏。\n\n星形标记 WD 任务目标</TSA_WD_WorldMap_ToggleRelationUnderlaysTip>
+  <TSA_WD_WorldMap_ToggleRelationUnderlaysRelative>按选中对象显示关系</TSA_WD_WorldMap_ToggleRelationUnderlaysRelative>
+  <TSA_WD_WorldMap_ToggleRelationUnderlaysRelativeTip>开启时（且已开启高亮关系），色盘按所选 NPC 定居点或旅行队显示敌对、中立或同盟。无有效选中时仍按你的殖民地显示。紫色袭击警告仍只针对威胁你的目标。</TSA_WD_WorldMap_ToggleRelationUnderlaysRelativeTip>
+  <TSA_WD_WorldMap_TogglePlayerUnderlays>高亮玩家</TSA_WD_WorldMap_TogglePlayerUnderlays>
+  <TSA_WD_WorldMap_TogglePlayerUnderlaysTip>在你的殖民地、前哨站、商队和旅行队下显示半透明青色圆盘。大小随缩放变化。与定居点等级标签在相同远距缩放时隐藏。星形表示该前哨站或殖民地正被敌方突袭商队作为目标。</TSA_WD_WorldMap_TogglePlayerUnderlaysTip>
+  <TSA_WD_BtnRoadBuilding>建设项目</TSA_WD_BtnRoadBuilding>
+  <TSA_WD_DescRoadBuilding>配置前哨站与 NPC 的道路、路障与陷阱建造（范围、工作量、远征实力，以及未启用 Roads of the Rim 时的道路后备数值）。</TSA_WD_DescRoadBuilding>
+  <TSA_WD_RoadBuilding_Note>移动/工作量/最低建造仅在未启用 Roads of the Rim 时生效。冬季减免始终生效（若有 RotR 则写入 winterFactor）。</TSA_WD_RoadBuilding_Note>
+    <TSA_WD_RoadBuilding_RoadsHeader>道路</TSA_WD_RoadBuilding_RoadsHeader>
+  <TSA_WD_RoadBuilding_RoadRange>修建道路范围</TSA_WD_RoadBuilding_RoadRange>
+  <TSA_WD_RoadBuilding_RoadRangeTip>从前哨站规划道路修建的最大世界格距离（也用于 NPC 道路尝试）。</TSA_WD_RoadBuilding_RoadRangeTip>
+  <TSA_WD_RoadBuilding_RoadRangePlayer>玩家前哨道路范围</TSA_WD_RoadBuilding_RoadRangePlayer>
+  <TSA_WD_RoadBuilding_RoadRangePlayerTip>玩家前哨站规划道路修建的最大世界格距离。</TSA_WD_RoadBuilding_RoadRangePlayerTip>
+  <TSA_WD_RoadBuilding_RoadRangeNpc>NPC 道路范围</TSA_WD_RoadBuilding_RoadRangeNpc>
+  <TSA_WD_RoadBuilding_RoadRangeNpcTip>NPC 定居点向盟友尝试修路的最大世界格距离。</TSA_WD_RoadBuilding_RoadRangeNpcTip>
+  <TSA_WD_RoadBuilding_DirtRoad>土路</TSA_WD_RoadBuilding_DirtRoad>
+  <TSA_WD_RoadBuilding_StoneRoad>石路</TSA_WD_RoadBuilding_StoneRoad>
+  <TSA_WD_RoadBuilding_AsphaltRoad>沥青路</TSA_WD_RoadBuilding_AsphaltRoad>
+  <TSA_WD_RoadBuilding_Movement>移动难度乘数</TSA_WD_RoadBuilding_Movement>
+  <TSA_WD_RoadBuilding_MovementTip>在未启用 Roads of the Rim 时，将该道路类型的世界路径移动难度乘以该值（写入原版道路定义）。数值越低移动越快。</TSA_WD_RoadBuilding_MovementTip>
+  <TSA_WD_RoadBuilding_WinterReductionHeader>冬季移动惩罚减免</TSA_WD_RoadBuilding_WinterReductionHeader>
+  <TSA_WD_RoadBuilding_WinterReduction>冬季移动惩罚减免</TSA_WD_RoadBuilding_WinterReduction>
+  <TSA_WD_RoadBuilding_WinterReductionTip>该道路类型抵消多少冬季移动惩罚。始终生效：无 RotR 时用我们的冬季补丁；有 RotR 时写入 winterFactor。会显示在世界格子“地形”页的移动难度提示中，并计入移动难度叠加层。</TSA_WD_RoadBuilding_WinterReductionTip>
+  <TSA_WD_RoadBuilding_WinterReductionExplanation>{0}：冬季惩罚降低 {1}%（移动乘数 ×{2}）</TSA_WD_RoadBuilding_WinterReductionExplanation>
+  <TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>{0}：冬季惩罚降低 {1}%（此地块当前无冬季）</TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>
+  <TSA_WD_RoadBuilding_WinterReductionTerrainTip>{0}：冬季惩罚降低 {1}%（由 Roads of the Rim 应用）</TSA_WD_RoadBuilding_WinterReductionTerrainTip>
+  <TSA_WD_RoadBuilding_Work>建造所需工作量</TSA_WD_RoadBuilding_Work>
+  <TSA_WD_RoadBuilding_WorkTip>一条路段的抽象工作量（仅 WD 进度，非原版建造工作）。进度速度=前哨站累计建造技能。例如：土路工作量250时，1点建造技能每天贡献25工作量，土路约需10天（1技能）或约1天（10技能）。石路或沥青更高的工作量会按比例更久。</TSA_WD_RoadBuilding_WorkTip>
+  <TSA_WD_RoadBuilding_RoadStrength>派出商队时扣除的进攻实力</TSA_WD_RoadBuilding_RoadStrength>
+  <TSA_WD_RoadBuilding_RoadStrengthTip>派出修路商队铺设一段道路时，从前哨站扣除的进攻实力。若立即发射失败则退还。</TSA_WD_RoadBuilding_RoadStrengthTip>
+  <TSA_WD_RoadBuilding_MinConstruction>建造所需最低建造技能</TSA_WD_RoadBuilding_MinConstruction>
+  <TSA_WD_RoadBuilding_MinConstructionTip>未启用 Roads of the Rim 时，前哨站需要达到的总建造技能才能选择此道路类型。</TSA_WD_RoadBuilding_MinConstructionTip>
+  <TSA_WD_RoadBuilding_Reset>将前哨站建设项目重置为默认值</TSA_WD_RoadBuilding_Reset>
+  <TSA_WD_RoadBuilding_RoadBlocksHeader>路障</TSA_WD_RoadBuilding_RoadBlocksHeader>
+  <TSA_WD_RoadBuilding_RoadBlockRange>修建路障范围</TSA_WD_RoadBuilding_RoadBlockRange>
+  <TSA_WD_RoadBuilding_RoadBlockRangeTip>从前哨站规划修建/清除路障折线的最大世界格距离。</TSA_WD_RoadBuilding_RoadBlockRangeTip>
+  <TSA_WD_RoadBuilding_RoadBlockWorkTip>一格路障的抽象工作量（修建或清除）。进度规则与道路相同：速度=建造技能；相对土路工作量决定时长。</TSA_WD_RoadBuilding_RoadBlockWorkTip>
+  <TSA_WD_RoadBuilding_RoadBlockPenalty>移动惩罚</TSA_WD_RoadBuilding_RoadBlockPenalty>
+  <TSA_WD_RoadBuilding_RoadBlockPenaltyTip>进入该等级路障格时，在道路倍率之后额外增加的平坦移动难度（所有派系；弹道旅行忽略）。</TSA_WD_RoadBuilding_RoadBlockPenaltyTip>
+  <TSA_WD_RoadBuilding_RoadBlockStrength>派出商队时扣除的进攻实力</TSA_WD_RoadBuilding_RoadBlockStrength>
+  <TSA_WD_RoadBuilding_RoadBlockStrengthTip>派出路障商队处理一格时，从前哨站扣除的进攻实力。若立即发射失败则退还。</TSA_WD_RoadBuilding_RoadBlockStrengthTip>
+  <TSA_WD_RoadBuilding_MaxHealth>最大生命值</TSA_WD_RoadBuilding_MaxHealth>
+  <TSA_WD_RoadBuilding_MaxHealthTip>放置或升级时的生命值。敌对旅行者离开格子时会按其实力磨损。</TSA_WD_RoadBuilding_MaxHealthTip>
+  <TSA_WD_RoadBuilding_SpikeTrapsHeader>陷阱</TSA_WD_RoadBuilding_SpikeTrapsHeader>
+  <TSA_WD_RoadBuilding_SpikeTrapRange>修建陷阱范围</TSA_WD_RoadBuilding_SpikeTrapRange>
+  <TSA_WD_RoadBuilding_SpikeTrapRangeTip>从前哨站规划修建/清除刺钉陷阱折线的最大世界格距离。</TSA_WD_RoadBuilding_SpikeTrapRangeTip>
+  <TSA_WD_RoadBuilding_SpikeTrapWorkTip>一格陷阱的抽象工作量（修建或清除）。进度规则与道路相同：速度=建造技能；相对土路工作量决定时长。</TSA_WD_RoadBuilding_SpikeTrapWorkTip>
+  <TSA_WD_RoadBuilding_SpikeTrapStrength>派出商队时扣除的进攻实力</TSA_WD_RoadBuilding_SpikeTrapStrength>
+  <TSA_WD_RoadBuilding_SpikeTrapStrengthTip>派出陷阱商队处理一格时，从前哨站扣除的进攻实力。若立即发射失败则退还。</TSA_WD_RoadBuilding_SpikeTrapStrengthTip>
+  <TSA_WD_RoadBuilding_SpikeTrapDamage>陷阱伤害</TSA_WD_RoadBuilding_SpikeTrapDamage>
+  <TSA_WD_RoadBuilding_SpikeTrapDamageTip>敌对地面旅行者离开陷阱格时扣除的实力。陷阱也会按旅行者实力磨损。</TSA_WD_RoadBuilding_SpikeTrapDamageTip>
+  <TSA_WD_RoadBuilding_SpikeTrapMaxTriggers>每旅行者最大触发数</TSA_WD_RoadBuilding_SpikeTrapMaxTriggers>
+  <TSA_WD_RoadBuilding_SpikeTrapMaxTriggersTip>单个旅行者最多可触发多少个陷阱。之后路径上的陷阱会被忽略（无伤害、无磨损）。</TSA_WD_RoadBuilding_SpikeTrapMaxTriggersTip>
+  <TSA_WD_RoadBuilding_AT_TurretsHeader>AT 炮塔</TSA_WD_RoadBuilding_AT_TurretsHeader>
+  <TSA_WD_RoadBuilding_AT_TurretsNote>轻型、中型、重型均可建造。聚居地按等级建造（T1–T2 轻型，T3 中型，T4 重型）。工作量为建造耗时成本（默认约为原先道路对齐成本的两倍）。远征实力是车队花费，不是炮塔生命值。</TSA_WD_RoadBuilding_AT_TurretsNote>
+  <TSA_WD_RoadBuilding_AT_TurretWorkTip>一座 AT 炮塔的抽象工作量。进度规则与道路相同。默认约为原先道路对齐成本的两倍。</TSA_WD_RoadBuilding_AT_TurretWorkTip>
+  <TSA_WD_RoadBuilding_AT_TurretStrength>派遣时扣除的进攻实力</TSA_WD_RoadBuilding_AT_TurretStrength>
+  <TSA_WD_RoadBuilding_AT_TurretStrengthTip>派遣 AT 炮塔车队时扣除的进攻实力。中型默认与沥青路一致。</TSA_WD_RoadBuilding_AT_TurretStrengthTip>
+  <TSA_WD_RoadBuilding_DecontaminationHeader>净化</TSA_WD_RoadBuilding_DecontaminationHeader>
+  <TSA_WD_RoadBuilding_DecontaminationRange>净化范围</TSA_WD_RoadBuilding_DecontaminationRange>
+  <TSA_WD_RoadBuilding_DecontaminationRangeTip>从前哨站规划净化路径的最大格距。</TSA_WD_RoadBuilding_DecontaminationRangeTip>
+  <TSA_WD_RoadBuilding_DecontaminationWorkTip>净化一格污染的抽象工作量。与道路相同：速率=累计建造技能；相对沥青道路工作量决定时长。</TSA_WD_RoadBuilding_DecontaminationWorkTip>
+  <TSA_WD_RoadBuilding_DecontaminationStrength>实力消耗（净化）</TSA_WD_RoadBuilding_DecontaminationStrength>
+  <TSA_WD_RoadBuilding_DecontaminationStrengthTip>派出净化商队净化一格时从前哨站扣除的进攻实力。若立即派出失败则退还。</TSA_WD_RoadBuilding_DecontaminationStrengthTip>
+  <TSA_WD_RoadBuilding_DecontaminationReduction>污染减少（百分点）</TSA_WD_RoadBuilding_DecontaminationReduction>
+  <TSA_WD_RoadBuilding_DecontaminationReductionTip>每次净化访问减少的世界格污染百分点（20=−20百分点）。</TSA_WD_RoadBuilding_DecontaminationReductionTip>
+  <TSA_WD_RoadBlockLight>轻型路障</TSA_WD_RoadBlockLight>
+  <TSA_WD_RoadBlockNormal>中型路障</TSA_WD_RoadBlockNormal>
+  <TSA_WD_RoadBlockHeavy>重型路障</TSA_WD_RoadBlockHeavy>
+  <TSA_WD_RoadBlockGate>闸门</TSA_WD_RoadBlockGate>
+  <TSA_WD_RoadBlockKind_Disabled>{0}（建造 {1}/{2}）</TSA_WD_RoadBlockKind_Disabled>
+  <TSA_WD_RoadBlockKindTooltip>工作量：{0}\n移动惩罚：+{1}\n预计天数/格：{2}\n实力消耗：{3}\n最大 HP：{4}</TSA_WD_RoadBlockKindTooltip>
+  <TSA_WD_SpikeTrapSpike>刺钉陷阱</TSA_WD_SpikeTrapSpike>
+  <TSA_WD_SpikeTrapCaltrops>蒺藜</TSA_WD_SpikeTrapCaltrops>
+  <TSA_WD_SpikeTrapKind_Disabled>{0}（建造 {1}/{2}）</TSA_WD_SpikeTrapKind_Disabled>
+  <TSA_WD_SpikeTrapKindTooltip>工作量：{0}\n伤害：{1}\n预计天数/格：{2}\n实力消耗：{3}\n最大 HP：{4}</TSA_WD_SpikeTrapKindTooltip>
+  <TSA_WD_RoadKindTooltip>工作量：{0}\n移动倍率：{1}\n预计天数/段：{2}\n实力消耗：{3}</TSA_WD_RoadKindTooltip>
+  <TSA_WD_BuildReq_Header>需求</TSA_WD_BuildReq_Header>
+  <TSA_WD_BuildReq_Construction>建造：{0} / {1}</TSA_WD_BuildReq_Construction>
+  <TSA_WD_BuildReq_ResearchNone>研究：无</TSA_WD_BuildReq_ResearchNone>
+  <TSA_WD_BuildReq_ResearchDone>研究：{0}（已完成）</TSA_WD_BuildReq_ResearchDone>
+  <TSA_WD_BuildReq_ResearchMissing>研究：{0}（未完成）</TSA_WD_BuildReq_ResearchMissing>
+  <TSA_WD_BuildReq_MaterialsNone>材料：无</TSA_WD_BuildReq_MaterialsNone>
+  <TSA_WD_BuildReq_MaterialsHeader>材料：</TSA_WD_BuildReq_MaterialsHeader>
+  <TSA_WD_BuildReq_MaterialLine>  - {0} x{1}</TSA_WD_BuildReq_MaterialLine>
+  <TSA_WD_BuildReq_Unmet>未满足建造技能或研究需求。</TSA_WD_BuildReq_Unmet>
+  <TSA_WD_BtnLateGame>中期游戏与后期游戏</TSA_WD_BtnLateGame>
+  <TSA_WD_BtnT4Mortar>敌方 T4 炮塔</TSA_WD_BtnT4Mortar>
+  <TSA_WD_DescLateGame>配置你变强后的中期游戏与后期游戏反扑：阈值、偏向袭击、更快成长、扩张、好感流失、T4 迫击炮（仅后期游戏）与前哨事件。</TSA_WD_DescLateGame>
+  <TSA_WD_DescT4Mortar>配置敌方四级定居点的迫击炮与防空：是否开火、是否可攻击你，以及射程、冷却、伤害与精度。</TSA_WD_DescT4Mortar>
+  <TSA_WD_DescPlayerArtillery>你的前哨迫击炮、防空与快速反应拦截设置。</TSA_WD_DescPlayerArtillery>
+  <TSA_WD_Diplo_LaunchPodGiftStrengthPer100>发射舱礼物强度（每 100 市场价值）</TSA_WD_Diplo_LaunchPodGiftStrengthPer100>
+  <TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>通过发射舱向定居点送礼物时立即获得的额外实力，均分给进攻与防御。若一侧已满，剩余加到另一侧。原版好感不变。不会提升定居点等级。</TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>
+  <TSA_WD_Garrison_AllowBaseGeneration>允许 WD 接管基地生成</TSA_WD_Garrison_AllowBaseGeneration>
+  <TSA_WD_Garrison_AllowBaseGenerationTooltip>启用后，进攻 NPC 定居点会生成按该定居点等级与实力缩放的 WD/KCSG 布局。禁用则使用原版（或其他模组）定居点地图。防守你的前哨不受影响。</TSA_WD_Garrison_AllowBaseGenerationTooltip>
+  <TSA_WD_Garrison_AdaptiveTerrainPrep>自适应地形处理（沼泽 / 岩石）</TSA_WD_Garrison_AdaptiveTerrainPrep>
+  <TSA_WD_Garrison_AdaptiveTerrainPrepTooltip>扫描定居点布局。若不可建造地面过多（泥、沼泽、水、岩石），则只将这些阻挡格转为地图上最常见的可建造地形。树木保留。若大多可用，则保持自然地形。</TSA_WD_Garrison_AdaptiveTerrainPrepTooltip>
+  <TSA_WD_Garrison_BlockedFlattenThreshold>阻挡超过时清空</TSA_WD_Garrison_BlockedFlattenThreshold>
+  <TSA_WD_Garrison_BlockedFlattenThresholdTooltip>若布局中不可建造比例超过此值，则平整布局内的阻挡格。低于此值则保持生成地形。在“生成基地时始终清理布局矩形”开启时忽略。</TSA_WD_Garrison_BlockedFlattenThresholdTooltip>
+  <TSA_WD_Garrison_MinScale>进攻耗尽时的最低驻军比例</TSA_WD_Garrison_MinScale>
+  <TSA_WD_Garrison_MinScaleTooltip>地图驻军随被攻击定居点当前进攻实力相对其等级上限缩放。满员定居点派出配置等级乘数的 100%；耗尽者更少。此为下限：即使完全耗尽也至少派出该比例。地图布局仍按等级匹配。</TSA_WD_Garrison_MinScaleTooltip>
+  <TSA_WD_Growth_HeaderSameTierUpgradeReq>同级升级要求</TSA_WD_Growth_HeaderSameTierUpgradeReq>
+  <TSA_WD_Growth_SameTierUpgradeT1>升级所需同级 T1 邻居数</TSA_WD_Growth_SameTierUpgradeT1>
+  <TSA_WD_Growth_SameTierUpgradeT1Tooltip>T1 定居点升至 T2 前，附近所需的同派系 T1 定居点数量。</TSA_WD_Growth_SameTierUpgradeT1Tooltip>
+  <TSA_WD_Growth_SameTierUpgradeT2>升级所需同级 T2 邻居数</TSA_WD_Growth_SameTierUpgradeT2>
+  <TSA_WD_Growth_SameTierUpgradeT2Tooltip>T2 定居点升至 T3 前，附近所需的同派系 T2 定居点数量。</TSA_WD_Growth_SameTierUpgradeT2Tooltip>
+  <TSA_WD_Growth_SameTierUpgradeT3>升级所需同级 T3 邻居数</TSA_WD_Growth_SameTierUpgradeT3>
+  <TSA_WD_Growth_SameTierUpgradeT3Tooltip>T3 定居点升至 T4 前，附近所需的同派系 T3 定居点数量。</TSA_WD_Growth_SameTierUpgradeT3Tooltip>
+  <TSA_WD_HeaderDynamicGarrison>动态缩放（按当前进攻实力）</TSA_WD_HeaderDynamicGarrison>
+  <TSA_WD_Raid_CloseAttackerLoss>进攻方惜败</TSA_WD_Raid_CloseAttackerLoss>
+  <TSA_WD_Raid_CloseAttackerVictory>进攻方险胜</TSA_WD_Raid_CloseAttackerVictory>
+  <TSA_WD_Raid_CloseAttackerWin>进攻方险胜</TSA_WD_Raid_CloseAttackerWin>
+  <TSA_WD_Raid_CloseDefenderLoss>防守方惜败</TSA_WD_Raid_CloseDefenderLoss>
+  <TSA_WD_Raid_CloseDefenderVictory>防守方险胜</TSA_WD_Raid_CloseDefenderVictory>
+  <TSA_WD_Raid_CloseDefenderWin>防守方险胜</TSA_WD_Raid_CloseDefenderWin>
+  <TSA_WD_Raid_DecisiveAttackerLoss>进攻方惨败</TSA_WD_Raid_DecisiveAttackerLoss>
+  <TSA_WD_Raid_DecisiveAttackerVictory>进攻方大胜</TSA_WD_Raid_DecisiveAttackerVictory>
+  <TSA_WD_Raid_DecisiveAttackerWin>进攻方大胜</TSA_WD_Raid_DecisiveAttackerWin>
+  <TSA_WD_Raid_DecisiveDefenderLoss>防守方惨败</TSA_WD_Raid_DecisiveDefenderLoss>
+  <TSA_WD_Raid_DecisiveDefenderVictory>防守方大胜</TSA_WD_Raid_DecisiveDefenderVictory>
+  <TSA_WD_Raid_DecisiveDefenderWin>防守方大胜</TSA_WD_Raid_DecisiveDefenderWin>
+  <TSA_WD_Raid_LossRow_Close>险胜/惜败</TSA_WD_Raid_LossRow_Close>
+  <TSA_WD_Raid_LossRow_Decisive>大胜/惨败</TSA_WD_Raid_LossRow_Decisive>
+  <TSA_WD_Raid_LossRow_Normal>普通</TSA_WD_Raid_LossRow_Normal>
+  <TSA_WD_Raid_NormalAttackerLoss>进攻方普通失败</TSA_WD_Raid_NormalAttackerLoss>
+  <TSA_WD_Raid_NormalAttackerVictory>进攻方普通胜利</TSA_WD_Raid_NormalAttackerVictory>
+  <TSA_WD_Raid_NormalAttackerWin>进攻方普通胜利</TSA_WD_Raid_NormalAttackerWin>
+  <TSA_WD_Raid_NormalDefenderLoss>防守方普通失败</TSA_WD_Raid_NormalDefenderLoss>
+  <TSA_WD_Raid_NormalDefenderVictory>防守方普通胜利</TSA_WD_Raid_NormalDefenderVictory>
+  <TSA_WD_Raid_NormalDefenderWin>防守方普通胜利</TSA_WD_Raid_NormalDefenderWin>
+  <TSA_WD_Raid_Section1_WinChance>按相对实力比的进攻方胜率</TSA_WD_Raid_Section1_WinChance>
+  <TSA_WD_Raid_Section2_Desc>进攻方获胜时，胜利有多决定性？</TSA_WD_Raid_Section2_Desc>
+  <TSA_WD_Raid_Section3_Desc>进攻方失败时，失败有多惨重？</TSA_WD_Raid_Section3_Desc>
+  <TSA_WD_Raid_Section4_Desc>防守方失败时，失败有多惨重？</TSA_WD_Raid_Section4_Desc>
+  <TSA_WD_Raid_Section5_Desc>防守方获胜时，胜利有多决定性？</TSA_WD_Raid_Section5_Desc>
+  <TSA_WD_Raid_Section6_AttLoss>进攻方失败</TSA_WD_Raid_Section6_AttLoss>
+  <TSA_WD_Raid_Section6_AttWin>进攻方获胜</TSA_WD_Raid_Section6_AttWin>
+  <TSA_WD_Raid_Section6_DefLoss>防守方失败</TSA_WD_Raid_Section6_DefLoss>
+  <TSA_WD_Raid_Section6_DefWin>防守方获胜</TSA_WD_Raid_Section6_DefWin>
+  <TSA_WD_Raid_Section6_LossTables>各结果的实力损失（全局）</TSA_WD_Raid_Section6_LossTables>
+  <TSA_WD_Raid_Section6_Tip>各方损失的实力。险胜/惜败 = 焦灼战斗；大胜/惨败 = 一边倒。大胜时胜方损失更少；溃败时败方损失更多。</TSA_WD_Raid_Section6_Tip>
+  <TSA_WD_Settings_DefaultOff>关</TSA_WD_Settings_DefaultOff>
+  <TSA_WD_Settings_DefaultOn>开</TSA_WD_Settings_DefaultOn>
+  <TSA_WD_Settings_DefaultValue>默认：{0}</TSA_WD_Settings_DefaultValue>
+  <TSA_WD_UpdateLog_EntryListHeader>全部更新</TSA_WD_UpdateLog_EntryListHeader>
+
+  <TSA_WD_HeaderImportant>设置预设</TSA_WD_HeaderImportant>
+  <TSA_WD_HeaderSettingPresets>设置预设</TSA_WD_HeaderSettingPresets>
+  <TSA_WD_SettingsPreset_Warning>应用难度与性能预设。其他设置保持不变</TSA_WD_SettingsPreset_Warning>
+  <TSA_WD_Important_TemplateWarning>应用难度与性能预设。其他设置保持不变</TSA_WD_Important_TemplateWarning>
+  <TSA_WD_SettingsPreset_HeaderTip>当前已应用：\n性能：{0}\n难度：{1}</TSA_WD_SettingsPreset_HeaderTip>
+  <TSA_WD_Important_Performance>性能</TSA_WD_Important_Performance>
+  <TSA_WD_Important_PerformanceTip>影响寻路成本、水面行进、敌方 T4 炮火、拦截扫描频率、星球定居点上限与 NPC 伏击拦截队上限的预设。点击「应用」仅写入这些值。</TSA_WD_Important_PerformanceTip>
+  <TSA_WD_Important_Difficulty>难度</TSA_WD_Important_Difficulty>
+  <TSA_WD_Important_DifficultyTip>影响对你的袭击压力、叙事者实力钳制、每日袭击权重与中期游戏 / 后期游戏的预设。点击「应用」仅写入这些值。</TSA_WD_Important_DifficultyTip>
+  <TSA_WD_SettingsPreset_Custom>自定义</TSA_WD_SettingsPreset_Custom>
+  <TSA_WD_SettingsPreset_CurrentlyApplied>当前已应用：{0}</TSA_WD_SettingsPreset_CurrentlyApplied>
+  <TSA_WD_SettingsPreset_Apply>应用</TSA_WD_SettingsPreset_Apply>
+  <TSA_WD_SettingsPreset_Applied>已应用预设：{0}</TSA_WD_SettingsPreset_Applied>
+  <TSA_WD_Settings_ExpandAll>全部展开</TSA_WD_Settings_ExpandAll>
+  <TSA_WD_Settings_CollapseAll>全部折叠</TSA_WD_Settings_CollapseAll>
+  <TSA_WD_Important_Perf_Low>最佳性能</TSA_WD_Important_Perf_Low>
+  <TSA_WD_Important_Perf_Medium>正常性能</TSA_WD_Important_Perf_Medium>
+  <TSA_WD_Important_Perf_High>降低性能</TSA_WD_Important_Perf_High>
+  <TSA_WD_Important_Perf_LowDesc>最省的寻路（直线启发）、禁止水面路线、关闭敌方 T4 炮火、更慢的防空扫描、更短的世界搜索范围、最多 200 定居点、NPC 伏击拦截队上限 4。</TSA_WD_Important_Perf_LowDesc>
+  <TSA_WD_Important_Perf_MediumDesc>路径精度、水面行进、拦截扫描频率、最多 400 定居点与 NPC 伏击拦截队上限 8 的默认平衡。</TSA_WD_Important_Perf_MediumDesc>
+  <TSA_WD_Important_Perf_HighDesc>更精确的商队路径筹备（80%）、更快的拦截扫描、水面行进开启、最多 800 定居点、NPC 伏击拦截队不设上限。</TSA_WD_Important_Perf_HighDesc>
+  <TSA_WD_Important_Diff_Easy>简单难度</TSA_WD_Important_Diff_Easy>
+  <TSA_WD_Important_Diff_Medium>中等难度</TSA_WD_Important_Diff_Medium>
+  <TSA_WD_Important_Diff_Hard>困难难度</TSA_WD_Important_Diff_Hard>
+  <TSA_WD_Important_Diff_EasyDesc>更长的袭击冷却、更少袭击、更弱的叙事者钳制（50–150%）、更低袭击权重。中期游戏与后期游戏永不激活。</TSA_WD_Important_Diff_EasyDesc>
+  <TSA_WD_Important_Diff_MediumDesc>默认袭击压力。中期游戏为 15% 占比或 6,000 前哨实力；后期游戏为 25% 或 10,000。对你的 T4 迫击炮/防空仅在后期游戏开启。</TSA_WD_Important_Diff_MediumDesc>
+  <TSA_WD_Important_Diff_HardDesc>更短冷却、允许更多袭击、更强叙事者钳制（100–300%）、更高袭击权重。中期游戏与后期游戏时机与中等相同，但后期游戏打击更重，且对你的 T4 迫击炮/防空在中期游戏已启用。</TSA_WD_Important_Diff_HardDesc>
+
+  <TSA_WD_SkillScaling_Reset>重置技能缩放</TSA_WD_SkillScaling_Reset>
+  <TSA_WD_SkillScaling_Intro>决定像“种植”技能堆在农业前哨上是否应无限提高产量，还是在某些阈值之后递减。建站要求仍使用原始技能。</TSA_WD_SkillScaling_Intro>
+  <TSA_WD_SkillScaling_Enable>启用递减收益</TSA_WD_SkillScaling_Enable>
+  <TSA_WD_SkillScaling_EnableTip>开启后，超过第一段阈值再堆总技能，额外产量越来越少。</TSA_WD_SkillScaling_EnableTip>
+  <TSA_WD_SkillScaling_HardCap>硬上限（原始技能）</TSA_WD_SkillScaling_HardCap>
+  <TSA_WD_SkillScaling_HardCapTip>超过此原始总技能后，再堆技能不再增加产能。</TSA_WD_SkillScaling_HardCapTip>
+  <TSA_WD_SkillScaling_BandsHeader>技能分段</TSA_WD_SkillScaling_BandsHeader>
+  <TSA_WD_SkillScaling_BandsTip></TSA_WD_SkillScaling_BandsTip>
+  <TSA_WD_SkillScaling_BandRange>适用于累计技能 {0} 至 {1}</TSA_WD_SkillScaling_BandRange>
+  <TSA_WD_SkillScaling_BandEnd>第 {0} 段结束于</TSA_WD_SkillScaling_BandEnd>
+  <TSA_WD_SkillScaling_BandEndTip>拖动以设定本段结束（下一段开始）的累计技能。</TSA_WD_SkillScaling_BandEndTip>
+  <TSA_WD_SkillScaling_BandEfficiency>本段技能点效率：{0}%</TSA_WD_SkillScaling_BandEfficiency>
+  <TSA_WD_SkillScaling_BandWeight>第 {0} 段权重 %</TSA_WD_SkillScaling_BandWeight>
+  <TSA_WD_SkillScaling_BandWeightTip>本段每个技能点有多少计入产量。不得超过上一段。</TSA_WD_SkillScaling_BandWeightTip>
+  <TSA_WD_SkillScaling_PreviewHeader>预览</TSA_WD_SkillScaling_PreviewHeader>
+  <TSA_WD_SkillScaling_PreviewRaw>示例原始技能</TSA_WD_SkillScaling_PreviewRaw>
+  <TSA_WD_SkillScaling_PreviewResult>有效技能：{0} 原始 → {1} 有效</TSA_WD_SkillScaling_PreviewResult>
+  <TSA_WD_SkillScaling_RawToEffective>{0} → {1}</TSA_WD_SkillScaling_RawToEffective>
+  <TSA_WD_SkillScaling_DisabledTip>技能递减收益已关闭。</TSA_WD_SkillScaling_DisabledTip>
+  <TSA_WD_SkillScaling_BreakdownHeader>技能缩放：{0} 原始 → {1} 有效</TSA_WD_SkillScaling_BreakdownHeader>
+  <TSA_WD_SkillScaling_BandLine>技能点 {0}–{1} = {2}% 效率</TSA_WD_SkillScaling_BandLine>
+  <TSA_WD_SkillScaling_HardCapLine>硬上限：{0} 原始</TSA_WD_SkillScaling_HardCapLine>
+  <TSA_WD_SkillScaling_BannerSoft>因技能点过高而递减。原始：{0}，有效：{1}</TSA_WD_SkillScaling_BannerSoft>
+  <TSA_WD_SkillScaling_BannerHardCap>已达硬上限。继续堆技能无效。原始：{0}，有效：{1}</TSA_WD_SkillScaling_BannerHardCap>
+  <TSA_WD_SkillScaling_OverviewLabel>递减收益</TSA_WD_SkillScaling_OverviewLabel>
+  <TSA_WD_Pollution_EnableTravelerDamage>污染力量伤害</TSA_WD_Pollution_EnableTravelerDamage>
+  <TSA_WD_Pollution_EnableTravelerDamageTip>开启后，符合条件的地面 WD 旅行者离开受污染格子时会损失力量，NPC 定居点与 WD 前哨站也会因附近平均污染而每日损失力量。净化小队、空中炮弹与空降舱不受影响。用下方类型勾选框选择哪些商队承受离开伤害。NPC 定居点还会每 12 小时派出廉价净化小队。</TSA_WD_Pollution_EnableTravelerDamageTip>
+  <TSA_WD_Pollution_WasterImmunity>废土海盗污染免疫</TSA_WD_Pollution_WasterImmunity>
+  <TSA_WD_Pollution_WasterImmunityTip>开启后，PirateWaster 派系跳过旅行者离开伤害、站点每日污染伤害以及 NPC 自动净化。</TSA_WD_Pollution_WasterImmunityTip>
+  <TSA_WD_Pollution_DamageRaiders>袭击商队</TSA_WD_Pollution_DamageRaiders>
+  <TSA_WD_Pollution_DamageRaidersTip>地面袭击与快速反应商队承受污染离开伤害。空降袭击仍豁免。</TSA_WD_Pollution_DamageRaidersTip>
+  <TSA_WD_Pollution_DamageExpansion>扩张商队</TSA_WD_Pollution_DamageExpansion>
+  <TSA_WD_Pollution_DamageExpansionTip>扩张商队承受污染离开伤害。</TSA_WD_Pollution_DamageExpansionTip>
+  <TSA_WD_Pollution_DamageConstruction>建造商队</TSA_WD_Pollution_DamageConstruction>
+  <TSA_WD_Pollution_DamageConstructionTip>筑路、路障、尖刺陷阱与 NPC 设防小队承受污染离开伤害。</TSA_WD_Pollution_DamageConstructionTip>
+  <TSA_WD_Pollution_DamageTraders>商人与后勤</TSA_WD_Pollution_DamageTraders>
+  <TSA_WD_Pollution_DamageTradersTip>贸易、投送、升级、购买与赠礼商队承受污染离开伤害（仅地面）。</TSA_WD_Pollution_DamageTradersTip>
+  <TSA_WD_Pollution_DamagePlayer>玩家 WD 旅行者</TSA_WD_Pollution_DamagePlayer>
+  <TSA_WD_Pollution_DamagePlayerTip>关闭时，即使类型勾选开启，玩家派系 WD 旅行者也不受污染离开伤害。</TSA_WD_Pollution_DamagePlayerTip>
+  <TSA_WD_Pollution_BannerDamage>将因污染受到伤害</TSA_WD_Pollution_BannerDamage>
+  <TSA_WD_Pollution_BannerRouteAltered>路线已改道以避开污染</TSA_WD_Pollution_BannerRouteAltered>
+  <TSA_WD_Msg_RaidCancelledPollution>袭击已取消：该路线约因污染损失 {0} 力量。</TSA_WD_Msg_RaidCancelledPollution>
+  <TSA_WD_Experimental_HeaderWorldActionsRaidLogic>世界行动与袭击逻辑</TSA_WD_Experimental_HeaderWorldActionsRaidLogic>
+  <TSA_WD_Experimental_ColonyWorldBuild>实验：殖民地世界建造（道路 / 路障 / 陷阱）</TSA_WD_Experimental_ColonyWorldBuild>
+  <TSA_WD_Experimental_ColonyWorldBuildTip>开启后，你的殖民地定居点获得青色“建造”指令（道路、路障、尖刺陷阱）。速度与解锁取决于殖民地地图上殖民者建造技能总和。无工程师加成，不消耗 WD 实力。关闭会取消殖民地进行中的建造项目。</TSA_WD_Experimental_ColonyWorldBuildTip>
+  <TSA_WD_Experimental_AT_TargetPlayerTravelers>NPC AT 炮塔攻击玩家 WD 远行队</TSA_WD_Experimental_AT_TargetPlayerTravelers>
+  <TSA_WD_Experimental_AT_TargetPlayerTravelersTip>开启后，敌对 NPC AT 炮塔可向你的地面 WD 远行队开火（袭击、升级、交付、商队及其他非空中任务）。关闭后不再发起新交火；已在飞行中的炮弹仍会结算。</TSA_WD_Experimental_AT_TargetPlayerTravelersTip>
+  <TSA_WD_Experimental_AT_TargetPlayerCaravans>NPC AT 炮塔攻击玩家商队</TSA_WD_Experimental_AT_TargetPlayerCaravans>
+  <TSA_WD_Experimental_AT_TargetPlayerCaravansTip>开启后，敌对 NPC AT 炮塔可向你的真实角色商队开火。命中会像防空打运输舱一样击伤或击杀乘客。关闭后不再发起新交火；已在飞行中的炮弹仍会结算。</TSA_WD_Experimental_AT_TargetPlayerCaravansTip>
+  <TSA_WD_Experimental_HeaderTargetOfOpportunity>目标机会重定向</TSA_WD_Experimental_HeaderTargetOfOpportunity>
+  <TSA_WD_Experimental_TargetOfOpportunity>实验：目标机会重定向</TSA_WD_Experimental_TargetOfOpportunity>
+  <TSA_WD_Experimental_TargetOfOpportunityTip>开启后，正在进行的袭击(NPC 对 NPC、NPC 对玩家或玩家对 NPC)在经过附近较弱的定居点或前哨时，可能会转而攻击它，而不是继续前往原定目标。绝不会转向攻击途经的商队或其他远行队，只会转向静态的定居点/前哨。默认仅在中期或后期阶段后生效；开启下方的「允许机会目标、劫掠与伏击从游戏一开始就生效」可跳过该门槛。默认关闭。</TSA_WD_Experimental_TargetOfOpportunityTip>
+  <TSA_WD_Experimental_ToORollPct>合格判定概率</TSA_WD_Experimental_ToORollPct>
+  <TSA_WD_Experimental_ToORollPctTip>每次袭击经过一个合格的监视者附近时都会先进行一次廉价掷骰判定，之后才会进行任何实力计算。大多数经过事件会在这里被免费淘汰(这既是“袭击是否有资格改变目标”的概率，也是主要的性能限流手段)。</TSA_WD_Experimental_ToORollPctTip>
+  <TSA_WD_Experimental_ToOMinRatioAdvantage>切换所需的实力比优势</TSA_WD_Experimental_ToOMinRatioAdvantage>
+  <TSA_WD_Experimental_ToOMinRatioAdvantageTip>实力比 = 突袭力量 ÷ 目标防御。附近定居点只有在其实力比至少比当前目标高出这么多时，才会被改作新目标。例如：当前为 1.10、本项为 0.25 时，新目标至少要到 1.35。</TSA_WD_Experimental_ToOMinRatioAdvantageTip>
+  <TSA_WD_Experimental_ToOMaxRetargets>每次袭击最大重定向次数</TSA_WD_Experimental_ToOMaxRetargets>
+  <TSA_WD_Experimental_ToOMaxRetargetsTip>限制单次袭击在必须锁定当前目标前，最多可以选择多少次新的机会目标。</TSA_WD_Experimental_ToOMaxRetargetsTip>
+  <TSA_WD_Experimental_TargetChangesMaxLifetime>单次袭击目标变更上限(机会目标+劫掠)</TSA_WD_Experimental_TargetChangesMaxLifetime>
+  <TSA_WD_Experimental_TargetChangesMaxLifetimeTip>同一支袭击全程最多只能换这么多次目标。途中改道与胜利后继续打下一个都算进去。上面各自的“最大改道次数 / 最大连锁目标”上限仍然生效。</TSA_WD_Experimental_TargetChangesMaxLifetimeTip>
+  <TSA_WD_Experimental_HeaderMarauding>胜利后劫掠</TSA_WD_Experimental_HeaderMarauding>
+  <TSA_WD_Experimental_ContinueAfterConquest>实验：征服后继续袭击</TSA_WD_Experimental_ContinueAfterConquest>
+  <TSA_WD_Experimental_ContinueAfterConquestTip>开启后，获胜的袭击可能会继续前进，攻击附近另一个较弱的定居点，而不总是在首次获胜后解散。仅在自动结算的 NPC/模拟胜利中继续，绝不会在通过玩家殖民地手动防御对话框结算的袭击中继续。默认仅在中期或后期阶段后生效；开启下方的「允许机会目标、劫掠与伏击从游戏一开始就生效」可跳过该门槛。默认关闭。</TSA_WD_Experimental_ContinueAfterConquestTip>
+  <TSA_WD_Experimental_MaraudChancePct>获胜后继续的概率</TSA_WD_Experimental_MaraudChancePct>
+  <TSA_WD_Experimental_MaraudChancePctTip>在获胜后立即掷骰一次，先于其他任何劫掠判定。</TSA_WD_Experimental_MaraudChancePctTip>
+  <TSA_WD_Experimental_MaraudMinStrength>继续所需的最低剩余实力</TSA_WD_Experimental_MaraudMinStrength>
+  <TSA_WD_Experimental_MaraudMinStrengthTip>袭击获胜后剩余的实力必须达到这个数值，才值得继续派往下一个目标。</TSA_WD_Experimental_MaraudMinStrengthTip>
+  <TSA_WD_Experimental_MaraudMaxChain>最大连锁目标数</TSA_WD_Experimental_MaraudMaxChain>
+  <TSA_WD_Experimental_MaraudMaxChainTip>限制单次袭击在必须停止并解散前，最多可以连续获胜并连锁攻击多少个新目标。</TSA_WD_Experimental_MaraudMaxChainTip>
+  <TSA_WD_Experimental_HeaderSettlementAmbush>定居点主动伏击</TSA_WD_Experimental_HeaderSettlementAmbush>
+  <TSA_WD_Experimental_SettlementAmbush>实验：定居点伏击途经的远行队</TSA_WD_Experimental_SettlementAmbush>
+  <TSA_WD_Experimental_SettlementAmbushTip>开启后，达到最低伏击等级（默认为 2 级）的 NPC 定居点可能会对经过监视范围的敌对贸易商队、礼物/贿赂商队、无关袭击或真实玩家商队派出拦截部队。玩家的快速反应和迫击炮前哨不属于此功能，它们通过各自的防御射程拦截。默认仅在中期或后期阶段后生效；开启下方的「允许机会目标、劫掠与伏击从游戏一开始就生效」可跳过该门槛。</TSA_WD_Experimental_SettlementAmbushTip>
+  <TSA_WD_Experimental_AmbushChancePct>伏击概率(抛硬币判定)</TSA_WD_Experimental_AmbushChancePct>
+  <TSA_WD_Experimental_AmbushChancePctTip>在阶段判定通过后、任何实力计算之前掷骰，因此判定失败绝不会浪费更昂贵的实力比检查。</TSA_WD_Experimental_AmbushChancePctTip>
+  <TSA_WD_Experimental_AmbushMinRatio>发起伏击所需的最低实力比</TSA_WD_Experimental_AmbushMinRatio>
+  <TSA_WD_Experimental_AmbushMinRatioTip>符合条件的定居点可用的袭击实力必须至少达到途经目标实力的这个倍数，才会发起伏击。低于这个值时，留在家里等进攻方上门更划算。</TSA_WD_Experimental_AmbushMinRatioTip>
+  <TSA_WD_Experimental_AmbushMaxRatio>最多派出的相对实力</TSA_WD_Experimental_AmbushMaxRatio>
+  <TSA_WD_Experimental_AmbushMaxRatioTip>符合条件的定居点实力足以出击时，最多派出目标实力的该倍数，其余留在驻地。</TSA_WD_Experimental_AmbushMaxRatioTip>
+  <TSA_WD_Experimental_AmbushMinTier>发起伏击所需的最低定居点等级</TSA_WD_Experimental_AmbushMinTier>
+  <TSA_WD_Experimental_AmbushMinTierTip>只有达到此等级或更高的 NPC 定居点才会监视并派出伏击拦截队。更低等级的营地留在驻地。迫击炮和快速反应前哨不受影响，它们使用各自的防御射程。</TSA_WD_Experimental_AmbushMinTierTip>
+  <TSA_WD_Experimental_AmbushMaxConcurrent>同时在途的伏击拦截队上限</TSA_WD_Experimental_AmbushMaxConcurrent>
+  <TSA_WD_Experimental_AmbushMaxConcurrentTip>全球同时存在的 NPC 伏击拦截队上限。0 表示不限制。不计入玩家快速反应。点击「应用」性能预设时会覆盖此值。</TSA_WD_Experimental_AmbushMaxConcurrentTip>
+  <TSA_WD_Experimental_AmbushMaxConcurrentUnlimited>不限制</TSA_WD_Experimental_AmbushMaxConcurrentUnlimited>
+  <TSA_WD_Experimental_AmbushWatchRange>普通定居点伏击监视范围(格)</TSA_WD_Experimental_AmbushWatchRange>
+  <TSA_WD_Experimental_AmbushWatchRangeTip>符合等级条件的普通 NPC 定居点监视伏击目标的距离。设计上与定居点周围的内圈阻挡格半径一致。迫击炮和快速反应前哨通过各自的防御射程拦截，不使用这个伏击监视范围。</TSA_WD_Experimental_AmbushWatchRangeTip>
+  <TSA_WD_Experimental_OpportunityIgnoreEscalationGate>允许机会目标、劫掠与伏击从游戏一开始就生效</TSA_WD_Experimental_OpportunityIgnoreEscalationGate>
+  <TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>开启后，机会目标改道、胜利后劫掠、以及据点伏击（以上三项中已开启的那些）可以从游戏一开始就触发，而不必等到进入中期或后期升级阶段。如果以上三项均未开启，此选项不会产生任何效果。</TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>
+  <TSA_WD_Experimental_EnableWorldMapSounds>WD 世界地图战斗音效</TSA_WD_Experimental_EnableWorldMapSounds>
+  <TSA_WD_Experimental_EnableWorldMapSoundsTip>开启后，AT 炮塔、迫击炮与防空高射在世界地图上播放短音效。关闭可静音这些 WD 战斗音效。界面点击音不受影响。</TSA_WD_Experimental_EnableWorldMapSoundsTip>
+  <TSA_WD_Experimental_OutpostWithdrawStrengthBudget>实验：前哨撤离兵力预算</TSA_WD_Experimental_OutpostWithdrawStrengthBudget>
+  <TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>开启后，撤离使用当前未封顶的进攻兵力，并允许 5% 的确认余量。若所选殖民者超过该预算，会弹出选择：组建商队、留在前哨或标记失去。关闭后，调动不再做该兵力检查。</TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>
+  <TSA_WD_Experimental_OutpostDefenseDeployBudget>实验：前哨手动防御部署兵力预算</TSA_WD_Experimental_OutpostDefenseDeployBudget>
+  <TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>开启后，“手动战斗”按当前进攻兵力限制可部署的前哨殖民者。关闭后可任意选择，无预算上限。</TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>
+  <TSA_WD_Experimental_HeaderBaseGeneration>基地生成</TSA_WD_Experimental_HeaderBaseGeneration>
+  <TSA_WD_Experimental_AlwaysClearKcsgRect>生成基地时始终清理布局矩形</TSA_WD_Experimental_AlwaysClearKcsgRect>
+  <TSA_WD_Experimental_AlwaysClearKcsgRectTip>开启后，即使不可建造比例低于滑条，也会将布局内不可建造的格子转为可建造地形。关闭后，仅在超过滑条时才平整。</TSA_WD_Experimental_AlwaysClearKcsgRectTip>
+  <TSA_WD_Experimental_KcsgRectBlend>在矩形周围过渡混合</TSA_WD_Experimental_KcsgRectBlend>
+  <TSA_WD_Experimental_KcsgRectBlendTip>平整时，还会从布局向外转换不可建造格子（约 24 格，带噪声衰减），并在同一区域清理污物与碎块。树木保留。关闭后只改布局矩形。</TSA_WD_Experimental_KcsgRectBlendTip>
+  <TSA_WD_Experimental_HeaderAtTurrets>反坦克炮</TSA_WD_Experimental_HeaderAtTurrets>
+  <TSA_WD_Experimental_AT_TurretMaxStrength>AT 炮塔实力（生命值）</TSA_WD_Experimental_AT_TurretMaxStrength>
+  <TSA_WD_Experimental_AT_TurretMaxStrengthTip>新建该类型 AT 炮塔时的生命值。不会改变地图上已有炮塔。与道路建设中的远征实力无关。</TSA_WD_Experimental_AT_TurretMaxStrengthTip>
+  <TSA_WD_Experimental_AT_TurretDamage>AT 炮塔炮弹伤害</TSA_WD_Experimental_AT_TurretDamage>
+  <TSA_WD_Experimental_AT_TurretDamageTip>AT 炮塔炮弹命中时造成的实力伤害。</TSA_WD_Experimental_AT_TurretDamageTip>
+  <TSA_WD_Experimental_AT_TurretCooldown>AT 炮塔冷却（天）</TSA_WD_Experimental_AT_TurretCooldown>
+  <TSA_WD_Experimental_AT_TurretCooldownTip>AT 炮塔射击后再次开火前的天数。极低值用于测试。</TSA_WD_Experimental_AT_TurretCooldownTip>
+  <TSA_WD_Experimental_AT_TurretRange>AT 炮塔射程（格）</TSA_WD_Experimental_AT_TurretRange>
+  <TSA_WD_Experimental_AT_TurretRangeTip>该类型 AT 炮塔的开火射程与接近磁吸半径。设置即时生效。</TSA_WD_Experimental_AT_TurretRangeTip>
+  <TSA_WD_Experimental_AT_TurretHitBand0To50>AT 炮塔命中（射程 0–50%）</TSA_WD_Experimental_AT_TurretHitBand0To50>
+  <TSA_WD_Experimental_AT_TurretHitBand0To50Tip>内圈基础命中。另加技能等效（每级 +1 百分点，当前为 8）。</TSA_WD_Experimental_AT_TurretHitBand0To50Tip>
+  <TSA_WD_Experimental_AT_TurretHitBand51To75>AT 炮塔命中（射程 51–75%）</TSA_WD_Experimental_AT_TurretHitBand51To75>
+  <TSA_WD_Experimental_AT_TurretHitBand51To75Tip>中圈基础命中。与迫击炮 / T4 聚居地精度无关。</TSA_WD_Experimental_AT_TurretHitBand51To75Tip>
+  <TSA_WD_Experimental_AT_TurretHitBand76To100>AT 炮塔命中（射程 76–100%）</TSA_WD_Experimental_AT_TurretHitBand76To100>
+  <TSA_WD_Experimental_AT_TurretHitBand76To100Tip>外圈基础命中。与迫击炮 / T4 聚居地精度无关。</TSA_WD_Experimental_AT_TurretHitBand76To100Tip>
+  <TSA_WD_Experimental_HeaderControls>世界地图控制</TSA_WD_Experimental_HeaderControls>
+  <TSA_WD_AutoAdd_DefaultOn>默认开启自动加入抵达者</TSA_WD_AutoAdd_DefaultOn>
+  <TSA_WD_AutoAdd_DefaultOnTip>开启后，新建的 WD 前哨默认启用「自动加入抵达者」指令。已有前哨不受影响。仍可在每个前哨单独开关。</TSA_WD_AutoAdd_DefaultOnTip>
+  <TSA_WD_TravelFood_PrisonerRecruit>招募后转移囚犯时提供食物</TSA_WD_TravelFood_PrisonerRecruit>
+  <TSA_WD_TravelFood_PrisonerRecruitTip>开启后，招募后送往预定殖民地或前哨的囚犯每人携带 150 份干肉饼启程。从殖民地出发时，用等量营养的地图食物支付（优先快坏的）；从前哨出发时从虚拟食物扣除。食物不足则不带该份干肉饼。</TSA_WD_TravelFood_PrisonerRecruitTip>
+  <TSA_WD_TravelFood_AllPlayerPawns>通过全部玩家角色转移时提供食物</TSA_WD_TravelFood_AllPlayerPawns>
+  <TSA_WD_TravelFood_AllPlayerPawnsTip>开启后，通过「全部玩家角色」窗口转移的单位每人携带 150 份干肉饼启程。从殖民地出发时，用等量营养的地图食物支付（优先快坏的）；从前哨出发时从虚拟食物扣除。食物不足则不带该份干肉饼。</TSA_WD_TravelFood_AllPlayerPawnsTip>
+  <TSA_WD_OutpostSim_ShowInWdMenu>在 WD 世界地图菜单中显示建立前哨模拟</TSA_WD_OutpostSim_ShowInWdMenu>
+  <TSA_WD_OutpostSim_ShowInWdMenuTip>开启后，WD 世界地图菜单会包含「建立前哨模拟」，可点击地块预览需求与材料成本，无需派出商队。</TSA_WD_OutpostSim_ShowInWdMenuTip>
+  <TSA_WD_Experimental_HeaderFortify>NPC 设防</TSA_WD_Experimental_HeaderFortify>
+  <TSA_WD_Fortify_MinFromSelf>距定居点最小距离</TSA_WD_Fortify_MinFromSelf>
+  <TSA_WD_Fortify_MinFromSelfTip>该定居点可放置设防（路障、陷阱、AT 炮塔）的最近格数。</TSA_WD_Fortify_MinFromSelfTip>
+  <TSA_WD_Fortify_MinFromOther>距其他定居点最小距离</TSA_WD_Fortify_MinFromOther>
+  <TSA_WD_Fortify_MinFromOtherTip>设防位置须与任何其他定居点或前哨至少保持此距离。</TSA_WD_Fortify_MinFromOtherTip>
+  <TSA_WD_Fortify_MaxFromSelf>距定居点最大距离</TSA_WD_Fortify_MaxFromSelf>
+  <TSA_WD_Fortify_MaxFromSelfTip>该定居点可放置设防的最远格数。</TSA_WD_Fortify_MaxFromSelfTip>
+  <TSA_WD_Fortify_MaxTravel>设防最远出行距离</TSA_WD_Fortify_MaxTravel>
+  <TSA_WD_Fortify_MaxTravelTip>若最佳设防点在此距离内，由本定居点派出车队；若更远，则由更近的同阵营定居点代为执行。</TSA_WD_Fortify_MaxTravelTip>
+  <TSA_WD_Fortify_TerritoryLink>领地连接距离</TSA_WD_Fortify_TerritoryLink>
+  <TSA_WD_Fortify_TerritoryLinkTip>同阵营定居点在此距离内且中间无敌对时，视为同一领地以判定前沿。</TSA_WD_Fortify_TerritoryLinkTip>
+  <TSA_WD_Fortify_TravelerStrength>设防旅行队实力</TSA_WD_Fortify_TravelerStrength>
+  <TSA_WD_Fortify_TravelerStrengthTip>每派出一支设防施工队从定居点扣除的进攻实力。高等级可能一次派出多支，各自扣除该费用。</TSA_WD_Fortify_TravelerStrengthTip>
+  <TSA_WD_Fortify_ClearOnBuilderLoss>建造者失守时清除设防</TSA_WD_Fortify_ClearOnBuilderLoss>
+  <TSA_WD_Fortify_ClearOnBuilderLossTip>开启后，若建造定居点被摧毁或更换派系，会移除其放置的路障与陷阱。</TSA_WD_Fortify_ClearOnBuilderLossTip>
+  <TSA_WD_Fortify_EnableBlacklist>启用标记盟友不得设防的地块</TSA_WD_Fortify_EnableBlacklist>
+  <TSA_WD_Fortify_EnableBlacklistTip>解锁世界地图 WD 菜单（禁设防标记）中的添加/移除封锁地块。被标记地块上盟友不能新建路障或陷阱。已有设防需用「移除设防」清除。敌对派系不受标记限制。</TSA_WD_Fortify_EnableBlacklistTip>
+  <TSA_WD_Fortify_BlacklistApplyNeutral>也适用于中立</TSA_WD_Fortify_BlacklistApplyNeutral>
+  <TSA_WD_Fortify_BlacklistApplyNeutralTip>开启后，中立派系也不能在标记地块上新建设防。盟友始终受标记限制。敌对派系不受影响。</TSA_WD_Fortify_BlacklistApplyNeutralTip>
+  <TSA_WD_Daily_HeaderFortify>NPC 设防</TSA_WD_Daily_HeaderFortify>
+  <TSA_WD_Fortify_HeaderTypeChances>放置内容</TSA_WD_Fortify_HeaderTypeChances>
+  <TSA_WD_Fortify_ChanceRoadBlock>路障概率</TSA_WD_Fortify_ChanceRoadBlock>
+  <TSA_WD_Fortify_ChanceRoadBlockTip>发动设防时放置路障的相对权重。仅在有效选项中抽取，再按比例归一为 100%。路障可放在设防环内任意空地。</TSA_WD_Fortify_ChanceRoadBlockTip>
+  <TSA_WD_Fortify_ChanceTrap>陷阱概率</TSA_WD_Fortify_ChanceTrap>
+  <TSA_WD_Fortify_ChanceTrapTip>发动设防时放置尖刺陷阱的相对权重。仅在有道路地块时参与抽取。陷阱放在道路上。</TSA_WD_Fortify_ChanceTrapTip>
+  <TSA_WD_Fortify_ChanceTurret>反坦克炮概率</TSA_WD_Fortify_ChanceTurret>
+  <TSA_WD_Fortify_ChanceTurretTip>发动设防时放置反坦克炮的相对权重。仅在定居点未达反坦克炮上限且有无路地块时参与抽取。优先放在任意路障旁，且路障位于炮与敌对威胁之间以作掩护。始终只派一支施工队（不多队出动）。</TSA_WD_Fortify_ChanceTurretTip>
+  <TSA_WD_Fortify_HeaderMultiCaravan>多商队出动</TSA_WD_Fortify_HeaderMultiCaravan>
+  <TSA_WD_Fortify_MultiT1ChanceOf2>T1 出动 2 队概率</TSA_WD_Fortify_MultiT1ChanceOf2>
+  <TSA_WD_Fortify_MultiT1ChanceOf2Tip>设防选择路障或陷阱（非反坦克炮）时：1 级派出 2 支施工队而非 1 支的概率。NPC 修路多队出动也使用此项。</TSA_WD_Fortify_MultiT1ChanceOf2Tip>
+  <TSA_WD_Fortify_MultiT2ChanceOf2>T2 出动 2 队概率</TSA_WD_Fortify_MultiT2ChanceOf2>
+  <TSA_WD_Fortify_MultiT2ChanceOf2Tip>设防选择路障或陷阱（非反坦克炮）时：2 级派出 2 支施工队而非 1 支的概率。</TSA_WD_Fortify_MultiT2ChanceOf2Tip>
+  <TSA_WD_Fortify_MultiT3ChanceOf2>T3 出动 2 队概率</TSA_WD_Fortify_MultiT3ChanceOf2>
+  <TSA_WD_Fortify_MultiT3ChanceOf2Tip>设防选择路障或陷阱（非反坦克炮）时：3 级派出 2 支施工队而非 1 支的概率。</TSA_WD_Fortify_MultiT3ChanceOf2Tip>
+  <TSA_WD_Fortify_MultiT4ChanceOf3>T4 出动 3 队概率</TSA_WD_Fortify_MultiT4ChanceOf3>
+  <TSA_WD_Fortify_MultiT4ChanceOf3Tip>设防选择路障或陷阱（非反坦克炮）时：4 级派出 3 支施工队而非 2 支的概率。</TSA_WD_Fortify_MultiT4ChanceOf3Tip>
+  <TSA_WD_Fortify_HeaderAtTurrets>反坦克炮上限</TSA_WD_Fortify_HeaderAtTurrets>
+  <TSA_WD_Fortify_AtTurretMaxT1>T1 反坦克炮上限</TSA_WD_Fortify_AtTurretMaxT1>
+  <TSA_WD_Fortify_AtTurretMaxT2>T2 反坦克炮上限</TSA_WD_Fortify_AtTurretMaxT2>
+  <TSA_WD_Fortify_AtTurretMaxT3>T3 反坦克炮上限</TSA_WD_Fortify_AtTurretMaxT3>
+  <TSA_WD_Fortify_AtTurretMaxT4>T4 反坦克炮上限</TSA_WD_Fortify_AtTurretMaxT4>
+  <TSA_WD_Fortify_AtTurretMaxTip>该等级 NPC 定居点同时可拥有的反坦克炮数量上限。玩家殖民地与前哨上限在“实验”设置中。</TSA_WD_Fortify_AtTurretMaxTip>
+  <TSA_WD_Experimental_HeaderPollution>污染</TSA_WD_Experimental_HeaderPollution>
+  <TSA_WD_Experimental_HeaderUpkeep>前哨银币维护</TSA_WD_Experimental_HeaderUpkeep>
+  <TSA_WD_Upkeep_Enable>启用前哨银币维护（中期/后期）</TSA_WD_Upkeep_Enable>
+  <TSA_WD_Upkeep_EnableTip>中期或后期升级激活时，前哨殖民者每周期需要银币。未付清会使殖民者离开。实验性功能，默认关闭。</TSA_WD_Upkeep_EnableTip>
+  <TSA_WD_Upkeep_SilverPerOccupant>每名前哨殖民者银币</TSA_WD_Upkeep_SilverPerOccupant>
+  <TSA_WD_Upkeep_SilverPerOccupantTip>玩家 WD 前哨的每位驻员计入此银币费用。机械体、囚犯、动物与载具免费。</TSA_WD_Upkeep_SilverPerOccupantTip>
+  <TSA_WD_Upkeep_IntervalDays>维护周期（天）</TSA_WD_Upkeep_IntervalDays>
+  <TSA_WD_Upkeep_IntervalDaysTip>中期或后期激活时，两次维护截止日之间的天数。</TSA_WD_Upkeep_IntervalDaysTip>
+  <TSA_WD_Pollution_IgnoreBelow>低于此污染忽略</TSA_WD_Pollution_IgnoreBelow>
+  <TSA_WD_Pollution_IgnoreBelowTip>低于此污染水平的格子不会造成离开伤害。站点每日伤害对半径内平均污染使用同一曲线。达到该阈值时，伤害等于阈值伤害值。</TSA_WD_Pollution_IgnoreBelowTip>
+  <TSA_WD_Pollution_DamageAtThreshold>阈值伤害</TSA_WD_Pollution_DamageAtThreshold>
+  <TSA_WD_Pollution_DamageAtThresholdTip>离开处于忽略阈值污染水平的格子时损失的力量（站点每日伤害在该平均污染时亦同）。</TSA_WD_Pollution_DamageAtThresholdTip>
+  <TSA_WD_Pollution_DamageAtFull>100% 污染伤害</TSA_WD_Pollution_DamageAtFull>
+  <TSA_WD_Pollution_DamageAtFullTip>完全污染时损失的力量。阈值与 100% 之间线性插值。</TSA_WD_Pollution_DamageAtFullTip>
+  <TSA_WD_Pollution_DamageRadius>站点污染半径</TSA_WD_Pollution_DamageRadius>
+  <TSA_WD_Pollution_DamageRadiusTip>定居点与前哨站周围用于每日平均污染伤害及 NPC 自动净化搜索的世界格半径。包含站点所在格。</TSA_WD_Pollution_DamageRadiusTip>
+  <TSA_WD_Pollution_NpcDecontamCost>NPC 净化力量消耗</TSA_WD_Pollution_NpcDecontamCost>
+  <TSA_WD_Pollution_NpcDecontamCostTip>NPC 定居点派出自动净化小队时尝试花费的进攻力量。进攻不会降到 10 以下。即使付不起也会派出小队。</TSA_WD_Pollution_NpcDecontamCostTip>
+  <TSA_WD_Pollution_PathCost>污染路径代价</TSA_WD_Pollution_PathCost>
+  <TSA_WD_Pollution_PathCostTip>开启后，WD 寻路将受污染格子视为更高代价，使旅行者偏好更清洁的路线。应用性能预设会覆盖此开关。</TSA_WD_Pollution_PathCostTip>
+  <TSA_WD_Pollution_PathRepath>行进中因污染重新寻路</TSA_WD_Pollution_PathRepath>
+  <TSA_WD_Pollution_PathRepathTip>开启后，若污染代价变化，旅行者可在途中重新计算路径。应用性能预设会覆盖此开关。</TSA_WD_Pollution_PathRepathTip>
+  <TSA_WD_Pollution_PathPreCommitCancel>污染阻挡则取消路径</TSA_WD_Pollution_PathPreCommitCancel>
+  <TSA_WD_Pollution_PathPreCommitCancelTip>开启后，若计划路径被污染代价规则阻挡，任务可能拒绝出发。应用性能预设会覆盖此开关。</TSA_WD_Pollution_PathPreCommitCancelTip>
+
+  <TSA_WD_LateGame_OnlyFireT4MortarsAtPlayer>仅在后期游戏生效时对玩家开火（T4 迫击炮）</TSA_WD_LateGame_OnlyFireT4MortarsAtPlayer>
+  <TSA_WD_LateGame_OnlyFireT4AntiAirAtPlayer>仅在后期游戏生效时对玩家开火（T4 防空）</TSA_WD_LateGame_OnlyFireT4AntiAirAtPlayer>
+  <TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>仅在中期游戏生效时对玩家开火（T4 迫击炮）</TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>
+  <TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>仅在中期游戏生效时对玩家开火（T4 防空）</TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>
+</LanguageData>

@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <TSA_WD_AllegianceLock_ScopeInfo>This list applies to changes attempted by the World Domination mod</TSA_WD_AllegianceLock_ScopeInfo>
+  <TSA_WD_AllegianceLock_Title>Allowed Diplomacy Changes</TSA_WD_AllegianceLock_Title>
+  <TSA_WD_BtnAllowAll>Allow All</TSA_WD_BtnAllowAll>
+  <TSA_WD_BtnAllowAll_Tooltip>Every faction will be able to change relationships with any other faction</TSA_WD_BtnAllowAll_Tooltip>
+  <TSA_WD_BtnLockAll>Lock All</TSA_WD_BtnLockAll>
+  <TSA_WD_BtnLockAll_Tooltip>No relationship changes will occur through the World Domination mod.</TSA_WD_BtnLockAll_Tooltip>
+  <TSA_WD_BtnReset>Default</TSA_WD_BtnReset>
+  <TSA_WD_BtnResetGlobal>Perm. Hostile</TSA_WD_BtnResetGlobal>
+  <TSA_WD_BtnResetGlobal_Tooltip>Locks every pair that includes a permanently hostile faction (including vs the player), and locks Insectoid/Hive pairs against everyone. Stops WD diplomacy from changing those pairs.</TSA_WD_BtnResetGlobal_Tooltip>
+  <TSA_WD_BtnReset_Tooltip>Prevents permanently hostile factions (Insectoids and vanilla Permanent Enemies) from changing relationships with other permanently hostile factions. Insectoid/Hive factions are also locked against every faction. Player relationships are not configured here.</TSA_WD_BtnReset_Tooltip>
+  <TSA_WD_DescAllegianceMatrix>Control which factions are allowed to change relationships with each other (in-game only).</TSA_WD_DescAllegianceMatrix>
+  <TSA_WD_Diplo_ActionShareMult>Daily action share multiplier</TSA_WD_Diplo_ActionShareMult>
+  <TSA_WD_Diplo_AntiLeader>Enable Anti-Leader Coalitions</TSA_WD_Diplo_AntiLeader>
+  <TSA_WD_Diplo_AntiLeaderTooltip>Small factions may form a defensive alliance and declare war on the world's most dominant faction to restore balance.</TSA_WD_Diplo_AntiLeaderTooltip>
+  <TSA_WD_Diplo_AttritionMult>Travel attrition multiplier</TSA_WD_Diplo_AttritionMult>
+  <TSA_WD_Diplo_Block_Coalition>Anti-leader coalition</TSA_WD_Diplo_Block_Coalition>
+  <TSA_WD_Diplo_Block_Leader>World leader handicap</TSA_WD_Diplo_Block_Leader>
+  <TSA_WD_Diplo_Block_Underdog>Underdog growth buff</TSA_WD_Diplo_Block_Underdog>
+  <TSA_WD_Diplo_Block_Zeal>Expansionist zeal</TSA_WD_Diplo_Block_Zeal>
+  <TSA_WD_Diplo_Change_Label>Diplomatic Change</TSA_WD_Diplo_Change_Label>
+  <TSA_WD_Diplo_CoalitionTriggerChance>Coalition trigger chance</TSA_WD_Diplo_CoalitionTriggerChance>
+  <TSA_WD_Diplo_CoalitionTriggerChanceTooltip>Daily chance to form an anti-leader coalition when a dominant leader exists and cooldown has passed.</TSA_WD_Diplo_CoalitionTriggerChanceTooltip>
+  <TSA_WD_Diplo_Coalition_Label>Defensive Coalition (Buff)</TSA_WD_Diplo_Coalition_Label>
+  <TSA_WD_Diplo_Coalition_Msg>The factions {0} have formed an alliance to topple the leading faction {1}.</TSA_WD_Diplo_Coalition_Msg>
+  <TSA_WD_Diplo_CoalitionAbandoned_Label>Anti leadership Coalition abandoned</TSA_WD_Diplo_CoalitionAbandoned_Label>
+  <TSA_WD_Diplo_CoalitionAbandoned_Msg>The anti-leader coalition has dissolved. Diplomatic ties return to their pre-coalition states.\n\n{0}</TSA_WD_Diplo_CoalitionAbandoned_Msg>
+  <TSA_WD_Diplo_CoalitionAbandoned_Pair>{0} and {1}: {2}</TSA_WD_Diplo_CoalitionAbandoned_Pair>
+  <TSA_WD_Diplo_Enable>Enable</TSA_WD_Diplo_Enable>
+  <TSA_WD_Diplo_ExpansionistZeal>Expansionist Zeal (Buff)</TSA_WD_Diplo_ExpansionistZeal>
+  <TSA_WD_Diplo_ExpansionistZealTooltip>Allows a random ambitious faction to occasionally gain +50% attack range.</TSA_WD_Diplo_ExpansionistZealTooltip>
+  <TSA_WD_Diplo_ExpansionistZeal_Msg>Buff: '{0}' has +50% attack radius for the next {1} days.</TSA_WD_Diplo_ExpansionistZeal_Msg>
+  <TSA_WD_Diplo_Flavor_Ally>{0} and {1} are now allies.</TSA_WD_Diplo_Flavor_Ally>
+  <TSA_WD_Diplo_Flavor_AllyByTrade>{0} and {1} have become allies by trading.</TSA_WD_Diplo_Flavor_AllyByTrade>
+  <TSA_WD_Diplo_Flavor_Peace>{0} and {1} have signed a peace treaty.</TSA_WD_Diplo_Flavor_Peace>
+  <TSA_WD_Diplo_Flavor_War>{0} and {1} have declared war.</TSA_WD_Diplo_Flavor_War>
+  <TSA_WD_Diplo_AlliedRaidAwardCosts>Award-to-player goodwill costs</TSA_WD_Diplo_AlliedRaidAwardCosts>
+  <TSA_WD_Diplo_AlliedRaidAwardCostsTooltip>Goodwill paid to an allied faction when you ask it to conquer a hostile settlement and hand the ruins to you.</TSA_WD_Diplo_AlliedRaidAwardCostsTooltip>
+  <TSA_WD_Diplo_AlliedRaidClaimCosts>Ally-claims-target goodwill costs</TSA_WD_Diplo_AlliedRaidClaimCosts>
+  <TSA_WD_Diplo_AlliedRaidClaimCostsTooltip>Goodwill paid to an allied faction when you ask it to conquer a hostile settlement and keep it for itself.</TSA_WD_Diplo_AlliedRaidClaimCostsTooltip>
+  <TSA_WD_Diplo_ConquestAllyGiftGoodwill>Conquest gift goodwill rewards</TSA_WD_Diplo_ConquestAllyGiftGoodwill>
+  <TSA_WD_Diplo_ConquestAllyGiftGoodwillTooltip>Goodwill gained when you give a conquered settlement ruin to an allied or neutral faction after conquest.</TSA_WD_Diplo_ConquestAllyGiftGoodwillTooltip>
+  <TSA_WD_GoodwillMsg_Trade>Traded with {0}. {1} goodwill, now at {2}</TSA_WD_GoodwillMsg_Trade>
+  <TSA_WD_GoodwillMsg_QuestReward>Quest reward from {0}. {1} goodwill, now at {2}</TSA_WD_GoodwillMsg_QuestReward>
+  <TSA_WD_GoodwillMsg_AlliedRaidOrdered>Ordered ally {0} to raid {1}. -{2} goodwill, now at {3}</TSA_WD_GoodwillMsg_AlliedRaidOrdered>
+  <TSA_WD_GoodwillMsg_AlliedRaidRefund>Allied raid by {0} on {1} cancelled. Refunded {2} goodwill, now at {3}</TSA_WD_GoodwillMsg_AlliedRaidRefund>
+  <TSA_WD_GoodwillMsg_ConquestGift>{0} established {1}. +{2} goodwill, now at {3}</TSA_WD_GoodwillMsg_ConquestGift>
+  <TSA_WD_GoodwillMsg_SpyOpFailure>{0} at {1} failed. -{2} goodwill with {3}, now at {4}</TSA_WD_GoodwillMsg_SpyOpFailure>
+  <TSA_WD_GoodwillMsg_TraderCaravan>Trader caravan arrived at your settlement. +{1} goodwill with {0}, now at {2}</TSA_WD_GoodwillMsg_TraderCaravan>
+  <TSA_WD_GoodwillMsg_Embassy>Embassy {3}: {1} goodwill with {0}, now at {2}</TSA_WD_GoodwillMsg_Embassy>
+  <TSA_WD_GoodwillMsg_OrderedRoadOrdered>Ordered {0} at {1} to build road to {2}. -{3} goodwill, now at {4}</TSA_WD_GoodwillMsg_OrderedRoadOrdered>
+  <TSA_WD_GoodwillMsg_OrderedTraderOrdered>Ordered trader ({3}) from {0} at {1} to {2}. -{4} goodwill, now at {5}</TSA_WD_GoodwillMsg_OrderedTraderOrdered>
+  <TSA_WD_GoodwillMsg_SettlementBuyPaid>Bought settlement {1} from {0}. -{2} goodwill, now at {3}</TSA_WD_GoodwillMsg_SettlementBuyPaid>
+  <TSA_WD_GoodwillMsg_SettlementBuyRefund>Settlement purchase of {1} refunded. +{2} goodwill with {0}, now at {3}</TSA_WD_GoodwillMsg_SettlementBuyRefund>
+  <TSA_WD_GoodwillMsg_OrderedRoadRefundCancel>Road order to {1} cancelled. Refunded {2} goodwill ({3} unbuilt segments), now at {4}</TSA_WD_GoodwillMsg_OrderedRoadRefundCancel>
+  <TSA_WD_GoodwillMsg_OrderedRoadRefundDestroyed>{0} destroyed. Road order refunded {2} goodwill ({3} unbuilt segments), now at {4}</TSA_WD_GoodwillMsg_OrderedRoadRefundDestroyed>
+  <TSA_WD_GoodwillMsg_OrderedRoadRefundHostile>{0} is now hostile. Road order refunded {2} goodwill ({3} unbuilt segments), now at {4}</TSA_WD_GoodwillMsg_OrderedRoadRefundHostile>
+  <TSA_WD_GoodwillMsg_OrderedRoadRefundAbort>Road order to {1} aborted. Refunded {2} goodwill ({3} unbuilt segments), now at {4}</TSA_WD_GoodwillMsg_OrderedRoadRefundAbort>
+  <TSA_WD_Diplo_OrderedRoadOrdersHeader>Ordered road building</TSA_WD_Diplo_OrderedRoadOrdersHeader>
+  <TSA_WD_Diplo_OrderedRoadPerSegmentCosts>Goodwill per road segment (by road type)</TSA_WD_Diplo_OrderedRoadPerSegmentCosts>
+  <TSA_WD_Diplo_OrderedRoadPerSegmentCostsTooltip>Goodwill charged per road segment when ordering a faction to build. Payment rounds up; refunds round down on unbuilt segments.</TSA_WD_Diplo_OrderedRoadPerSegmentCostsTooltip>
+  <TSA_WD_Diplo_OrderedTraderCost>Order trader caravan (goodwill)</TSA_WD_Diplo_OrderedTraderCost>
+  <TSA_WD_Diplo_OrderedTraderCostTooltip>Flat goodwill cost to order a trader caravan from a neutral or allied settlement. All trader types cost the same. At least 10 goodwill must remain after payment.</TSA_WD_Diplo_OrderedTraderCostTooltip>
+  <TSA_WD_FacDet_HeaderRoadForPlayer>Road Project for Player</TSA_WD_FacDet_HeaderRoadForPlayer>
+  <TSA_WD_Diplo_AlliedRaidMinWinChance>Minimum allied raid success chance</TSA_WD_Diplo_AlliedRaidMinWinChance>
+  <TSA_WD_Diplo_AlliedRaidMinWinChanceTooltip>Allied raid orders can only be launched when the previewed success probability is at least this value.</TSA_WD_Diplo_AlliedRaidMinWinChanceTooltip>
+  <TSA_WD_Diplo_AlliedRaidOrdersHeader>Allied raid orders</TSA_WD_Diplo_AlliedRaidOrdersHeader>
+  <TSA_WD_Diplo_GlobalEventsHeader>Temporary Buffs and Debuffs</TSA_WD_Diplo_GlobalEventsHeader>
+  <TSA_WD_Diplo_GrowthGainMult>Growth strength gain multiplier</TSA_WD_Diplo_GrowthGainMult>
+  <TSA_WD_Diplo_Header>Diplomacy, Buffs &amp; Debuffs</TSA_WD_Diplo_Header>
+  <TSA_WD_Diplo_IncidentSeverity>Incident strength loss multiplier</TSA_WD_Diplo_IncidentSeverity>
+  <TSA_WD_Diplo_IncidentWeight>Incident likelihood multiplier</TSA_WD_Diplo_IncidentWeight>
+  <TSA_WD_Diplo_LeaderHandicap>Enable Dominant Faction Handicap (Debuff)</TSA_WD_Diplo_LeaderHandicap>
+  <TSA_WD_Diplo_LeaderHandicapTooltip>The strongest faction suffers from internal strife and logistical issues, increasing their incident frequency.</TSA_WD_Diplo_LeaderHandicapTooltip>
+  <TSA_WD_Diplo_LeaderHandicap_Label>Debuff: World Leader</TSA_WD_Diplo_LeaderHandicap_Label>
+  <TSA_WD_Diplo_LeaderHandicap_Msg>Debuff: '{0}' has become the dominant faction. Due to their size they will suffer from more incidents in the next {1} days.</TSA_WD_Diplo_LeaderHandicap_Msg>
+  <TSA_WD_Diplo_LeaderIncidentSeverity>Leader: Incident strength loss multiplier</TSA_WD_Diplo_LeaderIncidentSeverity>
+  <TSA_WD_Diplo_LeaderIncidentSeverityTooltip>When the world leader suffers an incident, strength deduction is multiplied by this (e.g. 2 = double damage).</TSA_WD_Diplo_LeaderIncidentSeverityTooltip>
+  <TSA_WD_Diplo_LeaderIncidentWeight>Leader: Incident likelihood multiplier</TSA_WD_Diplo_LeaderIncidentWeight>
+  <TSA_WD_Diplo_LeaderIncidentWeightTooltip>When the world leader has the debuff, their weight for minor/major incidents is multiplied by this (e.g. 2 = twice as likely).</TSA_WD_Diplo_LeaderIncidentWeightTooltip>
+  <TSA_WD_Diplo_LeaderTriggerChance>Leader debuff trigger chance</TSA_WD_Diplo_LeaderTriggerChance>
+  <TSA_WD_Diplo_LeaderTriggerChanceTooltip>Daily chance to apply the dominant-faction handicap when conditions are met.</TSA_WD_Diplo_LeaderTriggerChanceTooltip>
+  <TSA_WD_Diplo_RaidRangeMult>Raid range multiplier</TSA_WD_Diplo_RaidRangeMult>
+  <TSA_WD_Diplo_RandomChance>Daily Allegiance Change Chance</TSA_WD_Diplo_RandomChance>
+  <TSA_WD_Diplo_RandomChanceTooltip>The daily probability that a random diplomatic event occurs between two factions.</TSA_WD_Diplo_RandomChanceTooltip>
+  <TSA_WD_Diplo_RandomEnable>Enable Random Allegiance Changes</TSA_WD_Diplo_RandomEnable>
+  <TSA_WD_Diplo_RandomEnableTooltip>If enabled, NPC factions will occasionally change their relations (Peace, War, Alliances) independently.</TSA_WD_Diplo_RandomEnableTooltip>
+  <TSA_WD_Diplo_StrongFactionWarEnable>Enable strong-faction wars</TSA_WD_Diplo_StrongFactionWarEnable>
+  <TSA_WD_Diplo_StrongFactionWarEnableTooltip>Each day, the strongest NPC factions (top share by world strength) may cool an alliance to neutral or escalate neutral pairs to war. Allies never jump straight to hostile. Separate from random allegiance changes.</TSA_WD_Diplo_StrongFactionWarEnableTooltip>
+  <TSA_WD_Diplo_StrongFactionWarChance>Strong-faction war chance</TSA_WD_Diplo_StrongFactionWarChance>
+  <TSA_WD_Diplo_StrongFactionWarChanceTooltip>Daily chance that one eligible neutral or allied pair among the top strongest NPC factions escalates (ally to neutral, or neutral to war).</TSA_WD_Diplo_StrongFactionWarChanceTooltip>
+  <TSA_WD_Diplo_StrongFactionWarTopPct>Top strong factions considered</TSA_WD_Diplo_StrongFactionWarTopPct>
+  <TSA_WD_Diplo_StrongFactionWarTopPctTooltip>Share of the strongest NPC factions (by total strength) that can be picked for strong-faction escalation. At least two factions are always considered when available.</TSA_WD_Diplo_StrongFactionWarTopPctTooltip>
+  <TSA_WD_Diplo_StrongFactionWarRequireMidOrLate>Only after Mid or Late Game</TSA_WD_Diplo_StrongFactionWarRequireMidOrLate>
+  <TSA_WD_Diplo_StrongFactionWarRequireMidOrLateTooltip>When on, strong-faction wars only roll once Mid Game or Late Game escalation is active.</TSA_WD_Diplo_StrongFactionWarRequireMidOrLateTooltip>
+  <TSA_WD_Diplo_StrongFactionWar_Label>Strong factions at war</TSA_WD_Diplo_StrongFactionWar_Label>
+  <TSA_WD_Diplo_StrongFactionWar_Msg>War: '{0}' and '{1}' (among the strongest powers) have declared war.</TSA_WD_Diplo_StrongFactionWar_Msg>
+  <TSA_WD_Diplo_StrongFactionWar_Cool_Label>Strong factions cool relations</TSA_WD_Diplo_StrongFactionWar_Cool_Label>
+  <TSA_WD_Diplo_StrongFactionWar_Cool_Msg>Cooling: '{0}' and '{1}' (among the strongest powers) end their alliance and become neutral.</TSA_WD_Diplo_StrongFactionWar_Cool_Msg>
+  <TSA_WD_Diplo_Reset>Reset this page to defaults</TSA_WD_Diplo_Reset>
+  <TSA_WD_Diplo_RevoltChance>Daily Revolt Chance</TSA_WD_Diplo_RevoltChance>
+  <TSA_WD_Diplo_RevoltChanceTooltip>Daily chance that a defeated faction returns and seizes 3 to 7 settlements from the top NPC factions by settlement count (at least 3 from the largest, the rest from the next two). Prefers lower-tier settlements. Player holdings are never taken.</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_TriggerChance>Trigger chance</TSA_WD_Diplo_TriggerChance>
+  <TSA_WD_Diplo_UnderdogActionShare>Underdog: Daily action share multiplier</TSA_WD_Diplo_UnderdogActionShare>
+  <TSA_WD_Diplo_UnderdogActionShareTooltip>When underdog buff is active, that faction's share of daily actions is multiplied by this (e.g. 2 = twice as many actions).</TSA_WD_Diplo_UnderdogActionShareTooltip>
+  <TSA_WD_Diplo_UnderdogBuff>Enable Underdog Growth Boost (Buff)</TSA_WD_Diplo_UnderdogBuff>
+  <TSA_WD_Diplo_UnderdogBuffTooltip>The weakest faction becomes small and nimble, granting them increased growth speed for a limited time.</TSA_WD_Diplo_UnderdogBuffTooltip>
+  <TSA_WD_Diplo_UnderdogBuff_Label>Buff: Growth Boost</TSA_WD_Diplo_UnderdogBuff_Label>
+  <TSA_WD_Diplo_UnderdogBuff_Msg>Buff: '{0}' will grow faster for the next {1} days thanks to being small and nimble.</TSA_WD_Diplo_UnderdogBuff_Msg>
+  <TSA_WD_Diplo_UnderdogGrowthGain>Underdog: Growth strength gain multiplier</TSA_WD_Diplo_UnderdogGrowthGain>
+  <TSA_WD_Diplo_UnderdogGrowthGainTooltip>When underdog buff is active, strength gained from growth actions is multiplied by this (e.g. 2 = double growth).</TSA_WD_Diplo_UnderdogGrowthGainTooltip>
+  <TSA_WD_Diplo_UnderdogIncidentWeight>Incident likelihood multiplier</TSA_WD_Diplo_UnderdogIncidentWeight>
+  <TSA_WD_Diplo_UnderdogIncidentWeightTooltip>When underdog buff is active, how often incidents happen is multiplied by this (e.g. 0.5 = half as likely).</TSA_WD_Diplo_UnderdogIncidentWeightTooltip>
+  <TSA_WD_Diplo_UnderdogIncidentSeverity>Incident strength loss multiplier</TSA_WD_Diplo_UnderdogIncidentSeverity>
+  <TSA_WD_Diplo_UnderdogIncidentSeverityTooltip>When underdog buff is active, strength removed by incidents is multiplied by this (e.g. 0.5 = half the loss).</TSA_WD_Diplo_UnderdogIncidentSeverityTooltip>
+  <TSA_WD_Diplo_UnderdogTriggerChance>Underdog buff trigger chance</TSA_WD_Diplo_UnderdogTriggerChance>
+  <TSA_WD_Diplo_UnderdogTriggerChanceTooltip>Daily chance to apply the growth buff to the weakest faction when conditions are met.</TSA_WD_Diplo_UnderdogTriggerChanceTooltip>
+  <TSA_WD_Diplo_ZealAttritionMult>Zeal: Travel attrition multiplier</TSA_WD_Diplo_ZealAttritionMult>
+  <TSA_WD_Diplo_ZealAttritionMultTooltip>When a faction has Zeal, caravan strength loss per hour is multiplied by this (e.g. 0.5 = half the normal attrition).</TSA_WD_Diplo_ZealAttritionMultTooltip>
+  <TSA_WD_Diplo_ZealRaidRangeMult>Zeal: Raid range multiplier</TSA_WD_Diplo_ZealRaidRangeMult>
+  <TSA_WD_Diplo_ZealRaidRangeMultTooltip>When a faction has Expansionist Zeal, their raid target radius is multiplied by this (e.g. 1.5 = +50% range).</TSA_WD_Diplo_ZealRaidRangeMultTooltip>
+  <TSA_WD_Diplo_ZealTriggerChance>Zeal Buff Trigger Chance</TSA_WD_Diplo_ZealTriggerChance>
+  <TSA_WD_Diplo_ZealTriggerChanceTooltip>The daily percentage chance that an ambitious faction will gain Expansionist Zeal (provided the buff is not on cooldown).</TSA_WD_Diplo_ZealTriggerChanceTooltip>
+  <TSA_WD_Diplo_Zeal_Label>Buff: Mobilization</TSA_WD_Diplo_Zeal_Label>
+  <TSA_WD_DiplomacyMatrix>Diplomacy Matrix</TSA_WD_DiplomacyMatrix>
+  <TSA_WD_DiplomacyMatrix_Title>Global Diplomatic Relations</TSA_WD_DiplomacyMatrix_Title>
+  <TSA_WD_Diplomacy_AllyOf>Ally Of</TSA_WD_Diplomacy_AllyOf>
+  <TSA_WD_Diplomacy_HostileTo>Hostile To</TSA_WD_Diplomacy_HostileTo>
+  <TSA_WD_Diplomacy_NeutralWith>Neutral With</TSA_WD_Diplomacy_NeutralWith>
+  <TSA_WD_Diplomacy_H_Goodwill>Goodwill</TSA_WD_Diplomacy_H_Goodwill>
+  <TSA_WD_Diplomacy_GoodwillTip>Your goodwill with this faction: {0}</TSA_WD_Diplomacy_GoodwillTip>
+  <TSA_WD_Diplomacy_WdCooldown>CD: {0} Days</TSA_WD_Diplomacy_WdCooldown>
+  <TSA_WD_Diplomacy_WdCooldownTip>This relationship pair cannot be changed by WD until the cooldown expires.</TSA_WD_Diplomacy_WdCooldownTip>
+  <TSA_WD_Dis_BaseReduc>Base Strength Point Reduction</TSA_WD_Dis_BaseReduc>
+  <TSA_WD_Dis_BaseReducTooltip>Strength removed from the settlement on success.</TSA_WD_Dis_BaseReducTooltip>
+  <TSA_WD_Dis_CombatSave>Fight your way out bonus per Combat Lvl</TSA_WD_Dis_CombatSave>
+  <TSA_WD_Dis_CombatSaveTooltip>The percentage chance per Shooting/Melee Skill level (whichever is higher) to convert a 'Fatal' outcome into an 'Injury' when an attempt fails.</TSA_WD_Dis_CombatSaveTooltip>
+  <TSA_WD_Dis_Cooldown>Cooldown after Disinformation Attempt</TSA_WD_Dis_Cooldown>
+  <TSA_WD_Dis_CooldownTooltip>Duration the target settlement remains on high alert after an attempt.</TSA_WD_Dis_CooldownTooltip>
+  <TSA_WD_Dis_DisabledAlert>Nearby targets are on high espionage alert.</TSA_WD_Dis_DisabledAlert>
+  <TSA_WD_Dis_FailureClean>The locals were unimpressed by the rumors, but your spy managed to retreat before the authorities were alerted.</TSA_WD_Dis_FailureClean>
+  <TSA_WD_Dis_FailureExecuted>They were caught spreading state secrets and executed for espionage.</TSA_WD_Dis_FailureExecuted>
+  <TSA_WD_Dis_FailureFightback>The rumors were traced back to them and guards attempted an arrest. They fought back with unexpected ferocity, escaping with wounds instead of facing a executioner.</TSA_WD_Dis_FailureFightback>
+  <TSA_WD_Dis_FailureSilvertongue>They were nearly caught while meeting with informants, but used their Social skills to talk their way out of suspicion and slip away undetected.</TSA_WD_Dis_FailureSilvertongue>
+  <TSA_WD_Dis_FailureSpotted>They were identified as an agitator and wounded while fleeing the city.</TSA_WD_Dis_FailureSpotted>
+  <TSA_WD_Dis_GizmoDesc>Launch a disinformation campaign with your pawn {0} (Social: {1}).\n\nSuccess Probability Math:\n  Base: {2}\n  Skill weight: +{3}\n  Tier weight: -{4}\n  Health: x{5}\n--------------------------\n  Total Success: {6}\n\nDetection results in -30 Reputation.</TSA_WD_Dis_GizmoDesc>
+  <TSA_WD_Dis_GizmoLabel>Spread Disinformation</TSA_WD_Dis_GizmoLabel>
+  <TSA_WD_Dis_HeaderModifiers>Success Likelihood Modifiers</TSA_WD_Dis_HeaderModifiers>
+  <TSA_WD_Dis_HeaderOutcome>Success Outcome and Cooldown</TSA_WD_Dis_HeaderOutcome>
+  <TSA_WD_Dis_HeaderSaves>Saving Throws</TSA_WD_Dis_HeaderSaves>
+  <TSA_WD_Dis_HeaderSimulation>Concrete Examples (Against T2 Town with healthy pawn)</TSA_WD_Dis_HeaderSimulation>
+  <TSA_WD_Dis_HeaderWeights>Disinformation Settings: Base Outcome Likelihood</TSA_WD_Dis_HeaderWeights>
+  <TSA_WD_Dis_HealthImpact>Health Impact on Success</TSA_WD_Dis_HealthImpact>
+  <TSA_WD_Dis_HealthImpactTooltip>How much health affects success. At 100%, a pawn with 50% health has their success weight halved.</TSA_WD_Dis_HealthImpactTooltip>
+  <TSA_WD_Dis_LetterCollapsedLabel>Settlement Collapsed!</TSA_WD_Dis_LetterCollapsedLabel>
+  <TSA_WD_Dis_LetterCollapsedText>{0}'s disinformation campaign was so effective that {1} has dissolved in chaos. Ruins remain for a while and block new settlements nearby.</TSA_WD_Dis_LetterCollapsedText>
+  <TSA_WD_Dis_LetterFailedLabel>Disinformation Failed</TSA_WD_Dis_LetterFailedLabel>
+  <TSA_WD_Dis_LetterFailedTextBase>{0} failed to sow discord at {1}. </TSA_WD_Dis_LetterFailedTextBase>
+  <TSA_WD_Dis_LetterSuccessLabel>Disinformation Success</TSA_WD_Dis_LetterSuccessLabel>
+  <TSA_WD_Dis_LetterSuccessText>{0} reduced {1} strength by {2} through rumor and discord.</TSA_WD_Dis_LetterSuccessText>
+  <TSA_WD_Dis_LogClean>Failed (Clean Escape)</TSA_WD_Dis_LogClean>
+  <TSA_WD_Dis_LogDestroyed>DISINFORMATION: Destroyed ({0} -&gt; 0)</TSA_WD_Dis_LogDestroyed>
+  <TSA_WD_Dis_LogInjured>Failed (Detected/Injured)</TSA_WD_Dis_LogInjured>
+  <TSA_WD_Dis_LogKilled>Failed (Killed)</TSA_WD_Dis_LogKilled>
+  <TSA_WD_Dis_LogMain>DISINFORMATION: {0}</TSA_WD_Dis_LogMain>
+  <TSA_WD_Dis_LogSuccess>DISINFORMATION: Success ({0} -&gt; {1})</TSA_WD_Dis_LogSuccess>
+  <TSA_WD_Dis_MenuOption>{0} ({1}) - {2} Success</TSA_WD_Dis_MenuOption>
+  <TSA_WD_Dis_Reset>Reset this page to Defaults</TSA_WD_Dis_Reset>
+  <TSA_WD_Dis_SimLvl0>All Relevant Skills Lvl 0</TSA_WD_Dis_SimLvl0>
+  <TSA_WD_Dis_SimLvl10>All Relevant Skills Lvl 10</TSA_WD_Dis_SimLvl10>
+  <TSA_WD_Dis_SimLvl20>All Relevant Skills Lvl 20</TSA_WD_Dis_SimLvl20>
+  <TSA_WD_Dis_SimResult>{0} | Success: {1} | Clean Fail: {2} | Injury: {3} | Death: {4}</TSA_WD_Dis_SimResult>
+  <TSA_WD_Dis_SkillBonus>Success Weight Bonus per Social Lvl</TSA_WD_Dis_SkillBonus>
+  <TSA_WD_Dis_SkillBonusTooltip>Adds flat weight points to Success outcome per Social level.</TSA_WD_Dis_SkillBonusTooltip>
+  <TSA_WD_Dis_SkillReduc>Strength Point Reduction per Social Skill Lvl</TSA_WD_Dis_SkillReduc>
+  <TSA_WD_Dis_SkillReducTooltip>Additional damage based on the pawn's Social skill.</TSA_WD_Dis_SkillReducTooltip>
+  <TSA_WD_Dis_SocialSave>Silvertongue bonus per Social Lvl</TSA_WD_Dis_SocialSave>
+  <TSA_WD_Dis_SocialSaveTooltip>The percentage chance per Social Skill level to convert an 'Injury' into a 'Clean Escape' when an attempt fails.</TSA_WD_Dis_SocialSaveTooltip>
+  <TSA_WD_Dis_TierPenalty>Success Weight Penalty per Settlement Tier</TSA_WD_Dis_TierPenalty>
+  <TSA_WD_Dis_TierPenaltyTooltip>Subtracts flat weight points from Success outcome based on target Tier.</TSA_WD_Dis_TierPenaltyTooltip>
+  <TSA_WD_Dis_WeightClean>Failure Weight (Clean Escape)</TSA_WD_Dis_WeightClean>
+  <TSA_WD_Dis_WeightCleanTooltip>Relative frequency of safe failure.</TSA_WD_Dis_WeightCleanTooltip>
+  <TSA_WD_Dis_WeightFatal>Failure Weight (Death)</TSA_WD_Dis_WeightFatal>
+  <TSA_WD_Dis_WeightFatalTooltip>Relative frequency of execution on failure.</TSA_WD_Dis_WeightFatalTooltip>
+  <TSA_WD_Dis_WeightInjured>Failure Weight (Injury)</TSA_WD_Dis_WeightInjured>
+  <TSA_WD_Dis_WeightInjuredTooltip>Relative frequency of being wounded on failure.</TSA_WD_Dis_WeightInjuredTooltip>
+  <TSA_WD_Dis_WeightSuccess>Success Weight</TSA_WD_Dis_WeightSuccess>
+  <TSA_WD_Dis_WeightSuccessTooltip>Base weight of a successful disinformation attempt before modifiers.</TSA_WD_Dis_WeightSuccessTooltip>
+  <TSA_WD_Fort_DisabledAlert>Nearby settlements have already been recently fortified.</TSA_WD_Fort_DisabledAlert>
+  <TSA_WD_Fort_GizmoDesc>Try to fortify the settlement with your pawn {0} (Crafting: {1}).\n\nSuccess Chance: {2}\nSuccess adds defensive strength.</TSA_WD_Fort_GizmoDesc>
+  <TSA_WD_Fort_GizmoLabel>Fortify</TSA_WD_Fort_GizmoLabel>
+  <TSA_WD_Fort_LetterFailedLabel>Fortification Failed</TSA_WD_Fort_LetterFailedLabel>
+  <TSA_WD_Fort_LetterFailedText>{0} was unable to significantly improve the defenses of {1}.</TSA_WD_Fort_LetterFailedText>
+  <TSA_WD_Fort_LetterSuccessLabel>Fortification Success</TSA_WD_Fort_LetterSuccessLabel>
+  <TSA_WD_Fort_LetterSuccessText>{0} successfully assisted {1}. The infrastructure was improved successfully. Strength increased {2}.</TSA_WD_Fort_LetterSuccessText>
+  <TSA_WD_Fort_LogFailed>FORTIFY: Failed</TSA_WD_Fort_LogFailed>
+  <TSA_WD_Fort_LogSuccess>FORTIFY: Success ({0} -&gt; {1})</TSA_WD_Fort_LogSuccess>
+  <TSA_WD_Fort_MenuOption>{0} - {1} Success</TSA_WD_Fort_MenuOption>
+  <TSA_WD_OnlyInGame>Allowed Allegiance Changes</TSA_WD_OnlyInGame>
+  <TSA_WD_Sab_BaseReduc>Base Strength Reduction</TSA_WD_Sab_BaseReduc>
+  <TSA_WD_Sab_BaseReducTooltip>Base amount of Strength removed from the target settlement on success.</TSA_WD_Sab_BaseReducTooltip>
+  <TSA_WD_Sab_CombatSave>'Fight your way out' bonus per Combat Lvl</TSA_WD_Sab_CombatSave>
+  <TSA_WD_Sab_CombatSaveTooltip>Chance per Combat level (Shooting/Melee) to convert a 'Death/Fatal' outcome into an 'Injury'.</TSA_WD_Sab_CombatSaveTooltip>
+  <TSA_WD_Sab_Cooldown>Cooldown after Attempt</TSA_WD_Sab_Cooldown>
+  <TSA_WD_Sab_CooldownTooltip>Duration the target settlement remains on high alert in days, preventing further sabotage.</TSA_WD_Sab_CooldownTooltip>
+  <TSA_WD_Sab_DisabledAlert>All nearby targets are on high alert.</TSA_WD_Sab_DisabledAlert>
+  <TSA_WD_Sab_FailureClean>They managed to retreat into the shadows before being spotted.</TSA_WD_Sab_FailureClean>
+  <TSA_WD_Sab_FailureExecuted>They were caught red-handed and executed on the spot.</TSA_WD_Sab_FailureExecuted>
+  <TSA_WD_Sab_FailureFightback>They were caught and sentenced to execution, but fought back with incredible skill, escaping with several wounds instead of their life.</TSA_WD_Sab_FailureFightback>
+  <TSA_WD_Sab_FailureSilvertongue>They were nearly caught, but used their Social skills to talk their way out of a confrontation and slip away.</TSA_WD_Sab_FailureSilvertongue>
+  <TSA_WD_Sab_FailureSpotted>They were spotted by guards and wounded while fleeing the scene.</TSA_WD_Sab_FailureSpotted>
+  <TSA_WD_Sab_GizmoDesc>Launch a sabotage mission with your pawn {0} (Crafting: {1}).\n\nTotal Success: {2}\nDetection results in -30 Reputation.</TSA_WD_Sab_GizmoDesc>
+  <TSA_WD_Sab_GizmoLabel>Sabotage</TSA_WD_Sab_GizmoLabel>
+  <TSA_WD_Sab_HeaderModifiers>Success Likelihood Modifiers</TSA_WD_Sab_HeaderModifiers>
+  <TSA_WD_Sab_HeaderOutcome>Success Outcome and Cooldown</TSA_WD_Sab_HeaderOutcome>
+  <TSA_WD_Sab_HeaderSaves>Saving Throws (Skill-based Recovery)</TSA_WD_Sab_HeaderSaves>
+  <TSA_WD_Sab_HeaderSimulation>Simulation: Against T2 Town (Healthy Pawn)</TSA_WD_Sab_HeaderSimulation>
+  <TSA_WD_Sab_HeaderWeights>Sabotage Settings: Base Outcome Likelihood</TSA_WD_Sab_HeaderWeights>
+  <TSA_WD_Sab_HealthImpact>Health Impact on Success</TSA_WD_Sab_HealthImpact>
+  <TSA_WD_Sab_HealthImpactTooltip>How much pawn health affects success. At 100%, a pawn with 50% health has their success weight halved.</TSA_WD_Sab_HealthImpactTooltip>
+  <TSA_WD_Sab_LetterFailedLabel>Sabotage Failed</TSA_WD_Sab_LetterFailedLabel>
+  <TSA_WD_Sab_LetterFailedTextBase>{0} failed the mission at {1}. </TSA_WD_Sab_LetterFailedTextBase>
+  <TSA_WD_Sab_LetterObliteratedLabel>Settlement Sabotaged!</TSA_WD_Sab_LetterObliteratedLabel>
+  <TSA_WD_Sab_LetterObliteratedText>{0} obliterated {1}. Ruins remain for a while and block new settlements nearby.</TSA_WD_Sab_LetterObliteratedText>
+  <TSA_WD_Sab_LetterSuccessLabel>Sabotage Success</TSA_WD_Sab_LetterSuccessLabel>
+  <TSA_WD_Sab_LetterSuccessText>{0} reduced {1} strength by {2}.</TSA_WD_Sab_LetterSuccessText>
+  <TSA_WD_Sab_LogClean>Failed (Clean Escape)</TSA_WD_Sab_LogClean>
+  <TSA_WD_Sab_LogDestroyed>SABOTAGE: Destroyed ({0} -&gt; 0)</TSA_WD_Sab_LogDestroyed>
+  <TSA_WD_Sab_LogInjured>Failed (Injured)</TSA_WD_Sab_LogInjured>
+  <TSA_WD_Sab_LogMain>SABOTAGE: {0}</TSA_WD_Sab_LogMain>
+  <TSA_WD_Sab_LogSuccess>SABOTAGE: Success ({0} -&gt; {1})</TSA_WD_Sab_LogSuccess>
+  <TSA_WD_Sab_MenuOption>{0} ({1}) - {2} Success</TSA_WD_Sab_MenuOption>
+  <TSA_WD_Sab_Reset>Reset this page to Defaults</TSA_WD_Sab_Reset>
+  <TSA_WD_Sab_SimLvl0>All Relevant Skills Lvl 0</TSA_WD_Sab_SimLvl0>
+  <TSA_WD_Sab_SimLvl10>All Relevant Skills Lvl 10</TSA_WD_Sab_SimLvl10>
+  <TSA_WD_Sab_SimLvl20>All Relevant Skills Lvl 20</TSA_WD_Sab_SimLvl20>
+  <TSA_WD_Sab_SimResult>{0} | Success: {1} | Clean Fail: {2} | Injury: {3} | Death: {4}</TSA_WD_Sab_SimResult>
+  <TSA_WD_Sab_SkillBonus>Success Weight Bonus per Crafting Lvl</TSA_WD_Sab_SkillBonus>
+  <TSA_WD_Sab_SkillBonusTooltip>Adds flat weight points to the Success outcome per Crafting level.</TSA_WD_Sab_SkillBonusTooltip>
+  <TSA_WD_Sab_SkillReduc>Reduction per Crafting Lvl</TSA_WD_Sab_SkillReduc>
+  <TSA_WD_Sab_SkillReducTooltip>Additional strength damage for every level of the pawn's Crafting skill.</TSA_WD_Sab_SkillReducTooltip>
+  <TSA_WD_Sab_SocialSave>'Silvertongue' bonus per Social Lvl</TSA_WD_Sab_SocialSave>
+  <TSA_WD_Sab_SocialSaveTooltip>Chance per Social level to convert an 'Injury' outcome into a 'Clean Escape'.</TSA_WD_Sab_SocialSaveTooltip>
+  <TSA_WD_Sab_TierPenalty>Success Weight Penalty per Tier</TSA_WD_Sab_TierPenalty>
+  <TSA_WD_Sab_TierPenaltyTooltip>Subtracts flat weight points from the Success outcome based on target Tier.</TSA_WD_Sab_TierPenaltyTooltip>
+  <TSA_WD_Sab_WeightClean>Failure Weight (Clean Escape)</TSA_WD_Sab_WeightClean>
+  <TSA_WD_Sab_WeightCleanTooltip>Chance of a failed attempt where the pawn escapes unnoticed.</TSA_WD_Sab_WeightCleanTooltip>
+  <TSA_WD_Sab_WeightFatal>Failure Weight (Death)</TSA_WD_Sab_WeightFatal>
+  <TSA_WD_Sab_WeightFatalTooltip>Chance of a failed attempt where the pawn gets killed.</TSA_WD_Sab_WeightFatalTooltip>
+  <TSA_WD_Sab_WeightInjured>Failure Weight (Injury)</TSA_WD_Sab_WeightInjured>
+  <TSA_WD_Sab_WeightInjuredTooltip>Chance of a failed attempt where the pawn gets away wounded.</TSA_WD_Sab_WeightInjuredTooltip>
+  <TSA_WD_Sab_WeightSuccess>Success Weight</TSA_WD_Sab_WeightSuccess>
+  <TSA_WD_Sab_WeightSuccessTooltip>Base weight of a successful sabotage attempt before modifiers.</TSA_WD_Sab_WeightSuccessTooltip>
+  <TSA_WD_StatusLocked>Locked</TSA_WD_StatusLocked>
+  <TSA_WD_StatusPossible>Change Possible</TSA_WD_StatusPossible>
+
+  <TSA_WD_BuySettlement_GizmoLabel>Buy settlement</TSA_WD_BuySettlement_GizmoLabel>
+  <TSA_WD_BuySettlement_GizmoDesc>Peacefully purchase this settlement with goods from your colony/warehouses and optional goodwill. A caravan delivers payment; on arrival you choose what to do with the tile (cannot leave empty, cannot gift back to the seller).</TSA_WD_BuySettlement_GizmoDesc>
+  <TSA_WD_BuySettlement_Disabled>Settlement buying is disabled in mod settings.</TSA_WD_BuySettlement_Disabled>
+  <TSA_WD_BuySettlement_Pending>A purchase caravan is already en route to this settlement.</TSA_WD_BuySettlement_Pending>
+  <TSA_WD_BuySettlement_NoColony>You need a player colony map to pay with goods.</TSA_WD_BuySettlement_NoColony>
+  <TSA_WD_BuySettlement_TooFewSettlements>The seller must own at least {0} settlements.</TSA_WD_BuySettlement_TooFewSettlements>
+  <TSA_WD_BuySettlement_DealTitle>Buy T{0} settlement '{1}'</TSA_WD_BuySettlement_DealTitle>
+  <TSA_WD_BuySettlement_DealPrice>Price: {0} Silver (or equivalent).</TSA_WD_BuySettlement_DealPrice>
+  <TSA_WD_BuySettlement_DealPriceTip>Pay with silver, goods or goodwill. Payment (goods and goodwill) is deducted immediately. A caravan will travel from the closest outpost or colony to the target. If the caravan is destroyed, payment is lost. If the settlement is destroyed or the deal becomes invalid (relation, seller settlements, or tier change), goods and goodwill are refunded. Overpayment is not refunded. Payment and overpayment strengthen the seller's nearby settlements (boost strength and can upgrade tiers).</TSA_WD_BuySettlement_DealPriceTip>
+  <TSA_WD_BuySettlement_DealPriceTipTiers>T1 = {0} Silver\nT2 = {1} Silver\nT3 = {2} Silver\nT4 = {3} Silver</TSA_WD_BuySettlement_DealPriceTipTiers>
+  <TSA_WD_BuySettlement_FactionActiveTooltip>At least one settlement of this faction is being purchased.</TSA_WD_BuySettlement_FactionActiveTooltip>
+  <TSA_WD_BuySettlement_Offered>Offered: {0}</TSA_WD_BuySettlement_Offered>
+  <TSA_WD_BuySettlement_Remaining>Remaining: {0}</TSA_WD_BuySettlement_Remaining>
+  <TSA_WD_BuySettlement_Overspending>Overspending: {0} (no refund!)</TSA_WD_BuySettlement_Overspending>
+  <TSA_WD_BuySettlement_GoodwillRate>1 goodwill = {0} silver</TSA_WD_BuySettlement_GoodwillRate>
+  <TSA_WD_BuySettlement_GoodwillCurrent>Current goodwill: {0}</TSA_WD_BuySettlement_GoodwillCurrent>
+  <TSA_WD_BuySettlement_GoodwillMinRetain>Minimum goodwill to retain: {0}</TSA_WD_BuySettlement_GoodwillMinRetain>
+  <TSA_WD_BuySettlement_GoodwillRateTip>Each goodwill point covers {0} silver of the ask.</TSA_WD_BuySettlement_GoodwillRateTip>
+  <TSA_WD_BuySettlement_PayWithGoods>Pay with physical goods</TSA_WD_BuySettlement_PayWithGoods>
+  <TSA_WD_BuySettlement_GoodwillOffer>Goodwill offer: {0} ({1} silver, max {2})</TSA_WD_BuySettlement_GoodwillOffer>
+  <TSA_WD_BuySettlement_GoodwillNone>Too little goodwill to pay with it. Needs at least {0}. You have {1}.</TSA_WD_BuySettlement_GoodwillNone>
+  <TSA_WD_BuySettlement_AbortLetterTextLost>The purchase caravan to {0} was destroyed. Payment goods and goodwill were lost.</TSA_WD_BuySettlement_AbortLetterTextLost>
+  <TSA_WD_BuySettlement_AbortLetterTextRefund>The purchase of {0} could not be completed. Payment goods and goodwill were returned.</TSA_WD_BuySettlement_AbortLetterTextRefund>
+  <TSA_WD_BuySettlement_AbortLetterTextSettlementGone>The purchase of {0} failed because the settlement no longer exists. Payment goods and goodwill were returned.</TSA_WD_BuySettlement_AbortLetterTextSettlementGone>
+  <TSA_WD_BuySettlement_AbortLetterTextTierMismatch>The purchase of {0} failed because its tier changed during the journey. Payment goods and goodwill were returned.</TSA_WD_BuySettlement_AbortLetterTextTierMismatch>
+  <TSA_WD_BuySettlement_AbortLetterTextBadRelation>The purchase of {0} failed because you are no longer allied or neutral with the owner. Payment goods and goodwill were returned.</TSA_WD_BuySettlement_AbortLetterTextBadRelation>
+  <TSA_WD_BuySettlement_AbortLetterTextTooFewSettlements>The purchase of {0} failed because the seller no longer owns at least {1} settlements. Payment goods and goodwill were returned.</TSA_WD_BuySettlement_AbortLetterTextTooFewSettlements>
+  <TSA_WD_BuySettlement_ColName>Item</TSA_WD_BuySettlement_ColName>
+  <TSA_WD_BuySettlement_ColQty>Available</TSA_WD_BuySettlement_ColQty>
+  <TSA_WD_BuySettlement_ColSilverPer>Silver per item</TSA_WD_BuySettlement_ColSilverPer>
+  <TSA_WD_BuySettlement_ColSilverPerTip>Payment value after the vanilla sell-price factor (weapons are typically 20% of listed market value, same as selling to a trader).</TSA_WD_BuySettlement_ColSilverPerTip>
+  <TSA_WD_BuySettlement_ColSilver>Silver</TSA_WD_BuySettlement_ColSilver>
+  <TSA_WD_BuySettlement_Filter>Filter</TSA_WD_BuySettlement_Filter>
+  <TSA_WD_QuantityAdjustTip>Hold Ctrl for ×10, Shift for ×100, or both for ×1000.</TSA_WD_QuantityAdjustTip>
+  <TSA_WD_BuySettlement_Confirm>Confirm purchase</TSA_WD_BuySettlement_Confirm>
+  <TSA_WD_BuySettlement_UnderAsk>Offer does not meet the ask price.</TSA_WD_BuySettlement_UnderAsk>
+  <TSA_WD_BuySettlement_GoodwillTooHigh>Goodwill offer exceeds the allowed amount.</TSA_WD_BuySettlement_GoodwillTooHigh>
+  <TSA_WD_BuySettlement_DeductFailed>Could not deduct {0} from colony/warehouses.</TSA_WD_BuySettlement_DeductFailed>
+  <TSA_WD_BuySettlement_NoOrigin>No origin for the purchase caravan.</TSA_WD_BuySettlement_NoOrigin>
+  <TSA_WD_BuySettlement_SpawnFailed>Failed to launch the purchase caravan.</TSA_WD_BuySettlement_SpawnFailed>
+  <TSA_WD_BuySettlement_TargetGone>That settlement no longer exists.</TSA_WD_BuySettlement_TargetGone>
+  <TSA_WD_BuySettlement_BadRelation>You must be allied or neutral with the owner.</TSA_WD_BuySettlement_BadRelation>
+  <TSA_WD_BuySettlement_StartLetterLabel>Settlement purchase</TSA_WD_BuySettlement_StartLetterLabel>
+  <TSA_WD_BuySettlement_StartLetterText>A purchase caravan is delivering payment to {0} ({1}).</TSA_WD_BuySettlement_StartLetterText>
+  <TSA_WD_BuySettlement_CompleteLetterLabel>Settlement purchased</TSA_WD_BuySettlement_CompleteLetterLabel>
+  <TSA_WD_BuySettlement_CompleteLetterText>{0} has been purchased from {1}. Choose how to use the tile.</TSA_WD_BuySettlement_CompleteLetterText>
+  <TSA_WD_BuyOutcome_Label>Settlement purchased</TSA_WD_BuyOutcome_Label>
+  <TSA_WD_BuyOutcome_Text>You purchased {0} (Tier {1}). Convert it into an outpost of your choice, recruit inhabitants, or hand the site to a friendly faction.</TSA_WD_BuyOutcome_Text>
+  <TSA_WD_Buy_OptConvertOutpost>Convert to outpost</TSA_WD_Buy_OptConvertOutpost>
+  <TSA_WD_Buy_OptRecruit>Recruit inhabitants</TSA_WD_Buy_OptRecruit>
+  <TSA_WD_Buy_OptGiveAlly>Let an ally or neutral faction settle here</TSA_WD_Buy_OptGiveAlly>
+  <TSA_WD_BuySettlement_AbortLetterLabel>Settlement purchase failed</TSA_WD_BuySettlement_AbortLetterLabel>
+  <TSA_WD_BuySettlement_AbortLetterText>The purchase of {0} could not be completed.</TSA_WD_BuySettlement_AbortLetterText>
+  <TSA_WD_BuySettlement_SettingsHeader>Buy settlement</TSA_WD_BuySettlement_SettingsHeader>
+  <TSA_WD_BuySettlement_Enable>Enable buy settlement</TSA_WD_BuySettlement_Enable>
+  <TSA_WD_BuySettlement_EnableTip>When enabled, ally and neutral WD settlements show a Buy settlement gizmo.</TSA_WD_BuySettlement_EnableTip>
+  <TSA_WD_BuySettlement_AskT1>Ask (T1 silver)</TSA_WD_BuySettlement_AskT1>
+  <TSA_WD_BuySettlement_AskT2>Ask (T2 silver)</TSA_WD_BuySettlement_AskT2>
+  <TSA_WD_BuySettlement_AskT3>Ask (T3 silver)</TSA_WD_BuySettlement_AskT3>
+  <TSA_WD_BuySettlement_AskT4>Ask (T4 silver)</TSA_WD_BuySettlement_AskT4>
+  <TSA_WD_BuySettlement_AskTip>Ask price in silver. Same for allies and neutrals; not discounted by goodwill level.</TSA_WD_BuySettlement_AskTip>
+  <TSA_WD_BuySettlement_SilverPerGw>Silver per goodwill point</TSA_WD_BuySettlement_SilverPerGw>
+  <TSA_WD_BuySettlement_SilverPerGwTip>How much of the ask one goodwill point covers.</TSA_WD_BuySettlement_SilverPerGwTip>
+  <TSA_WD_BuySettlement_MaxGwShare>Max ask share payable in goodwill</TSA_WD_BuySettlement_MaxGwShare>
+  <TSA_WD_BuySettlement_MaxGwShareTip>Goodwill can cover up to this fraction of the ask. You still cannot spend below the goodwill floor.</TSA_WD_BuySettlement_MaxGwShareTip>
+  <TSA_WD_BuySettlement_ResetAll>Reset all</TSA_WD_BuySettlement_ResetAll>
+  <TSA_WD_BuySettlement_AssignExpensiveFirst>Assign expensive first</TSA_WD_BuySettlement_AssignExpensiveFirst>
+  <TSA_WD_BuySettlement_AssignExpensiveFirstTip>Clears current goods offers, then assigns the most valuable non-starred items until the ask is met. The last row only takes as many items as needed. Starred items are skipped. Goodwill offer is left unchanged.</TSA_WD_BuySettlement_AssignExpensiveFirstTip>
+  <TSA_WD_DealItems_ColStar>★</TSA_WD_DealItems_ColStar>
+  <TSA_WD_DealItems_StarTip>Starred items are never taken by Assign expensive first, Assign to ask, or Assign to minimum. They stay available for manual offers. Stars are saved with this world and shared across Buy, Gift, and Bribe.</TSA_WD_DealItems_StarTip>
+  <TSA_WD_DealItems_CatAll>All</TSA_WD_DealItems_CatAll>
+  <TSA_WD_DealItems_CatWeapons>Weapons</TSA_WD_DealItems_CatWeapons>
+  <TSA_WD_DealItems_CatApparel>Apparel</TSA_WD_DealItems_CatApparel>
+  <TSA_WD_DealItems_CatTextiles>Textiles</TSA_WD_DealItems_CatTextiles>
+  <TSA_WD_DealItems_CatFood>Food</TSA_WD_DealItems_CatFood>
+  <TSA_WD_DealItems_CatOther>Other</TSA_WD_DealItems_CatOther>
+  <TSA_WD_DealItems_AssignUnderfill>Could not meet the ask with non-starred goods. Unstar some items or offer more manually.</TSA_WD_DealItems_AssignUnderfill>
+  <TSA_WD_FactionInvestment_LetterLabel>Faction settlements strengthened</TSA_WD_FactionInvestment_LetterLabel>
+  <TSA_WD_FactionInvestment_LetterBuy>{0} received the purchase value as strength for nearby settlements ({1} towns filled, {2} tier-ups).</TSA_WD_FactionInvestment_LetterBuy>
+  <TSA_WD_FactionInvestment_LetterGift>{0} received gift value as strength for nearby settlements ({1} towns filled, {2} tier-ups).</TSA_WD_FactionInvestment_LetterGift>
+  <TSA_WD_FactionInvestment_LetterGiftFullyCapped>{0} settlements in range are already at max tier and strength. Further gifts do not add WD strength.</TSA_WD_FactionInvestment_LetterGiftFullyCapped>
+  <TSA_WD_FactionInvestment_LetterGiftNoEffect>Gift value ({1} silver-equivalent) did not change {0} settlements in range (already filled for their tier, and leftover was below the next upgrade cost).</TSA_WD_FactionInvestment_LetterGiftNoEffect>
+  <TSA_WD_FactionInvestment_LogNoneInRange>No {0} settlements within investment range to receive {1} silver-equivalent.</TSA_WD_FactionInvestment_LogNoneInRange>
+  <TSA_WD_FactionInvestment_SettingsHeader>Faction settlement investment</TSA_WD_FactionInvestment_SettingsHeader>
+  <TSA_WD_FactionInvestment_Enable>Enable gift/buy strength investment</TSA_WD_FactionInvestment_Enable>
+  <TSA_WD_FactionInvestment_EnableTip>When you buy a settlement or gift goods, convert silver-equivalent value into nearby same-faction settlement strength, then tier-ups, repeating until the budget cannot buy more.</TSA_WD_FactionInvestment_EnableTip>
+  <TSA_WD_FactionInvestment_StrengthPer100>Strength per 100 silver</TSA_WD_FactionInvestment_StrengthPer100>
+  <TSA_WD_FactionInvestment_StrengthPer100Tip>How much offensive strength 100 silver of gifts or purchase payment grants while filling settlements to their tier max.</TSA_WD_FactionInvestment_StrengthPer100Tip>
+  <TSA_WD_FactionInvestment_Radius>Investment radius (tiles)</TSA_WD_FactionInvestment_Radius>
+  <TSA_WD_FactionInvestment_RadiusTip>Settlements farther than this from the gift or purchase tile do not receive strength.</TSA_WD_FactionInvestment_RadiusTip>
+  <TSA_WD_FactionInvestment_UpgradeT1T2>Silver to upgrade T1 to T2</TSA_WD_FactionInvestment_UpgradeT1T2>
+  <TSA_WD_FactionInvestment_UpgradeT2T3>Silver to upgrade T2 to T3</TSA_WD_FactionInvestment_UpgradeT2T3>
+  <TSA_WD_FactionInvestment_UpgradeT3T4>Silver to upgrade T3 to T4</TSA_WD_FactionInvestment_UpgradeT3T4>
+  <TSA_WD_FactionInvestment_UpgradeTip>Silver fills in-range same-faction settlements to their current tier max (nearest first), then buys tier-ups, then fills again, until the budget cannot buy more.</TSA_WD_FactionInvestment_UpgradeTip>
+  <TSA_WD_FactionInvestment_UpgradeSuccessChance>Tier-up success chance</TSA_WD_FactionInvestment_UpgradeSuccessChance>
+  <TSA_WD_FactionInvestment_UpgradeSuccessChanceTip>Chance that a paid investment tier-up succeeds. Silver is spent either way. On failure, that settlement is not tried again for the rest of this gift or purchase.</TSA_WD_FactionInvestment_UpgradeSuccessChanceTip>
+  <TSA_WD_Log_SettlementBuyLaunched>{0} dispatched a purchase caravan to {1} ({2}).</TSA_WD_Log_SettlementBuyLaunched>
+  <TSA_WD_Log_SettlementBuyCompleted>Purchased {0} from {1}.</TSA_WD_Log_SettlementBuyCompleted>
+  <TSA_WD_Notify_SettlementBuyCompleted>Settlement purchase completed</TSA_WD_Notify_SettlementBuyCompleted>
+  <TSA_WD_Notify_SettlementBuyCompletedTooltip>Letter when payment arrives and the tile is cleared for your choice.</TSA_WD_Notify_SettlementBuyCompletedTooltip>
+  <TSA_WD_Notify_SettlementBuyAborted>Settlement purchase failed</TSA_WD_Notify_SettlementBuyAborted>
+  <TSA_WD_Notify_SettlementBuyAbortedTooltip>Letter when a purchase caravan is destroyed or the deal fails (tier change, settlement gone, relations, seller settlements). Explains the reason and whether payment was refunded.</TSA_WD_Notify_SettlementBuyAbortedTooltip>
+
+  <TSA_WD_Negotiate_Btn>Negotiate</TSA_WD_Negotiate_Btn>
+  <TSA_WD_Negotiate_BtnWar>Declare War</TSA_WD_Negotiate_BtnWar>
+  <TSA_WD_Negotiate_BtnPeace>Cease Fire</TSA_WD_Negotiate_BtnPeace>
+  <TSA_WD_Negotiate_BtnAlly>Become Ally</TSA_WD_Negotiate_BtnAlly>
+  <TSA_WD_Negotiate_BtnNone>No action</TSA_WD_Negotiate_BtnNone>
+  <TSA_WD_Negotiate_H_Faction>Faction</TSA_WD_Negotiate_H_Faction>
+  <TSA_WD_Negotiate_H_Relation>Relation</TSA_WD_Negotiate_H_Relation>
+  <TSA_WD_Negotiate_H_Strength>This faction vs. Target Faction</TSA_WD_Negotiate_H_Strength>
+  <TSA_WD_Negotiate_H_WarFoes>This faction vs. Global Strength</TSA_WD_Negotiate_H_WarFoes>
+  <TSA_WD_Negotiate_H_Ask>Price in Silver</TSA_WD_Negotiate_H_Ask>
+  <TSA_WD_Negotiate_H_Action>Ask them to</TSA_WD_Negotiate_H_Action>
+  <TSA_WD_Negotiate_StrengthTip>Military strength of this faction (the one you are paying) divided by the target faction's strength. Below 1.00× means they are weaker than the target.</TSA_WD_Negotiate_StrengthTip>
+  <TSA_WD_Negotiate_WarFoesTip>This faction's strength divided by the combined strength of factions it is already at war with (e.g. 0.20× means 20% of that combined strength). Low values mean they are already stretched and raise the Declare War price.</TSA_WD_Negotiate_WarFoesTip>
+  <TSA_WD_Negotiate_RelationTip>Current diplomatic status between this faction and the one you are paying.</TSA_WD_Negotiate_RelationTip>
+  <TSA_WD_Negotiate_AskTip>Silver-equivalent price to request this change. Rejected rows and diplomacy freeze cannot be asked yet.</TSA_WD_Negotiate_AskTip>
+  <TSA_WD_Negotiate_ActionTip>Ask this faction to declare war, cease fire, or become allies with the listed counterpart.</TSA_WD_Negotiate_ActionTip>
+  <TSA_WD_Negotiate_ActionWar>declare war on</TSA_WD_Negotiate_ActionWar>
+  <TSA_WD_Negotiate_ActionPeace>become neutral with</TSA_WD_Negotiate_ActionPeace>
+  <TSA_WD_Negotiate_ActionAlly>become allied with</TSA_WD_Negotiate_ActionAlly>
+  <TSA_WD_Negotiate_OverviewTitle>Negotiate with {0}</TSA_WD_Negotiate_OverviewTitle>
+  <TSA_WD_Negotiate_OverviewTip>Pay this faction to change its diplomatic status with other factions.</TSA_WD_Negotiate_OverviewTip>
+  <TSA_WD_Negotiate_DealTitle>Pay {0} to {1} {2}</TSA_WD_Negotiate_DealTitle>
+  <TSA_WD_Negotiate_PayWithGoods>Pay with goods (delivered to {0})</TSA_WD_Negotiate_PayWithGoods>
+  <TSA_WD_Negotiate_AskSilver>Ask: {0} silver</TSA_WD_Negotiate_AskSilver>
+  <TSA_WD_Negotiate_OfferedRemaining>Offered: {0} (need {1} more)</TSA_WD_Negotiate_OfferedRemaining>
+  <TSA_WD_Negotiate_OfferedMet>Offered: {0} (ask met)</TSA_WD_Negotiate_OfferedMet>
+  <TSA_WD_Negotiate_Confirm>Confirm payment</TSA_WD_Negotiate_Confirm>
+  <TSA_WD_Negotiate_CdShort>CD: {0}d</TSA_WD_Negotiate_CdShort>
+  <TSA_WD_Negotiate_Disabled>Diplomacy negotiate is disabled in mod settings.</TSA_WD_Negotiate_Disabled>
+  <TSA_WD_Negotiate_BadPlayerRelation>You must be allied or neutral with this faction.</TSA_WD_Negotiate_BadPlayerRelation>
+  <TSA_WD_Negotiate_GoodwillFloor>Need at least {0} goodwill with this faction.</TSA_WD_Negotiate_GoodwillFloor>
+  <TSA_WD_Negotiate_Pending>A negotiate caravan is already en route for this faction.</TSA_WD_Negotiate_Pending>
+  <TSA_WD_Negotiate_NoSettlement>This faction has no surface settlement to deliver payment to.</TSA_WD_Negotiate_NoSettlement>
+  <TSA_WD_Negotiate_InvalidPair>That faction pair cannot be negotiated.</TSA_WD_Negotiate_InvalidPair>
+  <TSA_WD_Negotiate_PairLocked>This faction pair is permanently locked.</TSA_WD_Negotiate_PairLocked>
+  <TSA_WD_Negotiate_PairFrozen>Diplomacy freeze: {0} days remaining.</TSA_WD_Negotiate_PairFrozen>
+  <TSA_WD_Negotiate_AllyUntouchable>Allied pairs cannot be negotiated.</TSA_WD_Negotiate_AllyUntouchable>
+  <TSA_WD_Negotiate_WarNeedsNeutral>They are not neutral with that faction (war only from neutral).</TSA_WD_Negotiate_WarNeedsNeutral>
+  <TSA_WD_Negotiate_PeaceNeedsHostile>They are not at war with that faction.</TSA_WD_Negotiate_PeaceNeedsHostile>
+  <TSA_WD_Negotiate_TooWeakForWar>You can only convince {0} to declare war on {1} if {0} has at least {2}% of {1}'s strength.</TSA_WD_Negotiate_TooWeakForWar>
+  <TSA_WD_Negotiate_TooWeakForPeace>You can only convince {0} to cease fire with {1} if {0} has at least {2}% of {1}'s strength.</TSA_WD_Negotiate_TooWeakForPeace>
+  <TSA_WD_Negotiate_CannotAsk>Rejected</TSA_WD_Negotiate_CannotAsk>
+  <TSA_WD_Negotiate_AllegianceColorTip>Colorcoding is based on allegiance with the player.</TSA_WD_Negotiate_AllegianceColorTip>
+  <TSA_WD_Negotiate_UnderAsk>Offer does not meet the ask ({0} silver).</TSA_WD_Negotiate_UnderAsk>
+  <TSA_WD_Negotiate_NoOrigin>No colony or warehouse to send the negotiate caravan from.</TSA_WD_Negotiate_NoOrigin>
+  <TSA_WD_Negotiate_SameTile>Cannot send payment from the same tile as the destination settlement.</TSA_WD_Negotiate_SameTile>
+  <TSA_WD_Negotiate_SpawnFailed>Failed to launch the negotiate caravan.</TSA_WD_Negotiate_SpawnFailed>
+  <TSA_WD_Negotiate_StartLetterLabel>Diplomacy negotiation</TSA_WD_Negotiate_StartLetterLabel>
+  <TSA_WD_Negotiate_StartLetterText>A caravan is delivering payment for {0} to {1} {2}.</TSA_WD_Negotiate_StartLetterText>
+  <TSA_WD_Negotiate_CompleteLetterLabel>Diplomacy negotiated</TSA_WD_Negotiate_CompleteLetterLabel>
+  <TSA_WD_Negotiate_CompleteLetterText>{0} agreed to {1} {2}. Payment strengthened their settlements.</TSA_WD_Negotiate_CompleteLetterText>
+  <TSA_WD_Negotiate_AbortLetterLabel>Diplomacy negotiation failed</TSA_WD_Negotiate_AbortLetterLabel>
+  <TSA_WD_Negotiate_AbortLetterText>The negotiation with {0} about {1} could not be completed.</TSA_WD_Negotiate_AbortLetterText>
+  <TSA_WD_Negotiate_AbortLetterTextLost>The negotiate caravan for {0} about {1} was destroyed. Payment was lost.</TSA_WD_Negotiate_AbortLetterTextLost>
+  <TSA_WD_Negotiate_AbortLetterTextRefund>The negotiation with {0} about {1} could not be completed. Payment was returned.</TSA_WD_Negotiate_AbortLetterTextRefund>
+  <TSA_WD_Negotiate_AbortLetterTextBadRelation>The negotiation with {0} about {1} failed because you are no longer allied or neutral with them. Payment was returned.</TSA_WD_Negotiate_AbortLetterTextBadRelation>
+  <TSA_WD_Negotiate_AbortLetterTextFrozen>The negotiation with {0} about {1} failed because that pair is under diplomacy freeze. Payment was returned.</TSA_WD_Negotiate_AbortLetterTextFrozen>
+  <TSA_WD_Negotiate_AbortLetterTextLocked>The negotiation with {0} about {1} failed because that pair is permanently locked. Payment was returned.</TSA_WD_Negotiate_AbortLetterTextLocked>
+  <TSA_WD_Negotiate_AbortLetterTextInvalid>The negotiation with {0} about {1} is no longer valid. Payment was returned.</TSA_WD_Negotiate_AbortLetterTextInvalid>
+  <TSA_WD_Negotiate_AbortLetterTextGone>The negotiation with {0} about {1} failed because a faction or settlement is gone. Payment was returned.</TSA_WD_Negotiate_AbortLetterTextGone>
+  <TSA_WD_Negotiate_SettingsHeader>Diplomacy negotiate</TSA_WD_Negotiate_SettingsHeader>
+  <TSA_WD_Negotiate_Enable>Enable diplomacy negotiate</TSA_WD_Negotiate_Enable>
+  <TSA_WD_Negotiate_EnableTip>When enabled, ally and neutral NPC factions on the diplomacy matrix show a Negotiate button.</TSA_WD_Negotiate_EnableTip>
+  <TSA_WD_Negotiate_AskMin>Ask floor (silver)</TSA_WD_Negotiate_AskMin>
+  <TSA_WD_Negotiate_AskMinTip>Minimum negotiate ask when the strength ratio allows the action.</TSA_WD_Negotiate_AskMinTip>
+  <TSA_WD_Negotiate_AskMax>Ask ceiling (silver)</TSA_WD_Negotiate_AskMax>
+  <TSA_WD_Negotiate_AskMaxTip>Maximum negotiate ask on the strength pricing curve.</TSA_WD_Negotiate_AskMaxTip>
+  <TSA_WD_Log_NegotiateLaunched>{0} dispatched a negotiate caravan for {1} to {2} {3}.</TSA_WD_Log_NegotiateLaunched>
+  <TSA_WD_Log_NegotiateCompleted>{0} agreed to {1} {2}.</TSA_WD_Log_NegotiateCompleted>
+  <TSA_WD_Notify_NegotiateStarted>Diplomacy negotiate started</TSA_WD_Notify_NegotiateStarted>
+  <TSA_WD_Notify_NegotiateStartedTooltip>Letter when a negotiate payment caravan is launched (default off).</TSA_WD_Notify_NegotiateStartedTooltip>
+  <TSA_WD_Notify_NegotiateCompleted>Diplomacy negotiate completed</TSA_WD_Notify_NegotiateCompleted>
+  <TSA_WD_Notify_NegotiateCompletedTooltip>Letter when payment arrives and the relation change is applied.</TSA_WD_Notify_NegotiateCompletedTooltip>
+  <TSA_WD_Notify_NegotiateAborted>Diplomacy negotiate failed</TSA_WD_Notify_NegotiateAborted>
+  <TSA_WD_Notify_NegotiateAbortedTooltip>Letter when a negotiate caravan is destroyed or the deal fails. Explains the reason and whether payment was refunded.</TSA_WD_Notify_NegotiateAbortedTooltip>
+
+  <TSA_WD_GiftSettlement_GizmoLabel>Send gift</TSA_WD_GiftSettlement_GizmoLabel>
+  <TSA_WD_GiftSettlement_GizmoDesc>Send a gift of goods from your nearest colony or warehouse. On arrival, goodwill rises and the settlement's faction gains strength from the gift value.</TSA_WD_GiftSettlement_GizmoDesc>
+  <TSA_WD_GiftSettlement_Pending>A gift caravan is already en route to this settlement.</TSA_WD_GiftSettlement_Pending>
+  <TSA_WD_GiftSettlement_DialogTitle>Gift to '{0}'</TSA_WD_GiftSettlement_DialogTitle>
+  <TSA_WD_GiftSettlement_PayWithGoods>Gift with physical goods</TSA_WD_GiftSettlement_PayWithGoods>
+  <TSA_WD_GiftSettlement_MinSilver>Minimum gift: {0} silver</TSA_WD_GiftSettlement_MinSilver>
+  <TSA_WD_GiftSettlement_Offered>Offered: {0}</TSA_WD_GiftSettlement_Offered>
+  <TSA_WD_GiftSettlement_AssignToMin>Assign to minimum</TSA_WD_GiftSettlement_AssignToMin>
+  <TSA_WD_GiftSettlement_AssignToMinTip>Clears current goods offers, then assigns the most valuable non-starred items until the minimum gift value is met. The last row only takes as many items as needed. Starred items are skipped.</TSA_WD_GiftSettlement_AssignToMinTip>
+  <TSA_WD_GiftSettlement_Confirm>Confirm gift</TSA_WD_GiftSettlement_Confirm>
+  <TSA_WD_GiftSettlement_UnderMin>Gift must be worth at least {0} silver.</TSA_WD_GiftSettlement_UnderMin>
+  <TSA_WD_GiftSettlement_NoOrigin>No colony or warehouse to send the gift caravan from.</TSA_WD_GiftSettlement_NoOrigin>
+  <TSA_WD_GiftSettlement_SameTile>Cannot send a gift from the same tile as the settlement.</TSA_WD_GiftSettlement_SameTile>
+  <TSA_WD_GiftSettlement_SpawnFailed>Failed to launch the gift caravan.</TSA_WD_GiftSettlement_SpawnFailed>
+  <TSA_WD_GiftSettlement_TargetGone>That settlement no longer exists.</TSA_WD_GiftSettlement_TargetGone>
+  <TSA_WD_GiftSettlement_BadRelation>You must be allied or neutral with the owner.</TSA_WD_GiftSettlement_BadRelation>
+  <TSA_WD_GiftSettlement_CompletedLetterLabel>Gift delivered</TSA_WD_GiftSettlement_CompletedLetterLabel>
+  <TSA_WD_GiftSettlement_CompletedLetterText>Your gift reached {0} ({1}). Goods worth {2} silver were delivered.</TSA_WD_GiftSettlement_CompletedLetterText>
+  <TSA_WD_GiftSettlement_AbortLetterLabel>Gift caravan failed</TSA_WD_GiftSettlement_AbortLetterLabel>
+  <TSA_WD_GiftSettlement_AbortLetterText>The gift to {0} could not be completed.</TSA_WD_GiftSettlement_AbortLetterText>
+  <TSA_WD_GiftSettlement_AbortLetterTextLost>The gift caravan to {0} was destroyed. The goods were lost.</TSA_WD_GiftSettlement_AbortLetterTextLost>
+  <TSA_WD_GiftSettlement_AbortLetterTextRefund>The gift to {0} could not be completed. The goods were returned.</TSA_WD_GiftSettlement_AbortLetterTextRefund>
+  <TSA_WD_GiftSettlement_AbortLetterTextSettlementGone>The gift to {0} failed because the settlement no longer exists. The goods were returned.</TSA_WD_GiftSettlement_AbortLetterTextSettlementGone>
+  <TSA_WD_GiftSettlement_AbortLetterTextBadRelation>The gift to {0} failed because you are no longer allied or neutral with the owner. The goods were returned.</TSA_WD_GiftSettlement_AbortLetterTextBadRelation>
+  <TSA_WD_GiftSettlement_AbortLetterTextFactionChanged>The gift to {0} failed because the settlement changed owners. The goods were returned.</TSA_WD_GiftSettlement_AbortLetterTextFactionChanged>
+  <TSA_WD_SettlementGifterCaravan>Gift caravan</TSA_WD_SettlementGifterCaravan>
+  <TSA_WD_Log_SettlementGiftLaunched>{0} dispatched a gift caravan to {1} ({2}).</TSA_WD_Log_SettlementGiftLaunched>
+  <TSA_WD_Log_SettlementGiftCompleted>Gift delivered to {0} ({1}).</TSA_WD_Log_SettlementGiftCompleted>
+
+  <TSA_WD_SettlementCaravan_InterceptWarning>Warning: If this caravan is intercepted, the attacker gains settlement strength from the value of the goods.</TSA_WD_SettlementCaravan_InterceptWarning>
+  <TSA_WD_SettlementCaravan_LootLetterLabel>Caravan intercepted</TSA_WD_SettlementCaravan_LootLetterLabel>
+  <TSA_WD_SettlementCaravan_LootLetterBody>{0} intercepted your {1} caravan and seized {2} silver.</TSA_WD_SettlementCaravan_LootLetterBody>
+  <TSA_WD_SettlementCaravan_LootMissionBuy>buying</TSA_WD_SettlementCaravan_LootMissionBuy>
+  <TSA_WD_SettlementCaravan_LootMissionGift>gifting</TSA_WD_SettlementCaravan_LootMissionGift>
+  <TSA_WD_SettlementCaravan_LootLetterRadius>This strengthened their settlements within {0} tiles of the incident.</TSA_WD_SettlementCaravan_LootLetterRadius>
+  <TSA_WD_SettlementCaravan_LootLetterNoTowns>The goods were seized, but they had no settlements within {0} tiles to strengthen.</TSA_WD_SettlementCaravan_LootLetterNoTowns>
+  <TSA_WD_SettlementCaravan_LootLetterNoEffect>No settlements in range gained strength from the seized goods.</TSA_WD_SettlementCaravan_LootLetterNoEffect>
+  <TSA_WD_SettlementCaravan_LootDetailStrength>{0} gained {1} strength.</TSA_WD_SettlementCaravan_LootDetailStrength>
+  <TSA_WD_SettlementCaravan_LootDetailUpgrade>{0} upgraded to {1}.</TSA_WD_SettlementCaravan_LootDetailUpgrade>
+
+  <!-- Faction bribe -->
+  <TSA_WD_Bribe_SettlementGizmoLabel>Bribe for ceasefire</TSA_WD_Bribe_SettlementGizmoLabel>
+  <TSA_WD_Bribe_SettlementGizmoDesc>Pay goods for a temporary ceasefire. This faction will not launch new World Domination raids at your colony or outposts for the chosen duration. Raids already on the road are not recalled.</TSA_WD_Bribe_SettlementGizmoDesc>
+  <TSA_WD_Bribe_RaidGizmoLabel>Bribe raid caravan</TSA_WD_Bribe_RaidGizmoLabel>
+  <TSA_WD_Bribe_RaidGizmoDesc>Send a payment caravan to catch this raid. On delivery, that raid dissolves. Strength investment is centered on the raid's launch settlement.</TSA_WD_Bribe_RaidGizmoDesc>
+  <TSA_WD_Bribe_Disabled>Faction bribes are disabled in settings.</TSA_WD_Bribe_Disabled>
+  <TSA_WD_Bribe_Pending>A bribe caravan is already en route to this target.</TSA_WD_Bribe_Pending>
+  <TSA_WD_Bribe_Cannot>Cannot bribe this target.</TSA_WD_Bribe_Cannot>
+  <TSA_WD_Bribe_TargetGone>That target no longer exists.</TSA_WD_Bribe_TargetGone>
+  <TSA_WD_Bribe_BadRelation>You must be hostile with this faction to bribe them.</TSA_WD_Bribe_BadRelation>
+  <TSA_WD_Bribe_UnderAsk>Offer at least {0} silver-equivalent in goods.</TSA_WD_Bribe_UnderAsk>
+  <TSA_WD_Bribe_NoOrigin>No colony or warehouse can send the bribe caravan.</TSA_WD_Bribe_NoOrigin>
+  <TSA_WD_Bribe_SameTile>Cannot send a bribe from the same tile as the settlement.</TSA_WD_Bribe_SameTile>
+  <TSA_WD_Bribe_SpawnFailed>Failed to launch the bribe caravan.</TSA_WD_Bribe_SpawnFailed>
+  <TSA_WD_Bribe_SettlementDialogTitle>Bribe '{0}' for ceasefire</TSA_WD_Bribe_SettlementDialogTitle>
+  <TSA_WD_Bribe_RaidDialogTitle>Bribe raid '{0}'</TSA_WD_Bribe_RaidDialogTitle>
+  <TSA_WD_Bribe_PayWithGoods>Pay with physical goods</TSA_WD_Bribe_PayWithGoods>
+  <TSA_WD_Bribe_Confirm>Confirm bribe</TSA_WD_Bribe_Confirm>
+  <TSA_WD_Bribe_AssignToAsk>Assign to ask</TSA_WD_Bribe_AssignToAsk>
+  <TSA_WD_Bribe_AssignToAskTip>Clears current goods offers, then assigns the most valuable non-starred items until the ask is met. The last row only takes as many items as needed. Starred items are skipped.</TSA_WD_Bribe_AssignToAskTip>
+  <TSA_WD_Bribe_AskCeasefireLabel>Ask for Ceasefire:</TSA_WD_Bribe_AskCeasefireLabel>
+  <TSA_WD_Bribe_AskCeasefireTip>Strength of settlements that can attack your colony or outposts: {0}\nStrength of all their settlements: {1}\nCombined figure used for the price: {2}\nSilver charged per point of that figure: {3}\n\nBased on your current offer:\nExpected strength added to their nearby towns: {4} silver\n\nRaids already on the road will still arrive. Bribe those caravans separately, or fight them.</TSA_WD_Bribe_AskCeasefireTip>
+  <TSA_WD_Bribe_RaidDealPriceTip>Raid strength now: {0}\nRaid strength when it launched: {1}\nPrice uses the higher of current strength and {2}% of launch strength.\nSilver charged per strength point ({4}): {3}\n\nBased on your current offer:\nExpected strength added near the raid's home town: {5} silver</TSA_WD_Bribe_RaidDealPriceTip>
+  <TSA_WD_Bribe_DurationButton>{0} days</TSA_WD_Bribe_DurationButton>
+  <TSA_WD_Bribe_DurationSelected>Ceasefire duration: {0} days</TSA_WD_Bribe_DurationSelected>
+  <TSA_WD_Bribe_ThreatWeighted>Threat in range {0}, faction total {1}, weighted ask base {2}</TSA_WD_Bribe_ThreatWeighted>
+  <TSA_WD_Bribe_SettlementRate>Settlement silver per strength: {0}</TSA_WD_Bribe_SettlementRate>
+  <TSA_WD_Bribe_CaravanRate>Raid silver per strength: {0} ({1})</TSA_WD_Bribe_CaravanRate>
+  <TSA_WD_Bribe_RaidStrength>Raid strength now {0} (at launch {1})</TSA_WD_Bribe_RaidStrength>
+  <TSA_WD_Bribe_Ask>Ask: {0} silver</TSA_WD_Bribe_Ask>
+  <TSA_WD_Bribe_ExpectedGoodwill>Expected goodwill: +{0}</TSA_WD_Bribe_ExpectedGoodwill>
+  <TSA_WD_Bribe_ExpectedInvest>Expected strength investment: {0} silver</TSA_WD_Bribe_ExpectedInvest>
+  <TSA_WD_Bribe_Offered>Offered: {0}</TSA_WD_Bribe_Offered>
+  <TSA_WD_Bribe_InFlightWarning>Already-dispatched raid caravans from this faction will still arrive. Bribe each of those caravans separately, or fight them.</TSA_WD_Bribe_InFlightWarning>
+  <TSA_WD_Bribe_StageEarly>Early</TSA_WD_Bribe_StageEarly>
+  <TSA_WD_Bribe_StageMid>Mid</TSA_WD_Bribe_StageMid>
+  <TSA_WD_Bribe_StageLate>Late</TSA_WD_Bribe_StageLate>
+  <TSA_WD_BribeSettlementCaravan>Bribe caravan</TSA_WD_BribeSettlementCaravan>
+  <TSA_WD_BribeRaidCaravan>Raid bribe caravan</TSA_WD_BribeRaidCaravan>
+  <TSA_WD_Bribe_SettlementCompletedLabel>Ceasefire bribe delivered</TSA_WD_Bribe_SettlementCompletedLabel>
+  <TSA_WD_Bribe_SettlementCompletedText>Your bribe reached {0} ({1}). New World Domination raids from this faction against your colony and outposts are blocked for {2} days. Strength investment {3} silver. Raids already on the road are not recalled.</TSA_WD_Bribe_SettlementCompletedText>
+  <TSA_WD_Bribe_RaidCompletedLabel>Raid bribe delivered</TSA_WD_Bribe_RaidCompletedLabel>
+  <TSA_WD_Bribe_RaidCompletedText>Your bribe dissolved {0} ({1}). Strength investment near the launch site {2} silver.</TSA_WD_Bribe_RaidCompletedText>
+  <TSA_WD_Bribe_SettlementAbortLabel>Ceasefire bribe failed</TSA_WD_Bribe_SettlementAbortLabel>
+  <TSA_WD_Bribe_RaidAbortLabel>Raid bribe failed</TSA_WD_Bribe_RaidAbortLabel>
+  <TSA_WD_Bribe_AbortText>The bribe to {0} could not be completed.</TSA_WD_Bribe_AbortText>
+  <TSA_WD_Bribe_AbortTextLost>The bribe caravan to {0} was destroyed. The goods were lost.</TSA_WD_Bribe_AbortTextLost>
+  <TSA_WD_Bribe_AbortTextRefund>The bribe to {0} could not be completed. The goods were returned.</TSA_WD_Bribe_AbortTextRefund>
+  <TSA_WD_Bribe_AbortTextTargetGone>The bribe to {0} failed because the target no longer exists. The goods were returned.</TSA_WD_Bribe_AbortTextTargetGone>
+  <TSA_WD_Bribe_AbortTextBadRelation>The bribe to {0} failed because you are no longer hostile with the owner. The goods were returned.</TSA_WD_Bribe_AbortTextBadRelation>
+  <TSA_WD_Bribe_CeasefireExpiredLabel>Bribe ceasefire ended</TSA_WD_Bribe_CeasefireExpiredLabel>
+  <TSA_WD_Bribe_CeasefireExpiredText>Your bribe ceasefire with {0} has ended. They may launch new World Domination raids at your colony and outposts again.</TSA_WD_Bribe_CeasefireExpiredText>
+  <TSA_WD_Diplomacy_BribeCeasefire>(bribe ceasefire {0}d)</TSA_WD_Diplomacy_BribeCeasefire>
+  <TSA_WD_Log_BribeSettlementLaunched>{0} dispatched a bribe caravan to {1} ({2}).</TSA_WD_Log_BribeSettlementLaunched>
+  <TSA_WD_Log_BribeRaidLaunched>{0} dispatched a bribe caravan after {1} ({2}).</TSA_WD_Log_BribeRaidLaunched>
+  <TSA_WD_Log_BribeSettlementCompleted>Bribe ceasefire with {1} via {0} for {2} days.</TSA_WD_Log_BribeSettlementCompleted>
+  <TSA_WD_Log_BribeRaidCompleted>Bribed and dissolved {0} ({1}).</TSA_WD_Log_BribeRaidCompleted>
+  <TSA_WD_Log_Raid_SkippedBribeCeasefire>Raid skipped: bribe ceasefire still active with {0}.</TSA_WD_Log_Raid_SkippedBribeCeasefire>
+  <TSA_WD_Bribe_CostHeader>Bribe cost</TSA_WD_Bribe_CostHeader>
+  <TSA_WD_Bribe_SettlementSilverPerStr>Settlement silver per strength</TSA_WD_Bribe_SettlementSilverPerStr>
+  <TSA_WD_Bribe_SettlementSilverPerStrTip>Flat rate for ceasefire bribes. Mid and Late escalation do not change this rate (threat can still rise as more towns enter attack range).</TSA_WD_Bribe_SettlementSilverPerStrTip>
+  <TSA_WD_Bribe_CaravanSilverPerStrEarly>Raid silver per strength (Early)</TSA_WD_Bribe_CaravanSilverPerStrEarly>
+  <TSA_WD_Bribe_CaravanSilverPerStrEarlyTip>Used while Mid and Late escalation are inactive.</TSA_WD_Bribe_CaravanSilverPerStrEarlyTip>
+  <TSA_WD_Bribe_CaravanSilverPerStrMid>Raid silver per strength (Mid)</TSA_WD_Bribe_CaravanSilverPerStrMid>
+  <TSA_WD_Bribe_CaravanSilverPerStrMidTip>Used during Mid escalation. Late overrides this when Late is active.</TSA_WD_Bribe_CaravanSilverPerStrMidTip>
+  <TSA_WD_Bribe_CaravanSilverPerStrLate>Raid silver per strength (Late)</TSA_WD_Bribe_CaravanSilverPerStrLate>
+  <TSA_WD_Bribe_CaravanSilverPerStrLateTip>Used during Late escalation.</TSA_WD_Bribe_CaravanSilverPerStrLateTip>
+  <TSA_WD_Bribe_SettingsHeader>Faction bribe</TSA_WD_Bribe_SettingsHeader>
+  <TSA_WD_Bribe_Enable>Enable faction bribes</TSA_WD_Bribe_Enable>
+  <TSA_WD_Bribe_EnableTip>When enabled, hostile WD settlements and ground raid caravans targeting you show a Bribe gizmo.</TSA_WD_Bribe_EnableTip>
+  <TSA_WD_Bribe_DaysShort>Ceasefire days (short)</TSA_WD_Bribe_DaysShort>
+  <TSA_WD_Bribe_DaysMedium>Ceasefire days (medium)</TSA_WD_Bribe_DaysMedium>
+  <TSA_WD_Bribe_DaysLong>Ceasefire days (long)</TSA_WD_Bribe_DaysLong>
+  <TSA_WD_Bribe_DaysTip>How long new World Domination raids from that faction are blocked after a successful settlement bribe.</TSA_WD_Bribe_DaysTip>
+  <TSA_WD_Bribe_DiscountMedium>Medium package discount</TSA_WD_Bribe_DiscountMedium>
+  <TSA_WD_Bribe_DiscountLong>Long package discount</TSA_WD_Bribe_DiscountLong>
+  <TSA_WD_Bribe_DiscountTip>Price multiplier is (days / short days) times (1 minus this discount).</TSA_WD_Bribe_DiscountTip>
+  <TSA_WD_Bribe_RaidAskFloor>Raid ask floor (of launch strength)</TSA_WD_Bribe_RaidAskFloor>
+  <TSA_WD_Bribe_RaidAskFloorTip>Raid bribe ask uses the greater of current strength and this fraction of launch strength.</TSA_WD_Bribe_RaidAskFloorTip>
+  <TSA_WD_Bribe_InvestmentFraction>Bribe investment fraction</TSA_WD_Bribe_InvestmentFraction>
+  <TSA_WD_Bribe_InvestmentFractionTip>Fraction of payment value converted to nearby settlement strength on success (gift and buy use 100%). Intercept loot still invests the full seized value.</TSA_WD_Bribe_InvestmentFractionTip>
+  <TSA_WD_Bribe_CaravanInvestRadius>Raid bribe investment radius</TSA_WD_Bribe_CaravanInvestRadius>
+  <TSA_WD_Bribe_CaravanInvestRadiusTip>Tiles from the raid launch settlement used when investing after a successful raid bribe.</TSA_WD_Bribe_CaravanInvestRadiusTip>
+  <TSA_WD_Bribe_GoodwillBonusDivisor>Silver per goodwill bonus point</TSA_WD_Bribe_GoodwillBonusDivisor>
+  <TSA_WD_Bribe_GoodwillBonusDivisorTip>On a successful bribe, goodwill gained is payment market value divided by this number. Bribes cannot be paid with goodwill. Higher values mean a weaker bonus. Gift goodwill uses 40.</TSA_WD_Bribe_GoodwillBonusDivisorTip>
+  <TSA_WD_Notify_BribeSettlementCompleted>Settlement bribe completed</TSA_WD_Notify_BribeSettlementCompleted>
+  <TSA_WD_Notify_BribeSettlementCompletedTooltip>Letter when a ceasefire bribe arrives. Reminds you that in-flight raids are not recalled.</TSA_WD_Notify_BribeSettlementCompletedTooltip>
+  <TSA_WD_Notify_BribeSettlementAborted>Settlement bribe failed</TSA_WD_Notify_BribeSettlementAborted>
+  <TSA_WD_Notify_BribeSettlementAbortedTooltip>Letter when a ceasefire bribe fails mid-route or becomes invalid (with refund when applicable).</TSA_WD_Notify_BribeSettlementAbortedTooltip>
+  <TSA_WD_Notify_BribeRaidCompleted>Raid bribe completed</TSA_WD_Notify_BribeRaidCompleted>
+  <TSA_WD_Notify_BribeRaidCompletedTooltip>Letter when a raid bribe arrives and dissolves that caravan.</TSA_WD_Notify_BribeRaidCompletedTooltip>
+  <TSA_WD_Notify_BribeRaidAborted>Raid bribe failed</TSA_WD_Notify_BribeRaidAborted>
+  <TSA_WD_Notify_BribeRaidAbortedTooltip>Letter when a raid bribe fails (target gone, lost race, invalid deal) with refund when applicable.</TSA_WD_Notify_BribeRaidAbortedTooltip>
+  <TSA_WD_Notify_BribeLostInTransit>Bribe caravan intercepted</TSA_WD_Notify_BribeLostInTransit>
+  <TSA_WD_Notify_BribeLostInTransitTooltip>Letter when a bribe caravan is destroyed and payment is lost (separate from abort/refund cases).</TSA_WD_Notify_BribeLostInTransitTooltip>
+  <TSA_WD_Notify_BribeCeasefireExpired>Bribe ceasefire expired</TSA_WD_Notify_BribeCeasefireExpired>
+  <TSA_WD_Notify_BribeCeasefireExpiredTooltip>Letter when a faction's bribe ceasefire timer ends.</TSA_WD_Notify_BribeCeasefireExpiredTooltip>
+</LanguageData>

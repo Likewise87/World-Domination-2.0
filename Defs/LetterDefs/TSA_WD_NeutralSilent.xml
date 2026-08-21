@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Blue/neutral info letter with no arrive sound (player mortar kill notices). -->
+  <LetterDef>
+    <defName>TSA_WD_NeutralSilent</defName>
+    <color>(120, 176, 216)</color>
+    <flashColor>(106, 179, 231)</flashColor>
+    <flashInterval>90</flashInterval>
+  </LetterDef>
+
+</Defs>

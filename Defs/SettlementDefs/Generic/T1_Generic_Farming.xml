@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.SettlementLayoutDef>
+    <defName>TSA_Generic_T1_Farming</defName>
+    <settlementSize>48,48</settlementSize>
+    <avoidBridgeable>true</avoidBridgeable>
+    <avoidMountains>true</avoidMountains>
+    
+    <centerBuildings>
+      <centerSize>40,40</centerSize>
+      <spaceAround>1</spaceAround>
+	  <centralBuildingTags>
+        <li>TSA_Tribal_Farm</li>
+      </centralBuildingTags>
+      <allowedStructures>
+        <li>
+          <tag>Generic_Bedroom</tag>
+          <count>1~2</count>
+        </li>
+        <li>
+          <tag>Generic_Stockpile</tag>
+          <count>0~1</count>
+        </li>
+		<li>
+          <count>4~7</count>
+          <tag>TSA_Tribal_Farm</tag>
+        </li>
+		<li>
+          <count>1~1</count>
+          <tag>TSA_Tribal_BigBarracks</tag>
+        </li>
+      </allowedStructures>
+    </centerBuildings>
+
+    <defenseOptions>
+      <pawnGroupMultiplier>0.35</pawnGroupMultiplier>
+    </defenseOptions>
+
+    <propsOptions>
+      <scatterProps>true</scatterProps>
+      <scatterMinDistance>5</scatterMinDistance>
+      <scatterMaxAmount>12</scatterMaxAmount>
+      <scatterPropsDefs>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_BoxSmall</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleLarge</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleMedium</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleSmall</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogs</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogsLarge</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenWagon</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Hayball_1a</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Wagon_3a</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Wagon_5a</li>
+		<li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenChest</li>
+      </scatterPropsDefs>
+    </propsOptions>
+
+    <roadOptions>
+      <addLinkRoad>true</addLinkRoad>
+      <linkRoadDef>PackedDirt</linkRoadDef>
+    </roadOptions>
+
+    <stockpileOptions>
+      <stockpileValueMultiplier>0.5</stockpileValueMultiplier>
+      <fillStorageBuildings>true</fillStorageBuildings>
+      <fillWithDefs>
+        <li>Steel</li>
+        <li>ComponentIndustrial</li>
+        <li>Jade</li>
+        <li>MealSurvivalPack</li>
+      </fillWithDefs>
+    </stockpileOptions>
+  </KCSG.SettlementLayoutDef>
+</Defs>

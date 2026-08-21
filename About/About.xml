@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>World Domination 2.0</name>
+  <author>TSA</author>
+  <supportedVersions>
+    <li>1.6</li>
+  </supportedVersions>
+  <packageId>TSA.WorldDominationExperimental</packageId>
+  <description>This mod is what happened if Rimwar and Vanilla Outpost Expanded had a child.</description>
+    <modDependencies>
+	  <li>
+		<packageId>brrainz.harmony</packageId>
+		<displayName>Harmony</displayName>
+		<steamWorkshopUrl>https://steamcommunity.com/workshop/filedetails/?id=2009463077</steamWorkshopUrl>
+	  </li>
+	  <li>
+		<packageId>oskarpotocki.vanillafactionsexpanded.core</packageId>
+		<displayName>Vanilla Expanded</displayName>
+		<steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2023507013</steamWorkshopUrl>
+	  </li>
+	</modDependencies>
+	
+	<incompatibleWith>
+		<li>TSA.WorldDomination</li>
+		<li>alt4s.visitsettlements</li>
+	 </incompatibleWith>
+	 
+	<loadAfter>
+	  <li>brrainz.harmony</li>
+	  <li>oskarpotocki.vanillafactionsexpanded.core</li>
+	  <li>VanillaExpanded.VFEPropsandDecor</li>
+	  <li>godsfathermixtape.worksitesexpanded</li>
+	  <li>telardo.DragSelect</li>
+	  <li>SmashPhil.VehicleFramework</li>
+	  <li>OskarPotocki.VanillaVehiclesExpanded</li>
+	  <li>memegoddess.giddyup</li>
+	</loadAfter>
+	<loadBefore>
+		<li>voult.betterpawncontrol</li>
+	</loadBefore>
+</ModMetaData>

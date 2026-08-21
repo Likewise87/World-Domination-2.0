@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <KCSG.StructureLayoutDef>
+  <defName>Dungeon</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>.,.,Sandbags_Cloth,Sandbags_Cloth,.,Sandbags_Cloth,Sandbags_Cloth,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,VFEPD_FilthRubbleRock_North,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,Sandbags_Cloth,Sandbags_Cloth,.,Sandbags_Cloth,Sandbags_Cloth,.,.,VFEPD_FilthRubbleRock_North,.,.,.,.,VFEPD_FilthRubbleRock_North,.,.,.,.</li>
+      <li>.,TorchLamp,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,TorchLamp,.,.,Fence_WoodLog,.,.,Fence_WoodLog,.,.,.,.,.</li>
+      <li>Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,Fence_WoodLog,.,.,Fence_WoodLog,.,.,.,.,TorchLamp</li>
+      <li>Wall_WoodLog,TorchLamp,.,.,.,.,GM_PropTortureToolE_North,.,Wall_WoodLog,Fence_WoodLog,Fence_WoodLog,.,.,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog</li>
+      <li>Wall_WoodLog,Bedroll_Cloth_East,.,.,Stool_WoodLog_North,.,GM_2x2CageTopShoddy,.,Wall_WoodLog,.,.,.,.,.,.,.,.,.,Fence_WoodLog</li>
+      <li>Wall_WoodLog,.,.,.,Table1x2c_WoodLog_North,.,.,.,Wall_WoodLog,.,.,.,.,.,.,.,VFEPD_FilthRubbleRock_North,VFEPD_FilthRubbleRock_North,Fence_WoodLog</li>
+      <li>Wall_WoodLog,Bedroll_Cloth_East,.,.,.,.,.,.,Wall_WoodLog,.,ChunkSandstone,.,BlocksSandstone,ChunkSandstone,BlocksSandstone,.,Sandstone,.,Fence_WoodLog</li>
+      <li>Wall_WoodLog,GM_PropCuffsBolted_North,.,.,Stool_WoodLog_North,.,.,.,Door_WoodLog,.,ChunkSandstone,.,.,TableStonecutter_WoodLog_South,.,.,VFEPD_FilthRubbleRock_North,.,Fence_WoodLog</li>
+      <li>Wall_WoodLog,Bedroll_Cloth_East,.,.,.,GM_VFEPD_BloodSplatter_East,GM_VFEPD_BloodSplatter_North,.,Wall_WoodLog,.,.,VFEPD_FilthRubbleRock_North,.,Stool_WoodLog_North,.,.,ChunkSandstone,.,Fence_WoodLog</li>
+      <li>Wall_WoodLog,.,.,.,.,.,GM_VFEPD_BloodSplatter_North,VFEPD_FilthRubbleRock_North,Wall_WoodLog,Sandstone,VFEPD_FilthRubbleRock_North,VFEPD_FilthRubbleRock_North,.,.,.,VFEPD_FilthRubbleRock_North,.,.,Fence_WoodLog</li>
+      <li>Wall_WoodLog,.,GM_PropGibbetPileD_North,.,VFEPD_FilthRubbleRock_North,GM_VFEPD_BloodSplatter_North,GM_PropTortureToolC_North,.,Sandstone,Sandstone,Sandstone,.,ChunkSandstone,TorchLamp,.,VFEPD_FilthRubbleRock_North,BlocksSandstone,.,Fence_WoodLog</li>
+      <li>Wall_WoodLog,.,.,.,.,ChunkSandstone,Sandstone,Sandstone,Sandstone,Sandstone,Sandstone,ChunkSandstone,ChunkSandstone,.,Stool_WoodLog_North,VFEPD_FilthRubbleRock_North,BlocksSandstone,.,Fence_WoodLog</li>
+      <li>Wall_WoodLog,TorchLamp,GM_RusticPrisonBed_WoodLog_East,.,GM_RusticPrisonBed_WoodLog_East,.,ChunkSandstone,Sandstone,Sandstone,Sandstone,Sandstone,.,.,.,.,.,ChunkSandstone,ChunkSandstone,Fence_WoodLog</li>
+      <li>Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Sandstone,Sandstone,Sandstone,Sandstone,VFEPD_FilthRubbleRock_North,VFEPD_FilthRubbleRock_North,.,VFEPD_FilthRubbleRock_North,.,.,.,.,Fence_WoodLog</li>
+      <li>Fence_WoodLog,ChunkGranite,ChunkGranite,.,.,Sandstone,Sandstone,Sandstone,Sandstone,Sandstone,ChunkSandstone,ChunkSandstone,VFEPD_FilthRubbleRock_North,Sandstone,Sandstone,ChunkSandstone,.,VFEPD_FilthRubbleRock_North,Fence_WoodLog</li>
+      <li>Fence_WoodLog,ChunkGranite,ChunkGranite,.,.,.,Sandstone,Sandstone,Sandstone,.,VFEPD_FilthRubbleRock_North,ChunkSandstone,Sandstone,Sandstone,Sandstone,Sandstone,VFEPD_FilthRubbleRock_North,.,Fence_WoodLog</li>
+      <li>Fence_WoodLog,.,.,.,.,.,.,.,.,ChunkGranite,ChunkGranite,.,.,.,.,.,.,.,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,FenceGate_WoodLog,Fence_WoodLog,Fence_WoodLog,FenceGate_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,FenceGate_WoodLog,Fence_WoodLog,Fence_WoodLog,FenceGate_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog</li>
+    </li>
+    <li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Sandstone,.,.</li>
+      <li>.,.,.,.,VFEPD_DinnerSet_North,.,.,.,.,.,VFEPD_FilthRubbleRock_North,.,.,Shelf_WoodLog_South,Shelf_WoodLog_East,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,GM_PropTortureRack_North,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,VFEPD_FilthRubbleRock_North,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,TableStonecutter_WoodLog_East,Shelf_WoodLog_East,.,.</li>
+      <li>.,.,.,.,.,.,VFEPD_FilthRubbleRock_North,.,.,.,.,.,.,.,.,.,Shelf_WoodLog_North,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,Stool_WoodLog_North,.,.,VFEPD_FilthRubbleRock_North,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    </li>
+  </layouts>
+  <roofGrid>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,1,1,1,1,1,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>1,1,1,1,1,1,1,1,1,.,.,.,.,.,.,.,.,.,.</li>
+    <li>1,1,1,1,1,1,1,1,1,.,.,.,.,.,.,.,.,.,.</li>
+    <li>1,1,1,1,1,1,1,1,1,.,.,.,.,.,.,.,.,.,.</li>
+    <li>1,1,1,1,1,1,1,1,1,.,.,.,.,.,.,.,.,.,.</li>
+    <li>1,1,1,1,1,1,1,1,1,.,.,.,.,.,.,.,.,.,.</li>
+    <li>1,1,1,1,1,1,1,1,1,.,.,.,.,.,.,.,.,.,.</li>
+    <li>1,1,1,1,1,1,1,1,1,.,.,.,.,.,.,.,.,.,.</li>
+    <li>1,1,1,1,1,1,2,2,2,2,.,.,.,.,.,.,.,.,.</li>
+    <li>1,1,1,1,1,1,2,2,2,2,2,.,.,.,.,.,.,.,.</li>
+    <li>1,1,1,1,1,1,2,2,2,2,2,.,.,.,.,.,.,.,.</li>
+    <li>1,1,1,1,1,2,2,2,2,2,2,.,.,.,.,.,.,.,.</li>
+    <li>1,1,1,1,1,2,2,2,2,2,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,2,2,2,2,2,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,2,2,2,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+  </roofGrid>
+  <terrainGrid>
+    <li>.,.,.,.,.,.,.,.,.,.,PavedTile,Concrete,Concrete,PavedTile,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,PavedTile,Concrete,Concrete,PavedTile,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,PavedTile,Concrete,Concrete,PavedTile,.,.,.,.,.</li>
+    <li>.,.,.,.,WoodPlankFloor,.,.,.,.,.,PavedTile,Concrete,Concrete,PavedTile,.,.,.,.,.</li>
+    <li>.,.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.,PavedTile,Concrete,Concrete,PavedTile,.,.,.,.,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,PavedTile,Concrete,Concrete,PavedTile,.,.,.,.,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,PavedTile,PavedTile,PavedTile,PavedTile,.,.,.,.,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,Sandstone_RoughHewn,.,.,.,.,.,.,WoodPlankFloor,WoodPlankFloor,.,.,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.,.,.,.,.,.,WoodPlankFloor,WoodPlankFloor,.,.,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.,.,.,.,.,.,.,WoodPlankFloor,WoodPlankFloor,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+  </terrainGrid>
+  <modRequirements>
+    <li>vanillaexpanded.vfepropsanddecor</li>
+    <li>oskarpotocki.vanillafactionsexpanded.core</li>
+    <li>gmmp.dungeon</li>
+  </modRequirements>
+</KCSG.StructureLayoutDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_PropTortureToolE</defName>
+  <thing>GM_PropTortureToolE</thing>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_2x2CageTopShoddy</defName>
+  <thing>GM_2x2CageTopShoddy</thing>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_PropCuffsBolted</defName>
+  <thing>GM_PropCuffsBolted</thing>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_VFEPD_BloodSplatter</defName>
+  <thing>GM_VFEPD_BloodSplatter</thing>
+  <rotation>East</rotation>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_PropTortureRack</defName>
+  <thing>GM_PropTortureRack</thing>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_PropGibbetPileD</defName>
+  <thing>GM_PropGibbetPileD</thing>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_PropTortureToolC</defName>
+  <thing>GM_PropTortureToolC</thing>
+</KCSG.SymbolDef>
+
+<KCSG.SymbolDef>
+  <defName>GM_RusticPrisonBed_WoodLog</defName>
+  <thing>GM_RusticPrisonBed</thing>
+  <stuff>WoodLog</stuff>
+  <rotation>East</rotation>
+</KCSG.SymbolDef>
+
+
+</Defs>
+
+

@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <TSA_WD_ActiveTravelers_H_Actor>角色</TSA_WD_ActiveTravelers_H_Actor>
+  <TSA_WD_ActiveTravelers_H_ArrivalStrength>抵达强度</TSA_WD_ActiveTravelers_H_ArrivalStrength>
+  <TSA_WD_ActiveTravelers_H_CurrentStrength>当前强度</TSA_WD_ActiveTravelers_H_CurrentStrength>
+  <TSA_WD_ActiveTravelers_H_DepartureStrength>出发强度</TSA_WD_ActiveTravelers_H_DepartureStrength>
+  <TSA_WD_ActiveTravelers_H_Jump>跳跃</TSA_WD_ActiveTravelers_H_Jump>
+  <TSA_WD_ActiveTravelers_H_Target>目标</TSA_WD_ActiveTravelers_H_Target>
+  <TSA_WD_ActiveTravelers_H_TimeSinceDeparture>出发后经过时间</TSA_WD_ActiveTravelers_H_TimeSinceDeparture>
+  <TSA_WD_ActiveTravelers_H_TimeToDestination>总行程时间(路径起点)</TSA_WD_ActiveTravelers_H_TimeToDestination>
+  <TSA_WD_ActiveTravelers_H_Type>类型</TSA_WD_ActiveTravelers_H_Type>
+  <TSA_WD_ActiveTravelers_Jump>跳跃</TSA_WD_ActiveTravelers_Jump>
+  <TSA_WD_ActiveTravelers_Open>活跃旅行者</TSA_WD_ActiveTravelers_Open>
+  <TSA_WD_ActiveTravelers_Title>活跃旅行者</TSA_WD_ActiveTravelers_Title>
+  <TSA_WD_Dash_LastEvent>最近世界事件</TSA_WD_Dash_LastEvent>
+  <TSA_WD_Dash_ImportantRecentEvents>重要近期事件</TSA_WD_Dash_ImportantRecentEvents>
+  <TSA_WD_Dash_NegFood>前哨站(食物为负)</TSA_WD_Dash_NegFood>
+  <TSA_WD_Dash_NegFoodLine>{0}:{1}/天</TSA_WD_Dash_NegFoodLine>
+  <TSA_WD_Dash_NoOutposts>无前哨站。</TSA_WD_Dash_NoOutposts>
+  <TSA_WD_Dash_NoThreats>无敌对阵营。</TSA_WD_Dash_NoThreats>
+  <TSA_WD_Dash_NoTravelers>无活跃旅行者。</TSA_WD_Dash_NoTravelers>
+  <TSA_WD_Dash_OpenModSettingsTip>打开 World Domination 模组设置。</TSA_WD_Dash_OpenModSettingsTip>
+  <TSA_WD_Dash_NavTip_Diplomacy>查看任意派系之间的外交关系。也会显示贿赂冷却，以及 WD 外交变更后的冷却。\n\n快捷键：{0}</TSA_WD_Dash_NavTip_Diplomacy>
+  <TSA_WD_Dash_NavTip_Outposts>在一处浏览并管理你的全部 World Domination 前哨。\n\n快捷键：{0}</TSA_WD_Dash_NavTip_Outposts>
+  <TSA_WD_Dash_NavTip_Travelers>查看世界地图上所有活跃旅行者（袭击、送货、扩张等）。\n\n快捷键：{0}</TSA_WD_Dash_NavTip_Travelers>
+  <TSA_WD_Dash_NavTip_WorldStats>派系实力排名与世界力量概览。\n\n快捷键：{0}</TSA_WD_Dash_NavTip_WorldStats>
+  <TSA_WD_Dash_NavTip_ActionLog>近期 World Domination 事件与行动（最近 500 条）。</TSA_WD_Dash_NavTip_ActionLog>
+  <TSA_WD_Dash_NavTip_Prisoners>查看殖民地囚犯，并指定招募后前往的前哨。\n\n快捷键：{0}</TSA_WD_Dash_NavTip_Prisoners>
+  <TSA_WD_Dash_NavTip_YourPawns>列出、筛选并在殖民地与前哨之间调动你的殖民者。\n\n快捷键：{0}</TSA_WD_Dash_NavTip_YourPawns>
+  <TSA_WD_Dash_Goodwill_Best>最高好感</TSA_WD_Dash_Goodwill_Best>
+  <TSA_WD_Dash_Goodwill_Worst>最低好感</TSA_WD_Dash_Goodwill_Worst>
+  <TSA_WD_Dash_Goodwill_None>没有可显示的派系。</TSA_WD_Dash_Goodwill_None>
+  <TSA_WD_Dash_Goodwill_Tip>在可见派系中，你的三个最高与三个最低好感关系。</TSA_WD_Dash_Goodwill_Tip>
+  <TSA_WD_Dash_OutpostSort_FoodTip>按当前食物排序前哨（从低到高）。点击循环：F 食物、S 实力、P 人数。</TSA_WD_Dash_OutpostSort_FoodTip>
+  <TSA_WD_Dash_OutpostSort_StrengthTip>按实力排序前哨（从高到低）。点击循环：F 食物、S 实力、P 人数。</TSA_WD_Dash_OutpostSort_StrengthTip>
+  <TSA_WD_Dash_OutpostSort_PawnTip>按殖民者数量排序前哨（从高到低）。点击循环：F 食物、S 实力、P 人数。</TSA_WD_Dash_OutpostSort_PawnTip>
+  <TSA_WD_Dash_ThreatLine>{0}（可攻击进攻强度：{1}）</TSA_WD_Dash_ThreatLine>
+  <TSA_WD_Dash_TopThreats>威胁</TSA_WD_Dash_TopThreats>
+  <TSA_WD_Dash_Threats>威胁</TSA_WD_Dash_Threats>
+  <TSA_WD_Dash_NearbyThreats>附近威胁</TSA_WD_Dash_NearbyThreats>
+  <TSA_WD_Dash_FarThreats>远处威胁</TSA_WD_Dash_FarThreats>
+  <TSA_WD_Dash_NearbyThreatsTip>可攻击殖民地、且位于其自身攻击范围内侧一半（四个等距距离段中较近两段）的敌对势力。\n按距离由近到远排序。</TSA_WD_Dash_NearbyThreatsTip>
+  <TSA_WD_Dash_FarThreatsTip>仍能打到你、但位于其自身攻击范围外侧一半（四个等距距离段中较远两段）的敌对势力。\n按进攻实力由高到低排序。</TSA_WD_Dash_FarThreatsTip>
+  <TSA_WD_Dash_NoNearbyThreats>附近范围内无敌对势力。</TSA_WD_Dash_NoNearbyThreats>
+  <TSA_WD_Dash_NoFarThreats>附近范围外无敌对势力。</TSA_WD_Dash_NoFarThreats>
+  <TSA_WD_Dash_ThreatTiles>{0} 格</TSA_WD_Dash_ThreatTiles>
+  <TSA_WD_Dash_TopThreatsTooltip>可攻击你殖民地的附近与远处敌对势力（含支援盟友）。当前叙事者袭击点数：{0}。到达时的实际点数将被钳制：至少为叙事者的 {1}，最多为 {2}（模组设置）。将鼠标悬停在“附近/远处”上可查看划分方式。</TSA_WD_Dash_TopThreatsTooltip>
+  <TSA_WD_Dash_TopThreatsTooltip_NoClamp>可攻击你殖民地的附近与远处敌对势力（含支援盟友）。当前叙事者袭击点数：{0}。将鼠标悬停在“附近/远处”上可查看划分方式。</TSA_WD_Dash_TopThreatsTooltip_NoClamp>
+  <TSA_WD_Dash_ThreatsTooltip>可攻击你殖民地的附近与远处敌对势力（含支援盟友）。当前叙事者袭击点数：{0}。到达时的实际点数将被钳制：至少为叙事者的 {1}，最多为 {2}（模组设置）。将鼠标悬停在“附近/远处”上可查看划分方式。</TSA_WD_Dash_ThreatsTooltip>
+  <TSA_WD_Dash_ThreatsTooltip_Staged>可攻击你殖民地的附近与远处敌对势力（含支援盟友）。当前叙事者袭击点数：{0}。到达时的实际点数将被钳制（{3}）：至少为叙事者的 {1}，最多为 {2}（模组设置）。将鼠标悬停在“附近/远处”上可查看划分方式。</TSA_WD_Dash_ThreatsTooltip_Staged>
+  <TSA_WD_Dash_ThreatsTooltip_NoClamp>可攻击你殖民地的附近与远处敌对势力（含支援盟友）。当前叙事者袭击点数：{0}。将鼠标悬停在“附近/远处”上可查看划分方式。</TSA_WD_Dash_ThreatsTooltip_NoClamp>
+  <TSA_WD_Dash_ThreatToggle_PercentAbsoluteTip>% = 相对当前故事叙述者袭击点数的百分比强度。\n# = 绝对袭击点数（颜色仍相对故事叙述者袭击点数）。</TSA_WD_Dash_ThreatToggle_PercentAbsoluteTip>
+  <TSA_WD_Dash_ThreatToggle_RawClampedTip>R = 潜在袭击的原始强度。\nC = 按模组设置中故事叙述者袭击点数的最小/最大百分比钳制后的强度。</TSA_WD_Dash_ThreatToggle_RawClampedTip>
+  <TSA_WD_Dash_ThreatSettlementLineAbsolute>{0} ({1})</TSA_WD_Dash_ThreatSettlementLineAbsolute>
+  <TSA_WD_Dash_ThreatSettlementLinePercent>{0} ({1}%)</TSA_WD_Dash_ThreatSettlementLinePercent>
+  <TSA_WD_Dash_ThreatRaw>原始潜在袭击强度：{0}</TSA_WD_Dash_ThreatRaw>
+  <TSA_WD_Dash_Traveler_StrengthTooltip>当前强度：{0}\n出发强度：{1}\n抵达强度：{2}</TSA_WD_Dash_Traveler_StrengthTooltip>
+  <TSA_WD_Dash_Traveler_TimeTooltip>出发后经过:{0} 天\n总行程时间(路径起点的完整路线):{1}</TSA_WD_Dash_Traveler_TimeTooltip>
+  <TSA_WD_Dash_Travelers>活跃旅行者</TSA_WD_Dash_Travelers>
+  <TSA_WD_Dash_TravelersTargetingYou>{0} 名旅行者以你为目标</TSA_WD_Dash_TravelersTargetingYou>
+  <TSA_WD_Dash_YourOutposts>你的前哨站</TSA_WD_Dash_YourOutposts>
+  <TSA_WD_Dash_MoreEntries>…</TSA_WD_Dash_MoreEntries>
+  <TSA_WD_Dash_ColonyRaidCD>殖民地袭击冷却：{0} 天</TSA_WD_Dash_ColonyRaidCD>
+  <TSA_WD_Dash_ColonyRaidProtectionTip_Vulnerable>袭击冷却未激活。当袭击商队以你为目标时，将施加冷却。</TSA_WD_Dash_ColonyRaidProtectionTip_Vulnerable>
+  <TSA_WD_Dash_ColonyRaidProtectionTip_OnCooldown>{0} 正处于 WD 袭击冷却中，到期前不可被选定为目标。</TSA_WD_Dash_ColonyRaidProtectionTip_OnCooldown>
+  <TSA_WD_Dash_StorytellerRaidsBlocked>已对 WD 控制的派系停用故事叙述者袭击。</TSA_WD_Dash_StorytellerRaidsBlocked>
+  <TSA_WD_Dash_StorytellerRaidsBlockedTip>可在模组设置中启用。</TSA_WD_Dash_StorytellerRaidsBlockedTip>
+  <TSA_WD_Dash_StorytellerRaidsActive>故事叙述者袭击对 WD 控制的派系处于启用状态。</TSA_WD_Dash_StorytellerRaidsActive>
+  <TSA_WD_Dash_StorytellerRaidsActiveTip>可在模组设置中停用。</TSA_WD_Dash_StorytellerRaidsActiveTip>
+  <TSA_WD_Dash_FactionRank>你是 {1} 个派系中第 {0} 强。</TSA_WD_Dash_FactionRank>
+  <TSA_WD_Dash_FactionRankLeader>恭喜。你是世界第一</TSA_WD_Dash_FactionRankLeader>
+  <TSA_WD_Dash_FactionRankTip>你的实力：{0}\n全球实力占比：{1} %</TSA_WD_Dash_FactionRankTip>
+  <TSA_WD_Dash_OutpostPawnSummary>你在 {1} 个前哨站和殖民地共有 {0} 名单位。</TSA_WD_Dash_OutpostPawnSummary>
+  <TSA_WD_Dash_MidGameDifficultyActive>中期难度已激活</TSA_WD_Dash_MidGameDifficultyActive>
+  <TSA_WD_Dash_LateGameDifficultyActive>后期难度已激活</TSA_WD_Dash_LateGameDifficultyActive>
+  <TSA_WD_Dash_EscalationTip_AllyRadius>你与 NPC 派系的盟友拉动半径：+{0}%</TSA_WD_Dash_EscalationTip_AllyRadius>
+  <TSA_WD_Dash_EscalationTip_AllyRadiusOff>你与 NPC 派系的盟友拉动半径：不变（缩放关闭）</TSA_WD_Dash_EscalationTip_AllyRadiusOff>
+  <TSA_WD_Dash_EscalationTip_AttackRange>NPC 定居点攻击范围：+{0}%</TSA_WD_Dash_EscalationTip_AttackRange>
+  <TSA_WD_Dash_EscalationTip_RaidBias>袭击偏向你：+{0}%</TSA_WD_Dash_EscalationTip_RaidBias>
+  <TSA_WD_Dash_EscalationTip_Growth>敌对定居点成长：x{0}</TSA_WD_Dash_EscalationTip_Growth>
+  <TSA_WD_Dash_EscalationTip_Garrison>定居点驻军强度：+{0}%</TSA_WD_Dash_EscalationTip_Garrison>
+  <TSA_WD_Dash_EscalationTip_Expand>敌对向你扩张：最多 {0} 格</TSA_WD_Dash_EscalationTip_Expand>
+  <TSA_WD_Dash_EscalationTip_T4MortarOn>敌方 T4 迫击炮攻击你的商队与前哨：开</TSA_WD_Dash_EscalationTip_T4MortarOn>
+  <TSA_WD_Dash_EscalationTip_T4MortarOff>敌方 T4 迫击炮攻击你的商队与前哨：关</TSA_WD_Dash_EscalationTip_T4MortarOff>
+  <TSA_WD_Dash_EscalationTip_T4AaOn>敌方 T4 防空攻击你的空投与弹体：开</TSA_WD_Dash_EscalationTip_T4AaOn>
+  <TSA_WD_Dash_EscalationTip_T4AaOff>敌方 T4 防空攻击你的空投与弹体：关</TSA_WD_Dash_EscalationTip_T4AaOff>
+  <TSA_WD_Dash_EscalationTip_IncidentsOn>前哨事件：损失 {0} 实力，每日 {1}% 概率</TSA_WD_Dash_EscalationTip_IncidentsOn>
+  <TSA_WD_Dash_EscalationTip_IncidentsOff>前哨事件：关</TSA_WD_Dash_EscalationTip_IncidentsOff>
+  <TSA_WD_Dash_EscalationTip_Goodwill>好感流失：每 {1} 天 -{0}</TSA_WD_Dash_EscalationTip_Goodwill>
+  <TSA_WD_Dash_EscalationTip_GoodwillOff>好感流失：关</TSA_WD_Dash_EscalationTip_GoodwillOff>
+  <TSA_WD_Dash_EscalationTip_Upkeep>银币维护：每名前哨殖民者 {0} 银，每 {1} 天</TSA_WD_Dash_EscalationTip_Upkeep>
+  <TSA_WD_Dash_EscalationTip_UpkeepOff>银币维护：关</TSA_WD_Dash_EscalationTip_UpkeepOff>
+  <TSA_WD_Upkeep_AlertLabel>WD: Upkeep due {0} Days. {1}/{2}</TSA_WD_Upkeep_AlertLabel>
+  <TSA_WD_Upkeep_AlertTip>你的 {0} 名前哨殖民者需要 {1} 维护费。你有 {2}。若在截止日前无法提供真银，将有 {3} 名殖民者离开派系。机械体、囚犯、动物与载具不收维护费。</TSA_WD_Upkeep_AlertTip>
+  <TSA_WD_Upkeep_LeaveLetterLabel>{0} 名殖民者离开了你的派系</TSA_WD_Upkeep_LeaveLetterLabel>
+  <TSA_WD_Upkeep_LeaveLetterText>{0} 因你无法维持其银币维护而决定离开。</TSA_WD_Upkeep_LeaveLetterText>
+  <TSA_WD_Upkeep_PaidMsg>已为 {1} 名前哨殖民者支付 {0} 银维护费。</TSA_WD_Upkeep_PaidMsg>
+  <TSA_WD_Upkeep_PartialPaidMsg>已支付维护费 {0}/{1} 银（差额不足一名殖民者的费用）。</TSA_WD_Upkeep_PartialPaidMsg>
+  <TSA_WD_Notify_OutpostUpkeep>显示前哨银币维护警报（右侧）</TSA_WD_Notify_OutpostUpkeep>
+  <TSA_WD_Notify_OutpostUpkeepTooltip>在银币维护生效期间始终在右侧显示警报（需要/拥有与剩余天数）。银币不足时变为红色。需启用实验性前哨银币维护，且处于中期/后期升级。</TSA_WD_Notify_OutpostUpkeepTooltip>
+  <TSA_WD_Dash_OutpostPawnTip_Humanoid>人形：{0}</TSA_WD_Dash_OutpostPawnTip_Humanoid>
+  <TSA_WD_Dash_OutpostPawnTip_Mechanoid>机械体：{0}</TSA_WD_Dash_OutpostPawnTip_Mechanoid>
+  <TSA_WD_Dash_OutpostPawnTip_Animal>动物：{0}</TSA_WD_Dash_OutpostPawnTip_Animal>
+  <TSA_WD_Dash_OutpostPawnTip_Vehicle>载具：{0}</TSA_WD_Dash_OutpostPawnTip_Vehicle>
+  <TSA_WD_Dash_RaidsLaunchedAtYou_Header>针对你的袭击</TSA_WD_Dash_RaidsLaunchedAtYou_Header>
+  <TSA_WD_Dash_RaidsLaunchedAtYou_Today>今天：{0}（上限 {1}）</TSA_WD_Dash_RaidsLaunchedAtYou_Today>
+  <TSA_WD_Dash_RaidsLaunchedAtYou_Last4Days>过去4天：{0}（上限 {1}）</TSA_WD_Dash_RaidsLaunchedAtYou_Last4Days>
+  <TSA_WD_Dash_RaidsLaunchedAtYou_Last7Days>过去7天：{0}（上限 {1}）</TSA_WD_Dash_RaidsLaunchedAtYou_Last7Days>
+  <TSA_WD_Dash_RaidsLaunchedAtYou_Tip>针对你的殖民地和前哨站发起的 WD 袭击。数值表示各时间窗口内的当前袭击次数。上限为全局上限，可在模组设置中调整。</TSA_WD_Dash_RaidsLaunchedAtYou_Tip>
+  <TSA_WD_HostileForcesFallback>敌对势力</TSA_WD_HostileForcesFallback>
+  <TSA_WD_NoHostileFactions>未检测到敌对阵营。</TSA_WD_NoHostileFactions>
+  <TSA_WD_Notify_HeaderWorldMapIcons>世界地图图标</TSA_WD_Notify_HeaderWorldMapIcons>
+  <TSA_WD_Notify_AlwaysShowOutpostTravelerIcons>无论缩放始终显示前哨/旅行者图标</TSA_WD_Notify_AlwaysShowOutpostTravelerIcons>
+  <TSA_WD_Notify_AlwaysShowOutpostTravelerIconsTip>开启后，WD 前哨与旅行者在任意缩放下保持直立地图图标，并隐藏倾斜的星球网格。关闭后恢复原版缩放（远处直立图标，拉近时为星球网格）。</TSA_WD_Notify_AlwaysShowOutpostTravelerIconsTip>
+  <TSA_WD_Notify_AlwaysShowSettlementIcons>无论缩放始终显示聚居地图标</TSA_WD_Notify_AlwaysShowSettlementIcons>
+  <TSA_WD_Notify_AlwaysShowSettlementIconsTip>开启后，聚居地在任意缩放下保持直立地图图标，并隐藏倾斜的星球网格。关闭后恢复原版缩放（远处直立图标，拉近时为星球网格）。</TSA_WD_Notify_AlwaysShowSettlementIconsTip>
+  <TSA_WD_Notify_HeaderMortarAntiAir>迫击炮与防空</TSA_WD_Notify_HeaderMortarAntiAir>
+  <TSA_WD_Notify_HeaderAtTurrets>AT 炮塔</TSA_WD_Notify_HeaderAtTurrets>
+  <TSA_WD_Notify_PlayerAtTurretKilledTarget>当你的 AT 炮塔击杀目标时通知</TSA_WD_Notify_PlayerAtTurretKilledTarget>
+  <TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>当你的 AT 炮塔以炮弹或近战冲突摧毁敌对旅行者时收到信件。</TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>
+  <TSA_WD_Notify_PlayerAtTurretDamagedTarget>当你的 AT 炮塔击伤目标时通知</TSA_WD_Notify_PlayerAtTurretDamagedTarget>
+  <TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>当你的 AT 炮塔击中仍存活的敌对旅行者时收到信件。可能较吵。</TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>
+  <TSA_WD_Notify_PlayerAtTurretDestroyed>当你的 AT 炮塔被摧毁时通知</TSA_WD_Notify_PlayerAtTurretDestroyed>
+  <TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>当你的 AT 炮塔在战斗中被摧毁时收到信件。聚居地失陷时的清理保持静默。</TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>
+  <TSA_WD_Notify_NpcAtTurretDamagedPlayer>当敌方 AT 炮塔击伤你的部队时通知</TSA_WD_Notify_NpcAtTurretDamagedPlayer>
+  <TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>当敌方 AT 炮塔炮击你的旅行者或商队且其存活时收到信件。</TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>
+  <TSA_WD_Notify_NpcAtTurretKilledPlayer>当敌方 AT 炮塔击杀你的部队时通知</TSA_WD_Notify_NpcAtTurretKilledPlayer>
+  <TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>当敌方 AT 炮塔以炮弹或近战冲突摧毁你的旅行者或商队时收到信件。</TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>
+  <TSA_WD_Notify_IncomingRaidColony>当 WD 袭击针对你的殖民地时通知</TSA_WD_Notify_IncomingRaidColony>
+  <TSA_WD_Notify_IncomingRaidColonyTooltip>当敌对远征军对你的殖民地发动袭击时收到高优先级信件。</TSA_WD_Notify_IncomingRaidColonyTooltip>
+  <TSA_WD_Notify_IncomingRaidOutpost>当 WD 袭击针对你的前哨站时通知</TSA_WD_Notify_IncomingRaidOutpost>
+  <TSA_WD_Notify_IncomingRaidOutpostTooltip>当敌对远征军对你的前哨站发动袭击时收到高优先级信件。</TSA_WD_Notify_IncomingRaidOutpostTooltip>
+  <TSA_WD_Notify_RaidDivertedFromPlayer>当袭击转向偏离你时通知</TSA_WD_Notify_RaidDivertedFromPlayer>
+  <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>当原本冲着你的殖民地或前哨站而来的袭击发现了一个机会目标并转而攻击它时收到信件。</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
+  <TSA_WD_Notify_MortarHit>你的迫击炮开火时通知</TSA_WD_Notify_MortarHit>
+  <TSA_WD_Notify_MortarHitTooltip>当你的火炮前哨摧毁目标时发送无声蓝色信件。未摧毁的命中只记入行动日志。开启时脱靶仍会发信。</TSA_WD_Notify_MortarHitTooltip>
+  <TSA_WD_Notify_AntiAirHit>你的防空开火时通知</TSA_WD_Notify_AntiAirHit>
+  <TSA_WD_Notify_AntiAirHitTooltip>当你的防空高射命中或未中敌对空中目标时发送信件。敌对迫击炮弹使用下方单独设置。</TSA_WD_Notify_AntiAirHitTooltip>
+  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>你的防空击落敌对迫击炮弹时通知</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>
+  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>当你的高射摧毁或未命中敌对迫击炮弹时发送信件（例如「迫击炮弹被摧毁」）。可能较吵。</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>
+  <TSA_WD_Notify_NpcMortarHitPlayer>敌方迫击炮瞄准你时通知</TSA_WD_Notify_NpcMortarHitPlayer>
+  <TSA_WD_Notify_NpcMortarHitPlayerTooltip>当敌方四级聚居地迫击炮向你的某个 WD 前哨、商队或旅行者开火时发送信件。</TSA_WD_Notify_NpcMortarHitPlayerTooltip>
+  <TSA_WD_Notify_T4AntiAirHitPlayer>敌方防空瞄准你的空投舱时通知</TSA_WD_Notify_T4AntiAirHitPlayer>
+  <TSA_WD_Notify_T4AntiAirHitPlayerTooltip>当敌方四级防空命中或未命中你的运输舱/空投舱或其他非炮弹空中目标时发送信件。迫击炮弹使用下方单独设置。若舱内殖民者阵亡，总会额外发送阵亡名单信件。</TSA_WD_Notify_T4AntiAirHitPlayerTooltip>
+  <TSA_WD_Notify_PlayerMortarShellShotDown>敌方防空击落你的迫击炮弹时通知</TSA_WD_Notify_PlayerMortarShellShotDown>
+  <TSA_WD_Notify_PlayerMortarShellShotDownTooltip>当敌方高射摧毁或未命中你某个前哨的迫击炮弹时发送中立信件。可能较吵。</TSA_WD_Notify_PlayerMortarShellShotDownTooltip>
+  <TSA_WD_Notify_NpcMortarHitNpc>敌对双方迫击炮交火时通知</TSA_WD_Notify_NpcMortarHitNpc>
+  <TSA_WD_Notify_NpcMortarHitNpcTooltip>当敌方迫击炮向另一个 NPC（聚居地、商队或旅行者）开火时，或敌方防空摧毁另一 NPC 的空中目标（含迫击炮弹）时发送信件。可能较吵。</TSA_WD_Notify_NpcMortarHitNpcTooltip>
+  <TSA_WD_Notify_WarehouseGoodsArrived>货物抵达仓库前哨站时通知</TSA_WD_Notify_WarehouseGoodsArrived>
+  <TSA_WD_Notify_WarehouseGoodsArrivedTooltip>当货物存入你的仓库前哨站时发送通知。</TSA_WD_Notify_WarehouseGoodsArrivedTooltip>
+  <TSA_WD_Notify_OutpostDeliveryToColonyArrived>前哨配送抵达殖民地时通知</TSA_WD_Notify_OutpostDeliveryToColonyArrived>
+  <TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>当前哨配送抵达玩家殖民地地图并投放货物时发送信件。</TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>
+  <TSA_WD_Notify_PrisonerRecruitedUnderway>前哨囚犯被招募并出发时通知</TSA_WD_Notify_PrisonerRecruitedUnderway>
+  <TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>当前哨囚犯完成招募并开始前往预定目的地时显示消息。</TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>
+  <TSA_WD_Notify_PlayerCaravanClash>玩家商队发生冲突时通知</TSA_WD_Notify_PlayerCaravanClash>
+  <TSA_WD_Notify_PlayerCaravanClashTooltip>当你的商队进入、赢得或输掉 WD 商队冲突时发送信件。</TSA_WD_Notify_PlayerCaravanClashTooltip>
+  <TSA_WD_Show_CaravanClashLootDialog>商队冲突胜利后显示战利品对话框</TSA_WD_Show_CaravanClashLootDialog>
+  <TSA_WD_Show_CaravanClashLootDialogTooltip>商队赢得冲突后暂停，以便在遭遇地图关闭前选择俘虏与物品。重量不可超过商队运载能力。</TSA_WD_Show_CaravanClashLootDialogTooltip>
+  <TSA_WD_Notify_RapidResponseCaravanClash>快速反应商队冲突通知</TSA_WD_Notify_RapidResponseCaravanClash>
+  <TSA_WD_Notify_RapidResponseCaravanClashTooltip>当快速反应拦截击败敌方商队或被击败时发送信件。</TSA_WD_Notify_RapidResponseCaravanClashTooltip>
+  <TSA_WD_Notify_TravelerPollutionDamage>旅行者受到污染伤害时通知</TSA_WD_Notify_TravelerPollutionDamage>
+  <TSA_WD_Notify_TravelerPollutionDamageTooltip>每个你的 WD 旅行者首次因离开受污染格子而损失力量时收到一封黄色信件。同一旅行者之后的污染伤害不再发信。</TSA_WD_Notify_TravelerPollutionDamageTooltip>
+  <TSA_WD_Notify_OutpostPollutionDamage>前哨站受到污染伤害时通知</TSA_WD_Notify_OutpostPollutionDamage>
+  <TSA_WD_Notify_OutpostPollutionDamageTooltip>当你的 WD 前哨站因附近平均污染损失力量时显示消息（有伤害时每天一次）；若污染摧毁前哨则发送信件。开发日志总会记录这些事件。</TSA_WD_Notify_OutpostPollutionDamageTooltip>
+  <TSA_WD_Notify_HeaderNearby>附近世界事件</TSA_WD_Notify_HeaderNearby>
+  <TSA_WD_Notify_HeaderOutpostsRaids>你的前哨站与袭击</TSA_WD_Notify_HeaderOutpostsRaids>
+  <TSA_WD_Notify_HeaderAlerts>右侧警报</TSA_WD_Notify_HeaderAlerts>
+  <TSA_WD_Notify_NotificationRadius>通知半径（格）</TSA_WD_Notify_NotificationRadius>
+  <TSA_WD_Notify_NotificationRadiusTooltip>世界事件距离你的殖民地（若无殖民地则以最近前哨站为准）多远时才会发送附近世界事件信件。不影响你的前哨站、来袭袭击或外交信件。</TSA_WD_Notify_NotificationRadiusTooltip>
+  <TSA_WD_Notify_NewSettlement>附近有定居点建立时通知</TSA_WD_Notify_NewSettlement>
+  <TSA_WD_Notify_NewSettlementTooltip>当派系在通知半径内通过扩张建立新定居点时发送信件。不包括 NPC 突袭胜利后的征服建城。</TSA_WD_Notify_NewSettlementTooltip>
+  <TSA_WD_Notify_NpcConquestSettlement>定居点被攻占时通知</TSA_WD_Notify_NpcConquestSettlement>
+  <TSA_WD_Notify_NpcConquestSettlementTooltip>当 NPC 突袭胜利且进攻方在通知半径内占领该地块（建立替代定居点）时发送信件。</TSA_WD_Notify_NpcConquestSettlementTooltip>
+  <TSA_WD_Notify_OutpostDestroyed>当玩家前哨站被摧毁时通知</TSA_WD_Notify_OutpostDestroyed>
+  <TSA_WD_Notify_OutpostDestroyedTooltip>当你的前哨站在模拟世界袭击或手动防御地图战败中丢失时发送紧急信件。任意距离均会触发。不包括迫击炮清场或自愿撤离。</TSA_WD_Notify_OutpostDestroyedTooltip>
+  <TSA_WD_Notify_Reset>将此页恢复为默认</TSA_WD_Notify_Reset>
+  <TSA_WD_Notify_SettlementRaided>附近有定居点被摧毁时通知</TSA_WD_Notify_SettlementRaided>
+  <TSA_WD_Notify_SettlementRaidedTooltip>当重大或轻微世界事件在通知半径内彻底摧毁一个定居点时发送信件。不适用于 NPC 袭击。</TSA_WD_Notify_SettlementRaidedTooltip>
+  <TSA_WD_Notify_SettlementRazed>附近有定居点被夷平时通知</TSA_WD_Notify_SettlementRazed>
+  <TSA_WD_Notify_SettlementRazedTooltip>当 NPC 袭击获胜并在此过程中摧毁定居点（格子变空）且在通知半径内时发送信件。</TSA_WD_Notify_SettlementRazedTooltip>
+  <TSA_WD_Notify_ThreatLevel>显示世界威胁警报（右侧）</TSA_WD_Notify_ThreatLevel>
+  <TSA_WD_Notify_ThreatLevelTooltip>在右侧显示静默警报，同时给出附近与远处落地袭击点数（叙事者钳制后）。点击会跳转到附近范围内最强的敌对定居点（若有）。</TSA_WD_Notify_ThreatLevelTooltip>
+  <TSA_WD_Notify_CriticalFood>显示前哨危急食物警报（右侧）</TSA_WD_Notify_CriticalFood>
+  <TSA_WD_Notify_CriticalFoodTooltip>当你至少有一个 WD 前哨的虚拟食物处于危急状态时，在右侧警报栏显示静默持续警报：库存为负，或在食物净值为负时最多约 3 个游戏日就会耗尽。食物收支持平或为正的前哨不会触发该警报。点击跳转到最严重的前哨。需要启用食物物流。</TSA_WD_Notify_CriticalFoodTooltip>
+  <TSA_WD_Notify_DropPodDeliveryInAaRange>WD：运输舱送货处于防空范围内</TSA_WD_Notify_DropPodDeliveryInAaRange>
+  <TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>当你的仓库设为运输舱送货，且位于敌对四级定居点（防空已开启）的防空射程内时，在右侧显示警报。只检查仓库所在格子（不检查整条航线）。可改回陆运，或清除防空威胁。</TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>
+  <TSA_WD_Alert_DropPodDeliveryInAaRange>WD：运输舱送货处于防空范围内</TSA_WD_Alert_DropPodDeliveryInAaRange>
+  <TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>这些仓库使用运输舱送货，且处于敌方四级防空射程内：</TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>
+  <TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>- {0}</TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>
+  <TSA_WD_Notify_ConstructionInsufficientStrength>显示建造实力不足警报（右侧）</TSA_WD_Notify_ConstructionInsufficientStrength>
+  <TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>当前哨站已准备好路障/陷阱施工段，但实力不足以派出施工队时，在右侧警报栏显示静默持续警报。点击跳转到相关前哨。</TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>
+  <TSA_WD_Alert_ConstructionInsufficientStrength>WD：建造等待实力</TSA_WD_Alert_ConstructionInsufficientStrength>
+  <TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>以下前哨已准备好派出施工队但实力不足：</TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>
+  <TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>- {0}：{1}</TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>
+  <TSA_WD_Notify_OutpostNoProduction>显示未选生产前哨警报（右侧）</TSA_WD_Notify_OutpostNoProduction>
+  <TSA_WD_Notify_OutpostNoProductionTooltip>当你至少有一个 WD 前哨需要选择生产内容但尚未选择时，在右侧警报栏显示静默持续警报。悬停列出所有相关前哨。点击跳转到第一个。</TSA_WD_Notify_OutpostNoProductionTooltip>
+  <TSA_WD_Notify_OutpostUnusedExperts>显示未用专家位前哨警报（右侧）</TSA_WD_Notify_OutpostUnusedExperts>
+  <TSA_WD_Notify_OutpostUnusedExpertsTooltip>当你至少有一个 WD 前哨有未使用的专家位时，在右侧警报栏显示静默持续警报。悬停列出所有相关前哨及已分配/上限。点击跳转到第一个。</TSA_WD_Notify_OutpostUnusedExpertsTooltip>
+  <TSA_WD_Alert_OutpostNoProduction>WD：未选生产的前哨</TSA_WD_Alert_OutpostNoProduction>
+  <TSA_WD_Alert_OutpostNoProductionDescHeader>以下前哨尚未选择生产内容：</TSA_WD_Alert_OutpostNoProductionDescHeader>
+  <TSA_WD_Alert_OutpostNoProductionDescLine>- {0}</TSA_WD_Alert_OutpostNoProductionDescLine>
+  <TSA_WD_Alert_OutpostUnusedExperts>WD：未用专家位的前哨</TSA_WD_Alert_OutpostUnusedExperts>
+  <TSA_WD_Alert_OutpostUnusedExpertsDescHeader>以下前哨有未使用的专家位：</TSA_WD_Alert_OutpostUnusedExpertsDescHeader>
+  <TSA_WD_Alert_OutpostUnusedExpertsDescLine>- {0}：专家 {1}/{2}</TSA_WD_Alert_OutpostUnusedExpertsDescLine>
+  <TSA_WD_Notify_MidGameActive>显示中期游戏警报（右侧）</TSA_WD_Notify_MidGameActive>
+  <TSA_WD_Notify_MidGameActiveTooltip>中期游戏激活时（非后期游戏），在右侧警报栏显示静默持续警报。不发送信件。</TSA_WD_Notify_MidGameActiveTooltip>
+  <TSA_WD_Notify_LateGameActive>显示后期游戏警报（右侧）</TSA_WD_Notify_LateGameActive>
+  <TSA_WD_Notify_LateGameActiveTooltip>后期游戏激活时，在右侧警报栏显示静默持续警报。不发送信件。</TSA_WD_Notify_LateGameActiveTooltip>
+  <TSA_WD_TargetingYou>来袭</TSA_WD_TargetingYou>
+  <TSA_WD_ThreatBreakdownHeader>可攻击进攻强度：</TSA_WD_ThreatBreakdownHeader>
+  <TSA_WD_ThreatLabel_Cat0>全球威胁:低</TSA_WD_ThreatLabel_Cat0>
+  <TSA_WD_ThreatLabel_Cat1>全球威胁:中</TSA_WD_ThreatLabel_Cat1>
+  <TSA_WD_ThreatLabel_Cat2>全球威胁:高</TSA_WD_ThreatLabel_Cat2>
+  <TSA_WD_ThreatLabel_Cat3>全球威胁:危急</TSA_WD_ThreatLabel_Cat3>
+  <TSA_WD_ThreatDesc_Cat0>{0} 目前直接威胁较低（可攻击进攻强度 {1}）。</TSA_WD_ThreatDesc_Cat0>
+  <TSA_WD_ThreatDesc_Cat1>{0} 正在积蓄力量，直接威胁为中等（可攻击进攻强度 {1}）。</TSA_WD_ThreatDesc_Cat1>
+  <TSA_WD_ThreatDesc_Cat2>{0} 已成为严重隐患，直接威胁较高（可攻击进攻强度 {1}）。</TSA_WD_ThreatDesc_Cat2>
+  <TSA_WD_ThreatDesc_Cat3>{0} 主导周边局势，直接威胁极高（可攻击进攻强度 {1}）。</TSA_WD_ThreatDesc_Cat3>
+  <TSA_WD_NotificationStrength_BreakdownHeader>{0}：能够攻击你殖民地的总进攻强度 {1}\n</TSA_WD_NotificationStrength_BreakdownHeader>
+  <TSA_WD_NotificationStrength_Line>- {0}：进攻 {1}</TSA_WD_NotificationStrength_Line>
+  <TSA_WD_Threat_HeaderCalc>袭击点数绝对上下限</TSA_WD_Threat_HeaderCalc>
+  <TSA_WD_Threat_HeaderWDClamp>袭击点数钳制</TSA_WD_Threat_HeaderWDClamp>
+  <TS_WD_CaravanRaidAlwaysUseStrength>始终用强度作为袭击点数</TS_WD_CaravanRaidAlwaysUseStrength>
+  <TS_WD_CaravanRaidAlwaysUseStrengthTooltip>在殖民地遭袭击或你的商队与 NPC 商队发生冲突时，严格按商队/袭击方的强度作为袭击点数。</TS_WD_CaravanRaidAlwaysUseStrengthTooltip>
+  <TS_WD_OutpostDefenseAlwaysUseStrength>手动前哨防御始终使用实力</TS_WD_OutpostDefenseAlwaysUseStrength>
+  <TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>开启时，手动前哨防御地图战使用旅行者实力作为袭击点数，不受叙事者区间钳制。关闭时，与其他 WD 袭击相同的最小/最大限制。殖民地袭击与商队冲突使用上方设置。</TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>
+  <TSA_WD_Alert_MidGameActive>WD：中期游戏已激活</TSA_WD_Alert_MidGameActive>
+  <TSA_WD_Alert_MidGameActiveDesc>你的前哨实力已触发中期游戏。敌对定居点成长更快、攻击范围提高，并更倾向于袭击你。定居点会朝你的领地扩张，好感会随时间下降，你的前哨可能遭遇较轻的消耗事件。除非开启中期游戏相关开关，否则 T4 迫击炮与防空尚不会攻击你。</TSA_WD_Alert_MidGameActiveDesc>
+  <TSA_WD_Alert_LateGameActive>WD：后期游戏已激活</TSA_WD_Alert_LateGameActive>
+  <TSA_WD_Alert_LateGameActiveDesc>你的前哨实力已触发后期游戏。敌对定居点成长更快、攻击范围更高，袭击更偏向你。定居点向你扩张得更远，好感下降更快；若已启用，敌方 T4 迫击炮与防空可攻击你的 WD 商队和前哨；前哨也可能遭遇更强的消耗事件。</TSA_WD_Alert_LateGameActiveDesc>
+  <TSA_WD_Alert_CriticalFood>WD：前哨食物水平危急</TSA_WD_Alert_CriticalFood>
+  <TSA_WD_Alert_CriticalFoodDescHeader>以下前哨食物水平危急：</TSA_WD_Alert_CriticalFoodDescHeader>
+  <TSA_WD_Alert_CriticalFoodDescLine>- {0}，当前食物 {1}，剩余约 {2} 天</TSA_WD_Alert_CriticalFoodDescLine>
+  <TSA_WD_Difficulty_HeaderScaling>后期游戏</TSA_WD_Difficulty_HeaderScaling>
+  <TSA_WD_Difficulty_EnableLateGame>启用中期游戏与后期游戏</TSA_WD_Difficulty_EnableLateGame>
+  <TSA_WD_Difficulty_EnableLateGameTooltip>当你变强时，敌对派系分两步反扑：先中期游戏后后期游戏。包括更快的敌对成长、更高的 NPC 攻击范围、偏向袭击、向你扩张、好感流失、前哨事件，以及在开启相应选项时对你的商队/前哨进行 T4 开火。由前哨总实力与全球占比驱动。</TSA_WD_Difficulty_EnableLateGameTooltip>
+  <TSA_WD_Difficulty_ActivationHint>中期游戏与后期游戏各自在满足其占比或实力任一阈值时激活。后期游戏会取代中期游戏。</TSA_WD_Difficulty_ActivationHint>
+  <TSA_WD_Difficulty_ShareThreshold>全球实力占比激活阈值</TSA_WD_Difficulty_ShareThreshold>
+  <TSA_WD_Difficulty_ShareThresholdTooltip>当你的前哨总实力达到全球总实力的此比例时激活后期游戏（与世界统计窗口数值一致）。</TSA_WD_Difficulty_ShareThresholdTooltip>
+  <TSA_WD_Difficulty_OutpostStrengthThreshold>前哨实力激活阈值</TSA_WD_Difficulty_OutpostStrengthThreshold>
+  <TSA_WD_Difficulty_OutpostStrengthThresholdTooltip>当你的前哨总实力达到此绝对数值时激活后期游戏，与全球占比无关。</TSA_WD_Difficulty_OutpostStrengthThresholdTooltip>
+  <TSA_WD_Difficulty_RaidBias>玩家袭击偏向</TSA_WD_Difficulty_RaidBias>
+  <TSA_WD_Difficulty_RaidBiasTooltip>后期游戏激活时,已能打到玩家目标的敌对袭击,在同一距离带内会按此比例更偏向你的前哨/殖民地。</TSA_WD_Difficulty_RaidBiasTooltip>
+  <TSA_WD_Difficulty_GrowthMult>敌方成长倍率</TSA_WD_Difficulty_GrowthMult>
+  <TSA_WD_Difficulty_GrowthMultTooltip>后期游戏激活时,敌对定居点成长速度为此倍率。</TSA_WD_Difficulty_GrowthMultTooltip>
+  <TSA_WD_LateGame_AttackRangeBonus>攻击范围加成</TSA_WD_LateGame_AttackRangeBonus>
+  <TSA_WD_LateGame_AttackRangeBonusTooltip>后期游戏激活时加到所有 NPC 定居点攻击范围(100% 使早期基准翻倍)。会替换中期加成。新建定居点也立即生效。</TSA_WD_LateGame_AttackRangeBonusTooltip>
+  <TSA_WD_LateGame_ScaleAllyRadius>后期缩放盟友半径</TSA_WD_LateGame_ScaleAllyRadius>
+  <TSA_WD_LateGame_ScaleAllyRadiusTooltip>开启后，后期将基础盟友拉动半径乘以(1 + 后期盟友半径加成)。替换中期缩放。若后期关闭此选项，盟友半径保持基础值（不会回退到中期）。</TSA_WD_LateGame_ScaleAllyRadiusTooltip>
+  <TSA_WD_LateGame_AllyRadiusBonus>盟友半径加成</TSA_WD_LateGame_AllyRadiusBonus>
+  <TSA_WD_LateGame_AllyRadiusBonusTooltip>在后期激活且缩放开启时加到基础盟友拉动半径(100% 使基础 6 变为 12)。替换中期盟友加成。</TSA_WD_LateGame_AllyRadiusBonusTooltip>
+  <TSA_WD_Difficulty_GarrisonBoost>驻军加成</TSA_WD_Difficulty_GarrisonBoost>
+  <TSA_WD_Difficulty_GarrisonBoostTooltip>后期游戏激活时，定居点驻军乘以 (1 + 此值)。与各级驻军滑块乘算叠加。</TSA_WD_Difficulty_GarrisonBoostTooltip>
+  <TSA_WD_Difficulty_ExpandTiles>扩张蔓延：距母据点最大格数</TSA_WD_Difficulty_ExpandTiles>
+  <TSA_WD_Difficulty_ExpandTilesTooltip>后期游戏激活时，敌对定居点向你最近的前哨/殖民地扩张，但距母定居点不超过此格数。</TSA_WD_Difficulty_ExpandTilesTooltip>
+  <TSA_WD_Difficulty_EnableT4Mortar>T4 定居点迫击炮</TSA_WD_Difficulty_EnableT4Mortar>
+  <TSA_WD_Difficulty_EnableT4MortarTooltip>四级敌方定居点会向范围内的敌对 WD 旅行者开炮。若范围内没有敌对商队，则改为炮击最近的敌对定居点。后期游戏激活时，也可命中你的 WD 商队和前哨。</TSA_WD_Difficulty_EnableT4MortarTooltip>
+  <TSA_WD_Difficulty_CoalitionRaidBias>反领袖联盟袭击优先</TSA_WD_Difficulty_CoalitionRaidBias>
+  <TSA_WD_Difficulty_CoalitionRaidBiasTooltip>反领袖联盟生效时，成员以此概率优先袭击共同目标。</TSA_WD_Difficulty_CoalitionRaidBiasTooltip>
+  <TSA_WD_Difficulty_EnableOutpostIncidents>前哨事件（后期游戏）</TSA_WD_Difficulty_EnableOutpostIncidents>
+  <TSA_WD_Difficulty_EnableOutpostIncidentsTooltip>后期游戏激活时，随机前哨可能每日损失实力（模拟消耗），进攻与防御实力等量扣减。</TSA_WD_Difficulty_EnableOutpostIncidentsTooltip>
+  <TSA_WD_Difficulty_OutpostIncSev>前哨事件严重度</TSA_WD_Difficulty_OutpostIncSev>
+  <TSA_WD_Difficulty_OutpostIncSevTooltip>从前哨的进攻与防御实力中各扣除的数值。</TSA_WD_Difficulty_OutpostIncSevTooltip>
+  <TSA_WD_Difficulty_OutpostIncChance>每日前哨事件概率</TSA_WD_Difficulty_OutpostIncChance>
+  <TSA_WD_Difficulty_OutpostIncChanceTooltip>后期游戏激活时每天尝试一次前哨事件的概率。</TSA_WD_Difficulty_OutpostIncChanceTooltip>
+  <TSA_WD_Difficulty_NotifyOutpostInc>前哨事件时发送信件</TSA_WD_Difficulty_NotifyOutpostInc>
+  <TSA_WD_Difficulty_NotifyOutpostIncTooltip>前哨事件降低实力时发送通知信。</TSA_WD_Difficulty_NotifyOutpostIncTooltip>
+  <TSA_WD_Difficulty_EnableGoodwillDrain>周期性好感流失</TSA_WD_Difficulty_EnableGoodwillDrain>
+  <TSA_WD_Difficulty_EnableGoodwillDrainTooltip>中期游戏或后期游戏激活时，周期性降低与非永久敌对派系的好感。永久敌人跳过。每次脉冲一条汇总消息；仅在盟友/中立/敌对关系翻转时额外提示。</TSA_WD_Difficulty_EnableGoodwillDrainTooltip>
+  <TSA_WD_Difficulty_GoodwillDrainInterval>好感流失间隔（天）</TSA_WD_Difficulty_GoodwillDrainInterval>
+  <TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>中期游戏或后期游戏激活时两次好感流失脉冲之间的天数。</TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>
+  <TSA_WD_MidGame_Header>中期游戏</TSA_WD_MidGame_Header>
+  <TSA_WD_MidGame_ShareThreshold>全球实力占比激活阈值</TSA_WD_MidGame_ShareThreshold>
+  <TSA_WD_MidGame_ShareThresholdTooltip>当你的前哨总实力达到全球总实力的此比例时激活中期游戏。</TSA_WD_MidGame_ShareThresholdTooltip>
+  <TSA_WD_MidGame_OutpostStrengthThreshold>前哨实力激活阈值</TSA_WD_MidGame_OutpostStrengthThreshold>
+  <TSA_WD_MidGame_OutpostStrengthThresholdTooltip>当你的前哨总实力达到此绝对数值时激活中期游戏，与全球占比无关。</TSA_WD_MidGame_OutpostStrengthThresholdTooltip>
+  <TSA_WD_MidGame_RaidBias>玩家袭击偏向</TSA_WD_MidGame_RaidBias>
+  <TSA_WD_MidGame_RaidBiasTooltip>中期游戏激活时,已能打到玩家目标的敌对袭击,在同一距离带内会按此比例更偏向你的前哨/殖民地。</TSA_WD_MidGame_RaidBiasTooltip>
+  <TSA_WD_MidGame_GrowthMult>敌方成长倍率</TSA_WD_MidGame_GrowthMult>
+  <TSA_WD_MidGame_GrowthMultTooltip>中期游戏激活时,敌对定居点成长速度为此倍率。</TSA_WD_MidGame_GrowthMultTooltip>
+  <TSA_WD_MidGame_AttackRangeBonus>攻击范围加成</TSA_WD_MidGame_AttackRangeBonus>
+  <TSA_WD_MidGame_AttackRangeBonusTooltip>中期游戏激活时加到所有 NPC 定居点攻击范围(50% 使早期基准提高一半)。后期会替换此加成。新建定居点也立即生效。</TSA_WD_MidGame_AttackRangeBonusTooltip>
+  <TSA_WD_MidGame_ScaleAllyRadius>中期缩放盟友半径</TSA_WD_MidGame_ScaleAllyRadius>
+  <TSA_WD_MidGame_ScaleAllyRadiusTooltip>开启后，中期将基础盟友拉动半径乘以(1 + 中期盟友半径加成)。后期使用自己的开关（不会回退到中期）。</TSA_WD_MidGame_ScaleAllyRadiusTooltip>
+  <TSA_WD_MidGame_AllyRadiusBonus>盟友半径加成</TSA_WD_MidGame_AllyRadiusBonus>
+  <TSA_WD_MidGame_AllyRadiusBonusTooltip>在中期激活且缩放开启时加到基础盟友拉动半径(40% 使基础 6 变为 9)。后期缩放开启时会替换此加成。</TSA_WD_MidGame_AllyRadiusBonusTooltip>
+  <TSA_WD_MidGame_GarrisonBoost>驻军加成</TSA_WD_MidGame_GarrisonBoost>
+  <TSA_WD_MidGame_GarrisonBoostTooltip>中期游戏激活时，定居点驻军乘以 (1 + 此值)。与各级驻军滑块乘算叠加。</TSA_WD_MidGame_GarrisonBoostTooltip>
+  <TSA_WD_MidGame_ExpandTiles>扩张蔓延：距母据点最大格数</TSA_WD_MidGame_ExpandTiles>
+  <TSA_WD_MidGame_ExpandTilesTooltip>中期游戏激活时，敌对定居点向你最近的前哨/殖民地扩张，但距母定居点不超过此格数。</TSA_WD_MidGame_ExpandTilesTooltip>
+  <TSA_WD_MidGame_EnableOutpostIncidents>前哨事件（中期游戏）</TSA_WD_MidGame_EnableOutpostIncidents>
+  <TSA_WD_MidGame_EnableOutpostIncidentsTooltip>中期游戏激活时，随机前哨可能每日损失实力（比后期游戏更轻）。</TSA_WD_MidGame_EnableOutpostIncidentsTooltip>
+  <TSA_WD_MidGame_OutpostIncSev>前哨事件严重度</TSA_WD_MidGame_OutpostIncSev>
+  <TSA_WD_MidGame_OutpostIncSevTooltip>从前哨的进攻与防御实力中各扣除的数值。</TSA_WD_MidGame_OutpostIncSevTooltip>
+  <TSA_WD_MidGame_OutpostIncChance>每日前哨事件概率</TSA_WD_MidGame_OutpostIncChance>
+  <TSA_WD_MidGame_OutpostIncChanceTooltip>中期游戏激活时每天尝试一次前哨事件的概率。</TSA_WD_MidGame_OutpostIncChanceTooltip>
+  <TSA_WD_MidGame_GoodwillDrainAmount>每次脉冲好感流失</TSA_WD_MidGame_GoodwillDrainAmount>
+  <TSA_WD_MidGame_GoodwillDrainAmountTooltip>中期游戏每次脉冲每个派系流失的好感。永久敌人跳过。</TSA_WD_MidGame_GoodwillDrainAmountTooltip>
+  <TSA_WD_MidGame_T4Mortar_TargetPlayerTooltip>开启时，敌方 T4 迫击炮可在中期游戏激活时向你的 WD 商队和前哨开火。开启此项也会打开后期游戏迫击炮开关。</TSA_WD_MidGame_T4Mortar_TargetPlayerTooltip>
+  <TSA_WD_MidGame_T4AA_TargetPlayerTooltip>开启时，T4 防空可在中期游戏激活时攻击你的空投与炮弹。开启此项也会打开后期游戏防空开关。</TSA_WD_MidGame_T4AA_TargetPlayerTooltip>
+  <TSA_WD_LateGame_HeaderScaling>后期游戏</TSA_WD_LateGame_HeaderScaling>
+  <TSA_WD_LateGame_GoodwillDrainAmount>每次脉冲好感流失</TSA_WD_LateGame_GoodwillDrainAmount>
+  <TSA_WD_LateGame_GoodwillDrainAmountTooltip>后期游戏每次脉冲每个派系流失的好感。永久敌人跳过。</TSA_WD_LateGame_GoodwillDrainAmountTooltip>
+  <TSA_WD_Escalation_StageNone>无</TSA_WD_Escalation_StageNone>
+  <TSA_WD_Escalation_StageEarly>早期游戏</TSA_WD_Escalation_StageEarly>
+  <TSA_WD_Escalation_StageMid>中期游戏</TSA_WD_Escalation_StageMid>
+  <TSA_WD_Escalation_StageLate>后期游戏</TSA_WD_Escalation_StageLate>
+  <TSA_WD_Relation_Ally>盟友</TSA_WD_Relation_Ally>
+  <TSA_WD_Relation_Neutral>中立</TSA_WD_Relation_Neutral>
+  <TSA_WD_Relation_Hostile>敌对</TSA_WD_Relation_Hostile>
+  <TSA_WD_GoodwillMsg_EscalationDrainBatch>{0}：与 {2} 个派系好感 −{1}。</TSA_WD_GoodwillMsg_EscalationDrainBatch>
+  <TSA_WD_GoodwillMsg_EscalationRelationFlip>{0} 的关系从 {1} 变为 {2}。</TSA_WD_GoodwillMsg_EscalationRelationFlip>
+  <TSA_WD_Stats_EscalationStage>阶段：{0}</TSA_WD_Stats_EscalationStage>
+  <TSA_WD_Stats_EscalationTip>当前阶段：{0}。\n玩家前哨实力：{1}\n全球实力占比：{2}\n中期游戏与后期游戏由中期游戏与后期游戏设置中的阈值触发。后期游戏会取代中期游戏。</TSA_WD_Stats_EscalationTip>
+  <TS_WD_CaravanRaidMinFrac>叙事者威胁最小比例</TS_WD_CaravanRaidMinFrac>
+  <TS_WD_CaravanRaidMinFracTooltip>袭击点数下限：叙事者威胁基线 × 该值。有效旅行者/商队强度（扣除行进效率后）不会低于此。拦截时基线通常取玩家最强的殖民地地图，而非空的遭遇地图。</TS_WD_CaravanRaidMinFracTooltip>
+  <TS_WD_CaravanRaidMaxFrac>叙事者威胁最大比例</TS_WD_CaravanRaidMaxFrac>
+  <TS_WD_CaravanRaidMaxFracTooltip>袭击点数上限：叙事者威胁基线 × 该值（滑块最高 50 倍）。有效强度生成袭击时不会超过此。若强度落在上下限之间则不做夹紧。</TS_WD_CaravanRaidMaxFracTooltip>
+  <TS_WD_RaidClamp_ScaleWithEscalation>随中期/后期游戏难度缩放</TS_WD_RaidClamp_ScaleWithEscalation>
+  <TS_WD_RaidClamp_ScaleWithEscalationTooltip>开启且已启用中期/后期游戏时，袭击点数上下限按当前升级阶段使用早期/中期/后期三套区间。若关闭中期/后期游戏，则改用下方单一最小/最大比例。</TS_WD_RaidClamp_ScaleWithEscalationTooltip>
+  <TS_WD_RaidClamp_EscalationOffHint>中期/后期游戏缩放已关闭。下方单一最小/最大比例生效。请在该设置页启用中期与后期游戏以使用早期/中期/后期区间。</TS_WD_RaidClamp_EscalationOffHint>
+  <TS_WD_RaidClamp_EarlyMin>早期游戏最小值</TS_WD_RaidClamp_EarlyMin>
+  <TS_WD_RaidClamp_EarlyMinTooltip>处于早期阶段（未达中期阈值）时，相对叙事者威胁的下限。</TS_WD_RaidClamp_EarlyMinTooltip>
+  <TS_WD_RaidClamp_EarlyMax>早期游戏最大值</TS_WD_RaidClamp_EarlyMax>
+  <TS_WD_RaidClamp_EarlyMaxTooltip>早期阶段相对叙事者威胁的上限。默认 130%。</TS_WD_RaidClamp_EarlyMaxTooltip>
+  <TS_WD_RaidClamp_MidMin>中期游戏最小值</TS_WD_RaidClamp_MidMin>
+  <TS_WD_RaidClamp_MidMinTooltip>中期游戏生效时相对叙事者威胁的下限。</TS_WD_RaidClamp_MidMinTooltip>
+  <TS_WD_RaidClamp_MidMax>中期游戏最大值</TS_WD_RaidClamp_MidMax>
+  <TS_WD_RaidClamp_MidMaxTooltip>中期游戏生效时相对叙事者威胁的上限。默认 180%。</TS_WD_RaidClamp_MidMaxTooltip>
+  <TS_WD_RaidClamp_LateMin>后期游戏最小值</TS_WD_RaidClamp_LateMin>
+  <TS_WD_RaidClamp_LateMinTooltip>后期游戏生效时相对叙事者威胁的下限。</TS_WD_RaidClamp_LateMinTooltip>
+  <TS_WD_RaidClamp_LateMax>后期游戏最大值</TS_WD_RaidClamp_LateMax>
+  <TS_WD_RaidClamp_LateMaxTooltip>后期游戏生效时相对叙事者威胁的上限。默认 230%。</TS_WD_RaidClamp_LateMaxTooltip>
+  <TS_WD_Threat_BlockStorytellerRaids>屏蔽叙事者袭击(仅世界霸权袭击)</TS_WD_Threat_BlockStorytellerRaids>
+  <TS_WD_Threat_BlockStorytellerRaidsTooltip>启用后，会屏蔽由世界霸权管理的派系所触发的原版叙事者随机敌方袭击。世界霸权（世界地图）、任务、通讯、开发者工具及其他脚本/强制或任务关联的袭击不会被屏蔽。</TS_WD_Threat_BlockStorytellerRaidsTooltip>
+  <TS_WD_Threat_AllowNonWdStorytellerRaids>允许非 WD 派系的叙事者袭击</TS_WD_Threat_AllowNonWdStorytellerRaids>
+  <TS_WD_Threat_AllowNonWdStorytellerRaidsTooltip>启用后，原版叙事者袭击仍可来自不受世界霸权控制的派系，例如默认没有实体 WD 定居点的派系。关闭此项可恢复旧行为，屏蔽所有随机叙事者敌方袭击。</TS_WD_Threat_AllowNonWdStorytellerRaidsTooltip>
+  <TS_WD_Threat_MaxPoints>袭击点数上限</TS_WD_Threat_MaxPoints>
+  <TS_WD_Threat_MaxPointsTooltip>部分 WD 增援类流程的绝对上限；原版叙事者袭击点数不在此页缩放。</TS_WD_Threat_MaxPointsTooltip>
+  <TS_WD_Threat_MinPoints>袭击点数下限</TS_WD_Threat_MinPoints>
+  <TS_WD_Threat_MinPointsTooltip>同类流程的绝对下限；过低可能导致无法生成敌人。</TS_WD_Threat_MinPointsTooltip>
+  <TS_WD_Threat_NoGoodwillHostiles>征服定居点时敌对阵营不获得好感</TS_WD_Threat_NoGoodwillHostiles>
+  <TS_WD_Threat_NoGoodwillHostilesTooltip>启用后,征服定居点不会向与你敌对的阵营授予好感。仅非敌对阵营可从你的征服中获得好感。</TS_WD_Threat_NoGoodwillHostilesTooltip>
+  <TS_WD_Threat_Reset>将此页恢复为默认</TS_WD_Threat_Reset>
+  <TSA_WD_AllPlayerPawns>你的殖民者</TSA_WD_AllPlayerPawns>
+  <TSA_WD_Prisoners>囚犯</TSA_WD_Prisoners>
+  <TSA_WD_Prisoners_Title>囚犯</TSA_WD_Prisoners_Title>
+  <TSA_WD_Prisoners_ColInteraction>互动</TSA_WD_Prisoners_ColInteraction>
+  <TSA_WD_Prisoners_ColResistance>抵抗</TSA_WD_Prisoners_ColResistance>
+  <TSA_WD_Prisoners_ColDestination>目的地</TSA_WD_Prisoners_ColDestination>
+  <TSA_WD_Prisoners_NoDestination>招募后该角色留在殖民地。\n点击更改</TSA_WD_Prisoners_NoDestination>
+  <TSA_WD_Prisoners_DestinationUnset>无目的地</TSA_WD_Prisoners_DestinationUnset>
+  <TSA_WD_Prisoners_DestinationDefaultTip>默认留在当前所在地。设定目的地可在招募后送往别处。</TSA_WD_Prisoners_DestinationDefaultTip>
+  <TSA_WD_Prisoners_SetDestination>设定目的地</TSA_WD_Prisoners_SetDestination>
+  <TSA_WD_Prisoners_SetDestinationTip>为所选囚犯指定招募后前往的殖民地或前哨站。</TSA_WD_Prisoners_SetDestinationTip>
+  <TSA_WD_Prisoners_SmartAssign>智能分配</TSA_WD_Prisoners_SmartAssign>
+  <TSA_WD_Prisoners_SmartAssignTip>按每位所选囚犯的最高技能，送到最近、且依赖该技能的前哨。若没有匹配则尝试下一项较高技能。大约有五个以上前哨时才比较有用。</TSA_WD_Prisoners_SmartAssignTip>
+  <TSA_WD_Prisoners_SmartAssignDone>已智能分配 {0} 名囚犯。</TSA_WD_Prisoners_SmartAssignDone>
+  <TSA_WD_Prisoners_SmartAssignPartial>已智能分配 {0} 名囚犯，另有 {1} 名无法匹配。</TSA_WD_Prisoners_SmartAssignPartial>
+  <TSA_WD_Prisoners_SmartAssignNone>所选囚犯没有可匹配的前哨。</TSA_WD_Prisoners_SmartAssignNone>
+  <TSA_WD_Prisoners_SmartAssignConfigTip>选择智能分配可使用的前哨。</TSA_WD_Prisoners_SmartAssignConfigTip>
+  <TSA_WD_Prisoners_SmartAssignConfigTitle>智能分配前哨</TSA_WD_Prisoners_SmartAssignConfigTitle>
+  <TSA_WD_Prisoners_SmartAssignConfigSubtitle>未勾选的前哨不会被智能分配使用。手动设定目的地仍可用于任意前哨。</TSA_WD_Prisoners_SmartAssignConfigSubtitle>
+  <TSA_WD_Prisoners_SmartAssignEnableAll>启用当前显示</TSA_WD_Prisoners_SmartAssignEnableAll>
+  <TSA_WD_Prisoners_SmartAssignDisableAll>禁用当前显示</TSA_WD_Prisoners_SmartAssignDisableAll>
+  <TSA_WD_Prisoners_SmartAssignColCumSkill>累计技能</TSA_WD_Prisoners_SmartAssignColCumSkill>
+  <TSA_WD_Prisoners_SmartAssignColType>类型</TSA_WD_Prisoners_SmartAssignColType>
+  <TSA_WD_Prisoners_SmartAssignCumSkillTip>累计{0}：{1}</TSA_WD_Prisoners_SmartAssignCumSkillTip>
+  <TSA_WD_Prisoners_SmartAssignGroupHeader>{0}（累计{1}）</TSA_WD_Prisoners_SmartAssignGroupHeader>
+  <TSA_WD_Prisoners_SmartAssignSelectColumnTip>点击启用或禁用列表中所有前哨的智能分配。</TSA_WD_Prisoners_SmartAssignSelectColumnTip>
+  <TSA_WD_Prisoners_ClearDestination>清除目的地</TSA_WD_Prisoners_ClearDestination>
+  <TSA_WD_Prisoners_ClearDestinationTip>这意味着招募后，殖民者会留在他们当前所在的位置。</TSA_WD_Prisoners_ClearDestinationTip>
+  <TSA_WD_Prisoners_ScheduleTitle>安排招募后目的地</TSA_WD_Prisoners_ScheduleTitle>
+  <TSA_WD_Prisoners_ScheduleSubtitle>为 {0} 名囚犯选择殖民地或前哨站。招募后将带着 150 份干肉饼启程。</TSA_WD_Prisoners_ScheduleSubtitle>
+  <TSA_WD_Prisoners_DestinationClickTip>点击设定或更改招募后目的地。</TSA_WD_Prisoners_DestinationClickTip>
+  <TSA_WD_Prisoners_ColTraits>特性</TSA_WD_Prisoners_ColTraits>
+  <TSA_WD_Prisoners_SelectColumnTip>点击全选或取消全选当前列表中的囚犯。</TSA_WD_Prisoners_SelectColumnTip>
+  <TSA_WD_Prisoners_RecruitSent>{0} 已被招募并送往 {1}。</TSA_WD_Prisoners_RecruitSent>
+  <TSA_WD_Prisoners_RecruitStayed>{0} 已被招募并加入 {1}。</TSA_WD_Prisoners_RecruitStayed>
+  <TSA_WD_Prisoners_RecruitUnderway>{0} 已在前哨站 {1} 成功招募，正在前往 {2}。</TSA_WD_Prisoners_RecruitUnderway>
+  <TSA_WD_Prisoners_Filter_All>全部</TSA_WD_Prisoners_Filter_All>
+  <TSA_WD_Prisoners_Filter_Colony>殖民地</TSA_WD_Prisoners_Filter_Colony>
+  <TSA_WD_Prisoners_Filter_Outpost>前哨</TSA_WD_Prisoners_Filter_Outpost>
+  <TSA_WD_Prisoners_GroupOutpost>前哨囚犯</TSA_WD_Prisoners_GroupOutpost>
+  <TSA_WD_Prisoners_GroupOutpostHeader>前哨囚犯（同时最多 {0} 人）</TSA_WD_Prisoners_GroupOutpostHeader>
+  <TSA_WD_Prisoners_GroupOutpostTip>前哨囚犯在被招募前无法调动。\n\n系统会按列表顺序自动招募（越靠上越优先）。\n用箭头调整优先级。\n\n社交技能决定同时招募人数（每 10 点社交 1 人，至少 1 人）。\n也会影响抵抗下降速度。指派狱卒专家可加快下降。\n\n囚犯也会消耗食物。\n若不值得留下，可将其释放。</TSA_WD_Prisoners_GroupOutpostTip>
+  <TSA_WD_Prisoners_QueueTopTip>移到招募队列最前。</TSA_WD_Prisoners_QueueTopTip>
+  <TSA_WD_Prisoners_QueueUpTip>在招募队列中上移一位。</TSA_WD_Prisoners_QueueUpTip>
+  <TSA_WD_Prisoners_QueueDownTip>在招募队列中下移一位。</TSA_WD_Prisoners_QueueDownTip>
+  <TSA_WD_Prisoners_QueueBottomTip>移到招募队列最后。</TSA_WD_Prisoners_QueueBottomTip>
+  <TSA_WD_Prisoners_ModeRecruit>招募</TSA_WD_Prisoners_ModeRecruit>
+  <TSA_WD_Prisoners_ModeMaintain>维持</TSA_WD_Prisoners_ModeMaintain>
+  <TSA_WD_Prisoners_ModeLetGo>放走</TSA_WD_Prisoners_ModeLetGo>
+  <TSA_WD_Prisoners_OutpostBeingRecruited>正在招募</TSA_WD_Prisoners_OutpostBeingRecruited>
+  <TSA_WD_Prisoners_LetGoSelected>赶出</TSA_WD_Prisoners_LetGoSelected>
+  <TSA_WD_Prisoners_LetGoSelectedTip>放走所选前哨囚犯。他们会被移除且不会掉落到地图上。此操作无法撤销。</TSA_WD_Prisoners_LetGoSelectedTip>
+  <TSA_WD_Prisoners_LetGoConfirm>确定吗？此操作无法撤销。</TSA_WD_Prisoners_LetGoConfirm>
+  <TSA_WD_Prisoners_KickOutNeedOutpost>赶出仅适用于关押在前哨的囚犯。</TSA_WD_Prisoners_KickOutNeedOutpost>
+  <TSA_WD_Prisoners_OutpostInteractionTip>前哨俘虏按队列顺序自动招募。社交技能决定同时招募人数。仅选择前哨囚犯后，可用“放走囚犯”释放他们（不会掉落到地图上）。</TSA_WD_Prisoners_OutpostInteractionTip>
+  <TSA_WD_Prisoners_NoDestinationOutpost>招募后留在此前哨。\n点击更改</TSA_WD_Prisoners_NoDestinationOutpost>
+  <TSA_WD_AllPlayerPawns_Title>所有玩家殖民者</TSA_WD_AllPlayerPawns_Title>
+  <TSA_WD_AllPlayerPawns_MoveOrder>调动殖民者</TSA_WD_AllPlayerPawns_MoveOrder>
+  <TSA_WD_AllPlayerPawns_Transfer>调动至目的地</TSA_WD_AllPlayerPawns_Transfer>
+  <TSA_WD_AllPlayerPawns_TransferTip>将所选殖民者送到你选择的殖民地或前哨。与“立即智能派出”使用同一批选择。</TSA_WD_AllPlayerPawns_TransferTip>
+  <TSA_WD_AllPlayerPawns_EstablishOutpost>建立前哨站</TSA_WD_AllPlayerPawns_EstablishOutpost>
+  <TSA_WD_AllPlayerPawns_EstablishOutpostTip>派出所选殖民地殖民者，在世界地图选定格建立前哨站。至少需要两人。物资取自殖民地与仓库。同殖民地同伴可同行。</TSA_WD_AllPlayerPawns_EstablishOutpostTip>
+  <TSA_WD_AllPlayerPawns_RestoreDefault>恢复默认视图</TSA_WD_AllPlayerPawns_RestoreDefault>
+  <TSA_WD_PawnRoster_Highlight>高亮:</TSA_WD_PawnRoster_Highlight>
+  <TSA_WD_PawnRoster_HighlightOff>关闭</TSA_WD_PawnRoster_HighlightOff>
+  <TSA_WD_PawnRoster_HighlightBest>每名角色的最佳技能</TSA_WD_PawnRoster_HighlightBest>
+  <TSA_WD_PawnRoster_HighlightGlobal>全局 0-20</TSA_WD_PawnRoster_HighlightGlobal>
+  <TSA_WD_PawnRoster_ColumnsToShow>显示列</TSA_WD_PawnRoster_ColumnsToShow>
+  <TSA_WD_PawnRoster_ColumnsToShowTip>选择此列表显示哪些列。选择会随本存档保存。</TSA_WD_PawnRoster_ColumnsToShowTip>
+  <TSA_WD_PawnRoster_ColumnsReset>重置列</TSA_WD_PawnRoster_ColumnsReset>
+  <TSA_WD_PawnRoster_ColAge>年龄</TSA_WD_PawnRoster_ColAge>
+  <TSA_WD_PawnRoster_ColAgeTip>生物年龄（年）。</TSA_WD_PawnRoster_ColAgeTip>
+  <TSA_WD_PawnRoster_ColXenotype>异种</TSA_WD_PawnRoster_ColXenotype>
+  <TSA_WD_PawnRoster_ColXenotypeTip>生物科技异种标签。悬停单元格查看描述。</TSA_WD_PawnRoster_ColXenotypeTip>
+  <TSA_WD_PawnRoster_ColPsycasts>灵能</TSA_WD_PawnRoster_ColPsycasts>
+  <TSA_WD_PawnRoster_ColPsycastsTip>已知的灵能能力。悬停查看完整列表。</TSA_WD_PawnRoster_ColPsycastsTip>
+  <TSA_WD_TraitFilter_Title>按特性筛选</TSA_WD_TraitFilter_Title>
+  <TSA_WD_TraitFilter_Subtitle>隐藏不匹配的行。计数包含所有玩家类人（殖民地、前哨、商队、囚犯）。</TSA_WD_TraitFilter_Subtitle>
+  <TSA_WD_TraitFilter_Search>搜索特性...</TSA_WD_TraitFilter_Search>
+  <TSA_WD_TraitFilter_Or>或</TSA_WD_TraitFilter_Or>
+  <TSA_WD_TraitFilter_OrTip>匹配拥有任一已选特性的殖民者。</TSA_WD_TraitFilter_OrTip>
+  <TSA_WD_TraitFilter_And>且</TSA_WD_TraitFilter_And>
+  <TSA_WD_TraitFilter_AndTip>匹配拥有全部已选特性的殖民者。</TSA_WD_TraitFilter_AndTip>
+  <TSA_WD_TraitFilter_Logic>筛选逻辑：</TSA_WD_TraitFilter_Logic>
+  <TSA_WD_TraitFilter_Clear>清除选择</TSA_WD_TraitFilter_Clear>
+  <TSA_WD_TraitFilter_FoundHeader>{0} 项特性，共 {1} 人</TSA_WD_TraitFilter_FoundHeader>
+  <TSA_WD_TraitFilter_FoundTip>至少一名玩家类人拥有的特性。</TSA_WD_TraitFilter_FoundTip>
+  <TSA_WD_TraitFilter_AllHeader>全部特性（{0}）</TSA_WD_TraitFilter_AllHeader>
+  <TSA_WD_TraitFilter_AllTip>游戏中每个特性等级，包括无人拥有的。</TSA_WD_TraitFilter_AllTip>
+  <TSA_WD_TraitFilter_CountPct>{0}（{1}%）</TSA_WD_TraitFilter_CountPct>
+  <TSA_WD_TraitFilter_CountTip>{0} 名殖民者有此特性。占人口的 {1}%。</TSA_WD_TraitFilter_CountTip>
+  <TSA_WD_TraitFilter_ButtonTip>按特性筛选行。仅在“特性”列可见时生效。</TSA_WD_TraitFilter_ButtonTip>
+  <TSA_WD_PawnRoster_ColPortrait>头像</TSA_WD_PawnRoster_ColPortrait>
+  <TSA_WD_PawnRoster_ColSelect>选择</TSA_WD_PawnRoster_ColSelect>
+  <TSA_WD_PawnRoster_ColReorder>排序</TSA_WD_PawnRoster_ColReorder>
+  <TSA_WD_PawnRoster_ColShooting>射击</TSA_WD_PawnRoster_ColShooting>
+  <TSA_WD_PawnRoster_ColMelee>近战</TSA_WD_PawnRoster_ColMelee>
+  <TSA_WD_PawnRoster_ColStrength>战力</TSA_WD_PawnRoster_ColStrength>
+  <TSA_WD_PawnRoster_ColRelevant>相关技能</TSA_WD_PawnRoster_ColRelevant>
+  <TSA_WD_PawnRoster_ColConstruction>建造</TSA_WD_PawnRoster_ColConstruction>
+  <TSA_WD_PawnRoster_ColDailyFood>每日食物</TSA_WD_PawnRoster_ColDailyFood>
+  <TSA_WD_PawnRoster_ColHurt>流血</TSA_WD_PawnRoster_ColHurt>
+  <TSA_WD_AllPlayerPawns_ColLocation>位置</TSA_WD_AllPlayerPawns_ColLocation>
+  <TSA_WD_AllPlayerPawns_LocationColony>{0}（殖民地）</TSA_WD_AllPlayerPawns_LocationColony>
+  <TSA_WD_AllPlayerPawns_LocationCamp>{0}（营地）</TSA_WD_AllPlayerPawns_LocationCamp>
+  <TSA_WD_AllPlayerPawns_LocationPhysicalMap>{0}（实体地图）</TSA_WD_AllPlayerPawns_LocationPhysicalMap>
+  <TSA_WD_AllPlayerPawns_PhysicalMapDefault>实体地图</TSA_WD_AllPlayerPawns_PhysicalMapDefault>
+  <TSA_WD_AllPlayerPawns_LocPhysicalMap>实体地图</TSA_WD_AllPlayerPawns_LocPhysicalMap>
+  <TSA_WD_AllPlayerPawns_Selected>已选 ({0})</TSA_WD_AllPlayerPawns_Selected>
+  <TSA_WD_AllPlayerPawns_SelectedTip>这些已选殖民者同时用于“调动至目的地”和“立即智能派出”。</TSA_WD_AllPlayerPawns_SelectedTip>
+  <TSA_WD_AllPlayerPawns_SearchName>搜索姓名…</TSA_WD_AllPlayerPawns_SearchName>
+  <TSA_WD_AllPlayerPawns_SearchLocation>搜索位置…</TSA_WD_AllPlayerPawns_SearchLocation>
+  <TSA_WD_AllPlayerPawns_ColPawnType>类型</TSA_WD_AllPlayerPawns_ColPawnType>
+  <TSA_WD_AllPlayerPawns_SearchPawnType>搜索类型…</TSA_WD_AllPlayerPawns_SearchPawnType>
+  <TSA_WD_AllPlayerPawns_Filter_AllTypes>全部类型</TSA_WD_AllPlayerPawns_Filter_AllTypes>
+  <TSA_WD_PawnType_Humanoid>人形</TSA_WD_PawnType_Humanoid>
+  <TSA_WD_PawnType_Prisoner>囚犯</TSA_WD_PawnType_Prisoner>
+  <TSA_WD_PawnType_Animal>动物</TSA_WD_PawnType_Animal>
+  <TSA_WD_PawnType_Mechanoid>机械体</TSA_WD_PawnType_Mechanoid>
+  <TSA_WD_PawnType_Vehicle>载具</TSA_WD_PawnType_Vehicle>
+  <TSA_WD_AllPlayerPawns_ColLocationType>位置类型</TSA_WD_AllPlayerPawns_ColLocationType>
+  <TSA_WD_AllPlayerPawns_ColLocationName>位置名称</TSA_WD_AllPlayerPawns_ColLocationName>
+  <TSA_WD_PawnCol_PawnName>殖民者姓名</TSA_WD_PawnCol_PawnName>
+  <TSA_WD_FilterByPawnName>按殖民者姓名筛选</TSA_WD_FilterByPawnName>
+  <TSA_WD_FilterByLocationName>按位置名称筛选</TSA_WD_FilterByLocationName>
+  <TSA_WD_FilterByLocationType>按位置类型筛选</TSA_WD_FilterByLocationType>
+  <TSA_WD_FilterByStar>按星标筛选</TSA_WD_FilterByStar>
+  <TSA_WD_FilterBySource>按来源筛选</TSA_WD_FilterBySource>
+  <TSA_WD_FilterByXenotype>按异种筛选</TSA_WD_FilterByXenotype>
+  <TSA_WD_Filter_AllXenotypes>全部异种</TSA_WD_Filter_AllXenotypes>
+  <TSA_WD_FilterByPsycast>按灵能筛选</TSA_WD_FilterByPsycast>
+  <TSA_WD_Filter_AllPsycasts>全部单位</TSA_WD_Filter_AllPsycasts>
+  <TSA_WD_Filter_NoPsycasts>无灵能</TSA_WD_Filter_NoPsycasts>
+  <TSA_WD_AllPlayerPawns_LocColony>殖民地</TSA_WD_AllPlayerPawns_LocColony>
+  <TSA_WD_AllPlayerPawns_LocCamp>营地</TSA_WD_AllPlayerPawns_LocCamp>
+  <TSA_WD_AllPlayerPawns_LocOutpost>前哨站</TSA_WD_AllPlayerPawns_LocOutpost>
+  <TSA_WD_AllPlayerPawns_LocCaravan>世界地图商队</TSA_WD_AllPlayerPawns_LocCaravan>
+  <TSA_WD_AllPlayerPawns_LocTempFight>临时战斗地图</TSA_WD_AllPlayerPawns_LocTempFight>
+  <TSA_WD_AllPlayerPawns_TempFightDefault>战斗地图</TSA_WD_AllPlayerPawns_TempFightDefault>
+  <TSA_WD_AllPlayerPawns_JumpTip>跳转到 {0}</TSA_WD_AllPlayerPawns_JumpTip>
+  <TSA_WD_AllPlayerPawns_ColStar>★</TSA_WD_AllPlayerPawns_ColStar>
+  <TSA_WD_AllPlayerPawns_StarTip>标记你想留住的主力殖民者。星标随存档保存。星标不会阻止调动；批量调动时用筛选隐藏他们即可。</TSA_WD_AllPlayerPawns_StarTip>
+  <TSA_WD_AllPlayerPawns_Filter_AllAnywhere>全部（任意位置）</TSA_WD_AllPlayerPawns_Filter_AllAnywhere>
+  <TSA_WD_AllPlayerPawns_Filter_StarredAnywhere>已星标</TSA_WD_AllPlayerPawns_Filter_StarredAnywhere>
+  <TSA_WD_AllPlayerPawns_Filter_NotStarredAnywhere>未星标</TSA_WD_AllPlayerPawns_Filter_NotStarredAnywhere>
+  <TSA_WD_AllPlayerPawns_Filter_AllColony>全部</TSA_WD_AllPlayerPawns_Filter_AllColony>
+  <TSA_WD_AllPlayerPawns_Filter_StarredColony>已星标</TSA_WD_AllPlayerPawns_Filter_StarredColony>
+  <TSA_WD_AllPlayerPawns_Filter_NotStarredColony>未星标</TSA_WD_AllPlayerPawns_Filter_NotStarredColony>
+  <TSA_WD_OutpostPawns_Filter_AllPawns>全部殖民者</TSA_WD_OutpostPawns_Filter_AllPawns>
+  <TSA_WD_OutpostPawns_Filter_Starred>已星标</TSA_WD_OutpostPawns_Filter_Starred>
+  <TSA_WD_OutpostPawns_Filter_NotStarred>未星标</TSA_WD_OutpostPawns_Filter_NotStarred>
+  <TSA_WD_TypeFilter_CountTip>{0} 名单位。占当前列表的 {1}%。</TSA_WD_TypeFilter_CountTip>
+  <TSA_WD_StarFilterTip_AllAnywhere>选择任意位置的全部殖民者。</TSA_WD_StarFilterTip_AllAnywhere>
+  <TSA_WD_StarFilterTip_StarredAnywhere>选择任意位置已标星的殖民者。</TSA_WD_StarFilterTip_StarredAnywhere>
+  <TSA_WD_StarFilterTip_NotStarredAnywhere>选择任意位置未标星的殖民者。</TSA_WD_StarFilterTip_NotStarredAnywhere>
+  <TSA_WD_StarFilterTip_AllColony>选择殖民地地图上的全部殖民者。</TSA_WD_StarFilterTip_AllColony>
+  <TSA_WD_StarFilterTip_StarredColony>选择殖民地地图上已标星的殖民者。</TSA_WD_StarFilterTip_StarredColony>
+  <TSA_WD_StarFilterTip_NotStarredColony>选择殖民地地图上未标星的殖民者。</TSA_WD_StarFilterTip_NotStarredColony>
+  <TSA_WD_OutpostStarFilterTip_All>选择此外哨站的全部殖民者。</TSA_WD_OutpostStarFilterTip_All>
+  <TSA_WD_OutpostStarFilterTip_Starred>选择已标星的殖民者。</TSA_WD_OutpostStarFilterTip_Starred>
+  <TSA_WD_OutpostStarFilterTip_NotStarred>选择未标星的殖民者。</TSA_WD_OutpostStarFilterTip_NotStarred>
+  <TSA_WD_AllPlayerPawns_DeselectAll>取消全选</TSA_WD_AllPlayerPawns_DeselectAll>
+  <TSA_WD_AllPlayerPawns_DeselectAllTip>清除当前选择。不会选中任何人。</TSA_WD_AllPlayerPawns_DeselectAllTip>
+  <TSA_WD_AllPlayerPawns_SmartSendNow>立即智能派出</TSA_WD_AllPlayerPawns_SmartSendNow>
+  <TSA_WD_AllPlayerPawns_SmartSendTip>立即将所选殖民者以商队派出。按每人最高技能，从当前位置送到最近匹配前哨，马上出发。不是预约安排。使用与囚犯智能分配相同的前哨排除列表。</TSA_WD_AllPlayerPawns_SmartSendTip>
+  <TSA_WD_AllPlayerPawns_SmartAssignDone>已智能分配并派出 {0} 名殖民者。</TSA_WD_AllPlayerPawns_SmartAssignDone>
+  <TSA_WD_AllPlayerPawns_SmartAssignPartial>已智能分配并派出 {0} 名殖民者，另有 {1} 名无法匹配或派出。</TSA_WD_AllPlayerPawns_SmartAssignPartial>
+  <TSA_WD_AllPlayerPawns_SmartAssignNone>所选殖民者没有可匹配的前哨（或无人处于可立即旅行状态）。</TSA_WD_AllPlayerPawns_SmartAssignNone>
+  <TSA_WD_PawnTransfer_DialogTitle>选择目的地</TSA_WD_PawnTransfer_DialogTitle>
+  <TSA_WD_PawnTransfer_DialogSubtitle>调动 {0} 名殖民者</TSA_WD_PawnTransfer_DialogSubtitle>
+  <TSA_WD_PawnTransfer_SendHere>送到这里</TSA_WD_PawnTransfer_SendHere>
+  <TSA_WD_PawnTransfer_SearchDest>搜索目的地…</TSA_WD_PawnTransfer_SearchDest>
+  <TSA_WD_PawnTransfer_Colonies>殖民地</TSA_WD_PawnTransfer_Colonies>
+  <TSA_WD_PawnTransfer_Outposts>前哨站</TSA_WD_PawnTransfer_Outposts>
+  <TSA_WD_PawnTransfer_ExitHere>在此退出</TSA_WD_PawnTransfer_ExitHere>
+  <TSA_WD_PawnTransfer_ExitHereSubtitle>在此前哨站所在格组建商队</TSA_WD_PawnTransfer_ExitHereSubtitle>
+  <TSA_WD_PawnTransfer_ExitHereUnavailable>仅当所选殖民者全部来自同一前哨站时，才可使用“在此退出”。</TSA_WD_PawnTransfer_ExitHereUnavailable>
+  <TSA_WD_PawnTransfer_ExitedHere>殖民者已在 {0} 退出。</TSA_WD_PawnTransfer_ExitedHere>
+  <TSA_WD_PawnTransfer_NoColonies>没有带地图的玩家殖民地。</TSA_WD_PawnTransfer_NoColonies>
+  <TSA_WD_PawnTransfer_NoOutposts>没有玩家前哨站。</TSA_WD_PawnTransfer_NoOutposts>
+  <TSA_WD_PawnTransfer_NoSelection>请至少选择一名殖民者。</TSA_WD_PawnTransfer_NoSelection>
+  <TSA_WD_PawnTransfer_NotMovable>只能从此窗口调动前哨站或殖民地中的殖民者。</TSA_WD_PawnTransfer_NotMovable>
+  <TSA_WD_PawnTransfer_NotTravelReady>{0} 目前无法旅行。</TSA_WD_PawnTransfer_NotTravelReady>
+  <TSA_WD_PawnTransfer_NotTravelReady_Dead>{0} 已死亡或不存在。</TSA_WD_PawnTransfer_NotTravelReady_Dead>
+  <TSA_WD_PawnTransfer_NotTravelReady_Downed>{0} 已倒地，无法旅行。</TSA_WD_PawnTransfer_NotTravelReady_Downed>
+  <TSA_WD_PawnTransfer_NotTravelReady_Mental>{0} 处于精神状态，无法旅行。</TSA_WD_PawnTransfer_NotTravelReady_Mental>
+  <TSA_WD_PawnTransfer_NotTravelReady_Labor>{0} 正在分娩，无法旅行。</TSA_WD_PawnTransfer_NotTravelReady_Labor>
+  <TSA_WD_PawnTransfer_NotTravelReady_Immobile>{0} 无法行动，无法旅行。</TSA_WD_PawnTransfer_NotTravelReady_Immobile>
+  <TSA_WD_PawnTransfer_InvalidDestination>无效的目的地。</TSA_WD_PawnTransfer_InvalidDestination>
+  <TSA_WD_PawnTransfer_SameDestination>不能调动到同一地点。</TSA_WD_PawnTransfer_SameDestination>
+  <TSA_WD_PawnTransfer_MultipleOutposts>所选前哨站</TSA_WD_PawnTransfer_MultipleOutposts>
+  <TSA_WD_PawnTransfer_MultiSourceTip>每个来源前哨站或殖民地会生成一支独立商队。</TSA_WD_PawnTransfer_MultiSourceTip>
+  <TSA_WD_PawnTransfer_LeaveOneBehind>殖民地至少须留下一名殖民者。</TSA_WD_PawnTransfer_LeaveOneBehind>
+  <TSA_WD_PawnTransfer_CaravanFailed>无法创建调动商队。</TSA_WD_PawnTransfer_CaravanFailed>
+  <TSA_WD_PawnTransfer_CaravanRoutedToColony>调动商队已派往 {0}；抵达后将自动进入。</TSA_WD_PawnTransfer_CaravanRoutedToColony>
+  <TSA_WD_PawnTransfer_CaravanRoutedToOutpost>调动商队已派往前哨站 {0}。若该前哨站启用了“自动添加入驻”，殖民者会自动加入。</TSA_WD_PawnTransfer_CaravanRoutedToOutpost>
+  <TSA_WD_PawnTransfer_Log>已下令调动：{0} 名殖民者从 {1} 前往 {2}</TSA_WD_PawnTransfer_Log>
+  <TSA_WD_PawnTransfer_WithoutFood>殖民者调动时未携带食物。</TSA_WD_PawnTransfer_WithoutFood>
+  <TSA_WD_PawnTransfer_WithoutFoodPlural>{0} 名殖民者调动时未携带食物。</TSA_WD_PawnTransfer_WithoutFoodPlural>
+  <TSA_WD_Alert_WorldThreat_NearFar>WD：威胁 {0}|{1}</TSA_WD_Alert_WorldThreat_NearFar>
+  <TSA_WD_Alert_WorldThreat_NearOnly>WD：威胁 {0}|0</TSA_WD_Alert_WorldThreat_NearOnly>
+  <TSA_WD_Alert_WorldThreat_FarOnly>WD：威胁 0|{0}</TSA_WD_Alert_WorldThreat_FarOnly>
+  <TSA_WD_Alert_WorldThreatDesc_Storyteller>当前叙事者袭击点数：{0}</TSA_WD_Alert_WorldThreatDesc_Storyteller>
+  <TSA_WD_Alert_WorldThreatDesc_Clamp>模组设置钳制：最低 {0} %，最高 {1} % 的叙事者袭击点数</TSA_WD_Alert_WorldThreatDesc_Clamp>
+  <TSA_WD_Alert_WorldThreatDesc_Clamp_Staged>模组设置钳制（{2}）：最低 {0} %，最高 {1} % 的叙事者袭击点数</TSA_WD_Alert_WorldThreatDesc_Clamp_Staged>
+  <TSA_WD_Alert_WorldThreatDesc_NearRaid>可能打到你的最强近距袭击：{0}（钳制为 {1}）</TSA_WD_Alert_WorldThreatDesc_NearRaid>
+  <TSA_WD_Alert_WorldThreatDesc_FarRaid>可能打到你的最强远距袭击：{0}（钳制为 {1}）</TSA_WD_Alert_WorldThreatDesc_FarRaid>
+  <TSA_WD_Alert_WorldThreatDesc_NearFarDefs>近距 = 定居点攻击半径的内侧一半\n远距 = 定居点攻击半径的外侧一半</TSA_WD_Alert_WorldThreatDesc_NearFarDefs>
+  <TSA_WD_Alert_WorldThreatDesc_NearPreferred>近距比远距更容易被选中</TSA_WD_Alert_WorldThreatDesc_NearPreferred>
+  <TSA_WD_Alert_WorldThreatDesc_Tier>世界威胁：{0}。附近为各定居点攻击范围内侧一半；远处为外侧一半。</TSA_WD_Alert_WorldThreatDesc_Tier>
+  <TSA_WD_Alert_WorldThreatDesc_Nearby>附近：{0}。你将面对的袭击点数：{1}（{2} 格，约 {3} 天）。</TSA_WD_Alert_WorldThreatDesc_Nearby>
+  <TSA_WD_Alert_WorldThreatDesc_Far>远处：{0}。你将面对的袭击点数：{1}。</TSA_WD_Alert_WorldThreatDesc_Far>
+  <TSA_WD_Alert_WorldThreatDesc_AttackerStrength>钳制前的进攻方实力：{0}。</TSA_WD_Alert_WorldThreatDesc_AttackerStrength>
+  <TSA_WD_Alert_WorldThreatDesc_StorytellerBudget>殖民地叙事者袭击预算：{0}。</TSA_WD_Alert_WorldThreatDesc_StorytellerBudget>
+  <TSA_WD_Dash_NoThreatSettlements>没有敌对定居点能打到你。</TSA_WD_Dash_NoThreatSettlements>
+  <TSA_WD_Dash_OutpostLine>{0}（{1}/{2}，{3}）</TSA_WD_Dash_OutpostLine>
+  <TSA_WD_Dash_OutpostTooltip>{0}：当前食物 {1}，最大食物 {2}，每日 {3}</TSA_WD_Dash_OutpostTooltip>
+  <TSA_WD_Dash_OutpostLine_Strength>{0}（{1}/{2}，{3}/{4}）</TSA_WD_Dash_OutpostLine_Strength>
+  <TSA_WD_Dash_OutpostTooltip_Strength>{0}\n实力：当前 {1} / 上限 {2}\n殖民者：人形 {3} / 合计 {4}（人形 + 机械体）</TSA_WD_Dash_OutpostTooltip_Strength>
+  <TSA_WD_Dash_OutpostLine_Pawns>{0}（{1}/{2}）</TSA_WD_Dash_OutpostLine_Pawns>
+  <TSA_WD_Dash_OutpostTooltip_Pawns>{0}\n殖民者：人形 {1} / 合计 {2}（人形 + 机械体）</TSA_WD_Dash_OutpostTooltip_Pawns>
+  <TSA_WD_Dash_ThreatAlliesHeader>支援盟友：</TSA_WD_Dash_ThreatAlliesHeader>
+  <TSA_WD_Dash_ThreatAlliesNone>无支援盟友。</TSA_WD_Dash_ThreatAlliesNone>
+  <TSA_WD_Dash_ThreatClamped>叙事者钳制后的预期袭击点数：{0}</TSA_WD_Dash_ThreatClamped>
+  <TSA_WD_Dash_ThreatEta>预计袭击行程：{0} 天（约）</TSA_WD_Dash_ThreatEta>
+  <TSA_WD_Dash_ThreatSettlementTipHeader>{0}：实力 {1}，叙事者袭击点数的 {2}%</TSA_WD_Dash_ThreatSettlementTipHeader>
+  <TSA_WD_Dash_Traveler_DestTip>目的地：</TSA_WD_Dash_Traveler_DestTip>
+  <TSA_WD_Dash_Traveler_StartTip>起点：</TSA_WD_Dash_Traveler_StartTip>
+  <TSA_WD_WorldThreatTier_Critical>危急</TSA_WD_WorldThreatTier_Critical>
+  <TSA_WD_WorldThreatTier_Heightened>升高</TSA_WD_WorldThreatTier_Heightened>
+  <TSA_WD_WorldThreatTier_High>高</TSA_WD_WorldThreatTier_High>
+  <TSA_WD_WorldThreatTier_Low>低</TSA_WD_WorldThreatTier_Low>
+  <TSA_WD_WorldThreatTier_Moderate>中等</TSA_WD_WorldThreatTier_Moderate>
+  <TSA_WD_WorldThreatTier_None>无</TSA_WD_WorldThreatTier_None>
+  <TSA_WD_WorldThreat_ClampTooltip>实际袭击点数将钳制在当前叙事者袭击点数的 {0} 与 {1} 之间：{2}。</TSA_WD_WorldThreat_ClampTooltip>
+  <TSA_WD_WorldThreat_ClampTooltip_Staged>实际袭击点数将钳制在当前叙事者袭击点数的 {0} 与 {1} 之间（{3}）：{2}。</TSA_WD_WorldThreat_ClampTooltip_Staged>
+</LanguageData>

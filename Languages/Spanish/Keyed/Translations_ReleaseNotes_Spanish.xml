@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_11_Title>Mejor generación de bases y optimización del rendimiento</TSA_WD_Update_2_3_11_Title>
+  <TSA_WD_Update_2_3_11_Body><![CDATA[
+<size=16><b>2.3.11 – Mejor generación de bases y optimización del rendimiento</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 19 de agosto de 2026</color>\n
+------------------------------\n
+• La generación de bases ahora abre espacio correctamente si no se podían colocar edificios. Si no hace falta, deja más plantas y trozos en su sitio\n
+• Ahora puedes ver dentro de los edificios (sin niebla) en todas las bases\n
+• Eliminada la línea exterior estandarizada de sacos de arena y torretas, que resultaba muy aburrida\n
+• Más diseños de edificios hechos a mano\n
+• Corregidos varios problemas menores con el dibujado de superposiciones que costaban rendimiento innecesariamente\n
+• Corregido un fallo tonto que hacía que los mensajes de alerta costaran demasiado rendimiento\n
+• Las trampas en el mapa del mundo ahora muestran quién las construyó en el panel de inspección\n
+]]></TSA_WD_Update_2_3_11_Body>
+  <TSA_WD_Update_2_3_10_Title>Hidroponía, silo y pulido</TSA_WD_Update_2_3_10_Title>
+  <TSA_WD_Update_2_3_10_Body><![CDATA[
+<size=16><b>2.3.10 – Hidroponía, silo y pulido</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 18 de agosto de 2026</color>\n
+------------------------------\n
+• Nueva mejora de avanzadilla: balsas de hidroponía. Producen 12 de comida de forma continua en la avanzadilla\n
+• Nueva mejora de avanzadilla: Silo. Aumenta la comida máxima de la avanzadilla en 500\n
+• Nueva función: Las caravanas de regalos, negociación y compra ahora también tienen equivalente en cápsulas de transporte. Usa el gizmo en tu colonia/almacenes para elegir caravanas voladoras o terrestres. ¡Cuidado con los cañones antiaéreos enemigos!\n
+• Nueva función: Las facciones NPC pueden aliarse al comerciar. Eso inicia una congelación diplomática. Las parejas congeladas no pueden pasar a aliadas por más buena voluntad comercial. Si una caravana WD NPC destruye a un comerciante, el asentamiento de origen recibe la recompensa de fuerza del comercio (con posibilidad de subir de nivel)\n
+• Ajuste: La producción de comida virtual ahora usa la fertilidad del mosaico (granjas) y la abundancia animal (caza), con un mínimo del 80% para que los mosaicos pobres no queden demasiado penalizados\n
+• Pulido: El diálogo de retirada de peones es más claro y se corrigieron algunos fallos. Solo aparece si la fuerza de los peones que intentas retirar supera la fuerza ofensiva actual de esa avanzadilla\n
+• Pulido: Ahora se pueden fundar avanzadillas sobre ruinas de campamentos temporales abandonados\n
+• Pulido: Los campamentos temporales aparecen como tipo de ubicación propio en Todos los peones del jugador\n
+• Pulido: Más registro y robustez en las herramientas de generación del mundo de WD. Nota: si intentas generar muchísimos asentamientos, tardará. Al final verás un aviso si WD no pudo colocar tantos como se pretendía por limitaciones como falta de espacio\n
+• Corrección: Los cañones antiaéreos T4 enemigos ahora siempre derriban tus morteros, no solo con la dificultad de juego medio/tardío activa\n
+]]></TSA_WD_Update_2_3_10_Body>
+  <TSA_WD_Update_2_3_09_Title>Filtros bonitos y más columnas, límite de fuerza de peones</TSA_WD_Update_2_3_09_Title>
+  <TSA_WD_Update_2_3_09_Body><![CDATA[
+<size=16><b>2.3.09 – Filtros bonitos y más columnas, límite de fuerza de peones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 17 de agosto de 2026</color>\n
+------------------------------\n
+• Nueva función: Todas las ventanas, incluidas Todos los peones del jugador, Prisioneros, la pestaña de peones de la avanzadilla y más, tienen filtros bonitos en casi todas las columnas. Columnas extra como Xenotipo, Edad y otras se pueden añadir bajo demanda\n
+• Nueva función: Intento de cerrar el mayor queso de WD 2.0. Tus peones determinan la fuerza ofensiva de una avanzadilla. Lanzar incursiones virtuales o caravanas de constructores gasta esa fuerza. Tus peones reales no se veían afectados, así que podías vaciar el pool ofensivo en una incursión virtual y seguir defendiendo a plena potencia con todos en el sitio. Ahora la fuerza ofensiva limita cuántos peones puedes desplegar en defensas reales, y no puedes retirar a todos si la avanzadilla no está a plena fuerza. Contento con esto. Puede costar un poco acostumbrarse. Desactívalo en Experimental si no te gusta\n
+• Nueva mejora de avanzadilla: IEDs. Coloca algunos IED alrededor de tu avanzadilla\n
+• Ajuste: Si usas Vanilla Vehicles Expanded, se generarán algunas trampas antitanque en tu avanzadilla cuando tengas la mejora de muro de piedra\n
+• Muchas correcciones y limpieza\n
+]]></TSA_WD_Update_2_3_09_Body>
+  <TSA_WD_Update_2_3_07_Title>Prisioneros en choques de caravana, mejora de revuelta, correcciones</TSA_WD_Update_2_3_07_Title>
+  <TSA_WD_Update_2_3_07_Body><![CDATA[
+<size=16><b>2.3.07 – Prisioneros en choques de caravana, mejora de revuelta, correcciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 16 de agosto de 2026</color>\n
+------------------------------\n
+• Nueva función: Cuando tu caravana con peones reales choca con una fuerza enemiga en el mapa abierto, puedes tomar prisioneros y botín de ese mapa, limitado por lo que tu caravana pueda cargar\n
+• Nueva función: El límite de puntos de asalto del narrador se puede configurar por fase. Define el % mínimo y máximo de los puntos de asalto del narrador en el juego temprano, medio y tardío. Por defecto te protege más de asaltos demasiado fuertes al principio\n
+• Corrección: Las facciones no controladas por WD ya no pierden buena voluntad contigo cuando entran los modificadores de juego medio/tardío\n
+• Mejora: Las facciones derrotadas pueden volver con más fuerza. Pueden tomar 3-7 asentamientos de las facciones más fuertes. Cualquier nivel es posible, pero Tier 1 y Tier 2 son más probables\n
+• Más diseños de edificios hechos a mano. ¿Quieres ayudar? Preferible vanilla más Props and Decor. Activa el modo dios, construye, usa Exportar en el menú de Órdenes y envíame el XML\n
+]]></TSA_WD_Update_2_3_07_Body>
+  <TSA_WD_Update_2_3_06_Title>Misión WD, ajustes finos y calidad de vida</TSA_WD_Update_2_3_06_Title>
+  <TSA_WD_Update_2_3_06_Body><![CDATA[
+<size=16><b>2.3.06 – Misión WD, ajustes finos y calidad de vida</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 15 de agosto de 2026</color>\n
+------------------------------\n
+• Nueva función: La misión final está activa. Conviértete en la facción más fuerte y mantente así durante 15 días para ganar\n
+• Nerf: Los cañones antitanque son mucho menos letales contra tus caravanas reales. Un cañón ligero o medio puede herir o matar (60:40) a un peón en una caravana con peones reales. Uno pesado puede herir o matar a dos peones. Las caravanas virtuales sin peones reales no cambian\n
+• Nerf: Los bloqueos de carretera, caminos y trampas de nivel superior, y los cañones antitanque, ahora requieren investigación (Mecanizado, Microelectrónica, Fabricación)\n
+• Los cañones antitanque aparecen en enfriamiento ahora. Las avanzadillas aplican el 50% de su enfriamiento de protección ante asaltos al establecerse\n
+• Las caravanas que chocan ya no usan la resta simple Fuerza A menos Fuerza B; usan la matemática completa de resolución de asaltos, donde incluso un bando mucho más débil tiene una pequeña probabilidad de ganar\n
+• Nerf: Menos acero de las avanzadillas mineras por punto de habilidad de Minería (50→40). Requiere reiniciar los ajustes de ese menú o todos los ajustes\n
+• Usar los botones Saltar al objetivo o Saltar al atacante en una carta de asalto ahora cierra esa ventana (un jugador reportó un fallo raro aquí)\n
+• Los asentamientos objetivo de misión ahora se marcan con una estrella. Las colonias y avanzadillas que están siendo atacadas por una caravana enemiga también se marcan con una estrella\n
+]]></TSA_WD_Update_2_3_06_Body>
+  <TSA_WD_Update_2_3_05_Title>Herramientas de generación del mundo, quitar caminos y más</TSA_WD_Update_2_3_05_Title>
+  <TSA_WD_Update_2_3_05_Body><![CDATA[
+<size=16><b>2.3.05 – Herramientas de generación del mundo, quitar caminos y más</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 14 de agosto de 2026</color>\n
+------------------------------\n
+• Nueva función: Herramientas completas de generación del mundo. Al crear un mundo nuevo (al elegir la casilla inicial), usa el menú flotante de WD para configurar la colocación y distribución de asentamientos, así como las lealtades con el jugador y entre facciones. Además, puedes colocar y quitar manualmente asentamientos, caminos y fortificaciones, y ajustar la fuerza y el nivel de los asentamientos\n
+• Nueva función: Quitar caminos. Envía una caravana de constructores para eliminar tramos de camino. Se puede lanzar desde la colonia y desde las avanzadillas\n
+• Nueva función: Las caravanas de intercepción de Respuesta Rápida ahora pueden tomar prisioneros\n
+• Nerf: En lugar de poder reclutar a todos los prisioneros de una vez en una avanzadilla, ahora puedes reclutar 1 prisionero por cada 10 de habilidad Social en esa avanzadilla. Los prisioneros se pueden ordenar/priorizar\n
+• Equilibrio: Solo los asentamientos T2+ pueden lanzar caravanas de emboscada ahora (básicamente lo mismo que la respuesta rápida, pero desde PNJ). También por rendimiento\n
+• Equilibrio: Las caravanas de emboscada tienen ahora un radio de objetivo menor y dejan de perseguir tras 1,6× ese radio (hace falta resetear los ajustes experimentales o todos los ajustes para que surta efecto)\n
+]]></TSA_WD_Update_2_3_05_Body>
+  <TSA_WD_Update_2_3_0_Title>Emplazamientos de cañones, lógica de objetivos de oportunidad</TSA_WD_Update_2_3_0_Title>
+  <TSA_WD_Update_2_3_0_Body><![CDATA[
+<size=16><b>2.3.0 – Emplazamientos de cañones, lógica de objetivos de oportunidad</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 13 de agosto de 2026</color>\n
+------------------------------\n
+• Nueva función experimental: Lógica de objetivos de oportunidad. Las caravanas de asalto ahora pueden cambiar de objetivo si, en su ruta, pasan junto a un asentamiento o avanzadilla débil\n
+• Nueva función experimental: Saqueo tras la victoria. Un asalto que gana puede seguir adelante y atacar otro asentamiento débil cercano en lugar de disolverse siempre tras su primera victoria\n
+• Nueva función experimental: Emboscada lanzada desde un asentamiento. Un asentamiento PNJ puede lanzar una caravana interceptora contra una caravana comercial hostil débil de paso (igual que tu propia avanzadilla de Respuesta Rápida)\n
+• Nueva opción de fortificación: Emplazamientos de torretas. Tanto el jugador como los PNJ pueden construir torretas en el mapa mundial. Tienen un alcance bastante corto, pero disparan automáticamente a hostiles de paso. Un hostil alcanzado intentará tomar represalias\n
+• Nueva función: Puedes marcar casillas del mapa mundial donde no quieres que los aliados construyan fortificaciones (por ejemplo, bloqueos en tus carreteras). En los ajustes del mod puedes decidir si las facciones neutrales también las respetan. Las facciones hostiles, por supuesto, no\n
+• Nueva función: Los emplazamientos de mortero, flak y torreta ahora reproducen sonidos en el mapa mundial. Se pueden desactivar en los ajustes Experimentales\n
+• Las caravanas comerciales ahora mantienen en todo momento una escolta mínima según su nivel, y reciben una escolta temporal a máxima fuerza durante un tiempo después de ser interceptadas\n
+• Las avanzadillas de Respuesta Rápida y de mortero ahora reaccionan cuando las caravanas de paso cambian de casilla del mundo (basado en eventos, no en ticks). Esto ahorra rendimiento y las hace aún más ágiles\n
+• Los asentamientos T3 ya pueden lanzar asaltos en cápsulas de desembarco\n
+• Nueva probabilidad diaria del 10% de que dos facciones fuertes pasen de aliadas a neutrales o de neutrales a hostiles (si no están en enfriamiento diplomático). Así las facciones fuertes no viven en paz entre sí para siempre\n
+• Corrección: Las lanzaderas de pasajeros de Odyssey ahora se pueden retirar de las avanzadillas. Antes estaba fallando\n
+]]></TSA_WD_Update_2_3_0_Body>
+  <TSA_WD_Update_2_2_68_Title>Visualización de casillas bloqueadas, rendimiento y correcciones</TSA_WD_Update_2_2_68_Title>
+  <TSA_WD_Update_2_2_68_Body><![CDATA[
+<size=16><b>2.2.68 – Visualización de casillas bloqueadas, rendimiento y correcciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 9 de agosto de 2026</color>\n
+------------------------------\n
+• Nueva función: Con la visualización de casillas bloqueadas activada, esas casillas se muestran en el mapa mundial como un diagrama de Voronoi al estilo de Faction Territories and Vassalage. Muestra los colores de hasta 4 facciones que compiten por la misma casilla\n
+• Corregido un error por el que la alerta de "expertos sin asignar" saltaba en avanzadillas que ya estaban al máximo\n
+• Corregido un error por el que la notificación experimental del impuesto de mantenimiento no se mostraba siempre\n
+• Muchas correcciones menores\n
+• Algunas optimizaciones de rendimiento\n
+• Observé que el micro tartamudeo se mitiga bastante bien con el mod Butter++\n
+]]></TSA_WD_Update_2_2_68_Body>
+  <TSA_WD_Update_2_2_67_Title>Entrega de mejoras en cápsula y almacén automático</TSA_WD_Update_2_2_67_Title>
+  <TSA_WD_Update_2_2_67_Body><![CDATA[
+<size=16><b>2.2.67 – Entrega de mejoras en cápsula y almacén automático</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 8 de agosto de 2026</color>\n
+------------------------------\n
+• Ahora puedes elegir si las mejoras de avanzadilla se envían en cápsula de transporte o en caravana terrestre. Elige la opción de entrega directamente en la colonia y el almacén con el gizmo (las mejoras siempre salen de lo que esté más cerca). La entrega en cápsula requiere la investigación de Cápsula de transporte\n
+• Ahora puedes hacer que los almacenes envíen todas las mercancías que tengan una vez al día (por caravana terrestre o por cápsula). Esto permite un uso en el que las avanzadillas regionales llevan sus bienes al almacén regional por caravana terrestre, y luego el almacén entrega a la colonia por cápsula\n
+• Aviso cuando un almacén está directamente al alcance de cañones antiaéreos T4 y eliges entrega por cápsula\n
+• Algunos cambios importantes de equilibrio. Restablece los ajustes del mod para que surtan efecto. Tras un tiempo casi todos los huecos del mapa mundial quedaban ocupados. Demasiados asentamientos T1. Por eso aumenté la probabilidad de arrasar: en lugar de capturar asentamientos, se destruyen por completo y dejan ruinas. Nadie puede construir sobre esas ruinas ni a su alrededor. Desaparecen a los 7 días por defecto (todo configurable, claro. Menú de ajustes experimentales)\n
+• Más optimización de rendimiento\n
+]]></TSA_WD_Update_2_2_67_Body>
+  <TSA_WD_Update_2_2_65_Title>Misiones WD, calidad de vida y correcciones</TSA_WD_Update_2_2_65_Title>
+  <TSA_WD_Update_2_2_65_Body><![CDATA[
+<size=16><b>2.2.65 – Misiones WD, calidad de vida y correcciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 6 de agosto de 2026</color>\n
+------------------------------\n
+• Nueva función: Misiones WD. El mod ahora tiene un par de misiones únicas y recurrentes. Habrá más\n
+• Nueva misión: Tras 2-5 días, un asentamiento neutral o aliado cercano te pedirá establecer tu primera avanzadilla. Completarla otorga buena voluntad\n
+• Nueva misión: Tras 10 días, un asentamiento neutral o aliado cercano te pedirá construir una carretera hasta ellos. Completarla otorga buena voluntad.\n
+• Nueva misión: Tras 10 días, un asentamiento neutral o aliado cercano te pedirá conquistar el asentamiento de un enemigo común. Completarla otorga buena voluntad.\n
+• Amenazas divididas en cercanas y lejanas. Los enemigos lejanos tienen menos probabilidad de atacarte, pero sigue siendo posible\n
+• Aún no del todo desplegado: Una misión de "Dominación Mundial" que ganas si te conviertes en la facción más fuerte y lo mantienes 15 días\n
+• Nueva función experimental: La colonia también puede construir carreteras, bloqueos de carretera y trampas. ¿Por qué? Porque en los primeros 20+ días sueles consolidarte hasta sentirte fuerte para actuar en el mapa mundial. Se puede desactivar en los ajustes experimentales\n
+• Corregido un error que no limpiaba bien los mapas de asentamientos tras conquistarlos. Dejaba peones del mundo vivos para siempre y provocaba un error rojo, p. ej. con el mod "CAI 5000"\n
+• Nueva función experimental: Mantenimiento de avanzadillas. Cada 15 días, las avanzadillas exigen plata según el número de peones. La plata se toma automáticamente de donde la tengas. Si no puedes pagar, según el faltante perderás peones aleatorios que abandonan tu colonia. Solo entra en juego en dificultad media o tardía. El precio por peón también sube con esos niveles (desactivado por defecto. ¡Actívalo en experimental si quieres ayudar a equilibrarlo!)\n
+• Nueva función: Al pedir a una facción que cambie su lealtad respecto a otra, ya no solo cuenta la fuerza relativa entre esas dos, sino también la posición mundial de la facción negociadora (si ya está en guerra con casi todos, es menos propensa a abrir otra guerra)\n
+• Corregido un problema por el que los iconos de asentamientos y avanzadillas se veían a través del globo\n
+• Los prisioneros reclutados desde avanzadillas y la colonia ahora reciben 150 pemmican automáticamente en lugar de 2 comidas simples. Dura más y no se estropea. La comida se descuenta del almacén de comida de la avanzadilla (1 comida virtual = 50 pemmican)\n
+• Nuevas alertas laterales si no se seleccionó nada para producir en una avanzadilla o no se definió un experto. Con interruptores en Ajustes de notificaciones si no las quieres\n
+• Las capacidades de avanzadilla (construir carreteras, bloqueos, trampas, lanzar incursiones) se pueden desactivar por separado con flags en los ajustes del mod. Todas activadas por defecto\n
+]]></TSA_WD_Update_2_2_65_Body>
+  <TSA_WD_Update_2_2_6_Title>Reclutamiento de prisioneros en avanzadillas, calidad de vida y correcciones</TSA_WD_Update_2_2_6_Title>
+  <TSA_WD_Update_2_2_6_Body><![CDATA[
+<size=16><b>2.2.6 – Reclutamiento de prisioneros en avanzadillas, calidad de vida y correcciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 4 de agosto de 2026</color>\n
+------------------------------\n
+• Nueva función: Las avanzadillas pueden tomar prisioneros tras un combate de resolución automática y tras una defensa manual. Los prisioneros deben permanecer en esa avanzadilla hasta convertirse. La conversión (reducción de resistencia) escala con la habilidad Social de la avanzadilla y puede impulsarse más con un nuevo Experto, el Carcelero. Puedes enviar peones automáticamente desde la pestaña de Prisioneros a otras avanzadillas o a la colonia una vez convertidos. ¡Cuidado: los prisioneros también consumen comida! Descártalos si no los necesitas, o desactiva la captura con el gizmo de la avanzadilla si no quieres tomar prisioneros.\n
+• Corregido un error por el que la interfaz seguía diciendo que las avanzadillas de reclutamiento no producían nada\n
+• Corregido un error por el que los asentamientos no podían enviar caravanas de descontaminación a la casilla tóxica en la que estaban\n
+• Parche de compatibilidad: si construyes carreteras solo con WD (sin Roads of the Rim), la bonificación de velocidad sigue aplicándose a vehículos del Vehicle Framework\n
+• Las alianzas formadas contra el líder mundial ahora se reinician cuando ese buff expira\n
+• Los enemigos deberían colocar bloqueos de carretera y trampas de forma más estratégica en la frontera hacia un hostil. Pueden lanzar varias caravanas de fortificación a la vez (más probabilidad y cantidad con tiers más altos)\n
+• Mejoras varias de calidad de vida en filtros (pestaña Todos los peones, pestaña Prisioneros en particular), la ventana de diplomacia mundial, etc.\n
+]]></TSA_WD_Update_2_2_6_Body>
+  <TSA_WD_Update_2_2_5_Title>Sobornar facciones y pulido</TSA_WD_Update_2_2_5_Title>
+  <TSA_WD_Update_2_2_5_Body><![CDATA[
+<size=16><b>2.2.5 – Sobornar facciones y pulido</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 3 de agosto de 2026</color>\n
+------------------------------\n
+• Nueva función: Sobornar caravanas de asaltantes entrantes. Similar al flujo de Comprar/Regalar. Gasta bienes y plata para enviar una caravana WD desde la avanzadilla o colonia más cercana hacia una caravana de asalto entrante. Al llegar, la caravana de asalto se disuelve. Peligro evitado. ¡Pero esto los fortalece y no otorga buena voluntad!\n
+• Nueva función: Sobornar asentamientos/facciones. Similar a sobornar una caravana. Pero tu caravana viaja a ese asentamiento y te otorga un alto el fuego de 10, 20 o 30 días. ¡Bastante caro! Las partidas de asalto ya lanzadas no se retiran\n
+• Pulida la pestaña principal de WD. Ahora se ve mucho mejor, con más iconos\n
+• Ajuste fino de los algoritmos de intercepción de las caravanas de Respuesta Rápida\n
+• La mayoría de ventanas se pueden abrir con atajos ahora (Left ALT+X = pestaña principal WD, Left ALT+D = pestaña de Diplomacia). En el mapa mundial, Left Alt+1-7 cambia entre los distintos overlays\n
+• Añadida una acción de depuración/desarrollo para generar un asentamiento del nivel que elijas perteneciente a la facción que elijas\n
+• Algunas correcciones de errores aquí y allá\n
+]]></TSA_WD_Update_2_2_5_Body>
+  <TSA_WD_Update_2_2_45_Title>Limpieza y calidad de vida</TSA_WD_Update_2_2_45_Title>
+  <TSA_WD_Update_2_2_45_Body><![CDATA[
+<size=16><b>2.2.45 – Limpieza y calidad de vida</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 1 de agosto de 2026</color>\n
+------------------------------\n
+• Ahora recibes una advertencia al intentar lanzar rápido una caravana para establecer una avanzadilla si los peones son demasiado débiles para cargar el peso\n
+• Ahora recibes una advertencia si intentas lanzar una cápsula de transporte o un vehículo aéreo del Vehicle Framework estando ya en el alcance de flak/antiaéreo T4 enemigo\n
+• Deslizadores de precisión dedicados para cañones antiaéreos en los ajustes del mod\n
+• Radio por defecto reducido a 2 para que la contaminación tóxica afecte a asentamientos y avanzadillas (¡requiere reiniciar ajustes para aplicar!)\n
+• La mejora de avanzadilla «Equipo de descontaminación» es mucho más barata y ahora solo requiere la investigación «Mecanizado» (si no, estás jodido cerca de residuos tóxicos)\n
+]]></TSA_WD_Update_2_2_45_Body>
+  <TSA_WD_Update_2_2_4_Title>Gran rework de Acciones del Mundo, mecanismos de contaminación</TSA_WD_Update_2_2_4_Title>
+  <TSA_WD_Update_2_2_4_Body><![CDATA[
+<size=16><b>2.2.4 – Gran rework de Acciones del Mundo, mecanismos de contaminación</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 31 de julio de 2026</color>\n
+------------------------------\n
+• Importante: ¡Reinicia todos los ajustes del mod o al menos los submenús «Acciones del Mundo» y «Experimental»!\n
+• Rehecho: Ya no hay acción Crecer. En su lugar, los asentamientos ganan fuerza con el tiempo de forma pasiva. Así que cualquier acción que tomen ahora «cuenta»\n
+• Nueva función: Los asentamientos pueden construir bloqueos de carretera y trampas (experimental). Deberían orientarse hacia hostiles. En carreteras se prefieren trampas. En cualquier otra casilla, bloqueos de carretera\n
+• Nueva función: Asentamientos y caravanas reciben daño por contaminación. Los asentamientos lanzan caravanas de descontaminación para limpiar la contaminación cercana. Las caravanas intentan encontrar una ruta que evite la contaminación (más detalles en ajustes experimentales)\n
+• Nueva función: La resolución automática de defensas de avanzadilla ahora te da una segunda oportunidad. Si pierdes la primera tirada, el 20 % de tus peones resulta herido y tu avanzadilla pierde un 15 %. Luego puedes defenderla manualmente (¡los enemigos llegan de inmediato!) o volver a resolver en automático con peores probabilidades\n
+• Nueva función: Al lanzar un ataque desde tu avanzadilla, ahora puedes elegir qué aliados se unen. Cuantos más lleves, mejores son tus chances de victoria. ¡Pero cualquier avanzadilla aliada que lleves también quedará en enfriamiento de ataque!\n
+• Nueva función: Una forma aún más fácil de fundar una avanzadilla. Haz clic en una casilla vacía del mapa del mundo. Haz clic en establecer avanzadilla. Elige el tipo y luego los peones a enviar. Esto despacha automáticamente una caravana desde tu colonia con los materiales necesarios\n
+• Nueva función: Un nuevo diálogo para nombrar tu avanzadilla directamente al establecerla\n
+• Nueva función: El radio para atraer aliados en ataque y defensa ahora escala con la dificultad de mitad y final de partida. ¿Por qué? Un grupo de asentamientos puede aprovechar la fuerza de los demás. Cuanto mayor el radio aliado, mayor su fuerza\n
+• Nueva función: Cuando un asentamiento lejano elige tu colonia como objetivo, ahora intentará «delegar» ese ataque a un asentamiento de la misma facción más cercano a ti. Debería hacer mucho más probables los ataques desde asentamientos cercanos\n
+• Nueva función: Al mostrar el alcance de mortero o antiaéreo de una avanzadilla o asentamiento T4, ahora verás bandas de alcance (Rojo = 0-50 % del alcance máx., Naranja = 51 a 75, Amarillo = 76-100%). Las bandas de mortero son precisión del mortero. Las bandas antiaéreas son precisión antiaérea vs cápsulas y aéreos; los proyectiles de mortero usan una probabilidad plana de derribo aparte.\n
+• Nueva función: En el mapa del mundo puedes usar combinaciones de teclas para abrir las distintas superposiciones WD. Por defecto Alt izquierdo+1 a +7. La tecla modificadora se puede ajustar en el menú de ajustes Experimental\n
+• Nueva mejora de avanzadilla: Red de túneles. Aumenta el radio de atracción aliada en una cantidad fija. Aplica a cualquier tipo de avanzadilla\n
+• Mucho pulido y limpieza. Mis vacaciones han terminado. Así que volveré a un ritmo de lanzamientos más lento, seguro\n
+]]></TSA_WD_Update_2_2_4_Body>
+  <TSA_WD_Update_2_2_3_Title>Caravanas de regalos, fin del radio de influencia, mejor dibujo de radios</TSA_WD_Update_2_2_3_Title>
+  <TSA_WD_Update_2_2_3_Body><![CDATA[
+<size=16><b>2.2.3 – Caravanas de regalos, fin del radio de influencia, mejor dibujo de radios</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 30 de julio de 2026</color>\n
+------------------------------\n
+• Nueva función: Caravana de regalos. Haz clic en un asentamiento PNJ neutral o aliado y selecciona el gizmo «Regalo». Ahora puedes configurar qué bienes enviarles como regalos. Esto lanzará una caravana WD con esos bienes desde tu colonia o el asentamiento más cercano. Los regalos aumentan la buena voluntad y fortalecen a la facción receptora (incluidas subidas de nivel de asentamiento en un radio de 50 casillas)\n
+• Rehecho: De una vez por todas maté el radio de influencia alrededor de tu colonia. En su lugar, los asentamientos ganan alcance de ataque con el tiempo, así como con los modificadores de dificultad de mitad y final de partida.\n
+• Rehecho: En lugar de dibujar círculos/radios para el alcance de ataque, el alcance de apoyo alimentario, etc., ahora teñimos las casillas del mundo. Esto es preciso: las casillas resaltadas son las que realmente cuentan. En cada avanzadilla y asentamiento verás gizmos para elegir qué resaltar (alcance de ataque, alcance de apoyo alimentario, aliados en alcance, asentamientos en alcance, etc.)\n
+• La avanzadilla de almacén ahora otorga una bonificación de producción a las avanzadillas cercanas, lo que la hace más útil de construir\n
+• Nuevo diálogo para añadir peones a una avanzadilla desde caravanas «reales». Mucho más cómodo y evita problemas con caravanas mixtas de peones/animales/vehículos\n
+• Nuevo diálogo para establecer directamente una avanzadilla desde la pestaña «Todos los peones del jugador». Selecciona los peones de la caravana (solo de tu colonia), selecciona una casilla del mundo, selecciona la avanzadilla a construir. Entonces la caravana se forma de inmediato con el material necesario y la avanzadilla se establece sola al llegar (¡salvo que des cualquier orden a esa caravana!)\n
+• Mucho pulido en muchas ventanas, diálogos y cadenas de traducción\n
+• Otro intento de que los proyectiles flak apunten mejor para volar cerca del proyectil de mortero o de la cápsula de desembarco que deben impactar\n
+]]></TSA_WD_Update_2_2_3_Body>
+  <TSA_WD_Update_2_2_2_Title>Configurar artillería y respuesta rápida + QOL</TSA_WD_Update_2_2_2_Title>
+  <TSA_WD_Update_2_2_2_Body><![CDATA[
+<size=16><b>2.2.2 – Configurar artillería y respuesta rápida + QOL</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 29 de julio de 2026</color>\n
+------------------------------\n
+• Nueva función: Configuración de respuesta rápida. Ahora puedes configurar en un solo diálogo qué objetivos deben atacar tus caravanas interceptoras de respuesta rápida, qué alcance usar para buscar objetivos y si quieren pelear contra cualquiera o solo a ciertos ratios de fuerza.\n
+• Nueva función: Configuración de artillería. Igual que en la avanzadilla de respuesta rápida, ahora puedes configurar en un solo diálogo qué objetivos atacar y a qué alcance.\n
+• Olvidado en las notas de ayer: ahora hay dificultad de mitad y de final de partida para complicarlo. Lo más importante: en esos niveles empiezas a perder buena voluntad con cualquier facción de forma periódica, así que no puedes hacerte amigo de todos y vivir en paz fácilmente. Mitígalo construyendo avanzadillas de embajada que otorgan buena voluntad.\n
+• Nueva función: Ya podías comprar asentamientos neutrales o aliados con buena voluntad o bienes físicos desde hace algunos lanzamientos. Haz clic en el asentamiento deseado y en el gizmo. Lo nuevo ahora: si compras un asentamiento o simplemente envías regalos a un asentamiento PNJ, eso fortalece ese asentamiento y cualquier otro asentamiento de esa facción en un radio de 50 casillas (potencialmente incluso subiendo de nivel). Así ganan algo al venderte un asentamiento. Y regalar a tu aliado lo refuerza.\n
+• Nueva función: Resalta asentamientos y caravanas hostiles, neutrales y aliados en el mapa del mundo en rojo, gris y verde. Color extra en púrpura para caravanas de asalto que van hacia una avanzadilla del jugador o tu colonia. Se puede desactivar en el menú WD del mapa del mundo.\n
+• Nueva función: Marca peones como favoritos en la pestaña «Todos los peones del jugador». Ahora puedes filtrar fácilmente favoritos / no favoritos en todo el mundo para mover peones de A a B. Desde ayer también puedes enviar peones en masa desde tu colonia a otras avanzadillas con un solo clic (incluida la asignación inteligente).\n
+• Nueva función: La contaminación ahora afecta negativamente la fertilidad, la abundancia animal y los caladeros de una casilla del mundo.\n
+• En la pestaña principal de WD ahora puedes ver cuántas incursiones se lanzaron contra ti en qué plazos y si ya has alcanzado el tope.\n
+• Las cartas de incursión entrante ahora muestran el tiempo estimado de llegada más Saltar al atacante / Saltar al objetivo.\n
+• Corregido un error por el que no todos los peones generados al establecer una avanzadilla tras una conquista tenían la habilidad correcta.\n
+• Cambio: Construcción de carreteras. El punto de inicio de un proyecto de carretera ya no tiene que ser la avanzadilla/asentamiento que realiza la acción.\n
+]]></TSA_WD_Update_2_2_2_Body>
+  <TSA_WD_Update_2_2_1_Title>Avanzadilla de pesca, misión de descontaminación y más</TSA_WD_Update_2_2_1_Title>
+  <TSA_WD_Update_2_2_1_Body><![CDATA[
+<size=16><b>2.2.1 – Avanzadilla de pesca, misión de descontaminación y más</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 28 de julio de 2026</color>\n
+------------------------------\n
+• Nueva avanzadilla: Avanzadilla de pesca. Se puede construir en la costa. Produce pescado. Proporciona comida a otras avanzadillas como las de caza, granja y rancho. Incluye una nueva superposición del mapa del mundo «Caladeros» para indicar buenos sitios donde construirla. Viene con 3 mejoras de avanzadilla para aumentar el rendimiento de pesca.\n
+• Nueva función: Misión de descontaminación. Desbloquea la mejora Equipo de descontaminación en cualquier avanzadilla. Luego puedes lanzar misiones de descontaminación enviando una caravana a limpiar la contaminación de una casilla del mapa del mundo. Reducción por defecto de 20 pp por casilla y misión. Por supuesto, totalmente configurable.\n
+• Nueva función: En las ventanas «Todos los peones del jugador» y «Prisioneros» ahora puedes ver las pasiones de cada peón (conmutable) y colorear la mejor habilidad por peón o una comparación global (también conmutable. nivel 0 = rojo, nivel 20 = púrpura. Amarillo y verde en medio).\n
+• Corrección: Los almacenes ahora pueden guardar objetos de arte como esculturas.\n
+• Rehecho la pestaña «Casilla». Selecciona una casilla en el mapa del mundo y abre la pestaña «Casilla». Ahora es mucho más clara y limpia. Además de fertilidad, abundancia animal, riqueza minera y caladeros, ahora también muestra los animales y peces concretos de esa casilla.\n
+• Nueva superposición: Muestra la contaminación de casillas del mundo (igual que la superposición de dificultad de movimiento).\n
+]]></TSA_WD_Update_2_2_1_Body>
+  <TSA_WD_Update_2_2_Title>Avanzadillas de embajada, superposición de movimiento y ajustes de AA</TSA_WD_Update_2_2_Title>
+  <TSA_WD_Update_2_2_Body><![CDATA[
+<size=16><b>2.2 – Avanzadillas de embajada, superposición de movimiento y ajustes de AA</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 27 de julio de 2026</color>\n
+------------------------------\n
+• Nueva función: Rendimientos decrecientes para avanzadillas. Cualquier avanzadilla escalada por puntos de habilidad ahora tendrá rendimientos decrecientes en niveles altos. Comienza a los 60+ puntos de habilidad acumulados por defecto. Tope máximo en 280 puntos (configurable en el nuevo menú de ajustes "Escalado de habilidad de avanzadillas").\n
+• Nueva función: Avanzadilla de embajada. Tendrá en cuenta el asentamiento NPC cercano de mayor nivel y otorgará buena voluntad basada en el nivel de habilidad Social de la avanzadilla y el nivel del asentamiento. ¡Funciona con facciones hostiles por defecto también (conmutable en los ajustes) pero no con las PERMANENTEMENTE hostiles!\n
+• Nueva función: Superposición de dificultad de movimiento. Actívala mediante el botón WD en el mapa del mundo. Muestra qué tan difíciles son de atravesar las casillas del mundo. ¡Ideal para encontrar puntos de estrangulamiento para colocar trampas o bloqueos!\n
+• Las torretas antiaéreas de los asentamientos T4 ahora deberían derribar de forma fiable tus cápsulas de transporte (tanto las de WD como las cápsulas de transporte reales de RimWorld) y también vehículos aéreos del Vehicle Framework.\n
+• Los vehículos aéreos del Vehicle Framework ahora pueden establecer avanzadillas.\n
+• Los vehículos terrestres del Vehicle Framework también deberían poder establecer avanzadillas porque WD ahora puede leer su inventario.\n
+• Las avanzadillas, caravanas y asentamientos de WD ahora mostrarán su icono normal en todos los niveles de zoom (configurable en los ajustes de notificaciones).\n
+• Efectos visuales para proyectiles de flak que explotan.\n
+• Correcciones de errores varias.\n
+]]></TSA_WD_Update_2_2_Body>
+  <TSA_WD_Update_2_1_2_Title>Escalado de habilidad de avanzadillas y corrección de granja/rancho</TSA_WD_Update_2_1_2_Title>
+  <TSA_WD_Update_2_1_2_Body><![CDATA[
+<size=16><b>2.1.2 – Escalado de habilidad y corrección de granja/rancho</b></size>\n
+<color=#00FFFFFF>Fecha: 26 de julio de 2026</color>\n
+------------------------------\n
+• Los multiplicadores de tesela de granja y rancho vuelven a ser solo fertilidad — sin media de habilidad ni “tier” falso metido en la tesela.\n
+• La habilidad acumulada de producción/capacidad usa rendimientos decrecientes (valor completo hasta 60, luego bandas más suaves, tope duro 280 por defecto). Configurar en Ajustes → Escalado de habilidad de avanzadillas.\n
+• Avisos amarillos/rojos cuando estás en bandas suaves o en el tope.\n
+• Las puertas de fundación siguen con habilidad bruta. Las megabases producirán menos — a propósito.\n
+]]></TSA_WD_Update_2_1_2_Body>
+  <TSA_WD_Update_2_1_1_Title>Más bloqueos de carretera y trampas, y presets de ajustes</TSA_WD_Update_2_1_1_Title>
+  <TSA_WD_Update_2_1_1_Body><![CDATA[
+<size=16><b>2.1.1 – Más bloqueos de carretera y trampas, y presets de ajustes</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 26 de julio de 2026</color>\n
+------------------------------\n
+• Nuevos proyectos de construcción de avanzadilla: bloqueo de carretera ligero, bloqueo pesado, trampas de abrojos (Caltrops)\n
+• Las trampas ahora también tienen salud. Cuando una caravana hostil pasa por ellas, las trampas pierden PV y aplican daño a la fuerza de la caravana\n
+• Cada proyecto de construcción de avanzadilla tiene ahora su propio «trabajo para construir», «habilidad de construcción mínima», «fuerza para enviar», etc., configurables en los ajustes del mod\n
+• Añadido un gizmo en avanzadillas del jugador y asentamientos NPC. Al pasar el ratón muestra el radio para atraer apoyo aliado, con desglose en el tooltip\n
+• Esperemos haber corregido un par de errores del puesto de saqueo al intentar enviar cosas minificadas o «stuffable» que podían lanzar un error rojo\n
+• Fusionados los radios para atraer aliados en ataque y defensa en una sola variable/deslizador\n
+• Los ajustes del mod se pueden abrir directamente desde la pestaña principal WD. Se han reagrupado y ahora hay presets de dificultad y rendimiento que ajustan varios deslizadores a la vez.\n
+• Ya enviado ayer en un hotfix: nuevas banderas de notificación, p. ej. avisarte si una avanzadilla no puede enviar un proyecto de construcción por falta de fuerza\n
+]]></TSA_WD_Update_2_1_1_Body>
+  <TSA_WD_Update_1_98_Title>Rendimiento, caravanas WD más lentas, QOL</TSA_WD_Update_1_98_Title>
+  <TSA_WD_Update_1_98_Body><![CDATA[
+<size=16><b>1.98 – Rendimiento, caravanas WD más lentas, QOL</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 20 de julio de 2026</color>\n
+------------------------------\n
+• Las cápsulas enviadas desde la avanzadilla de respuesta rápida ahora también atraviesan el mapa del mundo y ya no llegan al instante\n
+• Se ha rehecho la pestaña «Peones» de las avanzadillas WD: menos secciones, más filtros\n
+• Las caravanas WD ahora son más lentas; su velocidad debería parecerse más a una caravana del jugador ligeramente cargada\n
+• QOL: En el diálogo de envío de bienes del almacén ahora puedes escribir la cantidad exacta que quieres enviar\n
+• QOL: En las avanzadillas productoras de comida (granjas, establos, cazaderos) puedes aumentar la cantidad de comida que se añade/quita por clic manteniendo Ctrl, Shift o ambas (×10, ×100, ×1000), igual que en RimWorld vanilla\n
+• Rendimiento: Se optimizó el renderizado de las caravanas WD y de los textos en el mapa del mundo, lo que debería mejorar el rendimiento con el mapa del mundo abierto\n
+]]></TSA_WD_Update_1_98_Body>
+  <TSA_WD_Update_1_97_Title>Mejoras de rendimiento, el reclutamiento respeta los tipos de peón, QOL</TSA_WD_Update_1_97_Title>
+  <TSA_WD_Update_1_97_Body><![CDATA[
+<size=16><b>1.97 – Mejoras de rendimiento, el reclutamiento respeta los tipos de peón, QOL</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 19 de julio de 2026</color>\n
+------------------------------\n
+• La función más pesada en rendimiento de WD 2.0 es el pathfinding de las caravanas. Hasta ahora el mod calculaba rutas incluso en la fase previa a la incursión para saber exactamente qué tan fuerte llegaría la caravana atacante. Eso servía para que los atacantes evitaran misiones suicidas (por defecto necesitaban al menos el 90 % de la fuerza del defensor al llegar). Ahora es un deslizador configurable en el submenú de ajustes «World Map Raids», y por defecto solo se calculan rutas exactas en el 30 % de los casos previos a la incursión. Cuando se lanza una caravana real, sí se calcula una ruta real (inevitable).\n
+• Corregido un error con las caravanas comerciantes que seguían calculando rutas aunque ya hubieran encontrado un destino adecuado (ahorra algo de rendimiento)\n
+• Se redujo la frecuencia con la que los asentamientos T4 NPC buscan objetivos para su mortero. Además, en cada ciclo de comprobación como máximo tres asentamientos T4 ejecutan la búsqueda (ahorra rendimiento; los morteros de avanzadillas del jugador no cambian)\n
+• Cualquier opción de reclutamiento (Establecer avanzadilla tras conquista, Reclutar tras conquista, Avanzadilla de reclutamiento) ahora genera peones con los tipos de peón del asentamiento conquistado o de los cercanos. Si conquistas una base de pigskins, obtienes tipos de peón pigskin (incluso un combatiente de alto nivel con su equipo)\n
+• El menú flotante WD del mapa del mundo (abajo a la derecha) ahora muestra todas las opciones en el nivel superior (superposiciones, etiquetas, textos) y añade muchas tooltips explicativas\n
+• En el diálogo de establecer avanzadilla, cualquier tipo de avanzadilla que no puedas construir se resalta en rojo\n
+• Las mismas casillas bloqueadas que afectan a tus avanzadillas ahora también se aplican a los asentamientos NPC que intentan expandirse\n
+• Varios ajustes de rendimiento y calidad de vida\n
+]]></TSA_WD_Update_1_97_Body>
+  <TSA_WD_Update_1_96_Title>Pequeña actualización y correcciones</TSA_WD_Update_1_96_Title>
+  <TSA_WD_Update_1_96_Body><![CDATA[
+<size=16><b>1.96 – Pequeña actualización y correcciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 18 de julio de 2026</color>\n
+------------------------------\n
+• Corrige un problema por el que la superposición de casillas bloqueadas no se actualizaba\n
+• Los peones reclutados tras una conquista deberían usar ahora el grupo de tipos de peón de la facción a la que pertenecía el asentamiento\n
+• Corregido un problema por el que las líneas de comida no quedaban delante en el mapa del mundo (las líneas verdes y cian que indican a qué avanzadillas envía comida un productor y de dónde reciben comida los receptores)\n
+• Algunas correcciones de rendimiento y lógica para morteros y caravanas de intercepción en el mapa del mundo\n
+• Componentes avanzados, componentes y obsidiana ahora requieren niveles mínimos de minería en la avanzadilla minera\n
+• El alcance de refuerzo predeterminado del atacante es ahora 10 casillas y el del defensor 12 casillas. Restablece toda la configuración del mod o el submenú «World Map Raids» para aplicarlos\n
+]]></TSA_WD_Update_1_96_Body>
+  <TSA_WD_Update_1_95_Title>Corrección de un caso extremo en el que desaparecía la avanzadilla y ajustes del panel WD</TSA_WD_Update_1_95_Title>
+  <TSA_WD_Update_1_95_Body><![CDATA[
+<size=16><b>1.95 – Corrección de un caso extremo en el que desaparecía la avanzadilla y ajustes del panel WD</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 17 de julio de 2026</color>\n
+------------------------------\n
+• Se reforzó la lógica para corregir algunos problemas poco frecuentes en los que las avanzadillas desaparecían al cargar una partida (p. ej. avanzadillas con una incursión inminente o con un mapa de defensa activo)\n
+• Se añadieron botones al indicador de amenazas del panel principal de WD. Ahora puedes ver el porcentaje de los puntos de incursión actuales del narrador o la cantidad concreta de puntos de incursión esperados. Y bien los valores de fuerza brutos o los valores limitados según la configuración del mod (con los ajustes predeterminados, una incursión WD no puede superar el 225 % de los puntos de incursión actuales del narrador)\n
+]]></TSA_WD_Update_1_95_Body>
+  <TSA_WD_Update_1_94_Title>Expertos de avanzadilla, casillas bloqueadas y transbordadores Odyssey</TSA_WD_Update_1_94_Title>
+  <TSA_WD_Update_1_94_Body><![CDATA[
+<size=16><b>1.94 – Expertos de avanzadilla, superposición de casillas bloqueadas y soporte de transbordadores Odyssey</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 15 de julio de 2026</color>\n
+------------------------------\n
+• Nueva función: pestaña Expertos de avanzadilla. Asigna un Estratega, Animador, Médico o Ingeniero en cada avanzadilla para bonificaciones de alcance de ataque, producción, curación/recuperación y caminos/recuperación defensiva\n
+• Nueva función: superposición de casillas bloqueadas. Con una caravana real con colonos seleccionada en el mapa del mundo, las casillas bloqueadas por asentamientos y avanzadillas se resaltan con franjas blancas que indican que no puedes establecer una avanzadilla allí por proximidad. Se activa con el botón WD en la esquina inferior derecha de la pantalla del mapa del mundo.\n
+• Rediseño del diálogo de producción con un resumen de resultados más claro y menos espacio entre nombres de artículos y líneas de fórmula\n
+• Las opciones de producción bloqueadas por investigación o habilidades no cumplidas se resaltan ahora en rojo claro en el diálogo de producción de avanzadillas. Pasa el cursor para ver los requisitos exactos de habilidad, investigación o colonos\n
+• Los transbordadores de pasajeros del DLC Odyssey pueden establecer avanzadillas en el mapa del mundo y transportar colonos a avanzadillas. Se añaden al inventario de la avanzadilla como otros vehículos, animales o mecanoides\n
+• Varios ajustes de calidad de vida y correcciones de errores\n
+]]></TSA_WD_Update_1_94_Body>
+  <TSA_WD_Update_1_93_Title>Mejoras y correcciones de interfaz</TSA_WD_Update_1_93_Title>
+  <TSA_WD_Update_1_93_Body><![CDATA[
+<size=16><b>1.93 – Mejoras y correcciones de interfaz</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 14 de julio de 2026</color>\n
+------------------------------\n
+• Rediseño de la interfaz para construir mejoras de avanzadilla y establecer avanzadillas\n
+• Los mecanoides en avanzadillas pueden controlarse durante los encuentros de defensa aunque el mecanitor no esté presente\n
+• Nuevas opciones de superposición en el mapa del mundo: puedes mostrar la fuerza y el enfriamiento de incursión sobre cada avanzadilla\n
+• Mayor recompensa predeterminada por ceder un asentamiento conquistado a una facción neutral o aliada (restablece los ajustes de diplomacia en la configuración del mod para aplicar los nuevos valores)\n
+]]></TSA_WD_Update_1_93_Body>
+  <TSA_WD_Update_1_92_Title>Ajustes de avanzadilla comercial y QOL</TSA_WD_Update_1_92_Title>
+  <TSA_WD_Update_1_92_Body><![CDATA[
+<size=16><b>1.92 – Ajustes de avanzadilla comercial y QOL</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 13 de julio de 2026</color>\n
+------------------------------\n
+• Nuevas mejoras de avanzadilla para el Rancho: 3 niveles de graneros que aumentan la productividad y aportan algo de fuerza defensiva\n
+• La avanzadilla comercial ahora puede producir plata u oro\n
+• Los cálculos de cuánto obtienes y por qué son más claros ahora\n
+• Todos los textos y superposiciones de WD están ahora en un solo botón con el icono «WD» en el mapa del mundo\n
+• Mostrar niveles de asentamiento y textos de comida de avanzadillas en el mapa son ahora opciones independientes\n
+• Simulación de establecer avanzadilla: abre el botón WD del mapa, elige Simulación de establecer avanzadilla y haz clic en la casilla deseada del mapa del mundo\n
+• La ventana de notas de actualización tiene ahora una barra lateral práctica para consultar todas las actualizaciones\n
+]]></TSA_WD_Update_1_92_Body>
+  <TSA_WD_Update_1_91_Title>Avanzadilla de reclutamiento y actualización de interfaz</TSA_WD_Update_1_91_Title>
+  <TSA_WD_Update_1_91_Body><![CDATA[
+<size=16><b>1.91 – Avanzadilla de reclutamiento y actualización de interfaz</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 12 de julio de 2026</color>\n
+------------------------------\n
+• Rediseño del diálogo de las avanzadillas de Reclutamiento, Comercio y Academia. Ahora indica con más claridad cuáles son los factores que contribuyen al resultado\n
+• Las avanzadillas de Reclutamiento se benefician más cuantos más asentamientos neutrales y aliados haya cerca, y cuanto mayor sea su nivel\n
+]]></TSA_WD_Update_1_91_Body>
+  <TSA_WD_Update_1_90_Title>Rework del sistema de comida, correcciones y QOL</TSA_WD_Update_1_90_Title>
+  <TSA_WD_Update_1_90_Body><![CDATA[
+<size=16><b>1.90 – Rework del sistema de comida, correcciones y QOL</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 11 de julio de 2026</color>\n
+------------------------------\n
+• Las avanzadillas de Agricultura, Caza y Ganadería pueden producir comida virtual para otras avanzadillas y bienes físicos al mismo tiempo. El sistema anterior era demasiado confuso y propenso a errores. Una granja con 30 de habilidad Plantas puede usar esos 30 puntos tanto para producción virtual de comida como para bienes físicos\n
+• Las ventanas de Comida (Logística) y Producción han sido rediseñadas, junto con muchos tooltips explicativos. Debería ser más fácil de entender ahora\n
+• Las avanzadillas de Almacén pueden enviar bienes a tu colonia y a otros almacenes mediante cápsulas de transporte si se han investigado (desde la pestaña «Almacenamiento»)\n
+• Corregido un bug donde las avanzadillas de Respuesta Rápida recuperaban fuerza al perder una caravana de intercepción\n
+• Las avanzadillas de Respuesta Rápida solo pueden lanzar una caravana de intercepción por caravana de asalto\n
+]]></TSA_WD_Update_1_90_Body>
+  <TSA_WD_Update_1_80_Title>Gran actualización y renovación</TSA_WD_Update_1_80_Title>
+  <TSA_WD_Update_1_80_Body><![CDATA[
+<size=16><b>1.80 – Gran actualización y renovación</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 7 de julio de 2026</color>\n
+------------------------------\n
+• Importante: Restablece todos los ajustes del mod o al menos los del submenú "Incursiones en el mapa del mundo"\n
+• Nueva función: Una nueva ventana "Todos los peones del jugador" a la que se accede desde la pestaña principal de WD. Te permite ver, filtrar y comparar fácilmente cualquier peón, vehículo, animal y mecoide de todo el mundo (colonia, avanzadillas, caravanas en tránsito). Y puedes asignar fácilmente peones para formar una caravana que se desplace de la Avanzadilla A a la Avanzadilla B o a la colonia\n
+• Nueva función: Ahora puedes hacer clic en un asentamiento aliado o neutral y pedirle que construya un camino para ti. Cuesta opinión\n
+• Nueva función: Punto de entrega de avanzadillas. Se encuentra en "Varios". Las entregas de avanzadillas se colocarán sobre y alrededor de este punto\n
+• Nueva función: Las batallas simuladas ya no tienen solo resultados binarios (victoria/derrota), sino que ahora hay más matices en cuanto a "¿fue una victoria ajustada o una victoria decisiva?", lo que afecta enormemente a cuánta fuerza pierden el atacante y el defensor\n
+• Nueva función: Pestaña de estadísticas para asentamientos NPC. Comprende mejor cuánta fuerza tiene un asentamiento, incluidos sus aliados de apoyo\n
+• Renovación: La pestaña principal de WD se ha reestructurado\n
+• Renovación: WD ahora indica más claramente qué asentamientos son la mayor amenaza para ti y cuántos puntos de incursión esperar\n
+• Otro intento de corregir el problema de los proyectiles de mortero que no desaparecen del mapa del mundo\n
+• Muchas correcciones de errores y mejoras de calidad de vida\n
+]]></TSA_WD_Update_1_80_Body>
+  <TSA_WD_Update_1_71_Title>Actualización del mapa de defensa de avanzadillas</TSA_WD_Update_1_71_Title>
+  <TSA_WD_Update_1_71_Body><![CDATA[
+<size=16><b>1.71 – Actualización del mapa de defensa de avanzadillas</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 5 de julio de 2026</color>\n
+------------------------------\n
+• Las mejoras de muros, trampas de pinchos y torretas ahora aparecerán cuando decidas defender tu avanzadilla en un mapa real.\n
+• Nueva función: Los peones reclutados por una avanzadilla de reclutamiento ahora respetarán la composición de xenotipos de los asentamientos cercanos (si la avanzadilla está cerca de pieles de cerdo, es probable que también reclutes pieles de cerdo).\n
+• Ajustes en la pantalla de estadísticas de avanzadillas.\n
+]]></TSA_WD_Update_1_71_Body>
+  <TSA_WD_Update_1_70_Title>Correcciones de errores y mejoras de calidad de vida</TSA_WD_Update_1_70_Title>
+  <TSA_WD_Update_1_70_Body><![CDATA[
+<size=16><b>1.70 – Correcciones de errores y mejoras de calidad de vida</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 4 de julio de 2026</color>\n
+------------------------------\n
+• Corrección: La velocidad de construcción de caminos ahora escala con la habilidad Construcción acumulada. Antes escalaba con la fuerza ofensiva.\n
+• Corrección: Jugadores informaron que proyectiles de mortero y caravanas a veces quedaban atascados en el mapa del mundo. Se intentó corregir. Añadida una acción de desarrollo en el mapa del mundo para eliminar manualmente proyectiles de mortero/caravanas si te ocurre.\n
+• Corrección: Los asaltantes a veces atacaban asentamientos o tu avanzadilla pese a ser demasiado débiles. Ahora deberían respetar el umbral de ratio de fuerza por defecto de 0,90 (es decir, el atacante necesita al menos el 90 % de la fuerza del defensor para lanzar un ataque).\n
+• La opinión actual con una facción ahora se muestra en la página de resumen de Diplomacia WD y cuando ordenas a un aliado lanzar una incursión por ti.\n
+• Cambiados algunos valores por defecto, p. ej. el radio de intercepción de asaltantes de la Avanzadilla de Respuesta Rápida. ¡Quizá quieras restablecer todos los ajustes a los valores por defecto o al menos los de Avanzadillas y Construcción de caminos!\n
+• Las avanzadillas de tier superior deberían producir más y mejor rendimiento ahora.\n
+• Aún en desarrollo: Las avanzadillas con peones heridos ahora se indican en la página de resumen de avanzadillas. Lógica de curación mejorada (sobre todo con infecciones).\n
+]]></TSA_WD_Update_1_70_Body>
+  <TSA_WD_Update_1_60_Title>Mecoides trabajadores, curación en avanzadillas y logística simplificada</TSA_WD_Update_1_60_Title>
+  <TSA_WD_Update_1_60_Body><![CDATA[
+<size=16><b>1.60 – Mecoides trabajadores, curación en avanzadillas y logística simplificada</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 3 de julio de 2026</color>\n
+------------------------------\n
+• Los androides de VRE Androids ya no consumen comida en las avanzadillas.\n
+• Nueva columna Comida diaria en la pestaña Peones de la avanzadilla.\n
+• Nueva columna Herido en la pestaña Peones (icono de sangrado) para ocupantes con heridas que la avanzadilla está curando.\n
+• Nueva pestaña Estadísticas al inspeccionar avanzadillas — desglose detallado de producción, combate, comida y más (primera pestaña).\n
+• Los mecanoides pueden añadirse a las avanzadillas y aportar a la producción (al menos nivel 5 en su habilidad especializada).\n
+• Los ocupantes se curan lentamente en las avanzadillas. Sobre todo para que los peones heridos en defensa manual no queden malheridos para siempre. Nota de equilibrio: los peones no mueren por heridas o infecciones mientras están empaquetados en una avanzadilla, pero cualquier herida no permanente acabará curándose (más ajustes pendientes).\n
+• Logística de comida simplificada en avanzadillas productoras: eliminados dos modos inteligentes antiguos. Quedan tres opciones — Inteligente (antiguo algoritmo de déficit), Todo a colonia y Manual.\n
+]]></TSA_WD_Update_1_60_Body>
+  <TSA_WD_Update_1_50_Title>Avanzadilla rancho, valores por defecto en ajustes y búsqueda de mejoras</TSA_WD_Update_1_50_Title>
+  <TSA_WD_Update_1_50_Body><![CDATA[
+<size=16><b>1.50 – Avanzadilla rancho, valores por defecto en ajustes y búsqueda de mejoras</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 29 de junio de 2026</color>\n
+------------------------------\n
+• Nueva avanzadilla: Rancho. Produce leche, huevos o lana. Escala con la habilidad Animales y la fertilidad de la casilla, de forma similar a la Avanzadilla agrícola. Se pueden añadir productos producibles mediante XML, tal como solicitó un jugador.\n
+• El valor por defecto de cualquier ajuste ahora se muestra al pasar el ratón en los ajustes del mod, tal como solicitó un jugador.\n
+• La pestaña de mejoras ahora tiene una barra de búsqueda y un desplegable de filtros: todas las mejoras, mejoras construidas, mejoras sin construir y mejoras que puedes permitirte.\n
+• Nueva función: ahora hay un botón desplegable (icono de zonas) en el mapa del mundo que permite visualizar la fertilidad, la abundancia animal y la eficiencia minera alrededor del cursor, para ayudarte a elegir más fácilmente la casilla perfecta para tu avanzadilla.\n
+]]></TSA_WD_Update_1_50_Body>
+  <TSA_WD_Update_1_40_Title>Avanzadilla de respuesta rápida y varios</TSA_WD_Update_1_40_Title>
+  <TSA_WD_Update_1_40_Body><![CDATA[
+<size=16><b>1.40 – Avanzadilla de respuesta rápida y varios</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 28 de junio de 2026</color>\n
+------------------------------\n
+• Nueva avanzadilla: Avanzadilla de respuesta rápida. Lanzará automáticamente una caravana virtual contra caravanas enemigas entrantes. Elige a cuáles atacar: solo asaltantes, o también otras.\n
+• Con Cápsulas de transporte investigadas, también puedes lanzar peones reales contra caravanas enemigas desde la pestaña "Peones" de la Avanzadilla de respuesta rápida.\n
+• Se cambiaron muchos valores por defecto para un mejor equilibrio. ¡Quizá quieras restablecer tus ajustes a los valores por defecto!\n
+• Se redujo el coste de materiales de las avanzadillas en general. La madera pesa mucho, lo que obligaba al jugador a llevar unos 4 peones todo el tiempo.\n
+• Los vehículos y animales acuartelados en una avanzadilla ahora aparecerán cuando elijas defender la avanzadilla en un mapa real.\n
+• El recuento de animales y vehículos ahora aparece en la pestaña de vista general de avanzadillas.\n
+• Se añadió una barra de búsqueda al diálogo de creación de avanzadillas, ya que ahora tenemos demasiadas avanzadillas.\n
+• Las avanzadillas ahora pueden construir caminos de piedra y asfalto incluso sin usar el mod Roads of the Rim. Hay un nuevo menú de ajustes de construcción de caminos, bloqueado tras los ajustes avanzados.\n
+]]></TSA_WD_Update_1_40_Body>
+  <TSA_WD_Update_1_30_Title>Soporte de animales y vehículos para avanzadillas</TSA_WD_Update_1_30_Title>
+  <TSA_WD_Update_1_30_Body><![CDATA[
+<size=16><b>1.30 – Soporte de animales y vehículos para avanzadillas</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 27 de junio de 2026</color>\n
+------------------------------\n
+• Nueva función: las avanzadillas ahora pueden guardar animales y vehículos de Vehicle Framework en vez de descartarlos.\n
+• Los animales y vehículos almacenados aportan fuerza ofensiva a la avanzadilla y muestran su contribución en la pestaña Peones.\n
+• Cuando envías peones a una defensa manual de avanzadilla que ya está en curso, los peones extra supervivientes del jugador se devuelven tras el combate, normalmente formando una caravana en la casilla de la avanzadilla.\n
+• Los animales ya no se sacrifican automáticamente al llevarlos a una avanzadilla, ya que ahora pueden almacenarse. Actualmente los animales no consumen comida de la avanzadilla.\n
+]]></TSA_WD_Update_1_30_Body>
+  <TSA_WD_Update_1_20_Title>Limpieza de la vista general de centrales eléctricas, refresco de dificultad más rápido y reservas de enfriamiento de incursiones</TSA_WD_Update_1_20_Title>
+  <TSA_WD_Update_1_20_Body><![CDATA[
+<size=16><b>1.20 – Limpieza de la vista general de centrales eléctricas, refresco de dificultad más rápido y reservas de enfriamiento de incursiones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 24 de junio de 2026</color>\n
+------------------------------\n
+• Se eliminó el gizmo de producción de las avanzadillas de central eléctrica.\n
+• Las avanzadillas de central eléctrica ahora muestran en la vista general de avanzadillas cuánta energía remota producen para la colonia del jugador.\n
+• La condición de dificultad de fase avanzada ahora se comprueba con más frecuencia que una vez por día de juego, por lo que los cambios de ajustes y de poder se reflejan antes.\n
+• El enfriamiento de incursión de la colonia del jugador ahora se reserva cuando una incursión WD se lanza o despacha, no solo cuando la incursión llega.\n
+]]></TSA_WD_Update_1_20_Body>
+  <TSA_WD_Update_1_10_Title>Avanzadillas de central eléctrica, interfaz de producción más clara y protecciones para entregas de mejoras</TSA_WD_Update_1_10_Title>
+  <TSA_WD_Update_1_10_Body><![CDATA[
+<size=16><b>1.10 – Avanzadillas de central eléctrica, interfaz de producción más clara y protecciones para entregas de mejoras</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 23 de junio de 2026</color>\n
+------------------------------\n
+• Nueva avanzadilla: las avanzadillas de central eléctrica producen electricidad de forma remota para tu colonia.\n
+• Añadido un parche de compatibilidad con el mod Power Tab, para que la producción de energía remota de WD sea visible allí y las centrales eléctricas individuales puedan listarse por nombre.\n
+• Las avanzadillas de central eléctrica tienen cuatro mejoras que aumentan su producción de energía.\n
+• Se limpió el diálogo de producción de avanzadillas, con menos fórmulas visibles, mejor espaciado y detalles compactos al pasar el ratón.\n
+• Añadidas traducciones al español y al chino para nombres y descripciones de mejoras de avanzadilla.\n
+• Corregidos casos límite en los que una avanzadilla podía quedarse bloqueada en "mejora en curso" tras destruirse una caravana de mejora o fallar su lanzamiento.\n
+• Añadida una acción de depuración en el mapa mundial para desbloquear manualmente avanzadillas atascadas en la pantalla de mejoras.\n
+• Añadidas protecciones para que las avanzadillas de almacén no puedan pagar ni entregar mejoras para sí mismas.\n
+]]></TSA_WD_Update_1_10_Body>
+  <TSA_WD_Update_1_0_0_Title>Defensa de avanzadillas en mapa y límite de buena voluntad aumentado</TSA_WD_Update_1_0_0_Title>
+  <TSA_WD_Update_1_0_0_Body><![CDATA[
+<size=16><b>1.0.0 – Defensa de avanzadillas en mapa y límite de buena voluntad aumentado</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 21 de junio de 2026</color>\n
+------------------------------\n
+• Nueva función importante: las avanzadillas ahora pueden defenderse en mapas reales con los peones reales acuartelados allí.\n
+• Añadida una pantalla para elegir entre resolución automática y defensa manual cuando una caravana de incursión alcanza tu avanzadilla. La pantalla muestra la fuerza atacante, la fuerza defensora, la relación de fuerza y la probabilidad de victoria del defensor.\n
+• Aumentado el máximo de buena voluntad a 200.\n
+• Añadidos nuevos puntos de referencia de resultado para incursiones de baja fuerza en 0.10x y 0.25x de fuerza atacante relativa, para ajustar mejor la resolución automática.\n
+• Reducido el coste de algunas mejoras de avanzadilla.\n
+]]></TSA_WD_Update_1_0_0_Body>
+  <TSA_WD_Update_0_9_110_Title>Guarniciones dinámicas y correcciones de cálculo de incursiones</TSA_WD_Update_0_9_110_Title>
+  <TSA_WD_Update_0_9_110_Body><![CDATA[
+<size=16><b>0.9.110 – Guarniciones dinámicas y correcciones de cálculo de incursiones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 19 de junio de 2026</color>\n
+------------------------------\n
+• Nueva función: Cuando ataques un asentamiento enemigo, la fuerza de su guarnición en el mapa ya no dependerá solo del nivel del asentamiento. Ahora también escala con la fuerza ofensiva disponible de ese asentamiento, por lo que un asentamiento T3 debilitado se notará realmente más débil al atacarlo.\n
+• Corrección: Se corrigieron incoherencias entre el análisis previo y posterior a las incursiones, incluyendo cómo se calculan y muestran las contribuciones de fuerza de atacantes y defensores.\n
+]]></TSA_WD_Update_0_9_110_Body>
+  <TSA_WD_Update_0_9_100_Title>Órdenes de incursión aliadas, opciones tras conquista, ajustes de crecimiento y soporte para Endless Growth</TSA_WD_Update_0_9_100_Title>
+  <TSA_WD_Update_0_9_100_Body><![CDATA[
+<size=16><b>0.9.100 – Órdenes de incursión aliadas, opciones tras conquista, ajustes de crecimiento y soporte para Endless Growth</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 18 de junio de 2026</color>\n
+------------------------------\n
+• Nueva función: Selecciona un asentamiento aliado en el mapa mundial y ordénale atacar un asentamiento hostil, pagando buena voluntad. Elige si el aliado debe quedarse con el asentamiento conquistado o entregártelo a ti. Entregártelo cuesta el doble de buena voluntad.\n
+• Nueva función: Tras conquistar un asentamiento, ahora puedes elegir entre establecer una avanzadilla, reclutar supervivientes que se añaden a tu caravana, o entregar el asentamiento a una facción neutral o aliada para ganar buena voluntad. Advertencia: "Reclutar supervivientes" solo se ha probado con caravanas normales. Puede causar resultados no deseados con Gravships o caravanas de vehículos. ¡Pendiente de pruebas!\n
+• Nueva opción configurable: En los ajustes de "Crecimiento y expansión", ahora puedes elegir cuántos asentamientos del mismo nivel deben estar cerca para que un asentamiento pueda mejorar al siguiente nivel. Antes esto estaba fijado en >= 2.\n
+• Las avanzadillas ahora tienen soporte para niveles de habilidad estilo Endless Growth, por lo que un solo peón puede aportar más de nivel 20 en la habilidad relevante.\n
+]]></TSA_WD_Update_0_9_100_Body>
+  <TSA_WD_Update_0_9_90_Title>Arreglos de capas, pulido de morteros y arreglo de rebeliones</TSA_WD_Update_0_9_90_Title>
+  <TSA_WD_Update_0_9_90_Body><![CDATA[
+<size=16><b>0.9.90 – Arreglos de capas, pulido de morteros y arreglo de rebeliones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 16 de junio de 2026</color>\n
+------------------------------\n
+<b>Mejoras</b>\n
+• Los asentamientos T4 enemigos ahora muestran la recarga de su mortero en el panel de inspección, igual que tus propias avanzadillas de mortero.\n
+• El fuego de mortero de los T4 enemigos ahora puede destruir tus avanzadillas por completo una vez que su fuerza se agota, perdiendo a todos sus ocupantes. Antes tus avanzadillas solo sufrían desgaste.\n
+\n
+<b>Correcciones</b>\n
+• Se reelaboró cómo WD identifica la superficie del planeta frente a la capa espacial. Esto debería evitar por fin que WD intente lanzar caravanas de la superficie al espacio (o al revés) y los errores de ruta asociados.\n
+• Las explosiones de impacto de mortero ya no son visibles desde el espacio: ahora solo aparecen con un zoom más cercano.\n
+• La probabilidad de rebelión ahora coincide con tu ajuste del mod. Se estaba reduciendo una segunda vez, por lo que las rebeliones ocurrían mucho menos de lo configurado; ahora se aplica directamente el valor del control.\n
+]]></TSA_WD_Update_0_9_90_Body>
+  <TSA_WD_Update_0_9_80_Title>Escalado de dificultad de fase avanzada y morteros enemigos</TSA_WD_Update_0_9_80_Title>
+  <TSA_WD_Update_0_9_80_Body><![CDATA[
+<size=16><b>0.9.80 – Escalado de dificultad de fase avanzada y morteros enemigos</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 15 de junio de 2026</color>\n
+------------------------------\n
+<b>Nuevo: Escalado de dificultad de fase avanzada</b>\n
+• Cuando alcanzas poder real —al menos 2.000 de fuerza total en avanzadillas O un 25% de la fuerza mundial total— las facciones hostiles empiezan a responder. Mientras está activo, aparece una nota blanca permanente "Dificultad de fase avanzada activa" en el lado derecho de la pantalla.\n
+• Los enemigos dentro de tu radio de influencia crecen más rápido.\n
+• Los enemigos priorizan expandirse hacia tus posesiones.\n
+• Las incursiones hostiles se dirigen hacia ti.\n
+• Los asentamientos T4 enemigos pueden disparar morteros a tus avanzadillas y caravanas WD (tus caravanas físicas/vanilla nunca son objetivo).\n
+• Tus avanzadillas pueden sufrir incidentes de desgaste: menos frecuentes que antes (10%/día) pero mucho más severos (250 de fuerza).\n
+• Todos los umbrales y la intensidad de los efectos se configuran en el nuevo menú "Dificultad de fase avanzada" (ajustes avanzados). Esto reemplaza el antiguo sistema de Índice de Poder del Jugador.\n
+\n
+<b>Nuevo: Morteros de asentamientos T4 enemigos</b>\n
+• Los asentamientos T4 enemigos ahora disparan morteros a caravanas hostiles no jugadoras, y a asentamientos hostiles cuando no hay ninguna caravana al alcance.\n
+• Los morteros enemigos tienen su propio menú de ajustes (alcance, recarga, daño, precisión) para ajustarlos por separado de tus avanzadillas de mortero.\n
+\n
+<b>Nuevo: Notificaciones de mortero</b>\n
+• Interruptores de carta independientes para: tu mortero disparando (neutral), morteros enemigos apuntándote (negativo) y fuego de mortero entre enemigos (neutral, DESACTIVADO por defecto para evitar spam).\n
+\n
+<b>Correcciones</b>\n
+• Las mercancías de avanzadilla ya no se entregan en celdas que no puedes alcanzar (bajo montañas o al otro lado de aguas profundas).\n
+• Añadidas traducciones chinas que faltaban.\n
+]]></TSA_WD_Update_0_9_80_Body>
+  <TSA_WD_Update_0_9_70_Title>Outposts de almacén e investigación, iconos de gizmos y arreglo de paz en incursiones</TSA_WD_Update_0_9_70_Title>
+  <TSA_WD_Update_0_9_70_Body><![CDATA[
+<size=16><b>0.9.70 – Outposts de almacén e investigación, iconos de gizmos y arreglo de paz en incursiones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 10 de junio de 2026</color>\n
+------------------------------\n
+• Nuevo tipo de outpost: Almacén. Puede recibir mercancías de otros outposts y enviar mercancías a la colonia y a otros almacenes. Pensado sobre todo para estilos de juego con Gravship/Caravana cuando el jugador no tiene necesariamente una colonia permanente.\n
+• Nuevo tipo de outpost: Investigación. Contribuye pasivamente a tu investigación actual. Escala con la habilidad Intelectual acumulada en ese outpost y tiene dos nuevas mejoras de outpost que aumentan la velocidad de investigación.\n
+• Cambiados algunos iconos de gizmos de comando.\n
+• Corrección: si una caravana de incursión va hacia tu base y haces la paz con esa facción atacante, la incursión se cancelará y se reembolsará al llegar.\n
+]]></TSA_WD_Update_0_9_70_Body>
+  <TSA_WD_Update_0_9_60_Title>Outpost Academia, selección vanilla de estrategia de incursión y arreglo de morteros</TSA_WD_Update_0_9_60_Title>
+  <TSA_WD_Update_0_9_60_Body><![CDATA[
+<size=16><b>0.9.60 – Outpost Academia, selección vanilla de estrategia de incursión y arreglo de morteros</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 25 de abril de 2026</color>\n
+------------------------------\n
+• Añadido un nuevo tipo de outpost, "Academia", que te permite entrenar peones en una habilidad de tu elección. Cómo funciona: necesitas un profesor capaz en ese outpost (al menos nivel 8 en la habilidad relevante por defecto). Según el nivel de habilidad del profesor, se otorga cierta cantidad de XP a los estudiantes por intervalo de tiempo (500 XP por día por defecto). Con nivel 20 del profesor, la XP otorgada se duplica. Los estudiantes solo pueden ganar XP si están al menos 3 niveles por debajo del profesor en la habilidad relevante.\n
+• Las incursiones WD ya no son siempre "Ataques inmediatos". En su lugar, se usa la lógica vanilla, por lo que con niveles altos de puntos de incursión pueden aparecer desembarcos en el centro o asedios.\n
+• Corregido un error por el que los outposts de mortero no deducían correctamente el daño de un objetivo.\n
+]]></TSA_WD_Update_0_9_60_Body>
+  <TSA_WD_Update_0_9_50_Title>Puestos de carroñero y mortero, puntos de incursión = fuerza, iconos nuevos</TSA_WD_Update_0_9_50_Title>
+  <TSA_WD_Update_0_9_50_Body><![CDATA[
+<size=16><b>0.9.50 – Puestos de carroñero y mortero, puntos de incursión = fuerza, iconos nuevos</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 18 de abril de 2026</color>\n
+------------------------------\n
+• Nuevo puesto de carroñero. Similar al de Vanilla Outposts Expanded: los colonos generan botines aleatorios. Cada peón aumenta el valor de mercado acumulado del botín y, con suficientes peones, puedes buscar objetos de mayor valor.\n
+• Nuevo puesto de mortero. Opción de final de partida: disparar manualmente a asentamientos hostiles, caravanas o viajeros WD en alcance para debilitarlos o destruirlos. También puedes activar el disparo automático contra caravanas enemigas en el radio. La precisión depende del mejor nivel de Disparos; más peones reducen el tiempo de recarga según la suma de Disparos. Incluye tres mejoras de puesto para daño de proyectil, probabilidad de impacto y enfriamiento.\n
+• Rehacer la lógica de puntos de incursión para alinearla con la fuerza WD: fuerza = puntos de incursión. En ajustes del mod puedes fijar suelo y techo para que los puntos no bajen ni suban más allá de un X–Y % respecto a la línea base del narrador. Más «lo que ves es lo que obtienes»: una caravana que llega con 2k de fuerza genera ~2k puntos de incursión salvo que el suelo/techo lo limiten.\n
+• Muchos iconos actualizados gracias a la colaboradora Geneva :-)\n
+]]></TSA_WD_Update_0_9_50_Body>
+  <TSA_WD_Update_0_9_40_Title>Rutas de comerciantes, fundación de puestos avanzados, esclavos e interfaz</TSA_WD_Update_0_9_40_Title>
+  <TSA_WD_Update_0_9_40_Body><![CDATA[
+<size=16><b>0.9.40 – Rutas de comerciantes, fundación de puestos avanzados, esclavos e interfaz</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 10 de abril de 2026</color>\n
+------------------------------\n
+• Se ha intentado corregir un fallo por el que las caravanas comerciales intentaban llegar a asentamientos en órbita (indica si sigue ocurriendo).\n
+• Al fundar un puesto avanzado con vehículos o animales en la caravana, aparece una advertencia de que se perderán en el proceso. Si aceptas, los animales se convierten en comida del puesto y los vehículos se eliminan correctamente.\n
+• Soporte completo para esclavos de Ideology en puestos avanzados: se resaltan en amarillo en la vista de peones. No puedes retirar esclavos del puesto si no queda al menos un colono con ellos, ni dejar solo esclavos en un puesto. Por lo demás, los esclavos aportan igual que cualquier otro peón.\n
+• Eliminadas las estadísticas y acciones de WD de la pestaña de facción vanilla.\n
+• El gizmo «Quitar peón del puesto avanzado» ya no se muestra en los puestos; la pestaña Peones lo gestiona mejor (retiradas masivas a una sola caravana y manejo correcto de esclavos).\n
+]]></TSA_WD_Update_0_9_40_Body>
+  <TSA_WD_Update_0_9_30_Title>Rendimiento de incursiones, multiplicadores y eventos en la pestaña WD</TSA_WD_Update_0_9_30_Title>
+  <TSA_WD_Update_0_9_30_Body><![CDATA[
+<size=16><b>0.9.30 – Rendimiento de incursiones, multiplicadores y eventos en la pestaña WD</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 9 de abril de 2026</color>\n
+------------------------------\n
+<b>Mejoras de rendimiento</b>\n
+• Los cálculos previos a una incursión son más baratos: en cuanto se encuentra un objetivo válido, no se ejecutan más comprobaciones.\n
+• Opción nueva: las comprobaciones de distancia para incursiones pueden usar línea recta («a vuelo de pájaro»). Al lanzar de verdad la caravana de asalto sigue haciendo falta un camino real (no se puede evitar).\n
+• Salvo que tengas un PC muy potente, este mod no está pensado para cobertura del 100% del planeta con más de 700 asentamientos.\n
+\n
+<b>Ajustes de jugabilidad</b>\n
+• El multiplicador de puntos de incursión ya no depende del nivel del asentamiento (T1–T4) dentro de tu radio de influencia, sino de la <b>fuerza ofensiva</b> de los asentamientos cercanos: por ejemplo, cuatro T1 con 500 de fuerza ofensiva cada uno equivalen a un T4 con 2000.\n
+• La pestaña principal WD ya no muestra toda la actividad reciente del registro; solo resalta acontecimientos más importantes (p. ej. incursión con éxito, expansión con éxito, asentamiento destruido por un incidente).\n
+]]></TSA_WD_Update_0_9_30_Body>
+  <TSA_WD_Update_0_9_20_Title>Logística de comida, caravanas, comerciantes y construcción de caminos</TSA_WD_Update_0_9_20_Title>
+  <TSA_WD_Update_0_9_20_Body><![CDATA[
+<size=16><b>0.9.20 – Logística de comida, caravanas, comerciantes y construcción de caminos</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 8 de abril de 2026</color>\n
+------------------------------\n
+• Corregidos problemas de rendimiento en la logística de alimentos y en textos o interfaz del mapa mundial relacionados con la comida.\n
+• Eliminada la destrucción por tiempo máximo de viaje para todas las caravanas: siguen perdiendo fuerza cuanto más viajan, pero ya no se destruyen al superar una duración fija (por ejemplo unos tres días).\n
+• Al interceptar una caravana comercial de una facción sin pawn kinds de comerciante definidos (por ejemplo piratas), se genera una fuerza de asalto normal en lugar de una caravana comercial.\n
+• Optimizada la construcción de caminos en outposts: redibujado más rápido de la capa de caminos, rutas solo por tierra para las cuadrillas (sin trazado oceánico), y marcadores del siguiente tramo y desplazamiento de la caravana más fiables a lo largo del proyecto. Es posible que deba cancelar y reiniciar proyectos de camino activos en outposts guardados a mitad de actualización.\n
+]]></TSA_WD_Update_0_9_20_Body>
+  <TSA_WD_Update_0_9_10_Title>Intercepción de caravanas comerciales, rendimiento y búsqueda de caminos</TSA_WD_Update_0_9_10_Title>
+  <TSA_WD_Update_0_9_10_Body><![CDATA[
+<size=16><b>0.9.10 – Intercepción de caravanas comerciales, rendimiento y búsqueda de caminos</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 6 de abril de 2026</color>\n
+------------------------------\n
+• Novedad: al interceptar una caravana comercial en el mapa mundial, ahora te enfrentarás a una caravana comercial real con toda su composición y botín, como si estuvieran visitando tu colonia.\n
+• Refactorización masiva de la logística alimentaria y del renderizado de ventanas, lo que debería mejorar significativamente el rendimiento (el parche anterior introdujo algunas ineficiencias).\n
+• Corregida la advertencia de fuga de memoria "más caminos que caravanas": los viajeros ahora liberan correctamente sus caminos al llegar y un contador preciso evita falsos positivos.\n
+]]></TSA_WD_Update_0_9_10_Body>
+  <TSA_WD_Update_0_9_9_Title>Fuerza defensiva y ofensiva, mejoras de outposts, caravanas comerciales y herramientas de casilla</TSA_WD_Update_0_9_9_Title>
+  <TSA_WD_Update_0_9_9_Body><![CDATA[
+<size=16><b>0.9.9 – Fuerza defensiva y ofensiva, mejoras de outposts, caravanas comerciales y herramientas de casilla</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 3 de abril de 2026</color>\n
+------------------------------\n
+• Recomendado: restablecer todos los ajustes del mod para aplicar los nuevos valores por defecto.\n
+• Novedad: fuerza defensiva frente a ofensiva en asentamientos y outposts. La defensiva representa fortificaciones y defensas fijas; solo la ofensiva cuenta para atacar o ayudar a aliados (tu contingente móvil).\n
+• Novedad: mejoras de outposts. Selecciona un outpost y abre la pestaña Mejoras. Otorgan bonificaciones permanentes a la defensa o a la productividad. Los recursos se cargan a tu colonia y se envía una caravana desde la colonia hasta el outpost.\n
+• Novedad: caravanas comerciales. Los asentamientos NPC envían comerciantes hacia facciones neutrales o aliadas; al llegar, ambas partes ganan fuerza. Si una caravana llega a tu colonia, se genera un comerciante real. Las incursiones del narrador se pueden desactivar en los ajustes del mod.\n
+• Las bonificaciones y penalizaciones de los modificadores de casilla de Vanilla Landmarks Expanded ahora pesan mucho más en el WD.\n
+• Al pulsar una casilla del mapa mundial, la pestaña «Casilla» muestra de un vistazo fertilidad, eficiencia minera y abundancia animal.\n
+• En el mapa mundial, el pequeño icono inferior derecho de fundar outpost indica si un tipo concreto puede fundarse ahí y cuánto cuesta.\n
+• Mejoras claras de rendimiento y corrección de errores al seleccionar outposts o con ciertas ventanas abiertas.\n
+]]></TSA_WD_Update_0_9_9_Body>
+  <TSA_WD_Update_0_9_8_Title>Comportamiento de incursiones, mutadores de casilla y cruce de agua</TSA_WD_Update_0_9_8_Title>
+  <TSA_WD_Update_0_9_8_Body><![CDATA[
+<size=16><b>0.9.8 – Comportamiento de incursiones, mutadores de casilla y cruce de agua</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 27 de marzo de 2026</color>\n
+------------------------------\n
+• Todas las incursiones de WD ahora son de ataque inmediato entrando por el borde del mapa. Ya no aparecerán como incursiones de caída.\n
+• Los modificadores de casilla del mundo de Vanilla Landmarks Expanded ahora afectan la fertilidad, la abundancia animal y la eficiencia minera de los outposts de WD (tanto positiva como negativamente).\n
+• Las caravanas de WD ahora pueden cruzar agua.\n
+]]></TSA_WD_Update_0_9_8_Body>
+  <TSA_WD_Update_0_9_7_Title>Imperio, cápsulas, persecución de caravanas, interfaz comercial y viajeros</TSA_WD_Update_0_9_7_Title>
+  <TSA_WD_Update_0_9_7_Body><![CDATA[
+<size=16><b>0.9.7 – Imperio, cápsulas, persecución de caravanas, interfaz comercial y viajeros</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 23 de marzo de 2026</color>\n
+------------------------------\n
+• Corregido un caso en el que la facción Imperio (estilo Royalty / VFE Empire, con Superficie y Órbita en la lista blanca de capas de llegada) quedaba excluida de Dominación Mundial; debería ejecutar acciones mundiales como el resto de facciones.\n
+• Los colonos enviados a un outpost de WD mediante cápsula de transporte se incorporan ahora automáticamente a ese outpost.\n
+• Si tu caravana persigue a una enemiga, dar una orden de movimiento a cualquier casilla del mapa mundial cancela ahora la persecución.\n
+• Los outposts comerciales muestran la plata que se espera que produzcan en el panel de resumen de outposts y en la ventana de inspección.\n
+• Ajustes menores al panel principal de WD y a la ventana de viajeros activos: se muestra de forma coherente el tiempo total de viaje al iniciar la ruta (se quitó el ETA restante de esas interfaces).\n
+• En misiones como expansión o construcción de carreteras, se muestra un icono de marcador de posición para destinos que solo son una casilla, manteniendo alineadas las columnas.\n
+• Varios retoques menores y limpieza.\n
+]]></TSA_WD_Update_0_9_7_Body>
+  <TSA_WD_Update_0_9_6_Title>Correcciones de outposts, minería, comercio y balance de cultivo/caza</TSA_WD_Update_0_9_6_Title>
+  <TSA_WD_Update_0_9_6_Body><![CDATA[
+<size=16><b>0.9.6 – Correcciones de outposts, minería, comercio y balance de cultivo/caza</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 22 de marzo de 2026</color>\n
+------------------------------\n
+• Corregido un fallo por el que los niveles de habilidad procedentes de genes se olvidaban en los outposts al cargar una partida guardada.\n
+• Los outposts mineros pueden producir ahora minerales y rocas personalizados.\n
+• Los outposts comerciales generan más plata cuanta más habilidad Social tenga el outpost. Antes el mínimo de Social solo hacía de requisito: al cumplirlo obtenías el 100% de rendimiento y el Social adicional no aumentaba la plata.\n
+• Corregido el proceso de añadir manualmente colonos a un outpost ya existente.\n
+• Ajustado el rendimiento de cultivo y caza: los cultivos más difíciles rinden menos; los animales más peligrosos rinden menos al cazarlos.\n
+• Puntuación de fertilidad de cultivo (casilla del mundo / interfaz del outpost): los doceavos de temporada de cultivo usan ahora un máximo de temperatura más alto para que los trópicos calurosos no queden artificialmente por debajo del 100%; la densidad de plantas se escala entre el mínimo y el máximo entre los biomas cargados en lugar de frente a la media global, de modo que las mejores casillas (p. ej. selva tropical llana) pueden alcanzar el 100%.\n
+• Las granjas ya no pueden producir ambrosía.\n
+• Pequeños ajustes de equilibrio en el rendimiento de ciertos objetos.\n
+]]></TSA_WD_Update_0_9_6_Body>
+  <TSA_WD_Update_0_9_5_Title>Logotipos de outposts, biocombustible y correcciones</TSA_WD_Update_0_9_5_Title>
+  <TSA_WD_Update_0_9_5_Body><![CDATA[
+<size=16><b>0.9.5 – Logotipos de outposts, biocombustible y correcciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 21 de marzo de 2026</color>\n
+------------------------------\n
+• Nuevos logotipos para todos los outposts, dibujados por la jugadora Geneva. ¡Gracias de nuevo!\n
+• Corregido un fallo grave que podía hacer desaparecer los outposts de WD al recargar una partida guardada.\n
+• Corregido un fallo por el que la construcción de carreteras desde el outpost podía quedarse bloqueada.\n
+• Alineados todos los cálculos del tiempo de viaje de las caravanas.\n
+• Añadido outpost de biocombustible (nivel de tier 2). Requiere 200 madera y 5 componentes. Produce combustible químico según la habilidad de fabricación.\n
+• Soporte para añadir manualmente tus propios tipos de outpost (consulta los ejemplos Fabricación y Biocombustible en Defs/WorldObjects/WD_Outpost.xml).\n
+• Los colonos añadidos a un outpost de WD pasan a desasignarse automáticamente de camas y asignaciones similares.\n
+• Ordenación en la pestaña de colonos del outpost (clic en los encabezados de columna para ordenar ascendente o descendente).\n
+• Correcciones menores varias.\n
+]]></TSA_WD_Update_0_9_5_Body>
+  <TSA_WD_Update_0_9_4_Title>Producción, combate de caravanas y logística</TSA_WD_Update_0_9_4_Title>
+  <TSA_WD_Update_0_9_4_Body><![CDATA[
+<size=16><b>0.9.4 – Producción, combate de caravanas y logística</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 20 de marzo de 2026</color>\n
+------------------------------\n
+• Corregidos fallos graves por los que los outposts solo producían una pila del producto elegido. Ahora se produce la cantidad correcta.\n
+• Al atacar una caravana enemiga, esas caravanas son más fuertes y aparecen al lado opuesto de tus peones si es posible. Alineado con el mod Force Raid Direction para que no sobrescriba este comportamiento.\n
+• Eliminada la pérdida de eficiencia por distancia al enviar comida desde outposts de caza o cultivo (complejidad innecesaria). La entrega es íntegra en todo el radio logístico, cerca o lejos.\n
+• Reorganizada ligeramente la pestaña de logística alimentaria y aclarado que los puntos de producción no asignados benefician al propio outpost de cultivo/caza.\n
+]]></TSA_WD_Update_0_9_4_Body>
+  <TSA_WD_Update_0_9_3_Title>Correcciones y pulido</TSA_WD_Update_0_9_3_Title>
+  <TSA_WD_Update_0_9_3_Body><![CDATA[
+<size=16><b>0.9.3 – Correcciones y pulido</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 18 de marzo de 2026</color>\n
+------------------------------\n
+• Nuevos iconos de caravana. Gracias a la jugadora Geneva por el arte.\n
+• Los iconos de caravana ahora van coloreados según la facción.\n
+• Los outposts solo se pueden fundar cuando la caravana está completamente parada, evitando casos raros con outposts que aparecían con peones dentro (algo que solo debería ocurrir tras conquistar un asentamiento).\n
+• Corregidos los ciclos de producción de los outposts (ahora 20 días para todos).\n
+• Añadidos deslizadores en la configuración de outposts para la velocidad global de producción y la cantidad producida.\n
+• Corregida la visualización de las caravanas de expansión en el panel de viajeros y el panel principal (origen, destino y colorización).\n
+• Nuevas acciones de desarrollo en el mapa mundial: aumentar y reducir la fuerza del outpost.\n
+• Optimización de rendimiento del panel principal (caché de resultados).\n
+• Revisado el cálculo base de bienes de agricultura y caza.\n
+• Añadidas algunas claves de traducción que faltaban.\n
+• Cambiada la lógica de choques de caravana: ahora se comprueba la misma casilla del mapa mundial en lugar de comprobar distancias—mejor rendimiento a cambio de algo menos de fiabilidad.\n
+]]></TSA_WD_Update_0_9_3_Body>
+  <TSA_WD_Update_0_9_2_Title>Hotfix</TSA_WD_Update_0_9_2_Title>
+  <TSA_WD_Update_0_9_2_Body><![CDATA[
+<size=16><b>0.9.2 – Hotfix</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 16 de marzo de 2026</color>\n
+------------------------------\n
+• Se corrigió un error que impedía al jugador obtener buena voluntad con facciones enemigas (p. ej. al ofrecer regalos). El comportamiento previsto es solo suprimir la ganancia de buena voluntad de la facción hostil B si destruiste un asentamiento del enemigo común A.\n
+]]></TSA_WD_Update_0_9_2_Body>
+  <TSA_WD_Update_0_9_1_Title>Correcciones tras el lanzamiento de WD Outposts</TSA_WD_Update_0_9_1_Title>
+  <TSA_WD_Update_0_9_1_Body><![CDATA[
+<size=16><b>0.9.1 – Actualización menor</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 16 de marzo de 2026</color>\n
+------------------------------\n
+• Se rehizo el almacenamiento de peones en los outposts de WD. La versión anterior era incorrecta (solo memorizábamos las habilidades relevantes, destruíamos el peón y creábamos uno nuevo al salir. Fallo de IA). Sustituido por un sistema correcto. Los peones existentes en los outposts se eliminarán. ¡Perdón por las molestias!\n
+• Se corrigieron varias claves de traducción rotas.\n
+• Se corrigió que los peones añadidos a las avanzadillas fueran destruidos y solo se recordaran sus estadísticas (jugadores informaron de añadir Saurids y recuperar humanos básicos).\n
+• Se corrigió la conversión de comida de la caravana en comida virtual de avanzadilla al usar el gizmo de la caravana.\n
+• Se aclaró que Vanilla Base Generation Expanded ya no es necesario, pero tampoco se marca como incompatible.\n
+• Se ajustaron varios layouts de edificios para dormitorios y salas del trono.\n
+• Se introdujo la ventana de notas de versión dentro del juego, que se muestra automáticamente por defecto y se puede abrir desde la configuración del mod o desde el icono en la esquina del mapa mundial.\n
+]]></TSA_WD_Update_0_9_1_Body>
+  <TSA_WD_Update_0_9_0_Title>Lanzamiento de WD Outposts</TSA_WD_Update_0_9_0_Title>
+  <TSA_WD_Update_0_9_0_Body><![CDATA[
+<size=16><b>0.9.0 – Actualización mayor</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 15 de marzo de 2026</color>\n
+------------------------------\n
+• Se introdujeron nuevos outposts de Dominación Mundial que sustituyen a Vanilla Outposts Expanded. Son similares a los outposts de VOE pero con requisitos más matizados (investigación, coste de materiales de construcción, asentamientos no hostiles cercanos, etc.) y con la mayoría de las características expuestas por XML para que puedas definir tus propios tipos de outpost.\n
+• Se añadió soporte para outposts de Agricultura, Caza, Minería, Comercio, Reclutamiento y Fabricación.\n
+• Agricultura: puede producir comida para la colonia y/o para otras avanzadillas, con una división configurable de la fuerza de trabajo.\n
+• Caza: puede producir comida para la colonia y/o para otras avanzadillas, con una división configurable de la fuerza de trabajo。\n
+• Reclutamiento: requiere asentamientos cercanos no hostiles y que no sean del jugador para reclutar peones (1 peón por cada bloque completo de 10 puntos de habilidad social acumulada).\n
+• Comercio: requiere asentamientos cercanos no hostiles y que no sean del jugador para comerciar por plata (cuantos más asentamientos y mayor su nivel, más plata obtienes).\n
+• Varias mejoras de calidad de vida y optimizaciones; por ejemplo, las líneas que conectan outposts y asentamientos en el mapa mundial ya no se recortan por la esfera del planeta o las montañas。\n
+]]></TSA_WD_Update_0_9_0_Body>
+  <TSA_WD_Update_2_03_Title>Revisión de la lógica de comida</TSA_WD_Update_2_03_Title>
+  <TSA_WD_Update_2_03_Body><![CDATA[
+<size=16><b>2.03 – Revisión de la lógica de comida</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 21 de julio de 2026</color>\n
+------------------------------\n
+• Rehecha la logística de comida. Intenté ser demasiado listo calculando la asignación inteligente por avanzadilla productora (granja, establo, caza) de forma escalonada para ahorrar rendimiento. Eso generó muchos casos límite e inconsistencias. Ahora toda la asignación se calcula en un solo tick a nivel global, pero solo si algo cambió (nueva avanzadilla, peón añadido o retirado, mejora desplegada).\n
+• Aunque el cálculo es más pesado, ahora debería ser fiable y ejecutarse solo cuando hace falta\n
+• También hice más intuitiva la pestaña de logística de comida de los productores para que quede claro que los puntos no gastados alimentan a la propia avanzadilla productora\n
+• Cuando todas las avanzadillas están bien alimentadas, la comida restante debería repartirse por fin de forma uniforme entre todas las avanzadillas en alcance con el algoritmo inteligente activo\n
+]]></TSA_WD_Update_2_03_Body>
+  <TSA_WD_Update_2_1_Title>Incursiones en cápsulas, AA, bloqueos de carretera y más</TSA_WD_Update_2_1_Title>
+  <TSA_WD_Update_2_1_Body><![CDATA[
+<size=16><b>2.1 – Incursiones en cápsulas, AA, bloqueos de carretera y más!</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 25 de julio de 2026</color>\n
+------------------------------\n
+• Nueva función: Incursiones en cápsulas desde asentamientos T4 que pueden golpear asentamientos NPC, tu colonia y tus avanzadillas. Al llegar a un mapa real aparecen como incursiones en cápsulas (división aleatoria entre borde y centro — configurable).\n
+• Para contrarrestarlas, las avanzadillas de mortero pueden construir una mejora de cañón AA que derriba automáticamente caravanas de incursión entrantes.\n
+• Igualmente, los asentamientos T4 tienen cañones AA ahora. ¡Cuidado: también pueden disparar a tus cápsulas de transporte reales y destruirlas al instante!\n
+• Nuevos ajustes del mod para filtrar si cualquier asentamiento T4 puede tener esas armas, o solo los de facciones cuyo nivel tecnológico sea p. ej. al menos Industrial (por defecto: cualquier facción).\n
+• Nueva función: Las avanzadillas pueden construir bloqueos de carretera. Aumentan la dificultad de movimiento de cualquier caravana que pase. Las caravanas pueden elegir otra ruta para evitarlos, lo que las retrasa y las debilita.\n
+• Nueva función: Puedes enviar peones en masa desde tu colonia a avanzadillas al instante desde la pestaña Todos los peones del jugador.\n
+• Nueva función: Una pestaña de Prisioneros desde la pestaña principal WD. Evalúa prisioneros y asígnales una avanzadilla de destino a la que van justo tras un reclutamiento exitoso (reciben 2 comidas sencillas — un poco tramposo, pero mejor que microgestionar).\n
+• Nueva función: Al construir carreteras desde avanzadillas puedes trazar una ruta con varios nodos manteniendo Shift.\n
+• Las cápsulas de la avanzadilla de respuesta rápida pueden enviarse a cualquier casilla en alcance. Antes solo a colonia, caravanas o asentamientos.\n
+• Nuevos iconos para incursiones en cápsulas, transportes y fuerzas de respuesta rápida.\n
+• Nueva mejora de avanzadilla «Riego industrial» para granjas.\n
+• UI previa de victoria/derrota simplificada cuando p. ej. lanzas un ataque manual con tu avanzadilla.\n
+• Las caravanas comerciales NPC pueden apuntar a avanzadillas del jugador para subir su fuerza y dar algo de buena voluntad. Antes solo podían apuntar a la colonia del jugador.\n
+]]></TSA_WD_Update_2_1_Body>
+</LanguageData>

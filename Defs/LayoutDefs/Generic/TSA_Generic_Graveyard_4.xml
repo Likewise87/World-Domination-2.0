@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+<KCSG.StructureLayoutDef>
+  <defName>Generic_Graveyard_4</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>Fence_BlocksSlate,.,.,.,.,Fence_BlocksSlate</li>
+      <li>Fence_BlocksSlate,.,.,.,.,Fence_BlocksSlate</li>
+      <li>Fence_BlocksSlate,Grave_South,Grave_South,Grave_South,Grave_South,Fence_BlocksSlate</li>
+      <li>Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild</li>
+      <li>Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt</li>
+    <li>PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt</li>
+    <li>PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt</li>
+    <li>.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.</li>
+  </terrainGrid>
+       <tags>
+    <li>Generic_Graveyard</li>
+  </tags>
+</KCSG.StructureLayoutDef>
+</Defs>
+
+

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <QuestScriptDef>
+    <defName>TSA_WD_FirstOutpostIntro</defName>
+    <autoAccept>true</autoAccept>
+    <isRootSpecial>true</isRootSpecial>
+    <defaultChallengeRating>1</defaultChallengeRating>
+    <questAvailableLetterTextIsDescription>true</questAvailableLetterTextIsDescription>
+
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->First outpost for [faction_name]</li>
+        <li>questName->[faction_name]'s outpost request</li>
+        <li>questName->Found an outpost</li>
+      </rulesStrings>
+    </questNameRules>
+
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->[faction_name] asks you to found your first World Domination outpost anywhere on the world map.\n\nThe request stays open until you found an outpost. It fails if they become hostile or are destroyed.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_GetWdFirstOutpostAsker">
+          <storeAs>faction</storeAs>
+        </li>
+
+        <li Class="QuestNode_QuestUnique">
+          <tag>TSA_WD_FirstOutpost</tag>
+        </li>
+
+        <li Class="QuestNode_WdFirstOutpostGoodwillReward">
+          <faction>$faction</faction>
+          <amount>10</amount>
+        </li>
+
+        <li Class="QuestNode_Letter">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <label TKey="TSA_WD_FirstOutpost_LetterLabelFailed">Quest failed: [resolvedQuestName]</label>
+          <text TKey="TSA_WD_FirstOutpost_LetterTextHostile">[faction_name] became hostile. The first-outpost request has failed.</text>
+        </li>
+        <li Class="QuestNode_End">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <outcome>Fail</outcome>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>

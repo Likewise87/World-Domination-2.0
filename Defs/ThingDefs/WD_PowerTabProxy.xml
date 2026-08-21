@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- Display-only proxy used to show World Domination remote outpost power in the optional Power Tab mod. Never spawned on maps. -->
+  <ThingDef>
+    <defName>TSA_WD_RemotePowerTabSource</defName>
+    <label>WD remote power</label>
+    <description>Abstract remote power supplied by World Domination power plant outposts.</description>
+    <thingClass>TSA_WorldDomination.WD_RemotePowerTabThing, TSA_WorldDomination</thingClass>
+    <category>Item</category>
+    <selectable>false</selectable>
+    <tickerType>Never</tickerType>
+    <graphicData>
+      <texPath>WorldObjects/WD_Outpost_Powerplant</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>-1000</basePowerConsumption>
+      </li>
+    </comps>
+  </ThingDef>
+</Defs>

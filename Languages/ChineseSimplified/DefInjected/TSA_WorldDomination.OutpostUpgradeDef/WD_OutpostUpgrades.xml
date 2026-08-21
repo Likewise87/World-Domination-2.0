@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <TSA_WD_Upgrade_PalisadeWalls.label>木栅墙</TSA_WD_Upgrade_PalisadeWalls.label>
+  <TSA_WD_Upgrade_PalisadeWalls.description>基础木制外围墙。</TSA_WD_Upgrade_PalisadeWalls.description>
+
+  <TSA_WD_Upgrade_StoneWall.label>石墙</TSA_WD_Upgrade_StoneWall.label>
+  <TSA_WD_Upgrade_StoneWall.description>用石材加固并取代木栅的墙体。</TSA_WD_Upgrade_StoneWall.description>
+
+  <TSA_WD_Upgrade_SpikeTraps.label>尖刺陷阱</TSA_WD_Upgrade_SpikeTraps.label>
+  <TSA_WD_Upgrade_SpikeTraps.description>围绕前哨站布设的密集陷阱外围。</TSA_WD_Upgrade_SpikeTraps.description>
+
+  <TSA_WD_Upgrade_AutoTurrets.label>自动炮塔</TSA_WD_Upgrade_AutoTurrets.label>
+  <TSA_WD_Upgrade_AutoTurrets.description>用于外围防御的自动炮塔。</TSA_WD_Upgrade_AutoTurrets.description>
+
+  <TSA_WD_Upgrade_BasicHospital.label>基础医院</TSA_WD_Upgrade_BasicHospital.label>
+  <TSA_WD_Upgrade_BasicHospital.description>改善本地治疗和部队恢复。</TSA_WD_Upgrade_BasicHospital.description>
+
+  <TSA_WD_Upgrade_AdvancedHospital.label>高级医院</TSA_WD_Upgrade_AdvancedHospital.label>
+  <TSA_WD_Upgrade_AdvancedHospital.description>取代基础医院的高级医疗设施。</TSA_WD_Upgrade_AdvancedHospital.description>
+
+  <TSA_WD_Upgrade_MiningLift.label>采矿升降机</TSA_WD_Upgrade_MiningLift.label>
+  <TSA_WD_Upgrade_MiningLift.description>运输人员和货物。</TSA_WD_Upgrade_MiningLift.description>
+
+  <TSA_WD_Upgrade_ImprovedMiningLift.label>改良采矿升降机</TSA_WD_Upgrade_ImprovedMiningLift.label>
+  <TSA_WD_Upgrade_ImprovedMiningLift.description>更快速地运输人员和货物。</TSA_WD_Upgrade_ImprovedMiningLift.description>
+
+  <TSA_WD_Upgrade_AdvancedMiningLift.label>高级采矿升降机</TSA_WD_Upgrade_AdvancedMiningLift.label>
+  <TSA_WD_Upgrade_AdvancedMiningLift.description>更快速地运输人员和货物。</TSA_WD_Upgrade_AdvancedMiningLift.description>
+
+  <TSA_WD_Upgrade_IrrigationCanals.label>灌溉渠</TSA_WD_Upgrade_IrrigationCanals.label>
+  <TSA_WD_Upgrade_IrrigationCanals.description>将水引入田地以提升土壤产能。</TSA_WD_Upgrade_IrrigationCanals.description>
+
+  <TSA_WD_Upgrade_IndustrialMeatHooks.label>工业肉钩</TSA_WD_Upgrade_IndustrialMeatHooks.label>
+  <TSA_WD_Upgrade_IndustrialMeatHooks.description>让尸体和肉类更容易运输。</TSA_WD_Upgrade_IndustrialMeatHooks.description>
+
+  <TSA_WD_Upgrade_WoodenWatchTower.label>木制瞭望塔</TSA_WD_Upgrade_WoodenWatchTower.label>
+  <TSA_WD_Upgrade_WoodenWatchTower.description>让猎人看得更远。</TSA_WD_Upgrade_WoodenWatchTower.description>
+
+  <TSA_WD_Upgrade_ImprovedWatchTower.label>改良瞭望塔</TSA_WD_Upgrade_ImprovedWatchTower.label>
+  <TSA_WD_Upgrade_ImprovedWatchTower.description>让猎人看得更远。</TSA_WD_Upgrade_ImprovedWatchTower.description>
+
+  <TSA_WD_Upgrade_AdvancedWatchTower.label>高级瞭望塔</TSA_WD_Upgrade_AdvancedWatchTower.label>
+  <TSA_WD_Upgrade_AdvancedWatchTower.description>让猎人看得非常远。</TSA_WD_Upgrade_AdvancedWatchTower.description>
+
+  <TSA_WD_Upgrade_MortarTargetingSystem.label>瞄准系统</TSA_WD_Upgrade_MortarTargetingSystem.label>
+  <TSA_WD_Upgrade_MortarTargetingSystem.description>让迫击炮装填更快且更精准。</TSA_WD_Upgrade_MortarTargetingSystem.description>
+
+  <TSA_WD_Upgrade_AntiAirGun.label>防空炮</TSA_WD_Upgrade_AntiAirGun.label>
+  <TSA_WD_Upgrade_AntiAirGun.description>解锁对敌对空投袭击的自动高射。使用迫击炮的射程、命中与炮弹伤害升级。另有独立短冷却。</TSA_WD_Upgrade_AntiAirGun.description>
+
+  <TSA_WD_Upgrade_ImprovedMortarShells.label>改良炮弹</TSA_WD_Upgrade_ImprovedMortarShells.label>
+  <TSA_WD_Upgrade_ImprovedMortarShells.description>提高迫击炮与防空炮弹的伤害。</TSA_WD_Upgrade_ImprovedMortarShells.description>
+
+  <TSA_WD_Upgrade_AdvancedMortarShells.label>高级炮弹</TSA_WD_Upgrade_AdvancedMortarShells.label>
+  <TSA_WD_Upgrade_AdvancedMortarShells.description>进一步提高迫击炮与防空炮弹的伤害。</TSA_WD_Upgrade_AdvancedMortarShells.description>
+
+  <TSA_WD_Upgrade_AdvancedMicroscopes.label>高级显微镜</TSA_WD_Upgrade_AdvancedMicroscopes.label>
+  <TSA_WD_Upgrade_AdvancedMicroscopes.description>精密光学与实验室仪器，提高此前哨站的持续研究产出。</TSA_WD_Upgrade_AdvancedMicroscopes.description>
+
+  <TSA_WD_Upgrade_AdvancedLabEquipment.label>高级实验室设备</TSA_WD_Upgrade_AdvancedLabEquipment.label>
+  <TSA_WD_Upgrade_AdvancedLabEquipment.description>高精度实验室装备，提高此前哨站的持续研究产出。</TSA_WD_Upgrade_AdvancedLabEquipment.description>
+
+  <TSA_WD_Upgrade_PowerPlant_SolarArrays.label>太阳能阵列</TSA_WD_Upgrade_PowerPlant_SolarArrays.label>
+  <TSA_WD_Upgrade_PowerPlant_SolarArrays.description>为远程电网供能的光伏阵列。</TSA_WD_Upgrade_PowerPlant_SolarArrays.description>
+
+  <TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators.label>化合燃料发电机</TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators.label>
+  <TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators.description>一组坚固的化合燃料发电机，专门用于远程供电。</TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators.description>
+
+  <TSA_WD_Upgrade_PowerPlant_AdvancedGridControls.label>高级电网控制</TSA_WD_Upgrade_PowerPlant_AdvancedGridControls.label>
+  <TSA_WD_Upgrade_PowerPlant_AdvancedGridControls.description>改善输电效率和负载平衡的控制硬件。</TSA_WD_Upgrade_PowerPlant_AdvancedGridControls.description>
+
+  <TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant.label>地热发电站</TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant.label>
+  <TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant.description>深层热能设施，为大型远程供电接口供能。</TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant.description>
+
+  <TSA_WD_Upgrade_BasicBarn.label>基础畜棚</TSA_WD_Upgrade_BasicBarn.label>
+  <TSA_WD_Upgrade_BasicBarn.description>简易木制畜棚，为牲畜提供遮蔽并提高管理效率。</TSA_WD_Upgrade_BasicBarn.description>
+
+  <TSA_WD_Upgrade_InsulatedBarn.label>保温畜棚</TSA_WD_Upgrade_InsulatedBarn.label>
+  <TSA_WD_Upgrade_InsulatedBarn.description>石钢结构的畜棚并配有温控，使畜群更健康、产出更稳定。</TSA_WD_Upgrade_InsulatedBarn.description>
+
+  <TSA_WD_Upgrade_FactoryFarm.label>工厂化牧场</TSA_WD_Upgrade_FactoryFarm.label>
+  <TSA_WD_Upgrade_FactoryFarm.description>工业化畜牧设施，最大化可再生动物产品产出。</TSA_WD_Upgrade_FactoryFarm.description>
+
+  <TSA_WD_Upgrade_FishingNets.label>渔网</TSA_WD_Upgrade_FishingNets.label>
+  <TSA_WD_Upgrade_FishingNets.description>沿岸渔网提高渔获并加固岸边营地。</TSA_WD_Upgrade_FishingNets.description>
+
+  <TSA_WD_Upgrade_CoastalPier.label>沿岸码头</TSA_WD_Upgrade_CoastalPier.label>
+  <TSA_WD_Upgrade_CoastalPier.description>更坚固的码头,便于更深水域与更好渔获。</TSA_WD_Upgrade_CoastalPier.description>
+
+  <TSA_WD_Upgrade_TrawlerGear.label>拖网装备</TSA_WD_Upgrade_TrawlerGear.label>
+  <TSA_WD_Upgrade_TrawlerGear.description>重型沿岸装备,最大化渔获并加强岸防。</TSA_WD_Upgrade_TrawlerGear.description>
+
+  <TSA_WD_Upgrade_Warehouse_LogisticsNetwork.label>物流网络</TSA_WD_Upgrade_Warehouse_LogisticsNetwork.label>
+  <TSA_WD_Upgrade_Warehouse_LogisticsNetwork.description>协调的仓储与路由，增强本仓库对附近生产者的生产力光环。</TSA_WD_Upgrade_Warehouse_LogisticsNetwork.description>
+
+  <TSA_WD_Upgrade_Warehouse_ExtendedDistribution.label>扩展配送</TSA_WD_Upgrade_Warehouse_ExtendedDistribution.label>
+  <TSA_WD_Upgrade_Warehouse_ExtendedDistribution.description>更长的运输路线与信号，扩展本仓库生产力光环半径。</TSA_WD_Upgrade_Warehouse_ExtendedDistribution.description>
+
+  <TSA_WD_Upgrade_DecontaminationEquipment.label>净化设备</TSA_WD_Upgrade_DecontaminationEquipment.label>
+  <TSA_WD_Upgrade_DecontaminationEquipment.description>解锁净化任务。派出小队清除世界格污染。</TSA_WD_Upgrade_DecontaminationEquipment.description>
+
+  <TSA_WD_Upgrade_TunnelNetwork.label>隧道网络</TSA_WD_Upgrade_TunnelNetwork.label>
+  <TSA_WD_Upgrade_TunnelNetwork.description>地下通道让附近盟友能从更远处响应支援请求。</TSA_WD_Upgrade_TunnelNetwork.description>
+
+  <TSA_WD_Upgrade_Silo.label>粮仓</TSA_WD_Upgrade_Silo.label>
+  <TSA_WD_Upgrade_Silo.description>大容量粮仓可提高此前哨站的虚拟食物最大储量。</TSA_WD_Upgrade_Silo.description>
+
+  <TSA_WD_Upgrade_HydroponicsBasin.label>水培盆地</TSA_WD_Upgrade_HydroponicsBasin.label>
+  <TSA_WD_Upgrade_HydroponicsBasin.description>水培设施可为此前哨站提供固定的每日食物产量加成。</TSA_WD_Upgrade_HydroponicsBasin.description>
+</LanguageData>

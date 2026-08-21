@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+<KCSG.StructureLayoutDef>
+  <defName>TSA_ParkingLot_4</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence</li>
+      <li>AncientFence,AncientMilitaryCrate,AncientMilitaryCrate,AncientMilitaryCrate,AncientMilitaryCrate,.,.,.,.,.,.,.,AncientMortar,.,AncientFence</li>
+      <li>AncientFence,AncientMilitaryCrate,AncientMilitaryCrate,AncientMilitaryCrate,AncientMilitaryCrate,.,.,.,.,.,.,.,.,.,AncientFence</li>
+      <li>AncientFence,AncientMilitaryCrate,AncientMilitaryCrate,AncientMilitaryCrate,AncientMilitaryCrate,.,.,.,.,.,.,.,.,.,AncientFence</li>
+      <li>AncientFence,.,.,.,.,.,.,.,.,.,.,.,.,.,AncientFence</li>
+      <li>AncientFence,.,AncientOpenContainer_North,.,.,.,.,.,.,.,.,.,.,.,AncientFence</li>
+      <li>AncientFence,.,.,.,.,.,.,.,.,.,.,.,.,.,AncientFence</li>
+      <li>AncientFence,AncientFence,AncientFence,.,.,.,.,.,.,.,.,.,.,.,AncientFence</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,AncientFence</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,AncientFence</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,AncientFence</li>
+      <li>.,.,.,WindTurbine_South,.,.,.,.,.,.,WindTurbine_South,.,.,.,AncientFence</li>
+      <li>AncientRazorWire,.,.,.,.,.,.,.,.,.,.,.,.,.,AncientFence</li>
+      <li>AncientRazorWire,.,.,.,.,.,.,.,.,.,.,.,.,.,AncientFence</li>
+      <li>AncientFence,AncientFence,AncientFence,.,.,.,.,.,.,.,.,.,.,.,AncientFence</li>
+      <li>AncientFence,AncientChembarrel,.,.,AncientChembarrelPallet,.,.,.,.,.,.,.,.,.,AncientFence</li>
+      <li>AncientFence,AncientChembarrel,AncientChembarrel,.,.,.,.,.,.,.,.,.,.,AncientHydrant,AncientFence</li>
+      <li>AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+    <li>AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete,AncientConcrete</li>
+  </terrainGrid>
+  <modRequirements>
+    <li>ludeon.rimworld.odyssey</li>
+  </modRequirements>
+         <tags>
+      <li>TSA_ParkingLot</li>
+    </tags>
+</KCSG.StructureLayoutDef>
+</Defs>

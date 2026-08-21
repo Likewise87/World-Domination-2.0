@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <WorldObjectDef>
+    <defName>TSA_WD_SettlementRuin</defName>
+    <label>settlement ruins</label>
+    <description>Temporary ruins left after a settlement was razed. Blocks new settlements and outposts nearby until cleared.</description>
+    <worldObjectClass>TSA_WorldDomination.WorldObject_WdSettlementRuin, TSA_WorldDomination</worldObjectClass>
+    <!-- Match vanilla DestroyedSettlement: TribalSettlement for globe Material, DestroyedSettlement for expanding icon. -->
+    <texture>World/WorldObjects/TribalSettlement</texture>
+    <expandingIconTexture>World/WorldObjects/Expanding/DestroyedSettlement</expandingIconTexture>
+    <expandingIcon>true</expandingIcon>
+    <selectable>true</selectable>
+    <expandingIconPriority>10</expandingIconPriority>
+  </WorldObjectDef>
+</Defs>

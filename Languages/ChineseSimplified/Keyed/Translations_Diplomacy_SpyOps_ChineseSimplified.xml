@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <TSA_WD_AllegianceLock_ScopeInfo>此列表适用于世界霸权模组尝试的变更</TSA_WD_AllegianceLock_ScopeInfo>
+  <TSA_WD_AllegianceLock_Title>允许的外交变更</TSA_WD_AllegianceLock_Title>
+  <TSA_WD_BtnAllowAll>全部允许</TSA_WD_BtnAllowAll>
+  <TSA_WD_BtnAllowAll_Tooltip>所有阵营将能够与任何其他阵营改变关系</TSA_WD_BtnAllowAll_Tooltip>
+  <TSA_WD_BtnLockAll>全部锁定</TSA_WD_BtnLockAll>
+  <TSA_WD_BtnLockAll_Tooltip>不会通过世界霸权模组发生任何关系变更。</TSA_WD_BtnLockAll_Tooltip>
+  <TSA_WD_BtnReset>默认</TSA_WD_BtnReset>
+  <TSA_WD_BtnResetGlobal>永久敌对</TSA_WD_BtnResetGlobal>
+  <TSA_WD_BtnResetGlobal_Tooltip>锁定所有包含永久敌对阵营的关系对（包括对玩家），并将虫族/巢穴对所有人锁定。阻止 WD 外交改动这些对。</TSA_WD_BtnResetGlobal_Tooltip>
+  <TSA_WD_BtnReset_Tooltip>阻止永久敌对阵营（虫族与原版永久敌人）与其他永久敌对阵营改变关系。虫族/巢穴也会对所有阵营锁定。此处不配置与玩家的关系。</TSA_WD_BtnReset_Tooltip>
+  <TSA_WD_DescAllegianceMatrix>控制哪些阵营被允许彼此改变关系(仅游戏中)。</TSA_WD_DescAllegianceMatrix>
+  <TSA_WD_Diplo_ActionShareMult>每日行动份额乘数</TSA_WD_Diplo_ActionShareMult>
+  <TSA_WD_Diplo_AntiLeader>启用反霸主联盟</TSA_WD_Diplo_AntiLeader>
+  <TSA_WD_Diplo_AntiLeaderTooltip>小型阵营可能组成防御联盟并向世界最强势阵营宣战以恢复平衡。</TSA_WD_Diplo_AntiLeaderTooltip>
+  <TSA_WD_Diplo_AttritionMult>行军损耗乘数</TSA_WD_Diplo_AttritionMult>
+  <TSA_WD_Diplo_Block_Coalition>反霸主联盟</TSA_WD_Diplo_Block_Coalition>
+  <TSA_WD_Diplo_Block_Leader>世界霸主惩罚</TSA_WD_Diplo_Block_Leader>
+  <TSA_WD_Diplo_Block_Underdog>弱势方成长增益</TSA_WD_Diplo_Block_Underdog>
+  <TSA_WD_Diplo_Block_Zeal>扩张狂热</TSA_WD_Diplo_Block_Zeal>
+  <TSA_WD_Diplo_Change_Label>外交变更</TSA_WD_Diplo_Change_Label>
+  <TSA_WD_Diplo_CoalitionTriggerChance>联盟触发概率</TSA_WD_Diplo_CoalitionTriggerChance>
+  <TSA_WD_Diplo_CoalitionTriggerChanceTooltip>当存在主导霸主且冷却已过时,每日形成反霸主联盟的概率。</TSA_WD_Diplo_CoalitionTriggerChanceTooltip>
+  <TSA_WD_Diplo_Coalition_Label>防御联盟(增益)</TSA_WD_Diplo_Coalition_Label>
+  <TSA_WD_Diplo_Coalition_Msg>阵营 {0} 已结成联盟以推翻领先阵营 {1}。</TSA_WD_Diplo_Coalition_Msg>
+  <TSA_WD_Diplo_CoalitionAbandoned_Label>反霸主联盟已解散</TSA_WD_Diplo_CoalitionAbandoned_Label>
+  <TSA_WD_Diplo_CoalitionAbandoned_Msg>反霸主联盟已经解散。外交关系恢复到结盟前的状态。\n\n{0}</TSA_WD_Diplo_CoalitionAbandoned_Msg>
+  <TSA_WD_Diplo_CoalitionAbandoned_Pair>{0} 与 {1}：{2}</TSA_WD_Diplo_CoalitionAbandoned_Pair>
+  <TSA_WD_Diplo_Enable>启用</TSA_WD_Diplo_Enable>
+  <TSA_WD_Diplo_ExpansionistZeal>扩张狂热(增益)</TSA_WD_Diplo_ExpansionistZeal>
+  <TSA_WD_Diplo_ExpansionistZealTooltip>允许随机野心阵营偶尔获得 +50% 攻击范围。</TSA_WD_Diplo_ExpansionistZealTooltip>
+  <TSA_WD_Diplo_ExpansionistZeal_Msg>增益：「{0}」在接下来的 {1} 天内攻击半径 +50%。</TSA_WD_Diplo_ExpansionistZeal_Msg>
+  <TSA_WD_Diplo_Flavor_Ally>{0} 与 {1} 现已结盟。</TSA_WD_Diplo_Flavor_Ally>
+  <TSA_WD_Diplo_Flavor_AllyByTrade>{0} 与 {1} 因贸易而结盟。</TSA_WD_Diplo_Flavor_AllyByTrade>
+  <TSA_WD_Diplo_Flavor_Peace>{0} 与 {1} 已签署和平条约。</TSA_WD_Diplo_Flavor_Peace>
+  <TSA_WD_Diplo_Flavor_War>{0} 与 {1} 已宣战。</TSA_WD_Diplo_Flavor_War>
+  <TSA_WD_Diplo_AlliedRaidAwardCosts>交给玩家的好感成本</TSA_WD_Diplo_AlliedRaidAwardCosts>
+  <TSA_WD_Diplo_AlliedRaidAwardCostsTooltip>当你要求盟友派系征服敌对定居点并将废墟交给你时支付的好感。</TSA_WD_Diplo_AlliedRaidAwardCostsTooltip>
+  <TSA_WD_Diplo_AlliedRaidClaimCosts>盟友占领目标的好感成本</TSA_WD_Diplo_AlliedRaidClaimCosts>
+  <TSA_WD_Diplo_AlliedRaidClaimCostsTooltip>当你要求盟友派系征服敌对定居点并由其保留时支付的好感。</TSA_WD_Diplo_AlliedRaidClaimCostsTooltip>
+  <TSA_WD_Diplo_ConquestAllyGiftGoodwill>赠予定居点的好感奖励</TSA_WD_Diplo_ConquestAllyGiftGoodwill>
+  <TSA_WD_Diplo_ConquestAllyGiftGoodwillTooltip>征服后将定居点废墟赠予盟友或中立派系时获得的好感。</TSA_WD_Diplo_ConquestAllyGiftGoodwillTooltip>
+  <TSA_WD_GoodwillMsg_Trade>与{0}交易。{1}好感，现为{2}</TSA_WD_GoodwillMsg_Trade>
+  <TSA_WD_GoodwillMsg_QuestReward>来自{0}的任务奖励。{1}好感，现为{2}</TSA_WD_GoodwillMsg_QuestReward>
+  <TSA_WD_GoodwillMsg_AlliedRaidOrdered>命令盟友{0}袭击{1}。-{2}好感，现为{3}</TSA_WD_GoodwillMsg_AlliedRaidOrdered>
+  <TSA_WD_GoodwillMsg_AlliedRaidRefund>{0}对{1}的盟友袭击已取消。退还{2}好感，现为{3}</TSA_WD_GoodwillMsg_AlliedRaidRefund>
+  <TSA_WD_GoodwillMsg_ConquestGift>{0}在{1}建立定居点。+{2}好感，现为{3}</TSA_WD_GoodwillMsg_ConquestGift>
+  <TSA_WD_GoodwillMsg_SpyOpFailure>{1}的{0}失败。与{3}的好感-{2}，现为{4}</TSA_WD_GoodwillMsg_SpyOpFailure>
+  <TSA_WD_GoodwillMsg_TraderCaravan>商队抵达你的定居点。与{0}的好感+{1}，现为{2}</TSA_WD_GoodwillMsg_TraderCaravan>
+  <TSA_WD_GoodwillMsg_Embassy>大使馆{3}：与{0}的好感{1}，现为{2}</TSA_WD_GoodwillMsg_Embassy>
+  <TSA_WD_GoodwillMsg_OrderedRoadOrdered>命令{0}在{1}修建通往{2}的道路。-{3}好感，现为{4}</TSA_WD_GoodwillMsg_OrderedRoadOrdered>
+  <TSA_WD_GoodwillMsg_OrderedTraderOrdered>命令{0}从{1}向{2}派出商人（{3}）。-{4}好感，现为{5}</TSA_WD_GoodwillMsg_OrderedTraderOrdered>
+  <TSA_WD_GoodwillMsg_OrderedRoadRefundCancel>通往{1}的道路订单已取消。退还{2}好感（{3}个未建路段），现为{4}</TSA_WD_GoodwillMsg_OrderedRoadRefundCancel>
+  <TSA_WD_GoodwillMsg_OrderedRoadRefundDestroyed>{0}已被摧毁。道路订单退还{2}好感（{3}路段），现为{4}</TSA_WD_GoodwillMsg_OrderedRoadRefundDestroyed>
+  <TSA_WD_GoodwillMsg_OrderedRoadRefundHostile>{0}现为敌对。道路订单退还{2}好感（{3}路段），现为{4}</TSA_WD_GoodwillMsg_OrderedRoadRefundHostile>
+  <TSA_WD_GoodwillMsg_OrderedRoadRefundAbort>通往{1}的道路订单已中止。退还{2}好感（{3}路段），现为{4}</TSA_WD_GoodwillMsg_OrderedRoadRefundAbort>
+  <TSA_WD_Diplo_OrderedRoadOrdersHeader>订购道路修建</TSA_WD_Diplo_OrderedRoadOrdersHeader>
+  <TSA_WD_Diplo_OrderedRoadPerSegmentCosts>每路段好感（按道路类型）</TSA_WD_Diplo_OrderedRoadPerSegmentCosts>
+  <TSA_WD_Diplo_OrderedRoadPerSegmentCostsTooltip>订购道路时按路段收费。预付向上取整；未建路段退款向下取整。</TSA_WD_Diplo_OrderedRoadPerSegmentCostsTooltip>
+  <TSA_WD_Diplo_OrderedTraderCost>订购商队（好感）</TSA_WD_Diplo_OrderedTraderCost>
+  <TSA_WD_Diplo_OrderedTraderCostTooltip>从中立或盟友定居点订购商队的固定好感费用。所有类型费用相同。支付后至少保留10点好感。</TSA_WD_Diplo_OrderedTraderCostTooltip>
+  <TSA_WD_FacDet_HeaderRoadForPlayer>为玩家修路？</TSA_WD_FacDet_HeaderRoadForPlayer>
+  <TSA_WD_Diplo_AlliedRaidMinWinChance>盟友袭击最低成功率</TSA_WD_Diplo_AlliedRaidMinWinChance>
+  <TSA_WD_Diplo_AlliedRaidMinWinChanceTooltip>只有预览成功率至少达到此值时,才能发动盟友袭击命令。</TSA_WD_Diplo_AlliedRaidMinWinChanceTooltip>
+  <TSA_WD_Diplo_AlliedRaidOrdersHeader>盟友袭击命令</TSA_WD_Diplo_AlliedRaidOrdersHeader>
+  <TSA_WD_Diplo_GlobalEventsHeader>临时增益与减益</TSA_WD_Diplo_GlobalEventsHeader>
+  <TSA_WD_Diplo_GrowthGainMult>成长强度获得乘数</TSA_WD_Diplo_GrowthGainMult>
+  <TSA_WD_Diplo_Header>外交、增益与减益</TSA_WD_Diplo_Header>
+  <TSA_WD_Diplo_IncidentSeverity>事件强度损失乘数</TSA_WD_Diplo_IncidentSeverity>
+  <TSA_WD_Diplo_IncidentWeight>事件发生概率乘数</TSA_WD_Diplo_IncidentWeight>
+  <TSA_WD_Diplo_LeaderHandicap>启用霸主阵营惩罚(减益)</TSA_WD_Diplo_LeaderHandicap>
+  <TSA_WD_Diplo_LeaderHandicapTooltip>最强势阵营受内讧与后勤问题影响,事件发生频率增加。</TSA_WD_Diplo_LeaderHandicapTooltip>
+  <TSA_WD_Diplo_LeaderHandicap_Label>减益:世界霸主</TSA_WD_Diplo_LeaderHandicap_Label>
+  <TSA_WD_Diplo_LeaderHandicap_Msg>减益:"{0}"已成为主导阵营。因其规模,在接下来 {1} 天内将遭受更多事件。</TSA_WD_Diplo_LeaderHandicap_Msg>
+  <TSA_WD_Diplo_LeaderIncidentSeverity>霸主:事件强度损失乘数</TSA_WD_Diplo_LeaderIncidentSeverity>
+  <TSA_WD_Diplo_LeaderIncidentSeverityTooltip>当世界霸主遭受事件时,强度扣除乘以此值(如 2 = 双倍伤害)。</TSA_WD_Diplo_LeaderIncidentSeverityTooltip>
+  <TSA_WD_Diplo_LeaderIncidentWeight>霸主:事件发生概率乘数</TSA_WD_Diplo_LeaderIncidentWeight>
+  <TSA_WD_Diplo_LeaderIncidentWeightTooltip>当世界霸主处于减益时,其轻微/重大事件权重乘以此值(如 2 = 两倍概率)。</TSA_WD_Diplo_LeaderIncidentWeightTooltip>
+  <TSA_WD_Diplo_LeaderTriggerChance>霸主减益触发概率</TSA_WD_Diplo_LeaderTriggerChance>
+  <TSA_WD_Diplo_LeaderTriggerChanceTooltip>当条件满足时,每日施加霸主阵营惩罚的概率。</TSA_WD_Diplo_LeaderTriggerChanceTooltip>
+  <TSA_WD_Diplo_RaidRangeMult>袭击范围乘数</TSA_WD_Diplo_RaidRangeMult>
+  <TSA_WD_Diplo_RandomChance>每日阵营关系变更概率</TSA_WD_Diplo_RandomChance>
+  <TSA_WD_Diplo_RandomChanceTooltip>两个阵营之间每日发生随机外交事件的概率。</TSA_WD_Diplo_RandomChanceTooltip>
+  <TSA_WD_Diplo_RandomEnable>启用随机阵营关系变更</TSA_WD_Diplo_RandomEnable>
+  <TSA_WD_Diplo_RandomEnableTooltip>启用后,NPC 阵营将偶尔独立改变彼此关系(和平、战争、联盟)。</TSA_WD_Diplo_RandomEnableTooltip>
+  <TSA_WD_Diplo_StrongFactionWarEnable>启用强势阵营互宣战</TSA_WD_Diplo_StrongFactionWarEnable>
+  <TSA_WD_Diplo_StrongFactionWarEnableTooltip>每日最强的 NPC 阵营（按世界实力取前若干比例）可能将结盟降为中立，或将中立升为开战。结盟不会一步直接变敌对。与随机阵营关系变更彼此独立。</TSA_WD_Diplo_StrongFactionWarEnableTooltip>
+  <TSA_WD_Diplo_StrongFactionWarChance>强势阵营宣战概率</TSA_WD_Diplo_StrongFactionWarChance>
+  <TSA_WD_Diplo_StrongFactionWarChanceTooltip>每日从最强 NPC 阵营中挑出一对中立或结盟且可变动的组合并升级关系的概率（结盟→中立，或中立→开战）。</TSA_WD_Diplo_StrongFactionWarChanceTooltip>
+  <TSA_WD_Diplo_StrongFactionWarTopPct>纳入考虑的强势阵营比例</TSA_WD_Diplo_StrongFactionWarTopPct>
+  <TSA_WD_Diplo_StrongFactionWarTopPctTooltip>按总实力取最强 NPC 阵营中多大比例可参与强势升级。可用时至少考虑两个阵营。</TSA_WD_Diplo_StrongFactionWarTopPctTooltip>
+  <TSA_WD_Diplo_StrongFactionWarRequireMidOrLate>仅中期/后期启用</TSA_WD_Diplo_StrongFactionWarRequireMidOrLate>
+  <TSA_WD_Diplo_StrongFactionWarRequireMidOrLateTooltip>开启后，仅在中期或后期升级激活时才掷强势互宣战。</TSA_WD_Diplo_StrongFactionWarRequireMidOrLateTooltip>
+  <TSA_WD_Diplo_StrongFactionWar_Label>强势阵营开战</TSA_WD_Diplo_StrongFactionWar_Label>
+  <TSA_WD_Diplo_StrongFactionWar_Msg>战争：“{0}”与“{1}”（最强势力之一）已互相宣战。</TSA_WD_Diplo_StrongFactionWar_Msg>
+  <TSA_WD_Diplo_StrongFactionWar_Cool_Label>强势阵营关系降温</TSA_WD_Diplo_StrongFactionWar_Cool_Label>
+  <TSA_WD_Diplo_StrongFactionWar_Cool_Msg>降温：“{0}”与“{1}”（最强势力之一）结束结盟并变为中立。</TSA_WD_Diplo_StrongFactionWar_Cool_Msg>
+  <TSA_WD_Diplo_Reset>将此页恢复为默认</TSA_WD_Diplo_Reset>
+  <TSA_WD_Diplo_RevoltChance>每日叛乱概率</TSA_WD_Diplo_RevoltChance>
+  <TSA_WD_Diplo_RevoltChanceTooltip>战败派系每日有概率回归，并从定居点数量最多的 NPC 派系夺取 3 至 7 座定居点（至少 3 座来自第一名，其余来自第二、三名）。更倾向低等级定居点。永不夺取玩家领地。</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_TriggerChance>触发概率</TSA_WD_Diplo_TriggerChance>
+  <TSA_WD_Diplo_UnderdogActionShare>弱势方:每日行动份额乘数</TSA_WD_Diplo_UnderdogActionShare>
+  <TSA_WD_Diplo_UnderdogActionShareTooltip>当弱势方增益生效时,该阵营的每日行动份额乘以此值(如 2 = 双倍行动)。</TSA_WD_Diplo_UnderdogActionShareTooltip>
+  <TSA_WD_Diplo_UnderdogBuff>启用弱势方成长提升(增益)</TSA_WD_Diplo_UnderdogBuff>
+  <TSA_WD_Diplo_UnderdogBuffTooltip>最弱阵营变得小而灵活,在一段时间内获得成长速度提升。</TSA_WD_Diplo_UnderdogBuffTooltip>
+  <TSA_WD_Diplo_UnderdogBuff_Label>增益:成长提升</TSA_WD_Diplo_UnderdogBuff_Label>
+  <TSA_WD_Diplo_UnderdogBuff_Msg>增益:"{0}"因小而灵活,在接下来 {1} 天内将更快成长。</TSA_WD_Diplo_UnderdogBuff_Msg>
+  <TSA_WD_Diplo_UnderdogGrowthGain>弱势方:成长强度获得乘数</TSA_WD_Diplo_UnderdogGrowthGain>
+  <TSA_WD_Diplo_UnderdogGrowthGainTooltip>当弱势方增益生效时,成长行动获得的强度乘以此值(如 2 = 双倍成长)。</TSA_WD_Diplo_UnderdogGrowthGainTooltip>
+  <TSA_WD_Diplo_UnderdogIncidentWeight>事件发生概率乘数</TSA_WD_Diplo_UnderdogIncidentWeight>
+  <TSA_WD_Diplo_UnderdogIncidentWeightTooltip>当弱势方增益生效时,事件发生概率乘以此值(如 0.5 = 一半概率)。</TSA_WD_Diplo_UnderdogIncidentWeightTooltip>
+  <TSA_WD_Diplo_UnderdogIncidentSeverity>事件强度损失乘数</TSA_WD_Diplo_UnderdogIncidentSeverity>
+  <TSA_WD_Diplo_UnderdogIncidentSeverityTooltip>当弱势方增益生效时,事件造成的强度损失乘以此值(如 0.5 = 一半损失)。</TSA_WD_Diplo_UnderdogIncidentSeverityTooltip>
+  <TSA_WD_Diplo_UnderdogTriggerChance>弱势方增益触发概率</TSA_WD_Diplo_UnderdogTriggerChance>
+  <TSA_WD_Diplo_UnderdogTriggerChanceTooltip>当条件满足时,每日对最弱阵营施加成长增益的概率。</TSA_WD_Diplo_UnderdogTriggerChanceTooltip>
+  <TSA_WD_Diplo_ZealAttritionMult>狂热:行军损耗乘数</TSA_WD_Diplo_ZealAttritionMult>
+  <TSA_WD_Diplo_ZealAttritionMultTooltip>当阵营拥有狂热时,商队每小时强度损失乘以此值(如 0.5 = 一半损耗)。</TSA_WD_Diplo_ZealAttritionMultTooltip>
+  <TSA_WD_Diplo_ZealRaidRangeMult>狂热:袭击范围乘数</TSA_WD_Diplo_ZealRaidRangeMult>
+  <TSA_WD_Diplo_ZealRaidRangeMultTooltip>当阵营拥有扩张狂热时，其袭击目标半径乘以此值（如 1.5 = +50% 范围）。</TSA_WD_Diplo_ZealRaidRangeMultTooltip>
+  <TSA_WD_Diplo_ZealTriggerChance>狂热增益触发概率</TSA_WD_Diplo_ZealTriggerChance>
+  <TSA_WD_Diplo_ZealTriggerChanceTooltip>野心阵营获得扩张狂热的每日百分比概率(且该增益未在冷却中)。</TSA_WD_Diplo_ZealTriggerChanceTooltip>
+  <TSA_WD_Diplo_Zeal_Label>增益:动员</TSA_WD_Diplo_Zeal_Label>
+  <TSA_WD_DiplomacyMatrix>外交矩阵</TSA_WD_DiplomacyMatrix>
+  <TSA_WD_DiplomacyMatrix_Title>全局外交关系</TSA_WD_DiplomacyMatrix_Title>
+  <TSA_WD_Diplomacy_AllyOf>与……结盟</TSA_WD_Diplomacy_AllyOf>
+  <TSA_WD_Diplomacy_HostileTo>与……敌对</TSA_WD_Diplomacy_HostileTo>
+  <TSA_WD_Diplomacy_NeutralWith>与……中立</TSA_WD_Diplomacy_NeutralWith>
+  <TSA_WD_Diplomacy_H_Goodwill>好感度</TSA_WD_Diplomacy_H_Goodwill>
+  <TSA_WD_Diplomacy_GoodwillTip>你与该派系的好感度：{0}</TSA_WD_Diplomacy_GoodwillTip>
+  <TSA_WD_Diplomacy_WdCooldown>CD: {0} Days</TSA_WD_Diplomacy_WdCooldown>
+  <TSA_WD_Diplomacy_WdCooldownTip>冷却结束前，WD无法更改此阵营关系。</TSA_WD_Diplomacy_WdCooldownTip>
+  <TSA_WD_Dis_BaseReduc>基础强度点削减</TSA_WD_Dis_BaseReduc>
+  <TSA_WD_Dis_BaseReducTooltip>成功时从定居点移除的强度。</TSA_WD_Dis_BaseReducTooltip>
+  <TSA_WD_Dis_CombatSave>每战斗等级"杀出重围"加成</TSA_WD_Dis_CombatSave>
+  <TSA_WD_Dis_CombatSaveTooltip>尝试失败时,每射击/近战技能等级(取较高者)将"致命"结果转为"受伤"的百分比概率。</TSA_WD_Dis_CombatSaveTooltip>
+  <TSA_WD_Dis_Cooldown>谣言行动后冷却</TSA_WD_Dis_Cooldown>
+  <TSA_WD_Dis_CooldownTooltip>尝试后目标定居点保持高度戒备的时长。</TSA_WD_Dis_CooldownTooltip>
+  <TSA_WD_Dis_DisabledAlert>附近目标处于高度谍报戒备状态。</TSA_WD_Dis_DisabledAlert>
+  <TSA_WD_Dis_FailureClean>当地人对谣言无动于衷,但你的间谍在当局警觉前成功撤离。</TSA_WD_Dis_FailureClean>
+  <TSA_WD_Dis_FailureExecuted>他们因散布国家机密被捕,以间谍罪处决。</TSA_WD_Dis_FailureExecuted>
+  <TSA_WD_Dis_FailureFightback>谣言被追查到他们身上,卫兵试图逮捕。他们以出乎意料的凶猛反击,带伤逃脱而非面对刽子手。</TSA_WD_Dis_FailureFightback>
+  <TSA_WD_Dis_FailureSilvertongue>他们在与线人会面时险些被抓,但用社交技能摆脱嫌疑并悄然脱身。</TSA_WD_Dis_FailureSilvertongue>
+  <TSA_WD_Dis_FailureSpotted>他们被认出为煽动者,在逃离城市时受伤。</TSA_WD_Dis_FailureSpotted>
+  <TSA_WD_Dis_GizmoDesc>用你的小人 {0}(社交:{1})发起谣言行动。\n\n成功概率计算(权重制,与判定一致):\n  基础:{2}\n  技能权重:+{3}\n  等级权重:-{4}\n  健康:x{5}\n--------------------------\n  总成功:{6}\n\n被发现将导致 -30 声望。</TSA_WD_Dis_GizmoDesc>
+  <TSA_WD_Dis_GizmoLabel>散布谣言</TSA_WD_Dis_GizmoLabel>
+  <TSA_WD_Dis_HeaderModifiers>成功概率修正</TSA_WD_Dis_HeaderModifiers>
+  <TSA_WD_Dis_HeaderOutcome>成功结果与冷却</TSA_WD_Dis_HeaderOutcome>
+  <TSA_WD_Dis_HeaderSaves>豁免检定</TSA_WD_Dis_HeaderSaves>
+  <TSA_WD_Dis_HeaderSimulation>具体示例(对 T2 城镇、健康小人)</TSA_WD_Dis_HeaderSimulation>
+  <TSA_WD_Dis_HeaderWeights>谣言设置:基础结果概率</TSA_WD_Dis_HeaderWeights>
+  <TSA_WD_Dis_HealthImpact>健康对成功的影响</TSA_WD_Dis_HealthImpact>
+  <TSA_WD_Dis_HealthImpactTooltip>健康对成功的影响程度。100% 时,50% 健康的小人成功权重减半。</TSA_WD_Dis_HealthImpactTooltip>
+  <TSA_WD_Dis_LetterCollapsedLabel>定居点崩溃!</TSA_WD_Dis_LetterCollapsedLabel>
+  <TSA_WD_Dis_LetterCollapsedText>{0} 的谣言行动如此有效,{1} 已在混乱中瓦解。废墟会残留一段时间，并阻止附近新建定居点。</TSA_WD_Dis_LetterCollapsedText>
+  <TSA_WD_Dis_LetterFailedLabel>谣言失败</TSA_WD_Dis_LetterFailedLabel>
+  <TSA_WD_Dis_LetterFailedTextBase>{0} 在 {1} 散布不和失败。</TSA_WD_Dis_LetterFailedTextBase>
+  <TSA_WD_Dis_LetterSuccessLabel>谣言成功</TSA_WD_Dis_LetterSuccessLabel>
+  <TSA_WD_Dis_LetterSuccessText>{0} 通过谣言与不和使 {1} 强度降低 {2}。</TSA_WD_Dis_LetterSuccessText>
+  <TSA_WD_Dis_LogClean>失败(安全撤离)</TSA_WD_Dis_LogClean>
+  <TSA_WD_Dis_LogDestroyed>谣言:摧毁({0} -> 0)</TSA_WD_Dis_LogDestroyed>
+  <TSA_WD_Dis_LogInjured>失败(被发现/受伤)</TSA_WD_Dis_LogInjured>
+  <TSA_WD_Dis_LogKilled>失败(死亡)</TSA_WD_Dis_LogKilled>
+  <TSA_WD_Dis_LogMain>谣言:{0}</TSA_WD_Dis_LogMain>
+  <TSA_WD_Dis_LogSuccess>谣言:成功({0} -> {1})</TSA_WD_Dis_LogSuccess>
+  <TSA_WD_Dis_MenuOption>{0}({1})- {2} 成功</TSA_WD_Dis_MenuOption>
+  <TSA_WD_Dis_Reset>将此页恢复为默认</TSA_WD_Dis_Reset>
+  <TSA_WD_Dis_SimLvl0>所有相关技能 0 级</TSA_WD_Dis_SimLvl0>
+  <TSA_WD_Dis_SimLvl10>所有相关技能 10 级</TSA_WD_Dis_SimLvl10>
+  <TSA_WD_Dis_SimLvl20>所有相关技能 20 级</TSA_WD_Dis_SimLvl20>
+  <TSA_WD_Dis_SimResult>{0} | 成功:{1} | 安全失败:{2} | 受伤:{3} | 死亡:{4}</TSA_WD_Dis_SimResult>
+  <TSA_WD_Dis_SkillBonus>每社交等级成功权重加成</TSA_WD_Dis_SkillBonus>
+  <TSA_WD_Dis_SkillBonusTooltip>每社交等级为成功结果增加固定权重点。</TSA_WD_Dis_SkillBonusTooltip>
+  <TSA_WD_Dis_SkillReduc>每社交技能等级强度点削减</TSA_WD_Dis_SkillReduc>
+  <TSA_WD_Dis_SkillReducTooltip>基于小人社交技能的额外伤害。</TSA_WD_Dis_SkillReducTooltip>
+  <TSA_WD_Dis_SocialSave>每社交等级"巧舌如簧"加成</TSA_WD_Dis_SocialSave>
+  <TSA_WD_Dis_SocialSaveTooltip>尝试失败时,每社交技能等级将"受伤"转为"安全撤离"的百分比概率。</TSA_WD_Dis_SocialSaveTooltip>
+  <TSA_WD_Dis_TierPenalty>每定居点等级成功权重惩罚</TSA_WD_Dis_TierPenalty>
+  <TSA_WD_Dis_TierPenaltyTooltip>根据目标等级从成功结果中扣除固定权重点。</TSA_WD_Dis_TierPenaltyTooltip>
+  <TSA_WD_Dis_WeightClean>失败权重(安全撤离)</TSA_WD_Dis_WeightClean>
+  <TSA_WD_Dis_WeightCleanTooltip>安全失败相对频率。</TSA_WD_Dis_WeightCleanTooltip>
+  <TSA_WD_Dis_WeightFatal>失败权重(死亡)</TSA_WD_Dis_WeightFatal>
+  <TSA_WD_Dis_WeightFatalTooltip>失败时处决相对频率。</TSA_WD_Dis_WeightFatalTooltip>
+  <TSA_WD_Dis_WeightInjured>失败权重(受伤)</TSA_WD_Dis_WeightInjured>
+  <TSA_WD_Dis_WeightInjuredTooltip>失败时受伤相对频率。</TSA_WD_Dis_WeightInjuredTooltip>
+  <TSA_WD_Dis_WeightSuccess>成功权重</TSA_WD_Dis_WeightSuccess>
+  <TSA_WD_Dis_WeightSuccessTooltip>修正前成功谣言尝试的基础权重。</TSA_WD_Dis_WeightSuccessTooltip>
+  <TSA_WD_Fort_DisabledAlert>附近定居点最近已加固过。</TSA_WD_Fort_DisabledAlert>
+  <TSA_WD_Fort_GizmoDesc>尝试用你的小人 {0}(制造:{1})加固定居点。\n\n成功概率:{2}\n成功增加防御强度。</TSA_WD_Fort_GizmoDesc>
+  <TSA_WD_Fort_GizmoLabel>加固</TSA_WD_Fort_GizmoLabel>
+  <TSA_WD_Fort_LetterFailedLabel>加固失败</TSA_WD_Fort_LetterFailedLabel>
+  <TSA_WD_Fort_LetterFailedText>{0} 未能显著改善 {1} 的防御。</TSA_WD_Fort_LetterFailedText>
+  <TSA_WD_Fort_LetterSuccessLabel>加固成功</TSA_WD_Fort_LetterSuccessLabel>
+  <TSA_WD_Fort_LetterSuccessText>{0} 成功协助 {1}。基础设施得到改善。强度增加 {2}。</TSA_WD_Fort_LetterSuccessText>
+  <TSA_WD_Fort_LogFailed>加固:失败</TSA_WD_Fort_LogFailed>
+  <TSA_WD_Fort_LogSuccess>加固:成功({0} -> {1})</TSA_WD_Fort_LogSuccess>
+  <TSA_WD_Fort_MenuOption>{0} - {1} 成功</TSA_WD_Fort_MenuOption>
+  <TSA_WD_OnlyInGame>允许的阵营关系变更</TSA_WD_OnlyInGame>
+  <TSA_WD_Sab_BaseReduc>基础强度削减</TSA_WD_Sab_BaseReduc>
+  <TSA_WD_Sab_BaseReducTooltip>成功时从目标定居点移除的基础强度。</TSA_WD_Sab_BaseReducTooltip>
+  <TSA_WD_Sab_CombatSave>每战斗等级"杀出重围"加成</TSA_WD_Sab_CombatSave>
+  <TSA_WD_Sab_CombatSaveTooltip>每战斗等级(射击/近战)将"死亡/致命"结果转为"受伤"的概率。</TSA_WD_Sab_CombatSaveTooltip>
+  <TSA_WD_Sab_Cooldown>尝试后冷却</TSA_WD_Sab_Cooldown>
+  <TSA_WD_Sab_CooldownTooltip>目标定居点保持高度戒备的天数,期间无法再次破坏。</TSA_WD_Sab_CooldownTooltip>
+  <TSA_WD_Sab_DisabledAlert>所有附近目标均处于高度戒备。</TSA_WD_Sab_DisabledAlert>
+  <TSA_WD_Sab_FailureClean>他们在被发现前成功撤入暗处。</TSA_WD_Sab_FailureClean>
+  <TSA_WD_Sab_FailureExecuted>他们被当场抓获并立即处决。</TSA_WD_Sab_FailureExecuted>
+  <TSA_WD_Sab_FailureFightback>他们被抓获并判处死刑,但以惊人技艺反击,带伤逃脱而非丧命。</TSA_WD_Sab_FailureFightback>
+  <TSA_WD_Sab_FailureSilvertongue>他们险些被抓,但用社交技能化解对峙并脱身。</TSA_WD_Sab_FailureSilvertongue>
+  <TSA_WD_Sab_FailureSpotted>他们被卫兵发现,在逃离现场时受伤。</TSA_WD_Sab_FailureSpotted>
+  <TSA_WD_Sab_GizmoDesc>用你的小人 {0}(制造:{1})执行破坏任务。\n\n总成功:{2}\n被发现将导致 -30 声望。</TSA_WD_Sab_GizmoDesc>
+  <TSA_WD_Sab_GizmoLabel>破坏</TSA_WD_Sab_GizmoLabel>
+  <TSA_WD_Sab_HeaderModifiers>成功概率修正</TSA_WD_Sab_HeaderModifiers>
+  <TSA_WD_Sab_HeaderOutcome>成功结果与冷却</TSA_WD_Sab_HeaderOutcome>
+  <TSA_WD_Sab_HeaderSaves>豁免检定(基于技能的挽回)</TSA_WD_Sab_HeaderSaves>
+  <TSA_WD_Sab_HeaderSimulation>模拟:对 T2 城镇(健康小人)</TSA_WD_Sab_HeaderSimulation>
+  <TSA_WD_Sab_HeaderWeights>破坏设置:基础结果概率</TSA_WD_Sab_HeaderWeights>
+  <TSA_WD_Sab_HealthImpact>健康对成功的影响</TSA_WD_Sab_HealthImpact>
+  <TSA_WD_Sab_HealthImpactTooltip>小人健康对成功的影响程度。100% 时,50% 健康的小人成功权重减半。</TSA_WD_Sab_HealthImpactTooltip>
+  <TSA_WD_Sab_LetterFailedLabel>破坏失败</TSA_WD_Sab_LetterFailedLabel>
+  <TSA_WD_Sab_LetterFailedTextBase>{0} 在 {1} 的任务失败。</TSA_WD_Sab_LetterFailedTextBase>
+  <TSA_WD_Sab_LetterObliteratedLabel>定居点遭破坏!</TSA_WD_Sab_LetterObliteratedLabel>
+  <TSA_WD_Sab_LetterObliteratedText>{0} 摧毁了 {1}。废墟会残留一段时间，并阻止附近新建定居点。</TSA_WD_Sab_LetterObliteratedText>
+  <TSA_WD_Sab_LetterSuccessLabel>破坏成功</TSA_WD_Sab_LetterSuccessLabel>
+  <TSA_WD_Sab_LetterSuccessText>{0} 使 {1} 强度降低 {2}。</TSA_WD_Sab_LetterSuccessText>
+  <TSA_WD_Sab_LogClean>失败(安全撤离)</TSA_WD_Sab_LogClean>
+  <TSA_WD_Sab_LogDestroyed>破坏:摧毁({0} -> 0)</TSA_WD_Sab_LogDestroyed>
+  <TSA_WD_Sab_LogInjured>失败(受伤)</TSA_WD_Sab_LogInjured>
+  <TSA_WD_Sab_LogMain>破坏:{0}</TSA_WD_Sab_LogMain>
+  <TSA_WD_Sab_LogSuccess>破坏:成功({0} -> {1})</TSA_WD_Sab_LogSuccess>
+  <TSA_WD_Sab_MenuOption>{0}({1})- {2} 成功</TSA_WD_Sab_MenuOption>
+  <TSA_WD_Sab_Reset>将此页恢复为默认</TSA_WD_Sab_Reset>
+  <TSA_WD_Sab_SimLvl0>所有相关技能 0 级</TSA_WD_Sab_SimLvl0>
+  <TSA_WD_Sab_SimLvl10>所有相关技能 10 级</TSA_WD_Sab_SimLvl10>
+  <TSA_WD_Sab_SimLvl20>所有相关技能 20 级</TSA_WD_Sab_SimLvl20>
+  <TSA_WD_Sab_SimResult>{0} | 成功:{1} | 安全失败:{2} | 受伤:{3} | 死亡:{4}</TSA_WD_Sab_SimResult>
+  <TSA_WD_Sab_SkillBonus>每制造等级成功权重加成</TSA_WD_Sab_SkillBonus>
+  <TSA_WD_Sab_SkillBonusTooltip>每制造等级为成功结果增加固定权重点。</TSA_WD_Sab_SkillBonusTooltip>
+  <TSA_WD_Sab_SkillReduc>每制造等级削减</TSA_WD_Sab_SkillReduc>
+  <TSA_WD_Sab_SkillReducTooltip>根据小人制造技能等级造成的额外强度伤害。</TSA_WD_Sab_SkillReducTooltip>
+  <TSA_WD_Sab_SocialSave>每社交等级"巧舌如簧"加成</TSA_WD_Sab_SocialSave>
+  <TSA_WD_Sab_SocialSaveTooltip>每社交等级将"受伤"结果转为"安全撤离"的概率。</TSA_WD_Sab_SocialSaveTooltip>
+  <TSA_WD_Sab_TierPenalty>每等级成功权重惩罚</TSA_WD_Sab_TierPenalty>
+  <TSA_WD_Sab_TierPenaltyTooltip>根据目标等级从成功结果中扣除固定权重点。</TSA_WD_Sab_TierPenaltyTooltip>
+  <TSA_WD_Sab_WeightClean>失败权重(安全撤离)</TSA_WD_Sab_WeightClean>
+  <TSA_WD_Sab_WeightCleanTooltip>失败尝试中小人未被发现逃脱的概率。</TSA_WD_Sab_WeightCleanTooltip>
+  <TSA_WD_Sab_WeightFatal>失败权重(死亡)</TSA_WD_Sab_WeightFatal>
+  <TSA_WD_Sab_WeightFatalTooltip>失败尝试中小人被击杀的概率。</TSA_WD_Sab_WeightFatalTooltip>
+  <TSA_WD_Sab_WeightInjured>失败权重(受伤)</TSA_WD_Sab_WeightInjured>
+  <TSA_WD_Sab_WeightInjuredTooltip>失败尝试中小人带伤逃脱的概率。</TSA_WD_Sab_WeightInjuredTooltip>
+  <TSA_WD_Sab_WeightSuccess>成功权重</TSA_WD_Sab_WeightSuccess>
+  <TSA_WD_Sab_WeightSuccessTooltip>修正前成功破坏尝试的基础权重。</TSA_WD_Sab_WeightSuccessTooltip>
+  <TSA_WD_StatusLocked>已锁定</TSA_WD_StatusLocked>
+  <TSA_WD_StatusPossible>可变更</TSA_WD_StatusPossible>
+  <TSA_WD_BuySettlement_GoodwillCurrent>当前好感度：{0}</TSA_WD_BuySettlement_GoodwillCurrent>
+  <TSA_WD_BuySettlement_GoodwillMinRetain>需保留的最低好感度：{0}</TSA_WD_BuySettlement_GoodwillMinRetain>
+  <TSA_WD_BuySettlement_GoodwillRateTip>每点好感度可抵扣 {0} 银的要价。</TSA_WD_BuySettlement_GoodwillRateTip>
+  <TSA_WD_BuySettlement_PayWithGoods>用实物支付</TSA_WD_BuySettlement_PayWithGoods>
+  <TSA_WD_BuyOutcome_Label>已购买定居点</TSA_WD_BuyOutcome_Label>
+  <TSA_WD_BuyOutcome_Text>你已购买 {0}（等级 {1}）。可将其转换为所选前哨站、招募居民，或交给友好派系。</TSA_WD_BuyOutcome_Text>
+  <TSA_WD_Buy_OptConvertOutpost>转换为前哨站</TSA_WD_Buy_OptConvertOutpost>
+  <TSA_WD_Buy_OptRecruit>招募居民</TSA_WD_Buy_OptRecruit>
+  <TSA_WD_Buy_OptGiveAlly>让盟友或中立派系在此定居</TSA_WD_Buy_OptGiveAlly>
+  <TSA_WD_BuySettlement_SettingsHeader>购买定居点</TSA_WD_BuySettlement_SettingsHeader>
+  <TSA_WD_BuySettlement_Enable>启用购买定居点</TSA_WD_BuySettlement_Enable>
+  <TSA_WD_BuySettlement_EnableTip>启用后，盟友与中立的 WD 定居点会显示「购买定居点」按钮。</TSA_WD_BuySettlement_EnableTip>
+  <TSA_WD_BuySettlement_AskT1>要价（T1 白银）</TSA_WD_BuySettlement_AskT1>
+  <TSA_WD_BuySettlement_AskT2>要价（T2 白银）</TSA_WD_BuySettlement_AskT2>
+  <TSA_WD_BuySettlement_AskT3>要价（T3 白银）</TSA_WD_BuySettlement_AskT3>
+  <TSA_WD_BuySettlement_AskT4>要价（T4 白银）</TSA_WD_BuySettlement_AskT4>
+  <TSA_WD_BuySettlement_AskTip>要价（白银）。盟友与中立相同；不因好感等级打折。</TSA_WD_BuySettlement_AskTip>
+  <TSA_WD_BuySettlement_SilverPerGw>每点好感折合白银</TSA_WD_BuySettlement_SilverPerGw>
+  <TSA_WD_BuySettlement_SilverPerGwTip>每点好感可抵扣多少要价。</TSA_WD_BuySettlement_SilverPerGwTip>
+  <TSA_WD_BuySettlement_MaxGwShare>可用好感支付的要价最高比例</TSA_WD_BuySettlement_MaxGwShare>
+  <TSA_WD_BuySettlement_MaxGwShareTip>好感最多可覆盖要价的此比例。仍不能将好感降到下限以下。</TSA_WD_BuySettlement_MaxGwShareTip>
+  <TSA_WD_FactionInvestment_SettingsHeader>派系定居点投资</TSA_WD_FactionInvestment_SettingsHeader>
+  <TSA_WD_FactionInvestment_Enable>启用赠礼/购买实力投资</TSA_WD_FactionInvestment_Enable>
+  <TSA_WD_FactionInvestment_EnableTip>购买定居点或赠送货物时，将白银等价价值转化为附近同派系定居点实力，再购买升级，重复直到预算无法再购买更多。</TSA_WD_FactionInvestment_EnableTip>
+  <TSA_WD_FactionInvestment_StrengthPer100>每 100 白银的实力</TSA_WD_FactionInvestment_StrengthPer100>
+  <TSA_WD_FactionInvestment_StrengthPer100Tip>在将定居点填满至当前等级上限时，100 白银赠礼或购买支付授予多少进攻实力。</TSA_WD_FactionInvestment_StrengthPer100Tip>
+  <TSA_WD_FactionInvestment_Radius>投资半径（格）</TSA_WD_FactionInvestment_Radius>
+  <TSA_WD_FactionInvestment_RadiusTip>距赠礼或购买格超过此距离的定居点不会获得实力。</TSA_WD_FactionInvestment_RadiusTip>
+  <TSA_WD_FactionInvestment_UpgradeT1T2>T1 升 T2 所需白银</TSA_WD_FactionInvestment_UpgradeT1T2>
+  <TSA_WD_FactionInvestment_UpgradeT2T3>T2 升 T3 所需白银</TSA_WD_FactionInvestment_UpgradeT2T3>
+  <TSA_WD_FactionInvestment_UpgradeT3T4>T3 升 T4 所需白银</TSA_WD_FactionInvestment_UpgradeT3T4>
+  <TSA_WD_FactionInvestment_LetterLabel>派系定居点已强化</TSA_WD_FactionInvestment_LetterLabel>
+  <TSA_WD_FactionInvestment_LetterBuy>{0} 收到的购买价值已转化为附近定居点的强度（填满 {1} 个城镇，升级 {2} 次）。</TSA_WD_FactionInvestment_LetterBuy>
+  <TSA_WD_FactionInvestment_LetterGift>{0} 收到的礼物价值已转化为附近定居点的强度（填满 {1} 个城镇，升级 {2} 次）。</TSA_WD_FactionInvestment_LetterGift>
+  <TSA_WD_FactionInvestment_LetterGiftFullyCapped>{0} 范围内的定居点已达到最高等级与强度。继续赠礼不会再增加 WD 强度。</TSA_WD_FactionInvestment_LetterGiftFullyCapped>
+  <TSA_WD_FactionInvestment_LetterGiftNoEffect>礼物价值（{1} 银等价）未改变范围内 {0} 的定居点（当前等级已满，且剩余不足以支付下一次升级）。</TSA_WD_FactionInvestment_LetterGiftNoEffect>
+  <TSA_WD_FactionInvestment_LogNoneInRange>投资范围内没有 {0} 的定居点可接收 {1} 银等价。</TSA_WD_FactionInvestment_LogNoneInRange>
+  <TSA_WD_FactionInvestment_UpgradeTip>银币先将范围内同派系定居点填满至当前等级上限（由近到远），再购买升级，再继续填充，直到预算无法再购买更多为止。</TSA_WD_FactionInvestment_UpgradeTip>
+  <TSA_WD_FactionInvestment_UpgradeSuccessChance>升级成功几率</TSA_WD_FactionInvestment_UpgradeSuccessChance>
+  <TSA_WD_FactionInvestment_UpgradeSuccessChanceTip>已支付的投资升级成功的几率。无论成败都会消耗银币。失败后，该定居点在本次赠礼或购买中不再尝试升级。</TSA_WD_FactionInvestment_UpgradeSuccessChanceTip>
+
+  <TSA_WD_Negotiate_Btn>谈判</TSA_WD_Negotiate_Btn>
+  <TSA_WD_Negotiate_BtnWar>宣战</TSA_WD_Negotiate_BtnWar>
+  <TSA_WD_Negotiate_BtnPeace>停火</TSA_WD_Negotiate_BtnPeace>
+  <TSA_WD_Negotiate_BtnAlly>结为盟友</TSA_WD_Negotiate_BtnAlly>
+  <TSA_WD_Negotiate_BtnNone>无行动</TSA_WD_Negotiate_BtnNone>
+  <TSA_WD_Negotiate_H_Faction>派系</TSA_WD_Negotiate_H_Faction>
+  <TSA_WD_Negotiate_H_Relation>关系</TSA_WD_Negotiate_H_Relation>
+  <TSA_WD_Negotiate_H_Strength>该派系 vs. 目标派系</TSA_WD_Negotiate_H_Strength>
+  <TSA_WD_Negotiate_H_WarFoes>该派系 vs. 全局实力</TSA_WD_Negotiate_H_WarFoes>
+  <TSA_WD_Negotiate_H_Ask>白银价格</TSA_WD_Negotiate_H_Ask>
+  <TSA_WD_Negotiate_H_Action>要求对方</TSA_WD_Negotiate_H_Action>
+  <TSA_WD_Negotiate_StrengthTip>你正在付钱的派系的军事实力，除以目标派系的实力。低于 1.00× 表示他们弱于目标。</TSA_WD_Negotiate_StrengthTip>
+  <TSA_WD_Negotiate_WarFoesTip>该派系自身实力除以已交战各派系实力总和（如 0.20× = 占该总和的 20%）。数值越低，表示他们已更吃紧，宣战要价也越高。</TSA_WD_Negotiate_WarFoesTip>
+  <TSA_WD_Negotiate_RelationTip>该派系与你正在付钱的派系之间的当前外交状态。</TSA_WD_Negotiate_RelationTip>
+  <TSA_WD_Negotiate_AskTip>请求此项变更的白银等价价格。被拒绝或处于外交冻结的行尚不可请求。</TSA_WD_Negotiate_AskTip>
+  <TSA_WD_Negotiate_ActionTip>要求该派系对列出的对方宣战、停火或结为盟友。</TSA_WD_Negotiate_ActionTip>
+  <TSA_WD_Negotiate_ActionWar>宣战</TSA_WD_Negotiate_ActionWar>
+  <TSA_WD_Negotiate_ActionPeace>转为中立</TSA_WD_Negotiate_ActionPeace>
+  <TSA_WD_Negotiate_ActionAlly>结为盟友</TSA_WD_Negotiate_ActionAlly>
+  <TSA_WD_Negotiate_OverviewTitle>与 {0} 谈判</TSA_WD_Negotiate_OverviewTitle>
+  <TSA_WD_Negotiate_OverviewTip>付钱让该派系改变与其他派系的外交状态。</TSA_WD_Negotiate_OverviewTip>
+  <TSA_WD_Negotiate_DealTitle>付钱给 {0}，使其对 {2} {1}</TSA_WD_Negotiate_DealTitle>
+  <TSA_WD_Negotiate_PayWithGoods>用货物支付（送达 {0}）</TSA_WD_Negotiate_PayWithGoods>
+  <TSA_WD_Negotiate_AskSilver>要价：{0} 银</TSA_WD_Negotiate_AskSilver>
+  <TSA_WD_Negotiate_OfferedRemaining>已提供：{0}（还需 {1}）</TSA_WD_Negotiate_OfferedRemaining>
+  <TSA_WD_Negotiate_OfferedMet>已提供：{0}（已达要价）</TSA_WD_Negotiate_OfferedMet>
+  <TSA_WD_Negotiate_Confirm>确认付款</TSA_WD_Negotiate_Confirm>
+  <TSA_WD_Negotiate_CdShort>冷却：{0}天</TSA_WD_Negotiate_CdShort>
+  <TSA_WD_Negotiate_Disabled>模组设置中已禁用外交谈判。</TSA_WD_Negotiate_Disabled>
+  <TSA_WD_Negotiate_BadPlayerRelation>你必须与该派系为盟友或中立关系。</TSA_WD_Negotiate_BadPlayerRelation>
+  <TSA_WD_Negotiate_GoodwillFloor>与该派系的好感度至少需要 {0}。</TSA_WD_Negotiate_GoodwillFloor>
+  <TSA_WD_Negotiate_Pending>该派系已有一支谈判商队在途中。</TSA_WD_Negotiate_Pending>
+  <TSA_WD_Negotiate_NoSettlement>该派系没有可接收付款的地表定居点。</TSA_WD_Negotiate_NoSettlement>
+  <TSA_WD_Negotiate_InvalidPair>无法对该派系对进行谈判。</TSA_WD_Negotiate_InvalidPair>
+  <TSA_WD_Negotiate_PairLocked>该派系对已被永久锁定。</TSA_WD_Negotiate_PairLocked>
+  <TSA_WD_Negotiate_PairFrozen>外交冻结：剩余 {0} 天。</TSA_WD_Negotiate_PairFrozen>
+  <TSA_WD_Negotiate_AllyUntouchable>盟友关系不可谈判。</TSA_WD_Negotiate_AllyUntouchable>
+  <TSA_WD_Negotiate_WarNeedsNeutral>他们与该派系并非中立（仅能从中立开战）。</TSA_WD_Negotiate_WarNeedsNeutral>
+  <TSA_WD_Negotiate_PeaceNeedsHostile>他们并未与该派系交战。</TSA_WD_Negotiate_PeaceNeedsHostile>
+  <TSA_WD_Negotiate_TooWeakForWar>只有当 {0} 的实力至少达到 {1} 的 {2}% 时，你才能说服 {0} 向 {1} 宣战。</TSA_WD_Negotiate_TooWeakForWar>
+  <TSA_WD_Negotiate_TooWeakForPeace>只有当 {0} 的实力至少达到 {1} 的 {2}% 时，你才能说服 {0} 与 {1} 停火。</TSA_WD_Negotiate_TooWeakForPeace>
+  <TSA_WD_Negotiate_CannotAsk>已拒绝</TSA_WD_Negotiate_CannotAsk>
+  <TSA_WD_Negotiate_AllegianceColorTip>颜色编码基于与玩家的关系。</TSA_WD_Negotiate_AllegianceColorTip>
+  <TSA_WD_Negotiate_UnderAsk>报价未达到要价（{0} 银）。</TSA_WD_Negotiate_UnderAsk>
+  <TSA_WD_Negotiate_NoOrigin>没有可派出谈判商队的殖民地或仓库。</TSA_WD_Negotiate_NoOrigin>
+  <TSA_WD_Negotiate_SameTile>无法从与目的地定居点相同的地块派出付款。</TSA_WD_Negotiate_SameTile>
+  <TSA_WD_Negotiate_SpawnFailed>无法派出谈判商队。</TSA_WD_Negotiate_SpawnFailed>
+  <TSA_WD_Negotiate_StartLetterLabel>外交谈判</TSA_WD_Negotiate_StartLetterLabel>
+  <TSA_WD_Negotiate_StartLetterText>一支商队正在运送付款，使 {0} 对 {2} {1}。</TSA_WD_Negotiate_StartLetterText>
+  <TSA_WD_Negotiate_CompleteLetterLabel>外交谈判完成</TSA_WD_Negotiate_CompleteLetterLabel>
+  <TSA_WD_Negotiate_CompleteLetterText>{0} 同意对 {2} {1}。付款增强了其定居点。</TSA_WD_Negotiate_CompleteLetterText>
+  <TSA_WD_Negotiate_AbortLetterLabel>外交谈判失败</TSA_WD_Negotiate_AbortLetterLabel>
+  <TSA_WD_Negotiate_AbortLetterText>与 {0} 关于 {1} 的谈判未能完成。</TSA_WD_Negotiate_AbortLetterText>
+  <TSA_WD_Negotiate_AbortLetterTextLost>为 {0} 关于 {1} 的谈判商队被摧毁。付款已丢失。</TSA_WD_Negotiate_AbortLetterTextLost>
+  <TSA_WD_Negotiate_AbortLetterTextRefund>与 {0} 关于 {1} 的谈判未能完成。付款已退还。</TSA_WD_Negotiate_AbortLetterTextRefund>
+  <TSA_WD_Negotiate_AbortLetterTextBadRelation>与 {0} 关于 {1} 的谈判失败，因为你不再与其盟友或中立。付款已退还。</TSA_WD_Negotiate_AbortLetterTextBadRelation>
+  <TSA_WD_Negotiate_AbortLetterTextFrozen>与 {0} 关于 {1} 的谈判失败，因为该派系对处于外交冻结。付款已退还。</TSA_WD_Negotiate_AbortLetterTextFrozen>
+  <TSA_WD_Negotiate_AbortLetterTextLocked>与 {0} 关于 {1} 的谈判失败，因为该派系对已被永久锁定。付款已退还。</TSA_WD_Negotiate_AbortLetterTextLocked>
+  <TSA_WD_Negotiate_AbortLetterTextInvalid>与 {0} 关于 {1} 的谈判已不再有效。付款已退还。</TSA_WD_Negotiate_AbortLetterTextInvalid>
+  <TSA_WD_Negotiate_AbortLetterTextGone>与 {0} 关于 {1} 的谈判失败，因为派系或定居点已不存在。付款已退还。</TSA_WD_Negotiate_AbortLetterTextGone>
+  <TSA_WD_Negotiate_SettingsHeader>外交谈判</TSA_WD_Negotiate_SettingsHeader>
+  <TSA_WD_Negotiate_Enable>启用外交谈判</TSA_WD_Negotiate_Enable>
+  <TSA_WD_Negotiate_EnableTip>启用后，外交矩阵中盟友与中立的 NPC 派系会显示「谈判」按钮。</TSA_WD_Negotiate_EnableTip>
+  <TSA_WD_Negotiate_AskMin>要价下限（银）</TSA_WD_Negotiate_AskMin>
+  <TSA_WD_Negotiate_AskMinTip>当实力比允许该行动时的最低谈判要价。</TSA_WD_Negotiate_AskMinTip>
+  <TSA_WD_Negotiate_AskMax>要价上限（银）</TSA_WD_Negotiate_AskMax>
+  <TSA_WD_Negotiate_AskMaxTip>实力定价曲线上的最高谈判要价。</TSA_WD_Negotiate_AskMaxTip>
+  <TSA_WD_Log_NegotiateLaunched>{0} 派出谈判商队，使 {1} 对 {3} {2}。</TSA_WD_Log_NegotiateLaunched>
+  <TSA_WD_Log_NegotiateCompleted>{0} 同意对 {2} {1}。</TSA_WD_Log_NegotiateCompleted>
+  <TSA_WD_Notify_NegotiateStarted>外交谈判已开始</TSA_WD_Notify_NegotiateStarted>
+  <TSA_WD_Notify_NegotiateStartedTooltip>派出谈判付款商队时发信（默认关闭）。</TSA_WD_Notify_NegotiateStartedTooltip>
+  <TSA_WD_Notify_NegotiateCompleted>外交谈判完成</TSA_WD_Notify_NegotiateCompleted>
+  <TSA_WD_Notify_NegotiateCompletedTooltip>付款送达并应用关系变更时发信。</TSA_WD_Notify_NegotiateCompletedTooltip>
+  <TSA_WD_Notify_NegotiateAborted>外交谈判失败</TSA_WD_Notify_NegotiateAborted>
+  <TSA_WD_Notify_NegotiateAbortedTooltip>谈判商队被摧毁或交易失败时发信。说明原因以及是否退款。</TSA_WD_Notify_NegotiateAbortedTooltip>
+
+  <TSA_WD_GiftSettlement_GizmoLabel>送出礼物</TSA_WD_GiftSettlement_GizmoLabel>
+  <TSA_WD_GiftSettlement_GizmoDesc>从最近的殖民地或仓库送出货物礼物。抵达后会提升好感，并按礼物价值增强该定居点所属派系的强度。</TSA_WD_GiftSettlement_GizmoDesc>
+  <TSA_WD_GiftSettlement_Pending>已有一支送礼商队正在前往该定居点。</TSA_WD_GiftSettlement_Pending>
+  <TSA_WD_GiftSettlement_DialogTitle>向「{0}」送礼</TSA_WD_GiftSettlement_DialogTitle>
+  <TSA_WD_GiftSettlement_PayWithGoods>用实体货物送礼</TSA_WD_GiftSettlement_PayWithGoods>
+  <TSA_WD_GiftSettlement_MinSilver>最低礼物：{0} 银</TSA_WD_GiftSettlement_MinSilver>
+  <TSA_WD_GiftSettlement_Offered>已提供：{0}</TSA_WD_GiftSettlement_Offered>
+  <TSA_WD_GiftSettlement_AssignToMin>分配至最低</TSA_WD_GiftSettlement_AssignToMin>
+  <TSA_WD_GiftSettlement_AssignToMinTip>先清空当前货物报价，再从未标星物品中按价值从高到低分配，直至达到最低礼物价值。最后一行只取所需数量。已标星物品会被跳过。</TSA_WD_GiftSettlement_AssignToMinTip>
+  <TSA_WD_BuySettlement_AssignExpensiveFirst>优先分配高价值</TSA_WD_BuySettlement_AssignExpensiveFirst>
+  <TSA_WD_BuySettlement_AssignExpensiveFirstTip>先清空当前货物报价，再从未标星物品中按价值从高到低分配，直至达到要价。最后一行只取所需数量。已标星物品会被跳过。好感报价不变。</TSA_WD_BuySettlement_AssignExpensiveFirstTip>
+  <TSA_WD_BuySettlement_ResetAll>全部重置</TSA_WD_BuySettlement_ResetAll>
+  <TSA_WD_DealItems_ColStar>★</TSA_WD_DealItems_ColStar>
+  <TSA_WD_DealItems_StarTip>「优先分配高价值」「分配至要价」「分配至最低」不会取用已标星物品。仍可手动报价。标星随本存档保存，并在购买、送礼与贿赂之间共享。</TSA_WD_DealItems_StarTip>
+  <TSA_WD_DealItems_CatAll>全部</TSA_WD_DealItems_CatAll>
+  <TSA_WD_DealItems_CatWeapons>武器</TSA_WD_DealItems_CatWeapons>
+  <TSA_WD_DealItems_CatApparel>服装</TSA_WD_DealItems_CatApparel>
+  <TSA_WD_DealItems_CatTextiles>纺织品</TSA_WD_DealItems_CatTextiles>
+  <TSA_WD_DealItems_CatFood>食物</TSA_WD_DealItems_CatFood>
+  <TSA_WD_DealItems_CatOther>其他</TSA_WD_DealItems_CatOther>
+  <TSA_WD_DealItems_AssignUnderfill>仅凭未标星货物无法达到要价。请取消部分标星，或手动增加报价。</TSA_WD_DealItems_AssignUnderfill>
+  <TSA_WD_GiftSettlement_Confirm>确认送礼</TSA_WD_GiftSettlement_Confirm>
+  <TSA_WD_QuantityAdjustTip>按住 Ctrl 为 ×10，Shift 为 ×100，同时按住为 ×1000。</TSA_WD_QuantityAdjustTip>
+  <TSA_WD_BuySettlement_ColSilverPerTip>支付价值已应用原版出售价格系数（武器通常为市场价的 20%，与卖给商人相同）。</TSA_WD_BuySettlement_ColSilverPerTip>
+  <TSA_WD_GiftSettlement_UnderMin>礼物价值至少需要 {0} 银。</TSA_WD_GiftSettlement_UnderMin>
+  <TSA_WD_GiftSettlement_NoOrigin>没有可派出送礼商队的殖民地或仓库。</TSA_WD_GiftSettlement_NoOrigin>
+  <TSA_WD_GiftSettlement_SameTile>无法从与定居点相同的地块派出礼物。</TSA_WD_GiftSettlement_SameTile>
+  <TSA_WD_GiftSettlement_SpawnFailed>无法派出送礼商队。</TSA_WD_GiftSettlement_SpawnFailed>
+  <TSA_WD_GiftSettlement_TargetGone>该定居点已不存在。</TSA_WD_GiftSettlement_TargetGone>
+  <TSA_WD_GiftSettlement_BadRelation>你必须与所有者为盟友或中立关系。</TSA_WD_GiftSettlement_BadRelation>
+  <TSA_WD_GiftSettlement_CompletedLetterLabel>礼物已送达</TSA_WD_GiftSettlement_CompletedLetterLabel>
+  <TSA_WD_GiftSettlement_CompletedLetterText>你的礼物已送达 {0}（{1}）。交付了价值 {2} 银的货物。</TSA_WD_GiftSettlement_CompletedLetterText>
+  <TSA_WD_GiftSettlement_AbortLetterLabel>送礼商队失败</TSA_WD_GiftSettlement_AbortLetterLabel>
+  <TSA_WD_GiftSettlement_AbortLetterText>向 {0} 的送礼未能完成。</TSA_WD_GiftSettlement_AbortLetterText>
+  <TSA_WD_GiftSettlement_AbortLetterTextLost>前往 {0} 的送礼商队被摧毁。货物已丢失。</TSA_WD_GiftSettlement_AbortLetterTextLost>
+  <TSA_WD_GiftSettlement_AbortLetterTextRefund>向 {0} 的送礼未能完成。货物已退还。</TSA_WD_GiftSettlement_AbortLetterTextRefund>
+  <TSA_WD_GiftSettlement_AbortLetterTextSettlementGone>向 {0} 的送礼失败，因为该定居点已不存在。货物已退还。</TSA_WD_GiftSettlement_AbortLetterTextSettlementGone>
+  <TSA_WD_GiftSettlement_AbortLetterTextBadRelation>向 {0} 的送礼失败，因为你不再与所有者为盟友或中立。货物已退还。</TSA_WD_GiftSettlement_AbortLetterTextBadRelation>
+  <TSA_WD_GiftSettlement_AbortLetterTextFactionChanged>向 {0} 的送礼失败，因为定居点易主。货物已退还。</TSA_WD_GiftSettlement_AbortLetterTextFactionChanged>
+  <TSA_WD_SettlementGifterCaravan>送礼商队</TSA_WD_SettlementGifterCaravan>
+  <TSA_WD_Log_SettlementGiftLaunched>{0} 向 {1}（{2}）派出了送礼商队。</TSA_WD_Log_SettlementGiftLaunched>
+  <TSA_WD_Log_SettlementGiftCompleted>礼物已送达 {0}（{1}）。</TSA_WD_Log_SettlementGiftCompleted>
+
+  <TSA_WD_SettlementCaravan_InterceptWarning>警告：若此商队被拦截，攻击者会按货物价值获得定居点强度。</TSA_WD_SettlementCaravan_InterceptWarning>
+  <TSA_WD_SettlementCaravan_LootLetterLabel>商队被拦截</TSA_WD_SettlementCaravan_LootLetterLabel>
+  <TSA_WD_SettlementCaravan_LootLetterBody>{0} 拦截了你的{1}商队并夺走了 {2} 银。</TSA_WD_SettlementCaravan_LootLetterBody>
+  <TSA_WD_SettlementCaravan_LootMissionBuy>购买</TSA_WD_SettlementCaravan_LootMissionBuy>
+  <TSA_WD_SettlementCaravan_LootMissionGift>送礼</TSA_WD_SettlementCaravan_LootMissionGift>
+  <TSA_WD_SettlementCaravan_LootLetterRadius>这强化了事件地点 {0} 格范围内的他们的定居点。</TSA_WD_SettlementCaravan_LootLetterRadius>
+  <TSA_WD_SettlementCaravan_LootLetterNoTowns>货物被夺走，但他们在 {0} 格范围内没有可强化的定居点。</TSA_WD_SettlementCaravan_LootLetterNoTowns>
+  <TSA_WD_SettlementCaravan_LootLetterNoEffect>范围内没有定居点因被夺货物而获得强度。</TSA_WD_SettlementCaravan_LootLetterNoEffect>
+  <TSA_WD_SettlementCaravan_LootDetailStrength>{0} 获得了 {1} 强度。</TSA_WD_SettlementCaravan_LootDetailStrength>
+  <TSA_WD_SettlementCaravan_LootDetailUpgrade>{0} 升级到了 {1}。</TSA_WD_SettlementCaravan_LootDetailUpgrade>
+
+  <TSA_WD_Bribe_SettlementGizmoLabel>贿赂停火</TSA_WD_Bribe_SettlementGizmoLabel>
+  <TSA_WD_Bribe_SettlementGizmoDesc>用货物换取临时停火。在所选持续时间内，该派系不会对你的殖民地或前哨发动新的世界统治袭击。已在途中的袭击不会被召回。</TSA_WD_Bribe_SettlementGizmoDesc>
+  <TSA_WD_Bribe_RaidGizmoLabel>贿赂袭击商队</TSA_WD_Bribe_RaidGizmoLabel>
+  <TSA_WD_Bribe_RaidGizmoDesc>派出付款商队追赶此次袭击。送达后该袭击解散。强度投资以袭击出发定居点为中心。</TSA_WD_Bribe_RaidGizmoDesc>
+  <TSA_WD_Bribe_Disabled>设置中已禁用派系贿赂。</TSA_WD_Bribe_Disabled>
+  <TSA_WD_Bribe_Pending>已有一支贿赂商队正前往此目标。</TSA_WD_Bribe_Pending>
+  <TSA_WD_Bribe_Cannot>无法贿赂此目标。</TSA_WD_Bribe_Cannot>
+  <TSA_WD_Bribe_TargetGone>该目标已不存在。</TSA_WD_Bribe_TargetGone>
+  <TSA_WD_Bribe_BadRelation>你必须与该派系敌对才能贿赂。</TSA_WD_Bribe_BadRelation>
+  <TSA_WD_Bribe_UnderAsk>货物至少需要价值 {0} 银。</TSA_WD_Bribe_UnderAsk>
+  <TSA_WD_Bribe_NoOrigin>没有可派出贿赂商队的殖民地或仓库。</TSA_WD_Bribe_NoOrigin>
+  <TSA_WD_Bribe_SameTile>无法从与定居点相同的地块派出贿赂。</TSA_WD_Bribe_SameTile>
+  <TSA_WD_Bribe_SpawnFailed>无法派出贿赂商队。</TSA_WD_Bribe_SpawnFailed>
+  <TSA_WD_Bribe_SettlementDialogTitle>贿赂「{0}」换取停火</TSA_WD_Bribe_SettlementDialogTitle>
+  <TSA_WD_Bribe_RaidDialogTitle>贿赂袭击「{0}」</TSA_WD_Bribe_RaidDialogTitle>
+  <TSA_WD_Bribe_PayWithGoods>用实体货物支付</TSA_WD_Bribe_PayWithGoods>
+  <TSA_WD_Bribe_Confirm>确认贿赂</TSA_WD_Bribe_Confirm>
+  <TSA_WD_Bribe_AssignToAsk>分配至要价</TSA_WD_Bribe_AssignToAsk>
+  <TSA_WD_Bribe_AssignToAskTip>先清空当前货物报价，再从未标星物品中按价值从高到低分配，直至达到要价。最后一行只取所需数量。已标星物品会被跳过。</TSA_WD_Bribe_AssignToAskTip>
+  <TSA_WD_Bribe_AskCeasefireLabel>请求停火：</TSA_WD_Bribe_AskCeasefireLabel>
+  <TSA_WD_Bribe_AskCeasefireTip>能攻击你殖民地或前哨的定居点强度：{0}\n该派系全部定居点强度：{1}\n用于计价的合计：{2}\n每点合计收取的银：{3}\n\n基于你当前的出价：\n预期为其附近城镇增加的强度：{4} 银\n\n已在途中的袭击仍会抵达。请分别贿赂那些商队，或与之交战。</TSA_WD_Bribe_AskCeasefireTip>
+  <TSA_WD_Bribe_RaidDealPriceTip>袭击当前强度：{0}\n出发时强度：{1}\n要价取当前强度与出发强度 {2}% 中的较大值。\n每点强度银价（{4}）：{3}\n\n基于你当前的出价：\n预期在袭击出发地附近增加的强度：{5} 银</TSA_WD_Bribe_RaidDealPriceTip>
+  <TSA_WD_Bribe_DurationButton>{0} 天</TSA_WD_Bribe_DurationButton>
+  <TSA_WD_Bribe_DurationSelected>停火时长：{0} 天</TSA_WD_Bribe_DurationSelected>
+  <TSA_WD_Bribe_ThreatWeighted>范围内威胁 {0}，派系总计 {1}，加权基数 {2}</TSA_WD_Bribe_ThreatWeighted>
+  <TSA_WD_Bribe_SettlementRate>定居点每强度银价：{0}</TSA_WD_Bribe_SettlementRate>
+  <TSA_WD_Bribe_CaravanRate>袭击每强度银价：{0}（{1}）</TSA_WD_Bribe_CaravanRate>
+  <TSA_WD_Bribe_RaidStrength>袭击当前强度 {0}（出发时 {1}）</TSA_WD_Bribe_RaidStrength>
+  <TSA_WD_Bribe_Ask>要价：{0} 银</TSA_WD_Bribe_Ask>
+  <TSA_WD_Bribe_ExpectedGoodwill>预期好感：+{0}</TSA_WD_Bribe_ExpectedGoodwill>
+  <TSA_WD_Bribe_ExpectedInvest>预期强度投资：{0} 银</TSA_WD_Bribe_ExpectedInvest>
+  <TSA_WD_Bribe_Offered>已提供：{0}</TSA_WD_Bribe_Offered>
+  <TSA_WD_Bribe_InFlightWarning>该派系已派出的袭击商队仍会抵达。请分别贿赂那些商队，或与之交战。</TSA_WD_Bribe_InFlightWarning>
+  <TSA_WD_Bribe_StageEarly>早期</TSA_WD_Bribe_StageEarly>
+  <TSA_WD_Bribe_StageMid>中期</TSA_WD_Bribe_StageMid>
+  <TSA_WD_Bribe_StageLate>晚期</TSA_WD_Bribe_StageLate>
+  <TSA_WD_BribeSettlementCaravan>贿赂商队</TSA_WD_BribeSettlementCaravan>
+  <TSA_WD_BribeRaidCaravan>袭击贿赂商队</TSA_WD_BribeRaidCaravan>
+  <TSA_WD_Bribe_SettlementCompletedLabel>停火贿赂已送达</TSA_WD_Bribe_SettlementCompletedLabel>
+  <TSA_WD_Bribe_SettlementCompletedText>你的贿赂已送达 {0}（{1}）。该派系对新殖民地与前哨的世界统治袭击将封锁 {2} 天。强度投资 {3} 银。已在途中的袭击不会被召回。</TSA_WD_Bribe_SettlementCompletedText>
+  <TSA_WD_Bribe_RaidCompletedLabel>袭击贿赂已送达</TSA_WD_Bribe_RaidCompletedLabel>
+  <TSA_WD_Bribe_RaidCompletedText>你的贿赂解散了 {0}（{1}）。出发地附近的强度投资 {2} 银。</TSA_WD_Bribe_RaidCompletedText>
+  <TSA_WD_Bribe_SettlementAbortLabel>停火贿赂失败</TSA_WD_Bribe_SettlementAbortLabel>
+  <TSA_WD_Bribe_RaidAbortLabel>袭击贿赂失败</TSA_WD_Bribe_RaidAbortLabel>
+  <TSA_WD_Bribe_AbortText>对 {0} 的贿赂未能完成。</TSA_WD_Bribe_AbortText>
+  <TSA_WD_Bribe_AbortTextLost>前往 {0} 的贿赂商队被摧毁。货物已丢失。</TSA_WD_Bribe_AbortTextLost>
+  <TSA_WD_Bribe_AbortTextRefund>对 {0} 的贿赂未能完成。货物已退还。</TSA_WD_Bribe_AbortTextRefund>
+  <TSA_WD_Bribe_AbortTextTargetGone>对 {0} 的贿赂失败，因为目标已不存在。货物已退还。</TSA_WD_Bribe_AbortTextTargetGone>
+  <TSA_WD_Bribe_AbortTextBadRelation>对 {0} 的贿赂失败，因为你不再与所有者敌对。货物已退还。</TSA_WD_Bribe_AbortTextBadRelation>
+  <TSA_WD_Bribe_CeasefireExpiredLabel>贿赂停火已结束</TSA_WD_Bribe_CeasefireExpiredLabel>
+  <TSA_WD_Bribe_CeasefireExpiredText>你与 {0} 的贿赂停火已结束。他们可再次对你的殖民地与前哨发动世界统治袭击。</TSA_WD_Bribe_CeasefireExpiredText>
+  <TSA_WD_Diplomacy_BribeCeasefire>（贿赂停火 {0} 天）</TSA_WD_Diplomacy_BribeCeasefire>
+  <TSA_WD_Log_BribeSettlementLaunched>{0} 向 {1}（{2}）派出了贿赂商队。</TSA_WD_Log_BribeSettlementLaunched>
+  <TSA_WD_Log_BribeRaidLaunched>{0} 派出贿赂商队追赶 {1}（{2}）。</TSA_WD_Log_BribeRaidLaunched>
+  <TSA_WD_Log_BribeSettlementCompleted>通过 {0} 与 {1} 达成 {2} 天贿赂停火。</TSA_WD_Log_BribeSettlementCompleted>
+  <TSA_WD_Log_BribeRaidCompleted>已贿赂并解散 {0}（{1}）。</TSA_WD_Log_BribeRaidCompleted>
+  <TSA_WD_Log_Raid_SkippedBribeCeasefire>袭击已跳过：与 {0} 的贿赂停火仍有效。</TSA_WD_Log_Raid_SkippedBribeCeasefire>
+  <TSA_WD_Bribe_CostHeader>贿赂费用</TSA_WD_Bribe_CostHeader>
+  <TSA_WD_Bribe_SettlementSilverPerStr>定居点每强度银价</TSA_WD_Bribe_SettlementSilverPerStr>
+  <TSA_WD_Bribe_SettlementSilverPerStrTip>停火贿赂的固定费率。中期/晚期升级不会改变此费率（威胁仍可能因更多城镇进入攻击范围而上升）。</TSA_WD_Bribe_SettlementSilverPerStrTip>
+  <TSA_WD_Bribe_CaravanSilverPerStrEarly>袭击每强度银价（早期）</TSA_WD_Bribe_CaravanSilverPerStrEarly>
+  <TSA_WD_Bribe_CaravanSilverPerStrEarlyTip>中期与晚期未激活时使用。</TSA_WD_Bribe_CaravanSilverPerStrEarlyTip>
+  <TSA_WD_Bribe_CaravanSilverPerStrMid>袭击每强度银价（中期）</TSA_WD_Bribe_CaravanSilverPerStrMid>
+  <TSA_WD_Bribe_CaravanSilverPerStrMidTip>中期升级时使用。晚期激活时会覆盖此项。</TSA_WD_Bribe_CaravanSilverPerStrMidTip>
+  <TSA_WD_Bribe_CaravanSilverPerStrLate>袭击每强度银价（晚期）</TSA_WD_Bribe_CaravanSilverPerStrLate>
+  <TSA_WD_Bribe_CaravanSilverPerStrLateTip>晚期升级时使用。</TSA_WD_Bribe_CaravanSilverPerStrLateTip>
+  <TSA_WD_Bribe_SettingsHeader>派系贿赂</TSA_WD_Bribe_SettingsHeader>
+  <TSA_WD_Bribe_Enable>启用派系贿赂</TSA_WD_Bribe_Enable>
+  <TSA_WD_Bribe_EnableTip>启用后，敌对的世界统治定居点以及以你为目标的地面袭击商队会显示贿赂指令。</TSA_WD_Bribe_EnableTip>
+  <TSA_WD_Bribe_DaysShort>停火天数（短）</TSA_WD_Bribe_DaysShort>
+  <TSA_WD_Bribe_DaysMedium>停火天数（中）</TSA_WD_Bribe_DaysMedium>
+  <TSA_WD_Bribe_DaysLong>停火天数（长）</TSA_WD_Bribe_DaysLong>
+  <TSA_WD_Bribe_DaysTip>定居点贿赂成功后，该派系对新世界统治袭击的封锁时长。</TSA_WD_Bribe_DaysTip>
+  <TSA_WD_Bribe_DiscountMedium>中档折扣</TSA_WD_Bribe_DiscountMedium>
+  <TSA_WD_Bribe_DiscountLong>长档折扣</TSA_WD_Bribe_DiscountLong>
+  <TSA_WD_Bribe_DiscountTip>价格倍率 =（天数 / 短档天数）×（1 − 此折扣）。</TSA_WD_Bribe_DiscountTip>
+  <TSA_WD_Bribe_RaidAskFloor>袭击要价下限（出发强度比例）</TSA_WD_Bribe_RaidAskFloor>
+  <TSA_WD_Bribe_RaidAskFloorTip>袭击贿赂要价取当前强度与出发强度乘以此比例中的较大值。</TSA_WD_Bribe_RaidAskFloorTip>
+  <TSA_WD_Bribe_InvestmentFraction>贿赂投资比例</TSA_WD_Bribe_InvestmentFraction>
+  <TSA_WD_Bribe_InvestmentFractionTip>成功时将付款价值的该比例转为附近定居点强度（礼物/购买为 100%）。拦截夺货仍按全额投资。</TSA_WD_Bribe_InvestmentFractionTip>
+  <TSA_WD_Bribe_CaravanInvestRadius>袭击贿赂投资半径</TSA_WD_Bribe_CaravanInvestRadius>
+  <TSA_WD_Bribe_CaravanInvestRadiusTip>袭击贿赂成功后，以出发定居点为中心用于投资的格数。</TSA_WD_Bribe_CaravanInvestRadiusTip>
+  <TSA_WD_Bribe_GoodwillBonusDivisor>每点好感奖励对应银</TSA_WD_Bribe_GoodwillBonusDivisor>
+  <TSA_WD_Bribe_GoodwillBonusDivisorTip>贿赂成功时，好感 = 付款市场价值 ÷ 此数。贿赂不能用好感支付。数值越高，奖励越弱。礼物使用 40。</TSA_WD_Bribe_GoodwillBonusDivisorTip>
+  <TSA_WD_Notify_BribeSettlementCompleted>定居点贿赂完成</TSA_WD_Notify_BribeSettlementCompleted>
+  <TSA_WD_Notify_BribeSettlementCompletedTooltip>停火贿赂送达时发信。提醒在途袭击不会被召回。</TSA_WD_Notify_BribeSettlementCompletedTooltip>
+  <TSA_WD_Notify_BribeSettlementAborted>定居点贿赂失败</TSA_WD_Notify_BribeSettlementAborted>
+  <TSA_WD_Notify_BribeSettlementAbortedTooltip>停火贿赂中途失败或失效时发信（适用时退款）。</TSA_WD_Notify_BribeSettlementAbortedTooltip>
+  <TSA_WD_Notify_BribeRaidCompleted>袭击贿赂完成</TSA_WD_Notify_BribeRaidCompleted>
+  <TSA_WD_Notify_BribeRaidCompletedTooltip>袭击贿赂送达并解散该商队时发信。</TSA_WD_Notify_BribeRaidCompletedTooltip>
+  <TSA_WD_Notify_BribeRaidAborted>袭击贿赂失败</TSA_WD_Notify_BribeRaidAborted>
+  <TSA_WD_Notify_BribeRaidAbortedTooltip>袭击贿赂失败时发信（目标消失、未追上、交易无效；适用时退款）。</TSA_WD_Notify_BribeRaidAbortedTooltip>
+  <TSA_WD_Notify_BribeLostInTransit>贿赂商队被拦截</TSA_WD_Notify_BribeLostInTransit>
+  <TSA_WD_Notify_BribeLostInTransitTooltip>贿赂商队被摧毁且付款丢失时发信（与退款失败分开）。</TSA_WD_Notify_BribeLostInTransitTooltip>
+  <TSA_WD_Notify_BribeCeasefireExpired>贿赂停火到期</TSA_WD_Notify_BribeCeasefireExpired>
+  <TSA_WD_Notify_BribeCeasefireExpiredTooltip>某派系的贿赂停火计时结束时发信。</TSA_WD_Notify_BribeCeasefireExpiredTooltip>
+</LanguageData>

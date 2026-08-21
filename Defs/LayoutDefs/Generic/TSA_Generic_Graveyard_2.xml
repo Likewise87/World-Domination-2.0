@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+<KCSG.StructureLayoutDef>
+  <defName>Generic_Graveyard_2</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>.,.,Wall_BlocksGranite,.,.,.,.,.,.,.,Wall_BlocksGranite,.,.</li>
+      <li>.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,FenceGate_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,.</li>
+      <li>Wall_BlocksGranite,Wall_BlocksGranite,.,.,TorchWallLamp_South,.,.,.,TorchWallLamp_South,.,.,Wall_BlocksGranite,Wall_BlocksGranite</li>
+      <li>.,Wall_BlocksGranite,Column_BlocksGranite,.,.,.,.,.,.,.,Column_BlocksGranite,Wall_BlocksGranite,.</li>
+      <li>.,Wall_BlocksGranite,.,Grave_South,PlantPot_BlocksMarble,Grave_South,.,Grave_South,PlantPot_BlocksMarble,Grave_South,.,Wall_BlocksGranite,.</li>
+      <li>.,FenceGate_BlocksGranite,.,.,.,.,.,.,.,.,.,FenceGate_BlocksGranite,.</li>
+      <li>.,Wall_BlocksGranite,.,.,.,.,.,.,.,.,.,Wall_BlocksGranite,.</li>
+      <li>.,Wall_BlocksGranite,Column_BlocksGranite,Grave_South,PlantPot_BlocksMarble,Grave_South,.,Grave_South,PlantPot_BlocksMarble,Grave_South,Column_BlocksGranite,Wall_BlocksGranite,.</li>
+      <li>.,Wall_BlocksGranite,TorchWallLamp_West,.,.,.,.,.,.,.,TorchWallLamp_East,Wall_BlocksGranite,.</li>
+      <li>.,Wall_BlocksGranite,TorchWallLamp_West,SteleLarge_BlocksGranite,.,.,.,.,SteleLarge_BlocksGranite,.,TorchWallLamp_East,Wall_BlocksGranite,.</li>
+      <li>.,Wall_BlocksGranite,.,.,.,.,SteleGrand_BlocksGranite,.,.,.,.,Wall_BlocksGranite,.</li>
+      <li>.,Wall_BlocksGranite,.,.,.,.,.,.,.,.,.,Wall_BlocksGranite,.</li>
+      <li>Wall_BlocksGranite,Wall_BlocksGranite,.,.,TorchWallLamp_North,.,.,.,TorchWallLamp_North,.,.,Wall_BlocksGranite,Wall_BlocksGranite</li>
+      <li>.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,.</li>
+      <li>.,.,Wall_BlocksGranite,.,.,.,.,.,.,.,Wall_BlocksGranite,.,.</li>
+    </li>
+    <li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,TorchWallLamp_West,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>.,.,.,.,.,.,PackedDirt,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,PackedDirt,.,.,.,.,.,.</li>
+    <li>.,.,PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt,.,.</li>
+    <li>.,.,.,.,.,.,PackedDirt,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,PackedDirt,.,.,.,.,.,.</li>
+    <li>.,.,PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt,PackedDirt,.,.</li>
+    <li>.,.,.,.,.,.,PackedDirt,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,PackedDirt,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,PackedDirt,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+  </terrainGrid>
+   <tags>
+    <li>Generic_Graveyard</li>
+  </tags>
+</KCSG.StructureLayoutDef>
+
+</Defs>
+
+

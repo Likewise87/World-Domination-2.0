@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Slavery_3</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>.,Sandbags_Cloth,Sandbags_Cloth,Sandbags_Cloth,Sandbags_Cloth,.,.,.,.,Column_WoodLog,.,.,.,Sandbags_Cloth,Sandbags_Cloth,Sandbags_Cloth</li>
+      <li>.,Sandbags_Cloth,.,.,.,.,.,.,.,.,.,.,.,.,.,Sandbags_Cloth</li>
+      <li>.,Sandbags_Cloth,.,.,Wall_WoodLog,.,.,.,.,Wall_WoodLog,.,.,.,.,Wall_WoodLog,.</li>
+      <li>.,Sandbags_Cloth,.,.,Wall_WoodLog,TorchWallLamp_West,.,.,.,Fence_Steel,.,.,.,TorchWallLamp_East,Wall_WoodLog,.</li>
+      <li>Column_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.,.,.,Fence_Steel,.,.,.,.,Wall_WoodLog,Wall_WoodLog</li>
+      <li>Wall_WoodLog,Wall_WoodLog,PassiveCooler,Wall_WoodLog,.,.,.,.,.,Fence_Steel,.,.,.,.,.,Wall_WoodLog</li>
+      <li>Wall_WoodLog,.,.,Wall_WoodLog,.,.,.,.,.,Fence_Steel,.,.,.,.,.,Wall_WoodLog</li>
+      <li>Wall_WoodLog,.,TorchWallLamp_East,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
+      <li>Wall_WoodLog,.,.,.,.,.,.,.,.,.,TorchWallLamp_South,.,.,.,.,Wall_WoodLog</li>
+      <li>Wall_WoodLog,MealSimple,.,.,.,VFEPD_FilthDirt_North,.,.,.,VFEPD_FilthDirt_North,.,.,.,.,.,Wall_WoodLog</li>
+      <li>Wall_WoodLog,MealSimple,Column_WoodLog,.,.,VFEPD_FilthVomit_North,.,.,VFEPD_FilthDirt_North,.,.,.,.,Column_WoodLog,.,Wall_WoodLog</li>
+      <li>Wall_WoodLog,MealSimple,.,.,SleepingSpot_South,.,SleepingSpot_South,VFEPD_FilthDirt_North,SleepingSpot_South,.,SleepingSpot_South,.,SleepingSpot_South,.,.,Wall_WoodLog</li>
+      <li>Wall_WoodLog,.,.,VFEPD_FilthDirt_North,.,.,.,.,.,.,VFEPD_FilthDirt_North,.,.,.,PassiveCooler,Wall_WoodLog</li>
+      <li>Wall_WoodLog,Wall_WoodLog,.,.,TorchWallLamp_North,DiningChair_WoodLog_East,Table1x2c_WoodLog_East,.,DiningChair_WoodLog_West,.,TorchWallLamp_North,.,.,.,Wall_WoodLog,Wall_WoodLog</li>
+      <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.</li>
+    </li>
+    <li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    </li>
+  </layouts>
+  <roofGrid>
+    <li>.,.,.,.,.,.,.,1,1,1,1,1,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,1,1,1,1,1,.,.,.,.</li>
+    <li>.,.,.,.,1,1,1,1,1,1,1,1,1,1,1,.</li>
+    <li>.,.,.,.,1,1,1,1,1,1,1,1,1,1,1,.</li>
+    <li>.,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</li>
+    <li>.,1,1,1,1,1,1,1,1,1,1,1,1,1,1,.</li>
+  </roofGrid>
+  <terrainGrid>
+    <li>.,.,.,.,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,.,.</li>
+    <li>.,.,.,.,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,.,.</li>
+    <li>.,.,.,.,.,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,.,.</li>
+    <li>.,.,.,.,.,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,.,.</li>
+    <li>.,.,WoodPlankFloor,.,.,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,.,.</li>
+    <li>.,.,WoodPlankFloor,.,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,StrawMatting,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,.,StrawMatting,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,StrawMatting,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,StrawMatting,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,.,.,StrawMatting,StrawMatting,StrawMatting,.,.,FlagstoneSandstone,StrawMatting,StrawMatting,StrawMatting,.,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,WoodPlankFloor,WoodPlankFloor,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,WoodPlankFloor,WoodPlankFloor,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,WoodPlankFloor,WoodPlankFloor,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,WoodPlankFloor,WoodPlankFloor,.</li>
+    <li>.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+  </terrainGrid>
+    <tags>
+      <li>TSA_Tribal_Slavery</li>
+    </tags>
+</KCSG.StructureLayoutDef>
+
+
+</Defs>
