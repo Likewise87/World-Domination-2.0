@@ -33,11 +33,39 @@
         el.dataset.wdBranded = "1";
       }
 
+      function contentTextRight() {
+        var el = document.querySelector(".md-content__inner");
+        if (!el) return null;
+        var style = window.getComputedStyle(el);
+        var pad = parseFloat(style.paddingRight) || 0;
+        return el.getBoundingClientRect().right - pad;
+      }
+
+      function alignSearchToContent() {
+        var header = document.querySelector(".md-header__inner");
+        if (!header) return;
+        header.style.paddingRight = "";
+        var textRight = contentTextRight();
+        if (textRight == null) return;
+        var headerRight = header.getBoundingClientRect().right;
+        var inset = Math.max(0, headerRight - textRight);
+        header.style.paddingRight = inset + "px";
+      }
+
       function run() {
         document.querySelectorAll(".md-header__topic .md-ellipsis").forEach(brandize);
+        alignSearchToContent();
       }
+
       run();
       document.addEventListener("DOMContentLoaded", run);
+      window.addEventListener("resize", alignSearchToContent);
+      document.addEventListener("DOMContentLoaded", function () {
+        var content = document.querySelector(".md-content");
+        if (content && window.ResizeObserver) {
+          new ResizeObserver(alignSearchToContent).observe(content);
+        }
+      });
     })();
   </script>
 {% endblock %}
