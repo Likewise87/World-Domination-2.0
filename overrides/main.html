@@ -12,14 +12,27 @@
   {{ super() }}
   <script>
     (function () {
+      function siteRootHref() {
+        var el = document.getElementById("__config");
+        if (!el) return ".";
+        try {
+          var base = JSON.parse(el.textContent).base || ".";
+          return base === "." ? "." : base + "/";
+        } catch (e) {
+          return ".";
+        }
+      }
+
       function brandize(el) {
         if (!el || el.dataset.wdBranded) return;
         var t = (el.textContent || "").replace(/\s+/g, " ").trim();
         if (t.indexOf("World Domination") === -1) return;
-        el.innerHTML = 'World <span class="wd-dom">Domination</span> 2.0';
-        el.classList.add("wd-brand");
+        el.innerHTML =
+          '<a class="wd-brand" href="' + siteRootHref() + '">' +
+          'World <span class="wd-dom">Domination</span> 2.0</a>';
         el.dataset.wdBranded = "1";
       }
+
       function run() {
         document.querySelectorAll(".md-header__topic .md-ellipsis").forEach(brandize);
       }

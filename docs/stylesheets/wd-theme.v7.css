@@ -168,6 +168,28 @@ body::before {
   color: var(--wd-silver);
 }
 
+.md-header .md-header__button.md-icon,
+.md-header label[for="__search"],
+.md-header .md-search__icon {
+  color: #ffffff !important;
+}
+
+.md-header .md-header__button.md-icon svg,
+.md-header .md-search__icon svg {
+  fill: currentColor;
+}
+
+a.wd-brand {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.wd-brand:hover {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.92;
+}
+
 .md-tabs {
   background: rgba(7, 8, 12, 0.88);
   border-bottom: 1px solid var(--wd-border);
