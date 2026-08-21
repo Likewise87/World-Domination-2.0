@@ -34,8 +34,15 @@ Construction and logistics appear on the world map as travelers. A project can t
 ## Guide chapters
 
 - [Getting started](getting-started.md)
-- [World generation](concepts/world-generation.md)
-- [Strength and tiers](concepts/strength-and-tiers.md)
+- Concepts:
+    - [World generation](concepts/world-generation.md)
+    - [Strength and tiers](concepts/strength-and-tiers.md)
+    - [Outpost food](concepts/outpost-food.md)
+    - [World actions, weights and cooldowns](concepts/world-actions.md)
+    - [Fortifications](concepts/fortifications.md)
+    - [Mortars, anti-air and AT turrets](concepts/world-weapons.md)
+    - [Buying and gifting](concepts/buying-and-gifting.md)
+    - [Bribing, sabotage and disinformation](concepts/hostile-influence.md)
 - [Travelers](travelers.md)
 - [Raids on you](raids/raids-on-you.md)
 - [World map battles](raids/world-map-battles.md)

@@ -1,6 +1,6 @@
 # Food and logistics
 
-Outpost occupants consume virtual food. This resource is tracked as a number at each outpost rather than as physical meals in inventory. Open the **Food** tab to inspect current storage, maximum capacity, daily production, local demand, incoming supply, outgoing allocations, and projected net change.
+Outpost occupants consume virtual food. This resource is tracked as a number at each outpost rather than as physical meals in inventory. For the short concept overview, see [Outpost food](../concepts/outpost-food.md). Open the **Food** tab to inspect current storage, maximum capacity, daily production, local demand, incoming supply, outgoing allocations, and projected net change.
 
 ## Reading the Food tab
 

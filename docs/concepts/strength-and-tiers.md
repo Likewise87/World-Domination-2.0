@@ -36,9 +36,34 @@ Nearby and Far threat groups are based on the target colony's position within a 
 
 Launching a mission transfers or spends offensive strength at the origin. A large raid can leave a settlement or outpost less able to launch another action and can also reduce its local defense until offense is restored.
 
-For player outposts, offensive and defensive pools recover toward their limits over time. Upgrades and other outpost factors can change effective values or recovery. Do not treat displayed strength as a permanent reserve. Check the outpost again after dispatching a raid, delivery, construction crew, or rapid-response force.
+Combat losses, mortar hits, AT fire, sabotage, and failed missions can also remove strength. For player outposts, offensive and defensive pools recover toward their limits over time. Upgrades and other outpost factors can change effective values or recovery.
 
 NPC settlements also change over time through growth, action outcomes, combat losses, upgrades, and faction effects.
+
+## How tiers move with strength
+
+Every WD settlement has a **tier** (T1 to T4). Tier sets the settlement's strength band, attack reach baseline, daily action share, and which layout family it uses when you visit.
+
+As offensive strength rises or falls, a settlement can promote or demote:
+
+- Crossing the next band's floor can raise the tier.
+- Losing enough strength can demote the settlement when demotion is allowed for that path.
+- Spy ops, battles, and incidents that wipe strength to zero remove the settlement instead of leaving an empty tier.
+
+Tier is not cosmetic. A T4 citadel is a different strategic object from a T1 camp even when both fly the same faction color.
+
+## Growth and Develop
+
+NPC settlements gain strength in two related ways:
+
+- **Passive growth** adds a small amount of strength over time without launching a Develop traveler.
+- **Develop** is a weighted world action available only when the settlement is near its current tier strength cap. It spends an action opportunity to push toward or through that cap and can fund a tier upgrade path.
+
+Develop is not always in the daily action pool. Settlements that are not near the cap roll among the other actions instead. See [World actions, weights and cooldowns](world-actions.md).
+
+## Attack reach
+
+Each settlement has an attack range measured in world tiles. Higher tiers start with longer baselines. Settlement age and Mid / Late Game escalation can increase effective range. Only settlements that can reach a target count toward that target's Threat display.
 
 ??? note "Advanced"
     Default NPC offensive strength ranges are:
@@ -50,12 +75,18 @@ NPC settlements also change over time through growth, action outcomes, combat lo
 
     Default defensive baselines are T1 = 100, T2 = 200, T3 = 350, and T4 = 500. A player WD outpost has a default base defensive strength of 100.
 
-    Player outpost offensive recovery per day is the greater of 15% of its offensive target and a flat 80, applied toward the cap. Defensive recovery per day is the greater of 10% of its defensive cap and a flat 25, applied toward the cap.
+    Default passive growth per day is T1 = 50, T2 = 80, T3 = 110, and T4 = 140. Develop becomes eligible at **95%** of the settlement's current tier maximum.
 
-    Default NPC attack-range baselines are T1 = 12, T2 = 16, T3 = 20, and T4 = 25 world tiles. Settlement age and escalation settings can increase effective range.
+    Player outpost offensive recovery per day is the greater of 15% of its offensive target and a flat 80, applied toward the cap. Defensive recovery per day is the greater of 10% of its defensive cap and a flat 25, applied toward the cap. After a player outpost is raided, the default raid-protection cooldown is **5 days**.
+
+    Default NPC attack-range baselines are T1 = 12, T2 = 16, T3 = 20, and T4 = 25 world tiles.
 
 ## Related chapters
 
 - [World generation](world-generation.md)
+- [World actions, weights and cooldowns](world-actions.md)
 - [Travelers](../travelers.md)
 - [World-map battles](../raids/world-map-battles.md)
+- [Raids on you](../raids/raids-on-you.md)
+- [Settings: Growth and expand](../settings/growth.md)
+- [Settings: Outposts and food](../settings/outposts.md)
