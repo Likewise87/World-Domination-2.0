@@ -4,33 +4,29 @@ Use this page to prepare the mod list, create the world, and identify the contro
 
 ## Requirements and load order
 
-World Domination 2.0 requires:
-
 - RimWorld **1.6**
 - [**Harmony**](https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077)
-- [**Vanilla Expanded Framework**](https://steamcommunity.com/sharedfiles/filedetails/?id=2023507013) (Vanilla Factions Expanded Core / VEF)
+- [**Vanilla Expanded Framework**](https://steamcommunity.com/sharedfiles/filedetails/?id=2023507013) (Needed for Dynamic Base Generation)
+- [**Vanilla Furniture Expanded - Props and Decor**](https://steamcommunity.com/sharedfiles/filedetails/?id=2102143149) (Makes Bases prettier)
+- [**DragSelect**](https://steamcommunity.com/sharedfiles/filedetails/?id=2599942235) (Woven into all WD menus for easier bulk edits/selection)
+- [**Gerrymon's Misc Props: Graveyard**](https://steamcommunity.com/sharedfiles/filedetails/?id=3780458386) (Makes Bases prettier)
 
-Load [Harmony](https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077) and [Vanilla Expanded Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=2023507013) before World Domination 2.0. WD must load after both required frameworks.
+## Hard incompatibilities
 
-### Recommended extras
+- [**Visit Settlements**](https://steamcommunity.com/sharedfiles/filedetails/?id=3247900860): Settlements will disappear after you visited them
+- [**World Domination**](https://steamcommunity.com/sharedfiles/filedetails/?id=3646291383) (original): Do not run together with World Domination 2.0
 
-Not required to run, but recommended for layouts, props, vehicles, and map selection:
+## Soft incompatibilities
 
-- [**Vanilla Furniture Expanded - Props and Decor**](https://steamcommunity.com/sharedfiles/filedetails/?id=2102143149)
-- [**Vehicle Framework**](https://steamcommunity.com/sharedfiles/filedetails/?id=3014915404)
-- [**DragSelect**](https://steamcommunity.com/sharedfiles/filedetails/?id=2599942235)
-- [**Gerrymon's Misc Props: Graveyard**](https://steamcommunity.com/sharedfiles/filedetails/?id=3780458386) (`gmmp.graveyard`)
+- [**Faction Territories and Vassalage**](https://steamcommunity.com/sharedfiles/filedetails/?id=3626725895): Deactivate Vassalage, the rest works fine
+- [**Empire Refactored**](https://steamcommunity.com/sharedfiles/filedetails/?id=3701480464): Some overlaps that may feel awkward
+- [**Simple Leadership**](https://steamcommunity.com/sharedfiles/filedetails/?id=3668307448): Some overlaps that may feel awkward
+- [**Economics & Demography**](https://steamcommunity.com/sharedfiles/filedetails/?id=3692156692): WD will spawn pawns that E&D does not know about. Killing them could lead to the faction being considered extinct
+- [**Rim War**](https://steamcommunity.com/sharedfiles/filedetails/?id=2222935097): This is supposed to replace RimWar!
+- [**Vanilla Outposts Expanded**](https://steamcommunity.com/sharedfiles/filedetails/?id=2688941031): You can still build those outposts but WD will completely ignore them
+- [**Vanilla Base Generation Expanded**](https://steamcommunity.com/sharedfiles/filedetails/?id=3209927822) (or any other base generation mod): WD will try to do the same thing and only one mod will win (based on load order!)
 
-When you use any of those, keep them **above** World Domination 2.0 in the mod list (WD already lists them under `loadAfter`).
-
-Do not enable either incompatible mod:
-
-- The original [**World Domination**](https://steamcommunity.com/sharedfiles/filedetails/?id=3646291383), packageId `TSA.WorldDomination`
-- [**Visit Settlements**](https://steamcommunity.com/sharedfiles/filedetails/?id=3247900860), packageId `alt4s.visitsettlements`
-
-The old [World Domination](https://steamcommunity.com/sharedfiles/filedetails/?id=3646291383) package overlaps the successor's systems. [Visit Settlements](https://steamcommunity.com/sharedfiles/filedetails/?id=3247900860) conflicts with WD settlement visiting and map generation.
-
-See [FAQ and compatibility](faq.md) for soft incompatibilities and other mod notes.
+See [FAQ and compatibility](faq.md) for expandable details and other mod notes.
 
 ## First session checklist
 
