@@ -24,7 +24,7 @@ theme:
     - content.code.copy
 
 extra_css:
-  - stylesheets/wd-theme.v2.css
+  - stylesheets/wd-theme.v3.css
 
 markdown_extensions:
   - admonition
@@ -33,6 +33,7 @@ markdown_extensions:
   - tables
   - toc:
       permalink: true
+      title: On this page
 
 nav:
   - Home: index.md
