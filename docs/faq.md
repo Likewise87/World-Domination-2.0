@@ -1,70 +1,87 @@
 # FAQ and compatibility
 
-## Can I add World Domination 2.0 to an existing save?
+Anything that rewrites **diplomacy**, **world-map interactions**, **base generation**, or **raid-point multipliers** can overlap with World Domination 2.0. Soft issues usually mean awkward overlap or shared systems. Hard issues mean do not enable that mod with WD.
 
-Yes. The mod can be added during the midgame. Make a backup first, as you should before adding any major world-system mod. WD needs to initialize settlement strength, world actions, diplomacy, and its outpost systems in a world that was generated without them, so review the World Stats and settings after loading.
+## FAQ
 
-## Does WD replace RimWar?
+??? question "Can this be added midgame?"
+    Yes. Make a backup nonetheless.
 
-Yes. World Domination 2.0 is intended to replace RimWar, not run beside it. Both occupy the same strategic space with moving world forces, faction expansion, settlement attacks, and world diplomacy. Do not combine them.
+??? question "Allies are coming to my colony and are not leaving"
+    Not caused by WD. Likely [Faction Territories & Vassalage](https://steamcommunity.com/sharedfiles/filedetails/?id=3626725895) or a similar territory / escort system.
 
-## Can I use Visit Settlements?
+??? question "Compatible with Vehicle Raids?"
+    Yes.
 
-No. **Visit Settlements is a hard incompatibility.** It overlaps settlement visiting and map generation. Settlements can disappear after being visited.
+??? question "Where to find the controls?"
+    There is a new tab with the **WD** icon at the bottom of the screen. It opens the main Dashboard.
 
-## Can I use the original World Domination?
+    On the world map (globe) there is a small **WD** icon near the bottom right.
 
-No. `TSA.WorldDomination` and World Domination 2.0 overlap directly and are declared incompatible.
+    When you select a settlement, outpost, traveler, or world tile, WD also adds inspect tabs and gizmos you should learn.
 
-## Does WD use Vanilla Outposts Expanded outposts?
+    More detail: [Dashboards and overlays](ui/dashboards-and-overlays.md).
 
-You can still build Vanilla Outposts Expanded outposts, but WD ignores them. They do not count as WD outposts, do not contribute to WD outpost strength or escalation, and do not join WD logistics or management screens.
+??? question "Does WD replace RimWar?"
+    Yes. World Domination 2.0 is meant to replace [RimWar](https://steamcommunity.com/sharedfiles/filedetails/?id=1798765665), not run beside it. Do not combine them.
 
-## What about base-generation mods?
+??? question "Can I use the original World Domination?"
+    No. PackageId `TSA.WorldDomination` and World Domination 2.0 are hard-incompatible.
 
-WD generates maps for visited and attacked settlements. Vanilla Base Generation Expanded and other mods that replace settlement base generation try to control the same step. Only one generator wins, based on patch and load order, so layouts may be missing, mixed, or different from what one mod expects.
+??? question "Why did storyteller raids from some factions stop?"
+    By default, WD blocks storyteller raids when the storyteller picks a faction managed by WD. Those factions attack through WD raid travelers instead.
 
-Vanilla Base Generation Expanded is not listed as a hard incompatibility, but the overlap is real. If settlement maps generate incorrectly, test without the other base generator before reporting a WD balance or layout bug.
+    Storyteller raids from factions WD does not manage stay active by default (for example Mechanoids and manhunter packs). Configure this under raid settings.
 
-## Are Empire and Simple Leadership compatible?
+??? question "Where can I report bugs?"
+    Use the public repository: [Likewise87/World-Domination-2.0](https://github.com/Likewise87/World-Domination-2.0). Include reproduction steps, mod list, and the relevant log.
 
-**Empire (Refactored)** and **Simple Leadership** have overlapping concepts with WD and can feel awkward together. They may run, but their leadership, faction, and world-action systems operate independently and are not fully integrated. Expect duplicate or contradictory strategic stories rather than a seamless combined system.
+## Compatibility
 
-## What is the Economics & Democracy caveat?
+### Hard incompatibility
 
-Economics & Democracy may not know about pawns spawned by WD. Killing those pawns can cause E&D to consider their faction extinct incorrectly. This is not presented as a hard startup incompatibility, but it can corrupt E&D's interpretation of faction survival.
+??? failure "Visit Settlements"
+    **Hard incompatibility.** Settlements can disappear after you visit them.
 
-## Can I use Faction Territories & Vassalage?
+    Workshop: [Visit Settlements](https://steamcommunity.com/sharedfiles/filedetails/?id=3535955435) (packageId `alt4s.visitsettlements`).
 
-Yes, with **Vassalage deactivated**. The remaining territory features can be used. WD has its own faction ownership, diplomacy, conquest, and world-map highlighting, so enabling both vassal systems would overlap.
+??? failure "Original World Domination"
+    **Hard incompatibility.** Do not run `TSA.WorldDomination` together with World Domination 2.0.
 
-## Are Vehicle Framework and vehicle raids supported?
+### Soft incompatibility / overlap
 
-Yes. Vehicle Framework and Vanilla Vehicles Expanded are recognized in load ordering, WD roads apply their speed bonus to Vehicle Framework vehicles, and vehicle-based raid graphics are supported. Vehicle raids can be used.
+These can run, but they share design space with WD. Expect awkward overlap, missing integration, or one mod winning a contested system.
 
-WD travelers are still abstract moving strength pools. They are not pawn or vehicle caravans, even if their world icon depicts a force.
+??? warning "Vanilla Base Generation Expanded (and other base-gen mods)"
+    **Soft incompatibility.** WD generates settlement maps for visits and attacks. [Vanilla Base Generation Expanded](https://steamcommunity.com/workshop/filedetails/?id=3209927822) (and similar base-generation mods) compete for the same job. Only one generator wins, based on patch and load order. Tiered WD layouts may not appear as intended if another generator takes over.
 
-## Where are the controls?
+    Prefer WD base generation if you want WD settlement types and tiers on visited maps.
 
-- Bottom bar: open the **WD** main tab
-- World map: use the WD overlay control
-- Default shortcuts: hold **Left Alt** and press `X` for WD, `D` for Diplomacy, `S` for World Stats, `F` for Outpost Overview, `G` for Active Travelers, `A` for Your Pawns, or `Y` for Prisoners
-- World map overlays: hold the same key and press `1` to `7`, or `Q`, `W`, `E`, `R`, `T`
-- Mod options: **Options > Mod settings > World Domination 2.0**, or use the gear in the WD dashboard
-- Outpost management: select a WD outpost on the world map for Stats, Food, Pawns, Experts, Upgrades, and applicable Storage tabs
+??? warning "RimWar"
+    **Soft / replace.** WD is intended to replace [RimWar](https://steamcommunity.com/sharedfiles/filedetails/?id=1798765665). Running both is unsupported.
 
-See [Dashboards and overlays](ui/dashboards-and-overlays.md) for the complete key list.
+??? warning "Vanilla Outposts Expanded"
+    You can still build [Vanilla Outposts Expanded](https://steamcommunity.com/sharedfiles/filedetails/?id=2688104164) outposts, but WD ignores them completely. They do not join WD strength, logistics, or management.
 
-## Why did I stop receiving ordinary storyteller raids?
+??? warning "Faction Territories & Vassalage"
+    Use [Faction Territories & Vassalage](https://steamcommunity.com/sharedfiles/filedetails/?id=3626725895) with **Vassalage deactivated**. Territory visuals can be fine; vassal systems overlap WD conquest and diplomacy.
 
-By default, WD blocks random storyteller raids when the storyteller selects a faction managed by WD. Those factions attack through WD's world-map raid system instead, so their forces have an origin, travel time, and strength pool.
+??? warning "Empire (Refactored)"
+    [Empire Refactored](https://steamcommunity.com/sharedfiles/filedetails/?id=3701480464) has overlaps that may feel awkward (extra colonies, orders, and world pressure beside WD).
 
-Quest raids, forced or scripted incidents, comms, dev tools, and WD world raids are not blocked by that setting. Storyteller raids from factions not controlled by WD remain allowed by default. Both behaviors can be changed in WD's raid settings.
+??? warning "Simple Leadership"
+    [Simple Leadership](https://steamcommunity.com/sharedfiles/filedetails/?id=3668307448) has overlaps that may feel awkward (faction / base leadership stories beside WD).
 
-## Which mod categories need extra caution?
+??? warning "Economics & Demography"
+    [Economics & Demography](https://steamcommunity.com/sharedfiles/filedetails/?id=3692156692): WD can spawn pawns that E&D does not track. Killing those pawns can make E&D treat a faction as extinct incorrectly.
 
-Anything that rewrites diplomacy, world-map interactions, settlement ownership, base generation, or raid-point multipliers can overlap with WD. Test uncertain combinations on a copy of the save and include a full mod list and log when reporting a conflict.
+### Usually fine
 
-## Where can I report bugs?
+??? tip "Vehicle Framework / Vehicle Raids"
+    Compatible with vehicle play, including Vehicle Raids. WD travelers remain abstract strength pools even when icons look like vehicles or caravans.
 
-Use the public repository: [Likewise87/World-Domination-2.0](https://github.com/Likewise87/World-Domination-2.0). Include clear reproduction steps, the affected save if possible, your full mod list, and the relevant log.
+    Related: [Vehicle Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=3014906877) (load before WD when used).
+
+## General caution
+
+Anything introducing diplomacy, world-map interactions, base generation, or raid-point multipliers might cause compatibility issues. Test uncertain lists on a backup save.
