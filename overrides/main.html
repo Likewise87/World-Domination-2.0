@@ -41,23 +41,40 @@
         return el.getBoundingClientRect().right - pad;
       }
 
-      function textContentLeft(el) {
+      /* Content-box left: border-box already includes margins; add border + padding. */
+      function contentBoxLeft(el) {
         if (!el) return null;
-        var pad = parseFloat(window.getComputedStyle(el).paddingLeft) || 0;
-        return el.getBoundingClientRect().left + pad;
+        var cs = window.getComputedStyle(el);
+        var rect = el.getBoundingClientRect();
+        if (rect.width < 1 && rect.height < 1) return null;
+        return (
+          rect.left +
+          (parseFloat(cs.borderLeftWidth) || 0) +
+          (parseFloat(cs.paddingLeft) || 0)
+        );
       }
 
-      function navTextAnchor() {
-        return (
-          document.querySelector(
-            ".md-nav--primary > .md-nav__list > .md-nav__item.md-nav__item--active > .md-nav__link"
-          ) ||
-          document.querySelector(
-            ".md-nav--primary > .md-nav__list > .md-nav__item--nested.md-nav__item--active > .md-nav__link"
-          ) ||
-          document.querySelector(
-            ".md-nav--primary > .md-nav__list > .md-nav__item > .md-nav__link"
-          )
+      function firstGlyphLeft(el) {
+        if (!el) return null;
+        try {
+          var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+          var text;
+          while ((text = walker.nextNode())) {
+            if (!text.nodeValue || !text.nodeValue.replace(/\s/g, "").length) continue;
+            var range = document.createRange();
+            range.setStart(text, 0);
+            range.setEnd(text, 1);
+            var r = range.getBoundingClientRect();
+            if (r.left || r.width) return r.left;
+          }
+        } catch (e) {}
+        return contentBoxLeft(el);
+      }
+
+      /* Top-level active item in the visible primary sidebar (not a drawer clone). */
+      function activeNavItem() {
+        return document.querySelector(
+          ".md-sidebar--primary .md-nav--primary > .md-nav__list > li.md-nav__item.md-nav__item--active"
         );
       }
 
@@ -72,34 +89,42 @@
         header.style.paddingRight = inset + "px";
       }
 
-      /* Match brand text to left-nav labels, without sliding under chrome. */
+      /*
+       * Align brand glyphs with the active nav item's label content edge
+       * (li → link, honoring that link's padding / border; margins already in layout).
+       */
       function alignHeaderTitleToNav() {
         var title = document.querySelector(".md-header__title");
         if (!title) return;
-        title.style.marginLeft = "";
-        var nav = navTextAnchor();
-        if (!nav) return;
+
+        var li = activeNavItem();
+        if (!li) return;
+        var link = li.querySelector(":scope > .md-nav__link");
+        if (!link) return;
+
+        var liRect = li.getBoundingClientRect();
+        if (liRect.left < 0 || liRect.width < 1) return;
+
+        title.style.marginLeft = "0px";
+
         var brand =
           title.querySelector(".wd-brand") ||
           title.querySelector(".md-ellipsis") ||
           title;
-        var want = textContentLeft(nav);
-        var have = brand.getBoundingClientRect().left;
+
+        var want = contentBoxLeft(link);
+        var have = firstGlyphLeft(brand);
         if (want == null || have == null) return;
-        var delta = want - have;
-        if (Math.abs(delta) < 0.5) return;
-        var base = parseFloat(window.getComputedStyle(title).marginLeft) || 0;
-        var next = base + delta;
-        /* Keep a small gap after the drawer button on narrow layouts. */
+
+        var margin = want - have;
+
         var drawer = document.querySelector(".md-header__button[for='__drawer']");
         if (drawer && window.getComputedStyle(drawer).display !== "none") {
-          var minLeft = drawer.getBoundingClientRect().right + 8;
-          var projected = have + (next - base);
-          if (projected < minLeft) {
-            next = base + (minLeft - have);
-          }
+          var minLeft = drawer.getBoundingClientRect().right + 12;
+          if (have + margin < minLeft) margin = minLeft - have;
         }
-        title.style.marginLeft = Math.max(0, next) + "px";
+
+        title.style.marginLeft = Math.max(0, margin) + "px";
       }
 
       function alignChrome() {
@@ -110,6 +135,7 @@
       function run() {
         document.querySelectorAll(".md-header__topic .md-ellipsis").forEach(brandize);
         alignChrome();
+        window.requestAnimationFrame(alignChrome);
       }
 
       run();
