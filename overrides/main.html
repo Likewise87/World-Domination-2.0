@@ -116,7 +116,8 @@
         var have = firstGlyphLeft(brand);
         if (want == null || have == null) return;
 
-        var margin = want - have;
+        /* Optical nudge: content-box math still sits ~20px left of the nav label. */
+        var margin = want - have + 20;
 
         var drawer = document.querySelector(".md-header__button[for='__drawer']");
         if (drawer && window.getComputedStyle(drawer).display !== "none") {
