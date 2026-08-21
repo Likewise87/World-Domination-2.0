@@ -389,3 +389,46 @@ body::before {
     0 0 28px rgba(225, 38, 42, 0.35),
     0 2px 12px rgba(0, 0, 0, 0.65);
 }
+
+/* Wider content: Material default ~61rem leaves large empty sides on big screens. */
+.md-grid {
+  max-width: 100%;
+  margin-inline: 0;
+}
+
+.md-header__inner,
+.md-main__inner,
+.md-footer__inner {
+  max-width: 100%;
+}
+
+@media screen and (min-width: 76.25em) {
+  .md-main__inner {
+    margin-top: 0;
+  }
+
+  .md-sidebar--primary {
+    width: 14.5rem;
+  }
+
+  .md-sidebar--secondary {
+    width: 13.5rem;
+  }
+
+  .md-content {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  .md-content__inner {
+    margin: 0 0.5rem 1.5rem;
+    padding-top: 1rem;
+  }
+}
+
+@media screen and (min-width: 100em) {
+  .md-content {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+}
