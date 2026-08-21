@@ -19,9 +19,9 @@ Tier and type are WD data attached to the settlement. They affect systems such a
 
 When you visit or attack an NPC settlement, WD generates a map using its own tiered layouts. A logging camp should not resemble a citadel, and a tribal site can use a different layout family from an industrial site.
 
-This map-generation ownership can conflict with other mods that replace settlement base generation. If a visited base has the wrong layout, fails to generate, or combines incompatible structures, check for another active base-generation mod before changing WD balance settings.
+This map-generation ownership can conflict with other mods that replace settlement base generation, such as [Vanilla Base Generation Expanded](https://steamcommunity.com/sharedfiles/filedetails/?id=3209927822). If a visited base has the wrong layout, fails to generate, or combines incompatible structures, check for another active base-generation mod before changing WD balance settings.
 
-Visit Settlements is explicitly incompatible because it overlaps this part of the game.
+[Visit Settlements](https://steamcommunity.com/sharedfiles/filedetails/?id=3247900860) is explicitly incompatible because it overlaps this part of the game.
 
 ## WD: World Setup
 

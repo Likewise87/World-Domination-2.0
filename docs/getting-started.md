@@ -7,28 +7,30 @@ Use this page to prepare the mod list, create the world, and identify the contro
 World Domination 2.0 requires:
 
 - RimWorld **1.6**
-- **Harmony**
-- **Vanilla Expanded Framework** (Vanilla Factions Expanded Core / VEF)
+- [**Harmony**](https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077)
+- [**Vanilla Expanded Framework**](https://steamcommunity.com/sharedfiles/filedetails/?id=2023507013) (Vanilla Factions Expanded Core / VEF)
 
-Load **Harmony** and **Vanilla Expanded Framework** before **World Domination 2.0**. WD must load after both required frameworks.
+Load [Harmony](https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077) and [Vanilla Expanded Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=2023507013) before World Domination 2.0. WD must load after both required frameworks.
 
 ### Recommended extras
 
 Not required to run, but recommended for layouts, props, vehicles, and map selection:
 
-- **Vanilla Furniture Expanded - Props and Decor** (Vanilla Expanded Props)
-- **Vehicle Framework**
-- **Drag Select**
-- **Gerrymon's Misc Props: Graveyard** (`gmmp.graveyard`)
+- [**Vanilla Furniture Expanded - Props and Decor**](https://steamcommunity.com/sharedfiles/filedetails/?id=2102143149)
+- [**Vehicle Framework**](https://steamcommunity.com/sharedfiles/filedetails/?id=3014915404)
+- [**DragSelect**](https://steamcommunity.com/sharedfiles/filedetails/?id=2599942235)
+- [**Gerrymon's Misc Props: Graveyard**](https://steamcommunity.com/sharedfiles/filedetails/?id=3780458386) (`gmmp.graveyard`)
 
 When you use any of those, keep them **above** World Domination 2.0 in the mod list (WD already lists them under `loadAfter`).
 
 Do not enable either incompatible mod:
 
-- The original World Domination, packageId `TSA.WorldDomination`
-- Visit Settlements, packageId `alt4s.visitsettlements`
+- The original [**World Domination**](https://steamcommunity.com/sharedfiles/filedetails/?id=3646291383), packageId `TSA.WorldDomination`
+- [**Visit Settlements**](https://steamcommunity.com/sharedfiles/filedetails/?id=3247900860), packageId `alt4s.visitsettlements`
 
-The old World Domination package overlaps the successor's systems. Visit Settlements conflicts with WD settlement visiting and map generation.
+The old [World Domination](https://steamcommunity.com/sharedfiles/filedetails/?id=3646291383) package overlaps the successor's systems. [Visit Settlements](https://steamcommunity.com/sharedfiles/filedetails/?id=3247900860) conflicts with WD settlement visiting and map generation.
+
+See [FAQ and compatibility](faq.md) for soft incompatibilities and other mod notes.
 
 ## First session checklist
 

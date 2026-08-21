@@ -1,6 +1,6 @@
 # World Domination 2.0
 
-RimWorld mod by **TSA**. If RimWar and Vanilla Outposts Expanded had a child, this would be it.
+RimWorld mod by **TSA**. If [Rim War](https://steamcommunity.com/sharedfiles/filedetails/?id=2222935097) and [Vanilla Outposts Expanded](https://steamcommunity.com/sharedfiles/filedetails/?id=2688941031) had a child, this would be it.
 
 **[Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3680501610)** · **[Player guide](https://likewise87.github.io/World-Domination-2.0/)**
 
