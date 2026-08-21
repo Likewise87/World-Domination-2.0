@@ -20,6 +20,10 @@ Source/.vs/
 **/*.bat
 **/*.cmd
 
+# Overview HTML art pages: exclude third-party decompile scratch
+Source/WD_OverviewPages/_ft_decompile/
+Source/WD_OverviewPages/.cursor/
+
 # Build outputs (includes vanilla_decomp)
 Source/obj/
 Source/bin/
