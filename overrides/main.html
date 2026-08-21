@@ -41,43 +41,6 @@
         return el.getBoundingClientRect().right - pad;
       }
 
-      /* Content-box left: border-box already includes margins; add border + padding. */
-      function contentBoxLeft(el) {
-        if (!el) return null;
-        var cs = window.getComputedStyle(el);
-        var rect = el.getBoundingClientRect();
-        if (rect.width < 1 && rect.height < 1) return null;
-        return (
-          rect.left +
-          (parseFloat(cs.borderLeftWidth) || 0) +
-          (parseFloat(cs.paddingLeft) || 0)
-        );
-      }
-
-      function firstGlyphLeft(el) {
-        if (!el) return null;
-        try {
-          var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
-          var text;
-          while ((text = walker.nextNode())) {
-            if (!text.nodeValue || !text.nodeValue.replace(/\s/g, "").length) continue;
-            var range = document.createRange();
-            range.setStart(text, 0);
-            range.setEnd(text, 1);
-            var r = range.getBoundingClientRect();
-            if (r.left || r.width) return r.left;
-          }
-        } catch (e) {}
-        return contentBoxLeft(el);
-      }
-
-      /* Top-level active item in the visible primary sidebar (not a drawer clone). */
-      function activeNavItem() {
-        return document.querySelector(
-          ".md-sidebar--primary .md-nav--primary > .md-nav__list > li.md-nav__item.md-nav__item--active"
-        );
-      }
-
       function alignSearchToContent() {
         var header = document.querySelector(".md-header__inner");
         if (!header) return;
@@ -89,65 +52,19 @@
         header.style.paddingRight = inset + "px";
       }
 
-      /*
-       * Align brand glyphs with the active nav item's label content edge
-       * (li → link, honoring that link's padding / border; margins already in layout).
-       */
-      function alignHeaderTitleToNav() {
-        var title = document.querySelector(".md-header__title");
-        if (!title) return;
-
-        var li = activeNavItem();
-        if (!li) return;
-        var link = li.querySelector(":scope > .md-nav__link");
-        if (!link) return;
-
-        var liRect = li.getBoundingClientRect();
-        if (liRect.left < 0 || liRect.width < 1) return;
-
-        title.style.marginLeft = "0px";
-
-        var brand =
-          title.querySelector(".wd-brand") ||
-          title.querySelector(".md-ellipsis") ||
-          title;
-
-        var want = contentBoxLeft(link);
-        var have = firstGlyphLeft(brand);
-        if (want == null || have == null) return;
-
-        /* Optical nudge: content-box math still sits ~20px left of the nav label. */
-        var margin = want - have + 20;
-
-        var drawer = document.querySelector(".md-header__button[for='__drawer']");
-        if (drawer && window.getComputedStyle(drawer).display !== "none") {
-          var minLeft = drawer.getBoundingClientRect().right + 12;
-          if (have + margin < minLeft) margin = minLeft - have;
-        }
-
-        title.style.marginLeft = Math.max(0, margin) + "px";
-      }
-
-      function alignChrome() {
-        alignHeaderTitleToNav();
-        alignSearchToContent();
-      }
-
       function run() {
-        document.querySelectorAll(".md-header__topic .md-ellipsis").forEach(brandize);
-        alignChrome();
-        window.requestAnimationFrame(alignChrome);
+        var topics = document.querySelectorAll(".md-header__topic .md-ellipsis");
+        if (topics.length) brandize(topics[0]);
+        alignSearchToContent();
       }
 
       run();
       document.addEventListener("DOMContentLoaded", run);
-      window.addEventListener("resize", alignChrome);
+      window.addEventListener("resize", alignSearchToContent);
       document.addEventListener("DOMContentLoaded", function () {
         var content = document.querySelector(".md-content");
-        var sidebar = document.querySelector(".md-sidebar--primary");
-        if (window.ResizeObserver) {
-          if (content) new ResizeObserver(alignChrome).observe(content);
-          if (sidebar) new ResizeObserver(alignChrome).observe(sidebar);
+        if (content && window.ResizeObserver) {
+          new ResizeObserver(alignSearchToContent).observe(content);
         }
       });
     })();
