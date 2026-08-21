@@ -3,4 +3,28 @@
 {% block extrahead %}
   {{ super() }}
   <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet" />
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    (function () {
+      function brandize(el) {
+        if (!el || el.dataset.wdBranded) return;
+        var t = (el.textContent || "").replace(/\s+/g, " ").trim();
+        if (t.indexOf("World Domination") === -1) return;
+        el.innerHTML = 'World <span class="wd-dom">Domination</span> 2.0';
+        el.classList.add("wd-brand");
+        el.dataset.wdBranded = "1";
+      }
+      function run() {
+        document.querySelectorAll(".md-header__topic .md-ellipsis").forEach(brandize);
+      }
+      run();
+      document.addEventListener("DOMContentLoaded", run);
+    })();
+  </script>
 {% endblock %}
