@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- Mix WD props into the VFEPD Farm palette so they are not used as a standalone scatter pool. -->
+  <VFEProps.PropDef>
+    <defName>TSA_WD_Prop_Farm_Hayball_1</defName>
+    <category>VFE_PropCategory_Farm</category>
+    <priority>100</priority>
+    <prop>TSA_WD_Hayball_1a</prop>
+  </VFEProps.PropDef>
+  <VFEProps.PropDef>
+    <defName>TSA_WD_Prop_Farm_Wagon_3</defName>
+    <category>VFE_PropCategory_Farm</category>
+    <priority>101</priority>
+    <prop>TSA_WD_Wagon_3a</prop>
+  </VFEProps.PropDef>
+  <VFEProps.PropDef>
+    <defName>TSA_WD_Prop_Farm_Wagon_5</defName>
+    <category>VFE_PropCategory_Farm</category>
+    <priority>102</priority>
+    <prop>TSA_WD_Wagon_5a</prop>
+  </VFEProps.PropDef>
+</Defs>

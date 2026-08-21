@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <TSA_WD_FirstOutpost_LetterLabelFailed>Misión fallida: [resolvedQuestName]</TSA_WD_FirstOutpost_LetterLabelFailed>
+  <TSA_WD_FirstOutpost_LetterTextHostile>[faction_name] se volvió hostil. La petición del primer puesto ha fallado.</TSA_WD_FirstOutpost_LetterTextHostile>
+
+  <TSA_WD_Quest_EnableFirstOutpost>Misión del primer puesto</TSA_WD_Quest_EnableFirstOutpost>
+  <TSA_WD_Quest_EnableFirstOutpostTip>Tras 2-5 días, un asentamiento aliado o neutral cercano puede pedirte que fundes tu primer puesto WD. Completarla otorga buena voluntad. Desactivado impide nuevas ofertas; una misión activa puede terminar.</TSA_WD_Quest_EnableFirstOutpostTip>
+
+  <TSA_WD_Quest_EnableCommonEnemySettlement>Misión de asentamiento enemigo común</TSA_WD_Quest_EnableCommonEnemySettlement>
+  <TSA_WD_Quest_EnableCommonEnemySettlementTip>Tras el día 10, aliados (o neutrales) pueden pedirte que destruyas o conquistes un pueblo cercano hostil a ambos. Solo cuenta si lo haces tú: incursión desde tu puesto WD o en persona. Las órdenes de incursión aliadas y que otra facción acabe con el pueblo no cuentan. Desactivado impide nuevas ofertas; una misión activa puede terminar.</TSA_WD_Quest_EnableCommonEnemySettlementTip>
+
+  <TSA_WD_Quest_EnableColonyRoadLink>Misión de enlace por carretera</TSA_WD_Quest_EnableColonyRoadLink>
+  <TSA_WD_Quest_EnableColonyRoadLinkTip>Tras el día 10, un pueblo aliado o neutral cercano (hasta 30 casillas) puede pedir una carretera entre tu colonia y el suyo. Conectar ambos por cualquier carretera lo completa de forma permanente. Si falla (tiempo, hostilidad o desaparición del pueblo), puede volver a ofrecerse en unos días. Desactivado impide nuevas ofertas; una misión activa puede terminar.</TSA_WD_Quest_EnableColonyRoadLinkTip>
+
+  <TSA_WD_Quest_EnableWorldDominationVictory>Misión de victoria de World Domination</TSA_WD_Quest_EnableWorldDominationVictory>
+  <TSA_WD_Quest_EnableWorldDominationVictoryTip>Tras 4-6 días, ofrece un objetivo a largo plazo: mantener el primer puesto WD durante 15 días seguidos. Activarla a mitad de partida lanza la misión de inmediato. Desactivarla elimina una misión activa de inmediato.</TSA_WD_Quest_EnableWorldDominationVictoryTip>
+
+ 

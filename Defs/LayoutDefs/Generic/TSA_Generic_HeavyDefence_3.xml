@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.StructureLayoutDef>
+    <defName>Generic_HeavyDefence_3</defName>
+    <spawnConduits>false</spawnConduits>
+    <layouts>
+      <li>
+        <li>Barricade_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite</li>
+		<li>Barricade_BlocksGranite,Turret_Sniper,.,VanometricPowerCell,Turret_Sniper,.,Barricade_BlocksGranite</li>
+		<li>Barricade_BlocksGranite,.,.,.,.,.,Barricade_BlocksGranite</li>
+		<li>Barricade_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite</li>
+
+      </li>
+      
+      <li>
+      <li>PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit</li>
+	  <li>PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit</li>
+	  <li>PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit</li>
+	  <li>PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit</li>
+      </li>
+    </layouts>
+
+    <terrainGrid>
+      <li>Concrete,Concrete,Concrete,ConcreteConcrete,Concrete,Concrete,Concrete,Concrete</li>
+	  <li>Concrete,Concrete,Concrete,ConcreteConcrete,Concrete,Concrete,Concrete,Concrete</li>
+	  <li>Concrete,Concrete,Concrete,ConcreteConcrete,Concrete,Concrete,Concrete,Concrete</li>
+	  <li>Concrete,Concrete,Concrete,ConcreteConcrete,Concrete,Concrete,Concrete,Concrete</li>
+    </terrainGrid>
+
+    <tags>
+      <li>Generic_HeavyDefence</li>
+    </tags>
+  </KCSG.StructureLayoutDef>
+</Defs>

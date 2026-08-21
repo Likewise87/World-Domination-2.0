@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.StructureLayoutDef>
+    <defName>TSA_Generic_SandbagBarrier_1</defName>
+    <layouts>
+      <li>
+        <li>Sandbags_Cloth,Sandbags_Cloth,Sandbags_Cloth,Sandbags_Cloth,Sandbags_Cloth,Sandbags_Cloth</li>
+      </li>
+    </layouts>
+    <tags>
+      <li>TSA_Generic_SandbagBarrier</li>
+    </tags>
+  </KCSG.StructureLayoutDef>
+</Defs>

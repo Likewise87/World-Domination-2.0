@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <TSA_WD_FirstOutpost_LetterLabelFailed>任务失败：[resolvedQuestName]</TSA_WD_FirstOutpost_LetterLabelFailed>
+  <TSA_WD_FirstOutpost_LetterTextHostile>[faction_name] 已变为敌对。首个前哨请求失败。</TSA_WD_FirstOutpost_LetterTextHostile>
+
+  <TSA_WD_Quest_EnableFirstOutpost>首个前哨任务</TSA_WD_Quest_EnableFirstOutpost>
+  <TSA_WD_Quest_EnableFirstOutpostTip>开局 2-5 天后，附近盟友或中立定居点可能请你建立第一个 WD 前哨。完成会获得好感。关闭后不再发出新任务；进行中的任务仍可正常结束。</TSA_WD_Quest_EnableFirstOutpostTip>
+
+  <TSA_WD_Quest_EnableCommonEnemySettlement>共同敌人据点任务</TSA_WD_Quest_EnableCommonEnemySettlement>
+  <TSA_WD_Quest_EnableCommonEnemySettlementTip>第 10 天起，盟友（否则中立）可能请你摧毁或征服一座对双方都敌对的附近城镇。只有你亲自完成才算：从你的 WD 前哨发动袭击，或亲自前往。盟友据点下令的袭击以及其他派系清剿都不算。关闭后不再发出新任务；进行中的任务仍可正常结束。</TSA_WD_Quest_EnableCommonEnemySettlementTip>
+
+  <TSA_WD_Quest_EnableColonyRoadLink>殖民地道路连接任务</TSA_WD_Quest_EnableColonyRoadLink>
+  <TSA_WD_Quest_EnableColonyRoadLinkTip>第 10 天起，附近（30 格内）的盟友或中立城镇可能请求在你的殖民地与该镇之间修路。任意道路连通后即永久完成。失败（超时、敌对或城镇消失）后数日可再次发出。关闭后不再发出新任务；进行中的任务仍可正常结束。</TSA_WD_Quest_EnableColonyRoadLinkTip>
+
+  <TSA_WD_Quest_EnableWorldDominationVictory>世界支配胜利任务</TSA_WD_Quest_EnableWorldDominationVictory>
+  <TSA_WD_Quest_EnableWorldDominationVictoryTip>开局 4-6 天后提供长期目标：连续 15 天保持 WD 实力第一。游戏中途开启会立即发放任务；关闭会立即移除进行中的该任务。</TSA_WD_Quest_EnableWorldDominationVictoryTip>
+
+ 

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <TSA_WD_ActionLog>Action Log</TSA_WD_ActionLog>
+  <TSA_WD_AttritionRate>Attrition</TSA_WD_AttritionRate>
+  <TSA_WD_Day>day</TSA_WD_Day>
+  <TSA_WD_Days>days</TSA_WD_Days>
+  <TSA_WD_ExpansionCaravan>Expansion Caravan</TSA_WD_ExpansionCaravan>
+  <TSA_WD_Inspect_AidCD>Relief Cooldown: {0} days</TSA_WD_Inspect_AidCD>
+  <TSA_WD_Inspect_AttackRange>Attack range: {0} tiles</TSA_WD_Inspect_AttackRange>
+  <TSA_WD_Inspect_AttackRange_Zeal>Attack range (Zeal): {0} tiles</TSA_WD_Inspect_AttackRange_Zeal>
+  <TSA_WD_Inspect_AllyRadius>Ally radius: {0} tiles</TSA_WD_Inspect_AllyRadius>
+  <TSA_WD_Inspect_MortarRadius>Mortar range: {0} tiles</TSA_WD_Inspect_MortarRadius>
+  <TSA_WD_Inspect_AT_TurretStrength>Strength: {0}</TSA_WD_Inspect_AT_TurretStrength>
+  <TSA_WD_Inspect_AT_TurretDamage>Damage: {0}</TSA_WD_Inspect_AT_TurretDamage>
+  <TSA_WD_Inspect_AT_TurretRange>Range: {0} tiles</TSA_WD_Inspect_AT_TurretRange>
+  <TSA_WD_Inspect_AT_TurretBuilder>Built by: {0}</TSA_WD_Inspect_AT_TurretBuilder>
+  <TSA_WD_Inspect_AT_TurretCD>AT Turret Cooldown: {0} days</TSA_WD_Inspect_AT_TurretCD>
+  <TSA_WD_Inspect_AT_TurretReady>AT Turret: ready</TSA_WD_Inspect_AT_TurretReady>
+  <TSA_WD_Inspect_AT_TurretStatus>{0} toward "{2}"\nProgress: {1}%</TSA_WD_Inspect_AT_TurretStatus>
+  <TSA_WD_Inspect_AT_TurretStatus_InTransit>{0} crew en route to "{1}" (prep {2}%)</TSA_WD_Inspect_AT_TurretStatus_InTransit>
+  <TSA_WD_AT_Turret_SetFacingLabel>Set idle angle</TSA_WD_AT_Turret_SetFacingLabel>
+  <TSA_WD_AT_Turret_SetFacingDesc>Click a world tile to choose the direction this AT Turret faces when idle. After each shot it turns back to that facing at the same speed.</TSA_WD_AT_Turret_SetFacingDesc>
+  <TSA_WD_AT_Turret_SetFacingPrompt>Click a tile to set the AT Turret resting facing. Right-click or Esc to cancel.</TSA_WD_AT_Turret_SetFacingPrompt>
+  <TSA_WD_AT_Turret_SetFacingDone>AT Turret resting facing updated.</TSA_WD_AT_Turret_SetFacingDone>
+  <TSA_WD_Inspect_AARadius>AA range: {0} tiles</TSA_WD_Inspect_AARadius>
+  <TSA_WD_Inspect_AttackRangeBreakdown>Base {0} × Mid/Late {1}% × age {2}%</TSA_WD_Inspect_AttackRangeBreakdown>
+  <TSA_WD_Inspect_DailyActions>Daily Actions: {0} / {1}</TSA_WD_Inspect_DailyActions>
+  <TSA_WD_Inspect_DailyActionsRemaining>Potential Daily Actions: {0} / {1}</TSA_WD_Inspect_DailyActionsRemaining>
+  <TSA_WD_Inspect_DefenseCD>Raid Protection: {0} days</TSA_WD_Inspect_DefenseCD>
+  <TSA_WD_Inspect_EspionageCD>Espionage Cooldown: {0} days</TSA_WD_Inspect_EspionageCD>
+  <TSA_WD_Inspect_IncidentCD>Incident Cooldown: {0} days</TSA_WD_Inspect_IncidentCD>
+  <TSA_WD_Inspect_MortarCD>Mortar Cooldown: {0} days</TSA_WD_Inspect_MortarCD>
+  <TSA_WD_Inspect_Outpost>Strength: {0} / {1}</TSA_WD_Inspect_Outpost>
+  <TSA_WD_Inspect_OffDefLine>Off: {0}  Def: {1}</TSA_WD_Inspect_OffDefLine>
+  <TSA_WD_Inspect_StrengthSimpleLine>Strength: {0}/{1}</TSA_WD_Inspect_StrengthSimpleLine>
+  <TSA_WD_Inspect_StrengthWithHumanoidsLine>Strength: {0}/{1}, Humanoid Pawns: {2}</TSA_WD_Inspect_StrengthWithHumanoidsLine>
+  <TSA_WD_Inspect_StrengthCompactLine>Strength: {0}/{1}, Offensive: {2}/{3}, Defensive: {4}/{5}</TSA_WD_Inspect_StrengthCompactLine>
+  <TSA_WD_Inspect_StrengthCombinedLine>Strength {0}/{1}, Def. {2}/{3}, Off. {4}/{5}</TSA_WD_Inspect_StrengthCombinedLine>
+  <TSA_WD_Inspect_OutpostRecoveryLine>Daily Strength recovery: {0} (Def.), {1} (Off.)</TSA_WD_Inspect_OutpostRecoveryLine>
+  <TSA_WD_Inspect_PlayerColony>Active Player Colony</TSA_WD_Inspect_PlayerColony>
+  <TSA_WD_Inspect_HoldsPrisoners>Holds {0} Prisoners</TSA_WD_Inspect_HoldsPrisoners>
+  <TSA_WD_Inspect_RoadStatus>Road Construction: {0} ({1}%) to {2}</TSA_WD_Inspect_RoadStatus>
+  <TSA_WD_Inspect_RoadStatus_InTransit>Status: {0} crew in transit to {1} (prep {2}%)...</TSA_WD_Inspect_RoadStatus_InTransit>
+  <TSA_WD_Inspect_RoadClearStatus>Removing roads toward {0}: {1}%</TSA_WD_Inspect_RoadClearStatus>
+  <TSA_WD_Inspect_RoadClearStatus_InTransit>Status: road-removal crew in transit to {0} (prep {1}%)...</TSA_WD_Inspect_RoadClearStatus_InTransit>
+  <TSA_WD_Inspect_RoadBlockBuild>Road Blocks</TSA_WD_Inspect_RoadBlockBuild>
+  <TSA_WD_Inspect_RoadBlockClear>Clearing Road Blocks</TSA_WD_Inspect_RoadBlockClear>
+  <TSA_WD_Inspect_RoadBlockStatus>{0}: {1}% toward {2}</TSA_WD_Inspect_RoadBlockStatus>
+  <TSA_WD_Inspect_RoadBlockStatus_InTransit>{0}: crew in transit to {1} (prep {2}%)...</TSA_WD_Inspect_RoadBlockStatus_InTransit>
+  <TSA_WD_RoadBlock_MovementExplanation>Road Block: +{0}</TSA_WD_RoadBlock_MovementExplanation>
+  <TSA_WD_RoadBlock_TileInspect>{0}: +{1} movement difficulty (HP {2}/{3})</TSA_WD_RoadBlock_TileInspect>
+  <TSA_WD_RoadBlock_DestroyedByTraffic>A road block was destroyed by passing traffic.</TSA_WD_RoadBlock_DestroyedByTraffic>
+  <TSA_WD_Log_RoadBlock_DestroyedByTraffic>Road block destroyed by {0} (damage {1}).</TSA_WD_Log_RoadBlock_DestroyedByTraffic>
+  <TSA_WD_Inspect_SpikeTrapBuild>Spike Traps</TSA_WD_Inspect_SpikeTrapBuild>
+  <TSA_WD_Inspect_SpikeTrapClear>Clearing Spike Traps</TSA_WD_Inspect_SpikeTrapClear>
+  <TSA_WD_Inspect_SpikeTrapStatus>{0}: {1}% toward {2}</TSA_WD_Inspect_SpikeTrapStatus>
+  <TSA_WD_Inspect_SpikeTrapStatus_InTransit>{0}: crew in transit to {1} (prep {2}%)...</TSA_WD_Inspect_SpikeTrapStatus_InTransit>
+  <TSA_WD_Inspect_DecontaminationBuild>Decontamination</TSA_WD_Inspect_DecontaminationBuild>
+  <TSA_WD_Inspect_DecontaminationStatus>{0}: {1}% toward {2}</TSA_WD_Inspect_DecontaminationStatus>
+  <TSA_WD_Inspect_DecontaminationStatus_InTransit>{0}: crew in transit to {1} (prep {2}%)...</TSA_WD_Inspect_DecontaminationStatus_InTransit>
+  <TSA_WD_SpikeTrap_Triggered>{0} triggered a spike trap (−{1} strength).</TSA_WD_SpikeTrap_Triggered>
+  <TSA_WD_SpikeTrap_TriggeredDestroyed>{0} triggered a spike trap (−{1} strength). The trap was destroyed.</TSA_WD_SpikeTrap_TriggeredDestroyed>
+  <TSA_WD_SpikeTrap_TileInspect>{0}: {1} dmg when hostiles pass (HP {2}/{3})</TSA_WD_SpikeTrap_TileInspect>
+  <TSA_WD_Log_SpikeTrap_Triggered>Spike trap triggered by {0} (damage {1}).</TSA_WD_Log_SpikeTrap_Triggered>
+  <TSA_WD_Log_SpikeTrap_DestroyedTraveler>{0} was destroyed by spike traps.</TSA_WD_Log_SpikeTrap_DestroyedTraveler>
+  <TSA_WD_Log_Pollution_DamagedTraveler>{0} lost {1} strength leaving a polluted tile ({2}% pollution).</TSA_WD_Log_Pollution_DamagedTraveler>
+  <TSA_WD_Log_Pollution_DestroyedTraveler>{0} was destroyed by pollution.</TSA_WD_Log_Pollution_DestroyedTraveler>
+  <TSA_WD_Log_Pollution_DamagedSite>{0} lost {1} strength from nearby pollution (avg {2}%).</TSA_WD_Log_Pollution_DamagedSite>
+  <TSA_WD_Log_Pollution_DestroyedSite>{0} was destroyed by pollution.</TSA_WD_Log_Pollution_DestroyedSite>
+  <TSA_WD_Message_OutpostPollutionDamage>{0} lost {1} strength from nearby pollution.</TSA_WD_Message_OutpostPollutionDamage>
+  <TSA_WD_Letter_OutpostDestroyedByPollution_Label>Outpost destroyed by pollution</TSA_WD_Letter_OutpostDestroyedByPollution_Label>
+  <TSA_WD_Letter_OutpostDestroyedByPollution_Text>{0} has been abandoned. Nearby pollution reduced its strength to zero. All occupants were lost. Ruins remain for a while and block new outposts nearby.</TSA_WD_Letter_OutpostDestroyedByPollution_Text>
+  <TSA_WD_Letter_PollutionDamage_Label>Pollution damage</TSA_WD_Letter_PollutionDamage_Label>
+  <TSA_WD_Letter_PollutionDamage_Text>{0} lost {1} strength after leaving a polluted world tile. Further pollution damage on this traveler will not send another letter.</TSA_WD_Letter_PollutionDamage_Text>
+  <TSA_WD_Traveler_Outpost_RoadBlock>Road Block Builder Caravan</TSA_WD_Traveler_Outpost_RoadBlock>
+  <TSA_WD_Traveler_Outpost_SpikeTrap>Trap Builder Caravan</TSA_WD_Traveler_Outpost_SpikeTrap>
+  <TSA_WD_Traveler_NpcFortify>Fortify Crew</TSA_WD_Traveler_NpcFortify>
+  <TSA_WD_Traveler_NpcAtTurret>AT Turret Crew</TSA_WD_Traveler_NpcAtTurret>
+  <TSA_WD_Traveler_AtTurret>AT Turret Crew</TSA_WD_Traveler_AtTurret>
+  <TSA_WD_Traveler_Outpost_Decontamination>Decontamination Crew</TSA_WD_Traveler_Outpost_Decontamination>
+  <TSA_WD_Inspect_Settlement>{0} {1}</TSA_WD_Inspect_Settlement>
+  <TSA_WD_JumpToOutpost>Jump to {0}</TSA_WD_JumpToOutpost>
+  <TSA_WD_Interception_Label>Caravan clash</TSA_WD_Interception_Label>
+  <TSA_WD_Letter_Interception_Label>Caravan clash</TSA_WD_Letter_Interception_Label>
+  <TSA_WD_Letter_Interception_Text>Your caravan has clashed with a {0} from {1}. Prepare for combat!</TSA_WD_Letter_Interception_Text>
+  <TSA_WD_ClashLoot_Title>Clash loot</TSA_WD_ClashLoot_Title>
+  <TSA_WD_ClashLoot_Desc>Choose prisoners and items to take. Anything left behind is lost when the encounter ends. Weight cannot exceed your caravan capacity.</TSA_WD_ClashLoot_Desc>
+  <TSA_WD_ClashLoot_SearchPlaceholder>Filter by name…</TSA_WD_ClashLoot_SearchPlaceholder>
+  <TSA_WD_ClashLoot_ResetAll>Reset all</TSA_WD_ClashLoot_ResetAll>
+  <TSA_WD_ClashLoot_PrisonerSub>{0} (weight {1})</TSA_WD_ClashLoot_PrisonerSub>
+  <TSA_WD_ClashLoot_ItemSub>{0} available (weight {1} each)</TSA_WD_ClashLoot_ItemSub>
+  <TSA_WD_ClashLoot_Mass>Caravan weight: {0} / {1}</TSA_WD_ClashLoot_Mass>
+  <TSA_WD_ClashLoot_Take>Take</TSA_WD_ClashLoot_Take>
+  <TSA_WD_ClashLoot_Selected>Selected</TSA_WD_ClashLoot_Selected>
+  <TSA_WD_ClashLoot_Max>Max</TSA_WD_ClashLoot_Max>
+  <TSA_WD_ClashLoot_Confirm>Confirm</TSA_WD_ClashLoot_Confirm>
+  <TSA_WD_ClashLoot_TakeNothing>Take nothing</TSA_WD_ClashLoot_TakeNothing>
+  <TSA_WD_Letter_PlayerCaravanClashWon_Label>Player caravan won clash</TSA_WD_Letter_PlayerCaravanClashWon_Label>
+  <TSA_WD_Letter_PlayerCaravanClashWon_Text>Your caravan defeated {0} in a caravan clash.</TSA_WD_Letter_PlayerCaravanClashWon_Text>
+  <TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>Player caravan destroyed in clash</TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>
+  <TSA_WD_Letter_PlayerCaravanClashDestroyed_Text>Your caravan was defeated by {0}. The enemy caravan can continue its journey.</TSA_WD_Letter_PlayerCaravanClashDestroyed_Text>
+  <TSA_WD_Letter_RapidResponseClashWon_Label>Rapid Response intercepted and defeated enemy</TSA_WD_Letter_RapidResponseClashWon_Label>
+  <TSA_WD_Letter_RapidResponseClashWon_Text>{0}'s Rapid Response force intercepted and defeated {1}.</TSA_WD_Letter_RapidResponseClashWon_Text>
+  <TSA_WD_Letter_RapidResponseClashLost_Label>Rapid Response intercepted enemy but lost</TSA_WD_Letter_RapidResponseClashLost_Label>
+  <TSA_WD_Letter_RapidResponseClashLost_Text>{OUTPOST}'s Rapid Response force intercepted {TARGET}, but was defeated. Enemy caravan continues with {AFTER} strength (was {BEFORE}).</TSA_WD_Letter_RapidResponseClashLost_Text>
+  <TSA_WD_Letter_MajorInc_Label>Settlement Destroyed</TSA_WD_Letter_MajorInc_Label>
+  <TSA_WD_Letter_MajorInc_Text>A major incident has completely destroyed the settlement {0} near you. Ruins remain for a while and block new settlements nearby.</TSA_WD_Letter_MajorInc_Text>
+  <TSA_WD_Letter_MinorInc_Label>Settlement Obliterated</TSA_WD_Letter_MinorInc_Label>
+  <TSA_WD_Letter_MinorInc_Text>A minor incident has completely wiped out the settlement {0} near you. Ruins remain for a while and block new settlements nearby.</TSA_WD_Letter_MinorInc_Text>
+  <TSA_WD_Letter_NewSettlement_Label>Settlement founded nearby</TSA_WD_Letter_NewSettlement_Label>
+  <TSA_WD_Letter_NewSettlement_Text>{1} has founded {0} near you.</TSA_WD_Letter_NewSettlement_Text>
+  <TSA_WD_Letter_SettlementCaptured_Label>Settlement Captured</TSA_WD_Letter_SettlementCaptured_Label>
+  <TSA_WD_Letter_SettlementCaptured_Text>{0} captured {1} from {2}.</TSA_WD_Letter_SettlementCaptured_Text>
+  <TSA_WD_Letter_SettlementRazed_Label>Settlement razed nearby</TSA_WD_Letter_SettlementRazed_Label>
+  <TSA_WD_Letter_SettlementRazed_Text>{0} was raided by {1} and razed. Ruins remain for a while and block new settlements nearby.</TSA_WD_Letter_SettlementRazed_Text>
+  <TSA_WD_SettlementRuin_Label>settlement ruins</TSA_WD_SettlementRuin_Label>
+  <TSA_WD_SettlementRuin_LabelNamed>{0} (ruins)</TSA_WD_SettlementRuin_LabelNamed>
+  <TSA_WD_SettlementRuin_InspectClearIn>Ruins clear in {0} days</TSA_WD_SettlementRuin_InspectClearIn>
+  <TSA_WD_PlayerConquestRazed_Message>{0} was razed in the process.</TSA_WD_PlayerConquestRazed_Message>
+  <TSA_WD_Letter_PlayerConquestRazed_Label>Settlement razed</TSA_WD_Letter_PlayerConquestRazed_Label>
+  <TSA_WD_Letter_PlayerConquestRazed_Text>{0} was razed in the process. Ruins remain for a while and block new settlements nearby.</TSA_WD_Letter_PlayerConquestRazed_Text>
+  <TSA_WD_Log_MajorInc_Obliterated>MAJOR INCIDENT: Settlement destroyed. Strength {0} → {1}.</TSA_WD_Log_MajorInc_Obliterated>
+  <TSA_WD_Log_MajorInc_Downgrade>MAJOR INCIDENT: Lost {0} strength ({1} → {2}). Downgraded to {3}.</TSA_WD_Log_MajorInc_Downgrade>
+  <TSA_WD_Log_MajorInc_Standard>MAJOR INCIDENT: Lost {0} strength ({1} → {2}).</TSA_WD_Log_MajorInc_Standard>
+  <TSA_WD_Log_MinorInc_Obliterated>MINOR INCIDENT: Settlement destroyed. Strength {0} → {1}.</TSA_WD_Log_MinorInc_Obliterated>
+  <TSA_WD_Log_MinorInc_Downgrade>MINOR INCIDENT: Lost {0} strength ({1} → {2}). Downgraded to {3}.</TSA_WD_Log_MinorInc_Downgrade>
+  <TSA_WD_Log_MinorInc_Standard>MINOR INCIDENT: Lost {0} strength ({1} → {2}).</TSA_WD_Log_MinorInc_Standard>
+  <TSA_WD_Letter_Revolt_Label>Faction Re-emergence</TSA_WD_Letter_Revolt_Label>
+  <TSA_WD_Letter_Revolt_Text>Political upheaval! The faction {0} has emerged from obscurity, seizing control of: {1}. Lost to the uprising: {2}.</TSA_WD_Letter_Revolt_Text>
+  <TSA_WD_Log_ActionNoWeights>Daily action at {0}: No weighted action available (all action weights are zero).</TSA_WD_Log_ActionNoWeights>
+  <TSA_WD_Log_ActionSkip>Action skipped for {0}: No active settlements available.</TSA_WD_Log_ActionSkip>
+  <TSA_WD_Log_BtnDetails>Details</TSA_WD_Log_BtnDetails>
+  <TSA_WD_Log_ExpandSuccess>EXPAND: Success. {0} founded new T1 {1}.</TSA_WD_Log_ExpandSuccess>
+  <TSA_WD_Log_ConquestSettlementFounded>CONQUEST: {0} founded {1} ({2}) after a successful raid.</TSA_WD_Log_ConquestSettlementFounded>
+  <TSA_WD_Log_ExpansionCancelled>{0} mission cancelled: Tile occupied or saturated.</TSA_WD_Log_ExpansionCancelled>
+  <TSA_WD_Log_ExpeditionLaunched>EXPANSION ATTEMPT: {0} dispatched settlers to establish a new colony.</TSA_WD_Log_ExpeditionLaunched>
+  <TSA_WD_Log_Expand_SkippedGlobalCap>EXPAND: {0} skipped (world NPC settlement count {1} at cap {2}).</TSA_WD_Log_Expand_SkippedGlobalCap>
+  <TSA_WD_Log_Expand_SkippedNoValidTile>EXPAND: {0} skipped (no valid tile in range for a new settlement).</TSA_WD_Log_Expand_SkippedNoValidTile>
+  <TSA_WD_Log_Grow>GROW: Strength {0} -&gt; {1}</TSA_WD_Log_Grow>
+  <TSA_WD_Log_Grow_NoChange_ExpandCooldown>GROW: {0} at local strength cap; cannot upgrade; expansion on cooldown.</TSA_WD_Log_Grow_NoChange_ExpandCooldown>
+  <TSA_WD_Log_Grow_NoChange_ExpandRoll>GROW: {0} at local strength cap; cannot upgrade; expansion roll failed (success chance {1}).</TSA_WD_Log_Grow_NoChange_ExpandRoll>
+  <TSA_WD_Log_HeaderAction>Action</TSA_WD_Log_HeaderAction>
+  <TSA_WD_Log_HeaderActor>Actor A</TSA_WD_Log_HeaderActor>
+  <TSA_WD_Log_HeaderTarget>Actor B</TSA_WD_Log_HeaderTarget>
+  <TSA_WD_Log_HeaderTime>Timestamp</TSA_WD_Log_HeaderTime>
+  <TSA_WD_Log_MissionAborted_TargetInvalid>Mission aborted: Destination no longer valid.</TSA_WD_Log_MissionAborted_TargetInvalid>
+  <TSA_WD_Log_Revolt_Entry>REVOLT: {0} was liberated from {1}. Strength: {2} -&gt; {3}{4}</TSA_WD_Log_Revolt_Entry>
+  <TSA_WD_Log_Revolt_TierDrop> (Downgraded to {0})</TSA_WD_Log_Revolt_TierDrop>
+  <TSA_WD_Log_TravelerExpired>{0} has exceeded its maximum travel time or ran out of supplies and was lost.</TSA_WD_Log_TravelerExpired>
+  <TSA_WD_Log_TravelerAborted_Stranded>{0} lost its route and could not continue; mission aborted.</TSA_WD_Log_TravelerAborted_Stranded>
+  <TSA_WD_Log_Trader_SkippedCooldown>TRADER: {0} skipped (trader cooldown).</TSA_WD_Log_Trader_SkippedCooldown>
+  <TSA_WD_Log_Trader_SkippedGarrison>TRADER: {0} skipped (sending a caravan would break garrison: cost {1}, floor {2}, current strength {3}).</TSA_WD_Log_Trader_SkippedGarrison>
+  <TSA_WD_Log_Trader_SkippedNoDef>TRADER: {0} skipped (traveler def missing; intended destination {1}).</TSA_WD_Log_Trader_SkippedNoDef>
+  <TSA_WD_Log_Trader_SkippedNoTarget>TRADER: {0} skipped (no valid neutral or allied settlement in range).</TSA_WD_Log_Trader_SkippedNoTarget>
+  <TSA_WD_Log_TraderLaunched>TRADER: Caravan launched from {0} to {1}.</TSA_WD_Log_TraderLaunched>
+  <TSA_WD_Log_TraderTrade_Header>TRADE: WD trader caravan completed from {0} to {1}.</TSA_WD_Log_TraderTrade_Header>
+  <TSA_WD_Log_TraderTrade_HeaderIntercept>TRADE: {0} seized a trader caravan ({1}); receiver trade reward applied.</TSA_WD_Log_TraderTrade_HeaderIntercept>
+  <TSA_WD_Log_TraderTrade_Line>{0}: {1}</TSA_WD_Log_TraderTrade_Line>
+  <TSA_WD_Log_TraderTrade_RoleSender>Sender ({0})</TSA_WD_Log_TraderTrade_RoleSender>
+  <TSA_WD_Log_TraderTrade_RoleReceiver>Receiver ({0})</TSA_WD_Log_TraderTrade_RoleReceiver>
+  <TSA_WD_Log_TraderTrade_RoleInterceptor>Interceptor ({0})</TSA_WD_Log_TraderTrade_RoleInterceptor>
+  <TSA_WD_Log_TraderTrade_OutcomeStrength>offensive strength increased (no tier upgrade on this trade).</TSA_WD_Log_TraderTrade_OutcomeStrength>
+  <TSA_WD_Log_TraderTrade_OutcomeUpgrade>offensive strength increased and settlement tier upgraded (trade path; ignores same-tier neighbor requirements).</TSA_WD_Log_TraderTrade_OutcomeUpgrade>
+  <TSA_WD_Log_TraderTrade_NoStrengthLine>{0}: no settlement strength applied (not a WD settlement / excluded).</TSA_WD_Log_TraderTrade_NoStrengthLine>
+  <TSA_WD_Log_TraderArrived>TRADER: Caravan arrived from {0} at {1}.</TSA_WD_Log_TraderArrived>
+  <TSA_WD_Log_OutpostUpgradeLaunched>OUTPOST UPGRADE: Caravan launched from {0} to {1} for {2} (level {3}).</TSA_WD_Log_OutpostUpgradeLaunched>
+  <TSA_WD_Log_OutpostUpgradeApplied>OUTPOST UPGRADE: {0} completed upgrade {1} (level {2}).</TSA_WD_Log_OutpostUpgradeApplied>
+  <TSA_WD_Log_OutpostUpgradeApplyFailed>OUTPOST UPGRADE: {0} failed to apply pending upgrade on arrival.</TSA_WD_Log_OutpostUpgradeApplyFailed>
+  <TSA_WD_Log_Upgrade>UPGRADE: {0} -&gt; {1} ({2} other same-tier faction settlements in range; requires 2, excluding this settlement)</TSA_WD_Log_Upgrade>
+  <TSA_WD_Log_TileActor>Tile {0}</TSA_WD_Log_TileActor>
+  <TSA_WD_Log_Fortify>{0} sent a fortify crew toward tile {1}.</TSA_WD_Log_Fortify>
+  <TSA_WD_Log_Fortify_Delegated>{0} ordered fortify via {1} toward tile {2}.</TSA_WD_Log_Fortify_Delegated>
+  <TSA_WD_Log_Fortify_RoadBlockComplete>{0} finished a road block at tile {1}.</TSA_WD_Log_Fortify_RoadBlockComplete>
+  <TSA_WD_Log_Fortify_SpikeTrapComplete>{0} finished a spike trap at tile {1}.</TSA_WD_Log_Fortify_SpikeTrapComplete>
+  <TSA_WD_Log_Fortify_AT_TurretComplete>{0} finished an AT Turret at tile {1}.</TSA_WD_Log_Fortify_AT_TurretComplete>
+  <TSA_WD_Log_Fortify_DedicatedAtTurret>{0} sent an AT Turret crew toward tile {1}.</TSA_WD_Log_Fortify_DedicatedAtTurret>
+  <TSA_WD_Log_AT_TurretBuilt>{0} finished an AT Turret at tile {1}.</TSA_WD_Log_AT_TurretBuilt>
+  <TSA_WD_AT_Turret_DestroyedTarget_Label>AT Turret kill</TSA_WD_AT_Turret_DestroyedTarget_Label>
+  <TSA_WD_AT_Turret_DestroyedTarget_Text>{0} destroyed {1}.</TSA_WD_AT_Turret_DestroyedTarget_Text>
+  <TSA_WD_AT_Turret_DamagedTarget_Label>AT Turret hit</TSA_WD_AT_Turret_DamagedTarget_Label>
+  <TSA_WD_AT_Turret_DamagedTarget_Text>{0} hit {1} ({2} → {3} strength).</TSA_WD_AT_Turret_DamagedTarget_Text>
+  <TSA_WD_AT_Turret_NpcKilledYou_Label>AT Turret destroyed your force</TSA_WD_AT_Turret_NpcKilledYou_Label>
+  <TSA_WD_AT_Turret_NpcKilledYou_Text>{0} destroyed your {1}.</TSA_WD_AT_Turret_NpcKilledYou_Text>
+  <TSA_WD_AT_Turret_NpcDamagedYou_Label>AT Turret hit your force</TSA_WD_AT_Turret_NpcDamagedYou_Label>
+  <TSA_WD_AT_Turret_NpcDamagedYou_Text>{0} hit your {1} ({2} → {3} strength).</TSA_WD_AT_Turret_NpcDamagedYou_Text>
+  <TSA_WD_AT_Turret_NpcCaravanDestroyed_Label>AT Turret destroyed your caravan</TSA_WD_AT_Turret_NpcCaravanDestroyed_Label>
+  <TSA_WD_AT_Turret_NpcCaravanDestroyed_Text>{0} destroyed your caravan {1}.</TSA_WD_AT_Turret_NpcCaravanDestroyed_Text>
+  <TSA_WD_AT_Turret_NpcCaravanEmptyDestroyed_Text>{0} destroyed your empty caravan {1}.</TSA_WD_AT_Turret_NpcCaravanEmptyDestroyed_Text>
+  <TSA_WD_AT_Turret_NpcCaravanWiped_Text>{0} wiped out your caravan {1}. The following pawns died:\n\n{2}</TSA_WD_AT_Turret_NpcCaravanWiped_Text>
+  <TSA_WD_AT_Turret_NpcCaravanWounded_Label>AT Turret hit your caravan</TSA_WD_AT_Turret_NpcCaravanWounded_Label>
+  <TSA_WD_AT_Turret_NpcCaravanWounded_Text>{0} hit your caravan {1} ({2} killed, {3} wounded).</TSA_WD_AT_Turret_NpcCaravanWounded_Text>
+  <TSA_WD_AT_Turret_NpcCaravanWounded_WithNames_Text>{0} hit your caravan {1} ({2} killed, {3} wounded). The following pawns died:\n\n{4}</TSA_WD_AT_Turret_NpcCaravanWounded_WithNames_Text>
+  <TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label>Caravan pawns killed</TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label>
+  <TSA_WD_AT_Turret_PlayerDestroyed_Label>AT Turret destroyed</TSA_WD_AT_Turret_PlayerDestroyed_Label>
+  <TSA_WD_AT_Turret_PlayerDestroyed_Text>Your {0} was destroyed.</TSA_WD_AT_Turret_PlayerDestroyed_Text>
+  <TSA_WD_AT_Turret_PlayerDestroyedBy_Text>Your {0} was destroyed by {1}.</TSA_WD_AT_Turret_PlayerDestroyedBy_Text>
+  <TSA_WD_AT_Turret_PlayerOverran_Text>Your caravan overran {0}.</TSA_WD_AT_Turret_PlayerOverran_Text>
+  <TSA_WD_AT_Turret_Miss_Text>{0} missed {1}.</TSA_WD_AT_Turret_Miss_Text>
+  <TSA_WD_Log_WindowTitle>Action Log (Last 500)</TSA_WD_Log_WindowTitle>
+  <TSA_WD_RaiderCaravan>Raider Caravan</TSA_WD_RaiderCaravan>
+  <TSA_WD_RaiderDropPods>Raider Drop Pods</TSA_WD_RaiderDropPods>
+  <TSA_WD_TraderCaravan>Trader Caravan</TSA_WD_TraderCaravan>
+  <TSA_WD_RoadBuilderCaravan>Road Builder Caravan</TSA_WD_RoadBuilderCaravan>
+  <TSA_WD_SettlementBuyerCaravan>Settlement Buyer Caravan</TSA_WD_SettlementBuyerCaravan>
+  <TSA_WD_DiplomacyNegotiateCaravan>Diplomacy Negotiate Caravan</TSA_WD_DiplomacyNegotiateCaravan>
+  <TSA_WD_TravelerCaravan>Traveler Caravan</TSA_WD_TravelerCaravan>
+  <TSA_WD_Traveler_Outpost_Delivery>Outpost Delivery Caravan</TSA_WD_Traveler_Outpost_Delivery>
+  <TSA_WD_Traveler_Outpost_Upgrade>Outpost Upgrade Caravan</TSA_WD_Traveler_Outpost_Upgrade>
+  <TSA_WD_StrengthAtArrival>Strength at Arrival</TSA_WD_StrengthAtArrival>
+  <TSA_WD_StrengthAtDeparture>Strength</TSA_WD_StrengthAtDeparture>
+  <TSA_WD_TimeSinceDeparture>Time since Departure</TSA_WD_TimeSinceDeparture>
+  <TSA_WD_TimeToDestination>Total estimated travel time</TSA_WD_TimeToDestination>
+  <TSA_WD_Traveler_AttackCaravan>Attack caravan</TSA_WD_Traveler_AttackCaravan>
+  <TSA_WD_Traveler_CancelChase>Cancel pursuit</TSA_WD_Traveler_CancelChase>
+  <TSA_WD_Traveler_CancelChase_Desc>Stops pursuit and halts your caravan. Other movement orders do not end pursuit—you must use this button to stop following the target.</TSA_WD_Traveler_CancelChase_Desc>
+  <TSA_WD_Traveler_MoveHere>Move here</TSA_WD_Traveler_MoveHere>
+  <TSA_WD_Traveller_Destination>Destination</TSA_WD_Traveller_Destination>
+  <TSA_WD_Traveller_Origin>Origin</TSA_WD_Traveller_Origin>
+  <TSA_WD_Traveller_Unknown>Unknown</TSA_WD_Traveller_Unknown>
+  <TSA_WD_Traveller_TotalExpectedTravelTime>Total travel time</TSA_WD_Traveller_TotalExpectedTravelTime>
+  <TSA_WD_Traveller_DiploStatus>Relationship</TSA_WD_Traveller_DiploStatus>
+  <TSA_WD_ZealAttritionBuff>Expansion Zeal</TSA_WD_ZealAttritionBuff>
+  <TS_WD_Log_FactionLabel>Faction: {0}</TS_WD_Log_FactionLabel>
+  <!-- Settlement subtypes (used by CompViralSpread) -->
+  <TSA_WD_SubType_Logging>Logging Camp</TSA_WD_SubType_Logging>
+  <TSA_WD_SubType_Mining>Mining Camp</TSA_WD_SubType_Mining>
+  <TSA_WD_SubType_Farming>Farming Camp</TSA_WD_SubType_Farming>
+  <TSA_WD_SubType_Production>Production Village</TSA_WD_SubType_Production>
+  <TSA_WD_SubType_Slavery>Slave Village</TSA_WD_SubType_Slavery>
+  <TSA_WD_SubType_Fortress>Town</TSA_WD_SubType_Fortress>
+  <TSA_WD_SubType_Citadel>Citadel</TSA_WD_SubType_Citadel>
+  <TSA_WD_SubType_Generic>Settlement</TSA_WD_SubType_Generic>
+  <TSA_WD_DebugRaidTravelerLabel>DEBUG raid caravan (500)</TSA_WD_DebugRaidTravelerLabel>
+  <TSA_WD_DebugRaidPickStart>WD debug: Click START tile. Spawns a hostile raid traveler (500 str); destination is random ~10 tiles away with a valid path; despawns on arrival (mortar interception applies).</TSA_WD_DebugRaidPickStart>
+  <TSA_WD_DebugRaidNoPath>WD debug: Could not find a valid random destination (~10 tiles) with a path from the clicked tile. Try another start tile.</TSA_WD_DebugRaidNoPath>
+  <TSA_WD_DebugRaidSpawned>WD debug: Spawned {0} raid traveler tiles {1} → {2}.</TSA_WD_DebugRaidSpawned>
+  <TSA_WD_DebugRaidNoHostileFaction>WD debug: No non-player faction hostile to the colony was found.</TSA_WD_DebugRaidNoHostileFaction>
+  <TSA_WD_DebugOutpostRaidPickTarget>WD debug: Click a player outpost. Spawns a real hostile raid caravan (500 str) about 4 tiles away and sends it to attack that outpost.</TSA_WD_DebugOutpostRaidPickTarget>
+  <TSA_WD_DebugOutpostRaidNoOutpost>WD debug: Clicked tile does not contain a player outpost.</TSA_WD_DebugOutpostRaidNoOutpost>
+  <TSA_WD_DebugOutpostRaidNoStart>WD debug: Could not find a valid start tile about 4 tiles away with a path to this outpost.</TSA_WD_DebugOutpostRaidNoStart>
+  <TSA_WD_DebugOutpostRaidSpawned>WD debug: Spawned {0} outpost raid traveler from tile {1} toward {2}.</TSA_WD_DebugOutpostRaidSpawned>
+</LanguageData>

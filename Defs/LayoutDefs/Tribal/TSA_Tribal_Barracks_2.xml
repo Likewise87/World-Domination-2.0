@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.StructureLayoutDef>
+    <defName>TSA_Tribal_Barracks_2</defName>
+<layouts>
+      <li>
+        <li>.,.,.,.,.,Plant_Daylily,.</li>
+        <li>Plant_Daylily,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Plant_Daylily</li>
+        <li>Wall_WoodLog,Wall_WoodLog,.,.,Campfire_South,Wall_WoodLog,Wall_WoodLog</li>
+        <li>Wall_WoodLog,.,Shelf_WoodLog_East,.,Stool_WoodLog_West,Table1x2c_WoodLog_North,Wall_WoodLog</li>
+        <li>Wall_WoodLog,HandTailoringBench_WoodLog_West,.,.,Stool_WoodLog_West,.,Wall_WoodLog</li>
+        <li>Wall_WoodLog,.,.,.,.,.,Wall_WoodLog</li>
+        <li>Wall_WoodLog,Wall_WoodLog,Bedroll_Cloth_East,.,Bedroll_Cloth_South,Wall_WoodLog,Wall_WoodLog</li>
+        <li>Plant_Daylily,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.</li>
+      </li>
+      <li>
+        <li>.,.,.,.,.,PlantPot_WoodLog,.</li>
+        <li>PlantPot_WoodLog,.,.,.,.,.,PlantPot_WoodLog</li>
+        <li>.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.</li>
+        <li>PlantPot_WoodLog,.,.,.,.,.,.</li>
+      </li>
+    </layouts>
+    <roofGrid>
+      <li>.,.,.,.,.,.,.</li>
+      <li>.,1,1,1,1,1,.</li>
+      <li>1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1</li>
+      <li>.,1,1,1,1,1,.</li>
+    </roofGrid>
+    <terrainGrid>
+      <li>.,.,FlagstoneSandstone,FlagstoneSandstone,FlagstoneSandstone,.,.</li>
+      <li>.,.,.,FlagstoneSandstone,.,.,.</li>
+      <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.</li>
+      <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.</li>
+      <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.</li>
+      <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.</li>
+      <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.</li>
+      <li>.,.,.,.,.,.,.</li>
+    </terrainGrid>
+    <tags>
+      <li>TSA_Tribal_Barracks</li>
+    </tags>
+  </KCSG.StructureLayoutDef>
+</Defs>

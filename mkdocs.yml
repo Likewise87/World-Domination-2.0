@@ -1,0 +1,84 @@
+site_name: World Domination 2.0
+site_url: https://likewise87.github.io/World-Domination-2.0/
+site_author: TSA
+site_description: Comprehensive player guide for the RimWorld mod World Domination 2.0 by TSA
+repo_url: https://github.com/Likewise87/World-Domination-2.0
+repo_name: Likewise87/World-Domination-2.0
+edit_uri: edit/main/docs/
+copyright: Copyright &copy; TSA
+
+theme:
+  name: material
+  custom_dir: overrides
+  palette:
+    - scheme: slate
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Light mode
+    - scheme: default
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Dark mode
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Concepts:
+      - World generation: concepts/world-generation.md
+      - Strength and tiers: concepts/strength-and-tiers.md
+  - Travelers: travelers.md
+  - Raids:
+      - Raids on you: raids/raids-on-you.md
+      - World map battles: raids/world-map-battles.md
+  - Outposts:
+      - Overview: outposts/index.md
+      - Outpost types: outposts/types.md
+      - Actions: outposts/actions.md
+      - Upgrades: outposts/upgrades.md
+      - Experts: outposts/experts.md
+      - Food and logistics: outposts/logistics.md
+  - UI:
+      - Dashboards and overlays: ui/dashboards-and-overlays.md
+  - Diplomacy and escalation: diplomacy.md
+  - Spy ops: spy-ops.md
+  - Settings:
+      - Overview: settings/index.md
+      - Notifications: settings/notifications.md
+      - Daily actions: settings/daily-actions.md
+      - World raids: settings/world-raids.md
+      - Raid points and clamps: settings/raid-points.md
+      - Growth and expand: settings/growth.md
+      - Late game: settings/late-game.md
+      - Diplomacy: settings/diplomacy.md
+      - T4 mortar (NPC): settings/t4-mortar.md
+      - Outposts and food: settings/outposts.md
+      - Outpost skill scaling: settings/outpost-skill-scaling.md
+      - Player artillery: settings/player-artillery.md
+      - Caravans: settings/caravans.md
+      - Road building: settings/road-building.md
+      - Mining baselines: settings/mining-baselines.md
+      - Sabotage: settings/sabotage.md
+      - Disinformation: settings/disinformation.md
+      - World generation: settings/world-generation.md
+      - Garrison: settings/garrison.md
+      - Experimental: settings/experimental.md
+  - FAQ and compatibility: faq.md

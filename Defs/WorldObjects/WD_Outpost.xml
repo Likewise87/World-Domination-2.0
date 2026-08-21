@@ -1,0 +1,506 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- Abstract. Not displayed -->
+  <WorldObjectDef Name="TSA_WD_Outpost" Abstract="True">
+    <defName>TSA_WD_Outpost</defName>
+    <label>Outpost</label>
+    <worldObjectClass>TSA_WorldDomination.WorldObject_WD_Outpost, TSA_WorldDomination</worldObjectClass>
+    <selectable>true</selectable>
+    <expandingIcon>true</expandingIcon>
+    <texture>World/WorldObjects/Settlements/Settlement</texture>
+    <inspectorTabs>
+      <li>TSA_WorldDomination.WITab_Outpost_Stats, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Logistics, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Pawns, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Experts, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Upgrades, TSA_WorldDomination</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="TSA_WorldDomination.CompProperties_ViralSpread, TSA_WorldDomination" />
+      <li Class="TSA_WorldDomination.CompProperties_OutpostLogistics, TSA_WorldDomination" />
+      <li Class="TSA_WorldDomination.CompProperties_AutoAddPawn, TSA_WorldDomination" />
+    </comps>
+  </WorldObjectDef>
+  
+  <WorldObjectDef Name="TSA_WD_Outpost_SimpleProduction" ParentName="TSA_WD_Outpost" Abstract="True">
+    <defName>TSA_WD_Outpost_SimpleProduction</defName>
+    <label>Simple Production</label>
+    <worldObjectClass>TSA_WorldDomination.WorldObject_WD_Outpost_SimpleProduction, TSA_WorldDomination</worldObjectClass>
+  </WorldObjectDef>
+
+<!-- Special Logic Outposts -->
+  <!-- Farming -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost">
+    <defName>TSA_WD_Outpost_Farming</defName>
+    <label>Farming Outpost</label>
+    <texture>WorldObjects/WD_Outpost_Farming</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_Farming</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>1</outpostTier>
+        <minPawnsToFound>1</minPawnsToFound>
+        <minFertilityPercent>15</minFertilityPercent>
+        <disallowedBiomes><li>Desert</li></disallowedBiomes>
+        <MinCumulativeSkill>
+          <li><Plants>5</Plants></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+        </establishmentCost>
+        <productionCycleDays>20</productionCycleDays>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+  
+  <!-- Hunting -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost">
+    <defName>TSA_WD_Outpost_Hunting</defName>
+    <label>Hunting Outpost</label>
+    <texture>WorldObjects/WD_Outpost_Hunting</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_Hunting</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>1</outpostTier>
+        <minPawnsToFound>1</minPawnsToFound>
+        <minAnimalAbundancePercent>15</minAnimalAbundancePercent>
+        <MinCumulativeSkill>
+          <li><Animals>5</Animals></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+        </establishmentCost>
+        <productionCycleDays>20</productionCycleDays>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+
+  <!-- Fishing (Odyssey soft-gate: def omitted without DLC) -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost" MayRequire="Ludeon.RimWorld.Odyssey">
+    <defName>TSA_WD_Outpost_Fishing</defName>
+    <label>Fishing Outpost</label>
+    <texture>WorldObjects/WD_Outpost_Fishing</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_Fishing</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>1</outpostTier>
+        <minPawnsToFound>1</minPawnsToFound>
+        <minFishAbundancePercent>15</minFishAbundancePercent>
+        <MinCumulativeSkill>
+          <li><Animals>5</Animals></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+        </establishmentCost>
+        <productionCycleDays>20</productionCycleDays>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+  
+  <!-- Recruiting -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost">
+    <defName>TSA_WD_Outpost_Recruiting</defName>
+    <label>Recruiting Outpost</label>
+    <texture>WorldObjects/WD_Outpost_Recruiting</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_Recruiting</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>2</outpostTier>
+        <minPawnsToFound>1</minPawnsToFound>
+        <minNearbySettlementsOrOutposts>2</minNearbySettlementsOrOutposts>
+        <minNearbyRadiusTiles>12</minNearbyRadiusTiles>
+        <MinCumulativeSkill>
+          <li><Social>5</Social></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+          <ComponentIndustrial>6</ComponentIndustrial>
+        </establishmentCost>
+        <productionCycleDays>20</productionCycleDays>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+  
+  <!-- Trading -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost">
+    <defName>TSA_WD_Outpost_Trading</defName>
+    <label>Trading Outpost</label>
+    <texture>WorldObjects/WD_Outpost_Trading</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_Trading</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>2</outpostTier>
+        <minPawnsToFound>1</minPawnsToFound>
+        <minNearbySettlementsOrOutposts>2</minNearbySettlementsOrOutposts>
+        <minNearbyRadiusTiles>12</minNearbyRadiusTiles>
+        <MinCumulativeSkill>
+          <li><Social>12</Social></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+          <ComponentIndustrial>6</ComponentIndustrial>
+        </establishmentCost>
+        <productionCycleDays>20</productionCycleDays>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+
+  <!-- Embassy: goodwill from nearby Neutral/Ally settlements (highest tier per faction), scaled by Social -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost">
+    <defName>TSA_WD_Outpost_Embassy</defName>
+    <label>Embassy Outpost</label>
+    <texture>WorldObjects/WD_Outpost_Embassy</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_Embassy</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>3</outpostTier>
+        <minPawnsToFound>1</minPawnsToFound>
+        <minNearbySettlementsOrOutposts>2</minNearbySettlementsOrOutposts>
+        <minNearbyRadiusTiles>12</minNearbyRadiusTiles>
+        <MinCumulativeSkill>
+          <li><Social>10</Social></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <Steel>120</Steel>
+          <Plasteel>30</Plasteel>
+          <ComponentIndustrial>12</ComponentIndustrial>
+        </establishmentCost>
+        <productionCycleDays>10</productionCycleDays>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+
+  <!-- Scavenging: fixed cycle from productionCycleDays; reward market value = pawns × 500 per delivery -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost">
+    <defName>TSA_WD_Outpost_Scavenging</defName>
+    <label>Scavenging Outpost</label>
+    <texture>WorldObjects/WD_Outpost_Scavenging</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_Scavenging</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>1</outpostTier>
+        <minPawnsToFound>2</minPawnsToFound>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+        </establishmentCost>
+        <productionCycleDays>20</productionCycleDays>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+  
+
+<!-- Mining -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost">
+    <defName>TSA_WD_Outpost_Mining</defName>
+    <label>Mining Outpost</label>
+    <texture>WorldObjects/WD_Outpost_Mining</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_Mining</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>1</outpostTier>
+        <minPawnsToFound>1</minPawnsToFound>
+        <MinCumulativeSkill>
+          <li><Mining>5</Mining></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+        </establishmentCost>
+        <productionCycleDays>20</productionCycleDays>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+ 
+ 
+<!-- Simple Production Logic -->
+ 
+  <!-- Fabrication -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction">
+    <defName>TSA_WD_Outpost_Fabrication</defName>
+    <label>Fabrication Outpost</label>
+    <texture>WorldObjects/WD_Outpost_Fabrication</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_Fabrication</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>3</outpostTier>
+        <minPawnsToFound>1</minPawnsToFound>
+        <requiredResearchProjectDefNames>
+          <li>Fabrication</li>
+        </requiredResearchProjectDefNames>
+        <MinCumulativeSkill>
+          <li><Crafting>5</Crafting></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+          <ComponentIndustrial>4</ComponentIndustrial>
+          <ComponentSpacer>2</ComponentSpacer>
+        </establishmentCost>
+        <productionCycleDays>20</productionCycleDays>
+        <productionOptions>
+          <li><thingDef>ComponentIndustrial</thingDef><amountPerSkillLevel>1</amountPerSkillLevel><minSkillLevel>7</minSkillLevel></li>
+          <li><thingDef>ComponentSpacer</thingDef><amountPerSkillLevel>0.3</amountPerSkillLevel><minSkillLevel>12</minSkillLevel><requiredResearch>AdvancedFabrication</requiredResearch></li>
+        </productionOptions>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+  
+    <!-- BiofuelRefinery -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction">
+    <defName>TSA_WD_Outpost_BiofuelRefinery</defName>
+    <label>Biofuel Outpost</label>
+    <texture>WorldObjects/WD_Outpost_BiofuelRefinery</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_BiofuelRefinery</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>2</outpostTier>
+        <minPawnsToFound>1</minPawnsToFound>
+        <requiredResearchProjectDefNames> 
+          <li>BiofuelRefining</li>
+        </requiredResearchProjectDefNames>
+        <MinCumulativeSkill>
+          <li><Crafting>5</Crafting></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+          <ComponentIndustrial>6</ComponentIndustrial>
+        </establishmentCost>
+        <productionCycleDays>20</productionCycleDays>
+        <productionOptions>
+          <li><thingDef>Chemfuel</thingDef><amountPerSkillLevel>22</amountPerSkillLevel><minSkillLevel>3</minSkillLevel></li>
+          <li MayRequire="CETeam.CombatExtended"><thingDef>FSX</thingDef><amountPerSkillLevel>3</amountPerSkillLevel><minSkillLevel>6</minSkillLevel></li>
+          <li MayRequire="CETeam.CombatExtended"><thingDef>Prometheum</thingDef><amountPerSkillLevel>1</amountPerSkillLevel><minSkillLevel>14</minSkillLevel></li>
+        </productionOptions>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+  
+  
+    <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction">
+    <defName>TSA_WD_Outpost_Ranch</defName>
+    <label>Ranch Outpost</label>
+    <texture>WorldObjects/WD_Outpost_Ranch</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_Ranch</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>1</outpostTier>
+        <minPawnsToFound>1</minPawnsToFound>
+        <minFertilityPercent>15</minFertilityPercent>
+        <disallowedBiomes>
+          <li>Desert</li>
+          <li>ExtremeDesert</li>
+        </disallowedBiomes>
+        <MinCumulativeSkill>
+          <li><Animals>3</Animals></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+        </establishmentCost>
+        <productionCycleDays>20</productionCycleDays>
+        <productionOptions>
+          <li><thingDef>Milk</thingDef><amountPerSkillLevel>20</amountPerSkillLevel><minSkillLevel>2</minSkillLevel></li>
+          <li><thingDef>EggChickenUnfertilized</thingDef><amountPerSkillLevel>20</amountPerSkillLevel><minSkillLevel>2</minSkillLevel></li>
+          <li><thingDef>WoolSheep</thingDef><amountPerSkillLevel>18</amountPerSkillLevel><minSkillLevel>4</minSkillLevel></li>
+          <li><thingDef>WoolAlpaca</thingDef><amountPerSkillLevel>16</amountPerSkillLevel><minSkillLevel>5</minSkillLevel></li>
+          <li><thingDef>WoolMuffalo</thingDef><amountPerSkillLevel>14</amountPerSkillLevel><minSkillLevel>6</minSkillLevel></li>
+          <li><thingDef>WoolMegasloth</thingDef><amountPerSkillLevel>10</amountPerSkillLevel><minSkillLevel>10</minSkillLevel></li>
+        </productionOptions>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+  
+  
+  <!-- Artillery Outpost (defName Mortar): tier-3 firing post. No production; launches long-range mortar strikes via a dedicated gizmo. -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost">
+    <defName>TSA_WD_Outpost_Mortar</defName>
+    <label>Artillery Outpost</label>
+    <texture>WorldObjects/WD_Outpost_Mortar</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_Mortar</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>3</outpostTier>
+        <minPawnsToFound>1</minPawnsToFound>
+		<requiredResearchProjectDefNames> 
+          <li>Mortars</li>
+        </requiredResearchProjectDefNames>
+        <MinCumulativeSkill>
+          <li><Shooting>8</Shooting></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <Steel>100</Steel>
+		  <ReinforcedBarrel>1</ReinforcedBarrel>
+          <ComponentIndustrial>12</ComponentIndustrial>
+		  <Chemfuel>80</Chemfuel>
+        </establishmentCost>
+        <productionCycleDays>20</productionCycleDays>
+      </li>
+    </modExtensions>
+    <inspectorTabs Inherit="False">
+      <li>TSA_WorldDomination.WITab_Outpost_Stats, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Logistics, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Pawns, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Experts, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Upgrades, TSA_WorldDomination</li>
+    </inspectorTabs>
+  </WorldObjectDef>
+
+  <!-- Rapid Response Outpost: combat hub that dispatches fast virtual counter-caravans and can drop selected pawns at hostile targets once transport pods are researched. -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost">
+    <defName>TSA_WD_Outpost_RapidResponse</defName>
+    <label>Rapid Response Outpost</label>
+    <texture>WorldObjects/WD_Outpost_RapidResponse</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_RapidResponse</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>2</outpostTier>
+        <minPawnsToFound>2</minPawnsToFound>
+        <MinCumulativeSkill>
+          <li><Shooting>8</Shooting></li>
+          <li><Melee>8</Melee></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <Steel>100</Steel>
+          <ComponentIndustrial>6</ComponentIndustrial>
+        </establishmentCost>
+      </li>
+    </modExtensions>
+    <inspectorTabs Inherit="False">
+      <li>TSA_WorldDomination.WITab_Outpost_Stats, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Logistics, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Pawns, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Experts, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Upgrades, TSA_WorldDomination</li>
+    </inspectorTabs>
+  </WorldObjectDef>
+
+  <!-- Academy: teaches one RimWorld skill per cycle (XP on occupants; no item delivery). -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost">
+    <defName>TSA_WD_Outpost_Academy</defName>
+    <label>Academy Outpost</label>
+    <texture>WorldObjects/WD_Outpost_Academy</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_Academy</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>2</outpostTier>
+        <minPawnsToFound>1</minPawnsToFound>
+        <requiredResearchProjectDefNames>
+          <li>ComplexFurniture</li>
+        </requiredResearchProjectDefNames>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+          <ComponentIndustrial>6</ComponentIndustrial>
+        </establishmentCost>
+        <productionCycleDays>1</productionCycleDays>
+        <academyBaseXpPerDay>2000</academyBaseXpPerDay>
+        <academyMinTeacherSkill>8</academyMinTeacherSkill>
+        <academyTeachCapOffset>3</academyTeachCapOffset>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+
+  <!-- Research: continuous progress on the player's active research project (no item delivery). -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost">
+    <defName>TSA_WD_Outpost_Research</defName>
+    <label>Research Outpost</label>
+    <texture>WorldObjects/WD_Outpost_Research</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_Research</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>1</outpostTier>
+        <minPawnsToFound>1</minPawnsToFound>
+        <requiredResearchProjectDefNames>
+          <li>ComplexFurniture</li>
+        </requiredResearchProjectDefNames>
+        <MinCumulativeSkill>
+          <li><Intellectual>6</Intellectual></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+          <ComponentIndustrial>4</ComponentIndustrial>
+        </establishmentCost>
+        <researchEfficiencyFraction>0.5</researchEfficiencyFraction>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+
+  <!-- Power Plant: abstract remote colony power generation. No skill scaling and no item delivery. -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost">
+    <defName>TSA_WD_Outpost_PowerPlant</defName>
+    <label>Power Plant Outpost</label>
+    <texture>WorldObjects/WD_Outpost_Powerplant</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_Powerplant</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>1</outpostTier>
+        <minPawnsToFound>2</minPawnsToFound>
+        <requiredResearchProjectDefNames>
+          <li>Electricity</li>
+        </requiredResearchProjectDefNames>
+        <establishmentCost>
+          <ComponentIndustrial>10</ComponentIndustrial>
+          <WoodLog>100</WoodLog>
+        </establishmentCost>
+        <remotePowerWatts>1000</remotePowerWatts>
+        <usesPhysicalGoodsProductionSkill>false</usesPhysicalGoodsProductionSkill>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+
+  <!-- Warehouse: abstract item storage (no rot); manual outbound shipping. -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost">
+    <defName>TSA_WD_Outpost_Warehouse</defName>
+    <label>Warehouse Outpost</label>
+    <texture>WorldObjects/WD_Outpost_Warehouse</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_Warehouse</expandingIconTexture>
+    <comps>
+      <li Class="TSA_WorldDomination.CompProperties_OutpostWarehouse, TSA_WorldDomination" />
+    </comps>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>1</outpostTier>
+        <minPawnsToFound>1</minPawnsToFound>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+        </establishmentCost>
+        <usesPhysicalGoodsProductionSkill>false</usesPhysicalGoodsProductionSkill>
+      </li>
+    </modExtensions>
+    <inspectorTabs Inherit="False">
+      <li>TSA_WorldDomination.WITab_Outpost_Stats, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Logistics, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Pawns, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Experts, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Upgrades, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_Outpost_Warehouse, TSA_WorldDomination</li>
+    </inspectorTabs>
+  </WorldObjectDef>
+
+    <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction">
+    <defName>TSA_WD_Outpost_DrugLab</defName>
+    <label>Drug Lab Outpost</label>
+    <texture>WorldObjects/WD_Outpost_BiofuelRefinery</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_DrugLab</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <outpostTier>2</outpostTier>
+        <minPawnsToFound>1</minPawnsToFound>
+        <requiredResearchProjectDefNames> 
+          <li>DrugProduction</li>
+        </requiredResearchProjectDefNames>
+        <MinCumulativeSkill>
+          <li><Intellectual>5</Intellectual></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+          <ComponentIndustrial>8</ComponentIndustrial>
+        </establishmentCost>
+        <productionCycleDays>20</productionCycleDays>
+        <productionOptions>
+          <li><thingDef>Yayo</thingDef><amountPerSkillLevel>2</amountPerSkillLevel><minSkillLevel>7</minSkillLevel><requiredResearch>PsychiteRefining</requiredResearch></li>
+		  <li><thingDef>Flake</thingDef><amountPerSkillLevel>3</amountPerSkillLevel><minSkillLevel>3</minSkillLevel><requiredResearch>PsychiteRefining</requiredResearch></li>
+		  <li><thingDef>GoJuice</thingDef><amountPerSkillLevel>2</amountPerSkillLevel><minSkillLevel>7</minSkillLevel><requiredResearch>GoJuiceProduction</requiredResearch></li>
+		  <li><thingDef>SmokeleafJoint</thingDef><amountPerSkillLevel>3</amountPerSkillLevel><minSkillLevel>3</minSkillLevel></li>
+		  <li><thingDef>WakeUp</thingDef><amountPerSkillLevel>1</amountPerSkillLevel><minSkillLevel>10</minSkillLevel><requiredResearch>WakeUpProduction</requiredResearch></li>
+        </productionOptions>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+    
+</Defs>

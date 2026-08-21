@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- World-map combat oneshots. Clips live under Sounds/*.ogg. Quiet camera grains. -->
+
+  <SoundDef>
+    <defName>TSA_WD_AT_Turret_Fire_Light</defName>
+    <context>WorldOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <subSounds>
+      <li>
+        <onCamera>True</onCamera>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>AT_Light</clipPath>
+          </li>
+        </grains>
+        <volumeRange>12~18</volumeRange>
+        <pitchRange>0.95~1.05</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>TSA_WD_AT_Turret_Fire_Medium</defName>
+    <context>WorldOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <subSounds>
+      <li>
+        <onCamera>True</onCamera>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>AT_Medium</clipPath>
+          </li>
+        </grains>
+        <volumeRange>12~18</volumeRange>
+        <pitchRange>0.95~1.05</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>TSA_WD_AT_Turret_Fire_Heavy</defName>
+    <context>WorldOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <subSounds>
+      <li>
+        <onCamera>True</onCamera>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>AT_Heavy</clipPath>
+          </li>
+        </grains>
+        <volumeRange>12~18</volumeRange>
+        <pitchRange>0.95~1.05</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- Legacy alias: older code / saves expecting TSA_WD_AT_Turret_Fire. -->
+  <SoundDef>
+    <defName>TSA_WD_AT_Turret_Fire</defName>
+    <context>WorldOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <subSounds>
+      <li>
+        <onCamera>True</onCamera>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>AT_Medium</clipPath>
+          </li>
+        </grains>
+        <volumeRange>12~18</volumeRange>
+        <pitchRange>0.95~1.05</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>TSA_WD_Mortar_Fire</defName>
+    <context>WorldOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <subSounds>
+      <li>
+        <onCamera>True</onCamera>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Mortar</clipPath>
+          </li>
+        </grains>
+        <volumeRange>12~18</volumeRange>
+        <pitchRange>0.95~1.05</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>TSA_WD_Flak_Fire</defName>
+    <context>WorldOnly</context>
+    <maxSimultaneous>4</maxSimultaneous>
+    <subSounds>
+      <li>
+        <onCamera>True</onCamera>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Flak</clipPath>
+          </li>
+        </grains>
+        <volumeRange>10~16</volumeRange>
+        <pitchRange>0.95~1.05</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+</Defs>

@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <!-- MainButtonDef injection (tab bar label and tooltip) -->
+  <MainButtonDef.TSA_WD_WorldDomination.label>WD</MainButtonDef.TSA_WD_WorldDomination.label>
+  <MainButtonDef.TSA_WD_WorldDomination.description>World Domination: diplomacy matrix, outposts, world stats, action log.</MainButtonDef.TSA_WD_WorldDomination.description>
+  <TSA_WD_BtnClear>Clear</TSA_WD_BtnClear>
+  <TSA_WD_BtnDailyActions>World Actions</TSA_WD_BtnDailyActions>
+  <TSA_WD_BtnDiplomacy>Diplomacy, Buffs &amp; Debuffs</TSA_WD_BtnDiplomacy>
+  <TSA_WD_BtnDisinformation>Disinformation</TSA_WD_BtnDisinformation>
+  <TSA_WD_BtnGarrisonSettings>Map Generation and Garrison</TSA_WD_BtnGarrisonSettings>
+  <TSA_WD_BtnGrowthExpand>Growth &amp; Expansion</TSA_WD_BtnGrowthExpand>
+  <TSA_WD_BtnMiningBaselines>Mining baselines</TSA_WD_BtnMiningBaselines>
+  <TSA_WD_BtnNotifications>Notifications</TSA_WD_BtnNotifications>
+  <TSA_WD_BtnOutpostFood>Outposts</TSA_WD_BtnOutpostFood>
+  <TSA_WD_BtnOutpostSettings>Outpost Settings</TSA_WD_BtnOutpostSettings>
+  <TSA_WD_BtnOutpostSkillScaling>Outpost skill scaling</TSA_WD_BtnOutpostSkillScaling>
+  <TSA_WD_DescOutpostSkillScaling>Decide whether adding skill points (e.g. Plants on a Farming Outpost) should increase output indefinitely, or whether there should be diminishing returns past certain thresholds.</TSA_WD_DescOutpostSkillScaling>
+  <TSA_WD_BtnUpdateNotes>Show Update Notes</TSA_WD_BtnUpdateNotes>
+  <TSA_WD_BtnRaidMult>Raids on Player</TSA_WD_BtnRaidMult>
+  <TSA_WD_BtnLateGame>Mid Game and Late Game</TSA_WD_BtnLateGame>
+  <TSA_WD_BtnT4Mortar>NPC Artillery (T4)</TSA_WD_BtnT4Mortar>
+  <TSA_WD_BtnResetAll>Reset ALL Settings</TSA_WD_BtnResetAll>
+  <TSA_WD_ResetPageToDefaults>Reset this page to defaults</TSA_WD_ResetPageToDefaults>
+  <TSA_WD_BtnSabotage>Sabotage</TSA_WD_BtnSabotage>
+  <TSA_WD_BtnWorldGen>Initial World Generation</TSA_WD_BtnWorldGen>
+  <TSA_WD_BtnWorldRaids>World Map Raids</TSA_WD_BtnWorldRaids>
+  <TSA_WD_BtnCaravans>Caravans &amp; Trade</TSA_WD_BtnCaravans>
+  <TSA_WD_BtnExperimental>Experimental</TSA_WD_BtnExperimental>
+  <TSA_WD_BtnPlayerArtillery>Player Artillery</TSA_WD_BtnPlayerArtillery>
+  <TSA_WD_Category>World Domination</TSA_WD_Category>
+  <TSA_WD_Settings_DefaultValue>Default: {0}</TSA_WD_Settings_DefaultValue>
+  <TSA_WD_Settings_DefaultOn>On</TSA_WD_Settings_DefaultOn>
+  <TSA_WD_Settings_DefaultOff>Off</TSA_WD_Settings_DefaultOff>
+  <TSA_WD_Daily_CapTip>The maximum number of distinct actions (Raid, Build Road, Grow, etc.) this settlement can initiate in a single day.</TSA_WD_Daily_CapTip>
+  <TSA_WD_Daily_CdBeingRaided>Defense Shield</TSA_WD_Daily_CdBeingRaided>
+  <TSA_WD_Daily_CdBeingRaidedTip>Days of raid immunity after this settlement is raided. Does not stop this settlement from acting as an attacker.</TSA_WD_Daily_CdBeingRaidedTip>
+  <TSA_WD_Daily_CdExpand>Cooldown after Expansion</TSA_WD_Daily_CdExpand>
+  <TSA_WD_Daily_CdExpandTip>Days before this settlement can found another settlement. Does not block other action types.</TSA_WD_Daily_CdExpandTip>
+  <TSA_WD_Daily_CdGrow>Cooldown after Road Building</TSA_WD_Daily_CdGrow>
+  <TSA_WD_Daily_CdGrowTip>Days before this settlement can start another road project. Does not block other action types. Growth has no cooldown.</TSA_WD_Daily_CdGrowTip>
+  <TSA_WD_Daily_CdIncident>Incident Cooldown</TSA_WD_Daily_CdIncident>
+  <TSA_WD_Daily_CdIncidentTip>Days before this settlement can trigger another minor or major world incident. Does not block other action types.</TSA_WD_Daily_CdIncidentTip>
+  <TSA_WD_Daily_CdRaid>Cooldown after Raiding</TSA_WD_Daily_CdRaid>
+  <TSA_WD_Daily_CdRaidTip>Days before this settlement can launch another raid. Does not block grow, expand, roads, traders, or incidents.</TSA_WD_Daily_CdRaidTip>
+  <TSA_WD_Daily_HeaderActionCaps>Settlement Action Capacity</TSA_WD_Daily_HeaderActionCaps>
+  <TSA_WD_Daily_HeaderCooldowns>Action Specific Cooldowns</TSA_WD_Daily_HeaderCooldowns>
+  <TSA_WD_Daily_HeaderTiers>Daily Actions per Settlement Tier</TSA_WD_Daily_HeaderTiers>
+  <TSA_WD_Daily_HeaderWeights>Action Likelihood</TSA_WD_Daily_HeaderWeights>
+  <TSA_WD_Daily_MaxRoadRange>Max Road Construction Distance</TSA_WD_Daily_MaxRoadRange>
+  <TSA_WD_Daily_MaxRoadRangeTip>Settlements will not attempt to build roads toward targets further away than this many tiles.</TSA_WD_Daily_MaxRoadRangeTip>
+  <TSA_WD_Daily_Reset>Reset this page to Defaults</TSA_WD_Daily_Reset>
+  <TSA_WD_Daily_Tier1Tip>Actions per day added for each T1 Settlement.</TSA_WD_Daily_Tier1Tip>
+  <TSA_WD_Daily_Tier2Tip>Actions per day added for each T2 Settlement.</TSA_WD_Daily_Tier2Tip>
+  <TSA_WD_Daily_Tier3Tip>Actions per day added for each T3 Settlement.</TSA_WD_Daily_Tier3Tip>
+  <TSA_WD_Daily_Tier4Tip>Actions per day added for each T4 Settlement.</TSA_WD_Daily_Tier4Tip>
+  <TSA_WD_Daily_WeightGrow>Develop likelihood</TSA_WD_Daily_WeightGrow>
+  <TSA_WD_Daily_WeightGrowTip>Likelihood of a near-cap settlement to upgrade its tier or found a new settlement. Only rolls when strength is at least 95% of the tier maximum.</TSA_WD_Daily_WeightGrowTip>
+  <TSA_WD_Daily_HeaderNearCapActions>Actions at 95-100% of tier max strength</TSA_WD_Daily_HeaderNearCapActions>
+  <TSA_WD_Daily_IncludeDevelopInPercent>Include Develop in the percentages above</TSA_WD_Daily_IncludeDevelopInPercent>
+  <TSA_WD_Daily_IncludeDevelopInPercentTip>Settings menu only. When on, Develop is counted in the percentages next to the usual action sliders. In-game rolls are unchanged: Develop only competes when a settlement is near its tier max.</TSA_WD_Daily_IncludeDevelopInPercentTip>
+  <TSA_WD_Daily_WeightMajor>Major Incident likelihood</TSA_WD_Daily_WeightMajor>
+  <TSA_WD_Daily_WeightMajorTip>Likelihood of a Settlement to suffer from a major incident.</TSA_WD_Daily_WeightMajorTip>
+  <TSA_WD_Daily_WeightMinor>Minor Incident likelihood</TSA_WD_Daily_WeightMinor>
+  <TSA_WD_Daily_WeightMinorTip>Likelihood of a Settlement to suffer from a minor incident.</TSA_WD_Daily_WeightMinorTip>
+  <TSA_WD_Daily_WeightRaid>Raid likelihood</TSA_WD_Daily_WeightRaid>
+  <TSA_WD_Daily_WeightRaidTip>Likelihood of a Settlement to raid a nearby settlement or player outpost.</TSA_WD_Daily_WeightRaidTip>
+  <TSA_WD_Daily_WeightTrader>Trader Caravan likelihood</TSA_WD_Daily_WeightTrader>
+  <TSA_WD_Daily_WeightTraderTip>Likelihood of a Settlement to send a trader caravan to a neutral or allied target in range.</TSA_WD_Daily_WeightTraderTip>
+  <TSA_WD_Daily_WeightFortify>Fortify likelihood</TSA_WD_Daily_WeightFortify>
+  <TSA_WD_Daily_WeightFortifyTip>Likelihood of a threatened settlement to place road blocks or traps toward the nearest hostile. Higher tiers may send multiple fortify crews in one action (T1 often 1, T3 always 2, T4 up to 3). Only rolls when a hostile is in attack range and a fortify ring is free.</TSA_WD_Daily_WeightFortifyTip>
+  <TSA_WD_Daily_CdFortify>Cooldown after Fortify</TSA_WD_Daily_CdFortify>
+  <TSA_WD_Daily_CdFortifyTip>Days before this settlement can fortify again. Does not block other action types.</TSA_WD_Daily_CdFortifyTip>
+  <TSA_WD_Daily_CdTrader>Cooldown after Trader Caravan</TSA_WD_Daily_CdTrader>
+  <TSA_WD_Daily_CdTraderTip>Days before this settlement can launch another trader caravan. Does not block other action types.</TSA_WD_Daily_CdTraderTip>
+  <TSA_WD_DescDailyActions>How many actions may settlements perform per day? How likely is each action type? What cooldowns to apply after an action?</TSA_WD_DescDailyActions>
+  <TSA_WD_DescDiplomacy>Random diplomacy, revolt chance, goodwill cap and vanilla goodwill tweaks, allied raid orders, ordered roads, buy settlement, faction investment, and leader/underdog/zeal/coalition buffs.</TSA_WD_DescDiplomacy>
+  <TSA_WD_DescDisinformation>Success and failure likelihoods, cooldowns, and skill impact for disinformation missions.</TSA_WD_DescDisinformation>
+  <TSA_WD_DescGarrison>Whether WD generates settlement maps when you attack NPC bases, and how strong the garrison is by tier.</TSA_WD_DescGarrison>
+  <TSA_WD_DescGrowthExpand>How quickly do settlements grow? What requirements need to be met to upgrade a settlement? Expansion distance and saturation caps.</TSA_WD_DescGrowthExpand>
+  <TSA_WD_DescMiningBaselines>Configure the baseline amount a Mining Outpost can get per stone/ore based on the Mining Skill level.</TSA_WD_DescMiningBaselines>
+  <TSA_WD_DescNotifications>Toggle which world domination events generate notifications.</TSA_WD_DescNotifications>
+  <TSA_WD_DescOutpostFood>Food consumption, production, logistics range, and efficiency for outposts.</TSA_WD_DescOutpostFood>
+  <TSA_WD_DescOutpostSettings>Outpost establishment, production, academy/experts, food logistics, and after-conquest founding. Player mortar/AA is under Player Artillery.</TSA_WD_DescOutpostSettings>
+  <TSA_WD_DescUpdateNotes>View the World Domination update notes and changelog.</TSA_WD_DescUpdateNotes>
+  <TSA_WD_DescRaidMult>Configure how raid points are multiplied, whether your outposts may be attacked and whether you want storyteller raids.</TSA_WD_DescRaidMult>
+  <TSA_WD_DescLateGame>Configure Mid Game and Late Game pushback once you grow strong: thresholds, biased raids, faster growth, expansion creep, goodwill drain, T4 mortars, and outpost incidents.</TSA_WD_DescLateGame>
+  <TSA_WD_DescT4Mortar>Configure enemy tier-4 settlement mortars and anti-air: whether they fire, whether they may target you, and their own ranges, cooldowns, damage and accuracy.</TSA_WD_DescT4Mortar>
+  <TSA_WD_DescPlayerArtillery>Your outpost mortars, anti-air, and Rapid Response intercept settings.</TSA_WD_DescPlayerArtillery>
+  <TSA_WD_DescResetAll>Restore all mod settings to defaults.</TSA_WD_DescResetAll>
+  <TSA_WD_DescSabotage>Success and failure likelihoods, cooldowns, and skill impact for sabotage missions.</TSA_WD_DescSabotage>
+  <TSA_WD_DescWorldGen>How likely shall it be for T1, T2, T3, T4 settlements to be created at initial world generation?</TSA_WD_DescWorldGen>
+  <TSA_WD_DescWorldRaids>Configure simulated raid outcomes: win chance curves, losses, and the minimum strength ratio needed to attack. Travel strength loss while moving is under Caravans.</TSA_WD_DescWorldRaids>
+  <TSA_WD_DescCaravans>Travel attrition, water pathing for WD caravans, trader caravans, player colony trader spacing, outpost delivery costs, and storyteller trader blocking. Water pathing is also set by Setting presets → Performance.</TSA_WD_DescCaravans>
+  <TSA_WD_DescExperimental>World actions and raid logic experiments, world-map icon zoom behavior, overlay hold key, NPC fortify travelers, traveler pollution damage, and pollution pathfinding toggles.</TSA_WD_DescExperimental>
+  <TSA_WD_HeaderImportant>Setting presets</TSA_WD_HeaderImportant>
+  <TSA_WD_HeaderSettingPresets>Setting presets</TSA_WD_HeaderSettingPresets>
+  <TSA_WD_SettingsPreset_Warning>Apply Difficulty and Performance Presets. Other settings will remain unchanged</TSA_WD_SettingsPreset_Warning>
+  <TSA_WD_Important_TemplateWarning>Apply Difficulty and Performance Presets. Other settings will remain unchanged</TSA_WD_Important_TemplateWarning>
+  <TSA_WD_SettingsPreset_HeaderTip>Currently applied:\nPerformance: {0}\nDifficulty: {1}</TSA_WD_SettingsPreset_HeaderTip>
+  <TSA_WD_SettingsPreset_Custom>Custom</TSA_WD_SettingsPreset_Custom>
+  <TSA_WD_SettingsPreset_CurrentlyApplied>Currently applied: {0}</TSA_WD_SettingsPreset_CurrentlyApplied>
+  <TSA_WD_Important_Performance>Performance</TSA_WD_Important_Performance>
+  <TSA_WD_Important_PerformanceTip>Preset for pathfinding cost, water travel, enemy T4 artillery, interceptor scan rate, max planet settlements, and NPC ambush interceptor cap. Click Apply to write only these values.</TSA_WD_Important_PerformanceTip>
+  <TSA_WD_Important_Difficulty>Difficulty</TSA_WD_Important_Difficulty>
+  <TSA_WD_Important_DifficultyTip>Preset for raid pressure on you, storyteller strength clamp, daily raid weight, and Mid Game / Late Game. Click Apply to write only these values.</TSA_WD_Important_DifficultyTip>
+  <TSA_WD_SettingsPreset_Apply>Apply</TSA_WD_SettingsPreset_Apply>
+  <TSA_WD_SettingsPreset_Applied>Applied preset: {0}</TSA_WD_SettingsPreset_Applied>
+  <TSA_WD_Settings_ExpandAll>Expand all</TSA_WD_Settings_ExpandAll>
+  <TSA_WD_Settings_CollapseAll>Collapse all</TSA_WD_Settings_CollapseAll>
+  <TSA_WD_Important_Perf_Low>Best Performance</TSA_WD_Important_Perf_Low>
+  <TSA_WD_Important_Perf_Medium>Normal Performance</TSA_WD_Important_Perf_Medium>
+  <TSA_WD_Important_Perf_High>Reduced Performance</TSA_WD_Important_Perf_High>
+  <TSA_WD_Important_Perf_LowDesc>Cheapest pathfinding (crow-flies), no water routes, enemy T4 artillery off, slower AA scans, shorter world searches, max 200 settlements, NPC ambush interceptor cap 4.</TSA_WD_Important_Perf_LowDesc>
+  <TSA_WD_Important_Perf_MediumDesc>Default balance of path accuracy, water travel, interceptor scan rate, max 400 settlements, and NPC ambush interceptor cap 8.</TSA_WD_Important_Perf_MediumDesc>
+  <TSA_WD_Important_Perf_HighDesc>More accurate caravan path prep (80%), faster interceptor scans, water travel on, max 800 settlements, NPC ambush interceptors uncapped.</TSA_WD_Important_Perf_HighDesc>
+  <TSA_WD_Important_Diff_Easy>Easy Difficulty</TSA_WD_Important_Diff_Easy>
+  <TSA_WD_Important_Diff_Medium>Medium Difficulty</TSA_WD_Important_Diff_Medium>
+  <TSA_WD_Important_Diff_Hard>Hard Difficulty</TSA_WD_Important_Diff_Hard>
+  <TSA_WD_Important_Diff_EasyDesc>Longer raid cooldowns, fewer raids, weaker storyteller clamp (50–150%), lower raid weight. Mid Game and Late Game never activate. Outpost skill diminishing returns are off.</TSA_WD_Important_Diff_EasyDesc>
+  <TSA_WD_Important_Diff_MediumDesc>Default raid pressure. Mid Game at 15% share or 6,000 outpost strength; Late Game at 25% or 10,000. T4 mortars/AA vs you on in Late Game only. Outpost skill diminishing returns are on with default bands and hard cap.</TSA_WD_Important_Diff_MediumDesc>
+  <TSA_WD_Important_Diff_HardDesc>Shorter cooldowns, more raids allowed, stronger storyteller clamp (100–300%), higher raid weight. Same Mid Game / Late Game timing as Medium, but Late Game hits harder and T4 mortars/AA vs you are already enabled in Mid Game. Outpost skill diminishing returns are on with default bands and hard cap.</TSA_WD_Important_Diff_HardDesc>
+  <TSA_WD_PlayerArtillery_Reset>Reset this page to Defaults</TSA_WD_PlayerArtillery_Reset>
+  <TSA_WD_FacDet_BtnView>View</TSA_WD_FacDet_BtnView>
+  <TSA_WD_FacDet_HeaderName>Settlement Name</TSA_WD_FacDet_HeaderName>
+  <TSA_WD_FacDet_HeaderStrength>Strength</TSA_WD_FacDet_HeaderStrength>
+  <TSA_WD_FacDet_StrengthTip>Local defense total (offense + defense), same ranking number as World Stats. Not the raid-launch or incident pool.</TSA_WD_FacDet_StrengthTip>
+  <TSA_WD_FacDet_HeaderTier>Tier</TSA_WD_FacDet_HeaderTier>
+  <TSA_WD_FacDet_HeaderSettlementType>Settlement Type</TSA_WD_FacDet_HeaderSettlementType>
+  <TSA_WD_FacDet_HeaderDistance>Distance</TSA_WD_FacDet_HeaderDistance>
+  <TSA_WD_FacDet_DistanceTip>Distance to Player Colony in Tiles</TSA_WD_FacDet_DistanceTip>
+  <TSA_WD_FacDet_TypeSettlement>Settlement</TSA_WD_FacDet_TypeSettlement>
+  <TSA_WD_FacDet_HeaderBeingPurchased>Being purchased</TSA_WD_FacDet_HeaderBeingPurchased>
+  <TSA_WD_FacDet_BeingPurchasedYes>Yes</TSA_WD_FacDet_BeingPurchasedYes>
+  <TSA_WD_FacDet_Title>Settlement Overview for Faction: {0}</TSA_WD_FacDet_Title>
+  <TSA_WD_Garrison_T1>Tier 1 (Camp) Multiplier</TSA_WD_Garrison_T1>
+  <TSA_WD_Garrison_T2>Tier 2 (Town) Multiplier</TSA_WD_Garrison_T2>
+  <TSA_WD_Garrison_T3>Tier 3 (City) Multiplier</TSA_WD_Garrison_T3>
+  <TSA_WD_Garrison_T4>Tier 4 (Citadel) Multiplier</TSA_WD_Garrison_T4>
+  <TSA_WD_Garrison_Title>Map Generation and Garrison</TSA_WD_Garrison_Title>
+  <TSA_WD_Garrison_AllowBaseGeneration>Allow WD to take over base generation</TSA_WD_Garrison_AllowBaseGeneration>
+  <TSA_WD_Garrison_AllowBaseGenerationTooltip>When enabled, attacking an NPC settlement generates a WD/KCSG layout scaled to that settlement's tier and strength. When disabled, vanilla (or other mods') settlement maps are used instead. Defending your outposts is unaffected.</TSA_WD_Garrison_AllowBaseGenerationTooltip>
+  <TSA_WD_Garrison_AdaptiveTerrainPrep>Adaptive terrain prep (swamp / rock)</TSA_WD_Garrison_AdaptiveTerrainPrep>
+  <TSA_WD_Garrison_AdaptiveTerrainPrepTooltip>Scans the settlement layout. If too much is unbuildable (mud, swamp, water, rock), converts only those blocked cells to the map's most common buildable terrain. Trees stay. If mostly fine, leaves nature as-is.</TSA_WD_Garrison_AdaptiveTerrainPrepTooltip>
+  <TSA_WD_Garrison_BlockedFlattenThreshold>Nuke when blocked above</TSA_WD_Garrison_BlockedFlattenThreshold>
+  <TSA_WD_Garrison_BlockedFlattenThresholdTooltip>If more than this fraction of the layout is unbuildable, flatten blocked cells in the layout. Below this, leave terrain as generated. Ignored when Always clear rect is on.</TSA_WD_Garrison_BlockedFlattenThresholdTooltip>
+  <TSA_WD_Garrison_Tooltip>Scales the points used to generate defenders. Higher values increase pawn count and quality.</TSA_WD_Garrison_Tooltip>
+  <TSA_WD_HeaderDynamicGarrison>Dynamic Scaling (by current offensive strength)</TSA_WD_HeaderDynamicGarrison>
+  <TSA_WD_Garrison_MinScale>Minimum garrison from depleted offense</TSA_WD_Garrison_MinScale>
+  <TSA_WD_Garrison_MinScaleTooltip>The map garrison now scales with the attacked settlement's current offensive strength relative to its tier maximum. A full settlement fields 100% of the configured tier multiplier; a depleted one fields less. This is the floor: even a fully drained settlement still fields at least this fraction of its configured garrison. The map layout stays tier-appropriate regardless.</TSA_WD_Garrison_MinScaleTooltip>
+  <TSA_WD_Gen_HeaderWeights>Initial World Generation Weights</TSA_WD_Gen_HeaderWeights>
+  <TSA_WD_Gen_RerollAll>Reroll Settlement Tiers now</TSA_WD_Gen_RerollAll>
+  <TSA_WD_Gen_Reset>Reset to Defaults</TSA_WD_Gen_Reset>
+  <TSA_WD_Gen_Tier1Tip>Likelihood of a settlement starting as a Tier 1 Outpost.</TSA_WD_Gen_Tier1Tip>
+  <TSA_WD_Gen_Tier2Tip>Likelihood of a settlement starting as a Tier 2 Town.</TSA_WD_Gen_Tier2Tip>
+  <TSA_WD_Gen_Tier3Tip>Likelihood of a settlement starting as a Tier 3 Fortress.</TSA_WD_Gen_Tier3Tip>
+  <TSA_WD_Gen_Tier4Tip>Likelihood of a settlement starting as a Tier 4 Citadel.</TSA_WD_Gen_Tier4Tip>
+  <TSA_WD_WorldSetup_Title>WD: World Setup</TSA_WD_WorldSetup_Title>
+  <TSA_WD_WorldSetup_Subtitle>Adjust settlements, roads, and allegiances before you settle.</TSA_WD_WorldSetup_Subtitle>
+  <TSA_WD_WorldSetup_ButtonTooltip>Open World Domination World Setup. Drag to move this icon.</TSA_WD_WorldSetup_ButtonTooltip>
+  <TSA_WD_WorldSetup_Recreate>Recreate Settlements</TSA_WD_WorldSetup_Recreate>
+  <TSA_WD_WorldSetup_RecreateTooltip>Destroy all NPC settlements and place them again using the count, spacing, faction density, and distance to other factions in this section. Uses your minimum settlement distance setting. Fortifications follow the destroy-on-recreation toggle.</TSA_WD_WorldSetup_RecreateTooltip>
+  <TSA_WD_WorldSetup_RecreateConfirmHeader>Recreate all NPC settlements?\n\nWill place:</TSA_WD_WorldSetup_RecreateConfirmHeader>
+  <TSA_WD_WorldSetup_RecreateConfirmLine>{0}: {1}</TSA_WD_WorldSetup_RecreateConfirmLine>
+  <TSA_WD_WorldSetup_RecreateConfirmTotal>Total: {0} (world gen had {1})</TSA_WD_WorldSetup_RecreateConfirmTotal>
+  <TSA_WD_WorldSetup_RecreateConfirmFooter>NPC road blocks, traps, and AT turrets are cleared. Player sites are left alone.</TSA_WD_WorldSetup_RecreateConfirmFooter>
+  <TSA_WD_WorldSetup_RecreateConfirmFooterKeepForts>NPC road blocks, traps, and AT turrets stay in place. Player sites are left alone.</TSA_WD_WorldSetup_RecreateConfirmFooterKeepForts>
+  <TSA_WD_WorldSetup_RecreateConfirmEmpty>There are no NPC settlements from world gen to recreate.</TSA_WD_WorldSetup_RecreateConfirmEmpty>
+  <TSA_WD_WorldSetup_RecreateDone>Recreated {0} settlements.</TSA_WD_WorldSetup_RecreateDone>
+  <TSA_WD_WorldSetup_RecreatePartial>Recreated {0} settlements. Skipped {1} (no valid tiles left).</TSA_WD_WorldSetup_RecreatePartial>
+  <TSA_WD_WorldSetup_RecreateResultTitle>Settlement recreation complete</TSA_WD_WorldSetup_RecreateResultTitle>
+  <TSA_WD_WorldSetup_RecreateResultFull>Placed all {0} settlements.</TSA_WD_WorldSetup_RecreateResultFull>
+  <TSA_WD_WorldSetup_RecreateResultPartial>Tried to place {0} settlements from your settings. Placed {1}. {2} could not be placed — no valid tiles at current spacing and faction rules.</TSA_WD_WorldSetup_RecreateResultPartial>
+  <TSA_WD_WorldSetup_RecreateResultFactionAbort>{0}: stopped after {1} consecutive failures (no valid tiles).</TSA_WD_WorldSetup_RecreateResultFactionAbort>
+  <TSA_WD_WorldSetup_RecreateResultError>Settlement recreation failed. Check Player.log for details.</TSA_WD_WorldSetup_RecreateResultError>
+  <TSA_WD_WorldSetup_Coherence>Cluster chance</TSA_WD_WorldSetup_Coherence>
+  <TSA_WD_WorldSetup_CoherenceTooltip>Chance to join an existing same-faction cluster when recreating. Low = start new settlements under Spacing only. High = pack into clusters (up to Max per cluster).</TSA_WD_WorldSetup_CoherenceTooltip>
+  <TSA_WD_WorldSetup_CoherenceRandom>Random</TSA_WD_WorldSetup_CoherenceRandom>
+  <TSA_WD_WorldSetup_CoherenceClustered>Coherent</TSA_WD_WorldSetup_CoherenceClustered>
+  <TSA_WD_WorldSetup_Spacing>Spacing</TSA_WD_WorldSetup_Spacing>
+  <TSA_WD_WorldSetup_SpacingTooltip>Minimum gap between settlements (same or other faction). Scales with the slider, up to 4× the establishment minimum distance at 100%.</TSA_WD_WorldSetup_SpacingTooltip>
+  <TSA_WD_WorldSetup_SpacingClose>Close</TSA_WD_WorldSetup_SpacingClose>
+  <TSA_WD_WorldSetup_SpacingSpread>Spread Out</TSA_WD_WorldSetup_SpacingSpread>
+  <TSA_WD_WorldSetup_OtherFactionDistance>Distance to other factions</TSA_WD_WorldSetup_OtherFactionDistance>
+  <TSA_WD_WorldSetup_OtherFactionDistanceTooltip>Extra gap beyond Spacing when the neighbor is another faction. At 0, other factions use Spacing only. At 100, adds 3× the establishment minimum on top of Spacing.</TSA_WD_WorldSetup_OtherFactionDistanceTooltip>
+  <TSA_WD_WorldSetup_MaxPerCluster>Max settlements per cluster</TSA_WD_WorldSetup_MaxPerCluster>
+  <TSA_WD_WorldSetup_MaxPerClusterTooltip>When recreating, same-faction settlements that pack together may not exceed this count in one cluster. Extra settlements start a new cluster.</TSA_WD_WorldSetup_MaxPerClusterTooltip>
+  <TSA_WD_WorldSetup_MinClusterDistance>Min distance between clusters</TSA_WD_WorldSetup_MinClusterDistance>
+  <TSA_WD_WorldSetup_MinClusterDistanceTooltip>Extra separation when starting a new same-faction cluster because the previous one is full or a join failed. Not applied when Cluster chance simply chooses not to join. At 0, off. Default 20.</TSA_WD_WorldSetup_MinClusterDistanceTooltip>
+  <TSA_WD_WorldSetup_FactionShares>Faction shares</TSA_WD_WorldSetup_FactionShares>
+  <TSA_WD_WorldSetup_FactionSharesTooltip>Change how many settlements each faction gets on recreate. Starts from the world gen mix.</TSA_WD_WorldSetup_FactionSharesTooltip>
+  <TSA_WD_WorldSetup_FactionSharesTitle>Faction settlement shares</TSA_WD_WorldSetup_FactionSharesTitle>
+  <TSA_WD_WorldSetup_FactionSharesTip>Drag each faction share. Percents and settlement counts update from the total share pool and the Number of settlements slider.</TSA_WD_WorldSetup_FactionSharesTip>
+  <TSA_WD_WorldSetup_FactionShares_H_Faction>Faction</TSA_WD_WorldSetup_FactionShares_H_Faction>
+  <TSA_WD_WorldSetup_FactionShares_H_Share>Share</TSA_WD_WorldSetup_FactionShares_H_Share>
+  <TSA_WD_WorldSetup_FactionShares_H_Pct>%</TSA_WD_WorldSetup_FactionShares_H_Pct>
+  <TSA_WD_WorldSetup_FactionShares_H_Count>Settlements</TSA_WD_WorldSetup_FactionShares_H_Count>
+  <TSA_WD_WorldSetup_FactionShares_Reset>Reset to world gen</TSA_WD_WorldSetup_FactionShares_Reset>
+  <TSA_WD_WorldSetup_FactionShares_Empty>No eligible NPC factions on this world.</TSA_WD_WorldSetup_FactionShares_Empty>
+  <TSA_WD_WorldSetup_SettlementCount>Number of settlements</TSA_WD_WorldSetup_SettlementCount>
+  <TSA_WD_WorldSetup_SettlementCountTooltip>How many NPC settlements to place on Recreate. Default is the count from vanilla world gen. Faction shares (Faction shares button) decide how that total is split.</TSA_WD_WorldSetup_SettlementCountTooltip>
+  <TSA_WD_WorldSetup_TierLikelihood>Settlement tiers</TSA_WD_WorldSetup_TierLikelihood>
+  <TSA_WD_WorldSetup_TierLikelihoodTooltip>Edit how often new settlements roll each tier. The next recreate uses these weights.</TSA_WD_WorldSetup_TierLikelihoodTooltip>
+  <TSA_WD_WorldSetup_Allegiances>Allegiances</TSA_WD_WorldSetup_Allegiances>
+  <TSA_WD_WorldSetup_AllegiancesTooltip>Set Neutral, Allied, or Hostile between NPC factions, lock pairs from WD diplomacy, and optionally freeze changes.</TSA_WD_WorldSetup_AllegiancesTooltip>
+  <TSA_WD_WorldSetup_AllegiancesTitle>World Allegiances</TSA_WD_WorldSetup_AllegiancesTitle>
+  <TSA_WD_WorldSetup_AllegiancesSubtitle>Edit NPC relationships for this world. Optional freeze lasts {0} days (same as random diplomacy).</TSA_WD_WorldSetup_AllegiancesSubtitle>
+  <TSA_WD_WorldSetup_FreezeOnApply>Freeze {0} days</TSA_WD_WorldSetup_FreezeOnApply>
+  <TSA_WD_WorldSetup_FreezeOnApplyTooltip>When checked, Neutral / Allied / Hostile also apply a {0}-day freeze so random WD diplomacy will not change that pair during the freeze.</TSA_WD_WorldSetup_FreezeOnApplyTooltip>
+  <TSA_WD_WorldSetup_GoodwillFieldTooltip>Type goodwill (-100 to {0}) and press Enter. Ally sets +75, Hostile sets -75, Neutral sets 0. Upper limit matches Max goodwill in mod settings.</TSA_WD_WorldSetup_GoodwillFieldTooltip>
+  <TSA_WD_WorldSetup_PermanentlyHostile>Permanently hostile</TSA_WD_WorldSetup_PermanentlyHostile>
+  <TSA_WD_WorldSetup_ResetAllegiancesDefault>Reset Allegiances to default</TSA_WD_WorldSetup_ResetAllegiancesDefault>
+  <TSA_WD_WorldSetup_ResetAllegiancesDefaultTooltip>Restore every listed pair to that faction pair's natural starting goodwill.</TSA_WD_WorldSetup_ResetAllegiancesDefaultTooltip>
+  <TSA_WD_WorldSetup_ResetAllegiancesDone>Allegiances restored to defaults.</TSA_WD_WorldSetup_ResetAllegiancesDone>
+  <TSA_WD_WorldSetup_RelNeutral>Neutral</TSA_WD_WorldSetup_RelNeutral>
+  <TSA_WD_WorldSetup_RelAllied>Allied</TSA_WD_WorldSetup_RelAllied>
+  <TSA_WD_WorldSetup_RelHostile>Hostile</TSA_WD_WorldSetup_RelHostile>
+  <TSA_WD_WorldSetup_RelationFailed>Could not change that relationship (missing relation data).</TSA_WD_WorldSetup_RelationFailed>
+  <TSA_WD_WorldSetup_ToolsHeader>Placement tools</TSA_WD_WorldSetup_ToolsHeader>
+  <TSA_WD_WorldSetup_SectionGeneral>General Settings</TSA_WD_WorldSetup_SectionGeneral>
+  <TSA_WD_WorldSetup_SectionDistribution>Settlement Distribution</TSA_WD_WorldSetup_SectionDistribution>
+  <TSA_WD_WorldSetup_SectionLayout>Manual Settlement Adjustments</TSA_WD_WorldSetup_SectionLayout>
+  <TSA_WD_WorldSetup_DestroyFortsOnRecreate>Destroy fortifications on recreation</TSA_WD_WorldSetup_DestroyFortsOnRecreate>
+  <TSA_WD_WorldSetup_DestroyFortsOnRecreateTip>When on, recreating settlements also removes NPC road blocks, spike traps, and AT turrets. Player sites are not affected.</TSA_WD_WorldSetup_DestroyFortsOnRecreateTip>
+  <TSA_WD_WorldSetup_SectionDiplomacy>Diplomacy</TSA_WD_WorldSetup_SectionDiplomacy>
+  <TSA_WD_WorldSetup_SectionTools>Placement tools</TSA_WD_WorldSetup_SectionTools>
+  <TSA_WD_WorldSetup_SectionRoadsFortify>Roads and Fortifications</TSA_WD_WorldSetup_SectionRoadsFortify>
+  <TSA_WD_WorldSetup_ToolPlaceSettlement>Place Settlement</TSA_WD_WorldSetup_ToolPlaceSettlement>
+  <TSA_WD_WorldSetup_ToolRemoveSettlement>Remove Settlement</TSA_WD_WorldSetup_ToolRemoveSettlement>
+  <TSA_WD_WorldSetup_ToolStrengthPlus>Increase Strength +100</TSA_WD_WorldSetup_ToolStrengthPlus>
+  <TSA_WD_WorldSetup_ToolStrengthMinus>Reduce Strength -100</TSA_WD_WorldSetup_ToolStrengthMinus>
+  <TSA_WD_WorldSetup_ToolTierUp>Increase Tier</TSA_WD_WorldSetup_ToolTierUp>
+  <TSA_WD_WorldSetup_ToolTierDown>Reduce Tier</TSA_WD_WorldSetup_ToolTierDown>
+  <TSA_WD_WorldSetup_ToolTurret>Place AT Turret</TSA_WD_WorldSetup_ToolTurret>
+  <TSA_WD_WorldSetup_ToolRoadBlock>Place Road Block</TSA_WD_WorldSetup_ToolRoadBlock>
+  <TSA_WD_WorldSetup_ToolTrap>Place Trap</TSA_WD_WorldSetup_ToolTrap>
+  <TSA_WD_WorldSetup_ToolPlaceRoad>Place Road</TSA_WD_WorldSetup_ToolPlaceRoad>
+  <TSA_WD_WorldSetup_ToolRemoveFortify>Remove fortification here</TSA_WD_WorldSetup_ToolRemoveFortify>
+  <TSA_WD_WorldSetup_ToolRemoveRoad>Remove Road</TSA_WD_WorldSetup_ToolRemoveRoad>
+  <TSA_WD_WorldSetup_InvalidTile>That tile is not valid.</TSA_WD_WorldSetup_InvalidTile>
+  <TSA_WD_WorldSetup_TileOccupied>Tile {0} already has a world object.</TSA_WD_WorldSetup_TileOccupied>
+  <TSA_WD_WorldSetup_TileInvalidSettlement>Tile {0} cannot host a settlement.</TSA_WD_WorldSetup_TileInvalidSettlement>
+  <TSA_WD_WorldSetup_TooClose>Too close to another settlement or outpost.</TSA_WD_WorldSetup_TooClose>
+  <TSA_WD_WorldSetup_FactionMissing>Faction missing.</TSA_WD_WorldSetup_FactionMissing>
+  <TSA_WD_WorldSetup_WorldMissing>World is not ready.</TSA_WD_WorldSetup_WorldMissing>
+  <TSA_WD_WorldSetup_NoFactions>No placeable factions found.</TSA_WD_WorldSetup_NoFactions>
+  <TSA_WD_WorldSetup_PlaceSettlementHint>Click tiles to place {0} settlements for {1}. Right-click or Esc to stop.</TSA_WD_WorldSetup_PlaceSettlementHint>
+  <TSA_WD_WorldSetup_PlacedSettlement>Placed {0} {1} settlement on tile {2}.</TSA_WD_WorldSetup_PlacedSettlement>
+  <TSA_WD_WorldSetup_SpawnFailed>Could not place settlement.</TSA_WD_WorldSetup_SpawnFailed>
+  <TSA_WD_WorldSetup_ClickSettlementHint>Click a settlement on the world map.</TSA_WD_WorldSetup_ClickSettlementHint>
+  <TSA_WD_WorldSetup_NeedSettlement>Click a settlement or WD outpost.</TSA_WD_WorldSetup_NeedSettlement>
+  <TSA_WD_WorldSetup_TierChanged>{0} is now {1}.</TSA_WD_WorldSetup_TierChanged>
+  <TSA_WD_WorldSetup_StrengthChanged>{0} strength is now {1} ({2}).</TSA_WD_WorldSetup_StrengthChanged>
+  <TSA_WD_WorldSetup_NoRoadBlockKinds>No placeable road block kinds.</TSA_WD_WorldSetup_NoRoadBlockKinds>
+  <TSA_WD_WorldSetup_PlaceFortifyHint>Click tiles to place. Right-click or Esc to stop.</TSA_WD_WorldSetup_PlaceFortifyHint>
+  <TSA_WD_WorldSetup_PlaceFortifyFailed>Could not place there.</TSA_WD_WorldSetup_PlaceFortifyFailed>
+  <TSA_WD_WorldSetup_PlaceFortifyDone>Placed.</TSA_WD_WorldSetup_PlaceFortifyDone>
+  <TSA_WD_WorldSetup_RemoveFortifyHint>Click a road block, trap, or AT turret to remove it.</TSA_WD_WorldSetup_RemoveFortifyHint>
+  <TSA_WD_WorldSetup_RemoveFortifyNone>Nothing to remove on that tile.</TSA_WD_WorldSetup_RemoveFortifyNone>
+  <TSA_WD_WorldSetup_RemoveFortifyDone>Removed fortification.</TSA_WD_WorldSetup_RemoveFortifyDone>
+  <TSA_WD_WorldSetup_RoadDirt>Dirt road</TSA_WD_WorldSetup_RoadDirt>
+  <TSA_WD_WorldSetup_RoadStone>Stone road</TSA_WD_WorldSetup_RoadStone>
+  <TSA_WD_WorldSetup_RoadAsphalt>Asphalt road</TSA_WD_WorldSetup_RoadAsphalt>
+  <TSA_WD_WorldSetup_RoadDefMissing>No road definition found.</TSA_WD_WorldSetup_RoadDefMissing>
+  <TSA_WD_WorldSetup_RoadNeedTwoTiles>Pick two different tiles.</TSA_WD_WorldSetup_RoadNeedTwoTiles>
+  <TSA_WD_WorldSetup_RoadNoPath>No path between those tiles.</TSA_WD_WorldSetup_RoadNoPath>
+  <TSA_WD_WorldSetup_PlaceRoadHint>Click the start tile, then the end tile.</TSA_WD_WorldSetup_PlaceRoadHint>
+  <TSA_WD_WorldSetup_PlaceRoadPickEnd>Now click the end tile.</TSA_WD_WorldSetup_PlaceRoadPickEnd>
+  <TSA_WD_WorldSetup_PlaceRoadDone>Road placed along the path.</TSA_WD_WorldSetup_PlaceRoadDone>
+  <TSA_WD_WorldSetup_RemoveRoadHint>Click a tile with roads to strip its road links.</TSA_WD_WorldSetup_RemoveRoadHint>
+  <TSA_WD_WorldSetup_RemoveRoadNone>No roads on that tile.</TSA_WD_WorldSetup_RemoveRoadNone>
+  <TSA_WD_WorldSetup_RemoveRoadDone>Removed {0} road links.</TSA_WD_WorldSetup_RemoveRoadDone>
+  <TSA_WD_WorldSetup_RemoveSettlementHint>Click an NPC settlement to remove it. Right-click or Esc to stop.</TSA_WD_WorldSetup_RemoveSettlementHint>
+  <TSA_WD_WorldSetup_RemoveSettlementDone>Removed {0}.</TSA_WD_WorldSetup_RemoveSettlementDone>
+  <TSA_WD_WorldSetup_RemoveSettlementPlayer>Player sites cannot be removed here.</TSA_WD_WorldSetup_RemoveSettlementPlayer>
+  <TSA_WD_Growth_BaseGrowth>Passive Strength Gain</TSA_WD_Growth_BaseGrowth>
+  <TSA_WD_Growth_BaseGrowthTooltip>Offensive strength points NPC settlements gain automatically each day (before size scaling and mid/late multipliers).</TSA_WD_Growth_BaseGrowthTooltip>
+  <TSA_WD_Growth_PassiveT1>T1 passive / day</TSA_WD_Growth_PassiveT1>
+  <TSA_WD_Growth_PassiveT2>T2 passive / day</TSA_WD_Growth_PassiveT2>
+  <TSA_WD_Growth_PassiveT3>T3 passive / day</TSA_WD_Growth_PassiveT3>
+  <TSA_WD_Growth_PassiveT4>T4 passive / day</TSA_WD_Growth_PassiveT4>
+  <TSA_WD_Growth_PassiveTierTip>Offensive strength this tier gains automatically each day (before mid/late and underdog multipliers). Flat per tier; no size curve.</TSA_WD_Growth_PassiveTierTip>
+  <TSA_WD_Growth_ExpandChance>Expansion Success Chance</TSA_WD_Growth_ExpandChance>
+  <TSA_WD_Growth_ExpandChanceTooltip>The probability that a max-strength settlement successfully founds a new settlement.</TSA_WD_Growth_ExpandChanceTooltip>
+  <TSA_WD_Growth_GoodwillFromTrade>Grant goodwill when trading with factions</TSA_WD_Growth_GoodwillFromTrade>
+  <TSA_WD_Growth_GoodwillFromTradeTooltip>When enabled, completing a silver-based trade grants goodwill with the faction you traded with. Favor-based trades are ignored.</TSA_WD_Growth_GoodwillFromTradeTooltip>
+  <TSA_WD_Growth_GoodwillPer1000Silver>Goodwill per 1000 silver equivalent</TSA_WD_Growth_GoodwillPer1000Silver>
+  <TSA_WD_Growth_GoodwillPer1000SilverTooltip>Amount of goodwill gained per 1000 silver of total trade value (market value of goods exchanged).</TSA_WD_Growth_GoodwillPer1000SilverTooltip>
+  <TSA_WD_Growth_HeaderExpansion>Expansion &amp; Local Density Limits</TSA_WD_Growth_HeaderExpansion>
+  <TSA_WD_Growth_HeaderGoodwillFromTrade>Goodwill from Trade</TSA_WD_Growth_HeaderGoodwillFromTrade>
+  <TSA_WD_Growth_HeaderGrowth>General Growth Settings</TSA_WD_Growth_HeaderGrowth>
+  <TSA_WD_Growth_HeaderSameTierUpgradeReq>Same-tier upgrade requirements</TSA_WD_Growth_HeaderSameTierUpgradeReq>
+  <TSA_WD_Growth_HeaderDefensiveBaselines>Defensive strength baselines</TSA_WD_Growth_HeaderDefensiveBaselines>
+  <TSA_WD_Growth_T1DefensiveStrength>T1 defensive strength</TSA_WD_Growth_T1DefensiveStrength>
+  <TSA_WD_Growth_T1DefensiveStrengthTooltip>Base local defensive strength for tier 1 settlements.</TSA_WD_Growth_T1DefensiveStrengthTooltip>
+  <TSA_WD_Growth_T2DefensiveStrength>T2 defensive strength</TSA_WD_Growth_T2DefensiveStrength>
+  <TSA_WD_Growth_T2DefensiveStrengthTooltip>Base local defensive strength for tier 2 settlements.</TSA_WD_Growth_T2DefensiveStrengthTooltip>
+  <TSA_WD_Growth_T3DefensiveStrength>T3 defensive strength</TSA_WD_Growth_T3DefensiveStrength>
+  <TSA_WD_Growth_T3DefensiveStrengthTooltip>Base local defensive strength for tier 3 settlements.</TSA_WD_Growth_T3DefensiveStrengthTooltip>
+  <TSA_WD_Growth_T4DefensiveStrength>T4 defensive strength</TSA_WD_Growth_T4DefensiveStrength>
+  <TSA_WD_Growth_T4DefensiveStrengthTooltip>Base local defensive strength for tier 4 settlements.</TSA_WD_Growth_T4DefensiveStrengthTooltip>
+  <TSA_WD_Growth_PlayerOutpostDefensiveStrength>Player outpost defensive strength</TSA_WD_Growth_PlayerOutpostDefensiveStrength>
+  <TSA_WD_Growth_PlayerOutpostDefensiveStrengthTooltip>Base local defensive strength for player outposts (before upgrades).</TSA_WD_Growth_PlayerOutpostDefensiveStrengthTooltip>
+  <TSA_WD_Growth_HeaderIncidents>Incident Severity</TSA_WD_Growth_HeaderIncidents>
+  <TSA_WD_Growth_LocalMaxT1>Local Max T1 Outposts</TSA_WD_Growth_LocalMaxT1>
+  <TSA_WD_Growth_LocalMaxT1Tooltip>Maximum T1 settlements allowed within the max Expansion Radius before further expansion is blocked.</TSA_WD_Growth_LocalMaxT1Tooltip>
+  <TSA_WD_Growth_LocalMaxT2>Local Max T2 Villages</TSA_WD_Growth_LocalMaxT2>
+  <TSA_WD_Growth_LocalMaxT2Tooltip>Maximum T2 settlements allowed within the max Expansion Radius.</TSA_WD_Growth_LocalMaxT2Tooltip>
+  <TSA_WD_Growth_LocalMaxT3>Local Max T3 Towns</TSA_WD_Growth_LocalMaxT3>
+  <TSA_WD_Growth_LocalMaxT3Tooltip>Maximum T3 settlements allowed within the max Expansion Radius.</TSA_WD_Growth_LocalMaxT3Tooltip>
+  <TSA_WD_Growth_LocalMaxT4>Local Max T4 Citadels</TSA_WD_Growth_LocalMaxT4>
+  <TSA_WD_Growth_LocalMaxT4Tooltip>Maximum T4 settlements allowed within the max Expansion Radius.</TSA_WD_Growth_LocalMaxT4Tooltip>
+  <TSA_WD_Growth_SameTierUpgradeT1>T1 same-tier neighbors to upgrade</TSA_WD_Growth_SameTierUpgradeT1>
+  <TSA_WD_Growth_SameTierUpgradeT1Tooltip>Required nearby same-faction T1 settlements before a T1 settlement may upgrade to T2.</TSA_WD_Growth_SameTierUpgradeT1Tooltip>
+  <TSA_WD_Growth_SameTierUpgradeT2>T2 same-tier neighbors to upgrade</TSA_WD_Growth_SameTierUpgradeT2>
+  <TSA_WD_Growth_SameTierUpgradeT2Tooltip>Required nearby same-faction T2 settlements before a T2 settlement may upgrade to T3.</TSA_WD_Growth_SameTierUpgradeT2Tooltip>
+  <TSA_WD_Growth_SameTierUpgradeT3>T3 same-tier neighbors to upgrade</TSA_WD_Growth_SameTierUpgradeT3>
+  <TSA_WD_Growth_SameTierUpgradeT3Tooltip>Required nearby same-faction T3 settlements before a T3 settlement may upgrade to T4.</TSA_WD_Growth_SameTierUpgradeT3Tooltip>
+  <TSA_WD_Growth_MajorInc>Major Incident Strength Loss</TSA_WD_Growth_MajorInc>
+  <TSA_WD_Growth_MajorIncTooltip>Strength points lost during a major catastrophe.</TSA_WD_Growth_MajorIncTooltip>
+  <TSA_WD_Growth_MaxRadius>Max Expansion Radius</TSA_WD_Growth_MaxRadius>
+  <TSA_WD_Growth_MaxRadiusTooltip>Maximum tile distance allowed for expansion and the radius used to calculate local density.</TSA_WD_Growth_MaxRadiusTooltip>
+  <TSA_WD_Growth_MaxSettlements>Max Planet Settlements</TSA_WD_Growth_MaxSettlements>
+  <TSA_WD_Growth_MaxSettlementsTooltip>Maximum total settlements allowed globally before expansion is capped. Also set by Setting presets → Performance (200 / 400 / 800).</TSA_WD_Growth_MaxSettlementsTooltip>
+  <TSA_WD_Growth_MinRadius>Min Expansion Radius</TSA_WD_Growth_MinRadius>
+  <TSA_WD_Growth_MinRadiusTooltip>Minimum tile distance required to find a new expansion location.</TSA_WD_Growth_MinRadiusTooltip>
+  <TSA_WD_Growth_MinorInc>Minor Incident Strength Loss</TSA_WD_Growth_MinorInc>
+  <TSA_WD_Growth_MinorIncTooltip>Strength points lost during a minor internal setback.</TSA_WD_Growth_MinorIncTooltip>
+  <TSA_WD_Growth_Reset>Reset this page to Defaults</TSA_WD_Growth_Reset>
+  <TSA_WD_Growth_Roads>Road settings</TSA_WD_Growth_Roads>
+  <TSA_WD_Growth_Scaling>Scaling based on Settlement Size</TSA_WD_Growth_Scaling>
+  <TSA_WD_Growth_ScalingTooltip>At 100%, small settlements gain more passive strength per day and large ones gain less (size curve only).</TSA_WD_Growth_ScalingTooltip>
+  <TSA_WD_HeaderGeneral>General Settings</TSA_WD_HeaderGeneral>
+  <TSA_WD_HeaderGenericGarrisons>Industrial/Outlander Factions</TSA_WD_HeaderGenericGarrisons>
+  <TSA_WD_HeaderMisc>Miscellaneous</TSA_WD_HeaderMisc>
+  <TSA_WD_HeaderInGameOnlySettings>Settings only available in-game (not main menu)</TSA_WD_HeaderInGameOnlySettings>
+  <TSA_WD_HeaderOutposts>WD Outposts and Caravans/Travelers</TSA_WD_HeaderOutposts>
+  <TSA_WD_HeaderPlayerInteractions>Manual Player Interactions</TSA_WD_HeaderPlayerInteractions>
+  <TSA_WD_HeaderSystem>System Actions</TSA_WD_HeaderSystem>
+  <TSA_WD_HeaderTribalGarrisons>Tribal Factions</TSA_WD_HeaderTribalGarrisons>
+  <TSA_WD_HeaderWorldActions>World Actions</TSA_WD_HeaderWorldActions>
+  <TSA_WD_OpenAllegianceMatrix>Allowed Diplomacy Changes</TSA_WD_OpenAllegianceMatrix>
+  <TSA_WD_DescAllegianceMatrix>In-game only: matrix of faction pairs. Toggle whether World Domination may change how one faction views another (ally, hostile, neutral). Locked pairs are left unchanged by WD diplomacy rolls.</TSA_WD_DescAllegianceMatrix>
+  <TSA_WD_AllegianceMatrixInGameOnly>Allowed diplomacy changes can only be opened while playing (not from the main menu).</TSA_WD_AllegianceMatrixInGameOnly>
+  <TSA_WD_Outpost_MaxTravelStrengthLoss>Max. travel strength loss</TSA_WD_Outpost_MaxTravelStrengthLoss>
+  <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>Maximum percentage of departure strength that travelers (raids, expansion, road builders) can lose during travel. At 75%, they keep at least 25% of initial strength and never expire from attrition alone.</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
+  <TSA_WD_Caravans_OnlyWaterIfNoLandPath>Travelers: only cross water if no land route exists</TSA_WD_Caravans_OnlyWaterIfNoLandPath>
+  <TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>When enabled, WD travelers use the normal world path first and only use water-capable routing if that fails. When disabled, both routes are compared and the faster one is used (same difficulty units as below).</TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>
+  <TSA_WD_Caravans_WaterMovementDifficulty>Travelers: water tile movement difficulty</TSA_WD_Caravans_WaterMovementDifficulty>
+  <TSA_WD_Caravans_WaterMovementDifficultyTip>Difficulty units applied when a traveler enters a water-covered world tile (vanilla world movement scale). Used for path cost, travel time, and attrition estimates.</TSA_WD_Caravans_WaterMovementDifficultyTip>
+  <TSA_WD_Caravans_WaterPathThreshold>Water path: skip if land path shorter than (days)</TSA_WD_Caravans_WaterPathThreshold>
+  <TSA_WD_Caravans_WaterPathThresholdTip>If a land-only path exists and takes fewer days than this threshold, the expensive water-routing calculation is skipped entirely. Set to 0 to always compute water paths. Higher values improve performance at the cost of occasionally missing a faster water shortcut.</TSA_WD_Caravans_WaterPathThresholdTip>
+  <TSA_WD_ModUpdated>World Domination has been updated to {0}.\nClick "Open" to access the change log.</TSA_WD_ModUpdated>
+  <TSA_WD_ShowUpdatePopups>Show mod update popup</TSA_WD_ShowUpdatePopups>
+  <TSA_WD_ShowUpdatePopups_Tooltip>When enabled, a small window appears once after you load a map when this mod has been updated to a new version.</TSA_WD_ShowUpdatePopups_Tooltip>
+  <TSA_WD_WorldMapOverlayHoldKey>World map overlay hold key</TSA_WD_WorldMapOverlayHoldKey>
+  <TSA_WD_WorldMapOverlayHoldKey_Tooltip>Hold this key and press A for Your Pawns, X for the WD main tab, S for World Stats, D for Diplomacy, Y for Prisoners, F for Outpost Overview, or G for Active Travelers. On the world map, also press 1–7 to toggle WD overlays (blocked tiles, fertility, animals, fish, mining, movement, pollution), or Q/W/E/R/T for Highlight Relationships, Highlight Player, settlement tier labels, road blocks and traps, and outpost labels.</TSA_WD_WorldMapOverlayHoldKey_Tooltip>
+  <TSA_WD_VerboseLogging>Verbose logging</TSA_WD_VerboseLogging>
+  <TSA_WD_VerboseLogging_Tooltip>When enabled, the mod writes extra correlation lines to the log ([WD] and [WD Perf]), e.g. food accounting, pathing, threat updates, and World Setup settlement recreation. Use for diagnosing stutter or placement issues.</TSA_WD_VerboseLogging_Tooltip>
+  <TSA_WD_UpdatePopup_Open>Open</TSA_WD_UpdatePopup_Open>
+  <TSA_WD_UpdatePopup_Close>Close</TSA_WD_UpdatePopup_Close>
+  <TSA_WD_UpdatePopup_Disable>Don&apos;t show again</TSA_WD_UpdatePopup_Disable>
+  <TSA_WD_UpdatePopup_ViewLog>View update log</TSA_WD_UpdatePopup_ViewLog>
+  <TSA_WD_UpdateLog_Title>World Domination {0}: {1}</TSA_WD_UpdateLog_Title>
+  <TSA_WD_UpdateLog_Prev>&lt; Older</TSA_WD_UpdateLog_Prev>
+  <TSA_WD_UpdateLog_Next>Newer &gt;</TSA_WD_UpdateLog_Next>
+  <TSA_WD_UpdateLog_Current>Current Release</TSA_WD_UpdateLog_Current>
+  <TSA_WD_UpdateLog_Older>Older</TSA_WD_UpdateLog_Older>
+  <TSA_WD_UpdateLog_Newer>Newer</TSA_WD_UpdateLog_Newer>
+  <TSA_WD_UpdateLog_Oldest>Oldest Release</TSA_WD_UpdateLog_Oldest>
+  <TSA_WD_UpdateLog_EntryListHeader>All updates</TSA_WD_UpdateLog_EntryListHeader>
+  <TSA_WD_UpdateLog_ReleaseDate>Release date: {0}</TSA_WD_UpdateLog_ReleaseDate>
+  <TSA_WD_Outpost_ReqBiome>Require allowed biome for outpost type</TSA_WD_Outpost_ReqBiome>
+  <TSA_WD_Outpost_ReqBiome_Tooltip>If disabled, outposts can be founded in any biome, even if the outpost type normally restricts where it can be built.</TSA_WD_Outpost_ReqBiome_Tooltip>
+  <TSA_WD_Outpost_ReqFertility>Require fertile tiles for farming outposts</TSA_WD_Outpost_ReqFertility>
+  <TSA_WD_Outpost_ReqFertility_Tooltip>If disabled, farming/logging outposts may be founded on low-fertility or water-covered tiles.</TSA_WD_Outpost_ReqFertility_Tooltip>
+  <TSA_WD_Outpost_PollutionEcologyPenalty>Pollution reduces fertility, animals, and fish</TSA_WD_Outpost_PollutionEcologyPenalty>
+  <TSA_WD_Outpost_PollutionEcologyPenaltyTooltip>When enabled, farming fertility, animal abundance, and fish stock on a world tile are multiplied by (1 - pollution). Example: 20% pollution reduces those scores by 20%. Mining is not affected.</TSA_WD_Outpost_PollutionEcologyPenaltyTooltip>
+  <TSA_WD_Outpost_ReqAnimals>Require animal abundance for hunting outposts</TSA_WD_Outpost_ReqAnimals>
+  <TSA_WD_Outpost_ReqAnimals_Tooltip>If disabled, hunting outposts may be founded on tiles with very few animals (or water-covered tiles).</TSA_WD_Outpost_ReqAnimals_Tooltip>
+  <TSA_WD_Outpost_ReqFish>Require fish stocks for fishing outposts</TSA_WD_Outpost_ReqFish>
+  <TSA_WD_Outpost_ReqFish_Tooltip>If disabled, fishing outposts may be founded on coastal tiles with low fish stocks (coast requirement still applies).</TSA_WD_Outpost_ReqFish_Tooltip>
+  <TSA_WD_Outpost_ReqMining>Require hills for mining outposts</TSA_WD_Outpost_ReqMining>
+  <TSA_WD_Outpost_ReqMining_Tooltip>If disabled, mining outposts may be founded on flat tiles without hills.</TSA_WD_Outpost_ReqMining_Tooltip>
+  <TSA_WD_Outpost_ReqResearch>Require research for advanced outposts</TSA_WD_Outpost_ReqResearch>
+  <TSA_WD_Outpost_ReqResearch_Tooltip>If disabled, outposts that normally require finished research projects can be founded without completing those projects.</TSA_WD_Outpost_ReqResearch_Tooltip>
+  <TSA_WD_Outpost_ReqNearby>Require nearby neutral/allied settlements</TSA_WD_Outpost_ReqNearby>
+  <TSA_WD_Outpost_ReqNearby_Tooltip>If disabled, outposts with a minimum nearby settlement requirement can be founded even in isolated regions.</TSA_WD_Outpost_ReqNearby_Tooltip>
+  <TSA_WD_Outpost_ReqMinPawns>Require minimum pawns to found outpost</TSA_WD_Outpost_ReqMinPawns>
+  <TSA_WD_Outpost_ReqMinPawns_Tooltip>If disabled, caravans may found outposts even if they have fewer pawns than the outpost type normally requires.</TSA_WD_Outpost_ReqMinPawns_Tooltip>
+  <TSA_WD_Outpost_ReqMinSkill>Require minimum cumulative skills</TSA_WD_Outpost_ReqMinSkill>
+  <TSA_WD_Outpost_ReqMinSkill_Tooltip>If disabled, caravans and outposts ignore minimum cumulative skill requirements for founding and ongoing production.</TSA_WD_Outpost_ReqMinSkill_Tooltip>
+  <TSA_WD_Outpost_ReqCost>Require establishment cost</TSA_WD_Outpost_ReqCost>
+  <TSA_WD_Outpost_ReqCost_Tooltip>If disabled, caravans do not need to pay the wood or custom resource cost when founding outposts.</TSA_WD_Outpost_ReqCost_Tooltip>
+  <TSA_WD_Caravans_HeaderTravel>Travel and Attrition</TSA_WD_Caravans_HeaderTravel>
+  <TSA_WD_Caravans_HeaderWaterTravel>Water travel</TSA_WD_Caravans_HeaderWaterTravel>
+  <TSA_WD_Caravans_AllowTravelOverWater>Allow caravans to travel over water</TSA_WD_Caravans_AllowTravelOverWater>
+  <TSA_WD_Caravans_AllowTravelOverWaterTip>When enabled, WD travelers may use special pathfinding across water-covered tiles (see options below). When disabled, only standard world paths are used and no water pathfinding runs. Also managed by Setting presets → Performance when you use those packs.</TSA_WD_Caravans_AllowTravelOverWaterTip>
+  <TSA_WD_Caravans_HeaderTrader>Trader Caravans</TSA_WD_Caravans_HeaderTrader>
+  <TSA_WD_Caravans_HeaderOutpostDelivery>Outpost Delivery Caravans</TSA_WD_Caravans_HeaderOutpostDelivery>
+  <TSA_WD_Caravans_HeaderStoryteller>Storyteller Traders</TSA_WD_Caravans_HeaderStoryteller>
+  <TSA_WD_Caravans_Cost>Trader caravan strength cost</TSA_WD_Caravans_Cost>
+  <TSA_WD_Caravans_CostTip>Strength paid by the sending settlement when launching a trader caravan.</TSA_WD_Caravans_CostTip>
+  <TSA_WD_Caravans_SenderReward>Sender reward on arrival</TSA_WD_Caravans_SenderReward>
+  <TSA_WD_Caravans_SenderRewardTip>Strength granted to the sender when the trader caravan arrives successfully.</TSA_WD_Caravans_SenderRewardTip>
+  <TSA_WD_Caravans_ReceiverReward>Receiver reward on arrival</TSA_WD_Caravans_ReceiverReward>
+  <TSA_WD_Caravans_ReceiverRewardTip>Strength granted to the receiving settlement when a WD trader caravan arrives. Player outposts are not valid targets.</TSA_WD_Caravans_ReceiverRewardTip>
+  <TSA_WD_Caravans_Goodwill>Mutual goodwill on arrival</TSA_WD_Caravans_Goodwill>
+  <TSA_WD_Caravans_GoodwillTip>Goodwill gained by both factions on successful trader caravan arrival.</TSA_WD_Caravans_GoodwillTip>
+  <TSA_WD_Caravans_HeaderTraderTierUps>Trader tier upgrades (at cap)</TSA_WD_Caravans_HeaderTraderTierUps>
+  <TSA_WD_Caravans_TierUpT1ToT2>Upgrade chance T1 to T2</TSA_WD_Caravans_TierUpT1ToT2>
+  <TSA_WD_Caravans_TierUpT1ToT2Tip>After a successful WD trade, if the strength reward would only raise the settlement up to its current tier maximum, this chance promotes it to T2 instead. Same-tier neighbor requirements for normal tier growth do not apply.</TSA_WD_Caravans_TierUpT1ToT2Tip>
+  <TSA_WD_Caravans_TierUpT2ToT3>Upgrade chance T2 to T3</TSA_WD_Caravans_TierUpT2ToT3>
+  <TSA_WD_Caravans_TierUpT2ToT3Tip>Same as T1 to T2, but for promotion from T2 to T3 when at the T2 strength ceiling.</TSA_WD_Caravans_TierUpT2ToT3Tip>
+  <TSA_WD_Caravans_TierUpT3ToT4>Upgrade chance T3 to T4</TSA_WD_Caravans_TierUpT3ToT4>
+  <TSA_WD_Caravans_TierUpT3ToT4Tip>Same as T1 to T2, but for promotion from T3 to T4 when at the T3 strength ceiling.</TSA_WD_Caravans_TierUpT3ToT4Tip>
+  <TSA_WD_Caravans_HeaderTraderEscort>Trader caravan escort strength</TSA_WD_Caravans_HeaderTraderEscort>
+  <TSA_WD_Caravans_EscortFloorT1>Escort strength floor (T1 sender)</TSA_WD_Caravans_EscortFloorT1>
+  <TSA_WD_Caravans_EscortFloorT1Tip>Minimum combat/interception strength of a trader caravan sent by a T1 settlement, regardless of the flat strength cost deducted at launch. Keeps trade a meaningful, weighable target for ambush and interception instead of a uniform freebie.</TSA_WD_Caravans_EscortFloorT1Tip>
+  <TSA_WD_Caravans_EscortFloorT2>Escort strength floor (T2 sender)</TSA_WD_Caravans_EscortFloorT2>
+  <TSA_WD_Caravans_EscortFloorT2Tip>Same as the T1 floor, for trader caravans sent by a T2 settlement.</TSA_WD_Caravans_EscortFloorT2Tip>
+  <TSA_WD_Caravans_EscortFloorT3>Escort strength floor (T3 sender)</TSA_WD_Caravans_EscortFloorT3>
+  <TSA_WD_Caravans_EscortFloorT3Tip>Same as the T1 floor, for trader caravans sent by a T3 settlement.</TSA_WD_Caravans_EscortFloorT3Tip>
+  <TSA_WD_Caravans_EscortFloorT4>Escort strength floor (T4 sender)</TSA_WD_Caravans_EscortFloorT4>
+  <TSA_WD_Caravans_EscortFloorT4Tip>Same as the T1 floor, for trader caravans sent by a T4 settlement.</TSA_WD_Caravans_EscortFloorT4Tip>
+  <TSA_WD_Caravans_EscortRecentInterceptWindow>Full-force window after a caravan is lost (days)</TSA_WD_Caravans_EscortRecentInterceptWindow>
+  <TSA_WD_Caravans_EscortRecentInterceptWindowTip>After one of a settlement's trader caravans is destroyed by ambush, Rapid Response, or mortar fire, its subsequent trader caravans go out at that settlement's full offensive-tier strength (instead of the flat floor above) for this many in-game days, deterring repeatedly farming the same supply line. Set to 0 to disable.</TSA_WD_Caravans_EscortRecentInterceptWindowTip>
+  <TSA_WD_Caravans_PlayerColonyTraderCooldown>Min. days between WD traders to player colony</TSA_WD_Caravans_PlayerColonyTraderCooldown>
+  <TSA_WD_Caravans_PlayerColonyTraderCooldownTip>Each of your map colonies can only be chosen as the destination of a WD trader caravan after this many in-game days since the last one was dispatched toward that colony (not when it arrives). Per colony. Set to 0 for no limit.</TSA_WD_Caravans_PlayerColonyTraderCooldownTip>
+  <TSA_WD_Caravans_WindowSubtitle>Advanced: travel, WD traders, delivery costs</TSA_WD_Caravans_WindowSubtitle>
+  <TSA_WD_Caravans_BlockStorytellerTraders>Disable storyteller trader caravans</TSA_WD_Caravans_BlockStorytellerTraders>
+  <TSA_WD_Caravans_BlockStorytellerTradersTip>When enabled, storyteller-spawned trader caravans are blocked. WD trader caravans are still allowed.</TSA_WD_Caravans_BlockStorytellerTradersTip>
+  <TSA_WD_Caravans_Reset>Reset this page to Defaults</TSA_WD_Caravans_Reset>
+  <TSA_WD_ShowAdvanced>Show advanced settings</TSA_WD_ShowAdvanced>
+  <TSA_WD_ShowAdvanced_Tooltip>Show extra menus (NPC Artillery, Building Projects, Mining baselines, Sabotage, Disinformation, World Gen, Garrison) and more options inside each settings dialog.</TSA_WD_ShowAdvanced_Tooltip>
+  <TSA_WD_Stats_H_Faction>Faction Name</TSA_WD_Stats_H_Faction>
+  <TSA_WD_Stats_FactionDefeated>Defeated</TSA_WD_Stats_FactionDefeated>
+  <TSA_WD_Stats_FactionDefeatedTip>This faction may make a comeback based on the daily revolt chance in the Diplomacy, Buffs &amp; Debuffs mod settings menu.</TSA_WD_Stats_FactionDefeatedTip>
+  <TSA_WD_Stats_H_Influence>Totals</TSA_WD_Stats_H_Influence>
+  <TSA_WD_Stats_H_Status>Buffs and Debuffs</TSA_WD_Stats_H_Status>
+  <TSA_WD_Stats_H_T1>Tier 1</TSA_WD_Stats_H_T1>
+  <TSA_WD_Stats_H_T2>Tier 2</TSA_WD_Stats_H_T2>
+  <TSA_WD_Stats_H_T3>Tier 3</TSA_WD_Stats_H_T3>
+  <TSA_WD_Stats_H_T4>Tier 4</TSA_WD_Stats_H_T4>
+  <TSA_WD_Stats_TierHeaderTip_Npc>NPC settlements in this column are real Tier {0} sites.</TSA_WD_Stats_TierHeaderTip_Npc>
+  <TSA_WD_Stats_TierHeaderTip_Player>For your faction, outposts are sorted into these columns by strength (offense + defense combined). They do not have a fixed settlement tier.</TSA_WD_Stats_TierHeaderTip_Player>
+  <TSA_WD_Stats_TierHeaderTip_Bands>Outpost strength bands:\nTier 1: under {0}\nTier 2: {1}–{2}\nTier 3: {3}–{4}\nTier 4: {5}+</TSA_WD_Stats_TierHeaderTip_Bands>
+  <TSA_WD_Stats_TierHeaderTip_ThisColumn>This column: Tier {0} ({1})</TSA_WD_Stats_TierHeaderTip_ThisColumn>
+  <TSA_WD_Stats_TierHeader_BandUnder>under {0}</TSA_WD_Stats_TierHeader_BandUnder>
+  <TSA_WD_Stats_TierHeader_BandRange>{0}–{1}</TSA_WD_Stats_TierHeader_BandRange>
+  <TSA_WD_Stats_TierHeader_BandAtLeast>{0}+</TSA_WD_Stats_TierHeader_BandAtLeast>
+  <TSA_WD_Stats_H_Threat>Attack-capable offense</TSA_WD_Stats_H_Threat>
+  <TSA_WD_Stats_Title>Global Faction Statistics</TSA_WD_Stats_Title>
+  <TSA_WD_Stats_WorldTotals>Totals</TSA_WD_Stats_WorldTotals>
+  <TSA_WD_Stats_RowTierTip>Tier {0} for this faction.\n\nSettlements: {1}\nStrength: {2}\nShare of world Tier {0} strength: {3}</TSA_WD_Stats_RowTierTip>
+  <TSA_WD_Stats_RowTotalsTip>Totals for this faction.\n\nSettlements: {0}\nStrength: {1}\nShare of world strength: {2}</TSA_WD_Stats_RowTotalsTip>
+  <TSA_WD_Stats_FooterTierTip>World total for Tier {0}.\n\nSettlements: {1}\nStrength: {2}</TSA_WD_Stats_FooterTierTip>
+  <TSA_WD_Stats_FooterTotalsTip>World total across all tiers.\n\nSettlements: {0}\nStrength: {1}</TSA_WD_Stats_FooterTotalsTip>
+  <TSA_WD_WorldDominationWindows>World Domination Windows</TSA_WD_WorldDominationWindows>
+  <TSA_WD_WorldMap_MenuTooltip>World Domination map tools</TSA_WD_WorldMap_MenuTooltip>
+  <TSA_WD_WorldMap_HotkeyLine>Hotkey: {0}</TSA_WD_WorldMap_HotkeyLine>
+  <TSA_WD_WorldMap_ToggleTierTexts>Settlement tier labels</TSA_WD_WorldMap_ToggleTierTexts>
+  <TSA_WD_WorldMap_ToggleTierTextsTip>Toggle the T1–T4 labels shown over NPC settlements.</TSA_WD_WorldMap_ToggleTierTextsTip>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>Road blocks and traps</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>Toggle cyan road-block and spike-trap / caltrops icons on the world map. Icons also hide when zoomed out.</TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>
+  <TSA_WD_WorldMap_ToggleFortifyBlacklist>Blocked tiles for NPC Fortification</TSA_WD_WorldMap_ToggleFortifyBlacklist>
+  <TSA_WD_WorldMap_ToggleFortifyBlacklistTip>Show tiles marked so allies (and neutrals if enabled) may not place new road blocks or traps. Existing forts stay until you Remove fortifications. Marks also show while using the mark/remove tools.</TSA_WD_WorldMap_ToggleFortifyBlacklistTip>
+  <TSA_WD_WorldMap_NoFortifyMarks>No-fortify marks</TSA_WD_WorldMap_NoFortifyMarks>
+  <TSA_WD_WorldMap_NoFortifyMarksTip>Show marks, or add and remove blocked tiles one click at a time.</TSA_WD_WorldMap_NoFortifyMarksTip>
+  <TSA_WD_WorldMap_AddBlockedTiles>Mark tiles NPCs may not fortify</TSA_WD_WorldMap_AddBlockedTiles>
+  <TSA_WD_WorldMap_AddBlockedTilesTip>Click tiles one by one to mark them. Allies (and neutrals if enabled) cannot place new fortifications there. Right-click or Esc to stop.</TSA_WD_WorldMap_AddBlockedTilesTip>
+  <TSA_WD_WorldMap_RemoveBlockedTiles>Remove tiles NPCs may not fortify</TSA_WD_WorldMap_RemoveBlockedTiles>
+  <TSA_WD_WorldMap_RemoveBlockedTilesTip>Click marked tiles one by one to clear them. Right-click or Esc to stop.</TSA_WD_WorldMap_RemoveBlockedTilesTip>
+  <TSA_WD_WorldMap_BlockedTilesDisabledTip>Enable "mark tiles where allies may not build fortifications" under World Actions → NPC Fortify.</TSA_WD_WorldMap_BlockedTilesDisabledTip>
+  <TSA_WD_WorldMap_ToggleRelationUnderlays>Highlight Relationships</TSA_WD_WorldMap_ToggleRelationUnderlays>
+  <TSA_WD_WorldMap_ToggleRelationUnderlaysTip>Semi-transparent discs over settlements and travelers: red hostile, grey neutral, green allied. Purple marks enemy raid caravans targeting your colony or a player outpost. Size scales with zoom. Hidden at the same far zoom as settlement tier labels.\n\nA star marks a WD quest target</TSA_WD_WorldMap_ToggleRelationUnderlaysTip>
+  <TSA_WD_WorldMap_ToggleRelationUnderlaysRelative>Relationships based on Selection</TSA_WD_WorldMap_ToggleRelationUnderlaysRelative>
+  <TSA_WD_WorldMap_ToggleRelationUnderlaysRelativeTip>When on (and Highlight Relationships is on), discs show hostile, neutral, or allied relative to the selected NPC settlement or traveler. With no valid selection, they use your colony as usual. Purple raid warnings stay based on threats to you.</TSA_WD_WorldMap_ToggleRelationUnderlaysRelativeTip>
+  <TSA_WD_WorldMap_TogglePlayerUnderlays>Highlight Player</TSA_WD_WorldMap_TogglePlayerUnderlays>
+  <TSA_WD_WorldMap_TogglePlayerUnderlaysTip>Semi-transparent cyan discs under your colonies, outposts, caravans, and travelers. Size scales with zoom. Hidden at the same far zoom as settlement tier labels. A star means that this outpost or colony is currently being targeted by an enemy raid caravan.</TSA_WD_WorldMap_TogglePlayerUnderlaysTip>
+  <TSA_WD_WorldMap_OutpostLabels>Outpost labels</TSA_WD_WorldMap_OutpostLabels>
+  <TSA_WD_WorldMap_OutpostLabelsTip>Show current food, current strength, outpost name, raid cooldown, or nothing over player outposts.</TSA_WD_WorldMap_OutpostLabelsTip>
+  <TSA_WD_OutpostWorldMapLabel_Off>Off</TSA_WD_OutpostWorldMapLabel_Off>
+  <TSA_WD_OutpostWorldMapLabel_Name>Name</TSA_WD_OutpostWorldMapLabel_Name>
+  <TSA_WD_OutpostWorldMapLabel_NameTip>Shows the outpost name.</TSA_WD_OutpostWorldMapLabel_NameTip>
+  <TSA_WD_OutpostWorldMapLabel_Food>Food</TSA_WD_OutpostWorldMapLabel_Food>
+  <TSA_WD_OutpostWorldMapLabel_FoodTip>Shows the current/maximum food and net change per day.</TSA_WD_OutpostWorldMapLabel_FoodTip>
+  <TSA_WD_OutpostWorldMapLabel_Strength>Strength</TSA_WD_OutpostWorldMapLabel_Strength>
+  <TSA_WD_OutpostWorldMapLabel_StrengthTip>Shows the current/max strength and net change per day.</TSA_WD_OutpostWorldMapLabel_StrengthTip>
+  <TSA_WD_OutpostWorldMapLabel_RaidCooldown>Raid cooldown</TSA_WD_OutpostWorldMapLabel_RaidCooldown>
+  <TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>Shows whether an outpost can be raided or how long its cooldown lasts.</TSA_WD_OutpostWorldMapLabel_RaidCooldownTip>
+  <TSA_WD_WorldMap_Raidable>Raidable</TSA_WD_WorldMap_Raidable>
+  <TSA_WD_WorldMap_RaidProtectionDays>{0} Days</TSA_WD_WorldMap_RaidProtectionDays>
+  <TSA_WD_WorldMap_OutpostSimulation>Establish outpost simulation</TSA_WD_WorldMap_OutpostSimulation>
+  <TSA_WD_WorldMap_OutpostSimulationTip>Click a world tile to preview establishing an outpost there (e.g. whether fertility is high enough for a farming outpost). Also shows material cost per outpost so you do not need to send a caravan only to find out you are missing resources.</TSA_WD_WorldMap_OutpostSimulationTip>
+  <TSA_WD_WorldMap_SectionProductivityOverlays>-- World Tile Overlays --</TSA_WD_WorldMap_SectionProductivityOverlays>
+  <TSA_WD_WorldMap_ToggleActivated>{0} activated</TSA_WD_WorldMap_ToggleActivated>
+  <TSA_WD_WorldMap_ToggleDeactivated>{0} deactivated</TSA_WD_WorldMap_ToggleDeactivated>
+  <TSA_WD_WorldMap_ProductivityOverlayNotifyLabel>{0} overlay</TSA_WD_WorldMap_ProductivityOverlayNotifyLabel>
+  <TSA_WD_WorldMap_OutpostLabelsNotify>Outpost labels: {0}</TSA_WD_WorldMap_OutpostLabelsNotify>
+  <TSA_WD_WorldMap_OverlayFertility>Fertility</TSA_WD_WorldMap_OverlayFertility>
+  <TSA_WD_WorldMap_OverlayFertilityTip>Shows tile fertility around the cursor. Useful for farms and ranches.\n\nColors (hover %):\n• Red: 0–35% (poor)\n• Orange/Yellow: 36–70%\n• Green: 71–100%\n• Purple: over 100% (best; mutators can push higher)\n\nOnly one tile overlay can be active; click again to turn it off.</TSA_WD_WorldMap_OverlayFertilityTip>
+  <TSA_WD_WorldMap_OverlayAnimalAbundance>Animal Abundance</TSA_WD_WorldMap_OverlayAnimalAbundance>
+  <TSA_WD_WorldMap_OverlayAnimalAbundanceTip>Shows animal abundance around the cursor. Useful for hunting outposts.\n\nColors (hover %):\n• Red: 0–35% (poor)\n• Orange/Yellow: 36–70%\n• Green: 71–100%\n• Purple: over 100% (best; mutators can push higher)\n\nOnly one tile overlay can be active; click again to turn it off.</TSA_WD_WorldMap_OverlayAnimalAbundanceTip>
+  <TSA_WD_WorldMap_OverlayFishAbundance>Fish Stocks</TSA_WD_WorldMap_OverlayFishAbundance>
+  <TSA_WD_WorldMap_OverlayFishAbundanceTip>Shows fish stocks around the cursor. Useful for fishing outposts (ocean coasts only).\n\nColors (hover %):\n• Red: 0–35% (poor)\n• Orange/Yellow: 36–70%\n• Green: 71–100%\n• Purple: over 100% (best; mutators can push higher)\n\nOnly one tile overlay can be active; click again to turn it off.</TSA_WD_WorldMap_OverlayFishAbundanceTip>
+  <TSA_WD_WorldMap_OverlayMiningEfficiency>Mining Efficiency</TSA_WD_WorldMap_OverlayMiningEfficiency>
+  <TSA_WD_WorldMap_OverlayMiningEfficiencyTip>Shows mining efficiency around the cursor. Useful for mining outposts.\n\nColors (hover %):\n• Red: 0–35% (poor)\n• Orange/Yellow: 36–70%\n• Green: 71–100%\n• Purple: over 100% (best; mutators can push higher)\n\nOnly one tile overlay can be active; click again to turn it off.</TSA_WD_WorldMap_OverlayMiningEfficiencyTip>
+  <TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>Overlays do not take into account Outpost upgrades but only the world tile as is.</TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>
+  <TSA_WD_WorldMap_OverlayMovementDifficulty>Movement Difficulty</TSA_WD_WorldMap_OverlayMovementDifficulty>
+  <TSA_WD_WorldMap_OverlayMovementDifficultyTip>Shows movement difficulty around the cursor (terrain × roads, including road blocks).\n\nColors:\n• Purple: 0–0.59 (best)\n• Green: 0.6–1.49\n• Yellow: 1.5–2.49\n• Red: 2.5–3.49\n• Dark red: 3.5+\n• Black: impassable\n\nOnly one tile overlay can be active; click again to turn it off.</TSA_WD_WorldMap_OverlayMovementDifficultyTip>
+  <TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>Movement difficulty: {0}</TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>
+  <TSA_WD_WorldMap_OverlayMovementDifficulty_Impassable>Impassable</TSA_WD_WorldMap_OverlayMovementDifficulty_Impassable>
+  <TSA_WD_WorldMap_OverlayPollution>Pollution</TSA_WD_WorldMap_OverlayPollution>
+  <TSA_WD_WorldMap_OverlayPollutionTip>Shows Biotech tile pollution around the cursor. Useful for planning Decontamination Crew missions.\n\nColors (hover %):\n• Green: 0%\n• Light green: 1–20%\n• Yellow: 21–40%\n• Orange: 41–69%\n• Red: 70–100%\n\nOnly one tile overlay can be active; click again to turn it off. Requires Biotech.</TSA_WD_WorldMap_OverlayPollutionTip>
+  <TSA_WD_WorldMap_OverlayPollution_Hover>Pollution: {0}%</TSA_WD_WorldMap_OverlayPollution_Hover>
+  <TSA_WD_WorldMap_SectionOutpostLabels>-- Outpost labels --</TSA_WD_WorldMap_SectionOutpostLabels>
+  <TSA_WD_WorldMap_ToggleCaravanBlockedTiles>Blocked tiles overlay</TSA_WD_WorldMap_ToggleCaravanBlockedTiles>
+  <TSA_WD_WorldMap_ToggleCaravanBlockedTilesTip>By default an outpost needs several free tiles of space from settlements and other outposts. When this overlay is on, blocked tiles around the cursor are hatched in the blocking faction's color (dark grey if none). Overlapping claims pick one faction consistently.</TSA_WD_WorldMap_ToggleCaravanBlockedTilesTip>
+  <TSA_WD_WorldMap_ChangeNotes>Change notes</TSA_WD_WorldMap_ChangeNotes>
+  <TSA_WD_WorldMap_ChangeNotesTip>Opens the World Domination update / change log.</TSA_WD_WorldMap_ChangeNotesTip>
+  <TSA_WD_WorldStats>World Stats</TSA_WD_WorldStats>
+  <!-- Diplomacy window: vanilla goodwill tweaks -->
+  <TSA_WD_Diplo_VanillaGoodwillHeader>Vanilla goodwill</TSA_WD_Diplo_VanillaGoodwillHeader>
+  <TSA_WD_Diplo_MaxGoodwill>Maximum goodwill</TSA_WD_Diplo_MaxGoodwill>
+  <TSA_WD_Diplo_MaxGoodwillTooltip>Caps how high goodwill with any faction can go (vanilla default is usually 100). WD can raise this so large gifts and investments are not wasted at the cap.</TSA_WD_Diplo_MaxGoodwillTooltip>
+  <TSA_WD_DisableSettlementProximityGoodwill>Disable goodwill loss for nearby settlements</TSA_WD_DisableSettlementProximityGoodwill>
+  <TSA_WD_DisableSettlementProximityGoodwillTooltip>When enabled, RimWorld’s periodic check for bases built too close to other factions does not change goodwill or send the proximity letter. Factions that expand next to you later will not penalize you. Settle-time warnings when choosing a tile are unchanged.</TSA_WD_DisableSettlementProximityGoodwillTooltip>
+  <TSA_WD_Diplo_LaunchPodGiftStrengthPer100>Launch-pod gift strength per 100 market value</TSA_WD_Diplo_LaunchPodGiftStrengthPer100>
+  <TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>Strength granted per 100 market value when gifting by launch pod (same rate as other faction investment). Vanilla goodwill is unchanged. Leftover value can fill nearby same-faction towns and buy tier-ups after caps are full.</TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>
+  <TSA_WD_Raid_Col0>Rel. Strength</TSA_WD_Raid_Col0>
+  <TSA_WD_Raid_Col1>Win Chance</TSA_WD_Raid_Col1>
+  <TSA_WD_Raid_Section1_WinChance>Attacker win likelihood per relative strength ratio</TSA_WD_Raid_Section1_WinChance>
+  <TSA_WD_Raid_Section2_Desc>When the attacker wins, how decisive is the victory?</TSA_WD_Raid_Section2_Desc>
+  <TSA_WD_Raid_Section3_Desc>When the attacker loses, how bad will the loss be?</TSA_WD_Raid_Section3_Desc>
+  <TSA_WD_Raid_Section4_Desc>When the defender loses, how bad will the loss be?</TSA_WD_Raid_Section4_Desc>
+  <TSA_WD_Raid_Section5_Desc>When the defender wins, how decisive is the victory?</TSA_WD_Raid_Section5_Desc>
+  <TSA_WD_Raid_Section6_LossTables>Strength loss per outcome (global)</TSA_WD_Raid_Section6_LossTables>
+  <TSA_WD_Raid_Section6_Tip>Strength lost by each side. Close = narrow / hard-fought battle, Decisive = one-sided battle. Winners lose less when decisive; losers lose more when routed.</TSA_WD_Raid_Section6_Tip>
+  <TSA_WD_Raid_Section6_AttWin>Attacker Win</TSA_WD_Raid_Section6_AttWin>
+  <TSA_WD_Raid_Section6_AttLoss>Attacker Loss</TSA_WD_Raid_Section6_AttLoss>
+  <TSA_WD_Raid_Section6_DefWin>Defender Win</TSA_WD_Raid_Section6_DefWin>
+  <TSA_WD_Raid_Section6_DefLoss>Defender Loss</TSA_WD_Raid_Section6_DefLoss>
+  <TSA_WD_Raid_LossRow_Close>Close</TSA_WD_Raid_LossRow_Close>
+  <TSA_WD_Raid_LossRow_Normal>Normal</TSA_WD_Raid_LossRow_Normal>
+  <TSA_WD_Raid_LossRow_Decisive>Decisive</TSA_WD_Raid_LossRow_Decisive>
+  <TSA_WD_Raid_CloseAttackerWin>Close Attacker Win</TSA_WD_Raid_CloseAttackerWin>
+  <TSA_WD_Raid_NormalAttackerWin>Normal Attacker Win</TSA_WD_Raid_NormalAttackerWin>
+  <TSA_WD_Raid_DecisiveAttackerWin>Decisive Attacker Win</TSA_WD_Raid_DecisiveAttackerWin>
+  <TSA_WD_Raid_CloseAttackerLoss>Close Attacker Loss</TSA_WD_Raid_CloseAttackerLoss>
+  <TSA_WD_Raid_NormalAttackerLoss>Normal Attacker Loss</TSA_WD_Raid_NormalAttackerLoss>
+  <TSA_WD_Raid_DecisiveAttackerLoss>Decisive Attacker Loss</TSA_WD_Raid_DecisiveAttackerLoss>
+  <TSA_WD_Raid_CloseDefenderWin>Close Defender Win</TSA_WD_Raid_CloseDefenderWin>
+  <TSA_WD_Raid_NormalDefenderWin>Normal Defender Win</TSA_WD_Raid_NormalDefenderWin>
+  <TSA_WD_Raid_DecisiveDefenderWin>Decisive Defender Win</TSA_WD_Raid_DecisiveDefenderWin>
+  <TSA_WD_Raid_CloseDefenderLoss>Close Defender Loss</TSA_WD_Raid_CloseDefenderLoss>
+  <TSA_WD_Raid_NormalDefenderLoss>Normal Defender Loss</TSA_WD_Raid_NormalDefenderLoss>
+  <TSA_WD_Raid_DecisiveDefenderLoss>Decisive Defender Loss</TSA_WD_Raid_DecisiveDefenderLoss>
+  <TSA_WD_Raid_CloseAttackerVictory>Close Attacker Victory</TSA_WD_Raid_CloseAttackerVictory>
+  <TSA_WD_Raid_NormalAttackerVictory>Normal Attacker Victory</TSA_WD_Raid_NormalAttackerVictory>
+  <TSA_WD_Raid_DecisiveAttackerVictory>Decisive Attacker Victory</TSA_WD_Raid_DecisiveAttackerVictory>
+  <TSA_WD_Raid_CloseDefenderVictory>Close Defender Victory</TSA_WD_Raid_CloseDefenderVictory>
+  <TSA_WD_Raid_NormalDefenderVictory>Normal Defender Victory</TSA_WD_Raid_NormalDefenderVictory>
+  <TSA_WD_Raid_DecisiveDefenderVictory>Decisive Defender Victory</TSA_WD_Raid_DecisiveDefenderVictory>
+  <!-- Notifications: per diplomacy / buff event letters -->
+  <TSA_WD_Notify_HeaderDiplomacyBuffs>WD diplomacy &amp; power-balance letters</TSA_WD_Notify_HeaderDiplomacyBuffs>
+  <TSA_WD_Notify_LeaderHandicap>Notify: world leader handicap</TSA_WD_Notify_LeaderHandicap>
+  <TSA_WD_Notify_LeaderHandicapTooltip>Letter when the dominant faction is hit with the temporary leader handicap.</TSA_WD_Notify_LeaderHandicapTooltip>
+  <TSA_WD_Notify_UnderdogBuff>Notify: underdog buff</TSA_WD_Notify_UnderdogBuff>
+  <TSA_WD_Notify_UnderdogBuffTooltip>Letter when a weak faction receives the temporary underdog buff.</TSA_WD_Notify_UnderdogBuffTooltip>
+  <TSA_WD_Notify_ExpansionistZeal>Notify: expansionist zeal</TSA_WD_Notify_ExpansionistZeal>
+  <TSA_WD_Notify_ExpansionistZealTooltip>Letter when a faction enters expansionist zeal (wider raid range, etc.).</TSA_WD_Notify_ExpansionistZealTooltip>
+  <TSA_WD_Notify_AntiLeaderCoalition>Notify: anti-leader coalition</TSA_WD_Notify_AntiLeaderCoalition>
+  <TSA_WD_Notify_AntiLeaderCoalitionTooltip>Letter when weaker factions form a coalition against an over-dominant leader.</TSA_WD_Notify_AntiLeaderCoalitionTooltip>
+  <TSA_WD_Notify_RandomDiplomacy>Notify: random diplomatic shifts</TSA_WD_Notify_RandomDiplomacy>
+  <TSA_WD_Notify_RandomDiplomacyTooltip>Letter when World Domination randomly changes a pair of NPC factions (war, peace, ally).</TSA_WD_Notify_RandomDiplomacyTooltip>
+  <TSA_WD_Notify_TradeAllyDiplomacy>Notify: allies from trade</TSA_WD_Notify_TradeAllyDiplomacy>
+  <TSA_WD_Notify_TradeAllyDiplomacyTooltip>Letter when two NPC factions become allies because WD trader goodwill crossed the ally threshold.</TSA_WD_Notify_TradeAllyDiplomacyTooltip>
+  <TSA_WD_Notify_StrongFactionWar>Notify: strong-faction wars</TSA_WD_Notify_StrongFactionWar>
+  <TSA_WD_Notify_StrongFactionWarTooltip>Letter when strong NPC factions cool an alliance to neutral or escalate from neutral to war.</TSA_WD_Notify_StrongFactionWarTooltip>
+  <TSA_WD_BtnRoadBuilding>Building Projects</TSA_WD_BtnRoadBuilding>
+  <TSA_WD_DescRoadBuilding>Configure outpost and NPC road, road-block, and trap construction (ranges, work, expedition strength, and road fallbacks when Roads of the Rim is not active).</TSA_WD_DescRoadBuilding>
+  <TSA_WD_RoadBuilding_Note>Road movement / work / min Construction apply only when Roads of the Rim is NOT active. Winter reduction always applies (writes RotR winterFactor when that mod is present).</TSA_WD_RoadBuilding_Note>
+  <TSA_WD_RoadBuilding_RoadsHeader>Roads</TSA_WD_RoadBuilding_RoadsHeader>
+  <TSA_WD_RoadBuilding_RoadRange>Range to build Roads</TSA_WD_RoadBuilding_RoadRange>
+  <TSA_WD_RoadBuilding_RoadRangeTip>Maximum world-tile range for planning road construction from an outpost (and NPC road attempts).</TSA_WD_RoadBuilding_RoadRangeTip>
+  <TSA_WD_RoadBuilding_RoadRangePlayer>Player outpost road range</TSA_WD_RoadBuilding_RoadRangePlayer>
+  <TSA_WD_RoadBuilding_RoadRangePlayerTip>Maximum world-tile range for planning road construction from player outposts.</TSA_WD_RoadBuilding_RoadRangePlayerTip>
+  <TSA_WD_RoadBuilding_RoadRangeNpc>NPC road range</TSA_WD_RoadBuilding_RoadRangeNpc>
+  <TSA_WD_RoadBuilding_RoadRangeNpcTip>Maximum world-tile range for NPC settlements attempting to build roads to allies.</TSA_WD_RoadBuilding_RoadRangeNpcTip>
+  <TSA_WD_RoadBuilding_DirtRoad>Dirt road</TSA_WD_RoadBuilding_DirtRoad>
+  <TSA_WD_RoadBuilding_StoneRoad>Stone road</TSA_WD_RoadBuilding_StoneRoad>
+  <TSA_WD_RoadBuilding_AsphaltRoad>Asphalt road</TSA_WD_RoadBuilding_AsphaltRoad>
+  <TSA_WD_RoadBuilding_Movement>Movement Difficulty Multiplier</TSA_WD_RoadBuilding_Movement>
+  <TSA_WD_RoadBuilding_MovementTip>Multiplies world-path movement difficulty on this road type while Roads of the Rim is not active (written onto the vanilla road def). Lower = faster travel.</TSA_WD_RoadBuilding_MovementTip>
+  <TSA_WD_RoadBuilding_WinterReductionHeader>Winter movement penalty reduction</TSA_WD_RoadBuilding_WinterReductionHeader>
+  <TSA_WD_RoadBuilding_WinterReduction>Winter movement penalty reduction</TSA_WD_RoadBuilding_WinterReduction>
+  <TSA_WD_RoadBuilding_WinterReductionTip>How much of the winter movement penalty this road type cancels. Always applied: via our winter patch when Roads of the Rim is off, or written into RotR winterFactor when that mod is active. Shown in the world tile Terrain tab movement tooltip and included in the movement-difficulty overlay.</TSA_WD_RoadBuilding_WinterReductionTip>
+  <TSA_WD_RoadBuilding_WinterReductionExplanation>{0}: winter penalty reduced by {1}% (movement mult ×{2})</TSA_WD_RoadBuilding_WinterReductionExplanation>
+  <TSA_WD_RoadBuilding_WinterReductionTerrainTip>{0}: winter penalty reduction {1}% (applied via Roads of the Rim)</TSA_WD_RoadBuilding_WinterReductionTerrainTip>
+  <TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>{0}: winter penalty reduction {1}% (no winter on this tile right now)</TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>
+  <TSA_WD_RoadBuilding_Work>Work needed to build</TSA_WD_RoadBuilding_Work>
+  <TSA_WD_RoadBuilding_WorkTip>Abstract work cost for one road segment (WD progress only, not vanilla Construction jobs). Progress rate equals total Construction skill in the outpost. Example: at Dirt Work 250, 1 Construction skill does 25 Work per day, so Dirt takes about 10 days at 1 skill or about 1 day at 10 skill. Higher Work values for Stone or Asphalt take proportionally longer.</TSA_WD_RoadBuilding_WorkTip>
+  <TSA_WD_RoadBuilding_RoadStrength>Off. Strength deducted on Caravan dispatch</TSA_WD_RoadBuilding_RoadStrength>
+  <TSA_WD_RoadBuilding_RoadStrengthTip>Offensive strength removed from the outpost when a road-builder caravan is dispatched for one segment. Refunded if the launch fails immediately.</TSA_WD_RoadBuilding_RoadStrengthTip>
+  <TSA_WD_RoadBuilding_MinConstruction>Min Construction skill needed to build</TSA_WD_RoadBuilding_MinConstruction>
+  <TSA_WD_RoadBuilding_MinConstructionTip>Total Construction skill required in the outpost before this road type can be selected while Roads of the Rim is not active.</TSA_WD_RoadBuilding_MinConstructionTip>
+  <TSA_WD_RoadBuilding_Reset>Reset outpost building projects to defaults</TSA_WD_RoadBuilding_Reset>
+  <TSA_WD_RoadBuilding_RoadBlocksHeader>Road Blocks</TSA_WD_RoadBuilding_RoadBlocksHeader>
+  <TSA_WD_RoadBuilding_RoadBlockRange>Range to build Road Blocks</TSA_WD_RoadBuilding_RoadBlockRange>
+  <TSA_WD_RoadBuilding_RoadBlockRangeTip>Maximum world-tile range for planning road-block build/clear polylines from an outpost.</TSA_WD_RoadBuilding_RoadBlockRangeTip>
+  <TSA_WD_RoadBuilding_RoadBlockWorkTip>Abstract work cost for one road-block tile (build or clear). Same Construction progress rules as roads: rate = total Construction skill; relative Work vs Dirt road Work sets duration.</TSA_WD_RoadBuilding_RoadBlockWorkTip>
+  <TSA_WD_RoadBuilding_RoadBlockPenalty>Movement penalty</TSA_WD_RoadBuilding_RoadBlockPenalty>
+  <TSA_WD_RoadBuilding_RoadBlockPenaltyTip>Flat movement difficulty added after road multipliers when entering a blocked tile of this tier (all factions; ballistic travel ignores this).</TSA_WD_RoadBuilding_RoadBlockPenaltyTip>
+  <TSA_WD_RoadBuilding_RoadBlockStrength>Off. Strength deducted on Caravan dispatch</TSA_WD_RoadBuilding_RoadBlockStrength>
+  <TSA_WD_RoadBuilding_RoadBlockStrengthTip>Offensive strength removed from the outpost when a road-block caravan is dispatched for one tile. Refunded if the launch fails immediately.</TSA_WD_RoadBuilding_RoadBlockStrengthTip>
+  <TSA_WD_RoadBuilding_MaxHealth>Max health</TSA_WD_RoadBuilding_MaxHealth>
+  <TSA_WD_RoadBuilding_MaxHealthTip>Hit points when placed or upgraded. Hostile travelers wear this by their strength when leaving the tile.</TSA_WD_RoadBuilding_MaxHealthTip>
+  <TSA_WD_RoadBuilding_SpikeTrapsHeader>Traps</TSA_WD_RoadBuilding_SpikeTrapsHeader>
+  <TSA_WD_RoadBuilding_SpikeTrapRange>Range to build Traps</TSA_WD_RoadBuilding_SpikeTrapRange>
+  <TSA_WD_RoadBuilding_SpikeTrapRangeTip>Maximum world-tile range for planning trap build/clear polylines from an outpost.</TSA_WD_RoadBuilding_SpikeTrapRangeTip>
+  <TSA_WD_RoadBuilding_SpikeTrapWorkTip>Abstract work cost for one trap tile (build or clear). Same Construction progress rules as roads: rate = total Construction skill; relative Work vs Dirt road Work sets duration.</TSA_WD_RoadBuilding_SpikeTrapWorkTip>
+  <TSA_WD_RoadBuilding_SpikeTrapStrength>Off. Strength deducted on Caravan dispatch</TSA_WD_RoadBuilding_SpikeTrapStrength>
+  <TSA_WD_RoadBuilding_SpikeTrapStrengthTip>Offensive strength removed from the outpost when a trap caravan is dispatched for one tile. Refunded if the launch fails immediately.</TSA_WD_RoadBuilding_SpikeTrapStrengthTip>
+  <TSA_WD_RoadBuilding_SpikeTrapDamage>Trap damage</TSA_WD_RoadBuilding_SpikeTrapDamage>
+  <TSA_WD_RoadBuilding_SpikeTrapDamageTip>Strength removed from a hostile ground traveler when leaving a trapped tile. The trap also wears by traveler strength.</TSA_WD_RoadBuilding_SpikeTrapDamageTip>
+  <TSA_WD_RoadBuilding_SpikeTrapMaxTriggers>Max traps per traveler</TSA_WD_RoadBuilding_SpikeTrapMaxTriggers>
+  <TSA_WD_RoadBuilding_SpikeTrapMaxTriggersTip>How many traps a single traveler can trigger. Further traps on their path are ignored (no damage, no wear).</TSA_WD_RoadBuilding_SpikeTrapMaxTriggersTip>
+  <TSA_WD_RoadBuilding_AT_TurretsHeader>AT Turrets</TSA_WD_RoadBuilding_AT_TurretsHeader>
+  <TSA_WD_RoadBuilding_AT_TurretsNote>Light, Medium, and Heavy are buildable. Settlements build by tier (Tier 1–2 Light, Tier 3 Medium, Tier 4 Heavy). Work is build time cost (defaults are twice prior road-parity costs). Expedition strength is crew cost, not gun HP.</TSA_WD_RoadBuilding_AT_TurretsNote>
+  <TSA_WD_RoadBuilding_AT_TurretWorkTip>Abstract work cost for one AT Turret. Same Construction progress rules as roads. Defaults take about twice as long as the old road-matched costs.</TSA_WD_RoadBuilding_AT_TurretWorkTip>
+  <TSA_WD_RoadBuilding_AT_TurretStrength>Off. Strength deducted on Caravan dispatch</TSA_WD_RoadBuilding_AT_TurretStrength>
+  <TSA_WD_RoadBuilding_AT_TurretStrengthTip>Offensive strength removed when an AT Turret crew is dispatched. Medium defaults match asphalt.</TSA_WD_RoadBuilding_AT_TurretStrengthTip>
+  <TSA_WD_RoadBuilding_DecontaminationHeader>Decontamination</TSA_WD_RoadBuilding_DecontaminationHeader>
+  <TSA_WD_RoadBuilding_DecontaminationRange>Range for Decontamination</TSA_WD_RoadBuilding_DecontaminationRange>
+  <TSA_WD_RoadBuilding_DecontaminationRangeTip>Maximum world-tile range for planning decontamination polylines from an outpost.</TSA_WD_RoadBuilding_DecontaminationRangeTip>
+  <TSA_WD_RoadBuilding_DecontaminationWorkTip>Abstract work cost for one polluted tile scrub. Same Construction progress rules as roads: rate = total Construction skill; relative Work vs Asphalt road Work sets duration.</TSA_WD_RoadBuilding_DecontaminationWorkTip>
+  <TSA_WD_RoadBuilding_DecontaminationStrength>Strength cost (decontamination)</TSA_WD_RoadBuilding_DecontaminationStrength>
+  <TSA_WD_RoadBuilding_DecontaminationStrengthTip>Offensive strength removed from the outpost when a decontamination caravan is dispatched for one tile. Refunded if the launch fails immediately.</TSA_WD_RoadBuilding_DecontaminationStrengthTip>
+  <TSA_WD_RoadBuilding_DecontaminationReduction>Pollution reduction (pp)</TSA_WD_RoadBuilding_DecontaminationReduction>
+  <TSA_WD_RoadBuilding_DecontaminationReductionTip>Percentage points of world-tile pollution removed per scrub visit (20 = −20pp).</TSA_WD_RoadBuilding_DecontaminationReductionTip>
+  <TSA_WD_RoadBlockLight>Light road block</TSA_WD_RoadBlockLight>
+  <TSA_WD_RoadBlockNormal>Medium road block</TSA_WD_RoadBlockNormal>
+  <TSA_WD_RoadBlockHeavy>Heavy road block</TSA_WD_RoadBlockHeavy>
+  <TSA_WD_RoadBlockGate>Gate</TSA_WD_RoadBlockGate>
+  <TSA_WD_RoadBlockKind_Disabled>{0} (Construction {1}/{2})</TSA_WD_RoadBlockKind_Disabled>
+  <TSA_WD_RoadBlockKindTooltip>Work: {0}\nMovement penalty: +{1}\nEst. days/tile: {2}\nStrength cost: {3}\nMax HP: {4}</TSA_WD_RoadBlockKindTooltip>
+  <TSA_WD_SpikeTrapSpike>Spike trap</TSA_WD_SpikeTrapSpike>
+  <TSA_WD_SpikeTrapCaltrops>Caltrops</TSA_WD_SpikeTrapCaltrops>
+  <TSA_WD_SpikeTrapKind_Disabled>{0} (Construction {1}/{2})</TSA_WD_SpikeTrapKind_Disabled>
+  <TSA_WD_SpikeTrapKindTooltip>Work: {0}\nDamage: {1}\nEst. days/tile: {2}\nStrength cost: {3}\nMax HP: {4}</TSA_WD_SpikeTrapKindTooltip>
+  <TSA_WD_RoadKindTooltip>Work: {0}\nMovement mult: {1}\nEst. days/segment: {2}\nStrength cost: {3}</TSA_WD_RoadKindTooltip>
+  <TSA_WD_BuildReq_Header>Requirements</TSA_WD_BuildReq_Header>
+  <TSA_WD_BuildReq_Construction>Construction: {0} / {1}</TSA_WD_BuildReq_Construction>
+  <TSA_WD_BuildReq_ResearchNone>Research: none</TSA_WD_BuildReq_ResearchNone>
+  <TSA_WD_BuildReq_ResearchDone>Research: {0} (done)</TSA_WD_BuildReq_ResearchDone>
+  <TSA_WD_BuildReq_ResearchMissing>Research: {0} (missing)</TSA_WD_BuildReq_ResearchMissing>
+  <TSA_WD_BuildReq_MaterialsNone>Materials: none</TSA_WD_BuildReq_MaterialsNone>
+  <TSA_WD_BuildReq_MaterialsHeader>Materials:</TSA_WD_BuildReq_MaterialsHeader>
+  <TSA_WD_BuildReq_MaterialLine>  - {0} x{1}</TSA_WD_BuildReq_MaterialLine>
+  <TSA_WD_BuildReq_Unmet>Construction skill or research requirements are not met.</TSA_WD_BuildReq_Unmet>
+
+  <!-- Outpost skill diminishing returns -->
+  <TSA_WD_SkillScaling_Reset>Reset skill scaling</TSA_WD_SkillScaling_Reset>
+  <TSA_WD_SkillScaling_Intro>Decide whether adding skill points like Plants for a Farming Outpost should increase output indefinitely, or whether there should be diminishing returns at certain thresholds. Founding requirements still use raw skill.</TSA_WD_SkillScaling_Intro>
+  <TSA_WD_SkillScaling_Enable>Enable diminishing returns</TSA_WD_SkillScaling_Enable>
+  <TSA_WD_SkillScaling_EnableTip>When on, stacking more total skill past the first threshold gives less and less extra production.</TSA_WD_SkillScaling_EnableTip>
+  <TSA_WD_SkillScaling_HardCap>Hard cap (raw skill)</TSA_WD_SkillScaling_HardCap>
+  <TSA_WD_SkillScaling_HardCapTip>Past this total raw skill, more skill adds no further production capacity.</TSA_WD_SkillScaling_HardCapTip>
+  <TSA_WD_SkillScaling_BandsHeader>Skill bands</TSA_WD_SkillScaling_BandsHeader>
+  <TSA_WD_SkillScaling_BandsTip></TSA_WD_SkillScaling_BandsTip>
+  <TSA_WD_SkillScaling_BandRange>Setting applies to cumulative skill from {0} to {1}</TSA_WD_SkillScaling_BandRange>
+  <TSA_WD_SkillScaling_BandEnd>Band {0} ends at</TSA_WD_SkillScaling_BandEnd>
+  <TSA_WD_SkillScaling_BandEndTip>Drag to set where this skill range ends (and the next begins).</TSA_WD_SkillScaling_BandEndTip>
+  <TSA_WD_SkillScaling_BandEfficiency>Efficiency of skill points in this band: {0}%</TSA_WD_SkillScaling_BandEfficiency>
+  <TSA_WD_SkillScaling_BandWeight>Band {0} weight %</TSA_WD_SkillScaling_BandWeight>
+  <TSA_WD_SkillScaling_BandWeightTip>How much of each skill point in this range counts toward production. Cannot be higher than the previous band.</TSA_WD_SkillScaling_BandWeightTip>
+  <TSA_WD_SkillScaling_PreviewHeader>Preview</TSA_WD_SkillScaling_PreviewHeader>
+  <TSA_WD_SkillScaling_PreviewRaw>Sample raw skill</TSA_WD_SkillScaling_PreviewRaw>
+  <TSA_WD_SkillScaling_PreviewResult>Effective skill: {0}</TSA_WD_SkillScaling_PreviewResult>
+  <TSA_WD_SkillScaling_RawToEffective>{0} → {1}</TSA_WD_SkillScaling_RawToEffective>
+  <TSA_WD_SkillScaling_DisabledTip>Skill diminishing returns are disabled.</TSA_WD_SkillScaling_DisabledTip>
+  <TSA_WD_SkillScaling_BreakdownHeader>Skill scaling: {0} raw → {1} effective</TSA_WD_SkillScaling_BreakdownHeader>
+  <TSA_WD_SkillScaling_BandLine>Skill points {0}–{1} = {2}% efficiency</TSA_WD_SkillScaling_BandLine>
+  <TSA_WD_SkillScaling_HardCapLine>Hard cap: {0} raw</TSA_WD_SkillScaling_HardCapLine>
+  <TSA_WD_SkillScaling_BannerSoft>Diminishing returns due to high skill points. Raw: {0}, Effective: {1}</TSA_WD_SkillScaling_BannerSoft>
+  <TSA_WD_SkillScaling_BannerHardCap>Hard cap reached. Further skill adds nothing. Raw: {0}, Effective: {1}</TSA_WD_SkillScaling_BannerHardCap>
+  <TSA_WD_SkillScaling_OverviewLabel>Diminishing Returns</TSA_WD_SkillScaling_OverviewLabel>
+  <TSA_WD_Pollution_EnableTravelerDamage>Pollution strength damage</TSA_WD_Pollution_EnableTravelerDamage>
+  <TSA_WD_Pollution_EnableTravelerDamageTip>When on, eligible ground WD travelers lose strength leaving polluted tiles, and NPC settlements plus WD outposts take daily strength damage from average pollution nearby. Decontamination crews, airborne shells, and drop pods are unaffected. Use the type checkboxes to choose which caravans take exit damage. NPC settlements also send cheap decontamination crews every 12 hours.</TSA_WD_Pollution_EnableTravelerDamageTip>
+  <TSA_WD_Pollution_WasterImmunity>Waster pirate pollution immunity</TSA_WD_Pollution_WasterImmunity>
+  <TSA_WD_Pollution_WasterImmunityTip>When on, PirateWaster factions skip traveler exit damage, site daily pollution damage, and NPC auto-decontamination.</TSA_WD_Pollution_WasterImmunityTip>
+  <TSA_WD_Pollution_DamageRaiders>Raider caravans</TSA_WD_Pollution_DamageRaiders>
+  <TSA_WD_Pollution_DamageRaidersTip>Ground raid and rapid-response caravans take pollution exit damage. Drop-pod raids stay exempt.</TSA_WD_Pollution_DamageRaidersTip>
+  <TSA_WD_Pollution_DamageExpansion>Expansion caravans</TSA_WD_Pollution_DamageExpansion>
+  <TSA_WD_Pollution_DamageExpansionTip>Expansion caravans take pollution exit damage.</TSA_WD_Pollution_DamageExpansionTip>
+  <TSA_WD_Pollution_DamageConstruction>Construction caravans</TSA_WD_Pollution_DamageConstruction>
+  <TSA_WD_Pollution_DamageConstructionTip>Road builders, road-block crews, spike-trap crews, and NPC fortify crews take pollution exit damage.</TSA_WD_Pollution_DamageConstructionTip>
+  <TSA_WD_Pollution_DamageTraders>Traders and logistics</TSA_WD_Pollution_DamageTraders>
+  <TSA_WD_Pollution_DamageTradersTip>Trader, delivery, upgrade, buy, and gift caravans take pollution exit damage (ground only).</TSA_WD_Pollution_DamageTradersTip>
+  <TSA_WD_Pollution_DamagePlayer>Player WD travelers</TSA_WD_Pollution_DamagePlayer>
+  <TSA_WD_Pollution_DamagePlayerTip>When off, player-faction WD travelers take no pollution exit damage even if their type checkbox is on.</TSA_WD_Pollution_DamagePlayerTip>
+  <TSA_WD_Pollution_BannerDamage>Will take damage from pollution</TSA_WD_Pollution_BannerDamage>
+  <TSA_WD_Pollution_BannerRouteAltered>Route altered to avoid pollution</TSA_WD_Pollution_BannerRouteAltered>
+  <TSA_WD_Msg_RaidCancelledPollution>Raid cancelled: the route would lose about {0} strength to pollution.</TSA_WD_Msg_RaidCancelledPollution>
+  <TSA_WD_Experimental_HeaderWorldActionsRaidLogic>World Actions &amp; Raid Logic</TSA_WD_Experimental_HeaderWorldActionsRaidLogic>
+  <TSA_WD_Experimental_ColonyWorldBuild>Experimental: colony world Build (roads / blocks / traps)</TSA_WD_Experimental_ColonyWorldBuild>
+  <TSA_WD_Experimental_ColonyWorldBuildTip>When on, your colony Settlement gets the cyan Build gizmo (roads, road blocks, spike traps). Speed and unlocks use the sum of Construction skill on colonists at the colony map. No Engineer bonus and no WD strength cost. Turning this off cancels active colony construction projects.</TSA_WD_Experimental_ColonyWorldBuildTip>
+  <TSA_WD_Experimental_PlayerConquestRaze>Experimental: player conquest can raze</TSA_WD_Experimental_PlayerConquestRaze>
+  <TSA_WD_Experimental_PlayerConquestRazeTip>When on, wiping an NPC settlement yourself (or simulated conquest that would open the conquest menu) rolls the same Raze Chance as automatic NPC raids. On a raze, you get no recruit / gift / outpost opportunity, and timed ruins remain. Off by default.</TSA_WD_Experimental_PlayerConquestRazeTip>
+  <TSA_WD_Experimental_AT_TargetPlayerTravelers>NPC AT Turrets target player WD travelers</TSA_WD_Experimental_AT_TargetPlayerTravelers>
+  <TSA_WD_Experimental_AT_TargetPlayerTravelersTip>When on, hostile NPC AT Turrets may fire at your ground WD travelers (raid, upgrade, delivery, trader, and other non-airborne missions). Off stops new engagements; shells already in flight still resolve.</TSA_WD_Experimental_AT_TargetPlayerTravelersTip>
+  <TSA_WD_Experimental_AT_TargetPlayerCaravans>NPC AT Turrets target player caravans</TSA_WD_Experimental_AT_TargetPlayerCaravans>
+  <TSA_WD_Experimental_AT_TargetPlayerCaravansTip>When on, hostile NPC AT Turrets may fire at your real pawn caravans. Hits wound or kill passengers like anti-air vs transport pods. Off stops new engagements; shells already in flight still resolve.</TSA_WD_Experimental_AT_TargetPlayerCaravansTip>
+  <TSA_WD_Experimental_HeaderTargetOfOpportunity>Target-of-opportunity retargeting</TSA_WD_Experimental_HeaderTargetOfOpportunity>
+  <TSA_WD_Experimental_TargetOfOpportunity>Experimental: target-of-opportunity retargeting</TSA_WD_Experimental_TargetOfOpportunity>
+  <TSA_WD_Experimental_TargetOfOpportunityTip>When on, an in-flight raid (NPC-vs-NPC, NPC-vs-player, or player-vs-NPC) that passes near a weaker settlement or outpost may redirect onto it instead of continuing to its original target. Never diverts onto another passing caravan or traveler, only onto a static settlement/outpost. By default only after mid or late escalation; turn on "Allow target-of-opportunity, marauding and ambush from the start" below to skip that gate. Off by default.</TSA_WD_Experimental_TargetOfOpportunityTip>
+  <TSA_WD_Experimental_ToORollPct>Eligibility roll chance</TSA_WD_Experimental_ToORollPct>
+  <TSA_WD_Experimental_ToORollPctTip>Cheap coin flip rolled every time a raid passes near an eligible watcher, before any strength math runs. Most passes are discarded here for free (this is both the "chance a raid is even eligible to swap" and the main performance throttle).</TSA_WD_Experimental_ToORollPctTip>
+  <TSA_WD_Experimental_ToOMinRatioAdvantage>Required ratio advantage to switch</TSA_WD_Experimental_ToOMinRatioAdvantage>
+  <TSA_WD_Experimental_ToOMinRatioAdvantageTip>Strength ratio means raid strength divided by the target's defense. A nearby settlement only becomes the new target if its ratio is at least this much higher than the current target's ratio. Example: current 1.10 and setting 0.25 means the new target needs 1.35 or better.</TSA_WD_Experimental_ToOMinRatioAdvantageTip>
+  <TSA_WD_Experimental_ToOMaxRetargets>Max retargets per raid</TSA_WD_Experimental_ToOMaxRetargets>
+  <TSA_WD_Experimental_ToOMaxRetargetsTip>Caps how many times a single raid can pick a new target of opportunity before it must commit to whichever target it currently has.</TSA_WD_Experimental_ToOMaxRetargetsTip>
+  <TSA_WD_Experimental_TargetChangesMaxLifetime>Max target changes per raid (ToO + Marauding)</TSA_WD_Experimental_TargetChangesMaxLifetime>
+  <TSA_WD_Experimental_TargetChangesMaxLifetimeTip>One raid cannot change targets more than this many times in total. That count includes mid-travel opportunity switches and picking a new target after a win. The separate Max retargets / Max chained targets caps above still apply too.</TSA_WD_Experimental_TargetChangesMaxLifetimeTip>
+  <TSA_WD_Experimental_HeaderMarauding>Post-victory marauding</TSA_WD_Experimental_HeaderMarauding>
+  <TSA_WD_Experimental_ContinueAfterConquest>Experimental: continue raiding after conquest</TSA_WD_Experimental_ContinueAfterConquest>
+  <TSA_WD_Experimental_ContinueAfterConquestTip>When on, a raid that wins may keep going and attack another nearby weak settlement instead of always disbanding after its first victory. Only continues for auto-resolved NPC/simulated victories, never for a raid resolved through the player colony's manual defense dialog. By default only after mid or late escalation; turn on "Allow target-of-opportunity, marauding and ambush from the start" below to skip that gate. Off by default.</TSA_WD_Experimental_ContinueAfterConquestTip>
+  <TSA_WD_Experimental_MaraudChancePct>Chance to continue after a win</TSA_WD_Experimental_MaraudChancePct>
+  <TSA_WD_Experimental_MaraudChancePctTip>Rolled once immediately after a victory, before any other marauding checks.</TSA_WD_Experimental_MaraudChancePctTip>
+  <TSA_WD_Experimental_MaraudMinStrength>Minimum surviving strength to continue</TSA_WD_Experimental_MaraudMinStrength>
+  <TSA_WD_Experimental_MaraudMinStrengthTip>The raid's remaining strength after its win must be at least this much for it to be worth sending onward.</TSA_WD_Experimental_MaraudMinStrengthTip>
+  <TSA_WD_Experimental_MaraudMaxChain>Max chained targets</TSA_WD_Experimental_MaraudMaxChain>
+  <TSA_WD_Experimental_MaraudMaxChainTip>Caps how many victories in a row a single raid can chain into a new target before it must stop and disband.</TSA_WD_Experimental_MaraudMaxChainTip>
+  <TSA_WD_Experimental_HeaderSettlementAmbush>Settlement-launched ambush</TSA_WD_Experimental_HeaderSettlementAmbush>
+  <TSA_WD_Experimental_SettlementAmbush>Experimental: settlement ambush of passing travelers</TSA_WD_Experimental_SettlementAmbush>
+  <TSA_WD_Experimental_SettlementAmbushTip>When on, NPC settlements at the minimum ambush tier (Tier 2 by default) may launch an interceptor at a hostile trader caravan, gift/bribe caravan, uninvolved raid, or real player caravan that passes within watch range. Player Rapid Response and mortar outposts are not this feature; they intercept through their own defense range. By default only after mid or late escalation; turn on "Allow target-of-opportunity, marauding and ambush from the start" below to skip that gate.</TSA_WD_Experimental_SettlementAmbushTip>
+  <TSA_WD_Experimental_AmbushChancePct>Ambush chance (coin flip)</TSA_WD_Experimental_AmbushChancePct>
+  <TSA_WD_Experimental_AmbushChancePctTip>Rolled after the escalation gate but before any strength math, so a failed roll never costs the more expensive strength-ratio check.</TSA_WD_Experimental_AmbushChancePctTip>
+  <TSA_WD_Experimental_AmbushMinRatio>Minimum strength ratio to launch</TSA_WD_Experimental_AmbushMinRatio>
+  <TSA_WD_Experimental_AmbushMinRatioTip>The eligible settlement's available raid strength must be at least this many times the passing target's strength. Below this, waiting at home for the attacker to arrive is the better play.</TSA_WD_Experimental_AmbushMinRatioTip>
+  <TSA_WD_Experimental_AmbushMaxRatio>Max relative strength to send</TSA_WD_Experimental_AmbushMaxRatio>
+  <TSA_WD_Experimental_AmbushMaxRatioTip>Once the eligible settlement is strong enough to launch, it sends at most this many times the target's strength and keeps the rest home.</TSA_WD_Experimental_AmbushMaxRatioTip>
+  <TSA_WD_Experimental_AmbushMinTier>Minimum settlement tier to ambush</TSA_WD_Experimental_AmbushMinTier>
+  <TSA_WD_Experimental_AmbushMinTierTip>Only NPC settlements at this tier or higher watch and launch ambush interceptors. Lower-tier hamlets stay home. Mortar and Rapid Response sites are unchanged; they use their own defense range.</TSA_WD_Experimental_AmbushMinTierTip>
+  <TSA_WD_Experimental_AmbushMaxConcurrent>Max ambush interceptors in flight</TSA_WD_Experimental_AmbushMaxConcurrent>
+  <TSA_WD_Experimental_AmbushMaxConcurrentTip>Global cap on NPC ambush interceptors on the world at once. 0 means no limit. Does not count player Rapid Response. Performance presets overwrite this when Apply is clicked.</TSA_WD_Experimental_AmbushMaxConcurrentTip>
+  <TSA_WD_Experimental_AmbushMaxConcurrentUnlimited>No limit</TSA_WD_Experimental_AmbushMaxConcurrentUnlimited>
+  <TSA_WD_Experimental_AmbushWatchRange>Plain settlement ambush watch range (tiles)</TSA_WD_Experimental_AmbushWatchRange>
+  <TSA_WD_Experimental_AmbushWatchRangeTip>How far an eligible-tier plain NPC settlement watches for ambush targets. Meant to match the inner blocked-tile radius around a settlement. Mortar and Rapid Response sites intercept through their own defense range, not this ambush watch.</TSA_WD_Experimental_AmbushWatchRangeTip>
+  <TSA_WD_Experimental_OpportunityIgnoreEscalationGate>Allow target-of-opportunity, marauding and ambush from the start</TSA_WD_Experimental_OpportunityIgnoreEscalationGate>
+  <TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>When on, target-of-opportunity retargeting, post-victory marauding, and settlement ambush (whichever of the three are enabled in the sections above) can trigger from the very start of a game instead of only once mid or late escalation is reached. Has no effect on any of the three unless at least one of them is also switched on.</TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>
+  <TSA_WD_Experimental_EnableWorldMapSounds>WD world map combat sounds</TSA_WD_Experimental_EnableWorldMapSounds>
+  <TSA_WD_Experimental_EnableWorldMapSoundsTip>When on, AT Turret, mortar, and flak fire play short oneshots on the world map. Turn off to mute all of those WD combat sounds. UI clicks are unchanged.</TSA_WD_Experimental_EnableWorldMapSoundsTip>
+  <TSA_WD_Experimental_OutpostWithdrawStrengthBudget>Experimental: outpost withdraw strength budget</TSA_WD_Experimental_OutpostWithdrawStrengthBudget>
+  <TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>When on, withdrawals use current uncapped offensive strength with a 5% confirmation allowance. If the selected pawns exceed that budget, a picker opens: Form Caravan, Leave at Outpost, or Mark as Lost. When off, transfers always proceed without that check.</TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>
+  <TSA_WD_Experimental_OutpostDefenseDeployBudget>Experimental: outpost defense deploy strength budget</TSA_WD_Experimental_OutpostDefenseDeployBudget>
+  <TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>When on, Fight Manually limits how many outpost pawns you can deploy by current offensive strength. When off, you can select any mix with no budget cap.</TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>
+  <TSA_WD_Experimental_HeaderBaseGeneration>Base generation</TSA_WD_Experimental_HeaderBaseGeneration>
+  <TSA_WD_Experimental_AlwaysClearKcsgRect>Always clear rect for base generation</TSA_WD_Experimental_AlwaysClearKcsgRect>
+  <TSA_WD_Experimental_AlwaysClearKcsgRectTip>When on, flatten blocked cells in the layout even if the blocked fraction is below the slider. When off, flatten only if blocked cells exceed that slider.</TSA_WD_Experimental_AlwaysClearKcsgRectTip>
+  <TSA_WD_Experimental_KcsgRectBlend>Blend space around rect</TSA_WD_Experimental_KcsgRectBlend>
+  <TSA_WD_Experimental_KcsgRectBlendTip>When flatten runs, also convert blocked cells outward from the layout (about 24 tiles, noisy falloff) and wipe filth and chunks on that same area. Trees stay. When off, only the layout rectangle is changed.</TSA_WD_Experimental_KcsgRectBlendTip>
+  <TSA_WD_Experimental_HeaderAtTurrets>AT Turrets</TSA_WD_Experimental_HeaderAtTurrets>
+  <TSA_WD_Experimental_HeaderPlayerAtTurretCaps>Player AT Turret caps</TSA_WD_Experimental_HeaderPlayerAtTurretCaps>
+  <TSA_WD_Experimental_AT_TurretPlayerGlobalMax>Player global AT Turret cap</TSA_WD_Experimental_AT_TurretPlayerGlobalMax>
+  <TSA_WD_Experimental_AT_TurretPlayerGlobalMaxTip>Maximum AT Turrets your faction may own at once across the colony and all outposts. NPC settlements use the Fortify tier caps instead.</TSA_WD_Experimental_AT_TurretPlayerGlobalMaxTip>
+  <TSA_WD_Experimental_AT_TurretPlayerPerSiteMax>AT Turrets per colony or outpost</TSA_WD_Experimental_AT_TurretPlayerPerSiteMax>
+  <TSA_WD_Experimental_AT_TurretPlayerPerSiteMaxTip>Maximum AT Turrets attributed to one player colony or WD outpost. Each site has its own count toward this limit.</TSA_WD_Experimental_AT_TurretPlayerPerSiteMaxTip>
+  <TSA_WD_Experimental_AT_TurretMaxStrength>AT Turret strength (HP)</TSA_WD_Experimental_AT_TurretMaxStrength>
+  <TSA_WD_Experimental_AT_TurretMaxStrengthTip>Hit points when a new AT Turret of this type is built. Does not change guns already on the map. Separate from Road Building expedition strength.</TSA_WD_Experimental_AT_TurretMaxStrengthTip>
+  <TSA_WD_Experimental_AT_TurretDamage>AT Turret shell damage</TSA_WD_Experimental_AT_TurretDamage>
+  <TSA_WD_Experimental_AT_TurretDamageTip>Strength damage dealt by an AT Turret shell on a hit.</TSA_WD_Experimental_AT_TurretDamageTip>
+  <TSA_WD_Experimental_AT_TurretCooldown>AT Turret cooldown (days)</TSA_WD_Experimental_AT_TurretCooldown>
+  <TSA_WD_Experimental_AT_TurretCooldownTip>Days before an AT Turret can fire again after a shot. Very low values are for testing.</TSA_WD_Experimental_AT_TurretCooldownTip>
+  <TSA_WD_Experimental_AT_TurretRange>AT Turret range (tiles)</TSA_WD_Experimental_AT_TurretRange>
+  <TSA_WD_Experimental_AT_TurretRangeTip>Fire range and proximity magnet radius for this AT Turret type. Applied live from settings.</TSA_WD_Experimental_AT_TurretRangeTip>
+  <TSA_WD_Experimental_AT_TurretHitBand0To50>AT Turret hit chance at 0–50% of max range</TSA_WD_Experimental_AT_TurretHitBand0To50>
+  <TSA_WD_Experimental_AT_TurretHitBand0To50Tip>Base hit chance for shots in the inner band. Skill-equivalent (+1 pp per level, currently 8) is added on top.</TSA_WD_Experimental_AT_TurretHitBand0To50Tip>
+  <TSA_WD_Experimental_AT_TurretHitBand51To75>AT Turret hit chance at 51–75% of max range</TSA_WD_Experimental_AT_TurretHitBand51To75>
+  <TSA_WD_Experimental_AT_TurretHitBand51To75Tip>Base hit chance for the middle band. Independent from mortar / T4 settlement accuracy.</TSA_WD_Experimental_AT_TurretHitBand51To75Tip>
+  <TSA_WD_Experimental_AT_TurretHitBand76To100>AT Turret hit chance at 76–100% of max range</TSA_WD_Experimental_AT_TurretHitBand76To100>
+  <TSA_WD_Experimental_AT_TurretHitBand76To100Tip>Base hit chance at the outer edge of AT Turret range. Independent from mortar / T4 settlement accuracy.</TSA_WD_Experimental_AT_TurretHitBand76To100Tip>
+  <TSA_WD_Experimental_HeaderControls>World map controls</TSA_WD_Experimental_HeaderControls>
+  <TSA_WD_AutoAdd_DefaultOn>Auto-Add Arrivals on by default</TSA_WD_AutoAdd_DefaultOn>
+  <TSA_WD_AutoAdd_DefaultOnTip>When on, newly founded WD outposts start with the Auto-Add Arrivals gizmo enabled. Existing outposts are unchanged. You can still toggle each outpost individually.</TSA_WD_AutoAdd_DefaultOnTip>
+  <TSA_WD_TravelFood_PrisonerRecruit>Give food to prisoners transferred after recruitment</TSA_WD_TravelFood_PrisonerRecruit>
+  <TSA_WD_TravelFood_PrisonerRecruitTip>When on, prisoners sent to a scheduled colony or outpost after recruitment leave with 150 pemmican each. From a colony, that pemmican is paid for with map food of equal nutrition (prefer food that spoils sooner). From an outpost, it is paid from virtual food. Shortfalls transfer without that pack.</TSA_WD_TravelFood_PrisonerRecruitTip>
+  <TSA_WD_TravelFood_AllPlayerPawns>Give food to any pawn transferred via All Player Pawns</TSA_WD_TravelFood_AllPlayerPawns>
+  <TSA_WD_TravelFood_AllPlayerPawnsTip>When on, pawns moved through the All Player Pawns window leave with 150 pemmican each. From a colony, that pemmican is paid for with map food of equal nutrition (prefer food that spoils sooner). From an outpost, it is paid from virtual food. Shortfalls transfer without that pack.</TSA_WD_TravelFood_AllPlayerPawnsTip>
+  <TSA_WD_OutpostSim_ShowInWdMenu>Show establish-outpost simulation in WD world map menu</TSA_WD_OutpostSim_ShowInWdMenu>
+  <TSA_WD_OutpostSim_ShowInWdMenuTip>When on, the WD world map menu includes Establish outpost simulation so you can click a tile and preview requirements and material costs without sending a caravan.</TSA_WD_OutpostSim_ShowInWdMenuTip>
+  <TSA_WD_Experimental_HeaderFortify>NPC Fortify</TSA_WD_Experimental_HeaderFortify>
+  <TSA_WD_Fortify_MinFromSelf>Min distance from settlement</TSA_WD_Fortify_MinFromSelf>
+  <TSA_WD_Fortify_MinFromSelfTip>Closest tiles where this settlement may place fortifications (road blocks, traps, AT Turrets).</TSA_WD_Fortify_MinFromSelfTip>
+  <TSA_WD_Fortify_MinFromOther>Min distance from other settlements</TSA_WD_Fortify_MinFromOther>
+  <TSA_WD_Fortify_MinFromOtherTip>Fortifications stay at least this many tiles away from any other settlement or outpost.</TSA_WD_Fortify_MinFromOtherTip>
+  <TSA_WD_Fortify_MaxFromSelf>Max distance from settlement</TSA_WD_Fortify_MaxFromSelf>
+  <TSA_WD_Fortify_MaxFromSelfTip>Farthest tiles where this settlement may place fortifications.</TSA_WD_Fortify_MaxFromSelfTip>
+  <TSA_WD_Fortify_MaxTravel>Max travel to place fortifications</TSA_WD_Fortify_MaxTravel>
+  <TSA_WD_Fortify_MaxTravelTip>If the best fortify site is within this distance, the settlement sends its own crew. If farther, a nearer same-faction settlement does it instead.</TSA_WD_Fortify_MaxTravelTip>
+  <TSA_WD_Fortify_TerritoryLink>Territory link range</TSA_WD_Fortify_TerritoryLink>
+  <TSA_WD_Fortify_TerritoryLinkTip>Same-faction settlements within this distance, with no hostile between them, form one territory for frontier detection.</TSA_WD_Fortify_TerritoryLinkTip>
+  <TSA_WD_Fortify_TravelerStrength>Fortify traveler strength</TSA_WD_Fortify_TravelerStrength>
+  <TSA_WD_Fortify_TravelerStrengthTip>Offensive strength deducted from the settlement per fortify crew. Higher tiers may launch several crews at once, each paying this cost.</TSA_WD_Fortify_TravelerStrengthTip>
+  <TSA_WD_Fortify_ClearOnBuilderLoss>Clear fortifications on builder loss</TSA_WD_Fortify_ClearOnBuilderLoss>
+  <TSA_WD_Fortify_ClearOnBuilderLossTip>When on, road blocks and traps placed by a settlement are removed if that settlement is destroyed or changes faction.</TSA_WD_Fortify_ClearOnBuilderLossTip>
+  <TSA_WD_Fortify_EnableBlacklist>Enable mark tiles where allies may not build fortifications</TSA_WD_Fortify_EnableBlacklist>
+  <TSA_WD_Fortify_EnableBlacklistTip>Unlocks Add/Remove Blocked Tiles under the WD world-map menu (No-fortify marks). Marked tiles block allies from placing new road blocks or traps. Existing forts stay until you Remove fortifications. Hostiles ignore marks.</TSA_WD_Fortify_EnableBlacklistTip>
+  <TSA_WD_Fortify_BlacklistApplyNeutral>Apply to neutral too</TSA_WD_Fortify_BlacklistApplyNeutral>
+  <TSA_WD_Fortify_BlacklistApplyNeutralTip>When on, Neutral factions also cannot place new fortifications on marked tiles. Allies are always blocked by marks. Hostiles ignore marks.</TSA_WD_Fortify_BlacklistApplyNeutralTip>
+  <TSA_WD_Daily_HeaderFortify>NPC Fortify</TSA_WD_Daily_HeaderFortify>
+  <TSA_WD_Fortify_HeaderTypeChances>What to place</TSA_WD_Fortify_HeaderTypeChances>
+  <TSA_WD_Fortify_ChanceRoadBlock>Road block chance</TSA_WD_Fortify_ChanceRoadBlock>
+  <TSA_WD_Fortify_ChanceRoadBlockTip>Relative weight for placing a road block when Fortify runs. Only valid options are rolled, then weights are scaled to add up to 100%. Road blocks may go on any free tile in the fortify ring.</TSA_WD_Fortify_ChanceRoadBlockTip>
+  <TSA_WD_Fortify_ChanceTrap>Trap chance</TSA_WD_Fortify_ChanceTrap>
+  <TSA_WD_Fortify_ChanceTrapTip>Relative weight for placing a spike trap when Fortify runs. Only rolled when a road tile is available. Traps are placed on roads.</TSA_WD_Fortify_ChanceTrapTip>
+  <TSA_WD_Fortify_ChanceTurret>AT Turret chance</TSA_WD_Fortify_ChanceTurret>
+  <TSA_WD_Fortify_ChanceTurretTip>Relative weight for placing an AT Turret when Fortify runs. Only rolled if the settlement is under its AT Turret cap and an off-road site exists. Prefers tiles adjacent to any road block that sits between the gun and hostiles. Always a single crew (no multi-launch).</TSA_WD_Fortify_ChanceTurretTip>
+  <TSA_WD_Fortify_HeaderMultiCaravan>Multi-caravan launches</TSA_WD_Fortify_HeaderMultiCaravan>
+  <TSA_WD_Fortify_MultiT1ChanceOf2>T1 chance of 2 caravans</TSA_WD_Fortify_MultiT1ChanceOf2>
+  <TSA_WD_Fortify_MultiT1ChanceOf2Tip>When Fortify chooses a road block or trap (not AT Turret): Tier 1 chance to send 2 crews instead of 1. Also used for NPC road multi-launch.</TSA_WD_Fortify_MultiT1ChanceOf2Tip>
+  <TSA_WD_Fortify_MultiT2ChanceOf2>T2 chance of 2 caravans</TSA_WD_Fortify_MultiT2ChanceOf2>
+  <TSA_WD_Fortify_MultiT2ChanceOf2Tip>When Fortify chooses a road block or trap (not AT Turret): Tier 2 chance to send 2 crews instead of 1.</TSA_WD_Fortify_MultiT2ChanceOf2Tip>
+  <TSA_WD_Fortify_MultiT3ChanceOf2>T3 chance of 2 caravans</TSA_WD_Fortify_MultiT3ChanceOf2>
+  <TSA_WD_Fortify_MultiT3ChanceOf2Tip>When Fortify chooses a road block or trap (not AT Turret): Tier 3 chance to send 2 crews instead of 1.</TSA_WD_Fortify_MultiT3ChanceOf2Tip>
+  <TSA_WD_Fortify_MultiT4ChanceOf3>T4 chance of 3 caravans</TSA_WD_Fortify_MultiT4ChanceOf3>
+  <TSA_WD_Fortify_MultiT4ChanceOf3Tip>When Fortify chooses a road block or trap (not AT Turret): Tier 4 chance to send 3 crews instead of 2.</TSA_WD_Fortify_MultiT4ChanceOf3Tip>
+  <TSA_WD_Fortify_HeaderAtTurrets>AT Turret caps</TSA_WD_Fortify_HeaderAtTurrets>
+  <TSA_WD_Fortify_AtTurretMaxT1>T1 max AT Turrets</TSA_WD_Fortify_AtTurretMaxT1>
+  <TSA_WD_Fortify_AtTurretMaxT2>T2 max AT Turrets</TSA_WD_Fortify_AtTurretMaxT2>
+  <TSA_WD_Fortify_AtTurretMaxT3>T3 max AT Turrets</TSA_WD_Fortify_AtTurretMaxT3>
+  <TSA_WD_Fortify_AtTurretMaxT4>T4 max AT Turrets</TSA_WD_Fortify_AtTurretMaxT4>
+  <TSA_WD_Fortify_AtTurretMaxTip>Maximum AT Turrets an NPC settlement of this tier may own at once. Player colony and outpost caps are under Experimental.</TSA_WD_Fortify_AtTurretMaxTip>
+  <TSA_WD_Experimental_HeaderPollution>Pollution</TSA_WD_Experimental_HeaderPollution>
+  <TSA_WD_Experimental_HeaderUpkeep>Outpost silver upkeep</TSA_WD_Experimental_HeaderUpkeep>
+  <TSA_WD_Upkeep_Enable>Enable outpost silver upkeep (Mid/Late)</TSA_WD_Upkeep_Enable>
+  <TSA_WD_Upkeep_EnableTip>While Mid or Late escalation is active, your outpost colonists cost silver every upkeep period. Unpaid silver makes colonists leave. Experimental and off by default.</TSA_WD_Upkeep_EnableTip>
+  <TSA_WD_Upkeep_SilverPerOccupant>Silver per outpost colonist</TSA_WD_Upkeep_SilverPerOccupant>
+  <TSA_WD_Upkeep_SilverPerOccupantTip>Each Occupant at a player WD outpost adds this much silver to the bill. Mechanoids, prisoners, animals, and vehicles are free.</TSA_WD_Upkeep_SilverPerOccupantTip>
+  <TSA_WD_Upkeep_IntervalDays>Upkeep period (days)</TSA_WD_Upkeep_IntervalDays>
+  <TSA_WD_Upkeep_IntervalDaysTip>Days between upkeep deadlines while Mid or Late is active.</TSA_WD_Upkeep_IntervalDaysTip>
+  <TSA_WD_Pollution_IgnoreBelow>Ignore below pollution</TSA_WD_Pollution_IgnoreBelow>
+  <TSA_WD_Pollution_IgnoreBelowTip>Tiles below this pollution level deal no traveler exit damage. Site daily damage uses the same curve on average pollution in the radius. At this threshold, damage equals the threshold damage value.</TSA_WD_Pollution_IgnoreBelowTip>
+  <TSA_WD_Pollution_DamageAtThreshold>Damage at threshold</TSA_WD_Pollution_DamageAtThreshold>
+  <TSA_WD_Pollution_DamageAtThresholdTip>Strength lost when leaving a tile at the ignore-below pollution level (and the site daily damage at that average).</TSA_WD_Pollution_DamageAtThresholdTip>
+  <TSA_WD_Pollution_DamageAtFull>Damage at 100% pollution</TSA_WD_Pollution_DamageAtFull>
+  <TSA_WD_Pollution_DamageAtFullTip>Strength lost at full pollution. Values between the threshold and 100% interpolate linearly.</TSA_WD_Pollution_DamageAtFullTip>
+  <TSA_WD_Pollution_DamageRadius>Site pollution radius</TSA_WD_Pollution_DamageRadius>
+  <TSA_WD_Pollution_DamageRadiusTip>World-tile radius around settlements and outposts used for daily average pollution damage and NPC auto-decontamination search. Includes the site tile.</TSA_WD_Pollution_DamageRadiusTip>
+  <TSA_WD_Pollution_NpcDecontamCost>NPC decontamination strength cost</TSA_WD_Pollution_NpcDecontamCost>
+  <TSA_WD_Pollution_NpcDecontamCostTip>Offensive strength NPC settlements try to spend when sending an auto-decontamination crew. Never pulls offense below 10. Crews still launch if the settlement cannot pay.</TSA_WD_Pollution_NpcDecontamCostTip>
+  <TSA_WD_Pollution_PathCost>Pollution path cost</TSA_WD_Pollution_PathCost>
+  <TSA_WD_Pollution_PathCostTip>When on, WD pathfinding treats polluted tiles as more expensive so travelers prefer cleaner routes. Applying a Performance preset overwrites this toggle.</TSA_WD_Pollution_PathCostTip>
+  <TSA_WD_Pollution_PathRepath>Pollution repath while traveling</TSA_WD_Pollution_PathRepath>
+  <TSA_WD_Pollution_PathRepathTip>When on, travelers may recalculate path mid-route if pollution costs change. Applying a Performance preset overwrites this toggle.</TSA_WD_Pollution_PathRepathTip>
+  <TSA_WD_Pollution_PathPreCommitCancel>Cancel path if pollution blocks launch</TSA_WD_Pollution_PathPreCommitCancel>
+  <TSA_WD_Pollution_PathPreCommitCancelTip>When on, a mission may refuse to launch if the planned path is blocked by pollution cost rules. Applying a Performance preset overwrites this toggle.</TSA_WD_Pollution_PathPreCommitCancelTip>
+  <TSA_WD_LateGame_OnlyFireT4MortarsAtPlayer>Only fire T4 Mortars at player while Late Game is active</TSA_WD_LateGame_OnlyFireT4MortarsAtPlayer>
+  <TSA_WD_LateGame_OnlyFireT4AntiAirAtPlayer>Only fire T4 Anti Air at player while Late Game is active</TSA_WD_LateGame_OnlyFireT4AntiAirAtPlayer>
+  <TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>Only fire T4 Mortars at player while Mid Game is active</TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>
+  <TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>Only fire T4 Anti Air at player while Mid Game is active</TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>
+</LanguageData>

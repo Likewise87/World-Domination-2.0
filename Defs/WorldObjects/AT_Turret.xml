@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- AT Turret: lightweight defensive world object (not an outpost). Debug-placement only this pass;
+       intended for player and NPC factions later. Material stays settlement-style per Source/Core/WORLD_MAP_ICONS.md;
+       AT_Gun art drives expandingIconTexture only (barrel faces north). -->
+  <WorldObjectDef>
+    <defName>TSA_WD_AT_Turret</defName>
+    <label>AT Turret</label>
+    <worldObjectClass>TSA_WorldDomination.WorldObject_AT_Turret, TSA_WorldDomination</worldObjectClass>
+    <selectable>true</selectable>
+    <expandingIcon>true</expandingIcon>
+    <texture>World/WorldObjects/Settlements/Settlement</texture>
+    <expandingIconTexture>WorldObjects/AT_Gun_Medium</expandingIconTexture>
+  </WorldObjectDef>
+</Defs>

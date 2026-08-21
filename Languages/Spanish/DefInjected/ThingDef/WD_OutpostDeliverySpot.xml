@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <TSA_WD_OutpostDeliverySpot.label>Punto de entrega de avanzadillas WD</TSA_WD_OutpostDeliverySpot.label>
+  <TSA_WD_OutpostDeliverySpot.description>Marca dónde deben aterrizar los bienes entregados desde tus avanzadillas de World Domination. Solo puede haber uno por mapa. Si no hay ninguno, las entregas llegan al borde del mapa.</TSA_WD_OutpostDeliverySpot.description>
+</LanguageData>

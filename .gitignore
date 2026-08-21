@@ -1,0 +1,49 @@
+# Local tooling / editors
+.cursor/
+**/.cursor/
+.vscode/
+.idea/
+.vs/
+**/.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+**/*.code-workspace
+
+# Local-only trees
+Source/dev/
+Source/Guardrails/
+
+# Local scripts (keep unpublished)
+*.ps1
+*.psm1
+*.psd1
+*.bat
+*.cmd
+
+# Staging / scratch
+tools/_workshop_stage/
+**/_ft_decompile/
+
+# Build outputs
+**/[Bb]in/
+**/[Oo]bj/
+site/
+**/site/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+ehthumbs.db
+
+# Secrets
+.env
+.env.*
+*.pem
+credentials.json

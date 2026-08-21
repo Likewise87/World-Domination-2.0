@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Mining_5</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>.,.,.,.,Slate,.,.,.,Slate,.,.,Slate,.</li>
+      <li>.,.,.,.,ChunkSlate,Slate,.,ChunkSlate,.,Slate,Slate,ChunkSlate,.</li>
+      <li>.,ChunkSlate,.,TorchLamp,.,Slate,Slate,Slate,MineableGold,Slate,Slate,Slate,.</li>
+      <li>.,.,.,.,.,.,MineableGold,MineableGold,MineableGold,MineableGold,Slate,Slate,.</li>
+      <li>.,.,.,Slate,Slate,Slate,MineableGold,.,Slate,MineableGold,.,TorchLamp,.</li>
+      <li>Slate,.,.,Slate,ChunkSlate,.,Slate,.,Slate,Slate,.,.,.</li>
+      <li>Slate,Slate,.,Slate,ChunkSlate,.,Slate,.,.,Slate,Slate,.,Slate</li>
+      <li>.,Slate,.,.,.,.,.,.,.,.,.,.,Slate</li>
+      <li>.,.,.,TorchLamp,Fence_WoodLog,Gold,Gold,Gold,Shelf_WoodLog_South,Fence_WoodLog,ChunkSlate,.,.</li>
+      <li>.,ChunkSlate,.,Slate,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,ChunkSlate,.,.</li>
+      <li>.,.,.,Slate,Slate,Slate,.,.,.,Slate,Slate,.,.</li>
+    </li>
+    <li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,Shelf_WoodLog_South,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,Slate_RoughHewn,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+  </terrainGrid>
+  <tags><li>TSA_Tribal_Mining</li></tags>
+</KCSG.StructureLayoutDef>
+</Defs>

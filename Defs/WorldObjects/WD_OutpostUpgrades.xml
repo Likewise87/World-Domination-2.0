@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Outpost upgrades: category + upgradeLineId/lineTier. requiresPreviousLineTier true = must build prior tier first (e.g. stone walls after palisades). Default false = any higher tier if cost+research OK. outpostApplicability All | Whitelist. -->
+<Defs>
+	<!-- Walls -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_PalisadeWalls</defName>
+    <label>Palisade Walls</label>
+    <description>Basic wooden perimeter walls.</description>
+    <imagePath>UI/OutpostUpgrades/Palisades</imagePath>
+    <category>Walls</category>
+    <upgradeLineId>Line_Walls</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <defensiveStrengthBonus>50</defensiveStrengthBonus>
+    <cost>
+      <li><thingDef>WoodLog</thingDef><count>350</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_StoneWall</defName>
+    <label>Stone Wall</label>
+    <description>Stone-reinforced walls replacing palisades.</description>
+    <imagePath>UI/OutpostUpgrades/StoneWall</imagePath>
+    <category>Walls</category>
+    <upgradeLineId>Line_Walls</upgradeLineId>
+    <lineTier>2</lineTier>
+    <requiresPreviousLineTier>false</requiresPreviousLineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <defensiveStrengthBonus>120</defensiveStrengthBonus>
+    <cost>
+      <li><thingDef>BlocksGranite</thingDef><costMode>AnyStoneBlocks</costMode><count>350</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+
+	<!-- Traps -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_SpikeTraps</defName>
+    <label>Spike Traps</label>
+    <description>A dense trap perimeter around the outpost.</description>
+    <imagePath>UI/OutpostUpgrades/Spikes</imagePath>
+    <category>Traps</category>
+    <upgradeLineId>Line_Traps</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <defensiveStrengthBonus>50</defensiveStrengthBonus>
+    <cost>
+      <li><thingDef>WoodLog</thingDef><count>400</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_IEDs</defName>
+    <label>IEDs</label>
+    <description>Explosive traps at the gate approaches and wall corners on defense maps.</description>
+    <imagePath>UI/OutpostUpgrades/IED</imagePath>
+    <category>Traps</category>
+    <upgradeLineId>Line_IEDs</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <defensiveStrengthBonus>150</defensiveStrengthBonus>
+    <requiredResearch>IEDs</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>100</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>12</count></li>
+      <li><thingDef>Chemfuel</thingDef><count>200</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+	<!-- Auto Turrets -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_AutoTurrets</defName>
+    <label>Auto Turrets</label>
+    <description>Automated perimeter defense turrets.</description>
+    <imagePath>UI/OutpostUpgrades/AutoTurret</imagePath>
+    <category>AutoTurrets</category>
+    <upgradeLineId>AutoTurrets</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <defensiveStrengthBonus>160</defensiveStrengthBonus>
+    <requiredResearch>HeavyTurrets</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>300</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>10</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+
+	<!-- Hospitals -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_BasicHospital</defName>
+    <label>Basic Hospital</label>
+    <description>Improves local treatment and force recovery.</description>
+    <imagePath>UI/OutpostUpgrades/BasicHospital</imagePath>
+    <category>Hospital</category>
+    <upgradeLineId>Line_Hospital</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <offensiveRecoveryBonus>0.30</offensiveRecoveryBonus>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>300</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>4</count></li>
+      <li><thingDef>MedicineHerbal</thingDef><count>25</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_AdvancedHospital</defName>
+    <label>Advanced Hospital</label>
+    <description>Advanced medical infrastructure replacing the basic hospital.</description>
+    <imagePath>UI/OutpostUpgrades/AdvancedHospital</imagePath>
+    <category>Hospital</category>
+    <upgradeLineId>Line_Hospital</upgradeLineId>
+    <lineTier>2</lineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <offensiveRecoveryBonus>0.60</offensiveRecoveryBonus>
+	<requiredResearch>HospitalBed</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>300</count></li>
+      <li><thingDef>Silver</thingDef><count>150</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>4</count></li>
+      <li><thingDef>MedicineIndustrial</thingDef><count>15</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+
+	<!-- Mining -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_MiningLift</defName>
+    <label>Mining Lift</label>
+    <description>Moves people and goods.</description>
+    <imagePath>UI/OutpostUpgrades/MiningLift</imagePath>
+    <category>Mining</category>
+    <upgradeLineId>Line_MiningInfrastructure</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Mining</li>
+    </allowedOutpostDefNames>
+    <tileMiningBonus>0.15</tileMiningBonus>
+    <defensiveStrengthBonus>20</defensiveStrengthBonus>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>200</count></li>
+      <li><thingDef>WoodLog</thingDef><count>400</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+  
+  
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_ImprovedMiningLift</defName>
+    <label>Improved Mining Lift</label>
+    <description>Moves people and goods even faster.</description>
+    <imagePath>UI/OutpostUpgrades/ImprovedMiningLift</imagePath>
+    <category>Mining</category>
+    <upgradeLineId>Line_MiningInfrastructure</upgradeLineId>
+    <lineTier>2</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Mining</li>
+    </allowedOutpostDefNames>
+    <tileMiningBonus>0.25</tileMiningBonus>
+    <defensiveStrengthBonus>25</defensiveStrengthBonus>
+	<requiredResearch>MicroelectronicsBasics</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>250</count></li>
+      <li><thingDef>WoodLog</thingDef><count>250</count></li>
+	  <li><thingDef>ComponentIndustrial</thingDef><count>6</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+  
+  
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_AdvancedMiningLift</defName>
+    <label>Advanced Mining Lift</label>
+    <description>Moves people and goods even faster.</description>
+    <imagePath>UI/OutpostUpgrades/AdvancedMiningLift</imagePath>
+    <category>Mining</category>
+    <upgradeLineId>Line_MiningInfrastructure</upgradeLineId>
+    <lineTier>3</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Mining</li>
+    </allowedOutpostDefNames>
+    <tileMiningBonus>0.35</tileMiningBonus>
+    <defensiveStrengthBonus>30</defensiveStrengthBonus>
+	<requiredResearch>Fabrication</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>250</count></li>
+      <li><thingDef>Plasteel</thingDef><count>60</count></li>
+	  <li><thingDef>ComponentSpacer</thingDef><count>2</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+  
+  <!-- Farming -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_IrrigationCanals</defName>
+    <label>Irrigation Canals</label>
+    <description>Channel water to fields to improve soil productivity.</description>
+    <imagePath>UI/OutpostUpgrades/IrrigationCanals</imagePath>
+    <category>Farming</category>
+    <upgradeLineId>Line_IrrigationCanals</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Farming</li>
+    </allowedOutpostDefNames>
+    <tileFertilityBonus>0.15</tileFertilityBonus>
+    <defensiveStrengthBonus>15</defensiveStrengthBonus>
+    <cost>
+	  <li><thingDef>ComponentIndustrial</thingDef><count>2</count></li>
+      <li><thingDef>WoodLog</thingDef><count>300</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+  
+  
+    <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_IrrigationIndustrial</defName>
+    <label>Industrial Irrigation</label>
+    <description>Irrigate fields automatically.</description>
+    <imagePath>UI/OutpostUpgrades/IrrigationIndustrial</imagePath>
+    <category>Farming</category>
+    <upgradeLineId>Line_IrrigationCanals</upgradeLineId>
+    <lineTier>2</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Farming</li>
+    </allowedOutpostDefNames>
+    <tileFertilityBonus>0.30</tileFertilityBonus>
+    <defensiveStrengthBonus>20</defensiveStrengthBonus>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>100</count></li>
+	  <li><thingDef>ComponentIndustrial</thingDef><count>6</count></li>
+      <li><thingDef>WoodLog</thingDef><count>200</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+  
+  
+    <!-- Hunting -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_IndustrialMeatHooks</defName>
+    <label>Industrial Meat Hooks</label>
+    <description>Easier transportation of carcasses and meat.</description>
+    <imagePath>UI/OutpostUpgrades/IndustrialMeatHooks</imagePath>
+    <category>Hunting</category>
+    <upgradeLineId>Line_MeatHooks</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Hunting</li>
+    </allowedOutpostDefNames>
+    <tileAnimalAbundanceBonus>0.15</tileAnimalAbundanceBonus>
+    <defensiveStrengthBonus>10</defensiveStrengthBonus>
+	<requiredResearch>Machining</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>250</count></li>
+	  <li><thingDef>ComponentIndustrial</thingDef><count>4</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+	
+	
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_WoodenWatchTower</defName>
+    <label>Wooden Watch Tower</label>
+    <description>Allows hunters to see further.</description>
+    <imagePath>UI/OutpostUpgrades/WoodenWatchTower</imagePath>
+    <category>Hunting</category>
+    <upgradeLineId>Line_WatchTowers</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Hunting</li>
+    </allowedOutpostDefNames>
+    <tileAnimalAbundanceBonus>0.15</tileAnimalAbundanceBonus>
+    <defensiveStrengthBonus>25</defensiveStrengthBonus>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>100</count></li>
+	  <li><thingDef>ComponentIndustrial</thingDef><count>2</count></li>
+      <li><thingDef>WoodLog</thingDef><count>200</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+  
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_ImprovedWatchTower</defName>
+    <label>Improved Watch Tower</label>
+    <description>Allows hunters to see even further.</description>
+    <imagePath>UI/OutpostUpgrades/ImprovedWatchTower</imagePath>
+    <category>Hunting</category>
+    <upgradeLineId>Line_WatchTowers</upgradeLineId>
+    <lineTier>2</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Hunting</li>
+    </allowedOutpostDefNames>
+    <tileAnimalAbundanceBonus>0.25</tileAnimalAbundanceBonus>
+    <defensiveStrengthBonus>35</defensiveStrengthBonus>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>200</count></li>
+	  <li><thingDef>ComponentIndustrial</thingDef><count>4</count></li>
+      <li><thingDef>WoodLog</thingDef><count>200</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+  
+  
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_AdvancedWatchTower</defName>
+    <label>Advanced Watch Tower</label>
+    <description>Allows hunters to see very far.</description>
+    <imagePath>UI/OutpostUpgrades/AdvancedWatchTower</imagePath>
+    <category>Hunting</category>
+    <upgradeLineId>Line_WatchTowers</upgradeLineId>
+    <lineTier>3</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Hunting</li>
+    </allowedOutpostDefNames>
+    <tileAnimalAbundanceBonus>0.35</tileAnimalAbundanceBonus>
+    <defensiveStrengthBonus>50</defensiveStrengthBonus>
+    <cost>
+      <li><thingDef>Plasteel</thingDef><count>50</count></li>
+	  <li><thingDef>Steel</thingDef><count>80</count></li>
+	  <li><thingDef>ComponentIndustrial</thingDef><count>4</count></li>
+      <li><thingDef>WoodLog</thingDef><count>100</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <!-- Fishing (Odyssey soft-gate) -->
+  <TSA_WorldDomination.OutpostUpgradeDef MayRequire="Ludeon.RimWorld.Odyssey">
+    <defName>TSA_WD_Upgrade_FishingNets</defName>
+    <label>Fishing Nets</label>
+    <description>Coastal nets that raise fish catches and harden the shore camp.</description>
+    <imagePath>UI/OutpostUpgrades/FishingNets</imagePath>
+    <category>Fishing</category>
+    <upgradeLineId>Line_FishingNets</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Fishing</li>
+    </allowedOutpostDefNames>
+    <tileFishAbundanceBonus>0.15</tileFishAbundanceBonus>
+    <defensiveStrengthBonus>15</defensiveStrengthBonus>
+    <cost>
+      <li><thingDef>WoodLog</thingDef><count>150</count></li>
+      <li><thingDef>Steel</thingDef><count>80</count></li>
+      <li><thingDef>Cloth</thingDef><count>150</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef MayRequire="Ludeon.RimWorld.Odyssey">
+    <defName>TSA_WD_Upgrade_CoastalPier</defName>
+    <label>Coastal Pier</label>
+    <description>A sturdier pier for deeper water and better hauls.</description>
+    <imagePath>UI/OutpostUpgrades/CoastalPier</imagePath>
+    <category>Fishing</category>
+    <upgradeLineId>Line_FishingConstructions</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Fishing</li>
+    </allowedOutpostDefNames>
+    <tileFishAbundanceBonus>0.25</tileFishAbundanceBonus>
+    <defensiveStrengthBonus>30</defensiveStrengthBonus>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>100</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>6</count></li>
+      <li><thingDef>WoodLog</thingDef><count>200</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef MayRequire="Ludeon.RimWorld.Odyssey">
+    <defName>TSA_WD_Upgrade_TrawlerGear</defName>
+    <label>Trawler Gear</label>
+    <description>Heavy coastal gear for maximum catch and a tougher shoreline defense.</description>
+    <imagePath>UI/OutpostUpgrades/TrawlerGear</imagePath>
+    <category>Fishing</category>
+    <upgradeLineId>Line_TrawlerGear</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Fishing</li>
+    </allowedOutpostDefNames>
+    <tileFishAbundanceBonus>0.25</tileFishAbundanceBonus>
+    <defensiveStrengthBonus>30</defensiveStrengthBonus>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>100</count></li>
+	  <li><thingDef>WoodLog</thingDef><count>100</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>6</count></li>
+      <li><thingDef>Cloth</thingDef><count>150</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <!-- Mortar outpost: -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_AntiAirGun</defName>
+    <label>Anti-Air Gun</label>
+    <description>Unlocks automatic flak fire against hostile drop-pod raids. Uses the mortar's range, hit chance, and shell damage upgrades. Short separate cooldown.</description>
+    <imagePath>UI/OutpostUpgrades/AntiAirGun</imagePath>
+    <category>Mortar</category>
+    <upgradeLineId>Line_AntiAir</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Mortar</li>
+    </allowedOutpostDefNames>
+    <defensiveStrengthBonus>40</defensiveStrengthBonus>
+    <enablesAntiAir>true</enablesAntiAir>
+    <requiredResearch>Mortars</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>300</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>14</count></li>
+      <li><thingDef>Chemfuel</thingDef><count>250</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_MortarTargetingSystem</defName>
+    <label>Targeting System</label>
+    <description>Makes the mortar reload faster and be more accurate.</description>
+    <imagePath>UI/OutpostUpgrades/TargetingSystem</imagePath>
+    <category>Mortar</category>
+    <upgradeLineId>Line_MortarFireControl</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Mortar</li>
+    </allowedOutpostDefNames>
+    <defensiveStrengthBonus>30</defensiveStrengthBonus>
+    <mortarHitChanceBonus>0.10</mortarHitChanceBonus>
+    <mortarCooldownReduction>0.10</mortarCooldownReduction>
+	<requiredResearch>Mortars</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>300</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>14</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+  
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_ImprovedMortarShells</defName>
+    <label>Improved Shells</label>
+    <description>Increases damage of mortar and anti-air shells.</description>
+    <imagePath>UI/OutpostUpgrades/ImprovedMortarShells</imagePath>
+    <category>Mortar</category>
+    <upgradeLineId>Line_MortarShells</upgradeLineId>
+    <lineTier>2</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Mortar</li>
+    </allowedOutpostDefNames>
+    <defensiveStrengthBonus>30</defensiveStrengthBonus>
+    <mortarShellDamageBonus>150</mortarShellDamageBonus>
+	<requiredResearch>Mortars</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>250</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>10</count></li>
+	  <li><thingDef>Chemfuel</thingDef><count>300</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+  
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_AdvancedMortarShells</defName>
+    <label>Advanced Shells</label>
+    <description>Further increases damage of mortar and anti-air shells.</description>
+    <imagePath>UI/OutpostUpgrades/AdvancedMortarShell</imagePath>
+    <category>Mortar</category>
+    <upgradeLineId>Line_MortarShells</upgradeLineId>
+    <lineTier>3</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Mortar</li>
+    </allowedOutpostDefNames>
+    <defensiveStrengthBonus>50</defensiveStrengthBonus>
+    <mortarShellDamageBonus>300</mortarShellDamageBonus>
+	<requiredResearch>Mortars</requiredResearch>
+    <cost>
+      <li><thingDef>Plasteel</thingDef><count>100</count></li>
+      <li><thingDef>ComponentSpacer</thingDef><count>8</count></li>
+	  <li><thingDef>Chemfuel</thingDef><count>400</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <!-- Research outpost -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_AdvancedMicroscopes</defName>
+    <label>Advanced Microscopes</label>
+    <description>Precision optics and lab instruments that improve continuous research output at this outpost.</description>
+    <imagePath>UI/OutpostUpgrades/AdvancedMicroscopes</imagePath>
+    <category>Research</category>
+    <upgradeLineId>Line_Microscope</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Research</li>
+    </allowedOutpostDefNames>
+    <researchEfficiencyBonus>0.20</researchEfficiencyBonus>
+    <requiredResearch>MicroelectronicsBasics</requiredResearch>
+    <cost>
+      <li><thingDef>ComponentIndustrial</thingDef><count>6</count></li>
+      <li><thingDef>Plasteel</thingDef><count>30</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <!-- Research outpost (second lab line; stacks with Advanced Microscopes) -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_AdvancedLabEquipment</defName>
+    <label>Advanced Lab Equipment</label>
+    <description>High-precision lab gear that improves continuous research output at this outpost.</description>
+    <imagePath>UI/OutpostUpgrades/AdvancedLabEquipment</imagePath>
+    <category>Research</category>
+    <upgradeLineId>Line_LabEquipment</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Research</li>
+    </allowedOutpostDefNames>
+    <researchEfficiencyBonus>0.2</researchEfficiencyBonus>
+    <requiredResearch>MicroelectronicsBasics</requiredResearch>
+    <cost>
+      <li><thingDef>ComponentIndustrial</thingDef><count>6</count></li>
+      <li><thingDef>Plasteel</thingDef><count>30</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <!-- Power plant outpost -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_PowerPlant_SolarArrays</defName>
+    <label>Solar Arrays</label>
+    <description>Photovoltaic fields feeding the remote grid.</description>
+	<imagePath>UI/OutpostUpgrades/PowerPlant_SolarArrays</imagePath>
+    <category>PowerPlant</category>
+    <upgradeLineId>Line_PowerPlant_SolarArrays</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_PowerPlant</li>
+    </allowedOutpostDefNames>
+    <remotePowerWattsBonus>500</remotePowerWattsBonus>
+    <requiredResearch>SolarPanels</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>250</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>4</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators</defName>
+    <label>Chemfuel Generators</label>
+    <description>A bank of rugged chemfuel generators dedicated to remote export.</description>
+	<imagePath>UI/OutpostUpgrades/PowerPlant_ChemfuelGenerators</imagePath>
+    <category>PowerPlant</category>
+    <upgradeLineId>Line_PowerPlant_ChemfuelGenerators</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_PowerPlant</li>
+    </allowedOutpostDefNames>
+    <remotePowerWattsBonus>1000</remotePowerWattsBonus>
+    <requiredResearch>BiofuelRefining</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>300</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>6</count></li>
+      <li><thingDef>Chemfuel</thingDef><count>100</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_PowerPlant_AdvancedGridControls</defName>
+    <label>Advanced Grid Controls</label>
+    <description>Control hardware that improves transmission efficiency and load balancing.</description>
+	<imagePath>UI/OutpostUpgrades/PowerPlant_AdvancedGridControls</imagePath>
+    <category>PowerPlant</category>
+    <upgradeLineId>Line_PowerPlant_AdvancedGridControls</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_PowerPlant</li>
+    </allowedOutpostDefNames>
+    <remotePowerWattsBonus>1000</remotePowerWattsBonus>
+    <requiredResearch>MicroelectronicsBasics</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>250</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>8</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant</defName>
+    <label>Geothermal Power Plant</label>
+    <description>Deep thermal infrastructure feeding a large remote power tap.</description>
+	<imagePath>UI/OutpostUpgrades/PowerPlant_GeothermalPowerPlant</imagePath>
+    <category>PowerPlant</category>
+    <upgradeLineId>Line_PowerPlant_GeothermalPowerPlant</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_PowerPlant</li>
+    </allowedOutpostDefNames>
+    <remotePowerWattsBonus>2000</remotePowerWattsBonus>
+    <requiredResearch>GeothermalPower</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>500</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>12</count></li>
+      <li><thingDef>Plasteel</thingDef><count>80</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <!-- Ranch outpost -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_BasicBarn</defName>
+    <label>Basic Barn</label>
+    <description>A simple wooden barn that shelters livestock and improves handling throughput.</description>
+    <imagePath>UI/OutpostUpgrades/BasicBarn</imagePath>
+    <category>Ranch</category>
+    <upgradeLineId>Line_RanchBarn</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Ranch</li>
+    </allowedOutpostDefNames>
+    <productionEfficiencyBonus>0.15</productionEfficiencyBonus>
+    <defensiveStrengthBonus>20</defensiveStrengthBonus>
+    <cost>
+      <li><thingDef>WoodLog</thingDef><count>200</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_InsulatedBarn</defName>
+    <label>Insulated Barn</label>
+    <description>Stone and steel barn walls with climate control for healthier herds and steadier yields.</description>
+    <imagePath>UI/OutpostUpgrades/InsulatedBarn</imagePath>
+    <category>Ranch</category>
+    <upgradeLineId>Line_RanchBarn</upgradeLineId>
+    <lineTier>2</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Ranch</li>
+    </allowedOutpostDefNames>
+    <productionEfficiencyBonus>0.30</productionEfficiencyBonus>
+    <defensiveStrengthBonus>40</defensiveStrengthBonus>
+    <requiredResearch>Electricity</requiredResearch>
+    <cost>
+      <li><thingDef>BlocksGranite</thingDef><costMode>AnyStoneBlocks</costMode><count>100</count></li>
+      <li><thingDef>Steel</thingDef><count>100</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_TechBarn</defName>
+    <label>Tech Barn</label>
+    <description>Industrial livestock infrastructure that maximizes renewable animal product output.</description>
+    <imagePath>UI/OutpostUpgrades/TechBarn</imagePath>
+    <category>Ranch</category>
+    <upgradeLineId>Line_RanchBarn</upgradeLineId>
+    <lineTier>3</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Ranch</li>
+    </allowedOutpostDefNames>
+    <productionEfficiencyBonus>0.50</productionEfficiencyBonus>
+    <defensiveStrengthBonus>60</defensiveStrengthBonus>
+    <requiredResearch>Fabrication</requiredResearch>
+    <cost>
+      <li><thingDef>BlocksGranite</thingDef><costMode>AnyStoneBlocks</costMode><count>100</count></li>
+      <li><thingDef>Steel</thingDef><count>100</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>12</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <!-- Warehouse outpost: aura % / radius -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_Warehouse_LogisticsNetwork</defName>
+    <label>Logistics Network</label>
+    <description>Coordinated staging and routing that strengthens this warehouse's productivity aura for nearby producers.</description>
+    <imagePath>UI/OutpostUpgrades/WarehouseLogisticsNetwork</imagePath>
+    <category>Warehouse</category>
+    <upgradeLineId>Line_WarehouseLogistics</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Warehouse</li>
+    </allowedOutpostDefNames>
+    <warehouseAuraBonus>0.10</warehouseAuraBonus>
+	<warehouseAuraRadiusBonus>5</warehouseAuraRadiusBonus>
+    <requiredResearch>MicroelectronicsBasics</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>200</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>10</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_Warehouse_Forklifters</defName>
+    <label>Warehouse Forklifters</label>
+    <description>Heavy hauling is now facilitated by Forklifters.</description>
+    <imagePath>UI/OutpostUpgrades/WarehouseForklifter</imagePath>
+    <category>Warehouse</category>
+    <upgradeLineId>Line_WarehouseForklifter</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Warehouse</li>
+    </allowedOutpostDefNames>
+	<warehouseAuraBonus>0.10</warehouseAuraBonus>
+    <warehouseAuraRadiusBonus>5</warehouseAuraRadiusBonus>
+    <requiredResearch>MicroelectronicsBasics</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>200</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>10</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_TunnelNetwork</defName>
+    <label>Tunnel Network</label>
+    <description>Underground routes that let nearby allies answer calls for support from farther away.</description>
+    <imagePath>UI/OutpostUpgrades/TunnelNetwork</imagePath>
+    <category>Walls</category>
+    <upgradeLineId>Line_TunnelNetwork</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <allyPullRadiusBonus>4</allyPullRadiusBonus>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>350</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>6</count></li>
+      <li><thingDef>WoodLog</thingDef><count>400</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_Silo</defName>
+    <label>Silo</label>
+    <description>Large storage silos that increase this outpost's virtual food capacity.</description>
+    <imagePath>UI/OutpostUpgrades/Silo</imagePath>
+    <category>Production</category>
+    <upgradeLineId>Line_Silo</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <foodStorageMaxBonus>500</foodStorageMaxBonus>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>400</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_HydroponicsBasin</defName>
+    <label>Hydroponics Basin</label>
+    <description>Hydroponics infrastructure that adds a flat daily food output at this outpost.</description>
+    <imagePath>UI/OutpostUpgrades/HydroponicsBasin</imagePath>
+    <category>Production</category>
+    <upgradeLineId>Line_HydroponicsBasin</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <foodProductionFlatBonus>12</foodProductionFlatBonus>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>200</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>12</count></li>
+      <li><thingDef>Plasteel</thingDef><count>20</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>TSA_WD_Upgrade_DecontaminationEquipment</defName>
+    <label>Decontamination Equipment</label>
+    <description>Unlocks Decontamination Missions. Sends a crew to scrub pollution from world tiles.</description>
+    <imagePath>UI/OutpostUpgrades/DecontaminationEquipment</imagePath>
+    <category>Walls</category>
+    <upgradeLineId>Line_Decontamination</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <enablesDecontaminationCrew>true</enablesDecontaminationCrew>
+    <requiredResearch>Machining</requiredResearch>
+    <cost>
+      <li><thingDef>ComponentIndustrial</thingDef><count>8</count></li>
+      <li><thingDef>Plasteel</thingDef><count>20</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+</Defs>

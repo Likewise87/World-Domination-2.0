@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.SettlementLayoutDef>
+    <defName>TSA_Generic_T4_Citadel</defName>
+    <settlementSize>128,128</settlementSize> <avoidBridgeable>false</avoidBridgeable>
+    <avoidMountains>false</avoidMountains>
+    <centerBuildings Inherit="False">
+      <centralBuildingTags>
+        <li>Generic_HQ</li>
+      </centralBuildingTags>
+      <centerSize>120,120</centerSize> 
+	  <spaceAround>1</spaceAround>
+      <allowedStructures>
+        <li>
+          <count>2~3</count>
+          <tag>Generic_HighTech_Facility</tag>
+        </li>
+		<li>
+          <count>1~2</count>
+          <tag>Generic_HQ</tag>
+        </li>
+		<li>
+          <count>3~5</count>
+          <tag>Generic_Production</tag>
+        </li>
+		<li>
+          <count>1~2</count>
+          <tag>Generic_Prison</tag>
+        </li>
+        <li>
+          <count>1~2</count>
+          <tag>Generic_Stockpile</tag>
+        </li>
+		<li>
+          <count>2~5</count>
+          <tag>Generic_Luxury_Bedroom</tag>
+        </li>
+        <li>
+          <count>1~1</count>
+          <tag>Generic_Throne</tag>
+        </li>	
+        <li>
+          <count>0~1</count>
+          <tag>Generic_PowerPlant</tag>
+        </li>
+
+		<li>
+          <count>3~8</count>
+          <tag>Generic_Bedroom</tag>
+        </li>
+        <li>
+          <count>1~2</count>
+          <tag>TSA_Tribal_Recreation</tag>
+        </li>
+        <li>
+          <count>0~1</count>
+          <tag>Generic_Recreation</tag>
+        </li>
+        <li>
+          <count>0~1</count>
+          <tag>Generic_Tavern</tag>
+        </li>
+        <li>
+          <count>0~1</count>
+          <tag>Generic_Graveyard</tag>
+        </li>
+		
+		<li>
+          <tag>TSA_ParkingLot</tag>
+          <count>0~1</count>
+        </li>
+        <li>
+          <tag>TSA_Pen</tag>
+          <count>0~1</count>
+        </li>
+</allowedStructures>
+    </centerBuildings>
+
+    <peripheralBuildings>
+      <allowedStructures>
+        <li>
+          <tag>TSA_Generic_Barricade</tag>
+          <count>16~32</count>
+        </li>
+		<li>
+          <count>2~6</count>
+          <tag>Generic_HeavyDefence</tag>
+        </li>
+      </allowedStructures>
+    </peripheralBuildings>
+
+    <defenseOptions>
+      <pawnGroupMultiplier>2.5</pawnGroupMultiplier>
+    </defenseOptions>
+
+    <propsOptions>
+      <addLinkRoadProps>true</addLinkRoadProps>
+      <linkRoadPropsDefs>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_Cone</li>
+        <li MayRequire="VanillaExpanded.VFECore">Light_Streetlamp</li>
+      </linkRoadPropsDefs>
+      <linkRoadMinDistance>12</linkRoadMinDistance>
+
+      <scatterProps>true</scatterProps>
+      <scatterMinDistance>8</scatterMinDistance>
+      <scatterMaxAmount>150</scatterMaxAmount>
+      <scatterPropsDefs>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_BinBag</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_BoxLarge</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_BoxSmall</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_CardboardBoxLarge</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_CardboardBoxSmall</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_BrickPile</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_BarrelGreen</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_PalletCardboard</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_PalletBoxes</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_Pallet</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_PalletBarrelGreen</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_ContainerGreen</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_Pipes</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_Planks</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_ConcreteBags</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogs</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogsLarge</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenWagon</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Hayball_1a</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Wagon_3a</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Wagon_5a</li>
+      </scatterPropsDefs>
+    </propsOptions>
+
+    <roadOptions>
+      <addLinkRoad>true</addLinkRoad>
+      <linkRoadDef>Concrete</linkRoadDef>
+    </roadOptions>
+
+    <stockpileOptions>
+      <stockpileValueMultiplier>4.0</stockpileValueMultiplier>
+      <fillStorageBuildings>true</fillStorageBuildings>
+      <fillWithDefs>
+        <li>Plasteel</li>
+        <li>ComponentSpacer</li>
+        <li>Uranium</li>
+        <li>Gold</li>
+        <li>ComponentIndustrial</li>
+		<li>Steel</li>
+		<li>Chemfuel</li>
+		<li>Yayo</li>
+      </fillWithDefs>
+    </stockpileOptions>
+  </KCSG.SettlementLayoutDef>
+</Defs>

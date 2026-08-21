@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Pond_5</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>.,Stool_WoodLog_North,Stool_WoodLog_North,.,Plant_TreeOak,.,.,Stool_WoodLog_North,Stool_WoodLog_North,.</li>
+      <li>.,.,Plant_Rose,Plant_TreeWillow,.,.,Plant_Bush,.,Plant_TreeWillow,.</li>
+      <li>.,Plant_Bush,Plant_Bush,.,Plant_LilyPad,Plant_Berry,.,Plant_LilyPad,Plant_Bush,.</li>
+      <li>Plant_Rose,Plant_Bush,.,Plant_LilyPad,.,.,Plant_LilyPad,.,.,Plant_Rose</li>
+      <li>Plant_Berry,Plant_LilyPad,Plant_LilyPad,.,.,Plant_LilyPad,.,.,Plant_Bush,.</li>
+      <li>.,Plant_Bush,.,.,.,Plant_LilyPad,.,Plant_Bush,Plant_Berry,Plant_TreeWillow</li>
+      <li>.,Plant_Bush,Plant_TreeWillow,.,Plant_Berry,Plant_Bush,Plant_Rose,.,.,.</li>
+      <li>.,Plant_TreeWillow,.,.,.,.,.,GameOfUrBoard_WoodLog_North,.,.</li>
+      <li>.,.,.,HoopstoneRing_WoodLog,.,.,.,.,.,.</li>
+      <li>.,Plant_TreeOak,.,.,.,Stool_WoodLog_South,Stool_WoodLog_South,.,Plant_TreeOak,.</li>
+    </li>
+    <li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,Plant_LilyPad,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,WaterShallow,Soil,Soil,WaterShallow,Soil,Soil</li>
+    <li>Soil,Soil,WaterShallow,WaterShallow,WaterShallow,WaterShallow,WaterShallow,WaterShallow,WaterShallow,Soil</li>
+    <li>Soil,WaterShallow,WaterShallow,WaterShallow,WaterShallow,WaterShallow,WaterShallow,WaterShallow,Soil,Soil</li>
+    <li>Soil,Soil,WaterShallow,WaterShallow,WaterShallow,WaterShallow,WaterShallow,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,WaterShallow,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+  </terrainGrid>
+  <tags><li>TSA_Tribal_Pond</li></tags>
+	
+</KCSG.StructureLayoutDef>
+
+</Defs>

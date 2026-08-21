@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.StructureLayoutDef>
+    <defName>TSA_Tribal_Barricade_2</defName>
+<layouts>
+      <li>
+        <li>Barricade_WoodLog</li>
+		<li>Barricade_WoodLog</li>
+		<li>Barricade_WoodLog</li>
+		<li>Barricade_WoodLog</li>
+		<li>Barricade_WoodLog</li>
+		<li>Barricade_WoodLog</li>
+		<li>Barricade_WoodLog</li>
+      </li>
+    </layouts>
+    <tags>
+      <li>TSA_Tribal_Barricade</li>
+    </tags>
+  </KCSG.StructureLayoutDef>
+</Defs>

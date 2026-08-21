@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+<KCSG.StructureLayoutDef>
+  <defName>Generic_Graveyard_3</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>Plant_Bush,Plant_Bush,Plant_Bush,.,Plant_Bush,Plant_Bush,Plant_Bush</li>
+      <li>Plant_Bush,Grave_East,.,.,.,Grave_West,Filth_RubbleRock</li>
+      <li>Plant_Bush,Plant_Berry,Plant_Berry,.,Plant_Berry,Plant_Berry,Plant_Bush</li>
+      <li>Plant_Bush,Grave_East,.,.,.,Grave_West,Plant_Bush</li>
+      <li>Plant_Bush,Plant_Berry,Plant_Berry,.,Plant_Berry,Plant_Berry,Plant_Bush</li>
+      <li>Plant_Bush,Grave_East,.,.,.,Grave_West,Plant_Bush</li>
+      <li>Plant_Bush,Plant_Bush,Plant_Bush,.,Plant_Bush,Plant_Bush,Plant_Bush</li>
+    </li>
+    <li>
+      <li>.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,Plant_Bush</li>
+      <li>.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>.,.,.,PackedDirt,.,.,.</li>
+    <li>.,.,.,PackedDirt,.,.,.</li>
+    <li>.,.,.,PackedDirt,.,.,.</li>
+    <li>.,.,.,PackedDirt,.,.,.</li>
+    <li>.,.,.,PackedDirt,.,.,.</li>
+    <li>.,.,.,PackedDirt,.,.,.</li>
+    <li>.,.,.,PackedDirt,.,.,.</li>
+  </terrainGrid>
+         <tags>
+    <li>Generic_Graveyard</li>
+  </tags>
+</KCSG.StructureLayoutDef>
+</Defs>
+
+

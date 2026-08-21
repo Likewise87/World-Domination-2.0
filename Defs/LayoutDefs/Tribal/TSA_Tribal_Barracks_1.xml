@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.StructureLayoutDef>
+    <defName>TSA_Tribal_Barracks_1</defName>
+<layouts>
+      <li>
+        <li>.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.</li>
+        <li>.,Wall_WoodLog,Wall_WoodLog,.,TorchLamp,.,Wall_WoodLog,Wall_WoodLog,.</li>
+        <li>Wall_WoodLog,Wall_WoodLog,Bedroll_Cloth_North,.,.,.,Bedroll_Cloth_North,Wall_WoodLog,Wall_WoodLog</li>
+        <li>Wall_WoodLog,.,.,.,.,.,.,.,Wall_WoodLog</li>
+        <li>Door_WoodLog,.,.,.,PassiveCooler,.,.,.,Door_WoodLog</li>
+        <li>Wall_WoodLog,.,.,.,.,.,.,.,Wall_WoodLog</li>
+        <li>Wall_WoodLog,Wall_WoodLog,Bedroll_Cloth_South,.,.,.,Bedroll_Cloth_South,Wall_WoodLog,Wall_WoodLog</li>
+        <li>.,Wall_WoodLog,Wall_WoodLog,.,TorchLamp,.,Wall_WoodLog,Wall_WoodLog,.</li>
+        <li>.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.</li>
+      </li>
+    </layouts>
+    <roofGrid>
+      <li>.,.,1,1,1,1,1,.,.</li>
+      <li>.,1,1,1,1,1,1,1,.</li>
+      <li>1,1,1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1,1,1</li>
+      <li>.,1,1,1,1,1,1,1,.</li>
+      <li>.,.,1,1,1,1,1,.,.</li>
+    </roofGrid>
+    <terrainGrid>
+      <li>.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.</li>
+      <li>.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.</li>
+      <li>.,StrawMatting,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,StrawMatting,.</li>
+      <li>StrawMatting,StrawMatting,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,StrawMatting,StrawMatting</li>
+      <li>.,StrawMatting,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,StrawMatting,.</li>
+      <li>.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.</li>
+      <li>.,.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.</li>
+    </terrainGrid>
+    <tags>
+      <li>TSA_Tribal_Barracks</li>
+    </tags>
+  </KCSG.StructureLayoutDef>
+</Defs>

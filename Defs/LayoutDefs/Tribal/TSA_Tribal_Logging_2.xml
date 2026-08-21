@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Logging_2</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,.,.,.,.,.,.,.,.</li>
+      <li>Plant_Bush,.,.,Plant_TreeOak,.,.,.,.,.,VFEPD_WoodenLogsLarge_North,.,Plant_Berry,.,Plant_TreeOak,Plant_Bush</li>
+      <li>Plant_TreeOak,Plant_TreeOak,.,.,.,Plant_TreeOak,.,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,VFEPD_WoodenLogs_South</li>
+      <li>.,.,.,Plant_TreeOak,.,.,.,Plant_Bush,Wall_WoodLog,Wall_WoodLog,Shelf_WoodLog_North,.,.,Wall_WoodLog,VFEPD_WoodenLogs_West</li>
+      <li>.,.,.,.,Plant_TreeOak,.,.,TorchWallLamp_East,Wall_WoodLog,.,.,.,.,Wall_WoodLog,Wall_WoodLog</li>
+      <li>VFEPD_WoodenWagon_North,.,.,.,.,Plant_TreeOak,.,.,Wall_WoodLog,Shelf_WoodLog_East,.,.,.,Shelf_WoodLog_West,Wall_WoodLog</li>
+      <li>.,.,.,Plant_TreeOak,.,.,Plant_TreeOak,.,Wall_WoodLog,Wall_WoodLog,.,.,.,.,Wall_WoodLog</li>
+      <li>.,.,Plant_TreeOak,.,.,Plant_TreeOak,.,.,VFEPD_WoodenLogs_West,Wall_WoodLog,.,.,VFEPD_WoodenLogs_South,VFEPD_WoodenLogs_South,Wall_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Bush,.,.,.,.,Plant_TreeOak,.,VFEPD_WoodenLogs_West,Wall_WoodLog,AnimalFlap_Leather_Plain,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
+      <li>Fence_WoodLog,Plant_TreeOak,.,.,VFEPD_BoxLarge_North,.,.,Plant_Berry,Wall_WoodLog,Wall_WoodLog,.,.,.,Wall_WoodLog,Plant_TreeOak</li>
+      <li>Fence_WoodLog,.,.,VFEPD_BoxLarge_West,VFEPD_BoxSmall_South,TorchLamp,Plant_TreeOak,TorchWallLamp_East,Wall_WoodLog,.,TorchWallLamp_North,.,Bedroll_Leather_Light_South,Wall_WoodLog,Plant_TreeOak</li>
+      <li>Fence_WoodLog,Plant_TreeOak,.,.,VFEPD_BoxLarge_East,VFEPD_BoxSmall_West,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Plant_Bush</li>
+      <li>Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Plant_Bush,.,.,Plant_TreeOak,.,.,.,Plant_TreeOak,.,.,.,.</li>
+    </li>
+    <li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,TorchWallLamp_West,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,TorchWallLamp_East,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,StrawMatting,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,WoodPlankFloor,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.</li>
+    <li>.,.,.,.,.,.,.,.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+  </terrainGrid>
+    <tags>
+      <li>TSA_Tribal_Logging</li>
+    </tags>
+</KCSG.StructureLayoutDef>
+</Defs>

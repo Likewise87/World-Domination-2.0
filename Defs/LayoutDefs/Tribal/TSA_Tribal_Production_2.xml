@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.StructureLayoutDef>
+    <defName>TSA_Tribal_Production_2</defName>
+<layouts>
+      <li>
+        <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,Jade,Jade,.,BlocksMarble,Jade,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      </li>
+      <li>
+        <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
+        <li>.,Wall_WoodLog,.,TableStonecutter_WoodLog_South,.,Shelf_WoodLog_North,.,.,Shelf_WoodLog_North,.,.,TableStonecutter_WoodLog_South,.,Wall_WoodLog</li>
+        <li>.,Wall_WoodLog,TorchLamp,.,.,.,.,.,.,.,.,.,TorchLamp,Wall_WoodLog</li>
+        <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.,.,.,.,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
+        <li>.,.,.,Wall_WoodLog,.,.,.,TorchLamp,.,.,.,Wall_WoodLog,.,.</li>
+        <li>.,.,.,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.</li>
+        <li>.,Fence_WoodLog,Fence_WoodLog,.,.,.,.,.,.,.,.,.,.,.</li>
+        <li>Fence_WoodLog,SteleLarge_BlocksMarble,.,.,.,.,.,.,.,.,.,.,.,.</li>
+        <li>Fence_WoodLog,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,Fence_WoodLog,Fence_WoodLog,.,.,.,.,.,.,.,.,.,.,.</li>
+      </li>
+    </layouts>
+    <tags>
+      <li>TSA_Tribal_Production</li>
+    </tags>
+  </KCSG.StructureLayoutDef>
+</Defs>

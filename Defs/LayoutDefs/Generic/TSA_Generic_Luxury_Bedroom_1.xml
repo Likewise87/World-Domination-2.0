@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+<KCSG.StructureLayoutDef>
+    <defName>Generic_Luxury_Bedroom_1</defName>
+    <layouts>
+      <li>
+        <li>Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Autodoor_Steel,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone</li>
+        <li>Wall_BlocksSandstone,.,Table1x2c_Steel_West,.,.,.,SculptureLarge_Steel,.,Wall_BlocksSandstone</li>
+        <li>Wall_BlocksSandstone,DiningChair_Steel_South,DiningChair_Steel_South,.,.,.,.,.,Wall_BlocksSandstone</li>
+        <li>Wall_BlocksSandstone,.,.,.,.,.,.,.,Wall_BlocksSandstone</li>
+        <li>Wall_BlocksSandstone,Heater,.,.,StandingLamp,.,.,Dresser_Steel_West,Wall_BlocksSandstone</li>
+        <li>Wall_BlocksSandstone,.,.,.,.,.,.,.,Wall_BlocksSandstone</li>
+        <li>Wall_BlocksSandstone,.,.,.,.,.,.,Battery_North,Wall_BlocksSandstone</li>
+        <li>Wall_BlocksSandstone,EndTable_Steel_South,.,RoyalBed_Steel_South,.,Drape_Cloth_North,.,.,Wall_BlocksSandstone</li>
+        <li>Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone</li>
+      </li>
+    </layouts>
+    <roofGrid>
+      <li>1,1,1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1,1,1</li>
+    </roofGrid>
+    <terrainGrid>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+    </terrainGrid>
+    <tags>
+      <li>Generic_Luxury_Bedroom</li>
+    </tags>
+  </KCSG.StructureLayoutDef>
+</Defs>

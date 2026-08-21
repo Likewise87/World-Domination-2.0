@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <!-- Outpost def -->
+  <TSA_WD_Mortar_OutpostLabel>Artillery Outpost</TSA_WD_Mortar_OutpostLabel>
+  <TSA_WD_Mortar_OutpostDesc>A fortified artillery outpost that fires mortar shells at distant hostile settlements, and (when Auto Attack is enabled) intercepts passing enemy caravans. Shell strength is set in mod options and increased by outpost upgrades; accuracy uses the best shooter’s Shooting level; cooldown shortens with total Shooting across the garrison.</TSA_WD_Mortar_OutpostDesc>
+
+  <!-- Traveler -->
+  <TSA_WD_Traveler_MortarStrike>Mortar Shell</TSA_WD_Traveler_MortarStrike>
+  <TSA_WD_Traveler_AT_Shell>AT Shell</TSA_WD_Traveler_AT_Shell>
+
+  <!-- Gizmo labels/descs -->
+  <TSA_WD_Mortar_LaunchLabel>Launch Mortar Strike</TSA_WD_Mortar_LaunchLabel>
+  <TSA_WD_Mortar_LaunchDesc>Pick a hostile settlement, caravan, or WD traveler within {0} tiles.
+
+If the shell hits, it deals {1} strength.
+
+Hit chance uses your range-band settings from the outpost options, plus one percentage point per Shooting level of the best shooter ({2}).
+
+Cooldown is shortened by total garrison Shooting ({3}): each point is −2% duration, stacking with upgrades (minimum 25% of base days).</TSA_WD_Mortar_LaunchDesc>
+  <TSA_WD_Mortar_LaunchDescCooldown>Mortar is reloading — ready in {0} days.</TSA_WD_Mortar_LaunchDescCooldown>
+  <TSA_WD_Mortar_LaunchDescNoSkill>No shooting skill available at this outpost.</TSA_WD_Mortar_LaunchDescNoSkill>
+  <TSA_WD_Mortar_ReasonCooldown>On cooldown</TSA_WD_Mortar_ReasonCooldown>
+  <TSA_WD_Mortar_ReasonNoSkill>Requires at least one pawn with shooting skill</TSA_WD_Mortar_ReasonNoSkill>
+
+  <!-- Auto Mortar Target (single gizmo + float menu) -->
+  <TSA_WD_Mortar_AutoAttackDesc>Automatically fires at hostile caravans in range when not Off. Uses the same cooldown and combat rules as the launch gizmo: range bands, best shooter accuracy, upgrade hit bonuses, and Shooting-based cooldown reduction.</TSA_WD_Mortar_AutoAttackDesc>
+  <TSA_WD_Mortar_AutoAttack_Off>Auto Mortar Target Off</TSA_WD_Mortar_AutoAttack_Off>
+  <TSA_WD_Mortar_AutoAttack_AllCaravans>Auto Mortar Target All Caravans</TSA_WD_Mortar_AutoAttack_AllCaravans>
+  <TSA_WD_Mortar_AutoAttack_RaiderCaravans>Auto Mortar Target Raider Caravans</TSA_WD_Mortar_AutoAttack_RaiderCaravans>
+  <TSA_WD_Mortar_AutoAttack_TraderCaravans>Auto Mortar Target Trader Caravans</TSA_WD_Mortar_AutoAttack_TraderCaravans>
+  <TSA_WD_Mortar_AutoAttack_ExpansionCaravans>Auto Mortar Target Expansion Caravans</TSA_WD_Mortar_AutoAttack_ExpansionCaravans>
+  <TSA_WD_Mortar_AutoAttack_RoadCaravans>Auto Mortar Target Road Caravans</TSA_WD_Mortar_AutoAttack_RoadCaravans>
+  <TSA_WD_Mortar_AutoAttack_GroupCaravans>Auto Mortar Target {0} Caravans</TSA_WD_Mortar_AutoAttack_GroupCaravans>
+  <TSA_WD_Mortar_AutoAttack_Menu_Off>Off</TSA_WD_Mortar_AutoAttack_Menu_Off>
+  <TSA_WD_Mortar_AutoAttack_Menu_All>All</TSA_WD_Mortar_AutoAttack_Menu_All>
+  <TSA_WD_Mortar_AutoAttack_Menu_Raider>Raiders</TSA_WD_Mortar_AutoAttack_Menu_Raider>
+  <TSA_WD_Mortar_AutoAttack_Menu_Trader>Traders</TSA_WD_Mortar_AutoAttack_Menu_Trader>
+  <TSA_WD_Mortar_AutoAttack_Menu_Expansion>Expansion</TSA_WD_Mortar_AutoAttack_Menu_Expansion>
+  <TSA_WD_Mortar_AutoAttack_Menu_Road>Road</TSA_WD_Mortar_AutoAttack_Menu_Road>
+  <TSA_WD_Mortar_AutoAttack_Menu_Fortify>Fortify</TSA_WD_Mortar_AutoAttack_Menu_Fortify>
+
+  <!-- Used by MissionMaskLabel (multi-type fallback) -->
+  <TSA_WD_Mortar_Filter_All>All</TSA_WD_Mortar_Filter_All>
+  <TSA_WD_Mortar_Filter_Raider>Raider</TSA_WD_Mortar_Filter_Raider>
+  <TSA_WD_Mortar_Filter_Expansion>Expansion</TSA_WD_Mortar_Filter_Expansion>
+  <TSA_WD_Mortar_Filter_Road>Road</TSA_WD_Mortar_Filter_Road>
+  <TSA_WD_Mortar_Filter_Trader>Trader</TSA_WD_Mortar_Filter_Trader>
+  <TSA_WD_Mortar_Filter_Fortify>Fortify</TSA_WD_Mortar_Filter_Fortify>
+
+  <!-- Letters -->
+  <TSA_WD_Mortar_Hit_Label>Mortar Hit</TSA_WD_Mortar_Hit_Label>
+  <TSA_WD_Mortar_Hit_Settlement_Line>Mortar Hit: Strength {0} --> {1}</TSA_WD_Mortar_Hit_Settlement_Line>
+  <TSA_WD_Mortar_Hit_DestroyedSuffix>. Settlement destroyed</TSA_WD_Mortar_Hit_DestroyedSuffix>
+  <TSA_WD_Mortar_Hit_DestroyedMobileSuffix>. Force eliminated</TSA_WD_Mortar_Hit_DestroyedMobileSuffix>
+  <TSA_WD_Mortar_Hit_DestroyedOutpostSuffix>. Outpost destroyed, all occupants lost</TSA_WD_Mortar_Hit_DestroyedOutpostSuffix>
+  <TSA_WD_Mortar_Hit_Traveler_Text>A mortar shell from {0} destroyed the hostile {1}.</TSA_WD_Mortar_Hit_Traveler_Text>
+  <TSA_WD_Mortar_Destroyed_Label>Mortar destroyed target</TSA_WD_Mortar_Destroyed_Label>
+  <TSA_WD_Mortar_Destroyed_Text>Mortar from {0} destroyed {1}.</TSA_WD_Mortar_Destroyed_Text>
+  <TSA_WD_Mortar_Destroyed_Caravan>caravan</TSA_WD_Mortar_Destroyed_Caravan>
+  <TSA_WD_Mortar_Destroyed_CaravanWithFaction>{0} caravan</TSA_WD_Mortar_Destroyed_CaravanWithFaction>
+  <TSA_WD_Mortar_AttackerWithFaction>{0} ({1})</TSA_WD_Mortar_AttackerWithFaction>
+  <TSA_WD_Mortar_HitOnYou_Label>Mortar hit your forces</TSA_WD_Mortar_HitOnYou_Label>
+  <TSA_WD_Mortar_HitOnYou_Text>Mortar from {0} hit {1}. Strength {2} to {3}.</TSA_WD_Mortar_HitOnYou_Text>
+  <TSA_WD_Mortar_DestroyedYou_Label>Mortar destroyed your forces</TSA_WD_Mortar_DestroyedYou_Label>
+  <TSA_WD_Mortar_DestroyedYou_Text>Mortar from {0} destroyed {1}.</TSA_WD_Mortar_DestroyedYou_Text>
+  <TSA_WD_Mortar_Miss_Label>Mortar strike: miss</TSA_WD_Mortar_Miss_Label>
+  <TSA_WD_Mortar_Miss_Text>A mortar shell from {0} fired at {1} fell wide of its mark.</TSA_WD_Mortar_Miss_Text>
+
+  <!-- Log -->
+  <TSA_WD_Log_MortarLaunched>{0} launched a mortar strike at {1} ({2} strength).</TSA_WD_Log_MortarLaunched>
+
+  <!-- Settings (slider labels have no placeholder; value is shown after the colon by the UI) -->
+  <TSA_WD_Outpost_HeaderMortar>Mortar Turret</TSA_WD_Outpost_HeaderMortar>
+  <TSA_WD_Settings_Mortar_Section>Artillery Outpost / Interception</TSA_WD_Settings_Mortar_Section>
+  <TSA_WD_Settings_MortarRange>Artillery range (tiles)</TSA_WD_Settings_MortarRange>
+  <TSA_WD_Settings_MortarRangeTooltip>Maximum world distance (tiles) for manual mortar targeting and for defensive auto-fire range checks.</TSA_WD_Settings_MortarRangeTooltip>
+  <TSA_WD_Settings_CooldownMortarDays>Artillery cooldown (days)</TSA_WD_Settings_CooldownMortarDays>
+  <TSA_WD_Settings_CooldownMortarDaysTooltip>Base days before a player artillery outpost or hostile T4 interceptor can fire again, before garrison Shooting (2% shorter per summed point, min 25% of this) and outpost upgrade reductions.</TSA_WD_Settings_CooldownMortarDaysTooltip>
+  <TSA_WD_Settings_MortarBaseShellDamage>Base shell strength damage</TSA_WD_Settings_MortarBaseShellDamage>
+  <TSA_WD_Settings_MortarBaseShellDamageTooltip>Strength removed on a hit before outpost upgrades. Upgrades add flat damage per built level via XML (mortarShellDamageBonus). Settlements split damage across offensive/defensive pools; caravans and WD travelers use one abstract pool.</TSA_WD_Settings_MortarBaseShellDamageTooltip>
+  <TSA_WD_Settings_MortarHitBand0To50>Hit chance at 0–50% of max range</TSA_WD_Settings_MortarHitBand0To50>
+  <TSA_WD_Settings_MortarHitBand0To50Tooltip>Base hit for 0-50% of max range. With the level-20 best shooter bonus (+20 pp), hit chance reaches 100% at half max range. Upgrades add mortar hit chance bonus.</TSA_WD_Settings_MortarHitBand0To50Tooltip>
+  <TSA_WD_Settings_MortarHitBand51To75>Hit chance at 51–75% of max range</TSA_WD_Settings_MortarHitBand51To75>
+  <TSA_WD_Settings_MortarHitBand51To75Tooltip>Base for 51-75% of max range (tuned with the inner and outer bands so longer shots stay harder at the same skill).</TSA_WD_Settings_MortarHitBand51To75Tooltip>
+  <TSA_WD_Settings_MortarHitBand76To100>Hit chance at 76–100% of max range</TSA_WD_Settings_MortarHitBand76To100>
+  <TSA_WD_Settings_MortarHitBand76To100Tooltip>Base for 76–100% of max range; best shooter still adds +1% per level and upgrades stack on top.</TSA_WD_Settings_MortarHitBand76To100Tooltip>
+  <TSA_WD_Outpost_HeaderRapidResponse>Rapid Response outpost</TSA_WD_Outpost_HeaderRapidResponse>
+  <TSA_WD_Outpost_RapidResponseOffenseBonus>Rapid Response offensive strength bonus</TSA_WD_Outpost_RapidResponseOffenseBonus>
+  <TSA_WD_Outpost_RapidResponseOffenseBonusTooltip>Extra offensive strength cap for Rapid Response Outposts. Future upgrades add flat percentage points on top of this value.</TSA_WD_Outpost_RapidResponseOffenseBonusTooltip>
+  <TSA_WD_Outpost_RapidResponseRecoveryBonus>Rapid Response offensive recovery bonus</TSA_WD_Outpost_RapidResponseRecoveryBonus>
+  <TSA_WD_Outpost_RapidResponseRecoveryBonusTooltip>Extra offensive recovery speed for Rapid Response Outposts. Future upgrades add flat percentage points on top of this value.</TSA_WD_Outpost_RapidResponseRecoveryBonusTooltip>
+  <TSA_WD_Outpost_RapidResponseAutoRange>Rapid Response auto-intercept range</TSA_WD_Outpost_RapidResponseAutoRange>
+  <TSA_WD_Outpost_RapidResponseAutoRangeTooltip>Maximum world-tile distance for automatic Rapid Response virtual counter-caravans. Drawn as a purple ring while the outpost is selected.</TSA_WD_Outpost_RapidResponseAutoRangeTooltip>
+  <TSA_WD_Outpost_RapidResponseDropPodRange>Rapid Response drop-pod range</TSA_WD_Outpost_RapidResponseDropPodRange>
+  <TSA_WD_Outpost_RapidResponseDropPodRangeTooltip>Maximum world-tile distance for manual Rapid Response pawn drop-pod dispatch from the Pawns tab.</TSA_WD_Outpost_RapidResponseDropPodRangeTooltip>
+  <TSA_WD_Outpost_RapidResponseSpeedMult>Rapid Response travel time multiplier</TSA_WD_Outpost_RapidResponseSpeedMult>
+  <TSA_WD_Outpost_RapidResponseSpeedMultTooltip>Ticks per move multiplier for virtual Rapid Response / settlement-ambush counter-caravans. Lower values make them faster than normal WD travelers. Interceptors also get an extra ~10% chase speed so they can catch targets moving at a similar pace.</TSA_WD_Outpost_RapidResponseSpeedMultTooltip>
+  <TSA_WD_Settings_DropPodTicksPerMove>Drop-pod travel ticks per tile</TSA_WD_Settings_DropPodTicksPerMove>
+  <TSA_WD_Settings_DropPodTicksPerMoveTooltip>World ticks per tile for ballistic drop-pod travelers (raids and drop-pod deliveries). Lower = faster. Does not affect Rapid Response virtual counter-caravans (use the travel time multiplier below).</TSA_WD_Settings_DropPodTicksPerMoveTooltip>
+  <TSA_WD_Settings_MortarShellTicksPerMove>Mortar shell travel ticks per tile</TSA_WD_Settings_MortarShellTicksPerMove>
+  <TSA_WD_Settings_MortarShellTicksPerMoveTooltip>World ticks per tile for mortar shell travelers on the world map. Lower = faster shells.</TSA_WD_Settings_MortarShellTicksPerMoveTooltip>
+  <TSA_WD_Settings_FlakShellTicksPerMove>Anti-Air flak travel ticks per tile</TSA_WD_Settings_FlakShellTicksPerMove>
+  <TSA_WD_Settings_FlakShellTicksPerMoveTooltip>World ticks per tile for Anti-Air flak shells. Lower = faster. Also used when leading moving targets.</TSA_WD_Settings_FlakShellTicksPerMoveTooltip>
+  <TSA_WD_Settings_NpcMortarDamage>Enemy settlement mortar damage</TSA_WD_Settings_NpcMortarDamage>
+  <TSA_WD_Settings_NpcMortarDamageTooltip>Strength removed from hostile tier-4 settlements when their defensive mortar hits a traveler or caravan.</TSA_WD_Settings_NpcMortarDamageTooltip>
+  <TSA_WD_Settings_NpcMortarSkillEquivalent>Enemy settlement equivalent shooting skill</TSA_WD_Settings_NpcMortarSkillEquivalent>
+  <TSA_WD_Settings_NpcMortarSkillEquivalentTooltip>Treated as the settlement’s “best shooter” level: adds this many percentage points to hit (+1% per point) after distance bands. No outpost upgrades apply to NPC shots.</TSA_WD_Settings_NpcMortarSkillEquivalentTooltip>
+  <TSA_WD_Settings_InterceptionScanIntervalSec>Interception scan interval (seconds)</TSA_WD_Settings_InterceptionScanIntervalSec>
+  <TSA_WD_Settings_InterceptionScanIntervalSecTooltip>Shared performance setting. Player artillery and Rapid Response outposts use this interval. Enemy T4 settlements use three times this interval (capped scans per cycle).</TSA_WD_Settings_InterceptionScanIntervalSecTooltip>
+  <TSA_WD_Settings_ResetMortarInterception>Reset artillery / interception tuning</TSA_WD_Settings_ResetMortarInterception>
+
+  <!-- Enemy T4 settlement turrets window (mortar + AA; decoupled from player values) -->
+  <TSA_WD_T4Mortar_Header>Enemy T4 settlement turrets</TSA_WD_T4Mortar_Header>
+  <TSA_WD_T4Mortar_EnableAll>Enemy T4 settlements fire mortars</TSA_WD_T4Mortar_EnableAll>
+  <TSA_WD_T4Mortar_EnableAllTooltip>Master toggle. When on, tier-4 enemy settlements act as defensive mortar interceptors: they fire at hostile NON-player WD travelers in range, and when none are in range they shell the nearest hostile settlement. Whether they may also target YOU is the separate option below.</TSA_WD_T4Mortar_EnableAllTooltip>
+  <TSA_WD_T4Mortar_MinTech>T4 turrets: min tech level</TSA_WD_T4Mortar_MinTech>
+  <TSA_WD_T4Mortar_MinTechTip>Only factions at this tech level or higher may use T4 settlement mortars and anti-air. Neolithic allows essentially all factions.</TSA_WD_T4Mortar_MinTechTip>
+  <TSA_WD_T4Mortar_TargetPlayer>May target your WD travelers and outposts</TSA_WD_T4Mortar_TargetPlayer>
+  <TSA_WD_T4Mortar_TargetPlayerTooltip>When on, enemy T4 mortars may also fire at your WD caravans and outposts, but only while Late Game is active. With this off, they never target you in Late Game. Mid Game has its own toggle; turning Mid Game on forces this Late Game toggle on.</TSA_WD_T4Mortar_TargetPlayerTooltip>
+  <TSA_WD_T4Mortar_Range>T4 mortar range (tiles)</TSA_WD_T4Mortar_Range>
+  <TSA_WD_T4Mortar_RangeTooltip>Maximum world distance (tiles) an enemy T4 settlement mortar can reach. Independent of the player artillery range.</TSA_WD_T4Mortar_RangeTooltip>
+  <TSA_WD_T4Mortar_Cooldown>T4 mortar cooldown (days)</TSA_WD_T4Mortar_Cooldown>
+  <TSA_WD_T4Mortar_CooldownTooltip>Days between shots for an enemy T4 settlement mortar. Independent of the player artillery cooldown.</TSA_WD_T4Mortar_CooldownTooltip>
+  <TSA_WD_T4Mortar_HitBand0To50>Hit chance at 0–50% of max range</TSA_WD_T4Mortar_HitBand0To50>
+  <TSA_WD_T4Mortar_HitBand0To50Tooltip>Base hit chance for T4 mortar shots at 0–50% of max range, before the equivalent shooting-skill bonus.</TSA_WD_T4Mortar_HitBand0To50Tooltip>
+  <TSA_WD_T4Mortar_HitBand51To75>Hit chance at 51–75% of max range</TSA_WD_T4Mortar_HitBand51To75>
+  <TSA_WD_T4Mortar_HitBand51To75Tooltip>Base hit chance for T4 mortar shots at 51–75% of max range.</TSA_WD_T4Mortar_HitBand51To75Tooltip>
+  <TSA_WD_T4Mortar_HitBand76To100>Hit chance at 76–100% of max range</TSA_WD_T4Mortar_HitBand76To100>
+  <TSA_WD_T4Mortar_HitBand76To100Tooltip>Base hit chance for T4 mortar shots at 76–100% of max range.</TSA_WD_T4Mortar_HitBand76To100Tooltip>
+  <TSA_WD_T4Mortar_ScanSharedNote>Player artillery and Rapid Response outposts use it as-is. Enemy T4 settlements use three times this interval to save performance.</TSA_WD_T4Mortar_ScanSharedNote>
+  <TSA_WD_T4Mortar_DisabledHint>Enemy T4 settlement mortars are disabled.</TSA_WD_T4Mortar_DisabledHint>
+  <TSA_WD_T4Mortar_Reset>Reset enemy T4 turret settings</TSA_WD_T4Mortar_Reset>
+  <TSA_WD_Food_Header>Food logistics</TSA_WD_Food_Header>
+
+  <!-- Mortar inspect tab (world object) -->
+  <TSA_WD_MortarTab_Label>Mortar</TSA_WD_MortarTab_Label>
+  <TSA_WD_MortarTab_Headline>Mortar stats</TSA_WD_MortarTab_Headline>
+  <TSA_WD_MortarTab_DamageHeadline>Strength damage / shot: {0}</TSA_WD_MortarTab_DamageHeadline>
+  <TSA_WD_MortarTab_HeaderDamageTitle>Damage per Shot</TSA_WD_MortarTab_HeaderDamageTitle>
+  <TSA_WD_MortarTab_HeaderCooldownTitle>Cooldown</TSA_WD_MortarTab_HeaderCooldownTitle>
+  <TSA_WD_MortarTab_HeaderCooldownValue>{0} days</TSA_WD_MortarTab_HeaderCooldownValue>
+  <TSA_WD_MortarTab_HeaderAccuracyTitle>Accuracy</TSA_WD_MortarTab_HeaderAccuracyTitle>
+  <TSA_WD_MortarTab_HeaderAccRange0_50>0-50 % range: {0}%</TSA_WD_MortarTab_HeaderAccRange0_50>
+  <TSA_WD_MortarTab_HeaderAccRange51_75>51-75 % range: {0}%</TSA_WD_MortarTab_HeaderAccRange51_75>
+  <TSA_WD_MortarTab_HeaderAccRange76_100>76-100 % range: {0}%</TSA_WD_MortarTab_HeaderAccRange76_100>
+  <TSA_WD_MortarTab_HeaderRangeTitle>Range</TSA_WD_MortarTab_HeaderRangeTitle>
+  <TSA_WD_MortarTab_HeaderRangeValue>{0} tiles</TSA_WD_MortarTab_HeaderRangeValue>
+  <TSA_WD_MortarTab_HeaderBaseShell>Base (mod settings): {0}</TSA_WD_MortarTab_HeaderBaseShell>
+  <TSA_WD_MortarTab_ReloadHeadline>Cooldown: {0} days</TSA_WD_MortarTab_ReloadHeadline>
+  <TSA_WD_MortarTab_CooldownClampedMark> (Clamped)</TSA_WD_MortarTab_CooldownClampedMark>
+  <TSA_WD_MortarTab_CooldownClampTip>Skill and upgrade reductions cannot shorten cooldown below {0}% of the base duration (minimum {1} days at current base).</TSA_WD_MortarTab_CooldownClampTip>
+  <TSA_WD_MortarTab_AccuracyHeadline0_50>Accuracy at 0-50 % range: {0}%</TSA_WD_MortarTab_AccuracyHeadline0_50>
+  <TSA_WD_MortarTab_AccuracyHeadline51_75>Accuracy at 51-75 % range: {0}%</TSA_WD_MortarTab_AccuracyHeadline51_75>
+  <TSA_WD_MortarTab_AccuracyHeadline76_100>Accuracy at 76-100 % range: {0}%</TSA_WD_MortarTab_AccuracyHeadline76_100>
+  <TSA_WD_MortarTab_HeaderBaseRangeTiles>Base (mod settings): {0} tiles</TSA_WD_MortarTab_HeaderBaseRangeTiles>
+  <TSA_WD_MortarTab_ColumnAccuracy>Accuracy</TSA_WD_MortarTab_ColumnAccuracy>
+  <TSA_WD_MortarTab_RangeHeadline>Range: {0} tiles</TSA_WD_MortarTab_RangeHeadline>
+  <TSA_WD_MortarTab_SectionBaseValue>Base value</TSA_WD_MortarTab_SectionBaseValue>
+  <TSA_WD_MortarTab_SectionPawnModifiers>Pawn modifiers</TSA_WD_MortarTab_SectionPawnModifiers>
+  <TSA_WD_MortarTab_SectionOutpostUpgrades>Outpost upgrades</TSA_WD_MortarTab_SectionOutpostUpgrades>
+  <TSA_WD_MortarTab_NoRelevantOutpostUpgrade>No relevant Outpost upgrades</TSA_WD_MortarTab_NoRelevantOutpostUpgrade>
+  <TSA_WD_MortarTab_PawnModsDamageNone>N/A</TSA_WD_MortarTab_PawnModsDamageNone>
+  <TSA_WD_MortarTab_PawnModsRangeNone>N/A</TSA_WD_MortarTab_PawnModsRangeNone>
+  <TSA_WD_MortarTab_BaseDamageLine>Base shell damage (mod settings): {0}</TSA_WD_MortarTab_BaseDamageLine>
+  <TSA_WD_MortarTab_BaseCooldownLine>Base cooldown (mod settings): {0} days</TSA_WD_MortarTab_BaseCooldownLine>
+  <TSA_WD_MortarTab_ShootingCooldownLine>Cum. Shooting skill {0}: −{1}% CD</TSA_WD_MortarTab_ShootingCooldownLine>
+  <TSA_WD_MortarTab_UpgradeCooldownTotalLine>Built upgrades (total): −{0}% duration</TSA_WD_MortarTab_UpgradeCooldownTotalLine>
+  <TSA_WD_MortarTab_MultiplierFloorLine>Effective duration multiplier: {0}% of base (see header cooldown).</TSA_WD_MortarTab_MultiplierFloorLine>
+  <TSA_WD_MortarTab_BaseAccSummary>Band bases (50% / 75% / 100% of max range): {0}% | {1}% | {2}%</TSA_WD_MortarTab_BaseAccSummary>
+  <TSA_WD_MortarTab_AccuracyBandBaseOnly50>At 0-50% of max range: {0}%</TSA_WD_MortarTab_AccuracyBandBaseOnly50>
+  <TSA_WD_MortarTab_AccuracyBandBaseOnly75>At 51-75% of max range: {0}%</TSA_WD_MortarTab_AccuracyBandBaseOnly75>
+  <TSA_WD_MortarTab_AccuracyBandBaseOnly100>At 76-100% of max range: {0}%</TSA_WD_MortarTab_AccuracyBandBaseOnly100>
+  <TSA_WD_MortarTab_BestShooterLine>Best Shooter (Shooting {0}): +{1}% hit (flat per level from mod)</TSA_WD_MortarTab_BestShooterLine>
+  <TSA_WD_MortarTab_BestShooterPpLine>Best Shooter Lvl {0}: +{1}pp accuracy</TSA_WD_MortarTab_BestShooterPpLine>
+  <TSA_WD_MortarTab_AccuracyAt50Pct>Accuracy at 50% of max distance: {0}%</TSA_WD_MortarTab_AccuracyAt50Pct>
+  <TSA_WD_MortarTab_AccuracyAt75Pct>Accuracy at 75% of max distance: {0}%</TSA_WD_MortarTab_AccuracyAt75Pct>
+  <TSA_WD_MortarTab_AccuracyAt100Pct>Accuracy at 100% of max distance: {0}%</TSA_WD_MortarTab_AccuracyAt100Pct>
+  <TSA_WD_MortarTab_RangeDetailLine>Max range (mod settings): {0} world tiles</TSA_WD_MortarTab_RangeDetailLine>
+  <TSA_WD_MortarTab_UpgradeShellDamage>{0}: +{1} shell damage</TSA_WD_MortarTab_UpgradeShellDamage>
+  <TSA_WD_MortarTab_UpgradeCooldown>{0}: −{1}% base duration</TSA_WD_MortarTab_UpgradeCooldown>
+  <TSA_WD_MortarTab_UpgradeHit>{0}: +{1}% hit chance</TSA_WD_MortarTab_UpgradeHit>
+  <TSA_WD_MortarTab_UpgradeHitPp>{0}: +{1}pp hit</TSA_WD_MortarTab_UpgradeHitPp>
+  <TSA_WD_MortarTab_UpgradeRange>{0}: +{1} max range tiles</TSA_WD_MortarTab_UpgradeRange>
+
+  <TSA_WD_Traveler_FlakShell>Flak Shell</TSA_WD_Traveler_FlakShell>
+  <TSA_WD_Mortar_AutoAttackDescWithAA>Automatically fires at matching hostile caravans in range. With the Anti-Air Gun upgrade, also engages hostile drop-pod raids (separate short cooldown).</TSA_WD_Mortar_AutoAttackDescWithAA>
+  <TSA_WD_AntiAir_Auto_On>Auto Anti Air On</TSA_WD_AntiAir_Auto_On>
+  <TSA_WD_AntiAir_Auto_Off>Auto Anti Air Off</TSA_WD_AntiAir_Auto_Off>
+  <TSA_WD_AntiAir_Auto_Toggle>Auto Anti Air On/Off</TSA_WD_AntiAir_Auto_Toggle>
+  <TSA_WD_AntiAir_AutoDesc>When on, automatically engages hostile drop-pod raids, mortar shells, and transport pods in Anti-Air range. Separate from mortar auto-target; uses the Anti-Air cooldown. Red/orange/yellow rings show Anti-Air accuracy vs pods and aerials; mortar shells use a flat shot-down chance.</TSA_WD_AntiAir_AutoDesc>
+  <TSA_WD_Log_AntiAirLaunched>{0} opened flak fire on {1} ({2} damage).</TSA_WD_Log_AntiAirLaunched>
+  <TSA_WD_AntiAir_Miss_Label>Flak missed</TSA_WD_AntiAir_Miss_Label>
+  <TSA_WD_AntiAir_Miss_Text>{0}'s flak barrage missed {1}.</TSA_WD_AntiAir_Miss_Text>
+  <TSA_WD_AntiAir_Hit_Label>Flak hit</TSA_WD_AntiAir_Hit_Label>
+  <TSA_WD_AntiAir_Hit_Text>{0}'s flak hit {1} ({2} → {3} strength, −{4}).</TSA_WD_AntiAir_Hit_Text>
+  <TSA_WD_AntiAir_Hit_Destroyed_Label>Drop pods destroyed</TSA_WD_AntiAir_Hit_Destroyed_Label>
+  <TSA_WD_AntiAir_Hit_Destroyed_Text>{0}'s flak destroyed {1} (was {2} strength).</TSA_WD_AntiAir_Hit_Destroyed_Text>
+  <TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Label>Upgrade drop pod destroyed</TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Label>
+  <TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Text>{0}'s anti-air shot down an outpost upgrade drop pod ({1}). The upgrade materials are lost.</TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Text>
+  <TSA_WD_AntiAir_GoodsDropPod_Destroyed_Label>Goods drop pod destroyed</TSA_WD_AntiAir_GoodsDropPod_Destroyed_Label>
+  <TSA_WD_AntiAir_GoodsDropPod_Destroyed_Text>{0}'s anti-air shot down a goods drop pod ({1}). The shipment is lost.</TSA_WD_AntiAir_GoodsDropPod_Destroyed_Text>
+  <TSA_WD_AntiAir_RapidResponsePawnsKilled_Label>Drop pod pawns killed</TSA_WD_AntiAir_RapidResponsePawnsKilled_Label>
+  <TSA_WD_AntiAir_RapidResponsePawnsKilled_Text>{0}'s anti-air destroyed a drop pod. The following pawns died:\n\n{1}</TSA_WD_AntiAir_RapidResponsePawnsKilled_Text>
+  <TSA_WD_Inspect_MortarReady>Mortar: ready</TSA_WD_Inspect_MortarReady>
+  <TSA_WD_Inspect_AntiAirReady>Anti-air: ready</TSA_WD_Inspect_AntiAirReady>
+  <TSA_WD_Inspect_AntiAirCD>Anti-air cooling down: {0}s</TSA_WD_Inspect_AntiAirCD>
+  <TSA_WD_Outpost_HeaderAntiAir>Anti Air Turret</TSA_WD_Outpost_HeaderAntiAir>
+  <TSA_WD_Settings_AntiAirBaseDamage>Anti-Air base damage</TSA_WD_Settings_AntiAirBaseDamage>
+  <TSA_WD_Settings_AntiAirBaseDamageTooltip>Strength removed from a hostile drop-pod raid on a successful flak hit, before mortar shell upgrades.</TSA_WD_Settings_AntiAirBaseDamageTooltip>
+  <TSA_WD_Settings_CooldownAntiAirSeconds>Anti-Air cooldown (seconds)</TSA_WD_Settings_CooldownAntiAirSeconds>
+  <TSA_WD_Settings_CooldownAntiAirSecondsTooltip>Base seconds between Anti-Air engagements. Reduced by Shooting skill and mortar cooldown upgrades, then floored.</TSA_WD_Settings_CooldownAntiAirSecondsTooltip>
+  <TSA_WD_Settings_AntiAirCooldownFloorSeconds>Anti-Air cooldown floor (seconds)</TSA_WD_Settings_AntiAirCooldownFloorSeconds>
+  <TSA_WD_Settings_AntiAirCooldownFloorSecondsTooltip>Minimum Anti-Air cooldown after skill and upgrade reductions.</TSA_WD_Settings_AntiAirCooldownFloorSecondsTooltip>
+  <TSA_WD_OutpostStats_Row_AntiAirDamage>Anti-Air damage</TSA_WD_OutpostStats_Row_AntiAirDamage>
+  <TSA_WD_OutpostStats_Row_AntiAirDamageTip>Flak resolver damage (base anti-air + shell upgrades).</TSA_WD_OutpostStats_Row_AntiAirDamageTip>
+  <TSA_WD_OutpostStats_Row_AntiAirCooldown>Anti-Air cooldown (s)</TSA_WD_OutpostStats_Row_AntiAirCooldown>
+  <TSA_WD_OutpostStats_Row_AntiAirCooldownTip>Effective anti-air cooldown in seconds after cumulative Shooting and mortar cooldown upgrades (then absolute floor).</TSA_WD_OutpostStats_Row_AntiAirCooldownTip>
+  <TSA_WD_OutpostStats_Row_AntiAirStatus>Anti-Air status</TSA_WD_OutpostStats_Row_AntiAirStatus>
+  <TSA_WD_OutpostStats_Row_AntiAirStatusTip>Whether anti-air can fire now.</TSA_WD_OutpostStats_Row_AntiAirStatusTip>
+  <TSA_WD_OutpostStats_Value_AntiAirCooldown>Cooling down ({0}s)</TSA_WD_OutpostStats_Value_AntiAirCooldown>
+  <TSA_WD_OutpostStats_Tip_BestShooter>Best shooter (Shooting {0})</TSA_WD_OutpostStats_Tip_BestShooter>
+  <TSA_WD_OutpostStats_Tip_CumShooting>Cumulative Shooting {0}</TSA_WD_OutpostStats_Tip_CumShooting>
+  <TSA_WD_OutpostStats_Tip_AntiAirAbsFloor>Absolute floor applied: {0}s (was {1}s before floor).</TSA_WD_OutpostStats_Tip_AntiAirAbsFloor>
+  <TSA_WD_OutpostStats_Row_AntiAirAcc50>Accuracy 0-50% Anti-Air range</TSA_WD_OutpostStats_Row_AntiAirAcc50>
+  <TSA_WD_OutpostStats_Row_AntiAirAcc75>Accuracy 51-75% Anti-Air range</TSA_WD_OutpostStats_Row_AntiAirAcc75>
+  <TSA_WD_OutpostStats_Row_AntiAirAcc100>Accuracy 76-100% Anti-Air range</TSA_WD_OutpostStats_Row_AntiAirAcc100>
+  <TSA_WD_OutpostStats_Row_AntiAirAccTip>Anti-Air hit chance vs drop pods, transport pods, and aerials by distance band (fraction of Anti-Air max range). Band base plus best shooter (+1 pp per Shooting level). Mortar shells use the flat Anti-Air vs shells chance below.</TSA_WD_OutpostStats_Row_AntiAirAccTip>
+  <TSA_WD_AntiAir_GroupDesc>Letter group for AA exclusivity. Same letter may keep firing at a claimed target. Other letters are blocked. Off means ungrouped (never claims, never blocked).</TSA_WD_AntiAir_GroupDesc>
+  <TSA_WD_AntiAir_Group_Off>AA Group Off</TSA_WD_AntiAir_Group_Off>
+  <TSA_WD_AntiAir_Group_A>AA Group A</TSA_WD_AntiAir_Group_A>
+  <TSA_WD_AntiAir_Group_B>AA Group B</TSA_WD_AntiAir_Group_B>
+  <TSA_WD_AntiAir_Group_C>AA Group C</TSA_WD_AntiAir_Group_C>
+  <TSA_WD_AntiAir_Group_D>AA Group D</TSA_WD_AntiAir_Group_D>
+  <TSA_WD_AntiAir_Group_Menu_Off>Off (ungrouped)</TSA_WD_AntiAir_Group_Menu_Off>
+  <TSA_WD_AntiAir_Group_Menu_A>Group A</TSA_WD_AntiAir_Group_Menu_A>
+  <TSA_WD_AntiAir_Group_Menu_B>Group B</TSA_WD_AntiAir_Group_Menu_B>
+  <TSA_WD_AntiAir_Group_Menu_C>Group C</TSA_WD_AntiAir_Group_Menu_C>
+  <TSA_WD_AntiAir_Group_Menu_D>Group D</TSA_WD_AntiAir_Group_Menu_D>
+  <TSA_WD_AntiAir_MortarShell_Destroyed_Label>Mortar shell destroyed</TSA_WD_AntiAir_MortarShell_Destroyed_Label>
+  <TSA_WD_AntiAir_MortarShell_Destroyed_Text>Anti-Air guns of your Outpost '{0}' have destroyed a mortar shell from the Settlement '{1}' of Faction '{2}'.</TSA_WD_AntiAir_MortarShell_Destroyed_Text>
+  <TSA_WD_AntiAir_MortarShell_Destroyed_Npc_Text>Anti-Air guns of '{0}' have destroyed a mortar shell from the Settlement '{1}' of Faction '{2}'.</TSA_WD_AntiAir_MortarShell_Destroyed_Npc_Text>
+  <TSA_WD_AntiAir_MortarShell_Miss_Label>Flak missed mortar shell</TSA_WD_AntiAir_MortarShell_Miss_Label>
+  <TSA_WD_AntiAir_MortarShell_Miss_Text>{0}'s flak barrage missed a mortar shell from {1}.</TSA_WD_AntiAir_MortarShell_Miss_Text>
+  <TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Label>Mortar shell shot down</TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Label>
+  <TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Text>A mortar shell from your outpost {0} was shot down by {1} ({2}).</TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Text>
+  <TSA_WD_AntiAir_PlayerMortarShell_Miss_Label>Enemy flak missed your mortar shell</TSA_WD_AntiAir_PlayerMortarShell_Miss_Label>
+  <TSA_WD_AntiAir_PlayerMortarShell_Miss_Text>Flak from {1} ({2}) missed a mortar shell from your outpost {0}.</TSA_WD_AntiAir_PlayerMortarShell_Miss_Text>
+  <TSA_WD_AntiAir_VanillaPods_Destroyed_Label>Transport pods destroyed</TSA_WD_AntiAir_VanillaPods_Destroyed_Label>
+  <TSA_WD_AntiAir_VanillaPods_Destroyed_Text>{0}'s flak destroyed {1}.</TSA_WD_AntiAir_VanillaPods_Destroyed_Text>
+  <TSA_WD_AntiAir_VanillaPods_Wiped_Label>Transport pods wiped out</TSA_WD_AntiAir_VanillaPods_Wiped_Label>
+  <TSA_WD_AntiAir_VanillaPods_Wiped_Text>{0}'s flak destroyed {1}. The following pawns died:\n\n{2}</TSA_WD_AntiAir_VanillaPods_Wiped_Text>
+  <TSA_WD_AntiAir_VanillaPods_Wounded_Label>Transport pods hit</TSA_WD_AntiAir_VanillaPods_Wounded_Label>
+  <TSA_WD_AntiAir_VanillaPods_Wounded_Text>{0}'s flak hit {1}: {2} killed, {3} wounded. Survivors continue.</TSA_WD_AntiAir_VanillaPods_Wounded_Text>
+  <TSA_WD_AntiAir_VanillaPods_Wounded_WithNames_Text>{0}'s flak hit {1}: {2} killed, {3} wounded. Survivors continue. The following pawns died:\n\n{4}</TSA_WD_AntiAir_VanillaPods_Wounded_WithNames_Text>
+  <TSA_WD_AntiAir_VfAerial_Destroyed_Label>Aerial vehicle shot down</TSA_WD_AntiAir_VfAerial_Destroyed_Label>
+  <TSA_WD_AntiAir_VfAerial_Destroyed_Text>{0}'s flak shot down {1}.</TSA_WD_AntiAir_VfAerial_Destroyed_Text>
+  <TSA_WD_AntiAir_VfAerial_CrashReason>Anti-air flak</TSA_WD_AntiAir_VfAerial_CrashReason>
+  <TSA_WD_AntiAir_VfAerial_AaWarning>Your aerial vehicle might get intercepted by anti-air fire from {0}. Launch anyway?</TSA_WD_AntiAir_VfAerial_AaWarning>
+  <TSA_WD_AntiAir_TransportPods_AaWarning>Your transport pods might get intercepted by anti-air fire from {0}. Launch anyway?</TSA_WD_AntiAir_TransportPods_AaWarning>
+  <TSA_WD_AntiAir_Shuttle_AaWarning>Your shuttle might get intercepted by anti-air fire from {0}. Launch anyway?</TSA_WD_AntiAir_Shuttle_AaWarning>
+  <TSA_WD_Settings_AntiAirRange>Anti-Air range (tiles)</TSA_WD_Settings_AntiAirRange>
+  <TSA_WD_Settings_AntiAirRangeTooltip>Maximum world distance for Anti-Air engagements. Independent of mortar range. Red, orange, and yellow rings on the map are Anti-Air accuracy bands vs drop pods, transport pods, and aerials (not mortar shells).</TSA_WD_Settings_AntiAirRangeTooltip>
+  <TSA_WD_Settings_AntiAirHitBand0To50>Anti-Air hit chance at 0–50% of max range</TSA_WD_Settings_AntiAirHitBand0To50>
+  <TSA_WD_Settings_AntiAirHitBand0To50Tooltip>Base Anti-Air hit vs drop pods, transport pods, and aerials at 0-50% of Anti-Air max range. Best shooter adds +1 percentage point per Shooting level. Does not apply to mortar shells.</TSA_WD_Settings_AntiAirHitBand0To50Tooltip>
+  <TSA_WD_Settings_AntiAirHitBand51To75>Anti-Air hit chance at 51–75% of max range</TSA_WD_Settings_AntiAirHitBand51To75>
+  <TSA_WD_Settings_AntiAirHitBand51To75Tooltip>Base Anti-Air hit vs pods and aerials at 51-75% of Anti-Air max range. Best shooter still adds +1% per level. Mortar shells use the flat Anti-Air vs shells chance instead.</TSA_WD_Settings_AntiAirHitBand51To75Tooltip>
+  <TSA_WD_Settings_AntiAirHitBand76To100>Anti-Air hit chance at 76–100% of max range</TSA_WD_Settings_AntiAirHitBand76To100>
+  <TSA_WD_Settings_AntiAirHitBand76To100Tooltip>Base Anti-Air hit vs pods and aerials at 76–100% of Anti-Air max range. Best shooter still adds +1% per level. Mortar shells use the flat Anti-Air vs shells chance instead.</TSA_WD_Settings_AntiAirHitBand76To100Tooltip>
+  <TSA_WD_Settings_AntiAirVsMortarHitChance>Anti-Air hit chance vs mortar shells</TSA_WD_Settings_AntiAirVsMortarHitChance>
+  <TSA_WD_Settings_AntiAirVsMortarHitChanceTooltip>Flat chance to destroy a hostile mortar shell on an Anti-Air engage (after the reaction delay). Ignores Anti-Air range bands and shooter skill.</TSA_WD_Settings_AntiAirVsMortarHitChanceTooltip>
+  <TSA_WD_OutpostStats_Section_Mortar>Mortar</TSA_WD_OutpostStats_Section_Mortar>
+  <TSA_WD_OutpostStats_Section_AntiAir>Anti-Air Turret</TSA_WD_OutpostStats_Section_AntiAir>
+  <TSA_WD_OutpostStats_Row_AntiAirRange>Anti-Air range</TSA_WD_OutpostStats_Row_AntiAirRange>
+  <TSA_WD_OutpostStats_Row_AntiAirRangeTip>Current anti-air range (may be set below max).</TSA_WD_OutpostStats_Row_AntiAirRangeTip>
+  <TSA_WD_OutpostStats_Row_AntiAirVsMortar>Anti-Air vs mortar shells</TSA_WD_OutpostStats_Row_AntiAirVsMortar>
+  <TSA_WD_OutpostStats_Row_AntiAirVsMortarTip>Flat chance to destroy hostile mortar shells. Ignores Anti-Air range bands and shooter skill.</TSA_WD_OutpostStats_Row_AntiAirVsMortarTip>
+  <TSA_WD_OutpostStats_Row_AntiAirGroup>Anti-Air group</TSA_WD_OutpostStats_Row_AntiAirGroup>
+  <TSA_WD_OutpostStats_Row_AntiAirGroupTip>Letter group for anti-air exclusivity (Off = ungrouped).</TSA_WD_OutpostStats_Row_AntiAirGroupTip>
+  <TSA_WD_OutpostStats_Row_MortarAcc50>Accuracy 0-50% range</TSA_WD_OutpostStats_Row_MortarAcc50>
+  <TSA_WD_OutpostStats_Row_MortarAcc75>Accuracy 51-75% range</TSA_WD_OutpostStats_Row_MortarAcc75>
+  <TSA_WD_OutpostStats_Row_MortarAcc100>Accuracy 76-100% range</TSA_WD_OutpostStats_Row_MortarAcc100>
+  <TSA_WD_OutpostStats_Row_MortarAccTip>Band base hit chance + best shooter (+1pp/Shooting level) + hit-chance upgrades.</TSA_WD_OutpostStats_Row_MortarAccTip>
+  <TSA_WD_T4_HoverMortarRange>Hover for Mortar Range</TSA_WD_T4_HoverMortarRange>
+  <TSA_WD_T4_HoverMortarRangeDesc>Hover this command to draw this settlement's T4 mortar range on the world map. Not a toggle.</TSA_WD_T4_HoverMortarRangeDesc>
+  <TSA_WD_T4_HoverAARange>Hover for AA Range</TSA_WD_T4_HoverAARange>
+  <TSA_WD_T4_HoverAARangeDesc>Hover this command to draw this settlement's T4 Anti-Air range on the world map. Red, orange, and yellow rings are Anti-Air accuracy bands vs pods and aerials (mortar shells use a flat shot-down chance). Not a toggle.</TSA_WD_T4_HoverAARangeDesc>
+  <TSA_WD_T4_AutoMortar_On>Auto Mortar On</TSA_WD_T4_AutoMortar_On>
+  <TSA_WD_T4_AutoMortar_Off>Auto Mortar Off</TSA_WD_T4_AutoMortar_Off>
+  <TSA_WD_T4_AutoMortar_Desc>When on, this T4 settlement auto-fires its mortar at hostile ground targets in range.</TSA_WD_T4_AutoMortar_Desc>
+  <TSA_WD_T4_AutoAA_On>Auto AA On</TSA_WD_T4_AutoAA_On>
+  <TSA_WD_T4_AutoAA_Off>Auto AA Off</TSA_WD_T4_AutoAA_Off>
+  <TSA_WD_T4_AutoAA_Desc>When on, this T4 settlement auto-engages hostile airborne targets in AA range.</TSA_WD_T4_AutoAA_Desc>
+  <TSA_WD_T4AA_EnableAll>Enemy T4 settlements fire anti-air</TSA_WD_T4AA_EnableAll>
+  <TSA_WD_T4AA_EnableAllTooltip>Master toggle for T4 settlement anti-air against hostile airborne targets.</TSA_WD_T4AA_EnableAllTooltip>
+  <TSA_WD_T4AA_TargetPlayer>AA may target your airborne assets</TSA_WD_T4AA_TargetPlayer>
+  <TSA_WD_T4AA_TargetPlayerTooltip>When on, T4 AA may engage your drop pods and shells while Late Game is active. Mid Game has its own toggle; turning Mid Game on forces this Late Game toggle on.</TSA_WD_T4AA_TargetPlayerTooltip>
+  <TSA_WD_T4AA_Range>T4 AA range (tiles)</TSA_WD_T4AA_Range>
+  <TSA_WD_T4AA_RangeTooltip>Maximum AA engagement range for enemy T4 settlements.</TSA_WD_T4AA_RangeTooltip>
+  <TSA_WD_T4AA_Cooldown>T4 AA cooldown (seconds)</TSA_WD_T4AA_Cooldown>
+  <TSA_WD_T4AA_CooldownTooltip>Seconds between T4 AA engagements.</TSA_WD_T4AA_CooldownTooltip>
+  <TSA_WD_T4AA_Damage>T4 AA damage</TSA_WD_T4AA_Damage>
+  <TSA_WD_T4AA_DamageTooltip>Flak resolver damage for T4 settlement anti-air.</TSA_WD_T4AA_DamageTooltip>
+  <TSA_WD_T4AA_Skill>T4 AA skill equivalent</TSA_WD_T4AA_Skill>
+  <TSA_WD_T4AA_SkillTooltip>Equivalent Shooting skill used for T4 Anti-Air hit bands vs drop pods, transport pods, and aerials (+1 percentage point per level). Does not affect the flat Anti-Air chance vs mortar shells.</TSA_WD_T4AA_SkillTooltip>
+  <TSA_WD_T4AA_HitBand0To50>T4 Anti-Air hit chance at 0–50% of max range</TSA_WD_T4AA_HitBand0To50>
+  <TSA_WD_T4AA_HitBand0To50Tooltip>Base T4 Anti-Air hit vs pods and aerials at 0-50% of Anti-Air max range. Skill equivalent adds +1 percentage point per level. Does not apply to mortar shells.</TSA_WD_T4AA_HitBand0To50Tooltip>
+  <TSA_WD_T4AA_HitBand51To75>T4 Anti-Air hit chance at 51–75% of max range</TSA_WD_T4AA_HitBand51To75>
+  <TSA_WD_T4AA_HitBand51To75Tooltip>Base T4 Anti-Air hit vs pods and aerials at 51-75% of Anti-Air max range. Mortar shells use the flat T4 Anti-Air vs shells chance instead.</TSA_WD_T4AA_HitBand51To75Tooltip>
+  <TSA_WD_T4AA_HitBand76To100>T4 Anti-Air hit chance at 76–100% of max range</TSA_WD_T4AA_HitBand76To100>
+  <TSA_WD_T4AA_HitBand76To100Tooltip>Base T4 Anti-Air hit vs pods and aerials at 76–100% of Anti-Air max range. Mortar shells use the flat T4 Anti-Air vs shells chance instead.</TSA_WD_T4AA_HitBand76To100Tooltip>
+  <TSA_WD_T4AA_VsMortar>T4 Anti-Air hit chance vs mortar shells</TSA_WD_T4AA_VsMortar>
+  <TSA_WD_T4AA_VsMortarTooltip>Flat chance for T4 Anti-Air to destroy a hostile mortar shell. Ignores Anti-Air range bands and skill equivalent.</TSA_WD_T4AA_VsMortarTooltip>
+  <TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>Unlocks anti-air turret vs. drop pods and shells</TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>
+  <TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>Unlocks Decontamination Missions</TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>
+</LanguageData>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <TSA_WD_FirstOutpost_LetterLabelFailed>Quest failed: [resolvedQuestName]</TSA_WD_FirstOutpost_LetterLabelFailed>
+  <TSA_WD_FirstOutpost_LetterTextHostile>[faction_name] became hostile. The first-outpost request has failed.</TSA_WD_FirstOutpost_LetterTextHostile>
+
+  <TSA_WD_Quest_EnableFirstOutpost>First outpost quest</TSA_WD_Quest_EnableFirstOutpost>
+  <TSA_WD_Quest_EnableFirstOutpostTip>After 2-5 days, a nearby ally or neutral settlement may ask you to found your first WD outpost. Completing it grants goodwill. Off stops new offers; an active quest can still finish.</TSA_WD_Quest_EnableFirstOutpostTip>
+
+  <TSA_WD_Quest_EnableCommonEnemySettlement>Common-enemy settlement quest</TSA_WD_Quest_EnableCommonEnemySettlement>
+  <TSA_WD_Quest_EnableCommonEnemySettlementTip>After day 10, allies (or neutrals) may ask you to wipe or conquer a nearby town hostile to both of you. Credit only counts for your own outpost raids or fighting there in person. Allied raid orders and other factions wiping the town do not count. Off stops new offers; an active quest can still finish.</TSA_WD_Quest_EnableCommonEnemySettlementTip>
+
+  <TSA_WD_Quest_EnableColonyRoadLink>Colony road-link quest</TSA_WD_Quest_EnableColonyRoadLink>
+  <TSA_WD_Quest_EnableColonyRoadLinkTip>After day 10, a nearby ally or neutral town (within 30 tiles) may ask for a road between your colony and theirs. Connecting the towns by any road completes it once for good. Failures (timeout, hostility, or the town vanishing) can reissue after a few days. Off stops new offers; an active quest can still finish.</TSA_WD_Quest_EnableColonyRoadLinkTip>
+
+  <TSA_WD_Quest_EnableWorldDominationVictory>World Domination victory quest</TSA_WD_Quest_EnableWorldDominationVictory>
+  <TSA_WD_Quest_EnableWorldDominationVictoryTip>After 4-6 days, offers a long-term goal: hold the top WD ranking for 15 continuous days. Turning this on mid-game starts the quest immediately. Turning it off removes an active quest immediately.</TSA_WD_Quest_EnableWorldDominationVictoryTip>
+
+
+  <TSA_WD_ColonyRoadLink_LetterLabelFailed>Quest failed: [resolvedQuestName]</TSA_WD_ColonyRoadLink_LetterLabelFailed>
+  <TSA_WD_ColonyRoadLink_LetterTextHostile>[faction_name] became hostile. The road-link request has failed.</TSA_WD_ColonyRoadLink_LetterTextHostile>
+  <TSA_WD_ColonyRoadLink_LetterLabelExpired>Quest expired: [resolvedQuestName]</TSA_WD_ColonyRoadLink_LetterLabelExpired>
+  <TSA_WD_ColonyRoadLink_LetterTextExpired>Time ran out on the request from [faction_name] for a road to [askerSettlement_label].</TSA_WD_ColonyRoadLink_LetterTextExpired>
+  <TSA_WD_ColonyRoadLink_LetterLabelSettlementGone>Quest failed: {0}</TSA_WD_ColonyRoadLink_LetterLabelSettlementGone>
+  <TSA_WD_ColonyRoadLink_LetterTextSettlementGone>{0} wanted a road to {1}, but that town is gone. The request has failed.</TSA_WD_ColonyRoadLink_LetterTextSettlementGone>
+
+  <TSA_WD_CommonEnemy_LetterLabelFailed>Quest failed: [resolvedQuestName]</TSA_WD_CommonEnemy_LetterLabelFailed>
+  <TSA_WD_CommonEnemy_LetterTextHostile>[faction_name] became hostile. The common-enemy request has failed.</TSA_WD_CommonEnemy_LetterTextHostile>
+  <TSA_WD_CommonEnemy_LetterLabelExpired>Quest expired: [resolvedQuestName]</TSA_WD_CommonEnemy_LetterLabelExpired>
+  <TSA_WD_CommonEnemy_LetterTextExpired>Time ran out on the request from [faction_name] to take down [enemySettlement_label].</TSA_WD_CommonEnemy_LetterTextExpired>
+  <TSA_WD_CommonEnemy_LetterLabelTakenByOthers>Quest failed: {0}</TSA_WD_CommonEnemy_LetterLabelTakenByOthers>
+  <TSA_WD_CommonEnemy_LetterTextTakenByOthers>{0} wanted you to take down {1}, but someone else got there first. The request has failed.</TSA_WD_CommonEnemy_LetterTextTakenByOthers>
+
+  <!-- Quest shared infra V1 -->
+  <TSA_WD_QuestGoodwill_Loss>{0}: {1} goodwill (now {2}).</TSA_WD_QuestGoodwill_Loss>
+  <TSA_WD_QuestGoodwill_LossWithReason>{0}: {1} goodwill (now {2}). {3}</TSA_WD_QuestGoodwill_LossWithReason>
+
+  <TSA_WD_QuestRaidBias_LetterLabel>{0} is targeting you</TSA_WD_QuestRaidBias_LetterLabel>
+  <TSA_WD_QuestRaidBias_LetterText>{0} will prioritize raiding you for the next {1} days when they launch World Domination raids.</TSA_WD_QuestRaidBias_LetterText>
+
+  <TSA_WD_Alert_QuestRaidBias_PlayerTarget>{0} prioritizing you ({1}d)</TSA_WD_Alert_QuestRaidBias_PlayerTarget>
+  <TSA_WD_Alert_QuestRaidBias_Other>{0} prioritizing {1} ({2}d)</TSA_WD_Alert_QuestRaidBias_Other>
+  <TSA_WD_Alert_QuestRaidBias_DescHeader>Active World Domination quest raid bias:</TSA_WD_Alert_QuestRaidBias_DescHeader>
+  <TSA_WD_Alert_QuestRaidBias_DescLine>{0} prioritizes {1} ({2} days left)</TSA_WD_Alert_QuestRaidBias_DescLine>
+
+  <TSA_WD_Alert_VictoryHold>WD Leading: {0}/{1} Days</TSA_WD_Alert_VictoryHold>
+  <TSA_WD_Alert_VictoryHold_DescLeader>You are the strongest World Domination faction. Hold that lead for {1} continuous days to win. Current streak: {0}.</TSA_WD_Alert_VictoryHold_DescLeader>
+  <TSA_WD_Alert_VictoryHold_DescNotLeader>You are not the strongest faction right now. Your hold streak was {0} of {1} and will reset until you reclaim the lead.</TSA_WD_Alert_VictoryHold_DescNotLeader>
+
+  <TSA_WD_Victory_DialogTitle>World Domination</TSA_WD_Victory_DialogTitle>
+  <TSA_WD_Victory_DialogBody>You held the top World Domination ranking for {0} continuous days. Keep playing, or watch the end credits.</TSA_WD_Victory_DialogBody>
+  <TSA_WD_Victory_KeepPlaying>Keep playing</TSA_WD_Victory_KeepPlaying>
+  <TSA_WD_Victory_SeeCredits>See credits</TSA_WD_Victory_SeeCredits>
+  <TSA_WD_Victory_KeepPlayingLetterLabel>World Domination secured</TSA_WD_Victory_KeepPlayingLetterLabel>
+  <TSA_WD_Victory_KeepPlayingLetterText>You chose to keep playing after securing world leadership. The victory will not trigger again on this save.</TSA_WD_Victory_KeepPlayingLetterText>
+  <TSA_WD_Victory_CreditsIntro>Your settlements and outposts stand strongest on the planet.</TSA_WD_Victory_CreditsIntro>
+  <TSA_WD_Victory_CreditsEnding>World Domination is yours. The story continues if you want it to.</TSA_WD_Victory_CreditsEnding>
+
+  <TSA_WD_Victory_HoldProgress>Hold streak: {0} / {1} days</TSA_WD_Victory_HoldProgress>
+</LanguageData>

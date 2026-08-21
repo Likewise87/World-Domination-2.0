@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_11_Title>Better Base Generation &amp; Performance Optimization</TSA_WD_Update_2_3_11_Title>
+  <TSA_WD_Update_2_3_11_Body><![CDATA[
+<size=16><b>2.3.11 – Better Base Generation & Performance Optimization</b></size>\n
+<color=#00FFFFFF>Release date: August 19th 2026</color>\n
+------------------------------\n
+• Base generation now properly makes space if we couldn't spawn buildings otherwise. If not needed, it will leave more plants and chunks be\n
+• You will now be able to look into buildings (unfog) on all bases\n
+• Removed the outer standardized line of sandbags and turrets which looked very boring\n
+• Added more handcrafted building layouts\n
+• Fixed several minor issues with how overlays were drawn costing performance unnecessarily\n
+• Fixed a stupid bug making alert messages cost too much performance\n
+• Traps on the world map now show who built them on the inspect pane\n
+]]></TSA_WD_Update_2_3_11_Body>
+  <TSA_WD_Update_2_3_10_Title>Hydroponics, Silo and Polish</TSA_WD_Update_2_3_10_Title>
+  <TSA_WD_Update_2_3_10_Body><![CDATA[
+<size=16><b>2.3.10 – Hydroponics, Silo and Polish</b></size>\n
+<color=#00FFFFFF>Release date: August 18th 2026</color>\n
+------------------------------\n
+• New Outpost Upgrade: Hydroponics basins. Will continuously produce 12 food at the outpost\n
+• New Outpost Upgrade: Silo. Increases max food at the outpost by 500\n
+• New Feature: Gifting, Negotiation and Buying caravans now also have a transport pod equivalent. Use the gizmo toggle on your Colony/Warehouses to decide whether you want flying or ground traveling caravans. Beware of enemy anti-air guns!\n
+• New Feature: NPC factions can become allies by trading. That starts a diplomacy freeze. Frozen pairs cannot flip to allies from more trade goodwill. If an NPC WD caravan destroys a trader, its origin settlement gets the trade strength reward (with a chance to tier up)\n
+• Tweak: Virtual food production now uses tile fertility (farms) and animal abundance (hunting), with an 80% floor so poor tiles are not crippling\n
+• Polish: The critical food alert is now only issued if the food balance of an outpost is negative.\n
+• Polish: Made the Pawn withdrawal dialog prettier and fixed some bugs. This dialog is only shown if the strength of the pawns you try to withdraw from an outpost exceeds the current offensive strength of that outpost\n
+• Polish: Outposts can now be founded on ruins of abandoned temporary camps\n
+• Polish: Temporary camps are listed as their own location type in All Player Pawns\n
+• Polish: Added more logging and hardening around the world generation tools of WD. Note: If you try to spawn tons of settlements, it will take a while! You will get a warning in the end if WD didn't manage to place as many settlements as intended due to constraints like insufficient space\n
+• Bugfix: Enemy T4 anti-air guns will now always shoot down your mortars and not just with active mid/late game difficulty\n
+]]></TSA_WD_Update_2_3_10_Body>
+  <TSA_WD_Update_2_3_09_Title>Pretty filters and more columns, Pawn Strength gate</TSA_WD_Update_2_3_09_Title>
+  <TSA_WD_Update_2_3_09_Body><![CDATA[
+<size=16><b>2.3.09 – Pretty filters and more columns, Pawn Strength gate</b></size>\n
+<color=#00FFFFFF>Release date: August 17th 2026</color>\n
+------------------------------\n
+• New Feature: All windows including All Player Pawns, Prisoners, the Outpost Pawn Tab, and more now have pretty filters on almost every column. Extra columns like Xenotype, Age, and others can be added on demand\n
+• New Feature: Trying to fix the biggest cheese in WD 2.0. Your pawns determine the offensive strength at an outpost. Launching virtual raids or builder caravans costs that strength. Your real pawns were never affected, so you could empty the offensive pool on a virtual raid and still defend at full force with everyone on site. Offensive strength now limits how many pawns you can deploy in real defenses, and you cannot withdraw everyone while the outpost is not at full strength. Happy with this. It may take a bit to get used to. Toggle it off in Experimental settings if you do not like it\n
+• New Outpost Upgrade: IEDs. Places some IEDs around your Outpost\n
+• Tweak: If using Vanilla Vehicles Expanded, then some tank traps will spawn on your outpost when you have the Stone wall outpost upgrade.\n
+• Many bugfixes and cleanup\n
+]]></TSA_WD_Update_2_3_09_Body>
+  <TSA_WD_Update_2_3_07_Title>Caravan Clash Prisoners, Revolt buff, Fixes</TSA_WD_Update_2_3_07_Title>
+  <TSA_WD_Update_2_3_07_Body><![CDATA[
+<size=16><b>2.3.07 – Caravan Clash Prisoners, Revolt buff, Fixes</b></size>\n
+<color=#00FFFFFF>Release date: August 16th 2026</color>\n
+------------------------------\n
+• New Feature: When your caravan with real pawns clashes with an enemy force on the open map, you may take prisoners and loot items from that map, limited by how much your caravan can carry\n
+• New Feature: Storyteller raid-point clamping can be configured per game phase. Set the min and max % of storyteller raid points for early, mid, and late game. Defaults protect you more from oversized raids early on\n
+• Fix: Factions not controlled by WD no longer lose goodwill with you when mid/late game modifiers kick in\n
+• Buff: Dead factions can make a stronger comeback. They may take 3-7 settlements from the strongest factions. Any tier is possible, but Tier 1 and Tier 2 are more likely\n
+• Added more handcrafted building layouts. Want to help? Prefer vanilla plus Props and Decor. Turn on god mode, build, then Export under the Orders menu and send me the XML\n
+]]></TSA_WD_Update_2_3_07_Body>
+  <TSA_WD_Update_2_3_06_Title>WD Quest, finetuning and QOL</TSA_WD_Update_2_3_06_Title>
+  <TSA_WD_Update_2_3_06_Body><![CDATA[
+<size=16><b>2.3.06 – WD Quest, finetuning and QOL</b></size>\n
+<color=#00FFFFFF>Release date: August 15th 2026</color>\n
+------------------------------\n
+• New Feature: The final quest is live. Become and stay the strongest faction for 15 days to win\n
+• Nerf: AT guns are much less deadly against your real caravans now. A light or medium AT gun may hurt or kill (60:40) one pawn in a caravan with real pawns. A heavy one may hurt or kill two pawns. Virtual caravans without real pawns stay unchanged\n
+• Nerf: Higher-tier road blocks, roads, and traps, and AT guns, are gated behind research now (Machining, Microelectronics Basics, Fabrication)\n
+• AT guns spawn on cooldown now. Outposts have 50% of their raid protection cooldown applied when established\n
+• Caravans that clash no longer use simple Strength A minus Strength B math; they use the full raid resolution math where even a drastically weaker party has a small chance to win\n
+• Nerf: Less steel from mining outposts per mining skill point (50→40). Requires a settings reset in that menu or globally\n
+• Using the Jump to Target or Jump to Attacker buttons in a raid letter now closes that window (a player reported a rare bug here)\n
+• Quest target settlements are marked with a star now. Colonies and outposts currently being targeted by an enemy caravan are marked with a star too\n
+]]></TSA_WD_Update_2_3_06_Body>
+  <TSA_WD_Update_2_3_05_Title>World Gen. Tools, Road Removal &amp; more</TSA_WD_Update_2_3_05_Title>
+  <TSA_WD_Update_2_3_05_Body><![CDATA[
+<size=16><b>2.3.05 – World Gen. Tools, Road Removal & more</b></size>\n
+<color=#00FFFFFF>Release date: August 14th 2026</color>\n
+------------------------------\n
+• New Feature: Comprehensive World Generation Tools. When creating a new world (when picking the starting tile), use the WD Float menu to configure the placement and distribution of settlements as well as allegiances with the player and between factions. Moreover, you can manually place and remove settlements, roads and fortifications and tweak the strength and tier of settlements\n
+• New Feature: Remove roads. Sends out a builder caravan to remove road segments. Can be launched from the colony and from outposts\n
+• New Feature: Rapid Response Interception caravans can now take prisoners\n
+• Nerf: Instead of being able to recruit all prisoners at once in an outpost, you may now recruit 1 prisoner for each 10 social skill at that outpost. Prisoners can now be ordered/prioritized\n
+• Balance: Only T2+ settlements may launch ambush caravans now (basically the same as rapid response but coming from NPCs). Also for performance reasons\n
+• Balance: Ambush caravans have smaller targeting radius now and will stop chasing after 1.6x the target radius (needs settings reset in experimental settings or all settings to take effect!)\n
+]]></TSA_WD_Update_2_3_05_Body>
+  <TSA_WD_Update_2_3_0_Title>Gun Emplacements, Target of Opportunity logic</TSA_WD_Update_2_3_0_Title>
+  <TSA_WD_Update_2_3_0_Body><![CDATA[
+<size=16><b>2.3.0 – Gun Emplacements, Target of Opportunity logic</b></size>\n
+<color=#00FFFFFF>Release date: August 13th 2026</color>\n
+------------------------------\n
+• New Experimental Feature: Target-of-opportunity logic. Raid caravans may now change their target if they come by a weak settlement or outpost during their path\n
+• New Experimental Feature: Post-victory marauding. A raid that wins may keep going and attack another nearby weak settlement instead of always disbanding after its first victory\n
+• New Experimental Feature: Settlement-launched ambush. An NPC settlement may launch an interceptor caravan at a weak passing hostile trader caravan (just like your own Rapid Response outpost)\n
+• New Fortification option: Turret Emplacements. Both the player and NPCs may now build turrets on the world map. Those have rather short range but auto-shoot passing hostiles. A shot hostile will try to retaliate\n
+• New feature: You may now mark tiles on the world map where you don't want allies to build fortifications (like road blocks on your roads). In the mod settings you may activate whether neutral factions should also respect those. Hostile factions of course won't\n
+• New feature: Mortar, Flak and Turret emplacements play sounds now on the world map. Can be toggled off in the Experimental mod settings\n
+• Trader caravans now keep a minimum tier-based escort strength at all times, and get a temporary full-force escort for a while after being intercepted\n
+• Rapid Response Outposts and Mortar Outposts now react to passing caravans changing world tiles (event based rather than tick based). This saves performance and makes them even snappier\n
+• T3 settlements may now already launch drop pod raids\n
+• Introduced a 10% likelihood per day that two top factions will turn from allied to neutral or neutral to hostile (if not on diplomacy cooldown). This way, strong factions will not live in peace with each other forever\n
+• Bugfix: Odyssey Passenger shuttles can now be removed from outposts. Was bugged before\n
+]]></TSA_WD_Update_2_3_0_Body>
+  <TSA_WD_Update_2_2_68_Title>Blocked tile visualization, performance, bugfixes</TSA_WD_Update_2_2_68_Title>
+  <TSA_WD_Update_2_2_68_Body><![CDATA[
+<size=16><b>2.2.68 – Blocked tile visualization, performance, bugfixes</b></size>\n
+<color=#00FFFFFF>Release date: August 9th 2026</color>\n
+------------------------------\n
+• New Feature: Blocked tiles are now visualized as a Voronoi diagram like in Faction Territories and Vassalage on the world map, when you have blocked tile visualization activated. Shows the colors of up to 4 factions competing over the same tile\n
+• Fixed a bug where the "unassigned Experts" alert was firing for outposts that were already at max\n
+• Fixed a bug where the Experimental upkeep tax notification was not shown all the time\n
+• Many minor bugfixes\n
+• Some performance optimizations\n
+• Noticed that Micro Stuttering can quite effectively be mitigated using the Butter++ mod\n
+]]></TSA_WD_Update_2_2_68_Body>
+  <TSA_WD_Update_2_2_67_Title>Upgrade Drop Pod Delivery &amp; Automatic Warehouse</TSA_WD_Update_2_2_67_Title>
+  <TSA_WD_Update_2_2_67_Body><![CDATA[
+<size=16><b>2.2.67 – Upgrade Drop Pod Delivery & Automatic Warehouse</b></size>\n
+<color=#00FFFFFF>Release date: August 8th 2026</color>\n
+------------------------------\n
+• You can now choose whether Outpost upgrades should be sent via drop pod or land traveling caravan. Choose the delivery option directly on the colony and the warehouse via gizmo (upgrades are always shipped from whatever is closest). Drop Pod delivery requires Transport Pod Research\n
+• You may now choose for Warehouses to send any goods they have once per day (either via land caravan or drop pod). This unlocks a use case where regional outposts deliver their goods to the regional warehouse via land caravans. And then the warehouse delivers to the colony via drop pod\n
+• Implemented a warning so when a warehouse is in range of T4 anti-air guns directly and you select drop pod delivery, you get notified\n
+• Some significant balance changes. Reset mod settings for them to take effect. I noticed that after a while almost all possible slots on the world map were taken. Way too many T1 settlements. Therefore, I increased the raze chance so instead of capturing settlements, they are fully destroyed and leave behind ruins. Nobody can build on those ruins and around them. They vanish after 7 days per default (all configurable of course. Experimental Settings menu)\n
+• Some further performance optimization\n
+]]></TSA_WD_Update_2_2_67_Body>
+  <TSA_WD_Update_2_2_65_Title>WD Quests, QOL and bugfixes</TSA_WD_Update_2_2_65_Title>
+  <TSA_WD_Update_2_2_65_Body><![CDATA[
+<size=16><b>2.2.65 – WD Quests, QOL and bugfixes</b></size>\n
+<color=#00FFFFFF>Release date: August 6th 2026</color>\n
+------------------------------\n
+• New Feature: WD Quests. The mod now has a couple of one-off and recurring quests. More to come\n
+• New Quest: After 2-5 days a nearby neutral or allied Settlement will ask you to establish your first outpost. Completion gives goodwill\n
+• New Quest: After 10 days a nearby neutral or allied Settlement will ask you to build a road to them. Completion gives goodwill.\n
+• New Quest: After 10 days a nearby neutral or allied Settlement will ask you to conquer the settlement of a common enemy. Completion gives goodwill.\n
+• Split Threats into near and far. Far enemies are less likely to attack you but it is still possible\n
+• Not fully rolled out yet: A "World Domination" quest that you win if you become and stay the strongest faction for 15 days\n
+• New Experimental Feature: Allow the Colony to build roads, road blocks and traps too. Why? Because I felt like for the first 20+ days you usually build up until you feel strong enough to perform any actions on the world map. Can be toggled off in the experimental settings\n
+• Fixed a bug that wouldn't clean up settlement maps properly after you conquered them. Leaving world pawns alive forever and causing a red error e.g. with the "CAI 5000" mod\n
+• New Experimental Feature: Outpost upkeep. Every 15 days, outposts will require a silver amount of upkeep based on the pawn count you have. Silver is automatically taken from wherever you have it. If you cannot pay, based on the gap size you will lose random pawns that decide to leave your colony. Only kicks in at medium or late game difficulty. Silver price per pawn also climbs with those levels (off per default. please switch on in experimental settings if you wanna help to balance this!)\n
+• New feature: When asking a faction to change its allegiance with another faction, we now don't just factor in the relative strength between those two factions but also the negotiating faction's standing in the world (if they are at war with almost everybody already, then they are less inclined to start another war)\n
+• Fixed an issue where settlement and outpost icons were displayed through the globe\n
+• Recruited prisoners from outposts and the colony will now get 150 pemmican automatically instead of 2 simple meals. Lasts longer and doesn't spoil. Food is deducted from the outpost's food storage (1 virtual food = 50 pemmican)\n
+• New right side warnings if nothing to produce was selected for an outpost or no expert was defined. All with toggles in the Notification Settings if you don't want them\n
+• Outpost capabilities (build roads, build road blocks, build traps, launch raids) can now individually be deactivated via feature flags in the mod settings. All on per default\n
+]]></TSA_WD_Update_2_2_65_Body>
+  <TSA_WD_Update_2_2_6_Title>Outpost Prisoner Recruiting, QOL, Fixes</TSA_WD_Update_2_2_6_Title>
+  <TSA_WD_Update_2_2_6_Body><![CDATA[
+<size=16><b>2.2.6 – Outpost Prisoner Recruiting, QOL, Fixes</b></size>\n
+<color=#00FFFFFF>Release date: August 4th 2026</color>\n
+------------------------------\n
+• New Feature: Outposts can now take prisoners both after an auto-resolve fight and a manual defense. Prisoners must stay at that outpost until converted. Conversion (resistance reduction) scales with Social skill at the outpost and can be further boosted by a new Expert, the Warden. You can auto-route pawns via the Prisoners tab to other outposts or the colony once converted. Careful: prisoners consume food too! Discard them if you don't need them, or toggle via gizmo on an outpost if you don't want to take prisoners at all.\n
+• Fixed a bug where the UI kept saying recruiting outposts were not producing anything\n
+• Fixed a bug where settlements were unable to send decontamination caravans to the toxic tile the settlement was standing on\n
+• Wrote a compat patch so if you build roads with WD alone (without Roads of the Rim) the speed bonus still applies to vehicles from the Vehicle Framework\n
+• Alliances formed against the world leader will now be reset after that buff expires\n
+• Enemies should now place road blocks and traps in a strategically clever way around the border toward a hostile. They may launch several fortification caravans at once (higher likelihood and quantity with higher tiers)\n
+• Misc QOL improvements for filters (All Pawns tab, Prisoners tab in particular), the world diplomacy window, etc.\n
+]]></TSA_WD_Update_2_2_6_Body>
+  <TSA_WD_Update_2_2_5_Title>Bribe Factions and Polish</TSA_WD_Update_2_2_5_Title>
+  <TSA_WD_Update_2_2_5_Body><![CDATA[
+<size=16><b>2.2.5 – Bribe Factions and Polish</b></size>\n
+<color=#00FFFFFF>Release date: August 3rd 2026</color>\n
+------------------------------\n
+• New Feature: Bribe incoming raider Caravans. Similar to the Buy/Gift workflow. Spend goods and silver to send a WD Caravan from the nearest outpost or Colony towards an incoming raid caravan. On arrival, the raid caravan will dissolve. Danger averted. But this strengthens them and doesn't grant goodwill!\n
+• New Feature: Bribe Settlements/Factions. Similar to bribing a caravan. But your Caravan will travel to that settlement and award you a cease fire for either 10, 20 or 30 days. Quite costly! Already launched raid parties will not be withdrawn\n
+• Polished the WD main tab. Looks much nicer now with more icons\n
+• Fine tuned the interception algorithms of Rapid Response Caravans\n
+• Most windows can be reached via shortcuts now (Left ALT+X = WD main tab, Left ALT+D = Diplomacy tab). On the world map Left Alt+1-7 switches through the different overlays\n
+• Added a debug/dev action to spawn a settlement with the Tier of your choice belonging to the faction of your choice\n
+• Some bug fixes here and there\n
+]]></TSA_WD_Update_2_2_5_Body>
+  <TSA_WD_Update_2_2_45_Title>Cleanup and QOL</TSA_WD_Update_2_2_45_Title>
+  <TSA_WD_Update_2_2_45_Body><![CDATA[
+<size=16><b>2.2.45 – Cleanup and QOL</b></size>\n
+<color=#00FFFFFF>Release date: August 1st 2026</color>\n
+------------------------------\n
+• You now get a warning when trying to quick launch a caravan to establish an outpost if the pawns are too weak to carry the weight\n
+• You now get a warning if you try to launch a transport pod or aerial vehicle from the Vehicle Framework while already in range of enemy T4 flak/Anti-Air\n
+• Dedicated accuracy sliders added for Anti-Air guns in the mod settings\n
+• Reduced default radius for toxic contamination to affect settlements and outposts to 2 (requires settings reset to apply!)\n
+• Made the "Decontamination Equipment" outpost upgrade much cheaper and only gated behind "Machining" research now (else you are screwed if near toxic waste)\n
+]]></TSA_WD_Update_2_2_45_Body>
+  <TSA_WD_Update_2_2_4_Title>Major World Action overhaul, pollution mechanisms</TSA_WD_Update_2_2_4_Title>
+  <TSA_WD_Update_2_2_4_Body><![CDATA[
+<size=16><b>2.2.4 – Major World Action overhaul, pollution mechanisms</b></size>\n
+<color=#00FFFFFF>Release date: July 31st 2026</color>\n
+------------------------------\n
+• Important: Reset the whole mod settings or at least the "World Actions" and "Experimental" sub menus!\n
+• Rework: There is no Grow Action anymore. Instead settlements will now gain strength over time passively. So any action they take now "matters"\n
+• New Feature: Settlements can build road blocks and traps now (experimental). Should be facing hostile. On roads traps are preferred. On any other tile road blocks\n
+• New Feature: Settlements and Caravans will take damage from pollution now. Settlements will launch decontamination caravans to clear nearby pollution. Caravans will try to find a path to avoid pollution (See experimental settings for more)\n
+• New Feature: Auto resolve on outpost defenses now gives you a second chance. If you lost the first roll, 20 % of your pawns will get hurt and your outpost will lose 15 %. Then you can either manually defend the outpost (enemies arrive immediately!) or you can auto resolve again with the worse odds\n
+• New Feature: When launching an attack with your outpost, you may now select the allies who should join. The more you bring, the better your win chances. But any allied outpost you bring will also be on attack cooldown!\n
+• New Feature: An even easier way to establish a new outpost. Click an empty tile on the world map. Click establish outpost. Select the type you want and then the pawns to send. This will auto dispatch a caravan from your Colony carrying the required materials\n
+• New Feature: A new dialog to name your outpost directly when you establish it\n
+• New Feature: The radius to pull in allies both for offense and defense now scales with mid and late game difficulty. Why? A cluster of settlements can leverage each others strength. The bigger the ally radius, the bigger their strength\n
+• New Feature: When a far away settlement picks your colony as a target, it will now try to "delegate" that attack to a same faction settlement that is closer to you. Should make attacks from nearby settlements much more likely\n
+• New Feature: When displaying the mortar or Anti-Air range of an outpost or T4 settlement, you will now see range bands (Red = 0-50 % of max range, Orange = 51 to 75, Yellow = 76-100%). Mortar bands are mortar accuracy. Anti-Air bands are Anti-Air accuracy vs pods and aerials; mortar shells use a separate flat shot-down chance.\n
+• New Feature: On the World map you can now use hotkey combinations to open the different WD overlays. Per default Left Alt+1 to +7. The modifier hotkey can be adjusted in the Experimental mod settings menu\n
+• New Outpost Upgrade: Tunnel Network. Increases ally pull in range by a flat amount. Applies to any outpost type\n
+• A lot of polish and clean-up. My vacation is now over. So returning to a slower release rate for sure now\n
+]]></TSA_WD_Update_2_2_4_Body>
+  <TSA_WD_Update_2_2_3_Title>Gift Caravans, End of influence radius, better radius drawing</TSA_WD_Update_2_2_3_Title>
+  <TSA_WD_Update_2_2_3_Body><![CDATA[
+<size=16><b>2.2.3 – Gift Caravans, End of influence radius, better radius drawing</b></size>\n
+<color=#00FFFFFF>Release date: July 30th 2026</color>\n
+------------------------------\n
+• New Feature: Gift Caravan. Click a neutral or allied NPC settlement and select the "Gift" gizmo. You can now configure which goods to send to them as gifts. This will launch a WD caravan with those goods from your colony or nearest settlement. Gifts will increase goodwill and strengthen the receiving faction (including settlement tier upgrades in a 50 tile radius)\n
+• Rework: Once and for all I killed the influence radius around your colony. Instead settlements will now gain attack range over time as well as from the mid game and late game difficulty modifiers.\n
+• Rework: Instead of drawing circles/radii for attack range, food support range etc., we are now tinting world tiles. this is accurate now so the highlighted tiles are the ones that actually count. On each outpost and settlement you will now see Gizmos allowing you to select what to highlight (attack range, food support range, allies in range, settlements in range etc.)\n
+• The warehouse outpost now provides a buff to production of nearby Outposts making it more worth building\n
+• New dialog to add pawns to an outpost from "real" caravans. Much more convenient and avoids issues with mixed pawn/animal/vehicle caravans\n
+• New dialog to directly establish an outpost from the "All Player Pawns" tab. Select the pawns for the caravan (only from your colony), select a world tile, select the outpost to build. Then the caravan will be formed immediately with the required material and the outpost is auto established on arrival (unless you issue any order to that caravan!)\n
+• A lot of polish to many windows, dialogs and translation strings\n
+• Another attempt to make flak shells lead better to actually fly close to the mortar shell or drop pod they are supposed to hit\n
+]]></TSA_WD_Update_2_2_3_Body>
+  <TSA_WD_Update_2_2_2_Title>Configure Artillery &amp; Rapid Response + QOL</TSA_WD_Update_2_2_2_Title>
+  <TSA_WD_Update_2_2_2_Body><![CDATA[
+<size=16><b>2.2.2 – Configure Artillery & Rapid Response + QOL</b></size>\n
+<color=#00FFFFFF>Release date: July 29th 2026</color>\n
+------------------------------\n
+• New Feature: Rapid Response Configurability. You may now configure in a single dialog which targets should be engaged by your Rapid Response Interceptor caravans, what range to check for targets, and whether to pick any fight or only at certain strength ratios.\n
+• New Feature: Artillery Configurability. Similar to the Rapid Response outpost, you may now configure in a single dialog which targets to engage and at what range.\n
+• Forgotten in the notes for yesterday: We now have both a mid game and a late game difficulty spicing things up. Most importantly: once at those difficulty levels you will start losing goodwill with any faction periodically, so you cannot easily befriend everybody and live in peace. Mitigate by building embassy outposts that grant goodwill.\n
+• New Feature: You could already buy neutral or allied settlements with goodwill or physical goods since some releases ago. Click the desired settlement and click the Gizmo. What is new now: if you buy a settlement or if you simply send gifts to an NPC settlement, this will strengthen that settlement and any other settlement of that faction in a 50 tile radius (potentially even upgrading their tiers). So they will gain something when they sell a settlement to you. And giving gifts to your ally will reinforce them.\n
+• New Feature: Highlight Hostile, Neutral and Allied settlements and caravans on the world map in Red, Grey, Green. Extra highlight color in Purple for raid caravans heading for a player outpost or your colony. Can be toggled off in the WD menu of the World Map.\n
+• New Feature: Mark pawns on the "All Player Pawns" tab as favorites. You can now easily filter for favorites/non favorites across the entire world to quickly move pawns from A to B. Since yesterday you can also very conveniently bulk send pawns from your colony to other outposts with a single click (including smart assignment).\n
+• New feature: Pollution now negatively affects Fertility, Animal Abundance and Fish Stock on a world tile.\n
+• On the WD main tab you may now see how many raids were launched at you in what time frames and if you have run into the cap already.\n
+• Incoming raid letters now show estimated time until arrival plus Jump to attacker / Jump to target.\n
+• Fixed a bug where not all pawns spawned when establishing an Outpost after conquest had the right skill.\n
+• Changed: Road building. The starting point of a road building project does not have to be the Outpost/Settlement performing the action anymore.\n
+]]></TSA_WD_Update_2_2_2_Body>
+  <TSA_WD_Update_2_2_1_Title>Fishing outpost, Decontamination mission and more</TSA_WD_Update_2_2_1_Title>
+  <TSA_WD_Update_2_2_1_Body><![CDATA[
+<size=16><b>2.2.1 – Fishing outpost, Decontamination mission and more</b></size>\n
+<color=#00FFFFFF>Release date: July 28th 2026</color>\n
+------------------------------\n
+• New Outpost: Fishing outpost. Can be built on the coast. Produces fish. Provides food to other outposts like the Hunting, Farming and Ranch outpost. Also comes with a new world map overlay "Fish Stocks" indicating good places to build them. Comes with 3 outpost upgrades to boost fishing yield.\n
+• New Feature: Decontamination mission. Unlock the Decontamination Equipment upgrade at any outpost. Then you can launch Decontamination missions sending out a caravan to clear the pollution on a world map tile. Default 20pp reduction per tile per mission. Of course fully configurable.\n
+• New feature: In the "All Player Pawns" and "Prisoners" windows you can now see the passions of each pawn (toggleable) as well as color code the best skill per pawn or a global comparison (also toggleable. lvl 0 = red, lvl 20 = purple. Yellow and green in between).\n
+• Bugfix: Warehouses can now store art items like sculptures.\n
+• Rework the "Tile" tab. Select a world tile on the world map and open the "Tile" tab. It is now much prettier and clearer. On top of fertility, animal abundance, Mining richness and fish stock it now also shows the concrete animals and fish at that tile.\n
+• New Overlay: Show the world tile pollution (just like the movement difficulty overlay).\n
+]]></TSA_WD_Update_2_2_1_Body>
+  <TSA_WD_Update_2_2_Title>Embassy outposts, Movement overlay &amp; AA tuning</TSA_WD_Update_2_2_Title>
+  <TSA_WD_Update_2_2_Body><![CDATA[
+<size=16><b>2.2 – Embassy outposts, Movement overlay & AA tuning</b></size>\n
+<color=#00FFFFFF>Release date: July 27th 2026</color>\n
+------------------------------\n
+• New feature: Diminishing returns for outposts. Any outpost scaled by skill points will now yield diminishing returns at higher skill point levels. Starting at 60+ cumulative skill points per default. Hard cap at 280 skill points (configurable in new settings menu "Outpost skill scaling").\n
+• New feature: Embassy outpost. Will take the single highest nearby NPC settlement into account and grant goodwill based on the Social Skill level at the outpost and the Tier level of that settlement. Works on hostile factions per default too (toggle in the mod settings) but not on PERMANENTLY hostile ones!\n
+• New feature: Movement difficulty overlay. Activate it via the WD button on the world map. Shows how hard world tiles are to traverse. Great to find choke points to place traps or road blocks!\n
+• T4 Settlement Anti Air turrets should now reliably shoot down your Drop Pods (both WD drop pods and real RimWorld Transport Pods) as well as aerial vehicles from the Vehicle Framework.\n
+• Aerial vehicles from the Vehicle Framework can now establish outposts.\n
+• Ground vehicles from the Vehicle Framework should now also be able to establish outposts because WD can now read their inventory.\n
+• WD Outposts, Caravans and Settlements will now show their normal icon on all zoom levels (toggleable under the notification settings).\n
+• Visual effects for exploding flak shells.\n
+• Misc. bugfixes.\n
+]]></TSA_WD_Update_2_2_Body>
+  <TSA_WD_Update_2_1_2_Title>Outpost skill scaling &amp; farm/ranch tile fix</TSA_WD_Update_2_1_2_Title>
+  <TSA_WD_Update_2_1_2_Body><![CDATA[
+<size=16><b>2.1.2 – Outpost skill scaling & farm/ranch tile fix</b></size>\n
+<color=#00FFFFFF>Release date: July 26th 2026</color>\n
+------------------------------\n
+• Farming and ranch production tile multipliers are fertility only again — no more hidden average-skill or fake settlement-tier boosts stuffed into “tile”. Hunting and mining were already clean.\n
+• Cumulative outpost skill that drives production/capacity now uses diminishing returns (full value to 60, then softer bands, hard cap at 280 by default). Configure in Mod Settings → Outpost skill scaling.\n
+• Yellow/red warning boxes show when your outpost is in the soft bands or at the hard cap (Production, Logistics, Recruiting/Trading, Stats).\n
+• Founding and min-skill gates still use raw skill. Megabase stacks will produce less than before — that is intentional.\n
+]]></TSA_WD_Update_2_1_2_Body>
+  <TSA_WD_Update_2_1_1_Title>More Road Blocks &amp; Traps and Settings Presets</TSA_WD_Update_2_1_1_Title>
+  <TSA_WD_Update_2_1_1_Body><![CDATA[
+<size=16><b>2.1.1 – More Road Blocks & Traps and Settings Presets</b></size>\n
+<color=#00FFFFFF>Release date: July 26th 2026</color>\n
+------------------------------\n
+• New Outpost Building Projects: Light Road Block, Heavy Road Block, Caltrops traps\n
+• Traps now also have health. When a hostile caravan passes through them, the traps lose HP and apply damage to the caravan's strength\n
+• Each Outpost Building Project now has its own "work to build", "min construction skill required", "strength to ship" etc. which are configurable in the mod settings\n
+• Added a Gizmo to both player outposts and NPC settlements. Hovering over it shows the radius for them to pull in allied support with a breakdown in the mouseover tooltip\n
+• Hopefully fixed a couple of bugs with the Scavenging outpost trying to ship minified and stuffable things which could throw a red error\n
+• Merged the radii to pull in allies for attacks and defenses into a single variable/slider\n
+• The mod settings can now be opened directly from the WD main tab in the mod. Settings have been regrouped and there are settings presets now for difficulty and performance. Those will adjust several sliders at once.\n
+• Shipped yesterday already in a hotfix: New notification flags to e.g. get warned if an outpost cannot ship a building project due to having insufficient strength\n
+]]></TSA_WD_Update_2_1_1_Body>
+  <TSA_WD_Update_2_1_Title>Drop pod raids, AA guns, Road blocks and more!</TSA_WD_Update_2_1_Title>
+  <TSA_WD_Update_2_1_Body><![CDATA[
+<size=16><b>2.1 – Drop pod raids, AA guns, Road blocks and more!</b></size>\n
+<color=#00FFFFFF>Release date: July 25th 2026</color>\n
+------------------------------\n
+• New Feature: Drop pod raids from T4 settlements that may hit NPC settlements, your colony, and your outposts. On arrival on an actual map they spawn as drop pod raids (randomly split between edge and center drop — configurable).\n
+• To counter them, Mortar outposts may now build an AA gun upgrade to automatically shoot down incoming raid caravans.\n
+• Likewise, T4 settlements have AA guns now. Careful: they can also shoot at your actual transport pods and may insta-kill them!\n
+• New mod settings to filter whether any T4 settlement may have those guns, or only ones belonging to factions whose tech level is e.g. at least Industrial (default: any faction).\n
+• New Feature: Outposts may now build road blocks. Road blocks increase movement difficulty for any caravan traveling through them. Caravans may choose a different path to avoid them, delaying and thus weakening them.\n
+• New Feature: You may now bulk-send pawns from your colony to outposts immediately via the All Player Pawns tab.\n
+• New Feature: A new Prisoners tab reachable from the WD Main tab. Assess prisoner pawns and assign them a target outpost where they go immediately after successful recruitment (they get 2 simple meals — a bit cheaty, but better than micro-managing).\n
+• New Feature: When building roads via outposts you may now draw a path with several nodes by holding Shift.\n
+• Drop pods from the Rapid Response Outpost can now be sent to any tile in range. Previously only to colony, caravans, or settlements.\n
+• New icons for drop pod raids, transporters, and rapid response forces.\n
+• New outpost upgrade “Industrial Irrigation” for farms.\n
+• Simplified the win/loss pre-raid UI when you e.g. launch a manual attack with your outpost.\n
+• NPC trade caravans may now target player outposts to increase their strength and give some goodwill. Previously they could only target the player colony.\n
+]]></TSA_WD_Update_2_1_Body>
+  <TSA_WD_Update_2_03_Title>Food Logic rework</TSA_WD_Update_2_03_Title>
+  <TSA_WD_Update_2_03_Body><![CDATA[
+<size=16><b>2.03 – Food Logic rework</b></size>\n
+<color=#00FFFFFF>Release date: July 21st 2026</color>\n
+------------------------------\n
+• Reworked the food logistics. Tried to be too clever with calculating the smart food assignment per food producing outpost (farm, ranch, hunting outpost) in a staggered way to save performance. This led to tons of edge cases and inconsistencies. Now the whole food assignment is calculated in a single tick globally but only if anything changed (new outpost, pawn added to an outpost or withdrawn, outpost upgrade deployed).\n
+• While calculation is heavier, this should now be reliable and only run when actually needed\n
+• Also made the food logistics tab for producers more intuitive so it becomes clear that unspent points feed the food producer outpost\n
+• When all outposts have been fully fed, the remaining food should now finally be distributed evenly across all outposts in range when the smart algorithm is active\n
+]]></TSA_WD_Update_2_03_Body>
+  <TSA_WD_Update_1_98_Title>Performance, slower WD Caravans, QOL</TSA_WD_Update_1_98_Title>
+  <TSA_WD_Update_1_98_Body><![CDATA[
+<size=16><b>1.98 – Performance, slower WD Caravans, QOL</b></size>\n
+<color=#00FFFFFF>Release date: July 20th 2026</color>\n
+------------------------------\n
+• Drop pods sent from the Rapid Response outpost now also travel the world map and don’t just arrive instantly\n
+• Reworked the "Pawns" tab of WD Outposts. Less sections, more filters\n
+• WD Caravans are now slower; their speed should be more similar to a lightly packed player caravan\n
+• QOL: In the ship goods dialog of the Warehouse outpost you can now type the exact amount you want to ship\n
+• QOL: For food producing outposts (Farms, Barns, Hunting Outposts) you can now increase the amount of food that is added/removed per click by holding Ctrl, Shift or both (×10, ×100, ×1000) just like in vanilla RimWorld\n
+• Performance: Optimized the way WD Caravans and texts are rendered on the world map, which should improve performance while the world map is open\n
+]]></TSA_WD_Update_1_98_Body>
+  <TSA_WD_Update_1_97_Title>Performance improvements, Recruiting respects pawn kinds, QOL</TSA_WD_Update_1_97_Title>
+  <TSA_WD_Update_1_97_Body><![CDATA[
+<size=16><b>1.97 – Performance improvements, Recruiting respects pawn kinds, QOL</b></size>\n
+<color=#00FFFFFF>Release date: July 19th 2026</color>\n
+------------------------------\n
+• The most performance-heavy feature in WD 2.0 is pathfinding for caravans. Until now the mod ran pathfinding even in the pre-raid stage to calculate exactly how strong a raid caravan would be on arrival. This was used so raiders avoid suicide missions (by default they needed at least 90% of the defender strength on arrival). This is now a configurable slider under the mod settings submenu "World Map Raids", and we only calculate exact paths for pre-raid cases in 30% of cases by default. When any actual caravan is launched, a real path is still calculated (unavoidable).\n
+• Fixed a bug with trader caravans that kept calculating paths despite already having found a suitable target (saves some performance)\n
+• Reduced how often NPC T4 settlements look for mortar targets. Also, in each check cycle no more than three T4 settlements run the check at all (saves some performance; player mortar outposts unchanged)\n
+• Any recruiting option (Establish Outpost after conquest, Recruit after Conquest, Recruiting outpost) will now spawn pawns using the pawn kinds of the conquered/nearby settlements. So if you conquer a pigskin base, you get pigskin pawn kinds (potentially even a high-tier fighter with corresponding gear)\n
+• Changed the WD float menu on the world map (bottom right) to show all options at the top level (overlays, labels, texts) and added lots of explanatory tooltips\n
+• On the establish outpost dialog, any outpost you cannot build is highlighted in red\n
+• The same blocked tiles that apply to your outposts now also apply to NPC settlements trying to expand\n
+• Misc. performance and QOL adjustments\n
+]]></TSA_WD_Update_1_97_Body>
+  <TSA_WD_Update_1_96_Title>Small update and bugfixes</TSA_WD_Update_1_96_Title>
+  <TSA_WD_Update_1_96_Body><![CDATA[
+<size=16><b>1.96 – Small update and bugfixes</b></size>\n
+<color=#00FFFFFF>Release date: July 18th 2026</color>\n
+------------------------------\n
+• Fixes an issue with the blocked tile overlay not getting updated\n
+• Recruited pawns after a conquest should now use the pawn kind pool of the faction that the settlement belonged to\n
+• Fixed an issue with food lines not being in front on the world map (the green and cyan lines indicating to which outposts a food producer sends food to and from where receivers are getting food)\n
+• Some performance and logic fixes for mortars and interception caravans traveling the world map\n
+• Gated advanced components, components and obsidian behind min mining skill levels at the mining outpost\n
+• Default attacker reinforcement range is now 10 tiles and defender reinforcement range is now 12 tiles. Reset the entire mod settings or the sub menu World Map Raids to apply\n
+]]></TSA_WD_Update_1_96_Body>
+  <TSA_WD_Update_1_95_Title>Fix for edge case making Outpost disappear &amp; WD Dashboard adjustments</TSA_WD_Update_1_95_Title>
+  <TSA_WD_Update_1_95_Body><![CDATA[
+<size=16><b>1.95 – Fix for edge case making Outpost disappear & WD Dashboard adjustments</b></size>\n
+<color=#00FFFFFF>Release date: July 17th 2026</color>\n
+------------------------------\n
+• Hardened the logic to address some rare issues where outposts disappeared after loading a save game (e.g. outposts where a raid was imminent or outposts with an active defense map)\n
+• Added buttons to the Threat indicator on the WD main dashboard. You can now see either the percentage of the current storyteller raid points or the concrete amount of raid points to expect. And either the raw strength values or the clamped values as per the mod settings (as per the default mod settings a WD raid cannot get stronger than 225 % of the current storyteller raid points)\n
+]]></TSA_WD_Update_1_95_Body>
+  <TSA_WD_Update_1_94_Title>Outpost experts and UI polish</TSA_WD_Update_1_94_Title>
+  <TSA_WD_Update_1_94_Body><![CDATA[
+<size=16><b>1.94 – Outpost experts, Blocked Tile Overlay and Odyssey Shuttle Support</b></size>\n
+<color=#00FFFFFF>Release date: July 15th 2026</color>\n
+------------------------------\n
+• New Feature: Outpost Experts tab. Assign a Strategist, Entertainer, Doctor, or Engineer at each outpost for attack range, production, healing/recovery, and road/defensive bonuses\n
+• New Feature: Blocked world tiles overlay. When having a real Caravan with pawns selected on the world map, world tiles blocked by settlements and outposts are now highlighted with white stripes indicating that you cannot establish an outpost there due to proximity. Can be toggled via the WD button at the right bottom of the World Map screen.\n
+• Reworked the production dialog with a clearer outcome summary and tighter spacing between item names and formula lines\n
+• Production options that are locked due to unfulfilled research or skill requirements are highlighted in light red now on the Production Dialog of Outposts. Hover them for the exact skill, research, or pawn requirements\n
+• Passenger Shuttles from the Odyssey DLC can now establish outposts on the world map and transport pawns to outposts. They will be added to the outpost inventory just like other vehicles, animals or mechanoids\n
+• Various QOL adjustments and bugfixes
+]]></TSA_WD_Update_1_94_Body>
+  <TSA_WD_Update_1_93_Title>UI enhancements and fixes</TSA_WD_Update_1_93_Title>
+  <TSA_WD_Update_1_93_Body><![CDATA[
+<size=16><b>1.93 – UI enhancements and fixes</b></size>\n
+<color=#00FFFFFF>Release date: July 14th 2026</color>\n
+------------------------------\n
+• Reworked the UI for building outpost upgrades and establishing outposts\n
+• Mechs at Outposts can now be controlled during Outpost defense encounters even if the Mechanitor is not present there\n
+• New overlay options for the world map: you can display strength and raid cooldown over each outpost\n
+• Increased default reward for awarding a conquered settlement to a neutral or allied faction (reset diplomacy settings in mod settings to apply the new values)\n
+]]></TSA_WD_Update_1_93_Body>
+  <TSA_WD_Update_1_92_Title>Trading outpost adjustments and QOL</TSA_WD_Update_1_92_Title>
+  <TSA_WD_Update_1_92_Body><![CDATA[
+<size=16><b>1.92 – Trading outpost adjustments and QOL</b></size>\n
+<color=#00FFFFFF>Release date: July 13th 2026</color>\n
+------------------------------\n
+• New outpost upgrades for the Ranch: 3 levels of barns boosting productivity and adding some defensive strength\n
+• The trading outpost may now either produce silver or gold\n
+• The math for how much you get and why is clearer now\n
+• All WD texts and overlays can now be accessed from a single button with the "WD" icon on the world map\n
+• Showing settlement tier labels and outpost food labels on the map are now separate toggles\n
+• Establish outpost simulation: open the WD map button, choose Establish outpost simulation, then click the tile you want on the world map\n
+• The update notes window now has a handy sidebar where you can easily browse through all updates\n
+]]></TSA_WD_Update_1_92_Body>
+  <TSA_WD_Update_1_91_Title>Recruiting Outpost and UI update</TSA_WD_Update_1_91_Title>
+  <TSA_WD_Update_1_91_Body><![CDATA[
+<size=16><b>1.91 – Recruiting Outpost and UI update</b></size>\n
+<color=#00FFFFFF>Release date: July 12th 2026</color>\n
+------------------------------\n
+• Reworked the dialog for Recruiting, Trading, and Academy outposts. It now states more clearly what the contributing factors for the output are\n
+• Recruiting outposts now benefit more the more nearby neutral and allied settlements there are, and the higher their tier. Moreover, you can now recruit pawns having a specific skill. This will reduce the amount of pawns you get by 30 % though!\n
+]]></TSA_WD_Update_1_91_Body>
+  <TSA_WD_Update_1_90_Title>Food system rework, bugfixes, QOL</TSA_WD_Update_1_90_Title>
+  <TSA_WD_Update_1_90_Body><![CDATA[
+<size=16><b>1.90 – Food system rework, bugfixes, QOL</b></size>\n
+<color=#00FFFFFF>Release date: July 11th 2026</color>\n
+------------------------------\n
+• Farming, Hunting and Ranch outposts can now produce virtual food for other outposts and physical goods at the same time. The existing system was too confusing and also too prone to error. A farming outpost with 30 Plants skill can now use those 30 skill points for both virtual food production and physical goods production\n
+• The Food Logistics and Production dialog windows have been reworked, along with many explanation tooltips. Should be more self-explanatory now\n
+• Warehouse outposts can now send goods to your colony and other warehouses via drop pods if those have been researched (from the "Storage" tab)\n
+• Fixed a bug where Rapid Response outposts refunded strength when an interception caravan was lost\n
+• Rapid Response outposts may now only launch one interception caravan per raid caravan\n
+]]></TSA_WD_Update_1_90_Body>
+  <TSA_WD_Update_1_80_Title>Major update and overhaul</TSA_WD_Update_1_80_Title>
+  <TSA_WD_Update_1_80_Body><![CDATA[
+<size=16><b>1.80 – Major update and overhaul</b></size>\n
+<color=#00FFFFFF>Release date: July 7th 2026</color>\n
+------------------------------\n
+• Important: Reset all mod settings or at least the settings for the sub menu "World Map Raids"\n
+• New feature: A new window "All player pawns" that can be accessed from the WD main tab. It allows you to easily see, filter and compare any pawn, vehicle, animal and mechanoid across the whole world (colony, outposts, traveling caravan). And you can easily task pawns to form a caravan to move from Outpost A to Outpost B or to the colony\n
+• New feature: You can now click an allied or neutral settlement and ask them to build a road for you. Costs goodwill\n
+• New feature: Outpost delivery spot. Found under "Misc". Outpost deliveries will be placed on and around this spot\n
+• New feature: Simulated battles don't just have binary outcomes now (win/loss) but there is more nuance now in terms of "was it a close win or a decisive win?" which massively affects how much strength the attacking and the defending party loses\n
+• New feature: Stats tab for NPC settlements. Understand better how much strength a settlement has including its supporting allies\n
+• Rework: The main WD tab has been restructured\n
+• Rework: WD now states more clearly which settlements are the biggest threat to you and how many raid points to expect\n
+• Another attempt to fix the issue with mortar shells not disappearing from the world map\n
+• Many bugfixes and QOL improvements\n
+]]></TSA_WD_Update_1_80_Body>
+  <TSA_WD_Update_1_71_Title>Outpost defense map update</TSA_WD_Update_1_71_Title>
+  <TSA_WD_Update_1_71_Body><![CDATA[
+<size=16><b>1.71 – Outpost defense map update</b></size>\n
+<color=#00FFFFFF>Release date: July 5th 2026</color>\n
+------------------------------\n
+• Walls, spike traps and turrets upgrades will now show up when you decide to defend your outpost on an actual map.\n
+• New Feature: Pawns recruited by a recruiting outpost will now respect the xenotype composition of nearby settlements (so if the outpost is near pigskins, you will likely also get pigskins).\n
+• Tweaks to the outpost stats screen.\n
+]]></TSA_WD_Update_1_71_Body>
+  <TSA_WD_Update_1_70_Title>Bugfixes and QOL enhancements</TSA_WD_Update_1_70_Title>
+  <TSA_WD_Update_1_70_Body><![CDATA[
+<size=16><b>1.70 – Bugfixes and QOL enhancements</b></size>\n
+<color=#00FFFFFF>Release date: July 4th 2026</color>\n
+------------------------------\n
+• Bugfix: Road construction speed should scale with cumulative Construction skill now. Was scaling with offensive strength.\n
+• Bugfix: Players reported mortar shells and caravans being stuck on the world map in some cases. Tried to fix that. Added a dev action on the world map to manually remove mortar shells/caravans in case you run into that issue.\n
+• Bugfix: Raiders were sometimes attacking settlements or your outpost despite being way too weak. They should now respect the default strength ratio gate of 0.90 (i.e. the attacking party needs to have at least 90 % of the strength of the defending party to even launch an attack).\n
+• Current Goodwill with a faction is now shown on the WD Diplomacy Overview Page and when you order an ally to launch a raid for you.\n
+• Changed some default values, e.g. the raider interception radius of the Rapid Response Outpost. You might want to reset all settings to defaults or at least the Outpost and the Road Building settings!\n
+• Higher tier outposts should yield more and better loot now.\n
+• Still Work in Progress: Outposts with wounded pawns are indicated on the Outpost Overview Page now. Healing logic improved (especially with infections).\n
+]]></TSA_WD_Update_1_70_Body>
+  <TSA_WD_Update_1_60_Title>Mechanoid workers, outpost healing, and logistics simplification</TSA_WD_Update_1_60_Title>
+  <TSA_WD_Update_1_60_Body><![CDATA[
+<size=16><b>1.60 – Mechanoid workers, outpost healing, and logistics simplification</b></size>\n
+<color=#00FFFFFF>Release date: July 3rd 2026</color>\n
+------------------------------\n
+• Androids from VRE Androids no longer consume food at outposts.\n
+• Added a Daily food column to the outpost Pawns tab.\n
+• Added a Hurt column to the outpost Pawns tab (bleeding icon) for occupants with injuries the outpost is healing.\n
+• New Stats inspector tab on outposts — detailed production, combat, food, and other breakdowns (first tab when inspecting an outpost).\n
+• Mechanoids can be added to outposts and contribute to outpost output (at least level 5 in their specialized skill).\n
+• Occupants slowly heal at outposts. This is mainly so pawns hurt during manual defense are not wounded forever. Balance note: pawns cannot die from injuries or infections while mothballed at an outpost, but any non-permanent injury will eventually heal (further tuning TBD).\n
+• Simplified food allocation on food-producing outposts: removed two older smart modes. Three options remain — Smart (former deficit algorithm), All to Colony, and Manual.\n
+]]></TSA_WD_Update_1_60_Body>
+  <TSA_WD_Update_1_50_Title>Ranch Outpost, Settings Defaults and Upgrade Search</TSA_WD_Update_1_50_Title>
+  <TSA_WD_Update_1_50_Body><![CDATA[
+<size=16><b>1.50 – Ranch Outpost, Settings Defaults and Upgrade Search</b></size>\n
+<color=#00FFFFFF>Release date: June 29th 2026</color>\n
+------------------------------\n
+• New Outpost: Ranch. Produces milk, eggs, or wool. Scales with Animals skill and tile fertility, similar to the Farming Outpost. Producible goods can be added via XML, as requested by a player.\n
+• The default value of any setting is now shown on mouseover in the mod settings, as requested by a player.\n
+• The Upgrades tab now has a search bar and a filter dropdown: all upgrades, built upgrades, unbuilt upgrades, and upgrades you can afford.\n
+• New Feature: There is a dropdown button (zone icon) on the world map now allowing you to visualize Fertility, Animal Abundance and Mining Efficiency around the mouse cursor, helping you pick the perfect tile for your outpost more easily.\n
+]]></TSA_WD_Update_1_50_Body>
+  <TSA_WD_Update_1_40_Title>Rapid Response Outpost and Misc</TSA_WD_Update_1_40_Title>
+  <TSA_WD_Update_1_40_Body><![CDATA[
+<size=16><b>1.40 – Rapid Response Outpost and Misc</b></size>\n
+<color=#00FFFFFF>Release date: June 28th 2026</color>\n
+------------------------------\n
+• New Outpost: Rapid Response Outpost. Will automatically launch a virtual caravan at incoming enemy caravans. Select which ones to attack: raiders only, or also others.\n
+• With Transport Pods researched, you may also launch actual pawns at enemy caravans from the "Pawns" tab of the Rapid Response Outpost.\n
+• Changed many default values for better balancing. You might want to reset your settings to default!\n
+• Made outpost material cost cheaper across the board. Wood is so heavy to carry, which forced the player to bring like 4 pawns all the time.\n
+• Vehicles and animals garrisoned at an outpost will now spawn when you choose to defend the outpost on an actual map.\n
+• The animal and vehicle count is now listed in the outpost overview tab.\n
+• Added search bar to Outpost Creation Dialog, as we have too many outposts now.\n
+• Outposts may now build Stone and Asphalt Roads even without using the Roads of the Rim mod. New Road Building mod settings menu available, gated behind advanced settings.\n
+]]></TSA_WD_Update_1_40_Body>
+  <TSA_WD_Update_1_30_Title>Outpost support for Animals and Vehicles</TSA_WD_Update_1_30_Title>
+  <TSA_WD_Update_1_30_Body><![CDATA[
+<size=16><b>1.30 – Outpost support for Animals and Vehicles</b></size>\n
+<color=#00FFFFFF>Release date: June 27th 2026</color>\n
+------------------------------\n
+• New feature: Outposts can now hold and store animals and Vehicle Framework vehicles instead of discarding them. They are listed under the "pawns" tab. You can remove them just like removing pawns.\n
+• Stored animals and vehicles contribute offensive strength to the outpost and show their contribution in the Pawns tab.\n
+• When pawns are sent into an already ongoing manual outpost defense, surviving extra player pawns are returned after the fight, usually by forming a caravan at the outpost tile.\n
+• Animals are no longer auto-butchered when brought to an outpost, since they can be stored now. Animals currently do not cost outpost food.\n
+]]></TSA_WD_Update_1_30_Body>
+  <TSA_WD_Update_1_20_Title>Power Plant overview cleanup, faster difficulty refresh &amp; raid cooldown reservations</TSA_WD_Update_1_20_Title>
+  <TSA_WD_Update_1_20_Body><![CDATA[
+<size=16><b>1.20 – Power Plant overview cleanup, faster difficulty refresh & raid cooldown reservations</b></size>\n
+<color=#00FFFFFF>Release date: June 24th 2026</color>\n
+------------------------------\n
+• Removed the production gizmo from Power Plant Outposts.\n
+• Power Plant Outposts now show their remote power output for the player colony in the Outpost Overview.\n
+• The late-game difficulty condition is checked more often than once per in-game day, so setting and power changes are reflected sooner.\n
+• Player colony raid cooldown is now reserved when a WD raid is launched or dispatched, not only when the raid arrives.\n
+]]></TSA_WD_Update_1_20_Body>
+  <TSA_WD_Update_1_10_Title>Power Plant Outposts, cleaner production UI &amp; upgrade delivery safeguards</TSA_WD_Update_1_10_Title>
+  <TSA_WD_Update_1_10_Body><![CDATA[
+<size=16><b>1.10 – Power Plant Outposts, cleaner production UI & upgrade delivery safeguards</b></size>\n
+<color=#00FFFFFF>Release date: June 23rd 2026</color>\n
+------------------------------\n
+• New outpost: Power Plant Outposts remotely produce electricity for your colony.\n
+• Added a compatibility patch for the Power Tab mod, so WD remote power production is visible there and individual Power Plant Outposts can be listed by name.\n
+• Power Plant Outposts have four upgrades that improve their power output.\n
+• Made the outpost production dialog cleaner with less visible formula text, better spacing, and compact mouseover details.\n
+• Added Spanish and Chinese translations for outpost upgrade names and descriptions.\n
+• Fixed edge cases where outposts could stay locked on "upgrade underway" after an upgrade caravan was destroyed or failed to launch.\n
+• Added a world-map debug action to manually unlock outposts that are stuck on the upgrade screen.\n
+• Added safeguards so Warehouse Outposts cannot pay for or deliver upgrades to themselves.\n
+]]></TSA_WD_Update_1_10_Body>
+  <TSA_WD_Update_1_0_0_Title>Outpost map defense &amp; goodwill cap increase</TSA_WD_Update_1_0_0_Title>
+  <TSA_WD_Update_1_0_0_Body><![CDATA[
+<size=16><b>1.0.0 – Outpost map defense & goodwill cap increase</b></size>\n
+<color=#00FFFFFF>Release date: June 21st 2026</color>\n
+------------------------------\n
+• Major new feature: Outposts can now be defended on actual maps by the actual pawns garrisoned there.\n
+• Added an auto-resolve vs. manual-defense choice screen when a raid caravan hits your outpost. The screen shows attacker strength, defender strength, strength ratio, and defender win likelihood.\n
+• Raised maximum goodwill to 200.\n
+• Added new low-strength raid outcome anchors at 0.10x and 0.25x relative attacker strength for finer auto-resolve tuning.\n
+• Reduced the cost of some outpost upgrades.\n
+]]></TSA_WD_Update_1_0_0_Body>
+  <TSA_WD_Update_0_9_110_Title>Dynamic settlement garrisons &amp; raid math fixes</TSA_WD_Update_0_9_110_Title>
+  <TSA_WD_Update_0_9_110_Body><![CDATA[
+<size=16><b>0.9.110 – Dynamic settlement garrisons & raid math fixes</b></size>\n
+<color=#00FFFFFF>Release date: June 19th 2026</color>\n
+------------------------------\n
+• New feature: When you attack an enemy settlement, its map garrison strength is no longer determined only by settlement tier. It now also scales with that settlement's available offensive strength, so a weakened T3 settlement will actually feel weaker when you attack it.\n
+• Fix: Corrected inconsistencies between pre-raid and post-raid math analysis, including how attacker and defender strength contributions are calculated and reported.\n
+]]></TSA_WD_Update_0_9_110_Body>
+  <TSA_WD_Update_0_9_100_Title>Allied raid orders, conquest choices, growth tuning &amp; Endless Growth support</TSA_WD_Update_0_9_100_Title>
+  <TSA_WD_Update_0_9_100_Body><![CDATA[
+<size=16><b>0.9.100 – Allied raid orders, conquest choices, growth tuning & Endless Growth support</b></size>\n
+<color=#00FFFFFF>Release date: June 18th 2026</color>\n
+------------------------------\n
+• New feature: Select an allied settlement on the world map and task it with attacking one of its hostile settlements at a goodwill cost. Choose whether the ally should keep the conquered settlement or award it to you. Awarding it to you costs twice as much goodwill.\n
+• New feature: After conquering a settlement, you may now choose whether to establish an outpost, recruit survivors into your caravan, or award the settlement to a neutral or allied faction for goodwill. Warning: "Recruit Survivors" has only been tested with regular caravans. It may cause undesired results with Gravships or Vehicle Caravans. To be tested!\n
+• New configurable option: In "Growth & Expansion" settings, you can now choose how many same-tier settlements must be nearby before a settlement can upgrade to the next level. Previously this was hardcoded to >= 2.\n
+• Outposts now support Endless Growth-style skill levels, so a single pawn may contribute more than level 20 in the relevant skill.\n
+]]></TSA_WD_Update_0_9_100_Body>
+  <TSA_WD_Update_0_9_90_Title>Layer fixes, mortar polish &amp; revolt fix</TSA_WD_Update_0_9_90_Title>
+  <TSA_WD_Update_0_9_90_Body><![CDATA[
+<size=16><b>0.9.90 – Layer fixes, mortar polish & revolt fix</b></size>\n
+<color=#00FFFFFF>Release date: June 16th 2026</color>\n
+------------------------------\n
+<b>Improvements</b>\n
+• Enemy T4 settlements now show their mortar cooldown on the inspect pane, just like your own mortar outposts.\n
+• Enemy T4 mortar fire can now destroy your outposts outright once their strength is fully depleted, losing all occupants. Previously your outposts only suffered attrition.\n
+\n
+<b>Fixes</b>\n
+• Reworked how WD identifies the planet surface vs. the space layer. This should finally stop WD from trying to launch caravans from the surface into space (or the reverse) and the path errors that came with it.\n
+• Mortar impact explosions are no longer visible from space — they now only appear at closer zoom levels.\n
+• Revolt chance now matches your mod setting. It was being scaled down a second time, so revolts fired far less often than configured; the slider value is now applied directly.\n
+]]></TSA_WD_Update_0_9_90_Body>
+  <TSA_WD_Update_0_9_80_Title>Late-game difficulty scaling &amp; enemy mortars</TSA_WD_Update_0_9_80_Title>
+  <TSA_WD_Update_0_9_80_Body><![CDATA[
+<size=16><b>0.9.80 – Late-game difficulty scaling & enemy mortars</b></size>\n
+<color=#00FFFFFF>Release date: June 15th 2026</color>\n
+------------------------------\n
+<b>New: Late-game difficulty scaling</b>\n
+• Once you hold real power — at least 2,000 total outpost strength OR a 25% share of all world strength — hostile factions start pushing back. A permanent white "Late-game difficulty active" note shows on the right side of the screen while it is in effect.\n
+• Enemies inside your influence radius grow faster.\n
+• Enemies prioritize expanding toward your holdings.\n
+• Hostile raids are biased toward you.\n
+• Enemy T4 settlements may fire mortars at your WD outposts and WD caravans (your physical/vanilla caravans are never targeted).\n
+• Your outposts can suffer attrition incidents — rarer than before (10%/day) but much more severe (250 strength).\n
+• All thresholds and effect strengths are configurable in the new "Late-game difficulty" menu (advanced settings). This replaces the old Player Power Index system.\n
+\n
+<b>New: Enemy T4 settlement mortars</b>\n
+• Enemy T4 settlements now fire mortars at hostile non-player caravans, and at hostile settlements when no caravan is in range.\n
+• Enemy mortars have their own dedicated settings menu (range, cooldown, damage, accuracy) so they can be tuned separately from your mortar outposts.\n
+\n
+<b>New: Mortar notifications</b>\n
+• Separate letter toggles for: your mortar firing (neutral), enemy mortars targeting you (negative), and enemy-vs-enemy mortar fire (neutral, OFF by default to avoid spam).\n
+\n
+<b>Fixes</b>\n
+• Outpost goods are no longer delivered to cells you cannot reach (under mountains or across deep water).\n
+• Added missing Chinese translations.\n
+]]></TSA_WD_Update_0_9_80_Body>
+  <TSA_WD_Update_0_9_70_Title>Warehouse &amp; Research outposts, gizmo icons, and raid peace fix</TSA_WD_Update_0_9_70_Title>
+  <TSA_WD_Update_0_9_70_Body><![CDATA[
+<size=16><b>0.9.70 – Warehouse & Research outposts, gizmo icons, and raid peace fix</b></size>\n
+<color=#00FFFFFF>Release date: June 10th 2026</color>\n
+------------------------------\n
+• New Outpost Type: Warehouse. Can receive goods from other Outposts and send goods to the Colony and other Warehouses. Mainly to be used with Gravship/Caravan playstyles where the player does not have a permanent Colony necessarily\n
+• New Outpost Type: Research Outpost. Passively contributes to your current research. Scales with cumulative Intellectual skill in that outpost and has two new outpost upgrades increasing the research speed\n
+• Changed some Command Gizmo Icons\n
+• Bugfix: If a raid caravan is underway to your base and you make peace with that attacking faction, the raid will be cancelled and refunded on arrival\n
+]]></TSA_WD_Update_0_9_70_Body>
+  <TSA_WD_Update_0_9_60_Title>Academy outpost, vanilla raid strategy selection, and mortar fix</TSA_WD_Update_0_9_60_Title>
+  <TSA_WD_Update_0_9_60_Body><![CDATA[
+<size=16><b>0.9.60 – Academy outpost, vanilla raid strategy selection, and mortar fix</b></size>\n
+<color=#00FFFFFF>Release date: April 25th 2026</color>\n
+------------------------------\n
+• Added new outpost type "Academy", allowing you to train pawns in a skill of your choice. How it works: You need a capable teacher in that outpost (at least level 8 in the relevant skill by default). Based on the trainer's skill level, a certain amount of XP is given to students per time interval (default 500 XP per day). At teacher skill level 20, the XP granted is doubled. Students can only gain XP if they are at least 3 levels below the teacher in the relevant skill.\n
+• WD raids are no longer "Immediate Attacks" all the time. Instead, vanilla logic is used, so at high raid-point levels, center drops or sieges may occur.\n
+• Fixed a bug where mortar outposts did not properly deduct damage from a target.\n
+]]></TSA_WD_Update_0_9_60_Body>
+  <TSA_WD_Update_0_9_50_Title>Scavenger &amp; mortar outposts, raid points match strength, new icons</TSA_WD_Update_0_9_50_Title>
+  <TSA_WD_Update_0_9_50_Body><![CDATA[
+<size=16><b>0.9.50 – Scavenger & mortar outposts, raid points match strength, new icons</b></size>\n
+<color=#00FFFFFF>Release date: April 18th 2026</color>\n
+------------------------------\n
+• Added Scavenger Outpost. Similar to the one from Vanilla Outposts Expanded: colonists produce random loot bundles. Each pawn increases the cumulative market value of the roll, and with enough pawns you can search for higher-value tiers.\n
+• Added Mortar Outpost. Powerful late-game option: manually fire at hostile settlements, caravans, or WD travelers in range to weaken or destroy them. You can also enable auto-target to fire at enemy travelers in radius by mission type. Accuracy uses your best Shooting skill; additional pawns reduce reload time via cumulative Shooting. Three outpost upgrades boost shell damage, hit chance, and cooldown.\n
+• Rework of raid-point bridging so WD Strength lines up with raid points: Strength = raid points. Mod settings offer floor and ceiling so raid points cannot fall below or rise above X–Y % of the storyteller baseline. More “what you see is what you get”: a caravan that shows 2k strength at your base becomes ~2k raid points unless capped by floor/ceiling.\n
+• Updated many icons thanks to contributor Geneva :-)\n
+]]></TSA_WD_Update_0_9_50_Body>
+  <TSA_WD_Update_0_9_40_Title>Trader routing, outpost founding, slaves, and UI cleanup</TSA_WD_Update_0_9_40_Title>
+  <TSA_WD_Update_0_9_40_Body><![CDATA[
+<size=16><b>0.9.40 – Trader routing, outpost founding, slaves, and UI cleanup</b></size>\n
+<color=#00FFFFFF>Release date: April 10th 2026</color>\n
+------------------------------\n
+• Attempted to fix a bug where trader caravans would try to reach settlements in orbit (please report if fully fixed).\n
+• When founding an outpost with vehicles or animals in the caravan, a warning explains that they will be removed in the process. If you confirm, animals are converted into outpost food and vehicles are cleaned up properly.\n
+• Full support for Ideology slaves in outposts: slaves are highlighted in yellow in the Pawn overview. You cannot remove slaves from an outpost unless at least one colonist remains with them, and you cannot leave only slaves in an outpost. Otherwise slaves contribute like any other pawn.\n
+• Removed WD stats and buttons from the vanilla Faction tab.\n
+• The “Remove pawn from outpost” gizmo is no longer shown on outposts; the Pawn tab handles this better (bulk moves to one caravan and proper slave handling).\n
+]]></TSA_WD_Update_0_9_40_Body>
+  <TSA_WD_Update_0_9_30_Title>Raid performance, raid multipliers, and WD dashboard events</TSA_WD_Update_0_9_30_Title>
+  <TSA_WD_Update_0_9_30_Body><![CDATA[
+<size=16><b>0.9.30 – Raid performance, raid multipliers, and WD dashboard events</b></size>\n
+<color=#00FFFFFF>Release date: April 9th 2026</color>\n
+------------------------------\n
+<b>Performance improvements</b>\n
+• Pre-raid calculations are cheaper: once a valid target is found, no further checks are run.\n
+• Optional toggle: raid distance checks can use straight-line (“as the crow flies”) logic. When the raid caravan actually launches, a real path is still required (that part cannot be skipped).\n
+• Unless you have a very high-end PC, this mod is not meant for 100% planet coverage with 700+ settlements.\n
+\n
+<b>Gameplay adjustments</b>\n
+• The raid point multiplier is no longer based on settlement tier (T1–T4) inside your influence. It uses the <b>offensive strength</b> of nearby settlements instead—for example, four T1 settlements at 500 offensive strength each count like one T4 at 2000.\n
+• The WD main tab no longer lists every recent log line; it highlights more important events (e.g. successful raid, successful expansion, settlement destroyed by an incident).\n
+]]></TSA_WD_Update_0_9_30_Body>
+  <TSA_WD_Update_0_9_20_Title>Food logistics, caravans, traders, and road building</TSA_WD_Update_0_9_20_Title>
+  <TSA_WD_Update_0_9_20_Body><![CDATA[
+<size=16><b>0.9.20 – Food logistics, caravans, traders, and road building</b></size>\n
+<color=#00FFFFFF>Release date: April 8th 2026</color>\n
+------------------------------\n
+• Fixed performance issues with food logistics and food-related world map UI/text.\n
+• Removed maximum travel-time destruction for caravans: they still lose strength the longer they travel, but are no longer destroyed after a fixed duration (for example about three days).\n
+• When intercepting a trader caravan from a faction that has no trader pawn kinds defined (for example pirates), a normal raid force is spawned instead of a trader caravan.\n
+• Optimized outpost road building: faster road-layer redraws, land-only routes for road crews (no ocean pathing), and more reliable next-segment markers and caravan routing along the project. You may need to cancel and restart any ongoing outpost road projects that were saved mid-upgrade.\n
+]]></TSA_WD_Update_0_9_20_Body>
+  <TSA_WD_Update_0_9_10_Title>Trader caravan interception, performance, and pathfinding</TSA_WD_Update_0_9_10_Title>
+  <TSA_WD_Update_0_9_10_Body><![CDATA[
+<size=16><b>0.9.10 – Trader caravan interception, performance, and pathfinding</b></size>\n
+<color=#00FFFFFF>Release date: April 6th 2026</color>\n
+------------------------------\n
+• New: when intercepting a trader caravan on the world map, you will now encounter an actual trader caravan with its full composition and loot—just as if they were visiting your colony.\n
+• Massive refactoring of Food Logistics and Window rendering which should significantly improve performance (the previous patch had introduced some inefficiencies).\n
+• Fixed the "more paths than caravans" memory leak warning: travelers now properly release their paths on arrival and an accurate counter prevents false positives.\n
+]]></TSA_WD_Update_0_9_10_Body>
+  <TSA_WD_Update_0_9_9_Title>Defense and offense strength, outpost upgrades, trader caravans, and tile tools</TSA_WD_Update_0_9_9_Title>
+  <TSA_WD_Update_0_9_9_Body><![CDATA[
+<size=16><b>0.9.9 – Defense and offense strength, outpost upgrades, trader caravans, and tile tools</b></size>\n
+<color=#00FFFFFF>Release date: April 3rd 2026</color>\n
+------------------------------\n
+• Recommended: reset all mod settings to apply new defaults.\n
+• New: defensive vs. offensive strength for settlements and outposts. Defensive strength represents fortifications and static defenses; only offensive strength is used for attacks or to help allies (your mobile field force).\n
+• New: outpost upgrades. Select an outpost and open the Upgrades tab. Upgrades grant permanent buffs to defensive strength or outpost productivity. Costs are paid from your colony and a caravan is dispatched from the colony to the outpost.\n
+• New: trader caravans. NPC settlements send traders toward neutral or allied factions; when they arrive, both sides gain strength. If a caravan reaches your colony, a real trader is spawned. Storyteller raids can be disabled in mod settings.\n
+• Buffs and debuffs from Vanilla Landmarks Expanded world tile modifiers are now much more meaningful for WD.\n
+• When you select a world tile, use the Tile tab to see fertility, mining efficiency, and animal abundance at a glance.\n
+• On the world map, use the small establish-outpost icon at the bottom-right to check whether a given outpost type can be founded on that tile and to see its cost.\n
+• Notable performance improvements and bug fixes when outposts are selected or certain windows are open.\n
+]]></TSA_WD_Update_0_9_9_Body>
+  <TSA_WD_Update_0_9_8_Title>Raid behavior, tile mutators, and water traversal</TSA_WD_Update_0_9_8_Title>
+  <TSA_WD_Update_0_9_8_Body><![CDATA[
+<size=16><b>0.9.8 – Raid behavior, tile mutators, and water traversal</b></size>\n
+<color=#00FFFFFF>Release date: March 27th 2026</color>\n
+------------------------------\n
+• All WD raids are now immediate-attack edge walk-ins. They will no longer arrive as drop raids.\n
+• World tile modifiers from Vanilla Landmarks Expanded now affect WD outpost fertility, animal abundance, and mining efficiency (both positive and negative).\n
+• WD caravans can now traverse water.\n
+]]></TSA_WD_Update_0_9_8_Body>
+  <TSA_WD_Update_0_9_7_Title>Empire actions, transport pods, caravan chase, trading UI, and traveler polish</TSA_WD_Update_0_9_7_Title>
+  <TSA_WD_Update_0_9_7_Body><![CDATA[
+<size=16><b>0.9.7 – Empire actions, transport pods, caravan chase, trading UI, and traveler polish</b></size>\n
+<color=#00FFFFFF>Release date: March 23rd 2026</color>\n
+------------------------------\n
+• Fixed a case where the Empire faction (Royalty / VFE Empire–style defs with both Surface and Orbit on the arrival layer whitelist) was excluded from World Domination; they should now perform world actions like other factions.\n
+• Pawns delivered to a WD outpost via transport pod are now automatically enrolled in that outpost.\n
+• When your caravan is chasing an enemy caravan, issuing a move order to any tile on the world map now cancels the chase.\n
+• Trading outposts now display the silver they are expected to produce in the outpost overview dashboard and on their inspect pane.\n
+• Minor fixes to the WD dashboard and Active Travelers window: total travel time at path start is shown consistently (remaining ETA removed from those UIs).\n
+• For missions such as expansion or road building, a placeholder icon is shown for tile-only destinations so columns stay aligned.\n
+• Miscellaneous small tweaks and cleanup.\n
+]]></TSA_WD_Update_0_9_7_Body>
+  <TSA_WD_Update_0_9_6_Title>Outpost fixes, mining, trading yield, and farming/hunting tuning</TSA_WD_Update_0_9_6_Title>
+  <TSA_WD_Update_0_9_6_Body><![CDATA[
+<size=16><b>0.9.6 – Outpost fixes, mining, trading yield, and farming/hunting tuning</b></size>\n
+<color=#00FFFFFF>Release date: March 22nd 2026</color>\n
+------------------------------\n
+• Fixed a bug where skill levels from genes would be forgotten by outposts after loading a save game.\n
+• Mining outposts may now produce custom ores and stones.\n
+• Trading outposts now produce more silver the more Social skill the outpost has. Previously, meeting the minimum Social requirement only acted as a gate: at or above the minimum you received 100% yield, and extra Social did not increase silver further.\n
+• Fixed the process of manually adding pawns to an existing outpost.\n
+• Adjusted farming and hunting yield: harder-to-grow crops yield less; more dangerous animals yield less when hunted.\n
+• Farming fertility score (world tile / outpost UI): growing-season twelfths now use a higher max temperature so hot tropics are not unfairly capped; plant density is ranked between the lowest and highest biome values in your mod list instead of vs. the global average, so the best tiles (e.g. flat tropical rainforest) can reach 100%.\n
+• Farms can no longer produce ambrosia.\n
+• Minor balance tweaks to yields for certain items.\n
+]]></TSA_WD_Update_0_9_6_Body>
+  <TSA_WD_Update_0_9_5_Title>Outpost logos, biofuel, and fixes</TSA_WD_Update_0_9_5_Title>
+  <TSA_WD_Update_0_9_5_Body><![CDATA[
+<size=16><b>0.9.5 – Outpost logos, biofuel, and fixes</b></size>\n
+<color=#00FFFFFF>Release date: March 21st 2026</color>\n
+------------------------------\n
+• New logos for all Outposts drawn by player Geneva. Thanks again!\n
+• Fixed a critical bug that could cause WD Outposts to disappear after reloading a save game.\n
+• Fixed a bug where road building via Outpost could get stuck.\n
+• Aligned all calculations for Caravan travel time.\n
+• Added Biofuel outpost (tier 2 level. Needs 200 wood and 5 components. Produces Chemfuel based on crafting skill).\n
+• Added support for manually adding your own outpost types (see the Fabrication and Biofuel examples in Defs/WorldObjects/WD_Outpost.xml).\n
+• Pawns added to a WD outpost are now automatically unassigned from beds and similar assignments.\n
+• Added sorting to the outpost pawn overview (click column headers to sort ascending or descending).\n
+• Minor misc bugfixes.\n
+]]></TSA_WD_Update_0_9_5_Body>
+  <TSA_WD_Update_0_9_4_Title>Production, caravan combat, and logistics</TSA_WD_Update_0_9_4_Title>
+  <TSA_WD_Update_0_9_4_Body><![CDATA[
+<size=16><b>0.9.4 – Production, caravan combat, and logistics</b></size>\n
+<color=#00FFFFFF>Release date: March 20th 2026</color>\n
+------------------------------\n
+• Fixed critical bugs with Outposts only producing one stack of the selected product. Now the right amount is being produced.\n
+• When you attack an enemy caravan, those caravans are now stronger and spawn on the opposite side of your pawns when possible. Aligned with the Force Raid Direction mod so it does not overwrite this behavior.\n
+• Removed distance-based efficiency falloff for food sent from Hunting and Farming Outposts (unnecessary complexity). Delivery is now full strength anywhere within logistics range—next door or far away.\n
+• Tidied the food logistics tab and clarified that unspent food production points benefit the Farming/Hunting outpost itself.\n
+]]></TSA_WD_Update_0_9_4_Body>
+  <TSA_WD_Update_0_9_3_Title>Bugfixes and Polish</TSA_WD_Update_0_9_3_Title>
+  <TSA_WD_Update_0_9_3_Body><![CDATA[
+<size=16><b>0.9.3 – Bugfixes and Polish</b></size>\n
+<color=#00FFFFFF>Release date: March 18th 2026</color>\n
+------------------------------\n
+• Changed caravan icons. Thanks to player Geneva for the artwork.\n
+• Caravan icons are now colorized.\n
+• Outposts can only be founded when the caravan has fully stopped, preventing edge cases where outposts would spawn with pawns inside (which should only be possible after conquering a settlement).\n
+• Fixed production cycles for outposts (now 20 days for all).\n
+• Added sliders in outpost settings to adjust global production speed and produced output.\n
+• Fixed expansion caravans not displaying correctly on the traveler and main dashboard (missing origin, target, and incorrect colorization).\n
+• New dev actions on the world map: increase and decrease outpost strength.\n
+• Performance optimization for the main dashboard (caching results).\n
+• Revised baseline calculation for farming and hunting goods.\n
+• Added some missing translation keys.\n
+• Changed caravan clash logic: hostile encounters now use same world tile instead of distance checks—better performance, at the cost of some reliability.\n
+]]></TSA_WD_Update_0_9_3_Body>
+  <TSA_WD_Update_0_9_2_Title>Hotfix</TSA_WD_Update_0_9_2_Title>
+  <TSA_WD_Update_0_9_2_Body><![CDATA[
+<size=16><b>0.9.2 – Hotfix</b></size>\n
+<color=#00FFFFFF>Release date: March 16th 2026</color>\n
+------------------------------\n
+• Fixed an error that prevented the player from getting any goodwill with enemy factions (e.g. when offering gifts). The intended behavior is to only suppress getting goodwill from hostile faction B if you destroyed a settlement of common enemy A.\n
+]]></TSA_WD_Update_0_9_2_Body>
+  <TSA_WD_Update_0_9_1_Title>Post WD Outpost launch hotfixes</TSA_WD_Update_0_9_1_Title>
+  <TSA_WD_Update_0_9_1_Body><![CDATA[
+<size=16><b>0.9.1 – Minor Update</b></size>\n
+<color=#00FFFFFF>Release date: March 16th 2026</color>\n
+------------------------------\n
+• Reworked how pawns are stored in WD Outposts. The old version was bad (we actually just memorized the relevant skills, destroyed the pawn and created a new one on exit. AI fail). Replaced with proper system. Existing pawns in Outposts will be deleted though. Sorry for that! \n
+• Fixed several broken translation keys.\n
+• Fixed conversion of caravan food into outpost virtual food when using the caravan gizmo.\n
+• Clarified that Vanilla Base Generation Expanded is no longer needed, but also not marked as incompatible.\n
+• Adjusted various building layouts for bedrooms and throne rooms.\n
+• Introduced the in-game release notes window, shown automatically by default and accessible from mod settings or the world map corner icon.\n
+]]></TSA_WD_Update_0_9_1_Body>
+  <TSA_WD_Update_0_9_0_Title>Launch of WD Outposts</TSA_WD_Update_0_9_0_Title>
+  <TSA_WD_Update_0_9_0_Body><![CDATA[
+<size=16><b>0.9.0 – Major Update</b></size>\n
+<color=#00FFFFFF>Release date: March 15th 2026</color>\n
+------------------------------\n
+• Introduced new WD Outposts replacing Vanilla Outposts Expanded. These are similar to VOE outposts but feature more nuanced requirements (research, building material cost, nearby non-hostile settlements, etc.) and expose most behavior via XML so you can define custom outpost types.\n
+• Added support for Farming, Hunting, Mining, Trading, Recruiting and Fabrication Outposts.\n
+• Farming: Can produce food for the colony and/or for other outposts, with a configurable split of the workforce.\n
+• Hunting: Can produce food for the colony and/or for other outposts, with a configurable split of the workforce.\n
+• Recruiting: Requires nearby non-hostile, non-player settlements to recruit pawns (1 pawn for every full stack of 10 total Social skill).\n
+• Trading: Requires nearby non-hostile, non-player settlements to trade for silver (more settlements and higher tiers increase the silver gained).\n
+• Multiple quality-of-life changes and optimizations, e.g. lines between outposts and settlements on the world map are no longer clipped by the planet sphere or mountains.\n
+]]></TSA_WD_Update_0_9_0_Body>
+</LanguageData>

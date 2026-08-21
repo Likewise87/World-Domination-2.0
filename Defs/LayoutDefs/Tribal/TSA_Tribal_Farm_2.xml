@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Farm_2</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Fence_WoodLog,FenceGate_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+  </terrainGrid>
+    <tags>
+      <li>TSA_Tribal_Farm</li>
+    </tags>
+</KCSG.StructureLayoutDef>
+
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Farm_9</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Fence_WoodLog,FenceGate_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+  </terrainGrid>
+    <tags>
+      <li>TSA_Tribal_Farm</li>
+    </tags>
+</KCSG.StructureLayoutDef>
+
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Farm_10</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Plant_Devilstrand,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Fence_WoodLog,FenceGate_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+  </terrainGrid>
+    <tags>
+      <li>TSA_Tribal_Farm</li>
+    </tags>
+</KCSG.StructureLayoutDef>
+
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Farm_11</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Fence_WoodLog,FenceGate_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+  </terrainGrid>
+    <tags>
+      <li>TSA_Tribal_Farm</li>
+    </tags>
+</KCSG.StructureLayoutDef>
+
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Farm_12</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog</li>
+      <li>Fence_WoodLog,.,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,.,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,Fence_WoodLog</li>
+      <li>Fence_WoodLog,.,Plant_Psychoid,Plant_Psychoid,Plant_Psychoid,.,Fence_WoodLog</li>
+      <li>Fence_WoodLog,Fence_WoodLog,FenceGate_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+  </terrainGrid>
+    <tags>
+      <li>TSA_Tribal_Farm</li>
+    </tags>
+</KCSG.StructureLayoutDef>
+
+</Defs>

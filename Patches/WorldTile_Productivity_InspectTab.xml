@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/WorldObjectDef[@Name="StaticWorldObjectBase"]/inspectorTabs</xpath>
+    <value>
+      <li>TSA_WorldDomination.WITab_WorldTile_Productivity, TSA_WorldDomination</li>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PlanetLayerDef[defName="Surface"]/worldTabs</xpath>
+    <value>
+      <li>TSA_WorldDomination.WITab_WorldTile_Productivity, TSA_WorldDomination</li>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PlanetLayerDef[defName="Surface"]/worldDrawLayers</xpath>
+    <value>
+      <li>TSA_WorldDomination.WD_WorldLayer_ProductivityOverlay, TSA_WorldDomination</li>
+    </value>
+  </Operation>
+</Patch>

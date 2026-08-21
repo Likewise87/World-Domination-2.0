@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef Name="TSA_WD_PropBase" ParentName="BuildingBase" Abstract="True">
+    <category>Building</category>
+    <altitudeLayer>Building</altitudeLayer>
+    <rotatable>false</rotatable>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <designationCategory IsNull="True" />
+    <statBases>
+      <WorkToBuild>0</WorkToBuild>
+      <Flammability>1</Flammability>
+    </statBases>
+    <building>
+      <isInert>true</isInert>
+      <ai_neverTrashThis>true</ai_neverTrashThis>
+    </building>
+  </ThingDef>
+
+  <!-- Hay bale: 2x2, passable with path cost. Registered in VFEPD Farm PropDefs when that mod is active. -->
+  <ThingDef ParentName="TSA_WD_PropBase">
+    <defName>TSA_WD_Hayball_1a</defName>
+    <label>hay bale</label>
+    <description>A large roll of hay.</description>
+    <graphicData>
+      <texPath>Props/WD_Hayball_1</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.3</fillPercent>
+    <pathCost>42</pathCost>
+    <size>(2,2)</size>
+    <statBases>
+      <MaxHitPoints>120</MaxHitPoints>
+      <Mass>10</Mass>
+    </statBases>
+  </ThingDef>
+
+  <!-- Wagons: 2x3 footprint, impassable (match VFEPD wooden wagon). Mix into VFEPD Farm props, never alone. -->
+  <ThingDef ParentName="TSA_WD_PropBase">
+    <defName>TSA_WD_Wagon_3a</defName>
+    <label>wooden wagon</label>
+    <description>A large stationary wagon.</description>
+    <graphicData>
+      <texPath>Props/WD_Wagon_3</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <passability>Impassable</passability>
+    <fillPercent>0.6</fillPercent>
+    <size>(2,3)</size>
+    <uiIconScale>0.7</uiIconScale>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <Mass>5</Mass>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="TSA_WD_PropBase">
+    <defName>TSA_WD_Wagon_5a</defName>
+    <label>wooden wagon</label>
+    <description>A large stationary wagon.</description>
+    <graphicData>
+      <texPath>Props/WD_Wagon_5</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <passability>Impassable</passability>
+    <fillPercent>0.6</fillPercent>
+    <size>(2,3)</size>
+    <uiIconScale>0.7</uiIconScale>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <Mass>5</Mass>
+    </statBases>
+  </ThingDef>
+
+</Defs>

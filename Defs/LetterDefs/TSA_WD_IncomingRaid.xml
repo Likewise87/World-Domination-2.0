@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <LetterDef>
+    <defName>TSA_WD_IncomingRaid</defName>
+    <letterClass>TSA_WorldDomination.ChoiceLetter_IncomingWdRaid</letterClass>
+    <color>(204, 115, 115)</color>
+    <flashColor>(255, 85, 85)</flashColor>
+    <flashInterval>6</flashInterval>
+    <bounce>true</bounce>
+    <arriveSound>LetterArrive_BadUrgentBig</arriveSound>
+    <pauseMode>MajorThreat</pauseMode>
+  </LetterDef>
+
+</Defs>

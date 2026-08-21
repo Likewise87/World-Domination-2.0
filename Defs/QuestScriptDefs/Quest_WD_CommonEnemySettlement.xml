@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <QuestScriptDef>
+    <defName>TSA_WD_CommonEnemySettlement</defName>
+    <autoAccept>true</autoAccept>
+    <isRootSpecial>true</isRootSpecial>
+    <sendAvailableLetter>true</sendAvailableLetter>
+    <defaultChallengeRating>2</defaultChallengeRating>
+    <questAvailableLetterTextIsDescription>true</questAvailableLetterTextIsDescription>
+
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->Strike on [enemySettlement_label]</li>
+        <li>questName->[faction_name] vs [enemySettlement_label]</li>
+        <li>questName->Common enemy: [enemySettlement_label]</li>
+      </rulesStrings>
+    </questNameRules>
+
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->[faction_name] wants you to wipe out or conquer [enemySettlement_label], a shared enemy. Do it yourself: attack in person, or launch a raid from one of your World Domination outposts.\n\nAllied-settlement raid orders and unrelated faction attacks do not count. You have 8 days.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_GetWdCommonEnemyQuestTargets">
+          <storeAskerAs>faction</storeAskerAs>
+          <storeSettlementAs>enemySettlement</storeSettlementAs>
+          <storeGoodwillAs>goodwillAmount</storeGoodwillAs>
+        </li>
+
+        <li Class="QuestNode_QuestUnique">
+          <tag>TSA_WD_CommonEnemySettlement</tag>
+        </li>
+
+        <li Class="QuestNode_WdCommonEnemyGoodwillReward">
+          <faction>$faction</faction>
+          <amount>$goodwillAmount</amount>
+        </li>
+
+        <li Class="QuestNode_Letter">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <label TKey="TSA_WD_CommonEnemy_LetterLabelFailed">Quest failed: [resolvedQuestName]</label>
+          <text TKey="TSA_WD_CommonEnemy_LetterTextHostile">[faction_name] became hostile. The common-enemy request has failed.</text>
+        </li>
+        <li Class="QuestNode_End">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <outcome>Fail</outcome>
+        </li>
+
+        <li Class="QuestNode_Delay">
+          <delayTicks>480000</delayTicks>
+          <outSignalComplete>CommonEnemyTimeout</outSignalComplete>
+        </li>
+        <li Class="QuestNode_Signal">
+          <inSignal>CommonEnemyTimeout</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="TSA_WD_CommonEnemy_LetterLabelExpired">Quest expired: [resolvedQuestName]</label>
+                <text TKey="TSA_WD_CommonEnemy_LetterTextExpired">Time ran out on the request from [faction_name] to take down [enemySettlement_label].</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>

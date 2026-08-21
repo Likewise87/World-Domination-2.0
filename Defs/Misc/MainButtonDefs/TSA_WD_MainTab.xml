@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <MainButtonDef>
+    <defName>TSA_WD_WorldDomination</defName>
+    <label>WD</label>
+    <description>World Domination: diplomacy matrix, outposts, world stats, action log.</description>
+    <tabWindowClass>TSA_WorldDomination.MainTabWindow_WorldDomination, TSA_WorldDomination</tabWindowClass>
+    <order>91</order>
+    <validWithoutMap>true</validWithoutMap>
+    <minimized>True</minimized>
+    <iconPath>UI/Tab/WD</iconPath>
+  </MainButtonDef>
+</Defs>

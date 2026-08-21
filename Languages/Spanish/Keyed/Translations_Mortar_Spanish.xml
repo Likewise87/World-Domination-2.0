@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <TSA_WD_Mortar_OutpostLabel>Puesto de Artillería</TSA_WD_Mortar_OutpostLabel>
+  <TSA_WD_Mortar_OutpostDesc>Puesto de artillería fortificado que dispara proyectiles de mortero a asentamientos hostiles lejanos y, con Autoataque activo, intercepta caravanas enemigas. La fuerza del proyectil viene de los ajustes del mod y de mejoras del puesto; la precisión usa el mejor Disparo del destacamento; el enfriamiento se acorta con la suma de Disparo de la guarnición.</TSA_WD_Mortar_OutpostDesc>
+
+  <TSA_WD_Traveler_MortarStrike>Proyectil de mortero</TSA_WD_Traveler_MortarStrike>
+  <TSA_WD_Traveler_AT_Shell>Proyectil AT</TSA_WD_Traveler_AT_Shell>
+
+  <TSA_WD_Mortar_LaunchLabel>Lanzar ataque de mortero</TSA_WD_Mortar_LaunchLabel>
+  <TSA_WD_Mortar_LaunchDesc>Elige un asentamiento hostil, una caravana o un viajero WD hostil en un radio de {0} casillas.
+
+Si el proyectil impacta, aplica {1} de fuerza.
+
+La probabilidad de acierto usa las bandas de alcance de las opciones del puesto, más un punto porcentual por nivel de Disparo del mejor tirador ({2}).
+
+El enfriamiento se acorta con la suma de Disparo de la guarnición ({3}): −2% de duración por punto, acumulable con mejoras (mín. 25% de los días base).</TSA_WD_Mortar_LaunchDesc>
+  <TSA_WD_Mortar_LaunchDescCooldown>El mortero se está recargando — listo en {0} días.</TSA_WD_Mortar_LaunchDescCooldown>
+  <TSA_WD_Mortar_LaunchDescNoSkill>No hay habilidad de Disparo disponible en el puesto.</TSA_WD_Mortar_LaunchDescNoSkill>
+  <TSA_WD_Mortar_ReasonCooldown>En enfriamiento</TSA_WD_Mortar_ReasonCooldown>
+  <TSA_WD_Mortar_ReasonNoSkill>Requiere al menos un colono con habilidad de Disparo</TSA_WD_Mortar_ReasonNoSkill>
+
+  <TSA_WD_Mortar_AutoAttackDesc>Dispara automáticamente a caravanas hostiles en alcance cuando no está desactivado. Mismo enfriamiento y reglas que el lanzamiento manual: bandas de alcance, precisión del mejor tirador, mejoras de acierto y reducción de enfriamiento por Disparo.</TSA_WD_Mortar_AutoAttackDesc>
+  <TSA_WD_Mortar_AutoAttack_Off>Auto mortero: desactivado</TSA_WD_Mortar_AutoAttack_Off>
+  <TSA_WD_Mortar_AutoAttack_AllCaravans>Auto mortero: todas las caravanas</TSA_WD_Mortar_AutoAttack_AllCaravans>
+  <TSA_WD_Mortar_AutoAttack_RaiderCaravans>Auto mortero: caravanas asaltantes</TSA_WD_Mortar_AutoAttack_RaiderCaravans>
+  <TSA_WD_Mortar_AutoAttack_TraderCaravans>Auto mortero: caravanas comerciales</TSA_WD_Mortar_AutoAttack_TraderCaravans>
+  <TSA_WD_Mortar_AutoAttack_ExpansionCaravans>Auto mortero: caravanas de expansión</TSA_WD_Mortar_AutoAttack_ExpansionCaravans>
+  <TSA_WD_Mortar_AutoAttack_RoadCaravans>Auto mortero: caravanas de caminos</TSA_WD_Mortar_AutoAttack_RoadCaravans>
+  <TSA_WD_Mortar_AutoAttack_GroupCaravans>Auto mortero: {0}</TSA_WD_Mortar_AutoAttack_GroupCaravans>
+  <TSA_WD_Mortar_AutoAttack_Menu_Off>Desactivado</TSA_WD_Mortar_AutoAttack_Menu_Off>
+  <TSA_WD_Mortar_AutoAttack_Menu_All>Todas</TSA_WD_Mortar_AutoAttack_Menu_All>
+  <TSA_WD_Mortar_AutoAttack_Menu_Raider>Asaltantes</TSA_WD_Mortar_AutoAttack_Menu_Raider>
+  <TSA_WD_Mortar_AutoAttack_Menu_Trader>Comerciantes</TSA_WD_Mortar_AutoAttack_Menu_Trader>
+  <TSA_WD_Mortar_AutoAttack_Menu_Expansion>Expansión</TSA_WD_Mortar_AutoAttack_Menu_Expansion>
+  <TSA_WD_Mortar_AutoAttack_Menu_Road>Caminos</TSA_WD_Mortar_AutoAttack_Menu_Road>
+  <TSA_WD_Mortar_AutoAttack_Menu_Fortify>Fortificar</TSA_WD_Mortar_AutoAttack_Menu_Fortify>
+
+  <TSA_WD_Mortar_Filter_All>Todas</TSA_WD_Mortar_Filter_All>
+  <TSA_WD_Mortar_Filter_Raider>Asaltante</TSA_WD_Mortar_Filter_Raider>
+  <TSA_WD_Mortar_Filter_Expansion>Expansión</TSA_WD_Mortar_Filter_Expansion>
+  <TSA_WD_Mortar_Filter_Road>Camino</TSA_WD_Mortar_Filter_Road>
+  <TSA_WD_Mortar_Filter_Trader>Comerciante</TSA_WD_Mortar_Filter_Trader>
+  <TSA_WD_Mortar_Filter_Fortify>Fortificar</TSA_WD_Mortar_Filter_Fortify>
+
+  <TSA_WD_Mortar_Hit_Label>Impacto de mortero</TSA_WD_Mortar_Hit_Label>
+  <TSA_WD_Mortar_Hit_Settlement_Line>Impacto de mortero: fuerza {0} --> {1}</TSA_WD_Mortar_Hit_Settlement_Line>
+  <TSA_WD_Mortar_Hit_DestroyedSuffix>. Asentamiento destruido</TSA_WD_Mortar_Hit_DestroyedSuffix>
+  <TSA_WD_Mortar_Hit_DestroyedMobileSuffix>. Fuerza eliminada</TSA_WD_Mortar_Hit_DestroyedMobileSuffix>
+  <TSA_WD_Mortar_Hit_DestroyedOutpostSuffix>. Avanzadilla destruida, todos sus ocupantes perdidos</TSA_WD_Mortar_Hit_DestroyedOutpostSuffix>
+  <TSA_WD_Mortar_Hit_Traveler_Text>Un proyectil desde {0} destruyó la caravana hostil {1}.</TSA_WD_Mortar_Hit_Traveler_Text>
+  <TSA_WD_Mortar_Destroyed_Label>Mortero destruyó el objetivo</TSA_WD_Mortar_Destroyed_Label>
+  <TSA_WD_Mortar_Destroyed_Text>Mortero desde {0} destruyó {1}.</TSA_WD_Mortar_Destroyed_Text>
+  <TSA_WD_Mortar_Destroyed_Caravan>caravana</TSA_WD_Mortar_Destroyed_Caravan>
+  <TSA_WD_Mortar_Destroyed_CaravanWithFaction>caravana de {0}</TSA_WD_Mortar_Destroyed_CaravanWithFaction>
+  <TSA_WD_Mortar_AttackerWithFaction>{0} ({1})</TSA_WD_Mortar_AttackerWithFaction>
+  <TSA_WD_Mortar_HitOnYou_Label>Mortero impactó tus fuerzas</TSA_WD_Mortar_HitOnYou_Label>
+  <TSA_WD_Mortar_HitOnYou_Text>Mortero desde {0} impactó {1}. Fuerza {2} a {3}.</TSA_WD_Mortar_HitOnYou_Text>
+  <TSA_WD_Mortar_DestroyedYou_Label>Mortero destruyó tus fuerzas</TSA_WD_Mortar_DestroyedYou_Label>
+  <TSA_WD_Mortar_DestroyedYou_Text>Mortero desde {0} destruyó {1}.</TSA_WD_Mortar_DestroyedYou_Text>
+  <TSA_WD_Mortar_Miss_Label>Mortero fallido</TSA_WD_Mortar_Miss_Label>
+  <TSA_WD_Mortar_Miss_Text>Un proyectil desde {0} disparado hacia {1} falló el blanco.</TSA_WD_Mortar_Miss_Text>
+
+  <TSA_WD_Log_MortarLaunched>{0} lanzó un ataque de mortero contra {1} ({2} de fuerza).</TSA_WD_Log_MortarLaunched>
+
+  <TSA_WD_Outpost_HeaderMortar>Puesto de artillería del jugador</TSA_WD_Outpost_HeaderMortar>
+  <TSA_WD_Settings_Mortar_Section>Puesto de Artillería / Intercepción</TSA_WD_Settings_Mortar_Section>
+  <TSA_WD_Settings_MortarRange>Alcance de artillería (casillas)</TSA_WD_Settings_MortarRange>
+  <TSA_WD_Settings_MortarRangeTooltip>Distancia máxima en el mapamundi para disparo manual y para comprobaciones de alcance del modo defensivo.</TSA_WD_Settings_MortarRangeTooltip>
+  <TSA_WD_Settings_CooldownMortarDays>Enfriamiento de artillería (días)</TSA_WD_Settings_CooldownMortarDays>
+  <TSA_WD_Settings_CooldownMortarDaysTooltip>Días base antes de volver a disparar; el puesto del jugador aplica Disparo acumulado (−2% por punto, mín. 25%) y mejoras de enfriamiento.</TSA_WD_Settings_CooldownMortarDaysTooltip>
+  <TSA_WD_Settings_MortarBaseShellDamage>Fuerza base del proyectil</TSA_WD_Settings_MortarBaseShellDamage>
+  <TSA_WD_Settings_MortarBaseShellDamageTooltip>Daño de fuerza antes de mejoras XML (mortarShellDamageBonus × nivel).</TSA_WD_Settings_MortarBaseShellDamageTooltip>
+  <TSA_WD_Settings_MortarHitBand0To50>Prob. de acierto al 0–50% del alcance máx.</TSA_WD_Settings_MortarHitBand0To50>
+  <TSA_WD_Settings_MortarHitBand0To50Tooltip>Acierto base para el 0–50% del alcance máximo. Con el bonus del mejor tirador de nivel 20 (+20 pp), la probabilidad llega al 100% a mitad del alcance máximo. Las mejoras añaden bonus de acierto de mortero.</TSA_WD_Settings_MortarHitBand0To50Tooltip>
+  <TSA_WD_Settings_MortarHitBand51To75>Prob. de acierto al 51–75% del alcance máx.</TSA_WD_Settings_MortarHitBand51To75>
+  <TSA_WD_Settings_MortarHitBand51To75Tooltip>Base para el 51–75% del alcance máximo (ajustado con las bandas interior y exterior para que los disparos largos sigan siendo más difíciles al mismo nivel de habilidad).</TSA_WD_Settings_MortarHitBand51To75Tooltip>
+  <TSA_WD_Settings_MortarHitBand76To100>Prob. de acierto al 76–100% del alcance máx.</TSA_WD_Settings_MortarHitBand76To100>
+  <TSA_WD_Settings_MortarHitBand76To100Tooltip>Base 76–100% del alcance; el mejor tirador sigue sumando +1% por nivel.</TSA_WD_Settings_MortarHitBand76To100Tooltip>
+  <TSA_WD_Outpost_HeaderRapidResponse>Avanzadilla de respuesta rápida</TSA_WD_Outpost_HeaderRapidResponse>
+  <TSA_WD_Outpost_RapidResponseOffenseBonus>Bonificación de fuerza ofensiva de respuesta rápida</TSA_WD_Outpost_RapidResponseOffenseBonus>
+  <TSA_WD_Outpost_RapidResponseOffenseBonusTooltip>Capacidad ofensiva adicional para avanzadillas de respuesta rápida. Las futuras mejoras sumarán puntos porcentuales planos a este valor.</TSA_WD_Outpost_RapidResponseOffenseBonusTooltip>
+  <TSA_WD_Outpost_RapidResponseRecoveryBonus>Bonificación de recuperación ofensiva de respuesta rápida</TSA_WD_Outpost_RapidResponseRecoveryBonus>
+  <TSA_WD_Outpost_RapidResponseRecoveryBonusTooltip>Velocidad de recuperación ofensiva adicional para avanzadillas de respuesta rápida. Las futuras mejoras sumarán puntos porcentuales planos a este valor.</TSA_WD_Outpost_RapidResponseRecoveryBonusTooltip>
+  <TSA_WD_Outpost_RapidResponseAutoRange>Alcance automático de respuesta rápida</TSA_WD_Outpost_RapidResponseAutoRange>
+  <TSA_WD_Outpost_RapidResponseAutoRangeTooltip>Distancia máxima en casillas del mundo para contracaravanas virtuales automáticas de respuesta rápida. Se muestra como anillo morado al seleccionar la avanzadilla.</TSA_WD_Outpost_RapidResponseAutoRangeTooltip>
+  <TSA_WD_Outpost_RapidResponseDropPodRange>Alcance de cápsulas de respuesta rápida</TSA_WD_Outpost_RapidResponseDropPodRange>
+  <TSA_WD_Outpost_RapidResponseDropPodRangeTooltip>Distancia máxima en casillas del mundo para enviar peones manualmente por cápsulas desde la pestaña Peones.</TSA_WD_Outpost_RapidResponseDropPodRangeTooltip>
+  <TSA_WD_Outpost_RapidResponseSpeedMult>Multiplicador de tiempo de viaje de respuesta rápida</TSA_WD_Outpost_RapidResponseSpeedMult>
+  <TSA_WD_Outpost_RapidResponseSpeedMultTooltip>Multiplicador de ticks por movimiento para contracaravanas virtuales de respuesta rápida / emboscada de asentamiento. Valores menores las hacen más rápidas que los viajeros WD normales. Además reciben un ~10% extra de velocidad de persecución para alcanzar objetivos a ritmo similar.</TSA_WD_Outpost_RapidResponseSpeedMultTooltip>
+  <TSA_WD_Settings_DropPodTicksPerMove>Ticks por casilla de cápsulas de transporte</TSA_WD_Settings_DropPodTicksPerMove>
+  <TSA_WD_Settings_DropPodTicksPerMoveTooltip>Ticks mundiales por casilla para viajeros balísticos en cápsula (incursiones y entregas). Más bajo = más rápido. No afecta las contracaravanas virtuales de respuesta rápida.</TSA_WD_Settings_DropPodTicksPerMoveTooltip>
+  <TSA_WD_Settings_MortarShellTicksPerMove>Ticks por casilla de proyectil de mortero</TSA_WD_Settings_MortarShellTicksPerMove>
+  <TSA_WD_Settings_MortarShellTicksPerMoveTooltip>Ticks mundiales por casilla de proyectiles de mortero en el mapa mundial. Más bajo = más rápido.</TSA_WD_Settings_MortarShellTicksPerMoveTooltip>
+  <TSA_WD_Settings_FlakShellTicksPerMove>Ticks por casilla de flak antiaéreo</TSA_WD_Settings_FlakShellTicksPerMove>
+  <TSA_WD_Settings_FlakShellTicksPerMoveTooltip>Ticks mundiales por casilla de proyectiles de flak antiaéreo. Más bajo = más rápido. También se usa al anticipar objetivos en movimiento.</TSA_WD_Settings_FlakShellTicksPerMoveTooltip>
+  <TSA_WD_Settings_NpcMortarDamage>Daño del mortero de asentamientos enemigos</TSA_WD_Settings_NpcMortarDamage>
+  <TSA_WD_Settings_NpcMortarDamageTooltip>Fuerza que pierden asentamientos hostiles T4 cuando su mortero defensivo impacta a un viajero o caravana.</TSA_WD_Settings_NpcMortarDamageTooltip>
+  <TSA_WD_Settings_NpcMortarSkillEquivalent>Habilidad de Disparo equivalente (asentamientos enemigos)</TSA_WD_Settings_NpcMortarSkillEquivalent>
+  <TSA_WD_Settings_NpcMortarSkillEquivalentTooltip>Nivel de “mejor tirador” del asentamiento: +1% de acierto por punto. Sin mejoras de puesto.</TSA_WD_Settings_NpcMortarSkillEquivalentTooltip>
+  <TSA_WD_Settings_InterceptionScanIntervalSec>Intervalo de escaneo de intercepción (segundos)</TSA_WD_Settings_InterceptionScanIntervalSec>
+  <TSA_WD_Settings_InterceptionScanIntervalSecTooltip>Ajuste de rendimiento compartido. Los puestos de artillería y Respuesta Rápida del jugador usan este intervalo. Los asentamientos T4 enemigos usan el triple (con un tope de escaneos por ciclo).</TSA_WD_Settings_InterceptionScanIntervalSecTooltip>
+  <TSA_WD_Settings_ResetMortarInterception>Restablecer ajustes de artillería / intercepción</TSA_WD_Settings_ResetMortarInterception>
+
+  <!-- Ventana de morteros de asentamientos T4 enemigos (independiente de los valores del jugador) -->
+  <TSA_WD_T4Mortar_Header>Morteros de asentamientos T4 enemigos</TSA_WD_T4Mortar_Header>
+  <TSA_WD_T4Mortar_EnableAll>Los asentamientos T4 enemigos disparan morteros</TSA_WD_T4Mortar_EnableAll>
+  <TSA_WD_T4Mortar_EnableAllTooltip>Interruptor maestro. Cuando está activo, los asentamientos enemigos de nivel 4 actúan como interceptores: disparan a los viajeros WD hostiles NO del jugador en rango y, si no hay ninguno, bombardean el asentamiento hostil más cercano. Si además pueden atacarte a TI se controla con la opción de abajo.</TSA_WD_T4Mortar_EnableAllTooltip>
+  <TSA_WD_T4Mortar_MinTech>Morteros T4: tech mínima</TSA_WD_T4Mortar_MinTech>
+  <TSA_WD_T4Mortar_MinTechTip>Solo facciones con este nivel tecnológico o superior pueden usar morteros de asentamientos T4 y antiaéreo. Neolítico permite esencialmente todas las facciones.</TSA_WD_T4Mortar_MinTechTip>
+  <TSA_WD_T4Mortar_TargetPlayer>Pueden atacar tus caravanas y puestos WD</TSA_WD_T4Mortar_TargetPlayer>
+  <TSA_WD_T4Mortar_TargetPlayerTooltip>Cuando está activo, los morteros T4 enemigos también pueden disparar a tus caravanas y puestos WD, pero solo mientras Late Game esté activo. Si está desactivado, nunca te atacan en Late Game. Mid Game tiene su propio interruptor; activar Mid Game fuerza este interruptor Late Game.</TSA_WD_T4Mortar_TargetPlayerTooltip>
+  <TSA_WD_T4Mortar_Range>Alcance del mortero T4 (casillas)</TSA_WD_T4Mortar_Range>
+  <TSA_WD_T4Mortar_RangeTooltip>Distancia máxima en el mapamundi de un mortero de asentamiento T4 enemigo. Independiente del alcance de artillería del jugador.</TSA_WD_T4Mortar_RangeTooltip>
+  <TSA_WD_T4Mortar_Cooldown>Enfriamiento del mortero T4 (días)</TSA_WD_T4Mortar_Cooldown>
+  <TSA_WD_T4Mortar_CooldownTooltip>Días entre disparos de un mortero de asentamiento T4 enemigo. Independiente del enfriamiento de artillería del jugador.</TSA_WD_T4Mortar_CooldownTooltip>
+  <TSA_WD_T4Mortar_HitBand0To50>Prob. de acierto al 0–50% del alcance máx.</TSA_WD_T4Mortar_HitBand0To50>
+  <TSA_WD_T4Mortar_HitBand0To50Tooltip>Probabilidad base de acierto del mortero T4 al 0–50% del alcance, antes del bono de habilidad equivalente.</TSA_WD_T4Mortar_HitBand0To50Tooltip>
+  <TSA_WD_T4Mortar_HitBand51To75>Prob. de acierto al 51–75% del alcance máx.</TSA_WD_T4Mortar_HitBand51To75>
+  <TSA_WD_T4Mortar_HitBand51To75Tooltip>Probabilidad base de acierto del mortero T4 al 51–75% del alcance.</TSA_WD_T4Mortar_HitBand51To75Tooltip>
+  <TSA_WD_T4Mortar_HitBand76To100>Prob. de acierto al 76–100% del alcance máx.</TSA_WD_T4Mortar_HitBand76To100>
+  <TSA_WD_T4Mortar_HitBand76To100Tooltip>Probabilidad base de acierto del mortero T4 al 76–100% del alcance.</TSA_WD_T4Mortar_HitBand76To100Tooltip>
+  <TSA_WD_T4Mortar_ScanSharedNote>Nota: alcance, enfriamiento, daño y acierto de arriba son solo T4. El intervalo de escaneo de abajo es compartido: artillería y Respuesta Rápida del jugador lo usan tal cual; los asentamientos T4 enemigos usan el triple.</TSA_WD_T4Mortar_ScanSharedNote>
+  <TSA_WD_T4Mortar_DisabledHint>Los morteros de asentamientos T4 enemigos están desactivados.</TSA_WD_T4Mortar_DisabledHint>
+  <TSA_WD_T4Mortar_Reset>Restablecer ajustes de morteros T4 enemigos</TSA_WD_T4Mortar_Reset>
+  <TSA_WD_Food_Header>Logística de alimentos</TSA_WD_Food_Header>
+
+  <TSA_WD_MortarTab_Label>Mortero</TSA_WD_MortarTab_Label>
+  <TSA_WD_MortarTab_Headline>Estadísticas del mortero</TSA_WD_MortarTab_Headline>
+  <TSA_WD_MortarTab_DamageHeadline>Daño de fuerza / disparo: {0}</TSA_WD_MortarTab_DamageHeadline>
+  <TSA_WD_MortarTab_HeaderDamageTitle>Daño por disparo</TSA_WD_MortarTab_HeaderDamageTitle>
+  <TSA_WD_MortarTab_HeaderCooldownTitle>Enfriamiento</TSA_WD_MortarTab_HeaderCooldownTitle>
+  <TSA_WD_MortarTab_HeaderCooldownValue>{0} días</TSA_WD_MortarTab_HeaderCooldownValue>
+  <TSA_WD_MortarTab_HeaderAccuracyTitle>Precisión</TSA_WD_MortarTab_HeaderAccuracyTitle>
+  <TSA_WD_MortarTab_HeaderAccRange0_50>Tramo 0-50 %: {0}%</TSA_WD_MortarTab_HeaderAccRange0_50>
+  <TSA_WD_MortarTab_HeaderAccRange51_75>Tramo 51-75 %: {0}%</TSA_WD_MortarTab_HeaderAccRange51_75>
+  <TSA_WD_MortarTab_HeaderAccRange76_100>Tramo 76-100 %: {0}%</TSA_WD_MortarTab_HeaderAccRange76_100>
+  <TSA_WD_MortarTab_HeaderRangeTitle>Alcance</TSA_WD_MortarTab_HeaderRangeTitle>
+  <TSA_WD_MortarTab_HeaderRangeValue>{0} casillas</TSA_WD_MortarTab_HeaderRangeValue>
+  <TSA_WD_MortarTab_HeaderBaseShell>Base (ajustes del mod): {0}</TSA_WD_MortarTab_HeaderBaseShell>
+  <TSA_WD_MortarTab_ReloadHeadline>Enfriamiento: {0} días</TSA_WD_MortarTab_ReloadHeadline>
+  <TSA_WD_MortarTab_CooldownClampedMark> (Tope)</TSA_WD_MortarTab_CooldownClampedMark>
+  <TSA_WD_MortarTab_CooldownClampTip>Disparo y mejoras no pueden acortar el enfriamiento por debajo del {0}% de la duración base (mínimo {1} días con la base actual).</TSA_WD_MortarTab_CooldownClampTip>
+  <TSA_WD_MortarTab_AccuracyHeadline0_50>Precisión en tramo 0-50 % del alcance: {0}%</TSA_WD_MortarTab_AccuracyHeadline0_50>
+  <TSA_WD_MortarTab_AccuracyHeadline51_75>Precisión en tramo 51-75 % del alcance: {0}%</TSA_WD_MortarTab_AccuracyHeadline51_75>
+  <TSA_WD_MortarTab_AccuracyHeadline76_100>Precisión en tramo 76-100 % del alcance: {0}%</TSA_WD_MortarTab_AccuracyHeadline76_100>
+  <TSA_WD_MortarTab_HeaderBaseRangeTiles>Base (ajustes del mod): {0} casillas</TSA_WD_MortarTab_HeaderBaseRangeTiles>
+  <TSA_WD_MortarTab_ColumnAccuracy>Precisión</TSA_WD_MortarTab_ColumnAccuracy>
+  <TSA_WD_MortarTab_RangeHeadline>Alcance: {0} casillas</TSA_WD_MortarTab_RangeHeadline>
+  <TSA_WD_MortarTab_SectionBaseValue>Valor base</TSA_WD_MortarTab_SectionBaseValue>
+  <TSA_WD_MortarTab_SectionPawnModifiers>Modificadores de peones</TSA_WD_MortarTab_SectionPawnModifiers>
+  <TSA_WD_MortarTab_SectionOutpostUpgrades>Mejoras del puesto</TSA_WD_MortarTab_SectionOutpostUpgrades>
+  <TSA_WD_MortarTab_NoRelevantOutpostUpgrade>Sin mejora de puesto relevante</TSA_WD_MortarTab_NoRelevantOutpostUpgrade>
+  <TSA_WD_MortarTab_PawnModsDamageNone>Disparo no cambia el daño del proyectil.</TSA_WD_MortarTab_PawnModsDamageNone>
+  <TSA_WD_MortarTab_PawnModsRangeNone>Disparo no cambia el alcance máximo.</TSA_WD_MortarTab_PawnModsRangeNone>
+  <TSA_WD_MortarTab_BaseDamageLine>Daño base del proyectil (ajustes del mod): {0}</TSA_WD_MortarTab_BaseDamageLine>
+  <TSA_WD_MortarTab_BaseCooldownLine>Enfriamiento base (ajustes del mod): {0} días</TSA_WD_MortarTab_BaseCooldownLine>
+  <TSA_WD_MortarTab_ShootingCooldownLine>Disparo acumulado {0}: −{1}% CD</TSA_WD_MortarTab_ShootingCooldownLine>
+  <TSA_WD_MortarTab_UpgradeCooldownTotalLine>Mejoras construidas (total): −{0}% duración</TSA_WD_MortarTab_UpgradeCooldownTotalLine>
+  <TSA_WD_MortarTab_MultiplierFloorLine>Multiplicador de duración efectivo: {0}% de la base (véase el enfriamiento del encabezado).</TSA_WD_MortarTab_MultiplierFloorLine>
+  <TSA_WD_MortarTab_BaseAccSummary>Bases de banda (50% / 75% / 100% del alcance máx.): {0}% | {1}% | {2}%</TSA_WD_MortarTab_BaseAccSummary>
+  <TSA_WD_MortarTab_AccuracyBandBaseOnly50>Base de banda al 50% del alcance máx.: {0}%</TSA_WD_MortarTab_AccuracyBandBaseOnly50>
+  <TSA_WD_MortarTab_AccuracyBandBaseOnly75>Base de banda al 75% del alcance máx.: {0}%</TSA_WD_MortarTab_AccuracyBandBaseOnly75>
+  <TSA_WD_MortarTab_AccuracyBandBaseOnly100>Base de banda al 100% del alcance máx.: {0}%</TSA_WD_MortarTab_AccuracyBandBaseOnly100>
+  <TSA_WD_MortarTab_BestShooterLine>Mejor tirador (Disparo {0}): +{1}% acierto (plano por nivel del mod)</TSA_WD_MortarTab_BestShooterLine>
+  <TSA_WD_MortarTab_BestShooterPpLine>Mejor tirador Nv. {0}: +{1}pp precisión</TSA_WD_MortarTab_BestShooterPpLine>
+  <TSA_WD_MortarTab_AccuracyAt50Pct>Precisión al 50% de la distancia máx.: {0}%</TSA_WD_MortarTab_AccuracyAt50Pct>
+  <TSA_WD_MortarTab_AccuracyAt75Pct>Precisión al 75% de la distancia máx.: {0}%</TSA_WD_MortarTab_AccuracyAt75Pct>
+  <TSA_WD_MortarTab_AccuracyAt100Pct>Precisión al 100% de la distancia máx.: {0}%</TSA_WD_MortarTab_AccuracyAt100Pct>
+  <TSA_WD_MortarTab_RangeDetailLine>Alcance máximo (ajustes del mod): {0} casillas del mapa</TSA_WD_MortarTab_RangeDetailLine>
+  <TSA_WD_MortarTab_UpgradeShellDamage>{0}: +{1} daño de proyectil (niveles construidos)</TSA_WD_MortarTab_UpgradeShellDamage>
+  <TSA_WD_MortarTab_UpgradeCooldown>{0}: −{1}% duración base (niveles construidos)</TSA_WD_MortarTab_UpgradeCooldown>
+  <TSA_WD_MortarTab_UpgradeHit>{0}: +{1}% acierto (niveles construidos)</TSA_WD_MortarTab_UpgradeHit>
+  <TSA_WD_MortarTab_UpgradeHitPp>{0}: +{1}pp acierto (niveles construidos)</TSA_WD_MortarTab_UpgradeHitPp>
+  <TSA_WD_MortarTab_UpgradeRange>{0}: +{1} casillas de alcance máx. (niveles construidos)</TSA_WD_MortarTab_UpgradeRange>
+
+  <TSA_WD_Traveler_FlakShell>Proyectil de flak</TSA_WD_Traveler_FlakShell>
+  <TSA_WD_Mortar_AutoAttackDescWithAA>Dispara automáticamente a las caravanas hostiles coincidentes en alcance. Con la mejora Cañón antiaéreo, también ataca incursiones en cápsulas (enfriamiento corto aparte).</TSA_WD_Mortar_AutoAttackDescWithAA>
+  <TSA_WD_AntiAir_Auto_On>Auto antiaéreo: activado</TSA_WD_AntiAir_Auto_On>
+  <TSA_WD_AntiAir_Auto_Off>Auto antiaéreo: desactivado</TSA_WD_AntiAir_Auto_Off>
+  <TSA_WD_AntiAir_Auto_Toggle>Auto antiaéreo On/Off</TSA_WD_AntiAir_Auto_Toggle>
+  <TSA_WD_AntiAir_AutoDesc>Si está activado, ataca automáticamente a cápsulas de desembarco, proyectiles de mortero y transportes hostiles en alcance antiaéreo. Independiente del autoataque del mortero; usa el enfriamiento antiaéreo. Los anillos rojo/naranja/amarillo muestran la precisión antiaérea vs cápsulas y aéreos; los proyectiles de mortero usan una probabilidad plana de derribo.</TSA_WD_AntiAir_AutoDesc>
+  <TSA_WD_Log_AntiAirLaunched>{0} abrió fuego de flak contra {1} ({2} de daño).</TSA_WD_Log_AntiAirLaunched>
+  <TSA_WD_AntiAir_Miss_Label>Flak fallido</TSA_WD_AntiAir_Miss_Label>
+  <TSA_WD_AntiAir_Miss_Text>La barrera de flak de {0} falló a {1}.</TSA_WD_AntiAir_Miss_Text>
+  <TSA_WD_AntiAir_Hit_Label>Flak acertado</TSA_WD_AntiAir_Hit_Label>
+  <TSA_WD_AntiAir_Hit_Text>El flak de {0} golpeó a {1} ({2} → {3} fuerza, −{4}).</TSA_WD_AntiAir_Hit_Text>
+  <TSA_WD_AntiAir_Hit_Destroyed_Label>Cápsulas destruidas</TSA_WD_AntiAir_Hit_Destroyed_Label>
+  <TSA_WD_AntiAir_Hit_Destroyed_Text>El flak de {0} destruyó a {1} (era {2} de fuerza).</TSA_WD_AntiAir_Hit_Destroyed_Text>
+  <TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Label>Cápsula de mejora destruida</TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Label>
+  <TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Text>La antiaérea de {0} derribó una cápsula de mejora de avanzadilla ({1}). Se pierden los materiales de la mejora.</TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Text>
+  <TSA_WD_AntiAir_GoodsDropPod_Destroyed_Label>Cápsula de mercancía destruida</TSA_WD_AntiAir_GoodsDropPod_Destroyed_Label>
+  <TSA_WD_AntiAir_GoodsDropPod_Destroyed_Text>La antiaérea de {0} derribó una cápsula de mercancía ({1}). Se pierde el envío.</TSA_WD_AntiAir_GoodsDropPod_Destroyed_Text>
+  <TSA_WD_AntiAir_RapidResponsePawnsKilled_Label>Peones de cápsula muertos</TSA_WD_AntiAir_RapidResponsePawnsKilled_Label>
+  <TSA_WD_AntiAir_RapidResponsePawnsKilled_Text>El antiaéreo de {0} destruyó una cápsula. Murieron los siguientes peones:\n\n{1}</TSA_WD_AntiAir_RapidResponsePawnsKilled_Text>
+  <TSA_WD_Inspect_MortarReady>Mortero: listo</TSA_WD_Inspect_MortarReady>
+  <TSA_WD_Inspect_AntiAirReady>Antiaéreo: listo</TSA_WD_Inspect_AntiAirReady>
+  <TSA_WD_Inspect_AntiAirCD>Antiaéreo enfriando: {0}s</TSA_WD_Inspect_AntiAirCD>
+  <TSA_WD_Outpost_HeaderAntiAir>Antiaéreo (mejora de artillería)</TSA_WD_Outpost_HeaderAntiAir>
+  <TSA_WD_Settings_AntiAirBaseDamage>Daño base antiaéreo</TSA_WD_Settings_AntiAirBaseDamage>
+  <TSA_WD_Settings_AntiAirBaseDamageTooltip>Fuerza quitada a una incursión en cápsulas hostil si el flak acierta, antes de las mejoras de proyectiles de mortero.</TSA_WD_Settings_AntiAirBaseDamageTooltip>
+  <TSA_WD_Settings_CooldownAntiAirSeconds>Enfriamiento antiaéreo (segundos)</TSA_WD_Settings_CooldownAntiAirSeconds>
+  <TSA_WD_Settings_CooldownAntiAirSecondsTooltip>Segundos base entre disparos antiaéreos. Se reduce con Disparo y mejoras de enfriamiento del mortero, luego se aplica el suelo.</TSA_WD_Settings_CooldownAntiAirSecondsTooltip>
+  <TSA_WD_Settings_AntiAirCooldownFloorSeconds>Suelo de enfriamiento antiaéreo (segundos)</TSA_WD_Settings_AntiAirCooldownFloorSeconds>
+  <TSA_WD_Settings_AntiAirCooldownFloorSecondsTooltip>Enfriamiento antiaéreo mínimo tras reducciones de habilidad y mejoras.</TSA_WD_Settings_AntiAirCooldownFloorSecondsTooltip>
+  <TSA_WD_OutpostStats_Row_AntiAirDamage>Daño antiaéreo</TSA_WD_OutpostStats_Row_AntiAirDamage>
+  <TSA_WD_OutpostStats_Row_AntiAirDamageTip>Daño del flak (base antiaérea + mejoras de proyectiles).</TSA_WD_OutpostStats_Row_AntiAirDamageTip>
+  <TSA_WD_OutpostStats_Row_AntiAirCooldown>Enfriamiento antiaéreo (s)</TSA_WD_OutpostStats_Row_AntiAirCooldown>
+  <TSA_WD_OutpostStats_Row_AntiAirCooldownTip>Enfriamiento antiaéreo efectivo (s) tras Disparo acumulado y mejoras de CD (luego suelo absoluto).</TSA_WD_OutpostStats_Row_AntiAirCooldownTip>
+  <TSA_WD_OutpostStats_Row_AntiAirStatus>Estado antiaéreo</TSA_WD_OutpostStats_Row_AntiAirStatus>
+  <TSA_WD_OutpostStats_Row_AntiAirStatusTip>Si el antiaéreo puede disparar ahora.</TSA_WD_OutpostStats_Row_AntiAirStatusTip>
+  <TSA_WD_OutpostStats_Value_AntiAirCooldown>Enfriando ({0}s)</TSA_WD_OutpostStats_Value_AntiAirCooldown>
+  <TSA_WD_OutpostStats_Tip_BestShooter>Mejor tirador (Disparo {0})</TSA_WD_OutpostStats_Tip_BestShooter>
+  <TSA_WD_OutpostStats_Tip_CumShooting>Disparo acumulado {0}</TSA_WD_OutpostStats_Tip_CumShooting>
+  <TSA_WD_OutpostStats_Tip_AntiAirAbsFloor>Suelo absoluto aplicado: {0}s (era {1}s antes del suelo).</TSA_WD_OutpostStats_Tip_AntiAirAbsFloor>
+  <TSA_WD_OutpostStats_Row_AntiAirAcc50>Precisión 0-50% alcance antiaéreo</TSA_WD_OutpostStats_Row_AntiAirAcc50>
+  <TSA_WD_OutpostStats_Row_AntiAirAcc75>Precisión 51-75% alcance antiaéreo</TSA_WD_OutpostStats_Row_AntiAirAcc75>
+  <TSA_WD_OutpostStats_Row_AntiAirAcc100>Precisión 76-100% alcance antiaéreo</TSA_WD_OutpostStats_Row_AntiAirAcc100>
+  <TSA_WD_OutpostStats_Row_AntiAirAccTip>Probabilidad de acierto antiaéreo vs cápsulas, transportes y aéreos por banda de distancia (fracción del alcance antiaéreo máximo). Base de banda más mejor tirador (+1 pp por nivel de Disparo). Los proyectiles de mortero usan la probabilidad plana antiaéreo vs proyectiles abajo.</TSA_WD_OutpostStats_Row_AntiAirAccTip>
+  <TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>Desbloquea torreta antiaérea vs. cápsulas y proyectiles</TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>
+  <TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>Desbloquea misiones de descontaminación</TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>
+  <TSA_WD_AntiAir_GroupDesc>Grupo letra para exclusividad AA. La misma letra puede seguir disparando al objetivo reclamado. Otras letras quedan bloqueadas. Off = sin grupo.</TSA_WD_AntiAir_GroupDesc>
+  <TSA_WD_AntiAir_Group_Off>Grupo AA Off</TSA_WD_AntiAir_Group_Off>
+  <TSA_WD_AntiAir_Group_A>Grupo AA A</TSA_WD_AntiAir_Group_A>
+  <TSA_WD_AntiAir_Group_B>Grupo AA B</TSA_WD_AntiAir_Group_B>
+  <TSA_WD_AntiAir_Group_C>Grupo AA C</TSA_WD_AntiAir_Group_C>
+  <TSA_WD_AntiAir_Group_D>Grupo AA D</TSA_WD_AntiAir_Group_D>
+  <TSA_WD_AntiAir_Group_Menu_Off>Off (sin grupo)</TSA_WD_AntiAir_Group_Menu_Off>
+  <TSA_WD_AntiAir_Group_Menu_A>Grupo A</TSA_WD_AntiAir_Group_Menu_A>
+  <TSA_WD_AntiAir_Group_Menu_B>Grupo B</TSA_WD_AntiAir_Group_Menu_B>
+  <TSA_WD_AntiAir_Group_Menu_C>Grupo C</TSA_WD_AntiAir_Group_Menu_C>
+  <TSA_WD_AntiAir_Group_Menu_D>Grupo D</TSA_WD_AntiAir_Group_Menu_D>
+  <TSA_WD_AntiAir_MortarShell_Destroyed_Label>Proyectil de mortero destruido</TSA_WD_AntiAir_MortarShell_Destroyed_Label>
+  <TSA_WD_AntiAir_MortarShell_Destroyed_Text>Los cañones antiaéreos de tu avanzadilla '{0}' han destruido un proyectil de mortero del asentamiento '{1}' de la facción '{2}'.</TSA_WD_AntiAir_MortarShell_Destroyed_Text>
+  <TSA_WD_AntiAir_MortarShell_Destroyed_Npc_Text>Los cañones antiaéreos de '{0}' han destruido un proyectil de mortero del asentamiento '{1}' de la facción '{2}'.</TSA_WD_AntiAir_MortarShell_Destroyed_Npc_Text>
+  <TSA_WD_AntiAir_MortarShell_Miss_Label>Flak falló al proyectil de mortero</TSA_WD_AntiAir_MortarShell_Miss_Label>
+  <TSA_WD_AntiAir_MortarShell_Miss_Text>La barrera de flak de {0} falló a un proyectil de mortero de {1}.</TSA_WD_AntiAir_MortarShell_Miss_Text>
+  <TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Label>Proyectil de mortero derribado</TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Label>
+  <TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Text>Un proyectil de mortero de tu avanzadilla {0} fue derribado por {1} ({2}).</TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Text>
+  <TSA_WD_AntiAir_PlayerMortarShell_Miss_Label>El flak enemigo falló tu proyectil de mortero</TSA_WD_AntiAir_PlayerMortarShell_Miss_Label>
+  <TSA_WD_AntiAir_PlayerMortarShell_Miss_Text>El flak de {1} ({2}) falló un proyectil de mortero de tu avanzadilla {0}.</TSA_WD_AntiAir_PlayerMortarShell_Miss_Text>
+  <TSA_WD_AntiAir_VanillaPods_Destroyed_Label>Transportes destruidos</TSA_WD_AntiAir_VanillaPods_Destroyed_Label>
+  <TSA_WD_AntiAir_VanillaPods_Destroyed_Text>El flak de {0} destruyó {1}.</TSA_WD_AntiAir_VanillaPods_Destroyed_Text>
+  <TSA_WD_AntiAir_VanillaPods_Wiped_Label>Transportes aniquilados</TSA_WD_AntiAir_VanillaPods_Wiped_Label>
+  <TSA_WD_AntiAir_VanillaPods_Wiped_Text>El flak de {0} destruyó {1}. Murieron los siguientes peones:\n\n{2}</TSA_WD_AntiAir_VanillaPods_Wiped_Text>
+  <TSA_WD_AntiAir_VanillaPods_Wounded_Label>Transportes alcanzados</TSA_WD_AntiAir_VanillaPods_Wounded_Label>
+  <TSA_WD_AntiAir_VanillaPods_Wounded_Text>El flak de {0} alcanzó {1}: {2} muertos, {3} heridos. Los supervivientes continúan.</TSA_WD_AntiAir_VanillaPods_Wounded_Text>
+  <TSA_WD_AntiAir_VanillaPods_Wounded_WithNames_Text>El flak de {0} alcanzó {1}: {2} muertos, {3} heridos. Los supervivientes continúan. Murieron los siguientes peones:\n\n{4}</TSA_WD_AntiAir_VanillaPods_Wounded_WithNames_Text>
+  <TSA_WD_AntiAir_VfAerial_Destroyed_Label>Vehículo aéreo derribado</TSA_WD_AntiAir_VfAerial_Destroyed_Label>
+  <TSA_WD_AntiAir_VfAerial_Destroyed_Text>El flak de {0} derribó {1}.</TSA_WD_AntiAir_VfAerial_Destroyed_Text>
+  <TSA_WD_AntiAir_VfAerial_CrashReason>Flak antiaéreo</TSA_WD_AntiAir_VfAerial_CrashReason>
+  <TSA_WD_AntiAir_VfAerial_AaWarning>Tu vehículo aéreo podría ser interceptado por el fuego antiaéreo de {0}. ¿Lanzarlo de todos modos?</TSA_WD_AntiAir_VfAerial_AaWarning>
+  <TSA_WD_AntiAir_TransportPods_AaWarning>Tus cápsulas de transporte podrían ser interceptadas por el fuego antiaéreo de {0}. ¿Lanzarlas de todos modos?</TSA_WD_AntiAir_TransportPods_AaWarning>
+  <TSA_WD_AntiAir_Shuttle_AaWarning>Tu lanzadera podría ser interceptada por el fuego antiaéreo de {0}. ¿Lanzarla de todos modos?</TSA_WD_AntiAir_Shuttle_AaWarning>
+  <TSA_WD_Settings_AntiAirRange>Alcance antiaéreo (casillas)</TSA_WD_Settings_AntiAirRange>
+  <TSA_WD_Settings_AntiAirRangeTooltip>Distancia máxima mundial para disparos antiaéreos. Independiente del alcance del mortero. Los anillos rojo, naranja y amarillo en el mapa son bandas de precisión antiaérea vs cápsulas, transportes y aéreos (no proyectiles de mortero).</TSA_WD_Settings_AntiAirRangeTooltip>
+  <TSA_WD_Settings_AntiAirHitBand0To50>Prob. antiaéreo al 0–50% del alcance máx.</TSA_WD_Settings_AntiAirHitBand0To50>
+  <TSA_WD_Settings_AntiAirHitBand0To50Tooltip>Acierto antiaéreo base vs cápsulas, transportes y aéreos al 0-50% del alcance antiaéreo máximo. El mejor tirador suma +1 punto porcentual por nivel de Disparo. No aplica a proyectiles de mortero.</TSA_WD_Settings_AntiAirHitBand0To50Tooltip>
+  <TSA_WD_Settings_AntiAirHitBand51To75>Prob. antiaéreo al 51–75% del alcance máx.</TSA_WD_Settings_AntiAirHitBand51To75>
+  <TSA_WD_Settings_AntiAirHitBand51To75Tooltip>Acierto antiaéreo base vs cápsulas y aéreos al 51-75% del alcance antiaéreo máximo. El mejor tirador sigue sumando +1% por nivel. Los proyectiles de mortero usan la probabilidad plana antiaéreo vs proyectiles.</TSA_WD_Settings_AntiAirHitBand51To75Tooltip>
+  <TSA_WD_Settings_AntiAirHitBand76To100>Prob. antiaéreo al 76–100% del alcance máx.</TSA_WD_Settings_AntiAirHitBand76To100>
+  <TSA_WD_Settings_AntiAirHitBand76To100Tooltip>Acierto antiaéreo base vs cápsulas y aéreos al 76–100% del alcance antiaéreo máximo. El mejor tirador sigue sumando +1% por nivel. Los proyectiles de mortero usan la probabilidad plana antiaéreo vs proyectiles.</TSA_WD_Settings_AntiAirHitBand76To100Tooltip>
+  <TSA_WD_Settings_AntiAirVsMortarHitChance>Prob. antiaéreo vs proyectiles de mortero</TSA_WD_Settings_AntiAirVsMortarHitChance>
+  <TSA_WD_Settings_AntiAirVsMortarHitChanceTooltip>Probabilidad plana de destruir un proyectil de mortero hostil en un disparo antiaéreo (tras el retraso de reacción). Ignora las bandas de alcance antiaéreo y la habilidad del tirador.</TSA_WD_Settings_AntiAirVsMortarHitChanceTooltip>
+  <TSA_WD_OutpostStats_Section_Mortar>Mortero</TSA_WD_OutpostStats_Section_Mortar>
+  <TSA_WD_OutpostStats_Section_AntiAir>Torreta antiaérea</TSA_WD_OutpostStats_Section_AntiAir>
+  <TSA_WD_OutpostStats_Row_AntiAirRange>Alcance antiaéreo</TSA_WD_OutpostStats_Row_AntiAirRange>
+  <TSA_WD_OutpostStats_Row_AntiAirRangeTip>Alcance antiaéreo actual (puede ser menor que el máximo).</TSA_WD_OutpostStats_Row_AntiAirRangeTip>
+  <TSA_WD_OutpostStats_Row_AntiAirVsMortar>Antiaéreo vs proyectiles de mortero</TSA_WD_OutpostStats_Row_AntiAirVsMortar>
+  <TSA_WD_OutpostStats_Row_AntiAirVsMortarTip>Probabilidad plana de destruir proyectiles de mortero hostiles. Ignora las bandas de alcance antiaéreo y la habilidad del tirador.</TSA_WD_OutpostStats_Row_AntiAirVsMortarTip>
+  <TSA_WD_OutpostStats_Row_AntiAirGroup>Grupo antiaéreo</TSA_WD_OutpostStats_Row_AntiAirGroup>
+  <TSA_WD_OutpostStats_Row_AntiAirGroupTip>Grupo letra de exclusividad antiaérea (Off = sin grupo).</TSA_WD_OutpostStats_Row_AntiAirGroupTip>
+  <TSA_WD_OutpostStats_Row_MortarAcc50>Precisión 0-50% alcance</TSA_WD_OutpostStats_Row_MortarAcc50>
+  <TSA_WD_OutpostStats_Row_MortarAcc75>Precisión 51-75% alcance</TSA_WD_OutpostStats_Row_MortarAcc75>
+  <TSA_WD_OutpostStats_Row_MortarAcc100>Precisión 76-100% alcance</TSA_WD_OutpostStats_Row_MortarAcc100>
+  <TSA_WD_OutpostStats_Row_MortarAccTip>Base de banda + mejor tirador (+1pp/nivel Disparo) + mejoras de acierto.</TSA_WD_OutpostStats_Row_MortarAccTip>
+  <TSA_WD_T4_HoverMortarRange>Pasar el ratón: alcance de mortero</TSA_WD_T4_HoverMortarRange>
+  <TSA_WD_T4_HoverMortarRangeDesc>Pasa el ratón por este comando para dibujar el alcance del mortero T4 en el mapamundi. No es un interruptor.</TSA_WD_T4_HoverMortarRangeDesc>
+  <TSA_WD_T4_HoverAARange>Pasar el ratón: alcance AA</TSA_WD_T4_HoverAARange>
+  <TSA_WD_T4_HoverAARangeDesc>Pasa el ratón por este comando para dibujar el alcance antiaéreo T4 en el mapamundi. Los anillos rojo, naranja y amarillo son bandas de precisión antiaérea vs cápsulas y aéreos (los proyectiles de mortero usan una probabilidad plana de derribo). No es un interruptor.</TSA_WD_T4_HoverAARangeDesc>
+  <TSA_WD_T4_AutoMortar_On>Auto mortero On</TSA_WD_T4_AutoMortar_On>
+  <TSA_WD_T4_AutoMortar_Off>Auto mortero Off</TSA_WD_T4_AutoMortar_Off>
+  <TSA_WD_T4_AutoMortar_Desc>Si está activado, este asentamiento T4 dispara automáticamente su mortero a objetivos terrestres hostiles en alcance.</TSA_WD_T4_AutoMortar_Desc>
+  <TSA_WD_T4_AutoAA_On>Auto AA On</TSA_WD_T4_AutoAA_On>
+  <TSA_WD_T4_AutoAA_Off>Auto AA Off</TSA_WD_T4_AutoAA_Off>
+  <TSA_WD_T4_AutoAA_Desc>Si está activado, este asentamiento T4 ataca automáticamente objetivos aéreos hostiles en alcance AA.</TSA_WD_T4_AutoAA_Desc>
+  <TSA_WD_T4AA_EnableAll>Los asentamientos T4 enemigos usan antiaéreo</TSA_WD_T4AA_EnableAll>
+  <TSA_WD_T4AA_EnableAllTooltip>Interruptor maestro del antiaéreo de asentamientos T4 contra objetivos aéreos hostiles.</TSA_WD_T4AA_EnableAllTooltip>
+  <TSA_WD_T4AA_TargetPlayer>El AA puede atacar tus activos aéreos</TSA_WD_T4AA_TargetPlayer>
+  <TSA_WD_T4AA_TargetPlayerTooltip>Si está activo, el AA T4 puede atacar tus cápsulas y proyectiles mientras Late Game esté activo. Mid Game tiene su propio interruptor; activar Mid Game fuerza este interruptor Late Game.</TSA_WD_T4AA_TargetPlayerTooltip>
+  <TSA_WD_T4AA_Range>Alcance AA T4 (casillas)</TSA_WD_T4AA_Range>
+  <TSA_WD_T4AA_RangeTooltip>Alcance máximo AA de asentamientos T4 enemigos.</TSA_WD_T4AA_RangeTooltip>
+  <TSA_WD_T4AA_Cooldown>Enfriamiento AA T4 (segundos)</TSA_WD_T4AA_Cooldown>
+  <TSA_WD_T4AA_CooldownTooltip>Segundos entre disparos AA de asentamientos T4.</TSA_WD_T4AA_CooldownTooltip>
+  <TSA_WD_T4AA_Damage>Daño AA T4</TSA_WD_T4AA_Damage>
+  <TSA_WD_T4AA_DamageTooltip>Daño del flak AA de asentamientos T4.</TSA_WD_T4AA_DamageTooltip>
+  <TSA_WD_T4AA_Skill>Habilidad equivalente AA T4</TSA_WD_T4AA_Skill>
+  <TSA_WD_T4AA_SkillTooltip>Disparo equivalente usado para bandas de acierto antiaéreo T4 contra cápsulas, transportes y aéreos (+1 punto porcentual por nivel). No afecta la probabilidad plana antiaéreo vs proyectiles de mortero.</TSA_WD_T4AA_SkillTooltip>
+  <TSA_WD_T4AA_HitBand0To50>Prob. antiaéreo T4 al 0–50% del alcance máx.</TSA_WD_T4AA_HitBand0To50>
+  <TSA_WD_T4AA_HitBand0To50Tooltip>Acierto antiaéreo T4 base vs cápsulas y aéreos al 0-50% del alcance antiaéreo máximo. La habilidad equivalente suma +1 punto porcentual por nivel. No aplica a proyectiles de mortero.</TSA_WD_T4AA_HitBand0To50Tooltip>
+  <TSA_WD_T4AA_HitBand51To75>Prob. antiaéreo T4 al 51–75% del alcance máx.</TSA_WD_T4AA_HitBand51To75>
+  <TSA_WD_T4AA_HitBand51To75Tooltip>Acierto antiaéreo T4 base vs cápsulas y aéreos al 51-75% del alcance antiaéreo máximo. Los proyectiles de mortero usan la probabilidad plana antiaéreo T4 vs proyectiles.</TSA_WD_T4AA_HitBand51To75Tooltip>
+  <TSA_WD_T4AA_HitBand76To100>Prob. antiaéreo T4 al 76–100% del alcance máx.</TSA_WD_T4AA_HitBand76To100>
+  <TSA_WD_T4AA_HitBand76To100Tooltip>Acierto antiaéreo T4 base vs cápsulas y aéreos al 76–100% del alcance antiaéreo máximo. Los proyectiles de mortero usan la probabilidad plana antiaéreo T4 vs proyectiles.</TSA_WD_T4AA_HitBand76To100Tooltip>
+  <TSA_WD_T4AA_VsMortar>Prob. antiaéreo T4 vs proyectiles de mortero</TSA_WD_T4AA_VsMortar>
+  <TSA_WD_T4AA_VsMortarTooltip>Probabilidad plana de que el antiaéreo T4 destruya un proyectil de mortero hostil. Ignora las bandas de alcance antiaéreo y la habilidad equivalente.</TSA_WD_T4AA_VsMortarTooltip>
+  <TSA_WD_T4Mortar_Header>Torretas de asentamientos T4 enemigos</TSA_WD_T4Mortar_Header>
+  <TSA_WD_T4Mortar_MinTech>Torretas T4: tech mínima</TSA_WD_T4Mortar_MinTech>
+  <TSA_WD_T4Mortar_MinTechTip>Solo facciones con este nivel tecnológico o superior pueden usar morteros de asentamientos T4 y antiaéreo. Neolítico permite esencialmente todas las facciones.</TSA_WD_T4Mortar_MinTechTip>
+  <TSA_WD_T4Mortar_Reset>Restablecer ajustes de torretas T4 enemigas</TSA_WD_T4Mortar_Reset>
+</LanguageData>

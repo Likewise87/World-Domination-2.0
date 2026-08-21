@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.StructureLayoutDef>
+    <defName>TSA_Tribal_Defence_2</defName>
+    <layouts>
+      <li>
+        <li>.,.,.,Barricade_WoodLog,Barricade_WoodLog,Barricade_WoodLog,Barricade_WoodLog,Barricade_WoodLog,.,.,.,.,.,.</li>
+        <li>.,.,TrapSpike_WoodLog,.,.,.,.,.,Barricade_WoodLog,TorchLamp,.,.,.,.</li>
+        <li>.,Barricade_WoodLog,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.,TrapSpike_WoodLog,.,.</li>
+        <li>.,Barricade_WoodLog,.,.,Wall_WoodLog,Bedroll_Leather_Light_North,.,VFEPD_BrewingBarrel,Wall_WoodLog,.,.,Barricade_WoodLog,Barricade_WoodLog,.</li>
+        <li>.,Barricade_WoodLog,.,.,AnimalFlap_Leather_Plain,.,.,.,Wall_WoodLog,VFEPD_ArrowCage,.,.,Barricade_WoodLog,.</li>
+        <li>.,Barricade_WoodLog,VFEPD_Banner_Leather_Bird_North,.,Wall_WoodLog,.,.,Bedroll_Leather_Light_North,Wall_WoodLog,.,.,.,Barricade_WoodLog,.</li>
+        <li>.,Barricade_WoodLog,.,.,Wall_WoodLog,TorchLamp,.,.,Wall_WoodLog,.,.,.,Barricade_WoodLog,Barricade_WoodLog</li>
+        <li>.,Barricade_WoodLog,.,.,Wall_WoodLog,Wall_WoodLog,AnimalFlap_Leather_Plain,Wall_WoodLog,Wall_WoodLog,.,.,Campfire_North,.,.</li>
+        <li>.,.,TrapSpike_WoodLog,.,VFEPD_PoplarTree,.,.,.,.,.,.,VFEPD_Bush,.,.</li>
+        <li>.,.,.,Barricade_WoodLog,.,.,VFEPD_WeaponRackSpears_South,.,.,.,TrapSpike_WoodLog,.,.,.</li>
+        <li>.,.,.,.,Barricade_WoodLog,Barricade_WoodLog,Barricade_WoodLog,Barricade_WoodLog,Barricade_WoodLog,.,.,.,.,.</li>
+      </li>
+    </layouts>
+    <terrainGrid>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.,.,.,.,.</li>
+      <li>.,.,.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.,.,.,.,.</li>
+      <li>.,.,.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.,.,.,.,.</li>
+      <li>.,.,.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.,.,.,.,.</li>
+      <li>.,.,.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    </terrainGrid>
+    <tags>
+      <li>TSA_Tribal_Defence</li>
+    </tags>
+  </KCSG.StructureLayoutDef>
+</Defs>

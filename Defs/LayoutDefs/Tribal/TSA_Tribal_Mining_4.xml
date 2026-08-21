@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Mining_4</defName>
+
+  <layouts>
+    <li>
+      <li>.,.,.,Marble,Marble,Marble,.,Marble,Marble,.,.,.,.</li>
+      <li>.,.,Marble,Marble,Marble,Marble,.,Marble,Marble,Marble,.,Marble,.</li>
+      <li>.,Marble,Marble,Marble,Marble,.,.,.,Marble,Marble,Marble,Marble,.</li>
+      <li>.,Marble,Marble,Marble,Marble,TorchLamp,.,TorchLamp,Marble,Marble,Marble,.,.</li>
+      <li>Marble,Marble,Marble,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Marble,Marble,Marble</li>
+      <li>Marble,Marble,Marble,Wall_WoodLog,ChunkMarble,.,ChunkMarble,.,.,Wall_WoodLog,Marble,Marble,.</li>
+      <li>.,Marble,Marble,Wall_WoodLog,ChunkMarble,.,.,.,ChunkMarble,Wall_WoodLog,Marble,Marble,Marble</li>
+      <li>.,Marble,Marble,.,.,.,Column_WoodLog,.,.,.,Marble,Marble,Marble</li>
+      <li>Marble,Marble,Marble,Wall_WoodLog,ChunkMarble,ChunkMarble,.,.,TorchWallLamp_East,Wall_WoodLog,Marble,Marble,Marble</li>
+      <li>.,Marble,Marble,Wall_WoodLog,ChunkMarble,ChunkMarble,.,.,ChunkMarble,Wall_WoodLog,Marble,Marble,Marble</li>
+      <li>Marble,Marble,Marble,Wall_WoodLog,Wall_WoodLog,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Marble,Marble,Marble</li>
+      <li>.,.,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble</li>
+      <li>.,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble,.,.</li>
+      <li>.,.,Marble,Marble,Marble,Marble,Marble,Marble,Marble,.,Marble,.,.</li>
+      <li>.,.,.,Marble,Marble,Marble,Marble,.,.,.,.,.,.</li>
+    </li>
+    <li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,TorchWallLamp_West,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    </li>
+  </layouts>
+  <roofGrid>
+    <li>.,.,.,3,3,3,3,3,3,.,.,.,.</li>
+    <li>.,.,3,3,3,3,3,3,3,3,.,.,.</li>
+    <li>.,3,3,3,3,3,3,3,3,3,3,.,.</li>
+    <li>.,3,3,3,3,3,3,3,3,3,3,.,.</li>
+    <li>3,3,3,3,3,3,3,3,3,3,3,3,.</li>
+    <li>3,3,3,3,3,3,3,3,3,3,3,3,.</li>
+    <li>.,3,3,3,3,3,3,3,3,3,3,3,3</li>
+    <li>.,3,3,3,3,.,.,.,3,3,3,3,3</li>
+    <li>3,3,3,3,3,.,3,3,3,3,3,3,.</li>
+    <li>.,3,3,3,3,3,3,3,3,3,3,3,.</li>
+    <li>.,3,3,3,3,3,3,3,3,3,3,.,.</li>
+    <li>.,.,3,3,3,3,3,3,3,3,3,3,.</li>
+    <li>.,.,.,.,.,3,3,3,3,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+  </roofGrid>
+  <tags><li>TSA_Tribal_Mining</li></tags>
+</KCSG.StructureLayoutDef>
+ 
+</Defs>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <KCSG.StructureLayoutDef>
+    <defName>Generic_Bedroom_3</defName>
+    <layouts>
+      <li>
+        <li>Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
+        <li>Wall_WoodLog,Stool_WoodLog_North,.,.,.,Plant_Rose,Wall_WoodLog</li>
+        <li>Wall_WoodLog,Table1x2c_WoodLog_North,.,.,.,.,Wall_WoodLog</li>
+        <li>Wall_WoodLog,.,.,.,.,TorchLamp,Wall_WoodLog</li>
+        <li>Wall_WoodLog,Stool_WoodLog_North,.,.,.,.,Wall_WoodLog</li>
+        <li>Wall_WoodLog,PlantPot_WoodLog,.,Bed_WoodLog_South,EndTable_WoodLog_South,Bed_WoodLog_South,Wall_WoodLog</li>
+        <li>Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
+      </li>
+      <li>
+        <li>.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,PlantPot_WoodLog,.</li>
+        <li>.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,.</li>
+      </li>
+    </layouts>
+    <roofGrid>
+      <li>1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1</li>
+      <li>1,1,1,1,1,1,1</li>
+    </roofGrid>
+    <terrainGrid>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+      <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
+    </terrainGrid>
+    <tags>
+      <li>Generic_Bedroom</li>
+    </tags>
+  </KCSG.StructureLayoutDef>
+</Defs>
