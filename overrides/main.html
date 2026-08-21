@@ -72,7 +72,7 @@
         header.style.paddingRight = inset + "px";
       }
 
-      /* Keep header brand text on the same left edge as the active left-nav label. */
+      /* Match brand text to left-nav labels, without sliding under chrome. */
       function alignHeaderTitleToNav() {
         var title = document.querySelector(".md-header__title");
         if (!title) return;
@@ -89,7 +89,17 @@
         var delta = want - have;
         if (Math.abs(delta) < 0.5) return;
         var base = parseFloat(window.getComputedStyle(title).marginLeft) || 0;
-        title.style.marginLeft = base + delta + "px";
+        var next = base + delta;
+        /* Keep a small gap after the drawer button on narrow layouts. */
+        var drawer = document.querySelector(".md-header__button[for='__drawer']");
+        if (drawer && window.getComputedStyle(drawer).display !== "none") {
+          var minLeft = drawer.getBoundingClientRect().right + 8;
+          var projected = have + (next - base);
+          if (projected < minLeft) {
+            next = base + (minLeft - have);
+          }
+        }
+        title.style.marginLeft = Math.max(0, next) + "px";
       }
 
       function alignChrome() {
