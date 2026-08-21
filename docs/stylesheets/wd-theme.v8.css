@@ -190,6 +190,24 @@ a.wd-brand:hover {
   opacity: 0.92;
 }
 
+/* Repo link before search so the search control is the rightmost header item. */
+.md-header__inner {
+  display: flex;
+  align-items: center;
+}
+
+.md-header__source {
+  order: 4;
+}
+
+.md-header__inner > label[for="__search"] {
+  order: 5;
+}
+
+.md-header__inner > .md-search {
+  order: 6;
+}
+
 .md-tabs {
   background: rgba(7, 8, 12, 0.88);
   border-bottom: 1px solid var(--wd-border);
