@@ -4,8 +4,8 @@
     VFEPD palette mapping (MayRequire Vanilla Props and Decor):
     - Hayballs → Farm (farming layouts; also sprinkled via settlement scatter on T3/T4)
     - Wagons → Industrial (mining-focused)
-    - Boxes / carts → Storage when VFEPD active (PropDefs + Patches/VFEPD_StorageCategory.xml +
-      Patches/SettlementScatter_Storage_WithVFEPD.xml). Without VFEPD, settlement scatter uses explicit WD box/cart lists.
+    - Boxes / carts → Storage when VFEPD active (PropDefs + Patches/SettlementScatter_Storage_WithVFEPD.xml).
+      Without VFEPD, settlement scatter uses explicit WD box/cart lists.
   -->
 
   <!-- Farm / hay -->

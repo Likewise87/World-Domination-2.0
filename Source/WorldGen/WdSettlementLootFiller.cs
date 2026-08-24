@@ -259,6 +259,7 @@ namespace TSA_WorldDomination
             int placeFailed = 0;
             int skippedNoStore = 0;
             int skippedNoSlots = 0;
+            int skippedNoAllowed = 0;
 
             var tableItems = table.items
                 .Where(o => o?.thingDef != null && (genericExclusions == null || !genericExclusions.Contains(o.thingDef)))
@@ -286,6 +287,30 @@ namespace TSA_WorldDomination
                     continue;
                 }
 
+                List<WdWeightedThingOption> allowedGeneric = FilterAllowedOptions(store, tableItems);
+                List<WdWeightedThingOption> allowedPrimary = hasPrimary ? FilterAllowedOptions(store, primaryProducts) : null;
+                List<WdWeightedThingOption> allowedSecondary = hasSecondary ? FilterAllowedOptions(store, secondaryProducts) : null;
+
+                if ((allowedGeneric == null || allowedGeneric.Count == 0)
+                    && (allowedPrimary == null || allowedPrimary.Count == 0)
+                    && (allowedSecondary == null || allowedSecondary.Count == 0))
+                {
+                    if (TryRelaxShelfFilter(store, shelf.def, tableItems))
+                    {
+                        allowedGeneric = FilterAllowedOptions(store, tableItems);
+                        allowedPrimary = hasPrimary ? FilterAllowedOptions(store, primaryProducts) : null;
+                        allowedSecondary = hasSecondary ? FilterAllowedOptions(store, secondaryProducts) : null;
+                    }
+                }
+
+                if ((allowedGeneric == null || allowedGeneric.Count == 0)
+                    && (allowedPrimary == null || allowedPrimary.Count == 0)
+                    && (allowedSecondary == null || allowedSecondary.Count == 0))
+                {
+                    skippedNoAllowed++;
+                    continue;
+                }
+
                 foreach (IntVec3 cell in slotCells)
                 {
                     if (primarySpent >= primaryBudget && secondarySpent >= secondaryBudget && genericSpent >= genericBudget)
@@ -298,8 +323,8 @@ namespace TSA_WorldDomination
                     bool useSecondary = !usePrimary && hasSecondary && secondarySpent < secondaryBudget;
                     bool useOverride = usePrimary || useSecondary;
 
-                    List<WdWeightedThingOption> bucketProducts = usePrimary ? primaryProducts
-                        : useSecondary ? secondaryProducts
+                    List<WdWeightedThingOption> bucketProducts = usePrimary ? allowedPrimary
+                        : useSecondary ? allowedSecondary
                         : null;
                     float bucketBudget = usePrimary ? primaryBudget
                         : useSecondary ? secondaryBudget
@@ -314,7 +339,7 @@ namespace TSA_WorldDomination
                         {
                             usePrimary = false;
                             useSecondary = true;
-                            bucketProducts = secondaryProducts;
+                            bucketProducts = allowedSecondary;
                             bucketBudget = secondaryBudget;
                             bucketSpent = secondarySpent;
                         }
@@ -331,7 +356,7 @@ namespace TSA_WorldDomination
 
                     ThingDef stuff = useOverride
                         ? WdBiomeTableResolver.PickWeightedThing(bucketProducts)
-                        : WdBiomeTableResolver.PickWeightedThing(tableItems);
+                        : WdBiomeTableResolver.PickWeightedThing(allowedGeneric);
                     if (stuff == null) continue;
 
                     bool isOverrideItem = useOverride && bucketProducts != null
@@ -339,19 +364,8 @@ namespace TSA_WorldDomination
 
                     if (!store.AllowedToAccept(stuff))
                     {
-                        ThingDef fallback = isOverrideItem
-                            ? WdBiomeTableResolver.PickWeightedThing(tableItems)
-                            : (hasPrimary ? WdBiomeTableResolver.PickWeightedThing(primaryProducts)
-                                : hasSecondary ? WdBiomeTableResolver.PickWeightedThing(secondaryProducts)
-                                : null);
-                        if (fallback == null || !store.AllowedToAccept(fallback))
-                        {
-                            rejectedFilter++;
-                            continue;
-                        }
-                        stuff = fallback;
-                        isOverrideItem = (hasPrimary && primaryProducts.Any(o => o.thingDef == stuff))
-                            || (hasSecondary && secondaryProducts.Any(o => o.thingDef == stuff));
+                        rejectedFilter++;
+                        continue;
                     }
 
                     bucketBudget = isOverrideItem && primaryProducts != null && primaryProducts.Any(o => o.thingDef == stuff)
@@ -413,7 +427,36 @@ namespace TSA_WorldDomination
                 + (hasSecondary ? $"{secondaryLabel}={secondarySpent:F0}/{secondaryBudget:F0} " : "")
                 + $"generic={genericSpent:F0}/{genericBudget:F0} "
                 + $"genericExcl={(genericExclusions == null || genericExclusions.Count == 0 ? "-" : string.Join("/", genericExclusions.Select(d => d.defName)))} "
-                + $"noStore={skippedNoStore} noSlots={skippedNoSlots} filterReject={rejectedFilter} placeFail={placeFailed}");
+                + $"noStore={skippedNoStore} noSlots={skippedNoSlots} noAllowed={skippedNoAllowed} filterReject={rejectedFilter} placeFail={placeFailed}");
+        }
+
+        private static List<WdWeightedThingOption> FilterAllowedOptions(
+            StorageSettings store,
+            List<WdWeightedThingOption> options)
+        {
+            if (store == null || options == null || options.Count == 0) return null;
+            var allowed = new List<WdWeightedThingOption>();
+            for (int i = 0; i < options.Count; i++)
+            {
+                WdWeightedThingOption o = options[i];
+                if (o?.thingDef != null && store.AllowedToAccept(o.thingDef))
+                    allowed.Add(o);
+            }
+            return allowed.Count > 0 ? allowed : null;
+        }
+
+        /// <summary>When KCSG/VFEPD leaves a shelf with a filter that rejects the whole loot table, fall back to the def default.</summary>
+        private static bool TryRelaxShelfFilter(
+            StorageSettings store,
+            ThingDef shelfDef,
+            List<WdWeightedThingOption> tableItems)
+        {
+            if (store == null || shelfDef?.building?.defaultStorageSettings == null || tableItems == null)
+                return false;
+            if (tableItems.Any(o => o?.thingDef != null && store.AllowedToAccept(o.thingDef)))
+                return false;
+            store.CopyFrom(shelfDef.building.defaultStorageSettings);
+            return tableItems.Any(o => o?.thingDef != null && store.AllowedToAccept(o.thingDef));
         }
 
         private static List<IntVec3> GetStorageSlotCells(Building shelf)
@@ -470,9 +513,9 @@ namespace TSA_WorldDomination
 
         private static bool IsStorageBuilding(Building b)
         {
-            if (b == null) return false;
-            if (b is Building_Storage) return true;
-            return b is ISlotGroupParent;
+            if (b is not Building_Storage storage) return false;
+            if (b.def?.building?.isHopper == true) return false;
+            return true;
         }
 
         public static bool TryResolveSettlementTypeAndTier(Map map, out string settlementType, out string tier)

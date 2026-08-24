@@ -78,7 +78,16 @@ namespace TSA_WorldDomination
             if (setTerrain != null)
             {
                 harmony.Patch(setTerrain,
-                    prefix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.SetTerrainRockRemapPrefix)));
+                    prefix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.SetTerrainRockRemapPrefix)),
+                    postfix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.SetTerrainIndoorWipePostfix)));
+            }
+
+            MethodInfo setRoof = AccessTools.Method(typeof(RoofGrid), nameof(RoofGrid.SetRoof),
+                new[] { typeof(IntVec3), typeof(RoofDef) });
+            if (setRoof != null)
+            {
+                harmony.Patch(setRoof,
+                    postfix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.SetRoofIndoorWipePostfix)));
             }
 
             // KCSG Delaunay link-road crashes (OverflowException) when fewer than 3 outdoor doors.
@@ -592,6 +601,7 @@ namespace TSA_WorldDomination
         {
             KcsgRockTypeRemapper.CompleteSymbolVerification(__2, __3);
             KcsgRockTypeRemapper.ApplyRandomCropGrowth(__2, __3);
+            KcsgRockTypeRemapper.ProtectLayoutDebrisAfterSymbolSpawn(__0, __2, __3);
             if (!KcsgRockTypeRemapper.SessionActive) return;
             ThingDef thing = KcsgRockTypeRemapper.GetSymbolThingDef(__0);
             if (KcsgRockTypeRemapper.IsLayoutNaturalRockOrMineable(thing))
@@ -618,6 +628,20 @@ namespace TSA_WorldDomination
                 if (farmRemapped != null && farmRemapped != newTerr)
                     newTerr = farmRemapped;
             }
+        }
+
+        public static void SetTerrainIndoorWipePostfix(IntVec3 c, TerrainDef newTerr)
+        {
+            if (!KcsgRockTypeRemapper.SessionActive || newTerr == null) return;
+            if (!KcsgRockTypeRemapper.IsLayoutPlacedFloor(newTerr)) return;
+            KcsgRockTypeRemapper.WipeIndoorCellDebris(c);
+        }
+
+        public static void SetRoofIndoorWipePostfix(IntVec3 c, RoofDef def)
+        {
+            if (!KcsgRockTypeRemapper.SessionActive) return;
+            if (!KcsgRockTypeRemapper.IsLayoutPlacedRoof(def)) return;
+            KcsgRockTypeRemapper.WipeIndoorCellDebris(c);
         }
 
         /// <summary>

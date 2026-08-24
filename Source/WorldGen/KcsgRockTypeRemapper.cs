@@ -89,6 +89,7 @@ namespace TSA_WorldDomination
         [System.ThreadStatic] private static int layoutOrePlaced;
         [System.ThreadStatic] private static List<IntVec3> layoutCropFallbackCells;
         [System.ThreadStatic] private static HashSet<ThingDef> layoutFailedCrops;
+        [System.ThreadStatic] private static HashSet<Thing> layoutProtectedDebris;
 
         private static FieldInfo thingDefField;
         private static FieldInfo stuffDefField;
@@ -187,6 +188,7 @@ namespace TSA_WorldDomination
             pendingSymbolVerify = null;
             layoutCropFallbackCells = layoutCropFallbackCells ?? new List<IntVec3>();
             layoutCropFallbackCells.Clear();
+            layoutProtectedDebris?.Clear();
         }
 
         /// <summary>Call at the end of each KCSG structure layout (before shelf fill).</summary>
@@ -352,6 +354,7 @@ namespace TSA_WorldDomination
             layoutOreAttempted = layoutOrePlaced = 0;
             layoutCropFallbackCells = null;
             layoutFailedCrops = null;
+            layoutProtectedDebris = null;
             while (symbolRestoreStack != null && symbolRestoreStack.Count > 0)
                 RestoreSymbol(symbolRestoreStack.Pop());
             symbolRestoreStack = null;
@@ -430,6 +433,12 @@ namespace TSA_WorldDomination
             return true;
         }
 
+        /// <summary>Layout terrainGrid floors (wood, stone tile, packed dirt, etc.) — not natural soil/grass.</summary>
+        public static bool IsLayoutPlacedFloor(TerrainDef terrain) => IsExcludedLayoutFloor(terrain);
+
+        /// <summary>Constructed layout roofs — not natural rock/mountain roof.</summary>
+        public static bool IsLayoutPlacedRoof(RoofDef roof) => roof != null && !roof.isNatural;
+
         private static bool IsExcludedLayoutFloor(TerrainDef terrain)
         {
             string name = terrain.defName;
@@ -443,6 +452,57 @@ namespace TSA_WorldDomination
             if (TryGetRockKind(terrain, out _)) return true;
             return false;
         }
+
+        /// <summary>After KCSG spawns a layout chunk symbol, keep that chunk when wiping indoor cell debris.</summary>
+        public static void ProtectLayoutDebrisAfterSymbolSpawn(object symbol, Map map, IntVec3 cell)
+        {
+            if (!sessionActive || map == null || !cell.InBounds(map)) return;
+            ThingDef def = GetSymbolThingDef(symbol);
+            if (!IsChunkThingDef(def)) return;
+
+            List<Thing> things = cell.GetThingList(map);
+            for (int i = 0; i < things.Count; i++)
+            {
+                Thing t = things[i];
+                if (t != null && !t.Destroyed && IsChunkThingDef(t.def))
+                    RegisterLayoutSpawnedDebris(t);
+            }
+        }
+
+        public static void RegisterLayoutSpawnedDebris(Thing thing)
+        {
+            if (thing == null || thing.Destroyed) return;
+            if (layoutProtectedDebris == null)
+                layoutProtectedDebris = new HashSet<Thing>();
+            layoutProtectedDebris.Add(thing);
+        }
+
+        /// <summary>Remove pre-existing filth and stone chunks when a layout floor/roof is placed; layout chunks are kept.</summary>
+        public static void WipeIndoorCellDebris(IntVec3 cell)
+        {
+            Map map = sessionMap;
+            if (!sessionActive || map == null || !cell.InBounds(map)) return;
+
+            List<Thing> things = cell.GetThingList(map);
+            for (int i = things.Count - 1; i >= 0; i--)
+            {
+                Thing t = things[i];
+                if (t == null || t.Destroyed) continue;
+                if (t is Pawn) continue;
+                if (t.def.category == ThingCategory.Plant) continue;
+                if (layoutProtectedDebris != null && layoutProtectedDebris.Contains(t)) continue;
+                if (t is Mineable) continue;
+                if (t.def.building != null && t.def.building.isNaturalRock) continue;
+
+                bool filth = t.def.category == ThingCategory.Filth;
+                bool chunk = IsChunkThingDef(t.def);
+                if (filth || chunk)
+                    t.Destroy();
+            }
+        }
+
+        private static bool IsChunkThingDef(ThingDef def) =>
+            def?.thingCategories != null && def.thingCategories.Contains(ThingCategoryDefOf.Chunks);
 
         public static bool TryGetRockKind(ThingDef def, out string kind)
         {
