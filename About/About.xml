@@ -34,6 +34,7 @@
 	  <li>SmashPhil.VehicleFramework</li>
 	  <li>OskarPotocki.VanillaVehiclesExpanded</li>
 	  <li>memegoddess.giddyup</li>
+	  <li>sk.gravshipraids</li>
 	</loadAfter>
 	<loadBefore>
 		<li>voult.betterpawncontrol</li>

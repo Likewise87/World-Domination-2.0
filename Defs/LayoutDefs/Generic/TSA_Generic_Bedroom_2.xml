@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
     <defName>Generic_Bedroom_2</defName>
     <layouts>
       <li>
@@ -15,15 +16,15 @@
         <li>.,.,.,.,.,.,.,.,.</li>
       </li>
       <li>
-        <li>Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate,Door_WoodLog,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate</li>
-        <li>Wall_BlocksSlate,.,.,TorchLamp,.,.,.,.,Wall_BlocksSlate</li>
-        <li>Wall_BlocksSlate,Shelf_WoodLog_East,.,.,.,Stool_WoodLog_West,ChessTable_WoodLog,Stool_WoodLog_West,Wall_BlocksSlate</li>
-        <li>Wall_BlocksSlate,Wall_BlocksSlate,.,.,.,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate</li>
-        <li>Wall_BlocksSlate,.,.,.,.,.,Stool_WoodLog_West,Table1x2c_WoodLog_North,Wall_BlocksSlate</li>
-        <li>Wall_BlocksSlate,.,.,.,.,.,Stool_WoodLog_West,.,Wall_BlocksSlate</li>
-        <li>Wall_BlocksSlate,.,.,.,.,.,.,.,Wall_BlocksSlate</li>
-        <li>Wall_BlocksSlate,TorchLamp,EndTable_Steel_South,.,DoubleBed_Steel_South,.,Plant_Daylily,Plant_Daylily,Wall_BlocksSlate</li>
-        <li>Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate</li>
+        <li>Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Door_WoodLog,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,TorchLamp,.,.,.,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,Shelf_WoodLog_East,.,.,.,Stool_WoodLog_West,ChessTable_WoodLog,Stool_WoodLog_West,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,Wall_BlocksGranite,.,.,.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,.,.,.,Stool_WoodLog_West,Table1x2c_WoodLog_North,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,.,.,.,Stool_WoodLog_West,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,.,.,.,.,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,TorchLamp,EndTable_Steel_South,.,DoubleBed_Steel_South,.,Plant_Daylily,Plant_Daylily,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
       </li>
       <li>
         <li>.,.,.,.,.,.,.,.,.</li>
@@ -49,15 +50,15 @@
       <li>1,1,1,1,1,1,1,1,1</li>
     </roofGrid>
     <terrainGrid>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate</li>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate</li>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate</li>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate</li>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate</li>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate</li>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate</li>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate</li>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
     </terrainGrid>
     <tags>
       <li>Generic_Bedroom</li>

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
+
 <Defs>
 <KCSG.StructureLayoutDef>
   <defName>TSA_Tribal_Stockpile_1</defName>
@@ -6,17 +8,17 @@
   <layouts>
     <li>
       <li>.,.,.,.,.,.,Wall_WoodLog,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.,.,.,.</li>
-      <li>.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.</li>
-      <li>.,.,Wall_WoodLog,Steel,Steel,MedicineHerbal,MedicineHerbal,Cloth,DevilstrandCloth,DevilstrandCloth,Wall_WoodLog,.,.</li>
-      <li>.,.,Wall_WoodLog,Steel,Steel,Pemmican,Pemmican,Pemmican,Cloth,Cloth,Wall_WoodLog,.,.</li>
-      <li>.,Wall_WoodLog,Wall_WoodLog,Steel,Gold,Pemmican,Pemmican,Pemmican,WoolAlpaca,WoolAlpaca,Wall_WoodLog,Wall_WoodLog,.</li>
-      <li>Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,WoodLog,Jade,RawBerries,TorchLamp,Meat_Deer,Pemmican,Pemmican,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
-      <li>.,Wall_WoodLog,Wall_WoodLog,WoodLog,WoodLog,RawBerries,.,PassiveCooler,Meat_Deer,RawCorn,Wall_WoodLog,Wall_WoodLog,.</li>
-      <li>.,.,Wall_WoodLog,WoodLog,WoodLog,.,.,.,RawCorn,RawCorn,Wall_WoodLog,.,.</li>
-      <li>.,.,Wall_WoodLog,WoodLog,WoodLog,Silver,.,.,RawCorn,RawCorn,Wall_WoodLog,.,.</li>
-      <li>.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.</li>
-      <li>.,.,.,.,.,Wall_WoodLog,.,Wall_WoodLog,.,.,.,.,.</li>
+      <li>.,.,VFEArch_LowFence_WoodLog,VFEArch_LowFence_WoodLog,VFEArch_LowFence_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,VFEArch_LowFence_WoodLog,VFEArch_LowFence_WoodLog,VFEArch_LowFence_WoodLog,.,.</li>
+      <li>.,VFEArch_LowFence_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,VFEArch_LowFence_WoodLog,.</li>
+      <li>.,VFEArch_LowFence_WoodLog,Wall_WoodLog,.,.,ShelfSmall_WoodLog_North,.,ShelfSmall_WoodLog_North,.,Shelf_WoodLog_West,Wall_WoodLog,VFEArch_LowFence_WoodLog,.</li>
+      <li>.,VFEArch_LowFence_WoodLog,Wall_WoodLog,Shelf_WoodLog_East,.,.,.,.,.,.,Wall_WoodLog,VFEArch_LowFence_WoodLog,.</li>
+      <li>.,Wall_WoodLog,Wall_WoodLog,.,.,Stool_WoodLog_West,ChessTable_WoodLog,Stool_WoodLog_East,.,.,Wall_WoodLog,Wall_WoodLog,.</li>
+      <li>Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,ShelfSmall_WoodLog_East,.,.,TorchLamp,.,.,ShelfSmall_WoodLog_West,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
+      <li>.,Wall_WoodLog,Wall_WoodLog,.,.,.,.,PassiveCooler,.,.,Wall_WoodLog,Wall_WoodLog,.</li>
+      <li>.,VFEArch_LowFence_WoodLog,Wall_WoodLog,.,.,.,.,.,.,Shelf_WoodLog_West,Wall_WoodLog,VFEArch_LowFence_WoodLog,.</li>
+      <li>.,VFEArch_LowFence_WoodLog,Wall_WoodLog,Shelf_WoodLog_East,.,.,.,.,.,.,Wall_WoodLog,VFEArch_LowFence_WoodLog,.</li>
+      <li>.,VFEArch_LowFence_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,VFEArch_LowFence_WoodLog,.</li>
+      <li>.,.,VFEArch_LowFence_WoodLog,VFEArch_LowFence_WoodLog,VFEArch_LowFence_WoodLog,Wall_WoodLog,.,Wall_WoodLog,VFEArch_LowFence_WoodLog,VFEArch_LowFence_WoodLog,VFEArch_LowFence_WoodLog,.,.</li>
     </li>
   </layouts>
   <roofGrid>
@@ -37,7 +39,7 @@
     <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
     <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
     <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-    <li>.,.,.,StrawMatting,.,.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.,.</li>
+    <li>.,.,.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.,.</li>
     <li>.,.,.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.,.</li>
     <li>.,.,.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.,.</li>
     <li>.,.,.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.,.</li>
@@ -47,138 +49,26 @@
     <li>.,.,.,.,.,.,StrawMatting,.,.,.,.,.,.</li>
     <li>.,.,.,.,.,.,StrawMatting,.,.,.,.,.,.</li>
   </terrainGrid>
-    <tags>
-      <li>TSA_Tribal_Stockpile</li>
-    </tags>
 </KCSG.StructureLayoutDef>
-  
-  
+
 <KCSG.StructureLayoutDef>
   <defName>TSA_Tribal_Stockpile_2</defName>
   <spawnConduits>false</spawnConduits>
   <layouts>
     <li>
-      <li>.,.,.,Wall_WoodLog,Wall_WoodLog,.,Wall_WoodLog,Wall_WoodLog,.,.,.</li>
-      <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.</li>
-      <li>.,Wall_WoodLog,Cloth,Cloth,MedicineHerbal,.,RawBerries,RawCorn,RawCorn,Wall_WoodLog,.</li>
-      <li>.,Wall_WoodLog,Leather_Bluefur,Leather_Bluefur,Meat_Muffalo,.,RawBerries,RawBerries,RawCorn,Wall_WoodLog,.</li>
-      <li>Wall_WoodLog,Wall_WoodLog,Jade,Leather_Bluefur,.,.,Pemmican,Pemmican,RawCorn,Wall_WoodLog,Wall_WoodLog</li>
-      <li>Wall_WoodLog,Wall_WoodLog,Jade,WoolMuffalo,WoolMuffalo,.,.,Pemmican,Pemmican,Wall_WoodLog,Wall_WoodLog</li>
-      <li>Wall_WoodLog,Wall_WoodLog,WoodLog,WoodLog,WoodLog,.,.,.,Pemmican,Wall_WoodLog,Wall_WoodLog</li>
-      <li>.,Wall_WoodLog,WoodLog,WoodLog,WoodLog,Steel,.,.,.,Wall_WoodLog,.</li>
-      <li>.,Wall_WoodLog,Silver,WoodLog,Steel,Steel,Steel,.,PassiveCooler,Wall_WoodLog,.</li>
-      <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.</li>
-      <li>.,.,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.,.,.</li>
-    </li>
-    <li>
-      <li>.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,TorchWallLamp_East,.,.</li>
-      <li>.,.,TorchWallLamp_West,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.</li>
-    </li>
-  </layouts>
-  <roofGrid>
-    <li>.,.,.,.,.,.,.,.,.,.,.</li>
-    <li>.,1,1,1,1,1,1,1,1,1,.</li>
-    <li>.,1,1,1,1,1,1,1,1,1,.</li>
-    <li>.,1,1,1,1,1,1,1,1,1,.</li>
-    <li>.,1,1,1,1,1,1,1,1,1,.</li>
-    <li>.,1,1,1,1,1,1,1,1,1,.</li>
-    <li>.,1,1,1,1,1,1,1,1,1,.</li>
-    <li>.,1,1,1,1,1,1,1,1,1,.</li>
-    <li>.,1,1,1,1,1,1,1,1,1,.</li>
-    <li>.,1,1,1,1,1,1,1,1,1,.</li>
-    <li>.,.,.,.,.,.,.,.,.,.,.</li>
-  </roofGrid>
-  <terrainGrid>
-    <li>.,.,.,.,.,.,.,.,.,.,.</li>
-    <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.</li>
-    <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.</li>
-    <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.</li>
-    <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.</li>
-    <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.</li>
-    <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.</li>
-    <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.</li>
-    <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.,.</li>
-    <li>.,.,.,.,.,.,.,.,.,.,.</li>
-    <li>.,.,.,.,.,.,.,.,.,.,.</li>
-  </terrainGrid>
-    <tags>
-      <li>TSA_Tribal_Stockpile</li>
-    </tags>
-</KCSG.StructureLayoutDef>
-  
-  
-  
-  <KCSG.StructureLayoutDef>
-  <defName>TSA_Tribal_Stockpile_3</defName>
-  <spawnConduits>false</spawnConduits>
-  <layouts>
-    <li>
-      <li>Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
-      <li>Wall_WoodLog,RawAgave,RawBerries,.,.,.,.,PassiveCooler,Wall_WoodLog</li>
-      <li>Wall_WoodLog,RawAgave,RawBerries,.,.,.,.,Meat_Muffalo,Wall_WoodLog</li>
-      <li>Wall_WoodLog,RawAgave,Pemmican,Pemmican,.,.,.,Leather_Bluefur,Wall_WoodLog</li>
-      <li>Wall_WoodLog,Pemmican,Pemmican,Pemmican,Pemmican,TorchLamp,Leather_Bluefur,Cloth,Wall_WoodLog</li>
-      <li>Wall_WoodLog,WoodLog,WoodLog,WoodLog,Pemmican,MedicineHerbal,Leather_Bluefur,Cloth,Wall_WoodLog</li>
-      <li>Wall_WoodLog,WoodLog,WoodLog,WoodLog,Steel,Steel,Jade,Silver,Wall_WoodLog</li>
-      <li>Wall_WoodLog,WoodLog,WoodLog,Steel,Steel,Steel,Steel,Jade,Wall_WoodLog</li>
-      <li>Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
-    </li>
-  </layouts>
-  <roofGrid>
-    <li>1,1,1,1,1,1,1,1,1</li>
-    <li>1,1,1,1,1,1,1,1,1</li>
-    <li>1,1,1,1,1,1,1,1,1</li>
-    <li>1,1,1,1,1,1,1,1,1</li>
-    <li>1,1,1,1,1,1,1,1,1</li>
-    <li>1,1,1,1,1,1,1,1,1</li>
-    <li>1,1,1,1,1,1,1,1,1</li>
-    <li>1,1,1,1,1,1,1,1,1</li>
-    <li>1,1,1,1,1,1,1,1,1</li>
-  </roofGrid>
-  <terrainGrid>
-    <li>StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting</li>
-    <li>StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting</li>
-    <li>StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting</li>
-    <li>StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting</li>
-    <li>StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting</li>
-    <li>StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting</li>
-    <li>StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting</li>
-    <li>StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting</li>
-    <li>StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting</li>
-  </terrainGrid>
-    <tags>
-      <li>TSA_Tribal_Stockpile</li>
-    </tags>
-</KCSG.StructureLayoutDef>
-
-
- <KCSG.StructureLayoutDef>
-  <defName>TSA_Tribal_Stockpile_4</defName>
-  <spawnConduits>false</spawnConduits>
-  <layouts>
-    <li>
-      <li>.,.,.,Marble,Marble,Marble,Door_BlocksMarble,Marble,Marble,.,.,.,.</li>
-      <li>.,.,Marble,Marble,Marble,Marble,.,Marble,Marble,Marble,ChunkMarble,.,ChunkMarble</li>
-      <li>.,Marble,Marble,Marble,Marble,Fence_WoodLog,.,Fence_WoodLog,Marble,Marble,Marble,.,.</li>
-      <li>ChunkMarble,Marble,Marble,Marble,Marble,Fence_WoodLog,.,Fence_WoodLog,Marble,Marble,Marble,.,.</li>
-      <li>Marble,Marble,Marble,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Marble,Marble,.</li>
-      <li>Marble,Marble,Marble,Wall_WoodLog,.,.,.,.,.,Wall_WoodLog,Marble,Marble,ChunkMarble</li>
-      <li>.,Marble,Marble,Wall_WoodLog,.,.,.,.,.,Wall_WoodLog,Marble,Marble,Marble</li>
-      <li>ChunkMarble,Marble,Marble,Wall_WoodLog,TorchWallLamp_West,.,.,.,TorchWallLamp_East,Wall_WoodLog,Marble,Marble,Marble</li>
-      <li>Marble,Marble,Marble,Wall_WoodLog,.,.,.,.,.,Wall_WoodLog,Marble,Marble,ChunkMarble</li>
-      <li>.,Marble,Marble,Wall_WoodLog,.,.,.,.,.,Wall_WoodLog,Marble,Marble,ChunkGranite</li>
-      <li>.,Marble,Marble,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Marble,ChunkGranite,.</li>
-      <li>.,.,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble,.</li>
-      <li>.,.,.,.,.,Marble,Marble,Marble,Marble,.,.,.,.</li>
+      <li>.,.,.,Granite,Granite,Granite,Door_BlocksGranite,Granite,Granite,.,.,.,.</li>
+      <li>.,.,Granite,Granite,Granite,Granite,.,Granite,Granite,Granite,ChunkGranite,.,.</li>
+      <li>.,Granite,.,Granite,Granite,Fence_WoodLog,.,Fence_WoodLog,Granite,Granite,Granite,.,.</li>
+      <li>ChunkGranite,Granite,Granite,Granite,Granite,Fence_WoodLog,.,Fence_WoodLog,Granite,Granite,Granite,.,.</li>
+      <li>Granite,Granite,Granite,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Granite,Granite,.</li>
+      <li>Granite,Granite,Granite,Wall_WoodLog,Shelf_WoodLog_North,.,.,.,Shelf_WoodLog_West,Wall_WoodLog,Granite,Granite,ChunkGranite</li>
+      <li>.,Granite,Granite,Wall_WoodLog,.,.,.,.,.,Wall_WoodLog,Granite,Granite,Granite</li>
+      <li>ChunkGranite,Granite,Granite,Wall_WoodLog,TorchWallLamp_West,.,.,.,TorchWallLamp_East,Wall_WoodLog,Granite,Granite,Granite</li>
+      <li>Granite,Granite,Granite,Wall_WoodLog,.,.,.,.,.,Wall_WoodLog,Granite,Granite,ChunkGranite</li>
+      <li>.,Granite,Granite,Wall_WoodLog,.,Shelf_WoodLog_South,.,.,Shelf_WoodLog_South,Wall_WoodLog,Granite,Granite,ChunkGranite</li>
+      <li>.,Granite,Granite,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Granite,ChunkGranite,.</li>
+      <li>.,.,Granite,Granite,Granite,Granite,Granite,Granite,Granite,Granite,Granite,Granite,.</li>
+      <li>.,.,.,.,.,Granite,Granite,Granite,Granite,.,.,.,.</li>
     </li>
     <li>
       <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
@@ -211,8 +101,23 @@
     <li>.,.,3,3,3,3,3,3,3,3,3,3,.</li>
     <li>.,.,.,.,.,3,3,3,3,.,.,.,.</li>
   </roofGrid>
-    <tags>
-      <li>TSA_Tribal_Stockpile</li>
-    </tags>
+  <terrainGrid>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,Granite_RoughHewn,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,FlagstoneGranite,.,.,.,.,.,.</li>
+    <li>.,.,.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.,.,.</li>
+    <li>.,.,.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.,.,.</li>
+    <li>.,.,.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.,.,.</li>
+    <li>.,.,.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.,.,.</li>
+    <li>.,.,.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+  </terrainGrid>
+  
+  <tags><li>TSA_Tribal_Stockpile</li></tags>
 </KCSG.StructureLayoutDef>
+
  </Defs>

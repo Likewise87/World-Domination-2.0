@@ -30,6 +30,12 @@ namespace TSA_WorldDomination
         /// <summary>Resolve a queued mortar shell: hit/miss letter; on hit, chip the same abstract strength total for settlements, caravans, or WD travelers.</summary>
         private static void ExecuteMortarStrike(WorldObject_Traveler traveler)
         {
+            if (traveler?.assaultArtillerySupport == true)
+            {
+                WD_AssaultArtillerySupport.ExecuteAssaultArtilleryArrival(traveler);
+                return;
+            }
+
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             WorldObject impactTarget = ResolveMortarImpactTarget(traveler);
             WorldObject fxAt = impactTarget ?? traveler.targetObject;
@@ -568,6 +574,40 @@ namespace TSA_WorldDomination
             // AT Turret shells are not AA targets (mortars and drop pods only).
             if (!traveler.IsAtTurretShell() && AntiAirFireUtils.IsAirborneAaTargetMission(traveler.mission))
                 AntiAirFireUtils.WakeAllForMortarShell(traveler);
+            return traveler;
+        }
+
+        /// <summary>World-map shell for assault-map artillery support; on arrival triggers local map impacts, not strength damage.</summary>
+        public static WorldObject_Traveler? SpawnAssaultArtilleryShell(
+            WorldObject origin,
+            Settlement settlement,
+            IntVec3 aimCell,
+            ThingDef shellDef,
+            int scatterRadius)
+        {
+            if (origin == null || settlement == null || shellDef == null) return null;
+
+            float damage;
+            if (origin is WorldObject_WD_Outpost outpost)
+                damage = MortarFireUtils.GetPlayerMortarShellDamage(outpost);
+            else
+            {
+                var seth = WorldDominationMod.settings;
+                damage = seth?.mortarBaseShellDamage ?? WorldDominationSettings.DefMortarBaseShellDamage;
+            }
+
+            WorldObject_Traveler? traveler = SpawnMortarTraveler(
+                origin,
+                settlement,
+                damage,
+                guaranteedHit: true,
+                aimTileIdOverride: settlement.Tile);
+            if (traveler == null) return null;
+
+            traveler.assaultArtillerySupport = true;
+            traveler.assaultAimCell = aimCell;
+            traveler.assaultShellDefName = shellDef.defName;
+            traveler.assaultScatterRadius = scatterRadius;
             return traveler;
         }
 

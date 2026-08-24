@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
  <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
     <defName>Generic_Prison_2</defName>
     <layouts>
       <li>
@@ -119,25 +120,25 @@
       <li>.,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,.,.,.,.,.,.,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,.</li>
       <li>.,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,.</li>
       <li>.,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,.</li>
-      <li>.,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneSlate,.,.,.,.,.</li>
-      <li>.,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneSlate,Concrete,Concrete,Concrete,Concrete,.</li>
-      <li>.,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneSlate,FlagstoneSlate,Concrete,Concrete,Concrete,.</li>
-      <li>.,Concrete,Concrete,Concrete,Concrete,FlagstoneSlate,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneSlate,FlagstoneSlate,Concrete,Concrete,Concrete,.</li>
-      <li>.,.,.,.,.,FlagstoneSlate,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneSlate,FlagstoneSlate,Concrete,Concrete,Concrete,.</li>
-      <li>.,Concrete,Concrete,Concrete,Concrete,FlagstoneSlate,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneSlate,FlagstoneSlate,Concrete,Concrete,Concrete,.</li>
-      <li>.,Concrete,Concrete,Concrete,FlagstoneSlate,FlagstoneSlate,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneSlate,FlagstoneSlate,Concrete,Concrete,Concrete,.</li>
-      <li>.,Concrete,Concrete,Concrete,FlagstoneSlate,FlagstoneSlate,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneSlate,FlagstoneSlate,Concrete,Concrete,Concrete,.</li>
-      <li>.,.,.,.,FlagstoneSlate,FlagstoneSlate,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneSlate,FlagstoneSlate,Concrete,Concrete,Concrete,.</li>
-      <li>.,Concrete,Concrete,Concrete,FlagstoneSlate,FlagstoneSlate,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneSlate,FlagstoneSlate,Concrete,Concrete,Concrete,.</li>
-      <li>.,Concrete,Concrete,Concrete,FlagstoneSlate,FlagstoneSlate,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneSlate,FlagstoneSlate,Concrete,Concrete,Concrete,.</li>
-      <li>.,Concrete,Concrete,Concrete,Concrete,FlagstoneSlate,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneSlate,Concrete,Concrete,Concrete,Concrete,.</li>
-      <li>.,.,.,.,.,FlagstoneSlate,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneSlate,.,.,.,.,.</li>
+      <li>.,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneGranite,.,.,.,.,.</li>
+      <li>.,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneGranite,Concrete,Concrete,Concrete,Concrete,.</li>
+      <li>.,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneGranite,FlagstoneGranite,Concrete,Concrete,Concrete,.</li>
+      <li>.,Concrete,Concrete,Concrete,Concrete,FlagstoneGranite,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneGranite,FlagstoneGranite,Concrete,Concrete,Concrete,.</li>
+      <li>.,.,.,.,.,FlagstoneGranite,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneGranite,FlagstoneGranite,Concrete,Concrete,Concrete,.</li>
+      <li>.,Concrete,Concrete,Concrete,Concrete,FlagstoneGranite,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneGranite,FlagstoneGranite,Concrete,Concrete,Concrete,.</li>
+      <li>.,Concrete,Concrete,Concrete,FlagstoneGranite,FlagstoneGranite,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneGranite,FlagstoneGranite,Concrete,Concrete,Concrete,.</li>
+      <li>.,Concrete,Concrete,Concrete,FlagstoneGranite,FlagstoneGranite,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneGranite,FlagstoneGranite,Concrete,Concrete,Concrete,.</li>
+      <li>.,.,.,.,FlagstoneGranite,FlagstoneGranite,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneGranite,FlagstoneGranite,Concrete,Concrete,Concrete,.</li>
+      <li>.,Concrete,Concrete,Concrete,FlagstoneGranite,FlagstoneGranite,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneGranite,FlagstoneGranite,Concrete,Concrete,Concrete,.</li>
+      <li>.,Concrete,Concrete,Concrete,FlagstoneGranite,FlagstoneGranite,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneGranite,FlagstoneGranite,Concrete,Concrete,Concrete,.</li>
+      <li>.,Concrete,Concrete,Concrete,Concrete,FlagstoneGranite,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneGranite,Concrete,Concrete,Concrete,Concrete,.</li>
+      <li>.,.,.,.,.,FlagstoneGranite,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,FlagstoneGranite,.,.,.,.,.</li>
       <li>.,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,.</li>
       <li>.,.,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,.,.</li>
       <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
     </terrainGrid>
     <tags>
-      <li>Generic_Prison</li>
+      <li>Generic_Prison_T1</li>
     </tags>
   </KCSG.StructureLayoutDef>
  </Defs>

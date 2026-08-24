@@ -29,9 +29,9 @@ Anything that rewrites **diplomacy**, **world-map interactions**, **base generat
     No. [World Domination](https://steamcommunity.com/sharedfiles/filedetails/?id=3646291383) (`TSA.WorldDomination`) and World Domination 2.0 are hard-incompatible.
 
 ??? question "Why did storyteller raids from some factions stop?"
-    By default, WD blocks storyteller raids when the storyteller picks a faction managed by WD. Those factions attack through WD raid travelers instead.
+    By default, WD blocks storyteller raids when the storyteller picks a faction with WD Actions enabled. Those factions attack through WD raid travelers instead.
 
-    Storyteller raids from factions WD does not manage stay active by default (for example Mechanoids and manhunter packs). Configure this under raid settings.
+    Other factions allow storyteller raids by default. Configure per faction in **WD Faction scope and Allegiances** (World Setup or mod Settings in-game).
 
 ??? question "Where can I report bugs?"
     Use the public repository: [Likewise87/World-Domination-2.0](https://github.com/Likewise87/World-Domination-2.0). Include reproduction steps, mod list, and the relevant log.

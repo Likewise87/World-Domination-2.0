@@ -83,18 +83,6 @@
   <TSA_WD_Interception_Label>Enfrentamiento de caravanas</TSA_WD_Interception_Label>
   <TSA_WD_Letter_Interception_Label>Enfrentamiento de caravanas</TSA_WD_Letter_Interception_Label>
   <TSA_WD_Letter_Interception_Text>Tu caravana ha chocado con una {0} de {1}. ¡Prepárate para el combate!</TSA_WD_Letter_Interception_Text>
-  <TSA_WD_ClashLoot_Title>Botín del enfrentamiento</TSA_WD_ClashLoot_Title>
-  <TSA_WD_ClashLoot_Desc>Elige prisioneros y objetos. Lo que dejes atrás se pierde al terminar el encuentro. El peso no puede superar la capacidad de la caravana.</TSA_WD_ClashLoot_Desc>
-  <TSA_WD_ClashLoot_SearchPlaceholder>Filtrar por nombre…</TSA_WD_ClashLoot_SearchPlaceholder>
-  <TSA_WD_ClashLoot_ResetAll>Restablecer todo</TSA_WD_ClashLoot_ResetAll>
-  <TSA_WD_ClashLoot_PrisonerSub>{0} (peso {1})</TSA_WD_ClashLoot_PrisonerSub>
-  <TSA_WD_ClashLoot_ItemSub>{0} disponibles (peso {1} c/u)</TSA_WD_ClashLoot_ItemSub>
-  <TSA_WD_ClashLoot_Mass>Peso de la caravana: {0} / {1}</TSA_WD_ClashLoot_Mass>
-  <TSA_WD_ClashLoot_Take>Tomar</TSA_WD_ClashLoot_Take>
-  <TSA_WD_ClashLoot_Selected>Elegido</TSA_WD_ClashLoot_Selected>
-  <TSA_WD_ClashLoot_Max>Máx</TSA_WD_ClashLoot_Max>
-  <TSA_WD_ClashLoot_Confirm>Confirmar</TSA_WD_ClashLoot_Confirm>
-  <TSA_WD_ClashLoot_TakeNothing>No tomar nada</TSA_WD_ClashLoot_TakeNothing>
   <TSA_WD_Letter_PlayerCaravanClashWon_Label>Caravana del jugador ganó el enfrentamiento</TSA_WD_Letter_PlayerCaravanClashWon_Label>
   <TSA_WD_Letter_PlayerCaravanClashWon_Text>Tu caravana derrotó a {0} en un enfrentamiento de caravanas.</TSA_WD_Letter_PlayerCaravanClashWon_Text>
   <TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>Caravana del jugador destruida en enfrentamiento</TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>

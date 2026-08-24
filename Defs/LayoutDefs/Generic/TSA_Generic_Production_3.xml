@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
     <defName>Generic_Production_3</defName>
     <terrainGrid>
-      <li>.,.,.,.,.,BrokenAsphalt,FlagstoneSandstone,BrokenAsphalt,Concrete,Concrete,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,BrokenAsphalt,FlagstoneGranite,BrokenAsphalt,Concrete,Concrete,.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,BrokenAsphalt,BrokenAsphalt,Concrete,BrokenAsphalt,.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,Concrete,Concrete,Concrete,.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,Concrete,Concrete,.,.,.,.,.,.,.,.,.</li>
@@ -13,13 +14,13 @@
       <li>.,.,.,.,.,.,.,PavedTile,.,Concrete,.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,PavedTile,PavedTile,PavedTile,.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,MetalTile,MetalTile,MetalTile,.,.,.,.,.,.,.,.</li>
-      <li>.,MetalTile,FlagstoneSandstone,FlagstoneSandstone,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,FlagstoneSandstone,MetalTile,MetalTile,FlagstoneSandstone,.,.,.</li>
-      <li>.,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,FlagstoneSandstone,FlagstoneSandstone,FlagstoneSandstone,.,.,.</li>
-      <li>.,MetalTile,FlagstoneSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,.,.,.</li>
-      <li>.,MetalTile,FlagstoneSandstone,FlagstoneSandstone,FlagstoneSandstone,TileSandstone,TileSandstone,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,.,.,.</li>
-      <li>.,FlagstoneSandstone,FlagstoneSandstone,FlagstoneSandstone,TileSandstone,TileSandstone,TileSandstone,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,.,.,.</li>
-      <li>.,TileSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,FlagstoneSandstone,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,.,.,.</li>
-      <li>.,TileSandstone,TileSandstone,TileSandstone,FlagstoneSandstone,FlagstoneSandstone,FlagstoneSandstone,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,.,.,.</li>
+      <li>.,MetalTile,FlagstoneGranite,FlagstoneGranite,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,FlagstoneGranite,MetalTile,MetalTile,FlagstoneGranite,.,.,.</li>
+      <li>.,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.,.</li>
+      <li>.,MetalTile,FlagstoneGranite,TileGranite,TileGranite,TileGranite,TileGranite,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,.,.,.</li>
+      <li>.,MetalTile,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,TileGranite,TileGranite,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,.,.,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,TileGranite,TileGranite,TileGranite,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,.,.,.</li>
+      <li>.,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,FlagstoneGranite,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,.,.,.</li>
+      <li>.,TileGranite,TileGranite,TileGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,.,.,.</li>
       <li>.,.,.,.,.,.,PavedTile,BrokenAsphalt,PavedTile,.,.,.,.,.,.,.,.,.</li>
     </terrainGrid>
     <layouts>
@@ -31,9 +32,9 @@
         <li>Fence_Steel,.,.,.,VFEPD_Pipes_South,.,.,.,.,.,.,.,.,.,Shelf_WoodLog_East,.,.,Wall_Steel</li>
         <li>Fence_Steel,VFEPD_Pipes_North,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Wall_Steel</li>
         <li>Wall_Steel,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,StandingLamp,Wall_Steel</li>
-        <li>Fence_Steel,.,.,.,.,.,.,.,.,.,VFEPD_GeneratorUnitLarge,.,.,VFEPD_GeneratorUnitLarge,.,VFEPD_BrickPile_BlocksSlate,.,Wall_Steel</li>
-        <li>Fence_Steel,.,.,VFEPD_CarForklift_East,.,.,.,.,.,.,.,.,VFEPD_BrickPile_BlocksSlate,.,.,VFEPD_BrickPile_BlocksSlate,VFEPD_BrickPile_BlocksSlate,Wall_Steel</li>
-        <li>Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Door_BlocksSlate,Door_BlocksSlate,Door_BlocksSlate,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,VFEPD_BrickPile_BlocksSlate,Wall_Steel</li>
+        <li>Fence_Steel,.,.,.,.,.,.,.,.,.,VFEPD_GeneratorUnitLarge,.,.,VFEPD_GeneratorUnitLarge,.,VFEPD_BrickPile_BlocksGranite,.,Wall_Steel</li>
+        <li>Fence_Steel,.,.,VFEPD_CarForklift_East,.,.,.,.,.,.,.,.,VFEPD_BrickPile_BlocksGranite,.,.,VFEPD_BrickPile_BlocksGranite,VFEPD_BrickPile_BlocksGranite,Wall_Steel</li>
+        <li>Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Door_BlocksGranite,Door_BlocksGranite,Door_BlocksGranite,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,VFEPD_BrickPile_BlocksGranite,Wall_Steel</li>
         <li>Wall_Steel,.,VFEPD_DataConsole_North,.,.,.,.,.,.,.,.,VFEPD_WarehouseShelfEmpty_South,.,VFEPD_ChemfuelTank_West,.,Wall_Steel,Wall_Steel,Wall_Steel</li>
         <li>Wall_Steel,.,.,.,.,.,VFEPD_DataConsole_South,.,.,.,.,.,.,.,.,Wall_Steel,Stool_WoodLog_West,.</li>
         <li>Wall_Steel,.,.,.,.,.,.,.,.,.,VFEPD_SwitchPanel_South,.,.,.,.,.,.,.</li>
@@ -56,7 +57,7 @@
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Door_BlocksSlate,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Door_BlocksGranite,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>

@@ -9,7 +9,7 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    public enum TravelerMission { Expansion, Raid, RoadBuilding, RoadBlock, SpikeTrap, Decontamination, OutpostDelivery, Trader, OutpostUpgrade, MortarStrike, AntiAirStrike, RapidResponseIntercept, RapidResponseDropPod, DebugRaidTransit, RaidDropPod, SettlementBuy, SettlementGift, SettlementBribe, RaidBribe, NpcFortify, DiplomacyNegotiate, AtTurret, NpcAtTurret }
+    public enum TravelerMission { Expansion, Raid, RoadBuilding, RoadBlock, SpikeTrap, Decontamination, OutpostDelivery, Trader, OutpostUpgrade, MortarStrike, AntiAirStrike, RapidResponseIntercept, RapidResponseDropPod, DebugRaidTransit, RaidDropPod, RaidGravship, SettlementBuy, SettlementGift, SettlementBribe, RaidBribe, NpcFortify, DiplomacyNegotiate, AtTurret, NpcAtTurret }
     public enum RaidOrderOutcome { PlayerOutpostConquestMenu, AllyClaimsTarget, AllyAwardsToPlayer }
 
     public class WorldObject_Traveler : WorldObject
@@ -19,7 +19,9 @@ namespace TSA_WorldDomination
 
         /// <summary>True for walking raids and T4 ballistic drop-pod raids.</summary>
         public static bool IsRaidMission(TravelerMission mission) =>
-            mission == TravelerMission.Raid || mission == TravelerMission.RaidDropPod;
+            mission == TravelerMission.Raid
+            || mission == TravelerMission.RaidDropPod
+            || mission == TravelerMission.RaidGravship;
 
         public WD_PathFollower pather;
         public TravelerMission mission;
@@ -45,6 +47,11 @@ namespace TSA_WorldDomination
         public float mortarDamage;
         public bool mortarHit = true;
         public int mortarTargetTravelerId = -1;
+        /// <summary>Assault-map artillery: on arrival, rain shells on loaded settlement map instead of world strength damage.</summary>
+        public bool assaultArtillerySupport;
+        public IntVec3 assaultAimCell;
+        public string assaultShellDefName = string.Empty;
+        public int assaultScatterRadius;
         /// <summary>When true, this flak shell is the engagement resolver (hit/damage/letter); cosmetics are false.</summary>
         public bool antiAirIsResolver;
         /// <summary><see cref="AntiAirFireUtils.AntiAirTargetKind"/> stored as byte for scribing.</summary>
@@ -234,6 +241,7 @@ namespace TSA_WorldDomination
                 {
                     TravelerMission.Raid => "TSA_WD_RaiderCaravan".Translate(),
                     TravelerMission.RaidDropPod => "TSA_WD_RaiderDropPods".Translate(),
+                    TravelerMission.RaidGravship => "TSA_WD_RaiderGravship".Translate(),
                     TravelerMission.Expansion => "TSA_WD_ExpansionCaravan".Translate(),
                     TravelerMission.RoadBuilding => "TSA_WD_RoadBuilderCaravan".Translate(),
                     TravelerMission.RoadBlock => "TSA_WD_Traveler_Outpost_RoadBlock".Translate(),
@@ -514,6 +522,8 @@ namespace TSA_WorldDomination
                 WorldComponent_InterceptionScheduler.Current?.UnregisterTraveler(this);
                 if (isSettlementAmbushSally)
                     WorldComponent_SettlementWatchIndex.Get()?.NotifyAmbushSallyDestroyed();
+                if (assaultArtillerySupport && mission == TravelerMission.MortarStrike)
+                    WD_AssaultArtillerySupport.NotifyAssaultShellRemoved(this);
             }
             base.Destroy();
         }
@@ -730,6 +740,7 @@ namespace TSA_WorldDomination
             bool skipAttrition = IsShellMission(mission)
                 || mission == TravelerMission.RapidResponseDropPod
                 || mission == TravelerMission.RaidDropPod
+                || mission == TravelerMission.RaidGravship
                 || WD_PathFollower.IsBallisticWorldFlight(this);
             if (!skipAttrition && this.IsHashIntervalTick(180, delta))
             {
@@ -1231,6 +1242,10 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref mortarDamage, "mortarDamage", 0f);
             Scribe_Values.Look(ref mortarHit, "mortarHit", true);
             Scribe_Values.Look(ref mortarTargetTravelerId, "mortarTargetTravelerId", -1);
+            Scribe_Values.Look(ref assaultArtillerySupport, "assaultArtillerySupport", false);
+            Scribe_Values.Look(ref assaultAimCell, "assaultAimCell", default(IntVec3));
+            Scribe_Values.Look(ref assaultShellDefName, "assaultShellDefName", string.Empty);
+            Scribe_Values.Look(ref assaultScatterRadius, "assaultScatterRadius", 0);
             Scribe_Values.Look(ref antiAirIsResolver, "antiAirIsResolver", false);
             Scribe_Values.Look(ref antiAirTargetKind, "antiAirTargetKind", (byte)0);
             Scribe_Values.Look(ref antiAirLeadFlight, "antiAirLeadFlight", false);

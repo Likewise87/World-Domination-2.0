@@ -17,7 +17,6 @@ namespace TSA_WorldDomination
         private bool controlsExpanded = true;
         private bool pollutionExpanded = true;
         private bool upkeepExpanded = true;
-        private bool baseGenerationExpanded = true;
 
         public override Vector2 InitialSize => new Vector2(850f, 700f);
 
@@ -34,7 +33,7 @@ namespace TSA_WorldDomination
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
             float contentWidth = contentRect.width - 24f;
-            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2850f);
+            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2950f);
 
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
             Listing_Standard l = new Listing_Standard();
@@ -46,13 +45,13 @@ namespace TSA_WorldDomination
                 {
                     worldActionsExpanded = targetOfOpportunityExpanded = maraudingExpanded =
                         settlementAmbushExpanded = iconsExpanded = controlsExpanded =
-                        pollutionExpanded = upkeepExpanded = baseGenerationExpanded = true;
+                        pollutionExpanded = upkeepExpanded = true;
                 },
                 () =>
                 {
                     worldActionsExpanded = targetOfOpportunityExpanded = maraudingExpanded =
                         settlementAmbushExpanded = iconsExpanded = controlsExpanded =
-                        pollutionExpanded = upkeepExpanded = baseGenerationExpanded = false;
+                        pollutionExpanded = upkeepExpanded = false;
                 });
 
             SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_OutpostWithdrawStrengthBudget".Translate(),
@@ -63,30 +62,6 @@ namespace TSA_WorldDomination
                 ref s.experimentalOutpostDefenseDeployBudget,
                 "TSA_WD_Experimental_OutpostDefenseDeployBudgetTip".Translate(),
                 defaultValue: WorldDominationSettings.DefExperimentalOutpostDefenseDeployBudget);
-
-            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Experimental_HeaderBaseGeneration".Translate(), ref baseGenerationExpanded, SettingsUI.SectionHeaderColor))
-            {
-                SettingsUI.DrawCheckbox(l, "TSA_WD_Garrison_AdaptiveTerrainPrep".Translate(),
-                    ref s.kcsgAdaptiveTerrainPrep,
-                    "TSA_WD_Garrison_AdaptiveTerrainPrepTooltip".Translate(),
-                    defaultValue: WorldDominationSettings.DefKcsgAdaptiveTerrainPrep);
-                if (s.kcsgAdaptiveTerrainPrep)
-                {
-                    SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_AlwaysClearKcsgRect".Translate(),
-                        ref s.experimentalAlwaysClearKcsgRect,
-                        "TSA_WD_Experimental_AlwaysClearKcsgRectTip".Translate(),
-                        defaultValue: WorldDominationSettings.DefExperimentalAlwaysClearKcsgRect);
-                    if (!s.experimentalAlwaysClearKcsgRect)
-                    {
-                        s.kcsgBlockedFlattenThreshold = SettingsUI.LabeledSlider(l, "TSA_WD_Garrison_BlockedFlattenThreshold".Translate(), s.kcsgBlockedFlattenThreshold, 0.05f, 0.75f,
-                            "TSA_WD_Garrison_BlockedFlattenThresholdTooltip".Translate(), 0.05f, SliderFormat.PercentDecimal, WorldDominationSettings.DefKcsgBlockedFlattenThreshold);
-                    }
-                    SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_KcsgRectBlend".Translate(),
-                        ref s.experimentalKcsgRectBlend,
-                        "TSA_WD_Experimental_KcsgRectBlendTip".Translate(),
-                        defaultValue: WorldDominationSettings.DefExperimentalKcsgRectBlend);
-                }
-            }
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Experimental_HeaderTargetOfOpportunity".Translate(), ref targetOfOpportunityExpanded, SettingsUI.SectionHeaderColor))
             {
@@ -204,6 +179,24 @@ namespace TSA_WorldDomination
                     ref s.enableWorldMapSounds,
                     "TSA_WD_Experimental_EnableWorldMapSoundsTip".Translate(),
                     defaultValue: WorldDominationSettings.DefEnableWorldMapSounds);
+
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_UnlimitedAssaultMortarSupport".Translate(),
+                    ref s.experimentalUnlimitedAssaultMortarSupport,
+                    "TSA_WD_Experimental_UnlimitedAssaultMortarSupportTip".Translate(),
+                    defaultValue: WorldDominationSettings.DefExperimentalUnlimitedAssaultMortarSupport);
+
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_T4GravshipRaids".Translate(),
+                    ref s.experimentalT4GravshipRaids,
+                    "TSA_WD_Experimental_T4GravshipRaidsTip".Translate(),
+                    defaultValue: WorldDominationSettings.DefExperimentalT4GravshipRaids);
+                if (s.experimentalT4GravshipRaids)
+                {
+                    s.experimentalGravshipRaidChanceT4 = SettingsUI.LabeledSlider(l,
+                        "TSA_WD_Experimental_GravshipRaidChanceT4".Translate(),
+                        s.experimentalGravshipRaidChanceT4, 0f, 1f,
+                        "TSA_WD_Experimental_GravshipRaidChanceT4Tip".Translate(),
+                        0.05f, SliderFormat.Percent, WorldDominationSettings.DefExperimentalGravshipRaidChanceT4);
+                }
             }
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Notify_HeaderWorldMapIcons".Translate(), ref iconsExpanded, SettingsUI.SectionHeaderColor))

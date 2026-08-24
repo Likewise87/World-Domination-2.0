@@ -55,6 +55,8 @@ namespace TSA_WorldDomination
         internal bool debugForce;
         /// <summary>Dev force: always launch as drop-pod (ignore T4 / chance / tech gates).</summary>
         internal bool forceDropPod;
+        /// <summary>Dev force: always launch as gravship raid (requires Gravship Raids + Odyssey).</summary>
+        internal bool forceGravship;
 
         internal readonly List<CandidateEntry> pending = new List<CandidateEntry>();
         internal int nextIdx;
@@ -376,21 +378,24 @@ namespace TSA_WorldDomination
                 totalInvestedPower += available;
             }
 
-            bool useDropPod = ShouldLaunchDropPodRaid(attComp, attacker, seth, eval.forceDropPod);
+            bool useGravship = ShouldLaunchGravshipRaid(attComp, attacker, seth, eval.forceGravship);
+            bool useDropPod = !useGravship && ShouldLaunchDropPodRaid(attComp, attacker, seth, eval.forceDropPod);
             float dropEfficiency = 1f;
             float dropSynthTicks = -1f;
-            if (useDropPod)
+            if (useGravship || useDropPod)
             {
                 if (!TravelUtils.TryDropPodRaidEfficiency(
                         attacker.Tile, target.Tile, seth, attacker.Faction,
                         out dropEfficiency, out dropSynthTicks))
                 {
-                    if (eval.forceDropPod)
+                    if (eval.forceGravship || eval.forceDropPod)
                     {
                         dropEfficiency = 1f;
                         float dist = Mathf.Max(1f, Find.WorldGrid.ApproxDistanceInTiles(attacker.Tile, target.Tile));
                         dropSynthTicks = dist * WorldObject_Traveler.DefaultTicksPerMove;
                     }
+                    else if (useGravship)
+                        useGravship = false;
                     else
                         useDropPod = false;
                 }
@@ -402,7 +407,7 @@ namespace TSA_WorldDomination
             RaidLaunchGate.GateResult finalGate;
             RaidPollutionPreCommit.Outcome pollutionOutcome = default;
 
-            if (useDropPod)
+            if (useGravship || useDropPod)
             {
                 finalGate = RaidLaunchGate.Evaluate(
                     attacker, target, targetKind, eval.attAllies, eval.objectsWithComp, manager, seth,
@@ -414,11 +419,13 @@ namespace TSA_WorldDomination
                     return;
                 }
 
+                string travelerDef = useGravship ? "TSA_WD_Traveler_RaidGravship" : "TSA_WD_Traveler_RaidDropPod";
+                TravelerMission mission = useGravship ? TravelerMission.RaidGravship : TravelerMission.RaidDropPod;
                 traveler = (WorldObject_Traveler)WorldObjectMaker.MakeWorldObject(
-                    DefDatabase<WorldObjectDef>.GetNamed("TSA_WD_Traveler_RaidDropPod"));
+                    DefDatabase<WorldObjectDef>.GetNamed(travelerDef));
                 traveler.Tile = attacker.Tile;
                 traveler.SetFaction(attacker.Faction);
-                traveler.mission = TravelerMission.RaidDropPod;
+                traveler.mission = mission;
                 traveler.ticksPerMove = WorldActions_Traveler.GetDropPodTicksPerMove();
                 traveler.originObject = attacker;
                 traveler.targetObject = target;
@@ -562,17 +569,17 @@ namespace TSA_WorldDomination
                 : (totalInvestedPower * finalEfficiency) / (launchLog.defStr > 0 ? launchLog.defStr : 1f);
             launchLog.ratio = forecastRatio;
 
-            WDVerbose.Msg($"RaidLaunch {attacker.LabelCap}->{target.LabelCap}: drop={useDropPod} committed={totalInvestedPower:F0} def={launchDefSnap.Total:F0} eff={finalEfficiency:F2} ratio={forecastRatio:F2} req={finalGate.requiredRatio:F2} min={seth.minRaidRatio:F2} pass={finalGate.passed || finalGate.bypassedMinRatio}");
+            WDVerbose.Msg($"RaidLaunch {attacker.LabelCap}->{target.LabelCap}: drop={useDropPod} gravship={useGravship} committed={totalInvestedPower:F0} def={launchDefSnap.Total:F0} eff={finalEfficiency:F2} ratio={forecastRatio:F2} req={finalGate.requiredRatio:F2} min={seth.minRaidRatio:F2} pass={finalGate.passed || finalGate.bypassedMinRatio}");
             float forecastedWinChance = RaidCasualtyModel.GetForecast(forecastRatio, seth).winChance;
             launchLog.winChance = forecastedWinChance;
 
             float attStrengthAtArrival = totalInvestedPower * finalEfficiency;
-            // Drop-pod colony raids get a dedicated letter; avoid also sending the generic colony letter.
-            bool dropPodColonyLetter = useDropPod
+            // Drop-pod / gravship colony raids get a dedicated letter; avoid also sending the generic colony letter.
+            bool ballisticColonyLetter = (useDropPod || useGravship)
                 && target is Settlement dropSett
                 && dropSett.HasMap
                 && dropSett.Faction?.IsPlayer == true;
-            if (dropPodColonyLetter)
+            if (ballisticColonyLetter)
                 NotifyIncomingDropPodRaidIfEnabled(target, attacker, traveler, seth, attStrengthAtArrival, colonyRaidHandedOff);
             else
                 NotifyIncomingRaidIfEnabled(target, attacker, traveler, seth, attStrengthAtArrival, launchDefSnap.Total, forecastedWinChance, colonyRaidHandedOff);
@@ -603,6 +610,16 @@ namespace TSA_WorldDomination
             manager.AddLog(launchLog);
         }
 
+        private static bool ShouldLaunchGravshipRaid(CompViralSpread attComp, Settlement attacker, WorldDominationSettings seth, bool forceGravship = false)
+        {
+            if (!GravshipRaidsCompat.IsAvailable()) return false;
+            if (forceGravship) return true;
+            if (attComp == null || attacker?.Faction?.def == null || seth == null) return false;
+            if (!seth.experimentalT4GravshipRaids) return false;
+            if (attComp.tier != SettlementTier.T4) return false;
+            return Rand.Chance(Mathf.Clamp01(seth.experimentalGravshipRaidChanceT4));
+        }
+
         private static bool ShouldLaunchDropPodRaid(CompViralSpread attComp, Settlement attacker, WorldDominationSettings seth, bool forceDropPod = false)
         {
             if (forceDropPod) return true;
@@ -618,8 +635,10 @@ namespace TSA_WorldDomination
         /// <summary>
         /// Dev: run <see cref="AttemptRaid"/> and drain staggered assessment immediately, then <see cref="FinalizeRaid"/>.
         /// When <paramref name="forceDropPod"/> is true, launches as drop-pod regardless of attacker tier / chance / tech.
+        /// When <paramref name="forceGravship"/> is true, always targets the player map colony (any NPC settlement,
+        /// any escalation stage; requires Gravship Raids + Odyssey). No T4 / mid-late / range gate.
         /// </summary>
-        public static bool DebugForceImmediateRaid(Settlement attacker, bool forceDropPod, out string failReason)
+        public static bool DebugForceImmediateRaid(Settlement attacker, bool forceDropPod, out string failReason, bool forceGravship = false)
         {
             failReason = null;
             if (attacker == null || attacker.Destroyed || !attacker.Spawned)
@@ -647,6 +666,9 @@ namespace TSA_WorldDomination
                 return false;
             }
 
+            if (forceGravship)
+                return DebugForceGravshipRaidOnPlayer(attacker, attComp, manager, out failReason);
+
             if (!AttemptRaid(attacker, attComp, manager, debugForce: true))
             {
                 failReason = "no hostile targets in this settlement's raid range (or space layer)";
@@ -661,6 +683,7 @@ namespace TSA_WorldDomination
             }
 
             eval.debugForce = true;
+            eval.forceGravship = false;
             eval.forceDropPod = forceDropPod;
 
             int guard = 0;
@@ -693,6 +716,85 @@ namespace TSA_WorldDomination
 
             FinalizeRaid(eval);
             manager.pendingRaid = null;
+            return true;
+        }
+
+        /// <summary>
+        /// Dev: gravship raid from any NPC settlement straight at the player map colony.
+        /// Ignores T4, mid/late escalation, raid range, ratio gates, and player-raid rate caps.
+        /// </summary>
+        private static bool DebugForceGravshipRaidOnPlayer(
+            Settlement attacker,
+            CompViralSpread attComp,
+            WorldComponent_SpreadManager manager,
+            out string failReason)
+        {
+            failReason = null;
+            if (!GravshipRaidsCompat.IsAvailable())
+            {
+                failReason = "Gravship Raids + Odyssey required";
+                return false;
+            }
+            if (!WorldActions_Utils.SafeHostileTo(attacker.Faction, Faction.OfPlayer))
+            {
+                failReason = "settlement faction is not hostile to the player";
+                return false;
+            }
+
+            var seth = WorldDominationMod.settings;
+            if (seth == null)
+            {
+                failReason = "no settings";
+                return false;
+            }
+
+            Settlement colony = FindPlayerMapColony();
+            if (colony == null)
+            {
+                failReason = "no player map colony found";
+                return false;
+            }
+
+            // Early-game settlements often have almost no deployable strength; ensure a usable debug payload.
+            const float debugMinDeployable = 800f;
+            float available = WorldActions_Utils.GetAvailableRaidStrength(attComp, seth);
+            if (available < debugMinDeployable)
+            {
+                float retainFloor = WorldActions_Utils.GetGarrisonRetainFloor(attComp, seth);
+                attComp.strength = Mathf.Max(attComp.strength, retainFloor + debugMinDeployable);
+            }
+
+            var lookup = WorldActions_Utils.GetWorldObjectsWithCompByFaction();
+            var attAllies = new List<WorldObject>(
+                Raid_ReinforcementLogic.GetReinforcements(attacker, null, AllyRadiusUtil.GetEffective(attacker, seth, manager), lookup, manager));
+
+            float lockedReq = RaidLaunchGate.GetColonyRequiredRaidRatio(colony.GetComponent<CompViralSpread>(), seth);
+            float defTotal = RaidLaunchGate.GetColonyStorytellerDefense(colony);
+
+            var eval = new PendingRaidEvaluation
+            {
+                attacker = attacker,
+                attComp = attComp,
+                manager = manager,
+                seth = seth,
+                objectsWithComp = lookup,
+                attAllies = attAllies,
+                totalAvailableAttPower = RaidLaunchGate.SumAvailableAttPower(attacker, attAllies, seth),
+                debugForce = true,
+                forceGravship = true,
+                forceDropPod = false,
+                lockedColonyRequiredRatio = lockedReq,
+            };
+            eval.pending.Add(new PendingRaidEvaluation.CandidateEntry
+            {
+                target = colony,
+                kind = PendingRaidEvaluation.CandidateKind.PlayerColony,
+                dist = WorldActions_Utils.GetDistance(attacker.Tile, colony.Tile, manager),
+            });
+            eval.viable.Add(new RaidTargetCandidate(colony, null, defTotal));
+
+            manager.pendingRaid = null;
+            FinalizeRaid(eval);
             return true;
         }
 

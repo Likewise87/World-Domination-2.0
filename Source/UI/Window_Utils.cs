@@ -752,6 +752,19 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>Dashboard-style slate icon+label button. Optional <paramref name="iconSize"/> overrides the default 26px icon. Optional <paramref name="iconTint"/> tints the icon (Launch_Raid-style assets that are already colorized should pass white / omit). Optional <paramref name="fill"/> replaces the default slate background.</summary>
+        public static void DrawSlateNavChrome(Rect rect)
+        {
+            bool mouseOver = Mouse.IsOver(rect);
+            bool pressed = mouseOver && Input.GetMouseButton(0) && GUI.enabled;
+            Color bg = !GUI.enabled
+                ? new Color(SlateNavFill.r, SlateNavFill.g, SlateNavFill.b, 0.45f)
+                : pressed ? SlateNavPress : mouseOver ? SlateNavHover : SlateNavFill;
+            Widgets.DrawBoxSolid(rect, bg);
+            GUI.color = mouseOver && GUI.enabled ? SlateNavOutlineHover : SlateNavOutline;
+            Widgets.DrawBox(rect, 1);
+            GUI.color = Color.white;
+        }
+
         public static bool ButtonTextWithIcon(
             Rect rect,
             Texture2D icon,
@@ -798,7 +811,7 @@ namespace TSA_WorldDomination
             Text.Font = GameFont.Small;
             TextAnchor prev = Text.Anchor;
             Text.Anchor = TextAnchor.MiddleLeft;
-            float labelW = Mathf.Max(0f, rect.xMax - textLeft - 4f);
+            float labelW = Mathf.Max(0f, rect.xMax - textLeft - SlateNavIconPad);
             Widgets.Label(new Rect(textLeft, rect.y, labelW, rect.height), text.Truncate(labelW));
             Text.Anchor = prev;
             GUI.color = Color.white;

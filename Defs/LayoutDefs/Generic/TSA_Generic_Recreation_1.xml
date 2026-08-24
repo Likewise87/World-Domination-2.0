@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 	<KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
   <defName>Generic_Recreation_1</defName>
   <spawnConduits>false</spawnConduits>
   <layouts>
@@ -8,15 +9,15 @@
       <li>Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel,Fence_Steel</li>
       <li>Fence_Steel,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Fence_Steel</li>
       <li>Fence_Steel,.,VFEPD_Hedge,VFEPD_Hedge,VFEPD_Hedge,VFEPD_Hedge,VFEPD_Hedge,VFEPD_Hedge,VFEPD_Hedge,.,VFEPD_TanningRack_South,.,VFEPD_TanningRack_South,.,VFEPD_TanningRack_South,VFEPD_Hedge,.,.,Fence_Steel</li>
-      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,VFEPD_Hedge,.,.,Fence_Steel</li>
-      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksMarble,.,.,Wall_BlocksMarble,.,.,.,.,.,FlatscreenTelevision_North,.,Wall_BlocksMarble,WoodFiredGenerator,.,.,Fence_Steel</li>
-      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksMarble,VFEPD_KitchenSurface_West,.,Wall_BlocksMarble,.,.,.,.,.,.,.,Wall_BlocksMarble,.,.,.,Fence_Steel</li>
-      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksMarble,.,.,Wall_BlocksMarble,.,.,BilliardsTable_WoodLog_East,.,.,.,.,Wall_BlocksMarble,VFEPD_Hedge,.,.,Fence_Steel</li>
-      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksMarble,.,.,Door_WoodLog,.,.,.,.,.,.,Couch_Cloth_South,Wall_BlocksMarble,VFEPD_Hedge,.,.,Fence_Steel</li>
-      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksMarble,VFEPD_KitchenSink_West,WallLamp_East,Wall_BlocksMarble,WallLamp_West,.,.,.,.,.,.,Wall_BlocksMarble,VFEPD_Hedge,.,.,Fence_Steel</li>
-      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksMarble,.,.,Wall_BlocksMarble,.,.,.,Armchair_Cloth_East,PokerTable_WoodLog,.,Armchair_Cloth_West,Wall_BlocksMarble,VFEPD_Hedge,.,.,Fence_Steel</li>
-      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksMarble,VFEPD_WaterTank,Wall_BlocksMarble,ShelfSmall_WoodLog_East,.,.,.,Armchair_Cloth_East,.,.,Armchair_Cloth_West,Wall_BlocksMarble,VFEPD_Hedge,.,.,Fence_Steel</li>
-      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Door_WoodLog,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,VFEPD_Hedge,.,.,Fence_Steel</li>
+      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,VFEPD_Hedge,.,.,Fence_Steel</li>
+      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksGranite,.,.,Wall_BlocksGranite,.,.,.,.,.,FlatscreenTelevision_North,.,Wall_BlocksGranite,WoodFiredGenerator,.,.,Fence_Steel</li>
+      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksGranite,VFEPD_KitchenSurface_West,.,Wall_BlocksGranite,.,.,.,.,.,.,.,Wall_BlocksGranite,.,.,.,Fence_Steel</li>
+      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksGranite,.,.,Wall_BlocksGranite,.,.,BilliardsTable_WoodLog_East,.,.,.,.,Wall_BlocksGranite,VFEPD_Hedge,.,.,Fence_Steel</li>
+      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksGranite,.,.,Door_WoodLog,.,.,.,.,.,.,Couch_Cloth_South,Wall_BlocksGranite,VFEPD_Hedge,.,.,Fence_Steel</li>
+      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksGranite,VFEPD_KitchenSink_West,WallLamp_East,Wall_BlocksGranite,WallLamp_West,.,.,.,.,.,.,Wall_BlocksGranite,VFEPD_Hedge,.,.,Fence_Steel</li>
+      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksGranite,.,.,Wall_BlocksGranite,.,.,.,Armchair_Cloth_East,PokerTable_WoodLog,.,Armchair_Cloth_West,Wall_BlocksGranite,VFEPD_Hedge,.,.,Fence_Steel</li>
+      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksGranite,VFEPD_WaterTank,Wall_BlocksGranite,ShelfSmall_WoodLog_East,.,.,.,Armchair_Cloth_East,.,.,Armchair_Cloth_West,Wall_BlocksGranite,VFEPD_Hedge,.,.,Fence_Steel</li>
+      <li>Fence_Steel,.,VFEPD_Hedge,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Door_WoodLog,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,VFEPD_Hedge,.,.,Fence_Steel</li>
       <li>Fence_Steel,.,VFEPD_Hedge,VFEPD_Hedge,VFEPD_Hedge,VFEPD_Hedge,VFEPD_Hedge,VFEPD_Hedge,VFEPD_Hedge,.,VFEPD_Hedge,VFEPD_Hedge,VFEPD_Hedge,VFEPD_Hedge,VFEPD_Hedge,VFEPD_Hedge,.,VFEPD_BoxSmall_South,Fence_Steel</li>
       <li>Fence_Steel,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,VFEPD_BoxLarge_South,Fence_Steel</li>
       <li>Fence_Steel,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,VFEPD_BoxLarge_South,Fence_Steel</li>

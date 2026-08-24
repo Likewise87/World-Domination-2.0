@@ -7,7 +7,7 @@
     <li>
       <li>Fence_BlocksGranite,Fence_BlocksGranite,Fence_BlocksGranite,FenceGate_BlocksGranite,Fence_BlocksGranite,Fence_BlocksGranite,Fence_BlocksGranite,FenceGate_BlocksGranite,Fence_BlocksGranite,Fence_BlocksGranite,Fence_BlocksGranite</li>
       <li>Fence_BlocksGranite,VFEPD_GrassShort_North,.,.,.,.,.,.,.,VFEPD_GrassShort_North,Fence_BlocksGranite</li>
-      <li>Fence_BlocksGranite,VFEPD_GrassShort_North,.,.,Plant_TreeWillow,VFEPD_GrassShort_North,Plant_TreeWillow,.,.,VFEPD_GrassLong_North,Fence_BlocksGranite</li>
+      <li>Fence_BlocksGranite,VFEPD_GrassShort_North,.,.,Plant_TreeOak,VFEPD_GrassShort_North,Plant_TreeOak,.,.,VFEPD_GrassLong_North,Fence_BlocksGranite</li>
       <li>VFEP_ShortWalls_BlocksGranite,VFEPD_GrassShort_North,.,GM_1x2BenchProp_East,.,.,GM_1x2BenchProp_East,.,.,VFEPD_GrassLong_North,VFEP_ShortWalls_BlocksGranite</li>
       <li>VFEP_ShortWalls_BlocksGranite,.,VFEPD_FilthDirt_North,VFEPD_FilthDirt_North,VFEPD_FilthDirt_North,.,.,.,.,VFEPD_GrassShort_North,VFEP_ShortWalls_BlocksGranite</li>
       <li>VFEP_ShortWalls_BlocksGranite,.,.,VFEPD_FilthDirt_North,.,.,.,.,.,.,VFEP_ShortWalls_BlocksGranite</li>
@@ -26,7 +26,7 @@
       <li>.,.,.,.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,VFEPD_BurnedTree,.</li>
+      <li>.,.,.,.,.,.,.,.,.,Plant_TreeOak,.</li>
       <li>.,.,.,.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,.,.,.,.</li>
       <li>.,.,GM_GraveFenceRope_South,.,GM_GraveFenceRope_South,.,GM_GraveFenceBrick_South,.,GM_GraveFencePlain_South,.,.</li>
@@ -37,7 +37,7 @@
       <li>.,.,.,.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,Plant_TreeMaple,.,.,.,Plant_TreeTeak,.,.,.,Plant_TreeMaple,.</li>
+      <li>.,Plant_TreeMaple,.,.,.,Plant_TreeOak,.,.,.,Plant_TreeMaple,.</li>
 	  <li>.,.,.,.,.,.,.,.,.,.,.</li>
     </li>
     <li>

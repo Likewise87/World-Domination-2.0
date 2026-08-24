@@ -1,6 +1,6 @@
 # Hub windows and IMGUI layout
 
-How to use this file: open when adding or copying a hub window, table header, roster, restore-view control, or IMGUI label rect. Do not use it for keyed tone (`COPY_STYLE.md`), sim owners (`ARCHITECTURE.md`), globe icons (`Core/WORLD_MAP_ICONS.md`), or Def XML (`dev/DEFS_GUIDE.md`). Index: `dev/GUIDANCE.md` (file vs type naming: Settings vs Dialog vs Window vs WITab). After a code change that moves a shared helper, edit this file in the same pass. If a do-not-copy line is fixed, delete it.
+How to use this file: open when adding or copying a hub window, table header, roster, restore-view control, or IMGUI label rect. Do not use it for keyed tone (`COPY_STYLE.md`), sim owners (`ARCHITECTURE.md`), globe icons (`Core/WORLD_MAP_ICONS.md`), or Def XML (`Guardrails/DEFS_GUIDE.md`). Index: `Guardrails/GUIDANCE.md` (file vs type naming: Settings vs Dialog vs Window vs WITab). After a code change that moves a shared helper, edit this file in the same pass. If a do-not-copy line is fixed, delete it.
 
 ## Label and row heights (IMGUI)
 

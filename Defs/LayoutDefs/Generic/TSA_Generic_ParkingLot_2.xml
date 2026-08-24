@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
   <defName>TSA_ParkingLot_2</defName>
   <spawnConduits>false</spawnConduits>
   <layouts>
@@ -13,7 +14,7 @@
       <li>.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,.</li>
-      <li>.,FloodLight,.,ShelfSmall_BlocksSlate_South,ShelfSmall_BlocksSlate_South,ShelfSmall_BlocksSlate_South,ShelfSmall_BlocksSlate_South,.</li>
+      <li>.,FloodLight,.,ShelfSmall_BlocksGranite_South,ShelfSmall_BlocksGranite_South,ShelfSmall_BlocksGranite_South,ShelfSmall_BlocksGranite_South,.</li>
       <li>.,.,.,.,.,.,.,.</li>
     </li>
   </layouts>

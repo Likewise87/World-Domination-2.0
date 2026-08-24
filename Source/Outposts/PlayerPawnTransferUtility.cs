@@ -87,7 +87,10 @@ namespace TSA_WorldDomination
             return e.locationKind == PlayerPawnLocationKind.Colony && e.mapParent != null && e.mapParent.HasMap;
         }
 
-        /// <summary>True if the pawn can be launched into a caravan right now.</summary>
+        /// <summary>
+        /// True if the pawn can <b>lead</b> a transfer caravan (must be able to path).
+        /// Downed / immobile pawns fail; Vehicle Framework vehicles are allowed.
+        /// </summary>
         public static bool IsCapableOfImmediateTransfer(Pawn pawn, out string reasonKey)
         {
             reasonKey = "";
@@ -125,6 +128,41 @@ namespace TSA_WorldDomination
         public static bool IsCapableOfImmediateTransfer(Pawn pawn) =>
             IsCapableOfImmediateTransfer(pawn, out _);
 
+        /// <summary>Alias: can lead / path a transfer caravan.</summary>
+        public static bool CanLeadCaravanTransfer(Pawn pawn, out string reasonKey) =>
+            IsCapableOfImmediateTransfer(pawn, out reasonKey);
+
+        public static bool CanLeadCaravanTransfer(Pawn pawn) =>
+            IsCapableOfImmediateTransfer(pawn);
+
+        /// <summary>
+        /// True if the pawn may be included as caravan cargo/passenger.
+        /// Allows downed and immobile; still blocks dead, mental break, and active labor.
+        /// </summary>
+        public static bool CanJoinCaravanTransfer(Pawn pawn, out string reasonKey)
+        {
+            reasonKey = "";
+            if (pawn == null || pawn.Destroyed || pawn.Dead)
+            {
+                reasonKey = "TSA_WD_PawnTransfer_NotTravelReady_Dead".Translate(pawn?.LabelShort ?? "");
+                return false;
+            }
+            if (pawn.InMentalState)
+            {
+                reasonKey = "TSA_WD_PawnTransfer_NotTravelReady_Mental".Translate(pawn.LabelShort);
+                return false;
+            }
+            if (IsInActiveLabor(pawn))
+            {
+                reasonKey = "TSA_WD_PawnTransfer_NotTravelReady_Labor".Translate(pawn.LabelShort);
+                return false;
+            }
+            return true;
+        }
+
+        public static bool CanJoinCaravanTransfer(Pawn pawn) =>
+            CanJoinCaravanTransfer(pawn, out _);
+
         private static bool IsInActiveLabor(Pawn pawn)
         {
             if (pawn?.health?.hediffSet == null) return false;
@@ -135,19 +173,278 @@ namespace TSA_WorldDomination
             return false;
         }
 
-        private static bool RejectIfAnyNotTravelReady(IReadOnlyList<PlayerPawnRosterEntry> selected)
+        /// <summary>
+        /// Join-all + ≥1 leader per origin. Passenger-only is allowed only when an outpost origin is fully emptied
+        /// (immobilized world caravan). Shows reject/immobilized tips.
+        /// </summary>
+        private static bool RejectIfTransferSelectionNotTravelValid(IReadOnlyList<PlayerPawnRosterEntry> selected)
         {
+            if (selected == null || selected.Count == 0) return false;
+
             for (int i = 0; i < selected.Count; i++)
             {
                 Pawn p = selected[i]?.pawn;
-                if (p == null) continue;
-                if (!IsCapableOfImmediateTransfer(p, out string reason))
+                if (p == null) continue; // shuttles etc.
+                if (!CanJoinCaravanTransfer(p, out string joinReason))
                 {
-                    Messages.Message(reason, MessageTypeDefOf.RejectInput, false);
+                    Messages.Message(joinReason, MessageTypeDefOf.RejectInput, false);
                     return true;
                 }
             }
+
+            var byOutpost = new Dictionary<WorldObject_WD_Outpost, List<PlayerPawnRosterEntry>>();
+            var byColony = new Dictionary<MapParent, List<PlayerPawnRosterEntry>>();
+            for (int i = 0; i < selected.Count; i++)
+            {
+                PlayerPawnRosterEntry e = selected[i];
+                if (e?.pawn == null) continue;
+                if (e.sourceOutpost != null)
+                {
+                    if (!byOutpost.TryGetValue(e.sourceOutpost, out var list))
+                    {
+                        list = new List<PlayerPawnRosterEntry>();
+                        byOutpost[e.sourceOutpost] = list;
+                    }
+                    list.Add(e);
+                }
+                else if (e.mapParent != null)
+                {
+                    if (!byColony.TryGetValue(e.mapParent, out var list))
+                    {
+                        list = new List<PlayerPawnRosterEntry>();
+                        byColony[e.mapParent] = list;
+                    }
+                    list.Add(e);
+                }
+            }
+
+            bool anyImmobilizedEmptyEvacuate = false;
+
+            foreach (var kv in byOutpost)
+            {
+                if (GroupHasCaravanLeader(kv.Value))
+                    continue;
+                if (GroupEmptiesOutpost(kv.Key, kv.Value))
+                {
+                    anyImmobilizedEmptyEvacuate = true;
+                    continue;
+                }
+                Messages.Message("TSA_WD_PawnTransfer_EscortRequired".Translate(), MessageTypeDefOf.RejectInput, false);
+                return true;
+            }
+
+            foreach (var kv in byColony)
+            {
+                if (GroupHasCaravanLeader(kv.Value))
+                    continue;
+                Messages.Message("TSA_WD_PawnTransfer_EscortRequired".Translate(), MessageTypeDefOf.RejectInput, false);
+                return true;
+            }
+
+            if (anyImmobilizedEmptyEvacuate)
+            {
+                Messages.Message(
+                    "TSA_WD_PawnTransfer_ImmobilizedEvacuate".Translate(),
+                    MessageTypeDefOf.NeutralEvent,
+                    false);
+            }
+
             return false;
+        }
+
+        private static bool GroupHasCaravanLeader(List<PlayerPawnRosterEntry> group)
+        {
+            if (group == null) return false;
+            for (int i = 0; i < group.Count; i++)
+            {
+                Pawn p = group[i]?.pawn;
+                if (p != null && CanLeadCaravanTransfer(p))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Same join/leader rules as <see cref="RejectIfTransferSelectionNotTravelValid"/>, but per resulting
+        /// (origin, destination) caravan — Smart Assign can split one outpost across destinations.
+        /// </summary>
+        private static bool RejectIfTransferAssignmentsNotTravelValid(IReadOnlyList<PlayerPawnTransferAssignment> assignments)
+        {
+            if (assignments == null || assignments.Count == 0) return false;
+
+            for (int i = 0; i < assignments.Count; i++)
+            {
+                Pawn p = assignments[i].entry?.pawn;
+                if (p == null) continue;
+                if (!CanJoinCaravanTransfer(p, out string joinReason))
+                {
+                    Messages.Message(joinReason, MessageTypeDefOf.RejectInput, false);
+                    return true;
+                }
+            }
+
+            // Whether each outpost origin is fully emptied by this assignment batch.
+            var emptiesByOutpost = new Dictionary<WorldObject_WD_Outpost, bool>();
+            var byOutpostAll = new Dictionary<WorldObject_WD_Outpost, List<PlayerPawnRosterEntry>>();
+            for (int i = 0; i < assignments.Count; i++)
+            {
+                PlayerPawnRosterEntry e = assignments[i].entry;
+                if (e?.sourceOutpost == null) continue;
+                if (!byOutpostAll.TryGetValue(e.sourceOutpost, out var list))
+                {
+                    list = new List<PlayerPawnRosterEntry>();
+                    byOutpostAll[e.sourceOutpost] = list;
+                }
+                list.Add(e);
+            }
+            foreach (var kv in byOutpostAll)
+                emptiesByOutpost[kv.Key] = GroupEmptiesOutpost(kv.Key, kv.Value);
+
+            var caravanGroups = new Dictionary<(int originKey, int destKey), List<PlayerPawnRosterEntry>>();
+            for (int i = 0; i < assignments.Count; i++)
+            {
+                PlayerPawnRosterEntry e = assignments[i].entry;
+                if (e?.pawn == null) continue;
+                int originKey = e.sourceOutpost != null
+                    ? e.sourceOutpost.ID
+                    : e.mapParent != null ? unchecked((int)0x40000000) ^ e.mapParent.ID : -1;
+                int destKey = DestGroupKey(assignments[i].destination);
+                var key = (originKey, destKey);
+                if (!caravanGroups.TryGetValue(key, out var list))
+                {
+                    list = new List<PlayerPawnRosterEntry>();
+                    caravanGroups[key] = list;
+                }
+                list.Add(e);
+            }
+
+            bool anyImmobilized = false;
+            foreach (var kv in caravanGroups)
+            {
+                if (GroupHasCaravanLeader(kv.Value))
+                    continue;
+
+                WorldObject_WD_Outpost originOutpost = null;
+                for (int i = 0; i < kv.Value.Count; i++)
+                {
+                    if (kv.Value[i].sourceOutpost != null)
+                    {
+                        originOutpost = kv.Value[i].sourceOutpost;
+                        break;
+                    }
+                }
+
+                if (originOutpost != null
+                    && emptiesByOutpost.TryGetValue(originOutpost, out bool empties)
+                    && empties)
+                {
+                    anyImmobilized = true;
+                    continue;
+                }
+
+                Messages.Message("TSA_WD_PawnTransfer_EscortRequired".Translate(), MessageTypeDefOf.RejectInput, false);
+                return true;
+            }
+
+            if (anyImmobilized)
+            {
+                Messages.Message(
+                    "TSA_WD_PawnTransfer_ImmobilizedEvacuate".Translate(),
+                    MessageTypeDefOf.NeutralEvent,
+                    false);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Outpost remove/evacuate travel gate for occupant (+ optional stored) pawn lists.
+        /// Passenger-only allowed only when every remaining occupant is leaving.
+        /// </summary>
+        public static bool RejectIfOutpostRemovalNotTravelValid(
+            WorldObject_WD_Outpost outpost,
+            IReadOnlyList<Pawn> leavingOccupants,
+            IReadOnlyList<Pawn> leavingStoredOrMechs = null)
+        {
+            if (outpost == null) return true;
+
+            bool CheckJoin(Pawn p)
+            {
+                if (p == null) return true;
+                if (CanJoinCaravanTransfer(p, out string reason)) return true;
+                Messages.Message(reason, MessageTypeDefOf.RejectInput, false);
+                return false;
+            }
+
+            if (leavingOccupants != null)
+            {
+                for (int i = 0; i < leavingOccupants.Count; i++)
+                {
+                    if (!CheckJoin(leavingOccupants[i])) return true;
+                }
+            }
+            if (leavingStoredOrMechs != null)
+            {
+                for (int i = 0; i < leavingStoredOrMechs.Count; i++)
+                {
+                    if (!CheckJoin(leavingStoredOrMechs[i])) return true;
+                }
+            }
+
+            bool hasLeader = false;
+            if (leavingOccupants != null)
+            {
+                for (int i = 0; i < leavingOccupants.Count; i++)
+                {
+                    if (CanLeadCaravanTransfer(leavingOccupants[i]))
+                    {
+                        hasLeader = true;
+                        break;
+                    }
+                }
+            }
+            if (!hasLeader && leavingStoredOrMechs != null)
+            {
+                for (int i = 0; i < leavingStoredOrMechs.Count; i++)
+                {
+                    if (CanLeadCaravanTransfer(leavingStoredOrMechs[i]))
+                    {
+                        hasLeader = true;
+                        break;
+                    }
+                }
+            }
+
+            int occLeaving = 0;
+            if (leavingOccupants != null)
+            {
+                for (int i = 0; i < leavingOccupants.Count; i++)
+                {
+                    Pawn p = leavingOccupants[i];
+                    if (p != null && outpost.Occupants.Contains(p))
+                        occLeaving++;
+                }
+            }
+            bool emptiesOutpost = occLeaving > 0 && outpost.Occupants.Count == occLeaving;
+
+            if (hasLeader)
+                return false;
+
+            if (emptiesOutpost)
+            {
+                Messages.Message(
+                    "TSA_WD_PawnTransfer_ImmobilizedEvacuate".Translate(),
+                    MessageTypeDefOf.NeutralEvent,
+                    false);
+                return false;
+            }
+
+            // No occupants in the leave set (stored-only) — existing escort rules handle that; travel gate does not add escort tip.
+            if (occLeaving == 0)
+                return false;
+
+            Messages.Message("TSA_WD_PawnTransfer_EscortRequired".Translate(), MessageTypeDefOf.RejectInput, false);
+            return true;
         }
 
         public static void TryTransfer(
@@ -171,7 +468,7 @@ namespace TSA_WorldDomination
                 }
             }
 
-            if (RejectIfAnyNotTravelReady(selected))
+            if (RejectIfTransferSelectionNotTravelValid(selected))
                 return;
 
             if (destination.kind != PlayerPawnTransferDestinationKind.ExitHere && destination.Tile < 0)
@@ -363,11 +660,6 @@ namespace TSA_WorldDomination
                     Messages.Message("TSA_WD_PawnTransfer_NotMovable".Translate(), MessageTypeDefOf.RejectInput, false);
                     return false;
                 }
-                if (!IsCapableOfImmediateTransfer(e.pawn, out string reason))
-                {
-                    Messages.Message(reason, MessageTypeDefOf.RejectInput, false);
-                    return false;
-                }
                 PlayerPawnTransferDestination destination = assignments[i].destination;
                 if (destination.kind != PlayerPawnTransferDestinationKind.ExitHere && destination.Tile < 0)
                 {
@@ -398,6 +690,9 @@ namespace TSA_WorldDomination
                 }
                 entries.Add(e);
             }
+
+            if (RejectIfTransferAssignmentsNotTravelValid(assignments))
+                return false;
 
             // Cumulative leavers per origin (all dests combined).
             var byOutpostAll = new Dictionary<WorldObject_WD_Outpost, List<PlayerPawnRosterEntry>>();

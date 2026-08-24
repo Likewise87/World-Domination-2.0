@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
   <defName>Generic_Graveyard_4</defName>
   <spawnConduits>false</spawnConduits>
   <layouts>
     <li>
-      <li>Fence_BlocksSlate,.,.,.,.,Fence_BlocksSlate</li>
-      <li>Fence_BlocksSlate,.,.,.,.,Fence_BlocksSlate</li>
-      <li>Fence_BlocksSlate,Grave_South,Grave_South,Grave_South,Grave_South,Fence_BlocksSlate</li>
-      <li>Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild</li>
-      <li>Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild,Plant_HealrootWild</li>
+      <li>Fence_BlocksGranite,.,.,.,.,Fence_BlocksGranite</li>
+      <li>Fence_BlocksGranite,.,.,.,.,Fence_BlocksGranite</li>
+      <li>Fence_BlocksGranite,Grave_South,Grave_South,Grave_South,Grave_South,Fence_BlocksGranite</li>
+      <li>Plant_CornWild,Plant_CornWild,Plant_CornWild,Plant_CornWild,Plant_CornWild,Plant_CornWild</li>
+      <li>Plant_CornWild,Plant_CornWild,Plant_CornWild,Plant_CornWild,Plant_CornWild,Plant_CornWild</li>
     </li>
   </layouts>
   <terrainGrid>

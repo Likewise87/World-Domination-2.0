@@ -10,23 +10,18 @@ namespace TSA_WorldDomination
     /// </summary>
     public static class WdSettlementMapPower
     {
-        private static bool AllowWdSettlementBaseGeneration =>
-            WorldDominationMod.settings?.allowWdSettlementBaseGeneration ?? WorldDominationSettings.DefAllowWdSettlementBaseGeneration;
-
         public static bool ShouldForcePower(Map map)
         {
             if (map?.Parent is not Settlement settlement) return false;
             if (settlement.Faction == null || settlement.Faction.IsPlayer) return false;
-            if (!AllowWdSettlementBaseGeneration) return false;
+            if (!WorldActions_Utils.IsWdBaseGenEligible(settlement.Faction)) return false;
             if (!WorldActions_Utils.IsWdSurfaceTile(settlement.Tile)) return false;
             if (WorksitesExpandedCompat.ShouldSkipWdKcsgInterference(map)) return false;
             if (WorldActions_Utils.HasActiveQuest(settlement)) return false;
             if (settlement.GetComponent<CompViralSpread>() == null) return false;
 
-            string fName = settlement.Faction.Name.ToLowerInvariant();
-            string dName = settlement.Faction.def.defName.ToLowerInvariant();
-            if (fName.Contains("insect") || dName.Contains("insect") || fName.Contains("hive") || dName.Contains("hive"))
-                return false;
+            var s = WorldDominationMod.settings;
+            if (s != null && !s.kcsgForceSettlementPower) return false;
 
             return true;
         }
@@ -77,8 +72,7 @@ namespace TSA_WorldDomination
                 }
             }
 
-            if (Prefs.DevMode)
-                Log.Message($"[WorldDomination] Settlement map power bypass for {map.Parent?.LabelCap}: {powered} powered (0W), {refueled} turrets refueled.");
+            WDVerbose.Msg($"Settlement map power bypass for {map.Parent?.LabelCap}: {powered} powered (0W), {refueled} turrets refueled.");
         }
     }
 }

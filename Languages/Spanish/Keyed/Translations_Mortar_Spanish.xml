@@ -218,6 +218,9 @@ El enfriamiento se acorta con la suma de Disparo de la guarnición ({3}): −2% 
   <TSA_WD_OutpostStats_Row_AntiAirAccTip>Probabilidad de acierto antiaéreo vs cápsulas, transportes y aéreos por banda de distancia (fracción del alcance antiaéreo máximo). Base de banda más mejor tirador (+1 pp por nivel de Disparo). Los proyectiles de mortero usan la probabilidad plana antiaéreo vs proyectiles abajo.</TSA_WD_OutpostStats_Row_AntiAirAccTip>
   <TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>Desbloquea torreta antiaérea vs. cápsulas y proyectiles</TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>
   <TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>Desbloquea misiones de descontaminación</TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>
+  <TSA_WD_OutpostUpgrades_BenefitAssaultShellsShort>Proyectiles avanzados de asalto</TSA_WD_OutpostUpgrades_BenefitAssaultShellsShort>
+  <TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockHeader>Desbloquea proyectiles de asalto a asentamientos</TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockHeader>
+  <TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockList>{0}</TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockList>
   <TSA_WD_AntiAir_GroupDesc>Grupo letra para exclusividad AA. La misma letra puede seguir disparando al objetivo reclamado. Otras letras quedan bloqueadas. Off = sin grupo.</TSA_WD_AntiAir_GroupDesc>
   <TSA_WD_AntiAir_Group_Off>Grupo AA Off</TSA_WD_AntiAir_Group_Off>
   <TSA_WD_AntiAir_Group_A>Grupo AA A</TSA_WD_AntiAir_Group_A>
@@ -307,4 +310,28 @@ El enfriamiento se acorta con la suma de Disparo de la guarnición ({3}): −2% 
   <TSA_WD_T4Mortar_MinTech>Torretas T4: tech mínima</TSA_WD_T4Mortar_MinTech>
   <TSA_WD_T4Mortar_MinTechTip>Solo facciones con este nivel tecnológico o superior pueden usar morteros de asentamientos T4 y antiaéreo. Neolítico permite esencialmente todas las facciones.</TSA_WD_T4Mortar_MinTechTip>
   <TSA_WD_T4Mortar_Reset>Restablecer ajustes de torretas T4 enemigas</TSA_WD_T4Mortar_Reset>
+
+  <!-- Assault-map artillery support -->
+  <TSA_WD_AssaultArtillery_ButtonTip>Apoyo de artillería. Llama fuego de mortero desde puestos cercanos.</TSA_WD_AssaultArtillery_ButtonTip>
+  <TSA_WD_AssaultArtillery_Title>Apoyo de artillería</TSA_WD_AssaultArtillery_Title>
+  <TSA_WD_AssaultArtillery_ColumnOutposts>Puestos de apoyo</TSA_WD_AssaultArtillery_ColumnOutposts>
+  <TSA_WD_AssaultArtillery_ColumnShells>Tipo de proyectil</TSA_WD_AssaultArtillery_ColumnShells>
+  <TSA_WD_AssaultArtillery_ColumnShellsFrom>Elige munición</TSA_WD_AssaultArtillery_ColumnShellsFrom>
+  <TSA_WD_AssaultArtillery_SelectOutpost>Selecciona un puesto de apoyo.</TSA_WD_AssaultArtillery_SelectOutpost>
+  <TSA_WD_AssaultArtillery_RowEtaSpread>ETA {0}s, dispersión {1}</TSA_WD_AssaultArtillery_RowEtaSpread>
+  <TSA_WD_AssaultArtillery_OutpostRowTip>Distancia: {0} casillas\nETA del primer proyectil: {1}s\nDispersión: {2} casillas\nProyectiles: {3}</TSA_WD_AssaultArtillery_OutpostRowTip>
+  <TSA_WD_AssaultArtillery_GhostRelay>Relé experimental</TSA_WD_AssaultArtillery_GhostRelay>
+  <TSA_WD_AssaultArtillery_GhostRelayTip>Experimental: ignora alcance y enfriamiento. Usa los mejores desbloqueos de proyectiles del imperio. Dispersión mínima.</TSA_WD_AssaultArtillery_GhostRelayTip>
+  <TSA_WD_AssaultArtillery_NoShootingSkill>Sin tirador en la guarnición. No se puede disparar apoyo de mortero desde este puesto.</TSA_WD_AssaultArtillery_NoShootingSkill>
+  <TSA_WD_AssaultArtillery_Unlock_Basic>Desbloquea: proyectiles de alto explosivo y de humo.</TSA_WD_AssaultArtillery_Unlock_Basic>
+  <TSA_WD_AssaultArtillery_Unlock_Improved>Desbloquea proyectiles mejorados: {0}</TSA_WD_AssaultArtillery_Unlock_Improved>
+  <TSA_WD_AssaultArtillery_Unlock_Advanced>Desbloquea proyectiles avanzados: {0}</TSA_WD_AssaultArtillery_Unlock_Advanced>
+  <TSA_WD_AssaultArtillery_NoSupport>Ningún puesto de mortero listo al alcance de este asentamiento.</TSA_WD_AssaultArtillery_NoSupport>
+  <TSA_WD_AssaultArtillery_StrikePending>Ya hay un ataque en camino.</TSA_WD_AssaultArtillery_StrikePending>
+  <TSA_WD_AssaultArtillery_StrikeInboundInfo>Ya hay artillería en camino. Otros puestos listos aún pueden disparar.</TSA_WD_AssaultArtillery_StrikeInboundInfo>
+  <TSA_WD_AssaultArtillery_NotAssaultMap>El apoyo de artillería solo está disponible en mapas de asalto a asentamientos hostiles.</TSA_WD_AssaultArtillery_NotAssaultMap>
+  <TSA_WD_AssaultArtillery_InvalidCell>Elige una casilla válida en el mapa.</TSA_WD_AssaultArtillery_InvalidCell>
+  <TSA_WD_AssaultArtillery_Inbound>{0} en camino. El proyectil llega en {1} segundos.</TSA_WD_AssaultArtillery_Inbound>
+  <TSA_WD_AssaultArtillery_ShellShotDown>Tus proyectiles de apoyo de artillería fueron derribados.</TSA_WD_AssaultArtillery_ShellShotDown>
+  <TSA_WD_AssaultArtillery_NoShells>No se encontraron definiciones de proyectiles de mortero. Comprueba si algún mod sustituye los proyectiles vanilla.</TSA_WD_AssaultArtillery_NoShells>
 </LanguageData>

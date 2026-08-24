@@ -9,7 +9,7 @@
     <centerBuildings>
       <centralBuildingTags>
         <li>TSA_Tribal_BigBarracks</li>
-		<li>TSA_Tribal_Slavery</li>
+        <li>TSA_Tribal_Slavery</li>
       </centralBuildingTags>
       <centerSize>56,56</centerSize>
       <spaceAround>1</spaceAround>
@@ -22,16 +22,15 @@
           <tag>TSA_Tribal_Stockpile</tag>
           <count>0~1</count>
         </li>
-		<li>
+        <li>
           <tag>TSA_Tribal_Barracks</tag>
           <count>0~1</count>
         </li>
-
-		<li>
+        <li>
           <count>0~1</count>
           <tag>TSA_Tribal_Recreation</tag>
         </li>
-              <li>
+        <li>
           <count>0~1</count>
           <tag>Generic_Graveyard</tag>
         </li>
@@ -58,20 +57,14 @@
     <propsOptions>
       <scatterProps>true</scatterProps>
       <scatterMinDistance>5</scatterMinDistance>
-      <scatterMaxAmount>12</scatterMaxAmount>
+      <scatterMaxAmount>6</scatterMaxAmount>
       <scatterPropsDefs>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_BoxSmall</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleLarge</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleMedium</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleSmall</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogs</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogsLarge</li>
-		<li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenWagon</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Hayball_1a</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Wagon_3a</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Wagon_5a</li>
-		<li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_FilthDirt</li>
-		<li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenChest</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_FilthDirt</li>
+        <li>TSA_WD_Box_2a</li>
+        <li>TSA_WD_Box_4a</li>
+
+
+      
       </scatterPropsDefs>
     </propsOptions>
 
@@ -81,14 +74,7 @@
     </roadOptions>
 
     <stockpileOptions>
-      <stockpileValueMultiplier>1.0</stockpileValueMultiplier>
-      <fillStorageBuildings>true</fillStorageBuildings>
-      <fillWithDefs>
-        <li>Yayo</li>
-        <li>WakeUp</li>
-        <li>Gold</li>
-        <li>ComponentIndustrial</li>
-      </fillWithDefs>
+      <fillStorageBuildings>false</fillStorageBuildings>
     </stockpileOptions>
-  </KCSG.SettlementLayoutDef>
+</KCSG.SettlementLayoutDef>
 </Defs>

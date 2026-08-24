@@ -73,16 +73,39 @@ namespace TSA_WorldDomination
         private static void TryAddTierOption(List<FloatMenuOption> options, Settlement settlement, CompViralSpread comp,
             SettlementTier tier, SettlementTier maxTier)
         {
-            if (tier > maxTier) return;
             string label = WorldActions_Roads.GetRoadTierLabel(tier);
-            options.Add(new FloatMenuOption(label, () =>
+            bool allowed = tier <= maxTier;
+            if (allowed)
             {
-                comp.selectedRoadTier = tier;
-                Action_Outpost_BuildRoad.StartRoadTargeting(settlement, comp, selection =>
+                options.Add(new FloatMenuOption(label, () =>
                 {
-                    Find.WindowStack.Add(new Dialog_OrderedRoadPreview(settlement, comp, selection, tier));
-                });
-            }));
+                    comp.selectedRoadTier = tier;
+                    Action_Outpost_BuildRoad.StartRoadTargeting(settlement, comp, selection =>
+                    {
+                        Find.WindowStack.Add(new Dialog_OrderedRoadPreview(settlement, comp, selection, tier));
+                    });
+                }));
+                return;
+            }
+
+            SettlementTier requiredSettlementTier = MinSettlementTierForRoadTier(tier);
+            var blocked = new FloatMenuOption(label, null)
+            {
+                Disabled = true,
+                tooltip = "TSA_WD_OrderedRoad_TierGateTooltip".Translate(
+                    Outpost_Trading.FormatTierShortLabel(comp.tier),
+                    label,
+                    Outpost_Trading.FormatTierShortLabel(requiredSettlementTier))
+            };
+            options.Add(blocked);
+        }
+
+        /// <summary>Settlement tier required to order this road type (matches <see cref="WorldActions_Roads.GetMaxBuildableRoadTierForSettlement"/>).</summary>
+        private static SettlementTier MinSettlementTierForRoadTier(SettlementTier roadTier)
+        {
+            if (roadTier >= SettlementTier.T3) return SettlementTier.T3;
+            if (roadTier == SettlementTier.T2) return SettlementTier.T2;
+            return SettlementTier.T1;
         }
     }
 

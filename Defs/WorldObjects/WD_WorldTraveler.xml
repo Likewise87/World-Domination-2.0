@@ -23,6 +23,14 @@
     <expandingIconTexture>WorldObjects/DropPod_Raiders</expandingIconTexture>
   </WorldObjectDef>
 
+  <!-- T4 settlement ballistic gravship raid (soft-dep Gravship Raids on map arrival). -->
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_RaidGravship</defName>
+    <label>Raider Gravship</label>
+    <texture>WorldObjects/Gravship_Raiders</texture>
+    <expandingIconTexture>WorldObjects/Gravship_Raiders</expandingIconTexture>
+  </WorldObjectDef>
+
   <WorldObjectDef ParentName="TSA_WD_TravelerBase">
     <defName>TSA_WD_Traveler_Expansion</defName>
     <label>Expansion Caravan</label>

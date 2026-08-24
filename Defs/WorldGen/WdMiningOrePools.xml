@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!--
+    Layout ore remapping (KcsgRockTypeRemapper):
+    - MineableSteel  → one roll from cheapOres (per layout)
+    - MineableSilver → one roll from expensiveOres (per layout)
+
+    Shelf loot override (WdSettlementLootFiller, mining settlements map-wide):
+    - shelfOreBudgetFraction of the tier Mining loot valueBudget is spent on shelf stacks of
+      mined products from mineables verified spawned anywhere on the generated map
+      (classified by these lists).
+    - When both cheap and expensive buckets have verified spawns, shelf ore budget splits 60% cheap / 40% expensive.
+    - Remainder uses the Mining loot table (meals and medicine).
+  -->
+
+  <TSA_WorldDomination.WdMiningOrePoolDef>
+    <defName>TSA_WdMiningOrePool_Default</defName>
+    <biomes>
+      <li>Default</li>
+    </biomes>
+    <shelfOreBudgetFraction>0.5</shelfOreBudgetFraction>
+    <cheapOres>
+      <li><thingDef>MineableSteel</thingDef><weight>5</weight></li>
+      <li><thingDef>MineableComponentsIndustrial</thingDef><weight>2</weight></li>
+      <li><thingDef>MineableJade</thingDef><weight>1</weight></li>
+    </cheapOres>
+    <expensiveOres>
+      <li><thingDef>MineableSilver</thingDef><weight>5</weight></li>
+      <li><thingDef>MineableGold</thingDef><weight>2</weight></li>
+      <li><thingDef>MineablePlasteel</thingDef><weight>1</weight></li>
+      <li MayRequire="Ludeon.RimWorld.Odyssey"><thingDef>MineableObsidian</thingDef><weight>1</weight></li>
+    </expensiveOres>
+  </TSA_WorldDomination.WdMiningOrePoolDef>
+
+  <TSA_WorldDomination.WdMiningOrePoolDef>
+    <defName>TSA_WdMiningOrePool_Desert</defName>
+    <biomes>
+      <li>Desert</li>
+      <li>ExtremeDesert</li>
+      <li>AridShrubland</li>
+    </biomes>
+    <shelfOreBudgetFraction>0.5</shelfOreBudgetFraction>
+    <cheapOres>
+      <li><thingDef>MineableSteel</thingDef><weight>3</weight></li>
+      <li><thingDef>MineableJade</thingDef><weight>3</weight></li>
+      <li><thingDef>MineableComponentsIndustrial</thingDef><weight>1</weight></li>
+    </cheapOres>
+    <expensiveOres>
+      <li><thingDef>MineableSilver</thingDef><weight>4</weight></li>
+      <li><thingDef>MineableGold</thingDef><weight>3</weight></li>
+      <li><thingDef>MineablePlasteel</thingDef><weight>1</weight></li>
+    </expensiveOres>
+  </TSA_WorldDomination.WdMiningOrePoolDef>
+
+</Defs>

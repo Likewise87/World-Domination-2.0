@@ -230,7 +230,8 @@ namespace TSA_WorldDomination
             if (traveler.mission == TravelerMission.MortarStrike
                 || traveler.mission == TravelerMission.AntiAirStrike
                 || traveler.mission == TravelerMission.RapidResponseDropPod
-                || traveler.mission == TravelerMission.RaidDropPod)
+                || traveler.mission == TravelerMission.RaidDropPod
+                || traveler.mission == TravelerMission.RaidGravship)
                 return;
             if (traveler is WorldObject_Traveler_Outpost_Delivery delivery && delivery.deliveryViaDropPod)
                 return;

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
     <defName>Generic_Luxury_Bedroom_3</defName>
     <layouts>
       <li>
@@ -21,20 +22,20 @@
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
       </li>
       <li>
-        <li>.,.,.,.,.,.,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,Wall_BlocksMarble,Wall_BlocksMarble,.,.,Armchair_Synthread_North,.,.,Wall_BlocksMarble,Wall_BlocksMarble,.,.,.,.,.</li>
-        <li>.,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,SculptureSmall_Jade,.,.,VFEPD_Desk_BlocksMarble_North,.,.,StandingLamp,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,.</li>
-        <li>.,Wall_BlocksMarble,EndTable_WoodLog_North,RoyalBed_WoodLog_North,.,Wall_BlocksMarble,Wall_BlocksMarble,.,.,DiningChair_WoodLog_South,.,.,Wall_BlocksMarble,Wall_BlocksMarble,.,ChemfuelPoweredGenerator,.,Wall_BlocksMarble,.</li>
-        <li>.,Wall_BlocksMarble,.,.,.,.,Wall_BlocksMarble,Wall_BlocksMarble,.,.,.,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,.,.,.,Wall_BlocksMarble,.</li>
-        <li>Plant_Dandelion,Wall_BlocksMarble,.,.,VFEPD_WoodenDivider_South,.,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Autodoor_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Autodoor_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,.</li>
-        <li>.,Wall_BlocksMarble,.,.,.,.,.,Wall_BlocksMarble,.,.,.,Wall_BlocksMarble,Shelf_WoodLog_North,.,.,.,.,Wall_BlocksMarble,.</li>
-        <li>.,Wall_BlocksMarble,VFEPD_WoodenMirror_East,.,.,.,.,Autodoor_BlocksMarble,.,.,.,Autodoor_BlocksMarble,.,.,.,DiningChair_WoodLog_North,.,Wall_BlocksMarble,.</li>
-        <li>.,Wall_BlocksMarble,.,.,.,.,StandingLamp,Wall_BlocksMarble,.,.,.,Wall_BlocksMarble,.,.,DiningChair_WoodLog_East,Table2x2c_WoodLog,.,Wall_BlocksMarble,.</li>
-        <li>.,Wall_BlocksMarble,.,.,Dresser_WoodLog_South,.,VFEPD_WoodenBookshelf_South,Wall_BlocksMarble,Wall_BlocksMarble,Autodoor_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Shelf_WoodLog_East,StandingLamp,DiningChair_WoodLog_East,.,.,Wall_BlocksMarble,.</li>
-        <li>.,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,.,.,.,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,.</li>
-        <li>.,.,.,.,.,Wall_BlocksMarble,.,Wall_BlocksMarble,.,.,.,Wall_BlocksMarble,.,Wall_BlocksMarble,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,Wall_BlocksGranite,Wall_BlocksGranite,.,.,Armchair_Synthread_North,.,.,Wall_BlocksGranite,Wall_BlocksGranite,.,.,.,.,.</li>
+        <li>.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,SculptureSmall_Jade,.,.,VFEPD_Desk_BlocksGranite_North,.,.,StandingLamp,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,.</li>
+        <li>.,Wall_BlocksGranite,EndTable_WoodLog_North,RoyalBed_WoodLog_North,.,Wall_BlocksGranite,Wall_BlocksGranite,.,.,DiningChair_WoodLog_South,.,.,Wall_BlocksGranite,Wall_BlocksGranite,.,ChemfuelPoweredGenerator,.,Wall_BlocksGranite,.</li>
+        <li>.,Wall_BlocksGranite,.,.,.,.,Wall_BlocksGranite,Wall_BlocksGranite,.,.,.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,.,.,.,Wall_BlocksGranite,.</li>
+        <li>Plant_Dandelion,Wall_BlocksGranite,.,.,VFEPD_WoodenDivider_South,.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Autodoor_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Autodoor_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,.</li>
+        <li>.,Wall_BlocksGranite,.,.,.,.,.,Wall_BlocksGranite,.,.,.,Wall_BlocksGranite,Shelf_WoodLog_North,.,.,.,.,Wall_BlocksGranite,.</li>
+        <li>.,Wall_BlocksGranite,VFEPD_WoodenMirror_East,.,.,.,.,Autodoor_BlocksGranite,.,.,.,Autodoor_BlocksGranite,.,.,.,DiningChair_WoodLog_North,.,Wall_BlocksGranite,.</li>
+        <li>.,Wall_BlocksGranite,.,.,.,.,StandingLamp,Wall_BlocksGranite,.,.,.,Wall_BlocksGranite,.,.,DiningChair_WoodLog_East,Table2x2c_WoodLog,.,Wall_BlocksGranite,.</li>
+        <li>.,Wall_BlocksGranite,.,.,Dresser_WoodLog_South,.,VFEPD_WoodenBookshelf_South,Wall_BlocksGranite,Wall_BlocksGranite,Autodoor_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Shelf_WoodLog_East,StandingLamp,DiningChair_WoodLog_East,.,.,Wall_BlocksGranite,.</li>
+        <li>.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,.,.,.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,.</li>
+        <li>.,.,.,.,.,Wall_BlocksGranite,.,Wall_BlocksGranite,.,.,.,Wall_BlocksGranite,.,Wall_BlocksGranite,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Dandelion,.,.</li>
-        <li>.,.,.,.,.,.,Column_BlocksMarble,.,Column_BlocksMarble,.,Column_BlocksMarble,.,Column_BlocksMarble,.,.,.,.,.,.</li>
+        <li>.,.,.,.,.,.,Column_BlocksGranite,.,Column_BlocksGranite,.,Column_BlocksGranite,.,Column_BlocksGranite,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
       </li>
     </layouts>
@@ -56,21 +57,21 @@
       <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
     </roofGrid>
     <terrainGrid>
-      <li>.,.,.,FlagstoneMarble,.,.,.,.,.,.,.,.,.,.,FlagstoneMarble,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,.,.,.,FlagstoneMarble,.,.,.</li>
-      <li>.,FlagstoneMarble,.,.,.,.,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,.,.,.,.,.,.</li>
+      <li>.,.,.,FlagstoneGranite,.,.,.,.,.,.,.,.,.,.,FlagstoneGranite,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,.,.,.,FlagstoneGranite,.,.,.</li>
+      <li>.,FlagstoneGranite,.,.,.,.,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,.,.,.,.,.,.</li>
       <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,.,.,Concrete,PavedTile,Concrete,.,.</li>
       <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,CarpetRed,CarpetRed,CarpetRed,.,.,.,PavedTile,PavedTile,Concrete,.,.</li>
-      <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,CarpetRed,FineTileMarble,CarpetRed,.,.,.,PavedTile,Concrete,.,.,.</li>
-      <li>FlagstoneMarble,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,FineTileMarble,FineTileMarble,FineTileMarble,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.</li>
-      <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,CarpetRed,CarpetRed,WoodPlankFloor,FineTileMarble,FineTileMarble,PavedTile,FineTileMarble,FineTileMarble,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.</li>
-      <li>.,WoodPlankFloor,WoodPlankFloor,CarpetRed,CarpetRed,CarpetRed,CarpetRed,.,FineTileMarble,FineTileMarble,FineTileMarble,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.</li>
-      <li>.,FlagstoneMarble,WoodPlankFloor,WoodPlankFloor,CarpetRed,CarpetRed,CarpetRed,.,FlagstoneMarble,FlagstoneMarble,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.</li>
-      <li>FlagstoneMarble,.,.,.,.,.,.,.,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,.,.</li>
-      <li>.,.,.,.,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,.,.,.</li>
-      <li>.,FlagstoneMarble,.,.,FlagstoneMarble,FlagstoneMarble,.,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,FlagstoneMarble,.,.,.,.,FlagstoneMarble,.,FlagstoneMarble</li>
-      <li>.,FlagstoneMarble,.,.,.,.,.,FlagstoneMarble,FlagstoneMarble,.,.,.,.,.,FlagstoneMarble,.,.,.,FlagstoneMarble</li>
+      <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,CarpetRed,FineTileGranite,CarpetRed,.,.,.,PavedTile,Concrete,.,.,.</li>
+      <li>FlagstoneGranite,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,FineTileGranite,FineTileGranite,FineTileGranite,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.</li>
+      <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,CarpetRed,CarpetRed,WoodPlankFloor,FineTileGranite,FineTileGranite,PavedTile,FineTileGranite,FineTileGranite,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.</li>
+      <li>.,WoodPlankFloor,WoodPlankFloor,CarpetRed,CarpetRed,CarpetRed,CarpetRed,.,FineTileGranite,FineTileGranite,FineTileGranite,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.</li>
+      <li>.,FlagstoneGranite,WoodPlankFloor,WoodPlankFloor,CarpetRed,CarpetRed,CarpetRed,.,FlagstoneGranite,FlagstoneGranite,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.</li>
+      <li>FlagstoneGranite,.,.,.,.,.,.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.</li>
+      <li>.,.,.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.,.</li>
+      <li>.,FlagstoneGranite,.,.,FlagstoneGranite,FlagstoneGranite,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.,.,.,FlagstoneGranite,.,FlagstoneGranite</li>
+      <li>.,FlagstoneGranite,.,.,.,.,.,FlagstoneGranite,FlagstoneGranite,.,.,.,.,.,FlagstoneGranite,.,.,.,FlagstoneGranite</li>
     </terrainGrid>
     <tags>
       <li>Generic_Luxury_Bedroom</li>

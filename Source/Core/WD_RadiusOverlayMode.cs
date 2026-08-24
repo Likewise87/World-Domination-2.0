@@ -16,6 +16,7 @@ namespace TSA_WorldDomination
         /// <summary>
         /// While targeting / hovering: hop ring if <see cref="UseHopRadiusRings"/>, else one-at-a-time hex fill.
         /// Pass <paramref name="accuracyBands"/> for mortar/AA concentric accuracy rings only.
+        /// Pass <paramref name="accuracyBandMaxRange"/> (absolute configured max) so shrink only clips the disk; colors stay locked to full max.
         /// Pass <paramref name="attackRangeBands"/> for NPC Attack equal-quarter raid-range rings.
         /// </summary>
         public static void DrawOrFill(
@@ -25,7 +26,8 @@ namespace TSA_WorldDomination
             Material hopRingMat,
             bool accuracyBands = false,
             bool attackRangeBands = false,
-            bool zealAttackInnerCyan = false)
+            bool zealAttackInnerCyan = false,
+            float accuracyBandMaxRange = -1f)
         {
             if (UseHopRadiusRings)
             {
@@ -33,7 +35,7 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            RadiusFillHoverController.Begin(center, radius, fillKind, accuracyBands, attackRangeBands, zealAttackInnerCyan);
+            RadiusFillHoverController.Begin(center, radius, fillKind, accuracyBands, attackRangeBands, zealAttackInnerCyan, accuracyBandMaxRange);
         }
 
         public static void DrawOrFill(
@@ -43,11 +45,12 @@ namespace TSA_WorldDomination
             Material hopRingMat,
             bool accuracyBands = false,
             bool attackRangeBands = false,
-            bool zealAttackInnerCyan = false)
+            bool zealAttackInnerCyan = false,
+            float accuracyBandMaxRange = -1f)
         {
             if (worldObject == null || worldObject.Destroyed) return;
             PlanetLayer layer = PlanetSurfaceWorldActions.LayerOf(worldObject);
-            DrawOrFill(new PlanetTile(worldObject.Tile, layer), radius, fillKind, hopRingMat, accuracyBands, attackRangeBands, zealAttackInnerCyan);
+            DrawOrFill(new PlanetTile(worldObject.Tile, layer), radius, fillKind, hopRingMat, accuracyBands, attackRangeBands, zealAttackInnerCyan, accuracyBandMaxRange);
         }
 
         public static void DrawOrFill(
@@ -58,11 +61,12 @@ namespace TSA_WorldDomination
             PlanetLayer layer = null,
             bool accuracyBands = false,
             bool attackRangeBands = false,
-            bool zealAttackInnerCyan = false)
+            bool zealAttackInnerCyan = false,
+            float accuracyBandMaxRange = -1f)
         {
             if (layer == null)
                 layer = Find.WorldGrid?.Surface ?? WorldDomination_UIUtils.GetDefaultPlanetLayer();
-            DrawOrFill(new PlanetTile(centerTileId, layer), radius, fillKind, hopRingMat, accuracyBands, attackRangeBands, zealAttackInnerCyan);
+            DrawOrFill(new PlanetTile(centerTileId, layer), radius, fillKind, hopRingMat, accuracyBands, attackRangeBands, zealAttackInnerCyan, accuracyBandMaxRange);
         }
     }
 }

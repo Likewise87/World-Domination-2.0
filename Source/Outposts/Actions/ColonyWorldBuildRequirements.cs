@@ -27,6 +27,17 @@ namespace TSA_WorldDomination
 
         public static ResearchProjectDef GetRequiredResearchForRoad(SettlementTier tier)
         {
+            WdRoadTierDef def = WdBiomeTableResolver.GetRoadTierDef(tier);
+            if (def?.researchPrerequisites != null)
+            {
+                for (int i = 0; i < def.researchPrerequisites.Count; i++)
+                {
+                    ResearchProjectDef project = def.researchPrerequisites[i];
+                    if (project != null) return project;
+                }
+            }
+
+            // Soft fallback if XML missing.
             if (tier == SettlementTier.T3 || tier == SettlementTier.T4)
                 return FindResearch(ResearchMicroelectronics);
             if (tier == SettlementTier.T2)
@@ -85,7 +96,19 @@ namespace TSA_WorldDomination
         {
             float skill = ColonyWorldBuildUtility.GetActorConstructionSkillRaw(actor);
             int minC = WorldActions_Roads.GetMinConstructionToBuildRoad(tier);
-            return MeetsConstruction(skill, minC) && IsResearchMet(GetRequiredResearchForRoad(tier));
+            if (!MeetsConstruction(skill, minC)) return false;
+
+            WdRoadTierDef def = WdBiomeTableResolver.GetRoadTierDef(tier);
+            if (def?.researchPrerequisites != null && def.researchPrerequisites.Count > 0)
+            {
+                for (int i = 0; i < def.researchPrerequisites.Count; i++)
+                {
+                    if (!IsResearchMet(def.researchPrerequisites[i])) return false;
+                }
+                return true;
+            }
+
+            return IsResearchMet(GetRequiredResearchForRoad(tier));
         }
 
         public static bool MeetsRoadBlockRequirements(WorldObject actor, RoadBlockKind kind)

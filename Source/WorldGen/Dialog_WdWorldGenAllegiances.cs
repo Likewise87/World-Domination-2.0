@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -8,7 +9,7 @@ using Verse.Sound;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// World-gen allegiance editor (Select Starting Site). New UI; does not modify Dialog_AllegianceLock.
+    /// Unified allegiance editor: faction WD participation, diplomacy/goodwill, and NPC×NPC allegiance locks.
     /// </summary>
     public class Dialog_WdWorldGenAllegiances : Window
     {
@@ -34,10 +35,23 @@ namespace TSA_WorldDomination
         private const float ScrollBarReserve = 24f;
         private const float ScrollViewInset = 4f;
         private const float WindowMarginX = 18f;
-        /// <summary>Vanilla hostile floor. Max goodwill can rise via mod settings; the floor stays -100.</summary>
+        private const float SectionHeaderH = 30f;
+        private const float SectionToTableGap = 1f;
+        private const float TableHeaderH = 28f;
+        private const float RosterRowH = 36f;
+        private const float RosterBodyMinH = 240f;
+        private const float RosterBlockPad = 8f;
+        private const float RosterColWd = 68f;
+        private const float RosterColMapGen = 58f;
+        private const float RosterColStoryteller = 72f;
+        private const float RosterSeparatorW = 1f;
+        private const int RosterColumnsPerRow = 2;
+        private const float PageBtnH = 24f;
+        private const float PageBtnGap = 4f;
+        private const float ResetSectionBtnW = 96f;
         private const int MinGoodwill = -100;
+        private const GameFont PageBtnFont = GameFont.Tiny;
 
-        /// <summary>Left pad through Lock button right edge for a full NPC×NPC row.</summary>
         private static float RowContentWidth =>
             RowPadLeft
             + FactionChipW + ChipGap
@@ -50,49 +64,100 @@ namespace TSA_WorldDomination
         private static float PreferredInRectWidth =>
             RowContentWidth + ScrollViewInset * 2f + ScrollBarReserve;
 
-        private Vector2 scrollPosition = Vector2.zero;
+        private Vector2 rosterScrollPosition = Vector2.zero;
+        private Vector2 diplomacyScrollPosition = Vector2.zero;
         private string searchTerm = "";
         private string lastAppliedFilter;
+        private readonly List<Faction> factionRoster = new List<Faction>();
         private readonly List<Pair<Faction, Faction>> factionPairs = new List<Pair<Faction, Faction>>();
         private readonly List<Pair<Faction, Faction>> filteredPairsCache = new List<Pair<Faction, Faction>>();
         private readonly Dictionary<string, string> goodwillEditBuffers = new Dictionary<string, string>();
-        private bool freezeOnApply = true;
+        private static bool factionsControlledExpanded = true;
+        private static bool diplomaticPairsExpanded = true;
         private static string s_filterPlaceholder;
 
+        private static bool IsLiveEdit => Current.ProgramState == ProgramState.Playing;
+
+        private static float ContentRightEdge(Rect area) =>
+            area.xMax - ScrollBarReserve - ScrollViewInset;
+
+        private static float ContentWidth(Rect area) =>
+            ContentRightEdge(area) - area.x - ScrollViewInset;
+
+        private static Rect ResetSectionButtonRect(Rect row) =>
+            new Rect(
+                ContentRightEdge(row) - ResetSectionBtnW,
+                row.y + (row.height - PageBtnH) * 0.5f,
+                ResetSectionBtnW,
+                PageBtnH);
+
+        private readonly struct RosterLayout
+        {
+            public readonly float ContentWidth;
+            public readonly float BlockWidth;
+            public readonly float ColFaction;
+
+            public RosterLayout(float contentWidth)
+            {
+                ContentWidth = contentWidth;
+                float sepTotal = (RosterColumnsPerRow - 1) * RosterSeparatorW;
+                BlockWidth = (contentWidth - sepTotal) / RosterColumnsPerRow;
+                ColFaction = Mathf.Max(72f, BlockWidth - RosterBlockPad - RosterColWd - RosterColMapGen - RosterColStoryteller);
+            }
+
+            public float BlockX(int column) =>
+                column * (BlockWidth + RosterSeparatorW);
+
+            public float SeparatorX(int column) =>
+                BlockX(column);
+        }
+
         public override Vector2 InitialSize =>
-            new Vector2(PreferredInRectWidth + WindowMarginX * 2f, 728f);
+            new Vector2(PreferredInRectWidth + WindowMarginX * 2f, 820f);
 
         public Dialog_WdWorldGenAllegiances()
         {
             doCloseButton = true;
             doCloseX = true;
             absorbInputAroundWindow = true;
-            forcePause = false;
+            forcePause = IsLiveEdit;
             closeOnClickedOutside = true;
             optionalTitle = null;
             if (s_filterPlaceholder == null)
                 s_filterPlaceholder = "TSA_WD_FilterByName".Translate();
 
             WorldDominationMod.settings?.EnsureInitialLaunchDefaults();
-            RefreshFactionPairs();
+            RefreshFactionData();
         }
 
-        private void RefreshFactionPairs()
+        private void RefreshFactionData()
         {
+            factionRoster.Clear();
             factionPairs.Clear();
+
             var allFactions = Find.FactionManager.AllFactionsVisible
-                .Where(f => f != null && (f.IsPlayer || !WorldActions_Utils.IsExcludedFaction(f)))
+                .Where(f => f != null)
                 .OrderBy(f => f.IsPlayer ? 0 : 1)
                 .ThenBy(f => f.def.LabelCap.Resolve())
                 .ToList();
 
             for (int i = 0; i < allFactions.Count; i++)
             {
-                for (int j = i + 1; j < allFactions.Count; j++)
-                    factionPairs.Add(new Pair<Faction, Faction>(allFactions[i], allFactions[j]));
+                Faction f = allFactions[i];
+                if (!f.IsPlayer)
+                    factionRoster.Add(f);
             }
 
-            // Player pairs first, then NPC×NPC.
+            var pairPool = allFactions
+                .Where(f => f.IsPlayer || !WorldActions_Utils.IsAutoExcludedFromWd(f))
+                .ToList();
+
+            for (int i = 0; i < pairPool.Count; i++)
+            {
+                for (int j = i + 1; j < pairPool.Count; j++)
+                    factionPairs.Add(new Pair<Faction, Faction>(pairPool[i], pairPool[j]));
+            }
+
             factionPairs.Sort((a, b) =>
             {
                 int scoreA = InvolvesPlayer(a) ? 0 : 1;
@@ -130,6 +195,9 @@ namespace TSA_WorldDomination
         public override void DoWindowContents(Rect inRect)
         {
             float y = inRect.y;
+            var s = WorldDominationMod.settings;
+            if (s == null) return;
+
             Text.Font = GameFont.Medium;
             Widgets.Label(new Rect(inRect.x, y, inRect.width, Outpost_Dialog_UI.DialogTitleHeight),
                 "TSA_WD_WorldSetup_AllegiancesTitle".Translate());
@@ -138,73 +206,47 @@ namespace TSA_WorldDomination
             Text.Font = GameFont.Tiny;
             GUI.color = new Color(0.75f, 0.75f, 0.75f);
             Widgets.Label(new Rect(inRect.x, y, inRect.width, 24f),
-                "TSA_WD_WorldSetup_AllegiancesSubtitle".Translate(
-                    WorldActions_DiplomacyBuffsNerfs.RandomDiplomacyFreezeDays));
+                "TSA_WD_WorldSetup_AllegiancesSubtitleNoFreeze".Translate());
             GUI.color = Color.white;
             Text.Font = GameFont.Small;
             y += 28f;
 
-            var s = WorldDominationMod.settings;
-            if (s == null) return;
+            if (IsLiveEdit)
+                y = Outpost_Dialog_UI.DrawWarningBanner(inRect.x, y, inRect.width,
+                    "TSA_WD_Allegiances_LiveEditWarning".Translate(), severe: true);
 
-            // Same X as the Lock button's right edge inside the scroll view.
-            float contentRight = inRect.x + ScrollViewInset + RowContentWidth;
+            y = DrawFilterRow(inRect, y) + 8f;
+            RebuildFilteredPairsIfNeeded();
 
-            // Row 1: Lock All … Reset Global left; Freeze right-aligned to Lock column.
-            float btnW = 115f;
-            float btnGap = 5f;
-            float freezeW = 200f;
-            float curX = inRect.x;
+            float bottomReserve = 44f;
+            float remainingH = inRect.yMax - y - bottomReserve;
 
-            Rect btnLockAllRect = new Rect(curX, y, btnW, 30f);
-            if (Widgets.ButtonText(btnLockAllRect, "TSA_WD_BtnLockAll".Translate()))
+            if (DrawFactionsSectionHeader(new Rect(inRect.x, y, inRect.width, SectionHeaderH), s))
             {
-                foreach (var pair in factionPairs)
-                    s.lockedAllegiancePairs.Add(s.GetFactionPairKey(pair.First, pair.Second));
-                SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera();
+                y += SectionHeaderH + SectionToTableGap;
+                float rosterH = Mathf.Min(RosterBodyMinH, Mathf.Max(RosterBodyMinH, remainingH * 0.42f));
+                Rect rosterOut = new Rect(inRect.x, y, inRect.width, rosterH);
+                DrawFactionRosterTable(rosterOut, s);
+                y += rosterH + 6f;
+                remainingH = inRect.yMax - y - bottomReserve;
             }
-            TooltipHandler.TipRegion(btnLockAllRect, "TSA_WD_BtnLockAll_Tooltip".Translate());
-            curX += btnW + btnGap;
+            else
+                y += SectionHeaderH + SectionToTableGap;
 
-            Rect btnAllowAllRect = new Rect(curX, y, btnW, 30f);
-            if (Widgets.ButtonText(btnAllowAllRect, "TSA_WD_BtnAllowAll".Translate()))
+            if (DrawDiplomaticPairsSectionHeader(new Rect(inRect.x, y, inRect.width, SectionHeaderH), s))
             {
-                s.lockedAllegiancePairs.Clear();
-                SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera();
+                y += SectionHeaderH + SectionToTableGap;
+                float diploH = Mathf.Max(120f, remainingH - SectionHeaderH);
+                Rect diploOut = new Rect(inRect.x, y, inRect.width, diploH);
+                DrawDiplomacyTable(diploOut, s);
             }
-            TooltipHandler.TipRegion(btnAllowAllRect, "TSA_WD_BtnAllowAll_Tooltip".Translate());
-            curX += btnW + btnGap;
+            else
+                y += SectionHeaderH + SectionToTableGap;
+        }
 
-            Rect btnResetRect = new Rect(curX, y, btnW, 30f);
-            if (Widgets.ButtonText(btnResetRect, "TSA_WD_BtnReset".Translate()))
-            {
-                s.ResetAllegianceLocks(false);
-                SoundDefOf.Tick_High.PlayOneShotOnCamera();
-            }
-            TooltipHandler.TipRegion(btnResetRect, "TSA_WD_BtnReset_Tooltip".Translate());
-            curX += btnW + btnGap;
-
-            Rect btnResetGlobalRect = new Rect(curX, y, btnW, 30f);
-            if (Widgets.ButtonText(btnResetGlobalRect, "TSA_WD_BtnResetGlobal".Translate()))
-            {
-                s.ResetAllegianceLocks(true);
-                SoundDefOf.Tick_High.PlayOneShotOnCamera();
-            }
-            TooltipHandler.TipRegion(btnResetGlobalRect, "TSA_WD_BtnResetGlobal_Tooltip".Translate());
-
-            Rect freezeRect = new Rect(contentRight - freezeW, y, freezeW, 30f);
-            Widgets.CheckboxLabeled(freezeRect, "TSA_WD_WorldSetup_FreezeOnApply".Translate(
-                WorldActions_DiplomacyBuffsNerfs.RandomDiplomacyFreezeDays), ref freezeOnApply);
-            TooltipHandler.TipRegion(freezeRect, "TSA_WD_WorldSetup_FreezeOnApplyTooltip".Translate(
-                WorldActions_DiplomacyBuffsNerfs.RandomDiplomacyFreezeDays));
-
-            y += 36f;
-
-            // Row 2: filter (left) + reset allegiances (right-aligned to Lock column)
-            string oldSearch = searchTerm;
-            float resetAllegW = 210f;
-            float searchMax = Mathf.Max(120f, contentRight - resetAllegW - 65f - inRect.x);
-            Rect searchRect = new Rect(inRect.x, y, Mathf.Min(280f, searchMax), 28f);
+        private float DrawFilterRow(Rect inRect, float y)
+        {
+            Rect searchRect = new Rect(inRect.x, y, Mathf.Min(320f, inRect.width - 72f), 28f);
             searchTerm = Widgets.TextField(searchRect, searchTerm);
             if (string.IsNullOrEmpty(searchTerm))
             {
@@ -215,35 +257,388 @@ namespace TSA_WorldDomination
                 Text.Anchor = TextAnchor.UpperLeft;
             }
 
-            Rect clearBtnRect = new Rect(searchRect.xMax + 5f, y, 60f, 28f);
+            Rect clearBtnRect = new Rect(searchRect.xMax + 5f, y, 60f, PageBtnH);
+            Text.Font = PageBtnFont;
             if (Widgets.ButtonText(clearBtnRect, "TSA_WD_BtnClear".Translate()))
                 searchTerm = "";
+            Text.Font = GameFont.Small;
 
-            Rect resetAllegRect = new Rect(contentRight - resetAllegW, y, resetAllegW, 28f);
-            if (Widgets.ButtonText(resetAllegRect, "TSA_WD_WorldSetup_ResetAllegiancesDefault".Translate()))
+            return y + 32f;
+        }
+
+        private void RebuildFilteredPairsIfNeeded()
+        {
+            if (lastAppliedFilter == searchTerm) return;
+            lastAppliedFilter = searchTerm;
+            filteredPairsCache.Clear();
+            string searchLower = string.IsNullOrEmpty(searchTerm) ? null : searchTerm.ToLowerInvariant();
+            for (int i = 0; i < factionPairs.Count; i++)
             {
-                ResetAllRelationsToDefaults();
-                SoundDefOf.Tick_High.PlayOneShotOnCamera();
+                var p = factionPairs[i];
+                if (searchLower == null
+                    || FactionMatchesFilter(p.First, searchLower)
+                    || FactionMatchesFilter(p.Second, searchLower))
+                    filteredPairsCache.Add(p);
             }
-            TooltipHandler.TipRegion(resetAllegRect, "TSA_WD_WorldSetup_ResetAllegiancesDefaultTooltip".Translate());
+        }
 
-            y += 36f;
+        private bool DrawFactionsSectionHeader(Rect row, WorldDominationSettings s)
+        {
+            Rect resetRect = ResetSectionButtonRect(row);
+            Rect titleRect = new Rect(row.x, row.y, resetRect.x - row.x - 6f, row.height);
 
-            if (searchTerm != oldSearch || lastAppliedFilter != searchTerm)
-            {
-                lastAppliedFilter = searchTerm;
-                filteredPairsCache.Clear();
-                string searchLower = string.IsNullOrEmpty(searchTerm) ? null : searchTerm.ToLowerInvariant();
-                for (int i = 0; i < factionPairs.Count; i++)
+            DrawCollapsibleHeader(titleRect, ref factionsControlledExpanded,
+                "TSA_WD_Allegiances_SectionParticipation",
+                "TSA_WD_Allegiances_SectionParticipation_Tooltip");
+
+            if (DrawHeaderButton(resetRect, "TSA_WD_BtnResetSection".Translate(),
+                "TSA_WD_BtnResetFactionParticipation_Tooltip".Translate(),
+                () => s.ResetManualFactionParticipation()))
+                SoundDefOf.Tick_High.PlayOneShotOnCamera();
+
+            return factionsControlledExpanded;
+        }
+
+        private bool DrawDiplomaticPairsSectionHeader(Rect row, WorldDominationSettings s)
+        {
+            Rect resetRect = ResetSectionButtonRect(row);
+            float buttonsLeft = resetRect.x - DiplomacyHeaderButtonsWidth();
+            Rect titleRect = new Rect(row.x, row.y, buttonsLeft - row.x - 6f, row.height);
+
+            DrawCollapsibleHeader(titleRect, ref diplomaticPairsExpanded,
+                "TSA_WD_Allegiances_SectionDiplomacy",
+                "TSA_WD_Allegiances_SectionDiplomacy_Tooltip");
+
+            DrawDiplomacyHeaderButtons(s, resetRect);
+            return diplomaticPairsExpanded;
+        }
+
+        private static float DiplomacyHeaderButtonsWidth()
+        {
+            float w = ResetSectionBtnW;
+            w += PageBtnGap + MeasureHeaderBtnW("TSA_WD_BtnResetGlobal".Translate());
+            w += PageBtnGap + MeasureHeaderBtnW("TSA_WD_BtnReset".Translate());
+            w += PageBtnGap + MeasureHeaderBtnW("TSA_WD_BtnAllowAll".Translate());
+            w += PageBtnGap + MeasureHeaderBtnW("TSA_WD_BtnLockAll".Translate());
+            return w;
+        }
+
+        private void DrawDiplomacyHeaderButtons(WorldDominationSettings s, Rect resetRect)
+        {
+            Text.Font = PageBtnFont;
+            float btnH = PageBtnH;
+            float y = resetRect.y;
+            float x = resetRect.x;
+
+            if (DrawHeaderButton(resetRect, "TSA_WD_BtnResetSection".Translate(),
+                "TSA_WD_WorldSetup_ResetAllegiancesDefaultTooltip".Translate(),
+                () =>
                 {
-                    var p = factionPairs[i];
-                    if (searchLower == null
-                        || FactionMatchesFilter(p.First, searchLower)
-                        || FactionMatchesFilter(p.Second, searchLower))
-                        filteredPairsCache.Add(p);
+                    if (IsLiveEdit)
+                    {
+                        Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+                            "TSA_WD_Allegiances_ResetConfirm".Translate(),
+                            () =>
+                            {
+                                ResetAllRelationsToDefaults();
+                                SoundDefOf.Tick_High.PlayOneShotOnCamera();
+                            }));
+                    }
+                    else
+                    {
+                        ResetAllRelationsToDefaults();
+                        SoundDefOf.Tick_High.PlayOneShotOnCamera();
+                    }
+                })) { }
+
+            x -= PageBtnGap;
+            x -= DrawPackedHeaderButton(ref x, y, btnH, "TSA_WD_BtnResetGlobal".Translate(),
+                "TSA_WD_BtnResetGlobal_Tooltip".Translate(), () => s.ResetAllegianceLocks(true),
+                SoundDefOf.Tick_High);
+            x -= PageBtnGap;
+            x -= DrawPackedHeaderButton(ref x, y, btnH, "TSA_WD_BtnReset".Translate(),
+                "TSA_WD_BtnReset_Tooltip".Translate(), () => s.ResetAllegianceLocks(false),
+                SoundDefOf.Tick_High);
+            x -= PageBtnGap;
+            x -= DrawPackedHeaderButton(ref x, y, btnH, "TSA_WD_BtnAllowAll".Translate(),
+                "TSA_WD_BtnAllowAll_Tooltip".Translate(), () => s.lockedAllegiancePairs.Clear(),
+                SoundDefOf.Checkbox_TurnedOff);
+            x -= PageBtnGap;
+            DrawPackedHeaderButton(ref x, y, btnH, "TSA_WD_BtnLockAll".Translate(),
+                "TSA_WD_BtnLockAll_Tooltip".Translate(), LockAllNpcPairs,
+                SoundDefOf.Checkbox_TurnedOn);
+
+            Text.Font = GameFont.Small;
+        }
+
+        private static float DrawPackedHeaderButton(
+            ref float rightEdge,
+            float y,
+            float btnH,
+            string label,
+            string tip,
+            Action onClick,
+            SoundDef sound)
+        {
+            float btnW = MeasureHeaderBtnW(label);
+            rightEdge -= btnW;
+            Rect rect = new Rect(rightEdge, y, btnW, btnH);
+            if (DrawHeaderButton(rect, label, tip, onClick))
+                sound?.PlayOneShotOnCamera();
+            return btnW;
+        }
+
+        private static float MeasureHeaderBtnW(string label)
+        {
+            Text.Font = PageBtnFont;
+            float w = Text.CalcSize(label).x + 14f;
+            return Mathf.Max(52f, w);
+        }
+
+        private static bool DrawHeaderButton(Rect rect, string label, string tip, Action onClick)
+        {
+            TooltipHandler.TipRegion(rect, tip);
+            Text.Font = PageBtnFont;
+            if (!Widgets.ButtonText(rect, label)) return false;
+            onClick();
+            return true;
+        }
+
+        private void LockAllNpcPairs()
+        {
+            var s = WorldDominationMod.settings;
+            if (s == null) return;
+            for (int i = 0; i < factionPairs.Count; i++)
+            {
+                if (!IsNpcNpcPair(factionPairs[i])) continue;
+                s.lockedAllegiancePairs.Add(s.GetFactionPairKey(factionPairs[i].First, factionPairs[i].Second));
+            }
+        }
+
+        private static void DrawCollapsibleHeader(Rect rect, ref bool expanded, string labelKey, string tipKey)
+        {
+            Widgets.DrawHighlightIfMouseover(rect);
+            TooltipHandler.TipRegion(rect, tipKey.Translate());
+            if (Widgets.ButtonInvisible(rect))
+                expanded = !expanded;
+
+            Color c = SettingsUI.SectionHeaderColor;
+            string colorHex = ColorUtility.ToHtmlStringRGBA(c);
+            string arrow = expanded ? "▼" : "▶";
+            Text.Font = GameFont.Small;
+            Widgets.Label(rect, $"<b><color=#{colorHex}>{arrow}  {labelKey.Translate()}</color></b>");
+            Text.Font = GameFont.Small;
+        }
+
+        private void DrawFactionRosterTable(Rect outRect, WorldDominationSettings s)
+        {
+            string searchLower = string.IsNullOrEmpty(searchTerm) ? null : searchTerm.ToLowerInvariant();
+            var visible = new List<Faction>();
+            for (int i = 0; i < factionRoster.Count; i++)
+            {
+                Faction f = factionRoster[i];
+                if (searchLower != null && !FactionMatchesFilter(f, searchLower)) continue;
+                visible.Add(f);
+            }
+
+            var layout = new RosterLayout(ContentWidth(outRect));
+            int rowCount = (visible.Count + RosterColumnsPerRow - 1) / RosterColumnsPerRow;
+            float viewW = layout.ContentWidth;
+            float viewH = TableHeaderH + 4f + rowCount * RosterRowH + 8f;
+            Rect viewRect = new Rect(0f, 0f, viewW, viewH);
+            Rect scrollOut = outRect.ContractedBy(ScrollViewInset);
+            Widgets.BeginScrollView(scrollOut, ref rosterScrollPosition, viewRect);
+
+            float headerY = 0f;
+            for (int col = 0; col < RosterColumnsPerRow; col++)
+                DrawRosterBlockHeader(layout, col, headerY);
+            Widgets.DrawLineHorizontal(0f, headerY + TableHeaderH, viewW);
+            DrawRosterColumnSeparators(layout, headerY, viewH);
+
+            for (int row = 0; row < rowCount; row++)
+            {
+                float rowY = TableHeaderH + 4f + row * RosterRowH;
+                Rect rowRect = new Rect(0f, rowY, viewW, RosterRowH);
+                if (row % 2 == 0) Widgets.DrawHighlight(rowRect);
+                if (Mouse.IsOver(rowRect)) Widgets.DrawLightHighlight(rowRect);
+
+                for (int col = 0; col < RosterColumnsPerRow; col++)
+                {
+                    int index = row * RosterColumnsPerRow + col;
+                    if (index >= visible.Count) break;
+                    DrawRosterFactionCell(s, visible, index, layout, col, rowY);
                 }
             }
 
+            Widgets.EndScrollView();
+        }
+
+        private static void DrawRosterColumnSeparators(RosterLayout layout, float yStart, float yEnd)
+        {
+            GUI.color = Color.white;
+            for (int col = 1; col < RosterColumnsPerRow; col++)
+                Widgets.DrawLineVertical(layout.SeparatorX(col), yStart, yEnd - yStart);
+            GUI.color = Color.white;
+        }
+
+        private static void DrawRosterBlockHeader(RosterLayout layout, int column, float y)
+        {
+            float blockX = layout.BlockX(column);
+            float x = blockX + RosterBlockPad;
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Rect nameRect = new Rect(x, y, layout.ColFaction, TableHeaderH);
+            Widgets.Label(nameRect, "TSA_WD_FactionCol_Name".Translate());
+            x += layout.ColFaction;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Rect wdRect = new Rect(x, y, RosterColWd, TableHeaderH);
+            Widgets.Label(wdRect, "TSA_WD_FactionCol_WdActions".Translate());
+            TooltipHandler.TipRegion(wdRect, "TSA_WD_FactionCol_WdActions_Tooltip".Translate());
+            x += RosterColWd;
+            Rect mapRect = new Rect(x, y, RosterColMapGen, TableHeaderH);
+            Widgets.Label(mapRect, "TSA_WD_FactionCol_BaseGen".Translate());
+            TooltipHandler.TipRegion(mapRect, "TSA_WD_FactionCol_BaseGen_Tooltip".Translate());
+            x += RosterColMapGen;
+            Rect stRect = new Rect(x, y, RosterColStoryteller, TableHeaderH);
+            Widgets.Label(stRect, "TSA_WD_FactionCol_StorytellerRaids".Translate());
+            TooltipHandler.TipRegion(stRect, "TSA_WD_FactionCol_StorytellerRaids_Tooltip".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+        }
+
+        private static void DrawNotApplicableCell(Rect cellRect, string tip)
+        {
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            GUI.color = Color.gray;
+            Widgets.Label(cellRect, "TSA_WD_FactionCol_NA".Translate());
+            GUI.color = Color.white;
+            Text.Anchor = TextAnchor.UpperLeft;
+            TooltipHandler.TipRegion(cellRect, tip);
+        }
+
+        private static void DrawRosterFactionCell(
+            WorldDominationSettings s,
+            List<Faction> visible,
+            int index,
+            RosterLayout layout,
+            int column,
+            float rowY)
+        {
+            Faction f = visible[index];
+            bool hardExcluded = WorldActions_Utils.IsHardExcludedFromWd(f);
+            bool softDefaultExcluded = WorldActions_Utils.IsSoftDefaultExcludedFromWd(f);
+            bool defeated = f.defeated;
+            string defName = f.def.defName;
+            bool wdOn = WorldActions_Utils.IsWdParticipant(f);
+            bool mapGenOn = wdOn && !s.IsManualWdBaseGenExclude(defName);
+            bool storytellerOn = WorldActions_Utils.IsStorytellerRaidAllowed(f);
+
+            float blockX = layout.BlockX(column);
+            float x = blockX + RosterBlockPad;
+            DrawFactionChip(new Rect(x, rowY + 4f, layout.ColFaction - 4f, RosterRowH - 8f), f, defeated);
+            x += layout.ColFaction;
+
+            Rect wdCell = new Rect(x, rowY, RosterColWd, RosterRowH);
+            if (hardExcluded)
+            {
+                string hardTip = WorldActions_Utils.TryGetHardExcludedReasonKey(f, out string hardKey)
+                    ? hardKey.Translate()
+                    : "TSA_WD_FactionCol_WdActions_Tooltip".Translate();
+                DrawNotApplicableCell(wdCell, hardTip);
+            }
+            else
+            {
+                bool wdEditable = !defeated;
+                bool nextWd = wdOn;
+                GUI.enabled = wdEditable;
+                Widgets.Checkbox(new Vector2(x + (RosterColWd - 24f) * 0.5f, rowY + 8f), ref nextWd);
+                GUI.enabled = true;
+                if (wdEditable && nextWd != wdOn)
+                {
+                    s.ClearManualStorytellerOverride(defName);
+                    if (softDefaultExcluded)
+                    {
+                        s.SetManualIncludeInWd(defName, nextWd);
+                        if (!nextWd)
+                        {
+                            s.SetManualWdExclude(defName, true);
+                            s.SetManualWdBaseGenExclude(defName, true);
+                        }
+                        else
+                        {
+                            s.SetManualWdExclude(defName, false);
+                            s.SetManualWdBaseGenExclude(defName, false);
+                        }
+                    }
+                    else
+                    {
+                        s.SetManualIncludeInWd(defName, false);
+                        s.SetManualWdExclude(defName, !nextWd);
+                        if (!nextWd)
+                            s.SetManualWdBaseGenExclude(defName, true);
+                        else
+                            s.SetManualWdBaseGenExclude(defName, false);
+                    }
+                }
+
+                string wdTip = softDefaultExcluded
+                    && WorldActions_Utils.TryGetSoftDefaultExcludedReasonKey(f, out string softKey)
+                    ? softKey.Translate()
+                    : "TSA_WD_FactionCol_WdActions_Tooltip".Translate();
+                TooltipHandler.TipRegion(wdCell, wdTip);
+            }
+            x += RosterColWd;
+
+            Rect mapCell = new Rect(x, rowY, RosterColMapGen, RosterRowH);
+            if (hardExcluded)
+            {
+                string hardTip = WorldActions_Utils.TryGetHardExcludedReasonKey(f, out string hardKey)
+                    ? hardKey.Translate()
+                    : "TSA_WD_FactionCol_BaseGen_Tooltip".Translate();
+                DrawNotApplicableCell(mapCell, hardTip);
+            }
+            else
+            {
+                bool mapEditable = !defeated && wdOn;
+                bool nextMap = mapGenOn;
+                GUI.enabled = mapEditable;
+                Widgets.Checkbox(new Vector2(x + (RosterColMapGen - 24f) * 0.5f, rowY + 8f), ref nextMap);
+                GUI.enabled = true;
+                if (mapEditable && nextMap != mapGenOn)
+                    s.SetManualWdBaseGenExclude(defName, !nextMap);
+
+                string mapTip = !wdOn
+                    ? "TSA_WD_FactionCol_BaseGen_RequiresWdActions".Translate()
+                    : "TSA_WD_FactionCol_BaseGen_Tooltip".Translate();
+                TooltipHandler.TipRegion(mapCell, mapTip);
+            }
+            x += RosterColMapGen;
+
+            Rect stCell = new Rect(x, rowY, RosterColStoryteller, RosterRowH);
+            if (hardExcluded)
+            {
+                string hardTip = WorldActions_Utils.TryGetHardExcludedReasonKey(f, out string hardKey)
+                    ? hardKey.Translate()
+                    : "TSA_WD_FactionCol_StorytellerRaids_Tooltip".Translate();
+                DrawNotApplicableCell(stCell, hardTip);
+            }
+            else
+            {
+                bool stEditable = !defeated;
+                bool nextSt = storytellerOn;
+                GUI.enabled = stEditable;
+                Widgets.Checkbox(new Vector2(x + (RosterColStoryteller - 24f) * 0.5f, rowY + 8f), ref nextSt);
+                GUI.enabled = true;
+                if (stEditable && nextSt != storytellerOn)
+                    s.SetManualStorytellerRaidsAllow(defName, nextSt, WorldActions_Utils.IsWdParticipant(f));
+
+                TooltipHandler.TipRegion(stCell, "TSA_WD_FactionCol_StorytellerRaids_Tooltip".Translate());
+            }
+        }
+
+        private void DrawDiplomacyTable(Rect outRect, WorldDominationSettings s)
+        {
             int lastPlayerPairIndex = -1;
             for (int i = 0; i < filteredPairsCache.Count; i++)
             {
@@ -251,15 +646,13 @@ namespace TSA_WorldDomination
                     lastPlayerPairIndex = i;
             }
 
-            float bottomReserve = 44f;
-            Rect outRect = new Rect(inRect.x, y, inRect.width, inRect.yMax - y - bottomReserve);
-            Widgets.DrawMenuSection(outRect);
-
             float viewWidth = RowContentWidth;
             const float rowStep = 40f;
             float separatorExtra = lastPlayerPairIndex >= 0 ? 8f : 0f;
-            Rect viewRect = new Rect(0f, 0f, viewWidth, filteredPairsCache.Count * rowStep + separatorExtra);
-            Widgets.BeginScrollView(outRect.ContractedBy(ScrollViewInset), ref scrollPosition, viewRect);
+            float viewH = filteredPairsCache.Count * rowStep + separatorExtra;
+            Rect viewRect = new Rect(0f, 0f, viewWidth, viewH);
+            Rect scrollOut = outRect.ContractedBy(ScrollViewInset);
+            Widgets.BeginScrollView(scrollOut, ref diplomacyScrollPosition, viewRect);
 
             float drawY = 0f;
             for (int i = 0; i < filteredPairsCache.Count; i++)
@@ -276,21 +669,20 @@ namespace TSA_WorldDomination
                 bool npcNpc = IsNpcNpcPair(pair);
 
                 float x = RowPadLeft;
-                DrawFactionChip(new Rect(x, rowRect.y + 4f, FactionChipW, 28f), pair.First);
+                DrawFactionChip(new Rect(x, rowRect.y + 4f, FactionChipW, 28f), pair.First, false);
                 x += FactionChipW + ChipGap;
                 Text.Anchor = TextAnchor.MiddleCenter;
                 Widgets.Label(new Rect(x, rowRect.y, ArrowSlotW - 4f, 36f), "↔");
                 Text.Anchor = TextAnchor.UpperLeft;
                 x += ArrowSlotW;
-                DrawFactionChip(new Rect(x, rowRect.y + 4f, FactionChipW, 28f), pair.Second);
+                DrawFactionChip(new Rect(x, rowRect.y + 4f, FactionChipW, 28f), pair.Second, false);
                 x += FactionChipW + AfterSecondChipGap;
 
-                float relBtnH = 28f;
-                float relY = rowRect.y + 4f;
+                float relBtnH = PageBtnH;
+                float relY = rowRect.y + (36f - PageBtnH) * 0.5f;
 
                 if (permVsPlayer)
                 {
-                    // Same horizontal span as Neutral … Hostile toggles.
                     float labelW = RelBtnW * 3f + RelBtnGap * 2f;
                     Rect permRect = new Rect(x, relY, labelW, relBtnH);
                     Text.Font = GameFont.Tiny;
@@ -331,6 +723,7 @@ namespace TSA_WorldDomination
                     {
                         bool isLocked = s.lockedAllegiancePairs.Contains(key);
                         Rect lockRect = new Rect(x, relY, LockBtnW, relBtnH);
+                        Text.Font = PageBtnFont;
                         if (Widgets.ButtonText(lockRect,
                             isLocked
                                 ? "TSA_WD_StatusLocked".Translate().Colorize(Color.red)
@@ -341,6 +734,7 @@ namespace TSA_WorldDomination
                             if (isLocked) SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera();
                             else SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera();
                         }
+                        Text.Font = GameFont.Small;
                     }
                 }
 
@@ -369,7 +763,7 @@ namespace TSA_WorldDomination
             Widgets.DrawBox(r, 1);
             GUI.color = Color.white;
 
-            Text.Font = GameFont.Tiny;
+            Text.Font = PageBtnFont;
             Text.Anchor = TextAnchor.MiddleCenter;
             Widgets.Label(r, label.Colorize(forKind.GetColor()));
             Text.Anchor = TextAnchor.UpperLeft;
@@ -458,10 +852,7 @@ namespace TSA_WorldDomination
         private void ApplyGoodwill(Faction a, Faction b, int goodwill)
         {
             goodwill = ClampGoodwill(goodwill);
-            int ticks = Find.TickManager?.TicksGame ?? 0;
-            int expiry = freezeOnApply
-                ? ticks + WorldActions_DiplomacyBuffsNerfs.RandomDiplomacyFreezeDurationTicks
-                : ticks;
+            int expiry = Find.TickManager?.TicksGame ?? 0;
             if (!WorldActions_DiplomacyBuffsNerfs.TrySetDiplomacyGoodwill(a, b, goodwill, expiry, out _))
             {
                 Messages.Message("TSA_WD_WorldSetup_RelationFailed".Translate(), MessageTypeDefOf.RejectInput);
@@ -475,10 +866,7 @@ namespace TSA_WorldDomination
 
         private void ResetAllRelationsToDefaults()
         {
-            int ticks = Find.TickManager?.TicksGame ?? 0;
-            int expiry = freezeOnApply
-                ? ticks + WorldActions_DiplomacyBuffsNerfs.RandomDiplomacyFreezeDurationTicks
-                : ticks;
+            int expiry = Find.TickManager?.TicksGame ?? 0;
 
             for (int i = 0; i < factionPairs.Count; i++)
             {
@@ -512,13 +900,13 @@ namespace TSA_WorldDomination
             return 0;
         }
 
-        private static void DrawFactionChip(Rect rect, Faction faction)
+        private static void DrawFactionChip(Rect rect, Faction faction, bool grayed)
         {
             float iconSize = 22f;
             Rect iconRect = new Rect(rect.x, rect.y + (rect.height - iconSize) / 2f, iconSize, iconSize);
             Rect textRect = new Rect(iconRect.xMax + 6f, rect.y, rect.width - (iconSize + 6f), rect.height);
 
-            GUI.color = faction.Color;
+            GUI.color = grayed ? Color.gray : faction.Color;
             Widgets.DrawTextureFitted(iconRect, faction.def.FactionIcon, 1f);
             GUI.color = Color.white;
 
@@ -527,6 +915,8 @@ namespace TSA_WorldDomination
             string name = faction.IsPlayer
                 ? (faction.Name + " (" + "TSA_WD_Faction_Player".Translate() + ")")
                 : faction.Name;
+            if (grayed)
+                name += " (" + "TSA_WD_Faction_Defeated".Translate() + ")";
             Widgets.Label(textRect, name.Truncate(textRect.width));
             Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.UpperLeft;

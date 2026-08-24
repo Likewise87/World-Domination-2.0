@@ -12,12 +12,11 @@ Raids on Player controls whether WD can attack your holdings, how frequently tho
 | Max player WD raids per day | 1 | 1 to 10 |
 | Max player WD raids per 4 days | 2 | 1 to 20 |
 | Max player WD raids per 7 days | 3 | 1 to 30 |
-| Block storyteller raids (only World Domination raids) | On | On or Off |
-| Allow storyteller raids from non-WD factions | On | Shown while storyteller raids from WD factions are blocked |
+| Storyteller raid rules (per faction) | WD Actions on → storyteller off | **WD Faction scope and Allegiances** (Storyteller column); not on this page |
 
 The three rate caps are global across all player colonies and outposts. The 4-day cap cannot be lower than the daily cap, and the 7-day cap cannot be lower than the 4-day cap. Per-target cooldowns apply in addition to these global windows. The outpost defense cooldown has a separate 5-day default in Outpost Settings.
 
-Blocking storyteller raids affects random raids selected from WD-managed factions. Quests, forced incidents, comms, developer actions, and WD world-map raids are not blocked. With the non-WD exception enabled, factions outside WD management may still be selected by the storyteller.
+Per-faction storyteller blocking replaces the old **Block storyteller raids** and **Allow non-WD raids** checkboxes. If you customized those, set rules again in **WD Faction scope and Allegiances**. Quests, forced incidents, comms, developer actions, and WD world-map raids are not blocked.
 
 ## Raid point clamping
 

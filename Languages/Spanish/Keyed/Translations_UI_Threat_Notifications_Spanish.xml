@@ -70,6 +70,10 @@
   <TSA_WD_Dash_FactionRank>Eres la {0} más fuerte de {1} facciones.</TSA_WD_Dash_FactionRank>
   <TSA_WD_Dash_FactionRankLeader>Enhorabuena. Eres el líder mundial</TSA_WD_Dash_FactionRankLeader>
   <TSA_WD_Dash_FactionRankTip>Tu fuerza: {0}\nCuota de fuerza global: {1} %</TSA_WD_Dash_FactionRankTip>
+  <TSA_WD_Dash_ConfigureScope>Config. alcance</TSA_WD_Dash_ConfigureScope>
+  <TSA_WD_Dash_ConfigureScopeTip>Abre Alcance de facciones WD y lealtades. Elige qué facciones usan Acciones WD, MapGen e incursiones del narrador.</TSA_WD_Dash_ConfigureScopeTip>
+  <TSA_WD_Dash_Nav_Diplomacy>Diplomacia</TSA_WD_Dash_Nav_Diplomacy>
+  <TSA_WD_Dash_Nav_Outposts>Avanzadillas</TSA_WD_Dash_Nav_Outposts>
   <TSA_WD_Dash_OutpostPawnSummary>Tienes {0} peones en {1} avanzadillas y tu colonia.</TSA_WD_Dash_OutpostPawnSummary>
   <TSA_WD_Dash_MidGameDifficultyActive>Dificultad de mitad de partida activa</TSA_WD_Dash_MidGameDifficultyActive>
   <TSA_WD_Dash_LateGameDifficultyActive>Dificultad de final de partida activa</TSA_WD_Dash_LateGameDifficultyActive>
@@ -153,9 +157,7 @@
   <TSA_WD_Notify_PrisonerRecruitedUnderway>Notificar cuando un prisionero de avanzadilla es reclutado y parte</TSA_WD_Notify_PrisonerRecruitedUnderway>
   <TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>Mostrar un mensaje cuando un prisionero de avanzadilla termina el reclutamiento y empieza a viajar a su destino programado.</TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>
   <TSA_WD_Notify_PlayerCaravanClash>Notificar cuando una caravana del jugador tenga un enfrentamiento</TSA_WD_Notify_PlayerCaravanClash>
-  <TSA_WD_Notify_PlayerCaravanClashTooltip>Recibir cartas cuando una de tus caravanas entre, gane o pierda un enfrentamiento de caravanas WD.</TSA_WD_Notify_PlayerCaravanClashTooltip>
-  <TSA_WD_Show_CaravanClashLootDialog>Mostrar diálogo de botín al ganar un enfrentamiento de caravana</TSA_WD_Show_CaravanClashLootDialog>
-  <TSA_WD_Show_CaravanClashLootDialogTooltip>Tras ganar un enfrentamiento, pausa para elegir prisioneros y objetos antes de cerrar el mapa. El peso no puede superar la capacidad de la caravana.</TSA_WD_Show_CaravanClashLootDialogTooltip>
+  <TSA_WD_Notify_PlayerCaravanClashTooltip>Recibir cartas cuando una de tus caravanas entre o pierda un enfrentamiento de caravanas WD.</TSA_WD_Notify_PlayerCaravanClashTooltip>
   <TSA_WD_Notify_RapidResponseCaravanClash>Notificar enfrentamientos de caravanas de respuesta rápida</TSA_WD_Notify_RapidResponseCaravanClash>
   <TSA_WD_Notify_RapidResponseCaravanClashTooltip>Recibir cartas cuando una intercepción de respuesta rápida derrote a una caravana enemiga o sea derrotada.</TSA_WD_Notify_RapidResponseCaravanClashTooltip>
   <TSA_WD_Notify_TravelerPollutionDamage>Notificar daño por contaminación a viajeros</TSA_WD_Notify_TravelerPollutionDamage>
@@ -530,6 +532,8 @@
   <TSA_WD_PawnTransfer_NotTravelReady_Mental>{0} está en un estado mental y no puede viajar.</TSA_WD_PawnTransfer_NotTravelReady_Mental>
   <TSA_WD_PawnTransfer_NotTravelReady_Labor>{0} está de parto y no puede viajar.</TSA_WD_PawnTransfer_NotTravelReady_Labor>
   <TSA_WD_PawnTransfer_NotTravelReady_Immobile>{0} no puede moverse y no puede viajar.</TSA_WD_PawnTransfer_NotTravelReady_Immobile>
+  <TSA_WD_PawnTransfer_EscortRequired>Incluye un caminante capaz, animal de carga o vehículo en esta transferencia: los peones inmóviles o caídos no pueden salir solos mientras otros permanecen en el puesto.</TSA_WD_PawnTransfer_EscortRequired>
+  <TSA_WD_PawnTransfer_ImmobilizedEvacuate>Caravana formada sin un caminante capaz. No puede moverse hasta que un colono, animal de carga o vehículo capaz se fusione con ella.</TSA_WD_PawnTransfer_ImmobilizedEvacuate>
   <TSA_WD_PawnTransfer_InvalidDestination>Destino no válido.</TSA_WD_PawnTransfer_InvalidDestination>
   <TSA_WD_PawnTransfer_SameDestination>No se puede trasladar al mismo lugar.</TSA_WD_PawnTransfer_SameDestination>
   <TSA_WD_PawnTransfer_MultipleOutposts>puestos seleccionados</TSA_WD_PawnTransfer_MultipleOutposts>

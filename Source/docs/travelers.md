@@ -10,6 +10,7 @@ Some traveler labels include the word "Caravan" because that is their in-game mi
 
 - **Raider Caravan:** a ground raid force moving toward a settlement, player colony, outpost, traveler, or other valid target.
 - **Raider Drop Pods:** a ballistic raid force that moves directly toward its target.
+- **Raider Gravship:** a ballistic T4 raid (Experimental) that flies like drop pods, then lands via the Gravship Raids Workshop mod when Odyssey and that mod are present.
 - **Expansion Caravan:** carries a faction's attempt to establish a new settlement.
 - **Road Builder Caravan:** carries an NPC road project.
 - **Trader Caravan:** carries a WD trade mission and its escort strength.
@@ -60,7 +61,7 @@ Inspect both departure strength and current strength when evaluating an inbound 
 
 A player's real pawn Caravan can clash with a hostile WD traveler on the world map. WD compares the Caravan's combat contribution with the traveler's remaining strength and resolves the encounter through the clash system.
 
-The player side remains a real Caravan with pawns, inventory, carrying capacity, injuries, prisoners, and loot handling. The NPC side remains an abstract strength pool. A clash does not imply that the NPC traveler secretly contained pawns.
+The player side remains a real Caravan with pawns, inventory, carrying capacity, injuries, prisoners, and loot handling. After you win, leave the temporary Ambush encounter map with vanilla **Reform caravan** (Vehicle Framework and Odyssey extend that path for nonstandard caravans). WD destroys enemy leftovers and the Ambush site when the map closes. The NPC side remains an abstract strength pool. A clash does not imply that the NPC traveler secretly contained pawns.
 
 Avoid weak hostile travelers when your Caravan is carrying irreplaceable colonists or cargo. Intercepting a damaged raid traveler can be useful, but the player Caravan still accepts the risk of a real encounter.
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
    <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
     <defName>Generic_Production_4</defName>
     <terrainGrid>
       <li>Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,.</li>
@@ -21,21 +22,21 @@
     </terrainGrid>
     <layouts>
       <li>
-        <li>.,Column_WoodLog,Wall_BlocksSandstone,.,.,.,Wall_BlocksSandstone,.,.,Wall_BlocksSandstone,.,.,.,Wall_BlocksSandstone,Column_WoodLog,.,Plant_TallGrass</li>
-        <li>Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone</li>
-        <li>Wall_BlocksSandstone,.,.,HandTailoringBench_WoodLog_South,.,Shelf_WoodLog_North,.,Shelf_WoodLog_North,.,.,ElectricTailoringBench_WoodLog_South,.,.,.,ElectricTailoringBench_WoodLog_South,.,Wall_BlocksSandstone</li>
-        <li>Wall_BlocksSandstone,.,.,VFEPD_FilthTrash_North,VFEPD_FilthTrash_North,.,.,.,.,.,VFEPD_FilthTrash_North,VFEPD_FilthTrash_North,VFEPD_FilthTrash_North,.,VFEPD_FilthTrash_North,VFEPD_FilthTrash_North,Wall_BlocksSandstone</li>
-        <li>Wall_BlocksSandstone,Battery_North,.,.,StandingLamp,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,.,.,.,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,Wall_BlocksSandstone</li>
-        <li>Wall_BlocksSandstone,Door_Steel,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,VFEPD_PalletCardboard,.,.,VFEPD_PalletBoxes,.,VFEPD_PalletCardboard,.,Wall_BlocksSandstone</li>
-        <li>Wall_BlocksSandstone,.,.,.,Stool_WoodLog_West,VFEPD_CoffeeTableSmall_WoodLog,Stool_WoodLog_West,.,Wall_BlocksSandstone,.,.,StandingLamp,.,.,.,.,Wall_BlocksSandstone</li>
-        <li>Wall_BlocksSandstone,.,.,.,.,.,.,.,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone</li>
-        <li>Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Door_Steel,Wall_BlocksSandstone,Wall_BlocksSandstone,.,.,.,.,.,.,.,.,.,.</li>
-        <li>Wall_BlocksSandstone,ChemfuelPoweredGenerator,.,.,VFEPD_FilthTrash_North,Shelf_WoodLog_West,Wall_BlocksSandstone,.,.,.,.,.,.,VFEPD_CarVintageBlue_East,.,.,.</li>
-        <li>Wall_BlocksSandstone,.,.,.,VFEPD_FilthTrash_North,.,Wall_BlocksSandstone,.,.,.,.,.,.,.,.,.,.</li>
-        <li>Wall_BlocksSandstone,.,VFEPD_FilthTrash_North,.,.,StandingLamp,Wall_BlocksSandstone,.,.,OrbitalTradeBeacon,.,.,.,.,.,.,.</li>
-        <li>Wall_BlocksSandstone,.,.,.,.,.,Wall_BlocksSandstone,.,.,.,.,.,.,.,.,.,.</li>
-        <li>Wall_BlocksSandstone,.,CommsConsole_South,.,Battery_South,Battery_South,Wall_BlocksSandstone,.,.,.,.,VFEPD_CarPickupBlue_East,.,.,.,.,.</li>
-        <li>Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,.,.,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone</li>
+        <li>.,Column_WoodLog,Wall_BlocksGranite,.,.,.,Wall_BlocksGranite,.,.,Wall_BlocksGranite,.,.,.,Wall_BlocksGranite,Column_WoodLog,.,Plant_TallGrass</li>
+        <li>Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,HandTailoringBench_WoodLog_South,.,Shelf_WoodLog_North,.,Shelf_WoodLog_North,.,.,ElectricTailoringBench_WoodLog_South,.,.,.,ElectricTailoringBench_WoodLog_South,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,VFEPD_FilthTrash_North,VFEPD_FilthTrash_North,.,.,.,.,.,VFEPD_FilthTrash_North,VFEPD_FilthTrash_North,VFEPD_FilthTrash_North,.,VFEPD_FilthTrash_North,VFEPD_FilthTrash_North,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,Battery_North,.,.,StandingLamp,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,.,.,.,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,Door_Steel,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,VFEPD_PalletCardboard,.,.,VFEPD_PalletBoxes,.,VFEPD_PalletCardboard,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,.,Stool_WoodLog_West,VFEPD_CoffeeTableSmall_WoodLog,Stool_WoodLog_West,.,Wall_BlocksGranite,.,.,StandingLamp,.,.,.,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,.,.,.,.,.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Door_Steel,Wall_BlocksGranite,Wall_BlocksGranite,.,.,.,.,.,.,.,.,.,.</li>
+        <li>Wall_BlocksGranite,ChemfuelPoweredGenerator,.,.,VFEPD_FilthTrash_North,Shelf_WoodLog_West,Wall_BlocksGranite,.,.,.,.,.,.,VFEPD_CarVintageBlue_East,.,.,.</li>
+        <li>Wall_BlocksGranite,.,.,.,VFEPD_FilthTrash_North,.,Wall_BlocksGranite,.,.,.,.,.,.,.,.,.,.</li>
+        <li>Wall_BlocksGranite,.,VFEPD_FilthTrash_North,.,.,StandingLamp,Wall_BlocksGranite,.,.,OrbitalTradeBeacon,.,.,.,.,.,.,.</li>
+        <li>Wall_BlocksGranite,.,.,.,.,.,Wall_BlocksGranite,.,.,.,.,.,.,.,.,.,.</li>
+        <li>Wall_BlocksGranite,.,CommsConsole_South,.,Battery_South,Battery_South,Wall_BlocksGranite,.,.,.,.,VFEPD_CarPickupBlue_East,.,.,.,.,.</li>
+        <li>Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,.,.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
       </li>
     </layouts>
     <roofGrid>

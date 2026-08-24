@@ -14,6 +14,8 @@ In practical terms:
 4. WD applies the active storyteller floor and ceiling.
 5. The resulting points create the map raid.
 
+Ground raids walk in. Drop-pod raids (T3/T4) and Experimental T4 gravship raids arrive ballistically. Gravship arrival uses the Gravship Raids Workshop mod with WD's clamped points and faction when Odyssey and that mod are loaded; otherwise WD falls back to a drop-pod style raid.
+
 The vanilla **Threat Scale** setting already affects `DefaultThreatPointsNow`. WD uses that storyteller value as the clamp baseline. It does not apply the vanilla threat multiplier a second time after clamping.
 
 This arrangement keeps visible WD strength meaningful while preventing the default configuration from producing colony raids far outside the storyteller's current threat range.
@@ -42,9 +44,11 @@ Use the outpost's statistics and ally-radius display before choosing. A strong a
 
 ## Storyteller raids
 
-By default, WD blocks storyteller raids whose selected faction is managed by WD. Those factions should pressure the player through world actions and raid travelers instead of appearing without a strategic origin.
+By default, WD blocks storyteller raids from factions with **WD Actions** enabled. Those factions pressure the player through world actions and raid travelers instead of appearing without a strategic origin.
 
-Storyteller raids from non-WD factions remain allowed by default. Both behaviors are configurable.
+Factions with **WD Actions** off allow storyteller raids by default. Configure per faction in **World Setup → WD Faction scope and Allegiances** (Storyteller column), or from mod Settings in-game.
+
+If you customized the old Threat settings checkboxes (**Block storyteller raids** / **Allow non-WD raids**), set per-faction rules again. New games and untouched saves use the new defaults without action.
 
 ??? note "Advanced"
     With escalation-based clamping enabled by default, colony raid points are clamped to these percentages of the current storyteller baseline:

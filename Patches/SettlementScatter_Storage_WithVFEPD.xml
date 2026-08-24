@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch MayRequire="VanillaExpanded.VFEPropsandDecor">
+  <!-- VFEPD active: swap explicit WD box/cart scatter lines for VFE_PropCategory_Storage pool. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="Player_Outpost"]</xpath>
+    <value>
+      <modExtensions>
+        <li Class="TSA_WorldDomination.WdSettlementScatterPropsExtension">
+          <scatterPropCategories>
+            <li>VFE_PropCategory_Storage</li>
+          </scatterPropCategories>
+        </li>
+      </modExtensions>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="Player_Outpost"]/propsOptions/scatterPropsDefs/li[starts-with(text(),'TSA_WD_Box_') or starts-with(text(),'TSA_WD_Cart_')]</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Generic_T1_Farming"]</xpath>
+    <value>
+      <modExtensions>
+        <li Class="TSA_WorldDomination.WdSettlementScatterPropsExtension">
+          <scatterPropCategories>
+            <li>VFE_PropCategory_Storage</li>
+          </scatterPropCategories>
+        </li>
+      </modExtensions>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Generic_T1_Farming"]/propsOptions/scatterPropsDefs/li[starts-with(text(),'TSA_WD_Box_') or starts-with(text(),'TSA_WD_Cart_')]</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Generic_T1_Logging"]</xpath>
+    <value>
+      <modExtensions>
+        <li Class="TSA_WorldDomination.WdSettlementScatterPropsExtension">
+          <scatterPropCategories>
+            <li>VFE_PropCategory_Storage</li>
+          </scatterPropCategories>
+        </li>
+      </modExtensions>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Generic_T1_Logging"]/propsOptions/scatterPropsDefs/li[starts-with(text(),'TSA_WD_Box_') or starts-with(text(),'TSA_WD_Cart_')]</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Generic_T1_Mining"]</xpath>
+    <value>
+      <modExtensions>
+        <li Class="TSA_WorldDomination.WdSettlementScatterPropsExtension">
+          <scatterPropCategories>
+            <li>VFE_PropCategory_Storage</li>
+          </scatterPropCategories>
+        </li>
+      </modExtensions>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Generic_T1_Mining"]/propsOptions/scatterPropsDefs/li[starts-with(text(),'TSA_WD_Box_') or starts-with(text(),'TSA_WD_Cart_')]</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Generic_T2_Production"]</xpath>
+    <value>
+      <modExtensions>
+        <li Class="TSA_WorldDomination.WdSettlementScatterPropsExtension">
+          <scatterPropCategories>
+            <li>VFE_PropCategory_Storage</li>
+          </scatterPropCategories>
+        </li>
+      </modExtensions>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Generic_T2_Production"]/propsOptions/scatterPropsDefs/li[starts-with(text(),'TSA_WD_Box_') or starts-with(text(),'TSA_WD_Cart_')]</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Generic_T2_Slavery"]</xpath>
+    <value>
+      <modExtensions>
+        <li Class="TSA_WorldDomination.WdSettlementScatterPropsExtension">
+          <scatterPropCategories>
+            <li>VFE_PropCategory_Storage</li>
+          </scatterPropCategories>
+        </li>
+      </modExtensions>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Generic_T2_Slavery"]/propsOptions/scatterPropsDefs/li[starts-with(text(),'TSA_WD_Box_') or starts-with(text(),'TSA_WD_Cart_')]</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Generic_T3_Fortress"]</xpath>
+    <value>
+      <modExtensions>
+        <li Class="TSA_WorldDomination.WdSettlementScatterPropsExtension">
+          <scatterPropCategories>
+            <li>VFE_PropCategory_Storage</li>
+          </scatterPropCategories>
+        </li>
+      </modExtensions>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Generic_T3_Fortress"]/propsOptions/scatterPropsDefs/li[starts-with(text(),'TSA_WD_Box_') or starts-with(text(),'TSA_WD_Cart_')]</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Generic_T4_Citadel"]</xpath>
+    <value>
+      <modExtensions>
+        <li Class="TSA_WorldDomination.WdSettlementScatterPropsExtension">
+          <scatterPropCategories>
+            <li>VFE_PropCategory_Storage</li>
+          </scatterPropCategories>
+        </li>
+      </modExtensions>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Generic_T4_Citadel"]/propsOptions/scatterPropsDefs/li[starts-with(text(),'TSA_WD_Box_') or starts-with(text(),'TSA_WD_Cart_')]</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Tribal_T1_Farming"]</xpath>
+    <value>
+      <modExtensions>
+        <li Class="TSA_WorldDomination.WdSettlementScatterPropsExtension">
+          <scatterPropCategories>
+            <li>VFE_PropCategory_Storage</li>
+          </scatterPropCategories>
+        </li>
+      </modExtensions>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Tribal_T1_Farming"]/propsOptions/scatterPropsDefs/li[starts-with(text(),'TSA_WD_Box_') or starts-with(text(),'TSA_WD_Cart_')]</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Tribal_T1_Logging"]</xpath>
+    <value>
+      <modExtensions>
+        <li Class="TSA_WorldDomination.WdSettlementScatterPropsExtension">
+          <scatterPropCategories>
+            <li>VFE_PropCategory_Storage</li>
+          </scatterPropCategories>
+        </li>
+      </modExtensions>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Tribal_T1_Logging"]/propsOptions/scatterPropsDefs/li[starts-with(text(),'TSA_WD_Box_') or starts-with(text(),'TSA_WD_Cart_')]</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Tribal_T1_Mining"]</xpath>
+    <value>
+      <modExtensions>
+        <li Class="TSA_WorldDomination.WdSettlementScatterPropsExtension">
+          <scatterPropCategories>
+            <li>VFE_PropCategory_Storage</li>
+          </scatterPropCategories>
+        </li>
+      </modExtensions>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Tribal_T1_Mining"]/propsOptions/scatterPropsDefs/li[starts-with(text(),'TSA_WD_Box_') or starts-with(text(),'TSA_WD_Cart_')]</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Tribal_T2_Production"]</xpath>
+    <value>
+      <modExtensions>
+        <li Class="TSA_WorldDomination.WdSettlementScatterPropsExtension">
+          <scatterPropCategories>
+            <li>VFE_PropCategory_Storage</li>
+          </scatterPropCategories>
+        </li>
+      </modExtensions>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Tribal_T2_Production"]/propsOptions/scatterPropsDefs/li[starts-with(text(),'TSA_WD_Box_') or starts-with(text(),'TSA_WD_Cart_')]</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Tribal_T2_Slavery"]</xpath>
+    <value>
+      <modExtensions>
+        <li Class="TSA_WorldDomination.WdSettlementScatterPropsExtension">
+          <scatterPropCategories>
+            <li>VFE_PropCategory_Storage</li>
+          </scatterPropCategories>
+        </li>
+      </modExtensions>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Tribal_T2_Slavery"]/propsOptions/scatterPropsDefs/li[starts-with(text(),'TSA_WD_Box_') or starts-with(text(),'TSA_WD_Cart_')]</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Tribal_T3_Fortress"]</xpath>
+    <value>
+      <modExtensions>
+        <li Class="TSA_WorldDomination.WdSettlementScatterPropsExtension">
+          <scatterPropCategories>
+            <li>VFE_PropCategory_Storage</li>
+          </scatterPropCategories>
+        </li>
+      </modExtensions>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Tribal_T3_Fortress"]/propsOptions/scatterPropsDefs/li[starts-with(text(),'TSA_WD_Box_') or starts-with(text(),'TSA_WD_Cart_')]</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Tribal_T4_Citadel"]</xpath>
+    <value>
+      <modExtensions>
+        <li Class="TSA_WorldDomination.WdSettlementScatterPropsExtension">
+          <scatterPropCategories>
+            <li>VFE_PropCategory_Storage</li>
+          </scatterPropCategories>
+        </li>
+      </modExtensions>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationRemove">
+    <xpath>Defs/KCSG.SettlementLayoutDef[defName="TSA_Tribal_T4_Citadel"]/propsOptions/scatterPropsDefs/li[starts-with(text(),'TSA_WD_Box_') or starts-with(text(),'TSA_WD_Cart_')]</xpath>
+  </Operation>
+</Patch>

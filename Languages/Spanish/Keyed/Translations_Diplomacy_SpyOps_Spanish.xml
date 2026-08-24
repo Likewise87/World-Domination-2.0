@@ -9,8 +9,8 @@
   <TSA_WD_BtnReset>Por defecto</TSA_WD_BtnReset>
   <TSA_WD_BtnResetGlobal>Hostil permanente</TSA_WD_BtnResetGlobal>
   <TSA_WD_BtnResetGlobal_Tooltip>Bloquea todo par que incluya una facción permanentemente hostil (también frente al jugador), y bloquea insectoides/colmenas contra todos. Impide que la diplomacia WD cambie esos pares.</TSA_WD_BtnResetGlobal_Tooltip>
-  <TSA_WD_BtnReset_Tooltip>Impide que las facciones permanentemente hostiles (insectoides y enemigos permanentes vanilla) cambien su relación con otras facciones permanentemente hostiles. Las insectoides/colmenas también quedan bloqueadas contra todas las facciones. Las relaciones con el jugador no se configuran aquí.</TSA_WD_BtnReset_Tooltip>
-  <TSA_WD_DescAllegianceMatrix>Controlar qué facciones pueden cambiar relaciones entre sí (solo en partida).</TSA_WD_DescAllegianceMatrix>
+  <TSA_WD_BtnReset_Tooltip>Aplica las reglas de bloqueo por defecto: las facciones permanentemente hostiles (insectoides y enemigos permanentes vanilla) quedan bloqueadas entre sí, y las insectoides/colmenas quedan bloqueadas contra todos. El resto de pares, incluidos frente al jugador, permanecen desbloqueados salvo que los bloquees manualmente en la lista.</TSA_WD_BtnReset_Tooltip>
+  <TSA_WD_DescAllegianceMatrix>Solo en partida: participación de facciones (Acciones WD, MapGen, Narrador) y lealtades por pares.</TSA_WD_DescAllegianceMatrix>
   <TSA_WD_Diplo_ActionShareMult>Multiplicador de cuota de acciones diarias</TSA_WD_Diplo_ActionShareMult>
   <TSA_WD_Diplo_AntiLeader>Activar coaliciones anti-líder</TSA_WD_Diplo_AntiLeader>
   <TSA_WD_Diplo_AntiLeaderTooltip>Facciones pequeñas pueden formar una alianza defensiva y declarar la guerra a la facción más dominante para restaurar el equilibrio.</TSA_WD_Diplo_AntiLeaderTooltip>
@@ -251,7 +251,7 @@
   <TSA_WD_Sab_WeightSuccess>Peso de éxito</TSA_WD_Sab_WeightSuccess>
   <TSA_WD_Sab_WeightSuccessTooltip>Peso base de un sabotaje exitoso antes de modificadores.</TSA_WD_Sab_WeightSuccessTooltip>
   <TSA_WD_StatusLocked>Bloqueado</TSA_WD_StatusLocked>
-  <TSA_WD_StatusPossible>Cambio posible</TSA_WD_StatusPossible>
+  <TSA_WD_StatusPossible>Puede cambiar</TSA_WD_StatusPossible>
   <TSA_WD_BuySettlement_GoodwillCurrent>Reputación actual: {0}</TSA_WD_BuySettlement_GoodwillCurrent>
   <TSA_WD_BuySettlement_GoodwillMinRetain>Reputación mínima a conservar: {0}</TSA_WD_BuySettlement_GoodwillMinRetain>
   <TSA_WD_BuySettlement_GoodwillRateTip>Cada punto de reputación cubre {0} de plata del precio.</TSA_WD_BuySettlement_GoodwillRateTip>

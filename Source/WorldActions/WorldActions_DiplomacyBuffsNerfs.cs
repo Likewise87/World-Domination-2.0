@@ -506,7 +506,7 @@ namespace TSA_WorldDomination
             var factions = new List<Faction>();
             foreach (var f in Find.FactionManager.AllFactionsVisible)
             {
-                if (!f.IsPlayer && !f.defeated && !WorldActions_Utils.IsExcludedFaction(f))
+                if (!f.IsPlayer && !f.defeated && WorldActions_Utils.IsWdParticipant(f))
                     factions.Add(f);
             }
 
@@ -644,7 +644,7 @@ namespace TSA_WorldDomination
             var validFactions = new List<Faction>();
             foreach (var f in Find.FactionManager.AllFactionsVisible)
             {
-                if (f != null && !f.IsPlayer && !WorldActions_Utils.IsExcludedFaction(f))
+                if (f != null && !f.IsPlayer && WorldActions_Utils.IsWdParticipant(f))
                     validFactions.Add(f);
             }
 
@@ -716,7 +716,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < stats.FactionStats.Count; i++)
             {
                 Faction f = stats.FactionStats[i]?.faction;
-                if (f == null || f.IsPlayer || f.defeated || WorldActions_Utils.IsExcludedFaction(f))
+                if (f == null || f.IsPlayer || f.defeated || !WorldActions_Utils.IsWdParticipant(f))
                     continue;
                 npcFactions.Add(f);
             }
@@ -802,7 +802,7 @@ namespace TSA_WorldDomination
             var validFactions = new List<Faction>();
             foreach (var f in Find.FactionManager.AllFactionsVisible)
             {
-                if (f != null && !f.IsPlayer && !WorldActions_Utils.IsExcludedFaction(f))
+                if (f != null && !f.IsPlayer && WorldActions_Utils.IsWdParticipant(f))
                     validFactions.Add(f);
             }
 

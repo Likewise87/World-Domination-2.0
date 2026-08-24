@@ -10,7 +10,6 @@ namespace TSA_WorldDomination
         public static WorldDominationSettings settings;
         private static Vector2 mainSettingsScrollPosition;
         private static WorldDominationMod instance;
-        private static bool inGameOnlyExpanded = true;
         private static bool presetsExpanded = true;
         private static bool generalExpanded = true;
         private static bool outpostsExpanded = true;
@@ -43,7 +42,7 @@ namespace TSA_WorldDomination
             Find.WindowStack.Add(new Dialog_ModSettings(mod));
         }
 
-        /// <summary><see cref="Dialog_AllegianceLock"/> needs a loaded game (faction list). Block from main menu mod settings.</summary>
+        /// <summary>Unified allegiance editor needs a loaded game (faction list). Block from main menu mod settings.</summary>
         public static void TryOpenAllegianceLockWindow()
         {
             if (Current.ProgramState != ProgramState.Playing)
@@ -51,7 +50,7 @@ namespace TSA_WorldDomination
                 Messages.Message("TSA_WD_AllegianceMatrixInGameOnly".Translate(), MessageTypeDefOf.RejectInput, false);
                 return;
             }
-            Find.WindowStack.Add(new Dialog_AllegianceLock());
+            Find.WindowStack.Add(new Dialog_WdWorldGenAllegiances());
         }
 
         public override string SettingsCategory() => "TSA_WD_Category".Translate();
@@ -113,11 +112,11 @@ namespace TSA_WorldDomination
                 },
                 () =>
                 {
-                    presetsExpanded = inGameOnlyExpanded = generalExpanded = outpostsExpanded = playerInteractionsExpanded = miscExpanded = true;
+                    presetsExpanded = generalExpanded = outpostsExpanded = playerInteractionsExpanded = miscExpanded = true;
                 },
                 () =>
                 {
-                    presetsExpanded = inGameOnlyExpanded = generalExpanded = outpostsExpanded = playerInteractionsExpanded = miscExpanded = false;
+                    presetsExpanded = generalExpanded = outpostsExpanded = playerInteractionsExpanded = miscExpanded = false;
                 },
                 "TSA_WD_BtnUpdateNotes".Translate(),
                 () => Find.WindowStack.Add(new Dialog_WD_UpdateLog()),
@@ -178,16 +177,6 @@ namespace TSA_WorldDomination
             }
             l.Gap(10f);
 
-            // --- In-game only (hidden on main menu) ---
-            if (Current.ProgramState == ProgramState.Playing)
-            {
-                if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_HeaderInGameOnlySettings".Translate(), ref inGameOnlyExpanded, SettingsUI.SectionHeaderColor))
-                {
-                    SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_OpenAllegianceMatrix".Translate(), "TSA_WD_DescAllegianceMatrix".Translate(), TryOpenAllegianceLockWindow);
-                }
-                l.Gap(10f);
-            }
-
             // --- 1. General ---
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_HeaderGeneral".Translate(), ref generalExpanded, SettingsUI.SectionHeaderColor))
             {
@@ -231,6 +220,9 @@ namespace TSA_WorldDomination
             {
                 if (advanced)
                     SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnWorldGen".Translate(), "TSA_WD_DescWorldGen".Translate(), () => Find.WindowStack.Add(new Dialog_WorldGenSettings()));
+                if (advanced)
+                    SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnBaseGeneration".Translate(), "TSA_WD_DescBaseGeneration".Translate(),
+                        () => Find.WindowStack.Add(new Dialog_BaseGenerationSettings()));
                 if (advanced)
                     SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnGarrisonSettings".Translate(), "TSA_WD_DescGarrison".Translate(), () => Find.WindowStack.Add(new Dialog_GarrisonSettings()));
 

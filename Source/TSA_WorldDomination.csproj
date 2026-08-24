@@ -11,6 +11,10 @@
 	</PropertyGroup>
 	<ItemGroup>
 	  <None Include="RaidLogic\Reinforcements_Physical.cs" />
+	  <Compile Remove="WD_OverviewPages/**" />
+	  <Compile Remove="docs/**" />
+	  <Compile Remove="dev/**" />
+	  <Compile Remove="Guardrails/**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -46,6 +50,14 @@
 		  <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="CombatExtended" Condition="Exists('C:\Steam\steamapps\workshop\content\294100\2890901044\Assemblies\CombatExtended.dll')">
+			<HintPath>C:\Steam\steamapps\workshop\content\294100\2890901044\Assemblies\CombatExtended.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 	</ItemGroup>
+
+	<PropertyGroup Condition="Exists('C:\Steam\steamapps\workshop\content\294100\2890901044\Assemblies\CombatExtended.dll')">
+		<DefineConstants>$(DefineConstants);COMBAT_EXTENDED</DefineConstants>
+	</PropertyGroup>
 
 </Project>

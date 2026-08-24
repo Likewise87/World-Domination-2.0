@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <TSA_WorldDomination.WdBiomePenLivestockTableDef>
+    <defName>TSA_WdBiomePenLivestock_Default</defName>
+    <biomes>
+      <li>Default</li>
+    </biomes>
+    <animals>
+      <li><pawnKindDef>Cow</pawnKindDef><weight>2</weight></li>
+      <li><pawnKindDef>Muffalo</pawnKindDef><weight>2</weight></li>
+      <li><pawnKindDef>Chicken</pawnKindDef><weight>2</weight></li>
+      <li><pawnKindDef>Pig</pawnKindDef><weight>1</weight></li>
+      <li><pawnKindDef>Sheep</pawnKindDef><weight>1</weight></li>
+      <li><pawnKindDef>Goat</pawnKindDef><weight>1</weight></li>
+      <li><pawnKindDef>Horse</pawnKindDef><weight>1</weight></li>
+    </animals>
+  </TSA_WorldDomination.WdBiomePenLivestockTableDef>
+
+  <TSA_WorldDomination.WdBiomePenLivestockTableDef>
+    <defName>TSA_WdBiomePenLivestock_Desert</defName>
+    <biomes>
+      <li>Desert</li>
+      <li>ExtremeDesert</li>
+      <li>AridShrubland</li>
+    </biomes>
+    <animals>
+      <li><pawnKindDef>Dromedary</pawnKindDef><weight>3</weight></li>
+      <li><pawnKindDef>Goat</pawnKindDef><weight>2</weight></li>
+      <li><pawnKindDef>Chicken</pawnKindDef><weight>1</weight></li>
+    </animals>
+  </TSA_WorldDomination.WdBiomePenLivestockTableDef>
+
+  <TSA_WorldDomination.WdBiomePenLivestockTableDef>
+    <defName>TSA_WdBiomePenLivestock_Tropical</defName>
+    <biomes>
+      <li>TropicalRainforest</li>
+      <li>TropicalSwamp</li>
+    </biomes>
+    <animals>
+      <li><pawnKindDef>Elephant</pawnKindDef><weight>1</weight></li>
+      <li><pawnKindDef>Pig</pawnKindDef><weight>2</weight></li>
+      <li><pawnKindDef>Chicken</pawnKindDef><weight>2</weight></li>
+      <li><pawnKindDef>Cow</pawnKindDef><weight>1</weight></li>
+    </animals>
+  </TSA_WorldDomination.WdBiomePenLivestockTableDef>
+
+</Defs>

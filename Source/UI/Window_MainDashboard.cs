@@ -18,6 +18,8 @@ namespace TSA_WorldDomination
             ?? TexButton.Info;
         private static readonly Texture2D LeaderboardIcon =
             ContentFinder<Texture2D>.Get("UI/Commands/WD_Leaderboard", false);
+        private static readonly Texture2D WdModIcon =
+            ContentFinder<Texture2D>.Get("UI/Tab/WD", false);
         private static readonly Texture2D IconDiplomacy =
             ContentFinder<Texture2D>.Get("UI/Commands/Icon_Diplomacy", false);
         private static readonly Texture2D IconWorldStats =
@@ -35,7 +37,7 @@ namespace TSA_WorldDomination
             ?? ContentFinder<Texture2D>.Get("WorldObjects/Icon_PlayerOutposts", false);
         private static readonly Texture2D RaidersIcon =
             ContentFinder<Texture2D>.Get("WorldObjects/Caravan_Raiders", false);
-        private const float FactionRankIconSize = 44f;
+        private const float FactionRankIconSize = 36f;
         private const float SectionPadding = 10f;
         private const float ColumnGap = 8f;
         private const float LineHeight = 26f;
@@ -125,6 +127,7 @@ namespace TSA_WorldDomination
         private static string hdrThreats, hdrNearbyThreats, hdrFarThreats, hdrOutposts, hdrTravelers;
         private static string dashNoOutposts, dashNoTravelers, dashNoThreatSettlements, dashNoNearbyThreats, dashNoFarThreats, dashMoreEntries;
         private static string dashTravelerStartTip, dashTravelerDestTip;
+        private static string dashConfigureScope, dashConfigureScopeTip;
         private static int dashTranslateFrame = -1;
         private static void EnsureDashTranslations()
         {
@@ -135,8 +138,8 @@ namespace TSA_WorldDomination
             dashUnknownLabel = "TSA_WD_Traveller_Unknown".Translate();
             dashOpenLabel = "TSA_WD_ActiveTravelers_Open".Translate();
             dashNoneLabel = "TSA_WD_None".Translate();
-            navDiplomacy = "TSA_WD_DiplomacyMatrix".Translate();
-            navOutpost = "TSA_WD_OutpostManager".Translate();
+            navDiplomacy = "TSA_WD_Dash_Nav_Diplomacy".Translate();
+            navOutpost = "TSA_WD_Dash_Nav_Outposts".Translate();
             navWorldStats = "TSA_WD_WorldStats".Translate();
             navActionLog = "TSA_WD_ActionLog".Translate();
             navTravelers = dashOpenLabel;
@@ -155,6 +158,8 @@ namespace TSA_WorldDomination
             dashNoTravelers = "TSA_WD_Dash_NoTravelers".Translate().Colorize(Color.gray);
             dashTravelerStartTip = "TSA_WD_Dash_Traveler_StartTip".Translate();
             dashTravelerDestTip = "TSA_WD_Dash_Traveler_DestTip".Translate();
+            dashConfigureScope = "TSA_WD_Dash_ConfigureScope".Translate();
+            dashConfigureScopeTip = "TSA_WD_Dash_ConfigureScopeTip".Translate();
         }
 
         private WorldComponent_SpreadManager cachedSpreadManager;
@@ -223,66 +228,68 @@ namespace TSA_WorldDomination
             const float configBtnSize = 30f;
             float rightEdge = fillRect.width - NavBarPadX;
 
-            // Label-sized right cluster: Prisoners | Your Pawns | Active Travelers | Action Log | Config.
-            // Config sits flush to the right inset; leftover former centering pad widens Your Pawns + Action Log.
-            // Smaller gap left of the gear goes to Active Travelers.
+            // Nav row: eight slate buttons + config gear; extra width distributed evenly across all eight.
             Text.Font = GameFont.Small;
-            float actionLogBtnW = MeasureNavButtonWidth(navActionLog);
-            float travelersBtnW = MeasureNavButtonWidth(navTravelers);
-            float allPawnsBtnW = MeasureNavButtonWidth(navAllPlayerPawns);
-            float prisonersBtnW = MeasureNavButtonWidth(navPrisoners);
-            const float oldConfigSlotW = ButtonSpacing + configBtnSize + ButtonSpacing;
+            float configureScopeMinW = MeasureNavButtonWidth(dashConfigureScope);
+            float actionLogMinW = MeasureNavButtonWidth(navActionLog);
+            float travelersMinW = MeasureNavButtonWidth(navTravelers);
+            float allPawnsMinW = MeasureNavButtonWidth(navAllPlayerPawns);
+            float prisonersMinW = MeasureNavButtonWidth(navPrisoners);
+            float diplomacyMinW = MeasureNavButtonWidth(navDiplomacy);
+            float outpostMinW = MeasureNavButtonWidth(navOutpost);
+            float worldStatsMinW = MeasureNavButtonWidth(navWorldStats);
             const float configGap = 4f;
-            float freedFromConfig = oldConfigSlotW - (configGap + configBtnSize);
-            // Half of the old centering pad → Your Pawns / Action Log; the rest of the reduced left gap → Travelers.
-            float pawnsActionShare = ButtonSpacing * 0.5f;
-            actionLogBtnW += pawnsActionShare;
-            allPawnsBtnW += pawnsActionShare;
-            travelersBtnW += freedFromConfig - pawnsActionShare * 2f;
+            const int navBtnCount = 8;
 
             Rect configRect = new Rect(
                 rightEdge - configBtnSize,
                 pawnsBtnY + (ButtonHeight - configBtnSize) * 0.5f,
                 configBtnSize,
                 configBtnSize);
-            Rect actionLogRect = new Rect(configRect.x - configGap - actionLogBtnW, pawnsBtnY, actionLogBtnW, ButtonHeight);
-            Rect travelersRect = new Rect(actionLogRect.x - ButtonSpacing - travelersBtnW, pawnsBtnY, travelersBtnW, ButtonHeight);
-            Rect allPawnsRect = new Rect(travelersRect.x - ButtonSpacing - allPawnsBtnW, pawnsBtnY, allPawnsBtnW, ButtonHeight);
+            float stripRight = configRect.x - configGap;
+            float stripLeft = NavBarPadX;
+            float stripMinW = diplomacyMinW + outpostMinW + worldStatsMinW + prisonersMinW + allPawnsMinW
+                + travelersMinW + actionLogMinW + configureScopeMinW
+                + ButtonSpacing * (navBtnCount - 1);
+            float stripExtra = Mathf.Max(0f, stripRight - stripLeft - stripMinW);
+            float stripExtraEach = stripExtra / navBtnCount;
 
-            float navAreaW = allPawnsRect.x - ButtonSpacing - prisonersBtnW - NavBarPadX - ButtonSpacing;
-            // Left group: Diplomacy | Outpost | World Stats. World Stats is narrower; freed width goes to Prisoners.
-            const float outpostWeight = 0.92f;
-            const float worldStatsWeight = 0.58f;
-            float unitW = (navAreaW - ButtonSpacing * 2f) / (1f + outpostWeight + worldStatsWeight);
-            float diplomacyW = unitW;
-            float outpostW = unitW * outpostWeight;
-            float worldStatsW = unitW * worldStatsWeight;
-            // Transfer a slice of World Stats into Prisoners so Prisoners right edge stays flush with goodwill.
-            const float prisonersFromWorldStats = 22f;
-            float worldStatsSteal = Mathf.Min(prisonersFromWorldStats, Mathf.Max(0f, worldStatsW - 90f));
-            worldStatsW -= worldStatsSteal;
-            prisonersBtnW += worldStatsSteal;
-            // Then move 20px from Outpost Overview back to World Stats.
-            const float outpostToWorldStats = 20f;
-            float outpostGive = Mathf.Min(outpostToWorldStats, Mathf.Max(0f, outpostW - 100f));
-            outpostW -= outpostGive;
-            worldStatsW += outpostGive;
+            float diplomacyW = diplomacyMinW + stripExtraEach;
+            float outpostW = outpostMinW + stripExtraEach;
+            float worldStatsW = worldStatsMinW + stripExtraEach;
+            float prisonersW = prisonersMinW + stripExtraEach;
+            float allPawnsW = allPawnsMinW + stripExtraEach;
+            float travelersBtnW = travelersMinW + stripExtraEach;
+            float actionLogW = actionLogMinW + stripExtraEach;
+            float configureScopeW = configureScopeMinW + stripExtraEach;
 
-            Rect prisonersRect = new Rect(allPawnsRect.x - ButtonSpacing - prisonersBtnW, pawnsBtnY, prisonersBtnW, ButtonHeight);
-            float diplomacyX = NavBarPadX;
-            float outpostX = diplomacyX + diplomacyW + ButtonSpacing;
+            float navX = stripLeft;
+            Rect diplomacyRect = new Rect(navX, pawnsBtnY, diplomacyW, ButtonHeight);
+            navX += diplomacyW + ButtonSpacing;
+            Rect outpostRect = new Rect(navX, pawnsBtnY, outpostW, ButtonHeight);
+            navX += outpostW + ButtonSpacing;
+            Rect worldStatsRect = new Rect(navX, pawnsBtnY, worldStatsW, ButtonHeight);
+            navX += worldStatsW + ButtonSpacing;
+            Rect prisonersRect = new Rect(navX, pawnsBtnY, prisonersW, ButtonHeight);
+            navX += prisonersW + ButtonSpacing;
+            Rect allPawnsRect = new Rect(navX, pawnsBtnY, allPawnsW, ButtonHeight);
+            navX += allPawnsW + ButtonSpacing;
+            Rect travelersRect = new Rect(navX, pawnsBtnY, travelersBtnW, ButtonHeight);
+            navX += travelersBtnW + ButtonSpacing;
+            Rect actionLogRect = new Rect(navX, pawnsBtnY, actionLogW, ButtonHeight);
+            navX += actionLogW + ButtonSpacing;
+            configureScopeW = Mathf.Max(configureScopeMinW, stripRight - navX);
+            Rect configureScopeRect = new Rect(navX, pawnsBtnY, configureScopeW, ButtonHeight);
 
-            // Status boxes share left/right edges with the nav buttons under them.
-            // Leaderboard left = Your Pawns left; goodwill right = Prisoners right.
-            Rect raidsRect = new Rect(diplomacyX, y, diplomacyW, hintRowH);
-            Rect goodwillRect = new Rect(outpostX, y, prisonersRect.xMax - outpostX, hintRowH);
-            Rect rankRect = new Rect(allPawnsRect.x, y, rightEdge - allPawnsRect.x, hintRowH);
+            // Status boxes aligned to nav buttons: Threat=Diplomacy+Outposts, Goodwill=World Stats→Your Pawns, Rank=Travelers→config.
+            Rect raidsRect = new Rect(diplomacyRect.x, y, outpostRect.xMax - diplomacyRect.x, hintRowH);
+            Rect goodwillRect = new Rect(worldStatsRect.x, y, allPawnsRect.xMax - worldStatsRect.x, hintRowH);
+            Rect rankRect = new Rect(travelersRect.x, y, rightEdge - travelersRect.x, hintRowH);
 
             DrawPlayerWdRaidLaunchCapsBox(raidsRect);
             DrawGoodwillHighlightsBox(goodwillRect, statusRowPad);
             DrawFactionRankStatusHint(rankRect, statusRowPad);
 
-            float x = NavBarPadX;
             float navY = pawnsBtnY;
             string hotkeyDiplomacy = FormatWdWindowHotkey("D");
             string hotkeyWorldStats = FormatWdWindowHotkey("S");
@@ -290,13 +297,11 @@ namespace TSA_WorldDomination
             string hotkeyTravelers = FormatWdWindowHotkey("G");
             string hotkeyPawns = FormatWdWindowHotkey("A");
             string hotkeyPrisoners = FormatWdWindowHotkey("Y");
-            DrawNavButton(ref x, navY, diplomacyW, navDiplomacy, NavOpenDiplomacy, IconDiplomacy,
+            DrawNavButtonAt(diplomacyRect, navDiplomacy, NavOpenDiplomacy, IconDiplomacy,
                 "TSA_WD_Dash_NavTip_Diplomacy".Translate(hotkeyDiplomacy));
-            x += ButtonSpacing;
-            DrawNavButton(ref x, navY, outpostW, navOutpost, NavOpenOutpost, IconPlayerOutposts,
+            DrawNavButtonAt(outpostRect, navOutpost, NavOpenOutpost, IconPlayerOutposts,
                 "TSA_WD_Dash_NavTip_Outposts".Translate(hotkeyOutposts));
-            x += ButtonSpacing;
-            DrawNavButton(ref x, navY, worldStatsW, navWorldStats, NavOpenWorldStats, IconWorldStats,
+            DrawNavButtonAt(worldStatsRect, navWorldStats, NavOpenWorldStats, IconWorldStats,
                 "TSA_WD_Dash_NavTip_WorldStats".Translate(hotkeyWorldStats));
             DrawNavButtonAt(prisonersRect, navPrisoners, ClickOpenPrisoners, IconPrisoners,
                 "TSA_WD_Dash_NavTip_Prisoners".Translate(hotkeyPrisoners));
@@ -309,6 +314,11 @@ namespace TSA_WorldDomination
                 NavOpenActionLog();
                 SoundDefOf.Click.PlayOneShotOnCamera();
             }, IconActionLog, "TSA_WD_Dash_NavTip_ActionLog".Translate());
+            DrawNavButtonAt(configureScopeRect, dashConfigureScope, () =>
+            {
+                WorldDominationMod.TryOpenAllegianceLockWindow();
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }, WdModIcon, dashConfigureScopeTip);
             TooltipHandler.TipRegion(configRect, "TSA_WD_Dash_OpenModSettingsTip".Translate());
             if (Widgets.ButtonImage(configRect, ConfigIcon))
                 WorldDominationMod.OpenModSettingsWindow();
@@ -428,7 +438,7 @@ namespace TSA_WorldDomination
                 var entry = entries[i];
                 if (entry.settlement == null) continue;
                 Rect cellRect = new Rect(0f, innerY, scrollRect.width, LineHeight);
-                if (Mouse.IsOver(cellRect)) Widgets.DrawLightHighlight(cellRect);
+                        if (Mouse.IsOver(cellRect)) Widgets.DrawLightHighlight(cellRect);
                 Rect iconRect = new Rect(cellRect.x, innerY + (LineHeight - IconSize) / 2f, IconSize, IconSize);
                 WorldDomination_UIUtils.DrawFactionIconWithColor(InsetIconDrawRect(iconRect), entry.faction);
                 ResolveThreatDisplayValues(entry, baseline, out float points, out float pct);
@@ -438,9 +448,9 @@ namespace TSA_WorldDomination
                     label += " (" + "TSA_WD_Dash_ThreatTiles".Translate(Mathf.RoundToInt(entry.tilesToColony)).ToString() + ")";
                 label = label.Colorize(textColor);
                 Text.Font = GameFont.Small;
-                Text.Anchor = TextAnchor.MiddleLeft;
+                        Text.Anchor = TextAnchor.MiddleLeft;
                 Widgets.Label(new Rect(cellRect.x + IconSize + 6f, innerY, cellRect.width - IconSize - 10f, LineHeight), label.Truncate(cellRect.width - IconSize - 12f));
-                Text.Anchor = TextAnchor.UpperLeft;
+                        Text.Anchor = TextAnchor.UpperLeft;
                 TooltipHandler.TipRegion(cellRect, BuildThreatSettlementTooltip(entry, points, pct));
                 if (Widgets.ButtonInvisible(cellRect))
                     JumpToWorldObject(entry.settlement);
@@ -658,19 +668,19 @@ namespace TSA_WorldDomination
                 {
                     var entry = outpostList[i];
                     Rect cellRect = new Rect(0f, innerY, scrollRect.width, LineHeight);
-                    if (Mouse.IsOver(cellRect)) Widgets.DrawLightHighlight(cellRect);
+                        if (Mouse.IsOver(cellRect)) Widgets.DrawLightHighlight(cellRect);
                     Rect iconRect = new Rect(cellRect.x, innerY + (LineHeight - IconSize) / 2f, IconSize, IconSize);
-                    if (entry.Outpost.def != null)
-                    {
-                        GUI.color = entry.Outpost.Faction?.Color ?? Color.white;
-                        GUI.DrawTexture(InsetIconDrawRect(iconRect), entry.Outpost.def.ExpandingIconTexture, ScaleMode.ScaleToFit);
-                        GUI.color = Color.white;
-                    }
-                    Text.Anchor = TextAnchor.MiddleLeft;
+                        if (entry.Outpost.def != null)
+                        {
+                            GUI.color = entry.Outpost.Faction?.Color ?? Color.white;
+                            GUI.DrawTexture(InsetIconDrawRect(iconRect), entry.Outpost.def.ExpandingIconTexture, ScaleMode.ScaleToFit);
+                            GUI.color = Color.white;
+                        }
+                        Text.Anchor = TextAnchor.MiddleLeft;
                     Widgets.Label(new Rect(cellRect.x + IconSize + 6f, innerY, cellRect.width - IconSize - 10f, LineHeight), entry.DisplayLabel.Truncate(cellRect.width - IconSize - 12f));
-                    Text.Anchor = TextAnchor.UpperLeft;
+                        Text.Anchor = TextAnchor.UpperLeft;
                     TooltipHandler.TipRegion(cellRect, entry.Tooltip);
-                    if (Widgets.ButtonInvisible(cellRect))
+                        if (Widgets.ButtonInvisible(cellRect))
                         JumpToWorldObject(entry.Outpost);
                     innerY += LineHeight;
                 }
@@ -1100,7 +1110,8 @@ namespace TSA_WorldDomination
             return WorldDomination_UIUtils.SlateNavIconPad
                 + WorldDomination_UIUtils.SlateNavIconSize
                 + WorldDomination_UIUtils.SlateNavIconTextGap
-                + labelW + 8f;
+                + labelW
+                + WorldDomination_UIUtils.SlateNavIconPad;
         }
 
         /// <summary>Slate fill + soft outline nav control. Optional tip includes hotkey when assigned.</summary>
@@ -1156,7 +1167,7 @@ namespace TSA_WorldDomination
                 Text.Anchor = TextAnchor.MiddleCenter;
                 GUI.color = Color.gray;
                 Widgets.Label(inner, "TSA_WD_Dash_Goodwill_None".Translate().Truncate(inner.width));
-                GUI.color = Color.white;
+            GUI.color = Color.white;
                 Text.Anchor = TextAnchor.UpperLeft;
                 return;
             }
@@ -1407,7 +1418,7 @@ namespace TSA_WorldDomination
                     Text.Anchor = TextAnchor.MiddleCenter;
                     GUI.color = new Color(0.29f, 0.18f, 0.03f);
                     Widgets.Label(ordinalRect, ordinal);
-                    GUI.color = Color.white;
+            GUI.color = Color.white;
                     Text.Anchor = TextAnchor.UpperLeft;
                     Text.Font = prevFontOrd;
                 }
@@ -1429,7 +1440,7 @@ namespace TSA_WorldDomination
                 Text.Anchor = TextAnchor.MiddleLeft;
                 GUI.color = cachedFactionRankColor;
                 Widgets.Label(rankRect, cachedFactionRankLabel.Truncate(labelW));
-                GUI.color = Color.white;
+            GUI.color = Color.white;
                 y += labelSlotH;
 
                 string strength = (mgr?.cachedPlayerOutpostStrength ?? 0f).ToString("F0");
@@ -1691,7 +1702,7 @@ namespace TSA_WorldDomination
                     break;
                 default:
                     // Food: lowest current food first (as before).
-                    list.Sort((a, b) => a.Item3.CompareTo(b.Item3));
+            list.Sort((a, b) => a.Item3.CompareTo(b.Item3));
                     break;
             }
             return list;

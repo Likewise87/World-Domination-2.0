@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
     <defName>TSA_Generic_Throne_4</defName>
     <layouts>
       <li>
-        <li>.,.,.,.,.,Column_BlocksMarble,.,.,.,Column_BlocksMarble,.,.,.,.,.</li>
+        <li>.,.,.,.,.,Column_BlocksGranite,.,.,.,Column_BlocksGranite,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-        <li>Wall_BlocksMarble,Column_BlocksMarble,Wall_BlocksMarble,Column_BlocksMarble,Wall_BlocksMarble,.,.,.,.,.,Wall_BlocksMarble,Column_BlocksMarble,Wall_BlocksMarble,Column_BlocksMarble,Wall_BlocksMarble</li>
-        <li>Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,.,.,.,.,.,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble</li>
-        <li>Wall_BlocksMarble,Wall_BlocksMarble,TorchLamp,Wall_BlocksMarble,Wall_BlocksMarble,.,.,.,.,.,Wall_BlocksMarble,Wall_BlocksMarble,TorchLamp,Wall_BlocksMarble,Wall_BlocksMarble</li>
-        <li>Wall_BlocksMarble,SculptureGrand_BlocksMarble,.,Plant_Daylily,Wall_BlocksMarble,.,.,.,.,.,Wall_BlocksMarble,Plant_Daylily,SculptureGrand_BlocksMarble,.,Wall_BlocksMarble</li>
-        <li>Wall_BlocksMarble,.,.,.,Wall_BlocksMarble,Column_BlocksMarble,.,.,.,Column_BlocksMarble,Wall_BlocksMarble,.,.,.,Wall_BlocksMarble</li>
-        <li>Wall_BlocksMarble,.,.,.,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Door_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,.,.,.,Wall_BlocksMarble</li>
-        <li>Wall_BlocksMarble,.,.,.,.,SculptureSmall_BlocksMarble,.,.,.,SculptureSmall_BlocksMarble,.,.,Harpsichord_North,.,Wall_BlocksMarble</li>
-        <li>Wall_BlocksMarble,.,.,.,.,Drape_Cloth_South,.,.,.,.,Drape_Cloth_South,.,.,.,Wall_BlocksMarble</li>
-        <li>Wall_BlocksMarble,.,Plant_Daylily,.,.,.,.,.,.,.,.,.,Armchair_Cloth_South,.,Wall_BlocksMarble</li>
-        <li>Wall_BlocksMarble,Drape_Cloth_East,SculptureSmall_BlocksMarble,.,.,.,.,.,.,.,.,.,SculptureSmall_BlocksMarble,Drape_Cloth_East,Wall_BlocksMarble</li>
-        <li>Wall_BlocksMarble,.,TorchLamp,.,Column_BlocksMarble,Throne_Silver_South,.,.,.,Throne_Silver_South,Column_BlocksMarble,.,TorchLamp,.,Wall_BlocksMarble</li>
-        <li>Wall_BlocksMarble,.,SculptureGrand_BlocksMarble,.,Plant_Daylily,.,.,.,.,.,Plant_Daylily,SculptureGrand_BlocksMarble,.,.,Wall_BlocksMarble</li>
-        <li>Wall_BlocksMarble,Column_BlocksMarble,.,.,.,Column_BlocksMarble,.,GrandThrone_Silver_South,.,Column_BlocksMarble,.,.,.,Column_BlocksMarble,Wall_BlocksMarble</li>
-        <li>Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble</li>
+        <li>Wall_BlocksGranite,Column_BlocksGranite,Wall_BlocksGranite,Column_BlocksGranite,Wall_BlocksGranite,.,.,.,.,.,Wall_BlocksGranite,Column_BlocksGranite,Wall_BlocksGranite,Column_BlocksGranite,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,.,.,.,.,.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,Wall_BlocksGranite,TorchLamp,Wall_BlocksGranite,Wall_BlocksGranite,.,.,.,.,.,Wall_BlocksGranite,Wall_BlocksGranite,TorchLamp,Wall_BlocksGranite,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,SculptureGrand_BlocksGranite,.,Plant_Daylily,Wall_BlocksGranite,.,.,.,.,.,Wall_BlocksGranite,Plant_Daylily,SculptureGrand_BlocksGranite,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,.,Wall_BlocksGranite,Column_BlocksGranite,.,.,.,Column_BlocksGranite,Wall_BlocksGranite,.,.,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Door_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,.,.,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,.,.,SculptureSmall_BlocksGranite,.,.,.,SculptureSmall_BlocksGranite,.,.,Harpsichord_North,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,.,.,Drape_Cloth_South,.,.,.,.,Drape_Cloth_South,.,.,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,Plant_Daylily,.,.,.,.,.,.,.,.,.,Armchair_Cloth_South,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,Drape_Cloth_East,SculptureSmall_BlocksGranite,.,.,.,.,.,.,.,.,.,SculptureSmall_BlocksGranite,Drape_Cloth_East,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,TorchLamp,.,Column_BlocksGranite,Throne_Silver_South,.,.,.,Throne_Silver_South,Column_BlocksGranite,.,TorchLamp,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,SculptureGrand_BlocksGranite,.,Plant_Daylily,.,.,.,.,.,Plant_Daylily,SculptureGrand_BlocksGranite,.,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,Column_BlocksGranite,.,.,.,Column_BlocksGranite,.,GrandThrone_Silver_South,.,Column_BlocksGranite,.,.,.,Column_BlocksGranite,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
       </li>
       <li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
@@ -27,15 +28,15 @@
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,PlantPot_BlocksMarble,.,.,.,.,.,.,.,PlantPot_BlocksMarble,.,.,.</li>
+        <li>.,.,.,PlantPot_BlocksGranite,.,.,.,.,.,.,.,PlantPot_BlocksGranite,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,PlantPot_BlocksMarble,.,.,.,.,.,.,.,.,.,.,.,.</li>
+        <li>.,.,PlantPot_BlocksGranite,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,PlantPot_BlocksMarble,.,.,.,.,.,PlantPot_BlocksMarble,.,.,.,.</li>
+        <li>.,.,.,.,PlantPot_BlocksGranite,.,.,.,.,.,PlantPot_BlocksGranite,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
       </li>
@@ -59,21 +60,21 @@
       <li>1,1,1,1,1,1,1,1,1,1,1,1,1,1,1</li>
     </roofGrid>
     <terrainGrid>
-      <li>FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,MetalTile,MetalTile,MetalTile,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone</li>
-      <li>FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,MetalTile,MetalTile,MetalTile,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone</li>
-      <li>FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,MetalTile,MetalTile,MetalTile,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone</li>
-      <li>.,.,.,.,.,FlagstoneLimestone,MetalTile,MetalTile,MetalTile,FlagstoneLimestone,.,.,.,.,.</li>
-      <li>.,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,.,FlagstoneLimestone,MetalTile,MetalTile,MetalTile,FlagstoneLimestone,.,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,.</li>
-      <li>.,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,.,FlagstoneLimestone,MetalTile,MetalTile,MetalTile,FlagstoneLimestone,.,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,.</li>
-      <li>.,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,.,FlagstoneLimestone,MetalTile,MetalTile,MetalTile,FlagstoneLimestone,.,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,.</li>
-      <li>.,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,.,.,.,MetalTile,.,.,.,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,.</li>
-      <li>.,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,CarpetRed,CarpetRed,CarpetRed,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,.</li>
-      <li>.,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,CarpetRed,CarpetRed,CarpetRed,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,.</li>
-      <li>.,FlagstoneLimestone,FlagstoneLimestone,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,FlagstoneLimestone,FlagstoneLimestone,.</li>
-      <li>.,FlagstoneLimestone,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,FlagstoneLimestone,.</li>
-      <li>.,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,CarpetRed,CarpetRed,CarpetRed,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,.</li>
-      <li>.,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,.</li>
-      <li>.,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,FlagstoneLimestone,.</li>
+      <li>FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,MetalTile,MetalTile,MetalTile,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite</li>
+      <li>FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,MetalTile,MetalTile,MetalTile,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite</li>
+      <li>FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,MetalTile,MetalTile,MetalTile,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite</li>
+      <li>.,.,.,.,.,FlagstoneGranite,MetalTile,MetalTile,MetalTile,FlagstoneGranite,.,.,.,.,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,FlagstoneGranite,MetalTile,MetalTile,MetalTile,FlagstoneGranite,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,FlagstoneGranite,MetalTile,MetalTile,MetalTile,FlagstoneGranite,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,FlagstoneGranite,MetalTile,MetalTile,MetalTile,FlagstoneGranite,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.,.,MetalTile,.,.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,CarpetRed,CarpetRed,CarpetRed,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,CarpetRed,CarpetRed,CarpetRed,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,FlagstoneGranite,FlagstoneGranite,.</li>
+      <li>.,FlagstoneGranite,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,FlagstoneGranite,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,CarpetRed,CarpetRed,CarpetRed,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.</li>
+      <li>.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,CarpetRed,CarpetRed,CarpetRed,CarpetRed,CarpetRed,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.</li>
       <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
     </terrainGrid>
     <modRequirements>

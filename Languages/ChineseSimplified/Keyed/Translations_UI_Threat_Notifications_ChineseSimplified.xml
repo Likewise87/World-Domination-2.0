@@ -70,6 +70,10 @@
   <TSA_WD_Dash_FactionRank>你是 {1} 个派系中第 {0} 强。</TSA_WD_Dash_FactionRank>
   <TSA_WD_Dash_FactionRankLeader>恭喜。你是世界第一</TSA_WD_Dash_FactionRankLeader>
   <TSA_WD_Dash_FactionRankTip>你的实力：{0}\n全球实力占比：{1} %</TSA_WD_Dash_FactionRankTip>
+  <TSA_WD_Dash_ConfigureScope>配置范围</TSA_WD_Dash_ConfigureScope>
+  <TSA_WD_Dash_ConfigureScopeTip>打开 WD 派系范围与关系。选择哪些派系使用 WD 行动、MapGen 与叙事者袭击。</TSA_WD_Dash_ConfigureScopeTip>
+  <TSA_WD_Dash_Nav_Diplomacy>外交</TSA_WD_Dash_Nav_Diplomacy>
+  <TSA_WD_Dash_Nav_Outposts>前哨站</TSA_WD_Dash_Nav_Outposts>
   <TSA_WD_Dash_OutpostPawnSummary>你在 {1} 个前哨站和殖民地共有 {0} 名单位。</TSA_WD_Dash_OutpostPawnSummary>
   <TSA_WD_Dash_MidGameDifficultyActive>中期难度已激活</TSA_WD_Dash_MidGameDifficultyActive>
   <TSA_WD_Dash_LateGameDifficultyActive>后期难度已激活</TSA_WD_Dash_LateGameDifficultyActive>
@@ -153,9 +157,7 @@
   <TSA_WD_Notify_PrisonerRecruitedUnderway>前哨囚犯被招募并出发时通知</TSA_WD_Notify_PrisonerRecruitedUnderway>
   <TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>当前哨囚犯完成招募并开始前往预定目的地时显示消息。</TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>
   <TSA_WD_Notify_PlayerCaravanClash>玩家商队发生冲突时通知</TSA_WD_Notify_PlayerCaravanClash>
-  <TSA_WD_Notify_PlayerCaravanClashTooltip>当你的商队进入、赢得或输掉 WD 商队冲突时发送信件。</TSA_WD_Notify_PlayerCaravanClashTooltip>
-  <TSA_WD_Show_CaravanClashLootDialog>商队冲突胜利后显示战利品对话框</TSA_WD_Show_CaravanClashLootDialog>
-  <TSA_WD_Show_CaravanClashLootDialogTooltip>商队赢得冲突后暂停，以便在遭遇地图关闭前选择俘虏与物品。重量不可超过商队运载能力。</TSA_WD_Show_CaravanClashLootDialogTooltip>
+  <TSA_WD_Notify_PlayerCaravanClashTooltip>当你的商队进入或输掉 WD 商队冲突时发送信件。</TSA_WD_Notify_PlayerCaravanClashTooltip>
   <TSA_WD_Notify_RapidResponseCaravanClash>快速反应商队冲突通知</TSA_WD_Notify_RapidResponseCaravanClash>
   <TSA_WD_Notify_RapidResponseCaravanClashTooltip>当快速反应拦截击败敌方商队或被击败时发送信件。</TSA_WD_Notify_RapidResponseCaravanClashTooltip>
   <TSA_WD_Notify_TravelerPollutionDamage>旅行者受到污染伤害时通知</TSA_WD_Notify_TravelerPollutionDamage>
@@ -530,6 +532,8 @@
   <TSA_WD_PawnTransfer_NotTravelReady_Mental>{0} 处于精神状态，无法旅行。</TSA_WD_PawnTransfer_NotTravelReady_Mental>
   <TSA_WD_PawnTransfer_NotTravelReady_Labor>{0} 正在分娩，无法旅行。</TSA_WD_PawnTransfer_NotTravelReady_Labor>
   <TSA_WD_PawnTransfer_NotTravelReady_Immobile>{0} 无法行动，无法旅行。</TSA_WD_PawnTransfer_NotTravelReady_Immobile>
+  <TSA_WD_PawnTransfer_EscortRequired>请在此次调动中加入一名可行动的人员、驮畜或载具——无法行动或倒地的殖民者不能在他人仍留守哨站时单独离开。</TSA_WD_PawnTransfer_EscortRequired>
+  <TSA_WD_PawnTransfer_ImmobilizedEvacuate>已组成没有可行动人员的商队。在可行动的殖民者、驮畜或载具与之合并之前，商队无法移动。</TSA_WD_PawnTransfer_ImmobilizedEvacuate>
   <TSA_WD_PawnTransfer_InvalidDestination>无效的目的地。</TSA_WD_PawnTransfer_InvalidDestination>
   <TSA_WD_PawnTransfer_SameDestination>不能调动到同一地点。</TSA_WD_PawnTransfer_SameDestination>
   <TSA_WD_PawnTransfer_MultipleOutposts>所选前哨站</TSA_WD_PawnTransfer_MultipleOutposts>

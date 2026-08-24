@@ -158,13 +158,6 @@ namespace TSA_WorldDomination
 
         public static int GetMinConstructionToBuildRoad(SettlementTier tier)
         {
-            if (RoadsOfTheRimActive)
-            {
-                if (tier == SettlementTier.T3 || tier == SettlementTier.T4) return 25;
-                if (tier == SettlementTier.T2) return 15;
-                return 5;
-            }
-
             return WorldDominationMod.settings?.GetFallbackRoadMinConstruction(tier) ?? 0;
         }
 
@@ -430,13 +423,23 @@ namespace TSA_WorldDomination
                 return false;
             }
 
-            if (!ColonyWorldBuildRequirements.MeetsRoadRequirements(actor, comp.selectedRoadTier))
+            // Player outposts / colony world-build use construction skill + research.
+            // Player-ordered NPC settlements use tier-assumed construction and are capped at order time.
+            bool needsColonyBuildGate = actor is WorldObject_WD_Outpost
+                || ColonyWorldBuildUtility.IsPlayerColonyBuildActor(actor);
+            if (needsColonyBuildGate && !ColonyWorldBuildRequirements.MeetsRoadRequirements(actor, comp.selectedRoadTier))
                 return false;
 
             comp.cachedWorkTile = nextGapTile;
             float cost = GetExpeditionStrengthCost(comp.selectedRoadTier);
             if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(comp, cost)) return false;
-            return SpawnRoadTraveler(actor, nextGapTile, comp.selectedRoadTier);
+            if (!SpawnRoadTraveler(actor, nextGapTile, comp.selectedRoadTier))
+            {
+                if (comp.playerOrderedRoad)
+                    WDVerbose.Msg($"LaunchRoadBuilderFromOutpost: spawn failed for ordered road at {actor.LabelCap}");
+                return false;
+            }
+            return true;
         }
 
         /// <summary>After a segment is paved, move the orange path + worksite marker to the next gap immediately (do not wait for <see cref="CompViralSpread.roadProgress"/>).</summary>
@@ -1167,44 +1170,23 @@ namespace TSA_WorldDomination
 
         public static RoadDef GetRoadDefByTier(SettlementTier tier, TechLevel tech = TechLevel.Industrial)
         {
-            if (RoadsOfTheRimActive)
+            WdRoadTierDef tierDef = WdBiomeTableResolver.GetRoadTierDef(tier);
+            if (tierDef?.roadDef != null)
+                return tierDef.roadDef;
+
+            // Soft fallback if XML missing.
+            if (tier == SettlementTier.T3 || tier == SettlementTier.T4)
             {
-                if (tier == SettlementTier.T3 || tier == SettlementTier.T4)
-                {
-                    RoadDef asphalt = DefDatabase<RoadDef>.GetNamed("AsphaltRoad", false);
-                    if (asphalt != null) return asphalt;
-                    RoadDef stone = DefDatabase<RoadDef>.GetNamed("StoneRoadBuilt", false);
-                    if (stone != null) return stone;
-                }
-
-                if (tier == SettlementTier.T2)
-                {
-                    RoadDef stone = DefDatabase<RoadDef>.GetNamed("StoneRoadBuilt", false);
-                    if (stone != null) return stone;
-                }
-
-                RoadDef dirtBuilt = DefDatabase<RoadDef>.GetNamed("DirtRoadBuilt", false);
-                if (dirtBuilt != null) return dirtBuilt;
+                RoadDef asphalt = DefDatabase<RoadDef>.GetNamedSilentFail("AncientAsphaltRoad");
+                if (asphalt != null) return asphalt;
             }
-            else
+            if (tier == SettlementTier.T2)
             {
-                if (tier == SettlementTier.T3 || tier == SettlementTier.T4)
-                {
-                    RoadDef asphalt = DefDatabase<RoadDef>.GetNamed("AncientAsphaltRoad", false);
-                    if (asphalt != null) return asphalt;
-                    RoadDef stone = DefDatabase<RoadDef>.GetNamed("StoneRoad", false);
-                    if (stone != null) return stone;
-                }
-
-                if (tier == SettlementTier.T2)
-                {
-                    RoadDef stone = DefDatabase<RoadDef>.GetNamed("StoneRoad", false);
-                    if (stone != null) return stone;
-                }
-
-                RoadDef dirt = DefDatabase<RoadDef>.GetNamed("DirtRoad", false);
-                if (dirt != null) return dirt;
+                RoadDef stone = DefDatabase<RoadDef>.GetNamedSilentFail("StoneRoad");
+                if (stone != null) return stone;
             }
+            RoadDef dirt = DefDatabase<RoadDef>.GetNamedSilentFail("DirtRoad");
+            if (dirt != null) return dirt;
 
             if (!_fallbackRoadResolved)
             {

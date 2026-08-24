@@ -141,7 +141,7 @@ namespace TSA_WorldDomination
                     continue;
                 if (s.GetComponent<CompViralSpread>() == null)
                     continue;
-                if (WorldActions_Utils.IsExcludedFaction(s.Faction))
+                if (!WorldActions_Utils.IsWdParticipant(s.Faction))
                     continue;
 
                 FactionRelationKind kind = WorldActions_Utils.SafeRelationKindWith(s.Faction, player);

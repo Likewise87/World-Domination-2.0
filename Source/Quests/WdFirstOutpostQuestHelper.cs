@@ -140,7 +140,7 @@ namespace TSA_WorldDomination
                 Faction f = kv.Key;
                 if (f == null || f.IsPlayer || f.defeated || f.def == null || f.def.hidden)
                     continue;
-                if (WorldActions_Utils.IsExcludedFaction(f))
+                if (!WorldActions_Utils.IsWdParticipant(f))
                     continue;
                 if (kv.Value == null || kv.Value.Count == 0)
                     continue;
@@ -185,7 +185,7 @@ namespace TSA_WorldDomination
                 return false;
             if (asker.IsPlayer)
                 return false;
-            if (WorldActions_Utils.IsExcludedFaction(asker))
+            if (!WorldActions_Utils.IsWdParticipant(asker))
                 return false;
             return true;
         }

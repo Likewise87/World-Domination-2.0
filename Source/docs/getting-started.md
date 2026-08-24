@@ -39,7 +39,7 @@ See [FAQ and compatibility](faq.md) for expandable details and other mod notes.
 7. **Select nearby settlements and tiles.** Selection gizmos expose actions that apply to the chosen settlement, outpost, traveler, or world tile.
 8. **Watch the first travelers.** NPC travelers are abstract strength pools, not groups of generated pawns. Select one to read its faction, mission, destination, and current strength.
 9. **Plan the first outpost.** Use the establish-outpost simulation from the WD world-map menu to preview tile requirements and material costs before sending a real pawn Caravan.
-10. **Review raid behavior.** Storyteller raids from WD-managed factions are blocked by default. Their attacks arrive through visible WD raid travelers.
+10. **Review raid behavior.** Storyteller raids from WD-managed factions are blocked by default. Their attacks arrive through visible WD raid travelers. Per-faction storyteller rules live in **WD Faction scope and Allegiances** (World Setup or mod Settings in-game). If you changed the old Threat checkboxes, set them again there.
 
 ## What to learn next
 

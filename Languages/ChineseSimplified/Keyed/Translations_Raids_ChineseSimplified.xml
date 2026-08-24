@@ -292,6 +292,7 @@
   <TSA_WD_OrderedRoad_CancelConfirm>取消道路</TSA_WD_OrderedRoad_CancelConfirm>
   <TSA_WD_OrderedRoad_Cancelled>已取消{0}的道路订单。</TSA_WD_OrderedRoad_Cancelled>
   <TSA_WD_OrderedRoad_FactionActiveTooltip>该派系至少有一个定居点正在为你修路。</TSA_WD_OrderedRoad_FactionActiveTooltip>
+  <TSA_WD_OrderedRoad_TierGateTooltip>此定居点为{0}。{1}道路需要{2}或更高的定居点。</TSA_WD_OrderedRoad_TierGateTooltip>
   <TSA_WD_OrderedTrader_GizmoLabel>订购商队</TSA_WD_OrderedTrader_GizmoLabel>
   <TSA_WD_OrderedTrader_GizmoDesc>花费好感，让该定居点向你最近的已加载地图殖民地派出商队。</TSA_WD_OrderedTrader_GizmoDesc>
   <TSA_WD_OrderedTrader_NoColony>未找到带已加载地图的玩家殖民地。</TSA_WD_OrderedTrader_NoColony>

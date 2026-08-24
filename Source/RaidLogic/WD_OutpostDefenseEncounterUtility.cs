@@ -216,7 +216,22 @@ namespace TSA_WorldDomination
                 canSteal = false
             };
 
-            if (traveler != null && traveler.mission == TravelerMission.RaidDropPod)
+            if (traveler != null && traveler.mission == TravelerMission.RaidGravship)
+            {
+                Raid_OnPlayerColony.IsWorldDominationRaid = true;
+                try
+                {
+                    if (GravshipRaidsCompat.TryExecuteWdGravshipRaid(map, traveler.Faction, points))
+                        return;
+                }
+                finally
+                {
+                    Raid_OnPlayerColony.IsWorldDominationRaid = false;
+                }
+                // Fall through to drop-pod spawn if GR rejects the defense map.
+                parms.raidArrivalMode = Rand.Bool ? PawnsArrivalModeDefOf.CenterDrop : PawnsArrivalModeDefOf.EdgeDrop;
+            }
+            else if (traveler != null && traveler.mission == TravelerMission.RaidDropPod)
                 parms.raidArrivalMode = Rand.Bool ? PawnsArrivalModeDefOf.CenterDrop : PawnsArrivalModeDefOf.EdgeDrop;
             else
                 parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;

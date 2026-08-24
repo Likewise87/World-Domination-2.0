@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
+using KCSG;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -33,7 +34,6 @@ namespace TSA_WorldDomination
                     harmony.Patch(targetMethod, prefix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.LayoutOverridePrefix)));
                     harmony.Patch(targetMethod, postfix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.CustomGenOptionGeneratePostfix)));
                     harmony.Patch(targetMethod, finalizer: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.LayoutOverrideFinalizer)));
-                    Log.Message("[WorldDomination] KCSG Integration: Successfully hooked generator logic and ran PatchAll.");
                 }
             }
 
@@ -49,60 +49,159 @@ namespace TSA_WorldDomination
             {
                 harmony.Patch(postMapMethod, postfix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.PostMapGenerateUnfogPostfix)));
             }
+
+            // Map-local rock swap: remape layout Marble/Granite/etc. to the map's dominant stone.
+            Type symbolUtils = AccessTools.TypeByName("KCSG.SymbolUtils");
+            if (symbolUtils != null)
+            {
+                MethodInfo symbolGenerate = AccessTools.Method(symbolUtils, "Generate", new[]
+                {
+                    AccessTools.TypeByName("KCSG.SymbolDef"),
+                    AccessTools.TypeByName("KCSG.StructureLayoutDef"),
+                    typeof(Map),
+                    typeof(IntVec3),
+                    typeof(Faction),
+                    typeof(ThingDef),
+                    typeof(ICollection<Thing>)
+                });
+                if (symbolGenerate != null)
+                {
+                    harmony.Patch(symbolGenerate,
+                        prefix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.SymbolGenerateRockRemapPrefix)),
+                        postfix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.SymbolGeneratePenAnimalsPostfix)),
+                        finalizer: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.SymbolGenerateRockRemapFinalizer)));
+                }
+            }
+
+            MethodInfo setTerrain = AccessTools.Method(typeof(TerrainGrid), nameof(TerrainGrid.SetTerrain),
+                new[] { typeof(IntVec3), typeof(TerrainDef) });
+            if (setTerrain != null)
+            {
+                harmony.Patch(setTerrain,
+                    prefix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.SetTerrainRockRemapPrefix)));
+            }
+
+            // KCSG Delaunay link-road crashes (OverflowException) when fewer than 3 outdoor doors.
+            Type generateRoadResolver = AccessTools.TypeByName("KCSG.SymbolResolver_GenerateRoad");
+            MethodInfo generateRoadResolve = generateRoadResolver != null
+                ? AccessTools.Method(generateRoadResolver, "Resolve")
+                : null;
+            if (generateRoadResolve != null)
+            {
+                harmony.Patch(generateRoadResolve,
+                    prefix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.PreventKcsgRoadDelaunayOverflowPrefix)));
+            }
+
+            Type layoutUtils = AccessTools.TypeByName("KCSG.LayoutUtils");
+            Type structureLayoutDef = AccessTools.TypeByName("KCSG.StructureLayoutDef");
+            if (layoutUtils != null && structureLayoutDef != null)
+            {
+                MethodInfo layoutGenerate = AccessTools.Method(layoutUtils, "Generate", new[]
+                {
+                    structureLayoutDef,
+                    typeof(CellRect),
+                    typeof(Map),
+                    typeof(ICollection<Thing>),
+                    typeof(Faction),
+                    typeof(bool),
+                    typeof(Rot4?)
+                });
+                if (layoutGenerate != null)
+                {
+                    harmony.Patch(layoutGenerate,
+                        prefix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.LayoutUtilsGeneratePrefix)),
+                        postfix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.LayoutUtilsGeneratePostfix)));
+                }
+            }
+
+            Type scatterPropsResolver = AccessTools.TypeByName("KCSG.SymbolResolver_ScatterPropsAround");
+            MethodInfo scatterPropsResolve = scatterPropsResolver != null
+                ? AccessTools.Method(scatterPropsResolver, "Resolve")
+                : null;
+            if (scatterPropsResolve != null)
+            {
+                harmony.Patch(scatterPropsResolve,
+                    prefix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.ScatterPropsAroundPrefix)),
+                    finalizer: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.ScatterPropsAroundFinalizer)));
+            }
+
+            WDVerbose.MsgNoTick("KCSG integration: hooked generator, symbol, terrain, road, and scatter prop guards.");
         }
     }
 
     public static class KCSG_Integration_Patch
     {
         private const string OutpostDefenseLayoutDefName = "Player_Outpost";
+        private static string SettlementLabel(Map map) => map?.Parent?.LabelCap ?? map?.Parent?.def?.defName ?? "unknown-settlement";
 
         [ThreadStatic] private static bool generatingOutpostDefenseSite;
+        [ThreadStatic] private static List<ThingDef> savedScatterPropsDefs;
 
-        /// <summary>Player attack on NPC settlements only. Outpost defense uses its own path and ignores this.</summary>
-        private static bool AllowWdSettlementBaseGeneration =>
-            WorldDominationMod.settings?.allowWdSettlementBaseGeneration ?? WorldDominationSettings.DefAllowWdSettlementBaseGeneration;
+        public static void ScatterPropsAroundPrefix()
+        {
+            if (!VFEPropsCompat.IsModLoaded) return;
+
+            SettlementLayoutDef layout = GenOption.settlementLayout;
+            PropsOptions props = GenOption.PropsOptions;
+            if (layout == null || props == null) return;
+            if (layout.GetModExtension<WdSettlementScatterPropsExtension>() == null) return;
+
+            savedScatterPropsDefs = props.scatterPropsDefs;
+            props.scatterPropsDefs = WdPropCategoryScatter.BuildScatterList(layout, savedScatterPropsDefs);
+        }
+
+        public static void ScatterPropsAroundFinalizer()
+        {
+            if (savedScatterPropsDefs == null) return;
+            PropsOptions props = GenOption.PropsOptions;
+            if (props != null)
+                props.scatterPropsDefs = savedScatterPropsDefs;
+            savedScatterPropsDefs = null;
+        }
 
         public static void ForceKCSGGeneratorPostfix(Settlement __instance, ref MapGeneratorDef __result)
         {
-            if (!AllowWdSettlementBaseGeneration) return;
             if (__instance == null || __instance.Faction == null || __instance.Faction.def == null || __instance.Faction.IsPlayer) return;
+            if (!WorldActions_Utils.IsWdBaseGenEligible(__instance.Faction)) return;
             if (!WorldActions_Utils.IsWdSurfaceTile(__instance.Tile)) return;
             if (WorksitesExpandedCompat.ShouldSkipWdKcsgInterference(__instance)) return;
 
-            // SIMPLE EXCLUSION CHECK
-            string fName = __instance.Faction.Name.ToLowerInvariant();
-            string dName = __instance.Faction.def.defName.ToLowerInvariant();
+            string label = __instance.LabelCap;
 
-            if (fName.Contains("insect") || dName.Contains("insect") || fName.Contains("hive") || dName.Contains("hive"))
-            {
-                Log.Message($"[WorldDomination] KCSG: Skipping {__instance.LabelCap} - Faction {__instance.Faction.Name} matches exclusion strings.");
-                return;
-            }
-
-            // QUEST EXCLUSION: Don't hijack if the settlement is part of an active quest
             if (WorldActions_Utils.HasActiveQuest(__instance))
             {
-                Log.Message($"[WorldDomination] KCSG: Skipping {__instance.LabelCap} - Active quest detected.");
+                LogKcsgHijackDecision(label, hijacked: false, "active quest");
                 return;
             }
 
-            if (__instance.GetComponent<CompViralSpread>() == null) return;
-
-            Log.Message($"[WorldDomination] KCSG: Proceeding with hijack for valid faction: {__instance.Faction.Name}");
+            if (__instance.GetComponent<CompViralSpread>() == null)
+            {
+                LogKcsgHijackDecision(label, hijacked: false, "not a WD settlement");
+                return;
+            }
 
             try
             {
                 var kcsgGen = DefDatabase<MapGeneratorDef>.GetNamed("KCSG_Base_Faction", false);
-                if (kcsgGen != null)
+                if (kcsgGen == null)
                 {
-                    __result = kcsgGen;
-                    EnsureKcsgCustomGenOption(__instance.Faction.def);
+                    LogKcsgHijackDecision(label, hijacked: false, "KCSG_Base_Faction def missing");
+                    return;
                 }
+
+                __result = kcsgGen;
+                EnsureKcsgCustomGenOption(__instance.Faction.def);
+                LogKcsgHijackDecision(label, hijacked: true, __instance.Faction.Name);
             }
             catch (Exception ex)
             {
-                Log.Warning($"[WorldDomination] KCSG Hijack failed gracefully for {__instance.LabelCap}. Error: {ex.Message}");
+                LogKcsgHijackDecision(label, hijacked: false, $"error: {ex.Message}");
             }
+        }
+
+        private static void LogKcsgHijackDecision(string settlementLabel, bool hijacked, string detail)
+        {
+            Log.Message($"[WorldDomination] KCSG hijack {(hijacked ? "yes" : "no")} for {settlementLabel} ({detail})");
         }
 
         public static void LayoutOverridePrefix(object __instance, IntVec3 loc, Map map)
@@ -114,23 +213,20 @@ namespace TSA_WorldDomination
             {
                 generatingOutpostDefenseSite = true;
                 ConfigureOutpostDefenseLayout(__instance, map, loc);
+                KcsgRockTypeRemapper.Begin(map);
+                WdLayoutSpawnCellTracker.Begin(map);
                 return;
             }
 
-            if (!AllowWdSettlementBaseGeneration) return;
             if (!(map.Parent is Settlement settlement)) return;
             if (settlement.Faction == null || settlement.Faction.IsPlayer) return;
+            if (!WorldActions_Utils.IsWdBaseGenEligible(settlement.Faction)) return;
             if (!WorldActions_Utils.IsWdSurfaceTile(settlement.Tile)) return;
-
-            // SIMPLE EXCLUSION CHECK
-            string fName = settlement.Faction.Name.ToLowerInvariant();
-            string dName = settlement.Faction.def.defName.ToLowerInvariant();
-            if (fName.Contains("insect") || dName.Contains("insect") || fName.Contains("hive") || dName.Contains("hive")) return;
 
             // QUEST EXCLUSION
             if (WorldActions_Utils.HasActiveQuest(settlement))
             {
-                Log.Message($"[WorldDomination] KCSG: Active quest at map. Leaving it be for {settlement.LabelCap}.");
+                WDVerbose.MsgNoTick($"KCSG layout override skipped for {settlement.LabelCap}: active quest");
                 return;
             }
 
@@ -214,8 +310,7 @@ namespace TSA_WorldDomination
                         targetMult *= 1f + boost;
                     }
 
-                    if (Prefs.DevMode)
-                        Log.Message($"[WorldDomination] KCSG garrison scale for {settlement.LabelCap}: tier={spreadComp.tier} off={spreadComp.offensiveStrength:F0}/{offMax:F0} ratio={offRatio:P0} floor={minScale:P0} -> mult x{dynamicScale:F2} = {targetMult:F2}");
+                    WDVerbose.MsgNoTick($"KCSG layout plan settlement={settlement.LabelCap} layout={chosen.defName} tier={spreadComp.tier} subtype={spreadComp.subType} garrison off={spreadComp.offensiveStrength:F0}/{offMax:F0} ratio={offRatio:P0} floor={minScale:P0} finalMult={targetMult:F2}");
 
                     // Drill down into DefenseOptions -> pawnGroupMultiplier
                     FieldInfo defenseField = AccessTools.Field(chosen.GetType(), "defenseOptions");
@@ -242,8 +337,24 @@ namespace TSA_WorldDomination
                     }
 
                     ApplyAdaptiveTerrainPrep(__instance, genType, chosen, loc, map, settlement);
+                    KcsgRockTypeRemapper.Begin(map);
+                    WdLayoutSpawnCellTracker.Begin(map);
+                    WDVerbose.MsgNoTick($"KCSG layout chosen settlement={settlement.LabelCap} layout={chosen.defName} loc={loc}");
                 }
             }
+        }
+
+        public static void LayoutUtilsGeneratePrefix(KCSG.StructureLayoutDef layout)
+        {
+            KcsgRockTypeRemapper.BeginLayout(layout?.defName, layout?.tags);
+            KcsgRockTypeRemapper.RerollCropForLayout();
+            KcsgRockTypeRemapper.RerollOresForLayout();
+        }
+
+        public static void LayoutUtilsGeneratePostfix(KCSG.StructureLayoutDef layout, CellRect rect, Map map)
+        {
+            WdLayoutSpawnCellTracker.RecordGenerateRect(map, rect);
+            KcsgRockTypeRemapper.EndLayout(map);
         }
 
         private const float BlendPerlinScale = 0.07f;
@@ -320,11 +431,12 @@ namespace TSA_WorldDomination
                 }
             }
 
-            if (Prefs.DevMode)
-            {
-                string label = settlement?.LabelCap ?? "settlement";
-                Log.Message($"[WorldDomination] KCSG terrain prep for {label}: blocked={blockedFraction:P0} ({blocked}/{total}) threshold={threshold:P0} flatten={flatten} blend={blend} rect={rect.Width}x{rect.Height} at {loc}");
-            }
+            string label = settlement?.LabelCap ?? "settlement";
+            string mode = !flatten ? "keep" : blend ? "flatten+blend" : "flatten";
+            WDVerbose.MsgNoTick(
+                $"KCSG terrain prep settlement={label} layout={chosenLayout?.defName ?? "?"} loc={loc} "
+                + $"rect={rect} blocked={blocked}/{total} ({blockedFraction:P0}) threshold={threshold:P0} mode={mode} "
+                + $"floor={(FindMostCommonBuildableTerrain(map)?.defName ?? "none")}");
         }
 
         private static TerrainDef FindMostCommonBuildableTerrain(Map map)
@@ -451,13 +563,131 @@ namespace TSA_WorldDomination
         public static void LayoutOverrideFinalizer()
         {
             generatingOutpostDefenseSite = false;
+            KcsgRockTypeRemapper.End();
+            WdLayoutSpawnCellTracker.End();
+        }
+
+        public static void SymbolGenerateRockRemapPrefix(object __0, Map __2, IntVec3 __3, ref bool __state)
+        {
+            __state = false;
+            if (KcsgRockTypeRemapper.SessionActive)
+            {
+                ThingDef originalThing = KcsgRockTypeRemapper.GetSymbolThingDef(__0);
+                KcsgRockTypeRemapper.PrepareSymbolVerification(originalThing, __3);
+                __state = KcsgRockTypeRemapper.PushAndRemapSymbol(__0);
+            }
+            if (!KcsgRockTypeRemapper.SessionActive) return;
+            ThingDef thing = KcsgRockTypeRemapper.GetSymbolThingDef(__0);
+            if (KcsgRockTypeRemapper.IsLayoutCropPlant(thing))
+                KcsgRockTypeRemapper.EnsureFertileUnderCrop(__2, __3);
+        }
+
+        public static void SymbolGenerateRockRemapFinalizer(bool __state)
+        {
+            if (__state)
+                KcsgRockTypeRemapper.PopSymbolRestore();
+        }
+
+        public static void SymbolGeneratePenAnimalsPostfix(object __0, Map __2, IntVec3 __3)
+        {
+            KcsgRockTypeRemapper.CompleteSymbolVerification(__2, __3);
+            KcsgRockTypeRemapper.ApplyRandomCropGrowth(__2, __3);
+            if (!KcsgRockTypeRemapper.SessionActive) return;
+            ThingDef thing = KcsgRockTypeRemapper.GetSymbolThingDef(__0);
+            if (KcsgRockTypeRemapper.IsLayoutNaturalRockOrMineable(thing))
+                KcsgRockTypeRemapper.ApplyRoughHewnHalo(__2, __3);
+            if (!KcsgRockTypeRemapper.PenLivestockEnabled) return;
+            if (KcsgRockTypeRemapper.IsPenMarker(thing))
+                KcsgRockTypeRemapper.TrySpawnPenAnimals(__2, __3);
+        }
+
+        public static void SetTerrainRockRemapPrefix(ref TerrainDef newTerr)
+        {
+            if (newTerr == null) return;
+
+            if (KcsgRockTypeRemapper.Active)
+            {
+                TerrainDef rockRemapped = KcsgRockTypeRemapper.RemapTerrain(newTerr);
+                if (rockRemapped != null && rockRemapped != newTerr)
+                    newTerr = rockRemapped;
+            }
+
+            if (KcsgRockTypeRemapper.SessionActive)
+            {
+                TerrainDef farmRemapped = KcsgRockTypeRemapper.RemapFarmTerrain(newTerr);
+                if (farmRemapped != null && farmRemapped != newTerr)
+                    newTerr = farmRemapped;
+            }
+        }
+
+        /// <summary>
+        /// KCSG's Delaunay ctor does <c>new int[(2*n-5)*3]</c> and only skips when outdoor doors == 0.
+        /// With 1–2 unique outdoor doors that size is negative → OverflowException. Skip link roads instead.
+        /// </summary>
+        public static bool PreventKcsgRoadDelaunayOverflowPrefix()
+        {
+            try
+            {
+                Type genUtils = AccessTools.TypeByName("KCSG.SettlementGenUtils");
+                FieldInfo doorsField = genUtils != null ? AccessTools.Field(genUtils, "doors") : null;
+                var doors = doorsField?.GetValue(null) as List<IntVec3>;
+                if (doors == null || doors.Count < 3)
+                {
+                    WDVerbose.MsgNoTick($"Skipping kcsg_generateroad: tracked doors={doors?.Count ?? 0} (need ≥3 unique outdoor).");
+                    return false;
+                }
+
+                Map map = RimWorld.BaseGen.BaseGen.globalSettings?.map;
+                if (map == null) return false;
+
+                var outdoor = new HashSet<IntVec3>();
+                foreach (IntVec3 door in doors)
+                {
+                    if (!door.InBounds(map)) continue;
+                    if (!IsOutdoorLinkableDoorCell(door, map)) continue;
+                    outdoor.Add(door);
+                    if (outdoor.Count >= 3) return true;
+                }
+
+                WDVerbose.MsgNoTick($"Skipping kcsg_generateroad: unique outdoor link doors={outdoor.Count} (Delaunay needs ≥3).");
+                return false;
+            }
+            catch (Exception e)
+            {
+                WDVerbose.MsgNoTick($"kcsg_generateroad guard failed ({e.Message}); skipping roads.");
+                return false;
+            }
+        }
+
+        /// <summary>Mirrors KCSG SymbolResolver_GenerateRoad outdoor-door filter.</summary>
+        private static bool IsOutdoorLinkableDoorCell(IntVec3 door, Map map)
+        {
+            foreach (IntVec3 adj in GenAdjFast.AdjacentCellsCardinal(door))
+            {
+                if (!adj.InBounds(map)) continue;
+                if (adj.UsesOutdoorTemperature(map)) return true;
+                // Mineable presence also qualifies in KCSG; keep parity when possible.
+                if (adj.GetFirstMineable(map) != null) return true;
+            }
+            return false;
         }
 
         public static void PostMapGenerateUnfogPostfix(MapParent __instance)
         {
             Map map = __instance?.Map;
-            if (map != null)
+            if (map == null) return;
+
+            try
+            {
+                WdSettlementMapUnfog.TryResolveSettlementRect(map, out CellRect settlementRect);
                 WdSettlementMapUnfog.UnfogKcsgSettlement(map);
+                WdSettlementRockInteriorFog.Apply(map, settlementRect);
+            }
+            finally
+            {
+                WdSettlementMapUnfog.ClearPendingRect(map);
+                WdLayoutSpawnCellTracker.Clear(map);
+            }
         }
 
         public static void CustomGenOptionGeneratePostfix(IntVec3 loc, Map map)
@@ -466,18 +696,18 @@ namespace TSA_WorldDomination
             {
                 IntVec3 center = WD_OutpostDefenseMapUtility.ResolveKcsgSettlementCenter(loc);
                 WD_OutpostDefenseMapUtility.RecordSettlementCenter(map, center);
-
-                if (Prefs.DevMode)
-                {
-                    Log.Message($"[WorldDomination] KCSG outpost defense center: generateLoc={loc}, settlementCenter={center}, mapCenter={map.Center}.");
-                }
+                WDVerbose.MsgNoTick($"KCSG outpost defense center settlement={SettlementLabel(map)} generateLoc={loc} settlementCenter={center} mapCenter={map.Center}.");
 
                 return;
             }
 
-            // NPC settlement attack maps: force power after KCSG layout, then watch for turret silence.
-            WdSettlementMapPower.ForceSettlementMapPowered(map);
-            WdSettlementTurretSilence.EnsureOnMap(map);
+            // NPC settlement attack maps: force power after KCSG layout, then WD shelf loot, then turret silence.
+            var settings = WorldDominationMod.settings;
+            if (settings != null && settings.kcsgForceSettlementPower)
+                WdSettlementMapPower.ForceSettlementMapPowered(map);
+            WdSettlementLootFiller.FillShelves(map);
+            if (settings != null && settings.kcsgSilenceDefeatedTurrets)
+                WdSettlementTurretSilence.EnsureOnMap(map);
         }
 
         public static bool SuppressOutpostDefenseKcsgPawnsPrefix(PawnGroupMakerParms parms, ref IEnumerable<Pawn> __result)
@@ -520,7 +750,7 @@ namespace TSA_WorldDomination
             }
             catch (Exception ex)
             {
-                Log.Warning($"[WorldDomination] KCSG custom generation option setup failed for {factionDef.defName}: {ex.Message}");
+                WDVerbose.MsgNoTick($"KCSG custom generation option setup failed for {factionDef.defName}: {ex.Message}");
                 return false;
             }
         }
@@ -556,13 +786,12 @@ namespace TSA_WorldDomination
                     .ToList();
                 if (!fallbackLayouts.Any())
                 {
-                    Log.Warning($"[WorldDomination] KCSG: outpost defense layout {OutpostDefenseLayoutDefName} missing; no fallback T1 layout found.");
+                    WDVerbose.MsgNoTick($"KCSG outpost defense layout {OutpostDefenseLayoutDefName} missing; no fallback T1 layout found.");
                     return;
                 }
 
                 chosen = fallbackLayouts.RandomElement();
-                if (Prefs.DevMode)
-                    Log.Warning($"[WorldDomination] KCSG: outpost defense falling back to {chosen.defName} ({OutpostDefenseLayoutDefName} not loaded).");
+                WDVerbose.MsgNoTick($"KCSG outpost defense falling back to {chosen.defName} ({OutpostDefenseLayoutDefName} not loaded).");
             }
 
             if (chosen == null) return;
@@ -595,8 +824,9 @@ namespace TSA_WorldDomination
                 listField.SetValue(generator, newList);
             }
 
-            if (Prefs.DevMode)
-                Log.Message($"[WorldDomination] KCSG: outpost defense site using layout {chosen.defName}.");
+            WDVerbose.MsgNoTick($"KCSG outpost defense site using layout {chosen.defName}.");
+
+            ApplyAdaptiveTerrainPrep(generator, genType, chosen, loc, map, null);
         }
 
         private static void SetDefenseBool(Type defenseType, object defenseObj, string fieldName, bool value)

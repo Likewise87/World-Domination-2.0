@@ -919,9 +919,9 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            // IsExcludedFaction includes the player faction (they don't get AI world-sim tiers). Do not treat player bases as "Excluded" here
-            // or we skip Colony/Outpost setup and never apply initial raid-protection ticks.
-            if (parent.Faction != null && WorldActions_Utils.IsExcludedFaction(parent.Faction) && !parent.Faction.IsPlayer)
+            // Non-participants (auto-excluded or manual WD opt-out) do not get AI world-sim tiers.
+            // Player bases must not get subType Excluded here or founding shields are skipped.
+            if (parent.Faction != null && !parent.Faction.IsPlayer && !WorldActions_Utils.IsWdParticipant(parent.Faction))
             {
                 this.subType = "Excluded";
                 this.outpostInitialized = true;
@@ -1092,9 +1092,13 @@ namespace TSA_WorldDomination
                             // (includes min garrison retain — builders must not empty the outpost).
                             if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_Roads.GetExpeditionStrengthCost(selectedRoadTier)))
                                 break;
-                            roadProgress -= 1f;
                             if (WorldActions_Roads.LaunchRoadBuilderFromOutpost(parent))
+                            {
+                                roadProgress -= 1f;
                                 builderInField = true;
+                            }
+                            else
+                                break;
                         }
                         if (roadProgress > 1f)
                             roadProgress = 1f;
@@ -1122,9 +1126,13 @@ namespace TSA_WorldDomination
                         {
                             if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_RoadBlocks.GetExpeditionStrengthCost(selectedRoadBlockKind)))
                                 break;
-                            roadBlockProgress -= 1f;
                             if (WorldActions_RoadBlocks.LaunchRoadBlockCrewFromOutpost(parent))
+                            {
+                                roadBlockProgress -= 1f;
                                 roadBlockBuilderInField = true;
+                            }
+                            else
+                                break;
                         }
                         // Cap at 100% while waiting on strength, in transit, or any failed dispatch.
                         if (roadBlockProgress > 1f)
@@ -1152,9 +1160,13 @@ namespace TSA_WorldDomination
                         {
                             if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_SpikeTraps.GetExpeditionStrengthCost(selectedSpikeTrapKind)))
                                 break;
-                            spikeTrapProgress -= 1f;
                             if (WorldActions_SpikeTraps.LaunchSpikeTrapCrewFromOutpost(parent))
+                            {
+                                spikeTrapProgress -= 1f;
                                 spikeTrapBuilderInField = true;
+                            }
+                            else
+                                break;
                         }
                         if (spikeTrapProgress > 1f)
                             spikeTrapProgress = 1f;
@@ -1181,9 +1193,13 @@ namespace TSA_WorldDomination
                         {
                             if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_AtTurrets.GetExpeditionStrengthCost(selectedAtTurretTier)))
                                 break;
-                            atTurretProgress -= 1f;
                             if (WorldActions_AtTurrets.LaunchAtTurretCrewFromOutpost(parent))
+                            {
+                                atTurretProgress -= 1f;
                                 atTurretBuilderInField = true;
+                            }
+                            else
+                                break;
                         }
                         if (atTurretProgress > 1f)
                             atTurretProgress = 1f;
@@ -1210,9 +1226,13 @@ namespace TSA_WorldDomination
                         {
                             if (strength < WorldActions_Decontamination.GetExpeditionStrengthCost())
                                 break;
-                            decontamProgress -= 1f;
                             if (WorldActions_Decontamination.LaunchDecontaminationCrewFromOutpost(parent))
+                            {
+                                decontamProgress -= 1f;
                                 decontamBuilderInField = true;
+                            }
+                            else
+                                break;
                         }
                         if (decontamProgress > 1f)
                             decontamProgress = 1f;
@@ -1942,6 +1962,8 @@ namespace TSA_WorldDomination
                     sb.AppendLine();
                     sb.Append("TSA_WD_Inspect_StrengthSimpleLine".Translate(
                         totalCurrent.ToString("F0"), totalMax.ToString("F0")));
+                    if (HasActivePlayerOrderedRoadProject)
+                        AppendActiveConstructionInspectLines(sb);
                 }
             }
             else

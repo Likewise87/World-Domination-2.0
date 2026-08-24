@@ -25,6 +25,13 @@ namespace TSA_WorldDomination
             if (OdysseyGravshipCaravanClashCompat.ShouldSkipPlayerCaravanClash(playerCaravan))
                 return;
 
+            if (WD_MapComponent_CaravanClash.TileHasBusyCaravanClashAmbush(playerCaravan.Tile))
+            {
+                if (Prefs.DevMode)
+                    Log.Message($"[TSA WD] Skipping caravan clash: busy Ambush map on tile {playerCaravan.Tile}");
+                return;
+            }
+
             if (traveler != null && traveler.mission == TravelerMission.Trader)
             {
                 StartTraderCaravanClashEncounter(playerCaravan, traveler);
@@ -101,6 +108,13 @@ namespace TSA_WorldDomination
         public static void StartInterceptionEncounterDropPods(IReadOnlyList<Pawn> playerPawns, WorldObject_Traveler traveler)
         {
             if (playerPawns == null || playerPawns.Count == 0 || traveler == null || traveler.Destroyed) return;
+
+            if (WD_MapComponent_CaravanClash.TileHasBusyCaravanClashAmbush(traveler.Tile))
+            {
+                if (Prefs.DevMode)
+                    Log.Message($"[TSA WD] Skipping RR drop-pod clash: busy Ambush map on tile {traveler.Tile}");
+                return;
+            }
 
             string letterTravelerLabel = traveler.Label;
             string letterFactionName = traveler.Faction?.Name ?? "";

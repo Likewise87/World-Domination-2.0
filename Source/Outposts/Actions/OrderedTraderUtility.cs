@@ -21,7 +21,7 @@ namespace TSA_WorldDomination
             disabledReason = null;
             if (settlement == null || settlement.Destroyed || settlement.Faction == null || settlement.Faction.IsPlayer)
                 return false;
-            if (WorldActions_Utils.IsExcludedFaction(settlement.Faction))
+            if (!WorldActions_Utils.IsWdParticipant(settlement.Faction))
                 return false;
             if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(settlement))
                 return false;

@@ -7,13 +7,13 @@
   <layouts>
     <li>
       <li>.,Stool_WoodLog_North,Stool_WoodLog_North,.,Plant_TreeOak,.,.,Stool_WoodLog_North,Stool_WoodLog_North,.</li>
-      <li>.,.,Plant_Rose,Plant_TreeWillow,.,.,Plant_Bush,.,Plant_TreeWillow,.</li>
-      <li>.,Plant_Bush,Plant_Bush,.,Plant_LilyPad,Plant_Berry,.,Plant_LilyPad,Plant_Bush,.</li>
+      <li>.,.,Plant_Rose,Plant_TreeOak,.,.,Plant_Bush,.,Plant_TreeOak,.</li>
+      <li>.,Plant_Bush,Plant_Bush,.,Plant_LilyPad,Plant_Corn,.,Plant_LilyPad,Plant_Bush,.</li>
       <li>Plant_Rose,Plant_Bush,.,Plant_LilyPad,.,.,Plant_LilyPad,.,.,Plant_Rose</li>
-      <li>Plant_Berry,Plant_LilyPad,Plant_LilyPad,.,.,Plant_LilyPad,.,.,Plant_Bush,.</li>
-      <li>.,Plant_Bush,.,.,.,Plant_LilyPad,.,Plant_Bush,Plant_Berry,Plant_TreeWillow</li>
-      <li>.,Plant_Bush,Plant_TreeWillow,.,Plant_Berry,Plant_Bush,Plant_Rose,.,.,.</li>
-      <li>.,Plant_TreeWillow,.,.,.,.,.,GameOfUrBoard_WoodLog_North,.,.</li>
+      <li>Plant_Corn,Plant_LilyPad,Plant_LilyPad,.,.,Plant_LilyPad,.,.,Plant_Bush,.</li>
+      <li>.,Plant_Bush,.,.,.,Plant_LilyPad,.,Plant_Bush,Plant_Corn,Plant_TreeOak</li>
+      <li>.,Plant_Bush,Plant_TreeOak,.,Plant_Corn,Plant_Bush,Plant_Rose,.,.,.</li>
+      <li>.,Plant_TreeOak,.,.,.,.,.,GameOfUrBoard_WoodLog_North,.,.</li>
       <li>.,.,.,HoopstoneRing_WoodLog,.,.,.,.,.,.</li>
       <li>.,Plant_TreeOak,.,.,.,Stool_WoodLog_South,Stool_WoodLog_South,.,Plant_TreeOak,.</li>
     </li>

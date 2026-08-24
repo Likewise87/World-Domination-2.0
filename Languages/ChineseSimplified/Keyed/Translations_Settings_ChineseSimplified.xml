@@ -7,7 +7,8 @@
   <TSA_WD_BtnDailyActions>世界行动</TSA_WD_BtnDailyActions>
   <TSA_WD_BtnDiplomacy>外交、增益与减益</TSA_WD_BtnDiplomacy>
   <TSA_WD_BtnDisinformation>虚假情报</TSA_WD_BtnDisinformation>
-  <TSA_WD_BtnGarrisonSettings>驻军倍率</TSA_WD_BtnGarrisonSettings>
+  <TSA_WD_BtnGarrisonSettings>驻军缩放</TSA_WD_BtnGarrisonSettings>
+  <TSA_WD_BtnBaseGeneration>基地生成</TSA_WD_BtnBaseGeneration>
   <TSA_WD_BtnGrowthExpand>发展与扩张</TSA_WD_BtnGrowthExpand>
   <TSA_WD_BtnMiningBaselines>采矿基准</TSA_WD_BtnMiningBaselines>
   <TSA_WD_BtnNotifications>通知</TSA_WD_BtnNotifications>
@@ -70,7 +71,8 @@
   <TSA_WD_DescDailyActions>定居点每日可执行多少行动?各行动类型概率?行动后应用何种冷却?</TSA_WD_DescDailyActions>
   <TSA_WD_DescDiplomacy>随机外交、叛乱概率、好感上限与原版好感调整、盟友袭击命令、有序筑路、购买定居点、派系投资，以及领袖/弱势/狂热/联盟增益与减益。</TSA_WD_DescDiplomacy>
   <TSA_WD_DescDisinformation>虚假情报任务的成功/失败概率、冷却与技能影响。</TSA_WD_DescDisinformation>
-  <TSA_WD_DescGarrison>用"真实"商队袭击 T1、T2、T3、T4 定居点时遭遇的敌人数量与强度。</TSA_WD_DescGarrison>
+  <TSA_WD_DescGarrison>各等级定居点驻军强度，以及定居点进攻实力耗尽时的最低缩放比例。</TSA_WD_DescGarrison>
+  <TSA_WD_DescBaseGeneration>WD 生成定居点袭击与前哨防御地图时的 KCSG 布局调整。各派系袭击资格在世界设置 → 派系关系 中配置。</TSA_WD_DescBaseGeneration>
   <TSA_WD_DescGrowthExpand>定居点发展多快?升级需满足何条件?扩张距离与饱和上限。</TSA_WD_DescGrowthExpand>
   <TSA_WD_DescMiningBaselines>根据采矿技能等级配置采矿前哨每石头/矿石可获基准量。</TSA_WD_DescMiningBaselines>
   <TSA_WD_DescNotifications>切换哪些世界霸权事件生成通知。</TSA_WD_DescNotifications>
@@ -94,7 +96,6 @@
   <TSA_WD_Garrison_T2>等级 2(城镇)倍率</TSA_WD_Garrison_T2>
   <TSA_WD_Garrison_T3>等级 3(城市)倍率</TSA_WD_Garrison_T3>
   <TSA_WD_Garrison_T4>等级 4(要塞)倍率</TSA_WD_Garrison_T4>
-  <TSA_WD_Garrison_Title>定居点驻军缩放</TSA_WD_Garrison_Title>
   <TSA_WD_Garrison_Tooltip>缩放用于生成防守者的点数。更高值增加人数与质量。</TSA_WD_Garrison_Tooltip>
   <TSA_WD_Gen_HeaderWeights>初始世界生成权重</TSA_WD_Gen_HeaderWeights>
   <TSA_WD_Gen_RerollAll>立即重掷定居点等级</TSA_WD_Gen_RerollAll>
@@ -149,10 +150,11 @@
   <TSA_WD_WorldSetup_SettlementCountTooltip>重建时放置的 NPC 定居点数量。默认是原版世界生成的数量。派系份额（“派系份额”按钮）决定如何分配该总数。</TSA_WD_WorldSetup_SettlementCountTooltip>
   <TSA_WD_WorldSetup_TierLikelihood>定居点等级</TSA_WD_WorldSetup_TierLikelihood>
   <TSA_WD_WorldSetup_TierLikelihoodTooltip>编辑各等级出现频率。下次重建会使用这些权重。</TSA_WD_WorldSetup_TierLikelihoodTooltip>
-  <TSA_WD_WorldSetup_Allegiances>派系关系</TSA_WD_WorldSetup_Allegiances>
-  <TSA_WD_WorldSetup_AllegiancesTooltip>在 NPC 派系间设置中立、同盟或敌对，锁定 WD 外交变更，并可选择冻结。</TSA_WD_WorldSetup_AllegiancesTooltip>
+  <TSA_WD_WorldSetup_Allegiances>WD 派系范围与关系</TSA_WD_WorldSetup_Allegiances>
+  <TSA_WD_WorldSetup_AllegiancesTooltip>打开派系参与（WD 行动、MapGen、叙事者）与成对关系设置。</TSA_WD_WorldSetup_AllegiancesTooltip>
   <TSA_WD_WorldSetup_AllegiancesTitle>世界派系关系</TSA_WD_WorldSetup_AllegiancesTitle>
   <TSA_WD_WorldSetup_AllegiancesSubtitle>编辑本世界的 NPC 关系。可选冻结持续 {0} 天（与随机外交相同）。</TSA_WD_WorldSetup_AllegiancesSubtitle>
+  <TSA_WD_WorldSetup_AllegiancesSubtitleNoFreeze>编辑派系参与与成对关系。锁定 NPC 对以阻止随机 WD 外交。</TSA_WD_WorldSetup_AllegiancesSubtitleNoFreeze>
   <TSA_WD_WorldSetup_FreezeOnApply>冻结 {0} 天</TSA_WD_WorldSetup_FreezeOnApply>
   <TSA_WD_WorldSetup_FreezeOnApplyTooltip>勾选后，中立 / 同盟 / 敌对还会施加 {0} 天冻结，使随机 WD 外交在冻结期内不改动该对。</TSA_WD_WorldSetup_FreezeOnApplyTooltip>
   <TSA_WD_WorldSetup_GoodwillFieldTooltip>输入好感度（-100 到 {0}）并按 Enter。同盟 = +75，敌对 = -75，中立 = 0。上限与模组设置中的最大好感度一致。</TSA_WD_WorldSetup_GoodwillFieldTooltip>
@@ -280,8 +282,33 @@
   <TSA_WD_HeaderSystem>系统操作</TSA_WD_HeaderSystem>
   <TSA_WD_HeaderTribalGarrisons>部落派系</TSA_WD_HeaderTribalGarrisons>
   <TSA_WD_HeaderWorldActions>世界行动</TSA_WD_HeaderWorldActions>
-  <TSA_WD_OpenAllegianceMatrix>允许的外交变化</TSA_WD_OpenAllegianceMatrix>
-  <TSA_WD_DescAllegianceMatrix>仅游戏中:派系对方阵。切换世界霸权是否可改变一方对另一方的关系(盟友、敌对、中立)。已锁定的对方不受 WD 外交随机影响。</TSA_WD_DescAllegianceMatrix>
+  <TSA_WD_OpenAllegianceMatrix>WD 派系范围与关系</TSA_WD_OpenAllegianceMatrix>
+  <TSA_WD_DescAllegianceMatrix>仅游戏中：派系参与（WD 行动、MapGen、叙事者）与成对关系。</TSA_WD_DescAllegianceMatrix>
+  <TSA_WD_Allegiances_LiveEditWarning>你正在编辑进行中的关系。请确认你知道自己在做什么！</TSA_WD_Allegiances_LiveEditWarning>
+  <TSA_WD_Allegiances_ResetConfirm>重置此部分？将清除手动参与与叙事者覆盖。</TSA_WD_Allegiances_ResetConfirm>
+  <TSA_WD_Allegiances_SectionParticipation>由 WD 控制的派系</TSA_WD_Allegiances_SectionParticipation>
+  <TSA_WD_Allegiances_SectionParticipation_Tooltip>选择哪些派系可执行 WD 行动、在被袭击时使用 WD 定居点地图生成，并遵循叙事者袭击规则。仅轨道派系无法启用。</TSA_WD_Allegiances_SectionParticipation_Tooltip>
+  <TSA_WD_Allegiances_SectionDiplomacy>派系关系</TSA_WD_Allegiances_SectionDiplomacy>
+  <TSA_WD_Allegiances_SectionDiplomacy_Tooltip>编辑派系对之间的好感与关系。锁定 NPC 对以阻止随机 WD 外交。</TSA_WD_Allegiances_SectionDiplomacy_Tooltip>
+  <TSA_WD_FactionCol_Name>派系</TSA_WD_FactionCol_Name>
+  <TSA_WD_FactionCol_WdActions>WD 行动</TSA_WD_FactionCol_WdActions>
+  <TSA_WD_FactionCol_WdActions_Tooltip>允许该派系执行 WD 行动，例如派出商队袭击、扩张、贸易或修筑工事。</TSA_WD_FactionCol_WdActions_Tooltip>
+  <TSA_WD_FactionCol_BaseGen>MapGen</TSA_WD_FactionCol_BaseGen>
+  <TSA_WD_FactionCol_BaseGen_Tooltip>进攻该派系定居点时，允许 WD 控制地图生成。T1 定居点会是小村庄，T4 要塞则是真正的堡垒。</TSA_WD_FactionCol_BaseGen_Tooltip>
+  <TSA_WD_FactionCol_BaseGen_RequiresWdActions>需要该派系的 WD 行动。</TSA_WD_FactionCol_BaseGen_RequiresWdActions>
+  <TSA_WD_FactionCol_NA>不适用</TSA_WD_FactionCol_NA>
+  <TSA_WD_FactionCol_StorytellerRaids>叙事者</TSA_WD_FactionCol_StorytellerRaids>
+  <TSA_WD_FactionCol_StorytellerRaids_Tooltip>该派系是否可能产生叙事者袭击？默认关闭。可同时启用 WD 行动与叙事者袭击，从而通过两种方式遭到袭击。</TSA_WD_FactionCol_StorytellerRaids_Tooltip>
+  <TSA_WD_FactionExclude_Hidden>隐藏派系。无法参与 WD。</TSA_WD_FactionExclude_Hidden>
+  <TSA_WD_FactionExclude_NonHumanlike>默认关闭。启用 WD 行动以包含此非人形派系（高级）。</TSA_WD_FactionExclude_NonHumanlike>
+  <TSA_WD_FactionExclude_NoSettlementWeight>无定居点生成权重。默认关闭；启用 WD 行动可手动加入。</TSA_WD_FactionExclude_NoSettlementWeight>
+  <TSA_WD_FactionExclude_NonSurface>仅轨道派系无法使用世界霸权地表模拟。</TSA_WD_FactionExclude_NonSurface>
+  <TSA_WD_FactionExclude_TradersGuild>贸易商公会仅轨道，无法使用世界霸权地表模拟。</TSA_WD_FactionExclude_TradersGuild>
+  <TSA_WD_Faction_Defeated>已击败</TSA_WD_Faction_Defeated>
+  <TSA_WD_BtnResetSection>重置部分</TSA_WD_BtnResetSection>
+  <TSA_WD_BtnResetFactionParticipation>重置参与</TSA_WD_BtnResetFactionParticipation>
+  <TSA_WD_BtnResetFactionParticipation_Tooltip>清除 WD 行动、MapGen 与叙事者的手动覆盖及软加入。硬排除派系不变。</TSA_WD_BtnResetFactionParticipation_Tooltip>
+  <TSA_WD_Threat_StorytellerMovedHint>按派系的叙事者袭击规则已移至 WD 派系范围与关系。</TSA_WD_Threat_StorytellerMovedHint>
   <TSA_WD_AllegianceMatrixInGameOnly>「允许的外交变化」仅可在进行游戏时打开(主菜单中不可用)。</TSA_WD_AllegianceMatrixInGameOnly>
   <TSA_WD_Outpost_MaxTravelStrengthLoss>最大行进实力损失</TSA_WD_Outpost_MaxTravelStrengthLoss>
   <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>行进者(袭击、扩张、修路)在行进中可损失的最大出发实力百分比。75% 时至少保留 25% 初始实力,不会仅因损耗而消失。</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
@@ -582,12 +609,37 @@
   <TSA_WD_DescPlayerArtillery>你的前哨迫击炮、防空与快速反应拦截设置。</TSA_WD_DescPlayerArtillery>
   <TSA_WD_Diplo_LaunchPodGiftStrengthPer100>发射舱礼物强度（每 100 市场价值）</TSA_WD_Diplo_LaunchPodGiftStrengthPer100>
   <TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>通过发射舱向定居点送礼物时立即获得的额外实力，均分给进攻与防御。若一侧已满，剩余加到另一侧。原版好感不变。不会提升定居点等级。</TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>
-  <TSA_WD_Garrison_AllowBaseGeneration>允许 WD 接管基地生成</TSA_WD_Garrison_AllowBaseGeneration>
-  <TSA_WD_Garrison_AllowBaseGenerationTooltip>启用后，进攻 NPC 定居点会生成按该定居点等级与实力缩放的 WD/KCSG 布局。禁用则使用原版（或其他模组）定居点地图。防守你的前哨不受影响。</TSA_WD_Garrison_AllowBaseGenerationTooltip>
-  <TSA_WD_Garrison_AdaptiveTerrainPrep>自适应地形处理（沼泽 / 岩石）</TSA_WD_Garrison_AdaptiveTerrainPrep>
-  <TSA_WD_Garrison_AdaptiveTerrainPrepTooltip>扫描定居点布局。若不可建造地面过多（泥、沼泽、水、岩石），则只将这些阻挡格转为地图上最常见的可建造地形。树木保留。若大多可用，则保持自然地形。</TSA_WD_Garrison_AdaptiveTerrainPrepTooltip>
-  <TSA_WD_Garrison_BlockedFlattenThreshold>阻挡超过时清空</TSA_WD_Garrison_BlockedFlattenThreshold>
-  <TSA_WD_Garrison_BlockedFlattenThresholdTooltip>若布局中不可建造比例超过此值，则平整布局内的阻挡格。低于此值则保持生成地形。在“生成基地时始终清理布局矩形”开启时忽略。</TSA_WD_Garrison_BlockedFlattenThresholdTooltip>
+  <TSA_WD_BaseGen_Intro>这些选项在 WD/KCSG 生成运行时进行调整。前哨防御地图始终使用 WD 布局。NPC 袭击地图仅对在世界设置 → 派系关系 中启用 MapGen 的派系使用 WD。</TSA_WD_BaseGen_Intro>
+  <TSA_WD_BaseGen_HeaderTerrainPrep>地形预处理</TSA_WD_BaseGen_HeaderTerrainPrep>
+  <TSA_WD_BaseGen_AdaptiveTerrainPrep>自适应地形处理（沼泽 / 岩石）</TSA_WD_BaseGen_AdaptiveTerrainPrep>
+  <TSA_WD_BaseGen_AdaptiveTerrainPrepTip>在定居点袭击与前哨防御地图上，扫描布局。若不可建造地面过多（泥、沼泽、水、岩石），则只将这些阻挡格转为地图上最常见的可建造地形。树木保留。若大多可用，则保持自然地形。</TSA_WD_BaseGen_AdaptiveTerrainPrepTip>
+  <TSA_WD_BaseGen_AlwaysClearRect>始终清理布局矩形</TSA_WD_BaseGen_AlwaysClearRect>
+  <TSA_WD_BaseGen_AlwaysClearRectTip>开启后，即使不可建造比例低于滑条，也会平整布局内阻挡格。关闭后，仅在超过滑条时才平整。</TSA_WD_BaseGen_AlwaysClearRectTip>
+  <TSA_WD_BaseGen_BlockedFlattenThreshold>阻挡超过时平整</TSA_WD_BaseGen_BlockedFlattenThreshold>
+  <TSA_WD_BaseGen_BlockedFlattenThresholdTip>若布局中不可建造比例超过此值，则平整布局内的阻挡格。低于此值则保持生成地形。在“始终清理布局矩形”开启时忽略。</TSA_WD_BaseGen_BlockedFlattenThresholdTip>
+  <TSA_WD_BaseGen_RectBlend>在矩形周围过渡混合</TSA_WD_BaseGen_RectBlend>
+  <TSA_WD_BaseGen_RectBlendTip>平整时，还会从布局向外转换不可建造格子（带噪声衰减），并在同一区域清理污物与碎块。树木保留。关闭后只改布局矩形。</TSA_WD_BaseGen_RectBlendTip>
+  <TSA_WD_BaseGen_HeaderRockAndSoil>岩石与土壤</TSA_WD_BaseGen_HeaderRockAndSoil>
+  <TSA_WD_BaseGen_RemapRock>将布局石材映射为地图岩石</TSA_WD_BaseGen_RemapRock>
+  <TSA_WD_BaseGen_RemapRockTip>在定居点袭击与前哨防御地图上，将布局中固定的石材（墙体、碎块、地板）替换为地图上主要的天然岩石类型。</TSA_WD_BaseGen_RemapRockTip>
+  <TSA_WD_BaseGen_RemapFarmSoil>将农田土壤映射为地图地面</TSA_WD_BaseGen_RemapFarmSoil>
+  <TSA_WD_BaseGen_RemapFarmSoilTip>在定居点袭击与前哨防御地图上，将布局中的 Soil 与 SoilRich 替换为地图上主要的可行走肥沃地形。</TSA_WD_BaseGen_RemapFarmSoilTip>
+  <TSA_WD_BaseGen_FertileUnderCrops>作物下方肥沃地面</TSA_WD_BaseGen_FertileUnderCrops>
+  <TSA_WD_BaseGen_FertileUnderCropsTip>在定居点袭击与前哨防御地图上，在生成植物前将作物符号放在地图主要的肥沃地面上。</TSA_WD_BaseGen_FertileUnderCropsTip>
+  <TSA_WD_BaseGen_HeaderLayoutExtras>布局附加项</TSA_WD_BaseGen_HeaderLayoutExtras>
+  <TSA_WD_BaseGen_SpawnPenLivestock>生成畜栏牲畜</TSA_WD_BaseGen_SpawnPenLivestock>
+  <TSA_WD_BaseGen_RemapTrees>Remap layout trees to biome</TSA_WD_BaseGen_RemapTrees>
+  <TSA_WD_BaseGen_RemapTreesTip>On settlement assault and outpost defense maps, swaps Oak/Birch/Maple layout placeholders to the biome's 1st/2nd/3rd most common trees.</TSA_WD_BaseGen_RemapTreesTip>
+  <TSA_WD_BaseGen_SpawnPenLivestockTip>在定居点袭击与前哨防御地图上，在布局的畜栏标记周围生成一小群野生动物。</TSA_WD_BaseGen_SpawnPenLivestockTip>
+  <TSA_WD_BaseGen_HeaderAfterGeneration>生成后处理</TSA_WD_BaseGen_HeaderAfterGeneration>
+  <TSA_WD_BaseGen_UnfogRect>揭开定居点矩形迷雾</TSA_WD_BaseGen_UnfogRect>
+  <TSA_WD_BaseGen_UnfogRectTip>在定居点袭击与前哨防御地图上，地图生成后揭开整个 KCSG 布局矩形（不仅是建筑占地）。</TSA_WD_BaseGen_UnfogRectTip>
+  <TSA_WD_BaseGen_FogInteriorMineables>迷雾覆盖内部岩石与矿石</TSA_WD_BaseGen_FogInteriorMineables>
+  <TSA_WD_BaseGen_FogInteriorMineablesTip>在定居点袭击与前哨防御地图上，于已生成的结构布局范围内，对八个相邻格均为岩石或矿石的天然岩壁与矿石格重新施加迷雾（仅完全封闭者）。碎块不计。在定居点矩形揭雾之后执行。</TSA_WD_BaseGen_FogInteriorMineablesTip>
+  <TSA_WD_BaseGen_ForcePower>强制定居点供电（仅袭击）</TSA_WD_BaseGen_ForcePower>
+  <TSA_WD_BaseGen_ForcePowerTip>在 NPC 定居点袭击地图上，无需真实电网即可点亮灯具与炮塔，并为燃料炮塔补油。不适用于前哨防御地图。</TSA_WD_BaseGen_ForcePowerTip>
+  <TSA_WD_BaseGen_SilenceTurrets>击败后静默炮塔（仅袭击）</TSA_WD_BaseGen_SilenceTurrets>
+  <TSA_WD_BaseGen_SilenceTurretsTip>在 NPC 定居点袭击地图上，当所有敌对人类单位倒下或离开后，关闭剩余派系炮塔。不适用于前哨防御地图。</TSA_WD_BaseGen_SilenceTurretsTip>
   <TSA_WD_Garrison_MinScale>进攻耗尽时的最低驻军比例</TSA_WD_Garrison_MinScale>
   <TSA_WD_Garrison_MinScaleTooltip>地图驻军随被攻击定居点当前进攻实力相对其等级上限缩放。满员定居点派出配置等级乘数的 100%；耗尽者更少。此为下限：即使完全耗尽也至少派出该比例。地图布局仍按等级匹配。</TSA_WD_Garrison_MinScaleTooltip>
   <TSA_WD_Growth_HeaderSameTierUpgradeReq>同级升级要求</TSA_WD_Growth_HeaderSameTierUpgradeReq>
@@ -756,11 +808,6 @@
   <TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>开启后，撤离使用当前未封顶的进攻兵力，并允许 5% 的确认余量。若所选殖民者超过该预算，会弹出选择：组建商队、留在前哨或标记失去。关闭后，调动不再做该兵力检查。</TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>
   <TSA_WD_Experimental_OutpostDefenseDeployBudget>实验：前哨手动防御部署兵力预算</TSA_WD_Experimental_OutpostDefenseDeployBudget>
   <TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>开启后，“手动战斗”按当前进攻兵力限制可部署的前哨殖民者。关闭后可任意选择，无预算上限。</TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>
-  <TSA_WD_Experimental_HeaderBaseGeneration>基地生成</TSA_WD_Experimental_HeaderBaseGeneration>
-  <TSA_WD_Experimental_AlwaysClearKcsgRect>生成基地时始终清理布局矩形</TSA_WD_Experimental_AlwaysClearKcsgRect>
-  <TSA_WD_Experimental_AlwaysClearKcsgRectTip>开启后，即使不可建造比例低于滑条，也会将布局内不可建造的格子转为可建造地形。关闭后，仅在超过滑条时才平整。</TSA_WD_Experimental_AlwaysClearKcsgRectTip>
-  <TSA_WD_Experimental_KcsgRectBlend>在矩形周围过渡混合</TSA_WD_Experimental_KcsgRectBlend>
-  <TSA_WD_Experimental_KcsgRectBlendTip>平整时，还会从布局向外转换不可建造格子（约 24 格，带噪声衰减），并在同一区域清理污物与碎块。树木保留。关闭后只改布局矩形。</TSA_WD_Experimental_KcsgRectBlendTip>
   <TSA_WD_Experimental_HeaderAtTurrets>反坦克炮</TSA_WD_Experimental_HeaderAtTurrets>
   <TSA_WD_Experimental_AT_TurretMaxStrength>AT 炮塔实力（生命值）</TSA_WD_Experimental_AT_TurretMaxStrength>
   <TSA_WD_Experimental_AT_TurretMaxStrengthTip>新建该类型 AT 炮塔时的生命值。不会改变地图上已有炮塔。与道路建设中的远征实力无关。</TSA_WD_Experimental_AT_TurretMaxStrengthTip>

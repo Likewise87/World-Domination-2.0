@@ -20,7 +20,7 @@
           <count>2~5</count>
           <tag>TSA_Tribal_Production</tag>
         </li>
-		<li>
+        <li>
           <count>1~5</count>
           <tag>TSA_Tribal_Stockpile</tag>
         </li>
@@ -32,7 +32,11 @@
           <count>1~3</count>
           <tag>TSA_Tribal_BigBarracks</tag>
         </li>
-		<li>
+        <li>
+          <count>0~1</count>
+          <tag>TSA_Tribal_BigBarracks_T3</tag>
+        </li>
+        <li>
           <count>0~3</count>
           <tag>TSA_Tribal_Mining</tag>
         </li>
@@ -48,7 +52,7 @@
           <count>0~1</count>
           <tag>Generic_Graveyard</tag>
         </li>
-		<li>
+        <li>
           <tag>TSA_Pen</tag>
           <count>0~1</count>
         </li>
@@ -61,8 +65,7 @@
           <tag>TSA_Generic_Barricade</tag>
           <count>32~56</count>
         </li>
-
-		<li>
+        <li>
           <count>2~6</count>
           <tag>Generic_HeavyDefence</tag>
         </li>
@@ -71,20 +74,30 @@
     <defenseOptions>
       <pawnGroupMultiplier>3.2</pawnGroupMultiplier>
     </defenseOptions>
+    <propsOptions>
+      <scatterProps>true</scatterProps>
+      <scatterMinDistance>8</scatterMinDistance>
+      <scatterMaxAmount>12</scatterMaxAmount>
+      <scatterPropsDefs>
+        <li>TSA_WD_Hayball_3a</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogs</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleSmall</li>
+        <li>TSA_WD_Box_2a</li>
+        <li>TSA_WD_Box_4a</li>
+        <li>TSA_WD_Cart_5a</li>
+
+
+
+      
+      </scatterPropsDefs>
+    </propsOptions>
+
     <roadOptions>
       <addLinkRoad>true</addLinkRoad>
       <linkRoadDef>PackedDirt</linkRoadDef>
     </roadOptions>
     <stockpileOptions>
-      <stockpileValueMultiplier>4.0</stockpileValueMultiplier>
-      <fillStorageBuildings>true</fillStorageBuildings>
-      <fillWithDefs>
-        <li>Plasteel</li>
-        <li>ComponentSpacer</li>
-        <li>Uranium</li>
-        <li>Gold</li>
-        <li>ComponentIndustrial</li>
-      </fillWithDefs>
+      <fillStorageBuildings>false</fillStorageBuildings>
     </stockpileOptions>
-  </KCSG.SettlementLayoutDef>
+</KCSG.SettlementLayoutDef>
  </Defs>

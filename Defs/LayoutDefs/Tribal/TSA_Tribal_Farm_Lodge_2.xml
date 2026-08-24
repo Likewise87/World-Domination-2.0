@@ -2,6 +2,7 @@
 <Defs>
 
 <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
   <defName>TSA_Tribal_Farm_Lodge_2</defName>
   <spawnConduits>false</spawnConduits>
   <layouts>
@@ -15,80 +16,12 @@
       <li>Plant_Grass,Wall_WoodLog,.,.,.,.,.,.,.,.,.,.,.,.,DiningChair_WoodLog_East,.,.,DiningChair_WoodLog_West,.,Wall_WoodLog,Plant_Grass</li>
       <li>.,Wall_WoodLog,Bed_WoodLog_South,EndTable_WoodLog_South,Bed_WoodLog_South,Bed_WoodLog_South,EndTable_WoodLog_South,Bed_WoodLog_South,VFEPD_FakeColumn,.,.,VFEPD_FakeColumn,PassiveCooler,.,.,.,.,.,.,Wall_WoodLog,Plant_Grass</li>
       <li>Plant_Grass,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.,.,Shelf_WoodLog_West,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Plant_Grass</li>
-      <li>Plant_Grass,Fence_WoodLog,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Wall_WoodLog,Shelf_WoodLog_East,.,.,.,Wall_WoodLog,Plant_Rice,Plant_Rice,Plant_Rice,Plant_Rice,Plant_Rice,Plant_Rice,Fence_WoodLog,Plant_Grass</li>
-      <li>Plant_Grass,Fence_WoodLog,Plant_Healroot,Plant_Healroot,.,Plant_Healroot,.,Wall_WoodLog,.,.,.,Shelf_WoodLog_West,Wall_WoodLog,Plant_Rice,Plant_Rice,Plant_Rice,Plant_Rice,Plant_Rice,Plant_Rice,Fence_WoodLog,Plant_Grass</li>
-      <li>.,Fence_WoodLog,.,Plant_Healroot,Plant_Healroot,Plant_Healroot,Plant_Healroot,Wall_WoodLog,Shelf_WoodLog_East,.,.,.,Wall_WoodLog,Plant_Rice,Plant_Rice,Plant_Rice,Plant_Rice,Plant_Rice,Plant_Rice,Fence_WoodLog,Plant_Grass</li>
-      <li>Plant_Grass,Fence_WoodLog,Plant_Healroot,.,Plant_Healroot,Plant_Healroot,.,Wall_WoodLog,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,Wall_WoodLog,Plant_Rice,Plant_Rice,Plant_Rice,Plant_Rice,Plant_Rice,Plant_Rice,Fence_WoodLog,Plant_Grass</li>
+      <li>Plant_Grass,Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Wall_WoodLog,Shelf_WoodLog_East,.,.,.,Wall_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog,Plant_Grass</li>
+      <li>Plant_Grass,Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Wall_WoodLog,.,.,.,Shelf_WoodLog_West,Wall_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog,Plant_Grass</li>
+      <li>Plant_Grass,Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Wall_WoodLog,Shelf_WoodLog_East,.,.,.,Wall_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog,Plant_Grass</li>
+      <li>Plant_Grass,Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Wall_WoodLog,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,Wall_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog,Plant_Grass</li>
       <li>Plant_Grass,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Plant_Grass</li>
       <li>Plant_Grass,Plant_Grass,.,Plant_Grass,Plant_Grass,Plant_Grass,Plant_Grass,Plant_Grass,Plant_Grass,Plant_Grass,Plant_Grass,.,Plant_Grass,Plant_Grass,.,Plant_Grass,Plant_Grass,Plant_Bush,Plant_Grass,Plant_Grass,.</li>
-    </li>
-    <li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,Plant_TreeBirch,Plant_Grass,.,.,.,.,.,.,.</li>
-      <li>Plant_TreeBirch,Plant_Grass,Plant_Rose,Plant_Grass,.,Plant_Grass,Plant_Grass,Plant_Rose,.,.,.,.,Plant_Rose,Plant_Grass,Plant_Rose,Plant_Rose,Plant_Rose,Plant_Rose,Plant_Grass,.,Plant_Grass</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>Plant_Bush,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>Plant_Bush,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Bush</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Grass</li>
-      <li>Plant_Grass,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Grass</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Grass</li>
-      <li>Plant_Bush,.,.,.,.,.,.,.,TorchWallLamp_West,.,.,TorchWallLamp_East,.,.,Plant_Rice,Plant_Rice,.,.,Plant_Rice,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Rice,Plant_Rice,Plant_Rice,Plant_Rice,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Rice,Plant_Rice,Plant_Rice,Plant_Rice,Plant_Rice,.,Plant_Grass</li>
-      <li>Plant_Grass,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Grass</li>
-      <li>.,Plant_Grass,.,Plant_Grass,.,.,.,.,.,.,.,.,Plant_Bush,.,.,.,.,.,.,Plant_Grass,.</li>
-    </li>
-    <li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,Plant_Rose,.,Plant_Rose,.,Plant_Rose,Plant_Grass,.,.,.,.,.,.,Plant_Grass,.,.,.,.,Plant_Grass,.,Plant_Grass</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Grass</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Bush</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Rice,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Rice,Plant_Rice,Plant_Rice,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Rice,.,.,.,.,.,Plant_Grass</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,Plant_Bush,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-    </li>
-    <li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,Plant_Grass,.,.,.,.,.,.,Plant_Grass,.,.,.,.,Plant_Rose,.,Plant_TreeBirch</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Rice,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Bush</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-    </li>
-    <li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,Plant_Rose,.,.,.,.,.,.,Plant_Rose,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
     </li>
   </layouts>
   <roofGrid>
@@ -125,9 +58,9 @@
     <li>Soil,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,Soil,Soil,Soil,Soil,Soil,Soil,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,Soil</li>
     <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
   </terrainGrid>
-      <tags>
-			<li>TSA_Tribal_Farm</li>
-		</tags>
+  <tags>
+    <li>TSA_Tribal_Farm</li>
+  </tags>
 </KCSG.StructureLayoutDef>
 
 </Defs>

@@ -70,6 +70,10 @@
   <TSA_WD_Dash_FactionRank>You are the {0} strongest of {1} factions.</TSA_WD_Dash_FactionRank>
   <TSA_WD_Dash_FactionRankLeader>Congrats. You are the world leader</TSA_WD_Dash_FactionRankLeader>
   <TSA_WD_Dash_FactionRankTip>Your Strength: {0}\nGlobal Strength Share: {1} %</TSA_WD_Dash_FactionRankTip>
+  <TSA_WD_Dash_ConfigureScope>Configure Scope</TSA_WD_Dash_ConfigureScope>
+  <TSA_WD_Dash_ConfigureScopeTip>Opens WD Faction scope and Allegiances. Choose which factions use WD Actions, MapGen, and storyteller raids.</TSA_WD_Dash_ConfigureScopeTip>
+  <TSA_WD_Dash_Nav_Diplomacy>Diplomacy</TSA_WD_Dash_Nav_Diplomacy>
+  <TSA_WD_Dash_Nav_Outposts>Outposts</TSA_WD_Dash_Nav_Outposts>
   <TSA_WD_Dash_OutpostPawnSummary>You have {0} Pawns across {1} Outposts and your Colony.</TSA_WD_Dash_OutpostPawnSummary>
   <TSA_WD_Dash_MidGameDifficultyActive>Mid game difficulty active</TSA_WD_Dash_MidGameDifficultyActive>
   <TSA_WD_Dash_LateGameDifficultyActive>Late game difficulty active</TSA_WD_Dash_LateGameDifficultyActive>
@@ -167,9 +171,7 @@
   <TSA_WD_Notify_PrisonerRecruitedUnderway>Notify when an outpost prisoner is recruited and leaves</TSA_WD_Notify_PrisonerRecruitedUnderway>
   <TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>Show a message when an outpost prisoner finishes recruiting and starts traveling to their scheduled destination.</TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>
   <TSA_WD_Notify_PlayerCaravanClash>Notify when a player caravan has a clash</TSA_WD_Notify_PlayerCaravanClash>
-  <TSA_WD_Notify_PlayerCaravanClashTooltip>Receive letters when one of your caravans enters, wins, or loses a WD caravan clash.</TSA_WD_Notify_PlayerCaravanClashTooltip>
-  <TSA_WD_Show_CaravanClashLootDialog>Show loot dialog after caravan clash win</TSA_WD_Show_CaravanClashLootDialog>
-  <TSA_WD_Show_CaravanClashLootDialogTooltip>After your caravan wins a clash, pause to pick prisoners and items before the encounter map closes. Weight cannot exceed your caravan capacity.</TSA_WD_Show_CaravanClashLootDialogTooltip>
+  <TSA_WD_Notify_PlayerCaravanClashTooltip>Receive letters when one of your caravans enters or loses a WD caravan clash.</TSA_WD_Notify_PlayerCaravanClashTooltip>
   <TSA_WD_Notify_RapidResponseCaravanClash>Notify about Rapid Response caravan clashes</TSA_WD_Notify_RapidResponseCaravanClash>
   <TSA_WD_Notify_RapidResponseCaravanClashTooltip>Receive letters when a Rapid Response interceptor defeats an enemy caravan or is defeated.</TSA_WD_Notify_RapidResponseCaravanClashTooltip>
   <TSA_WD_Notify_TravelerPollutionDamage>Notify when a traveler takes pollution damage</TSA_WD_Notify_TravelerPollutionDamage>
@@ -559,6 +561,8 @@
   <TSA_WD_PawnTransfer_NotTravelReady_Mental>{0} is in a mental state and cannot travel.</TSA_WD_PawnTransfer_NotTravelReady_Mental>
   <TSA_WD_PawnTransfer_NotTravelReady_Labor>{0} is in labor and cannot travel.</TSA_WD_PawnTransfer_NotTravelReady_Labor>
   <TSA_WD_PawnTransfer_NotTravelReady_Immobile>{0} cannot move and cannot travel.</TSA_WD_PawnTransfer_NotTravelReady_Immobile>
+  <TSA_WD_PawnTransfer_EscortRequired>Include a capable walker, pack animal, or vehicle in this transfer — immobile or downed pawns cannot leave alone while others remain at the outpost.</TSA_WD_PawnTransfer_EscortRequired>
+  <TSA_WD_PawnTransfer_ImmobilizedEvacuate>Caravan formed without a capable walker. It cannot move until a capable colonist, pack animal, or vehicle merges with it.</TSA_WD_PawnTransfer_ImmobilizedEvacuate>
   <TSA_WD_PawnTransfer_InvalidDestination>Invalid destination.</TSA_WD_PawnTransfer_InvalidDestination>
   <TSA_WD_PawnTransfer_SameDestination>Cannot move to the same location.</TSA_WD_PawnTransfer_SameDestination>
   <TSA_WD_PawnTransfer_MultipleOutposts>selected outposts</TSA_WD_PawnTransfer_MultipleOutposts>

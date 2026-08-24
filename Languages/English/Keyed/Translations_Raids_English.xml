@@ -293,6 +293,7 @@
   <TSA_WD_OrderedRoad_CancelConfirm>Cancel road</TSA_WD_OrderedRoad_CancelConfirm>
   <TSA_WD_OrderedRoad_Cancelled>Cancelled road order at {0}.</TSA_WD_OrderedRoad_Cancelled>
   <TSA_WD_OrderedRoad_FactionActiveTooltip>At least one settlement of this faction is building a road for you.</TSA_WD_OrderedRoad_FactionActiveTooltip>
+  <TSA_WD_OrderedRoad_TierGateTooltip>This settlement is {0}. {1} roads require a {2} settlement or higher.</TSA_WD_OrderedRoad_TierGateTooltip>
   <TSA_WD_OrderedTrader_GizmoLabel>Order Trader Caravan</TSA_WD_OrderedTrader_GizmoLabel>
   <TSA_WD_OrderedTrader_GizmoDesc>Pay goodwill to send a trader caravan from this settlement to your nearest colony with a map.</TSA_WD_OrderedTrader_GizmoDesc>
   <TSA_WD_OrderedTrader_NoColony>No player colony with a loaded map found.</TSA_WD_OrderedTrader_NoColony>

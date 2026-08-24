@@ -24,6 +24,11 @@ namespace TSA_WorldDomination
 
             if (WorksitesExpandedCompat.ShouldSkipWdSettlementConquest(factionBase)) return true;
 
+            if (!SettlementDefeatUtility.IsDefeated(map, factionBase.Faction)) return true;
+
+            // Unlock storage/doors for on-map loot before conquest branch or vanilla defeat.
+            WdSettlementDefeatClaimUtility.TryClaimDefeatedFactionBuildings(map, factionBase.Faction);
+
             // Player on-site wipe/conquer: attribute common-enemy quest even if outpost-after-conquest is off.
             bool outpostAfterConquest = WorldDominationMod.settings == null
                 || WorldDominationMod.settings.outpostAfterConquestEnabled;
@@ -33,8 +38,6 @@ namespace TSA_WorldDomination
                 if (tracked == null || tracked.settlement != factionBase)
                     return true;
             }
-
-            if (!SettlementDefeatUtility.IsDefeated(map, factionBase.Faction)) return true;
 
             WdCommonEnemySettlementQuestHelper.NotifyPlayerDefeatOfTrackedSettlement(factionBase);
 

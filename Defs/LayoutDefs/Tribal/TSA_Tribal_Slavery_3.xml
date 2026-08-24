@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
   <defName>TSA_Tribal_Slavery_3</defName>
   <spawnConduits>false</spawnConduits>
   <layouts>
@@ -64,7 +65,7 @@
     <li>.,.,WoodPlankFloor,.,.,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,.,.</li>
     <li>.,.,WoodPlankFloor,.,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,WoodPlankFloor,StrawMatting,.</li>
     <li>.,WoodPlankFloor,WoodPlankFloor,.,StrawMatting,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,StrawMatting,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,StrawMatting,.</li>
-    <li>.,WoodPlankFloor,WoodPlankFloor,.,.,StrawMatting,StrawMatting,StrawMatting,.,.,FlagstoneSandstone,StrawMatting,StrawMatting,StrawMatting,.,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,.,.,StrawMatting,StrawMatting,StrawMatting,.,.,FlagstoneGranite,StrawMatting,StrawMatting,StrawMatting,.,.</li>
     <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.</li>
     <li>.,WoodPlankFloor,WoodPlankFloor,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,WoodPlankFloor,WoodPlankFloor,.</li>
     <li>.,WoodPlankFloor,WoodPlankFloor,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,WoodPlankFloor,WoodPlankFloor,.</li>

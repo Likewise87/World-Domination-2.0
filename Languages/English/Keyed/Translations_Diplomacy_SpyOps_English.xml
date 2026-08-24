@@ -9,8 +9,8 @@
   <TSA_WD_BtnReset>Default</TSA_WD_BtnReset>
   <TSA_WD_BtnResetGlobal>Perm. Hostile</TSA_WD_BtnResetGlobal>
   <TSA_WD_BtnResetGlobal_Tooltip>Locks every pair that includes a permanently hostile faction (including vs the player), and locks Insectoid/Hive pairs against everyone. Stops WD diplomacy from changing those pairs.</TSA_WD_BtnResetGlobal_Tooltip>
-  <TSA_WD_BtnReset_Tooltip>Prevents permanently hostile factions (Insectoids and vanilla Permanent Enemies) from changing relationships with other permanently hostile factions. Insectoid/Hive factions are also locked against every faction. Player relationships are not configured here.</TSA_WD_BtnReset_Tooltip>
-  <TSA_WD_DescAllegianceMatrix>Control which factions are allowed to change relationships with each other (in-game only).</TSA_WD_DescAllegianceMatrix>
+  <TSA_WD_BtnReset_Tooltip>Applies default lock rules: permanently hostile factions (Insectoids and vanilla Permanent Enemies) are locked against each other, and Insectoid/Hive factions are locked against everyone. Other pairs, including vs the player, stay unlocked unless you lock them in the list below.</TSA_WD_BtnReset_Tooltip>
+  <TSA_WD_DescAllegianceMatrix>In-game only: faction participation (WD Actions, MapGen, Storyteller) and per-pair allegiances.</TSA_WD_DescAllegianceMatrix>
   <TSA_WD_Diplo_ActionShareMult>Daily action share multiplier</TSA_WD_Diplo_ActionShareMult>
   <TSA_WD_Diplo_AntiLeader>Enable Anti-Leader Coalitions</TSA_WD_Diplo_AntiLeader>
   <TSA_WD_Diplo_AntiLeaderTooltip>Small factions may form a defensive alliance and declare war on the world's most dominant faction to restore balance.</TSA_WD_Diplo_AntiLeaderTooltip>
@@ -253,7 +253,7 @@
   <TSA_WD_Sab_WeightSuccess>Success Weight</TSA_WD_Sab_WeightSuccess>
   <TSA_WD_Sab_WeightSuccessTooltip>Base weight of a successful sabotage attempt before modifiers.</TSA_WD_Sab_WeightSuccessTooltip>
   <TSA_WD_StatusLocked>Locked</TSA_WD_StatusLocked>
-  <TSA_WD_StatusPossible>Change Possible</TSA_WD_StatusPossible>
+  <TSA_WD_StatusPossible>May change</TSA_WD_StatusPossible>
 
   <TSA_WD_BuySettlement_GizmoLabel>Buy settlement</TSA_WD_BuySettlement_GizmoLabel>
   <TSA_WD_BuySettlement_GizmoDesc>Peacefully purchase this settlement with goods from your colony/warehouses and optional goodwill. A caravan delivers payment; on arrival you choose what to do with the tile (cannot leave empty, cannot gift back to the seller).</TSA_WD_BuySettlement_GizmoDesc>

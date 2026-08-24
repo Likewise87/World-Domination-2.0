@@ -21,6 +21,8 @@ namespace TSA_WorldDomination
         public static void EnsureOnMap(Map map)
         {
             if (map == null) return;
+            var s = WorldDominationMod.settings;
+            if (s != null && !s.kcsgSilenceDefeatedTurrets) return;
             if (!WdSettlementMapPower.ShouldForcePower(map)) return;
             if (map.GetComponent<WdSettlementTurretSilence>() != null) return;
 
@@ -40,8 +42,7 @@ namespace TSA_WorldDomination
             SilenceFactionTurrets(map, faction);
             silenced = true;
 
-            if (Prefs.DevMode)
-                Log.Message($"[WorldDomination] Silenced leftover turrets on {map.Parent?.LabelCap} ({faction.Name}).");
+            WDVerbose.Msg($"Silenced leftover turrets on {map.Parent?.LabelCap} ({faction.Name}).");
         }
 
         public override void ExposeData()

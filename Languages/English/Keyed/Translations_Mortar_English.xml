@@ -312,4 +312,31 @@ Cooldown is shortened by total garrison Shooting ({3}): each point is −2% dura
   <TSA_WD_T4AA_VsMortarTooltip>Flat chance for T4 Anti-Air to destroy a hostile mortar shell. Ignores Anti-Air range bands and skill equivalent.</TSA_WD_T4AA_VsMortarTooltip>
   <TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>Unlocks anti-air turret vs. drop pods and shells</TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>
   <TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>Unlocks Decontamination Missions</TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>
+  <TSA_WD_OutpostUpgrades_BenefitAssaultShellsShort>Adv. Settlement Assault Shells</TSA_WD_OutpostUpgrades_BenefitAssaultShellsShort>
+  <TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockHeader>Unlocks settlement assault shells</TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockHeader>
+  <TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockList>{0}</TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockList>
+
+  <!-- Assault-map artillery support -->
+  <TSA_WD_AssaultArtillery_ButtonTip>Artillery support. Call mortar fire from nearby outposts.</TSA_WD_AssaultArtillery_ButtonTip>
+  <TSA_WD_AssaultArtillery_Title>Artillery support</TSA_WD_AssaultArtillery_Title>
+  <TSA_WD_AssaultArtillery_ColumnOutposts>Supporting outposts</TSA_WD_AssaultArtillery_ColumnOutposts>
+  <TSA_WD_AssaultArtillery_ColumnShells>Shell type</TSA_WD_AssaultArtillery_ColumnShells>
+  <TSA_WD_AssaultArtillery_ColumnShellsFrom>Choose ammo to use</TSA_WD_AssaultArtillery_ColumnShellsFrom>
+  <TSA_WD_AssaultArtillery_SelectOutpost>Select a supporting outpost.</TSA_WD_AssaultArtillery_SelectOutpost>
+  <TSA_WD_AssaultArtillery_RowEtaSpread>ETA {0}s, spread {1}</TSA_WD_AssaultArtillery_RowEtaSpread>
+  <TSA_WD_AssaultArtillery_OutpostRowTip>Distance: {0} tiles\nFirst shell ETA: {1}s\nSpread: {2} cells\nShells: {3}</TSA_WD_AssaultArtillery_OutpostRowTip>
+  <TSA_WD_AssaultArtillery_GhostRelay>Experimental relay</TSA_WD_AssaultArtillery_GhostRelay>
+  <TSA_WD_AssaultArtillery_GhostRelayTip>Experimental: ignores range and cooldown. Uses best shell unlocks empire-wide. Minimum spread.</TSA_WD_AssaultArtillery_GhostRelayTip>
+  <TSA_WD_AssaultArtillery_NoShootingSkill>No garrison shooter. Cannot fire mortar support from this outpost.</TSA_WD_AssaultArtillery_NoShootingSkill>
+  <TSA_WD_AssaultArtillery_Unlock_Basic>Unlocks: high-explosive and smoke shells.</TSA_WD_AssaultArtillery_Unlock_Basic>
+  <TSA_WD_AssaultArtillery_Unlock_Improved>Unlocks improved shells: {0}</TSA_WD_AssaultArtillery_Unlock_Improved>
+  <TSA_WD_AssaultArtillery_Unlock_Advanced>Unlocks advanced shells: {0}</TSA_WD_AssaultArtillery_Unlock_Advanced>
+  <TSA_WD_AssaultArtillery_NoSupport>No ready mortar outpost in range of this settlement.</TSA_WD_AssaultArtillery_NoSupport>
+  <TSA_WD_AssaultArtillery_StrikePending>A strike is already inbound.</TSA_WD_AssaultArtillery_StrikePending>
+  <TSA_WD_AssaultArtillery_StrikeInboundInfo>Artillery already inbound. Other ready outposts can still fire.</TSA_WD_AssaultArtillery_StrikeInboundInfo>
+  <TSA_WD_AssaultArtillery_NotAssaultMap>Artillery support is only available on hostile settlement assault maps.</TSA_WD_AssaultArtillery_NotAssaultMap>
+  <TSA_WD_AssaultArtillery_InvalidCell>Pick a valid cell on the map.</TSA_WD_AssaultArtillery_InvalidCell>
+  <TSA_WD_AssaultArtillery_Inbound>{0} inbound. Shell arrives in {1} seconds.</TSA_WD_AssaultArtillery_Inbound>
+  <TSA_WD_AssaultArtillery_ShellShotDown>Your artillery support shells were shot down.</TSA_WD_AssaultArtillery_ShellShotDown>
+  <TSA_WD_AssaultArtillery_NoShells>No mortar shell defs found. Check for mods that replace vanilla shells.</TSA_WD_AssaultArtillery_NoShells>
 </LanguageData>

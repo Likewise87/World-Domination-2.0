@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
     <defName>Generic_Prison_5</defName>
     <layouts>
       <li>
@@ -35,8 +36,8 @@
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,RawCorn,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,RawCorn,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Corn,.,.</li>
+        <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,Plant_Corn,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
         <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
@@ -92,25 +93,25 @@
       <li>PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile</li>
       <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,PavedTile</li>
       <li>.,.,.,.,.,.,.,.,.,.,.,.,.,Concrete,PavedTile,PavedTile,PavedTile,PavedTile,Concrete,PavedTile</li>
-      <li>.,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,.,Concrete,Concrete,PavedTile,PavedTile,Concrete,Concrete,PavedTile</li>
-      <li>.,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,.,Concrete,Concrete,PavedTile,PavedTile,.,Concrete,PavedTile</li>
+      <li>.,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.,Concrete,Concrete,PavedTile,PavedTile,Concrete,Concrete,PavedTile</li>
+      <li>.,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.,Concrete,Concrete,PavedTile,PavedTile,.,Concrete,PavedTile</li>
       <li>.,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile</li>
       <li>.,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile</li>
-      <li>.,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,.</li>
+      <li>.,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
       <li>MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile</li>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
       <li>MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile</li>
       <li>MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile</li>
       <li>MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile</li>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate</li>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate</li>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,.</li>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,.</li>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,.</li>
-      <li>TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,TileSlate,.</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
     </terrainGrid>
     <tags>
-      <li>Generic_Prison</li>
+      <li>Generic_Prison_T1</li>
     </tags>
   </KCSG.StructureLayoutDef>
  </Defs>

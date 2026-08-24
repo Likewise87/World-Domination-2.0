@@ -531,6 +531,16 @@ namespace TSA_WorldDomination
         public const int DefMaxGoodwill = 200;
 
         public HashSet<string> lockedAllegiancePairs = new HashSet<string>();
+        /// <summary>Manual opt-out from WD world sim by <see cref="FactionDef.defName"/>.</summary>
+        public HashSet<string> manualExcludeFromWdActions = new HashSet<string>();
+        /// <summary>Manual opt-out from KCSG base generation by <see cref="FactionDef.defName"/>.</summary>
+        public HashSet<string> manualExcludeFromWdBaseGen = new HashSet<string>();
+        /// <summary>Manual opt-in for soft-default-excluded factions (non-humanlike, zero settlement weight).</summary>
+        public HashSet<string> manualIncludeInWd = new HashSet<string>();
+        /// <summary>Per-faction storyteller raid allow override.</summary>
+        public HashSet<string> manualAllowStorytellerRaids = new HashSet<string>();
+        /// <summary>Per-faction storyteller raid block override (wins over allow if both present).</summary>
+        public HashSet<string> manualBlockStorytellerRaids = new HashSet<string>();
 
         // --- LEGACY INFLUENCE RADIUS (unused gameplay; keep fields + Scribe for ModConfig) + notification radius ---
         /// <summary>Notification radius (tiles) for Nearby world event letters. Live again; UI 1–500.</summary>
@@ -653,6 +663,8 @@ namespace TSA_WorldDomination
 
         // --- FEATURE A: TARGET-OF-OPPORTUNITY RETARGETING (experimental) ---
         public const bool DefExperimentalTargetOfOpportunity = true;
+        /// <summary>Experimental: assault-map artillery support without a mortar outpost in range / without CD.</summary>
+        public const bool DefExperimentalUnlimitedAssaultMortarSupport = false;
         /// <summary>Cheap per-event coin flip rolled before any strength math; also the primary performance throttle.</summary>
         public const float DefTargetOfOpportunityEligibilityRollPct = 0.15f;
         /// <summary>Required ratio advantage over the current target's ratio to justify switching.</summary>
@@ -689,6 +701,10 @@ namespace TSA_WorldDomination
         public const bool DefExperimentalOutpostWithdrawStrengthBudget = true;
         /// <summary>Experimental: manual defense deploy picker enforces an offensive-strength selection budget.</summary>
         public const bool DefExperimentalOutpostDefenseDeployBudget = true;
+        /// <summary>Experimental: T4 settlements may launch ballistic gravship raids (requires Odyssey + Gravship Raids).</summary>
+        public const bool DefExperimentalT4GravshipRaids = false;
+        /// <summary>When experimental T4 gravship raids are on, chance a T4 raid uses gravship instead of drop-pod/walk.</summary>
+        public const float DefExperimentalGravshipRaidChanceT4 = 0.25f;
         /// <summary>Play WD combat oneshots on the world map (AT / mortar / flak). On by default.</summary>
         public const bool DefEnableWorldMapSounds = true;
         /// <summary>AT Turret max strength / HP at spawn (Light / Medium / Heavy).</summary>
@@ -1032,11 +1048,20 @@ namespace TSA_WorldDomination
         /// <summary>When true, convert unbuildable cells in the KCSG layout (and optionally blend outward).</summary>
         public const bool DefKcsgAdaptiveTerrainPrep = true;
         /// <summary>Blocked-cell fraction above which flatten runs, unless Always clear rect is on.</summary>
-        public const float DefKcsgBlockedFlattenThreshold = 0.25f;
+        public const float DefKcsgBlockedFlattenThreshold = 0.15f;
         /// <summary>Experimental: skip the blocked-fraction gate and always flatten the layout rect.</summary>
         public const bool DefExperimentalAlwaysClearKcsgRect = false;
         /// <summary>Experimental: bleed flatten and filth/chunk wipe outward from the layout rect.</summary>
         public const bool DefExperimentalKcsgRectBlend = true;
+        public const bool DefKcsgRemapRockToMapStone = true;
+        public const bool DefKcsgRemapFarmSoil = true;
+        public const bool DefKcsgFertileUnderCrops = true;
+        public const bool DefKcsgSpawnPenLivestock = true;
+        public const bool DefKcsgRemapTreesToBiome = true;
+        public const bool DefKcsgUnfogSettlementRect = true;
+        public const bool DefKcsgForceSettlementPower = true;
+        public const bool DefKcsgSilenceDefeatedTurrets = true;
+        public const bool DefKcsgFogInteriorMineables = true;
 
         // --- GOODWILL & RAID GATE (bottom of Raid Point Multiplier UI) ---
         public const bool DefNoGoodwillFromHostilesOnConquest = true;
@@ -1529,6 +1554,7 @@ namespace TSA_WorldDomination
         public bool experimentalPlayerConquestRaze = DefExperimentalPlayerConquestRaze;
 
         public bool experimentalTargetOfOpportunity = DefExperimentalTargetOfOpportunity;
+        public bool experimentalUnlimitedAssaultMortarSupport = DefExperimentalUnlimitedAssaultMortarSupport;
         public float targetOfOpportunityEligibilityRollPct = DefTargetOfOpportunityEligibilityRollPct;
         public float targetOfOpportunityMinRatioAdvantage = DefTargetOfOpportunityMinRatioAdvantage;
         public int targetOfOpportunityMaxRetargets = DefTargetOfOpportunityMaxRetargets;
@@ -1550,6 +1576,8 @@ namespace TSA_WorldDomination
         public bool opportunityFeaturesIgnoreEscalationGate = DefOpportunityFeaturesIgnoreEscalationGate;
         public bool experimentalOutpostWithdrawStrengthBudget = DefExperimentalOutpostWithdrawStrengthBudget;
         public bool experimentalOutpostDefenseDeployBudget = DefExperimentalOutpostDefenseDeployBudget;
+        public bool experimentalT4GravshipRaids = DefExperimentalT4GravshipRaids;
+        public float experimentalGravshipRaidChanceT4 = DefExperimentalGravshipRaidChanceT4;
         public bool enableWorldMapSounds = DefEnableWorldMapSounds;
         public float atTurretLightMaxStrength = DefAtTurretLightMaxStrength;
         public float atTurretMediumMaxStrength = DefAtTurretMediumMaxStrength;
@@ -1853,6 +1881,7 @@ namespace TSA_WorldDomination
         public bool notifyWarehouseGoodsArrived = DefNotifyWarehouseGoodsArrived;
         public bool notifyOutpostDeliveryToColonyArrived = DefNotifyOutpostDeliveryToColonyArrived;
         public bool notifyPlayerCaravanClash = DefNotifyPlayerCaravanClash;
+        /// <summary>Legacy; scribe only — WD loot dialog removed; exit via vanilla reform caravan.</summary>
         public bool showCaravanClashLootDialog = DefShowCaravanClashLootDialog;
         public bool notifyRapidResponseCaravanClash = DefNotifyRapidResponseCaravanClash;
         public bool notifyTravelerPollutionDamage = DefNotifyTravelerPollutionDamage;
@@ -1886,6 +1915,15 @@ namespace TSA_WorldDomination
         public float kcsgBlockedFlattenThreshold = DefKcsgBlockedFlattenThreshold;
         public bool experimentalAlwaysClearKcsgRect = DefExperimentalAlwaysClearKcsgRect;
         public bool experimentalKcsgRectBlend = DefExperimentalKcsgRectBlend;
+        public bool kcsgRemapRockToMapStone = DefKcsgRemapRockToMapStone;
+        public bool kcsgRemapFarmSoil = DefKcsgRemapFarmSoil;
+        public bool kcsgFertileUnderCrops = DefKcsgFertileUnderCrops;
+        public bool kcsgSpawnPenLivestock = DefKcsgSpawnPenLivestock;
+        public bool kcsgRemapTreesToBiome = DefKcsgRemapTreesToBiome;
+        public bool kcsgUnfogSettlementRect = DefKcsgUnfogSettlementRect;
+        public bool kcsgForceSettlementPower = DefKcsgForceSettlementPower;
+        public bool kcsgSilenceDefeatedTurrets = DefKcsgSilenceDefeatedTurrets;
+        public bool kcsgFogInteriorMineables = DefKcsgFogInteriorMineables;
 
         public bool noGoodwillFromHostilesOnConquest = DefNoGoodwillFromHostilesOnConquest;
         public bool disableSettlementProximityGoodwill = DefDisableSettlementProximityGoodwill;
@@ -2642,6 +2680,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref experimentalColonyWorldBuild, "experimentalColonyWorldBuild", DefExperimentalColonyWorldBuild);
             Scribe_Values.Look(ref experimentalPlayerConquestRaze, "experimentalPlayerConquestRaze", DefExperimentalPlayerConquestRaze);
             Scribe_Values.Look(ref experimentalTargetOfOpportunity, "experimentalTargetOfOpportunity", DefExperimentalTargetOfOpportunity);
+            Scribe_Values.Look(ref experimentalUnlimitedAssaultMortarSupport, "experimentalUnlimitedAssaultMortarSupport", DefExperimentalUnlimitedAssaultMortarSupport);
             Scribe_Values.Look(ref targetOfOpportunityEligibilityRollPct, "targetOfOpportunityEligibilityRollPct", DefTargetOfOpportunityEligibilityRollPct);
             Scribe_Values.Look(ref targetOfOpportunityMinRatioAdvantage, "targetOfOpportunityMinRatioAdvantage", DefTargetOfOpportunityMinRatioAdvantage);
             Scribe_Values.Look(ref targetOfOpportunityMaxRetargets, "targetOfOpportunityMaxRetargets", DefTargetOfOpportunityMaxRetargets);
@@ -2669,6 +2708,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref opportunityFeaturesIgnoreEscalationGate, "opportunityFeaturesIgnoreEscalationGate", DefOpportunityFeaturesIgnoreEscalationGate);
             Scribe_Values.Look(ref experimentalOutpostWithdrawStrengthBudget, "experimentalOutpostWithdrawStrengthBudget", DefExperimentalOutpostWithdrawStrengthBudget);
             Scribe_Values.Look(ref experimentalOutpostDefenseDeployBudget, "experimentalOutpostDefenseDeployBudget", DefExperimentalOutpostDefenseDeployBudget);
+            Scribe_Values.Look(ref experimentalT4GravshipRaids, "experimentalT4GravshipRaids", DefExperimentalT4GravshipRaids);
+            Scribe_Values.Look(ref experimentalGravshipRaidChanceT4, "experimentalGravshipRaidChanceT4", DefExperimentalGravshipRaidChanceT4);
             Scribe_Values.Look(ref experimentalAlwaysClearKcsgRect, "experimentalAlwaysClearKcsgRect", DefExperimentalAlwaysClearKcsgRect);
             Scribe_Values.Look(ref experimentalKcsgRectBlend, "experimentalKcsgRectBlend", DefExperimentalKcsgRectBlend);
             Scribe_Values.Look(ref enableWorldMapSounds, "enableWorldMapSounds", DefEnableWorldMapSounds);
@@ -2922,6 +2963,15 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref garrisonOffensiveStrengthMinScale, "garrisonOffensiveStrengthMinScale", DefGarrisonOffensiveStrengthMinScale);
             Scribe_Values.Look(ref kcsgAdaptiveTerrainPrep, "kcsgAdaptiveTerrainPrep", DefKcsgAdaptiveTerrainPrep);
             Scribe_Values.Look(ref kcsgBlockedFlattenThreshold, "kcsgBlockedFlattenThreshold", DefKcsgBlockedFlattenThreshold);
+            Scribe_Values.Look(ref kcsgRemapRockToMapStone, "kcsgRemapRockToMapStone", DefKcsgRemapRockToMapStone);
+            Scribe_Values.Look(ref kcsgRemapFarmSoil, "kcsgRemapFarmSoil", DefKcsgRemapFarmSoil);
+            Scribe_Values.Look(ref kcsgFertileUnderCrops, "kcsgFertileUnderCrops", DefKcsgFertileUnderCrops);
+            Scribe_Values.Look(ref kcsgSpawnPenLivestock, "kcsgSpawnPenLivestock", DefKcsgSpawnPenLivestock);
+            Scribe_Values.Look(ref kcsgRemapTreesToBiome, "kcsgRemapTreesToBiome", DefKcsgRemapTreesToBiome);
+            Scribe_Values.Look(ref kcsgUnfogSettlementRect, "kcsgUnfogSettlementRect", DefKcsgUnfogSettlementRect);
+            Scribe_Values.Look(ref kcsgForceSettlementPower, "kcsgForceSettlementPower", DefKcsgForceSettlementPower);
+            Scribe_Values.Look(ref kcsgSilenceDefeatedTurrets, "kcsgSilenceDefeatedTurrets", DefKcsgSilenceDefeatedTurrets);
+            Scribe_Values.Look(ref kcsgFogInteriorMineables, "kcsgFogInteriorMineables", DefKcsgFogInteriorMineables);
 
             Scribe_Values.Look(ref noGoodwillFromHostilesOnConquest, "noGoodwillFromHostilesOnConquest", DefNoGoodwillFromHostilesOnConquest);
             Scribe_Values.Look(ref disableSettlementProximityGoodwill, "disableSettlementProximityGoodwill", DefDisableSettlementProximityGoodwill);
@@ -3017,6 +3067,16 @@ namespace TSA_WorldDomination
 
             Scribe_Values.Look(ref initialAllegianceLockDone, "initialAllegianceLockDone", false);
             Scribe_Collections.Look(ref lockedAllegiancePairs, "lockedAllegiancePairs", LookMode.Value);
+            Scribe_Collections.Look(ref manualExcludeFromWdActions, "manualExcludeFromWdActions", LookMode.Value);
+            Scribe_Collections.Look(ref manualExcludeFromWdBaseGen, "manualExcludeFromWdBaseGen", LookMode.Value);
+            Scribe_Collections.Look(ref manualIncludeInWd, "manualIncludeInWd", LookMode.Value);
+            Scribe_Collections.Look(ref manualAllowStorytellerRaids, "manualAllowStorytellerRaids", LookMode.Value);
+            Scribe_Collections.Look(ref manualBlockStorytellerRaids, "manualBlockStorytellerRaids", LookMode.Value);
+            if (manualExcludeFromWdActions == null) manualExcludeFromWdActions = new HashSet<string>();
+            if (manualExcludeFromWdBaseGen == null) manualExcludeFromWdBaseGen = new HashSet<string>();
+            if (manualIncludeInWd == null) manualIncludeInWd = new HashSet<string>();
+            if (manualAllowStorytellerRaids == null) manualAllowStorytellerRaids = new HashSet<string>();
+            if (manualBlockStorytellerRaids == null) manualBlockStorytellerRaids = new HashSet<string>();
 
             if (raidOutcomes == null || raidOutcomes.Count == 0) InitializeDefaults();
 
@@ -3333,6 +3393,7 @@ namespace TSA_WorldDomination
             ResetDisinformation();
             ResetFoodLogistics();
             ResetExperimental();
+            ResetBaseGeneration();
             ResetNotifications();
             ResetWorldGen();
             ResetGarrisons();
@@ -3823,21 +3884,26 @@ namespace TSA_WorldDomination
 
         public void ResetRoadBuildingFallback()
         {
-            fallbackDirtRoadMovement = DefFallbackDirtRoadMovement;
-            fallbackStoneRoadMovement = DefFallbackStoneRoadMovement;
-            fallbackAsphaltRoadMovement = DefFallbackAsphaltRoadMovement;
-            fallbackDirtRoadWork = DefFallbackDirtRoadWork;
-            fallbackStoneRoadWork = DefFallbackStoneRoadWork;
-            fallbackAsphaltRoadWork = DefFallbackAsphaltRoadWork;
-            fallbackDirtRoadExpeditionStrength = DefFallbackDirtRoadExpeditionStrength;
-            fallbackStoneRoadExpeditionStrength = DefFallbackStoneRoadExpeditionStrength;
-            fallbackAsphaltRoadExpeditionStrength = DefFallbackAsphaltRoadExpeditionStrength;
-            fallbackDirtRoadMinConstruction = DefFallbackDirtRoadMinConstruction;
-            fallbackStoneRoadMinConstruction = DefFallbackStoneRoadMinConstruction;
-            fallbackAsphaltRoadMinConstruction = DefFallbackAsphaltRoadMinConstruction;
-            fallbackDirtRoadWinterReduction = DefFallbackDirtRoadWinterReduction;
-            fallbackStoneRoadWinterReduction = DefFallbackStoneRoadWinterReduction;
-            fallbackAsphaltRoadWinterReduction = DefFallbackAsphaltRoadWinterReduction;
+            // Prefer XML road-tier defaults when defs are loaded; otherwise keep compiled constants.
+            WdRoadTierDef dirt = WdBiomeTableResolver.GetRoadTierDef(SettlementTier.T1);
+            WdRoadTierDef stone = WdBiomeTableResolver.GetRoadTierDef(SettlementTier.T2);
+            WdRoadTierDef asphalt = WdBiomeTableResolver.GetRoadTierDef(SettlementTier.T3);
+
+            fallbackDirtRoadMovement = dirt != null ? dirt.movementCostMultiplier : DefFallbackDirtRoadMovement;
+            fallbackStoneRoadMovement = stone != null ? stone.movementCostMultiplier : DefFallbackStoneRoadMovement;
+            fallbackAsphaltRoadMovement = asphalt != null ? asphalt.movementCostMultiplier : DefFallbackAsphaltRoadMovement;
+            fallbackDirtRoadWork = dirt != null ? dirt.workPerSegment : DefFallbackDirtRoadWork;
+            fallbackStoneRoadWork = stone != null ? stone.workPerSegment : DefFallbackStoneRoadWork;
+            fallbackAsphaltRoadWork = asphalt != null ? asphalt.workPerSegment : DefFallbackAsphaltRoadWork;
+            fallbackDirtRoadExpeditionStrength = dirt != null ? dirt.expeditionStrengthCost : DefFallbackDirtRoadExpeditionStrength;
+            fallbackStoneRoadExpeditionStrength = stone != null ? stone.expeditionStrengthCost : DefFallbackStoneRoadExpeditionStrength;
+            fallbackAsphaltRoadExpeditionStrength = asphalt != null ? asphalt.expeditionStrengthCost : DefFallbackAsphaltRoadExpeditionStrength;
+            fallbackDirtRoadMinConstruction = dirt != null ? dirt.minCumulativeConstructionSkill : DefFallbackDirtRoadMinConstruction;
+            fallbackStoneRoadMinConstruction = stone != null ? stone.minCumulativeConstructionSkill : DefFallbackStoneRoadMinConstruction;
+            fallbackAsphaltRoadMinConstruction = asphalt != null ? asphalt.minCumulativeConstructionSkill : DefFallbackAsphaltRoadMinConstruction;
+            fallbackDirtRoadWinterReduction = dirt != null ? dirt.winterPenaltyReduction : DefFallbackDirtRoadWinterReduction;
+            fallbackStoneRoadWinterReduction = stone != null ? stone.winterPenaltyReduction : DefFallbackStoneRoadWinterReduction;
+            fallbackAsphaltRoadWinterReduction = asphalt != null ? asphalt.winterPenaltyReduction : DefFallbackAsphaltRoadWinterReduction;
             maxRoadRange = DefMaxRoadRange;
             maxRoadRangeNpc = DefMaxRoadRangeNpc;
             maxRoadBlockRange = DefMaxRoadBlockRange;
@@ -4069,7 +4135,7 @@ namespace TSA_WorldDomination
 
         public void ResetGarrisons()
         {
-            allowWdSettlementBaseGeneration = DefAllowWdSettlementBaseGeneration;
+            allowWdSettlementBaseGeneration = DefAllowWdSettlementBaseGeneration; // legacy scribe only
             kcsgMultTribalT1 = DefKcsgMultTribalT1;
             kcsgMultTribalT2 = DefKcsgMultTribalT2;
             kcsgMultTribalT3 = DefKcsgMultTribalT3;
@@ -4080,6 +4146,24 @@ namespace TSA_WorldDomination
             kcsgMultGenericT4 = DefKcsgMultGenericT4;
             garrisonOffensiveStrengthMinScale = DefGarrisonOffensiveStrengthMinScale;
         }
+
+        public void ResetBaseGeneration()
+        {
+            kcsgAdaptiveTerrainPrep = DefKcsgAdaptiveTerrainPrep;
+            kcsgBlockedFlattenThreshold = DefKcsgBlockedFlattenThreshold;
+            experimentalAlwaysClearKcsgRect = DefExperimentalAlwaysClearKcsgRect;
+            experimentalKcsgRectBlend = DefExperimentalKcsgRectBlend;
+            kcsgRemapRockToMapStone = DefKcsgRemapRockToMapStone;
+            kcsgRemapFarmSoil = DefKcsgRemapFarmSoil;
+            kcsgFertileUnderCrops = DefKcsgFertileUnderCrops;
+            kcsgSpawnPenLivestock = DefKcsgSpawnPenLivestock;
+            kcsgRemapTreesToBiome = DefKcsgRemapTreesToBiome;
+            kcsgUnfogSettlementRect = DefKcsgUnfogSettlementRect;
+            kcsgForceSettlementPower = DefKcsgForceSettlementPower;
+            kcsgSilenceDefeatedTurrets = DefKcsgSilenceDefeatedTurrets;
+            kcsgFogInteriorMineables = DefKcsgFogInteriorMineables;
+        }
+
         /// <summary>Keeps 7-day ≥ 4-day ≥ 1-day caps and all in allowed ranges.</summary>
         public void ClampPlayerWdRaidRateCaps()
         {
@@ -4366,6 +4450,7 @@ namespace TSA_WorldDomination
             experimentalColonyWorldBuild = DefExperimentalColonyWorldBuild;
             experimentalPlayerConquestRaze = DefExperimentalPlayerConquestRaze;
             experimentalTargetOfOpportunity = DefExperimentalTargetOfOpportunity;
+            experimentalUnlimitedAssaultMortarSupport = DefExperimentalUnlimitedAssaultMortarSupport;
             targetOfOpportunityEligibilityRollPct = DefTargetOfOpportunityEligibilityRollPct;
             targetOfOpportunityMinRatioAdvantage = DefTargetOfOpportunityMinRatioAdvantage;
             targetOfOpportunityMaxRetargets = DefTargetOfOpportunityMaxRetargets;
@@ -4385,10 +4470,8 @@ namespace TSA_WorldDomination
             opportunityFeaturesIgnoreEscalationGate = DefOpportunityFeaturesIgnoreEscalationGate;
             experimentalOutpostWithdrawStrengthBudget = DefExperimentalOutpostWithdrawStrengthBudget;
             experimentalOutpostDefenseDeployBudget = DefExperimentalOutpostDefenseDeployBudget;
-            kcsgAdaptiveTerrainPrep = DefKcsgAdaptiveTerrainPrep;
-            kcsgBlockedFlattenThreshold = DefKcsgBlockedFlattenThreshold;
-            experimentalAlwaysClearKcsgRect = DefExperimentalAlwaysClearKcsgRect;
-            experimentalKcsgRectBlend = DefExperimentalKcsgRectBlend;
+            experimentalT4GravshipRaids = DefExperimentalT4GravshipRaids;
+            experimentalGravshipRaidChanceT4 = DefExperimentalGravshipRaidChanceT4;
             enableWorldMapSounds = DefEnableWorldMapSounds;
             enableFirstOutpostQuest = DefEnableFirstOutpostQuest;
             enableCommonEnemySettlementQuest = DefEnableCommonEnemySettlementQuest;
@@ -4483,7 +4566,6 @@ namespace TSA_WorldDomination
             notifyBribeCeasefireExpired = DefNotifyBribeCeasefireExpired;
             notifyOutpostDeliveryToColonyArrived = DefNotifyOutpostDeliveryToColonyArrived;
             notifyPlayerCaravanClash = DefNotifyPlayerCaravanClash;
-            showCaravanClashLootDialog = DefShowCaravanClashLootDialog;
             notifyRapidResponseCaravanClash = DefNotifyRapidResponseCaravanClash;
             notifyTravelerPollutionDamage = DefNotifyTravelerPollutionDamage;
             notifyOutpostPollutionDamage = DefNotifyOutpostPollutionDamage;
@@ -4502,6 +4584,99 @@ namespace TSA_WorldDomination
             settlementMaxPerCluster = DefSettlementMaxPerCluster;
             settlementMinDistanceBetweenClusters = DefSettlementMinDistanceBetweenClusters;
             worldSetupDestroyFortificationsOnRecreate = DefWorldSetupDestroyFortificationsOnRecreate;
+        }
+
+        public bool IsManualWdExclude(string defName) =>
+            !string.IsNullOrEmpty(defName)
+            && manualExcludeFromWdActions != null
+            && manualExcludeFromWdActions.Contains(defName);
+
+        public void SetManualWdExclude(string defName, bool exclude)
+        {
+            if (string.IsNullOrEmpty(defName)) return;
+            manualExcludeFromWdActions ??= new HashSet<string>();
+            if (exclude) manualExcludeFromWdActions.Add(defName);
+            else manualExcludeFromWdActions.Remove(defName);
+        }
+
+        public bool IsManualWdBaseGenExclude(string defName) =>
+            !string.IsNullOrEmpty(defName)
+            && manualExcludeFromWdBaseGen != null
+            && manualExcludeFromWdBaseGen.Contains(defName);
+
+        public void SetManualWdBaseGenExclude(string defName, bool exclude)
+        {
+            if (string.IsNullOrEmpty(defName)) return;
+            manualExcludeFromWdBaseGen ??= new HashSet<string>();
+            if (exclude) manualExcludeFromWdBaseGen.Add(defName);
+            else manualExcludeFromWdBaseGen.Remove(defName);
+        }
+
+        public void ResetManualFactionParticipation()
+        {
+            manualExcludeFromWdActions = new HashSet<string>();
+            manualExcludeFromWdBaseGen = new HashSet<string>();
+            manualIncludeInWd = new HashSet<string>();
+            manualAllowStorytellerRaids = new HashSet<string>();
+            manualBlockStorytellerRaids = new HashSet<string>();
+        }
+
+        public bool IsManualIncludeInWd(string defName) =>
+            !string.IsNullOrEmpty(defName)
+            && manualIncludeInWd != null
+            && manualIncludeInWd.Contains(defName);
+
+        public void SetManualIncludeInWd(string defName, bool include)
+        {
+            if (string.IsNullOrEmpty(defName)) return;
+            manualIncludeInWd ??= new HashSet<string>();
+            if (include) manualIncludeInWd.Add(defName);
+            else manualIncludeInWd.Remove(defName);
+        }
+
+        public bool GetStorytellerRaidsAllowed(string defName, bool wdParticipantEffective)
+        {
+            if (!string.IsNullOrEmpty(defName)
+                && manualBlockStorytellerRaids != null
+                && manualBlockStorytellerRaids.Contains(defName))
+                return false;
+            if (!string.IsNullOrEmpty(defName)
+                && manualAllowStorytellerRaids != null
+                && manualAllowStorytellerRaids.Contains(defName))
+                return true;
+            return !wdParticipantEffective;
+        }
+
+        public void SetManualStorytellerRaidsAllow(string defName, bool allow, bool wdParticipantEffective)
+        {
+            if (string.IsNullOrEmpty(defName)) return;
+            manualAllowStorytellerRaids ??= new HashSet<string>();
+            manualBlockStorytellerRaids ??= new HashSet<string>();
+            bool defaultAllow = !wdParticipantEffective;
+            if (allow == defaultAllow)
+            {
+                manualAllowStorytellerRaids.Remove(defName);
+                manualBlockStorytellerRaids.Remove(defName);
+                return;
+            }
+
+            if (allow)
+            {
+                manualAllowStorytellerRaids.Add(defName);
+                manualBlockStorytellerRaids.Remove(defName);
+            }
+            else
+            {
+                manualBlockStorytellerRaids.Add(defName);
+                manualAllowStorytellerRaids.Remove(defName);
+            }
+        }
+
+        public void ClearManualStorytellerOverride(string defName)
+        {
+            if (string.IsNullOrEmpty(defName)) return;
+            manualAllowStorytellerRaids?.Remove(defName);
+            manualBlockStorytellerRaids?.Remove(defName);
         }
 
         public bool IsPairLocked(Faction a, Faction b)
@@ -4523,7 +4698,7 @@ namespace TSA_WorldDomination
 
             // Include the player so Perm. Hostile can lock player×permanent-enemy pairs too.
             var factions = Find.FactionManager.AllFactionsVisible
-                .Where(f => f != null && (f.IsPlayer || !WorldActions_Utils.IsExcludedFaction(f)))
+                .Where(f => f != null && (f.IsPlayer || !WorldActions_Utils.IsAutoExcludedFromWd(f)))
                 .ToList();
 
             foreach (var f in factions)
@@ -4568,14 +4743,8 @@ namespace TSA_WorldDomination
             return IsAllegianceLockHive(f);
         }
 
-        private static bool IsAllegianceLockHive(Faction f)
-        {
-            if (f?.def == null) return false;
-            string defName = f.def.defName ?? string.Empty;
-            string name = f.Name ?? string.Empty;
-            return defName.IndexOf("Insect", System.StringComparison.OrdinalIgnoreCase) >= 0
-                || name.IndexOf("Hive", System.StringComparison.OrdinalIgnoreCase) >= 0;
-        }
+        private static bool IsAllegianceLockHive(Faction f) =>
+            f != null && !f.IsPlayer && f.def != null && !f.def.humanlikeFaction;
 
         public void EnsureInitialLaunchDefaults()
         {

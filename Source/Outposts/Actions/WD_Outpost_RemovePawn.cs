@@ -41,6 +41,9 @@ namespace TSA_WorldDomination
                 return;
             }
 
+            if (PlayerPawnTransferUtility.RejectIfOutpostRemovalNotTravelValid(outpost, new List<Pawn> { pawn }))
+                return;
+
             if (OutpostStrengthBudget.WithdrawBudgetEnabled)
             {
                 var rosterEntries = PlayerPawnRosterUtility.BuildTransferEntriesForOutpost(
@@ -122,6 +125,9 @@ namespace TSA_WorldDomination
                 Messages.Message("TSA_WD_Pawns_RemoveLastOccupantMechanoidsRemain".Translate(), MessageTypeDefOf.RejectInput, false);
                 return;
             }
+
+            if (PlayerPawnTransferUtility.RejectIfOutpostRemovalNotTravelValid(outpost, valid))
+                return;
 
             bool emptiesOutpost = outpost.Occupants.Count == valid.Count;
 
@@ -228,6 +234,12 @@ namespace TSA_WorldDomination
                 Messages.Message("TSA_WD_Pawns_RemoveLastOccupantMechanoidsRemain".Translate(), MessageTypeDefOf.RejectInput, false);
                 return;
             }
+
+            var leavingStoredOrMechs = new List<Pawn>(validStored.Count + validMechs.Count);
+            leavingStoredOrMechs.AddRange(validStored);
+            leavingStoredOrMechs.AddRange(validMechs);
+            if (PlayerPawnTransferUtility.RejectIfOutpostRemovalNotTravelValid(outpost, validPawns, leavingStoredOrMechs))
+                return;
 
             bool emptiesOutpost = validPawns.Count > 0 && outpost.Occupants.Count == validPawns.Count;
 

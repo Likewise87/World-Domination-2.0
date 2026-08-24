@@ -218,6 +218,9 @@
   <TSA_WD_OutpostStats_Row_AntiAirAccTip>防空对空投、运输舱与飞行器的距离段命中率（按防空最大射程比例）。段基础值加上最佳射手（射击每级 +1 百分点）。迫击炮弹使用下方的固定防空对炮弹概率。</TSA_WD_OutpostStats_Row_AntiAirAccTip>
   <TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>解锁防空炮塔（对空投舱与炮弹）</TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>
   <TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>解锁净化任务</TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>
+  <TSA_WD_OutpostUpgrades_BenefitAssaultShellsShort>高级定居点突击炮弹</TSA_WD_OutpostUpgrades_BenefitAssaultShellsShort>
+  <TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockHeader>解锁定居点突击炮弹</TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockHeader>
+  <TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockList>{0}</TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockList>
   <TSA_WD_AntiAir_GroupDesc>防空字母分组。同组可继续射击已宣称目标；其他字母被阻挡。Off = 未分组（从不宣称/不被挡）。</TSA_WD_AntiAir_GroupDesc>
   <TSA_WD_AntiAir_Group_Off>防空分组 Off</TSA_WD_AntiAir_Group_Off>
   <TSA_WD_AntiAir_Group_A>防空分组 A</TSA_WD_AntiAir_Group_A>
@@ -307,4 +310,28 @@
   <TSA_WD_T4Mortar_MinTech>T4 炮塔：最低科技等级</TSA_WD_T4Mortar_MinTech>
   <TSA_WD_T4Mortar_MinTechTip>仅此科技等级及以上的派系可使用 T4 定居点迫击炮与防空。新石器时代几乎允许所有派系。</TSA_WD_T4Mortar_MinTechTip>
   <TSA_WD_T4Mortar_Reset>重置敌方 T4 炮塔设置</TSA_WD_T4Mortar_Reset>
+
+  <!-- Assault-map artillery support -->
+  <TSA_WD_AssaultArtillery_ButtonTip>炮火支援。从附近据点呼叫迫击炮火力。</TSA_WD_AssaultArtillery_ButtonTip>
+  <TSA_WD_AssaultArtillery_Title>炮火支援</TSA_WD_AssaultArtillery_Title>
+  <TSA_WD_AssaultArtillery_ColumnOutposts>支援据点</TSA_WD_AssaultArtillery_ColumnOutposts>
+  <TSA_WD_AssaultArtillery_ColumnShells>炮弹类型</TSA_WD_AssaultArtillery_ColumnShells>
+  <TSA_WD_AssaultArtillery_ColumnShellsFrom>选择弹药</TSA_WD_AssaultArtillery_ColumnShellsFrom>
+  <TSA_WD_AssaultArtillery_SelectOutpost>请选择一个支援据点。</TSA_WD_AssaultArtillery_SelectOutpost>
+  <TSA_WD_AssaultArtillery_RowEtaSpread>预计 {0} 秒，散布 {1}</TSA_WD_AssaultArtillery_RowEtaSpread>
+  <TSA_WD_AssaultArtillery_OutpostRowTip>距离：{0} 格\n首发预计：{1} 秒\n散布：{2} 格\n可用炮弹：{3}</TSA_WD_AssaultArtillery_OutpostRowTip>
+  <TSA_WD_AssaultArtillery_GhostRelay>实验中继</TSA_WD_AssaultArtillery_GhostRelay>
+  <TSA_WD_AssaultArtillery_GhostRelayTip>实验功能：忽略射程与冷却。使用全帝国最佳炮弹解锁。最小散布。</TSA_WD_AssaultArtillery_GhostRelayTip>
+  <TSA_WD_AssaultArtillery_NoShootingSkill>驻防无射手。无法从此据点发射迫击炮支援。</TSA_WD_AssaultArtillery_NoShootingSkill>
+  <TSA_WD_AssaultArtillery_Unlock_Basic>解锁：高爆弹与烟雾弹。</TSA_WD_AssaultArtillery_Unlock_Basic>
+  <TSA_WD_AssaultArtillery_Unlock_Improved>解锁改良炮弹：{0}</TSA_WD_AssaultArtillery_Unlock_Improved>
+  <TSA_WD_AssaultArtillery_Unlock_Advanced>解锁高级炮弹：{0}</TSA_WD_AssaultArtillery_Unlock_Advanced>
+  <TSA_WD_AssaultArtillery_NoSupport>没有处于射程内且可开火的迫击炮据点。</TSA_WD_AssaultArtillery_NoSupport>
+  <TSA_WD_AssaultArtillery_StrikePending>已有炮弹正在飞来。</TSA_WD_AssaultArtillery_StrikePending>
+  <TSA_WD_AssaultArtillery_StrikeInboundInfo>已有炮火在途。其他就绪前哨站仍可开火。</TSA_WD_AssaultArtillery_StrikeInboundInfo>
+  <TSA_WD_AssaultArtillery_NotAssaultMap>炮火支援仅可在敌对定居点突击地图中使用。</TSA_WD_AssaultArtillery_NotAssaultMap>
+  <TSA_WD_AssaultArtillery_InvalidCell>请在地图上选择有效格子。</TSA_WD_AssaultArtillery_InvalidCell>
+  <TSA_WD_AssaultArtillery_Inbound>{0} 来袭。炮弹 {1} 秒后到达。</TSA_WD_AssaultArtillery_Inbound>
+  <TSA_WD_AssaultArtillery_ShellShotDown>你的炮火支援炮弹被击落。</TSA_WD_AssaultArtillery_ShellShotDown>
+  <TSA_WD_AssaultArtillery_NoShells>未找到迫击炮弹定义。请检查是否有模组替换了原版炮弹。</TSA_WD_AssaultArtillery_NoShells>
 </LanguageData>

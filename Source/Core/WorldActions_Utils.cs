@@ -165,7 +165,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < settlements.Count; i++)
             {
                 Settlement s = settlements[i];
-                if (s.Faction == null || s.Faction.def.hidden || s.Faction.defeated || IsExcludedFaction(s.Faction)) continue;
+                if (s.Faction == null || s.Faction.def.hidden || s.Faction.defeated || !IsWdParticipant(s.Faction)) continue;
                 if (!IsWdSurfaceWorldObject(s)) continue;
                 var comp = s.GetComponent<CompViralSpread>();
                 if (comp == null || !string.IsNullOrEmpty(comp.subType) || comp.IsOutpost) continue;
@@ -238,25 +238,144 @@ namespace TSA_WorldDomination
         public static bool FactionAllowsSurfaceSettlements(Faction f) =>
             f?.def != null && FactionAllowsSurfaceSettlements(f.def);
 
+        /// <summary>Never activatable (hidden, orbit-only, Traders Guild).</summary>
+        public static bool IsHardExcludedFromWd(FactionDef def)
+        {
+            if (def == null) return true;
+            if (def.hidden) return true;
+            if (!FactionAllowsSurfaceSettlements(def)) return true;
+            return false;
+        }
+
+        public static bool IsHardExcludedFromWd(Faction f)
+        {
+            if (f == null || f.def == null) return true;
+            if (f == Faction.OfTradersGuild) return true;
+            return IsHardExcludedFromWd(f.def);
+        }
+
+        /// <summary>Off by default but player may opt in (non-humanlike, zero settlement weight).</summary>
+        public static bool IsSoftDefaultExcludedFromWd(FactionDef def)
+        {
+            if (def == null) return true;
+            if (!def.humanlikeFaction) return true;
+            if (def.settlementGenerationWeight <= 0f) return true;
+            return false;
+        }
+
+        public static bool IsSoftDefaultExcludedFromWd(Faction f) =>
+            f?.def != null && IsSoftDefaultExcludedFromWd(f.def);
+
+        /// <summary>Auto gates for negotiate / diplomacy matrix (hard, or soft without manual include).</summary>
+        public static bool IsAutoExcludedFromWd(FactionDef def)
+        {
+            if (IsHardExcludedFromWd(def)) return true;
+            return IsSoftDefaultExcludedFromWd(def);
+        }
+
+        public static bool IsAutoExcludedFromWd(Faction f)
+        {
+            if (IsHardExcludedFromWd(f)) return true;
+            if (!IsSoftDefaultExcludedFromWd(f)) return false;
+            var settings = WorldDominationMod.settings;
+            return settings == null || !settings.IsManualIncludeInWd(f.def.defName);
+        }
+
+        public static bool TryGetHardExcludedReasonKey(Faction f, out string reasonKey)
+        {
+            reasonKey = null;
+            if (f == null || f.def == null) return false;
+            if (f == Faction.OfTradersGuild)
+            {
+                reasonKey = "TSA_WD_FactionExclude_TradersGuild";
+                return true;
+            }
+
+            if (f.def.hidden)
+            {
+                reasonKey = "TSA_WD_FactionExclude_Hidden";
+                return true;
+            }
+
+            if (!FactionAllowsSurfaceSettlements(f.def))
+            {
+                reasonKey = "TSA_WD_FactionExclude_NonSurface";
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool TryGetSoftDefaultExcludedReasonKey(Faction f, out string reasonKey)
+        {
+            reasonKey = null;
+            if (f == null || f.def == null || IsHardExcludedFromWd(f)) return false;
+
+            if (!f.def.humanlikeFaction)
+            {
+                reasonKey = "TSA_WD_FactionExclude_NonHumanlike";
+                return true;
+            }
+
+            if (f.def.settlementGenerationWeight <= 0f)
+            {
+                reasonKey = "TSA_WD_FactionExclude_NoSettlementWeight";
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>Keyed string for UI when faction cannot be toggled (hard) or is soft-default off.</summary>
+        public static bool TryGetAutoExcludedReasonKey(Faction f, out string reasonKey)
+        {
+            if (TryGetHardExcludedReasonKey(f, out reasonKey)) return true;
+            return TryGetSoftDefaultExcludedReasonKey(f, out reasonKey);
+        }
+
+        /// <summary>
+        /// Negotiate / diplomacy matrix / allegiance pair pool — auto gates only.
+        /// Not the inverse of <see cref="IsWdParticipant"/> (ignores manual WD exclude).
+        /// For WD sim filters that used to skip excluded factions: use <c>if (!IsWdParticipant(f)) continue</c>, not a bare rename.
+        /// </summary>
         public static bool IsExcludedFaction(Faction f)
         {
             if (f == null || f.def == null || f.IsPlayer) return true;
-            if (f == Faction.OfTradersGuild) return true;
-            // Hidden factions (Ancients, Mechanoids, etc.) never participate in WD surface sim.
-            if (f.def.hidden) return true;
-            // No world-settlement generation weight → never placed by vanilla world gen (default 0).
-            if (f.def.settlementGenerationWeight <= 0f) return true;
+            return IsAutoExcludedFromWd(f);
+        }
 
-            if (!FactionAllowsSurfaceSettlements(f.def)) return true;
+        /// <summary>
+        /// WD world sim participant (hard/soft gates + manual include/exclude).
+        /// Near-opposite of legacy “excluded from sim”: migrate <c>if (IsExcludedFaction(f)) continue</c> to <c>if (!IsWdParticipant(f)) continue</c>.
+        /// </summary>
+        public static bool IsWdParticipant(Faction f)
+        {
+            if (f == null || f.def == null || f.IsPlayer) return false;
+            if (IsHardExcludedFromWd(f)) return false;
+            var settings = WorldDominationMod.settings;
+            if (settings != null && settings.IsManualWdExclude(f.def.defName)) return false;
+            if (IsSoftDefaultExcludedFromWd(f))
+                return settings != null && settings.IsManualIncludeInWd(f.def.defName);
+            return true;
+        }
 
-            string defName = f.def.defName ?? string.Empty;
-            if (defName.IndexOf("Insect", StringComparison.OrdinalIgnoreCase) >= 0) return true;
-            if (defName.IndexOf("Hive", StringComparison.OrdinalIgnoreCase) >= 0) return true;
-            string label = f.Name?.ToString() ?? string.Empty;
-            if (label.IndexOf("insect", StringComparison.OrdinalIgnoreCase) >= 0) return true;
-            if (label.IndexOf("hive", StringComparison.OrdinalIgnoreCase) >= 0) return true;
+        /// <summary>Per-faction storyteller raid gate (null/hidden/hard-excluded factions always allow vanilla).</summary>
+        public static bool IsStorytellerRaidAllowed(Faction f)
+        {
+            if (f == null || f.def == null || f.def.hidden) return true;
+            if (IsHardExcludedFromWd(f)) return true;
+            var settings = WorldDominationMod.settings;
+            if (settings == null) return !IsWdParticipant(f);
+            return settings.GetStorytellerRaidsAllowed(f.def.defName, IsWdParticipant(f));
+        }
 
-            return false;
+        /// <summary>KCSG hijack + settlement map power bypass eligibility (per-faction MapGen opt-out only).</summary>
+        public static bool IsWdBaseGenEligible(Faction f)
+        {
+            if (!IsWdParticipant(f)) return false;
+            var settings = WorldDominationMod.settings;
+            if (settings != null && settings.IsManualWdBaseGenExclude(f.def.defName)) return false;
+            return true;
         }
 
         public static bool IsSettlementProtected(Settlement s)
@@ -278,7 +397,7 @@ namespace TSA_WorldDomination
             if (HasActiveQuest(s))
                 return true;
 
-            if (s.Faction == null || IsExcludedFaction(s.Faction) || s.Faction.defeated)
+            if (s.Faction == null || !IsWdParticipant(s.Faction) || s.Faction.defeated)
                 return true;
 
             return false;

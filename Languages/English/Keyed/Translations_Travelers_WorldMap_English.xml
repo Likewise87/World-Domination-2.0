@@ -83,18 +83,6 @@
   <TSA_WD_Interception_Label>Caravan clash</TSA_WD_Interception_Label>
   <TSA_WD_Letter_Interception_Label>Caravan clash</TSA_WD_Letter_Interception_Label>
   <TSA_WD_Letter_Interception_Text>Your caravan has clashed with a {0} from {1}. Prepare for combat!</TSA_WD_Letter_Interception_Text>
-  <TSA_WD_ClashLoot_Title>Clash loot</TSA_WD_ClashLoot_Title>
-  <TSA_WD_ClashLoot_Desc>Choose prisoners and items to take. Anything left behind is lost when the encounter ends. Weight cannot exceed your caravan capacity.</TSA_WD_ClashLoot_Desc>
-  <TSA_WD_ClashLoot_SearchPlaceholder>Filter by name…</TSA_WD_ClashLoot_SearchPlaceholder>
-  <TSA_WD_ClashLoot_ResetAll>Reset all</TSA_WD_ClashLoot_ResetAll>
-  <TSA_WD_ClashLoot_PrisonerSub>{0} (weight {1})</TSA_WD_ClashLoot_PrisonerSub>
-  <TSA_WD_ClashLoot_ItemSub>{0} available (weight {1} each)</TSA_WD_ClashLoot_ItemSub>
-  <TSA_WD_ClashLoot_Mass>Caravan weight: {0} / {1}</TSA_WD_ClashLoot_Mass>
-  <TSA_WD_ClashLoot_Take>Take</TSA_WD_ClashLoot_Take>
-  <TSA_WD_ClashLoot_Selected>Selected</TSA_WD_ClashLoot_Selected>
-  <TSA_WD_ClashLoot_Max>Max</TSA_WD_ClashLoot_Max>
-  <TSA_WD_ClashLoot_Confirm>Confirm</TSA_WD_ClashLoot_Confirm>
-  <TSA_WD_ClashLoot_TakeNothing>Take nothing</TSA_WD_ClashLoot_TakeNothing>
   <TSA_WD_Letter_PlayerCaravanClashWon_Label>Player caravan won clash</TSA_WD_Letter_PlayerCaravanClashWon_Label>
   <TSA_WD_Letter_PlayerCaravanClashWon_Text>Your caravan defeated {0} in a caravan clash.</TSA_WD_Letter_PlayerCaravanClashWon_Text>
   <TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>Player caravan destroyed in clash</TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>
@@ -199,6 +187,7 @@
   <TSA_WD_Log_WindowTitle>Action Log (Last 500)</TSA_WD_Log_WindowTitle>
   <TSA_WD_RaiderCaravan>Raider Caravan</TSA_WD_RaiderCaravan>
   <TSA_WD_RaiderDropPods>Raider Drop Pods</TSA_WD_RaiderDropPods>
+  <TSA_WD_RaiderGravship>Raider Gravship</TSA_WD_RaiderGravship>
   <TSA_WD_TraderCaravan>Trader Caravan</TSA_WD_TraderCaravan>
   <TSA_WD_RoadBuilderCaravan>Road Builder Caravan</TSA_WD_RoadBuilderCaravan>
   <TSA_WD_SettlementBuyerCaravan>Settlement Buyer Caravan</TSA_WD_SettlementBuyerCaravan>

@@ -76,6 +76,24 @@
   </SoundDef>
 
   <SoundDef>
+    <defName>TSA_WD_Mortar_Fire_Map</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>3</maxSimultaneous>
+    <subSounds>
+      <li>
+        <onCamera>True</onCamera>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Mortar</clipPath>
+          </li>
+        </grains>
+        <volumeRange>18~26</volumeRange>
+        <pitchRange>0.95~1.05</pitchRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
     <defName>TSA_WD_Mortar_Fire</defName>
     <context>WorldOnly</context>
     <maxSimultaneous>3</maxSimultaneous>

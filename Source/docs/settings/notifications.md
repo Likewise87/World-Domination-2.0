@@ -54,7 +54,6 @@ The radius can be set from 1 to 500 tiles. Distance is measured from your colony
 | Bribe caravan intercepted | On |
 | Bribe ceasefire expired | On |
 | Notify when a player caravan has a clash | On |
-| Show loot dialog after caravan clash win | On |
 | Notify about Rapid Response caravan clashes | On |
 | Notify when a traveler takes pollution damage | On |
 | Notify when an outpost takes pollution damage | On |

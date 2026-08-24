@@ -175,6 +175,14 @@ namespace TSA_WorldDomination
             return GetNpcAntiAirMaxRangeTiles();
         }
 
+        /// <summary>Absolute AA max for accuracy bands (ignores per-outpost shrink).</summary>
+        public static float GetAntiAirConfiguredMaxRangeForOrigin(WorldObject origin)
+        {
+            if (origin is WorldObject_WD_Outpost op && op.IsMortarOutpost)
+                return GetPlayerAntiAirConfiguredMaxRangeTiles(op);
+            return GetNpcAntiAirMaxRangeTiles();
+        }
+
         public static float GetAntiAirDamage(WorldObject_WD_Outpost origin)
         {
             var seth = WorldDominationMod.settings;
@@ -442,6 +450,7 @@ namespace TSA_WorldDomination
 
         public static bool IsAirborneAaTargetMission(TravelerMission m)
             => m == TravelerMission.RaidDropPod
+            || m == TravelerMission.RaidGravship
             || m == TravelerMission.MortarStrike
             || m == TravelerMission.RapidResponseDropPod;
 
@@ -554,6 +563,7 @@ namespace TSA_WorldDomination
                 }
 
                 float maxRange = GetAntiAirMaxRangeForOrigin(p.origin);
+                float bandMax = GetAntiAirConfiguredMaxRangeForOrigin(p.origin);
                 bool hit;
                 float damage;
                 float rangeTiles;
@@ -579,7 +589,7 @@ namespace TSA_WorldDomination
                         WDVerbose.Msg($"AA execute abort {p.origin.LabelCap} -> {p.target.LabelCap}: lead flight (drop pod mission={pod.mission})");
                         return;
                     }
-                    hit = RollBandedHit(p.origin, rangeTiles, maxRange, bestShooting);
+                    hit = RollBandedHit(p.origin, rangeTiles, bandMax, bestShooting);
                     damage = p.origin is WorldObject_WD_Outpost op ? GetAntiAirDamage(op) : GetNpcAntiAirDamage();
                 }
                 else
@@ -594,7 +604,7 @@ namespace TSA_WorldDomination
                         WDVerbose.Msg($"AA execute abort {p.origin.LabelCap} -> {p.target.LabelCap}: lead flight (external airborne kind={kind})");
                         return;
                     }
-                    hit = RollBandedHit(p.origin, rangeTiles, maxRange, bestShooting);
+                    hit = RollBandedHit(p.origin, rangeTiles, bandMax, bestShooting);
                     damage = p.origin is WorldObject_WD_Outpost op2 ? GetAntiAirDamage(op2) : GetNpcAntiAirDamage();
                 }
 
@@ -879,6 +889,7 @@ namespace TSA_WorldDomination
             if (t.IsAtTurretShell()) return false;
             if (t.mission != TravelerMission.MortarStrike
                 && t.mission != TravelerMission.RaidDropPod
+                && t.mission != TravelerMission.RaidGravship
                 && t.mission != TravelerMission.RapidResponseDropPod
                 && !OutpostDispatchMode.IsPlayerCargoDropPod(t))
                 return false;
@@ -915,6 +926,7 @@ namespace TSA_WorldDomination
             if (target is WorldObject_Traveler t)
             {
                 if (t.mission == TravelerMission.RaidDropPod
+                    || t.mission == TravelerMission.RaidGravship
                     || t.mission == TravelerMission.RapidResponseDropPod
                     || OutpostDispatchMode.IsPlayerCargoDropPod(t))
                 {

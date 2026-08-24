@@ -301,10 +301,26 @@ namespace TSA_WorldDomination
                     && tick < manager.expansionistZealExpiryTick;
             }
 
+            float accuracyBandMax = -1f;
+            if (accuracyBands)
+            {
+                if (kind == WD_RadiusOverlayKind.Mortar && worldObject is WorldObject_WD_Outpost mortarOp)
+                    accuracyBandMax = MortarFireUtils.GetPlayerMortarConfiguredMaxRangeTiles(mortarOp);
+                else if (kind == WD_RadiusOverlayKind.AA && worldObject is WorldObject_WD_Outpost aaOp)
+                    accuracyBandMax = AntiAirFireUtils.GetPlayerAntiAirConfiguredMaxRangeTiles(aaOp);
+                else if (worldObject is WorldObject_AT_Turret at)
+                    accuracyBandMax = at.GetConfiguredMaxRangeTiles();
+                else if (kind == WD_RadiusOverlayKind.Mortar)
+                    accuracyBandMax = WorldDominationMod.settings?.npcMortarRange ?? WorldDominationSettings.DefNpcMortarRange;
+                else if (kind == WD_RadiusOverlayKind.AA)
+                    accuracyBandMax = AntiAirFireUtils.GetNpcAntiAirMaxRangeTiles();
+            }
+
             WD_RadiusOverlayMode.DrawOrFill(worldObject, radius, fillKind, hopMat,
                 accuracyBands: accuracyBands,
                 attackRangeBands: attackRangeBands,
-                zealAttackInnerCyan: zealAttackInnerCyan);
+                zealAttackInnerCyan: zealAttackInnerCyan,
+                accuracyBandMaxRange: accuracyBandMax);
 
             if (kind == WD_RadiusOverlayKind.Mortar || kind == WD_RadiusOverlayKind.AA)
                 Patch_SettlementT4TurretGizmos.MarkTurretRangeHoverPublic();

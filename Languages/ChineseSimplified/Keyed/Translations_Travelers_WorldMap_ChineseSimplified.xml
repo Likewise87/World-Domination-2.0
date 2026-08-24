@@ -83,18 +83,6 @@
   <TSA_WD_Interception_Label>商队冲突</TSA_WD_Interception_Label>
   <TSA_WD_Letter_Interception_Label>商队冲突</TSA_WD_Letter_Interception_Label>
   <TSA_WD_Letter_Interception_Text>你的商队与来自 {1} 的一支 {0} 发生冲突。准备战斗！</TSA_WD_Letter_Interception_Text>
-  <TSA_WD_ClashLoot_Title>冲突战利品</TSA_WD_ClashLoot_Title>
-  <TSA_WD_ClashLoot_Desc>选择要带走的俘虏与物品。留下的会在遭遇结束时失去。重量不可超过商队运载能力。</TSA_WD_ClashLoot_Desc>
-  <TSA_WD_ClashLoot_SearchPlaceholder>按名称筛选…</TSA_WD_ClashLoot_SearchPlaceholder>
-  <TSA_WD_ClashLoot_ResetAll>全部重置</TSA_WD_ClashLoot_ResetAll>
-  <TSA_WD_ClashLoot_PrisonerSub>{0}（重量 {1}）</TSA_WD_ClashLoot_PrisonerSub>
-  <TSA_WD_ClashLoot_ItemSub>可用 {0}（每个重量 {1}）</TSA_WD_ClashLoot_ItemSub>
-  <TSA_WD_ClashLoot_Mass>商队重量：{0} / {1}</TSA_WD_ClashLoot_Mass>
-  <TSA_WD_ClashLoot_Take>带走</TSA_WD_ClashLoot_Take>
-  <TSA_WD_ClashLoot_Selected>已选</TSA_WD_ClashLoot_Selected>
-  <TSA_WD_ClashLoot_Max>最大</TSA_WD_ClashLoot_Max>
-  <TSA_WD_ClashLoot_Confirm>确认</TSA_WD_ClashLoot_Confirm>
-  <TSA_WD_ClashLoot_TakeNothing>什么都不拿</TSA_WD_ClashLoot_TakeNothing>
   <TSA_WD_Letter_PlayerCaravanClashWon_Label>玩家商队赢得冲突</TSA_WD_Letter_PlayerCaravanClashWon_Label>
   <TSA_WD_Letter_PlayerCaravanClashWon_Text>你的商队在商队冲突中击败了 {0}。</TSA_WD_Letter_PlayerCaravanClashWon_Text>
   <TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>玩家商队在冲突中被摧毁</TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>

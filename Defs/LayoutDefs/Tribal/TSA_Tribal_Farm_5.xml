@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Farm_5</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>.,Plant_Corn,.,Plant_Corn,.,Plant_Corn,.,.,.,Plant_Corn,.</li>
+      <li>.,.,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,AncientCraneArmSmall,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn</li>
+      <li>Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,.,Plant_Corn,Plant_Corn,Plant_Corn</li>
+      <li>.,Plant_Corn,.,.,Plant_Corn,.,Plant_Corn,Plant_Corn,.,Plant_Corn,.</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+    <li>SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich,SoilRich</li>
+  </terrainGrid>
+<tags><li>TSA_Tribal_Farm</li></tags>
+</KCSG.StructureLayoutDef>
+</Defs>

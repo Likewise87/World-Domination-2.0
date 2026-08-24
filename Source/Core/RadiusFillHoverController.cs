@@ -21,7 +21,8 @@ namespace TSA_WorldDomination
             OutpostCoverageFillKind kind,
             bool accuracyBands = false,
             bool attackRangeBands = false,
-            bool zealAttackInnerCyan = false)
+            bool zealAttackInnerCyan = false,
+            float accuracyBandMaxRange = -1f)
         {
             if (WD_RadiusOverlayMode.UseHopRadiusRings) return;
             if (!center.Valid || radius <= 0f) return;
@@ -29,7 +30,7 @@ namespace TSA_WorldDomination
             touchedFrame = Time.frameCount;
             if (!WorldComponent_WDVisualizerToggle.IsOutpostCoverageFillLayerRegisteredPublic())
                 WorldComponent_WDVisualizerToggle.EnsureOutpostCoverageFillLayerRegisteredPublic();
-            if (WD_WorldLayer_OutpostCoverageFill.TrySetTarget(center, radius, kind, accuracyBands, attackRangeBands, zealAttackInnerCyan))
+            if (WD_WorldLayer_OutpostCoverageFill.TrySetTarget(center, radius, kind, accuracyBands, attackRangeBands, zealAttackInnerCyan, accuracyBandMaxRange))
                 WorldComponent_WDVisualizerToggle.MarkOutpostCoverageFillDirtyPublic();
         }
 
@@ -39,11 +40,12 @@ namespace TSA_WorldDomination
             OutpostCoverageFillKind kind,
             bool accuracyBands = false,
             bool attackRangeBands = false,
-            bool zealAttackInnerCyan = false)
+            bool zealAttackInnerCyan = false,
+            float accuracyBandMaxRange = -1f)
         {
             if (worldObject == null || worldObject.Destroyed) return;
             PlanetLayer layer = PlanetSurfaceWorldActions.LayerOf(worldObject);
-            Begin(new PlanetTile(worldObject.Tile, layer), radius, kind, accuracyBands, attackRangeBands, zealAttackInnerCyan);
+            Begin(new PlanetTile(worldObject.Tile, layer), radius, kind, accuracyBands, attackRangeBands, zealAttackInnerCyan, accuracyBandMaxRange);
         }
 
         /// <summary>

@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
     <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
   <defName>Generic_Stockpile_3</defName>
   <spawnConduits>false</spawnConduits>
   <layouts>
     <li>
-      <li>.,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Door_WoodLog,Wall_BlocksMarble,Wall_BlocksMarble,.</li>
-      <li>Wall_BlocksMarble,Wall_BlocksMarble,Shelf_BlocksGranite_North,TorchWallLamp_South,.,.,Wall_BlocksMarble,Wall_BlocksMarble</li>
-      <li>Wall_BlocksMarble,ShelfSmall_BlocksGranite_East,.,.,.,.,ShelfSmall_BlocksGranite_West,Wall_BlocksMarble</li>
-      <li>Wall_BlocksMarble,.,.,Wall_BlocksMarble,Wall_BlocksMarble,.,.,Wall_BlocksMarble</li>
-      <li>Wall_BlocksMarble,.,DiningChair_WoodLog_East,Table2x2c_BlocksGranite,.,DiningChair_WoodLog_West,.,Wall_BlocksMarble</li>
-      <li>Wall_BlocksMarble,TorchWallLamp_West,DiningChair_WoodLog_East,.,.,DiningChair_WoodLog_West,TorchWallLamp_East,Wall_BlocksMarble</li>
-      <li>Wall_BlocksMarble,.,.,Wall_BlocksMarble,Wall_BlocksMarble,.,.,Wall_BlocksMarble</li>
-      <li>Wall_BlocksMarble,ShelfSmall_BlocksGranite_East,.,.,.,.,ShelfSmall_BlocksGranite_West,Wall_BlocksMarble</li>
-      <li>Wall_BlocksMarble,.,Shelf_BlocksGranite_South,.,Shelf_BlocksGranite_South,.,Shelf_BlocksGranite_South,Wall_BlocksMarble</li>
-      <li>Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble,Wall_BlocksMarble</li>
+      <li>.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Door_WoodLog,Wall_BlocksGranite,Wall_BlocksGranite,.</li>
+      <li>Wall_BlocksGranite,Wall_BlocksGranite,Shelf_BlocksGranite_North,TorchWallLamp_South,.,.,Wall_BlocksGranite,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,ShelfSmall_BlocksGranite_East,.,.,.,.,ShelfSmall_BlocksGranite_West,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,.,.,Wall_BlocksGranite,Wall_BlocksGranite,.,.,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,.,DiningChair_WoodLog_East,Table2x2c_BlocksGranite,.,DiningChair_WoodLog_West,.,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,TorchWallLamp_West,DiningChair_WoodLog_East,.,.,DiningChair_WoodLog_West,TorchWallLamp_East,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,.,.,Wall_BlocksGranite,Wall_BlocksGranite,.,.,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,ShelfSmall_BlocksGranite_East,.,.,.,.,ShelfSmall_BlocksGranite_West,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,.,Shelf_BlocksGranite_South,.,Shelf_BlocksGranite_South,.,Shelf_BlocksGranite_South,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
     </li>
     <li>
       <li>.,.,.,.,.,.,.,.</li>
@@ -42,16 +43,16 @@
     <li>1,1,1,1,1,1,1,1</li>
   </roofGrid>
   <terrainGrid>
-    <li>.,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,.</li>
-    <li>TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,.</li>
-    <li>TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,.</li>
-    <li>TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,.</li>
-    <li>TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,.</li>
-    <li>TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,.</li>
-    <li>TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,.</li>
-    <li>TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,.</li>
-    <li>TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,.</li>
-    <li>TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,TileMarble,.</li>
+    <li>.,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
   </terrainGrid>
 
         <tags>

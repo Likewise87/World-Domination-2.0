@@ -153,7 +153,9 @@ namespace TSA_WorldDomination
                     case TravelerMission.SettlementGift: return "TSA_WD_TargetKind_GiftCaravan".Translate().ToString();
                     case TravelerMission.SettlementBribe: return "TSA_WD_TargetKind_BribeCaravan".Translate().ToString();
                     case TravelerMission.Raid:
-                    case TravelerMission.RaidDropPod: return "TSA_WD_TargetKind_Raid".Translate().ToString();
+                    case TravelerMission.RaidDropPod:
+                    case TravelerMission.RaidGravship:
+                        return "TSA_WD_TargetKind_Raid".Translate().ToString();
                 }
             }
             return target.LabelCap.ToString();

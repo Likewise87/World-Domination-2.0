@@ -1,10 +1,10 @@
 # World-map icons and cached textures
 
-How to use this file: open when adding or changing globe-mesh `Material`, expanding icons, or static `Texture2D` / `Material` fields. Do not use it for keyed copy, tiles/pathing (`PLANET_LAYERS.md`), or hub windows (`UI_WINDOWS.md`). After a code change that moves an icon rule, edit this file in the same pass.
+How to use this file: open when adding or changing globe-mesh `Material`, expanding icons, or any static `Texture2D` / `Material` fields anywhere in the codebase. Do not use it for keyed copy, tiles/pathing (`PLANET_LAYERS.md`), or hub windows (`UI_WINDOWS.md`). After a code change that moves an icon rule, edit this file in the same pass.
 
 ## Unity assets on static fields (`Texture2D` / `Material`)
 
-RimWorld requires types that declare **static** `Texture2D` or `Material` fields to be marked with `[StaticConstructorOnStartup]`. Those assets must load on the **main thread** at startup. Without the attribute, the game logs:
+RimWorld requires types that declare **static** `Texture2D` or `Material` fields to be marked with `[StaticConstructorOnStartup]`. Those assets must load on the **main thread** at startup. This is a general C# rule, not just a world-map one. Without the attribute, the game logs:
 
 `Type X probably needs a StaticConstructorOnStartup attribute, because it has a field … of type Texture2D/Material.`
 
@@ -17,6 +17,7 @@ Rules:
 - Nested / companion types with their own static assets need their **own** attribute (e.g. `Dialog_OutpostSelection` vs `WD_OutpostSelectionCachedDefs`).
 - Properties that only *return* a `Texture2D` without storing one do not need the attribute; **fields** do.
 - Dictionaries of materials (`Dictionary<int, Material>`) are not flagged the same way, but if you add a bare `static Material` / `static Texture2D` field, add the attribute.
+- Treat this warning as a regression, not as harmless noise. If a new static cached icon/texture/material is added, the owning type must get the attribute in the same pass.
 
 ## WD outpost world-map icons (`Material` vs expanding)
 

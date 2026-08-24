@@ -38,7 +38,6 @@ namespace TSA_WorldDomination
             if (!TryResolveSettlementRect(map, out CellRect rect))
             {
                 UnfogArtificialBuildingsFallback(map);
-                ClearPendingRect(map);
                 return;
             }
 
@@ -50,18 +49,14 @@ namespace TSA_WorldDomination
                 cellCount++;
             }
 
-            ClearPendingRect(map);
-
-            if (Prefs.DevMode && cellCount > 0)
-            {
-                Log.Message($"[WorldDomination] KCSG unfog for {map.Parent?.LabelCap}: rect={rect}, {cellCount} cells.");
-            }
+            if (cellCount > 0)
+                WDVerbose.Msg($"KCSG unfog for {map.Parent?.LabelCap}: rect={rect}, {cellCount} cells.");
         }
 
         /// <summary>Legacy entry point used by existing call sites during migration.</summary>
         public static void UnfogKcsgFactionBuildings(Map map) => UnfogKcsgSettlement(map);
 
-        private static bool TryResolveSettlementRect(Map map, out CellRect rect)
+        public static bool TryResolveSettlementRect(Map map, out CellRect rect)
         {
             rect = default;
 
@@ -121,14 +116,14 @@ namespace TSA_WorldDomination
                 }
             }
 
-            if (Prefs.DevMode && cellCount > 0)
-            {
-                Log.Message($"[WorldDomination] KCSG unfog fallback for {map.Parent?.LabelCap}: {cellCount} building cells.");
-            }
+            if (cellCount > 0)
+                WDVerbose.Msg($"KCSG unfog fallback for {map.Parent?.LabelCap}: {cellCount} building cells.");
         }
 
         private static bool ShouldApply(Map map)
         {
+            var s = WorldDominationMod.settings;
+            if (s != null && !s.kcsgUnfogSettlementRect) return false;
             if (IsOutpostDefenseSite(map.Parent)) return true;
             return WdSettlementMapPower.ShouldForcePower(map);
         }

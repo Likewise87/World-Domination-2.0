@@ -98,6 +98,30 @@ namespace TSA_WorldDomination
         public static readonly Color SkillDrBoxRed = new Color(0.35f, 0.08f, 0.08f, 0.45f);
 
         /// <summary>
+        /// Fat warning box (same layout as skill diminishing-returns banners). Returns y below the box.
+        /// </summary>
+        public static float DrawWarningBanner(float x, float y, float width, string text, string tooltip = null, bool severe = false)
+        {
+            if (string.IsNullOrEmpty(text))
+                return y;
+
+            Text.Font = GameFont.Small;
+            float textH = Mathf.Max(24f, Text.CalcHeight(text, width - 12f));
+            float boxH = textH + 12f;
+            Rect boxRect = new Rect(x, y, width, boxH);
+            Widgets.DrawBoxSolid(boxRect, severe ? SkillDrBoxRed : SkillDrBoxYellow);
+            Widgets.DrawBox(boxRect);
+            GUI.color = severe ? new Color(1f, 0.45f, 0.45f) : Color.yellow;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(boxRect.ContractedBy(6f), text);
+            Text.Anchor = TextAnchor.UpperLeft;
+            GUI.color = Color.white;
+            if (!tooltip.NullOrEmpty())
+                TooltipHandler.TipRegion(boxRect, tooltip);
+            return y + boxH + 6f;
+        }
+
+        /// <summary>
         /// Fat warning box when cumulative skill is past the first full band. Yellow in soft bands, red at hard cap.
         /// Returns y below the box (unchanged if not shown).
         /// </summary>
@@ -118,19 +142,7 @@ namespace TSA_WorldDomination
                 ? "TSA_WD_SkillScaling_BannerHardCap".Translate(rawSkill.ToString("F0"), eff.ToString("F0")).ToString()
                 : "TSA_WD_SkillScaling_BannerSoft".Translate(rawSkill.ToString("F0"), eff.ToString("F0")).ToString();
 
-            Text.Font = GameFont.Small;
-            float textH = Mathf.Max(24f, Text.CalcHeight(text, width - 12f));
-            float boxH = textH + 12f;
-            Rect boxRect = new Rect(x, y, width, boxH);
-            Widgets.DrawBoxSolid(boxRect, hard ? SkillDrBoxRed : SkillDrBoxYellow);
-            Widgets.DrawBox(boxRect);
-            GUI.color = hard ? new Color(1f, 0.45f, 0.45f) : Color.yellow;
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(boxRect.ContractedBy(6f), text);
-            Text.Anchor = TextAnchor.UpperLeft;
-            GUI.color = Color.white;
-            TooltipHandler.TipRegion(boxRect, OutpostSkillScaling.BuildBandBreakdownTip(rawSkill));
-            return y + boxH + 6f;
+            return DrawWarningBanner(x, y, width, text, OutpostSkillScaling.BuildBandBreakdownTip(rawSkill), hard);
         }
 
         public static Color NearbyCountColor(int count)

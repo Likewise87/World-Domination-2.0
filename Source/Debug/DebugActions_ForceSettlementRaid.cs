@@ -14,7 +14,7 @@ namespace TSA_WorldDomination
             allowedGameStates = AllowedGameStates.PlayingOnWorld)]
         public static void ForceRaidFromClickedSettlement()
         {
-            TryForceRaidAtMouse(forceDropPod: false);
+            TryForceRaidAtMouse(forceDropPod: false, forceGravship: false);
         }
 
         [DebugAction("World Domination", "Force DROP-POD raid from clicked T4 settlement",
@@ -22,10 +22,18 @@ namespace TSA_WorldDomination
             allowedGameStates = AllowedGameStates.PlayingOnWorld)]
         public static void ForceDropPodRaidFromClickedSettlement()
         {
-            TryForceRaidAtMouse(forceDropPod: true);
+            TryForceRaidAtMouse(forceDropPod: true, forceGravship: false);
         }
 
-        private static void TryForceRaidAtMouse(bool forceDropPod)
+        [DebugAction("World Domination", "Force GRAVSHIP raid at player from clicked NPC settlement",
+            actionType = DebugActionType.ToolWorld,
+            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+        public static void ForceGravshipRaidFromClickedSettlement()
+        {
+            TryForceRaidAtMouse(forceDropPod: false, forceGravship: true);
+        }
+
+        private static void TryForceRaidAtMouse(bool forceDropPod, bool forceGravship)
         {
             int tile = GenWorld.MouseTile();
             if (tile < 0) return;
@@ -43,7 +51,7 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            if (!WorldActions_Raid.DebugForceImmediateRaid(settlement, forceDropPod, out string failReason))
+            if (!WorldActions_Raid.DebugForceImmediateRaid(settlement, forceDropPod, out string failReason, forceGravship))
             {
                 Messages.Message(
                     "WD debug force raid failed (" + settlement.LabelCap + "): " + (failReason ?? "unknown"),
@@ -51,7 +59,7 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            string mode = forceDropPod ? "drop-pod" : "normal (walk or drop by rules)";
+            string mode = forceGravship ? "gravship → player colony" : forceDropPod ? "drop-pod" : "normal (walk or drop by rules)";
             Messages.Message(
                 "WD debug: forced " + mode + " raid from " + settlement.LabelCap + ".",
                 MessageTypeDefOf.PositiveEvent);

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!--
+    Layout crop remapping (KcsgRockTypeRemapper):
+    - Plant_Corn placeholder → one roll from biome plants (per layout)
+
+    Shelf loot override (WdSettlementLootFiller, Farming settlements only):
+    - shelfCropBudgetFraction of the map's Farming loot valueBudget is spent on harvest
+      products of crops verified spawned during layout gen; remainder uses Farming loot table (meals and herbal medicine).
+  -->
+
+  <!-- Catch-all when no biome-specific row matches. -->
+  <TSA_WorldDomination.WdBiomeCropTableDef>
+    <defName>TSA_WdBiomeCrops_Default</defName>
+    <biomes>
+      <li>Default</li>
+    </biomes>
+    <shelfCropBudgetFraction>0.5</shelfCropBudgetFraction>
+    <plants>
+      <li><plantDef>Plant_Corn</plantDef><weight>3</weight></li>
+      <li><plantDef>Plant_Potato</plantDef><weight>3</weight></li>
+      <li><plantDef>Plant_Rice</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Strawberry</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Haygrass</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Cotton</plantDef><weight>1</weight></li>
+      <li><plantDef>Plant_Hops</plantDef><weight>1</weight></li>
+      <li><plantDef>Plant_Healroot</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Smokeleaf</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Psychoid</plantDef><weight>2</weight></li>
+    </plants>
+  </TSA_WorldDomination.WdBiomeCropTableDef>
+
+  <TSA_WorldDomination.WdBiomeCropTableDef>
+    <defName>TSA_WdBiomeCrops_Temperate</defName>
+    <biomes>
+      <li>TemperateForest</li>
+      <li>TemperateSwamp</li>
+      <li>ColdBog</li>
+    </biomes>
+    <shelfCropBudgetFraction>0.5</shelfCropBudgetFraction>
+    <plants>
+      <li><plantDef>Plant_Corn</plantDef><weight>3</weight></li>
+      <li><plantDef>Plant_Potato</plantDef><weight>3</weight></li>
+      <li><plantDef>Plant_Rice</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Strawberry</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Haygrass</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Cotton</plantDef><weight>1</weight></li>
+      <li><plantDef>Plant_Hops</plantDef><weight>1</weight></li>
+      <li><plantDef>Plant_Healroot</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Smokeleaf</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Psychoid</plantDef><weight>2</weight></li>
+    </plants>
+  </TSA_WorldDomination.WdBiomeCropTableDef>
+
+  <TSA_WorldDomination.WdBiomeCropTableDef>
+    <defName>TSA_WdBiomeCrops_Desert</defName>
+    <biomes>
+      <li>Desert</li>
+      <li>ExtremeDesert</li>
+      <li>AridShrubland</li>
+    </biomes>
+    <shelfCropBudgetFraction>0.5</shelfCropBudgetFraction>
+    <plants>
+      <li><plantDef>Plant_Agave</plantDef><weight>4</weight></li>
+      <li><plantDef>Plant_Corn</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Potato</plantDef><weight>1</weight></li>
+      <li><plantDef>Plant_Smokeleaf</plantDef><weight>1</weight></li>
+      <li><plantDef>Plant_Psychoid</plantDef><weight>1</weight></li>
+      <li><plantDef>Plant_Healroot</plantDef><weight>1</weight></li>
+    </plants>
+  </TSA_WorldDomination.WdBiomeCropTableDef>
+
+  <TSA_WorldDomination.WdBiomeCropTableDef>
+    <defName>TSA_WdBiomeCrops_Tropical</defName>
+    <biomes>
+      <li>TropicalRainforest</li>
+      <li>TropicalSwamp</li>
+    </biomes>
+    <shelfCropBudgetFraction>0.5</shelfCropBudgetFraction>
+    <plants>
+      <li><plantDef>Plant_Rice</plantDef><weight>3</weight></li>
+      <li><plantDef>Plant_Corn</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Strawberry</plantDef><weight>1</weight></li>
+      <li><plantDef>Plant_Cotton</plantDef><weight>1</weight></li>
+      <li><plantDef>Plant_Healroot</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Smokeleaf</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Psychoid</plantDef><weight>2</weight></li>
+    </plants>
+  </TSA_WorldDomination.WdBiomeCropTableDef>
+
+  <TSA_WorldDomination.WdBiomeCropTableDef>
+    <defName>TSA_WdBiomeCrops_Boreal</defName>
+    <biomes>
+      <li>BorealForest</li>
+      <li>Tundra</li>
+      <li>IceSheet</li>
+      <li>SeaIce</li>
+    </biomes>
+    <shelfCropBudgetFraction>0.5</shelfCropBudgetFraction>
+    <plants>
+      <li><plantDef>Plant_Potato</plantDef><weight>4</weight></li>
+      <li><plantDef>Plant_Corn</plantDef><weight>1</weight></li>
+      <li><plantDef>Plant_Haygrass</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Hops</plantDef><weight>1</weight></li>
+      <li><plantDef>Plant_Healroot</plantDef><weight>2</weight></li>
+      <li><plantDef>Plant_Smokeleaf</plantDef><weight>1</weight></li>
+      <li><plantDef>Plant_Psychoid</plantDef><weight>1</weight></li>
+    </plants>
+  </TSA_WorldDomination.WdBiomeCropTableDef>
+
+</Defs>

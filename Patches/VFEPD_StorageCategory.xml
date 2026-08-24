@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch MayRequire="VanillaExpanded.VFEPropsandDecor">
+  <!-- Share crate/chest props with WD boxes+carts via VFE_PropCategory_Storage scatter pool. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/VFEProps.PropDef[defName="VFE_Prop_Industrial_1"]</xpath>
+    <value>
+      <categories>
+        <li>VFE_PropCategory_Storage</li>
+      </categories>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/VFEProps.PropDef[defName="VFE_Prop_Industrial_2"]</xpath>
+    <value>
+      <categories>
+        <li>VFE_PropCategory_Storage</li>
+      </categories>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/VFEProps.PropDef[defName="VFE_Prop_Industrial_3"]</xpath>
+    <value>
+      <categories>
+        <li>VFE_PropCategory_Storage</li>
+      </categories>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/VFEProps.PropDef[defName="VFE_Prop_Industrial_4"]</xpath>
+    <value>
+      <categories>
+        <li>VFE_PropCategory_Storage</li>
+      </categories>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/VFEProps.PropDef[defName="VFE_Prop_Industrial_5"]</xpath>
+    <value>
+      <categories>
+        <li>VFE_PropCategory_Storage</li>
+      </categories>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/VFEProps.PropDef[defName="VFE_Prop_Medieval_11"]</xpath>
+    <value>
+      <categories>
+        <li>VFE_PropCategory_Storage</li>
+      </categories>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/VFEProps.PropDef[defName="VFE_Prop_Medieval_12"]</xpath>
+    <value>
+      <categories>
+        <li>VFE_PropCategory_Storage</li>
+      </categories>
+    </value>
+  </Operation>
+</Patch>

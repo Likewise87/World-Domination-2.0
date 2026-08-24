@@ -2,21 +2,22 @@
 <Defs>
 
 <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
   <defName>TSA_Tribal_Mining_5</defName>
   <spawnConduits>false</spawnConduits>
   <layouts>
     <li>
-      <li>.,.,.,.,Slate,.,.,.,Slate,.,.,Slate,.</li>
-      <li>.,.,.,.,ChunkSlate,Slate,.,ChunkSlate,.,Slate,Slate,ChunkSlate,.</li>
-      <li>.,ChunkSlate,.,TorchLamp,.,Slate,Slate,Slate,MineableGold,Slate,Slate,Slate,.</li>
-      <li>.,.,.,.,.,.,MineableGold,MineableGold,MineableGold,MineableGold,Slate,Slate,.</li>
-      <li>.,.,.,Slate,Slate,Slate,MineableGold,.,Slate,MineableGold,.,TorchLamp,.</li>
-      <li>Slate,.,.,Slate,ChunkSlate,.,Slate,.,Slate,Slate,.,.,.</li>
-      <li>Slate,Slate,.,Slate,ChunkSlate,.,Slate,.,.,Slate,Slate,.,Slate</li>
-      <li>.,Slate,.,.,.,.,.,.,.,.,.,.,Slate</li>
-      <li>.,.,.,TorchLamp,Fence_WoodLog,Gold,Gold,Gold,Shelf_WoodLog_South,Fence_WoodLog,ChunkSlate,.,.</li>
-      <li>.,ChunkSlate,.,Slate,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,ChunkSlate,.,.</li>
-      <li>.,.,.,Slate,Slate,Slate,.,.,.,Slate,Slate,.,.</li>
+      <li>.,.,.,.,Granite,.,.,.,Granite,.,.,Granite,.</li>
+      <li>.,.,.,.,ChunkGranite,Granite,.,ChunkGranite,.,Granite,Granite,ChunkGranite,.</li>
+      <li>.,ChunkGranite,.,TorchLamp,.,Granite,Granite,Granite,MineableSilver,Granite,Granite,Granite,.</li>
+      <li>.,.,.,.,.,.,MineableSilver,MineableSilver,MineableSilver,MineableSilver,Granite,Granite,.</li>
+      <li>.,.,.,Granite,Granite,Granite,MineableSilver,.,Granite,MineableSilver,.,TorchLamp,.</li>
+      <li>Granite,.,.,Granite,ChunkGranite,.,Granite,.,Granite,Granite,.,.,.</li>
+      <li>Granite,Granite,.,Granite,ChunkGranite,.,Granite,.,.,Granite,Granite,.,Granite</li>
+      <li>.,Granite,.,.,.,.,.,.,.,.,.,.,Granite</li>
+      <li>.,.,.,TorchLamp,Fence_WoodLog,MineableSilver,MineableSilver,MineableSilver,Shelf_WoodLog_South,Fence_WoodLog,ChunkGranite,.,.</li>
+      <li>.,ChunkGranite,.,Granite,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,ChunkGranite,.,.</li>
+      <li>.,.,.,Granite,Granite,Granite,.,.,.,Granite,Granite,.,.</li>
     </li>
     <li>
       <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
@@ -37,7 +38,7 @@
     <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
     <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
     <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-    <li>.,.,.,.,.,.,.,Slate_RoughHewn,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,Granite_RoughHewn,.,.,.,.,.</li>
     <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
     <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
     <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>

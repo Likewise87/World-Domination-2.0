@@ -91,6 +91,7 @@ namespace TSA_WorldDomination
             {
                 case TravelerMission.Raid:         return MissionMask.Raider;
                 case TravelerMission.RaidDropPod:  return MissionMask.Raider;
+                case TravelerMission.RaidGravship: return MissionMask.Raider;
                 case TravelerMission.RapidResponseDropPod: return MissionMask.Raider;
                 case TravelerMission.DebugRaidTransit: return MissionMask.Raider;
                 case TravelerMission.RapidResponseIntercept: return MissionMask.None;

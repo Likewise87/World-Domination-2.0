@@ -223,7 +223,7 @@ namespace TSA_WorldDomination
                 };
             }
 
-            return new FloatMenuOption(
+            var removeForts = new FloatMenuOption(
                 "TSA_WD_RemoveFortifications".Translate(),
                 WdCascadingFloatMenu.WrapLeaf(() => StartRoadBlockTargeting(outpost, comp, clearing: true, clearAnyFortification: true)),
                 icon,
@@ -231,6 +231,13 @@ namespace TSA_WorldDomination
             {
                 tooltip = "TSA_WD_RemoveFortificationsDesc".Translate()
             };
+            ColonyWorldBuildRequirements.ApplyGate(
+                removeForts,
+                ColonyWorldBuildUtility.GetActorConstructionSkillRaw(outpost),
+                WorldActions_RoadBlocks.GetMinConstruction(RoadBlockKind.Normal),
+                ColonyWorldBuildRequirements.GetRequiredResearchForRoadBlock(RoadBlockKind.Normal),
+                ColonyWorldBuildRequirements.GetMaterialCostsForRoadBlock(RoadBlockKind.Normal));
+            return removeForts;
         }
 
         /// <summary>Obsolete separate clear; kept for call-site compatibility. Prefer <see cref="MakeRemoveFortificationsMenuOption"/>.</summary>

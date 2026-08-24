@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
   <defName>TSA_ParkingLot_3</defName>
   <spawnConduits>false</spawnConduits>
   <layouts>
@@ -12,11 +13,11 @@
       <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,.,WallLamp_North,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,Wall_BlocksSlate,Wall_BlocksSlate,Autodoor_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate</li>
-      <li>.,.,.,.,.,.,.,Wall_BlocksSlate,.,.,Battery_East,.,Wall_BlocksSlate</li>
-      <li>.,.,.,.,SolarGenerator,.,.,Wall_BlocksSlate,Battery_North,.,Battery_East,.,Wall_BlocksSlate</li>
-      <li>.,.,.,.,.,.,.,Wall_BlocksSlate,.,WallLamp_North,Battery_East,.,Wall_BlocksSlate</li>
-      <li>.,.,.,.,.,.,.,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate,Wall_BlocksSlate</li>
+      <li>.,.,.,.,.,.,.,Wall_BlocksGranite,Wall_BlocksGranite,Autodoor_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
+      <li>.,.,.,.,.,.,.,Wall_BlocksGranite,.,.,Battery_East,.,Wall_BlocksGranite</li>
+      <li>.,.,.,.,SolarGenerator,.,.,Wall_BlocksGranite,Battery_North,.,Battery_East,.,Wall_BlocksGranite</li>
+      <li>.,.,.,.,.,.,.,Wall_BlocksGranite,.,WallLamp_North,Battery_East,.,Wall_BlocksGranite</li>
+      <li>.,.,.,.,.,.,.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
     </li>
     <li>
       <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
@@ -55,10 +56,10 @@
     <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile</li>
     <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile</li>
     <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile</li>
-    <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,FlagstoneSlate,FlagstoneSlate,FlagstoneSlate,FlagstoneSlate,PavedTile</li>
-    <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,FlagstoneSlate,FlagstoneSlate,FlagstoneSlate,FlagstoneSlate,.</li>
-    <li>PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,FlagstoneSlate,FlagstoneSlate,FlagstoneSlate,FlagstoneSlate,.</li>
-    <li>.,.,.,.,.,.,.,.,FlagstoneSlate,FlagstoneSlate,FlagstoneSlate,FlagstoneSlate,.</li>
+    <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,PavedTile</li>
+    <li>PavedTile,Concrete,Concrete,Concrete,Concrete,Concrete,Concrete,PavedTile,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.</li>
+    <li>PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,PavedTile,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.</li>
+    <li>.,.,.,.,.,.,.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.</li>
     <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
   </terrainGrid>
        <tags>

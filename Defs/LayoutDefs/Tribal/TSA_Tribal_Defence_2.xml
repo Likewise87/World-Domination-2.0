@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
     <defName>TSA_Tribal_Defence_2</defName>
     <layouts>
       <li>
@@ -12,7 +13,7 @@
         <li>.,Barricade_WoodLog,VFEPD_Banner_Leather_Bird_North,.,Wall_WoodLog,.,.,Bedroll_Leather_Light_North,Wall_WoodLog,.,.,.,Barricade_WoodLog,.</li>
         <li>.,Barricade_WoodLog,.,.,Wall_WoodLog,TorchLamp,.,.,Wall_WoodLog,.,.,.,Barricade_WoodLog,Barricade_WoodLog</li>
         <li>.,Barricade_WoodLog,.,.,Wall_WoodLog,Wall_WoodLog,AnimalFlap_Leather_Plain,Wall_WoodLog,Wall_WoodLog,.,.,Campfire_North,.,.</li>
-        <li>.,.,TrapSpike_WoodLog,.,VFEPD_PoplarTree,.,.,.,.,.,.,VFEPD_Bush,.,.</li>
+        <li>.,.,TrapSpike_WoodLog,.,Plant_TreeOak,.,.,.,.,.,.,VFEPD_Bush,.,.</li>
         <li>.,.,.,Barricade_WoodLog,.,.,VFEPD_WeaponRackSpears_South,.,.,.,TrapSpike_WoodLog,.,.,.</li>
         <li>.,.,.,.,Barricade_WoodLog,Barricade_WoodLog,Barricade_WoodLog,Barricade_WoodLog,Barricade_WoodLog,.,.,.,.,.</li>
       </li>

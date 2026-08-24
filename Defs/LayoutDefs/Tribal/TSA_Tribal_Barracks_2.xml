@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
     <defName>TSA_Tribal_Barracks_2</defName>
 <layouts>
       <li>
@@ -35,8 +36,8 @@
       <li>.,1,1,1,1,1,.</li>
     </roofGrid>
     <terrainGrid>
-      <li>.,.,FlagstoneSandstone,FlagstoneSandstone,FlagstoneSandstone,.,.</li>
-      <li>.,.,.,FlagstoneSandstone,.,.,.</li>
+      <li>.,.,FlagstoneGranite,FlagstoneGranite,FlagstoneGranite,.,.</li>
+      <li>.,.,.,FlagstoneGranite,.,.,.</li>
       <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.</li>
       <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.</li>
       <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.</li>

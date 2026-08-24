@@ -82,7 +82,7 @@ namespace TSA_WorldDomination
             foreach (Faction f in Find.FactionManager.AllFactionsVisible)
             {
                 if (f == null || f.IsPlayer || f.def == null || f.def.hidden || !f.defeated) continue;
-                if (WorldActions_Utils.IsExcludedFaction(f)) continue;
+                if (!WorldActions_Utils.IsWdParticipant(f)) continue;
 
                 if (present == null)
                 {

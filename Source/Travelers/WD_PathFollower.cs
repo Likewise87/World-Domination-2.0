@@ -280,6 +280,7 @@ namespace TSA_WorldDomination
             if (traveler == null) return;
             // Drop-pod raids lock projected strength at launch with crow-flies × attrition mult (not ballistic flight ticks).
             if (traveler.mission == TravelerMission.RaidDropPod) return;
+            if (traveler.mission == TravelerMission.RaidGravship) return;
             if (skipLaunchTravelCache && traveler.projectedArrivalStrength > 0f) return;
             var seth = WorldDominationMod.settings;
             if (seth == null) return;
@@ -367,7 +368,7 @@ namespace TSA_WorldDomination
         private void CancelMission(string reason)
         {
             TravelerEndpointUtility.RefundTravelerStrength(traveler, 1f);
-            if (traveler.mission == TravelerMission.Raid || traveler.mission == TravelerMission.RaidDropPod)
+            if (traveler.mission == TravelerMission.Raid || traveler.mission == TravelerMission.RaidDropPod || traveler.mission == TravelerMission.RaidGravship)
                 Raid_Simulated.RefundAlliedRaidOrderGoodwill(traveler);
             if (traveler is WorldObject_Traveler_SettlementBuy buyAbort)
             {
@@ -404,6 +405,7 @@ namespace TSA_WorldDomination
                 {
                     case TravelerMission.Raid:
                     case TravelerMission.RaidDropPod:
+                    case TravelerMission.RaidGravship:
                         reason = "TSA_WD_Log_RaidCancelled".Translate(traveler.Label); break;
                     case TravelerMission.DebugRaidTransit: reason = "TSA_WD_Log_DebugRaidCancelled".Translate(traveler.Label); break;
                     case TravelerMission.Expansion: reason = "TSA_WD_Log_ExpansionCancelled".Translate(traveler.Label); break;
@@ -652,6 +654,7 @@ namespace TSA_WorldDomination
             if (t.mission == TravelerMission.AntiAirStrike) return true;
             if (t.mission == TravelerMission.RapidResponseDropPod) return true;
             if (t.mission == TravelerMission.RaidDropPod) return true;
+            if (t.mission == TravelerMission.RaidGravship) return true;
             return t is WorldObject_Traveler_Outpost_Delivery d && d.deliveryViaDropPod
                 || t is WorldObject_Traveler_Outpost_Upgrade u && u.upgradeViaDropPod
                 || t is WorldObject_Traveler_TradePayment trade && trade.tradeViaDropPod;

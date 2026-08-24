@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_12_Title>WD Scope Configurator, and off-map artillery</TSA_WD_Update_2_3_12_Title>
+  <TSA_WD_Update_2_3_12_Body><![CDATA[
+<size=16><b>2.3.12 – WD Scope Configurator, and off-map artillery</b></size>\n
+<color=#00FFFFFF>Release date: August 24th 2026</color>\n
+------------------------------\n
+• New feature: Per-faction WD scope configurator. For each faction, choose whether WD may run actions (raid, expand, trade, fortify), whether WD controls their base generation, and whether storyteller raids for that faction remain allowed. Requested for insectoids, mechanoids, and similar factions. Accessible at any time from the WD main tab. Recommend to set this once at game start via the WD float menu on the Pick your starting tile screen.\n
+• New feature: Off-map artillery support. When you assault a hostile settlement that is in range of a mortar outpost not on cooldown, the WD float button appears on the assault map. Launch a strike of five shells. Accuracy follows the outpost's shooting skill. Available shell types follow outpost upgrades. Uses mortars for Vanilla RimWorld and 120mm shells with Combat Extended. Experimental settings include an unlimited-ammo toggle for testing. 1 shell for antigrain warheads, else 5 shells per volley.\n
+• Rework: Base generation and loot in particular have seen a massive rework. Should be much more coherent now. Crops, trees and stones are chosen dynamically based on the map. Ores are randomly spawned. Loot matches the crops and ores spawned.\n
+• Logic change: When winning a caravan clash map, the map no longer auto-closes. You need to actively leave via reform caravan. Should fix the issues we saw with caravans that have vehicles and passenger shuttles.\n
+• Bugfix: Fortification removal is now properly gated behind skills and research.\n
+• Bugfix: Asking an NPC settlement to build a road for you is fixed.\n
+• New settings: Each Vanilla Expanded map generation fix can be toggled individually (replace stone with the map's most common stone, replace soil with the most common soil, unfog area, spawn living animals, make space when too many tiles are unbuildable, and more).\n
+• Experimental: Toggle on in Experimental settings to let T4 settlements launch gravship raids against you when using the gravship raid mod. Still gated as fairly untested. Can also be triggered instantly via a world-map debug action on a hostile T4 settlement.\n
+• When defenders start fleeing on settlement assault maps, we auto-claim all buildings so packing up loot no longer triggers cannot reach warnings.\n
+]]></TSA_WD_Update_2_3_12_Body>
   <TSA_WD_Update_2_3_11_Title>Better Base Generation &amp; Performance Optimization</TSA_WD_Update_2_3_11_Title>
   <TSA_WD_Update_2_3_11_Body><![CDATA[
 <size=16><b>2.3.11 – Better Base Generation & Performance Optimization</b></size>\n

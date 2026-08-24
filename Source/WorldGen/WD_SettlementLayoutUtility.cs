@@ -410,7 +410,7 @@ namespace TSA_WorldDomination
         public static bool IsRecreateEligibleFaction(Faction f)
         {
             if (f == null || f.IsPlayer || f.defeated) return false;
-            if (WorldActions_Utils.IsExcludedFaction(f)) return false;
+            if (!WorldActions_Utils.IsWdParticipant(f)) return false;
             return true;
         }
 
@@ -815,7 +815,7 @@ namespace TSA_WorldDomination
             if (s == null || s.Destroyed) return false;
             if (s.Faction == null || s.Faction.IsPlayer) return false;
             if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(s.Tile)) return false;
-            if (WorldActions_Utils.IsExcludedFaction(s.Faction)) return false;
+            if (!WorldActions_Utils.IsWdParticipant(s.Faction)) return false;
             return true;
         }
 

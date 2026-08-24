@@ -17,16 +17,8 @@
     </building>
   </ThingDef>
 
-  <!-- Hay bale: 2x2, passable with path cost. Registered in VFEPD Farm PropDefs when that mod is active. -->
-  <ThingDef ParentName="TSA_WD_PropBase">
-    <defName>TSA_WD_Hayball_1a</defName>
-    <label>hay bale</label>
-    <description>A large roll of hay.</description>
-    <graphicData>
-      <texPath>Props/WD_Hayball_1</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(2,2)</drawSize>
-    </graphicData>
+  <!-- ========== Farming: hay bales (2x2, passable) ========== -->
+  <ThingDef Name="TSA_WD_HayballBase" ParentName="TSA_WD_PropBase" Abstract="True">
     <passability>PassThroughOnly</passability>
     <fillPercent>0.3</fillPercent>
     <pathCost>42</pathCost>
@@ -37,16 +29,61 @@
     </statBases>
   </ThingDef>
 
-  <!-- Wagons: 2x3 footprint, impassable (match VFEPD wooden wagon). Mix into VFEPD Farm props, never alone. -->
-  <ThingDef ParentName="TSA_WD_PropBase">
-    <defName>TSA_WD_Wagon_3a</defName>
-    <label>wooden wagon</label>
-    <description>A large stationary wagon.</description>
+  <ThingDef ParentName="TSA_WD_HayballBase">
+    <defName>TSA_WD_Hayball_2a</defName>
+    <label>hay bale</label>
+    <description>A large roll of hay.</description>
     <graphicData>
-      <texPath>Props/WD_Wagon_3</texPath>
+      <texPath>Props/WD_Hayball_2</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(3,3)</drawSize>
+      <drawSize>(2,2)</drawSize>
+      <shadowData>
+        <volume>(0.95, 0.55, 0.55)</volume>
+      </shadowData>
     </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_HayballBase">
+    <defName>TSA_WD_Hayball_3a</defName>
+    <label>hay bale</label>
+    <description>A large roll of hay.</description>
+    <graphicData>
+      <texPath>Props/WD_Hayball_3</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <shadowData>
+        <volume>(0.95, 0.55, 0.55)</volume>
+      </shadowData>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_HayballBase">
+    <defName>TSA_WD_Hayball_4a</defName>
+    <label>hay bale</label>
+    <description>A large roll of hay.</description>
+    <graphicData>
+      <texPath>Props/WD_Hayball_4</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <shadowData>
+        <volume>(0.95, 0.55, 0.55)</volume>
+      </shadowData>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_HayballBase">
+    <defName>TSA_WD_Hayball_5a</defName>
+    <label>hay bale</label>
+    <description>A large roll of hay.</description>
+    <graphicData>
+      <texPath>Props/WD_Hayball_5</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <shadowData>
+        <volume>(0.95, 0.55, 0.55)</volume>
+      </shadowData>
+    </graphicData>
+  </ThingDef>
+
+  <!-- ========== Mining: ore/coal wagons (2x3, impassable) ========== -->
+  <ThingDef Name="TSA_WD_WagonBase" ParentName="TSA_WD_PropBase" Abstract="True">
     <passability>Impassable</passability>
     <fillPercent>0.6</fillPercent>
     <size>(2,3)</size>
@@ -57,23 +94,148 @@
     </statBases>
   </ThingDef>
 
-  <ThingDef ParentName="TSA_WD_PropBase">
+  <ThingDef ParentName="TSA_WD_WagonBase">
+    <defName>TSA_WD_Wagon_1a</defName>
+    <label>mining wagon</label>
+    <description>A stationary wagon loaded with mined stone or ore.</description>
+    <graphicData>
+      <texPath>Props/WD_Wagon_1</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_WagonBase">
+    <defName>TSA_WD_Wagon_2a</defName>
+    <label>mining wagon</label>
+    <description>A stationary wagon loaded with mined stone or ore.</description>
+    <graphicData>
+      <texPath>Props/WD_Wagon_2</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_WagonBase">
+    <defName>TSA_WD_Wagon_3a</defName>
+    <label>mining wagon</label>
+    <description>A stationary wagon loaded with mined stone or ore.</description>
+    <graphicData>
+      <texPath>Props/WD_Wagon_3</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_WagonBase">
     <defName>TSA_WD_Wagon_5a</defName>
-    <label>wooden wagon</label>
-    <description>A large stationary wagon.</description>
+    <label>mining wagon</label>
+    <description>A stationary wagon loaded with mined stone or ore.</description>
     <graphicData>
       <texPath>Props/WD_Wagon_5</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(3,3)</drawSize>
     </graphicData>
+  </ThingDef>
+
+  <!-- ========== Generic: crates (1x1) ========== -->
+  <ThingDef Name="TSA_WD_BoxBase" ParentName="TSA_WD_PropBase" Abstract="True">
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.3</fillPercent>
+    <pathCost>14</pathCost>
+    <size>(1,1)</size>
+    <statBases>
+      <MaxHitPoints>70</MaxHitPoints>
+      <Mass>8</Mass>
+      <Flammability>0.7</Flammability>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="TSA_WD_BoxBase">
+    <defName>TSA_WD_Box_1a</defName>
+    <label>wooden crate</label>
+    <description>A wooden storage crate.</description>
+    <graphicData>
+      <texPath>Props/WD_Box_1</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_BoxBase">
+    <defName>TSA_WD_Box_2a</defName>
+    <label>wooden crate</label>
+    <description>A wooden storage crate.</description>
+    <graphicData>
+      <texPath>Props/WD_Box_2</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_BoxBase">
+    <defName>TSA_WD_Box_3a</defName>
+    <label>wooden crate</label>
+    <description>A wooden storage crate.</description>
+    <graphicData>
+      <texPath>Props/WD_Box_3</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_BoxBase">
+    <defName>TSA_WD_Box_4a</defName>
+    <label>wooden crate</label>
+    <description>A wooden storage crate.</description>
+    <graphicData>
+      <texPath>Props/WD_Box_4</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_BoxBase">
+    <defName>TSA_WD_Box_5a</defName>
+    <label>wooden crate</label>
+    <description>A wooden storage crate.</description>
+    <graphicData>
+      <texPath>Props/WD_Box_5</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <!-- ========== Generic: carts (square art; VFE-style drawSize > footprint) ========== -->
+  <ThingDef Name="TSA_WD_CartBase" ParentName="TSA_WD_PropBase" Abstract="True">
     <passability>Impassable</passability>
-    <fillPercent>0.6</fillPercent>
-    <size>(2,3)</size>
+    <fillPercent>0.5</fillPercent>
+    <size>(3,3)</size>
     <uiIconScale>0.7</uiIconScale>
     <statBases>
-      <MaxHitPoints>250</MaxHitPoints>
+      <MaxHitPoints>180</MaxHitPoints>
       <Mass>5</Mass>
     </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="TSA_WD_CartBase">
+    <defName>TSA_WD_Cart_5a</defName>
+    <label>wooden cart</label>
+    <description>A wooden cart.</description>
+    <graphicData>
+      <texPath>Props/WD_Cart_5</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+      <shadowData>
+        <volume>(1.2, 0.60, 0.60)</volume>
+      </shadowData>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_CartBase">
+    <defName>TSA_WD_Cart_6a</defName>
+    <label>wooden cart</label>
+    <description>A wooden cart.</description>
+    <graphicData>
+      <texPath>Props/WD_Cart_6</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+      <shadowData>
+        <volume>(1.2, 0.60, 0.60)</volume>
+      </shadowData>
+    </graphicData>
   </ThingDef>
 
 </Defs>

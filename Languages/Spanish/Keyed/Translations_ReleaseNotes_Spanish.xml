@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_12_Title>Configurador de alcance WD y artillería fuera del mapa</TSA_WD_Update_2_3_12_Title>
+  <TSA_WD_Update_2_3_12_Body><![CDATA[
+<size=16><b>2.3.12 – Configurador de alcance WD y artillería fuera del mapa</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 24 de agosto de 2026</color>\n
+------------------------------\n
+• Nueva función: Configurador de alcance WD por facción. Para cada facción, elige si WD puede realizar acciones (incursión, expansión, comercio, fortificación), si WD controla la generación de su base y si las incursiones del narrador para esa facción siguen permitidas. Pedido para insectoides, mecanoides y facciones similares. Accesible en cualquier momento desde la pestaña principal WD. Recomendamos configurarlo una vez al inicio de la partida con el menú flotante WD en la pantalla de elegir mosaico inicial.\n
+• Nueva función: Apoyo de artillería fuera del mapa. Cuando asaltas un asentamiento hostil que está al alcance de una avanzadilla de mortero que no está en enfriamiento, el botón flotante WD aparece en el mapa de asalto. Lanza un ataque de cinco proyectiles. La precisión depende de la habilidad de disparo de la avanzadilla. Los tipos de proyectil disponibles dependen de las mejoras de la avanzadilla. Usa morteros en RimWorld vanilla y proyectiles de 120 mm con Combat Extended. En ajustes experimentales hay un interruptor de munición ilimitada para pruebas. 1 proyectil para ojivas de antigrano; en el resto, 5 proyectiles por salva.\n
+• Retrabajo: La generación de bases y, en particular, el botín han recibido un retrabajo enorme. Debería ser mucho más coherente ahora. Cultivos, árboles y piedras se eligen dinámicamente según el mapa. Los minerales aparecen al azar. El botín coincide con los cultivos y minerales generados.\n
+• Cambio de lógica: Al ganar un mapa de choque de caravanas, el mapa ya no se cierra solo. Debes salir activamente con reformar caravana. Debería corregir los problemas con caravanas que llevan vehículos y lanzaderas de pasajeros.\n
+• Corrección: La retirada de fortificaciones ahora está correctamente limitada por habilidades e investigación.\n
+• Corrección: Pedir a un asentamiento NPC que construya una carretera para ti ya funciona.\n
+• Nuevos ajustes: Cada corrección de generación de mapa de Vanilla Expanded puede activarse o desactivarse por separado (sustituir piedra por la más común del mapa, sustituir suelo por el más común, quitar niebla del área, generar animales vivos, abrir espacio si hay demasiados mosaicos no edificables, etc.).\n
+• Experimental: Actívalo en ajustes experimentales para que los asentamientos T4 lancen incursiones de nave gravitacional contra ti si también usas el mod de incursiones gravitacionales. Sigue limitado por estar poco probado. También puede dispararse al instante con una acción de depuración en el mapa del mundo al hacer clic en un asentamiento hostil T4.\n
+• Cuando los defensores empiezan a huir en mapas de asalto a asentamientos, reclamamos automáticamente todos los edificios para que recoger el botín ya no provoque avisos de no se puede alcanzar.\n
+]]></TSA_WD_Update_2_3_12_Body>
   <TSA_WD_Update_2_3_11_Title>Mejor generación de bases y optimización del rendimiento</TSA_WD_Update_2_3_11_Title>
   <TSA_WD_Update_2_3_11_Body><![CDATA[
 <size=16><b>2.3.11 – Mejor generación de bases y optimización del rendimiento</b></size>\n

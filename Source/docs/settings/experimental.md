@@ -63,6 +63,8 @@ These options expose systems that may substantially change world behavior, perfo
 | NPC AT Turrets target player caravans | On | Allows hostile NPC guns to engage real player pawn caravans. |
 | Allow opportunity features from the start | On | Lets target-of-opportunity, marauding, and ambush systems ignore their normal mid or late escalation gate. |
 | Enable world-map sounds | On | Enables World Domination sound effects on the world map. |
+| T4 gravship raids | Off | When on, T4 settlements may launch ballistic gravship raid travelers. Requires Odyssey and the Gravship Raids Workshop mod. |
+| T4 gravship raid chance | 25% | With T4 gravship raids on, chance a T4 raid uses a gravship traveler (rolled before drop-pod chance). |
 
 ## World-map icons
 

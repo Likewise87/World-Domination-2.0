@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Dirt / T1 -->
+  <TSA_WorldDomination.WdRoadTierDef>
+    <defName>TSA_WdRoad_Dirt</defName>
+    <!-- movementCostMultiplier, workPerSegment, expeditionStrengthCost, winterPenaltyReduction
+         defaults below are overridden by Mod Settings → Road Building at runtime.
+         minCumulativeConstructionSkill and researchPrerequisites are XML-authored
+         (players may PatchOperationReplace them). -->
+    <label>dirt road</label>
+    <tier>T1</tier>
+    <roadDef>DirtRoad</roadDef>
+    <movementCostMultiplier>0.70</movementCostMultiplier>
+    <workPerSegment>250</workPerSegment>
+    <expeditionStrengthCost>50</expeditionStrengthCost>
+    <winterPenaltyReduction>0.15</winterPenaltyReduction>
+    <minCumulativeConstructionSkill>5</minCumulativeConstructionSkill>
+    <researchPrerequisites />
+  </TSA_WorldDomination.WdRoadTierDef>
+
+  <!-- Stone / T2 -->
+  <TSA_WorldDomination.WdRoadTierDef>
+    <defName>TSA_WdRoad_Stone</defName>
+    <!-- movementCostMultiplier, workPerSegment, expeditionStrengthCost, winterPenaltyReduction
+         defaults below are overridden by Mod Settings → Road Building at runtime.
+         minCumulativeConstructionSkill and researchPrerequisites are XML-authored
+         (players may PatchOperationReplace them). -->
+    <label>stone road</label>
+    <tier>T2</tier>
+    <roadDef>StoneRoad</roadDef>
+    <movementCostMultiplier>0.50</movementCostMultiplier>
+    <workPerSegment>375</workPerSegment>
+    <expeditionStrengthCost>80</expeditionStrengthCost>
+    <winterPenaltyReduction>0.30</winterPenaltyReduction>
+    <minCumulativeConstructionSkill>15</minCumulativeConstructionSkill>
+    <researchPrerequisites>
+      <li>Machining</li>
+    </researchPrerequisites>
+  </TSA_WorldDomination.WdRoadTierDef>
+
+  <!-- Asphalt / T3-T4 -->
+  <TSA_WorldDomination.WdRoadTierDef>
+    <defName>TSA_WdRoad_Asphalt</defName>
+    <!-- movementCostMultiplier, workPerSegment, expeditionStrengthCost, winterPenaltyReduction
+         defaults below are overridden by Mod Settings → Road Building at runtime.
+         minCumulativeConstructionSkill and researchPrerequisites are XML-authored
+         (players may PatchOperationReplace them). -->
+    <label>asphalt road</label>
+    <tier>T3</tier>
+    <roadDef>AncientAsphaltRoad</roadDef>
+    <movementCostMultiplier>0.30</movementCostMultiplier>
+    <workPerSegment>500</workPerSegment>
+    <expeditionStrengthCost>125</expeditionStrengthCost>
+    <winterPenaltyReduction>0.50</winterPenaltyReduction>
+    <minCumulativeConstructionSkill>25</minCumulativeConstructionSkill>
+    <researchPrerequisites>
+      <li>MicroelectronicsBasics</li>
+    </researchPrerequisites>
+  </TSA_WorldDomination.WdRoadTierDef>
+
+</Defs>

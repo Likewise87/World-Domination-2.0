@@ -152,7 +152,9 @@ namespace TSA_WorldDomination
                 () =>
                 {
                     if (source != null)
-                        WD_RadiusOverlayMode.DrawOrFill(source, range, OutpostCoverageFillKind.Red, WorldOverlayLineMaterials.RadiusRed, accuracyBands: true);
+                        WD_RadiusOverlayMode.DrawOrFill(source, range, OutpostCoverageFillKind.Red, WorldOverlayLineMaterials.RadiusRed,
+                            accuracyBands: true,
+                            accuracyBandMaxRange: MortarFireUtils.GetPlayerMortarConfiguredMaxRangeTiles(source));
                 },
                 null,
                 (target) =>
@@ -234,8 +236,8 @@ namespace TSA_WorldDomination
         public static void FireDefensiveAtTraveler(WorldObject_WD_Outpost origin, WorldObject_Traveler target, float approxTileDist)
         {
             if (origin == null || target == null || target.Destroyed) return;
-            // AA owns hostile drop pods.
-            if (target.mission == TravelerMission.RaidDropPod)
+            // AA owns hostile drop pods / gravships.
+            if (target.mission == TravelerMission.RaidDropPod || target.mission == TravelerMission.RaidGravship)
             {
                 AntiAirFireUtils.TryEngageDropPod(origin, target);
                 return;
@@ -248,14 +250,16 @@ namespace TSA_WorldDomination
             if (bestShooting <= 0f) return;
 
             float damage = GetPlayerMortarShellDamage(origin);
-            float maxRange = MortarFireUtils.GetPlayerMortarMaxRangeTiles(origin);
+            float fireRange = MortarFireUtils.GetPlayerMortarMaxRangeTiles(origin);
             // Ground intercept gating shares a combined mortar/AA wake-up radius, so re-check against the
             // mortar's own (possibly shrunk) range here — otherwise a target beyond mortar range but within
             // AA range would slip through and get shelled anyway.
-            if (approxTileDist > maxRange) return;
+            if (approxTileDist > fireRange) return;
+            // Accuracy bands stay relative to absolute configured max so shrinking only avoids outer bands.
+            float bandMax = MortarFireUtils.GetPlayerMortarConfiguredMaxRangeTiles(origin);
             float hitBonus = origin.GetBuiltUpgradeMortarHitChanceBonus();
-            bool hit = RollMortarHit(approxTileDist, maxRange, bestShooting, seth, hitBonus);
-            int aimTile = MortarCaravanIntercept.ResolveMortarAimTileId(origin, target, maxRange);
+            bool hit = RollMortarHit(approxTileDist, bandMax, bestShooting, seth, hitBonus);
+            int aimTile = MortarCaravanIntercept.ResolveMortarAimTileId(origin, target, fireRange);
 
             ApplyPlayerMortarCooldown(comp, origin);
             WD_Outpost_Mortar.InvalidateFireGizmoCache(origin);
@@ -266,7 +270,7 @@ namespace TSA_WorldDomination
         public static void FireNpcSettlementAtTraveler(Settlement origin, WorldObject_Traveler target, float approxTileDist)
         {
             if (origin == null || target == null || target.Destroyed) return;
-            if (target.mission == TravelerMission.RaidDropPod)
+            if (target.mission == TravelerMission.RaidDropPod || target.mission == TravelerMission.RaidGravship)
             {
                 AntiAirFireUtils.TryEngageFromSettlement(origin, target);
                 return;
@@ -323,9 +327,10 @@ namespace TSA_WorldDomination
             if (origin.IsOnCooldown) return;
 
             var seth = WorldDominationMod.settings;
-            float maxRange = origin.EffectiveRangeTiles;
-            bool hit = RollAtTurretHit(approxTileDist, maxRange, WorldObject_AT_Turret.DefaultSkillEquivalent, seth);
-            int aimTile = MortarCaravanIntercept.ResolveMortarAimTileId(origin, target, maxRange);
+            float fireRange = origin.EffectiveRangeTiles;
+            float bandMax = origin.GetConfiguredMaxRangeTiles();
+            bool hit = RollAtTurretHit(approxTileDist, bandMax, WorldObject_AT_Turret.DefaultSkillEquivalent, seth);
+            int aimTile = MortarCaravanIntercept.ResolveMortarAimTileId(origin, target, fireRange);
 
             origin.ApplyCooldown();
             float damage = seth != null
@@ -374,7 +379,8 @@ namespace TSA_WorldDomination
             comp.mortarCooldownTick = Find.TickManager.TicksGame + Mathf.RoundToInt(days * 60000f);
         }
 
-        private static void ApplyPlayerMortarCooldown(CompViralSpread comp, WorldObject_WD_Outpost origin)
+        /// <summary>Starts player mortar cooldown on <paramref name="origin"/> (manual, defensive, or assault support).</summary>
+        public static void ApplyPlayerMortarCooldown(CompViralSpread comp, WorldObject_WD_Outpost origin)
         {
             if (comp == null || origin == null) return;
             float days = GetPlayerMortarEffectiveCooldownDays(origin, out _, out _, out _, out _);

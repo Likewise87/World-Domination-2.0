@@ -196,7 +196,7 @@ namespace TSA_WorldDomination
                 RapidResponseUtility.DispatchVirtualIntercept(this, target);
                 return;
             }
-            if (target != null && target.mission == TravelerMission.RaidDropPod)
+            if (target != null && (target.mission == TravelerMission.RaidDropPod || target.mission == TravelerMission.RaidGravship))
             {
                 if (antiAirDefenseActive)
                     AntiAirFireUtils.TryEngageDropPod(this, target);
@@ -2478,11 +2478,15 @@ namespace TSA_WorldDomination
                 }
                 else if (artTab == ArtilleryConfigureTab.AntiAir && hasAa && aaRadius > 0f)
                 {
-                    WD_RadiusOverlayMode.DrawOrFill(this, aaRadius, OutpostCoverageFillKind.Red, WorldOverlayLineMaterials.RadiusRed, accuracyBands: true);
+                    WD_RadiusOverlayMode.DrawOrFill(this, aaRadius, OutpostCoverageFillKind.Red, WorldOverlayLineMaterials.RadiusRed,
+                        accuracyBands: true,
+                        accuracyBandMaxRange: AntiAirFireUtils.GetPlayerAntiAirConfiguredMaxRangeTiles(this));
                 }
                 else if (mortarRadius > 0f)
                 {
-                    WD_RadiusOverlayMode.DrawOrFill(this, mortarRadius, OutpostCoverageFillKind.Red, WorldOverlayLineMaterials.RadiusRed, accuracyBands: true);
+                    WD_RadiusOverlayMode.DrawOrFill(this, mortarRadius, OutpostCoverageFillKind.Red, WorldOverlayLineMaterials.RadiusRed,
+                        accuracyBands: true,
+                        accuracyBandMaxRange: MortarFireUtils.GetPlayerMortarConfiguredMaxRangeTiles(this));
                 }
                 return;
             }

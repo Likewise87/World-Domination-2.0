@@ -379,7 +379,8 @@ namespace TSA_WorldDomination
                     previewRadius,
                     OutpostCoverageFillKind.Red,
                     WorldOverlayLineMaterials.RadiusRed,
-                    accuracyBands: true);
+                    accuracyBands: true,
+                    accuracyBandMaxRange: GetConfiguredMaxRangeTiles());
             }
         }
 

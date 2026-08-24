@@ -7,7 +7,8 @@
   <TSA_WD_BtnDailyActions>Acciones mundiales</TSA_WD_BtnDailyActions>
   <TSA_WD_BtnDiplomacy>Diplomacia, mejoras y penalizaciones</TSA_WD_BtnDiplomacy>
   <TSA_WD_BtnDisinformation>Desinformación</TSA_WD_BtnDisinformation>
-  <TSA_WD_BtnGarrisonSettings>Multiplicadores de guarnición</TSA_WD_BtnGarrisonSettings>
+  <TSA_WD_BtnGarrisonSettings>Escalado de guarnición</TSA_WD_BtnGarrisonSettings>
+  <TSA_WD_BtnBaseGeneration>Generación de bases</TSA_WD_BtnBaseGeneration>
   <TSA_WD_BtnGrowthExpand>Crecimiento y expansión</TSA_WD_BtnGrowthExpand>
   <TSA_WD_BtnMiningBaselines>Valores base de minería</TSA_WD_BtnMiningBaselines>
   <TSA_WD_BtnNotifications>Notificaciones</TSA_WD_BtnNotifications>
@@ -62,7 +63,8 @@
   <TSA_WD_DescDailyActions>¿Cuántas acciones pueden realizar los asentamientos al día? ¿Qué probabilidad tiene cada tipo? ¿Qué enfriamientos aplicar tras una acción?</TSA_WD_DescDailyActions>
   <TSA_WD_DescDiplomacy>Diplomacia aleatoria, probabilidad de revuelta, tope de buena voluntad y ajustes vanilla de buena voluntad, órdenes de incursión aliadas, carreteras ordenadas, compra de asentamientos, inversión de facción, y mejoras/penalizaciones de líder/rezagado/celera/coalición.</TSA_WD_DescDiplomacy>
   <TSA_WD_DescDisinformation>Probabilidades de éxito y fracaso, enfriamientos e impacto de habilidad en misiones de desinformación.</TSA_WD_DescDisinformation>
-  <TSA_WD_DescGarrison>¿Cuántos y qué tan fuertes enemigos encontrar al atacar un asentamiento T1, T2, T3, T4 con una caravana "real"?</TSA_WD_DescGarrison>
+  <TSA_WD_DescGarrison>Qué tan fuertes son las guarniciones por nivel, y cuánto se debilitan cuando un asentamiento está agotado.</TSA_WD_DescGarrison>
+  <TSA_WD_DescBaseGeneration>Ajustes del diseño KCSG cuando WD genera mapas de asalto a asentamientos y defensa de avanzadillas. La elegibilidad por facción en asaltos se configura en Configuración del mundo → Lealtades.</TSA_WD_DescBaseGeneration>
   <TSA_WD_DescGrowthExpand>¿Qué rápido crecen los asentamientos? ¿Qué requisitos para subir de nivel? Distancia de expansión y límites de saturación.</TSA_WD_DescGrowthExpand>
   <TSA_WD_DescMiningBaselines>Configurar la cantidad base que una avanzadilla minera puede obtener por piedra/mineral según el nivel de habilidad de Minería.</TSA_WD_DescMiningBaselines>
   <TSA_WD_DescNotifications>Activar qué eventos de dominación mundial generan notificaciones.</TSA_WD_DescNotifications>
@@ -86,7 +88,6 @@
   <TSA_WD_Garrison_T2>Multiplicador nivel 2 (pueblo)</TSA_WD_Garrison_T2>
   <TSA_WD_Garrison_T3>Multiplicador nivel 3 (ciudad)</TSA_WD_Garrison_T3>
   <TSA_WD_Garrison_T4>Multiplicador nivel 4 (ciudadela)</TSA_WD_Garrison_T4>
-  <TSA_WD_Garrison_Title>Escalado de guarnición del asentamiento</TSA_WD_Garrison_Title>
   <TSA_WD_Garrison_Tooltip>Escala los puntos usados para generar defensores. Valores mayores aumentan cantidad y calidad de colonos.</TSA_WD_Garrison_Tooltip>
   <TSA_WD_Gen_HeaderWeights>Pesos de generación mundial inicial</TSA_WD_Gen_HeaderWeights>
   <TSA_WD_Gen_RerollAll>Volver a tirar niveles de asentamientos ahora</TSA_WD_Gen_RerollAll>
@@ -141,10 +142,11 @@
   <TSA_WD_WorldSetup_SettlementCountTooltip>Cuántos asentamientos PNJ colocar al recrear. El valor por defecto es el de la generación vanilla. Las cuotas por facción (botón Cuotas por facción) deciden el reparto.</TSA_WD_WorldSetup_SettlementCountTooltip>
   <TSA_WD_WorldSetup_TierLikelihood>Niveles de asentamiento</TSA_WD_WorldSetup_TierLikelihood>
   <TSA_WD_WorldSetup_TierLikelihoodTooltip>Edita con qué frecuencia salen los niveles. La próxima recreación usa estos pesos.</TSA_WD_WorldSetup_TierLikelihoodTooltip>
-  <TSA_WD_WorldSetup_Allegiances>Lealtades</TSA_WD_WorldSetup_Allegiances>
-  <TSA_WD_WorldSetup_AllegiancesTooltip>Define Neutral, Aliado u Hostil entre facciones PNJ, bloquea pares de la diplomacia WD y congela cambios si quieres.</TSA_WD_WorldSetup_AllegiancesTooltip>
+  <TSA_WD_WorldSetup_Allegiances>Alcance de facciones WD y lealtades</TSA_WD_WorldSetup_Allegiances>
+  <TSA_WD_WorldSetup_AllegiancesTooltip>Abre participación de facciones (Acciones WD, MapGen, Narrador) y lealtades por pares.</TSA_WD_WorldSetup_AllegiancesTooltip>
   <TSA_WD_WorldSetup_AllegiancesTitle>Lealtades del mundo</TSA_WD_WorldSetup_AllegiancesTitle>
   <TSA_WD_WorldSetup_AllegiancesSubtitle>Edita relaciones PNJ de este mundo. La congelación opcional dura {0} días (igual que la diplomacia aleatoria).</TSA_WD_WorldSetup_AllegiancesSubtitle>
+  <TSA_WD_WorldSetup_AllegiancesSubtitleNoFreeze>Edita participación de facciones y lealtades entre pares. Bloquea pares PNJ para impedir la diplomacia aleatoria WD.</TSA_WD_WorldSetup_AllegiancesSubtitleNoFreeze>
   <TSA_WD_WorldSetup_FreezeOnApply>Congelar {0} días</TSA_WD_WorldSetup_FreezeOnApply>
   <TSA_WD_WorldSetup_FreezeOnApplyTooltip>Cuando está marcado, Neutral / Aliado / Hostil también aplica una congelación de {0} días para que la diplomacia aleatoria WD no cambie ese par.</TSA_WD_WorldSetup_FreezeOnApplyTooltip>
   <TSA_WD_WorldSetup_GoodwillFieldTooltip>Escribe la buena voluntad (-100 a {0}) y pulsa Enter. Aliado = +75, Hostil = -75, Neutral = 0. El límite superior coincide con la buena voluntad máxima en ajustes.</TSA_WD_WorldSetup_GoodwillFieldTooltip>
@@ -272,8 +274,33 @@
   <TSA_WD_HeaderSystem>Acciones del sistema</TSA_WD_HeaderSystem>
   <TSA_WD_HeaderTribalGarrisons>Facciones tribales</TSA_WD_HeaderTribalGarrisons>
   <TSA_WD_HeaderWorldActions>Acciones mundiales</TSA_WD_HeaderWorldActions>
-  <TSA_WD_OpenAllegianceMatrix>Cambios diplomáticos permitidos</TSA_WD_OpenAllegianceMatrix>
-  <TSA_WD_DescAllegianceMatrix>Solo en partida: matriz de pares de facciones. Activa o bloquea si Dominación Mundial puede cambiar cómo una facción ve a otra (aliado, hostil, neutral). Los pares bloqueados no cambian por las tiradas diplomáticas de WD.</TSA_WD_DescAllegianceMatrix>
+  <TSA_WD_OpenAllegianceMatrix>Alcance de facciones WD y lealtades</TSA_WD_OpenAllegianceMatrix>
+  <TSA_WD_DescAllegianceMatrix>Solo en partida: participación de facciones (Acciones WD, MapGen, Narrador) y lealtades por pares.</TSA_WD_DescAllegianceMatrix>
+  <TSA_WD_Allegiances_LiveEditWarning>Estás editando lealtades en vivo. ¡Asegúrate de saber lo que haces!</TSA_WD_Allegiances_LiveEditWarning>
+  <TSA_WD_Allegiances_ResetConfirm>¿Restablecer esta sección? Se borrarán las participaciones manuales y las anulaciones del narrador.</TSA_WD_Allegiances_ResetConfirm>
+  <TSA_WD_Allegiances_SectionParticipation>Facciones controladas por WD</TSA_WD_Allegiances_SectionParticipation>
+  <TSA_WD_Allegiances_SectionParticipation_Tooltip>Elige qué facciones pueden ejecutar acciones WD, usar generación WD de mapas de asentamiento al ser atacadas y seguir las reglas de incursiones del narrador. Las facciones solo en órbita no se pueden activar.</TSA_WD_Allegiances_SectionParticipation_Tooltip>
+  <TSA_WD_Allegiances_SectionDiplomacy>Lealtades</TSA_WD_Allegiances_SectionDiplomacy>
+  <TSA_WD_Allegiances_SectionDiplomacy_Tooltip>Edita buena voluntad y relaciones entre pares de facciones. Bloquea pares PNJ para impedir la diplomacia aleatoria WD.</TSA_WD_Allegiances_SectionDiplomacy_Tooltip>
+  <TSA_WD_FactionCol_Name>Facción</TSA_WD_FactionCol_Name>
+  <TSA_WD_FactionCol_WdActions>Acciones WD</TSA_WD_FactionCol_WdActions>
+  <TSA_WD_FactionCol_WdActions_Tooltip>Permite que esta facción realice acciones WD, como enviar caravanas para asaltar, expandirse, comerciar o construir fortificaciones.</TSA_WD_FactionCol_WdActions_Tooltip>
+  <TSA_WD_FactionCol_BaseGen>MapGen</TSA_WD_FactionCol_BaseGen>
+  <TSA_WD_FactionCol_BaseGen_Tooltip>Permite que WD controle la generación del mapa de esta facción cuando atacas uno de sus asentamientos. Los asentamientos T1 serán aldeas pequeñas; las ciudadelas T4, fortalezas de verdad.</TSA_WD_FactionCol_BaseGen_Tooltip>
+  <TSA_WD_FactionCol_BaseGen_RequiresWdActions>Requiere Acciones WD para esta facción.</TSA_WD_FactionCol_BaseGen_RequiresWdActions>
+  <TSA_WD_FactionCol_NA>N/D</TSA_WD_FactionCol_NA>
+  <TSA_WD_FactionCol_StorytellerRaids>Narrador</TSA_WD_FactionCol_StorytellerRaids>
+  <TSA_WD_FactionCol_StorytellerRaids_Tooltip>¿Puede esta facción enviar incursiones del narrador? Desactivado por defecto. Puedes activar Acciones WD e incursiones del narrador para recibir ataques por ambas vías.</TSA_WD_FactionCol_StorytellerRaids_Tooltip>
+  <TSA_WD_FactionExclude_Hidden>Facción oculta. No puede participar en WD.</TSA_WD_FactionExclude_Hidden>
+  <TSA_WD_FactionExclude_NonHumanlike>Desactivada por defecto. Activa Acciones WD para incluir esta facción no humanoide (avanzado).</TSA_WD_FactionExclude_NonHumanlike>
+  <TSA_WD_FactionExclude_NoSettlementWeight>Sin peso de generación de asentamientos. Desactivada por defecto; activa Acciones WD para optar.</TSA_WD_FactionExclude_NoSettlementWeight>
+  <TSA_WD_FactionExclude_NonSurface>Las facciones solo en órbita no pueden usar la simulación de superficie de Dominación Mundial.</TSA_WD_FactionExclude_NonSurface>
+  <TSA_WD_FactionExclude_TradersGuild>El Gremio de comerciantes es solo órbita y no puede usar la simulación de superficie de Dominación Mundial.</TSA_WD_FactionExclude_TradersGuild>
+  <TSA_WD_Faction_Defeated>derrotada</TSA_WD_Faction_Defeated>
+  <TSA_WD_BtnResetSection>Restablecer sección</TSA_WD_BtnResetSection>
+  <TSA_WD_BtnResetFactionParticipation>Restablecer participación</TSA_WD_BtnResetFactionParticipation>
+  <TSA_WD_BtnResetFactionParticipation_Tooltip>Borra anulaciones manuales de Acciones WD, MapGen y Narrador, y opt-ins suaves. Las facciones excluidas de forma dura no cambian.</TSA_WD_BtnResetFactionParticipation_Tooltip>
+  <TSA_WD_Threat_StorytellerMovedHint>Las reglas de incursiones del narrador por facción se movieron a Alcance de facciones WD y lealtades.</TSA_WD_Threat_StorytellerMovedHint>
   <TSA_WD_AllegianceMatrixInGameOnly>Los cambios diplomáticos permitidos solo se pueden abrir durante una partida (no desde el menú principal).</TSA_WD_AllegianceMatrixInGameOnly>
   <TSA_WD_Outpost_MaxTravelStrengthLoss>Pérdida de fuerza máxima por viaje</TSA_WD_Outpost_MaxTravelStrengthLoss>
   <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>Porcentaje máximo de la fuerza de partida que los viajeros (incursiones, expansión, constructores) pueden perder en ruta. Al 75% conservan al menos 25% y no expiran solo por desgaste.</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
@@ -587,12 +614,37 @@
   <TSA_WD_DescPlayerArtillery>Tus morteros de avanzadilla, antiaéreo e interceptores de respuesta rápida.</TSA_WD_DescPlayerArtillery>
   <TSA_WD_Diplo_LaunchPodGiftStrengthPer100>Fuerza por regalo en cápsula por 100 de valor de mercado</TSA_WD_Diplo_LaunchPodGiftStrengthPer100>
   <TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>Fuerza extra concedida al instante a un asentamiento cuando le envías regalos por cápsula, repartida a partes iguales entre ofensiva y defensiva. Si un lado está lleno, el resto va al otro. La buena voluntad vanilla no cambia. No sube el nivel del asentamiento.</TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>
-  <TSA_WD_Garrison_AllowBaseGeneration>Permitir que WD genere las bases</TSA_WD_Garrison_AllowBaseGeneration>
-  <TSA_WD_Garrison_AllowBaseGenerationTooltip>Si está activo, atacar un asentamiento NPC genera un mapa WD/KCSG escalado al nivel y fuerza de ese asentamiento. Si está desactivado, se usan mapas vanilla (u otros mods). Defender tus avanzadillas no se ve afectado.</TSA_WD_Garrison_AllowBaseGenerationTooltip>
-  <TSA_WD_Garrison_AdaptiveTerrainPrep>Preparación adaptativa del terreno (pantano / roca)</TSA_WD_Garrison_AdaptiveTerrainPrep>
-  <TSA_WD_Garrison_AdaptiveTerrainPrepTooltip>Escanea el diseño del asentamiento. Si hay demasiado terreno no edificable (barro, pantano, agua, roca), convierte solo esas celdas bloqueadas al terreno edificable más común del mapa. Los árboles se quedan. Si está mayormente bien, deja la naturaleza como está.</TSA_WD_Garrison_AdaptiveTerrainPrepTooltip>
-  <TSA_WD_Garrison_BlockedFlattenThreshold>Limpiar si bloqueado por encima de</TSA_WD_Garrison_BlockedFlattenThreshold>
-  <TSA_WD_Garrison_BlockedFlattenThresholdTooltip>Si más de esta fracción del diseño no es edificable, aplana las celdas bloqueadas del diseño. Por debajo, deja el terreno generado. Se ignora si Siempre limpiar el rectángulo está activo.</TSA_WD_Garrison_BlockedFlattenThresholdTooltip>
+  <TSA_WD_BaseGen_Intro>Estas opciones ajustan la generación WD/KCSG cuando se ejecuta. Los mapas de defensa de avanzadillas siempre usan diseños WD. Los asaltos a asentamientos NPC solo usan WD para facciones con MapGen activo en Configuración del mundo → Lealtades.</TSA_WD_BaseGen_Intro>
+  <TSA_WD_BaseGen_HeaderTerrainPrep>Preparación del terreno</TSA_WD_BaseGen_HeaderTerrainPrep>
+  <TSA_WD_BaseGen_AdaptiveTerrainPrep>Preparación adaptativa del terreno (pantano / roca)</TSA_WD_BaseGen_AdaptiveTerrainPrep>
+  <TSA_WD_BaseGen_AdaptiveTerrainPrepTip>En mapas de asalto a asentamientos y defensa de avanzadillas, escanea el diseño. Si hay demasiado terreno no edificable (barro, pantano, agua, roca), convierte solo esas celdas bloqueadas al terreno edificable más común del mapa. Los árboles se quedan. Si está mayormente bien, deja la naturaleza como está.</TSA_WD_BaseGen_AdaptiveTerrainPrepTip>
+  <TSA_WD_BaseGen_AlwaysClearRect>Siempre limpiar el rectángulo del diseño</TSA_WD_BaseGen_AlwaysClearRect>
+  <TSA_WD_BaseGen_AlwaysClearRectTip>Si está activo, aplana las celdas no edificables del diseño aunque la fracción bloqueada esté por debajo del control. Si está desactivado, solo aplana si las celdas bloqueadas superan ese control.</TSA_WD_BaseGen_AlwaysClearRectTip>
+  <TSA_WD_BaseGen_BlockedFlattenThreshold>Aplanar si bloqueado por encima de</TSA_WD_BaseGen_BlockedFlattenThreshold>
+  <TSA_WD_BaseGen_BlockedFlattenThresholdTip>Si más de esta fracción del diseño no es edificable, aplana las celdas bloqueadas del diseño. Por debajo, deja el terreno generado. Se ignora si Siempre limpiar el rectángulo del diseño está activo.</TSA_WD_BaseGen_BlockedFlattenThresholdTip>
+  <TSA_WD_BaseGen_RectBlend>Fundir el espacio alrededor del rectángulo</TSA_WD_BaseGen_RectBlend>
+  <TSA_WD_BaseGen_RectBlendTip>Cuando aplana, también convierte celdas bloqueadas hacia afuera del diseño (con caída irregular) y limpia suciedad y escombros en esa misma zona. Los árboles se quedan. Si está desactivado, solo cambia el rectángulo del diseño.</TSA_WD_BaseGen_RectBlendTip>
+  <TSA_WD_BaseGen_HeaderRockAndSoil>Roca y suelo</TSA_WD_BaseGen_HeaderRockAndSoil>
+  <TSA_WD_BaseGen_RemapRock>Remapear piedra del diseño a la roca del mapa</TSA_WD_BaseGen_RemapRock>
+  <TSA_WD_BaseGen_RemapRockTip>En mapas de asalto a asentamientos y defensa de avanzadillas, cambia la piedra fija del diseño (muros, escombros, suelos) al tipo de roca natural dominante del mapa.</TSA_WD_BaseGen_RemapRockTip>
+  <TSA_WD_BaseGen_RemapFarmSoil>Remapear suelo de granja al terreno del mapa</TSA_WD_BaseGen_RemapFarmSoil>
+  <TSA_WD_BaseGen_RemapFarmSoilTip>En mapas de asalto a asentamientos y defensa de avanzadillas, sustituye Soil y SoilRich del diseño por el terreno fértil caminable dominante del mapa.</TSA_WD_BaseGen_RemapFarmSoilTip>
+  <TSA_WD_BaseGen_FertileUnderCrops>Terreno fértil bajo cultivos</TSA_WD_BaseGen_FertileUnderCrops>
+  <TSA_WD_BaseGen_FertileUnderCropsTip>En mapas de asalto a asentamientos y defensa de avanzadillas, coloca los símbolos de cultivo sobre el terreno fértil dominante del mapa antes de generar la planta.</TSA_WD_BaseGen_FertileUnderCropsTip>
+  <TSA_WD_BaseGen_HeaderLayoutExtras>Extras del diseño</TSA_WD_BaseGen_HeaderLayoutExtras>
+  <TSA_WD_BaseGen_SpawnPenLivestock>Generar ganado en corrales</TSA_WD_BaseGen_SpawnPenLivestock>
+  <TSA_WD_BaseGen_RemapTrees>Remap layout trees to biome</TSA_WD_BaseGen_RemapTrees>
+  <TSA_WD_BaseGen_RemapTreesTip>On settlement assault and outpost defense maps, swaps Oak/Birch/Maple layout placeholders to the biome's 1st/2nd/3rd most common trees.</TSA_WD_BaseGen_RemapTreesTip>
+  <TSA_WD_BaseGen_SpawnPenLivestockTip>En mapas de asalto a asentamientos y defensa de avanzadillas, genera un pequeño rebaño de animales salvajes alrededor de los marcadores de corral del diseño.</TSA_WD_BaseGen_SpawnPenLivestockTip>
+  <TSA_WD_BaseGen_HeaderAfterGeneration>Tras la generación</TSA_WD_BaseGen_HeaderAfterGeneration>
+  <TSA_WD_BaseGen_UnfogRect>Quitar niebla del rectángulo del asentamiento</TSA_WD_BaseGen_UnfogRect>
+  <TSA_WD_BaseGen_UnfogRectTip>En mapas de asalto a asentamientos y defensa de avanzadillas, revela todo el rectángulo del diseño KCSG tras generar el mapa (no solo las huellas de edificios).</TSA_WD_BaseGen_UnfogRectTip>
+  <TSA_WD_BaseGen_FogInteriorMineables>Niebla en roca y mineral interior</TSA_WD_BaseGen_FogInteriorMineables>
+  <TSA_WD_BaseGen_FogInteriorMineablesTip>En mapas de asalto a asentamientos y defensa de avanzadillas, dentro de los diseños de estructura generados, vuelve a ocultar celdas de roca natural y mineral totalmente rodeadas de roca o mineral en las ocho teselas vecinas. Los escombros no cuentan. Se aplica tras quitar la niebla del rectángulo del asentamiento.</TSA_WD_BaseGen_FogInteriorMineablesTip>
+  <TSA_WD_BaseGen_ForcePower>Forzar energía del asentamiento (solo asalto)</TSA_WD_BaseGen_ForcePower>
+  <TSA_WD_BaseGen_ForcePowerTip>En mapas de asalto a asentamientos NPC, enciende lámparas y torretas sin una red real y repone combustible en torretas de combustible. No aplica a mapas de defensa de avanzadillas.</TSA_WD_BaseGen_ForcePowerTip>
+  <TSA_WD_BaseGen_SilenceTurrets>Silenciar torretas derrotadas (solo asalto)</TSA_WD_BaseGen_SilenceTurrets>
+  <TSA_WD_BaseGen_SilenceTurretsTip>En mapas de asalto a asentamientos NPC, apaga las torretas de facción sobrantes cuando ya no quedan humanoides hostiles activos. No aplica a mapas de defensa de avanzadillas.</TSA_WD_BaseGen_SilenceTurretsTip>
   <TSA_WD_Garrison_MinScale>Guarnición mínima con ofensiva agotada</TSA_WD_Garrison_MinScale>
   <TSA_WD_Garrison_MinScaleTooltip>La guarnición del mapa escala con la fuerza ofensiva actual del asentamiento respecto a su máximo de nivel. Un asentamiento lleno despliega el 100% del multiplicador configurado; uno agotado, menos. Este es el suelo: incluso vacío despliega al menos esta fracción. El diseño del mapa sigue siendo acorde al nivel.</TSA_WD_Garrison_MinScaleTooltip>
   <TSA_WD_Growth_HeaderSameTierUpgradeReq>Requisitos de mejora del mismo nivel</TSA_WD_Growth_HeaderSameTierUpgradeReq>
@@ -761,11 +813,6 @@
   <TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>Si está activado, las retiradas usan la fuerza ofensiva actual sin tope con un margen del 5 % para confirmar. Si los peones seleccionados superan ese presupuesto, se abre un selector: Formar caravana, Quedarse en la avanzadilla o Marcar como perdido. Si está desactivado, las transferencias siguen sin esa comprobación.</TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>
   <TSA_WD_Experimental_OutpostDefenseDeployBudget>Experimental: presupuesto de fuerza al desplegar defensa</TSA_WD_Experimental_OutpostDefenseDeployBudget>
   <TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>Si está activado, Combatir manualmente limita cuántos peones de la avanzadilla puedes desplegar según la fuerza ofensiva actual. Si está desactivado, puedes elegir cualquier combinación sin tope de presupuesto.</TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>
-  <TSA_WD_Experimental_HeaderBaseGeneration>Generación de bases</TSA_WD_Experimental_HeaderBaseGeneration>
-  <TSA_WD_Experimental_AlwaysClearKcsgRect>Siempre limpiar el rectángulo al generar la base</TSA_WD_Experimental_AlwaysClearKcsgRect>
-  <TSA_WD_Experimental_AlwaysClearKcsgRectTip>Si está activo, aplana las celdas no edificables del diseño aunque la fracción bloqueada esté por debajo del control. Si está desactivado, solo aplana si las celdas bloqueadas superan ese control.</TSA_WD_Experimental_AlwaysClearKcsgRectTip>
-  <TSA_WD_Experimental_KcsgRectBlend>Fundir el espacio alrededor del rectángulo</TSA_WD_Experimental_KcsgRectBlend>
-  <TSA_WD_Experimental_KcsgRectBlendTip>Cuando aplana, también convierte celdas bloqueadas hacia afuera del diseño (unas 24 teselas, con caída irregular) y limpia suciedad y escombros en esa misma zona. Los árboles se quedan. Si está desactivado, solo cambia el rectángulo del diseño.</TSA_WD_Experimental_KcsgRectBlendTip>
   <TSA_WD_Experimental_HeaderAtTurrets>Torretas AT</TSA_WD_Experimental_HeaderAtTurrets>
   <TSA_WD_Experimental_HeaderPlayerAtTurretCaps>Límites de torretas AT del jugador</TSA_WD_Experimental_HeaderPlayerAtTurretCaps>
   <TSA_WD_Experimental_AT_TurretPlayerGlobalMax>Tope global de torretas AT del jugador</TSA_WD_Experimental_AT_TurretPlayerGlobalMax>

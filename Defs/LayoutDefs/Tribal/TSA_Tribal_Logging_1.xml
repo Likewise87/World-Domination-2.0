@@ -7,39 +7,69 @@
   <layouts>
     <li>
       <li>.,.,.,.,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,VFEPD_BrewingBarrel</li>
-      <li>.,Plant_TreeTeak,Plant_TreeTeak,.,.,.,.,Plant_TreeOak,.,Plant_TreeMaple,.,.,Plant_TreeTeak,.</li>
+      <li>.,Plant_TreeOak,Plant_TreeOak,.,.,.,.,Plant_TreeOak,.,Plant_TreeMaple,.,.,Plant_TreeOak,.</li>
       <li>Fence_WoodLog,.,.,.,VFEPD_WoodenLogsLarge_South,.,.,.,.,Plant_TreeOak,.,.,.,.</li>
       <li>Fence_WoodLog,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,VFEPD_WoodenLogs_South,.,.,.,.,Plant_TreeOak,.</li>
-      <li>Fence_WoodLog,.,Wall_WoodLog,Wall_WoodLog,.,Bedroll_Leather_Light_West,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,Plant_TreeMaple,.,.,.</li>
+      <li>Fence_WoodLog,.,Wall_WoodLog,Wall_WoodLog,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,Plant_TreeMaple,.,.,.</li>
       <li>Fence_WoodLog,.,Wall_WoodLog,PlantPot_WoodLog,.,.,Stool_WoodLog_East,Table1x2c_WoodLog_North,Wall_WoodLog,.,.,.,Plant_TreeMaple,.</li>
       <li>Fence_WoodLog,.,Wall_WoodLog,TorchLamp,.,.,.,.,Wall_WoodLog,.,.,.,.,.</li>
-      <li>Fence_WoodLog,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,Wall_WoodLog,Wall_WoodLog,.,Plant_TreeOak,Plant_TreeOak,Plant_TreeTeak,.</li>
+      <li>Fence_WoodLog,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,Wall_WoodLog,Wall_WoodLog,.,Plant_TreeOak,Plant_TreeOak,Plant_TreeOak,.</li>
       <li>Fence_WoodLog,.,Wall_WoodLog,Shelf_WoodLog_North,.,Wall_WoodLog,AnimalFlap_Leather_Plain,Wall_WoodLog,TorchLamp,.,.,.,.,.</li>
-      <li>Fence_WoodLog,.,Wall_WoodLog,.,.,.,.,Door_WoodLog,.,.,.,.,Plant_TreeMaple,.</li>
+      <li>Fence_WoodLog,.,Wall_WoodLog,.,.,.,.,Door_WoodLog,Corpse_Cat,.,.,.,Plant_TreeMaple,.</li>
       <li>Fence_WoodLog,.,Wall_WoodLog,TorchLamp,.,.,.,Wall_WoodLog,.,.,Plant_TreeMaple,Plant_TreeOak,.,.</li>
-      <li>.,Plant_TreeOak,Wall_WoodLog,Wall_WoodLog,.,Shelf_WoodLog_South,Wall_WoodLog,Wall_WoodLog,.,Plant_TreeTeak,.,.,.,VFEPD_BoxSmall_South</li>
+      <li>.,Plant_TreeOak,Wall_WoodLog,Wall_WoodLog,.,Shelf_WoodLog_South,Wall_WoodLog,Wall_WoodLog,.,Plant_TreeOak,.,.,.,VFEPD_BoxSmall_South</li>
       <li>.,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,Plant_TreeOak,.,.,VFEPD_WoodenLogs_South,VFEPD_BoxLarge_West,VFEPD_BoxLarge_South</li>
       <li>.,.,.,.,.,.,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,.</li>
     </li>
+    <li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,Plant_TreeOak,Plant_TreeOak,.,.,.,.,Plant_TreeOak,.,Plant_TreeMaple,.,.,Plant_TreeOak,.</li>
+      <li>.,.,.,.,.,.,.,.,.,Plant_TreeOak,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,Plant_TreeOak,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,Plant_TreeMaple,.,.,.</li>
+      <li>.,.,.,Plant_Daylily,.,.,.,.,.,.,.,.,Plant_TreeMaple,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,Plant_TreeOak,Plant_TreeOak,Plant_TreeOak,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,Plant_TreeMaple,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,Plant_TreeMaple,Plant_TreeOak,.,.</li>
+      <li>.,Plant_TreeOak,.,.,.,.,.,.,.,Plant_TreeOak,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,Plant_TreeOak,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    </li>
   </layouts>
+  <roofGrid>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,1,1,1,1,.,.,.,.,.,.,.</li>
+    <li>.,.,1,1,1,1,1,1,1,.,.,.,.,.</li>
+    <li>.,.,1,1,1,1,1,1,1,.,.,.,.,.</li>
+    <li>.,.,1,1,1,1,1,1,1,.,.,.,.,.</li>
+    <li>.,.,1,1,1,1,1,1,1,.,.,.,.,.</li>
+    <li>.,.,1,1,1,1,1,1,.,.,.,.,.,.</li>
+    <li>.,.,1,1,1,1,1,1,.,.,.,.,.,.</li>
+    <li>.,.,1,1,1,1,1,1,.,.,.,.,.,.</li>
+    <li>.,.,1,1,1,1,1,1,.,.,.,.,.,.</li>
+    <li>.,.,.,1,1,1,1,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+  </roofGrid>
   <terrainGrid>
-    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-    <li>.,.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.,.,.,.</li>
-    <li>.,.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.,.,.</li>
-    <li>.,.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.,.,.</li>
-    <li>.,.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.,.,.,.</li>
-    <li>.,.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.,.,.,.</li>
-    <li>.,.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.,.,.</li>
-    <li>.,.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.,.,.,.</li>
-    <li>.,.,.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.,.,.,.,.,.,.</li>
-    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-    <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,MossyTerrain,MossyTerrain,MossyTerrain</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,MossyTerrain,MossyTerrain,MossyTerrain,MossyTerrain</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,MossyTerrain,MossyTerrain,MossyTerrain,MossyTerrain</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,MossyTerrain,MossyTerrain,MossyTerrain,MossyTerrain</li>
+    <li>Soil,Soil,Soil,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,Soil,Soil,Soil,MossyTerrain,MossyTerrain,MossyTerrain,MossyTerrain</li>
+    <li>Soil,Soil,Soil,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,Soil,MossyTerrain,MossyTerrain,MossyTerrain,MossyTerrain,MossyTerrain</li>
+    <li>Soil,Soil,Soil,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,Soil,MossyTerrain,MossyTerrain,MossyTerrain,MossyTerrain,MossyTerrain</li>
+    <li>Soil,Soil,Soil,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,Soil,Soil,Soil,MossyTerrain,MossyTerrain,MossyTerrain,MossyTerrain</li>
+    <li>Soil,Soil,Soil,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,Soil,Soil,Soil,MossyTerrain,MossyTerrain,MossyTerrain,MossyTerrain</li>
+    <li>Soil,Soil,Soil,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,Soil,Soil,Soil,Soil,Soil,MossyTerrain</li>
+    <li>Soil,Soil,Soil,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,Soil,Soil,Soil,Soil,Soil,MossyTerrain,MossyTerrain</li>
+    <li>Soil,Soil,Soil,Soil,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,Soil,Soil,Soil,Soil,Soil,MossyTerrain,MossyTerrain</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
   </terrainGrid>
-    <tags>
-      <li>TSA_Tribal_Logging</li>
-    </tags>
+<tags><li>TSA_Tribal_Logging</li></tags>
 </KCSG.StructureLayoutDef>
 </Defs>

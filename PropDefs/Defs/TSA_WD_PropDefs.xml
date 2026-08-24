@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <!-- Mix WD props into the VFEPD Farm palette so they are not used as a standalone scatter pool. -->
-  <VFEProps.PropDef>
-    <defName>TSA_WD_Prop_Farm_Hayball_1</defName>
-    <category>VFE_PropCategory_Farm</category>
-    <priority>100</priority>
-    <prop>TSA_WD_Hayball_1a</prop>
-  </VFEProps.PropDef>
-  <VFEProps.PropDef>
-    <defName>TSA_WD_Prop_Farm_Wagon_3</defName>
-    <category>VFE_PropCategory_Farm</category>
-    <priority>101</priority>
-    <prop>TSA_WD_Wagon_3a</prop>
-  </VFEProps.PropDef>
-  <VFEProps.PropDef>
-    <defName>TSA_WD_Prop_Farm_Wagon_5</defName>
-    <category>VFE_PropCategory_Farm</category>
-    <priority>102</priority>
-    <prop>TSA_WD_Wagon_5a</prop>
-  </VFEProps.PropDef>
+  <!--
+    VFEPD palette mapping (MayRequire Vanilla Props and Decor):
+    - Hayballs → Farm (farming layouts; also sprinkled via settlement scatter on T3/T4)
+    - Wagons → Industrial (mining-focused)
+    - Boxes / carts → Storage when VFEPD active (PropDefs + Patches/VFEPD_StorageCategory.xml +
+      Patches/SettlementScatter_Storage_WithVFEPD.xml). Without VFEPD, settlement scatter uses explicit WD box/cart lists.
+  -->
+
+  <!-- Farm / hay -->
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Farm_Hayball_2</defName><category>VFE_PropCategory_Farm</category><priority>101</priority><prop>TSA_WD_Hayball_2a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Farm_Hayball_3</defName><category>VFE_PropCategory_Farm</category><priority>102</priority><prop>TSA_WD_Hayball_3a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Farm_Hayball_4</defName><category>VFE_PropCategory_Farm</category><priority>103</priority><prop>TSA_WD_Hayball_4a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Farm_Hayball_5</defName><category>VFE_PropCategory_Farm</category><priority>104</priority><prop>TSA_WD_Hayball_5a</prop></VFEProps.PropDef>
+
+  <!-- Mining wagons (Industrial) — not Farm -->
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Industrial_Wagon_1</defName><category>VFE_PropCategory_Industrial</category><priority>110</priority><prop>TSA_WD_Wagon_1a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Industrial_Wagon_2</defName><category>VFE_PropCategory_Industrial</category><priority>111</priority><prop>TSA_WD_Wagon_2a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Industrial_Wagon_3</defName><category>VFE_PropCategory_Industrial</category><priority>112</priority><prop>TSA_WD_Wagon_3a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Industrial_Wagon_5</defName><category>VFE_PropCategory_Industrial</category><priority>113</priority><prop>TSA_WD_Wagon_5a</prop></VFEProps.PropDef>
+
+  <!-- Generic crates -->
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Box_1</defName><category>VFE_PropCategory_Storage</category><priority>120</priority><prop>TSA_WD_Box_1a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Box_2</defName><category>VFE_PropCategory_Storage</category><priority>121</priority><prop>TSA_WD_Box_2a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Box_3</defName><category>VFE_PropCategory_Storage</category><priority>122</priority><prop>TSA_WD_Box_3a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Box_4</defName><category>VFE_PropCategory_Storage</category><priority>123</priority><prop>TSA_WD_Box_4a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Box_5</defName><category>VFE_PropCategory_Storage</category><priority>124</priority><prop>TSA_WD_Box_5a</prop></VFEProps.PropDef>
+
+  <!-- Generic carts -->
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Cart_5</defName><category>VFE_PropCategory_Storage</category><priority>130</priority><prop>TSA_WD_Cart_5a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Cart_6</defName><category>VFE_PropCategory_Storage</category><priority>131</priority><prop>TSA_WD_Cart_6a</prop></VFEProps.PropDef>
 </Defs>

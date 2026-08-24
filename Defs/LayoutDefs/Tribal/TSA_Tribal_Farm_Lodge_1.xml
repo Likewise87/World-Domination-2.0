@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
   <defName>TSA_Tribal_Farm_Lodge_1</defName>
   <spawnConduits>false</spawnConduits>
   <forceGenerateRoof>true</forceGenerateRoof>
@@ -8,36 +9,19 @@
     <li>
       <li>.,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Daylily,.,.,VFEPD_Daylily,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose</li>
       <li>.,.,.,.,.,.,.,.,Wall_WoodLog,OrnateDoor_WoodLog_North,.,Wall_WoodLog,.,.,.,.,.,.,.,.</li>
-      <li>.,VFEPD_MapleTree,VFEPD_MapleTree,VFEPD_MapleTree,VFEPD_MapleTree,VFEPD_PineTree,VFEPD_PineTree,VFEPD_PineTree,Wall_WoodLog,.,.,Wall_WoodLog,VFEPD_PineTree,VFEPD_PineTree,VFEPD_PineTree,VFEPD_MapleTree,VFEPD_MapleTree,.,VFEPD_MapleTree,VFEPD_MapleTree</li>
+      <li>.,Plant_TreeMaple,Plant_TreeMaple,Plant_TreeMaple,Plant_TreeMaple,Plant_TreeOak,Plant_TreeOak,Plant_TreeOak,Wall_WoodLog,.,.,Wall_WoodLog,Plant_TreeOak,Plant_TreeOak,Plant_TreeOak,Plant_TreeMaple,Plant_TreeMaple,.,Plant_TreeMaple,Plant_TreeMaple</li>
       <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,TorchWallLamp_West,TorchWallLamp_East,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
       <li>.,Wall_WoodLog,Bed_WoodLog_North,EndTable_WoodLog_North,Bed_WoodLog_North,Bed_WoodLog_North,EndTable_WoodLog_North,Bed_WoodLog_North,Wall_WoodLog,.,.,Wall_WoodLog,.,.,DiningChair_WoodLog_East,.,.,DiningChair_WoodLog_West,.,Wall_WoodLog</li>
-      <li>VFEPD_TeakTree,Wall_WoodLog,.,.,.,.,.,.,VFEPD_FakeColumn,.,.,VFEPD_FakeColumn,.,.,DiningChair_WoodLog_East,.,.,DiningChair_WoodLog_West,.,Wall_WoodLog</li>
+      <li>Plant_TreeOak,Wall_WoodLog,.,.,.,.,.,.,VFEPD_FakeColumn,.,.,VFEPD_FakeColumn,.,.,DiningChair_WoodLog_East,.,.,DiningChair_WoodLog_West,.,Wall_WoodLog</li>
       <li>.,Wall_WoodLog,TorchWallLamp_West,.,.,.,.,.,.,.,.,.,.,.,DiningChair_WoodLog_East,.,Table2x4c_WoodLog_South,DiningChair_WoodLog_West,TorchWallLamp_East,Wall_WoodLog</li>
       <li>.,Wall_WoodLog,.,.,.,.,.,.,.,.,.,.,.,.,DiningChair_WoodLog_East,.,.,DiningChair_WoodLog_West,.,Wall_WoodLog</li>
-      <li>VFEPD_TeakTree,Wall_WoodLog,Bed_WoodLog_South,EndTable_WoodLog_South,Bed_WoodLog_South,Bed_WoodLog_South,EndTable_WoodLog_South,Bed_WoodLog_South,VFEPD_FakeColumn,.,.,VFEPD_FakeColumn,.,.,.,.,.,.,.,Wall_WoodLog</li>
+      <li>Plant_TreeOak,Wall_WoodLog,Bed_WoodLog_South,EndTable_WoodLog_South,Bed_WoodLog_South,Bed_WoodLog_South,EndTable_WoodLog_South,Bed_WoodLog_South,VFEPD_FakeColumn,.,.,VFEPD_FakeColumn,.,.,.,.,.,.,.,Wall_WoodLog</li>
       <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.,.,Shelf_WoodLog_West,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
-      <li>.,Fence_WoodLog,VFEPD_Devilstrand,VFEPD_Devilstrand,VFEPD_Devilstrand,VFEPD_Devilstrand,VFEPD_Devilstrand,Wall_WoodLog,Shelf_WoodLog_East,.,.,.,Wall_WoodLog,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,Fence_WoodLog</li>
-      <li>VFEPD_BirchTree,Fence_WoodLog,VFEPD_Devilstrand,VFEPD_Devilstrand,VFEPD_Devilstrand,VFEPD_Devilstrand,VFEPD_Devilstrand,Wall_WoodLog,.,.,.,Shelf_WoodLog_West,Wall_WoodLog,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,Fence_WoodLog</li>
-      <li>.,Fence_WoodLog,VFEPD_Devilstrand,VFEPD_Devilstrand,VFEPD_Devilstrand,VFEPD_Devilstrand,VFEPD_Devilstrand,Wall_WoodLog,Shelf_WoodLog_East,.,.,.,Wall_WoodLog,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,Fence_WoodLog</li>
-      <li>.,Fence_WoodLog,VFEPD_Devilstrand,VFEPD_Devilstrand,VFEPD_Devilstrand,VFEPD_Devilstrand,VFEPD_Devilstrand,Wall_WoodLog,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,Wall_WoodLog,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,VFEPD_Healroot,Fence_WoodLog</li>
+      <li>.,Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Wall_WoodLog,Shelf_WoodLog_East,.,.,.,Wall_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog</li>
+      <li>Plant_TreeBirch,Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Wall_WoodLog,.,.,.,Shelf_WoodLog_West,Wall_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog</li>
+      <li>.,Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Wall_WoodLog,Shelf_WoodLog_East,.,.,.,Wall_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog</li>
+      <li>.,Fence_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Wall_WoodLog,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,Wall_WoodLog,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Fence_WoodLog</li>
       <li>.,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog,Fence_WoodLog</li>
-    </li>
-    <li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,VFEPD_MapleTree,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,VFEPD_FabricRollA_North,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,VFEPD_CuttingTableWithKnife_North,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,TorchWallLamp_West,.,.,TorchWallLamp_East,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.</li>
     </li>
   </layouts>
   <roofGrid>
@@ -77,10 +61,9 @@
   <modRequirements>
     <li>vanillaexpanded.vfepropsanddecor</li>
   </modRequirements>
-      <tags>
-			<li>TSA_Tribal_Farm</li>
-		</tags>
+  <tags>
+    <li>TSA_Tribal_Farm</li>
+  </tags>
 </KCSG.StructureLayoutDef>
-
 
 </Defs>

@@ -49,6 +49,7 @@ namespace TSA_WorldDomination
 
                 case TravelerMission.Raid:
                 case TravelerMission.RaidDropPod:
+                case TravelerMission.RaidGravship:
                     if (traveler.isTurretDetour)
                     {
                         if (traveler.targetObject is WorldObject_AT_Turret liveTurret && !liveTurret.Destroyed)
@@ -174,6 +175,7 @@ namespace TSA_WorldDomination
                     break;
                 case TravelerMission.Raid:
                 case TravelerMission.RaidDropPod:
+                case TravelerMission.RaidGravship:
                     var manager = Find.World.GetComponent<WorldComponent_SpreadManager>();
 
                     traveler.targetRaidDefenseCooldownReservationTick = -1;

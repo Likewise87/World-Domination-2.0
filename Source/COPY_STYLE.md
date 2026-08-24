@@ -1,10 +1,10 @@
 # TSA World Domination — copy and UI text style
 
-How to use this file: open when changing keyed XML, tooltips, labels, or tone. Do not use it for globe icons (`Core/WORLD_MAP_ICONS.md`), tiles (`Core/PLANET_LAYERS.md`), sim owners (`ARCHITECTURE.md`), hub layout / IMGUI rects (`UI_WINDOWS.md`), or Def structure/naming (`dev/DEFS_GUIDE.md`). Index: `dev/GUIDANCE.md`. After a copy-rule change, edit this file in the same pass.
+How to use this file: open when changing keyed XML, tooltips, labels, or tone. Do not use it for globe icons (`Core/WORLD_MAP_ICONS.md`), tiles (`Core/PLANET_LAYERS.md`), sim owners (`ARCHITECTURE.md`), hub layout / IMGUI rects (`UI_WINDOWS.md`), or Def structure/naming (`Guardrails/DEFS_GUIDE.md`). Index: `Guardrails/GUIDANCE.md`. After a copy-rule change, edit this file in the same pass.
 
 Rules for player-facing strings (translations, tooltips, dialog labels). Apply to EN first; ES/ZH should match meaning and placeholder slots.
 
-World-model **ownership** (one colony, player-only outposts, NPC holdings = Settlements) lives in the always-on rule `dev/.cursor/rules/wd-product-docs.mdc`. This file only owns wording.
+World-model **ownership** (one colony, player-only outposts, NPC holdings = Settlements) lives in the always-on rule `Guardrails/.cursor/rules/wd-product-docs.mdc`. This file only owns wording.
 
 ## Traveler vs caravan wording
 

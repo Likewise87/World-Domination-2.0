@@ -136,7 +136,7 @@ namespace TSA_WorldDomination
             {
                 Faction f = all[i];
                 if (f == null || !f.defeated || f.IsPlayer) continue;
-                if (WorldActions_Utils.IsExcludedFaction(f)) continue;
+                if (!WorldActions_Utils.IsWdParticipant(f)) continue;
                 list.Add(f);
             }
             return list;

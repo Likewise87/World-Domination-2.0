@@ -20,6 +20,7 @@ namespace TSA_WorldDomination
         MortarHit,
         MortarCooldown,
         MortarRange,
+        AssaultShellUnlock,
         AntiAirUnlock,
         DecontaminationUnlock,
         ResearchEfficiency,
@@ -114,6 +115,7 @@ namespace TSA_WorldDomination
             if (def.mortarHitChanceBonus > 0f) n++;
             if (def.mortarCooldownReduction > 0f) n++;
             if (def.mortarRangeBonus > 0f) n++;
+            if (WD_AssaultArtillerySupport.IsAssaultShellUnlockUpgrade(def)) n += 2;
             if (def.enablesAntiAir) n++;
             if (def.enablesDecontaminationCrew) n++;
             if (def.researchEfficiencyBonus > 0f) n++;
@@ -217,6 +219,9 @@ namespace TSA_WorldDomination
                 if (AntiAirFireUtils.HasAntiAirUpgrade(outpost))
                     lines.Add(MakeAggregateLine(UpgradeBenefitKind.AntiAirUnlock,
                         Key("TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock")));
+                if (WD_AssaultArtillerySupport.GetShellTier(outpost) > WD_AssaultArtillerySupport.ShellUnlockTier.Basic)
+                    lines.Add(MakeAggregateLine(UpgradeBenefitKind.AssaultShellUnlock,
+                        Key("TSA_WD_OutpostUpgrades_BenefitAssaultShellsShort")));
             }
 
             if (outpost.HasBuiltDecontaminationUnlock())
@@ -342,6 +347,8 @@ namespace TSA_WorldDomination
                     return def.mortarCooldownReduction;
                 case UpgradeBenefitKind.MortarRange:
                     return def.mortarRangeBonus;
+                case UpgradeBenefitKind.AssaultShellUnlock:
+                    return WD_AssaultArtillerySupport.IsAssaultShellUnlockUpgrade(def) ? 1f : 0f;
                 case UpgradeBenefitKind.AntiAirUnlock:
                     return def.enablesAntiAir ? 1f : 0f;
                 case UpgradeBenefitKind.DecontaminationUnlock:
@@ -381,6 +388,7 @@ namespace TSA_WorldDomination
                 case UpgradeBenefitKind.AllyPullRadius:
                 case UpgradeBenefitKind.FoodStorageMax:
                 case UpgradeBenefitKind.FoodProductionFlat:
+                case UpgradeBenefitKind.AssaultShellUnlock:
                 case UpgradeBenefitKind.AntiAirUnlock:
                 case UpgradeBenefitKind.DecontaminationUnlock:
                     return false;
@@ -456,7 +464,10 @@ namespace TSA_WorldDomination
                     GUI.color = Outpost_Dialog_UI.OutcomeValueColor;
                     Widgets.Label(lineRect, line.DisplayText);
                     GUI.color = Color.white;
-                    string tip = BuildBenefitContributorsTooltip(outpost, line.Kind);
+                    string tip = line.Kind == UpgradeBenefitKind.AssaultShellUnlock
+                        ? WD_AssaultArtillerySupport.GetAssaultShellUnlockTooltip(
+                            WD_AssaultArtillerySupport.GetShellTier(outpost))
+                        : BuildBenefitContributorsTooltip(outpost, line.Kind);
                     if (!string.IsNullOrEmpty(tip))
                         TooltipHandler.TipRegion(lineRect, tip);
                     cy += Outpost_Dialog_UI.YieldLineH;
@@ -543,6 +554,8 @@ namespace TSA_WorldDomination
                     Key("TSA_WD_OutpostUpgrades_BenefitMortarRange", def.mortarRangeBonus.ToString("F0")),
                     benefitColor,
                     ResolveBenefitTooltip(outpost, def, benefitsActive, UpgradeBenefitKind.MortarRange));
+            if (WD_AssaultArtillerySupport.IsAssaultShellUnlockUpgrade(def))
+                y = DrawAssaultShellUnlockBenefit(x, y, w, def, benefitColor);
             if (def.enablesAntiAir)
                 y = DrawBenefitLine(x, y, w,
                     Key("TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock"),
@@ -608,9 +621,46 @@ namespace TSA_WorldDomination
             bool benefitsActive,
             UpgradeBenefitKind kind)
         {
+            if (kind == UpgradeBenefitKind.AssaultShellUnlock)
+            {
+                WD_AssaultArtillerySupport.ShellUnlockTier tier = benefitsActive && outpost != null
+                    ? WD_AssaultArtillerySupport.GetShellTier(outpost)
+                    : WD_AssaultArtillerySupport.GetShellTierForUpgrade(def);
+                return WD_AssaultArtillerySupport.GetAssaultShellUnlockTooltip(tier);
+            }
+
             if (benefitsActive && outpost != null)
                 return BuildBenefitContributorsTooltip(outpost, kind);
             return BuildSingleUpgradeBenefitTooltip(def, kind, 1);
+        }
+
+        private static float DrawAssaultShellUnlockBenefit(
+            float x,
+            float y,
+            float w,
+            OutpostUpgradeDef def,
+            Color benefitColor)
+        {
+            WD_AssaultArtillerySupport.ShellUnlockTier tier =
+                WD_AssaultArtillerySupport.GetShellTierForUpgrade(def);
+            List<ThingDef> shells = WD_AssaultArtillerySupport.GetShellsUnlockedByUpgrade(tier);
+            string shellLabels = WD_AssaultArtillerySupport.FormatShellLabelsPublic(shells);
+            string tip = WD_AssaultArtillerySupport.GetAssaultShellUnlockTooltip(tier);
+
+            y = DrawBenefitLine(x, y, w,
+                Key("TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockHeader"),
+                benefitColor,
+                tip);
+
+            Text.Font = GameFont.Tiny;
+            string listText = Key("TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockList", shellLabels);
+            float listH = Mathf.Max(Outpost_Dialog_UI.YieldLineH, Text.CalcHeight(listText, w));
+            Rect listRect = new Rect(x, y, w, listH);
+            LabelAnchored(listRect, listText.Colorize(benefitColor), TextAnchor.UpperLeft);
+            if (!string.IsNullOrEmpty(tip))
+                TooltipHandler.TipRegion(listRect, tip);
+            Text.Font = GameFont.Small;
+            return y + listH;
         }
 
         private static float DrawBenefitLine(float x, float y, float w, string text, Color color, string tooltip)

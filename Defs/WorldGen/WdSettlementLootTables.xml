@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!--
+    valueBudget by tier: T1=1300, T2=3250, T3=5200, T4=7800
+    Meals: T1 Pemmican+MealSimple | T2 MealSimple+MealSurvivalPack | T3 MealFine+MealSurvivalPack | T4 MealLavish+MealSurvivalPack
+    MedicineHerbal on T1–T2. T4 keeps Yayo/WakeUp/Neutroamine/neurotrainers.
+  -->
+
+  <!-- Full Default fallback (type Default + tier Default). -->
+  <TSA_WorldDomination.WdSettlementLootTableDef>
+    <defName>TSA_WdLoot_Default</defName>
+    <settlementTypes><li>Default</li></settlementTypes>
+    <tiers><li>Default</li></tiers>
+    <valueBudget>1300</valueBudget>
+    <items>
+      <li><thingDef>Silver</thingDef><weight>8</weight></li>
+      <li><thingDef>WoodLog</thingDef><weight>2</weight></li>
+      <li><thingDef>Steel</thingDef><weight>2</weight></li>
+      <li><thingDef>Cloth</thingDef><weight>2</weight></li>
+      <li><thingDef>Pemmican</thingDef><weight>3</weight></li>
+      <li><thingDef>MealSimple</thingDef><weight>3</weight></li>
+      <li><thingDef>MedicineHerbal</thingDef><weight>2</weight></li>
+    </items>
+  </TSA_WorldDomination.WdSettlementLootTableDef>
+
+  <!-- Default by tier (when type is unknown but tier is known). -->
+  <TSA_WorldDomination.WdSettlementLootTableDef>
+    <defName>TSA_WdLoot_Default_T1</defName>
+    <settlementTypes><li>Default</li></settlementTypes>
+    <tiers><li>T1</li></tiers>
+    <valueBudget>1300</valueBudget>
+    <items>
+      <li><thingDef>Silver</thingDef><weight>8</weight></li>
+      <li><thingDef>WoodLog</thingDef><weight>2</weight></li>
+      <li><thingDef>Steel</thingDef><weight>2</weight></li>
+      <li><thingDef>Cloth</thingDef><weight>2</weight></li>
+      <li><thingDef>Pemmican</thingDef><weight>4</weight></li>
+      <li><thingDef>MealSimple</thingDef><weight>4</weight></li>
+      <li><thingDef>MedicineHerbal</thingDef><weight>2</weight></li>
+      <li><thingDef>SmokeleafJoint</thingDef><weight>1</weight></li>
+      <li><thingDef>Flake</thingDef><weight>1</weight></li>
+    </items>
+  </TSA_WorldDomination.WdSettlementLootTableDef>
+
+  <TSA_WorldDomination.WdSettlementLootTableDef>
+    <defName>TSA_WdLoot_Default_T2</defName>
+    <settlementTypes><li>Default</li></settlementTypes>
+    <tiers><li>T2</li></tiers>
+    <valueBudget>3250</valueBudget>
+    <items>
+      <li><thingDef>Silver</thingDef><weight>10</weight></li>
+      <li><thingDef>WoodLog</thingDef><weight>2</weight></li>
+      <li><thingDef>Steel</thingDef><weight>2</weight></li>
+      <li><thingDef>Cloth</thingDef><weight>2</weight></li>
+      <li><thingDef>MealSimple</thingDef><weight>4</weight></li>
+      <li><thingDef>MealSurvivalPack</thingDef><weight>4</weight></li>
+      <li><thingDef>MedicineHerbal</thingDef><weight>2</weight></li>
+      <li><thingDef>Leather_Plain</thingDef><weight>2</weight></li>
+      <li><thingDef>Yayo</thingDef><weight>1</weight></li>
+    </items>
+  </TSA_WorldDomination.WdSettlementLootTableDef>
+
+  <TSA_WorldDomination.WdSettlementLootTableDef>
+    <defName>TSA_WdLoot_Default_T3</defName>
+    <settlementTypes><li>Default</li></settlementTypes>
+    <tiers><li>T3</li></tiers>
+    <valueBudget>5200</valueBudget>
+    <items>
+      <li><thingDef>Silver</thingDef><weight>12</weight></li>
+      <li><thingDef>Steel</thingDef><weight>2</weight></li>
+      <li><thingDef>MealFine</thingDef><weight>4</weight></li>
+      <li><thingDef>MealSurvivalPack</thingDef><weight>4</weight></li>
+      <li><thingDef>MedicineIndustrial</thingDef><weight>2</weight></li>
+      <li><thingDef>ComponentIndustrial</thingDef><weight>2</weight></li>
+      <li><thingDef>Gold</thingDef><weight>2</weight></li>
+      <li><thingDef>Yayo</thingDef><weight>1</weight></li>
+      <li><thingDef>WakeUp</thingDef><weight>1</weight></li>
+    </items>
+  </TSA_WorldDomination.WdSettlementLootTableDef>
+
+  <TSA_WorldDomination.WdSettlementLootTableDef>
+    <defName>TSA_WdLoot_Default_T4</defName>
+    <settlementTypes><li>Default</li></settlementTypes>
+    <tiers><li>T4</li></tiers>
+    <valueBudget>7800</valueBudget>
+    <items>
+      <li><thingDef>Silver</thingDef><weight>12</weight></li>
+      <li><thingDef>Gold</thingDef><weight>2</weight></li>
+      <li><thingDef>MealLavish</thingDef><weight>4</weight></li>
+      <li><thingDef>MealSurvivalPack</thingDef><weight>4</weight></li>
+      <li><thingDef>MedicineIndustrial</thingDef><weight>2</weight></li>
+      <li><thingDef>MedicineUltratech</thingDef><weight>1</weight></li>
+      <li><thingDef>Yayo</thingDef><weight>2</weight></li>
+      <li><thingDef>WakeUp</thingDef><weight>2</weight></li>
+      <li><thingDef>Neutroamine</thingDef><weight>2</weight></li>
+      <li><thingDef>Neurotrainer_Shooting</thingDef><weight>1</weight></li>
+      <li><thingDef>Neurotrainer_Melee</thingDef><weight>1</weight></li>
+      <li><thingDef>Neurotrainer_Construction</thingDef><weight>1</weight></li>
+      <li><thingDef>Neurotrainer_Medicine</thingDef><weight>1</weight></li>
+      <li><thingDef>Neurotrainer_Intellectual</thingDef><weight>1</weight></li>
+      <li><thingDef>Plasteel</thingDef><weight>2</weight></li>
+      <li><thingDef>ComponentSpacer</thingDef><weight>1</weight></li>
+    </items>
+  </TSA_WorldDomination.WdSettlementLootTableDef>
+
+  <!-- ===== Farming ===== -->
+  <!-- Crop products come from biome crop placement (shelfCropBudgetFraction). Remainder is meals + herbal medicine. -->
+  <TSA_WorldDomination.WdSettlementLootTableDef>
+    <defName>TSA_WdLoot_Farming_T1</defName>
+    <settlementTypes><li>Farming</li></settlementTypes>
+    <tiers><li>T1</li></tiers>
+    <valueBudget>1300</valueBudget>
+    <items>
+      <li><thingDef>Pemmican</thingDef><weight>5</weight></li>
+      <li><thingDef>MealSimple</thingDef><weight>5</weight></li>
+      <li><thingDef>MedicineHerbal</thingDef><weight>4</weight></li>
+      <li><thingDef>SmokeleafJoint</thingDef><weight>1</weight></li>
+      <li><thingDef>Flake</thingDef><weight>1</weight></li>
+    </items>
+  </TSA_WorldDomination.WdSettlementLootTableDef>
+
+  <TSA_WorldDomination.WdSettlementLootTableDef>
+    <defName>TSA_WdLoot_Farming_T2</defName>
+    <settlementTypes><li>Farming</li></settlementTypes>
+    <tiers><li>T2</li></tiers>
+    <valueBudget>3250</valueBudget>
+    <items>
+      <li><thingDef>MealSimple</thingDef><weight>5</weight></li>
+      <li><thingDef>MealSurvivalPack</thingDef><weight>5</weight></li>
+      <li><thingDef>MedicineHerbal</thingDef><weight>4</weight></li>
+      <li><thingDef>SmokeleafJoint</thingDef><weight>1</weight></li>
+      <li><thingDef>Yayo</thingDef><weight>1</weight></li>
+    </items>
+  </TSA_WorldDomination.WdSettlementLootTableDef>
+
+  <!-- ===== Mining ===== -->
+  <!-- Ore products come from cheap/expensive mineable pools (shelfOreBudgetFraction). Remainder is meals + medicine. -->
+  <TSA_WorldDomination.WdSettlementLootTableDef>
+    <defName>TSA_WdLoot_Mining_T1</defName>
+    <settlementTypes><li>Mining</li></settlementTypes>
+    <tiers><li>T1</li></tiers>
+    <valueBudget>1300</valueBudget>
+    <items>
+      <li><thingDef>Pemmican</thingDef><weight>5</weight></li>
+      <li><thingDef>MealSimple</thingDef><weight>5</weight></li>
+      <li><thingDef>MedicineHerbal</thingDef><weight>4</weight></li>
+      <li><thingDef>SmokeleafJoint</thingDef><weight>1</weight></li>
+      <li><thingDef>Flake</thingDef><weight>1</weight></li>
+    </items>
+  </TSA_WorldDomination.WdSettlementLootTableDef>
+
+  <TSA_WorldDomination.WdSettlementLootTableDef>
+    <defName>TSA_WdLoot_Mining_T2</defName>
+    <settlementTypes><li>Mining</li></settlementTypes>
+    <tiers><li>T2</li></tiers>
+    <valueBudget>3250</valueBudget>
+    <items>
+      <li><thingDef>MealSimple</thingDef><weight>5</weight></li>
+      <li><thingDef>MealSurvivalPack</thingDef><weight>5</weight></li>
+      <li><thingDef>MedicineHerbal</thingDef><weight>4</weight></li>
+      <li><thingDef>Yayo</thingDef><weight>1</weight></li>
+    </items>
+  </TSA_WorldDomination.WdSettlementLootTableDef>
+
+  <!-- ===== Logging ===== -->
+  <TSA_WorldDomination.WdSettlementLootTableDef>
+    <defName>TSA_WdLoot_Logging_T1</defName>
+    <settlementTypes><li>Logging</li></settlementTypes>
+    <tiers><li>T1</li></tiers>
+    <valueBudget>1300</valueBudget>
+    <items>
+      <li><thingDef>Silver</thingDef><weight>6</weight></li>
+      <li><thingDef>WoodLog</thingDef><weight>5</weight></li>
+      <li><thingDef>Cloth</thingDef><weight>2</weight></li>
+      <li><thingDef>Pemmican</thingDef><weight>4</weight></li>
+      <li><thingDef>MealSimple</thingDef><weight>4</weight></li>
+      <li><thingDef>MedicineHerbal</thingDef><weight>2</weight></li>
+      <li><thingDef>SmokeleafJoint</thingDef><weight>1</weight></li>
+      <li><thingDef>Flake</thingDef><weight>1</weight></li>
+    </items>
+  </TSA_WorldDomination.WdSettlementLootTableDef>
+
+  <TSA_WorldDomination.WdSettlementLootTableDef>
+    <defName>TSA_WdLoot_Logging_T2</defName>
+    <settlementTypes><li>Logging</li></settlementTypes>
+    <tiers><li>T2</li></tiers>
+    <valueBudget>3250</valueBudget>
+    <items>
+      <li><thingDef>Silver</thingDef><weight>8</weight></li>
+      <li><thingDef>WoodLog</thingDef><weight>4</weight></li>
+      <li><thingDef>Cloth</thingDef><weight>2</weight></li>
+      <li><thingDef>MealSimple</thingDef><weight>4</weight></li>
+      <li><thingDef>MealSurvivalPack</thingDef><weight>4</weight></li>
+      <li><thingDef>MedicineHerbal</thingDef><weight>2</weight></li>
+      <li><thingDef>Leather_Plain</thingDef><weight>2</weight></li>
+      <li><thingDef>WoolMuffalo</thingDef><weight>1</weight></li>
+      <li><thingDef>DevilstrandCloth</thingDef><weight>1</weight></li>
+      <li><thingDef>Yayo</thingDef><weight>1</weight></li>
+    </items>
+  </TSA_WorldDomination.WdSettlementLootTableDef>
+
+  <!-- ===== Production / Slavery (T2) ===== -->
+  <TSA_WorldDomination.WdSettlementLootTableDef>
+    <defName>TSA_WdLoot_ProductionSlavery_T2</defName>
+    <settlementTypes>
+      <li>Production</li>
+      <li>Slavery</li>
+    </settlementTypes>
+    <tiers><li>T2</li></tiers>
+    <valueBudget>3250</valueBudget>
+    <items>
+      <li><thingDef>Silver</thingDef><weight>10</weight></li>
+      <li><thingDef>WoodLog</thingDef><weight>2</weight></li>
+      <li><thingDef>Steel</thingDef><weight>2</weight></li>
+      <li><thingDef>Cloth</thingDef><weight>2</weight></li>
+      <li><thingDef>MealSimple</thingDef><weight>4</weight></li>
+      <li><thingDef>MealSurvivalPack</thingDef><weight>4</weight></li>
+      <li><thingDef>MedicineHerbal</thingDef><weight>2</weight></li>
+      <li><thingDef>Leather_Plain</thingDef><weight>2</weight></li>
+      <li><thingDef>WoolMuffalo</thingDef><weight>1</weight></li>
+      <li><thingDef>DevilstrandCloth</thingDef><weight>1</weight></li>
+      <li><thingDef>SmokeleafJoint</thingDef><weight>1</weight></li>
+      <li><thingDef>Yayo</thingDef><weight>1</weight></li>
+    </items>
+  </TSA_WorldDomination.WdSettlementLootTableDef>
+
+  <!-- ===== Fortress T3 ===== -->
+  <TSA_WorldDomination.WdSettlementLootTableDef>
+    <defName>TSA_WdLoot_Fortress_T3</defName>
+    <settlementTypes><li>Fortress</li></settlementTypes>
+    <tiers><li>T3</li></tiers>
+    <valueBudget>5200</valueBudget>
+    <items>
+      <li><thingDef>Silver</thingDef><weight>12</weight></li>
+      <li><thingDef>Gold</thingDef><weight>2</weight></li>
+      <li><thingDef>Steel</thingDef><weight>2</weight></li>
+      <li><thingDef>MealFine</thingDef><weight>4</weight></li>
+      <li><thingDef>MealSurvivalPack</thingDef><weight>4</weight></li>
+      <li><thingDef>MedicineIndustrial</thingDef><weight>2</weight></li>
+      <li><thingDef>ComponentIndustrial</thingDef><weight>2</weight></li>
+      <li><thingDef>Chemfuel</thingDef><weight>2</weight></li>
+      <li><thingDef>Leather_Plain</thingDef><weight>2</weight></li>
+      <li><thingDef>Synthread</thingDef><weight>1</weight></li>
+      <li><thingDef>DevilstrandCloth</thingDef><weight>1</weight></li>
+      <li><thingDef>Yayo</thingDef><weight>1</weight></li>
+      <li><thingDef>WakeUp</thingDef><weight>1</weight></li>
+    </items>
+  </TSA_WorldDomination.WdSettlementLootTableDef>
+
+  <!-- ===== Citadel T4 ===== -->
+  <TSA_WorldDomination.WdSettlementLootTableDef>
+    <defName>TSA_WdLoot_Citadel_T4</defName>
+    <settlementTypes><li>Citadel</li></settlementTypes>
+    <tiers><li>T4</li></tiers>
+    <valueBudget>7800</valueBudget>
+    <items>
+      <li><thingDef>Silver</thingDef><weight>12</weight></li>
+      <li><thingDef>Gold</thingDef><weight>2</weight></li>
+      <li><thingDef>MealLavish</thingDef><weight>4</weight></li>
+      <li><thingDef>MealSurvivalPack</thingDef><weight>4</weight></li>
+      <li><thingDef>MedicineIndustrial</thingDef><weight>2</weight></li>
+      <li><thingDef>MedicineUltratech</thingDef><weight>1</weight></li>
+      <li><thingDef>Yayo</thingDef><weight>2</weight></li>
+      <li><thingDef>WakeUp</thingDef><weight>2</weight></li>
+      <li><thingDef>Neutroamine</thingDef><weight>2</weight></li>
+      <li><thingDef>Neurotrainer_Shooting</thingDef><weight>1</weight></li>
+      <li><thingDef>Neurotrainer_Melee</thingDef><weight>1</weight></li>
+      <li><thingDef>Neurotrainer_Construction</thingDef><weight>1</weight></li>
+      <li><thingDef>Neurotrainer_Medicine</thingDef><weight>1</weight></li>
+      <li><thingDef>Neurotrainer_Intellectual</thingDef><weight>1</weight></li>
+      <li><thingDef>Neurotrainer_Social</thingDef><weight>1</weight></li>
+      <li><thingDef>Plasteel</thingDef><weight>2</weight></li>
+      <li><thingDef>ComponentIndustrial</thingDef><weight>2</weight></li>
+      <li><thingDef>ComponentSpacer</thingDef><weight>1</weight></li>
+      <li><thingDef>Hyperweave</thingDef><weight>1</weight></li>
+      <li><thingDef>Luciferium</thingDef><weight>1</weight></li>
+      <li><thingDef>Uranium</thingDef><weight>1</weight></li>
+      <li><thingDef>Chemfuel</thingDef><weight>1</weight></li>
+      <li><thingDef>Steel</thingDef><weight>1</weight></li>
+    </items>
+  </TSA_WorldDomination.WdSettlementLootTableDef>
+
+</Defs>

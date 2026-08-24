@@ -212,11 +212,6 @@ namespace TSA_WorldDomination
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_PlayerCaravanClashTooltip".Translate(), WorldDominationSettings.DefNotifyPlayerCaravanClash));
 
                 l.CheckboxLabeled(
-                    "TSA_WD_Show_CaravanClashLootDialog".Translate(),
-                    ref s.showCaravanClashLootDialog,
-                    SettingsUI.TooltipWithDefault("TSA_WD_Show_CaravanClashLootDialogTooltip".Translate(), WorldDominationSettings.DefShowCaravanClashLootDialog));
-
-                l.CheckboxLabeled(
                     "TSA_WD_Notify_RapidResponseCaravanClash".Translate(),
                     ref s.notifyRapidResponseCaravanClash,
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_RapidResponseCaravanClashTooltip".Translate(), WorldDominationSettings.DefNotifyRapidResponseCaravanClash));

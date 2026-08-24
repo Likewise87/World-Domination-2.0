@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Farm_4</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,.,.,.,.,.,AncientFence,AncientFence,AncientFence,AncientFence</li>
+      <li>AncientFence,.,Plant_Corn,.,.,Plant_Corn,.,Plant_Corn,.,.,Plant_Corn,Plant_Corn,.,AncientFence</li>
+      <li>AncientFence,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,.,.,.,Plant_Corn,.,.,.,.,AncientFence</li>
+      <li>AncientFence,.,.,Plant_Corn,.,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,AncientFence</li>
+      <li>.,.,Plant_Corn,.,.,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,.,.</li>
+      <li>AncientFence,.,.,AncientWindTurbineBody_North,.,.,.,Plant_Corn,Plant_Corn,.,.,.,.,.</li>
+      <li>AncientFence,.,.,.,.,.,Plant_Corn,.,Plant_Corn,.,.,.,Plant_Corn,.</li>
+      <li>AncientFence,Plant_Corn,Plant_Corn,.,.,.,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,AncientRustedCar_North,.,.,.</li>
+      <li>.,.,Plant_Corn,.,Plant_Corn,.,Plant_Corn,Plant_Corn,Plant_Corn,Plant_Corn,.,.,Plant_Corn,AncientFence</li>
+      <li>AncientFence,Plant_Corn,Plant_Corn,.,.,Plant_Corn,Plant_Corn,.,.,Plant_Corn,.,.,Plant_Corn,AncientFence</li>
+      <li>AncientFence,AncientFence,Plant_Corn,.,.,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence,AncientFence</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+    <li>Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil,Soil</li>
+  </terrainGrid>
+	<tags><li>TSA_Tribal_Farm</li></tags>
+</KCSG.StructureLayoutDef>
+
+
+</Defs>

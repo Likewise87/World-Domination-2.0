@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
     <defName>Generic_Luxury_Bedroom_2</defName>
     <terrainGrid>
       <li>WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor</li>
@@ -15,15 +16,15 @@
     </terrainGrid>
     <layouts>
       <li>
-        <li>Wall_BlocksLimestone,Wall_BlocksLimestone,Wall_BlocksLimestone,Wall_BlocksLimestone,Autodoor_Steel,Wall_BlocksLimestone,Wall_BlocksLimestone,Wall_BlocksLimestone,Wall_BlocksLimestone</li>
-        <li>Wall_BlocksLimestone,Heater,.,.,.,.,.,.,Wall_BlocksLimestone</li>
-        <li>Wall_BlocksLimestone,.,.,.,.,.,.,.,Wall_BlocksLimestone</li>
-        <li>Wall_BlocksLimestone,.,.,.,.,.,.,.,Wall_BlocksLimestone</li>
-        <li>Wall_BlocksLimestone,.,.,.,StandingLamp,.,.,Dresser_WoodLog_West,Wall_BlocksLimestone</li>
-        <li>Wall_BlocksLimestone,.,SculptureLarge_BlocksSlate,.,.,.,.,.,Wall_BlocksLimestone</li>
-        <li>Wall_BlocksLimestone,.,.,.,.,.,.,Battery_North,Wall_BlocksLimestone</li>
-        <li>Wall_BlocksLimestone,Drape_Cloth_North,.,.,.,RoyalBed_WoodLog_South,EndTable_WoodLog_South,.,Wall_BlocksLimestone</li>
-        <li>Wall_BlocksLimestone,Wall_BlocksLimestone,Wall_BlocksLimestone,Wall_BlocksLimestone,Wall_BlocksLimestone,Wall_BlocksLimestone,Wall_BlocksLimestone,Wall_BlocksLimestone,Wall_BlocksLimestone</li>
+        <li>Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Autodoor_Steel,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,Heater,.,.,.,.,.,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,.,.,.,.,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,.,.,.,.,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,.,StandingLamp,.,.,Dresser_WoodLog_West,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,SculptureLarge_BlocksGranite,.,.,.,.,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,.,.,.,.,.,.,Battery_North,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,Drape_Cloth_North,.,.,.,RoyalBed_WoodLog_South,EndTable_WoodLog_South,.,Wall_BlocksGranite</li>
+        <li>Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
       </li>
     </layouts>
     <roofGrid>

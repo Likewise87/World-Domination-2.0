@@ -9,8 +9,8 @@
   <TSA_WD_BtnReset>默认</TSA_WD_BtnReset>
   <TSA_WD_BtnResetGlobal>永久敌对</TSA_WD_BtnResetGlobal>
   <TSA_WD_BtnResetGlobal_Tooltip>锁定所有包含永久敌对阵营的关系对（包括对玩家），并将虫族/巢穴对所有人锁定。阻止 WD 外交改动这些对。</TSA_WD_BtnResetGlobal_Tooltip>
-  <TSA_WD_BtnReset_Tooltip>阻止永久敌对阵营（虫族与原版永久敌人）与其他永久敌对阵营改变关系。虫族/巢穴也会对所有阵营锁定。此处不配置与玩家的关系。</TSA_WD_BtnReset_Tooltip>
-  <TSA_WD_DescAllegianceMatrix>控制哪些阵营被允许彼此改变关系(仅游戏中)。</TSA_WD_DescAllegianceMatrix>
+  <TSA_WD_BtnReset_Tooltip>应用默认锁定规则：永久敌对阵营（虫族与原版永久敌人）彼此锁定，虫族/巢穴对所有阵营锁定。其余关系对（包括对玩家）保持未锁定，除非你在下方列表中手动锁定。</TSA_WD_BtnReset_Tooltip>
+  <TSA_WD_DescAllegianceMatrix>仅游戏中：派系参与（WD 行动、MapGen、叙事者）与成对关系。</TSA_WD_DescAllegianceMatrix>
   <TSA_WD_Diplo_ActionShareMult>每日行动份额乘数</TSA_WD_Diplo_ActionShareMult>
   <TSA_WD_Diplo_AntiLeader>启用反霸主联盟</TSA_WD_Diplo_AntiLeader>
   <TSA_WD_Diplo_AntiLeaderTooltip>小型阵营可能组成防御联盟并向世界最强势阵营宣战以恢复平衡。</TSA_WD_Diplo_AntiLeaderTooltip>
@@ -251,7 +251,7 @@
   <TSA_WD_Sab_WeightSuccess>成功权重</TSA_WD_Sab_WeightSuccess>
   <TSA_WD_Sab_WeightSuccessTooltip>修正前成功破坏尝试的基础权重。</TSA_WD_Sab_WeightSuccessTooltip>
   <TSA_WD_StatusLocked>已锁定</TSA_WD_StatusLocked>
-  <TSA_WD_StatusPossible>可变更</TSA_WD_StatusPossible>
+  <TSA_WD_StatusPossible>可更改</TSA_WD_StatusPossible>
   <TSA_WD_BuySettlement_GoodwillCurrent>当前好感度：{0}</TSA_WD_BuySettlement_GoodwillCurrent>
   <TSA_WD_BuySettlement_GoodwillMinRetain>需保留的最低好感度：{0}</TSA_WD_BuySettlement_GoodwillMinRetain>
   <TSA_WD_BuySettlement_GoodwillRateTip>每点好感度可抵扣 {0} 银的要价。</TSA_WD_BuySettlement_GoodwillRateTip>

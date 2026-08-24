@@ -66,6 +66,8 @@ namespace TSA_WorldDomination
         private static int radiusTiles;
         private static OutpostCoverageFillKind fillKind;
         private static bool accuracyBands;
+        /// <summary>When &gt; 0 and <see cref="accuracyBands"/>, band fractions use this absolute max instead of the drawn radius (so shrink clips outer bands without rescaling colors).</summary>
+        private static float accuracyBandMaxRange;
         private static bool attackRangeBands;
         private static bool zealAttackInnerCyan;
 
@@ -205,16 +207,20 @@ namespace TSA_WorldDomination
             OutpostCoverageFillKind kind,
             bool accuracyBands = false,
             bool attackRangeBands = false,
-            bool zealAttackInnerCyan = false)
+            bool zealAttackInnerCyan = false,
+            float accuracyBandMaxRange = -1f)
         {
             int r = Mathf.CeilToInt(radius);
             if (!center.Valid || r <= 0)
                 return ClearTarget();
 
+            float bandMax = accuracyBands && accuracyBandMaxRange > 0f ? accuracyBandMaxRange : -1f;
+
             if (hasTarget && centerTile == center && radiusTiles == r && fillKind == kind
                 && WD_WorldLayer_OutpostCoverageFill.accuracyBands == accuracyBands
                 && WD_WorldLayer_OutpostCoverageFill.attackRangeBands == attackRangeBands
-                && WD_WorldLayer_OutpostCoverageFill.zealAttackInnerCyan == zealAttackInnerCyan)
+                && WD_WorldLayer_OutpostCoverageFill.zealAttackInnerCyan == zealAttackInnerCyan
+                && Mathf.Approximately(WD_WorldLayer_OutpostCoverageFill.accuracyBandMaxRange, bandMax))
                 return false;
 
             hasTarget = true;
@@ -222,6 +228,7 @@ namespace TSA_WorldDomination
             radiusTiles = r;
             fillKind = kind;
             WD_WorldLayer_OutpostCoverageFill.accuracyBands = accuracyBands;
+            WD_WorldLayer_OutpostCoverageFill.accuracyBandMaxRange = bandMax;
             WD_WorldLayer_OutpostCoverageFill.attackRangeBands = attackRangeBands;
             WD_WorldLayer_OutpostCoverageFill.zealAttackInnerCyan = zealAttackInnerCyan;
             return true;
@@ -234,12 +241,13 @@ namespace TSA_WorldDomination
             OutpostCoverageFillKind kind,
             bool accuracyBands = false,
             bool attackRangeBands = false,
-            bool zealAttackInnerCyan = false)
+            bool zealAttackInnerCyan = false,
+            float accuracyBandMaxRange = -1f)
         {
             if (outpost == null || radius <= 0)
                 return ClearTarget();
             PlanetLayer layer = PlanetSurfaceWorldActions.LayerOf(outpost);
-            return TrySetTarget(new PlanetTile(outpost.Tile, layer), radius, kind, accuracyBands, attackRangeBands, zealAttackInnerCyan);
+            return TrySetTarget(new PlanetTile(outpost.Tile, layer), radius, kind, accuracyBands, attackRangeBands, zealAttackInnerCyan, accuracyBandMaxRange);
         }
 
         /// <summary>Returns true if a previous target was cleared.</summary>
@@ -251,6 +259,7 @@ namespace TSA_WorldDomination
             radiusTiles = 0;
             fillKind = OutpostCoverageFillKind.Purple;
             accuracyBands = false;
+            accuracyBandMaxRange = -1f;
             attackRangeBands = false;
             zealAttackInnerCyan = false;
             return true;
@@ -282,8 +291,11 @@ namespace TSA_WorldDomination
                     WorldMapRadiusVisual.GetHopDrawRadius(radiusTiles),
                     Mathf.Max(Mathf.CeilToInt(radiusTiles * 1.2f), radiusTiles + 2)),
                 WorldMapRadiusVisual.MaxVisualHopRadius);
-            // Band coloring uses the drawn disk so capped large-R overlays still show all bands.
-            float bandMax = Mathf.Min(radiusTiles, hopWindow);
+            // Accuracy bands: prefer absolute configured max so shrinking fire radius clips outer bands
+            // without rescaling colors. Fallback = drawn disk (hop-capped) for legacy callers.
+            float bandMax = accuracyBandMaxRange > 0f
+                ? accuracyBandMaxRange
+                : Mathf.Min(radiusTiles, hopWindow);
 
             // Checkpoints for WorldComponent_WDVisualizerToggle progressive regen.
             // Bare SetDirty→RegenerateNow drains yields in one frame; the slicer stops on null.

@@ -95,8 +95,13 @@ namespace TSA_WorldDomination
             parms.customLetterText = "TSA_WD_Letter_RaidPlayer_Colony_Text".Translate(attacker.Label, target.LabelCap);
 
             bool dropPod = traveler != null && traveler.mission == TravelerMission.RaidDropPod;
+            bool gravship = traveler != null && traveler.mission == TravelerMission.RaidGravship;
             bool forcedSiege = false;
-            if (dropPod)
+            if (gravship)
+            {
+                // Arrival handled by GravshipRaidsCompat; parms keep letter text for fallback.
+            }
+            else if (dropPod)
             {
                 parms.raidArrivalMode = Rand.Bool ? PawnsArrivalModeDefOf.CenterDrop : PawnsArrivalModeDefOf.EdgeDrop;
             }
@@ -126,17 +131,34 @@ namespace TSA_WorldDomination
             try
             {
                 IsWorldDominationRaid = true;
-                ok = IncidentDefOf.RaidEnemy.Worker.TryExecute(parms);
-                if (!ok && forcedSiege)
+                if (gravship)
                 {
-                    ResetRaidParmsForRetry(parms, raidPoints, preferDropPod: dropPod);
-                    ok = IncidentDefOf.RaidEnemy.Worker.TryExecute(parms);
+                    ok = GravshipRaidsCompat.TryExecuteWdGravshipRaid(
+                        map, attacker.Faction, raidPoints, parms.customLetterLabel, parms.customLetterText);
+                    if (!ok)
+                    {
+                        ResetRaidParmsForRetry(parms, raidPoints, preferDropPod: true);
+                        ok = IncidentDefOf.RaidEnemy.Worker.TryExecute(parms);
+                        if (Prefs.DevMode)
+                            Log.Warning("[TSA WD] Gravship colony raid failed; drop-pod fallback "
+                                + (ok ? "succeeded" : "also failed")
+                                + " points=" + raidPoints.ToString("F0"));
+                    }
                 }
-                if (!ok)
+                else
                 {
-                    // Clear FRD-forced spawnCenter / age restriction and retry a plain ImmediateAttack walk-in.
-                    ResetRaidParmsForRetry(parms, raidPoints, preferDropPod: false);
                     ok = IncidentDefOf.RaidEnemy.Worker.TryExecute(parms);
+                    if (!ok && forcedSiege)
+                    {
+                        ResetRaidParmsForRetry(parms, raidPoints, preferDropPod: dropPod);
+                        ok = IncidentDefOf.RaidEnemy.Worker.TryExecute(parms);
+                    }
+                    if (!ok)
+                    {
+                        // Clear FRD-forced spawnCenter / age restriction and retry a plain ImmediateAttack walk-in.
+                        ResetRaidParmsForRetry(parms, raidPoints, preferDropPod: false);
+                        ok = IncidentDefOf.RaidEnemy.Worker.TryExecute(parms);
+                    }
                 }
                 if (!ok)
                 {

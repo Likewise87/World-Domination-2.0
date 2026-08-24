@@ -7,7 +7,8 @@
   <TSA_WD_BtnDailyActions>World Actions</TSA_WD_BtnDailyActions>
   <TSA_WD_BtnDiplomacy>Diplomacy, Buffs &amp; Debuffs</TSA_WD_BtnDiplomacy>
   <TSA_WD_BtnDisinformation>Disinformation</TSA_WD_BtnDisinformation>
-  <TSA_WD_BtnGarrisonSettings>Map Generation and Garrison</TSA_WD_BtnGarrisonSettings>
+  <TSA_WD_BtnGarrisonSettings>Garrison scaling</TSA_WD_BtnGarrisonSettings>
+  <TSA_WD_BtnBaseGeneration>Base generation</TSA_WD_BtnBaseGeneration>
   <TSA_WD_BtnGrowthExpand>Growth &amp; Expansion</TSA_WD_BtnGrowthExpand>
   <TSA_WD_BtnMiningBaselines>Mining baselines</TSA_WD_BtnMiningBaselines>
   <TSA_WD_BtnNotifications>Notifications</TSA_WD_BtnNotifications>
@@ -75,7 +76,8 @@
   <TSA_WD_DescDailyActions>How many actions may settlements perform per day? How likely is each action type? What cooldowns to apply after an action?</TSA_WD_DescDailyActions>
   <TSA_WD_DescDiplomacy>Random diplomacy, revolt chance, goodwill cap and vanilla goodwill tweaks, allied raid orders, ordered roads, buy settlement, faction investment, and leader/underdog/zeal/coalition buffs.</TSA_WD_DescDiplomacy>
   <TSA_WD_DescDisinformation>Success and failure likelihoods, cooldowns, and skill impact for disinformation missions.</TSA_WD_DescDisinformation>
-  <TSA_WD_DescGarrison>Whether WD generates settlement maps when you attack NPC bases, and how strong the garrison is by tier.</TSA_WD_DescGarrison>
+  <TSA_WD_DescGarrison>How strong settlement garrisons are by tier, and how much they weaken when a settlement is depleted.</TSA_WD_DescGarrison>
+  <TSA_WD_DescBaseGeneration>KCSG layout tweaks when WD generates settlement assault and outpost defense maps. Per-faction assault eligibility is set in World Setup → Allegiances.</TSA_WD_DescBaseGeneration>
   <TSA_WD_DescGrowthExpand>How quickly do settlements grow? What requirements need to be met to upgrade a settlement? Expansion distance and saturation caps.</TSA_WD_DescGrowthExpand>
   <TSA_WD_DescMiningBaselines>Configure the baseline amount a Mining Outpost can get per stone/ore based on the Mining Skill level.</TSA_WD_DescMiningBaselines>
   <TSA_WD_DescNotifications>Toggle which world domination events generate notifications.</TSA_WD_DescNotifications>
@@ -136,13 +138,37 @@
   <TSA_WD_Garrison_T2>Tier 2 (Town) Multiplier</TSA_WD_Garrison_T2>
   <TSA_WD_Garrison_T3>Tier 3 (City) Multiplier</TSA_WD_Garrison_T3>
   <TSA_WD_Garrison_T4>Tier 4 (Citadel) Multiplier</TSA_WD_Garrison_T4>
-  <TSA_WD_Garrison_Title>Map Generation and Garrison</TSA_WD_Garrison_Title>
-  <TSA_WD_Garrison_AllowBaseGeneration>Allow WD to take over base generation</TSA_WD_Garrison_AllowBaseGeneration>
-  <TSA_WD_Garrison_AllowBaseGenerationTooltip>When enabled, attacking an NPC settlement generates a WD/KCSG layout scaled to that settlement's tier and strength. When disabled, vanilla (or other mods') settlement maps are used instead. Defending your outposts is unaffected.</TSA_WD_Garrison_AllowBaseGenerationTooltip>
-  <TSA_WD_Garrison_AdaptiveTerrainPrep>Adaptive terrain prep (swamp / rock)</TSA_WD_Garrison_AdaptiveTerrainPrep>
-  <TSA_WD_Garrison_AdaptiveTerrainPrepTooltip>Scans the settlement layout. If too much is unbuildable (mud, swamp, water, rock), converts only those blocked cells to the map's most common buildable terrain. Trees stay. If mostly fine, leaves nature as-is.</TSA_WD_Garrison_AdaptiveTerrainPrepTooltip>
-  <TSA_WD_Garrison_BlockedFlattenThreshold>Nuke when blocked above</TSA_WD_Garrison_BlockedFlattenThreshold>
-  <TSA_WD_Garrison_BlockedFlattenThresholdTooltip>If more than this fraction of the layout is unbuildable, flatten blocked cells in the layout. Below this, leave terrain as generated. Ignored when Always clear rect is on.</TSA_WD_Garrison_BlockedFlattenThresholdTooltip>
+  <TSA_WD_BaseGen_Intro>These options tweak WD/KCSG generation when it runs. Outpost defense maps always use WD layouts. NPC assault maps use WD only for factions with MapGen enabled in World Setup → Allegiances.</TSA_WD_BaseGen_Intro>
+  <TSA_WD_BaseGen_HeaderTerrainPrep>Terrain prep</TSA_WD_BaseGen_HeaderTerrainPrep>
+  <TSA_WD_BaseGen_AdaptiveTerrainPrep>Adaptive terrain prep (swamp / rock)</TSA_WD_BaseGen_AdaptiveTerrainPrep>
+  <TSA_WD_BaseGen_AdaptiveTerrainPrepTip>On settlement assault and outpost defense maps, scans the layout. If too much is unbuildable (mud, swamp, water, rock), converts only those blocked cells to the map's most common buildable terrain. Trees stay. If mostly fine, leaves nature as-is.</TSA_WD_BaseGen_AdaptiveTerrainPrepTip>
+  <TSA_WD_BaseGen_AlwaysClearRect>Always clear layout rect</TSA_WD_BaseGen_AlwaysClearRect>
+  <TSA_WD_BaseGen_AlwaysClearRectTip>When on, flatten blocked cells in the layout even if the blocked fraction is below the slider. When off, flatten only if blocked cells exceed that slider.</TSA_WD_BaseGen_AlwaysClearRectTip>
+  <TSA_WD_BaseGen_BlockedFlattenThreshold>Flatten when blocked above</TSA_WD_BaseGen_BlockedFlattenThreshold>
+  <TSA_WD_BaseGen_BlockedFlattenThresholdTip>If more than this fraction of the layout is unbuildable, flatten blocked cells in the layout. Below this, leave terrain as generated. Ignored when Always clear layout rect is on.</TSA_WD_BaseGen_BlockedFlattenThresholdTip>
+  <TSA_WD_BaseGen_RectBlend>Blend space around rect</TSA_WD_BaseGen_RectBlend>
+  <TSA_WD_BaseGen_RectBlendTip>When flatten runs, also convert blocked cells outward from the layout (noisy falloff) and wipe filth and chunks on that same area. Trees stay. When off, only the layout rectangle is changed.</TSA_WD_BaseGen_RectBlendTip>
+  <TSA_WD_BaseGen_HeaderRockAndSoil>Rock and soil</TSA_WD_BaseGen_HeaderRockAndSoil>
+  <TSA_WD_BaseGen_RemapRock>Remap layout stone to map rock</TSA_WD_BaseGen_RemapRock>
+  <TSA_WD_BaseGen_RemapRockTip>On settlement assault and outpost defense maps, swaps hardcoded layout stone (walls, chunks, floors) to the map's dominant natural rock type.</TSA_WD_BaseGen_RemapRockTip>
+  <TSA_WD_BaseGen_RemapFarmSoil>Remap farm soil to map ground</TSA_WD_BaseGen_RemapFarmSoil>
+  <TSA_WD_BaseGen_RemapFarmSoilTip>On settlement assault and outpost defense maps, replaces layout Soil and SoilRich with the map's dominant fertile walkable terrain.</TSA_WD_BaseGen_RemapFarmSoilTip>
+  <TSA_WD_BaseGen_FertileUnderCrops>Fertile ground under crops</TSA_WD_BaseGen_FertileUnderCrops>
+  <TSA_WD_BaseGen_FertileUnderCropsTip>On settlement assault and outpost defense maps, places crop symbols on the map's dominant fertile ground before the plant is spawned.</TSA_WD_BaseGen_FertileUnderCropsTip>
+  <TSA_WD_BaseGen_HeaderLayoutExtras>Layout extras</TSA_WD_BaseGen_HeaderLayoutExtras>
+  <TSA_WD_BaseGen_SpawnPenLivestock>Spawn pen livestock</TSA_WD_BaseGen_SpawnPenLivestock>
+  <TSA_WD_BaseGen_RemapTrees>Remap layout trees to biome</TSA_WD_BaseGen_RemapTrees>
+  <TSA_WD_BaseGen_RemapTreesTip>On settlement assault and outpost defense maps, swaps Oak/Birch/Maple layout placeholders to the biome's 1st/2nd/3rd most common trees.</TSA_WD_BaseGen_RemapTreesTip>
+  <TSA_WD_BaseGen_SpawnPenLivestockTip>On settlement assault and outpost defense maps, spawns a small herd of wild animals around pen markers in the layout.</TSA_WD_BaseGen_SpawnPenLivestockTip>
+  <TSA_WD_BaseGen_HeaderAfterGeneration>After generation</TSA_WD_BaseGen_HeaderAfterGeneration>
+  <TSA_WD_BaseGen_UnfogRect>Unfog settlement rect</TSA_WD_BaseGen_UnfogRect>
+  <TSA_WD_BaseGen_UnfogRectTip>On settlement assault and outpost defense maps, reveals the full KCSG layout rectangle after map generation (not just building footprints).</TSA_WD_BaseGen_UnfogRectTip>
+  <TSA_WD_BaseGen_FogInteriorMineables>Fog interior rock and ore</TSA_WD_BaseGen_FogInteriorMineables>
+  <TSA_WD_BaseGen_FogInteriorMineablesTip>On settlement assault and outpost defense maps, within the settlement rect, re-fogs natural rock and ore cells that are fully surrounded by rock or ore on all eight neighboring tiles (pre-existing mountain or layout rock). Chunks do not count. Runs after settlement rect unfog.</TSA_WD_BaseGen_FogInteriorMineablesTip>
+  <TSA_WD_BaseGen_ForcePower>Force settlement power (assault only)</TSA_WD_BaseGen_ForcePower>
+  <TSA_WD_BaseGen_ForcePowerTip>On NPC settlement assault maps, powers lamps and turrets without a real grid and refuels fuel turrets. Does not apply to outpost defense maps.</TSA_WD_BaseGen_ForcePowerTip>
+  <TSA_WD_BaseGen_SilenceTurrets>Silence defeated turrets (assault only)</TSA_WD_BaseGen_SilenceTurrets>
+  <TSA_WD_BaseGen_SilenceTurretsTip>On NPC settlement assault maps, powers down leftover faction turrets once all hostile humanlikes are down or gone. Does not apply to outpost defense maps.</TSA_WD_BaseGen_SilenceTurretsTip>
   <TSA_WD_Garrison_Tooltip>Scales the points used to generate defenders. Higher values increase pawn count and quality.</TSA_WD_Garrison_Tooltip>
   <TSA_WD_HeaderDynamicGarrison>Dynamic Scaling (by current offensive strength)</TSA_WD_HeaderDynamicGarrison>
   <TSA_WD_Garrison_MinScale>Minimum garrison from depleted offense</TSA_WD_Garrison_MinScale>
@@ -200,10 +226,11 @@
   <TSA_WD_WorldSetup_SettlementCountTooltip>How many NPC settlements to place on Recreate. Default is the count from vanilla world gen. Faction shares (Faction shares button) decide how that total is split.</TSA_WD_WorldSetup_SettlementCountTooltip>
   <TSA_WD_WorldSetup_TierLikelihood>Settlement tiers</TSA_WD_WorldSetup_TierLikelihood>
   <TSA_WD_WorldSetup_TierLikelihoodTooltip>Edit how often new settlements roll each tier. The next recreate uses these weights.</TSA_WD_WorldSetup_TierLikelihoodTooltip>
-  <TSA_WD_WorldSetup_Allegiances>Allegiances</TSA_WD_WorldSetup_Allegiances>
-  <TSA_WD_WorldSetup_AllegiancesTooltip>Set Neutral, Allied, or Hostile between NPC factions, lock pairs from WD diplomacy, and optionally freeze changes.</TSA_WD_WorldSetup_AllegiancesTooltip>
+  <TSA_WD_WorldSetup_Allegiances>WD Faction scope and Allegiances</TSA_WD_WorldSetup_Allegiances>
+  <TSA_WD_WorldSetup_AllegiancesTooltip>Opens faction participation (WD Actions, MapGen, Storyteller) and per-pair allegiances.</TSA_WD_WorldSetup_AllegiancesTooltip>
   <TSA_WD_WorldSetup_AllegiancesTitle>World Allegiances</TSA_WD_WorldSetup_AllegiancesTitle>
   <TSA_WD_WorldSetup_AllegiancesSubtitle>Edit NPC relationships for this world. Optional freeze lasts {0} days (same as random diplomacy).</TSA_WD_WorldSetup_AllegiancesSubtitle>
+  <TSA_WD_WorldSetup_AllegiancesSubtitleNoFreeze>Edit faction participation and allegiances between pairs. Lock NPC pairs to block random WD diplomacy.</TSA_WD_WorldSetup_AllegiancesSubtitleNoFreeze>
   <TSA_WD_WorldSetup_FreezeOnApply>Freeze {0} days</TSA_WD_WorldSetup_FreezeOnApply>
   <TSA_WD_WorldSetup_FreezeOnApplyTooltip>When checked, Neutral / Allied / Hostile also apply a {0}-day freeze so random WD diplomacy will not change that pair during the freeze.</TSA_WD_WorldSetup_FreezeOnApplyTooltip>
   <TSA_WD_WorldSetup_GoodwillFieldTooltip>Type goodwill (-100 to {0}) and press Enter. Ally sets +75, Hostile sets -75, Neutral sets 0. Upper limit matches Max goodwill in mod settings.</TSA_WD_WorldSetup_GoodwillFieldTooltip>
@@ -338,8 +365,33 @@
   <TSA_WD_HeaderSystem>System Actions</TSA_WD_HeaderSystem>
   <TSA_WD_HeaderTribalGarrisons>Tribal Factions</TSA_WD_HeaderTribalGarrisons>
   <TSA_WD_HeaderWorldActions>World Actions</TSA_WD_HeaderWorldActions>
-  <TSA_WD_OpenAllegianceMatrix>Allowed Diplomacy Changes</TSA_WD_OpenAllegianceMatrix>
-  <TSA_WD_DescAllegianceMatrix>In-game only: matrix of faction pairs. Toggle whether World Domination may change how one faction views another (ally, hostile, neutral). Locked pairs are left unchanged by WD diplomacy rolls.</TSA_WD_DescAllegianceMatrix>
+  <TSA_WD_OpenAllegianceMatrix>WD Faction scope and Allegiances</TSA_WD_OpenAllegianceMatrix>
+  <TSA_WD_DescAllegianceMatrix>In-game only: faction participation (WD Actions, MapGen, Storyteller) and per-pair allegiances.</TSA_WD_DescAllegianceMatrix>
+  <TSA_WD_Allegiances_LiveEditWarning>You are editing live allegiances. Be sure you know what you are doing!</TSA_WD_Allegiances_LiveEditWarning>
+  <TSA_WD_Allegiances_ResetConfirm>Reset this section? Manual participation and storyteller overrides will be cleared.</TSA_WD_Allegiances_ResetConfirm>
+  <TSA_WD_Allegiances_SectionParticipation>Factions Controlled by WD</TSA_WD_Allegiances_SectionParticipation>
+  <TSA_WD_Allegiances_SectionParticipation_Tooltip>Choose which factions can run WD actions, use WD settlement map generation when assaulted, and follow storyteller raid rules. Orbit-only factions cannot be enabled.</TSA_WD_Allegiances_SectionParticipation_Tooltip>
+  <TSA_WD_Allegiances_SectionDiplomacy>Allegiances</TSA_WD_Allegiances_SectionDiplomacy>
+  <TSA_WD_Allegiances_SectionDiplomacy_Tooltip>Edit goodwill and relations between faction pairs. Lock NPC pairs to block random WD diplomacy.</TSA_WD_Allegiances_SectionDiplomacy_Tooltip>
+  <TSA_WD_FactionCol_Name>Faction</TSA_WD_FactionCol_Name>
+  <TSA_WD_FactionCol_WdActions>WD Actions</TSA_WD_FactionCol_WdActions>
+  <TSA_WD_FactionCol_WdActions_Tooltip>Allow this faction to perform WD actions like sending out caravans to raid, expand, trade, or build fortifications.</TSA_WD_FactionCol_WdActions_Tooltip>
+  <TSA_WD_FactionCol_BaseGen>MapGen</TSA_WD_FactionCol_BaseGen>
+  <TSA_WD_FactionCol_BaseGen_Tooltip>Allow WD to control map generation for this faction when you attack one of their settlements. T1 settlements become tiny villages; T4 citadels become actual fortresses.</TSA_WD_FactionCol_BaseGen_Tooltip>
+  <TSA_WD_FactionCol_BaseGen_RequiresWdActions>Requires WD Actions for this faction.</TSA_WD_FactionCol_BaseGen_RequiresWdActions>
+  <TSA_WD_FactionCol_NA>N/A</TSA_WD_FactionCol_NA>
+  <TSA_WD_FactionCol_StorytellerRaids>Storyteller</TSA_WD_FactionCol_StorytellerRaids>
+  <TSA_WD_FactionCol_StorytellerRaids_Tooltip>May this faction spawn storyteller raids? Off by default. You may activate both WD Actions and Storyteller Raids so you may get raided through both ways.</TSA_WD_FactionCol_StorytellerRaids_Tooltip>
+  <TSA_WD_FactionExclude_Hidden>Hidden faction. Cannot participate in WD.</TSA_WD_FactionExclude_Hidden>
+  <TSA_WD_FactionExclude_NonHumanlike>Off by default. Enable WD Actions to include this non-humanlike faction (advanced).</TSA_WD_FactionExclude_NonHumanlike>
+  <TSA_WD_FactionExclude_NoSettlementWeight>No settlement generation weight. Off by default; enable WD Actions to opt in.</TSA_WD_FactionExclude_NoSettlementWeight>
+  <TSA_WD_FactionExclude_NonSurface>Orbit-only factions cannot use World Domination surface simulation.</TSA_WD_FactionExclude_NonSurface>
+  <TSA_WD_FactionExclude_TradersGuild>Traders Guild is orbit-only and cannot use World Domination surface simulation.</TSA_WD_FactionExclude_TradersGuild>
+  <TSA_WD_Faction_Defeated>defeated</TSA_WD_Faction_Defeated>
+  <TSA_WD_BtnResetSection>Reset Section</TSA_WD_BtnResetSection>
+  <TSA_WD_BtnResetFactionParticipation>Reset participation</TSA_WD_BtnResetFactionParticipation>
+  <TSA_WD_BtnResetFactionParticipation_Tooltip>Clears manual WD Actions, MapGen, and Storyteller overrides plus soft opt-ins. Hard-excluded factions are unchanged.</TSA_WD_BtnResetFactionParticipation_Tooltip>
+  <TSA_WD_Threat_StorytellerMovedHint>Per-faction storyteller raid rules moved to WD Faction scope and Allegiances.</TSA_WD_Threat_StorytellerMovedHint>
   <TSA_WD_AllegianceMatrixInGameOnly>Allowed diplomacy changes can only be opened while playing (not from the main menu).</TSA_WD_AllegianceMatrixInGameOnly>
   <TSA_WD_Outpost_MaxTravelStrengthLoss>Max. travel strength loss</TSA_WD_Outpost_MaxTravelStrengthLoss>
   <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>Maximum percentage of departure strength that travelers (raids, expansion, road builders) can lose during travel. At 75%, they keep at least 25% of initial strength and never expire from attrition alone.</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
@@ -751,15 +803,16 @@
   <TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>When on, target-of-opportunity retargeting, post-victory marauding, and settlement ambush (whichever of the three are enabled in the sections above) can trigger from the very start of a game instead of only once mid or late escalation is reached. Has no effect on any of the three unless at least one of them is also switched on.</TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>
   <TSA_WD_Experimental_EnableWorldMapSounds>WD world map combat sounds</TSA_WD_Experimental_EnableWorldMapSounds>
   <TSA_WD_Experimental_EnableWorldMapSoundsTip>When on, AT Turret, mortar, and flak fire play short oneshots on the world map. Turn off to mute all of those WD combat sounds. UI clicks are unchanged.</TSA_WD_Experimental_EnableWorldMapSoundsTip>
+  <TSA_WD_Experimental_UnlimitedAssaultMortarSupport>Unlimited Mortar support on settlement assault</TSA_WD_Experimental_UnlimitedAssaultMortarSupport>
+  <TSA_WD_Experimental_UnlimitedAssaultMortarSupportTip>When on, the assault-map artillery float button can fire without a mortar outpost in range and without putting an outpost on cooldown. Off by default.</TSA_WD_Experimental_UnlimitedAssaultMortarSupportTip>
+  <TSA_WD_Experimental_T4GravshipRaids>Experimental: T4 gravship raids</TSA_WD_Experimental_T4GravshipRaids>
+  <TSA_WD_Experimental_T4GravshipRaidsTip>When on, tier-4 settlements may launch ballistic gravship raid travelers at the player. Requires Odyssey and the Gravship Raids Workshop mod (sk.gravshipraids). Without those mods the option has no effect. Off by default.</TSA_WD_Experimental_T4GravshipRaidsTip>
+  <TSA_WD_Experimental_GravshipRaidChanceT4>T4 gravship raid chance</TSA_WD_Experimental_GravshipRaidChanceT4>
+  <TSA_WD_Experimental_GravshipRaidChanceT4Tip>When a T4 settlement launches a raid and gravship raids are enabled, chance it uses a gravship traveler instead of drop pods or a walking caravan. Rolled before the normal drop-pod chance.</TSA_WD_Experimental_GravshipRaidChanceT4Tip>
   <TSA_WD_Experimental_OutpostWithdrawStrengthBudget>Experimental: outpost withdraw strength budget</TSA_WD_Experimental_OutpostWithdrawStrengthBudget>
   <TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>When on, withdrawals use current uncapped offensive strength with a 5% confirmation allowance. If the selected pawns exceed that budget, a picker opens: Form Caravan, Leave at Outpost, or Mark as Lost. When off, transfers always proceed without that check.</TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>
   <TSA_WD_Experimental_OutpostDefenseDeployBudget>Experimental: outpost defense deploy strength budget</TSA_WD_Experimental_OutpostDefenseDeployBudget>
   <TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>When on, Fight Manually limits how many outpost pawns you can deploy by current offensive strength. When off, you can select any mix with no budget cap.</TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>
-  <TSA_WD_Experimental_HeaderBaseGeneration>Base generation</TSA_WD_Experimental_HeaderBaseGeneration>
-  <TSA_WD_Experimental_AlwaysClearKcsgRect>Always clear rect for base generation</TSA_WD_Experimental_AlwaysClearKcsgRect>
-  <TSA_WD_Experimental_AlwaysClearKcsgRectTip>When on, flatten blocked cells in the layout even if the blocked fraction is below the slider. When off, flatten only if blocked cells exceed that slider.</TSA_WD_Experimental_AlwaysClearKcsgRectTip>
-  <TSA_WD_Experimental_KcsgRectBlend>Blend space around rect</TSA_WD_Experimental_KcsgRectBlend>
-  <TSA_WD_Experimental_KcsgRectBlendTip>When flatten runs, also convert blocked cells outward from the layout (about 24 tiles, noisy falloff) and wipe filth and chunks on that same area. Trees stay. When off, only the layout rectangle is changed.</TSA_WD_Experimental_KcsgRectBlendTip>
   <TSA_WD_Experimental_HeaderAtTurrets>AT Turrets</TSA_WD_Experimental_HeaderAtTurrets>
   <TSA_WD_Experimental_HeaderPlayerAtTurretCaps>Player AT Turret caps</TSA_WD_Experimental_HeaderPlayerAtTurretCaps>
   <TSA_WD_Experimental_AT_TurretPlayerGlobalMax>Player global AT Turret cap</TSA_WD_Experimental_AT_TurretPlayerGlobalMax>

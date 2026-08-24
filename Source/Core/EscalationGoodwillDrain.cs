@@ -43,7 +43,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < factions.Count; i++)
             {
                 Faction faction = factions[i];
-                if (faction == null || faction.defeated || WorldActions_Utils.IsExcludedFaction(faction)) continue;
+                if (faction == null || faction.defeated || !WorldActions_Utils.IsWdParticipant(faction)) continue;
                 if (WorldActions_Utils.IsPermanentEnemyOfPlayer(faction)) continue;
 
                 FactionRelationKind before = WorldActions_Utils.SafeRelationKindWith(faction, player);

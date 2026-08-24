@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
     <defName>TSA_Tribal_Production_5</defName>
 <layouts>
       <li>
@@ -32,19 +33,20 @@
       <li>1,1,1,1,1,1,.,.</li>
     </roofGrid>
     <terrainGrid>
-      <li>TileSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,.,WoodPlankFloor</li>
-      <li>TileSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,WoodPlankFloor,WoodPlankFloor</li>
-      <li>TileSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,WoodPlankFloor,WoodPlankFloor</li>
-      <li>TileSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,.,.</li>
-      <li>TileSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,.,.</li>
-      <li>TileSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,.,.</li>
-      <li>TileSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,TileSandstone,.,.</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.,WoodPlankFloor</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,WoodPlankFloor,WoodPlankFloor</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,WoodPlankFloor,WoodPlankFloor</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.,.</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.,.</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.,.</li>
+      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.,.</li>
     </terrainGrid>
     <tags>
       <li>TSA_Tribal_Production</li>
     </tags>
   </KCSG.StructureLayoutDef>
   <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
     <defName>TSA_Tribal_Production_6</defName>
     <layouts>
       <li>

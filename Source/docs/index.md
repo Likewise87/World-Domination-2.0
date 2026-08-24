@@ -6,7 +6,7 @@
 World Domination 2.0 is the successor to [**World Domination**](https://steamcommunity.com/sharedfiles/filedetails/?id=3646291383). It is the answer to the question "What if [Rim War](https://steamcommunity.com/sharedfiles/filedetails/?id=2222935097) and [Vanilla Outposts Expanded](https://steamcommunity.com/sharedfiles/filedetails/?id=2688941031) had a child?" It was created as a separate mod because instead of all actions like raids between factions happening instantly, WD travelers now move across the map as visible caravans, making the world feel much more alive. Also, the old version was tied to [Vanilla Outposts Expanded](https://steamcommunity.com/sharedfiles/filedetails/?id=2688941031), whereas this one has its own comprehensive outpost framework.
 
 !!! warning "World Domination is a massive mod"
-    World Domination replaces or extends many world-map systems. By default, storyteller raids from factions managed by WD are deactivated. Those factions attack through WD raid caravans traveling to you instead. Storyteller raids from factions not managed by WD remain active by default (Mechanoids, manhunter packs).
+    World Domination replaces or extends many world-map systems. By default, storyteller raids from factions with WD Actions enabled are blocked. Those factions attack through WD raid caravans traveling to you instead. Per-faction storyteller rules are in **WD Faction scope and Allegiances**. Storyteller raids from other factions (Mechanoids, manhunter packs) stay allowed by default.
 
 ## Main features
 

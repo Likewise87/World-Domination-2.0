@@ -105,7 +105,7 @@ namespace TSA_WorldDomination
                 Faction f = factions[i];
                 if (f == null || f.IsPlayer || f.defeated || f.def == null || f.def.hidden)
                     continue;
-                if (WorldActions_Utils.IsExcludedFaction(f))
+                if (!WorldActions_Utils.IsWdParticipant(f))
                     continue;
 
                 Faction captured = f;

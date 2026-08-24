@@ -2,18 +2,19 @@
 <Defs>
 
 <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
   <defName>Generic_Mine_2</defName>
   <spawnConduits>false</spawnConduits>
   <layouts>
     <li>
-      <li>.,.,.,Marble,.,Marble,.,.,ChunkMarble</li>
-      <li>.,.,MineableGold,MineableGold,ChunkMarble,.,.,.,.</li>
-      <li>.,.,Marble,.,.,.,.,.,AncientMetalCrate</li>
-      <li>.,.,.,.,.,.,.,Marble,MineableGold</li>
-      <li>.,ChunkMarble,Marble,MineableGold,MineableGold,.,.,Marble,MineableGold</li>
-      <li>ChunkMarble,Marble,Marble,Marble,MineableGold,.,ShelfSmall_WoodLog_West,Marble,Marble</li>
-      <li>Marble,Marble,Marble,AncientMetalCrate,.,.,.,ChunkMarble,.</li>
-      <li>.,.,.,.,.,Marble,.,.,.</li>
+      <li>.,.,.,Granite,.,Granite,.,.,ChunkGranite</li>
+      <li>.,.,MineableSilver,MineableSilver,ChunkGranite,.,.,.,.</li>
+      <li>.,.,Granite,.,.,.,.,.,AncientMetalCrate</li>
+      <li>.,.,.,.,.,.,.,Granite,MineableSilver</li>
+      <li>.,ChunkGranite,Granite,MineableSilver,MineableSilver,.,.,Granite,MineableSilver</li>
+      <li>ChunkGranite,Granite,Granite,Granite,MineableSilver,.,ShelfSmall_WoodLog_West,Granite,Granite</li>
+      <li>Granite,Granite,Granite,AncientMetalCrate,.,.,.,ChunkGranite,.</li>
+      <li>.,.,.,.,.,Granite,.,.,.</li>
     </li>
     <li>
       <li>.,.,.,.,.,.,.,.,.</li>
@@ -21,13 +22,13 @@
       <li>.,.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,.,.</li>
-      <li>.,.,.,.,.,.,Gold,.,.</li>
+      <li>.,.,.,.,.,.,Steel,.,.</li>
       <li>.,.,.,.,.,.,.,.,.</li>
       <li>.,.,.,.,.,.,.,.,.</li>
     </li>
   </layouts>
   <terrainGrid>
-    <li>.,.,Marble_RoughHewn,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.</li>
     <li>.,.,.,.,.,.,.,.,.</li>
     <li>.,.,.,.,.,.,.,.,.</li>
     <li>.,.,.,.,.,.,.,.,.</li>

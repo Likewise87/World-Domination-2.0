@@ -114,6 +114,9 @@ namespace TSA_WorldDomination
             if (OdysseyGravshipCaravanClashCompat.TileBlocksPlayerCaravanClash(traveler.Tile))
                 return;
 
+            if (WD_MapComponent_CaravanClash.TileHasBusyCaravanClashAmbush(traveler.Tile))
+                return;
+
             foreach (WorldObject wo in Find.WorldObjects.ObjectsAt(tile))
             {
                 if (wo is Caravan caravan && !caravan.Destroyed && caravan.Faction != null
@@ -165,6 +168,9 @@ namespace TSA_WorldDomination
 
             // Pass 1: blockers before travelers (same-tile ObjectsAt order is not guaranteed).
             if (OdysseyGravshipCaravanClashCompat.TileBlocksPlayerCaravanClash(caravan.Tile))
+                return;
+
+            if (WD_MapComponent_CaravanClash.TileHasBusyCaravanClashAmbush(caravan.Tile))
                 return;
 
             foreach (WorldObject wo in Find.WorldObjects.ObjectsAt(tile))

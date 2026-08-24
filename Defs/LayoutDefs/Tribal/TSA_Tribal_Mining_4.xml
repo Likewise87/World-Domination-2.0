@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
   <defName>TSA_Tribal_Mining_4</defName>
 
   <layouts>
     <li>
-      <li>.,.,.,Marble,Marble,Marble,.,Marble,Marble,.,.,.,.</li>
-      <li>.,.,Marble,Marble,Marble,Marble,.,Marble,Marble,Marble,.,Marble,.</li>
-      <li>.,Marble,Marble,Marble,Marble,.,.,.,Marble,Marble,Marble,Marble,.</li>
-      <li>.,Marble,Marble,Marble,Marble,TorchLamp,.,TorchLamp,Marble,Marble,Marble,.,.</li>
-      <li>Marble,Marble,Marble,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Marble,Marble,Marble</li>
-      <li>Marble,Marble,Marble,Wall_WoodLog,ChunkMarble,.,ChunkMarble,.,.,Wall_WoodLog,Marble,Marble,.</li>
-      <li>.,Marble,Marble,Wall_WoodLog,ChunkMarble,.,.,.,ChunkMarble,Wall_WoodLog,Marble,Marble,Marble</li>
-      <li>.,Marble,Marble,.,.,.,Column_WoodLog,.,.,.,Marble,Marble,Marble</li>
-      <li>Marble,Marble,Marble,Wall_WoodLog,ChunkMarble,ChunkMarble,.,.,TorchWallLamp_East,Wall_WoodLog,Marble,Marble,Marble</li>
-      <li>.,Marble,Marble,Wall_WoodLog,ChunkMarble,ChunkMarble,.,.,ChunkMarble,Wall_WoodLog,Marble,Marble,Marble</li>
-      <li>Marble,Marble,Marble,Wall_WoodLog,Wall_WoodLog,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Marble,Marble,Marble</li>
-      <li>.,.,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble</li>
-      <li>.,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble,Marble,.,.</li>
-      <li>.,.,Marble,Marble,Marble,Marble,Marble,Marble,Marble,.,Marble,.,.</li>
-      <li>.,.,.,Marble,Marble,Marble,Marble,.,.,.,.,.,.</li>
+      <li>.,.,.,Granite,Granite,Granite,.,Granite,Granite,.,.,.,.</li>
+      <li>.,.,Granite,Granite,Granite,Granite,.,Granite,Granite,Granite,.,Granite,.</li>
+      <li>.,Granite,Granite,Granite,Granite,.,.,.,Granite,Granite,Granite,Granite,.</li>
+      <li>.,Granite,Granite,Granite,Granite,TorchLamp,.,TorchLamp,Granite,Granite,Granite,.,.</li>
+      <li>Granite,Granite,Granite,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Granite,Granite,Granite</li>
+      <li>Granite,Granite,Granite,Wall_WoodLog,ChunkGranite,.,ChunkGranite,.,.,Wall_WoodLog,Granite,Granite,.</li>
+      <li>.,Granite,Granite,Wall_WoodLog,ChunkGranite,.,.,.,ChunkGranite,Wall_WoodLog,Granite,Granite,Granite</li>
+      <li>.,Granite,Granite,.,.,.,Column_WoodLog,.,.,.,Granite,Granite,Granite</li>
+      <li>Granite,Granite,Granite,Wall_WoodLog,ChunkGranite,ChunkGranite,.,.,TorchWallLamp_East,Wall_WoodLog,Granite,Granite,Granite</li>
+      <li>.,Granite,Granite,Wall_WoodLog,ChunkGranite,ChunkGranite,.,.,ChunkGranite,Wall_WoodLog,Granite,Granite,Granite</li>
+      <li>Granite,Granite,Granite,Wall_WoodLog,Wall_WoodLog,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Granite,Granite,Granite</li>
+      <li>.,.,Granite,Granite,Granite,Granite,Granite,Granite,Granite,Granite,Granite,Granite,Granite</li>
+      <li>.,Granite,Granite,Granite,Granite,Granite,Granite,Granite,Granite,Granite,Granite,.,.</li>
+      <li>.,.,Granite,Granite,Granite,Granite,Granite,Granite,Granite,.,Granite,.,.</li>
+      <li>.,.,.,Granite,Granite,Granite,Granite,.,.,.,.,.,.</li>
     </li>
     <li>
       <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>

@@ -291,6 +291,7 @@
   <TSA_WD_OrderedRoad_CancelConfirm>Cancelar camino</TSA_WD_OrderedRoad_CancelConfirm>
   <TSA_WD_OrderedRoad_Cancelled>Orden de camino cancelada en {0}.</TSA_WD_OrderedRoad_Cancelled>
   <TSA_WD_OrderedRoad_FactionActiveTooltip>Al menos un asentamiento de esta facción construye un camino para ti.</TSA_WD_OrderedRoad_FactionActiveTooltip>
+  <TSA_WD_OrderedRoad_TierGateTooltip>Este asentamiento es {0}. Los caminos {1} requieren un asentamiento {2} o superior.</TSA_WD_OrderedRoad_TierGateTooltip>
   <TSA_WD_OrderedTrader_GizmoLabel>Ordenar caravana comercial</TSA_WD_OrderedTrader_GizmoLabel>
   <TSA_WD_OrderedTrader_GizmoDesc>Paga buena voluntad para enviar una caravana comercial desde este asentamiento a tu colonia más cercana con mapa.</TSA_WD_OrderedTrader_GizmoDesc>
   <TSA_WD_OrderedTrader_NoColony>No hay colonia del jugador con mapa cargado.</TSA_WD_OrderedTrader_NoColony>

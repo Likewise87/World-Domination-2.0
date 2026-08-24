@@ -2,12 +2,12 @@
 <Defs>
   <KCSG.SettlementLayoutDef>
     <defName>TSA_Tribal_T1_Logging</defName>
-    <settlementSize>48,48</settlementSize>
+    <settlementSize>52,52</settlementSize>
     <avoidBridgeable>true</avoidBridgeable>
     <avoidMountains>true</avoidMountains>
     
     <centerBuildings>
-      <centerSize>40,40</centerSize>
+      <centerSize>44,44</centerSize>
       <spaceAround>1</spaceAround>
       <allowedStructures>
         <li>
@@ -22,7 +22,7 @@
           <tag>TSA_Tribal_Logging</tag>
           <count>1~2</count>
         </li>
-		<li>
+        <li>
           <count>0~1</count>
           <tag>TSA_Tribal_Recreation</tag>
         </li>
@@ -45,20 +45,15 @@
     <propsOptions>
       <scatterProps>true</scatterProps>
       <scatterMinDistance>5</scatterMinDistance>
-      <scatterMaxAmount>12</scatterMaxAmount>
+      <scatterMaxAmount>7</scatterMaxAmount>
       <scatterPropsDefs>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_BoxSmall</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleLarge</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleMedium</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleSmall</li>
         <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogs</li>
         <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogsLarge</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenWagon</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Hayball_1a</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Wagon_3a</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Wagon_5a</li>
-		<li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_FilthDirt</li>
-		<li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenChest</li>
+        <li>TSA_WD_Cart_6a</li>
+        <li>TSA_WD_Box_5a</li>
+
+
+      
       </scatterPropsDefs>
     </propsOptions>
 
@@ -68,14 +63,7 @@
     </roadOptions>
 
     <stockpileOptions>
-      <stockpileValueMultiplier>0.5</stockpileValueMultiplier>
-      <fillStorageBuildings>true</fillStorageBuildings>
-      <fillWithDefs>
-        <li>Steel</li>
-        <li>ComponentIndustrial</li>
-        <li>Jade</li>
-        <li>MealSurvivalPack</li>
-      </fillWithDefs>
+      <fillStorageBuildings>false</fillStorageBuildings>
     </stockpileOptions>
-  </KCSG.SettlementLayoutDef>
+</KCSG.SettlementLayoutDef>
 </Defs>

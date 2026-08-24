@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <KCSG.StructureLayoutDef>
+  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
   <defName>Generic_Stockpile_1</defName>
   <spawnConduits>false</spawnConduits>
   <layouts>
     <li>
-      <li>Barricade_BlocksSandstone,Barricade_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Door_WoodLog,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Barricade_BlocksSandstone,Barricade_BlocksSandstone</li>
-      <li>Barricade_BlocksSandstone,.,Wall_BlocksSandstone,ShelfSmall_WoodLog_North,Wall_BlocksSandstone,.,Wall_BlocksSandstone,ShelfSmall_WoodLog_North,Wall_BlocksSandstone,.,.</li>
-      <li>Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,.,TorchWallLamp_South,.,TorchWallLamp_South,.,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone</li>
-      <li>Wall_BlocksSandstone,.,.,.,.,.,.,.,.,.,Wall_BlocksSandstone</li>
-      <li>Wall_BlocksSandstone,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,.,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,Wall_BlocksSandstone</li>
-      <li>Wall_BlocksSandstone,Shelf_WoodLog_North,.,Shelf_WoodLog_North,.,.,Shelf_WoodLog_North,.,Shelf_WoodLog_North,.,Wall_BlocksSandstone</li>
-      <li>Wall_BlocksSandstone,TorchWallLamp_West,.,.,.,.,.,.,.,TorchWallLamp_East,Wall_BlocksSandstone</li>
-      <li>Wall_BlocksSandstone,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,.,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,Wall_BlocksSandstone</li>
-      <li>Wall_BlocksSandstone,Shelf_WoodLog_North,.,Shelf_WoodLog_North,.,.,Shelf_WoodLog_North,.,Shelf_WoodLog_North,.,Wall_BlocksSandstone</li>
-      <li>Wall_BlocksSandstone,.,.,.,.,.,.,.,.,.,Wall_BlocksSandstone</li>
-      <li>Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,ChunkMarble,ChunkMarble,.,ChunkMarble,ChunkMarble,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone</li>
-      <li>Barricade_BlocksSandstone,.,Wall_BlocksSandstone,ChunkMarble,ChunkMarble,.,ChunkMarble,ChunkMarble,Wall_BlocksSandstone,.,Barricade_BlocksSandstone</li>
-      <li>Barricade_BlocksSandstone,Barricade_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Door_WoodLog,Wall_BlocksSandstone,Wall_BlocksSandstone,Wall_BlocksSandstone,Barricade_BlocksSandstone,Barricade_BlocksSandstone</li>
+      <li>Barricade_BlocksGranite,Barricade_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Door_WoodLog,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite</li>
+      <li>Barricade_BlocksGranite,.,Wall_BlocksGranite,ShelfSmall_WoodLog_North,Wall_BlocksGranite,.,Wall_BlocksGranite,ShelfSmall_WoodLog_North,Wall_BlocksGranite,.,.</li>
+      <li>Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,.,TorchWallLamp_South,.,TorchWallLamp_South,.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,.,.,.,.,.,.,.,.,.,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,.,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,Shelf_WoodLog_North,.,Shelf_WoodLog_North,.,.,Shelf_WoodLog_North,.,Shelf_WoodLog_North,.,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,TorchWallLamp_West,.,.,.,.,.,.,.,TorchWallLamp_East,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,.,.,Shelf_WoodLog_South,.,Shelf_WoodLog_South,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,Shelf_WoodLog_North,.,Shelf_WoodLog_North,.,.,Shelf_WoodLog_North,.,Shelf_WoodLog_North,.,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,.,.,.,.,.,.,.,.,.,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,ChunkGranite,ChunkGranite,.,ChunkGranite,ChunkGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
+      <li>Barricade_BlocksGranite,.,Wall_BlocksGranite,ChunkGranite,ChunkGranite,.,ChunkGranite,ChunkGranite,Wall_BlocksGranite,.,Barricade_BlocksGranite</li>
+      <li>Barricade_BlocksGranite,Barricade_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Door_WoodLog,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Barricade_BlocksGranite,Barricade_BlocksGranite</li>
     </li>
     <li>
       <li>.,.,.,.,.,.,.,.,.,.,.</li>

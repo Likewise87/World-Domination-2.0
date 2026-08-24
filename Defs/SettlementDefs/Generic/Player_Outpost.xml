@@ -17,13 +17,11 @@
           <tag>Generic_Bedroom</tag>
           <count>2~4</count>
         </li>
-
         <li>
           <tag>TSA_Tribal_Logging</tag>
           <count>0~1</count>
         </li>
-		
-		<li>
+        <li>
           <tag>Generic_Stockpile</tag>
           <count>0~1</count>
         </li>
@@ -39,17 +37,18 @@
       <scatterMinDistance>5</scatterMinDistance>
       <scatterMaxAmount>12</scatterMaxAmount>
       <scatterPropsDefs>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_BoxSmall</li>
         <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleLarge</li>
         <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleMedium</li>
         <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleSmall</li>
         <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogs</li>
         <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogsLarge</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenWagon</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Hayball_1a</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Wagon_3a</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">TSA_WD_Wagon_5a</li>
-		<li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenChest</li>
+        <li>TSA_WD_Hayball_3a</li>
+        <li>TSA_WD_Hayball_5a</li>
+        <li>TSA_WD_Box_1a</li>
+        <li>TSA_WD_Box_3a</li>
+
+
+      
       </scatterPropsDefs>
     </propsOptions>
 
@@ -57,5 +56,5 @@
       <addLinkRoad>true</addLinkRoad>
       <linkRoadDef>PackedDirt</linkRoadDef>
     </roadOptions>
-  </KCSG.SettlementLayoutDef>
+</KCSG.SettlementLayoutDef>
 </Defs>

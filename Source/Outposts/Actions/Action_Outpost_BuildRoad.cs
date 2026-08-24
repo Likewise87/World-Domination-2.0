@@ -179,7 +179,7 @@ namespace TSA_WorldDomination
                 };
             }
 
-            return new FloatMenuOption(
+            var removeRoads = new FloatMenuOption(
                 "TSA_WD_RemoveRoads".Translate(),
                 WdCascadingFloatMenu.WrapLeaf(() => StartRoadTargeting(outpost, comp, clearing: true)),
                 icon,
@@ -187,6 +187,13 @@ namespace TSA_WorldDomination
             {
                 tooltip = "TSA_WD_RemoveRoadsDesc".Translate()
             };
+            ColonyWorldBuildRequirements.ApplyGate(
+                removeRoads,
+                GetTotalConstructionSkill(outpost),
+                WorldActions_Roads.GetMinConstructionToBuildRoad(SettlementTier.T1),
+                ColonyWorldBuildRequirements.GetRequiredResearchForRoad(SettlementTier.T1),
+                ColonyWorldBuildRequirements.GetMaterialCostsForRoad(SettlementTier.T1));
+            return removeRoads;
         }
 
         public static void OpenRoadTypeMenu(WorldObject outpost, CompViralSpread comp)

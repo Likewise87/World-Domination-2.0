@@ -77,20 +77,11 @@ namespace TSA_WorldDomination
                 "TSA_WD_Raid_MaxPer7DaysTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefMaxPlayerWdRaidsPer7Days));
             s.ClampPlayerWdRaidRateCaps();
 
-            l.CheckboxLabeled(
-                "TS_WD_Threat_BlockStorytellerRaids".Translate(),
-                ref s.blockStorytellerRaidsOnlyWD,
-                SettingsUI.TooltipWithDefault("TS_WD_Threat_BlockStorytellerRaidsTooltip".Translate(), WorldDominationSettings.DefBlockStorytellerRaidsOnlyWD)
-            );
-
-            if (s.blockStorytellerRaidsOnlyWD)
-            {
-                l.CheckboxLabeled(
-                    "TS_WD_Threat_AllowNonWdStorytellerRaids".Translate(),
-                    ref s.allowStorytellerRaidsFromNonWdFactions,
-                    SettingsUI.TooltipWithDefault("TS_WD_Threat_AllowNonWdStorytellerRaidsTooltip".Translate(), WorldDominationSettings.DefAllowStorytellerRaidsFromNonWdFactions)
-                );
-            }
+            l.Gap(4f);
+            GUI.color = Color.gray;
+            l.Label("TSA_WD_Threat_StorytellerMovedHint".Translate());
+            GUI.color = Color.white;
+            l.Gap(4f);
             }
             l.GapLine();
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Threat_HeaderWDClamp".Translate(), ref clampExpanded, SettingsUI.SectionHeaderColor))

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+<KCSG.StructureLayoutDef>
+  <defName>Generic_Mine_3</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>.,.,.,.,Granite,Granite,MineableSteel,MineableSteel,MineableSteel,.,.</li>
+      <li>Granite,Granite,TorchLamp,MineableSteel,Granite,Granite,Granite,Granite,Granite,MineableSteel,.</li>
+      <li>Granite,Granite,Granite,MineableSteel,Granite,Granite,MineableSteel,MineableSteel,MineableSteel,MineableSteel,TorchLamp</li>
+      <li>.,Granite,Granite,Granite,Granite,.,Stool_WoodLog_South,Stool_WoodLog_South,.,MineableSteel,Granite</li>
+      <li>.,Granite,.,.,.,.,.,.,.,Granite,Granite</li>
+      <li>.,.,.,Granite,Granite,.,.,.,.,MineableSteel,Granite</li>
+      <li>Granite,Granite,Granite,Granite,Granite,Granite,.,.,Granite,Granite,Granite</li>
+      <li>Granite,.,Granite,MineableSteel,MineableSteel,TorchLamp,.,.,Granite,Granite,.</li>
+    </li>
+  </layouts>
+  <terrainGrid>
+    <li>.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,Granite_RoughHewn,.,Granite_RoughHewn,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,Granite_RoughHewn,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,Granite_RoughHewn,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.</li>
+  </terrainGrid>
+  <tags><li>Generic_Mine</li></tags>
+</KCSG.StructureLayoutDef>
+
+
+</Defs>

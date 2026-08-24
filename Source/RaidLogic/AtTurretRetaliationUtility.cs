@@ -65,6 +65,7 @@ namespace TSA_WorldDomination
             if (traveler == null || traveler.Destroyed) return;
             if (!WorldObject_Traveler.IsRaidMission(traveler.mission)) return;
             if (traveler.mission == TravelerMission.RaidDropPod) return;
+            if (traveler.mission == TravelerMission.RaidGravship) return;
             if (traveler.Faction == null) return;
             if (!tile.Valid) return;
 

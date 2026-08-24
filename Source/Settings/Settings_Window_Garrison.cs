@@ -28,16 +28,9 @@ namespace TSA_WorldDomination
             l.Begin(contentRect);
             var s = WorldDominationMod.settings;
 
-            Text.Font = GameFont.Medium;
-            l.Label("TSA_WD_Garrison_Title".Translate());
-            Text.Font = GameFont.Small;
-            l.Gap(10f);
-
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetGarrisons(),
                 () => { tribalExpanded = genericExpanded = scalingExpanded = true; },
                 () => { tribalExpanded = genericExpanded = scalingExpanded = false; });
-            l.CheckboxLabeled("TSA_WD_Garrison_AllowBaseGeneration".Translate(), ref s.allowWdSettlementBaseGeneration,
-                SettingsUI.TooltipWithDefault("TSA_WD_Garrison_AllowBaseGenerationTooltip".Translate(), WorldDominationSettings.DefAllowWdSettlementBaseGeneration));
             l.Gap(12f);
 
             // --- TRIBAL SECTION ---

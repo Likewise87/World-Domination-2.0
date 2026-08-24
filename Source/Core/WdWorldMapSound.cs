@@ -11,6 +11,7 @@ namespace TSA_WorldDomination
         public const string AtMedium = "TSA_WD_AT_Turret_Fire_Medium";
         public const string AtHeavy = "TSA_WD_AT_Turret_Fire_Heavy";
         public const string Mortar = "TSA_WD_Mortar_Fire";
+        public const string MortarMap = "TSA_WD_Mortar_Fire_Map";
         public const string Flak = "TSA_WD_Flak_Fire";
 
         public static bool Enabled =>
@@ -39,7 +40,11 @@ namespace TSA_WorldDomination
             }
         }
 
-        public static void PlayMortarFire() => Play(Mortar);
+        public static void PlayMortarFire()
+        {
+            if (!Enabled) return;
+            Play(Find.CurrentMap != null ? MortarMap : Mortar);
+        }
 
         public static void PlayFlakFire() => Play(Flak);
     }
