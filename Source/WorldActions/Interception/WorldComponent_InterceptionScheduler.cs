@@ -134,6 +134,12 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
+        /// Vanilla transport pods / VF aerials currently tracked for AA.
+        /// Read-only for callers; do not add/remove from the returned set.
+        /// </summary>
+        public IReadOnlyCollection<WorldObject> ExternalAirborneTargets => externalAirborne;
+
+        /// <summary>
         /// True while this Rapid Response outpost already has an intercept traveler chasing <paramref name="target"/>.
         /// Different outposts may still engage the same target independently.
         /// </summary>
@@ -1277,6 +1283,61 @@ namespace TSA_WorldDomination
                 if (bestCaravan != null)
                 {
                     atGun.InterceptorFireAtCaravan(bestCaravan, bestCaravanDist);
+                    return;
+                }
+            }
+
+            // T4 settlement mortar caravan path: prefer in-range player caravans over InterceptorNoTargetFire static fallback.
+            if (self is Settlement settlement
+                && settlement.GetComponent<CompViralSpread>() is CompViralSpread svc
+                && svc.IsSettlementMortarAutoActive
+                && !svc.IsMortarOnCooldown
+                && NpcT4GlobalFireStagger.IsMortarSlotOpen()
+                && ip.InterceptorCanTargetPlayer
+                && AtTurretUtility.IsPlayerCaravanTargetingEnabled())
+            {
+                Caravan bestCaravan = null;
+                float bestCaravanDist = float.MaxValue;
+                List<Caravan> caravans = Find.WorldObjects?.Caravans;
+                if (caravans != null)
+                {
+                    for (int i = 0; i < caravans.Count; i++)
+                    {
+                        Caravan c = caravans[i];
+                        if (c == null || c.Destroyed || !c.Spawned) continue;
+                        if (!AtTurretUtility.CanEnemySystemsTargetPlayerCaravan(c)) continue;
+                        if (iFaction == null || c.Faction == null || c.Faction == iFaction) continue;
+                        if (!WorldActions_Utils.SafeHostileTo(c.Faction, iFaction)) continue;
+                        if (inboundMortarTargetIdsScratch.Contains(c.ID)) continue;
+
+                        long pairKey = MakePairKey(interceptorId, c.ID);
+                        if (skipUntilByPair.TryGetValue(pairKey, out int until) && now < until)
+                            continue;
+
+                        int cTileId = c.Tile.tileId;
+                        if (cTileId < 0) continue;
+
+                        float dist = manager != null
+                            ? (float)WorldActions_Utils.GetDistance(iTile.tileId, cTileId, manager)
+                            : Find.WorldGrid.ApproxDistanceInTiles(iTile.tileId, cTileId);
+                        if (dist > range)
+                        {
+                            skipUntilByPair[pairKey] = now + GenDate.TicksPerHour;
+                            continue;
+                        }
+
+                        skipUntilByPair.Remove(pairKey);
+                        if (dist < bestCaravanDist)
+                        {
+                            bestCaravanDist = dist;
+                            bestCaravan = c;
+                        }
+                    }
+                }
+
+                if (bestCaravan != null)
+                {
+                    svc.InterceptorFireAtCaravan(bestCaravan, bestCaravanDist);
                     return;
                 }
             }

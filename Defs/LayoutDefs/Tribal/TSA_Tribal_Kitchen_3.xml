@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Kitchen_3</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
+      <li>Wall_WoodLog,ASF_Basket_WoodLog,.,.,.,ASF_Basket_WoodLog,Wall_WoodLog</li>
+      <li>Wall_WoodLog,ASF_Basket_WoodLog,.,VFEPD_Cleaver_North,.,VFEPD_CookingAppliances,Wall_WoodLog</li>
+      <li>Wall_WoodLog,Wall_WoodLog,ButcherSpot_North,Wall_WoodLog,Campfire_North,Wall_WoodLog,Wall_WoodLog</li>
+      <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.</li>
+    </li>
+    <li>
+      <li>.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.</li>
+      <li>.,.,.,TorchWallLamp_North,.,.,.</li>
+      <li>.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.</li>
+    </li>
+  </layouts>
+  <roofGrid>
+    <li>1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1</li>
+    <li>.,1,1,1,1,1,.</li>
+  </roofGrid>
+  <terrainGrid>
+    <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.</li>
+    <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.</li>
+    <li>.,StrawMatting,StrawMatting,StrawMatting,StrawMatting,StrawMatting,.</li>
+    <li>.,.,StrawMatting,.,StrawMatting,.,.</li>
+    <li>.,.,.,.,.,.,.</li>
+  </terrainGrid>
+<tags><li>TribalKitchen</li></tags>
+</KCSG.StructureLayoutDef>
+
+</Defs>

@@ -841,10 +841,11 @@ namespace TSA_WorldDomination
         {
             var list = new List<string>();
             string nameLower = string.IsNullOrEmpty(nameSearchTerm) ? null : nameSearchTerm.ToLowerInvariant();
-            var allWo = Find.WorldObjects.AllWorldObjects;
-            for (int wi = 0; wi < allWo.Count; wi++)
+            IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
+            for (int wi = 0; wi < outposts.Count; wi++)
             {
-                if (!(allWo[wi] is WorldObject_WD_Outpost o) || o.Faction != Faction.OfPlayer) continue;
+                WorldObject_WD_Outpost o = outposts[wi];
+                if (o == null || o.Destroyed) continue;
                 if (nameLower != null && !((string)o.LabelCap).ToLowerInvariant().Contains(nameLower)) continue;
                 list.Add(o.def?.defName ?? "");
             }

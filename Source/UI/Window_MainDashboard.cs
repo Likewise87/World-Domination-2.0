@@ -810,9 +810,12 @@ namespace TSA_WorldDomination
         private void RebuildTravelerDashRows(int nowTick)
         {
             var allT = new List<WorldObject_Traveler>();
-            foreach (WorldObject wo in Find.WorldObjects.AllWorldObjects)
+            IReadOnlyList<WorldObject_Traveler> live = WorldObject_Traveler.LiveTravelers;
+            for (int i = 0; i < live.Count; i++)
             {
-                if (wo is WorldObject_Traveler tr) allT.Add(tr);
+                WorldObject_Traveler tr = live[i];
+                if (tr != null && !tr.Destroyed)
+                    allT.Add(tr);
             }
 
             int targetingYou = 0;
@@ -1496,26 +1499,23 @@ namespace TSA_WorldDomination
             int mechanoids = 0;
             int animals = 0;
             int vehicles = 0;
-            var worldObjects = Find.WorldObjects?.AllWorldObjects;
-            if (worldObjects != null)
+            IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
+            for (int i = 0; i < outposts.Count; i++)
             {
-                for (int i = 0; i < worldObjects.Count; i++)
+                WorldObject_WD_Outpost o = outposts[i];
+                if (o == null || o.Destroyed) continue;
+                outpostCount++;
+                humanoids += o.PawnCount;
+                mechanoids += o.StoredMechanoidPawnCount;
+                var storedTransport = o.StoredAnimalsAndVehicles;
+                for (int si = 0; si < storedTransport.Count; si++)
                 {
-                    if (!(worldObjects[i] is WorldObject_WD_Outpost o) || o.Faction != Faction.OfPlayer)
-                        continue;
-                    outpostCount++;
-                    humanoids += o.PawnCount;
-                    mechanoids += o.StoredMechanoidPawnCount;
-                    var storedTransport = o.StoredAnimalsAndVehicles;
-                    for (int si = 0; si < storedTransport.Count; si++)
-                    {
-                        Pawn sp = storedTransport[si];
-                        if (sp == null || sp.Destroyed || sp.Dead) continue;
-                        if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(sp))
-                            vehicles++;
-                        else
-                            animals++;
-                    }
+                    Pawn sp = storedTransport[si];
+                    if (sp == null || sp.Destroyed || sp.Dead) continue;
+                    if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(sp))
+                        vehicles++;
+                    else
+                        animals++;
                 }
             }
 

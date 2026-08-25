@@ -25,6 +25,10 @@
           <count>1~3</count>
           <tag>TSA_Tribal_Mining</tag>
         </li>
+        <li>
+          <tag>TribalKitchen</tag>
+          <count>0~1</count>
+        </li>
       </allowedStructures>
     </centerBuildings>
 

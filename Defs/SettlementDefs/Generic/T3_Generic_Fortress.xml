@@ -68,6 +68,10 @@
           <tag>TSA_ParkingLot</tag>
           <count>0~1</count>
         </li>
+        <li>
+          <tag>Kitchen</tag>
+          <count>0~2</count>
+        </li>
 </allowedStructures>
     </centerBuildings>
 	    <peripheralBuildings>
@@ -75,6 +79,10 @@
         <li>
           <tag>TSA_Generic_SandbagBarrier</tag>
           <count>12~24</count>
+        </li>
+        <li>
+          <count>0~2</count>
+          <tag>Generic_Mortar</tag>
         </li>
       </allowedStructures>
     </peripheralBuildings>

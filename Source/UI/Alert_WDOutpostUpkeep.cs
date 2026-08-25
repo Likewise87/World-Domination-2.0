@@ -8,6 +8,11 @@ namespace TSA_WorldDomination
     /// </summary>
     public class Alert_WDOutpostUpkeepDue : Alert
     {
+        private string cachedLabel;
+        private int cachedDays = int.MinValue;
+        private int cachedNeed = int.MinValue;
+        private int cachedHave = int.MinValue;
+
         public Alert_WDOutpostUpkeepDue()
         {
             defaultPriority = AlertPriority.Medium;
@@ -16,9 +21,26 @@ namespace TSA_WorldDomination
         public override string GetLabel()
         {
             if (!TryRead(out int days, out int need, out int have, out _, out _))
-                return "TSA_WD_Upkeep_AlertLabel".Translate(0, 0, 0);
+            {
+                if (cachedDays != 0 || cachedNeed != 0 || cachedHave != 0 || cachedLabel == null)
+                {
+                    cachedDays = 0;
+                    cachedNeed = 0;
+                    cachedHave = 0;
+                    cachedLabel = "TSA_WD_Upkeep_AlertLabel".Translate(0, 0, 0);
+                }
+                return cachedLabel;
+            }
+
+            if (cachedLabel != null && cachedDays == days && cachedNeed == need && cachedHave == have)
+                return cachedLabel;
+
+            cachedDays = days;
+            cachedNeed = need;
+            cachedHave = have;
             // {0}=days, {1}=need, {2}=have
-            return "TSA_WD_Upkeep_AlertLabel".Translate(days, need, have);
+            cachedLabel = "TSA_WD_Upkeep_AlertLabel".Translate(days, need, have);
+            return cachedLabel;
         }
 
         public override TaggedString GetExplanation()
@@ -50,12 +72,34 @@ namespace TSA_WorldDomination
     /// </summary>
     public class Alert_WDOutpostUpkeepCritical : Alert_Critical
     {
+        private string cachedLabel;
+        private int cachedDays = int.MinValue;
+        private int cachedNeed = int.MinValue;
+        private int cachedHave = int.MinValue;
+
         public override string GetLabel()
         {
             if (!TryRead(out int days, out int need, out int have, out _, out _))
-                return "TSA_WD_Upkeep_AlertLabel".Translate(0, 0, 0);
+            {
+                if (cachedDays != 0 || cachedNeed != 0 || cachedHave != 0 || cachedLabel == null)
+                {
+                    cachedDays = 0;
+                    cachedNeed = 0;
+                    cachedHave = 0;
+                    cachedLabel = "TSA_WD_Upkeep_AlertLabel".Translate(0, 0, 0);
+                }
+                return cachedLabel;
+            }
+
+            if (cachedLabel != null && cachedDays == days && cachedNeed == need && cachedHave == have)
+                return cachedLabel;
+
+            cachedDays = days;
+            cachedNeed = need;
+            cachedHave = have;
             // {0}=days, {1}=need, {2}=have
-            return "TSA_WD_Upkeep_AlertLabel".Translate(days, need, have);
+            cachedLabel = "TSA_WD_Upkeep_AlertLabel".Translate(days, need, have);
+            return cachedLabel;
         }
 
         public override TaggedString GetExplanation()

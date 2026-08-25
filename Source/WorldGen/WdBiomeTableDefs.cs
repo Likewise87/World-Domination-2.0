@@ -106,4 +106,34 @@ namespace TSA_WorldDomination
         public int minCumulativeConstructionSkill = 5;
         public List<ResearchProjectDef> researchPrerequisites = new List<ResearchProjectDef>();
     }
+
+    public class WdMgNestSpawnEntry
+    {
+        public string settlementLayout;
+        public int countMin;
+        public int countMax;
+    }
+
+    /// <summary>Post-gen MG nest counts by KCSG SettlementLayoutDef defName.</summary>
+    public class WdMgNestSpawnTableDef : Def
+    {
+        public List<WdMgNestSpawnEntry> entries = new List<WdMgNestSpawnEntry>();
+
+        public bool TryGetCounts(string settlementLayoutDefName, out int countMin, out int countMax)
+        {
+            countMin = 0;
+            countMax = 0;
+            if (entries == null || string.IsNullOrEmpty(settlementLayoutDefName)) return false;
+
+            for (int i = 0; i < entries.Count; i++)
+            {
+                WdMgNestSpawnEntry e = entries[i];
+                if (e == null || e.settlementLayout != settlementLayoutDefName) continue;
+                countMin = e.countMin;
+                countMax = e.countMax;
+                return true;
+            }
+            return false;
+        }
+    }
 }

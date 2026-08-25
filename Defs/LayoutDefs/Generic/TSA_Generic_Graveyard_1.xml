@@ -17,8 +17,8 @@
       <li>FenceGate_BlocksGranite,.,GM_SarcophagusPropA_North,.,GM_SarcophagusPropB_North,.,GM_SarcophagusPropD_North,.,GM_SarcophagusPropC_North,.,FenceGate_BlocksGranite</li>
       <li>Fence_BlocksGranite,.,.,.,.,.,.,.,.,.,Fence_BlocksGranite</li>
       <li>Fence_BlocksGranite,.,.,.,.,.,.,.,.,.,Fence_BlocksGranite</li>
-      <li>VFEP_ShortWalls_BlocksGranite,VFEPD_Rose,GM_ColumbariumPropB_North,.,.,VFEPD_Rose,.,GM_ColumbariumPropB_North,.,VFEPD_Rose,VFEP_ShortWalls_BlocksGranite</li>
-      <li>VFEP_ShortWalls_BlocksGranite,.,.,.,.,VFEPD_Rose,.,.,.,.,VFEP_ShortWalls_BlocksGranite</li>
+      <li>VFEP_ShortWalls_BlocksGranite,Plant_Rose,GM_ColumbariumPropB_North,.,.,Plant_Rose,.,GM_ColumbariumPropB_North,.,Plant_Rose,VFEP_ShortWalls_BlocksGranite</li>
+      <li>VFEP_ShortWalls_BlocksGranite,.,.,.,.,Plant_Rose,.,.,.,.,VFEP_ShortWalls_BlocksGranite</li>
       <li>VFEP_ShortWalls_BlocksGranite,.,.,.,.,.,.,.,.,.,VFEP_ShortWalls_BlocksGranite</li>
       <li>VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite,VFEP_ShortWalls_BlocksGranite</li>
     </li>

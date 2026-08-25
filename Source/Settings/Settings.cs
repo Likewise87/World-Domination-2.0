@@ -591,6 +591,10 @@ namespace TSA_WorldDomination
         public const bool DefEnableWorldDominationVictoryQuest = true;
         public const bool DefEnableAtTurretTargetPlayerTravelers = true;
         public const bool DefEnableAtTurretTargetPlayerCaravans = true;
+        /// <summary>Min vanilla <see cref="RimWorld.Planet.Caravan.Visibility"/> for NPC AT / T4 mortar / ambush vs player caravans (0.80 ≈ five humans moving).</summary>
+        public const float DefMinPlayerCaravanVisibilityToTarget = 0.80f;
+        public const float MinPlayerCaravanVisibilityToTargetClampLow = 0.05f;
+        public const float MinPlayerCaravanVisibilityToTargetClampHigh = 1.12f;
         public const bool DefEnableOutpostUpkeep = false;
         public const bool DefGiveFoodOnPrisonerRecruitTransfer = true;
         public const bool DefGiveFoodOnAllPlayerPawnsTransfer = true;
@@ -1609,6 +1613,7 @@ namespace TSA_WorldDomination
         public bool enableWorldDominationVictoryQuest = DefEnableWorldDominationVictoryQuest;
         public bool enableAtTurretTargetPlayerTravelers = DefEnableAtTurretTargetPlayerTravelers;
         public bool enableAtTurretTargetPlayerCaravans = DefEnableAtTurretTargetPlayerCaravans;
+        public float minPlayerCaravanVisibilityToTarget = DefMinPlayerCaravanVisibilityToTarget;
         public bool enableOutpostUpkeep = DefEnableOutpostUpkeep;
         public bool giveFoodOnPrisonerRecruitTransfer = DefGiveFoodOnPrisonerRecruitTransfer;
         public bool giveFoodOnAllPlayerPawnsTransfer = DefGiveFoodOnAllPlayerPawnsTransfer;
@@ -2743,6 +2748,11 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref enableWorldDominationVictoryQuest, "enableWorldDominationVictoryQuest", DefEnableWorldDominationVictoryQuest);
             Scribe_Values.Look(ref enableAtTurretTargetPlayerTravelers, "enableAtTurretTargetPlayerTravelers", DefEnableAtTurretTargetPlayerTravelers);
             Scribe_Values.Look(ref enableAtTurretTargetPlayerCaravans, "enableAtTurretTargetPlayerCaravans", DefEnableAtTurretTargetPlayerCaravans);
+            Scribe_Values.Look(ref minPlayerCaravanVisibilityToTarget, "minPlayerCaravanVisibilityToTarget", DefMinPlayerCaravanVisibilityToTarget);
+            minPlayerCaravanVisibilityToTarget = Mathf.Clamp(
+                minPlayerCaravanVisibilityToTarget,
+                MinPlayerCaravanVisibilityToTargetClampLow,
+                MinPlayerCaravanVisibilityToTargetClampHigh);
             Scribe_Values.Look(ref enableOutpostUpkeep, "enableOutpostUpkeep", DefEnableOutpostUpkeep);
             Scribe_Values.Look(ref giveFoodOnPrisonerRecruitTransfer, "giveFoodOnPrisonerRecruitTransfer", DefGiveFoodOnPrisonerRecruitTransfer);
             Scribe_Values.Look(ref giveFoodOnAllPlayerPawnsTransfer, "giveFoodOnAllPlayerPawnsTransfer", DefGiveFoodOnAllPlayerPawnsTransfer);
@@ -4479,6 +4489,7 @@ namespace TSA_WorldDomination
             enableWorldDominationVictoryQuest = DefEnableWorldDominationVictoryQuest;
             enableAtTurretTargetPlayerTravelers = DefEnableAtTurretTargetPlayerTravelers;
             enableAtTurretTargetPlayerCaravans = DefEnableAtTurretTargetPlayerCaravans;
+            minPlayerCaravanVisibilityToTarget = DefMinPlayerCaravanVisibilityToTarget;
             enableOutpostUpkeep = DefEnableOutpostUpkeep;
             giveFoodOnPrisonerRecruitTransfer = DefGiveFoodOnPrisonerRecruitTransfer;
             giveFoodOnAllPlayerPawnsTransfer = DefGiveFoodOnAllPlayerPawnsTransfer;

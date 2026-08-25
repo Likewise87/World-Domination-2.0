@@ -7,7 +7,7 @@
   <forceGenerateRoof>true</forceGenerateRoof>
   <layouts>
     <li>
-      <li>.,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Daylily,.,.,VFEPD_Daylily,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose,VFEPD_Rose</li>
+      <li>.,Plant_Rose,Plant_Rose,Plant_Rose,Plant_Rose,Plant_Rose,Plant_Rose,Plant_Rose,VFEPD_Daylily,.,.,VFEPD_Daylily,Plant_Rose,Plant_Rose,Plant_Rose,Plant_Rose,Plant_Rose,Plant_Rose,Plant_Rose,Plant_Rose</li>
       <li>.,.,.,.,.,.,.,.,Wall_WoodLog,OrnateDoor_WoodLog_North,.,Wall_WoodLog,.,.,.,.,.,.,.,.</li>
       <li>.,Plant_TreeMaple,Plant_TreeMaple,Plant_TreeMaple,Plant_TreeMaple,Plant_TreeOak,Plant_TreeOak,Plant_TreeOak,Wall_WoodLog,.,.,Wall_WoodLog,Plant_TreeOak,Plant_TreeOak,Plant_TreeOak,Plant_TreeMaple,Plant_TreeMaple,.,Plant_TreeMaple,Plant_TreeMaple</li>
       <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,TorchWallLamp_West,TorchWallLamp_East,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>

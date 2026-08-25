@@ -2,7 +2,7 @@
 <Defs>
 
   <!--
-    valueBudget by tier: T1=1300, T2=3250, T3=5200, T4=7800
+    valueBudget by tier: T1=1650, T2=4050, T3=6500, T4=9750
     Meals: T1 Pemmican+MealSimple | T2 MealSimple+MealSurvivalPack | T3 MealFine+MealSurvivalPack | T4 MealLavish+MealSurvivalPack
     MedicineHerbal on T1–T2. T4 keeps Yayo/WakeUp/Neutroamine/neurotrainers.
   -->
@@ -12,9 +12,9 @@
     <defName>TSA_WdLoot_Default</defName>
     <settlementTypes><li>Default</li></settlementTypes>
     <tiers><li>Default</li></tiers>
-    <valueBudget>1300</valueBudget>
+    <valueBudget>1650</valueBudget>
     <items>
-      <li><thingDef>Silver</thingDef><weight>8</weight></li>
+      <li><thingDef>Silver</thingDef><weight>2</weight></li>
       <li><thingDef>WoodLog</thingDef><weight>2</weight></li>
       <li><thingDef>Steel</thingDef><weight>2</weight></li>
       <li><thingDef>Cloth</thingDef><weight>2</weight></li>
@@ -29,9 +29,9 @@
     <defName>TSA_WdLoot_Default_T1</defName>
     <settlementTypes><li>Default</li></settlementTypes>
     <tiers><li>T1</li></tiers>
-    <valueBudget>1300</valueBudget>
+    <valueBudget>1650</valueBudget>
     <items>
-      <li><thingDef>Silver</thingDef><weight>8</weight></li>
+      <li><thingDef>Silver</thingDef><weight>2</weight></li>
       <li><thingDef>WoodLog</thingDef><weight>2</weight></li>
       <li><thingDef>Steel</thingDef><weight>2</weight></li>
       <li><thingDef>Cloth</thingDef><weight>2</weight></li>
@@ -47,9 +47,9 @@
     <defName>TSA_WdLoot_Default_T2</defName>
     <settlementTypes><li>Default</li></settlementTypes>
     <tiers><li>T2</li></tiers>
-    <valueBudget>3250</valueBudget>
+    <valueBudget>4050</valueBudget>
     <items>
-      <li><thingDef>Silver</thingDef><weight>10</weight></li>
+      <li><thingDef>Silver</thingDef><weight>2</weight></li>
       <li><thingDef>WoodLog</thingDef><weight>2</weight></li>
       <li><thingDef>Steel</thingDef><weight>2</weight></li>
       <li><thingDef>Cloth</thingDef><weight>2</weight></li>
@@ -65,9 +65,9 @@
     <defName>TSA_WdLoot_Default_T3</defName>
     <settlementTypes><li>Default</li></settlementTypes>
     <tiers><li>T3</li></tiers>
-    <valueBudget>5200</valueBudget>
+    <valueBudget>6500</valueBudget>
     <items>
-      <li><thingDef>Silver</thingDef><weight>12</weight></li>
+      <li><thingDef>Silver</thingDef><weight>2</weight></li>
       <li><thingDef>Steel</thingDef><weight>2</weight></li>
       <li><thingDef>MealFine</thingDef><weight>4</weight></li>
       <li><thingDef>MealSurvivalPack</thingDef><weight>4</weight></li>
@@ -83,9 +83,9 @@
     <defName>TSA_WdLoot_Default_T4</defName>
     <settlementTypes><li>Default</li></settlementTypes>
     <tiers><li>T4</li></tiers>
-    <valueBudget>7800</valueBudget>
+    <valueBudget>9750</valueBudget>
     <items>
-      <li><thingDef>Silver</thingDef><weight>12</weight></li>
+      <li><thingDef>Silver</thingDef><weight>2</weight></li>
       <li><thingDef>Gold</thingDef><weight>2</weight></li>
       <li><thingDef>MealLavish</thingDef><weight>4</weight></li>
       <li><thingDef>MealSurvivalPack</thingDef><weight>4</weight></li>
@@ -110,7 +110,7 @@
     <defName>TSA_WdLoot_Farming_T1</defName>
     <settlementTypes><li>Farming</li></settlementTypes>
     <tiers><li>T1</li></tiers>
-    <valueBudget>1300</valueBudget>
+    <valueBudget>1650</valueBudget>
     <items>
       <li><thingDef>Pemmican</thingDef><weight>5</weight></li>
       <li><thingDef>MealSimple</thingDef><weight>5</weight></li>
@@ -124,7 +124,7 @@
     <defName>TSA_WdLoot_Farming_T2</defName>
     <settlementTypes><li>Farming</li></settlementTypes>
     <tiers><li>T2</li></tiers>
-    <valueBudget>3250</valueBudget>
+    <valueBudget>4050</valueBudget>
     <items>
       <li><thingDef>MealSimple</thingDef><weight>5</weight></li>
       <li><thingDef>MealSurvivalPack</thingDef><weight>5</weight></li>
@@ -140,7 +140,7 @@
     <defName>TSA_WdLoot_Mining_T1</defName>
     <settlementTypes><li>Mining</li></settlementTypes>
     <tiers><li>T1</li></tiers>
-    <valueBudget>1300</valueBudget>
+    <valueBudget>1650</valueBudget>
     <items>
       <li><thingDef>Pemmican</thingDef><weight>5</weight></li>
       <li><thingDef>MealSimple</thingDef><weight>5</weight></li>
@@ -154,7 +154,7 @@
     <defName>TSA_WdLoot_Mining_T2</defName>
     <settlementTypes><li>Mining</li></settlementTypes>
     <tiers><li>T2</li></tiers>
-    <valueBudget>3250</valueBudget>
+    <valueBudget>4050</valueBudget>
     <items>
       <li><thingDef>MealSimple</thingDef><weight>5</weight></li>
       <li><thingDef>MealSurvivalPack</thingDef><weight>5</weight></li>
@@ -168,9 +168,9 @@
     <defName>TSA_WdLoot_Logging_T1</defName>
     <settlementTypes><li>Logging</li></settlementTypes>
     <tiers><li>T1</li></tiers>
-    <valueBudget>1300</valueBudget>
+    <valueBudget>1650</valueBudget>
     <items>
-      <li><thingDef>Silver</thingDef><weight>6</weight></li>
+      <li><thingDef>Silver</thingDef><weight>2</weight></li>
       <li><thingDef>WoodLog</thingDef><weight>5</weight></li>
       <li><thingDef>Cloth</thingDef><weight>2</weight></li>
       <li><thingDef>Pemmican</thingDef><weight>4</weight></li>
@@ -185,9 +185,9 @@
     <defName>TSA_WdLoot_Logging_T2</defName>
     <settlementTypes><li>Logging</li></settlementTypes>
     <tiers><li>T2</li></tiers>
-    <valueBudget>3250</valueBudget>
+    <valueBudget>4050</valueBudget>
     <items>
-      <li><thingDef>Silver</thingDef><weight>8</weight></li>
+      <li><thingDef>Silver</thingDef><weight>2</weight></li>
       <li><thingDef>WoodLog</thingDef><weight>4</weight></li>
       <li><thingDef>Cloth</thingDef><weight>2</weight></li>
       <li><thingDef>MealSimple</thingDef><weight>4</weight></li>
@@ -208,9 +208,9 @@
       <li>Slavery</li>
     </settlementTypes>
     <tiers><li>T2</li></tiers>
-    <valueBudget>3250</valueBudget>
+    <valueBudget>4050</valueBudget>
     <items>
-      <li><thingDef>Silver</thingDef><weight>10</weight></li>
+      <li><thingDef>Silver</thingDef><weight>2</weight></li>
       <li><thingDef>WoodLog</thingDef><weight>2</weight></li>
       <li><thingDef>Steel</thingDef><weight>2</weight></li>
       <li><thingDef>Cloth</thingDef><weight>2</weight></li>
@@ -230,9 +230,9 @@
     <defName>TSA_WdLoot_Fortress_T3</defName>
     <settlementTypes><li>Fortress</li></settlementTypes>
     <tiers><li>T3</li></tiers>
-    <valueBudget>5200</valueBudget>
+    <valueBudget>6500</valueBudget>
     <items>
-      <li><thingDef>Silver</thingDef><weight>12</weight></li>
+      <li><thingDef>Silver</thingDef><weight>2</weight></li>
       <li><thingDef>Gold</thingDef><weight>2</weight></li>
       <li><thingDef>Steel</thingDef><weight>2</weight></li>
       <li><thingDef>MealFine</thingDef><weight>4</weight></li>
@@ -253,9 +253,9 @@
     <defName>TSA_WdLoot_Citadel_T4</defName>
     <settlementTypes><li>Citadel</li></settlementTypes>
     <tiers><li>T4</li></tiers>
-    <valueBudget>7800</valueBudget>
+    <valueBudget>9750</valueBudget>
     <items>
-      <li><thingDef>Silver</thingDef><weight>12</weight></li>
+      <li><thingDef>Silver</thingDef><weight>2</weight></li>
       <li><thingDef>Gold</thingDef><weight>2</weight></li>
       <li><thingDef>MealLavish</thingDef><weight>4</weight></li>
       <li><thingDef>MealSurvivalPack</thingDef><weight>4</weight></li>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    WD settlements use TSA_WD_Hayball_* instead of VFEPD hay bales.
+    When VFEPD is active: drop VFE Farm PropDefs and strip any remaining
+    VFEPD_HayBale* entries from KCSG settlement scatter lists (Patch_KCSG path).
+  -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>VanillaExpanded.VFEPropsandDecor</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+        <li Class="PatchOperationRemove">
+          <xpath>Defs/VFEProps.PropDef[defName="VFE_Prop_Farm_2" or defName="VFE_Prop_Farm_3" or defName="VFE_Prop_Farm_4"]</xpath>
+        </li>
+        <li Class="PatchOperationRemove">
+          <xpath>Defs/KCSG.SettlementLayoutDef/propsOptions/scatterPropsDefs/li[starts-with(text(),'VFEPD_HayBale')]</xpath>
+        </li>
+      </operations>
+    </match>
+  </Operation>
+</Patch>

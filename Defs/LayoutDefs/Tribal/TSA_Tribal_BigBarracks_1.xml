@@ -6,15 +6,15 @@
   <layouts>
     <li>
       <li>.,.,.,.,.,.,.,.,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.,Door_WoodLog,.,.,Bedroll_Leather_Light_West,Wall_WoodLog,Wall_WoodLog</li>
+      <li>.,.,.,.,.,.,.,.,.,.,Door_WoodLog,.,.,Bedroll_Cloth_West,Wall_WoodLog,Wall_WoodLog</li>
       <li>.,.,.,.,.,.,.,.,.,.,Wall_WoodLog,.,.,.,PlantPot_WoodLog,Wall_WoodLog</li>
       <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.,.,.,.,.,Wall_WoodLog,Wall_WoodLog,Stool_WoodLog_North,.,.,Wall_WoodLog</li>
       <li>Wall_WoodLog,Wall_WoodLog,PlantPot_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,TorchLamp,.,.,.,.,Wall_WoodLog,Table1x2c_WoodLog_East,.,TorchLamp,Wall_WoodLog</li>
       <li>Wall_WoodLog,TorchLamp,.,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,Wall_WoodLog</li>
       <li>Wall_WoodLog,.,.,.,.,Wall_WoodLog,.,Table1x2c_WoodLog_West,Wall_WoodLog,.,Wall_WoodLog,.,PlantPot_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
-      <li>Wall_WoodLog,Bedroll_Leather_Light_South,.,.,Wall_WoodLog,Wall_WoodLog,Stool_WoodLog_North,.,Door_WoodLog,.,Door_WoodLog,.,.,.,Wall_WoodLog,.</li>
-      <li>Wall_WoodLog,Wall_WoodLog,.,Shelf_WoodLog_South,Wall_WoodLog,.,.,TorchLamp,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.,Bedroll_Leather_Light_South,Wall_WoodLog,Wall_WoodLog</li>
-      <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Bedroll_Leather_Light_South,.,.,.,.,Wall_WoodLog,Stool_WoodLog_North,.,.,.,Wall_WoodLog</li>
+      <li>Wall_WoodLog,Bedroll_Cloth_South,.,.,Wall_WoodLog,Wall_WoodLog,Stool_WoodLog_North,.,Door_WoodLog,.,Door_WoodLog,.,.,.,Wall_WoodLog,.</li>
+      <li>Wall_WoodLog,Wall_WoodLog,.,Shelf_WoodLog_South,Wall_WoodLog,.,.,TorchLamp,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.,Bedroll_Cloth_South,Wall_WoodLog,Wall_WoodLog</li>
+      <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Bedroll_Cloth_South,.,.,.,.,Wall_WoodLog,Stool_WoodLog_North,.,.,.,Wall_WoodLog</li>
       <li>.,.,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.,Wall_WoodLog,.,Table1x2c_WoodLog_West,Stool_WoodLog_West,TorchLamp,Wall_WoodLog</li>
       <li>.,.,.,.,.,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
     </li>

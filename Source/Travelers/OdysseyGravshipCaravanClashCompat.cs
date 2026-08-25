@@ -131,7 +131,7 @@ namespace TSA_WorldDomination
         private static void LogSkip(string reason)
         {
             if (Prefs.DevMode)
-                Log.Message($"[TSA WD] Skipping caravan clash: {reason}");
+                WDVerbose.Msg($"[TSA WD] Skipping caravan clash: {reason}");
         }
     }
 }

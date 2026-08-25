@@ -345,7 +345,18 @@ namespace TSA_WorldDomination
                 && caravan.Faction?.IsPlayer == true
                 && !AtTurretNotifyUtility.IsPlayerFaction(atGun))
             {
-                ApplyAtTurretHitToPlayerCaravan(atGun, caravan);
+                int slots = atGun.tier == AtTurretTier.Heavy ? 2 : 1;
+                ApplyAtStyleHitToPlayerCaravan(atGun, caravan, slots);
+                return;
+            }
+
+            // NPC settlement mortar vs player caravan: Heavy AT 2-slot kill/wound pattern.
+            if (shell?.originObject is Settlement settlement
+                && caravan.Faction?.IsPlayer == true
+                && settlement.Faction != null
+                && !settlement.Faction.IsPlayer)
+            {
+                ApplyAtStyleHitToPlayerCaravan(settlement, caravan, slotCount: 2);
                 return;
             }
 
@@ -358,12 +369,13 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// AT shell vs player caravan: Light/Medium hit 1 pawn (60% wound / 40% kill);
-        /// Heavy hits up to 2 distinct pawns with independent rolls. Not the AA wipe lottery.
+        /// AT / NPC settlement shell vs player caravan: Light/Medium hit 1 pawn (60% wound / 40% kill);
+        /// Heavy (or settlement mortar) hits up to 2 distinct pawns with independent rolls. Not the AA wipe lottery.
         /// </summary>
-        private static void ApplyAtTurretHitToPlayerCaravan(
-            WorldObject_AT_Turret origin,
-            Caravan caravan)
+        private static void ApplyAtStyleHitToPlayerCaravan(
+            WorldObject origin,
+            Caravan caravan,
+            int slotCount)
         {
             if (caravan == null || caravan.Destroyed || origin == null) return;
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
@@ -382,8 +394,7 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            int slots = origin.tier == AtTurretTier.Heavy ? 2 : 1;
-            AntiAirStylePawnHitResult hit = ApplyAtTurretTieredHitToPawns(pawns, slots);
+            AntiAirStylePawnHitResult hit = ApplyAtTurretTieredHitToPawns(pawns, slotCount);
 
             bool wiped = !CaravanHasLivingPawn(caravan);
             if (wiped)

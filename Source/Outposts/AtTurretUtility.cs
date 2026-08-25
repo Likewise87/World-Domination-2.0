@@ -183,6 +183,21 @@ namespace TSA_WorldDomination
             return s == null || s.enableAtTurretTargetPlayerCaravans;
         }
 
+        /// <summary>
+        /// Shared gate for NPC AT auto-fire, T4 settlement mortar auto-fire, and settlement ambush vs real player caravans:
+        /// experimental toggle + vanilla <see cref="Caravan.Visibility"/> threshold.
+        /// </summary>
+        public static bool CanEnemySystemsTargetPlayerCaravan(Caravan c)
+        {
+            if (!IsPlayerCaravanTargetingEnabled()) return false;
+            if (c == null || c.Destroyed || c.Faction == null || !c.Faction.IsPlayer) return false;
+            var s = WorldDominationMod.settings;
+            float minVis = s != null
+                ? s.minPlayerCaravanVisibilityToTarget
+                : WorldDominationSettings.DefMinPlayerCaravanVisibilityToTarget;
+            return c.Visibility >= minVis;
+        }
+
         /// <summary>Player ground traveler eligible for an NPC (or any hostile) AT auto-fire when the traveler flag is on.</summary>
         public static bool CanAutoTargetPlayerTraveler(WorldObject_AT_Turret turret, WorldObject_Traveler traveler)
         {
@@ -194,13 +209,12 @@ namespace TSA_WorldDomination
             return IsGroundAtTurretTravelerTarget(traveler);
         }
 
-        /// <summary>Player caravan eligible for AT auto-fire when the caravan flag is on (independent of traveler flag).</summary>
+        /// <summary>Player caravan eligible for AT auto-fire when the shared caravan gate passes (independent of traveler flag).</summary>
         public static bool CanAutoTargetPlayerCaravan(WorldObject_AT_Turret turret, Caravan caravan)
         {
             if (turret == null || turret.Destroyed || caravan == null || caravan.Destroyed || !caravan.Spawned)
                 return false;
-            if (!IsPlayerCaravanTargetingEnabled()) return false;
-            if (caravan.Faction?.IsPlayer != true) return false;
+            if (!CanEnemySystemsTargetPlayerCaravan(caravan)) return false;
             if (turret.Faction == null || caravan.Faction == turret.Faction) return false;
             if (!WorldActions_Utils.SafeHostileTo(caravan.Faction, turret.Faction)) return false;
             return caravan.Tile.tileId >= 0;

@@ -60,7 +60,8 @@ These options expose systems that may substantially change world behavior, perfo
 | Enable Colony Road Link quest | On | Allows the colony road-link quest. |
 | Enable World Domination Victory quest | On | Allows the WD victory quest and updates an active game immediately when changed. |
 | NPC AT Turrets target player WD travelers | On | Allows hostile NPC guns to engage player-faction ground WD travelers. |
-| NPC AT Turrets target player caravans | On | Allows hostile NPC guns to engage real player pawn caravans. |
+| Enemy systems target player caravans (AT / mortar / ambush) | On | Allows hostile NPC AT guns, T4 settlement mortars, and settlement ambush interceptors to engage real player pawn caravans that meet the visibility threshold. |
+| Minimum visibility to target | 80% | Vanilla caravan Visibility floor (body size + moving; parked ×30%). Default lets ~five moving humans qualify; four do not. |)
 | Allow opportunity features from the start | On | Lets target-of-opportunity, marauding, and ambush systems ignore their normal mid or late escalation gate. |
 | Enable world-map sounds | On | Enables World Domination sound effects on the world map. |
 | T4 gravship raids | Off | When on, T4 settlements may launch ballistic gravship raid travelers. Requires Odyssey and the Gravship Raids Workshop mod. |

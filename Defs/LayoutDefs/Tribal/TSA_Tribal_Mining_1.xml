@@ -11,11 +11,11 @@
         <li>.,.,.,.,MineableSteel,MineableSteel,MineableSteel,Granite,.,MineableSteel,MineableSteel,Granite,VFEPD_BrickPile_BlocksGranite,VFEPD_Bush</li>
         <li>.,.,Plant_TreeOak,.,.,MineableSteel,MineableSteel,VFEPD_FilthRubbleRock_North,.,.,.,.,.,Plant_TreeOak</li>
         <li>VFEPD_WoodenSign,.,.,VFEPD_BrickPile_BlocksGranite,VFEPD_FilthRubbleRock_North,.,.,.,.,VFEPD_BrewingBarrel,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
-        <li>.,.,MineableSteel,MineableSteel,Granite,.,Campfire_East,.,.,Wall_WoodLog,Wall_WoodLog,.,Bedroll_Leather_Light_West,Wall_WoodLog</li>
-        <li>.,MineableSteel,MineableSteel,Granite,Granite,.,.,Wall_WoodLog,AnimalFlap_Leather_Plain,Wall_WoodLog,.,.,.,Wall_WoodLog</li>
-        <li>.,VFEPD_FilthRubbleRock_North,Granite,Granite,VFEPD_FilthRubbleRock_North,.,VFEPD_BoxSmall_South,Wall_WoodLog,.,.,.,.,Bedroll_Leather_Light_South,Wall_WoodLog</li>
+        <li>.,.,MineableSteel,MineableSteel,Granite,.,Campfire_East,.,.,Wall_WoodLog,Wall_WoodLog,.,Bedroll_Cloth_West,Wall_WoodLog</li>
+        <li>.,MineableSteel,MineableSteel,Granite,Granite,.,.,Wall_WoodLog,AnimalFlap_Cloth,Wall_WoodLog,.,.,.,Wall_WoodLog</li>
+        <li>.,VFEPD_FilthRubbleRock_North,Granite,Granite,VFEPD_FilthRubbleRock_North,.,VFEPD_BoxSmall_South,Wall_WoodLog,.,.,.,.,Bedroll_Cloth_South,Wall_WoodLog</li>
         <li>.,VFEPD_BrickPile_BlocksGranite,Granite,MineableSteel,MineableSteel,.,VFEPD_BoxLarge_South,Wall_WoodLog,.,.,.,.,Wall_WoodLog,Wall_WoodLog</li>
-        <li>.,.,.,MineableSteel,MineableSteel,.,.,Wall_WoodLog,Bedroll_Leather_Light_East,.,Bedroll_Leather_Light_South,Wall_WoodLog,Wall_WoodLog,.</li>
+        <li>.,.,.,MineableSteel,MineableSteel,.,.,Wall_WoodLog,Bedroll_Cloth_East,.,Bedroll_Cloth_South,Wall_WoodLog,Wall_WoodLog,.</li>
         <li>.,Plant_TreeOak,.,.,.,.,VFEPD_BrewingBarrel,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,Plant_TreeOak</li>
       </li>
     </layouts>

@@ -37,7 +37,6 @@ namespace TSA_WorldDomination
                 edgeCell = CellFinder.RandomEdgeCell(map);
             }
 
-#if COMBAT_EXTENDED
             if (AssaultArtilleryCeCompat.IsActive && AssaultArtilleryCeCompat.IsProjectileCe(bulletDef))
             {
                 Thing? launcher = FindLauncherProxy(map, edgeCell);
@@ -47,7 +46,6 @@ namespace TSA_WorldDomination
                     Log.Warning($"[TSA WD] Assault artillery CE launch failed for {bulletDef.defName}");
                 return false;
             }
-#endif
 
             if (bulletDef.thingClass == null || !typeof(Projectile).IsAssignableFrom(bulletDef.thingClass))
                 return false;
@@ -72,11 +70,7 @@ namespace TSA_WorldDomination
             if (shellDef == null) return null;
             if (shellDef.projectileWhenLoaded != null)
                 return shellDef.projectileWhenLoaded;
-#if COMBAT_EXTENDED
             return AssaultArtilleryCeCompat.ResolveProjectileDef(shellDef);
-#else
-            return null;
-#endif
         }
 
         private static Thing? FindLauncherProxy(Map map, IntVec3 near)

@@ -1,72 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-  <KCSG.StructureLayoutDef>
-  <!-- Granite chunk/stone/flagstone/tile/wall placeholders are swapped at runtime to the map's dominant rock equivalents -->
-    <defName>TSA_Tribal_Recreation_2</defName>
-    <layouts>
-      <li>
-        <li>.,PsychiteTea,PsychiteTea,.,.,.,.,.,.,.</li>
-        <li>.,Beer,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-      </li>
-      <li>
-        <li>Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,.,.,.</li>
-        <li>Wall_WoodLog,TorchLamp,.,.,.,.,Wall_WoodLog,Wall_WoodLog,.,.</li>
-        <li>Wall_WoodLog,.,GameOfUrBoard_BlocksGranite_North,DiningChair_WoodLog_West,.,.,.,Wall_WoodLog,Wall_WoodLog,.</li>
-        <li>Wall_WoodLog,.,.,.,.,.,.,.,Wall_WoodLog,Wall_WoodLog</li>
-        <li>Wall_WoodLog,.,.,.,.,SculptureGrand_Steel,.,.,Wall_WoodLog,Wall_WoodLog</li>
-        <li>Wall_WoodLog,.,.,.,.,.,.,.,.,Door_WoodLog</li>
-        <li>Wall_WoodLog,Shelf_WoodLog_East,.,.,.,.,.,.,.,Wall_WoodLog</li>
-        <li>Wall_WoodLog,.,.,.,.,DiningChair_WoodLog_East,ChessTable_BlocksGranite,DiningChair_WoodLog_West,.,Wall_WoodLog</li>
-        <li>Wall_WoodLog,Plant_Daylily,Shelf_WoodLog_North,.,.,.,.,.,TorchLamp,Wall_WoodLog</li>
-        <li>Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
-      </li>
-      <li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,PlantPot_Silver,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-        <li>.,.,.,.,.,.,.,.,.,.</li>
-      </li>
-    </layouts>
-    <roofGrid>
-      <li>1,1,1,1,1,1,1,.,.,.</li>
-      <li>1,1,1,1,1,1,1,1,.,.</li>
-      <li>1,1,1,1,1,1,1,1,1,.</li>
-      <li>1,1,1,1,1,1,1,1,1,1</li>
-      <li>1,1,1,1,1,1,1,1,1,1</li>
-      <li>1,1,1,1,1,1,1,1,1,1</li>
-      <li>1,1,1,1,1,1,1,1,1,1</li>
-      <li>1,1,1,1,1,1,1,1,1,1</li>
-      <li>1,1,1,1,1,1,1,1,1,1</li>
-      <li>1,1,1,1,1,1,1,1,1,1</li>
-    </roofGrid>
-    <terrainGrid>
-      <li>.,.,.,TileGranite,TileGranite,.,.,.,.,.</li>
-      <li>. ,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.,.,.,.</li>
-      <li>. ,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.,.,.</li>
-      <li>. ,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.,.</li>
-      <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
-      <li>. ,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
-      <li>. ,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
-      <li>. ,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
-      <li>. ,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.</li>
-      <li>.,.,.,.,.,.,.,.,.,.</li>
-    </terrainGrid>
-    <tags>
-      <li>TSA_Tribal_Recreation</li>
-    </tags>
-  </KCSG.StructureLayoutDef>
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Recreation_2</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.</li>
+      <li>Wall_WoodLog,Wall_WoodLog,KCB_Potting_D_East,Stool_WoodLog_West,ChessTable_WoodLog,TorchWallLamp_South,.,.,Wall_WoodLog,.,.</li>
+      <li>Wall_WoodLog,Joy_DartsBoard_WoodLog_East,.,.,.,.,.,.,Wall_WoodLog,Wall_WoodLog,HorseshoesPin_WoodLog</li>
+      <li>Wall_WoodLog,Joy_DartsBoard_WoodLog_East,.,.,.,.,.,.,.,Wall_WoodLog,Wall_WoodLog</li>
+      <li>Wall_WoodLog,Wall_WoodLog,Stool_WoodLog_South,Stool_WoodLog_South,Stool_WoodLog_South,Stool_WoodLog_South,Stool_WoodLog_South,.,.,Wall_WoodLog,Wall_WoodLog</li>
+      <li>.,Wall_WoodLog,Table_Counter_WoodLog,Table_Counter_WoodLog,Table_Counter_WoodLog,Table_Counter_WoodLog,Table_Counter_WoodLog,Stool_WoodLog_East,.,.,Door_WoodLog</li>
+      <li>.,Wall_WoodLog,.,.,.,.,Table_Counter_WoodLog,Stool_WoodLog_East,.,GameOfUrBoard_WoodLog_North,Wall_WoodLog</li>
+      <li>.,Wall_WoodLog,TorchWallLamp_West,.,Wall_WoodLog,.,Table_Counter_WoodLog,Stool_WoodLog_East,.,TorchWallLamp_East,Wall_WoodLog</li>
+      <li>.,Wall_WoodLog,ShelfSmall_WoodLog_South,ShelfSmall_WoodLog_South,Wall_WoodLog,.,.,.,.,KCB_Potting_D_North,Wall_WoodLog</li>
+      <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
+    </li>
+    <li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,Stool_WoodLog_East,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,MartialArtsTarget_Cloth_West,.</li>
+      <li>.,.,PsychiteTea,Beer,.,.,.,.,.,.,.</li>
+      <li>.,.,.,.,.,.,.,.,.,.,.</li>
+    </li>
+  </layouts>
+  <roofGrid>
+    <li>.,1,1,1,1,1,1,1,1,.,.</li>
+    <li>1,1,1,1,1,1,1,1,1,.,.</li>
+    <li>1,1,1,1,1,1,1,1,1,1,.</li>
+    <li>1,1,1,1,1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1,1,1,1,1</li>
+    <li>.,1,1,1,1,1,1,1,1,1,1</li>
+    <li>.,1,1,1,1,1,1,1,1,1,1</li>
+    <li>.,1,1,1,1,1,1,1,1,1,1</li>
+    <li>.,1,1,1,1,1,1,1,1,1,1</li>
+    <li>.,1,1,1,1,1,1,1,1,1,1</li>
+  </roofGrid>
+  <terrainGrid>
+    <li>.,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.,.</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.,.</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,.,.</li>
+    <li>TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite,TileGranite</li>
+    <li>.,TileGranite,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,TileGranite,TileGranite,TileGranite</li>
+    <li>.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,TileGranite,TileGranite,TileGranite</li>
+    <li>.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,TileGranite,TileGranite,TileGranite</li>
+    <li>.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,TileGranite,TileGranite,TileGranite</li>
+    <li>.,.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,TileGranite,TileGranite,TileGranite</li>
+    <li>.,.,.,.,.,.,.,.,TileGranite,TileGranite,TileGranite</li>
+  </terrainGrid>
+<tags><li>TSA_Tribal_Recreation</li></tags>
+</KCSG.StructureLayoutDef>
+
 </Defs>

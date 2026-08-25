@@ -11,6 +11,12 @@ namespace TSA_WorldDomination
 {
     public static class WdSettlementLootFiller
     {
+        /// <summary>
+        /// Cap market value spent on one shelf placement so a single pick (e.g. ComponentSpacer)
+        /// cannot eat most of a tier's valueBudget. Items worth more than this still spawn as count 1.
+        /// </summary>
+        public const float MaxSilverPerLootStack = 3000f;
+
         private static readonly Regex LayoutNameRx = new Regex(
             @"TSA_(Tribal|Generic)_T([1-4])_(\w+)",
             RegexOptions.Compiled);
@@ -117,7 +123,8 @@ namespace TSA_WorldDomination
             }
 
             FillShelvesInRect(map, rect, table, cheapProducts, cheapBudget, expensiveProducts, expensiveBudget,
-                context, onlyEmptyShelves, BuildMiningGenericExclusionSet(cheapProducts, expensiveProducts));
+                context, onlyEmptyShelves, BuildMiningGenericExclusionSet(cheapProducts, expensiveProducts),
+                preferredProductRects: rect.HasValue ? null : KcsgRockTypeRemapper.GetSessionOreProductLayoutRects());
         }
 
         private static void TryFillFarmingShelves(Map map, string tier, string context)
@@ -145,7 +152,8 @@ namespace TSA_WorldDomination
                     + $"(crop={KcsgRockTypeRemapper.ChosenCrop?.defName ?? "null"})");
             }
 
-            FillShelvesInRect(map, null, table, cropProducts, cropBudget, null, 0f, context, onlyEmptyShelves: false);
+            FillShelvesInRect(map, null, table, cropProducts, cropBudget, null, 0f, context, onlyEmptyShelves: false,
+                preferredProductRects: KcsgRockTypeRemapper.GetSessionCropProductLayoutRects());
         }
 
         private static void BuildSpawnedOreProductBuckets(
@@ -236,7 +244,8 @@ namespace TSA_WorldDomination
             float secondaryBudget,
             string context,
             bool onlyEmptyShelves = false,
-            HashSet<ThingDef> genericExclusions = null)
+            HashSet<ThingDef> genericExclusions = null,
+            IReadOnlyList<CellRect> preferredProductRects = null)
         {
             List<Building> shelves = (map.listerThings?.ThingsInGroup(ThingRequestGroup.BuildingArtificial) ?? new List<Thing>())
                 .OfType<Building>()
@@ -246,6 +255,33 @@ namespace TSA_WorldDomination
 
             if (onlyEmptyShelves)
                 shelves = shelves.Where(s => ShelfHasNoItems(s, map)).ToList();
+
+            // Ore/crop: prefer shelves in the layouts that actually spawned those products; else settlement-wide.
+            int preferredShelfCount = 0;
+            string productShelfMode = "settlement-wide";
+            if (preferredProductRects != null && preferredProductRects.Count > 0
+                && (primaryBudget > 0f || secondaryBudget > 0f))
+            {
+                var preferred = new List<Building>();
+                var rest = new List<Building>();
+                for (int i = 0; i < shelves.Count; i++)
+                {
+                    Building shelf = shelves[i];
+                    if (ShelfInAnyRect(shelf, preferredProductRects))
+                        preferred.Add(shelf);
+                    else
+                        rest.Add(shelf);
+                }
+
+                preferredShelfCount = preferred.Count;
+                if (preferred.Count > 0)
+                {
+                    shelves = preferred.Concat(rest).ToList();
+                    productShelfMode = "layout-first";
+                }
+                else
+                    productShelfMode = "settlement-fallback";
+            }
 
             float genericBudget = table.valueBudget - primaryBudget - secondaryBudget;
             if (genericBudget < 0f) genericBudget = 0f;
@@ -260,6 +296,11 @@ namespace TSA_WorldDomination
             int skippedNoStore = 0;
             int skippedNoSlots = 0;
             int skippedNoAllowed = 0;
+            int wantTotal = 0;
+            int placedTotal = 0;
+            string noAllowedExample = null;
+            var byItem = new Dictionary<ThingDef, (int stacks, int count, float spent, int want)>();
+            var scannedShelves = new List<Building>();
 
             var tableItems = table.items
                 .Where(o => o?.thingDef != null && (genericExclusions == null || !genericExclusions.Contains(o.thingDef)))
@@ -279,6 +320,7 @@ namespace TSA_WorldDomination
                     continue;
                 }
                 touches++;
+                scannedShelves.Add(shelf);
 
                 List<IntVec3> slotCells = GetStorageSlotCells(shelf);
                 if (slotCells.Count == 0)
@@ -286,6 +328,8 @@ namespace TSA_WorldDomination
                     skippedNoSlots++;
                     continue;
                 }
+
+                ForceShelfFilterForLootFill(store, shelf.def, tableItems, primaryProducts, secondaryProducts);
 
                 List<WdWeightedThingOption> allowedGeneric = FilterAllowedOptions(store, tableItems);
                 List<WdWeightedThingOption> allowedPrimary = hasPrimary ? FilterAllowedOptions(store, primaryProducts) : null;
@@ -295,19 +339,9 @@ namespace TSA_WorldDomination
                     && (allowedPrimary == null || allowedPrimary.Count == 0)
                     && (allowedSecondary == null || allowedSecondary.Count == 0))
                 {
-                    if (TryRelaxShelfFilter(store, shelf.def, tableItems))
-                    {
-                        allowedGeneric = FilterAllowedOptions(store, tableItems);
-                        allowedPrimary = hasPrimary ? FilterAllowedOptions(store, primaryProducts) : null;
-                        allowedSecondary = hasSecondary ? FilterAllowedOptions(store, secondaryProducts) : null;
-                    }
-                }
-
-                if ((allowedGeneric == null || allowedGeneric.Count == 0)
-                    && (allowedPrimary == null || allowedPrimary.Count == 0)
-                    && (allowedSecondary == null || allowedSecondary.Count == 0))
-                {
                     skippedNoAllowed++;
+                    if (noAllowedExample == null)
+                        noAllowedExample = $"{shelf.def?.defName ?? "?"} thingClass={shelf.GetType().FullName ?? "?"}";
                     continue;
                 }
 
@@ -362,7 +396,7 @@ namespace TSA_WorldDomination
                     bool isOverrideItem = useOverride && bucketProducts != null
                         && bucketProducts.Any(o => o.thingDef == stuff);
 
-                    if (!store.AllowedToAccept(stuff))
+                    if (!ShelfAcceptsForLootFill(store, stuff))
                     {
                         rejectedFilter++;
                         continue;
@@ -383,24 +417,32 @@ namespace TSA_WorldDomination
 
                     int maxStack = stuff.stackLimit > 0 ? stuff.stackLimit : 1;
                     float unitValue = stuff.BaseMarketValue > 0.01f ? stuff.BaseMarketValue : 1f;
-                    int want = Rand.RangeInclusive(1, maxStack);
                     int affordable = (int)((bucketBudget - bucketSpent) / unitValue);
                     if (affordable <= 0) continue;
-                    want = Mathf.Min(want, affordable);
+                    // Full affordable stack, but never more than MaxSilverPerLootStack of market value.
+                    int maxByValueCap = Mathf.Max(1, (int)(MaxSilverPerLootStack / unitValue));
+                    int want = Mathf.Min(maxStack, affordable, maxByValueCap);
                     if (want <= 0) continue;
+                    wantTotal += want;
 
                     try
                     {
                         Thing thing = ThingMaker.MakeThing(stuff);
                         thing.stackCount = want;
-                        if (!GenPlace.TryPlaceThing(thing, cell, map, ThingPlaceMode.Direct))
-                        {
+                        int placed = 0;
+                        bool ok = GenPlace.TryPlaceThing(thing, cell, map, ThingPlaceMode.Direct,
+                            (placedThing, count) => placed += count);
+                        if (!ok && !thing.Destroyed)
                             thing.Destroy();
+
+                        if (placed <= 0)
+                        {
                             placeFailed++;
                             continue;
                         }
 
-                        float cost = unitValue * want;
+                        placedTotal += placed;
+                        float cost = unitValue * placed;
                         if (isOverrideItem && primaryProducts != null && primaryProducts.Any(o => o.thingDef == stuff))
                             primarySpent += cost;
                         else if (isOverrideItem && secondaryProducts != null && secondaryProducts.Any(o => o.thingDef == stuff))
@@ -408,26 +450,88 @@ namespace TSA_WorldDomination
                         else
                             genericSpent += cost;
                         spawned++;
+
+                        if (byItem.TryGetValue(stuff, out var prev))
+                            byItem[stuff] = (prev.stacks + 1, prev.count + placed, prev.spent + cost, prev.want + want);
+                        else
+                            byItem[stuff] = (1, placed, cost, want);
                     }
-                    catch (System.Exception ex)
+                    catch (System.Exception)
                     {
                         placeFailed++;
                     }
                 }
             }
 
+            float totalBudget = primaryBudget + secondaryBudget + genericBudget;
+            float totalSpent = primarySpent + secondarySpent + genericSpent;
+            float leftover = totalBudget - totalSpent;
+            float onShelvesValue = SumShelfItemsMarketValue(scannedShelves, map);
+
             string primaryLabel = hasSecondary ? "cheap/crop" : "override";
             string secondaryLabel = hasSecondary ? "expensive" : "";
 
             WDVerbose.RemapNoTick(
                 $"Shelf fill settlement={SettlementLabel(map)} context={context} biome={map.Biome?.defName ?? "?"} "
-                + $"rect={(rect.HasValue ? rect.Value.ToString() : "all")} shelves={touches}/{shelves.Count} stacks={spawned} "
+                + $"table={table.defName} "
+                + $"rect={(rect.HasValue ? rect.Value.ToString() : "all")} shelves={touches}/{shelves.Count} "
+                + $"productShelves={productShelfMode}/{preferredShelfCount} stacks={spawned} "
                 + $"products primary=[{FormatOreProducts(primaryProducts)}] secondary=[{FormatOreProducts(secondaryProducts)}] "
                 + $"{primaryLabel}={primarySpent:F0}/{primaryBudget:F0} "
                 + (hasSecondary ? $"{secondaryLabel}={secondarySpent:F0}/{secondaryBudget:F0} " : "")
-                + $"generic={genericSpent:F0}/{genericBudget:F0} "
+                + $"generic={genericSpent:F0}/{genericBudget:F0} leftover={leftover:F0} "
+                + $"want={wantTotal} placed={placedTotal} onShelvesValue={onShelvesValue:F0} "
                 + $"genericExcl={(genericExclusions == null || genericExclusions.Count == 0 ? "-" : string.Join("/", genericExclusions.Select(d => d.defName)))} "
-                + $"noStore={skippedNoStore} noSlots={skippedNoSlots} noAllowed={skippedNoAllowed} filterReject={rejectedFilter} placeFail={placeFailed}");
+                + $"noStore={skippedNoStore} noSlots={skippedNoSlots} noAllowed={skippedNoAllowed} filterReject={rejectedFilter} placeFail={placeFailed}"
+                + (noAllowedExample != null ? $" noAllowedEx={noAllowedExample}" : ""));
+
+            WDVerbose.RemapNoTick(
+                $"Shelf fill breakdown settlement={SettlementLabel(map)} context={context} "
+                + $"byItem={FormatLootBreakdown(byItem)}");
+        }
+
+        private static float SumShelfItemsMarketValue(List<Building> shelves, Map map)
+        {
+            if (shelves == null || shelves.Count == 0 || map == null) return 0f;
+            var seen = new HashSet<Thing>();
+            float sum = 0f;
+            for (int i = 0; i < shelves.Count; i++)
+            {
+                foreach (IntVec3 cell in GetStorageSlotCells(shelves[i]))
+                {
+                    if (!cell.InBounds(map)) continue;
+                    List<Thing> things = cell.GetThingList(map);
+                    for (int t = 0; t < things.Count; t++)
+                    {
+                        Thing thing = things[t];
+                        if (thing == null || thing.def?.category != ThingCategory.Item) continue;
+                        if (!seen.Add(thing)) continue;
+                        float unit = thing.def.BaseMarketValue > 0.01f ? thing.def.BaseMarketValue : 1f;
+                        sum += unit * thing.stackCount;
+                    }
+                }
+            }
+            return sum;
+        }
+
+        private static string FormatLootBreakdown(Dictionary<ThingDef, (int stacks, int count, float spent, int want)> byItem)
+        {
+            if (byItem == null || byItem.Count == 0) return "-";
+            var parts = byItem
+                .OrderByDescending(kv => kv.Value.spent)
+                .Select(kv =>
+                    $"{kv.Key.defName}:stacks={kv.Value.stacks},count={kv.Value.count},want={kv.Value.want},spent={kv.Value.spent:F0}");
+            return string.Join(";", parts);
+        }
+
+        /// <summary>
+        /// Instance filter only — not <see cref="StorageSettings.AllowedToAccept"/>, which also applies parent/fixed
+        /// settings (Adaptive Storage Framework's ThingClass can parent-veto after default copy).
+        /// </summary>
+        private static bool ShelfAcceptsForLootFill(StorageSettings store, ThingDef def)
+        {
+            if (store?.filter == null || def == null) return false;
+            return store.filter.Allows(def);
         }
 
         private static List<WdWeightedThingOption> FilterAllowedOptions(
@@ -439,24 +543,46 @@ namespace TSA_WorldDomination
             for (int i = 0; i < options.Count; i++)
             {
                 WdWeightedThingOption o = options[i];
-                if (o?.thingDef != null && store.AllowedToAccept(o.thingDef))
+                if (o?.thingDef != null && ShelfAcceptsForLootFill(store, o.thingDef))
                     allowed.Add(o);
             }
             return allowed.Count > 0 ? allowed : null;
         }
 
-        /// <summary>When KCSG/VFEPD leaves a shelf with a filter that rejects the whole loot table, fall back to the def default.</summary>
-        private static bool TryRelaxShelfFilter(
+        private static bool AnyOptionAccepted(StorageSettings store, List<WdWeightedThingOption> options)
+        {
+            if (store == null || options == null) return false;
+            for (int i = 0; i < options.Count; i++)
+            {
+                ThingDef def = options[i]?.thingDef;
+                if (def != null && ShelfAcceptsForLootFill(store, def))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Copy def defaults, then if loot still fails instance-filter checks, open the instance filter to
+        /// all ever-storable (parent/fixed settings from optional storage mods are intentionally ignored).
+        /// </summary>
+        private static void ForceShelfFilterForLootFill(
             StorageSettings store,
             ThingDef shelfDef,
-            List<WdWeightedThingOption> tableItems)
+            List<WdWeightedThingOption> tableItems,
+            List<WdWeightedThingOption> primaryProducts,
+            List<WdWeightedThingOption> secondaryProducts)
         {
-            if (store == null || shelfDef?.building?.defaultStorageSettings == null || tableItems == null)
-                return false;
-            if (tableItems.Any(o => o?.thingDef != null && store.AllowedToAccept(o.thingDef)))
-                return false;
-            store.CopyFrom(shelfDef.building.defaultStorageSettings);
-            return tableItems.Any(o => o?.thingDef != null && store.AllowedToAccept(o.thingDef));
+            if (store?.filter == null) return;
+
+            if (shelfDef?.building?.defaultStorageSettings != null)
+                store.CopyFrom(shelfDef.building.defaultStorageSettings);
+
+            if (AnyOptionAccepted(store, tableItems)
+                || AnyOptionAccepted(store, primaryProducts)
+                || AnyOptionAccepted(store, secondaryProducts))
+                return;
+
+            store.filter = ThingFilter.CreateOnlyEverStorableThingFilter();
         }
 
         private static List<IntVec3> GetStorageSlotCells(Building shelf)
@@ -507,6 +633,17 @@ namespace TSA_WorldDomination
             foreach (IntVec3 cell in shelf.OccupiedRect().Cells)
             {
                 if (r.Contains(cell)) return true;
+            }
+            return false;
+        }
+
+        private static bool ShelfInAnyRect(Building shelf, IReadOnlyList<CellRect> rects)
+        {
+            if (shelf == null || rects == null || rects.Count == 0) return false;
+            for (int i = 0; i < rects.Count; i++)
+            {
+                if (ShelfInRect(shelf, rects[i]))
+                    return true;
             }
             return false;
         }

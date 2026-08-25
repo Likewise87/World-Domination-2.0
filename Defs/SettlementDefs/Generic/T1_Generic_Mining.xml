@@ -33,6 +33,10 @@
           <count>0~1</count>
           <tag>TSA_Tribal_BigBarracks</tag>
         </li>
+        <li>
+          <tag>Kitchen</tag>
+          <count>0~1</count>
+        </li>
       </allowedStructures>
     </centerBuildings>
 
@@ -52,7 +56,7 @@
     <propsOptions>
       <scatterProps>true</scatterProps>
       <scatterMinDistance>5</scatterMinDistance>
-      <scatterMaxAmount>7</scatterMaxAmount>
+      <scatterMaxAmount>5</scatterMaxAmount>
       <scatterPropsDefs>
         <li>TSA_WD_Wagon_1a</li>
         <li>TSA_WD_Wagon_2a</li>

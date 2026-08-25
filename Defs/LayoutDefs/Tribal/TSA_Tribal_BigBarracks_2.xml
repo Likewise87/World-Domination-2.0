@@ -8,12 +8,12 @@
       <li>.,.,.,.,.,.,.,.,.,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.</li>
       <li>.,.,.,.,.,.,.,.,Wall_WoodLog,Wall_WoodLog,.,TorchLamp,Wall_WoodLog,Wall_WoodLog,.</li>
       <li>.,.,.,.,.,.,TorchLamp,.,Wall_WoodLog,.,.,.,Table1x2c_WoodLog_North,Wall_WoodLog,.</li>
-      <li>.,.,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Bedroll_Leather_Light_South,.,Stool_WoodLog_East,.,Wall_WoodLog,.</li>
+      <li>.,.,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Bedroll_Cloth_South,.,Stool_WoodLog_East,.,Wall_WoodLog,.</li>
       <li>Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,TorchLamp,.,.,Wall_WoodLog,Wall_WoodLog,PassiveCooler,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
       <li>Wall_WoodLog,TorchLamp,.,.,Wall_WoodLog,Wall_WoodLog,.,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Table1x2c_WoodLog_East,.,Wall_WoodLog</li>
       <li>Wall_WoodLog,.,.,.,.,Wall_WoodLog,PassiveCooler,.,.,Wall_WoodLog,PassiveCooler,.,Stool_WoodLog_North,.,Door_WoodLog</li>
-      <li>Wall_WoodLog,PassiveCooler,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,Bedroll_Leather_Light_West,Wall_WoodLog,.,.,.,.,Wall_WoodLog</li>
-      <li>Wall_WoodLog,Wall_WoodLog,Bedroll_Leather_Light_South,Wall_WoodLog,Wall_WoodLog,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Bedroll_Leather_Light_South,.,TorchLamp,Wall_WoodLog,Wall_WoodLog</li>
+      <li>Wall_WoodLog,PassiveCooler,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,Bedroll_Cloth_West,Wall_WoodLog,.,.,.,.,Wall_WoodLog</li>
+      <li>Wall_WoodLog,Wall_WoodLog,Bedroll_Cloth_South,Wall_WoodLog,Wall_WoodLog,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Bedroll_Cloth_South,.,TorchLamp,Wall_WoodLog,Wall_WoodLog</li>
       <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.,.,.,.,.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,TorchLamp</li>
     </li>
   </layouts>

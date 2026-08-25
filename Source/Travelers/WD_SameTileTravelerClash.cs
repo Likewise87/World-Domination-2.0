@@ -96,7 +96,7 @@ namespace TSA_WorldDomination
                         continue;
 
                     if (Prefs.DevMode)
-                        Log.Message($"[TSA WD] Traveler vs traveler same tile {destTile}: {incoming.Label} enters vs {other.Label}");
+                        WDVerbose.Msg($"[TSA WD] Traveler vs traveler same tile {destTile}: {incoming.Label} enters vs {other.Label}");
                     ResolveTravelerVsTraveler(incoming, other);
                     return true;
                 }
@@ -123,7 +123,7 @@ namespace TSA_WorldDomination
                     && WorldActions_Utils.SafeHostileTo(traveler.Faction, caravan.Faction))
                 {
                     if (Prefs.DevMode)
-                        Log.Message($"[TSA WD] Traveler landed tile {tile} with hostile caravan: {traveler.Label} vs {caravan.Label}");
+                        WDVerbose.Msg($"[TSA WD] Traveler landed tile {tile} with hostile caravan: {traveler.Label} vs {caravan.Label}");
 
                     if (caravan.Faction.IsPlayer)
                     {
@@ -179,7 +179,7 @@ namespace TSA_WorldDomination
                     && tr.Faction != null && WorldActions_Utils.SafeHostileTo(caravan.Faction, tr.Faction))
                 {
                     if (Prefs.DevMode)
-                        Log.Message($"[TSA WD] Caravan moved to tile {tile} vs traveler: {caravan.Label} vs {tr.Label}");
+                        WDVerbose.Msg($"[TSA WD] Caravan moved to tile {tile} vs traveler: {caravan.Label} vs {tr.Label}");
 
                     if (caravan.Faction.IsPlayer)
                     {

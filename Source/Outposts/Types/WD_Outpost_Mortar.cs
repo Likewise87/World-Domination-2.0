@@ -295,6 +295,31 @@ namespace TSA_WorldDomination
             WorldActions_Traveler.SpawnMortarTraveler(origin, target, damage, guaranteedHit: hit, aimTileIdOverride: aimTile);
         }
 
+        /// <summary>NPC tier-4 settlement shot at a real player caravan (route-leading aim via <see cref="MortarCaravanIntercept"/>).</summary>
+        public static void FireNpcSettlementAtCaravan(Settlement origin, Caravan target, float approxTileDist)
+        {
+            if (origin == null || target == null || target.Destroyed || !target.Spawned) return;
+            var seth = WorldDominationMod.settings;
+            var comp = origin.GetComponent<CompViralSpread>();
+            if (comp == null || comp.IsMortarOnCooldown) return;
+            if (comp.tier != SettlementTier.T4) return;
+            if (!AtTurretUtility.CanEnemySystemsTargetPlayerCaravan(target)) return;
+            if (origin.Faction == null || target.Faction == null) return;
+            if (origin.Faction == target.Faction) return;
+            if (!WorldActions_Utils.SafeHostileTo(origin.Faction, target.Faction)) return;
+
+            float damage = seth?.npcMortarDamage ?? WorldDominationSettings.DefNpcMortarDamage;
+            float skillEquiv = seth?.npcMortarSkillEquivalent ?? WorldDominationSettings.DefNpcMortarSkillEquivalent;
+            float maxRange = seth?.npcMortarRange ?? WorldDominationSettings.DefNpcMortarRange;
+            if (approxTileDist > maxRange) return;
+            bool hit = RollMortarHit(approxTileDist, maxRange, skillEquiv, seth, 0f, useNpcBands: true);
+            int aimTile = MortarCaravanIntercept.ResolveMortarAimTileId(origin, target, maxRange);
+
+            if (!NpcT4GlobalFireStagger.TryClaimMortarFire()) return;
+            ApplyNpcMortarCooldown(comp);
+            WorldActions_Traveler.SpawnMortarTraveler(origin, target, damage, guaranteedHit: hit, aimTileIdOverride: aimTile);
+        }
+
         /// <summary>NPC tier-4 settlement idle fallback: fire at a nearby static target (hostile settlement, AT Turret, or player outpost). Reuses the NPC fire damage/hit/cooldown path.</summary>
         public static void FireNpcSettlementAtStaticTarget(Settlement origin, WorldObject target, float approxTileDist)
         {

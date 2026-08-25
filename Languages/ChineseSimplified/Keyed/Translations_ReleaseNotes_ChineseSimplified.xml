@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_13_Title>商队锁定、战利品与布局</TSA_WD_Update_2_3_13_Title>
+  <TSA_WD_Update_2_3_13_Body><![CDATA[
+<size=16><b>2.3.13 – 商队锁定、战利品与布局</b></size>\n
+<color=#00FFFFFF>发布日期：2026年8月25日</color>\n
+------------------------------\n
+• 新功能：统一规定带真实角色的玩家商队何时可被 AT 炮塔、T4 迫击炮与拦截商队锁定。默认仅当其在世界地图上的可见度至少为 80% 时才会被锁定，约相当于五名普通角色步行。设计意图：小队可悄然通行而不被发现。\n
+• 突击敌对定居点时，对战利品生成、建筑布局及相关系统做了大量修复。\n
+• Bug 修复：使用 Combat Extended 时，T3 与 T4 定居点不会生成迫击炮弹。\n
+• T3 与 T4 定居点新增机枪巢。机枪为 Combat Extended 的 M240（没有该模组则不会出现机枪）。\n
+]]></TSA_WD_Update_2_3_13_Body>
   <TSA_WD_Update_2_3_12_Title>WD 范围配置器与地图外炮火支援</TSA_WD_Update_2_3_12_Title>
   <TSA_WD_Update_2_3_12_Body><![CDATA[
 <size=16><b>2.3.12 – WD 范围配置器与地图外炮火支援</b></size>\n

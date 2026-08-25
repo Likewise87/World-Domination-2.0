@@ -1,4 +1,3 @@
-#if COMBAT_EXTENDED
 using System;
 using System.Collections;
 using System.Linq;
@@ -12,7 +11,8 @@ namespace TSA_WorldDomination
 {
     /// <summary>
     /// Combat Extended compatibility for assault artillery.
-    /// Uses reflection only so a build produced with CE installed still runs in vanilla.
+    /// Uses reflection only so the shipped assembly loads without CE installed.
+    /// Always compiled — do not wrap in #if COMBAT_EXTENDED (build-machine trap).
     /// </summary>
     internal static class AssaultArtilleryCeCompat
     {
@@ -294,4 +294,3 @@ namespace TSA_WorldDomination
         }
     }
 }
-#endif

@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_13_Title>Objetivo de caravanas, botín y diseños</TSA_WD_Update_2_3_13_Title>
+  <TSA_WD_Update_2_3_13_Body><![CDATA[
+<size=16><b>2.3.13 – Objetivo de caravanas, botín y diseños</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 25 de agosto de 2026</color>\n
+------------------------------\n
+• Nueva función: Criterio unificado de cuándo las caravanas del jugador con peones reales pueden ser objetivo de torretas AT, morteros T4 y caravanas de intercepción. Por defecto solo se las apunta si su visibilidad en el mapa del mundo es al menos del 80%. Eso equivale a unos cinco peones normales caminando. La idea: los grupos pequeños pueden pasar desapercibidos.\n
+• Muchas correcciones en la generación de botín, diseños de edificios y sistemas relacionados al atacar asentamientos enemigos.\n
+• Corrección: No se generaban proyectiles de mortero en asentamientos T3 y T4 al jugar con Combat Extended.\n
+• Añadidos nidos de ametralladora en asentamientos T3 y T4. La ametralladora es la M240 de Combat Extended (sin ametralladora si no tienes ese mod).\n
+]]></TSA_WD_Update_2_3_13_Body>
   <TSA_WD_Update_2_3_12_Title>Configurador de alcance WD y artillería fuera del mapa</TSA_WD_Update_2_3_12_Title>
   <TSA_WD_Update_2_3_12_Body><![CDATA[
 <size=16><b>2.3.12 – Configurador de alcance WD y artillería fuera del mapa</b></size>\n

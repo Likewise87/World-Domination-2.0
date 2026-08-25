@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+<KCSG.StructureLayoutDef>
+  <defName>Generic_MG_1</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>AncientRazorWire,Sandbags_Cloth,Turret_M240B_North,Sandbags_Cloth,AncientRazorWire</li>
+      <li>AncientRazorWire,Sandbags_Cloth,Sandbags_Cloth,Sandbags_Cloth,AncientRazorWire</li>
+      <li>AncientRazorWire,AncientRazorWire,AncientRazorWire,AncientRazorWire,AncientRazorWire</li>
+    </li>
+  </layouts>
+<tags><li>Generic_MG</li></tags>
+</KCSG.StructureLayoutDef>
+
+</Defs>

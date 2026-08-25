@@ -15,6 +15,8 @@ namespace TSA_WorldDomination
     /// - remaps Plant_Corn / ranked trees / MineableSteel|Silver from biome + XML pools (per layout)
     /// - paints RoughHewn halos under layout rock
     /// - spawns wild livestock around PenMarker symbols from biome XML
+    /// - wipes non-layout filth/chunks/plants/items on layout floor and constructed-roof cells
+    ///   (early on SetTerrain/SetRoof, per-structure catch-up, plus a final settlement pass for re-drops)
     /// </summary>
     public static class KcsgRockTypeRemapper
     {
@@ -38,7 +40,9 @@ namespace TSA_WorldDomination
             "Concrete",
             "SterileTile",
             "Carpet",
-            "Bridge"
+            "Bridge",
+            "BrokenAsphalt",
+            "Asphalt"
         };
 
         private const string CropPlaceholder = "Plant_Corn";
@@ -81,6 +85,8 @@ namespace TSA_WorldDomination
         [System.ThreadStatic] private static HashSet<ThingDef> sessionSpawnedCheap;
         [System.ThreadStatic] private static HashSet<ThingDef> sessionSpawnedExpensive;
         [System.ThreadStatic] private static List<WdWeightedThingOption> sessionCropProducts;
+        [System.ThreadStatic] private static List<CellRect> sessionCropProductLayoutRects;
+        [System.ThreadStatic] private static List<CellRect> sessionOreProductLayoutRects;
         [System.ThreadStatic] private static string currentLayoutName;
         [System.ThreadStatic] private static bool currentLayoutIsFarmTagged;
         [System.ThreadStatic] private static int layoutCropAttempted;
@@ -134,6 +140,14 @@ namespace TSA_WorldDomination
         public static List<WdWeightedThingOption> GetSessionCropProducts() =>
             sessionCropProducts != null ? new List<WdWeightedThingOption>(sessionCropProducts) : new List<WdWeightedThingOption>();
 
+        /// <summary>Layout rects that successfully placed crops this session (for shelf product preference).</summary>
+        public static IReadOnlyList<CellRect> GetSessionCropProductLayoutRects() =>
+            sessionCropProductLayoutRects ?? (IReadOnlyList<CellRect>)System.Array.Empty<CellRect>();
+
+        /// <summary>Layout rects that successfully placed ores this session (for shelf product preference).</summary>
+        public static IReadOnlyList<CellRect> GetSessionOreProductLayoutRects() =>
+            sessionOreProductLayoutRects ?? (IReadOnlyList<CellRect>)System.Array.Empty<CellRect>();
+
         /// <summary>Mined item stack def produced when the mineable building is mined.</summary>
         public static ThingDef MinedProductForMineable(ThingDef mineableDef) =>
             mineableDef?.building?.mineableThing;
@@ -155,7 +169,11 @@ namespace TSA_WorldDomination
             sessionSpawnedCheap = new HashSet<ThingDef>();
             sessionSpawnedExpensive = new HashSet<ThingDef>();
             sessionCropProducts = new List<WdWeightedThingOption>();
+            sessionCropProductLayoutRects = new List<CellRect>();
+            sessionOreProductLayoutRects = new List<CellRect>();
             layoutFailedCrops = new HashSet<ThingDef>();
+            // Session-wide: layout chunk/item symbols must survive the final settlement wipe.
+            layoutProtectedDebris = new HashSet<Thing>();
 
             chosenCrop = ResolveSessionCrop(map);
             ResolveSessionTrees(map);
@@ -188,11 +206,12 @@ namespace TSA_WorldDomination
             pendingSymbolVerify = null;
             layoutCropFallbackCells = layoutCropFallbackCells ?? new List<IntVec3>();
             layoutCropFallbackCells.Clear();
-            layoutProtectedDebris?.Clear();
+            // Do not clear layoutProtectedDebris here — protection is session-scoped so a final
+            // settlement wipe can keep decorative chunks from earlier structures.
         }
 
         /// <summary>Call at the end of each KCSG structure layout (before shelf fill).</summary>
-        public static void EndLayout(Map map)
+        public static void EndLayout(Map map, CellRect rect = default)
         {
             if (layoutCropAttempted > 0 || currentLayoutIsFarmTagged)
             {
@@ -213,6 +232,24 @@ namespace TSA_WorldDomination
                     + $"attempted={layoutOreAttempted} placed={layoutOrePlaced} "
                     + $"spawned cheap=[{FormatDefSet(layoutSpawnedCheap)}] "
                     + $"expensive=[{FormatDefSet(layoutSpawnedExpensive)}]");
+            }
+
+            // Catch-up: wipe pre-layout debris on every floor/roof cell in this structure.
+            if (sessionActive && map != null && rect.Area > 0)
+                WipeDebrisOnLayoutFloorOrRoof(map, rect);
+
+            if (rect.Area <= 0) return;
+
+            if (layoutCropPlaced > 0)
+            {
+                sessionCropProductLayoutRects = sessionCropProductLayoutRects ?? new List<CellRect>();
+                sessionCropProductLayoutRects.Add(rect);
+            }
+
+            if (layoutOrePlaced > 0)
+            {
+                sessionOreProductLayoutRects = sessionOreProductLayoutRects ?? new List<CellRect>();
+                sessionOreProductLayoutRects.Add(rect);
             }
         }
 
@@ -348,6 +385,8 @@ namespace TSA_WorldDomination
             sessionSpawnedCheap = null;
             sessionSpawnedExpensive = null;
             sessionCropProducts = null;
+            sessionCropProductLayoutRects = null;
+            sessionOreProductLayoutRects = null;
             currentLayoutName = null;
             currentLayoutIsFarmTagged = false;
             layoutCropAttempted = layoutCropPlaced = 0;
@@ -433,11 +472,26 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        /// <summary>Layout terrainGrid floors (wood, stone tile, packed dirt, etc.) — not natural soil/grass.</summary>
-        public static bool IsLayoutPlacedFloor(TerrainDef terrain) => IsExcludedLayoutFloor(terrain);
+        /// <summary>Layout terrainGrid floors (wood, stone tile, packed dirt, asphalt, etc.) — not natural soil/grass.</summary>
+        public static bool IsLayoutPlacedFloor(TerrainDef terrain)
+        {
+            if (terrain == null) return false;
+            if (IsExcludedLayoutFloor(terrain)) return true;
+            // Any constructible floor (has a cost list) counts — catches mod/vanilla floors not in the exclusion list.
+            if (terrain.costList != null && terrain.costList.Count > 0) return true;
+            return false;
+        }
 
         /// <summary>Constructed layout roofs — not natural rock/mountain roof.</summary>
         public static bool IsLayoutPlacedRoof(RoofDef roof) => roof != null && !roof.isNatural;
+
+        /// <summary>True when this cell currently has layout floor and/or constructed roof.</summary>
+        public static bool CellHasLayoutFloorOrRoof(Map map, IntVec3 cell)
+        {
+            if (map == null || !cell.InBounds(map)) return false;
+            if (IsLayoutPlacedFloor(cell.GetTerrain(map))) return true;
+            return IsLayoutPlacedRoof(map.roofGrid.RoofAt(cell));
+        }
 
         private static bool IsExcludedLayoutFloor(TerrainDef terrain)
         {
@@ -453,20 +507,45 @@ namespace TSA_WorldDomination
             return false;
         }
 
-        /// <summary>After KCSG spawns a layout chunk symbol, keep that chunk when wiping indoor cell debris.</summary>
+        /// <summary>
+        /// After KCSG spawns a layout symbol, keep those Things when wiping indoor debris.
+        /// Item symbols (esp. Shell_* / mortar shells under CE) register every Item on the cell —
+        /// exact def match alone can miss CE AmmoThing / def-identity quirks.
+        /// </summary>
         public static void ProtectLayoutDebrisAfterSymbolSpawn(object symbol, Map map, IntVec3 cell)
         {
             if (!sessionActive || map == null || !cell.InBounds(map)) return;
             ThingDef def = GetSymbolThingDef(symbol);
-            if (!IsChunkThingDef(def)) return;
+            if (def == null) return;
+
+            bool protectAllItemsOnCell = def.category == ThingCategory.Item
+                || IsLayoutMortarShellDef(def);
 
             List<Thing> things = cell.GetThingList(map);
             for (int i = 0; i < things.Count; i++)
             {
                 Thing t = things[i];
-                if (t != null && !t.Destroyed && IsChunkThingDef(t.def))
+                if (t == null || t.Destroyed || t is Pawn) continue;
+                if (protectAllItemsOnCell)
+                {
+                    if (t.def != null && t.def.category == ThingCategory.Item)
+                        RegisterLayoutSpawnedDebris(t);
+                    continue;
+                }
+                // Match spawned def, or any chunk when the symbol was a chunk (rock remap may change kind).
+                if (t.def == def || (IsChunkThingDef(def) && IsChunkThingDef(t.def)))
                     RegisterLayoutSpawnedDebris(t);
             }
+        }
+
+        private static bool IsLayoutMortarShellDef(ThingDef def)
+        {
+            if (def?.defName != null && def.defName.StartsWith("Shell_"))
+                return true;
+            ThingCategoryDef mortarCat = DefDatabase<ThingCategoryDef>.GetNamedSilentFail("MortarShells");
+            if (mortarCat != null && def.IsWithinCategory(mortarCat))
+                return true;
+            return false;
         }
 
         public static void RegisterLayoutSpawnedDebris(Thing thing)
@@ -477,32 +556,97 @@ namespace TSA_WorldDomination
             layoutProtectedDebris.Add(thing);
         }
 
-        /// <summary>Remove pre-existing filth and stone chunks when a layout floor/roof is placed; layout chunks are kept.</summary>
+        /// <summary>
+        /// Remove pre-existing debris when a layout floor/roof is placed.
+        /// Layout-spawned Things (registered via ProtectLayoutDebrisAfterSymbolSpawn) are kept.
+        /// </summary>
         public static void WipeIndoorCellDebris(IntVec3 cell)
         {
             Map map = sessionMap;
             if (!sessionActive || map == null || !cell.InBounds(map)) return;
+            WipeIndoorCellDebris(map, cell, chunksAndFilthOnly: false);
+        }
 
+        /// <summary>End-of-structure catch-up wipe for every cell with layout floor or constructed roof.</summary>
+        public static void WipeDebrisOnLayoutFloorOrRoof(Map map, CellRect rect)
+        {
+            if (!sessionActive || map == null || rect.Area <= 0) return;
+            foreach (IntVec3 cell in rect)
+            {
+                if (!CellHasLayoutFloorOrRoof(map, cell)) continue;
+                WipeIndoorCellDebris(map, cell, chunksAndFilthOnly: false);
+            }
+        }
+
+        /// <summary>
+        /// Final settlement-wide pass after all KCSG structures/roads/scatter.
+        /// Only removes filth + stone chunks so stockpile/shelf loot placed after structures survives.
+        /// Layout-spawned chunks stay via session-scoped <see cref="layoutProtectedDebris"/>.
+        /// </summary>
+        public static void WipeDebrisOnAllTrackedIndoorCells(Map map)
+        {
+            if (!sessionActive || map == null) return;
+
+            int wipedCells = 0;
+            if (WdLayoutSpawnCellTracker.TryGetCells(map, out HashSet<IntVec3> cells))
+            {
+                foreach (IntVec3 cell in cells)
+                {
+                    if (!CellHasLayoutFloorOrRoof(map, cell)) continue;
+                    WipeIndoorCellDebris(map, cell, chunksAndFilthOnly: true);
+                    wipedCells++;
+                }
+            }
+            else if (WdSettlementMapUnfog.TryResolveSettlementRect(map, out CellRect rect) && rect.Area > 0)
+            {
+                foreach (IntVec3 cell in rect)
+                {
+                    if (!cell.InBounds(map) || !CellHasLayoutFloorOrRoof(map, cell)) continue;
+                    WipeIndoorCellDebris(map, cell, chunksAndFilthOnly: true);
+                    wipedCells++;
+                }
+            }
+
+            if (wipedCells > 0)
+                WDVerbose.RemapNoTick($"KCSG indoor debris final wipe settlement={SettlementLabel(map)} cells={wipedCells}");
+        }
+
+        private static void WipeIndoorCellDebris(Map map, IntVec3 cell, bool chunksAndFilthOnly)
+        {
             List<Thing> things = cell.GetThingList(map);
             for (int i = things.Count - 1; i >= 0; i--)
             {
                 Thing t = things[i];
                 if (t == null || t.Destroyed) continue;
                 if (t is Pawn) continue;
-                if (t.def.category == ThingCategory.Plant) continue;
                 if (layoutProtectedDebris != null && layoutProtectedDebris.Contains(t)) continue;
+                // Layout rock/ore symbols are not "debris".
                 if (t is Mineable) continue;
                 if (t.def.building != null && t.def.building.isNaturalRock) continue;
-
+                // Pre-map / non-layout debris we always want gone on floor/roof cells.
                 bool filth = t.def.category == ThingCategory.Filth;
                 bool chunk = IsChunkThingDef(t.def);
                 if (filth || chunk)
-                    t.Destroy();
+                {
+                    t.Destroy(DestroyMode.Vanish);
+                    continue;
+                }
+                if (chunksAndFilthOnly) continue;
+                bool plant = t.def.category == ThingCategory.Plant;
+                bool looseItem = t.def.category == ThingCategory.Item;
+                if (plant || looseItem)
+                    t.Destroy(DestroyMode.Vanish);
             }
         }
 
-        private static bool IsChunkThingDef(ThingDef def) =>
-            def?.thingCategories != null && def.thingCategories.Contains(ThingCategoryDefOf.Chunks);
+        private static bool IsChunkThingDef(ThingDef def)
+        {
+            if (def == null) return false;
+            if (def.thingCategories != null && def.thingCategories.Contains(ThingCategoryDefOf.Chunks))
+                return true;
+            // Fallback for odd/modded chunk defs that skip the Chunks category.
+            return def.defName != null && def.defName.StartsWith("Chunk");
+        }
 
         public static bool TryGetRockKind(ThingDef def, out string kind)
         {
@@ -599,6 +743,73 @@ namespace TSA_WorldDomination
             if (!sessionActive || !FarmSoilRemapEnabled || suppressFarmTerrainRemap || terrain == null) return terrain;
             if (terrain.defName != "Soil" && terrain.defName != "SoilRich") return terrain;
             return dominantFertile ?? TerrainDefOf.Soil;
+        }
+
+        public static bool IsTerrainBuildableForSettlement(TerrainDef terrain)
+        {
+            if (terrain?.affordances == null) return false;
+            if (terrain.affordances.Contains(TerrainAffordanceDefOf.Bridgeable)) return false;
+            return terrain.affordances.Contains(TerrainAffordanceDefOf.Medium);
+        }
+
+        public static TerrainDef FindMostCommonBuildableTerrain(Map map)
+        {
+            if (map == null) return TerrainDefOf.Soil;
+
+            var counts = new Dictionary<TerrainDef, int>();
+            TerrainDef best = null;
+            int bestN = 0;
+            foreach (IntVec3 c in map.AllCells)
+            {
+                if (!c.InBounds(map) || !c.Walkable(map)) continue;
+                TerrainDef terrain = c.GetTerrain(map);
+                if (!IsTerrainBuildableForSettlement(terrain)) continue;
+                counts.TryGetValue(terrain, out int n);
+                n++;
+                counts[terrain] = n;
+                if (n > bestN)
+                {
+                    bestN = n;
+                    best = terrain;
+                }
+            }
+            return best ?? TerrainDefOf.Soil;
+        }
+
+        /// <summary>
+        /// After any structure layout: replace unbuildable underfoot terrain with the map's most common buildable soil.
+        /// Does not replace constructed layout floors (wood, tile, packed dirt, etc.).
+        /// </summary>
+        public static void EnsureBuildableFloorsUnderLayout(Map map, CellRect rect)
+        {
+            if (map == null || rect.Area <= 0) return;
+
+            TerrainDef floor = FindMostCommonBuildableTerrain(map);
+            if (floor == null) return;
+
+            int fixedCells = 0;
+            foreach (IntVec3 c in rect)
+            {
+                if (!c.InBounds(map)) continue;
+                TerrainDef current = c.GetTerrain(map);
+                if (current == null) continue;
+                if (IsLayoutPlacedFloor(current)) continue;
+                if (IsTerrainBuildableForSettlement(current)) continue;
+
+                suppressFarmTerrainRemap = true;
+                try
+                {
+                    map.terrainGrid.SetTerrain(c, floor);
+                    fixedCells++;
+                }
+                finally
+                {
+                    suppressFarmTerrainRemap = false;
+                }
+            }
+
+            if (fixedCells > 0)
+                WDVerbose.RemapNoTick($"KCSG buildable floor fill settlement={SettlementLabel(map)} cells={fixedCells} floor={floor.defName}");
         }
 
         public static bool IsLayoutCropPlant(ThingDef def)
@@ -725,6 +936,11 @@ namespace TSA_WorldDomination
             var origStuff = stuffDefField != null ? stuffDefField.GetValue(symbol) as ThingDef : null;
             var newThing = RemapThing(origThing);
             var newStuff = RemapStuff(origStuff);
+            // Stuffable layout symbols without stuff (e.g. WallLamp_* when ReBuild makes
+            // WallLamp MadeFromStuff) must get a material before KCSG MakeThing — WallLamp
+            // hits KCSG's "wall" path which has no furniture-style null-stuff fallback.
+            if (newStuff == null && newThing != null && newThing.MadeFromStuff)
+                newStuff = DefaultStuffForLayoutSymbol(newThing);
             if (newThing == origThing && newStuff == origStuff) return false;
 
             if (symbolRestoreStack == null)
@@ -735,6 +951,64 @@ namespace TSA_WorldDomination
             if (stuffDefField != null && newStuff != origStuff)
                 stuffDefField.SetValue(symbol, newStuff);
             return true;
+        }
+
+        /// <summary>
+        /// Session-independent: fill null stuff on MadeFromStuff KCSG symbols.
+        /// Needed for Crashlanded / non-WD KCSG spawns where remapper Begin never runs.
+        /// Does not restore — leaving Steel (or default) on the symbol is correct.
+        /// </summary>
+        public static void EnsureDefaultStuffIfNeeded(object symbol)
+        {
+            if (symbol == null) return;
+            EnsureFields();
+            if (thingDefField == null || stuffDefField == null) return;
+
+            var thing = thingDefField.GetValue(symbol) as ThingDef;
+            if (thing == null || !thing.MadeFromStuff) return;
+            if (stuffDefField.GetValue(symbol) is ThingDef) return;
+
+            ThingDef fill = DefaultStuffForLayoutSymbol(thing);
+            if (fill != null)
+                stuffDefField.SetValue(symbol, fill);
+        }
+
+        /// <summary>
+        /// KCSG passes a room-wide wallStuff into every "*wall*" defName (including WallLamp).
+        /// If that material is not allowed for this thing, clear it so symbol.stuffDef is used.
+        /// </summary>
+        public static void ClearIncompatibleWallStuff(object symbol, ref ThingDef wallStuff)
+        {
+            if (wallStuff == null || symbol == null) return;
+            EnsureFields();
+            var thing = thingDefField?.GetValue(symbol) as ThingDef;
+            if (thing == null || !thing.MadeFromStuff) return;
+            if (!StuffAllowedFor(thing, wallStuff))
+                wallStuff = null;
+        }
+
+        /// <summary>
+        /// Prefer Steel when the thing accepts Metallic (matches prior WallLamp_Steel_* layouts);
+        /// otherwise GenStuff.DefaultStuffFor.
+        /// </summary>
+        private static ThingDef DefaultStuffForLayoutSymbol(ThingDef thing)
+        {
+            if (thing == null || !thing.MadeFromStuff) return null;
+            if (ThingDefOf.Steel != null && StuffAllowedFor(thing, ThingDefOf.Steel))
+                return ThingDefOf.Steel;
+            return GenStuff.DefaultStuffFor(thing);
+        }
+
+        private static bool StuffAllowedFor(ThingDef thing, ThingDef stuff)
+        {
+            if (thing?.stuffCategories == null || stuff?.stuffProps?.categories == null)
+                return false;
+            for (int i = 0; i < thing.stuffCategories.Count; i++)
+            {
+                if (stuff.stuffProps.categories.Contains(thing.stuffCategories[i]))
+                    return true;
+            }
+            return false;
         }
 
         public static void PopSymbolRestore()

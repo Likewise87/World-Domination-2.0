@@ -762,8 +762,10 @@
   <TSA_WD_Experimental_ColonyWorldBuildTip>开启后，你的殖民地定居点获得青色“建造”指令（道路、路障、尖刺陷阱）。速度与解锁取决于殖民地地图上殖民者建造技能总和。无工程师加成，不消耗 WD 实力。关闭会取消殖民地进行中的建造项目。</TSA_WD_Experimental_ColonyWorldBuildTip>
   <TSA_WD_Experimental_AT_TargetPlayerTravelers>NPC AT 炮塔攻击玩家 WD 远行队</TSA_WD_Experimental_AT_TargetPlayerTravelers>
   <TSA_WD_Experimental_AT_TargetPlayerTravelersTip>开启后，敌对 NPC AT 炮塔可向你的地面 WD 远行队开火（袭击、升级、交付、商队及其他非空中任务）。关闭后不再发起新交火；已在飞行中的炮弹仍会结算。</TSA_WD_Experimental_AT_TargetPlayerTravelersTip>
-  <TSA_WD_Experimental_AT_TargetPlayerCaravans>NPC AT 炮塔攻击玩家商队</TSA_WD_Experimental_AT_TargetPlayerCaravans>
-  <TSA_WD_Experimental_AT_TargetPlayerCaravansTip>开启后，敌对 NPC AT 炮塔可向你的真实角色商队开火。命中会像防空打运输舱一样击伤或击杀乘客。关闭后不再发起新交火；已在飞行中的炮弹仍会结算。</TSA_WD_Experimental_AT_TargetPlayerCaravansTip>
+  <TSA_WD_Experimental_AT_TargetPlayerCaravans>敌方系统攻击玩家商队（AT / 迫击炮 / 伏击）</TSA_WD_Experimental_AT_TargetPlayerCaravans>
+  <TSA_WD_Experimental_AT_TargetPlayerCaravansTip>开启后，敌对 NPC AT 炮塔、T4 定居点迫击炮与定居点伏击拦截可在满足可见度阈值时攻击你的真实角色商队。AT/迫击炮命中会击伤或击杀乘客。关闭后不再发起新交火；已在飞行中的炮弹仍会结算。</TSA_WD_Experimental_AT_TargetPlayerCaravansTip>
+  <TSA_WD_Experimental_MinPlayerCaravanVisibility>最低可见度才可锁定</TSA_WD_Experimental_MinPlayerCaravanVisibility>
+  <TSA_WD_Experimental_MinPlayerCaravanVisibilityTip>使用原版商队 Visibility（体型总和 + 是否移动）。停驻商队可见度大幅降低（×30%）。默认 80%：约五名步行人类行进中可被锁定；四人则不能。</TSA_WD_Experimental_MinPlayerCaravanVisibilityTip>
   <TSA_WD_Experimental_HeaderTargetOfOpportunity>目标机会重定向</TSA_WD_Experimental_HeaderTargetOfOpportunity>
   <TSA_WD_Experimental_TargetOfOpportunity>实验：目标机会重定向</TSA_WD_Experimental_TargetOfOpportunity>
   <TSA_WD_Experimental_TargetOfOpportunityTip>开启后，正在进行的袭击(NPC 对 NPC、NPC 对玩家或玩家对 NPC)在经过附近较弱的定居点或前哨时，可能会转而攻击它，而不是继续前往原定目标。绝不会转向攻击途经的商队或其他远行队，只会转向静态的定居点/前哨。默认仅在中期或后期阶段后生效；开启下方的「允许机会目标、劫掠与伏击从游戏一开始就生效」可跳过该门槛。默认关闭。</TSA_WD_Experimental_TargetOfOpportunityTip>

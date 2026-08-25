@@ -119,9 +119,12 @@ namespace TSA_WorldDomination
             if (ticksNow >= lastUpdateTick + UpdateIntervalTicks)
             {
                 var allT = new List<WorldObject_Traveler>();
-                foreach (WorldObject wo in Find.WorldObjects.AllWorldObjects)
+                IReadOnlyList<WorldObject_Traveler> live = WorldObject_Traveler.LiveTravelers;
+                for (int i = 0; i < live.Count; i++)
                 {
-                    if (wo is WorldObject_Traveler tr) allT.Add(tr);
+                    WorldObject_Traveler tr = live[i];
+                    if (tr != null && !tr.Destroyed)
+                        allT.Add(tr);
                 }
                 var sorted = WorldObject_Traveler.SortTravelersForUi(allT, int.MaxValue);
                 WorldDominationSettings seth = WorldDominationMod.settings;

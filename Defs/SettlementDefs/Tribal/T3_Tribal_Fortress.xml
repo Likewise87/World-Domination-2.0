@@ -12,6 +12,14 @@
       <centerSize>82,82</centerSize>
       <spaceAround>1</spaceAround>
       <allowedStructures>
+		<li>
+          <count>0~1</count>
+          <tag>Generic_HighTech_Facility</tag>
+        </li>
+        <li>
+          <count>0~1</count>
+          <tag>Generic_HQ</tag>
+        </li>
         <li>
           <count>1~3</count>
           <tag>TSA_Tribal_Production</tag>
@@ -60,6 +68,10 @@
           <tag>TSA_Tribal_Farm</tag>
           <count>2~6</count>
         </li>
+        <li>
+          <tag>TribalKitchen</tag>
+          <count>0~2</count>
+        </li>
 </allowedStructures>
     </centerBuildings>
 	    <peripheralBuildings>
@@ -67,6 +79,10 @@
         <li>
           <tag>TSA_Generic_SandbagBarrier</tag>
           <count>16~30</count>
+        </li>
+        <li>
+          <count>0~2</count>
+          <tag>Generic_Mortar</tag>
         </li>
       </allowedStructures>
     </peripheralBuildings>
@@ -81,7 +97,6 @@
         <li>TSA_WD_Hayball_2a</li>
         <li>TSA_WD_Hayball_5a</li>
         <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogs</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleSmall</li>
         <li>TSA_WD_Box_1a</li>
         <li>TSA_WD_Box_3a</li>
         <li>TSA_WD_Box_5a</li>

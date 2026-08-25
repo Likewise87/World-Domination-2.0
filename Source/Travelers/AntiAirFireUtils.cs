@@ -394,12 +394,18 @@ namespace TSA_WorldDomination
             if (!outpost.IsMortarOutpost || !outpost.AntiAirDefenseActive) return;
             if (!HasAntiAirUpgrade(outpost)) return;
 
-            var all = Find.WorldObjects?.AllWorldObjects;
-            if (all == null) return;
-
-            for (int i = 0; i < all.Count; i++)
+            IReadOnlyList<WorldObject_Traveler> travelers = WorldObject_Traveler.LiveTravelers;
+            for (int i = 0; i < travelers.Count; i++)
             {
-                WorldObject wo = all[i];
+                WorldObject_Traveler t = travelers[i];
+                if (t == null || t.Destroyed) continue;
+                TryQueueEngage(outpost, t);
+            }
+
+            WorldComponent_InterceptionScheduler sched = WorldComponent_InterceptionScheduler.Current;
+            if (sched == null) return;
+            foreach (WorldObject wo in sched.ExternalAirborneTargets)
+            {
                 if (wo == null || wo.Destroyed) continue;
                 TryQueueEngage(outpost, wo);
             }

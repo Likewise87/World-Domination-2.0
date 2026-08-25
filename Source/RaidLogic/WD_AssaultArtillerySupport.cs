@@ -430,14 +430,12 @@ namespace TSA_WorldDomination
                 all.Add(d);
             }
 
-#if COMBAT_EXTENDED
             // With CE, assault artillery uses 120mm mortar ammo only (not 81mm / vanilla MortarShells).
             if (AssaultArtilleryCeCompat.IsActive)
             {
                 AssaultArtilleryCeCompat.ForEach120mmMortarShell(TryDiscover);
             }
             else
-#endif
             {
                 ThingCategoryDef mortarCat = DefDatabase<ThingCategoryDef>.GetNamedSilentFail("MortarShells");
                 if (mortarCat != null)
@@ -515,9 +513,7 @@ namespace TSA_WorldDomination
         {
             if (shell == null) return false;
             if (shell.projectileWhenLoaded != null) return true;
-#if COMBAT_EXTENDED
             if (AssaultArtilleryCeCompat.ResolveProjectileDef(shell) != null) return true;
-#endif
             return shell.defName == ShellHighExplosive
                 || shell.defName == ShellSmoke
                 || shell.defName == ShellAntigrain;
@@ -550,10 +546,8 @@ namespace TSA_WorldDomination
                 }
             }
 
-#if COMBAT_EXTENDED
             if (AssaultArtilleryCeCompat.IsCeAssaultMortarShell(shell))
                 return true;
-#endif
 
             return shell.defName == ShellHighExplosive
                 || shell.defName == ShellHighExplosiveAirburst

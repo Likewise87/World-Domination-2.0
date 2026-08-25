@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    CE redefines Shell_* as AmmoDefs owned by CE, so KCSG never auto-creates SymbolDefs
+    for them (only Ludeon package IDs). CE ships the same symbols under its VBGE ModPatch
+    folder, which only loads when Vanilla Base Generation Expanded is active.
+    When CE is on and those SymbolDefs are still missing, add them so WD layouts resolve.
+  -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Combat Extended</li>
+    </mods>
+    <match Class="PatchOperationConditional">
+      <xpath>Defs/KCSG.SymbolDef[defName="Shell_HighExplosive"]</xpath>
+      <nomatch Class="PatchOperationAdd">
+        <xpath>Defs</xpath>
+        <value>
+          <KCSG.SymbolDef>
+            <defName>Shell_Smoke</defName>
+            <thing>Shell_Smoke</thing>
+          </KCSG.SymbolDef>
+          <KCSG.SymbolDef>
+            <defName>Shell_Incendiary</defName>
+            <thing>Shell_Incendiary</thing>
+          </KCSG.SymbolDef>
+          <KCSG.SymbolDef>
+            <defName>Shell_HighExplosive</defName>
+            <thing>Shell_HighExplosive</thing>
+          </KCSG.SymbolDef>
+          <KCSG.SymbolDef>
+            <defName>Shell_EMP</defName>
+            <thing>Shell_EMP</thing>
+          </KCSG.SymbolDef>
+          <KCSG.SymbolDef>
+            <defName>Shell_AntigrainWarhead</defName>
+            <thing>Shell_AntigrainWarhead</thing>
+          </KCSG.SymbolDef>
+          <KCSG.SymbolDef>
+            <defName>Shell_Firefoam</defName>
+            <thing>Shell_Firefoam</thing>
+          </KCSG.SymbolDef>
+        </value>
+      </nomatch>
+    </match>
+  </Operation>
+</Patch>

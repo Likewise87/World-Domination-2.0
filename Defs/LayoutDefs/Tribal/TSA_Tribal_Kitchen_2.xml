@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Kitchen_2</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
+      <li>Wall_WoodLog,VFEPD_BreweryBarrel,.,.,.,VFEPD_CookingAppliances,Wall_WoodLog</li>
+      <li>Wall_WoodLog,ButcherSpot_West,.,.,.,Campfire_East,Wall_WoodLog</li>
+      <li>Wall_WoodLog,VFEPD_Cleaver_North,TorchWallLamp_North,.,TorchWallLamp_North,VFEPD_MustBuckets_North,Wall_WoodLog</li>
+      <li>Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,AnimalFlap_Cloth,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog</li>
+      <li>.,Wall_WoodLog,.,.,Shelf_WoodLog_West,Wall_WoodLog,.</li>
+      <li>.,Wall_WoodLog,Shelf_WoodLog_East,TorchWallLamp_North,.,Wall_WoodLog,.</li>
+      <li>.,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,Wall_WoodLog,.</li>
+    </li>
+  </layouts>
+  <roofGrid>
+    <li>1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1,1</li>
+    <li>.,1,1,1,1,1,.</li>
+    <li>.,1,1,1,1,1,.</li>
+    <li>.,1,1,1,1,1,.</li>
+  </roofGrid>
+  <terrainGrid>
+    <li>StrawMatting,StrawMatting,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,StrawMatting</li>
+    <li>StrawMatting,StrawMatting,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,StrawMatting</li>
+    <li>StrawMatting,StrawMatting,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,StrawMatting</li>
+    <li>StrawMatting,StrawMatting,StrawMatting,WoodPlankFloor,StrawMatting,StrawMatting,StrawMatting</li>
+    <li>StrawMatting,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.</li>
+    <li>.,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,WoodPlankFloor,.</li>
+  </terrainGrid>
+<tags><li>TribalKitchen</li></tags>
+</KCSG.StructureLayoutDef>
+</Defs>

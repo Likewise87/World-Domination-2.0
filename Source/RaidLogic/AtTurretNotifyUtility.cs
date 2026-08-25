@@ -159,10 +159,10 @@ namespace TSA_WorldDomination
             manager.AddLog(entry);
         }
 
-        /// <summary>NPC AT shell hit a player caravan (pawn kill/wound resolution already applied).</summary>
+        /// <summary>NPC AT or settlement mortar shell hit a player caravan (pawn kill/wound resolution already applied).</summary>
         public static void NotifyNpcHitPlayerCaravan(
             WorldComponent_SpreadManager manager,
-            WorldObject_AT_Turret origin,
+            WorldObject origin,
             Caravan caravan,
             bool wiped,
             string bodyText,

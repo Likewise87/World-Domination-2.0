@@ -50,7 +50,7 @@ namespace TSA_WorldDomination
             string factionName = seller?.Name ?? "?";
             if (!noneReason.NullOrEmpty())
             {
-                Log.Message(
+                WDVerbose.Msg(
                     $"{tag} Faction investment: none for {factionName} (tile {originTile}, budget {result.SilverBudget:F0} silver). Reason: {noneReason}");
                 return;
             }
@@ -67,7 +67,7 @@ namespace TSA_WorldDomination
                 for (int i = 0; i < awardLines.Count; i++)
                     sb.Append("\n  - ").Append(awardLines[i]);
             }
-            Log.Message(sb.ToString());
+            WDVerbose.Msg(sb.ToString());
         }
     }
 

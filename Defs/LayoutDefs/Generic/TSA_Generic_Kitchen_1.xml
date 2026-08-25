@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Generic_Kitchen_1</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,.,ShelfSmall_BlocksGranite_North,ASF_Basket_WoodLog,.,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,ElectricStove_West,.,.,.,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,.,ShelfSmall_BlocksGranite_South,ASF_Basket_WoodLog,.,Door_BlocksGranite</li>
+      <li>Wall_BlocksGranite,.,ShelfSmall_BlocksGranite_North,ASF_MeatHook_Steel_South,.,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,TableButcher_WoodLog_West,.,.,WallLamp_East,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,.,ShelfSmall_BlocksGranite_South,ASF_MeatHook_Steel_South,.,Wall_BlocksGranite</li>
+      <li>Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite,Battery_North,Wall_BlocksGranite</li>
+      <li>.,.,.,Wall_BlocksGranite,.,Wall_BlocksGranite</li>
+      <li>.,.,.,Wall_BlocksGranite,Wall_BlocksGranite,Wall_BlocksGranite</li>
+    </li>
+    <li>
+      <li>PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit,PowerConduit</li>
+      <li>PowerConduit,.,.,.,.,PowerConduit</li>
+      <li>PowerConduit,WallLamp_West,.,.,.,PowerConduit</li>
+      <li>PowerConduit,.,.,.,.,PowerConduit</li>
+      <li>PowerConduit,.,.,.,.,PowerConduit</li>
+      <li>PowerConduit,.,.,.,.,PowerConduit</li>
+      <li>PowerConduit,.,.,.,.,PowerConduit</li>
+      <li>PowerConduit,PowerConduit,PowerConduit,PowerConduit,.,PowerConduit</li>
+      <li>.,.,.,PowerConduit,.,PowerConduit</li>
+      <li>.,.,.,PowerConduit,PowerConduit,PowerConduit</li>
+    </li>
+  </layouts>
+  <roofGrid>
+    <li>1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1</li>
+    <li>1,1,1,1,1,1</li>
+    <li>.,.,.,1,1,1</li>
+    <li>.,.,.,1,1,1</li>
+  </roofGrid>
+  <terrainGrid>
+    <li>.,.,.,.,.,.</li>
+    <li>.,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile</li>
+    <li>.,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile</li>
+    <li>.,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile</li>
+    <li>.,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile</li>
+    <li>.,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile</li>
+    <li>.,MetalTile,MetalTile,MetalTile,MetalTile,MetalTile</li>
+    <li>.,.,.,.,MetalTile,.</li>
+    <li>.,.,.,.,MetalTile,.</li>
+    <li>.,.,.,.,.,.</li>
+  </terrainGrid>
+<tags><li>Kitchen</li></tags>
+</KCSG.StructureLayoutDef>
+</Defs>

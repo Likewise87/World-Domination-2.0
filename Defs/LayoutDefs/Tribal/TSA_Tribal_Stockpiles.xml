@@ -120,4 +120,53 @@
   <tags><li>TSA_Tribal_Stockpile</li></tags>
 </KCSG.StructureLayoutDef>
 
+
+
+<KCSG.StructureLayoutDef>
+  <defName>TSA_Tribal_Stockpile_4</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>.,.,.,.,.,.,TorchWallLamp_North,Granite,.,.,.,.,.</li>
+      <li>.,.,Granite,Wall_WoodLog,Door_WoodLog,Wall_WoodLog,Granite,.,ChunkGranite,.,ChunkGranite,.,.</li>
+      <li>ChunkGranite,TorchWallLamp_East,Wall_WoodLog,.,.,.,Granite,Granite,Granite,Granite,Granite,.,.</li>
+      <li>.,ChunkGranite,Wall_WoodLog,.,.,.,.,Shelf_WoodLog_West,Granite,Granite,.,Granite,.</li>
+      <li>Granite,Granite,Granite,.,TorchLamp,.,.,.,Granite,Granite,Granite,.,Granite</li>
+      <li>Granite,Granite,Granite,.,ChunkGranite,.,Granite,Granite,Granite,Granite,.,.,.</li>
+      <li>Granite,Granite,Granite,.,Granite,.,.,Shelf_WoodLog_West,Granite,Granite,ChunkGranite,.,Granite</li>
+      <li>ChunkGranite,Granite,Granite,Granite,Granite,.,.,.,Granite,Granite,.,.,.</li>
+      <li>.,.,Granite,Granite,Granite,Granite,Granite,Granite,Granite,.,ChunkGranite,.,.</li>
+      <li>.,Granite,.,Granite,Granite,Granite,Granite,Granite,.,ChunkGranite,.,.,.</li>
+      <li>.,.,.,.,Granite,Granite,Granite,Granite,Granite,.,.,.,.</li>
+    </li>
+  </layouts>
+  <roofGrid>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,3,3,3,3,3,.,.,.,.,.,.</li>
+    <li>.,.,3,3,3,3,3,3,3,.,.,.,.</li>
+    <li>.,.,3,3,3,3,3,3,3,.,.,.,.</li>
+    <li>.,.,3,3,3,3,3,3,3,.,.,.,.</li>
+    <li>.,3,3,3,3,3,3,3,3,.,.,.,.</li>
+    <li>.,.,3,3,3,3,3,3,3,.,.,.,.</li>
+    <li>.,.,3,3,3,3,3,3,3,.,.,.,.</li>
+    <li>.,.,.,.,3,3,3,3,3,.,.,.,.</li>
+    <li>.,.,.,.,.,3,3,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+  </roofGrid>
+  <terrainGrid>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,Granite_RoughHewn,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+    <li>.,.,.,.,.,.,.,.,.,.,.,.,.</li>
+  </terrainGrid>
+  <tags><li>TSA_Tribal_Stockpile</li></tags>
+</KCSG.StructureLayoutDef>
+
  </Defs>

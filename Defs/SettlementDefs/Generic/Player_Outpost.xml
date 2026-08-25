@@ -25,6 +25,10 @@
           <tag>Generic_Stockpile</tag>
           <count>0~1</count>
         </li>
+        <li>
+          <tag>Kitchen</tag>
+          <count>0~1</count>
+        </li>
       </allowedStructures>
     </centerBuildings>
 
@@ -37,9 +41,6 @@
       <scatterMinDistance>5</scatterMinDistance>
       <scatterMaxAmount>12</scatterMaxAmount>
       <scatterPropsDefs>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleLarge</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleMedium</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleSmall</li>
         <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogs</li>
         <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogsLarge</li>
         <li>TSA_WD_Hayball_3a</li>

@@ -71,6 +71,24 @@ namespace TSA_WorldDomination
                         postfix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.SymbolGeneratePenAnimalsPostfix)),
                         finalizer: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.SymbolGenerateRockRemapFinalizer)));
                 }
+
+                // Private MakeThing path: fill null stuff even when remapper session is inactive
+                // (Crashlanded / non-WD KCSG), and drop room wallStuff that WallLamp cannot use.
+                MethodInfo generateBuildingAt = AccessTools.Method(symbolUtils, "GenerateBuildingAt", new[]
+                {
+                    typeof(Map),
+                    typeof(IntVec3),
+                    AccessTools.TypeByName("KCSG.SymbolDef"),
+                    AccessTools.TypeByName("KCSG.StructureLayoutDef"),
+                    typeof(Faction),
+                    typeof(ICollection<Thing>),
+                    typeof(ThingDef)
+                });
+                if (generateBuildingAt != null)
+                {
+                    harmony.Patch(generateBuildingAt,
+                        prefix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.GenerateBuildingAtStuffPrefix)));
+                }
             }
 
             MethodInfo setTerrain = AccessTools.Method(typeof(TerrainGrid), nameof(TerrainGrid.SetTerrain),
@@ -210,7 +228,7 @@ namespace TSA_WorldDomination
 
         private static void LogKcsgHijackDecision(string settlementLabel, bool hijacked, string detail)
         {
-            Log.Message($"[WorldDomination] KCSG hijack {(hijacked ? "yes" : "no")} for {settlementLabel} ({detail})");
+            WDVerbose.MsgNoTick($"KCSG hijack {(hijacked ? "yes" : "no")} for {settlementLabel} ({detail})");
         }
 
         public static void LayoutOverridePrefix(object __instance, IntVec3 loc, Map map)
@@ -363,7 +381,8 @@ namespace TSA_WorldDomination
         public static void LayoutUtilsGeneratePostfix(KCSG.StructureLayoutDef layout, CellRect rect, Map map)
         {
             WdLayoutSpawnCellTracker.RecordGenerateRect(map, rect);
-            KcsgRockTypeRemapper.EndLayout(map);
+            KcsgRockTypeRemapper.EnsureBuildableFloorsUnderLayout(map, rect);
+            KcsgRockTypeRemapper.EndLayout(map, rect);
         }
 
         private const float BlendPerlinScale = 0.07f;
@@ -418,7 +437,7 @@ namespace TSA_WorldDomination
             else
             {
                 preClearField?.SetValue(generator, !blend);
-                TerrainDef floor = FindMostCommonBuildableTerrain(map);
+                TerrainDef floor = KcsgRockTypeRemapper.FindMostCommonBuildableTerrain(map);
                 if (blend)
                 {
                     CellRect area = rect.ExpandedBy(blendReach).ClipInsideMap(map);
@@ -445,37 +464,7 @@ namespace TSA_WorldDomination
             WDVerbose.MsgNoTick(
                 $"KCSG terrain prep settlement={label} layout={chosenLayout?.defName ?? "?"} loc={loc} "
                 + $"rect={rect} blocked={blocked}/{total} ({blockedFraction:P0}) threshold={threshold:P0} mode={mode} "
-                + $"floor={(FindMostCommonBuildableTerrain(map)?.defName ?? "none")}");
-        }
-
-        private static TerrainDef FindMostCommonBuildableTerrain(Map map)
-        {
-            var counts = new Dictionary<TerrainDef, int>();
-            TerrainDef best = null;
-            int bestN = 0;
-            var cells = map.AllCells;
-            foreach (IntVec3 c in cells)
-            {
-                if (!c.InBounds(map) || !c.Walkable(map)) continue;
-                TerrainDef terrain = c.GetTerrain(map);
-                if (!IsTerrainBuildableForSettlement(terrain)) continue;
-                counts.TryGetValue(terrain, out int n);
-                n++;
-                counts[terrain] = n;
-                if (n > bestN)
-                {
-                    bestN = n;
-                    best = terrain;
-                }
-            }
-            return best ?? TerrainDefOf.Soil;
-        }
-
-        private static bool IsTerrainBuildableForSettlement(TerrainDef terrain)
-        {
-            if (terrain?.affordances == null) return false;
-            if (terrain.affordances.Contains(TerrainAffordanceDefOf.Bridgeable)) return false;
-            return terrain.affordances.Contains(TerrainAffordanceDefOf.Medium);
+                + $"floor={(KcsgRockTypeRemapper.FindMostCommonBuildableTerrain(map)?.defName ?? "none")}");
         }
 
         private static bool PassesBlendMask(IntVec3 c, CellRect rect, int blendReach)
@@ -555,7 +544,7 @@ namespace TSA_WorldDomination
             if (roof != null && roof.isNatural) return true;
 
             TerrainDef terrain = c.GetTerrain(map);
-            if (!IsTerrainBuildableForSettlement(terrain)) return true;
+            if (!KcsgRockTypeRemapper.IsTerrainBuildableForSettlement(terrain)) return true;
 
             List<Thing> things = c.GetThingList(map);
             for (int i = 0; i < things.Count; i++)
@@ -576,19 +565,53 @@ namespace TSA_WorldDomination
             WdLayoutSpawnCellTracker.End();
         }
 
-        public static void SymbolGenerateRockRemapPrefix(object __0, Map __2, IntVec3 __3, ref bool __state)
+        /// <summary>
+        /// Without Combat Extended, Turret_M240B symbols are skipped so sandbags/wire still spawn.
+        /// </summary>
+        public static bool SymbolGenerateRockRemapPrefix(object __0, Map __2, IntVec3 __3, ref bool __state)
         {
             __state = false;
+            if (ShouldSkipCeMgTurretSymbol(__0))
+                return false;
+
             if (KcsgRockTypeRemapper.SessionActive)
             {
                 ThingDef originalThing = KcsgRockTypeRemapper.GetSymbolThingDef(__0);
                 KcsgRockTypeRemapper.PrepareSymbolVerification(originalThing, __3);
                 __state = KcsgRockTypeRemapper.PushAndRemapSymbol(__0);
             }
-            if (!KcsgRockTypeRemapper.SessionActive) return;
+            else
+            {
+                // Plan default-stuff must not depend on remapper Begin — player Crashlanded
+                // (and other non-WD KCSG) spawn WallLamp_* with null stuff and never start a session.
+                KcsgRockTypeRemapper.EnsureDefaultStuffIfNeeded(__0);
+            }
+            if (!KcsgRockTypeRemapper.SessionActive) return true;
             ThingDef thing = KcsgRockTypeRemapper.GetSymbolThingDef(__0);
             if (KcsgRockTypeRemapper.IsLayoutCropPlant(thing))
                 KcsgRockTypeRemapper.EnsureFertileUnderCrop(__2, __3);
+            return true;
+        }
+
+        private static bool ShouldSkipCeMgTurretSymbol(object symbol)
+        {
+            if (symbol == null) return false;
+            if (ModsConfig.IsActive("CETeam.CombatExtended")) return false;
+
+            if (symbol is Def def && def.defName != null && def.defName.StartsWith("Turret_M240B", StringComparison.Ordinal))
+                return true;
+
+            ThingDef thing = KcsgRockTypeRemapper.GetSymbolThingDef(symbol);
+            return thing?.defName != null && thing.defName.StartsWith("Turret_M240B", StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// Prefix for KCSG.SymbolUtils.GenerateBuildingAt — args: map, cell, symbol, layout, faction, spawnedThings, wallStuff.
+        /// </summary>
+        public static void GenerateBuildingAtStuffPrefix(object __2, ref ThingDef __6)
+        {
+            KcsgRockTypeRemapper.EnsureDefaultStuffIfNeeded(__2);
+            KcsgRockTypeRemapper.ClearIncompatibleWallStuff(__2, ref __6);
         }
 
         public static void SymbolGenerateRockRemapFinalizer(bool __state)
@@ -716,6 +739,10 @@ namespace TSA_WorldDomination
 
         public static void CustomGenOptionGeneratePostfix(IntVec3 loc, Map map)
         {
+            // After all structures/roads/scatter: re-drop rock chunks under floors/roofs are common.
+            // Session still active here (finalizer Ends the remapper after this postfix).
+            KcsgRockTypeRemapper.WipeDebrisOnAllTrackedIndoorCells(map);
+
             if (IsOutpostDefenseSite(map?.Parent))
             {
                 IntVec3 center = WD_OutpostDefenseMapUtility.ResolveKcsgSettlementCenter(loc);
@@ -725,8 +752,9 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            // NPC settlement attack maps: force power after KCSG layout, then WD shelf loot, then turret silence.
+            // NPC settlement attack maps: WD MG nests, force power, shelf loot, turret silence.
             var settings = WorldDominationMod.settings;
+            WdMgNestSpawner.TrySpawn(map);
             if (settings != null && settings.kcsgForceSettlementPower)
                 WdSettlementMapPower.ForceSettlementMapPowered(map);
             WdSettlementLootFiller.FillShelves(map);

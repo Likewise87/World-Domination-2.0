@@ -277,7 +277,7 @@ namespace TSA_WorldDomination
             if (coalitionMembers.Count < 2 || combinedCoalitionStr < (leaderStat.TotalStr * 0.5f))
             {
                 if (Prefs.DevMode && coalitionMembers.Count >= 2)
-                    Log.Message($"[WorldDomination] Coalition formed but too weak ({combinedCoalitionStr} vs {leaderStat.TotalStr}). Skipping.");
+                    WDVerbose.Msg($"Coalition formed but too weak ({combinedCoalitionStr} vs {leaderStat.TotalStr}). Skipping.");
                 return;
             }
 

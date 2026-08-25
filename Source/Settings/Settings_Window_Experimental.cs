@@ -169,6 +169,17 @@ namespace TSA_WorldDomination
                     ref s.enableAtTurretTargetPlayerCaravans,
                     "TSA_WD_Experimental_AT_TargetPlayerCaravansTip".Translate(),
                     defaultValue: WorldDominationSettings.DefEnableAtTurretTargetPlayerCaravans);
+                if (s.enableAtTurretTargetPlayerCaravans)
+                {
+                    s.minPlayerCaravanVisibilityToTarget = SettingsUI.LabeledSlider(l,
+                        "TSA_WD_Experimental_MinPlayerCaravanVisibility".Translate(),
+                        s.minPlayerCaravanVisibilityToTarget,
+                        WorldDominationSettings.MinPlayerCaravanVisibilityToTargetClampLow,
+                        WorldDominationSettings.MinPlayerCaravanVisibilityToTargetClampHigh,
+                        "TSA_WD_Experimental_MinPlayerCaravanVisibilityTip".Translate(),
+                        0.01f, SliderFormat.Percent,
+                        WorldDominationSettings.DefMinPlayerCaravanVisibilityToTarget);
+                }
 
                 SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_OpportunityIgnoreEscalationGate".Translate(),
                     ref s.opportunityFeaturesIgnoreEscalationGate,

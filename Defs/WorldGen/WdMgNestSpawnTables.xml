@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!--
+    Post-gen MG nest counts by KCSG SettlementLayoutDef defName.
+    Generic + Tribal T3/T4 spawn nests; others are listed at 0 for patchability.
+  -->
+  <TSA_WorldDomination.WdMgNestSpawnTableDef>
+    <defName>TSA_WdMgNestSpawns</defName>
+    <entries>
+
+      <li>
+        <settlementLayout>TSA_Generic_T1_Farming</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Generic_T1_Mining</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Generic_T1_Logging</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Generic_T2_Production</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Generic_T2_Slavery</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Generic_T3_Fortress</settlementLayout>
+        <countMin>1</countMin>
+        <countMax>3</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Generic_T4_Citadel</settlementLayout>
+        <countMin>2</countMin>
+        <countMax>4</countMax>
+      </li>
+
+      <li>
+        <settlementLayout>TSA_Tribal_T1_Farming</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Tribal_T1_Mining</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Tribal_T1_Logging</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Tribal_T2_Production</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Tribal_T2_Slavery</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Tribal_T3_Fortress</settlementLayout>
+        <countMin>1</countMin>
+        <countMax>2</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Tribal_T4_Citadel</settlementLayout>
+        <countMin>1</countMin>
+        <countMax>3</countMax>
+      </li>
+
+      <li>
+        <settlementLayout>Player_Outpost</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+
+    </entries>
+  </TSA_WorldDomination.WdMgNestSpawnTableDef>
+
+</Defs>

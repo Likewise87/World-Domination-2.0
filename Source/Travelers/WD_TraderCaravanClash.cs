@@ -25,7 +25,7 @@ namespace TSA_WorldDomination
             Faction faction = traveler.Faction;
             if (faction.def.caravanTraderKinds == null || faction.def.caravanTraderKinds.Count == 0)
             {
-                Log.Message($"[TSA WD] Trader clash: faction {faction.Name} has no caravanTraderKinds; use raid fallback.");
+                WDVerbose.Msg($"[TSA WD] Trader clash: faction {faction.Name} has no caravanTraderKinds; use raid fallback.");
                 return false;
             }
             IntVec3 playerStart = IntVec3.Invalid;

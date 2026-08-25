@@ -49,6 +49,10 @@
           <tag>TSA_ParkingLot</tag>
           <count>0~1</count>
         </li>
+        <li>
+          <tag>Kitchen</tag>
+          <count>0~1</count>
+        </li>
 </allowedStructures>
     </centerBuildings>
 

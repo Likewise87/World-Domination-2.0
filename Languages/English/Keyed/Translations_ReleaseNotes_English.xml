@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_13_Title>Caravan Targeting, Loot and Layouts</TSA_WD_Update_2_3_13_Title>
+  <TSA_WD_Update_2_3_13_Body><![CDATA[
+<size=16><b>2.3.13 – Caravan Targeting, Loot and Layouts</b></size>\n
+<color=#00FFFFFF>Release date: August 25th 2026</color>\n
+------------------------------\n
+• New Feature: Centralized when player caravans with actual pawns may be targeted by AT Turrets, T4 mortars, and interception caravans. By default they are only targeted when their visibility on the world map is at least 80%. That is about five normal pawns walking. The idea: small groups of pawns may travel unnoticed.\n
+• Many fixes to loot generation, building layouts, and related systems when attacking enemy settlements.\n
+• Bugfix: No mortar shells would spawn on T3 and T4 settlements when playing with Combat Extended.\n
+• Added MG nests to T3 and T4 settlements. The MG is the M240 from Combat Extended (no MG without that mod).\n
+]]></TSA_WD_Update_2_3_13_Body>
   <TSA_WD_Update_2_3_12_Title>WD Scope Configurator, and off-map artillery</TSA_WD_Update_2_3_12_Title>
   <TSA_WD_Update_2_3_12_Body><![CDATA[
 <size=16><b>2.3.12 – WD Scope Configurator, and off-map artillery</b></size>\n

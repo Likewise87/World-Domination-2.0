@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+<KCSG.StructureLayoutDef>
+  <defName>Generic_Mortar_1</defName>
+  <spawnConduits>false</spawnConduits>
+  <layouts>
+    <li>
+      <li>.,AncientRazorWire,AncientRazorWire,.,AncientRazorWire,AncientRazorWire,AncientRazorWire,.</li>
+      <li>AncientRazorWire,AncientRazorWire,Sandbags_Cloth,.,Sandbags_Cloth,Sandbags_Cloth,AncientRazorWire,AncientRazorWire</li>
+      <li>AncientRazorWire,.,Sandbags_Cloth,.,Shell_HighExplosive,Sandbags_Cloth,.,AncientRazorWire</li>
+      <li>AncientRazorWire,.,Sandbags_Cloth,Turret_Mortar_Steel_North,.,Sandbags_Cloth,.,AncientRazorWire</li>
+      <li>AncientRazorWire,.,Sandbags_Cloth,.,.,Sandbags_Cloth,.,AncientRazorWire</li>
+      <li>AncientRazorWire,.,Sandbags_Cloth,Sandbags_Cloth,Sandbags_Cloth,Sandbags_Cloth,.,AncientRazorWire</li>
+      <li>AncientRazorWire,.,.,.,.,.,AncientRazorWire,AncientRazorWire</li>
+      <li>AncientRazorWire,AncientRazorWire,AncientRazorWire,AncientRazorWire,AncientRazorWire,AncientRazorWire,AncientRazorWire,.</li>
+    </li>
+  </layouts>
+  <tags><li>Generic_Mortar</li></tags>
+</KCSG.StructureLayoutDef>
+
+
+
+</Defs>

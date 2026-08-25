@@ -38,6 +38,10 @@
           <tag>TSA_Pen</tag>
           <count>0~1</count>
         </li>
+        <li>
+          <tag>TribalKitchen</tag>
+          <count>0~1</count>
+        </li>
 </allowedStructures>
     </centerBuildings>
 

@@ -22,6 +22,10 @@
           <count>4~7</count>
           <tag>TSA_Tribal_Farm</tag>
         </li>
+        <li>
+          <tag>TribalKitchen</tag>
+          <count>0~1</count>
+        </li>
       </allowedStructures>
     </centerBuildings>
 
@@ -38,9 +42,6 @@
         <li>TSA_WD_Hayball_3a</li>
         <li>TSA_WD_Hayball_4a</li>
         <li>TSA_WD_Hayball_5a</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleLarge</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleMedium</li>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_HayBaleSmall</li>
         <li>TSA_WD_Box_1a</li>
         <li>TSA_WD_Box_2a</li>
 

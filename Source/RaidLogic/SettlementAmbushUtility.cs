@@ -61,6 +61,7 @@ namespace TSA_WorldDomination
             var seth = WorldDominationMod.settings;
             if (seth == null || !seth.experimentalSettlementAmbush) return;
             if (caravan == null || caravan.Destroyed || caravan.Faction == null) return;
+            if (!AtTurretUtility.CanEnemySystemsTargetPlayerCaravan(caravan)) return;
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             if (!PassesEscalationGate(manager, seth)) return;

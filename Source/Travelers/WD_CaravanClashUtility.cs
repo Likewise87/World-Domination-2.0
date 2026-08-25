@@ -28,7 +28,7 @@ namespace TSA_WorldDomination
             if (WD_MapComponent_CaravanClash.TileHasBusyCaravanClashAmbush(playerCaravan.Tile))
             {
                 if (Prefs.DevMode)
-                    Log.Message($"[TSA WD] Skipping caravan clash: busy Ambush map on tile {playerCaravan.Tile}");
+                    WDVerbose.Msg($"[TSA WD] Skipping caravan clash: busy Ambush map on tile {playerCaravan.Tile}");
                 return;
             }
 
@@ -112,7 +112,7 @@ namespace TSA_WorldDomination
             if (WD_MapComponent_CaravanClash.TileHasBusyCaravanClashAmbush(traveler.Tile))
             {
                 if (Prefs.DevMode)
-                    Log.Message($"[TSA WD] Skipping RR drop-pod clash: busy Ambush map on tile {traveler.Tile}");
+                    WDVerbose.Msg($"[TSA WD] Skipping RR drop-pod clash: busy Ambush map on tile {traveler.Tile}");
                 return;
             }
 
@@ -206,7 +206,7 @@ namespace TSA_WorldDomination
 
             if (!RaidPointsHelper.WdRaidPointsStorytellerBandClampActive())
             {
-                Log.Message(
+                WDVerbose.Msg(
                     "[TSA WD] Interception raid points:" + "\n"
                     + $"  Traveler strength: {raw:F0}" + "\n"
                     + "  Always use Strength as Raid points is ON: storyteller floor/ceiling are not applied." + "\n"
@@ -235,7 +235,7 @@ namespace TSA_WorldDomination
             else
                 verdict = "No clamping needed. Using traveler strength as raid points.";
 
-            Log.Message(
+            WDVerbose.Msg(
                 "[TSA WD] Interception raid points:" + "\n"
                 + $"  Traveler strength: {raw:F0}" + "\n"
                 + $"  Storyteller threat baseline: {baseline:F0} ({baselineWhere})" + "\n"
@@ -308,7 +308,7 @@ namespace TSA_WorldDomination
                 {
                     float raidPoints = ComputeInterceptionRaidPoints(traveler, map);
                     LogInterceptionRaidPoints(traveler, map, raidPoints);
-                    Log.Message("[TSA WD] Trader interception: using RaidEnemy fallback (no trader pawn group for this faction).");
+                    WDVerbose.Msg("[TSA WD] Trader interception: using RaidEnemy fallback (no trader pawn group for this faction).");
                     tracker.InterceptionRaidPending = true;
                     try
                     {
@@ -479,7 +479,7 @@ namespace TSA_WorldDomination
             if (OdysseyGravshipCaravanClashCompat.TileBlocksPlayerCaravanClash(tile))
             {
                 if (Prefs.DevMode)
-                    Log.Message($"[TSA WD] Aborting caravan clash map gen: tile blocks clash ({tile})");
+                    WDVerbose.Msg($"[TSA WD] Aborting caravan clash map gen: tile blocks clash ({tile})");
                 return null;
             }
 
@@ -498,7 +498,7 @@ namespace TSA_WorldDomination
 
                 // Non-Ambush MapParent on tile: do not GenerateMap onto it (would risk wiping a home).
                 if (Prefs.DevMode)
-                    Log.Message($"[TSA WD] Aborting caravan clash map gen: non-Ambush MapParent ({existing.def?.defName}) on tile {tile}");
+                    WDVerbose.Msg($"[TSA WD] Aborting caravan clash map gen: non-Ambush MapParent ({existing.def?.defName}) on tile {tile}");
                 return null;
             }
 

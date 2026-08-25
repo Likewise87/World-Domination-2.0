@@ -114,7 +114,7 @@ namespace TSA_WorldDomination
                 damage.ToString("F0"),
                 Mathf.RoundToInt(avg * 100f));
             manager?.AddLog(new SpreadLogEntry(text, comp.parent));
-            Log.Message(
+            WDVerbose.Msg(
                 $"[WD] Site pollution dmg site={comp.parent.LabelCap} dmg={damage:F0} avgP={avg:F2} r={radius} " +
                 $"off {offBefore:F1}->{comp.offensiveStrength:F1} def {defBefore:F1}->{comp.defensiveStrength:F1} " +
                 FormatOutpostContext(comp));
@@ -159,7 +159,7 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            Log.Message(
+            WDVerbose.Msg(
                 $"[WD] Outpost offense~0 on pollution tick with local pollution — wiping husk. " +
                 $"{ctx} avgP={avg:F2} r={radius}");
             DestroyOutpostFromPollution(
@@ -189,7 +189,7 @@ namespace TSA_WorldDomination
             string destroyText = "TSA_WD_Log_Pollution_DestroyedSite".Translate(label);
             manager?.AddLog(new SpreadLogEntry(destroyText, outpost));
             // Always log wipe details, even when player notifications are off.
-            Log.Message(
+            WDVerbose.Msg(
                 $"[WD] Pollution destroyed outpost={label} tile={tile.tileId} reason={wipeReason} " +
                 $"avgP={avgPollution01:F2} r={radius} {ctx}");
 

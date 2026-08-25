@@ -162,12 +162,11 @@ namespace TSA_WorldDomination
         private static List<WorldObject_WD_Outpost> GetPowerPlantOutposts()
         {
             var result = new List<WorldObject_WD_Outpost>();
-            if (Find.WorldObjects == null) return result;
-
-            var all = Find.WorldObjects.AllWorldObjects;
-            for (int i = 0; i < all.Count; i++)
+            IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
+            for (int i = 0; i < outposts.Count; i++)
             {
-                if (all[i] is WorldObject_WD_Outpost outpost && Outpost_PowerPlant.GetRemotePowerWatts(outpost) > 0f)
+                WorldObject_WD_Outpost outpost = outposts[i];
+                if (outpost != null && !outpost.Destroyed && Outpost_PowerPlant.GetRemotePowerWatts(outpost) > 0f)
                     result.Add(outpost);
             }
             return result;

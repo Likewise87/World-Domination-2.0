@@ -27,12 +27,14 @@ namespace TSA_WorldDomination
         private WorldObject_WD_Outpost selectionOutpost;
 
         private List<List<OutpostUpgradeDef>> cachedUpgradeGroups;
-        private WorldObject_WD_Outpost cachedUpgradeGroupsOutpost;
-        private int cachedUpgradeGroupsFingerprint;
+        private string cachedUpgradeGroupsDefName;
 
         private List<CachedUpgradeRow> cachedRows = new List<CachedUpgradeRow>();
         private int cachedRowsTick = -1;
         private int cachedRowsFingerprint;
+
+        private static readonly Dictionary<string, List<List<OutpostUpgradeDef>>> UpgradeGroupsByOutpostDef =
+            new Dictionary<string, List<List<OutpostUpgradeDef>>>();
 
         private struct CachedUpgradeRow
         {
@@ -289,13 +291,12 @@ namespace TSA_WorldDomination
             else
             {
                 cachedRowsTick = -1;
-                cachedUpgradeGroupsFingerprint = -1;
             }
         }
 
         private void EnsureCachedRows(WorldObject_WD_Outpost outpost, List<List<OutpostUpgradeDef>> groups)
         {
-            int fp = UpgradeGroupsFingerprint(outpost);
+            int fp = UpgradeRowsFingerprint(outpost);
             int tick = Find.TickManager.TicksGame;
             if (cachedRows.Count > 0
                 && cachedRowsFingerprint == fp
@@ -466,7 +467,7 @@ namespace TSA_WorldDomination
             }
         }
 
-        private static int UpgradeGroupsFingerprint(WorldObject_WD_Outpost o)
+        private static int UpgradeRowsFingerprint(WorldObject_WD_Outpost o)
         {
             if (o == null) return 0;
             unchecked
@@ -474,7 +475,6 @@ namespace TSA_WorldDomination
                 int h = RuntimeHelpers.GetHashCode(o);
                 h = h * 31 + (o.def?.defName?.GetHashCode() ?? 0);
                 h = h * 31 + o.Tile;
-                h = h * 31 + DefDatabase<OutpostUpgradeDef>.AllDefsListForReading.Count;
                 if (o.BuiltUpgradeLevels != null)
                     foreach (var kv in o.BuiltUpgradeLevels)
                     {
@@ -486,24 +486,39 @@ namespace TSA_WorldDomination
             }
         }
 
+        private static List<List<OutpostUpgradeDef>> GetOrBuildUpgradeGroupsForDef(string wdef)
+        {
+            if (string.IsNullOrEmpty(wdef))
+                return new List<List<OutpostUpgradeDef>>();
+
+            if (UpgradeGroupsByOutpostDef.TryGetValue(wdef, out List<List<OutpostUpgradeDef>> cached))
+                return cached;
+
+            cached = BuildUpgradeGroupsForDef(wdef);
+            UpgradeGroupsByOutpostDef[wdef] = cached;
+            return cached;
+        }
+
         private List<List<OutpostUpgradeDef>> GetUpgradeGroupsCached(WorldObject_WD_Outpost outpost)
         {
-            int fp = UpgradeGroupsFingerprint(outpost);
-            if (cachedUpgradeGroups != null && ReferenceEquals(cachedUpgradeGroupsOutpost, outpost) && fp == cachedUpgradeGroupsFingerprint)
+            string wdef = outpost?.def?.defName;
+            if (string.IsNullOrEmpty(wdef))
+                return new List<List<OutpostUpgradeDef>>();
+
+            if (cachedUpgradeGroups != null && cachedUpgradeGroupsDefName == wdef)
                 return cachedUpgradeGroups;
-            cachedUpgradeGroups = BuildUpgradeGroups(outpost);
-            cachedUpgradeGroupsOutpost = outpost;
-            cachedUpgradeGroupsFingerprint = fp;
+
+            cachedUpgradeGroups = GetOrBuildUpgradeGroupsForDef(wdef);
+            cachedUpgradeGroupsDefName = wdef;
             cachedRowsTick = -1;
             return cachedUpgradeGroups;
         }
 
-        private static List<List<OutpostUpgradeDef>> BuildUpgradeGroups(WorldObject_WD_Outpost outpost)
+        private static List<List<OutpostUpgradeDef>> BuildUpgradeGroupsForDef(string wdef)
         {
             var groups = new List<List<OutpostUpgradeDef>>();
-            if (outpost?.def?.defName == null) return groups;
+            if (string.IsNullOrEmpty(wdef)) return groups;
 
-            string wdef = outpost.def.defName;
             var allDefs = DefDatabase<OutpostUpgradeDef>.AllDefsListForReading;
             var byLine = new Dictionary<string, List<OutpostUpgradeDef>>();
             var lineOrder = new List<string>();
@@ -603,15 +618,13 @@ namespace TSA_WorldDomination
                 return warehouseCache;
 
             var result = new List<WorldObject_WD_Outpost>();
-            if (Find.WorldObjects != null)
+            IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
+            for (int i = 0; i < outposts.Count; i++)
             {
-                var all = Find.WorldObjects.AllWorldObjects;
-                for (int i = 0; i < all.Count; i++)
-                {
-                    if (!(all[i] is WorldObject_WD_Outpost wo) || !Outpost_Warehouse_Delivery.IsWarehouseOutpost(wo)) continue;
-                    if (CompOutpostWarehouse.Get(wo) == null) continue;
-                    result.Add(wo);
-                }
+                WorldObject_WD_Outpost wo = outposts[i];
+                if (wo == null || wo.Destroyed || !Outpost_Warehouse_Delivery.IsWarehouseOutpost(wo)) continue;
+                if (CompOutpostWarehouse.Get(wo) == null) continue;
+                result.Add(wo);
             }
             warehouseCache = result;
             warehouseCacheTick = t;

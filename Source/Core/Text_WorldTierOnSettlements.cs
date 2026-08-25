@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
@@ -29,16 +30,17 @@ namespace TSA_WorldDomination
             tierLabelCache ??= new List<(WorldObject, CompViralSpread)>(128);
             tierLabelCache.Clear();
             if (Find.WorldObjects == null) return;
-            var all = Find.WorldObjects.AllWorldObjects;
-            for (int i = 0; i < all.Count; i++)
+            var settlements = Find.WorldObjects.Settlements;
+            for (int i = 0; i < settlements.Count; i++)
             {
-                var wo = all[i];
-                var comp = wo.GetComponent<CompViralSpread>();
+                Settlement s = settlements[i];
+                if (s == null || s.Destroyed) continue;
+                var comp = s.GetComponent<CompViralSpread>();
                 if (comp == null || comp.subType == "Excluded") continue;
-                if (!WorldActions_Utils.IsWdSurfaceWorldObject(wo)) continue;
-                if (wo.Faction != null && wo.Faction.IsPlayer) continue;
+                if (!WorldActions_Utils.IsWdSurfaceWorldObject(s)) continue;
+                if (s.Faction != null && s.Faction.IsPlayer) continue;
                 if (comp.IsOutpost) continue;
-                tierLabelCache.Add((wo, comp));
+                tierLabelCache.Add((s, comp));
             }
         }
 

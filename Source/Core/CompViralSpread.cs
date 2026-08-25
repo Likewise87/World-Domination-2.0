@@ -204,6 +204,16 @@ namespace TSA_WorldDomination
             if (!IsSettlementMortarAutoActive) return;
             MortarFireUtils.FireNpcSettlementAtTraveler(s, target, approxTileDist);
         }
+
+        /// <summary>Scheduler caravan path: T4 mortar vs player caravan when late/mid mortar-vs-player and visibility gate pass.</summary>
+        public void InterceptorFireAtCaravan(Caravan target, float approxTileDist)
+        {
+            if (parent is not Settlement s) return;
+            if (!IsSettlementMortarAutoActive) return;
+            if (!CanTargetPlayerNow()) return;
+            MortarFireUtils.FireNpcSettlementAtCaravan(s, target, approxTileDist);
+        }
+
         void IDefensiveInterceptor.InterceptorNoTargetFire()
         {
             // No hostile caravan in range: fall back to shelling the nearest hostile settlement / AT Turret
@@ -251,25 +261,27 @@ namespace TSA_WorldDomination
             var all = Find.WorldObjects.AllWorldObjects;
             for (int i = 0; i < all.Count; i++)
             {
-                WorldObject wo = all[i];
-                if (wo is WorldObject_AT_Turret at)
-                {
-                    if (at.Destroyed || at.Faction == null) continue;
-                    if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(at)) continue;
-                    if (!WorldActions_Utils.SafeHostileTo(at.Faction, iFaction)) continue;
-                    if (at.Faction.IsPlayer && (!canTargetPlayer || player == null)) continue;
-                    float d = manager != null
-                        ? (float)WorldActions_Utils.GetDistance(origin.Tile, at.Tile, manager)
-                        : Find.WorldGrid.ApproxDistanceInTiles(origin.Tile, at.Tile);
-                    if (d > range || d >= bestDist) continue;
-                    bestDist = d;
-                    best = at;
-                    continue;
-                }
+                if (!(all[i] is WorldObject_AT_Turret at)) continue;
+                if (at.Destroyed || at.Faction == null) continue;
+                if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(at)) continue;
+                if (!WorldActions_Utils.SafeHostileTo(at.Faction, iFaction)) continue;
+                if (at.Faction.IsPlayer && (!canTargetPlayer || player == null)) continue;
+                float d = manager != null
+                    ? (float)WorldActions_Utils.GetDistance(origin.Tile, at.Tile, manager)
+                    : Find.WorldGrid.ApproxDistanceInTiles(origin.Tile, at.Tile);
+                if (d > range || d >= bestDist) continue;
+                bestDist = d;
+                best = at;
+            }
 
-                if (!canTargetPlayer || player == null || !WorldActions_Utils.SafeHostileTo(player, iFaction))
-                    continue;
-                if (!(wo is WorldObject_WD_Outpost o) || o.Faction != player) continue;
+            if (!canTargetPlayer || player == null || !WorldActions_Utils.SafeHostileTo(player, iFaction))
+                return best;
+
+            IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
+            for (int i = 0; i < outposts.Count; i++)
+            {
+                WorldObject_WD_Outpost o = outposts[i];
+                if (o == null || o.Destroyed || o.Faction != player) continue;
                 if (!WorldActions_Utils.IsWdSurfaceWorldObject(o)) continue;
                 float dOutpost = manager != null
                     ? (float)WorldActions_Utils.GetDistance(origin.Tile, o.Tile, manager)

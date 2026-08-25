@@ -78,7 +78,7 @@ namespace TSA_WorldDomination
             this.playerHasWon = false;
             this.foughtOnPlayerAtTurret = AtTurretUtility.TileHasPlayerAtTurret(map.Tile.tileId);
 
-            Log.Message($"[TSA WD] Data saved for {travelerLabel}. Original destroyed.");
+            WDVerbose.Msg($"[TSA WD] Data saved for {travelerLabel}. Original destroyed.");
             traveler.Destroy();
         }
 
@@ -104,7 +104,7 @@ namespace TSA_WorldDomination
             {
                 if (Find.TickManager.TicksGame > startTick + 600)
                 {
-                    Log.Message($"[TSA WD] Victory detected for {travelerLabel}.");
+                    WDVerbose.Msg($"[TSA WD] Victory detected for {travelerLabel}.");
                     playerHasWon = true;
                     encounterActive = false;
                     Messages.Message("TSA_WD_InterceptionVictory".Translate(), MessageTypeDefOf.PositiveEvent);
@@ -245,7 +245,7 @@ namespace TSA_WorldDomination
                 moving = newTraveler.pather.moving;
             }
 
-            Log.Message($"[TSA WD] Defeat/Closure: {travelerLabel} recreated on world map dest={destId} moving={moving}.");
+            WDVerbose.Msg($"[TSA WD] Defeat/Closure: {travelerLabel} recreated on world map dest={destId} moving={moving}.");
             Messages.Message("TSA_WD_InterceptionFailed".Translate(travelerLabel), MessageTypeDefOf.NegativeEvent);
             SendPlayerCaravanClashResultLetter(victory: false);
 
