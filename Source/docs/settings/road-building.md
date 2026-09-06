@@ -7,7 +7,7 @@ This advanced page configures roads, road blocks, traps, AT Turrets, and deconta
 | Control | Default | What it changes |
 |---|---:|---|
 | Player outpost road range | 16 tiles | Maximum planning range from player outposts. |
-| NPC road range | 25 tiles | Maximum range for NPC road attempts. |
+| NPC road range | 40 tiles | Maximum range for NPC road attempts. |
 
 Each road type exposes the same five controls.
 

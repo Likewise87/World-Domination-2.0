@@ -184,18 +184,28 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Shared gate for NPC AT auto-fire, T4 settlement mortar auto-fire, and settlement ambush vs real player caravans:
-        /// experimental toggle + vanilla <see cref="Caravan.Visibility"/> threshold.
+        /// Vanilla <see cref="Caravan.Visibility"/> threshold for player caravans.
+        /// Settlement ambush uses this alone; AT turrets and T4 mortars also require
+        /// <see cref="IsPlayerCaravanTargetingEnabled"/>.
         /// </summary>
-        public static bool CanEnemySystemsTargetPlayerCaravan(Caravan c)
+        public static bool MeetsPlayerCaravanVisibilityThreshold(Caravan c)
         {
-            if (!IsPlayerCaravanTargetingEnabled()) return false;
             if (c == null || c.Destroyed || c.Faction == null || !c.Faction.IsPlayer) return false;
             var s = WorldDominationMod.settings;
             float minVis = s != null
                 ? s.minPlayerCaravanVisibilityToTarget
                 : WorldDominationSettings.DefMinPlayerCaravanVisibilityToTarget;
             return c.Visibility >= minVis;
+        }
+
+        /// <summary>
+        /// Shared gate for NPC AT auto-fire and T4 settlement mortar auto-fire vs real player caravans:
+        /// experimental toggle + <see cref="MeetsPlayerCaravanVisibilityThreshold"/>.
+        /// </summary>
+        public static bool CanEnemySystemsTargetPlayerCaravan(Caravan c)
+        {
+            if (!IsPlayerCaravanTargetingEnabled()) return false;
+            return MeetsPlayerCaravanVisibilityThreshold(c);
         }
 
         /// <summary>Player ground traveler eligible for an NPC (or any hostile) AT auto-fire when the traveler flag is on.</summary>
@@ -442,10 +452,14 @@ namespace TSA_WorldDomination
             turret.Destroy();
         }
 
-        public static bool IsEmptyOffRoadTurretSite(int tileId)
+        public static bool IsEmptyOffRoadTurretSite(int tileId) =>
+            IsEmptyTurretSite(tileId, requireOffRoad: true);
+
+        /// <summary>Empty site for an AT gun. When <paramref name="requireOffRoad"/> is false, road tiles are allowed.</summary>
+        public static bool IsEmptyTurretSite(int tileId, bool requireOffRoad = true)
         {
             if (!WorldActions_RoadBlocks.IsTileBaseEligibleForRoadBlock(tileId)) return false;
-            if (TileHasRoad(tileId)) return false;
+            if (requireOffRoad && TileHasRoad(tileId)) return false;
             if (WorldComponent_RoadBlocks.Get()?.HasBlockAt(tileId) == true) return false;
             if (WorldComponent_SpikeTraps.Get()?.HasTrapAt(tileId) == true) return false;
             if (TileHasAtTurret(tileId)) return false;
@@ -604,7 +618,9 @@ namespace TSA_WorldDomination
             AtTurretTier tier,
             Settlement builtBySettlement,
             WorldObject builtBySite = null,
-            bool requirePlayerBuildSite = true)
+            bool requirePlayerBuildSite = true,
+            bool allowRoadTile = false,
+            bool ignoreSettlementCap = false)
         {
             if (!IsTierBuildable(tier)) return null;
             if (faction == null) return null;
@@ -613,7 +629,7 @@ namespace TSA_WorldDomination
             {
                 if (!IsPlayerBuildableTurretTile(tileId)) return null;
             }
-            else if (!IsEmptyOffRoadTurretSite(tileId))
+            else if (!IsEmptyTurretSite(tileId, requireOffRoad: !allowRoadTile))
             {
                 return null;
             }
@@ -623,7 +639,7 @@ namespace TSA_WorldDomination
             {
                 if (requirePlayerBuildSite && !CanPlayerSiteAcceptPlacedTurret(site)) return null;
             }
-            else if (builtBySettlement != null && !CanBuildAnother(builtBySettlement))
+            else if (!ignoreSettlementCap && builtBySettlement != null && !CanBuildAnother(builtBySettlement))
             {
                 return null;
             }

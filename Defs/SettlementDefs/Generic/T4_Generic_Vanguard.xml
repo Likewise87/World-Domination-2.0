@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.SettlementLayoutDef>
+    <defName>TSA_Generic_T4_Vanguard</defName>
+    <settlementSize>128,128</settlementSize> <avoidBridgeable>false</avoidBridgeable>
+    <avoidMountains>false</avoidMountains>
+    <centerBuildings Inherit="False">
+      <centralBuildingTags>
+        <li>TSA_Tribal_VanguardBarracks</li>
+      </centralBuildingTags>
+      <centerSize>120,120</centerSize> 
+	  <spaceAround>1</spaceAround>
+      <allowedStructures>
+        <li>
+          <count>6~12</count>
+          <tag>TSA_Tribal_VanguardBarracks</tag>
+        </li>
+        <li>
+          <count>4~7</count>
+          <tag>Generic_Stockpile</tag>
+        </li>
+        <li>
+          <tag>Kitchen</tag>
+          <count>0~2</count>
+        </li>
+</allowedStructures>
+    </centerBuildings>
+
+    <peripheralBuildings>
+      <allowedStructures>
+        <li>
+          <tag>TSA_Generic_Barricade</tag>
+          <count>16~32</count>
+        </li>
+        <li>
+          <count>2~6</count>
+          <tag>Generic_HeavyDefence</tag>
+        </li>
+        <li>
+          <count>1~3</count>
+          <tag>Generic_Mortar</tag>
+        </li>
+      </allowedStructures>
+    </peripheralBuildings>
+
+    <defenseOptions>
+      <pawnGroupMultiplier>1.8</pawnGroupMultiplier>
+    </defenseOptions>
+
+    <propsOptions>
+      <addLinkRoadProps>true</addLinkRoadProps>
+      <linkRoadPropsDefs>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_Cone</li>
+        <li MayRequire="VanillaExpanded.VFECore">Light_Streetlamp</li>
+      </linkRoadPropsDefs>
+      <linkRoadMinDistance>12</linkRoadMinDistance>
+
+      <scatterProps>true</scatterProps>
+      <scatterMinDistance>8</scatterMinDistance>
+      <scatterMaxAmount>40</scatterMaxAmount>
+      <scatterPropsDefs>
+        <li>TSA_WD_Hayball_3a</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_BrickPile</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_BarrelGreen</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_BoxLarge</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_BoxSmall</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_PalletBoxes</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_Pallet</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_PalletBarrelGreen</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_Pipes</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_Planks</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_ConcreteBags</li>
+        <li>TSA_WD_Box_2a</li>
+        <li>TSA_WD_Box_4a</li>
+        <li>TSA_WD_Cart_5a</li>
+        <li>TSA_WD_Cart_6a</li>
+        <li>TSA_WD_Cart_7a</li>
+        <li>TSA_WD_Cart_8a</li>
+        <li>TSA_WD_Cart_9a</li>
+        <li>TSA_WD_Cart_10a</li>
+        <li>TSA_WD_Cart_11a</li>
+        <li>TSA_WD_Cart_12a</li>
+
+
+
+      
+      </scatterPropsDefs>
+    </propsOptions>
+
+    <roadOptions>
+      <addLinkRoad>true</addLinkRoad>
+      <linkRoadDef>Concrete</linkRoadDef>
+    </roadOptions>
+
+    <stockpileOptions>
+      <fillStorageBuildings>false</fillStorageBuildings>
+    </stockpileOptions>
+</KCSG.SettlementLayoutDef>
+</Defs>

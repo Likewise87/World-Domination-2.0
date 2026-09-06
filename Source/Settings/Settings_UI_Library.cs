@@ -29,8 +29,69 @@ namespace TSA_WorldDomination
         /// <summary>Shared cyan used by collapsible section headers across settings dialogs.</summary>
         public static readonly Color SectionHeaderColor = new Color(0.55f, 0.85f, 1f);
 
+        /// <summary>Filter text for settings detail dialogs (not the main hub). Cleared only by the user.</summary>
+        public static string settingsSearchFilter;
+
+        /// <summary>Label/tip of the collapsible section currently being drawn (used so a matching section header shows all of its controls).</summary>
+        private static string searchCurrentSectionLabel;
+        private static string searchCurrentSectionTip;
+
+        /// <summary>True when the settings search box has a non-empty filter.</summary>
+        public static bool IsSearchActive =>
+            !settingsSearchFilter.NullOrEmpty() && settingsSearchFilter.Trim().Length > 0;
+
+        private static bool TextMatchesFilter(string text, string q)
+        {
+            return !text.NullOrEmpty() && text.IndexOf(q, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        /// <summary>True when search is empty or <paramref name="label"/>/<paramref name="tip"/> contains the filter (case-insensitive).
+        /// Also true when the enclosing collapsible section header matches the filter.</summary>
+        public static bool SearchMatches(string label, string tip = null)
+        {
+            if (!IsSearchActive) return true;
+            string q = settingsSearchFilter.Trim();
+            if (TextMatchesFilter(label, q) || TextMatchesFilter(tip, q))
+                return true;
+            // Section-header match → show every control in that section.
+            if (TextMatchesFilter(searchCurrentSectionLabel, q) || TextMatchesFilter(searchCurrentSectionTip, q))
+                return true;
+            return false;
+        }
+
+        /// <summary>True if any of the strings match the current search (or search is inactive).</summary>
+        public static bool SearchMatchesAny(params string[] texts)
+        {
+            if (!IsSearchActive) return true;
+            if (texts == null) return false;
+            for (int i = 0; i < texts.Length; i++)
+            {
+                if (SearchMatches(texts[i], null))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>Search field drawn at the top of detail settings dialogs (after title / top bar).</summary>
+        public static void DrawSettingsSearchBar(Listing_Standard l)
+        {
+            searchCurrentSectionLabel = null;
+            searchCurrentSectionTip = null;
+            l.Gap(2f);
+            Rect r = l.GetRect(28f);
+            string tip = "TSA_WD_Settings_SearchTip".Translate();
+            if (!tip.NullOrEmpty())
+                TooltipHandler.TipRegion(r, tip);
+            Widgets.Label(r.LeftPart(0.22f), "TSA_WD_Settings_Search".Translate());
+            settingsSearchFilter = Widgets.TextField(r.RightPart(0.78f), settingsSearchFilter ?? "");
+            l.Gap(6f);
+        }
+
         public static float LabeledSlider(Listing_Standard l, string label, float val, float min, float max, string tooltip = null, float step = 0.1f, SliderFormat format = SliderFormat.Fixed1, float? defaultValue = null, SliderFormat? defaultFormat = null)
         {
+            if (!SearchMatches(label, tooltip))
+                return val;
+
             l.Gap(2f);
             Rect r = l.GetRect(24f);
             if (!tooltip.NullOrEmpty()) TooltipHandler.TipRegion(r, TooltipWithDefault(tooltip, defaultValue, defaultFormat ?? format));
@@ -54,6 +115,9 @@ namespace TSA_WorldDomination
             string leftCaption = null,
             string rightCaption = null)
         {
+            if (!SearchMatches(label, tooltip))
+                return val;
+
             l.Gap(2f);
             Rect labelRect = l.GetRect(24f);
             string displaySuffix = GetFormattedValue(val, format);
@@ -72,6 +136,9 @@ namespace TSA_WorldDomination
 
         public static float WeightSlider(Listing_Standard l, string label, float val, float totalPool, float min, float max, string tooltip = null, float? defaultValue = null, bool showPercent = true)
         {
+            if (!SearchMatches(label, tooltip))
+                return val;
+
             l.Gap(2f);
             Rect r = l.GetRect(24f);
             if (!tooltip.NullOrEmpty()) TooltipHandler.TipRegion(r, TooltipWithDefault(tooltip, defaultValue, SliderFormat.Fixed0));
@@ -93,6 +160,20 @@ namespace TSA_WorldDomination
 
         public static void MultiColumnSlider(Listing_Standard l, string[] labels, float[] values, Vector2 minMax, string[] tooltips = null, float step = 0.1f, SliderFormat format = SliderFormat.Fixed1, float height = 44f, float[] defaultValues = null, SliderFormat? defaultFormat = null)
         {
+            if (labels == null || values == null) return;
+            bool anyVisible = false;
+            for (int i = 0; i < labels.Length; i++)
+            {
+                if (labels[i].NullOrEmpty()) continue;
+                string tip = tooltips != null && i < tooltips.Length ? tooltips[i] : null;
+                if (SearchMatches(labels[i], tip))
+                {
+                    anyVisible = true;
+                    break;
+                }
+            }
+            if (!anyVisible) return;
+
             l.Gap(4f);
             Rect rowRect = l.GetRect(height);
             int count = labels.Length;
@@ -102,12 +183,15 @@ namespace TSA_WorldDomination
             {
                 if (labels[i].NullOrEmpty())
                     continue;
+                string tip = tooltips != null && i < tooltips.Length ? tooltips[i] : null;
+                if (!SearchMatches(labels[i], tip))
+                    continue;
 
                 Rect colRect = new Rect(rowRect.x + (colWidth * i), rowRect.y, colWidth - 10f, rowRect.height);
-                if (tooltips != null && i < tooltips.Length && !tooltips[i].NullOrEmpty())
+                if (!tip.NullOrEmpty())
                 {
                     float? defaultValue = defaultValues != null && i < defaultValues.Length ? defaultValues[i] : (float?)null;
-                    TooltipHandler.TipRegion(colRect, TooltipWithDefault(tooltips[i], defaultValue, defaultFormat ?? format));
+                    TooltipHandler.TipRegion(colRect, TooltipWithDefault(tip, defaultValue, defaultFormat ?? format));
                 }
 
                 string suffix = GetFormattedValue(values[i], format);
@@ -116,20 +200,23 @@ namespace TSA_WorldDomination
             }
         }
 
+        /// <summary>
+        /// Nested sub-header inside a collapsible section: small white label (not cyan section chrome).
+        /// Use for Tribal / Mid Game / Academy-style groupings under a collapsible. Color arg ignored (always white).
+        /// </summary>
         public static void DrawHeader(Listing_Standard l, string label, Color? color = null)
         {
             l.Gap(StandardGap);
-            Text.Font = GameFont.Small;
-            string colorHex = color.HasValue ? ColorUtility.ToHtmlStringRGBA(color.Value) : "FFFFFF";
-            string styledLabel = $"<size=15><b><color=#{colorHex}>{label}</color></b></size>";
-            // size=15 bold needs a full Small line box; Listing.Label CalcHeight often undersizes and crops descenders.
-            float h = Mathf.Max(24f, Text.CalcHeight(styledLabel, l.ColumnWidth) + 2f);
+            Text.Font = GameFont.Tiny;
+            // Nested subheads stay white; collapsible titles use SectionHeaderColor via DrawCollapsibleHeader.
+            string styledLabel = $"<b><color=#FFFFFF>{label}</color></b>";
+            float h = Mathf.Max(18f, Text.CalcHeight(styledLabel, l.ColumnWidth) + 2f);
             TextAnchor prev = Text.Anchor;
             Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(l.GetRect(h), styledLabel);
             Text.Anchor = prev;
-            l.GapLine(4f);
-            l.Gap(StandardGap);
+            Text.Font = GameFont.Small;
+            l.Gap(4f);
         }
 
         /// <summary>
@@ -137,19 +224,45 @@ namespace TSA_WorldDomination
         /// </summary>
         public static bool DrawCollapsibleHeader(Listing_Standard l, string label, ref bool expanded, Color? color = null, string tip = null)
         {
+            // Track the active section so SearchMatches can show all controls when the header matches.
+            searchCurrentSectionLabel = label;
+            searchCurrentSectionTip = tip;
+
+            // When searching, always open the section body so individual controls can filter themselves.
+            bool searching = IsSearchActive;
+            if (searching)
+            {
+                string q = settingsSearchFilter.Trim();
+                bool headerMatch = TextMatchesFilter(label, q) || TextMatchesFilter(tip, q);
+                if (headerMatch)
+                {
+                    l.Gap(StandardGap);
+                    Rect r = l.GetRect(26f);
+                    Color c = color ?? Color.white;
+                    string colorHex = ColorUtility.ToHtmlStringRGBA(c);
+                    Text.Font = GameFont.Small;
+                    Widgets.Label(r, $"<b><color=#{colorHex}>▼  {label}</color></b>");
+                    if (!tip.NullOrEmpty())
+                        TooltipHandler.TipRegion(r, tip);
+                    l.GapLine(6f);
+                    l.Gap(4f);
+                }
+                return true;
+            }
+
             l.Gap(StandardGap);
-            Rect r = l.GetRect(26f);
-            Widgets.DrawHighlightIfMouseover(r);
+            Rect hr = l.GetRect(26f);
+            Widgets.DrawHighlightIfMouseover(hr);
             if (!tip.NullOrEmpty())
-                TooltipHandler.TipRegion(r, tip);
-            if (Widgets.ButtonInvisible(r))
+                TooltipHandler.TipRegion(hr, tip);
+            if (Widgets.ButtonInvisible(hr))
                 expanded = !expanded;
 
-            Color c = color ?? Color.white;
-            string colorHex = ColorUtility.ToHtmlStringRGBA(c);
+            Color hc = color ?? Color.white;
+            string hex = ColorUtility.ToHtmlStringRGBA(hc);
             string arrow = expanded ? "▼" : "▶";
             Text.Font = GameFont.Small;
-            Widgets.Label(r, $"<b><color=#{colorHex}>{arrow}  {label}</color></b>");
+            Widgets.Label(hr, $"<b><color=#{hex}>{arrow}  {label}</color></b>");
             if (expanded)
             {
                 l.GapLine(6f);
@@ -363,6 +476,9 @@ namespace TSA_WorldDomination
             string tooltip = null) where T : struct, Enum
         {
             if (setAndApply == null) return;
+            if (!SearchMatches(label, tooltip))
+                return;
+
             l.Gap(2f);
             Rect r = l.GetRect(28f);
             if (!tooltip.NullOrEmpty())
@@ -396,6 +512,9 @@ namespace TSA_WorldDomination
         /// <summary>Checkbox row consistent with other settings UI (gap, rect height, tooltip). Optional rowHeight centers the 24px control vertically (e.g. 38f for main menu).</summary>
         public static void DrawCheckbox(Listing_Standard l, string label, ref bool value, string tooltip = null, float? rowHeight = null, bool? defaultValue = null)
         {
+            if (!SearchMatches(label, tooltip))
+                return;
+
             l.Gap(2f);
             float h = rowHeight ?? 24f;
             Rect r = l.GetRect(h);
@@ -472,6 +591,8 @@ namespace TSA_WorldDomination
             TechLevel? defaultValue = null)
         {
             if (set == null) return;
+            if (!SearchMatches(label, tooltip))
+                return;
             l.Gap(2f);
             Rect r = l.GetRect(24f);
             string currentLabel = current.ToString();

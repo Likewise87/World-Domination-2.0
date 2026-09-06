@@ -698,8 +698,8 @@ namespace TSA_WorldDomination
             if (string.IsNullOrEmpty(subType)) return "Default";
             if (subType == "Farming" || subType == "Mining" || subType == "Logging"
                 || subType == "Production" || subType == "Slavery" || subType == "Fortress"
-                || subType == "Citadel")
-                return subType;
+                || subType == "Citadel" || subType == "Vanguard")
+                return subType == "Vanguard" ? "Default" : subType;
             string s = subType.ToLowerInvariant();
             if (s.Contains("farm")) return "Farming";
             if (s.Contains("mine")) return "Mining";
@@ -707,6 +707,7 @@ namespace TSA_WorldDomination
             if (s.Contains("product") || s.Contains("industr")) return "Production";
             if (s.Contains("slav")) return "Slavery";
             if (s.Contains("fort")) return "Fortress";
+            if (s.Contains("vanguard")) return "Default";
             if (s.Contains("citadel") || tier == SettlementTier.T4) return "Citadel";
             return "Default";
         }

@@ -5,6 +5,7 @@
   <TSA_WD_Day>天</TSA_WD_Day>
   <TSA_WD_Days>天</TSA_WD_Days>
   <TSA_WD_ExpansionCaravan>扩张商队</TSA_WD_ExpansionCaravan>
+  <TSA_WD_MassRelocationCaravan>先锋商队</TSA_WD_MassRelocationCaravan>
   <TSA_WD_Inspect_AidCD>援助冷却:{0} 天</TSA_WD_Inspect_AidCD>
   <TSA_WD_Inspect_AttackRange>攻击范围:{0} 格</TSA_WD_Inspect_AttackRange>
   <TSA_WD_Inspect_AttackRange_Zeal>攻击范围(狂热):{0} 格</TSA_WD_Inspect_AttackRange_Zeal>
@@ -109,10 +110,44 @@
   <TSA_WD_Log_MinorInc_Standard>轻微事件:损失 {0} 实力({1} → {2})。</TSA_WD_Log_MinorInc_Standard>
   <TSA_WD_Letter_Revolt_Label>阵营再度崛起</TSA_WD_Letter_Revolt_Label>
   <TSA_WD_Letter_Revolt_Text>政局动荡！阵营 {0} 从沉寂中崛起，夺取了：{1}。在起义中失守的势力：{2}。</TSA_WD_Letter_Revolt_Text>
+  <TSA_WD_Letter_Vanguard_Label>先锋部队已出发</TSA_WD_Letter_Vanguard_Label>
+  <TSA_WD_Letter_Vanguard_Text>{0} 已撤走 {1} 座定居点，正将先锋集群开向你的区域。旧营地已毁——在他们扎稳前拦截。</TSA_WD_Letter_Vanguard_Text>
+  <TSA_WD_Letter_Invasion_Label>入侵部队已出发</TSA_WD_Letter_Invasion_Label>
+  <TSA_WD_Letter_Invasion_Text>{0} 已从远方定居点发动 {1} 路协同入侵突袭，进攻你的殖民地与前哨。其家园仍在。准备防御。</TSA_WD_Letter_Invasion_Text>
+  <TSA_WD_Letter_DesperationRaid_Label>{0} 的绝望进攻</TSA_WD_Letter_DesperationRaid_Label>
+  <TSA_WD_Letter_DesperationRaid_Text>他们正在抛弃定居点，冲向 {0}。</TSA_WD_Letter_DesperationRaid_Text>
+  <TSA_WD_DesperationRallyCaravan>绝望集结</TSA_WD_DesperationRallyCaravan>
+  <TSA_WD_InvasionRallyCaravan>入侵集结</TSA_WD_InvasionRallyCaravan>
+  <TSA_WD_DesperationHostCaravan>绝境集结点</TSA_WD_DesperationHostCaravan>
+  <TSA_WD_InvasionHostCaravan>入侵集结点</TSA_WD_InvasionHostCaravan>
+  <TSA_WD_Log_DesperationRaid_PackUp>绝望：{0} 撤走 {1} 座定居点，冲向 {2}。</TSA_WD_Log_DesperationRaid_PackUp>
+  <TSA_WD_Log_DesperationRaid_PackRally>绝望：{0} 放弃家园 → 集结格 {1}。</TSA_WD_Log_DesperationRaid_PackRally>
+  <TSA_WD_Log_DesperationRaid_PackRaid>绝望：{0} 放弃家园 → 进攻 {1}。</TSA_WD_Log_DesperationRaid_PackRaid>
+  <TSA_WD_Log_DesperationRaid_LaunchRaid>绝望：{0} 进军 {1}。</TSA_WD_Log_DesperationRaid_LaunchRaid>
+  <TSA_WD_Log_DesperationRallyCancelled>绝望：{0} 中止；在附近重新驻扎。</TSA_WD_Log_DesperationRallyCancelled>
+  <TSA_WD_Log_InvasionRallyCancelled>入侵：{0} 中止；在附近重新驻扎。</TSA_WD_Log_InvasionRallyCancelled>
+  <TSA_WD_TurtleConsolidateCaravan>龟缩集结</TSA_WD_TurtleConsolidateCaravan>
+  <TSA_WD_Log_Turtle_PackUp>龟缩：{0} 将 {1} 个定居点收缩至 {2} 据守。</TSA_WD_Log_Turtle_PackUp>
+  <TSA_WD_Log_Turtle_PackLeaf>龟缩：{0} 放弃家园 → 向 {1} 集结。</TSA_WD_Log_Turtle_PackLeaf>
+  <TSA_WD_Log_Turtle_Fortify>龟缩：{0} 以集结的力量修筑防御工事。</TSA_WD_Log_Turtle_Fortify>
+  <TSA_WD_Log_TurtleCancelled>龟缩：{0} 中止；力量已收回。</TSA_WD_Log_TurtleCancelled>
+  <TSA_WD_Letter_Turtle_Label>{0} 收缩集结</TSA_WD_Letter_Turtle_Label>
+  <TSA_WD_Letter_Turtle_Text>他们正在放弃外围定居点，将力量集中到 {0}，并加以设防。</TSA_WD_Letter_Turtle_Text>
   <TSA_WD_Log_ActionNoWeights>{0} 的每日行动:无可用加权行动(所有行动权重为零)。</TSA_WD_Log_ActionNoWeights>
   <TSA_WD_Log_ActionSkip>为 {0} 跳过行动:无可用活跃定居点。</TSA_WD_Log_ActionSkip>
   <TSA_WD_Log_BtnDetails>详情</TSA_WD_Log_BtnDetails>
   <TSA_WD_Log_ExpandSuccess>扩张:成功。{0} 建立了新 T1 {1}。</TSA_WD_Log_ExpandSuccess>
+  <TSA_WD_Log_MassRelocationCancelled>先锋：{0} 中止；在附近重新驻扎。</TSA_WD_Log_MassRelocationCancelled>
+  <TSA_WD_Log_ForwardAssault_Vanguard>先锋：{0} 撤走 {1} 座定居点，在你附近建立集群。</TSA_WD_Log_ForwardAssault_Vanguard>
+  <TSA_WD_Log_ForwardAssault_Invasion>入侵：{0} 发动 {1} 路协同突袭进攻你的据点。</TSA_WD_Log_ForwardAssault_Invasion>
+  <TSA_WD_Log_ForwardAssault_PackUpVanguard>先锋：{0} 放弃家园 → 格 {1}。</TSA_WD_Log_ForwardAssault_PackUpVanguard>
+  <TSA_WD_Log_ForwardAssault_PackUpInvasion>入侵：{0} 进军 {1}。</TSA_WD_Log_ForwardAssault_PackUpInvasion>
+  <TSA_WD_Log_ForwardAssault_PackRally>入侵：{0} 放弃家园 → 集结格 {1}。</TSA_WD_Log_ForwardAssault_PackRally>
+  <TSA_WD_Log_ForwardAssault_InvasionRallyRaid>入侵：{0} 进军 {1}。</TSA_WD_Log_ForwardAssault_InvasionRallyRaid>
+  <TSA_WD_Log_ForwardAssault_RatioBypass>（低于最低兵力比仍已发射）</TSA_WD_Log_ForwardAssault_RatioBypass>
+  <TSA_WD_Log_ForwardAssault_VanguardFounded>先锋：建立了 {0}。</TSA_WD_Log_ForwardAssault_VanguardFounded>
+  <TSA_WD_Log_ForwardAssault_BlockedRaid>先锋：{0} 在预留格遇到 {1} — 转为突袭。</TSA_WD_Log_ForwardAssault_BlockedRaid>
+  <TSA_WD_Log_ForwardAssault_Refound>先锋：{0} 重新驻扎为 {1}。</TSA_WD_Log_ForwardAssault_Refound>
   <TSA_WD_Log_ConquestSettlementFounded>征服:{0} 在成功突袭后建立了 {1}（{2}）。</TSA_WD_Log_ConquestSettlementFounded>
   <TSA_WD_Log_ExpansionCancelled>{0} 任务取消:地块已被占领或饱和。</TSA_WD_Log_ExpansionCancelled>
   <TSA_WD_Log_ExpeditionLaunched>扩张尝试:{0} 已派遣定居者建立新殖民地。</TSA_WD_Log_ExpeditionLaunched>
@@ -207,6 +242,7 @@
   <TSA_WD_SubType_Production>生产村落</TSA_WD_SubType_Production>
   <TSA_WD_SubType_Slavery>奴隶村落</TSA_WD_SubType_Slavery>
   <TSA_WD_SubType_Fortress>城镇</TSA_WD_SubType_Fortress>
+  <TSA_WD_SubType_Vanguard>先锋</TSA_WD_SubType_Vanguard>
   <TSA_WD_SubType_Citadel>要塞城堡</TSA_WD_SubType_Citadel>
   <TSA_WD_SubType_Generic>定居点</TSA_WD_SubType_Generic>
   <TSA_WD_DebugRaidTravelerLabel>DEBUG 袭击车队(500)</TSA_WD_DebugRaidTravelerLabel>

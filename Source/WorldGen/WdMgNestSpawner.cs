@@ -1,9 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using KCSG;
 using RimWorld;
 using RimWorld.Planet;
+using UnityEngine;
 using Verse;
 
 namespace TSA_WorldDomination
@@ -11,14 +14,20 @@ namespace TSA_WorldDomination
     /// <summary>
     /// Places facing-correct Generic_MG layouts on settlement outer borders after KCSG gen.
     /// Counts come from <see cref="WdMgNestSpawnTableDef"/>; placement prefers mid-edge then slides off roads.
-    /// Nest sits one cell past the settlement outer rim (away from center). Layout contents unchanged.
-    /// Turret symbols are skipped when Combat Extended is inactive (sandbags/wire still spawn).
+    /// Nest sits one cell past the settlement outer rim (away from center). Footprint is nuked first
+    /// (including prior KCSG buildings). Layouts are sandbags/wire only; turret comes from
+    /// <see cref="WdMgTurretResolver"/> by settlement tier. Mannable picks get a Settlement-group gunner
+    /// and sticky no-lord manning keeper (vanilla ManTurrets fails on CE M240).
     /// </summary>
     public static class WdMgNestSpawner
     {
         private const string TableDefName = "TSA_WdMgNestSpawns";
         /// <summary>Place the nest this many cells past the settlement outer rim (away from center).</summary>
         private const int OuterPushCells = 1;
+        private const string CePackageId = "CETeam.CombatExtended";
+        private const string CeAmmoSet762 = "AmmoSet_762x51mmNATO";
+        private const string CeAmmoFmJ = "Ammo_762x51mmNATO_FMJ";
+        private const int CeAmmoStackCount = 200;
 
         private static readonly Rot4[] Sides =
         {
@@ -58,6 +67,13 @@ namespace TSA_WorldDomination
             if (n > 4) n = 4;
             if (n <= 0) return;
 
+            int poolLevel = ResolvePoolLevel(map, layoutKey!);
+            if (poolLevel <= 0)
+            {
+                WDVerbose.MsgNoTick($"MG nests skipped settlement={SettlementLabel(map)} layout={layoutKey} reason=no-pool-level");
+                return;
+            }
+
             List<Rot4> chosenSides = Sides.InRandomOrder().Take(n).ToList();
             Faction faction = map.ParentFaction;
             int placed = 0;
@@ -65,7 +81,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < chosenSides.Count; i++)
             {
                 Rot4 side = chosenSides[i];
-                if (!TryPlaceNest(map, settlementRect, side, faction))
+                if (!TryPlaceNest(map, settlementRect, side, faction, poolLevel))
                 {
                     WDVerbose.MsgNoTick($"MG nest failed settlement={SettlementLabel(map)} layout={layoutKey} side={side}");
                     continue;
@@ -74,10 +90,28 @@ namespace TSA_WorldDomination
             }
 
             WDVerbose.MsgNoTick(
-                $"MG nests placed settlement={SettlementLabel(map)} layout={layoutKey} requested={n} placed={placed} rect={settlementRect}");
+                $"MG nests placed settlement={SettlementLabel(map)} layout={layoutKey} poolLevel={poolLevel} requested={n} placed={placed} rect={settlementRect}");
         }
 
-        private static bool TryPlaceNest(Map map, CellRect settlementRect, Rot4 side, Faction faction)
+        private static int ResolvePoolLevel(Map map, string layoutKey)
+        {
+            if (map.Parent is Settlement settlement)
+            {
+                CompViralSpread spread = settlement.GetComponent<CompViralSpread>();
+                if (spread != null)
+                {
+                    int fromTier = WdMgTurretResolver.PoolLevelFromTier(spread.tier);
+                    if (fromTier > 0) return fromTier;
+                }
+            }
+
+            if (layoutKey.IndexOf("_T4_", StringComparison.Ordinal) >= 0) return 3;
+            if (layoutKey.IndexOf("_T3_", StringComparison.Ordinal) >= 0) return 2;
+            if (layoutKey.IndexOf("_T2_", StringComparison.Ordinal) >= 0) return 1;
+            return 0;
+        }
+
+        private static bool TryPlaceNest(Map map, CellRect settlementRect, Rot4 side, Faction faction, int poolLevel)
         {
             string layoutDefName = LayoutDefNameForSide(side);
             KCSG.StructureLayoutDef nestLayout = DefDatabase<KCSG.StructureLayoutDef>.GetNamedSilentFail(layoutDefName);
@@ -95,9 +129,11 @@ namespace TSA_WorldDomination
 
             try
             {
+                NukeNestFootprint(map, nestRect);
                 LayoutUtils.Generate(nestLayout, nestRect, map, faction);
                 WDVerbose.MsgNoTick(
                     $"MG nest generated settlement={SettlementLabel(map)} side={side} layout={layoutDefName} rect={nestRect}");
+                TrySpawnNestTurret(map, nestRect, side, faction, poolLevel);
                 return true;
             }
             catch (Exception ex)
@@ -105,6 +141,334 @@ namespace TSA_WorldDomination
                 WDVerbose.MsgNoTick($"MG nest generate error layout={layoutDefName} rect={nestRect}: {ex.Message}");
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Destroy everything already in the nest rect (including prior KCSG buildings) so the layout can place cleanly.
+        /// Pawns are left alone.
+        /// </summary>
+        private static void NukeNestFootprint(Map map, CellRect nestRect)
+        {
+            foreach (IntVec3 cell in nestRect)
+            {
+                if (!cell.InBounds(map)) continue;
+
+                RoofDef roof = map.roofGrid.RoofAt(cell);
+                if (roof != null)
+                    map.roofGrid.SetRoof(cell, null);
+
+                List<Thing> things = cell.GetThingList(map);
+                for (int i = things.Count - 1; i >= 0; i--)
+                {
+                    Thing t = things[i];
+                    if (t == null || t.Destroyed) continue;
+                    if (t is Pawn) continue;
+                    try
+                    {
+                        t.Destroy(DestroyMode.Vanish);
+                    }
+                    catch (Exception ex)
+                    {
+                        WDVerbose.MsgNoTick($"MG nest nuke skip thing={t.LabelCap} cell={cell}: {ex.Message}");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Empty pocket cell against the sandbag back wall (fully surrounded on three sides).
+        /// Matches the <c>.</c> slot in Generic_MG_1..4 (not the outer mouth cell).
+        /// </summary>
+        private static IntVec3 ResolveTurretCell(CellRect nestRect, Rot4 side)
+        {
+            if (side == Rot4.North)
+                return new IntVec3(nestRect.minX + 2, 0, nestRect.maxZ);
+            if (side == Rot4.West)
+                return new IntVec3(nestRect.minX + 2, 0, nestRect.maxZ - 2);
+            if (side == Rot4.East)
+                return new IntVec3(nestRect.minX + 1, 0, nestRect.maxZ - 2);
+            // South
+            return new IntVec3(nestRect.minX + 2, 0, nestRect.maxZ - 2);
+        }
+
+        private static void TrySpawnNestTurret(Map map, CellRect nestRect, Rot4 side, Faction faction, int poolLevel)
+        {
+            if (!WdMgTurretResolver.TryPick(poolLevel, out ThingDef turretDef, out bool manned) || turretDef == null)
+            {
+                WDVerbose.MsgNoTick(
+                    $"MG nest turret skip settlement={SettlementLabel(map)} side={side} reason=pool-pick-fail level={poolLevel}");
+                return;
+            }
+
+            IntVec3 cell = ResolveTurretCell(nestRect, side);
+            if (!cell.InBounds(map))
+            {
+                WDVerbose.MsgNoTick(
+                    $"MG nest turret skip settlement={SettlementLabel(map)} side={side} reason=cell-oob cell={cell}");
+                return;
+            }
+
+            Building_Turret turret = SpawnFactionTurret(map, cell, side, turretDef, faction);
+            if (turret == null)
+            {
+                WDVerbose.MsgNoTick(
+                    $"MG nest turret skip settlement={SettlementLabel(map)} side={side} reason=spawn-fail def={turretDef.defName} cell={cell}");
+                return;
+            }
+
+            WDVerbose.MsgNoTick(
+                $"MG nest turret spawned settlement={SettlementLabel(map)} side={side} def={turretDef.defName} manned={manned} cell={cell}");
+
+            if (manned)
+                TryManNestTurret(map, nestRect, side, faction, turret);
+        }
+
+        private static Building_Turret SpawnFactionTurret(Map map, IntVec3 cell, Rot4 facing, ThingDef turretDef, Faction faction)
+        {
+            try
+            {
+                ThingDef stuff = turretDef.MadeFromStuff ? ThingDefOf.Steel : null;
+                Thing made = ThingMaker.MakeThing(turretDef, stuff);
+                if (made is not Building_Turret turret)
+                {
+                    if (made != null && !made.Destroyed)
+                        made.Destroy(DestroyMode.Vanish);
+                    return null;
+                }
+
+                if (faction != null)
+                    turret.SetFactionDirect(faction);
+
+                GenSpawn.Spawn(turret, cell, map, facing, WipeMode.Vanish);
+
+                if (faction != null)
+                    turret.SetFaction(faction);
+
+                CompPowerTrader power = turret.TryGetComp<CompPowerTrader>();
+                if (power != null)
+                    power.PowerOn = true;
+
+                CompRefuelable refuel = turret.TryGetComp<CompRefuelable>();
+                if (refuel != null && refuel.Fuel <= 0f)
+                    refuel.Refuel(refuel.Props.fuelCapacity);
+
+                return turret;
+            }
+            catch (Exception ex)
+            {
+                WDVerbose.MsgNoTick($"MG nest turret spawn exception def={turretDef?.defName}: {ex.Message}");
+                return null;
+            }
+        }
+
+        private static void TryManNestTurret(Map map, CellRect nestRect, Rot4 side, Faction faction, Building_Turret turret)
+        {
+            if (turret == null || turret.Destroyed || turret.GetComp<CompMannable>() == null)
+            {
+                WDVerbose.MsgNoTick(
+                    $"MG nest unmanned settlement={SettlementLabel(map)} side={side} reason=not-mannable");
+                return;
+            }
+
+            Pawn gunner = TryGenerateSettlementGunner(map, faction);
+            if (gunner == null)
+            {
+                WDVerbose.MsgNoTick(
+                    $"MG nest unmanned settlement={SettlementLabel(map)} side={side} reason=gunner-gen-fail turret={turret.Position}");
+                return;
+            }
+
+            IntVec3 spawnCell = ResolveGunnerSpawnCell(map, nestRect, turret);
+            GenSpawn.Spawn(gunner, spawnCell, map);
+            TryGiveCeMgAmmo(gunner, turret, map, spawnCell);
+
+            // No LordJob_ManTurrets — that duty requires vanilla shell ammo + Building_TurretGun.
+            WdMgNestGunnerKeeper.Register(map, gunner, turret);
+
+            WDVerbose.MsgNoTick(
+                $"MG nest manned settlement={SettlementLabel(map)} side={side} kind={gunner.kindDef?.defName} turret={turret.Position} spawn={spawnCell}");
+        }
+
+        private static Pawn TryGenerateSettlementGunner(Map map, Faction faction)
+        {
+            if (faction?.def == null) return null;
+
+            List<Pawn> generated = null;
+            try
+            {
+                float min = faction.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Settlement);
+                var parms = new PawnGroupMakerParms
+                {
+                    groupKind = PawnGroupKindDefOf.Settlement,
+                    faction = faction,
+                    tile = map.Tile,
+                    points = Mathf.Max(min * 1.05f, 1f),
+                    inhabitants = true
+                };
+                generated = PawnGroupMakerUtility.GeneratePawns(parms, warnOnZeroResults: false).ToList();
+                Pawn gunner = generated.FirstOrDefault(p =>
+                    p != null && !p.Destroyed && p.RaceProps.Humanlike && !p.WorkTagIsDisabled(WorkTags.Violent));
+
+                for (int i = 0; i < generated.Count; i++)
+                {
+                    Pawn extra = generated[i];
+                    if (extra == null || extra.Destroyed || ReferenceEquals(extra, gunner)) continue;
+                    extra.Destroy(DestroyMode.Vanish);
+                }
+
+                return gunner;
+            }
+            catch (Exception ex)
+            {
+                WDVerbose.MsgNoTick($"MG nest gunner gen exception: {ex.Message}");
+                if (generated != null)
+                {
+                    for (int i = 0; i < generated.Count; i++)
+                    {
+                        Pawn p = generated[i];
+                        if (p != null && !p.Destroyed)
+                            p.Destroy(DestroyMode.Vanish);
+                    }
+                }
+                return null;
+            }
+        }
+
+        private static IntVec3 ResolveGunnerSpawnCell(Map map, CellRect nestRect, Building_Turret turret)
+        {
+            IntVec3 interaction = turret.InteractionCell;
+            if (interaction.InBounds(map) && interaction.Standable(map))
+                return interaction;
+
+            if (CellFinder.TryFindRandomCellInsideWith(nestRect, c => c.InBounds(map) && c.Standable(map), out IntVec3 inNest))
+                return inNest;
+
+            if (CellFinder.TryFindRandomCellNear(turret.Position, map, 4, c => c.Standable(map), out IntVec3 near))
+                return near;
+
+            return turret.Position;
+        }
+
+        /// <summary>
+        /// Soft-fail CE ammo: inventory first, else drop near spawn. Manning proceeds either way.
+        /// </summary>
+        private static void TryGiveCeMgAmmo(Pawn gunner, Building_Turret turret, Map map, IntVec3 nearCell)
+        {
+            if (gunner == null || map == null) return;
+            if (!ModsConfig.IsActive(CePackageId)) return;
+
+            try
+            {
+                ThingDef ammoDef = ResolveCeMgAmmoDef(turret);
+                if (ammoDef == null) return;
+
+                Thing ammo = ThingMaker.MakeThing(ammoDef);
+                ammo.stackCount = Math.Min(CeAmmoStackCount, ammoDef.stackLimit > 0 ? ammoDef.stackLimit : CeAmmoStackCount);
+
+                if (gunner.inventory != null && gunner.inventory.innerContainer.TryAdd(ammo))
+                    return;
+
+                if (!ammo.Destroyed)
+                {
+                    IntVec3 drop = nearCell.InBounds(map) ? nearCell : turret.Position;
+                    GenPlace.TryPlaceThing(ammo, drop, map, ThingPlaceMode.Near);
+                }
+            }
+            catch (Exception ex)
+            {
+                WDVerbose.MsgNoTick($"MG nest CE ammo soft-fail: {ex.Message}");
+            }
+        }
+
+        private static ThingDef ResolveCeMgAmmoDef(Building_Turret turret)
+        {
+            ThingDef fromTurret = TryAmmoFromTurretComp(turret);
+            if (fromTurret != null) return fromTurret;
+
+            ThingDef fmj = DefDatabase<ThingDef>.GetNamedSilentFail(CeAmmoFmJ);
+            if (fmj != null) return fmj;
+
+            return TryFirstAmmoFromSet(CeAmmoSet762);
+        }
+
+        private static ThingDef TryAmmoFromTurretComp(Building_Turret turret)
+        {
+            ThingDef fromBuilding = TryAmmoFromThingComps(turret);
+            if (fromBuilding != null) return fromBuilding;
+            return TryAmmoFromThingComps(TryGetTurretGunThing(turret));
+        }
+
+        private static ThingWithComps TryGetTurretGunThing(Building_Turret turret)
+        {
+            if (turret == null) return null;
+            if (turret is Building_TurretGun vanillaGun)
+                return vanillaGun.gun as ThingWithComps;
+
+            // CE Building_TurretGunCE exposes Gun / gun without inheriting Building_TurretGun.
+            PropertyInfo prop = turret.GetType().GetProperty("Gun", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            if (prop?.GetValue(turret) is ThingWithComps fromProp)
+                return fromProp;
+            FieldInfo field = turret.GetType().GetField("gun", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            return field?.GetValue(turret) as ThingWithComps;
+        }
+
+        private static ThingDef TryAmmoFromThingComps(ThingWithComps twc)
+        {
+            if (twc?.AllComps == null) return null;
+            for (int i = 0; i < twc.AllComps.Count; i++)
+            {
+                ThingComp comp = twc.AllComps[i];
+                if (comp == null || comp.GetType().Name != "CompAmmoUser") continue;
+
+                object props = comp.props;
+                object ammoSet = props != null
+                    ? props.GetType().GetField("ammoSet", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(props)
+                    : null;
+                if (ammoSet == null)
+                {
+                    PropertyInfo setProp = comp.GetType().GetProperty("AmmoSet", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                    ammoSet = setProp?.GetValue(comp);
+                }
+                if (ammoSet == null) continue;
+
+                string setName = ammoSet.GetType().GetField("defName", BindingFlags.Instance | BindingFlags.Public)?.GetValue(ammoSet) as string
+                    ?? (ammoSet as Def)?.defName;
+                if (!string.IsNullOrEmpty(setName))
+                {
+                    ThingDef fromSet = TryFirstAmmoFromSet(setName);
+                    if (fromSet != null) return fromSet;
+                }
+            }
+            return null;
+        }
+
+        private static ThingDef TryFirstAmmoFromSet(string ammoSetDefName)
+        {
+            if (string.IsNullOrEmpty(ammoSetDefName)) return null;
+
+            Type ammoSetType = GenTypes.GetTypeInAnyAssembly("CombatExtended.AmmoSetDef", "CombatExtended");
+            if (ammoSetType == null) return null;
+
+            MethodInfo getNamed = typeof(DefDatabase<>).MakeGenericType(ammoSetType)
+                .GetMethod("GetNamedSilentFail", BindingFlags.Public | BindingFlags.Static);
+            object set = getNamed?.Invoke(null, new object[] { ammoSetDefName });
+            if (set == null) return null;
+
+            object ammoTypes = set.GetType().GetField("ammoTypes", BindingFlags.Instance | BindingFlags.Public)?.GetValue(set);
+            if (ammoTypes is IDictionary dict)
+            {
+                foreach (DictionaryEntry entry in dict)
+                {
+                    if (entry.Key is ThingDef td) return td;
+                    if (entry.Key is string key)
+                    {
+                        ThingDef named = DefDatabase<ThingDef>.GetNamedSilentFail(key);
+                        if (named != null) return named;
+                    }
+                }
+            }
+
+            return null;
         }
 
         private static string LayoutDefNameForSide(Rot4 side)
@@ -277,7 +641,9 @@ namespace TSA_WorldDomination
             bool isTribal = settlement.Faction.def.techLevel <= TechLevel.Medieval;
             string techPrefix = isTribal ? "Tribal" : "Generic";
             string tier = spread.tier.ToString();
-            string baseType = spread.tier == SettlementTier.T4 ? "Citadel" : spread.subType;
+            string baseType = string.Equals(spread.subType, "Vanguard", System.StringComparison.Ordinal)
+                ? "Vanguard"
+                : (spread.tier == SettlementTier.T4 ? "Citadel" : spread.subType);
             if (string.IsNullOrEmpty(baseType)) return null;
             return $"TSA_{techPrefix}_{tier}_{baseType}";
         }

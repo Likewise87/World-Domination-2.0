@@ -14,6 +14,7 @@ namespace TSA_WorldDomination
         PawnType,
         Name,
         Starred,
+        New,
         Resistance,
         Traits,
         Xenotype,

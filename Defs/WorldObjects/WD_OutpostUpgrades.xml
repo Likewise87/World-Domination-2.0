@@ -609,7 +609,7 @@
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_BasicBarn</defName>
     <label>Basic Barn</label>
-    <description>A simple wooden barn that shelters livestock and improves handling throughput.</description>
+    <description>A simple wooden barn that shelters livestock and improves usable grazing and pasture yield on this tile.</description>
     <imagePath>UI/OutpostUpgrades/BasicBarn</imagePath>
     <category>Ranch</category>
     <upgradeLineId>Line_RanchBarn</upgradeLineId>
@@ -618,7 +618,7 @@
     <allowedOutpostDefNames>
       <li>TSA_WD_Outpost_Ranch</li>
     </allowedOutpostDefNames>
-    <productionEfficiencyBonus>0.15</productionEfficiencyBonus>
+    <tileFertilityBonus>0.15</tileFertilityBonus>
     <defensiveStrengthBonus>20</defensiveStrengthBonus>
     <cost>
       <li><thingDef>WoodLog</thingDef><count>200</count></li>
@@ -628,7 +628,7 @@
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_InsulatedBarn</defName>
     <label>Insulated Barn</label>
-    <description>Stone and steel barn walls with climate control for healthier herds and steadier yields.</description>
+    <description>Stone and steel barn walls with climate control that raise effective pasture fertility for healthier herds.</description>
     <imagePath>UI/OutpostUpgrades/InsulatedBarn</imagePath>
     <category>Ranch</category>
     <upgradeLineId>Line_RanchBarn</upgradeLineId>
@@ -637,7 +637,7 @@
     <allowedOutpostDefNames>
       <li>TSA_WD_Outpost_Ranch</li>
     </allowedOutpostDefNames>
-    <productionEfficiencyBonus>0.30</productionEfficiencyBonus>
+    <tileFertilityBonus>0.30</tileFertilityBonus>
     <defensiveStrengthBonus>40</defensiveStrengthBonus>
     <requiredResearch>Electricity</requiredResearch>
     <cost>
@@ -649,7 +649,7 @@
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_TechBarn</defName>
     <label>Tech Barn</label>
-    <description>Industrial livestock infrastructure that maximizes renewable animal product output.</description>
+    <description>Industrial livestock infrastructure that maximizes pasture fertility and renewable animal product output.</description>
     <imagePath>UI/OutpostUpgrades/TechBarn</imagePath>
     <category>Ranch</category>
     <upgradeLineId>Line_RanchBarn</upgradeLineId>
@@ -658,7 +658,7 @@
     <allowedOutpostDefNames>
       <li>TSA_WD_Outpost_Ranch</li>
     </allowedOutpostDefNames>
-    <productionEfficiencyBonus>0.50</productionEfficiencyBonus>
+    <tileFertilityBonus>0.50</tileFertilityBonus>
     <defensiveStrengthBonus>60</defensiveStrengthBonus>
     <requiredResearch>Fabrication</requiredResearch>
     <cost>

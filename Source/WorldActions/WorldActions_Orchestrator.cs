@@ -121,6 +121,27 @@ namespace TSA_WorldDomination
         public int antiLeaderCoalitionExpiryTick = -1;
         public List<AntiLeaderCoalitionPriorRelation> antiLeaderCoalitionPriorRelations = new List<AntiLeaderCoalitionPriorRelation>();
 
+        /// <summary>Independent special-event cooldowns (war / revolt / forward assault) and optional shared tick.</summary>
+        public int strongFactionWarCooldownTick = -1;
+        public int revoltCooldownTick = -1;
+        public int forwardAssaultCooldownTick = -1;
+        public int specialWorldEventCooldownTick = -1;
+
+        /// <summary>Per-faction desperation raid cooldown: faction loadID → ready-after tick.</summary>
+        public Dictionary<int, int> desperationRaidCooldownByFaction = new Dictionary<int, int>();
+
+        /// <summary>Per-faction turtle consolidate cooldown: faction loadID → ready-after tick.</summary>
+        public Dictionary<int, int> turtleCooldownByFaction = new Dictionary<int, int>();
+
+        /// <summary>After revolt comeback: faction loadID → ready-after tick (blocks Turtle / Desperation / FA).</summary>
+        public Dictionary<int, int> factionComebackCooldownByFaction = new Dictionary<int, int>();
+
+        /// <summary>Open turtle consolidate groups: turtle group id → arrival/fortify state.</summary>
+        public Dictionary<int, TurtleGroupState> turtleGroups = new Dictionary<int, TurtleGroupState>();
+
+        /// <summary>Persisted AssaultRally group id allocator (Desperation / Invasion assemblies).</summary>
+        public int assaultRallyNextGroupId = 1;
+
         // Late-game player metrics. Full recompute after load and once per day in CalculateDailyBudget;
         // in between, only a cheap player-outpost re-sum when something actually changed.
         public float cachedPlayerOutpostStrength;
@@ -578,6 +599,8 @@ namespace TSA_WorldDomination
 
         public override void WorldComponentTick()
         {
+            if (Current.ProgramState != ProgramState.Playing) return;
+
             int currentTick = Find.TickManager.TicksGame;
 
             if (currentTick % 2500 == 0)
@@ -671,7 +694,18 @@ namespace TSA_WorldDomination
             var settlementsByFaction = dailySnapshot.SettlementsByFaction;
             var worldPowerStats = dailySnapshot.WorldPowerStats;
 
+            UpdatePlayerPowerMetrics(dailySnapshot);
+            UpdateThreatScores(dailySnapshot, "CalculateDailyBudget");
+
+            // World-gen / Select Starting Site: snapshot + threat caches only. No threats or action queue until Playing.
+            if (Current.ProgramState != ProgramState.Playing)
+            {
+                WDVerbose.Msg("CalculateDailyBudget skip threats reason=not-playing");
+                return;
+            }
+
             WorldActions_Revolt.TryTriggerRevolt(this, dailySnapshot);
+            WorldActions_ForwardAssault.TryTrigger(this, dailySnapshot);
 
             // Dissolve/restore before form or random diplomacy so expiry-day pairs are not mutated then overwritten.
             ClearExpiredCoalition();
@@ -682,13 +716,12 @@ namespace TSA_WorldDomination
             WorldActions_DiplomacyBuffsNerfs.TryChangeAllegiances(this);
             WorldActions_DiplomacyBuffsNerfs.TryStrongFactionWar(this, worldPowerStats);
 
-            UpdatePlayerPowerMetrics(dailySnapshot);
             EscalationGoodwillDrain.TryPulse(this);
             EscalationOutpostUpkeep.TryDaily(this);
             WorldActions_OutpostIncidents.TryDailyOutpostIncident(this);
 
-            UpdateThreatScores(dailySnapshot, "CalculateDailyBudget");
             WorldActions_NpcFortify.UpdateDailyThreatBits(dailySnapshot, this, seth);
+            WorldActions_Turtle.TryTrigger(this, dailySnapshot);
 
             List<Faction> tempActionList = new List<Faction>();
             foreach (var kv in settlementsByFaction)
@@ -1477,6 +1510,11 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref factionBreakdowns, "factionBreakdowns", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref diplomacyFreezeTicks, "diplomacyFreezeTicks", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref playerBribeCeasefireTicksExpiry, "playerBribeCeasefireTicksExpiry", LookMode.Value, LookMode.Value);
+            Scribe_Collections.Look(ref desperationRaidCooldownByFaction, "desperationRaidCooldownByFaction", LookMode.Value, LookMode.Value);
+            Scribe_Collections.Look(ref turtleCooldownByFaction, "turtleCooldownByFaction", LookMode.Value, LookMode.Value);
+            Scribe_Collections.Look(ref factionComebackCooldownByFaction, "factionComebackCooldownByFaction", LookMode.Value, LookMode.Value);
+            Scribe_Collections.Look(ref turtleGroups, "turtleGroups", LookMode.Value, LookMode.Deep);
+            Scribe_Values.Look(ref assaultRallyNextGroupId, "assaultRallyNextGroupId", 1);
             Scribe_Collections.Look(ref questRaidBiasEntries, "questRaidBiasEntries", LookMode.Deep);
             Scribe_Collections.Look(ref distanceCache, "distanceCache", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref spaceTileCache, "spaceTileCache", LookMode.Value);
@@ -1502,6 +1540,11 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref antiLeaderCoalitionExpiryTick, "antiLeaderCoalitionExpiryTick", -1);
             Scribe_Collections.Look(ref antiLeaderCoalitionPriorRelations, "antiLeaderCoalitionPriorRelations", LookMode.Deep);
 
+            Scribe_Values.Look(ref strongFactionWarCooldownTick, "strongFactionWarCooldownTick", -1);
+            Scribe_Values.Look(ref revoltCooldownTick, "revoltCooldownTick", -1);
+            Scribe_Values.Look(ref forwardAssaultCooldownTick, "forwardAssaultCooldownTick", -1);
+            Scribe_Values.Look(ref specialWorldEventCooldownTick, "specialWorldEventCooldownTick", -1);
+
             Scribe_Values.Look(ref cachedPlayerOutpostStrength, "cachedPlayerOutpostStrength", 0f);
             Scribe_Values.Look(ref cachedPlayerGlobalShare, "cachedPlayerGlobalShare", 0f);
             Scribe_Values.Look(ref cachedLateGameModifierActive, "cachedLateGameModifierActive", false);
@@ -1523,6 +1566,13 @@ namespace TSA_WorldDomination
 
             if (diplomacyFreezeTicks == null) diplomacyFreezeTicks = new Dictionary<long, int>();
             if (playerBribeCeasefireTicksExpiry == null) playerBribeCeasefireTicksExpiry = new Dictionary<int, int>();
+            if (desperationRaidCooldownByFaction == null) desperationRaidCooldownByFaction = new Dictionary<int, int>();
+            if (turtleCooldownByFaction == null) turtleCooldownByFaction = new Dictionary<int, int>();
+            if (factionComebackCooldownByFaction == null) factionComebackCooldownByFaction = new Dictionary<int, int>();
+            if (turtleGroups == null) turtleGroups = new Dictionary<int, TurtleGroupState>();
+            if (assaultRallyNextGroupId < 1) assaultRallyNextGroupId = 1;
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+                WorldActions_AssaultRally.EnsureNextGroupIdAfterLoad(this);
             if (questRaidBiasEntries == null) questRaidBiasEntries = new List<QuestRaidBiasEntry>();
             if (distanceCache == null) distanceCache = new Dictionary<long, int>();
             if (spaceTileCache == null) spaceTileCache = new HashSet<int>();

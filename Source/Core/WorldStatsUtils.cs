@@ -22,6 +22,47 @@ namespace TSA_WorldDomination
             comp != null ? comp.GetTotalLocalDefensePower() : 0f;
 
         /// <summary>
+        /// Mean strength of one equal share among living NPC WD factions with settlements
+        /// (<c>npcTotal / N</c>). Excludes player and defeated zero-rows from <paramref name="n"/>.
+        /// </summary>
+        public static float NpcMeanStrength(float npcTotalStr, int livingNpcFactionCount)
+        {
+            int n = Mathf.Max(1, livingNpcFactionCount);
+            return npcTotalStr / n;
+        }
+
+        /// <summary>
+        /// Faction strength relative to an equal share of NPC world strength.
+        /// 1.0 = average-sized living NPC empire. Returns 0 when totals are empty.
+        /// </summary>
+        public static float RelativeToNpcEqualShare(float factionStr, float npcTotalStr, int livingNpcFactionCount)
+        {
+            float mean = NpcMeanStrength(npcTotalStr, livingNpcFactionCount);
+            if (mean <= 0.01f) return 0f;
+            return factionStr / mean;
+        }
+
+        /// <summary>
+        /// Sum strength and count of living NPC rows in world stats (settlements &gt; 0, not player).
+        /// Defeated zero-rows are skipped so they do not inflate N.
+        /// </summary>
+        public static void GetLivingNpcStrengthTotals(
+            SpreadLogEntry.GlobalWorldStats stats, out float npcTotalStr, out int livingNpcFactionCount)
+        {
+            npcTotalStr = 0f;
+            livingNpcFactionCount = 0;
+            if (stats?.FactionStats == null) return;
+            for (int i = 0; i < stats.FactionStats.Count; i++)
+            {
+                SpreadLogEntry.FactionStat fs = stats.FactionStats[i];
+                if (fs?.faction == null || fs.faction.IsPlayer) continue;
+                if (fs.TotalCount <= 0) continue;
+                npcTotalStr += fs.TotalStr;
+                livingNpcFactionCount++;
+            }
+        }
+
+        /// <summary>
         /// Compute world power stats from pre-enumerated settlements and player outposts (e.g. from DailyWorldSnapshot).
         /// Settlement and outpost strength both use local defense power (offense + defense) so faction ranking is comparable.
         /// </summary>

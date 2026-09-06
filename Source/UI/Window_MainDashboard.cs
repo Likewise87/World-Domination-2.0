@@ -769,12 +769,12 @@ namespace TSA_WorldDomination
                     }
                     else if (UsesPathDestinationTile(t.mission))
                     {
-                        DrawTravelerWorldObjectCell(actorRect, t.originObject, row.OriginTip);
+                        DrawTravelerOriginCell(actorRect, t, row.OriginTip);
                         DrawTravelerExpansionDestFromCache(targetRect, row.ExpansionDestTileId, row.ExpansionDestLabel, row.TargetTip);
                     }
                     else
                     {
-                        DrawTravelerWorldObjectCell(actorRect, t.originObject, row.OriginTip);
+                        DrawTravelerOriginCell(actorRect, t, row.OriginTip);
                         DrawTravelerWorldObjectCell(targetRect, t.targetObject, row.TargetTip);
                     }
                     rowX += colActor + colTarget;
@@ -850,7 +850,7 @@ namespace TSA_WorldDomination
                     ArrivalStrength = arrStr,
                     ExpansionDestTileId = destTileId,
                     ExpansionDestLabel = destLabel,
-                    MissionTip = GetMissionLabel(t.mission),
+                    MissionTip = WorldObject_Traveler.GetMissionTypeLabel(t),
                     OriginTip = string.IsNullOrEmpty(originLabel) ? null : dashTravelerStartTip + originLabel,
                     TargetTip = string.IsNullOrEmpty(targetLabel) ? null : dashTravelerDestTip + targetLabel,
                     TimeLabel = timeLabel,
@@ -863,12 +863,7 @@ namespace TSA_WorldDomination
 
         private static string GetTravelerOriginLabel(WorldObject_Traveler t)
         {
-            if (t.mission == TravelerMission.Expansion)
-            {
-                WorldObject src = t.originObject;
-                return TravelerEndpointUtility.IsLiveEndpoint(src) ? FormatWorldObjectLabelLikeActionLog(src) : null;
-            }
-            return TravelerEndpointUtility.IsLiveEndpoint(t.originObject) ? FormatWorldObjectLabelLikeActionLog(t.originObject) : null;
+            return TravelerEndpointUtility.GetOriginDisplayLabel(t);
         }
 
         private static string GetTravelerTargetLabel(WorldObject_Traveler t, out int destTileId, out string destLabel)
@@ -895,10 +890,9 @@ namespace TSA_WorldDomination
             || mission == TravelerMission.Decontamination
             || mission == TravelerMission.NpcFortify
             || mission == TravelerMission.NpcAtTurret
-            || mission == TravelerMission.AtTurret;
-
-        private static string GetMissionLabel(TravelerMission mission) =>
-            WorldObject_Traveler.GetMissionTypeLabel(mission);
+            || mission == TravelerMission.AtTurret
+            || mission == TravelerMission.MassRelocation
+            || mission == TravelerMission.DesperationRally;
 
         private static void JumpToWorldObject(WorldObject wo)
         {
@@ -1736,6 +1730,39 @@ namespace TSA_WorldDomination
             Widgets.Label(new Rect(iconRect.xMax + 4f, rect.y, rect.width - (iconRect.width + 8f), rect.height), label);
             Text.Anchor = TextAnchor.UpperLeft;
             TooltipHandler.TipRegion(rect, tip ?? FormatWorldObjectLabelLikeActionLog(src));
+        }
+
+        private static void DrawTravelerOriginCell(Rect rect, WorldObject_Traveler t, string tip)
+        {
+            if (TravelerEndpointUtility.IsLiveEndpoint(t.originObject))
+            {
+                DrawTravelerWorldObjectCell(rect, t.originObject, tip);
+                return;
+            }
+
+            string label = TravelerEndpointUtility.GetOriginDisplayLabel(t);
+            if (string.IsNullOrEmpty(label))
+            {
+                Text.Anchor = TextAnchor.MiddleLeft;
+                Widgets.Label(rect, dashNoneLabel ?? "—");
+                Text.Anchor = TextAnchor.UpperLeft;
+                return;
+            }
+
+            Rect iconRect = new Rect(rect.x + 2f, rect.y + (rect.height - IconSize) / 2f, IconSize, IconSize);
+            Texture2D tex = t.Faction?.def?.FactionIcon;
+            if (tex != null)
+            {
+                GUI.color = t.Faction != null ? t.Faction.Color : Color.white;
+                GUI.DrawTexture(InsetIconDrawRect(iconRect), tex, ScaleMode.ScaleToFit);
+                GUI.color = Color.white;
+            }
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(
+                new Rect(iconRect.xMax + 4f, rect.y, rect.width - (iconRect.width + 6f), rect.height),
+                EllipsizeTravelerEndpointLabel(label));
+            Text.Anchor = TextAnchor.UpperLeft;
+            TooltipHandler.TipRegion(rect, tip ?? label);
         }
 
         private static void DrawTravelerWorldObjectCell(Rect rect, WorldObject wo, string tip)

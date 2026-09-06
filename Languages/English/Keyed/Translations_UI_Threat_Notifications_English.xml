@@ -179,6 +179,10 @@
   <TSA_WD_Notify_OutpostPollutionDamage>Notify when an outpost takes pollution damage</TSA_WD_Notify_OutpostPollutionDamage>
   <TSA_WD_Notify_OutpostPollutionDamageTooltip>Show a message when one of your WD outposts loses strength from average pollution nearby (once per day when damage applies), and a letter if pollution wipes the outpost. Dev log always records these events.</TSA_WD_Notify_OutpostPollutionDamageTooltip>
   <TSA_WD_Notify_HeaderNearby>Nearby world events</TSA_WD_Notify_HeaderNearby>
+  <TSA_WD_Notify_HeaderWorldThreats>World threat actions</TSA_WD_Notify_HeaderWorldThreats>
+  <TSA_WD_Notify_HeaderWorldThreatsTip>Letters for desperation raids, turtle consolidations, and strong-faction war shifts. Timing and enable gates live under Combat Difficulty.</TSA_WD_Notify_HeaderWorldThreatsTip>
+  <TSA_WD_Notify_DesperationRaid>Notify when a desperation raid launches</TSA_WD_Notify_DesperationRaid>
+  <TSA_WD_Notify_DesperationRaidTooltip>Letter when a weak faction packs nearby settlements and marches after a loss.</TSA_WD_Notify_DesperationRaidTooltip>
   <TSA_WD_Notify_HeaderOutpostsRaids>Your outposts and raids</TSA_WD_Notify_HeaderOutpostsRaids>
   <TSA_WD_Notify_HeaderAlerts>Right-side alerts</TSA_WD_Notify_HeaderAlerts>
   <TSA_WD_Notify_NotificationRadius>Notification radius (tiles)</TSA_WD_Notify_NotificationRadius>
@@ -194,6 +198,8 @@
   <TSA_WD_Notify_SettlementRaidedTooltip>Letter when a major or minor world incident completely wipes a settlement within the notification radius. Not for NPC raids.</TSA_WD_Notify_SettlementRaidedTooltip>
   <TSA_WD_Notify_SettlementRazed>Notify when a settlement is razed nearby</TSA_WD_Notify_SettlementRazed>
   <TSA_WD_Notify_SettlementRazedTooltip>Letter when an NPC raid wins and the settlement is destroyed in the process (tile left empty) within the notification radius.</TSA_WD_Notify_SettlementRazedTooltip>
+  <TSA_WD_Notify_Turtle>Turtle consolidate nearby</TSA_WD_Notify_Turtle>
+  <TSA_WD_Notify_TurtleTooltip>Letter when a nearby faction consolidates its outer settlements into a hub and fortifies it, within the notification radius.</TSA_WD_Notify_TurtleTooltip>
   <TSA_WD_Notify_ThreatLevel>Show world threat alert (right side)</TSA_WD_Notify_ThreatLevel>
   <TSA_WD_Notify_ThreatLevelTooltip>Shows a silent, persistent alert with Nearby and Far landing raid points (after storyteller clamp). Click jumps to the strongest Nearby hostile when present.</TSA_WD_Notify_ThreatLevelTooltip>
   <TSA_WD_Notify_CriticalFood>Show critical outpost food alert (right side)</TSA_WD_Notify_CriticalFood>
@@ -266,9 +272,9 @@
   <TSA_WD_Difficulty_EnableLateGame>Enable Mid Game and Late Game</TSA_WD_Difficulty_EnableLateGame>
   <TSA_WD_Difficulty_EnableLateGameTooltip>When you grow strong, hostile factions push back in two steps: Mid Game, then Late Game. Effects include faster hostile growth, higher NPC attack range, biased raids, expansion toward you, goodwill drain, outpost incidents, and (when toggles allow) T4 fire on your caravans/outposts. Driven by your total outpost strength and world share.</TSA_WD_Difficulty_EnableLateGameTooltip>
   <TSA_WD_Difficulty_ActivationHint>Each of Mid Game and Late Game activates when either of its share or strength thresholds is met. Late Game replaces Mid Game.</TSA_WD_Difficulty_ActivationHint>
-  <TSA_WD_Difficulty_ShareThreshold>Activate at global strength share</TSA_WD_Difficulty_ShareThreshold>
+  <TSA_WD_Difficulty_ShareThreshold>Player Strength Share for Late-Game Difficulty</TSA_WD_Difficulty_ShareThreshold>
   <TSA_WD_Difficulty_ShareThresholdTooltip>Late Game activates when your total outpost strength reaches this fraction of all world strength (same numbers as the World Stats window).</TSA_WD_Difficulty_ShareThresholdTooltip>
-  <TSA_WD_Difficulty_OutpostStrengthThreshold>Activate at outpost strength</TSA_WD_Difficulty_OutpostStrengthThreshold>
+  <TSA_WD_Difficulty_OutpostStrengthThreshold>Player Strength Points for Late-Game Difficulty</TSA_WD_Difficulty_OutpostStrengthThreshold>
   <TSA_WD_Difficulty_OutpostStrengthThresholdTooltip>Late Game activates when your total outpost strength reaches this absolute value, regardless of world share.</TSA_WD_Difficulty_OutpostStrengthThresholdTooltip>
   <TSA_WD_Difficulty_RaidBias>Player raid bias</TSA_WD_Difficulty_RaidBias>
   <TSA_WD_Difficulty_RaidBiasTooltip>While Late Game is active, hostile raids that can already reach a player target weight your outposts and colony this much more within the same distance band.</TSA_WD_Difficulty_RaidBiasTooltip>
@@ -301,9 +307,9 @@
   <TSA_WD_Difficulty_GoodwillDrainInterval>Goodwill drain interval (days)</TSA_WD_Difficulty_GoodwillDrainInterval>
   <TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>Days between goodwill drain pulses while Mid Game or Late Game is active.</TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>
   <TSA_WD_MidGame_Header>Mid Game</TSA_WD_MidGame_Header>
-  <TSA_WD_MidGame_ShareThreshold>Activate at global strength share</TSA_WD_MidGame_ShareThreshold>
+  <TSA_WD_MidGame_ShareThreshold>Player Strength Share for Mid-Game Difficulty</TSA_WD_MidGame_ShareThreshold>
   <TSA_WD_MidGame_ShareThresholdTooltip>Mid Game activates when your total outpost strength reaches this fraction of all world strength.</TSA_WD_MidGame_ShareThresholdTooltip>
-  <TSA_WD_MidGame_OutpostStrengthThreshold>Activate at outpost strength</TSA_WD_MidGame_OutpostStrengthThreshold>
+  <TSA_WD_MidGame_OutpostStrengthThreshold>Player Strength Points for Mid-Game Difficulty</TSA_WD_MidGame_OutpostStrengthThreshold>
   <TSA_WD_MidGame_OutpostStrengthThresholdTooltip>Mid Game activates when your total outpost strength reaches this absolute value, regardless of world share.</TSA_WD_MidGame_OutpostStrengthThresholdTooltip>
   <TSA_WD_MidGame_RaidBias>Player raid bias</TSA_WD_MidGame_RaidBias>
   <TSA_WD_MidGame_RaidBiasTooltip>While Mid Game is active, hostile raids that can already reach a player target weight your outposts and colony this much more within the same distance band.</TSA_WD_MidGame_RaidBiasTooltip>
@@ -378,6 +384,8 @@
   <TSA_WD_Prisoners_Title>Prisoners</TSA_WD_Prisoners_Title>
   <TSA_WD_Prisoners_ColInteraction>Interaction</TSA_WD_Prisoners_ColInteraction>
   <TSA_WD_Prisoners_ColResistance>Resistance</TSA_WD_Prisoners_ColResistance>
+  <TSA_WD_PawnRoster_ResistanceNA>N/A</TSA_WD_PawnRoster_ResistanceNA>
+  <TSA_WD_PawnRoster_ResistanceNATip>Only applies to prisoners.</TSA_WD_PawnRoster_ResistanceNATip>
   <TSA_WD_Prisoners_ColDestination>Destination</TSA_WD_Prisoners_ColDestination>
   <TSA_WD_Prisoners_NoDestination>Pawn stays at colony after recruitment.\nClick to change</TSA_WD_Prisoners_NoDestination>
   <TSA_WD_Prisoners_NoDestinationOutpost>Stays at this outpost after recruitment.\nClick to change</TSA_WD_Prisoners_NoDestinationOutpost>
@@ -500,6 +508,7 @@
   <TSA_WD_FilterByLocationName>Filter by location name</TSA_WD_FilterByLocationName>
   <TSA_WD_FilterByLocationType>Filter by location type</TSA_WD_FilterByLocationType>
   <TSA_WD_FilterByStar>Filter by star</TSA_WD_FilterByStar>
+  <TSA_WD_FilterByNew>Filter by Join Stamp</TSA_WD_FilterByNew>
   <TSA_WD_FilterBySource>Filter by source</TSA_WD_FilterBySource>
   <TSA_WD_FilterByXenotype>Filter by xenotype</TSA_WD_FilterByXenotype>
   <TSA_WD_Filter_AllXenotypes>All xenotypes</TSA_WD_Filter_AllXenotypes>
@@ -515,6 +524,21 @@
   <TSA_WD_AllPlayerPawns_JumpTip>Jump to {0}</TSA_WD_AllPlayerPawns_JumpTip>
   <TSA_WD_AllPlayerPawns_ColStar>★</TSA_WD_AllPlayerPawns_ColStar>
   <TSA_WD_AllPlayerPawns_StarTip>Mark favorite pawns you want to keep. Stars are saved with this world. They do not block transfer; use the filter to hide them when mass-moving.</TSA_WD_AllPlayerPawns_StarTip>
+  <TSA_WD_PawnRoster_ColNew>Join Stamp</TSA_WD_PawnRoster_ColNew>
+  <TSA_WD_PawnRoster_ColNewTip>In-game days since this pawn first joined your faction (recruit, convert, wanderer, newborn, and similar). Keeps counting at outposts. Does not reset when moving between colony and outposts. On older saves, the stamp may be estimated from colonist service time.</TSA_WD_PawnRoster_ColNewTip>
+  <TSA_WD_PawnRoster_Filter_JoinLt5>Join stamp under 5 days</TSA_WD_PawnRoster_Filter_JoinLt5>
+  <TSA_WD_PawnRoster_Filter_JoinLt15>Join stamp under 15 days</TSA_WD_PawnRoster_Filter_JoinLt15>
+  <TSA_WD_PawnRoster_Filter_JoinLt30>Join stamp under 30 days</TSA_WD_PawnRoster_Filter_JoinLt30>
+  <TSA_WD_PawnRoster_Filter_JoinGte5>Join stamp 5+ days</TSA_WD_PawnRoster_Filter_JoinGte5>
+  <TSA_WD_PawnRoster_Filter_JoinGte15>Join stamp 15+ days</TSA_WD_PawnRoster_Filter_JoinGte15>
+  <TSA_WD_PawnRoster_Filter_JoinGte30>Join stamp 30+ days</TSA_WD_PawnRoster_Filter_JoinGte30>
+  <TSA_WD_JoinFilterTip_All>Select all pawns in the current list.</TSA_WD_JoinFilterTip_All>
+  <TSA_WD_JoinFilterTip_Lt5>Select pawns whose Join Stamp is under 5 in-game days.</TSA_WD_JoinFilterTip_Lt5>
+  <TSA_WD_JoinFilterTip_Lt15>Select pawns whose Join Stamp is under 15 in-game days.</TSA_WD_JoinFilterTip_Lt15>
+  <TSA_WD_JoinFilterTip_Lt30>Select pawns whose Join Stamp is under 30 in-game days.</TSA_WD_JoinFilterTip_Lt30>
+  <TSA_WD_JoinFilterTip_Gte5>Select pawns whose Join Stamp is 5 in-game days or more.</TSA_WD_JoinFilterTip_Gte5>
+  <TSA_WD_JoinFilterTip_Gte15>Select pawns whose Join Stamp is 15 in-game days or more.</TSA_WD_JoinFilterTip_Gte15>
+  <TSA_WD_JoinFilterTip_Gte30>Select pawns whose Join Stamp is 30 in-game days or more.</TSA_WD_JoinFilterTip_Gte30>
   <TSA_WD_AllPlayerPawns_Filter_AllAnywhere>All Anywhere</TSA_WD_AllPlayerPawns_Filter_AllAnywhere>
   <TSA_WD_AllPlayerPawns_Filter_StarredAnywhere>Starred</TSA_WD_AllPlayerPawns_Filter_StarredAnywhere>
   <TSA_WD_AllPlayerPawns_Filter_NotStarredAnywhere>Not Starred</TSA_WD_AllPlayerPawns_Filter_NotStarredAnywhere>

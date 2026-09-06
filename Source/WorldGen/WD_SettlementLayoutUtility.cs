@@ -803,7 +803,10 @@ namespace TSA_WorldDomination
             for (int i = 0; i < doomed.Count; i++)
             {
                 if (doomed[i] != null && !doomed[i].Destroyed)
+                {
+                    WorldActions_DesperationRaid.SuppressLossNotify(doomed[i]);
                     doomed[i].Destroy();
+                }
             }
 
             Outpost_EstablishmentRequirements.InvalidateNearbyCountCache();

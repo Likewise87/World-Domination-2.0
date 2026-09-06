@@ -18,6 +18,88 @@
   <TSA_WD_DescOutpostSkillScaling>决定像“种植”技能堆在“农业前哨”上是否应无限提高产量，还是在某些阈值之后递减。</TSA_WD_DescOutpostSkillScaling>
   <TSA_WD_BtnUpdateNotes>显示更新说明</TSA_WD_BtnUpdateNotes>
   <TSA_WD_BtnRaidMult>袭击点数倍率</TSA_WD_BtnRaidMult>
+  <TSA_WD_BtnCombatDifficulty>战斗难度</TSA_WD_BtnCombatDifficulty>
+  <TSA_WD_DescCombatDifficulty>中/后期游戏难度、威胁时机门、对玩家的袭击压力、阶段战斗加成、抵达方式、驻军与敌方 T4 迫击炮/防空硬件。</TSA_WD_DescCombatDifficulty>
+  <TSA_WD_BtnEconomicDifficulty>经济难度</TSA_WD_BtnEconomicDifficulty>
+  <TSA_WD_DescEconomicDifficulty>前哨维护、技能收益递减、好感度流失与各阶段贿赂银币比率。</TSA_WD_DescEconomicDifficulty>
+  <TSA_WD_Settings_Search>搜索</TSA_WD_Settings_Search>
+  <TSA_WD_Settings_SearchTip>按标签或提示文字过滤本页控件。匹配分区标题时显示该整块分区。清空搜索框可显示全部。</TSA_WD_Settings_SearchTip>
+  <TSA_WD_ThreatGate_Never>永不</TSA_WD_ThreatGate_Never>
+  <TSA_WD_ThreatGate_FromMid>从中期起</TSA_WD_ThreatGate_FromMid>
+  <TSA_WD_ThreatGate_FromLate>从后期起</TSA_WD_ThreatGate_FromLate>
+  <TSA_WD_ThreatGate_Always>始终</TSA_WD_ThreatGate_Always>
+  <TSA_WD_Combat_HeaderEscalation>中/后期游戏难度</TSA_WD_Combat_HeaderEscalation>
+  <TSA_WD_Combat_HeaderEscalationTip>殖民地足够强大后，中期与后期难度何时开启。</TSA_WD_Combat_HeaderEscalationTip>
+  <TSA_WD_Combat_HeaderThreatTiming>威胁时机</TSA_WD_Combat_HeaderThreatTiming>
+  <TSA_WD_Combat_HeaderThreatTimingTip>各特殊威胁相对中/后期游戏难度可触发的时机。入侵与绝境无视常规冷却；入侵也无视最低战力比。</TSA_WD_Combat_HeaderThreatTimingTip>
+  <TSA_WD_Combat_HeaderOpportunityFeatures>机会特性（机会目标 / 劫掠 / 伏击）</TSA_WD_Combat_HeaderOpportunityFeatures>
+  <TSA_WD_Combat_HeaderTargetOfOpportunityTip>行进中的袭击者可能改道去打更弱的目标。</TSA_WD_Combat_HeaderTargetOfOpportunityTip>
+  <TSA_WD_Combat_HeaderMaraudingTip>战斗结束后，幸存者可能继续攻向下一个目标。</TSA_WD_Combat_HeaderMaraudingTip>
+  <TSA_WD_Combat_HeaderSettlementAmbushTip>若你途经附近，敌方定居点可能伏击你的商队。</TSA_WD_Combat_HeaderSettlementAmbushTip>
+  <TSA_WD_Combat_HeaderVanguard>先锋</TSA_WD_Combat_HeaderVanguard>
+  <TSA_WD_Combat_HeaderInvasion>入侵</TSA_WD_Combat_HeaderInvasion>
+  <TSA_WD_Combat_HeaderVanguardAndInvasion>先锋与入侵</TSA_WD_Combat_HeaderVanguardAndInvasion>
+  <TSA_WD_Combat_HeaderVanguardAndInvasionTip>强势派系从远方定居点行动（需超过距玩家最小距离）。先锋打包 5–7 座远方定居点并在你附近重建；打包后，发起方本土仍须至少保留 8 座活跃定居点。入侵则从远方宿主发动 5–7 路协同突袭，不放弃那些家园。</TSA_WD_Combat_HeaderVanguardAndInvasionTip>
+  <TSA_WD_Combat_VanguardVsInvasionPickChance>先锋选取概率</TSA_WD_Combat_VanguardVsInvasionPickChance>
+  <TSA_WD_Combat_VanguardVsInvasionPickChanceTip>当先锋与入侵均可触发时，先尝试先锋的概率。其余情况尝试入侵。</TSA_WD_Combat_VanguardVsInvasionPickChanceTip>
+  <TSA_WD_Combat_HeaderDesperationTip>受压集群被征服失守后，策略可能按触发概率发动，再龟缩或绝望突袭。不受简单/中等/困难预设控制。</TSA_WD_Combat_HeaderDesperationTip>
+  <TSA_WD_Combat_HeaderStrongFactionWarTip>强势 NPC 派系可能互相宣战。</TSA_WD_Combat_HeaderStrongFactionWarTip>
+  <TSA_WD_Combat_HeaderPlayerRaidsTip>你发起袭击的次数上限与冷却。</TSA_WD_Combat_HeaderPlayerRaidsTip>
+  <TSA_WD_Combat_HeaderRaidClampTip>WD 袭击点数相对叙事者预算如何封顶。</TSA_WD_Combat_HeaderRaidClampTip>
+  <TSA_WD_Combat_HeaderStageBonuses>阶段战斗加成</TSA_WD_Combat_HeaderStageBonuses>
+  <TSA_WD_Combat_HeaderStageBonusesTip>进入中期或后期后额外的袭击偏向、成长与攻击范围。</TSA_WD_Combat_HeaderStageBonusesTip>
+  <TSA_WD_Combat_StageBonusesNeedEscalation>请先启用上方中/后期游戏难度以编辑阶段战斗加成。</TSA_WD_Combat_StageBonusesNeedEscalation>
+  <TSA_WD_Combat_HeaderArrivalStylesTip>对殖民地袭击的空投/围攻风格概率。</TSA_WD_Combat_HeaderArrivalStylesTip>
+  <TSA_WD_Combat_HeaderAdvancedWorld>高级世界战斗</TSA_WD_Combat_HeaderAdvancedWorld>
+  <TSA_WD_Combat_HeaderAdvancedWorldTip>AT 瞄准玩家旅行者/商队，以及实验性 T4 重力飞船袭击。</TSA_WD_Combat_HeaderAdvancedWorldTip>
+  <TSA_WD_Combat_HeaderGarrisonTip>NPC 定居点留在家园的实力多少。</TSA_WD_Combat_HeaderGarrisonTip>
+  <TSA_WD_Combat_HeaderT4MortarTip>敌方定居点迫击炮开火。</TSA_WD_Combat_HeaderT4MortarTip>
+  <TSA_WD_Combat_HeaderAntiAirTip>敌方防空对抗你的空投与飞行单位。</TSA_WD_Combat_HeaderAntiAirTip>
+  <TSA_WD_Combat_HeaderT4Hardware>T4 迫击炮 / 防空硬件</TSA_WD_Combat_HeaderT4Hardware>
+  <TSA_WD_Combat_HeaderT4HardwareTip>启用系统并调整射程、伤害与精度。对玩家开火时机在“威胁时机”中设置。</TSA_WD_Combat_HeaderT4HardwareTip>
+  <TSA_WD_Combat_T4TimingNote>对玩家开火时机由上方威胁时机门控制（不再使用单独的中/后期勾选项）。</TSA_WD_Combat_T4TimingNote>
+  <TSA_WD_Combat_HeaderGoodwillDrain>好感度流失</TSA_WD_Combat_HeaderGoodwillDrain>
+  <TSA_WD_Combat_GateWhen>激活时机</TSA_WD_Combat_GateWhen>
+  <TSA_WD_Combat_GateOpportunity>机会（机会目标 / 劫掠 / 伏击）</TSA_WD_Combat_GateOpportunity>
+  <TSA_WD_Combat_GateOpportunityTip>机会目标、胜利后劫掠与定居点伏击的阶段门。</TSA_WD_Combat_GateOpportunityTip>
+  <TSA_WD_Combat_GateToOTip>机会目标重定位的阶段门。</TSA_WD_Combat_GateToOTip>
+  <TSA_WD_Combat_GateMaraudTip>胜利后劫掠的阶段门。</TSA_WD_Combat_GateMaraudTip>
+  <TSA_WD_Combat_GateAmbushTip>定居点发起伏击的阶段门。</TSA_WD_Combat_GateAmbushTip>
+  <TSA_WD_Combat_GateT4Mortar>T4 迫击炮对玩家</TSA_WD_Combat_GateT4Mortar>
+  <TSA_WD_Combat_GateT4MortarTip>敌方 T4 定居点迫击炮何时可瞄准玩家。</TSA_WD_Combat_GateT4MortarTip>
+  <TSA_WD_Combat_GateT4AntiAir>T4 防空对玩家</TSA_WD_Combat_GateT4AntiAir>
+  <TSA_WD_Combat_GateT4AntiAirTip>敌方 T4 定居点防空何时可瞄准玩家。</TSA_WD_Combat_GateT4AntiAirTip>
+  <TSA_WD_Combat_GateVanguard>先锋</TSA_WD_Combat_GateVanguard>
+  <TSA_WD_Combat_GateVanguardTip>前锋突击先锋集群的阶段门。</TSA_WD_Combat_GateVanguardTip>
+  <TSA_WD_Combat_GateInvasion>入侵</TSA_WD_Combat_GateInvasion>
+  <TSA_WD_Combat_GateInvasionTip>前锋突击入侵的阶段门（从远方宿主发动 5–7 路协同突袭；家园仍在）。无视常规袭击冷却与最低战力比。</TSA_WD_Combat_GateInvasionTip>
+  <TSA_WD_Combat_FallBackToInvasion>先锋集群失败时回退为入侵</TSA_WD_Combat_FallBackToInvasion>
+  <TSA_WD_Combat_FallBackToInvasionTip>先锋无法占用定居点集群时，若入侵门也通过则尝试入侵。</TSA_WD_Combat_FallBackToInvasionTip>
+  <TSA_WD_Combat_InvasionIgnoresCooldownHint>注意：入侵无视常规袭击与日常行动冷却。</TSA_WD_Combat_InvasionIgnoresCooldownHint>
+  <TSA_WD_Combat_InvasionIgnoresMinRatioHint>注意：入侵无视下方最低袭击战力比。</TSA_WD_Combat_InvasionIgnoresMinRatioHint>
+  <TSA_WD_Combat_GateDesperation>定居点失守策略</TSA_WD_Combat_GateDesperation>
+  <TSA_WD_Combat_GateDesperationTip>定居点失守策略的阶段门（龟缩或绝望）。始终=开局可用。从不=关闭。难度预设不会改动此项。</TSA_WD_Combat_GateDesperationTip>
+  <TSA_WD_Combat_TurtleHeader>龟缩集结（每日）</TSA_WD_Combat_TurtleHeader>
+  <TSA_WD_Combat_HeaderTurtleTip>每日：受威胁集群将弱势 T1/T2 收缩至 T4 枢纽（满后溢出到附近 T3），按实力晋升并设防。与定居点失守策略分开。</TSA_WD_Combat_HeaderTurtleTip>
+  <TSA_WD_Combat_TurtleEnable>启用龟缩集结</TSA_WD_Combat_TurtleEnable>
+  <TSA_WD_Combat_TurtleEnableTooltip>当某派系的连通集群受到压力时，弱势 T1/T2 据点收缩至 T4 枢纽（T4 装满后溢出到附近 T3）。注入实力按阈值晋升等级。使用各派系独立冷却；每天最多一个集群。</TSA_WD_Combat_TurtleEnableTooltip>
+  <TSA_WD_Combat_TurtleChance>每日几率</TSA_WD_Combat_TurtleChance>
+  <TSA_WD_Combat_TurtleChanceTooltip>每日评估并为评分最高的受威胁集群发起龟缩集结的几率。</TSA_WD_Combat_TurtleChanceTooltip>
+  <TSA_WD_Combat_TurtleCooldown>各派系冷却</TSA_WD_Combat_TurtleCooldown>
+  <TSA_WD_Combat_TurtleCooldownTooltip>同一派系再次集结前的天数。</TSA_WD_Combat_TurtleCooldownTooltip>
+  <TSA_WD_Combat_TurtleMinCluster>最小集群规模</TSA_WD_Combat_TurtleMinCluster>
+  <TSA_WD_Combat_TurtleMinClusterTooltip>连通集群至少需要这么多定居点才能集结。站点在 20 格内相连则同属一个集群。</TSA_WD_Combat_TurtleMinClusterTooltip>
+  <TSA_WD_Combat_TurtleMaxPack>最多收缩外围数</TSA_WD_Combat_TurtleMaxPack>
+  <TSA_WD_Combat_TurtleMaxPackTooltip>收缩并将力量输送到枢纽的最大外围定居点数量。</TSA_WD_Combat_TurtleMaxPackTooltip>
+  <TSA_WD_Combat_TurtlePressure>所需敌对压力</TSA_WD_Combat_TurtlePressure>
+  <TSA_WD_Combat_TurtlePressureTooltip>集群内任一站点 15 格内的敌对定居点或玩家殖民地/前哨站数量达到要求才会集结。盟友站点在 20 格内相连则同属一个集群。</TSA_WD_Combat_TurtlePressureTooltip>
+  <TSA_WD_Combat_TurtlePressureRatio>区域压力比率</TSA_WD_Combat_TurtlePressureRatio>
+  <TSA_WD_Combat_TurtlePressureRatioTooltip>集群内任一站点 15 格内敌对进攻实力 ÷ 本集群进攻实力。盟友站点在 20 格内相连则同属一个集群。每日龟缩与定居点失守策略均要求达到该比率（例如 225% = 敌对力量为本集群的 2.25 倍）。</TSA_WD_Combat_TurtlePressureRatioTooltip>
+  <TSA_WD_Combat_GateTurtleTip>龟缩集结的阶段门。始终=开局可用。从不=关闭。</TSA_WD_Combat_GateTurtleTip>
+  <TSA_WD_Combat_TurtleNotify>龟缩集结发起时通知</TSA_WD_Combat_TurtleNotify>
+  <TSA_WD_Combat_TurtleNotifyTooltip>附近派系集结并加固枢纽时发送信件。</TSA_WD_Combat_TurtleNotifyTooltip>
+  <TSA_WD_Combat_GateStrongWar>强势派系战争</TSA_WD_Combat_GateStrongWar>
+  <TSA_WD_Combat_GateStrongWarTip>强势派系战争事件的阶段门。</TSA_WD_Combat_GateStrongWarTip>
   <TSA_WD_BtnResetAll>重置全部设置</TSA_WD_BtnResetAll>
   <TSA_WD_ResetPageToDefaults>将此页恢复为默认</TSA_WD_ResetPageToDefaults>
   <TSA_WD_BtnSabotage>破坏</TSA_WD_BtnSabotage>
@@ -239,6 +321,7 @@
   <TSA_WD_Growth_HeaderExpansion>扩张与本地密度上限</TSA_WD_Growth_HeaderExpansion>
   <TSA_WD_Growth_HeaderGoodwillFromTrade>交易好感</TSA_WD_Growth_HeaderGoodwillFromTrade>
   <TSA_WD_Growth_HeaderGrowth>通用发展设置</TSA_WD_Growth_HeaderGrowth>
+  <TSA_WD_Growth_HeaderActionEconomy>每日行动与定居点容量</TSA_WD_Growth_HeaderActionEconomy>
   <TSA_WD_Growth_HeaderDefensiveBaselines>防御强度基准</TSA_WD_Growth_HeaderDefensiveBaselines>
   <TSA_WD_Growth_T1DefensiveStrength>T1 防御强度</TSA_WD_Growth_T1DefensiveStrength>
   <TSA_WD_Growth_T1DefensiveStrengthTooltip>1 级定居点的基础本地防御强度。</TSA_WD_Growth_T1DefensiveStrengthTooltip>
@@ -311,7 +394,7 @@
   <TSA_WD_Threat_StorytellerMovedHint>按派系的叙事者袭击规则已移至 WD 派系范围与关系。</TSA_WD_Threat_StorytellerMovedHint>
   <TSA_WD_AllegianceMatrixInGameOnly>「允许的外交变化」仅可在进行游戏时打开(主菜单中不可用)。</TSA_WD_AllegianceMatrixInGameOnly>
   <TSA_WD_Outpost_MaxTravelStrengthLoss>最大行进实力损失</TSA_WD_Outpost_MaxTravelStrengthLoss>
-  <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>行进者(袭击、扩张、修路)在行进中可损失的最大出发实力百分比。75% 时至少保留 25% 初始实力,不会仅因损耗而消失。</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
+  <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>行进者(袭击、扩张、修路)在行进中可损失的最大出发实力百分比。会保留剩余的初始实力,不会仅因损耗而消失。</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
   <TSA_WD_Caravans_OnlyWaterIfNoLandPath>行进者：仅当没有陆路时才穿越水域</TSA_WD_Caravans_OnlyWaterIfNoLandPath>
   <TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>启用时，WD 行进者先使用原版世界寻路，仅当失败时才使用可涉水路线。关闭时会同时计算两条路线并选用耗时更短的一条（与下方难度单位一致）。</TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>
   <TSA_WD_Caravans_WaterMovementDifficulty>行进者：水域地块移动难度</TSA_WD_Caravans_WaterMovementDifficulty>
@@ -638,8 +721,8 @@
   <TSA_WD_BaseGen_FogInteriorMineablesTip>在定居点袭击与前哨防御地图上，于已生成的结构布局范围内，对八个相邻格均为岩石或矿石的天然岩壁与矿石格重新施加迷雾（仅完全封闭者）。碎块不计。在定居点矩形揭雾之后执行。</TSA_WD_BaseGen_FogInteriorMineablesTip>
   <TSA_WD_BaseGen_ForcePower>强制定居点供电（仅袭击）</TSA_WD_BaseGen_ForcePower>
   <TSA_WD_BaseGen_ForcePowerTip>在 NPC 定居点袭击地图上，无需真实电网即可点亮灯具与炮塔，并为燃料炮塔补油。不适用于前哨防御地图。</TSA_WD_BaseGen_ForcePowerTip>
-  <TSA_WD_BaseGen_SilenceTurrets>击败后静默炮塔（仅袭击）</TSA_WD_BaseGen_SilenceTurrets>
-  <TSA_WD_BaseGen_SilenceTurretsTip>在 NPC 定居点袭击地图上，当所有敌对人类单位倒下或离开后，关闭剩余派系炮塔。不适用于前哨防御地图。</TSA_WD_BaseGen_SilenceTurretsTip>
+  <TSA_WD_BaseGen_SilenceTurrets>摧毁已败炮塔（仅袭击）</TSA_WD_BaseGen_SilenceTurrets>
+  <TSA_WD_BaseGen_SilenceTurretsTip>在 NPC 定居点袭击地图上，当所有敌对人类单位倒下、逃跑或离开后，摧毁无人值守的剩余派系炮塔，以便重组商队。不适用于前哨防御地图。</TSA_WD_BaseGen_SilenceTurretsTip>
   <TSA_WD_Garrison_MinScale>进攻耗尽时的最低驻军比例</TSA_WD_Garrison_MinScale>
   <TSA_WD_Garrison_MinScaleTooltip>地图驻军随被攻击定居点当前进攻实力相对其等级上限缩放。满员定居点派出配置等级乘数的 100%；耗尽者更少。此为下限：即使完全耗尽也至少派出该比例。地图布局仍按等级匹配。</TSA_WD_Garrison_MinScaleTooltip>
   <TSA_WD_Growth_HeaderSameTierUpgradeReq>同级升级要求</TSA_WD_Growth_HeaderSameTierUpgradeReq>

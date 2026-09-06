@@ -9,7 +9,7 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    public enum TravelerMission { Expansion, Raid, RoadBuilding, RoadBlock, SpikeTrap, Decontamination, OutpostDelivery, Trader, OutpostUpgrade, MortarStrike, AntiAirStrike, RapidResponseIntercept, RapidResponseDropPod, DebugRaidTransit, RaidDropPod, RaidGravship, SettlementBuy, SettlementGift, SettlementBribe, RaidBribe, NpcFortify, DiplomacyNegotiate, AtTurret, NpcAtTurret }
+    public enum TravelerMission { Expansion, Raid, RoadBuilding, RoadBlock, SpikeTrap, Decontamination, OutpostDelivery, Trader, OutpostUpgrade, MortarStrike, AntiAirStrike, RapidResponseIntercept, RapidResponseDropPod, DebugRaidTransit, RaidDropPod, RaidGravship, SettlementBuy, SettlementGift, SettlementBribe, RaidBribe, NpcFortify, DiplomacyNegotiate, AtTurret, NpcAtTurret, MassRelocation, DesperationRally, TurtleConsolidate }
     public enum RaidOrderOutcome { PlayerOutpostConquestMenu, AllyClaimsTarget, AllyAwardsToPlayer }
 
     public class WorldObject_Traveler : WorldObject
@@ -29,6 +29,32 @@ namespace TSA_WorldDomination
         public float travelerStrength;
         public float initialStrength;
         public float projectedArrivalStrength;
+        /// <summary>Pack-up forward assault: cancel/clash must remount strength (home already destroyed).</summary>
+        public bool packUpRequiresRefound;
+        /// <summary>Label of destroyed pack-up home for UI/inspect when <see cref="originObject"/> is null.</summary>
+        public string packUpOriginLabel;
+        /// <summary>MassRelocation reserved destination tile.</summary>
+        public int massRelocationDestTile = -1;
+        /// <summary>Tier to restore on Vanguard founding / pack-up refound.</summary>
+        public SettlementTier massRelocationTier = SettlementTier.T1;
+        /// <summary>Carried defensive strength for Vanguard spawn / refound.</summary>
+        public float massRelocationDefensiveStrength;
+        /// <summary>Forward Assault Invasion coordinated raid (homes stay; ToO suppressed).</summary>
+        public bool isInvasionRaid;
+        /// <summary>Desperation raid: pack-up group that rallies then raids.</summary>
+        public bool isDesperationRaid;
+        public int desperationGroupId;
+        public int desperationExpectedCount;
+        public int desperationArrivedCount;
+        public int desperationWaitUntilTick = -1;
+        public bool desperationIsHost;
+        public int desperationAggressorFactionId = -1;
+        /// <summary>Turtle consolidate: leaf settlements pack up and deposit strength into a hub, which then fortifies.</summary>
+        public int turtleGroupId;
+        public int turtleExpectedCount;
+        public int turtleArrivedCount;
+        /// <summary>True once this leaf deposited or was counted lost — prevents Destroy from double-notifying the group.</summary>
+        public bool turtleLeafResolved;
         /// <summary>Hostile spike traps this traveler has already triggered (anti-cheese cap).</summary>
         public int spikeTrapsTriggered;
         /// <summary>
@@ -243,6 +269,9 @@ namespace TSA_WorldDomination
                     TravelerMission.RaidDropPod => "TSA_WD_RaiderDropPods".Translate(),
                     TravelerMission.RaidGravship => "TSA_WD_RaiderGravship".Translate(),
                     TravelerMission.Expansion => "TSA_WD_ExpansionCaravan".Translate(),
+                    TravelerMission.MassRelocation => "TSA_WD_MassRelocationCaravan".Translate(),
+                    TravelerMission.DesperationRally => "TSA_WD_DesperationRallyCaravan".Translate(),
+                    TravelerMission.TurtleConsolidate => "TSA_WD_TurtleConsolidateCaravan".Translate(),
                     TravelerMission.RoadBuilding => "TSA_WD_RoadBuilderCaravan".Translate(),
                     TravelerMission.RoadBlock => "TSA_WD_Traveler_Outpost_RoadBlock".Translate(),
                     TravelerMission.SpikeTrap => "TSA_WD_Traveler_Outpost_SpikeTrap".Translate(),
@@ -269,13 +298,31 @@ namespace TSA_WorldDomination
             return label;
         }
 
+        /// <summary>Mission label with Invasion / Host flavors for AssaultRally travelers.</summary>
+        public static string GetMissionTypeLabel(WorldObject_Traveler traveler)
+        {
+            if (traveler == null) return GetMissionTypeLabel(TravelerMission.Raid);
+            if (traveler.mission == TravelerMission.DesperationRally)
+            {
+                if (traveler.desperationIsHost)
+                {
+                    return traveler.isDesperationRaid
+                        ? "TSA_WD_DesperationHostCaravan".Translate()
+                        : "TSA_WD_InvasionHostCaravan".Translate();
+                }
+                if (!traveler.isDesperationRaid)
+                    return "TSA_WD_InvasionRallyCaravan".Translate();
+            }
+            return GetMissionTypeLabel(traveler.mission);
+        }
+
         public override string Label
         {
             get
             {
                 string baseLabel = mission == TravelerMission.MortarStrike && originObject is WorldObject_AT_Turret
                     ? (string)"TSA_WD_Traveler_AT_Shell".Translate()
-                    : GetMissionTypeLabel(mission);
+                    : GetMissionTypeLabel(this);
                 if (!ShowTargetingPlayerWarning) return baseLabel;
                 targetingYouCache ??= "TSA_WD_TargetingYou".Translate();
                 return $"{baseLabel} ({targetingYouCache})";
@@ -308,7 +355,13 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>World-map / UI icon path for this traveler instance (defs may share a class; subclasses can override for mode-specific art).</summary>
-        public virtual string? ResolveIconTexturePath() => GetIconTexturePathFromDef(def);
+        public virtual string? ResolveIconTexturePath()
+        {
+            // Turtle packs into hubs — same visual language as expansion caravans (raid def is only the vehicle).
+            if (mission == TravelerMission.TurtleConsolidate)
+                return "WorldObjects/Caravan_Expansion";
+            return GetIconTexturePathFromDef(def);
+        }
 
         /// <summary>
         /// Vanilla prefers <see cref="WorldObjectDef.ExpandingIconTexture"/> and never consults <see cref="Material"/>.
@@ -519,6 +572,8 @@ namespace TSA_WorldDomination
                     originObject.GetComponent<CompViralSpread>()?.NotifyAtTurretCrewReturned();
                 if (mission == TravelerMission.Decontamination && originObject != null && !originObject.Destroyed)
                     originObject.GetComponent<CompViralSpread>()?.NotifyDecontaminationCrewReturned();
+                if (mission == TravelerMission.TurtleConsolidate && !turtleLeafResolved && turtleGroupId > 0)
+                    WorldActions_Turtle.NotifyTurtleTravelerDestroyedUnresolved(this);
                 WorldComponent_InterceptionScheduler.Current?.UnregisterTraveler(this);
                 if (isSettlementAmbushSally)
                     WorldComponent_SettlementWatchIndex.Get()?.NotifyAmbushSallyDestroyed();
@@ -586,7 +641,9 @@ namespace TSA_WorldDomination
 
             string originLabel = TravelerEndpointUtility.IsLiveEndpoint(originObject)
                 ? originObject.LabelCap
-                : "TSA_WD_Traveller_Unknown".Translate();
+                : (!packUpOriginLabel.NullOrEmpty()
+                    ? packUpOriginLabel
+                    : "TSA_WD_Traveller_Unknown".Translate().ToString());
 
             string destLabel = TravelerEndpointUtility.IsLiveEndpoint(targetObject)
                 ? targetObject.LabelCap
@@ -697,6 +754,10 @@ namespace TSA_WorldDomination
             if (Destroyed)
                 return;
 
+            if (mission == TravelerMission.DesperationRally && desperationIsHost
+                && this.IsHashIntervalTick(250, delta))
+                WorldActions_AssaultRally.TickRallyHost(this);
+
             TryRetryDeferredOutpostRaidArrival(delta);
 
             if ((mission == TravelerMission.RapidResponseIntercept || mission == TravelerMission.RaidBribe)
@@ -737,11 +798,14 @@ namespace TSA_WorldDomination
             }
 
             // Mortar shells and drop-pod warehouse / RR / raid drop pods ignore attrition (paid at launch or in-flight for seconds).
+            // Stationary travelers (DesperationRally host wait, stopped caravans) do not bleed strength — only movers.
             bool skipAttrition = IsShellMission(mission)
                 || mission == TravelerMission.RapidResponseDropPod
                 || mission == TravelerMission.RaidDropPod
                 || mission == TravelerMission.RaidGravship
-                || WD_PathFollower.IsBallisticWorldFlight(this);
+                || WD_PathFollower.IsBallisticWorldFlight(this)
+                || pather == null
+                || !pather.moving;
             if (!skipAttrition && this.IsHashIntervalTick(180, delta))
             {
                 var seth = WorldDominationMod.settings;
@@ -1198,6 +1262,23 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref travelerStrength, "travelerStrength");
             Scribe_Values.Look(ref initialStrength, "initialStrength");
             Scribe_Values.Look(ref projectedArrivalStrength, "projectedArrivalStrength");
+            Scribe_Values.Look(ref packUpRequiresRefound, "packUpRequiresRefound", false);
+            Scribe_Values.Look(ref packUpOriginLabel, "packUpOriginLabel");
+            Scribe_Values.Look(ref massRelocationDestTile, "massRelocationDestTile", -1);
+            Scribe_Values.Look(ref massRelocationTier, "massRelocationTier", SettlementTier.T1);
+            Scribe_Values.Look(ref massRelocationDefensiveStrength, "massRelocationDefensiveStrength", 0f);
+            Scribe_Values.Look(ref isInvasionRaid, "isInvasionRaid", false);
+            Scribe_Values.Look(ref isDesperationRaid, "isDesperationRaid", false);
+            Scribe_Values.Look(ref desperationGroupId, "desperationGroupId", 0);
+            Scribe_Values.Look(ref desperationExpectedCount, "desperationExpectedCount", 0);
+            Scribe_Values.Look(ref desperationArrivedCount, "desperationArrivedCount", 0);
+            Scribe_Values.Look(ref desperationWaitUntilTick, "desperationWaitUntilTick", -1);
+            Scribe_Values.Look(ref desperationIsHost, "desperationIsHost", false);
+            Scribe_Values.Look(ref desperationAggressorFactionId, "desperationAggressorFactionId", -1);
+            Scribe_Values.Look(ref turtleGroupId, "turtleGroupId", 0);
+            Scribe_Values.Look(ref turtleExpectedCount, "turtleExpectedCount", 0);
+            Scribe_Values.Look(ref turtleArrivedCount, "turtleArrivedCount", 0);
+            Scribe_Values.Look(ref turtleLeafResolved, "turtleLeafResolved", false);
             Scribe_Values.Look(ref spikeTrapsTriggered, "spikeTrapsTriggered", 0);
             Scribe_Values.Look(ref pollutionDamageWarned, "pollutionDamageWarned", false);
             Scribe_Values.Look(ref ticksPerMove, "ticksPerMove", DefaultTicksPerMove);

@@ -12,6 +12,7 @@ namespace TSA_WorldDomination
         private bool artilleryExpanded = true;
         private bool atTurretsExpanded = true;
         private bool diplomacyExpanded = true;
+        private bool worldThreatsExpanded = true;
         private bool alertsExpanded = true;
 
         public override Vector2 InitialSize => new Vector2(850f, 750f);
@@ -29,7 +30,7 @@ namespace TSA_WorldDomination
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
             float contentWidth = contentRect.width - 24f;
-            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2900f);
+            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 3000f);
 
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
 
@@ -37,8 +38,9 @@ namespace TSA_WorldDomination
             l.Begin(scrollViewRect);
             var s = WorldDominationMod.settings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetNotifications(),
-                () => { alertsExpanded = nearbyExpanded = outpostsRaidsExpanded = artilleryExpanded = atTurretsExpanded = diplomacyExpanded = true; },
-                () => { alertsExpanded = nearbyExpanded = outpostsRaidsExpanded = artilleryExpanded = atTurretsExpanded = diplomacyExpanded = false; });
+                () => { alertsExpanded = nearbyExpanded = worldThreatsExpanded = outpostsRaidsExpanded = artilleryExpanded = atTurretsExpanded = diplomacyExpanded = true; },
+                () => { alertsExpanded = nearbyExpanded = worldThreatsExpanded = outpostsRaidsExpanded = artilleryExpanded = atTurretsExpanded = diplomacyExpanded = false; });
+            SettingsUI.DrawSettingsSearchBar(l);
 
             // 1. Right-side alerts
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Notify_HeaderAlerts".Translate(), ref alertsExpanded, SettingsUI.SectionHeaderColor))
@@ -116,7 +118,27 @@ namespace TSA_WorldDomination
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_SettlementRazedTooltip".Translate(), WorldDominationSettings.DefNotifySettlementRazed));
             }
 
-            // 3. Your outposts and raids
+            // 3. World threat actions (desperation / turtle / strong-faction war)
+            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Notify_HeaderWorldThreats".Translate(), ref worldThreatsExpanded, SettingsUI.SectionHeaderColor,
+                "TSA_WD_Notify_HeaderWorldThreatsTip".Translate()))
+            {
+                l.CheckboxLabeled(
+                    "TSA_WD_Notify_DesperationRaid".Translate(),
+                    ref s.notifyDesperationRaid,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_DesperationRaidTooltip".Translate(), WorldDominationSettings.DefNotifyDesperationRaid));
+
+                l.CheckboxLabeled(
+                    "TSA_WD_Notify_Turtle".Translate(),
+                    ref s.notifyTurtle,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_TurtleTooltip".Translate(), WorldDominationSettings.DefNotifyTurtle));
+
+                l.CheckboxLabeled(
+                    "TSA_WD_Notify_StrongFactionWar".Translate(),
+                    ref s.notifyStrongFactionWar,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_StrongFactionWarTooltip".Translate(), WorldDominationSettings.DefNotifyStrongFactionWar));
+            }
+
+            // 4. Your outposts and raids
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Notify_HeaderOutpostsRaids".Translate(), ref outpostsRaidsExpanded, SettingsUI.SectionHeaderColor))
             {
                 l.CheckboxLabeled(
@@ -327,11 +349,6 @@ namespace TSA_WorldDomination
                     "TSA_WD_Notify_TradeAllyDiplomacy".Translate(),
                     ref s.notifyTradeAllyDiplomacy,
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_TradeAllyDiplomacyTooltip".Translate(), WorldDominationSettings.DefNotifyTradeAllyDiplomacy));
-
-                l.CheckboxLabeled(
-                    "TSA_WD_Notify_StrongFactionWar".Translate(),
-                    ref s.notifyStrongFactionWar,
-                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_StrongFactionWarTooltip".Translate(), WorldDominationSettings.DefNotifyStrongFactionWar));
             }
 
             l.End();

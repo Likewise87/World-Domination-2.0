@@ -20,6 +20,89 @@
   <TSA_WD_BtnRaidMult>Raids on Player</TSA_WD_BtnRaidMult>
   <TSA_WD_BtnLateGame>Mid Game and Late Game</TSA_WD_BtnLateGame>
   <TSA_WD_BtnT4Mortar>NPC Artillery (T4)</TSA_WD_BtnT4Mortar>
+  <TSA_WD_BtnCombatDifficulty>Combat Difficulty</TSA_WD_BtnCombatDifficulty>
+  <TSA_WD_DescCombatDifficulty>Mid/Late Game difficulty, threat timing gates, raid pressure on the player, stage combat bonuses, arrival styles, garrison scaling, and NPC T4 mortar/AA hardware.</TSA_WD_DescCombatDifficulty>
+  <TSA_WD_BtnEconomicDifficulty>Economic Difficulty</TSA_WD_BtnEconomicDifficulty>
+  <TSA_WD_DescEconomicDifficulty>Outpost upkeep, skill diminishing returns, goodwill drain, and bribe silver rates by escalation stage.</TSA_WD_DescEconomicDifficulty>
+  <TSA_WD_Settings_Search>Search</TSA_WD_Settings_Search>
+  <TSA_WD_Settings_SearchTip>Filter controls on this page by label or tooltip text. Matching a section header shows that whole section. Clear the box to show everything again.</TSA_WD_Settings_SearchTip>
+  <TSA_WD_ThreatGate_Never>Never</TSA_WD_ThreatGate_Never>
+  <TSA_WD_ThreatGate_FromMid>From Mid</TSA_WD_ThreatGate_FromMid>
+  <TSA_WD_ThreatGate_FromLate>From Late</TSA_WD_ThreatGate_FromLate>
+  <TSA_WD_ThreatGate_Always>Always</TSA_WD_ThreatGate_Always>
+  <TSA_WD_Combat_HeaderEscalation>Mid/Late Game difficulty</TSA_WD_Combat_HeaderEscalation>
+  <TSA_WD_Combat_HeaderEscalationTip>When Mid and Late difficulty turn on once your colony is strong enough.</TSA_WD_Combat_HeaderEscalationTip>
+  <TSA_WD_Combat_HeaderThreatTiming>Threat timing</TSA_WD_Combat_HeaderThreatTiming>
+  <TSA_WD_Combat_HeaderThreatTimingTip>When each special threat may fire relative to Mid/Late Game difficulty. Invasion and Desperation ignore normal raid/daily-action cooldowns; Invasion also ignores min raid ratio.</TSA_WD_Combat_HeaderThreatTimingTip>
+  <TSA_WD_Combat_HeaderOpportunityFeatures>Opportunity features (ToO / maraud / ambush)</TSA_WD_Combat_HeaderOpportunityFeatures>
+  <TSA_WD_Combat_HeaderTargetOfOpportunityTip>Traveling raiders may switch to a weaker target along the way.</TSA_WD_Combat_HeaderTargetOfOpportunityTip>
+  <TSA_WD_Combat_HeaderMaraudingTip>After a fight, survivors may push on to another target.</TSA_WD_Combat_HeaderMaraudingTip>
+  <TSA_WD_Combat_HeaderSettlementAmbushTip>Enemy settlements may ambush your caravan if you pass close.</TSA_WD_Combat_HeaderSettlementAmbushTip>
+  <TSA_WD_Combat_HeaderVanguard>Vanguard</TSA_WD_Combat_HeaderVanguard>
+  <TSA_WD_Combat_HeaderInvasion>Invasion</TSA_WD_Combat_HeaderInvasion>
+  <TSA_WD_Combat_HeaderVanguardAndInvasion>Vanguard and Invasion</TSA_WD_Combat_HeaderVanguardAndInvasion>
+  <TSA_WD_Combat_HeaderVanguardAndInvasionTip>Strong factions act from far settlements (beyond min player distance). Vanguard packs 5–7 far sites and resettles near you; after packing, the aggressor must still have at least 8 homeland settlements active. Invasion launches 5–7 coordinated raids from far hosts without abandoning those homes.</TSA_WD_Combat_HeaderVanguardAndInvasionTip>
+  <TSA_WD_Combat_VanguardVsInvasionPickChance>Vanguard pick chance</TSA_WD_Combat_VanguardVsInvasionPickChance>
+  <TSA_WD_Combat_VanguardVsInvasionPickChanceTip>When both Vanguard and Invasion can fire, chance to try Vanguard first. The rest of the time Invasion is tried instead.</TSA_WD_Combat_VanguardVsInvasionPickChanceTip>
+  <TSA_WD_Combat_HeaderDesperationTip>After a conquest loss in a pressured cluster, Strategy may fire (fire chance) then Turtle or desperation. Not controlled by Easy/Medium/Hard presets.</TSA_WD_Combat_HeaderDesperationTip>
+  <TSA_WD_Combat_HeaderStrongFactionWarTip>Strong NPC factions may declare war on each other.</TSA_WD_Combat_HeaderStrongFactionWarTip>
+  <TSA_WD_Combat_HeaderPlayerRaidsTip>Caps and cooldowns for raids you launch.</TSA_WD_Combat_HeaderPlayerRaidsTip>
+  <TSA_WD_Combat_HeaderRaidClampTip>How WD raid points are limited vs the storyteller budget.</TSA_WD_Combat_HeaderRaidClampTip>
+  <TSA_WD_Combat_HeaderStageBonuses>Stage combat bonuses</TSA_WD_Combat_HeaderStageBonuses>
+  <TSA_WD_Combat_HeaderStageBonusesTip>Extra raid pressure, growth, and range once Mid or Late is active.</TSA_WD_Combat_HeaderStageBonusesTip>
+  <TSA_WD_Combat_StageBonusesNeedEscalation>Enable Mid/Late Game difficulty above to edit stage combat bonuses.</TSA_WD_Combat_StageBonusesNeedEscalation>
+  <TSA_WD_Combat_HeaderArrivalStylesTip>Drop pod and siege style chances for colony raids.</TSA_WD_Combat_HeaderArrivalStylesTip>
+  <TSA_WD_Combat_HeaderAdvancedWorld>Advanced world combat</TSA_WD_Combat_HeaderAdvancedWorld>
+  <TSA_WD_Combat_HeaderAdvancedWorldTip>AT targeting of player travelers/caravans, and experimental T4 gravship raids.</TSA_WD_Combat_HeaderAdvancedWorldTip>
+  <TSA_WD_Combat_HeaderGarrisonTip>How much strength NPC settlements keep at home.</TSA_WD_Combat_HeaderGarrisonTip>
+  <TSA_WD_Combat_HeaderT4MortarTip>Enemy settlement mortar fire.</TSA_WD_Combat_HeaderT4MortarTip>
+  <TSA_WD_Combat_HeaderAntiAirTip>Enemy AA vs your drop pods and flyers.</TSA_WD_Combat_HeaderAntiAirTip>
+  <TSA_WD_Combat_HeaderT4Hardware>T4 mortar / AA hardware</TSA_WD_Combat_HeaderT4Hardware>
+  <TSA_WD_Combat_HeaderT4HardwareTip>Enable systems and tune range, damage, and accuracy. When they may fire at the player is set under Threat timing.</TSA_WD_Combat_HeaderT4HardwareTip>
+  <TSA_WD_Combat_HeaderT4Requirements>Tech requirements</TSA_WD_Combat_HeaderT4Requirements>
+  <TSA_WD_Combat_T4TimingNote>Player-targeting timing is controlled by the Threat timing gates above (not separate Mid/Late checkboxes).</TSA_WD_Combat_T4TimingNote>
+  <TSA_WD_Combat_HeaderGoodwillDrain>Goodwill drain</TSA_WD_Combat_HeaderGoodwillDrain>
+  <TSA_WD_Combat_GateWhen>Activates</TSA_WD_Combat_GateWhen>
+  <TSA_WD_Combat_GateOpportunity>Opportunity (ToO / maraud / ambush)</TSA_WD_Combat_GateOpportunity>
+  <TSA_WD_Combat_GateOpportunityTip>Stage gate for target-of-opportunity, marauding after conquest, and settlement ambush.</TSA_WD_Combat_GateOpportunityTip>
+  <TSA_WD_Combat_GateToOTip>Stage gate for target-of-opportunity retargeting.</TSA_WD_Combat_GateToOTip>
+  <TSA_WD_Combat_GateMaraudTip>Stage gate for post-victory marauding.</TSA_WD_Combat_GateMaraudTip>
+  <TSA_WD_Combat_GateAmbushTip>Stage gate for settlement-launched ambush.</TSA_WD_Combat_GateAmbushTip>
+  <TSA_WD_Combat_GateT4Mortar>T4 mortar vs player</TSA_WD_Combat_GateT4Mortar>
+  <TSA_WD_Combat_GateT4MortarTip>When enemy T4 settlement mortars may target the player.</TSA_WD_Combat_GateT4MortarTip>
+  <TSA_WD_Combat_GateT4AntiAir>T4 anti-air vs player</TSA_WD_Combat_GateT4AntiAir>
+  <TSA_WD_Combat_GateT4AntiAirTip>When enemy T4 settlement anti-air may target the player.</TSA_WD_Combat_GateT4AntiAirTip>
+  <TSA_WD_Combat_GateVanguard>Vanguard</TSA_WD_Combat_GateVanguard>
+  <TSA_WD_Combat_GateVanguardTip>Stage gate for Forward Assault Vanguard cluster near the player.</TSA_WD_Combat_GateVanguardTip>
+  <TSA_WD_Combat_GateInvasion>Invasion</TSA_WD_Combat_GateInvasion>
+  <TSA_WD_Combat_GateInvasionTip>Stage gate for Forward Assault Invasion (5–7 coordinated raids from far hosts; homes stay). Ignores normal raid cooldown and min raid ratio.</TSA_WD_Combat_GateInvasionTip>
+  <TSA_WD_Combat_FallBackToInvasion>Fall back to Invasion if Vanguard cluster fails</TSA_WD_Combat_FallBackToInvasion>
+  <TSA_WD_Combat_FallBackToInvasionTip>When Vanguard cannot reserve a settlement cluster, attempt Invasion instead (if the Invasion gate also passes).</TSA_WD_Combat_FallBackToInvasionTip>
+  <TSA_WD_Combat_InvasionIgnoresCooldownHint>Note: Invasion ignores normal raid and daily-action cooldowns.</TSA_WD_Combat_InvasionIgnoresCooldownHint>
+  <TSA_WD_Combat_InvasionIgnoresMinRatioHint>Note: Invasion ignores the min raid ratio below.</TSA_WD_Combat_InvasionIgnoresMinRatioHint>
+  <TSA_WD_Combat_GateDesperation>Strategy on Settlement Loss</TSA_WD_Combat_GateDesperation>
+  <TSA_WD_Combat_GateDesperationTip>Stage gate for Strategy on Settlement Loss (Turtle or desperation after a conquest loss). Always = from game start. Never = off. Difficulty presets do not change this.</TSA_WD_Combat_GateDesperationTip>
+  <TSA_WD_Combat_TurtleHeader>Turtle consolidate (daily)</TSA_WD_Combat_TurtleHeader>
+  <TSA_WD_Combat_HeaderTurtleTip>Daily: threatened clusters pack weak T1/T2 sites into a T4 hub (overflow to nearby T3s), promote by strength, and fortify. Separate from Strategy on Settlement Loss.</TSA_WD_Combat_HeaderTurtleTip>
+  <TSA_WD_Combat_GateTurtleTip>Stage gate for daily turtle consolidate. Always = from game start. Never = off.</TSA_WD_Combat_GateTurtleTip>
+  <TSA_WD_Combat_TurtleEnable>Enable turtle consolidate</TSA_WD_Combat_TurtleEnable>
+  <TSA_WD_Combat_TurtleEnableTooltip>When a faction's connected cluster is under pressure, weak outer T1/T2 sites pack into a T4 hub (overflow to nearby T3s once the T4 is full). Deposits promote hub tier by strength. Uses its own per-faction cooldown; at most one cluster per day.</TSA_WD_Combat_TurtleEnableTooltip>
+  <TSA_WD_Combat_TurtleChance>Daily chance</TSA_WD_Combat_TurtleChance>
+  <TSA_WD_Combat_TurtleChanceTooltip>Daily chance to evaluate and launch a turtle consolidation for the single best-scoring threatened cluster.</TSA_WD_Combat_TurtleChanceTooltip>
+  <TSA_WD_Combat_TurtleCooldown>Per-faction cooldown</TSA_WD_Combat_TurtleCooldown>
+  <TSA_WD_Combat_TurtleCooldownTooltip>Days before the same faction can consolidate again.</TSA_WD_Combat_TurtleCooldownTooltip>
+  <TSA_WD_Combat_TurtleMinCluster>Minimum cluster size</TSA_WD_Combat_TurtleMinCluster>
+  <TSA_WD_Combat_TurtleMinClusterTooltip>A connected cluster needs at least this many settlements to consolidate. Sites link when within 20 tiles of each other.</TSA_WD_Combat_TurtleMinClusterTooltip>
+  <TSA_WD_Combat_TurtleMaxPack>Max leaves packed</TSA_WD_Combat_TurtleMaxPack>
+  <TSA_WD_Combat_TurtleMaxPackTooltip>Maximum outer settlements that pack up and feed their strength into the hub.</TSA_WD_Combat_TurtleMaxPackTooltip>
+  <TSA_WD_Combat_TurtlePressure>Hostile pressure needed</TSA_WD_Combat_TurtlePressure>
+  <TSA_WD_Combat_TurtlePressureTooltip>Number of hostile settlements or player colonies/outposts within 15 tiles of any site in a cluster required to consolidate. Allied cluster membership links sites within 20 tiles.</TSA_WD_Combat_TurtlePressureTooltip>
+  <TSA_WD_Combat_TurtlePressureRatio>Regional pressure ratio</TSA_WD_Combat_TurtlePressureRatio>
+  <TSA_WD_Combat_TurtlePressureRatioTooltip>Hostile offensive strength within 15 tiles of any site in the cluster, divided by the cluster's own offensive strength. Allied sites form a cluster when linked within 20 tiles. Daily Turtle and Strategy on Settlement Loss both require this ratio (e.g. 225% = hostiles are 2.25× as strong as the cluster).</TSA_WD_Combat_TurtlePressureRatioTooltip>
+  <TSA_WD_Combat_TurtleNotify>Notify when turtle consolidate launches</TSA_WD_Combat_TurtleNotify>
+  <TSA_WD_Combat_TurtleNotifyTooltip>Send a letter when a nearby faction consolidates and fortifies a hub.</TSA_WD_Combat_TurtleNotifyTooltip>
+  <TSA_WD_Combat_GateStrongWar>Strong faction war</TSA_WD_Combat_GateStrongWar>
+  <TSA_WD_Combat_GateStrongWarTip>Stage gate for strong-faction war events.</TSA_WD_Combat_GateStrongWarTip>
   <TSA_WD_BtnResetAll>Reset ALL Settings</TSA_WD_BtnResetAll>
   <TSA_WD_ResetPageToDefaults>Reset this page to defaults</TSA_WD_ResetPageToDefaults>
   <TSA_WD_BtnSabotage>Sabotage</TSA_WD_BtnSabotage>
@@ -73,12 +156,12 @@
   <TSA_WD_Daily_CdFortifyTip>Days before this settlement can fortify again. Does not block other action types.</TSA_WD_Daily_CdFortifyTip>
   <TSA_WD_Daily_CdTrader>Cooldown after Trader Caravan</TSA_WD_Daily_CdTrader>
   <TSA_WD_Daily_CdTraderTip>Days before this settlement can launch another trader caravan. Does not block other action types.</TSA_WD_Daily_CdTraderTip>
-  <TSA_WD_DescDailyActions>How many actions may settlements perform per day? How likely is each action type? What cooldowns to apply after an action?</TSA_WD_DescDailyActions>
-  <TSA_WD_DescDiplomacy>Random diplomacy, revolt chance, goodwill cap and vanilla goodwill tweaks, allied raid orders, ordered roads, buy settlement, faction investment, and leader/underdog/zeal/coalition buffs.</TSA_WD_DescDiplomacy>
+  <TSA_WD_DescDailyActions>Action likelihood weights, NPC fortify, and action cooldowns. Daily action counts and capacity are under Growth &amp; Expansion.</TSA_WD_DescDailyActions>
+  <TSA_WD_DescGrowthExpand>How quickly do settlements grow? Daily action shares and capacity per tier. Expansion distance and saturation caps.</TSA_WD_DescGrowthExpand>
+  <TSA_WD_DescDiplomacy>Random diplomacy, revolt chance, goodwill cap and vanilla goodwill tweaks, allied raid orders, ordered roads, buy settlement, faction investment, and leader/underdog/zeal/coalition buffs. Strong war, forward assault, and desperation live under Combat Difficulty.</TSA_WD_DescDiplomacy>
   <TSA_WD_DescDisinformation>Success and failure likelihoods, cooldowns, and skill impact for disinformation missions.</TSA_WD_DescDisinformation>
   <TSA_WD_DescGarrison>How strong settlement garrisons are by tier, and how much they weaken when a settlement is depleted.</TSA_WD_DescGarrison>
   <TSA_WD_DescBaseGeneration>KCSG layout tweaks when WD generates settlement assault and outpost defense maps. Per-faction assault eligibility is set in World Setup → Allegiances.</TSA_WD_DescBaseGeneration>
-  <TSA_WD_DescGrowthExpand>How quickly do settlements grow? What requirements need to be met to upgrade a settlement? Expansion distance and saturation caps.</TSA_WD_DescGrowthExpand>
   <TSA_WD_DescMiningBaselines>Configure the baseline amount a Mining Outpost can get per stone/ore based on the Mining Skill level.</TSA_WD_DescMiningBaselines>
   <TSA_WD_DescNotifications>Toggle which world domination events generate notifications.</TSA_WD_DescNotifications>
   <TSA_WD_DescOutpostFood>Food consumption, production, logistics range, and efficiency for outposts.</TSA_WD_DescOutpostFood>
@@ -104,7 +187,7 @@
   <TSA_WD_Important_Performance>Performance</TSA_WD_Important_Performance>
   <TSA_WD_Important_PerformanceTip>Preset for pathfinding cost, water travel, enemy T4 artillery, interceptor scan rate, max planet settlements, and NPC ambush interceptor cap. Click Apply to write only these values.</TSA_WD_Important_PerformanceTip>
   <TSA_WD_Important_Difficulty>Difficulty</TSA_WD_Important_Difficulty>
-  <TSA_WD_Important_DifficultyTip>Preset for raid pressure on you, storyteller strength clamp, daily raid weight, and Mid Game / Late Game. Click Apply to write only these values.</TSA_WD_Important_DifficultyTip>
+  <TSA_WD_Important_DifficultyTip>Preset for raid pressure on you, storyteller strength clamp, daily raid weight, Combat Difficulty threat gates, and Mid/Late escalation. Click Apply to write only these values. Edit details in Combat Difficulty and Economic Difficulty.</TSA_WD_Important_DifficultyTip>
   <TSA_WD_SettingsPreset_Apply>Apply</TSA_WD_SettingsPreset_Apply>
   <TSA_WD_SettingsPreset_Applied>Applied preset: {0}</TSA_WD_SettingsPreset_Applied>
   <TSA_WD_Settings_ExpandAll>Expand all</TSA_WD_Settings_ExpandAll>
@@ -118,9 +201,9 @@
   <TSA_WD_Important_Diff_Easy>Easy Difficulty</TSA_WD_Important_Diff_Easy>
   <TSA_WD_Important_Diff_Medium>Medium Difficulty</TSA_WD_Important_Diff_Medium>
   <TSA_WD_Important_Diff_Hard>Hard Difficulty</TSA_WD_Important_Diff_Hard>
-  <TSA_WD_Important_Diff_EasyDesc>Longer raid cooldowns, fewer raids, weaker storyteller clamp (50–150%), lower raid weight. Mid Game and Late Game never activate. Outpost skill diminishing returns are off.</TSA_WD_Important_Diff_EasyDesc>
-  <TSA_WD_Important_Diff_MediumDesc>Default raid pressure. Mid Game at 15% share or 6,000 outpost strength; Late Game at 25% or 10,000. T4 mortars/AA vs you on in Late Game only. Outpost skill diminishing returns are on with default bands and hard cap.</TSA_WD_Important_Diff_MediumDesc>
-  <TSA_WD_Important_Diff_HardDesc>Shorter cooldowns, more raids allowed, stronger storyteller clamp (100–300%), higher raid weight. Same Mid Game / Late Game timing as Medium, but Late Game hits harder and T4 mortars/AA vs you are already enabled in Mid Game. Outpost skill diminishing returns are on with default bands and hard cap.</TSA_WD_Important_Diff_HardDesc>
+  <TSA_WD_Important_Diff_EasyDesc>Longer raid cooldowns, fewer raids, weaker storyteller clamp (50–150%), raid weight 100. Threat stage gates Never (ToO, T4 vs you, Vanguard/Invasion, desperation, strong war). Mid/Late escalation off. Outpost skill diminishing returns off.</TSA_WD_Important_Diff_EasyDesc>
+  <TSA_WD_Important_Diff_MediumDesc>Default raid pressure and raid weight 200. Threat stage gates From Mid. Mid Game at 15% share or 6,000 outpost strength; Late Game at 25% or 10,000. Outpost skill diminishing returns on with default bands.</TSA_WD_Important_Diff_MediumDesc>
+  <TSA_WD_Important_Diff_HardDesc>Shorter cooldowns, more raids allowed, stronger storyteller clamp (100–300%), raid weight 200 (same as Medium). Threat stage gates Always. Same Mid/Late timing as Medium, but Late Game hits harder. Outpost skill diminishing returns on with default bands.</TSA_WD_Important_Diff_HardDesc>
   <TSA_WD_PlayerArtillery_Reset>Reset this page to Defaults</TSA_WD_PlayerArtillery_Reset>
   <TSA_WD_FacDet_BtnView>View</TSA_WD_FacDet_BtnView>
   <TSA_WD_FacDet_HeaderName>Settlement Name</TSA_WD_FacDet_HeaderName>
@@ -167,8 +250,8 @@
   <TSA_WD_BaseGen_FogInteriorMineablesTip>On settlement assault and outpost defense maps, within the settlement rect, re-fogs natural rock and ore cells that are fully surrounded by rock or ore on all eight neighboring tiles (pre-existing mountain or layout rock). Chunks do not count. Runs after settlement rect unfog.</TSA_WD_BaseGen_FogInteriorMineablesTip>
   <TSA_WD_BaseGen_ForcePower>Force settlement power (assault only)</TSA_WD_BaseGen_ForcePower>
   <TSA_WD_BaseGen_ForcePowerTip>On NPC settlement assault maps, powers lamps and turrets without a real grid and refuels fuel turrets. Does not apply to outpost defense maps.</TSA_WD_BaseGen_ForcePowerTip>
-  <TSA_WD_BaseGen_SilenceTurrets>Silence defeated turrets (assault only)</TSA_WD_BaseGen_SilenceTurrets>
-  <TSA_WD_BaseGen_SilenceTurretsTip>On NPC settlement assault maps, powers down leftover faction turrets once all hostile humanlikes are down or gone. Does not apply to outpost defense maps.</TSA_WD_BaseGen_SilenceTurretsTip>
+  <TSA_WD_BaseGen_SilenceTurrets>Destroy defeated turrets (assault only)</TSA_WD_BaseGen_SilenceTurrets>
+  <TSA_WD_BaseGen_SilenceTurretsTip>On NPC settlement assault maps, destroys unmanned leftover faction turrets once all hostile humanlikes are down, fleeing, or gone — so you can reform the caravan. Does not apply to outpost defense maps.</TSA_WD_BaseGen_SilenceTurretsTip>
   <TSA_WD_Garrison_Tooltip>Scales the points used to generate defenders. Higher values increase pawn count and quality.</TSA_WD_Garrison_Tooltip>
   <TSA_WD_HeaderDynamicGarrison>Dynamic Scaling (by current offensive strength)</TSA_WD_HeaderDynamicGarrison>
   <TSA_WD_Garrison_MinScale>Minimum garrison from depleted offense</TSA_WD_Garrison_MinScale>
@@ -314,6 +397,7 @@
   <TSA_WD_Growth_GoodwillPer1000SilverTooltip>Amount of goodwill gained per 1000 silver of total trade value (market value of goods exchanged).</TSA_WD_Growth_GoodwillPer1000SilverTooltip>
   <TSA_WD_Growth_HeaderExpansion>Expansion &amp; Local Density Limits</TSA_WD_Growth_HeaderExpansion>
   <TSA_WD_Growth_HeaderGoodwillFromTrade>Goodwill from Trade</TSA_WD_Growth_HeaderGoodwillFromTrade>
+  <TSA_WD_Growth_HeaderActionEconomy>Daily actions &amp; settlement capacity</TSA_WD_Growth_HeaderActionEconomy>
   <TSA_WD_Growth_HeaderGrowth>General Growth Settings</TSA_WD_Growth_HeaderGrowth>
   <TSA_WD_Growth_HeaderSameTierUpgradeReq>Same-tier upgrade requirements</TSA_WD_Growth_HeaderSameTierUpgradeReq>
   <TSA_WD_Growth_HeaderDefensiveBaselines>Defensive strength baselines</TSA_WD_Growth_HeaderDefensiveBaselines>
@@ -394,7 +478,7 @@
   <TSA_WD_Threat_StorytellerMovedHint>Per-faction storyteller raid rules moved to WD Faction scope and Allegiances.</TSA_WD_Threat_StorytellerMovedHint>
   <TSA_WD_AllegianceMatrixInGameOnly>Allowed diplomacy changes can only be opened while playing (not from the main menu).</TSA_WD_AllegianceMatrixInGameOnly>
   <TSA_WD_Outpost_MaxTravelStrengthLoss>Max. travel strength loss</TSA_WD_Outpost_MaxTravelStrengthLoss>
-  <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>Maximum percentage of departure strength that travelers (raids, expansion, road builders) can lose during travel. At 75%, they keep at least 25% of initial strength and never expire from attrition alone.</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
+  <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>Maximum percentage of departure strength that travelers (raids, expansion, road builders) can lose during travel. They keep the remaining share of initial strength and never expire from attrition alone.</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
   <TSA_WD_Caravans_OnlyWaterIfNoLandPath>Travelers: only cross water if no land route exists</TSA_WD_Caravans_OnlyWaterIfNoLandPath>
   <TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>When enabled, WD travelers use the normal world path first and only use water-capable routing if that fails. When disabled, both routes are compared and the faster one is used (same difficulty units as below).</TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>
   <TSA_WD_Caravans_WaterMovementDifficulty>Travelers: water tile movement difficulty</TSA_WD_Caravans_WaterMovementDifficulty>

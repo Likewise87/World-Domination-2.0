@@ -1629,26 +1629,20 @@ namespace TSA_WorldDomination
 
             SettlementTier oldTier = tier;
 
-            float currentMax = (tier == SettlementTier.T1) ? 500f :
-                               (tier == SettlementTier.T2) ? 1000f :
-                               (tier == SettlementTier.T3) ? 1600f : 2250f;
-
-            if (offensiveStrength > currentMax) offensiveStrength = currentMax;
-
-            if (offensiveStrength > 1600f) tier = SettlementTier.T4;
-            else if (offensiveStrength > 1000f) tier = SettlementTier.T3;
-            else if (offensiveStrength > 500f) tier = SettlementTier.T2;
+            SettlementTier fromStrength;
+            if (offensiveStrength > 1600f) fromStrength = SettlementTier.T4;
+            else if (offensiveStrength > 1000f) fromStrength = SettlementTier.T3;
+            else if (offensiveStrength > 500f) fromStrength = SettlementTier.T2;
+            else fromStrength = SettlementTier.T1;
 
             if (allowDemotion)
-            {
-                if (offensiveStrength <= 500f) tier = SettlementTier.T1;
-                else if (offensiveStrength <= 1000f) tier = SettlementTier.T2;
-                else if (offensiveStrength <= 1600f) tier = SettlementTier.T3;
-            }
-            else
-            {
-                if (tier < oldTier) tier = oldTier;
-            }
+                tier = fromStrength;
+            else if (fromStrength > oldTier)
+                tier = fromStrength;
+            // else keep oldTier (promotion-only; offense may sit below the band min)
+
+            float max = GetStrengthRange(tier).max;
+            if (offensiveStrength > max) offensiveStrength = max;
 
             if (oldTier != tier)
             {

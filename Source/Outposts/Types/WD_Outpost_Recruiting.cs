@@ -92,7 +92,7 @@ namespace TSA_WorldDomination
                 if (!partner.ContributesToFaction) continue;
                 Faction faction = partner.Faction;
                 if (faction?.def == null) continue;
-                float tierWeight = Outpost_Trading.RecruitingTierWeight(partner.Tier);
+                float tierWeight = Outpost_Trading.EffectiveRecruitingTierWeight(partner);
                 if (factionTierWeightScratch.TryGetValue(faction, out float existing))
                     factionTierWeightScratch[faction] = existing + tierWeight;
                 else
@@ -228,7 +228,7 @@ namespace TSA_WorldDomination
                 if (!partner.ContributesToFaction) continue;
                 Faction faction = partner.Faction;
                 if (faction?.def == null) continue;
-                float tierWeight = Outpost_Trading.RecruitingTierWeight(partner.Tier);
+                float tierWeight = Outpost_Trading.EffectiveRecruitingTierWeight(partner);
                 if (factionTierWeightScratch.TryGetValue(faction, out float existing))
                     factionTierWeightScratch[faction] = existing + tierWeight;
                 else
@@ -344,7 +344,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < nearbyPartnerScratch.Count; i++)
             {
                 if (!nearbyPartnerScratch[i].ContributesToFaction) continue;
-                sum += Outpost_Trading.RecruitingTierWeight(nearbyPartnerScratch[i].Tier);
+                sum += Outpost_Trading.EffectiveRecruitingTierWeight(nearbyPartnerScratch[i]);
             }
             return sum;
         }
@@ -411,13 +411,19 @@ namespace TSA_WorldDomination
         /// <summary>Tooltip for one nearby partner: location, points, xenotypes. Totals are shown below the list.</summary>
         public static string BuildPartnerRowTooltip(Outpost_Trading.NearbyPartnerInfo partner)
         {
-            return OutpostTranslationUtil.Key(
+            string tip = OutpostTranslationUtil.Key(
                 "TSA_WD_Recruiting_PartnerRowTip",
                 partner.Label,
                 FormatTierLabel(partner.Tier),
                 partner.Faction?.Name ?? partner.Faction?.def?.LabelCap ?? "?",
                 partner.DistanceTiles.ToString(),
-                GetTierPoints(partner.Tier).ToString("0.#"));
+                Outpost_Trading.EffectiveRecruitingTierWeight(partner).ToString("0.#"));
+            if (partner.IsHostilePartner)
+            {
+                int pct = Mathf.RoundToInt(Outpost_Trading.HostilePartnerMult * 100f);
+                tip += "\n\n" + OutpostTranslationUtil.Key("TSA_WD_Recruiting_PartnerRowTip_Defectors", pct.ToString());
+            }
+            return tip;
         }
 
         /// <summary>Gizmo label: Recruiting any Pawn or Recruiting: Shooting.</summary>
@@ -436,9 +442,10 @@ namespace TSA_WorldDomination
             float avgSocial = outpost.GetCapacityForYieldPreview();
             int count = ComputeRecruitCount(outpost, avgSocial);
             var skill = outpost.SelectedRecruitPrioritySkill;
-            if (skill != null)
-                return OutpostTranslationUtil.Key("TSA_WD_Recruiting_Inspect_WithSkill", count.ToString(), skill.LabelCap);
-            return OutpostTranslationUtil.Key("TSA_WD_Recruiting_Inspect_Any", count.ToString());
+            string line = skill != null
+                ? OutpostTranslationUtil.Key("TSA_WD_Recruiting_Inspect_WithSkill", count.ToString(), skill.LabelCap)
+                : OutpostTranslationUtil.Key("TSA_WD_Recruiting_Inspect_Any", count.ToString());
+            return line + Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusSuffix(outpost);
         }
 
         /// <summary>Collect sorted nearby partners for UI (dialog, tooltips).</summary>
@@ -448,7 +455,7 @@ namespace TSA_WorldDomination
         /// <summary>One-line partner label: settlement name, tier, and neighbor points.</summary>
         public static string FormatPartnerRowLabel(Outpost_Trading.NearbyPartnerInfo partner)
         {
-            float pts = GetTierPoints(partner.Tier);
+            float pts = Outpost_Trading.EffectiveRecruitingTierWeight(partner);
             return OutpostTranslationUtil.Key(
                 "TSA_WD_Recruiting_PartnerRow",
                 partner.Label,
@@ -456,12 +463,13 @@ namespace TSA_WorldDomination
                 pts.ToString("0.#"));
         }
 
-        /// <summary>Social + neighbor recruits, scaled by global output multiplier, before skill-training penalty.</summary>
+        /// <summary>Social + neighbor recruits, scaled by global output multiplier, then expert/warehouse, before skill-training penalty.</summary>
         public static int ComputeRecruitCountBeforePriorityPenalty(WorldObject_WD_Outpost outpost, float avgSocial)
         {
             if (outpost == null) return 0;
             int raw = GetBaseRecruitsFromSocial(avgSocial) + GetNeighborBonusRecruits(outpost);
-            return Outpost_Production_Utils.ScaleOutputStackCount(Mathf.Max(0, raw));
+            int scaled = Outpost_Production_Utils.ScaleOutputStackCount(Mathf.Max(0, raw));
+            return Outpost_Production_Utils.ApplyExpertAndWarehouseYieldMultipliers(scaled, outpost);
         }
 
         /// <summary>Base Social recruits + neighbor tier bonus, optional skill-training penalty, then output scaling already applied in pre-penalty step.</summary>
@@ -611,6 +619,7 @@ namespace TSA_WorldDomination
                 return GenerateRecruitPawn(xenotype, prioritySkill, PawnKindDefOf.Colonist);
 
             ApplyPrioritySkillFloor(p, prioritySkill);
+            WorldComponent_PlayerPawnJoinTimes.Get()?.NoteJoinedPlayerFaction(p);
             return p;
         }
 
@@ -746,53 +755,49 @@ namespace TSA_WorldDomination
             total += weight;
         }
 
-        /// <summary>Compact expected-outcome breakdown for the recruiting dialog tooltip.</summary>
-        public static string GetDetailedMathTooltip(WorldObject_WD_Outpost outpost, float avgSocial)
+        /// <summary>Compact expected-outcome line for stats / dialog (honest to additive Social+neighbors, then multipliers).</summary>
+        public static string GetCompactYieldFormulaTip(WorldObject_WD_Outpost outpost, float avgSocial)
         {
             if (outpost == null) return "";
 
             int baseRec = GetBaseRecruitsFromSocial(avgSocial);
             float neighborPts = GetTierWeightSum(outpost);
             int neighborBonus = GetNeighborBonusRecruits(outpost);
-            int beforePenalty = ComputeRecruitCountBeforePriorityPenalty(outpost, avgSocial);
             int total = ComputeRecruitCount(outpost, avgSocial);
-            bool hasPenalty = outpost.SelectedRecruitPrioritySkill != null;
+            int expertPct = Mathf.RoundToInt(OutpostWarehouseAuraUtility.GetSoftProductionBonusMultiplier(outpost) * 100f);
+            float global = Outpost_Production_Utils.ClampedProductionOutputMultiplier();
 
-            var lines = new List<string>(4);
-
-            lines.Add(OutpostTranslationUtil.Key(
-                "TSA_WD_Recruiting_Math_SocialLine",
-                avgSocial.ToString("F0"),
-                baseRec.ToString()));
-
-            lines.Add(OutpostTranslationUtil.Key(
-                "TSA_WD_Recruiting_Math_NeighborLine",
-                neighborPts.ToString("0.#"),
-                neighborBonus.ToString()));
-
-            if (hasPenalty)
+            string line;
+            if (outpost.SelectedRecruitPrioritySkill != null)
             {
-                lines.Add(OutpostTranslationUtil.Key(
-                    "TSA_WD_Recruiting_Math_SkillPenaltyLine",
-                    PrioritySkillRecruitPenaltyPercent.ToString()));
-
-                float product = beforePenalty * PrioritySkillRecruitMultiplier;
-                lines.Add(OutpostTranslationUtil.Key(
-                    "TSA_WD_Recruiting_Math_ResultWithPenalty",
-                    beforePenalty.ToString(),
-                    PrioritySkillRecruitMultiplier.ToString("0.#"),
-                    product.ToString("F1"),
-                    total.ToString()));
+                line = "TSA_WD_Recruiting_Math_CompactWithSkill".Translate(
+                    baseRec.ToString(),
+                    avgSocial.ToString("F0"),
+                    neighborBonus.ToString(),
+                    neighborPts.ToString("0.#"),
+                    expertPct.ToString(),
+                    PrioritySkillRecruitPenaltyPercent.ToString(),
+                    total.ToString()).ToString();
             }
             else
             {
-                lines.Add(OutpostTranslationUtil.Key(
-                    "TSA_WD_Recruiting_Math_ResultNoPenalty",
-                    beforePenalty.ToString()));
+                line = "TSA_WD_Recruiting_Math_Compact".Translate(
+                    baseRec.ToString(),
+                    avgSocial.ToString("F0"),
+                    neighborBonus.ToString(),
+                    neighborPts.ToString("0.#"),
+                    expertPct.ToString(),
+                    total.ToString()).ToString();
             }
 
-            return string.Join("\n", lines.ToArray());
+            if (Mathf.Abs(global - 1f) > 0.02f)
+                line += "\n" + "TSA_WD_Production_Formula_GlobalOutputTip".Translate(global.ToString("F2"));
+            return line;
         }
+
+        /// <summary>Compact expected-outcome breakdown for the recruiting dialog / stats tooltip.</summary>
+        public static string GetDetailedMathTooltip(WorldObject_WD_Outpost outpost, float avgSocial)
+            => GetCompactYieldFormulaTip(outpost, avgSocial);
 
         /// <summary>Tooltip for recruiting gizmo / legacy callers.</summary>
         public static string GetProductionTooltip(WorldObject_WD_Outpost outpost, float avgSocial)

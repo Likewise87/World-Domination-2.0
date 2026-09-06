@@ -39,6 +39,13 @@
   </WorldObjectDef>
 
   <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_MassRelocation</defName>
+    <label>Vanguard Caravan</label>
+    <texture>WorldObjects/Caravan_Expansion</texture>
+    <expandingIconTexture>WorldObjects/Caravan_Expansion</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
     <defName>TSA_WD_Traveler_RoadBuilder</defName>
     <label>Road Builder Caravan</label>
     <texture>WorldObjects/Caravan_RoadBuilder</texture>

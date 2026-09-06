@@ -20,6 +20,8 @@ namespace TSA_WorldDomination
         private bool underdogExpanded = true;
         private bool zealExpanded = true;
         private bool coalitionExpanded = true;
+        private bool revoltExpanded = true;
+        private bool sharedSpecialCdExpanded = true;
 
         public override Vector2 InitialSize => new Vector2(850f, 750f);
 
@@ -36,14 +38,15 @@ namespace TSA_WorldDomination
         {
             relationsExpanded = goodwillExpanded = alliedRaidExpanded = orderedRoadExpanded =
                 settlementBuyExpanded = diplomacyNegotiateExpanded = factionBribeExpanded = factionInvestmentExpanded = eventsExpanded = leaderExpanded =
-                underdogExpanded = zealExpanded = coalitionExpanded = expanded;
+                underdogExpanded = zealExpanded = coalitionExpanded =
+                revoltExpanded = sharedSpecialCdExpanded = expanded;
         }
 
         public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
             float contentWidth = contentRect.width - 24f;
-            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 3400f);
+            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 3600f);
 
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
 
@@ -54,8 +57,8 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetDiplomacy(),
                 () => SetAllExpanded(true),
                 () => SetAllExpanded(false));
+            SettingsUI.DrawSettingsSearchBar(l);
 
-            // --- SECTION 1: DYNAMIC WORLD RELATIONS (core) ---
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_Header".Translate(), ref relationsExpanded, SettingsUI.SectionHeaderColor))
             {
                 l.CheckboxLabeled(
@@ -70,27 +73,6 @@ namespace TSA_WorldDomination
                         "TSA_WD_Diplo_RandomChanceTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefDiplomacyChangeChance);
                 }
 
-                l.CheckboxLabeled(
-                    "TSA_WD_Diplo_StrongFactionWarEnable".Translate(),
-                    ref s.enableStrongFactionWar,
-                    SettingsUI.TooltipWithDefault("TSA_WD_Diplo_StrongFactionWarEnableTooltip".Translate(), WorldDominationSettings.DefEnableStrongFactionWar)
-                );
-                if (s.enableStrongFactionWar)
-                {
-                    s.strongFactionWarChance = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_StrongFactionWarChance".Translate(), s.strongFactionWarChance, 0f, 1f,
-                        "TSA_WD_Diplo_StrongFactionWarChanceTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefStrongFactionWarChance);
-                    s.strongFactionWarTopPct = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_StrongFactionWarTopPct".Translate(), s.strongFactionWarTopPct, 0.05f, 1f,
-                        "TSA_WD_Diplo_StrongFactionWarTopPctTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefStrongFactionWarTopPct);
-                    l.CheckboxLabeled(
-                        "TSA_WD_Diplo_StrongFactionWarRequireMidOrLate".Translate(),
-                        ref s.strongFactionWarRequireMidOrLate,
-                        SettingsUI.TooltipWithDefault("TSA_WD_Diplo_StrongFactionWarRequireMidOrLateTooltip".Translate(), WorldDominationSettings.DefStrongFactionWarRequireMidOrLate)
-                    );
-                }
-
-                s.revoltChance = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_RevoltChance".Translate(), s.revoltChance, 0f, 1f,
-                    "TSA_WD_Diplo_RevoltChanceTooltip".Translate(), 0.002f, SliderFormat.PercentDecimal, WorldDominationSettings.DefRevoltChance);
-
                 l.GapLine();
                 if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_VanillaGoodwillHeader".Translate(), ref goodwillExpanded, SettingsUI.SectionHeaderColor))
                 {
@@ -103,11 +85,35 @@ namespace TSA_WorldDomination
                 DrawAlliedRaidOrderSettings(l, s);
             }
 
+            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_RevoltHeader".Translate(), ref revoltExpanded, SettingsUI.SectionHeaderColor))
+            {
+                s.revoltChance = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_RevoltChance".Translate(), s.revoltChance, 0f, 1f,
+                    "TSA_WD_Diplo_RevoltChanceTooltip".Translate(), 0.002f, SliderFormat.PercentDecimal, WorldDominationSettings.DefRevoltChance);
+                if (!s.useSharedSpecialEventCooldown)
+                {
+                    s.revoltCooldownDays = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_RevoltCooldown".Translate(), s.revoltCooldownDays, 0.5f, 60f,
+                        "TSA_WD_Diplo_RevoltCooldownTooltip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefRevoltCooldownDays);
+                }
+            }
+
+            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_SharedSpecialEventCooldownHeader".Translate(), ref sharedSpecialCdExpanded, SettingsUI.SectionHeaderColor))
+            {
+                l.CheckboxLabeled(
+                    "TSA_WD_Diplo_SharedSpecialEventCooldown".Translate(),
+                    ref s.useSharedSpecialEventCooldown,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Diplo_SharedSpecialEventCooldownTooltip".Translate(), WorldDominationSettings.DefUseSharedSpecialEventCooldown)
+                );
+                if (s.useSharedSpecialEventCooldown)
+                {
+                    s.sharedSpecialEventCooldownDays = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_SharedSpecialEventCooldownDays".Translate(), s.sharedSpecialEventCooldownDays, 0.5f, 60f,
+                        "TSA_WD_Diplo_SharedSpecialEventCooldownDaysTooltip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefSharedSpecialEventCooldownDays);
+                }
+            }
+
             if (advanced)
             {
                 l.Gap(18f);
 
-                // --- SECTION 2: BUFFS & DEBUFFS (advanced) ---
                 if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_GlobalEventsHeader".Translate(), ref eventsExpanded, SettingsUI.SectionHeaderColor))
                 {
                     if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_Block_Leader".Translate(), ref leaderExpanded, SettingsUI.SectionHeaderColor))

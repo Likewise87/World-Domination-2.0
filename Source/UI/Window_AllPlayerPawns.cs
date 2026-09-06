@@ -21,13 +21,14 @@ namespace TSA_WorldDomination
         private const float LocIconPad = 4f;
         private const float LocIconDrawSize = 40f;
         private const float ColIcon = LocIconDrawSize + LocIconPad * 2f;
-        private const float ColLocType = 128f;
-        private const float ColLocName = 160f;
+        private const float ColLocType = 108f;
+        private const float ColLocName = 140f;
         private const float ColSelect = 36f;
         private const float ColPawnType = 96f;
         private const float ColPortrait = 40f;
         private const float ColName = 140f;
         private const float ColStar = 56f;
+        private const float ColNew = 56f;
         private const float ColSkill = 74f;
         private const float ColPadding = 12f;
         private const float TransferBtnWidth = 220f;
@@ -62,6 +63,7 @@ namespace TSA_WorldDomination
         private static string locationTypeSearchTerm = "";
         private static PlayerPawnTypeFilter pawnTypeFilter = PlayerPawnTypeFilter.All;
         private static PlayerPawnStarFilter starFilter = PlayerPawnStarFilter.AllAnywhere;
+        private static PawnRosterJoinedFilter joinedFilter = PawnRosterJoinedFilter.All;
         private static string xenotypeFilter = "";
         private static string psycastFilter = "";
         private int lastUpdateTick = -9999;
@@ -70,6 +72,7 @@ namespace TSA_WorldDomination
         private static bool _cacheInvalidated;
         private float lastScrollViewportHeight = 400f;
         private static string? _starHeaderTip;
+        private static string? _joinStampHeaderTip;
 
         public override Vector2 InitialSize => new Vector2(UI.screenWidth, UI.screenHeight);
 
@@ -290,6 +293,7 @@ namespace TSA_WorldDomination
         private List<PlayerPawnRosterEntry> BuildCurrentRoster(
             PlayerPawnTypeFilter? typeF = null,
             PlayerPawnStarFilter? starF = null,
+            PawnRosterJoinedFilter? joinedF = null,
             bool applyXenotype = true,
             bool applyLocationType = true,
             bool applyPsycast = true)
@@ -301,9 +305,10 @@ namespace TSA_WorldDomination
                 : null;
             PlayerPawnTypeFilter type = typeF ?? (ColOn(PawnRosterColumnIds.Type) ? pawnTypeFilter : PlayerPawnTypeFilter.All);
             PlayerPawnStarFilter star = starF ?? (ColOn(PawnRosterColumnIds.Star) ? starFilter : PlayerPawnStarFilter.AllAnywhere);
+            PawnRosterJoinedFilter joined = joinedF ?? (ColOn(PawnRosterColumnIds.New) ? joinedFilter : PawnRosterJoinedFilter.All);
             var list = PlayerPawnRosterUtility.BuildRoster(
                 pawnSearchLower, locNameLower, locTypeLower, null,
-                useDefaultGrouping, sortColumn, sortAscending, star, type);
+                useDefaultGrouping, sortColumn, sortAscending, star, type, joined);
             PawnRosterTraitFilter.ApplyToPlayerRows(list, ColWindow);
             if (applyXenotype && ColOn(PawnRosterColumnIds.Xenotype))
                 PawnRosterTraitFilter.ApplyXenotypeToPlayerRows(list, xenotypeFilter);
@@ -324,6 +329,8 @@ namespace TSA_WorldDomination
             if (!ColOn(PawnRosterColumnIds.Type) && sortColumn == "PawnType")
                 ClearSortToDefault();
             else if (!ColOn(PawnRosterColumnIds.Star) && sortColumn == "Starred")
+                ClearSortToDefault();
+            else if (!ColOn(PawnRosterColumnIds.New) && sortColumn == "New")
                 ClearSortToDefault();
             else if (!ColOn(PawnRosterColumnIds.Age) && sortColumn == "Age")
                 ClearSortToDefault();
@@ -367,6 +374,7 @@ namespace TSA_WorldDomination
             locationTypeSearchTerm = "";
             pawnTypeFilter = PlayerPawnTypeFilter.All;
             starFilter = PlayerPawnStarFilter.AllAnywhere;
+            joinedFilter = PawnRosterJoinedFilter.All;
             xenotypeFilter = "";
             psycastFilter = "";
             scrollPos = Vector2.zero;
@@ -425,6 +433,7 @@ namespace TSA_WorldDomination
             float w = ColIcon + ColLocType + ColLocName + ColSelect + ColPortrait + ColName;
             if (ColOn(PawnRosterColumnIds.Type)) w += ColPawnType;
             if (ColOn(PawnRosterColumnIds.Star)) w += ColStar;
+            if (ColOn(PawnRosterColumnIds.New)) w += ColNew;
             w += ColPadding;
             if (ColOn(PawnRosterColumnIds.Age)) w += ColAge;
             if (ColOn(PawnRosterColumnIds.Traits)) w += ColTraits;
@@ -445,9 +454,16 @@ namespace TSA_WorldDomination
                 _starHeaderTip = "TSA_WD_AllPlayerPawns_StarTip".Translate();
         }
 
+        private static void EnsureJoinStampHeaderTip()
+        {
+            if (_joinStampHeaderTip == null)
+                _joinStampHeaderTip = "TSA_WD_PawnRoster_ColNewTip".Translate();
+        }
+
         private void DrawTableHeader(float x, float y, float width)
         {
             EnsureStarHeaderTip();
+            EnsureJoinStampHeaderTip();
             float curX = x;
             Text.Font = GameFont.Tiny;
             GUI.color = Color.gray;
@@ -540,6 +556,28 @@ namespace TSA_WorldDomination
                         }, PawnRosterHeaderFilter.StarRowsFrom(BuildCurrentRoster(starF: PlayerPawnStarFilter.AllAnywhere))),
                         width: 280f),
                     () => SetSort("Starred"));
+            }
+            if (ColOn(PawnRosterColumnIds.New))
+            {
+                PawnRosterHeaderFilter.DrawFilterableHeader(
+                    ref curX, hRect.y, ColNew, HeaderHeight,
+                    null,
+                    sortColumn == "New", sortAscending,
+                    TextAnchor.MiddleCenter,
+                    joinedFilter != PawnRosterJoinedFilter.All,
+                    "TSA_WD_FilterByNew".Translate(),
+                    icon => PawnRosterHeaderFilter.OpenChoiceDropdown(
+                        icon,
+                        "TSA_WD_FilterByNew".Translate(),
+                        PawnRosterHeaderFilter.JoinedFilterChoices(joinedFilter, f =>
+                        {
+                            joinedFilter = f;
+                            lastUpdateTick = -9999;
+                        }, PawnRosterHeaderFilter.JoinDaysFrom(BuildCurrentRoster(joinedF: PawnRosterJoinedFilter.All))),
+                        width: 300f),
+                    () => SetSort("New"),
+                    PawnRosterHeaderFilter.JoinStampHeaderIcon,
+                    _joinStampHeaderTip);
             }
             curX += ColPadding;
 
@@ -857,6 +895,21 @@ namespace TSA_WorldDomination
                     lastUpdateTick = -9999;
                 }
                 curX += ColStar;
+            }
+
+            if (ColOn(PawnRosterColumnIds.New))
+            {
+                Rect newCell = new Rect(curX, y, ColNew, rowH);
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Text.Font = GameFont.Tiny;
+                if (entry.daysSinceJoin >= 0)
+                {
+                    if (PlayerPawnRosterUtility.IsJoinStampRecent(entry.daysSinceJoin))
+                        GUI.color = new Color(0.45f, 0.85f, 0.55f);
+                    Widgets.Label(newCell, entry.daysSinceJoin.ToString());
+                    GUI.color = Color.white;
+                }
+                curX += ColNew;
             }
             curX += ColPadding;
 

@@ -196,12 +196,12 @@ namespace TSA_WorldDomination
                 }
                 else if (UsesPathDestinationTile(t.mission))
                 {
-                    DrawActorCell(actorRect, t.originObject, t.Faction);
+                    DrawActorCell(actorRect, t);
                     DrawExpansionDestFromSnapshot(targetRect, snap.ExpansionDestTileId, snap.ExpansionDestLabel);
                 }
                 else
                 {
-                    DrawActorCell(actorRect, t.originObject, t.Faction);
+                    DrawActorCell(actorRect, t);
                     DrawTargetCell(targetRect, t.targetObject);
                 }
                 rX += colActor + colTarget;
@@ -259,11 +259,8 @@ namespace TSA_WorldDomination
                 GUI.DrawTexture(iconRect, missionIcon, ScaleMode.ScaleToFit);
                 GUI.color = Color.white;
             }
-            TooltipHandler.TipRegion(rect, GetMissionLabel(t.mission));
+            TooltipHandler.TipRegion(rect, WorldObject_Traveler.GetMissionTypeLabel(t));
         }
-
-        private static string GetMissionLabel(TravelerMission mission) =>
-            WorldObject_Traveler.GetMissionTypeLabel(mission);
 
         private static bool UsesPathDestinationTile(TravelerMission mission) =>
             mission == TravelerMission.RoadBuilding
@@ -272,7 +269,9 @@ namespace TSA_WorldDomination
             || mission == TravelerMission.Decontamination
             || mission == TravelerMission.NpcFortify
             || mission == TravelerMission.NpcAtTurret
-            || mission == TravelerMission.AtTurret;
+            || mission == TravelerMission.AtTurret
+            || mission == TravelerMission.MassRelocation
+            || mission == TravelerMission.DesperationRally;
 
         private static string FormatWorldObjectLabelLikeActionLog(WorldObject obj) =>
             WorldDomination_UIUtils.FormatWorldObjectLabelLikeActionLog(obj);
@@ -335,8 +334,9 @@ namespace TSA_WorldDomination
             Text.Anchor = anchorBefore;
         }
 
-        private void DrawActorCell(Rect rect, WorldObject origin, Faction travelerFaction)
+        private void DrawActorCell(Rect rect, WorldObject_Traveler t)
         {
+            WorldObject origin = t?.originObject;
             if (TravelerEndpointUtility.IsLiveEndpoint(origin))
             {
                 Rect iconRect = new Rect(rect.x + 4f, rect.y + (rect.height - IconSize) / 2f, IconSize, IconSize);
@@ -344,14 +344,33 @@ namespace TSA_WorldDomination
                 string label = FormatWorldObjectLabelLikeActionLog(origin);
                 Rect labelRect = new Rect(iconRect.xMax + 6f, rect.y, rect.width - (IconSize + 10f), rect.height);
                 DrawJumpLabelActiveTravelers(labelRect, label, new GlobalTargetInfo(origin));
+                return;
             }
-            else
+
+            string packLabel = TravelerEndpointUtility.GetOriginDisplayLabel(t);
+            if (!string.IsNullOrEmpty(packLabel))
             {
+                Rect iconRect = new Rect(rect.x + 4f, rect.y + (rect.height - IconSize) / 2f, IconSize, IconSize);
+                Faction f = t.Faction;
+                if (f?.def?.FactionIcon != null)
+                {
+                    GUI.color = f.Color;
+                    GUI.DrawTexture(iconRect, f.def.FactionIcon, ScaleMode.ScaleToFit);
+                    GUI.color = Color.white;
+                }
+                Rect labelRect = new Rect(iconRect.xMax + 6f, rect.y, rect.width - (IconSize + 10f), rect.height);
                 TextAnchor prev = Text.Anchor;
                 Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.Label(rect, cachedNoneLabel);
+                Widgets.Label(labelRect, packLabel.Truncate(labelRect.width));
                 Text.Anchor = prev;
+                TooltipHandler.TipRegion(rect, packLabel);
+                return;
             }
+
+            TextAnchor nonePrev = Text.Anchor;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(rect, cachedNoneLabel);
+            Text.Anchor = nonePrev;
         }
 
         private void DrawTargetCell(Rect rect, WorldObject target)

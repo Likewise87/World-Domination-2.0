@@ -10,7 +10,6 @@ namespace TSA_WorldDomination
         private readonly string windowTitle;
         private bool simulationExpanded = true;
         private bool rangeExpanded;
-        private bool arrivalExpanded;
         private bool winChanceExpanded = true;
         private bool severityAttWinExpanded = true;
         private bool severityAttLossExpanded = true;
@@ -36,7 +35,7 @@ namespace TSA_WorldDomination
 
         private void SetAllSectionsExpanded(bool expanded)
         {
-            simulationExpanded = rangeExpanded = arrivalExpanded = expanded;
+            simulationExpanded = rangeExpanded = expanded;
             winChanceExpanded = lossTablesExpanded = expanded;
             severityAttWinExpanded = severityAttLossExpanded = severityDefWinExpanded = severityDefLossExpanded = expanded;
         }
@@ -56,16 +55,10 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetRaids(),
                 () => SetAllSectionsExpanded(true),
                 () => SetAllSectionsExpanded(false));
+            SettingsUI.DrawSettingsSearchBar(l);
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Raid_HeaderSim".Translate(), ref simulationExpanded, SettingsUI.SectionHeaderColor))
             {
-
-            s.travelPrepExactPercent = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_TravelPrepExactPct".Translate(), s.travelPrepExactPercent, 0f, 1f,
-                "TSA_WD_Raid_TravelPrepExactPctTip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefTravelPrepExactPercent);
-
-            s.coalitionRaidPriorityBias = SettingsUI.LabeledSlider(l, "TSA_WD_Difficulty_CoalitionRaidBias".Translate(), s.coalitionRaidPriorityBias, 0f, 1f,
-                "TSA_WD_Difficulty_CoalitionRaidBiasTooltip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefCoalitionRaidPriorityBias);
-
             float prevAllyRad = s.raidAllyRadius;
             s.raidAllyRadius = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_AllyRadius".Translate(), s.raidAllyRadius, 5f, 200f,
                 "TSA_WD_Raid_AllyRadiusTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefRaidAllyRadius);
@@ -74,6 +67,15 @@ namespace TSA_WorldDomination
 
             s.minRaidRatio = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_MinRatio".Translate(), s.minRaidRatio, 0.5f, 2.0f,
                 "TSA_WD_Raid_MinRatioTooltip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefMinRaidRatio);
+            GUI.color = Color.gray;
+            l.Label("TSA_WD_Combat_InvasionIgnoresMinRatioHint".Translate());
+            GUI.color = Color.white;
+
+            s.travelPrepExactPercent = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_TravelPrepExactPct".Translate(), s.travelPrepExactPercent, 0f, 1f,
+                "TSA_WD_Raid_TravelPrepExactPctTip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefTravelPrepExactPercent);
+
+            s.coalitionRaidPriorityBias = SettingsUI.LabeledSlider(l, "TSA_WD_Difficulty_CoalitionRaidBias".Translate(), s.coalitionRaidPriorityBias, 0f, 1f,
+                "TSA_WD_Difficulty_CoalitionRaidBiasTooltip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefCoalitionRaidPriorityBias);
 
             s.razeChance = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_RazeChance".Translate(), s.razeChance, 0f, 1f,
                 "TSA_WD_Raid_RazeChanceTooltip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefRazeChance);
@@ -106,22 +108,7 @@ namespace TSA_WorldDomination
                 "TSA_WD_Raid_GarrisonRetainTooltip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefGarrisonRetainPct);
             }
             l.Gap(6f);
-            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Raid_HeaderArrivalStyles".Translate(), ref arrivalExpanded, SettingsUI.SectionHeaderColor))
-            {
-            s.dropPodRaidChanceT3 = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_DropPodChanceT3".Translate(), s.dropPodRaidChanceT3, 0f, 1f,
-                "TSA_WD_Raid_DropPodChanceT3Tip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefDropPodRaidChanceT3);
-            s.dropPodRaidChance = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_DropPodChance".Translate(), s.dropPodRaidChance, 0f, 1f,
-                "TSA_WD_Raid_DropPodChanceTip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefDropPodRaidChance);
-            SettingsUI.TechLevelDropdown(l, "TSA_WD_Raid_DropPodMinTech".Translate(), s.dropPodRaidMinTechLevel,
-                v => s.dropPodRaidMinTechLevel = v,
-                "TSA_WD_Raid_DropPodMinTechTip".Translate(), WorldDominationSettings.DefDropPodRaidMinTechLevel);
-            s.dropPodRaidAttritionMult = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_DropPodAttritionMult".Translate(), s.dropPodRaidAttritionMult, 1f, 10f,
-                "TSA_WD_Raid_DropPodAttritionMultTip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefDropPodRaidAttritionMult);
-            s.colonySiegeRaidChance = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_ColonySiegeChance".Translate(), s.colonySiegeRaidChance, 0f, 1f,
-                "TSA_WD_Raid_ColonySiegeChanceTip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefColonySiegeRaidChance);
-            }
 
-            l.Gap(6f);
             DrawSection1WinChance(l, s, ref winChanceExpanded);
 
             if (advanced)

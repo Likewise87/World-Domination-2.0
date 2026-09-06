@@ -16,6 +16,7 @@ namespace TSA_WorldDomination
     {
         public const string Type = "Type";
         public const string Star = "Star";
+        public const string New = "New";
         public const string Age = "Age";
         public const string Interaction = "Interaction";
         public const string Resistance = "Resistance";
@@ -23,7 +24,6 @@ namespace TSA_WorldDomination
         public const string Xenotype = "Xenotype";
         public const string Psycasts = "Psycasts";
         public const string Destination = "Destination";
-        public const string Reorder = "Reorder";
         public const string Select = "Select";
         public const string Portrait = "Portrait";
         public const string Name = "Name";
@@ -92,6 +92,7 @@ namespace TSA_WorldDomination
             {
                 new PawnRosterColumnOption(PawnRosterColumnIds.Type, "TSA_WD_AllPlayerPawns_ColPawnType", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Star, "TSA_WD_AllPlayerPawns_ColStar", true),
+                new PawnRosterColumnOption(PawnRosterColumnIds.New, "TSA_WD_PawnRoster_ColNew", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Age, "TSA_WD_PawnRoster_ColAge", false),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Traits, "TSA_WD_Prisoners_ColTraits", false),
             };
@@ -104,8 +105,8 @@ namespace TSA_WorldDomination
                 new PawnRosterColumnOption(PawnRosterColumnIds.Type, "TSA_WD_AllPlayerPawns_ColPawnType", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Name, "TSA_WD_PawnCol_PawnName", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Star, "TSA_WD_AllPlayerPawns_ColStar", true),
+                new PawnRosterColumnOption(PawnRosterColumnIds.New, "TSA_WD_PawnRoster_ColNew", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Select, "TSA_WD_PawnRoster_ColSelect", true),
-                new PawnRosterColumnOption(PawnRosterColumnIds.Reorder, "TSA_WD_PawnRoster_ColReorder", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Resistance, "TSA_WD_Prisoners_ColResistance", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Traits, "TSA_WD_Prisoners_ColTraits", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Age, "TSA_WD_PawnRoster_ColAge", true),

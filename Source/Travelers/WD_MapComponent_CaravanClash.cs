@@ -21,9 +21,27 @@ namespace TSA_WorldDomination
         private WorldObject savedOrigin;
         private WorldObject savedTarget;
         private float savedInitialStrength;
+        private bool savedPackUpRequiresRefound;
+        private string savedPackUpOriginLabel;
+        private int savedMassRelocationDestTile = -1;
+        private SettlementTier savedMassRelocationTier = SettlementTier.T1;
+        private float savedMassRelocationDefensiveStrength;
+        private bool savedIsDesperationRaid;
+        private bool savedIsInvasionRaid;
+        private int savedDesperationGroupId;
+        private int savedDesperationExpectedCount;
+        private int savedDesperationArrivedCount;
+        private int savedDesperationWaitUntilTick = -1;
+        private bool savedDesperationIsHost;
+        private int savedDesperationAggressorFactionId = -1;
 
         private bool encounterActive = false;
         private bool playerHasWon = false;
+        /// <summary>
+        /// Latched when no effective enemy threats remain (dead/downed/PanicFlee). Survives reform before
+        /// <see cref="playerHasWon"/> is set so MapRemoved does not respawn the traveler.
+        /// </summary>
+        private bool enemiesBroken = false;
         private int startTick = -1;
         private bool leftoversDiscarded = false;
         // Legacy; scribe only — old loot dialog path removed; player uses vanilla reform caravan.
@@ -36,6 +54,12 @@ namespace TSA_WorldDomination
 
         /// <summary>For ForceRaidDirection / other mods: do not steer this raid; WD sets spawn or encounter is active.</summary>
         public bool ShouldSkipExternalRaidSteering => InterceptionRaidPending || encounterActive;
+
+        /// <summary>
+        /// Mid-fight: block drafted map-edge auto-caravan exit. Cleared after WD victory so vanilla
+        /// <see cref="FormCaravanComp"/> reform caravan remains available.
+        /// </summary>
+        public bool BlocksPlayerEdgeExit => encounterActive && !playerHasWon;
 
         public WD_MapComponent_CaravanClash(Map map) : base(map) { }
 
@@ -70,12 +94,26 @@ namespace TSA_WorldDomination
             this.savedOrigin = traveler.originObject;
             this.savedTarget = traveler.targetObject;
             this.savedInitialStrength = traveler.initialStrength;
+            this.savedPackUpRequiresRefound = traveler.packUpRequiresRefound;
+            this.savedPackUpOriginLabel = traveler.packUpOriginLabel;
+            this.savedMassRelocationDestTile = traveler.massRelocationDestTile;
+            this.savedMassRelocationTier = traveler.massRelocationTier;
+            this.savedMassRelocationDefensiveStrength = traveler.massRelocationDefensiveStrength;
+            this.savedIsDesperationRaid = traveler.isDesperationRaid;
+            this.savedIsInvasionRaid = traveler.isInvasionRaid;
+            this.savedDesperationGroupId = traveler.desperationGroupId;
+            this.savedDesperationExpectedCount = traveler.desperationExpectedCount;
+            this.savedDesperationArrivedCount = traveler.desperationArrivedCount;
+            this.savedDesperationWaitUntilTick = traveler.desperationWaitUntilTick;
+            this.savedDesperationIsHost = traveler.desperationIsHost;
+            this.savedDesperationAggressorFactionId = traveler.desperationAggressorFactionId;
 
             this.encounterActive = true;
             this.startTick = Find.TickManager.TicksGame;
             this.leftoversDiscarded = false;
             this.lootResolved = false;
             this.playerHasWon = false;
+            this.enemiesBroken = false;
             this.foughtOnPlayerAtTurret = AtTurretUtility.TileHasPlayerAtTurret(map.Tile.tileId);
 
             WDVerbose.Msg($"[TSA WD] Data saved for {travelerLabel}. Original destroyed.");
@@ -98,6 +136,9 @@ namespace TSA_WorldDomination
             bool threatExists = savedMission == TravelerMission.Trader
                 ? AnyLivingCaravanFactionPawnThreat()
                 : GenHostility.AnyHostileActiveThreatToPlayer(map, true);
+            if (!threatExists)
+                enemiesBroken = true;
+
             bool playerStanding = AnyPlayerClashForceStanding();
 
             if (!threatExists && playerStanding)
@@ -161,11 +202,22 @@ namespace TSA_WorldDomination
 
         private static bool IsStandingPlayerHumanlike(Pawn p)
         {
-            if (p == null || p.Destroyed || p.Dead || p.Downed) return false;
+            if (IsCombatIneffective(p)) return false;
             if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(p)) return false;
             if (p.RaceProps == null || !p.RaceProps.Humanlike) return false;
             if (p.Faction == null || !p.Faction.IsPlayer) return false;
             return true;
+        }
+
+        /// <summary>
+        /// Dead, downed, or PanicFlee — same bar for enemy threats and player “still standing”
+        /// (matches vanilla Reform Caravan “no active hostiles” and <see cref="WdSettlementTurretSilence"/>).
+        /// </summary>
+        private static bool IsCombatIneffective(Pawn p)
+        {
+            if (p == null || p.Destroyed || p.Dead || p.Downed) return true;
+            if (p.MentalStateDef == MentalStateDefOf.PanicFlee) return true;
+            return false;
         }
 
         private bool AnyLivingCaravanFactionPawnThreat()
@@ -173,7 +225,7 @@ namespace TSA_WorldDomination
             if (enemyFaction == null) return false;
             foreach (Pawn p in map.mapPawns.AllPawnsSpawned)
             {
-                if (p.Dead || p.Downed) continue;
+                if (IsCombatIneffective(p)) continue;
                 if (p.Faction != enemyFaction) continue;
                 return true;
             }
@@ -201,8 +253,18 @@ namespace TSA_WorldDomination
 
             // Do not trust hostile pawn lists on a dying/empty map — wipe teardown often clears
             // pawns before MapRemoved, which previously abandoned the stored traveler.
+            // enemiesBroken was latched while the map was live (fleeers count as clear); skip respawn.
             if (encounterActive && !playerHasWon)
-                RespawnNewTraveler();
+            {
+                if (enemiesBroken)
+                {
+                    playerHasWon = true;
+                    encounterActive = false;
+                    WDVerbose.Msg($"[TSA WD] Victory on map exit (enemies broken) for {travelerLabel}.");
+                }
+                else
+                    RespawnNewTraveler();
+            }
 
             DiscardEncounterLeftovers();
             DestroyAmbushParentIfPresent();
@@ -229,6 +291,19 @@ namespace TSA_WorldDomination
             newTraveler.mission = savedMission;
             newTraveler.originObject = savedOrigin;
             newTraveler.targetObject = savedTarget;
+            newTraveler.packUpRequiresRefound = savedPackUpRequiresRefound;
+            newTraveler.packUpOriginLabel = savedPackUpOriginLabel;
+            newTraveler.massRelocationDestTile = savedMassRelocationDestTile;
+            newTraveler.massRelocationTier = savedMassRelocationTier;
+            newTraveler.massRelocationDefensiveStrength = savedMassRelocationDefensiveStrength;
+            newTraveler.isDesperationRaid = savedIsDesperationRaid;
+            newTraveler.isInvasionRaid = savedIsInvasionRaid;
+            newTraveler.desperationGroupId = savedDesperationGroupId;
+            newTraveler.desperationExpectedCount = savedDesperationExpectedCount;
+            newTraveler.desperationArrivedCount = savedDesperationArrivedCount;
+            newTraveler.desperationWaitUntilTick = savedDesperationWaitUntilTick;
+            newTraveler.desperationIsHost = savedDesperationIsHost;
+            newTraveler.desperationAggressorFactionId = savedDesperationAggressorFactionId;
             if (newTraveler.spawnTick == 0)
                 newTraveler.spawnTick = Find.TickManager.TicksGame;
 
@@ -408,11 +483,25 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref travelerLabel, "travelerLabel");
             Scribe_Values.Look(ref encounterActive, "encounterActive");
             Scribe_Values.Look(ref playerHasWon, "playerHasWon");
+            Scribe_Values.Look(ref enemiesBroken, "enemiesBroken", false);
             Scribe_Values.Look(ref startTick, "startTick");
             Scribe_Values.Look(ref savedMission, "savedMission", TravelerMission.Expansion);
             Scribe_References.Look(ref savedOrigin, "savedOrigin");
             Scribe_References.Look(ref savedTarget, "savedTarget");
             Scribe_Values.Look(ref savedInitialStrength, "savedInitialStrength", 0f);
+            Scribe_Values.Look(ref savedPackUpRequiresRefound, "savedPackUpRequiresRefound", false);
+            Scribe_Values.Look(ref savedPackUpOriginLabel, "savedPackUpOriginLabel");
+            Scribe_Values.Look(ref savedMassRelocationDestTile, "savedMassRelocationDestTile", -1);
+            Scribe_Values.Look(ref savedMassRelocationTier, "savedMassRelocationTier", SettlementTier.T1);
+            Scribe_Values.Look(ref savedMassRelocationDefensiveStrength, "savedMassRelocationDefensiveStrength", 0f);
+            Scribe_Values.Look(ref savedIsDesperationRaid, "savedIsDesperationRaid", false);
+            Scribe_Values.Look(ref savedIsInvasionRaid, "savedIsInvasionRaid", false);
+            Scribe_Values.Look(ref savedDesperationGroupId, "savedDesperationGroupId", 0);
+            Scribe_Values.Look(ref savedDesperationExpectedCount, "savedDesperationExpectedCount", 0);
+            Scribe_Values.Look(ref savedDesperationArrivedCount, "savedDesperationArrivedCount", 0);
+            Scribe_Values.Look(ref savedDesperationWaitUntilTick, "savedDesperationWaitUntilTick", -1);
+            Scribe_Values.Look(ref savedDesperationIsHost, "savedDesperationIsHost", false);
+            Scribe_Values.Look(ref savedDesperationAggressorFactionId, "savedDesperationAggressorFactionId", -1);
             Scribe_Values.Look(ref leftoversDiscarded, "leftoversDiscarded", false);
             Scribe_Values.Look(ref foughtOnPlayerAtTurret, "foughtOnPlayerAtTurret", false);
             Scribe_Values.Look(ref lootResolved, "lootResolved", false);

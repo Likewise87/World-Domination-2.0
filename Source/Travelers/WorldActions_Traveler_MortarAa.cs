@@ -290,7 +290,11 @@ namespace TSA_WorldDomination
             float afterTotal = comp.offensiveStrength + comp.defensiveStrength;
             PostMortarStrengthHitLetter(manager, shell.originObject, settlement, beforeTotal, afterTotal, wiped, "TSA_WD_Mortar_Hit_DestroyedSuffix");
             if (wiped)
+            {
+                Faction shellFaction = shell.originObject?.Faction ?? shell.Faction;
+                WorldActions_DesperationRaid.NotifyNpcSettlementLost(settlement, shellFaction);
                 settlement.Destroy();
+            }
         }
 
         private static void ApplyMortarHitToOutpost(WorldObject_Traveler shell, WorldComponent_SpreadManager manager, WorldObject_WD_Outpost outpost, float shellPotency)
@@ -527,12 +531,14 @@ namespace TSA_WorldDomination
 
         /// <summary>Launches a mortar-strike shell traveler. <paramref name="target"/> is the strength-hit object;
         /// the flight aim tile is <paramref name="aimTileIdOverride"/> when &gt;= 0, otherwise resolved (caravans: intercept along route).</summary>
+        /// <param name="playFireSound">False when the caller plays a specialized oneshot (assault map mortar).</param>
         public static WorldObject_Traveler SpawnMortarTraveler(
             WorldObject origin,
             WorldObject target,
             float damage,
             bool guaranteedHit,
-            int aimTileIdOverride = -1)
+            int aimTileIdOverride = -1,
+            bool playFireSound = true)
         {
             if (origin == null || target == null) return null;
             string defName = origin is WorldObject_AT_Turret
@@ -558,10 +564,13 @@ namespace TSA_WorldDomination
             traveler.travelerStrength = 1f;
             traveler.initialStrength = 1f;
             Find.WorldObjects.Add(traveler);
-            if (origin is WorldObject_AT_Turret atGun)
-                WdWorldMapSound.PlayAtTurretFire(atGun.tier);
-            else
-                WdWorldMapSound.PlayMortarFire();
+            if (playFireSound)
+            {
+                if (origin is WorldObject_AT_Turret atGun)
+                    WdWorldMapSound.PlayAtTurretFire(atGun.tier);
+                else
+                    WdWorldMapSound.PlayMortarFire();
+            }
             float maxR = origin is WorldObject_WD_Outpost wd && wd.IsMortarOutpost
                 ? MortarFireUtils.GetPlayerMortarMaxRangeTiles(wd)
                 : (WorldDominationMod.settings?.npcMortarRange ?? WorldDominationSettings.DefNpcMortarRange);
@@ -612,13 +621,15 @@ namespace TSA_WorldDomination
                 settlement,
                 damage,
                 guaranteedHit: true,
-                aimTileIdOverride: settlement.Tile);
+                aimTileIdOverride: settlement.Tile,
+                playFireSound: false);
             if (traveler == null) return null;
 
             traveler.assaultArtillerySupport = true;
             traveler.assaultAimCell = aimCell;
             traveler.assaultShellDefName = shellDef.defName;
             traveler.assaultScatterRadius = scatterRadius;
+            WdWorldMapSound.PlayAssaultMortarFire();
             return traveler;
         }
 

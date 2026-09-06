@@ -20,7 +20,7 @@ The tech gate is shared by enemy T4 mortars and anti-air. Neolithic permits esse
 | Enemy T4 settlements fire mortars | On | On or Off |
 | May target your WD travelers and outposts | On | Shown while enemy mortars are enabled |
 | T4 mortar range (tiles) | 40 | 10 to 250 |
-| T4 mortar cooldown (days) | 5.0 days | 0.1 to 20.0 |
+| T4 mortar cooldown (days) | 3.0 days | 0.1 to 20.0 |
 | Enemy settlement mortar damage | 150 strength | 0 to 600 |
 | Enemy settlement equivalent shooting skill | 10 | 0 to 40 |
 | Hit chance at 0-50% of max range | 80% | 0% to 100% |

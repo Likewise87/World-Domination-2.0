@@ -56,6 +56,8 @@ namespace TSA_WorldDomination
             var s = WorldDominationMod.settings;
             float b = s?.warehouseAuraBonusPct ?? WorldDominationSettings.DefWarehouseAuraBonusPct;
             b += warehouse.GetWarehouseAuraBonusUpgradeBonus();
+            if (OutpostExpertUtility.OutpostHasProductionBonusPath(warehouse))
+                b *= 1f + OutpostExpertUtility.GetCombinedProductionBonus(warehouse);
             return Mathf.Max(0f, b);
         }
 

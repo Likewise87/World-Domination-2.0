@@ -415,7 +415,7 @@ namespace TSA_WorldDomination
         /// <summary>Cooldown duration after skill + upgrade reductions (same formula as <see cref="ApplyPlayerMortarCooldown"/>).</summary>
         public static float GetPlayerMortarEffectiveCooldownDays(WorldObject_WD_Outpost origin, out float baseCooldownDays, out float durationMultiplier, out float fromSkillReduction, out float fromUpgradeReduction)
         {
-            baseCooldownDays = 5f;
+            baseCooldownDays = 3f;
             durationMultiplier = 1f;
             fromSkillReduction = 0f;
             fromUpgradeReduction = 0f;

@@ -6,8 +6,8 @@ This page configures World Domination travelers, water routing, WD trader carava
 
 | Control | Default | What it changes |
 |---|---:|---|
-| Strength attrition per hour | 1.5% | Percentage of current strength lost by a WD traveler each travel hour. |
-| Maximum travel strength loss | 75% | Caps attrition loss relative to departure strength. At the default, at least 25% remains and attrition alone does not expire the traveler. |
+| Strength attrition per hour | 1% | Percentage of current strength lost by a WD traveler each travel hour. |
+| Maximum travel strength loss | 60% | Caps attrition loss relative to departure strength. At the default, at least 40% remains and attrition alone does not expire the traveler. |
 
 ## Water travel
 

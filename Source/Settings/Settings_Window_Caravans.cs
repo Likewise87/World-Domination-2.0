@@ -40,6 +40,7 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetCaravans(),
                 () => { travelExpanded = waterExpanded = traderExpanded = goodwillExpanded = deliveryExpanded = storytellerExpanded = true; },
                 () => { travelExpanded = waterExpanded = traderExpanded = goodwillExpanded = deliveryExpanded = storytellerExpanded = false; });
+            SettingsUI.DrawSettingsSearchBar(l);
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Caravans_HeaderTravel".Translate(), ref travelExpanded, SettingsUI.SectionHeaderColor))
             {

@@ -34,6 +34,10 @@ namespace TSA_WorldDomination
             ?? TexButton.Search
             ?? TexButton.Info;
 
+        /// <summary>Join Stamp column header icon (narrow columns).</summary>
+        public static readonly Texture2D JoinStampHeaderIcon =
+            ContentFinder<Texture2D>.Get("UI/Commands/Clock", false);
+
         private static readonly Color ActiveFilterTint = new Color(0.45f, 0.85f, 1f);
         private static readonly Color IdleFilterTint = new Color(0.85f, 0.85f, 0.85f);
 
@@ -135,6 +139,9 @@ namespace TSA_WorldDomination
             return Widgets.ButtonInvisible(r);
         }
 
+        /// <summary>Column glyph size relative to <see cref="FilterIconSize"/> (Join Stamp clock, etc.).</summary>
+        public const float ColumnIconScale = 0.75f;
+
         public static bool DrawFilterableHeader(
             ref float curX,
             float y,
@@ -147,7 +154,9 @@ namespace TSA_WorldDomination
             bool filterActive,
             string filterTip,
             Action<Rect> onFilterClick,
-            Action onSort)
+            Action onSort,
+            Texture2D columnIcon = null,
+            string columnIconTip = null)
         {
             Rect headerRect = new Rect(curX, y, width, height);
             const float gap = 2f;
@@ -156,7 +165,19 @@ namespace TSA_WorldDomination
 
             if (!showFilter)
             {
-                if (!label.NullOrEmpty())
+                if (columnIcon != null)
+                {
+                    float colIcon = Mathf.Min(FilterIconSize, height - 2f) * ColumnIconScale;
+                    Rect colIconRect = new Rect(
+                        headerRect.x + (width - colIcon) * 0.5f,
+                        y + (height - colIcon) * 0.5f,
+                        colIcon,
+                        colIcon);
+                    GUI.DrawTexture(colIconRect, columnIcon, ScaleMode.ScaleToFit);
+                    if (!columnIconTip.NullOrEmpty())
+                        TooltipHandler.TipRegion(colIconRect, columnIconTip);
+                }
+                else if (!label.NullOrEmpty())
                 {
                     string arrow = isSorted ? (sortAscending ? " ▲" : " ▼") : "";
                     string headerText = label + arrow;
@@ -185,8 +206,24 @@ namespace TSA_WorldDomination
             float icon = Mathf.Min(FilterIconSize, height - 2f);
             float iconY = y + (height - icon) * 0.5f;
             Rect iconRect;
+            Rect? columnIconRect = null;
 
-            if (label.NullOrEmpty())
+            if (columnIcon != null)
+            {
+                float colIcon = icon * ColumnIconScale;
+                float colIconY = y + (height - colIcon) * 0.5f;
+                float clusterW = colIcon + gap + icon;
+                float clusterX = headerRect.x + (width - clusterW) * 0.5f;
+                clusterX = Mathf.Clamp(clusterX, headerRect.x + edgePad, Mathf.Max(headerRect.x + edgePad, headerRect.xMax - clusterW - edgePad));
+                Rect colIconRect = new Rect(clusterX, colIconY, colIcon, colIcon);
+                columnIconRect = colIconRect;
+                iconRect = new Rect(clusterX + colIcon + gap, iconY, icon, icon);
+                Color prevIcon = GUI.color;
+                GUI.color = Color.white;
+                GUI.DrawTexture(colIconRect, columnIcon, ScaleMode.ScaleToFit);
+                GUI.color = prevIcon;
+            }
+            else if (label.NullOrEmpty())
             {
                 iconRect = new Rect(headerRect.x + (width - icon) * 0.5f, iconY, icon, icon);
             }
@@ -231,6 +268,8 @@ namespace TSA_WorldDomination
             if (FilterIconTex != null)
                 GUI.DrawTexture(iconRect, FilterIconTex, ScaleMode.ScaleToFit);
             GUI.color = prev;
+            if (columnIconRect.HasValue && !columnIconTip.NullOrEmpty())
+                TooltipHandler.TipRegion(columnIconRect.Value, columnIconTip);
             if (!filterTip.NullOrEmpty())
                 TooltipHandler.TipRegion(iconRect, filterTip);
             bool filterClicked = Widgets.ButtonInvisible(iconRect);
@@ -556,6 +595,69 @@ namespace TSA_WorldDomination
                     tip: tip,
                     separatorAfter: captured == OutpostPawnStarFilter.All,
                     countLabel: countLabel));
+            }
+            return list;
+        }
+
+        public static List<HeaderFilterChoice> JoinedFilterChoices(
+            PawnRosterJoinedFilter current,
+            Action<PawnRosterJoinedFilter> onPick,
+            IReadOnlyList<int> daysSinceJoin = null)
+        {
+            bool show = daysSinceJoin != null;
+            int total = 0;
+            int lt5 = 0, lt15 = 0, lt30 = 0, gte5 = 0, gte15 = 0, gte30 = 0;
+            if (show)
+            {
+                for (int i = 0; i < daysSinceJoin.Count; i++)
+                {
+                    total++;
+                    int d = daysSinceJoin[i];
+                    if (PlayerPawnRosterUtility.PassesJoinedFilter(d, PawnRosterJoinedFilter.Lt5)) lt5++;
+                    if (PlayerPawnRosterUtility.PassesJoinedFilter(d, PawnRosterJoinedFilter.Lt15)) lt15++;
+                    if (PlayerPawnRosterUtility.PassesJoinedFilter(d, PawnRosterJoinedFilter.Lt30)) lt30++;
+                    if (PlayerPawnRosterUtility.PassesJoinedFilter(d, PawnRosterJoinedFilter.Gte5)) gte5++;
+                    if (PlayerPawnRosterUtility.PassesJoinedFilter(d, PawnRosterJoinedFilter.Gte15)) gte15++;
+                    if (PlayerPawnRosterUtility.PassesJoinedFilter(d, PawnRosterJoinedFilter.Gte30)) gte30++;
+                }
+            }
+
+            var list = new List<HeaderFilterChoice>();
+            foreach (PawnRosterJoinedFilter f in Enum.GetValues(typeof(PawnRosterJoinedFilter)))
+            {
+                PawnRosterJoinedFilter captured = f;
+                int n = captured switch
+                {
+                    PawnRosterJoinedFilter.Lt5 => lt5,
+                    PawnRosterJoinedFilter.Lt15 => lt15,
+                    PawnRosterJoinedFilter.Lt30 => lt30,
+                    PawnRosterJoinedFilter.Gte5 => gte5,
+                    PawnRosterJoinedFilter.Gte15 => gte15,
+                    PawnRosterJoinedFilter.Gte30 => gte30,
+                    _ => total
+                };
+                string tip = PlayerPawnRosterUtility.JoinedFilterTip(captured);
+                AttachCount(n, total, show, ref tip, out string countLabel);
+                list.Add(new HeaderFilterChoice(
+                    PlayerPawnRosterUtility.JoinedFilterLabel(captured),
+                    current == captured,
+                    () => onPick?.Invoke(captured),
+                    tip: tip,
+                    separatorAfter: captured == PawnRosterJoinedFilter.All || captured == PawnRosterJoinedFilter.Lt30,
+                    countLabel: countLabel));
+            }
+            return list;
+        }
+
+        public static List<int> JoinDaysFrom(IReadOnlyList<PlayerPawnRosterEntry> rows)
+        {
+            var list = new List<int>(rows?.Count ?? 0);
+            if (rows == null) return list;
+            for (int i = 0; i < rows.Count; i++)
+            {
+                PlayerPawnRosterEntry e = rows[i];
+                if (e == null) continue;
+                list.Add(e.daysSinceJoin);
             }
             return list;
         }

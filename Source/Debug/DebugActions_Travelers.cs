@@ -41,6 +41,123 @@ namespace TSA_WorldDomination
                 MessageTypeDefOf.CautionInput);
         }
 
+        /// <summary>
+        /// Click an NPC settlement: destroy it (simulated loss) and force-pack its connected surrounding
+        /// cluster into a desperation raid aimed at the player. Skips chance / weak / cooldown / cluster-size gates.
+        /// </summary>
+        [DebugAction("World Domination", "Show Cluster Stats",
+            actionType = DebugActionType.ToolWorld,
+            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+        public static void ShowClusterStats()
+        {
+            int tile = GenWorld.MouseTile();
+            if (tile < 0) return;
+
+            Settlement settlement = Find.WorldObjects.ObjectsAt(tile).OfType<Settlement>().FirstOrDefault();
+            if (settlement == null)
+            {
+                Messages.Message("WD debug: click a settlement.", MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            string report = WorldActions_Turtle.DebugShowClusterStats(settlement);
+            Find.WindowStack.Add(new Dialog_MessageBox(report, "OK".Translate()));
+        }
+
+        [DebugAction("World Domination", "Force desperation raid (click NPC settlement)",
+            actionType = DebugActionType.ToolWorld,
+            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+        public static void ForceDesperationRaidClickSettlement()
+        {
+            int tile = GenWorld.MouseTile();
+            if (tile < 0) return;
+
+            Settlement settlement = Find.WorldObjects.ObjectsAt(tile).OfType<Settlement>().FirstOrDefault();
+            if (settlement == null)
+            {
+                Messages.Message("WD debug: click an NPC settlement.", MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            if (settlement.Faction == null || settlement.Faction.IsPlayer)
+            {
+                Messages.Message("WD debug: click an NPC settlement (not player).", MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            bool ok = WorldActions_DesperationRaid.DebugForceSimulatingLoss(settlement, out string message);
+            Messages.Message(
+                "WD debug: " + (message ?? (ok ? "ok" : "failed")),
+                ok ? MessageTypeDefOf.CautionInput : MessageTypeDefOf.RejectInput);
+        }
+
+        /// <summary>
+        /// Click an NPC settlement: force a turtle consolidate seeded from that settlement's connected cluster.
+        /// Skips chance / cooldown / pressure / min-cluster gates.
+        /// </summary>
+        [DebugAction("World Domination", "Force Turtle (click NPC settlement)",
+            actionType = DebugActionType.ToolWorld,
+            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+        public static void ForceTurtleClickSettlement()
+        {
+            int tile = GenWorld.MouseTile();
+            if (tile < 0) return;
+
+            Settlement settlement = Find.WorldObjects.ObjectsAt(tile).OfType<Settlement>().FirstOrDefault();
+            if (settlement == null || settlement.Faction == null || settlement.Faction.IsPlayer)
+            {
+                Messages.Message("WD debug: click an NPC settlement (not player).", MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            bool ok = WorldActions_Turtle.DebugForceTurtle(settlement, out string message);
+            Messages.Message(
+                "WD debug: " + (message ?? (ok ? "ok" : "failed")),
+                ok ? MessageTypeDefOf.CautionInput : MessageTypeDefOf.RejectInput);
+        }
+
+        [DebugAction("World Domination", "Force Vanguard (click NPC settlement)",
+            actionType = DebugActionType.ToolWorld,
+            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+        public static void ForceVanguardForwardAssault()
+        {
+            int tile = GenWorld.MouseTile();
+            if (tile < 0) return;
+
+            Settlement settlement = Find.WorldObjects.ObjectsAt(tile).OfType<Settlement>().FirstOrDefault();
+            if (settlement == null || settlement.Faction == null || settlement.Faction.IsPlayer)
+            {
+                Messages.Message("WD debug: click an NPC settlement (not player).", MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            bool ok = WorldActions_Vanguard.DebugForceFromSettlement(settlement, out string message);
+            Messages.Message(
+                "WD debug: " + (message ?? (ok ? "ok" : "failed")),
+                ok ? MessageTypeDefOf.CautionInput : MessageTypeDefOf.RejectInput);
+        }
+
+        [DebugAction("World Domination", "Force Invasion (click NPC settlement)",
+            actionType = DebugActionType.ToolWorld,
+            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+        public static void ForceInvasionForwardAssault()
+        {
+            int tile = GenWorld.MouseTile();
+            if (tile < 0) return;
+
+            Settlement settlement = Find.WorldObjects.ObjectsAt(tile).OfType<Settlement>().FirstOrDefault();
+            if (settlement == null || settlement.Faction == null || settlement.Faction.IsPlayer)
+            {
+                Messages.Message("WD debug: click an NPC settlement (not player).", MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            bool ok = WorldActions_Invasion.DebugForceFromSettlement(settlement, out string message);
+            Messages.Message(
+                "WD debug: " + (message ?? (ok ? "ok" : "failed")),
+                ok ? MessageTypeDefOf.CautionInput : MessageTypeDefOf.RejectInput);
+        }
+
         [DebugAction("World Domination", "Destroy WD travelers on tile",
             allowedGameStates = AllowedGameStates.PlayingOnWorld)]
         public static void DestroyTravelersOnTile()

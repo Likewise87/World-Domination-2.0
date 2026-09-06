@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.SettlementLayoutDef>
+    <defName>TSA_Tribal_T1_Vanguard</defName>
+    <settlementSize>52,52</settlementSize>
+    <avoidBridgeable>true</avoidBridgeable>
+    <avoidMountains>true</avoidMountains>
+    
+    <centerBuildings>
+      <centerSize>44,44</centerSize>
+      <spaceAround>1</spaceAround>
+	  <centralBuildingTags>
+        <li>TSA_Tribal_VanguardBarracks</li>
+      </centralBuildingTags>
+      <allowedStructures>
+        <li>
+          <tag>TSA_Tribal_VanguardBarracks</tag>
+          <count>2~4</count>
+        </li>
+        <li>
+          <tag>TSA_Tribal_BigBarracks</tag>
+          <count>0~1</count>
+        </li>
+        <li>
+          <tag>TSA_Tribal_Stockpile</tag>
+          <count>1~2</count>
+        </li>
+        <li>
+          <tag>TribalKitchen</tag>
+          <count>0~1</count>
+        </li>
+      </allowedStructures>
+    </centerBuildings>
+
+    <peripheralBuildings>
+      <allowedStructures>
+        <li>
+          <tag>TSA_Tribal_Barricade</tag>
+          <count>2~3</count>
+        </li>
+      </allowedStructures>
+    </peripheralBuildings>
+
+    <defenseOptions>
+      <pawnGroupMultiplier>0.4</pawnGroupMultiplier>
+    </defenseOptions>
+
+    <propsOptions>
+      <scatterProps>true</scatterProps>
+      <scatterMinDistance>5</scatterMinDistance>
+      <scatterMaxAmount>7</scatterMaxAmount>
+      <scatterPropsDefs>
+        <li>TSA_WD_Hayball_2a</li>
+        <li>TSA_WD_Hayball_3a</li>
+        <li>TSA_WD_Hayball_4a</li>
+        <li>TSA_WD_Hayball_5a</li>
+        <li>TSA_WD_Box_1a</li>
+        <li>TSA_WD_Box_2a</li>
+
+
+      
+      </scatterPropsDefs>
+    </propsOptions>
+
+    <roadOptions>
+      <addLinkRoad>true</addLinkRoad>
+      <linkRoadDef>PackedDirt</linkRoadDef>
+    </roadOptions>
+
+    <stockpileOptions>
+      <fillStorageBuildings>false</fillStorageBuildings>
+    </stockpileOptions>
+</KCSG.SettlementLayoutDef>
+</Defs>

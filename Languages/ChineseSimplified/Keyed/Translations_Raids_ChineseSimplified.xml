@@ -115,6 +115,7 @@
   <TSA_WD_Log_Raid_DefBase>{0} 守军:{1} 强度。</TSA_WD_Log_Raid_DefBase>
   <TSA_WD_Log_Raid_DefContrib>{0}({1})提供 +{2} 防守力量。(原始:{3},效率:{4}%,距离 {5} 格)。</TSA_WD_Log_Raid_DefContrib>
   <TSA_WD_Log_Raid_ExpeditionLaunched>袭击已派出:商队正在途中。</TSA_WD_Log_Raid_ExpeditionLaunched>
+  <TSA_WD_RaidExpeditionLaunched>已对 {0} 派出袭击远征。</TSA_WD_RaidExpeditionLaunched>
   <TSA_WD_Log_Raid_FactionDispatch>{0} 已从 {1} 派出袭击部队进攻 {2}。</TSA_WD_Log_Raid_FactionDispatch>
   <TSA_WD_Log_Raid_ColonyDelegated>选定殖民地为目标，并委托给更近的盟友</TSA_WD_Log_Raid_ColonyDelegated>
   <TSA_WD_Log_Raid_Failed>袭击失败:进攻方被击退。</TSA_WD_Log_Raid_Failed>

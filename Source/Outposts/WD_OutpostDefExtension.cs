@@ -151,7 +151,7 @@ namespace TSA_WorldDomination
         /// <summary>Production/trading outposts: list of items that can be produced. Each option has thingDef, amountPerSkillLevel (float), minSkillLevel, optional requiredResearch, optional MayRequire / MayRequireAnyOf (packageIds, comma-separated). Empty = use legacy fallback list.</summary>
         public List<ProductionOption> productionOptions;
 
-        /// <summary>Minimum number of settlements or outposts (non-hostile, non-player) within minNearbyRadiusTiles. 0 = no requirement.</summary>
+        /// <summary>Minimum number of nearby NPC settlements within minNearbyRadiusTiles (pool depends on outpost type: Trading/Recruiting include hostiles; Embassy uses embassy eligibility). 0 = no requirement.</summary>
         public int minNearbySettlementsOrOutposts;
 
         /// <summary>Radius in tiles to count settlements/outposts. Only used when minNearbySettlementsOrOutposts &gt; 0.</summary>

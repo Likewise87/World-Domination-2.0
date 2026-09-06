@@ -9,6 +9,15 @@ namespace TSA_WorldDomination
     {
         public static bool IsLiveEndpoint(WorldObject wo) => wo != null && !wo.Destroyed;
 
+        /// <summary>Live origin label, else pack-up home name, else null.</summary>
+        public static string GetOriginDisplayLabel(WorldObject_Traveler traveler)
+        {
+            if (traveler == null) return null;
+            if (IsLiveEndpoint(traveler.originObject))
+                return traveler.originObject.LabelCap;
+            return traveler.packUpOriginLabel.NullOrEmpty() ? null : traveler.packUpOriginLabel;
+        }
+
         /// <summary>Attacker context for raid resolution: live origin when available, otherwise null (use <see cref="WorldObject_Traveler.Faction"/>).</summary>
         public static WorldObject GetRaidAttackerContext(WorldObject_Traveler traveler)
         {

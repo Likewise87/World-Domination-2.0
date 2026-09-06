@@ -134,14 +134,37 @@ namespace TSA_WorldDomination
 
         private static int cachedNearbyTile = -1;
         private static int cachedNearbyRadius = -1;
+        private static int cachedNearbyMode = -1;
         private static int cachedNearbyTick = -99999;
         private static int cachedNearbyResult;
+
+        /// <summary>How NPC settlements are counted for min-nearby founding / production gates.</summary>
+        public enum NearbyCountMode
+        {
+            /// <summary>Non-player, non-hostile only (legacy / fallback).</summary>
+            Peaceful = 0,
+            /// <summary>Trading/Recruiting partner pool: all non-player NPC settlements (hostiles included).</summary>
+            Partners = 1,
+            /// <summary>Embassy eligible factions (<see cref="Outpost_Embassy.IsEligiblePartnerFaction"/>).</summary>
+            Embassy = 2
+        }
 
         /// <summary>Bust the nearby-count cache so the next query rescans the world (e.g. after settlements are destroyed).</summary>
         public static void InvalidateNearbyCountCache()
         {
             cachedNearbyTick = -99999;
             InvalidateEstablishmentBlockedCache();
+        }
+
+        /// <summary>Nearby count mode for this outpost def (Trading/Recruiting = partners, Embassy = embassy, else peaceful).</summary>
+        public static NearbyCountMode GetNearbyCountMode(WorldObjectDef outpostDef)
+        {
+            if (Outpost_Production_Utils.IsTradingOutpost(outpostDef)
+                || Outpost_Production_Utils.IsRecruitingOutpost(outpostDef))
+                return NearbyCountMode.Partners;
+            if (Outpost_Production_Utils.IsEmbassyOutpost(outpostDef))
+                return NearbyCountMode.Embassy;
+            return NearbyCountMode.Peaceful;
         }
 
         private static byte[] establishmentBlockedCache;
@@ -250,12 +273,17 @@ namespace TSA_WorldDomination
             }
         }
 
-        /// <summary>Count NPC settlements within radius of tile that are non-player and non-hostile to player. Cached per (tile,radius) for 2500 ticks. (WD outposts are player-only and never counted.)</summary>
-        public static int CountNearbySettlementsOrOutposts(int tile, int radiusTiles)
+        /// <summary>
+        /// Count NPC settlements within radius. Mode selects peaceful / partner (hostiles) / embassy eligibility.
+        /// WD outposts are player-only and never counted. Cached per (tile, radius, mode) for 2500 ticks.
+        /// </summary>
+        public static int CountNearbySettlements(int tile, int radiusTiles, NearbyCountMode mode)
         {
             if (Find.WorldGrid == null || tile < 0 || radiusTiles <= 0) return 0;
             int tick = Find.TickManager.TicksGame;
-            if (tile == cachedNearbyTile && radiusTiles == cachedNearbyRadius && tick - cachedNearbyTick < 2500)
+            int modeKey = (int)mode;
+            if (tile == cachedNearbyTile && radiusTiles == cachedNearbyRadius && modeKey == cachedNearbyMode
+                && tick - cachedNearbyTick < 2500)
                 return cachedNearbyResult;
 
             int count = 0;
@@ -264,32 +292,114 @@ namespace TSA_WorldDomination
             for (int i = 0; i < settlements.Count; i++)
             {
                 Settlement s = settlements[i];
-                if (!s.Tile.Valid || WorldActions_Utils.IsSpace(s) || s.Faction == null || s.Faction.IsPlayer || s.Faction == playerFaction
-                    || WorldActions_Utils.SafeHostileTo(s.Faction, playerFaction))
+                if (!s.Tile.Valid || WorldActions_Utils.IsSpace(s) || s.Faction == null || s.Faction.IsPlayer || s.Faction == playerFaction)
                     continue;
+                if (mode == NearbyCountMode.Peaceful)
+                {
+                    if (WorldActions_Utils.SafeHostileTo(s.Faction, playerFaction))
+                        continue;
+                }
+                else if (mode == NearbyCountMode.Embassy)
+                {
+                    if (!Outpost_Embassy.IsEligiblePartnerFaction(s.Faction))
+                        continue;
+                }
+                // Partners: all non-player NPC settlements (hostiles included).
                 if ((int)Find.WorldGrid.ApproxDistanceInTiles(tile, s.Tile) <= radiusTiles) count++;
             }
 
             cachedNearbyTile = tile;
             cachedNearbyRadius = radiusTiles;
+            cachedNearbyMode = modeKey;
             cachedNearbyTick = tick;
             cachedNearbyResult = count;
             return count;
         }
 
-        /// <summary>True if tile has at least ext.minNearbySettlementsOrOutposts within ext.minNearbyRadiusTiles (non-hostile, non-player). If def has no requirement, returns true.</summary>
-        public static bool MeetsMinNearbySettlements(int tile, WorldObjectDef outpostDef, out string reason)
+        /// <summary>Peaceful-only count (non-hostile NPC settlements). Prefer <see cref="CountNearbySettlements"/> with an explicit mode.</summary>
+        public static int CountNearbySettlementsOrOutposts(int tile, int radiusTiles)
+            => CountNearbySettlements(tile, radiusTiles, NearbyCountMode.Peaceful);
+
+        /// <summary>Probe for establishment UI: count / need / radius / met / reason for this def at tile.</summary>
+        public static void GetNearbyRequirementProbe(
+            int tile,
+            WorldObjectDef outpostDef,
+            out int count,
+            out int need,
+            out int radius,
+            out bool met,
+            out string reason)
         {
+            count = 0;
+            need = 0;
+            radius = 0;
             reason = null;
             var ext = outpostDef?.GetModExtension<OutpostDefExtension>();
-            if (ext == null || ext.minNearbySettlementsOrOutposts <= 0) return true;
-            int radius = Mathf.Max(0, ext.minNearbyRadiusTiles);
-            int count = CountNearbySettlementsOrOutposts(tile, radius);
-            if (count >= ext.minNearbySettlementsOrOutposts) return true;
-            string key = "TSA_WD_Establish_MinNearbySettlements";
-            reason = key.Translate(outpostDef?.label ?? "Outpost", ext.minNearbySettlementsOrOutposts, radius, count).ToString();
-            if (reason == key) reason = "Need at least " + ext.minNearbySettlementsOrOutposts + " neutral or allied settlements within " + radius + " tiles. Found: " + count;
-            return false;
+            if (ext == null || ext.minNearbySettlementsOrOutposts <= 0)
+            {
+                met = true;
+                return;
+            }
+
+            need = ext.minNearbySettlementsOrOutposts;
+            radius = Mathf.Max(0, ext.minNearbyRadiusTiles);
+            NearbyCountMode mode = GetNearbyCountMode(outpostDef);
+            count = CountNearbySettlements(tile, radius, mode);
+            met = count >= need;
+            if (met) return;
+
+            reason = BuildMinNearbyFailReason(outpostDef, need, radius, count, mode);
+        }
+
+        private static string BuildMinNearbyFailReason(
+            WorldObjectDef outpostDef,
+            int need,
+            int radius,
+            int count,
+            NearbyCountMode mode)
+        {
+            string label = outpostDef?.label ?? "Outpost";
+            if (mode == NearbyCountMode.Partners)
+            {
+                if (Outpost_Production_Utils.IsRecruitingOutpost(outpostDef))
+                {
+                    string key = "TSA_WD_Establish_MinNearbySettlements_Recruiting";
+                    string t = key.Translate(label, need, radius, count).ToString();
+                    if (t != key) return t;
+                    return "Need at least " + need + " nearby NPC settlements within " + radius
+                        + " tiles (hostile neighbors count as defector sources). Found: " + count;
+                }
+                if (Outpost_Production_Utils.IsTradingOutpost(outpostDef))
+                {
+                    string key = "TSA_WD_Establish_MinNearbySettlements_Trading";
+                    string t = key.Translate(label, need, radius, count).ToString();
+                    if (t != key) return t;
+                    return "Need at least " + need + " nearby NPC settlements within " + radius
+                        + " tiles (hostile neighbors count for black-market trade). Found: " + count;
+                }
+            }
+            if (mode == NearbyCountMode.Embassy)
+            {
+                string key = "TSA_WD_Establish_MinNearbySettlements_Embassy";
+                string t = key.Translate(label, need, radius, count).ToString();
+                if (t != key) return t;
+                return "Need at least " + need + " embassy-eligible settlements within " + radius + " tiles. Found: " + count;
+            }
+
+            string peacefulKey = "TSA_WD_Establish_MinNearbySettlements";
+            string peaceful = peacefulKey.Translate(label, need, radius, count).ToString();
+            if (peaceful != peacefulKey) return peaceful;
+            return "Need at least " + need + " neutral or allied settlements within " + radius + " tiles. Found: " + count;
+        }
+
+        /// <summary>
+        /// True if tile meets ext.minNearbySettlementsOrOutposts within radius.
+        /// Trading/Recruiting count hostiles; Embassy uses embassy eligibility; others peaceful-only.
+        /// </summary>
+        public static bool MeetsMinNearbySettlements(int tile, WorldObjectDef outpostDef, out string reason)
+        {
+            GetNearbyRequirementProbe(tile, outpostDef, out _, out _, out _, out bool met, out reason);
+            return met;
         }
 
         /// <summary>Cost to establish this outpost from def (OutpostDefExtension.establishmentCost); default 50 wood scaled by settings if def has none. Zero multiplier = no cost.</summary>
@@ -435,7 +545,7 @@ namespace TSA_WorldDomination
             if (!MeetsMinDistance(tile, out reason, o => o.def == outpostDef && o.Faction == Faction.OfPlayer))
                 return false;
 
-            // Min nearby settlements/outposts (non-hostile, non-player) for e.g. Trading/Recruiting
+            // Min nearby settlements (type-aware: partners / embassy / peaceful)
             if (EnforceNearbySettlements && !MeetsMinNearbySettlements(tile, outpostDef, out reason))
                 return false;
 
@@ -842,8 +952,7 @@ namespace TSA_WorldDomination
                 reasons.Add(pawnReason);
             if (EnforceMinSkill && !MeetsMinCumulativeSkillAtOutpost(outpost, out string skillReason))
                 reasons.Add(skillReason);
-            var ext = outpost.def?.GetModExtension<OutpostDefExtension>();
-            if (EnforceNearbySettlements && ext != null && ext.minNearbySettlementsOrOutposts > 0 && !MeetsMinNearbySettlements(outpost.Tile, outpost.def, out string nearbyReason))
+            if (EnforceNearbySettlements && !MeetsMinNearbySettlements(outpost.Tile, outpost.def, out string nearbyReason))
                 reasons.Add(nearbyReason);
 
             return reasons.Count == 0;

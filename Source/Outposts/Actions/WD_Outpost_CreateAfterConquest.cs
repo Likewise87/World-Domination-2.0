@@ -55,6 +55,7 @@ namespace TSA_WorldDomination
 
             OutpostDataTracker.Register(ruins.Tile, factionBase.Name ?? factionBase.LabelCap, capturedTier);
 
+            WorldActions_DesperationRaid.NotifyNpcSettlementLost(factionBase, Faction.OfPlayer);
             factionBase.Destroy();
             return false;
         }
@@ -326,7 +327,7 @@ namespace TSA_WorldDomination
         private readonly ConquestOpportunityContext context;
         private readonly bool allowLeave;
 
-        public override Vector2 InitialSize => allowLeave ? new Vector2(560f, 420f) : new Vector2(560f, 360f);
+        public override Vector2 InitialSize => allowLeave ? new Vector2(560f, 444f) : new Vector2(560f, 384f);
 
         public Dialog_OutpostOpportunityChoices(ConquestOpportunityContext context, bool allowLeave = true)
         {
@@ -335,6 +336,9 @@ namespace TSA_WorldDomination
             doCloseX = false;
             doCloseButton = false;
             absorbInputAroundWindow = true;
+            forcePause = true;
+            closeOnAccept = false;
+            closeOnCancel = false;
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -360,6 +364,7 @@ namespace TSA_WorldDomination
             Text.Anchor = TextAnchor.UpperLeft;
             Widgets.Label(new Rect(0f, y, inRect.width, Outpost_Dialog_UI.DialogTitleHeight), context.Label);
             y += Outpost_Dialog_UI.DialogTitleRowAdvance;
+            Outpost_Dialog_UI.DrawGamePausedLabel(ref y, inRect.width);
 
             Text.Font = GameFont.Small;
             float innerTextW = inRect.width - boxPad * 2f;

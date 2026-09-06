@@ -45,6 +45,7 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetT4Mortar(),
                 () => { requirementsExpanded = mortarExpanded = antiAirExpanded = true; },
                 () => { requirementsExpanded = mortarExpanded = antiAirExpanded = false; });
+            SettingsUI.DrawSettingsSearchBar(l);
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_T4Mortar_Header".Translate(), ref requirementsExpanded, SettingsUI.SectionHeaderColor))
             {

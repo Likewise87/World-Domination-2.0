@@ -7,10 +7,8 @@ namespace TSA_WorldDomination
     {
         private Vector2 scrollPosition;
         private readonly string windowTitle;
-        private bool tiersExpanded = true;
-        private bool weightsExpanded;
+        private bool weightsExpanded = true;
         private bool fortifyExpanded = true;
-        private bool capsExpanded;
         private bool cooldownsExpanded;
 
         public override Vector2 InitialSize => new Vector2(850f, 750f);
@@ -28,7 +26,7 @@ namespace TSA_WorldDomination
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
             float contentWidth = contentRect.width - 24f;
-            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 3200f);
+            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2800f);
 
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
 
@@ -37,37 +35,11 @@ namespace TSA_WorldDomination
             var s = WorldDominationMod.settings;
             bool advanced = s.showAdvancedSettings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetDailyActions(),
-                () => { tiersExpanded = weightsExpanded = fortifyExpanded = capsExpanded = cooldownsExpanded = true; },
-                () => { tiersExpanded = weightsExpanded = fortifyExpanded = capsExpanded = cooldownsExpanded = false; });
+                () => { weightsExpanded = fortifyExpanded = cooldownsExpanded = true; },
+                () => { weightsExpanded = fortifyExpanded = cooldownsExpanded = false; });
+            SettingsUI.DrawSettingsSearchBar(l);
 
-            // 1. TIER CONTRIBUTIONS (Economic Shares) - core
-            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Daily_HeaderTiers".Translate(), ref tiersExpanded, SettingsUI.SectionHeaderColor))
-            {
-
-            float[] tierVals = { s.tier1Share, s.tier2Share, s.tier3Share, s.tier4Share };
-            string[] tierLabels = {
-                "TSA_WD_Tier1".Translate().ToString(),
-                "TSA_WD_Tier2".Translate().ToString(),
-                "TSA_WD_Tier3".Translate().ToString(),
-                "TSA_WD_Tier4".Translate().ToString()
-            };
-            string[] tierTips = {
-                "TSA_WD_Daily_Tier1Tip".Translate().ToString(),
-                "TSA_WD_Daily_Tier2Tip".Translate().ToString(),
-                "TSA_WD_Daily_Tier3Tip".Translate().ToString(),
-                "TSA_WD_Daily_Tier4Tip".Translate().ToString()
-            };
-
-            SettingsUI.MultiColumnSlider(l, tierLabels, tierVals, new Vector2(0.05f, 2.5f), tierTips, 0.01f, SliderFormat.Fixed2, 38f,
-                new[] { WorldDominationSettings.DefTier1Share, WorldDominationSettings.DefTier2Share, WorldDominationSettings.DefTier3Share, WorldDominationSettings.DefTier4Share });
-
-            s.tier1Share = tierVals[0];
-            s.tier2Share = tierVals[1];
-            s.tier3Share = tierVals[2];
-            s.tier4Share = tierVals[3];
-            }
-            // 2. ACTION LIKELIHOOD WEIGHTS - core (prioritized, always visible)
-            l.Gap(12f);
+            // 1. ACTION LIKELIHOOD WEIGHTS - core (prioritized, always visible)
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Daily_HeaderWeights".Translate(), ref weightsExpanded, SettingsUI.SectionHeaderColor))
             {
             float displayPool = s.WeightPercentDisplayPool;
@@ -89,7 +61,7 @@ namespace TSA_WorldDomination
                 defaultValue: WorldDominationSettings.DefIncludeDevelopWeightInPercentDisplay);
             }
 
-            // 3. NPC FORTIFY - core
+            // 2. NPC FORTIFY - core
             l.Gap(12f);
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Daily_HeaderFortify".Translate(), ref fortifyExpanded, SettingsUI.SectionHeaderColor))
             {
@@ -148,21 +120,21 @@ namespace TSA_WorldDomination
 
                 l.Gap(8f);
                 SettingsUI.DrawHeader(l, "TSA_WD_Fortify_HeaderTypeChances".Translate());
-                s.fortifyChanceRoadBlock = SettingsUI.LabeledSlider(l,
+                float fortifyTypePool = Mathf.Max(1f, s.fortifyChanceRoadBlock + s.fortifyChanceTrap + s.fortifyChanceTurret);
+                s.fortifyChanceRoadBlock = SettingsUI.WeightSlider(l,
                     "TSA_WD_Fortify_ChanceRoadBlock".Translate(),
-                    s.fortifyChanceRoadBlock, 0f, 1f,
-                    "TSA_WD_Fortify_ChanceRoadBlockTip".Translate(),
-                    0.01f, SliderFormat.Percent, WorldDominationSettings.DefFortifyChanceRoadBlock);
-                s.fortifyChanceTrap = SettingsUI.LabeledSlider(l,
+                    s.fortifyChanceRoadBlock, fortifyTypePool, 0f, 200f,
+                    "TSA_WD_Fortify_ChanceRoadBlockTip".Translate(), WorldDominationSettings.DefFortifyChanceRoadBlock);
+                fortifyTypePool = Mathf.Max(1f, s.fortifyChanceRoadBlock + s.fortifyChanceTrap + s.fortifyChanceTurret);
+                s.fortifyChanceTrap = SettingsUI.WeightSlider(l,
                     "TSA_WD_Fortify_ChanceTrap".Translate(),
-                    s.fortifyChanceTrap, 0f, 1f,
-                    "TSA_WD_Fortify_ChanceTrapTip".Translate(),
-                    0.01f, SliderFormat.Percent, WorldDominationSettings.DefFortifyChanceTrap);
-                s.fortifyChanceTurret = SettingsUI.LabeledSlider(l,
+                    s.fortifyChanceTrap, fortifyTypePool, 0f, 200f,
+                    "TSA_WD_Fortify_ChanceTrapTip".Translate(), WorldDominationSettings.DefFortifyChanceTrap);
+                fortifyTypePool = Mathf.Max(1f, s.fortifyChanceRoadBlock + s.fortifyChanceTrap + s.fortifyChanceTurret);
+                s.fortifyChanceTurret = SettingsUI.WeightSlider(l,
                     "TSA_WD_Fortify_ChanceTurret".Translate(),
-                    s.fortifyChanceTurret, 0f, 1f,
-                    "TSA_WD_Fortify_ChanceTurretTip".Translate(),
-                    0.01f, SliderFormat.Percent, WorldDominationSettings.DefFortifyChanceTurret);
+                    s.fortifyChanceTurret, fortifyTypePool, 0f, 200f,
+                    "TSA_WD_Fortify_ChanceTurretTip".Translate(), WorldDominationSettings.DefFortifyChanceTurret);
 
                 l.Gap(8f);
                 SettingsUI.DrawHeader(l, "TSA_WD_Fortify_HeaderMultiCaravan".Translate());
@@ -221,35 +193,9 @@ namespace TSA_WorldDomination
                 s.atTurretMaxT4 = (int)atCaps[3];
             }
 
-            // 4. ACTION CAPS + COOLDOWNS - advanced only
+            // 3. COOLDOWNS - advanced only
             if (advanced)
             {
-                l.Gap(12f);
-                if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Daily_HeaderActionCaps".Translate(), ref capsExpanded, SettingsUI.SectionHeaderColor))
-                {
-
-                float[] capVals = { s.tier1MaxActions, s.tier2MaxActions, s.tier3MaxActions, s.tier4MaxActions };
-                string[] capLabels = {
-                    "TSA_WD_CapT1".Translate().ToString(),
-                    "TSA_WD_CapT2".Translate().ToString(),
-                    "TSA_WD_CapT3".Translate().ToString(),
-                    "TSA_WD_CapT4".Translate().ToString()
-                };
-                string[] capTips = {
-                    "TSA_WD_Daily_CapTip".Translate().ToString(),
-                    "TSA_WD_Daily_CapTip".Translate().ToString(),
-                    "TSA_WD_Daily_CapTip".Translate().ToString(),
-                    "TSA_WD_Daily_CapTip".Translate().ToString()
-                };
-
-                SettingsUI.MultiColumnSlider(l, capLabels, capVals, new Vector2(1f, 5f), capTips, 1f, SliderFormat.Fixed0, 38f,
-                    new float[] { WorldDominationSettings.DefCapT1, WorldDominationSettings.DefCapT2, WorldDominationSettings.DefCapT3, WorldDominationSettings.DefCapT4 });
-
-                s.tier1MaxActions = (int)capVals[0];
-                s.tier2MaxActions = (int)capVals[1];
-                s.tier3MaxActions = (int)capVals[2];
-                s.tier4MaxActions = (int)capVals[3];
-                }
                 l.Gap(12f);
                 if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Daily_HeaderCooldowns".Translate(), ref cooldownsExpanded, SettingsUI.SectionHeaderColor))
                 {
@@ -305,3 +251,4 @@ namespace TSA_WorldDomination
         }
     }
 }
+

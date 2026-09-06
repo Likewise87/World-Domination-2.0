@@ -355,6 +355,9 @@
   <TSA_WD_Establish_MinFishAbundance>钓鱼需至少 {0}% 鱼类丰度(本格 {1}%)。</TSA_WD_Establish_MinFishAbundance>
   <TSA_WD_Establish_MinFertility>农耕前哨站需至少 {0}% 肥力(本格 {1}%)。</TSA_WD_Establish_MinFertility>
   <TSA_WD_Establish_MinNearbySettlements>{0} 需在 {2} 格内至少有 {1} 个中立或友好派系(非己方)定居点。找到:{3}。</TSA_WD_Establish_MinNearbySettlements>
+  <TSA_WD_Establish_MinNearbySettlements_Recruiting>{0} 需在 {2} 格内至少有 {1} 个附近NPC定居点(敌对邻居作为投诚来源计入)。找到:{3}。</TSA_WD_Establish_MinNearbySettlements_Recruiting>
+  <TSA_WD_Establish_MinNearbySettlements_Trading>{0} 需在 {2} 格内至少有 {1} 个附近NPC定居点(敌对邻居按黑市贸易计入)。找到:{3}。</TSA_WD_Establish_MinNearbySettlements_Trading>
+  <TSA_WD_Establish_MinNearbySettlements_Embassy>{0} 需在 {2} 格内至少有 {1} 个符合使馆条件的定居点。找到:{3}。</TSA_WD_Establish_MinNearbySettlements_Embassy>
   <TSA_WD_Establish_MinPawns>{0} 需商队至少 {1} 名殖民者(当前 {2})。</TSA_WD_Establish_MinPawns>
   <TSA_WD_Establish_MinSkill>此前哨站至少需要 {0} 点{1}才能运作（当前 {2}）。</TSA_WD_Establish_MinSkill>
     <TSA_WD_Establish_NeedAnimals>此格无合适野生动物。</TSA_WD_Establish_NeedAnimals>
@@ -487,6 +490,8 @@
   <TSA_WD_Outpost_ProductionTimeMultTooltip>乘以生产周期长度(XML 的 productionCycleDays 或默认)。调低则周期更短、交货更频繁;周期进行中改动会按比例调整剩余时间。</TSA_WD_Outpost_ProductionTimeMultTooltip>
   <TSA_WD_Outpost_ProductionOutputMult>生产产出倍率</TSA_WD_Outpost_ProductionOutputMult>
   <TSA_WD_Outpost_ProductionOutputMultTooltip>乘以每周期交付量(作物、狩猎、采矿、制造、贸易白银、招募人数取整)。1.00 表示产量不变。</TSA_WD_Outpost_ProductionOutputMultTooltip>
+  <TSA_WD_Outpost_HostileNearbyPartnerMult>敌对邻居效率</TSA_WD_Outpost_HostileNearbyPartnerMult>
+  <TSA_WD_Outpost_HostileNearbyPartnerMultTip>敌对定居点的贸易白银按此比例计入（黑市）。敌对定居点的招募邻居点数按同一比例计入（投诚）。中立与盟友邻居仍为全额。计入的敌对行在前哨对话框中会标红底。</TSA_WD_Outpost_HostileNearbyPartnerMultTip>
   <TSA_WD_Outpost_WarehouseAuraBonus>仓库光环加成</TSA_WD_Outpost_WarehouseAuraBonus>
   <TSA_WD_Outpost_WarehouseAuraBonusTooltip>玩家仓库对附近合格生产点的生产力加成（货物、虚拟食物、学院经验）。范围内只取最佳仓库。研究前哨不受影响。</TSA_WD_Outpost_WarehouseAuraBonusTooltip>
   <TSA_WD_Outpost_WarehouseAuraRadius>仓库光环半径</TSA_WD_Outpost_WarehouseAuraRadius>
@@ -498,6 +503,7 @@
   <TSA_WD_Outpost_Inspect_ProducingNone>生产中:无</TSA_WD_Outpost_Inspect_ProducingNone>
   <TSA_WD_Outpost_Inspect_ProducingPausedNoPhysicalSkill>此前哨站没有相关技能。请安排具备相关技能的殖民者以生产物资。</TSA_WD_Outpost_Inspect_ProducingPausedNoPhysicalSkill>
   <TSA_WD_Outpost_Inspect_ProducingPausedNoNearbySettlements>生产已暂停:附近无中立或友好非玩家定居点或前哨站。</TSA_WD_Outpost_Inspect_ProducingPausedNoNearbySettlements>
+  <TSA_WD_Outpost_Inspect_ProducingPausedMinNearbyPartners>生产已暂停:{0}需要在{2}格内至少有{1}个附近NPC定居点(敌对邻居也计入)。当前:{3}。</TSA_WD_Outpost_Inspect_ProducingPausedMinNearbyPartners>
   <TSA_WD_Outpost_Inspect_ProductionPaused>生产已暂停:{0}</TSA_WD_Outpost_Inspect_ProductionPaused>
   <TSA_WD_Outpost_MinDistance>建立前哨站最小距离(格)</TSA_WD_Outpost_MinDistance>
   <TSA_WD_Outpost_MinDistanceTooltip>建立新前哨站时距任意定居点或其他前哨站的最小格数。</TSA_WD_Outpost_MinDistanceTooltip>
@@ -744,13 +750,19 @@
   <TSA_WD_Recruiting_NeighborBonusTierPointsTip>每个计入的伙伴按等级贡献邻居点数：\n1级 = 1\n2级 = 2\n3级 = 3.5\n4级 = 5\n每个派系仅取等级最高（同级则更近）的前 3 个伙伴。</TSA_WD_Recruiting_NeighborBonusTierPointsTip>
   <TSA_WD_Recruiting_ChooseTraining>选择培养方向：</TSA_WD_Recruiting_ChooseTraining>
   <TSA_WD_Recruiting_SelectedTraining>已选：{0}</TSA_WD_Recruiting_SelectedTraining>
-  <TSA_WD_Recruiting_NearbyHeaderTip>{0} 格内的中立或盟友定居点。每个派系最多 3 个定居点计入。</TSA_WD_Recruiting_NearbyHeaderTip>
+  <TSA_WD_Recruiting_NearbyHeaderTip>{0} 格内的定居点。每个派系最多 3 个计入。敌对邻居作为投诚按降低效率计入，计入时显示红底。</TSA_WD_Recruiting_NearbyHeaderTip>
   <TSA_WD_Recruiting_PartnerRow>{0}（{1}），+{2} 邻居点数</TSA_WD_Recruiting_PartnerRow>
   <TSA_WD_Recruiting_NeighborBonusRule>每个派系最多取前 3 个伙伴贡献邻居点数（1级=1，2级=2，3级=3.5，4级=5）。全部相加。每合计 {0} 点 = 本周期额外 +1 招募。</TSA_WD_Recruiting_NeighborBonusRule>
   <TSA_WD_Recruiting_NeighborBonusFooterRule>计入伙伴的邻居点数每满 {0}，生产周期结束时额外获得 1 名招募。</TSA_WD_Recruiting_NeighborBonusFooterRule>
   <TSA_WD_Recruiting_NeighborBonusFooterTotal>邻居点数合计：{0}</TSA_WD_Recruiting_NeighborBonusFooterTotal>
   <TSA_WD_Recruiting_NeighborBonusFooterResult>额外殖民者：{0}</TSA_WD_Recruiting_NeighborBonusFooterResult>
   <TSA_WD_Recruiting_PartnerRowTip>{0}\n{2}，{1}，{3} 格\n\n贡献 +{4} 邻居点数。\n该派系异种人可能出现在新招募者身上。\n\n点击可在世界地图上定位。</TSA_WD_Recruiting_PartnerRowTip>
+  <TSA_WD_Recruiting_PartnerRowTip_BlackMarket>敌对邻居（投诚）：按 {0}% 效率计入。</TSA_WD_Recruiting_PartnerRowTip_BlackMarket>
+  <TSA_WD_Recruiting_PartnerRowTip_Defectors>敌对邻居（投诚）：按 {0}% 效率计入。</TSA_WD_Recruiting_PartnerRowTip_Defectors>
+  <TSA_WD_Recruiting_Math_Compact>{0}（{1} 社交）+ {2}（{3} 邻居点数）x {4}% 专家加成 [= {5}]</TSA_WD_Recruiting_Math_Compact>
+  <TSA_WD_Recruiting_Math_CompactWithSkill>{0}（{1} 社交）+ {2}（{3} 邻居点数）x {4}% 专家加成 x -{5}% 技能专精 [= {6}]</TSA_WD_Recruiting_Math_CompactWithSkill>
+  <TSA_WD_Trading_Math_Compact>{0} 白银 x {1}%（{2} 社交）x {3}% 专家 [= {4} {5}]</TSA_WD_Trading_Math_Compact>
+  <TSA_WD_Embassy_Math_Compact>{0} 等级点数 x {1}%（{2} 社交）x {3}% 专家 [= +{4} 好感]</TSA_WD_Embassy_Math_Compact>
   <TSA_WD_Recruiting_PriorityAny>任意殖民者</TSA_WD_Recruiting_PriorityAny>
   <TSA_WD_Recruiting_PriorityAnyFormula>无招募惩罚</TSA_WD_Recruiting_PriorityAnyFormula>
   <TSA_WD_Recruiting_PriorityAnyTip>技能随机。社交与邻居提供全额招募人数。</TSA_WD_Recruiting_PriorityAnyTip>
@@ -776,7 +788,7 @@
   <TSA_WD_Recruiting_Math_NeighborConversion>{0} 点数 ÷ {1} = 额外 {2} 招募</TSA_WD_Recruiting_Math_NeighborConversion>
   <TSA_WD_Outpost_GenericLabel>前哨站</TSA_WD_Outpost_GenericLabel>
   <TSA_WD_Trading_WindowTitle>前哨贸易</TSA_WD_Trading_WindowTitle>
-  <TSA_WD_Trading_NearbyHeaderTip>{0} 格内的中立或盟友定居点。每个派系最多 3 个定居点计入。</TSA_WD_Trading_NearbyHeaderTip>
+  <TSA_WD_Trading_NearbyHeaderTip>{0} 格内的定居点。每个派系最多 3 个计入。敌对邻居按降低效率计入（黑市），计入时显示红底。</TSA_WD_Trading_NearbyHeaderTip>
   <TSA_WD_Trading_Info_CurrentSocialTip>前哨站当前累计社交：{0}。社交产出在周期结束时缩放白银收益。</TSA_WD_Trading_Info_CurrentSocialTip>
   <TSA_WD_Trading_Info_AvgSocialTip>本周期平均社交：{0}。该值决定周期结束时应用于等级白银的社交倍率。</TSA_WD_Trading_Info_AvgSocialTip>
   <TSA_WD_Trading_Info_ExpectedOutput>预期产出：</TSA_WD_Trading_Info_ExpectedOutput>
@@ -787,8 +799,9 @@
   <TSA_WD_Trading_NearbySettlementsTip>点击行可在世界地图上定位。高亮行贡献白银（每个派系按等级最多取前 3 个）。</TSA_WD_Trading_NearbySettlementsTip>
   <TSA_WD_Trading_PartnerRow>{0}（{1}），+{2} 白银</TSA_WD_Trading_PartnerRow>
   <TSA_WD_Trading_PartnerRowTip>{0}\n{2}，{1}，{3} 格\n\n贡献 +{4} 白银。\n\n点击可在世界地图上定位。</TSA_WD_Trading_PartnerRowTip>
+  <TSA_WD_Trading_PartnerRowTip_BlackMarket>敌对邻居（黑市）：按 {0}% 效率计入。</TSA_WD_Trading_PartnerRowTip_BlackMarket>
   <TSA_WD_Trading_TierSilverTip>每个附近定居点按等级贡献白银：\n1级 = 100\n2级 = 200\n3级 = 350\n4级 = 500</TSA_WD_Trading_TierSilverTip>
-  <TSA_WD_Trading_FooterRule>合计每个派系最多前 3 个伙伴的白银，再乘以周期结束时的社交产出。</TSA_WD_Trading_FooterRule>
+  <TSA_WD_Trading_FooterRule>合计每个派系最多前 3 个伙伴的白银（敌对伙伴为降低效率），再乘以周期结束时的社交产出。</TSA_WD_Trading_FooterRule>
   <TSA_WD_Trading_FooterTierSum>等级白银合计：{0}</TSA_WD_Trading_FooterTierSum>
   <TSA_WD_Trading_FooterExpectedSilver>预期收益：{0} 白银</TSA_WD_Trading_FooterExpectedSilver>
   <TSA_WD_Trading_SocialPanelHeader>社交产出</TSA_WD_Trading_SocialPanelHeader>
@@ -861,7 +874,7 @@
   <TSA_WD_OutpostStats_Row_EmbassyGoodwillTip>本周期对附近合格派系的预计总好感，已含社交倍率与上限余量。</TSA_WD_OutpostStats_Row_EmbassyGoodwillTip>
   <TSA_WD_Production_TradingDesc>贸易:周期结束时从附近定居点与前哨站获得白银,并按高于定义基准的社交缩放。</TSA_WD_Production_TradingDesc>
   <TSA_WD_Production_TradingTooltip>周期结束时从附近定居点/前哨站获得白银。累计社交生效：定义中 MinCumulativeSkill 所列的社交值为 100% 白银，每多 1 点社交 +5%（再 × 全局产出倍率）。</TSA_WD_Production_TradingTooltip>
-  <TSA_WD_Production_TradingYield>附近中立或友好定居点/前哨站 {0} 白银 × {1} 前哨站社交技能总和</TSA_WD_Production_TradingYield>
+  <TSA_WD_Production_TradingYield>附近NPC定居点 {0} 白银 × {1} 前哨站社交技能总和</TSA_WD_Production_TradingYield>
   <TSA_WD_Production_TradingYield_AtCycleEnd>周期结束时从附近等级</TSA_WD_Production_TradingYield_AtCycleEnd>
   <TSA_WD_Production_TradingYield_Average>周期结束 ×{0} 白银</TSA_WD_Production_TradingYield_Average>
   <TSA_WD_Production_TradingYield_Snapshot>×{0} 白银</TSA_WD_Production_TradingYield_Snapshot>
@@ -1000,6 +1013,9 @@
   <TSA_WD_Req_Tooltip_FishingNotCoastal>钓鱼需要海洋沿岸陆地格(非湖泊或开阔水域)。</TSA_WD_Req_Tooltip_FishingNotCoastal>
   <TSA_WD_Req_Tooltip_FishingNone>此沿岸生物群系没有可用的咸水鱼种。</TSA_WD_Req_Tooltip_FishingNone>
   <TSA_WD_Req_Tooltip_MinNearbyMet>{1} 格内至少 {0} 个定居点或前哨站(非敌对)。</TSA_WD_Req_Tooltip_MinNearbyMet>
+  <TSA_WD_Req_Tooltip_MinNearbyMet_Recruiting>{1} 格内至少 {0} 个附近NPC定居点(敌对邻居作为投诚来源计入)。</TSA_WD_Req_Tooltip_MinNearbyMet_Recruiting>
+  <TSA_WD_Req_Tooltip_MinNearbyMet_Trading>{1} 格内至少 {0} 个附近NPC定居点(敌对邻居按黑市贸易计入)。</TSA_WD_Req_Tooltip_MinNearbyMet_Trading>
+  <TSA_WD_Req_Tooltip_MinNearbyMet_Embassy>{1} 格内至少 {0} 个符合使馆条件的定居点。</TSA_WD_Req_Tooltip_MinNearbyMet_Embassy>
   <TSA_WD_Req_Tooltip_MinNearbyUnmet>需在 {1} 格内至少 {0} 个。找到:{2}</TSA_WD_Req_Tooltip_MinNearbyUnmet>
   <TSA_WD_Req_Tooltip_MinPawnsMet>商队殖民者数量足够建立此前哨站。</TSA_WD_Req_Tooltip_MinPawnsMet>
   <TSA_WD_Req_Tooltip_MinPawnsUnmet>商队至少需要 {0} 名殖民者。当前 {1}。</TSA_WD_Req_Tooltip_MinPawnsUnmet>
@@ -1085,14 +1101,14 @@
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Farming>产出作物物资（食物、布料）。随地块肥力变化。可通过升级提升效率</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Farming>
     <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Hunting>产出肉、皮革和羊毛。随地块动物丰度与驯兽技能变化。可通过升级提升效率</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Hunting>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>产出选定的一种鱼。随海洋沿岸鱼类丰度与驯兽技能变化。可通过升级提升效率。需要 Odyssey</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>每周期招募新殖民者。随社交技能与每个派系最多前 3 个附近伙伴变化。范围内需有中立或盟友定居点</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>每周期产出白银。随社交技能与每个派系最多前 3 个附近伙伴变化。范围内需有中立或盟友定居点</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>每周期招募新殖民者。随社交技能与每个派系最多前 3 个附近伙伴变化(敌对邻居作为投诚计入)。范围内需有附近NPC定居点</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>每周期产出白银。随社交技能与每个派系最多前 3 个附近伙伴变化(敌对邻居按黑市贸易计入)。范围内需有附近NPC定居点</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Embassy>每周期提升附近派系好感（中立/盟友；若设置允许则含敌对）。每个派系取范围内最高等级定居点。随社交技能变化</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Embassy>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Scavenging>每周期产出随机物资。每名殖民者每次配送增加 500 银战利品。固定周期；建立至少需 2 名殖民者</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Scavenging>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mining>产出石砖、矿石和零部件。随地块采矿效率变化。可通过升级提升效率</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mining>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fabrication>产出工业与高级零部件。随工艺技能变化。需要「制造」研究</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fabrication>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>产出化合燃料。随工艺技能变化。需要「生化燃料精炼」研究</TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>产出奶、蛋和羊毛。随地块肥力与驯兽技能变化。可通过升级提升效率</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>产出奶、蛋、羊毛和肉（鸡、猪、牛）。随地块肥力与驯兽技能变化。可通过升级提升效率</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Academy>每周期训练一项技能。教师技能决定经验与学生等级上限。不产出物资</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Academy>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mortar>对敌对目标进行远程迫击炮打击。使用驻地射击技能。不产出物资</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mortar>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_RapidResponse>派遣快速反制远行队拦截敌对旅者。敌方商队经过此前哨时，总会立刻触发攻击。运输舱研究后可空投殖民者。不产出物资</TSA_WD_OutpostTooltip_TSA_WD_Outpost_RapidResponse>

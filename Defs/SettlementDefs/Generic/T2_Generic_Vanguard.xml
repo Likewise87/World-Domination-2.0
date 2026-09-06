@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.SettlementLayoutDef>
+    <defName>TSA_Generic_T2_Vanguard</defName>
+    <settlementSize>64,64</settlementSize>
+    <avoidBridgeable>true</avoidBridgeable>
+    <avoidMountains>true</avoidMountains>
+    
+    <centerBuildings>
+	  <centralBuildingTags>
+        <li>TSA_Tribal_VanguardBarracks</li>
+      </centralBuildingTags>
+      <centerSize>56,56</centerSize>
+      <spaceAround>1</spaceAround>
+      <allowedStructures>
+        <li>
+          <tag>TSA_Tribal_VanguardBarracks</tag>
+          <count>3~6</count>
+        </li>
+        <li>
+          <count>2~4</count>
+          <tag>Generic_Stockpile</tag>
+        </li>
+        <li>
+          <tag>Kitchen</tag>
+          <count>0~1</count>
+        </li>
+</allowedStructures>
+    </centerBuildings>
+
+    <peripheralBuildings>
+      <allowedStructures>
+        <li>
+          <tag>TSA_Generic_Barricade</tag>
+          <count>3~8</count>
+        </li>
+      </allowedStructures>
+    </peripheralBuildings>
+
+	<defenseOptions>
+		<pawnGroupMultiplier>0.7</pawnGroupMultiplier>
+	</defenseOptions>
+
+    <propsOptions>
+      <scatterProps>true</scatterProps>
+      <scatterMinDistance>5</scatterMinDistance>
+      <scatterMaxAmount>8</scatterMaxAmount>
+      <scatterPropsDefs>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_Planks</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_Pallet</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_BarrelGreen</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_FilthDirt</li>
+        <li>TSA_WD_Box_1a</li>
+        <li>TSA_WD_Box_2a</li>
+        <li>TSA_WD_Box_5a</li>
+        <li>TSA_WD_Cart_5a</li>
+        <li>TSA_WD_Cart_6a</li>
+        <li>TSA_WD_Cart_7a</li>
+        <li>TSA_WD_Cart_8a</li>
+        <li>TSA_WD_Cart_9a</li>
+        <li>TSA_WD_Cart_10a</li>
+        <li>TSA_WD_Cart_11a</li>
+        <li>TSA_WD_Cart_12a</li>
+
+
+
+
+      
+      </scatterPropsDefs>
+    </propsOptions>
+
+    <roadOptions>
+      <addLinkRoad>true</addLinkRoad>
+      <linkRoadDef>PackedDirt</linkRoadDef>
+    </roadOptions>
+
+    <stockpileOptions>
+      <fillStorageBuildings>false</fillStorageBuildings>
+    </stockpileOptions>
+</KCSG.SettlementLayoutDef>
+</Defs>

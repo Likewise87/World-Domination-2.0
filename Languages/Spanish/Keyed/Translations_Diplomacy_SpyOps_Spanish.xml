@@ -92,6 +92,8 @@
   <TSA_WD_Diplo_StrongFactionWarTopPctTooltip>Cuota de las facciones NPC más fuertes (por fuerza total) que pueden elegirse para escalada entre fuertes. Siempre se consideran al menos dos cuando hay disponibles.</TSA_WD_Diplo_StrongFactionWarTopPctTooltip>
   <TSA_WD_Diplo_StrongFactionWarRequireMidOrLate>Solo tras Mid o Late Game</TSA_WD_Diplo_StrongFactionWarRequireMidOrLate>
   <TSA_WD_Diplo_StrongFactionWarRequireMidOrLateTooltip>Si está activo, las guerras entre fuertes solo se tiran cuando Mid Game o Late Game está activo.</TSA_WD_Diplo_StrongFactionWarRequireMidOrLateTooltip>
+  <TSA_WD_Diplo_StrongFactionWarCooldown>Enfriamiento guerra entre fuertes</TSA_WD_Diplo_StrongFactionWarCooldown>
+  <TSA_WD_Diplo_StrongFactionWarCooldownTooltip>Días antes de otra guerra entre fuertes tras un éxito. Se ignora con el enfriamiento compartido.</TSA_WD_Diplo_StrongFactionWarCooldownTooltip>
   <TSA_WD_Diplo_StrongFactionWar_Label>Facciones fuertes en guerra</TSA_WD_Diplo_StrongFactionWar_Label>
   <TSA_WD_Diplo_StrongFactionWar_Msg>Guerra: '{0}' y '{1}' (entre las potencias más fuertes) se han declarado la guerra.</TSA_WD_Diplo_StrongFactionWar_Msg>
   <TSA_WD_Diplo_StrongFactionWar_Cool_Label>Facciones fuertes enfrían relaciones</TSA_WD_Diplo_StrongFactionWar_Cool_Label>
@@ -99,6 +101,39 @@
   <TSA_WD_Diplo_Reset>Restablecer esta página a valores por defecto</TSA_WD_Diplo_Reset>
   <TSA_WD_Diplo_RevoltChance>Probabilidad diaria de revuelta</TSA_WD_Diplo_RevoltChance>
   <TSA_WD_Diplo_RevoltChanceTooltip>Probabilidad diaria de que una facción derrotada regrese y tome de 3 a 7 asentamientos de las facciones PNJ con más asentamientos (al menos 3 de la mayor; el resto de las dos siguientes). Prefiere asentamientos de nivel bajo. Nunca toma posesiones del jugador.</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_RevoltCooldown>Enfriamiento de revuelta</TSA_WD_Diplo_RevoltCooldown>
+  <TSA_WD_Diplo_RevoltCooldownTooltip>Días antes de otra revuelta tras un éxito. Se ignora con el enfriamiento compartido.</TSA_WD_Diplo_RevoltCooldownTooltip>
+  <TSA_WD_Diplo_ForwardAssaultEnable>Activar asalto adelantado (Vanguardia / Invasión)</TSA_WD_Diplo_ForwardAssaultEnable>
+  <TSA_WD_Diplo_ForwardAssaultEnableTooltip>Un hostil lejano fuerte puede desmantelar 5–7 asentamientos para Vanguardia, o lanzar 5–7 incursiones coordinadas para Invasión (los hogares permanecen). El momento de Vanguardia vs Invasión se configura en Dificultad de combate (puertas de amenaza), junto con la activación compartida y los controles de chance/distancia. Si Vanguardia no puede reservar un clúster y el fallback está activo, se intenta Invasión.</TSA_WD_Diplo_ForwardAssaultEnableTooltip>
+  <TSA_WD_Diplo_ForwardAssaultChance>Probabilidad de asalto adelantado</TSA_WD_Diplo_ForwardAssaultChance>
+  <TSA_WD_Diplo_ForwardAssaultChanceTooltip>Probabilidad diaria de intentar Vanguardia o Invasión cuando las puertas de dificultad Mid/Late Game y el enfriamiento lo permiten.</TSA_WD_Diplo_ForwardAssaultChanceTooltip>
+  <TSA_WD_Diplo_ForwardAssaultTopPct>Facciones fuertes consideradas</TSA_WD_Diplo_ForwardAssaultTopPct>
+  <TSA_WD_Diplo_ForwardAssaultTopPctTooltip>Cuota de las facciones NPC más fuertes que pueden ser el agresor del asalto adelantado.</TSA_WD_Diplo_ForwardAssaultTopPctTooltip>
+  <TSA_WD_Diplo_ForwardAssaultMinDist>Distancia mínima al jugador (casillas)</TSA_WD_Diplo_ForwardAssaultMinDist>
+  <TSA_WD_Diplo_ForwardAssaultMinDistTooltip>Los asentamientos de origen deben estar al menos a esta distancia de la colonia del jugador más cercana para ser elegibles para el desmantelamiento de Vanguardia o como anfitriones de incursión de Invasión.</TSA_WD_Diplo_ForwardAssaultMinDistTooltip>
+  <TSA_WD_Diplo_ForwardAssaultCooldown>Enfriamiento asalto adelantado</TSA_WD_Diplo_ForwardAssaultCooldown>
+  <TSA_WD_Diplo_ForwardAssaultCooldownTooltip>Días antes de otra Vanguardia o Invasión tras un lanzamiento. Compartido por ambos modos.</TSA_WD_Diplo_ForwardAssaultCooldownTooltip>
+  <TSA_WD_Diplo_SharedSpecialEventCooldown>Enfriamiento compartido de eventos especiales</TSA_WD_Diplo_SharedSpecialEventCooldown>
+  <TSA_WD_Diplo_SharedSpecialEventCooldownTooltip>Si está activo, guerra entre fuertes, revuelta y asalto adelantado comparten un enfriamiento. Si no, cada uno tiene el suyo.</TSA_WD_Diplo_SharedSpecialEventCooldownTooltip>
+  <TSA_WD_Diplo_SharedSpecialEventCooldownDays>Días de enfriamiento compartido</TSA_WD_Diplo_SharedSpecialEventCooldownDays>
+  <TSA_WD_Diplo_SharedSpecialEventCooldownDaysTooltip>Días antes de que cualquiera de esos tres eventos pueda ocurrir de nuevo tras un éxito. Las incursiones de desesperación usan su propio enfriamiento por facción.</TSA_WD_Diplo_SharedSpecialEventCooldownDaysTooltip>
+  <TSA_WD_Diplo_StrongFactionWarHeader>Guerra de facciones fuertes</TSA_WD_Diplo_StrongFactionWarHeader>
+  <TSA_WD_Diplo_RevoltHeader>Revuelta</TSA_WD_Diplo_RevoltHeader>
+  <TSA_WD_Diplo_ForwardAssaultHeader>Asalto adelantado</TSA_WD_Diplo_ForwardAssaultHeader>
+  <TSA_WD_Diplo_DesperationRaidHeader>Estrategia ante pérdida de asentamiento</TSA_WD_Diplo_DesperationRaidHeader>
+  <TSA_WD_Diplo_SharedSpecialEventCooldownHeader>Enfriamiento compartido de eventos especiales</TSA_WD_Diplo_SharedSpecialEventCooldownHeader>
+  <TSA_WD_Diplo_DesperationRaidEnable>Activar incursión de desesperación</TSA_WD_Diplo_DesperationRaidEnable>
+  <TSA_WD_Diplo_DesperationRaidEnableTooltip>Cuando un grupo PNJ elegible pierde un asentamiento, la facción puede hacer Turtle o lanzar una incursión de desesperación. Los presets de dificultad no controlan esta puerta.</TSA_WD_Diplo_DesperationRaidEnableTooltip>
+  <TSA_WD_Diplo_StrategyFireChance>Probabilidad de disparo de Estrategia</TSA_WD_Diplo_StrategyFireChance>
+  <TSA_WD_Diplo_StrategyFireChanceTooltip>Cuando un grupo superado pierde un asentamiento y la Estrategia no está en enfriamiento, esta es la probabilidad de que la Estrategia dispare de verdad (Turtle o desesperación). Si falla, no ocurre nada y no empieza el enfriamiento de Estrategia.</TSA_WD_Diplo_StrategyFireChanceTooltip>
+  <TSA_WD_Diplo_DesperationChance>¿Incursión de desesperación posible?</TSA_WD_Diplo_DesperationChance>
+  <TSA_WD_Diplo_DesperationChanceTooltip>Si la Estrategia dispara tras perder un asentamiento en un grupo superado, la facción puede hacer Turtle (consolidar fuerzas en un solo asentamiento) o una incursión de desesperación (abandonar asentamientos y lanzarse al objetivo más cercano).\n\nUn grupo son asentamientos de esa facción enlazados en {0} casillas. Superado: la ofensiva hostil a {2} casillas o menos de cualquier sitio del grupo es al menos el {1}% de la ofensiva del propio grupo.\n\nCon esto activado:\nFacciones fuertes: nunca desesperación, siempre Turtle\nFacciones normales: {3}% desesperación, {4}% Turtle\nFacciones débiles: {5}% desesperación, {6}% Turtle\n\nFuerte = al menos {7}% de una cuota igual de fuerza PNJ viva (1/N)\nNormal = {8}% a {7}% de cuota igual\nDébil = por debajo del {8}% de cuota igual\n\nDesactivado = solo Turtle cuando dispara la Estrategia.</TSA_WD_Diplo_DesperationChanceTooltip>
+  <TSA_WD_Diplo_DesperationMaxShare>Cuota de fuerza débil</TSA_WD_Diplo_DesperationMaxShare>
+  <TSA_WD_Diplo_DesperationMaxShareTooltip>Ajuste legado conservado por compatibilidad de guardado. La estrategia ahora usa bandas de cuota igual.</TSA_WD_Diplo_DesperationMaxShareTooltip>
+  <TSA_WD_Diplo_DesperationCooldown>Enfriamiento de estrategia</TSA_WD_Diplo_DesperationCooldown>
+  <TSA_WD_Diplo_DesperationCooldownTooltip>Días antes de que la misma facción pueda volver a usar Estrategia ante pérdida (Turtle o desesperación). No se comparte con guerra, revuelta o asalto adelantado.</TSA_WD_Diplo_DesperationCooldownTooltip>
+  <TSA_WD_Diplo_DesperationNotify>Avisar al lanzar incursión de desesperación</TSA_WD_Diplo_DesperationNotify>
+  <TSA_WD_Diplo_DesperationNotifyTooltip>Envía una carta cuando una incursión de desesperación abandona asentamientos y marcha.</TSA_WD_Diplo_DesperationNotifyTooltip>
   <TSA_WD_Diplo_TriggerChance>Probabilidad de activación</TSA_WD_Diplo_TriggerChance>
   <TSA_WD_Diplo_UnderdogActionShare>Rezagado: multiplicador de cuota de acciones diarias</TSA_WD_Diplo_UnderdogActionShare>
   <TSA_WD_Diplo_UnderdogActionShareTooltip>Cuando la mejora de rezagado está activa, la cuota de acciones diarias de esa facción se multiplica por esto (ej. 2 = el doble de acciones).</TSA_WD_Diplo_UnderdogActionShareTooltip>

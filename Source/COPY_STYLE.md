@@ -1,6 +1,6 @@
 # TSA World Domination — copy and UI text style
 
-How to use this file: open when changing keyed XML, tooltips, labels, or tone. Do not use it for globe icons (`Core/WORLD_MAP_ICONS.md`), tiles (`Core/PLANET_LAYERS.md`), sim owners (`ARCHITECTURE.md`), hub layout / IMGUI rects (`UI_WINDOWS.md`), or Def structure/naming (`Guardrails/DEFS_GUIDE.md`). Index: `Guardrails/GUIDANCE.md`. After a copy-rule change, edit this file in the same pass.
+How to use this file: open when changing keyed XML, tooltips, labels, or tone. Do not use it for globe icons (`Core/WORLD_MAP_ICONS.md`), tiles (`Core/PLANET_LAYERS.md`), sim owners (`ARCHITECTURE.md`), hub layout / IMGUI rects (`UI_WINDOWS.md`), Def structure/naming (`Guardrails/DEFS_GUIDE.md`), or release / Steam Workshop publish (`Guardrails/VERSIONING.md`). Index: `Guardrails/GUIDANCE.md`. After a copy-rule change, edit this file in the same pass.
 
 Rules for player-facing strings (translations, tooltips, dialog labels). Apply to EN first; ES/ZH should match meaning and placeholder slots.
 
@@ -29,13 +29,22 @@ Label heights and hub layout: `UI_WINDOWS.md`.
 Layout for the recruiting dialog (two-column production picker): `UI_WINDOWS.md`.
 
 - **Recruit count:** Social (1 per 10 average Social this cycle) **plus** extra recruits from nearby settlement tiers.
-- **Neighbor bonus:** Up to the **top 3** nearby **NPC settlements** **per faction** (by tier, then distance) add **neighbor points** (Tier 1=1, Tier 2=2, Tier 3=3.5, Tier 4=5). Sum those contributors. **Every 3 combined points = +1 extra recruit**. Dialog: contributing rows highlighted; other in-range rows greyed. Footer rule line (tier breakdown on hover); total and extra pawns below the list. (WD outposts are player-only and never count as partners.)
+- **Neighbor bonus:** Up to the **top 3** nearby **NPC settlements** **per faction** (by tier, then distance) add **neighbor points** (Tier 1=1, Tier 2=2, Tier 3=3.5, Tier 4=5). Hostile neighbors use the **hostile neighbor efficiency** setting (default 50%) and are framed as **defectors** (never “black market”). Sum those contributors after the hostile discount. **Every 3 combined points = +1 extra recruit**. Dialog: contributing rows highlighted; other in-range rows greyed; **contributing hostile rows** get a slight **red background**. (WD outposts are player-only and never count as partners.)
 - **Social rule:** Explain on Current/Average Social tooltips (1 pawn per 10 Social at cycle end). Do not repeat in expected-outcome tooltip.
-- **Expected outcome tooltip:** Compact only: Social => pawns, Neighbor points => pawns, optional skill penalty %, resulting pawns with math.
-- **Xenotypes:** Rolled from nearby factions; list settlements with faction icons where helpful.
+- **Expected outcome tooltip:** One compact formula line: Social pawns + neighbor pawns × Expert %, optional skill focus, result. Do not dump multi-line soft-bonus essays when Expert is already in the line.
+- **Xenotypes:** Rolled from nearby factions (including hostiles at reduced weight); list settlements with faction icons where helpful.
 - **Skill training:** Picking a specific skill costs **30% fewer recruits** that cycle and guarantees a minimum level in that skill only. **Any** = full count, random skills.
 - **Inspect line:** `Producing: {count} pawns capable in {skill} ({days})` when a skill is selected; `Producing: {count} pawns ({days})` when training any pawn. Gizmo button keeps `Recruiting: {skill}` / `Recruiting any Pawn`.
 - **Cycle length** is never affected by skill choice.
+- **Founding nearby:** Same partner pool as yield (hostiles/defectors count toward the minimum).
+
+## Trading outpost (nearby partners)
+
+- Same nearby partner pool as recruiting (top 3 per faction in radius). Neutral/allied contribute full tier silver; hostiles contribute at hostile neighbor efficiency (**black market** flavor; do not say defectors).
+- Partner list labels stay one line with **effective** silver. Do not append long black-market text to the label. Put the efficiency note in the row tooltip / nearby header tip.
+- Contributing hostile rows use a slight red background (same as recruiting).
+- Founding and production nearby minimum use the partner pool (hostiles count).
+- Stats Yield tip: one compact formula line (tier silver × Social% × Expert).
 
 ## Settings tooltip defaults (mandatory)
 

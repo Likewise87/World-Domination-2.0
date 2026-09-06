@@ -60,6 +60,18 @@ namespace TSA_WorldDomination
         NotStarredColony = 5
     }
 
+    /// <summary>Header filter for the Join Stamp column (All Player Pawns + Outpost Pawns).</summary>
+    public enum PawnRosterJoinedFilter
+    {
+        All = 0,
+        Lt5 = 1,
+        Lt15 = 2,
+        Lt30 = 3,
+        Gte5 = 4,
+        Gte15 = 5,
+        Gte30 = 6
+    }
+
     public class PlayerPawnRosterEntry
     {
         public Pawn pawn = null!;
@@ -83,6 +95,8 @@ namespace TSA_WorldDomination
         public bool isSlave;
         public bool needsHealing;
         public bool isStarred;
+        /// <summary>Whole in-game days since Join Stamp (see <see cref="PlayerPawnRosterUtility.GetDaysSinceJoin"/>). -1 if unavailable.</summary>
+        public int daysSinceJoin = -1;
         public string nameLabel = "";
         public string pawnTypeLabel = "";
         public int[] skillLevels = Array.Empty<int>();
@@ -96,6 +110,37 @@ namespace TSA_WorldDomination
     public static class PlayerPawnRosterUtility
     {
         public const string DefaultSortColumn = "Default";
+
+        /// <summary>Soft highlight when Join Stamp days are below this (scannability, not the filter itself).</summary>
+        public const int JoinStampHighlightDays = 5;
+
+        /// <summary>Whole in-game days since first player-faction join. -1 if unavailable / VF vehicle.</summary>
+        public static int GetDaysSinceJoin(Pawn pawn)
+        {
+            var join = WorldComponent_PlayerPawnJoinTimes.Get();
+            if (join == null) return -1;
+            return join.GetDaysSinceJoin(pawn);
+        }
+
+        /// <summary>True when Join Stamp days are under <see cref="JoinStampHighlightDays"/>.</summary>
+        public static bool IsJoinStampRecent(int daysSinceJoin) =>
+            daysSinceJoin >= 0 && daysSinceJoin < JoinStampHighlightDays;
+
+        public static bool PassesJoinedFilter(int daysSinceJoin, PawnRosterJoinedFilter filter)
+        {
+            if (filter == PawnRosterJoinedFilter.All) return true;
+            if (daysSinceJoin < 0) return false;
+            return filter switch
+            {
+                PawnRosterJoinedFilter.Lt5 => daysSinceJoin < 5,
+                PawnRosterJoinedFilter.Lt15 => daysSinceJoin < 15,
+                PawnRosterJoinedFilter.Lt30 => daysSinceJoin < 30,
+                PawnRosterJoinedFilter.Gte5 => daysSinceJoin >= 5,
+                PawnRosterJoinedFilter.Gte15 => daysSinceJoin >= 15,
+                PawnRosterJoinedFilter.Gte30 => daysSinceJoin >= 30,
+                _ => true
+            };
+        }
 
         public static readonly SkillDef[] AllSkillColumns =
         {
@@ -126,7 +171,8 @@ namespace TSA_WorldDomination
             string sortColumn,
             bool sortAscending,
             PlayerPawnStarFilter starFilter = PlayerPawnStarFilter.AllAnywhere,
-            PlayerPawnTypeFilter pawnTypeFilter = PlayerPawnTypeFilter.All)
+            PlayerPawnTypeFilter pawnTypeFilter = PlayerPawnTypeFilter.All,
+            PawnRosterJoinedFilter joinedFilter = PawnRosterJoinedFilter.All)
         {
             var rows = new List<PlayerPawnRosterEntry>();
             IndexedThingIds.Clear();
@@ -165,6 +211,7 @@ namespace TSA_WorldDomination
             }
 
             ApplyStarFilter(rows, starFilter);
+            ApplyJoinedFilter(rows, joinedFilter);
 
             if (useDefaultGrouping || sortColumn == DefaultSortColumn)
                 SortRowsDefault(rows);
@@ -173,6 +220,28 @@ namespace TSA_WorldDomination
 
             return rows;
         }
+
+        public static string JoinedFilterLabel(PawnRosterJoinedFilter filter) => filter switch
+        {
+            PawnRosterJoinedFilter.Lt5 => "TSA_WD_PawnRoster_Filter_JoinLt5".Translate(),
+            PawnRosterJoinedFilter.Lt15 => "TSA_WD_PawnRoster_Filter_JoinLt15".Translate(),
+            PawnRosterJoinedFilter.Lt30 => "TSA_WD_PawnRoster_Filter_JoinLt30".Translate(),
+            PawnRosterJoinedFilter.Gte5 => "TSA_WD_PawnRoster_Filter_JoinGte5".Translate(),
+            PawnRosterJoinedFilter.Gte15 => "TSA_WD_PawnRoster_Filter_JoinGte15".Translate(),
+            PawnRosterJoinedFilter.Gte30 => "TSA_WD_PawnRoster_Filter_JoinGte30".Translate(),
+            _ => "TSA_WD_OutpostPawns_Filter_AllPawns".Translate()
+        };
+
+        public static string JoinedFilterTip(PawnRosterJoinedFilter filter) => filter switch
+        {
+            PawnRosterJoinedFilter.Lt5 => "TSA_WD_JoinFilterTip_Lt5".Translate(),
+            PawnRosterJoinedFilter.Lt15 => "TSA_WD_JoinFilterTip_Lt15".Translate(),
+            PawnRosterJoinedFilter.Lt30 => "TSA_WD_JoinFilterTip_Lt30".Translate(),
+            PawnRosterJoinedFilter.Gte5 => "TSA_WD_JoinFilterTip_Gte5".Translate(),
+            PawnRosterJoinedFilter.Gte15 => "TSA_WD_JoinFilterTip_Gte15".Translate(),
+            PawnRosterJoinedFilter.Gte30 => "TSA_WD_JoinFilterTip_Gte30".Translate(),
+            _ => "TSA_WD_JoinFilterTip_All".Translate()
+        };
 
         public static string StarFilterLabel(PlayerPawnStarFilter filter) =>
             StarFilterPrefix(filter) + StarFilterLabelText(filter);
@@ -277,6 +346,12 @@ namespace TSA_WorldDomination
                     _ => false
                 };
             });
+        }
+
+        private static void ApplyJoinedFilter(List<PlayerPawnRosterEntry> rows, PawnRosterJoinedFilter filter)
+        {
+            if (filter == PawnRosterJoinedFilter.All) return;
+            rows.RemoveAll(e => !PassesJoinedFilter(e.daysSinceJoin, filter));
         }
 
         private static bool LocationNameMatches(PlayerPawnRosterEntry e, string searchLower)
@@ -602,6 +677,7 @@ namespace TSA_WorldDomination
             entry.isSlave = OutpostPawnIdeologyUtil.IsSlaveHumanlike(pawn);
             entry.needsHealing = Outpost_OccupantProgression.OccupantShowsHurtIcon(pawn);
             entry.isStarred = WorldComponent_PlayerPawnFavorites.Get()?.IsStarred(tid) == true;
+            entry.daysSinceJoin = GetDaysSinceJoin(pawn);
             entry.skillLevels = BuildSkillLevels(entry.summary);
             entry.ageYears = pawn.ageTracker != null ? pawn.ageTracker.AgeBiologicalYears : 0;
             entry.pawnSortCategory = ClassifyPawn(pawn, entry.outpostRole);
@@ -1023,6 +1099,8 @@ namespace TSA_WorldDomination
                 int bs = b.isStarred ? 1 : 0;
                 return as_.CompareTo(bs);
             }
+            if (sortColumn == "New")
+                return a.daysSinceJoin.CompareTo(b.daysSinceJoin);
             if (sortColumn == "Age")
                 return a.ageYears.CompareTo(b.ageYears);
             if (sortColumn == "Traits")

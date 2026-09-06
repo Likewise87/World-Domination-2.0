@@ -93,13 +93,13 @@ Each power project is an independent line, so all four can operate together.
 
 ## Ranch Outpost
 
-Barn tiers improve overall production efficiency and defense.
+Barn tiers improve tile fertility (same pattern as farm irrigation) and defense.
 
 | Upgrade | Cost | Research | Effect |
 |---|---|---|---|
-| Basic Barn | 200 wood | None | +15% production efficiency, +20 defense |
-| Insulated Barn | 100 of any stone blocks, 100 steel | Electricity | +30% production efficiency, +40 defense |
-| Tech Barn | 100 of any stone blocks, 100 steel, 12 industrial components | Fabrication | +50% production efficiency, +60 defense |
+| Basic Barn | 200 wood | None | +15 percentage points tile fertility, +20 defense |
+| Insulated Barn | 100 of any stone blocks, 100 steel | Electricity | +30 percentage points tile fertility, +40 defense |
+| Tech Barn | 100 of any stone blocks, 100 steel, 12 industrial components | Fabrication | +50 percentage points tile fertility, +60 defense |
 
 ## Warehouse Outpost
 

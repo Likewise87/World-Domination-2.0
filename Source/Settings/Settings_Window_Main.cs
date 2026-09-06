@@ -90,12 +90,50 @@ namespace TSA_WorldDomination
                 presetUiSeeded = true;
             }
 
-            // --- Top toggles (stacked) ---
-            SettingsUI.DrawCheckbox(l, "TSA_WD_ShowAdvanced".Translate(), ref s.showAdvancedSettings, "TSA_WD_ShowAdvanced_Tooltip".Translate(), rowHeight: 38f, defaultValue: WorldDominationSettings.DefShowAdvancedSettings);
-            l.Gap(2f);
-            l.CheckboxLabeled("TSA_WD_ShowUpdatePopups".Translate(), ref s.showUpdatePopups,
-                SettingsUI.TooltipWithDefault("TSA_WD_ShowUpdatePopups_Tooltip".Translate(), WorldDominationSettings.DefShowUpdatePopups));
-            l.Gap(2f);
+            // --- Top toggles (single row): checkbox left, label right (avoids box-right ambiguity across cells) ---
+            {
+                const float topToggleRowH = 28f;
+                const float topToggleGap = 18f;
+                const float checkboxSize = 24f;
+                const float checkboxLabelGap = 6f;
+                Rect row = l.GetRect(topToggleRowH);
+                float cellW = (row.width - topToggleGap * 2f) / 3f;
+
+                void DrawTopToggle(Rect cell, string label, ref bool value, string tip)
+                {
+                    TooltipHandler.TipRegion(cell, tip);
+                    float boxY = cell.y + (cell.height - checkboxSize) * 0.5f;
+                    Widgets.Checkbox(new Vector2(cell.x, boxY), ref value);
+                    TextAnchor prev = Text.Anchor;
+                    Text.Anchor = TextAnchor.MiddleLeft;
+                    Widgets.Label(new Rect(
+                        cell.x + checkboxSize + checkboxLabelGap,
+                        cell.y,
+                        Mathf.Max(0f, cell.width - checkboxSize - checkboxLabelGap),
+                        cell.height), label);
+                    Text.Anchor = prev;
+                }
+
+                DrawTopToggle(
+                    new Rect(row.x, row.y, cellW, row.height),
+                    "TSA_WD_ShowAdvanced".Translate(),
+                    ref s.showAdvancedSettings,
+                    SettingsUI.TooltipWithDefault(
+                        "TSA_WD_ShowAdvanced_Tooltip".Translate(), WorldDominationSettings.DefShowAdvancedSettings));
+                DrawTopToggle(
+                    new Rect(row.x + cellW + topToggleGap, row.y, cellW, row.height),
+                    "TSA_WD_ShowUpdatePopups".Translate(),
+                    ref s.showUpdatePopups,
+                    SettingsUI.TooltipWithDefault(
+                        "TSA_WD_ShowUpdatePopups_Tooltip".Translate(), WorldDominationSettings.DefShowUpdatePopups));
+                DrawTopToggle(
+                    new Rect(row.x + (cellW + topToggleGap) * 2f, row.y, cellW, row.height),
+                    "TSA_WD_VerboseLogging".Translate(),
+                    ref s.verboseLogging,
+                    SettingsUI.TooltipWithDefault(
+                        "TSA_WD_VerboseLogging_Tooltip".Translate(), WorldDominationSettings.DefVerboseLogging));
+            }
+            l.Gap(4f);
 
             SettingsUI.DrawMenuTopBar(l, "TSA_WD_BtnResetAll".Translate(),
                 () =>
@@ -181,21 +219,18 @@ namespace TSA_WorldDomination
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_HeaderGeneral".Translate(), ref generalExpanded, SettingsUI.SectionHeaderColor))
             {
                 SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnNotifications".Translate(), "TSA_WD_DescNotifications".Translate(), () => Find.WindowStack.Add(new Dialog_NotificationSettings()));
+                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnCombatDifficulty".Translate(), "TSA_WD_DescCombatDifficulty".Translate(), () => Find.WindowStack.Add(new Dialog_CombatDifficultySettings()));
+                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnEconomicDifficulty".Translate(), "TSA_WD_DescEconomicDifficulty".Translate(), () => Find.WindowStack.Add(new Dialog_EconomicDifficultySettings()));
                 SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnDailyActions".Translate(), "TSA_WD_DescDailyActions".Translate(), () => Find.WindowStack.Add(new Dialog_DailyActionsSettings()));
                 SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnWorldRaids".Translate(), "TSA_WD_DescWorldRaids".Translate(), () => Find.WindowStack.Add(new Dialog_RaidSettings()));
                 SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnGrowthExpand".Translate(), "TSA_WD_DescGrowthExpand".Translate(), () => Find.WindowStack.Add(new Dialog_GrowthSettings()));
-                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnRaidMult".Translate(), "TSA_WD_DescRaidMult".Translate(), () => Find.WindowStack.Add(new Dialog_RaidPointMultiplier()));
-                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnLateGame".Translate(), "TSA_WD_DescLateGame".Translate(), () => Find.WindowStack.Add(new Dialog_LateGameSettings()));
                 SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnDiplomacy".Translate(), "TSA_WD_DescDiplomacy".Translate(), () => Find.WindowStack.Add(new Dialog_DiplomacySettings()));
-                if (advanced)
-                    SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnT4Mortar".Translate(), "TSA_WD_DescT4Mortar".Translate(), () => Find.WindowStack.Add(new Dialog_T4MortarSettings()));
             }
 
             // --- 2. WD Outposts and Caravans/Travelers ---
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_HeaderOutposts".Translate(), ref outpostsExpanded, SettingsUI.SectionHeaderColor))
             {
                 SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnOutpostSettings".Translate(), "TSA_WD_DescOutpostSettings".Translate(), () => Find.WindowStack.Add(new Dialog_FoodSettings()));
-                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnOutpostSkillScaling".Translate(), "TSA_WD_DescOutpostSkillScaling".Translate(), () => Find.WindowStack.Add(new Dialog_OutpostSkillScalingSettings()));
                 SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnPlayerArtillery".Translate(), "TSA_WD_DescPlayerArtillery".Translate(), () => Find.WindowStack.Add(new Dialog_PlayerArtillerySettings()));
                 SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnCaravans".Translate(), "TSA_WD_DescCaravans".Translate(), () => Find.WindowStack.Add(new Dialog_CaravansSettings()));
                 if (advanced)
@@ -223,15 +258,9 @@ namespace TSA_WorldDomination
                 if (advanced)
                     SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnBaseGeneration".Translate(), "TSA_WD_DescBaseGeneration".Translate(),
                         () => Find.WindowStack.Add(new Dialog_BaseGenerationSettings()));
-                if (advanced)
-                    SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnGarrisonSettings".Translate(), "TSA_WD_DescGarrison".Translate(), () => Find.WindowStack.Add(new Dialog_GarrisonSettings()));
 
                 SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnExperimental".Translate(), "TSA_WD_DescExperimental".Translate(),
                     () => Find.WindowStack.Add(new Dialog_ExperimentalSettings()));
-
-                l.Gap(12f);
-                l.CheckboxLabeled("TSA_WD_VerboseLogging".Translate(), ref s.verboseLogging,
-                    SettingsUI.TooltipWithDefault("TSA_WD_VerboseLogging_Tooltip".Translate(), WorldDominationSettings.DefVerboseLogging));
             }
 
             l.End();

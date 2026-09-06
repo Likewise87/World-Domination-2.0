@@ -7,7 +7,7 @@ namespace TSA_WorldDomination
     /// <summary>
     /// GAMEPLAY PIVOT FILE — delete or stop calling EnsureOnMap to disable.
     /// When an NPC settlement attack map has no remaining active hostile humanlikes,
-    /// powers down leftover faction turrets/mortars so the fight feels won.
+    /// destroys unmanned leftover faction turrets so vanilla reform caravan is unblocked.
     /// Does not change vanilla SettlementDefeatUtility.IsDefeated / conquest hooks.
     /// </summary>
     public class WdSettlementTurretSilence : MapComponent
@@ -39,10 +39,11 @@ namespace TSA_WorldDomination
 
             if (HasActiveHostileHumanlike(map, faction)) return;
 
-            SilenceFactionTurrets(map, faction);
+            int killed = KillUnmannedFactionTurrets(map, faction);
             silenced = true;
 
-            WDVerbose.Msg($"Silenced leftover turrets on {map.Parent?.LabelCap} ({faction.Name}).");
+            WDVerbose.Msg(
+                $"Killed {killed} unmanned leftover turrets on {map.Parent?.LabelCap} ({faction.Name}).");
         }
 
         public override void ExposeData()
@@ -76,26 +77,54 @@ namespace TSA_WorldDomination
             return false;
         }
 
-        private static void SilenceFactionTurrets(Map map, Faction faction)
+        /// <summary>
+        /// Destroy auto-turrets and empty mannable nests. Leave currently manned turrets alone.
+        /// </summary>
+        private static int KillUnmannedFactionTurrets(Map map, Faction faction)
         {
             var buildings = map.listerThings?.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
-            if (buildings == null) return;
+            if (buildings == null) return 0;
 
+            // Snapshot: destroying mutates the lister mid-loop.
+            var toKill = new System.Collections.Generic.List<Thing>();
             for (int i = 0; i < buildings.Count; i++)
             {
                 Thing thing = buildings[i];
                 if (thing == null || thing.Destroyed) continue;
                 if (thing.Faction != faction) continue;
-                if (!(thing is Building_Turret)) continue;
-
-                CompPowerTrader power = thing.TryGetComp<CompPowerTrader>();
-                if (power != null)
-                    power.PowerOn = false;
-
-                CompRefuelable refuel = thing.TryGetComp<CompRefuelable>();
-                if (refuel != null && refuel.HasFuel)
-                    refuel.ConsumeFuel(refuel.Fuel);
+                if (thing is not Building_Turret turret) continue;
+                if (IsCurrentlyManned(turret)) continue;
+                toKill.Add(turret);
             }
+
+            int killed = 0;
+            for (int i = 0; i < toKill.Count; i++)
+            {
+                Thing turret = toKill[i];
+                if (turret == null || turret.Destroyed) continue;
+                try
+                {
+                    turret.Destroy(DestroyMode.KillFinalize);
+                    killed++;
+                }
+                catch (System.Exception ex)
+                {
+                    WDVerbose.Msg($"Turret silence destroy failed {turret.LabelCap}: {ex.Message}");
+                }
+            }
+
+            return killed;
+        }
+
+        private static bool IsCurrentlyManned(Building_Turret turret)
+        {
+            CompMannable mannable = turret.GetComp<CompMannable>();
+            if (mannable == null) return false;
+            Pawn manning = mannable.ManningPawn;
+            if (manning == null || manning.Dead || manning.Downed) return false;
+            // Fleeing gunners no longer count — turret is destroyed with the rest.
+            if (manning.MentalStateDef == MentalStateDefOf.PanicFlee) return false;
+            return true;
         }
     }
 }

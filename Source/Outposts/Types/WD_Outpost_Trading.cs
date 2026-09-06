@@ -7,7 +7,7 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>Trading outpost: silver from nearby NPC settlement tiers at timer expiry. Tier sum uses the world snapshot at payout (same probe as UI), capped at top 3 settlements per faction. Social yield multiplier uses the same time-weighted average cumulative Social as other outposts' delivery capacity (<see cref="WorldObject_WD_Outpost.Tick"/>). T1=100, T2=200, T3=350, T4=500.</summary>
+    /// <summary>Trading outpost: silver from nearby NPC settlement tiers at timer expiry. Tier sum uses the world snapshot at payout (same probe as UI), capped at top 3 settlements per faction. Hostile partners count at <see cref="HostilePartnerMult"/> (black market). Social yield multiplier uses the same time-weighted average cumulative Social as other outposts' delivery capacity (<see cref="WorldObject_WD_Outpost.Tick"/>). T1=100, T2=200, T3=350, T4=500.</summary>
     public static class Outpost_Trading
     {
         /// <summary>Extra silver yield per cumulative Social above the def's MinCumulativeSkill Social requirement (1.0 = 100% tier sum).</summary>
@@ -41,6 +41,7 @@ namespace TSA_WorldDomination
             public int BuiltTick;
             public int WorldObjectCountSnapshot;
             public int LogicVersion;
+            public int HostilityFingerprint;
             /// <summary>Sorted by distance then label; tooltip lines (name + tier).</summary>
             public List<string> PartnerTooltipLines;
         }
@@ -52,7 +53,10 @@ namespace TSA_WorldDomination
             public SettlementTier Tier;
         }
 
-        /// <summary>Non-hostile NPC settlement within recruiting/trading radius (WD outposts are player-only and never partners).</summary>
+        /// <summary>
+        /// NPC settlement within recruiting/trading radius (player outposts never count).
+        /// Hostiles are allowed at <see cref="HostilePartnerMult"/> efficiency (black market).
+        /// </summary>
         public struct NearbyPartnerInfo
         {
             public Faction Faction;
@@ -62,11 +66,25 @@ namespace TSA_WorldDomination
             public WorldObject WorldObject;
             /// <summary>True when this partner is among the top <see cref="MaxContributingPartnersPerFaction"/> for its faction.</summary>
             public bool ContributesToFaction;
+            /// <summary>True when the partner faction is hostile to the player (yield at black-market mult).</summary>
+            public bool IsHostilePartner;
         }
 
         private static readonly List<NearbyPartnerInfo> markScratch = new List<NearbyPartnerInfo>(8);
         private static readonly Dictionary<Faction, List<NearbyPartnerInfo>> partnersByFactionScratch =
             new Dictionary<Faction, List<NearbyPartnerInfo>>();
+
+        /// <summary>Yield / weight multiplier for hostile nearby partners (settings; default 0.5).</summary>
+        public static float HostilePartnerMult
+        {
+            get
+            {
+                float m = WorldDominationMod.settings?.hostileNearbyPartnerMult
+                    ?? WorldDominationSettings.DefHostileNearbyPartnerMult;
+                return Mathf.Clamp(m, WorldDominationSettings.HostileNearbyPartnerMultClampLow,
+                    WorldDominationSettings.HostileNearbyPartnerMultClampHigh);
+            }
+        }
 
         /// <summary>Tier weight for recruiting xenotype pool (same ratios as <see cref="SilverForTier"/>).</summary>
         public static float RecruitingTierWeight(SettlementTier tier)
@@ -81,7 +99,23 @@ namespace TSA_WorldDomination
             }
         }
 
-        /// <summary>Neutral/allied NPC settlements within radius. Player outposts never count; there are no NPC WD outposts.</summary>
+        /// <summary>Full tier silver, or black-market discounted when hostile.</summary>
+        public static int EffectiveTierSilver(NearbyPartnerInfo partner)
+        {
+            int full = SilverForTier(partner.Tier);
+            if (!partner.IsHostilePartner) return full;
+            return Mathf.Max(0, Mathf.RoundToInt(full * HostilePartnerMult));
+        }
+
+        /// <summary>Full recruiting tier weight, or black-market discounted when hostile.</summary>
+        public static float EffectiveRecruitingTierWeight(NearbyPartnerInfo partner)
+        {
+            float full = RecruitingTierWeight(partner.Tier);
+            if (!partner.IsHostilePartner) return full;
+            return full * HostilePartnerMult;
+        }
+
+        /// <summary>NPC settlements within radius (neutral/allied full rate; hostiles at black-market mult). Player outposts never count.</summary>
         public static void CollectNearbyPartners(WorldObject_WD_Outpost outpost, List<NearbyPartnerInfo> results)
         {
             results?.Clear();
@@ -95,8 +129,7 @@ namespace TSA_WorldDomination
             {
                 Settlement settlement = settlements[i];
                 if (settlement == null || settlement.Tile < 0) continue;
-                if (settlement.Faction == null || settlement.Faction.IsPlayer || settlement.Faction == playerFaction
-                    || WorldActions_Utils.SafeHostileTo(settlement.Faction, playerFaction))
+                if (settlement.Faction == null || settlement.Faction.IsPlayer || settlement.Faction == playerFaction)
                     continue;
                 int dist = (int)Find.WorldGrid.ApproxDistanceInTiles(tile, settlement.Tile);
                 if (dist > radius) continue;
@@ -109,7 +142,8 @@ namespace TSA_WorldDomination
                     Label = settlement.LabelCap,
                     DistanceTiles = dist,
                     WorldObject = settlement,
-                    ContributesToFaction = false
+                    ContributesToFaction = false,
+                    IsHostilePartner = WorldActions_Utils.SafeHostileTo(settlement.Faction, playerFaction)
                 });
             }
         }
@@ -209,10 +243,10 @@ namespace TSA_WorldDomination
             });
         }
 
-        /// <summary>One-line partner label: settlement name, tier, and tier silver.</summary>
+        /// <summary>One-line partner label: settlement name, tier, and effective tier silver.</summary>
         public static string FormatPartnerRowLabel(NearbyPartnerInfo partner)
         {
-            int silver = SilverForTier(partner.Tier);
+            int silver = EffectiveTierSilver(partner);
             return OutpostTranslationUtil.Key(
                 "TSA_WD_Trading_PartnerRow",
                 partner.Label,
@@ -223,14 +257,20 @@ namespace TSA_WorldDomination
         /// <summary>Tooltip for one nearby partner (no combined totals; those are in the dialog footer).</summary>
         public static string BuildPartnerRowTooltip(NearbyPartnerInfo partner)
         {
-            int silver = SilverForTier(partner.Tier);
-            return OutpostTranslationUtil.Key(
+            int silver = EffectiveTierSilver(partner);
+            string tip = OutpostTranslationUtil.Key(
                 "TSA_WD_Trading_PartnerRowTip",
                 partner.Label,
                 FormatTierLabel(partner.Tier),
                 partner.Faction?.Name ?? partner.Faction?.def?.LabelCap ?? "?",
                 partner.DistanceTiles.ToString(),
                 silver.ToString());
+            if (partner.IsHostilePartner)
+            {
+                int pct = Mathf.RoundToInt(HostilePartnerMult * 100f);
+                tip += "\n\n" + OutpostTranslationUtil.Key("TSA_WD_Trading_PartnerRowTip_BlackMarket", pct.ToString());
+            }
+            return tip;
         }
 
         /// <summary>Tier silver values per settlement tier (footer rule tooltip).</summary>
@@ -264,7 +304,7 @@ namespace TSA_WorldDomination
         private static readonly Dictionary<int, TradingRadiusProbeCache> tradingRadiusProbeByOutpostId = new Dictionary<int, TradingRadiusProbeCache>();
         private const int TradingRadiusProbeTTLTicks = 2500;
         /// <summary>Bump when silver/partner contribution rules change so stale probes cannot linger.</summary>
-        private const int TradingRadiusProbeLogicVersion = 3;
+        private const int TradingRadiusProbeLogicVersion = 4;
 
         /// <summary>Clears cached silver/radius probe (e.g. after load or if you detect stale state).</summary>
         public static void InvalidateTradingRadiusProbeCache(WorldObject_WD_Outpost outpost)
@@ -279,12 +319,39 @@ namespace TSA_WorldDomination
             tradingRadiusProbeByOutpostId.Clear();
         }
 
-        private static void GetTradingRadiusProbe(WorldObject_WD_Outpost outpost, out int silver, out int settlementCount)
+        /// <summary>Cheap diplomacy-sensitive fingerprint so war/peace flips invalidate the silver probe.</summary>
+        private static int ComputeHostilityFingerprint(List<NearbyPartnerInfo> partners)
         {
-            GetTradingRadiusProbe(outpost, out silver, out settlementCount, out _);
+            int peaceful = 0;
+            int hostile = 0;
+            int xor = 0;
+            if (partners == null) return 0;
+            for (int i = 0; i < partners.Count; i++)
+            {
+                var p = partners[i];
+                if (p.IsHostilePartner)
+                {
+                    hostile++;
+                    if (p.Faction != null)
+                        xor ^= p.Faction.loadID;
+                }
+                else
+                    peaceful++;
+            }
+            return (peaceful * 397) ^ (hostile * 7919) ^ xor;
         }
 
-        private static void GetTradingRadiusProbe(WorldObject_WD_Outpost outpost, out int silver, out int settlementCount, out List<string> partnerTooltipLines)
+        private static void GetTradingRadiusProbe(WorldObject_WD_Outpost outpost, out int silver, out int settlementCount)
+        {
+            GetTradingRadiusProbe(outpost, out silver, out settlementCount, out _, forceFresh: false);
+        }
+
+        private static void GetTradingRadiusProbe(
+            WorldObject_WD_Outpost outpost,
+            out int silver,
+            out int settlementCount,
+            out List<string> partnerTooltipLines,
+            bool forceFresh)
         {
             silver = 0;
             settlementCount = 0;
@@ -294,9 +361,16 @@ namespace TSA_WorldDomination
             int radius = GetNearbyRadiusTiles(outpost);
             int woc = Find.WorldObjects.AllWorldObjects.Count;
             int tick = Find.TickManager.TicksGame;
-            if (tradingRadiusProbeByOutpostId.TryGetValue(outpost.ID, out TradingRadiusProbeCache e)
+
+            var partners = new List<NearbyPartnerInfo>();
+            CollectNearbyPartnersMarked(outpost, partners);
+            int fingerprint = ComputeHostilityFingerprint(partners);
+
+            if (!forceFresh
+                && tradingRadiusProbeByOutpostId.TryGetValue(outpost.ID, out TradingRadiusProbeCache e)
                 && e.Tile == tile && e.Radius == radius && e.WorldObjectCountSnapshot == woc
                 && e.LogicVersion == TradingRadiusProbeLogicVersion
+                && e.HostilityFingerprint == fingerprint
                 && tick - e.BuiltTick < TradingRadiusProbeTTLTicks)
             {
                 silver = e.SilverSum;
@@ -307,13 +381,11 @@ namespace TSA_WorldDomination
 
             int totalSilver = 0;
             var sortBuffer = new List<TradingPartnerSortEntry>();
-            var partners = new List<NearbyPartnerInfo>();
-            CollectNearbyPartnersMarked(outpost, partners);
             for (int i = 0; i < partners.Count; i++)
             {
                 var p = partners[i];
                 if (p.ContributesToFaction)
-                    totalSilver += SilverForTier(p.Tier);
+                    totalSilver += EffectiveTierSilver(p);
                 sortBuffer.Add(new TradingPartnerSortEntry
                 {
                     Label = p.Label,
@@ -346,6 +418,7 @@ namespace TSA_WorldDomination
                 BuiltTick = tick,
                 WorldObjectCountSnapshot = woc,
                 LogicVersion = TradingRadiusProbeLogicVersion,
+                HostilityFingerprint = fingerprint,
                 PartnerTooltipLines = lines
             };
         }
@@ -354,7 +427,7 @@ namespace TSA_WorldDomination
         public static string GetNearbyTradingPartnersTooltipAppendix(WorldObject_WD_Outpost outpost)
         {
             if (outpost == null) return "";
-            GetTradingRadiusProbe(outpost, out _, out _, out List<string> partnerLines);
+            GetTradingRadiusProbe(outpost, out _, out _, out List<string> partnerLines, forceFresh: false);
             string header = OutpostTranslationUtil.Key("TSA_WD_Biome_Tooltip_TradingNearbyPartnersHeader");
             if (partnerLines == null || partnerLines.Count == 0)
             {
@@ -386,9 +459,9 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>Sum silver from contributing partners (top <see cref="MaxContributingPartnersPerFaction"/> per faction).</summary>
-        public static int GetSilverFromNearbyTiers(WorldObject_WD_Outpost outpost)
+        public static int GetSilverFromNearbyTiers(WorldObject_WD_Outpost outpost, bool forceFresh = false)
         {
-            GetTradingRadiusProbe(outpost, out int silver, out _);
+            GetTradingRadiusProbe(outpost, out int silver, out _, out _, forceFresh);
             return silver;
         }
 
@@ -466,13 +539,15 @@ namespace TSA_WorldDomination
         public static int ComputeTradingSilverForOutpost(WorldObject_WD_Outpost outpost, float? averageCumulativeSocialThisCycle = null)
         {
             if (outpost == null) return 0;
-            int tierSum = GetSilverFromNearbyTiers(outpost);
+            // Fresh probe on payout path so diplomacy flips cannot pay stale full-rate silver.
+            int tierSum = GetSilverFromNearbyTiers(outpost, forceFresh: true);
             int socialForMult = averageCumulativeSocialThisCycle.HasValue
                 ? Mathf.RoundToInt(averageCumulativeSocialThisCycle.Value)
                 : Outpost_EstablishmentRequirements.GetCumulativeOutpostSkillForSkill(outpost, SkillDefOf.Social);
             float skillMult = GetTradingSocialYieldMultiplier(outpost.def, socialForMult);
             int afterSkill = Mathf.Max(0, Mathf.RoundToInt(tierSum * skillMult));
-            return Outpost_Production_Utils.ScaleOutputStackCount(afterSkill);
+            int scaled = Outpost_Production_Utils.ScaleOutputStackCount(afterSkill);
+            return Outpost_Production_Utils.ApplyExpertAndWarehouseYieldMultipliers(scaled, outpost);
         }
 
         /// <summary>When timer expires: silver from nearby tiers × Social multiplier (using time-weighted average Social for the cycle). True if a delivery was launched.</summary>
@@ -501,6 +576,34 @@ namespace TSA_WorldDomination
             return GetDetailedMathTooltip(outpost, social);
         }
 
+        /// <summary>One-line formula for stats Yield tip (tier silver × Social% × Expert).</summary>
+        public static string GetCompactYieldFormulaTip(WorldObject_WD_Outpost outpost, float? socialForMultiplier = null)
+        {
+            if (outpost == null) return "";
+            int socialInt = socialForMultiplier.HasValue
+                ? Mathf.RoundToInt(socialForMultiplier.Value)
+                : Outpost_EstablishmentRequirements.GetCumulativeOutpostSkillForSkill(outpost, SkillDefOf.Social);
+            int tierSum = GetSilverFromNearbyTiers(outpost);
+            float mult = GetTradingSocialYieldMultiplier(outpost.def, socialInt);
+            int multPct = Mathf.RoundToInt(mult * 100f);
+            int expertPct = Mathf.RoundToInt(OutpostWarehouseAuraUtility.GetSoftProductionBonusMultiplier(outpost) * 100f);
+            ThingDef product = outpost.GetProducingDefForCurrentCycle() ?? outpost.SelectedProductionDef ?? ThingDefOf.Silver;
+            int amount = ComputeTradingAmountForOutpost(outpost, socialInt, product);
+            string productLabel = product?.LabelCap ?? "silver";
+            float global = Outpost_Production_Utils.ClampedProductionOutputMultiplier();
+
+            string line = "TSA_WD_Trading_Math_Compact".Translate(
+                tierSum.ToString(),
+                multPct.ToString(),
+                socialInt.ToString(),
+                expertPct.ToString(),
+                amount.ToString(),
+                productLabel).ToString();
+            if (Mathf.Abs(global - 1f) > 0.02f)
+                line += "\n" + "TSA_WD_Production_Formula_GlobalOutputTip".Translate(global.ToString("F2"));
+            return line;
+        }
+
         /// <summary>Crisp, line-broken breakdown: per-partner silver, sum, Social multiplier, and expected outcome for the given Social value.</summary>
         public static string GetDetailedMathTooltip(WorldObject_WD_Outpost outpost, float socialForMultiplier)
         {
@@ -524,7 +627,7 @@ namespace TSA_WorldDomination
             {
                 if (!p.ContributesToFaction) continue;
                 contributingCount++;
-                int s = SilverForTier(p.Tier);
+                int s = EffectiveTierSilver(p);
                 sum += s;
                 lines.Add(OutpostTranslationUtil.Key(
                     "TSA_WD_Trading_Math_PartnerLine",
@@ -560,6 +663,13 @@ namespace TSA_WorldDomination
                 lines.Add(OutpostTranslationUtil.Key("TSA_WD_Trading_Math_GoldConversion", silverEquivalent.ToString(), GoldPerSilverAmount.ToString(), expected.ToString(), productLabel));
             else
                 lines.Add(OutpostTranslationUtil.Key("TSA_WD_Trading_Math_ExpectedCommodity", expected.ToString(), productLabel));
+
+            string soft = Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusTooltip(outpost);
+            if (!string.IsNullOrEmpty(soft))
+            {
+                lines.Add("");
+                lines.Add(soft);
+            }
 
             return string.Join("\n", lines.ToArray());
         }
@@ -599,20 +709,24 @@ namespace TSA_WorldDomination
                 skillPct.ToString(),
                 totalSocial.ToString(),
                 baselineSocial.ToString());
+            formula += Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusSuffix(outpost);
             int radius = GetNearbyRadiusTiles(outpost);
             string detail = OutpostTranslationUtil.Key("TSA_WD_Production_TooltipTrading", radius.ToString());
+            string soft = Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusTooltip(outpost);
+            if (!string.IsNullOrEmpty(soft))
+                detail = soft + "\n\n" + detail;
             return formula + "\n\n" + detail;
         }
 
-        /// <summary>Count of neutral/allied NPC settlements within trading radius.</summary>
+        /// <summary>Count of NPC settlements within trading/recruiting radius (neutral, allied, and hostile).</summary>
         public static int GetNearbySettlementCount(WorldObject_WD_Outpost outpost)
         {
             GetTradingRadiusProbe(outpost, out _, out int count);
             return count;
         }
 
-        /// <summary>Same delivery wording as other outposts: "237 silver" via <see cref="Outpost_Production_Utils.FormatDeliveryProductLine"/>.</summary>
-        public static string GetTradingDeliveryProductLine(WorldObject_WD_Outpost outpost)
+        /// <summary>Amount + product only (e.g. "237 Silver"), no expert/global suffix. For gizmo / short labels.</summary>
+        public static string GetTradingAmountProductLabel(WorldObject_WD_Outpost outpost)
         {
             if (outpost == null) return "";
             ThingDef product = outpost.GetProducingDefForCurrentCycle() ?? outpost.SelectedProductionDef ?? ThingDefOf.Silver;
@@ -620,6 +734,15 @@ namespace TSA_WorldDomination
             int amount = ComputeTradingAmountForOutpost(outpost, null, product);
             var list = new List<ThingDefCountClass> { new ThingDefCountClass(product, amount) };
             return Outpost_Production_Utils.FormatDeliveryProductLine(list) ?? "";
+        }
+
+        /// <summary>Same delivery wording as other outposts: "237 silver" via <see cref="Outpost_Production_Utils.FormatDeliveryProductLine"/>.</summary>
+        public static string GetTradingDeliveryProductLine(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null) return "";
+            string line = GetTradingAmountProductLabel(outpost);
+            if (string.IsNullOrEmpty(line)) return "";
+            return line + Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusSuffix(outpost);
         }
 
         /// <summary>Dashboard-style line; same yield text as inspect (<see cref="GetTradingDeliveryProductLine"/>).</summary>

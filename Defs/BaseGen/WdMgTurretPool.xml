@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!--
+    MG / auto-turret pool by level (settlement T2→1, T3→2, T4→3).
+    Patch by adding options (or tiers) to TSA_WdMgTurretPool.
+    C# filters MayRequire + missing defs; empty tier falls back to Turret_MiniTurret unmanned.
+  -->
+  <TSA_WorldDomination.WdMgTurretPoolDef>
+    <defName>TSA_WdMgTurretPool</defName>
+    <label>WD MG turret pool</label>
+    <tiers>
+
+      <!-- Level 1 / T2: basic auto turret; CE MG optional -->
+      <li>
+        <level>1</level>
+        <options>
+          <li>
+            <thingDef>Turret_MiniTurret</thingDef>
+            <weight>1</weight>
+            <manned>false</manned>
+          </li>
+          <li MayRequire="CETeam.CombatExtended">
+            <thingDef>Turret_M240B</thingDef>
+            <weight>2</weight>
+            <manned>true</manned>
+            <MayRequire>CETeam.CombatExtended</MayRequire>
+          </li>
+        </options>
+      </li>
+
+      <!-- Level 2 / T3 -->
+      <li>
+        <level>2</level>
+        <options>
+          <li>
+            <thingDef>Turret_MiniTurret</thingDef>
+            <weight>1</weight>
+            <manned>false</manned>
+          </li>
+          <li MayRequire="CETeam.CombatExtended">
+            <thingDef>Turret_M240B</thingDef>
+            <weight>4</weight>
+            <manned>true</manned>
+            <MayRequire>CETeam.CombatExtended</MayRequire>
+          </li>
+        </options>
+      </li>
+
+      <!-- Level 3 / T4 -->
+      <li>
+        <level>3</level>
+        <options>
+          <li>
+            <thingDef>Turret_MiniTurret</thingDef>
+            <weight>1</weight>
+            <manned>false</manned>
+          </li>
+          <li MayRequire="CETeam.CombatExtended">
+            <thingDef>Turret_M240B</thingDef>
+            <weight>6</weight>
+            <manned>true</manned>
+            <MayRequire>CETeam.CombatExtended</MayRequire>
+          </li>
+        </options>
+      </li>
+
+    </tiers>
+  </TSA_WorldDomination.WdMgTurretPoolDef>
+
+</Defs>

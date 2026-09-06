@@ -509,6 +509,82 @@ namespace TSA_WorldDomination
             return Mathf.Max(0, Mathf.RoundToInt(baseCount * GetEffectiveProductionOutputMultiplier(outpost)));
         }
 
+        /// <summary>
+        /// Expert then warehouse aura as sequential multipliers (never production-efficiency Upgrade).
+        /// Used by Recruiting / Trading / Embassy / Scavenging / Power (and similar soft yields).
+        /// </summary>
+        public static float ApplyExpertAndWarehouseYieldMultipliers(float value, WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null || value <= 0f) return value;
+            if (OutpostExpertUtility.OutpostHasProductionBonusPath(outpost))
+            {
+                float experts = OutpostExpertUtility.GetCombinedProductionBonus(outpost);
+                if (experts > 0f)
+                    value *= 1f + experts;
+            }
+            if (OutpostWarehouseAuraUtility.ReceiverCanGetWarehouseAura(outpost))
+            {
+                float aura = OutpostWarehouseAuraUtility.GetBestWarehouseAuraBonus(outpost);
+                if (aura > 0f)
+                    value *= 1f + aura;
+            }
+            return value;
+        }
+
+        public static int ApplyExpertAndWarehouseYieldMultipliers(int count, WorldObject_WD_Outpost outpost)
+        {
+            if (count <= 0) return 0;
+            return Mathf.Max(0, Mathf.RoundToInt(ApplyExpertAndWarehouseYieldMultipliers((float)count, outpost)));
+        }
+
+        /// <summary>Global output × expert × warehouse on a soft yield (never production-efficiency Upgrade).</summary>
+        public static float ScaleSoftYieldWithGlobal(float value, WorldObject_WD_Outpost outpost)
+        {
+            if (value <= 0f) return 0f;
+            value *= ClampedProductionOutputMultiplier();
+            return ApplyExpertAndWarehouseYieldMultipliers(value, outpost);
+        }
+
+        public static int ScaleSoftYieldWithGlobal(int count, WorldObject_WD_Outpost outpost)
+        {
+            if (count <= 0) return 0;
+            return Mathf.Max(0, Mathf.RoundToInt(ScaleSoftYieldWithGlobal((float)count, outpost)));
+        }
+
+        /// <summary>Global output (when ≠ 1) plus soft Expert/Warehouse suffix — never Upgrade.</summary>
+        public static void AppendGlobalAndSoftProductionBonusSuffix(System.Text.StringBuilder sb, WorldObject_WD_Outpost outpost)
+        {
+            float global = ClampedProductionOutputMultiplier();
+            if (Mathf.Abs(global - 1f) > 0.02f)
+                sb.Append(" × ").Append(global.ToString("F2")).Append(" ")
+                    .Append(ProductionFormulaTag("TSA_WD_Production_Formula_GlobalOutput", "(Global Output)"));
+            AppendSoftProductionBonusSuffix(sb, outpost);
+        }
+
+        public static string BuildGlobalAndSoftProductionBonusSuffix(WorldObject_WD_Outpost outpost)
+        {
+            var sb = new System.Text.StringBuilder();
+            AppendGlobalAndSoftProductionBonusSuffix(sb, outpost);
+            return sb.ToString();
+        }
+
+        /// <summary>Global (if ≠ 1) + soft expert/warehouse tip — never Upgrade.</summary>
+        public static string BuildGlobalAndSoftProductionBonusTooltip(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null) return "";
+            var sb = new System.Text.StringBuilder();
+            float global = ClampedProductionOutputMultiplier();
+            if (Mathf.Abs(global - 1f) > 0.02f)
+                sb.AppendLine("TSA_WD_Production_Formula_GlobalOutputTip".Translate(global.ToString("F2")));
+            string soft = BuildSoftProductionBonusTooltip(outpost);
+            if (!string.IsNullOrEmpty(soft))
+            {
+                if (sb.Length > 0) sb.AppendLine();
+                sb.Append(soft);
+            }
+            return sb.ToString().TrimEnd();
+        }
+
         public static void ApplyOutputMultiplierToDeliveryItems(List<ThingDefCountClass> items)
         {
             ApplyOutputMultiplierToDeliveryItems(items, null);

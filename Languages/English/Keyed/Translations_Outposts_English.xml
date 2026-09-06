@@ -430,6 +430,9 @@
   <TSA_WD_Establish_MinFishAbundance>Fishing requires at least {0}% fish stocks (tile has {1}%).</TSA_WD_Establish_MinFishAbundance>
   <TSA_WD_Establish_MinFertility>Farming outposts require at least {0}% fertility (tile has {1}%).</TSA_WD_Establish_MinFertility>
   <TSA_WD_Establish_MinNearbySettlements>{0} requires at least {1} settlements from neutral or allied factions (not your own) within {2} tiles. Found: {3}.</TSA_WD_Establish_MinNearbySettlements>
+  <TSA_WD_Establish_MinNearbySettlements_Recruiting>{0} requires at least {1} nearby NPC settlements within {2} tiles (hostile neighbors count as defector sources). Found: {3}.</TSA_WD_Establish_MinNearbySettlements_Recruiting>
+  <TSA_WD_Establish_MinNearbySettlements_Trading>{0} requires at least {1} nearby NPC settlements within {2} tiles (hostile neighbors count for black-market trade). Found: {3}.</TSA_WD_Establish_MinNearbySettlements_Trading>
+  <TSA_WD_Establish_MinNearbySettlements_Embassy>{0} requires at least {1} embassy-eligible settlements within {2} tiles. Found: {3}.</TSA_WD_Establish_MinNearbySettlements_Embassy>
   <TSA_WD_Establish_MinPawns>{0} requires at least {1} pawn(s) in the caravan (have {2}).</TSA_WD_Establish_MinPawns>
   <TSA_WD_Establish_MinSkill>This outpost requires at least {0} {1} to operate (have {2}).</TSA_WD_Establish_MinSkill>
   <TSA_WD_Establish_NeedAnimals>This tile has no suitable wildlife.</TSA_WD_Establish_NeedAnimals>
@@ -563,6 +566,8 @@
   <TSA_WD_Outpost_ProductionTimeMultTooltip>Multiplies production cycle length (XML productionCycleDays or default). Lower = shorter cycles / more frequent deliveries. Remaining time rescales when you change this during a cycle.</TSA_WD_Outpost_ProductionTimeMultTooltip>
   <TSA_WD_Outpost_ProductionOutputMult>Production output multiplier</TSA_WD_Outpost_ProductionOutputMult>
   <TSA_WD_Outpost_ProductionOutputMultTooltip>Multiplies delivery quantities each cycle (crops, hunting, mining, fabrication, trading silver, recruits as rounded integers). 1.00 means unchanged output.</TSA_WD_Outpost_ProductionOutputMultTooltip>
+  <TSA_WD_Outpost_HostileNearbyPartnerMult>Hostile neighbor efficiency</TSA_WD_Outpost_HostileNearbyPartnerMult>
+  <TSA_WD_Outpost_HostileNearbyPartnerMultTip>Trading silver from hostile settlements uses this fraction (black market). Recruiting neighbor points from hostile settlements use the same fraction (defectors). Neutral and allied neighbors stay at full value. Contributing hostile rows are tinted red in the outpost dialogs.</TSA_WD_Outpost_HostileNearbyPartnerMultTip>
   <TSA_WD_Outpost_WarehouseAuraBonus>Warehouse aura bonus</TSA_WD_Outpost_WarehouseAuraBonus>
   <TSA_WD_Outpost_WarehouseAuraBonusTooltip>Productivity bonus from a player warehouse to nearby eligible producers (goods, virtual food, academy XP). Only the best warehouse in range applies. Research outposts are not affected.</TSA_WD_Outpost_WarehouseAuraBonusTooltip>
   <TSA_WD_Outpost_WarehouseAuraRadius>Warehouse aura radius</TSA_WD_Outpost_WarehouseAuraRadius>
@@ -574,6 +579,7 @@
   <TSA_WD_Outpost_Inspect_ProducingNone>Producing: nothing</TSA_WD_Outpost_Inspect_ProducingNone>
   <TSA_WD_Outpost_Inspect_ProducingPausedNoPhysicalSkill>No relevant skill at this outpost. Assign pawns with the relevant skill to produce goods.</TSA_WD_Outpost_Inspect_ProducingPausedNoPhysicalSkill>
   <TSA_WD_Outpost_Inspect_ProducingPausedNoNearbySettlements>Production paused: No nearby neutral or allied non-player settlements or outposts.</TSA_WD_Outpost_Inspect_ProducingPausedNoNearbySettlements>
+  <TSA_WD_Outpost_Inspect_ProducingPausedMinNearbyPartners>Production paused: {0} needs at least {1} nearby NPC settlements within {2} tiles (hostile neighbors count). Found: {3}.</TSA_WD_Outpost_Inspect_ProducingPausedMinNearbyPartners>
   <TSA_WD_Outpost_Inspect_ProductionPaused>Production paused: {0}</TSA_WD_Outpost_Inspect_ProductionPaused>
   <TSA_WD_Outpost_MinDistance>Min. distance to establish outpost (tiles)</TSA_WD_Outpost_MinDistance>
   <TSA_WD_Outpost_MinDistanceTooltip>Minimum tiles from any settlement or other outpost when founding a new outpost.</TSA_WD_Outpost_MinDistanceTooltip>
@@ -822,13 +828,17 @@
   <TSA_WD_Recruiting_NeighborBonusTierPointsTip>Each contributing partner adds neighbor points by tier:\nTier 1 = 1\nTier 2 = 2\nTier 3 = 3.5\nTier 4 = 5\nOnly the top 3 partners per faction (by tier, then distance) count.</TSA_WD_Recruiting_NeighborBonusTierPointsTip>
   <TSA_WD_Recruiting_ChooseTraining>Choose training:</TSA_WD_Recruiting_ChooseTraining>
   <TSA_WD_Recruiting_SelectedTraining>Selected: {0}</TSA_WD_Recruiting_SelectedTraining>
-  <TSA_WD_Recruiting_NearbyHeaderTip>Neutral or allied settlements within {0} tiles. Up to 3 settlements per faction contribute.</TSA_WD_Recruiting_NearbyHeaderTip>
+  <TSA_WD_Recruiting_NearbyHeaderTip>Settlements within {0} tiles. Up to 3 per faction contribute. Hostile neighbors count as defectors at reduced efficiency and show a red tint when they contribute.</TSA_WD_Recruiting_NearbyHeaderTip>
   <TSA_WD_Recruiting_NeighborBonusRule>Up to the top 3 partners per faction add neighbor points (Tier 1=1, Tier 2=2, Tier 3=3.5, Tier 4=5). Add those together. Every {0} combined points = +1 extra recruit this cycle.</TSA_WD_Recruiting_NeighborBonusRule>
   <TSA_WD_Recruiting_NeighborBonusFooterRule>For each {0} neighbor points from contributing partners, you get one extra recruit at the end of the production cycle.</TSA_WD_Recruiting_NeighborBonusFooterRule>
   <TSA_WD_Recruiting_NeighborBonusFooterTotal>Total Neighbor points: {0}</TSA_WD_Recruiting_NeighborBonusFooterTotal>
   <TSA_WD_Recruiting_NeighborBonusFooterResult>Resulting extra pawns: {0}</TSA_WD_Recruiting_NeighborBonusFooterResult>
   <TSA_WD_Recruiting_PartnerRow>{0} ({1}), +{2} Neighbor points</TSA_WD_Recruiting_PartnerRow>
   <TSA_WD_Recruiting_PartnerRowTip>{0}\n{2}, {1}, {3} tiles\n\nAdds +{4} neighbor points.\nThis faction's xenotypes can appear on new recruits.\n\nClick to locate on the world map.</TSA_WD_Recruiting_PartnerRowTip>
+  <TSA_WD_Recruiting_PartnerRowTip_BlackMarket>Hostile neighbor (defectors): counts at {0}% efficiency.</TSA_WD_Recruiting_PartnerRowTip_BlackMarket>
+  <TSA_WD_Recruiting_PartnerRowTip_Defectors>Hostile neighbor (defectors): counts at {0}% efficiency.</TSA_WD_Recruiting_PartnerRowTip_Defectors>
+  <TSA_WD_Recruiting_Math_Compact>{0} ({1} Social) + {2} ({3} neighbor points) x {4}% Expert bonus [= {5}]</TSA_WD_Recruiting_Math_Compact>
+  <TSA_WD_Recruiting_Math_CompactWithSkill>{0} ({1} Social) + {2} ({3} neighbor points) x {4}% Expert bonus x -{5}% skill focus [= {6}]</TSA_WD_Recruiting_Math_CompactWithSkill>
   <TSA_WD_Recruiting_PriorityAny>Any colonist</TSA_WD_Recruiting_PriorityAny>
   <TSA_WD_Recruiting_PriorityAnyFormula>No recruit penalty</TSA_WD_Recruiting_PriorityAnyFormula>
   <TSA_WD_Recruiting_PriorityAnyTip>Random skills on each recruit. Full recruit count from Social and neighbors.</TSA_WD_Recruiting_PriorityAnyTip>
@@ -854,7 +864,7 @@
   <TSA_WD_Recruiting_Math_NeighborConversion>{0} points ÷ {1} = {2} extra recruits</TSA_WD_Recruiting_Math_NeighborConversion>
   <TSA_WD_Outpost_GenericLabel>Outpost</TSA_WD_Outpost_GenericLabel>
   <TSA_WD_Trading_WindowTitle>Outpost Trading</TSA_WD_Trading_WindowTitle>
-  <TSA_WD_Trading_NearbyHeaderTip>Neutral or allied settlements within {0} tiles. Up to 3 settlements per faction contribute.</TSA_WD_Trading_NearbyHeaderTip>
+  <TSA_WD_Trading_NearbyHeaderTip>Settlements within {0} tiles. Up to 3 per faction contribute. Hostile neighbors count at reduced efficiency (black market) and show a red tint when they contribute.</TSA_WD_Trading_NearbyHeaderTip>
   <TSA_WD_Trading_Info_CurrentSocialTip>Currently, this outpost has {0} cumulative Social skill from pawns. Social yield scales silver payout at cycle end.</TSA_WD_Trading_Info_CurrentSocialTip>
   <TSA_WD_Trading_Info_AvgSocialTip>Average Social this cycle: {0}. This value determines the Social multiplier applied to tier silver at cycle end.</TSA_WD_Trading_Info_AvgSocialTip>
   <TSA_WD_Trading_Info_ExpectedOutput>Expected output:</TSA_WD_Trading_Info_ExpectedOutput>
@@ -865,8 +875,9 @@
   <TSA_WD_Trading_NearbySettlementsTip>Click a row to locate it on the world map. Highlighted rows contribute silver (top 3 per faction by tier).</TSA_WD_Trading_NearbySettlementsTip>
   <TSA_WD_Trading_PartnerRow>{0} ({1}), +{2} silver</TSA_WD_Trading_PartnerRow>
   <TSA_WD_Trading_PartnerRowTip>{0}\n{2}, {1}, {3} tiles\n\nAdds +{4} silver.\n\nClick to locate on the world map.</TSA_WD_Trading_PartnerRowTip>
+  <TSA_WD_Trading_PartnerRowTip_BlackMarket>Hostile neighbor (black market): counts at {0}% efficiency.</TSA_WD_Trading_PartnerRowTip_BlackMarket>
   <TSA_WD_Trading_TierSilverTip>Each nearby settlement adds silver by tier:\nTier 1 = 100\nTier 2 = 200\nTier 3 = 350\nTier 4 = 500</TSA_WD_Trading_TierSilverTip>
-  <TSA_WD_Trading_FooterRule>Sum silver from up to the top 3 partners per faction, then multiply by Social yield at cycle end.</TSA_WD_Trading_FooterRule>
+  <TSA_WD_Trading_FooterRule>Sum silver from up to the top 3 partners per faction (hostile partners at reduced efficiency), then multiply by Social yield at cycle end.</TSA_WD_Trading_FooterRule>
   <TSA_WD_Trading_FooterTierSum>Total tier silver: {0}</TSA_WD_Trading_FooterTierSum>
   <TSA_WD_Trading_FooterExpectedSilver>Expected payout: {0} silver</TSA_WD_Trading_FooterExpectedSilver>
   <TSA_WD_Trading_SocialPanelHeader>Social yield</TSA_WD_Trading_SocialPanelHeader>
@@ -890,6 +901,8 @@
   <TSA_WD_Production_TooltipTrading_Formula>{0} Silver this cycle: nearby tier sum {1} × {2}% Social yield (outpost Social {3}; 100% at MinCumulativeSkill {4}) × global output multiplier.</TSA_WD_Production_TooltipTrading_Formula>
   <TSA_WD_Production_TradingYieldSilverOnly>{0} Silver (tier sum {1} × {2}% Social, then × global output multiplier)</TSA_WD_Production_TradingYieldSilverOnly>
   <TSA_WD_Production_Trading>Trading</TSA_WD_Production_Trading>
+  <TSA_WD_Trading_Math_Compact>{0} silver x {1}% ({2} Social) x {3}% Expert [= {4} {5}]</TSA_WD_Trading_Math_Compact>
+  <TSA_WD_Embassy_Math_Compact>{0} tier points x {1}% ({2} Social) x {3}% Expert [= +{4} goodwill]</TSA_WD_Embassy_Math_Compact>
   <TSA_WD_Trading_Math_Header>Nearby settlements:</TSA_WD_Trading_Math_Header>
   <TSA_WD_Trading_Math_PartnerLine>• {0} ({1}): +{2} silver</TSA_WD_Trading_Math_PartnerLine>
   <TSA_WD_Trading_Math_None>• None in range</TSA_WD_Trading_Math_None>
@@ -934,7 +947,7 @@
   <TSA_WD_Production_TradingDesc>Trading: silver from nearby settlements at cycle end, scaled by Social above the def baseline.</TSA_WD_Production_TradingDesc>
   <TSA_WD_Production_EmbassyDesc>Embassy: goodwill with nearby factions at cycle end (Neutral/Ally; hostiles if settings allow). Highest settlement tier per faction, scaled by Social.</TSA_WD_Production_EmbassyDesc>
   <TSA_WD_Production_TradingTooltip>Silver from nearby settlements/outposts at cycle end. Total Social applies: 100% silver at MinCumulativeSkill Social in the def, +5% per extra Social (then × global output multiplier).</TSA_WD_Production_TradingTooltip>
-  <TSA_WD_Production_TradingYield>{0} Silver from nearby neutral or allied settlements/outposts × {1} Outpost total Social Skill</TSA_WD_Production_TradingYield>
+  <TSA_WD_Production_TradingYield>{0} Silver from nearby NPC settlements × {1} Outpost total Social Skill</TSA_WD_Production_TradingYield>
   <TSA_WD_Production_TradingYield_AtCycleEnd>from nearby tiers at cycle end</TSA_WD_Production_TradingYield_AtCycleEnd>
   <TSA_WD_Production_TradingYield_Average>x{0} Silver at cycle end</TSA_WD_Production_TradingYield_Average>
   <TSA_WD_Production_TradingYield_Snapshot>x{0} Silver</TSA_WD_Production_TradingYield_Snapshot>
@@ -1074,6 +1087,9 @@
   <TSA_WD_Req_Tooltip_FishingNotCoastal>Fishing needs an ocean-coast land tile (not lakes or open water).</TSA_WD_Req_Tooltip_FishingNotCoastal>
   <TSA_WD_Req_Tooltip_FishingNone>This coastal biome has no saltwater fish species available.</TSA_WD_Req_Tooltip_FishingNone>
   <TSA_WD_Req_Tooltip_MinNearbyMet>At least {0} settlements or outposts (non-hostile) within {1} tiles.</TSA_WD_Req_Tooltip_MinNearbyMet>
+  <TSA_WD_Req_Tooltip_MinNearbyMet_Recruiting>At least {0} nearby NPC settlements within {1} tiles (hostile neighbors count as defector sources).</TSA_WD_Req_Tooltip_MinNearbyMet_Recruiting>
+  <TSA_WD_Req_Tooltip_MinNearbyMet_Trading>At least {0} nearby NPC settlements within {1} tiles (hostile neighbors count for black-market trade).</TSA_WD_Req_Tooltip_MinNearbyMet_Trading>
+  <TSA_WD_Req_Tooltip_MinNearbyMet_Embassy>At least {0} embassy-eligible settlements within {1} tiles.</TSA_WD_Req_Tooltip_MinNearbyMet_Embassy>
   <TSA_WD_Req_Tooltip_MinNearbyUnmet>Need at least {0} within {1} tiles. Found: {2}</TSA_WD_Req_Tooltip_MinNearbyUnmet>
   <TSA_WD_Req_Tooltip_MinPawnsMet>Caravan has enough pawns to found this outpost.</TSA_WD_Req_Tooltip_MinPawnsMet>
   <TSA_WD_Req_Tooltip_MinPawnsUnmet>Caravan needs at least {0} pawn(s). Have {1}.</TSA_WD_Req_Tooltip_MinPawnsUnmet>
@@ -1159,14 +1175,14 @@
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Farming>Produces goods from crops (food, cloth). Scales with the Fertility of the world tile it is placed on. Efficiency can be boosted via Upgrades</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Farming>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Hunting>Produces meat, leather and wool. Scales with Animal abundance on the world tile and Animals skill. Efficiency can be boosted via Upgrades</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Hunting>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>Produces one selected fish species. Scales with fish stocks on ocean-coast tiles and Animals skill. Efficiency can be boosted via Upgrades. Requires Odyssey</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>Recruits new colonists each cycle. Scales with Social skill and up to the top 3 nearby partners per faction. Needs neutral or allied settlements in range</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>Produces silver each cycle. Scales with Social skill and up to the top 3 nearby partners per faction. Needs neutral or allied settlements in range</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>Recruits new colonists each cycle. Scales with Social skill and up to the top 3 nearby partners per faction (hostile neighbors count as defectors). Needs nearby NPC settlements in range</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>Produces silver each cycle. Scales with Social skill and up to the top 3 nearby partners per faction (hostile neighbors count for black-market trade). Needs nearby NPC settlements in range</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Embassy>Improves goodwill with nearby factions each cycle (Neutral/Ally; hostiles if settings allow). Uses the highest settlement tier per faction. Scales with Social skill</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Embassy>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Scavenging>Produces random goods each cycle. Each colonist adds 500 silver of loot per delivery. Fixed cycle time; needs at least 2 colonists to found</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Scavenging>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mining>Produces Stone Blocks, Ores and Components. Scales with the Mining efficiency of the world tile it is placed on. Efficiency can be boosted via Upgrades</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mining>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fabrication>Produces industrial and advanced components. Scales with Crafting skill. Requires Fabrication research</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fabrication>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>Produces chemfuel. Scales with Crafting skill. Requires Biofuel Refining research</TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>Produces milk, eggs and wool. Scales with Fertility of the world tile and Animals skill. Efficiency can be boosted via Upgrades</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>Produces milk, eggs, wool, and meat (chicken, pig, cow). Scales with Fertility of the world tile and Animals skill. Efficiency can be boosted via Upgrades</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Academy>Trains colonists in one skill per cycle. Teacher skill sets XP and student level cap. Does not produce goods</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Academy>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mortar>Fires long-range mortar strikes at hostile targets. Uses Shooting skill of the garrison. Does not produce goods</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mortar>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_RapidResponse>Sends fast counter-caravans against hostile travelers. Enemy caravans walking over this outpost will always trigger an immediate attack. Can drop colonists on targets after Transport Pods research. Does not produce goods</TSA_WD_OutpostTooltip_TSA_WD_Outpost_RapidResponse>

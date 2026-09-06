@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_18_Title>Hotfix — Turtle cluster vs threat radii</TSA_WD_Update_2_3_18_Title>
+  <TSA_WD_Update_2_3_18_Body><![CDATA[
+<size=16><b>2.3.18 – Hotfix</b></size>\n
+<color=#00FFFFFF>Release date: September 6th 2026</color>\n
+------------------------------\n
+• Turtle cluster membership and hostile pressure now use different radii: allies link within 15 tiles; hostiles count within 10 tiles of any cluster site (was the same 12 for both).\n
+• Fortify kits after Turtle follow the hub's painted settlement tier after deposits land.\n
+]]></TSA_WD_Update_2_3_18_Body>
+  <TSA_WD_Update_2_3_17_Title>Hotfix — Turtle pressure range and ratio</TSA_WD_Update_2_3_17_Title>
+  <TSA_WD_Update_2_3_17_Body><![CDATA[
+<size=16><b>2.3.17 – Hotfix</b></size>\n
+<color=#00FFFFFF>Release date: September 5th 2026</color>\n
+------------------------------\n
+• Reset your "Combat Difficulty" mod settings or all mod settings so the new Turtle defaults apply.\n
+• Turtling happened too often. Reduced the range of cluster strength checks from 20 to 12 tiles. Around any settlement in the defensive cluster we look within 12 tiles for enemy settlements and aggregate their strength. If that aggregated strength is more than 225% of the cluster strength, Turtle is an option (was 166%).\n
+]]></TSA_WD_Update_2_3_17_Body>
+  <TSA_WD_Update_2_3_16_Title>Hotfix — Strategy fire chance, join days, Odyssey shuttles</TSA_WD_Update_2_3_16_Title>
+  <TSA_WD_Update_2_3_16_Body><![CDATA[
+<size=16><b>2.3.16 – Hotfix</b></size>\n
+<color=#00FFFFFF>Release date: September 4th 2026</color>\n
+------------------------------\n
+• Reset your "Combat Difficulty" mod settings or all mod settings for some important balance changes to apply.\n
+• Desperation raids happened way too often, even for strong factions. Changed the logic. If an isolated cluster loses a settlement, they will now turtle (pack up and merge into a nearby allied settlement). This happens regardless of global faction strength. Reactions on settlement loss now also only fire in 40% of cases. Strong factions never consider a desperation raid; only weak factions might. Desperation raids should be very rare now.\n
+• Further balancing: garrison strength in mid/late game, and the likelihood for T2+ settlements to launch interception caravans against passing travelers.\n
+• Reworked the "new to faction" column. It is now time based and shows the days since a pawn joined your faction. Previous logic was bugged.\n
+• Fixed a bug where Odyssey shuttles would not be added to an outpost after a won outpost defense.\n
+]]></TSA_WD_Update_2_3_16_Body>
+  <TSA_WD_Update_2_3_15_Title>Hotfix — desperation raids, garrisons, interception</TSA_WD_Update_2_3_15_Title>
+  <TSA_WD_Update_2_3_15_Body><![CDATA[
+<size=16><b>2.3.15 – Hotfix</b></size>\n
+<color=#00FFFFFF>Release date: September 1st 2026</color>\n
+------------------------------\n
+• Reset your "Combat Difficulty" mod settings, or all mod settings, for changes to take effect.\n
+• Desperation raids happened way too often, even for strong factions. Changed the logic. If an isolated cluster loses a settlement, they will now turtle (pack up and merge into a nearby allied settlement). This happens regardless of global faction strength. If the faction is also weak compared to other factions, they might consider a desperation raid. Desperation raids should be very rare now.\n
+• Further balancing: garrison strength in mid/late game, and the likelihood for T2+ settlements to launch interception caravans against passing travelers.\n
+]]></TSA_WD_Update_2_3_15_Body>
+  <TSA_WD_Update_2_3_14_Title>Mid/Late game raids, QOL, balancing</TSA_WD_Update_2_3_14_Title>
+  <TSA_WD_Update_2_3_14_Body><![CDATA[
+<size=16><b>2.3.14 – Mid/Late game raids, QOL, balancing</b></size>\n
+<color=#00FFFFFF>Release date: August 30th 2026</color>\n
+------------------------------\n
+• New Feature: NPC settlements may decide to turtle. They may pack up and merge forces with nearby settlements to establish a single strong settlement with proper fortifications. This action type is called "Turtle".\n
+• New Feature: Far away enemies may launch 5-7 raids at you at once. Per default only active in late game. Can be configured to also be possible in early game. This action type is called "Invasion".\n
+• New Feature: Far away enemies may pack up and launch 5-7 expansion caravans at once to establish settlements close to you. Per default only active in late game. Can be configured to also be possible in early game. This action type is called "Vanguard".\n
+• New Feature: Weak enemies may decide to pack up and run a last desperation raid on you. Triggered by destroying a settlement of a weak faction in a cluster of weak settlements.\n
+• New Feature: Settings menus have a searchbar now. Several settings menus have been consolidated into "Combat Difficulty" and "Economic Difficulty".\n
+• New Feature: New joiners are marked as such in the All Player Pawns window and on an outpost's Pawns tab via a filterable column.\n
+• The game pauses now when you need to decide what to do with a settlement after conquest.\n
+• The Cook and Entertainer Expert production boost bonuses now affect all outpost types but Rapid Response and Artillery.\n
+• Trading and Recruiting outposts now also work with hostile settlements in range but at 50% efficiency.\n
+• MG turrets to be spawned are exposed via XML now, allowing modders to easily hook other turret types into that.\n
+• Incoming map reinforcements use a right-side alert instead of letter spam.\n
+• Unmet upkeep requirements only trigger a red blinking alert if less than 2 days remain to accumulate the required silver.\n
+• Some balancing adjustments in the mod settings. Reset to defaults for them to take effect. Most notably: Caravans only lose 1% strength per hour traveling instead of 1.5%. Via this mechanism they cannot lose more than 60% strength (was 75%). T1 settlements can upgrade to T2 without another T1 settlement being around. Reasoning: Too many weak settlements taking up a lot of space. Game is more challenging with fewer but stronger ones. Caravans traveling a long time shouldn't be punished as hard (strength loss).\n
+• Many bugfixes and minor tweaks.\n
+]]></TSA_WD_Update_2_3_14_Body>
   <TSA_WD_Update_2_3_13_Title>Caravan Targeting, Loot and Layouts</TSA_WD_Update_2_3_13_Title>
   <TSA_WD_Update_2_3_13_Body><![CDATA[
 <size=16><b>2.3.13 – Caravan Targeting, Loot and Layouts</b></size>\n

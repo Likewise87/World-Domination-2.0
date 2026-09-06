@@ -211,8 +211,12 @@ namespace TSA_WorldDomination
             fertilityPct = farmingTileFertilityPct;
             miningEffPct = isMining ? Mathf.RoundToInt(miningTileFactor * 100f) : 0;
 
-            cachedOutputFactorSuffix = Outpost_Production_Utils.BuildProductionOutputFactorSuffix(outpost);
-            cachedOutputFactorTooltip = Outpost_Production_Utils.BuildProductionOutputFactorTooltip(outpost);
+            cachedOutputFactorSuffix = isScavenging
+                ? Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusSuffix(outpost)
+                : Outpost_Production_Utils.BuildProductionOutputFactorSuffix(outpost);
+            cachedOutputFactorTooltip = isScavenging
+                ? Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusTooltip(outpost)
+                : Outpost_Production_Utils.BuildProductionOutputFactorTooltip(outpost);
 
             if (isHunting)
             {
@@ -413,7 +417,7 @@ namespace TSA_WorldDomination
                                 TooltipSkill = Outpost_Scavenging.GetKindRequirementTooltip(kind),
                                 TooltipBaseline = null,
                                 TooltipEfficiency = null,
-                                TooltipFormula = null,
+                                TooltipFormula = Outpost_Scavenging.GetProductionTooltip(outpost),
                                 DisabledTooltip = disabled,
                                 RowHeight = baseRowSimple
                             });
@@ -1202,8 +1206,6 @@ namespace TSA_WorldDomination
                     Rect nameRect = new Rect(midX, rowContentY, contentW, nameLabelHeight);
                     Widgets.Label(nameRect, row.Opt.Kind.LabelCap);
 
-                    Rect animalClickRect = new Rect(0, rowContentY, midX + contentW, nameLabelHeight);
-
                     Text.Font = GameFont.Tiny;
                     GUI.color = Color.gray;
                     float lineYBase = rowContentY + nameLabelHeight + formulaTopPadding;
@@ -1227,6 +1229,9 @@ namespace TSA_WorldDomination
                     GUI.color = Color.white;
                     Text.Font = GameFont.Small;
 
+                    // Same pattern as other production rows: full row selects; icon opens info card.
+                    // Do not use a name-strip hitbox — it stole clicks and left formula lines looking non-interactive.
+                    Rect animalInfoRect = iconRect.ExpandedBy(2f);
                     Outpost_Dialog_UI.FinishSelectableListRow(rowRect, isSelected);
                     if (Widgets.ButtonInvisible(rowRect) && row.CanHunt)
                     {
@@ -1237,10 +1242,10 @@ namespace TSA_WorldDomination
                     }
                     if (!row.CanHunt && !string.IsNullOrEmpty(row.DisabledTooltip))
                         TooltipHandler.TipRegion(rowRect, row.DisabledTooltip);
-                    if (Mouse.IsOver(animalClickRect)) Widgets.DrawHighlight(animalClickRect);
-                    if (Widgets.ButtonInvisible(animalClickRect))
+                    if (Mouse.IsOver(animalInfoRect)) Widgets.DrawHighlight(animalInfoRect);
+                    if (Widgets.ButtonInvisible(animalInfoRect))
                         OpenAnimalInfoCard(row.Opt.Kind);
-                    TooltipHandler.TipRegion(animalClickRect, row.AnimalRowTooltip ?? "");
+                    TooltipHandler.TipRegion(animalInfoRect, row.AnimalRowTooltip ?? "");
 
                     visibleHuntingRow++;
                     curY += row.RowHeight + rowPadding;

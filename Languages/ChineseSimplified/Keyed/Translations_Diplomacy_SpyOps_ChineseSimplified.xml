@@ -92,6 +92,8 @@
   <TSA_WD_Diplo_StrongFactionWarTopPctTooltip>按总实力取最强 NPC 阵营中多大比例可参与强势升级。可用时至少考虑两个阵营。</TSA_WD_Diplo_StrongFactionWarTopPctTooltip>
   <TSA_WD_Diplo_StrongFactionWarRequireMidOrLate>仅中期/后期启用</TSA_WD_Diplo_StrongFactionWarRequireMidOrLate>
   <TSA_WD_Diplo_StrongFactionWarRequireMidOrLateTooltip>开启后，仅在中期或后期升级激活时才掷强势互宣战。</TSA_WD_Diplo_StrongFactionWarRequireMidOrLateTooltip>
+  <TSA_WD_Diplo_StrongFactionWarCooldown>强势互宣战冷却</TSA_WD_Diplo_StrongFactionWarCooldown>
+  <TSA_WD_Diplo_StrongFactionWarCooldownTooltip>一次成功后，再次触发强势互宣战前等待的天数。启用共享特殊事件冷却时忽略。</TSA_WD_Diplo_StrongFactionWarCooldownTooltip>
   <TSA_WD_Diplo_StrongFactionWar_Label>强势阵营开战</TSA_WD_Diplo_StrongFactionWar_Label>
   <TSA_WD_Diplo_StrongFactionWar_Msg>战争：“{0}”与“{1}”（最强势力之一）已互相宣战。</TSA_WD_Diplo_StrongFactionWar_Msg>
   <TSA_WD_Diplo_StrongFactionWar_Cool_Label>强势阵营关系降温</TSA_WD_Diplo_StrongFactionWar_Cool_Label>
@@ -99,6 +101,39 @@
   <TSA_WD_Diplo_Reset>将此页恢复为默认</TSA_WD_Diplo_Reset>
   <TSA_WD_Diplo_RevoltChance>每日叛乱概率</TSA_WD_Diplo_RevoltChance>
   <TSA_WD_Diplo_RevoltChanceTooltip>战败派系每日有概率回归，并从定居点数量最多的 NPC 派系夺取 3 至 7 座定居点（至少 3 座来自第一名，其余来自第二、三名）。更倾向低等级定居点。永不夺取玩家领地。</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_RevoltCooldown>叛乱冷却</TSA_WD_Diplo_RevoltCooldown>
+  <TSA_WD_Diplo_RevoltCooldownTooltip>一次成功后，再次触发叛乱前等待的天数。启用共享特殊事件冷却时忽略。</TSA_WD_Diplo_RevoltCooldownTooltip>
+  <TSA_WD_Diplo_ForwardAssaultEnable>启用前锋突击（先锋 / 入侵）</TSA_WD_Diplo_ForwardAssaultEnable>
+  <TSA_WD_Diplo_ForwardAssaultEnableTooltip>远方强敌可为先锋打包 5–7 座定居点，或为入侵发动 5–7 路协同突袭（家园仍在）。先锋与入侵的时机在“战斗难度”威胁时机门中设置，共享开关与几率/距离也在该页。若先锋无法占位且启用回退，则尝试入侵。</TSA_WD_Diplo_ForwardAssaultEnableTooltip>
+  <TSA_WD_Diplo_ForwardAssaultChance>前锋突击概率</TSA_WD_Diplo_ForwardAssaultChance>
+  <TSA_WD_Diplo_ForwardAssaultChanceTooltip>在中/后期游戏难度门与冷却允许时，每日尝试先锋或入侵的概率。</TSA_WD_Diplo_ForwardAssaultChanceTooltip>
+  <TSA_WD_Diplo_ForwardAssaultTopPct>考虑的强势阵营比例</TSA_WD_Diplo_ForwardAssaultTopPct>
+  <TSA_WD_Diplo_ForwardAssaultTopPctTooltip>按总实力取最强 NPC 阵营中多大比例可作为前锋突击的发起方。</TSA_WD_Diplo_ForwardAssaultTopPctTooltip>
+  <TSA_WD_Diplo_ForwardAssaultMinDist>距玩家最小距离（格）</TSA_WD_Diplo_ForwardAssaultMinDist>
+  <TSA_WD_Diplo_ForwardAssaultMinDistTooltip>源定居点距最近玩家殖民地至少这么远，才可作为先锋打包目标或入侵突袭宿主。</TSA_WD_Diplo_ForwardAssaultMinDistTooltip>
+  <TSA_WD_Diplo_ForwardAssaultCooldown>前锋突击冷却</TSA_WD_Diplo_ForwardAssaultCooldown>
+  <TSA_WD_Diplo_ForwardAssaultCooldownTooltip>一次发射后，再次先锋或入侵前等待的天数。两种模式共用。</TSA_WD_Diplo_ForwardAssaultCooldownTooltip>
+  <TSA_WD_Diplo_SharedSpecialEventCooldown>共享特殊事件冷却</TSA_WD_Diplo_SharedSpecialEventCooldown>
+  <TSA_WD_Diplo_SharedSpecialEventCooldownTooltip>开启后，强势互宣战、叛乱与前锋突击共用一个冷却。关闭则各自独立。</TSA_WD_Diplo_SharedSpecialEventCooldownTooltip>
+  <TSA_WD_Diplo_SharedSpecialEventCooldownDays>共享特殊事件冷却天数</TSA_WD_Diplo_SharedSpecialEventCooldownDays>
+  <TSA_WD_Diplo_SharedSpecialEventCooldownDaysTooltip>三者之一成功后，任一再次触发前等待的天数。绝望突袭使用各派系自己的冷却。</TSA_WD_Diplo_SharedSpecialEventCooldownDaysTooltip>
+  <TSA_WD_Diplo_StrongFactionWarHeader>强势派系战争</TSA_WD_Diplo_StrongFactionWarHeader>
+  <TSA_WD_Diplo_RevoltHeader>叛乱</TSA_WD_Diplo_RevoltHeader>
+  <TSA_WD_Diplo_ForwardAssaultHeader>前锋突袭</TSA_WD_Diplo_ForwardAssaultHeader>
+  <TSA_WD_Diplo_DesperationRaidHeader>定居点失守策略</TSA_WD_Diplo_DesperationRaidHeader>
+  <TSA_WD_Diplo_SharedSpecialEventCooldownHeader>共享特殊事件冷却</TSA_WD_Diplo_SharedSpecialEventCooldownHeader>
+  <TSA_WD_Diplo_DesperationRaidEnable>启用绝望突袭</TSA_WD_Diplo_DesperationRaidEnable>
+  <TSA_WD_Diplo_DesperationRaidEnableTooltip>符合条件的 NPC 集群失去定居点时，可能龟缩或发动绝望突袭。难度预设不控制此门。</TSA_WD_Diplo_DesperationRaidEnableTooltip>
+  <TSA_WD_Diplo_StrategyFireChance>策略触发概率</TSA_WD_Diplo_StrategyFireChance>
+  <TSA_WD_Diplo_StrategyFireChanceTooltip>当被压制的集群失去定居点且策略不在冷却时，按此概率真正执行策略（龟缩或绝望）。未中则什么都不做，也不进入策略冷却。</TSA_WD_Diplo_StrategyFireChanceTooltip>
+  <TSA_WD_Diplo_DesperationChance>允许绝望突袭？</TSA_WD_Diplo_DesperationChance>
+  <TSA_WD_Diplo_DesperationChanceTooltip>若策略在被压制集群失去定居点后触发，该派系可能龟缩（把力量集中到一座定居点）或发动绝望突袭（放弃定居点并冲向最近目标）。\n\n集群：该派系在 {0} 格内相连的定居点。被压制：集群内任一站点 {2} 格内敌对进攻至少为本集群进攻的 {1}%。\n\n开启时：\n强势派系：从不绝望，始终龟缩\n普通派系：{3}% 绝望，{4}% 龟缩\n弱势派系：{5}% 绝望，{6}% 龟缩\n\n强势 = 至少达到现存 NPC 均分力量（1/N）的 {7}%\n普通 = 均分的 {8}% 到 {7}%\n弱势 = 低于均分的 {8}%\n\n关闭 = 策略触发时只龟缩。</TSA_WD_Diplo_DesperationChanceTooltip>
+  <TSA_WD_Diplo_DesperationMaxShare>弱势力量占比</TSA_WD_Diplo_DesperationMaxShare>
+  <TSA_WD_Diplo_DesperationMaxShareTooltip>为存档兼容保留的旧设置。策略现已改用均分份额段位。</TSA_WD_Diplo_DesperationMaxShareTooltip>
+  <TSA_WD_Diplo_DesperationCooldown>策略冷却</TSA_WD_Diplo_DesperationCooldown>
+  <TSA_WD_Diplo_DesperationCooldownTooltip>同一派系再次执行定居点失守策略（龟缩或绝望）前的天数。不与战争、叛乱或前锋突袭共享。</TSA_WD_Diplo_DesperationCooldownTooltip>
+  <TSA_WD_Diplo_DesperationNotify>绝望突袭发动时通知</TSA_WD_Diplo_DesperationNotify>
+  <TSA_WD_Diplo_DesperationNotifyTooltip>绝望突袭撤出并进军时发送信件。</TSA_WD_Diplo_DesperationNotifyTooltip>
   <TSA_WD_Diplo_TriggerChance>触发概率</TSA_WD_Diplo_TriggerChance>
   <TSA_WD_Diplo_UnderdogActionShare>弱势方:每日行动份额乘数</TSA_WD_Diplo_UnderdogActionShare>
   <TSA_WD_Diplo_UnderdogActionShareTooltip>当弱势方增益生效时,该阵营的每日行动份额乘以此值(如 2 = 双倍行动)。</TSA_WD_Diplo_UnderdogActionShareTooltip>

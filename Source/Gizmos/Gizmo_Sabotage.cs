@@ -175,6 +175,7 @@ namespace TSA_WorldDomination
                 Faction faction = settlement.Faction;
                 Find.LetterStack.ReceiveLetter("TSA_WD_Sab_LetterObliteratedLabel".Translate(), "TSA_WD_Sab_LetterObliteratedText".Translate(pawn.LabelShort, originalName), LetterDefOf.PositiveEvent, new GlobalTargetInfo(tile));
                 manager?.AddLog(new SpreadLogEntry("TSA_WD_Sab_LogDestroyed".Translate(oldStr.ToString("F0")), caravan, settlement));
+                WorldActions_DesperationRaid.NotifyNpcSettlementLost(settlement, Faction.OfPlayer);
                 Find.WorldObjects.Remove(settlement);
                 WorldObject_WdSettlementRuin.Spawn(tile, originalName, faction);
             }

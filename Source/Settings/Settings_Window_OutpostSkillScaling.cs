@@ -51,6 +51,7 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () =>
             {
                 OutpostSkillScaling.ResetToDefaults(s);
+            SettingsUI.DrawSettingsSearchBar(l);
                 previewRaw = 100f;
             },
                 () => { bandsExpanded = previewExpanded = true; },

@@ -1,4 +1,4 @@
-﻿#nullable disable
+#nullable disable
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -19,10 +19,13 @@ namespace TSA_WorldDomination
         private float bodyXForHeader;
 
         private const float BottomBarHeight = 38f;
-        private const float ColPortrait = 40f;
+        private const float ColPortrait = 35f;
         private const float ColPawnType = 96f;
-        private const float ColName = 120f;
+        /// <summary>Min name width; flex grows up to <see cref="ColNameMax"/> so the column does not soak the whole tab.</summary>
+        private const float ColName = 140f;
+        private const float ColNameMax = 180f;
         private const float ColStar = 56f;
+        private const float ColNew = 56f;
         private const float ColResistance = 69f;
         private const float ColTraits = PawnRosterTraitFilter.ColWidth;
         private const float ColXenotype = 100f;
@@ -51,7 +54,7 @@ namespace TSA_WorldDomination
         /// <summary>Inset so Transfer does not overlap the inspect-pane close X.</summary>
         private const float TransferBtnRightInset = 24f;
         private const float TabHeaderOffsetY = 0f;
-        private static readonly Vector2 PortraitSize = new Vector2(36f, 36f);
+        private static readonly Vector2 PortraitSize = new Vector2(31f, 31f);
         private static readonly Color RecruitingRowTint = new Color(1f, 0.55f, 0.15f, 0.21f);
 
         private OutpostPawnTableSortColumn sortColumn = OutpostPawnTableSortColumn.Default;
@@ -60,13 +63,14 @@ namespace TSA_WorldDomination
         private PlayerPawnTypeFilter pawnTypeFilter = PlayerPawnTypeFilter.All;
         private string pawnSearchTerm = "";
         private OutpostPawnStarFilter starFilter = OutpostPawnStarFilter.All;
+        private PawnRosterJoinedFilter joinedFilter = PawnRosterJoinedFilter.All;
         private string xenotypeFilter = "";
         private string psycastFilter = "";
 
         private static string hdrNoPawns, hdrName, hdrAge, hdrMelee, hdrStrength, hdrSortTip,
             hdrSelectColumnTip, hdrXpSuffix, hdrRelevantXp, hdrHunt,
             hdrSlaveRemoveBlockedTip, hdrConstructionRoadTip, hdrDailyFood, hdrHurt, hdrHurtTip,
-            hdrTransfer, hdrTransferTip, hdrStarTip, hdrResistance, hdrTraits;
+            hdrTransfer, hdrTransferTip, hdrStarTip, hdrNewTip, hdrResistance, hdrResistanceNA, hdrResistanceNATip, hdrTraits;
 
         private static bool headerLabelsReady;
 
@@ -85,6 +89,7 @@ namespace TSA_WorldDomination
         private PlayerPawnTypeFilter cachedTypeFilter = PlayerPawnTypeFilter.All;
         private string cachedNameFilter = "";
         private OutpostPawnStarFilter cachedStarFilter;
+        private PawnRosterJoinedFilter cachedJoinedFilter;
         private string cachedXenotypeFilter = "";
         private string cachedPsycastFilter = "";
         private int cachedPrisonerCount = -1;
@@ -117,7 +122,7 @@ namespace TSA_WorldDomination
             public OutpostPawnRowKind rowKind;
             public PlayerPawnSortCategory sortCategory;
             public string typeLabel = null!;
-            /// <summary>Ideology slave row — tinted in the pawns table.</summary>
+            /// <summary>Ideology slave row ? tinted in the pawns table.</summary>
             public bool isSlave;
             public string portraitKey = null!;
             public string nameLabel = null!;
@@ -146,6 +151,7 @@ namespace TSA_WorldDomination
             /// <summary>Animals/vehicles/shuttles show dashes for skill/age columns.</summary>
             public bool sparseSkills;
             public bool isStarred;
+            public int daysSinceJoin = -1;
             public bool isGroupHeader;
             public string groupHeaderLabel = null!;
         }
@@ -171,9 +177,21 @@ namespace TSA_WorldDomination
             hdrTransfer = "TSA_WD_AllPlayerPawns_Transfer".Translate();
             hdrTransferTip = "TSA_WD_AllPlayerPawns_TransferTip".Translate();
             hdrStarTip = "TSA_WD_AllPlayerPawns_StarTip".Translate();
+            hdrNewTip = "TSA_WD_PawnRoster_ColNewTip".Translate();
             hdrResistance = "TSA_WD_Prisoners_ColResistance".Translate();
+            hdrResistanceNA = "TSA_WD_PawnRoster_ResistanceNA".Translate();
+            hdrResistanceNATip = "TSA_WD_PawnRoster_ResistanceNATip".Translate();
             hdrTraits = "TSA_WD_Prisoners_ColTraits".Translate();
             headerLabelsReady = true;
+        }
+
+        private static void ApplyResistanceNotApplicable(CachedPawnRow row)
+        {
+            if (row == null) return;
+            EnsureHeaderLabels();
+            row.resistanceLabel = hdrResistanceNA;
+            row.resistanceTip = hdrResistanceNATip;
+            row.resistanceValue = -1f;
         }
 
         private static void DrawHurtCell(ref float x, float curY, bool needsHealing, float rowHeight)
@@ -208,7 +226,7 @@ namespace TSA_WorldDomination
             return PawnPortraitUIUtils.BuildCacheKey(p, v);
         }
 
-        /// <summary>Vanilla PortraitsCache.Get via shared helper (do not cache the Texture — pooled RTs).</summary>
+        /// <summary>Vanilla PortraitsCache.Get via shared helper (do not cache the Texture ? pooled RTs).</summary>
         private static Texture GetPortraitFor(Pawn pawn, string key)
         {
             return PawnPortraitUIUtils.GetPortrait(pawn, PortraitSize, key)!;
@@ -235,6 +253,13 @@ namespace TSA_WorldDomination
         public override bool IsVisible => SelOutpost != null && SelOutpost.Faction == Faction.OfPlayer;
 
         private static bool ColOn(string id) => PlayerPawnRosterUtility.ColVisible(ColWindow, id);
+
+        /// <summary>Prisoner queue controls; not a column-picker toggle (auto when this outpost has prisoners).</summary>
+        private bool ShowReorderColumn()
+        {
+            var prisoners = SelOutpost?.Prisoners;
+            return prisoners != null && prisoners.Count > 0;
+        }
 
         private void OnColumnsChanged()
         {
@@ -280,6 +305,10 @@ namespace TSA_WorldDomination
                     return ColOn(PawnRosterColumnIds.FullSkill(SkillDefOf.Medicine));
                 case OutpostPawnTableSortColumn.Artistic:
                     return ColOn(PawnRosterColumnIds.FullSkill(SkillDefOf.Artistic));
+                case OutpostPawnTableSortColumn.Starred:
+                    return ColOn(PawnRosterColumnIds.Star);
+                case OutpostPawnTableSortColumn.New:
+                    return ColOn(PawnRosterColumnIds.New);
                 default:
                     return true;
             }
@@ -293,6 +322,7 @@ namespace TSA_WorldDomination
             pawnTypeFilter = PlayerPawnTypeFilter.All;
             pawnSearchTerm = "";
             starFilter = OutpostPawnStarFilter.All;
+            joinedFilter = PawnRosterJoinedFilter.All;
             xenotypeFilter = "";
             psycastFilter = "";
             scrollPosition = Vector2.zero;
@@ -310,8 +340,9 @@ namespace TSA_WorldDomination
             if (ColOn(PawnRosterColumnIds.Portrait)) w += ColPortrait;
             if (ColOn(PawnRosterColumnIds.Type)) w += ColPawnType;
             if (ColOn(PawnRosterColumnIds.Star)) w += ColStar;
+            if (ColOn(PawnRosterColumnIds.New)) w += ColNew;
             if (ColOn(PawnRosterColumnIds.Select)) w += ColSelect;
-            if (ColOn(PawnRosterColumnIds.Reorder)) w += ColReorder;
+            if (ShowReorderColumn()) w += ColReorder;
             if (ColOn(PawnRosterColumnIds.Resistance)) w += ColResistance;
             if (ColOn(PawnRosterColumnIds.Traits)) w += ColTraits;
             if (ColOn(PawnRosterColumnIds.Xenotype)) w += ColXenotype;
@@ -350,7 +381,7 @@ namespace TSA_WorldDomination
                 return;
             }
             float fixedW = ComputeFixedColumnsWidth(hasRelevant);
-            colNameWidth = Mathf.Max(ColName, availableInnerWidth - fixedW);
+            colNameWidth = Mathf.Min(ColNameMax, Mathf.Max(ColName, availableInnerWidth - fixedW));
         }
 
         private float ComputeTotalTableWidth(bool hasRelevant) =>
@@ -379,6 +410,7 @@ namespace TSA_WorldDomination
                 || cachedTypeFilter != pawnTypeFilter
                 || !string.Equals(cachedNameFilter, nameFilter, StringComparison.Ordinal)
                 || cachedStarFilter != starFilter
+                || cachedJoinedFilter != joinedFilter
                 || !string.Equals(cachedXenotypeFilter, xenotypeFilter, StringComparison.Ordinal)
                 || !string.Equals(cachedPsycastFilter, psycastFilter, StringComparison.Ordinal)
                 || cachedPrisonerCount != prisonerCount
@@ -392,6 +424,7 @@ namespace TSA_WorldDomination
             cachedTypeFilter = pawnTypeFilter;
             cachedNameFilter = nameFilter;
             cachedStarFilter = starFilter;
+            cachedJoinedFilter = joinedFilter;
             cachedXenotypeFilter = xenotypeFilter ?? "";
             cachedPsycastFilter = psycastFilter ?? "";
             cachedPrisonerCount = prisonerCount;
@@ -566,6 +599,7 @@ namespace TSA_WorldDomination
             string nameFilterLower,
             bool applyTypeFilter = true,
             bool applyStarFilter = true,
+            bool applyJoinedFilter = true,
             bool applyXenotypeFilter = true,
             bool applyPsycastFilter = true)
         {
@@ -586,6 +620,9 @@ namespace TSA_WorldDomination
                 if (starFilter == OutpostPawnStarFilter.NotStarred && row.isStarred)
                     return false;
             }
+            if (applyJoinedFilter && ColOn(PawnRosterColumnIds.New)
+                && !PlayerPawnRosterUtility.PassesJoinedFilter(row.daysSinceJoin, joinedFilter))
+                return false;
             if (applyXenotypeFilter
                 && ColOn(PawnRosterColumnIds.Xenotype)
                 && !xenotypeFilter.NullOrEmpty()
@@ -604,7 +641,8 @@ namespace TSA_WorldDomination
             bool applyTypeFilter,
             bool applyStarFilter,
             bool applyXenotypeFilter,
-            bool applyPsycastFilter = true)
+            bool applyPsycastFilter = true,
+            bool applyJoinedFilter = true)
         {
             var outpost = SelOutpost;
             if (outpost?.Occupants == null || consider == null) return;
@@ -617,7 +655,7 @@ namespace TSA_WorldDomination
             void tryAdd(CachedPawnRow row)
             {
                 if (row == null || row.isGroupHeader) return;
-                if (!PassesFilters(row, nameFilterLower, applyTypeFilter, applyStarFilter, applyXenotypeFilter, applyPsycastFilter))
+                if (!PassesFilters(row, nameFilterLower, applyTypeFilter, applyStarFilter, applyJoinedFilter, applyXenotypeFilter, applyPsycastFilter))
                     return;
                 if (traitFilter && (row.pawn == null || !PawnRosterTraitFilter.Matches(row.pawn))) return;
                 consider(row);
@@ -700,6 +738,18 @@ namespace TSA_WorldDomination
             return flags;
         }
 
+        private List<int> JoinDaysPopulationForFilterDialog()
+        {
+            var days = new List<int>();
+            ForEachFilterCountRow(
+                row => days.Add(row.daysSinceJoin),
+                applyTypeFilter: true,
+                applyStarFilter: true,
+                applyXenotypeFilter: true,
+                applyJoinedFilter: false);
+            return days;
+        }
+
         private List<string> XenotypePopulationForFilterDialog()
         {
             var keys = new List<string>();
@@ -738,16 +788,16 @@ namespace TSA_WorldDomination
                 sparseSkills = false
             };
             row.portraitKey = BuildPortraitCacheKey(p, v);
-            row.nameLabel = p.Name?.ToStringFull ?? p.Label ?? "—";
+            row.nameLabel = p.Name?.ToStringFull ?? p.Label ?? "?";
             row.isStarred = WorldComponent_PlayerPawnFavorites.Get()?.IsStarred(p.ThingID) == true;
-            row.constructionLabel = "—";
-            row.resistanceLabel = "—";
-            row.resistanceValue = -1f;
-            row.traitsDisplay = "—";
+            row.daysSinceJoin = PlayerPawnRosterUtility.GetDaysSinceJoin(p);
+            row.constructionLabel = "?";
+            ApplyResistanceNotApplicable(row);
+            row.traitsDisplay = "?";
             row.traitsTip = "";
-            row.xenotypeDisplay = "—";
+            row.xenotypeDisplay = "?";
             row.xenotypeTip = "";
-            row.psycastsDisplay = "—";
+            row.psycastsDisplay = "?";
             row.psycastsTip = "";
             if (p.RaceProps?.Humanlike == true)
             {
@@ -757,7 +807,7 @@ namespace TSA_WorldDomination
             }
             if (v != null)
             {
-                string ageLabel = "—";
+                string ageLabel = "?";
                 try
                 {
                     if (p.ageTracker != null)
@@ -767,7 +817,7 @@ namespace TSA_WorldDomination
                 {
                     ageLabel = v.biologicalAgeYears.ToString("F0");
                 }
-                row.ageLabel = ageLabel ?? "—";
+                row.ageLabel = ageLabel ?? "?";
                 row.shootingLabel = v.shooting.ToString();
                 row.meleeLabel = v.melee.ToString();
                 row.constructionLabel = v.construction.ToString();
@@ -809,9 +859,10 @@ namespace TSA_WorldDomination
                 prisonerCount = prisonerCount
             };
             row.portraitKey = BuildPortraitCacheKey(p, v);
-            row.nameLabel = p.Name?.ToStringFull ?? p.Label ?? "—";
+            row.nameLabel = p.Name?.ToStringFull ?? p.Label ?? "?";
             row.isStarred = WorldComponent_PlayerPawnFavorites.Get()?.IsStarred(p.ThingID) == true;
-            row.constructionLabel = "—";
+            row.daysSinceJoin = PlayerPawnRosterUtility.GetDaysSinceJoin(p);
+            row.constructionLabel = "?";
             row.resistanceValue = p.guest?.resistance ?? 0f;
             float daily = recruiting ? OutpostPrisonerResistanceScaling.GetDailyDrop(SelOutpost) : 0f;
             row.resistanceLabel = OutpostPrisonerResistanceScaling.FormatRateLabel(row.resistanceValue, daily);
@@ -821,7 +872,7 @@ namespace TSA_WorldDomination
             PawnRosterTraitFilter.FormatPsycasts(p, out row.psycastsDisplay, out row.psycastsTip);
             if (v != null)
             {
-                string ageLabel = "—";
+                string ageLabel = "?";
                 try
                 {
                     if (p.ageTracker != null)
@@ -831,7 +882,7 @@ namespace TSA_WorldDomination
                 {
                     ageLabel = v.biologicalAgeYears.ToString("F0");
                 }
-                row.ageLabel = ageLabel ?? "—";
+                row.ageLabel = ageLabel ?? "?";
                 row.shootingLabel = v.shooting.ToString();
                 row.meleeLabel = v.melee.ToString();
                 row.constructionLabel = v.construction.ToString();
@@ -857,30 +908,32 @@ namespace TSA_WorldDomination
 
         private static CachedPawnRow BuildStoredTransportRow(Pawn p)
         {
+            EnsureHeaderLabels();
             var cat = PlayerPawnRosterUtility.ClassifyPawn(p, PlayerPawnOutpostRole.StoredTransport);
-            return new CachedPawnRow
+            var row = new CachedPawnRow
             {
                 pawn = p,
                 rowKind = OutpostPawnRowKind.StoredTransport,
                 sortCategory = cat,
                 typeLabel = PlayerPawnRosterUtility.GetPawnTypeLabel(cat),
-                nameLabel = p.LabelCap ?? p.Label ?? "—",
+                nameLabel = p.LabelCap ?? p.Label ?? "?",
                 isStarred = WorldComponent_PlayerPawnFavorites.Get()?.IsStarred(p.ThingID) == true,
-                ageLabel = "—",
-                shootingLabel = "—",
-                meleeLabel = "—",
-                relevantSkillLabel = "—",
-                xpProgressLabel = "—",
-                constructionLabel = "—",
+                daysSinceJoin = PlayerPawnRosterUtility.GetDaysSinceJoin(p),
+                ageLabel = "?",
+                shootingLabel = "?",
+                meleeLabel = "?",
+                relevantSkillLabel = "?",
+                xpProgressLabel = "?",
+                constructionLabel = "?",
                 strengthLabel = WorldObject_WD_Outpost.GetStoredTransportCombatStrength(p).ToString("F0"),
                 dailyFoodLabel = "0",
-                resistanceLabel = "—",
-                resistanceValue = -1f,
-                traitsDisplay = "—",
+                traitsDisplay = "?",
                 traitsTip = "",
                 sparseSkills = true,
                 needsHealing = false
             };
+            ApplyResistanceNotApplicable(row);
+            return row;
         }
 
         private CachedPawnRow BuildMechanoidRow(Pawn p, bool hasRelevant)
@@ -894,17 +947,17 @@ namespace TSA_WorldDomination
                 rowKind = OutpostPawnRowKind.StoredMechanoid,
                 sortCategory = cat,
                 typeLabel = PlayerPawnRosterUtility.GetPawnTypeLabel(cat),
-                nameLabel = p.LabelCap ?? p.Label ?? "—",
+                nameLabel = p.LabelCap ?? p.Label ?? "?",
                 isStarred = WorldComponent_PlayerPawnFavorites.Get()?.IsStarred(p.ThingID) == true,
-                ageLabel = "—",
+                daysSinceJoin = PlayerPawnRosterUtility.GetDaysSinceJoin(p),
+                ageLabel = "?",
                 dailyFoodLabel = "0",
-                resistanceLabel = "—",
-                resistanceValue = -1f,
-                traitsDisplay = "—",
+                traitsDisplay = "?",
                 traitsTip = "",
                 sparseSkills = false,
                 needsHealing = false
             };
+            ApplyResistanceNotApplicable(row);
             if (v != null)
             {
                 row.shootingLabel = v.shooting.ToString();
@@ -920,45 +973,46 @@ namespace TSA_WorldDomination
                         if (sd != null) relVal += v.GetSkill(sd);
                     }
                     row.relevantSkillLabel = relVal.ToString("F0");
-                    row.xpProgressLabel = "—";
+                    row.xpProgressLabel = "?";
                 }
             }
             else
             {
-                row.shootingLabel = "—";
-                row.meleeLabel = "—";
-                row.constructionLabel = "—";
+                row.shootingLabel = "?";
+                row.meleeLabel = "?";
+                row.constructionLabel = "?";
                 row.strengthLabel = "0";
-                row.relevantSkillLabel = "—";
-                row.xpProgressLabel = "—";
+                row.relevantSkillLabel = "?";
+                row.xpProgressLabel = "?";
             }
             return row;
         }
 
         private static CachedPawnRow BuildShuttleRow(Building_PassengerShuttle shuttle)
         {
-            return new CachedPawnRow
+            EnsureHeaderLabels();
+            var row = new CachedPawnRow
             {
                 shuttle = shuttle,
                 rowKind = OutpostPawnRowKind.Shuttle,
                 sortCategory = PlayerPawnSortCategory.Vehicle,
                 typeLabel = PlayerPawnRosterUtility.GetPawnTypeLabel(PlayerPawnSortCategory.Vehicle),
-                nameLabel = shuttle.LabelCap ?? shuttle.Label ?? "—",
-                ageLabel = "—",
-                shootingLabel = "—",
-                meleeLabel = "—",
-                relevantSkillLabel = "—",
-                xpProgressLabel = "—",
-                constructionLabel = "—",
+                nameLabel = shuttle.LabelCap ?? shuttle.Label ?? "?",
+                ageLabel = "?",
+                shootingLabel = "?",
+                meleeLabel = "?",
+                relevantSkillLabel = "?",
+                xpProgressLabel = "?",
+                constructionLabel = "?",
                 strengthLabel = "0",
                 dailyFoodLabel = "0",
-                resistanceLabel = "—",
-                resistanceValue = -1f,
-                traitsDisplay = "—",
+                traitsDisplay = "?",
                 traitsTip = "",
                 sparseSkills = true,
                 needsHealing = false
             };
+            ApplyResistanceNotApplicable(row);
+            return row;
         }
 
         private void SortCachedRows(WorldObject_WD_Outpost outpost)
@@ -991,6 +1045,18 @@ namespace TSA_WorldDomination
                 cachedRows.Sort((a, b) =>
                 {
                     int cmp = (a.isStarred ? 1 : 0).CompareTo(b.isStarred ? 1 : 0);
+                    if (cmp == 0)
+                        cmp = string.Compare(a.nameLabel, b.nameLabel, StringComparison.OrdinalIgnoreCase);
+                    return sortAscending ? cmp : -cmp;
+                });
+                return;
+            }
+
+            if (sortColumn == OutpostPawnTableSortColumn.New)
+            {
+                cachedRows.Sort((a, b) =>
+                {
+                    int cmp = a.daysSinceJoin.CompareTo(b.daysSinceJoin);
                     if (cmp == 0)
                         cmp = string.Compare(a.nameLabel, b.nameLabel, StringComparison.OrdinalIgnoreCase);
                     return sortAscending ? cmp : -cmp;
@@ -1783,9 +1849,32 @@ namespace TSA_WorldDomination
                         }, StarPopulationForFilterDialog())),
                     () => ToggleSort(OutpostPawnTableSortColumn.Starred));
             }
+            if (ColOn(PawnRosterColumnIds.New))
+            {
+                PawnRosterHeaderFilter.DrawFilterableHeader(
+                    ref x, curY, ColNew, HeaderHeight,
+                    null,
+                    !useDefaultGrouping && sortColumn == OutpostPawnTableSortColumn.New,
+                    sortAscending,
+                    TextAnchor.MiddleCenter,
+                    joinedFilter != PawnRosterJoinedFilter.All,
+                    "TSA_WD_FilterByNew".Translate(),
+                    icon => PawnRosterHeaderFilter.OpenChoiceDropdown(
+                        icon,
+                        "TSA_WD_FilterByNew".Translate(),
+                        PawnRosterHeaderFilter.JoinedFilterChoices(joinedFilter, f =>
+                        {
+                            joinedFilter = f;
+                            lastCacheTick = -1;
+                        }, JoinDaysPopulationForFilterDialog()),
+                        width: 300f),
+                    () => ToggleSort(OutpostPawnTableSortColumn.New),
+                    PawnRosterHeaderFilter.JoinStampHeaderIcon,
+                    hdrNewTip);
+            }
             if (ColOn(PawnRosterColumnIds.Select))
                 DrawSelectHeader(ref x, curY);
-            if (ColOn(PawnRosterColumnIds.Reorder))
+            if (ShowReorderColumn())
                 DrawHeaderLabel(ref x, curY, ColReorder, "", true);
             if (ColOn(PawnRosterColumnIds.Resistance))
                 DrawSortableHeader(ref x, curY, ColResistance, hdrResistance, OutpostPawnTableSortColumn.Resistance, true);
@@ -1905,6 +1994,7 @@ namespace TSA_WorldDomination
             if (ColOn(PawnRosterColumnIds.Type)) x += ColPawnType;
             if (ColOn(PawnRosterColumnIds.Name)) x += colNameWidth;
             if (ColOn(PawnRosterColumnIds.Star)) x += ColStar;
+            if (ColOn(PawnRosterColumnIds.New)) x += ColNew;
             return x;
         }
 
@@ -2127,7 +2217,7 @@ namespace TSA_WorldDomination
         {
             Rect r = new Rect(x, curY, width, HeaderHeight);
             if (Mouse.IsOver(r)) Widgets.DrawHighlight(r);
-            string arrow = (!useDefaultGrouping && sortColumn == column) ? (sortAscending ? " ▲" : " ▼") : "";
+            string arrow = (!useDefaultGrouping && sortColumn == column) ? (sortAscending ? " ?" : " ?") : "";
             string[] lines = (label ?? "").Split('\n');
             if (lines.Length == 0) lines = new[] { "" };
             if (lines.Length == 1) lines = new[] { lines[0], "" };
@@ -2157,7 +2247,7 @@ namespace TSA_WorldDomination
         {
             Rect r = new Rect(x, curY, width, HeaderHeight);
             if (Mouse.IsOver(r)) Widgets.DrawHighlight(r);
-            string arrow = (!useDefaultGrouping && sortColumn == column) ? (sortAscending ? " ▲" : " ▼") : "";
+            string arrow = (!useDefaultGrouping && sortColumn == column) ? (sortAscending ? " ?" : " ?") : "";
             string fullText = (label ?? "") + arrow;
             if (Text.CalcSize(fullText).x > width - 2f)
                 fullText = (label ?? "").Truncate(width - 18f) + arrow;
@@ -2269,7 +2359,7 @@ namespace TSA_WorldDomination
                     if (ColOn(PawnRosterColumnIds.Type))
                     {
                         Text.Anchor = TextAnchor.MiddleCenter;
-                        Widgets.Label(new Rect(x, curY, ColPawnType, rowH), (row.typeLabel ?? "—").Truncate(ColPawnType - 4f));
+                        Widgets.Label(new Rect(x, curY, ColPawnType, rowH), (row.typeLabel ?? "?").Truncate(ColPawnType - 4f));
                         x += ColPawnType;
                     }
 
@@ -2277,7 +2367,7 @@ namespace TSA_WorldDomination
                     {
                         Rect cell = new Rect(x, curY, colNameWidth, rowH);
                         Text.Anchor = TextAnchor.MiddleLeft;
-                        Widgets.Label(cell, (row.nameLabel ?? "—").Truncate(colNameWidth - 4f));
+                        Widgets.Label(cell, (row.nameLabel ?? "?").Truncate(colNameWidth - 4f));
                         Text.Anchor = TextAnchor.UpperLeft;
                         if (Widgets.ButtonInvisible(cell))
                             OpenRowInfoCard(row);
@@ -2286,9 +2376,11 @@ namespace TSA_WorldDomination
 
                     if (ColOn(PawnRosterColumnIds.Star))
                         DrawRowStarCell(ref x, curY, row, rowH);
+                    if (ColOn(PawnRosterColumnIds.New))
+                        DrawRowNewCell(ref x, curY, row, rowH);
                     if (ColOn(PawnRosterColumnIds.Select))
                         DrawRowSelectCheckbox(ref x, curY, row, rowH);
-                    if (ColOn(PawnRosterColumnIds.Reorder))
+                    if (ShowReorderColumn())
                         DrawPrisonerQueueButtons(ref x, curY, row, rowH);
 
                     Text.Anchor = TextAnchor.MiddleCenter;
@@ -2296,7 +2388,7 @@ namespace TSA_WorldDomination
                     if (ColOn(PawnRosterColumnIds.Resistance))
                     {
                         Rect cell = new Rect(x, curY, ColResistance, rowH);
-                        Widgets.Label(cell, (row.resistanceLabel ?? "—").Truncate(ColResistance - 2f));
+                        Widgets.Label(cell, (row.resistanceLabel ?? "?").Truncate(ColResistance - 2f));
                         if (!string.IsNullOrEmpty(row.resistanceTip))
                             TooltipHandler.TipRegion(cell, row.resistanceTip);
                         Text.Font = GameFont.Tiny;
@@ -2330,7 +2422,7 @@ namespace TSA_WorldDomination
                     if (ColOn(PawnRosterColumnIds.Age))
                     {
                         Text.Anchor = TextAnchor.MiddleCenter;
-                        Widgets.Label(new Rect(x, curY, ColAge, rowH), (row.ageLabel ?? "—").Truncate(ColAge - 2f));
+                        Widgets.Label(new Rect(x, curY, ColAge, rowH), (row.ageLabel ?? "?").Truncate(ColAge - 2f));
                         x += ColAge;
                     }
 
@@ -2345,14 +2437,14 @@ namespace TSA_WorldDomination
 
                     if (ColOn(PawnRosterColumnIds.Strength))
                     {
-                        Widgets.Label(new Rect(x, curY, ColStrength, rowH), row.strengthLabel ?? "—");
+                        Widgets.Label(new Rect(x, curY, ColStrength, rowH), row.strengthLabel ?? "?");
                         x += ColStrength;
                     }
 
                     if (cachedRelevantDefs != null && cachedRelevantDefs.Count > 0 && SelOutpost?.def != null
                         && ColOn(PawnRosterColumnIds.Relevant))
                     {
-                        Widgets.Label(new Rect(x, curY, ColSkill, rowH), row.relevantSkillLabel ?? "—");
+                        Widgets.Label(new Rect(x, curY, ColSkill, rowH), row.relevantSkillLabel ?? "?");
                         x += ColSkill;
                         Rect cell = new Rect(x, curY, ColRelevantXp, rowH);
                         GameFont prev = Text.Font;
@@ -2364,13 +2456,13 @@ namespace TSA_WorldDomination
 
                     if (ColOn(PawnRosterColumnIds.Construction))
                     {
-                        Widgets.Label(new Rect(x, curY, ColConstruction, rowH), row.constructionLabel ?? "—");
+                        Widgets.Label(new Rect(x, curY, ColConstruction, rowH), row.constructionLabel ?? "?");
                         x += ColConstruction;
                     }
 
                     if (ColOn(PawnRosterColumnIds.DailyFood))
                     {
-                        Widgets.Label(new Rect(x, curY, ColDailyFood, rowH), row.dailyFoodLabel ?? "—");
+                        Widgets.Label(new Rect(x, curY, ColDailyFood, rowH), row.dailyFoodLabel ?? "?");
                         x += ColDailyFood;
                     }
                     if (ColOn(PawnRosterColumnIds.Hurt))
@@ -2394,7 +2486,7 @@ namespace TSA_WorldDomination
                             int level = (row.summary != null && !row.sparseSkills)
                                 ? Mathf.RoundToInt(row.summary.GetSkill(skills[si]))
                                 : 0;
-                            string fallback = row.sparseSkills || row.summary == null ? "—" : level.ToString();
+                            string fallback = row.sparseSkills || row.summary == null ? "?" : level.ToString();
                             DrawOutpostSkillCell(ref x, curY, rowH, row, skills[si], fallback, best);
                         }
                     }
@@ -2440,7 +2532,7 @@ namespace TSA_WorldDomination
             else
             {
                 Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(cell, fallbackLabel ?? "—");
+                Widgets.Label(cell, fallbackLabel ?? "?");
             }
             x += ColSkill;
         }
@@ -2475,12 +2567,12 @@ namespace TSA_WorldDomination
             if (canStar)
             {
                 GUI.color = row.isStarred ? new Color(1f, 0.85f, 0.2f) : new Color(0.55f, 0.55f, 0.55f, 0.7f);
-                Widgets.Label(starCell, row.isStarred ? "★" : "☆");
+                Widgets.Label(starCell, row.isStarred ? "\u2605" : "\u2606");
             }
             else
             {
                 GUI.color = new Color(0.4f, 0.4f, 0.4f, 0.35f);
-                Widgets.Label(starCell, "☆");
+                Widgets.Label(starCell, "\u2606");
             }
             GUI.color = Color.white;
             Text.Font = GameFont.Tiny;
@@ -2493,6 +2585,22 @@ namespace TSA_WorldDomination
                 lastCacheTick = -1;
             }
             x += ColStar;
+            Text.Anchor = TextAnchor.UpperLeft;
+        }
+
+        private void DrawRowNewCell(ref float x, float curY, CachedPawnRow row, float rowHeight)
+        {
+            Rect cell = new Rect(x, curY, ColNew, rowHeight);
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Text.Font = GameFont.Tiny;
+            if (row.daysSinceJoin >= 0)
+            {
+                if (PlayerPawnRosterUtility.IsJoinStampRecent(row.daysSinceJoin))
+                    GUI.color = new Color(0.45f, 0.85f, 0.55f);
+                Widgets.Label(cell, row.daysSinceJoin.ToString());
+                GUI.color = Color.white;
+            }
+            x += ColNew;
             Text.Anchor = TextAnchor.UpperLeft;
         }
 

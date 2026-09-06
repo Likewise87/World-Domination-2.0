@@ -49,9 +49,14 @@ namespace TSA_WorldDomination
                 // world object (e.g. a mortar shell aimed at a target sitting on the firing tile). For mortars,
                 // resolve arrival so the strike applies and the shell is destroyed instead of getting stuck.
                 // Decontamination uses the same rule for NPC home-tile scrubs.
+                // DesperationRally / Raid: same-tile start must run ArrivalAction (host wait / merge / assault)
+                // or the traveler sits forever without converting.
                 if (skipLaunchTravelCache
                     || UsesBallisticWorldFlight(traveler)
-                    || traveler.mission == TravelerMission.Decontamination)
+                    || traveler.mission == TravelerMission.Decontamination
+                    || traveler.mission == TravelerMission.DesperationRally
+                    || traveler.mission == TravelerMission.TurtleConsolidate
+                    || WorldObject_Traveler.IsRaidMission(traveler.mission))
                     HandleArrivedOnDestTile();
                 else
                     StopDead();
@@ -367,7 +372,20 @@ namespace TSA_WorldDomination
 
         private void CancelMission(string reason)
         {
-            TravelerEndpointUtility.RefundTravelerStrength(traveler, 1f);
+            if (traveler.mission == TravelerMission.TurtleConsolidate)
+            {
+                // Deposit into the live hub when possible; only refound when the hub is gone.
+                WorldActions_Turtle.TryAbortTurtleTraveler(traveler);
+            }
+            else if (traveler.packUpRequiresRefound || traveler.mission == TravelerMission.MassRelocation
+                || traveler.mission == TravelerMission.DesperationRally)
+            {
+                WorldActions_PackUp.TryRefoundFromTraveler(traveler);
+            }
+            else
+            {
+                TravelerEndpointUtility.RefundTravelerStrength(traveler, 1f);
+            }
             if (traveler.mission == TravelerMission.Raid || traveler.mission == TravelerMission.RaidDropPod || traveler.mission == TravelerMission.RaidGravship)
                 Raid_Simulated.RefundAlliedRaidOrderGoodwill(traveler);
             if (traveler is WorldObject_Traveler_SettlementBuy buyAbort)
@@ -409,6 +427,13 @@ namespace TSA_WorldDomination
                         reason = "TSA_WD_Log_RaidCancelled".Translate(traveler.Label); break;
                     case TravelerMission.DebugRaidTransit: reason = "TSA_WD_Log_DebugRaidCancelled".Translate(traveler.Label); break;
                     case TravelerMission.Expansion: reason = "TSA_WD_Log_ExpansionCancelled".Translate(traveler.Label); break;
+                    case TravelerMission.MassRelocation: reason = "TSA_WD_Log_MassRelocationCancelled".Translate(traveler.Label); break;
+                    case TravelerMission.DesperationRally:
+                        reason = (traveler.isDesperationRaid
+                            ? "TSA_WD_Log_DesperationRallyCancelled"
+                            : "TSA_WD_Log_InvasionRallyCancelled").Translate(traveler.Label);
+                        break;
+                    case TravelerMission.TurtleConsolidate: reason = "TSA_WD_Log_TurtleCancelled".Translate(traveler.Label); break;
                     case TravelerMission.RoadBuilding: reason = "TSA_WD_Log_RoadCancelled".Translate(traveler.Label); break;
                     default: reason = "TSA_WD_Log_MissionAborted_TargetInvalid".Translate(); break;
                 }

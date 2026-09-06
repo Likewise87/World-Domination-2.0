@@ -41,6 +41,7 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetMiningBaselines(),
                 () => { baselinesExpanded = true; },
                 () => { baselinesExpanded = false; });
+            SettingsUI.DrawSettingsSearchBar(l);
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_MiningBaseline_Header".Translate(), ref baselinesExpanded, SettingsUI.SectionHeaderColor))
             {
             l.Label(tooltip);

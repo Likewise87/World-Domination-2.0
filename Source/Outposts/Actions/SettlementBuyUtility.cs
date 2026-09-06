@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -296,21 +297,32 @@ namespace TSA_WorldDomination
 
         public static ThingDefCountClass MakeStockRowFromThing(Thing content, int count)
         {
+            if (content?.def == null) return null;
             var row = new ThingDefCountClass(content.def, count)
             {
                 stuff = ResolveStuffForPayment(content.def, content.Stuff)
             };
             if (content.TryGetQuality(out QualityCategory q))
                 row.quality = q;
+
+            bool worn = content is Apparel apparel && apparel.WornByCorpse;
+            bool bio = false;
+            var biocodable = content.TryGetComp<CompBiocodable>();
+            if (biocodable != null)
+                bio = biocodable.Biocoded;
+            int hp = content.def.useHitPoints ? content.HitPoints : -1;
+            if (worn || bio || hp >= 0)
+            {
+                WdStockExtras extras = WdStockExtrasTable.GetOrCreate(row);
+                extras.wornByCorpse = worn;
+                extras.biocoded = bio;
+                extras.hitPoints = hp;
+            }
             return row;
         }
 
         public static ThingDefCountClass CloneStockRow(ThingDefCountClass src, int count) =>
-            new ThingDefCountClass(src.thingDef, count)
-            {
-                stuff = src.stuff,
-                quality = src.quality
-            };
+            CompOutpostWarehouse.CloneStockRowPreservingExtras(src, count);
 
         private static void MergeStockRow(List<ThingDefCountClass> pool, ThingDefCountClass add)
         {
@@ -335,7 +347,8 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Unit payment value including stuff and quality, multiplied by vanilla
+        /// Unit payment value including stuff, quality, and instance MarketValue state
+        /// (taint / HP / biocode), multiplied by vanilla
         /// <see cref="StatDefOf.SellPriceFactor"/> (weapons are typically 0.20, same as trader sell price).
         /// </summary>
         public static float UnitMarketValue(ThingDefCountClass row)
@@ -405,7 +418,38 @@ namespace TSA_WorldDomination
             var cq = t.TryGetComp<CompQuality>();
             if (cq != null)
                 cq.SetQuality(row.quality, ArtGenerationContext.Outsider);
+
+            if (WdStockExtrasTable.TryGet(row, out WdStockExtras extras))
+                ApplyPaymentExtrasToThing(t, extras);
             return t;
+        }
+
+        private static void ApplyPaymentExtrasToThing(Thing t, WdStockExtras extras)
+        {
+            if (t == null || extras == null) return;
+
+            if (t is Apparel apparel && extras.wornByCorpse)
+                apparel.WornByCorpse = true;
+
+            if (extras.hitPoints >= 0 && t.def.useHitPoints)
+            {
+                int max = t.MaxHitPoints;
+                if (max < 1) max = 1;
+                t.HitPoints = Mathf.Clamp(extras.hitPoints, 1, max);
+            }
+
+            if (extras.biocoded)
+                TrySetBiocoded(t, true);
+        }
+
+        private static void TrySetBiocoded(Thing t, bool biocoded)
+        {
+            var comp = t?.TryGetComp<CompBiocodable>();
+            if (comp == null) return;
+            // CompBiocodable.CodeFor requires a pawn; MarketValue only checks the biocoded flag.
+            var field = AccessTools.Field(typeof(CompBiocodable), "biocoded");
+            if (field != null)
+                field.SetValue(comp, biocoded);
         }
 
         public static string FormatStockLabel(ThingDefCountClass entry)
@@ -420,6 +464,21 @@ namespace TSA_WorldDomination
             }
             if (DefHasQualityComp(entry.thingDef))
                 label = label + " (" + entry.quality.GetLabel() + ")";
+
+            if (WdStockExtrasTable.TryGet(entry, out WdStockExtras extras))
+            {
+                if (extras.wornByCorpse)
+                    label = label + " (" + "WornByCorpseChar".Translate() + ")";
+                if (extras.biocoded)
+                    label = label + " (" + "BiocodedCodedForSomeoneElse".Translate() + ")";
+                if (extras.hitPoints >= 0 && entry.thingDef.useHitPoints)
+                {
+                    int maxHp = Mathf.RoundToInt(entry.thingDef.GetStatValueAbstract(StatDefOf.MaxHitPoints, entry.stuff));
+                    if (maxHp < 1) maxHp = 1;
+                    if (extras.hitPoints < maxHp)
+                        label = label + " (" + extras.hitPoints.ToString() + "/" + maxHp.ToString() + ")";
+                }
+            }
             return label;
         }
 
@@ -540,6 +599,23 @@ namespace TSA_WorldDomination
             bool haveQ = content.TryGetQuality(out QualityCategory q);
             if (wantQ != haveQ) return false;
             if (wantQ && q != match.quality) return false;
+
+            bool wantWorn = WdStockExtrasTable.GetWornByCorpse(match);
+            bool haveWorn = content is Apparel apparel && apparel.WornByCorpse;
+            if (wantWorn != haveWorn) return false;
+
+            bool wantBio = WdStockExtrasTable.GetBiocoded(match);
+            var haveBioComp = content.TryGetComp<CompBiocodable>();
+            bool haveBio = haveBioComp != null && haveBioComp.Biocoded;
+            if (wantBio != haveBio) return false;
+
+            int wantHp = WdStockExtrasTable.GetHitPoints(match);
+            if (wantHp >= 0 && content.def.useHitPoints)
+            {
+                if (content.HitPoints != wantHp)
+                    return false;
+            }
+
             return true;
         }
 

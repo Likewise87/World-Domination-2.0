@@ -44,6 +44,26 @@
         <countMin>2</countMin>
         <countMax>4</countMax>
       </li>
+      <li>
+        <settlementLayout>TSA_Generic_T1_Vanguard</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Generic_T2_Vanguard</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Generic_T3_Vanguard</settlementLayout>
+        <countMin>1</countMin>
+        <countMax>3</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Generic_T4_Vanguard</settlementLayout>
+        <countMin>2</countMin>
+        <countMax>4</countMax>
+      </li>
 
       <li>
         <settlementLayout>TSA_Tribal_T1_Farming</settlementLayout>
@@ -77,6 +97,26 @@
       </li>
       <li>
         <settlementLayout>TSA_Tribal_T4_Citadel</settlementLayout>
+        <countMin>1</countMin>
+        <countMax>3</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Tribal_T1_Vanguard</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Tribal_T2_Vanguard</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Tribal_T3_Vanguard</settlementLayout>
+        <countMin>1</countMin>
+        <countMax>2</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Tribal_T4_Vanguard</settlementLayout>
         <countMin>1</countMin>
         <countMax>3</countMax>
       </li>

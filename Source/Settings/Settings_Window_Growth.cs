@@ -8,6 +8,7 @@ namespace TSA_WorldDomination
     {
         private Vector2 scrollPosition;
         private readonly string windowTitle;
+        private bool actionEconomyExpanded = true;
         private bool growthExpanded = true;
         private bool expansionExpanded;
         private bool defensiveExpanded;
@@ -28,7 +29,7 @@ namespace TSA_WorldDomination
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
             float contentWidth = contentRect.width - 24f;
-            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2400f);
+            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2800f);
 
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
 
@@ -37,10 +38,59 @@ namespace TSA_WorldDomination
             var s = WorldDominationMod.settings;
             bool advanced = s.showAdvancedSettings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetGrowth(),
-                () => { growthExpanded = expansionExpanded = defensiveExpanded = incidentsExpanded = true; },
-                () => { growthExpanded = expansionExpanded = defensiveExpanded = incidentsExpanded = false; });
+                () => { actionEconomyExpanded = growthExpanded = expansionExpanded = defensiveExpanded = incidentsExpanded = true; },
+                () => { actionEconomyExpanded = growthExpanded = expansionExpanded = defensiveExpanded = incidentsExpanded = false; });
+            SettingsUI.DrawSettingsSearchBar(l);
 
-            // ================= SECTION 1: GROWTH (core) =================
+            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Growth_HeaderActionEconomy".Translate(), ref actionEconomyExpanded, SettingsUI.SectionHeaderColor))
+            {
+                float[] tierVals = { s.tier1Share, s.tier2Share, s.tier3Share, s.tier4Share };
+                string[] tierLabels = {
+                    "TSA_WD_Tier1".Translate().ToString(),
+                    "TSA_WD_Tier2".Translate().ToString(),
+                    "TSA_WD_Tier3".Translate().ToString(),
+                    "TSA_WD_Tier4".Translate().ToString()
+                };
+                string[] tierTips = {
+                    "TSA_WD_Daily_Tier1Tip".Translate().ToString(),
+                    "TSA_WD_Daily_Tier2Tip".Translate().ToString(),
+                    "TSA_WD_Daily_Tier3Tip".Translate().ToString(),
+                    "TSA_WD_Daily_Tier4Tip".Translate().ToString()
+                };
+
+                SettingsUI.MultiColumnSlider(l, tierLabels, tierVals, new Vector2(0.05f, 2.5f), tierTips, 0.01f, SliderFormat.Fixed2, 38f,
+                    new[] { WorldDominationSettings.DefTier1Share, WorldDominationSettings.DefTier2Share, WorldDominationSettings.DefTier3Share, WorldDominationSettings.DefTier4Share });
+
+                s.tier1Share = tierVals[0];
+                s.tier2Share = tierVals[1];
+                s.tier3Share = tierVals[2];
+                s.tier4Share = tierVals[3];
+
+                l.Gap(6f);
+                SettingsUI.DrawHeader(l, "TSA_WD_Daily_HeaderActionCaps".Translate());
+                float[] capVals = { s.tier1MaxActions, s.tier2MaxActions, s.tier3MaxActions, s.tier4MaxActions };
+                string[] capLabels = {
+                    "TSA_WD_CapT1".Translate().ToString(),
+                    "TSA_WD_CapT2".Translate().ToString(),
+                    "TSA_WD_CapT3".Translate().ToString(),
+                    "TSA_WD_CapT4".Translate().ToString()
+                };
+                string[] capTips = {
+                    "TSA_WD_Daily_CapTip".Translate().ToString(),
+                    "TSA_WD_Daily_CapTip".Translate().ToString(),
+                    "TSA_WD_Daily_CapTip".Translate().ToString(),
+                    "TSA_WD_Daily_CapTip".Translate().ToString()
+                };
+
+                SettingsUI.MultiColumnSlider(l, capLabels, capVals, new Vector2(1f, 5f), capTips, 1f, SliderFormat.Fixed0, 38f,
+                    new float[] { WorldDominationSettings.DefCapT1, WorldDominationSettings.DefCapT2, WorldDominationSettings.DefCapT3, WorldDominationSettings.DefCapT4 });
+
+                s.tier1MaxActions = (int)capVals[0];
+                s.tier2MaxActions = (int)capVals[1];
+                s.tier3MaxActions = (int)capVals[2];
+                s.tier4MaxActions = (int)capVals[3];
+            }
+
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Growth_HeaderGrowth".Translate(), ref growthExpanded, SettingsUI.SectionHeaderColor))
             {
 
@@ -74,7 +124,6 @@ namespace TSA_WorldDomination
             s.passiveGrowthT3 = growthVals[2];
             s.passiveGrowthT4 = growthVals[3];
             }
-            // ================= SECTION: EXPANSION & LOCAL DENSITY =================
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Growth_HeaderExpansion".Translate(), ref expansionExpanded, SettingsUI.SectionHeaderColor))
             {
 
@@ -119,7 +168,6 @@ namespace TSA_WorldDomination
 
             if (advanced)
             {
-            // ================= SECTION: INCIDENTS (advanced) =================
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Growth_HeaderIncidents".Translate(), ref incidentsExpanded, SettingsUI.SectionHeaderColor))
             {
 

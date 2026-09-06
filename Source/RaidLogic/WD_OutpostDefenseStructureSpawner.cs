@@ -110,6 +110,10 @@ namespace TSA_WorldDomination
             if (hasTurrets)
                 SpawnTurretEmplacements(map, center, northSouthGates, wallTier > 0);
 
+            // Future OutpostUpgradeDef (e.g. MgNests) can call TrySpawnMgEmplacements with count > 0.
+            // Count stays 0 until that upgrade ships — MG slots must be disjoint from AutoTurrets gate-guards.
+            TrySpawnMgEmplacements(map, center, northSouthGates, wallTier > 0, count: 0);
+
             if (wallTier >= 2)
                 SpawnTankTrapsScatter(map, center);
         }
@@ -658,6 +662,21 @@ namespace TSA_WorldDomination
                     continue;
                 SpawnTurretEmplacement(map, cell, center, turretDef, turretStuff, sandbagDef, sandbagStuff);
             }
+        }
+
+        /// <summary>
+        /// Inside-wall MG / pool-turret pads at <see cref="TurretRingRadius"/> (same ring geometry as auto-turrets).
+        /// Do not enable count &gt; 0 by reusing AutoTurrets gate-guard cells — partition slots first or they stack/overwrite.
+        /// Hook for future <c>OutpostUpgradeDef</c>; callers currently pass 0.
+        /// </summary>
+        public static void TrySpawnMgEmplacements(Map map, IntVec3 center, bool northSouthGates, bool hasWalls, int count)
+        {
+            if (map == null || count <= 0) return;
+
+            // Slot partition vs SpawnTurretEmplacements is required before enabling this path.
+            // Intentionally empty until an outpost upgrade supplies a disjoint slot set + pool level.
+            WDVerbose.MsgNoTick(
+                $"Outpost MG emplacements skipped count={count} reason=not-enabled-partition-required hasWalls={hasWalls} northSouthGates={northSouthGates} center={center}");
         }
 
         /// <summary>Two turrets per gate plus any extras on random corners.</summary>

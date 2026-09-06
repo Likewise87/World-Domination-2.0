@@ -253,7 +253,7 @@ namespace TSA_WorldDomination
                         h = h * 397 + BucketFloat(settings.npcAntiAirHitChance51To75PctRange, 100f);
                         h = h * 397 + BucketFloat(settings.npcAntiAirHitChance76To100PctRange, 100f);
                         h = h * 397 + BucketFloat(settings.npcAntiAirVsMortarHitChance, 100f);
-                        h = h * 397 + (settings.experimentalSettlementAmbush ? 1 : 0);
+                        h = h * 397 + (settings.gateThreatAmbush != WdThreatStageGate.Never ? 1 : 0);
                         h = h * 397 + (int)settings.settlementAmbushMinTier;
                     }
                 }

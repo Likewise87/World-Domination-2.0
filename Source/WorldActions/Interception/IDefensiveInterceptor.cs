@@ -96,6 +96,10 @@ namespace TSA_WorldDomination
                 case TravelerMission.DebugRaidTransit: return MissionMask.Raider;
                 case TravelerMission.RapidResponseIntercept: return MissionMask.None;
                 case TravelerMission.Expansion:    return MissionMask.Expansion;
+                case TravelerMission.MassRelocation:
+                case TravelerMission.DesperationRally:
+                case TravelerMission.TurtleConsolidate:
+                    return MissionMask.Expansion;
                 case TravelerMission.RoadBuilding: return MissionMask.Road;
                 case TravelerMission.RoadBlock:    return MissionMask.Road;
                 case TravelerMission.SpikeTrap:    return MissionMask.Road;

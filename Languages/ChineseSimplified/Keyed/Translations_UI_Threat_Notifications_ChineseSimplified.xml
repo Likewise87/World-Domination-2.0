@@ -165,6 +165,10 @@
   <TSA_WD_Notify_OutpostPollutionDamage>前哨站受到污染伤害时通知</TSA_WD_Notify_OutpostPollutionDamage>
   <TSA_WD_Notify_OutpostPollutionDamageTooltip>当你的 WD 前哨站因附近平均污染损失力量时显示消息（有伤害时每天一次）；若污染摧毁前哨则发送信件。开发日志总会记录这些事件。</TSA_WD_Notify_OutpostPollutionDamageTooltip>
   <TSA_WD_Notify_HeaderNearby>附近世界事件</TSA_WD_Notify_HeaderNearby>
+  <TSA_WD_Notify_HeaderWorldThreats>世界威胁行动</TSA_WD_Notify_HeaderWorldThreats>
+  <TSA_WD_Notify_HeaderWorldThreatsTip>绝望突袭、龟缩集结与强势派系开战的信件。时机与启用门在“战斗难度”中设置。</TSA_WD_Notify_HeaderWorldThreatsTip>
+  <TSA_WD_Notify_DesperationRaid>绝望突袭发动时通知</TSA_WD_Notify_DesperationRaid>
+  <TSA_WD_Notify_DesperationRaidTooltip>弱小派系在损失后打包附近定居点并进军时发送信件。</TSA_WD_Notify_DesperationRaidTooltip>
   <TSA_WD_Notify_HeaderOutpostsRaids>你的前哨站与袭击</TSA_WD_Notify_HeaderOutpostsRaids>
   <TSA_WD_Notify_HeaderAlerts>右侧警报</TSA_WD_Notify_HeaderAlerts>
   <TSA_WD_Notify_NotificationRadius>通知半径（格）</TSA_WD_Notify_NotificationRadius>
@@ -180,6 +184,8 @@
   <TSA_WD_Notify_SettlementRaidedTooltip>当重大或轻微世界事件在通知半径内彻底摧毁一个定居点时发送信件。不适用于 NPC 袭击。</TSA_WD_Notify_SettlementRaidedTooltip>
   <TSA_WD_Notify_SettlementRazed>附近有定居点被夷平时通知</TSA_WD_Notify_SettlementRazed>
   <TSA_WD_Notify_SettlementRazedTooltip>当 NPC 袭击获胜并在此过程中摧毁定居点（格子变空）且在通知半径内时发送信件。</TSA_WD_Notify_SettlementRazedTooltip>
+  <TSA_WD_Notify_Turtle>附近龟缩集结</TSA_WD_Notify_Turtle>
+  <TSA_WD_Notify_TurtleTooltip>当附近派系将其外围定居点收缩至枢纽并设防，且处于通知半径内时发送信件。</TSA_WD_Notify_TurtleTooltip>
   <TSA_WD_Notify_ThreatLevel>显示世界威胁警报（右侧）</TSA_WD_Notify_ThreatLevel>
   <TSA_WD_Notify_ThreatLevelTooltip>在右侧显示静默警报，同时给出附近与远处落地袭击点数（叙事者钳制后）。点击会跳转到附近范围内最强的敌对定居点（若有）。</TSA_WD_Notify_ThreatLevelTooltip>
   <TSA_WD_Notify_CriticalFood>显示前哨危急食物警报（右侧）</TSA_WD_Notify_CriticalFood>
@@ -272,9 +278,9 @@
   <TSA_WD_Difficulty_GoodwillDrainInterval>好感流失间隔（天）</TSA_WD_Difficulty_GoodwillDrainInterval>
   <TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>中期游戏或后期游戏激活时两次好感流失脉冲之间的天数。</TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>
   <TSA_WD_MidGame_Header>中期游戏</TSA_WD_MidGame_Header>
-  <TSA_WD_MidGame_ShareThreshold>全球实力占比激活阈值</TSA_WD_MidGame_ShareThreshold>
+  <TSA_WD_MidGame_ShareThreshold>中期难度的玩家战力占比</TSA_WD_MidGame_ShareThreshold>
   <TSA_WD_MidGame_ShareThresholdTooltip>当你的前哨总实力达到全球总实力的此比例时激活中期游戏。</TSA_WD_MidGame_ShareThresholdTooltip>
-  <TSA_WD_MidGame_OutpostStrengthThreshold>前哨实力激活阈值</TSA_WD_MidGame_OutpostStrengthThreshold>
+  <TSA_WD_MidGame_OutpostStrengthThreshold>中期难度的玩家战力点数</TSA_WD_MidGame_OutpostStrengthThreshold>
   <TSA_WD_MidGame_OutpostStrengthThresholdTooltip>当你的前哨总实力达到此绝对数值时激活中期游戏，与全球占比无关。</TSA_WD_MidGame_OutpostStrengthThresholdTooltip>
   <TSA_WD_MidGame_RaidBias>玩家袭击偏向</TSA_WD_MidGame_RaidBias>
   <TSA_WD_MidGame_RaidBiasTooltip>中期游戏激活时,已能打到玩家目标的敌对袭击,在同一距离带内会按此比例更偏向你的前哨/殖民地。</TSA_WD_MidGame_RaidBiasTooltip>
@@ -349,6 +355,8 @@
   <TSA_WD_Prisoners_Title>囚犯</TSA_WD_Prisoners_Title>
   <TSA_WD_Prisoners_ColInteraction>互动</TSA_WD_Prisoners_ColInteraction>
   <TSA_WD_Prisoners_ColResistance>抵抗</TSA_WD_Prisoners_ColResistance>
+  <TSA_WD_PawnRoster_ResistanceNA>不适用</TSA_WD_PawnRoster_ResistanceNA>
+  <TSA_WD_PawnRoster_ResistanceNATip>仅适用于囚犯。</TSA_WD_PawnRoster_ResistanceNATip>
   <TSA_WD_Prisoners_ColDestination>目的地</TSA_WD_Prisoners_ColDestination>
   <TSA_WD_Prisoners_NoDestination>招募后该角色留在殖民地。\n点击更改</TSA_WD_Prisoners_NoDestination>
   <TSA_WD_Prisoners_DestinationUnset>无目的地</TSA_WD_Prisoners_DestinationUnset>
@@ -471,6 +479,7 @@
   <TSA_WD_FilterByLocationName>按位置名称筛选</TSA_WD_FilterByLocationName>
   <TSA_WD_FilterByLocationType>按位置类型筛选</TSA_WD_FilterByLocationType>
   <TSA_WD_FilterByStar>按星标筛选</TSA_WD_FilterByStar>
+  <TSA_WD_FilterByNew>按入队印记筛选</TSA_WD_FilterByNew>
   <TSA_WD_FilterBySource>按来源筛选</TSA_WD_FilterBySource>
   <TSA_WD_FilterByXenotype>按异种筛选</TSA_WD_FilterByXenotype>
   <TSA_WD_Filter_AllXenotypes>全部异种</TSA_WD_Filter_AllXenotypes>
@@ -485,6 +494,21 @@
   <TSA_WD_AllPlayerPawns_TempFightDefault>战斗地图</TSA_WD_AllPlayerPawns_TempFightDefault>
   <TSA_WD_AllPlayerPawns_JumpTip>跳转到 {0}</TSA_WD_AllPlayerPawns_JumpTip>
   <TSA_WD_AllPlayerPawns_ColStar>★</TSA_WD_AllPlayerPawns_ColStar>
+  <TSA_WD_PawnRoster_ColNew>入队印记</TSA_WD_PawnRoster_ColNew>
+  <TSA_WD_PawnRoster_ColNewTip>自该角色首次加入你的派系起经过的游戏日数（招募、转化、流浪者、新生儿等）。在前哨也会持续累计。在殖民地与前哨之间调动不会重置。旧存档中印记可能根据殖民者服役时间估算。</TSA_WD_PawnRoster_ColNewTip>
+  <TSA_WD_PawnRoster_Filter_JoinLt5>入队印记不足 5 日</TSA_WD_PawnRoster_Filter_JoinLt5>
+  <TSA_WD_PawnRoster_Filter_JoinLt15>入队印记不足 15 日</TSA_WD_PawnRoster_Filter_JoinLt15>
+  <TSA_WD_PawnRoster_Filter_JoinLt30>入队印记不足 30 日</TSA_WD_PawnRoster_Filter_JoinLt30>
+  <TSA_WD_PawnRoster_Filter_JoinGte5>入队印记 5 日及以上</TSA_WD_PawnRoster_Filter_JoinGte5>
+  <TSA_WD_PawnRoster_Filter_JoinGte15>入队印记 15 日及以上</TSA_WD_PawnRoster_Filter_JoinGte15>
+  <TSA_WD_PawnRoster_Filter_JoinGte30>入队印记 30 日及以上</TSA_WD_PawnRoster_Filter_JoinGte30>
+  <TSA_WD_JoinFilterTip_All>选择当前列表中的全部角色。</TSA_WD_JoinFilterTip_All>
+  <TSA_WD_JoinFilterTip_Lt5>选择入队印记不足 5 个游戏日的角色。</TSA_WD_JoinFilterTip_Lt5>
+  <TSA_WD_JoinFilterTip_Lt15>选择入队印记不足 15 个游戏日的角色。</TSA_WD_JoinFilterTip_Lt15>
+  <TSA_WD_JoinFilterTip_Lt30>选择入队印记不足 30 个游戏日的角色。</TSA_WD_JoinFilterTip_Lt30>
+  <TSA_WD_JoinFilterTip_Gte5>选择入队印记不少于 5 个游戏日的角色。</TSA_WD_JoinFilterTip_Gte5>
+  <TSA_WD_JoinFilterTip_Gte15>选择入队印记不少于 15 个游戏日的角色。</TSA_WD_JoinFilterTip_Gte15>
+  <TSA_WD_JoinFilterTip_Gte30>选择入队印记不少于 30 个游戏日的角色。</TSA_WD_JoinFilterTip_Gte30>
   <TSA_WD_AllPlayerPawns_StarTip>标记你想留住的主力殖民者。星标随存档保存。星标不会阻止调动；批量调动时用筛选隐藏他们即可。</TSA_WD_AllPlayerPawns_StarTip>
   <TSA_WD_AllPlayerPawns_Filter_AllAnywhere>全部（任意位置）</TSA_WD_AllPlayerPawns_Filter_AllAnywhere>
   <TSA_WD_AllPlayerPawns_Filter_StarredAnywhere>已星标</TSA_WD_AllPlayerPawns_Filter_StarredAnywhere>

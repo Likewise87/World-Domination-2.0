@@ -72,12 +72,16 @@ namespace TSA_WorldDomination
 
         public static bool IsValidWorkTile(int tileId)
         {
-            // Scrub tiles may host settlements or outposts (NPC home-tile is top priority).
+            // Scrub tiles may host settlements, colonies, or outposts (including the sending site).
             // Do not reuse road-block eligibility, which rejects occupied tiles.
             if (!WorldActions_RoadBlocks.IsFlatPathWalkable(tileId)) return false;
             return IsTilePolluted(tileId);
         }
 
+        /// <summary>
+        /// Waypoint / destination click eligibility: land walkable. Settlements, colonies, and outposts
+        /// (including the originating outpost tile) are allowed; pollution is checked when filtering work tiles.
+        /// </summary>
         public static bool IsValidPlanNode(int tileId)
         {
             return WorldActions_RoadBlocks.IsFlatPathWalkable(tileId);

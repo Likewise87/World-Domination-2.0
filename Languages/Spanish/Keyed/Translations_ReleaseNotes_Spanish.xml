@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_18_Title>Hotfix — radios de grupo y amenaza Turtle</TSA_WD_Update_2_3_18_Title>
+  <TSA_WD_Update_2_3_18_Body><![CDATA[
+<size=16><b>2.3.18 – Hotfix</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 6 de septiembre de 2026</color>\n
+------------------------------\n
+• La pertenencia al grupo Turtle y la presión hostil usan radios distintos: los aliados se enlazan a 15 casillas; los hostiles cuentan a 10 casillas de cualquier sitio del grupo (antes ambos usaban 12).\n
+• Los kits de fortificación tras Turtle siguen el nivel pintado del núcleo tras depositar la fuerza.\n
+]]></TSA_WD_Update_2_3_18_Body>
+  <TSA_WD_Update_2_3_17_Title>Hotfix — alcance y ratio de presión Turtle</TSA_WD_Update_2_3_17_Title>
+  <TSA_WD_Update_2_3_17_Body><![CDATA[
+<size=16><b>2.3.17 – Hotfix</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 5 de septiembre de 2026</color>\n
+------------------------------\n
+• Restablece los ajustes de "Dificultad de combate" o todos los ajustes del mod para que los nuevos valores por defecto de Turtle surtan efecto.\n
+• Turtle ocurría con demasiada frecuencia. Se redujo el alcance de las comprobaciones de fuerza del grupo de 20 a 12 casillas. Alrededor de cualquier asentamiento del grupo defensivo buscamos enemigos en un radio de 12 casillas y sumamos su fuerza. Si esa fuerza agregada supera el 225% de la fuerza del grupo, Turtle es una opción (antes 166%).\n
+]]></TSA_WD_Update_2_3_17_Body>
+  <TSA_WD_Update_2_3_16_Title>Hotfix — probabilidad de Estrategia, días de ingreso, lanzaderas Odyssey</TSA_WD_Update_2_3_16_Title>
+  <TSA_WD_Update_2_3_16_Body><![CDATA[
+<size=16><b>2.3.16 – Hotfix</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 4 de septiembre de 2026</color>\n
+------------------------------\n
+• Restablece los ajustes de "Dificultad de combate" o todos los ajustes del mod para que algunos cambios de equilibrio importantes surtan efecto.\n
+• Las incursiones de desesperación ocurrían con demasiada frecuencia, incluso para facciones fuertes. Se cambió la lógica. Si un grupo aislado pierde un asentamiento, ahora hará Turtle (empaquetar y fusionarse con un asentamiento aliado cercano). Esto ocurre independientemente de la fuerza global de la facción. Las reacciones ante pérdida de asentamiento ahora solo se toman en el 40% de los casos. Las facciones fuertes nunca consideran una incursión de desesperación; solo las débiles podrían. Las incursiones de desesperación deberían ser muy raras ahora.\n
+• Más equilibrio: fuerza de guarnición en medio/final de partida y probabilidad de que asentamientos T2+ lancen caravanas de intercepción contra viajeros de paso.\n
+• Se reelaboró la columna "nuevo en la facción". Ahora se basa en el tiempo y muestra los días desde que el peón se unió a tu facción. La lógica anterior estaba fallada.\n
+• Corregido un error por el que las lanzaderas de Odyssey no se añadían a una avanzada tras ganar una defensa de avanzada.\n
+]]></TSA_WD_Update_2_3_16_Body>
+  <TSA_WD_Update_2_3_15_Title>Hotfix — incursiones de desesperación, guarniciones, intercepción</TSA_WD_Update_2_3_15_Title>
+  <TSA_WD_Update_2_3_15_Body><![CDATA[
+<size=16><b>2.3.15 – Hotfix</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 1 de septiembre de 2026</color>\n
+------------------------------\n
+• Restablece los ajustes de "Dificultad de combate" o todos los ajustes del mod para que los cambios surtan efecto.\n
+• Las incursiones de desesperación ocurrían con demasiada frecuencia, incluso para facciones fuertes. Se cambió la lógica. Si un grupo aislado pierde un asentamiento, ahora hará Turtle (empaquetar y fusionarse con un asentamiento aliado cercano). Esto ocurre independientemente de la fuerza global de la facción. Si la facción también es débil frente a otras, puede plantearse una incursión de desesperación. Las incursiones de desesperación deberían ser muy raras ahora.\n
+• Más equilibrio: fuerza de guarnición en medio/final de partida y probabilidad de que asentamientos T2+ lancen caravanas de intercepción contra viajeros de paso.\n
+]]></TSA_WD_Update_2_3_15_Body>
+  <TSA_WD_Update_2_3_14_Title>Incursiones de medio/final de partida, QOL y equilibrio</TSA_WD_Update_2_3_14_Title>
+  <TSA_WD_Update_2_3_14_Body><![CDATA[
+<size=16><b>2.3.14 – Incursiones de medio/final de partida, QOL y equilibrio</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 30 de agosto de 2026</color>\n
+------------------------------\n
+• Nueva función: Los asentamientos PNJ pueden decidir "hacerse tortuga". Pueden desmantelar y fusionar fuerzas con asentamientos cercanos para consolidar un único asentamiento fuerte con fortificaciones. Este tipo de acción se llama "Turtle".\n
+• Nueva función: Enemigos lejanos pueden lanzar 5-7 incursiones contra ti a la vez. Por defecto solo activo en la fase final. Se puede configurar para que también sea posible al principio. Este tipo de acción se llama "Invasion".\n
+• Nueva función: Enemigos lejanos pueden desmantelar y lanzar 5-7 caravanas de expansión a la vez para fundar asentamientos cerca de ti. Por defecto solo activo en la fase final. Se puede configurar para que también sea posible al principio. Este tipo de acción se llama "Vanguard".\n
+• Nueva función: Enemigos débiles pueden decidir desmantelar y lanzar una última incursión desesperada contra ti. Se dispara al destruir un asentamiento de una facción débil en un grupo de asentamientos débiles.\n
+• Nueva función: Los menús de ajustes tienen barra de búsqueda. Varios menús se han consolidado en "Dificultad de combate" y "Dificultad económica".\n
+• Nueva función: Los recién llegados se marcan como tales en la ventana All Player Pawns y en la pestaña de peones de una avanzada, mediante una columna filtrable.\n
+• El juego se pausa ahora cuando debes decidir qué hacer con un asentamiento tras la conquista.\n
+• Las bonificaciones de producción de los expertos Cocinero y Animador ahora afectan a todos los tipos de avanzada excepto Respuesta rápida y Artillería.\n
+• Las avanzadillas de Comercio y Reclutamiento también funcionan con asentamientos hostiles en rango, pero al 50% de eficiencia.\n
+• Las ametralladoras a generar están expuestas vía XML, para que otros mods puedan enganchar fácilmente otros tipos de torreta.\n
+• Los refuerzos entrantes en el mapa usan una alerta a la derecha en lugar de cartas repetidas.\n
+• Los requisitos de mantenimiento no cubiertos solo disparan una alerta roja parpadeante si quedan menos de 2 días para reunir la plata requerida.\n
+• Algunos ajustes de equilibrio en la configuración del mod. Restablece a valores predeterminados para que surtan efecto. Destacan: las caravanas solo pierden un 1% de fuerza por hora de viaje en lugar del 1,5%. Por ese mecanismo no pueden perder más del 60% de fuerza (antes 75%). Los asentamientos T1 pueden subir a T2 sin otro T1 cerca. Motivo: demasiados asentamientos débiles ocupando espacio. La partida es más exigente con menos asentamientos pero más fuertes. Las caravanas que viajan mucho tiempo no deben castigarse tanto (pérdida de fuerza).\n
+• Muchas correcciones de errores y pequeños retoques.\n
+]]></TSA_WD_Update_2_3_14_Body>
   <TSA_WD_Update_2_3_13_Title>Objetivo de caravanas, botín y diseños</TSA_WD_Update_2_3_13_Title>
   <TSA_WD_Update_2_3_13_Body><![CDATA[
 <size=16><b>2.3.13 – Objetivo de caravanas, botín y diseños</b></size>\n

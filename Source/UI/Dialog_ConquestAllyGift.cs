@@ -20,7 +20,7 @@ namespace TSA_WorldDomination
         private const float RowHeight = 86f;
         private const float RowGap = 6f;
 
-        public override Vector2 InitialSize => new Vector2(760f, 560f);
+        public override Vector2 InitialSize => new Vector2(760f, 584f);
 
         public Dialog_ConquestAllyGift(int tile, int ruinsId, SettlementTier tier, Faction conqueredFaction, ConquestOpportunityContext conquestContext)
         {
@@ -32,6 +32,7 @@ namespace TSA_WorldDomination
             doCloseX = true;
             doCloseButton = false;
             absorbInputAroundWindow = true;
+            forcePause = true;
         }
 
         public override void PostClose()
@@ -47,8 +48,8 @@ namespace TSA_WorldDomination
             Text.Font = GameFont.Medium;
             Rect titleRect = new Rect(0f, y, inRect.width, 34f);
             Widgets.Label(titleRect, "TSA_WD_Conquest_AllyGiftTitle".Translate());
-            Text.Font = GameFont.Small;
             y += 38f;
+            Outpost_Dialog_UI.DrawGamePausedLabel(ref y, inRect.width);
 
             string desc = "TSA_WD_Conquest_AllyGiftDesc".Translate((int)tier + 1);
             float descH = Mathf.Max(64f, Text.CalcHeight(desc, inRect.width));

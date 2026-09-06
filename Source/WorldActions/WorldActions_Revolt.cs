@@ -19,6 +19,7 @@ namespace TSA_WorldDomination
 
             List<Faction> defeatedFactions = CollectDefeatedRebelCandidates();
             if (defeatedFactions.Count == 0) return;
+            if (WorldActions_SpecialEventCooldown.IsOnCooldown(manager, SpecialWorldEventKind.Revolt)) return;
             if (Rand.Value > seth.revoltChance) return;
 
             Faction rebelFaction = defeatedFactions.RandomElement();
@@ -81,6 +82,7 @@ namespace TSA_WorldDomination
                 liberatedNames.Add(target.Label);
                 lastTile = tile;
 
+                WorldActions_DesperationRaid.SuppressLossNotify(target);
                 Find.WorldObjects.Remove(target);
 
                 Settlement newS = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
@@ -108,6 +110,9 @@ namespace TSA_WorldDomination
 
             if (liberatedNames.Count == 0) return;
 
+            WorldActions_SpecialEventCooldown.Stamp(manager, SpecialWorldEventKind.Revolt);
+            StampComebackCooldown(manager, rebelFaction);
+
             string settlementList = liberatedNames.ToCommaList(true);
             string victimsList = victimNames.Count > 0
                 ? victimNames.ToCommaList(true)
@@ -125,6 +130,34 @@ namespace TSA_WorldDomination
 
             WorldActions_Utils.RefreshMap();
             Find.World?.GetComponent<Text_WorldTierOnSettlements>()?.NotifyTierLabelCacheDirty();
+        }
+
+        /// <summary>
+        /// Blocks Turtle, Desperation, and Forward Assault for a revived rebel while they settle.
+        /// Duration = max(turtle, desperation, revolt) cooldown days.
+        /// </summary>
+        public static void StampComebackCooldown(WorldComponent_SpreadManager manager, Faction faction)
+        {
+            if (manager == null || faction == null) return;
+            var seth = WorldDominationMod.settings;
+            if (seth == null) return;
+
+            float days = Mathf.Max(seth.turtleCooldownDays, seth.desperationCooldownDays);
+            days = Mathf.Max(days, seth.revoltCooldownDays);
+            days = Mathf.Max(0.1f, days);
+
+            if (manager.factionComebackCooldownByFaction == null)
+                manager.factionComebackCooldownByFaction = new Dictionary<int, int>();
+            int until = Find.TickManager.TicksGame + CompViralSpread.CooldownTicksFromDays(days);
+            manager.factionComebackCooldownByFaction[faction.loadID] = until;
+            WDVerbose.Msg($"ComebackCD stamp faction={faction.Name} days={days:F1} until={until}");
+        }
+
+        public static bool IsFactionOnComebackCooldown(WorldComponent_SpreadManager manager, Faction faction)
+        {
+            if (manager?.factionComebackCooldownByFaction == null || faction == null) return false;
+            if (!manager.factionComebackCooldownByFaction.TryGetValue(faction.loadID, out int until)) return false;
+            return Find.TickManager.TicksGame < until;
         }
 
         private static List<Faction> CollectDefeatedRebelCandidates()

@@ -40,6 +40,7 @@ namespace TSA_WorldDomination
             public string LabelLine;
             public string Tooltip;
             public bool Contributes;
+            public bool IsHostile;
         }
 
         private struct CachedSkillRow
@@ -49,6 +50,8 @@ namespace TSA_WorldDomination
             public string Formula;
             public string Tooltip;
         }
+
+        private static readonly Color HostileContributingRowBg = new Color(0.75f, 0.12f, 0.12f, 0.16f);
 
         private const float IconColW = 56f;
         private const float IconPadding = 8f;
@@ -119,7 +122,8 @@ namespace TSA_WorldDomination
                     WorldObject = p.WorldObject,
                     LabelLine = Outpost_Recruiting.FormatPartnerRowLabel(p),
                     Tooltip = Outpost_Recruiting.BuildPartnerRowTooltip(p),
-                    Contributes = p.ContributesToFaction
+                    Contributes = p.ContributesToFaction,
+                    IsHostile = p.IsHostilePartner
                 });
             }
         }
@@ -370,6 +374,8 @@ namespace TSA_WorldDomination
         {
             float rowH = LineH + RowPadding;
             Rect rowRect = new Rect(0f, ly, lw, rowH);
+            if (row.Contributes && row.IsHostile)
+                Widgets.DrawBoxSolid(rowRect, HostileContributingRowBg);
             if (Mouse.IsOver(rowRect)) Widgets.DrawHighlight(rowRect);
 
             float contentY = ly + RowPadding * 0.5f;

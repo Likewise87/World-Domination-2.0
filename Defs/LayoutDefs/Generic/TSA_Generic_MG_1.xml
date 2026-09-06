@@ -5,7 +5,7 @@
   <spawnConduits>false</spawnConduits>
   <layouts>
     <li>
-      <li>AncientRazorWire,Sandbags_Cloth,Turret_M240B_North,Sandbags_Cloth,AncientRazorWire</li>
+      <li>AncientRazorWire,Sandbags_Cloth,.,Sandbags_Cloth,AncientRazorWire</li>
       <li>AncientRazorWire,Sandbags_Cloth,Sandbags_Cloth,Sandbags_Cloth,AncientRazorWire</li>
       <li>AncientRazorWire,AncientRazorWire,AncientRazorWire,AncientRazorWire,AncientRazorWire</li>
     </li>

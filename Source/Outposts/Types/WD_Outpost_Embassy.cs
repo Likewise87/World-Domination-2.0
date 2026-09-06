@@ -218,7 +218,7 @@ namespace TSA_WorldDomination
 
             var partners = new List<NearbySettlementInfo>();
             CollectSortedNearbySettlements(outpost, partners);
-            var previews = BuildFactionPreviews(partners, GetSocialMultiplier(outpost.GetCapacityForYieldPreview()));
+            var previews = BuildFactionPreviews(partners, GetSocialMultiplier(outpost.GetCapacityForYieldPreview()), outpost);
             cache = new EmbassyRadiusProbeCache
             {
                 Tile = outpost.Tile,
@@ -245,10 +245,10 @@ namespace TSA_WorldDomination
             if (outpost == null || results == null) return;
             CollectNearbySettlements(outpost, collectScratch);
             MarkHighestTierContributors(collectScratch);
-            results.AddRange(BuildFactionPreviews(collectScratch, GetSocialMultiplier(socialForMult)));
+            results.AddRange(BuildFactionPreviews(collectScratch, GetSocialMultiplier(socialForMult), outpost));
         }
 
-        private static List<FactionGoodwillPreview> BuildFactionPreviews(List<NearbySettlementInfo> settlements, float socialMult)
+        private static List<FactionGoodwillPreview> BuildFactionPreviews(List<NearbySettlementInfo> settlements, float socialMult, WorldObject_WD_Outpost outpost)
         {
             var list = new List<FactionGoodwillPreview>();
             bestByFactionScratch.Clear();
@@ -258,6 +258,7 @@ namespace TSA_WorldDomination
                 if (!s.ContributesToFaction || s.Faction == null) continue;
                 int room = GetGoodwillRoom(s.Faction);
                 int beforeClamp = Mathf.Max(0, Mathf.RoundToInt(s.BasePoints * socialMult));
+                beforeClamp = Outpost_Production_Utils.ApplyExpertAndWarehouseYieldMultipliers(beforeClamp, outpost);
                 int clamped = Mathf.Min(beforeClamp, Mathf.Max(0, room));
                 list.Add(new FactionGoodwillPreview
                 {
@@ -367,7 +368,8 @@ namespace TSA_WorldDomination
             if (outpost == null) return "";
             float avg = outpost.GetCapacityForYieldPreview();
             int total = ComputeExpectedGoodwillTotal(outpost, avg);
-            return OutpostTranslationUtil.Key("TSA_WD_Embassy_InspectLine", total.ToString());
+            return OutpostTranslationUtil.Key("TSA_WD_Embassy_InspectLine", total.ToString())
+                + Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
         }
 
         public static string GetProductionSummaryLine(WorldObject_WD_Outpost outpost)
@@ -379,51 +381,45 @@ namespace TSA_WorldDomination
             return OutpostTranslationUtil.Key(
                 "TSA_WD_Embassy_SummaryLine",
                 total.ToString(),
-                cycleDays.ToString("F0"));
+                cycleDays.ToString("F0"))
+                + Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
         }
 
         public static string GetProductionTooltip(WorldObject_WD_Outpost outpost)
         {
             if (outpost == null) return "";
-            return GetDetailedMathTooltip(outpost, outpost.GetCapacityForYieldPreview());
+            return GetCompactYieldFormulaTip(outpost, outpost.GetCapacityForYieldPreview());
         }
 
-        public static string GetDetailedMathTooltip(WorldObject_WD_Outpost outpost, float socialForMultiplier)
+        /// <summary>One-line formula for stats Yield tip.</summary>
+        public static string GetCompactYieldFormulaTip(WorldObject_WD_Outpost outpost, float socialForMultiplier)
         {
             if (outpost == null) return "";
             float mult = GetSocialMultiplier(socialForMultiplier);
             int multPct = Mathf.RoundToInt(mult * 100f);
-            var lines = new List<string>();
-            lines.Add(OutpostTranslationUtil.Key("TSA_WD_Embassy_Math_Header"));
-            lines.Add(OutpostTranslationUtil.Key(
-                "TSA_WD_Embassy_Math_SocialLine",
-                socialForMultiplier.ToString("F0"),
-                multPct.ToString()));
-
-            var previews = new List<FactionGoodwillPreview>();
-            CollectFactionPreviews(outpost, socialForMultiplier, previews);
-            if (previews.Count == 0)
-                lines.Add(OutpostTranslationUtil.Key("TSA_WD_Embassy_Math_None"));
-            else
+            int total = ComputeExpectedGoodwillTotal(outpost, socialForMultiplier);
+            int expertPct = Mathf.RoundToInt(OutpostWarehouseAuraUtility.GetSoftProductionBonusMultiplier(outpost) * 100f);
+            float pointsSum = 0f;
+            CollectNearbySettlements(outpost, collectScratch);
+            MarkHighestTierContributors(collectScratch);
+            for (int i = 0; i < collectScratch.Count; i++)
             {
-                for (int i = 0; i < previews.Count; i++)
-                {
-                    var p = previews[i];
-                    lines.Add(OutpostTranslationUtil.Key(
-                        "TSA_WD_Embassy_Math_FactionLine",
-                        p.Faction?.Name ?? "?",
-                        Outpost_Trading.FormatTierShortLabel(p.HighestTier),
-                        p.BasePoints.ToString("0.#"),
-                        multPct.ToString(),
-                        p.AwardClamped.ToString()));
-                }
+                if (collectScratch[i].ContributesToFaction)
+                    pointsSum += collectScratch[i].BasePoints;
             }
 
-            int total = 0;
-            for (int i = 0; i < previews.Count; i++)
-                total += previews[i].AwardClamped;
-            lines.Add(OutpostTranslationUtil.Key("TSA_WD_Embassy_Math_Total", total.ToString()));
-            return string.Join("\n", lines.ToArray());
+            string line = "TSA_WD_Embassy_Math_Compact".Translate(
+                pointsSum.ToString("0.#"),
+                multPct.ToString(),
+                socialForMultiplier.ToString("F0"),
+                expertPct.ToString(),
+                total.ToString()).ToString();
+            return line;
+        }
+
+        public static string GetDetailedMathTooltip(WorldObject_WD_Outpost outpost, float socialForMultiplier)
+        {
+            return GetCompactYieldFormulaTip(outpost, socialForMultiplier);
         }
 
         public static string GetSocialMultStatsTooltip(WorldObject_WD_Outpost outpost)
@@ -458,7 +454,9 @@ namespace TSA_WorldDomination
                 int room = GetGoodwillRoom(s.Faction);
                 if (room <= 0) continue;
 
-                int award = Mathf.Min(Mathf.Max(0, Mathf.RoundToInt(s.BasePoints * mult)), room);
+                int award = Mathf.Max(0, Mathf.RoundToInt(s.BasePoints * mult));
+                award = Outpost_Production_Utils.ApplyExpertAndWarehouseYieldMultipliers(award, outpost);
+                award = Mathf.Min(award, room);
                 if (award <= 0) continue;
 
                 if (!GoodwillChangeNotifier.TryAffectPlayerGoodwill(s.Faction, award, out int now))

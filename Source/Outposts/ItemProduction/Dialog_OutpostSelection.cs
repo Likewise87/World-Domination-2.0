@@ -149,6 +149,7 @@ namespace TSA_WorldDomination
             doCloseButton = conquestContext == null && !IsRemoteEstablish;
             doCloseX = true;
             absorbInputAroundWindow = true;
+            forcePause = conquestContext != null;
         }
 
         public override void PostClose()
@@ -607,15 +608,29 @@ namespace TSA_WorldDomination
                 }
                 case 8:
                 {
-                    var extNearby = def?.GetModExtension<OutpostDefExtension>();
-                    int radius = Mathf.Max(0, extNearby?.minNearbyRadiusTiles ?? 0);
-                    int minNearby = extNearby?.minNearbySettlementsOrOutposts ?? 0;
-                    int countNearby = Outpost_EstablishmentRequirements.CountNearbySettlementsOrOutposts(tile, radius);
-                    line.met = Outpost_EstablishmentRequirements.MeetsMinNearbySettlements(tile, def, out string nearbyReason);
+                    Outpost_EstablishmentRequirements.GetNearbyRequirementProbe(
+                        tile, def, out int countNearby, out int minNearby, out int radius, out bool metNearby, out string nearbyReason);
+                    line.met = metNearby;
                     line.text = "TSA_WD_Req_MinNearby".Translate(countNearby, minNearby, radius).ToString();
                     if (line.text.Contains("TSA_WD_Req_")) line.text = "Settlements in radius: " + countNearby + " / " + minNearby + " (" + radius + " tiles)";
-                    line.tooltip = line.met ? "TSA_WD_Req_Tooltip_MinNearbyMet".Translate(minNearby, radius).ToString() : (nearbyReason ?? "TSA_WD_Req_Tooltip_MinNearbyUnmet".Translate(minNearby, radius, countNearby).ToString());
-                    if (line.tooltip.Contains("TSA_WD_Req_")) line.tooltip = line.met ? "At least " + minNearby + " settlements or outposts from other factions (neutral or allied) within " + radius + " tiles." : "Need at least " + minNearby + " within " + radius + " tiles. Found: " + countNearby;
+                    if (line.met)
+                    {
+                        var mode = Outpost_EstablishmentRequirements.GetNearbyCountMode(def);
+                        if (mode == Outpost_EstablishmentRequirements.NearbyCountMode.Partners && Outpost_Production_Utils.IsRecruitingOutpost(def))
+                            line.tooltip = "TSA_WD_Req_Tooltip_MinNearbyMet_Recruiting".Translate(minNearby, radius).ToString();
+                        else if (mode == Outpost_EstablishmentRequirements.NearbyCountMode.Partners && Outpost_Production_Utils.IsTradingOutpost(def))
+                            line.tooltip = "TSA_WD_Req_Tooltip_MinNearbyMet_Trading".Translate(minNearby, radius).ToString();
+                        else if (mode == Outpost_EstablishmentRequirements.NearbyCountMode.Embassy)
+                            line.tooltip = "TSA_WD_Req_Tooltip_MinNearbyMet_Embassy".Translate(minNearby, radius).ToString();
+                        else
+                            line.tooltip = "TSA_WD_Req_Tooltip_MinNearbyMet".Translate(minNearby, radius).ToString();
+                        if (line.tooltip.Contains("TSA_WD_Req_"))
+                            line.tooltip = "At least " + minNearby + " nearby NPC settlements within " + radius + " tiles.";
+                    }
+                    else
+                    {
+                        line.tooltip = nearbyReason ?? "TSA_WD_Req_Tooltip_MinNearbyUnmet".Translate(minNearby, radius, countNearby).ToString();
+                    }
                     break;
                 }
                 case 9:
@@ -707,17 +722,22 @@ namespace TSA_WorldDomination
             }
 
             Rect body = inRect.ContractedBy(10f);
+            float headerY = body.y;
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(body.x, body.y, body.width, 30f), cachedHeadline);
+            Widgets.Label(new Rect(body.x, headerY, body.width, 30f), cachedHeadline);
+            headerY += 32f;
+            if (conquestContext != null)
+                Outpost_Dialog_UI.DrawGamePausedLabel(ref headerY, body.width, body.x);
             Text.Font = GameFont.Small;
-            Widgets.DrawLineHorizontal(body.x, body.y + 32f, body.width);
+            Widgets.DrawLineHorizontal(body.x, headerY, body.width);
+            headerY += 6f;
 
             const float ColGap = 18f;
             const float bottomReserveClose = 44f;
             bool showBackButton = (conquestContext != null || IsRemoteEstablish) && !requirementsPreviewOnly;
             float bottomReserve = doCloseButton ? bottomReserveClose : (showBackButton ? CloseButSize.y + 8f : 0f);
 
-            float columnsTop = body.y + 38f;
+            float columnsTop = headerY;
             float columnsBottom = body.yMax - bottomReserve;
             float leftW = Mathf.Max(260f, body.width * 0.42f);
             Rect leftArea = new Rect(body.x, columnsTop, leftW, columnsBottom - columnsTop);

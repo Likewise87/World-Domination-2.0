@@ -49,6 +49,11 @@ namespace TSA_WorldDomination
         public bool IsActiveEncounterFor(WorldObject_WD_Outpost target)
             => encounterActive && !resolved && outpost != null && outpost == target;
 
+        /// <summary>
+        /// Active unresolved defense: block drafted map-edge auto-caravan exit (hard-close lifecycle owns leave).
+        /// </summary>
+        public bool BlocksPlayerEdgeExit => encounterActive && !resolved;
+
         public static bool HasActiveEncounterFor(WorldObject_WD_Outpost target)
             => FindActiveMapFor(target) != null;
 
@@ -459,6 +464,9 @@ namespace TSA_WorldDomination
                 toReturn.Add(pawn);
             }
 
+            // Odyssey passenger shuttles are buildings, not pawns — salvage before map teardown.
+            var shuttles = CollectExtraPassengerShuttles(map);
+
             for (int i = 0; i < toReturn.Count; i++)
             {
                 Pawn pawn = toReturn[i];
@@ -469,8 +477,26 @@ namespace TSA_WorldDomination
                     pawn.SetFaction(Faction.OfPlayer);
             }
 
+            for (int i = 0; i < shuttles.Count; i++)
+            {
+                Building_PassengerShuttle shuttle = shuttles[i];
+                if (shuttle == null || shuttle.Destroyed) continue;
+                shuttle.holdingOwner?.Remove(shuttle);
+                if (shuttle.Spawned)
+                    shuttle.DeSpawn(DestroyMode.Vanish);
+            }
+
             if (toReturn.Count == 0)
+            {
+                // No carriers for a shuttle caravan — park any salvaged shuttles on the outpost.
+                for (int i = 0; i < shuttles.Count; i++)
+                {
+                    Building_PassengerShuttle shuttle = shuttles[i];
+                    if (shuttle == null || shuttle.Destroyed) continue;
+                    outpost.StorePassengerShuttle(shuttle);
+                }
                 return 0;
+            }
 
             Caravan caravan = CaravanMaker.MakeCaravan(toReturn, Faction.OfPlayer, outpost.Tile, true);
             if (caravan != null)
@@ -478,13 +504,61 @@ namespace TSA_WorldDomination
                 if (caravan.PawnsListForReading.Count == 0)
                 {
                     caravan.Destroy();
+                    for (int i = 0; i < shuttles.Count; i++)
+                    {
+                        Building_PassengerShuttle shuttle = shuttles[i];
+                        if (shuttle == null || shuttle.Destroyed) continue;
+                        outpost.StorePassengerShuttle(shuttle);
+                    }
                     return 0;
                 }
+
+                if (shuttles.Count > 0)
+                    OdysseyShuttleOutpostEstablishmentCompat.AttachStoredShuttlesToCaravan(caravan, shuttles);
+
+                // Attach can no-op (already has a shuttle / no human carrier) — park leftovers on the outpost.
+                for (int i = 0; i < shuttles.Count; i++)
+                {
+                    Building_PassengerShuttle shuttle = shuttles[i];
+                    if (shuttle == null || shuttle.Destroyed) continue;
+                    if (CaravanInventoryUtility.GetOwnerOf(caravan, shuttle) != null) continue;
+                    outpost.StorePassengerShuttle(shuttle);
+                }
+
                 Messages.Message("TSA_WD_OutpostDefense_ExtraPawnsReturned".Translate(toReturn.Count, outpost.LabelCap), caravan, MessageTypeDefOf.PositiveEvent, false);
                 return toReturn.Count;
             }
 
+            for (int i = 0; i < shuttles.Count; i++)
+            {
+                Building_PassengerShuttle shuttle = shuttles[i];
+                if (shuttle == null || shuttle.Destroyed) continue;
+                outpost.StorePassengerShuttle(shuttle);
+            }
             return 0;
+        }
+
+        /// <summary>
+        /// Player Odyssey passenger shuttles still spawned on the temporary defense map.
+        /// Must be collected before <see cref="QueueTemporaryMapRemoval"/> destroys them with the map.
+        /// </summary>
+        private static List<Building_PassengerShuttle> CollectExtraPassengerShuttles(Map map)
+        {
+            var result = new List<Building_PassengerShuttle>();
+            if (!ModsConfig.OdysseyActive || map?.listerThings?.AllThings == null)
+                return result;
+
+            List<Thing> all = map.listerThings.AllThings;
+            for (int i = 0; i < all.Count; i++)
+            {
+                Thing t = all[i];
+                if (t == null || t.Destroyed) continue;
+                if (t is not Building_PassengerShuttle shuttle) continue;
+                if (shuttle.Faction != null && shuttle.Faction != Faction.OfPlayer) continue;
+                result.Add(shuttle);
+            }
+
+            return result;
         }
 
         private void ResolveSharedOutpostRaid(bool attackerWon)

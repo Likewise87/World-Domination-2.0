@@ -39,6 +39,7 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetPlayerArtillery(),
                 () => { mortarExpanded = antiAirExpanded = rapidResponseExpanded = true; },
                 () => { mortarExpanded = antiAirExpanded = rapidResponseExpanded = false; });
+            SettingsUI.DrawSettingsSearchBar(l);
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Outpost_HeaderMortar".Translate(), ref mortarExpanded, SettingsUI.SectionHeaderColor))
             {

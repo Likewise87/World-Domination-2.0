@@ -115,6 +115,18 @@ namespace TSA_WorldDomination
             return GetTotalDeliveryMarketValue(outpost.WorkerPawnCount, kind);
         }
 
+        /// <summary>Pawn MV × global × expert × warehouse (live yield preview / payout budget).</summary>
+        public static float GetEffectiveDeliveryMarketValue(WorldObject_WD_Outpost outpost, ScavengingKind kind)
+        {
+            return Outpost_Production_Utils.ScaleSoftYieldWithGlobal(GetTotalDeliveryMarketValue(outpost, kind), outpost);
+        }
+
+        public static float GetEffectiveDeliveryMarketValue(WorldObject_WD_Outpost outpost)
+        {
+            var k = GetEffectiveKind(outpost);
+            return k.HasValue ? GetEffectiveDeliveryMarketValue(outpost, k.Value) : 0f;
+        }
+
         /// <summary>Effective kind for this outpost right now (locked-for-cycle takes priority; falls back to current selection). Null if the player has not selected a tier yet.</summary>
         public static ScavengingKind? GetEffectiveKind(WorldObject_WD_Outpost outpost)
         {
@@ -146,6 +158,7 @@ namespace TSA_WorldDomination
             if (!CanUseKind(outpost, kind)) return false;
 
             float totalMv = GetTotalDeliveryMarketValue(averagePawnDrivingCapacityThisCycle, kind);
+            totalMv = Outpost_Production_Utils.ScaleSoftYieldWithGlobal(totalMv, outpost);
             if (totalMv < 0.01f) return false;
 
             float minStrength = WorldDominationMod.settings?.outpostDeliveryMinStrength ?? 100f;
@@ -174,7 +187,6 @@ namespace TSA_WorldDomination
             }
             if (list == null || list.Count == 0) return false;
 
-            Outpost_Production_Utils.ApplyOutputMultiplierToDeliveryItems(list);
             WorldActions_Traveler.SpawnOutpostDeliveryTraveler(outpost, list);
             return true;
         }
@@ -328,15 +340,19 @@ namespace TSA_WorldDomination
             ScavengingKind kind = maybe.Value;
             int n = outpost?.WorkerPawnCount ?? 0;
             float perPawn = GetMarketValuePerPawn(kind);
-            float mv = GetTotalDeliveryMarketValue(outpost, kind);
+            float mv = GetEffectiveDeliveryMarketValue(outpost, kind);
             int minPawns = GetMinPawns(kind);
             string kindLabel = GetKindLabel(kind);
-            return "TSA_WD_Production_TooltipScavenging_Kind".Translate(
+            string tip = "TSA_WD_Production_TooltipScavenging_Kind".Translate(
                 kindLabel,
                 perPawn.ToString("F0"),
                 n.ToString(),
                 mv.ToString("F0"),
                 minPawns.ToString()).Resolve();
+            string soft = Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusTooltip(outpost);
+            if (!string.IsNullOrEmpty(soft))
+                tip += "\n\n" + soft;
+            return tip;
         }
 
         public static string GetProductionSummaryLine(WorldObject_WD_Outpost outpost)
@@ -344,9 +360,10 @@ namespace TSA_WorldDomination
             var maybe = GetEffectiveKind(outpost);
             if (!maybe.HasValue) return null;
             ScavengingKind kind = maybe.Value;
-            float mv = GetTotalDeliveryMarketValue(outpost, kind);
+            float mv = GetEffectiveDeliveryMarketValue(outpost, kind);
             string kindLabel = GetKindShortLabel(kind);
-            return "TSA_WD_Production_SummaryScavenging_Kind".Translate(kindLabel, mv.ToString("F0")).Resolve();
+            string line = "TSA_WD_Production_SummaryScavenging_Kind".Translate(kindLabel, mv.ToString("F0")).Resolve();
+            return line + Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusSuffix(outpost);
         }
 
         /// <summary>Dynamic inspect line including current pawn-based value. Empty when no tier is selected so the inspect pane falls back to "None selected".</summary>
@@ -355,22 +372,24 @@ namespace TSA_WorldDomination
             var maybe = GetEffectiveKind(outpost);
             if (!maybe.HasValue) return "";
             ScavengingKind kind = maybe.Value;
-            float mv = GetTotalDeliveryMarketValue(outpost, kind);
+            float mv = GetEffectiveDeliveryMarketValue(outpost, kind);
             string kindLabel = GetKindShortLabel(kind);
             return "TSA_WD_Prod_ScavengingInspect_Kind".Translate(
                 kindLabel,
                 mv.ToString("F0"),
                 (outpost?.WorkerPawnCount ?? 0).ToString(),
-                GetMarketValuePerPawn(kind).ToString("F0")).Resolve();
+                GetMarketValuePerPawn(kind).ToString("F0")).Resolve()
+                + Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusSuffix(outpost);
         }
 
         /// <summary>Yield preview for a specific tier (used by the 3 option rows in the production dialog).</summary>
         public static string GetYieldPreviewLabel(WorldObject_WD_Outpost outpost, ScavengingKind kind)
         {
             float perPawn = GetMarketValuePerPawn(kind);
-            float mv = GetTotalDeliveryMarketValue(outpost, kind);
+            float mv = GetEffectiveDeliveryMarketValue(outpost, kind);
             int n = outpost?.WorkerPawnCount ?? 0;
-            return "TSA_WD_Production_ScavengingYieldPreview".Translate(n.ToString(), perPawn.ToString("F0"), mv.ToString("F0")).Resolve();
+            return "TSA_WD_Production_ScavengingYieldPreview".Translate(n.ToString(), perPawn.ToString("F0"), mv.ToString("F0")).Resolve()
+                + Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusSuffix(outpost);
         }
 
         /// <summary>Short yield summary for the snapshot/average table cells (needs to fit in a narrow column). Returns a dash when no tier is selected yet.</summary>
@@ -386,7 +405,8 @@ namespace TSA_WorldDomination
             var k = GetEffectiveKind(outpost);
             if (!k.HasValue) return "\u2014";
             ScavengingKind kind = k.Value;
-            float mv = GetTotalDeliveryMarketValue(effectivePawnCount, kind);
+            float mv = Outpost_Production_Utils.ScaleSoftYieldWithGlobal(
+                GetTotalDeliveryMarketValue(effectivePawnCount, kind), outpost);
             string kindShort = GetKindShortLabel(kind);
             return "TSA_WD_Production_ScavengingYieldSummary".Translate(kindShort, mv.ToString("F0")).Resolve();
         }

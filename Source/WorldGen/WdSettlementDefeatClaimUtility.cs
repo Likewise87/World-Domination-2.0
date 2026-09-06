@@ -6,8 +6,9 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// After settlement map victory, claim remaining defeat-faction buildings (vanilla Claim designator)
-    /// and unforbid held contents so storage is lootable before the player leaves.
+    /// After settlement map victory, destroy leftover defeat-faction turrets, claim other claimable
+    /// buildings (vanilla Claim designator), and unforbid held contents so storage is lootable
+    /// before the player leaves.
     /// </summary>
     public static class WdSettlementDefeatClaimUtility
     {
@@ -21,7 +22,7 @@ namespace TSA_WorldDomination
             var buildings = map.listerThings?.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
             if (buildings == null || buildings.Count == 0) return;
 
-            // Snapshot — SetFaction can mutate listing membership.
+            // Snapshot — SetFaction / Destroy can mutate listing membership.
             var snapshot = new List<Thing>(buildings);
             Faction player = Faction.OfPlayer;
 
@@ -30,6 +31,21 @@ namespace TSA_WorldDomination
                 Thing thing = snapshot[i];
                 if (thing == null || thing.Destroyed) continue;
                 if (thing.Faction != defeatedFaction) continue;
+
+                // Never claim turrets — destroy so reform-caravan / loot is not blocked after Parent swaps to ruins.
+                if (thing is Building_Turret)
+                {
+                    try
+                    {
+                        thing.Destroy(DestroyMode.KillFinalize);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        WDVerbose.Msg($"Defeat turret destroy failed {thing.LabelCap}: {ex.Message}");
+                    }
+                    continue;
+                }
+
                 if (!thing.ClaimableBy(player).Accepted) continue;
 
                 thing.SetFaction(player, null);

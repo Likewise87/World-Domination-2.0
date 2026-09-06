@@ -29,6 +29,7 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetWorldGen(),
                 () => { weightsExpanded = true; },
                 () => { weightsExpanded = false; });
+            SettingsUI.DrawSettingsSearchBar(l);
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Gen_HeaderWeights".Translate(), ref weightsExpanded, SettingsUI.SectionHeaderColor))
             {
             l.Gap(10f);

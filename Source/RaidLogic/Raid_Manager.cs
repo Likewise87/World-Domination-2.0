@@ -57,6 +57,10 @@ namespace TSA_WorldDomination
         internal bool forceDropPod;
         /// <summary>Dev force: always launch as gravship raid (requires Gravship Raids + Odyssey).</summary>
         internal bool forceGravship;
+        /// <summary>Invasion coordinated multi-raid: skip min-ratio abort, player raid rate caps, colony executor handoff, grow fallback, and per-raid incoming letters.</summary>
+        internal bool isInvasionRaid;
+        /// <summary>Set by <see cref="WorldActions_Raid.FinalizeRaid"/> when a traveler is successfully committed.</summary>
+        internal WorldObject_Traveler launchedTraveler;
 
         internal readonly List<CandidateEntry> pending = new List<CandidateEntry>();
         internal int nextIdx;
@@ -309,14 +313,14 @@ namespace TSA_WorldDomination
             WDVerbose.Msg($"Raid finalize: attacker={attacker.LabelCap} chosen={target.LabelCap} dist={chosenDist:F1} {bandPickMsg} (nearerTooWeakSkips={eval.skippedTooWeakBeforeChoice})");
 
             RaidLaunchTargetKind targetKind = RaidLaunchGate.ClassifyTarget(target);
-            bool skipMinRatioAbort = false;
+            bool skipMinRatioAbort = eval.isInvasionRaid;
             float colonyReqOverride = (targetKind == RaidLaunchTargetKind.PlayerColony && eval.lockedColonyRequiredRatio >= 0f)
                 ? eval.lockedColonyRequiredRatio
                 : -1f;
 
             // Colony: faction intent from scheduler, launch from nearest eligible same-faction executor.
             bool colonyRaidHandedOff = false;
-            if (targetKind == RaidLaunchTargetKind.PlayerColony)
+            if (targetKind == RaidLaunchTargetKind.PlayerColony && !eval.isInvasionRaid)
             {
                 Settlement executor = RaidColonyExecutor.SelectExecutor(
                     attacker,
@@ -355,10 +359,11 @@ namespace TSA_WorldDomination
                     "TSA_WD_Log_Raid_SkippedBribeCeasefire".Translate(attacker.Faction.Name),
                     attacker,
                     target));
-                AttemptGrowFallback(attacker, attComp, manager);
+                if (!eval.isInvasionRaid)
+                    AttemptGrowFallback(attacker, attComp, manager);
                 return;
             }
-            if (targetingPlayer && !eval.debugForce && manager != null && !manager.CanAcceptPlayerWdRaid(seth))
+            if (targetingPlayer && !eval.debugForce && !eval.isInvasionRaid && manager != null && !manager.CanAcceptPlayerWdRaid(seth))
             {
                 WDVerbose.Msg($"Raid finalize: attacker={attacker.LabelCap} blocked by global player WD raid rate caps");
                 manager.AddLog(new SpreadLogEntry("TSA_WD_Log_Raid_SkippedNoTarget".Translate(), attacker, null));
@@ -415,7 +420,8 @@ namespace TSA_WorldDomination
                 if (!finalGate.passed && !skipMinRatioAbort && !eval.debugForce)
                 {
                     LogRaidAbortedBelowMinRatio(manager, attacker, target, finalGate, seth);
-                    AttemptGrowFallback(attacker, attComp, manager);
+                    if (!eval.isInvasionRaid)
+                        AttemptGrowFallback(attacker, attComp, manager);
                     return;
                 }
 
@@ -429,6 +435,8 @@ namespace TSA_WorldDomination
                 traveler.ticksPerMove = WorldActions_Traveler.GetDropPodTicksPerMove();
                 traveler.originObject = attacker;
                 traveler.targetObject = target;
+                traveler.cachedTargetKind = targetKind;
+                traveler.isInvasionRaid = eval.isInvasionRaid;
                 float arrivalStrength = totalInvestedPower * dropEfficiency;
                 traveler.travelerStrength = arrivalStrength;
                 traveler.initialStrength = arrivalStrength;
@@ -448,7 +456,8 @@ namespace TSA_WorldDomination
                 if (!preGate.passed && !skipMinRatioAbort && !eval.debugForce)
                 {
                     LogRaidAbortedBelowMinRatio(manager, attacker, target, preGate, seth);
-                    AttemptGrowFallback(attacker, attComp, manager);
+                    if (!eval.isInvasionRaid)
+                        AttemptGrowFallback(attacker, attComp, manager);
                     return;
                 }
 
@@ -459,6 +468,8 @@ namespace TSA_WorldDomination
                 traveler.mission = TravelerMission.Raid;
                 traveler.originObject = attacker;
                 traveler.targetObject = target;
+                traveler.cachedTargetKind = targetKind;
+                traveler.isInvasionRaid = eval.isInvasionRaid;
                 traveler.travelerStrength = totalInvestedPower;
                 traveler.initialStrength = totalInvestedPower;
                 if (traveler.contributionFactors == null) traveler.contributionFactors = new Dictionary<WorldObject, float>();
@@ -469,7 +480,8 @@ namespace TSA_WorldDomination
                 var pollutionCheck = RaidPollutionPreCommit.EvaluateAndMaybeCancel(traveler, attacker, target, manager, seth);
                 if (pollutionCheck.cancelled)
                 {
-                    AttemptGrowFallback(attacker, attComp, manager);
+                    if (!eval.isInvasionRaid)
+                        AttemptGrowFallback(attacker, attComp, manager);
                     return;
                 }
                 pollutionOutcome = pollutionCheck;
@@ -485,7 +497,8 @@ namespace TSA_WorldDomination
                         traveler.Destroy();
                     }
                     LogRaidAbortedBelowMinRatio(manager, attacker, target, finalGate, seth);
-                    AttemptGrowFallback(attacker, attComp, manager);
+                    if (!eval.isInvasionRaid)
+                        AttemptGrowFallback(attacker, attComp, manager);
                     return;
                 }
 
@@ -530,7 +543,15 @@ namespace TSA_WorldDomination
             }
 
             SpreadLogEntry launchLog;
-            if (colonyRaidHandedOff && attacker.Faction != null)
+            if (eval.isInvasionRaid)
+            {
+                string ratioNote = finalGate.passed ? "" : " " + "TSA_WD_Log_ForwardAssault_RatioBypass".Translate();
+                launchLog = new SpreadLogEntry(
+                    "TSA_WD_Log_ForwardAssault_PackUpInvasion".Translate(attacker.Label, target.Label) + ratioNote,
+                    attacker,
+                    target);
+            }
+            else if (colonyRaidHandedOff && attacker.Faction != null)
             {
                 launchLog = new SpreadLogEntry(
                     "TSA_WD_Log_Raid_FactionDispatch".Translate(
@@ -569,7 +590,7 @@ namespace TSA_WorldDomination
                 : (totalInvestedPower * finalEfficiency) / (launchLog.defStr > 0 ? launchLog.defStr : 1f);
             launchLog.ratio = forecastRatio;
 
-            WDVerbose.Msg($"RaidLaunch {attacker.LabelCap}->{target.LabelCap}: drop={useDropPod} gravship={useGravship} committed={totalInvestedPower:F0} def={launchDefSnap.Total:F0} eff={finalEfficiency:F2} ratio={forecastRatio:F2} req={finalGate.requiredRatio:F2} min={seth.minRaidRatio:F2} pass={finalGate.passed || finalGate.bypassedMinRatio}");
+            WDVerbose.Msg($"RaidLaunch {attacker.LabelCap}->{target.LabelCap}: drop={useDropPod} gravship={useGravship} invasion={eval.isInvasionRaid} committed={totalInvestedPower:F0} def={launchDefSnap.Total:F0} eff={finalEfficiency:F2} ratio={forecastRatio:F2} req={finalGate.requiredRatio:F2} min={seth.minRaidRatio:F2} pass={finalGate.passed || finalGate.bypassedMinRatio}");
             float forecastedWinChance = RaidCasualtyModel.GetForecast(forecastRatio, seth).winChance;
             launchLog.winChance = forecastedWinChance;
 
@@ -579,10 +600,13 @@ namespace TSA_WorldDomination
                 && target is Settlement dropSett
                 && dropSett.HasMap
                 && dropSett.Faction?.IsPlayer == true;
-            if (ballisticColonyLetter)
-                NotifyIncomingDropPodRaidIfEnabled(target, attacker, traveler, seth, attStrengthAtArrival, colonyRaidHandedOff);
-            else
-                NotifyIncomingRaidIfEnabled(target, attacker, traveler, seth, attStrengthAtArrival, launchDefSnap.Total, forecastedWinChance, colonyRaidHandedOff);
+            if (!eval.isInvasionRaid)
+            {
+                if (ballisticColonyLetter)
+                    NotifyIncomingDropPodRaidIfEnabled(target, attacker, traveler, seth, attStrengthAtArrival, colonyRaidHandedOff);
+                else
+                    NotifyIncomingRaidIfEnabled(target, attacker, traveler, seth, attStrengthAtArrival, launchDefSnap.Total, forecastedWinChance, colonyRaidHandedOff);
+            }
 
             launchLog.attForceRows = RaidForceLogRow.FromLiveRows(attForceRowsLive);
 
@@ -608,6 +632,8 @@ namespace TSA_WorldDomination
             traveler.raidDefenderForceRows = RaidForceLogRow.CloneList(launchLog.defForceRows);
 
             manager.AddLog(launchLog);
+            if (!traveler.Destroyed)
+                eval.launchedTraveler = traveler;
         }
 
         private static bool ShouldLaunchGravshipRaid(CompViralSpread attComp, Settlement attacker, WorldDominationSettings seth, bool forceGravship = false)
@@ -630,6 +656,74 @@ namespace TSA_WorldDomination
                 ? seth.dropPodRaidChanceT3
                 : seth.dropPodRaidChance;
             return Rand.Chance(Mathf.Clamp01(chance));
+        }
+
+        /// <summary>
+        /// Forward Assault Invasion: launch one normal committed raid from a far host at a locked player target.
+        /// Homes stay; virtual allies in range contribute; min ratio and player raid rate caps are bypassed.
+        /// <paramref name="excludeHostIds"/> skips other Invasion wave hosts so they cannot double-spend as allies.
+        /// </summary>
+        public static WorldObject_Traveler TryLaunchCoordinatedInvasionRaid(
+            Settlement host,
+            WorldObject target,
+            WorldComponent_SpreadManager manager,
+            HashSet<int> excludeHostIds = null)
+        {
+            if (host == null || host.Destroyed || !host.Spawned || target == null || target.Destroyed || !target.Spawned)
+                return null;
+            var attComp = host.GetComponent<CompViralSpread>();
+            var seth = WorldDominationMod.settings;
+            if (attComp == null || seth == null || manager == null)
+                return null;
+
+            var lookup = WorldActions_Utils.GetWorldObjectsWithCompByFaction();
+            var attAllies = new List<WorldObject>(
+                Raid_ReinforcementLogic.GetReinforcements(
+                    host, null, AllyRadiusUtil.GetEffective(host, seth, manager), lookup, manager));
+            if (excludeHostIds != null && excludeHostIds.Count > 0)
+            {
+                for (int i = attAllies.Count - 1; i >= 0; i--)
+                {
+                    WorldObject ally = attAllies[i];
+                    if (ally != null && excludeHostIds.Contains(ally.ID))
+                        attAllies.RemoveAt(i);
+                }
+            }
+
+            RaidLaunchTargetKind kind = RaidLaunchGate.ClassifyTarget(target);
+            PendingRaidEvaluation.CandidateKind candKind =
+                kind == RaidLaunchTargetKind.PlayerColony ? PendingRaidEvaluation.CandidateKind.PlayerColony
+                : kind == RaidLaunchTargetKind.PlayerSimulated ? PendingRaidEvaluation.CandidateKind.PlayerSimulated
+                : PendingRaidEvaluation.CandidateKind.NPC;
+
+            float defTotal = kind == RaidLaunchTargetKind.PlayerColony
+                ? RaidLaunchGate.GetColonyStorytellerDefense(target)
+                : (target.GetComponent<CompViralSpread>()?.GetTotalLocalDefensePower() ?? 0f);
+
+            var eval = new PendingRaidEvaluation
+            {
+                attacker = host,
+                attComp = attComp,
+                manager = manager,
+                seth = seth,
+                objectsWithComp = lookup,
+                attAllies = attAllies,
+                totalAvailableAttPower = RaidLaunchGate.SumAvailableAttPower(host, attAllies, seth),
+                isInvasionRaid = true,
+                lockedColonyRequiredRatio = kind == RaidLaunchTargetKind.PlayerColony
+                    ? RaidLaunchGate.GetColonyRequiredRaidRatio(target.GetComponent<CompViralSpread>(), seth)
+                    : -1f,
+            };
+            eval.pending.Add(new PendingRaidEvaluation.CandidateEntry
+            {
+                target = target,
+                kind = candKind,
+                dist = WorldActions_Utils.GetDistance(host.Tile, target.Tile, manager),
+            });
+            eval.viable.Add(new RaidTargetCandidate(target, null, defTotal));
+
+            FinalizeRaid(eval);
+            return eval.launchedTraveler;
         }
 
         /// <summary>

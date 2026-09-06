@@ -1432,10 +1432,6 @@ namespace TSA_WorldDomination
                 Outpost_EstablishmentRequirements.GetProductionPauseReasons(this, cachedPauseReasons);
                 if (Outpost_Production_Utils.IsFoodProducerOutpost(def) && Outpost_Production_Utils.GetSkillAssignedToPhysicalProduction(this) < 0.01f)
                     cachedPauseReasons.Add("TSA_WD_Outpost_Inspect_ProducingPausedNoPhysicalSkill".Translate().ToString());
-                if ((Outpost_Production_Utils.IsRecruitingOutpost(def) || Outpost_Production_Utils.IsTradingOutpost(def)) && Outpost_Trading.GetNearbySettlementCount(this) == 0)
-                    cachedPauseReasons.Add("TSA_WD_Outpost_Inspect_ProducingPausedNoNearbySettlements".Translate().ToString());
-                if (Outpost_Production_Utils.IsEmbassyOutpost(def) && Outpost_Embassy.GetNearbySettlementCount(this) == 0)
-                    cachedPauseReasons.Add("TSA_WD_Outpost_Inspect_ProducingPausedNoNearbySettlements".Translate().ToString());
             }
             cachedProductionPausedByRequirements = cachedPauseReasons.Count > 0;
         }
@@ -2578,7 +2574,8 @@ namespace TSA_WorldDomination
                 var whComp = CompOutpostWarehouse.Get(this);
                 float auraPct = OutpostWarehouseAuraUtility.GetWarehouseAuraBonusFraction(this) * 100f;
                 if (auraPct > 1e-6f)
-                    baseStr += "\n" + "TSA_WD_Warehouse_InspectAuraBoost".Translate(auraPct.ToString("F0")).Colorize(Color.green);
+                    baseStr += "\n" + ("TSA_WD_Warehouse_InspectAuraBoost".Translate(auraPct.ToString("F0"))
+                        + Outpost_Production_Utils.BuildSoftProductionBonusSuffix(this)).Colorize(Color.green);
                 if (whComp != null)
                     baseStr += "\n" + whComp.GetInspectSummary();
                 return CacheInspectString(baseStr);

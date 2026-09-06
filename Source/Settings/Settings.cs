@@ -320,11 +320,11 @@ namespace TSA_WorldDomination
         public const bool DefEnableFortifyBlacklist = true;
         public const bool DefFortifyBlacklistApplyToNeutral = true;
         /// <summary>Relative weight: place a road block when Fortify runs (renormalized among valid options).</summary>
-        public const float DefFortifyChanceRoadBlock = 0.60f;
+        public const float DefFortifyChanceRoadBlock = 60f;
         /// <summary>Relative weight: place a spike trap when Fortify runs (roads only).</summary>
-        public const float DefFortifyChanceTrap = 0.30f;
+        public const float DefFortifyChanceTrap = 30f;
         /// <summary>Relative weight: place an AT Turret when Fortify runs (off-road, prefers behind road blocks).</summary>
-        public const float DefFortifyChanceTurret = 0.10f;
+        public const float DefFortifyChanceTurret = 15f;
         /// <summary>T1: chance to launch 2 fortify caravans (else 1). Road block / trap only.</summary>
         public const float DefFortifyMultiT1ChanceOf2 = 0.25f;
         /// <summary>T2: chance to launch 2 fortify caravans (else 1). Road block / trap only.</summary>
@@ -357,7 +357,7 @@ namespace TSA_WorldDomination
         public const int DefExpandMaxRad = 12;
         public const int DefMaxRoadRange = 16;
         /// <summary>NPC faction road-building max tile range (<see cref="WorldActions_Roads"/>).</summary>
-        public const int DefMaxRoadRangeNpc = 25;
+        public const int DefMaxRoadRangeNpc = 40;
         public const int DefMaxRoadBlockRange = 10;
         // Road blocks — per tier (Light / Normal / Heavy). Legacy single-value defaults map to Normal.
         public const float DefRoadBlockLightFlatPenalty = 1.5f;
@@ -410,9 +410,9 @@ namespace TSA_WorldDomination
         public const int DefLocalMaxT2 = 4;
         public const int DefLocalMaxT3 = 3;
         public const int DefLocalMaxT4 = 1;
-        public const int DefSameTierNeighborsToUpgradeT1 = 1;
+        public const int DefSameTierNeighborsToUpgradeT1 = 0;
         public const int DefSameTierNeighborsToUpgradeT2 = 1;
-        public const int DefSameTierNeighborsToUpgradeT3 = 2;
+        public const int DefSameTierNeighborsToUpgradeT3 = 1;
         public const float DefExpansionSuccessChance = 0.40f;
         public const float DefTier1BaseDefensiveStrength = 100f;
         public const float DefTier2BaseDefensiveStrength = 200f;
@@ -433,6 +433,50 @@ namespace TSA_WorldDomination
         public const float DefStrongFactionWarChance = 0.10f;
         public const float DefStrongFactionWarTopPct = 0.30f;
         public const bool DefStrongFactionWarRequireMidOrLate = false;
+        public const float DefStrongFactionWarCooldownDays = 15f;
+        public const float DefRevoltCooldownDays = 15f;
+        public const bool DefEnableForwardAssault = true;
+        public const float DefForwardAssaultChance = 0.25f;
+        public const float DefForwardAssaultTopPct = 0.30f;
+        public const float DefForwardAssaultMinDistanceFromPlayer = 20f;
+        public const float DefForwardAssaultCooldownDays = 12f;
+        public const bool DefFallBackToInvasionIfVanguardClusterFails = true;
+        public const float DefVanguardVsInvasionPickChance = 0.5f;
+        public const WdThreatStageGate DefGateThreatOpportunity = WdThreatStageGate.FromMid;
+        public const WdThreatStageGate DefGateThreatToO = WdThreatStageGate.FromMid;
+        public const WdThreatStageGate DefGateThreatMaraud = WdThreatStageGate.FromMid;
+        public const WdThreatStageGate DefGateThreatAmbush = WdThreatStageGate.FromMid;
+        public const WdThreatStageGate DefGateThreatT4MortarVsPlayer = WdThreatStageGate.FromMid;
+        public const WdThreatStageGate DefGateThreatT4AntiAirVsPlayer = WdThreatStageGate.FromMid;
+        public const WdThreatStageGate DefGateThreatVanguard = WdThreatStageGate.FromMid;
+        public const WdThreatStageGate DefGateThreatInvasion = WdThreatStageGate.FromLate;
+        public const WdThreatStageGate DefGateThreatDesperation = WdThreatStageGate.Always;
+        public const WdThreatStageGate DefGateThreatTurtle = WdThreatStageGate.Always;
+        public const WdThreatStageGate DefGateThreatStrongFactionWar = WdThreatStageGate.Always;
+        public const bool DefUseSharedSpecialEventCooldown = false;
+        public const float DefSharedSpecialEventCooldownDays = 15f;
+        public const bool DefEnableDesperationRaid = true;
+        /// <summary>After hard gates pass, chance Strategy on Settlement Loss actually fires (Turtle or desperation).</summary>
+        public const float DefSettlementLossStrategyFireChance = 0.40f;
+        /// <summary>Desperation likelihood multiplier after equal-share bands (1.0 = bands as designed; 0 = Turtle only).</summary>
+        public const float DefDesperationChanceOnLoss = 1f;
+        /// <summary>Legacy absolute share gate (hidden in UI; kept for save compat).</summary>
+        public const float DefDesperationMaxStrengthShare = 0.15f;
+        /// <summary>Shared Strategy on Settlement Loss anti-spam CD (Turtle or desperation).</summary>
+        public const float DefDesperationCooldownDays = 2f;
+        /// <summary>Relative to equal share: below this → dying band base desperation chance.</summary>
+        public const float DefSettlementLossStrategyDyingRelative = 0.40f;
+        /// <summary>Relative to equal share: below this (and at/above dying) → mid band.</summary>
+        public const float DefSettlementLossStrategyMidRelative = 0.80f;
+        public const float DefSettlementLossStrategyDyingBaseChance = 0.20f;
+        public const float DefSettlementLossStrategyMidBaseChance = 0.05f;
+        public const bool DefEnableTurtle = true;
+        public const float DefTurtleChance = 0.35f;
+        public const float DefTurtleCooldownDays = 3f;
+        public const int DefTurtleMaxPackSettlements = 4;
+        public const int DefTurtleMinClusterSize = 2;
+        public const int DefTurtleHostilePressureCount = 2;
+        public const float DefTurtlePressureRatio = 2.25f;
         public const bool DefEnableExpansionistZeal = true;
 
         public const float DefDurLeaderHandicapDays = 10f;
@@ -568,7 +612,7 @@ namespace TSA_WorldDomination
         /// <summary>Mid-game: additive ally pull radius bonus vs base (0.40 = +40%).</summary>
         public const float DefMidGameAllyRadiusBonusPct = 0.40f;
         public const int DefMidGameExpandTowardPlayerMaxTiles = 4;
-        public const float DefMidGameGarrisonBoostPct = 0.15f;
+        public const float DefMidGameGarrisonBoostPct = 0.25f;
         public const bool DefEnableMidGameT4SettlementMortar = false;
         public const bool DefEnableMidGameT4SettlementAntiAir = false;
         public const bool DefEnableMidGameOutpostIncidents = true;
@@ -601,6 +645,10 @@ namespace TSA_WorldDomination
         public const bool DefShowOutpostRequirementsPreviewInWdMenu = false;
         public const int DefUpkeepSilverPerOccupant = 30;
         public const int DefUpkeepIntervalDays = 15;
+        /// <summary>Trading/Recruiting: yield or neighbor-weight multiplier for hostile nearby NPC settlements (black market).</summary>
+        public const float DefHostileNearbyPartnerMult = 0.5f;
+        public const float HostileNearbyPartnerMultClampLow = 0.1f;
+        public const float HostileNearbyPartnerMultClampHigh = 1f;
         /// <summary>Modifier activates when player global strength share (outpost strength / world strength) reaches this fraction (OR with the outpost-strength threshold).</summary>
         public const float DefLateGameShareThreshold = 0.25f;
         // Absolute outpost strength OR-gate for Late (was 8000 before Mid/Late split).
@@ -619,7 +667,7 @@ namespace TSA_WorldDomination
         /// <summary>Max tiles a biased expansion hop may travel from its parent settlement while the modifier is active.</summary>
         public const int DefLateGameExpandTowardPlayerMaxTiles = 8;
         /// <summary>While late-game difficulty is active, settlement garrisons are multiplied by (1 + this). Stacks multiplicatively with tier garrison sliders.</summary>
-        public const float DefLateGameGarrisonBoostPct = 0.30f;
+        public const float DefLateGameGarrisonBoostPct = 0.50f;
         /// <summary>When true, NPC tier-4 settlement mortars MAY target the player (your WD travelers + outposts), but only while the late-game modifier is active. The master fire-at-all toggle is <see cref="DefEnableNpcT4Mortar"/>.</summary>
         public const bool DefEnableT4SettlementMortar = true;
         public const float DefCaravanRaidMinStorytellerFrac = 0.75f;
@@ -689,8 +737,8 @@ namespace TSA_WorldDomination
         // --- FEATURE C: SETTLEMENT-LAUNCHED AMBUSH (experimental) ---
         public const bool DefExperimentalSettlementAmbush = true;
         public const float DefSettlementAmbushChancePct = 0.50f;
-        /// <summary>Must be well above 1.0: a settlement that is not massively stronger is better off waiting at home.</summary>
-        public const float DefSettlementAmbushMinStrengthRatio = 1.6f;
+        /// <summary>Must be above 1.0: settlement must be somewhat stronger than the target to sally.</summary>
+        public const float DefSettlementAmbushMinStrengthRatio = 1.2f;
         /// <summary>Matches the inner blocked-tile / expansion min radius (5), not Rapid Response range.</summary>
         public const float DefSettlementAmbushWatchRangeTiles = 5f;
         public const float DefSettlementAmbushMaxStrengthRatio = 2.0f;
@@ -748,8 +796,8 @@ namespace TSA_WorldDomination
         public const float DefMaxRaidDays = 4.0f;
         /// <summary>Legacy ModConfig only. Field-lerp on clash/outpost defense removed; unused.</summary>
         public const float DefMinEfficiency = 0.5f;
-        public const float DefStrengthLossPerHour = 0.015f;
-        public const float DefMaxTravelPercentageStrengthLoss = 0.75f;
+        public const float DefStrengthLossPerHour = 0.01f;
+        public const float DefMaxTravelPercentageStrengthLoss = 0.60f;
         /// <summary>Master switch: when false, WD travelers never run water-capable pathfinding (land routes only).</summary>
         public const bool DefAllowCaravansTravelOverWater = true;
         /// <summary>When true, WD travelers use water-capable routing only if vanilla world pathing finds no route. When false (default), vanilla and water-capable routes are compared and the faster (by hop difficulty) route is used.</summary>
@@ -981,6 +1029,8 @@ namespace TSA_WorldDomination
         public const bool DefNotifyRandomDiplomacy = true;
         public const bool DefNotifyTradeAllyDiplomacy = true;
         public const bool DefNotifyStrongFactionWar = true;
+        public const bool DefNotifyDesperationRaid = true;
+        public const bool DefNotifyTurtle = true;
         public const int CurrentSettingsDataVersion = 4;
         // SURGICAL: New Defaults for Incoming Raid Notifications
         public const bool DefNotifyIncomingRaidColony = true;
@@ -1102,7 +1152,7 @@ namespace TSA_WorldDomination
         /// <summary>Max mortar strike / defensive engagement range in world tiles.</summary>
         public const float DefMortarRange = 40f;
         /// <summary>Days between mortar shots (shared by manual + defensive auto-fire).</summary>
-        public const float DefCooldownMortarDays = 5f;
+        public const float DefCooldownMortarDays = 3f;
         /// <summary>Legacy auto-fire tuning (distance-linear miss). Superseded by band hit chances; kept for save migration only.</summary>
         public const float DefMortarBaseMissChanceAtMaxRange = 0.80f;
         /// <summary>Legacy; hit chance now uses <see cref="MortarHitFlatBonusPerBestShootingLevel"/> × best shooter level.</summary>
@@ -1120,7 +1170,7 @@ namespace TSA_WorldDomination
         /// <summary>Minimum cooldown duration multiplier from skill + upgrades combined.</summary>
         public const float MortarCooldownMultiplierFloor = 0.20f;
         /// <summary>Flat offensive strength chip dealt when an NPC tier-4 settlement's mortar hits a hostile caravan/traveler.</summary>
-        public const float DefNpcMortarDamage = 150f;
+        public const float DefNpcMortarDamage = 200f;
         /// <summary>Equivalent Shooting skill used for NPC settlement mortar miss-chance (since settlements have no pawn skills).</summary>
         public const float DefNpcMortarSkillEquivalent = 10f;
         /// <summary>Master toggle: when true, NPC tier-4 settlements act as defensive mortar interceptors (fire at hostile non-player WD travelers, else nearest hostile settlement).</summary>
@@ -1335,6 +1385,48 @@ namespace TSA_WorldDomination
         public float strongFactionWarChance = DefStrongFactionWarChance;
         public float strongFactionWarTopPct = DefStrongFactionWarTopPct;
         public bool strongFactionWarRequireMidOrLate = DefStrongFactionWarRequireMidOrLate;
+        public float strongFactionWarCooldownDays = DefStrongFactionWarCooldownDays;
+        public float revoltCooldownDays = DefRevoltCooldownDays;
+        public bool enableForwardAssault = DefEnableForwardAssault;
+        public float forwardAssaultChance = DefForwardAssaultChance;
+        public float forwardAssaultTopPct = DefForwardAssaultTopPct;
+        public float forwardAssaultMinDistanceFromPlayer = DefForwardAssaultMinDistanceFromPlayer;
+        public float forwardAssaultCooldownDays = DefForwardAssaultCooldownDays;
+        public bool fallBackToInvasionIfVanguardClusterFails = DefFallBackToInvasionIfVanguardClusterFails;
+        /// <summary>When both Vanguard and Invasion stage gates allow, chance to attempt Vanguard first (else Invasion).</summary>
+        public float vanguardVsInvasionPickChance = DefVanguardVsInvasionPickChance;
+        /// <summary>Legacy shared opportunity gate (kept for save migration / write-through).</summary>
+        public WdThreatStageGate gateThreatOpportunity = DefGateThreatOpportunity;
+        public WdThreatStageGate gateThreatToO = DefGateThreatToO;
+        public WdThreatStageGate gateThreatMaraud = DefGateThreatMaraud;
+        public WdThreatStageGate gateThreatAmbush = DefGateThreatAmbush;
+        public WdThreatStageGate gateThreatT4MortarVsPlayer = DefGateThreatT4MortarVsPlayer;
+        public WdThreatStageGate gateThreatT4AntiAirVsPlayer = DefGateThreatT4AntiAirVsPlayer;
+        public WdThreatStageGate gateThreatVanguard = DefGateThreatVanguard;
+        public WdThreatStageGate gateThreatInvasion = DefGateThreatInvasion;
+        public WdThreatStageGate gateThreatDesperation = DefGateThreatDesperation;
+        public WdThreatStageGate gateThreatTurtle = DefGateThreatTurtle;
+        public WdThreatStageGate gateThreatStrongFactionWar = DefGateThreatStrongFactionWar;
+        /// <summary>0 = legacy bools not yet migrated to threat stage gates.</summary>
+        public int threatStageGatesVersion = 0;
+        /// <summary>
+        /// One-time Strategy / Turtle pressure retunes. 0 = none; 1 = Strategy gate/likelihood/CD; 2 = pressure ratio 1.66; 3 = 2.0; 4 = 2.25.
+        /// </summary>
+        public int settlementLossStrategyMigrateVersion = 0;
+        public bool useSharedSpecialEventCooldown = DefUseSharedSpecialEventCooldown;
+        public float sharedSpecialEventCooldownDays = DefSharedSpecialEventCooldownDays;
+        public bool enableDesperationRaid = DefEnableDesperationRaid;
+        public float settlementLossStrategyFireChance = DefSettlementLossStrategyFireChance;
+        public float desperationChanceOnLoss = DefDesperationChanceOnLoss;
+        public float desperationMaxStrengthShare = DefDesperationMaxStrengthShare;
+        public float desperationCooldownDays = DefDesperationCooldownDays;
+        public bool enableTurtle = DefEnableTurtle;
+        public float turtleChance = DefTurtleChance;
+        public float turtleCooldownDays = DefTurtleCooldownDays;
+        public int turtleMaxPackSettlements = DefTurtleMaxPackSettlements;
+        public int turtleMinClusterSize = DefTurtleMinClusterSize;
+        public int turtleHostilePressureCount = DefTurtleHostilePressureCount;
+        public float turtlePressureRatio = DefTurtlePressureRatio;
         public bool enableExpansionistZeal = DefEnableExpansionistZeal;
 
         public float durLeaderHandicapDays = DefDurLeaderHandicapDays;
@@ -1620,6 +1712,7 @@ namespace TSA_WorldDomination
         public bool showOutpostRequirementsPreviewInWdMenu = DefShowOutpostRequirementsPreviewInWdMenu;
         public int upkeepSilverPerOccupant = DefUpkeepSilverPerOccupant;
         public int upkeepIntervalDays = DefUpkeepIntervalDays;
+        public float hostileNearbyPartnerMult = DefHostileNearbyPartnerMult;
 
         public float garrisonRetainPct = DefGarrisonRetainPct;
         public float dropPodRaidChanceT3 = DefDropPodRaidChanceT3;
@@ -1864,6 +1957,8 @@ namespace TSA_WorldDomination
         public bool notifyRandomDiplomacy = DefNotifyRandomDiplomacy;
         public bool notifyTradeAllyDiplomacy = DefNotifyTradeAllyDiplomacy;
         public bool notifyStrongFactionWar = DefNotifyStrongFactionWar;
+        public bool notifyDesperationRaid = DefNotifyDesperationRaid;
+        public bool notifyTurtle = DefNotifyTurtle;
         /// <summary>Legacy; kept forever for save migration and approximate compatibility if downgrading the mod.</summary>
         public bool notifyDiplomaticChange = DefNotifyDiplomaticChange;
         /// <summary>Legacy; kept forever for save migration and approximate compatibility if downgrading the mod.</summary>
@@ -2474,6 +2569,42 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref strongFactionWarChance, "strongFactionWarChance", DefStrongFactionWarChance);
             Scribe_Values.Look(ref strongFactionWarTopPct, "strongFactionWarTopPct", DefStrongFactionWarTopPct);
             Scribe_Values.Look(ref strongFactionWarRequireMidOrLate, "strongFactionWarRequireMidOrLate", DefStrongFactionWarRequireMidOrLate);
+            Scribe_Values.Look(ref strongFactionWarCooldownDays, "strongFactionWarCooldownDays", DefStrongFactionWarCooldownDays);
+            Scribe_Values.Look(ref revoltCooldownDays, "revoltCooldownDays", DefRevoltCooldownDays);
+            Scribe_Values.Look(ref enableForwardAssault, "enableForwardAssault", DefEnableForwardAssault);
+            Scribe_Values.Look(ref forwardAssaultChance, "forwardAssaultChance", DefForwardAssaultChance);
+            Scribe_Values.Look(ref forwardAssaultTopPct, "forwardAssaultTopPct", DefForwardAssaultTopPct);
+            Scribe_Values.Look(ref forwardAssaultMinDistanceFromPlayer, "forwardAssaultMinDistanceFromPlayer", DefForwardAssaultMinDistanceFromPlayer);
+            Scribe_Values.Look(ref forwardAssaultCooldownDays, "forwardAssaultCooldownDays", DefForwardAssaultCooldownDays);
+            Scribe_Values.Look(ref fallBackToInvasionIfVanguardClusterFails, "fallBackToInvasionIfVanguardClusterFails", DefFallBackToInvasionIfVanguardClusterFails);
+            Scribe_Values.Look(ref vanguardVsInvasionPickChance, "vanguardVsInvasionPickChance", DefVanguardVsInvasionPickChance);
+            Scribe_Values.Look(ref gateThreatOpportunity, "gateThreatOpportunity", DefGateThreatOpportunity);
+            Scribe_Values.Look(ref gateThreatToO, "gateThreatToO", DefGateThreatToO);
+            Scribe_Values.Look(ref gateThreatMaraud, "gateThreatMaraud", DefGateThreatMaraud);
+            Scribe_Values.Look(ref gateThreatAmbush, "gateThreatAmbush", DefGateThreatAmbush);
+            Scribe_Values.Look(ref gateThreatT4MortarVsPlayer, "gateThreatT4MortarVsPlayer", DefGateThreatT4MortarVsPlayer);
+            Scribe_Values.Look(ref gateThreatT4AntiAirVsPlayer, "gateThreatT4AntiAirVsPlayer", DefGateThreatT4AntiAirVsPlayer);
+            Scribe_Values.Look(ref gateThreatVanguard, "gateThreatVanguard", DefGateThreatVanguard);
+            Scribe_Values.Look(ref gateThreatInvasion, "gateThreatInvasion", DefGateThreatInvasion);
+            Scribe_Values.Look(ref gateThreatDesperation, "gateThreatDesperation", DefGateThreatDesperation);
+            Scribe_Values.Look(ref gateThreatTurtle, "gateThreatTurtle", DefGateThreatTurtle);
+            Scribe_Values.Look(ref gateThreatStrongFactionWar, "gateThreatStrongFactionWar", DefGateThreatStrongFactionWar);
+            Scribe_Values.Look(ref threatStageGatesVersion, "threatStageGatesVersion", 0);
+            Scribe_Values.Look(ref settlementLossStrategyMigrateVersion, "settlementLossStrategyMigrateVersion", 0);
+            Scribe_Values.Look(ref useSharedSpecialEventCooldown, "useSharedSpecialEventCooldown", DefUseSharedSpecialEventCooldown);
+            Scribe_Values.Look(ref sharedSpecialEventCooldownDays, "sharedSpecialEventCooldownDays", DefSharedSpecialEventCooldownDays);
+            Scribe_Values.Look(ref enableDesperationRaid, "enableDesperationRaid", DefEnableDesperationRaid);
+            Scribe_Values.Look(ref settlementLossStrategyFireChance, "settlementLossStrategyFireChance", DefSettlementLossStrategyFireChance);
+            Scribe_Values.Look(ref desperationChanceOnLoss, "desperationChanceOnLoss", DefDesperationChanceOnLoss);
+            Scribe_Values.Look(ref desperationMaxStrengthShare, "desperationMaxStrengthShare", DefDesperationMaxStrengthShare);
+            Scribe_Values.Look(ref desperationCooldownDays, "desperationCooldownDays", DefDesperationCooldownDays);
+            Scribe_Values.Look(ref enableTurtle, "enableTurtle", DefEnableTurtle);
+            Scribe_Values.Look(ref turtleChance, "turtleChance", DefTurtleChance);
+            Scribe_Values.Look(ref turtleCooldownDays, "turtleCooldownDays", DefTurtleCooldownDays);
+            Scribe_Values.Look(ref turtleMaxPackSettlements, "turtleMaxPackSettlements", DefTurtleMaxPackSettlements);
+            Scribe_Values.Look(ref turtleMinClusterSize, "turtleMinClusterSize", DefTurtleMinClusterSize);
+            Scribe_Values.Look(ref turtleHostilePressureCount, "turtleHostilePressureCount", DefTurtleHostilePressureCount);
+            Scribe_Values.Look(ref turtlePressureRatio, "turtlePressureRatio", DefTurtlePressureRatio);
             Scribe_Values.Look(ref enableExpansionistZeal, "enableExpansionistZeal", DefEnableExpansionistZeal);
             Scribe_Values.Look(ref zealTriggerChance, "zealTriggerChance", DefZealTriggerChance);
 
@@ -2705,7 +2836,8 @@ namespace TSA_WorldDomination
             // Old Feature C defaults (0.9x / 7 tiles) were too eager. Migrate only if the player never moved the sliders.
             if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
-                if (Mathf.Approximately(settlementAmbushMinStrengthRatio, 0.9f))
+                if (Mathf.Approximately(settlementAmbushMinStrengthRatio, 0.9f)
+                    || Mathf.Approximately(settlementAmbushMinStrengthRatio, 1.6f))
                     settlementAmbushMinStrengthRatio = DefSettlementAmbushMinStrengthRatio;
                 if (Mathf.Approximately(settlementAmbushWatchRangeTiles, 7f))
                     settlementAmbushWatchRangeTiles = DefSettlementAmbushWatchRangeTiles;
@@ -2759,6 +2891,11 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref showOutpostRequirementsPreviewInWdMenu, "showOutpostRequirementsPreviewInWdMenu", DefShowOutpostRequirementsPreviewInWdMenu);
             Scribe_Values.Look(ref upkeepSilverPerOccupant, "upkeepSilverPerOccupant", DefUpkeepSilverPerOccupant);
             Scribe_Values.Look(ref upkeepIntervalDays, "upkeepIntervalDays", DefUpkeepIntervalDays);
+            Scribe_Values.Look(ref hostileNearbyPartnerMult, "hostileNearbyPartnerMult", DefHostileNearbyPartnerMult);
+            hostileNearbyPartnerMult = Mathf.Clamp(
+                hostileNearbyPartnerMult,
+                HostileNearbyPartnerMultClampLow,
+                HostileNearbyPartnerMultClampHigh);
 
             Scribe_Values.Look(ref garrisonRetainPct, "garrisonRetainPct", DefGarrisonRetainPct);
             Scribe_Values.Look(ref dropPodRaidChanceT3, "dropPodRaidChanceT3", DefDropPodRaidChanceT3);
@@ -2915,6 +3052,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref notifyRandomDiplomacy, "notifyRandomDiplomacy", DefNotifyRandomDiplomacy);
             Scribe_Values.Look(ref notifyTradeAllyDiplomacy, "notifyTradeAllyDiplomacy", DefNotifyTradeAllyDiplomacy);
             Scribe_Values.Look(ref notifyStrongFactionWar, "notifyStrongFactionWar", DefNotifyStrongFactionWar);
+            Scribe_Values.Look(ref notifyDesperationRaid, "notifyDesperationRaid", DefNotifyDesperationRaid);
+            Scribe_Values.Look(ref notifyTurtle, "notifyTurtle", DefNotifyTurtle);
             if (Scribe.mode == LoadSaveMode.Saving)
             {
                 notifyBuffNerf = notifyLeaderHandicap || notifyUnderdogBuff || notifyExpansionistZeal;
@@ -3046,7 +3185,24 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref enableNpcT4AntiAir, "enableNpcT4AntiAir", DefEnableNpcT4AntiAir);
             Scribe_Values.Look(ref enableT4SettlementAntiAir, "enableT4SettlementAntiAir", DefEnableT4SettlementAntiAir);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                MigrateFortifyTypeWeightsIfNeeded();
+                MigrateThreatStageGatesIfNeeded();
+                // Legacy Activate=false must keep the feature off after gate-only UI (force Never before sync).
+                if (!enableDesperationRaid)
+                    gateThreatDesperation = WdThreatStageGate.Never;
+                if (!enableTurtle)
+                    gateThreatTurtle = WdThreatStageGate.Never;
+                if (!enableForwardAssault)
+                {
+                    gateThreatVanguard = WdThreatStageGate.Never;
+                    gateThreatInvasion = WdThreatStageGate.Never;
+                }
+                // After legacy Never forces: unlock Strategy settings once (Easy used to force Never + old 25% chance).
+                MigrateSettlementLossStrategySettingsIfNeeded();
+                SyncLegacyThreatFlagsFromGates();
                 NormalizeEscalationConstraints();
+            }
             Scribe_Values.Look(ref npcAntiAirRange, "npcAntiAirRange", DefNpcAntiAirRange);
             Scribe_Values.Look(ref npcAntiAirCooldownSeconds, "npcAntiAirCooldownSeconds", DefNpcAntiAirCooldownSeconds);
             Scribe_Values.Look(ref npcAntiAirDamage, "npcAntiAirDamage", DefNpcAntiAirDamage);
@@ -3478,10 +3634,15 @@ namespace TSA_WorldDomination
                 && Approx(lateGameRaidBiasPct, bias)
                 && Approx(lateGameGrowthMult, growth)
                 && Approx(lateGameGarrisonBoostPct, garrison)
-                && enableT4SettlementMortar == (preset != WDSettingsDifficultyPreset.Easy)
-                && enableT4SettlementAntiAir == (preset != WDSettingsDifficultyPreset.Easy)
-                && enableMidGameT4SettlementMortar == (preset == WDSettingsDifficultyPreset.Hard)
-                && enableMidGameT4SettlementAntiAir == (preset == WDSettingsDifficultyPreset.Hard)
+                && gateThreatT4MortarVsPlayer == DifficultyPresetThreatGate(preset)
+                && gateThreatT4AntiAirVsPlayer == DifficultyPresetThreatGate(preset)
+                && gateThreatToO == DifficultyPresetThreatGate(preset)
+                && gateThreatMaraud == DifficultyPresetThreatGate(preset)
+                && gateThreatAmbush == DifficultyPresetThreatGate(preset)
+                && gateThreatVanguard == DifficultyPresetThreatGate(preset)
+                && gateThreatInvasion == DifficultyPresetThreatGate(preset)
+                && gateThreatTurtle == DifficultyPresetThreatGate(preset)
+                && gateThreatStrongFactionWar == DifficultyPresetThreatGate(preset)
                 && enableMidGameAllyRadiusScaling == (preset != WDSettingsDifficultyPreset.Easy)
                 && enableLateGameAllyRadiusScaling == (preset != WDSettingsDifficultyPreset.Easy)
                 && Approx(midGameAllyRadiusBonusPct, DefMidGameAllyRadiusBonusPct)
@@ -3612,14 +3773,9 @@ namespace TSA_WorldDomination
             enableOutpostIncidents = DefEnableOutpostIncidents;
             outpostIncidentSeverity = DefOutpostIncidentSeverity;
             outpostIncidentDailyChance = DefOutpostIncidentDailyChance;
-            // Easy: T4 vs player off. Medium: Late on, Mid off. Hard: Mid and Late on.
-            bool lateT4VsPlayer = preset != WDSettingsDifficultyPreset.Easy;
-            bool midT4VsPlayer = preset == WDSettingsDifficultyPreset.Hard;
+            // Easy: threat gates Never. Medium: FromMid. Hard: Always.
+            ApplyDifficultyThreatGates(preset);
             bool allyRadiusScale = preset != WDSettingsDifficultyPreset.Easy;
-            enableMidGameT4SettlementMortar = midT4VsPlayer;
-            enableMidGameT4SettlementAntiAir = midT4VsPlayer;
-            enableT4SettlementMortar = lateT4VsPlayer;
-            enableT4SettlementAntiAir = lateT4VsPlayer;
             enableMidGameAllyRadiusScaling = allyRadiusScale;
             enableLateGameAllyRadiusScaling = allyRadiusScale;
             NormalizeEscalationConstraints();
@@ -3658,7 +3814,7 @@ namespace TSA_WorldDomination
                     per7 = 2;
                     raidMin = 0.50f;
                     raidMax = 1.50f;
-                    wRaid = 15f;
+                    wRaid = 100f;
                     lateGame = false;
                     shareTh = DefLateGameShareThreshold;
                     outpostTh = DefLateGameOutpostStrengthThreshold;
@@ -3675,7 +3831,7 @@ namespace TSA_WorldDomination
                     per7 = 6;
                     raidMin = 1.00f;
                     raidMax = 3.00f;
-                    wRaid = 35f;
+                    wRaid = DefWeightRaid;
                     lateGame = true;
                     shareTh = DefLateGameShareThreshold;
                     outpostTh = DefLateGameOutpostStrengthThreshold;
@@ -3775,16 +3931,7 @@ namespace TSA_WorldDomination
 
         public void ResetDailyActions()
         {
-            tier1Share = DefTier1Share;
-            tier2Share = DefTier2Share;
-            tier3Share = DefTier3Share;
-            tier4Share = DefTier4Share;
-
-            // SURGICAL: Reset Caps
-            tier1MaxActions = DefCapT1;
-            tier2MaxActions = DefCapT2;
-            tier3MaxActions = DefCapT3;
-            tier4MaxActions = DefCapT4;
+            // SURGICAL: Reset Caps moved to ResetGrowth (tier shares + action caps live on Growth page).
 
             weightGrow = DefWeightGrow;
             weightRaid = DefWeightRaid;
@@ -3828,6 +3975,15 @@ namespace TSA_WorldDomination
 
         public void ResetGrowth()
         {
+            tier1Share = DefTier1Share;
+            tier2Share = DefTier2Share;
+            tier3Share = DefTier3Share;
+            tier4Share = DefTier4Share;
+            tier1MaxActions = DefCapT1;
+            tier2MaxActions = DefCapT2;
+            tier3MaxActions = DefCapT3;
+            tier4MaxActions = DefCapT4;
+
             maxSettlements = DefMaxSettlements;
             passiveGrowthT1 = DefPassiveGrowthT1;
             passiveGrowthT2 = DefPassiveGrowthT2;
@@ -4063,6 +4219,20 @@ namespace TSA_WorldDomination
             strongFactionWarChance = DefStrongFactionWarChance;
             strongFactionWarTopPct = DefStrongFactionWarTopPct;
             strongFactionWarRequireMidOrLate = DefStrongFactionWarRequireMidOrLate;
+            strongFactionWarCooldownDays = DefStrongFactionWarCooldownDays;
+            revoltCooldownDays = DefRevoltCooldownDays;
+            enableForwardAssault = DefEnableForwardAssault;
+            forwardAssaultChance = DefForwardAssaultChance;
+            forwardAssaultTopPct = DefForwardAssaultTopPct;
+            forwardAssaultMinDistanceFromPlayer = DefForwardAssaultMinDistanceFromPlayer;
+            forwardAssaultCooldownDays = DefForwardAssaultCooldownDays;
+            useSharedSpecialEventCooldown = DefUseSharedSpecialEventCooldown;
+            sharedSpecialEventCooldownDays = DefSharedSpecialEventCooldownDays;
+            enableDesperationRaid = DefEnableDesperationRaid;
+            settlementLossStrategyFireChance = DefSettlementLossStrategyFireChance;
+            desperationChanceOnLoss = DefDesperationChanceOnLoss;
+            desperationMaxStrengthShare = DefDesperationMaxStrengthShare;
+            desperationCooldownDays = DefDesperationCooldownDays;
             enableExpansionistZeal = DefEnableExpansionistZeal;
             diplomacyChangeChance = DefDiplomacyChangeChance;
             revoltChance = DefRevoltChance;
@@ -4237,6 +4407,128 @@ namespace TSA_WorldDomination
                 maxFrac = minFrac;
         }
 
+        /// <summary>Combat Difficulty page: escalation, threat gates, raid pressure, stage combat, arrival, garrison, T4 hardware, FA/desperation/war knobs.</summary>
+        public void ResetCombatDifficulty()
+        {
+            enableLateGameScaling = DefEnableLateGameScaling;
+            enableOutpostIncidents = DefEnableOutpostIncidents;
+            outpostIncidentSeverity = DefOutpostIncidentSeverity;
+            outpostIncidentDailyChance = DefOutpostIncidentDailyChance;
+            notifyOutpostIncident = DefNotifyOutpostIncident;
+            midGameShareThreshold = DefMidGameShareThreshold;
+            midGameOutpostStrengthThreshold = DefMidGameOutpostStrengthThreshold;
+            midGameRaidBiasPct = DefMidGameRaidBiasPct;
+            midGameGrowthMult = DefMidGameGrowthMult;
+            midGameAttackRangeBonusPct = DefMidGameAttackRangeBonusPct;
+            enableMidGameAllyRadiusScaling = DefEnableMidGameAllyRadiusScaling;
+            midGameAllyRadiusBonusPct = DefMidGameAllyRadiusBonusPct;
+            midGameExpandTowardPlayerMaxTiles = DefMidGameExpandTowardPlayerMaxTiles;
+            midGameGarrisonBoostPct = DefMidGameGarrisonBoostPct;
+            enableMidGameOutpostIncidents = DefEnableMidGameOutpostIncidents;
+            midGameOutpostIncidentSeverity = DefMidGameOutpostIncidentSeverity;
+            midGameOutpostIncidentDailyChance = DefMidGameOutpostIncidentDailyChance;
+            lateGameShareThreshold = DefLateGameShareThreshold;
+            lateGameOutpostStrengthThreshold = DefLateGameOutpostStrengthThreshold;
+            lateGameRaidBiasPct = DefLateGameRaidBiasPct;
+            lateGameGrowthMult = DefLateGameGrowthMult;
+            lateGameAttackRangeBonusPct = DefLateGameAttackRangeBonusPct;
+            enableLateGameAllyRadiusScaling = DefEnableLateGameAllyRadiusScaling;
+            lateGameAllyRadiusBonusPct = DefLateGameAllyRadiusBonusPct;
+            lateGameExpandTowardPlayerMaxTiles = DefLateGameExpandTowardPlayerMaxTiles;
+            lateGameGarrisonBoostPct = DefLateGameGarrisonBoostPct;
+            NormalizeEscalationThresholds();
+
+            ResetThreat();
+            ResetGarrisons();
+            ResetT4Mortar();
+
+            dropPodRaidChanceT3 = DefDropPodRaidChanceT3;
+            dropPodRaidChance = DefDropPodRaidChance;
+            dropPodRaidMinTechLevel = DefDropPodRaidMinTechLevel;
+            dropPodRaidAttritionMult = DefDropPodRaidAttritionMult;
+            colonySiegeRaidChance = DefColonySiegeRaidChance;
+
+            enableAtTurretTargetPlayerTravelers = DefEnableAtTurretTargetPlayerTravelers;
+            enableAtTurretTargetPlayerCaravans = DefEnableAtTurretTargetPlayerCaravans;
+            minPlayerCaravanVisibilityToTarget = DefMinPlayerCaravanVisibilityToTarget;
+            experimentalT4GravshipRaids = DefExperimentalT4GravshipRaids;
+            experimentalGravshipRaidChanceT4 = DefExperimentalGravshipRaidChanceT4;
+
+            gateThreatOpportunity = DefGateThreatOpportunity;
+            gateThreatToO = DefGateThreatToO;
+            gateThreatMaraud = DefGateThreatMaraud;
+            gateThreatAmbush = DefGateThreatAmbush;
+            gateThreatT4MortarVsPlayer = DefGateThreatT4MortarVsPlayer;
+            gateThreatT4AntiAirVsPlayer = DefGateThreatT4AntiAirVsPlayer;
+            gateThreatVanguard = DefGateThreatVanguard;
+            gateThreatInvasion = DefGateThreatInvasion;
+            gateThreatDesperation = DefGateThreatDesperation;
+            gateThreatTurtle = DefGateThreatTurtle;
+            gateThreatStrongFactionWar = DefGateThreatStrongFactionWar;
+            fallBackToInvasionIfVanguardClusterFails = DefFallBackToInvasionIfVanguardClusterFails;
+            vanguardVsInvasionPickChance = DefVanguardVsInvasionPickChance;
+            threatStageGatesVersion = 3;
+            settlementLossStrategyMigrateVersion = 2;
+
+            enableStrongFactionWar = DefEnableStrongFactionWar;
+            strongFactionWarChance = DefStrongFactionWarChance;
+            strongFactionWarTopPct = DefStrongFactionWarTopPct;
+            strongFactionWarCooldownDays = DefStrongFactionWarCooldownDays;
+            forwardAssaultChance = DefForwardAssaultChance;
+            forwardAssaultTopPct = DefForwardAssaultTopPct;
+            forwardAssaultMinDistanceFromPlayer = DefForwardAssaultMinDistanceFromPlayer;
+            forwardAssaultCooldownDays = DefForwardAssaultCooldownDays;
+            settlementLossStrategyFireChance = DefSettlementLossStrategyFireChance;
+            desperationChanceOnLoss = DefDesperationChanceOnLoss;
+            desperationMaxStrengthShare = DefDesperationMaxStrengthShare;
+            desperationCooldownDays = DefDesperationCooldownDays;
+            notifyDesperationRaid = DefNotifyDesperationRaid;
+            enableTurtle = DefEnableTurtle;
+            turtleChance = DefTurtleChance;
+            turtleCooldownDays = DefTurtleCooldownDays;
+            turtleMaxPackSettlements = DefTurtleMaxPackSettlements;
+            turtleMinClusterSize = DefTurtleMinClusterSize;
+            turtleHostilePressureCount = DefTurtleHostilePressureCount;
+            turtlePressureRatio = DefTurtlePressureRatio;
+            notifyTurtle = DefNotifyTurtle;
+            SyncLegacyThreatFlagsFromGates();
+
+            experimentalTargetOfOpportunity = DefExperimentalTargetOfOpportunity;
+            targetOfOpportunityEligibilityRollPct = DefTargetOfOpportunityEligibilityRollPct;
+            targetOfOpportunityMinRatioAdvantage = DefTargetOfOpportunityMinRatioAdvantage;
+            targetOfOpportunityMaxRetargets = DefTargetOfOpportunityMaxRetargets;
+            targetChangesMaxLifetime = DefTargetChangesMaxLifetime;
+            experimentalContinueAfterConquest = DefExperimentalContinueAfterConquest;
+            maraudingChanceToOccurPct = DefMaraudingChanceToOccurPct;
+            maraudingMinSurvivingStrengthAbsolute = DefMaraudingMinSurvivingStrengthAbsolute;
+            maraudingMaxChainedTargets = DefMaraudingMaxChainedTargets;
+            experimentalSettlementAmbush = DefExperimentalSettlementAmbush;
+            settlementAmbushChancePct = DefSettlementAmbushChancePct;
+            settlementAmbushMinStrengthRatio = DefSettlementAmbushMinStrengthRatio;
+            settlementAmbushWatchRangeTiles = DefSettlementAmbushWatchRangeTiles;
+            settlementAmbushMaxStrengthRatio = DefSettlementAmbushMaxStrengthRatio;
+            settlementAmbushMinTier = DefSettlementAmbushMinTier;
+            settlementAmbushMaxConcurrent = DefSettlementAmbushMaxConcurrent;
+            WorldComponent_SettlementWatchIndex.Get()?.Invalidate();
+        }
+
+        /// <summary>Economic Difficulty page: upkeep, skill DR, goodwill drain, bribe stage rates.</summary>
+        public void ResetEconomicDifficulty()
+        {
+            enableOutpostUpkeep = DefEnableOutpostUpkeep;
+            upkeepSilverPerOccupant = DefUpkeepSilverPerOccupant;
+            upkeepIntervalDays = DefUpkeepIntervalDays;
+            OutpostSkillScaling.ResetToDefaults(this);
+            enableGoodwillDrain = DefEnableGoodwillDrain;
+            goodwillDrainIntervalDays = DefGoodwillDrainIntervalDays;
+            midGameGoodwillDrainAmount = DefMidGameGoodwillDrainAmount;
+            lateGameGoodwillDrainAmount = DefLateGameGoodwillDrainAmount;
+            bribeSettlementSilverPerStrength = DefBribeSettlementSilverPerStrength;
+            bribeCaravanSilverPerStrengthEarly = DefBribeCaravanSilverPerStrengthEarly;
+            bribeCaravanSilverPerStrengthMid = DefBribeCaravanSilverPerStrengthMid;
+            bribeCaravanSilverPerStrengthLate = DefBribeCaravanSilverPerStrengthLate;
+        }
+
         public void ResetLateGame()
         {
             enableLateGameScaling = DefEnableLateGameScaling;
@@ -4296,18 +4588,196 @@ namespace TSA_WorldDomination
                 midGameOutpostStrengthThreshold = lateGameOutpostStrengthThreshold;
         }
 
-        /// <summary>If Mid T4 vs player is on, Late must stay on. Turning Late off also turns Mid off.</summary>
+        /// <summary>Write-through legacy Mid/Late T4 bools and opportunity ignore-gate from threat stage gates.</summary>
         public void NormalizeEscalationT4Flags()
         {
-            if (enableMidGameT4SettlementMortar)
-                enableT4SettlementMortar = true;
-            else if (!enableT4SettlementMortar)
-                enableMidGameT4SettlementMortar = false;
+            SyncLegacyThreatFlagsFromGates();
+        }
 
-            if (enableMidGameT4SettlementAntiAir)
-                enableT4SettlementAntiAir = true;
-            else if (!enableT4SettlementAntiAir)
-                enableMidGameT4SettlementAntiAir = false;
+        /// <summary>Old 0–1 fortify “chance” saves → integer weight scale (×100).</summary>
+        public void MigrateFortifyTypeWeightsIfNeeded()
+        {
+            if (fortifyChanceRoadBlock <= 1.01f
+                && fortifyChanceTrap <= 1.01f
+                && fortifyChanceTurret <= 1.01f
+                && fortifyChanceRoadBlock + fortifyChanceTrap + fortifyChanceTurret <= 1.05f
+                && fortifyChanceRoadBlock + fortifyChanceTrap + fortifyChanceTurret > 0f)
+            {
+                fortifyChanceRoadBlock *= 100f;
+                fortifyChanceTrap *= 100f;
+                fortifyChanceTurret *= 100f;
+            }
+        }
+
+        public void MigrateThreatStageGatesIfNeeded()
+        {
+            if (threatStageGatesVersion < 1)
+            {
+                gateThreatOpportunity = opportunityFeaturesIgnoreEscalationGate
+                    ? WdThreatStageGate.Always
+                    : WdThreatStageGate.FromMid;
+
+                gateThreatT4MortarVsPlayer = DeriveT4GateFromLegacy(
+                    enableMidGameT4SettlementMortar, enableT4SettlementMortar);
+                gateThreatT4AntiAirVsPlayer = DeriveT4GateFromLegacy(
+                    enableMidGameT4SettlementAntiAir, enableT4SettlementAntiAir);
+
+                gateThreatVanguard = WdThreatStageGate.FromMid;
+                gateThreatInvasion = WdThreatStageGate.FromLate;
+                gateThreatDesperation = enableDesperationRaid ? WdThreatStageGate.Always : WdThreatStageGate.Never;
+                gateThreatStrongFactionWar = strongFactionWarRequireMidOrLate
+                    ? WdThreatStageGate.FromMid
+                    : WdThreatStageGate.Always;
+
+                fallBackToInvasionIfVanguardClusterFails = DefFallBackToInvasionIfVanguardClusterFails;
+                threatStageGatesVersion = 1;
+            }
+
+            if (threatStageGatesVersion < 2)
+            {
+                // Split shared opportunity gate; honor legacy experimental enable flags for Never.
+                WdThreatStageGate shared = gateThreatOpportunity;
+                gateThreatToO = experimentalTargetOfOpportunity ? shared : WdThreatStageGate.Never;
+                gateThreatMaraud = experimentalContinueAfterConquest ? shared : WdThreatStageGate.Never;
+                gateThreatAmbush = experimentalSettlementAmbush ? shared : WdThreatStageGate.Never;
+                threatStageGatesVersion = 2;
+            }
+
+            if (threatStageGatesVersion < 3)
+            {
+                gateThreatTurtle = enableTurtle ? WdThreatStageGate.Always : WdThreatStageGate.Never;
+                threatStageGatesVersion = 3;
+            }
+        }
+
+        /// <summary>
+        /// One-shot retunes for Strategy / Turtle pressure after Def/semantics changes.
+        /// Bumps <see cref="settlementLossStrategyMigrateVersion"/> so each step runs once.
+        /// </summary>
+        public void MigrateSettlementLossStrategySettingsIfNeeded()
+        {
+            if (settlementLossStrategyMigrateVersion < 1)
+            {
+                // Old Def was 0.25 (flat chance). New Def is 1.0 (on/off via UI). Leave customized values alone.
+                const float oldChanceDef = 0.25f;
+                if (Approx(desperationChanceOnLoss, oldChanceDef))
+                    desperationChanceOnLoss = DefDesperationChanceOnLoss;
+
+                // Old Def cooldown was 3 days; new Def is 2.
+                const float oldCooldownDef = 3f;
+                if (Approx(desperationCooldownDays, oldCooldownDef))
+                    desperationCooldownDays = DefDesperationCooldownDays;
+
+                // Easy presets used to force Never on this gate. Mid/Late custom picks are left alone.
+                // Intentional Never is also unlocked once; player can set Never again afterward.
+                if (gateThreatDesperation == WdThreatStageGate.Never)
+                    gateThreatDesperation = DefGateThreatDesperation;
+
+                settlementLossStrategyMigrateVersion = 1;
+            }
+
+            if (settlementLossStrategyMigrateVersion < 2)
+            {
+                // Old Def 0.50 meant "hostiles half as strong." Retune 2 set Def 1.66.
+                turtlePressureRatio = 1.66f;
+                settlementLossStrategyMigrateVersion = 2;
+            }
+
+            if (settlementLossStrategyMigrateVersion < 3)
+            {
+                // Retune 3: Def 1.66 → 2.0. Leave customized ratios alone.
+                const float oldPressureDef166 = 1.66f;
+                if (Approx(turtlePressureRatio, oldPressureDef166))
+                    turtlePressureRatio = 2.0f;
+                settlementLossStrategyMigrateVersion = 3;
+            }
+
+            if (settlementLossStrategyMigrateVersion < 4)
+            {
+                // Retune 4: Def 2.0 → 2.25. Also catch anyone still on 1.66.
+                const float oldPressureDef166 = 1.66f;
+                const float oldPressureDef200 = 2.0f;
+                if (Approx(turtlePressureRatio, oldPressureDef166) || Approx(turtlePressureRatio, oldPressureDef200))
+                    turtlePressureRatio = DefTurtlePressureRatio;
+                settlementLossStrategyMigrateVersion = 4;
+            }
+        }
+
+        private static WdThreatStageGate DeriveT4GateFromLegacy(bool mid, bool late)
+        {
+            if (mid) return WdThreatStageGate.FromMid;
+            if (late) return WdThreatStageGate.FromLate;
+            return WdThreatStageGate.Never;
+        }
+
+        /// <summary>Keep legacy bools in sync for save write-through (not used as runtime feature gates).</summary>
+        public void SyncLegacyThreatFlagsFromGates()
+        {
+            // Shared legacy field tracks the "most permissive" of the three opportunity gates.
+            if (gateThreatToO == WdThreatStageGate.Always
+                || gateThreatMaraud == WdThreatStageGate.Always
+                || gateThreatAmbush == WdThreatStageGate.Always)
+                gateThreatOpportunity = WdThreatStageGate.Always;
+            else if (gateThreatToO == WdThreatStageGate.FromMid
+                || gateThreatMaraud == WdThreatStageGate.FromMid
+                || gateThreatAmbush == WdThreatStageGate.FromMid)
+                gateThreatOpportunity = WdThreatStageGate.FromMid;
+            else if (gateThreatToO == WdThreatStageGate.FromLate
+                || gateThreatMaraud == WdThreatStageGate.FromLate
+                || gateThreatAmbush == WdThreatStageGate.FromLate)
+                gateThreatOpportunity = WdThreatStageGate.FromLate;
+            else
+                gateThreatOpportunity = WdThreatStageGate.Never;
+
+            opportunityFeaturesIgnoreEscalationGate = gateThreatOpportunity == WdThreatStageGate.Always;
+
+            // Keep experimental enable flags written for save compat; runtime no longer gates on them.
+            experimentalTargetOfOpportunity = gateThreatToO != WdThreatStageGate.Never;
+            experimentalContinueAfterConquest = gateThreatMaraud != WdThreatStageGate.Never;
+            experimentalSettlementAmbush = gateThreatAmbush != WdThreatStageGate.Never;
+
+            enableMidGameT4SettlementMortar = gateThreatT4MortarVsPlayer == WdThreatStageGate.FromMid
+                || gateThreatT4MortarVsPlayer == WdThreatStageGate.Always;
+            enableT4SettlementMortar = gateThreatT4MortarVsPlayer != WdThreatStageGate.Never;
+
+            enableMidGameT4SettlementAntiAir = gateThreatT4AntiAirVsPlayer == WdThreatStageGate.FromMid
+                || gateThreatT4AntiAirVsPlayer == WdThreatStageGate.Always;
+            enableT4SettlementAntiAir = gateThreatT4AntiAirVsPlayer != WdThreatStageGate.Never;
+
+            strongFactionWarRequireMidOrLate = gateThreatStrongFactionWar == WdThreatStageGate.FromMid
+                || gateThreatStrongFactionWar == WdThreatStageGate.FromLate;
+
+            // Keep legacy Activate flags written for save compat; runtime gates on stage gates.
+            enableDesperationRaid = gateThreatDesperation != WdThreatStageGate.Never;
+            enableTurtle = gateThreatTurtle != WdThreatStageGate.Never;
+            enableForwardAssault = gateThreatVanguard != WdThreatStageGate.Never
+                || gateThreatInvasion != WdThreatStageGate.Never;
+        }
+
+        public static WdThreatStageGate DifficultyPresetThreatGate(WDSettingsDifficultyPreset preset) =>
+            preset switch
+            {
+                WDSettingsDifficultyPreset.Easy => WdThreatStageGate.Never,
+                WDSettingsDifficultyPreset.Hard => WdThreatStageGate.Always,
+                _ => WdThreatStageGate.FromMid
+            };
+
+        public void ApplyDifficultyThreatGates(WDSettingsDifficultyPreset preset)
+        {
+            WdThreatStageGate g = DifficultyPresetThreatGate(preset);
+            gateThreatToO = g;
+            gateThreatMaraud = g;
+            gateThreatAmbush = g;
+            gateThreatOpportunity = g;
+            gateThreatT4MortarVsPlayer = g;
+            gateThreatT4AntiAirVsPlayer = g;
+            gateThreatVanguard = g;
+            gateThreatInvasion = g;
+            // Strategy on Settlement Loss gate is player-controlled; difficulty presets do not touch it.
+            gateThreatTurtle = g;
+            gateThreatStrongFactionWar = g;
+            threatStageGatesVersion = 3;
+            SyncLegacyThreatFlagsFromGates();
         }
 
         public void ResetRaids()
@@ -4496,6 +4966,7 @@ namespace TSA_WorldDomination
             showOutpostRequirementsPreviewInWdMenu = DefShowOutpostRequirementsPreviewInWdMenu;
             upkeepSilverPerOccupant = DefUpkeepSilverPerOccupant;
             upkeepIntervalDays = DefUpkeepIntervalDays;
+            hostileNearbyPartnerMult = DefHostileNearbyPartnerMult;
             travelerPollutionDamageEnabled = DefTravelerPollutionDamageEnabled;
             wasterPollutionImmunityEnabled = DefWasterPollutionImmunityEnabled;
             pollutionDamageRaiders = DefPollutionDamageRaiders;
@@ -4543,6 +5014,8 @@ namespace TSA_WorldDomination
             notifyRandomDiplomacy = DefNotifyRandomDiplomacy;
             notifyTradeAllyDiplomacy = DefNotifyTradeAllyDiplomacy;
             notifyStrongFactionWar = DefNotifyStrongFactionWar;
+            notifyDesperationRaid = DefNotifyDesperationRaid;
+            notifyTurtle = DefNotifyTurtle;
             notifyDiplomaticChange = DefNotifyDiplomaticChange;
             notifyBuffNerf = DefNotifyBuffNerf;
             settingsDataVersion = CurrentSettingsDataVersion;

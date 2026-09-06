@@ -44,6 +44,7 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetThreat(),
                 () => { playerRaidsExpanded = clampExpanded = true; },
                 () => { playerRaidsExpanded = clampExpanded = false; });
+            SettingsUI.DrawSettingsSearchBar(l);
 
             // --- World Raids on player colony (top section) ---
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Raid_HeaderPlayer".Translate(), ref playerRaidsExpanded, SettingsUI.SectionHeaderColor))

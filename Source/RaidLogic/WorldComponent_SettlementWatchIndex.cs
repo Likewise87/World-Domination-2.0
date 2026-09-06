@@ -147,7 +147,7 @@ namespace TSA_WorldDomination
 
             // --- Nearby capability: every non-player-map settlement + player outpost (target-of-opportunity / maraud pool). ---
             // --- Ambush capability: plain (non-interceptor) NPC settlements get a separate, smaller dedicated ambush radius. ---
-            bool ambushEnabled = seth != null && seth.experimentalSettlementAmbush;
+            bool ambushEnabled = seth != null && seth.gateThreatAmbush != WdThreatStageGate.Never;
             float ambushRadius = seth?.settlementAmbushWatchRangeTiles ?? WorldDominationSettings.DefSettlementAmbushWatchRangeTiles;
             foreach (Settlement s in Find.WorldObjects.Settlements)
             {

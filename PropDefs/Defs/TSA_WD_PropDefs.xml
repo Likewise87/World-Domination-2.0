@@ -30,4 +30,10 @@
   <!-- Generic carts -->
   <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Cart_5</defName><category>VFE_PropCategory_Storage</category><priority>130</priority><prop>TSA_WD_Cart_5a</prop></VFEProps.PropDef>
   <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Cart_6</defName><category>VFE_PropCategory_Storage</category><priority>131</priority><prop>TSA_WD_Cart_6a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Cart_7</defName><category>VFE_PropCategory_Storage</category><priority>132</priority><prop>TSA_WD_Cart_7a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Cart_8</defName><category>VFE_PropCategory_Storage</category><priority>133</priority><prop>TSA_WD_Cart_8a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Cart_9</defName><category>VFE_PropCategory_Storage</category><priority>134</priority><prop>TSA_WD_Cart_9a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Cart_10</defName><category>VFE_PropCategory_Storage</category><priority>135</priority><prop>TSA_WD_Cart_10a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Cart_11</defName><category>VFE_PropCategory_Storage</category><priority>136</priority><prop>TSA_WD_Cart_11a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Cart_12</defName><category>VFE_PropCategory_Storage</category><priority>137</priority><prop>TSA_WD_Cart_12a</prop></VFEProps.PropDef>
 </Defs>

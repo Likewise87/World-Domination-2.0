@@ -26,7 +26,7 @@ Produces stone blocks, ores, and components. Output scales with the tile's minin
 
 ### Ranch Outpost
 
-Produces milk, eggs, and wool. Output scales with tile fertility and the occupants' Animals skill. Barn upgrades improve production efficiency and defense.
+Produces milk, eggs, wool, and meat (chicken, pig, cow). Output scales with tile fertility and the occupants' Animals skill. Barn upgrades improve tile fertility and defense.
 
 ### Research Outpost
 
@@ -44,11 +44,11 @@ Stores items without spoilage. Other outposts can route cycle deliveries into it
 
 ### Recruiting Outpost
 
-Recruits new colonists each cycle. Recruitment scales with cumulative Social skill and with up to the top three nearby neutral or allied settlement partners from each faction. Nearby partners also influence which faction xenotypes can appear among recruits.
+Recruits new colonists each cycle. Recruitment scales with cumulative Social skill and with up to the top three nearby NPC settlement partners from each faction (hostile neighbors count as defectors at reduced efficiency). Nearby partners also influence which faction xenotypes can appear among recruits. Founding requires enough nearby NPC settlements in range (hostiles count).
 
 ### Trading Outpost
 
-Produces silver each cycle. Output scales with cumulative Social skill and up to the top three nearby neutral or allied partners per faction. It must be founded within range of suitable settlements.
+Produces silver each cycle. Output scales with cumulative Social skill and up to the top three nearby NPC partners per faction (hostile neighbors count for black-market trade at reduced efficiency). Founding requires enough nearby NPC settlements in range (hostiles count).
 
 ### Biofuel Outpost
 

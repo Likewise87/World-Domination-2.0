@@ -237,5 +237,83 @@
       </shadowData>
     </graphicData>
   </ThingDef>
+  <ThingDef ParentName="TSA_WD_CartBase">
+    <defName>TSA_WD_Cart_7a</defName>
+    <label>wooden cart</label>
+    <description>A wooden cart.</description>
+    <graphicData>
+      <texPath>Props/WD_Cart_7</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+      <shadowData>
+        <volume>(1.2, 0.60, 0.60)</volume>
+      </shadowData>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_CartBase">
+    <defName>TSA_WD_Cart_8a</defName>
+    <label>wooden cart</label>
+    <description>A wooden cart.</description>
+    <graphicData>
+      <texPath>Props/WD_Cart_8</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+      <shadowData>
+        <volume>(1.2, 0.60, 0.60)</volume>
+      </shadowData>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_CartBase">
+    <defName>TSA_WD_Cart_9a</defName>
+    <label>wooden cart</label>
+    <description>A wooden cart.</description>
+    <graphicData>
+      <texPath>Props/WD_Cart_9</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+      <shadowData>
+        <volume>(1.2, 0.60, 0.60)</volume>
+      </shadowData>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_CartBase">
+    <defName>TSA_WD_Cart_10a</defName>
+    <label>wooden cart</label>
+    <description>A wooden cart.</description>
+    <graphicData>
+      <texPath>Props/WD_Cart_10</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+      <shadowData>
+        <volume>(1.2, 0.60, 0.60)</volume>
+      </shadowData>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_CartBase">
+    <defName>TSA_WD_Cart_11a</defName>
+    <label>wooden cart</label>
+    <description>A wooden cart.</description>
+    <graphicData>
+      <texPath>Props/WD_Cart_11</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+      <shadowData>
+        <volume>(1.2, 0.60, 0.60)</volume>
+      </shadowData>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_CartBase">
+    <defName>TSA_WD_Cart_12a</defName>
+    <label>wooden cart</label>
+    <description>A wooden cart.</description>
+    <graphicData>
+      <texPath>Props/WD_Cart_12</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(4,4)</drawSize>
+      <shadowData>
+        <volume>(1.2, 0.60, 0.60)</volume>
+      </shadowData>
+    </graphicData>
+  </ThingDef>
 
 </Defs>

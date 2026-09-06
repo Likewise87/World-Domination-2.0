@@ -179,6 +179,7 @@ namespace TSA_WorldDomination
                 return false;
 
             string name = settlement.LabelCap;
+            WorldActions_DesperationRaid.SuppressLossNotify(settlement);
             settlement.Destroy();
             Outpost_EstablishmentRequirements.InvalidateNearbyCountCache();
             Find.World.GetComponent<WorldComponent_SpreadManager>()?.Notify_WeightsChanged();

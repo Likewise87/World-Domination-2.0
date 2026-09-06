@@ -73,6 +73,18 @@ namespace TSA_WorldDomination
 
         public static void DrawOutcomeBox(Rect rect) => Widgets.DrawMenuSection(rect);
 
+        /// <summary>Yellow "Game paused" line under a dialog title. Advances <paramref name="y"/> past the label.</summary>
+        public static void DrawGamePausedLabel(ref float y, float width, float x = 0f)
+        {
+            Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.UpperLeft;
+            float h = Mathf.Max(PauseHeaderHeight, Text.LineHeight);
+            GUI.color = Color.yellow;
+            Widgets.Label(new Rect(x, y, width, h), OutpostTranslationUtil.Key("TSA_WD_Logistics_GamePaused"));
+            GUI.color = Color.white;
+            y += h + AfterPauseBannerGap;
+        }
+
         /// <summary>Yellow production-paused header + bullet reasons. Returns y below the block (unchanged if not paused).</summary>
         public static float DrawProductionPauseBanner(float x, float y, float width, WorldObject_WD_Outpost outpost)
         {

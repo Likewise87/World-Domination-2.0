@@ -44,9 +44,9 @@ Use the outpost's statistics and ally-radius display before choosing. A strong a
 
 ## Storyteller raids
 
-By default, WD blocks storyteller raids from factions with **WD Actions** enabled. Those factions pressure the player through world actions and raid travelers instead of appearing without a strategic origin.
+By default, WD blocks storyteller raids from factions with **WD Actions** enabled. Those factions pressure the player through world actions and raid travelers instead of appearing without a strategic origin. When the storyteller would pick a blocked faction, that `RaidEnemy` attempt is cancelled after faction resolve (not redirected to another faction).
 
-Factions with **WD Actions** off allow storyteller raids by default. Configure per faction in **World Setup → WD Faction scope and Allegiances** (Storyteller column), or from mod Settings in-game.
+Factions with **WD Actions** off allow storyteller raids by default. Configure per faction in **World Setup → WD Faction scope and Allegiances** (Storyteller column), or from mod Settings in-game. Manhunter packs and mech clusters use other incident workers and are not gated by this column.
 
 If you customized the old Threat settings checkboxes (**Block storyteller raids** / **Allow non-WD raids**), set per-faction rules again. New games and untouched saves use the new defaults without action.
 

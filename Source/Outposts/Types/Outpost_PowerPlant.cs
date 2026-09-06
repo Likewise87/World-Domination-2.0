@@ -13,7 +13,8 @@ namespace TSA_WorldDomination
         {
             if (outpost == null || outpost.Destroyed || outpost.Faction != Faction.OfPlayer) return 0f;
             if (!Outpost_Production_Utils.TryGetPowerPlantExtension(outpost.def, out var ext)) return 0f;
-            return Mathf.Max(0f, ext.remotePowerWatts + outpost.GetRemotePowerUpgradeBonus());
+            float watts = Mathf.Max(0f, ext.remotePowerWatts + outpost.GetRemotePowerUpgradeBonus());
+            return Mathf.Max(0f, Outpost_Production_Utils.ApplyExpertAndWarehouseYieldMultipliers(watts, outpost));
         }
 
         public static float GetTotalRemotePowerWatts()
@@ -77,14 +78,16 @@ namespace TSA_WorldDomination
         {
             float watts = GetRemotePowerWatts(outpost);
             string formatted = FormatWatts(watts);
-            return HasPlayerColonyMap()
+            string line = HasPlayerColonyMap()
                 ? "TSA_WD_PowerPlant_Inspect".Translate(formatted)
                 : "TSA_WD_PowerPlant_InspectNoColony".Translate(formatted);
+            return line + Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
         }
 
         public static string GetOverviewProductLine(WorldObject_WD_Outpost outpost)
         {
-            return "TSA_WD_PowerPlant_OverviewProduct".Translate(FormatWatts(GetRemotePowerWatts(outpost)));
+            return "TSA_WD_PowerPlant_OverviewProduct".Translate(FormatWatts(GetRemotePowerWatts(outpost)))
+                + Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
         }
 
         public static string GetOverviewTimeLine()

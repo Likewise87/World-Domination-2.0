@@ -5,6 +5,7 @@
   <TSA_WD_Day>día</TSA_WD_Day>
   <TSA_WD_Days>días</TSA_WD_Days>
   <TSA_WD_ExpansionCaravan>Caravana de expansión</TSA_WD_ExpansionCaravan>
+  <TSA_WD_MassRelocationCaravan>Caravana de vanguardia</TSA_WD_MassRelocationCaravan>
   <TSA_WD_Inspect_AidCD>Enfriamiento de ayuda: {0} días</TSA_WD_Inspect_AidCD>
   <TSA_WD_Inspect_AttackRange>Alcance de ataque: {0} casillas</TSA_WD_Inspect_AttackRange>
   <TSA_WD_Inspect_AttackRange_Zeal>Alcance de ataque (Celera): {0} casillas</TSA_WD_Inspect_AttackRange_Zeal>
@@ -109,10 +110,44 @@
   <TSA_WD_Log_MinorInc_Standard>INCIDENTE MENOR: Pérdida de {0} de fuerza ({1} → {2}).</TSA_WD_Log_MinorInc_Standard>
   <TSA_WD_Letter_Revolt_Label>Reaparición de facción</TSA_WD_Letter_Revolt_Label>
   <TSA_WD_Letter_Revolt_Text>¡Convulsión política! La facción {0} ha reaparecido y se ha hecho con: {1}. Perdido en la sublevación: {2}.</TSA_WD_Letter_Revolt_Text>
+  <TSA_WD_Letter_Vanguard_Label>Fuerzas de vanguardia en marcha</TSA_WD_Letter_Vanguard_Label>
+  <TSA_WD_Letter_Vanguard_Text>{0} ha desmantelado {1} asentamientos y marcha un clúster de vanguardia hacia tu región. Sus hogares ya no existen: detenlos antes de que se atrinchen.</TSA_WD_Letter_Vanguard_Text>
+  <TSA_WD_Letter_Invasion_Label>Fuerzas de invasión en marcha</TSA_WD_Letter_Invasion_Label>
+  <TSA_WD_Letter_Invasion_Text>{0} ha lanzado {1} incursiones de invasión coordinadas contra tus colonias y puestos desde asentamientos lejanos. Sus hogares permanecen. Prepara la defensa.</TSA_WD_Letter_Invasion_Text>
+  <TSA_WD_Letter_DesperationRaid_Label>Ataque desesperado de {0}</TSA_WD_Letter_DesperationRaid_Label>
+  <TSA_WD_Letter_DesperationRaid_Text>Están abandonando sus asentamientos y se precipitan hacia {0}.</TSA_WD_Letter_DesperationRaid_Text>
+  <TSA_WD_DesperationRallyCaravan>Concentración desesperada</TSA_WD_DesperationRallyCaravan>
+  <TSA_WD_InvasionRallyCaravan>Reunión de invasión</TSA_WD_InvasionRallyCaravan>
+  <TSA_WD_DesperationHostCaravan>Anfitrión de desesperación</TSA_WD_DesperationHostCaravan>
+  <TSA_WD_InvasionHostCaravan>Anfitrión de invasión</TSA_WD_InvasionHostCaravan>
+  <TSA_WD_Log_DesperationRaid_PackUp>DESESPERACIÓN: {0} abandona {1} asentamientos hacia {2}.</TSA_WD_Log_DesperationRaid_PackUp>
+  <TSA_WD_Log_DesperationRaid_PackRally>DESESPERACIÓN: {0} abandona el hogar → casilla de reunión {1}.</TSA_WD_Log_DesperationRaid_PackRally>
+  <TSA_WD_Log_DesperationRaid_PackRaid>DESESPERACIÓN: {0} abandona el hogar → asalto a {1}.</TSA_WD_Log_DesperationRaid_PackRaid>
+  <TSA_WD_Log_DesperationRaid_LaunchRaid>DESESPERACIÓN: {0} marcha contra {1}.</TSA_WD_Log_DesperationRaid_LaunchRaid>
+  <TSA_WD_Log_DesperationRallyCancelled>DESESPERACIÓN: {0} abortado; reasentamiento cerca del destino.</TSA_WD_Log_DesperationRallyCancelled>
+  <TSA_WD_Log_InvasionRallyCancelled>INVASIÓN: {0} abortado; reasentamiento cerca del destino.</TSA_WD_Log_InvasionRallyCancelled>
+  <TSA_WD_TurtleConsolidateCaravan>Consolidación defensiva</TSA_WD_TurtleConsolidateCaravan>
+  <TSA_WD_Log_Turtle_PackUp>ATRINCHERAMIENTO: {0} repliega {1} asentamientos hacia {2}.</TSA_WD_Log_Turtle_PackUp>
+  <TSA_WD_Log_Turtle_PackLeaf>ATRINCHERAMIENTO: {0} abandonó su hogar → consolidándose en {1}.</TSA_WD_Log_Turtle_PackLeaf>
+  <TSA_WD_Log_Turtle_Fortify>ATRINCHERAMIENTO: {0} levanta fortificaciones con la fuerza consolidada.</TSA_WD_Log_Turtle_Fortify>
+  <TSA_WD_Log_TurtleCancelled>ATRINCHERAMIENTO: {0} abortado; fuerza recuperada.</TSA_WD_Log_TurtleCancelled>
+  <TSA_WD_Letter_Turtle_Label>Consolidación de {0}</TSA_WD_Letter_Turtle_Label>
+  <TSA_WD_Letter_Turtle_Text>Están abandonando asentamientos periféricos y consolidando su fuerza en {0}, para luego fortificarlo.</TSA_WD_Letter_Turtle_Text>
   <TSA_WD_Log_ActionNoWeights>Acción diaria en {0}: Ninguna acción ponderada disponible (todos los pesos a cero).</TSA_WD_Log_ActionNoWeights>
   <TSA_WD_Log_ActionSkip>Acción omitida para {0}: No hay asentamientos activos disponibles.</TSA_WD_Log_ActionSkip>
   <TSA_WD_Log_BtnDetails>Detalles</TSA_WD_Log_BtnDetails>
   <TSA_WD_Log_ExpandSuccess>EXPANSIÓN: Éxito. {0} fundó el nuevo T1 {1}.</TSA_WD_Log_ExpandSuccess>
+  <TSA_WD_Log_MassRelocationCancelled>VANGUARDIA: {0} abortó; remonta cerca del destino.</TSA_WD_Log_MassRelocationCancelled>
+  <TSA_WD_Log_ForwardAssault_Vanguard>VANGUARDIA: {0} desmantela {1} asentamientos hacia un clúster cerca de ti.</TSA_WD_Log_ForwardAssault_Vanguard>
+  <TSA_WD_Log_ForwardAssault_Invasion>INVASIÓN: {0} lanza {1} incursiones coordinadas contra tus posesiones.</TSA_WD_Log_ForwardAssault_Invasion>
+  <TSA_WD_Log_ForwardAssault_PackUpVanguard>VANGUARDIA: {0} abandona el hogar → casilla {1}.</TSA_WD_Log_ForwardAssault_PackUpVanguard>
+  <TSA_WD_Log_ForwardAssault_PackUpInvasion>INVASIÓN: {0} marcha contra {1}.</TSA_WD_Log_ForwardAssault_PackUpInvasion>
+  <TSA_WD_Log_ForwardAssault_PackRally>INVASIÓN: {0} abandona el hogar → casilla de reunión {1}.</TSA_WD_Log_ForwardAssault_PackRally>
+  <TSA_WD_Log_ForwardAssault_InvasionRallyRaid>INVASIÓN: {0} marcha contra {1}.</TSA_WD_Log_ForwardAssault_InvasionRallyRaid>
+  <TSA_WD_Log_ForwardAssault_RatioBypass>(lanzado bajo la ratio mínima)</TSA_WD_Log_ForwardAssault_RatioBypass>
+  <TSA_WD_Log_ForwardAssault_VanguardFounded>VANGUARDIA: Fundado {0}.</TSA_WD_Log_ForwardAssault_VanguardFounded>
+  <TSA_WD_Log_ForwardAssault_BlockedRaid>VANGUARDIA: {0} encuentra {1} en la casilla — desvía a asalto.</TSA_WD_Log_ForwardAssault_BlockedRaid>
+  <TSA_WD_Log_ForwardAssault_Refound>VANGUARDIA: {0} remonta como {1}.</TSA_WD_Log_ForwardAssault_Refound>
   <TSA_WD_Log_ConquestSettlementFounded>CONQUISTA: {0} fundó {1} ({2}) tras una incursión exitosa.</TSA_WD_Log_ConquestSettlementFounded>
   <TSA_WD_Log_ExpansionCancelled>Misión {0} cancelada: Casilla ocupada o saturada.</TSA_WD_Log_ExpansionCancelled>
   <TSA_WD_Log_ExpeditionLaunched>INTENTO DE EXPANSIÓN: {0} envió colonos a fundar una nueva colonia.</TSA_WD_Log_ExpeditionLaunched>
@@ -207,6 +242,7 @@
   <TSA_WD_SubType_Production>Aldea de producción</TSA_WD_SubType_Production>
   <TSA_WD_SubType_Slavery>Aldea de esclavos</TSA_WD_SubType_Slavery>
   <TSA_WD_SubType_Fortress>Pueblo</TSA_WD_SubType_Fortress>
+  <TSA_WD_SubType_Vanguard>Vanguardia</TSA_WD_SubType_Vanguard>
   <TSA_WD_SubType_Citadel>Ciudadela</TSA_WD_SubType_Citadel>
   <TSA_WD_SubType_Generic>Asentamiento</TSA_WD_SubType_Generic>
   <TSA_WD_DebugRaidTravelerLabel>DEBUG caravana de asalto (500)</TSA_WD_DebugRaidTravelerLabel>

@@ -31,6 +31,7 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetGarrisons(),
                 () => { tribalExpanded = genericExpanded = scalingExpanded = true; },
                 () => { tribalExpanded = genericExpanded = scalingExpanded = false; });
+            SettingsUI.DrawSettingsSearchBar(l);
             l.Gap(12f);
 
             // --- TRIBAL SECTION ---

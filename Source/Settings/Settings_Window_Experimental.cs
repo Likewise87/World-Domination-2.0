@@ -10,13 +10,9 @@ namespace TSA_WorldDomination
         private Vector2 scrollPosition;
         private readonly string windowTitle;
         private bool worldActionsExpanded = true;
-        private bool targetOfOpportunityExpanded = true;
-        private bool maraudingExpanded = true;
-        private bool settlementAmbushExpanded = true;
         private bool iconsExpanded = true;
         private bool controlsExpanded = true;
         private bool pollutionExpanded = true;
-        private bool upkeepExpanded = true;
 
         public override Vector2 InitialSize => new Vector2(850f, 700f);
 
@@ -33,7 +29,7 @@ namespace TSA_WorldDomination
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
             float contentWidth = contentRect.width - 24f;
-            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2950f);
+            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2200f);
 
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
             Listing_Standard l = new Listing_Standard();
@@ -41,18 +37,9 @@ namespace TSA_WorldDomination
 
             var s = WorldDominationMod.settings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetExperimental(),
-                () =>
-                {
-                    worldActionsExpanded = targetOfOpportunityExpanded = maraudingExpanded =
-                        settlementAmbushExpanded = iconsExpanded = controlsExpanded =
-                        pollutionExpanded = upkeepExpanded = true;
-                },
-                () =>
-                {
-                    worldActionsExpanded = targetOfOpportunityExpanded = maraudingExpanded =
-                        settlementAmbushExpanded = iconsExpanded = controlsExpanded =
-                        pollutionExpanded = upkeepExpanded = false;
-                });
+                () => { worldActionsExpanded = iconsExpanded = controlsExpanded = pollutionExpanded = true; },
+                () => { worldActionsExpanded = iconsExpanded = controlsExpanded = pollutionExpanded = false; });
+            SettingsUI.DrawSettingsSearchBar(l);
 
             SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_OutpostWithdrawStrengthBudget".Translate(),
                 ref s.experimentalOutpostWithdrawStrengthBudget,
@@ -62,69 +49,6 @@ namespace TSA_WorldDomination
                 ref s.experimentalOutpostDefenseDeployBudget,
                 "TSA_WD_Experimental_OutpostDefenseDeployBudgetTip".Translate(),
                 defaultValue: WorldDominationSettings.DefExperimentalOutpostDefenseDeployBudget);
-
-            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Experimental_HeaderTargetOfOpportunity".Translate(), ref targetOfOpportunityExpanded, SettingsUI.SectionHeaderColor))
-            {
-                SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_TargetOfOpportunity".Translate(),
-                    ref s.experimentalTargetOfOpportunity,
-                    "TSA_WD_Experimental_TargetOfOpportunityTip".Translate(),
-                    defaultValue: WorldDominationSettings.DefExperimentalTargetOfOpportunity);
-                if (s.experimentalTargetOfOpportunity)
-                {
-                    s.targetOfOpportunityEligibilityRollPct = SettingsUI.LabeledSlider(l, "TSA_WD_Experimental_ToORollPct".Translate(), s.targetOfOpportunityEligibilityRollPct, 0f, 1f,
-                        "TSA_WD_Experimental_ToORollPctTip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefTargetOfOpportunityEligibilityRollPct);
-                    s.targetOfOpportunityMinRatioAdvantage = SettingsUI.LabeledSlider(l, "TSA_WD_Experimental_ToOMinRatioAdvantage".Translate(), s.targetOfOpportunityMinRatioAdvantage, 0f, 2f,
-                        "TSA_WD_Experimental_ToOMinRatioAdvantageTip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefTargetOfOpportunityMinRatioAdvantage);
-                    s.targetOfOpportunityMaxRetargets = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_Experimental_ToOMaxRetargets".Translate(), s.targetOfOpportunityMaxRetargets, 0f, 10f,
-                        "TSA_WD_Experimental_ToOMaxRetargetsTip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefTargetOfOpportunityMaxRetargets));
-                    s.targetChangesMaxLifetime = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_Experimental_TargetChangesMaxLifetime".Translate(), s.targetChangesMaxLifetime, 0f, 15f,
-                        "TSA_WD_Experimental_TargetChangesMaxLifetimeTip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefTargetChangesMaxLifetime));
-                }
-            }
-
-            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Experimental_HeaderMarauding".Translate(), ref maraudingExpanded, SettingsUI.SectionHeaderColor))
-            {
-                SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_ContinueAfterConquest".Translate(),
-                    ref s.experimentalContinueAfterConquest,
-                    "TSA_WD_Experimental_ContinueAfterConquestTip".Translate(),
-                    defaultValue: WorldDominationSettings.DefExperimentalContinueAfterConquest);
-                if (s.experimentalContinueAfterConquest)
-                {
-                    s.maraudingChanceToOccurPct = SettingsUI.LabeledSlider(l, "TSA_WD_Experimental_MaraudChancePct".Translate(), s.maraudingChanceToOccurPct, 0f, 1f,
-                        "TSA_WD_Experimental_MaraudChancePctTip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefMaraudingChanceToOccurPct);
-                    s.maraudingMinSurvivingStrengthAbsolute = SettingsUI.LabeledSlider(l, "TSA_WD_Experimental_MaraudMinStrength".Translate(), s.maraudingMinSurvivingStrengthAbsolute, 200f, 2000f,
-                        "TSA_WD_Experimental_MaraudMinStrengthTip".Translate(), 5f, SliderFormat.Fixed0, WorldDominationSettings.DefMaraudingMinSurvivingStrengthAbsolute);
-                    s.maraudingMaxChainedTargets = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_Experimental_MaraudMaxChain".Translate(), s.maraudingMaxChainedTargets, 0f, 10f,
-                        "TSA_WD_Experimental_MaraudMaxChainTip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefMaraudingMaxChainedTargets));
-                }
-            }
-
-            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Experimental_HeaderSettlementAmbush".Translate(), ref settlementAmbushExpanded, SettingsUI.SectionHeaderColor))
-            {
-                SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_SettlementAmbush".Translate(),
-                    ref s.experimentalSettlementAmbush,
-                    "TSA_WD_Experimental_SettlementAmbushTip".Translate(),
-                    defaultValue: WorldDominationSettings.DefExperimentalSettlementAmbush);
-                if (s.experimentalSettlementAmbush)
-                {
-                    s.settlementAmbushChancePct = SettingsUI.LabeledSlider(l, "TSA_WD_Experimental_AmbushChancePct".Translate(), s.settlementAmbushChancePct, 0f, 1f,
-                        "TSA_WD_Experimental_AmbushChancePctTip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefSettlementAmbushChancePct);
-                    s.settlementAmbushMinStrengthRatio = SettingsUI.LabeledSlider(l, "TSA_WD_Experimental_AmbushMinRatio".Translate(), s.settlementAmbushMinStrengthRatio, 0f, 3f,
-                        "TSA_WD_Experimental_AmbushMinRatioTip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefSettlementAmbushMinStrengthRatio);
-                    s.settlementAmbushMaxStrengthRatio = SettingsUI.LabeledSlider(l, "TSA_WD_Experimental_AmbushMaxRatio".Translate(), s.settlementAmbushMaxStrengthRatio, RapidResponseUtility.MinMaxStrengthRatio, RapidResponseUtility.MaxMaxStrengthRatio,
-                        "TSA_WD_Experimental_AmbushMaxRatioTip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefSettlementAmbushMaxStrengthRatio);
-                    SettlementTier prevMinTier = s.settlementAmbushMinTier;
-                    s.settlementAmbushMinTier = DrawAmbushMinTierSlider(l, s.settlementAmbushMinTier);
-                    if (s.settlementAmbushMinTier != prevMinTier)
-                        WorldComponent_SettlementWatchIndex.Get()?.Invalidate();
-                    s.settlementAmbushMaxConcurrent = DrawAmbushMaxConcurrentSlider(l, s.settlementAmbushMaxConcurrent);
-                    float prevWatchRange = s.settlementAmbushWatchRangeTiles;
-                    s.settlementAmbushWatchRangeTiles = SettingsUI.LabeledSlider(l, "TSA_WD_Experimental_AmbushWatchRange".Translate(), s.settlementAmbushWatchRangeTiles, 1f, 40f,
-                        "TSA_WD_Experimental_AmbushWatchRangeTip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefSettlementAmbushWatchRangeTiles);
-                    if (!Mathf.Approximately(prevWatchRange, s.settlementAmbushWatchRangeTiles))
-                        WorldComponent_SettlementWatchIndex.Get()?.Invalidate();
-                }
-            }
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Experimental_HeaderWorldActionsRaidLogic".Translate(), ref worldActionsExpanded, SettingsUI.SectionHeaderColor))
             {
@@ -161,30 +85,6 @@ namespace TSA_WorldDomination
                     else
                         WdWorldDominationVictoryQuestHelper.RemoveActiveIfAny();
                 }
-                SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_AT_TargetPlayerTravelers".Translate(),
-                    ref s.enableAtTurretTargetPlayerTravelers,
-                    "TSA_WD_Experimental_AT_TargetPlayerTravelersTip".Translate(),
-                    defaultValue: WorldDominationSettings.DefEnableAtTurretTargetPlayerTravelers);
-                SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_AT_TargetPlayerCaravans".Translate(),
-                    ref s.enableAtTurretTargetPlayerCaravans,
-                    "TSA_WD_Experimental_AT_TargetPlayerCaravansTip".Translate(),
-                    defaultValue: WorldDominationSettings.DefEnableAtTurretTargetPlayerCaravans);
-                if (s.enableAtTurretTargetPlayerCaravans)
-                {
-                    s.minPlayerCaravanVisibilityToTarget = SettingsUI.LabeledSlider(l,
-                        "TSA_WD_Experimental_MinPlayerCaravanVisibility".Translate(),
-                        s.minPlayerCaravanVisibilityToTarget,
-                        WorldDominationSettings.MinPlayerCaravanVisibilityToTargetClampLow,
-                        WorldDominationSettings.MinPlayerCaravanVisibilityToTargetClampHigh,
-                        "TSA_WD_Experimental_MinPlayerCaravanVisibilityTip".Translate(),
-                        0.01f, SliderFormat.Percent,
-                        WorldDominationSettings.DefMinPlayerCaravanVisibilityToTarget);
-                }
-
-                SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_OpportunityIgnoreEscalationGate".Translate(),
-                    ref s.opportunityFeaturesIgnoreEscalationGate,
-                    "TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip".Translate(),
-                    defaultValue: WorldDominationSettings.DefOpportunityFeaturesIgnoreEscalationGate);
 
                 SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_EnableWorldMapSounds".Translate(),
                     ref s.enableWorldMapSounds,
@@ -195,19 +95,6 @@ namespace TSA_WorldDomination
                     ref s.experimentalUnlimitedAssaultMortarSupport,
                     "TSA_WD_Experimental_UnlimitedAssaultMortarSupportTip".Translate(),
                     defaultValue: WorldDominationSettings.DefExperimentalUnlimitedAssaultMortarSupport);
-
-                SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_T4GravshipRaids".Translate(),
-                    ref s.experimentalT4GravshipRaids,
-                    "TSA_WD_Experimental_T4GravshipRaidsTip".Translate(),
-                    defaultValue: WorldDominationSettings.DefExperimentalT4GravshipRaids);
-                if (s.experimentalT4GravshipRaids)
-                {
-                    s.experimentalGravshipRaidChanceT4 = SettingsUI.LabeledSlider(l,
-                        "TSA_WD_Experimental_GravshipRaidChanceT4".Translate(),
-                        s.experimentalGravshipRaidChanceT4, 0f, 1f,
-                        "TSA_WD_Experimental_GravshipRaidChanceT4Tip".Translate(),
-                        0.05f, SliderFormat.Percent, WorldDominationSettings.DefExperimentalGravshipRaidChanceT4);
-                }
             }
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Notify_HeaderWorldMapIcons".Translate(), ref iconsExpanded, SettingsUI.SectionHeaderColor))
@@ -251,27 +138,6 @@ namespace TSA_WorldDomination
                     ref s.showOutpostRequirementsPreviewInWdMenu,
                     "TSA_WD_OutpostSim_ShowInWdMenuTip".Translate(),
                     defaultValue: WorldDominationSettings.DefShowOutpostRequirementsPreviewInWdMenu);
-            }
-
-            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Experimental_HeaderUpkeep".Translate(), ref upkeepExpanded, SettingsUI.SectionHeaderColor))
-            {
-                SettingsUI.DrawCheckbox(l, "TSA_WD_Upkeep_Enable".Translate(),
-                    ref s.enableOutpostUpkeep,
-                    "TSA_WD_Upkeep_EnableTip".Translate(),
-                    defaultValue: WorldDominationSettings.DefEnableOutpostUpkeep);
-                if (s.enableOutpostUpkeep)
-                {
-                    s.upkeepSilverPerOccupant = (int)SettingsUI.LabeledSlider(l,
-                        "TSA_WD_Upkeep_SilverPerOccupant".Translate(),
-                        s.upkeepSilverPerOccupant, 1f, 200f,
-                        "TSA_WD_Upkeep_SilverPerOccupantTip".Translate(),
-                        1f, SliderFormat.Fixed0, WorldDominationSettings.DefUpkeepSilverPerOccupant);
-                    s.upkeepIntervalDays = (int)SettingsUI.LabeledSlider(l,
-                        "TSA_WD_Upkeep_IntervalDays".Translate(),
-                        s.upkeepIntervalDays, 1f, 60f,
-                        "TSA_WD_Upkeep_IntervalDaysTip".Translate(),
-                        1f, SliderFormat.Fixed0, WorldDominationSettings.DefUpkeepIntervalDays);
-                }
             }
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Experimental_HeaderPollution".Translate(), ref pollutionExpanded, SettingsUI.SectionHeaderColor))
@@ -388,46 +254,6 @@ namespace TSA_WorldDomination
             KeyCode.Q, KeyCode.R, KeyCode.S, KeyCode.T, KeyCode.U, KeyCode.V, KeyCode.W, KeyCode.X,
             KeyCode.Y, KeyCode.Z
         };
-
-        private static SettlementTier DrawAmbushMinTierSlider(Listing_Standard l, SettlementTier current)
-        {
-            l.Gap(2f);
-            Rect r = l.GetRect(24f);
-            TooltipHandler.TipRegion(r, SettingsUI.TooltipWithDefault(
-                "TSA_WD_Experimental_AmbushMinTierTip".Translate(),
-                AmbushMinTierLabel(WorldDominationSettings.DefSettlementAmbushMinTier)));
-            string suffix = AmbushMinTierLabel(current);
-            Widgets.Label(r.LeftPart(0.5f), $"{"TSA_WD_Experimental_AmbushMinTier".Translate()}: {suffix.Colorize(Color.cyan)}");
-            float next = Widgets.HorizontalSlider(r.RightPart(0.5f), (int)current, (int)SettlementTier.T1, (int)SettlementTier.T4, false, null, null, null, 1f);
-            return (SettlementTier)Mathf.RoundToInt(next);
-        }
-
-        private static int DrawAmbushMaxConcurrentSlider(Listing_Standard l, int current)
-        {
-            l.Gap(2f);
-            Rect r = l.GetRect(24f);
-            TooltipHandler.TipRegion(r, SettingsUI.TooltipWithDefault(
-                "TSA_WD_Experimental_AmbushMaxConcurrentTip".Translate(),
-                (float)WorldDominationSettings.DefSettlementAmbushMaxConcurrent,
-                SliderFormat.Fixed0));
-            current = Mathf.Clamp(current, 0, 32);
-            string suffix = current <= 0
-                ? "TSA_WD_Experimental_AmbushMaxConcurrentUnlimited".Translate().ToString()
-                : current.ToString();
-            Widgets.Label(r.LeftPart(0.5f), $"{"TSA_WD_Experimental_AmbushMaxConcurrent".Translate()}: {suffix.Colorize(Color.cyan)}");
-            return Mathf.RoundToInt(Widgets.HorizontalSlider(r.RightPart(0.5f), current, 0f, 32f, false, null, null, null, 1f));
-        }
-
-        private static string AmbushMinTierLabel(SettlementTier tier)
-        {
-            switch (tier)
-            {
-                case SettlementTier.T4: return "TSA_WD_Tier4".Translate();
-                case SettlementTier.T3: return "TSA_WD_Tier3".Translate();
-                case SettlementTier.T2: return "TSA_WD_Tier2".Translate();
-                default: return "TSA_WD_Tier1".Translate();
-            }
-        }
 
         private static string FormatOverlayHoldKey(KeyCode key)
         {

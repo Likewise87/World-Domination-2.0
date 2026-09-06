@@ -74,6 +74,8 @@ Column sets differ. Chrome must not be copied again.
 
 Extend `DrawRosterViewControls` / `DrawFilterableHeader`. Do not start a fifth copy.
 
+**Join Stamp** (prefs id still `New`): days since first player-faction join via `WorldComponent_PlayerPawnJoinTimes`. Shared filter enum `PawnRosterJoinedFilter` and helpers in `PlayerPawnRosterUtility` / `PawnRosterHeaderFilter.JoinedFilterChoices`. Used by All Player Pawns and Outpost Pawns.
+
 ## Table headers
 
 Call `PawnRosterHeaderFilter.DrawFilterableHeader`. Filter icon is optional (`onFilterClick == null` skips it). Diplomacy, World Stats, Outpost Overview, and Buy / Bribe / Gift / Negotiate deals already use it. Do not add another local sort-arrow `DrawHeader`.

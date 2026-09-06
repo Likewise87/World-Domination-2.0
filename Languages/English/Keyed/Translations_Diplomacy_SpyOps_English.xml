@@ -94,6 +94,8 @@
   <TSA_WD_Diplo_StrongFactionWarTopPctTooltip>Share of the strongest NPC factions (by total strength) that can be picked for strong-faction escalation. At least two factions are always considered when available.</TSA_WD_Diplo_StrongFactionWarTopPctTooltip>
   <TSA_WD_Diplo_StrongFactionWarRequireMidOrLate>Only after Mid or Late Game</TSA_WD_Diplo_StrongFactionWarRequireMidOrLate>
   <TSA_WD_Diplo_StrongFactionWarRequireMidOrLateTooltip>When on, strong-faction wars only roll once Mid Game or Late Game escalation is active.</TSA_WD_Diplo_StrongFactionWarRequireMidOrLateTooltip>
+  <TSA_WD_Diplo_StrongFactionWarCooldown>Strong-faction war cooldown</TSA_WD_Diplo_StrongFactionWarCooldown>
+  <TSA_WD_Diplo_StrongFactionWarCooldownTooltip>Days before another strong-faction war can fire after one succeeds. Ignored while Shared special event cooldown is on.</TSA_WD_Diplo_StrongFactionWarCooldownTooltip>
   <TSA_WD_Diplo_StrongFactionWar_Label>Strong factions at war</TSA_WD_Diplo_StrongFactionWar_Label>
   <TSA_WD_Diplo_StrongFactionWar_Msg>War: '{0}' and '{1}' (among the strongest powers) have declared war.</TSA_WD_Diplo_StrongFactionWar_Msg>
   <TSA_WD_Diplo_StrongFactionWar_Cool_Label>Strong factions cool relations</TSA_WD_Diplo_StrongFactionWar_Cool_Label>
@@ -101,6 +103,39 @@
   <TSA_WD_Diplo_Reset>Reset this page to defaults</TSA_WD_Diplo_Reset>
   <TSA_WD_Diplo_RevoltChance>Daily Revolt Chance</TSA_WD_Diplo_RevoltChance>
   <TSA_WD_Diplo_RevoltChanceTooltip>Daily chance that a defeated faction returns and seizes 3 to 7 settlements from the top NPC factions by settlement count (at least 3 from the largest, the rest from the next two). Prefers lower-tier settlements. Player holdings are never taken.</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_RevoltCooldown>Revolt cooldown</TSA_WD_Diplo_RevoltCooldown>
+  <TSA_WD_Diplo_RevoltCooldownTooltip>Days before another revolt can fire after one succeeds. Ignored while Shared special event cooldown is on.</TSA_WD_Diplo_RevoltCooldownTooltip>
+  <TSA_WD_Diplo_ForwardAssaultEnable>Enable forward assault (Vanguard / Invasion)</TSA_WD_Diplo_ForwardAssaultEnable>
+  <TSA_WD_Diplo_ForwardAssaultEnableTooltip>A strong distant hostile may pack 5–7 settlements for Vanguard, or launch 5–7 coordinated raids for Invasion (homes stay). Timing of Vanguard vs Invasion is set by Combat Difficulty threat gates. Shared Forward Assault enable, chance, and distance knobs live there too. If Vanguard cannot reserve a cluster and fallback is on, Invasion is attempted instead.</TSA_WD_Diplo_ForwardAssaultEnableTooltip>
+  <TSA_WD_Diplo_ForwardAssaultChance>Forward assault chance</TSA_WD_Diplo_ForwardAssaultChance>
+  <TSA_WD_Diplo_ForwardAssaultChanceTooltip>Daily chance to attempt a Vanguard or Invasion forward assault when Mid/Late Game difficulty gates and cooldowns allow.</TSA_WD_Diplo_ForwardAssaultChanceTooltip>
+  <TSA_WD_Diplo_ForwardAssaultTopPct>Top strong factions considered</TSA_WD_Diplo_ForwardAssaultTopPct>
+  <TSA_WD_Diplo_ForwardAssaultTopPctTooltip>Share of the strongest NPC factions (by total strength) that can be picked as the forward-assault aggressor.</TSA_WD_Diplo_ForwardAssaultTopPctTooltip>
+  <TSA_WD_Diplo_ForwardAssaultMinDist>Min distance from player (tiles)</TSA_WD_Diplo_ForwardAssaultMinDist>
+  <TSA_WD_Diplo_ForwardAssaultMinDistTooltip>Source settlements must be at least this far from the nearest player colony to be eligible for Vanguard packing or Invasion raid hosts.</TSA_WD_Diplo_ForwardAssaultMinDistTooltip>
+  <TSA_WD_Diplo_ForwardAssaultCooldown>Forward assault cooldown</TSA_WD_Diplo_ForwardAssaultCooldown>
+  <TSA_WD_Diplo_ForwardAssaultCooldownTooltip>Days before another Vanguard or Invasion can fire after one launches. Shared by both modes. Ignored while Shared special event cooldown is on.</TSA_WD_Diplo_ForwardAssaultCooldownTooltip>
+  <TSA_WD_Diplo_SharedSpecialEventCooldown>Shared special event cooldown</TSA_WD_Diplo_SharedSpecialEventCooldown>
+  <TSA_WD_Diplo_SharedSpecialEventCooldownTooltip>When on, strong-faction war, revolt, and forward assault share one cooldown slider. When off, each has its own cooldown. Desperation raids never use this shared cooldown.</TSA_WD_Diplo_SharedSpecialEventCooldownTooltip>
+  <TSA_WD_Diplo_SharedSpecialEventCooldownDays>Shared special event cooldown</TSA_WD_Diplo_SharedSpecialEventCooldownDays>
+  <TSA_WD_Diplo_SharedSpecialEventCooldownDaysTooltip>Days before any of strong-faction war, revolt, or forward assault can fire again after one succeeds. Desperation raids use their own per-faction cooldown.</TSA_WD_Diplo_SharedSpecialEventCooldownDaysTooltip>
+  <TSA_WD_Diplo_StrongFactionWarHeader>Strong faction war</TSA_WD_Diplo_StrongFactionWarHeader>
+  <TSA_WD_Diplo_RevoltHeader>Revolt</TSA_WD_Diplo_RevoltHeader>
+  <TSA_WD_Diplo_ForwardAssaultHeader>Forward assault</TSA_WD_Diplo_ForwardAssaultHeader>
+  <TSA_WD_Diplo_DesperationRaidHeader>Strategy on Settlement Loss</TSA_WD_Diplo_DesperationRaidHeader>
+  <TSA_WD_Diplo_SharedSpecialEventCooldownHeader>Shared special-event cooldown</TSA_WD_Diplo_SharedSpecialEventCooldownHeader>
+  <TSA_WD_Diplo_DesperationRaidEnable>Enable desperation raid</TSA_WD_Diplo_DesperationRaidEnable>
+  <TSA_WD_Diplo_DesperationRaidEnableTooltip>When an eligible NPC cluster loses a settlement, the faction may Turtle or launch a desperation raid. Difficulty presets do not control this gate.</TSA_WD_Diplo_DesperationRaidEnableTooltip>
+  <TSA_WD_Diplo_StrategyFireChance>Strategy fire chance</TSA_WD_Diplo_StrategyFireChance>
+  <TSA_WD_Diplo_StrategyFireChanceTooltip>When an overpowered cluster loses a settlement and Strategy is not on cooldown, this is the chance that Strategy actually fires (Turtle or desperation). Failed rolls do nothing and do not start the Strategy cooldown.</TSA_WD_Diplo_StrategyFireChanceTooltip>
+  <TSA_WD_Diplo_DesperationChance>Desperation Raid possible?</TSA_WD_Diplo_DesperationChance>
+  <TSA_WD_Diplo_DesperationChanceTooltip>If Strategy fires after a settlement is lost in an overpowered cluster, the faction may Turtle (consolidate forces into a single settlement) or run a desperation raid (abandon settlements and rush the nearest target).\n\nA cluster is settlements of that faction linked within {0} tiles. Overpowered means hostile offense within {2} tiles of any site in the cluster is at least {1}% of the cluster's own offense.\n\nWhen this is on:\nStrong factions: never desperation, always Turtle\nNormal factions: {3}% desperation, {4}% Turtle\nWeak factions: {5}% desperation, {6}% Turtle\n\nStrong = at least {7}% of an equal share of living NPC strength (1/N)\nNormal = {8}% to {7}% of equal share\nWeak = below {8}% of equal share\n\nOff = Turtle only when Strategy fires.</TSA_WD_Diplo_DesperationChanceTooltip>
+  <TSA_WD_Diplo_DesperationMaxShare>Weak strength share</TSA_WD_Diplo_DesperationMaxShare>
+  <TSA_WD_Diplo_DesperationMaxShareTooltip>Legacy setting kept for save compatibility. Strategy now uses equal-share bands instead.</TSA_WD_Diplo_DesperationMaxShareTooltip>
+  <TSA_WD_Diplo_DesperationCooldown>Strategy cooldown</TSA_WD_Diplo_DesperationCooldown>
+  <TSA_WD_Diplo_DesperationCooldownTooltip>Days before the same faction can run Strategy on Settlement Loss again (Turtle or desperation). Not shared with war, revolt, or forward assault.</TSA_WD_Diplo_DesperationCooldownTooltip>
+  <TSA_WD_Diplo_DesperationNotify>Notify when desperation raid launches</TSA_WD_Diplo_DesperationNotify>
+  <TSA_WD_Diplo_DesperationNotifyTooltip>Send a letter when a desperation raid packs up and marches.</TSA_WD_Diplo_DesperationNotifyTooltip>
   <TSA_WD_Diplo_TriggerChance>Trigger chance</TSA_WD_Diplo_TriggerChance>
   <TSA_WD_Diplo_UnderdogActionShare>Underdog: Daily action share multiplier</TSA_WD_Diplo_UnderdogActionShare>
   <TSA_WD_Diplo_UnderdogActionShareTooltip>When underdog buff is active, that faction's share of daily actions is multiplied by this (e.g. 2 = twice as many actions).</TSA_WD_Diplo_UnderdogActionShareTooltip>

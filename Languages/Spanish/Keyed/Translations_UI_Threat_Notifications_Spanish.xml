@@ -165,6 +165,10 @@
   <TSA_WD_Notify_OutpostPollutionDamage>Notificar daño por contaminación en puestos</TSA_WD_Notify_OutpostPollutionDamage>
   <TSA_WD_Notify_OutpostPollutionDamageTooltip>Mostrar un mensaje cuando uno de tus puestos WD pierde fuerza por la contaminación media cercana (una vez al día cuando aplica daño), y una carta si la contaminación lo destruye. El registro de desarrollo siempre anota estos eventos.</TSA_WD_Notify_OutpostPollutionDamageTooltip>
   <TSA_WD_Notify_HeaderNearby>Eventos mundiales cercanos</TSA_WD_Notify_HeaderNearby>
+  <TSA_WD_Notify_HeaderWorldThreats>Acciones de amenaza mundial</TSA_WD_Notify_HeaderWorldThreats>
+  <TSA_WD_Notify_HeaderWorldThreatsTip>Cartas de incursiones de desesperación, consolidaciones defensivas y guerras entre facciones fuertes. Los tiempos y puertas están en Dificultad de combate.</TSA_WD_Notify_HeaderWorldThreatsTip>
+  <TSA_WD_Notify_DesperationRaid>Avisar al lanzar una incursión de desesperación</TSA_WD_Notify_DesperationRaid>
+  <TSA_WD_Notify_DesperationRaidTooltip>Carta cuando una facción débil abandona asentamientos cercanos y marcha tras una pérdida.</TSA_WD_Notify_DesperationRaidTooltip>
   <TSA_WD_Notify_HeaderOutpostsRaids>Tus avanzadillas e incursiones</TSA_WD_Notify_HeaderOutpostsRaids>
   <TSA_WD_Notify_HeaderAlerts>Alertas del panel lateral</TSA_WD_Notify_HeaderAlerts>
   <TSA_WD_Notify_NotificationRadius>Radio de notificación (casillas)</TSA_WD_Notify_NotificationRadius>
@@ -180,6 +184,8 @@
   <TSA_WD_Notify_SettlementRaidedTooltip>Carta cuando un incidente mayor o menor destruye por completo un asentamiento dentro del radio de notificación. No para incursiones NPC.</TSA_WD_Notify_SettlementRaidedTooltip>
   <TSA_WD_Notify_SettlementRazed>Notificar cuando un asentamiento sea arrasado cerca</TSA_WD_Notify_SettlementRazed>
   <TSA_WD_Notify_SettlementRazedTooltip>Carta cuando una incursión NPC gana y el asentamiento queda destruido en el proceso (casilla vacía) dentro del radio de notificación.</TSA_WD_Notify_SettlementRazedTooltip>
+  <TSA_WD_Notify_Turtle>Consolidación defensiva cercana</TSA_WD_Notify_Turtle>
+  <TSA_WD_Notify_TurtleTooltip>Carta cuando una facción cercana repliega sus asentamientos exteriores en un núcleo y lo fortifica, dentro del radio de notificación.</TSA_WD_Notify_TurtleTooltip>
   <TSA_WD_Notify_ThreatLevel>Mostrar alerta de amenaza mundial (panel lateral)</TSA_WD_Notify_ThreatLevel>
   <TSA_WD_Notify_ThreatLevelTooltip>Muestra una alerta silenciosa con puntos de aterrizaje Cercanos y Lejanos (tras el límite del narrador). El clic salta al hostil Cercano más fuerte si existe.</TSA_WD_Notify_ThreatLevelTooltip>
   <TSA_WD_Notify_CriticalFood>Mostrar alerta de comida crítica en avanzadillas (lateral)</TSA_WD_Notify_CriticalFood>
@@ -272,9 +278,9 @@
   <TSA_WD_Difficulty_GoodwillDrainInterval>Intervalo de drenaje (días)</TSA_WD_Difficulty_GoodwillDrainInterval>
   <TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>Días entre pulsos de drenaje de buena voluntad mientras Mid Game o Late Game esté activo.</TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>
   <TSA_WD_MidGame_Header>Mid Game</TSA_WD_MidGame_Header>
-  <TSA_WD_MidGame_ShareThreshold>Activar con cuota global de fuerza</TSA_WD_MidGame_ShareThreshold>
+  <TSA_WD_MidGame_ShareThreshold>Cuota de fuerza del jugador para dificultad Mid-Game</TSA_WD_MidGame_ShareThreshold>
   <TSA_WD_MidGame_ShareThresholdTooltip>Mid Game se activa cuando tu fuerza total de avanzadillas alcanza esta fracción de la fuerza mundial.</TSA_WD_MidGame_ShareThresholdTooltip>
-  <TSA_WD_MidGame_OutpostStrengthThreshold>Activar con fuerza de avanzadillas</TSA_WD_MidGame_OutpostStrengthThreshold>
+  <TSA_WD_MidGame_OutpostStrengthThreshold>Puntos de fuerza del jugador para dificultad Mid-Game</TSA_WD_MidGame_OutpostStrengthThreshold>
   <TSA_WD_MidGame_OutpostStrengthThresholdTooltip>Mid Game se activa cuando tu fuerza total de avanzadillas alcanza este valor absoluto, sin importar la cuota mundial.</TSA_WD_MidGame_OutpostStrengthThresholdTooltip>
   <TSA_WD_MidGame_RaidBias>Sesgo de incursión hacia ti</TSA_WD_MidGame_RaidBias>
   <TSA_WD_MidGame_RaidBiasTooltip>Mientras Mid Game esté activo, las incursiones hostiles que ya pueden alcanzarte priorizan tus avanzadillas y colonia con este peso adicional dentro de la misma banda de distancia.</TSA_WD_MidGame_RaidBiasTooltip>
@@ -349,6 +355,8 @@
   <TSA_WD_Prisoners_Title>Prisioneros</TSA_WD_Prisoners_Title>
   <TSA_WD_Prisoners_ColInteraction>Interacción</TSA_WD_Prisoners_ColInteraction>
   <TSA_WD_Prisoners_ColResistance>Resistencia</TSA_WD_Prisoners_ColResistance>
+  <TSA_WD_PawnRoster_ResistanceNA>N/D</TSA_WD_PawnRoster_ResistanceNA>
+  <TSA_WD_PawnRoster_ResistanceNATip>Solo aplica a prisioneros.</TSA_WD_PawnRoster_ResistanceNATip>
   <TSA_WD_Prisoners_ColDestination>Destino</TSA_WD_Prisoners_ColDestination>
   <TSA_WD_Prisoners_NoDestination>El peón permanece en la colonia tras reclutarlo.\nClic para cambiar</TSA_WD_Prisoners_NoDestination>
   <TSA_WD_Prisoners_DestinationUnset>Sin destino</TSA_WD_Prisoners_DestinationUnset>
@@ -471,6 +479,7 @@
   <TSA_WD_FilterByLocationName>Filtrar por nombre de ubicación</TSA_WD_FilterByLocationName>
   <TSA_WD_FilterByLocationType>Filtrar por tipo de ubicación</TSA_WD_FilterByLocationType>
   <TSA_WD_FilterByStar>Filtrar por estrella</TSA_WD_FilterByStar>
+  <TSA_WD_FilterByNew>Filtrar por sello de ingreso</TSA_WD_FilterByNew>
   <TSA_WD_FilterBySource>Filtrar por origen</TSA_WD_FilterBySource>
   <TSA_WD_FilterByXenotype>Filtrar por xenotipo</TSA_WD_FilterByXenotype>
   <TSA_WD_Filter_AllXenotypes>Todos los xenotipos</TSA_WD_Filter_AllXenotypes>
@@ -485,6 +494,21 @@
   <TSA_WD_AllPlayerPawns_TempFightDefault>Mapa de combate</TSA_WD_AllPlayerPawns_TempFightDefault>
   <TSA_WD_AllPlayerPawns_JumpTip>Ir a {0}</TSA_WD_AllPlayerPawns_JumpTip>
   <TSA_WD_AllPlayerPawns_ColStar>★</TSA_WD_AllPlayerPawns_ColStar>
+  <TSA_WD_PawnRoster_ColNew>Sello de ingreso</TSA_WD_PawnRoster_ColNew>
+  <TSA_WD_PawnRoster_ColNewTip>Días de juego desde que este peón se unió por primera vez a tu facción (recluta, conversión, vagabundo, neonato y similares). Sigue contando en puestos. No se reinicia al mover entre colonia y puestos. En partidas antiguas, el sello puede estimarse a partir del tiempo como colono.</TSA_WD_PawnRoster_ColNewTip>
+  <TSA_WD_PawnRoster_Filter_JoinLt5>Sello de ingreso menos de 5 días</TSA_WD_PawnRoster_Filter_JoinLt5>
+  <TSA_WD_PawnRoster_Filter_JoinLt15>Sello de ingreso menos de 15 días</TSA_WD_PawnRoster_Filter_JoinLt15>
+  <TSA_WD_PawnRoster_Filter_JoinLt30>Sello de ingreso menos de 30 días</TSA_WD_PawnRoster_Filter_JoinLt30>
+  <TSA_WD_PawnRoster_Filter_JoinGte5>Sello de ingreso 5+ días</TSA_WD_PawnRoster_Filter_JoinGte5>
+  <TSA_WD_PawnRoster_Filter_JoinGte15>Sello de ingreso 15+ días</TSA_WD_PawnRoster_Filter_JoinGte15>
+  <TSA_WD_PawnRoster_Filter_JoinGte30>Sello de ingreso 30+ días</TSA_WD_PawnRoster_Filter_JoinGte30>
+  <TSA_WD_JoinFilterTip_All>Seleccionar todos los peones de la lista actual.</TSA_WD_JoinFilterTip_All>
+  <TSA_WD_JoinFilterTip_Lt5>Seleccionar peones con sello de ingreso de menos de 5 días de juego.</TSA_WD_JoinFilterTip_Lt5>
+  <TSA_WD_JoinFilterTip_Lt15>Seleccionar peones con sello de ingreso de menos de 15 días de juego.</TSA_WD_JoinFilterTip_Lt15>
+  <TSA_WD_JoinFilterTip_Lt30>Seleccionar peones con sello de ingreso de menos de 30 días de juego.</TSA_WD_JoinFilterTip_Lt30>
+  <TSA_WD_JoinFilterTip_Gte5>Seleccionar peones con sello de ingreso de 5 días de juego o más.</TSA_WD_JoinFilterTip_Gte5>
+  <TSA_WD_JoinFilterTip_Gte15>Seleccionar peones con sello de ingreso de 15 días de juego o más.</TSA_WD_JoinFilterTip_Gte15>
+  <TSA_WD_JoinFilterTip_Gte30>Seleccionar peones con sello de ingreso de 30 días de juego o más.</TSA_WD_JoinFilterTip_Gte30>
   <TSA_WD_AllPlayerPawns_StarTip>Marca colonos favoritos que quieres conservar. Las estrellas se guardan con este mundo. No bloquean el traslado; usa el filtro para ocultarlos al mover en masa.</TSA_WD_AllPlayerPawns_StarTip>
   <TSA_WD_AllPlayerPawns_Filter_AllAnywhere>Todos donde sea</TSA_WD_AllPlayerPawns_Filter_AllAnywhere>
   <TSA_WD_AllPlayerPawns_Filter_StarredAnywhere>Con estrella</TSA_WD_AllPlayerPawns_Filter_StarredAnywhere>

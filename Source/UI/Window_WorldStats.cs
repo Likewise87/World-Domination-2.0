@@ -486,9 +486,10 @@ namespace TSA_WorldDomination
                     SoundDefOf.Click.PlayOneShotOnCamera();
                 }
 
-                // 2. STATUS (NPC rows only: grey inactive, red active)
-                if (!fs.faction.IsPlayer)
-                    DrawFactionStatusIcons(new Rect(identityW + 5f, row.y, colStatus - 5f, rowHeight), fs.faction, manager, ticksNow);
+                // 2. STATUS — grey inactive, red target / green member (coalition).
+                // Player row included: anti-leader coalitions can target the colony when #1;
+                // player is never a coalition member (or random NPC–NPC allegiance partner).
+                DrawFactionStatusIcons(new Rect(identityW + 5f, row.y, colStatus - 5f, rowHeight), fs.faction, manager, ticksNow);
 
                 // 3. TIER DATA (Middle Centered)
                 Text.Font = GameFont.Small;

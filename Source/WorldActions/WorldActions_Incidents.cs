@@ -64,6 +64,8 @@ namespace TSA_WorldDomination
                     Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.NeutralEvent, new GlobalTargetInfo(tile));
                 }
 
+                // Incident obliteration does not start Strategy on Settlement Loss (chip-damage / natural disaster).
+                WorldActions_DesperationRaid.SuppressLossNotify(s);
                 Find.WorldObjects.Remove(s);
                 // Same timed blocking ruins as raid raze (incident always razes; no conquest replacement).
                 WorldObject_WdSettlementRuin.Spawn(tile, originalName, faction);

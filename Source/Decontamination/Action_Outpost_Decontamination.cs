@@ -138,6 +138,8 @@ namespace TSA_WorldDomination
 
             bool TileReachableFromOutpost(int tile)
             {
+                // Same-tile scrub (home colony/outpost/settlement) needs no path.
+                if (tile == source.Tile) return true;
                 if (Find.WorldGrid.ApproxDistanceInTiles(source.Tile, tile) > range)
                     return false;
                 using (WorldPath path = layer.Pather.FindPath(
@@ -152,7 +154,6 @@ namespace TSA_WorldDomination
                 (target) =>
                 {
                     if (target.Tile < 0) return false;
-                    if (target.Tile == source.Tile) return false;
 
                     bool shift = Event.current != null && Event.current.shift;
                     int lastNode = LastNodeOrNone();
@@ -270,13 +271,19 @@ namespace TSA_WorldDomination
                     {
                         previewMouseTile = mouseTile;
                         previewThrottleFrame = Time.frameCount;
-                        previewLegTiles = WorldActions_RoadBlocks.FindFlatHopPathDestFirst(anchor, mouseTile);
+                        if (mouseTile == anchor)
+                            previewLegTiles = null;
+                        else
+                            previewLegTiles = WorldActions_RoadBlocks.FindFlatHopPathDestFirst(anchor, mouseTile);
                     }
 
                     if (anchor >= 0)
                     {
                         Action_Outpost_BuildRoad.DrawRoadPathFromCalculatedNodes(previewLegTiles, LineMat);
                         if (mouseTile >= 0 && previewLegTiles != null && previewLegTiles.Count >= 2)
+                            Action_Outpost_BuildRoad.DrawOrangeStar(mouseTile);
+                        else if (mouseTile >= 0 && mouseTile == anchor
+                            && WorldActions_Decontamination.IsValidPlanNode(mouseTile))
                             Action_Outpost_BuildRoad.DrawOrangeStar(mouseTile);
                     }
                 },
@@ -289,7 +296,6 @@ namespace TSA_WorldDomination
                 (target) =>
                 {
                     if (!target.IsValid || target.Tile < 0) return false;
-                    if (target.Tile == source.Tile) return false;
 
                     int anchor = LastNodeOrNone();
                     if (Find.WorldGrid.ApproxDistanceInTiles(source.Tile, target.Tile) > range) return false;
@@ -299,7 +305,11 @@ namespace TSA_WorldDomination
                     if (Find.WorldGrid.InBounds(target.Tile) && Find.WorldGrid[target.Tile].WaterCovered)
                         return false;
 
+                    // Settlements, colonies, outposts (including the sending outpost tile) are valid plan nodes.
                     if (anchor < 0)
+                        return WorldActions_Decontamination.IsValidPlanNode(target.Tile);
+
+                    if (target.Tile == anchor)
                         return WorldActions_Decontamination.IsValidPlanNode(target.Tile);
 
                     if (previewMouseTile == target.Tile)

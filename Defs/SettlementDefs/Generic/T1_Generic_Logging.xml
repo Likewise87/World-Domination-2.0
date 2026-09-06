@@ -53,7 +53,14 @@
       <scatterPropsDefs>
         <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogs</li>
         <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogsLarge</li>
+        <li>TSA_WD_Cart_5a</li>
         <li>TSA_WD_Cart_6a</li>
+        <li>TSA_WD_Cart_7a</li>
+        <li>TSA_WD_Cart_8a</li>
+        <li>TSA_WD_Cart_9a</li>
+        <li>TSA_WD_Cart_10a</li>
+        <li>TSA_WD_Cart_11a</li>
+        <li>TSA_WD_Cart_12a</li>
         <li>TSA_WD_Box_5a</li>
 
 

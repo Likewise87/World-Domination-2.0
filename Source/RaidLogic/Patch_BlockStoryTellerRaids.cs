@@ -6,9 +6,10 @@ using RimWorld;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Blocks random storyteller raids per faction via Allegiances settings; does not modify storyteller raid points.
-    /// Quest/scripted raids must not be blocked: vanilla uses <see cref="IncidentParms.forced"/> for many non-storyteller fires;
-    /// Royalty+ may also set a <c>quest</c> field on <see cref="IncidentParms"/> (reflection, version-tolerant).
+    /// Blocks random storyteller <see cref="IncidentWorker_RaidEnemy"/> per Allegiances Storyteller column.
+    /// Faction is often null until <c>TryResolveRaidFaction</c>; gate pre-set factions in Prefix and
+    /// drop after resolve (no reroll) so blocked factions cannot slip through.
+    /// Quest/scripted/WD/clash fires are exempt (<see cref="IncidentParms.forced"/>, quest field, flags).
     /// </summary>
     [HarmonyPatch(typeof(IncidentWorker_RaidEnemy), "TryExecuteWorker")]
     public static class Patch_RaidEnemy_AdjustPoints
@@ -16,7 +17,7 @@ namespace TSA_WorldDomination
         private static FieldInfo cachedIncidentParmsQuestField;
         private static bool cachedIncidentParmsQuestFieldResolved;
 
-        private static bool IncidentParmsQuestReferenceNonNull(IncidentParms parms)
+        internal static bool IncidentParmsQuestReferenceNonNull(IncidentParms parms)
         {
             if (!cachedIncidentParmsQuestFieldResolved)
             {
@@ -34,6 +35,17 @@ namespace TSA_WorldDomination
             }
         }
 
+        /// <summary>WD / clash / quest / forced — not random storyteller picks.</summary>
+        internal static bool IsExemptFromStorytellerRaidGate(IncidentParms parms)
+        {
+            if (parms == null) return true;
+            if (Raid_OnPlayerColony.IsWorldDominationRaid) return true;
+            if (Raid_OnPlayerColony.IsCaravanClashInterception) return true;
+            if (IncidentParmsQuestReferenceNonNull(parms)) return true;
+            if (parms.forced) return true;
+            return false;
+        }
+
         private static string RaidLogDetails(IncidentParms parms)
         {
             if (parms == null) return " parms=null";
@@ -49,6 +61,13 @@ namespace TSA_WorldDomination
             Log.Message("[TSA WD] " + message + RaidLogDetails(parms));
         }
 
+        /// <summary>Always-on diagnostic for Allegiances storyteller drops (not WDVerbose-gated).</summary>
+        internal static void LogStorytellerRaidDropped(Faction faction)
+        {
+            string name = faction?.Name ?? faction?.def?.defName ?? "(unknown)";
+            Log.Message("[TSA WD] Picked Faction for Storyteller Raid: " + name + ", Blocked by mod settings -> Raid dropped");
+        }
+
         [HarmonyPrefix]
         public static bool Prefix(IncidentParms parms)
         {
@@ -58,33 +77,23 @@ namespace TSA_WorldDomination
                 return true;
             }
 
-            if (Raid_OnPlayerColony.IsWorldDominationRaid)
+            if (IsExemptFromStorytellerRaidGate(parms))
             {
-                LogRaidDecision("Noticed World Domination raid attempt. Left unchanged by WD", parms);
+                if (Raid_OnPlayerColony.IsWorldDominationRaid)
+                    LogRaidDecision("Noticed World Domination raid attempt. Left unchanged by WD", parms);
+                else if (Raid_OnPlayerColony.IsCaravanClashInterception)
+                    LogRaidDecision("Noticed caravan interception raid attempt. Left unchanged by WD", parms);
+                else if (IncidentParmsQuestReferenceNonNull(parms))
+                    LogRaidDecision("Noticed quest related raid attempt. Left unchanged by WD", parms);
+                else if (parms.forced)
+                    LogRaidDecision("Noticed scripted raid attempt. Left unchanged by WD", parms);
                 return true;
             }
 
-            if (Raid_OnPlayerColony.IsCaravanClashInterception)
-            {
-                LogRaidDecision("Noticed caravan interception raid attempt. Left unchanged by WD", parms);
-                return true;
-            }
-
-            if (IncidentParmsQuestReferenceNonNull(parms))
-            {
-                LogRaidDecision("Noticed quest related raid attempt. Left unchanged by WD", parms);
-                return true;
-            }
-
-            if (parms.forced)
-            {
-                LogRaidDecision("Noticed scripted raid attempt. Left unchanged by WD", parms);
-                return true;
-            }
-
+            // Null faction: vanilla resolves inside TryExecuteWorker — gated in TryResolveRaidFaction Postfix.
             if (parms.faction == null)
             {
-                LogRaidDecision("Noticed Storyteller raid attempt without faction. Left unchanged by WD", parms);
+                LogRaidDecision("Noticed Storyteller raid attempt without faction. Deferred gate until resolve", parms);
                 return true;
             }
 
@@ -94,8 +103,27 @@ namespace TSA_WorldDomination
                 return true;
             }
 
-            LogRaidDecision("Noticed Storyteller raid attempt. Blocked by per-faction WD setting", parms);
+            LogStorytellerRaidDropped(parms.faction);
             return false;
+        }
+    }
+
+    /// <summary>
+    /// After vanilla picks a raid faction, drop if Allegiances Storyteller blocks it (no reroll).
+    /// </summary>
+    [HarmonyPatch(typeof(IncidentWorker_RaidEnemy), "TryResolveRaidFaction")]
+    public static class Patch_RaidEnemy_TryResolveRaidFaction_StorytellerGate
+    {
+        [HarmonyPostfix]
+        public static void Postfix(IncidentParms parms, ref bool __result)
+        {
+            if (!__result || parms?.faction == null) return;
+            if (Patch_RaidEnemy_AdjustPoints.IsExemptFromStorytellerRaidGate(parms)) return;
+            if (WorldActions_Utils.IsStorytellerRaidAllowed(parms.faction)) return;
+
+            Patch_RaidEnemy_AdjustPoints.LogStorytellerRaidDropped(parms.faction);
+            parms.faction = null;
+            __result = false;
         }
     }
 

@@ -78,7 +78,7 @@ Mortar and AT hits remove strength from the target. Anti-air can intercept eligi
 Rapid Response outposts offer a different defense. They dispatch an intercept traveler against selected hostile mission types within range. This can destroy or weaken a raid before it reaches a colony or outpost.
 
 ??? note "Advanced"
-    Default ground travel loss is 1.5% of departure strength per hour. Cumulative travel loss is capped at 75% of departure strength.
+    Default ground travel loss is 1% of departure strength per hour. Cumulative travel loss is capped at 60% of departure strength.
 
     The default movement difficulty for entering a water-covered tile is 4.
 

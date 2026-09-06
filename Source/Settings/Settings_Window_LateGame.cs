@@ -45,6 +45,7 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetLateGame(),
                 () => { midExpanded = lateExpanded = bribeCostExpanded = true; },
                 () => { midExpanded = lateExpanded = bribeCostExpanded = false; });
+            SettingsUI.DrawSettingsSearchBar(l);
 
             l.CheckboxLabeled("TSA_WD_Difficulty_EnableLateGame".Translate(), ref s.enableLateGameScaling,
                 SettingsUI.TooltipWithDefault("TSA_WD_Difficulty_EnableLateGameTooltip".Translate(), WorldDominationSettings.DefEnableLateGameScaling));

@@ -272,7 +272,9 @@ namespace TSA_WorldDomination
             bool isTribal = settlement.Faction.def.techLevel <= TechLevel.Medieval;
             string techPrefix = isTribal ? "Tribal" : "Generic";
             string tier = spreadComp.tier.ToString();
-            string baseType = (spreadComp.tier == SettlementTier.T4) ? "Citadel" : spreadComp.subType;
+            string baseType = string.Equals(spreadComp.subType, "Vanguard", System.StringComparison.Ordinal)
+                ? "Vanguard"
+                : (spreadComp.tier == SettlementTier.T4) ? "Citadel" : spreadComp.subType;
 
             string specificPattern = $"TSA_{techPrefix}_{tier}_{baseType}";
             string fallbackPattern = $"TSA_{techPrefix}_{tier}";

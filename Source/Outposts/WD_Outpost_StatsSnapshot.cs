@@ -799,7 +799,7 @@ namespace TSA_WorldDomination
             AddWorldActionCooldownRow(section, "TSA_WD_Daily_CdTrader",
                 "TSA_WD_OutpostStats_Value_ReadyToSendTrader", "TSA_WD_Daily_CdTraderTip",
                 comp.traderCooldownTick, traderNominal);
-            if (seth != null && seth.experimentalSettlementAmbush
+            if (seth != null && seth.gateThreatAmbush != WdThreatStageGate.Never
                 && comp.tier >= seth.settlementAmbushMinTier)
                 AddWorldActionCooldownRowMinutes(section, "TSA_WD_OutpostStats_Row_AmbushInterception",
                     "TSA_WD_OutpostStats_Value_ReadyToAmbush", "TSA_WD_OutpostStats_Row_AmbushInterceptionTip",
@@ -1172,7 +1172,7 @@ namespace TSA_WorldDomination
             string yieldVal = yieldKey.Translate(recruits.ToString()).ToString();
             if (yieldVal == yieldKey || yieldVal.Contains("TSA_WD_"))
                 yieldVal = "~" + recruits + " recruit(s) this cycle";
-            string yieldTip = Outpost_Recruiting.GetDetailedMathTooltip(outpost, cycleSocial);
+            string yieldTip = Outpost_Recruiting.GetCompactYieldFormulaTip(outpost, cycleSocial);
             if (string.IsNullOrEmpty(yieldTip))
             {
                 yieldTip = "TSA_WD_OutpostStats_Row_RecruitingYieldTip".Translate(
@@ -1180,17 +1180,15 @@ namespace TSA_WorldDomination
                     cycleSocial.ToString("F1"),
                     recruits.ToString()).ToString();
             }
-            AddRowRawTip(section, "TSA_WD_OutpostStats_Row_RecruitingYield", nothingSelected ? na : yieldVal, yieldTip);
+            var yieldRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_RecruitingYield", nothingSelected ? na : yieldVal, yieldTip);
+            if (!nothingSelected
+                && OutpostWarehouseAuraUtility.GetExpertAndWarehouseProductionBonusFraction(outpost) > 1e-6f)
+                MarkBoostedIf(yieldRow, true);
 
             int nearby = Outpost_Trading.GetNearbySettlementCount(outpost);
             string nearbyTip = Outpost_Trading.GetNearbyTradingPartnersTooltipAppendix(outpost);
             if (string.IsNullOrEmpty(nearbyTip))
                 nearbyTip = "TSA_WD_OutpostStats_Row_NearbySettlementsTip".Translate().ToString();
-            else
-            {
-                string bonusNote = "TSA_WD_OutpostStats_Row_RecruitingNearbyBonusTip".Translate(Outpost_Recruiting.NeighborBonusDivisor).ToString();
-                if (!bonusNote.Contains("TSA_WD_")) nearbyTip = nearbyTip + "\n\n" + bonusNote;
-            }
             AddRowRawTip(section, "TSA_WD_OutpostStats_Row_NearbySettlements", nearby.ToString(), nearbyTip);
 
             AddRowRawTip(section, "TSA_WD_OutpostStats_Row_RecruitingPriority",
@@ -1229,7 +1227,13 @@ namespace TSA_WorldDomination
 
             string yield = nothingSelected ? na : Outpost_Trading.GetTradingDeliveryProductLine(outpost);
             if (string.IsNullOrEmpty(yield)) yield = na;
-            AddRow(section, "TSA_WD_OutpostStats_Row_TradingSilver", yield, "TSA_WD_OutpostStats_Row_TradingSilverTip");
+            string silverTip = nothingSelected
+                ? "TSA_WD_OutpostStats_Row_TradingSilverTip".Translate().ToString()
+                : Outpost_Trading.GetCompactYieldFormulaTip(outpost);
+            var silverRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_TradingSilver", yield, silverTip);
+            if (!nothingSelected
+                && OutpostWarehouseAuraUtility.GetExpertAndWarehouseProductionBonusFraction(outpost) > 1e-6f)
+                MarkBoostedIf(silverRow, true);
         }
 
         private static void AppendEmbassyProductionRows(WorldObject_WD_Outpost outpost, OutpostStatsSection section, bool nothingSelected, string na)
@@ -1252,8 +1256,11 @@ namespace TSA_WorldDomination
             string yield = nothingSelected ? na : ("+" + expected);
             string goodwillTip = nothingSelected
                 ? "TSA_WD_OutpostStats_Row_EmbassyGoodwillTip".Translate().ToString()
-                : Outpost_Embassy.GetProductionTooltip(outpost);
-            AddRowRawTip(section, "TSA_WD_OutpostStats_Row_EmbassyGoodwill", yield, goodwillTip);
+                : Outpost_Embassy.GetCompactYieldFormulaTip(outpost, outpost.GetCapacityForYieldPreview());
+            var goodwillRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_EmbassyGoodwill", yield, goodwillTip);
+            if (!nothingSelected
+                && OutpostWarehouseAuraUtility.GetExpertAndWarehouseProductionBonusFraction(outpost) > 1e-6f)
+                MarkBoostedIf(goodwillRow, true);
         }
 
         private static void AppendScavengingProductionRows(WorldObject_WD_Outpost outpost, OutpostStatsSection section, bool nothingSelected, string na)
@@ -1270,7 +1277,8 @@ namespace TSA_WorldDomination
 
             Outpost_Scavenging.ScavengingKind tier = kind.Value;
             float perPawn = Outpost_Scavenging.GetMarketValuePerPawn(tier);
-            float totalMv = Outpost_Scavenging.GetTotalDeliveryMarketValue(outpost, tier);
+            float rawMv = Outpost_Scavenging.GetTotalDeliveryMarketValue(outpost, tier);
+            float totalMv = Outpost_Scavenging.GetEffectiveDeliveryMarketValue(outpost, tier);
             string tierLabel = Outpost_Scavenging.GetKindShortLabel(tier);
 
             string yieldKey = "TSA_WD_OutpostStats_Row_ScavengingYield";
@@ -1279,8 +1287,15 @@ namespace TSA_WorldDomination
                 yieldVal = workers + " garrisoned pawns → ~" + totalMv.ToString("F0") + " value (" + tierLabel + ")";
             string yieldTip = Outpost_Scavenging.GetKindRequirementTooltip(tier)
                 + "\n\n"
-                + workers + " × " + perPawn.ToString("F0") + " silver/pawn = " + totalMv.ToString("F0") + " target market value per cycle.";
-            AddRowRawTip(section, "TSA_WD_OutpostStats_Row_ScavengingYield", yieldVal, yieldTip);
+                + workers + " × " + perPawn.ToString("F0") + " silver/pawn = " + rawMv.ToString("F0") + " base target market value per cycle."
+                + Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusSuffix(outpost);
+            string softTip = Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusTooltip(outpost);
+            if (!string.IsNullOrEmpty(softTip))
+                yieldTip += "\n\n" + softTip;
+            var scavRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_ScavengingYield", yieldVal, yieldTip);
+            if (OutpostWarehouseAuraUtility.GetExpertAndWarehouseProductionBonusFraction(outpost) > 1e-6f
+                || Mathf.Abs(Outpost_Production_Utils.ClampedProductionOutputMultiplier() - 1f) > 0.02f)
+                MarkBoostedIf(scavRow, true);
         }
 
         private static void AppendAcademyProductionRows(WorldObject_WD_Outpost outpost, OutpostStatsSection section, bool nothingSelected, string na)
@@ -1322,10 +1337,19 @@ namespace TSA_WorldDomination
 
         private static void AppendPowerPlantProductionRows(WorldObject_WD_Outpost outpost, OutpostStatsSection section)
         {
+            string wattsTip = "TSA_WD_OutpostStats_Row_PowerWattsTip".Translate().ToString();
+            string softTip = Outpost_Production_Utils.BuildSoftProductionBonusTooltip(outpost);
+            if (!string.IsNullOrEmpty(softTip))
+                wattsTip = wattsTip + "\n\n" + softTip;
+            string softSuffix = Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
+            if (!string.IsNullOrEmpty(softSuffix))
+                wattsTip = wattsTip + "\n" + softSuffix.Trim();
             var powerRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_PowerWatts",
                 Outpost_PowerPlant.FormatWatts(Outpost_PowerPlant.GetRemotePowerWatts(outpost)),
-                "TSA_WD_OutpostStats_Row_PowerWattsTip".Translate().ToString());
-            MarkBoostedIf(powerRow, outpost.GetRemotePowerUpgradeBonus() > 1e-6f);
+                wattsTip);
+            float powerExpert = OutpostExpertUtility.GetCombinedProductionBonus(outpost);
+            float powerAura = OutpostWarehouseAuraUtility.GetBestWarehouseAuraBonus(outpost);
+            MarkBoostedIf(powerRow, outpost.GetRemotePowerUpgradeBonus() + powerExpert + powerAura > 1e-6f);
             AddRow(section, "TSA_WD_OutpostStats_Row_TypeSummary", Outpost_PowerPlant.GetInspectProductLine(outpost), "TSA_WD_OutpostStats_Row_TypeSummaryTip");
         }
 
@@ -1686,12 +1710,20 @@ namespace TSA_WorldDomination
                 b.Fraction = Mathf.Round(b.Fraction * 100f);
                 bonusBonuses[i] = b;
             }
+            string bonusTip = OutpostStatsTooltipUtil.BuildFlatAdditionTooltip(
+                "TSA_WD_OutpostStats_Row_WarehouseAuraBonusTip".Translate().ToString(),
+                baseBonus * 100f, "F0", bonusBonuses, effectiveBonus * 100f, "F0");
+            string softTip = Outpost_Production_Utils.BuildSoftProductionBonusTooltip(outpost);
+            if (!string.IsNullOrEmpty(softTip))
+                bonusTip = bonusTip + "\n\n" + softTip;
+            string softSuffix = Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
+            if (!string.IsNullOrEmpty(softSuffix))
+                bonusTip = bonusTip + "\n" + softSuffix.Trim();
             var bonusRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_WarehouseAuraBonus",
                 (effectiveBonus * 100f).ToString("F0") + "%",
-                OutpostStatsTooltipUtil.BuildFlatAdditionTooltip(
-                    "TSA_WD_OutpostStats_Row_WarehouseAuraBonusTip".Translate().ToString(),
-                    baseBonus * 100f, "F0", bonusBonuses, effectiveBonus * 100f, "F0"));
-            MarkBoostedIf(bonusRow, bonusUpg > 1e-6f);
+                bonusTip);
+            float whExpert = OutpostExpertUtility.GetCombinedProductionBonus(outpost);
+            MarkBoostedIf(bonusRow, bonusUpg + whExpert > 1e-6f);
 
             var whComp = CompOutpostWarehouse.Get(outpost);
             int kinds = whComp?.GetTotalStackKinds() ?? 0;

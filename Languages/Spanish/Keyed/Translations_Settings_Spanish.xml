@@ -18,6 +18,88 @@
   <TSA_WD_DescOutpostSkillScaling>Decide si sumar puntos de habilidad (p. ej. Plantas en una avanzadilla agrícola) debe aumentar la producción sin límite, o si debe haber rendimientos decrecientes a partir de ciertos umbrales.</TSA_WD_DescOutpostSkillScaling>
   <TSA_WD_BtnUpdateNotes>Mostrar notas de actualización</TSA_WD_BtnUpdateNotes>
   <TSA_WD_BtnRaidMult>Multiplicador de puntos de incursión</TSA_WD_BtnRaidMult>
+  <TSA_WD_BtnCombatDifficulty>Dificultad de combate</TSA_WD_BtnCombatDifficulty>
+  <TSA_WD_DescCombatDifficulty>Dificultad Mid/Late Game, puertas de amenaza, presión de incursiones, bonos de combate, estilos de llegada, guarnición y hardware T4.</TSA_WD_DescCombatDifficulty>
+  <TSA_WD_BtnEconomicDifficulty>Dificultad económica</TSA_WD_BtnEconomicDifficulty>
+  <TSA_WD_DescEconomicDifficulty>Mantenimiento de puestos, rendimiento decreciente de habilidades, drenaje de buena voluntad y tasas de soborno.</TSA_WD_DescEconomicDifficulty>
+  <TSA_WD_Settings_Search>Buscar</TSA_WD_Settings_Search>
+  <TSA_WD_Settings_SearchTip>Filtra controles de esta página por etiqueta o tooltip. Si coincide un encabezado de sección, se muestra toda esa sección.</TSA_WD_Settings_SearchTip>
+  <TSA_WD_ThreatGate_Never>Nunca</TSA_WD_ThreatGate_Never>
+  <TSA_WD_ThreatGate_FromMid>Desde Mid</TSA_WD_ThreatGate_FromMid>
+  <TSA_WD_ThreatGate_FromLate>Desde Late</TSA_WD_ThreatGate_FromLate>
+  <TSA_WD_ThreatGate_Always>Siempre</TSA_WD_ThreatGate_Always>
+  <TSA_WD_Combat_HeaderEscalation>Dificultad Mid/Late Game</TSA_WD_Combat_HeaderEscalation>
+  <TSA_WD_Combat_HeaderEscalationTip>Cuándo se activan Mid y Late una vez que tu colonia es lo bastante fuerte.</TSA_WD_Combat_HeaderEscalationTip>
+  <TSA_WD_Combat_HeaderThreatTiming>Momento de amenazas</TSA_WD_Combat_HeaderThreatTiming>
+  <TSA_WD_Combat_HeaderThreatTimingTip>Cuándo puede activarse cada amenaza especial respecto a la dificultad Mid/Late Game. Invasión y Desesperación ignoran enfriamientos normales; Invasión también ignora la ratio mínima.</TSA_WD_Combat_HeaderThreatTimingTip>
+  <TSA_WD_Combat_HeaderOpportunityFeatures>Funciones de oportunidad (ToO / saqueo / emboscada)</TSA_WD_Combat_HeaderOpportunityFeatures>
+  <TSA_WD_Combat_HeaderTargetOfOpportunityTip>Los asaltantes en viaje pueden cambiar a un objetivo más débil por el camino.</TSA_WD_Combat_HeaderTargetOfOpportunityTip>
+  <TSA_WD_Combat_HeaderMaraudingTip>Tras un combate, los supervivientes pueden seguir hacia otro objetivo.</TSA_WD_Combat_HeaderMaraudingTip>
+  <TSA_WD_Combat_HeaderSettlementAmbushTip>Los asentamientos enemigos pueden emboscar tu caravana si pasas cerca.</TSA_WD_Combat_HeaderSettlementAmbushTip>
+  <TSA_WD_Combat_HeaderVanguard>Vanguardia</TSA_WD_Combat_HeaderVanguard>
+  <TSA_WD_Combat_HeaderInvasion>Invasión</TSA_WD_Combat_HeaderInvasion>
+  <TSA_WD_Combat_HeaderVanguardAndInvasion>Vanguardia e Invasión</TSA_WD_Combat_HeaderVanguardAndInvasion>
+  <TSA_WD_Combat_HeaderVanguardAndInvasionTip>Facciones fuertes actúan desde asentamientos lejanos (más allá de la distancia mínima al jugador). Vanguardia desmantela 5–7 sitios lejanos y se reasienta cerca de ti; tras desmantelar, el agresor debe conservar al menos 8 asentamientos activos en la patria. Invasión lanza 5–7 incursiones coordinadas desde anfitriones lejanos sin abandonar esos hogares.</TSA_WD_Combat_HeaderVanguardAndInvasionTip>
+  <TSA_WD_Combat_VanguardVsInvasionPickChance>Probabilidad de elegir Vanguardia</TSA_WD_Combat_VanguardVsInvasionPickChance>
+  <TSA_WD_Combat_VanguardVsInvasionPickChanceTip>Cuando Vanguardia e Invasión pueden activarse, probabilidad de intentar Vanguardia primero. El resto del tiempo se intenta Invasión.</TSA_WD_Combat_VanguardVsInvasionPickChanceTip>
+  <TSA_WD_Combat_HeaderDesperationTip>Tras una pérdida por conquista en un grupo bajo presión, la Estrategia puede disparar (probabilidad de disparo) y luego Turtle o desesperación. Los presets Fácil/Medio/Difícil no lo controlan.</TSA_WD_Combat_HeaderDesperationTip>
+  <TSA_WD_Combat_HeaderStrongFactionWarTip>Facciones NPC fuertes pueden declararse la guerra entre sí.</TSA_WD_Combat_HeaderStrongFactionWarTip>
+  <TSA_WD_Combat_HeaderPlayerRaidsTip>Límites y enfriamientos de las incursiones que lanzas.</TSA_WD_Combat_HeaderPlayerRaidsTip>
+  <TSA_WD_Combat_HeaderRaidClampTip>Cómo se limitan los puntos de incursión WD frente al presupuesto del narrador.</TSA_WD_Combat_HeaderRaidClampTip>
+  <TSA_WD_Combat_HeaderStageBonuses>Bonos de combate por etapa</TSA_WD_Combat_HeaderStageBonuses>
+  <TSA_WD_Combat_HeaderStageBonusesTip>Más presión de incursiones, crecimiento y alcance cuando Mid o Late está activo.</TSA_WD_Combat_HeaderStageBonusesTip>
+  <TSA_WD_Combat_StageBonusesNeedEscalation>Activa la dificultad Mid/Late Game arriba para editar estos bonos.</TSA_WD_Combat_StageBonusesNeedEscalation>
+  <TSA_WD_Combat_HeaderArrivalStylesTip>Probabilidades de estilo drop pod / asedio en incursiones a la colonia.</TSA_WD_Combat_HeaderArrivalStylesTip>
+  <TSA_WD_Combat_HeaderAdvancedWorld>Combate mundial avanzado</TSA_WD_Combat_HeaderAdvancedWorld>
+  <TSA_WD_Combat_HeaderAdvancedWorldTip>Apuntado AT a viajeros/caravanas del jugador, e incursiones experimentales T4 con gravnave.</TSA_WD_Combat_HeaderAdvancedWorldTip>
+  <TSA_WD_Combat_HeaderGarrisonTip>Cuánta fuerza guardan en casa los asentamientos NPC.</TSA_WD_Combat_HeaderGarrisonTip>
+  <TSA_WD_Combat_HeaderT4MortarTip>Fuego de mortero desde asentamientos enemigos.</TSA_WD_Combat_HeaderT4MortarTip>
+  <TSA_WD_Combat_HeaderAntiAirTip>AA enemigo contra tus cápsulas y voladores.</TSA_WD_Combat_HeaderAntiAirTip>
+  <TSA_WD_Combat_HeaderT4Hardware>Hardware T4 (mortero / AA)</TSA_WD_Combat_HeaderT4Hardware>
+  <TSA_WD_Combat_HeaderT4HardwareTip>Activa sistemas y ajusta alcance, daño y precisión. El momento vs jugador está en Momento de amenazas.</TSA_WD_Combat_HeaderT4HardwareTip>
+  <TSA_WD_Combat_T4TimingNote>El momento de disparo al jugador se controla con las puertas de Momento de amenazas (no con casillas Mid/Late).</TSA_WD_Combat_T4TimingNote>
+  <TSA_WD_Combat_HeaderGoodwillDrain>Drenaje de buena voluntad</TSA_WD_Combat_HeaderGoodwillDrain>
+  <TSA_WD_Combat_GateWhen>Se activa</TSA_WD_Combat_GateWhen>
+  <TSA_WD_Combat_GateOpportunity>Oportunidad (ToO / saqueo / emboscada)</TSA_WD_Combat_GateOpportunity>
+  <TSA_WD_Combat_GateOpportunityTip>Puerta de etapa para ToO, saqueo y emboscada.</TSA_WD_Combat_GateOpportunityTip>
+  <TSA_WD_Combat_GateToOTip>Puerta de etapa para retargeting de oportunidad.</TSA_WD_Combat_GateToOTip>
+  <TSA_WD_Combat_GateMaraudTip>Puerta de etapa para saqueo post-victoria.</TSA_WD_Combat_GateMaraudTip>
+  <TSA_WD_Combat_GateAmbushTip>Puerta de etapa para emboscada desde asentamientos.</TSA_WD_Combat_GateAmbushTip>
+  <TSA_WD_Combat_GateT4Mortar>Mortero T4 vs jugador</TSA_WD_Combat_GateT4Mortar>
+  <TSA_WD_Combat_GateT4MortarTip>Cuándo los morteros T4 enemigos pueden apuntarte.</TSA_WD_Combat_GateT4MortarTip>
+  <TSA_WD_Combat_GateT4AntiAir>AA T4 vs jugador</TSA_WD_Combat_GateT4AntiAir>
+  <TSA_WD_Combat_GateT4AntiAirTip>Cuándo el AA T4 enemigo puede apuntarte.</TSA_WD_Combat_GateT4AntiAirTip>
+  <TSA_WD_Combat_GateVanguard>Vanguardia</TSA_WD_Combat_GateVanguard>
+  <TSA_WD_Combat_GateVanguardTip>Puerta para el clúster Vanguardia del asalto adelantado.</TSA_WD_Combat_GateVanguardTip>
+  <TSA_WD_Combat_GateInvasion>Invasión</TSA_WD_Combat_GateInvasion>
+  <TSA_WD_Combat_GateInvasionTip>Puerta para Invasión (5–7 incursiones coordinadas desde anfitriones lejanos; los hogares permanecen). Ignora enfriamiento de incursión normal y ratio mínima.</TSA_WD_Combat_GateInvasionTip>
+  <TSA_WD_Combat_FallBackToInvasion>Retroceder a Invasión si falla el clúster Vanguardia</TSA_WD_Combat_FallBackToInvasion>
+  <TSA_WD_Combat_FallBackToInvasionTip>Si Vanguardia no puede reservar un clúster, intenta Invasión (si su puerta también pasa).</TSA_WD_Combat_FallBackToInvasionTip>
+  <TSA_WD_Combat_InvasionIgnoresCooldownHint>Nota: Invasión ignora enfriamientos normales de incursión y acciones diarias.</TSA_WD_Combat_InvasionIgnoresCooldownHint>
+  <TSA_WD_Combat_InvasionIgnoresMinRatioHint>Nota: Invasión ignora la ratio mínima de incursión de abajo.</TSA_WD_Combat_InvasionIgnoresMinRatioHint>
+  <TSA_WD_Combat_GateDesperation>Estrategia ante pérdida de asentamiento</TSA_WD_Combat_GateDesperation>
+  <TSA_WD_Combat_GateDesperationTip>Puerta para Estrategia ante pérdida (Turtle o desesperación tras conquista). Siempre = desde el inicio. Nunca = off. Los presets de dificultad no lo cambian.</TSA_WD_Combat_GateDesperationTip>
+  <TSA_WD_Combat_TurtleHeader>Consolidación defensiva (diaria)</TSA_WD_Combat_TurtleHeader>
+  <TSA_WD_Combat_HeaderTurtleTip>Diaria: grupos amenazados repliegan T1/T2 débiles a un núcleo T4 (excedente a T3 cercanos), ascienden por fuerza y fortifican. Separado de Estrategia ante pérdida.</TSA_WD_Combat_HeaderTurtleTip>
+  <TSA_WD_Combat_TurtleEnable>Habilitar consolidación defensiva</TSA_WD_Combat_TurtleEnable>
+  <TSA_WD_Combat_TurtleEnableTooltip>Cuando un grupo conectado está bajo presión, los sitios T1/T2 débiles se repliegan a un núcleo T4 (excedente a T3 cercanos cuando el T4 está lleno). Los depósitos ascienden el nivel por umbrales de fuerza. Usa su propio enfriamiento por facción; como máximo un grupo por día.</TSA_WD_Combat_TurtleEnableTooltip>
+  <TSA_WD_Combat_TurtleChance>Probabilidad diaria</TSA_WD_Combat_TurtleChance>
+  <TSA_WD_Combat_TurtleChanceTooltip>Probabilidad diaria de evaluar y lanzar una consolidación para el grupo amenazado con mejor puntuación.</TSA_WD_Combat_TurtleChanceTooltip>
+  <TSA_WD_Combat_TurtleCooldown>Enfriamiento por facción</TSA_WD_Combat_TurtleCooldown>
+  <TSA_WD_Combat_TurtleCooldownTooltip>Días antes de que la misma facción pueda consolidarse de nuevo.</TSA_WD_Combat_TurtleCooldownTooltip>
+  <TSA_WD_Combat_TurtleMinCluster>Tamaño mínimo del grupo</TSA_WD_Combat_TurtleMinCluster>
+  <TSA_WD_Combat_TurtleMinClusterTooltip>Un grupo conectado necesita al menos esta cantidad de asentamientos para consolidarse. Los sitios se enlazan a 20 casillas o menos.</TSA_WD_Combat_TurtleMinClusterTooltip>
+  <TSA_WD_Combat_TurtleMaxPack>Máx. periferias replegadas</TSA_WD_Combat_TurtleMaxPack>
+  <TSA_WD_Combat_TurtleMaxPackTooltip>Máximo de asentamientos exteriores que se repliegan y aportan su fuerza al núcleo.</TSA_WD_Combat_TurtleMaxPackTooltip>
+  <TSA_WD_Combat_TurtlePressure>Presión hostil requerida</TSA_WD_Combat_TurtlePressure>
+  <TSA_WD_Combat_TurtlePressureTooltip>Número de asentamientos hostiles o colonias/puestos del jugador a 15 casillas o menos de cualquier sitio del grupo para consolidarse. Los aliados forman grupo si están enlazados a 20 casillas o menos.</TSA_WD_Combat_TurtlePressureTooltip>
+  <TSA_WD_Combat_TurtlePressureRatio>Ratio de presión regional</TSA_WD_Combat_TurtlePressureRatio>
+  <TSA_WD_Combat_TurtlePressureRatioTooltip>Fuerza ofensiva hostil a 15 casillas o menos de cualquier sitio del grupo, dividida por la fuerza ofensiva del propio grupo. Los sitios aliados forman un grupo si están enlazados a 20 casillas o menos. Turtle diario y Estrategia ante pérdida exigen este ratio (p. ej. 225% = los hostiles tienen 2,25× la fuerza del grupo).</TSA_WD_Combat_TurtlePressureRatioTooltip>
+  <TSA_WD_Combat_GateTurtleTip>Puerta de etapa para consolidación defensiva. Siempre = desde el inicio. Nunca = desactivado.</TSA_WD_Combat_GateTurtleTip>
+  <TSA_WD_Combat_TurtleNotify>Avisar cuando se inicie una consolidación defensiva</TSA_WD_Combat_TurtleNotify>
+  <TSA_WD_Combat_TurtleNotifyTooltip>Envía una carta cuando una facción cercana consolida y fortifica un núcleo.</TSA_WD_Combat_TurtleNotifyTooltip>
+  <TSA_WD_Combat_GateStrongWar>Guerra de facción fuerte</TSA_WD_Combat_GateStrongWar>
+  <TSA_WD_Combat_GateStrongWarTip>Puerta para eventos de guerra de facción fuerte.</TSA_WD_Combat_GateStrongWarTip>
   <TSA_WD_BtnResetAll>Restablecer TODA la configuración</TSA_WD_BtnResetAll>
   <TSA_WD_ResetPageToDefaults>Restablecer esta página</TSA_WD_ResetPageToDefaults>
   <TSA_WD_BtnSabotage>Sabotaje</TSA_WD_BtnSabotage>
@@ -231,6 +313,7 @@
   <TSA_WD_Growth_HeaderExpansion>Expansión y límites de densidad local</TSA_WD_Growth_HeaderExpansion>
   <TSA_WD_Growth_HeaderGoodwillFromTrade>Buena voluntad por comercio</TSA_WD_Growth_HeaderGoodwillFromTrade>
   <TSA_WD_Growth_HeaderGrowth>Configuración general de crecimiento</TSA_WD_Growth_HeaderGrowth>
+  <TSA_WD_Growth_HeaderActionEconomy>Acciones diarias y capacidad del asentamiento</TSA_WD_Growth_HeaderActionEconomy>
   <TSA_WD_Growth_HeaderDefensiveBaselines>Fuerza defensiva base</TSA_WD_Growth_HeaderDefensiveBaselines>
   <TSA_WD_Growth_T1DefensiveStrength>Fuerza defensiva T1</TSA_WD_Growth_T1DefensiveStrength>
   <TSA_WD_Growth_T1DefensiveStrengthTooltip>Fuerza defensiva local base para asentamientos de nivel 1.</TSA_WD_Growth_T1DefensiveStrengthTooltip>
@@ -303,7 +386,7 @@
   <TSA_WD_Threat_StorytellerMovedHint>Las reglas de incursiones del narrador por facción se movieron a Alcance de facciones WD y lealtades.</TSA_WD_Threat_StorytellerMovedHint>
   <TSA_WD_AllegianceMatrixInGameOnly>Los cambios diplomáticos permitidos solo se pueden abrir durante una partida (no desde el menú principal).</TSA_WD_AllegianceMatrixInGameOnly>
   <TSA_WD_Outpost_MaxTravelStrengthLoss>Pérdida de fuerza máxima por viaje</TSA_WD_Outpost_MaxTravelStrengthLoss>
-  <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>Porcentaje máximo de la fuerza de partida que los viajeros (incursiones, expansión, constructores) pueden perder en ruta. Al 75% conservan al menos 25% y no expiran solo por desgaste.</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
+  <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>Porcentaje máximo de la fuerza de partida que los viajeros (incursiones, expansión, constructores) pueden perder en ruta. Conservan el resto de la fuerza inicial y no expiran solo por desgaste.</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
   <TSA_WD_Caravans_OnlyWaterIfNoLandPath>Viajeros: cruzar agua solo si no hay ruta por tierra</TSA_WD_Caravans_OnlyWaterIfNoLandPath>
   <TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>Si está activado, los viajeros WD usan primero el pathfinder del mundo y solo usan rutas con agua si falla. Si está desactivado, se comparan ambas rutas y se elige la más rápida (mismas unidades de dificultad que abajo).</TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>
   <TSA_WD_Caravans_WaterMovementDifficulty>Viajeros: dificultad de movimiento en casillas de agua</TSA_WD_Caravans_WaterMovementDifficulty>
@@ -643,8 +726,8 @@
   <TSA_WD_BaseGen_FogInteriorMineablesTip>En mapas de asalto a asentamientos y defensa de avanzadillas, dentro de los diseños de estructura generados, vuelve a ocultar celdas de roca natural y mineral totalmente rodeadas de roca o mineral en las ocho teselas vecinas. Los escombros no cuentan. Se aplica tras quitar la niebla del rectángulo del asentamiento.</TSA_WD_BaseGen_FogInteriorMineablesTip>
   <TSA_WD_BaseGen_ForcePower>Forzar energía del asentamiento (solo asalto)</TSA_WD_BaseGen_ForcePower>
   <TSA_WD_BaseGen_ForcePowerTip>En mapas de asalto a asentamientos NPC, enciende lámparas y torretas sin una red real y repone combustible en torretas de combustible. No aplica a mapas de defensa de avanzadillas.</TSA_WD_BaseGen_ForcePowerTip>
-  <TSA_WD_BaseGen_SilenceTurrets>Silenciar torretas derrotadas (solo asalto)</TSA_WD_BaseGen_SilenceTurrets>
-  <TSA_WD_BaseGen_SilenceTurretsTip>En mapas de asalto a asentamientos NPC, apaga las torretas de facción sobrantes cuando ya no quedan humanoides hostiles activos. No aplica a mapas de defensa de avanzadillas.</TSA_WD_BaseGen_SilenceTurretsTip>
+  <TSA_WD_BaseGen_SilenceTurrets>Destruir torretas derrotadas (solo asalto)</TSA_WD_BaseGen_SilenceTurrets>
+  <TSA_WD_BaseGen_SilenceTurretsTip>En mapas de asalto a asentamientos NPC, destruye las torretas de facción no tripuladas sobrantes cuando ya no quedan humanoides hostiles activos (caídos, huyendo o ausentes), para poder reformar la caravana. No aplica a mapas de defensa de avanzadillas.</TSA_WD_BaseGen_SilenceTurretsTip>
   <TSA_WD_Garrison_MinScale>Guarnición mínima con ofensiva agotada</TSA_WD_Garrison_MinScale>
   <TSA_WD_Garrison_MinScaleTooltip>La guarnición del mapa escala con la fuerza ofensiva actual del asentamiento respecto a su máximo de nivel. Un asentamiento lleno despliega el 100% del multiplicador configurado; uno agotado, menos. Este es el suelo: incluso vacío despliega al menos esta fracción. El diseño del mapa sigue siendo acorde al nivel.</TSA_WD_Garrison_MinScaleTooltip>
   <TSA_WD_Growth_HeaderSameTierUpgradeReq>Requisitos de mejora del mismo nivel</TSA_WD_Growth_HeaderSameTierUpgradeReq>

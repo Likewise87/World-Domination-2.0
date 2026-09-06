@@ -34,10 +34,10 @@
         <li>Door_Steel,.,StandingLamp,.,.,.,.,.,VFEPD_PlanningScreen_South,.,VFEPD_SteelTallCabinet_South,VFEPD_SteelCupboardNarrow_South,VFEPD_SteelTallCabinet_South,.,.,.,.,StandingLamp,.,Door_Steel</li>
         <li>Wall_Steel,.,.,.,.,Turret_MiniTurret_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Turret_MiniTurret_Steel,.,.,.,.,Wall_Steel</li>
         <li>Wall_Steel,.,Bed_Steel_East,.,.,.,Wall_Steel,.,.,StandingLamp,VFEPD_LargeDecalWordSecurity_South,.,.,Wall_Steel,.,.,.,Bed_Steel_West,.,Wall_Steel</li>
-        <li>Wall_Steel,.,Wall_Steel,Wall_Steel,.,.,Wall_Steel,.,Turret_Mortar_Steel_South,.,.,.,Turret_Mortar_Steel_South,Wall_Steel,.,.,Wall_Steel,Wall_Steel,.,Wall_Steel</li>
+        <li>Wall_Steel,.,Wall_Steel,Wall_Steel,.,.,Wall_Steel,.,.,.,.,.,Turret_Mortar_Steel_South,Wall_Steel,.,.,Wall_Steel,Wall_Steel,.,Wall_Steel</li>
         <li>Wall_Steel,.,Battery_West,.,.,.,Door_Steel,VFEPD_LargeDecalWordSecurity_West,.,Battery_East,.,.,.,Door_Steel,.,.,Shelf_Steel_West,.,.,Wall_Steel</li>
         <li>Wall_Steel,.,Battery_West,Shelf_Steel_East,.,.,Door_Steel,.,.,.,Shelf_Steel_East,.,VFEPD_LargeDecalWordSecurity_East,Door_Steel,.,.,.,Shelf_Steel_East,.,Wall_Steel</li>
-        <li>Wall_Steel,.,Wall_Steel,Wall_Steel,.,.,Wall_Steel,Turret_Mortar_Steel_North,.,.,.,Turret_Mortar_Steel_North,.,Wall_Steel,.,.,Wall_Steel,Wall_Steel,.,Wall_Steel</li>
+        <li>Wall_Steel,.,Wall_Steel,Wall_Steel,.,.,Wall_Steel,Turret_Mortar_Steel_North,.,.,.,.,.,Wall_Steel,.,.,Wall_Steel,Wall_Steel,.,Wall_Steel</li>
         <li>Wall_Steel,.,Bed_Steel_East,.,.,.,Wall_Steel,.,.,VFEPD_LargeDecalWordSecurity_North,StandingLamp,.,.,Wall_Steel,.,.,.,Bed_Steel_West,.,Wall_Steel</li>
         <li>Wall_Steel,.,.,.,.,Turret_MiniTurret_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Wall_Steel,Turret_MiniTurret_Steel,.,.,.,.,Wall_Steel</li>
         <li>Door_Steel,.,StandingLamp,.,.,.,Shelf_Steel_South,Bed_Steel_East,.,.,.,.,Bed_Steel_West,.,Shelf_Steel_South,.,.,StandingLamp,.,Door_Steel</li>

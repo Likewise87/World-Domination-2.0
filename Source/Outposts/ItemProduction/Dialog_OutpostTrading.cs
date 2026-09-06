@@ -27,6 +27,7 @@ namespace TSA_WorldDomination
             public string LabelLine;
             public string Tooltip;
             public bool Contributes;
+            public bool IsHostile;
         }
 
         private struct CachedCommodityRow
@@ -36,6 +37,8 @@ namespace TSA_WorldDomination
             public string Formula;
             public string Tooltip;
         }
+
+        private static readonly Color HostileContributingRowBg = new Color(0.75f, 0.12f, 0.12f, 0.16f);
 
         private const float IconColW = 56f;
         private const float IconPadding = 8f;
@@ -91,7 +94,8 @@ namespace TSA_WorldDomination
                     WorldObject = p.WorldObject,
                     LabelLine = Outpost_Trading.FormatPartnerRowLabel(p),
                     Tooltip = Outpost_Trading.BuildPartnerRowTooltip(p),
-                    Contributes = p.ContributesToFaction
+                    Contributes = p.ContributesToFaction,
+                    IsHostile = p.IsHostilePartner
                 });
             }
             nearbyHeaderLabel = Outpost_Dialog_UI.FormatNearbyHeaderLabel(nearbyMonitor.NearbyCount);
@@ -477,6 +481,7 @@ namespace TSA_WorldDomination
                     tierSum.ToString(),
                     multPct.ToString());
             }
+            formula += Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusSuffix(outpost);
 
             return new CachedCommodityRow
             {
@@ -494,6 +499,8 @@ namespace TSA_WorldDomination
         {
             float rowH = LineH + RowPadding;
             Rect rowRect = new Rect(0f, ly, lw, rowH);
+            if (row.Contributes && row.IsHostile)
+                Widgets.DrawBoxSolid(rowRect, HostileContributingRowBg);
             if (Mouse.IsOver(rowRect)) Widgets.DrawHighlight(rowRect);
 
             float contentY = ly + RowPadding * 0.5f;

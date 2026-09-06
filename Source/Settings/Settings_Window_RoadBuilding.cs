@@ -43,6 +43,7 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () =>
             {
                 s.ResetRoadBuildingFallback();
+            SettingsUI.DrawSettingsSearchBar(l);
                 WorldActions_Roads.ApplyVanillaRoadMovementSettings();
                 WD_WorldLayer_MovementDifficultyOverlay.InvalidateAndDirtyIfActive();
             },

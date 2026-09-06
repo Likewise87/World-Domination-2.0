@@ -95,6 +95,11 @@ namespace TSA_WorldDomination
                     traveler.suppressDestroyedWorldFx = true;
                     Raid_OnPlayerColony.HandleRaidOnPlayer(attSettlement, settlement, traveler.raidAttackerList, traveler.travelerStrength, traveler.raidAttackerDetails, manager, traveler);
                 }
+                else if (traveler.packUpRequiresRefound || traveler.isDesperationRaid)
+                {
+                    traveler.suppressDestroyedWorldFx = true;
+                    Raid_OnPlayerColony.HandleRaidOnPlayerFromPackUp(settlement, traveler.travelerStrength, manager, traveler);
+                }
                 else
                 {
                     var abortEntry = new SpreadLogEntry("TSA_WD_Log_Raid_Aborted_TargetNull".Translate(), attacker, target);
@@ -443,10 +448,20 @@ namespace TSA_WorldDomination
                     ApplyLossesAndLog(attacker, target, traveler.raidAttackerList, null, attLossPct, defLossPct, "TSA_WD_Log_Raid_Successful".Translate(originalName), originalName, manager, traveler.initialStrength, finalDefAgg, ratio, true, winChance, finalAttDetails, finalDefDetails, efficiency, traveler.contributionFactors, traveler.CachedLaunchTotalTravelTicks, attSeverity, defCoalitionSeverity, finalAttForceRows, finalDefForceRows);
 
                     NotifyCommonEnemyQuestBeforeDestroy(target);
+                    if (target is Settlement lostNpcOutpostPath && lostNpcOutpostPath.Faction != null && !lostNpcOutpostPath.Faction.IsPlayer)
+                        WorldActions_DesperationRaid.NotifyNpcSettlementLost(lostNpcOutpostPath, attackerFaction);
                     target.Destroy();
                     if (targetWasPlayerOwned)
                     {
-                        ApplyNpcRaidVictoryTileOutcome(tile, originalName, tier, attackerFaction, traveler.initialStrength, attLossPct, traveler.contributionFactors, targetFaction);
+                        SettlementTier outcomeTier = tier;
+                        if (traveler.isDesperationRaid)
+                            outcomeTier = WorldActions_DesperationRaid.TierFromHostStrength(traveler.initialStrength * (1f - attLossPct));
+                        ApplyNpcRaidVictoryTileOutcome(tile, originalName, outcomeTier, attackerFaction, traveler.initialStrength, attLossPct, traveler.contributionFactors, targetFaction);
+                        if (traveler.isDesperationRaid)
+                        {
+                            Settlement founded = Find.WorldObjects.SettlementAt(tile);
+                            WorldActions_DesperationRaid.OnDesperationVictory(traveler, tile, founded);
+                        }
                     }
                     else if (traveler.raidOrderOutcome == RaidOrderOutcome.AllyAwardsToPlayer)
                     {
@@ -547,6 +562,8 @@ namespace TSA_WorldDomination
             ApplyLossesAndLog(attacker, target, traveler.raidAttackerList, null!, attLoss, defLoss, "TSA_WD_Log_Raid_Successful".Translate(originalName), originalName, manager, traveler.initialStrength, defAgg, ratio, true, winChance, attDet, defDet, efficiency, traveler.contributionFactors, traveler.CachedLaunchTotalTravelTicks, attSeverity, defCoalitionSeverity, attForceRows, defForceRows);
 
             NotifyCommonEnemyQuestBeforeDestroy(target);
+            if (target is Settlement lostNpc && lostNpc.Faction != null && !lostNpc.Faction.IsPlayer)
+                WorldActions_DesperationRaid.NotifyNpcSettlementLost(lostNpc, Faction.OfPlayer);
             target.Destroy();
             ConquestOpportunityUtility.RegisterSimulatedConquestAndOpenMenu(tile, originalName, tier, targetFaction);
         }
@@ -562,6 +579,8 @@ namespace TSA_WorldDomination
             ApplyLossesAndLog(attacker, target, traveler.raidAttackerList, null!, attLoss, defLoss, "TSA_WD_Log_Raid_Successful".Translate(originalName), originalName, manager, traveler.initialStrength, defAgg, ratio, true, winChance, attDet, defDet, efficiency, traveler.contributionFactors, traveler.CachedLaunchTotalTravelTicks, attSeverity, defCoalitionSeverity, attForceRows, defForceRows);
 
             NotifyCommonEnemyQuestBeforeDestroy(target);
+            if (target is Settlement lostNpc2 && lostNpc2.Faction != null && !lostNpc2.Faction.IsPlayer)
+                WorldActions_DesperationRaid.NotifyNpcSettlementLost(lostNpc2, Faction.OfPlayer);
             target.Destroy();
             ConquestOpportunityUtility.RegisterSimulatedConquest(tile, originalName, tier);
             Find.WindowStack.Add(new Dialog_OutpostSelection(tile, originalName, -1, tier, conquestContext: null!));
@@ -693,9 +712,20 @@ namespace TSA_WorldDomination
             Faction previousOwnerFaction = target.Faction;
 
             SettlementTier tier = target.GetComponent<CompViralSpread>()?.tier ?? SettlementTier.T1;
+            if (continuationTraveler != null && continuationTraveler.isDesperationRaid)
+                tier = WorldActions_DesperationRaid.TierFromHostStrength(attAgg * (1f - attLoss));
+
             NotifyCommonEnemyQuestBeforeDestroy(target);
+            if (target is Settlement lostSettlement && lostSettlement.Faction != null && !lostSettlement.Faction.IsPlayer)
+                WorldActions_DesperationRaid.NotifyNpcSettlementLost(lostSettlement, attackerFaction);
             target.Destroy();
             ApplyNpcRaidVictoryTileOutcome(tile, originalName, tier, attackerFaction, attAgg, attLoss, dna, previousOwnerFaction);
+
+            if (continuationTraveler != null && continuationTraveler.isDesperationRaid)
+            {
+                Settlement founded = Find.WorldObjects.SettlementAt(tile);
+                WorldActions_DesperationRaid.OnDesperationVictory(continuationTraveler, tile, founded);
+            }
 
             ApplyLossesAndLog(originObject, target, null, null, attLoss, defLoss, "TSA_WD_Log_Raid_Successful".Translate(originalName), originalName, manager, attAgg, defAgg, ratio, true, winChance, attDet, defDet, efficiency, dna, pathTravelTicks, attSeverity, defCoalitionSeverity, attForceRows, defForceRows);
 

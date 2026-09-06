@@ -136,4 +136,40 @@ namespace TSA_WorldDomination
             return false;
         }
     }
+
+    /// <summary>One turret option in an MG pool tier. Optional MayRequire mirrors production options.</summary>
+    public class WdMgTurretOption
+    {
+        public ThingDef thingDef;
+        public float weight = 1f;
+        /// <summary>Author intent: spawn a gunner and sticky-man when the def is actually mannable.</summary>
+        public bool manned = false;
+        /// <summary>Comma-separated packageIds; all must be active. Empty = no gate.</summary>
+        public string MayRequire;
+        /// <summary>Comma-separated packageIds; at least one must be active. Empty = no gate.</summary>
+        public string MayRequireAnyOf;
+    }
+
+    public class WdMgTurretTier
+    {
+        public int level = 1;
+        public List<WdMgTurretOption> options = new List<WdMgTurretOption>();
+    }
+
+    /// <summary>XML-patchable MG/turret pool by level (1=T2, 2=T3, 3=T4). DefName: TSA_WdMgTurretPool.</summary>
+    public class WdMgTurretPoolDef : Def
+    {
+        public List<WdMgTurretTier> tiers = new List<WdMgTurretTier>();
+
+        public WdMgTurretTier GetTier(int level)
+        {
+            if (tiers == null) return null;
+            for (int i = 0; i < tiers.Count; i++)
+            {
+                WdMgTurretTier t = tiers[i];
+                if (t != null && t.level == level) return t;
+            }
+            return null;
+        }
+    }
 }

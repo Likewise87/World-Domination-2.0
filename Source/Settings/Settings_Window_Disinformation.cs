@@ -37,6 +37,7 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetDisinformation(),
                 () => { weightsExpanded = modifiersExpanded = savesExpanded = outcomeExpanded = simulationExpanded = true; },
                 () => { weightsExpanded = modifiersExpanded = savesExpanded = outcomeExpanded = simulationExpanded = false; });
+            SettingsUI.DrawSettingsSearchBar(l);
 
             // ================= SECTION 1: BASE WEIGHTS =================
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Dis_HeaderWeights".Translate(), ref weightsExpanded, SettingsUI.SectionHeaderColor))

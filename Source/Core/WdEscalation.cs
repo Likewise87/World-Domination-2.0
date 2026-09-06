@@ -12,6 +12,15 @@ namespace TSA_WorldDomination
         Late = 2
     }
 
+    /// <summary>When a combat/special threat feature may fire relative to escalation stage.</summary>
+    public enum WdThreatStageGate : byte
+    {
+        Never = 0,
+        FromMid = 1,
+        FromLate = 2,
+        Always = 3
+    }
+
     /// <summary>
     /// Resolves Mid/Late gates and the active effect values for the current stage.
     /// Master switch remains <see cref="WorldDominationSettings.enableLateGameScaling"/>.
@@ -24,6 +33,31 @@ namespace TSA_WorldDomination
             WdEscalationStage.Mid => "TSA_WD_Escalation_StageMid".Translate().ToString(),
             _ => "TSA_WD_Escalation_StageNone".Translate().ToString()
         };
+
+        public static string ThreatGateLabel(WdThreatStageGate gate) => gate switch
+        {
+            WdThreatStageGate.Never => "TSA_WD_ThreatGate_Never".Translate().ToString(),
+            WdThreatStageGate.FromMid => "TSA_WD_ThreatGate_FromMid".Translate().ToString(),
+            WdThreatStageGate.FromLate => "TSA_WD_ThreatGate_FromLate".Translate().ToString(),
+            WdThreatStageGate.Always => "TSA_WD_ThreatGate_Always".Translate().ToString(),
+            _ => gate.ToString()
+        };
+
+        /// <summary>Never=false; Always=true; FromMid=Mid|Late; FromLate=Late only.</summary>
+        public static bool PassesGate(WdThreatStageGate gate, WdEscalationStage stage)
+        {
+            return gate switch
+            {
+                WdThreatStageGate.Never => false,
+                WdThreatStageGate.Always => true,
+                WdThreatStageGate.FromMid => stage == WdEscalationStage.Mid || stage == WdEscalationStage.Late,
+                WdThreatStageGate.FromLate => stage == WdEscalationStage.Late,
+                _ => false
+            };
+        }
+
+        public static bool PassesGate(WdThreatStageGate gate, WorldComponent_SpreadManager manager) =>
+            PassesGate(gate, GetCachedStage(manager));
 
         public static WdEscalationStage GetStage(float playerOutpostStrength, float globalShare, WorldDominationSettings seth)
         {
@@ -141,28 +175,18 @@ namespace TSA_WorldDomination
             };
         }
 
-        /// <summary>T4 mortar may target the player for the active stage flag (Mid or Late).</summary>
+        /// <summary>T4 mortar may target the player for the active escalation stage (threat stage gate).</summary>
         public static bool CanTargetPlayerWithT4Mortar(WorldDominationSettings seth, WdEscalationStage stage)
         {
             if (seth == null) return false;
-            return stage switch
-            {
-                WdEscalationStage.Late => seth.enableT4SettlementMortar,
-                WdEscalationStage.Mid => seth.enableMidGameT4SettlementMortar,
-                _ => false
-            };
+            return PassesGate(seth.gateThreatT4MortarVsPlayer, stage);
         }
 
-        /// <summary>T4 AA may target the player for the active stage flag (Mid or Late).</summary>
+        /// <summary>T4 AA may target the player for the active escalation stage (threat stage gate).</summary>
         public static bool CanTargetPlayerWithT4AntiAir(WorldDominationSettings seth, WdEscalationStage stage)
         {
             if (seth == null) return false;
-            return stage switch
-            {
-                WdEscalationStage.Late => seth.enableT4SettlementAntiAir,
-                WdEscalationStage.Mid => seth.enableMidGameT4SettlementAntiAir,
-                _ => false
-            };
+            return PassesGate(seth.gateThreatT4AntiAirVsPlayer, stage);
         }
 
         /// <summary>

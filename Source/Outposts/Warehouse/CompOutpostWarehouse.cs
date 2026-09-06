@@ -329,18 +329,30 @@ namespace TSA_WorldDomination
             return colony;
         }
 
-        /// <summary>Stable UI/ship key for a stock row (def + stuff + quality).</summary>
+        /// <summary>Stable UI/ship key for a stock row (def + stuff + quality + payment extras).</summary>
         public static string StockKey(ThingDefCountClass e)
         {
             if (e?.thingDef == null) return "";
-            return e.thingDef.defName + "\0" + (e.stuff?.defName ?? "") + "\0" + ((int)e.quality).ToString();
+            bool worn = WdStockExtrasTable.GetWornByCorpse(e);
+            bool bio = WdStockExtrasTable.GetBiocoded(e);
+            int hp = WdStockExtrasTable.GetHitPoints(e);
+            return e.thingDef.defName + "\0" + (e.stuff?.defName ?? "") + "\0" + ((int)e.quality).ToString()
+                + "\0" + (worn ? "1" : "0")
+                + "\0" + hp.ToString()
+                + "\0" + (bio ? "1" : "0");
         }
 
-        private static bool SameStockIdentity(ThingDefCountClass a, ThingDefCountClass b) =>
-            a != null && b != null
-            && a.thingDef == b.thingDef
-            && a.stuff == b.stuff
-            && a.quality == b.quality;
+        public static bool SameStockIdentity(ThingDefCountClass a, ThingDefCountClass b)
+        {
+            if (a == null || b == null) return false;
+            if (a.thingDef != b.thingDef || a.stuff != b.stuff || a.quality != b.quality)
+                return false;
+            if (WdStockExtrasTable.GetWornByCorpse(a) != WdStockExtrasTable.GetWornByCorpse(b))
+                return false;
+            if (WdStockExtrasTable.GetBiocoded(a) != WdStockExtrasTable.GetBiocoded(b))
+                return false;
+            return WdStockExtrasTable.GetHitPoints(a) == WdStockExtrasTable.GetHitPoints(b);
+        }
 
         private static void MergeCount(List<ThingDefCountClass> list, ThingDefCountClass add)
         {
@@ -351,11 +363,20 @@ namespace TSA_WorldDomination
                 list[i].count += add.count;
                 return;
             }
-            list.Add(new ThingDefCountClass(add.thingDef, add.count)
+            list.Add(CloneStockRowPreservingExtras(add, add.count));
+        }
+
+        /// <summary>Clone a stock row, preserving attached <see cref="WdStockExtras"/> when present.</summary>
+        public static ThingDefCountClass CloneStockRowPreservingExtras(ThingDefCountClass src, int count)
+        {
+            if (src == null) return null;
+            var clone = new ThingDefCountClass(src.thingDef, count)
             {
-                stuff = add.stuff,
-                quality = add.quality
-            });
+                stuff = src.stuff,
+                quality = src.quality
+            };
+            WdStockExtrasTable.CopyTo(src, clone);
+            return clone;
         }
 
         private static void SubtractCountMatching(List<ThingDefCountClass> list, ThingDefCountClass match)

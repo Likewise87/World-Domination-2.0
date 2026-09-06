@@ -115,6 +115,7 @@
   <TSA_WD_Log_Raid_DefBase>Garrison at {0}: {1} strength.</TSA_WD_Log_Raid_DefBase>
   <TSA_WD_Log_Raid_DefContrib>{0} ({1}) provided +{2} defense power. (Raw: {3}, Eff: {4}% over {5} tiles).</TSA_WD_Log_Raid_DefContrib>
   <TSA_WD_Log_Raid_ExpeditionLaunched>Raid dispatched: Caravan is underway.</TSA_WD_Log_Raid_ExpeditionLaunched>
+  <TSA_WD_RaidExpeditionLaunched>Raid expedition launched against {0}.</TSA_WD_RaidExpeditionLaunched>
   <TSA_WD_Log_Raid_FactionDispatch>{0} dispatched a raid from {1} against {2}.</TSA_WD_Log_Raid_FactionDispatch>
   <TSA_WD_Log_Raid_ColonyDelegated>Picked Colony as target and delegated to closer ally</TSA_WD_Log_Raid_ColonyDelegated>
   <TSA_WD_Log_Raid_Failed>Raid Failed: The attackers were repelled.</TSA_WD_Log_Raid_Failed>

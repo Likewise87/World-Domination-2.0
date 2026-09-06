@@ -50,7 +50,7 @@ AT turrets can be overrun by a player caravan on their tile and can be damaged b
 Use mortar, AT, and anti-air overlays to paint accuracy bands and coverage before you found an Artillery Outpost or walk a caravan under a citadel.
 
 ??? note "Advanced"
-    Player mortar defaults: range **40** tiles, cooldown **5 days**, base shell damage **300**, hit bands **80% / 55% / 30%**.
+    Player mortar defaults: range **40** tiles, cooldown **3 days**, base shell damage **300**, hit bands **80% / 55% / 30%**.
 
     Player AA defaults: range **32** tiles, damage **800**, cooldown **120** seconds (floor **20**), vs mortar shells **80%**.
 

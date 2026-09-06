@@ -20,7 +20,7 @@ namespace TSA_WorldDomination
 
         public static void TickCaravanClashDetection()
         {
-            if (Find.TickManager.TicksGame % 4 != 0) return;
+            if (Find.TickManager.TicksGame % 20 != 0) return;
 
             var caravans = Find.WorldObjects.Caravans;
             if (caravans == null || caravans.Count == 0) return;

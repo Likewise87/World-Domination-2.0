@@ -4,10 +4,13 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Right-side alert while silver upkeep is scheduled and Have &gt;= Need.
+    /// Right-side alert while silver upkeep is scheduled and not yet in the last 2 days of a shortfall.
+    /// Enough silver, or short but more than 2 days left → medium (no red pulse).
     /// </summary>
     public class Alert_WDOutpostUpkeepDue : Alert
     {
+        private const int CriticalDaysThreshold = 2;
+
         private string cachedLabel;
         private int cachedDays = int.MinValue;
         private int cachedNeed = int.MinValue;
@@ -54,9 +57,10 @@ namespace TSA_WorldDomination
         {
             if (Current.ProgramState != ProgramState.Playing) return false;
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            if (!EscalationOutpostUpkeep.TryGetAlertState(manager, out _, out int need, out int have, out _, out _))
+            if (!EscalationOutpostUpkeep.TryGetAlertState(manager, out int days, out int need, out int have, out _, out _))
                 return false;
-            if (have < need) return false; // critical alert owns the short case
+            // Critical owns shortfall in the final 2 days.
+            if (have < need && days <= CriticalDaysThreshold) return false;
             return AlertReport.Active;
         }
 
@@ -68,10 +72,12 @@ namespace TSA_WorldDomination
     }
 
     /// <summary>
-    /// Pulsing red alert while silver upkeep is scheduled and Have &lt; Need.
+    /// Pulsing red alert only when silver is short <b>and</b> ≤2 days remain until upkeep.
     /// </summary>
     public class Alert_WDOutpostUpkeepCritical : Alert_Critical
     {
+        private const int CriticalDaysThreshold = 2;
+
         private string cachedLabel;
         private int cachedDays = int.MinValue;
         private int cachedNeed = int.MinValue;
@@ -113,9 +119,10 @@ namespace TSA_WorldDomination
         {
             if (Current.ProgramState != ProgramState.Playing) return false;
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            if (!EscalationOutpostUpkeep.TryGetAlertState(manager, out _, out int need, out int have, out _, out _))
+            if (!EscalationOutpostUpkeep.TryGetAlertState(manager, out int days, out int need, out int have, out _, out _))
                 return false;
             if (have >= need) return false;
+            if (days > CriticalDaysThreshold) return false;
             return AlertReport.Active;
         }
 

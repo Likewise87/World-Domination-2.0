@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Verse;
 
 namespace TSA_WorldDomination
@@ -40,6 +40,7 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => { s.ResetOutpost(); s.ResetFoodLogistics(); },
                 () => { generalExpanded = establishmentExpanded = productionExpanded = foodExpanded = conquestExpanded = true; },
                 () => { generalExpanded = establishmentExpanded = productionExpanded = foodExpanded = conquestExpanded = false; });
+            SettingsUI.DrawSettingsSearchBar(l);
 
             // --- GENERAL SETTINGS ---
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Outpost_HeaderGeneral".Translate(), ref generalExpanded, SettingsUI.SectionHeaderColor))
@@ -97,6 +98,10 @@ namespace TSA_WorldDomination
                 "TSA_WD_Outpost_ProductionTimeMultTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefOutpostProductionTimeMultiplier);
             s.outpostProductionOutputMultiplier = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_ProductionOutputMult".Translate(), s.outpostProductionOutputMultiplier, 0.01f, 4f,
                 "TSA_WD_Outpost_ProductionOutputMultTooltip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefOutpostProductionOutputMultiplier);
+            s.hostileNearbyPartnerMult = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_HostileNearbyPartnerMult".Translate(), s.hostileNearbyPartnerMult,
+                WorldDominationSettings.HostileNearbyPartnerMultClampLow,
+                WorldDominationSettings.HostileNearbyPartnerMultClampHigh,
+                "TSA_WD_Outpost_HostileNearbyPartnerMultTip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefHostileNearbyPartnerMult);
             float prevAuraPct = s.warehouseAuraBonusPct;
             float prevAuraRad = s.warehouseAuraRadiusTiles;
             s.warehouseAuraBonusPct = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_WarehouseAuraBonus".Translate(), s.warehouseAuraBonusPct, 0f, 1f,

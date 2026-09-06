@@ -43,6 +43,7 @@ namespace TSA_WorldDomination
                 {
                     terrainPrepExpanded = rockAndSoilExpanded = layoutExtrasExpanded = afterGenerationExpanded = false;
                 });
+            SettingsUI.DrawSettingsSearchBar(l);
 
             l.Label("TSA_WD_BaseGen_Intro".Translate());
             l.Gap(12f);

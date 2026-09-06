@@ -11,7 +11,7 @@ namespace TSA_WorldDomination
     /// caravan, or a raid not already targeting this settlement) or a real vanilla player <see cref="Caravan"/>.
     /// Reuses <see cref="WorldComponent_SettlementWatchIndex"/> for O(1) tile lookups and
     /// <see cref="WorldActions_Traveler.SpawnRapidResponseInterceptTraveler"/> for the actual dispatch — no new
-    /// per-tick scanning is added beyond the existing 4-tick caravan tile-change poll in <see cref="WD_SameTileTravelerClash"/>.
+    /// per-tick scanning is added beyond the existing 20-tick caravan tile-change poll in <see cref="WD_SameTileTravelerClash"/>.
     /// </summary>
     public static class SettlementAmbushUtility
     {
@@ -22,15 +22,15 @@ namespace TSA_WorldDomination
         /// <summary>Per-origin launch cooldown (3 real-time minutes at 1x).</summary>
         public const int OriginCooldownTicks = 10800;
 
-        /// <summary>Feature C's mid/late escalation gate, bypassable via <see cref="WorldDominationSettings.opportunityFeaturesIgnoreEscalationGate"/> so a player can opt into ambushes from the start of a game.</summary>
+        /// <summary>Ambush stage gate (<see cref="WorldDominationSettings.gateThreatAmbush"/>).</summary>
         private static bool PassesEscalationGate(WorldComponent_SpreadManager manager, WorldDominationSettings seth) =>
-            (seth != null && seth.opportunityFeaturesIgnoreEscalationGate) || WdEscalation.IsMidOrLate(manager);
+            seth != null && WdEscalation.PassesGate(seth.gateThreatAmbush, manager);
 
         /// <summary>WD-traveler half: called from <see cref="WD_PathFollower.PatherTick"/>'s tile-exit block.</summary>
         public static void TryCheckAmbush(WorldObject_Traveler traveler, int tileId)
         {
             var seth = WorldDominationMod.settings;
-            if (seth == null || !seth.experimentalSettlementAmbush) return;
+            if (seth == null) return;
             if (traveler == null || traveler.Destroyed || traveler.Faction == null) return;
             if (traveler.isTurretDetour) return;
             if (!IsAmbushableMission(traveler.mission)) return;
@@ -59,9 +59,9 @@ namespace TSA_WorldDomination
         public static void TryCheckAmbushForCaravan(Caravan caravan, int tileId)
         {
             var seth = WorldDominationMod.settings;
-            if (seth == null || !seth.experimentalSettlementAmbush) return;
+            if (seth == null) return;
             if (caravan == null || caravan.Destroyed || caravan.Faction == null) return;
-            if (!AtTurretUtility.CanEnemySystemsTargetPlayerCaravan(caravan)) return;
+            if (!AtTurretUtility.MeetsPlayerCaravanVisibilityThreshold(caravan)) return;
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             if (!PassesEscalationGate(manager, seth)) return;

@@ -56,23 +56,45 @@ namespace TSA_WorldDomination
 
             float raidPoints = RaidPointsHelper.ClampRaidPointsToStorytellerBand(attAgg, map);
             LogColonyRaidPoints(attacker, target, map, attAgg, raidPoints);
-            ExecuteWdColonyRaidIncident(attacker, target, map, attAgg, raidPoints, manager, traveler);
+            bool ok = ExecuteWdColonyRaidIncident(attacker, target, map, attAgg, raidPoints, manager, traveler);
+            if (ok && traveler != null && traveler.isDesperationRaid)
+            {
+                // Do not fortify kits around a live player colony when the map raid merely starts.
+                if (target.Faction == null || !target.Faction.IsPlayer)
+                    WorldActions_DesperationRaid.OnDesperationVictory(traveler, target.Tile.tileId, target);
+            }
         }
 
-        /// <summary>Debug helper: execute a WD colony raid with fixed points through the same pipeline/flags as real WD raids.</summary>
-        public static bool TriggerDebugRaidOnPlayer(Settlement attacker, Settlement target, float fixedRaidPoints, WorldComponent_SpreadManager manager)
+        /// <summary>Pack-up / desperation raids have no live origin settlement; spawn the colony incident from traveler faction.</summary>
+        public static void HandleRaidOnPlayerFromPackUp(
+            Settlement target,
+            float attAgg,
+            WorldComponent_SpreadManager manager,
+            WorldObject_Traveler traveler)
         {
+            if (traveler?.Faction == null || target?.Faction == null) return;
+            if (!WorldActions_Utils.SafeHostileTo(traveler.Faction, target.Faction)) return;
+
             ApplyRaidDefenseCooldownToPlayerSettlement(target);
-            Map map = target?.Map;
-            if (map == null || attacker?.Faction == null) return false;
-            float raidPoints = fixedRaidPoints < 1f ? 1f : fixedRaidPoints;
-            if (Prefs.DevMode)
+            Map map = target.Map;
+            if (map == null) return;
+
+            float raidPoints = RaidPointsHelper.ClampRaidPointsToStorytellerBand(attAgg, map);
+            bool ok = ExecuteWdColonyRaidIncidentFromFaction(
+                traveler.Faction,
+                traveler.packUpOriginLabel.NullOrEmpty() ? traveler.Label : traveler.packUpOriginLabel,
+                traveler.massRelocationTier,
+                target,
+                map,
+                attAgg,
+                raidPoints,
+                manager,
+                traveler);
+            if (ok && traveler.isDesperationRaid)
             {
-                Log.Message(
-                    "[TSA WD] Debug colony raid points (" + (attacker?.LabelCap ?? "?") + " -> " + (target?.LabelCap ?? "?") + "):" + "\n"
-                    + "  Fixed debug raid points requested: " + raidPoints.ToString("F0"));
+                if (target.Faction == null || !target.Faction.IsPlayer)
+                    WorldActions_DesperationRaid.OnDesperationVictory(traveler, target.Tile.tileId, target);
             }
-            return ExecuteWdColonyRaidIncident(attacker, target, map, raidPoints, raidPoints, manager, null);
         }
 
         private static bool ExecuteWdColonyRaidIncident(
@@ -84,15 +106,42 @@ namespace TSA_WorldDomination
             WorldComponent_SpreadManager manager,
             WorldObject_Traveler traveler)
         {
+            return ExecuteWdColonyRaidIncidentFromFaction(
+                attacker.Faction,
+                attacker.Label,
+                attacker.GetComponent<CompViralSpread>()?.tier ?? SettlementTier.T1,
+                target,
+                map,
+                attackerStrengthForLog,
+                raidPoints,
+                manager,
+                traveler,
+                logAttacker: attacker);
+        }
+
+        private static bool ExecuteWdColonyRaidIncidentFromFaction(
+            Faction attackerFaction,
+            string attackerLabel,
+            SettlementTier attackerTier,
+            Settlement target,
+            Map map,
+            float attackerStrengthForLog,
+            float raidPoints,
+            WorldComponent_SpreadManager manager,
+            WorldObject_Traveler traveler,
+            WorldObject logAttacker = null)
+        {
+            if (attackerFaction == null || target == null || map == null) return false;
+
             IncidentParms parms = new IncidentParms();
             parms.target = map;
-            parms.faction = attacker.Faction;
+            parms.faction = attackerFaction;
             // Keep this scripted so storyteller-blocking logic can still allow WD-triggered incidents.
             parms.forced = true;
             parms.points = raidPoints;
 
-            parms.customLetterLabel = "TSA_WD_Letter_RaidPlayer_Colony_Label".Translate(target.LabelCap, attacker.Faction.Name);
-            parms.customLetterText = "TSA_WD_Letter_RaidPlayer_Colony_Text".Translate(attacker.Label, target.LabelCap);
+            parms.customLetterLabel = "TSA_WD_Letter_RaidPlayer_Colony_Label".Translate(target.LabelCap, attackerFaction.Name);
+            parms.customLetterText = "TSA_WD_Letter_RaidPlayer_Colony_Text".Translate(attackerLabel, target.LabelCap);
 
             bool dropPod = traveler != null && traveler.mission == TravelerMission.RaidDropPod;
             bool gravship = traveler != null && traveler.mission == TravelerMission.RaidGravship;
@@ -114,9 +163,8 @@ namespace TSA_WorldDomination
                 parms.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
 
                 var seth = WorldDominationMod.settings;
-                var tier = attacker.GetComponent<CompViralSpread>()?.tier;
                 float siegeChance = seth != null ? seth.colonySiegeRaidChance : WorldDominationSettings.DefColonySiegeRaidChance;
-                if ((tier == SettlementTier.T3 || tier == SettlementTier.T4) && Rand.Chance(Mathf.Clamp01(siegeChance)))
+                if ((attackerTier == SettlementTier.T3 || attackerTier == SettlementTier.T4) && Rand.Chance(Mathf.Clamp01(siegeChance)))
                 {
                     RaidStrategyDef siege = DefDatabase<RaidStrategyDef>.GetNamedSilentFail("Siege");
                     if (siege != null)
@@ -134,7 +182,7 @@ namespace TSA_WorldDomination
                 if (gravship)
                 {
                     ok = GravshipRaidsCompat.TryExecuteWdGravshipRaid(
-                        map, attacker.Faction, raidPoints, parms.customLetterLabel, parms.customLetterText);
+                        map, attackerFaction, raidPoints, parms.customLetterLabel, parms.customLetterText);
                     if (!ok)
                     {
                         ResetRaidParmsForRetry(parms, raidPoints, preferDropPod: true);
@@ -162,19 +210,19 @@ namespace TSA_WorldDomination
                 }
                 if (!ok)
                 {
-                    ok = TryManualColonyRaidSpawn(map, attacker.Faction, raidPoints, parms.customLetterLabel, parms.customLetterText);
+                    ok = TryManualColonyRaidSpawn(map, attackerFaction, raidPoints, parms.customLetterLabel, parms.customLetterText);
                     if (Prefs.DevMode)
                     {
                         Log.Warning("[TSA WD] WD colony raid incident failed; manual spawn fallback "
                             + (ok ? "succeeded" : "also failed")
-                            + " faction=" + (attacker.Faction?.Name ?? "?")
+                            + " faction=" + (attackerFaction?.Name ?? "?")
                             + " points=" + raidPoints.ToString("F0")
                             + " spawnCenterWas=" + parms.spawnCenter);
                     }
                 }
                 if (ok)
                 {
-                    SpreadLogEntry entry = new SpreadLogEntry("TSA_WD_Log_Raid_PlayerAttack".Translate(), attacker, target);
+                    SpreadLogEntry entry = new SpreadLogEntry("TSA_WD_Log_Raid_PlayerAttack".Translate(), logAttacker ?? traveler, target);
                     entry.isRaid = true;
                     entry.isAttempt = false;
                     entry.victory = true;
@@ -188,6 +236,22 @@ namespace TSA_WorldDomination
                 IsWorldDominationRaid = false;
             }
             return ok;
+        }
+
+        /// <summary>Debug helper: execute a WD colony raid with fixed points through the same pipeline/flags as real WD raids.</summary>
+        public static bool TriggerDebugRaidOnPlayer(Settlement attacker, Settlement target, float fixedRaidPoints, WorldComponent_SpreadManager manager)
+        {
+            ApplyRaidDefenseCooldownToPlayerSettlement(target);
+            Map map = target?.Map;
+            if (map == null || attacker?.Faction == null) return false;
+            float raidPoints = fixedRaidPoints < 1f ? 1f : fixedRaidPoints;
+            if (Prefs.DevMode)
+            {
+                Log.Message(
+                    "[TSA WD] Debug colony raid points (" + (attacker?.LabelCap ?? "?") + " -> " + (target?.LabelCap ?? "?") + "):" + "\n"
+                    + "  Fixed debug raid points requested: " + raidPoints.ToString("F0"));
+            }
+            return ExecuteWdColonyRaidIncident(attacker, target, map, raidPoints, raidPoints, manager, null);
         }
 
         /// <summary>

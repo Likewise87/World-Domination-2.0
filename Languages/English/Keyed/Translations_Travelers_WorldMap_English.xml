@@ -5,6 +5,7 @@
   <TSA_WD_Day>day</TSA_WD_Day>
   <TSA_WD_Days>days</TSA_WD_Days>
   <TSA_WD_ExpansionCaravan>Expansion Caravan</TSA_WD_ExpansionCaravan>
+  <TSA_WD_MassRelocationCaravan>Vanguard Caravan</TSA_WD_MassRelocationCaravan>
   <TSA_WD_Inspect_AidCD>Relief Cooldown: {0} days</TSA_WD_Inspect_AidCD>
   <TSA_WD_Inspect_AttackRange>Attack range: {0} tiles</TSA_WD_Inspect_AttackRange>
   <TSA_WD_Inspect_AttackRange_Zeal>Attack range (Zeal): {0} tiles</TSA_WD_Inspect_AttackRange_Zeal>
@@ -115,10 +116,44 @@
   <TSA_WD_Log_MinorInc_Standard>MINOR INCIDENT: Lost {0} strength ({1} → {2}).</TSA_WD_Log_MinorInc_Standard>
   <TSA_WD_Letter_Revolt_Label>Faction Re-emergence</TSA_WD_Letter_Revolt_Label>
   <TSA_WD_Letter_Revolt_Text>Political upheaval! The faction {0} has emerged from obscurity, seizing control of: {1}. Lost to the uprising: {2}.</TSA_WD_Letter_Revolt_Text>
+  <TSA_WD_Letter_Vanguard_Label>Vanguard forces underway</TSA_WD_Letter_Vanguard_Label>
+  <TSA_WD_Letter_Vanguard_Text>{0} has packed up {1} settlements and is marching a Vanguard cluster toward your region. Their old homes are gone — stop them before they dig in.</TSA_WD_Letter_Vanguard_Text>
+  <TSA_WD_Letter_Invasion_Label>Invasion forces underway</TSA_WD_Letter_Invasion_Label>
+  <TSA_WD_Letter_Invasion_Text>{0} has launched {1} coordinated invasion raids at your colonies and outposts from far settlements. Their homes remain. Prepare defenses.</TSA_WD_Letter_Invasion_Text>
+  <TSA_WD_Letter_DesperationRaid_Label>{0} Desperate Attack</TSA_WD_Letter_DesperationRaid_Label>
+  <TSA_WD_Letter_DesperationRaid_Text>They are deserting their settlements and rushing toward {0}.</TSA_WD_Letter_DesperationRaid_Text>
+  <TSA_WD_DesperationRallyCaravan>Desperation rally</TSA_WD_DesperationRallyCaravan>
+  <TSA_WD_InvasionRallyCaravan>Invasion rally</TSA_WD_InvasionRallyCaravan>
+  <TSA_WD_DesperationHostCaravan>Desperation Host</TSA_WD_DesperationHostCaravan>
+  <TSA_WD_InvasionHostCaravan>Invasion Host</TSA_WD_InvasionHostCaravan>
+  <TSA_WD_Log_DesperationRaid_PackUp>DESPERATION: {0} packs {1} settlements toward {2}.</TSA_WD_Log_DesperationRaid_PackUp>
+  <TSA_WD_Log_DesperationRaid_PackRally>DESPERATION: {0} abandoned home → rally tile {1}.</TSA_WD_Log_DesperationRaid_PackRally>
+  <TSA_WD_Log_DesperationRaid_PackRaid>DESPERATION: {0} abandoned home → assault on {1}.</TSA_WD_Log_DesperationRaid_PackRaid>
+  <TSA_WD_Log_DesperationRaid_LaunchRaid>DESPERATION: {0} marches on {1}.</TSA_WD_Log_DesperationRaid_LaunchRaid>
+  <TSA_WD_Log_DesperationRallyCancelled>DESPERATION: {0} aborted; remounting near destination.</TSA_WD_Log_DesperationRallyCancelled>
+  <TSA_WD_Log_InvasionRallyCancelled>INVASION: {0} aborted; remounting near destination.</TSA_WD_Log_InvasionRallyCancelled>
+  <TSA_WD_TurtleConsolidateCaravan>Turtle consolidation</TSA_WD_TurtleConsolidateCaravan>
+  <TSA_WD_Log_Turtle_PackUp>TURTLE: {0} pulls {1} settlements into {2} to dig in.</TSA_WD_Log_Turtle_PackUp>
+  <TSA_WD_Log_Turtle_PackLeaf>TURTLE: {0} abandoned home → consolidating into {1}.</TSA_WD_Log_Turtle_PackLeaf>
+  <TSA_WD_Log_Turtle_Fortify>TURTLE: {0} raises fortifications with the consolidated strength.</TSA_WD_Log_Turtle_Fortify>
+  <TSA_WD_Log_TurtleCancelled>TURTLE: {0} aborted; strength returned.</TSA_WD_Log_TurtleCancelled>
+  <TSA_WD_Letter_Turtle_Label>{0} Consolidation</TSA_WD_Letter_Turtle_Label>
+  <TSA_WD_Letter_Turtle_Text>They are abandoning outlying settlements and consolidating their strength into {0}, then fortifying it.</TSA_WD_Letter_Turtle_Text>
   <TSA_WD_Log_ActionNoWeights>Daily action at {0}: No weighted action available (all action weights are zero).</TSA_WD_Log_ActionNoWeights>
   <TSA_WD_Log_ActionSkip>Action skipped for {0}: No active settlements available.</TSA_WD_Log_ActionSkip>
   <TSA_WD_Log_BtnDetails>Details</TSA_WD_Log_BtnDetails>
   <TSA_WD_Log_ExpandSuccess>EXPAND: Success. {0} founded new T1 {1}.</TSA_WD_Log_ExpandSuccess>
+  <TSA_WD_Log_MassRelocationCancelled>VANGUARD: {0} aborted; remounting near destination.</TSA_WD_Log_MassRelocationCancelled>
+  <TSA_WD_Log_ForwardAssault_Vanguard>VANGUARD: {0} packs {1} settlements into a forward cluster near you.</TSA_WD_Log_ForwardAssault_Vanguard>
+  <TSA_WD_Log_ForwardAssault_Invasion>INVASION: {0} launches {1} coordinated raids on your holdings.</TSA_WD_Log_ForwardAssault_Invasion>
+  <TSA_WD_Log_ForwardAssault_PackUpVanguard>VANGUARD: {0} abandoned home → tile {1}.</TSA_WD_Log_ForwardAssault_PackUpVanguard>
+  <TSA_WD_Log_ForwardAssault_PackUpInvasion>INVASION: {0} marches on {1}.</TSA_WD_Log_ForwardAssault_PackUpInvasion>
+  <TSA_WD_Log_ForwardAssault_PackRally>INVASION: {0} abandoned home → rally tile {1}.</TSA_WD_Log_ForwardAssault_PackRally>
+  <TSA_WD_Log_ForwardAssault_InvasionRallyRaid>INVASION: {0} marches on {1}.</TSA_WD_Log_ForwardAssault_InvasionRallyRaid>
+  <TSA_WD_Log_ForwardAssault_RatioBypass>(launched under min strength ratio)</TSA_WD_Log_ForwardAssault_RatioBypass>
+  <TSA_WD_Log_ForwardAssault_VanguardFounded>VANGUARD: Founded {0}.</TSA_WD_Log_ForwardAssault_VanguardFounded>
+  <TSA_WD_Log_ForwardAssault_BlockedRaid>VANGUARD: {0} found {1} on reserved tile — diverting to raid.</TSA_WD_Log_ForwardAssault_BlockedRaid>
+  <TSA_WD_Log_ForwardAssault_Refound>VANGUARD: {0} remounted as {1}.</TSA_WD_Log_ForwardAssault_Refound>
   <TSA_WD_Log_ConquestSettlementFounded>CONQUEST: {0} founded {1} ({2}) after a successful raid.</TSA_WD_Log_ConquestSettlementFounded>
   <TSA_WD_Log_ExpansionCancelled>{0} mission cancelled: Tile occupied or saturated.</TSA_WD_Log_ExpansionCancelled>
   <TSA_WD_Log_ExpeditionLaunched>EXPANSION ATTEMPT: {0} dispatched settlers to establish a new colony.</TSA_WD_Log_ExpeditionLaunched>
@@ -217,6 +252,7 @@
   <TSA_WD_SubType_Production>Production Village</TSA_WD_SubType_Production>
   <TSA_WD_SubType_Slavery>Slave Village</TSA_WD_SubType_Slavery>
   <TSA_WD_SubType_Fortress>Town</TSA_WD_SubType_Fortress>
+  <TSA_WD_SubType_Vanguard>Vanguard</TSA_WD_SubType_Vanguard>
   <TSA_WD_SubType_Citadel>Citadel</TSA_WD_SubType_Citadel>
   <TSA_WD_SubType_Generic>Settlement</TSA_WD_SubType_Generic>
   <TSA_WD_DebugRaidTravelerLabel>DEBUG raid caravan (500)</TSA_WD_DebugRaidTravelerLabel>

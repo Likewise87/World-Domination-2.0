@@ -139,13 +139,19 @@ namespace TSA_WorldDomination
             GetExpertBonusFraction(outpost, OutpostExpertRole.Strategist);
 
         public static float GetEntertainerProductionBonus(WorldObject_WD_Outpost outpost) =>
-            GetExpertBonusFraction(outpost, OutpostExpertRole.Entertainer);
+            (GetApplicableRoleEffects(outpost, OutpostExpertRole.Entertainer) & ExpertEffect.Production) != ExpertEffect.None
+                ? GetExpertBonusFractionForEffect(outpost, OutpostExpertRole.Entertainer, ExpertEffect.Production)
+                : 0f;
 
         public static float GetCookProductionBonus(WorldObject_WD_Outpost outpost) =>
-            GetExpertBonusFraction(outpost, OutpostExpertRole.Cook);
+            (GetApplicableRoleEffects(outpost, OutpostExpertRole.Cook) & ExpertEffect.Production) != ExpertEffect.None
+                ? GetExpertBonusFractionForEffect(outpost, OutpostExpertRole.Cook, ExpertEffect.Production)
+                : 0f;
 
         public static float GetCookOffensiveRecoveryBonus(WorldObject_WD_Outpost outpost) =>
-            GetExpertBonusFraction(outpost, OutpostExpertRole.Cook);
+            (GetApplicableRoleEffects(outpost, OutpostExpertRole.Cook) & ExpertEffect.OffensiveRecovery) != ExpertEffect.None
+                ? GetExpertBonusFractionForEffect(outpost, OutpostExpertRole.Cook, ExpertEffect.OffensiveRecovery)
+                : 0f;
 
         /// <summary>Entertainer + Cook production bonuses (additive).</summary>
         public static float GetCombinedProductionBonus(WorldObject_WD_Outpost outpost) =>
@@ -193,15 +199,18 @@ namespace TSA_WorldDomination
             // Academy uses XP (not physical goods skill) but still receives Entertainer/Cook + warehouse aura.
             if (Outpost_Production_Utils.IsAcademyOutpost(def)) return true;
 
+            // Mortar / Rapid Response: no production yield path for Entertainer.
+            if (Outpost_Production_Utils.IsMortarOutpost(def)
+                || Outpost_Production_Utils.IsRapidResponseOutpost(def))
+                return false;
+
             if (Outpost_Production_Utils.IsRecruitingOutpost(def)
                 || Outpost_Production_Utils.IsTradingOutpost(def)
                 || Outpost_Production_Utils.IsEmbassyOutpost(def)
                 || Outpost_Production_Utils.IsScavengingOutpost(def)
-                || Outpost_Production_Utils.IsMortarOutpost(def)
-                || Outpost_Production_Utils.IsRapidResponseOutpost(def)
                 || Outpost_Production_Utils.IsPowerPlantOutpost(def)
                 || Outpost_Production_Utils.IsWarehouseOutpost(def))
-                return false;
+                return true;
 
             return Outpost_Production_Utils.UsesPhysicalGoodsProductionSkill(def);
         }
@@ -888,14 +897,26 @@ namespace TSA_WorldDomination
             outpost.ClearExpertFromAllRoles(pawn.ThingID);
             outpost.SetExpertThingId(role, pawn.ThingID);
             outpost.InvalidateInspectCachePublic();
+            if (Outpost_Production_Utils.IsPowerPlantOutpost(outpost.def))
+                Outpost_PowerPlant.NotifyRemotePowerDirty();
+            if (Outpost_Production_Utils.IsWarehouseOutpost(outpost.def)
+                || OutpostExpertUtility.IsProductionBonusRole(role))
+                OutpostWarehouseAuraUtility.InvalidateCache();
             return true;
         }
 
         public static void ClearExpert(WorldObject_WD_Outpost outpost, OutpostExpertRole role)
         {
             if (outpost == null) return;
+            bool wasPower = Outpost_Production_Utils.IsPowerPlantOutpost(outpost.def);
+            bool wasWarehouse = Outpost_Production_Utils.IsWarehouseOutpost(outpost.def);
+            bool prodRole = IsProductionBonusRole(role);
             outpost.SetExpertThingId(role, null);
             outpost.InvalidateInspectCachePublic();
+            if (wasPower)
+                Outpost_PowerPlant.NotifyRemotePowerDirty();
+            if (wasWarehouse || prodRole)
+                OutpostWarehouseAuraUtility.InvalidateCache();
         }
     }
 }

@@ -59,6 +59,8 @@ namespace TSA_WorldDomination
                 case TravelerMission.DebugRaidTransit:
                     return s.pollutionDamageRaiders;
                 case TravelerMission.Expansion:
+                case TravelerMission.MassRelocation:
+                case TravelerMission.DesperationRally:
                     return s.pollutionDamageExpansion;
                 case TravelerMission.RoadBuilding:
                 case TravelerMission.RoadBlock:

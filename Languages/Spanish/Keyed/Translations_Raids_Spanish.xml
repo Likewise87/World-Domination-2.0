@@ -115,6 +115,7 @@
   <TSA_WD_Log_Raid_DefBase>Guarnición en {0}: {1} de fuerza.</TSA_WD_Log_Raid_DefBase>
   <TSA_WD_Log_Raid_DefContrib>{0} ({1}) aportó +{2} de defensa. (Bruto: {3}, Efic: {4}% en {5} casillas).</TSA_WD_Log_Raid_DefContrib>
   <TSA_WD_Log_Raid_ExpeditionLaunched>Incursión enviada: La caravana está en camino.</TSA_WD_Log_Raid_ExpeditionLaunched>
+  <TSA_WD_RaidExpeditionLaunched>Expedición de incursión lanzada contra {0}.</TSA_WD_RaidExpeditionLaunched>
   <TSA_WD_Log_Raid_FactionDispatch>{0} ha enviado una incursión desde {1} contra {2}.</TSA_WD_Log_Raid_FactionDispatch>
   <TSA_WD_Log_Raid_ColonyDelegated>Eligió la colonia como objetivo y delegó a un aliado más cercano</TSA_WD_Log_Raid_ColonyDelegated>
   <TSA_WD_Log_Raid_Failed>Incursión fallida: Los atacantes fueron repelidos.</TSA_WD_Log_Raid_Failed>

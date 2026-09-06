@@ -15,12 +15,25 @@ namespace TSA_WorldDomination
         private int ticksUntilArrival = -1;
         private float raidPoints = 0f;
         private bool initialized = false;
-        private ChoiceLetter countdownLetter;
         private Faction reinforcementFaction;
         private List<string> cachedMathLog = new List<string>();
 
         // We update the UI in 30-second steps (30s * 60 ticks = 1800)
         private const int UpdateStepTicks = 1800;
+
+        public bool IsIncoming => ticksUntilArrival > 0;
+        public string ReinforcementFactionName => reinforcementFaction?.Name ?? "?";
+
+        public string GetCountdownTimeString()
+        {
+            float totalSeconds = (float)ticksUntilArrival / 60f;
+            if (totalSeconds >= 60)
+            {
+                float minutes = totalSeconds / 60f;
+                return (UnityEngine.Mathf.Round(minutes * 2) / 2f).ToString("0.#") + "m";
+            }
+            return $"{totalSeconds:F0}s";
+        }
 
         public MapComponent_ReinforcementTimer(Map map) : base(map) { }
 
@@ -30,17 +43,8 @@ namespace TSA_WorldDomination
             {
                 ticksUntilArrival--;
 
-                // SURGICAL CHANGE: Update UI only on 30-second boundaries
-                if (ticksUntilArrival % UpdateStepTicks == 0 && ticksUntilArrival > 0)
-                {
-                    UpdateCountdownLetter();
-                }
-
                 if (ticksUntilArrival == 0)
-                {
-                    if (countdownLetter != null) Find.LetterStack.RemoveLetter(countdownLetter);
                     ExecuteRaidReinforcements();
-                }
             }
         }
 
@@ -138,52 +142,17 @@ namespace TSA_WorldDomination
 
             raidPoints = Mathf.Clamp(totalAlliedStrength * pointsFromStrengthMult, seth.minRaidPoints, seth.maxRaidPoints);
 
-            // Calculate base arrival time: 4 min ceiling minus (seconds saved × 60), floor 45s
+            // Calculate base arrival time: 4 min ceiling minus (seconds saved × 60), floor 45s, then ×0.6 (40% faster)
             float calculatedTicks = Mathf.Max(maxWaitTicks - (totalSecondsSaved * 60f), 2700f);
+            calculatedTicks *= 0.6f;
 
-            // Snap initial ticks to the nearest 30s step so the first letter doesn't show "1.8m"
+            // Snap initial ticks to the nearest 30s step
             ticksUntilArrival = Mathf.RoundToInt(calculatedTicks / UpdateStepTicks) * UpdateStepTicks;
+            if (ticksUntilArrival < UpdateStepTicks) ticksUntilArrival = UpdateStepTicks;
 
             cachedMathLog.Add($"totalSecondsSaved={totalSecondsSaved:F1}, calculatedTicks={calculatedTicks:F0}, snapped ticksUntilArrival={ticksUntilArrival} ({ticksUntilArrival / 60f:F1}s)");
 
-            UpdateCountdownLetter(isInitial: true);
             Log.Message(string.Join("\n", cachedMathLog));
-        }
-
-        private void UpdateCountdownLetter(bool isInitial = false)
-        {
-            if (reinforcementFaction == null) return;
-
-            // SNAP LOGIC: Ensure timeString always shows clean intervals
-            float totalSeconds = (float)ticksUntilArrival / 60f;
-
-            // Format to 0 decimal places for seconds, or .5 increments for minutes
-            string timeString;
-            if (totalSeconds >= 60)
-            {
-                float minutes = totalSeconds / 60f;
-                // Snap to .5 precision (e.g. 1.5m, 2.0m)
-                timeString = (Mathf.Round(minutes * 2) / 2f).ToString("0.#") + "m";
-            }
-            else
-            {
-                timeString = $"{totalSeconds:F0}s";
-            }
-
-            string label = "TSA_WD_ReinforcementsIncoming_Label".Translate(timeString);
-            string text = "TSA_WD_ReinforcementsIncoming_Text".Translate(reinforcementFaction.Name, timeString);
-
-            if (isInitial || countdownLetter == null || !Find.LetterStack.LettersListForReading.Contains(countdownLetter))
-            {
-                if (countdownLetter != null) Find.LetterStack.RemoveLetter(countdownLetter);
-                countdownLetter = LetterMaker.MakeLetter(label, text, LetterDefOf.NeutralEvent, new GlobalTargetInfo(map.Tile));
-                Find.LetterStack.ReceiveLetter(countdownLetter, playSound: isInitial);
-            }
-            else
-            {
-                countdownLetter.Label = label;
-                countdownLetter.Text = text;
-            }
         }
 
         private void ExecuteRaidReinforcements()

@@ -47,6 +47,16 @@ namespace TSA_WorldDomination
                     if (WorldActions_GrowthExpand.IsTargetSaturated(dest, traveler.Faction, seth, spreadMgr)) return false;
                     return true;
 
+                case TravelerMission.MassRelocation:
+                    // Arrival handles blocked→raid / redirect / refound; keep pathing while strength remains.
+                    return traveler.travelerStrength > 0.01f && traveler.Faction != null;
+
+                case TravelerMission.DesperationRally:
+                    return traveler.travelerStrength > 0.01f && traveler.Faction != null;
+
+                case TravelerMission.TurtleConsolidate:
+                    return traveler.travelerStrength > 0.01f && traveler.Faction != null;
+
                 case TravelerMission.Raid:
                 case TravelerMission.RaidDropPod:
                 case TravelerMission.RaidGravship:
@@ -172,6 +182,15 @@ namespace TSA_WorldDomination
                 case TravelerMission.Expansion:
                     ExecuteExpansion(traveler);
                     traveler.Destroy();
+                    break;
+                case TravelerMission.MassRelocation:
+                    WorldActions_PackUp.ExecuteMassRelocationArrival(traveler);
+                    break;
+                case TravelerMission.DesperationRally:
+                    WorldActions_AssaultRally.ExecuteRallyArrival(traveler);
+                    break;
+                case TravelerMission.TurtleConsolidate:
+                    WorldActions_Turtle.ExecuteTurtleArrival(traveler);
                     break;
                 case TravelerMission.Raid:
                 case TravelerMission.RaidDropPod:

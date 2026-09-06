@@ -73,6 +73,30 @@
     <defName>TSA_WD_Cart_6a</defName>
     <thing>TSA_WD_Cart_6a</thing>
   </KCSG.SymbolDef>
+  <KCSG.SymbolDef>
+    <defName>TSA_WD_Cart_7a</defName>
+    <thing>TSA_WD_Cart_7a</thing>
+  </KCSG.SymbolDef>
+  <KCSG.SymbolDef>
+    <defName>TSA_WD_Cart_8a</defName>
+    <thing>TSA_WD_Cart_8a</thing>
+  </KCSG.SymbolDef>
+  <KCSG.SymbolDef>
+    <defName>TSA_WD_Cart_9a</defName>
+    <thing>TSA_WD_Cart_9a</thing>
+  </KCSG.SymbolDef>
+  <KCSG.SymbolDef>
+    <defName>TSA_WD_Cart_10a</defName>
+    <thing>TSA_WD_Cart_10a</thing>
+  </KCSG.SymbolDef>
+  <KCSG.SymbolDef>
+    <defName>TSA_WD_Cart_11a</defName>
+    <thing>TSA_WD_Cart_11a</thing>
+  </KCSG.SymbolDef>
+  <KCSG.SymbolDef>
+    <defName>TSA_WD_Cart_12a</defName>
+    <thing>TSA_WD_Cart_12a</thing>
+  </KCSG.SymbolDef>
 
   <!-- Kitchen / living extras used by WD layouts -->
   <KCSG.SymbolDef>

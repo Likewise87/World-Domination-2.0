@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <KCSG.SettlementLayoutDef>
+    <defName>TSA_Tribal_T3_Vanguard</defName>
+	<settlementSize>90,90</settlementSize>
+    <avoidBridgeable>true</avoidBridgeable>
+    <avoidMountains>true</avoidMountains>
+    <centerBuildings Inherit="False">
+	  <centralBuildingTags>
+        <li>TSA_Tribal_VanguardBarracks</li>
+      </centralBuildingTags>
+      <centerSize>82,82</centerSize>
+      <spaceAround>1</spaceAround>
+      <allowedStructures>
+        <li>
+          <count>4~8</count>
+          <tag>TSA_Tribal_VanguardBarracks</tag>
+        </li>
+        <li>
+          <count>2~5</count>
+          <tag>TSA_Tribal_BigBarracks</tag>
+        </li>
+        <li>
+          <count>3~5</count>
+          <tag>TSA_Tribal_Stockpile</tag>
+        </li>
+        <li>
+          <tag>TribalKitchen</tag>
+          <count>0~2</count>
+        </li>
+</allowedStructures>
+    </centerBuildings>
+	    <peripheralBuildings>
+      <allowedStructures>
+        <li>
+          <tag>TSA_Generic_SandbagBarrier</tag>
+          <count>16~30</count>
+        </li>
+        <li>
+          <count>0~2</count>
+          <tag>Generic_Mortar</tag>
+        </li>
+      </allowedStructures>
+    </peripheralBuildings>
+    <defenseOptions>
+      <pawnGroupMultiplier>1.3</pawnGroupMultiplier>
+    </defenseOptions>
+    <propsOptions>
+      <scatterProps>true</scatterProps>
+      <scatterMinDistance>8</scatterMinDistance>
+      <scatterMaxAmount>12</scatterMaxAmount>
+      <scatterPropsDefs>
+        <li>TSA_WD_Hayball_2a</li>
+        <li>TSA_WD_Hayball_5a</li>
+        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_WoodenLogs</li>
+        <li>TSA_WD_Box_1a</li>
+        <li>TSA_WD_Box_3a</li>
+        <li>TSA_WD_Box_5a</li>
+        <li>TSA_WD_Cart_5a</li>
+        <li>TSA_WD_Cart_6a</li>
+        <li>TSA_WD_Cart_7a</li>
+        <li>TSA_WD_Cart_8a</li>
+        <li>TSA_WD_Cart_9a</li>
+        <li>TSA_WD_Cart_10a</li>
+        <li>TSA_WD_Cart_11a</li>
+        <li>TSA_WD_Cart_12a</li>
+
+
+
+
+      
+      </scatterPropsDefs>
+    </propsOptions>
+
+    <roadOptions>
+      <addLinkRoad>true</addLinkRoad>
+      <linkRoadDef>PackedDirt</linkRoadDef>
+    </roadOptions>
+    <stockpileOptions>
+      <fillStorageBuildings>false</fillStorageBuildings>
+    </stockpileOptions>
+</KCSG.SettlementLayoutDef>
+ </Defs>

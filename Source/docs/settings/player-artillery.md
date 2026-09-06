@@ -6,7 +6,7 @@ This page covers player mortar artillery, anti-air fire, and Rapid Response outp
 
 | Control | Default | What it changes |
 |---|---:|---|
-| Artillery cooldown | 5 days | Base delay before another shot. Garrison Shooting and upgrades can reduce it. |
+| Artillery cooldown | 3 days | Base delay before another shot. Garrison Shooting and upgrades can reduce it. |
 | Base shell strength damage | 300 | Strength removed on a hit before upgrade bonuses. |
 | Artillery range | 40 tiles | Maximum manual target distance and defensive auto-fire range. |
 | Mortar shell travel ticks per tile | 12 | World travel speed of mortar shells. Lower is faster. |

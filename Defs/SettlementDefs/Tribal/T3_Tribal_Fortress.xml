@@ -45,12 +45,8 @@
           <tag>TSA_Tribal_Defence</tag>
         </li>
         <li>
-          <count>1~2</count>
+          <count>1~3</count>
           <tag>TSA_Tribal_BigBarracks</tag>
-        </li>
-        <li>
-          <count>0~1</count>
-          <tag>TSA_Tribal_BigBarracks_T3</tag>
         </li>
         <li>
           <count>1~4</count>
@@ -100,7 +96,14 @@
         <li>TSA_WD_Box_1a</li>
         <li>TSA_WD_Box_3a</li>
         <li>TSA_WD_Box_5a</li>
+        <li>TSA_WD_Cart_5a</li>
         <li>TSA_WD_Cart_6a</li>
+        <li>TSA_WD_Cart_7a</li>
+        <li>TSA_WD_Cart_8a</li>
+        <li>TSA_WD_Cart_9a</li>
+        <li>TSA_WD_Cart_10a</li>
+        <li>TSA_WD_Cart_11a</li>
+        <li>TSA_WD_Cart_12a</li>
 
 
 

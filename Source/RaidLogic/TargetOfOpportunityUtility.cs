@@ -17,24 +17,30 @@ namespace TSA_WorldDomination
         /// <summary>Per-traveler minimum interval between full (expensive) Feature A evaluations, regardless of roll outcome.</summary>
         private const int EvalCooldownTicks = 300;
 
-        /// <summary>Features A/B/C's shared mid/late escalation gate, bypassable via <see cref="WorldDominationSettings.opportunityFeaturesIgnoreEscalationGate"/> so a player can opt into these behaviors from the start of a game.</summary>
-        private static bool PassesEscalationGate(WorldComponent_SpreadManager manager, WorldDominationSettings seth) =>
-            (seth != null && seth.opportunityFeaturesIgnoreEscalationGate) || WdEscalation.IsMidOrLate(manager);
+        private static bool PassesToOGate(WorldComponent_SpreadManager manager, WorldDominationSettings seth) =>
+            seth != null && WdEscalation.PassesGate(seth.gateThreatToO, manager);
+
+        private static bool PassesMaraudGate(WorldComponent_SpreadManager manager, WorldDominationSettings seth) =>
+            seth != null && WdEscalation.PassesGate(seth.gateThreatMaraud, manager);
 
         /// <summary>Feature A entry point: called from <see cref="WD_PathFollower.PatherTick"/>'s tile-exit block for every walking Raid traveler.</summary>
         public static void TryCheckTargetOfOpportunity(WorldObject_Traveler traveler, int exitedTileId)
         {
             var seth = WorldDominationMod.settings;
-            if (seth == null || !seth.experimentalTargetOfOpportunity) return;
+            if (seth == null) return;
             if (traveler == null || traveler.Destroyed || traveler.pather == null) return;
             if (traveler.isTurretDetour) return;
             if (traveler.targetObject is WorldObject_AT_Turret) return;
+            // Outpost-issued raids (Action_Outpost_LaunchAttack) keep the player-chosen target.
+            if (traveler.originObject is WorldObject_WD_Outpost) return;
+            // Forward Assault Invasion multi-raid stays aimed at assigned player targets.
+            if (traveler.isInvasionRaid) return;
             if (!WorldObject_Traveler.IsRaidMission(traveler.mission)) return;
             if (!TravelerEndpointUtility.IsLiveEndpoint(traveler.targetObject)) return;
             if (traveler.Faction == null) return;
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            if (!PassesEscalationGate(manager, seth)) return;
+            if (!PassesToOGate(manager, seth)) return;
 
             if (traveler.totalTargetChanges >= seth.targetChangesMaxLifetime) return;
             if (traveler.targetOfOpportunityRetargets >= seth.targetOfOpportunityMaxRetargets) return;
@@ -98,11 +104,12 @@ namespace TSA_WorldDomination
         public static bool TryContinueMarauding(WorldObject_Traveler traveler, int defeatedTileId, string defeatedLabel, WorldComponent_SpreadManager manager)
         {
             var seth = WorldDominationMod.settings;
-            if (seth == null || !seth.experimentalContinueAfterConquest) return false;
+            if (seth == null) return false;
             if (traveler == null || traveler.Destroyed || traveler.pather == null) return false;
             if (traveler.isTurretDetour) return false;
             if (traveler.Faction == null) return false;
-            if (!PassesEscalationGate(manager, seth)) return false;
+            if (traveler.isInvasionRaid) return false;
+            if (!PassesMaraudGate(manager, seth)) return false;
 
             if (traveler.maraudingChainCount >= seth.maraudingMaxChainedTargets) return false;
             if (traveler.totalTargetChanges >= seth.targetChangesMaxLifetime) return false;
@@ -174,6 +181,24 @@ namespace TSA_WorldDomination
         /// target, re-runs <see cref="RaidLaunchGate.ClassifyTarget"/> and stores it, retargets the pather, stamps the
         /// anti-dogpile cooldown, and increments the combined <see cref="WorldObject_Traveler.totalTargetChanges"/> counter.
         /// </summary>
+        public static bool TryConvertPackUpToRaid(WorldObject_Traveler traveler, WorldObject candidate)
+        {
+            if (traveler == null || traveler.Destroyed || candidate == null || candidate.Destroyed) return false;
+            if (candidate is WorldObject_AT_Turret) return false;
+            if (candidate.Faction == null) return false;
+            if (!WorldActions_Utils.SafeHostileTo(traveler.Faction, candidate.Faction)) return false;
+            if (WorldActions_Utils.IsSpace(candidate)) return false;
+
+            var watchIndex = WorldComponent_SettlementWatchIndex.Get();
+            if (watchIndex != null && watchIndex.IsUnderDogpileCooldown(candidate)) return false;
+            var comp = candidate.GetComponent<CompViralSpread>();
+            if (comp != null && comp.defenseCooldownTick > Find.TickManager.TicksGame) return false;
+
+            traveler.mission = TravelerMission.Raid;
+            ApplyRetarget(traveler, candidate, watchIndex);
+            return true;
+        }
+
         private static void ApplyRetarget(WorldObject_Traveler traveler, WorldObject candidate, WorldComponent_SettlementWatchIndex watchIndex)
         {
             WorldObject oldTarget = traveler.targetObject;

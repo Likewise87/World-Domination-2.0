@@ -355,6 +355,9 @@
   <TSA_WD_Establish_MinFishAbundance>La pesca requiere al menos {0}% de abundancia de peces (la casilla tiene {1}%).</TSA_WD_Establish_MinFishAbundance>
   <TSA_WD_Establish_MinFertility>Las avanzadillas de cultivo requieren al menos {0}% de fertilidad (la casilla tiene {1}%).</TSA_WD_Establish_MinFertility>
   <TSA_WD_Establish_MinNearbySettlements>{0} requiere al menos {1} asentamientos de facciones neutrales o aliadas (no tuyas) dentro de {2} casillas. Encontrados: {3}.</TSA_WD_Establish_MinNearbySettlements>
+  <TSA_WD_Establish_MinNearbySettlements_Recruiting>{0} requiere al menos {1} asentamientos PNJ cercanos en {2} casillas (los vecinos hostiles cuentan como fuentes de desertores). Encontrados: {3}.</TSA_WD_Establish_MinNearbySettlements_Recruiting>
+  <TSA_WD_Establish_MinNearbySettlements_Trading>{0} requiere al menos {1} asentamientos PNJ cercanos en {2} casillas (los vecinos hostiles cuentan para el mercado negro). Encontrados: {3}.</TSA_WD_Establish_MinNearbySettlements_Trading>
+  <TSA_WD_Establish_MinNearbySettlements_Embassy>{0} requiere al menos {1} asentamientos elegibles para embajada en {2} casillas. Encontrados: {3}.</TSA_WD_Establish_MinNearbySettlements_Embassy>
   <TSA_WD_Establish_MinPawns>{0} requiere al menos {1} colono(s) en la caravana (tienes {2}).</TSA_WD_Establish_MinPawns>
   <TSA_WD_Establish_MinSkill>Esta avanzadilla requiere al menos {0} de {1} para funcionar (tiene {2}).</TSA_WD_Establish_MinSkill>
     <TSA_WD_Establish_NeedAnimals>Esta casilla no tiene fauna adecuada.</TSA_WD_Establish_NeedAnimals>
@@ -487,6 +490,8 @@
   <TSA_WD_Outpost_ProductionTimeMultTooltip>Multiplica la duración del ciclo (productionCycleDays del XML o predeterminado). Menor valor = ciclos más cortos. El tiempo restante se reescala si cambias esto durante un ciclo.</TSA_WD_Outpost_ProductionTimeMultTooltip>
   <TSA_WD_Outpost_ProductionOutputMult>Multiplicador de producción</TSA_WD_Outpost_ProductionOutputMult>
   <TSA_WD_Outpost_ProductionOutputMultTooltip>Multiplica las cantidades por ciclo (cultivos, caza, minería, fabricación, plata comercial, reclutas redondeados). 1,00 = sin cambio en la producción.</TSA_WD_Outpost_ProductionOutputMultTooltip>
+  <TSA_WD_Outpost_HostileNearbyPartnerMult>Eficiencia de vecinos hostiles</TSA_WD_Outpost_HostileNearbyPartnerMult>
+  <TSA_WD_Outpost_HostileNearbyPartnerMultTip>La plata comercial de asentamientos hostiles usa esta fracción (mercado negro). Los puntos vecinos de reclutamiento de asentamientos hostiles usan la misma fracción (desertores). Los vecinos neutrales y aliados siguen al valor completo. Las filas hostiles que aportan se tiñen de rojo en los diálogos del puesto.</TSA_WD_Outpost_HostileNearbyPartnerMultTip>
   <TSA_WD_Outpost_WarehouseAuraBonus>Bonificación de aura de almacén</TSA_WD_Outpost_WarehouseAuraBonus>
   <TSA_WD_Outpost_WarehouseAuraBonusTooltip>Bonificación de productividad de un almacén del jugador a productores elegibles cercanos (bienes, comida virtual, XP de academia). Solo aplica el mejor almacén en rango. Los puestos de investigación no se ven afectados.</TSA_WD_Outpost_WarehouseAuraBonusTooltip>
   <TSA_WD_Outpost_WarehouseAuraRadius>Radio del aura de almacén</TSA_WD_Outpost_WarehouseAuraRadius>
@@ -498,6 +503,7 @@
   <TSA_WD_Outpost_Inspect_ProducingNone>Produciendo: nada</TSA_WD_Outpost_Inspect_ProducingNone>
   <TSA_WD_Outpost_Inspect_ProducingPausedNoPhysicalSkill>No hay habilidad relevante en este puesto. Asigne peones con la habilidad relevante para producir bienes.</TSA_WD_Outpost_Inspect_ProducingPausedNoPhysicalSkill>
   <TSA_WD_Outpost_Inspect_ProducingPausedNoNearbySettlements>Producción pausada: No hay asentamientos o avanzadillas neutrales o aliados (no jugador) cercanos.</TSA_WD_Outpost_Inspect_ProducingPausedNoNearbySettlements>
+  <TSA_WD_Outpost_Inspect_ProducingPausedMinNearbyPartners>Producción pausada: {0} necesita al menos {1} asentamientos PNJ cercanos en un radio de {2} casillas (los vecinos hostiles cuentan). Encontrados: {3}.</TSA_WD_Outpost_Inspect_ProducingPausedMinNearbyPartners>
   <TSA_WD_Outpost_Inspect_ProductionPaused>Producción pausada: {0}</TSA_WD_Outpost_Inspect_ProductionPaused>
   <TSA_WD_Outpost_MinDistance>Distancia mín. para establecer avanzadilla (casillas)</TSA_WD_Outpost_MinDistance>
   <TSA_WD_Outpost_MinDistanceTooltip>Casillas mínimas desde cualquier asentamiento u otra avanzadilla al fundar una nueva.</TSA_WD_Outpost_MinDistanceTooltip>
@@ -744,13 +750,19 @@
   <TSA_WD_Recruiting_NeighborBonusTierPointsTip>Cada socio que contribuye aporta puntos vecinos por nivel:\nN1 = 1\nN2 = 2\nN3 = 3,5\nN4 = 5\nSolo cuentan los 3 mejores socios por facción (por nivel, luego distancia).</TSA_WD_Recruiting_NeighborBonusTierPointsTip>
   <TSA_WD_Recruiting_ChooseTraining>Elegir formación:</TSA_WD_Recruiting_ChooseTraining>
   <TSA_WD_Recruiting_SelectedTraining>Seleccionado: {0}</TSA_WD_Recruiting_SelectedTraining>
-  <TSA_WD_Recruiting_NearbyHeaderTip>Asentamientos neutrales o aliados en {0} casillas. Hasta 3 asentamientos por facción contribuyen.</TSA_WD_Recruiting_NearbyHeaderTip>
+  <TSA_WD_Recruiting_NearbyHeaderTip>Asentamientos en {0} casillas. Hasta 3 por facción contribuyen. Los vecinos hostiles cuentan como desertores con eficiencia reducida y se tiñen de rojo cuando aportan.</TSA_WD_Recruiting_NearbyHeaderTip>
   <TSA_WD_Recruiting_PartnerRow>{0} ({1}), +{2} puntos vecinos</TSA_WD_Recruiting_PartnerRow>
   <TSA_WD_Recruiting_NeighborBonusRule>Hasta los 3 mejores socios por facción aportan puntos vecinos (N1=1, N2=2, N3=3,5, N4=5). Súmalos. Cada {0} puntos combinados = +1 recluta extra este ciclo.</TSA_WD_Recruiting_NeighborBonusRule>
   <TSA_WD_Recruiting_NeighborBonusFooterRule>Cada {0} puntos vecinos de socios que contribuyen = +1 recluta extra al final del ciclo de producción.</TSA_WD_Recruiting_NeighborBonusFooterRule>
   <TSA_WD_Recruiting_NeighborBonusFooterTotal>Puntos vecinos totales: {0}</TSA_WD_Recruiting_NeighborBonusFooterTotal>
   <TSA_WD_Recruiting_NeighborBonusFooterResult>Colonos extra resultantes: {0}</TSA_WD_Recruiting_NeighborBonusFooterResult>
   <TSA_WD_Recruiting_PartnerRowTip>{0}\n{2}, {1}, {3} casillas\n\nAporta +{4} puntos vecinos.\nLos xenotipos de esta facción pueden aparecer en los reclutas.\n\nClic para localizar en el mapa mundial.</TSA_WD_Recruiting_PartnerRowTip>
+  <TSA_WD_Recruiting_PartnerRowTip_BlackMarket>Vecino hostil (desertores): cuenta al {0}% de eficiencia.</TSA_WD_Recruiting_PartnerRowTip_BlackMarket>
+  <TSA_WD_Recruiting_PartnerRowTip_Defectors>Vecino hostil (desertores): cuenta al {0}% de eficiencia.</TSA_WD_Recruiting_PartnerRowTip_Defectors>
+  <TSA_WD_Recruiting_Math_Compact>{0} ({1} Social) + {2} ({3} pts. vecinos) x {4}% bonus Experto [= {5}]</TSA_WD_Recruiting_Math_Compact>
+  <TSA_WD_Recruiting_Math_CompactWithSkill>{0} ({1} Social) + {2} ({3} pts. vecinos) x {4}% bonus Experto x -{5}% foco de habilidad [= {6}]</TSA_WD_Recruiting_Math_CompactWithSkill>
+  <TSA_WD_Trading_Math_Compact>{0} plata x {1}% ({2} Social) x {3}% Experto [= {4} {5}]</TSA_WD_Trading_Math_Compact>
+  <TSA_WD_Embassy_Math_Compact>{0} pts. de nivel x {1}% ({2} Social) x {3}% Experto [= +{4} goodwill]</TSA_WD_Embassy_Math_Compact>
   <TSA_WD_Recruiting_PriorityAny>Cualquier colono</TSA_WD_Recruiting_PriorityAny>
   <TSA_WD_Recruiting_PriorityAnyFormula>Sin penalización de reclutas</TSA_WD_Recruiting_PriorityAnyFormula>
   <TSA_WD_Recruiting_PriorityAnyTip>Habilidades aleatorias. Cantidad completa de reclutas por Social y vecinos.</TSA_WD_Recruiting_PriorityAnyTip>
@@ -776,7 +788,7 @@
   <TSA_WD_Recruiting_Math_NeighborConversion>{0} puntos ÷ {1} = {2} reclutas extra</TSA_WD_Recruiting_Math_NeighborConversion>
   <TSA_WD_Outpost_GenericLabel>Avanzadilla</TSA_WD_Outpost_GenericLabel>
   <TSA_WD_Trading_WindowTitle>Comercio de avanzadilla</TSA_WD_Trading_WindowTitle>
-  <TSA_WD_Trading_NearbyHeaderTip>Asentamientos neutrales o aliados en {0} casillas. Hasta 3 asentamientos por facción contribuyen.</TSA_WD_Trading_NearbyHeaderTip>
+  <TSA_WD_Trading_NearbyHeaderTip>Asentamientos en {0} casillas. Hasta 3 por facción contribuyen. Los vecinos hostiles cuentan con eficiencia reducida (mercado negro) y se tiñen de rojo cuando aportan.</TSA_WD_Trading_NearbyHeaderTip>
   <TSA_WD_Trading_Info_CurrentSocialTip>Social acumulado en la avanzadilla: {0}. El rendimiento Social escala la plata al final del ciclo.</TSA_WD_Trading_Info_CurrentSocialTip>
   <TSA_WD_Trading_Info_AvgSocialTip>Social medio este ciclo: {0}. Este valor determina el multiplicador Social aplicado a la plata por nivel al final del ciclo.</TSA_WD_Trading_Info_AvgSocialTip>
   <TSA_WD_Trading_Info_ExpectedOutput>Producción esperada:</TSA_WD_Trading_Info_ExpectedOutput>
@@ -787,8 +799,9 @@
   <TSA_WD_Trading_NearbySettlementsTip>Clic en una fila para localizarla en el mapa. Las filas resaltadas aportan plata (hasta 3 por facción según nivel).</TSA_WD_Trading_NearbySettlementsTip>
   <TSA_WD_Trading_PartnerRow>{0} ({1}), +{2} plata</TSA_WD_Trading_PartnerRow>
   <TSA_WD_Trading_PartnerRowTip>{0}\n{2}, {1}, {3} casillas\n\nAporta +{4} plata.\n\nClic para localizar en el mapa mundial.</TSA_WD_Trading_PartnerRowTip>
+  <TSA_WD_Trading_PartnerRowTip_BlackMarket>Vecino hostil (mercado negro): cuenta al {0}% de eficiencia.</TSA_WD_Trading_PartnerRowTip_BlackMarket>
   <TSA_WD_Trading_TierSilverTip>Cada asentamiento cercano aporta plata por nivel:\nN1 = 100\nN2 = 200\nN3 = 350\nN4 = 500</TSA_WD_Trading_TierSilverTip>
-  <TSA_WD_Trading_FooterRule>Suma la plata de hasta los 3 mejores socios por facción y multiplícala por el rendimiento Social al final del ciclo.</TSA_WD_Trading_FooterRule>
+  <TSA_WD_Trading_FooterRule>Suma la plata de hasta los 3 mejores socios por facción (hostiles con eficiencia reducida) y multiplícala por el rendimiento Social al final del ciclo.</TSA_WD_Trading_FooterRule>
   <TSA_WD_Trading_FooterTierSum>Plata total por niveles: {0}</TSA_WD_Trading_FooterTierSum>
   <TSA_WD_Trading_FooterExpectedSilver>Pago esperado: {0} plata</TSA_WD_Trading_FooterExpectedSilver>
   <TSA_WD_Trading_SocialPanelHeader>Rendimiento Social</TSA_WD_Trading_SocialPanelHeader>
@@ -861,7 +874,7 @@
   <TSA_WD_OutpostStats_Row_EmbassyGoodwillTip>Buena voluntad total estimada con facciones cercanas elegibles este ciclo, tras multiplicador Social y margen hasta el tope.</TSA_WD_OutpostStats_Row_EmbassyGoodwillTip>
   <TSA_WD_Production_TradingDesc>Comercio: plata de asentamientos y avanzadillas cercanos al final del ciclo, escalada por Social por encima del mínimo del def.</TSA_WD_Production_TradingDesc>
   <TSA_WD_Production_TradingTooltip>Plata de asentamientos/avanzadillas cercanos al final del ciclo. El Social total aplica: 100% de plata al valor Social de MinCumulativeSkill en el def, +5% por cada Social extra (luego × multiplicador global de producción).</TSA_WD_Production_TradingTooltip>
-  <TSA_WD_Production_TradingYield>{0} de plata de asentamientos/avanzadillas neutrales o aliados × {1} habilidad Social total de la avanzadilla</TSA_WD_Production_TradingYield>
+  <TSA_WD_Production_TradingYield>{0} de plata de asentamientos PNJ cercanos × {1} habilidad Social total de la avanzadilla</TSA_WD_Production_TradingYield>
   <TSA_WD_Production_TradingYield_AtCycleEnd>de niveles cercanos al final del ciclo</TSA_WD_Production_TradingYield_AtCycleEnd>
   <TSA_WD_Production_TradingYield_Average>x{0} de plata al final del ciclo</TSA_WD_Production_TradingYield_Average>
   <TSA_WD_Production_TradingYield_Snapshot>x{0} de plata</TSA_WD_Production_TradingYield_Snapshot>
@@ -1000,6 +1013,9 @@
   <TSA_WD_Req_Tooltip_FishingNotCoastal>La pesca necesita una casilla costera oceánica (no lagos ni agua abierta).</TSA_WD_Req_Tooltip_FishingNotCoastal>
   <TSA_WD_Req_Tooltip_FishingNone>Este bioma costero no tiene especies de peces de agua salada disponibles.</TSA_WD_Req_Tooltip_FishingNone>
   <TSA_WD_Req_Tooltip_MinNearbyMet>Al menos {0} asentamientos o avanzadillas (no hostiles) dentro de {1} casillas.</TSA_WD_Req_Tooltip_MinNearbyMet>
+  <TSA_WD_Req_Tooltip_MinNearbyMet_Recruiting>Al menos {0} asentamientos PNJ cercanos en {1} casillas (los vecinos hostiles cuentan como desertores).</TSA_WD_Req_Tooltip_MinNearbyMet_Recruiting>
+  <TSA_WD_Req_Tooltip_MinNearbyMet_Trading>Al menos {0} asentamientos PNJ cercanos en {1} casillas (los vecinos hostiles cuentan para el mercado negro).</TSA_WD_Req_Tooltip_MinNearbyMet_Trading>
+  <TSA_WD_Req_Tooltip_MinNearbyMet_Embassy>Al menos {0} asentamientos elegibles para embajada en {1} casillas.</TSA_WD_Req_Tooltip_MinNearbyMet_Embassy>
   <TSA_WD_Req_Tooltip_MinNearbyUnmet>Se necesitan al menos {0} dentro de {1} casillas. Encontrados: {2}</TSA_WD_Req_Tooltip_MinNearbyUnmet>
   <TSA_WD_Req_Tooltip_MinPawnsMet>La caravana tiene suficientes colonos para fundar esta avanzadilla.</TSA_WD_Req_Tooltip_MinPawnsMet>
   <TSA_WD_Req_Tooltip_MinPawnsUnmet>La caravana necesita al menos {0} colono(s). Tienes {1}.</TSA_WD_Req_Tooltip_MinPawnsUnmet>
@@ -1085,14 +1101,14 @@
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Farming>Produce bienes de cultivos (comida, tela). Escala con la fertilidad del casillero del mapa. La eficiencia puede mejorarse con mejoras</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Farming>
     <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Hunting>Produce carne, cuero y lana. Escala con la abundancia de animales del casillero y la habilidad Animal. La eficiencia puede mejorarse con mejoras</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Hunting>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>Produce una especie de pez elegida. Escala con la abundancia de peces en costas oceánicas y la habilidad Animal. La eficiencia puede mejorarse con mejoras. Requiere Odyssey</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>Recluta nuevos colonos cada ciclo. Escala con Social y hasta los 3 mejores socios cercanos por facción. Requiere asentamientos neutrales o aliados en rango</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>Produce plata cada ciclo. Escala con Social y hasta los 3 mejores socios cercanos por facción. Requiere asentamientos neutrales o aliados en rango</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>Recluta nuevos colonos cada ciclo. Escala con Social y hasta los 3 mejores socios cercanos por facción (los vecinos hostiles cuentan como desertores). Requiere asentamientos PNJ cercanos en rango</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>Produce plata cada ciclo. Escala con Social y hasta los 3 mejores socios cercanos por facción (los vecinos hostiles cuentan para el mercado negro). Requiere asentamientos PNJ cercanos en rango</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Embassy>Mejora la buena voluntad con facciones cercanas cada ciclo (Neutrales/Aliadas; hostiles si lo permiten los ajustes). Usa el nivel de asentamiento más alto por facción. Escala con Social</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Embassy>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Scavenging>Produce bienes aleatorios cada ciclo. Cada colono añade 500 de plata de botín por entrega. Ciclo fijo; requiere al menos 2 colonos para fundar</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Scavenging>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mining>Produce bloques de piedra, menas y componentes. Escala con la eficiencia minera del casillero del mapa. La eficiencia puede mejorarse con mejoras</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mining>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fabrication>Produce componentes industriales y avanzados. Escala con Artesanía. Requiere investigación Fabricación</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fabrication>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>Produce combustible químico. Escala con Artesanía. Requiere investigación Refinado de biocombustible</TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>Produce leche, huevos y lana. Escala con la fertilidad del casillero y la habilidad Animal. La eficiencia puede mejorarse con mejoras</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>Produce leche, huevos, lana y carne (pollo, cerdo, vaca). Escala con la fertilidad del casillero y la habilidad Animal. La eficiencia puede mejorarse con mejoras</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Academy>Entrena colonos en una habilidad por ciclo. La habilidad del profesor fija la XP y el tope de nivel. No produce bienes</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Academy>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mortar>Lanza golpes de mortero a larga distancia contra objetivos hostiles. Usa la habilidad Disparo de la guarnición. No produce bienes</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mortar>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_RapidResponse>Envía contra-caravanas rápidas contra viajeros hostiles. Las caravanas enemigas que pasen por esta avanzadilla siempre provocan un ataque inmediato. Puede lanzar colonos con cápsulas de transporte. No produce bienes</TSA_WD_OutpostTooltip_TSA_WD_Outpost_RapidResponse>

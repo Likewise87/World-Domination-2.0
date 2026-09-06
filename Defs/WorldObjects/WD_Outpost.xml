@@ -301,6 +301,9 @@
           <li><thingDef>WoolAlpaca</thingDef><amountPerSkillLevel>16</amountPerSkillLevel><minSkillLevel>5</minSkillLevel></li>
           <li><thingDef>WoolMuffalo</thingDef><amountPerSkillLevel>14</amountPerSkillLevel><minSkillLevel>6</minSkillLevel></li>
           <li><thingDef>WoolMegasloth</thingDef><amountPerSkillLevel>10</amountPerSkillLevel><minSkillLevel>10</minSkillLevel></li>
+          <li><thingDef>Meat_Chicken</thingDef><amountPerSkillLevel>12</amountPerSkillLevel><minSkillLevel>6</minSkillLevel></li>
+          <li><thingDef>Meat_Pig</thingDef><amountPerSkillLevel>10</amountPerSkillLevel><minSkillLevel>7</minSkillLevel></li>
+          <li><thingDef>Meat_Cow</thingDef><amountPerSkillLevel>8</amountPerSkillLevel><minSkillLevel>8</minSkillLevel></li>
         </productionOptions>
       </li>
     </modExtensions>

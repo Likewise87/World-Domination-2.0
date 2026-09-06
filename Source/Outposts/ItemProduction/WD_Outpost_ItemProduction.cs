@@ -48,8 +48,37 @@ namespace TSA_WorldDomination
                 return gizmoTooltipCached;
             gizmoTooltipTick = tick;
             gizmoTooltipFingerprint = fp;
-            gizmoTooltipCached = GetProductionTooltip(outpost);
+            // Gizmo hover: short "Producing …" only. Full math stays in production dialogs / stats.
+            gizmoTooltipCached = GetShortGizmoDesc(outpost);
             return gizmoTooltipCached;
+        }
+
+        /// <summary>One-line gizmo description (no formula breakdown).</summary>
+        private static string GetShortGizmoDesc(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null) return "";
+            if (Outpost_Production_Utils.IsTradingOutpost(outpost.def))
+            {
+                string amount = Outpost_Trading.GetTradingAmountProductLabel(outpost);
+                if (string.IsNullOrEmpty(amount)) return "";
+                string t = "TSA_WD_Producing".Translate(amount).ToString();
+                return t.Contains("TSA_WD_") ? ("Producing " + amount) : t;
+            }
+            if (Outpost_Production_Utils.IsRecruitingOutpost(outpost.def))
+            {
+                string line = Outpost_Recruiting.GetInspectProductLine(outpost);
+                if (string.IsNullOrEmpty(line)) return "";
+                string t = "TSA_WD_Producing".Translate(line).ToString();
+                return t.Contains("TSA_WD_") ? ("Producing " + line) : t;
+            }
+            if (Outpost_Production_Utils.IsEmbassyOutpost(outpost.def))
+            {
+                string line = Outpost_Embassy.GetInspectProductLine(outpost);
+                if (string.IsNullOrEmpty(line)) return "";
+                string t = "TSA_WD_Producing".Translate(line).ToString();
+                return t.Contains("TSA_WD_") ? ("Producing " + line) : t;
+            }
+            return GetProductionTooltip(outpost);
         }
 
         public static IEnumerable<Gizmo> GetGizmos(WorldObject_WD_Outpost outpost)
@@ -99,10 +128,10 @@ namespace TSA_WorldDomination
             }
             else if (isTrading && currentProduct != null)
             {
-                string delivery = Outpost_Trading.GetTradingDeliveryProductLine(outpost);
-                label = "TSA_WD_Gizmo_Trading".Translate(delivery).ToString();
-                if (label == "TSA_WD_Gizmo_Trading" || label.Contains("TSA_WD_"))
-                    label = string.IsNullOrEmpty(delivery) ? "Trading" : "Trading: " + delivery;
+                string amount = Outpost_Trading.GetTradingAmountProductLabel(outpost);
+                label = "TSA_WD_Producing".Translate(amount).ToString();
+                if (label.Contains("TSA_WD_") || string.IsNullOrEmpty(amount))
+                    label = string.IsNullOrEmpty(amount) ? "Trading" : ("Producing " + amount);
                 icon = currentProduct.uiIcon ?? ThingDefOf.Silver?.uiIcon ?? TexCommand.Replant;
                 iconColor = currentProduct.graphicData?.color ?? Color.white;
             }

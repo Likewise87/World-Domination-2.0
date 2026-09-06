@@ -71,6 +71,9 @@ namespace TSA_WorldDomination
             manager.antiLeaderCoalitionExpiryTick = -1;
             manager.antiLeaderCoalitionPriorRelations?.Clear();
             manager.antiLeaderCoalitionCooldownTick = tickNow + Mathf.RoundToInt(seth.cdAntiLeaderCoalitionDays * 60000f);
+
+            // Revolt must not fire immediately after world gen / new colony start.
+            WorldActions_SpecialEventCooldown.Stamp(manager, SpecialWorldEventKind.Revolt);
         }
 
         // 1. WORLD LEADER DEBUFF
@@ -100,7 +103,8 @@ namespace TSA_WorldDomination
             var leaderStat = npcStats[0];
             var runnerUp = npcStats[1];
 
-            float worldAvg = stats.GlobalTotalStr / stats.FactionStats.Count;
+            WorldStatsUtils.GetLivingNpcStrengthTotals(stats, out float npcTotal, out int livingN);
+            float worldAvg = WorldStatsUtils.NpcMeanStrength(npcTotal, livingN);
             float leadRatio = leaderStat.TotalStr / runnerUp.TotalStr;
 
             bool isDominant = leaderStat.TotalStr > worldAvg * 1.3f && leadRatio > 1.1f;
@@ -154,9 +158,10 @@ namespace TSA_WorldDomination
             var weaklingStat = npcStats[npcStats.Count - 1];
             if (weaklingStat == null) return;
 
-            float worldAvg = stats.GlobalTotalStr / stats.FactionStats.Count;
+            WorldStatsUtils.GetLivingNpcStrengthTotals(stats, out float npcTotal, out int livingN);
+            float relative = WorldStatsUtils.RelativeToNpcEqualShare(weaklingStat.TotalStr, npcTotal, livingN);
 
-            bool isPathetic = weaklingStat.TotalStr < worldAvg * 0.8f;
+            bool isPathetic = relative < 0.8f;
             if (!isPathetic) return;
 
             Faction underdog = weaklingStat.faction;
@@ -198,7 +203,8 @@ namespace TSA_WorldDomination
             var runnerUpStat = stats.FactionStats[1];
             if (leaderStat?.faction == null || runnerUpStat == null) return;
 
-            float worldAvg = stats.GlobalTotalStr / stats.FactionStats.Count;
+            WorldStatsUtils.GetLivingNpcStrengthTotals(stats, out float npcTotal, out int livingN);
+            float worldAvg = WorldStatsUtils.NpcMeanStrength(npcTotal, livingN);
             float leadRatio = runnerUpStat.TotalStr > 0f ? leaderStat.TotalStr / runnerUpStat.TotalStr : 999f;
             bool isDominant = leaderStat.TotalStr > worldAvg * 1.4f && leadRatio > 1.1f;
             if (!isDominant) return;
@@ -707,7 +713,10 @@ namespace TSA_WorldDomination
             if (seth == null || !seth.enableStrongFactionWar) return;
             if (Current.ProgramState != ProgramState.Playing || Faction.OfPlayer == null) return;
 
-            if (seth.strongFactionWarRequireMidOrLate && !WdEscalation.IsMidOrLate(manager))
+            if (WorldActions_SpecialEventCooldown.IsOnCooldown(manager, SpecialWorldEventKind.StrongFactionWar))
+                return;
+
+            if (!WdEscalation.PassesGate(seth.gateThreatStrongFactionWar, manager))
                 return;
 
             if (stats?.FactionStats == null || stats.FactionStats.Count < 2) return;
@@ -765,6 +774,8 @@ namespace TSA_WorldDomination
             int freezeExpiry = tickNow + RandomDiplomacyFreezeDurationTicks;
             if (!ForceDiplomacy(facA, facB, next, manager, freezeExpiry, out _))
                 return;
+
+            WorldActions_SpecialEventCooldown.Stamp(manager, SpecialWorldEventKind.StrongFactionWar);
 
             string colorA = facA.Name.Colorize(Color.cyan);
             string colorB = facB.Name.Colorize(Color.cyan);
