@@ -132,9 +132,10 @@ namespace TSA_WorldDomination
             SettlementTier oldTier = comp.tier;
             SettlementTier nextTier = (oldTier == SettlementTier.T1) ? SettlementTier.T2 :
                                      (oldTier == SettlementTier.T2) ? SettlementTier.T3 : SettlementTier.T4;
+            int requiredSameTierNeighbors = seth.GetSameTierNeighborsRequiredForUpgrade(oldTier);
 
             comp.SetState(nextTier);
-            manager.AddLog(new SpreadLogEntry("TSA_WD_Log_Upgrade".Translate(oldTier.ToString(), comp.tier.ToString(), sameTierNeighbors), s));
+            manager.AddLog(new SpreadLogEntry("TSA_WD_Log_Upgrade".Translate(oldTier.ToString(), comp.tier.ToString(), sameTierNeighbors, requiredSameTierNeighbors), s));
             WorldActions_Utils.RefreshMap();
             return true;
         }
@@ -209,6 +210,168 @@ namespace TSA_WorldDomination
 
             Find.WorldObjects.Add(traveler);
             traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(chosenTile, parent));
+            return true;
+        }
+
+        /// <summary>
+        /// Isolation Pressure: expand toward a player-centered annulus (not parent-radius).
+        /// Ignores parent expand CD; stamps expand CD after launch. Sets <paramref name="markIsolationPressure"/> on the traveler.
+        /// </summary>
+        public static bool TryLaunchForcedExpansionNearPlayer(
+            Settlement parent,
+            CompViralSpread parentComp,
+            WorldComponent_SpreadManager manager,
+            int playerAnchorTile,
+            int minFromPlayer,
+            int maxFromPlayer,
+            bool markIsolationPressure,
+            HashSet<int> excludeDestTiles = null)
+        {
+            if (parent == null || parentComp == null || manager == null) return false;
+            var seth = WorldDominationMod.settings;
+            if (seth == null) return false;
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(parent)) return false;
+            if (playerAnchorTile < 0 || !Find.WorldGrid.InBounds(playerAnchorTile)) return false;
+
+            int minR = Mathf.Max(1, minFromPlayer);
+            int maxR = Mathf.Max(minR, maxFromPlayer);
+
+            int totalGlobal = 0;
+            var globalSettlements = Find.WorldObjects.Settlements;
+            for (int i = 0; i < globalSettlements.Count; i++)
+            {
+                var gs = globalSettlements[i];
+                if (gs.Faction != null && !gs.Faction.IsPlayer && !gs.Faction.def.hidden
+                    && PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(gs))
+                    totalGlobal++;
+            }
+            if (totalGlobal >= seth.maxSettlements) return false;
+
+            if (!TryFindExpandTileNearPlayerAnchor(
+                    parent, playerAnchorTile, minR, maxR, seth, manager, excludeDestTiles, out int chosenTile))
+                return false;
+
+            parentComp.expansionCooldownTick = Find.TickManager.TicksGame + Mathf.RoundToInt(seth.cooldownExpandDays * 60000f);
+
+            float cost = parentComp.strength * 0.25f;
+            parentComp.strength -= cost;
+            parentComp.CheckTierUpdate(false);
+
+            manager.AddLog(new SpreadLogEntry("TSA_WD_Log_ExpeditionLaunched".Translate(parent.LabelCap), parent, chosenTile));
+
+            WorldObject_Traveler traveler = (WorldObject_Traveler)WorldObjectMaker.MakeWorldObject(DefDatabase<WorldObjectDef>.GetNamed("TSA_WD_Traveler_Expansion"));
+            traveler.Tile = parent.Tile;
+            traveler.SetFaction(parent.Faction);
+            traveler.mission = TravelerMission.Expansion;
+            traveler.travelerStrength = cost;
+            traveler.initialStrength = cost;
+            traveler.originObject = parent;
+            traveler.isolationPressureExpand = markIsolationPressure;
+
+            Find.WorldObjects.Add(traveler);
+            traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(chosenTile, parent));
+            excludeDestTiles?.Add(chosenTile);
+            return true;
+        }
+
+        private static bool TryFindExpandTileNearPlayerAnchor(
+            Settlement parent,
+            int playerAnchorTile,
+            int minFromPlayer,
+            int maxFromPlayer,
+            WorldDominationSettings seth,
+            WorldComponent_SpreadManager manager,
+            HashSet<int> excludeDestTiles,
+            out int chosenTile)
+        {
+            chosenTile = -1;
+            if (parent == null) return false;
+
+            for (int attempt = 0; attempt < EarlyRandomSeedAttempts; attempt++)
+            {
+                if (!TryPickRandomAnnulusSeed(new PlanetTile(playerAnchorTile, Find.WorldGrid[playerAnchorTile].Layer), minFromPlayer, maxFromPlayer, out int seed))
+                    continue;
+                if (excludeDestTiles != null && excludeDestTiles.Contains(seed)) continue;
+                if (IsValidExpandTileNearPlayer(seed, parent, playerAnchorTile, minFromPlayer, maxFromPlayer, seth, manager))
+                {
+                    chosenTile = seed;
+                    return true;
+                }
+                if (TryFindFirstValidNearPlayerFromSeed(
+                        seed, parent, playerAnchorTile, minFromPlayer, maxFromPlayer, seth, manager, excludeDestTiles, out chosenTile))
+                    return true;
+            }
+
+            return TryFindFirstValidNearPlayerFromSeed(
+                playerAnchorTile, parent, playerAnchorTile, minFromPlayer, maxFromPlayer, seth, manager, excludeDestTiles, out chosenTile,
+                searchRadius: maxFromPlayer);
+        }
+
+        private static bool TryFindFirstValidNearPlayerFromSeed(
+            int seedTileId,
+            Settlement parent,
+            int playerAnchorTile,
+            int minFromPlayer,
+            int maxFromPlayer,
+            WorldDominationSettings seth,
+            WorldComponent_SpreadManager manager,
+            HashSet<int> excludeDestTiles,
+            out int chosenTile,
+            int searchRadius = LocalSearchRadiusFromSeed)
+        {
+            chosenTile = -1;
+            if (parent == null || seedTileId < 0) return false;
+
+            if ((excludeDestTiles == null || !excludeDestTiles.Contains(seedTileId))
+                && IsValidExpandTileNearPlayer(seedTileId, parent, playerAnchorTile, minFromPlayer, maxFromPlayer, seth, manager))
+            {
+                chosenTile = seedTileId;
+                return true;
+            }
+
+            WorldGrid grid = Find.WorldGrid;
+            PlanetLayer layer = PlanetSurfaceWorldActions.WdSurfaceLayer ?? grid?.Surface;
+            if (grid == null || layer == null || !grid.InBounds(seedTileId)) return false;
+
+            int found = -1;
+            layer.Filler.FloodFill(
+                new PlanetTile(seedTileId, layer),
+                pt => PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(pt),
+                (PlanetTile pt, int dist) =>
+                {
+                    if (dist > searchRadius) return true;
+                    if (excludeDestTiles != null && excludeDestTiles.Contains(pt.tileId)) return false;
+                    if (IsValidExpandTileNearPlayer(pt.tileId, parent, playerAnchorTile, minFromPlayer, maxFromPlayer, seth, manager))
+                    {
+                        found = pt.tileId;
+                        return true;
+                    }
+                    return false;
+                });
+
+            if (found < 0) return false;
+            chosenTile = found;
+            return true;
+        }
+
+        private static bool IsValidExpandTileNearPlayer(
+            int tileId,
+            Settlement parent,
+            int playerAnchorTile,
+            int minFromPlayer,
+            int maxFromPlayer,
+            WorldDominationSettings seth,
+            WorldComponent_SpreadManager manager)
+        {
+            if (parent == null || tileId < 0 || Find.WorldGrid == null) return false;
+            if (!Find.WorldGrid.InBounds(tileId)) return false;
+
+            int d = Mathf.RoundToInt(Find.WorldGrid.ApproxDistanceInTiles(playerAnchorTile, tileId));
+            if (d < minFromPlayer || d > maxFromPlayer) return false;
+            if (!TileFinder.IsValidTileForNewSettlement(tileId)) return false;
+            if (Find.WorldObjects.AnyWorldObjectAt(tileId)) return false;
+            if (Outpost_EstablishmentRequirements.IsTileBlockedByMinDistanceCached(tileId)) return false;
+            if (IsTargetSaturated(tileId, parent.Faction, seth, manager)) return false;
             return true;
         }
 

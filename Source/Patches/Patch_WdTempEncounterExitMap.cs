@@ -5,24 +5,51 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Vanilla drafted edge leave uses <see cref="ExitMapGrid.MapUsesExitGrid"/>. While hostiles exist,
-    /// FormCaravan cannot reform so the exit grid turns on (flee). Ambush normally blocks that via
-    /// <c>blockExitGridUntilBattleIsWon</c>, but WD clash raids arrive after map gen so WonBattle can latch early.
-    /// Outpost defense sites have no FormCaravanComp / CaravansBattlefield at all.
-    /// Force the exit grid off for active WD temporary encounters only.
+    /// Mid-fight drafted edge leave must not abandon WD temp encounters.
+    /// Do NOT patch <see cref="ExitMapGrid.MapUsesExitGrid"/> — that getter is polled every UI frame by
+    /// <c>ExitMapGridUpdate</c> (even when vanilla caches the bool per tick), and was a severe hitch.
+    /// Block the rare leave actions instead; the exit overlay may still draw until the fight ends.
     /// </summary>
-    [HarmonyPatch(typeof(ExitMapGrid), "get_MapUsesExitGrid")]
-    public static class Patch_ExitMapGrid_MapUsesExitGrid_WdTempEncounters
+    [HarmonyPatch(typeof(CaravanExitMapUtility), nameof(CaravanExitMapUtility.CanExitMapAndJoinOrCreateCaravanNow))]
+    public static class Patch_CanExitMapAndJoinOrCreateCaravanNow_WdTempEncounters
     {
-        private static readonly AccessTools.FieldRef<ExitMapGrid, Map> MapField =
-            AccessTools.FieldRefAccess<ExitMapGrid, Map>("map");
-
-        public static void Postfix(ExitMapGrid __instance, ref bool __result)
+        public static void Postfix(Pawn pawn, ref bool __result)
         {
             if (!__result) return;
-            Map map = MapField(__instance);
-            if (WD_TempEncounterExitMapUtility.BlocksPlayerEdgeExit(map))
-                __result = false;
+            if (!WD_TempEncounterExitMapUtility.ShouldBlockPawnExit(pawn)) return;
+            __result = false;
+            WD_TempEncounterExitMapUtility.NotifyBlocked(pawn);
+        }
+    }
+
+    /// <summary>
+    /// Hard stop for drafted <see cref="JobDriver_Goto.TryExitMap"/> → <see cref="Pawn.ExitMap"/>
+    /// and any other leave path that still reaches ExitMap while the encounter is active.
+    /// </summary>
+    [HarmonyPatch(typeof(Pawn), nameof(Pawn.ExitMap))]
+    public static class Patch_Pawn_ExitMap_WdTempEncounters
+    {
+        public static bool Prefix(Pawn __instance)
+        {
+            if (!WD_TempEncounterExitMapUtility.ShouldBlockPawnExit(__instance))
+                return true;
+            WD_TempEncounterExitMapUtility.NotifyBlocked(__instance);
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Belt-and-suspenders for the caravan join/create helper (also called from <see cref="Pawn.ExitMap"/>).
+    /// </summary>
+    [HarmonyPatch(typeof(CaravanExitMapUtility), nameof(CaravanExitMapUtility.ExitMapAndJoinOrCreateCaravan))]
+    public static class Patch_ExitMapAndJoinOrCreateCaravan_WdTempEncounters
+    {
+        public static bool Prefix(Pawn pawn)
+        {
+            if (!WD_TempEncounterExitMapUtility.ShouldBlockPawnExit(pawn))
+                return true;
+            WD_TempEncounterExitMapUtility.NotifyBlocked(pawn);
+            return false;
         }
     }
 

@@ -15,6 +15,7 @@ namespace TSA_WorldDomination
         private bool vanguardInvasionExpanded = true;
         private bool desperationExpanded = true;
         private bool turtleExpanded = true;
+        private bool isolationPressureExpanded = true;
         private bool strongWarExpanded = true;
         private bool raidPressureExpanded = true;
         private bool clampExpanded;
@@ -48,7 +49,8 @@ namespace TSA_WorldDomination
         private void SetAllExpanded(bool expanded)
         {
             escalationExpanded = tooExpanded = maraudExpanded = ambushExpanded =
-                vanguardInvasionExpanded = desperationExpanded = turtleExpanded = strongWarExpanded =
+                vanguardInvasionExpanded = desperationExpanded = turtleExpanded =
+                isolationPressureExpanded = strongWarExpanded =
                 raidPressureExpanded = clampExpanded = stageCombatExpanded =
                 arrivalExpanded = advancedWorldExpanded = garrisonExpanded =
                 t4MortarFeatureExpanded = t4AaFeatureExpanded = expanded;
@@ -79,6 +81,7 @@ namespace TSA_WorldDomination
             DrawVanguardAndInvasion(l, s);
             DrawDesperation(l, s);
             DrawTurtle(l, s);
+            DrawIsolationPressure(l, s);
             DrawStrongWar(l, s);
             DrawStageCombatBonuses(l, s);
             DrawArrivalStyles(l, s);
@@ -319,8 +322,25 @@ namespace TSA_WorldDomination
                 "TSA_WD_Combat_TurtleMinClusterTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefTurtleMinClusterSize));
             s.turtleMaxPackSettlements = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_Combat_TurtleMaxPack".Translate(), s.turtleMaxPackSettlements, 1f, 10f,
                 "TSA_WD_Combat_TurtleMaxPackTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefTurtleMaxPackSettlements));
-            s.turtlePressureRatio = SettingsUI.LabeledSlider(l, "TSA_WD_Combat_TurtlePressureRatio".Translate(), s.turtlePressureRatio, 0f, 3f,
-                "TSA_WD_Combat_TurtlePressureRatioTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefTurtlePressureRatio);
+            s.turtlePressureRatio = SettingsUI.LabeledSlider(l, "TSA_WD_Combat_TurtlePressureRatio".Translate(), s.turtlePressureRatio, 0f, 10f,
+                "TSA_WD_Combat_TurtlePressureRatioTooltip".Translate(), 0.1f, SliderFormat.Percent, WorldDominationSettings.DefTurtlePressureRatio);
+        }
+
+        private void DrawIsolationPressure(Listing_Standard l, WorldDominationSettings s)
+        {
+            if (!SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Combat_IsolationPressureHeader".Translate(), ref isolationPressureExpanded, SettingsUI.SectionHeaderColor,
+                "TSA_WD_Combat_IsolationPressureHeaderTip".Translate()))
+                return;
+
+            SettingsUI.EnumDropdownApply(l, "TSA_WD_Combat_GateWhen".Translate(), s.gateThreatIsolationPressure,
+                v => ApplyGate(s, () => s.gateThreatIsolationPressure = v),
+                WdEscalation.ThreatGateLabel,
+                "TSA_WD_Combat_GateIsolationPressureTip".Translate());
+            if (s.gateThreatIsolationPressure == WdThreatStageGate.Never)
+                return;
+
+            s.isolationPressureCooldownDays = SettingsUI.LabeledSlider(l, "TSA_WD_Combat_IsolationPressureCooldown".Translate(), s.isolationPressureCooldownDays, 0.5f, 60f,
+                "TSA_WD_Combat_IsolationPressureCooldownTip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefIsolationPressureCooldownDays);
         }
 
         private void DrawStrongWar(Listing_Standard l, WorldDominationSettings s)

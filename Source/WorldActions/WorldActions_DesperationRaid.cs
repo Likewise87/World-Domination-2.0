@@ -25,12 +25,6 @@ namespace TSA_WorldDomination
 
         private static readonly List<Settlement> tmpFactionSettlements = new List<Settlement>();
         private static readonly List<Settlement> tmpCluster = new List<Settlement>();
-        private static readonly List<PlanetTile> tmpNeighbors = new List<PlanetTile>();
-        private static readonly List<int> tmpRingTiles = new List<int>();
-        private static readonly List<int> tmpInnerRingTiles = new List<int>();
-        private static readonly List<int> tmpAtPick = new List<int>();
-        private static readonly List<int> tmpAtEligibleIdx = new List<int>();
-        private static readonly List<int> tmpAtPickedIdx = new List<int>();
         private static readonly Queue<Settlement> tmpBfs = new Queue<Settlement>();
         private static readonly HashSet<int> tmpSeen = new HashSet<int>();
 
@@ -97,9 +91,8 @@ namespace TSA_WorldDomination
                 float hostStr = Mathf.Max(traveler.travelerStrength, traveler.initialStrength);
                 kitTier = TierFromHostStrength(hostStr);
             }
-            if (kitTier < SettlementTier.T2) return;
 
-            TryPlaceFortifyKit(tile, faction, kitTier, builtBySettlement, builtBySiteOrNull);
+            WorldActions_FortifyKit.TryPlaceFortifyKit(tile, faction, kitTier, builtBySettlement, builtBySiteOrNull);
         }
 
         public static void TryPlaceFortifyKit(
@@ -109,202 +102,7 @@ namespace TSA_WorldDomination
             Settlement builtBySettlement,
             WorldObject builtBySite)
         {
-            if (centerTile < 0 || faction == null) return;
-            if (kitTier < SettlementTier.T2) return;
-
-            GetKit(kitTier, out SpikeTrapKind trapKind, out RoadBlockKind blockKind, out AtTurretTier atTier, out int maxAt);
-
-            var roadBlocks = WorldComponent_RoadBlocks.Get();
-            var traps = WorldComponent_SpikeTraps.Get();
-
-            // AT guns: radius-1 ring, capped by kit tier (T2 max 2, T3/T4 max 3).
-            // Prefer opposite / spread sites around the hub; fall back to whatever is free.
-            CollectOrderedNeighbors(centerTile, tmpInnerRingTiles);
-            PickSpreadRingTiles(tmpInnerRingTiles, maxAt, tmpAtPick, IsFortifyTileOk);
-            int atPlaced = 0;
-            for (int i = 0; i < tmpAtPick.Count; i++)
-            {
-                if (AtTurretUtility.TrySpawn(
-                        tmpAtPick[i], faction, atTier, builtBySettlement, builtBySite,
-                        requirePlayerBuildSite: false,
-                        allowRoadTile: true,
-                        ignoreSettlementCap: true) != null)
-                    atPlaced++;
-            }
-
-            // Traps + road blocks: full radius-2 ring.
-            // Traps prefer roads; blocks prefer non-road (road only if trap did not claim the tile).
-            CollectTilesAtExactRadius(centerTile, 2, tmpRingTiles);
-            int trapsPlaced = 0;
-            int blocksPlaced = 0;
-
-            for (int i = 0; i < tmpRingTiles.Count; i++)
-            {
-                int t = tmpRingTiles[i];
-                if (!IsFortifyTileOk(t)) continue;
-                if (!AtTurretUtility.TileHasRoad(t)) continue;
-                if (traps != null && traps.TryPlaceOrUpgrade(t, faction, trapKind, builtBySettlement))
-                    trapsPlaced++;
-            }
-
-            for (int i = 0; i < tmpRingTiles.Count; i++)
-            {
-                int t = tmpRingTiles[i];
-                if (!IsFortifyTileOk(t)) continue;
-                if (AtTurretUtility.TileHasRoad(t)) continue;
-                if (roadBlocks != null && roadBlocks.TryPlaceOrUpgrade(t, faction, blockKind, builtBySettlement))
-                    blocksPlaced++;
-            }
-
-            for (int i = 0; i < tmpRingTiles.Count; i++)
-            {
-                int t = tmpRingTiles[i];
-                if (!IsFortifyTileOk(t)) continue;
-                if (!AtTurretUtility.TileHasRoad(t)) continue;
-                if (traps?.HasTrapAt(t) == true) continue;
-                if (roadBlocks != null && roadBlocks.TryPlaceOrUpgrade(t, faction, blockKind, builtBySettlement))
-                    blocksPlaced++;
-            }
-
-            WDVerbose.Msg(
-                $"Fortify kit tier={kitTier} tile={centerTile} atR=1 outerR=2 traps={trapsPlaced} blocks={blocksPlaced} at={atPlaced}");
-        }
-
-        private static void GetKit(
-            SettlementTier tier,
-            out SpikeTrapKind trapKind,
-            out RoadBlockKind blockKind,
-            out AtTurretTier atTier,
-            out int maxAt)
-        {
-            switch (tier)
-            {
-                case SettlementTier.T4:
-                    trapKind = SpikeTrapKind.Caltrops;
-                    blockKind = RoadBlockKind.Heavy;
-                    atTier = AtTurretTier.Heavy;
-                    maxAt = 3;
-                    break;
-                case SettlementTier.T3:
-                    trapKind = SpikeTrapKind.Caltrops;
-                    blockKind = RoadBlockKind.Normal;
-                    atTier = AtTurretTier.Medium;
-                    maxAt = 3;
-                    break;
-                default:
-                    trapKind = SpikeTrapKind.Spike;
-                    blockKind = RoadBlockKind.Light;
-                    atTier = AtTurretTier.Light;
-                    maxAt = 2;
-                    break;
-            }
-        }
-
-        private static bool IsFortifyTileOk(int tileId)
-        {
-            if (tileId < 0 || !Find.WorldGrid.InBounds(tileId)) return false;
-            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(tileId)) return false;
-            if (Find.World.Impassable(tileId)) return false;
-            if (Find.WorldObjects.AnySettlementAt(tileId)) return false;
-            if (Outpost_EstablishmentRequirements.TileHasActiveCamp(tileId)) return false;
-            return true;
-        }
-
-        private static void CollectOrderedNeighbors(int center, List<int> into)
-        {
-            into.Clear();
-            if (center < 0) return;
-            tmpNeighbors.Clear();
-            Find.WorldGrid.GetTileNeighbors(center, tmpNeighbors);
-            for (int i = 0; i < tmpNeighbors.Count; i++)
-                into.Add(tmpNeighbors[i].tileId);
-        }
-
-        /// <summary>
-        /// Pick up to <paramref name="want"/> tiles from a circular neighbor ring, maximizing
-        /// minimum ring-distance to already chosen tiles (opposite sites first; leftovers otherwise).
-        /// Distances use the full neighbor winding so blocked tiles still reserve angular slots.
-        /// </summary>
-        private static void PickSpreadRingTiles(
-            List<int> ringOrdered,
-            int want,
-            List<int> into,
-            Func<int, bool> eligible)
-        {
-            into.Clear();
-            if (ringOrdered == null || ringOrdered.Count == 0 || want <= 0 || eligible == null) return;
-
-            int n = ringOrdered.Count;
-            tmpAtEligibleIdx.Clear();
-            for (int i = 0; i < n; i++)
-            {
-                if (eligible(ringOrdered[i]))
-                    tmpAtEligibleIdx.Add(i);
-            }
-            if (tmpAtEligibleIdx.Count == 0) return;
-
-            int take = Mathf.Min(want, tmpAtEligibleIdx.Count);
-            int firstSlot = Rand.Range(0, tmpAtEligibleIdx.Count);
-            tmpAtPickedIdx.Clear();
-            tmpAtPickedIdx.Add(tmpAtEligibleIdx[firstSlot]);
-            into.Add(ringOrdered[tmpAtEligibleIdx[firstSlot]]);
-
-            while (into.Count < take)
-            {
-                int bestIdx = -1;
-                int bestMinDist = int.MinValue;
-                for (int e = 0; e < tmpAtEligibleIdx.Count; e++)
-                {
-                    int i = tmpAtEligibleIdx[e];
-                    if (tmpAtPickedIdx.Contains(i)) continue;
-
-                    int minDist = int.MaxValue;
-                    for (int p = 0; p < tmpAtPickedIdx.Count; p++)
-                    {
-                        int d = Mathf.Abs(i - tmpAtPickedIdx[p]);
-                        d = Mathf.Min(d, n - d);
-                        if (d < minDist) minDist = d;
-                    }
-
-                    if (minDist > bestMinDist)
-                    {
-                        bestMinDist = minDist;
-                        bestIdx = i;
-                    }
-                }
-
-                if (bestIdx < 0) break;
-                tmpAtPickedIdx.Add(bestIdx);
-                into.Add(ringOrdered[bestIdx]);
-            }
-        }
-
-        private static void CollectTilesAtExactRadius(int center, int radius, List<int> into)
-        {
-            into.Clear();
-            if (center < 0 || radius < 1) return;
-            tmpSeen.Clear();
-            var q = new Queue<(int tile, int dist)>();
-            q.Enqueue((center, 0));
-            tmpSeen.Add(center);
-            while (q.Count > 0)
-            {
-                var (tile, dist) = q.Dequeue();
-                if (dist == radius)
-                {
-                    into.Add(tile);
-                    continue;
-                }
-                if (dist >= radius) continue;
-                tmpNeighbors.Clear();
-                Find.WorldGrid.GetTileNeighbors(tile, tmpNeighbors);
-                for (int i = 0; i < tmpNeighbors.Count; i++)
-                {
-                    int n = tmpNeighbors[i].tileId;
-                    if (!tmpSeen.Add(n)) continue;
-                    q.Enqueue((n, dist + 1));
-                }
-            }
+            WorldActions_FortifyKit.TryPlaceFortifyKit(centerTile, faction, kitTier, builtBySettlement, builtBySite);
         }
 
         /// <summary>Thin wrappers — rally absorb/tick lives on <see cref="WorldActions_AssaultRally"/>.</summary>

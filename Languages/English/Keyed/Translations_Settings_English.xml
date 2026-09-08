@@ -85,6 +85,11 @@
   <TSA_WD_Combat_TurtleHeader>Turtle consolidate (daily)</TSA_WD_Combat_TurtleHeader>
   <TSA_WD_Combat_HeaderTurtleTip>Daily: threatened clusters pack weak T1/T2 sites into a T4 hub (overflow to nearby T3s), promote by strength, and fortify. Separate from Strategy on Settlement Loss.</TSA_WD_Combat_HeaderTurtleTip>
   <TSA_WD_Combat_GateTurtleTip>Stage gate for daily turtle consolidate. Always = from game start. Never = off.</TSA_WD_Combat_GateTurtleTip>
+  <TSA_WD_Combat_IsolationPressureHeader>Isolation pressure</TSA_WD_Combat_IsolationPressureHeader>
+  <TSA_WD_Combat_IsolationPressureHeaderTip>When fewer than two hostile factions can reach your colonies, one eligible faction may be forced to found 1–2 settlements near you. Per-faction cooldown.</TSA_WD_Combat_IsolationPressureHeaderTip>
+  <TSA_WD_Combat_GateIsolationPressureTip>Stage gate for Isolation Pressure. Always = from game start. Never = off. Difficulty presets do not change this.</TSA_WD_Combat_GateIsolationPressureTip>
+  <TSA_WD_Combat_IsolationPressureCooldown>Per-faction cooldown</TSA_WD_Combat_IsolationPressureCooldown>
+  <TSA_WD_Combat_IsolationPressureCooldownTip>Days before the same faction can be forced to expand again under Isolation Pressure.</TSA_WD_Combat_IsolationPressureCooldownTip>
   <TSA_WD_Combat_TurtleEnable>Enable turtle consolidate</TSA_WD_Combat_TurtleEnable>
   <TSA_WD_Combat_TurtleEnableTooltip>When a faction's connected cluster is under pressure, weak outer T1/T2 sites pack into a T4 hub (overflow to nearby T3s once the T4 is full). Deposits promote hub tier by strength. Uses its own per-faction cooldown; at most one cluster per day.</TSA_WD_Combat_TurtleEnableTooltip>
   <TSA_WD_Combat_TurtleChance>Daily chance</TSA_WD_Combat_TurtleChance>
@@ -98,7 +103,7 @@
   <TSA_WD_Combat_TurtlePressure>Hostile pressure needed</TSA_WD_Combat_TurtlePressure>
   <TSA_WD_Combat_TurtlePressureTooltip>Number of hostile settlements or player colonies/outposts within 15 tiles of any site in a cluster required to consolidate. Allied cluster membership links sites within 20 tiles.</TSA_WD_Combat_TurtlePressureTooltip>
   <TSA_WD_Combat_TurtlePressureRatio>Regional pressure ratio</TSA_WD_Combat_TurtlePressureRatio>
-  <TSA_WD_Combat_TurtlePressureRatioTooltip>Hostile offensive strength within 15 tiles of any site in the cluster, divided by the cluster's own offensive strength. Allied sites form a cluster when linked within 20 tiles. Daily Turtle and Strategy on Settlement Loss both require this ratio (e.g. 225% = hostiles are 2.25× as strong as the cluster).</TSA_WD_Combat_TurtlePressureRatioTooltip>
+  <TSA_WD_Combat_TurtlePressureRatioTooltip>Hostile offensive strength within 15 tiles of any site in the cluster, divided by the cluster's own offensive strength. Allied sites form a cluster when linked within 20 tiles. Daily Turtle and Strategy on Settlement Loss both require this ratio (e.g. 400% = hostiles are 4× as strong as the cluster).</TSA_WD_Combat_TurtlePressureRatioTooltip>
   <TSA_WD_Combat_TurtleNotify>Notify when turtle consolidate launches</TSA_WD_Combat_TurtleNotify>
   <TSA_WD_Combat_TurtleNotifyTooltip>Send a letter when a nearby faction consolidates and fortifies a hub.</TSA_WD_Combat_TurtleNotifyTooltip>
   <TSA_WD_Combat_GateStrongWar>Strong faction war</TSA_WD_Combat_GateStrongWar>
@@ -151,7 +156,7 @@
   <TSA_WD_Daily_WeightTrader>Trader Caravan likelihood</TSA_WD_Daily_WeightTrader>
   <TSA_WD_Daily_WeightTraderTip>Likelihood of a Settlement to send a trader caravan to a neutral or allied target in range.</TSA_WD_Daily_WeightTraderTip>
   <TSA_WD_Daily_WeightFortify>Fortify likelihood</TSA_WD_Daily_WeightFortify>
-  <TSA_WD_Daily_WeightFortifyTip>Likelihood of a threatened settlement to place road blocks or traps toward the nearest hostile. Higher tiers may send multiple fortify crews in one action (T1 often 1, T3 always 2, T4 up to 3). Only rolls when a hostile is in attack range and a fortify ring is free.</TSA_WD_Daily_WeightFortifyTip>
+  <TSA_WD_Daily_WeightFortifyTip>Likelihood that a threatened settlement fortifies locally with the turtle kit layout: road traps first (ensuring a road exit), then road blocks, then AT Turrets. Higher tiers may send multiple trap or block crews in one action. Does not roll when the kit is complete or the settlement is on Fortify cooldown. If Fortify is chosen but cannot launch, another eligible daily action is used instead.</TSA_WD_Daily_WeightFortifyTip>
   <TSA_WD_Daily_CdFortify>Cooldown after Fortify</TSA_WD_Daily_CdFortify>
   <TSA_WD_Daily_CdFortifyTip>Days before this settlement can fortify again. Does not block other action types.</TSA_WD_Daily_CdFortifyTip>
   <TSA_WD_Daily_CdTrader>Cooldown after Trader Caravan</TSA_WD_Daily_CdTrader>
@@ -930,17 +935,17 @@
   <TSA_WD_OutpostSim_ShowInWdMenuTip>When on, the WD world map menu includes Establish outpost simulation so you can click a tile and preview requirements and material costs without sending a caravan.</TSA_WD_OutpostSim_ShowInWdMenuTip>
   <TSA_WD_Experimental_HeaderFortify>NPC Fortify</TSA_WD_Experimental_HeaderFortify>
   <TSA_WD_Fortify_MinFromSelf>Min distance from settlement</TSA_WD_Fortify_MinFromSelf>
-  <TSA_WD_Fortify_MinFromSelfTip>Closest tiles where this settlement may place fortifications (road blocks, traps, AT Turrets).</TSA_WD_Fortify_MinFromSelfTip>
+  <TSA_WD_Fortify_MinFromSelfTip>Legacy unused. NPC Fortify now places on the turtle kit rings (radius 1 AT Turrets, radius 2 traps and road blocks).</TSA_WD_Fortify_MinFromSelfTip>
   <TSA_WD_Fortify_MinFromOther>Min distance from other settlements</TSA_WD_Fortify_MinFromOther>
-  <TSA_WD_Fortify_MinFromOtherTip>Fortifications stay at least this many tiles away from any other settlement or outpost.</TSA_WD_Fortify_MinFromOtherTip>
+  <TSA_WD_Fortify_MinFromOtherTip>Legacy unused. NPC Fortify no longer uses a min-distance-from-other-settlements ring rule.</TSA_WD_Fortify_MinFromOtherTip>
   <TSA_WD_Fortify_MaxFromSelf>Max distance from settlement</TSA_WD_Fortify_MaxFromSelf>
-  <TSA_WD_Fortify_MaxFromSelfTip>Farthest tiles where this settlement may place fortifications.</TSA_WD_Fortify_MaxFromSelfTip>
+  <TSA_WD_Fortify_MaxFromSelfTip>Legacy unused. NPC Fortify uses fixed turtle kit radii instead of a max distance band.</TSA_WD_Fortify_MaxFromSelfTip>
   <TSA_WD_Fortify_MaxTravel>Max travel to place fortifications</TSA_WD_Fortify_MaxTravel>
-  <TSA_WD_Fortify_MaxTravelTip>If the best fortify site is within this distance, the settlement sends its own crew. If farther, a nearer same-faction settlement does it instead.</TSA_WD_Fortify_MaxTravelTip>
+  <TSA_WD_Fortify_MaxTravelTip>Legacy unused. NPC Fortify always builds at the threatened settlement itself (no distant frontier delegation).</TSA_WD_Fortify_MaxTravelTip>
   <TSA_WD_Fortify_TerritoryLink>Territory link range</TSA_WD_Fortify_TerritoryLink>
-  <TSA_WD_Fortify_TerritoryLinkTip>Same-faction settlements within this distance, with no hostile between them, form one territory for frontier detection.</TSA_WD_Fortify_TerritoryLinkTip>
+  <TSA_WD_Fortify_TerritoryLinkTip>Legacy unused. Territory and frontier detection were removed from NPC Fortify; fields remain for save compatibility.</TSA_WD_Fortify_TerritoryLinkTip>
   <TSA_WD_Fortify_TravelerStrength>Fortify traveler strength</TSA_WD_Fortify_TravelerStrength>
-  <TSA_WD_Fortify_TravelerStrengthTip>Offensive strength deducted from the settlement per fortify crew. Higher tiers may launch several crews at once, each paying this cost.</TSA_WD_Fortify_TravelerStrengthTip>
+  <TSA_WD_Fortify_TravelerStrengthTip>Offensive strength deducted from the settlement per fortify crew. Trap and road-block phases may launch several crews at once; AT Turret is always one crew.</TSA_WD_Fortify_TravelerStrengthTip>
   <TSA_WD_Fortify_ClearOnBuilderLoss>Clear fortifications on builder loss</TSA_WD_Fortify_ClearOnBuilderLoss>
   <TSA_WD_Fortify_ClearOnBuilderLossTip>When on, road blocks and traps placed by a settlement are removed if that settlement is destroyed or changes faction.</TSA_WD_Fortify_ClearOnBuilderLossTip>
   <TSA_WD_Fortify_EnableBlacklist>Enable mark tiles where allies may not build fortifications</TSA_WD_Fortify_EnableBlacklist>
@@ -950,20 +955,20 @@
   <TSA_WD_Daily_HeaderFortify>NPC Fortify</TSA_WD_Daily_HeaderFortify>
   <TSA_WD_Fortify_HeaderTypeChances>What to place</TSA_WD_Fortify_HeaderTypeChances>
   <TSA_WD_Fortify_ChanceRoadBlock>Road block chance</TSA_WD_Fortify_ChanceRoadBlock>
-  <TSA_WD_Fortify_ChanceRoadBlockTip>Relative weight for placing a road block when Fortify runs. Only valid options are rolled, then weights are scaled to add up to 100%. Road blocks may go on any free tile in the fortify ring.</TSA_WD_Fortify_ChanceRoadBlockTip>
+  <TSA_WD_Fortify_ChanceRoadBlockTip>Legacy unused. NPC Fortify places in fixed order: traps, then road blocks, then AT Turrets (no random type roll).</TSA_WD_Fortify_ChanceRoadBlockTip>
   <TSA_WD_Fortify_ChanceTrap>Trap chance</TSA_WD_Fortify_ChanceTrap>
-  <TSA_WD_Fortify_ChanceTrapTip>Relative weight for placing a spike trap when Fortify runs. Only rolled when a road tile is available. Traps are placed on roads.</TSA_WD_Fortify_ChanceTrapTip>
+  <TSA_WD_Fortify_ChanceTrapTip>Legacy unused. Trap placement is the first Fortify phase when the outer ring still needs roads or traps.</TSA_WD_Fortify_ChanceTrapTip>
   <TSA_WD_Fortify_ChanceTurret>AT Turret chance</TSA_WD_Fortify_ChanceTurret>
-  <TSA_WD_Fortify_ChanceTurretTip>Relative weight for placing an AT Turret when Fortify runs. Only rolled if the settlement is under its AT Turret cap and an off-road site exists. Prefers tiles adjacent to any road block that sits between the gun and hostiles. Always a single crew (no multi-launch).</TSA_WD_Fortify_ChanceTurretTip>
+  <TSA_WD_Fortify_ChanceTurretTip>Legacy unused. AT Turrets are the last Fortify phase (radius 1, spread sites, kit tier cap).</TSA_WD_Fortify_ChanceTurretTip>
   <TSA_WD_Fortify_HeaderMultiCaravan>Multi-caravan launches</TSA_WD_Fortify_HeaderMultiCaravan>
   <TSA_WD_Fortify_MultiT1ChanceOf2>T1 chance of 2 caravans</TSA_WD_Fortify_MultiT1ChanceOf2>
-  <TSA_WD_Fortify_MultiT1ChanceOf2Tip>When Fortify chooses a road block or trap (not AT Turret): Tier 1 chance to send 2 crews instead of 1. Also used for NPC road multi-launch.</TSA_WD_Fortify_MultiT1ChanceOf2Tip>
+  <TSA_WD_Fortify_MultiT1ChanceOf2Tip>When Fortify is in the trap or road-block phase: Tier 1 chance to send 2 crews instead of 1. Also used for NPC road multi-launch.</TSA_WD_Fortify_MultiT1ChanceOf2Tip>
   <TSA_WD_Fortify_MultiT2ChanceOf2>T2 chance of 2 caravans</TSA_WD_Fortify_MultiT2ChanceOf2>
-  <TSA_WD_Fortify_MultiT2ChanceOf2Tip>When Fortify chooses a road block or trap (not AT Turret): Tier 2 chance to send 2 crews instead of 1.</TSA_WD_Fortify_MultiT2ChanceOf2Tip>
+  <TSA_WD_Fortify_MultiT2ChanceOf2Tip>When Fortify is in the trap or road-block phase: Tier 2 chance to send 2 crews instead of 1.</TSA_WD_Fortify_MultiT2ChanceOf2Tip>
   <TSA_WD_Fortify_MultiT3ChanceOf2>T3 chance of 2 caravans</TSA_WD_Fortify_MultiT3ChanceOf2>
-  <TSA_WD_Fortify_MultiT3ChanceOf2Tip>When Fortify chooses a road block or trap (not AT Turret): Tier 3 chance to send 2 crews instead of 1.</TSA_WD_Fortify_MultiT3ChanceOf2Tip>
+  <TSA_WD_Fortify_MultiT3ChanceOf2Tip>When Fortify is in the trap or road-block phase: Tier 3 chance to send 2 crews instead of 1.</TSA_WD_Fortify_MultiT3ChanceOf2Tip>
   <TSA_WD_Fortify_MultiT4ChanceOf3>T4 chance of 3 caravans</TSA_WD_Fortify_MultiT4ChanceOf3>
-  <TSA_WD_Fortify_MultiT4ChanceOf3Tip>When Fortify chooses a road block or trap (not AT Turret): Tier 4 chance to send 3 crews instead of 2.</TSA_WD_Fortify_MultiT4ChanceOf3Tip>
+  <TSA_WD_Fortify_MultiT4ChanceOf3Tip>When Fortify is in the trap or road-block phase: Tier 4 chance to send 3 crews instead of 2.</TSA_WD_Fortify_MultiT4ChanceOf3Tip>
   <TSA_WD_Fortify_HeaderAtTurrets>AT Turret caps</TSA_WD_Fortify_HeaderAtTurrets>
   <TSA_WD_Fortify_AtTurretMaxT1>T1 max AT Turrets</TSA_WD_Fortify_AtTurretMaxT1>
   <TSA_WD_Fortify_AtTurretMaxT2>T2 max AT Turrets</TSA_WD_Fortify_AtTurretMaxT2>

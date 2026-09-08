@@ -370,6 +370,21 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
+        /// New T4 settlements must not snap-fire mortar/AA on the tick they unlock (develop, trade, turtle, world gen, etc.).
+        /// Stamps full NPC mortar + AA cooldowns when entering T4 from a lower tier.
+        /// </summary>
+        private void StampT4WorldDefensesOnCooldownIfEntering(SettlementTier oldTier, SettlementTier newTier)
+        {
+            if (oldTier == SettlementTier.T4 || newTier != SettlementTier.T4) return;
+            if (IsOutpost || IsPlayerMapSettlement) return;
+            if (parent?.Faction == null || parent.Faction.IsPlayer) return;
+
+            MortarFireUtils.ApplyNpcMortarCooldown(this);
+            if (parent != null)
+                AntiAirFireUtils.ApplyAntiAirCooldown(this, parent);
+        }
+
+        /// <summary>
         /// Always resolved live. Comps are constructed during world generation / load, before the world's final
         /// component list exists, so any instance captured at that point can differ from the one the game actually
         /// ticks. Caching it silently pinned a dead manager and made late-game reads (and zeal, action-day and
@@ -910,6 +925,22 @@ namespace TSA_WorldDomination
             spread.defenseCooldownTick = ticks + CooldownTicksFromDays(defenseDays);
         }
 
+        /// <summary>
+        /// Isolation Pressure NPC founding: full outgoing raid CD and full defense (being-raided) shield.
+        /// </summary>
+        public static void ApplyNpcSettlementFoundingShields(Settlement settlement)
+        {
+            if (settlement == null || settlement.Destroyed) return;
+            CompViralSpread spread = settlement.GetComponent<CompViralSpread>();
+            if (spread == null) return;
+            var seth = WorldDominationMod.settings;
+            if (seth == null) return;
+
+            int ticks = Find.TickManager.TicksGame;
+            spread.raidCooldownTick = ticks + CooldownTicksFromDays(seth.cooldownRaidDays);
+            spread.defenseCooldownTick = ticks + CooldownTicksFromDays(GetDefenseCooldownDaysFor(settlement));
+        }
+
         /// <summary>Resets experimental colony raid-ratio soften clock when the colony is picked as a WD raid target (or initial shield).</summary>
         public void MarkPlayerColonyWdRaidPicked()
         {
@@ -1417,6 +1448,7 @@ namespace TSA_WorldDomination
         public void SetState(SettlementTier newTier)
         {
             if (IsOutpost || IsPlayerMapSettlement) return;
+            SettlementTier oldTier = tier;
             tier = newTier;
             subType = GetRandomSubType(newTier);
             var range = GetStrengthRange(newTier);
@@ -1424,6 +1456,7 @@ namespace TSA_WorldDomination
             defensiveStrength = GetBaseDefensiveStrength();
             lastRadiusUpdateTick = -9999;
             UpdateInterceptorRegistration();
+            StampT4WorldDefensesOnCooldownIfEntering(oldTier, newTier);
         }
 
         public void AddStrength(float amount)
@@ -1547,6 +1580,7 @@ namespace TSA_WorldDomination
         private void PromoteSettlementTierForTraderArrival(SettlementTier newTier, float rewardAmount)
         {
             if (IsOutpost || IsPlayerMapSettlement) return;
+            SettlementTier oldTier = tier;
             tier = newTier;
             subType = GetRandomSubType(newTier);
             FloatRange nr = GetStrengthRange(newTier);
@@ -1554,6 +1588,7 @@ namespace TSA_WorldDomination
             defensiveStrength = GetBaseDefensiveStrength();
             lastRadiusUpdateTick = -9999;
             UpdateInterceptorRegistration();
+            StampT4WorldDefensesOnCooldownIfEntering(oldTier, newTier);
         }
 
         /// <summary>
@@ -1572,6 +1607,7 @@ namespace TSA_WorldDomination
             if (Rand.Value >= Mathf.Clamp01(chance))
                 return InvestmentPromoteResult.FailedRoll;
 
+            SettlementTier oldTier = tier;
             tier = nextTier;
             subType = GetRandomSubType(nextTier);
             FloatRange nr = GetStrengthRange(nextTier);
@@ -1579,6 +1615,7 @@ namespace TSA_WorldDomination
             defensiveStrength = GetBaseDefensiveStrength();
             lastRadiusUpdateTick = -9999;
             UpdateInterceptorRegistration();
+            StampT4WorldDefensesOnCooldownIfEntering(oldTier, nextTier);
             return InvestmentPromoteResult.Promoted;
         }
 
@@ -1650,6 +1687,7 @@ namespace TSA_WorldDomination
                 defensiveStrength = GetBaseDefensiveStrength();
                 lastRadiusUpdateTick = -9999;
                 UpdateInterceptorRegistration();
+                StampT4WorldDefensesOnCooldownIfEntering(oldTier, tier);
             }
         }
 

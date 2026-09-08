@@ -157,6 +157,7 @@
   <TSA_WD_Log_ConquestSettlementFounded>CONQUEST: {0} founded {1} ({2}) after a successful raid.</TSA_WD_Log_ConquestSettlementFounded>
   <TSA_WD_Log_ExpansionCancelled>{0} mission cancelled: Tile occupied or saturated.</TSA_WD_Log_ExpansionCancelled>
   <TSA_WD_Log_ExpeditionLaunched>EXPANSION ATTEMPT: {0} dispatched settlers to establish a new colony.</TSA_WD_Log_ExpeditionLaunched>
+  <TSA_WD_Log_IsolationPressure>ISOLATION PRESSURE: {0} forced to found {1} settlement(s) near you.</TSA_WD_Log_IsolationPressure>
   <TSA_WD_Log_Expand_SkippedGlobalCap>EXPAND: {0} skipped (world NPC settlement count {1} at cap {2}).</TSA_WD_Log_Expand_SkippedGlobalCap>
   <TSA_WD_Log_Expand_SkippedNoValidTile>EXPAND: {0} skipped (no valid tile in range for a new settlement).</TSA_WD_Log_Expand_SkippedNoValidTile>
   <TSA_WD_Log_Grow>GROW: Strength {0} -&gt; {1}</TSA_WD_Log_Grow>
@@ -189,7 +190,7 @@
   <TSA_WD_Log_OutpostUpgradeLaunched>OUTPOST UPGRADE: Caravan launched from {0} to {1} for {2} (level {3}).</TSA_WD_Log_OutpostUpgradeLaunched>
   <TSA_WD_Log_OutpostUpgradeApplied>OUTPOST UPGRADE: {0} completed upgrade {1} (level {2}).</TSA_WD_Log_OutpostUpgradeApplied>
   <TSA_WD_Log_OutpostUpgradeApplyFailed>OUTPOST UPGRADE: {0} failed to apply pending upgrade on arrival.</TSA_WD_Log_OutpostUpgradeApplyFailed>
-  <TSA_WD_Log_Upgrade>UPGRADE: {0} -&gt; {1} ({2} other same-tier faction settlements in range; requires 2, excluding this settlement)</TSA_WD_Log_Upgrade>
+  <TSA_WD_Log_Upgrade>UPGRADE: {0} -&gt; {1} ({2} other same-tier faction settlements in range; requires {3}, excluding this settlement)</TSA_WD_Log_Upgrade>
   <TSA_WD_Log_TileActor>Tile {0}</TSA_WD_Log_TileActor>
   <TSA_WD_Log_Fortify>{0} sent a fortify crew toward tile {1}.</TSA_WD_Log_Fortify>
   <TSA_WD_Log_Fortify_Delegated>{0} ordered fortify via {1} toward tile {2}.</TSA_WD_Log_Fortify_Delegated>

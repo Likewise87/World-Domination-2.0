@@ -289,13 +289,13 @@ namespace TSA_WorldDomination
         public const int DefCapT3 = 2;
         public const int DefCapT4 = 2;
 
-        public const float DefWeightGrow = 240f;
+        public const float DefWeightGrow = 280f;
         public const float DefWeightRaid = 200f;
-        public const float DefWeightMinorIncident = 80f;
-        public const float DefWeightMajorIncident = 16f;
-        public const float DefWeightBuildRoad = 48f;
+        public const float DefWeightMinorIncident = 50f;
+        public const float DefWeightMajorIncident = 8f;
+        public const float DefWeightBuildRoad = 60f;
         public const float DefWeightTrader = 48f;
-        public const float DefWeightFortify = 64f;
+        public const float DefWeightFortify = 80f;
         /// <summary>Settings UI only: whether Develop is folded into the % shown next to usual-action sliders.</summary>
         public const bool DefIncludeDevelopWeightInPercentDisplay = false;
 
@@ -306,7 +306,7 @@ namespace TSA_WorldDomination
         public const float DefCdBeingRaidedDays = 1.0f;
         public const float DefCdIncidentDays = 2.0f;
         public const float DefCdTraderDays = 1.0f;
-        public const float DefCdFortifyDays = 4.0f;
+        public const float DefCdFortifyDays = 0.5f;
 
         // --- NPC FORTIFY (World Actions) ---
         public const int DefFortifyMinTilesFromSelf = 2;
@@ -453,6 +453,13 @@ namespace TSA_WorldDomination
         public const WdThreatStageGate DefGateThreatDesperation = WdThreatStageGate.Always;
         public const WdThreatStageGate DefGateThreatTurtle = WdThreatStageGate.Always;
         public const WdThreatStageGate DefGateThreatStrongFactionWar = WdThreatStageGate.Always;
+        public const WdThreatStageGate DefGateThreatIsolationPressure = WdThreatStageGate.Always;
+        public const float DefIsolationPressureChance = 0.40f;
+        public const float DefIsolationPressureCooldownDays = 7f;
+        public const int DefIsolationPressureMinTiles = 10;
+        public const int DefIsolationPressureMaxTiles = 15;
+        public const int DefIsolationPressureCountMin = 1;
+        public const int DefIsolationPressureCountMax = 2;
         public const bool DefUseSharedSpecialEventCooldown = false;
         public const float DefSharedSpecialEventCooldownDays = 15f;
         public const bool DefEnableDesperationRaid = true;
@@ -476,7 +483,7 @@ namespace TSA_WorldDomination
         public const int DefTurtleMaxPackSettlements = 4;
         public const int DefTurtleMinClusterSize = 2;
         public const int DefTurtleHostilePressureCount = 2;
-        public const float DefTurtlePressureRatio = 2.25f;
+        public const float DefTurtlePressureRatio = 4f;
         public const bool DefEnableExpansionistZeal = true;
 
         public const float DefDurLeaderHandicapDays = 10f;
@@ -707,9 +714,9 @@ namespace TSA_WorldDomination
         /// <summary>Unified attacker/defender ally pull-in radius (tiles). Replaces legacy att/def radii.</summary>
         public const float DefRaidAllyRadius = 6f;
         public const float DefMinRaidRatio = 1.0f;
-        public const float DefRazeChance = 0.35f;
+        public const float DefRazeChance = 0.25f;
         /// <summary>Days a WD raze ruin blocks founding before despawning.</summary>
-        public const float DefRuinLingerDays = 7f;
+        public const float DefRuinLingerDays = 5f;
         /// <summary>Experimental: player map/simulated conquest can roll raze instead of the conquest opportunity menu.</summary>
         public const bool DefExperimentalPlayerConquestRaze = false;
 
@@ -1074,15 +1081,15 @@ namespace TSA_WorldDomination
         public const float DefGenWeightT3 = 4.0f;
         public const float DefGenWeightT4 = 1.0f;
         /// <summary>0 = rarely join existing clusters; 100 = usually try to join when recreating.</summary>
-        public const float DefSettlementTerritoryCoherence = 70f;
+        public const float DefSettlementTerritoryCoherence = 50f;
         /// <summary>0 = pack at min distance; 100 = extra gap of +300% of min distance (4× min total).</summary>
-        public const float DefSettlementTerritorySpacing = 40f;
+        public const float DefSettlementTerritorySpacing = 0f;
         /// <summary>0 = other factions use Spacing only; 100 = Spacing plus +3× min distance vs other factions.</summary>
-        public const float DefSettlementOtherFactionDistance = 40f;
+        public const float DefSettlementOtherFactionDistance = 10f;
         /// <summary>Max same-faction settlements that may join one recreate cluster via cluster chance.</summary>
         public const int DefSettlementMaxPerCluster = 5;
         /// <summary>Min tiles between distinct same-faction clusters when a cluster is full or join fails. 0 = off.</summary>
-        public const int DefSettlementMinDistanceBetweenClusters = 20;
+        public const int DefSettlementMinDistanceBetweenClusters = 10;
         /// <summary>When true, Recreate Settlements also clears NPC road blocks, spike traps, and AT turrets.</summary>
         public const bool DefWorldSetupDestroyFortificationsOnRecreate = false;
 
@@ -1407,10 +1414,17 @@ namespace TSA_WorldDomination
         public WdThreatStageGate gateThreatDesperation = DefGateThreatDesperation;
         public WdThreatStageGate gateThreatTurtle = DefGateThreatTurtle;
         public WdThreatStageGate gateThreatStrongFactionWar = DefGateThreatStrongFactionWar;
+        public WdThreatStageGate gateThreatIsolationPressure = DefGateThreatIsolationPressure;
+        public float isolationPressureChance = DefIsolationPressureChance;
+        public float isolationPressureCooldownDays = DefIsolationPressureCooldownDays;
+        public int isolationPressureMinTiles = DefIsolationPressureMinTiles;
+        public int isolationPressureMaxTiles = DefIsolationPressureMaxTiles;
+        public int isolationPressureCountMin = DefIsolationPressureCountMin;
+        public int isolationPressureCountMax = DefIsolationPressureCountMax;
         /// <summary>0 = legacy bools not yet migrated to threat stage gates.</summary>
         public int threatStageGatesVersion = 0;
         /// <summary>
-        /// One-time Strategy / Turtle pressure retunes. 0 = none; 1 = Strategy gate/likelihood/CD; 2 = pressure ratio 1.66; 3 = 2.0; 4 = 2.25.
+        /// One-time Strategy / Turtle pressure retunes. 0 = none; 1 = Strategy gate/likelihood/CD; 2 = pressure ratio 1.66; 3 = 2.0; 4 = 2.25; 5 = 3.0; 6 = 4.0.
         /// </summary>
         public int settlementLossStrategyMigrateVersion = 0;
         public bool useSharedSpecialEventCooldown = DefUseSharedSpecialEventCooldown;
@@ -2589,6 +2603,13 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref gateThreatDesperation, "gateThreatDesperation", DefGateThreatDesperation);
             Scribe_Values.Look(ref gateThreatTurtle, "gateThreatTurtle", DefGateThreatTurtle);
             Scribe_Values.Look(ref gateThreatStrongFactionWar, "gateThreatStrongFactionWar", DefGateThreatStrongFactionWar);
+            Scribe_Values.Look(ref gateThreatIsolationPressure, "gateThreatIsolationPressure", DefGateThreatIsolationPressure);
+            Scribe_Values.Look(ref isolationPressureChance, "isolationPressureChance", DefIsolationPressureChance);
+            Scribe_Values.Look(ref isolationPressureCooldownDays, "isolationPressureCooldownDays", DefIsolationPressureCooldownDays);
+            Scribe_Values.Look(ref isolationPressureMinTiles, "isolationPressureMinTiles", DefIsolationPressureMinTiles);
+            Scribe_Values.Look(ref isolationPressureMaxTiles, "isolationPressureMaxTiles", DefIsolationPressureMaxTiles);
+            Scribe_Values.Look(ref isolationPressureCountMin, "isolationPressureCountMin", DefIsolationPressureCountMin);
+            Scribe_Values.Look(ref isolationPressureCountMax, "isolationPressureCountMax", DefIsolationPressureCountMax);
             Scribe_Values.Look(ref threatStageGatesVersion, "threatStageGatesVersion", 0);
             Scribe_Values.Look(ref settlementLossStrategyMigrateVersion, "settlementLossStrategyMigrateVersion", 0);
             Scribe_Values.Look(ref useSharedSpecialEventCooldown, "useSharedSpecialEventCooldown", DefUseSharedSpecialEventCooldown);
@@ -4465,10 +4486,17 @@ namespace TSA_WorldDomination
             gateThreatDesperation = DefGateThreatDesperation;
             gateThreatTurtle = DefGateThreatTurtle;
             gateThreatStrongFactionWar = DefGateThreatStrongFactionWar;
+            gateThreatIsolationPressure = DefGateThreatIsolationPressure;
+            isolationPressureChance = DefIsolationPressureChance;
+            isolationPressureCooldownDays = DefIsolationPressureCooldownDays;
+            isolationPressureMinTiles = DefIsolationPressureMinTiles;
+            isolationPressureMaxTiles = DefIsolationPressureMaxTiles;
+            isolationPressureCountMin = DefIsolationPressureCountMin;
+            isolationPressureCountMax = DefIsolationPressureCountMax;
             fallBackToInvasionIfVanguardClusterFails = DefFallBackToInvasionIfVanguardClusterFails;
             vanguardVsInvasionPickChance = DefVanguardVsInvasionPickChance;
             threatStageGatesVersion = 3;
-            settlementLossStrategyMigrateVersion = 2;
+            settlementLossStrategyMigrateVersion = 6;
 
             enableStrongFactionWar = DefEnableStrongFactionWar;
             strongFactionWarChance = DefStrongFactionWarChance;
@@ -4698,8 +4726,26 @@ namespace TSA_WorldDomination
                 const float oldPressureDef166 = 1.66f;
                 const float oldPressureDef200 = 2.0f;
                 if (Approx(turtlePressureRatio, oldPressureDef166) || Approx(turtlePressureRatio, oldPressureDef200))
-                    turtlePressureRatio = DefTurtlePressureRatio;
+                    turtlePressureRatio = 2.25f;
                 settlementLossStrategyMigrateVersion = 4;
+            }
+
+            if (settlementLossStrategyMigrateVersion < 5)
+            {
+                // Retune 5: Def 2.25 → 3.0 (300%). Leave customized ratios alone.
+                const float oldPressureDef225 = 2.25f;
+                if (Approx(turtlePressureRatio, oldPressureDef225))
+                    turtlePressureRatio = 3.0f;
+                settlementLossStrategyMigrateVersion = 5;
+            }
+
+            if (settlementLossStrategyMigrateVersion < 6)
+            {
+                // Retune 6: Def 3.0 → 4.0 (400%). Leave customized ratios alone.
+                const float oldPressureDef300 = 3.0f;
+                if (Approx(turtlePressureRatio, oldPressureDef300))
+                    turtlePressureRatio = DefTurtlePressureRatio;
+                settlementLossStrategyMigrateVersion = 6;
             }
         }
 

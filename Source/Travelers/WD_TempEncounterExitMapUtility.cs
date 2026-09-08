@@ -1,3 +1,4 @@
+using RimWorld;
 using Verse;
 
 namespace TSA_WorldDomination
@@ -8,6 +9,9 @@ namespace TSA_WorldDomination
     /// </summary>
     public static class WD_TempEncounterExitMapUtility
     {
+        private const int BlockedMessageThrottleTicks = 300;
+        private static int lastBlockedMessageTick = -999999;
+
         public static bool BlocksPlayerEdgeExit(Map map)
         {
             if (map == null) return false;
@@ -21,6 +25,29 @@ namespace TSA_WorldDomination
                 return true;
 
             return false;
+        }
+
+        /// <summary>
+        /// Player-faction pawns only. Enemies may still leave via their own exit toils.
+        /// </summary>
+        public static bool ShouldBlockPawnExit(Pawn pawn)
+        {
+            if (pawn == null || !pawn.Spawned) return false;
+            if (pawn.Faction == null || !pawn.Faction.IsPlayer) return false;
+            return BlocksPlayerEdgeExit(pawn.Map);
+        }
+
+        public static void NotifyBlocked(Pawn pawn)
+        {
+            int now = Find.TickManager?.TicksGame ?? 0;
+            if (now - lastBlockedMessageTick < BlockedMessageThrottleTicks)
+                return;
+            lastBlockedMessageTick = now;
+            Messages.Message(
+                "TSA_WD_TempEncounter_EdgeExitBlocked".Translate(),
+                pawn,
+                MessageTypeDefOf.RejectInput,
+                historical: false);
         }
 
         /// <summary>

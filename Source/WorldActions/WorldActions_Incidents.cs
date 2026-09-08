@@ -73,8 +73,11 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            // 3. Tier update: demote at most one level per incident (destruction above if strength went negative).
-            comp.CheckTierUpdateLimitedDemotion(1);
+            // 3. Tier update: major may demote at most one level; minor never demotes (strength may sit below band min).
+            if (isMajor)
+                comp.CheckTierUpdateLimitedDemotion(1);
+            else
+                comp.CheckTierUpdate(allowDemotion: false);
 
             if (comp.tier < oldTier)
             {

@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_19_Title>Balancing and bugfixes</TSA_WD_Update_2_3_19_Title>
+  <TSA_WD_Update_2_3_19_Body><![CDATA[
+<size=16><b>2.3.19 – Balancing and bugfixes</b></size>\n
+<color=#00FFFFFF>Release date: September 8th 2026</color>\n
+------------------------------\n
+• Fixes a critical bug causing the patch preventing you from leaving an active outpost defense or caravan clash to cause severe lag.\n
+• Highly recommend to reset the mod settings at least for World Actions and Combat Difficulty.\n
+• Changed fortification logic: settlements will now build defensive rings around themselves similar to the final result of a Turtle action, but one by one. The random placement was tactically not helpful in many cases.\n
+• If you have no enemies nearby, hostile NPC factions will expand towards you even in the early game (tweak in Combat Difficulty settings).\n
+• Many tweaks to the Turtle action. Higher eligibility gates. Forming fewer T4 settlements, which can be a nuisance in the early game.\n
+• Incidents are now rarer. Settlements are razed through raids less often. Ruins stay shorter.\n
+]]></TSA_WD_Update_2_3_19_Body>
   <TSA_WD_Update_2_3_18_Title>Hotfix — Turtle cluster vs threat radii</TSA_WD_Update_2_3_18_Title>
   <TSA_WD_Update_2_3_18_Body><![CDATA[
 <size=16><b>2.3.18 – Hotfix</b></size>\n

@@ -183,7 +183,7 @@
   <TSA_WD_Log_OutpostUpgradeLaunched>MEJORA DE PUESTO: Caravana lanzada de {0} a {1} para {2} (nivel {3}).</TSA_WD_Log_OutpostUpgradeLaunched>
   <TSA_WD_Log_OutpostUpgradeApplied>MEJORA DE PUESTO: {0} completó la mejora {1} (nivel {2}).</TSA_WD_Log_OutpostUpgradeApplied>
   <TSA_WD_Log_OutpostUpgradeApplyFailed>MEJORA DE PUESTO: {0} no pudo aplicar la mejora pendiente al llegar.</TSA_WD_Log_OutpostUpgradeApplyFailed>
-  <TSA_WD_Log_Upgrade>MEJORA: {0} -&gt; {1} ({2} asentamientos de facción del mismo nivel en rango; se requieren al menos 2 aparte de este)</TSA_WD_Log_Upgrade>
+  <TSA_WD_Log_Upgrade>MEJORA: {0} -&gt; {1} ({2} asentamientos de facción del mismo nivel en rango; se requieren al menos {3} aparte de este)</TSA_WD_Log_Upgrade>
   <TSA_WD_Log_TileActor>Baldosa {0}</TSA_WD_Log_TileActor>
   <TSA_WD_Log_Fortify>{0} envió una cuadrilla de fortificación hacia la baldosa {1}.</TSA_WD_Log_Fortify>
   <TSA_WD_Log_Fortify_Delegated>{0} ordenó fortificar vía {1} hacia la baldosa {2}.</TSA_WD_Log_Fortify_Delegated>

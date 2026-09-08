@@ -175,6 +175,8 @@ namespace TSA_WorldDomination
         public bool fortifyIsTrap;
         public SpikeTrapKind fortifySpikeTrapKind = SpikeTrapKind.Spike;
         public RoadBlockKind fortifyRoadBlockKind = RoadBlockKind.Light;
+        /// <summary>Isolation Pressure forced expand: stamp founding raid/defense shields on arrival.</summary>
+        public bool isolationPressureExpand;
 
         // --- SURGICAL: Road Path Caching for Travelers ---
         public List<int> cachedPathTiles = new List<int>();
@@ -357,9 +359,16 @@ namespace TSA_WorldDomination
         /// <summary>World-map / UI icon path for this traveler instance (defs may share a class; subclasses can override for mode-specific art).</summary>
         public virtual string? ResolveIconTexturePath()
         {
-            // Turtle packs into hubs — same visual language as expansion caravans (raid def is only the vehicle).
+            // Turtle uses the Raid def as the spawn vehicle; Vanguard / Invasion reuse raid or rally defs.
             if (mission == TravelerMission.TurtleConsolidate)
-                return "WorldObjects/Caravan_Expansion";
+                return "WorldObjects/Caravan_Turtle";
+            if (mission == TravelerMission.MassRelocation)
+                return "WorldObjects/Caravan_Vanguard";
+            if (mission == TravelerMission.Raid && isInvasionRaid)
+                return "WorldObjects/Caravan_Invasion";
+            // Invasion assembly / host wait still uses DesperationRally mission for save compat.
+            if (mission == TravelerMission.DesperationRally && !isDesperationRaid)
+                return "WorldObjects/Caravan_Invasion";
             return GetIconTexturePathFromDef(def);
         }
 
@@ -1319,6 +1328,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref fortifyIsTrap, "fortifyIsTrap", false);
             Scribe_Values.Look(ref fortifySpikeTrapKind, "fortifySpikeTrapKind", SpikeTrapKind.Spike);
             Scribe_Values.Look(ref fortifyRoadBlockKind, "fortifyRoadBlockKind", RoadBlockKind.Light);
+            Scribe_Values.Look(ref isolationPressureExpand, "isolationPressureExpand", false);
             Scribe_Values.Look(ref spawnTick, "spawnTick");
             Scribe_Values.Look(ref mortarDamage, "mortarDamage", 0f);
             Scribe_Values.Look(ref mortarHit, "mortarHit", true);

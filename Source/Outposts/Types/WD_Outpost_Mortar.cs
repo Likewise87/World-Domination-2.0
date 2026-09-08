@@ -398,8 +398,9 @@ namespace TSA_WorldDomination
             return Mathf.Clamp(ov, min, max);
         }
 
-        private static void ApplyNpcMortarCooldown(CompViralSpread comp)
+        public static void ApplyNpcMortarCooldown(CompViralSpread comp)
         {
+            if (comp == null) return;
             float days = Mathf.Max(0.1f, WorldDominationMod.settings?.npcMortarCooldownDays ?? WorldDominationSettings.DefNpcMortarCooldownDays);
             comp.mortarCooldownTick = Find.TickManager.TicksGame + Mathf.RoundToInt(days * 60000f);
         }

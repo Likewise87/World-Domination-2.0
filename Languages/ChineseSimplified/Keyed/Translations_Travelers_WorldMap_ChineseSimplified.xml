@@ -183,7 +183,7 @@
   <TSA_WD_Log_OutpostUpgradeLaunched>前哨升级:商队从 {0} 前往 {1},运送 {2}(等级 {3})。</TSA_WD_Log_OutpostUpgradeLaunched>
   <TSA_WD_Log_OutpostUpgradeApplied>前哨升级:{0} 已完成升级 {1}(等级 {2})。</TSA_WD_Log_OutpostUpgradeApplied>
   <TSA_WD_Log_OutpostUpgradeApplyFailed>前哨升级:{0} 抵达时未能应用待定升级。</TSA_WD_Log_OutpostUpgradeApplyFailed>
-  <TSA_WD_Log_Upgrade>升级:{0} -&gt; {1}（范围内另有 {2} 个同等级己方定居点；至少需 2 个，不含正在升级的这个）</TSA_WD_Log_Upgrade>
+  <TSA_WD_Log_Upgrade>升级:{0} -&gt; {1}（范围内另有 {2} 个同等级己方定居点；至少需 {3} 个，不含正在升级的这个）</TSA_WD_Log_Upgrade>
   <TSA_WD_Log_TileActor>地块 {0}</TSA_WD_Log_TileActor>
   <TSA_WD_Log_Fortify>{0} 向地块 {1} 派出了设防施工队。</TSA_WD_Log_Fortify>
   <TSA_WD_Log_Fortify_Delegated>{0} 通过 {1} 下令向地块 {2} 设防。</TSA_WD_Log_Fortify_Delegated>

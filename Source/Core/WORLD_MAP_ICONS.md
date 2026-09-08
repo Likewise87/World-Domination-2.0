@@ -38,3 +38,18 @@ Vanilla draws world objects in two layers. Mixing their textures is what made ou
 - **Suppressing the globe mesh for WD outposts / travelers / settlements:** use isolated `Patch_WdWorldObjectNoExpandingIcon` (TransitionPct=1 **plus** both Expandable/NonExpandable `ShouldSkip` so Material never draws), gated by Notifications settings toggles (default on). That keeps the upright expanding icon at every zoom and avoids the planet-tangent / double-image look. Do not point Material at outpost-type art as a substitute.
 - **Close-zoom disappearing icons:** vanilla fades expanding icons at `WorldCameraZoomRange.VeryClose` and shows Material instead. With Material skipped, icons must stay. Also patch `WorldObjectSelectionUtility.HiddenBehindTerrainNow`: near the surface the camera–icon chord clips inside the planet sphere (`obstructsExpandingIcons`), so the hide test false-positives and blanks every upright icon. Bypass that hide only at Close/VeryClose for ForceFixedIcon objects that are on the **camera-facing hemisphere** (`Dot(DrawPos, camPos) > 0`); keep far-side hide so icons do not show through the planet. At Far/VeryFar leave vanilla hide alone.
 - Road-block `DrawQuadTangentialToPlanet` rotation and FlakSmoke `GUI.matrix` rotation were red herrings for this bug.
+
+## Traveler expanding / Material icons (`ResolveIconTexturePath`)
+
+`WorldObject_Traveler` resolves art per instance (shared defs, mission flags). Both `ExpandingIcon` and `Material` use `ResolveIconTexturePath()` (cached; call `InvalidateTravelerMaterialCache` if the path can change after spawn).
+
+| Traveler | Path |
+|----------|------|
+| Turtle consolidate | `WorldObjects/Caravan_Turtle` (Raid def is only the spawn vehicle) |
+| Vanguard mass relocation | `WorldObjects/Caravan_Vanguard` (also on `TSA_WD_Traveler_MassRelocation` XML) |
+| Invasion land raid (`isInvasionRaid`) | `WorldObjects/Caravan_Invasion` |
+| Invasion rally / host (`DesperationRally` + `!isDesperationRaid`) | `WorldObjects/Caravan_Invasion` |
+| Invasion drop-pod / gravship | Keep def `DropPod_Raiders` / `Gravship_Raiders` |
+| Else | Def `expandingIconTexture` / `texture` |
+
+Do not point traveler `Material` at settlement art. Keep mission overrides in `ResolveIconTexturePath`, not one-off XML defs per flag.

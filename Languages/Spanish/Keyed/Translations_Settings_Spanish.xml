@@ -94,7 +94,7 @@
   <TSA_WD_Combat_TurtlePressure>Presión hostil requerida</TSA_WD_Combat_TurtlePressure>
   <TSA_WD_Combat_TurtlePressureTooltip>Número de asentamientos hostiles o colonias/puestos del jugador a 15 casillas o menos de cualquier sitio del grupo para consolidarse. Los aliados forman grupo si están enlazados a 20 casillas o menos.</TSA_WD_Combat_TurtlePressureTooltip>
   <TSA_WD_Combat_TurtlePressureRatio>Ratio de presión regional</TSA_WD_Combat_TurtlePressureRatio>
-  <TSA_WD_Combat_TurtlePressureRatioTooltip>Fuerza ofensiva hostil a 15 casillas o menos de cualquier sitio del grupo, dividida por la fuerza ofensiva del propio grupo. Los sitios aliados forman un grupo si están enlazados a 20 casillas o menos. Turtle diario y Estrategia ante pérdida exigen este ratio (p. ej. 225% = los hostiles tienen 2,25× la fuerza del grupo).</TSA_WD_Combat_TurtlePressureRatioTooltip>
+  <TSA_WD_Combat_TurtlePressureRatioTooltip>Fuerza ofensiva hostil a 15 casillas o menos de cualquier sitio del grupo, dividida por la fuerza ofensiva del propio grupo. Los sitios aliados forman un grupo si están enlazados a 20 casillas o menos. Turtle diario y Estrategia ante pérdida exigen este ratio (p. ej. 400% = los hostiles tienen 4× la fuerza del grupo).</TSA_WD_Combat_TurtlePressureRatioTooltip>
   <TSA_WD_Combat_GateTurtleTip>Puerta de etapa para consolidación defensiva. Siempre = desde el inicio. Nunca = desactivado.</TSA_WD_Combat_GateTurtleTip>
   <TSA_WD_Combat_TurtleNotify>Avisar cuando se inicie una consolidación defensiva</TSA_WD_Combat_TurtleNotify>
   <TSA_WD_Combat_TurtleNotifyTooltip>Envía una carta cuando una facción cercana consolida y fortifica un núcleo.</TSA_WD_Combat_TurtleNotifyTooltip>

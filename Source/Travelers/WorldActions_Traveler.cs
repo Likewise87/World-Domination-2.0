@@ -1716,6 +1716,8 @@ namespace TSA_WorldDomination
                 comp.strength = traveler.travelerStrength;
                 if (comp.strength < 10f) comp.strength = 10f;
                 comp.CheckTierUpdate();
+                if (traveler.isolationPressureExpand)
+                    CompViralSpread.ApplyNpcSettlementFoundingShields(newS);
             }
 
             // Always log success when a settlement was placed (comp setup is independent of visibility).

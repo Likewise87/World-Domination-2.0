@@ -61,40 +61,10 @@ namespace TSA_WorldDomination
                 defaultValue: WorldDominationSettings.DefIncludeDevelopWeightInPercentDisplay);
             }
 
-            // 2. NPC FORTIFY - core
+            // 2. NPC FORTIFY - core (turtle-kit rings; legacy ring/type/frontier knobs stay scribed, not shown)
             l.Gap(12f);
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Daily_HeaderFortify".Translate(), ref fortifyExpanded, SettingsUI.SectionHeaderColor))
             {
-                s.fortifyMinTilesFromSelf = (int)SettingsUI.LabeledSlider(l,
-                    "TSA_WD_Fortify_MinFromSelf".Translate(),
-                    s.fortifyMinTilesFromSelf, 1f, 20f,
-                    "TSA_WD_Fortify_MinFromSelfTip".Translate(),
-                    1f, SliderFormat.Fixed0, WorldDominationSettings.DefFortifyMinTilesFromSelf);
-                s.fortifyMinTilesFromOtherSettlement = (int)SettingsUI.LabeledSlider(l,
-                    "TSA_WD_Fortify_MinFromOther".Translate(),
-                    s.fortifyMinTilesFromOtherSettlement, 0f, 20f,
-                    "TSA_WD_Fortify_MinFromOtherTip".Translate(),
-                    1f, SliderFormat.Fixed0, WorldDominationSettings.DefFortifyMinTilesFromOtherSettlement);
-                s.fortifyMaxTilesFromSelf = (int)SettingsUI.LabeledSlider(l,
-                    "TSA_WD_Fortify_MaxFromSelf".Translate(),
-                    s.fortifyMaxTilesFromSelf, 2f, 30f,
-                    "TSA_WD_Fortify_MaxFromSelfTip".Translate(),
-                    1f, SliderFormat.Fixed0, WorldDominationSettings.DefFortifyMaxTilesFromSelf);
-                if (s.fortifyMaxTilesFromSelf < s.fortifyMinTilesFromSelf)
-                    s.fortifyMaxTilesFromSelf = s.fortifyMinTilesFromSelf;
-
-                s.fortifyMaxTravelTiles = (int)SettingsUI.LabeledSlider(l,
-                    "TSA_WD_Fortify_MaxTravel".Translate(),
-                    s.fortifyMaxTravelTiles, 5f, 80f,
-                    "TSA_WD_Fortify_MaxTravelTip".Translate(),
-                    1f, SliderFormat.Fixed0, WorldDominationSettings.DefFortifyMaxTravelTiles);
-
-                s.fortifyTerritoryLinkMaxTiles = (int)SettingsUI.LabeledSlider(l,
-                    "TSA_WD_Fortify_TerritoryLink".Translate(),
-                    s.fortifyTerritoryLinkMaxTiles, 10f, 80f,
-                    "TSA_WD_Fortify_TerritoryLinkTip".Translate(),
-                    1f, SliderFormat.Fixed0, WorldDominationSettings.DefFortifyTerritoryLinkMaxTiles);
-
                 s.fortifyTravelerStrength = SettingsUI.LabeledSlider(l,
                     "TSA_WD_Fortify_TravelerStrength".Translate(),
                     s.fortifyTravelerStrength, 10f, 200f,
@@ -117,24 +87,6 @@ namespace TSA_WorldDomination
                         "TSA_WD_Fortify_BlacklistApplyNeutralTip".Translate(),
                         defaultValue: WorldDominationSettings.DefFortifyBlacklistApplyToNeutral);
                 }
-
-                l.Gap(8f);
-                SettingsUI.DrawHeader(l, "TSA_WD_Fortify_HeaderTypeChances".Translate());
-                float fortifyTypePool = Mathf.Max(1f, s.fortifyChanceRoadBlock + s.fortifyChanceTrap + s.fortifyChanceTurret);
-                s.fortifyChanceRoadBlock = SettingsUI.WeightSlider(l,
-                    "TSA_WD_Fortify_ChanceRoadBlock".Translate(),
-                    s.fortifyChanceRoadBlock, fortifyTypePool, 0f, 200f,
-                    "TSA_WD_Fortify_ChanceRoadBlockTip".Translate(), WorldDominationSettings.DefFortifyChanceRoadBlock);
-                fortifyTypePool = Mathf.Max(1f, s.fortifyChanceRoadBlock + s.fortifyChanceTrap + s.fortifyChanceTurret);
-                s.fortifyChanceTrap = SettingsUI.WeightSlider(l,
-                    "TSA_WD_Fortify_ChanceTrap".Translate(),
-                    s.fortifyChanceTrap, fortifyTypePool, 0f, 200f,
-                    "TSA_WD_Fortify_ChanceTrapTip".Translate(), WorldDominationSettings.DefFortifyChanceTrap);
-                fortifyTypePool = Mathf.Max(1f, s.fortifyChanceRoadBlock + s.fortifyChanceTrap + s.fortifyChanceTurret);
-                s.fortifyChanceTurret = SettingsUI.WeightSlider(l,
-                    "TSA_WD_Fortify_ChanceTurret".Translate(),
-                    s.fortifyChanceTurret, fortifyTypePool, 0f, 200f,
-                    "TSA_WD_Fortify_ChanceTurretTip".Translate(), WorldDominationSettings.DefFortifyChanceTurret);
 
                 l.Gap(8f);
                 SettingsUI.DrawHeader(l, "TSA_WD_Fortify_HeaderMultiCaravan".Translate());

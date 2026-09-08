@@ -17,7 +17,7 @@ namespace TSA_WorldDomination
         public int arrived;
         public int deadlineTick;
         public bool fortified;
-        /// <summary>Settlement IDs that received at least one deposit (primary + overflow T3s).</summary>
+        /// <summary>Settlement IDs that received at least one deposit (primary + dig-in overflow hubs).</summary>
         public List<int> depositHubIds = new List<int>();
 
         public void ExposeData()
@@ -35,9 +35,10 @@ namespace TSA_WorldDomination
     }
 
     /// <summary>
-    /// Proactive turtle consolidate: threatened cluster packs weak outer leaves (T1/T2) into a
-    /// T4 hub first (fill to cap without badly wasting strength), with overflow to nearby T3s.
-    /// Deposits promote hub tier by strength thresholds. T3/T4 do not pack as leaves.
+    /// Proactive turtle consolidate: threatened cluster packs outer leaves (T1/T2, offense ≥ <see cref="MinTurtleLeafOffense"/>)
+    /// into existing dig-in hubs (primary, in-cluster T3/T4, and up to <see cref="MaxReservedT2Vessels"/> strong T2 vessels).
+    /// Prefers filling to T3 cap so consolidate spreads toward multiple T3s (ally-radius reinforcements); rare last-resort
+    /// overflow may use T4-cap room on an existing hub. T3/T4 do not pack as leaves. No turtle founding.
     /// Own per-faction cooldown. At most one cluster per day.
     /// Cluster membership: connected component among a faction's sites with edge ≤ <see cref="ClusterEdgeTiles"/>.
     /// </summary>
@@ -50,6 +51,10 @@ namespace TSA_WorldDomination
         /// </summary>
         public const float ClusterThreatBandTiles = 15f;
         public const float TurtleWaitDays = 2f;
+        /// <summary>Leaf/migrant offensive strength below this is not worth packing.</summary>
+        public const float MinTurtleLeafOffense = 400f;
+        /// <summary>Strongest in-cluster T2s reserved as dig-in vessels (excluded from the leaf pool).</summary>
+        private const int MaxReservedT2Vessels = 2;
         /// <summary>Allow a leaf to dump into a nearly-full hub if waste is at most this fraction of the leaf (or <see cref="MaxAbsWaste"/>).</summary>
         private const float MaxWasteFraction = 0.2f;
         private const float MaxAbsWaste = 75f;
@@ -58,6 +63,12 @@ namespace TSA_WorldDomination
         private static readonly List<List<Settlement>> tmpClusters = new List<List<Settlement>>();
         private static readonly HashSet<int> tmpSeen = new HashSet<int>();
         private static readonly Queue<Settlement> tmpBfs = new Queue<Settlement>();
+        private static readonly HashSet<Settlement> tmpExcludeDest = new HashSet<Settlement>();
+        private static readonly List<Settlement> tmpDigIns = new List<Settlement>();
+        private static readonly List<Settlement> tmpT2Candidates = new List<Settlement>();
+        private static readonly List<Settlement> tmpDestinations = new List<Settlement>();
+        private static readonly Dictionary<int, float> tmpPreferRoom = new Dictionary<int, float>();
+        private static readonly Dictionary<int, float> tmpT4Room = new Dictionary<int, float>();
 
         public static bool IsTurtleTraveler(WorldObject_Traveler t) =>
             t != null && t.mission == TravelerMission.TurtleConsolidate;
@@ -207,7 +218,8 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Reactive: pack any-tier migrants outside ally radius into the host (and T3 overflow destinations in-cluster).
+        /// Reactive: pack migrants outside ally radius (offense ≥ <see cref="MinTurtleLeafOffense"/>) into existing
+        /// dig-in destinations (host, non-migrant T3/T4, reserved strong T2 vessels). Prefer T3 room; rare T4 overflow.
         /// No daily max-pack cap. Sites that cannot fit without bad waste are left alone.
         /// </summary>
         private static List<(Settlement leaf, Settlement dest)> BuildReactiveMigrantAssignments(
@@ -217,58 +229,31 @@ namespace TSA_WorldDomination
             if (cluster == null || primaryHub == null || migrants == null || migrants.Count < 1)
                 return result;
 
-            var destinations = new List<Settlement> { primaryHub };
+            tmpExcludeDest.Clear();
+            for (int i = 0; i < migrants.Count; i++)
+            {
+                Settlement m = migrants[i];
+                if (m != null) tmpExcludeDest.Add(m);
+            }
+
+            BuildDigInDestinationList(cluster, primaryHub, tmpExcludeDest, tmpDestinations);
+            InitTurtleRoomMaps(tmpDestinations, tmpPreferRoom, tmpT4Room);
+
             int primaryTile = primaryHub.Tile.tileId;
-            var overflow = new List<Settlement>();
-            for (int i = 0; i < cluster.Count; i++)
+            var leaves = new List<Settlement>();
+            for (int i = 0; i < migrants.Count; i++)
             {
-                Settlement s = cluster[i];
-                if (s == null || s.Destroyed || s == primaryHub) continue;
-                if (migrants.Contains(s)) continue; // migrants leave; they are not overflow hubs
-                var c = s.GetComponent<CompViralSpread>();
-                if (c == null || c.tier != SettlementTier.T3) continue;
-                overflow.Add(s);
+                Settlement leaf = migrants[i];
+                if (leaf == null || leaf.Destroyed) continue;
+                float off = leaf.GetComponent<CompViralSpread>()?.offensiveStrength ?? 0f;
+                if (off < MinTurtleLeafOffense) continue;
+                leaves.Add(leaf);
             }
-            overflow.Sort((a, b) =>
-                Find.WorldGrid.ApproxDistanceInTiles(primaryTile, a.Tile.tileId)
-                    .CompareTo(Find.WorldGrid.ApproxDistanceInTiles(primaryTile, b.Tile.tileId)));
-            destinations.AddRange(overflow);
-
-            var remainingRoom = new Dictionary<int, float>();
-            for (int i = 0; i < destinations.Count; i++)
-            {
-                Settlement d = destinations[i];
-                remainingRoom[d.ID] = OffensiveRoomToT4Cap(d.GetComponent<CompViralSpread>());
-            }
-
-            var leaves = new List<Settlement>(migrants);
             leaves.Sort((a, b) =>
                 Find.WorldGrid.ApproxDistanceInTiles(primaryTile, a.Tile.tileId)
                     .CompareTo(Find.WorldGrid.ApproxDistanceInTiles(primaryTile, b.Tile.tileId)));
 
-            for (int i = 0; i < leaves.Count; i++)
-            {
-                Settlement leaf = leaves[i];
-                if (leaf == null || leaf.Destroyed) continue;
-                float leafOff = Mathf.Max(10f, leaf.GetComponent<CompViralSpread>()?.offensiveStrength ?? 0f);
-
-                Settlement dest = null;
-                for (int d = 0; d < destinations.Count; d++)
-                {
-                    Settlement cand = destinations[d];
-                    if (!remainingRoom.TryGetValue(cand.ID, out float room)) continue;
-                    if (!FitsWithoutBadWaste(room, leafOff)) continue;
-                    dest = cand;
-                    break;
-                }
-
-                if (dest == null) continue;
-
-                float absorb = Mathf.Min(leafOff, remainingRoom[dest.ID]);
-                remainingRoom[dest.ID] = Mathf.Max(0f, remainingRoom[dest.ID] - absorb);
-                result.Add((leaf, dest));
-            }
-
+            AssignLeavesToDigIns(leaves, tmpDestinations, tmpPreferRoom, tmpT4Room, maxPack: int.MaxValue, result);
             return result;
         }
 
@@ -449,8 +434,8 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Pack only T1/T2 leaves. Fill primary (prefer T4) without badly overspending; overflow to nearby T3s.
-        /// Leaves that cannot fit any destination without large waste are left alone.
+        /// Pack T1/T2 leaves (offense ≥ <see cref="MinTurtleLeafOffense"/>) into existing dig-ins: primary, T3/T4,
+        /// and reserved strong T2 vessels. Prefer T3-cap room; last-resort T4-cap room on the same existing hubs.
         /// </summary>
         private static List<(Settlement leaf, Settlement dest)> BuildLeafAssignments(
             List<Settlement> cluster, Settlement primaryHub, WorldDominationSettings seth)
@@ -458,39 +443,22 @@ namespace TSA_WorldDomination
             var result = new List<(Settlement leaf, Settlement dest)>();
             if (cluster == null || primaryHub == null) return result;
 
-            var destinations = new List<Settlement> { primaryHub };
+            BuildDigInDestinationList(cluster, primaryHub, excludeAsDest: null, tmpDestinations);
+            InitTurtleRoomMaps(tmpDestinations, tmpPreferRoom, tmpT4Room);
+
             int primaryTile = primaryHub.Tile.tileId;
-            var overflow = new List<Settlement>();
-            for (int i = 0; i < cluster.Count; i++)
-            {
-                Settlement s = cluster[i];
-                if (s == null || s.Destroyed || s == primaryHub) continue;
-                var c = s.GetComponent<CompViralSpread>();
-                if (c == null || c.tier != SettlementTier.T3) continue;
-                overflow.Add(s);
-            }
-            overflow.Sort((a, b) =>
-                Find.WorldGrid.ApproxDistanceInTiles(primaryTile, a.Tile.tileId)
-                    .CompareTo(Find.WorldGrid.ApproxDistanceInTiles(primaryTile, b.Tile.tileId)));
-            destinations.AddRange(overflow);
-
-            var remainingRoom = new Dictionary<int, float>();
-            for (int i = 0; i < destinations.Count; i++)
-            {
-                Settlement d = destinations[i];
-                remainingRoom[d.ID] = OffensiveRoomToT4Cap(d.GetComponent<CompViralSpread>());
-            }
-
+            var destSet = new HashSet<Settlement>(tmpDestinations);
             var leaves = new List<Settlement>();
             for (int i = 0; i < cluster.Count; i++)
             {
                 Settlement s = cluster[i];
                 if (s == null || s.Destroyed || s == primaryHub) continue;
-                if (destinations.Contains(s)) continue; // T3 overflow targets stay
+                if (destSet.Contains(s)) continue; // dig-in vessels stay
                 var c = s.GetComponent<CompViralSpread>();
                 if (c == null) continue;
                 // T3/T4 dig in — they do not pack up for turtle.
                 if (c.tier >= SettlementTier.T3) continue;
+                if (c.offensiveStrength < MinTurtleLeafOffense) continue;
                 leaves.Add(s);
             }
 
@@ -499,31 +467,141 @@ namespace TSA_WorldDomination
                     .CompareTo(Find.WorldGrid.ApproxDistanceInTiles(primaryTile, b.Tile.tileId)));
 
             int maxPack = Mathf.Max(1, seth.turtleMaxPackSettlements);
+            AssignLeavesToDigIns(leaves, tmpDestinations, tmpPreferRoom, tmpT4Room, maxPack, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Primary + in-cluster T3/T4 + up to <see cref="MaxReservedT2Vessels"/> strongest T2 vessels (not primary, not excluded).
+        /// Non-primary dig-ins sorted nearest-first to the primary.
+        /// </summary>
+        private static void BuildDigInDestinationList(
+            List<Settlement> cluster,
+            Settlement primaryHub,
+            HashSet<Settlement> excludeAsDest,
+            List<Settlement> destinationsOut)
+        {
+            destinationsOut.Clear();
+            if (primaryHub == null) return;
+            destinationsOut.Add(primaryHub);
+
+            tmpDigIns.Clear();
+            tmpT2Candidates.Clear();
+            for (int i = 0; i < cluster.Count; i++)
+            {
+                Settlement s = cluster[i];
+                if (s == null || s.Destroyed || s == primaryHub) continue;
+                if (excludeAsDest != null && excludeAsDest.Contains(s)) continue;
+                var c = s.GetComponent<CompViralSpread>();
+                if (c == null) continue;
+                if (c.tier >= SettlementTier.T3)
+                    tmpDigIns.Add(s);
+                else if (c.tier == SettlementTier.T2)
+                    tmpT2Candidates.Add(s);
+            }
+
+            tmpT2Candidates.Sort((a, b) =>
+            {
+                float oa = a.GetComponent<CompViralSpread>()?.offensiveStrength ?? 0f;
+                float ob = b.GetComponent<CompViralSpread>()?.offensiveStrength ?? 0f;
+                return ob.CompareTo(oa);
+            });
+            int reserved = 0;
+            for (int i = 0; i < tmpT2Candidates.Count && reserved < MaxReservedT2Vessels; i++)
+            {
+                tmpDigIns.Add(tmpT2Candidates[i]);
+                reserved++;
+            }
+
+            int primaryTile = primaryHub.Tile.tileId;
+            tmpDigIns.Sort((a, b) =>
+                Find.WorldGrid.ApproxDistanceInTiles(primaryTile, a.Tile.tileId)
+                    .CompareTo(Find.WorldGrid.ApproxDistanceInTiles(primaryTile, b.Tile.tileId)));
+            destinationsOut.AddRange(tmpDigIns);
+        }
+
+        private static void InitTurtleRoomMaps(
+            List<Settlement> destinations,
+            Dictionary<int, float> preferRoom,
+            Dictionary<int, float> t4Room)
+        {
+            preferRoom.Clear();
+            t4Room.Clear();
+            for (int i = 0; i < destinations.Count; i++)
+            {
+                Settlement d = destinations[i];
+                if (d == null) continue;
+                var c = d.GetComponent<CompViralSpread>();
+                preferRoom[d.ID] = OffensiveRoomPreferTurtle(c);
+                t4Room[d.ID] = OffensiveRoomToT4Cap(c);
+            }
+        }
+
+        private static void AssignLeavesToDigIns(
+            List<Settlement> leaves,
+            List<Settlement> destinations,
+            Dictionary<int, float> preferRoom,
+            Dictionary<int, float> t4Room,
+            int maxPack,
+            List<(Settlement leaf, Settlement dest)> result)
+        {
             int packed = 0;
             for (int i = 0; i < leaves.Count && packed < maxPack; i++)
             {
                 Settlement leaf = leaves[i];
+                if (leaf == null || leaf.Destroyed) continue;
                 float leafOff = Mathf.Max(10f, leaf.GetComponent<CompViralSpread>()?.offensiveStrength ?? 0f);
 
                 Settlement dest = null;
+                bool usedT4Overflow = false;
                 for (int d = 0; d < destinations.Count; d++)
                 {
                     Settlement cand = destinations[d];
-                    if (!remainingRoom.TryGetValue(cand.ID, out float room)) continue;
+                    if (!preferRoom.TryGetValue(cand.ID, out float room)) continue;
                     if (!FitsWithoutBadWaste(room, leafOff)) continue;
                     dest = cand;
                     break;
                 }
 
+                if (dest == null)
+                {
+                    for (int d = 0; d < destinations.Count; d++)
+                    {
+                        Settlement cand = destinations[d];
+                        if (!t4Room.TryGetValue(cand.ID, out float room)) continue;
+                        if (!FitsWithoutBadWaste(room, leafOff)) continue;
+                        dest = cand;
+                        usedT4Overflow = true;
+                        break;
+                    }
+                }
+
                 if (dest == null) continue;
 
-                float absorb = Mathf.Min(leafOff, remainingRoom[dest.ID]);
-                remainingRoom[dest.ID] = Mathf.Max(0f, remainingRoom[dest.ID] - absorb);
+                float roomUsed = usedT4Overflow ? t4Room[dest.ID] : preferRoom[dest.ID];
+                float absorb = Mathf.Min(leafOff, roomUsed);
+                ConsumeTurtleRoom(preferRoom, t4Room, dest.ID, absorb);
                 result.Add((leaf, dest));
                 packed++;
             }
+        }
 
-            return result;
+        private static void ConsumeTurtleRoom(
+            Dictionary<int, float> preferRoom, Dictionary<int, float> t4Room, int destId, float absorb)
+        {
+            if (preferRoom.TryGetValue(destId, out float p))
+                preferRoom[destId] = Mathf.Max(0f, p - absorb);
+            if (t4Room.TryGetValue(destId, out float t))
+                t4Room[destId] = Mathf.Max(0f, t - absorb);
+        }
+
+        /// <summary>Preferred packing room: T4 hubs fill to T4 cap; others fill to T3 cap (avoid routine promote-into-T4).</summary>
+        private static float OffensiveRoomPreferTurtle(CompViralSpread c)
+        {
+            if (c == null) return 0f;
+            SettlementTier capTier = c.tier == SettlementTier.T4 ? SettlementTier.T4 : SettlementTier.T3;
+            float cap = CompViralSpread.GetStrengthRange(capTier).max;
+            return Mathf.Max(0f, cap - Mathf.Max(0f, c.offensiveStrength));
         }
 
         private static float OffensiveRoomToT4Cap(CompViralSpread c)
@@ -924,7 +1002,7 @@ namespace TSA_WorldDomination
                 return true;
             }
 
-            message = "turtle launch failed (no T1/T2 leaves that fit T4/T3 room — check WDVerbose)";
+            message = "turtle launch failed (no leaves ≥400 offense that fit dig-in T3/T4 room — check WDVerbose)";
             return false;
         }
 

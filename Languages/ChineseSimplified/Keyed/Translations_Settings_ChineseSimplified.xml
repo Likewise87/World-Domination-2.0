@@ -94,7 +94,7 @@
   <TSA_WD_Combat_TurtlePressure>所需敌对压力</TSA_WD_Combat_TurtlePressure>
   <TSA_WD_Combat_TurtlePressureTooltip>集群内任一站点 15 格内的敌对定居点或玩家殖民地/前哨站数量达到要求才会集结。盟友站点在 20 格内相连则同属一个集群。</TSA_WD_Combat_TurtlePressureTooltip>
   <TSA_WD_Combat_TurtlePressureRatio>区域压力比率</TSA_WD_Combat_TurtlePressureRatio>
-  <TSA_WD_Combat_TurtlePressureRatioTooltip>集群内任一站点 15 格内敌对进攻实力 ÷ 本集群进攻实力。盟友站点在 20 格内相连则同属一个集群。每日龟缩与定居点失守策略均要求达到该比率（例如 225% = 敌对力量为本集群的 2.25 倍）。</TSA_WD_Combat_TurtlePressureRatioTooltip>
+  <TSA_WD_Combat_TurtlePressureRatioTooltip>集群内任一站点 15 格内敌对进攻实力 ÷ 本集群进攻实力。盟友站点在 20 格内相连则同属一个集群。每日龟缩与定居点失守策略均要求达到该比率（例如 400% = 敌对力量为本集群的 4 倍）。</TSA_WD_Combat_TurtlePressureRatioTooltip>
   <TSA_WD_Combat_GateTurtleTip>龟缩集结的阶段门。始终=开局可用。从不=关闭。</TSA_WD_Combat_GateTurtleTip>
   <TSA_WD_Combat_TurtleNotify>龟缩集结发起时通知</TSA_WD_Combat_TurtleNotify>
   <TSA_WD_Combat_TurtleNotifyTooltip>附近派系集结并加固枢纽时发送信件。</TSA_WD_Combat_TurtleNotifyTooltip>

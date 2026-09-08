@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_19_Title>Equilibrio y correcciones</TSA_WD_Update_2_3_19_Title>
+  <TSA_WD_Update_2_3_19_Body><![CDATA[
+<size=16><b>2.3.19 – Equilibrio y correcciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 8 de septiembre de 2026</color>\n
+------------------------------\n
+• Corrige un fallo crítico: el parche que impedía salir de una defensa de puesto avanzada o de un choque de caravana activa provocaba un lag grave.\n
+• Se recomienda mucho restablecer los ajustes del mod al menos en Acciones mundiales y Dificultad de combate.\n
+• Lógica de fortificación cambiada: los asentamientos construyen anillos defensivos a su alrededor, similares al resultado final de una acción Turtle, pero uno a uno. La colocación aleatoria no era útil tácticamente en muchos casos.\n
+• Si no tienes enemigos cerca, las facciones NPC hostiles se expandirán hacia ti incluso al inicio de la partida (ajuste en Dificultad de combate).\n
+• Muchos ajustes a la acción Turtle. Umbrales de elegibilidad más altos. Se forman menos asentamientos T4, que pueden ser un fastidio al inicio.\n
+• Los incidentes son ahora más raros. Los asentamientos se arrasan por incursiones con menos frecuencia. Las ruinas duran menos.\n
+]]></TSA_WD_Update_2_3_19_Body>
   <TSA_WD_Update_2_3_18_Title>Hotfix — radios de grupo y amenaza Turtle</TSA_WD_Update_2_3_18_Title>
   <TSA_WD_Update_2_3_18_Body><![CDATA[
 <size=16><b>2.3.18 – Hotfix</b></size>\n

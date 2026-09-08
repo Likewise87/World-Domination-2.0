@@ -130,6 +130,9 @@ namespace TSA_WorldDomination
         /// <summary>Per-faction desperation raid cooldown: faction loadID → ready-after tick.</summary>
         public Dictionary<int, int> desperationRaidCooldownByFaction = new Dictionary<int, int>();
 
+        /// <summary>Per-faction Isolation Pressure cooldown: faction loadID → ready-after tick.</summary>
+        public Dictionary<int, int> isolationPressureCooldownByFaction = new Dictionary<int, int>();
+
         /// <summary>Per-faction turtle consolidate cooldown: faction loadID → ready-after tick.</summary>
         public Dictionary<int, int> turtleCooldownByFaction = new Dictionary<int, int>();
 
@@ -706,6 +709,7 @@ namespace TSA_WorldDomination
 
             WorldActions_Revolt.TryTriggerRevolt(this, dailySnapshot);
             WorldActions_ForwardAssault.TryTrigger(this, dailySnapshot);
+            WorldActions_IsolationPressure.TryTrigger(this, dailySnapshot);
 
             // Dissolve/restore before form or random diplomacy so expiry-day pairs are not mutated then overwritten.
             ClearExpiredCoalition();
@@ -868,10 +872,71 @@ namespace TSA_WorldDomination
             else
             {
                 WDVerbose.Msg($"DailyAction pick=fortify faction={f.Name} actor={actor.LabelCap}");
-                WorldActions_NpcFortify.AttemptFortify(actor, comp, this);
+                if (!WorldActions_NpcFortify.AttemptFortify(actor, comp, this))
+                {
+                    // Kit complete / no launch: re-roll among other eligible weights (exclude Fortify).
+                    TryFallbackDailyActionExcludingFortify(
+                        actor, comp, f,
+                        wRaid, wMinor, wMajor, wDevelop, wBuildRoad, wTrader);
+                }
             }
 
             comp.actionsTakenToday++;
+        }
+
+        /// <summary>
+        /// One-shot fallback when Fortify was picked but could not launch. Does not recurse into Fortify.
+        /// </summary>
+        private void TryFallbackDailyActionExcludingFortify(
+            Settlement actor,
+            CompViralSpread comp,
+            Faction f,
+            float wRaid,
+            float wMinor,
+            float wMajor,
+            float wDevelop,
+            float wBuildRoad,
+            float wTrader)
+        {
+            float total = wRaid + wMinor + wMajor + wDevelop + wBuildRoad + wTrader;
+            if (total <= 0f)
+            {
+                WDVerbose.Msg($"DailyAction fortifyFallback=none faction={f?.Name} actor={actor?.LabelCap}");
+                return;
+            }
+
+            float rand = Rand.Range(0f, total);
+            float cursor = 0f;
+            if (rand < (cursor += wRaid))
+            {
+                WDVerbose.Msg($"DailyAction fortifyFallback=raid faction={f.Name} actor={actor.LabelCap}");
+                WorldActions_Raid.AttemptRaid(actor, comp, this);
+            }
+            else if (rand < (cursor += wMinor))
+            {
+                WDVerbose.Msg($"DailyAction fortifyFallback=minorIncident faction={f.Name} actor={actor.LabelCap}");
+                WorldActions_Incidents.AttemptMinorIncident(actor, comp, this);
+            }
+            else if (rand < (cursor += wMajor))
+            {
+                WDVerbose.Msg($"DailyAction fortifyFallback=majorIncident faction={f.Name} actor={actor.LabelCap}");
+                WorldActions_Incidents.AttemptMajorIncident(actor, comp, this);
+            }
+            else if (rand < (cursor += wDevelop))
+            {
+                WDVerbose.Msg($"DailyAction fortifyFallback=develop faction={f.Name} actor={actor.LabelCap}");
+                WorldActions_GrowthExpand.AttemptDevelop(actor, comp, this);
+            }
+            else if (rand < (cursor += wBuildRoad))
+            {
+                WDVerbose.Msg($"DailyAction fortifyFallback=road faction={f.Name} actor={actor.LabelCap}");
+                WorldActions_Roads.AttemptBuildRoad(actor, comp, this);
+            }
+            else
+            {
+                WDVerbose.Msg($"DailyAction fortifyFallback=trader faction={f.Name} actor={actor.LabelCap}");
+                WorldActions_TraderCaravan.AttemptTraderCaravan(actor, comp, this);
+            }
         }
 
         private static int GetTierActionCap(SettlementTier tier, WorldDominationSettings seth)
@@ -1511,6 +1576,7 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref diplomacyFreezeTicks, "diplomacyFreezeTicks", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref playerBribeCeasefireTicksExpiry, "playerBribeCeasefireTicksExpiry", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref desperationRaidCooldownByFaction, "desperationRaidCooldownByFaction", LookMode.Value, LookMode.Value);
+            Scribe_Collections.Look(ref isolationPressureCooldownByFaction, "isolationPressureCooldownByFaction", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref turtleCooldownByFaction, "turtleCooldownByFaction", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref factionComebackCooldownByFaction, "factionComebackCooldownByFaction", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref turtleGroups, "turtleGroups", LookMode.Value, LookMode.Deep);
@@ -1567,6 +1633,7 @@ namespace TSA_WorldDomination
             if (diplomacyFreezeTicks == null) diplomacyFreezeTicks = new Dictionary<long, int>();
             if (playerBribeCeasefireTicksExpiry == null) playerBribeCeasefireTicksExpiry = new Dictionary<int, int>();
             if (desperationRaidCooldownByFaction == null) desperationRaidCooldownByFaction = new Dictionary<int, int>();
+            if (isolationPressureCooldownByFaction == null) isolationPressureCooldownByFaction = new Dictionary<int, int>();
             if (turtleCooldownByFaction == null) turtleCooldownByFaction = new Dictionary<int, int>();
             if (factionComebackCooldownByFaction == null) factionComebackCooldownByFaction = new Dictionary<int, int>();
             if (turtleGroups == null) turtleGroups = new Dictionary<int, TurtleGroupState>();

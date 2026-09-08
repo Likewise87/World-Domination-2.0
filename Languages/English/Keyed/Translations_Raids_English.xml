@@ -72,6 +72,7 @@
   <TSA_WD_OutpostRetreat_Letter_Text>Some defenders escaped from {0} before it fell. {1} colonists retreated in a caravan.</TSA_WD_OutpostRetreat_Letter_Text>
   <TSA_WD_OutpostDefense_MapFailed>Could not create a manual defense map for {0}; returning defenders.</TSA_WD_OutpostDefense_MapFailed>
   <TSA_WD_OutpostDefense_ExtraPawnsReturned>{0} extra pawn(s) returned from the temporary battlefield as a caravan at {1}.</TSA_WD_OutpostDefense_ExtraPawnsReturned>
+  <TSA_WD_TempEncounter_EdgeExitBlocked>You cannot leave the map until this fight is over.</TSA_WD_TempEncounter_EdgeExitBlocked>
   <TSA_WD_LaunchExpedition>Launch Attack</TSA_WD_LaunchExpedition>
   <TSA_WD_LaunchExpeditionDesc>Dispatch a strike force from this outpost to raid a nearby enemy settlement or AT turret.</TSA_WD_LaunchExpeditionDesc>
   <TSA_WD_Letter_IncomingRaid_Label>Incoming Raid: {0}</TSA_WD_Letter_IncomingRaid_Label>
