@@ -144,6 +144,14 @@ namespace TSA_WorldDomination
 
         /// <summary>Persisted AssaultRally group id allocator (Desperation / Invasion assemblies).</summary>
         public int assaultRallyNextGroupId = 1;
+        /// <summary>Next Vanguard MassRelocation assembly group id (local rally absorb).</summary>
+        public int vanguardNextGroupId = 1;
+
+        public int AllocateVanguardGroupId()
+        {
+            if (vanguardNextGroupId < 1) vanguardNextGroupId = 1;
+            return vanguardNextGroupId++;
+        }
 
         // Late-game player metrics. Full recompute after load and once per day in CalculateDailyBudget;
         // in between, only a cheap player-outpost re-sum when something actually changed.
@@ -152,6 +160,12 @@ namespace TSA_WorldDomination
         public bool cachedLateGameModifierActive;
         public bool cachedMidGameModifierActive;
         public WdEscalationStage cachedEscalationStage;
+        /// <summary>Highest Mid/Late stage ever reached while scaling was on. Never decreases.</summary>
+        public WdEscalationStage escalationStageLatch;
+        /// <summary>Highest stage for which the one-shot activation letter was already sent (or seeded on load).</summary>
+        public WdEscalationStage escalationLetterNotifiedStage;
+        /// <summary>False until first ApplyLateGameMetrics seeds latch/letter floors (avoids letter spam on old saves).</summary>
+        public bool escalationLatchInited;
         /// <summary>Next Mid/Late outpost silver-upkeep deadline tick; -1 when inactive/cancelled.</summary>
         public int outpostUpkeepNextTick = -1;
         /// <summary>World total strength (includes player outposts) from the last full recompute; denominator for cheap refreshes.</summary>
@@ -438,10 +452,57 @@ namespace TSA_WorldDomination
             if (worldTotalStrength > 0f) cachedWorldTotalStrength = worldTotalStrength;
             cachedPlayerOutpostStrength = Mathf.Max(0f, playerStrength);
             cachedPlayerGlobalShare = PlayerPowerIndex.ComputeGlobalShare(cachedPlayerOutpostStrength, cachedWorldTotalStrength);
-            cachedEscalationStage = WdEscalation.GetStage(cachedPlayerOutpostStrength, cachedPlayerGlobalShare, seth);
+
+            WdEscalationStage candidate = WdEscalation.GetStage(cachedPlayerOutpostStrength, cachedPlayerGlobalShare, seth);
+
+            if (!escalationLatchInited)
+            {
+                // First apply after this feature (new game or old save): seed floors, never letter.
+                escalationStageLatch = candidate;
+                escalationLetterNotifiedStage = candidate;
+                escalationLatchInited = true;
+            }
+            else if (candidate > escalationStageLatch)
+            {
+                escalationStageLatch = candidate;
+            }
+
+            WdEscalationStage newStage = escalationStageLatch;
+            if (newStage > escalationLetterNotifiedStage)
+            {
+                WdEscalation.SendStageLetter(seth, newStage);
+                escalationLetterNotifiedStage = newStage;
+            }
+
+            cachedEscalationStage = newStage;
             cachedLateGameModifierActive = cachedEscalationStage == WdEscalationStage.Late;
             cachedMidGameModifierActive = cachedEscalationStage == WdEscalationStage.Mid;
             lateGameMetricsDirty = false;
+        }
+
+        /// <summary>
+        /// Dev action: raise latch to Mid or Late, refresh caches, and always send the activation letter.
+        /// </summary>
+        public void DebugForceEscalationStage(WdEscalationStage stage)
+        {
+            if (stage != WdEscalationStage.Mid && stage != WdEscalationStage.Late) return;
+            var seth = WorldDominationMod.settings;
+            if (seth == null) return;
+            if (!seth.enableLateGameScaling)
+            {
+                Messages.Message("TSA_WD_Difficulty_EnableLateGame".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            escalationLatchInited = true;
+            if (stage > escalationStageLatch)
+                escalationStageLatch = stage;
+            cachedEscalationStage = escalationStageLatch;
+            cachedLateGameModifierActive = cachedEscalationStage == WdEscalationStage.Late;
+            cachedMidGameModifierActive = cachedEscalationStage == WdEscalationStage.Mid;
+            WdEscalation.SendStageLetter(seth, stage);
+            if (stage > escalationLetterNotifiedStage)
+                escalationLetterNotifiedStage = stage;
         }
 
         private void ClearLateGameMetrics()
@@ -452,6 +513,7 @@ namespace TSA_WorldDomination
             cachedLateGameModifierActive = false;
             cachedMidGameModifierActive = false;
             lateGameMetricsDirty = false;
+            // Keep escalationStageLatch / escalationLetterNotifiedStage / escalationLatchInited.
         }
 
         /// <summary>
@@ -1581,6 +1643,7 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref factionComebackCooldownByFaction, "factionComebackCooldownByFaction", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref turtleGroups, "turtleGroups", LookMode.Value, LookMode.Deep);
             Scribe_Values.Look(ref assaultRallyNextGroupId, "assaultRallyNextGroupId", 1);
+            Scribe_Values.Look(ref vanguardNextGroupId, "vanguardNextGroupId", 1);
             Scribe_Collections.Look(ref questRaidBiasEntries, "questRaidBiasEntries", LookMode.Deep);
             Scribe_Collections.Look(ref distanceCache, "distanceCache", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref spaceTileCache, "spaceTileCache", LookMode.Value);
@@ -1616,6 +1679,9 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref cachedLateGameModifierActive, "cachedLateGameModifierActive", false);
             Scribe_Values.Look(ref cachedMidGameModifierActive, "cachedMidGameModifierActive", false);
             Scribe_Values.Look(ref cachedEscalationStage, "cachedEscalationStage", WdEscalationStage.None);
+            Scribe_Values.Look(ref escalationStageLatch, "escalationStageLatch", WdEscalationStage.None);
+            Scribe_Values.Look(ref escalationLetterNotifiedStage, "escalationLetterNotifiedStage", WdEscalationStage.None);
+            Scribe_Values.Look(ref escalationLatchInited, "escalationLatchInited", false);
             Scribe_Values.Look(ref outpostUpkeepNextTick, "outpostUpkeepNextTick", -1);
             Scribe_Values.Look(ref lastWorldThreatTier, "lastWorldThreatTier", WorldThreatTier.None);
 
@@ -1638,6 +1704,7 @@ namespace TSA_WorldDomination
             if (factionComebackCooldownByFaction == null) factionComebackCooldownByFaction = new Dictionary<int, int>();
             if (turtleGroups == null) turtleGroups = new Dictionary<int, TurtleGroupState>();
             if (assaultRallyNextGroupId < 1) assaultRallyNextGroupId = 1;
+            if (vanguardNextGroupId < 1) vanguardNextGroupId = 1;
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
                 WorldActions_AssaultRally.EnsureNextGroupIdAfterLoad(this);
             if (questRaidBiasEntries == null) questRaidBiasEntries = new List<QuestRaidBiasEntry>();

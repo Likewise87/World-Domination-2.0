@@ -1,4 +1,5 @@
 using System.Text;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -59,16 +60,31 @@ namespace TSA_WorldDomination
         public static bool PassesGate(WdThreatStageGate gate, WorldComponent_SpreadManager manager) =>
             PassesGate(gate, GetCachedStage(manager));
 
+        /// <summary>Elapsed game days used for Mid/Late day thresholds.</summary>
+        public static float DaysPassed()
+        {
+            if (Find.TickManager == null) return 0f;
+            return Find.TickManager.TicksGame / (float)GenDate.TicksPerDay;
+        }
+
+        /// <summary>
+        /// Candidate stage from live metrics (share OR strength OR days). Does not apply the world latch.
+        /// </summary>
         public static WdEscalationStage GetStage(float playerOutpostStrength, float globalShare, WorldDominationSettings seth)
+            => GetStage(playerOutpostStrength, globalShare, DaysPassed(), seth);
+
+        public static WdEscalationStage GetStage(float playerOutpostStrength, float globalShare, float daysPassed, WorldDominationSettings seth)
         {
             if (seth == null || !seth.enableLateGameScaling) return WdEscalationStage.None;
 
             bool late = globalShare >= seth.lateGameShareThreshold
-                || playerOutpostStrength >= seth.lateGameOutpostStrengthThreshold;
+                || playerOutpostStrength >= seth.lateGameOutpostStrengthThreshold
+                || daysPassed >= seth.lateGameDaysThreshold;
             if (late) return WdEscalationStage.Late;
 
             bool mid = globalShare >= seth.midGameShareThreshold
-                || playerOutpostStrength >= seth.midGameOutpostStrengthThreshold;
+                || playerOutpostStrength >= seth.midGameOutpostStrengthThreshold
+                || daysPassed >= seth.midGameDaysThreshold;
             return mid ? WdEscalationStage.Mid : WdEscalationStage.None;
         }
 
@@ -187,6 +203,38 @@ namespace TSA_WorldDomination
         {
             if (seth == null) return false;
             return PassesGate(seth.gateThreatT4AntiAirVsPlayer, stage);
+        }
+
+        /// <summary>Letter / alert body: intro + live Mid/Late effect lines from settings.</summary>
+        public static string BuildStageLetterText(WorldDominationSettings seth, WdEscalationStage stage)
+        {
+            if (seth == null || (stage != WdEscalationStage.Mid && stage != WdEscalationStage.Late))
+                return "";
+
+            string intro = stage == WdEscalationStage.Late
+                ? "TSA_WD_Letter_LateGameActiveIntro".Translate().ToString()
+                : "TSA_WD_Letter_MidGameActiveIntro".Translate().ToString();
+            string effects = BuildActiveEffectsTooltip(seth, stage);
+            if (string.IsNullOrEmpty(effects))
+                return intro;
+            return intro + "\n\n" + effects;
+        }
+
+        public static string StageLetterLabel(WdEscalationStage stage) => stage switch
+        {
+            WdEscalationStage.Late => "TSA_WD_Alert_LateGameActive".Translate().ToString(),
+            WdEscalationStage.Mid => "TSA_WD_Alert_MidGameActive".Translate().ToString(),
+            _ => ""
+        };
+
+        public static void SendStageLetter(WorldDominationSettings seth, WdEscalationStage stage)
+        {
+            if (seth == null || (stage != WdEscalationStage.Mid && stage != WdEscalationStage.Late)) return;
+            if (Find.LetterStack == null) return;
+            string label = StageLetterLabel(stage);
+            string text = BuildStageLetterText(seth, stage);
+            if (string.IsNullOrEmpty(label) || string.IsNullOrEmpty(text)) return;
+            Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.NegativeEvent);
         }
 
         /// <summary>

@@ -139,7 +139,7 @@ namespace TSA_WorldDomination
                     "TSA_WD_WorldMap_OutpostSimulation".Translate(),
                     OpenOutpostRequirementsPreview,
                     GetEstablishOutpostMenuIcon(),
-                    Color.white);
+                    Color.cyan);
                 simulationOption.tooltip = "TSA_WD_WorldMap_OutpostSimulationTip".Translate();
                 options.Add(simulationOption);
             }

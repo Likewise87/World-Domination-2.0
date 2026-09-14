@@ -28,6 +28,8 @@ namespace TSA_WorldDomination
         private int rapidResponseRaidTargetMaskRaw = (int)(RaidTargetMask.Player | RaidTargetMask.Allies);
         private float mortarRangeOverride = -1f;
         private float antiAirRangeOverride = -1f;
+        /// <summary>Absolute in-game day last granted research event Intellectual XP (-1 = never).</summary>
+        private int lastResearchSkillXpDay = -1;
         public bool MortarDefenseActive => mortarDefenseActive;
         public MissionMask MortarDefenseMask => (MissionMask)mortarDefenseMaskRaw;
         public bool AntiAirDefenseActive => antiAirDefenseActive;
@@ -71,6 +73,15 @@ namespace TSA_WorldDomination
             rapidResponseActive = on;
             RefreshInterceptorRegistration();
         }
+
+        /// <summary>True once per absolute in-game day; marks the day so research event Intellectual XP is not double-granted.</summary>
+        public bool TryClaimResearchSkillXpDay(int absoluteDay)
+        {
+            if (absoluteDay < 0 || absoluteDay == lastResearchSkillXpDay) return false;
+            lastResearchSkillXpDay = absoluteDay;
+            return true;
+        }
+
         public void SetRapidResponseMask(MissionMask mask) => rapidResponseMaskRaw = (int)mask;
         public void SetRapidResponseMinStrengthRatio(float ratio) => rapidResponseMinStrengthRatio = Mathf.Clamp(ratio, 0f, 4f);
         public void SetRapidResponseMaxStrengthRatio(float ratio) => rapidResponseMaxStrengthRatio = Mathf.Clamp(ratio, RapidResponseUtility.MinMaxStrengthRatio, RapidResponseUtility.MaxMaxStrengthRatio);
@@ -3167,8 +3178,7 @@ namespace TSA_WorldDomination
             if (IsAcademyOutpost)
             {
                 productionTicksLeft = interval;
-                if (Outpost_Academy.TryCompleteProductionCycle(this))
-                    Outpost_OccupantProgression.ApplyPayoutSkillXp(this);
+                Outpost_Academy.TryCompleteProductionCycle(this);
                 return;
             }
 
@@ -3272,6 +3282,7 @@ namespace TSA_WorldDomination
             }
             Scribe_Values.Look(ref mortarRangeOverride, "mortarRangeOverride", -1f);
             Scribe_Values.Look(ref antiAirRangeOverride, "antiAirRangeOverride", -1f);
+            Scribe_Values.Look(ref lastResearchSkillXpDay, "lastResearchSkillXpDay", -1);
             Scribe_Values.Look(ref manualDefenseActive, "manualDefenseActive", false);
             Scribe_Values.Look(ref pendingSkirmishDefense, "pendingSkirmishDefense", false);
             Scribe_Defs.Look(ref pendingSkirmishTravelerDef, "pendingSkirmishTravelerDef");

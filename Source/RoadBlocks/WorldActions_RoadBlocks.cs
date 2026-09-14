@@ -544,8 +544,11 @@ namespace TSA_WorldDomination
             else
             {
                 Faction builder = traveler.Faction ?? origin.Faction;
-                if (IsValidBuildTile(tile, comp.selectedRoadBlockKind, builder))
-                    WorldComponent_RoadBlocks.Get()?.TryPlaceOrUpgrade(tile, builder, comp.selectedRoadBlockKind);
+                if (IsValidBuildTile(tile, comp.selectedRoadBlockKind, builder)
+                    && (WorldComponent_RoadBlocks.Get()?.TryPlaceOrUpgrade(tile, builder, comp.selectedRoadBlockKind) ?? false))
+                {
+                    Outpost_ConstructionXp.TryGrant(traveler, Outpost_ConstructionXp.XpForRoadBlockKind(comp.selectedRoadBlockKind));
+                }
             }
 
             // Advance past the tile we just worked (or no-op'd).

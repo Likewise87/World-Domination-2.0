@@ -354,7 +354,7 @@ namespace TSA_WorldDomination
         private static Texture2D GetConfigureIcon()
         {
             if (cachedConfigureIcon != null) return cachedConfigureIcon;
-            Texture2D tex = ContentFinder<Texture2D>.Get("UI/Commands/AT_Radius", false);
+            Texture2D tex = ContentFinder<Texture2D>.Get("UI/Commands/Configure_AT", false);
             cachedConfigureIcon = tex ?? TexCommand.Attack;
             return cachedConfigureIcon;
         }

@@ -19,8 +19,6 @@ namespace TSA_WorldDomination
         public const string FlakSmokeTexturePathPrefix = "WorldObjects/FlakSmoke_";
         private const int FlakSmokeVariantCount = 5;
 
-        /// <summary>Above this camera altitude on a normal-sized planet the impact burst is hidden; small worlds raise the cutoff via <see cref="WD_WorldMapZoomUtil"/>.</summary>
-        private const float MaxVisibleAltitudePercent = 0.25f;
         private const float DefaultDurationSeconds = 2f;
         private const float DropPodExplosionDurationSeconds = 1f;
         private const float DropPodExplosionSizeScale = 0.8f;
@@ -222,8 +220,8 @@ namespace TSA_WorldDomination
 
             int now = Find.TickManager?.TicksGame ?? 0;
             float altitude = Find.WorldCameraDriver?.AltitudePercent ?? 1f;
-            // Players reported the burst was visible "from space"; only draw it at closer zoom levels.
-            bool zoomedTooFarOut = WD_WorldMapZoomUtil.IsZoomedTooFarOut(MaxVisibleAltitudePercent);
+            // Same surface-overlay zoom hide as road blocks / spike traps (shells use the same gate in icon patches).
+            bool zoomedTooFarOut = WD_WorldMapZoomUtil.IsSurfaceOverlayZoomedTooFarOut();
             float zoom = Mathf.Clamp(altitude, 0.05f, 1f);
             float baseSize = Mathf.Lerp(48f, 22f, zoom);
 

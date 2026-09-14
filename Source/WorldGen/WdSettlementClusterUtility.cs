@@ -12,15 +12,25 @@ namespace TSA_WorldDomination
     {
         private const int SoftRadiusTiles = 24;
         private const int MaxAttempts = 400;
-        /// <summary>Vanguard pack-up: mutual spacing and relaxed blocker pad (adjacent tiles allowed).</summary>
-        public const int VanguardMinDistance = 1;
+        /// <summary>One free world tile between Vanguard dig-ins (ApproxDistance &gt;= 2).</summary>
+        public const int VanguardPeerDistance = 2;
+        /// <summary>Relaxed pad vs existing settlements/outposts for Vanguard (ignore normal outpost min spacing).</summary>
+        public const int VanguardBlockerDistance = 1;
+        /// <summary>Legacy alias used by older call sites; equals <see cref="VanguardBlockerDistance"/>.</summary>
+        public const int VanguardMinDistance = VanguardBlockerDistance;
 
         /// <summary>
         /// Reserve <paramref name="count"/> Vanguard tiles near <paramref name="seedTile"/>.
-        /// Pass 1: 1-tile spacing between reserved tiles; normal establishment min-distance vs existing settlements/outposts/colonies.
-        /// Pass 2: same peer spacing; blockers also only require 1-tile distance.
+        /// Peer spacing = 2 (one free tile between). Blockers use 1-tile pad (no outpost MinDistanceTiles).
+        /// Optional colony keep-out rejects tiles closer than <paramref name="minDistFromColony"/> to <paramref name="colonyTile"/>.
         /// </summary>
-        public static bool TryReserveClusterNear(int seedTile, int count, Faction faction, out List<int> tiles)
+        public static bool TryReserveClusterNear(
+            int seedTile,
+            int count,
+            Faction faction,
+            out List<int> tiles,
+            int colonyTile = -1,
+            int minDistFromColony = 0)
         {
             tiles = new List<int>();
             if (seedTile < 0 || count <= 0 || Find.WorldGrid == null)
@@ -29,33 +39,18 @@ namespace TSA_WorldDomination
                 return false;
             }
 
-            int normalBlocker = Mathf.Max(1, Outpost_EstablishmentRequirements.MinDistanceTiles);
             WDVerbose.Msg(
-                $"VanguardCluster start seed={seedTile} need={count} faction={faction?.Name ?? "?"} peerDist={VanguardMinDistance} pass1BlockerDist={normalBlocker}");
+                $"VanguardCluster start seed={seedTile} need={count} faction={faction?.Name ?? "?"} peerDist={VanguardPeerDistance} blockerDist={VanguardBlockerDistance} colonyKeepOut={(minDistFromColony > 0 ? $"{minDistFromColony} from {colonyTile}" : "off")}");
 
-            if (TryReserveClusterPass(seedTile, count, faction, VanguardMinDistance, normalBlocker, passLabel: 1, out tiles))
+            if (TryReserveClusterPass(
+                    seedTile, count, faction, VanguardPeerDistance, VanguardBlockerDistance,
+                    colonyTile, minDistFromColony, passLabel: 1, out tiles))
             {
-                WDVerbose.Msg($"VanguardCluster pass=1 SUCCESS tiles=[{string.Join(",", tiles)}]");
+                WDVerbose.Msg($"VanguardCluster SUCCESS tiles=[{string.Join(",", tiles)}]");
                 return true;
             }
 
-            if (normalBlocker <= VanguardMinDistance)
-            {
-                WDVerbose.Msg($"VanguardCluster FAIL seed={seedTile} need={count} pass1 already at min blocker={normalBlocker}");
-                tiles = new List<int>();
-                return false;
-            }
-
-            WDVerbose.Msg(
-                $"VanguardCluster pass=1 FAIL need={count} — relaxing blockerDist {normalBlocker}→{VanguardMinDistance}");
-
-            if (TryReserveClusterPass(seedTile, count, faction, VanguardMinDistance, VanguardMinDistance, passLabel: 2, out tiles))
-            {
-                WDVerbose.Msg($"VanguardCluster pass=2 SUCCESS tiles=[{string.Join(",", tiles)}]");
-                return true;
-            }
-
-            WDVerbose.Msg($"VanguardCluster FAIL seed={seedTile} need={count} both passes exhausted");
+            WDVerbose.Msg($"VanguardCluster FAIL seed={seedTile} need={count}");
             tiles = new List<int>();
             return false;
         }
@@ -66,6 +61,8 @@ namespace TSA_WorldDomination
             Faction faction,
             int peerDist,
             int blockerDist,
+            int colonyTile,
+            int minDistFromColony,
             int passLabel,
             out List<int> tiles)
         {
@@ -80,6 +77,8 @@ namespace TSA_WorldDomination
                     peerDist,
                     blockerDist,
                     faction,
+                    colonyTile,
+                    minDistFromColony,
                     logContext: $"pass={passLabel} slot={n + 1}/{count}");
                 if (found < 0)
                 {
@@ -98,56 +97,38 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Nearest free settlement tile for Vanguard refound/redirect: try normal blocker pad, then 1-tile pad.
-        /// Peer spacing unused (single tile).
+        /// Nearest free settlement tile for Vanguard refound/redirect using the tight Vanguard pad (no outpost MinDistanceTiles).
         /// </summary>
         public static int FindNearestValidSettlementTile(int seedTile, Faction faction)
         {
             if (seedTile < 0) return -1;
 
-            int normalBlocker = Mathf.Max(1, Outpost_EstablishmentRequirements.MinDistanceTiles);
             WDVerbose.Msg(
-                $"VanguardNearest start seed={seedTile} faction={faction?.Name ?? "?"} tryBlocker={normalBlocker} then={VanguardMinDistance}");
+                $"VanguardNearest start seed={seedTile} faction={faction?.Name ?? "?"} blocker={VanguardBlockerDistance}");
 
             int tile = FindNearbyValidTile(
                 seedTile,
                 alreadyReserved: null,
-                peerDist: VanguardMinDistance,
-                blockerDist: normalBlocker,
+                peerDist: VanguardPeerDistance,
+                blockerDist: VanguardBlockerDistance,
                 faction,
-                logContext: "nearest/pass1");
+                colonyTile: -1,
+                minDistFromColony: 0,
+                logContext: "nearest");
             if (tile >= 0)
-            {
-                WDVerbose.Msg($"VanguardNearest SUCCESS pass=1 tile={tile} blocker={normalBlocker}");
-                return tile;
-            }
-
-            if (normalBlocker <= VanguardMinDistance)
-            {
-                WDVerbose.Msg($"VanguardNearest FAIL seed={seedTile} (already min blocker)");
-                return -1;
-            }
-
-            WDVerbose.Msg($"VanguardNearest pass=1 miss — relaxing blocker→{VanguardMinDistance}");
-            tile = FindNearbyValidTile(
-                seedTile,
-                alreadyReserved: null,
-                peerDist: VanguardMinDistance,
-                blockerDist: VanguardMinDistance,
-                faction,
-                logContext: "nearest/pass2");
-            if (tile >= 0)
-                WDVerbose.Msg($"VanguardNearest SUCCESS pass=2 tile={tile} blocker={VanguardMinDistance}");
+                WDVerbose.Msg($"VanguardNearest SUCCESS tile={tile}");
             else
                 WDVerbose.Msg($"VanguardNearest FAIL seed={seedTile}");
 
             return tile;
         }
 
-        /// <summary>True if a Vanguard settlement may found here under the relaxed (1-tile) blocker pad.</summary>
+        /// <summary>True if a Vanguard settlement may found here under the relaxed blocker pad.</summary>
         public static bool CanFoundVanguardAt(int tile, Faction faction = null)
         {
-            return IsValidSettlementTile(tile, alreadyReserved: null, peerDist: VanguardMinDistance, blockerDist: VanguardMinDistance, faction, rejectReason: out _);
+            return IsValidSettlementTile(
+                tile, alreadyReserved: null, peerDist: VanguardPeerDistance, blockerDist: VanguardBlockerDistance,
+                faction, colonyTile: -1, minDistFromColony: 0, rejectReason: out _);
         }
 
         private static int FindNearbyValidTile(
@@ -156,6 +137,8 @@ namespace TSA_WorldDomination
             int peerDist,
             int blockerDist,
             Faction faction,
+            int colonyTile,
+            int minDistFromColony,
             string logContext)
         {
             WorldGrid grid = Find.WorldGrid;
@@ -174,30 +157,31 @@ namespace TSA_WorldDomination
             int rejectPeer = 0;
             int rejectCamp = 0;
             int rejectSaturated = 0;
+            int rejectColony = 0;
 
             while (queue.Count > 0 && attempts < MaxAttempts)
             {
                 (int tile, int dist) = queue.Dequeue();
                 attempts++;
 
-                if (dist > 0)
+                if (IsValidSettlementTile(
+                        tile, alreadyReserved, peerDist, blockerDist, faction,
+                        colonyTile, minDistFromColony, out string reject))
                 {
-                    if (IsValidSettlementTile(tile, alreadyReserved, peerDist, blockerDist, faction, out string reject))
-                    {
-                        WDVerbose.Msg(
-                            $"VanguardCluster BFS {logContext} hit tile={tile} bfsDist={dist} attempts={attempts} rejects(invalid={rejectInvalid} occ={rejectOccupied} blocker={rejectBlocker} peer={rejectPeer} camp={rejectCamp} sat={rejectSaturated})");
-                        return tile;
-                    }
+                    WDVerbose.Msg(
+                        $"VanguardCluster BFS {logContext} hit tile={tile} bfsDist={dist} attempts={attempts} rejects(invalid={rejectInvalid} occ={rejectOccupied} blocker={rejectBlocker} peer={rejectPeer} camp={rejectCamp} sat={rejectSaturated} colony={rejectColony})");
+                    return tile;
+                }
 
-                    switch (reject)
-                    {
-                        case "invalid": rejectInvalid++; break;
-                        case "occupied": rejectOccupied++; break;
-                        case "blocker": rejectBlocker++; break;
-                        case "peer": rejectPeer++; break;
-                        case "camp": rejectCamp++; break;
-                        case "saturated": rejectSaturated++; break;
-                    }
+                switch (reject)
+                {
+                    case "invalid": rejectInvalid++; break;
+                    case "occupied": rejectOccupied++; break;
+                    case "blocker": rejectBlocker++; break;
+                    case "peer": rejectPeer++; break;
+                    case "camp": rejectCamp++; break;
+                    case "saturated": rejectSaturated++; break;
+                    case "colony": rejectColony++; break;
                 }
 
                 if (dist >= SoftRadiusTiles) continue;
@@ -214,7 +198,7 @@ namespace TSA_WorldDomination
             }
 
             WDVerbose.Msg(
-                $"VanguardCluster BFS {logContext} exhausted attempts={attempts} visited={visited.Count} rejects(invalid={rejectInvalid} occ={rejectOccupied} blocker={rejectBlocker} peer={rejectPeer} camp={rejectCamp} sat={rejectSaturated}) peer={peerDist} blocker={blockerDist}");
+                $"VanguardCluster BFS {logContext} exhausted attempts={attempts} visited={visited.Count} rejects(invalid={rejectInvalid} occ={rejectOccupied} blocker={rejectBlocker} peer={rejectPeer} camp={rejectCamp} sat={rejectSaturated} colony={rejectColony}) peer={peerDist} blocker={blockerDist}");
             return -1;
         }
 
@@ -224,6 +208,8 @@ namespace TSA_WorldDomination
             int peerDist,
             int blockerDist,
             Faction faction,
+            int colonyTile,
+            int minDistFromColony,
             out string rejectReason)
         {
             rejectReason = null;
@@ -249,6 +235,13 @@ namespace TSA_WorldDomination
             }
 
             WorldGrid grid = Find.WorldGrid;
+            if (minDistFromColony > 0 && colonyTile >= 0 && grid != null
+                && grid.ApproxDistanceInTiles(tile, colonyTile) < minDistFromColony)
+            {
+                rejectReason = "colony";
+                return false;
+            }
+
             if (alreadyReserved != null && grid != null && peerDist > 0)
             {
                 for (int i = 0; i < alreadyReserved.Count; i++)

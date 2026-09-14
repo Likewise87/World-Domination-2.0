@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <TSA_WD_Outpost_BiofuelRefinery.label>化学精炼前哨</TSA_WD_Outpost_BiofuelRefinery.label>
+  <TSA_WD_Outpost_BiofuelRefinery.description>产出化合燃料、中性胺与染料。</TSA_WD_Outpost_BiofuelRefinery.description>
+  <TSA_WD_Outpost_DeepchemDrill.label>深井化工钻探前哨</TSA_WD_Outpost_DeepchemDrill.label>
+  <TSA_WD_Outpost_DeepchemDrill.description>在沙漠地块钻取深井化工原料。需要 Vanilla Chemfuel Expanded。</TSA_WD_Outpost_DeepchemDrill.description>
+  <TSA_WD_Outpost_RawShaping.label>原材料塑形前哨</TSA_WD_Outpost_RawShaping.label>
+  <TSA_WD_Outpost_RawShaping.description>在沙漠地块产出塑钢、合成纤维或超织布。</TSA_WD_Outpost_RawShaping.description>
+  <TSA_WD_Outpost_DeepchemFactory.label>深井化工厂前哨</TSA_WD_Outpost_DeepchemFactory.label>
+  <TSA_WD_Outpost_DeepchemFactory.description>Bambaryla 扩展遗留化工前哨。产出中性胺与染料。新建请优先化学精炼前哨。</TSA_WD_Outpost_DeepchemFactory.description>
+</LanguageData>

@@ -48,8 +48,8 @@
   <TSA_WD_Inspect_RoadBlockClear>清除路障</TSA_WD_Inspect_RoadBlockClear>
   <TSA_WD_Inspect_RoadBlockStatus>{0}：{1}% 至 {2}</TSA_WD_Inspect_RoadBlockStatus>
   <TSA_WD_Inspect_RoadBlockStatus_InTransit>{0}：施工队前往 {1}（筹备 {2}%）…</TSA_WD_Inspect_RoadBlockStatus_InTransit>
-  <TSA_WD_RoadBlock_MovementExplanation>路障：+{0}</TSA_WD_RoadBlock_MovementExplanation>
-  <TSA_WD_RoadBlock_TileInspect>{0}：+{1} 移动难度 (HP {2}/{3})</TSA_WD_RoadBlock_TileInspect>
+  <TSA_WD_RoadBlock_MovementExplanation>路障：+{0} 移动代价</TSA_WD_RoadBlock_MovementExplanation>
+  <TSA_WD_RoadBlock_TileInspect>{0}：+{1} 移动代价 (HP {2}/{3})</TSA_WD_RoadBlock_TileInspect>
   <TSA_WD_RoadBlock_DestroyedByTraffic>路障被路过的车队摧毁了。</TSA_WD_RoadBlock_DestroyedByTraffic>
   <TSA_WD_Log_RoadBlock_DestroyedByTraffic>路障被 {0} 摧毁（伤害 {1}）。</TSA_WD_Log_RoadBlock_DestroyedByTraffic>
   <TSA_WD_Inspect_SpikeTrapBuild>刺钉陷阱</TSA_WD_Inspect_SpikeTrapBuild>
@@ -111,7 +111,7 @@
   <TSA_WD_Letter_Revolt_Label>阵营再度崛起</TSA_WD_Letter_Revolt_Label>
   <TSA_WD_Letter_Revolt_Text>政局动荡！阵营 {0} 从沉寂中崛起，夺取了：{1}。在起义中失守的势力：{2}。</TSA_WD_Letter_Revolt_Text>
   <TSA_WD_Letter_Vanguard_Label>先锋部队已出发</TSA_WD_Letter_Vanguard_Label>
-  <TSA_WD_Letter_Vanguard_Text>{0} 已撤走 {1} 座定居点，正将先锋集群开向你的区域。旧营地已毁——在他们扎稳前拦截。</TSA_WD_Letter_Vanguard_Text>
+  <TSA_WD_Letter_Vanguard_Text>{0} 已将定居点编为 {1} 路先锋纵队。每处旧营地各自启程，附近部队先集结再开向你的前线扎营。在他们筑稳前拦截。</TSA_WD_Letter_Vanguard_Text>
   <TSA_WD_Letter_Invasion_Label>入侵部队已出发</TSA_WD_Letter_Invasion_Label>
   <TSA_WD_Letter_Invasion_Text>{0} 已从远方定居点发动 {1} 路协同入侵突袭，进攻你的殖民地与前哨。其家园仍在。准备防御。</TSA_WD_Letter_Invasion_Text>
   <TSA_WD_Letter_DesperationRaid_Label>{0} 的绝望进攻</TSA_WD_Letter_DesperationRaid_Label>
@@ -138,7 +138,7 @@
   <TSA_WD_Log_BtnDetails>详情</TSA_WD_Log_BtnDetails>
   <TSA_WD_Log_ExpandSuccess>扩张:成功。{0} 建立了新 T1 {1}。</TSA_WD_Log_ExpandSuccess>
   <TSA_WD_Log_MassRelocationCancelled>先锋：{0} 中止；在附近重新驻扎。</TSA_WD_Log_MassRelocationCancelled>
-  <TSA_WD_Log_ForwardAssault_Vanguard>先锋：{0} 撤走 {1} 座定居点，在你附近建立集群。</TSA_WD_Log_ForwardAssault_Vanguard>
+  <TSA_WD_Log_ForwardAssault_Vanguard>先锋：{0} 编成 {1} 路纵队开向你的前线。</TSA_WD_Log_ForwardAssault_Vanguard>
   <TSA_WD_Log_ForwardAssault_Invasion>入侵：{0} 发动 {1} 路协同突袭进攻你的据点。</TSA_WD_Log_ForwardAssault_Invasion>
   <TSA_WD_Log_ForwardAssault_PackUpVanguard>先锋：{0} 放弃家园 → 格 {1}。</TSA_WD_Log_ForwardAssault_PackUpVanguard>
   <TSA_WD_Log_ForwardAssault_PackUpInvasion>入侵：{0} 进军 {1}。</TSA_WD_Log_ForwardAssault_PackUpInvasion>
@@ -146,6 +146,7 @@
   <TSA_WD_Log_ForwardAssault_InvasionRallyRaid>入侵：{0} 进军 {1}。</TSA_WD_Log_ForwardAssault_InvasionRallyRaid>
   <TSA_WD_Log_ForwardAssault_RatioBypass>（低于最低兵力比仍已发射）</TSA_WD_Log_ForwardAssault_RatioBypass>
   <TSA_WD_Log_ForwardAssault_VanguardFounded>先锋：建立了 {0}。</TSA_WD_Log_ForwardAssault_VanguardFounded>
+  <TSA_WD_Log_ForwardAssault_VanguardAbsorbed>先锋：增援并入既有据点（{0}）。</TSA_WD_Log_ForwardAssault_VanguardAbsorbed>
   <TSA_WD_Log_ForwardAssault_BlockedRaid>先锋：{0} 在预留格遇到 {1} — 转为突袭。</TSA_WD_Log_ForwardAssault_BlockedRaid>
   <TSA_WD_Log_ForwardAssault_Refound>先锋：{0} 重新驻扎为 {1}。</TSA_WD_Log_ForwardAssault_Refound>
   <TSA_WD_Log_ConquestSettlementFounded>征服:{0} 在成功突袭后建立了 {1}（{2}）。</TSA_WD_Log_ConquestSettlementFounded>
@@ -222,6 +223,7 @@
   <TSA_WD_Traveler_Outpost_Upgrade>前哨升级商队</TSA_WD_Traveler_Outpost_Upgrade>
   <TSA_WD_StrengthAtArrival>抵达时强度</TSA_WD_StrengthAtArrival>
   <TSA_WD_StrengthAtDeparture>强度(出发时)</TSA_WD_StrengthAtDeparture>
+  <TSA_WD_Traveller_AttritionResting>休整以恢复实力</TSA_WD_Traveller_AttritionResting>
   <TSA_WD_TimeSinceDeparture>出发后经过时间</TSA_WD_TimeSinceDeparture>
   <TSA_WD_TimeToDestination>预计总行程时间</TSA_WD_TimeToDestination>
   <TSA_WD_Traveler_AttackCaravan>袭击商队</TSA_WD_Traveler_AttackCaravan>

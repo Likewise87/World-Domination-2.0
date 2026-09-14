@@ -151,7 +151,7 @@
   <TSA_WD_RapidResponse_Tip_MinStrength>Solo lanzar si la fuerza desplegable es al menos este porcentaje de la fuerza actual de la caravana objetivo. 0% significa sin mínimo. Puede superar el 100% si quieres una ventaja clara.</TSA_WD_RapidResponse_Tip_MinStrength>
   <TSA_WD_RapidResponse_Tip_MaxStrength>Cuando esta avanzadilla es lo bastante fuerte para lanzar, envía como máximo esta proporción de la fuerza del objetivo y deja el resto en casa.</TSA_WD_RapidResponse_Tip_MaxStrength>
   <TSA_WD_RapidResponse_Tip_Range>Casillas máximas desde esta avanzadilla para interceptaciones automáticas. El anillo en el mapa mundial se actualiza al arrastrar.</TSA_WD_RapidResponse_Tip_Range>
-  <TSA_WD_RapidResponse_Tip_Reset>Restablecer esta página a los valores por defecto: solo asaltantes, asaltos dirigidos a ti o aliados, 90% de fuerza relativa mínima, 2.00x de fuerza relativa máxima a enviar y alcance completo.</TSA_WD_RapidResponse_Tip_Reset>
+  <TSA_WD_RapidResponse_Tip_Reset>Restablecer esta página a los valores por defecto: solo asaltantes, asaltos dirigidos a ti o aliados, 90% de fuerza relativa mínima, 3.00x de fuerza relativa máxima a enviar y alcance completo.</TSA_WD_RapidResponse_Tip_Reset>
   <TSA_WD_RapidResponse_Tip_Confirm>Aplicar todos los ajustes de esta página y cerrar el diálogo.</TSA_WD_RapidResponse_Tip_Confirm>
   <TSA_WD_RapidResponse_MenuSection_InterceptRaiders>Interceptar asaltantes</TSA_WD_RapidResponse_MenuSection_InterceptRaiders>
   <TSA_WD_RapidResponse_MenuSection_RaidTarget>Interceptar ataques dirigidos a</TSA_WD_RapidResponse_MenuSection_RaidTarget>
@@ -253,7 +253,7 @@
   <TSA_WD_CancelRoad>Cancelar construcción de carretera</TSA_WD_CancelRoad>
   <TSA_WD_CancelRoadDesc>Detener toda construcción de carreteras de esta avanzadilla.</TSA_WD_CancelRoadDesc>
   <TSA_WD_BuildRoadBlocks>Construir bloqueos de carretera</TSA_WD_BuildRoadBlocks>
-  <TSA_WD_BuildRoadBlocksDesc>Construye bloqueos de carretera para aumentar la dificultad de movimiento en un mosaico del mundo.</TSA_WD_BuildRoadBlocksDesc>
+  <TSA_WD_BuildRoadBlocksDesc>Construye bloqueos de carretera para aumentar el coste de movimiento en un mosaico del mundo.</TSA_WD_BuildRoadBlocksDesc>
   <TSA_WD_ClearRoadBlocks>Quitar bloqueos de carretera</TSA_WD_ClearRoadBlocks>
   <TSA_WD_ClearRoadBlocksDesc>Quita bloqueos de carretera existentes.</TSA_WD_ClearRoadBlocksDesc>
   <TSA_WD_RemoveFortifications>Quitar fortificaciones</TSA_WD_RemoveFortifications>
@@ -1107,7 +1107,10 @@
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Scavenging>Produce bienes aleatorios cada ciclo. Cada colono añade 500 de plata de botín por entrega. Ciclo fijo; requiere al menos 2 colonos para fundar</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Scavenging>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mining>Produce bloques de piedra, menas y componentes. Escala con la eficiencia minera del casillero del mapa. La eficiencia puede mejorarse con mejoras</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mining>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fabrication>Produce componentes industriales y avanzados. Escala con Artesanía. Requiere investigación Fabricación</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fabrication>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>Produce combustible químico. Escala con Artesanía. Requiere investigación Refinado de biocombustible</TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>Produce combustible químico (Artesanía), neutroamina y tinte (Medicina). Requiere Refinado de biocombustible para fundar</TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_DeepchemDrill>Produce deepchem en desierto. Escala con Intelecto. Requiere Vanilla Chemfuel Expanded</TSA_WD_OutpostTooltip_TSA_WD_Outpost_DeepchemDrill>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_RawShaping>Produce plastacero, sinhilo o hipertejido en desierto. Escala con Artesanía</TSA_WD_OutpostTooltip_TSA_WD_Outpost_RawShaping>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_DeepchemFactory>Puesto químico legacy. Produce neutroamina y tinte (Medicina). Prefiere una Refinería química para fundaciones nuevas</TSA_WD_OutpostTooltip_TSA_WD_Outpost_DeepchemFactory>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>Produce leche, huevos, lana y carne (pollo, cerdo, vaca). Escala con la fertilidad del casillero y la habilidad Animal. La eficiencia puede mejorarse con mejoras</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Academy>Entrena colonos en una habilidad por ciclo. La habilidad del profesor fija la XP y el tope de nivel. No produce bienes</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Academy>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mortar>Lanza golpes de mortero a larga distancia contra objetivos hostiles. Usa la habilidad Disparo de la guarnición. No produce bienes</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mortar>

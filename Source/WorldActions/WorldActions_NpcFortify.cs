@@ -104,7 +104,7 @@ namespace TSA_WorldDomination
 
             // AT phase: one crew.
             WorldActions_FortifyKit.CollectMissingAtTiles(
-                actor.Tile.tileId, actor.Faction, maxAt, pickedFortifyTiles, tempPhaseTiles);
+                actor.Tile.tileId, actor.Faction, maxAt, actor, pickedFortifyTiles, tempPhaseTiles);
             if (tempPhaseTiles.Count < 1) return false;
             if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(comp, cost, seth)) return false;
 
@@ -272,7 +272,7 @@ namespace TSA_WorldDomination
                 tile, faction, atTier, origin,
                 requirePlayerBuildSite: false,
                 allowRoadTile: true,
-                ignoreSettlementCap: true);
+                ignoreSettlementCap: false);
             if (turret == null) return;
 
             Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(

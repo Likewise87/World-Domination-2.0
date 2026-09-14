@@ -12,8 +12,18 @@ namespace TSA_WorldDomination
         public Alert_WDMidGameActive()
         {
             defaultLabel = "TSA_WD_Alert_MidGameActive".Translate();
-            defaultExplanation = "TSA_WD_Alert_MidGameActiveDesc".Translate();
             defaultPriority = AlertPriority.Medium;
+        }
+
+        public override string GetLabel() => "TSA_WD_Alert_MidGameActive".Translate();
+
+        public override TaggedString GetExplanation()
+        {
+            var seth = WorldDominationMod.settings;
+            string body = WdEscalation.BuildStageLetterText(seth, WdEscalationStage.Mid);
+            return string.IsNullOrEmpty(body)
+                ? "TSA_WD_Alert_MidGameActiveDesc".Translate()
+                : body;
         }
 
         public override AlertReport GetReport()

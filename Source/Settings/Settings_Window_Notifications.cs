@@ -152,9 +152,19 @@ namespace TSA_WorldDomination
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_IncomingRaidColonyTooltip".Translate(), WorldDominationSettings.DefNotifyIncomingRaidColony));
 
                 l.CheckboxLabeled(
+                    "TSA_WD_Notify_RaidArrivalColony".Translate(),
+                    ref s.notifyRaidArrivalColony,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_RaidArrivalColonyTooltip".Translate(), WorldDominationSettings.DefNotifyRaidArrivalColony));
+
+                l.CheckboxLabeled(
                     "TSA_WD_Notify_IncomingRaidOutpost".Translate(),
                     ref s.notifyIncomingRaidOutpost,
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_IncomingRaidOutpostTooltip".Translate(), WorldDominationSettings.DefNotifyIncomingRaidOutpost));
+
+                l.CheckboxLabeled(
+                    "TSA_WD_Notify_RaidArrivalOutpost".Translate(),
+                    ref s.notifyRaidArrivalOutpost,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_RaidArrivalOutpostTooltip".Translate(), WorldDominationSettings.DefNotifyRaidArrivalOutpost));
 
                 l.CheckboxLabeled(
                     "TSA_WD_Notify_RaidDivertedFromPlayer".Translate(),

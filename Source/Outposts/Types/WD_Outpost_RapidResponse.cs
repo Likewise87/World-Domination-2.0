@@ -97,6 +97,21 @@ namespace TSA_WorldDomination
             outpost.SetRapidResponseMaxStrengthRatio(RapidResponseUtility.DefaultMaxStrengthRatio);
             outpost.SetRapidResponseActive(true);
         }
+
+        /// <summary>Grant Shooting + Melee event XP once per winning intercept traveler.</summary>
+        public static void TryGrantWinSkillXp(WorldObject_Traveler rapidResponse, bool won)
+        {
+            if (!won || rapidResponse == null || rapidResponse.rapidResponseWinXpGranted) return;
+            if (!(rapidResponse.originObject is WorldObject_WD_Outpost outpost) || !outpost.IsRapidResponseOutpost)
+                return;
+            if (outpost.Faction != Faction.OfPlayer) return;
+            rapidResponse.rapidResponseWinXpGranted = true;
+            Outpost_OccupantProgression.ApplySkillXp(
+                outpost,
+                Outpost_OccupantProgression.EventXpRapidResponsePerWin,
+                SkillDefOf.Shooting,
+                SkillDefOf.Melee);
+        }
     }
 
     public static class RapidResponseUtility
@@ -137,9 +152,9 @@ namespace TSA_WorldDomination
             return WorldActions_Utils.GetAvailableRaidStrength(comp, seth);
         }
 
-        public const float DefaultMaxStrengthRatio = 2.0f;
+        public const float DefaultMaxStrengthRatio = 3.0f;
         public const float MinMaxStrengthRatio = 0.5f;
-        public const float MaxMaxStrengthRatio = 3f;
+        public const float MaxMaxStrengthRatio = 5f;
 
         /// <summary>After the min-ratio gate: send at most maxRatio × target strength, keep the rest home.</summary>
         public static float CapSentStrength(float available, float targetStrength, float maxRatio)

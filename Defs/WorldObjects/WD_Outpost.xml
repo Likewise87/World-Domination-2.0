@@ -242,10 +242,11 @@
     </modExtensions>
   </WorldObjectDef>
   
-    <!-- BiofuelRefinery -->
+    <!-- Chemical Refinery (formerly Biofuel). Founding still needs BiofuelRefining. -->
   <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction">
     <defName>TSA_WD_Outpost_BiofuelRefinery</defName>
-    <label>Biofuel Outpost</label>
+    <label>Chemical Refinery</label>
+    <description>Produces chemfuel, neutroamine, and dye.</description>
     <texture>WorldObjects/WD_Outpost_BiofuelRefinery</texture>
     <expandingIconTexture>WorldObjects/WD_Outpost_BiofuelRefinery</expandingIconTexture>
     <modExtensions>
@@ -266,7 +267,138 @@
         <productionOptions>
           <li><thingDef>Chemfuel</thingDef><amountPerSkillLevel>22</amountPerSkillLevel><minSkillLevel>3</minSkillLevel></li>
           <li MayRequire="CETeam.CombatExtended"><thingDef>FSX</thingDef><amountPerSkillLevel>3</amountPerSkillLevel><minSkillLevel>6</minSkillLevel></li>
-          <li MayRequire="CETeam.CombatExtended"><thingDef>Prometheum</thingDef><amountPerSkillLevel>1</amountPerSkillLevel><minSkillLevel>14</minSkillLevel></li>
+          <li MayRequire="CETeam.CombatExtended"><thingDef>Prometheum</thingDef><amountPerSkillLevel>2</amountPerSkillLevel><minSkillLevel>14</minSkillLevel></li>
+          <li><thingDef>Neutroamine</thingDef><amountPerSkillLevel>2</amountPerSkillLevel><minSkillLevel>10</minSkillLevel><scalingSkill>Medicine</scalingSkill></li>
+          <li><thingDef>Dye</thingDef><amountPerSkillLevel>15</amountPerSkillLevel><minSkillLevel>5</minSkillLevel><scalingSkill>Medicine</scalingSkill></li>
+        </productionOptions>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+
+  <!-- Deepchem Drill (Vanilla Chemfuel Expanded). Credits: Bambaryla / Pesky addon absorb. -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction" MayRequire="VanillaExpanded.VChemfuelE">
+    <defName>TSA_WD_Outpost_DeepchemDrill</defName>
+    <label>Deepchem Drilling Outpost</label>
+    <description>Drills deepchem on desert tiles. Requires Vanilla Chemfuel Expanded.</description>
+    <texture>WorldObjects/WD_Outpost_DeepchemDrill</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_DeepchemDrill</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <allowedBiomes>
+          <li>Desert</li>
+          <li>ExtremeDesert</li>
+        </allowedBiomes>
+        <outpostTier>2</outpostTier>
+        <minPawnsToFound>5</minPawnsToFound>
+        <MinCumulativeSkill>
+          <li><Construction>20</Construction></li>
+          <li><Intellectual>5</Intellectual></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+          <Steel>1000</Steel>
+          <ComponentIndustrial>50</ComponentIndustrial>
+        </establishmentCost>
+        <productionCycleDays>40</productionCycleDays>
+        <productionOptions>
+          <li>
+            <thingDef>VCHE_Deepchem</thingDef>
+            <amountPerSkillLevel>35</amountPerSkillLevel>
+            <minSkillLevel>10</minSkillLevel>
+            <scalingSkill>Intellectual</scalingSkill>
+          </li>
+        </productionOptions>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+
+  <!-- Raw Resource Shaping. Credits: Bambaryla / Pesky addon absorb. -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction">
+    <defName>TSA_WD_Outpost_RawShaping</defName>
+    <label>Raw Resource Shaping Outpost</label>
+    <description>Produces plasteel, synthread, or hyperweave on desert tiles.</description>
+    <texture>WorldObjects/WD_Outpost_RawShaping</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_RawShaping</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <allowedBiomes>
+          <li>Desert</li>
+          <li>ExtremeDesert</li>
+        </allowedBiomes>
+        <outpostTier>3</outpostTier>
+        <minPawnsToFound>5</minPawnsToFound>
+        <MinCumulativeSkill>
+          <li><Construction>20</Construction></li>
+          <li><Crafting>10</Crafting></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <WoodLog>100</WoodLog>
+          <Steel>1000</Steel>
+          <ComponentSpacer>15</ComponentSpacer>
+        </establishmentCost>
+        <productionCycleDays>40</productionCycleDays>
+        <productionOptions>
+          <li>
+            <thingDef>Plasteel</thingDef>
+            <amountPerSkillLevel>20</amountPerSkillLevel>
+            <minSkillLevel>10</minSkillLevel>
+            <scalingSkill>Crafting</scalingSkill>
+          </li>
+          <li>
+            <thingDef>Synthread</thingDef>
+            <amountPerSkillLevel>36</amountPerSkillLevel>
+            <minSkillLevel>10</minSkillLevel>
+            <scalingSkill>Crafting</scalingSkill>
+          </li>
+          <li>
+            <thingDef>Hyperweave</thingDef>
+            <amountPerSkillLevel>22</amountPerSkillLevel>
+            <minSkillLevel>10</minSkillLevel>
+            <scalingSkill>Crafting</scalingSkill>
+          </li>
+        </productionOptions>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+
+  <!-- Legacy Deepchem Factory (addon save continuity). Same chemical products as Chemical Refinery. -->
+  <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction">
+    <defName>TSA_WD_Outpost_DeepchemFactory</defName>
+    <label>Deepchem Factory Outpost</label>
+    <description>Legacy chemical outpost from the Bambaryla addon. Produces neutroamine and dye. Prefer founding a Chemical Refinery for new outposts.</description>
+    <texture>WorldObjects/WD_Outpost_DeepchemFactory</texture>
+    <expandingIconTexture>WorldObjects/WD_Outpost_DeepchemFactory</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <allowedBiomes>
+          <li>Desert</li>
+          <li>ExtremeDesert</li>
+        </allowedBiomes>
+        <outpostTier>2</outpostTier>
+        <minPawnsToFound>5</minPawnsToFound>
+        <MinCumulativeSkill>
+          <li><Construction>20</Construction></li>
+          <li><Medicine>5</Medicine></li>
+        </MinCumulativeSkill>
+        <establishmentCost>
+          <Steel>500</Steel>
+          <ComponentIndustrial>25</ComponentIndustrial>
+          <ComponentSpacer>5</ComponentSpacer>
+        </establishmentCost>
+        <productionCycleDays>30</productionCycleDays>
+        <productionOptions>
+          <li>
+            <thingDef>Neutroamine</thingDef>
+            <amountPerSkillLevel>25</amountPerSkillLevel>
+            <minSkillLevel>10</minSkillLevel>
+            <scalingSkill>Medicine</scalingSkill>
+          </li>
+          <li>
+            <thingDef>Dye</thingDef>
+            <amountPerSkillLevel>50</amountPerSkillLevel>
+            <minSkillLevel>5</minSkillLevel>
+            <scalingSkill>Medicine</scalingSkill>
+          </li>
         </productionOptions>
       </li>
     </modExtensions>

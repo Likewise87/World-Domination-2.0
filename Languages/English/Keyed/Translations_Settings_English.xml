@@ -73,11 +73,21 @@
   <TSA_WD_Combat_GateT4AntiAir>T4 anti-air vs player</TSA_WD_Combat_GateT4AntiAir>
   <TSA_WD_Combat_GateT4AntiAirTip>When enemy T4 settlement anti-air may target the player.</TSA_WD_Combat_GateT4AntiAirTip>
   <TSA_WD_Combat_GateVanguard>Vanguard</TSA_WD_Combat_GateVanguard>
-  <TSA_WD_Combat_GateVanguardTip>Stage gate for Forward Assault Vanguard cluster near the player.</TSA_WD_Combat_GateVanguardTip>
+  <TSA_WD_Combat_GateVanguardTip>Stage gate for Forward Assault Vanguard: packs far settlements into a few strong caravans that dig in on your front line (not on the colony).</TSA_WD_Combat_GateVanguardTip>
   <TSA_WD_Combat_GateInvasion>Invasion</TSA_WD_Combat_GateInvasion>
   <TSA_WD_Combat_GateInvasionTip>Stage gate for Forward Assault Invasion (5–7 coordinated raids from far hosts; homes stay). Ignores normal raid cooldown and min raid ratio.</TSA_WD_Combat_GateInvasionTip>
   <TSA_WD_Combat_FallBackToInvasion>Fall back to Invasion if Vanguard cluster fails</TSA_WD_Combat_FallBackToInvasion>
   <TSA_WD_Combat_FallBackToInvasionTip>When Vanguard cannot reserve a settlement cluster, attempt Invasion instead (if the Invasion gate also passes).</TSA_WD_Combat_FallBackToInvasionTip>
+  <TSA_WD_Combat_VanguardClusterMinDist>Vanguard min distance from colony</TSA_WD_Combat_VanguardClusterMinDist>
+  <TSA_WD_Combat_VanguardClusterMinDistTip>Dig-in tiles must stay at least this far from your colony. Front outposts beyond this distance can seed the cluster.</TSA_WD_Combat_VanguardClusterMinDistTip>
+  <TSA_WD_Combat_VanguardClusterMaxDist>Vanguard max distance from colony</TSA_WD_Combat_VanguardClusterMaxDist>
+  <TSA_WD_Combat_VanguardClusterMaxDistTip>When seeding from a colony annulus (no usable front outpost), pick tiles no farther than this from the colony, toward the pack.</TSA_WD_Combat_VanguardClusterMaxDistTip>
+  <TSA_WD_Combat_VanguardFoundSitesMin>Vanguard strongholds (min)</TSA_WD_Combat_VanguardFoundSitesMin>
+  <TSA_WD_Combat_VanguardFoundSitesMinTip>Minimum number of dig-in sites (and merged caravans) per Vanguard event. Packs still abandon 5–7 homes, but strength folds into these few fists.</TSA_WD_Combat_VanguardFoundSitesMinTip>
+  <TSA_WD_Combat_VanguardFoundSitesMax>Vanguard strongholds (max)</TSA_WD_Combat_VanguardFoundSitesMax>
+  <TSA_WD_Combat_VanguardFoundSitesMaxTip>Maximum dig-in sites per Vanguard event. Sites sit one free tile apart.</TSA_WD_Combat_VanguardFoundSitesMaxTip>
+  <TSA_WD_Combat_VanguardMergeRadius>Vanguard merge radius</TSA_WD_Combat_VanguardMergeRadius>
+  <TSA_WD_Combat_VanguardMergeRadiusTip>Legacy slider. Columns now merge only at the local rally (same tile). Strength is not teleported at launch.</TSA_WD_Combat_VanguardMergeRadiusTip>
   <TSA_WD_Combat_InvasionIgnoresCooldownHint>Note: Invasion ignores normal raid and daily-action cooldowns.</TSA_WD_Combat_InvasionIgnoresCooldownHint>
   <TSA_WD_Combat_InvasionIgnoresMinRatioHint>Note: Invasion ignores the min raid ratio below.</TSA_WD_Combat_InvasionIgnoresMinRatioHint>
   <TSA_WD_Combat_GateDesperation>Strategy on Settlement Loss</TSA_WD_Combat_GateDesperation>
@@ -86,7 +96,7 @@
   <TSA_WD_Combat_HeaderTurtleTip>Daily: threatened clusters pack weak T1/T2 sites into a T4 hub (overflow to nearby T3s), promote by strength, and fortify. Separate from Strategy on Settlement Loss.</TSA_WD_Combat_HeaderTurtleTip>
   <TSA_WD_Combat_GateTurtleTip>Stage gate for daily turtle consolidate. Always = from game start. Never = off.</TSA_WD_Combat_GateTurtleTip>
   <TSA_WD_Combat_IsolationPressureHeader>Isolation pressure</TSA_WD_Combat_IsolationPressureHeader>
-  <TSA_WD_Combat_IsolationPressureHeaderTip>When fewer than two hostile factions can reach your colonies, one eligible faction may be forced to found 1–2 settlements near you. Per-faction cooldown.</TSA_WD_Combat_IsolationPressureHeaderTip>
+  <TSA_WD_Combat_IsolationPressureHeaderTip>When fewer than three hostile factions can reach your colonies, one eligible faction may be forced to found 1–2 settlements near you. Per-faction cooldown.</TSA_WD_Combat_IsolationPressureHeaderTip>
   <TSA_WD_Combat_GateIsolationPressureTip>Stage gate for Isolation Pressure. Always = from game start. Never = off. Difficulty presets do not change this.</TSA_WD_Combat_GateIsolationPressureTip>
   <TSA_WD_Combat_IsolationPressureCooldown>Per-faction cooldown</TSA_WD_Combat_IsolationPressureCooldown>
   <TSA_WD_Combat_IsolationPressureCooldownTip>Days before the same faction can be forced to expand again under Isolation Pressure.</TSA_WD_Combat_IsolationPressureCooldownTip>
@@ -207,7 +217,7 @@
   <TSA_WD_Important_Diff_Medium>Medium Difficulty</TSA_WD_Important_Diff_Medium>
   <TSA_WD_Important_Diff_Hard>Hard Difficulty</TSA_WD_Important_Diff_Hard>
   <TSA_WD_Important_Diff_EasyDesc>Longer raid cooldowns, fewer raids, weaker storyteller clamp (50–150%), raid weight 100. Threat stage gates Never (ToO, T4 vs you, Vanguard/Invasion, desperation, strong war). Mid/Late escalation off. Outpost skill diminishing returns off.</TSA_WD_Important_Diff_EasyDesc>
-  <TSA_WD_Important_Diff_MediumDesc>Default raid pressure and raid weight 200. Threat stage gates From Mid. Mid Game at 15% share or 6,000 outpost strength; Late Game at 25% or 10,000. Outpost skill diminishing returns on with default bands.</TSA_WD_Important_Diff_MediumDesc>
+  <TSA_WD_Important_Diff_MediumDesc>Default raid pressure and raid weight 200. Threat stage gates From Mid. Mid Game at 8% share or 4,000 outpost strength; Late Game at 14% or 7,500. Outpost skill diminishing returns on with default bands.</TSA_WD_Important_Diff_MediumDesc>
   <TSA_WD_Important_Diff_HardDesc>Shorter cooldowns, more raids allowed, stronger storyteller clamp (100–300%), raid weight 200 (same as Medium). Threat stage gates Always. Same Mid/Late timing as Medium, but Late Game hits harder. Outpost skill diminishing returns on with default bands.</TSA_WD_Important_Diff_HardDesc>
   <TSA_WD_PlayerArtillery_Reset>Reset this page to Defaults</TSA_WD_PlayerArtillery_Reset>
   <TSA_WD_FacDet_BtnView>View</TSA_WD_FacDet_BtnView>
@@ -484,10 +494,20 @@
   <TSA_WD_AllegianceMatrixInGameOnly>Allowed diplomacy changes can only be opened while playing (not from the main menu).</TSA_WD_AllegianceMatrixInGameOnly>
   <TSA_WD_Outpost_MaxTravelStrengthLoss>Max. travel strength loss</TSA_WD_Outpost_MaxTravelStrengthLoss>
   <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>Maximum percentage of departure strength that travelers (raids, expansion, road builders) can lose during travel. They keep the remaining share of initial strength and never expire from attrition alone.</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
+  <TSA_WD_Caravans_AttritionRestGate>Mid/Late attrition rest</TSA_WD_Caravans_AttritionRestGate>
+  <TSA_WD_Caravans_AttritionRestGateTooltip>When Mid or Late escalation is active (or Always), walking travelers that hit the rest strength floor from attrition stop, regenerate to full departure strength, then resume. Forecasts and raid gates assume at least this floor. Easy difficulty presets set this to Never.</TSA_WD_Caravans_AttritionRestGateTooltip>
+  <TSA_WD_Caravans_AttritionRestMinRatio>Attrition rest strength floor</TSA_WD_Caravans_AttritionRestMinRatio>
+  <TSA_WD_Caravans_AttritionRestMinRatioTooltip>Share of departure strength that triggers rest and floors attrition forecasts (default 80%). Combat, traps, and pollution can still push live strength lower.</TSA_WD_Caravans_AttritionRestMinRatioTooltip>
+  <TSA_WD_Caravans_AttritionRestRegen>Attrition rest regen per hour</TSA_WD_Caravans_AttritionRestRegen>
+  <TSA_WD_Caravans_AttritionRestRegenTooltip>Fraction of departure strength restored each hour while resting (default 2% → about 10 hours from 80% to 100%).</TSA_WD_Caravans_AttritionRestRegenTooltip>
+  <TSA_WD_Caravans_AttritionRestFireGrace>Attrition rest fire cooldown (days)</TSA_WD_Caravans_AttritionRestFireGrace>
+  <TSA_WD_Caravans_AttritionRestFireGraceTooltip>After a mortar, AT, or AA hit, the traveler will not start resting for this many days (default 0.5). A hit while resting cancels rest immediately.</TSA_WD_Caravans_AttritionRestFireGraceTooltip>
+  <TSA_WD_Caravans_AttritionRestNearDest>Skip rest near destination (days)</TSA_WD_Caravans_AttritionRestNearDest>
+  <TSA_WD_Caravans_AttritionRestNearDestTooltip>Do not begin resting if remaining travel time is at most this many days (default 0.1). Attrition still floors at the rest ratio.</TSA_WD_Caravans_AttritionRestNearDestTooltip>
   <TSA_WD_Caravans_OnlyWaterIfNoLandPath>Travelers: only cross water if no land route exists</TSA_WD_Caravans_OnlyWaterIfNoLandPath>
-  <TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>When enabled, WD travelers use the normal world path first and only use water-capable routing if that fails. When disabled, both routes are compared and the faster one is used (same difficulty units as below).</TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>
-  <TSA_WD_Caravans_WaterMovementDifficulty>Travelers: water tile movement difficulty</TSA_WD_Caravans_WaterMovementDifficulty>
-  <TSA_WD_Caravans_WaterMovementDifficultyTip>Difficulty units applied when a traveler enters a water-covered world tile (vanilla world movement scale). Used for path cost, travel time, and attrition estimates.</TSA_WD_Caravans_WaterMovementDifficultyTip>
+  <TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>When enabled, WD travelers use the normal world path first and only use water-capable routing if that fails. When disabled, both routes are compared and the faster one is used (same cost units as below).</TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>
+  <TSA_WD_Caravans_WaterMovementDifficulty>Travelers: water tile movement cost</TSA_WD_Caravans_WaterMovementDifficulty>
+  <TSA_WD_Caravans_WaterMovementDifficultyTip>Path cost units applied when a traveler enters a water-covered world tile (vanilla world movement scale). Used for path cost, travel time, and attrition estimates. Lower = faster.</TSA_WD_Caravans_WaterMovementDifficultyTip>
   <TSA_WD_Caravans_WaterPathThreshold>Water path: skip if land path shorter than (days)</TSA_WD_Caravans_WaterPathThreshold>
   <TSA_WD_Caravans_WaterPathThresholdTip>If a land-only path exists and takes fewer days than this threshold, the expensive water-routing calculation is skipped entirely. Set to 0 to always compute water paths. Higher values improve performance at the cost of occasionally missing a faster water shortcut.</TSA_WD_Caravans_WaterPathThresholdTip>
   <TSA_WD_ModUpdated>World Domination has been updated to {0}.\nClick "Open" to access the change log.</TSA_WD_ModUpdated>
@@ -647,9 +667,9 @@
   <TSA_WD_WorldMap_OverlayMiningEfficiency>Mining Efficiency</TSA_WD_WorldMap_OverlayMiningEfficiency>
   <TSA_WD_WorldMap_OverlayMiningEfficiencyTip>Shows mining efficiency around the cursor. Useful for mining outposts.\n\nColors (hover %):\n• Red: 0–35% (poor)\n• Orange/Yellow: 36–70%\n• Green: 71–100%\n• Purple: over 100% (best; mutators can push higher)\n\nOnly one tile overlay can be active; click again to turn it off.</TSA_WD_WorldMap_OverlayMiningEfficiencyTip>
   <TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>Overlays do not take into account Outpost upgrades but only the world tile as is.</TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>
-  <TSA_WD_WorldMap_OverlayMovementDifficulty>Movement Difficulty</TSA_WD_WorldMap_OverlayMovementDifficulty>
-  <TSA_WD_WorldMap_OverlayMovementDifficultyTip>Shows movement difficulty around the cursor (terrain × roads, including road blocks).\n\nColors:\n• Purple: 0–0.59 (best)\n• Green: 0.6–1.49\n• Yellow: 1.5–2.49\n• Red: 2.5–3.49\n• Dark red: 3.5+\n• Black: impassable\n\nOnly one tile overlay can be active; click again to turn it off.</TSA_WD_WorldMap_OverlayMovementDifficultyTip>
-  <TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>Movement difficulty: {0}</TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>
+  <TSA_WD_WorldMap_OverlayMovementDifficulty>Movement cost</TSA_WD_WorldMap_OverlayMovementDifficulty>
+  <TSA_WD_WorldMap_OverlayMovementDifficultyTip>Shows world travel cost around the cursor (terrain × road multipliers, then road-block penalties). Same scale as vanilla world movement; lower is faster.\n\nColors:\n• Purple: 0–0.59 (fastest)\n• Green: 0.6–1.49\n• Yellow: 1.5–2.49\n• Red: 2.5–3.49\n• Dark red: 3.5+\n• Black: impassable\n\nOnly one tile overlay can be active; click again to turn it off.</TSA_WD_WorldMap_OverlayMovementDifficultyTip>
+  <TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>Movement cost: {0}</TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>
   <TSA_WD_WorldMap_OverlayMovementDifficulty_Impassable>Impassable</TSA_WD_WorldMap_OverlayMovementDifficulty_Impassable>
   <TSA_WD_WorldMap_OverlayPollution>Pollution</TSA_WD_WorldMap_OverlayPollution>
   <TSA_WD_WorldMap_OverlayPollutionTip>Shows Biotech tile pollution around the cursor. Useful for planning Decontamination Crew missions.\n\nColors (hover %):\n• Green: 0%\n• Light green: 1–20%\n• Yellow: 21–40%\n• Orange: 41–69%\n• Red: 70–100%\n\nOnly one tile overlay can be active; click again to turn it off. Requires Biotech.</TSA_WD_WorldMap_OverlayPollutionTip>
@@ -731,11 +751,11 @@
   <TSA_WD_RoadBuilding_DirtRoad>Dirt road</TSA_WD_RoadBuilding_DirtRoad>
   <TSA_WD_RoadBuilding_StoneRoad>Stone road</TSA_WD_RoadBuilding_StoneRoad>
   <TSA_WD_RoadBuilding_AsphaltRoad>Asphalt road</TSA_WD_RoadBuilding_AsphaltRoad>
-  <TSA_WD_RoadBuilding_Movement>Movement Difficulty Multiplier</TSA_WD_RoadBuilding_Movement>
-  <TSA_WD_RoadBuilding_MovementTip>Multiplies world-path movement difficulty on this road type while Roads of the Rim is not active (written onto the vanilla road def). Lower = faster travel.</TSA_WD_RoadBuilding_MovementTip>
+  <TSA_WD_RoadBuilding_Movement>Movement cost multiplier</TSA_WD_RoadBuilding_Movement>
+  <TSA_WD_RoadBuilding_MovementTip>Cost multiplier for world-path travel on this road type while Roads of the Rim is not active (written onto the vanilla road def). Lower = faster travel.</TSA_WD_RoadBuilding_MovementTip>
   <TSA_WD_RoadBuilding_WinterReductionHeader>Winter movement penalty reduction</TSA_WD_RoadBuilding_WinterReductionHeader>
   <TSA_WD_RoadBuilding_WinterReduction>Winter movement penalty reduction</TSA_WD_RoadBuilding_WinterReduction>
-  <TSA_WD_RoadBuilding_WinterReductionTip>How much of the winter movement penalty this road type cancels. Always applied: via our winter patch when Roads of the Rim is off, or written into RotR winterFactor when that mod is active. Shown in the world tile Terrain tab movement tooltip and included in the movement-difficulty overlay.</TSA_WD_RoadBuilding_WinterReductionTip>
+  <TSA_WD_RoadBuilding_WinterReductionTip>How much of the winter movement cost penalty this road type cancels. Always applied: via our winter patch when Roads of the Rim is off, or written into RotR winterFactor when that mod is active. Shown in the world tile Terrain tab movement tooltip and included in the movement cost overlay.</TSA_WD_RoadBuilding_WinterReductionTip>
   <TSA_WD_RoadBuilding_WinterReductionExplanation>{0}: winter penalty reduced by {1}% (movement mult ×{2})</TSA_WD_RoadBuilding_WinterReductionExplanation>
   <TSA_WD_RoadBuilding_WinterReductionTerrainTip>{0}: winter penalty reduction {1}% (applied via Roads of the Rim)</TSA_WD_RoadBuilding_WinterReductionTerrainTip>
   <TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>{0}: winter penalty reduction {1}% (no winter on this tile right now)</TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>
@@ -750,8 +770,8 @@
   <TSA_WD_RoadBuilding_RoadBlockRange>Range to build Road Blocks</TSA_WD_RoadBuilding_RoadBlockRange>
   <TSA_WD_RoadBuilding_RoadBlockRangeTip>Maximum world-tile range for planning road-block build/clear polylines from an outpost.</TSA_WD_RoadBuilding_RoadBlockRangeTip>
   <TSA_WD_RoadBuilding_RoadBlockWorkTip>Abstract work cost for one road-block tile (build or clear). Same Construction progress rules as roads: rate = total Construction skill; relative Work vs Dirt road Work sets duration.</TSA_WD_RoadBuilding_RoadBlockWorkTip>
-  <TSA_WD_RoadBuilding_RoadBlockPenalty>Movement penalty</TSA_WD_RoadBuilding_RoadBlockPenalty>
-  <TSA_WD_RoadBuilding_RoadBlockPenaltyTip>Flat movement difficulty added after road multipliers when entering a blocked tile of this tier (all factions; ballistic travel ignores this).</TSA_WD_RoadBuilding_RoadBlockPenaltyTip>
+  <TSA_WD_RoadBuilding_RoadBlockPenalty>Movement cost penalty</TSA_WD_RoadBuilding_RoadBlockPenalty>
+  <TSA_WD_RoadBuilding_RoadBlockPenaltyTip>Flat movement cost added after road multipliers when entering a blocked tile of this tier (all factions; ballistic travel ignores this).</TSA_WD_RoadBuilding_RoadBlockPenaltyTip>
   <TSA_WD_RoadBuilding_RoadBlockStrength>Off. Strength deducted on Caravan dispatch</TSA_WD_RoadBuilding_RoadBlockStrength>
   <TSA_WD_RoadBuilding_RoadBlockStrengthTip>Offensive strength removed from the outpost when a road-block caravan is dispatched for one tile. Refunded if the launch fails immediately.</TSA_WD_RoadBuilding_RoadBlockStrengthTip>
   <TSA_WD_RoadBuilding_MaxHealth>Max health</TSA_WD_RoadBuilding_MaxHealth>
@@ -784,12 +804,12 @@
   <TSA_WD_RoadBlockHeavy>Heavy road block</TSA_WD_RoadBlockHeavy>
   <TSA_WD_RoadBlockGate>Gate</TSA_WD_RoadBlockGate>
   <TSA_WD_RoadBlockKind_Disabled>{0} (Construction {1}/{2})</TSA_WD_RoadBlockKind_Disabled>
-  <TSA_WD_RoadBlockKindTooltip>Work: {0}\nMovement penalty: +{1}\nEst. days/tile: {2}\nStrength cost: {3}\nMax HP: {4}</TSA_WD_RoadBlockKindTooltip>
+  <TSA_WD_RoadBlockKindTooltip>Work: {0}\nCost penalty: +{1}\nEst. days/tile: {2}\nStrength cost: {3}\nMax HP: {4}</TSA_WD_RoadBlockKindTooltip>
   <TSA_WD_SpikeTrapSpike>Spike trap</TSA_WD_SpikeTrapSpike>
   <TSA_WD_SpikeTrapCaltrops>Caltrops</TSA_WD_SpikeTrapCaltrops>
   <TSA_WD_SpikeTrapKind_Disabled>{0} (Construction {1}/{2})</TSA_WD_SpikeTrapKind_Disabled>
   <TSA_WD_SpikeTrapKindTooltip>Work: {0}\nDamage: {1}\nEst. days/tile: {2}\nStrength cost: {3}\nMax HP: {4}</TSA_WD_SpikeTrapKindTooltip>
-  <TSA_WD_RoadKindTooltip>Work: {0}\nMovement mult: {1}\nEst. days/segment: {2}\nStrength cost: {3}</TSA_WD_RoadKindTooltip>
+  <TSA_WD_RoadKindTooltip>Work: {0}\nCost mult: {1}\nEst. days/segment: {2}\nStrength cost: {3}</TSA_WD_RoadKindTooltip>
   <TSA_WD_BuildReq_Header>Requirements</TSA_WD_BuildReq_Header>
   <TSA_WD_BuildReq_Construction>Construction: {0} / {1}</TSA_WD_BuildReq_Construction>
   <TSA_WD_BuildReq_ResearchNone>Research: none</TSA_WD_BuildReq_ResearchNone>

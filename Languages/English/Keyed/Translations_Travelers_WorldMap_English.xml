@@ -48,8 +48,8 @@
   <TSA_WD_Inspect_RoadBlockClear>Clearing Road Blocks</TSA_WD_Inspect_RoadBlockClear>
   <TSA_WD_Inspect_RoadBlockStatus>{0}: {1}% toward {2}</TSA_WD_Inspect_RoadBlockStatus>
   <TSA_WD_Inspect_RoadBlockStatus_InTransit>{0}: crew in transit to {1} (prep {2}%)...</TSA_WD_Inspect_RoadBlockStatus_InTransit>
-  <TSA_WD_RoadBlock_MovementExplanation>Road Block: +{0}</TSA_WD_RoadBlock_MovementExplanation>
-  <TSA_WD_RoadBlock_TileInspect>{0}: +{1} movement difficulty (HP {2}/{3})</TSA_WD_RoadBlock_TileInspect>
+  <TSA_WD_RoadBlock_MovementExplanation>Road Block: +{0} movement cost</TSA_WD_RoadBlock_MovementExplanation>
+  <TSA_WD_RoadBlock_TileInspect>{0}: +{1} movement cost (HP {2}/{3})</TSA_WD_RoadBlock_TileInspect>
   <TSA_WD_RoadBlock_DestroyedByTraffic>A road block was destroyed by passing traffic.</TSA_WD_RoadBlock_DestroyedByTraffic>
   <TSA_WD_Log_RoadBlock_DestroyedByTraffic>Road block destroyed by {0} (damage {1}).</TSA_WD_Log_RoadBlock_DestroyedByTraffic>
   <TSA_WD_Inspect_SpikeTrapBuild>Spike Traps</TSA_WD_Inspect_SpikeTrapBuild>
@@ -117,7 +117,7 @@
   <TSA_WD_Letter_Revolt_Label>Faction Re-emergence</TSA_WD_Letter_Revolt_Label>
   <TSA_WD_Letter_Revolt_Text>Political upheaval! The faction {0} has emerged from obscurity, seizing control of: {1}. Lost to the uprising: {2}.</TSA_WD_Letter_Revolt_Text>
   <TSA_WD_Letter_Vanguard_Label>Vanguard forces underway</TSA_WD_Letter_Vanguard_Label>
-  <TSA_WD_Letter_Vanguard_Text>{0} has packed up {1} settlements and is marching a Vanguard cluster toward your region. Their old homes are gone — stop them before they dig in.</TSA_WD_Letter_Vanguard_Text>
+  <TSA_WD_Letter_Vanguard_Text>{0} has packed settlements into {1} Vanguard columns. Each home leaves as its own caravan; nearby forces rally, then dig in on your front. Stop them before they fortify.</TSA_WD_Letter_Vanguard_Text>
   <TSA_WD_Letter_Invasion_Label>Invasion forces underway</TSA_WD_Letter_Invasion_Label>
   <TSA_WD_Letter_Invasion_Text>{0} has launched {1} coordinated invasion raids at your colonies and outposts from far settlements. Their homes remain. Prepare defenses.</TSA_WD_Letter_Invasion_Text>
   <TSA_WD_Letter_DesperationRaid_Label>{0} Desperate Attack</TSA_WD_Letter_DesperationRaid_Label>
@@ -144,7 +144,7 @@
   <TSA_WD_Log_BtnDetails>Details</TSA_WD_Log_BtnDetails>
   <TSA_WD_Log_ExpandSuccess>EXPAND: Success. {0} founded new T1 {1}.</TSA_WD_Log_ExpandSuccess>
   <TSA_WD_Log_MassRelocationCancelled>VANGUARD: {0} aborted; remounting near destination.</TSA_WD_Log_MassRelocationCancelled>
-  <TSA_WD_Log_ForwardAssault_Vanguard>VANGUARD: {0} packs {1} settlements into a forward cluster near you.</TSA_WD_Log_ForwardAssault_Vanguard>
+  <TSA_WD_Log_ForwardAssault_Vanguard>VANGUARD: {0} packs into {1} columns toward your front.</TSA_WD_Log_ForwardAssault_Vanguard>
   <TSA_WD_Log_ForwardAssault_Invasion>INVASION: {0} launches {1} coordinated raids on your holdings.</TSA_WD_Log_ForwardAssault_Invasion>
   <TSA_WD_Log_ForwardAssault_PackUpVanguard>VANGUARD: {0} abandoned home → tile {1}.</TSA_WD_Log_ForwardAssault_PackUpVanguard>
   <TSA_WD_Log_ForwardAssault_PackUpInvasion>INVASION: {0} marches on {1}.</TSA_WD_Log_ForwardAssault_PackUpInvasion>
@@ -152,6 +152,7 @@
   <TSA_WD_Log_ForwardAssault_InvasionRallyRaid>INVASION: {0} marches on {1}.</TSA_WD_Log_ForwardAssault_InvasionRallyRaid>
   <TSA_WD_Log_ForwardAssault_RatioBypass>(launched under min strength ratio)</TSA_WD_Log_ForwardAssault_RatioBypass>
   <TSA_WD_Log_ForwardAssault_VanguardFounded>VANGUARD: Founded {0}.</TSA_WD_Log_ForwardAssault_VanguardFounded>
+  <TSA_WD_Log_ForwardAssault_VanguardAbsorbed>VANGUARD: Reinforcements absorbed into an existing dig-in ({0}).</TSA_WD_Log_ForwardAssault_VanguardAbsorbed>
   <TSA_WD_Log_ForwardAssault_BlockedRaid>VANGUARD: {0} found {1} on reserved tile — diverting to raid.</TSA_WD_Log_ForwardAssault_BlockedRaid>
   <TSA_WD_Log_ForwardAssault_Refound>VANGUARD: {0} remounted as {1}.</TSA_WD_Log_ForwardAssault_Refound>
   <TSA_WD_Log_ConquestSettlementFounded>CONQUEST: {0} founded {1} ({2}) after a successful raid.</TSA_WD_Log_ConquestSettlementFounded>
@@ -233,6 +234,7 @@
   <TSA_WD_Traveler_Outpost_Upgrade>Outpost Upgrade Caravan</TSA_WD_Traveler_Outpost_Upgrade>
   <TSA_WD_StrengthAtArrival>Strength at Arrival</TSA_WD_StrengthAtArrival>
   <TSA_WD_StrengthAtDeparture>Strength</TSA_WD_StrengthAtDeparture>
+  <TSA_WD_Traveller_AttritionResting>Resting to recover strength</TSA_WD_Traveller_AttritionResting>
   <TSA_WD_TimeSinceDeparture>Time since Departure</TSA_WD_TimeSinceDeparture>
   <TSA_WD_TimeToDestination>Total estimated travel time</TSA_WD_TimeToDestination>
   <TSA_WD_Traveler_AttackCaravan>Attack caravan</TSA_WD_Traveler_AttackCaravan>

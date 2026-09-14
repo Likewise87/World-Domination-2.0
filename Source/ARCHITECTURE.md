@@ -10,7 +10,7 @@ World-model ownership (one colony, player-only outposts, NPC holdings = Settleme
 |--------|-------|
 | `Core/` | Comps, snapshot, stats, range, planet guards, overlays |
 | `WorldActions/` | Daily orchestrator, growth, roads, traders, incidents, diplomacy, interception |
-| `Outposts/` | Player WD outposts, types, actions, warehouse, food logistics. Trading/Recruiting nearby SSoT: `Outpost_Trading` partner collect + type-aware `Outpost_EstablishmentRequirements.MeetsMinNearbySettlements` (hostiles count). Embassy nearby: `Outpost_Embassy.IsEligiblePartnerFaction`. |
+| `Outposts/` | Player WD outposts, types, actions, warehouse, food logistics. Trading/Recruiting nearby SSoT: `Outpost_Trading` partner collect + type-aware `Outpost_EstablishmentRequirements.MeetsMinNearbySettlements` (hostiles count). Embassy nearby: `Outpost_Embassy.IsEligiblePartnerFaction`. Extra outpost/upgrade XML from Bambaryla absorb: `Defs/WorldObjects/WD_OutpostUpgrades_Bambaryla.xml`, Deepchem Drill (`MayRequire` Vanilla Chemfuel Expanded), Raw Shaping, Chemical Refinery (Biofuel defName) + legacy Deepchem Factory. |
 | `Travelers/` | World travelers, pathing, arrival, Harmony bootstrap |
 | `RaidLogic/` | Raid assess/finalize, gate, simulated resolve, colony executor |
 | `UI/` | Dashboard, stats, diplomacy, alerts, raid-detail windows |
@@ -36,14 +36,47 @@ Also: `RoadBlocks/`, `SpikeTraps/`, `WorldGen/`, `Quests/`, `Gizmos/`. There is 
 
 Other WorldComponents: interception (`WorldActions/Interception/WorldComponent_InterceptionScheduler.cs`), logistics (`Outposts/FoodLogistics/WD_Outpost_FoodLogistics_Core.cs`), road blocks (`RoadBlocks/WorldComponent_RoadBlocks.cs`), traps (`SpikeTraps/WorldComponent_SpikeTraps.cs`), player pawn favorites (`Core/WorldComponent_PlayerPawnFavorites.cs`), Join Stamp (`Core/WorldComponent_PlayerPawnJoinTimes.cs`).
 
+## Outpost Ideology slave removal (SELECT vs COMMIT)
+
+SSoT: `OutpostPawnIdeologyUtil` (`Outposts/OutpostPawnIdeologyUtil.cs`).
+
+| Layer | API | Rule |
+|-------|-----|------|
+| **SELECT** (checkboxes / select-all) | `CanToggleOutpostRemovalSelection` | Free non-slave humanlikes always selectable; slaves (and escort dependents) only when a free occupant is already selected. Leave-behind is **not** checked here. |
+| **Prune** | `PruneDependentRemovalSelection` | After selection mutations: drop slaves if no free occupant remains selected. |
+| **COMMIT** (transfer / remove / drop-pods enable) | `BulkRemovalSelectionIsAllowed` | Full evacuate OK; else keep ≥1 free on outpost; slaves leaving need a free leaver. Tips via `TryGetBulkRemovalRejectReason`. |
+
+Do not call COMMIT from SELECT gates (`BulkRemovalSelectionIsAllowedWithExtra` forwards to SELECT only).
+
+## Outpost occupant skill XP
+
+SSoT: `Outpost_OccupantProgression` (`Outposts/Outpost_OccupantProgression.cs`).
+
+| Source | When | Amount | Skills |
+|--------|------|--------|--------|
+| Production cycle payout | Successful recruiting / trading / embassy / scavenging / item delivery | Settings `outpostOccupantSkillXpPerProductionCycle` (Def 5000) via `ApplyPayoutSkillXp` | `GetRelevantSkillDefs` |
+| Academy lesson | Academy cycle complete | Academy lesson XP only — **no** `ApplyPayoutSkillXp` | Selected teaching skill |
+| Research | Once per active research day (`TickResearch` + `lastResearchSkillXpDay`) | Flat 500 | Intellectual |
+| Mortar | Committed ground shot (manual / defensive) | Flat 500 | Shooting |
+| Anti-air | Once per engagement volley (`AntiAirFireUtils.ExecuteEngage`) | Flat 500 | Shooting |
+| Rapid Response win | World clash win (3 resolve paths; `rapidResponseWinXpGranted` guard) | Flat 500 each | Shooting + Melee |
+| Build complete | Successful outpost-origin road / block / trap / AT / decontam work | 300 / 500 / 700 by tier | Construction |
+| Outpost upgrade | — | None | — |
+
+Humanlike occupants only; respects `outpostOccupantSkillXpMaxLevel`. Event amounts are code constants (not settings). Colony world-build and clearing/removal projects grant no Construction event XP.
+
 ## Daily loop
 
 `WorldComponent_SpreadManager.WorldComponentTick` (`WorldActions_Orchestrator.cs`):
 
-1. Once per day (`60000` ticks): `CalculateDailyBudget` → `DailyWorldSnapshot.Build` (`Core/DailyWorldSnapshot.cs`; enumerates **WD participants** only via `IsWdParticipant`) → revolt / forward assault (Vanguard|Invasion) / **Isolation Pressure** (`WorldActions_IsolationPressure`: when fewer than 2 hostile factions threaten the player, one faction not on per-faction CD may be forced to found 1–2 settlements 10–15 tiles from the player; chance Def 40%; stage gate Def Always; founding raid+defense shields) / diplomacy / threat → enqueue faction action slots. Special-event cooldowns: `WorldActions_SpecialEventCooldown` (war / revolt / forward assault; optional shared). **Strategy on Settlement Loss** is reactive (`WorldActions_DesperationRaid.NotifyNpcSettlementLost`): cluster pressure (hostile offense within 15 tiles of any cluster site (membership edge 20) ÷ cluster offense) + min size + `gateThreatDesperation` (Def Always; **not** set by Easy/Medium/Hard presets) → `settlementLossStrategyFireChance` (Def 40%; fail does not stamp CD) → fork Turtle vs desperation by equal-share relative strength × likelihood slider; shared anti-spam CD on `desperationRaidCooldownByFaction` (Def 2 days). Reactive Turtle uses ally radius (migrate outside / fortify-in-place if zero migrants). Daily Turtle stays separate (`WorldActions_Turtle.TryTrigger`: leaves need offense ≥400; pack into existing dig-ins — primary, T3/T4, up to 2 reserved strong T2 vessels — preferring T3-cap room for multi-T3 consolidate / ally reinforcements; rare last-resort T4-cap overflow on existing hubs; no turtle founding). Incident obliteration does not start Strategy. **NPC Fortify** (`WorldActions_NpcFortify`): threatened settlements build the shared turtle kit (`WorldActions_FortifyKit`) locally in phases (road traps + ensure road exit → road blocks → AT turrets); Turtle / desperation place the full kit instantly via `TryPlaceFortifyKit` (T1: Spike + Light block + 1 Light AT). If Fortify is picked but cannot launch, orchestrator re-rolls once among other eligible weights. **Reactive loss bus and daily threats require `ProgramState.Playing`** (no Strategy / FA / Turtle / action queue during world gen or Select Starting Site). Vanguard packs 5–7 far sites and mass-relocates; Invasion reuses the same pick gates but launches 5–7 coordinated raids with homes staying (`WorldActions_Raid.TryLaunchCoordinatedInvasionRaid`). Pack→rally→absorb→Raid for Desperation: `WorldActions_AssaultRally` (`TravelerMission.DesperationRally`; `isDesperationRaid`). Legacy in-flight Invasion pack/rally travelers still resolve via AssaultRally / pack-up refound.
+1. Once per day (`60000` ticks): `CalculateDailyBudget` → `DailyWorldSnapshot.Build` (`Core/DailyWorldSnapshot.cs`; enumerates **WD participants** only via `IsWdParticipant`) → revolt / forward assault (Vanguard|Invasion) / **Isolation Pressure** (`WorldActions_IsolationPressure`: when fewer than 3 hostile factions threaten the player, one faction not on per-faction CD may be forced to found 1–2 settlements 10–15 tiles from the player; chance Def 40%; stage gate Def Always; founding raid+defense shields) / diplomacy / threat → enqueue faction action slots. Special-event cooldowns: `WorldActions_SpecialEventCooldown` (war / revolt / forward assault; optional shared). **Strategy on Settlement Loss** is reactive (`WorldActions_DesperationRaid.NotifyNpcSettlementLost`): cluster pressure (hostile offense within 15 tiles of any cluster site (membership edge 20) ÷ cluster offense) + min size + `gateThreatDesperation` (Def Always; **not** set by Easy/Medium/Hard presets) → `settlementLossStrategyFireChance` (Def 40%; fail does not stamp CD) → fork Turtle vs desperation by equal-share relative strength × likelihood slider; shared anti-spam CD on `desperationRaidCooldownByFaction` (Def 2 days). Reactive Turtle uses ally radius (migrate outside / fortify-in-place if zero migrants). Daily Turtle stays separate (`WorldActions_Turtle.TryTrigger`: leaves need offense ≥400; pack into existing dig-ins — primary, T3/T4, up to 2 reserved strong T2 vessels — preferring T3-cap room for multi-T3 consolidate / ally reinforcements; rare last-resort T4-cap overflow on existing hubs; no turtle founding). Incident obliteration does not start Strategy. **NPC Fortify** (`WorldActions_NpcFortify`): threatened settlements build the shared turtle kit (`WorldActions_FortifyKit`) locally in phases (road traps + ensure road exit → road blocks → AT turrets); Turtle / desperation place the full kit instantly via `TryPlaceFortifyKit` (T1: Spike + Light block + 1 Light AT). If Fortify is picked but cannot launch, orchestrator re-rolls once among other eligible weights. **Reactive loss bus and daily threats require `ProgramState.Playing`** (no Strategy / FA / Turtle / action queue during world gen or Select Starting Site). Vanguard packs 5–7 far sites and mass-relocates; Invasion reuses the same pick gates but launches 5–7 coordinated raids with homes staying (`WorldActions_Raid.TryLaunchCoordinatedInvasionRaid`). Pack→rally→absorb→Raid for Desperation: `WorldActions_AssaultRally` (`TravelerMission.DesperationRally`; `isDesperationRaid`). Legacy in-flight Invasion pack/rally travelers still resolve via AssaultRally / pack-up refound.
 2. `ticksUntilNextAction` → `ExecuteNextAction` → `WorldActions_Raid.AttemptRaid` (`RaidLogic/Raid_Manager.cs`) and sibling action attempts.
 3. Staggered eval: `pendingRaid.EvaluateNext` → `WorldActions_Raid.FinalizeRaid` spawns a traveler.
 4. Arrival: `WD_PathFollower.ArrivalAction` → `WorldActions_Traveler.ExecuteArrival` (`Travelers/WorldActions_Traveler.cs`).
+
+### Mid/Late attrition rest
+
+When `gateThreatAttritionRest` passes (`WdEscalation.PassesGate`, Def FromMid), walking travelers that hit `attritionRestMinRatio` of `initialStrength` from **attrition only** stop (`StopDead`), regenerate toward 100% of initial (`TravelerAttritionRest`), then `StartPath` again. Suppress begin-rest if recently hit by mortar/AT/AA (`lastHostileFireTick` + fire-grace days), a hostile AT can engage them, or remaining path ETA ≤ near-dest buffer (Def 0.1 days). Hit while resting cancels rest immediately. Attrition still clamps at the rest floor when rest is suppressed; combat/traps/pollution can push live strength below without snapping up. Forecast helpers in `TravelUtils` (`GetMinTravelEfficiency` via `TravelerAttritionRest`) floor predicted efficiency at the rest ratio so raid gates / projected arrival assume ≥80% when the feature is active. Regen Def is 2%/hour (~10h from 80% to 100%). V1 has no special rest-camp clash map.
 
 ## Caravan clash (player vs traveler)
 
@@ -67,6 +100,26 @@ Pick one and name it. Do not mix them.
 | Storyteller points | `RaidLaunchGate.GetColonyStorytellerDefense` → `StorytellerUtility.DefaultThreatPointsNow`. Clamp: `RaidPointsHelper.ClampRaidPointsToStorytellerBand` |
 
 Attacker pool for gates: `RaidLaunchGate.SumAvailableAttPower` → `GetAvailableRaidStrength`.
+
+## Forward Assault Vanguard
+
+SSoT: `WorldActions_Vanguard` + `WorldActions_PackUp` + `WdSettlementClusterUtility` (+ `WorldActions_AssaultRally` geo partition / rally math).
+
+- **Seed:** player front outpost facing the pack if far enough from the colony; else colony annulus toward the pack (`vanguardClusterMin/MaxDistFromColony`). Colony keep-out on reserved tiles.
+- **Fewer sites:** pack still 5–7 homes; reserve `vanguardFoundSitesMin/Max` (Def 2–3) tiles with **peer distance 2** (one free tile between). No outpost `MinDistanceTiles` pass for Vanguard.
+- **Geo columns:** `PartitionAssemblies` (path-cap local clusters) → assign assemblies to dig-ins (closest unused, reuse when columns exceed sites). Per home: destroy → MassRelocation on that tile (no teleport fold). Multi-source: local rally → host wait/absorb → march to dig-in. Solo: straight to dig-in.
+- **Orphan absorb:** same-tile rally orphans only (`TickVanguardRallyHost`); `vanguardMergeRadiusTiles` is legacy UI (not mid-route fold).
+- **Arrival:** absorb into existing same-faction `subType=Vanguard` settlement within 1 tile; else found. Redirect/refound uses the same tight blocker pad.
+
+## Mid / Late escalation
+
+SSoT: `WdEscalation` (`Core/WdEscalation.cs`) + latched state on `WorldComponent_SpreadManager`.
+
+- **Candidate** (metrics only): Mid/Late when **any** of share, absolute outpost strength, or elapsed days (`TicksGame / TicksPerDay`) meets that stage’s threshold. Master switch: `enableLateGameScaling`.
+- **Latch**: `escalationStageLatch` never decreases. Active stage = latch (candidate cannot drop Mid/Late once reached).
+- **First apply seed**: when `!escalationLatchInited`, seed latch + `escalationLetterNotifiedStage` from the candidate with **no** letter (old saves / day-0 new games).
+- **Letters**: one-shot `LetterDefOf.NegativeEvent` when notified floor rises; body from `BuildStageLetterText` (intro + `BuildActiveEffectsTooltip`). Debug Force Mid/Late always re-letters.
+- Master switch off clears **cached** Mid/Late effects only; latch and letter floor stay.
 
 ## Naming (UI vs code)
 

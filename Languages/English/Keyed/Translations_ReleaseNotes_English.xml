@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_21_Title>Refinement, outpost upgrades, icons</TSA_WD_Update_2_3_21_Title>
+  <TSA_WD_Update_2_3_21_Body><![CDATA[
+<size=16><b>2.3.21 – Refinement, outpost upgrades, icons</b></size>\n
+<color=#00FFFFFF>Release date: September 14th 2026</color>\n
+------------------------------\n
+• New icons for most world objects and UI elements thanks to player Pesky.\n
+• New outpost upgrades from player Bambaryła, some of which unlock only with extra mods.\n
+• New feature: from Mid Game onward, caravans pause and rest once they are down to 80% of their original strength, then continue at 100%. Rest recovery is about 10 hours from 80% to full (2% per hour). They will not rest if recently hit by mortar or AT fire (0.5 days). A hit while resting makes them pack up and continue immediately. Late-game raids from far away are much harder because they no longer arrive exhausted.\n
+• Refinement: Vanguard caravans now form camps near the front instead of near the colony. They also merge into fewer stronger settlements, similar to Turtle.\n
+• Renamed Movement Difficulty wording to Movement cost for consistency (lower = faster).\n
+• Mid and Late Game difficulty strength thresholds are reduced by almost 50% (they kick in earlier now). Also added a time-based trigger so even if you do not build outposts at all, you will eventually reach Mid and Late Game difficulty. You can no longer drop back from Mid or Late Game. A letter is issued once when you pass each threshold.\n
+]]></TSA_WD_Update_2_3_21_Body>
+  <TSA_WD_Update_2_3_20_Title>New icons and bugfixes</TSA_WD_Update_2_3_20_Title>
+  <TSA_WD_Update_2_3_20_Body><![CDATA[
+<size=16><b>2.3.20 – New icons and bugfixes</b></size>\n
+<color=#00FFFFFF>Release date: September 10th 2026</color>\n
+------------------------------\n
+• Thanks to the player Pesky, we got some fresh icons replacing some of the existing Outpost and Caravan icons.\n
+• Fixed a bug where removing pawns from an outpost with just one regular pawn and the rest being slaves was not possible.\n
+• New feature: Pawns at an outpost now get Construction XP when building something like a road or road block. Pawns at the Artillery outpost get Shooting XP when firing the mortar or AA turret. Pawns at Rapid Response outposts get Shooting and Melee XP when winning a fight. Pawns at Research outposts get Intellectual XP while researching. Not a ton of XP, but noticeable for low-level pawns.\n
+• Rapid Response outpost max strength to send is 5x now (was 3x). Default is 3x now (was 2x). This means they will send more forces, making a win more likely.\n
+• Balance: Up to 3 factions will force-expand into your vicinity if you are out of range. The feature is called Isolation Pressure in the Combat Difficulty section of the mod settings if you want to tweak it or shut it down.\n
+]]></TSA_WD_Update_2_3_20_Body>
   <TSA_WD_Update_2_3_19_Title>Balancing and bugfixes</TSA_WD_Update_2_3_19_Title>
   <TSA_WD_Update_2_3_19_Body><![CDATA[
 <size=16><b>2.3.19 – Balancing and bugfixes</b></size>\n

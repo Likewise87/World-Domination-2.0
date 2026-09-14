@@ -382,22 +382,34 @@ namespace TSA_WorldDomination
             return result;
         }
 
-        public static WorldObject_Traveler LaunchMassRelocationTraveler(Settlement source, int destTile, WorldComponent_SpreadManager manager)
+        /// <summary>
+        /// Destroy one home and spawn a MassRelocation traveler on that tile.
+        /// <paramref name="massRelocationDestTile"/> is always the dig-in; <paramref name="pathDestTile"/> may be a local rally.
+        /// </summary>
+        public static WorldObject_Traveler LaunchMassRelocationTraveler(
+            Settlement source,
+            int massRelocationDestTile,
+            WorldComponent_SpreadManager manager,
+            int groupId = 0,
+            int pathDestTile = -1)
         {
-            if (source == null || source.Destroyed) return null;
+            if (source == null || source.Destroyed || massRelocationDestTile < 0) return null;
             var comp = source.GetComponent<CompViralSpread>();
             if (comp == null) return null;
 
-            SettlementTier tier = comp.tier;
-            float off = comp.offensiveStrength;
-            float def = comp.defensiveStrength;
             Faction faction = source.Faction;
             int originTile = source.Tile.tileId;
             string label = source.LabelCap;
+            SettlementTier tier = comp.tier;
+            float off = Mathf.Max(0f, comp.offensiveStrength);
+            float def = Mathf.Max(0f, comp.defensiveStrength);
 
             SuppressLossNotifyBeforePack(source);
             source.Destroy();
             Outpost_EstablishmentRequirements.InvalidateNearbyCountCache();
+            if (faction == null || originTile < 0) return null;
+
+            int pathTo = pathDestTile >= 0 ? pathDestTile : massRelocationDestTile;
 
             WorldObject_Traveler traveler = (WorldObject_Traveler)WorldObjectMaker.MakeWorldObject(
                 DefDatabase<WorldObjectDef>.GetNamed("TSA_WD_Traveler_MassRelocation"));
@@ -408,20 +420,263 @@ namespace TSA_WorldDomination
             traveler.initialStrength = traveler.travelerStrength;
             traveler.projectedArrivalStrength = traveler.travelerStrength;
             traveler.packUpRequiresRefound = true;
-            traveler.massRelocationDestTile = destTile;
+            traveler.massRelocationDestTile = massRelocationDestTile;
             traveler.massRelocationTier = tier;
             traveler.massRelocationDefensiveStrength = def;
+            traveler.vanguardGroupId = groupId;
             traveler.originObject = null;
             traveler.packUpOriginLabel = label;
 
             Find.WorldObjects.Add(traveler);
-            traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(destTile, traveler));
+            traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(pathTo, traveler));
 
             manager?.AddLog(new SpreadLogEntry(
-                "TSA_WD_Log_ForwardAssault_PackUpVanguard".Translate(label, destTile),
+                "TSA_WD_Log_ForwardAssault_PackUpVanguard".Translate(label, massRelocationDestTile),
                 traveler, null));
-            WDVerbose.Msg($"ForwardAssault MassRelocation launch from={label} dest={destTile} tier={tier} str={traveler.travelerStrength:F0}");
+            WDVerbose.Msg(
+                $"ForwardAssault MassRelocation pack origin={originTile} path={pathTo} digIn={massRelocationDestTile} tier={tier} str={traveler.travelerStrength:F0} group={groupId}");
             return traveler;
+        }
+
+        /// <summary>
+        /// Pack an AssaultRally geographic assembly: solo marches to dig-in; multi-source rallies locally then marches.
+        /// </summary>
+        public static List<WorldObject_Traveler> LaunchVanguardAssembly(
+            IList<Settlement> assembly,
+            int digInTile,
+            int groupId,
+            WorldComponent_SpreadManager manager)
+        {
+            var launched = new List<WorldObject_Traveler>();
+            if (assembly == null || digInTile < 0) return launched;
+
+            var live = new List<Settlement>();
+            for (int i = 0; i < assembly.Count; i++)
+            {
+                Settlement s = assembly[i];
+                if (s != null && !s.Destroyed)
+                    live.Add(s);
+            }
+            if (live.Count < 1) return launched;
+
+            if (live.Count == 1)
+            {
+                WorldObject_Traveler solo = LaunchMassRelocationTraveler(live[0], digInTile, manager, groupId);
+                if (solo != null)
+                    launched.Add(solo);
+                return launched;
+            }
+
+            int centroid = WorldActions_AssaultRally.ComputeCentroidTile(live);
+            int rallyTile = WorldActions_AssaultRally.PickRallyTile(live, centroid);
+            if (rallyTile < 0)
+            {
+                WDVerbose.Msg("ForwardAssault Vanguard assembly abort reason=no-rally-tile — solo dig-in");
+                for (int i = 0; i < live.Count; i++)
+                {
+                    WorldObject_Traveler t = LaunchMassRelocationTraveler(live[i], digInTile, manager, groupId);
+                    if (t != null)
+                        launched.Add(t);
+                }
+                return launched;
+            }
+
+            var rallyMembers = new List<WorldObject_Traveler>();
+            for (int i = 0; i < live.Count; i++)
+            {
+                Settlement src = live[i];
+                if (WorldActions_AssaultRally.CanReachRallyInCap(src.Tile.tileId, rallyTile))
+                {
+                    WorldObject_Traveler t = LaunchMassRelocationTraveler(
+                        src, digInTile, manager, groupId, pathDestTile: rallyTile);
+                    if (t == null) continue;
+                    launched.Add(t);
+                    rallyMembers.Add(t);
+                }
+                else
+                {
+                    WorldObject_Traveler t = LaunchMassRelocationTraveler(src, digInTile, manager, groupId);
+                    if (t != null)
+                        launched.Add(t);
+                }
+            }
+
+            if (rallyMembers.Count >= 2)
+            {
+                int expected = rallyMembers.Count;
+                for (int i = 0; i < rallyMembers.Count; i++)
+                    rallyMembers[i].desperationExpectedCount = expected;
+            }
+            else if (rallyMembers.Count == 1)
+            {
+                // Alone at rally — skip wait and march straight to dig-in.
+                WorldObject_Traveler alone = rallyMembers[0];
+                alone.desperationExpectedCount = 0;
+                alone.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(digInTile, alone));
+            }
+
+            return launched;
+        }
+
+        /// <summary>True while a multi-source Vanguard column is still in local rally (not yet marching to dig-in).</summary>
+        public static bool IsVanguardRallyPhase(WorldObject_Traveler traveler)
+        {
+            if (traveler == null || traveler.Destroyed) return false;
+            if (traveler.mission != TravelerMission.MassRelocation) return false;
+            if (traveler.vanguardGroupId <= 0) return false;
+            if (traveler.desperationExpectedCount <= 1) return false;
+            return true;
+        }
+
+        public static void ExecuteVanguardRallyArrival(WorldObject_Traveler traveler)
+        {
+            if (traveler == null || traveler.Destroyed) return;
+            if (!IsVanguardRallyPhase(traveler)) return;
+
+            WorldObject_Traveler host = FindVanguardRallyHost(traveler.vanguardGroupId, exclude: traveler);
+            if (host == null)
+            {
+                traveler.desperationIsHost = true;
+                traveler.desperationArrivedCount = 1;
+                traveler.desperationWaitUntilTick = Find.TickManager.TicksGame
+                    + CompViralSpread.CooldownTicksFromDays(WorldActions_AssaultRally.RallyWaitDays);
+                traveler.pather?.StopDead();
+                WDVerbose.Msg(
+                    $"ForwardAssault Vanguard rally host wait group={traveler.vanguardGroupId} expected={traveler.desperationExpectedCount} until={traveler.desperationWaitUntilTick}");
+                AbsorbSameTileVanguardOrphans(traveler);
+                TryFinalizeVanguardRallyIfReady(traveler);
+                return;
+            }
+
+            AbsorbMassRelocationIntoHost(host, traveler);
+            AbsorbSameTileVanguardOrphans(host);
+            TryFinalizeVanguardRallyIfReady(host);
+        }
+
+        public static void TickVanguardRallyHost(WorldObject_Traveler traveler)
+        {
+            if (traveler == null || traveler.Destroyed) return;
+            if (traveler.mission != TravelerMission.MassRelocation) return;
+            if (!traveler.desperationIsHost || traveler.vanguardGroupId <= 0) return;
+            if (traveler.pather != null && traveler.pather.moving) return;
+
+            AbsorbSameTileVanguardOrphans(traveler);
+            TryFinalizeVanguardRallyIfReady(traveler);
+        }
+
+        private static void AbsorbSameTileVanguardOrphans(WorldObject_Traveler host)
+        {
+            if (host == null || host.Destroyed || !host.desperationIsHost) return;
+            if (host.vanguardGroupId <= 0) return;
+
+            int tileId = host.Tile.tileId;
+            var objs = Find.WorldObjects.AllWorldObjects;
+            for (int i = objs.Count - 1; i >= 0; i--)
+            {
+                if (objs[i] is not WorldObject_Traveler t || t.Destroyed || t == host) continue;
+                if (t.vanguardGroupId != host.vanguardGroupId) continue;
+                if (t.mission != TravelerMission.MassRelocation) continue;
+                if (t.desperationIsHost) continue;
+                if (t.Tile.tileId != tileId) continue;
+                AbsorbMassRelocationIntoHost(host, t);
+            }
+        }
+
+        private static void AbsorbMassRelocationIntoHost(WorldObject_Traveler host, WorldObject_Traveler joiner)
+        {
+            if (host == null || joiner == null || host.Destroyed || joiner.Destroyed) return;
+
+            host.travelerStrength = Mathf.Max(10f, host.travelerStrength + Mathf.Max(0f, joiner.travelerStrength));
+            host.initialStrength += Mathf.Max(0f, joiner.initialStrength);
+            host.projectedArrivalStrength = host.travelerStrength;
+            host.massRelocationDefensiveStrength =
+                Mathf.Max(0f, host.massRelocationDefensiveStrength) + Mathf.Max(0f, joiner.massRelocationDefensiveStrength);
+            if (joiner.massRelocationTier > host.massRelocationTier)
+                host.massRelocationTier = joiner.massRelocationTier;
+            if (host.massRelocationDestTile < 0 && joiner.massRelocationDestTile >= 0)
+                host.massRelocationDestTile = joiner.massRelocationDestTile;
+            host.desperationArrivedCount = Mathf.Max(1, host.desperationArrivedCount) + 1;
+
+            joiner.suppressDestroyedWorldFx = true;
+            joiner.Destroy();
+            WDVerbose.Msg(
+                $"ForwardAssault Vanguard rally absorb group={host.vanguardGroupId} arrived={host.desperationArrivedCount}/{host.desperationExpectedCount} str={host.travelerStrength:F0}");
+        }
+
+        private static void TryFinalizeVanguardRallyIfReady(WorldObject_Traveler host)
+        {
+            if (host == null || host.Destroyed || !host.desperationIsHost) return;
+            if (host.mission != TravelerMission.MassRelocation) return;
+            if (host.vanguardGroupId <= 0) return;
+
+            int now = Find.TickManager.TicksGame;
+            bool allIn = host.desperationExpectedCount > 0
+                && host.desperationArrivedCount >= host.desperationExpectedCount;
+            bool timedOut = host.desperationWaitUntilTick > 0 && now >= host.desperationWaitUntilTick;
+            if (!allIn && !timedOut) return;
+
+            FinalizeVanguardRallyHost(host);
+        }
+
+        private static void FinalizeVanguardRallyHost(WorldObject_Traveler host)
+        {
+            int digIn = host.massRelocationDestTile;
+            if (digIn < 0)
+            {
+                WDVerbose.Msg($"ForwardAssault Vanguard rally abort no-digIn group={host.vanguardGroupId}");
+                TryRefoundFromTraveler(host);
+                host.suppressDestroyedWorldFx = true;
+                host.Destroy();
+                return;
+            }
+
+            host.desperationIsHost = false;
+            host.desperationExpectedCount = 0;
+            host.desperationArrivedCount = 0;
+            host.desperationWaitUntilTick = -1;
+            host.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(digIn, host));
+
+            WDVerbose.Msg(
+                $"ForwardAssault Vanguard rally → digIn group={host.vanguardGroupId} dest={digIn} str={host.travelerStrength:F0}");
+
+            PromoteVanguardRallyStragglers(host, digIn);
+        }
+
+        private static void PromoteVanguardRallyStragglers(WorldObject_Traveler host, int digIn)
+        {
+            if (host == null || host.vanguardGroupId <= 0 || digIn < 0) return;
+            int groupId = host.vanguardGroupId;
+            var objs = Find.WorldObjects.AllWorldObjects;
+            for (int i = objs.Count - 1; i >= 0; i--)
+            {
+                if (objs[i] is not WorldObject_Traveler t || t.Destroyed || t == host) continue;
+                if (t.vanguardGroupId != groupId) continue;
+                if (t.mission != TravelerMission.MassRelocation) continue;
+
+                t.desperationIsHost = false;
+                t.desperationExpectedCount = 0;
+                t.desperationArrivedCount = 0;
+                t.desperationWaitUntilTick = -1;
+                t.massRelocationDestTile = digIn;
+                t.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(digIn, t));
+                WDVerbose.Msg($"ForwardAssault Vanguard straggler→digIn group={groupId} label={t.Label}");
+            }
+        }
+
+        private static WorldObject_Traveler FindVanguardRallyHost(int groupId, WorldObject_Traveler exclude)
+        {
+            if (groupId <= 0) return null;
+            var objs = Find.WorldObjects.AllWorldObjects;
+            for (int i = 0; i < objs.Count; i++)
+            {
+                if (objs[i] is not WorldObject_Traveler t || t.Destroyed) continue;
+                if (t == exclude) continue;
+                if (t.vanguardGroupId != groupId) continue;
+                if (t.mission != TravelerMission.MassRelocation) continue;
+                if (!t.desperationIsHost) continue;
+                return t;
+            }
+            return null;
         }
 
         /// <summary>Found a settlement from a pack-up traveler. Pass <paramref name="subType"/> null/empty for neutral remounts (e.g. Turtle).</summary>
@@ -459,6 +714,46 @@ namespace TSA_WorldDomination
             return newS;
         }
 
+        /// <summary>Absorb traveler strength into an existing same-faction Vanguard settlement at/near tile.</summary>
+        public static bool TryAbsorbIntoNearbyVanguardSettlement(WorldObject_Traveler traveler, int tileId)
+        {
+            if (traveler == null || traveler.Destroyed || tileId < 0 || traveler.Faction == null) return false;
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null) return false;
+
+            Settlement best = null;
+            float bestDist = float.MaxValue;
+            var settlements = Find.WorldObjects.Settlements;
+            for (int i = 0; i < settlements.Count; i++)
+            {
+                Settlement s = settlements[i];
+                if (s == null || s.Destroyed || s.Faction != traveler.Faction) continue;
+                var comp = s.GetComponent<CompViralSpread>();
+                if (comp == null || comp.subType != "Vanguard") continue;
+                float d = grid.ApproxDistanceInTiles(tileId, s.Tile.tileId);
+                if (d > 1.01f) continue;
+                if (d < bestDist)
+                {
+                    bestDist = d;
+                    best = s;
+                }
+            }
+
+            if (best == null) return false;
+            var host = best.GetComponent<CompViralSpread>();
+            if (host == null) return false;
+
+            host.offensiveStrength = Mathf.Max(10f, host.offensiveStrength + Mathf.Max(0f, traveler.travelerStrength));
+            if (traveler.massRelocationDefensiveStrength > 0f)
+                host.defensiveStrength = Mathf.Max(0f, host.defensiveStrength) + traveler.massRelocationDefensiveStrength;
+            if (traveler.massRelocationTier > host.tier)
+                host.SetState(traveler.massRelocationTier);
+
+            WDVerbose.Msg(
+                $"ForwardAssault Vanguard absorb into={best.Label} +str={traveler.travelerStrength:F0} total={host.offensiveStrength:F0}");
+            return true;
+        }
+
         /// <summary>Required when pack-up destroyed the home — remount strength as a settlement near the traveler.</summary>
         public static bool TryRefoundFromTraveler(WorldObject_Traveler traveler, string subType = "Vanguard")
         {
@@ -494,12 +789,29 @@ namespace TSA_WorldDomination
         public static void ExecuteMassRelocationArrival(WorldObject_Traveler traveler)
         {
             if (traveler == null || traveler.Destroyed) return;
+
+            // Multi-source columns arrive at local rally first; dig-in founding only after finalize.
+            if (IsVanguardRallyPhase(traveler))
+            {
+                ExecuteVanguardRallyArrival(traveler);
+                return;
+            }
+
             var manager = Find.World.GetComponent<WorldComponent_SpreadManager>();
             int dest = traveler.Tile.tileId;
 
             WorldObject blocker = FindBlockerAt(dest);
             if (blocker != null)
             {
+                if (TryAbsorbIntoNearbyVanguardSettlement(traveler, dest))
+                {
+                    manager?.AddLog(new SpreadLogEntry(
+                        "TSA_WD_Log_ForwardAssault_VanguardAbsorbed".Translate(traveler.Label),
+                        traveler, blocker));
+                    traveler.Destroy();
+                    return;
+                }
+
                 if (TargetOfOpportunityUtility.TryConvertPackUpToRaid(traveler, blocker))
                 {
                     manager?.AddLog(new SpreadLogEntry(
@@ -535,11 +847,29 @@ namespace TSA_WorldDomination
             if (!TileFinder.IsValidTileForNewSettlement(dest)
                 || !WdSettlementClusterUtility.CanFoundVanguardAt(dest, traveler.Faction))
             {
+                if (TryAbsorbIntoNearbyVanguardSettlement(traveler, dest))
+                {
+                    manager?.AddLog(new SpreadLogEntry(
+                        "TSA_WD_Log_ForwardAssault_VanguardAbsorbed".Translate(traveler.Label),
+                        traveler, null));
+                    traveler.Destroy();
+                    return;
+                }
+
                 WDVerbose.Msg(
                     $"ForwardAssault MassRelocation dest={dest} not founded (invalid or blocker pad) — redirect/refound");
                 int redirect = WdSettlementClusterUtility.FindNearestValidSettlementTile(dest, traveler.Faction);
                 if (redirect >= 0)
                 {
+                    if (TryAbsorbIntoNearbyVanguardSettlement(traveler, redirect))
+                    {
+                        manager?.AddLog(new SpreadLogEntry(
+                            "TSA_WD_Log_ForwardAssault_VanguardAbsorbed".Translate(traveler.Label),
+                            traveler, null));
+                        traveler.Destroy();
+                        return;
+                    }
+
                     Settlement relocated = SpawnVanguardSettlement(traveler, redirect);
                     if (relocated != null)
                     {
@@ -551,6 +881,15 @@ namespace TSA_WorldDomination
                     }
                 }
                 TryRefoundFromTraveler(traveler);
+                traveler.Destroy();
+                return;
+            }
+
+            if (TryAbsorbIntoNearbyVanguardSettlement(traveler, dest))
+            {
+                manager?.AddLog(new SpreadLogEntry(
+                    "TSA_WD_Log_ForwardAssault_VanguardAbsorbed".Translate(traveler.Label),
+                    traveler, null));
                 traveler.Destroy();
                 return;
             }

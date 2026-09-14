@@ -196,6 +196,10 @@ namespace TSA_WorldDomination
 
             Pawn rep = GetRepresentativeResearcher(outpost);
             rm.AddProgress(proj, points, rep);
+
+            int day = Find.TickManager.TicksAbs / GenDate.TicksPerDay;
+            if (outpost.TryClaimResearchSkillXpDay(day))
+                Outpost_OccupantProgression.ApplySkillXp(outpost, Outpost_OccupantProgression.EventXpResearchPerDay, SkillDefOf.Intellectual);
         }
 
         public static string GetEfficiencyBreakdown(WorldObject_WD_Outpost outpost, OutpostDefExtension ext)

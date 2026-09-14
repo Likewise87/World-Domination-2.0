@@ -60,7 +60,9 @@ namespace TSA_WorldDomination
                 points = points,
                 forced = true,
                 raidStrategy = strategy,
-                raidArrivalMode = arrival
+                raidArrivalMode = arrival,
+                // No custom letters ⇒ no ThreatBig (WD supplies its own arrival letter, or user disabled it).
+                silent = string.IsNullOrEmpty(letterLabel) && string.IsNullOrEmpty(letterText)
             };
             if (!string.IsNullOrEmpty(letterLabel))
                 parms.customLetterLabel = letterLabel;

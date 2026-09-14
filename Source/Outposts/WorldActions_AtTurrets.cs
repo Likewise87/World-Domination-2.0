@@ -203,6 +203,7 @@ namespace TSA_WorldDomination
                 WorldObject_AT_Turret turret = AtTurretUtility.TrySpawn(tile, faction, tier, builtBy, origin);
                 if (turret != null)
                 {
+                    Outpost_ConstructionXp.TryGrant(traveler, Outpost_ConstructionXp.XpForAtTurretTier(tier));
                     Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(
                         new SpreadLogEntry(
                             "TSA_WD_Log_AT_TurretBuilt".Translate(origin.LabelCap, tile.ToString()),

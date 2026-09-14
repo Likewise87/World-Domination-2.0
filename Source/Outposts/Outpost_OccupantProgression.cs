@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using HarmonyLib;
 using RimWorld;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
@@ -9,22 +10,50 @@ namespace TSA_WorldDomination
     /// <summary>Skill XP, biological aging, and virtual healing for outpost occupants and stored animals (real pawns, not world-ticked). Mutates pawns; occupant changes refresh via <see cref="WorldObject_WD_Outpost.NotifyVirtualPawnsChanged"/>.</summary>
     public static class Outpost_OccupantProgression
     {
+        public const float EventXpResearchPerDay = 500f;
+        public const float EventXpMortarPerShot = 500f;
+        public const float EventXpAntiAirPerEngagement = 500f;
+        public const float EventXpRapidResponsePerWin = 500f;
+        public const float EventXpBuildCompleteT1 = 300f;
+        public const float EventXpBuildCompleteT2 = 500f;
+        public const float EventXpBuildCompleteT3 = 700f;
+
         private const float HediffRemoveSeverityThreshold = 0.001f;
         private const float FullImmunityThreshold = 1f - 0.0001f;
 
         private static readonly System.Reflection.FieldInfo ImmunizableImmunityField =
             AccessTools.Field(typeof(HediffComp_Immunizable), "immunity");
 
+        /// <summary>Player outpost that launched this traveler, or null.</summary>
+        public static WorldObject_WD_Outpost OutpostFromTravelerOrigin(WorldObject_Traveler traveler)
+        {
+            return traveler?.originObject as WorldObject_WD_Outpost;
+        }
+
         /// <summary>After a successful production payout: grant settings XP to each relevant skill per occupant (skip if skill level &gt;= cap). Uses vanilla <see cref="SkillRecord.Learn"/> with <c>direct: false</c> so passions, traits, and global learning factor apply.</summary>
         public static void ApplyPayoutSkillXp(WorldObject_WD_Outpost outpost)
         {
             WorldDominationSettings settings = WorldDominationMod.settings;
-            if (settings == null || outpost?.def == null || outpost.Faction != Faction.OfPlayer) return;
+            if (settings == null || outpost?.def == null) return;
             float xpAmt = settings.outpostOccupantSkillXpPerProductionCycle;
             if (xpAmt <= 0f) return;
-            int maxLv = settings.GetEffectiveOutpostSkillLevel(settings.outpostOccupantSkillXpMaxLevel);
             List<SkillDef> skills = WorldObject_WD_Outpost.GetRelevantSkillDefs(outpost.def);
-            if (skills == null || skills.Count == 0) return;
+            ApplySkillXp(outpost, xpAmt, skills);
+        }
+
+        /// <summary>Grant flat skill XP to each humanlike occupant (skip if skill level &gt;= settings cap). Passions / learning factor apply via <see cref="SkillRecord.Learn"/>.</summary>
+        public static void ApplySkillXp(WorldObject_WD_Outpost outpost, float xpAmount, params SkillDef[] skills)
+        {
+            ApplySkillXp(outpost, xpAmount, (IEnumerable<SkillDef>)skills);
+        }
+
+        /// <summary>Grant flat skill XP to each humanlike occupant (skip if skill level &gt;= settings cap). Passions / learning factor apply via <see cref="SkillRecord.Learn"/>.</summary>
+        public static void ApplySkillXp(WorldObject_WD_Outpost outpost, float xpAmount, IEnumerable<SkillDef> skills)
+        {
+            WorldDominationSettings settings = WorldDominationMod.settings;
+            if (settings == null || outpost == null || outpost.Faction != Faction.OfPlayer) return;
+            if (xpAmount <= 0f || skills == null) return;
+            int maxLv = settings.GetEffectiveOutpostSkillLevel(settings.outpostOccupantSkillXpMaxLevel);
             List<Pawn> occ = outpost.Occupants;
             if (occ == null || occ.Count == 0) return;
 
@@ -51,7 +80,7 @@ namespace TSA_WorldDomination
                     if (level >= maxLv) continue;
                     try
                     {
-                        rec.Learn(xpAmt, direct: false);
+                        rec.Learn(xpAmount, direct: false);
                         any = true;
                     }
                     catch

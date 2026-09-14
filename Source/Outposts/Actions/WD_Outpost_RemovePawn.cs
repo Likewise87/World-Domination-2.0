@@ -114,9 +114,9 @@ namespace TSA_WorldDomination
 
             if (valid.Count == 0) return;
 
-            if (!OutpostPawnIdeologyUtil.BulkRemovalSelectionIsAllowed(outpost, valid))
+            if (OutpostPawnIdeologyUtil.TryGetBulkRemovalRejectReason(outpost, valid, out string reject))
             {
-                Messages.Message("TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip".Translate(), MessageTypeDefOf.RejectInput, false);
+                Messages.Message(reject, MessageTypeDefOf.RejectInput, false);
                 return;
             }
 
@@ -223,9 +223,9 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            if (validPawns.Count > 0 && !OutpostPawnIdeologyUtil.BulkRemovalSelectionIsAllowed(outpost, validPawns))
+            if (validPawns.Count > 0 && OutpostPawnIdeologyUtil.TryGetBulkRemovalRejectReason(outpost, validPawns, out string ideologyReject))
             {
-                Messages.Message("TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip".Translate(), MessageTypeDefOf.RejectInput, false);
+                Messages.Message(ideologyReject, MessageTypeDefOf.RejectInput, false);
                 return;
             }
 

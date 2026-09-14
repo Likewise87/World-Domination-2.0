@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <TSA_WD_Outpost_BiofuelRefinery.label>Chemical Refinery</TSA_WD_Outpost_BiofuelRefinery.label>
+  <TSA_WD_Outpost_BiofuelRefinery.description>Produces chemfuel, neutroamine, and dye.</TSA_WD_Outpost_BiofuelRefinery.description>
+  <TSA_WD_Outpost_DeepchemDrill.label>Deepchem Drilling Outpost</TSA_WD_Outpost_DeepchemDrill.label>
+  <TSA_WD_Outpost_DeepchemDrill.description>Drills deepchem on desert tiles. Requires Vanilla Chemfuel Expanded.</TSA_WD_Outpost_DeepchemDrill.description>
+  <TSA_WD_Outpost_RawShaping.label>Raw Resource Shaping Outpost</TSA_WD_Outpost_RawShaping.label>
+  <TSA_WD_Outpost_RawShaping.description>Produces plasteel, synthread, or hyperweave on desert tiles.</TSA_WD_Outpost_RawShaping.description>
+  <TSA_WD_Outpost_DeepchemFactory.label>Deepchem Factory Outpost</TSA_WD_Outpost_DeepchemFactory.label>
+  <TSA_WD_Outpost_DeepchemFactory.description>Legacy chemical outpost from the Bambaryla addon. Produces neutroamine and dye. Prefer founding a Chemical Refinery for new outposts.</TSA_WD_Outpost_DeepchemFactory.description>
+</LanguageData>

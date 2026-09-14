@@ -1,0 +1,1014 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Absorbed from Workshop addon bambaryla.allbambawd2 (Bambaryla, Pesky). Keep BOR_* defNames for save continuity. -->
+<Defs>
+    <!-- walls -->
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_SteelWall</defName>
+        <label>Steel Wall</label>
+        <description>Steel-reinforced stone walls.</description>
+        <imagePath>UI/OutpostUpgrades/SteelWall_Icon</imagePath>
+        <category>Walls</category>
+        <upgradeLineId>Line_Walls</upgradeLineId>
+        <lineTier>3</lineTier>
+        <requiresPreviousLineTier>true</requiresPreviousLineTier>
+        <outpostApplicability>All</outpostApplicability>
+        <defensiveStrengthBonus>180</defensiveStrengthBonus>
+        <cost>
+            <li>
+                <thingDef>Steel</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>100</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_PlasteelWall</defName>
+        <label>Plasteel Wall Reinforcements</label>
+        <description>Plasteel-reinforced steel walls.</description>
+        <imagePath>UI/OutpostUpgrades/PlasteelWall_Icon</imagePath>
+        <category>Walls</category>
+        <upgradeLineId>Line_Walls</upgradeLineId>
+        <lineTier>4</lineTier>
+        <requiresPreviousLineTier>true</requiresPreviousLineTier>
+        <outpostApplicability>All</outpostApplicability>
+        <defensiveStrengthBonus>240</defensiveStrengthBonus>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>Steel</thingDef>
+                <count>200</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_SunsteelWall</defName>
+        <label>Sunsteel Wall Reinforcements</label>
+        <description>Sunsteel-reinforced steel walls.</description>
+        <imagePath>UI/OutpostUpgrades/SunsteelWall_Icon</imagePath>
+        <category>Walls</category>
+        <upgradeLineId>Line_Walls</upgradeLineId>
+        <lineTier>5</lineTier>
+        <requiresPreviousLineTier>true</requiresPreviousLineTier>
+        <outpostApplicability>All</outpostApplicability>
+        <defensiveStrengthBonus>300</defensiveStrengthBonus>
+        <cost>
+            <li>
+                <thingDef>BOR_Sunsteel</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>200</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_QuasarAlloyWall</defName>
+        <label>Quasar Alloy Wall Reinforcements</label>
+        <description>Quasar Alloy-reinforced steel walls.</description>
+        <imagePath>UI/OutpostUpgrades/QuasarAlloyWall_Icon</imagePath>
+        <category>Walls</category>
+        <upgradeLineId>Line_Walls</upgradeLineId>
+        <lineTier>6</lineTier>
+        <requiresPreviousLineTier>true</requiresPreviousLineTier>
+        <outpostApplicability>All</outpostApplicability>
+        <defensiveStrengthBonus>500</defensiveStrengthBonus>
+        <cost>
+            <li>
+                <thingDef>BOR_QuasarAlloy</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>BOR_Sunsteel</thingDef>
+                <count>200</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <!-- Traps -->
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_BearTraps</defName>
+        <label>Bear Traps</label>
+        <description>A dense bear trap perimeter around the outpost.</description>
+        <imagePath>UI/OutpostUpgrades/BearTrap_Icon</imagePath>
+        <category>Traps</category>
+        <upgradeLineId>Line_Traps</upgradeLineId>
+        <lineTier>2</lineTier>
+        <requiresPreviousLineTier>false</requiresPreviousLineTier>
+        <outpostApplicability>All</outpostApplicability>
+        <defensiveStrengthBonus>100</defensiveStrengthBonus>
+        <cost>
+            <li>
+                <thingDef>Steel</thingDef>
+                <count>100</count>
+            </li>
+            <li>
+                <thingDef>WoodLog</thingDef>
+                <count>50</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_PlasteelTraps</defName>
+        <label>Plasteel Detectors</label>
+        <description>A dense perimeter of detectors around the outpost.</description>
+        <imagePath>UI/OutpostUpgrades/PlasteelDetector_Icon</imagePath>
+        <category>Traps</category>
+        <upgradeLineId>Line_Traps</upgradeLineId>
+        <lineTier>3</lineTier>
+        <requiresPreviousLineTier>false</requiresPreviousLineTier>
+        <outpostApplicability>All</outpostApplicability>
+        <defensiveStrengthBonus>150</defensiveStrengthBonus>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>150</count>
+            </li>
+            <li>
+                <thingDef>Steel</thingDef>
+                <count>50</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_SunweaveTraps</defName>
+        <label>Sunweave Nets</label>
+        <description>Surrounds the settlement with spring-loaded, unbreakable nets of Sunweave, catching the enemy unawares.</description>
+        <imagePath>UI/OutpostUpgrades/SunweaveNet_Icon</imagePath>
+        <category>Traps</category>
+        <upgradeLineId>Line_Traps</upgradeLineId>
+        <lineTier>4</lineTier>
+        <requiresPreviousLineTier>false</requiresPreviousLineTier>
+        <outpostApplicability>All</outpostApplicability>
+        <defensiveStrengthBonus>200</defensiveStrengthBonus>
+        <cost>
+            <li>
+                <thingDef>BOR_Sunweave</thingDef>
+                <count>200</count>
+            </li>
+            <li>
+                <thingDef>BOR_Sunsteel</thingDef>
+                <count>50</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_QuasarweaveTraps</defName>
+        <label>Quasar Alloy Weave Slicers</label>
+        <description>Surrounds the settlement with thin spiderwebs of razorsharp quasar alloy weave traps.</description>
+        <imagePath>UI/OutpostUpgrades/QuasarSpiderweb_Icon</imagePath>
+        <category>Traps</category>
+        <upgradeLineId>Line_Traps</upgradeLineId>
+        <lineTier>5</lineTier>
+        <requiresPreviousLineTier>false</requiresPreviousLineTier>
+        <outpostApplicability>All</outpostApplicability>
+        <defensiveStrengthBonus>250</defensiveStrengthBonus>
+        <cost>
+            <li>
+                <thingDef>BOR_QuasarAlloyWeave</thingDef>
+                <count>200</count>
+            </li>
+            <li>
+                <thingDef>BOR_Sunweave</thingDef>
+                <count>100</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <!-- Auto Turrets -->
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_Adv_AutoTurrets</defName>
+        <label>Advanced Gun-turrets</label>
+        <description>Mix of Spacer and Glitter-tech turrets.</description>
+        <imagePath>UI/OutpostUpgrades/AdvancedTurret_Icon</imagePath>
+        <category>AutoTurrets</category>
+        <upgradeLineId>AutoTurrets</upgradeLineId>
+        <lineTier>2</lineTier>
+        <outpostApplicability>All</outpostApplicability>
+        <requiresPreviousLineTier>false</requiresPreviousLineTier>
+        <defensiveStrengthBonus>250</defensiveStrengthBonus>
+        <requiredResearch>HeavyTurrets</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>Steel</thingDef>
+                <count>200</count>
+            </li>
+            <li>
+                <thingDef>ComponentIndustrial</thingDef>
+                <count>20</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>5</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_AutoTurrets</defName>
+        <label>Defender-class Space Gun-turrets</label>
+        <description>Automated perimeter defense turrets ripped from Solarite starships.</description>
+        <imagePath>UI/OutpostUpgrades/DefenderTurret_Icon</imagePath>
+        <category>AutoTurrets</category>
+        <upgradeLineId>AutoTurrets</upgradeLineId>
+        <lineTier>3</lineTier>
+        <outpostApplicability>All</outpostApplicability>
+        <requiresPreviousLineTier>false</requiresPreviousLineTier>
+        <defensiveStrengthBonus>400</defensiveStrengthBonus>
+        <requiredResearch>BOR_Research_DefenderTurret_I</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>300</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>15</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <!-- hospital -->
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_SpacerHospital</defName>
+        <label>Spacer Hospital</label>
+        <description>Spacer-like medical infrastructure replacing the advanced hospital.</description>
+        <imagePath>UI/OutpostUpgrades/SpacerHospital_Icon</imagePath>
+        <category>Hospital</category>
+        <upgradeLineId>Line_Hospital</upgradeLineId>
+        <lineTier>3</lineTier>
+        <outpostApplicability>All</outpostApplicability>
+        <offensiveRecoveryBonus>0.68</offensiveRecoveryBonus>
+        <requiredResearch>HospitalBed</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>Steel</thingDef>
+                <count>400</count>
+            </li>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>100</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>10</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_GlitterHospital</defName>
+        <label>Glitter Hospital</label>
+        <description>Glitter-like medical infrastructure replacing the spacer hospital.</description>
+        <imagePath>UI/OutpostUpgrades/UltraHospital_Icon</imagePath>
+        <category>Hospital</category>
+        <upgradeLineId>Line_Hospital</upgradeLineId>
+        <lineTier>4</lineTier>
+        <outpostApplicability>All</outpostApplicability>
+        <offensiveRecoveryBonus>0.80</offensiveRecoveryBonus>
+        <requiredResearch>HospitalBed</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>300</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>15</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_SolarHospital</defName>
+        <label>Solar Hospital</label>
+        <description>Improvement over the Glitter hospital, utilizing Solar-level technologies.</description>
+        <imagePath>UI/OutpostUpgrades/SolarHospital_Icon</imagePath>
+        <category>Hospital</category>
+        <upgradeLineId>Line_Hospital</upgradeLineId>
+        <lineTier>5</lineTier>
+        <outpostApplicability>All</outpostApplicability>
+        <offensiveRecoveryBonus>1.1</offensiveRecoveryBonus>
+        <requiredResearch>BOR_Research_Medicine_I</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>BOR_Sunsteel</thingDef>
+                <count>400</count>
+            </li>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>200</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_QuasarHospital</defName>
+        <label>Kwazaari Hospital</label>
+        <description>Ultimate field-hospital using kwazaari first kwaed kits.</description>
+        <imagePath>UI/OutpostUpgrades/QuasarHospital_Icon</imagePath>
+        <category>Hospital</category>
+        <upgradeLineId>Line_Hospital</upgradeLineId>
+        <lineTier>6</lineTier>
+        <outpostApplicability>All</outpostApplicability>
+        <offensiveRecoveryBonus>1.3</offensiveRecoveryBonus>
+        <requiredResearch>BOR_Research_Medicine_II</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>BOR_QuasarAlloy</thingDef>
+                <count>400</count>
+            </li>
+            <li>
+                <thingDef>BOR_Sunsteel</thingDef>
+                <count>200</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <!-- mining -->
+
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_UltraMiningLift</defName>
+        <label>Quantum Mining Lift</label>
+        <description>Moves people and goods fastest with Quantum Technology!</description>
+        <imagePath>UI/OutpostUpgrades/UltraLift_Icon</imagePath>
+        <category>Mining</category>
+        <upgradeLineId>Line_MiningInfrastructure</upgradeLineId>
+        <lineTier>4</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Mining</li>
+        </allowedOutpostDefNames>
+        <tileMiningBonus>0.55</tileMiningBonus>
+        <defensiveStrengthBonus>50</defensiveStrengthBonus>
+        <requiredResearch>AdvancedFabrication</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>400</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>20</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_SolarMiningLift</defName>
+        <label>Solar Mining Lift</label>
+        <description>Yoinks people on Sunweave lines up and down.</description>
+        <imagePath>UI/OutpostUpgrades/SolarLift_Icon</imagePath>
+        <category>Mining</category>
+        <upgradeLineId>Line_MiningInfrastructure</upgradeLineId>
+        <lineTier>5</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Mining</li>
+        </allowedOutpostDefNames>
+        <tileMiningBonus>0.65</tileMiningBonus>
+        <defensiveStrengthBonus>75</defensiveStrengthBonus>
+        <requiredResearch>BOR_Research_Production_I</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>BOR_Sunweave</thingDef>
+                <count>300</count>
+            </li>
+            <li>
+                <thingDef>BOR_Sunsteel</thingDef>
+                <count>150</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_QuasarMiningLift</defName>
+        <label>Kwazaari Mining Lift</label>
+        <description>Yoinks people on Quasar Alloy Weave lines up and down and sideways!</description>
+        <imagePath>UI/OutpostUpgrades/QuasarLift_Icon</imagePath>
+        <category>Mining</category>
+        <upgradeLineId>Line_MiningInfrastructure</upgradeLineId>
+        <lineTier>6</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Mining</li>
+        </allowedOutpostDefNames>
+        <tileMiningBonus>0.75</tileMiningBonus>
+        <defensiveStrengthBonus>85</defensiveStrengthBonus>
+        <requiredResearch>BOR_Research_Production_II</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>BOR_QuasarAlloyWeave</thingDef>
+                <count>300</count>
+            </li>
+            <li>
+                <thingDef>BOR_Sunweave</thingDef>
+                <count>150</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <!-- farming -->
+
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_IrrigationAdvanced</defName>
+        <label>Advanced Irrigation</label>
+        <description>Irrigate fields automatically and with style.</description>
+        <imagePath>UI/OutpostUpgrades/SpacerIrrigation_Icon</imagePath>
+        <category>Farming</category>
+        <upgradeLineId>Line_IrrigationCanals</upgradeLineId>
+        <lineTier>3</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Farming</li>
+        </allowedOutpostDefNames>
+        <tileFertilityBonus>0.40</tileFertilityBonus>
+        <defensiveStrengthBonus>30</defensiveStrengthBonus>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>200</count>
+            </li>
+            <li>
+                <thingDef>Steel</thingDef>
+                <count>100</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_IrrigationUltra</defName>
+        <label>Glitter-like Irrigation</label>
+        <description>Gliterrize fields automatically and with style.</description>
+        <imagePath>UI/OutpostUpgrades/UltraIrrigation_Icon</imagePath>
+        <category>Farming</category>
+        <upgradeLineId>Line_IrrigationCanals</upgradeLineId>
+        <lineTier>4</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Farming</li>
+        </allowedOutpostDefNames>
+        <tileFertilityBonus>0.50</tileFertilityBonus>
+        <defensiveStrengthBonus>45</defensiveStrengthBonus>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>300</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>10</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_IrrigationSolar</defName>
+        <label>Solar Tech Hydroponics</label>
+        <description>Build Solar-tech Hydroponics.</description>
+        <imagePath>UI/OutpostUpgrades/SolarIrrigation_Icon</imagePath>
+        <category>Farming</category>
+        <upgradeLineId>Line_IrrigationCanals</upgradeLineId>
+        <lineTier>5</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Farming</li>
+        </allowedOutpostDefNames>
+        <tileFertilityBonus>0.75</tileFertilityBonus>
+        <cost>
+            <li>
+                <thingDef>BOR_Sunweave</thingDef>
+                <count>300</count>
+            </li>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>150</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_IrrigationQuasar</defName>
+        <label>Kwzaari Tech Hydroponics</label>
+        <description>Build Kwazaari-tech Hydroponics.</description>
+        <imagePath>UI/OutpostUpgrades/QuasarIrrigation_Icon</imagePath>
+        <category>Farming</category>
+        <upgradeLineId>Line_IrrigationCanals</upgradeLineId>
+        <lineTier>6</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Farming</li>
+        </allowedOutpostDefNames>
+        <tileFertilityBonus>1.0</tileFertilityBonus>
+        <cost>
+            <li>
+                <thingDef>BOR_QuasarAlloyWeave</thingDef>
+                <count>300</count>
+            </li>
+            <li>
+                <thingDef>BOR_Sunsteel</thingDef>
+                <count>150</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <!-- hunting -->
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_SpacerFridge</defName>
+        <label>Robo-fridges and Cooling</label>
+        <description>Electrification of the hunting business.</description>
+        <imagePath>UI/OutpostUpgrades/SpacerFridge_Icon</imagePath>
+        <category>Hunting</category>
+        <upgradeLineId>Line_MeatHooks</upgradeLineId>
+        <lineTier>2</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Hunting</li>
+        </allowedOutpostDefNames>
+        <tileAnimalAbundanceBonus>0.25</tileAnimalAbundanceBonus>
+        <defensiveStrengthBonus>25</defensiveStrengthBonus>
+        <requiredResearch>Fabrication</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>100</count>
+            </li>
+            <li>
+                <thingDef>Steel</thingDef>
+                <count>200</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_Ultramation</defName>
+        <label>Automated Bait-trapping</label>
+        <description>Automation of the hunting business.</description>
+        <imagePath>UI/OutpostUpgrades/AutomatedBait_Icon</imagePath>
+        <category>Hunting</category>
+        <upgradeLineId>Line_MeatHooks</upgradeLineId>
+        <lineTier>3</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Hunting</li>
+        </allowedOutpostDefNames>
+        <tileAnimalAbundanceBonus>0.35</tileAnimalAbundanceBonus>
+        <defensiveStrengthBonus>35</defensiveStrengthBonus>
+        <requiredResearch>AdvancedFabrication</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>300</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>10</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_Solaration</defName>
+        <label>Solar Mind Tricks</label>
+        <description>Psychification of the hunting business.</description>
+        <imagePath>UI/OutpostUpgrades/SolarHunting_Icon</imagePath>
+        <category>Hunting</category>
+        <upgradeLineId>Line_MeatHooks</upgradeLineId>
+        <lineTier>4</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Hunting</li>
+        </allowedOutpostDefNames>
+        <tileAnimalAbundanceBonus>0.45</tileAnimalAbundanceBonus>
+        <defensiveStrengthBonus>45</defensiveStrengthBonus>
+        <requiredResearch>BOR_Research_Bionics_I</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>BOR_Sunsteel</thingDef>
+                <count>300</count>
+            </li>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>150</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_Kwazantification</defName>
+        <label>Kwazaari Hunting With Amogus</label>
+        <description>Amongusification of the hunting business.</description>
+        <imagePath>UI/OutpostUpgrades/QuasarHunting_Icon</imagePath>
+        <category>Hunting</category>
+        <upgradeLineId>Line_MeatHooks</upgradeLineId>
+        <lineTier>5</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Hunting</li>
+        </allowedOutpostDefNames>
+        <tileAnimalAbundanceBonus>0.55</tileAnimalAbundanceBonus>
+        <defensiveStrengthBonus>55</defensiveStrengthBonus>
+        <requiredResearch>BOR_Research_Bionics_II</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>BOR_QuasarAlloy</thingDef>
+                <count>300</count>
+            </li>
+            <li>
+                <thingDef>BOR_Sunsteel</thingDef>
+                <count>150</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <!-- watchtower -->
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_UltraWatchTower</defName>
+        <label>Ultra Watch Tower</label>
+        <description>Allows hunters to see very far when asleep even.</description>
+        <imagePath>UI/OutpostUpgrades/UltraWatchtower_Icon</imagePath>
+        <category>Hunting</category>
+        <upgradeLineId>Line_WatchTowers</upgradeLineId>
+        <lineTier>4</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Hunting</li>
+        </allowedOutpostDefNames>
+        <tileAnimalAbundanceBonus>0.45</tileAnimalAbundanceBonus>
+        <defensiveStrengthBonus>60</defensiveStrengthBonus>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>400</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>15</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_SolarWatchTower</defName>
+        <label>Solar Watch Tower</label>
+        <description>Allows hunters to control the hunting equipment when asleep.</description>
+        <imagePath>UI/OutpostUpgrades/SolarWatchtower_Icon</imagePath>
+        <category>Hunting</category>
+        <upgradeLineId>Line_WatchTowers</upgradeLineId>
+        <lineTier>5</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Hunting</li>
+        </allowedOutpostDefNames>
+        <tileAnimalAbundanceBonus>0.55</tileAnimalAbundanceBonus>
+        <defensiveStrengthBonus>70</defensiveStrengthBonus>
+        <cost>
+            <li>
+                <thingDef>BOR_Sunsteel</thingDef>
+                <count>400</count>
+            </li>
+            <li>
+                <thingDef>BOR_Sunweave</thingDef>
+                <count>200</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_QuasarWatchTower</defName>
+        <label>Kwazaari Watch Tower</label>
+        <description>Allows hunters to control the hunt around the clock.</description>
+        <imagePath>UI/OutpostUpgrades/QuasarWatchtower_Icon</imagePath>
+        <category>Hunting</category>
+        <upgradeLineId>Line_WatchTowers</upgradeLineId>
+        <lineTier>6</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Hunting</li>
+        </allowedOutpostDefNames>
+        <tileAnimalAbundanceBonus>0.75</tileAnimalAbundanceBonus>
+        <defensiveStrengthBonus>90</defensiveStrengthBonus>
+        <cost>
+            <li>
+                <thingDef>BOR_QuasarAlloy</thingDef>
+                <count>400</count>
+            </li>
+            <li>
+                <thingDef>BOR_Sunweave</thingDef>
+                <count>200</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <!-- powerplant -->
+
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_PowerPlant_SolarPowerPlant</defName>
+        <label>Solar-tech Power Plant</label>
+        <description>Solar-tech Power Plant.</description>
+        <imagePath>UI/OutpostUpgrades/SolarPowerplant_Icon</imagePath>
+        <category>PowerPlant</category>
+        <upgradeLineId>Line_PowerPlant_Solar</upgradeLineId>
+        <lineTier>1</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_PowerPlant</li>
+        </allowedOutpostDefNames>
+        <remotePowerWattsBonus>10000</remotePowerWattsBonus>
+        <requiredResearch>BOR_Research_Power_I</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>20</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_PowerPlant_QuasarPowerPlant</defName>
+        <label>Kwazaari Power Plant</label>
+        <description>Kwazaari Power Plant.</description>
+        <imagePath>UI/OutpostUpgrades/QuasarPowerplant_Icon</imagePath>
+        <category>PowerPlant</category>
+        <upgradeLineId>Line_PowerPlant_Quasar</upgradeLineId>
+        <lineTier>1</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_PowerPlant</li>
+        </allowedOutpostDefNames>
+        <remotePowerWattsBonus>50000</remotePowerWattsBonus>
+        <requiredResearch>BOR_Research_Power_II</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>BOR_QuasarAlloy</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>40</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <!-- barn -->
+
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_TechBarn_Ultra</defName>
+        <label>Glitter-Tech Barn</label>
+        <description>Cloning and autoamted-harvesting with maximum pleasurableness of life for the livestock.</description>
+        <imagePath>UI/OutpostUpgrades/UltraBarn_Icon</imagePath>
+        <category>Ranch</category>
+        <upgradeLineId>Line_RanchBarn</upgradeLineId>
+        <lineTier>4</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Ranch</li>
+        </allowedOutpostDefNames>
+        <tileFertilityBonus>0.65</tileFertilityBonus>
+        <defensiveStrengthBonus>70</defensiveStrengthBonus>
+        <requiredResearch>AdvancedFabrication</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>400</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>15</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_TechBarn_Solar</defName>
+        <label>Solar-Tech Barn</label>
+        <description>Solar-tech infrastructure with mechanoids and cowanoids milking chickenoids and laying eggnoids.</description>
+        <imagePath>UI/OutpostUpgrades/SolarBarn_Icon</imagePath>
+        <category>Ranch</category>
+        <upgradeLineId>Line_RanchBarn</upgradeLineId>
+        <lineTier>5</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Ranch</li>
+        </allowedOutpostDefNames>
+        <productionEfficiencyBonus>0.75</productionEfficiencyBonus>
+        <defensiveStrengthBonus>80</defensiveStrengthBonus>
+        <requiredResearch>BOR_Research_Bionics_I</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>BOR_Sunsteel</thingDef>
+                <count>400</count>
+            </li>
+            <li>
+                <thingDef>BOR_Sunweave</thingDef>
+                <count>200</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_TechBarn_Kwazaari</defName>
+        <label>Kwazaari-Tech Barn</label>
+        <description>Shit's crazy, press button get meat or milk iunno how this works man.</description>
+        <imagePath>UI/OutpostUpgrades/QuasarBarn_Icon</imagePath>
+        <category>Ranch</category>
+        <upgradeLineId>Line_RanchBarn</upgradeLineId>
+        <lineTier>6</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_Ranch</li>
+        </allowedOutpostDefNames>
+        <productionEfficiencyBonus>0.99</productionEfficiencyBonus>
+        <defensiveStrengthBonus>99</defensiveStrengthBonus>
+        <requiredResearch>BOR_Research_Bionics_II</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>BOR_QuasarAlloy</thingDef>
+                <count>400</count>
+            </li>
+            <li>
+                <thingDef>BOR_QuasarAlloyWeave</thingDef>
+                <count>200</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_PowerPlant_IntelligentGridControls</defName>
+        <label>Intelligent Grid Controls</label>
+        <description>Automated control over power distribution, basically magic at this point.</description>
+        <imagePath>UI/OutpostUpgrades/IntelligentGrid_Icon</imagePath>
+        <category>PowerPlant</category>
+        <upgradeLineId>Line_PowerPlant_AdvancedGridControls</upgradeLineId>
+        <lineTier>2</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_PowerPlant</li>
+        </allowedOutpostDefNames>
+        <remotePowerWattsBonus>5000</remotePowerWattsBonus>
+        <requiredResearch>AdvancedFabrication</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>300</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>10</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_PowerPlant_AdvancedGeothermalPowerPlant</defName>
+        <label>Advanced Geothermal Power Plant</label>
+        <description>Deep thermal infrastructure feeding a large remote power tap.</description>
+        <imagePath>UI/OutpostUpgrades/AdvancedGeothermal_Icon</imagePath>
+        <category>PowerPlant</category>
+        <upgradeLineId>Line_PowerPlant_GeothermalPowerPlant</upgradeLineId>
+        <lineTier>2</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_PowerPlant</li>
+        </allowedOutpostDefNames>
+        <remotePowerWattsBonus>4000</remotePowerWattsBonus>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>400</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>20</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_PowerPlant_UltraGeothermalPowerPlant</defName>
+        <label>Ultra Geothermal Power Plant</label>
+        <description>Deep thermal infrastructure feeding a large remote power tap.</description>
+        <imagePath>UI/OutpostUpgrades/UltraGeothermal_Icon</imagePath>
+        <category>PowerPlant</category>
+        <upgradeLineId>Line_PowerPlant_GeothermalPowerPlant</upgradeLineId>
+        <lineTier>3</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_PowerPlant</li>
+        </allowedOutpostDefNames>
+        <remotePowerWattsBonus>8000</remotePowerWattsBonus>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>30</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_PowerPlant_BorAdvancedGeothermalPowerPlant</defName>
+        <label>Solar geothermal Power Plant</label>
+        <description>solar-tech geothermal power plant.</description>
+        <imagePath>UI/OutpostUpgrades/SolarGeothermal_Icon</imagePath>
+        <category>PowerPlant</category>
+        <upgradeLineId>Line_PowerPlant_GeothermalPowerPlant</upgradeLineId>
+        <lineTier>4</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_PowerPlant</li>
+        </allowedOutpostDefNames>
+        <remotePowerWattsBonus>12000</remotePowerWattsBonus>
+        <requiredResearch>BOR_Research_Power_I</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>BOR_Sunsteel</thingDef>
+                <count>300</count>
+            </li>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>200</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_PowerPlant_AdvancedSolarArrays</defName>
+        <label>Advanced Solar Arrays</label>
+        <description>Advanced solar panel arrays for remote power generation.</description>
+        <imagePath>UI/OutpostUpgrades/AdvancedArray_Icon</imagePath>
+        <category>PowerPlant</category>
+        <upgradeLineId>Line_PowerPlant_AdvancedSolar</upgradeLineId>
+        <lineTier>1</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_PowerPlant</li>
+        </allowedOutpostDefNames>
+        <remotePowerWattsBonus>3000</remotePowerWattsBonus>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>800</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>30</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <TSA_WorldDomination.OutpostUpgradeDef>
+        <defName>BOR_TSA_WD_Upgrade_PowerPlant_UltraSolarArrays</defName>
+        <label>Ultratech Solar Arrays</label>
+        <description>Ultratech solar panel arrays for remote power generation.</description>
+        <imagePath>UI/OutpostUpgrades/UltraArray_Icon</imagePath>
+        <category>PowerPlant</category>
+        <upgradeLineId>Line_PowerPlant_UltraSolar</upgradeLineId>
+        <lineTier>1</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_PowerPlant</li>
+        </allowedOutpostDefNames>
+        <remotePowerWattsBonus>5000</remotePowerWattsBonus>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>800</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>30</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_PowerPlant_SolarSolarArrays</defName>
+        <label>Solarite Solar Arrays</label>
+        <description>Solarite solar panel arrays for remote power generation.</description>
+        <imagePath>UI/OutpostUpgrades/SolarArray_Icon</imagePath>
+        <category>PowerPlant</category>
+        <upgradeLineId>Line_PowerPlant_SolarSolar</upgradeLineId>
+        <lineTier>1</lineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_PowerPlant</li>
+        </allowedOutpostDefNames>
+        <remotePowerWattsBonus>5000</remotePowerWattsBonus>
+        <requiredResearch>BOR_Research_Power_I</requiredResearch>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>800</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>30</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+
+</Defs>

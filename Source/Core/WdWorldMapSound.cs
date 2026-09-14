@@ -47,11 +47,12 @@ namespace TSA_WorldDomination
             }
         }
 
-        public static void PlayMortarFire()
-        {
-            if (!Enabled || !WorldMapOpen) return;
-            Play(Find.CurrentMap != null ? MortarMap : Mortar);
-        }
+        /// <summary>
+        /// World-map mortar / AT shell launch. Always uses the WorldOnly oneshot —
+        /// do not pick <see cref="MortarMap"/> via <c>Find.CurrentMap != null</c>: a colony
+        /// map stays current while the camera is on the world, and MapOnly audio is discarded.
+        /// </summary>
+        public static void PlayMortarFire() => Play(Mortar);
 
         /// <summary>
         /// Assault artillery support fired from a settlement map: play even when the world map is closed.

@@ -311,7 +311,10 @@ namespace TSA_WorldDomination
             if (comp == null || !HasActiveDecontaminationProject(comp)) return;
 
             int tile = traveler.Tile.tileId;
+            bool pollutedBefore = IsTilePolluted(tile);
             ApplyPollutionReduction(tile);
+            if (pollutedBefore)
+                Outpost_ConstructionXp.TryGrant(traveler, Outpost_OccupantProgression.EventXpBuildCompleteT3);
 
             // Stay on this tile until pollution is gone; each visit only removes settings pp.
             if (!IsTilePolluted(tile))

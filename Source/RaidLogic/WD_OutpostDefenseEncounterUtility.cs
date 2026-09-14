@@ -69,28 +69,33 @@ namespace TSA_WorldDomination
                 float points = ComputeRaidPoints(traveler, map);
                 tracker.ScheduleRaidArrival(points, arrivalDelay);
 
-                string outpostLabel = outpost.LabelCap;
-                string factionName = traveler.Faction?.Name ?? "Unknown";
-                GlobalTargetInfo lookTarget = new GlobalTargetInfo(map.Center, map);
-                LongEventHandler.ExecuteWhenFinished(delegate
+                bool notifyArrival = WorldDominationMod.settings?.notifyRaidArrivalOutpost
+                    ?? WorldDominationSettings.DefNotifyRaidArrivalOutpost;
+                if (notifyArrival)
                 {
-                    if (arrivalDelay <= 0)
+                    string outpostLabel = outpost.LabelCap;
+                    string factionName = traveler.Faction?.Name ?? "Unknown";
+                    GlobalTargetInfo lookTarget = new GlobalTargetInfo(map.Center, map);
+                    LongEventHandler.ExecuteWhenFinished(delegate
                     {
-                        Find.LetterStack.ReceiveLetter(
-                            "TSA_WD_OutpostDefense_LetterImmediate_Label".Translate(),
-                            "TSA_WD_OutpostDefense_LetterImmediate_Text".Translate(outpostLabel, factionName),
-                            LetterDefOf.ThreatBig,
-                            lookTarget);
-                    }
-                    else
-                    {
-                        Find.LetterStack.ReceiveLetter(
-                            "TSA_WD_OutpostDefense_Letter_Label".Translate(),
-                            "TSA_WD_OutpostDefense_Letter_Text".Translate(outpostLabel, factionName),
-                            LetterDefOf.ThreatBig,
-                            lookTarget);
-                    }
-                });
+                        if (arrivalDelay <= 0)
+                        {
+                            Find.LetterStack.ReceiveLetter(
+                                "TSA_WD_OutpostDefense_LetterImmediate_Label".Translate(),
+                                "TSA_WD_OutpostDefense_LetterImmediate_Text".Translate(outpostLabel, factionName),
+                                LetterDefOf.ThreatBig,
+                                lookTarget);
+                        }
+                        else
+                        {
+                            Find.LetterStack.ReceiveLetter(
+                                "TSA_WD_OutpostDefense_Letter_Label".Translate(),
+                                "TSA_WD_OutpostDefense_Letter_Text".Translate(outpostLabel, factionName),
+                                LetterDefOf.ThreatBig,
+                                lookTarget);
+                        }
+                    });
+                }
             }, "GeneratingArea", true, null);
 
             return true;

@@ -2047,9 +2047,9 @@ namespace TSA_WorldDomination
 
             if (prisonerMode)
             {
-                // Switching away from prisoners: only an occupant click starts transfer mode.
+                // Switching away from prisoners: only a free occupant click starts transfer mode.
                 if (row.rowKind != OutpostPawnRowKind.Occupant) return false;
-                return OutpostPawnIdeologyUtil.BulkRemovalSelectionIsAllowedWithExtra(
+                return OutpostPawnIdeologyUtil.CanToggleOutpostRemovalSelection(
                     SelOutpost,
                     new HashSet<string>(),
                     row.pawn);
@@ -2058,12 +2058,13 @@ namespace TSA_WorldDomination
             bool sel = selectedForRemovalThingIds.Contains(tid);
             if (row.rowKind == OutpostPawnRowKind.Occupant)
             {
-                return OutpostPawnIdeologyUtil.BulkRemovalSelectionIsAllowedWithExtra(
+                return OutpostPawnIdeologyUtil.CanToggleOutpostRemovalSelection(
                     SelOutpost,
                     selectedForRemovalThingIds,
                     row.pawn);
             }
-            return sel || SelectedRemovalIncludesOccupant();
+            // Animals / vehicles / mechs / shuttles need a free (non-slave) occupant escort in the selection.
+            return sel || OutpostPawnIdeologyUtil.SelectionIncludesNonSlaveOccupant(SelOutpost, selectedForRemovalThingIds);
         }
 
         private bool IsPrisonerSelectionMode() =>
@@ -2147,11 +2148,22 @@ namespace TSA_WorldDomination
             }
 
             ClearPrisonerSelection();
-            // Occupants first so vehicles/animals/shuttles can unlock after an occupant is selected.
+            // Free / non-slave occupants first so slaves and stored unlock.
             for (int i = 0; i < cachedRows.Count; i++)
             {
                 CachedPawnRow row = cachedRows[i];
                 if (row.rowKind != OutpostPawnRowKind.Occupant) continue;
+                if (row.pawn != null && OutpostPawnIdeologyUtil.IsSlaveHumanlike(row.pawn)) continue;
+                string tid = GetRowSelectThingId(row);
+                if (tid.NullOrEmpty()) continue;
+                if (CanInteractSelectRow(row, tid))
+                    selectedForRemovalThingIds.Add(tid);
+            }
+            for (int i = 0; i < cachedRows.Count; i++)
+            {
+                CachedPawnRow row = cachedRows[i];
+                if (row.rowKind != OutpostPawnRowKind.Occupant) continue;
+                if (row.pawn == null || !OutpostPawnIdeologyUtil.IsSlaveHumanlike(row.pawn)) continue;
                 string tid = GetRowSelectThingId(row);
                 if (tid.NullOrEmpty()) continue;
                 if (CanInteractSelectRow(row, tid))
@@ -2166,6 +2178,7 @@ namespace TSA_WorldDomination
                 if (CanInteractSelectRow(row, tid))
                     selectedForRemovalThingIds.Add(tid);
             }
+            AfterRemovalSelectionMutated();
         }
 
         private void ToggleSelectAllVisiblePrisoners()
@@ -2641,6 +2654,9 @@ namespace TSA_WorldDomination
                     else
                         ClearPrisonerSelection();
                 }
+
+                if (row.rowKind != OutpostPawnRowKind.Prisoner && nowSelected != wasSelected)
+                    AfterRemovalSelectionMutated();
             }
 
             // Always consume the column width so subsequent cells stay aligned with headers.
@@ -2727,17 +2743,50 @@ namespace TSA_WorldDomination
             Window_Prisoners.InvalidateCache();
         }
 
-        private bool SelectedRemovalIncludesOccupant()
+        /// <summary>After checkbox / drag-paint / select-all: drop slaves without a free escort, then escort-dependent stored.</summary>
+        private void AfterRemovalSelectionMutated()
         {
-            var occ = SelOutpost?.Occupants;
-            if (occ == null || selectedForRemovalThingIds.Count == 0) return false;
-            for (int i = 0; i < occ.Count; i++)
+            WorldObject_WD_Outpost outpost = SelOutpost;
+            if (outpost == null) return;
+            OutpostPawnIdeologyUtil.PruneDependentRemovalSelection(outpost, selectedForRemovalThingIds);
+            if (OutpostPawnIdeologyUtil.SelectionIncludesNonSlaveOccupant(outpost, selectedForRemovalThingIds))
+                return;
+            ClearEscortDependentStoredSelection(outpost);
+        }
+
+        private void ClearEscortDependentStoredSelection(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null || selectedForRemovalThingIds.Count == 0) return;
+            var stored = outpost.StoredAnimalsAndVehicles;
+            if (stored != null)
             {
-                Pawn pawn = occ[i];
-                if (pawn?.ThingID != null && selectedForRemovalThingIds.Contains(pawn.ThingID))
-                    return true;
+                for (int i = 0; i < stored.Count; i++)
+                {
+                    Pawn p = stored[i];
+                    if (p?.ThingID != null)
+                        selectedForRemovalThingIds.Remove(p.ThingID);
+                }
             }
-            return false;
+            var mechs = outpost.StoredMechanoids;
+            if (mechs != null)
+            {
+                for (int i = 0; i < mechs.Count; i++)
+                {
+                    Pawn p = mechs[i];
+                    if (p?.ThingID != null)
+                        selectedForRemovalThingIds.Remove(p.ThingID);
+                }
+            }
+            var shuttles = outpost.StoredPassengerShuttles;
+            if (shuttles != null)
+            {
+                for (int i = 0; i < shuttles.Count; i++)
+                {
+                    Thing t = shuttles[i];
+                    if (t?.ThingID != null)
+                        selectedForRemovalThingIds.Remove(t.ThingID);
+                }
+            }
         }
 
         private static string JoinSkillLabels(List<SkillDef> defs)

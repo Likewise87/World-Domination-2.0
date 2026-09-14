@@ -634,6 +634,13 @@ namespace TSA_WorldDomination
                 }
 
                 fired = true;
+                if (p.origin is WorldObject_WD_Outpost aaOutpost)
+                {
+                    Outpost_OccupantProgression.ApplySkillXp(
+                        aaOutpost,
+                        Outpost_OccupantProgression.EventXpAntiAirPerEngagement,
+                        SkillDefOf.Shooting);
+                }
                 WDVerbose.Msg($"AA execute FIRE {p.origin.LabelCap} -> {p.target.LabelCap} kind={kind} range={rangeTiles:F1}/{maxRange:F1} hit={hit} dmg={damage:F0} volley={volley}");
 
                 string targetLabel = p.target.LabelCap;

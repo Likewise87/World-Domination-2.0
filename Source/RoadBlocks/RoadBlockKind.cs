@@ -53,10 +53,10 @@ namespace TSA_WorldDomination
         {
             switch (kind)
             {
-                case RoadBlockKind.Light: return "WorldObjects/RoadBlock_Light_Colorized";
+                case RoadBlockKind.Light: return "WorldObjects/RoadBlock_Light";
                 case RoadBlockKind.Heavy: return "WorldObjects/RoadBlock_Heavy";
-                // Medium (persisted as Normal). Keep RoadBlock_Colorized as a spare asset on disk.
-                default: return "WorldObjects/RoadBlock_Medium_Colorized";
+                // Medium (persisted as Normal).
+                default: return "WorldObjects/RoadBlock_Medium";
             }
         }
 

@@ -15,7 +15,8 @@ namespace TSA_WorldDomination
         public static Material LineMat => WorldOverlayLineMaterials.RoadOrange;
 
         public static Texture2D BuildAtTurretIcon =>
-            cachedBuildIcon ??= WorldObject_AT_Turret.IconForTier(AtTurretTier.Medium)
+            cachedBuildIcon ??= ContentFinder<Texture2D>.Get(AtTurretUtility.UiSideTexturePathForTier(AtTurretTier.Medium), false)
+                ?? WorldObject_AT_Turret.IconForTier(AtTurretTier.Medium)
                 ?? ContentFinder<Texture2D>.Get("UI/Commands/Build", false)
                 ?? TexCommand.Replant;
 
@@ -121,7 +122,9 @@ namespace TSA_WorldDomination
             float totalConstruction)
         {
             string label = AtTurretUtility.LabelKey(tier).Translate();
-            Texture2D icon = WorldObject_AT_Turret.IconForTier(tier) ?? BuildAtTurretIcon;
+            Texture2D icon = ContentFinder<Texture2D>.Get(AtTurretUtility.UiSideTexturePathForTier(tier), false)
+                ?? WorldObject_AT_Turret.IconForTier(tier)
+                ?? BuildAtTurretIcon;
             int minConstruction = WorldActions_AtTurrets.GetMinConstruction(tier);
 
             float days = WorldActions_AtTurrets.GetEstimatedDaysPerAtTurret(outpost, tier);

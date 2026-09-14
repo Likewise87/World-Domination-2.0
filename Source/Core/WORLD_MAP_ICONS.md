@@ -36,6 +36,7 @@ Vanilla draws world objects in two layers. Mixing their textures is what made ou
 - If AA (or any upgrade) should change the look, swap **`ExpandingIcon` only** (or XML), never the `Material` path used for the globe mesh. Mortar + AA upgrade uses `WorldObjects/WD_Outpost_Mortar_AA` via `WorldObject_WD_Outpost.ExpandingIcon`.
 - Do not empty-override `Draw()` to "fix" tilt. Restore the settlement-path `Material` instead.
 - **Suppressing the globe mesh for WD outposts / travelers / settlements:** use isolated `Patch_WdWorldObjectNoExpandingIcon` (TransitionPct=1 **plus** both Expandable/NonExpandable `ShouldSkip` so Material never draws), gated by Notifications settings toggles (default on). That keeps the upright expanding icon at every zoom and avoids the planet-tangent / double-image look. Do not point Material at outpost-type art as a substitute.
+- **Mortar / flak shells + `MortarWorldFx`:** at far zoom use the same `WD_WorldMapZoomUtil.IsSurfaceOverlayZoomedTooFarOut` gate as road blocks / spike traps. Shell travelers (`MortarStrike` / `AntiAirStrike` only — not drop pods) force TransitionPct=0 and skip both Material layers so they do not stay visible from space when always-show traveler icons is on.
 - **Close-zoom disappearing icons:** vanilla fades expanding icons at `WorldCameraZoomRange.VeryClose` and shows Material instead. With Material skipped, icons must stay. Also patch `WorldObjectSelectionUtility.HiddenBehindTerrainNow`: near the surface the camera–icon chord clips inside the planet sphere (`obstructsExpandingIcons`), so the hide test false-positives and blanks every upright icon. Bypass that hide only at Close/VeryClose for ForceFixedIcon objects that are on the **camera-facing hemisphere** (`Dot(DrawPos, camPos) > 0`); keep far-side hide so icons do not show through the planet. At Far/VeryFar leave vanilla hide alone.
 - Road-block `DrawQuadTangentialToPlanet` rotation and FlakSmoke `GUI.matrix` rotation were red herrings for this bug.
 
@@ -53,3 +54,13 @@ Vanilla draws world objects in two layers. Mixing their textures is what made ou
 | Else | Def `expandingIconTexture` / `texture` |
 
 Do not point traveler `Material` at settlement art. Keep mission overrides in `ResolveIconTexturePath`, not one-off XML defs per flag.
+
+## Fortifications (AT turrets, roadblocks, traps)
+
+| Thing | Globe / overlay | Expanding / identity | Build float menu |
+|-------|-----------------|----------------------|------------------|
+| AT turret | `Material` = settlement path + faction tint (never AT_Gun) | `WorldObjects/AT_Gun_{Light\|Medium\|Heavy}` via `AtTurretUtility.TexturePathForTier` | `UI/Commands/AT_Gun_{Light\|Medium\|Heavy}_Side` via `UiSideTexturePathForTier` |
+| Roadblock | Overlay `MatFrom` + `builtByFaction.Color` (cyan fallback) | n/a (not a WorldObject) | Kind icons from `RoadBlockKindUtil.TexturePath` → `WorldObjects/RoadBlock_{Light\|Medium\|Heavy}` |
+| Spike / caltrops | Overlay `MatFrom` + faction tint | n/a | `WorldObjects/WorldSpikeTrap` / `WorldObjects/Caltrops` |
+
+Do **not** use `*_Colorized` texture filenames. Greyscale WorldObjects art is tinted at draw time. Do **not** point AT build menus at world `AT_Gun_*` or ExpandingIcon at `*_Side`.

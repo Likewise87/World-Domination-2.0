@@ -150,7 +150,7 @@
   <TSA_WD_RapidResponse_Tip_MinStrength>Only launch if deployable strength is at least this percentage of the target caravan's current strength. 0% means no minimum. Can go above 100% if you want a clear advantage.</TSA_WD_RapidResponse_Tip_MinStrength>
   <TSA_WD_RapidResponse_Tip_MaxStrength>Once this outpost is strong enough to launch, it sends at most this many times the target's strength and keeps the rest home.</TSA_WD_RapidResponse_Tip_MaxStrength>
   <TSA_WD_RapidResponse_Tip_Range>Maximum tiles from this outpost for automatic intercepts. The ring preview on the world map updates as you drag.</TSA_WD_RapidResponse_Tip_Range>
-  <TSA_WD_RapidResponse_Tip_Reset>Restore this page to defaults: Raiders only, intercept raids targeting you or allies, 90% min relative strength, 2.00x max relative strength to send, and full range.</TSA_WD_RapidResponse_Tip_Reset>
+  <TSA_WD_RapidResponse_Tip_Reset>Restore this page to defaults: Raiders only, intercept raids targeting you or allies, 90% min relative strength, 3.00x max relative strength to send, and full range.</TSA_WD_RapidResponse_Tip_Reset>
   <TSA_WD_RapidResponse_Tip_Confirm>Apply all settings on this page and close the dialog.</TSA_WD_RapidResponse_Tip_Confirm>
   <TSA_WD_RapidResponse_MenuSection_InterceptRaiders>Intercept raiders</TSA_WD_RapidResponse_MenuSection_InterceptRaiders>
   <TSA_WD_RapidResponse_MenuSection_RaidTarget>Intercept raids targeting</TSA_WD_RapidResponse_MenuSection_RaidTarget>
@@ -269,7 +269,7 @@
   <TSA_WD_CancelRoad>Cancel Road Construction</TSA_WD_CancelRoad>
   <TSA_WD_CancelRoadDesc>Stop all road building activities for this outpost.</TSA_WD_CancelRoadDesc>
   <TSA_WD_BuildRoadBlocks>Build Road Blocks</TSA_WD_BuildRoadBlocks>
-  <TSA_WD_BuildRoadBlocksDesc>Build road blocks to increase the movement difficulty on a world tile.</TSA_WD_BuildRoadBlocksDesc>
+  <TSA_WD_BuildRoadBlocksDesc>Build road blocks to increase the movement cost on a world tile.</TSA_WD_BuildRoadBlocksDesc>
   <TSA_WD_ClearRoadBlocks>Remove Road Blocks</TSA_WD_ClearRoadBlocks>
   <TSA_WD_ClearRoadBlocksDesc>Remove existing road blocks.</TSA_WD_ClearRoadBlocksDesc>
   <TSA_WD_RemoveFortifications>Remove fortifications</TSA_WD_RemoveFortifications>
@@ -1181,7 +1181,10 @@
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Scavenging>Produces random goods each cycle. Each colonist adds 500 silver of loot per delivery. Fixed cycle time; needs at least 2 colonists to found</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Scavenging>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mining>Produces Stone Blocks, Ores and Components. Scales with the Mining efficiency of the world tile it is placed on. Efficiency can be boosted via Upgrades</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mining>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fabrication>Produces industrial and advanced components. Scales with Crafting skill. Requires Fabrication research</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fabrication>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>Produces chemfuel. Scales with Crafting skill. Requires Biofuel Refining research</TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>Produces chemfuel (Crafting), neutroamine and dye (Medicine). Requires Biofuel Refining to found</TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_DeepchemDrill>Produces deepchem on desert tiles. Scales with Intellectual skill. Requires Vanilla Chemfuel Expanded</TSA_WD_OutpostTooltip_TSA_WD_Outpost_DeepchemDrill>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_RawShaping>Produces plasteel, synthread, or hyperweave on desert tiles. Scales with Crafting skill</TSA_WD_OutpostTooltip_TSA_WD_Outpost_RawShaping>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_DeepchemFactory>Legacy chemical outpost. Produces neutroamine and dye (Medicine). Prefer a Chemical Refinery for new foundations</TSA_WD_OutpostTooltip_TSA_WD_Outpost_DeepchemFactory>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>Produces milk, eggs, wool, and meat (chicken, pig, cow). Scales with Fertility of the world tile and Animals skill. Efficiency can be boosted via Upgrades</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Academy>Trains colonists in one skill per cycle. Teacher skill sets XP and student level cap. Does not produce goods</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Academy>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mortar>Fires long-range mortar strikes at hostile targets. Uses Shooting skill of the garrison. Does not produce goods</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mortar>

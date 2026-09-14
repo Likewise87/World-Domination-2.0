@@ -86,6 +86,7 @@ namespace TSA_WorldDomination
             }
         }
 
+        /// <summary>World-map ExpandingIcon (top-down). Not for build float menus.</summary>
         public static string TexturePathForTier(AtTurretTier tier)
         {
             switch (tier)
@@ -93,6 +94,17 @@ namespace TSA_WorldDomination
                 case AtTurretTier.Light: return "WorldObjects/AT_Gun_Light";
                 case AtTurretTier.Heavy: return "WorldObjects/AT_Gun_Heavy";
                 default: return "WorldObjects/AT_Gun_Medium";
+            }
+        }
+
+        /// <summary>Build float-menu / branch icons (side profile). Not for world ExpandingIcon.</summary>
+        public static string UiSideTexturePathForTier(AtTurretTier tier)
+        {
+            switch (tier)
+            {
+                case AtTurretTier.Light: return "UI/Commands/AT_Gun_Light_Side";
+                case AtTurretTier.Heavy: return "UI/Commands/AT_Gun_Heavy_Side";
+                default: return "UI/Commands/AT_Gun_Medium_Side";
             }
         }
 

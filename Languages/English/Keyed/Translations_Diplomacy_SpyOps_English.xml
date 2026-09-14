@@ -106,7 +106,7 @@
   <TSA_WD_Diplo_RevoltCooldown>Revolt cooldown</TSA_WD_Diplo_RevoltCooldown>
   <TSA_WD_Diplo_RevoltCooldownTooltip>Days before another revolt can fire after one succeeds. Ignored while Shared special event cooldown is on.</TSA_WD_Diplo_RevoltCooldownTooltip>
   <TSA_WD_Diplo_ForwardAssaultEnable>Enable forward assault (Vanguard / Invasion)</TSA_WD_Diplo_ForwardAssaultEnable>
-  <TSA_WD_Diplo_ForwardAssaultEnableTooltip>A strong distant hostile may pack 5–7 settlements for Vanguard, or launch 5–7 coordinated raids for Invasion (homes stay). Timing of Vanguard vs Invasion is set by Combat Difficulty threat gates. Shared Forward Assault enable, chance, and distance knobs live there too. If Vanguard cannot reserve a cluster and fallback is on, Invasion is attempted instead.</TSA_WD_Diplo_ForwardAssaultEnableTooltip>
+  <TSA_WD_Diplo_ForwardAssaultEnableTooltip>A strong distant hostile may pack 5–7 settlements into a few strong Vanguard caravans that dig in on your front, or launch 5–7 coordinated raids for Invasion (homes stay). Timing of Vanguard vs Invasion is set by Combat Difficulty threat gates. Shared Forward Assault enable, chance, and distance knobs live there too. If Vanguard cannot reserve a cluster and fallback is on, Invasion is attempted instead.</TSA_WD_Diplo_ForwardAssaultEnableTooltip>
   <TSA_WD_Diplo_ForwardAssaultChance>Forward assault chance</TSA_WD_Diplo_ForwardAssaultChance>
   <TSA_WD_Diplo_ForwardAssaultChanceTooltip>Daily chance to attempt a Vanguard or Invasion forward assault when Mid/Late Game difficulty gates and cooldowns allow.</TSA_WD_Diplo_ForwardAssaultChanceTooltip>
   <TSA_WD_Diplo_ForwardAssaultTopPct>Top strong factions considered</TSA_WD_Diplo_ForwardAssaultTopPct>

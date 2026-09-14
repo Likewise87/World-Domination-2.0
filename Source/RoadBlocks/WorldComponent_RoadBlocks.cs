@@ -313,12 +313,12 @@ namespace TSA_WorldDomination
             kindByTile[tileId] = (byte)((int)kind + 1);
         }
 
-        private static Material MatFor(RoadBlockKind kind)
+        private static Material MatFor(RoadBlockKind kind, Color color)
         {
             return MaterialPool.MatFrom(
                 RoadBlockKindUtil.TexturePath(kind),
                 ShaderDatabase.WorldOverlayTransparentLit,
-                Color.white,
+                color,
                 WorldMaterials.WorldObjectRenderQueue);
         }
 
@@ -332,13 +332,12 @@ namespace TSA_WorldDomination
             {
                 RoadBlockRecord r = records[i];
                 if (r == null || r.tileId < 0 || r.tileId >= grid.TilesCount) continue;
-                Material mat = MatFor(r.kind);
+                Color color = r.builtByFaction?.Color ?? Color.cyan;
+                Material mat = MatFor(r.kind, color);
                 if (mat == null) continue;
                 Vector3 center = grid.GetTileCenter(r.tileId);
-                // Only Medium (Normal enum) uses a seeded random spin; Light/Heavy (and Gate) stay upright like traps.
-                float rotation = r.kind == RoadBlockKind.Normal
-                    ? Rand.RangeSeeded(0f, 360f, r.tileId)
-                    : -90f;
+                // Fixed orientation for all kinds (Light / Medium / Heavy / Gate) so directional textures stay upright.
+                const float rotation = -90f;
                 WorldRendererUtility.DrawQuadTangentialToPlanet(
                     center, size, WD_WorldMapZoomUtil.GetSurfaceOverlayDrawAltitude(), mat, rotation);
             }

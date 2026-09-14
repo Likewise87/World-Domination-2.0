@@ -70,11 +70,21 @@
   <TSA_WD_Combat_GateT4AntiAir>T4 防空对玩家</TSA_WD_Combat_GateT4AntiAir>
   <TSA_WD_Combat_GateT4AntiAirTip>敌方 T4 定居点防空何时可瞄准玩家。</TSA_WD_Combat_GateT4AntiAirTip>
   <TSA_WD_Combat_GateVanguard>先锋</TSA_WD_Combat_GateVanguard>
-  <TSA_WD_Combat_GateVanguardTip>前锋突击先锋集群的阶段门。</TSA_WD_Combat_GateVanguardTip>
+  <TSA_WD_Combat_GateVanguardTip>前锋突击先锋阶段门：将远方定居点并入少数强商队，在你的前线扎营（不贴着殖民地）。</TSA_WD_Combat_GateVanguardTip>
   <TSA_WD_Combat_GateInvasion>入侵</TSA_WD_Combat_GateInvasion>
   <TSA_WD_Combat_GateInvasionTip>前锋突击入侵的阶段门（从远方宿主发动 5–7 路协同突袭；家园仍在）。无视常规袭击冷却与最低战力比。</TSA_WD_Combat_GateInvasionTip>
   <TSA_WD_Combat_FallBackToInvasion>先锋集群失败时回退为入侵</TSA_WD_Combat_FallBackToInvasion>
   <TSA_WD_Combat_FallBackToInvasionTip>先锋无法占用定居点集群时，若入侵门也通过则尝试入侵。</TSA_WD_Combat_FallBackToInvasionTip>
+  <TSA_WD_Combat_VanguardClusterMinDist>先锋距殖民地最小距离</TSA_WD_Combat_VanguardClusterMinDist>
+  <TSA_WD_Combat_VanguardClusterMinDistTip>扎营格至少距你的殖民地这么远。更远的前线前哨可作为集群种子。</TSA_WD_Combat_VanguardClusterMinDistTip>
+  <TSA_WD_Combat_VanguardClusterMaxDist>先锋距殖民地最大距离</TSA_WD_Combat_VanguardClusterMaxDist>
+  <TSA_WD_Combat_VanguardClusterMaxDistTip>没有可用前线前哨时，在殖民地朝向来袭方向的环带内选格，最远不超过此值。</TSA_WD_Combat_VanguardClusterMaxDistTip>
+  <TSA_WD_Combat_VanguardFoundSitesMin>先锋据点（最少）</TSA_WD_Combat_VanguardFoundSitesMin>
+  <TSA_WD_Combat_VanguardFoundSitesMinTip>每次先锋事件最少据点（与合并后的商队）数。仍撤离 5–7 座老家，但战力折入这几支拳头。</TSA_WD_Combat_VanguardFoundSitesMinTip>
+  <TSA_WD_Combat_VanguardFoundSitesMax>先锋据点（最多）</TSA_WD_Combat_VanguardFoundSitesMax>
+  <TSA_WD_Combat_VanguardFoundSitesMaxTip>每次先锋事件最多据点数。据点之间空一格。</TSA_WD_Combat_VanguardFoundSitesMaxTip>
+  <TSA_WD_Combat_VanguardMergeRadius>先锋合并半径</TSA_WD_Combat_VanguardMergeRadius>
+  <TSA_WD_Combat_VanguardMergeRadiusTip>旧滑条。纵队仅在本地集结点（同格）合并；出发时不再传送兵力。</TSA_WD_Combat_VanguardMergeRadiusTip>
   <TSA_WD_Combat_InvasionIgnoresCooldownHint>注意：入侵无视常规袭击与日常行动冷却。</TSA_WD_Combat_InvasionIgnoresCooldownHint>
   <TSA_WD_Combat_InvasionIgnoresMinRatioHint>注意：入侵无视下方最低袭击战力比。</TSA_WD_Combat_InvasionIgnoresMinRatioHint>
   <TSA_WD_Combat_GateDesperation>定居点失守策略</TSA_WD_Combat_GateDesperation>
@@ -395,10 +405,20 @@
   <TSA_WD_AllegianceMatrixInGameOnly>「允许的外交变化」仅可在进行游戏时打开(主菜单中不可用)。</TSA_WD_AllegianceMatrixInGameOnly>
   <TSA_WD_Outpost_MaxTravelStrengthLoss>最大行进实力损失</TSA_WD_Outpost_MaxTravelStrengthLoss>
   <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>行进者(袭击、扩张、修路)在行进中可损失的最大出发实力百分比。会保留剩余的初始实力,不会仅因损耗而消失。</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
+  <TSA_WD_Caravans_AttritionRestGate>中/后期行进损耗休整</TSA_WD_Caravans_AttritionRestGate>
+  <TSA_WD_Caravans_AttritionRestGateTooltip>中期或后期升级生效时(或设为始终),步行行进者因损耗降至休整下限时会停下,恢复至出发实力后再继续。预估与袭击门槛按至少该下限计算。简单难度预设为从不。</TSA_WD_Caravans_AttritionRestGateTooltip>
+  <TSA_WD_Caravans_AttritionRestMinRatio>损耗休整实力下限</TSA_WD_Caravans_AttritionRestMinRatio>
+  <TSA_WD_Caravans_AttritionRestMinRatioTooltip>触发挥整并限制损耗预估的出发实力比例(默认80%)。战斗、陷阱与污染仍可降低实际实力。</TSA_WD_Caravans_AttritionRestMinRatioTooltip>
+  <TSA_WD_Caravans_AttritionRestRegen>休整每小时恢复</TSA_WD_Caravans_AttritionRestRegen>
+  <TSA_WD_Caravans_AttritionRestRegenTooltip>休整时每小时恢复的出发实力比例(默认2%,约10小时从80%到100%)。</TSA_WD_Caravans_AttritionRestRegenTooltip>
+  <TSA_WD_Caravans_AttritionRestFireGrace>开火后休整冷却(天)</TSA_WD_Caravans_AttritionRestFireGrace>
+  <TSA_WD_Caravans_AttritionRestFireGraceTooltip>被迫击炮、反坦克或防空击中后,这些天内不会开始休整(默认0.5)。休整中被击中会立即继续行进。</TSA_WD_Caravans_AttritionRestFireGraceTooltip>
+  <TSA_WD_Caravans_AttritionRestNearDest>接近目的地跳过休整(天)</TSA_WD_Caravans_AttritionRestNearDest>
+  <TSA_WD_Caravans_AttritionRestNearDestTooltip>剩余行进时间不超过这些天时不开始休整(默认0.1)。损耗仍会卡在休整下限。</TSA_WD_Caravans_AttritionRestNearDestTooltip>
   <TSA_WD_Caravans_OnlyWaterIfNoLandPath>行进者：仅当没有陆路时才穿越水域</TSA_WD_Caravans_OnlyWaterIfNoLandPath>
-  <TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>启用时，WD 行进者先使用原版世界寻路，仅当失败时才使用可涉水路线。关闭时会同时计算两条路线并选用耗时更短的一条（与下方难度单位一致）。</TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>
-  <TSA_WD_Caravans_WaterMovementDifficulty>行进者：水域地块移动难度</TSA_WD_Caravans_WaterMovementDifficulty>
-  <TSA_WD_Caravans_WaterMovementDifficultyTip>行进者进入被水覆盖的世界地块时使用的难度单位（原版世界移动刻度）。用于路径代价、旅行时间与损耗估算。</TSA_WD_Caravans_WaterMovementDifficultyTip>
+  <TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>启用时，WD 行进者先使用原版世界寻路，仅当失败时才使用可涉水路线。关闭时会同时计算两条路线并选用耗时更短的一条（与下方代价单位一致）。</TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>
+  <TSA_WD_Caravans_WaterMovementDifficulty>行进者：水域地块移动代价</TSA_WD_Caravans_WaterMovementDifficulty>
+  <TSA_WD_Caravans_WaterMovementDifficultyTip>行进者进入被水覆盖的世界地块时使用的路径代价单位（原版世界移动刻度）。用于路径代价、旅行时间与损耗估算。数值越低越快。</TSA_WD_Caravans_WaterMovementDifficultyTip>
   <TSA_WD_Caravans_WaterPathThreshold>水路路径：陆路短于此天数时跳过</TSA_WD_Caravans_WaterPathThreshold>
   <TSA_WD_Caravans_WaterPathThresholdTip>如果存在陆路且行程少于此天数，将完全跳过水路计算。设为 0 则始终计算水路。较高数值可提升性能，但可能偶尔错过更快的水路捷径。</TSA_WD_Caravans_WaterPathThresholdTip>
   <TSA_WD_ModUpdated>世界霸权已更新至 {0}。\n点击「打开」可查看更新日志。</TSA_WD_ModUpdated>
@@ -575,9 +595,9 @@
   <TSA_WD_WorldMap_OverlayMiningEfficiency>采矿效率</TSA_WD_WorldMap_OverlayMiningEfficiency>
   <TSA_WD_WorldMap_OverlayMiningEfficiencyTip>显示光标附近的采矿效率。适合采矿前哨站。\n\n颜色（悬停 %）：\n• 红：0–35%（差）\n• 橙/黄：36–70%\n• 绿：71–100%\n• 紫：超过 100%（最佳；突变可更高）\n\n同时只能开一层；再点一次关闭。</TSA_WD_WorldMap_OverlayMiningEfficiencyTip>
   <TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>叠加层不考虑前哨站升级，仅反映世界格子本身的情况。</TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>
-  <TSA_WD_WorldMap_OverlayMovementDifficulty>移动难度</TSA_WD_WorldMap_OverlayMovementDifficulty>
-  <TSA_WD_WorldMap_OverlayMovementDifficultyTip>显示光标附近的移动难度（地形 × 道路，含路障）。\n\n颜色：\n• 紫：0–0.59（最佳）\n• 绿：0.6–1.49\n• 黄：1.5–2.49\n• 红：2.5–3.49\n• 深红：3.5+\n• 黑：不可通行\n\n同时只能开一层；再点一次关闭。</TSA_WD_WorldMap_OverlayMovementDifficultyTip>
-  <TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>移动难度：{0}</TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>
+  <TSA_WD_WorldMap_OverlayMovementDifficulty>移动代价</TSA_WD_WorldMap_OverlayMovementDifficulty>
+  <TSA_WD_WorldMap_OverlayMovementDifficultyTip>显示光标附近的世界旅行代价（地形 × 道路倍率，再加路障惩罚）。与原版世界移动同一刻度；数值越低越快。\n\n颜色：\n• 紫：0–0.59（最快）\n• 绿：0.6–1.49\n• 黄：1.5–2.49\n• 红：2.5–3.49\n• 深红：3.5+\n• 黑：不可通行\n\n同时只能开一层；再点一次关闭。</TSA_WD_WorldMap_OverlayMovementDifficultyTip>
+  <TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>移动代价：{0}</TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>
   <TSA_WD_WorldMap_OverlayMovementDifficulty_Impassable>不可通行</TSA_WD_WorldMap_OverlayMovementDifficulty_Impassable>
   <TSA_WD_WorldMap_OverlayPollution>污染</TSA_WD_WorldMap_OverlayPollution>
   <TSA_WD_WorldMap_OverlayPollutionTip>显示光标附近的生物科技格子污染。便于规划净化小队任务。\n\n颜色（悬停 %）：\n• 绿：0%\n• 浅绿：1–20%\n• 黄：21–40%\n• 橙：41–69%\n• 红：70–100%\n\n同时只能开一层；再点一次关闭。需要生物科技DLC。</TSA_WD_WorldMap_OverlayPollutionTip>
@@ -617,11 +637,11 @@
   <TSA_WD_RoadBuilding_DirtRoad>土路</TSA_WD_RoadBuilding_DirtRoad>
   <TSA_WD_RoadBuilding_StoneRoad>石路</TSA_WD_RoadBuilding_StoneRoad>
   <TSA_WD_RoadBuilding_AsphaltRoad>沥青路</TSA_WD_RoadBuilding_AsphaltRoad>
-  <TSA_WD_RoadBuilding_Movement>移动难度乘数</TSA_WD_RoadBuilding_Movement>
-  <TSA_WD_RoadBuilding_MovementTip>在未启用 Roads of the Rim 时，将该道路类型的世界路径移动难度乘以该值（写入原版道路定义）。数值越低移动越快。</TSA_WD_RoadBuilding_MovementTip>
+  <TSA_WD_RoadBuilding_Movement>移动代价乘数</TSA_WD_RoadBuilding_Movement>
+  <TSA_WD_RoadBuilding_MovementTip>在未启用 Roads of the Rim 时，将该道路类型的世界路径移动代价乘以该值（写入原版道路定义）。数值越低移动越快。</TSA_WD_RoadBuilding_MovementTip>
   <TSA_WD_RoadBuilding_WinterReductionHeader>冬季移动惩罚减免</TSA_WD_RoadBuilding_WinterReductionHeader>
   <TSA_WD_RoadBuilding_WinterReduction>冬季移动惩罚减免</TSA_WD_RoadBuilding_WinterReduction>
-  <TSA_WD_RoadBuilding_WinterReductionTip>该道路类型抵消多少冬季移动惩罚。始终生效：无 RotR 时用我们的冬季补丁；有 RotR 时写入 winterFactor。会显示在世界格子“地形”页的移动难度提示中，并计入移动难度叠加层。</TSA_WD_RoadBuilding_WinterReductionTip>
+  <TSA_WD_RoadBuilding_WinterReductionTip>该道路类型抵消多少冬季移动代价惩罚。始终生效：无 RotR 时用我们的冬季补丁；有 RotR 时写入 winterFactor。会显示在世界格子“地形”页的移动提示中，并计入移动代价叠加层。</TSA_WD_RoadBuilding_WinterReductionTip>
   <TSA_WD_RoadBuilding_WinterReductionExplanation>{0}：冬季惩罚降低 {1}%（移动乘数 ×{2}）</TSA_WD_RoadBuilding_WinterReductionExplanation>
   <TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>{0}：冬季惩罚降低 {1}%（此地块当前无冬季）</TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>
   <TSA_WD_RoadBuilding_WinterReductionTerrainTip>{0}：冬季惩罚降低 {1}%（由 Roads of the Rim 应用）</TSA_WD_RoadBuilding_WinterReductionTerrainTip>
@@ -636,8 +656,8 @@
   <TSA_WD_RoadBuilding_RoadBlockRange>修建路障范围</TSA_WD_RoadBuilding_RoadBlockRange>
   <TSA_WD_RoadBuilding_RoadBlockRangeTip>从前哨站规划修建/清除路障折线的最大世界格距离。</TSA_WD_RoadBuilding_RoadBlockRangeTip>
   <TSA_WD_RoadBuilding_RoadBlockWorkTip>一格路障的抽象工作量（修建或清除）。进度规则与道路相同：速度=建造技能；相对土路工作量决定时长。</TSA_WD_RoadBuilding_RoadBlockWorkTip>
-  <TSA_WD_RoadBuilding_RoadBlockPenalty>移动惩罚</TSA_WD_RoadBuilding_RoadBlockPenalty>
-  <TSA_WD_RoadBuilding_RoadBlockPenaltyTip>进入该等级路障格时，在道路倍率之后额外增加的平坦移动难度（所有派系；弹道旅行忽略）。</TSA_WD_RoadBuilding_RoadBlockPenaltyTip>
+  <TSA_WD_RoadBuilding_RoadBlockPenalty>移动代价惩罚</TSA_WD_RoadBuilding_RoadBlockPenalty>
+  <TSA_WD_RoadBuilding_RoadBlockPenaltyTip>进入该等级路障格时，在道路倍率之后额外增加的平坦移动代价（所有派系；弹道旅行忽略）。</TSA_WD_RoadBuilding_RoadBlockPenaltyTip>
   <TSA_WD_RoadBuilding_RoadBlockStrength>派出商队时扣除的进攻实力</TSA_WD_RoadBuilding_RoadBlockStrength>
   <TSA_WD_RoadBuilding_RoadBlockStrengthTip>派出路障商队处理一格时，从前哨站扣除的进攻实力。若立即发射失败则退还。</TSA_WD_RoadBuilding_RoadBlockStrengthTip>
   <TSA_WD_RoadBuilding_MaxHealth>最大生命值</TSA_WD_RoadBuilding_MaxHealth>
@@ -670,12 +690,12 @@
   <TSA_WD_RoadBlockHeavy>重型路障</TSA_WD_RoadBlockHeavy>
   <TSA_WD_RoadBlockGate>闸门</TSA_WD_RoadBlockGate>
   <TSA_WD_RoadBlockKind_Disabled>{0}（建造 {1}/{2}）</TSA_WD_RoadBlockKind_Disabled>
-  <TSA_WD_RoadBlockKindTooltip>工作量：{0}\n移动惩罚：+{1}\n预计天数/格：{2}\n实力消耗：{3}\n最大 HP：{4}</TSA_WD_RoadBlockKindTooltip>
+  <TSA_WD_RoadBlockKindTooltip>工作量：{0}\n代价惩罚：+{1}\n预计天数/格：{2}\n实力消耗：{3}\n最大 HP：{4}</TSA_WD_RoadBlockKindTooltip>
   <TSA_WD_SpikeTrapSpike>刺钉陷阱</TSA_WD_SpikeTrapSpike>
   <TSA_WD_SpikeTrapCaltrops>蒺藜</TSA_WD_SpikeTrapCaltrops>
   <TSA_WD_SpikeTrapKind_Disabled>{0}（建造 {1}/{2}）</TSA_WD_SpikeTrapKind_Disabled>
   <TSA_WD_SpikeTrapKindTooltip>工作量：{0}\n伤害：{1}\n预计天数/格：{2}\n实力消耗：{3}\n最大 HP：{4}</TSA_WD_SpikeTrapKindTooltip>
-  <TSA_WD_RoadKindTooltip>工作量：{0}\n移动倍率：{1}\n预计天数/段：{2}\n实力消耗：{3}</TSA_WD_RoadKindTooltip>
+  <TSA_WD_RoadKindTooltip>工作量：{0}\n代价倍率：{1}\n预计天数/段：{2}\n实力消耗：{3}</TSA_WD_RoadKindTooltip>
   <TSA_WD_BuildReq_Header>需求</TSA_WD_BuildReq_Header>
   <TSA_WD_BuildReq_Construction>建造：{0} / {1}</TSA_WD_BuildReq_Construction>
   <TSA_WD_BuildReq_ResearchNone>研究：无</TSA_WD_BuildReq_ResearchNone>
@@ -795,7 +815,7 @@
   <TSA_WD_Important_Diff_Medium>中等难度</TSA_WD_Important_Diff_Medium>
   <TSA_WD_Important_Diff_Hard>困难难度</TSA_WD_Important_Diff_Hard>
   <TSA_WD_Important_Diff_EasyDesc>更长的袭击冷却、更少袭击、更弱的叙事者钳制（50–150%）、更低袭击权重。中期游戏与后期游戏永不激活。</TSA_WD_Important_Diff_EasyDesc>
-  <TSA_WD_Important_Diff_MediumDesc>默认袭击压力。中期游戏为 15% 占比或 6,000 前哨实力；后期游戏为 25% 或 10,000。对你的 T4 迫击炮/防空仅在后期游戏开启。</TSA_WD_Important_Diff_MediumDesc>
+  <TSA_WD_Important_Diff_MediumDesc>默认袭击压力。中期游戏为 8% 占比或 4,000 前哨实力；后期游戏为 14% 或 7,500。对你的 T4 迫击炮/防空仅在后期游戏开启。</TSA_WD_Important_Diff_MediumDesc>
   <TSA_WD_Important_Diff_HardDesc>更短冷却、允许更多袭击、更强叙事者钳制（100–300%）、更高袭击权重。中期游戏与后期游戏时机与中等相同，但后期游戏打击更重，且对你的 T4 迫击炮/防空在中期游戏已启用。</TSA_WD_Important_Diff_HardDesc>
 
   <TSA_WD_SkillScaling_Reset>重置技能缩放</TSA_WD_SkillScaling_Reset>

@@ -5,8 +5,8 @@ namespace TSA_WorldDomination
     /// <summary>
     /// Transparent escalation metrics: player power is measured only by total WD outpost strength
     /// (same number as the player row in <see cref="Window_WorldStats"/>). Mid then Late activate when
-    /// EITHER the player's global strength share OR the absolute outpost strength crosses that stage's
-    /// threshold. No colony wealth, threat tiers, or apex logic.
+    /// EITHER the player's global strength share, the absolute outpost strength, OR elapsed days crosses
+    /// that stage's threshold. Live gates use the latched stage on <see cref="WorldComponent_SpreadManager"/>.
     /// </summary>
     public static class PlayerPowerIndex
     {
@@ -40,11 +40,11 @@ namespace TSA_WorldDomination
             return denom > 0f ? Mathf.Clamp01(playerOutpostStrength / denom) : 0f;
         }
 
-        /// <summary>Active escalation stage (Late overrides Mid).</summary>
+        /// <summary>Candidate escalation stage from metrics (not latched). Late overrides Mid.</summary>
         public static WdEscalationStage GetEscalationStage(float playerOutpostStrength, float globalShare, WorldDominationSettings seth)
             => WdEscalation.GetStage(playerOutpostStrength, globalShare, seth);
 
-        /// <summary>True when Late stage is active.</summary>
+        /// <summary>True when Late stage is the metric candidate (not latched).</summary>
         public static bool IsLateModifierActive(float playerOutpostStrength, float globalShare, WorldDominationSettings seth)
             => GetEscalationStage(playerOutpostStrength, globalShare, seth) == WdEscalationStage.Late;
 

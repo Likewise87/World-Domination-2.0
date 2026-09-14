@@ -515,6 +515,7 @@ namespace TSA_WorldDomination
             if (target == null || target.Destroyed) return;
             float before = target.travelerStrength;
             target.travelerStrength = Mathf.Max(0f, before - shellPotency);
+            TravelerAttritionRest.NotifyHostileFire(target);
             float after = target.travelerStrength;
             bool wiped = after <= 0.01f;
             PostMortarStrengthHitLetter(manager, shell.originObject, target, before, after, wiped, "TSA_WD_Mortar_Hit_DestroyedMobileSuffix");
@@ -849,6 +850,7 @@ namespace TSA_WorldDomination
             float shellPotency = Mathf.Max(0f, traveler.mortarDamage);
             float before = hitPod.travelerStrength;
             hitPod.travelerStrength = Mathf.Max(0f, before - shellPotency);
+            TravelerAttritionRest.NotifyHostileFire(hitPod);
             float after = hitPod.travelerStrength;
             bool wiped = after <= 0.01f;
 

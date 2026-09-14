@@ -5,16 +5,25 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Persistent (non-critical, white) on-screen alert shown while the late-game difficulty modifier
-    /// is active. Not a letter; it stays on the right-side alert readout like vanilla "Need recreation".
+    /// Persistent on-screen alert while Late Game escalation is active.
     /// </summary>
     public class Alert_WDLateGameActive : Alert
     {
         public Alert_WDLateGameActive()
         {
             defaultLabel = "TSA_WD_Alert_LateGameActive".Translate();
-            defaultExplanation = "TSA_WD_Alert_LateGameActiveDesc".Translate();
             defaultPriority = AlertPriority.High;
+        }
+
+        public override string GetLabel() => "TSA_WD_Alert_LateGameActive".Translate();
+
+        public override TaggedString GetExplanation()
+        {
+            var seth = WorldDominationMod.settings;
+            string body = WdEscalation.BuildStageLetterText(seth, WdEscalationStage.Late);
+            return string.IsNullOrEmpty(body)
+                ? "TSA_WD_Alert_LateGameActiveDesc".Translate()
+                : body;
         }
 
         public override AlertReport GetReport()

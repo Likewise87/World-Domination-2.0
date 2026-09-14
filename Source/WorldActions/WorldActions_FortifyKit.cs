@@ -9,7 +9,8 @@ namespace TSA_WorldDomination
 {
     /// <summary>
     /// Shared fortify-kit layout for Turtle / desperation finalize and daily NPC Fortify.
-    /// Radius 1: AT turrets (spread, tier caps). Radius 2: traps on roads, blocks on non-roads.
+    /// Radius 1: AT turrets (spread). Kit AT counts are soft targets; World Actions
+    /// <c>atTurretMaxT*</c> caps how many a settlement may own. Radius 2: traps on roads, blocks on non-roads.
     /// Ensures at least one road exit on the outer ring before placing traps.
     /// </summary>
     public static class WorldActions_FortifyKit
@@ -218,8 +219,10 @@ namespace TSA_WorldDomination
             var roadBlocks = WorldComponent_RoadBlocks.Get();
             var traps = WorldComponent_SpikeTraps.Get();
 
+            int atWant = AdditionalAtWant(
+                maxAt, builtBySettlement, CountAtTurretsAtRadius1(centerTile, faction), includeInFlight: false);
             CollectOrderedNeighbors(centerTile, tmpInnerRingTiles);
-            PickSpreadRingTiles(tmpInnerRingTiles, maxAt, tmpAtPick, IsFortifyTileOk);
+            PickSpreadRingTiles(tmpInnerRingTiles, atWant, tmpAtPick, IsFortifyTileOk);
             int atPlaced = 0;
             for (int i = 0; i < tmpAtPick.Count; i++)
             {
@@ -227,7 +230,7 @@ namespace TSA_WorldDomination
                         tmpAtPick[i], faction, atTier, builtBySettlement, builtBySite,
                         requirePlayerBuildSite: false,
                         allowRoadTile: true,
-                        ignoreSettlementCap: true) != null)
+                        ignoreSettlementCap: false) != null)
                     atPlaced++;
             }
 
@@ -282,7 +285,7 @@ namespace TSA_WorldDomination
                 return FortifyPhase.Traps;
             if (NeedsBlockWork(centerTile, faction, blockKind, builtBySettlement))
                 return FortifyPhase.Blocks;
-            if (NeedsAtWork(centerTile, faction, maxAt))
+            if (NeedsAtWork(centerTile, faction, maxAt, builtBySettlement))
                 return FortifyPhase.AtTurrets;
             return FortifyPhase.Complete;
         }
@@ -343,14 +346,15 @@ namespace TSA_WorldDomination
             int centerTile,
             Faction faction,
             int maxAt,
+            Settlement builtBySettlement,
             HashSet<int> exclude,
             List<int> into)
         {
             into.Clear();
             if (centerTile < 0 || maxAt <= 0) return;
 
-            int existing = CountAtTurretsAtRadius1(centerTile, faction);
-            int want = maxAt - existing;
+            int ringExisting = CountAtTurretsAtRadius1(centerTile, faction);
+            int want = AdditionalAtWant(maxAt, builtBySettlement, ringExisting, includeInFlight: true);
             if (want <= 0) return;
 
             CollectOrderedNeighbors(centerTile, tmpInnerRingTiles);
@@ -414,9 +418,10 @@ namespace TSA_WorldDomination
             return false;
         }
 
-        private static bool NeedsAtWork(int centerTile, Faction faction, int maxAt)
+        private static bool NeedsAtWork(int centerTile, Faction faction, int maxAt, Settlement builtBySettlement)
         {
-            if (CountAtTurretsAtRadius1(centerTile, faction) >= maxAt)
+            int ringExisting = CountAtTurretsAtRadius1(centerTile, faction);
+            if (AdditionalAtWant(maxAt, builtBySettlement, ringExisting, includeInFlight: true) <= 0)
                 return false;
             CollectOrderedNeighbors(centerTile, tmpInnerRingTiles);
             for (int i = 0; i < tmpInnerRingTiles.Count; i++)
@@ -428,6 +433,28 @@ namespace TSA_WorldDomination
                     return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// How many more ATs to place: min(kit remaining vs ring, World Actions settlement capacity remaining).
+        /// Null builder → 0 (no uncapped orphans).
+        /// </summary>
+        private static int AdditionalAtWant(
+            int kitMaxAt,
+            Settlement builtBySettlement,
+            int ringExisting,
+            bool includeInFlight)
+        {
+            if (builtBySettlement == null || builtBySettlement.Destroyed || kitMaxAt <= 0) return 0;
+            var comp = builtBySettlement.GetComponent<CompViralSpread>();
+            SettlementTier tier = comp?.tier ?? SettlementTier.T1;
+            int cap = AtTurretUtility.MaxTurretsForSettlementTier(tier);
+            int committed = AtTurretUtility.CountTurretsBuiltBy(builtBySettlement);
+            if (includeInFlight)
+                committed += AtTurretUtility.CountInFlightTurretCrews(builtBySettlement);
+            int remainingCap = Mathf.Max(0, cap - committed);
+            int kitRemaining = Mathf.Max(0, kitMaxAt - Mathf.Max(0, ringExisting));
+            return Mathf.Min(kitRemaining, remainingCap);
         }
 
         private static bool NeedsTrapAt(int tileId, WorldComponent_SpikeTraps traps, SpikeTrapKind want)

@@ -132,8 +132,12 @@
   <TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>当敌方 AT 炮塔以炮弹或近战冲突摧毁你的旅行者或商队时收到信件。</TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>
   <TSA_WD_Notify_IncomingRaidColony>当 WD 袭击针对你的殖民地时通知</TSA_WD_Notify_IncomingRaidColony>
   <TSA_WD_Notify_IncomingRaidColonyTooltip>当敌对远征军对你的殖民地发动袭击时收到高优先级信件。</TSA_WD_Notify_IncomingRaidColonyTooltip>
+  <TSA_WD_Notify_RaidArrivalColony>当 WD 袭击抵达你的殖民地时通知</TSA_WD_Notify_RaidArrivalColony>
+  <TSA_WD_Notify_RaidArrivalColonyTooltip>当敌对远征军抵达并生成在你的殖民地地图上时收到高优先级信件。</TSA_WD_Notify_RaidArrivalColonyTooltip>
   <TSA_WD_Notify_IncomingRaidOutpost>当 WD 袭击针对你的前哨站时通知</TSA_WD_Notify_IncomingRaidOutpost>
   <TSA_WD_Notify_IncomingRaidOutpostTooltip>当敌对远征军对你的前哨站发动袭击时收到高优先级信件。</TSA_WD_Notify_IncomingRaidOutpostTooltip>
+  <TSA_WD_Notify_RaidArrivalOutpost>当 WD 袭击抵达你的前哨站时通知</TSA_WD_Notify_RaidArrivalOutpost>
+  <TSA_WD_Notify_RaidArrivalOutpostTooltip>当你打开手动前哨防御且敌对远征军抵达遭遇地图时收到高优先级信件。</TSA_WD_Notify_RaidArrivalOutpostTooltip>
   <TSA_WD_Notify_RaidDivertedFromPlayer>当袭击转向偏离你时通知</TSA_WD_Notify_RaidDivertedFromPlayer>
   <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>当原本冲着你的殖民地或前哨站而来的袭击发现了一个机会目标并转而攻击它时收到信件。</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
   <TSA_WD_Notify_MortarHit>你的迫击炮开火时通知</TSA_WD_Notify_MortarHit>
@@ -211,9 +215,9 @@
   <TSA_WD_Alert_OutpostUnusedExpertsDescHeader>以下前哨有未使用的专家位：</TSA_WD_Alert_OutpostUnusedExpertsDescHeader>
   <TSA_WD_Alert_OutpostUnusedExpertsDescLine>- {0}：专家 {1}/{2}</TSA_WD_Alert_OutpostUnusedExpertsDescLine>
   <TSA_WD_Notify_MidGameActive>显示中期游戏警报（右侧）</TSA_WD_Notify_MidGameActive>
-  <TSA_WD_Notify_MidGameActiveTooltip>中期游戏激活时（非后期游戏），在右侧警报栏显示静默持续警报。不发送信件。</TSA_WD_Notify_MidGameActiveTooltip>
+  <TSA_WD_Notify_MidGameActiveTooltip>中期游戏激活时（非后期游戏），在右侧警报栏显示静默持续警报。中期游戏首次激活时还会发送一封红色信件。</TSA_WD_Notify_MidGameActiveTooltip>
   <TSA_WD_Notify_LateGameActive>显示后期游戏警报（右侧）</TSA_WD_Notify_LateGameActive>
-  <TSA_WD_Notify_LateGameActiveTooltip>后期游戏激活时，在右侧警报栏显示静默持续警报。不发送信件。</TSA_WD_Notify_LateGameActiveTooltip>
+  <TSA_WD_Notify_LateGameActiveTooltip>后期游戏激活时，在右侧警报栏显示静默持续警报。后期游戏首次激活时还会发送一封红色信件。</TSA_WD_Notify_LateGameActiveTooltip>
   <TSA_WD_TargetingYou>来袭</TSA_WD_TargetingYou>
   <TSA_WD_ThreatBreakdownHeader>可攻击进攻强度：</TSA_WD_ThreatBreakdownHeader>
   <TSA_WD_ThreatLabel_Cat0>全球威胁:低</TSA_WD_ThreatLabel_Cat0>
@@ -236,13 +240,15 @@
   <TSA_WD_Alert_MidGameActiveDesc>你的前哨实力已触发中期游戏。敌对定居点成长更快、攻击范围提高，并更倾向于袭击你。定居点会朝你的领地扩张，好感会随时间下降，你的前哨可能遭遇较轻的消耗事件。除非开启中期游戏相关开关，否则 T4 迫击炮与防空尚不会攻击你。</TSA_WD_Alert_MidGameActiveDesc>
   <TSA_WD_Alert_LateGameActive>WD：后期游戏已激活</TSA_WD_Alert_LateGameActive>
   <TSA_WD_Alert_LateGameActiveDesc>你的前哨实力已触发后期游戏。敌对定居点成长更快、攻击范围更高，袭击更偏向你。定居点向你扩张得更远，好感下降更快；若已启用，敌方 T4 迫击炮与防空可攻击你的 WD 商队和前哨；前哨也可能遭遇更强的消耗事件。</TSA_WD_Alert_LateGameActiveDesc>
+  <TSA_WD_Letter_MidGameActiveIntro>中期游戏现已激活。当前变化：</TSA_WD_Letter_MidGameActiveIntro>
+  <TSA_WD_Letter_LateGameActiveIntro>后期游戏现已激活。当前变化：</TSA_WD_Letter_LateGameActiveIntro>
   <TSA_WD_Alert_CriticalFood>WD：前哨食物水平危急</TSA_WD_Alert_CriticalFood>
   <TSA_WD_Alert_CriticalFoodDescHeader>以下前哨食物水平危急：</TSA_WD_Alert_CriticalFoodDescHeader>
   <TSA_WD_Alert_CriticalFoodDescLine>- {0}，当前食物 {1}，剩余约 {2} 天</TSA_WD_Alert_CriticalFoodDescLine>
   <TSA_WD_Difficulty_HeaderScaling>后期游戏</TSA_WD_Difficulty_HeaderScaling>
   <TSA_WD_Difficulty_EnableLateGame>启用中期游戏与后期游戏</TSA_WD_Difficulty_EnableLateGame>
-  <TSA_WD_Difficulty_EnableLateGameTooltip>当你变强时，敌对派系分两步反扑：先中期游戏后后期游戏。包括更快的敌对成长、更高的 NPC 攻击范围、偏向袭击、向你扩张、好感流失、前哨事件，以及在开启相应选项时对你的商队/前哨进行 T4 开火。由前哨总实力与全球占比驱动。</TSA_WD_Difficulty_EnableLateGameTooltip>
-  <TSA_WD_Difficulty_ActivationHint>中期游戏与后期游戏各自在满足其占比或实力任一阈值时激活。后期游戏会取代中期游戏。</TSA_WD_Difficulty_ActivationHint>
+  <TSA_WD_Difficulty_EnableLateGameTooltip>敌对派系分两步反扑：先中期游戏后后期游戏。包括更快的敌对成长、更高的 NPC 攻击范围、偏向袭击、向你扩张、好感流失、前哨事件，以及在开启相应选项时对你的商队/前哨进行 T4 开火。由前哨总实力、全球占比或经过天数驱动。阶段一旦达到不会回退。</TSA_WD_Difficulty_EnableLateGameTooltip>
+  <TSA_WD_Difficulty_ActivationHint>中期游戏与后期游戏各自在满足其占比、实力或天数任一阈值时激活。后期游戏会取代中期游戏。阶段一旦达到不会回退。</TSA_WD_Difficulty_ActivationHint>
   <TSA_WD_Difficulty_ShareThreshold>全球实力占比激活阈值</TSA_WD_Difficulty_ShareThreshold>
   <TSA_WD_Difficulty_ShareThresholdTooltip>当你的前哨总实力达到全球总实力的此比例时激活后期游戏（与世界统计窗口数值一致）。</TSA_WD_Difficulty_ShareThresholdTooltip>
   <TSA_WD_Difficulty_OutpostStrengthThreshold>前哨实力激活阈值</TSA_WD_Difficulty_OutpostStrengthThreshold>
@@ -282,6 +288,10 @@
   <TSA_WD_MidGame_ShareThresholdTooltip>当你的前哨总实力达到全球总实力的此比例时激活中期游戏。</TSA_WD_MidGame_ShareThresholdTooltip>
   <TSA_WD_MidGame_OutpostStrengthThreshold>中期难度的玩家战力点数</TSA_WD_MidGame_OutpostStrengthThreshold>
   <TSA_WD_MidGame_OutpostStrengthThresholdTooltip>当你的前哨总实力达到此绝对数值时激活中期游戏，与全球占比无关。</TSA_WD_MidGame_OutpostStrengthThresholdTooltip>
+  <TSA_WD_MidGame_DaysThreshold>中期难度的天数阈值</TSA_WD_MidGame_DaysThreshold>
+  <TSA_WD_MidGame_DaysThresholdTooltip>经过这些天数后激活中期游戏，即使占比与实力仍低于中期阈值。</TSA_WD_MidGame_DaysThresholdTooltip>
+  <TSA_WD_LateGame_DaysThreshold>后期难度的天数阈值</TSA_WD_LateGame_DaysThreshold>
+  <TSA_WD_LateGame_DaysThresholdTooltip>经过这些天数后激活后期游戏，即使占比与实力仍低于后期阈值。</TSA_WD_LateGame_DaysThresholdTooltip>
   <TSA_WD_MidGame_RaidBias>玩家袭击偏向</TSA_WD_MidGame_RaidBias>
   <TSA_WD_MidGame_RaidBiasTooltip>中期游戏激活时,已能打到玩家目标的敌对袭击,在同一距离带内会按此比例更偏向你的前哨/殖民地。</TSA_WD_MidGame_RaidBiasTooltip>
   <TSA_WD_MidGame_GrowthMult>敌方成长倍率</TSA_WD_MidGame_GrowthMult>

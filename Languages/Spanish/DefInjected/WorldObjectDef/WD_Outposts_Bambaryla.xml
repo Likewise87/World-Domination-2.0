@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <TSA_WD_Outpost_BiofuelRefinery.label>Refinería química</TSA_WD_Outpost_BiofuelRefinery.label>
+  <TSA_WD_Outpost_BiofuelRefinery.description>Produce combustible químico, neutroamina y tinte.</TSA_WD_Outpost_BiofuelRefinery.description>
+  <TSA_WD_Outpost_DeepchemDrill.label>Puesto de perforación Deepchem</TSA_WD_Outpost_DeepchemDrill.label>
+  <TSA_WD_Outpost_DeepchemDrill.description>Extrae deepchem en desierto. Requiere Vanilla Chemfuel Expanded.</TSA_WD_Outpost_DeepchemDrill.description>
+  <TSA_WD_Outpost_RawShaping.label>Puesto de conformado de recursos brutos</TSA_WD_Outpost_RawShaping.label>
+  <TSA_WD_Outpost_RawShaping.description>Produce plastacero, sinhilo o hipertejido en desierto.</TSA_WD_Outpost_RawShaping.description>
+  <TSA_WD_Outpost_DeepchemFactory.label>Puesto fábrica Deepchem</TSA_WD_Outpost_DeepchemFactory.label>
+  <TSA_WD_Outpost_DeepchemFactory.description>Puesto químico legacy del addon Bambaryla. Produce neutroamina y tinte. Prefiere fundar una Refinería química para puestos nuevos.</TSA_WD_Outpost_DeepchemFactory.description>
+</LanguageData>

@@ -442,6 +442,15 @@ namespace TSA_WorldDomination
         public const float DefForwardAssaultCooldownDays = 12f;
         public const bool DefFallBackToInvasionIfVanguardClusterFails = true;
         public const float DefVanguardVsInvasionPickChance = 0.5f;
+        /// <summary>Vanguard dig-in keep-out / annulus min distance from the player colony.</summary>
+        public const int DefVanguardClusterMinDistFromColony = 16;
+        /// <summary>Vanguard dig-in annulus max distance from the player colony.</summary>
+        public const int DefVanguardClusterMaxDistFromColony = 24;
+        /// <summary>How many dig-in strongholds a Vanguard event reserves (columns may share a tile).</summary>
+        public const int DefVanguardFoundSitesMin = 2;
+        public const int DefVanguardFoundSitesMax = 3;
+        /// <summary>Legacy: mid-route merge radius no longer used (rally is same-tile only).</summary>
+        public const int DefVanguardMergeRadiusTiles = 2;
         public const WdThreatStageGate DefGateThreatOpportunity = WdThreatStageGate.FromMid;
         public const WdThreatStageGate DefGateThreatToO = WdThreatStageGate.FromMid;
         public const WdThreatStageGate DefGateThreatMaraud = WdThreatStageGate.FromMid;
@@ -454,6 +463,7 @@ namespace TSA_WorldDomination
         public const WdThreatStageGate DefGateThreatTurtle = WdThreatStageGate.Always;
         public const WdThreatStageGate DefGateThreatStrongFactionWar = WdThreatStageGate.Always;
         public const WdThreatStageGate DefGateThreatIsolationPressure = WdThreatStageGate.Always;
+        public const WdThreatStageGate DefGateThreatAttritionRest = WdThreatStageGate.FromMid;
         public const float DefIsolationPressureChance = 0.40f;
         public const float DefIsolationPressureCooldownDays = 7f;
         public const int DefIsolationPressureMinTiles = 10;
@@ -608,8 +618,10 @@ namespace TSA_WorldDomination
         // --- LATE-GAME DIFFICULTY SCALING ---
         public const bool DefEnableLateGameScaling = true;
         // Mid-game escalation (earlier, softer). Late supersedes when both thresholds are met.
-        public const float DefMidGameShareThreshold = 0.15f;
-        public const float DefMidGameOutpostStrengthThreshold = 6000f;
+        public const float DefMidGameShareThreshold = 0.08f;
+        public const float DefMidGameOutpostStrengthThreshold = 4000f;
+        /// <summary>Mid activates when elapsed game days reach this (OR with share / outpost strength). Clamp 10–300.</summary>
+        public const int DefMidGameDaysThreshold = 30;
         public const float DefMidGameRaidBiasPct = 0.25f;
         public const float DefMidGameGrowthMult = 1.5f;
         /// <summary>Mid-game: additive attack-range bonus vs early baselines (0.50 = +50%).</summary>
@@ -657,10 +669,12 @@ namespace TSA_WorldDomination
         public const float HostileNearbyPartnerMultClampLow = 0.1f;
         public const float HostileNearbyPartnerMultClampHigh = 1f;
         /// <summary>Modifier activates when player global strength share (outpost strength / world strength) reaches this fraction (OR with the outpost-strength threshold).</summary>
-        public const float DefLateGameShareThreshold = 0.25f;
+        public const float DefLateGameShareThreshold = 0.14f;
         // Absolute outpost strength OR-gate for Late (was 8000 before Mid/Late split).
         /// <summary>Modifier activates when total player outpost strength reaches this value (OR with the global-share threshold).</summary>
-        public const float DefLateGameOutpostStrengthThreshold = 10000f;
+        public const float DefLateGameOutpostStrengthThreshold = 7500f;
+        /// <summary>Late activates when elapsed game days reach this (OR with share / outpost strength). Clamp 10–300.</summary>
+        public const int DefLateGameDaysThreshold = 90;
         /// <summary>Raid bias: player-owned targets are weighted (1 + this) more likely within a distance band when Mid/Late is active and the attacker can reach a player target.</summary>
         public const float DefLateGameRaidBiasPct = 0.50f;
         /// <summary>Flat growth multiplier for hostile settlements while Mid or Late is active.</summary>
@@ -805,6 +819,10 @@ namespace TSA_WorldDomination
         public const float DefMinEfficiency = 0.5f;
         public const float DefStrengthLossPerHour = 0.01f;
         public const float DefMaxTravelPercentageStrengthLoss = 0.60f;
+        public const float DefAttritionRestMinRatio = 0.80f;
+        public const float DefAttritionRestRegenPerHour = 0.02f;
+        public const float DefAttritionRestFireGraceDays = 0.5f;
+        public const float DefAttritionRestNearDestBufferDays = 0.1f;
         /// <summary>Master switch: when false, WD travelers never run water-capable pathfinding (land routes only).</summary>
         public const bool DefAllowCaravansTravelOverWater = true;
         /// <summary>When true, WD travelers use water-capable routing only if vanilla world pathing finds no route. When false (default), vanilla and water-capable routes are compared and the faster (by hop difficulty) route is used.</summary>
@@ -1042,6 +1060,10 @@ namespace TSA_WorldDomination
         // SURGICAL: New Defaults for Incoming Raid Notifications
         public const bool DefNotifyIncomingRaidColony = true;
         public const bool DefNotifyIncomingRaidOutpost = true;
+        /// <summary>Letter when a WD raid actually arrives at the player colony map.</summary>
+        public const bool DefNotifyRaidArrivalColony = true;
+        /// <summary>Letter when a WD raid arrives for manual outpost defense (encounter map / fight).</summary>
+        public const bool DefNotifyRaidArrivalOutpost = true;
         /// <summary>Feature A: letter when a raid's original player-owned target is successfully diverted onto a different, non-player target-of-opportunity candidate.</summary>
         public const bool DefNotifyRaidDivertedFromPlayer = true;
         /// <summary>Letter (neutral) when YOUR mortar outpost fires at a target. On by default.</summary>
@@ -1402,6 +1424,11 @@ namespace TSA_WorldDomination
         public bool fallBackToInvasionIfVanguardClusterFails = DefFallBackToInvasionIfVanguardClusterFails;
         /// <summary>When both Vanguard and Invasion stage gates allow, chance to attempt Vanguard first (else Invasion).</summary>
         public float vanguardVsInvasionPickChance = DefVanguardVsInvasionPickChance;
+        public int vanguardClusterMinDistFromColony = DefVanguardClusterMinDistFromColony;
+        public int vanguardClusterMaxDistFromColony = DefVanguardClusterMaxDistFromColony;
+        public int vanguardFoundSitesMin = DefVanguardFoundSitesMin;
+        public int vanguardFoundSitesMax = DefVanguardFoundSitesMax;
+        public int vanguardMergeRadiusTiles = DefVanguardMergeRadiusTiles;
         /// <summary>Legacy shared opportunity gate (kept for save migration / write-through).</summary>
         public WdThreatStageGate gateThreatOpportunity = DefGateThreatOpportunity;
         public WdThreatStageGate gateThreatToO = DefGateThreatToO;
@@ -1415,6 +1442,7 @@ namespace TSA_WorldDomination
         public WdThreatStageGate gateThreatTurtle = DefGateThreatTurtle;
         public WdThreatStageGate gateThreatStrongFactionWar = DefGateThreatStrongFactionWar;
         public WdThreatStageGate gateThreatIsolationPressure = DefGateThreatIsolationPressure;
+        public WdThreatStageGate gateThreatAttritionRest = DefGateThreatAttritionRest;
         public float isolationPressureChance = DefIsolationPressureChance;
         public float isolationPressureCooldownDays = DefIsolationPressureCooldownDays;
         public int isolationPressureMinTiles = DefIsolationPressureMinTiles;
@@ -1543,6 +1571,7 @@ namespace TSA_WorldDomination
         public float coalitionRaidPriorityBias = DefCoalitionRaidPriorityBias;
         public float midGameShareThreshold = DefMidGameShareThreshold;
         public float midGameOutpostStrengthThreshold = DefMidGameOutpostStrengthThreshold;
+        public int midGameDaysThreshold = DefMidGameDaysThreshold;
         public float midGameRaidBiasPct = DefMidGameRaidBiasPct;
         public float midGameGrowthMult = DefMidGameGrowthMult;
         public float midGameAttackRangeBonusPct = DefMidGameAttackRangeBonusPct;
@@ -1561,6 +1590,7 @@ namespace TSA_WorldDomination
         public int lateGameGoodwillDrainAmount = DefLateGameGoodwillDrainAmount;
         public float lateGameShareThreshold = DefLateGameShareThreshold;
         public float lateGameOutpostStrengthThreshold = DefLateGameOutpostStrengthThreshold;
+        public int lateGameDaysThreshold = DefLateGameDaysThreshold;
         public float lateGameRaidBiasPct = DefLateGameRaidBiasPct;
         public float lateGameGrowthMult = DefLateGameGrowthMult;
         public float lateGameAttackRangeBonusPct = DefLateGameAttackRangeBonusPct;
@@ -1655,6 +1685,10 @@ namespace TSA_WorldDomination
         public float minEfficiency = DefMinEfficiency;
         public float strengthLossPerHour = DefStrengthLossPerHour;
         public float maxTravelPercentageStrengthLoss = DefMaxTravelPercentageStrengthLoss;
+        public float attritionRestMinRatio = DefAttritionRestMinRatio;
+        public float attritionRestRegenPerHour = DefAttritionRestRegenPerHour;
+        public float attritionRestFireGraceDays = DefAttritionRestFireGraceDays;
+        public float attritionRestNearDestBufferDays = DefAttritionRestNearDestBufferDays;
         public bool allowCaravansTravelOverWater = DefAllowCaravansTravelOverWater;
         public bool onlyTravelAcrossWaterIfNoOtherWay = DefOnlyTravelAcrossWaterIfNoOtherWay;
         public float travelerWaterMovementDifficulty = DefTravelerWaterMovementDifficulty;
@@ -1981,6 +2015,8 @@ namespace TSA_WorldDomination
         // SURGICAL: Notification Variables
         public bool notifyIncomingRaidColony = DefNotifyIncomingRaidColony;
         public bool notifyIncomingRaidOutpost = DefNotifyIncomingRaidOutpost;
+        public bool notifyRaidArrivalColony = DefNotifyRaidArrivalColony;
+        public bool notifyRaidArrivalOutpost = DefNotifyRaidArrivalOutpost;
         public bool notifyRaidDivertedFromPlayer = DefNotifyRaidDivertedFromPlayer;
         public bool notifyMortarHit = DefNotifyMortarHit;
         public bool notifyAntiAirHit = DefNotifyAntiAirHit;
@@ -2592,6 +2628,11 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref forwardAssaultCooldownDays, "forwardAssaultCooldownDays", DefForwardAssaultCooldownDays);
             Scribe_Values.Look(ref fallBackToInvasionIfVanguardClusterFails, "fallBackToInvasionIfVanguardClusterFails", DefFallBackToInvasionIfVanguardClusterFails);
             Scribe_Values.Look(ref vanguardVsInvasionPickChance, "vanguardVsInvasionPickChance", DefVanguardVsInvasionPickChance);
+            Scribe_Values.Look(ref vanguardClusterMinDistFromColony, "vanguardClusterMinDistFromColony", DefVanguardClusterMinDistFromColony);
+            Scribe_Values.Look(ref vanguardClusterMaxDistFromColony, "vanguardClusterMaxDistFromColony", DefVanguardClusterMaxDistFromColony);
+            Scribe_Values.Look(ref vanguardFoundSitesMin, "vanguardFoundSitesMin", DefVanguardFoundSitesMin);
+            Scribe_Values.Look(ref vanguardFoundSitesMax, "vanguardFoundSitesMax", DefVanguardFoundSitesMax);
+            Scribe_Values.Look(ref vanguardMergeRadiusTiles, "vanguardMergeRadiusTiles", DefVanguardMergeRadiusTiles);
             Scribe_Values.Look(ref gateThreatOpportunity, "gateThreatOpportunity", DefGateThreatOpportunity);
             Scribe_Values.Look(ref gateThreatToO, "gateThreatToO", DefGateThreatToO);
             Scribe_Values.Look(ref gateThreatMaraud, "gateThreatMaraud", DefGateThreatMaraud);
@@ -2604,6 +2645,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref gateThreatTurtle, "gateThreatTurtle", DefGateThreatTurtle);
             Scribe_Values.Look(ref gateThreatStrongFactionWar, "gateThreatStrongFactionWar", DefGateThreatStrongFactionWar);
             Scribe_Values.Look(ref gateThreatIsolationPressure, "gateThreatIsolationPressure", DefGateThreatIsolationPressure);
+            Scribe_Values.Look(ref gateThreatAttritionRest, "gateThreatAttritionRest", DefGateThreatAttritionRest);
             Scribe_Values.Look(ref isolationPressureChance, "isolationPressureChance", DefIsolationPressureChance);
             Scribe_Values.Look(ref isolationPressureCooldownDays, "isolationPressureCooldownDays", DefIsolationPressureCooldownDays);
             Scribe_Values.Look(ref isolationPressureMinTiles, "isolationPressureMinTiles", DefIsolationPressureMinTiles);
@@ -2719,6 +2761,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref coalitionRaidPriorityBias, "coalitionRaidPriorityBias", DefCoalitionRaidPriorityBias);
             Scribe_Values.Look(ref midGameShareThreshold, "midGameShareThreshold", DefMidGameShareThreshold);
             Scribe_Values.Look(ref midGameOutpostStrengthThreshold, "midGameOutpostStrengthThreshold", DefMidGameOutpostStrengthThreshold);
+            Scribe_Values.Look(ref midGameDaysThreshold, "midGameDaysThreshold", DefMidGameDaysThreshold);
             Scribe_Values.Look(ref midGameRaidBiasPct, "midGameRaidBiasPct", DefMidGameRaidBiasPct);
             Scribe_Values.Look(ref midGameGrowthMult, "midGameGrowthMult", DefMidGameGrowthMult);
             Scribe_Values.Look(ref midGameAttackRangeBonusPct, "midGameAttackRangeBonusPct", DefMidGameAttackRangeBonusPct);
@@ -2737,6 +2780,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref lateGameGoodwillDrainAmount, "lateGameGoodwillDrainAmount", DefLateGameGoodwillDrainAmount);
             Scribe_Values.Look(ref lateGameShareThreshold, "lateGameShareThreshold", DefLateGameShareThreshold);
             Scribe_Values.Look(ref lateGameOutpostStrengthThreshold, "lateGameOutpostStrengthThreshold", DefLateGameOutpostStrengthThreshold);
+            Scribe_Values.Look(ref lateGameDaysThreshold, "lateGameDaysThreshold", DefLateGameDaysThreshold);
             Scribe_Values.Look(ref lateGameRaidBiasPct, "lateGameRaidBiasPct", DefLateGameRaidBiasPct);
             Scribe_Values.Look(ref lateGameGrowthMult, "lateGameGrowthMult", DefLateGameGrowthMult);
             Scribe_Values.Look(ref lateGameAttackRangeBonusPct, "lateGameAttackRangeBonusPct", DefLateGameAttackRangeBonusPct);
@@ -2806,6 +2850,10 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref minEfficiency, "minEfficiency", DefMinEfficiency);
             Scribe_Values.Look(ref strengthLossPerHour, "strengthLossPerHour", DefStrengthLossPerHour);
             Scribe_Values.Look(ref maxTravelPercentageStrengthLoss, "maxTravelPercentageStrengthLoss", DefMaxTravelPercentageStrengthLoss);
+            Scribe_Values.Look(ref attritionRestMinRatio, "attritionRestMinRatio", DefAttritionRestMinRatio);
+            Scribe_Values.Look(ref attritionRestRegenPerHour, "attritionRestRegenPerHour", DefAttritionRestRegenPerHour);
+            Scribe_Values.Look(ref attritionRestFireGraceDays, "attritionRestFireGraceDays", DefAttritionRestFireGraceDays);
+            Scribe_Values.Look(ref attritionRestNearDestBufferDays, "attritionRestNearDestBufferDays", DefAttritionRestNearDestBufferDays);
             Scribe_Values.Look(ref allowCaravansTravelOverWater, "allowCaravansTravelOverWater", DefAllowCaravansTravelOverWater);
             Scribe_Values.Look(ref onlyTravelAcrossWaterIfNoOtherWay, "onlyTravelAcrossWaterIfNoOtherWay", DefOnlyTravelAcrossWaterIfNoOtherWay);
             Scribe_Values.Look(ref travelerWaterMovementDifficulty, "travelerWaterMovementDifficulty", DefTravelerWaterMovementDifficulty);
@@ -3086,6 +3134,8 @@ namespace TSA_WorldDomination
             // SURGICAL: Expose Notifications
             Scribe_Values.Look(ref notifyIncomingRaidColony, "notifyIncomingRaidColony", DefNotifyIncomingRaidColony);
             Scribe_Values.Look(ref notifyIncomingRaidOutpost, "notifyIncomingRaidOutpost", DefNotifyIncomingRaidOutpost);
+            Scribe_Values.Look(ref notifyRaidArrivalColony, "notifyRaidArrivalColony", DefNotifyRaidArrivalColony);
+            Scribe_Values.Look(ref notifyRaidArrivalOutpost, "notifyRaidArrivalOutpost", DefNotifyRaidArrivalOutpost);
             Scribe_Values.Look(ref notifyRaidDivertedFromPlayer, "notifyRaidDivertedFromPlayer", DefNotifyRaidDivertedFromPlayer);
             Scribe_Values.Look(ref notifyMortarHit, "notifyMortarHit", DefNotifyMortarHit);
             Scribe_Values.Look(ref notifyAntiAirHit, "notifyAntiAirHit", DefNotifyAntiAirHit);
@@ -3664,6 +3714,7 @@ namespace TSA_WorldDomination
                 && gateThreatInvasion == DifficultyPresetThreatGate(preset)
                 && gateThreatTurtle == DifficultyPresetThreatGate(preset)
                 && gateThreatStrongFactionWar == DifficultyPresetThreatGate(preset)
+                && gateThreatAttritionRest == DifficultyPresetThreatGate(preset)
                 && enableMidGameAllyRadiusScaling == (preset != WDSettingsDifficultyPreset.Easy)
                 && enableLateGameAllyRadiusScaling == (preset != WDSettingsDifficultyPreset.Easy)
                 && Approx(midGameAllyRadiusBonusPct, DefMidGameAllyRadiusBonusPct)
@@ -3775,6 +3826,7 @@ namespace TSA_WorldDomination
             // Mid pack always resets to Def* when applying a difficulty preset; Late numbers come from the preset.
             midGameShareThreshold = DefMidGameShareThreshold;
             midGameOutpostStrengthThreshold = DefMidGameOutpostStrengthThreshold;
+            midGameDaysThreshold = DefMidGameDaysThreshold;
             midGameRaidBiasPct = DefMidGameRaidBiasPct;
             midGameGrowthMult = DefMidGameGrowthMult;
             midGameAttackRangeBonusPct = DefMidGameAttackRangeBonusPct;
@@ -3791,6 +3843,7 @@ namespace TSA_WorldDomination
             lateGameAttackRangeBonusPct = DefLateGameAttackRangeBonusPct;
             midGameAllyRadiusBonusPct = DefMidGameAllyRadiusBonusPct;
             lateGameAllyRadiusBonusPct = DefLateGameAllyRadiusBonusPct;
+            lateGameDaysThreshold = DefLateGameDaysThreshold;
             enableOutpostIncidents = DefEnableOutpostIncidents;
             outpostIncidentSeverity = DefOutpostIncidentSeverity;
             outpostIncidentDailyChance = DefOutpostIncidentDailyChance;
@@ -4438,6 +4491,7 @@ namespace TSA_WorldDomination
             notifyOutpostIncident = DefNotifyOutpostIncident;
             midGameShareThreshold = DefMidGameShareThreshold;
             midGameOutpostStrengthThreshold = DefMidGameOutpostStrengthThreshold;
+            midGameDaysThreshold = DefMidGameDaysThreshold;
             midGameRaidBiasPct = DefMidGameRaidBiasPct;
             midGameGrowthMult = DefMidGameGrowthMult;
             midGameAttackRangeBonusPct = DefMidGameAttackRangeBonusPct;
@@ -4450,6 +4504,7 @@ namespace TSA_WorldDomination
             midGameOutpostIncidentDailyChance = DefMidGameOutpostIncidentDailyChance;
             lateGameShareThreshold = DefLateGameShareThreshold;
             lateGameOutpostStrengthThreshold = DefLateGameOutpostStrengthThreshold;
+            lateGameDaysThreshold = DefLateGameDaysThreshold;
             lateGameRaidBiasPct = DefLateGameRaidBiasPct;
             lateGameGrowthMult = DefLateGameGrowthMult;
             lateGameAttackRangeBonusPct = DefLateGameAttackRangeBonusPct;
@@ -4487,6 +4542,7 @@ namespace TSA_WorldDomination
             gateThreatTurtle = DefGateThreatTurtle;
             gateThreatStrongFactionWar = DefGateThreatStrongFactionWar;
             gateThreatIsolationPressure = DefGateThreatIsolationPressure;
+            gateThreatAttritionRest = DefGateThreatAttritionRest;
             isolationPressureChance = DefIsolationPressureChance;
             isolationPressureCooldownDays = DefIsolationPressureCooldownDays;
             isolationPressureMinTiles = DefIsolationPressureMinTiles;
@@ -4495,6 +4551,11 @@ namespace TSA_WorldDomination
             isolationPressureCountMax = DefIsolationPressureCountMax;
             fallBackToInvasionIfVanguardClusterFails = DefFallBackToInvasionIfVanguardClusterFails;
             vanguardVsInvasionPickChance = DefVanguardVsInvasionPickChance;
+            vanguardClusterMinDistFromColony = DefVanguardClusterMinDistFromColony;
+            vanguardClusterMaxDistFromColony = DefVanguardClusterMaxDistFromColony;
+            vanguardFoundSitesMin = DefVanguardFoundSitesMin;
+            vanguardFoundSitesMax = DefVanguardFoundSitesMax;
+            vanguardMergeRadiusTiles = DefVanguardMergeRadiusTiles;
             threatStageGatesVersion = 3;
             settlementLossStrategyMigrateVersion = 6;
 
@@ -4566,6 +4627,7 @@ namespace TSA_WorldDomination
             notifyOutpostIncident = DefNotifyOutpostIncident;
             midGameShareThreshold = DefMidGameShareThreshold;
             midGameOutpostStrengthThreshold = DefMidGameOutpostStrengthThreshold;
+            midGameDaysThreshold = DefMidGameDaysThreshold;
             midGameRaidBiasPct = DefMidGameRaidBiasPct;
             midGameGrowthMult = DefMidGameGrowthMult;
             midGameAttackRangeBonusPct = DefMidGameAttackRangeBonusPct;
@@ -4582,6 +4644,7 @@ namespace TSA_WorldDomination
             lateGameGoodwillDrainAmount = DefLateGameGoodwillDrainAmount;
             lateGameShareThreshold = DefLateGameShareThreshold;
             lateGameOutpostStrengthThreshold = DefLateGameOutpostStrengthThreshold;
+            lateGameDaysThreshold = DefLateGameDaysThreshold;
             lateGameRaidBiasPct = DefLateGameRaidBiasPct;
             lateGameGrowthMult = DefLateGameGrowthMult;
             lateGameAttackRangeBonusPct = DefLateGameAttackRangeBonusPct;
@@ -4610,10 +4673,14 @@ namespace TSA_WorldDomination
         /// <summary>Fixed slider ranges; clamp stored Mid thresholds so they never exceed Late.</summary>
         public void NormalizeEscalationThresholds()
         {
+            midGameDaysThreshold = Mathf.Clamp(midGameDaysThreshold, 10, 300);
+            lateGameDaysThreshold = Mathf.Clamp(lateGameDaysThreshold, 10, 300);
             if (midGameShareThreshold > lateGameShareThreshold)
                 midGameShareThreshold = lateGameShareThreshold;
             if (midGameOutpostStrengthThreshold > lateGameOutpostStrengthThreshold)
                 midGameOutpostStrengthThreshold = lateGameOutpostStrengthThreshold;
+            if (midGameDaysThreshold > lateGameDaysThreshold)
+                midGameDaysThreshold = lateGameDaysThreshold;
         }
 
         /// <summary>Write-through legacy Mid/Late T4 bools and opportunity ignore-gate from threat stage gates.</summary>
@@ -4822,6 +4889,7 @@ namespace TSA_WorldDomination
             // Strategy on Settlement Loss gate is player-controlled; difficulty presets do not touch it.
             gateThreatTurtle = g;
             gateThreatStrongFactionWar = g;
+            gateThreatAttritionRest = g;
             threatStageGatesVersion = 3;
             SyncLegacyThreatFlagsFromGates();
         }
@@ -4902,6 +4970,11 @@ namespace TSA_WorldDomination
         {
             strengthLossPerHour = DefStrengthLossPerHour;
             maxTravelPercentageStrengthLoss = DefMaxTravelPercentageStrengthLoss;
+            gateThreatAttritionRest = DefGateThreatAttritionRest;
+            attritionRestMinRatio = DefAttritionRestMinRatio;
+            attritionRestRegenPerHour = DefAttritionRestRegenPerHour;
+            attritionRestFireGraceDays = DefAttritionRestFireGraceDays;
+            attritionRestNearDestBufferDays = DefAttritionRestNearDestBufferDays;
             allowCaravansTravelOverWater = DefAllowCaravansTravelOverWater;
             onlyTravelAcrossWaterIfNoOtherWay = DefOnlyTravelAcrossWaterIfNoOtherWay;
             travelerWaterMovementDifficulty = DefTravelerWaterMovementDifficulty;
@@ -5068,6 +5141,8 @@ namespace TSA_WorldDomination
             // SURGICAL: Reset New Bools
             notifyIncomingRaidColony = DefNotifyIncomingRaidColony;
             notifyIncomingRaidOutpost = DefNotifyIncomingRaidOutpost;
+            notifyRaidArrivalColony = DefNotifyRaidArrivalColony;
+            notifyRaidArrivalOutpost = DefNotifyRaidArrivalOutpost;
             notifyRaidDivertedFromPlayer = DefNotifyRaidDivertedFromPlayer;
             notifyMortarHit = DefNotifyMortarHit;
             notifyAntiAirHit = DefNotifyAntiAirHit;

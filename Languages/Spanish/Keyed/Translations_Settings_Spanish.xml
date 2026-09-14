@@ -70,11 +70,21 @@
   <TSA_WD_Combat_GateT4AntiAir>AA T4 vs jugador</TSA_WD_Combat_GateT4AntiAir>
   <TSA_WD_Combat_GateT4AntiAirTip>Cuándo el AA T4 enemigo puede apuntarte.</TSA_WD_Combat_GateT4AntiAirTip>
   <TSA_WD_Combat_GateVanguard>Vanguardia</TSA_WD_Combat_GateVanguard>
-  <TSA_WD_Combat_GateVanguardTip>Puerta para el clúster Vanguardia del asalto adelantado.</TSA_WD_Combat_GateVanguardTip>
+  <TSA_WD_Combat_GateVanguardTip>Puerta para Vanguardia: pliega asentamientos lejanos en pocas caravanas fuertes que se atrincheran en tu frente (no en la colonia).</TSA_WD_Combat_GateVanguardTip>
   <TSA_WD_Combat_GateInvasion>Invasión</TSA_WD_Combat_GateInvasion>
   <TSA_WD_Combat_GateInvasionTip>Puerta para Invasión (5–7 incursiones coordinadas desde anfitriones lejanos; los hogares permanecen). Ignora enfriamiento de incursión normal y ratio mínima.</TSA_WD_Combat_GateInvasionTip>
   <TSA_WD_Combat_FallBackToInvasion>Retroceder a Invasión si falla el clúster Vanguardia</TSA_WD_Combat_FallBackToInvasion>
   <TSA_WD_Combat_FallBackToInvasionTip>Si Vanguardia no puede reservar un clúster, intenta Invasión (si su puerta también pasa).</TSA_WD_Combat_FallBackToInvasionTip>
+  <TSA_WD_Combat_VanguardClusterMinDist>Distancia mínima Vanguardia a la colonia</TSA_WD_Combat_VanguardClusterMinDist>
+  <TSA_WD_Combat_VanguardClusterMinDistTip>Los atrincheramientos deben quedar al menos a esta distancia de tu colonia. Las avanzadillas de frente más allá pueden sembrar el clúster.</TSA_WD_Combat_VanguardClusterMinDistTip>
+  <TSA_WD_Combat_VanguardClusterMaxDist>Distancia máxima Vanguardia a la colonia</TSA_WD_Combat_VanguardClusterMaxDist>
+  <TSA_WD_Combat_VanguardClusterMaxDistTip>Sin avanzadilla de frente usable, elige baldosas del anillo alrededor de la colonia (hacia la columna) hasta esta distancia.</TSA_WD_Combat_VanguardClusterMaxDistTip>
+  <TSA_WD_Combat_VanguardFoundSitesMin>Bastiones Vanguardia (mín.)</TSA_WD_Combat_VanguardFoundSitesMin>
+  <TSA_WD_Combat_VanguardFoundSitesMinTip>Mínimo de atrincheramientos (y caravanas fusionadas) por evento. Aún abandonan 5–7 hogares, pero la fuerza se pliega en estos puños.</TSA_WD_Combat_VanguardFoundSitesMinTip>
+  <TSA_WD_Combat_VanguardFoundSitesMax>Bastiones Vanguardia (máx.)</TSA_WD_Combat_VanguardFoundSitesMax>
+  <TSA_WD_Combat_VanguardFoundSitesMaxTip>Máximo de atrincheramientos por evento. Queda una baldosa libre entre ellos.</TSA_WD_Combat_VanguardFoundSitesMaxTip>
+  <TSA_WD_Combat_VanguardMergeRadius>Radio de fusión Vanguardia</TSA_WD_Combat_VanguardMergeRadius>
+  <TSA_WD_Combat_VanguardMergeRadiusTip>Deslizador legado. Las columnas solo se fusionan en el punto de reunión local (misma casilla). La fuerza no se teletransporta al lanzar.</TSA_WD_Combat_VanguardMergeRadiusTip>
   <TSA_WD_Combat_InvasionIgnoresCooldownHint>Nota: Invasión ignora enfriamientos normales de incursión y acciones diarias.</TSA_WD_Combat_InvasionIgnoresCooldownHint>
   <TSA_WD_Combat_InvasionIgnoresMinRatioHint>Nota: Invasión ignora la ratio mínima de incursión de abajo.</TSA_WD_Combat_InvasionIgnoresMinRatioHint>
   <TSA_WD_Combat_GateDesperation>Estrategia ante pérdida de asentamiento</TSA_WD_Combat_GateDesperation>
@@ -387,10 +397,20 @@
   <TSA_WD_AllegianceMatrixInGameOnly>Los cambios diplomáticos permitidos solo se pueden abrir durante una partida (no desde el menú principal).</TSA_WD_AllegianceMatrixInGameOnly>
   <TSA_WD_Outpost_MaxTravelStrengthLoss>Pérdida de fuerza máxima por viaje</TSA_WD_Outpost_MaxTravelStrengthLoss>
   <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>Porcentaje máximo de la fuerza de partida que los viajeros (incursiones, expansión, constructores) pueden perder en ruta. Conservan el resto de la fuerza inicial y no expiran solo por desgaste.</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
+  <TSA_WD_Caravans_AttritionRestGate>Descanso por desgaste (medio/tarde)</TSA_WD_Caravans_AttritionRestGate>
+  <TSA_WD_Caravans_AttritionRestGateTooltip>Con escalada Media o Tarde (o Siempre), los viajeros a pie que llegan al suelo de fuerza por desgaste se detienen, regeneran hasta la fuerza de partida y reanudan. Las previsiones y compuertas de incursión asumen al menos ese suelo. En Easy esto queda en Nunca.</TSA_WD_Caravans_AttritionRestGateTooltip>
+  <TSA_WD_Caravans_AttritionRestMinRatio>Suelo de fuerza del descanso</TSA_WD_Caravans_AttritionRestMinRatio>
+  <TSA_WD_Caravans_AttritionRestMinRatioTooltip>Fracción de la fuerza de partida que dispara el descanso y limita las previsiones de desgaste (por defecto 80%). Combate, trampas y contaminación pueden bajar la fuerza real.</TSA_WD_Caravans_AttritionRestMinRatioTooltip>
+  <TSA_WD_Caravans_AttritionRestRegen>Regeneración del descanso por hora</TSA_WD_Caravans_AttritionRestRegen>
+  <TSA_WD_Caravans_AttritionRestRegenTooltip>Fracción de la fuerza de partida recuperada cada hora en descanso (por defecto 2% → ~10 h del 80% al 100%).</TSA_WD_Caravans_AttritionRestRegenTooltip>
+  <TSA_WD_Caravans_AttritionRestFireGrace>Enfriamiento tras fuego (días)</TSA_WD_Caravans_AttritionRestFireGrace>
+  <TSA_WD_Caravans_AttritionRestFireGraceTooltip>Tras un impacto de mortero, AT o AA, no inicia descanso durante estos días (por defecto 0,5). Un impacto durante el descanso lo cancela de inmediato.</TSA_WD_Caravans_AttritionRestFireGraceTooltip>
+  <TSA_WD_Caravans_AttritionRestNearDest>Omitir descanso cerca del destino (días)</TSA_WD_Caravans_AttritionRestNearDest>
+  <TSA_WD_Caravans_AttritionRestNearDestTooltip>No iniciar descanso si el tiempo restante es como máximo estos días (por defecto 0,1). El desgaste sigue limitándose al suelo.</TSA_WD_Caravans_AttritionRestNearDestTooltip>
   <TSA_WD_Caravans_OnlyWaterIfNoLandPath>Viajeros: cruzar agua solo si no hay ruta por tierra</TSA_WD_Caravans_OnlyWaterIfNoLandPath>
-  <TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>Si está activado, los viajeros WD usan primero el pathfinder del mundo y solo usan rutas con agua si falla. Si está desactivado, se comparan ambas rutas y se elige la más rápida (mismas unidades de dificultad que abajo).</TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>
-  <TSA_WD_Caravans_WaterMovementDifficulty>Viajeros: dificultad de movimiento en casillas de agua</TSA_WD_Caravans_WaterMovementDifficulty>
-  <TSA_WD_Caravans_WaterMovementDifficultyTip>Unidades de dificultad al entrar en una casilla mundial cubierta de agua (escala de movimiento del juego). Afecta coste de ruta, tiempo de viaje y estimaciones de desgaste.</TSA_WD_Caravans_WaterMovementDifficultyTip>
+  <TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>Si está activado, los viajeros WD usan primero el pathfinder del mundo y solo usan rutas con agua si falla. Si está desactivado, se comparan ambas rutas y se elige la más rápida (mismas unidades de coste que abajo).</TSA_WD_Caravans_OnlyWaterIfNoLandPathTip>
+  <TSA_WD_Caravans_WaterMovementDifficulty>Viajeros: coste de movimiento en casillas de agua</TSA_WD_Caravans_WaterMovementDifficulty>
+  <TSA_WD_Caravans_WaterMovementDifficultyTip>Unidades de coste de ruta al entrar en una casilla mundial cubierta de agua (escala de movimiento del juego). Afecta coste de ruta, tiempo de viaje y estimaciones de desgaste. Más bajo = más rápido.</TSA_WD_Caravans_WaterMovementDifficultyTip>
   <TSA_WD_Caravans_WaterPathThreshold>Ruta acuática: omitir si ruta terrestre menor a (días)</TSA_WD_Caravans_WaterPathThreshold>
   <TSA_WD_Caravans_WaterPathThresholdTip>Si existe una ruta terrestre y dura menos días que este umbral, se omite el cálculo de ruta acuática. 0 = calcular siempre. Valores más altos mejoran el rendimiento a costa de perder atajos acuáticos ocasionalmente.</TSA_WD_Caravans_WaterPathThresholdTip>
   <TSA_WD_Caravans_HeaderTravel>Viaje y desgaste</TSA_WD_Caravans_HeaderTravel>
@@ -572,9 +592,9 @@
   <TSA_WD_WorldMap_OverlayMiningEfficiency>Eficiencia minera</TSA_WD_WorldMap_OverlayMiningEfficiency>
   <TSA_WD_WorldMap_OverlayMiningEfficiencyTip>Muestra la eficiencia minera alrededor del cursor. Útil para minería.\n\nColores (% al pasar):\n• Rojo: 0–35% (pobre)\n• Naranja/Amarillo: 36–70%\n• Verde: 71–100%\n• Púrpura: más de 100% (mejor)\n\nSolo una superposición a la vez; clic de nuevo para apagar.</TSA_WD_WorldMap_OverlayMiningEfficiencyTip>
   <TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>Las superposiciones no tienen en cuenta las mejoras de los puestos de avanzada, solo la casilla del mundo tal cual.</TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>
-  <TSA_WD_WorldMap_OverlayMovementDifficulty>Dificultad de movimiento</TSA_WD_WorldMap_OverlayMovementDifficulty>
-  <TSA_WD_WorldMap_OverlayMovementDifficultyTip>Muestra la dificultad de movimiento alrededor del cursor (terreno × caminos, incluidos bloqueos).\n\nColores:\n• Púrpura: 0–0.59 (mejor)\n• Verde: 0.6–1.49\n• Amarillo: 1.5–2.49\n• Rojo: 2.5–3.49\n• Rojo oscuro: 3.5+\n• Negro: intransitable\n\nSolo una superposición a la vez; clic de nuevo para apagar.</TSA_WD_WorldMap_OverlayMovementDifficultyTip>
-  <TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>Dificultad de movimiento: {0}</TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>
+  <TSA_WD_WorldMap_OverlayMovementDifficulty>Coste de movimiento</TSA_WD_WorldMap_OverlayMovementDifficulty>
+  <TSA_WD_WorldMap_OverlayMovementDifficultyTip>Muestra el coste de viaje mundial alrededor del cursor (terreno × multiplicadores de caminos, luego penalizaciones de bloqueos). Misma escala que el movimiento mundial vanilla; más bajo = más rápido.\n\nColores:\n• Púrpura: 0–0.59 (más rápido)\n• Verde: 0.6–1.49\n• Amarillo: 1.5–2.49\n• Rojo: 2.5–3.49\n• Rojo oscuro: 3.5+\n• Negro: intransitable\n\nSolo una superposición a la vez; clic de nuevo para apagar.</TSA_WD_WorldMap_OverlayMovementDifficultyTip>
+  <TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>Coste de movimiento: {0}</TSA_WD_WorldMap_OverlayMovementDifficulty_Hover>
   <TSA_WD_WorldMap_OverlayMovementDifficulty_Impassable>Intransitable</TSA_WD_WorldMap_OverlayMovementDifficulty_Impassable>
   <TSA_WD_WorldMap_OverlayPollution>Contaminación</TSA_WD_WorldMap_OverlayPollution>
   <TSA_WD_WorldMap_OverlayPollutionTip>Muestra la contaminación Biotech de casillas alrededor del cursor. Útil para planificar misiones de descontaminación.\n\nColores (% al pasar):\n• Verde: 0%\n• Verde claro: 1–20%\n• Amarillo: 21–40%\n• Naranja: 41–69%\n• Rojo: 70–100%\n\nSolo una superposición a la vez; clic de nuevo para apagar. Requiere Biotech.</TSA_WD_WorldMap_OverlayPollutionTip>
@@ -614,11 +634,11 @@
   <TSA_WD_RoadBuilding_DirtRoad>Camino de tierra</TSA_WD_RoadBuilding_DirtRoad>
   <TSA_WD_RoadBuilding_StoneRoad>Camino de piedra</TSA_WD_RoadBuilding_StoneRoad>
   <TSA_WD_RoadBuilding_AsphaltRoad>Camino de asfalto</TSA_WD_RoadBuilding_AsphaltRoad>
-  <TSA_WD_RoadBuilding_Movement>Multiplicador de dificultad de movimiento</TSA_WD_RoadBuilding_Movement>
-  <TSA_WD_RoadBuilding_MovementTip>Multiplica la dificultad de movimiento en el mapa mundial de este tipo de camino si Roads of the Rim no está activo (se escribe en la def. vanilla). Más bajo = viaje más rápido.</TSA_WD_RoadBuilding_MovementTip>
+  <TSA_WD_RoadBuilding_Movement>Multiplicador de coste de movimiento</TSA_WD_RoadBuilding_Movement>
+  <TSA_WD_RoadBuilding_MovementTip>Multiplicador de coste del viaje por mapa mundial de este tipo de camino si Roads of the Rim no está activo (se escribe en la def. vanilla). Más bajo = viaje más rápido.</TSA_WD_RoadBuilding_MovementTip>
   <TSA_WD_RoadBuilding_WinterReductionHeader>Reducción de penalización de movimiento invernal</TSA_WD_RoadBuilding_WinterReductionHeader>
   <TSA_WD_RoadBuilding_WinterReduction>Reducción de penalización invernal</TSA_WD_RoadBuilding_WinterReduction>
-  <TSA_WD_RoadBuilding_WinterReductionTip>Cuánto de la penalización de movimiento invernal cancela este tipo de camino. Siempre aplica: con nuestro parche si RotR no está, o winterFactor de RotR si está activo. Se muestra en el tooltip de Movimiento de la pestaña Terreno y en el overlay de dificultad de movimiento.</TSA_WD_RoadBuilding_WinterReductionTip>
+  <TSA_WD_RoadBuilding_WinterReductionTip>Cuánto de la penalización de coste de movimiento invernal cancela este tipo de camino. Siempre aplica: con nuestro parche si RotR no está, o winterFactor de RotR si está activo. Se muestra en el tooltip de Movimiento de la pestaña Terreno y en el overlay de coste de movimiento.</TSA_WD_RoadBuilding_WinterReductionTip>
   <TSA_WD_RoadBuilding_WinterReductionExplanation>{0}: penalización invernal reducida un {1}% (mult. de movimiento ×{2})</TSA_WD_RoadBuilding_WinterReductionExplanation>
   <TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>{0}: reducción de penalización invernal {1}% (sin invierno en esta casilla ahora)</TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>
   <TSA_WD_RoadBuilding_WinterReductionTerrainTip>{0}: reducción de penalización invernal {1}% (vía Roads of the Rim)</TSA_WD_RoadBuilding_WinterReductionTerrainTip>
@@ -633,8 +653,8 @@
   <TSA_WD_RoadBuilding_RoadBlockRange>Alcance para construir bloqueos</TSA_WD_RoadBuilding_RoadBlockRange>
   <TSA_WD_RoadBuilding_RoadBlockRangeTip>Alcance máximo en casillas para planificar polilíneas de construcción/limpieza de bloqueos desde un puesto.</TSA_WD_RoadBuilding_RoadBlockRangeTip>
   <TSA_WD_RoadBuilding_RoadBlockWorkTip>Coste de trabajo abstracto por casilla de bloqueo (construir o limpiar). Misma regla que caminos: velocidad = Construcción total; el Work relativo al camino de tierra fija la duración.</TSA_WD_RoadBuilding_RoadBlockWorkTip>
-  <TSA_WD_RoadBuilding_RoadBlockPenalty>Penalización de movimiento</TSA_WD_RoadBuilding_RoadBlockPenalty>
-  <TSA_WD_RoadBuilding_RoadBlockPenaltyTip>Dificultad de movimiento plana añadida tras los multiplicadores de carretera al entrar en una casilla bloqueada de este nivel (todas las facciones; el viaje balístico lo ignora).</TSA_WD_RoadBuilding_RoadBlockPenaltyTip>
+  <TSA_WD_RoadBuilding_RoadBlockPenalty>Penalización de coste de movimiento</TSA_WD_RoadBuilding_RoadBlockPenalty>
+  <TSA_WD_RoadBuilding_RoadBlockPenaltyTip>Coste de movimiento plano añadido tras los multiplicadores de carretera al entrar en una casilla bloqueada de este nivel (todas las facciones; el viaje balístico lo ignora).</TSA_WD_RoadBuilding_RoadBlockPenaltyTip>
   <TSA_WD_RoadBuilding_RoadBlockStrength>Fuerza of. deducida al despachar la caravana</TSA_WD_RoadBuilding_RoadBlockStrength>
   <TSA_WD_RoadBuilding_RoadBlockStrengthTip>Fuerza ofensiva restada del puesto al despachar la caravana de bloqueos por una casilla. Se devuelve si el lanzamiento falla de inmediato.</TSA_WD_RoadBuilding_RoadBlockStrengthTip>
   <TSA_WD_RoadBuilding_MaxHealth>Salud máxima</TSA_WD_RoadBuilding_MaxHealth>
@@ -667,12 +687,12 @@
   <TSA_WD_RoadBlockHeavy>Bloqueo pesado</TSA_WD_RoadBlockHeavy>
   <TSA_WD_RoadBlockGate>Puerta</TSA_WD_RoadBlockGate>
   <TSA_WD_RoadBlockKind_Disabled>{0} (Construcción {1}/{2})</TSA_WD_RoadBlockKind_Disabled>
-  <TSA_WD_RoadBlockKindTooltip>Trabajo: {0}\nPenalización: +{1}\nDías est./casilla: {2}\nCoste de fuerza: {3}\nPV máx.: {4}</TSA_WD_RoadBlockKindTooltip>
+  <TSA_WD_RoadBlockKindTooltip>Trabajo: {0}\nPenalización de coste: +{1}\nDías est./casilla: {2}\nCoste de fuerza: {3}\nPV máx.: {4}</TSA_WD_RoadBlockKindTooltip>
   <TSA_WD_SpikeTrapSpike>Trampa de pinchos</TSA_WD_SpikeTrapSpike>
   <TSA_WD_SpikeTrapCaltrops>Abrojos</TSA_WD_SpikeTrapCaltrops>
   <TSA_WD_SpikeTrapKind_Disabled>{0} (Construcción {1}/{2})</TSA_WD_SpikeTrapKind_Disabled>
   <TSA_WD_SpikeTrapKindTooltip>Trabajo: {0}\nDaño: {1}\nDías est./casilla: {2}\nCoste de fuerza: {3}\nPV máx.: {4}</TSA_WD_SpikeTrapKindTooltip>
-  <TSA_WD_RoadKindTooltip>Trabajo: {0}\nMult. movimiento: {1}\nDías est./segmento: {2}\nCoste de fuerza: {3}</TSA_WD_RoadKindTooltip>
+  <TSA_WD_RoadKindTooltip>Trabajo: {0}\nMult. de coste: {1}\nDías est./segmento: {2}\nCoste de fuerza: {3}</TSA_WD_RoadKindTooltip>
   <TSA_WD_BuildReq_Header>Requisitos</TSA_WD_BuildReq_Header>
   <TSA_WD_BuildReq_Construction>Construcción: {0} / {1}</TSA_WD_BuildReq_Construction>
   <TSA_WD_BuildReq_ResearchNone>Investigación: ninguna</TSA_WD_BuildReq_ResearchNone>
@@ -800,7 +820,7 @@
   <TSA_WD_Important_Diff_Medium>Dificultad media</TSA_WD_Important_Diff_Medium>
   <TSA_WD_Important_Diff_Hard>Dificultad difícil</TSA_WD_Important_Diff_Hard>
   <TSA_WD_Important_Diff_EasyDesc>Enfriamientos de incursión más largos, menos incursiones, límite del narrador más débil (50–150%), menor peso de incursión. Mid Game y Late Game no se activan.</TSA_WD_Important_Diff_EasyDesc>
-  <TSA_WD_Important_Diff_MediumDesc>Presión de incursión por defecto. Mid Game al 15% de cuota o 6.000 de fuerza de avanzadillas; Late Game al 25% o 10.000. Morteros/AA T4 contra ti solo en Late Game.</TSA_WD_Important_Diff_MediumDesc>
+  <TSA_WD_Important_Diff_MediumDesc>Presión de incursión por defecto. Mid Game al 8% de cuota o 4.000 de fuerza de avanzadillas; Late Game al 14% o 7.500. Morteros/AA T4 contra ti solo en Late Game.</TSA_WD_Important_Diff_MediumDesc>
   <TSA_WD_Important_Diff_HardDesc>Enfriamientos más cortos, más incursiones, límite del narrador más fuerte (100–300%), mayor peso de incursión. Misma sincronización Mid Game / Late Game que Medio, pero Late Game golpea más duro y morteros/AA T4 contra ti ya están activos en Mid Game.</TSA_WD_Important_Diff_HardDesc>
 
   <TSA_WD_SkillScaling_Reset>Restablecer escalado de habilidad</TSA_WD_SkillScaling_Reset>

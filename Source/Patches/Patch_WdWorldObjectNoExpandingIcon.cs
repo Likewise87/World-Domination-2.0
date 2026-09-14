@@ -46,6 +46,18 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
+        /// Mortar / AA / AT shells: hide at the same far zoom as road blocks / <see cref="MortarWorldFx"/>.
+        /// Drop pods stay visible (do not use <see cref="WD_PathFollower.IsBallisticWorldFlight"/>).
+        /// Must skip both Material layers or the tilted mesh reappears once TransitionPct is no longer forced.
+        /// </summary>
+        private static bool HideShellAtFarZoom(WorldObject wo)
+        {
+            if (wo is not WorldObject_Traveler t) return false;
+            if (!WorldObject_Traveler.IsShellMission(t.mission)) return false;
+            return WD_WorldMapZoomUtil.IsSurfaceOverlayZoomedTooFarOut();
+        }
+
+        /// <summary>
         /// Call after changing either always-show-icon setting so close-zoom Material meshes rebuild.
         /// No game restart required — settings are read live; only the world draw layers are cached.
         /// </summary>
@@ -68,6 +80,11 @@ namespace TSA_WorldDomination
             [HarmonyPriority(Priority.Last)]
             public static void Postfix(WorldObject wo, ref float __result)
             {
+                if (HideShellAtFarZoom(wo))
+                {
+                    __result = 0f;
+                    return;
+                }
                 if (!ForceFixedIcon(wo)) return;
                 __result = 1f;
             }
@@ -79,7 +96,7 @@ namespace TSA_WorldDomination
             [HarmonyPostfix]
             public static void Postfix(WorldObject worldObject, ref bool __result)
             {
-                if (ForceFixedIcon(worldObject))
+                if (HideShellAtFarZoom(worldObject) || ForceFixedIcon(worldObject))
                     __result = true;
             }
         }
@@ -90,7 +107,7 @@ namespace TSA_WorldDomination
             [HarmonyPostfix]
             public static void Postfix(WorldObject worldObject, ref bool __result)
             {
-                if (ForceFixedIcon(worldObject))
+                if (HideShellAtFarZoom(worldObject) || ForceFixedIcon(worldObject))
                     __result = true;
             }
         }

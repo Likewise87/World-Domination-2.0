@@ -151,7 +151,7 @@
   <TSA_WD_RapidResponse_Tip_MinStrength>仅当可部署实力至少达到目标商队当前实力的该百分比时才出击。0% 表示无最低要求。可超过 100%，以便要求明显优势。</TSA_WD_RapidResponse_Tip_MinStrength>
   <TSA_WD_RapidResponse_Tip_MaxStrength>当前哨站实力足以出击时，最多派出目标实力的该倍数，其余留在驻地。</TSA_WD_RapidResponse_Tip_MaxStrength>
   <TSA_WD_RapidResponse_Tip_Range>此前哨自动拦截的最大格数。拖动时世界地图上的范围环会同步更新。</TSA_WD_RapidResponse_Tip_Range>
-  <TSA_WD_RapidResponse_Tip_Reset>将此页恢复为默认：仅袭击者、拦截针对你或盟友的袭击、最低相对实力 90%、最多派出 2.00x 相对实力、满射程。</TSA_WD_RapidResponse_Tip_Reset>
+  <TSA_WD_RapidResponse_Tip_Reset>将此页恢复为默认：仅袭击者、拦截针对你或盟友的袭击、最低相对实力 90%、最多派出 3.00x 相对实力、满射程。</TSA_WD_RapidResponse_Tip_Reset>
   <TSA_WD_RapidResponse_Tip_Confirm>应用此页全部设置并关闭对话框。</TSA_WD_RapidResponse_Tip_Confirm>
   <TSA_WD_RapidResponse_MenuSection_InterceptRaiders>拦截袭击者</TSA_WD_RapidResponse_MenuSection_InterceptRaiders>
   <TSA_WD_RapidResponse_MenuSection_RaidTarget>拦截针对以下目标的袭击</TSA_WD_RapidResponse_MenuSection_RaidTarget>
@@ -253,7 +253,7 @@
   <TSA_WD_CancelRoad>取消道路修建</TSA_WD_CancelRoad>
   <TSA_WD_CancelRoadDesc>停止此前哨站的所有修路活动。</TSA_WD_CancelRoadDesc>
   <TSA_WD_BuildRoadBlocks>修建路障</TSA_WD_BuildRoadBlocks>
-  <TSA_WD_BuildRoadBlocksDesc>修建路障以提高世界格子上的移动难度。</TSA_WD_BuildRoadBlocksDesc>
+  <TSA_WD_BuildRoadBlocksDesc>修建路障以提高世界格子上的移动代价。</TSA_WD_BuildRoadBlocksDesc>
   <TSA_WD_ClearRoadBlocks>移除路障</TSA_WD_ClearRoadBlocks>
   <TSA_WD_ClearRoadBlocksDesc>移除现有路障。</TSA_WD_ClearRoadBlocksDesc>
   <TSA_WD_RemoveFortifications>移除设防</TSA_WD_RemoveFortifications>
@@ -1107,7 +1107,10 @@
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Scavenging>每周期产出随机物资。每名殖民者每次配送增加 500 银战利品。固定周期；建立至少需 2 名殖民者</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Scavenging>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mining>产出石砖、矿石和零部件。随地块采矿效率变化。可通过升级提升效率</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mining>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fabrication>产出工业与高级零部件。随工艺技能变化。需要「制造」研究</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fabrication>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>产出化合燃料。随工艺技能变化。需要「生化燃料精炼」研究</TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>产出化合燃料(工艺)、中性胺与染料(医疗)。建立需要「生化燃料精炼」</TSA_WD_OutpostTooltip_TSA_WD_Outpost_BiofuelRefinery>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_DeepchemDrill>在沙漠地块产出深井化工原料。随智识技能变化。需要 Vanilla Chemfuel Expanded</TSA_WD_OutpostTooltip_TSA_WD_Outpost_DeepchemDrill>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_RawShaping>在沙漠地块产出塑钢、合成纤维或超织布。随工艺技能变化</TSA_WD_OutpostTooltip_TSA_WD_Outpost_RawShaping>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_DeepchemFactory>旧版化工前哨。产出中性胺与染料(医疗)。新建请优先化学精炼前哨</TSA_WD_OutpostTooltip_TSA_WD_Outpost_DeepchemFactory>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>产出奶、蛋、羊毛和肉（鸡、猪、牛）。随地块肥力与驯兽技能变化。可通过升级提升效率</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Ranch>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Academy>每周期训练一项技能。教师技能决定经验与学生等级上限。不产出物资</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Academy>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mortar>对敌对目标进行远程迫击炮打击。使用驻地射击技能。不产出物资</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Mortar>

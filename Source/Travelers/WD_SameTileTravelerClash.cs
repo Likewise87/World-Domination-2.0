@@ -241,6 +241,7 @@ namespace TSA_WorldDomination
                     captivesTaken = OutpostPrisonerUtility.TryCaptureFromRapidResponseWin(
                         rapidResponse, rapidTargetFaction, rapidTargetStrengthBefore, rapidTargetStrengthAfter);
                 }
+                WD_Outpost_RapidResponse.TryGrantWinSkillXp(rapidResponse, rapidResponseWon);
                 TravelerEndpointUtility.RefundRapidResponseStrength(rapidResponse, surviving);
                 SendRapidResponseAutoClashLetter(
                     rapidResponse, rapidTarget, rapidResponseWon,
@@ -300,6 +301,7 @@ namespace TSA_WorldDomination
                     captivesTaken = OutpostPrisonerUtility.TryCaptureFromRapidResponseWin(
                         traveler, caravanFaction, caravanStrengthBefore, 0f);
                 }
+                WD_Outpost_RapidResponse.TryGrantWinSkillXp(traveler, travelerWon);
                 float surviving = OpenFieldClashUtility.SurvivorStrengthFor(clash, traveler);
                 TravelerEndpointUtility.RefundRapidResponseStrength(traveler, surviving);
                 if (travelerWon)

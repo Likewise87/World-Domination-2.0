@@ -47,7 +47,60 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Whether <paramref name="toRemove"/> is allowed for bulk remove from the outpost UI / action.
+        /// True when <paramref name="selectedThingIds"/> already includes at least one non-slave humanlike occupant of <paramref name="outpost"/>.
+        /// </summary>
+        public static bool SelectionIncludesNonSlaveOccupant(WorldObject_WD_Outpost outpost, HashSet<string> selectedThingIds)
+        {
+            if (outpost?.Occupants == null || selectedThingIds == null || selectedThingIds.Count == 0) return false;
+            for (int i = 0; i < outpost.Occupants.Count; i++)
+            {
+                Pawn p = outpost.Occupants[i];
+                if (p?.ThingID == null || !selectedThingIds.Contains(p.ThingID)) continue;
+                if (IsNonSlaveHumanlikeColonist(p))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// SELECT gate (checkboxes / select-all): free non-slave humanlikes always selectable; slaves only when a free occupant is already selected.
+        /// Does not enforce leave-behind — that is COMMIT-only via <see cref="BulkRemovalSelectionIsAllowed"/>.
+        /// </summary>
+        public static bool CanToggleOutpostRemovalSelection(
+            WorldObject_WD_Outpost outpost,
+            HashSet<string> selectedThingIds,
+            Pawn candidate)
+        {
+            if (outpost == null || selectedThingIds == null || candidate?.ThingID == null) return false;
+            if (selectedThingIds.Contains(candidate.ThingID))
+                return true;
+            if (IsNonSlaveHumanlikeColonist(candidate))
+                return true;
+            return SelectionIncludesNonSlaveOccupant(outpost, selectedThingIds);
+        }
+
+        /// <summary>
+        /// After selection changes: drop selected slaves when no non-slave humanlike occupant remains selected.
+        /// Returns true if the set was modified. Caller should also drop escort-dependent stored entries when no occupant remains.
+        /// </summary>
+        public static bool PruneDependentRemovalSelection(WorldObject_WD_Outpost outpost, HashSet<string> selectedThingIds)
+        {
+            if (outpost?.Occupants == null || selectedThingIds == null || selectedThingIds.Count == 0) return false;
+            if (SelectionIncludesNonSlaveOccupant(outpost, selectedThingIds)) return false;
+
+            bool changed = false;
+            for (int i = 0; i < outpost.Occupants.Count; i++)
+            {
+                Pawn p = outpost.Occupants[i];
+                if (p?.ThingID == null || !IsSlaveHumanlike(p)) continue;
+                if (selectedThingIds.Remove(p.ThingID))
+                    changed = true;
+            }
+            return changed;
+        }
+
+        /// <summary>
+        /// COMMIT: whether <paramref name="toRemove"/> is allowed for bulk remove / transfer from the outpost.
         /// Full evacuation (every occupant in the set) is always allowed. Otherwise: at least one non-slave humanlike
         /// must remain on the outpost, and any removal that includes slaves must also include at least one non-slave humanlike leaver.
         /// </summary>
@@ -88,7 +141,7 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        /// <summary>Same as <see cref="BulkRemovalSelectionIsAllowed(WorldObject_WD_Outpost, IReadOnlyList{Pawn})"/> using thing IDs from the pawns tab selection.</summary>
+        /// <summary>COMMIT: same as <see cref="BulkRemovalSelectionIsAllowed(WorldObject_WD_Outpost, IReadOnlyList{Pawn})"/> using thing IDs.</summary>
         public static bool BulkRemovalSelectionIsAllowed(WorldObject_WD_Outpost outpost, HashSet<string> selectedThingIds)
         {
             if (outpost?.Occupants == null || selectedThingIds == null || selectedThingIds.Count == 0) return false;
@@ -104,18 +157,47 @@ namespace TSA_WorldDomination
             return BulkRemovalSelectionIsAllowed(outpost, list);
         }
 
-        /// <summary>Whether adding <paramref name="extraIfNotYetSelected"/> to the selection (when not already selected) would still be an allowed bulk removal.</summary>
+        /// <summary>
+        /// SELECT gate (legacy name). Forwards to <see cref="CanToggleOutpostRemovalSelection"/> — does not run COMMIT leave-behind checks.
+        /// </summary>
         public static bool BulkRemovalSelectionIsAllowedWithExtra(
             WorldObject_WD_Outpost outpost,
             HashSet<string> selectedThingIds,
             Pawn extraIfNotYetSelected)
         {
-            if (outpost == null || selectedThingIds == null || extraIfNotYetSelected?.ThingID == null) return false;
-            if (selectedThingIds.Contains(extraIfNotYetSelected.ThingID))
+            return CanToggleOutpostRemovalSelection(outpost, selectedThingIds, extraIfNotYetSelected);
+        }
+
+        /// <summary>
+        /// COMMIT reject tip for an invalid bulk removal set. False when allowed (no tip).
+        /// Leave-behind → <c>TSA_WD_RemoveBulk_NeedOneNonSlave</c>; accompaniment → <c>TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip</c>.
+        /// </summary>
+        public static bool TryGetBulkRemovalRejectReason(WorldObject_WD_Outpost outpost, IReadOnlyList<Pawn> toRemove, out string reject)
+        {
+            reject = null;
+            if (BulkRemovalSelectionIsAllowed(outpost, toRemove))
+                return false;
+
+            if (toRemove == null || toRemove.Count == 0)
+            {
+                reject = "TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip".Translate();
                 return true;
-            var h = new HashSet<string>(selectedThingIds);
-            h.Add(extraIfNotYetSelected.ThingID);
-            return BulkRemovalSelectionIsAllowed(outpost, h);
+            }
+
+            if (AnySlaveInList(toRemove) && !AnyNonSlaveHumanlikeInList(toRemove))
+            {
+                reject = "TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip".Translate();
+                return true;
+            }
+
+            if (!BulkRemovalKeepsMinimumNonSlave(outpost, toRemove, out _))
+            {
+                reject = "TSA_WD_RemoveBulk_NeedOneNonSlave".Translate();
+                return true;
+            }
+
+            reject = "TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip".Translate();
+            return true;
         }
 
         /// <summary>

@@ -61,6 +61,7 @@ namespace TSA_WorldDomination
                 icon = cachedEstablishIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/EstablishOutpost", false)
                     ?? ContentFinder<Texture2D>.Get("UI/Commands/Settle", false)
                     ?? TexCommand.Replant,
+                defaultIconColor = Color.cyan,
                 action = () => OpenTileFirstDialog(tile)
             };
 

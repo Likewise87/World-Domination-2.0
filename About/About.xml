@@ -6,7 +6,9 @@
     <li>1.6</li>
   </supportedVersions>
   <packageId>TSA.WorldDominationExperimental</packageId>
-  <description>This mod is what happened if Rimwar and Vanilla Outpost Expanded had a child.</description>
+  <description>This mod is what happened if Rimwar and Vanilla Outpost Expanded had a child.
+
+Additional outpost types and upgrade tiers absorbed from Bambaryla and Pesky (Workshop addon bambaryla.allbambawd2): Chemical Refinery, Raw Shaping, Deepchem Drill (needs Vanilla Chemfuel Expanded), plus higher walls/traps/hospitals/power and Beyond Our Reach-gated tiers when BoR is active.</description>
     <modDependencies>
 	  <li>
 		<packageId>brrainz.harmony</packageId>
@@ -36,6 +38,9 @@
 	  <li>OskarPotocki.VanillaVehiclesExpanded</li>
 	  <li>memegoddess.giddyup</li>
 	  <li>sk.gravshipraids</li>
+	  <li>VanillaExpanded.VChemfuelE</li>
+	  <li>bambaryla.bor</li>
+	  <li>bambaryla.bor.redux</li>
 	</loadAfter>
 	<loadBefore>
 		<li>voult.betterpawncontrol</li>

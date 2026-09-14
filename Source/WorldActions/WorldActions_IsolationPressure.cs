@@ -7,11 +7,14 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Daily special: when fewer than 2 hostile factions threaten the player, force one eligible
-    /// faction to found 1–2 settlements near the player (Isolation Pressure).
+    /// Daily special: when fewer than <see cref="MinThreateningHostileFactions"/> hostile factions threaten the player,
+    /// force one eligible faction to found 1–2 settlements near the player (Isolation Pressure).
     /// </summary>
     public static class WorldActions_IsolationPressure
     {
+        /// <summary>Keep at least this many distinct hostile factions in the threat list via forced expansions.</summary>
+        public const int MinThreateningHostileFactions = 3;
+
         private static readonly List<Settlement> tmpFactionSites = new List<Settlement>();
         private static readonly HashSet<int> tmpExcludeDest = new HashSet<int>();
         private static readonly HashSet<int> tmpSeenFactionIds = new HashSet<int>();
@@ -24,7 +27,7 @@ namespace TSA_WorldDomination
             if (seth.gateThreatIsolationPressure == WdThreatStageGate.Never) return;
             if (!WdEscalation.PassesGate(seth.gateThreatIsolationPressure, manager)) return;
 
-            if (CountThreateningHostileFactions(manager) >= 2) return;
+            if (CountThreateningHostileFactions(manager) >= MinThreateningHostileFactions) return;
 
             float chance = Mathf.Clamp01(seth.isolationPressureChance);
             if (chance <= 0f || Rand.Value >= chance) return;

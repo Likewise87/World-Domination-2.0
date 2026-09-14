@@ -967,9 +967,9 @@ namespace TSA_WorldDomination
                 return false;
             }
 
-            if (occupants.Count > 0 && !OutpostPawnIdeologyUtil.BulkRemovalSelectionIsAllowed(outpost, occupants))
+            if (occupants.Count > 0 && OutpostPawnIdeologyUtil.TryGetBulkRemovalRejectReason(outpost, occupants, out string ideologyReject))
             {
-                reject = "TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip".Translate();
+                reject = ideologyReject;
                 return false;
             }
 

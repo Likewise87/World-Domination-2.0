@@ -48,6 +48,21 @@ namespace TSA_WorldDomination
                 "TSA_WD_Raid_LossPerHourTooltip".Translate(), 0.005f, SliderFormat.PercentDecimal, WorldDominationSettings.DefStrengthLossPerHour);
             s.maxTravelPercentageStrengthLoss = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_MaxTravelStrengthLoss".Translate(), s.maxTravelPercentageStrengthLoss, 0f, 1f,
                 "TSA_WD_Outpost_MaxTravelStrengthLossTooltip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefMaxTravelPercentageStrengthLoss);
+            SettingsUI.EnumDropdownApply(l, "TSA_WD_Caravans_AttritionRestGate".Translate(), s.gateThreatAttritionRest,
+                v => s.gateThreatAttritionRest = v,
+                WdEscalation.ThreatGateLabel,
+                tooltip: "TSA_WD_Caravans_AttritionRestGateTooltip".Translate());
+            if (s.gateThreatAttritionRest != WdThreatStageGate.Never)
+            {
+                s.attritionRestMinRatio = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_AttritionRestMinRatio".Translate(), s.attritionRestMinRatio, 0.5f, 1f,
+                    "TSA_WD_Caravans_AttritionRestMinRatioTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefAttritionRestMinRatio);
+                s.attritionRestRegenPerHour = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_AttritionRestRegen".Translate(), s.attritionRestRegenPerHour, 0.01f, 0.25f,
+                    "TSA_WD_Caravans_AttritionRestRegenTooltip".Translate(), 0.005f, SliderFormat.PercentDecimal, WorldDominationSettings.DefAttritionRestRegenPerHour);
+                s.attritionRestFireGraceDays = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_AttritionRestFireGrace".Translate(), s.attritionRestFireGraceDays, 0f, 3f,
+                    "TSA_WD_Caravans_AttritionRestFireGraceTooltip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefAttritionRestFireGraceDays);
+                s.attritionRestNearDestBufferDays = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_AttritionRestNearDest".Translate(), s.attritionRestNearDestBufferDays, 0f, 1f,
+                    "TSA_WD_Caravans_AttritionRestNearDestTooltip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefAttritionRestNearDestBufferDays);
+            }
             }
             l.Gap(12f);
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Caravans_HeaderWaterTravel".Translate(), ref waterExpanded, SettingsUI.SectionHeaderColor))

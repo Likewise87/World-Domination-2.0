@@ -308,8 +308,11 @@ namespace TSA_WorldDomination
             else
             {
                 Faction builder = traveler.Faction ?? origin.Faction;
-                if (IsValidBuildTile(tile, comp.selectedSpikeTrapKind, builder))
-                    WorldComponent_SpikeTraps.Get()?.TryPlaceOrUpgrade(tile, builder, comp.selectedSpikeTrapKind);
+                if (IsValidBuildTile(tile, comp.selectedSpikeTrapKind, builder)
+                    && (WorldComponent_SpikeTraps.Get()?.TryPlaceOrUpgrade(tile, builder, comp.selectedSpikeTrapKind) ?? false))
+                {
+                    Outpost_ConstructionXp.TryGrant(traveler, Outpost_ConstructionXp.XpForSpikeTrapKind(comp.selectedSpikeTrapKind));
+                }
             }
 
             if (comp.spikeTrapWorkIndex < comp.spikeTrapPlannedTiles.Count

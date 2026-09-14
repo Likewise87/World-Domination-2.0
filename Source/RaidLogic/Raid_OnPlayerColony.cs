@@ -140,8 +140,18 @@ namespace TSA_WorldDomination
             parms.forced = true;
             parms.points = raidPoints;
 
-            parms.customLetterLabel = "TSA_WD_Letter_RaidPlayer_Colony_Label".Translate(target.LabelCap, attackerFaction.Name);
-            parms.customLetterText = "TSA_WD_Letter_RaidPlayer_Colony_Text".Translate(attackerLabel, target.LabelCap);
+            bool notifyArrival = WorldDominationMod.settings?.notifyRaidArrivalColony
+                ?? WorldDominationSettings.DefNotifyRaidArrivalColony;
+            if (notifyArrival)
+            {
+                parms.customLetterLabel = "TSA_WD_Letter_RaidPlayer_Colony_Label".Translate(target.LabelCap, attackerFaction.Name);
+                parms.customLetterText = "TSA_WD_Letter_RaidPlayer_Colony_Text".Translate(attackerLabel, target.LabelCap);
+            }
+            else
+            {
+                // Suppress vanilla/WD ThreatBig on spawn; raid still executes.
+                parms.silent = true;
+            }
 
             bool dropPod = traveler != null && traveler.mission == TravelerMission.RaidDropPod;
             bool gravship = traveler != null && traveler.mission == TravelerMission.RaidGravship;

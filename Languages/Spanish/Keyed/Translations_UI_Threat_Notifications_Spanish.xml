@@ -132,8 +132,12 @@
   <TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>Recibir una carta cuando una AT Turret enemiga destruye uno de tus viajeros o caravanas por proyectil o combate cuerpo a cuerpo.</TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>
   <TSA_WD_Notify_IncomingRaidColony>Notificar cuando una incursión WD se lance contra tu colonia</TSA_WD_Notify_IncomingRaidColony>
   <TSA_WD_Notify_IncomingRaidColonyTooltip>Recibir carta de alta prioridad cuando se lance una expedición hostil contra tu colonia.</TSA_WD_Notify_IncomingRaidColonyTooltip>
+  <TSA_WD_Notify_RaidArrivalColony>Notificar cuando una incursión WD llegue a tu colonia</TSA_WD_Notify_RaidArrivalColony>
+  <TSA_WD_Notify_RaidArrivalColonyTooltip>Recibir carta de alta prioridad cuando una expedición hostil llegue y aparezca en el mapa de tu colonia.</TSA_WD_Notify_RaidArrivalColonyTooltip>
   <TSA_WD_Notify_IncomingRaidOutpost>Notificar cuando una incursión WD se lance contra una de tus avanzadillas</TSA_WD_Notify_IncomingRaidOutpost>
   <TSA_WD_Notify_IncomingRaidOutpostTooltip>Recibir carta de alta prioridad cuando se lance una expedición hostil contra una de tus avanzadillas.</TSA_WD_Notify_IncomingRaidOutpostTooltip>
+  <TSA_WD_Notify_RaidArrivalOutpost>Notificar cuando una incursión WD llegue a una de tus avanzadillas</TSA_WD_Notify_RaidArrivalOutpost>
+  <TSA_WD_Notify_RaidArrivalOutpostTooltip>Recibir carta de alta prioridad cuando abras una defensa manual de avanzadilla y la expedición hostil llegue al mapa de encuentro.</TSA_WD_Notify_RaidArrivalOutpostTooltip>
   <TSA_WD_Notify_RaidDivertedFromPlayer>Notificar cuando una incursión se desvía de ti</TSA_WD_Notify_RaidDivertedFromPlayer>
   <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>Recibir una carta cuando una incursión que se dirigía a tu colonia o a una avanzadilla detecte un objetivo de oportunidad y se desvíe para atacarlo en su lugar.</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
   <TSA_WD_Notify_MortarHit>Notificar cuando tu mortero dispara</TSA_WD_Notify_MortarHit>
@@ -211,9 +215,9 @@
   <TSA_WD_Alert_OutpostUnusedExpertsDescHeader>Estas avanzadillas tienen plazas de experto sin usar:</TSA_WD_Alert_OutpostUnusedExpertsDescHeader>
   <TSA_WD_Alert_OutpostUnusedExpertsDescLine>- {0}: {1}/{2} expertos</TSA_WD_Alert_OutpostUnusedExpertsDescLine>
   <TSA_WD_Notify_MidGameActive>Mostrar alerta de Mid Game (lateral)</TSA_WD_Notify_MidGameActive>
-  <TSA_WD_Notify_MidGameActiveTooltip>Muestra una alerta silenciosa y persistente en el panel lateral mientras Mid Game esté activo (no Late Game). No envía cartas.</TSA_WD_Notify_MidGameActiveTooltip>
+  <TSA_WD_Notify_MidGameActiveTooltip>Muestra una alerta silenciosa y persistente en el panel lateral mientras Mid Game esté activo (no Late Game). También se envía una carta roja una vez al activarse Mid Game.</TSA_WD_Notify_MidGameActiveTooltip>
   <TSA_WD_Notify_LateGameActive>Mostrar alerta de Late Game (lateral)</TSA_WD_Notify_LateGameActive>
-  <TSA_WD_Notify_LateGameActiveTooltip>Muestra una alerta silenciosa y persistente en el panel lateral mientras Late Game esté activo. No envía cartas.</TSA_WD_Notify_LateGameActiveTooltip>
+  <TSA_WD_Notify_LateGameActiveTooltip>Muestra una alerta silenciosa y persistente en el panel lateral mientras Late Game esté activo. También se envía una carta roja una vez al activarse Late Game.</TSA_WD_Notify_LateGameActiveTooltip>
   <TSA_WD_TargetingYou>En camino</TSA_WD_TargetingYou>
   <TSA_WD_ThreatBreakdownHeader>Fuerza ofensiva con alcance:</TSA_WD_ThreatBreakdownHeader>
   <TSA_WD_ThreatLabel_Cat0>Amenaza global: baja</TSA_WD_ThreatLabel_Cat0>
@@ -232,17 +236,19 @@
   <TS_WD_CaravanRaidAlwaysUseStrengthTooltip>Usa estrictamente los puntos de incursión de la caravana cuando hay una incursión a la colonia o cuando tu caravana choca con la de un PNJ.</TS_WD_CaravanRaidAlwaysUseStrengthTooltip>
   <TS_WD_OutpostDefenseAlwaysUseStrength>Usar siempre la fuerza en defensa manual de avanzadilla</TS_WD_OutpostDefenseAlwaysUseStrength>
   <TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>Si está activo, los combates manuales en el mapa de defensa de avanzadilla usan la fuerza del viajero como puntos de incursión sin límite del narrador. Si está desactivado, se aplican el mismo suelo y techo que en otras incursiones WD. Las incursiones a la colonia y los choques de caravanas usan el ajuste de arriba.</TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>
-  <TSA_WD_Alert_MidGameActive>WD: Mid Game activo</TSA_WD_Alert_MidGameActive>
+  <TSA_WD_Alert_MidGameActive>WD: Mid Game activado</TSA_WD_Alert_MidGameActive>
   <TSA_WD_Alert_MidGameActiveDesc>La fuerza de tus avanzadillas ha activado Mid Game. Los asentamientos hostiles crecen más rápido, ganan más alcance de ataque y sesgan incursiones hacia ti. Los asentamientos se expanden hacia tus posesiones, la buena voluntad baja con el tiempo, y tus avanzadillas pueden sufrir incidentes de desgaste más leves. Los morteros y el AA T4 aún no te apuntan salvo que actives los interruptores de Mid Game.</TSA_WD_Alert_MidGameActiveDesc>
-  <TSA_WD_Alert_LateGameActive>WD: Late Game activo</TSA_WD_Alert_LateGameActive>
+  <TSA_WD_Alert_LateGameActive>WD: Late Game activado</TSA_WD_Alert_LateGameActive>
   <TSA_WD_Alert_LateGameActiveDesc>La fuerza de tus avanzadillas ha activado Late Game. Los asentamientos hostiles crecen mucho más rápido, ganan más alcance de ataque y sesgan más las incursiones hacia ti. Los asentamientos se expanden más lejos hacia tus posesiones, la buena voluntad cae más rápido, los morteros y AA T4 enemigos pueden atacar tus caravanas y avanzadillas WD si están activados, y tus avanzadillas pueden sufrir incidentes de desgaste más fuertes.</TSA_WD_Alert_LateGameActiveDesc>
+  <TSA_WD_Letter_MidGameActiveIntro>Mid Game ya está activo. Qué cambia:</TSA_WD_Letter_MidGameActiveIntro>
+  <TSA_WD_Letter_LateGameActiveIntro>Late Game ya está activo. Qué cambia:</TSA_WD_Letter_LateGameActiveIntro>
   <TSA_WD_Alert_CriticalFood>WD: Avanzadilla con nivel de comida crítico</TSA_WD_Alert_CriticalFood>
   <TSA_WD_Alert_CriticalFoodDescHeader>Niveles críticos de comida en la(s) siguiente(s) avanzadilla(s):</TSA_WD_Alert_CriticalFoodDescHeader>
   <TSA_WD_Alert_CriticalFoodDescLine>- {0}, {1} de comida, {2} días de comida restantes</TSA_WD_Alert_CriticalFoodDescLine>
   <TSA_WD_Difficulty_HeaderScaling>Late Game</TSA_WD_Difficulty_HeaderScaling>
   <TSA_WD_Difficulty_EnableLateGame>Activar Mid Game y Late Game</TSA_WD_Difficulty_EnableLateGame>
-  <TSA_WD_Difficulty_EnableLateGameTooltip>Cuando te vuelves fuerte, las facciones hostiles reaccionan en dos pasos: Mid Game y luego Late Game. Incluye crecimiento hostil más rápido, mayor alcance de ataque NPC, incursiones sesgadas, expansión hacia ti, drenaje de buena voluntad, incidentes en avanzadillas y (si los interruptores lo permiten) fuego T4 contra tus caravanas/puestos. Depende de tu fuerza total de avanzadillas y de la cuota mundial.</TSA_WD_Difficulty_EnableLateGameTooltip>
-  <TSA_WD_Difficulty_ActivationHint>Cada una de Mid Game y Late Game se activa cuando se cumple cualquiera de sus umbrales de cuota o fuerza. Late Game sustituye a Mid Game.</TSA_WD_Difficulty_ActivationHint>
+  <TSA_WD_Difficulty_EnableLateGameTooltip>Las facciones hostiles reaccionan en dos pasos: Mid Game y luego Late Game. Incluye crecimiento hostil más rápido, mayor alcance de ataque NPC, incursiones sesgadas, expansión hacia ti, drenaje de buena voluntad, incidentes en avanzadillas y (si los interruptores lo permiten) fuego T4 contra tus caravanas/puestos. Depende de fuerza de avanzadillas, cuota mundial o días transcurridos. Las etapas no bajan una vez alcanzadas.</TSA_WD_Difficulty_EnableLateGameTooltip>
+  <TSA_WD_Difficulty_ActivationHint>Cada una de Mid Game y Late Game se activa cuando se cumple cualquiera de sus umbrales de cuota, fuerza o días. Late Game sustituye a Mid Game. Una vez alcanzada, una etapa no baja.</TSA_WD_Difficulty_ActivationHint>
   <TSA_WD_Difficulty_ShareThreshold>Activar con cuota global de fuerza</TSA_WD_Difficulty_ShareThreshold>
   <TSA_WD_Difficulty_ShareThresholdTooltip>Late Game se activa cuando tu fuerza total de avanzadillas alcanza esta fracción de la fuerza mundial (mismos números que la ventana de Estadísticas mundiales).</TSA_WD_Difficulty_ShareThresholdTooltip>
   <TSA_WD_Difficulty_OutpostStrengthThreshold>Activar con fuerza de avanzadillas</TSA_WD_Difficulty_OutpostStrengthThreshold>
@@ -282,6 +288,10 @@
   <TSA_WD_MidGame_ShareThresholdTooltip>Mid Game se activa cuando tu fuerza total de avanzadillas alcanza esta fracción de la fuerza mundial.</TSA_WD_MidGame_ShareThresholdTooltip>
   <TSA_WD_MidGame_OutpostStrengthThreshold>Puntos de fuerza del jugador para dificultad Mid-Game</TSA_WD_MidGame_OutpostStrengthThreshold>
   <TSA_WD_MidGame_OutpostStrengthThresholdTooltip>Mid Game se activa cuando tu fuerza total de avanzadillas alcanza este valor absoluto, sin importar la cuota mundial.</TSA_WD_MidGame_OutpostStrengthThresholdTooltip>
+  <TSA_WD_MidGame_DaysThreshold>Días para dificultad Mid-Game</TSA_WD_MidGame_DaysThreshold>
+  <TSA_WD_MidGame_DaysThresholdTooltip>Mid Game se activa cuando pasan estos días, aunque la cuota y la fuerza sigan por debajo de sus umbrales de Mid.</TSA_WD_MidGame_DaysThresholdTooltip>
+  <TSA_WD_LateGame_DaysThreshold>Días para dificultad Late-Game</TSA_WD_LateGame_DaysThreshold>
+  <TSA_WD_LateGame_DaysThresholdTooltip>Late Game se activa cuando pasan estos días, aunque la cuota y la fuerza sigan por debajo de sus umbrales de Late.</TSA_WD_LateGame_DaysThresholdTooltip>
   <TSA_WD_MidGame_RaidBias>Sesgo de incursión hacia ti</TSA_WD_MidGame_RaidBias>
   <TSA_WD_MidGame_RaidBiasTooltip>Mientras Mid Game esté activo, las incursiones hostiles que ya pueden alcanzarte priorizan tus avanzadillas y colonia con este peso adicional dentro de la misma banda de distancia.</TSA_WD_MidGame_RaidBiasTooltip>
   <TSA_WD_MidGame_GrowthMult>Multiplicador de crecimiento enemigo</TSA_WD_MidGame_GrowthMult>

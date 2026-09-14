@@ -48,8 +48,8 @@
   <TSA_WD_Inspect_RoadBlockClear>Quitando bloqueos</TSA_WD_Inspect_RoadBlockClear>
   <TSA_WD_Inspect_RoadBlockStatus>{0}: {1}% hacia {2}</TSA_WD_Inspect_RoadBlockStatus>
   <TSA_WD_Inspect_RoadBlockStatus_InTransit>{0}: cuadrilla en tránsito hacia {1} (prep. {2}%)...</TSA_WD_Inspect_RoadBlockStatus_InTransit>
-  <TSA_WD_RoadBlock_MovementExplanation>Bloqueo: +{0}</TSA_WD_RoadBlock_MovementExplanation>
-  <TSA_WD_RoadBlock_TileInspect>{0}: +{1} dificultad de movimiento (PV {2}/{3})</TSA_WD_RoadBlock_TileInspect>
+  <TSA_WD_RoadBlock_MovementExplanation>Bloqueo: +{0} coste de movimiento</TSA_WD_RoadBlock_MovementExplanation>
+  <TSA_WD_RoadBlock_TileInspect>{0}: +{1} coste de movimiento (PV {2}/{3})</TSA_WD_RoadBlock_TileInspect>
   <TSA_WD_RoadBlock_DestroyedByTraffic>Un bloqueo de carretera fue destruido por el tráfico.</TSA_WD_RoadBlock_DestroyedByTraffic>
   <TSA_WD_Log_RoadBlock_DestroyedByTraffic>Bloqueo destruido por {0} (daño {1}).</TSA_WD_Log_RoadBlock_DestroyedByTraffic>
   <TSA_WD_Inspect_SpikeTrapBuild>Trampas de pinchos</TSA_WD_Inspect_SpikeTrapBuild>
@@ -111,7 +111,7 @@
   <TSA_WD_Letter_Revolt_Label>Reaparición de facción</TSA_WD_Letter_Revolt_Label>
   <TSA_WD_Letter_Revolt_Text>¡Convulsión política! La facción {0} ha reaparecido y se ha hecho con: {1}. Perdido en la sublevación: {2}.</TSA_WD_Letter_Revolt_Text>
   <TSA_WD_Letter_Vanguard_Label>Fuerzas de vanguardia en marcha</TSA_WD_Letter_Vanguard_Label>
-  <TSA_WD_Letter_Vanguard_Text>{0} ha desmantelado {1} asentamientos y marcha un clúster de vanguardia hacia tu región. Sus hogares ya no existen: detenlos antes de que se atrinchen.</TSA_WD_Letter_Vanguard_Text>
+  <TSA_WD_Letter_Vanguard_Text>{0} ha organizado asentamientos en {1} columnas de vanguardia. Cada hogar parte como caravana; las fuerzas cercanas se reúnen y luego atrincheran en tu frente. Deténlos antes de que fortifiquen.</TSA_WD_Letter_Vanguard_Text>
   <TSA_WD_Letter_Invasion_Label>Fuerzas de invasión en marcha</TSA_WD_Letter_Invasion_Label>
   <TSA_WD_Letter_Invasion_Text>{0} ha lanzado {1} incursiones de invasión coordinadas contra tus colonias y puestos desde asentamientos lejanos. Sus hogares permanecen. Prepara la defensa.</TSA_WD_Letter_Invasion_Text>
   <TSA_WD_Letter_DesperationRaid_Label>Ataque desesperado de {0}</TSA_WD_Letter_DesperationRaid_Label>
@@ -138,7 +138,7 @@
   <TSA_WD_Log_BtnDetails>Detalles</TSA_WD_Log_BtnDetails>
   <TSA_WD_Log_ExpandSuccess>EXPANSIÓN: Éxito. {0} fundó el nuevo T1 {1}.</TSA_WD_Log_ExpandSuccess>
   <TSA_WD_Log_MassRelocationCancelled>VANGUARDIA: {0} abortó; remonta cerca del destino.</TSA_WD_Log_MassRelocationCancelled>
-  <TSA_WD_Log_ForwardAssault_Vanguard>VANGUARDIA: {0} desmantela {1} asentamientos hacia un clúster cerca de ti.</TSA_WD_Log_ForwardAssault_Vanguard>
+  <TSA_WD_Log_ForwardAssault_Vanguard>VANGUARDIA: {0} forma {1} columnas hacia tu frente.</TSA_WD_Log_ForwardAssault_Vanguard>
   <TSA_WD_Log_ForwardAssault_Invasion>INVASIÓN: {0} lanza {1} incursiones coordinadas contra tus posesiones.</TSA_WD_Log_ForwardAssault_Invasion>
   <TSA_WD_Log_ForwardAssault_PackUpVanguard>VANGUARDIA: {0} abandona el hogar → casilla {1}.</TSA_WD_Log_ForwardAssault_PackUpVanguard>
   <TSA_WD_Log_ForwardAssault_PackUpInvasion>INVASIÓN: {0} marcha contra {1}.</TSA_WD_Log_ForwardAssault_PackUpInvasion>
@@ -146,6 +146,7 @@
   <TSA_WD_Log_ForwardAssault_InvasionRallyRaid>INVASIÓN: {0} marcha contra {1}.</TSA_WD_Log_ForwardAssault_InvasionRallyRaid>
   <TSA_WD_Log_ForwardAssault_RatioBypass>(lanzado bajo la ratio mínima)</TSA_WD_Log_ForwardAssault_RatioBypass>
   <TSA_WD_Log_ForwardAssault_VanguardFounded>VANGUARDIA: Fundado {0}.</TSA_WD_Log_ForwardAssault_VanguardFounded>
+  <TSA_WD_Log_ForwardAssault_VanguardAbsorbed>VANGUARDIA: Refuerzos absorbidos en un atrincheramiento existente ({0}).</TSA_WD_Log_ForwardAssault_VanguardAbsorbed>
   <TSA_WD_Log_ForwardAssault_BlockedRaid>VANGUARDIA: {0} encuentra {1} en la casilla — desvía a asalto.</TSA_WD_Log_ForwardAssault_BlockedRaid>
   <TSA_WD_Log_ForwardAssault_Refound>VANGUARDIA: {0} remonta como {1}.</TSA_WD_Log_ForwardAssault_Refound>
   <TSA_WD_Log_ConquestSettlementFounded>CONQUISTA: {0} fundó {1} ({2}) tras una incursión exitosa.</TSA_WD_Log_ConquestSettlementFounded>
@@ -222,6 +223,7 @@
   <TSA_WD_Traveler_Outpost_Upgrade>Caravana de mejora del puesto</TSA_WD_Traveler_Outpost_Upgrade>
   <TSA_WD_StrengthAtArrival>Fuerza a la llegada</TSA_WD_StrengthAtArrival>
   <TSA_WD_StrengthAtDeparture>Fuerza (a la salida)</TSA_WD_StrengthAtDeparture>
+  <TSA_WD_Traveller_AttritionResting>Descansando para recuperar fuerza</TSA_WD_Traveller_AttritionResting>
   <TSA_WD_TimeSinceDeparture>Tiempo desde la salida</TSA_WD_TimeSinceDeparture>
   <TSA_WD_TimeToDestination>Tiempo total estimado de viaje</TSA_WD_TimeToDestination>
   <TSA_WD_Traveler_AttackCaravan>Atacar caravana</TSA_WD_Traveler_AttackCaravan>

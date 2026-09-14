@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_21_Title>Refinamiento, mejoras de avanzadillas, iconos</TSA_WD_Update_2_3_21_Title>
+  <TSA_WD_Update_2_3_21_Body><![CDATA[
+<size=16><b>2.3.21 – Refinamiento, mejoras de avanzadillas, iconos</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 14 de septiembre de 2026</color>\n
+------------------------------\n
+• Iconos nuevos para la mayoría de objetos mundiales y elementos de UI gracias al jugador Pesky.\n
+• Nuevas mejoras de avanzadillas del jugador Bambaryła; algunas solo se desbloquean con mods extra.\n
+• Nueva función: desde Mid Game, las caravanas pausan y descansan al bajar al 80% de su fuerza original, y siguen al 100%. La recuperación es de unas 10 horas del 80% al 100% (2% por hora). No descansan si las acaban de golpear morteros o fuego AT (0.5 días). Un golpe durante el descanso las hace recoger y continuar de inmediato. Las incursiones tardías desde lejos son mucho más duras porque ya no llegan agotadas.\n
+• Refinamiento: las caravanas Vanguardia acampan cerca del frente en lugar de cerca de la colonia. También se fusionan en menos asentamientos más fuertes, como Turtle.\n
+• Se renombró la dificultad de movimiento a coste de movimiento para ser coherentes (más bajo = más rápido).\n
+• Los umbrales de fuerza de dificultad Mid y Late Game se reducen casi un 50% (entran antes). También hay un disparador por tiempo: aunque no construyas avanzadillas, acabarás alcanzando Mid y Late Game. Ya no se puede volver atrás desde Mid o Late Game. Se envía una carta al pasar cada umbral.\n
+]]></TSA_WD_Update_2_3_21_Body>
+  <TSA_WD_Update_2_3_20_Title>Iconos nuevos y correcciones</TSA_WD_Update_2_3_20_Title>
+  <TSA_WD_Update_2_3_20_Body><![CDATA[
+<size=16><b>2.3.20 – Iconos nuevos y correcciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 10 de septiembre de 2026</color>\n
+------------------------------\n
+• Gracias al jugador Pesky, hay iconos nuevos que sustituyen algunos iconos de avanzadillas y caravanas.\n
+• Corregido un fallo que impedía retirar peones de una avanzadilla con un solo peón normal y el resto esclavos.\n
+• Nueva función: los peones en una avanzadilla ganan XP de Construcción al construir algo como una carretera o un bloqueo. En la avanzadilla de artillería ganan XP de Disparo al disparar el mortero o la torreta AA. En Respuesta rápida ganan XP de Disparo y Cuerpo a cuerpo al ganar un combate. En Investigación ganan XP de Intelecto mientras investigan. No es mucha XP, pero se nota en peones de bajo nivel.\n
+• La fuerza relativa máxima a enviar de Respuesta rápida es 5x ahora (antes 3x). El valor por defecto es 3x ahora (antes 2x). Envíarán más fuerzas y será más fácil ganar.\n
+• Equilibrio: hasta 3 facciones pueden verse forzadas a expandirse cerca de ti si estás fuera de su alcance. La función se llama Presión de aislamiento en Dificultad de combate de los ajustes del mod si quieres ajustarla o desactivarla.\n
+]]></TSA_WD_Update_2_3_20_Body>
   <TSA_WD_Update_2_3_19_Title>Equilibrio y correcciones</TSA_WD_Update_2_3_19_Title>
   <TSA_WD_Update_2_3_19_Body><![CDATA[
 <size=16><b>2.3.19 – Equilibrio y correcciones</b></size>\n

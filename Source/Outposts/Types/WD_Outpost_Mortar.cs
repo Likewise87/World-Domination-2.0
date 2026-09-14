@@ -18,6 +18,7 @@ namespace TSA_WorldDomination
     {
         private static Texture2D cachedMortarIcon;
         private static Texture2D cachedConfigureIcon;
+        private static Texture2D cachedConfigureAaIcon;
 
         /// <summary>Per-outpost cache for the Launch gizmo's ready-state strings; refreshed every
         /// <see cref="FireGizmoCacheLifetimeTicks"/> ticks (no sub-second staleness that matters). RimWorld re-queries
@@ -63,7 +64,7 @@ namespace TSA_WorldDomination
                 defaultDesc = AntiAirFireUtils.HasAntiAirUpgrade(outpost)
                     ? "TSA_WD_Artillery_ConfigureDescWithAA".Translate()
                     : "TSA_WD_Artillery_ConfigureDesc".Translate(),
-                icon = cachedConfigureIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/MortarRadius", false) ?? TexCommand.Attack,
+                icon = ResolveArtilleryConfigureIcon(outpost),
                 action = () => Dialog_OutpostArtilleryConfigure.Open(outpost),
                 onHover = () =>
                 {
@@ -80,6 +81,13 @@ namespace TSA_WorldDomination
                     }
                 }
             };
+        }
+
+        private static Texture2D ResolveArtilleryConfigureIcon(WorldObject_WD_Outpost outpost)
+        {
+            if (AntiAirFireUtils.HasAntiAirUpgrade(outpost))
+                return cachedConfigureAaIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Configure_AA", false) ?? TexCommand.Attack;
+            return cachedConfigureIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Cofigure_Mortar", false) ?? TexCommand.Attack;
         }
 
         private static FireGizmoCache GetOrRefreshFireGizmoCache(WorldObject_WD_Outpost outpost, CompViralSpread comp)
@@ -228,6 +236,8 @@ namespace TSA_WorldDomination
             WD_Outpost_Mortar.InvalidateFireGizmoCache(origin);
             WorldActions_Traveler.SpawnMortarTraveler(origin, target, damage, guaranteedHit: hit, aimTileIdOverride: aimTile);
 
+            Outpost_OccupantProgression.ApplySkillXp(origin, Outpost_OccupantProgression.EventXpMortarPerShot, SkillDefOf.Shooting);
+
             manager?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_MortarLaunched".Translate(origin.LabelCap, target.LabelCap, damage.ToString("F0")),
                 origin, target));
@@ -264,6 +274,7 @@ namespace TSA_WorldDomination
             ApplyPlayerMortarCooldown(comp, origin);
             WD_Outpost_Mortar.InvalidateFireGizmoCache(origin);
             WorldActions_Traveler.SpawnMortarTraveler(origin, target, damage, guaranteedHit: hit, aimTileIdOverride: aimTile);
+            Outpost_OccupantProgression.ApplySkillXp(origin, Outpost_OccupantProgression.EventXpMortarPerShot, SkillDefOf.Shooting);
         }
 
         /// <summary>NPC settlement defensive shot (no pawns → flat damage + equivalent skill for hit chance).</summary>

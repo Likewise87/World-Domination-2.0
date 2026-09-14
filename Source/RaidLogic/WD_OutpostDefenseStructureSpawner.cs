@@ -51,9 +51,9 @@ namespace TSA_WorldDomination
         };
 
         private const string UpgradeLineWalls = "Line_Walls";
-        private const string UpgradeSpikeTraps = "TSA_WD_Upgrade_SpikeTraps";
+        private const string UpgradeLineTraps = "Line_Traps";
+        private const string UpgradeLineAutoTurrets = "AutoTurrets";
         private const string UpgradeIeds = "TSA_WD_Upgrade_IEDs";
-        private const string UpgradeAutoTurrets = "TSA_WD_Upgrade_AutoTurrets";
 
         private static ThingDef cachedWall;
         private static ThingDef cachedWallStuffWood;
@@ -74,9 +74,11 @@ namespace TSA_WorldDomination
 
             IntVec3 center = WD_OutpostDefenseMapUtility.GetSettlementCenter(map);
             int wallTier = OutpostUpgradeUtility.GetHighestBuiltLineTier(outpost, UpgradeLineWalls);
-            bool hasTraps = outpost.GetUpgradeLevel(UpgradeSpikeTraps) > 0;
+            // Any tier on Line_Traps / AutoTurrets counts (Bambaryla Bear Traps, Advanced Turrets, etc.).
+            // Map props stay spike traps / mini turrets for now; visuals can differentiate later.
+            bool hasTraps = OutpostUpgradeUtility.GetHighestBuiltLineTier(outpost, UpgradeLineTraps) > 0;
             bool hasIeds = outpost.GetUpgradeLevel(UpgradeIeds) > 0;
-            bool hasTurrets = outpost.GetUpgradeLevel(UpgradeAutoTurrets) > 0;
+            bool hasTurrets = OutpostUpgradeUtility.GetHighestBuiltLineTier(outpost, UpgradeLineAutoTurrets) > 0;
 
             if (wallTier <= 0 && !hasTraps && !hasIeds && !hasTurrets)
                 return;

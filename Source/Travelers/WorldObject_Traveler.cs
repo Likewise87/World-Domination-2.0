@@ -29,6 +29,12 @@ namespace TSA_WorldDomination
         public float travelerStrength;
         public float initialStrength;
         public float projectedArrivalStrength;
+        /// <summary>Mid/Late attrition rest: stopped to regenerate toward <see cref="initialStrength"/>.</summary>
+        public bool attritionResting;
+        /// <summary>Destination tile id while resting (-1 if unset).</summary>
+        public int attritionRestDestTile = -1;
+        /// <summary>Last tick damaged by mortar / AT / AA; -1 = never.</summary>
+        public int lastHostileFireTick = -1;
         /// <summary>Pack-up forward assault: cancel/clash must remount strength (home already destroyed).</summary>
         public bool packUpRequiresRefound;
         /// <summary>Label of destroyed pack-up home for UI/inspect when <see cref="originObject"/> is null.</summary>
@@ -39,6 +45,8 @@ namespace TSA_WorldDomination
         public SettlementTier massRelocationTier = SettlementTier.T1;
         /// <summary>Carried defensive strength for Vanguard spawn / refound.</summary>
         public float massRelocationDefensiveStrength;
+        /// <summary>Shared Vanguard assembly id for local rally absorb (&gt;0 when active).</summary>
+        public int vanguardGroupId;
         /// <summary>Forward Assault Invasion coordinated raid (homes stay; ToO suppressed).</summary>
         public bool isInvasionRaid;
         /// <summary>Desperation raid: pack-up group that rallies then raids.</summary>
@@ -89,6 +97,8 @@ namespace TSA_WorldDomination
         public float antiAirLeadTicksTotal;
         public float antiAirLeadTicksLeft;
         public bool rapidResponseStrengthRefunded;
+        /// <summary>Prevents double grant when same-tile clash and arrival both observe the win.</summary>
+        public bool rapidResponseWinXpGranted;
         /// <summary>True when this intercept was launched by Feature C settlement ambush (sally, not player Rapid Response).</summary>
         public bool isSettlementAmbushSally;
         private int lastRapidResponseTargetTile = -1;
@@ -644,6 +654,8 @@ namespace TSA_WorldDomination
             // --- STRENGTH BREAKDOWN ---
             float currentEfficiency = (initialStrength > 0) ? (travelerStrength / initialStrength) : 1f;
             sb.AppendLine($"{"TSA_WD_StrengthAtDeparture".Translate()}: {travelerStrength:F0} / {initialStrength:F0} ({currentEfficiency.ToStringPercent()})");
+            if (attritionResting)
+                sb.AppendLine("TSA_WD_Traveller_AttritionResting".Translate());
 
             float ticksSinceDeparture = Find.TickManager.TicksGame - spawnTick;
             float daysSinceDeparture = ticksSinceDeparture / 60000f;
@@ -767,6 +779,10 @@ namespace TSA_WorldDomination
                 && this.IsHashIntervalTick(250, delta))
                 WorldActions_AssaultRally.TickRallyHost(this);
 
+            if (mission == TravelerMission.MassRelocation && desperationIsHost && vanguardGroupId > 0
+                && this.IsHashIntervalTick(250, delta))
+                WorldActions_PackUp.TickVanguardRallyHost(this);
+
             TryRetryDeferredOutpostRaidArrival(delta);
 
             if ((mission == TravelerMission.RapidResponseIntercept || mission == TravelerMission.RaidBribe)
@@ -808,31 +824,66 @@ namespace TSA_WorldDomination
 
             // Mortar shells and drop-pod warehouse / RR / raid drop pods ignore attrition (paid at launch or in-flight for seconds).
             // Stationary travelers (DesperationRally host wait, stopped caravans) do not bleed strength — only movers.
-            bool skipAttrition = IsShellMission(mission)
-                || mission == TravelerMission.RapidResponseDropPod
-                || mission == TravelerMission.RaidDropPod
-                || mission == TravelerMission.RaidGravship
-                || WD_PathFollower.IsBallisticWorldFlight(this)
-                || pather == null
-                || !pather.moving;
-            if (!skipAttrition && this.IsHashIntervalTick(180, delta))
+            // Mid/Late attrition rest: regenerate while parked, then resume path.
+            var seth = WorldDominationMod.settings;
+            if (seth == null)
             {
-                var seth = WorldDominationMod.settings;
-                float intervalRate = (seth.strengthLossPerHour / 2500f) * 180f;
-                float attritionMult = 1f;
-                var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-                if (manager != null && Faction == manager.expansionistZealFaction && Find.TickManager.TicksGame < manager.expansionistZealExpiryTick)
-                    attritionMult = seth.zealAttritionMult;
-                intervalRate *= attritionMult;
-                travelerStrength = Mathf.Max(0f, travelerStrength * (1f - intervalRate));
-                float strengthFloor = initialStrength * (1f - Mathf.Clamp01(seth.maxTravelPercentageStrengthLoss));
-                travelerStrength = Mathf.Max(travelerStrength, strengthFloor);
-
-                bool shouldExpire = mission != TravelerMission.OutpostDelivery && travelerStrength <= 0.01f;
-                if (shouldExpire)
+                // fall through without attrition/rest
+            }
+            else if (attritionResting)
+            {
+                TravelerAttritionRest.TickRestingRegen(this, seth, delta);
+            }
+            else
+            {
+                bool skipAttrition = IsShellMission(mission)
+                    || mission == TravelerMission.RapidResponseDropPod
+                    || mission == TravelerMission.RaidDropPod
+                    || mission == TravelerMission.RaidGravship
+                    || WD_PathFollower.IsBallisticWorldFlight(this)
+                    || pather == null
+                    || !pather.moving;
+                if (!skipAttrition && this.IsHashIntervalTick(180, delta))
                 {
-                    TravelerEndpointUtility.AbortTraveler(this, "TSA_WD_Log_TravelerExpired".Translate(Label), manager);
-                    return;
+                    float intervalRate = (seth.strengthLossPerHour / 2500f) * 180f;
+                    float attritionMult = 1f;
+                    var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+                    if (manager != null && Faction == manager.expansionistZealFaction && Find.TickManager.TicksGame < manager.expansionistZealExpiryTick)
+                        attritionMult = seth.zealAttritionMult;
+                    intervalRate *= attritionMult;
+
+                    float before = travelerStrength;
+                    travelerStrength = Mathf.Max(0f, travelerStrength * (1f - intervalRate));
+
+                    bool restActive = TravelerAttritionRest.IsFeatureActive(seth, manager);
+                    if (restActive && initialStrength > 0f)
+                    {
+                        float threshold = TravelerAttritionRest.RestThresholdStrength(this, seth);
+                        if (before >= threshold)
+                        {
+                            // Attrition-only crossing: clamp at rest floor; optionally begin rest.
+                            if (travelerStrength < threshold)
+                                travelerStrength = threshold;
+                            if (travelerStrength <= threshold + 0.01f
+                                && TravelerAttritionRest.CanBeginRest(this, seth))
+                            {
+                                TravelerAttritionRest.BeginRest(this);
+                            }
+                        }
+                        // Already below threshold from combat/traps/pollution: no upward floor; keep decaying.
+                    }
+                    else
+                    {
+                        float strengthFloor = initialStrength * (1f - Mathf.Clamp01(seth.maxTravelPercentageStrengthLoss));
+                        travelerStrength = Mathf.Max(travelerStrength, strengthFloor);
+                    }
+
+                    bool shouldExpire = mission != TravelerMission.OutpostDelivery && travelerStrength <= 0.01f;
+                    if (shouldExpire)
+                    {
+                        TravelerEndpointUtility.AbortTraveler(this, "TSA_WD_Log_TravelerExpired".Translate(Label), manager);
+                        return;
+                    }
                 }
             }
 
@@ -1271,11 +1322,15 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref travelerStrength, "travelerStrength");
             Scribe_Values.Look(ref initialStrength, "initialStrength");
             Scribe_Values.Look(ref projectedArrivalStrength, "projectedArrivalStrength");
+            Scribe_Values.Look(ref attritionResting, "attritionResting", false);
+            Scribe_Values.Look(ref attritionRestDestTile, "attritionRestDestTile", -1);
+            Scribe_Values.Look(ref lastHostileFireTick, "lastHostileFireTick", -1);
             Scribe_Values.Look(ref packUpRequiresRefound, "packUpRequiresRefound", false);
             Scribe_Values.Look(ref packUpOriginLabel, "packUpOriginLabel");
             Scribe_Values.Look(ref massRelocationDestTile, "massRelocationDestTile", -1);
             Scribe_Values.Look(ref massRelocationTier, "massRelocationTier", SettlementTier.T1);
             Scribe_Values.Look(ref massRelocationDefensiveStrength, "massRelocationDefensiveStrength", 0f);
+            Scribe_Values.Look(ref vanguardGroupId, "vanguardGroupId", 0);
             Scribe_Values.Look(ref isInvasionRaid, "isInvasionRaid", false);
             Scribe_Values.Look(ref isDesperationRaid, "isDesperationRaid", false);
             Scribe_Values.Look(ref desperationGroupId, "desperationGroupId", 0);
@@ -1345,6 +1400,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref antiAirLeadTicksTotal, "antiAirLeadTicksTotal", 0f);
             Scribe_Values.Look(ref antiAirLeadTicksLeft, "antiAirLeadTicksLeft", 0f);
             Scribe_Values.Look(ref rapidResponseStrengthRefunded, "rapidResponseStrengthRefunded", false);
+            Scribe_Values.Look(ref rapidResponseWinXpGranted, "rapidResponseWinXpGranted", false);
             Scribe_Values.Look(ref isSettlementAmbushSally, "isSettlementAmbushSally", false);
             Scribe_Values.Look(ref lastRapidResponseTargetTile, "lastRapidResponseTargetTile", -1);
             Scribe_Values.Look(ref lastRapidResponseInterceptTile, "lastRapidResponseInterceptTile", -1);

@@ -124,7 +124,7 @@ namespace TSA_WorldDomination
                     effectiveLossPerHour *= seth.zealAttritionMult;
             }
             float raw = Mathf.Pow(1.0f - effectiveLossPerHour, totalHours);
-            float minEfficiency = 1f - Mathf.Clamp01(seth.maxTravelPercentageStrengthLoss);
+            float minEfficiency = TravelerAttritionRest.GetMinTravelEfficiency(seth);
             efficiency = Mathf.Max(Mathf.Clamp01(raw), minEfficiency);
             return true;
         }
@@ -162,7 +162,7 @@ namespace TSA_WorldDomination
                     effectiveLossPerHour = Mathf.Clamp(effectiveLossPerHour * seth.zealAttritionMult, 0f, 0.99f);
             }
             float raw = Mathf.Pow(1.0f - effectiveLossPerHour, totalHours);
-            float minEfficiency = 1f - Mathf.Clamp01(seth.maxTravelPercentageStrengthLoss);
+            float minEfficiency = TravelerAttritionRest.GetMinTravelEfficiency(seth);
             efficiency = Mathf.Max(Mathf.Clamp01(raw), minEfficiency);
             return true;
         }

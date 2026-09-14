@@ -372,6 +372,7 @@ namespace TSA_WorldDomination
                 captivesTaken = OutpostPrisonerUtility.TryCaptureFromRapidResponseWin(
                     traveler, enemyFaction, defBefore, defAfter);
             }
+            WD_Outpost_RapidResponse.TryGrantWinSkillXp(traveler, won);
             float refund = OpenFieldClashUtility.SurvivorStrengthFor(clash, traveler);
             TravelerEndpointUtility.RefundRapidResponseStrength(traveler, refund);
             SendRapidResponseClashLetter(traveler, target, won, defBefore, defAfter, captivesTaken);
@@ -1810,6 +1811,8 @@ namespace TSA_WorldDomination
                         workTile
                     ));
                 }
+
+                Outpost_ConstructionXp.TryGrant(traveler, Outpost_ConstructionXp.XpForRoadTier(tier));
 
                 bool playerRoadProject = traveler.originObject is WorldObject_WD_Outpost
                     || (traveler.originObject is Settlement

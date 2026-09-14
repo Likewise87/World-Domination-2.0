@@ -146,8 +146,12 @@
   <TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>Receive a letter when an enemy AT Turret destroys one of your travelers or caravans by shell or melee clash.</TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>
   <TSA_WD_Notify_IncomingRaidColony>Notify when a WD Raid is launched at your Colony</TSA_WD_Notify_IncomingRaidColony>
   <TSA_WD_Notify_IncomingRaidColonyTooltip>Receive a high-priority letter when a hostile expedition is launched against your colony.</TSA_WD_Notify_IncomingRaidColonyTooltip>
+  <TSA_WD_Notify_RaidArrivalColony>Notify when a WD Raid arrives at your Colony</TSA_WD_Notify_RaidArrivalColony>
+  <TSA_WD_Notify_RaidArrivalColonyTooltip>Receive a high-priority letter when a hostile expedition arrives and spawns on your colony map.</TSA_WD_Notify_RaidArrivalColonyTooltip>
   <TSA_WD_Notify_IncomingRaidOutpost>Notify when a WD Raid is launched at one of your Outposts</TSA_WD_Notify_IncomingRaidOutpost>
   <TSA_WD_Notify_IncomingRaidOutpostTooltip>Receive a high-priority letter when a hostile expedition is launched against one of your outposts.</TSA_WD_Notify_IncomingRaidOutpostTooltip>
+  <TSA_WD_Notify_RaidArrivalOutpost>Notify when a WD Raid arrives at one of your Outposts</TSA_WD_Notify_RaidArrivalOutpost>
+  <TSA_WD_Notify_RaidArrivalOutpostTooltip>Receive a high-priority letter when you open a manual outpost defense and the hostile expedition arrives on the encounter map.</TSA_WD_Notify_RaidArrivalOutpostTooltip>
   <TSA_WD_Notify_RaidDivertedFromPlayer>Notify when a raid diverts away from you</TSA_WD_Notify_RaidDivertedFromPlayer>
   <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>Receive a letter when a raid that was headed at your colony or an outpost spots a target of opportunity and diverts to attack it instead.</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
   <TSA_WD_Notify_MortarHit>Notify when your mortar fires</TSA_WD_Notify_MortarHit>
@@ -225,9 +229,9 @@
   <TSA_WD_Alert_OutpostUnusedExpertsDescHeader>These outposts have unused expert slots:</TSA_WD_Alert_OutpostUnusedExpertsDescHeader>
   <TSA_WD_Alert_OutpostUnusedExpertsDescLine>- {0}: {1}/{2} experts</TSA_WD_Alert_OutpostUnusedExpertsDescLine>
   <TSA_WD_Notify_MidGameActive>Show Mid Game alert (right side)</TSA_WD_Notify_MidGameActive>
-  <TSA_WD_Notify_MidGameActiveTooltip>Shows a silent, persistent alert on the right-side readout while Mid Game is active (not Late Game). No letters are sent.</TSA_WD_Notify_MidGameActiveTooltip>
+  <TSA_WD_Notify_MidGameActiveTooltip>Shows a silent, persistent alert on the right-side readout while Mid Game is active (not Late Game). A red letter is also sent once when Mid Game first activates.</TSA_WD_Notify_MidGameActiveTooltip>
   <TSA_WD_Notify_LateGameActive>Show Late Game alert (right side)</TSA_WD_Notify_LateGameActive>
-  <TSA_WD_Notify_LateGameActiveTooltip>Shows a silent, persistent alert on the right-side readout while Late Game is active. No letters are sent.</TSA_WD_Notify_LateGameActiveTooltip>
+  <TSA_WD_Notify_LateGameActiveTooltip>Shows a silent, persistent alert on the right-side readout while Late Game is active. A red letter is also sent once when Late Game first activates.</TSA_WD_Notify_LateGameActiveTooltip>
   <TSA_WD_TargetingYou>Inbound</TSA_WD_TargetingYou>
   <TSA_WD_ThreatBreakdownHeader>Attack-capable offensive strength:</TSA_WD_ThreatBreakdownHeader>
   <TSA_WD_WorldThreatTier_None>None</TSA_WD_WorldThreatTier_None>
@@ -264,14 +268,16 @@
   <TS_WD_CaravanRaidAlwaysUseStrengthTooltip>Strictly uses the raid points of a caravan when a raid on the colony happens or when your caravan clashes with a NPC caravan.</TS_WD_CaravanRaidAlwaysUseStrengthTooltip>
   <TS_WD_OutpostDefenseAlwaysUseStrength>Always use Strength for manual outpost defense</TS_WD_OutpostDefenseAlwaysUseStrength>
   <TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>When on, manual outpost defense map fights use traveler strength as raid points with no storyteller band clamp. When off, the same floor and ceiling as other WD raids apply. Colony raids and caravan clashes use the setting above.</TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>
-  <TSA_WD_Alert_MidGameActive>WD: Mid Game active</TSA_WD_Alert_MidGameActive>
+  <TSA_WD_Alert_MidGameActive>WD: Mid Game activated</TSA_WD_Alert_MidGameActive>
   <TSA_WD_Alert_MidGameActiveDesc>Your outpost strength has triggered Mid Game. Hostile settlements grow faster, gain more attack range, and bias raids toward you. Settlements expand toward your holdings, goodwill drifts down over time, and your outposts may suffer lighter attrition incidents. T4 mortars and AA do not target you yet unless the Mid Game toggles are on.</TSA_WD_Alert_MidGameActiveDesc>
-  <TSA_WD_Alert_LateGameActive>WD: Late Game active</TSA_WD_Alert_LateGameActive>
+  <TSA_WD_Alert_LateGameActive>WD: Late Game activated</TSA_WD_Alert_LateGameActive>
   <TSA_WD_Alert_LateGameActiveDesc>Your outpost strength has triggered Late Game. Hostile settlements grow much faster, gain more attack range, and bias raids harder toward you. Settlements expand farther toward your holdings, goodwill drops faster, enemy T4 mortars and AA may target your WD caravans and outposts if enabled, and your outposts may suffer fuller attrition incidents.</TSA_WD_Alert_LateGameActiveDesc>
+  <TSA_WD_Letter_MidGameActiveIntro>Mid Game is now active. What changed:</TSA_WD_Letter_MidGameActiveIntro>
+  <TSA_WD_Letter_LateGameActiveIntro>Late Game is now active. What changed:</TSA_WD_Letter_LateGameActiveIntro>
   <TSA_WD_Difficulty_HeaderScaling>Late Game</TSA_WD_Difficulty_HeaderScaling>
   <TSA_WD_Difficulty_EnableLateGame>Enable Mid Game and Late Game</TSA_WD_Difficulty_EnableLateGame>
-  <TSA_WD_Difficulty_EnableLateGameTooltip>When you grow strong, hostile factions push back in two steps: Mid Game, then Late Game. Effects include faster hostile growth, higher NPC attack range, biased raids, expansion toward you, goodwill drain, outpost incidents, and (when toggles allow) T4 fire on your caravans/outposts. Driven by your total outpost strength and world share.</TSA_WD_Difficulty_EnableLateGameTooltip>
-  <TSA_WD_Difficulty_ActivationHint>Each of Mid Game and Late Game activates when either of its share or strength thresholds is met. Late Game replaces Mid Game.</TSA_WD_Difficulty_ActivationHint>
+  <TSA_WD_Difficulty_EnableLateGameTooltip>Hostile factions push back in two steps: Mid Game, then Late Game. Effects include faster hostile growth, higher NPC attack range, biased raids, expansion toward you, goodwill drain, outpost incidents, and (when toggles allow) T4 fire on your caravans/outposts. Driven by outpost strength, world share, or elapsed days. Stages never drop once reached.</TSA_WD_Difficulty_EnableLateGameTooltip>
+  <TSA_WD_Difficulty_ActivationHint>Each of Mid Game and Late Game activates when any of its share, strength, or days thresholds is met. Late Game replaces Mid Game. Once reached, a stage never drops back.</TSA_WD_Difficulty_ActivationHint>
   <TSA_WD_Difficulty_ShareThreshold>Player Strength Share for Late-Game Difficulty</TSA_WD_Difficulty_ShareThreshold>
   <TSA_WD_Difficulty_ShareThresholdTooltip>Late Game activates when your total outpost strength reaches this fraction of all world strength (same numbers as the World Stats window).</TSA_WD_Difficulty_ShareThresholdTooltip>
   <TSA_WD_Difficulty_OutpostStrengthThreshold>Player Strength Points for Late-Game Difficulty</TSA_WD_Difficulty_OutpostStrengthThreshold>
@@ -311,6 +317,10 @@
   <TSA_WD_MidGame_ShareThresholdTooltip>Mid Game activates when your total outpost strength reaches this fraction of all world strength.</TSA_WD_MidGame_ShareThresholdTooltip>
   <TSA_WD_MidGame_OutpostStrengthThreshold>Player Strength Points for Mid-Game Difficulty</TSA_WD_MidGame_OutpostStrengthThreshold>
   <TSA_WD_MidGame_OutpostStrengthThresholdTooltip>Mid Game activates when your total outpost strength reaches this absolute value, regardless of world share.</TSA_WD_MidGame_OutpostStrengthThresholdTooltip>
+  <TSA_WD_MidGame_DaysThreshold>Days for Mid-Game Difficulty</TSA_WD_MidGame_DaysThreshold>
+  <TSA_WD_MidGame_DaysThresholdTooltip>Mid Game activates when this many days have passed, even if share and strength are still below their Mid thresholds.</TSA_WD_MidGame_DaysThresholdTooltip>
+  <TSA_WD_LateGame_DaysThreshold>Days for Late-Game Difficulty</TSA_WD_LateGame_DaysThreshold>
+  <TSA_WD_LateGame_DaysThresholdTooltip>Late Game activates when this many days have passed, even if share and strength are still below their Late thresholds.</TSA_WD_LateGame_DaysThresholdTooltip>
   <TSA_WD_MidGame_RaidBias>Player raid bias</TSA_WD_MidGame_RaidBias>
   <TSA_WD_MidGame_RaidBiasTooltip>While Mid Game is active, hostile raids that can already reach a player target weight your outposts and colony this much more within the same distance band.</TSA_WD_MidGame_RaidBiasTooltip>
   <TSA_WD_MidGame_GrowthMult>Enemy growth multiplier</TSA_WD_MidGame_GrowthMult>
