@@ -204,10 +204,7 @@ namespace TSA_WorldDomination
                 {
                     var comp = entry.Key.GetComponent<CompViralSpread>();
                     if (comp != null)
-                    {
-                        comp.strength += totalRefundPool * entry.Value;
-                        comp.CheckTierUpdate();
-                    }
+                        comp.AddStrengthNoTierUpgrade(totalRefundPool * entry.Value);
                 }
             }
         }
@@ -253,15 +250,18 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Hostile ground raid caravans that step onto a player mortar or rapid-response outpost tile are diverted
+        /// Hostile ground columns that step onto a player mortar or rapid-response outpost tile are diverted
         /// to that fortress (choke-point defense), even when their original target was elsewhere.
-        /// Drop-pod raids do not walk tiles and are not intercepted here.
+        /// Covers raids plus Vanguard (<see cref="TravelerMission.MassRelocation"/>), Invasion/desperation
+        /// rally columns (<see cref="TravelerMission.DesperationRally"/>), and Turtle migrants
+        /// (<see cref="TravelerMission.TurtleConsolidate"/>). Drop-pod / gravship raids do not walk tiles
+        /// and are not intercepted here. Invasion attack marches already use <see cref="TravelerMission.Raid"/>.
         /// Returns true when the traveler was stopped / consumed for this hop.
         /// </summary>
         public static bool TryInterceptRaidAtFortressOutpost(WorldObject_Traveler traveler)
         {
             if (traveler == null || traveler.Destroyed) return false;
-            if (traveler.mission != TravelerMission.Raid) return false;
+            if (!IsFortressChokeEligibleMission(traveler.mission)) return false;
 
             Faction player = Faction.OfPlayerSilentFail;
             if (player == null || traveler.Faction == null) return false;
@@ -284,7 +284,7 @@ namespace TSA_WorldDomination
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             string prevLabel = previousTarget?.LabelCap ?? "?";
-            WDVerbose.Msg($"Raid choke intercept: {traveler.LabelCap} diverted from {prevLabel} to fortress {fortress.LabelCap} tile={fortress.Tile.tileId}");
+            WDVerbose.Msg($"Raid choke intercept: {traveler.LabelCap} diverted from {prevLabel} to fortress {fortress.LabelCap} tile={fortress.Tile.tileId} mission={traveler.mission}");
             manager?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_Raid_ChokeIntercept".Translate(traveler.LabelCap, fortress.LabelCap, prevLabel),
                 traveler, fortress));
@@ -296,6 +296,21 @@ namespace TSA_WorldDomination
                 traveler.Destroy();
 
             return true;
+        }
+
+        /// <summary>Ground missions that trigger mortar/RR fortress walk-over defense.</summary>
+        public static bool IsFortressChokeEligibleMission(TravelerMission mission)
+        {
+            switch (mission)
+            {
+                case TravelerMission.Raid:
+                case TravelerMission.MassRelocation:
+                case TravelerMission.DesperationRally:
+                case TravelerMission.TurtleConsolidate:
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         private static WorldObject_WD_Outpost FindPlayerFortressOutpostAt(int tileId)
@@ -638,7 +653,7 @@ namespace TSA_WorldDomination
                     foreach (var entry in dna)
                     {
                         if (TravelerEndpointUtility.IsLiveEndpoint(entry.Key))
-                            entry.Key.GetComponent<CompViralSpread>()?.AddStrength(overflow * entry.Value);
+                            entry.Key.GetComponent<CompViralSpread>()?.AddStrengthNoTierUpgrade(overflow * entry.Value);
                     }
                 }
             }

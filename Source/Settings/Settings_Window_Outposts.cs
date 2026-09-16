@@ -98,6 +98,8 @@ namespace TSA_WorldDomination
                 "TSA_WD_Outpost_ProductionTimeMultTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefOutpostProductionTimeMultiplier);
             s.outpostProductionOutputMultiplier = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_ProductionOutputMult".Translate(), s.outpostProductionOutputMultiplier, 0.01f, 4f,
                 "TSA_WD_Outpost_ProductionOutputMultTooltip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefOutpostProductionOutputMultiplier);
+            s.outpostResearchSpeedMultiplier = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_ResearchSpeedMult".Translate(), s.outpostResearchSpeedMultiplier, 0f, 6f,
+                "TSA_WD_Outpost_ResearchSpeedMultTooltip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefOutpostResearchSpeedMultiplier);
             s.hostileNearbyPartnerMult = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_HostileNearbyPartnerMult".Translate(), s.hostileNearbyPartnerMult,
                 WorldDominationSettings.HostileNearbyPartnerMultClampLow,
                 WorldDominationSettings.HostileNearbyPartnerMultClampHigh,
@@ -124,6 +126,8 @@ namespace TSA_WorldDomination
                 "TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip".Translate(), 50f, SliderFormat.Fixed0, WorldDominationSettings.DefOutpostOccupantSkillXpPerProductionCycle);
             s.outpostOccupantSkillXpMaxLevel = (int)SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_OccupantSkillXpMaxLevel".Translate(), s.outpostOccupantSkillXpMaxLevel, 0f, 20f,
                 "TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefOutpostOccupantSkillXpMaxLevel);
+            s.outpostRecruitSocialXpPerResistance = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_RecruitSocialXpPerResistance".Translate(), s.outpostRecruitSocialXpPerResistance, 0f, 2000f,
+                "TSA_WD_Outpost_RecruitSocialXpPerResistanceTooltip".Translate(), 10f, SliderFormat.Fixed0, WorldDominationSettings.DefOutpostRecruitSocialXpPerResistance);
             l.Gap(8f);
             SettingsUI.DrawHeader(l, "TSA_WD_Outpost_HeaderAcademy".Translate());
             s.academyBaseXpPerDay = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_AcademyBaseXpPerDay".Translate(), s.academyBaseXpPerDay, 1f, 10000f,

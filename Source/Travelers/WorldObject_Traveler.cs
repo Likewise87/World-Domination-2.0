@@ -376,6 +376,9 @@ namespace TSA_WorldDomination
                 return "WorldObjects/Caravan_Vanguard";
             if (mission == TravelerMission.Raid && isInvasionRaid)
                 return "WorldObjects/Caravan_Invasion";
+            // Walking Raid (incl. maraud after a drop-pod first strike that flipped mission but kept the pod def).
+            if (mission == TravelerMission.Raid)
+                return "WorldObjects/Caravan_Raiders";
             // Invasion assembly / host wait still uses DesperationRally mission for save compat.
             if (mission == TravelerMission.DesperationRally && !isDesperationRaid)
                 return "WorldObjects/Caravan_Invasion";

@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_22_Title>Ajustes finos y correcciones</TSA_WD_Update_2_3_22_Title>
+  <TSA_WD_Update_2_3_22_Body><![CDATA[
+<size=16><b>2.3.22 – Ajustes finos y correcciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 16 de septiembre de 2026</color>\n
+------------------------------\n
+• Reclutar prisioneros en una avanzadilla ahora otorga XP de Social. 400 XP de Social por cada punto de resistencia reducido van a un fondo; cada peón humanoide en la avanzadilla recibe una parte igual.\n
+• Cuando una incursión en cápsula conquista un asentamiento y aún es lo bastante fuerte para saquear (marauding), ahora continúa como caravana terrestre en lugar de seguir en cápsula hacia el siguiente objetivo.\n
+• Puedes huir de un mapa de choque de caravanas (no de la defensa de avanzadilla) con un transbordador de pasajeros u otros vehículos aéreos. Antes un caso límite borraba el transbordador y a sus pasajeros.\n
+• Las avanzadillas de reclutamiento ahora se pueden pausar (Restablecer en el diálogo de reclutamiento).\n
+• El reclutamiento selectivo por habilidad sube el suelo de habilidad a 5 (antes 4).\n
+• Las avanzadillas de Respuesta Rápida y Mortero ahora también pueden interceptar columnas de Vanguardia, Invasión y Turtle que pasen andando, no solo incursiones normales.\n
+• Las subidas de tier de asentamiento por Develop, depósitos Turtle e inversión de regalo/compra/soborno ahora respetan los límites regionales de tier. Los reembolsos de fuerza ya no suben el tier de un asentamiento.\n
+]]></TSA_WD_Update_2_3_22_Body>
   <TSA_WD_Update_2_3_21_Title>Refinamiento, mejoras de avanzadillas, iconos</TSA_WD_Update_2_3_21_Title>
   <TSA_WD_Update_2_3_21_Body><![CDATA[
 <size=16><b>2.3.21 – Refinamiento, mejoras de avanzadillas, iconos</b></size>\n

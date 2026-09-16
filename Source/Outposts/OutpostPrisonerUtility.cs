@@ -278,6 +278,7 @@ namespace TSA_WorldDomination
             float resistanceDrop = OutpostExpertUtility.GetRecruiterResistanceReductionPerDay(outpost);
             int slots = OutpostPrisonerResistanceScaling.GetConcurrentRecruitSlots(outpost);
             int used = 0;
+            float resistanceReduced = 0f;
 
             var toRecruit = new List<Pawn>();
             for (int i = 0; i < list.Count; i++)
@@ -290,12 +291,27 @@ namespace TSA_WorldDomination
                 float resistance = pawn.guest.resistance;
                 if (resistance > 0f && resistanceDrop > 0f)
                 {
-                    pawn.guest.resistance = Mathf.Max(0f, resistance - resistanceDrop);
-                    resistance = pawn.guest.resistance;
+                    float after = Mathf.Max(0f, resistance - resistanceDrop);
+                    resistanceReduced += resistance - after;
+                    pawn.guest.resistance = after;
+                    resistance = after;
                 }
 
                 if (resistance <= 0f)
                     toRecruit.Add(pawn);
+            }
+
+            if (resistanceReduced > 0f)
+            {
+                WorldDominationSettings seth = WorldDominationMod.settings;
+                float perPoint = seth?.outpostRecruitSocialXpPerResistance ?? 0f;
+                if (perPoint > 0f)
+                {
+                    Outpost_OccupantProgression.ApplySkillXpPoolSplit(
+                        outpost,
+                        resistanceReduced * perPoint,
+                        SkillDefOf.Social);
+                }
             }
 
             if (toRecruit.Count > 0)

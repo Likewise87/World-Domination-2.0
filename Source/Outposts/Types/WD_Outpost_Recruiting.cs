@@ -21,6 +21,9 @@ namespace TSA_WorldDomination
 
         public const int PrioritySkillRecruitPenaltyPercent = 30;
 
+        /// <summary>Minimum effective level on the selected priority skill for each recruit.</summary>
+        public const int PrioritySkillMinLevel = 5;
+
         public struct XenotypePoolEntry
         {
             public XenotypeDef Xenotype;
@@ -429,7 +432,10 @@ namespace TSA_WorldDomination
         /// <summary>Gizmo label: Recruiting any Pawn or Recruiting: Shooting.</summary>
         public static string GetRecruitingFocusLabel(WorldObject_WD_Outpost outpost)
         {
-            var skill = outpost?.SelectedRecruitPrioritySkill;
+            if (outpost == null) return OutpostTranslationUtil.Key("TSA_WD_Gizmo_Recruiting");
+            if (outpost.RecruitingHalted)
+                return OutpostTranslationUtil.Key("TSA_WD_Gizmo_RecruitingNone");
+            var skill = outpost.SelectedRecruitPrioritySkill;
             if (skill == null)
                 return OutpostTranslationUtil.Key("TSA_WD_Gizmo_RecruitingAny");
             return OutpostTranslationUtil.Key("TSA_WD_Gizmo_RecruitingSkill", skill.LabelCap);
@@ -439,6 +445,8 @@ namespace TSA_WorldDomination
         public static string GetInspectProductLine(WorldObject_WD_Outpost outpost)
         {
             if (outpost == null) return "";
+            if (outpost.RecruitingHalted)
+                return OutpostTranslationUtil.Key("TSA_WD_Recruiting_Inspect_None");
             float avgSocial = outpost.GetCapacityForYieldPreview();
             int count = ComputeRecruitCount(outpost, avgSocial);
             var skill = outpost.SelectedRecruitPrioritySkill;
@@ -466,7 +474,7 @@ namespace TSA_WorldDomination
         /// <summary>Social + neighbor recruits, scaled by global output multiplier, then expert/warehouse, before skill-training penalty.</summary>
         public static int ComputeRecruitCountBeforePriorityPenalty(WorldObject_WD_Outpost outpost, float avgSocial)
         {
-            if (outpost == null) return 0;
+            if (outpost == null || outpost.RecruitingHalted) return 0;
             int raw = GetBaseRecruitsFromSocial(avgSocial) + GetNeighborBonusRecruits(outpost);
             int scaled = Outpost_Production_Utils.ScaleOutputStackCount(Mathf.Max(0, raw));
             return Outpost_Production_Utils.ApplyExpertAndWarehouseYieldMultipliers(scaled, outpost);
@@ -502,11 +510,7 @@ namespace TSA_WorldDomination
                 skill.LabelCap);
         }
 
-        public static int GetPrioritySkillMinLevel()
-        {
-            return WorldDominationMod.settings?.GetConquestFoundingMinRelevantSkillClamped()
-                ?? WorldDominationSettings.DefConquestFoundingMinRelevantSkill;
-        }
+        public static int GetPrioritySkillMinLevel() => PrioritySkillMinLevel;
 
         /// <summary>All skills for the priority picker (load order).</summary>
         public static List<SkillDef> GetPrioritySkillCandidates()
@@ -521,9 +525,11 @@ namespace TSA_WorldDomination
             return list;
         }
 
-        /// <summary>Stats row value: skill label or Any.</summary>
+        /// <summary>Stats row value: skill label, Any, or None when halted.</summary>
         public static string GetPrioritySkillDisplayLine(WorldObject_WD_Outpost outpost)
         {
+            if (outpost?.RecruitingHalted == true)
+                return OutpostTranslationUtil.Key("TSA_WD_Production_NoneLabel");
             var skill = outpost?.SelectedRecruitPrioritySkill;
             if (skill == null)
                 return OutpostTranslationUtil.Key("TSA_WD_Recruiting_PriorityAny");
@@ -533,7 +539,7 @@ namespace TSA_WorldDomination
         /// <summary>When timer expires: recruits from Social + neighbor bonus; generate pawns; send caravan if redirected, otherwise keep them at this outpost.</summary>
         public static bool Produce(WorldObject_WD_Outpost outpost, float avgSocial)
         {
-            if (outpost == null) return false;
+            if (outpost == null || outpost.RecruitingHalted) return false;
             int pawnCount = ComputeRecruitCount(outpost, avgSocial);
             if (pawnCount <= 0) return false;
 

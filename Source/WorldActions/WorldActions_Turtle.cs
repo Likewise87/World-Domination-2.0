@@ -698,8 +698,8 @@ namespace TSA_WorldDomination
             var comp = hub?.GetComponent<CompViralSpread>();
             if (comp == null) return;
 
-            // AddStrength → CheckTierUpdate: guaranteed promote by strength thresholds, then clamp to new tier max.
-            comp.AddStrength(Mathf.Max(0f, traveler.travelerStrength));
+            // Deposit then regional-gated promotes (Develop/investment share localMaxT*).
+            comp.DepositStrengthWithRegionalPromotes(Mathf.Max(0f, traveler.travelerStrength));
             float defMax = comp.GetBaseDefensiveStrength();
             comp.defensiveStrength = Mathf.Min(defMax, comp.defensiveStrength + Mathf.Max(0f, traveler.massRelocationDefensiveStrength));
 

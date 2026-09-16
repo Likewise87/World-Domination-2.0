@@ -57,7 +57,7 @@ namespace TSA_WorldDomination
             if (IsLiveEndpoint(traveler.originObject))
             {
                 float amount = traveler.travelerStrength * survivalMultiplier;
-                traveler.originObject.GetComponent<CompViralSpread>()?.AddStrength(amount);
+                traveler.originObject.GetComponent<CompViralSpread>()?.AddStrengthNoTierUpgrade(amount);
             }
         }
 

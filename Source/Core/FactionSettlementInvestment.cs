@@ -162,6 +162,18 @@ namespace TSA_WorldDomination
                     float max = CompViralSpread.GetStrengthRange(comp.tier).max;
                     if (comp.offensiveStrength < max - CapEpsilon) continue;
 
+                    if (!WorldActions_GrowthExpand.CanPromoteNextTierRegionally(settlement, comp.tier))
+                    {
+                        upgradeFailedIds.Add(settlement.ID);
+                        failedUpgradeLines.Add(
+                            $"{settlement.LabelCap} upgrade blocked (regional tier cap) at {comp.tier}.");
+                        WDVerbose.Msg(
+                            $"Investment upgrade regionally blocked for {settlement.LabelCap} at {comp.tier}.");
+                        candidates.RemoveAt(i);
+                        i--;
+                        continue;
+                    }
+
                     float cost = s != null
                         ? s.GetFactionInvestmentUpgradeSilver(comp.tier)
                         : DefaultUpgradeSilver(comp.tier);
@@ -178,10 +190,13 @@ namespace TSA_WorldDomination
                     if (promote != CompViralSpread.InvestmentPromoteResult.Promoted)
                     {
                         upgradeFailedIds.Add(settlement.ID);
+                        string why = promote == CompViralSpread.InvestmentPromoteResult.RegionallyBlocked
+                            ? "regional tier cap"
+                            : "roll failed";
                         failedUpgradeLines.Add(
-                            $"{settlement.LabelCap} upgrade failed at {fromTier} (upgrade silver {cost:F0}).");
+                            $"{settlement.LabelCap} upgrade failed at {fromTier} ({why}, upgrade silver {cost:F0}).");
                         WDVerbose.Msg(
-                            $"Investment upgrade failed for {settlement.LabelCap} at {fromTier}. Budget cost {cost:F0} Silver. Remaining {silverLeft:F0} Silver");
+                            $"Investment upgrade failed for {settlement.LabelCap} at {fromTier} ({why}). Budget cost {cost:F0} Silver. Remaining {silverLeft:F0} Silver");
                         // Exhaust: remove from further upgrade attempts this award.
                         candidates.RemoveAt(i);
                         i--;

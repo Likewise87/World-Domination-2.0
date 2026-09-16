@@ -132,7 +132,7 @@ namespace TSA_WorldDomination
         {
             var comp = origin?.GetComponent<CompViralSpread>();
             if (comp == null || cost <= 0f) return;
-            comp.AddStrength(cost);
+            comp.AddStrengthNoTierUpgrade(cost);
         }
     }
 }

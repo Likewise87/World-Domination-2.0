@@ -168,7 +168,7 @@ namespace TSA_WorldDomination
             y += Outpost_Dialog_UI.AfterPauseBannerGap;
             y = Outpost_Dialog_UI.DrawSkillDiminishingReturnsBanner(0f, y, contentWidth, outpost);
 
-            const float bottomReserve = 44f;
+            const float bottomReserve = 48f;
             const float colGap = 18f;
             float columnsTop = y;
             float columnsBottom = inRect.height - bottomReserve;
@@ -180,6 +180,17 @@ namespace TSA_WorldDomination
 
             DrawLeftColumn(leftArea);
             DrawRightColumn(rightArea);
+
+            const float clearBtnW = 120f;
+            const float closeBtnHeight = 40f;
+            float bottomY = inRect.height - closeBtnHeight - 4f;
+            if (Widgets.ButtonText(new Rect(inRect.width - listRightMargin - clearBtnW, bottomY, clearBtnW, closeBtnHeight),
+                OutpostTranslationUtil.Key("TSA_WD_Production_Clear")))
+            {
+                Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+                    OutpostTranslationUtil.Key("TSA_WD_Recruiting_ClearConfirm"),
+                    () => outpost.HaltRecruiting()));
+            }
         }
 
         private void DrawLeftColumn(Rect leftArea)
@@ -563,6 +574,7 @@ namespace TSA_WorldDomination
 
         private bool SkillRowIsSelected(CachedSkillRow row)
         {
+            if (outpost.RecruitingHalted) return false;
             if (row.Skill == null) return outpost.SelectedRecruitPrioritySkill == null;
             return outpost.SelectedRecruitPrioritySkill == row.Skill;
         }

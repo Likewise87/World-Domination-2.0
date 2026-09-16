@@ -242,7 +242,7 @@
         <upgradeLineId>Line_Hospital</upgradeLineId>
         <lineTier>3</lineTier>
         <outpostApplicability>All</outpostApplicability>
-        <offensiveRecoveryBonus>0.68</offensiveRecoveryBonus>
+        <offensiveRecoveryBonus>0.70</offensiveRecoveryBonus>
         <requiredResearch>HospitalBed</requiredResearch>
         <cost>
             <li>
@@ -268,7 +268,7 @@
         <upgradeLineId>Line_Hospital</upgradeLineId>
         <lineTier>4</lineTier>
         <outpostApplicability>All</outpostApplicability>
-        <offensiveRecoveryBonus>0.80</offensiveRecoveryBonus>
+        <offensiveRecoveryBonus>1.00</offensiveRecoveryBonus>
         <requiredResearch>HospitalBed</requiredResearch>
         <cost>
             <li>
@@ -277,7 +277,7 @@
             </li>
             <li>
                 <thingDef>ComponentSpacer</thingDef>
-                <count>15</count>
+                <count>20</count>
             </li>
         </cost>
     </TSA_WorldDomination.OutpostUpgradeDef>

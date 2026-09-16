@@ -29,6 +29,7 @@
   <TSA_WD_ForceNeutralized>Aniquilados por completo</TSA_WD_ForceNeutralized>
   <TSA_WD_Header_Raid>Expedición</TSA_WD_Header_Raid>
   <TSA_WD_InterceptionFailed>Enfrentamiento de caravanas perdido. {0} ha roto el combate y sigue con su misión.</TSA_WD_InterceptionFailed>
+  <TSA_WD_InterceptionFled>Enfrentamiento de caravanas perdido: tu caravana huyó. {0} sigue con su misión.</TSA_WD_InterceptionFled>
   <TSA_WD_InterceptionVictory>¡Enfrentamiento de caravanas ganado! Las fuerzas hostiles han sido eliminadas y su misión ha terminado.</TSA_WD_InterceptionVictory>
   <TSA_WD_OutpostDefense_ChoiceTitle>Avanzadilla bajo ataque</TSA_WD_OutpostDefense_ChoiceTitle>
   <TSA_WD_OutpostDefense_ChoiceText>{0} está bajo ataque de {1}. Elige si quieres resolver la incursión automáticamente o combatirla manualmente en un mapa temporal.</TSA_WD_OutpostDefense_ChoiceText>

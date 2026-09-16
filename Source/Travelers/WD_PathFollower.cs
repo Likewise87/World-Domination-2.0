@@ -340,7 +340,8 @@ namespace TSA_WorldDomination
                     // Hostile raid walking onto an AT Turret tile clashes by strength (destination turret left to arrival).
                     AtTurretRetaliationUtility.TryClashOnSharedTile(traveler, traveler.Tile);
                     if (traveler.Destroyed) return;
-                    // Mortar / RR outposts on this tile act as choke-point fortresses vs hostile ground raids.
+                    // Mortar / RR outposts on this tile act as choke-point fortresses vs hostile ground raids,
+                    // Vanguard / Invasion rally columns, and Turtle migrants.
                     if (Raid_Simulated.TryInterceptRaidAtFortressOutpost(traveler))
                         return;
                     // Feature A: opportunistic retargeting onto a weaker settlement/outpost passed en route.

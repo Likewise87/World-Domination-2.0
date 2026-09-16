@@ -29,6 +29,7 @@
   <TSA_WD_ForceNeutralized>Fully Wiped Out</TSA_WD_ForceNeutralized>
   <TSA_WD_Header_Raid>Expedition</TSA_WD_Header_Raid>
   <TSA_WD_InterceptionFailed>Caravan clash lost. {0} has broken off and is continuing its mission.</TSA_WD_InterceptionFailed>
+  <TSA_WD_InterceptionFled>Caravan clash lost. Your caravan fled. {0} is continuing its mission.</TSA_WD_InterceptionFled>
   <TSA_WD_InterceptionVictory>Caravan clash won! Hostile forces have been eliminated and their mission is over.</TSA_WD_InterceptionVictory>
   <TSA_WD_OutpostDefense_ChoiceTitle>Outpost Under Attack</TSA_WD_OutpostDefense_ChoiceTitle>
   <TSA_WD_OutpostDefense_ChoiceText>{0} is under attack by {1}. Choose whether to auto-resolve the raid or fight it manually on a temporary map.</TSA_WD_OutpostDefense_ChoiceText>

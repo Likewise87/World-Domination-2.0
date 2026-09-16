@@ -882,6 +882,8 @@ namespace TSA_WorldDomination
         public const int DefOutpostProductionTicksInterval = 1800000; // 30 * 60000
         public const float DefOutpostProductionTimeMultiplier = 1f;
         public const float DefOutpostProductionOutputMultiplier = 1f;
+        /// <summary>Research outpost points/tick multiplier only (item production uses <see cref="DefOutpostProductionOutputMultiplier"/>).</summary>
+        public const float DefOutpostResearchSpeedMultiplier = 1f;
         /// <summary>Default warehouse productivity aura bonus (fraction; 0.15 = +15%).</summary>
         public const float DefWarehouseAuraBonusPct = 0.15f;
         /// <summary>Default warehouse productivity aura radius in world tiles.</summary>
@@ -894,6 +896,8 @@ namespace TSA_WorldDomination
         public const float DefOutpostOccupantSkillXpPerProductionCycle = 5000f;
         /// <summary>No outpost XP for a skill at this level or higher (default 10).</summary>
         public const int DefOutpostOccupantSkillXpMaxLevel = 10;
+        /// <summary>Social XP pool per prisoner resistance point reduced at an outpost; split equally among uncapped humanlike occupants.</summary>
+        public const float DefOutpostRecruitSocialXpPerResistance = 400f;
         /// <summary>Academy default: base skill XP each eligible student receives per day before teacher multiplier.</summary>
         public const float DefAcademyBaseXpPerDay = 2000f;
         /// <summary>Academy default: minimum teacher level required to teach a selected skill.</summary>
@@ -1804,6 +1808,7 @@ namespace TSA_WorldDomination
         public float outpostSilverValuePerSkillPerCycle = DefOutpostSilverValuePerSkillPerCycle;
         public float outpostProductionTimeMultiplier = DefOutpostProductionTimeMultiplier;
         public float outpostProductionOutputMultiplier = DefOutpostProductionOutputMultiplier;
+        public float outpostResearchSpeedMultiplier = DefOutpostResearchSpeedMultiplier;
         public float warehouseAuraBonusPct = DefWarehouseAuraBonusPct;
         public float warehouseAuraRadiusTiles = DefWarehouseAuraRadiusTiles;
         public bool embassyMayGainGoodwillWithHostiles = DefEmbassyMayGainGoodwillWithHostiles;
@@ -1814,6 +1819,7 @@ namespace TSA_WorldDomination
         public float[] outpostSkillBandWeights = (float[])OutpostSkillScaling.DefBandWeights.Clone();
         public float outpostOccupantSkillXpPerProductionCycle = DefOutpostOccupantSkillXpPerProductionCycle;
         public int outpostOccupantSkillXpMaxLevel = DefOutpostOccupantSkillXpMaxLevel;
+        public float outpostRecruitSocialXpPerResistance = DefOutpostRecruitSocialXpPerResistance;
         public float academyBaseXpPerDay = DefAcademyBaseXpPerDay;
         public int academyMinTeacherSkill = DefAcademyMinTeacherSkill;
         public int academyTeachCapOffset = DefAcademyTeachCapOffset;
@@ -3007,6 +3013,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref outpostSilverValuePerSkillPerCycle, "outpostSilverValuePerSkillPerCycle", DefOutpostSilverValuePerSkillPerCycle);
             Scribe_Values.Look(ref outpostProductionTimeMultiplier, "outpostProductionTimeMultiplier", DefOutpostProductionTimeMultiplier);
             Scribe_Values.Look(ref outpostProductionOutputMultiplier, "outpostProductionOutputMultiplier", DefOutpostProductionOutputMultiplier);
+            Scribe_Values.Look(ref outpostResearchSpeedMultiplier, "outpostResearchSpeedMultiplier", DefOutpostResearchSpeedMultiplier);
             Scribe_Values.Look(ref warehouseAuraBonusPct, "warehouseAuraBonusPct", DefWarehouseAuraBonusPct);
             Scribe_Values.Look(ref warehouseAuraRadiusTiles, "warehouseAuraRadiusTiles", DefWarehouseAuraRadiusTiles);
             Scribe_Values.Look(ref embassyMayGainGoodwillWithHostiles, "embassyMayGainGoodwillWithHostiles", DefEmbassyMayGainGoodwillWithHostiles);
@@ -3033,6 +3040,7 @@ namespace TSA_WorldDomination
                 OutpostSkillScaling.NormalizeBands(this);
             Scribe_Values.Look(ref outpostOccupantSkillXpPerProductionCycle, "outpostOccupantSkillXpPerProductionCycle", DefOutpostOccupantSkillXpPerProductionCycle);
             Scribe_Values.Look(ref outpostOccupantSkillXpMaxLevel, "outpostOccupantSkillXpMaxLevel", DefOutpostOccupantSkillXpMaxLevel);
+            Scribe_Values.Look(ref outpostRecruitSocialXpPerResistance, "outpostRecruitSocialXpPerResistance", DefOutpostRecruitSocialXpPerResistance);
             Scribe_Values.Look(ref academyBaseXpPerDay, "academyBaseXpPerDay", DefAcademyBaseXpPerDay);
             Scribe_Values.Look(ref academyMinTeacherSkill, "academyMinTeacherSkill", DefAcademyMinTeacherSkill);
             Scribe_Values.Look(ref academyTeachCapOffset, "academyTeachCapOffset", DefAcademyTeachCapOffset);
@@ -4212,6 +4220,7 @@ namespace TSA_WorldDomination
             outpostSilverValuePerSkillPerCycle = DefOutpostSilverValuePerSkillPerCycle;
             outpostProductionTimeMultiplier = DefOutpostProductionTimeMultiplier;
             outpostProductionOutputMultiplier = DefOutpostProductionOutputMultiplier;
+            outpostResearchSpeedMultiplier = DefOutpostResearchSpeedMultiplier;
             warehouseAuraBonusPct = DefWarehouseAuraBonusPct;
             warehouseAuraRadiusTiles = DefWarehouseAuraRadiusTiles;
             embassyMayGainGoodwillWithHostiles = DefEmbassyMayGainGoodwillWithHostiles;
@@ -4219,6 +4228,7 @@ namespace TSA_WorldDomination
             OutpostSkillScaling.ResetToDefaults(this);
             outpostOccupantSkillXpPerProductionCycle = DefOutpostOccupantSkillXpPerProductionCycle;
             outpostOccupantSkillXpMaxLevel = DefOutpostOccupantSkillXpMaxLevel;
+            outpostRecruitSocialXpPerResistance = DefOutpostRecruitSocialXpPerResistance;
             academyBaseXpPerDay = DefAcademyBaseXpPerDay;
             academyMinTeacherSkill = DefAcademyMinTeacherSkill;
             academyTeachCapOffset = DefAcademyTeachCapOffset;

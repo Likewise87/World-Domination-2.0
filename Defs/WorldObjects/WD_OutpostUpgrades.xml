@@ -116,7 +116,7 @@
     <upgradeLineId>Line_Hospital</upgradeLineId>
     <lineTier>2</lineTier>
     <outpostApplicability>All</outpostApplicability>
-    <offensiveRecoveryBonus>0.60</offensiveRecoveryBonus>
+    <offensiveRecoveryBonus>0.50</offensiveRecoveryBonus>
 	<requiredResearch>HospitalBed</requiredResearch>
     <cost>
       <li><thingDef>Steel</thingDef><count>300</count></li>

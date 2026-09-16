@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_22_Title>Fine tuning and Bugfixes</TSA_WD_Update_2_3_22_Title>
+  <TSA_WD_Update_2_3_22_Body><![CDATA[
+<size=16><b>2.3.22 – Fine tuning and Bugfixes</b></size>\n
+<color=#00FFFFFF>Release date: September 16th 2026</color>\n
+------------------------------\n
+• Recruiting prisoners at an Outpost now grants Social XP. 400 Social XP per reduced resistance point go into a pool; each humanoid pawn at the outpost gets an equal share.\n
+• When a drop-pod raid conquers a settlement and is still strong enough to maraud, it now continues as a land caravan instead of staying drop-pod for the next target.\n
+• You can flee a caravan clash map (not outpost defense) via passenger shuttle or other aerial vehicles. This used to hit an edge case that deleted the shuttle and its passengers.\n
+• Recruiting outposts can now be paused (Reset in the recruiting dialog).\n
+• Selective skill recruiting raises the skill floor to 5 (was 4).\n
+• Rapid Response and Mortar outposts can now intercept Vanguard, Invasion, and Turtle caravans walking over them, not only normal raids.\n
+• Settlement tier-ups from Develop, Turtle deposits, and gift/buy/bribe investment now respect regional tier caps. Strength refunds no longer promote a settlement's tier. As a result you should see less T3 and T4 settlements in dense regions\n
+]]></TSA_WD_Update_2_3_22_Body>
   <TSA_WD_Update_2_3_21_Title>Refinement, outpost upgrades, icons</TSA_WD_Update_2_3_21_Title>
   <TSA_WD_Update_2_3_21_Body><![CDATA[
 <size=16><b>2.3.21 – Refinement, outpost upgrades, icons</b></size>\n

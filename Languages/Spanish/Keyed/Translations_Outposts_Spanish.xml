@@ -392,8 +392,10 @@
   <TSA_WD_Gizmo_Recruiting>Reclutando</TSA_WD_Gizmo_Recruiting>
   <TSA_WD_Gizmo_RecruitingAny>Reclutando cualquier colono</TSA_WD_Gizmo_RecruitingAny>
   <TSA_WD_Gizmo_RecruitingSkill>Reclutando: {0}</TSA_WD_Gizmo_RecruitingSkill>
+  <TSA_WD_Gizmo_RecruitingNone>Sin reclutar</TSA_WD_Gizmo_RecruitingNone>
   <TSA_WD_Recruiting_Inspect_WithSkill>{0} recluta(s) con aptitud en {1}</TSA_WD_Recruiting_Inspect_WithSkill>
   <TSA_WD_Recruiting_Inspect_Any>{0} recluta(s)</TSA_WD_Recruiting_Inspect_Any>
+  <TSA_WD_Recruiting_Inspect_None>Ninguno (reclutamiento detenido)</TSA_WD_Recruiting_Inspect_None>
   <TSA_WD_Gizmo_Trading>Comercio: {0}</TSA_WD_Gizmo_Trading>
   <TSA_WD_Gizmo_Embassy>{0}</TSA_WD_Gizmo_Embassy>
   <TSA_WD_Gizmo_Scavenging>Recuperación (botín aleatorio)</TSA_WD_Gizmo_Scavenging>
@@ -490,6 +492,8 @@
   <TSA_WD_Outpost_ProductionTimeMultTooltip>Multiplica la duración del ciclo (productionCycleDays del XML o predeterminado). Menor valor = ciclos más cortos. El tiempo restante se reescala si cambias esto durante un ciclo.</TSA_WD_Outpost_ProductionTimeMultTooltip>
   <TSA_WD_Outpost_ProductionOutputMult>Multiplicador de producción</TSA_WD_Outpost_ProductionOutputMult>
   <TSA_WD_Outpost_ProductionOutputMultTooltip>Multiplica las cantidades por ciclo (cultivos, caza, minería, fabricación, plata comercial, reclutas redondeados). 1,00 = sin cambio en la producción.</TSA_WD_Outpost_ProductionOutputMultTooltip>
+  <TSA_WD_Outpost_ResearchSpeedMult>Velocidad del puesto de investigación</TSA_WD_Outpost_ResearchSpeedMult>
+  <TSA_WD_Outpost_ResearchSpeedMultTooltip>Multiplica los puntos de investigación de los puestos de Investigación únicamente. No cambia la producción de objetos ni los bancos de investigación de la colonia.</TSA_WD_Outpost_ResearchSpeedMultTooltip>
   <TSA_WD_Outpost_HostileNearbyPartnerMult>Eficiencia de vecinos hostiles</TSA_WD_Outpost_HostileNearbyPartnerMult>
   <TSA_WD_Outpost_HostileNearbyPartnerMultTip>La plata comercial de asentamientos hostiles usa esta fracción (mercado negro). Los puntos vecinos de reclutamiento de asentamientos hostiles usan la misma fracción (desertores). Los vecinos neutrales y aliados siguen al valor completo. Las filas hostiles que aportan se tiñen de rojo en los diálogos del puesto.</TSA_WD_Outpost_HostileNearbyPartnerMultTip>
   <TSA_WD_Outpost_WarehouseAuraBonus>Bonificación de aura de almacén</TSA_WD_Outpost_WarehouseAuraBonus>
@@ -556,6 +560,8 @@
   <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>Experiencia a cada habilidad relevante del puesto (cultivo, caza, etc.) para cada colono cuando la entrega se lanza de verdad. 0 para desactivar. No aplica si el pago está bloqueado.</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevel>Nivel máximo para XP del puesto</TSA_WD_Outpost_OccupantSkillXpMaxLevel>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>No se gana XP de pago en una habilidad si ya está en este nivel o superior.</TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>
+  <TSA_WD_Outpost_RecruitSocialXpPerResistance>Reserva de XP Social por resistencia reducida</TSA_WD_Outpost_RecruitSocialXpPerResistance>
+  <TSA_WD_Outpost_RecruitSocialXpPerResistanceTooltip>Cuando los prisioneros pierden resistencia en este puesto, esa cantidad de XP Social entra en una reserva y se reparte por igual entre los humanoides de guarnición que aún pueden aprender Social. 0 para desactivar.</TSA_WD_Outpost_RecruitSocialXpPerResistanceTooltip>
   <TSA_WD_Outpost_HeaderAcademy>Academia</TSA_WD_Outpost_HeaderAcademy>
   <TSA_WD_Outpost_HeaderExperts>Expertos</TSA_WD_Outpost_HeaderExperts>
   <TSA_WD_Outpost_ExpertReferenceSkill>Nivel de habilidad de referencia</TSA_WD_Outpost_ExpertReferenceSkill>
@@ -626,6 +632,7 @@
   <TSA_WD_Production_BaselineTooltip_Xml>Las bases están en el XML del puesto avanzado (cantidad por habilidad y producto).</TSA_WD_Production_BaselineTooltip_Xml>
   <TSA_WD_Production_Clear>Restablecer</TSA_WD_Production_Clear>
   <TSA_WD_Production_ClearConfirm>¿Cancelar producción? Esto reiniciará el ciclo de producción.</TSA_WD_Production_ClearConfirm>
+  <TSA_WD_Recruiting_ClearConfirm>¿Detener el reclutamiento? No habrá nuevos colonos hasta que elijas Cualquiera o una habilidad otra vez.</TSA_WD_Recruiting_ClearConfirm>
   <TSA_WD_Production_Current>Produciendo actualmente: {0}</TSA_WD_Production_Current>
   <TSA_WD_Production_CurrentCycle>Ciclo actual: {0}</TSA_WD_Production_CurrentCycle>
     <TSA_WD_Production_CurrentHunting>Cazando actualmente: {0}</TSA_WD_Production_CurrentHunting>

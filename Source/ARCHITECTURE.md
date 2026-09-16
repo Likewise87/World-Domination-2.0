@@ -61,9 +61,10 @@ SSoT: `Outpost_OccupantProgression` (`Outposts/Outpost_OccupantProgression.cs`).
 | Anti-air | Once per engagement volley (`AntiAirFireUtils.ExecuteEngage`) | Flat 500 | Shooting |
 | Rapid Response win | World clash win (3 resolve paths; `rapidResponseWinXpGranted` guard) | Flat 500 each | Shooting + Melee |
 | Build complete | Successful outpost-origin road / block / trap / AT / decontam work | 300 / 500 / 700 by tier | Construction |
+| Recruit resistance | Daily prisoner recruit tick when any resistance is reduced (`OutpostPrisonerUtility.TickPrisonerRecruitmentOneDay`) | Pool = reduced × settings `outpostRecruitSocialXpPerResistance` (Def 400); equal split via `ApplySkillXpPoolSplit` among uncapped humanlikes | Social |
 | Outpost upgrade | — | None | — |
 
-Humanlike occupants only; respects `outpostOccupantSkillXpMaxLevel`. Event amounts are code constants (not settings). Colony world-build and clearing/removal projects grant no Construction event XP.
+Humanlike occupants only; respects `outpostOccupantSkillXpMaxLevel`. Most event amounts are code constants; recruit Social XP is settings-driven (pool per resistance reduced). Colony world-build and clearing/removal projects grant no Construction event XP.
 
 ## Daily loop
 
@@ -80,11 +81,11 @@ When `gateThreatAttritionRest` passes (`WdEscalation.PassesGate`, Def FromMid), 
 
 ## Caravan clash (player vs traveler)
 
-Temporary vanilla `Ambush` map + `WD_MapComponent_CaravanClash` tracker (`Travelers/WD_MapComponent_CaravanClash.cs`). Start: `WD_CaravanClashUtility.StartInterceptionEncounter`. Win: notify only — player exits via vanilla reform caravan; enemy cleanup + Ambush destroy on `MapRemoved`. Defeat / unresolved map close: always `RespawnNewTraveler` when `encounterActive && !playerHasWon` (do not trust dying-map hostile lists), then Ambush teardown. No second clash while a loaded Ambush clash map occupies the tile (`TileHasBusyCaravanClashAmbush`). Outpost manual defense uses a separate hard-close lifecycle (`RaidLogic/WD_MapComponent_OutpostDefense.cs`). Mid-fight drafted map-edge auto-caravan exit is blocked on active clash and outpost-defense maps (`Patches/Patch_WdTempEncounterExitMap.cs` + `Travelers/WD_TempEncounterExitMapUtility.cs`) by denying leave actions — not by patching `ExitMapGrid.MapUsesExitGrid` (that getter is UI-hot via `ExitMapGridUpdate`). Colony homes and NPC settlement attacks stay vanilla. WD clash also suppresses vanilla `CaravansBattlefield.CheckWonBattle` for the Ambush tracker lifetime so empty pre-raid maps cannot latch WonBattle or double-letter after WD victory.
+Temporary vanilla `Ambush` map + `WD_MapComponent_CaravanClash` tracker (`Travelers/WD_MapComponent_CaravanClash.cs`). Start: `WD_CaravanClashUtility.StartInterceptionEncounter`. Win: notify only — player exits via vanilla reform caravan; enemy cleanup + Ambush destroy on `MapRemoved`. Defeat / unresolved map close: always `RespawnNewTraveler` when `encounterActive && !playerHasWon` (do not trust dying-map hostile lists), then Ambush teardown. Aerial/shuttle leave (Odyssey `PassengerShuttle` / VF aerial / pods): lose + pawns survive (`playerFled`); Ambush teardown waits until the escape craft leaves the map (`CaravanClashAerialFleeHooks` + AA leave events). No second clash while a loaded Ambush clash map occupies the tile (`TileHasBusyCaravanClashAmbush`). Outpost manual defense uses a separate hard-close lifecycle (`RaidLogic/WD_MapComponent_OutpostDefense.cs`). Mid-fight drafted map-edge auto-caravan exit is blocked on active clash and outpost-defense maps (`Patches/Patch_WdTempEncounterExitMap.cs` + `Travelers/WD_TempEncounterExitMapUtility.cs`) by denying leave actions — not by patching `ExitMapGrid.MapUsesExitGrid` (that getter is UI-hot via `ExitMapGridUpdate`). Colony homes and NPC settlement attacks stay vanilla. WD clash also suppresses vanilla `CaravansBattlefield.CheckWonBattle` for the Ambush tracker lifetime so empty pre-raid maps cannot latch WonBattle or double-letter after WD victory.
 
 ## Raid path
 
-`WorldActions_Raid` (`RaidLogic/Raid_Manager.cs`) → `RaidLaunchGate` (`RaidLogic/RaidLaunchGate.cs`) → traveler → on arrival `Raid_Simulated.ExecuteTravelerRaid` (`RaidLogic/Raid_Simulated.cs`) or colony incident / outpost defense.
+`WorldActions_Raid` (`RaidLogic/Raid_Manager.cs`) → `RaidLaunchGate` (`RaidLogic/RaidLaunchGate.cs`) → traveler → on arrival `Raid_Simulated.ExecuteTravelerRaid` (`RaidLogic/Raid_Simulated.cs`) or colony incident / outpost defense. Feature B marauding after a drop-pod first strike continues as a walking `Raid` (pods are one-shot).
 
 SSoT types: `RaidCasualtyModel`, `RaidContribEntry` (`RaidLogic/Raid_MathSnapshot.cs`), `SettlementAttackRangeUtil` (`Core/SettlementAttackRangeUtil.cs`).
 
@@ -162,6 +163,10 @@ Read maintained/throttled registries instead:
 ## Settings defaults
 
 `Def*` constants on settings are the defaults. Tooltips never hardcode them (`COPY_STYLE.md`).
+
+## Settlement tier promotion
+
+SSoT for **promotion** (NPC settlements): Develop (`WorldActions_GrowthExpand.TryUpgrade`), Turtle deposit (`CompViralSpread.DepositStrengthWithRegionalPromotes`), and Gift/Buy/Bribe investment (`TryPromoteTierFromInvestment`). All share `CanPromoteNextTierRegionally` (`localMaxT*` within `expandMaxRadius`). Develop also requires same-tier neighbors. Strength refunds and `AddStrength` never promote (clamp to current tier max). `CheckTierUpdate` demotes only when asked. Pack-up founding via `SetState(massRelocationTier)` and worldgen are separate and can still place T4s without that regional gate.
 
 ## Do not copy (sim)
 

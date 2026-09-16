@@ -29,6 +29,7 @@
   <TSA_WD_ForceNeutralized>已全歼</TSA_WD_ForceNeutralized>
   <TSA_WD_Header_Raid>远征</TSA_WD_Header_Raid>
   <TSA_WD_InterceptionFailed>商队冲突失利。{0} 已脱离战斗并继续执行任务。</TSA_WD_InterceptionFailed>
+  <TSA_WD_InterceptionFled>商队冲突失利。你的商队已撤离。{0} 继续执行任务。</TSA_WD_InterceptionFled>
   <TSA_WD_InterceptionVictory>商队冲突胜利！敌对部队已被消灭，任务已终止。</TSA_WD_InterceptionVictory>
   <TSA_WD_OutpostDefense_ChoiceTitle>前哨站遭到攻击</TSA_WD_OutpostDefense_ChoiceTitle>
   <TSA_WD_OutpostDefense_ChoiceText>{0} 正遭到 {1} 攻击。选择自动结算此次袭击,或在临时地图上手动防守。</TSA_WD_OutpostDefense_ChoiceText>

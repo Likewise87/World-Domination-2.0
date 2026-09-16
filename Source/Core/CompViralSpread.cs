@@ -1459,11 +1459,13 @@ namespace TSA_WorldDomination
             StampT4WorldDefensesOnCooldownIfEntering(oldTier, newTier);
         }
 
+        /// <summary>
+        /// Add offensive strength without tier promotion. Settlements clamp to the current tier max.
+        /// Prefer this for refunds and crew returns. Intentional promotes: Develop, Turtle deposit, investment.
+        /// </summary>
         public void AddStrength(float amount)
         {
-            if (IsPlayerMapSettlement) return;
-            offensiveStrength += amount;
-            if (IsSettlement) CheckTierUpdate();
+            AddStrengthNoTierUpgrade(amount);
         }
 
         public void AddStrengthNoTierUpgrade(float amount)
@@ -1481,6 +1483,49 @@ namespace TSA_WorldDomination
                 float currentTierMax = GetStrengthRange(tier).max;
                 offensiveStrength = Mathf.Clamp(offensiveStrength + amount, 0f, currentTierMax);
             }
+        }
+
+        /// <summary>
+        /// Turtle consolidation: add strength, then promote one step at a time while strength warrants
+        /// and <see cref="WorldActions_GrowthExpand.CanPromoteNextTierRegionally"/> allows. Finally clamp to tier max.
+        /// </summary>
+        public void DepositStrengthWithRegionalPromotes(float amount)
+        {
+            if (amount <= 0f) return;
+            if (IsPlayerMapSettlement || IsOutpost || !IsSettlement) return;
+
+            offensiveStrength += amount;
+            while (TryPromoteOneTierFromStrengthDeposit())
+            {
+            }
+
+            float max = GetStrengthRange(tier).max;
+            if (offensiveStrength > max)
+                offensiveStrength = max;
+        }
+
+        /// <summary>One regional-gated promote when offense exceeds the next-tier strength threshold.</summary>
+        public bool TryPromoteOneTierFromStrengthDeposit()
+        {
+            if (IsOutpost || IsPlayerMapSettlement || !IsSettlement) return false;
+            if (!TryGetNextTraderTier(tier, out SettlementTier nextTier)) return false;
+
+            float threshold = nextTier == SettlementTier.T2 ? 500f
+                : nextTier == SettlementTier.T3 ? 1000f
+                : 1600f;
+            if (offensiveStrength <= threshold) return false;
+            if (!WorldActions_GrowthExpand.CanPromoteNextTierRegionally(parent, tier)) return false;
+
+            SettlementTier oldTier = tier;
+            tier = nextTier;
+            subType = GetRandomSubType(nextTier);
+            FloatRange nr = GetStrengthRange(nextTier);
+            offensiveStrength = Mathf.Clamp(offensiveStrength, nr.min, nr.max);
+            defensiveStrength = GetBaseDefensiveStrength();
+            lastRadiusUpdateTick = -9999;
+            UpdateInterceptorRegistration();
+            StampT4WorldDefensesOnCooldownIfEntering(oldTier, nextTier);
+            return true;
         }
 
         public void AddStrengthNoTierUpgradeSplitEvenlyWithOverflow(float amount)
@@ -1510,7 +1555,7 @@ namespace TSA_WorldDomination
             defensiveStrength += defensiveGain;
         }
 
-        /// <summary>WD trader arrival: flat strength reward, optional tier promotion at cap (bypasses growth neighbor gates).</summary>
+        /// <summary>WD trader arrival: flat strength reward, optional tier promotion at cap (respects regional localMaxT*; no Develop neighbor gate).</summary>
         public TraderArrivalRewardOutcome ApplyTraderArrivalReward(float amount, float chanceT1ToT2, float chanceT2ToT3, float chanceT3ToT4)
         {
             if (amount <= 0f) return TraderArrivalRewardOutcome.NoEffect;
@@ -1548,7 +1593,9 @@ namespace TSA_WorldDomination
 
             float chance = tier == SettlementTier.T1 ? chanceT1ToT2 : (tier == SettlementTier.T2 ? chanceT2ToT3 : chanceT3ToT4);
             chance = Mathf.Clamp01(chance);
-            if (Rand.Value < chance && TryGetNextTraderTier(tier, out SettlementTier nextTier))
+            if (Rand.Value < chance
+                && TryGetNextTraderTier(tier, out SettlementTier nextTier)
+                && WorldActions_GrowthExpand.CanPromoteNextTierRegionally(parent, tier))
             {
                 PromoteSettlementTierForTraderArrival(nextTier, amount);
                 return TraderArrivalRewardOutcome.StrengthAndTierUp;
@@ -1593,13 +1640,16 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Gift/buy investment tier-up: pay already deducted by caller. Rolls investment upgrade success chance.
+        /// Regional <c>localMaxT*</c> is checked by the caller before spending silver; also enforced here.
         /// </summary>
-        public enum InvestmentPromoteResult : byte { Ineligible, FailedRoll, Promoted }
+        public enum InvestmentPromoteResult : byte { Ineligible, FailedRoll, RegionallyBlocked, Promoted }
 
         public InvestmentPromoteResult TryPromoteTierFromInvestment()
         {
             if (IsOutpost || IsPlayerMapSettlement || !IsSettlement) return InvestmentPromoteResult.Ineligible;
             if (!TryGetNextTraderTier(tier, out SettlementTier nextTier)) return InvestmentPromoteResult.Ineligible;
+            if (!WorldActions_GrowthExpand.CanPromoteNextTierRegionally(parent, tier))
+                return InvestmentPromoteResult.RegionallyBlocked;
 
             var s = WorldDominationMod.settings;
             float chance = s?.factionInvestmentUpgradeSuccessChance
@@ -1672,11 +1722,9 @@ namespace TSA_WorldDomination
             else if (offensiveStrength > 500f) fromStrength = SettlementTier.T2;
             else fromStrength = SettlementTier.T1;
 
-            if (allowDemotion)
+            // Demotion only. Promotions are Develop / Turtle deposit / investment (regional localMaxT*).
+            if (allowDemotion && fromStrength < oldTier)
                 tier = fromStrength;
-            else if (fromStrength > oldTier)
-                tier = fromStrength;
-            // else keep oldTier (promotion-only; offense may sit below the band min)
 
             float max = GetStrengthRange(tier).max;
             if (offensiveStrength > max) offensiveStrength = max;

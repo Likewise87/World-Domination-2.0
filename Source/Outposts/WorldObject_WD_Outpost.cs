@@ -376,6 +376,8 @@ namespace TSA_WorldDomination
 
         /// <summary>Recruiting: optional skill priority for spawned recruits (null = any colonist).</summary>
         private string selectedRecruitPrioritySkillDefName;
+        /// <summary>Recruiting: when true, no cycle runs and no pawns are recruited (Reset in the recruiting dialog).</summary>
+        private bool recruitingHalted;
         /// <summary>Time-weighted integral of delivery-driving capacity this cycle: sum of capacity × dt each production timer step (same units as spawn average).</summary>
         private float deliveryCapacityRunningSum;
         /// <summary>Total production-timer dt accumulated into <see cref="deliveryCapacityRunningSum"/> this cycle (ticks).</summary>
@@ -2858,15 +2860,37 @@ namespace TSA_WorldDomination
             ? null
             : DefDatabase<SkillDef>.GetNamedSilentFail(selectedAcademySkillDefName);
 
-        /// <summary>Recruiting: skill priority for new recruits (null = any).</summary>
+        /// <summary>Recruiting: skill priority for new recruits (null = any). Ignored while <see cref="RecruitingHalted"/>.</summary>
         public SkillDef SelectedRecruitPrioritySkill => string.IsNullOrEmpty(selectedRecruitPrioritySkillDefName)
             ? null
             : DefDatabase<SkillDef>.GetNamedSilentFail(selectedRecruitPrioritySkillDefName);
 
-        /// <summary>Recruiting: set skill priority instantly (null clears to Any).</summary>
+        /// <summary>Recruiting: Reset halt — no pawns recruited until a focus is chosen again.</summary>
+        public bool RecruitingHalted => recruitingHalted;
+
+        /// <summary>Recruiting: stop recruiting (Reset). Zeros the cycle timer until a priority is selected again.</summary>
+        public void HaltRecruiting()
+        {
+            recruitingHalted = true;
+            productionTicksLeft = 0;
+            lockedForThisCycle = false;
+            RecomputeProductionRequirementCache();
+        }
+
+        /// <summary>Recruiting: set skill priority (null = Any). Clears halt and starts a cycle if needed.</summary>
         public void SetSelectedRecruitPriority(SkillDef skill)
         {
             selectedRecruitPrioritySkillDefName = skill?.defName;
+            bool wasHalted = recruitingHalted;
+            recruitingHalted = false;
+            if (wasHalted || productionTicksLeft <= 0)
+            {
+                productionTicksLeft = GetProductionTicksIntervalCached();
+                deliveryCapacityRunningSum = 0f;
+                deliveryCapacitySampleCount = 0;
+                AddAdHocDeliveryCapacitySample();
+            }
+            RecomputeProductionRequirementCache();
         }
 
         public void SetSelectedProduction(ThingDef def)
@@ -3146,6 +3170,7 @@ namespace TSA_WorldDomination
 
             if (Outpost_Production_Utils.IsRecruitingOutpost(def))
             {
+                if (recruitingHalted) return;
                 productionTicksLeft = interval;
                 if (Outpost_Recruiting.Produce(this, avg))
                     Outpost_OccupantProgression.ApplyPayoutSkillXp(this);
@@ -3234,6 +3259,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref lockedAcademySkillDefName, "lockedAcademySkillDefName");
             Scribe_Values.Look(ref selectedAcademySkillDefName, "selectedAcademySkillDefName");
             Scribe_Values.Look(ref selectedRecruitPrioritySkillDefName, "selectedRecruitPrioritySkillDefName");
+            Scribe_Values.Look(ref recruitingHalted, "recruitingHalted", false);
             Scribe_Values.Look(ref lockedForThisCycle, "lockedForThisCycle", false);
             Scribe_Values.Look(ref deliveryCapacityRunningSum, "deliveryCapacityRunningSum", 0f);
             Scribe_Values.Look(ref deliveryCapacitySampleCount, "deliveryCapacitySampleCount", 0);
@@ -3336,7 +3362,10 @@ namespace TSA_WorldDomination
                 int interval = GetProductionTicksIntervalCached();
                 if (productionTicksLeft > interval)
                     productionTicksLeft = interval; // cap to current def's cycle (e.g. def changed from 30 to 1 day)
-                if ((Outpost_Production_Utils.IsRecruitingOutpost(def) || Outpost_Production_Utils.IsTradingOutpost(def) || Outpost_Production_Utils.IsEmbassyOutpost(def)) && productionTicksLeft <= 0)
+                if ((Outpost_Production_Utils.IsRecruitingOutpost(def) && !recruitingHalted
+                        || Outpost_Production_Utils.IsTradingOutpost(def)
+                        || Outpost_Production_Utils.IsEmbassyOutpost(def))
+                    && productionTicksLeft <= 0)
                     productionTicksLeft = interval;
                 else if (Outpost_Production_Utils.IsScavengingOutpost(def) && productionTicksLeft <= 0 && HasSelectedScavengingKind)
                     productionTicksLeft = interval;
@@ -3405,7 +3434,10 @@ namespace TSA_WorldDomination
         /// <summary>Call after creating a new outpost so recruiting/trading start with a full timer instead of producing immediately.</summary>
         public void StartProductionTimerIfNeeded()
         {
-            if ((Outpost_Production_Utils.IsRecruitingOutpost(def) || Outpost_Production_Utils.IsTradingOutpost(def) || Outpost_Production_Utils.IsEmbassyOutpost(def)) && productionTicksLeft <= 0)
+            if ((Outpost_Production_Utils.IsRecruitingOutpost(def) && !recruitingHalted
+                    || Outpost_Production_Utils.IsTradingOutpost(def)
+                    || Outpost_Production_Utils.IsEmbassyOutpost(def))
+                && productionTicksLeft <= 0)
                 productionTicksLeft = GetProductionTicksIntervalCached();
             else if (Outpost_Production_Utils.IsScavengingOutpost(def) && productionTicksLeft <= 0 && HasSelectedScavengingKind)
                 productionTicksLeft = GetProductionTicksIntervalCached();

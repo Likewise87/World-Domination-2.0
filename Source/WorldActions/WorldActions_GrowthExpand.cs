@@ -76,6 +76,79 @@ namespace TSA_WorldDomination
         public static bool AttemptGrow(WorldObject s, CompViralSpread comp, WorldComponent_SpreadManager manager)
             => AttemptDevelop(s, comp, manager);
 
+        /// <summary>
+        /// Growth <c>localMaxT*</c> room for promoting <paramref name="fromTier"/> to the next tier
+        /// within <see cref="WorldDominationSettings.expandMaxRadius"/> (same radius as Develop).
+        /// </summary>
+        public static bool CanPromoteNextTierRegionally(WorldObject settlement, SettlementTier fromTier)
+        {
+            if (settlement == null || settlement.Destroyed || fromTier >= SettlementTier.T4) return false;
+            var seth = WorldDominationMod.settings;
+            if (seth == null) return false;
+
+            CountNearbySameFactionTiers(settlement, seth, out _, out int t2Count, out int t3Count, out int t4Count);
+            switch (fromTier)
+            {
+                case SettlementTier.T1:
+                    return t2Count < seth.localMaxT2;
+                case SettlementTier.T2:
+                    return t3Count < seth.localMaxT3;
+                case SettlementTier.T3:
+                    return t4Count < seth.localMaxT4;
+                default:
+                    return false;
+            }
+        }
+
+        private static void CountNearbySameFactionTiers(
+            WorldObject settlement,
+            WorldDominationSettings seth,
+            out int sameTierNeighbors,
+            out int t2Count,
+            out int t3Count,
+            out int t4Count)
+        {
+            sameTierNeighbors = 0;
+            t2Count = 0;
+            t3Count = 0;
+            t4Count = 0;
+            if (settlement?.Faction == null || seth == null) return;
+
+            SettlementTier selfTier = settlement.GetComponent<CompViralSpread>()?.tier ?? SettlementTier.T1;
+            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+
+            if (manager != null && manager.TryGetFactionSettlements(settlement.Faction, out var facSettlements) && facSettlements != null)
+            {
+                for (int ni = 0; ni < facSettlements.Count; ni++)
+                {
+                    var n = facSettlements[ni];
+                    if (n == settlement || !DailyWorldSnapshot.IsSettlementStillValid(n)) continue;
+                    if (Find.WorldGrid.ApproxDistanceInTiles(settlement.Tile, n.Tile) > seth.expandMaxRadius) continue;
+                    var nComp = n.GetComponent<CompViralSpread>();
+                    if (nComp == null) continue;
+                    if (nComp.tier == selfTier) sameTierNeighbors++;
+                    if (nComp.tier == SettlementTier.T2) t2Count++;
+                    if (nComp.tier == SettlementTier.T3) t3Count++;
+                    if (nComp.tier == SettlementTier.T4) t4Count++;
+                }
+                return;
+            }
+
+            var allNeighborSettlements = Find.WorldObjects.Settlements;
+            for (int ni = 0; ni < allNeighborSettlements.Count; ni++)
+            {
+                var n = allNeighborSettlements[ni];
+                if (n.Faction != settlement.Faction || n == settlement) continue;
+                if (Find.WorldGrid.ApproxDistanceInTiles(settlement.Tile, n.Tile) > seth.expandMaxRadius) continue;
+                var nComp = n.GetComponent<CompViralSpread>();
+                if (nComp == null) continue;
+                if (nComp.tier == selfTier) sameTierNeighbors++;
+                if (nComp.tier == SettlementTier.T2) t2Count++;
+                if (nComp.tier == SettlementTier.T3) t3Count++;
+                if (nComp.tier == SettlementTier.T4) t4Count++;
+            }
+        }
+
         private static bool TryUpgrade(
             WorldObject s,
             CompViralSpread comp,
@@ -84,50 +157,13 @@ namespace TSA_WorldDomination
         {
             if (comp.tier == SettlementTier.T4) return false;
 
-            int sameTierNeighbors = 0;
-            int t2Count = 0;
-            int t3Count = 0;
-            int t4Count = 0;
-
-            if (manager.TryGetFactionSettlements(s.Faction, out var facSettlements) && facSettlements != null)
-            {
-                for (int ni = 0; ni < facSettlements.Count; ni++)
-                {
-                    var n = facSettlements[ni];
-                    if (n == s || !DailyWorldSnapshot.IsSettlementStillValid(n)) continue;
-                    if (Find.WorldGrid.ApproxDistanceInTiles(s.Tile, n.Tile) > seth.expandMaxRadius) continue;
-                    var nComp = n.GetComponent<CompViralSpread>();
-                    if (nComp == null) continue;
-                    if (nComp.tier == comp.tier) sameTierNeighbors++;
-                    if (nComp.tier == SettlementTier.T2) t2Count++;
-                    if (nComp.tier == SettlementTier.T3) t3Count++;
-                    if (nComp.tier == SettlementTier.T4) t4Count++;
-                }
-            }
-            else
-            {
-                var allNeighborSettlements = Find.WorldObjects.Settlements;
-                for (int ni = 0; ni < allNeighborSettlements.Count; ni++)
-                {
-                    var n = allNeighborSettlements[ni];
-                    if (n.Faction != s.Faction || n == s || Find.WorldGrid.ApproxDistanceInTiles(s.Tile, n.Tile) > seth.expandMaxRadius) continue;
-                    var nComp = n.GetComponent<CompViralSpread>();
-                    if (nComp == null) continue;
-                    if (nComp.tier == comp.tier) sameTierNeighbors++;
-                    if (nComp.tier == SettlementTier.T2) t2Count++;
-                    if (nComp.tier == SettlementTier.T3) t3Count++;
-                    if (nComp.tier == SettlementTier.T4) t4Count++;
-                }
-            }
+            CountNearbySameFactionTiers(s, seth, out int sameTierNeighbors, out _, out _, out _);
 
             if (sameTierNeighbors < seth.GetSameTierNeighborsRequiredForUpgrade(comp.tier))
                 return false;
 
-            bool canUpgrade = (comp.tier == SettlementTier.T1) ? (t2Count < seth.localMaxT2) :
-                              (comp.tier == SettlementTier.T2) ? (t3Count < seth.localMaxT3) :
-                              (comp.tier == SettlementTier.T3) ? (t4Count < seth.localMaxT4) :
-                              false;
-            if (!canUpgrade) return false;
+            if (!CanPromoteNextTierRegionally(s, comp.tier))
+                return false;
 
             SettlementTier oldTier = comp.tier;
             SettlementTier nextTier = (oldTier == SettlementTier.T1) ? SettlementTier.T2 :

@@ -467,8 +467,10 @@
   <TSA_WD_Gizmo_Recruiting>Recruiting</TSA_WD_Gizmo_Recruiting>
   <TSA_WD_Gizmo_RecruitingAny>Recruiting any Pawn</TSA_WD_Gizmo_RecruitingAny>
   <TSA_WD_Gizmo_RecruitingSkill>Recruiting: {0}</TSA_WD_Gizmo_RecruitingSkill>
+  <TSA_WD_Gizmo_RecruitingNone>Not recruiting</TSA_WD_Gizmo_RecruitingNone>
   <TSA_WD_Recruiting_Inspect_WithSkill>{0} pawns capable in {1}</TSA_WD_Recruiting_Inspect_WithSkill>
   <TSA_WD_Recruiting_Inspect_Any>{0} pawns</TSA_WD_Recruiting_Inspect_Any>
+  <TSA_WD_Recruiting_Inspect_None>None (recruiting stopped)</TSA_WD_Recruiting_Inspect_None>
   <TSA_WD_Gizmo_Trading>Trading: {0}</TSA_WD_Gizmo_Trading>
   <TSA_WD_Gizmo_Embassy>{0}</TSA_WD_Gizmo_Embassy>
   <TSA_WD_Gizmo_Scavenging>Scavenging (random loot)</TSA_WD_Gizmo_Scavenging>
@@ -566,6 +568,8 @@
   <TSA_WD_Outpost_ProductionTimeMultTooltip>Multiplies production cycle length (XML productionCycleDays or default). Lower = shorter cycles / more frequent deliveries. Remaining time rescales when you change this during a cycle.</TSA_WD_Outpost_ProductionTimeMultTooltip>
   <TSA_WD_Outpost_ProductionOutputMult>Production output multiplier</TSA_WD_Outpost_ProductionOutputMult>
   <TSA_WD_Outpost_ProductionOutputMultTooltip>Multiplies delivery quantities each cycle (crops, hunting, mining, fabrication, trading silver, recruits as rounded integers). 1.00 means unchanged output.</TSA_WD_Outpost_ProductionOutputMultTooltip>
+  <TSA_WD_Outpost_ResearchSpeedMult>Research outpost speed</TSA_WD_Outpost_ResearchSpeedMult>
+  <TSA_WD_Outpost_ResearchSpeedMultTooltip>Multiplies research points contributed by Research outposts only. Does not change item production or colony research benches.</TSA_WD_Outpost_ResearchSpeedMultTooltip>
   <TSA_WD_Outpost_HostileNearbyPartnerMult>Hostile neighbor efficiency</TSA_WD_Outpost_HostileNearbyPartnerMult>
   <TSA_WD_Outpost_HostileNearbyPartnerMultTip>Trading silver from hostile settlements uses this fraction (black market). Recruiting neighbor points from hostile settlements use the same fraction (defectors). Neutral and allied neighbors stay at full value. Contributing hostile rows are tinted red in the outpost dialogs.</TSA_WD_Outpost_HostileNearbyPartnerMultTip>
   <TSA_WD_Outpost_WarehouseAuraBonus>Warehouse aura bonus</TSA_WD_Outpost_WarehouseAuraBonus>
@@ -634,6 +638,8 @@
   <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>Experience granted to each relevant outpost skill (farming, hunting, etc.) for every colonist at the outpost when a delivery actually launches. Set to 0 to disable. Does not apply while payout is blocked.</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevel>Max skill level for outpost XP</TSA_WD_Outpost_OccupantSkillXpMaxLevel>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>Pawns do not gain outpost payout XP in a skill once it is at this level or higher.</TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>
+  <TSA_WD_Outpost_RecruitSocialXpPerResistance>Social XP pool per resistance reduced</TSA_WD_Outpost_RecruitSocialXpPerResistance>
+  <TSA_WD_Outpost_RecruitSocialXpPerResistanceTooltip>When prisoners lose resistance at this outpost, that much Social XP enters a pool and is split equally among garrisoned humanlikes who can still learn Social. Set to 0 to disable.</TSA_WD_Outpost_RecruitSocialXpPerResistanceTooltip>
   <TSA_WD_Outpost_HeaderAcademy>Academy</TSA_WD_Outpost_HeaderAcademy>
   <TSA_WD_Outpost_HeaderExperts>Experts</TSA_WD_Outpost_HeaderExperts>
   <TSA_WD_Outpost_ExpertReferenceSkill>Reference skill level</TSA_WD_Outpost_ExpertReferenceSkill>
@@ -704,6 +710,7 @@
   <TSA_WD_Production_BaselineTooltip_Xml>Baselines are defined in the outpost XML (amount per skill for each product).</TSA_WD_Production_BaselineTooltip_Xml>
   <TSA_WD_Production_Clear>Reset</TSA_WD_Production_Clear>
   <TSA_WD_Production_ClearConfirm>Cancel production? This will reset the production cycle.</TSA_WD_Production_ClearConfirm>
+  <TSA_WD_Recruiting_ClearConfirm>Stop recruiting? No new pawns until you choose Any or a skill focus again.</TSA_WD_Recruiting_ClearConfirm>
   <TSA_WD_Production_Current>Currently producing: {0}</TSA_WD_Production_Current>
   <TSA_WD_Production_CurrentCycle>Current Cycle: {0}</TSA_WD_Production_CurrentCycle>
   <TSA_WD_Production_CurrentHunting>Currently hunting: {0}</TSA_WD_Production_CurrentHunting>

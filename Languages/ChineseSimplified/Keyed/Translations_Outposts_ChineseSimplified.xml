@@ -392,8 +392,10 @@
   <TSA_WD_Gizmo_Recruiting>招募</TSA_WD_Gizmo_Recruiting>
   <TSA_WD_Gizmo_RecruitingAny>招募任意殖民者</TSA_WD_Gizmo_RecruitingAny>
   <TSA_WD_Gizmo_RecruitingSkill>招募：{0}</TSA_WD_Gizmo_RecruitingSkill>
+  <TSA_WD_Gizmo_RecruitingNone>未招募</TSA_WD_Gizmo_RecruitingNone>
   <TSA_WD_Recruiting_Inspect_WithSkill>{0} 名具备 {1} 能力</TSA_WD_Recruiting_Inspect_WithSkill>
   <TSA_WD_Recruiting_Inspect_Any>{0} 名殖民者</TSA_WD_Recruiting_Inspect_Any>
+  <TSA_WD_Recruiting_Inspect_None>无（已停止招募）</TSA_WD_Recruiting_Inspect_None>
   <TSA_WD_Gizmo_Trading>贸易:{0}</TSA_WD_Gizmo_Trading>
   <TSA_WD_Gizmo_Embassy>{0}</TSA_WD_Gizmo_Embassy>
   <TSA_WD_Gizmo_Scavenging>拾荒（随机战利品）</TSA_WD_Gizmo_Scavenging>
@@ -490,6 +492,8 @@
   <TSA_WD_Outpost_ProductionTimeMultTooltip>乘以生产周期长度(XML 的 productionCycleDays 或默认)。调低则周期更短、交货更频繁;周期进行中改动会按比例调整剩余时间。</TSA_WD_Outpost_ProductionTimeMultTooltip>
   <TSA_WD_Outpost_ProductionOutputMult>生产产出倍率</TSA_WD_Outpost_ProductionOutputMult>
   <TSA_WD_Outpost_ProductionOutputMultTooltip>乘以每周期交付量(作物、狩猎、采矿、制造、贸易白银、招募人数取整)。1.00 表示产量不变。</TSA_WD_Outpost_ProductionOutputMultTooltip>
+  <TSA_WD_Outpost_ResearchSpeedMult>研究前哨速度</TSA_WD_Outpost_ResearchSpeedMult>
+  <TSA_WD_Outpost_ResearchSpeedMultTooltip>仅乘以研究前哨贡献的研究点数。不影响物品生产或殖民地研究台。</TSA_WD_Outpost_ResearchSpeedMultTooltip>
   <TSA_WD_Outpost_HostileNearbyPartnerMult>敌对邻居效率</TSA_WD_Outpost_HostileNearbyPartnerMult>
   <TSA_WD_Outpost_HostileNearbyPartnerMultTip>敌对定居点的贸易白银按此比例计入（黑市）。敌对定居点的招募邻居点数按同一比例计入（投诚）。中立与盟友邻居仍为全额。计入的敌对行在前哨对话框中会标红底。</TSA_WD_Outpost_HostileNearbyPartnerMultTip>
   <TSA_WD_Outpost_WarehouseAuraBonus>仓库光环加成</TSA_WD_Outpost_WarehouseAuraBonus>
@@ -556,6 +560,8 @@
   <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>当货物实际发出时,为前哨每名殖民者的每种相关技能(种植、狩猎等)增加经验。设为 0 关闭。交货被阻止时不生效。</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevel>前哨经验技能上限</TSA_WD_Outpost_OccupantSkillXpMaxLevel>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>技能达到该等级或更高时不再从前哨交货获得经验。</TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>
+  <TSA_WD_Outpost_RecruitSocialXpPerResistance>每降低抗性的社交经验池</TSA_WD_Outpost_RecruitSocialXpPerResistance>
+  <TSA_WD_Outpost_RecruitSocialXpPerResistanceTooltip>囚犯在此前哨降低抗性时，等量社交经验进入经验池，并在仍可学习社交的驻守类人小人之间平分。设为 0 关闭。</TSA_WD_Outpost_RecruitSocialXpPerResistanceTooltip>
   <TSA_WD_Outpost_HeaderAcademy>学院</TSA_WD_Outpost_HeaderAcademy>
   <TSA_WD_Outpost_HeaderExperts>专家</TSA_WD_Outpost_HeaderExperts>
   <TSA_WD_Outpost_ExpertReferenceSkill>参考技能等级</TSA_WD_Outpost_ExpertReferenceSkill>
@@ -626,6 +632,7 @@
   <TSA_WD_Production_BaselineTooltip_Xml>基准在前哨 XML 里定义(每种产物每技能产量)。</TSA_WD_Production_BaselineTooltip_Xml>
   <TSA_WD_Production_Clear>重置</TSA_WD_Production_Clear>
   <TSA_WD_Production_ClearConfirm>取消生产?将重置生产周期。</TSA_WD_Production_ClearConfirm>
+  <TSA_WD_Recruiting_ClearConfirm>停止招募？在再次选择“任意”或某项技能前不会招募新殖民者。</TSA_WD_Recruiting_ClearConfirm>
   <TSA_WD_Production_Current>当前生产:{0}</TSA_WD_Production_Current>
   <TSA_WD_Production_CurrentCycle>当前周期:{0}</TSA_WD_Production_CurrentCycle>
     <TSA_WD_Production_CurrentHunting>当前狩猎:{0}</TSA_WD_Production_CurrentHunting>

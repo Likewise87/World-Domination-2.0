@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -10,6 +12,8 @@ namespace TSA_WorldDomination
     {
         private static readonly List<Pawn> aboardScratch = new List<Pawn>();
         private static readonly HashSet<Pawn> aboardSeen = new HashSet<Pawn>();
+        private static readonly FieldInfo TravellingTransportersInitialTileField =
+            AccessTools.Field(typeof(TravellingTransporters), "initialTile");
 
         private WorldObjectDef travelerDef;
         private Faction enemyFaction;
@@ -42,10 +46,22 @@ namespace TSA_WorldDomination
         /// <see cref="playerHasWon"/> is set so MapRemoved does not respawn the traveler.
         /// </summary>
         private bool enemiesBroken = false;
+        /// <summary>
+        /// Player fled via aerial/shuttle. Traveler already respawned;
+        /// Ambush teardown waits until escape craft leaves this map.
+        /// </summary>
+        private bool playerFled = false;
+        /// <summary>
+        /// Player shuttle/VF launch started from this Ambush but may still be mid-skyfaller.
+        /// Suppresses wipe/teardown if the last ground fighter dies before the craft leaves.
+        /// </summary>
+        private bool aerialLeaveInProgress = false;
         private int startTick = -1;
         private bool leftoversDiscarded = false;
         // Legacy; scribe only — old loot dialog path removed; player uses vanilla reform caravan.
         private bool lootResolved = false;
+        /// <summary>Prevents stacking multiple Ambush teardown long-events (flee Phase B retries).</summary>
+        private bool fleeTeardownQueued = false;
         /// <summary>True when this clash map was opened on a tile that still has a player AT Turret.</summary>
         private bool foughtOnPlayerAtTurret;
 
@@ -57,9 +73,10 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Mid-fight: block drafted map-edge auto-caravan exit. Cleared after WD victory so vanilla
-        /// <see cref="FormCaravanComp"/> reform caravan remains available.
+        /// <see cref="FormCaravanComp"/> reform caravan remains available. Stays blocked after aerial flee
+        /// until Ambush teardown (no edge reform while escape craft is still on the map).
         /// </summary>
-        public bool BlocksPlayerEdgeExit => encounterActive && !playerHasWon;
+        public bool BlocksPlayerEdgeExit => (encounterActive || playerFled || aerialLeaveInProgress) && !playerHasWon;
 
         public WD_MapComponent_CaravanClash(Map map) : base(map) { }
 
@@ -114,6 +131,9 @@ namespace TSA_WorldDomination
             this.lootResolved = false;
             this.playerHasWon = false;
             this.enemiesBroken = false;
+            this.playerFled = false;
+            this.aerialLeaveInProgress = false;
+            this.fleeTeardownQueued = false;
             this.foughtOnPlayerAtTurret = AtTurretUtility.TileHasPlayerAtTurret(map.Tile.tileId);
 
             WDVerbose.Msg($"[TSA WD] Data saved for {travelerLabel}. Original destroyed.");
@@ -125,17 +145,35 @@ namespace TSA_WorldDomination
             if (playerHasWon)
                 return;
 
+            if (playerFled)
+            {
+                if (Find.TickManager.TicksGame % 60 == 0)
+                    TryFinishFleeTeardownIfSafe();
+                return;
+            }
+
             if (!encounterActive) return;
 
             if (Find.TickManager.TicksGame % 60 == 0)
+            {
+                // Launch started; ground force wiped mid-skyfaller — latch flee once craft is off-map.
+                if (aerialLeaveInProgress
+                    && !AnyPlayerClashForceStanding()
+                    && !AnyEscapedSurvivorsStillOnThisMap()
+                    && ThreatExists())
+                {
+                    ResolvePlayerFledClashPhaseA();
+                    TryFinishFleeTeardownIfSafe();
+                    return;
+                }
+
                 CheckEncounterState();
+            }
         }
 
         private void CheckEncounterState()
         {
-            bool threatExists = savedMission == TravelerMission.Trader
-                ? AnyLivingCaravanFactionPawnThreat()
-                : GenHostility.AnyHostileActiveThreatToPlayer(map, true);
+            bool threatExists = ThreatExists();
             if (!threatExists)
                 enemiesBroken = true;
 
@@ -148,6 +186,7 @@ namespace TSA_WorldDomination
                     WDVerbose.Msg($"[TSA WD] Victory detected for {travelerLabel}.");
                     playerHasWon = true;
                     encounterActive = false;
+                    aerialLeaveInProgress = false;
                     Messages.Message("TSA_WD_InterceptionVictory".Translate(), MessageTypeDefOf.PositiveEvent);
                 }
                 return;
@@ -155,11 +194,309 @@ namespace TSA_WorldDomination
 
             if (!playerStanding && threatExists)
             {
-                RespawnNewTraveler();
+                // Boarded / launching: suppress wipe. Lose only when craft has left (or leave hooks fire).
+                if (AnyPlayerClashSurvivorsEscaped() || aerialLeaveInProgress)
+                    return;
+
+                RespawnNewTraveler(fled: false);
                 ExecuteAllDownedPlayerPawns();
                 DiscardEncounterLeftovers();
                 QueueAmbushEncounterMapTeardown();
             }
+        }
+
+        private bool ThreatExists()
+        {
+            return savedMission == TravelerMission.Trader
+                ? AnyLivingCaravanFactionPawnThreat()
+                : GenHostility.AnyHostileActiveThreatToPlayer(map, true);
+        }
+
+        /// <summary>
+        /// Successful launch from this Ambush map. Marks leave-in-progress immediately so a mid-launch
+        /// ground wipe cannot tear down the map under the skyfaller. Full flee only if no standing force.
+        /// </summary>
+        public void NotifyPossibleAerialLeave()
+        {
+            if (playerHasWon) return;
+            if (playerFled) return;
+            if (!encounterActive) return;
+
+            aerialLeaveInProgress = true;
+
+            if (!ThreatExists()) return;
+            if (AnyPlayerClashForceStanding()) return;
+
+            ResolvePlayerFledClashPhaseA();
+        }
+
+        /// <summary>
+        /// World airborne spawned from this clash tile (VF aerial / TravellingTransporters).
+        /// No-op if a standing player force remains on the Ambush (partial shuttle evacuate).
+        /// </summary>
+        public void NotifyAirborneSurvivorsLeftThisClash()
+        {
+            if (playerHasWon)
+            {
+                aerialLeaveInProgress = false;
+                if (!AnyPlayerClashForceStanding())
+                    TryFinishAmbushCleanupIfCraftGone();
+                return;
+            }
+            if (encounterActive)
+            {
+                // Some left by air, some still fighting — keep the clash map alive.
+                if (AnyPlayerClashForceStanding())
+                {
+                    aerialLeaveInProgress = false;
+                    return;
+                }
+
+                aerialLeaveInProgress = false;
+
+                // Enemies already cleared while boarding/leaving: win, do not respawn traveler.
+                if (enemiesBroken || !ThreatExists())
+                {
+                    playerHasWon = true;
+                    encounterActive = false;
+                }
+                else
+                    ResolvePlayerFledClashPhaseA();
+            }
+            else
+                aerialLeaveInProgress = false;
+
+            if (playerFled)
+                TryFinishFleeTeardownIfSafe();
+            else if (playerHasWon)
+                TryFinishAmbushCleanupIfCraftGone();
+        }
+
+        public static WD_MapComponent_CaravanClash FindClashNeedingAerialFleeOnTile(int tileId)
+        {
+            if (tileId < 0) return null;
+            var maps = Current.Game?.Maps;
+            if (maps == null) return null;
+            for (int i = 0; i < maps.Count; i++)
+            {
+                Map m = maps[i];
+                if (m == null || !m.Tile.Valid || m.Tile.tileId != tileId) continue;
+                MapParent parent = m.Parent;
+                if (parent == null || parent.Destroyed || parent.def != WorldObjectDefOf.Ambush) continue;
+                WD_MapComponent_CaravanClash clash = m.GetComponent<WD_MapComponent_CaravanClash>();
+                if (clash == null) continue;
+                if (clash.playerHasWon) continue;
+                if (!clash.encounterActive && !clash.playerFled) continue;
+                return clash;
+            }
+            return null;
+        }
+
+        public static void NotifyWorldAirborneFromStartTile(int startTileId)
+        {
+            FindClashNeedingAerialFleeOnTile(startTileId)?.NotifyAirborneSurvivorsLeftThisClash();
+        }
+
+        public static void NotifyPossibleAerialLeaveFromMap(Map map)
+        {
+            map?.GetComponent<WD_MapComponent_CaravanClash>()?.NotifyPossibleAerialLeave();
+        }
+
+        public static int TryGetTravellingTransportersStartTileId(TravellingTransporters pods)
+        {
+            if (pods == null) return -1;
+            try
+            {
+                if (TravellingTransportersInitialTileField != null)
+                {
+                    object v = TravellingTransportersInitialTileField.GetValue(pods);
+                    if (v is PlanetTile pt && pt.Valid)
+                        return pt.tileId;
+                }
+            }
+            catch
+            {
+                // fall through
+            }
+            return pods.Tile.Valid ? pods.Tile.tileId : -1;
+        }
+
+        private void ResolvePlayerFledClashPhaseA()
+        {
+            if (playerFled || playerHasWon) return;
+            if (!encounterActive) return;
+
+            WDVerbose.Msg($"[TSA WD] Aerial/shuttle flee Phase A for {travelerLabel}.");
+            RespawnNewTraveler(fled: true);
+            playerFled = true;
+            ExecuteAllDownedPlayerPawns();
+        }
+
+        private void TryFinishFleeTeardownIfSafe()
+        {
+            if (!playerFled || playerHasWon) return;
+            if (AnyPlayerClashForceStanding()) return;
+            if (aerialLeaveInProgress || AnyEscapedSurvivorsStillOnThisMap()) return;
+            ResolvePlayerFledClashPhaseB();
+        }
+
+        /// <summary>Ambush cleanup after aerial leave when the clash already resolved (win or flee).</summary>
+        private void TryFinishAmbushCleanupIfCraftGone()
+        {
+            if (AnyPlayerClashForceStanding()) return;
+            if (aerialLeaveInProgress || AnyEscapedSurvivorsStillOnThisMap()) return;
+            DiscardEncounterLeftovers();
+            QueueAmbushEncounterMapTeardown();
+        }
+
+        private void ResolvePlayerFledClashPhaseB()
+        {
+            if (!playerFled || playerHasWon) return;
+            if (AnyPlayerClashForceStanding()) return;
+            if (aerialLeaveInProgress || AnyEscapedSurvivorsStillOnThisMap()) return;
+
+            WDVerbose.Msg($"[TSA WD] Aerial/shuttle flee Phase B teardown for {travelerLabel}.");
+            aerialLeaveInProgress = false;
+            DiscardEncounterLeftovers();
+            QueueAmbushEncounterMapTeardown();
+        }
+
+        /// <summary>
+        /// Living player humanlikes in Odyssey shuttle / off-map aerial escape — not counting as “standing”.
+        /// </summary>
+        private bool AnyPlayerClashSurvivorsEscaped()
+        {
+            if (AnyEscapedSurvivorsStillOnThisMap())
+                return true;
+
+            int clashTile = map != null && map.Tile.Valid ? map.Tile.tileId : -1;
+            if (clashTile < 0 || Find.WorldObjects == null) return false;
+
+            List<WorldObject> all = Find.WorldObjects.AllWorldObjects;
+            for (int i = 0; i < all.Count; i++)
+            {
+                WorldObject wo = all[i];
+                if (wo is not TravellingTransporters pods || pods.Destroyed) continue;
+                if (TryGetTravellingTransportersStartTileId(pods) != clashTile) continue;
+                if (PodsHaveLivingPlayerHumanlike(pods))
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Player escape craft still on the Ambush map: boarded shuttle, leaving skyfaller, or VF crew.
+        /// Must stay true while leave skyfallers tick — tearing down the Ambush mid-<c>LeaveMap</c> NREs / deletes them.
+        /// </summary>
+        private bool AnyEscapedSurvivorsStillOnThisMap()
+        {
+            if (map?.listerThings?.AllThings != null)
+            {
+                List<Thing> all = map.listerThings.AllThings;
+                for (int i = 0; i < all.Count; i++)
+                {
+                    Thing t = all[i];
+                    if (t == null || t.Destroyed) continue;
+
+                    // Odyssey shuttle leave skyfaller still owns the map until TravellingTransporters spawns.
+                    if (t is FlyShipLeaving)
+                        return true;
+
+                    if (t is Skyfaller skyfaller)
+                    {
+                        if (IsPassengerShuttleLeaveSkyfaller(skyfaller))
+                            return true;
+                        if (SkyfallerHasLivingPlayerHumanlike(skyfaller))
+                            return true;
+                    }
+
+                    if (ModsConfig.OdysseyActive
+                        && t is Building_PassengerShuttle shuttle
+                        && (shuttle.Faction == null || shuttle.Faction.IsPlayer)
+                        && ShuttleHasLivingPlayerHumanlike(shuttle))
+                        return true;
+                }
+            }
+
+            var spawned = map?.mapPawns?.AllPawnsSpawned;
+            if (spawned == null) return false;
+            for (int i = 0; i < spawned.Count; i++)
+            {
+                Pawn vehicle = spawned[i];
+                if (!VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(vehicle))
+                    continue;
+                if (vehicle.Faction == null || !vehicle.Faction.IsPlayer)
+                    continue;
+
+                aboardScratch.Clear();
+                aboardSeen.Clear();
+                VehicleFrameworkOutpostDissolveCompat.CollectPawnsAboardVehicleForRoster(
+                    vehicle, aboardScratch, aboardSeen);
+                for (int j = 0; j < aboardScratch.Count; j++)
+                {
+                    if (IsLivingPlayerHumanlike(aboardScratch[j]))
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool IsPassengerShuttleLeaveSkyfaller(Skyfaller skyfaller)
+        {
+            string defName = skyfaller?.def?.defName;
+            if (string.IsNullOrEmpty(defName)) return false;
+            return defName.IndexOf("PassengerShuttleLeaving", StringComparison.OrdinalIgnoreCase) >= 0
+                || defName.IndexOf("PassengerShuttleSkyfaller", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        private static bool SkyfallerHasLivingPlayerHumanlike(Skyfaller skyfaller)
+        {
+            ThingOwner container = skyfaller?.innerContainer;
+            if (container == null) return false;
+            for (int i = 0; i < container.Count; i++)
+            {
+                if (container[i] is Pawn p && IsLivingPlayerHumanlike(p))
+                    return true;
+                if (container[i] is Building_PassengerShuttle shuttle
+                    && ShuttleHasLivingPlayerHumanlike(shuttle))
+                    return true;
+            }
+            return false;
+        }
+
+        private static bool ShuttleHasLivingPlayerHumanlike(Building_PassengerShuttle shuttle)
+        {
+            CompTransporter transporter = shuttle?.TransporterComp;
+            ThingOwner container = transporter?.innerContainer;
+            if (container == null) return false;
+            for (int i = 0; i < container.Count; i++)
+            {
+                if (container[i] is Pawn p && IsLivingPlayerHumanlike(p))
+                    return true;
+            }
+            return false;
+        }
+
+        private static bool PodsHaveLivingPlayerHumanlike(TravellingTransporters pods)
+        {
+            if (pods == null) return false;
+            foreach (Pawn p in pods.Pawns)
+            {
+                if (IsLivingPlayerHumanlike(p))
+                    return true;
+            }
+            return false;
+        }
+
+        private static bool IsLivingPlayerHumanlike(Pawn p)
+        {
+            if (p == null || p.Destroyed || p.Dead) return false;
+            if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(p)) return false;
+            if (p.RaceProps == null || !p.RaceProps.Humanlike) return false;
+            if (p.Faction == null || !p.Faction.IsPlayer) return false;
+            return true;
         }
 
         /// <summary>
@@ -254,7 +591,8 @@ namespace TSA_WorldDomination
             // Do not trust hostile pawn lists on a dying/empty map — wipe teardown often clears
             // pawns before MapRemoved, which previously abandoned the stored traveler.
             // enemiesBroken was latched while the map was live (fleeers count as clear); skip respawn.
-            if (encounterActive && !playerHasWon)
+            // playerFled already respawned the traveler in Phase A.
+            if (encounterActive && !playerHasWon && !playerFled)
             {
                 if (enemiesBroken)
                 {
@@ -263,8 +601,10 @@ namespace TSA_WorldDomination
                     WDVerbose.Msg($"[TSA WD] Victory on map exit (enemies broken) for {travelerLabel}.");
                 }
                 else
-                    RespawnNewTraveler();
+                    RespawnNewTraveler(fled: false);
             }
+
+            playerFled = false;
 
             DiscardEncounterLeftovers();
             DestroyAmbushParentIfPresent();
@@ -279,7 +619,7 @@ namespace TSA_WorldDomination
             }
         }
 
-        private void RespawnNewTraveler()
+        private void RespawnNewTraveler(bool fled = false)
         {
             if (!encounterActive || travelerDef == null) return;
 
@@ -320,9 +660,10 @@ namespace TSA_WorldDomination
                 moving = newTraveler.pather.moving;
             }
 
-            WDVerbose.Msg($"[TSA WD] Defeat/Closure: {travelerLabel} recreated on world map dest={destId} moving={moving}.");
-            Messages.Message("TSA_WD_InterceptionFailed".Translate(travelerLabel), MessageTypeDefOf.NegativeEvent);
-            SendPlayerCaravanClashResultLetter(victory: false);
+            WDVerbose.Msg($"[TSA WD] {(fled ? "Flee" : "Defeat")}/Closure: {travelerLabel} recreated on world map dest={destId} moving={moving}.");
+            Messages.Message(
+                (fled ? "TSA_WD_InterceptionFled" : "TSA_WD_InterceptionFailed").Translate(travelerLabel),
+                MessageTypeDefOf.NegativeEvent);
 
             if (foughtOnPlayerAtTurret)
             {
@@ -425,6 +766,8 @@ namespace TSA_WorldDomination
         {
             MapParent parent = map?.Parent;
             if (parent == null || parent.Destroyed || parent.def != WorldObjectDefOf.Ambush) return;
+            if (fleeTeardownQueued) return;
+            fleeTeardownQueued = true;
             LongEventHandler.ExecuteWhenFinished(TeardownAmbushEncounterMapNow);
         }
 
@@ -460,19 +803,6 @@ namespace TSA_WorldDomination
             }
         }
 
-        private void SendPlayerCaravanClashResultLetter(bool victory)
-        {
-            if (victory) return;
-            if (!(WorldDominationMod.settings?.notifyPlayerCaravanClash ?? WorldDominationSettings.DefNotifyPlayerCaravanClash))
-                return;
-
-            Find.LetterStack.ReceiveLetter(
-                "TSA_WD_Letter_PlayerCaravanClashDestroyed_Label".Translate(),
-                "TSA_WD_Letter_PlayerCaravanClashDestroyed_Text".Translate(travelerLabel ?? "TSA_WD_Traveller_Unknown".Translate()),
-                LetterDefOf.NegativeEvent,
-                new GlobalTargetInfo(map.Center, map));
-        }
-
         public override void ExposeData()
         {
             base.ExposeData();
@@ -484,6 +814,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref encounterActive, "encounterActive");
             Scribe_Values.Look(ref playerHasWon, "playerHasWon");
             Scribe_Values.Look(ref enemiesBroken, "enemiesBroken", false);
+            Scribe_Values.Look(ref playerFled, "playerFled", false);
+            Scribe_Values.Look(ref aerialLeaveInProgress, "aerialLeaveInProgress", false);
             Scribe_Values.Look(ref startTick, "startTick");
             Scribe_Values.Look(ref savedMission, "savedMission", TravelerMission.Expansion);
             Scribe_References.Look(ref savedOrigin, "savedOrigin");

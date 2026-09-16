@@ -93,6 +93,63 @@ namespace TSA_WorldDomination
                 outpost.NotifyVirtualPawnsChanged();
         }
 
+        /// <summary>
+        /// Split a shared XP pool equally among humanlike occupants still below the outpost XP level cap for <paramref name="skill"/>.
+        /// Capped pawns receive nothing and do not dilute shares. Passions / learning factor apply via <see cref="SkillRecord.Learn"/>.
+        /// </summary>
+        public static void ApplySkillXpPoolSplit(WorldObject_WD_Outpost outpost, float poolXp, SkillDef skill)
+        {
+            WorldDominationSettings settings = WorldDominationMod.settings;
+            if (settings == null || outpost == null || outpost.Faction != Faction.OfPlayer) return;
+            if (poolXp <= 0f || skill == null) return;
+            int maxLv = settings.GetEffectiveOutpostSkillLevel(settings.outpostOccupantSkillXpMaxLevel);
+            List<Pawn> occ = outpost.Occupants;
+            if (occ == null || occ.Count == 0) return;
+
+            var recipients = new List<SkillRecord>();
+            for (int i = 0; i < occ.Count; i++)
+            {
+                Pawn p = occ[i];
+                if (p == null || p.Destroyed || p.Dead) continue;
+                if (p.RaceProps == null || !p.RaceProps.Humanlike) continue;
+                if (p.skills == null) continue;
+                SkillRecord rec = p.skills.GetSkill(skill);
+                if (rec == null) continue;
+                int level;
+                try
+                {
+                    level = settings.GetEffectiveOutpostSkillLevel(rec.Level);
+                }
+                catch
+                {
+                    level = settings.GetEffectiveOutpostSkillLevel(rec.levelInt);
+                }
+                if (level >= maxLv) continue;
+                recipients.Add(rec);
+            }
+
+            int n = recipients.Count;
+            if (n <= 0) return;
+            float share = poolXp / n;
+            if (share <= 0f) return;
+
+            bool any = false;
+            for (int i = 0; i < n; i++)
+            {
+                try
+                {
+                    recipients[i].Learn(share, direct: false);
+                    any = true;
+                }
+                catch
+                {
+                    // Modded skills / bad state — skip this record
+                }
+            }
+            if (any)
+                outpost.NotifyVirtualPawnsChanged();
+        }
+
         /// <summary>Advance biological age for frozen occupants like vanilla mothballed world pawns: one in-game day per call.</summary>
         public static void TickOccupantsBiologicalAgeOneDay(WorldObject_WD_Outpost outpost)
         {

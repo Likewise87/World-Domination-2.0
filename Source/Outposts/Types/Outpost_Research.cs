@@ -115,7 +115,9 @@ namespace TSA_WorldDomination
             float diff = GetDifficultyResearchFactor();
             float efficiency = GetTotalEfficiency(outpost, ext);
             float experts = OutpostExpertUtility.GetCombinedProductionBonus(outpost);
-            return VanillaResearchPointsPerTick * speed * SimpleResearchBenchSpeedFactor * diff * efficiency * (1f + experts);
+            float settingsMult = WorldDominationMod.settings?.outpostResearchSpeedMultiplier
+                ?? WorldDominationSettings.DefOutpostResearchSpeedMultiplier;
+            return VanillaResearchPointsPerTick * speed * SimpleResearchBenchSpeedFactor * diff * efficiency * (1f + experts) * Mathf.Max(0f, settingsMult);
         }
 
         public static float GetPointsPerDay(WorldObject_WD_Outpost outpost)

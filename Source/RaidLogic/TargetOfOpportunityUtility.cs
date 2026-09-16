@@ -130,6 +130,15 @@ namespace TSA_WorldDomination
                 traveler, best, candidateKind, lookup, manager, seth, out _);
             if (candidateRatio < seth.minRaidRatio) return false;
 
+            // Transport pods are one-shot: maraud continuations walk on land.
+            if (traveler.mission == TravelerMission.RaidDropPod)
+            {
+                traveler.mission = TravelerMission.Raid;
+                traveler.ticksPerMove = WorldObject_Traveler.DefaultTicksPerMove;
+                traveler.SetLaunchTotalTravelTicks(-1f);
+                traveler.InvalidateTravelerMaterialCache();
+            }
+
             ApplyRetarget(traveler, best, watchIndex);
             traveler.maraudingChainCount++;
 

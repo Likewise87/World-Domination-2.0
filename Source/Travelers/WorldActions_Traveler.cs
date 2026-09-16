@@ -1829,7 +1829,7 @@ namespace TSA_WorldDomination
             }
             else
             {
-                originComp?.AddStrength(traveler.travelerStrength);
+                originComp?.AddStrengthNoTierUpgrade(traveler.travelerStrength);
                 // Still advance worksite if corridor says this edge is done but marker was stale.
                 if (haveCorridorEdge
                     && (traveler.originObject is WorldObject_WD_Outpost
@@ -1874,7 +1874,7 @@ namespace TSA_WorldDomination
             }
             else
             {
-                originComp.AddStrength(traveler.travelerStrength);
+                originComp.AddStrengthNoTierUpgrade(traveler.travelerStrength);
                 if (haveCorridorEdge && playerRoadProject)
                     WorldActions_Roads.RefreshOutpostRoadProjectVisualsAfterSegment(traveler.originObject);
             }
