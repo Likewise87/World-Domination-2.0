@@ -8,8 +8,8 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Dedicated clash aerial-flee hooks (not AA warn prefixes). Phase A on successful launch;
-    /// Phase B when world airborne is added from the clash tile.
+    /// Odyssey / VF aerial-leave hooks for temporary fight maps (clash Ambush + outpost defense).
+    /// Phase A on successful launch; Phase B when world airborne is added from the fight tile.
     /// </summary>
     [StaticConstructorOnStartup]
     public static class CaravanClashAerialFleeHooks
@@ -39,11 +39,11 @@ namespace TSA_WorldDomination
                     AccessTools.TypeByName(VehicleFrameworkAerialAaCompat.AerialTypeName));
 
                 Log.Message(
-                    $"[TSA WD] Caravan clash aerial flee hooks active (TryLaunch={(tryLaunch != null)}, VF Launch={vfPatched}).");
+                    $"[TSA WD] Temp encounter aerial flee hooks active (TryLaunch={(tryLaunch != null)}, VF Launch={vfPatched}).");
             }
             catch (Exception ex)
             {
-                Log.Warning($"[TSA WD] Caravan clash aerial flee hooks disabled: {ex.Message}");
+                Log.Warning($"[TSA WD] Temp encounter aerial flee hooks disabled: {ex.Message}");
             }
         }
 
@@ -65,12 +65,12 @@ namespace TSA_WorldDomination
                 Thing parent = __instance?.parent;
                 if (parent == null) return;
                 if (parent.Faction == null || !parent.Faction.IsPlayer) return;
-                WD_MapComponent_CaravanClash.NotifyPossibleAerialLeaveFromMap(parent.Map);
+                WD_TempEncounterAerialLeaveUtility.NotifyPossibleAerialLeaveFromMap(parent.Map);
             }
             catch (Exception ex)
             {
                 Log.WarningOnce(
-                    $"[TSA WD] Clash aerial flee TryLaunch postfix failed: {ex.Message}",
+                    $"[TSA WD] Temp encounter aerial flee TryLaunch postfix failed: {ex.Message}",
                     "WD_ClashAerialFlee_TryLaunch".GetHashCode());
             }
         }
@@ -84,7 +84,7 @@ namespace TSA_WorldDomination
                     Thing parent = comp.parent;
                     if (parent == null) return;
                     if (parent.Faction == null || !parent.Faction.IsPlayer) return;
-                    WD_MapComponent_CaravanClash.NotifyPossibleAerialLeaveFromMap(parent.Map);
+                    WD_TempEncounterAerialLeaveUtility.NotifyPossibleAerialLeaveFromMap(parent.Map);
                     return;
                 }
 
@@ -92,13 +92,13 @@ namespace TSA_WorldDomination
                 {
                     if (wo.Faction == null || !wo.Faction.IsPlayer) return;
                     if (wo.Tile.Valid)
-                        WD_MapComponent_CaravanClash.NotifyWorldAirborneFromStartTile(wo.Tile.tileId);
+                        WD_TempEncounterAerialLeaveUtility.NotifyWorldAirborneFromStartTile(wo.Tile.tileId);
                 }
             }
             catch (Exception ex)
             {
                 Log.WarningOnce(
-                    $"[TSA WD] Clash aerial flee VF Launch postfix failed: {ex.Message}",
+                    $"[TSA WD] Temp encounter aerial flee VF Launch postfix failed: {ex.Message}",
                     "WD_ClashAerialFlee_VfLaunch".GetHashCode());
             }
         }

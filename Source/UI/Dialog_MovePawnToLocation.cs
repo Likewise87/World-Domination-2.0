@@ -339,6 +339,7 @@ namespace TSA_WorldDomination
             Faction player = Faction.OfPlayer;
             if (player == null) return;
 
+            bool selectionHasPrisoner = SelectionIncludesPrisoner();
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
 
             if (offerExitHere && soleSourceOutpost != null)
@@ -351,6 +352,9 @@ namespace TSA_WorldDomination
                     || "TSA_WD_PawnTransfer_ExitHere".Translate().ToString().ToLowerInvariant().Contains(searchLower))
                 {
                     FillOutpostSkill(soleSourceOutpost, out string skillName, out bool hasSkill, out float cumSkill, out string cumSkillDisplay);
+                    string? exitTip = selectionHasPrisoner
+                        ? "TSA_WD_PawnTransfer_PrisonerNoExitHere".Translate()
+                        : null;
                     destinations.Add(new DestinationRow
                     {
                         dest = new PlayerPawnTransferDestination
@@ -368,6 +372,8 @@ namespace TSA_WorldDomination
                         cumSkillDisplay = cumSkillDisplay,
                         hasSkill = hasSkill,
                         distance = 0,
+                        disabled = selectionHasPrisoner,
+                        disabledTip = exitTip,
                         jumpTarget = soleSourceOutpost
                     });
                 }
@@ -426,6 +432,20 @@ namespace TSA_WorldDomination
                         continue;
 
                     bool disabled = soleSourceOutpost != null && soleSourceOutpost == outpost;
+                    string? disabledTip = disabled ? "TSA_WD_PawnTransfer_SameDestination".Translate() : null;
+                    if (!disabled && selectionHasPrisoner)
+                    {
+                        if (outpost.ManualDefenseActive)
+                        {
+                            disabled = true;
+                            disabledTip = "TSA_WD_OutpostDefense_FrozenDuringManualDefense".Translate();
+                        }
+                        else if (!outpost.TakePrisoners)
+                        {
+                            disabled = true;
+                            disabledTip = "TSA_WD_PawnTransfer_DestRefusesPrisoners".Translate();
+                        }
+                    }
                     FillOutpostSkill(outpost, out string skillName, out bool hasSkill, out float cumSkill, out string cumSkillDisplay);
                     destinations.Add(new DestinationRow
                     {
@@ -445,13 +465,24 @@ namespace TSA_WorldDomination
                         hasSkill = hasSkill,
                         distance = CalcDistance(originTile, outpost.Tile.tileId, manager),
                         disabled = disabled,
-                        disabledTip = disabled ? "TSA_WD_PawnTransfer_SameDestination".Translate() : null,
+                        disabledTip = disabledTip,
                         jumpTarget = outpost
                     });
                 }
             }
 
             SortDestinations();
+        }
+
+        private bool SelectionIncludesPrisoner()
+        {
+            if (selected == null) return false;
+            for (int i = 0; i < selected.Count; i++)
+            {
+                if (selected[i]?.outpostRole == PlayerPawnOutpostRole.Prisoner)
+                    return true;
+            }
+            return false;
         }
 
         private static void FillOutpostSkill(

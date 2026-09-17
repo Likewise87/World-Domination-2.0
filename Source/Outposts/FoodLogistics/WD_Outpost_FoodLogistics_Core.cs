@@ -75,12 +75,16 @@ namespace TSA_WorldDomination
         private string cachedLogiInspect;
         private int cachedLogiInspectTick = -999;
 
-        /// <summary>Effective max food for the given world object (base max + outpost upgrade bonus).</summary>
+        /// <summary>Effective max food for the given world object (base max + outpost upgrade bonus). Warehouses use at least <see cref="WorldDominationSettings.DefMaxFoodPerWarehouse"/>.</summary>
         public static float GetEffectiveMaxFoodFor(WorldObject obj)
         {
             float baseMax = MaxFood;
             if (obj is WorldObject_WD_Outpost wd)
+            {
+                if (Outpost_Production_Utils.IsWarehouseOutpost(wd.def))
+                    baseMax = Mathf.Max(baseMax, WorldDominationSettings.DefMaxFoodPerWarehouse);
                 return Mathf.Max(0f, baseMax + wd.GetBuiltUpgradeFoodStorageMaxBonus());
+            }
             return Mathf.Max(0f, baseMax);
         }
 
@@ -340,6 +344,27 @@ namespace TSA_WorldDomination
             }
 
             return usedNutrition;
+        }
+
+        /// <summary>
+        /// Convert nutrition-bearing delivery rows into virtual food (warehouse → outpost food shipments).
+        /// </summary>
+        public static float ConvertDeliveryItemsToVirtualFood(List<ThingDefCountClass> items, CompOutpostLogistics comp)
+        {
+            if (items == null || comp == null) return 0f;
+
+            float totalNutrition = 0f;
+            for (int i = 0; i < items.Count; i++)
+            {
+                ThingDefCountClass tc = items[i];
+                if (tc?.thingDef == null || tc.count <= 0) continue;
+                if (!Outpost_Warehouse_Delivery.IsNutritionGivingStock(tc.thingDef)) continue;
+                float perUnit = tc.thingDef.GetStatValueAbstract(StatDefOf.Nutrition);
+                if (perUnit <= 0f) continue;
+                totalNutrition += perUnit * tc.count;
+            }
+
+            return AddVirtualFoodNutrition(comp, totalNutrition);
         }
     }
 

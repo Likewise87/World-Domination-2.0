@@ -70,6 +70,16 @@ namespace TSA_WorldDomination
 
             foreach (Pawn pawn in humanlikes)
             {
+                if (pawn.IsPrisonerOfColony)
+                {
+                    if (outpost.TryHandleArrivingPrisoner(pawn, null))
+                    {
+                        if (outpost.Prisoners.Contains(pawn))
+                            Messages.Message("TSA_WD_Pod_AddedPawn".Translate(pawn.LabelShortCap, outpost.LabelCap), outpost, MessageTypeDefOf.TaskCompletion, true);
+                    }
+                    continue;
+                }
+
                 if (outpost.AddPawn(pawn, null))
                     Messages.Message("TSA_WD_Pod_AddedPawn".Translate(pawn.LabelShortCap, outpost.LabelCap), outpost, MessageTypeDefOf.TaskCompletion, true);
             }

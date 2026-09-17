@@ -66,7 +66,7 @@
   <TSA_WD_Diplo_AlliedRaidOrdersHeader>Órdenes de incursión aliada</TSA_WD_Diplo_AlliedRaidOrdersHeader>
   <TSA_WD_Diplo_GlobalEventsHeader>Mejoras y penalizaciones temporales</TSA_WD_Diplo_GlobalEventsHeader>
   <TSA_WD_Diplo_GrowthGainMult>Multiplicador de ganancia de fuerza por crecimiento</TSA_WD_Diplo_GrowthGainMult>
-  <TSA_WD_Diplo_Header>Diplomacia, mejoras y penalizaciones</TSA_WD_Diplo_Header>
+  <TSA_WD_Diplo_Header>Relaciones dinámicas del mundo</TSA_WD_Diplo_Header>
   <TSA_WD_Diplo_IncidentSeverity>Multiplicador de pérdida de fuerza por incidente</TSA_WD_Diplo_IncidentSeverity>
   <TSA_WD_Diplo_IncidentWeight>Multiplicador de probabilidad de incidente</TSA_WD_Diplo_IncidentWeight>
   <TSA_WD_Diplo_LeaderHandicap>Activar penalización de facción dominante (penalización)</TSA_WD_Diplo_LeaderHandicap>
@@ -296,6 +296,11 @@
   <TSA_WD_Buy_OptConvertOutpost>Convertir en avanzadilla</TSA_WD_Buy_OptConvertOutpost>
   <TSA_WD_Buy_OptRecruit>Reclutar habitantes</TSA_WD_Buy_OptRecruit>
   <TSA_WD_Buy_OptGiveAlly>Dejar que un aliado o facción neutral se asiente aquí</TSA_WD_Buy_OptGiveAlly>
+  <TSA_WD_GiftsAndPurchases_SettingsHeader>Regalos y compras</TSA_WD_GiftsAndPurchases_SettingsHeader>
+  <TSA_WD_GiftSettlement_GoodwillDivisor>Plata de regalo por punto de buena voluntad</TSA_WD_GiftSettlement_GoodwillDivisor>
+  <TSA_WD_GiftSettlement_GoodwillDivisorTip>Al llegar el regalo, la buena voluntad es el valor de mercado en bruto de los bienes dividido por este número (no la valoración de venta del medidor). Valores más altos = menos buena voluntad. Vanilla usa 40.</TSA_WD_GiftSettlement_GoodwillDivisorTip>
+  <TSA_WD_GiftSettlement_MinSilverSetting>Regalo mínimo (plata)</TSA_WD_GiftSettlement_MinSilverSetting>
+  <TSA_WD_GiftSettlement_MinSilverSettingTip>Los bienes de la caravana de regalos deben alcanzar este equivalente en plata en el medidor (valoración de venta) antes de confirmar.</TSA_WD_GiftSettlement_MinSilverSettingTip>
   <TSA_WD_BuySettlement_SettingsHeader>Comprar asentamiento</TSA_WD_BuySettlement_SettingsHeader>
   <TSA_WD_BuySettlement_Enable>Activar compra de asentamientos</TSA_WD_BuySettlement_Enable>
   <TSA_WD_BuySettlement_EnableTip>Si está activo, los asentamientos WD aliados y neutrales muestran el gizmo Comprar asentamiento.</TSA_WD_BuySettlement_EnableTip>
@@ -541,7 +546,7 @@
   <TSA_WD_Bribe_CaravanInvestRadius>Radio de inversión (soborno de incursión)</TSA_WD_Bribe_CaravanInvestRadius>
   <TSA_WD_Bribe_CaravanInvestRadiusTip>Casillas desde el asentamiento de origen usadas al invertir tras un soborno de incursión exitoso.</TSA_WD_Bribe_CaravanInvestRadiusTip>
   <TSA_WD_Bribe_GoodwillBonusDivisor>Plata por punto de bonus de buena voluntad</TSA_WD_Bribe_GoodwillBonusDivisor>
-  <TSA_WD_Bribe_GoodwillBonusDivisorTip>Tras un soborno exitoso, la buena voluntad ganada es el valor de mercado del pago dividido por este número. Los sobornos no se pagan con buena voluntad. Valores más altos = bonus más débil. Los regalos usan 40.</TSA_WD_Bribe_GoodwillBonusDivisorTip>
+  <TSA_WD_Bribe_GoodwillBonusDivisorTip>Tras un soborno exitoso, la buena voluntad ganada es el valor de mercado del pago dividido por este número. Los sobornos no se pagan con buena voluntad. Valores más altos = bonus más débil. Los regalos del mapa mundial usan su propio divisor en Regalos y compras.</TSA_WD_Bribe_GoodwillBonusDivisorTip>
   <TSA_WD_Notify_BribeSettlementCompleted>Soborno de asentamiento completado</TSA_WD_Notify_BribeSettlementCompleted>
   <TSA_WD_Notify_BribeSettlementCompletedTooltip>Carta cuando llega un soborno de alto el fuego. Recuerda que las incursiones en camino no se retiran.</TSA_WD_Notify_BribeSettlementCompletedTooltip>
   <TSA_WD_Notify_BribeSettlementAborted>Soborno de asentamiento fallido</TSA_WD_Notify_BribeSettlementAborted>

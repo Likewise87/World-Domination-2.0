@@ -43,6 +43,10 @@ namespace TSA_WorldDomination
         private float raidArrivalRealtime = -1f;
         private float pendingRaidPoints;
         private int postLoadGraceUntilTick = -1;
+        /// <summary>Launch started; suppress defeat while skyfaller / shuttle still owns the map.</summary>
+        private bool aerialLeaveInProgress;
+        /// <summary>Full aerial flee latched; await craft gone then defeat teardown.</summary>
+        private bool playerFled;
 
         public WD_MapComponent_OutpostDefense(Map map) : base(map) { }
 
@@ -50,9 +54,9 @@ namespace TSA_WorldDomination
             => encounterActive && !resolved && outpost != null && outpost == target;
 
         /// <summary>
-        /// Active unresolved defense: block drafted map-edge auto-caravan exit (hard-close lifecycle owns leave).
+        /// Active unresolved defense / mid-flee: block drafted map-edge auto-caravan exit.
         /// </summary>
-        public bool BlocksPlayerEdgeExit => encounterActive && !resolved;
+        public bool BlocksPlayerEdgeExit => (encounterActive || playerFled || aerialLeaveInProgress) && !resolved;
 
         public static bool HasActiveEncounterFor(WorldObject_WD_Outpost target)
             => FindActiveMapFor(target) != null;
@@ -74,6 +78,25 @@ namespace TSA_WorldDomination
                     return maps[i];
             }
 
+            return null;
+        }
+
+        /// <summary>Defense map on tile that still needs aerial flee Phase A/B (not yet resolved).</summary>
+        public static WD_MapComponent_OutpostDefense FindDefenseNeedingAerialFleeOnTile(int tileId)
+        {
+            if (tileId < 0) return null;
+            var maps = Current.Game?.Maps;
+            if (maps == null) return null;
+            for (int i = 0; i < maps.Count; i++)
+            {
+                Map m = maps[i];
+                if (m == null || !m.Tile.Valid || m.Tile.tileId != tileId) continue;
+                WD_MapComponent_OutpostDefense defense = m.GetComponent<WD_MapComponent_OutpostDefense>();
+                if (defense == null) continue;
+                if (defense.resolved) continue;
+                if (!defense.encounterActive && !defense.playerFled) continue;
+                return defense;
+            }
             return null;
         }
 
@@ -115,6 +138,8 @@ namespace TSA_WorldDomination
             borrowedMechanoids = mechanoidPawns != null ? new List<Pawn>(mechanoidPawns) : new List<Pawn>();
             encounterActive = true;
             resolved = false;
+            aerialLeaveInProgress = false;
+            playerFled = false;
             raidLaunched = false;
             raidLaunchedTick = -1;
             raidThreatSeen = false;
@@ -137,10 +162,32 @@ namespace TSA_WorldDomination
 
         public override void MapComponentTick()
         {
-            if (!encounterActive || resolved) return;
+            if (resolved) return;
+
+            if (playerFled)
+            {
+                if (Find.TickManager.TicksGame % 60 == 0)
+                    TryFinishFleeDefeatIfSafe();
+                return;
+            }
+
+            if (!encounterActive) return;
+
             LaunchPendingRaidIfDue();
             if (Find.TickManager.TicksGame % 60 == 0)
+            {
+                if (aerialLeaveInProgress
+                    && !AnyBorrowedDefenderFightingOnMap()
+                    && !WD_TempEncounterAerialLeaveUtility.AnyEscapedSurvivorsStillOnThisMap(map)
+                    && RaidThreatStillActive())
+                {
+                    ResolvePlayerFledDefensePhaseA();
+                    TryFinishFleeDefeatIfSafe();
+                    return;
+                }
+
                 CheckEncounterState();
+            }
         }
 
         private void LaunchPendingRaidIfDue()
@@ -179,15 +226,33 @@ namespace TSA_WorldDomination
             if (Find.TickManager.TicksGame <= startTick + 600)
                 return;
 
-            bool defenderStanding = AnyBorrowedDefenderStanding();
+            bool defenderFighting = AnyBorrowedDefenderFightingOnMap();
 
-            if (!defenderStanding)
+            if (!defenderFighting)
             {
                 if (!AnyBorrowedDefenderExists())
                 {
                     AbortEncounterRestoreDefenders("no valid borrowed defenders after load");
                     return;
                 }
+
+                // Enemies already cleared while defenders are boarded / leaving — win (absorb shuttle).
+                bool inboundEarly = AnyInboundRaidThreat();
+                bool hostilesEarly = GenHostility.AnyHostileActiveThreatToPlayer(map, true);
+                if (inboundEarly)
+                    raidInboundSeen = true;
+                if (hostilesEarly)
+                    raidThreatSeen = true;
+                if (raidThreatSeen && !hostilesEarly && !inboundEarly)
+                {
+                    ResolveManualVictory();
+                    return;
+                }
+
+                // Boarded / launching: suppress wipe. Lose only when craft has left (or leave hooks fire).
+                if (aerialLeaveInProgress
+                    || WD_TempEncounterAerialLeaveUtility.AnyPlayerSurvivorsEscaped(map))
+                    return;
 
                 ResolveManualDefeat();
                 return;
@@ -219,12 +284,15 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            if (!hostiles && defenderStanding)
+            if (!hostiles && defenderFighting)
             {
                 ResolveManualVictory();
                 return;
             }
         }
+
+        private bool RaidThreatStillActive()
+            => GenHostility.AnyHostileActiveThreatToPlayer(map, true);
 
         /// <summary>
         /// Incoming / opening drop pods still count as an unresolved raid (not a victory condition).
@@ -236,26 +304,24 @@ namespace TSA_WorldDomination
             List<Thing> all = map.listerThings.AllThings;
             for (int i = 0; i < all.Count; i++)
             {
-                Thing t = all[i];
-                if (t == null || t.Destroyed) continue;
-                if (t is Skyfaller)
-                    return true;
-                string defName = t.def?.defName;
-                if (defName != null
-                    && defName.IndexOf("DropPod", StringComparison.OrdinalIgnoreCase) >= 0)
+                if (WD_TempEncounterAerialLeaveUtility.IsHostileInboundRaidThing(all[i]))
                     return true;
             }
             return false;
         }
 
-        private bool AnyBorrowedDefenderStanding()
+        /// <summary>Borrowed humanlike still fighting on the defense map (Spawned). Boarded-only does not count.</summary>
+        private bool AnyBorrowedDefenderFightingOnMap()
         {
             if (borrowedPawns == null) return false;
             for (int i = 0; i < borrowedPawns.Count; i++)
             {
                 Pawn pawn = borrowedPawns[i];
-                if (pawn != null && !pawn.Destroyed && !pawn.Dead && !pawn.Downed)
-                    return true;
+                if (pawn == null || pawn.Destroyed) continue;
+                if (!pawn.Spawned || pawn.Map != map) continue;
+                if (WD_TempEncounterAerialLeaveUtility.IsCombatIneffective(pawn)) continue;
+                if (pawn.RaceProps == null || !pawn.RaceProps.Humanlike) continue;
+                return true;
             }
             return false;
         }
@@ -277,6 +343,91 @@ namespace TSA_WorldDomination
                     return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Successful launch from this defense map. Marks leave-in-progress immediately so a mid-launch
+        /// wipe cannot tear down the map under the skyfaller. Full flee only if no on-map borrowed fighters.
+        /// </summary>
+        public void NotifyPossibleAerialLeave()
+        {
+            if (resolved) return;
+            if (playerFled) return;
+            if (!encounterActive) return;
+
+            aerialLeaveInProgress = true;
+
+            if (!RaidThreatStillActive()) return;
+            if (AnyBorrowedDefenderFightingOnMap()) return;
+
+            ResolvePlayerFledDefensePhaseA();
+        }
+
+        /// <summary>
+        /// World airborne spawned from this defense tile. No-op if borrowed fighters remain on the map.
+        /// </summary>
+        public void NotifyAirborneSurvivorsLeftThisDefense()
+        {
+            if (resolved)
+            {
+                aerialLeaveInProgress = false;
+                return;
+            }
+
+            if (encounterActive)
+            {
+                if (AnyBorrowedDefenderFightingOnMap())
+                {
+                    aerialLeaveInProgress = false;
+                    return;
+                }
+
+                aerialLeaveInProgress = false;
+
+                if (!RaidThreatStillActive() && raidThreatSeen)
+                {
+                    ResolveManualVictory();
+                    return;
+                }
+
+                ResolvePlayerFledDefensePhaseA();
+            }
+            else
+                aerialLeaveInProgress = false;
+
+            if (playerFled)
+                TryFinishFleeDefeatIfSafe();
+        }
+
+        private void ResolvePlayerFledDefensePhaseA()
+        {
+            if (playerFled || resolved) return;
+            if (!encounterActive) return;
+
+            WDVerbose.Msg($"[TSA WD] Outpost defense aerial flee Phase A for {outpost?.Label ?? "unknown"}.");
+            playerFled = true;
+            // Do not resolve raid yet — wait until craft clears the map (Phase B).
+        }
+
+        private void TryFinishFleeDefeatIfSafe()
+        {
+            if (!playerFled || resolved) return;
+            if (AnyBorrowedDefenderFightingOnMap()) return;
+            if (aerialLeaveInProgress || WD_TempEncounterAerialLeaveUtility.AnyEscapedSurvivorsStillOnThisMap(map))
+                return;
+            ResolvePlayerFledDefensePhaseB();
+        }
+
+        private void ResolvePlayerFledDefensePhaseB()
+        {
+            if (!playerFled || resolved) return;
+            if (AnyBorrowedDefenderFightingOnMap()) return;
+            if (aerialLeaveInProgress || WD_TempEncounterAerialLeaveUtility.AnyEscapedSurvivorsStillOnThisMap(map))
+                return;
+
+            WDVerbose.Msg($"[TSA WD] Outpost defense aerial flee Phase B defeat for {outpost?.Label ?? "unknown"}.");
+            aerialLeaveInProgress = false;
+            ResolveManualDefeat();
         }
 
         private void AbortEncounterRestoreDefenders(string reason)
@@ -301,6 +452,7 @@ namespace TSA_WorldDomination
             {
                 Pawn pawn = borrowedPawns[i];
                 if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
+                if (WD_TempEncounterAerialLeaveUtility.IsAliveEscapeeOffMap(pawn, map)) continue;
                 if (pawn.Faction != null && pawn.Faction.IsPlayer)
                     list.Add(pawn);
             }
@@ -315,6 +467,7 @@ namespace TSA_WorldDomination
             {
                 Pawn pawn = borrowedStoredTransportPawns[i];
                 if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
+                if (WD_TempEncounterAerialLeaveUtility.IsAliveEscapeeOffMap(pawn, map)) continue;
                 if (pawn.Faction != null && pawn.Faction.IsPlayer)
                     list.Add(pawn);
             }
@@ -329,6 +482,7 @@ namespace TSA_WorldDomination
             {
                 Pawn pawn = borrowedMechanoids[i];
                 if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
+                if (WD_TempEncounterAerialLeaveUtility.IsAliveEscapeeOffMap(pawn, map)) continue;
                 if (pawn.Faction != null && pawn.Faction.IsPlayer)
                     list.Add(pawn);
             }
@@ -346,7 +500,7 @@ namespace TSA_WorldDomination
             outpost?.ReturnManualDefenseStoredTransportPawns(SurvivingBorrowedStoredTransportPawns());
             outpost?.ReturnManualDefenseMechanoids(SurvivingBorrowedMechanoids());
             int returned = outpost?.ReturnManualDefensePawns(SurvivingBorrowedPawns()) ?? 0;
-            ReturnExtraPlayerPawnsAsCaravan(includeDowned: true);
+            AbsorbExtraPlayerForceIntoOutpost();
             int captivesTaken = 0;
             if (outpost != null && !outpost.Destroyed)
                 captivesTaken = OutpostPrisonerUtility.HarvestCaptivesFromDefenseMap(outpost, map);
@@ -390,35 +544,96 @@ namespace TSA_WorldDomination
 
         private void KillRemainingBorrowedPawns()
         {
-            if (borrowedPawns == null) return;
-            for (int i = 0; i < borrowedPawns.Count; i++)
-            {
-                Pawn pawn = borrowedPawns[i];
-                if (pawn != null && !pawn.Destroyed && !pawn.Dead)
-                    pawn.Kill(null);
-            }
+            KillBorrowedListSkippingEscapees(borrowedPawns);
         }
 
         private void KillRemainingBorrowedMechanoids()
         {
-            if (borrowedMechanoids == null) return;
-            for (int i = 0; i < borrowedMechanoids.Count; i++)
-            {
-                Pawn pawn = borrowedMechanoids[i];
-                if (pawn != null && !pawn.Destroyed && !pawn.Dead)
-                    pawn.Kill(null);
-            }
+            KillBorrowedListSkippingEscapees(borrowedMechanoids);
         }
 
         private void KillRemainingBorrowedStoredTransportPawns()
         {
-            if (borrowedStoredTransportPawns == null) return;
-            for (int i = 0; i < borrowedStoredTransportPawns.Count; i++)
+            KillBorrowedListSkippingEscapees(borrowedStoredTransportPawns);
+        }
+
+        private void KillBorrowedListSkippingEscapees(List<Pawn> list)
+        {
+            if (list == null) return;
+            for (int i = 0; i < list.Count; i++)
             {
-                Pawn pawn = borrowedStoredTransportPawns[i];
-                if (pawn != null && !pawn.Destroyed && !pawn.Dead)
-                    pawn.Kill(null);
+                Pawn pawn = list[i];
+                if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
+                if (WD_TempEncounterAerialLeaveUtility.IsAliveEscapeeOffMap(pawn, map))
+                    continue;
+                pawn.Kill(null);
             }
+        }
+
+        /// <summary>Victory: fold remaining extras + landed Odyssey shuttles into the outpost (not a caravan).</summary>
+        private void AbsorbExtraPlayerForceIntoOutpost()
+        {
+            if (outpost == null || outpost.Destroyed || map == null || map.mapPawns == null)
+                return;
+
+            var borrowed = BuildBorrowedSet();
+            var toAbsorb = new List<Pawn>();
+            IReadOnlyList<Pawn> allPawns = map.mapPawns.AllPawnsSpawned;
+            for (int i = 0; i < allPawns.Count; i++)
+            {
+                Pawn pawn = allPawns[i];
+                if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
+                if (pawn.Faction != Faction.OfPlayer) continue;
+                if (borrowed.Contains(pawn)) continue;
+                if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(pawn)) continue;
+                toAbsorb.Add(pawn);
+            }
+
+            var shuttles = CollectExtraPassengerShuttles(map);
+
+            for (int i = 0; i < toAbsorb.Count; i++)
+            {
+                Pawn pawn = toAbsorb[i];
+                if (pawn == null || pawn.Destroyed) continue;
+                if (pawn.Spawned) pawn.DeSpawn();
+                pawn.holdingOwner?.Remove(pawn);
+                if (pawn.Faction != Faction.OfPlayer)
+                    pawn.SetFaction(Faction.OfPlayer);
+
+                if (OutpostPawnClassificationUtil.IsMechanoidWorker(pawn))
+                    outpost.StoreMechanoid(pawn);
+                else if (pawn.RaceProps != null && pawn.RaceProps.Humanlike)
+                    outpost.AddPawn(pawn, null);
+                else
+                    outpost.StoreAnimalOrVehicle(pawn);
+            }
+
+            for (int i = 0; i < shuttles.Count; i++)
+            {
+                Building_PassengerShuttle shuttle = shuttles[i];
+                if (shuttle == null || shuttle.Destroyed) continue;
+                shuttle.holdingOwner?.Remove(shuttle);
+                if (shuttle.Spawned)
+                    shuttle.DeSpawn(DestroyMode.Vanish);
+                outpost.StorePassengerShuttle(shuttle);
+            }
+        }
+
+        private HashSet<Pawn> BuildBorrowedSet()
+        {
+            var borrowed = new HashSet<Pawn>();
+            void AddList(List<Pawn> list)
+            {
+                if (list == null) return;
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (list[i] != null) borrowed.Add(list[i]);
+                }
+            }
+            AddList(borrowedPawns);
+            AddList(borrowedStoredTransportPawns);
+            AddList(borrowedMechanoids);
+            return borrowed;
         }
 
         private int ReturnExtraPlayerPawnsAsCaravan(bool includeDowned)
@@ -426,31 +641,7 @@ namespace TSA_WorldDomination
             if (outpost == null || outpost.Destroyed || map == null || map.mapPawns == null)
                 return 0;
 
-            var borrowed = new HashSet<Pawn>();
-            if (borrowedPawns != null)
-            {
-                for (int i = 0; i < borrowedPawns.Count; i++)
-                {
-                    Pawn pawn = borrowedPawns[i];
-                    if (pawn != null) borrowed.Add(pawn);
-                }
-            }
-            if (borrowedStoredTransportPawns != null)
-            {
-                for (int i = 0; i < borrowedStoredTransportPawns.Count; i++)
-                {
-                    Pawn pawn = borrowedStoredTransportPawns[i];
-                    if (pawn != null) borrowed.Add(pawn);
-                }
-            }
-            if (borrowedMechanoids != null)
-            {
-                for (int i = 0; i < borrowedMechanoids.Count; i++)
-                {
-                    Pawn pawn = borrowedMechanoids[i];
-                    if (pawn != null) borrowed.Add(pawn);
-                }
-            }
+            var borrowed = BuildBorrowedSet();
 
             var toReturn = new List<Pawn>();
             IReadOnlyList<Pawn> allPawns = map.mapPawns.AllPawnsSpawned;
@@ -603,9 +794,28 @@ namespace TSA_WorldDomination
         public override void MapRemoved()
         {
             base.MapRemoved();
-            if (!encounterActive || resolved) return;
+            if (resolved) return;
             if (IsWithinPostLoadGrace()) return;
 
+            // Mid-flee map kill: treat as defeat, do not restore escapees into the outpost.
+            if (playerFled || aerialLeaveInProgress)
+            {
+                if (!resolved)
+                {
+                    resolved = true;
+                    encounterActive = false;
+                    aerialLeaveInProgress = false;
+                    ReturnExtraPlayerPawnsAsCaravan(includeDowned: false);
+                    KillRemainingBorrowedPawns();
+                    KillRemainingBorrowedStoredTransportPawns();
+                    KillRemainingBorrowedMechanoids();
+                    outpost?.ClearManualDefenseActive();
+                    ResolveSharedOutpostRaid(attackerWon: true);
+                }
+                return;
+            }
+
+            if (!encounterActive) return;
             AbortEncounterRestoreDefenders("map removed before encounter resolved");
         }
 
@@ -651,6 +861,8 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref borrowedMechanoids, "borrowedMechanoids", LookMode.Reference);
             Scribe_Values.Look(ref encounterActive, "encounterActive", false);
             Scribe_Values.Look(ref resolved, "resolved", false);
+            Scribe_Values.Look(ref aerialLeaveInProgress, "aerialLeaveInProgress", false);
+            Scribe_Values.Look(ref playerFled, "playerFled", false);
             Scribe_Values.Look(ref mapRemovalQueued, "mapRemovalQueued", false);
             Scribe_Values.Look(ref startTick, "startTick", -1);
             Scribe_Values.Look(ref raidLaunched, "raidLaunched", false);
@@ -683,6 +895,13 @@ namespace TSA_WorldDomination
                     if (GenHostility.AnyHostileActiveThreatToPlayer(map, true))
                         raidThreatSeen = true;
                 }
+            }
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && playerFled && !resolved)
+            {
+                postLoadGraceUntilTick = Find.TickManager.TicksGame + 300;
+                // Craft may already be gone after load — finish defeat when safe.
+                TryFinishFleeDefeatIfSafe();
             }
         }
     }

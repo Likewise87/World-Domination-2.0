@@ -46,25 +46,8 @@ namespace TSA_WorldDomination
 
         private static IEnumerable<Gizmo> GetWarehouseGizmos(WorldObject_WD_Outpost warehouse)
         {
-            var comp = CompOutpostWarehouse.Get(warehouse);
-            if (comp == null) yield break;
-
-            foreach (Gizmo g in Outpost_DispatchMode_Gizmos.GetWarehouseGizmos(warehouse))
-                yield return g;
-
-            WorldObject shipDest = comp.ResolveShipDestination();
-            string destLabel = Outpost_Warehouse_Delivery.GetDestinationLabelWithKind(shipDest);
-
-            yield return new Command_Action
-            {
-                defaultLabel = shipDest != null
-                    ? "TSA_WD_Warehouse_ShipDestGizmo".Translate(destLabel).ToString()
-                    : "TSA_WD_Warehouse_SetShipDest".Translate().ToString(),
-                defaultDesc = "TSA_WD_Warehouse_SetShipDestDesc".Translate().ToString(),
-                icon = DeliveryTargetIcon,
-                action = () => Outpost_Warehouse_Delivery.BeginShipDestinationChoice(comp, warehouse),
-                onHover = () => Outpost_Warehouse_Delivery.DrawHoverOverlayLines(warehouse)
-            };
+            // Shipping controls moved to WITab_Outpost_Warehouse.
+            yield break;
         }
     }
 }

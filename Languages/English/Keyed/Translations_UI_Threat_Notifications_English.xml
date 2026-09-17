@@ -431,9 +431,15 @@
   <TSA_WD_Prisoners_Filter_All>All</TSA_WD_Prisoners_Filter_All>
   <TSA_WD_Prisoners_Filter_Colony>Colony</TSA_WD_Prisoners_Filter_Colony>
   <TSA_WD_Prisoners_Filter_Outpost>Outpost</TSA_WD_Prisoners_Filter_Outpost>
+  <TSA_WD_Prisoners_Filter_InTransit>In transit</TSA_WD_Prisoners_Filter_InTransit>
   <TSA_WD_Prisoners_GroupOutpost>Outpost Prisoners</TSA_WD_Prisoners_GroupOutpost>
   <TSA_WD_Prisoners_GroupOutpostHeader>Outpost Prisoners (Up to {0} at a time)</TSA_WD_Prisoners_GroupOutpostHeader>
-  <TSA_WD_Prisoners_GroupOutpostTip>Outpost prisoners cannot be moved until they are recruited.\n\nThey are recruited automatically in list order (top first).\nUse the arrows to change priority.\n\nSocial skill sets how many can be recruited at once (1 per 10 Social, always at least 1).\nIt also sets how fast resistance drops. A Warden expert makes that faster.\n\nPrisoners also consume food.\nRelease them if they are not worth keeping.</TSA_WD_Prisoners_GroupOutpostTip>
+  <TSA_WD_Prisoners_GroupOutpostTip>Outpost prisoners recruit automatically in list order (top first).\nUse the arrows to change priority.\n\nFrom the outpost Pawns tab, select a prisoner with at least one colonist escort to transfer them to another outpost or colony.\n\nSocial skill sets how many can be recruited at once (1 per 10 Social, always at least 1).\nIt also sets how fast resistance drops. A Warden expert makes that faster.\n\nPrisoners also consume food.\nRelease them if they are not worth keeping.</TSA_WD_Prisoners_GroupOutpostTip>
+  <TSA_WD_Prisoners_GroupInTransit>In transit</TSA_WD_Prisoners_GroupInTransit>
+  <TSA_WD_Prisoners_GroupInTransitTip>These captives are traveling with an escorted caravan.\nRecruitment and outpost actions pause until they arrive.\nKick out, schedule destination, and interaction changes are disabled while they travel.</TSA_WD_Prisoners_GroupInTransitTip>
+  <TSA_WD_Prisoners_InTransit>In transit</TSA_WD_Prisoners_InTransit>
+  <TSA_WD_Prisoners_InTransitTip>Escorted transfer in progress. This captive stays a prisoner of the colony until the caravan arrives.</TSA_WD_Prisoners_InTransitTip>
+  <TSA_WD_Prisoners_InTransitActionsDisabledTip>Cannot change schedule, interaction, or kick out while this captive is in transit.</TSA_WD_Prisoners_InTransitActionsDisabledTip>
   <TSA_WD_Prisoners_QueueTopTip>Send to top of the recruit queue.</TSA_WD_Prisoners_QueueTopTip>
   <TSA_WD_Prisoners_QueueUpTip>Move up one place in the recruit queue.</TSA_WD_Prisoners_QueueUpTip>
   <TSA_WD_Prisoners_QueueDownTip>Move down one place in the recruit queue.</TSA_WD_Prisoners_QueueDownTip>
@@ -608,4 +614,8 @@
   <TSA_WD_PawnTransfer_Log>Transfer ordered: {0} pawn(s) from {1} to {2}</TSA_WD_PawnTransfer_Log>
   <TSA_WD_PawnTransfer_WithoutFood>Pawn being transferred without food.</TSA_WD_PawnTransfer_WithoutFood>
   <TSA_WD_PawnTransfer_WithoutFoodPlural>{0} pawns being transferred without food.</TSA_WD_PawnTransfer_WithoutFoodPlural>
+  <TSA_WD_PawnTransfer_PrisonerNeedsEscort>Select at least one non-prisoner colonist to escort captives.</TSA_WD_PawnTransfer_PrisonerNeedsEscort>
+  <TSA_WD_PawnTransfer_PrisonerCannotLead>{0} is a prisoner and cannot lead the caravan.</TSA_WD_PawnTransfer_PrisonerCannotLead>
+  <TSA_WD_PawnTransfer_PrisonerNoExitHere>Captives cannot Exit here — send them to a colony or outpost that takes prisoners.</TSA_WD_PawnTransfer_PrisonerNoExitHere>
+  <TSA_WD_PawnTransfer_DestRefusesPrisoners>That outpost is not taking prisoners.</TSA_WD_PawnTransfer_DestRefusesPrisoners>
 </LanguageData>

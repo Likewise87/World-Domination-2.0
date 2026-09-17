@@ -27,12 +27,8 @@ namespace TSA_WorldDomination
 
         public static IEnumerable<Gizmo> GetWarehouseGizmos(WorldObject_WD_Outpost warehouse)
         {
-            if (warehouse == null || warehouse.Faction != Faction.OfPlayer) yield break;
-            CompOutpostWarehouse comp = CompOutpostWarehouse.Get(warehouse);
-            if (comp == null) yield break;
-
-            yield return MakeDispatchModeGizmo(warehouse);
-            yield return MakeAutoShipGizmo(warehouse, comp);
+            // Dispatch mode, auto-ship, and ship destination live on WITab_Outpost_Warehouse.
+            yield break;
         }
 
         private static Command_Action MakeDispatchModeGizmo(WorldObject origin)
@@ -61,7 +57,7 @@ namespace TSA_WorldDomination
                     : "TSA_WD_DispatchMode_Land".Translate(),
                 defaultDesc = desc,
                 icon = viaPod ? DropPodIcon : LandIcon,
-                defaultIconColor = Color.cyan,
+                defaultIconColor = WorldOverlayLineMaterials.LogisticsDarkCyanColor,
                 action = () =>
                 {
                     if (viaPod)

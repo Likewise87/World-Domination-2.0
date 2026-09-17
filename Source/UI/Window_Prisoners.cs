@@ -114,6 +114,7 @@ namespace TSA_WorldDomination
 
             int selectedCount = selectedThingIds.Count;
             bool anySelected = selectedCount > 0;
+            bool selectionHasTransit = SelectionIncludesInTransit();
 
             Rect kickOutBtn = new Rect(tableRight - KickOutBtnWidth, 4f, KickOutBtnWidth, 30f);
             Rect setDestBtn = new Rect(kickOutBtn.x - ToolbarBtnGap - SetDestBtnWidth, 4f, SetDestBtnWidth, 30f);
@@ -136,11 +137,14 @@ namespace TSA_WorldDomination
                 RestoreDefaultView,
                 () => Find.WindowStack.Add(new Dialog_PawnRosterColumns(ColWindow, OnColumnsChanged)));
 
-            TooltipHandler.TipRegion(setDestBtn, "TSA_WD_Prisoners_SetDestinationTip".Translate());
-            TooltipHandler.TipRegion(smartAssignBtn, "TSA_WD_Prisoners_SmartAssignTip".Translate());
+            string transitBlockTip = selectionHasTransit
+                ? "TSA_WD_Prisoners_InTransitActionsDisabledTip".Translate()
+                : null;
+            TooltipHandler.TipRegion(setDestBtn, transitBlockTip ?? "TSA_WD_Prisoners_SetDestinationTip".Translate());
+            TooltipHandler.TipRegion(smartAssignBtn, transitBlockTip ?? "TSA_WD_Prisoners_SmartAssignTip".Translate());
             TooltipHandler.TipRegion(smartConfigBtn, "TSA_WD_Prisoners_SmartAssignConfigTip".Translate());
-            TooltipHandler.TipRegion(clearDestBtn, "TSA_WD_Prisoners_ClearDestinationTip".Translate());
-            TooltipHandler.TipRegion(kickOutBtn, "TSA_WD_Prisoners_LetGoSelectedTip".Translate());
+            TooltipHandler.TipRegion(clearDestBtn, transitBlockTip ?? "TSA_WD_Prisoners_ClearDestinationTip".Translate());
+            TooltipHandler.TipRegion(kickOutBtn, transitBlockTip ?? "TSA_WD_Prisoners_LetGoSelectedTip".Translate());
 
             Texture2D configIcon = ConfigIcon;
             if (Widgets.ButtonImage(smartConfigBtn, configIcon))
@@ -149,7 +153,7 @@ namespace TSA_WorldDomination
                 SoundDefOf.Click.PlayOneShotOnCamera();
             }
 
-            GUI.enabled = anySelected;
+            GUI.enabled = anySelected && !selectionHasTransit;
             if (WorldDomination_UIUtils.ButtonTextWithIcon(
                 setDestBtn,
                 WorldDomination_UIUtils.RosterTransferIcon,
@@ -212,7 +216,7 @@ namespace TSA_WorldDomination
                 PrisonerRosterEntry entry = cachedList[i];
                 if (entry.isGroupHeader)
                 {
-                    DrawGroupHeader(0f, y, totalWidth, entry.groupHeaderLabel);
+                    DrawGroupHeader(0f, y, totalWidth, entry.groupHeaderLabel, entry.groupHeaderTip);
                     y += GroupHeaderHeight;
                 }
                 else
@@ -383,7 +387,7 @@ namespace TSA_WorldDomination
                     {
                         sourceFilter = f;
                         lastUpdateTick = -9999;
-                    }, SourceFlagsFrom(BuildCurrentRoster(PrisonerRosterSourceFilter.All, applyXenotype: true)))),
+                    }, BuildCurrentRoster(PrisonerRosterSourceFilter.All, applyXenotype: true))),
                 () => SetSort("Location"));
             DrawSelectAllHeader(ref curX, hRect);
             curX += ColReorder;
@@ -566,7 +570,7 @@ namespace TSA_WorldDomination
             SoundDefOf.Click.PlayOneShotOnCamera();
         }
 
-        private void DrawGroupHeader(float x, float y, float width, string label)
+        private void DrawGroupHeader(float x, float y, float width, string label, string tip)
         {
             GUI.color = Color.white;
             Widgets.DrawLineHorizontal(x, y, width);
@@ -576,9 +580,22 @@ namespace TSA_WorldDomination
             GUI.color = Color.yellow;
             Rect headerRect = new Rect(x + 8f, y, width - 16f, GroupHeaderHeight);
             Widgets.Label(headerRect, label);
-            TooltipHandler.TipRegion(headerRect, "TSA_WD_Prisoners_GroupOutpostTip".Translate());
+            if (!tip.NullOrEmpty())
+                TooltipHandler.TipRegion(headerRect, tip);
             GUI.color = Color.white;
             Text.Anchor = TextAnchor.UpperLeft;
+        }
+
+        private bool SelectionIncludesInTransit()
+        {
+            if (selectedThingIds.Count == 0 || cachedList == null) return false;
+            List<PrisonerRosterEntry> selected = PrisonerRosterUtility.ResolveSelectedIncludingHidden(cachedList, selectedThingIds);
+            for (int i = 0; i < selected.Count; i++)
+            {
+                if (selected[i] != null && selected[i].isInTransit)
+                    return true;
+            }
+            return false;
         }
 
         private void DrawRow(float x, float y, float width, PrisonerRosterEntry entry, bool zebra)
@@ -735,7 +752,11 @@ namespace TSA_WorldDomination
         private void DrawPrisonerQueueButtons(ref float curX, float y, PrisonerRosterEntry entry)
         {
             Rect col = new Rect(curX, y, ColReorder, RowHeight);
-            if (entry != null && entry.isOutpostPrisoner && entry.pawn != null && entry.holdingOutpost != null)
+            if (entry != null
+                && entry.isOutpostPrisoner
+                && !entry.isInTransit
+                && entry.pawn != null
+                && entry.holdingOutpost != null)
             {
                 const float btn = 22f;
                 const float gap = 2f;
@@ -794,6 +815,18 @@ namespace TSA_WorldDomination
 
         private void DrawInteractionButton(Rect rect, PrisonerRosterEntry entry)
         {
+            if (entry.isInTransit)
+            {
+                Text.Font = GameFont.Tiny;
+                Text.Anchor = TextAnchor.MiddleCenter;
+                string label = "TSA_WD_Prisoners_InTransit".Translate();
+                Widgets.Label(rect, label.Truncate(rect.width - 4f));
+                TooltipHandler.TipRegion(rect, "TSA_WD_Prisoners_InTransitActionsDisabledTip".Translate());
+                Text.Anchor = TextAnchor.UpperLeft;
+                Text.Font = GameFont.Small;
+                return;
+            }
+
             if (entry.isOutpostPrisoner)
             {
                 Text.Font = GameFont.Tiny;
@@ -827,7 +860,7 @@ namespace TSA_WorldDomination
         {
             Pawn pawn = entry.pawn;
             if (pawn?.guest == null) return;
-            if (entry.isOutpostPrisoner) return;
+            if (entry.isOutpostPrisoner || entry.isInTransit) return;
 
             var options = new List<FloatMenuOption>();
             OpenColonyInteractionMenu(entry, options);
@@ -910,6 +943,19 @@ namespace TSA_WorldDomination
 
         private static void DrawDestinationCell(Rect destRect, PrisonerRosterEntry entry)
         {
+            if (entry.isInTransit)
+            {
+                Text.Anchor = TextAnchor.MiddleLeft;
+                Text.Font = GameFont.Tiny;
+                string label = entry.scheduledDestLabel.NullOrEmpty()
+                    ? "TSA_WD_Prisoners_InTransit".Translate()
+                    : entry.scheduledDestLabel;
+                Widgets.Label(destRect.ContractedBy(4f, 2f), label.Truncate(destRect.width - 8f));
+                TooltipHandler.TipRegion(destRect, "TSA_WD_Prisoners_InTransitTip".Translate());
+                Text.Font = GameFont.Small;
+                return;
+            }
+
             if (entry.scheduledDestId < 0 || entry.scheduledDestLabel.NullOrEmpty())
             {
                 Text.Anchor = TextAnchor.MiddleLeft;

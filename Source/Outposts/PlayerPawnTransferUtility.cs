@@ -55,11 +55,12 @@ namespace TSA_WorldDomination
         public static int RecruitTravelPemmicanPerPawn =>
             GiveFoodOnPrisonerRecruitTransfer ? TravelPemmicanPerPawn : 0;
 
-        /// <summary>Humanlike who can escort animals/mechs/vehicles (not a VF vehicle pawn).</summary>
+        /// <summary>Humanlike who can escort animals/mechs/vehicles (not a VF vehicle pawn, not a prisoner).</summary>
         public static bool IsEscortHumanlike(Pawn pawn)
         {
             if (pawn == null || pawn.Destroyed || pawn.Dead) return false;
             if (pawn.RaceProps?.Humanlike != true) return false;
+            if (pawn.IsPrisonerOfColony) return false;
             if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(pawn)) return false;
             return true;
         }
@@ -128,12 +129,19 @@ namespace TSA_WorldDomination
         public static bool IsCapableOfImmediateTransfer(Pawn pawn) =>
             IsCapableOfImmediateTransfer(pawn, out _);
 
-        /// <summary>Alias: can lead / path a transfer caravan.</summary>
-        public static bool CanLeadCaravanTransfer(Pawn pawn, out string reasonKey) =>
-            IsCapableOfImmediateTransfer(pawn, out reasonKey);
+        /// <summary>Alias: can lead / path a transfer caravan. Prisoners never lead.</summary>
+        public static bool CanLeadCaravanTransfer(Pawn pawn, out string reasonKey)
+        {
+            if (pawn != null && pawn.IsPrisonerOfColony)
+            {
+                reasonKey = "TSA_WD_PawnTransfer_PrisonerCannotLead".Translate(pawn.LabelShort);
+                return false;
+            }
+            return IsCapableOfImmediateTransfer(pawn, out reasonKey);
+        }
 
         public static bool CanLeadCaravanTransfer(Pawn pawn) =>
-            IsCapableOfImmediateTransfer(pawn);
+            CanLeadCaravanTransfer(pawn, out _);
 
         /// <summary>
         /// True if the pawn may be included as caravan cargo/passenger.
@@ -493,6 +501,22 @@ namespace TSA_WorldDomination
                 return;
             }
 
+            if (SelectionIncludesPrisoner(selected))
+            {
+                if (destination.kind == PlayerPawnTransferDestinationKind.ExitHere)
+                {
+                    Messages.Message("TSA_WD_PawnTransfer_PrisonerNoExitHere".Translate(), MessageTypeDefOf.RejectInput, false);
+                    return;
+                }
+                if (destination.kind == PlayerPawnTransferDestinationKind.Outpost
+                    && destination.outpost != null
+                    && !destination.outpost.TakePrisoners)
+                {
+                    Messages.Message("TSA_WD_PawnTransfer_DestRefusesPrisoners".Translate(), MessageTypeDefOf.RejectInput, false);
+                    return;
+                }
+            }
+
             if (destination.kind == PlayerPawnTransferDestinationKind.Colony
                 && destination.colony != null
                 && AllFromSameColony(selected, destination.colony))
@@ -679,6 +703,21 @@ namespace TSA_WorldDomination
                 {
                     Messages.Message("TSA_WD_OutpostDefense_FrozenDuringManualDefense".Translate(), MessageTypeDefOf.RejectInput, false);
                     return false;
+                }
+                if (e.outpostRole == PlayerPawnOutpostRole.Prisoner)
+                {
+                    if (destination.kind == PlayerPawnTransferDestinationKind.ExitHere)
+                    {
+                        Messages.Message("TSA_WD_PawnTransfer_PrisonerNoExitHere".Translate(), MessageTypeDefOf.RejectInput, false);
+                        return false;
+                    }
+                    if (destination.kind == PlayerPawnTransferDestinationKind.Outpost
+                        && destination.outpost != null
+                        && !destination.outpost.TakePrisoners)
+                    {
+                        Messages.Message("TSA_WD_PawnTransfer_DestRefusesPrisoners".Translate(), MessageTypeDefOf.RejectInput, false);
+                        return false;
+                    }
                 }
                 if (destination.kind == PlayerPawnTransferDestinationKind.Colony
                     && destination.colony != null
@@ -911,6 +950,7 @@ namespace TSA_WorldDomination
             var occupants = new List<Pawn>();
             var stored = new List<Pawn>();
             var mechs = new List<Pawn>();
+            var captives = new List<Pawn>();
             int shuttleCount = 0;
 
             for (int i = 0; i < group.Count; i++)
@@ -940,6 +980,27 @@ namespace TSA_WorldDomination
                     case PlayerPawnOutpostRole.StoredMechanoid:
                         if (outpost.StoredMechanoids.Contains(p)) mechs.Add(p);
                         break;
+                    case PlayerPawnOutpostRole.Prisoner:
+                        if (outpost.Prisoners.Contains(p)) captives.Add(p);
+                        break;
+                }
+            }
+
+            if (captives.Count > 0)
+            {
+                bool hasEscort = false;
+                for (int i = 0; i < occupants.Count; i++)
+                {
+                    if (IsEscortHumanlike(occupants[i]))
+                    {
+                        hasEscort = true;
+                        break;
+                    }
+                }
+                if (!hasEscort)
+                {
+                    reject = "TSA_WD_PawnTransfer_PrisonerNeedsEscort".Translate();
+                    return false;
                 }
             }
 
@@ -980,6 +1041,17 @@ namespace TSA_WorldDomination
             }
 
             return true;
+        }
+
+        private static bool SelectionIncludesPrisoner(IReadOnlyList<PlayerPawnRosterEntry> selected)
+        {
+            if (selected == null) return false;
+            for (int i = 0; i < selected.Count; i++)
+            {
+                if (selected[i]?.outpostRole == PlayerPawnOutpostRole.Prisoner)
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>Colony transfer: leave ≥1 escort humanlike behind; non-humans/slaves need an escort leaver.</summary>
@@ -1388,6 +1460,7 @@ namespace TSA_WorldDomination
             var occupants = new List<Pawn>();
             var stored = new List<Pawn>();
             var mechs = new List<Pawn>();
+            var captives = new List<Pawn>();
             var shuttles = new List<Building_PassengerShuttle>();
 
             for (int i = 0; i < group.Count; i++)
@@ -1415,10 +1488,13 @@ namespace TSA_WorldDomination
                     case PlayerPawnOutpostRole.StoredMechanoid:
                         if (source.StoredMechanoids.Contains(p)) mechs.Add(p);
                         break;
+                    case PlayerPawnOutpostRole.Prisoner:
+                        if (source.Prisoners.Contains(p)) captives.Add(p);
+                        break;
                 }
             }
 
-            source.RemovePawnsAndStoredTransportAndMechanoidsAsCaravan(occupants, stored, mechs, shuttles);
+            source.RemovePawnsAndStoredTransportAndMechanoidsAsCaravan(occupants, stored, mechs, shuttles, captives);
 
             Caravan? caravan = Find.WorldSelector.SingleSelectedObject as Caravan;
             if (caravan == null || caravan.Destroyed || caravan.Tile != source.Tile)
@@ -1429,9 +1505,11 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            int moved = occupants.Count + stored.Count + mechs.Count;
+            int moved = occupants.Count + stored.Count + mechs.Count + captives.Count;
             if (GiveFoodOnAllPlayerPawnsTransfer)
                 PackTravelPemmicanFromOutpost(caravan, moved, source);
+            Window_Prisoners.InvalidateCache();
+            WITab_Outpost_Pawns.InvalidateCache();
             RouteOrParkCaravan(caravan, source, destination, moved, source.LabelCap);
         }
 

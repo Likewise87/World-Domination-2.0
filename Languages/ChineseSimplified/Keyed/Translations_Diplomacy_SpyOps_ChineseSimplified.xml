@@ -66,7 +66,7 @@
   <TSA_WD_Diplo_AlliedRaidOrdersHeader>盟友袭击命令</TSA_WD_Diplo_AlliedRaidOrdersHeader>
   <TSA_WD_Diplo_GlobalEventsHeader>临时增益与减益</TSA_WD_Diplo_GlobalEventsHeader>
   <TSA_WD_Diplo_GrowthGainMult>成长强度获得乘数</TSA_WD_Diplo_GrowthGainMult>
-  <TSA_WD_Diplo_Header>外交、增益与减益</TSA_WD_Diplo_Header>
+  <TSA_WD_Diplo_Header>动态世界关系</TSA_WD_Diplo_Header>
   <TSA_WD_Diplo_IncidentSeverity>事件强度损失乘数</TSA_WD_Diplo_IncidentSeverity>
   <TSA_WD_Diplo_IncidentWeight>事件发生概率乘数</TSA_WD_Diplo_IncidentWeight>
   <TSA_WD_Diplo_LeaderHandicap>启用霸主阵营惩罚(减益)</TSA_WD_Diplo_LeaderHandicap>
@@ -296,6 +296,11 @@
   <TSA_WD_Buy_OptConvertOutpost>转换为前哨站</TSA_WD_Buy_OptConvertOutpost>
   <TSA_WD_Buy_OptRecruit>招募居民</TSA_WD_Buy_OptRecruit>
   <TSA_WD_Buy_OptGiveAlly>让盟友或中立派系在此定居</TSA_WD_Buy_OptGiveAlly>
+  <TSA_WD_GiftsAndPurchases_SettingsHeader>礼物与购买</TSA_WD_GiftsAndPurchases_SettingsHeader>
+  <TSA_WD_GiftSettlement_GoodwillDivisor>礼物好感银币除数</TSA_WD_GiftSettlement_GoodwillDivisor>
+  <TSA_WD_GiftSettlement_GoodwillDivisorTip>礼物送达时，好感 = 货物原始市场价值 ÷ 此数（不是交易条上的出售价估值）。数值越高，好感越弱。原版为 40。</TSA_WD_GiftSettlement_GoodwillDivisorTip>
+  <TSA_WD_GiftSettlement_MinSilverSetting>最低礼物（银币）</TSA_WD_GiftSettlement_MinSilverSetting>
+  <TSA_WD_GiftSettlement_MinSilverSettingTip>送礼商队货物在交易条上（出售价估值）必须达到此银币等价才能确认。</TSA_WD_GiftSettlement_MinSilverSettingTip>
   <TSA_WD_BuySettlement_SettingsHeader>购买定居点</TSA_WD_BuySettlement_SettingsHeader>
   <TSA_WD_BuySettlement_Enable>启用购买定居点</TSA_WD_BuySettlement_Enable>
   <TSA_WD_BuySettlement_EnableTip>启用后，盟友与中立的 WD 定居点会显示「购买定居点」按钮。</TSA_WD_BuySettlement_EnableTip>
@@ -541,7 +546,7 @@
   <TSA_WD_Bribe_CaravanInvestRadius>袭击贿赂投资半径</TSA_WD_Bribe_CaravanInvestRadius>
   <TSA_WD_Bribe_CaravanInvestRadiusTip>袭击贿赂成功后，以出发定居点为中心用于投资的格数。</TSA_WD_Bribe_CaravanInvestRadiusTip>
   <TSA_WD_Bribe_GoodwillBonusDivisor>每点好感奖励对应银</TSA_WD_Bribe_GoodwillBonusDivisor>
-  <TSA_WD_Bribe_GoodwillBonusDivisorTip>贿赂成功时，好感 = 付款市场价值 ÷ 此数。贿赂不能用好感支付。数值越高，奖励越弱。礼物使用 40。</TSA_WD_Bribe_GoodwillBonusDivisorTip>
+  <TSA_WD_Bribe_GoodwillBonusDivisorTip>贿赂成功时，好感 = 付款市场价值 ÷ 此数。贿赂不能用好感支付。数值越高，奖励越弱。世界地图礼物好感使用「礼物与购买」中的单独除数。</TSA_WD_Bribe_GoodwillBonusDivisorTip>
   <TSA_WD_Notify_BribeSettlementCompleted>定居点贿赂完成</TSA_WD_Notify_BribeSettlementCompleted>
   <TSA_WD_Notify_BribeSettlementCompletedTooltip>停火贿赂送达时发信。提醒在途袭击不会被召回。</TSA_WD_Notify_BribeSettlementCompletedTooltip>
   <TSA_WD_Notify_BribeSettlementAborted>定居点贿赂失败</TSA_WD_Notify_BribeSettlementAborted>

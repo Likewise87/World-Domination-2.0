@@ -54,6 +54,9 @@ namespace TSA_WorldDomination
             {
                 Log.Error($"[TSA WD] DesperationRaid NotifyNpcSettlementLost failed: {e}");
             }
+
+            // After Strategy: mark defeated when this was the last settlement (keeps World Stats / Diplomacy / rank).
+            WorldActions_Utils.TryMarkDefeatedIfNoSettlementsLeft(victim, settlementId);
         }
 
         public static void NotifyNpcSettlementLost(Settlement lost, Faction takerOrNull)
@@ -151,10 +154,12 @@ namespace TSA_WorldDomination
 
             if (!TryTriggerAfterLossCore(victim, lostTile, Faction.OfPlayer, forceDebug: true, excludeSettlementId: -1, out string fail))
             {
+                WorldActions_Utils.TryMarkDefeatedIfNoSettlementsLeft(victim);
                 message = $"destroyed {lostLabel}; pack failed ({fail})";
                 return false;
             }
 
+            WorldActions_Utils.TryMarkDefeatedIfNoSettlementsLeft(victim);
             message = $"destroyed {lostLabel}; forced desperation pack for {victim.Name}";
             return true;
         }

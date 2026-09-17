@@ -23,7 +23,8 @@ namespace TSA_WorldDomination
                 var d = all[i];
                 if (d.worldObjectClass != null
                     && typeof(WorldObject_WD_Outpost).IsAssignableFrom(d.worldObjectClass)
-                    && !AbstractOutpostDefNames.Contains(d.defName))
+                    && !AbstractOutpostDefNames.Contains(d.defName)
+                    && d.GetModExtension<OutpostDefExtension>()?.hideFromEstablishMenu != true)
                     List.Add(d);
             }
 
@@ -118,7 +119,7 @@ namespace TSA_WorldDomination
         /// <summary>Pawn-backed remote send or tile-first remote (colony warehouses for cost).</summary>
         private bool IsAnyRemoteEstablishPath => IsRemoteEstablish || IsTileFirstRemoteEstablish;
 
-        public override Vector2 InitialSize => new Vector2(960f, 620f);
+        public override Vector2 InitialSize => new Vector2(960f, 780f);
 
         /// <param name="fromCaravan">If set, caravan pawns are converted to virtual pawns and removed from the caravan; otherwise pawns are generated.</param>
         /// <param name="requirementsPreviewOnly">If true, shows costs and requirements for planning only; <paramref name="fromCaravan"/> must be null.</param>

@@ -12,7 +12,8 @@ namespace TSA_WorldDomination
     {
         All,
         Colony,
-        Outpost
+        Outpost,
+        InTransit
     }
 
     public class PrisonerRosterEntry
@@ -33,10 +34,13 @@ namespace TSA_WorldDomination
         public int ageYears;
         public MapParent mapParent;
         public WorldObject_WD_Outpost holdingOutpost;
+        public Caravan holdingCaravan;
         public bool isOutpostPrisoner;
+        public bool isInTransit;
         public bool isBeingRecruited;
         public bool isGroupHeader;
         public string groupHeaderLabel = "";
+        public string groupHeaderTip = "";
         public string locationLabel = "";
         public Texture2D locationIcon;
         public Color locationIconColor = Color.white;
@@ -67,15 +71,17 @@ namespace TSA_WorldDomination
         {
             var colonyRows = new List<PrisonerRosterEntry>();
             var outpostRows = new List<PrisonerRosterEntry>();
+            var transitRows = new List<PrisonerRosterEntry>();
             Faction player = Faction.OfPlayer;
             IndexedThingIds.Clear();
             if (player == null) return new List<PrisonerRosterEntry>();
 
             var schedule = WorldComponent_PrisonerRecruitSchedule.Get();
 
-            // Always scan both sources so selection prune can keep IDs hidden by source/name filters.
+            // Always scan all sources so selection prune can keep IDs hidden by source/name filters.
             CollectColonyPrisoners(colonyRows, schedule, player);
             CollectOutpostPrisoners(outpostRows, schedule, player);
+            CollectCaravanPrisoners(transitRows, player);
 
             for (int i = 0; i < colonyRows.Count; i++)
             {
@@ -87,12 +93,19 @@ namespace TSA_WorldDomination
                 string tid = outpostRows[i].thingId;
                 if (!string.IsNullOrEmpty(tid)) IndexedThingIds.Add(tid);
             }
+            for (int i = 0; i < transitRows.Count; i++)
+            {
+                string tid = transitRows[i].thingId;
+                if (!string.IsNullOrEmpty(tid)) IndexedThingIds.Add(tid);
+            }
 
             if (!string.IsNullOrEmpty(nameSearchLower))
             {
                 colonyRows.RemoveAll(e => e.nameLabel == null
                     || !e.nameLabel.ToLowerInvariant().Contains(nameSearchLower));
                 outpostRows.RemoveAll(e => e.nameLabel == null
+                    || !e.nameLabel.ToLowerInvariant().Contains(nameSearchLower));
+                transitRows.RemoveAll(e => e.nameLabel == null
                     || !e.nameLabel.ToLowerInvariant().Contains(nameSearchLower));
             }
 
@@ -102,34 +115,38 @@ namespace TSA_WorldDomination
                 SortOutpostRowsByQueue(outpostRows);
             else
                 SortRows(outpostRows, sortColumn, sortAscending);
+            SortRows(transitRows, sortColumn, sortAscending);
 
-            var rows = new List<PrisonerRosterEntry>(colonyRows.Count + outpostRows.Count + 1);
-            if (sourceFilter == PrisonerRosterSourceFilter.All
-                && colonyRows.Count > 0
-                && outpostRows.Count > 0)
+            if (sourceFilter == PrisonerRosterSourceFilter.InTransit)
+                return transitRows;
+            if (sourceFilter == PrisonerRosterSourceFilter.Outpost)
+                return outpostRows;
+            if (sourceFilter == PrisonerRosterSourceFilter.Colony)
+                return colonyRows;
+
+            var rows = new List<PrisonerRosterEntry>(
+                colonyRows.Count + outpostRows.Count + transitRows.Count + 2);
+            rows.AddRange(colonyRows);
+            if (outpostRows.Count > 0 && (colonyRows.Count > 0 || transitRows.Count > 0))
             {
-                rows.AddRange(colonyRows);
                 rows.Add(new PrisonerRosterEntry
                 {
                     isGroupHeader = true,
-                    groupHeaderLabel = "TSA_WD_Prisoners_GroupOutpost".Translate()
+                    groupHeaderLabel = "TSA_WD_Prisoners_GroupOutpost".Translate(),
+                    groupHeaderTip = "TSA_WD_Prisoners_GroupOutpostTip".Translate()
                 });
-                rows.AddRange(outpostRows);
             }
-            else if (sourceFilter == PrisonerRosterSourceFilter.Outpost)
+            rows.AddRange(outpostRows);
+            if (transitRows.Count > 0 && (colonyRows.Count > 0 || outpostRows.Count > 0))
             {
-                rows.AddRange(outpostRows);
+                rows.Add(new PrisonerRosterEntry
+                {
+                    isGroupHeader = true,
+                    groupHeaderLabel = "TSA_WD_Prisoners_GroupInTransit".Translate(),
+                    groupHeaderTip = "TSA_WD_Prisoners_GroupInTransitTip".Translate()
+                });
             }
-            else if (sourceFilter == PrisonerRosterSourceFilter.Colony)
-            {
-                rows.AddRange(colonyRows);
-            }
-            else
-            {
-                rows.AddRange(colonyRows);
-                rows.AddRange(outpostRows);
-            }
-
+            rows.AddRange(transitRows);
             return rows;
         }
 
@@ -228,6 +245,45 @@ namespace TSA_WorldDomination
                     entry.locationJumpTarget = outpost;
                     FillOutpostResistanceDisplay(entry, outpost, p);
                     FillDestination(entry, schedule);
+                    rows.Add(entry);
+                }
+            }
+        }
+
+        private static void CollectCaravanPrisoners(List<PrisonerRosterEntry> rows, Faction player)
+        {
+            var worldObjects = Find.WorldObjects?.AllWorldObjects;
+            if (worldObjects == null) return;
+
+            for (int i = 0; i < worldObjects.Count; i++)
+            {
+                if (worldObjects[i] is not Caravan caravan) continue;
+                if (caravan.Destroyed || caravan.Faction != player) continue;
+                var pawns = caravan.PawnsListForReading;
+                if (pawns == null || pawns.Count == 0) continue;
+
+                string caravanLabel = caravan.LabelCap;
+                for (int pi = 0; pi < pawns.Count; pi++)
+                {
+                    Pawn p = pawns[pi];
+                    if (p == null || p.Destroyed || p.Dead) continue;
+                    if (p.RaceProps?.Humanlike != true) continue;
+                    if (!p.IsPrisonerOfColony) continue;
+                    if (p.guest != null && !p.guest.Recruitable) continue;
+
+                    string name = p.Name?.ToStringFull ?? p.LabelCap ?? p.Label ?? "?";
+                    var entry = CreateBaseEntry(p, name);
+                    entry.holdingCaravan = caravan;
+                    entry.isInTransit = true;
+                    entry.isOutpostPrisoner = false;
+                    entry.locationLabel = caravanLabel;
+                    entry.locationIcon = caravan.ExpandingIcon;
+                    entry.locationIconColor = caravan.Faction?.Color ?? Color.white;
+                    entry.locationJumpTarget = caravan;
+                    entry.scheduledDestLabel = "TSA_WD_Prisoners_InTransit".Translate();
+                    entry.scheduledDestIcon = caravan.ExpandingIcon;
+                    entry.scheduledDestIconColor = caravan.Faction?.Color ?? Color.white;
+                    entry.hasExplicitSchedule = false;
                     rows.Add(entry);
                 }
             }
@@ -545,6 +601,10 @@ namespace TSA_WorldDomination
                 originTile = entry.holdingOutpost.Tile;
                 currentOutpost = entry.holdingOutpost;
             }
+            else if (entry.isInTransit)
+            {
+                return false;
+            }
             else
             {
                 if (entry.mapParent == null || !entry.mapParent.Tile.Valid) return false;
@@ -570,6 +630,7 @@ namespace TSA_WorldDomination
         {
             PrisonerRosterSourceFilter.Colony => "TSA_WD_Prisoners_Filter_Colony".Translate(),
             PrisonerRosterSourceFilter.Outpost => "TSA_WD_Prisoners_Filter_Outpost".Translate(),
+            PrisonerRosterSourceFilter.InTransit => "TSA_WD_Prisoners_Filter_InTransit".Translate(),
             _ => "TSA_WD_Prisoners_Filter_All".Translate()
         };
     }

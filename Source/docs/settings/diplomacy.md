@@ -49,10 +49,12 @@ Each tier cell is a separate slider from 0 to the configured Maximum goodwill.
 | Asphalt road | 1.00 goodwill per segment | 0 to Maximum goodwill |
 | Order trader caravan (goodwill) | 10 goodwill | 0 to Maximum goodwill |
 
-### Buy settlement
+### Gifts and purchases
 
 | Control | Default | Range or availability |
 |---|---:|---|
+| Gift silver per goodwill bonus point | 40 | 10 to 200 |
+| Minimum gift (silver) | 1,000 | 100 to 10,000 |
 | Enable buy settlement | On | On or Off |
 | Ask (T1 silver) | 5,000 | 500 to 50,000 |
 | Ask (T2 silver) | 12,000 | 500 to 50,000 |
@@ -61,7 +63,7 @@ Each tier cell is a separate slider from 0 to the configured Maximum goodwill.
 | Silver per goodwill point | 200 | 10 to 500 |
 | Max ask share payable in goodwill | 100% | 0% to 100% |
 
-The six price controls are shown while settlement buying is enabled.
+Gift goodwill divides **raw** goods market value by the gift divisor (vanilla 40). The minimum gift and deal meter use sell-price valuation. Buy ask and goodwill-payment controls are shown while settlement buying is enabled.
 
 ### Diplomacy negotiate
 

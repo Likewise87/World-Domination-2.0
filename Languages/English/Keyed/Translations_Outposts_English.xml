@@ -455,7 +455,7 @@
   <TSA_WD_Food_ConsPawnTooltip>How much food units one pawn consumes per day in an outpost.</TSA_WD_Food_ConsPawnTooltip>
   <TSA_WD_Food_DisabledWarning>Logistics system is currently offline. Enable to see settings.</TSA_WD_Food_DisabledWarning>
   <TSA_WD_Food_MaxFoodPerOutpost>Max Food per Outpost</TSA_WD_Food_MaxFoodPerOutpost>
-  <TSA_WD_Food_MaxFoodPerOutpostTooltip>Maximum virtual food storage capacity per outpost.</TSA_WD_Food_MaxFoodPerOutpostTooltip>
+  <TSA_WD_Food_MaxFoodPerOutpostTooltip>Maximum virtual food storage capacity per outpost. Warehouse outposts always use at least 500.</TSA_WD_Food_MaxFoodPerOutpostTooltip>
   <TSA_WD_Food_MaxRange>Max Support Radius</TSA_WD_Food_MaxRange>
   <TSA_WD_Food_MaxRangeTooltip>The maximum tile distance a Farming/Hunting hub can assign food. Recipients in range receive the full assigned amount.</TSA_WD_Food_MaxRangeTooltip>
   <TSA_WD_Food_ProdPerOutpostBase>Daily Food Production per Outpost (base)</TSA_WD_Food_ProdPerOutpostBase>
@@ -1220,6 +1220,35 @@
   <TSA_WD_WarehouseTab_Label>Storage</TSA_WD_WarehouseTab_Label>
   <TSA_WD_WarehouseTab_Title>Warehouse inventory</TSA_WD_WarehouseTab_Title>
   <TSA_WD_WarehouseTab_ShipDest>Ship destination: {0}</TSA_WD_WarehouseTab_ShipDest>
+  <TSA_WD_WarehouseTab_ColGoods>Goods</TSA_WD_WarehouseTab_ColGoods>
+  <TSA_WD_WarehouseTab_ColShipAmt>Send</TSA_WD_WarehouseTab_ColShipAmt>
+  <TSA_WD_WarehouseTab_FilterGoodsTitle>Filter goods</TSA_WD_WarehouseTab_FilterGoodsTitle>
+  <TSA_WD_WarehouseTab_FilterGoodsTip>Show all goods, food only, or non-food only.</TSA_WD_WarehouseTab_FilterGoodsTip>
+  <TSA_WD_WarehouseTab_FilterAll>All</TSA_WD_WarehouseTab_FilterAll>
+  <TSA_WD_WarehouseTab_FilterFood>Food</TSA_WD_WarehouseTab_FilterFood>
+  <TSA_WD_WarehouseTab_FilterNonfood>Non-food</TSA_WD_WarehouseTab_FilterNonfood>
+  <TSA_WD_WarehouseTab_SearchHint>Search…</TSA_WD_WarehouseTab_SearchHint>
+  <TSA_WD_WarehouseTab_SearchTip>Filter goods list by name.</TSA_WD_WarehouseTab_SearchTip>
+  <TSA_WD_WarehouseTab_RegularDest>Destination: {0}</TSA_WD_WarehouseTab_RegularDest>
+  <TSA_WD_WarehouseTab_RowDeliveryType>Delivery type:</TSA_WD_WarehouseTab_RowDeliveryType>
+  <TSA_WD_WarehouseTab_RowDailyAuto>Daily auto delivery</TSA_WD_WarehouseTab_RowDailyAuto>
+  <TSA_WD_WarehouseTab_AutoOn>On</TSA_WD_WarehouseTab_AutoOn>
+  <TSA_WD_WarehouseTab_AutoOff>Off</TSA_WD_WarehouseTab_AutoOff>
+  <TSA_WD_WarehouseTab_AutoTo>To {0}</TSA_WD_WarehouseTab_AutoTo>
+  <TSA_WD_WarehouseTab_ShipNow>Ship Now</TSA_WD_WarehouseTab_ShipNow>
+  <TSA_WD_WarehouseTab_VirtualFood>Virtual food</TSA_WD_WarehouseTab_VirtualFood>
+  <TSA_WD_WarehouseTab_VirtualFoodDetail>Warehouse food supply: {0}. At least {1} must stay here. Shippable now: {2}. Can be mixed with physical food; destinations are player outposts only (not the colony).</TSA_WD_WarehouseTab_VirtualFoodDetail>
+  <TSA_WD_WarehouseTab_AdHocSend>Send selected (incl. outpost food)</TSA_WD_WarehouseTab_AdHocSend>
+  <TSA_WD_WarehouseTab_AdHocSendTip>Pick amounts above, then click a destination on the world map. Uses the delivery type dropdown. Does not change daily auto delivery.</TSA_WD_WarehouseTab_AdHocSendTip>
+  <TSA_WD_WarehouseTab_DestRulesTip>Food-only selections (incl. virtual food) may go to player outposts. Virtual food cannot go to the colony. Selections with non-food may only go to a colony or another warehouse (no virtual food). Daily auto delivery always sends the entire physical stock to the chosen colony/warehouse.</TSA_WD_WarehouseTab_DestRulesTip>
+  <TSA_WD_Warehouse_AdHocInvalidDest>Invalid destination. Food may go to a player colony, warehouse, or other outpost.</TSA_WD_Warehouse_AdHocInvalidDest>
+  <TSA_WD_Warehouse_AdHocInvalidDestVirtual>Invalid destination. Virtual food may only go to another player outpost (not the colony).</TSA_WD_Warehouse_AdHocInvalidDestVirtual>
+  <TSA_WD_Warehouse_AdHocInvalidDestVirtualMix>Virtual food cannot be mixed with non-food items in one shipment.</TSA_WD_Warehouse_AdHocInvalidDestVirtualMix>
+  <TSA_WD_Warehouse_AdHocInvalidDestGoods>Invalid destination. Non-food (or mixed) shipments may only go to a player colony or warehouse.</TSA_WD_Warehouse_AdHocInvalidDestGoods>
+  <TSA_WD_Warehouse_ShipInsufficientVirtual>Not enough virtual food to ship (warehouse must keep a reserve).</TSA_WD_Warehouse_ShipInsufficientVirtual>
+  <TSA_WD_Warehouse_DestKind_Outpost>Outpost</TSA_WD_Warehouse_DestKind_Outpost>
+  <TSA_WD_Warehouse_FoodDelivery_LetterLabel>Food delivery: {0}</TSA_WD_Warehouse_FoodDelivery_LetterLabel>
+  <TSA_WD_Warehouse_FoodDelivery_Letter>Food from {0} arrived at {1}. +{2} food supply (now {3}/{4}).</TSA_WD_Warehouse_FoodDelivery_Letter>
   <TSA_WD_Warehouse_InspectEmpty>Storage empty.</TSA_WD_Warehouse_InspectEmpty>
   <TSA_WD_Warehouse_InspectStock>{0} item types in storage.</TSA_WD_Warehouse_InspectStock>
   <TSA_WD_Warehouse_InspectAuraBoost>Production boost to nearby Outposts: {0}%</TSA_WD_Warehouse_InspectAuraBoost>
@@ -1260,7 +1289,7 @@
   <TSA_WD_Warehouse_ShipViaDropPodNow>Ship via drop pod now</TSA_WD_Warehouse_ShipViaDropPodNow>
   <TSA_WD_Warehouse_ShipViaDropPodDesc>Launch a fast straight-line pod shipment. Goods arrive by drop pod at the colony map edge, your delivery spot, or the target warehouse.</TSA_WD_Warehouse_ShipViaDropPodDesc>
   <TSA_WD_Warehouse_AutoShip>Auto ship once per day</TSA_WD_Warehouse_AutoShip>
-  <TSA_WD_Warehouse_AutoShipDesc>When enabled, this warehouse ships its entire stock to the set destination once per day. Travel uses the Land vs Drop Pod delivery mode on this warehouse. Requires a ship destination and enough outpost strength for the delivery cost.</TSA_WD_Warehouse_AutoShipDesc>
+  <TSA_WD_Warehouse_AutoShipDesc>When enabled, this warehouse ships its entire physical stock to the set destination once per day. Virtual food is not included. Travel uses the Land vs Drop Pod delivery mode on this warehouse. Requires a ship destination and enough outpost strength for the delivery cost.</TSA_WD_Warehouse_AutoShipDesc>
   <TSA_WD_Warehouse_AutoShipInsufficientStrength>{0} could not auto-ship: not enough strength for a delivery.</TSA_WD_Warehouse_AutoShipInsufficientStrength>
   <TSA_WD_DispatchMode_Land>Land delivery</TSA_WD_DispatchMode_Land>
   <TSA_WD_DispatchMode_DropPod>Drop pod delivery</TSA_WD_DispatchMode_DropPod>

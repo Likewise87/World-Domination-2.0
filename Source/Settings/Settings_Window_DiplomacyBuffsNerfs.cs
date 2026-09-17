@@ -11,7 +11,7 @@ namespace TSA_WorldDomination
         private bool goodwillExpanded = true;
         private bool alliedRaidExpanded = true;
         private bool orderedRoadExpanded = true;
-        private bool settlementBuyExpanded = true;
+        private bool giftsAndPurchasesExpanded = true;
         private bool diplomacyNegotiateExpanded = true;
         private bool factionBribeExpanded = true;
         private bool factionInvestmentExpanded = true;
@@ -37,7 +37,7 @@ namespace TSA_WorldDomination
         private void SetAllExpanded(bool expanded)
         {
             relationsExpanded = goodwillExpanded = alliedRaidExpanded = orderedRoadExpanded =
-                settlementBuyExpanded = diplomacyNegotiateExpanded = factionBribeExpanded = factionInvestmentExpanded = eventsExpanded = leaderExpanded =
+                giftsAndPurchasesExpanded = diplomacyNegotiateExpanded = factionBribeExpanded = factionInvestmentExpanded = eventsExpanded = leaderExpanded =
                 underdogExpanded = zealExpanded = coalitionExpanded =
                 revoltExpanded = sharedSpecialCdExpanded = expanded;
         }
@@ -72,18 +72,25 @@ namespace TSA_WorldDomination
                     s.diplomacyChangeChance = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_RandomChance".Translate(), s.diplomacyChangeChance, 0f, 1f,
                         "TSA_WD_Diplo_RandomChanceTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefDiplomacyChangeChance);
                 }
-
-                l.GapLine();
-                if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_VanillaGoodwillHeader".Translate(), ref goodwillExpanded, SettingsUI.SectionHeaderColor))
-                {
-                    s.maxGoodwill = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_MaxGoodwill".Translate(), s.maxGoodwill, 100f, 200f,
-                        "TSA_WD_Diplo_MaxGoodwillTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefMaxGoodwill));
-                    VanillaGoodwillSettingsUI.DrawListingRows(l, s);
-                }
-
-                l.GapLine();
-                DrawAlliedRaidOrderSettings(l, s);
             }
+
+            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_VanillaGoodwillHeader".Translate(), ref goodwillExpanded, SettingsUI.SectionHeaderColor))
+            {
+                s.maxGoodwill = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_MaxGoodwill".Translate(), s.maxGoodwill, 100f, 200f,
+                    "TSA_WD_Diplo_MaxGoodwillTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefMaxGoodwill));
+                VanillaGoodwillSettingsUI.DrawListingRows(l, s);
+            }
+
+            DrawAlliedRaidOrderSettings(l, s);
+            l.Gap(12f);
+            DrawOrderedRoadOrderSettings(l, s);
+            l.Gap(12f);
+            DrawGiftsAndPurchasesSettings(l, s);
+            DrawDiplomacyNegotiateSettings(l, s);
+            l.Gap(12f);
+            DrawFactionBribeSettings(l, s);
+            l.Gap(12f);
+            DrawFactionInvestmentSettings(l, s);
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_RevoltHeader".Translate(), ref revoltExpanded, SettingsUI.SectionHeaderColor))
             {
@@ -204,31 +211,21 @@ namespace TSA_WorldDomination
 
         private void DrawAlliedRaidOrderSettings(Listing_Standard l, WorldDominationSettings s)
         {
-            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_AlliedRaidOrdersHeader".Translate(), ref alliedRaidExpanded, SettingsUI.SectionHeaderColor))
-            {
-                s.alliedRaidOrderMinWinChance = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_AlliedRaidMinWinChance".Translate(), s.alliedRaidOrderMinWinChance, 0f, 1f,
-                    "TSA_WD_Diplo_AlliedRaidMinWinChanceTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefAlliedRaidOrderMinWinChance);
-                l.Gap(6f);
-                DrawGoodwillCostRow(l, "TSA_WD_Diplo_AlliedRaidClaimCosts".Translate(), ref s.alliedRaidClaimCostT1, ref s.alliedRaidClaimCostT2, ref s.alliedRaidClaimCostT3, ref s.alliedRaidClaimCostT4,
-                    "TSA_WD_Diplo_AlliedRaidClaimCostsTooltip".Translate(),
-                    WorldDominationSettings.DefAlliedRaidClaimCostT1, WorldDominationSettings.DefAlliedRaidClaimCostT2, WorldDominationSettings.DefAlliedRaidClaimCostT3, WorldDominationSettings.DefAlliedRaidClaimCostT4);
-                DrawGoodwillCostRow(l, "TSA_WD_Diplo_AlliedRaidAwardCosts".Translate(), ref s.alliedRaidAwardCostT1, ref s.alliedRaidAwardCostT2, ref s.alliedRaidAwardCostT3, ref s.alliedRaidAwardCostT4,
-                    "TSA_WD_Diplo_AlliedRaidAwardCostsTooltip".Translate(),
-                    WorldDominationSettings.DefAlliedRaidAwardCostT1, WorldDominationSettings.DefAlliedRaidAwardCostT2, WorldDominationSettings.DefAlliedRaidAwardCostT3, WorldDominationSettings.DefAlliedRaidAwardCostT4);
-                DrawGoodwillCostRow(l, "TSA_WD_Diplo_ConquestAllyGiftGoodwill".Translate(), ref s.conquestAllyGiftGoodwillT1, ref s.conquestAllyGiftGoodwillT2, ref s.conquestAllyGiftGoodwillT3, ref s.conquestAllyGiftGoodwillT4,
-                    "TSA_WD_Diplo_ConquestAllyGiftGoodwillTooltip".Translate(),
-                    WorldDominationSettings.DefConquestAllyGiftGoodwillT1, WorldDominationSettings.DefConquestAllyGiftGoodwillT2, WorldDominationSettings.DefConquestAllyGiftGoodwillT3, WorldDominationSettings.DefConquestAllyGiftGoodwillT4);
-            }
+            if (!SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_AlliedRaidOrdersHeader".Translate(), ref alliedRaidExpanded, SettingsUI.SectionHeaderColor))
+                return;
 
-            l.Gap(12f);
-            DrawOrderedRoadOrderSettings(l, s);
-            l.Gap(12f);
-            DrawSettlementBuySettings(l, s);
-            DrawDiplomacyNegotiateSettings(l, s);
-            l.Gap(12f);
-            DrawFactionBribeSettings(l, s);
-            l.Gap(12f);
-            DrawFactionInvestmentSettings(l, s);
+            s.alliedRaidOrderMinWinChance = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_AlliedRaidMinWinChance".Translate(), s.alliedRaidOrderMinWinChance, 0f, 1f,
+                "TSA_WD_Diplo_AlliedRaidMinWinChanceTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefAlliedRaidOrderMinWinChance);
+            l.Gap(6f);
+            DrawGoodwillCostRow(l, "TSA_WD_Diplo_AlliedRaidClaimCosts".Translate(), ref s.alliedRaidClaimCostT1, ref s.alliedRaidClaimCostT2, ref s.alliedRaidClaimCostT3, ref s.alliedRaidClaimCostT4,
+                "TSA_WD_Diplo_AlliedRaidClaimCostsTooltip".Translate(),
+                WorldDominationSettings.DefAlliedRaidClaimCostT1, WorldDominationSettings.DefAlliedRaidClaimCostT2, WorldDominationSettings.DefAlliedRaidClaimCostT3, WorldDominationSettings.DefAlliedRaidClaimCostT4);
+            DrawGoodwillCostRow(l, "TSA_WD_Diplo_AlliedRaidAwardCosts".Translate(), ref s.alliedRaidAwardCostT1, ref s.alliedRaidAwardCostT2, ref s.alliedRaidAwardCostT3, ref s.alliedRaidAwardCostT4,
+                "TSA_WD_Diplo_AlliedRaidAwardCostsTooltip".Translate(),
+                WorldDominationSettings.DefAlliedRaidAwardCostT1, WorldDominationSettings.DefAlliedRaidAwardCostT2, WorldDominationSettings.DefAlliedRaidAwardCostT3, WorldDominationSettings.DefAlliedRaidAwardCostT4);
+            DrawGoodwillCostRow(l, "TSA_WD_Diplo_ConquestAllyGiftGoodwill".Translate(), ref s.conquestAllyGiftGoodwillT1, ref s.conquestAllyGiftGoodwillT2, ref s.conquestAllyGiftGoodwillT3, ref s.conquestAllyGiftGoodwillT4,
+                "TSA_WD_Diplo_ConquestAllyGiftGoodwillTooltip".Translate(),
+                WorldDominationSettings.DefConquestAllyGiftGoodwillT1, WorldDominationSettings.DefConquestAllyGiftGoodwillT2, WorldDominationSettings.DefConquestAllyGiftGoodwillT3, WorldDominationSettings.DefConquestAllyGiftGoodwillT4);
         }
 
         private void DrawFactionBribeSettings(Listing_Standard l, WorldDominationSettings s)
@@ -283,10 +280,17 @@ namespace TSA_WorldDomination
                 "TSA_WD_FactionInvestment_UpgradeSuccessChanceTip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefFactionInvestmentUpgradeSuccessChance);
         }
 
-        private void DrawSettlementBuySettings(Listing_Standard l, WorldDominationSettings s)
+        private void DrawGiftsAndPurchasesSettings(Listing_Standard l, WorldDominationSettings s)
         {
-            if (!SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_BuySettlement_SettingsHeader".Translate(), ref settlementBuyExpanded, SettingsUI.SectionHeaderColor))
+            if (!SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_GiftsAndPurchases_SettingsHeader".Translate(), ref giftsAndPurchasesExpanded, SettingsUI.SectionHeaderColor))
                 return;
+
+            s.settlementGiftGoodwillDivisor = SettingsUI.LabeledSlider(l, "TSA_WD_GiftSettlement_GoodwillDivisor".Translate(), s.settlementGiftGoodwillDivisor, 10f, 200f,
+                "TSA_WD_GiftSettlement_GoodwillDivisorTip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefSettlementGiftGoodwillDivisor);
+            s.settlementGiftMinSilver = SettingsUI.LabeledSlider(l, "TSA_WD_GiftSettlement_MinSilverSetting".Translate(), s.settlementGiftMinSilver, 100f, 10000f,
+                "TSA_WD_GiftSettlement_MinSilverSettingTip".Translate(), 50f, SliderFormat.Fixed0, WorldDominationSettings.DefSettlementGiftMinSilver);
+
+            l.GapLine();
 
             l.CheckboxLabeled("TSA_WD_BuySettlement_Enable".Translate(), ref s.enableSettlementBuy,
                 SettingsUI.TooltipWithDefault("TSA_WD_BuySettlement_EnableTip".Translate(), WorldDominationSettings.DefEnableSettlementBuy));

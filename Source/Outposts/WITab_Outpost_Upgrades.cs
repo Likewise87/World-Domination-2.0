@@ -76,7 +76,7 @@ namespace TSA_WorldDomination
 
         public WITab_Outpost_Upgrades()
         {
-            size = new Vector2(960f, 560f);
+            size = new Vector2(960f, 580f);
             labelKey = "TSA_WD_OutpostUpgrades_TabLabel";
         }
 

@@ -79,7 +79,7 @@ namespace TSA_WorldDomination
 
             s.razeChance = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_RazeChance".Translate(), s.razeChance, 0f, 1f,
                 "TSA_WD_Raid_RazeChanceTooltip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefRazeChance);
-            s.ruinLingerDays = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_RuinLingerDays".Translate(), s.ruinLingerDays, 5f, 10f,
+            s.ruinLingerDays = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_RuinLingerDays".Translate(), s.ruinLingerDays, 1f, 50f,
                 "TSA_WD_Raid_RuinLingerDaysTooltip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefRuinLingerDays);
             }
             l.Gap(4f);

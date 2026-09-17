@@ -56,9 +56,9 @@ namespace TSA_WorldDomination
             if (__instance == null || __instance.Destroyed) return;
             WorldComponent_InterceptionScheduler.Current?.RegisterVanillaPods(__instance);
 
-            int startTile = WD_MapComponent_CaravanClash.TryGetTravellingTransportersStartTileId(__instance);
+            int startTile = WD_TempEncounterAerialLeaveUtility.TryGetTravellingTransportersStartTileId(__instance);
             if (startTile >= 0)
-                WD_MapComponent_CaravanClash.NotifyWorldAirborneFromStartTile(startTile);
+                WD_TempEncounterAerialLeaveUtility.NotifyWorldAirborneFromStartTile(startTile);
         }
     }
 }

@@ -75,6 +75,7 @@ namespace TSA_WorldDomination
         /// <summary>Same interval as travelers; per-outpost cached lookup, no full-world scan.</summary>
         private const int OutpostDashRefreshIntervalTicks = 600;
         private const int MaxDashRows = 15;
+        private const int GoodwillDashRefreshIntervalTicks = 600;
 
         private struct TravelerDashRowData
         {
@@ -96,6 +97,14 @@ namespace TSA_WorldDomination
         private int cachedTravelerTargetingYouCount;
         private List<(WorldObject_WD_Outpost Outpost, string Label, float FoodCurrent, float FoodMax, float FoodNet, string DisplayLabel, Color DisplayColor, string Tooltip)> outpostDashCache;
         private int outpostDashCacheTick = -999999;
+        private int goodwillDashCacheTick = -999999;
+        private readonly List<(Faction faction, int goodwill)> goodwillBestCache = new List<(Faction, int)>(3);
+        private readonly List<(Faction faction, int goodwill)> goodwillWorstCache = new List<(Faction, int)>(3);
+        private readonly List<(Faction faction, int goodwill)> goodwillRankScratch = new List<(Faction, int)>(32);
+        private static string goodwillNoneLabel;
+        private static string goodwillBestHeader;
+        private static string goodwillWorstHeader;
+        private static string goodwillTip;
         private Vector2 outpostsScrollPos;
         private Vector2 travelersScrollPos;
         private Vector2 nearbyThreatsScrollPos;
@@ -138,6 +147,10 @@ namespace TSA_WorldDomination
             dashUnknownLabel = "TSA_WD_Traveller_Unknown".Translate();
             dashOpenLabel = "TSA_WD_ActiveTravelers_Open".Translate();
             dashNoneLabel = "TSA_WD_None".Translate();
+            goodwillNoneLabel = "TSA_WD_Dash_Goodwill_None".Translate();
+            goodwillBestHeader = "TSA_WD_Dash_Goodwill_Best".Translate();
+            goodwillWorstHeader = "TSA_WD_Dash_Goodwill_Worst".Translate();
+            goodwillTip = "TSA_WD_Dash_Goodwill_Tip".Translate();
             navDiplomacy = "TSA_WD_Dash_Nav_Diplomacy".Translate();
             navOutpost = "TSA_WD_Dash_Nav_Outposts".Translate();
             navWorldStats = "TSA_WD_WorldStats".Translate();
@@ -786,7 +799,7 @@ namespace TSA_WorldDomination
                     Rect strRect = new Rect(rowX, innerY, colStrength, LineHeight);
                     float curStr = t.travelerStrength;
                     float depStr = t.initialStrength > 0f ? t.initialStrength : t.travelerStrength;
-                    string arrDisp = row.ArrivalStrength > 0f ? row.ArrivalStrength.ToString("F0") : "—";
+                    string arrDisp = row.ArrivalStrength > 0f ? row.ArrivalStrength.ToString("F0") : "---";
                     string strLabel = curStr.ToString("F0") + " / " + depStr.ToString("F0");
                     string strTip = "TSA_WD_Dash_Traveler_StrengthTooltip".Translate(
                         curStr.ToString("F0"), depStr.ToString("F0"), arrDisp);
@@ -836,10 +849,10 @@ namespace TSA_WorldDomination
                 float arrStr = ComputeTravelerArrivalStrengthForDash(t, seth);
                 float daysSince = (nowTick - t.spawnTick) / 60000f;
                 bool hasTotal = t.TryGetTotalExpectedTravelDays(out float totalDays);
-                string totalStr = hasTotal ? totalDays.ToString("F1") + " " + daysStr : "—";
+                string totalStr = hasTotal ? totalDays.ToString("F1") + " " + daysStr : "---";
                 string totalTipSecond = hasTotal ? totalStr : unknownStr;
                 string timeTip = "TSA_WD_Dash_Traveler_TimeTooltip".Translate(daysSince.ToString("F1"), totalTipSecond);
-                string timeLabel = daysSince.ToString("F1") + " / " + (hasTotal ? totalDays.ToString("F1") : "—");
+                string timeLabel = daysSince.ToString("F1") + " / " + (hasTotal ? totalDays.ToString("F1") : "---");
 
                 string originLabel = GetTravelerOriginLabel(t);
                 string targetLabel = GetTravelerTargetLabel(t, out int destTileId, out string destLabel);
@@ -1142,7 +1155,7 @@ namespace TSA_WorldDomination
             }
         }
 
-        private static void DrawGoodwillHighlightsBox(Rect rect, float pad)
+        private void DrawGoodwillHighlightsBox(Rect rect, float pad)
         {
             if (rect.width < 80f || rect.height < 30f) return;
             Widgets.DrawBoxSolid(rect, StatusBoxFill);
@@ -1152,40 +1165,55 @@ namespace TSA_WorldDomination
             Faction player = Faction.OfPlayerSilentFail;
             if (player == null) return;
 
-            List<(Faction faction, int goodwill)> ranked = new List<(Faction, int)>();
-            foreach (Faction f in Find.FactionManager.AllFactionsVisible)
-            {
-                if (f == null || f.IsPlayer || f.def.hidden || f.defeated) continue;
-                ranked.Add((f, player.GoodwillWith(f)));
-            }
-            if (ranked.Count == 0)
+            EnsureGoodwillDashCache(player);
+
+            if (goodwillBestCache.Count == 0 && goodwillWorstCache.Count == 0)
             {
                 Text.Font = GameFont.Tiny;
                 Text.Anchor = TextAnchor.MiddleCenter;
                 GUI.color = Color.gray;
-                Widgets.Label(inner, "TSA_WD_Dash_Goodwill_None".Translate().Truncate(inner.width));
-            GUI.color = Color.white;
+                string none = goodwillNoneLabel ?? "TSA_WD_Dash_Goodwill_None".Translate();
+                Widgets.Label(inner, none.Truncate(inner.width));
+                GUI.color = Color.white;
                 Text.Anchor = TextAnchor.UpperLeft;
                 return;
             }
-
-            ranked.Sort((a, b) => b.goodwill.CompareTo(a.goodwill));
-            int take = Mathf.Min(3, ranked.Count);
-            var best = new List<(Faction faction, int goodwill)>(take);
-            var worst = new List<(Faction faction, int goodwill)>(take);
-            for (int i = 0; i < take; i++)
-                best.Add(ranked[i]);
-            for (int i = 0; i < take; i++)
-                worst.Add(ranked[ranked.Count - 1 - i]);
 
             float colGap = 10f;
             float colW = (inner.width - colGap) * 0.5f;
             Rect leftCol = new Rect(inner.x, inner.y, colW, inner.height);
             Rect rightCol = new Rect(inner.xMax - colW, inner.y, colW, inner.height);
 
-            DrawGoodwillColumn(leftCol, "TSA_WD_Dash_Goodwill_Best".Translate(), best);
-            DrawGoodwillColumn(rightCol, "TSA_WD_Dash_Goodwill_Worst".Translate(), worst);
-            TooltipHandler.TipRegion(rect, "TSA_WD_Dash_Goodwill_Tip".Translate());
+            DrawGoodwillColumn(leftCol, goodwillBestHeader ?? "TSA_WD_Dash_Goodwill_Best".Translate(), goodwillBestCache);
+            DrawGoodwillColumn(rightCol, goodwillWorstHeader ?? "TSA_WD_Dash_Goodwill_Worst".Translate(), goodwillWorstCache);
+            TooltipHandler.TipRegion(rect, goodwillTip ?? "TSA_WD_Dash_Goodwill_Tip".Translate());
+        }
+
+        private void EnsureGoodwillDashCache(Faction player)
+        {
+            int now = Find.TickManager.TicksGame;
+            if (now - goodwillDashCacheTick < GoodwillDashRefreshIntervalTicks
+                && goodwillDashCacheTick >= 0)
+                return;
+
+            goodwillDashCacheTick = now;
+            goodwillRankScratch.Clear();
+            goodwillBestCache.Clear();
+            goodwillWorstCache.Clear();
+
+            foreach (Faction f in Find.FactionManager.AllFactionsVisible)
+            {
+                if (f == null || f.IsPlayer || f.def.hidden || f.defeated) continue;
+                goodwillRankScratch.Add((f, player.GoodwillWith(f)));
+            }
+            if (goodwillRankScratch.Count == 0) return;
+
+            goodwillRankScratch.Sort((a, b) => b.goodwill.CompareTo(a.goodwill));
+            int take = Mathf.Min(3, goodwillRankScratch.Count);
+            for (int i = 0; i < take; i++)
+                goodwillBestCache.Add(goodwillRankScratch[i]);
+            for (int i = 0; i < take; i++)
+                goodwillWorstCache.Add(goodwillRankScratch[goodwillRankScratch.Count - 1 - i]);
         }
 
         private static void DrawGoodwillColumn(
@@ -1744,7 +1772,7 @@ namespace TSA_WorldDomination
             if (string.IsNullOrEmpty(label))
             {
                 Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.Label(rect, dashNoneLabel ?? "—");
+                Widgets.Label(rect, dashNoneLabel ?? "---");
                 Text.Anchor = TextAnchor.UpperLeft;
                 return;
             }
@@ -1770,7 +1798,7 @@ namespace TSA_WorldDomination
             if (!TravelerEndpointUtility.IsLiveEndpoint(wo))
             {
                 Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.Label(rect, dashNoneLabel ?? "—");
+                Widgets.Label(rect, dashNoneLabel ?? "---");
                 Text.Anchor = TextAnchor.UpperLeft;
                 return;
             }

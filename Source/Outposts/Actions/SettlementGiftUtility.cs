@@ -9,8 +9,15 @@ namespace TSA_WorldDomination
     /// <summary>Player gift caravan to ally/neutral settlements: goods only, goodwill + investment on arrival.</summary>
     public static class SettlementGiftUtility
     {
-        public const float MinGiftSilver = 1000f;
         public const float GiftMeterCapSilver = 20000f;
+
+        /// <summary>Minimum gift meter value (SellPriceFactor valuation). From settings; Def 1000.</summary>
+        public static float MinGiftSilver =>
+            Mathf.Max(1f, WorldDominationMod.settings?.settlementGiftMinSilver ?? WorldDominationSettings.DefSettlementGiftMinSilver);
+
+        /// <summary>Raw gift market value ÷ this = goodwill. From settings; Def 40 (vanilla).</summary>
+        public static float GoodwillDivisor =>
+            Mathf.Max(1f, WorldDominationMod.settings?.settlementGiftGoodwillDivisor ?? WorldDominationSettings.DefSettlementGiftGoodwillDivisor);
 
         public static bool CanShowGiftGizmo(Settlement settlement, out string disabledReason)
         {
@@ -211,7 +218,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Vanilla-style goodwill from gift goods (does not call GiveGift; avoids double investment).
-        /// Uses raw market value / 40 (same as FactionGiftUtility). Does not apply SellPriceFactor;
+        /// Uses raw market value / <see cref="GoodwillDivisor"/> (vanilla FactionGiftUtility uses 40). Does not apply SellPriceFactor;
         /// that factor is for trader sell / WD payment valuation only.
         /// </summary>
         public static int ApplyVanillaGiftGoodwill(Settlement settlement, List<ThingDefCountClass> items)
@@ -235,8 +242,7 @@ namespace TSA_WorldDomination
                     probe.Destroy(DestroyMode.Vanish);
             }
 
-            // Vanilla gift goodwill: roughly 1 point per 40 silver of gifted market value.
-            int change = Mathf.RoundToInt(marketValue / 40f);
+            int change = Mathf.RoundToInt(marketValue / GoodwillDivisor);
             if (change == 0) return 0;
             settlement.Faction.TryAffectGoodwillWith(
                 Faction.OfPlayer,

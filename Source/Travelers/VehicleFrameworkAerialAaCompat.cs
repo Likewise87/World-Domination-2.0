@@ -135,7 +135,7 @@ namespace TSA_WorldDomination
                 WorldComponent_InterceptionScheduler.Current?.RegisterExternalAirborne(__instance);
 
             if (__instance.Faction != null && __instance.Faction.IsPlayer && __instance.Tile.Valid)
-                WD_MapComponent_CaravanClash.NotifyWorldAirborneFromStartTile(__instance.Tile.tileId);
+                WD_TempEncounterAerialLeaveUtility.NotifyWorldAirborneFromStartTile(__instance.Tile.tileId);
         }
 
         public static void OrderFlyToTiles_Postfix(WorldObject __instance)

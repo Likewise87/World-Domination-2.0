@@ -69,6 +69,7 @@ namespace TSA_WorldDomination
                 Find.WorldObjects.Remove(s);
                 // Same timed blocking ruins as raid raze (incident always razes; no conquest replacement).
                 WorldObject_WdSettlementRuin.Spawn(tile, originalName, faction);
+                WorldActions_Utils.TryMarkDefeatedIfNoSettlementsLeft(faction);
                 WorldActions_Utils.RefreshMap();
                 return;
             }

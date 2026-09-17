@@ -1494,10 +1494,16 @@ namespace TSA_WorldDomination
         public const string DropPodIconTexturePath = "WorldObjects/DropPod_OutpostGoods";
 
         public List<ThingDefCountClass> deliveryItems = new List<ThingDefCountClass>();
+        /// <summary>Virtual food pool nutrition transferred with this shipment (warehouse → outpost).</summary>
+        public float deliveryVirtualFood;
         /// <summary>When true, flies straight to the destination tile (mortar-style) and delivers via drop pods on arrival.</summary>
         public bool deliveryViaDropPod;
 
         public bool UsesBallisticWorldFlight => deliveryViaDropPod;
+
+        public bool HasDeliveryCargo =>
+            deliveryVirtualFood > 0.001f
+            || (deliveryItems != null && deliveryItems.Exists(tc => tc?.thingDef != null && tc.count > 0));
 
         /// <summary>
         /// Warehouse drop-pod deliveries share the goods traveler def; invalidate the cached material when the icon path changes.
@@ -1513,6 +1519,7 @@ namespace TSA_WorldDomination
         {
             base.ExposeData();
             Scribe_Collections.Look(ref deliveryItems, "deliveryItems", LookMode.Deep);
+            Scribe_Values.Look(ref deliveryVirtualFood, "deliveryVirtualFood", 0f);
             Scribe_Values.Look(ref deliveryViaDropPod, "deliveryViaDropPod", false);
             if (deliveryItems == null) deliveryItems = new List<ThingDefCountClass>();
             if (Scribe.mode == LoadSaveMode.PostLoadInit && deliveryViaDropPod)

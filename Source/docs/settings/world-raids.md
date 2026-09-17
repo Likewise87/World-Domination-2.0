@@ -11,7 +11,7 @@ World Map Raids configures strategic raid selection and automatic battle resolut
 | Ally pull radius | 6 tiles | 5 to 200 |
 | Min Strength Ratio | 1.00x | 0.50x to 2.00x |
 | Raze Chance | 35% | 0% to 100% |
-| Ruin linger (days) | 7.0 days | 5.0 to 10.0 |
+| Ruin linger (days) | 5.0 days | 1.0 to 50.0 |
 
 The exact-path percentage is also managed by Performance presets. The minimum strength ratio is used for NPC and outpost targets. Colony raids use a separate storyteller-points launch gate. A successful automatic NPC raid rolls Raze Chance; a raze leaves blocking ruins for the configured duration.
 

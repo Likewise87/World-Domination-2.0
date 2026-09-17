@@ -370,6 +370,7 @@
     <expandingIconTexture>WorldObjects/WD_Outpost_DeepchemFactory</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+        <hideFromEstablishMenu>true</hideFromEstablishMenu>
         <allowedBiomes>
           <li>Desert</li>
           <li>ExtremeDesert</li>

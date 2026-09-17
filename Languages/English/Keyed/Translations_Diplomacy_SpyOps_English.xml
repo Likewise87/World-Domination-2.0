@@ -68,7 +68,7 @@
   <TSA_WD_Diplo_AlliedRaidOrdersHeader>Allied raid orders</TSA_WD_Diplo_AlliedRaidOrdersHeader>
   <TSA_WD_Diplo_GlobalEventsHeader>Temporary Buffs and Debuffs</TSA_WD_Diplo_GlobalEventsHeader>
   <TSA_WD_Diplo_GrowthGainMult>Growth strength gain multiplier</TSA_WD_Diplo_GrowthGainMult>
-  <TSA_WD_Diplo_Header>Diplomacy, Buffs &amp; Debuffs</TSA_WD_Diplo_Header>
+  <TSA_WD_Diplo_Header>Dynamic world relations</TSA_WD_Diplo_Header>
   <TSA_WD_Diplo_IncidentSeverity>Incident strength loss multiplier</TSA_WD_Diplo_IncidentSeverity>
   <TSA_WD_Diplo_IncidentWeight>Incident likelihood multiplier</TSA_WD_Diplo_IncidentWeight>
   <TSA_WD_Diplo_LeaderHandicap>Enable Dominant Faction Handicap (Debuff)</TSA_WD_Diplo_LeaderHandicap>
@@ -343,6 +343,11 @@
   <TSA_WD_Buy_OptGiveAlly>Let an ally or neutral faction settle here</TSA_WD_Buy_OptGiveAlly>
   <TSA_WD_BuySettlement_AbortLetterLabel>Settlement purchase failed</TSA_WD_BuySettlement_AbortLetterLabel>
   <TSA_WD_BuySettlement_AbortLetterText>The purchase of {0} could not be completed.</TSA_WD_BuySettlement_AbortLetterText>
+  <TSA_WD_GiftsAndPurchases_SettingsHeader>Gifts and purchases</TSA_WD_GiftsAndPurchases_SettingsHeader>
+  <TSA_WD_GiftSettlement_GoodwillDivisor>Gift silver per goodwill bonus point</TSA_WD_GiftSettlement_GoodwillDivisor>
+  <TSA_WD_GiftSettlement_GoodwillDivisorTip>On gift arrival, goodwill gained is raw goods market value divided by this number (not the deal meter's sell-price valuation). Higher values mean weaker goodwill. Vanilla uses 40.</TSA_WD_GiftSettlement_GoodwillDivisorTip>
+  <TSA_WD_GiftSettlement_MinSilverSetting>Minimum gift (silver)</TSA_WD_GiftSettlement_MinSilverSetting>
+  <TSA_WD_GiftSettlement_MinSilverSettingTip>Gift caravan goods must reach this silver-equivalent on the deal meter (sell-price valuation) before you can confirm.</TSA_WD_GiftSettlement_MinSilverSettingTip>
   <TSA_WD_BuySettlement_SettingsHeader>Buy settlement</TSA_WD_BuySettlement_SettingsHeader>
   <TSA_WD_BuySettlement_Enable>Enable buy settlement</TSA_WD_BuySettlement_Enable>
   <TSA_WD_BuySettlement_EnableTip>When enabled, ally and neutral WD settlements show a Buy settlement gizmo.</TSA_WD_BuySettlement_EnableTip>
@@ -593,7 +598,7 @@
   <TSA_WD_Bribe_CaravanInvestRadius>Raid bribe investment radius</TSA_WD_Bribe_CaravanInvestRadius>
   <TSA_WD_Bribe_CaravanInvestRadiusTip>Tiles from the raid launch settlement used when investing after a successful raid bribe.</TSA_WD_Bribe_CaravanInvestRadiusTip>
   <TSA_WD_Bribe_GoodwillBonusDivisor>Silver per goodwill bonus point</TSA_WD_Bribe_GoodwillBonusDivisor>
-  <TSA_WD_Bribe_GoodwillBonusDivisorTip>On a successful bribe, goodwill gained is payment market value divided by this number. Bribes cannot be paid with goodwill. Higher values mean a weaker bonus. Gift goodwill uses 40.</TSA_WD_Bribe_GoodwillBonusDivisorTip>
+  <TSA_WD_Bribe_GoodwillBonusDivisorTip>On a successful bribe, goodwill gained is payment market value divided by this number. Bribes cannot be paid with goodwill. Higher values mean a weaker bonus. World-map gift goodwill uses its own divisor under Gifts and purchases.</TSA_WD_Bribe_GoodwillBonusDivisorTip>
   <TSA_WD_Notify_BribeSettlementCompleted>Settlement bribe completed</TSA_WD_Notify_BribeSettlementCompleted>
   <TSA_WD_Notify_BribeSettlementCompletedTooltip>Letter when a ceasefire bribe arrives. Reminds you that in-flight raids are not recalled.</TSA_WD_Notify_BribeSettlementCompletedTooltip>
   <TSA_WD_Notify_BribeSettlementAborted>Settlement bribe failed</TSA_WD_Notify_BribeSettlementAborted>

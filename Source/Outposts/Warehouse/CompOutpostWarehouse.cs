@@ -74,6 +74,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Daily full-stock ship when enabled. Empty stock and missing strength bail before withdraw/spawn work.
+        /// Physical warehouse stock only — never withdraws or ships virtual food pool.
         /// </summary>
         public void TryAutoShipEntireStock()
         {
@@ -96,6 +97,7 @@ namespace TSA_WorldDomination
                 return;
             }
 
+            // Physical rows only; virtual food is ad-hoc Ship Now exclusive.
             var request = new List<ThingDefCountClass>();
             for (int i = 0; i < storedItems.Count; i++)
             {

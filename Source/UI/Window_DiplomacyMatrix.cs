@@ -29,6 +29,8 @@ namespace TSA_WorldDomination
         private Dictionary<Faction, int> diplomacyGoodwillByFaction;
         private Dictionary<Faction, string> diplomacyGoodwillLabelByFaction;
         private Dictionary<Faction, FactionRowActionCache> diplomacyRowActionsByFaction;
+        /// <summary>Truncated + Colorize name per faction; rebuilt with relation lists. CD/bribe days stay live at draw.</summary>
+        private Dictionary<Faction, string> diplomacyChipNameColored;
         private WorldComponent_SpreadManager cachedSpreadManager;
 
         private static bool s_diplomacyHeadersInit;
@@ -568,10 +570,9 @@ namespace TSA_WorldDomination
                 Text.Font = GameFont.Tiny;
                 Text.Anchor = TextAnchor.MiddleLeft;
                 float textW = lineRect.width - 22f;
-                WorldComponent_SpreadManager spread = cachedSpreadManager
-                    ?? Find.World?.GetComponent<WorldComponent_SpreadManager>();
+                WorldComponent_SpreadManager spread = cachedSpreadManager;
 
-                // Name: ≤16 chars as-is, else 13 + "...". CD / bribe suffixes append after.
+                // Name Colorize+truncate cached on relation rebuild; CD / bribe days stay live.
                 bool showWdCd = WorldActions_DiplomacyBuffsNerfs.TryGetDiplomacyFreezeDaysRemaining(
                     rowFaction, other, spread, out float daysLeft);
                 string wdCdPlain = null;
@@ -582,15 +583,22 @@ namespace TSA_WorldDomination
                 }
 
                 string bribePlain = null;
-                if (other.IsPlayer && spread != null
-                    && spread.TryGetPlayerBribeCeasefireDaysRemaining(rowFaction, out float bribeDays))
-                    bribePlain = " " + "TSA_WD_Diplomacy_BribeCeasefire".Translate(bribeDays.ToString("F1"));
-                else if (rowFaction != null && rowFaction.IsPlayer && spread != null
-                    && spread.TryGetPlayerBribeCeasefireDaysRemaining(other, out float bribeDaysFromPlayer))
-                    bribePlain = " " + "TSA_WD_Diplomacy_BribeCeasefire".Translate(bribeDaysFromPlayer.ToString("F1"));
+                if (spread != null)
+                {
+                    if (other.IsPlayer
+                        && spread.TryGetPlayerBribeCeasefireDaysRemaining(rowFaction, out float bribeDays))
+                        bribePlain = " " + "TSA_WD_Diplomacy_BribeCeasefire".Translate(bribeDays.ToString("F1"));
+                    else if (rowFaction != null && rowFaction.IsPlayer
+                        && spread.TryGetPlayerBribeCeasefireDaysRemaining(other, out float bribeDaysFromPlayer))
+                        bribePlain = " " + "TSA_WD_Diplomacy_BribeCeasefire".Translate(bribeDaysFromPlayer.ToString("F1"));
+                }
 
-                string nameShown = TruncateFactionNameChars(other.Name);
-                string label = nameShown.Colorize(other.Color);
+                string label;
+                if (diplomacyChipNameColored != null
+                    && diplomacyChipNameColored.TryGetValue(other, out string nameColored))
+                    label = nameColored;
+                else
+                    label = TruncateFactionNameChars(other.Name).Colorize(other.Color);
                 Color suffixColor = new Color(1f, 1f, 1f, 0.75f);
                 if (wdCdPlain != null)
                     label += wdCdPlain.Colorize(suffixColor);
@@ -647,10 +655,21 @@ namespace TSA_WorldDomination
                 diplomacyRelationsByFaction = new Dictionary<Faction, RelationLists>();
             else
                 diplomacyRelationsByFaction.Clear();
+            if (diplomacyChipNameColored == null)
+                diplomacyChipNameColored = new Dictionary<Faction, string>();
+            else
+                diplomacyChipNameColored.Clear();
+
             var allVisible = new List<Faction>();
             foreach (Faction f in Find.FactionManager.AllFactionsVisible)
             {
                 if (!f.def.hidden) allVisible.Add(f);
+            }
+            for (int i = 0; i < allVisible.Count; i++)
+            {
+                Faction f = allVisible[i];
+                if (f == null) continue;
+                diplomacyChipNameColored[f] = TruncateFactionNameChars(f.Name).Colorize(f.Color);
             }
             for (int i = 0; i < factions.Count; i++)
                 BuildRelationListsFor(factions[i], allVisible);

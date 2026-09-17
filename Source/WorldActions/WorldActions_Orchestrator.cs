@@ -481,13 +481,31 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Dev action: raise latch to Mid or Late, refresh caches, and always send the activation letter.
+        /// Dev action: set stage to Early (None), Mid, or Late.
+        /// Early clears the latch so the next metrics pass may re-raise Mid/Late from thresholds.
+        /// Mid/Late raise the latch and always send the activation letter.
         /// </summary>
         public void DebugForceEscalationStage(WdEscalationStage stage)
         {
-            if (stage != WdEscalationStage.Mid && stage != WdEscalationStage.Late) return;
+            if (stage != WdEscalationStage.None
+                && stage != WdEscalationStage.Mid
+                && stage != WdEscalationStage.Late)
+                return;
+
             var seth = WorldDominationMod.settings;
             if (seth == null) return;
+
+            if (stage == WdEscalationStage.None)
+            {
+                escalationLatchInited = true;
+                escalationStageLatch = WdEscalationStage.None;
+                escalationLetterNotifiedStage = WdEscalationStage.None;
+                cachedEscalationStage = WdEscalationStage.None;
+                cachedLateGameModifierActive = false;
+                cachedMidGameModifierActive = false;
+                return;
+            }
+
             if (!seth.enableLateGameScaling)
             {
                 Messages.Message("TSA_WD_Difficulty_EnableLateGame".Translate(), MessageTypeDefOf.RejectInput);
@@ -612,6 +630,8 @@ namespace TSA_WorldDomination
 
             if (fromLoad)
             {
+                // Repair saves wiped before WD set faction.defeated on last-settlement loss.
+                WorldActions_Utils.RepairWipedFactionDefeatedFlags();
                 WorldActions_Utils.MarkExistingPlayerColoniesShieldHandled();
                 int removed = TravelerRemnantCleanup.RemoveOrphanedTravelers();
                 if (removed > 0 && Prefs.DevMode)

@@ -92,6 +92,10 @@ namespace TSA_WorldDomination
         /// <summary>True when this dialog has more than five selectable rows (search bar shown).</summary>
         private readonly bool showItemSearchBar;
         private string itemSearchFilter = "";
+        private string itemSearchNeedleLower = "";
+        private bool orderedRowsDirty = true;
+        private readonly List<CachedHuntingRow> orderedHuntRows = new List<CachedHuntingRow>();
+        private readonly List<CachedProductionRow> orderedProdRows = new List<CachedProductionRow>();
         private readonly bool isHuntingHeader;
         private readonly int animalsPct;
         private readonly int fertilityPct;
@@ -617,7 +621,7 @@ namespace TSA_WorldDomination
 
         private bool ProductionRowMatchesItemSearch(CachedProductionRow row)
         {
-            string q = itemSearchFilter?.Trim().ToLowerInvariant();
+            string q = itemSearchNeedleLower;
             if (string.IsNullOrEmpty(q)) return true;
             if (TokenMatches(row.ItemLabel, q)) return true;
             if (TokenMatches(row.DisabledTooltip, q)) return true;
@@ -627,7 +631,7 @@ namespace TSA_WorldDomination
 
         private bool HuntingRowMatchesItemSearch(CachedHuntingRow row)
         {
-            string q = itemSearchFilter?.Trim().ToLowerInvariant();
+            string q = itemSearchNeedleLower;
             if (string.IsNullOrEmpty(q)) return true;
             var k = row.Opt.Kind;
             if (k != null)
@@ -699,7 +703,7 @@ namespace TSA_WorldDomination
 
         private static string GetCurrentLineText(WorldObject_WD_Outpost o)
         {
-            if (o == null) return "—";
+            if (o == null) return "---";
             bool locked = o.IsSelectionLockedForThisCycle;
             if (locked)
             {
@@ -763,7 +767,7 @@ namespace TSA_WorldDomination
         {
             string noneLabel = "TSA_WD_Production_NoneLabel".Translate().ToString();
             if (noneLabel.Contains("TSA_WD_")) noneLabel = "None";
-            if (o == null) return "—";
+            if (o == null) return "---";
             if (Outpost_Production_Utils.IsScavengingOutpost(o.def))
             {
                 var sk = forCurrentCycle ? o.GetProducingScavengingKindForCurrentCycle() : o.SelectedScavengingKind;
@@ -1119,7 +1123,12 @@ namespace TSA_WorldDomination
                 Rect searchFieldRect = new Rect(rightArea.x, y, rightArea.width - 16f, itemSearchBarH);
                 itemSearchFilter = Widgets.TextField(searchFieldRect, itemSearchFilter);
                 if (itemSearchFilter != oldFilter)
+                {
+                    itemSearchNeedleLower = string.IsNullOrEmpty(itemSearchFilter)
+                        ? ""
+                        : itemSearchFilter.Trim().ToLowerInvariant();
                     scrollPosition = Vector2.zero;
+                }
                 if (string.IsNullOrEmpty(itemSearchFilter))
                 {
                     GUI.color = new Color(1f, 1f, 1f, 0.4f);
@@ -1135,21 +1144,10 @@ namespace TSA_WorldDomination
                 y += itemSearchBarH + itemSearchGap;
             }
 
-            // Display order: currently selected item first.
-            List<CachedHuntingRow> orderedHunt = null;
-            List<CachedProductionRow> orderedProd = null;
-            if (isHunting)
-            {
-                orderedHunt = new List<CachedHuntingRow>(cachedHuntingRows.Count);
-                foreach (var row in cachedHuntingRows) if (HuntRowIsSelected(row)) orderedHunt.Add(row);
-                foreach (var row in cachedHuntingRows) if (!HuntRowIsSelected(row)) orderedHunt.Add(row);
-            }
-            else
-            {
-                orderedProd = new List<CachedProductionRow>(cachedProductionRows.Count);
-                foreach (var row in cachedProductionRows) if (ProdRowIsSelected(row)) orderedProd.Add(row);
-                foreach (var row in cachedProductionRows) if (!ProdRowIsSelected(row)) orderedProd.Add(row);
-            }
+            // Display order: currently selected item first (rebuild only when selection dirty).
+            EnsureOrderedProductionRows();
+            List<CachedHuntingRow> orderedHunt = isHunting ? orderedHuntRows : null;
+            List<CachedProductionRow> orderedProd = isHunting ? null : orderedProdRows;
 
             float filteredScrollHeight = 8f;
             if (isHunting)
@@ -1237,6 +1235,7 @@ namespace TSA_WorldDomination
                     {
                         bool huntDeferred = outpost.IsSelectionLockedForThisCycle && outpost.GetProducingPawnKindForCurrentCycle() != row.Opt.Kind;
                         outpost.SetSelectedHuntingAnimal(row.Opt.Kind);
+                        orderedRowsDirty = true;
                         if (huntDeferred)
                             Messages.Message("TSA_WD_Production_NextCycle".Translate(), outpost, MessageTypeDefOf.NeutralEvent);
                     }
@@ -1306,6 +1305,7 @@ namespace TSA_WorldDomination
                         {
                             bool fishDeferred = outpost.IsSelectionLockedForThisCycle && outpost.GetProducingFishForCurrentCycle() != row.Def;
                             outpost.SetSelectedFishingFish(row.Def);
+                            orderedRowsDirty = true;
                             if (fishDeferred)
                                 Messages.Message("TSA_WD_Production_NextCycle".Translate(), outpost, MessageTypeDefOf.NeutralEvent);
                         }
@@ -1314,6 +1314,7 @@ namespace TSA_WorldDomination
                             bool isDifferent = outpost.IsSelectionLockedForThisCycle
                                                && outpost.GetProducingScavengingKindForCurrentCycle() != row.ScavengingKind;
                             outpost.SetSelectedScavenging(row.ScavengingKind);
+                            orderedRowsDirty = true;
                             if (isDifferent)
                                 Messages.Message("TSA_WD_Production_NextCycle".Translate(), outpost, MessageTypeDefOf.NeutralEvent);
                         }
@@ -1321,6 +1322,7 @@ namespace TSA_WorldDomination
                         {
                             bool prodDeferred = outpost.IsSelectionLockedForThisCycle && outpost.GetProducingDefForCurrentCycle() != row.Def;
                             outpost.SetSelectedProduction(row.Def);
+                            orderedRowsDirty = true;
                             if (prodDeferred)
                                 Messages.Message("TSA_WD_Production_NextCycle".Translate(), outpost, MessageTypeDefOf.NeutralEvent);
                         }
@@ -1349,11 +1351,49 @@ namespace TSA_WorldDomination
             {
                 string confirmMsg = "TSA_WD_Production_ClearConfirm".Translate().ToString();
                 if (confirmMsg.Contains("TSA_WD_")) confirmMsg = "Cancel production? This will reset the production cycle.";
-                Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(confirmMsg, () => { outpost.SetSelectedProduction(null); }));
+                Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(confirmMsg, () =>
+                {
+                    outpost.SetSelectedProduction(null);
+                    orderedRowsDirty = true;
+                }));
             }
 
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
+        }
+
+        private void EnsureOrderedProductionRows()
+        {
+            if (!orderedRowsDirty) return;
+            orderedRowsDirty = false;
+            if (isHunting)
+            {
+                orderedHuntRows.Clear();
+                for (int i = 0; i < cachedHuntingRows.Count; i++)
+                {
+                    if (HuntRowIsSelected(cachedHuntingRows[i]))
+                        orderedHuntRows.Add(cachedHuntingRows[i]);
+                }
+                for (int i = 0; i < cachedHuntingRows.Count; i++)
+                {
+                    if (!HuntRowIsSelected(cachedHuntingRows[i]))
+                        orderedHuntRows.Add(cachedHuntingRows[i]);
+                }
+            }
+            else
+            {
+                orderedProdRows.Clear();
+                for (int i = 0; i < cachedProductionRows.Count; i++)
+                {
+                    if (ProdRowIsSelected(cachedProductionRows[i]))
+                        orderedProdRows.Add(cachedProductionRows[i]);
+                }
+                for (int i = 0; i < cachedProductionRows.Count; i++)
+                {
+                    if (!ProdRowIsSelected(cachedProductionRows[i]))
+                        orderedProdRows.Add(cachedProductionRows[i]);
+                }
+            }
         }
 
         /// <summary>Translate with fallback: returns <paramref name="fallback"/> when the key is missing/untranslated.</summary>

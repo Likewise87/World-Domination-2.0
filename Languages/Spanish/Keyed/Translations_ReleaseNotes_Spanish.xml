@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_23_Title>Mover prisioneros, entrega de comida desde almacén</TSA_WD_Update_2_3_23_Title>
+  <TSA_WD_Update_2_3_23_Body><![CDATA[
+<size=16><b>2.3.23 – Mover prisioneros, entrega de comida desde almacén</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 17 de septiembre de 2026</color>\n
+------------------------------\n
+• Nueva función: los prisioneros se pueden mover entre avanzadillas y a la colonia. Deben ir acompañados de al menos 1 peón regular.\n
+• Nueva función: las avanzadillas almacén pueden entregar comida a otras avanzadillas. La comida viaja por caravana terrestre o por cápsula. Puedes enviar comida física (se convierte en comida virtual al llegar) o comida virtual directamente (deben quedar al menos 15 de comida virtual en el almacén). Algunos gizmos de control, como el tipo de entrega y el destino, pasaron a la pestaña Almacenamiento.\n
+• Las avanzadillas almacén ahora tienen una capacidad de comida virtual por defecto más alta (500). Los demás tipos de avanzadilla mantienen el valor anterior (300).\n
+• Ya publicado hoy: puedes huir de las defensas de avanzadilla con vehículos aéreos como el transbordador de pasajeros de Odyssey.\n
+• Los detalles de Regalo/Compra ahora se configuran en el menú de ajustes de Diplomacia.\n
+• Nuevas acciones de depuración: forzar Early, Mid y Late Game. También puedes forzar comida y algunos objetos no alimentarios como componentes en una avanzadilla almacén (usado para pruebas).\n
+• Algunas correcciones y ajustes.\n
+]]></TSA_WD_Update_2_3_23_Body>
   <TSA_WD_Update_2_3_22_Title>Ajustes finos y correcciones</TSA_WD_Update_2_3_22_Title>
   <TSA_WD_Update_2_3_22_Body><![CDATA[
 <size=16><b>2.3.22 – Ajustes finos y correcciones</b></size>\n

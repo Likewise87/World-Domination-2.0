@@ -208,7 +208,7 @@ namespace TSA_WorldDomination
         public static float DrawTextOutcomeLines(float x, float y, float w, string text, Color color)
         {
             Text.Font = GameFont.Small;
-            string display = string.IsNullOrEmpty(text) ? "—" : text;
+            string display = string.IsNullOrEmpty(text) ? "---" : text;
             foreach (var part in display.Split('\n'))
             {
                 GUI.color = color;

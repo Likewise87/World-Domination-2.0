@@ -401,9 +401,15 @@
   <TSA_WD_Prisoners_Filter_All>Todos</TSA_WD_Prisoners_Filter_All>
   <TSA_WD_Prisoners_Filter_Colony>Colonia</TSA_WD_Prisoners_Filter_Colony>
   <TSA_WD_Prisoners_Filter_Outpost>Avanzadilla</TSA_WD_Prisoners_Filter_Outpost>
+  <TSA_WD_Prisoners_Filter_InTransit>En tránsito</TSA_WD_Prisoners_Filter_InTransit>
   <TSA_WD_Prisoners_GroupOutpost>Prisioneros de avanzadilla</TSA_WD_Prisoners_GroupOutpost>
   <TSA_WD_Prisoners_GroupOutpostHeader>Prisioneros de avanzadilla (hasta {0} a la vez)</TSA_WD_Prisoners_GroupOutpostHeader>
-  <TSA_WD_Prisoners_GroupOutpostTip>Los prisioneros de avanzada no se pueden trasladar hasta reclutarlos.\n\nSe reclutan automáticamente en el orden de la lista (arriba primero).\nUsa las flechas para cambiar la prioridad.\n\nLa habilidad Social define cuántos a la vez (1 por cada 10 de Social, siempre al menos 1).\nTambién define lo rápido que baja la resistencia. Un experto Carcelero lo acelera.\n\nLos prisioneros también consumen comida.\nSuéltalos si no te sirven.</TSA_WD_Prisoners_GroupOutpostTip>
+  <TSA_WD_Prisoners_GroupOutpostTip>Los prisioneros de avanzada se reclutan automáticamente en el orden de la lista (arriba primero).\nUsa las flechas para cambiar la prioridad.\n\nEn la pestaña Colonos de la avanzada, selecciona un prisionero con al menos un colonista de escolta para trasladarlo a otra avanzada o colonia.\n\nLa habilidad Social define cuántos a la vez (1 por cada 10 de Social, siempre al menos 1).\nTambién define lo rápido que baja la resistencia. Un experto Carcelero lo acelera.\n\nLos prisioneros también consumen comida.\nSuéltalos si no te sirven.</TSA_WD_Prisoners_GroupOutpostTip>
+  <TSA_WD_Prisoners_GroupInTransit>En tránsito</TSA_WD_Prisoners_GroupInTransit>
+  <TSA_WD_Prisoners_GroupInTransitTip>Estos cautivos viajan con una caravana escoltada.\nEl reclutamiento y las acciones de avanzada se pausan hasta que lleguen.\nSoltar, destino programado y cambios de interacción están desactivados durante el viaje.</TSA_WD_Prisoners_GroupInTransitTip>
+  <TSA_WD_Prisoners_InTransit>En tránsito</TSA_WD_Prisoners_InTransit>
+  <TSA_WD_Prisoners_InTransitTip>Traslado escoltado en curso. Este cautivo sigue siendo prisionero de la colonia hasta que llegue la caravana.</TSA_WD_Prisoners_InTransitTip>
+  <TSA_WD_Prisoners_InTransitActionsDisabledTip>No se puede cambiar el destino, la interacción ni soltar mientras este cautivo está en tránsito.</TSA_WD_Prisoners_InTransitActionsDisabledTip>
   <TSA_WD_Prisoners_QueueTopTip>Enviar al inicio de la cola de reclutamiento.</TSA_WD_Prisoners_QueueTopTip>
   <TSA_WD_Prisoners_QueueUpTip>Subir un puesto en la cola de reclutamiento.</TSA_WD_Prisoners_QueueUpTip>
   <TSA_WD_Prisoners_QueueDownTip>Bajar un puesto en la cola de reclutamiento.</TSA_WD_Prisoners_QueueDownTip>
@@ -579,6 +585,10 @@
   <TSA_WD_PawnTransfer_Log>Traslado ordenado: {0} colono(s) de {1} a {2}</TSA_WD_PawnTransfer_Log>
   <TSA_WD_PawnTransfer_WithoutFood>Colono trasladado sin comida.</TSA_WD_PawnTransfer_WithoutFood>
   <TSA_WD_PawnTransfer_WithoutFoodPlural>{0} colonos trasladados sin comida.</TSA_WD_PawnTransfer_WithoutFoodPlural>
+  <TSA_WD_PawnTransfer_PrisonerNeedsEscort>Selecciona al menos un colonista no prisionero para escoltar a los cautivos.</TSA_WD_PawnTransfer_PrisonerNeedsEscort>
+  <TSA_WD_PawnTransfer_PrisonerCannotLead>{0} es prisionero y no puede liderar la caravana.</TSA_WD_PawnTransfer_PrisonerCannotLead>
+  <TSA_WD_PawnTransfer_PrisonerNoExitHere>Los cautivos no pueden Salir aquí: envíalos a una colonia o avanzada que acepte prisioneros.</TSA_WD_PawnTransfer_PrisonerNoExitHere>
+  <TSA_WD_PawnTransfer_DestRefusesPrisoners>Esa avanzada no acepta prisioneros.</TSA_WD_PawnTransfer_DestRefusesPrisoners>
   <TSA_WD_Alert_WorldThreat_NearFar>WD: Amenaza {0}|{1}</TSA_WD_Alert_WorldThreat_NearFar>
   <TSA_WD_Alert_WorldThreat_NearOnly>WD: Amenaza {0}|0</TSA_WD_Alert_WorldThreat_NearOnly>
   <TSA_WD_Alert_WorldThreat_FarOnly>WD: Amenaza 0|{0}</TSA_WD_Alert_WorldThreat_FarOnly>

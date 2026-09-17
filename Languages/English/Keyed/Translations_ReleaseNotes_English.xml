@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_23_Title>Move prisoners, Warehouse Food delivery</TSA_WD_Update_2_3_23_Title>
+  <TSA_WD_Update_2_3_23_Body><![CDATA[
+<size=16><b>2.3.23 – Move prisoners, Warehouse Food delivery</b></size>\n
+<color=#00FFFFFF>Release date: September 17th 2026</color>\n
+------------------------------\n
+• New Feature: Prisoners can now be moved between outposts and to the colony. They need to be accompanied by at least 1 regular pawn.\n
+• New Feature: Warehouse outposts can now deliver food to outposts. Food is shipped via land or drop pod caravan. You can both ship physical food which is then converted to virtual food, or send virtual food directly (15 virtual food need to remain as a floor at the warehouse). Some control gizmos like delivery type and destination moved to the Storage tab.\n
+• Warehouse outposts now have a higher default virtual food capacity (500). Other outpost types keep the previous default (300).\n
+• Already released earlier today: You can now flee from Outpost defenses using aerial vehicles like the Odyssey passenger shuttle.\n
+• Gift/Buy details are now configurable in the Diplomacy settings menu.\n
+• New debug actions: Force Early, Mid, and Late Game. Also you can force-add food and some non-food items like components to a warehouse outpost (used that for testing).\n
+• Some bugfixes and tweaks.\n
+]]></TSA_WD_Update_2_3_23_Body>
   <TSA_WD_Update_2_3_22_Title>Fine tuning and Bugfixes</TSA_WD_Update_2_3_22_Title>
   <TSA_WD_Update_2_3_22_Body><![CDATA[
 <size=16><b>2.3.22 – Fine tuning and Bugfixes</b></size>\n

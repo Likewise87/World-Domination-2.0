@@ -1719,9 +1719,10 @@ namespace TSA_WorldDomination
             IReadOnlyList<Pawn> pawns,
             IReadOnlyList<Pawn> storedTransportPawns,
             IReadOnlyList<Pawn> mechanoidPawns,
-            IReadOnlyList<Building_PassengerShuttle> storedShuttles = null)
+            IReadOnlyList<Building_PassengerShuttle> storedShuttles = null,
+            IReadOnlyList<Pawn> prisoners = null)
         {
-            int cap = (pawns?.Count ?? 0) + (storedTransportPawns?.Count ?? 0) + (mechanoidPawns?.Count ?? 0);
+            int cap = (pawns?.Count ?? 0) + (storedTransportPawns?.Count ?? 0) + (mechanoidPawns?.Count ?? 0) + (prisoners?.Count ?? 0);
             if (cap <= 0 && (storedShuttles == null || storedShuttles.Count == 0)) return;
             var removed = new List<Pawn>(cap);
 
@@ -1755,6 +1756,18 @@ namespace TSA_WorldDomination
                     if (p == null || !StoredMechanoids.Contains(p)) continue;
                     Pawn r = RemoveStoredMechanoid(p);
                     if (r != null && !r.Destroyed && !r.Dead) removed.Add(r);
+                }
+            }
+
+            if (prisoners != null)
+            {
+                for (int i = 0; i < prisoners.Count; i++)
+                {
+                    Pawn p = prisoners[i];
+                    if (p == null) continue;
+                    if (!TryDetachPrisonerForTransfer(p, out Pawn detached)) continue;
+                    if (detached != null && !detached.Destroyed && !detached.Dead)
+                        removed.Add(detached);
                 }
             }
 
@@ -2402,6 +2415,8 @@ namespace TSA_WorldDomination
                 Messages.Message("TSA_WD_OutpostDefense_FrozenDuringManualDefense".Translate(), MessageTypeDefOf.RejectInput, false);
                 return;
             }
+            if (TryHandleArrivingPrisoner(pawn, caravan))
+                return;
             bool dissolveCaravan = IsSoleHumanlikeOnCaravan(caravan, pawn);
             if (!caravan.Destroyed && dissolveCaravan)
                 OdysseyShuttleOutpostEstablishmentCompat.TryStoreShuttlesFromCaravan(this, caravan);
@@ -2427,6 +2442,8 @@ namespace TSA_WorldDomination
                 Messages.Message("TSA_WD_OutpostDefense_FrozenDuringManualDefense".Translate(), MessageTypeDefOf.RejectInput, false);
                 return;
             }
+            if (TryHandleArrivingPrisoner(pawn, caravan))
+                return;
             if (pawn.RaceProps?.Humanlike == true && !OutpostPawnClassificationUtil.IsMechanoidWorker(pawn))
             {
                 AddCaravanPawnToOutpost(pawn, caravan);

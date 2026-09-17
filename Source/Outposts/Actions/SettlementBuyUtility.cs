@@ -800,6 +800,11 @@ namespace TSA_WorldDomination
                 reason = "TSA_WD_BuySettlement_UnderAsk".Translate();
                 return false;
             }
+            if (gwSpend > MaxGoodwillPayable(settlement.Faction, ask))
+            {
+                reason = "TSA_WD_BuySettlement_GoodwillTooHigh".Translate();
+                return false;
+            }
             if (gwSpend > 0 && !GoodwillChangeNotifier.CanPayOrderedRoadCost(settlement.Faction, gwSpend, GoodwillFloor))
             {
                 reason = "TSA_WD_BuySettlement_GoodwillTooHigh".Translate();

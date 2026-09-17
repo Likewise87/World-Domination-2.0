@@ -216,7 +216,9 @@ namespace TSA_WorldDomination
             const float boxPad = Outpost_Dialog_UI.OutcomeBoxPad;
             int minGw = SettlementBuyUtility.GoodwillFloor;
             int maxGwByFloor = Mathf.Max(0, currentGw - minGw);
-            int sliderMax = Mathf.Min(200, maxGwByFloor);
+            int sliderMax = Mathf.Min(
+                maxGwByFloor,
+                SettlementBuyUtility.MaxGoodwillPayable(settlement?.Faction, askSilver));
             goodwillOffer = Mathf.Clamp(goodwillOffer, 0, sliderMax);
 
             float innerH = BoxLineH;

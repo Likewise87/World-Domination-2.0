@@ -30,7 +30,8 @@ namespace TSA_WorldDomination
         Occupant,
         StoredTransport,
         StoredMechanoid,
-        StoredShuttle
+        StoredShuttle,
+        Prisoner
     }
 
     public enum PlayerPawnSortCategory
@@ -1244,6 +1245,12 @@ namespace TSA_WorldDomination
             {
                 for (int i = 0; i < occ.Count; i++)
                     TryAdd(occ[i], PlayerPawnOutpostRole.Occupant);
+            }
+            var captives = outpost.Prisoners;
+            if (captives != null)
+            {
+                for (int i = 0; i < captives.Count; i++)
+                    TryAdd(captives[i], PlayerPawnOutpostRole.Prisoner);
             }
             var stored = outpost.StoredAnimalsAndVehicles;
             if (stored != null)

@@ -359,6 +359,72 @@ namespace TSA_WorldDomination
             return true;
         }
 
+        /// <summary>
+        /// True if this faction has a traveler mid PackUp/Turtle/AssaultRally relocation that still needs to refound.
+        /// Used so zero-settlement empires are not marked defeated during voluntary moves.
+        /// </summary>
+        public static bool HasActiveRefoundTraveler(Faction f)
+        {
+            if (f == null || Find.WorldObjects == null) return false;
+            List<WorldObject> all = Find.WorldObjects.AllWorldObjects;
+            for (int i = 0; i < all.Count; i++)
+            {
+                if (all[i] is not WorldObject_Traveler t) continue;
+                if (t.Faction != f || t.Destroyed) continue;
+                if (t.packUpRequiresRefound) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Count WD-surface settlements for <paramref name="f"/>, optionally excluding one id
+        /// (Notify runs before Destroy).
+        /// </summary>
+        public static int CountWdSettlements(Faction f, int excludeSettlementId = -1)
+        {
+            if (f == null || Find.WorldObjects == null) return 0;
+            List<Settlement> settlements = Find.WorldObjects.Settlements;
+            int count = 0;
+            for (int i = 0; i < settlements.Count; i++)
+            {
+                Settlement s = settlements[i];
+                if (s == null || s.Destroyed || s.Faction != f) continue;
+                if (excludeSettlementId >= 0 && s.ID == excludeSettlementId) continue;
+                if (!IsWdSurfaceWorldObject(s)) continue;
+                count++;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// When a WD participant has no remaining surface settlements (and is not mid-refound),
+        /// set vanilla <c>faction.defeated</c> so World Stats / Diplomacy / dashboard rank keep them listed.
+        /// Call after Strategy on Settlement Loss (<see cref="WorldActions_DesperationRaid.NotifyNpcSettlementLost"/>).
+        /// </summary>
+        public static bool TryMarkDefeatedIfNoSettlementsLeft(Faction f, int excludeSettlementId = -1)
+        {
+            if (f == null || f.IsPlayer || f.defeated) return false;
+            if (!IsWdParticipant(f)) return false;
+            if (HasActiveRefoundTraveler(f)) return false;
+            if (CountWdSettlements(f, excludeSettlementId) > 0) return false;
+            f.defeated = true;
+            return true;
+        }
+
+        /// <summary>
+        /// One-shot repair for saves wiped before WD set <c>defeated</c>: zero-settlement WD participants
+        /// without a refound traveler. Safe to call from world FinalizeInit; does not run inside stats getters.
+        /// </summary>
+        public static void RepairWipedFactionDefeatedFlags()
+        {
+            if (Find.FactionManager == null) return;
+            foreach (Faction f in Find.FactionManager.AllFactionsVisible)
+            {
+                if (f == null || f.IsPlayer || f.defeated || f.def == null || f.def.hidden) continue;
+                TryMarkDefeatedIfNoSettlementsLeft(f);
+            }
+        }
+
         /// <summary>Per-faction storyteller raid gate (null/hidden/hard-excluded factions always allow vanilla).</summary>
         public static bool IsStorytellerRaidAllowed(Faction f)
         {

@@ -401,9 +401,15 @@
   <TSA_WD_Prisoners_Filter_All>全部</TSA_WD_Prisoners_Filter_All>
   <TSA_WD_Prisoners_Filter_Colony>殖民地</TSA_WD_Prisoners_Filter_Colony>
   <TSA_WD_Prisoners_Filter_Outpost>前哨</TSA_WD_Prisoners_Filter_Outpost>
+  <TSA_WD_Prisoners_Filter_InTransit>转运中</TSA_WD_Prisoners_Filter_InTransit>
   <TSA_WD_Prisoners_GroupOutpost>前哨囚犯</TSA_WD_Prisoners_GroupOutpost>
   <TSA_WD_Prisoners_GroupOutpostHeader>前哨囚犯（同时最多 {0} 人）</TSA_WD_Prisoners_GroupOutpostHeader>
-  <TSA_WD_Prisoners_GroupOutpostTip>前哨囚犯在被招募前无法调动。\n\n系统会按列表顺序自动招募（越靠上越优先）。\n用箭头调整优先级。\n\n社交技能决定同时招募人数（每 10 点社交 1 人，至少 1 人）。\n也会影响抵抗下降速度。指派狱卒专家可加快下降。\n\n囚犯也会消耗食物。\n若不值得留下，可将其释放。</TSA_WD_Prisoners_GroupOutpostTip>
+  <TSA_WD_Prisoners_GroupOutpostTip>前哨囚犯会按列表顺序自动招募（越靠上越优先）。\n用箭头调整优先级。\n\n在前哨“殖民者”标签中，选择一名囚犯并至少带一名非囚犯殖民者护卫，即可转移到其他前哨或殖民地。\n\n社交技能决定同时招募人数（每 10 点社交 1 人，至少 1 人）。\n也会影响抵抗下降速度。指派狱卒专家可加快下降。\n\n囚犯也会消耗食物。\n若不值得留下，可将其释放。</TSA_WD_Prisoners_GroupOutpostTip>
+  <TSA_WD_Prisoners_GroupInTransit>转运中</TSA_WD_Prisoners_GroupInTransit>
+  <TSA_WD_Prisoners_GroupInTransitTip>这些俘虏正由护卫商队运送。\n抵达前招募与前哨操作会暂停。\n转运期间无法释放、设定目的地或更改互动。</TSA_WD_Prisoners_GroupInTransitTip>
+  <TSA_WD_Prisoners_InTransit>转运中</TSA_WD_Prisoners_InTransit>
+  <TSA_WD_Prisoners_InTransitTip>护卫转移进行中。该俘虏在商队抵达前仍属于殖民地囚犯。</TSA_WD_Prisoners_InTransitTip>
+  <TSA_WD_Prisoners_InTransitActionsDisabledTip>转运中无法更改日程、互动或释放该俘虏。</TSA_WD_Prisoners_InTransitActionsDisabledTip>
   <TSA_WD_Prisoners_QueueTopTip>移到招募队列最前。</TSA_WD_Prisoners_QueueTopTip>
   <TSA_WD_Prisoners_QueueUpTip>在招募队列中上移一位。</TSA_WD_Prisoners_QueueUpTip>
   <TSA_WD_Prisoners_QueueDownTip>在招募队列中下移一位。</TSA_WD_Prisoners_QueueDownTip>
@@ -579,6 +585,10 @@
   <TSA_WD_PawnTransfer_Log>已下令调动：{0} 名殖民者从 {1} 前往 {2}</TSA_WD_PawnTransfer_Log>
   <TSA_WD_PawnTransfer_WithoutFood>殖民者调动时未携带食物。</TSA_WD_PawnTransfer_WithoutFood>
   <TSA_WD_PawnTransfer_WithoutFoodPlural>{0} 名殖民者调动时未携带食物。</TSA_WD_PawnTransfer_WithoutFoodPlural>
+  <TSA_WD_PawnTransfer_PrisonerNeedsEscort>请至少选择一名非囚犯殖民者护送俘虏。</TSA_WD_PawnTransfer_PrisonerNeedsEscort>
+  <TSA_WD_PawnTransfer_PrisonerCannotLead>{0} 是囚犯，不能担任商队领队。</TSA_WD_PawnTransfer_PrisonerCannotLead>
+  <TSA_WD_PawnTransfer_PrisonerNoExitHere>俘虏不能“在此离开”——请送往殖民地或接受囚犯的前哨。</TSA_WD_PawnTransfer_PrisonerNoExitHere>
+  <TSA_WD_PawnTransfer_DestRefusesPrisoners>该前哨当前不接收囚犯。</TSA_WD_PawnTransfer_DestRefusesPrisoners>
   <TSA_WD_Alert_WorldThreat_NearFar>WD：威胁 {0}|{1}</TSA_WD_Alert_WorldThreat_NearFar>
   <TSA_WD_Alert_WorldThreat_NearOnly>WD：威胁 {0}|0</TSA_WD_Alert_WorldThreat_NearOnly>
   <TSA_WD_Alert_WorldThreat_FarOnly>WD：威胁 0|{0}</TSA_WD_Alert_WorldThreat_FarOnly>

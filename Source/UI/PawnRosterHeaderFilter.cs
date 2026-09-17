@@ -665,16 +665,19 @@ namespace TSA_WorldDomination
         public static List<HeaderFilterChoice> PrisonerSourceChoices(
             PrisonerRosterSourceFilter current,
             Action<PrisonerRosterSourceFilter> onPick,
-            IReadOnlyList<bool> isOutpostPrisoner = null)
+            IReadOnlyList<PrisonerRosterEntry> entries = null)
         {
-            bool show = isOutpostPrisoner != null;
-            int total = 0, colony = 0, outpost = 0;
+            bool show = entries != null;
+            int total = 0, colony = 0, outpost = 0, transit = 0;
             if (show)
             {
-                for (int i = 0; i < isOutpostPrisoner.Count; i++)
+                for (int i = 0; i < entries.Count; i++)
                 {
+                    PrisonerRosterEntry e = entries[i];
+                    if (e == null || e.isGroupHeader) continue;
                     total++;
-                    if (isOutpostPrisoner[i]) outpost++;
+                    if (e.isInTransit) transit++;
+                    else if (e.isOutpostPrisoner) outpost++;
                     else colony++;
                 }
             }
@@ -695,7 +698,12 @@ namespace TSA_WorldDomination
                     PrisonerRosterUtility.SourceFilterLabel(PrisonerRosterSourceFilter.Outpost),
                     current == PrisonerRosterSourceFilter.Outpost,
                     () => onPick?.Invoke(PrisonerRosterSourceFilter.Outpost),
-                    outpost, total, show)
+                    outpost, total, show),
+                MakeCountedChoice(
+                    PrisonerRosterUtility.SourceFilterLabel(PrisonerRosterSourceFilter.InTransit),
+                    current == PrisonerRosterSourceFilter.InTransit,
+                    () => onPick?.Invoke(PrisonerRosterSourceFilter.InTransit),
+                    transit, total, show)
             };
         }
 

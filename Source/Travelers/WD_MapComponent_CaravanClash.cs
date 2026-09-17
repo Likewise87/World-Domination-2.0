@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -10,11 +8,6 @@ namespace TSA_WorldDomination
 {
     public class WD_MapComponent_CaravanClash : MapComponent
     {
-        private static readonly List<Pawn> aboardScratch = new List<Pawn>();
-        private static readonly HashSet<Pawn> aboardSeen = new HashSet<Pawn>();
-        private static readonly FieldInfo TravellingTransportersInitialTileField =
-            AccessTools.Field(typeof(TravellingTransporters), "initialTile");
-
         private WorldObjectDef travelerDef;
         private Faction enemyFaction;
         private float travelerStrength;
@@ -159,7 +152,7 @@ namespace TSA_WorldDomination
                 // Launch started; ground force wiped mid-skyfaller — latch flee once craft is off-map.
                 if (aerialLeaveInProgress
                     && !AnyPlayerClashForceStanding()
-                    && !AnyEscapedSurvivorsStillOnThisMap()
+                    && !WD_TempEncounterAerialLeaveUtility.AnyEscapedSurvivorsStillOnThisMap(map)
                     && ThreatExists())
                 {
                     ResolvePlayerFledClashPhaseA();
@@ -293,33 +286,13 @@ namespace TSA_WorldDomination
         }
 
         public static void NotifyWorldAirborneFromStartTile(int startTileId)
-        {
-            FindClashNeedingAerialFleeOnTile(startTileId)?.NotifyAirborneSurvivorsLeftThisClash();
-        }
+            => WD_TempEncounterAerialLeaveUtility.NotifyWorldAirborneFromStartTile(startTileId);
 
         public static void NotifyPossibleAerialLeaveFromMap(Map map)
-        {
-            map?.GetComponent<WD_MapComponent_CaravanClash>()?.NotifyPossibleAerialLeave();
-        }
+            => WD_TempEncounterAerialLeaveUtility.NotifyPossibleAerialLeaveFromMap(map);
 
         public static int TryGetTravellingTransportersStartTileId(TravellingTransporters pods)
-        {
-            if (pods == null) return -1;
-            try
-            {
-                if (TravellingTransportersInitialTileField != null)
-                {
-                    object v = TravellingTransportersInitialTileField.GetValue(pods);
-                    if (v is PlanetTile pt && pt.Valid)
-                        return pt.tileId;
-                }
-            }
-            catch
-            {
-                // fall through
-            }
-            return pods.Tile.Valid ? pods.Tile.tileId : -1;
-        }
+            => WD_TempEncounterAerialLeaveUtility.TryGetTravellingTransportersStartTileId(pods);
 
         private void ResolvePlayerFledClashPhaseA()
         {
@@ -336,7 +309,7 @@ namespace TSA_WorldDomination
         {
             if (!playerFled || playerHasWon) return;
             if (AnyPlayerClashForceStanding()) return;
-            if (aerialLeaveInProgress || AnyEscapedSurvivorsStillOnThisMap()) return;
+            if (aerialLeaveInProgress || WD_TempEncounterAerialLeaveUtility.AnyEscapedSurvivorsStillOnThisMap(map)) return;
             ResolvePlayerFledClashPhaseB();
         }
 
@@ -344,7 +317,7 @@ namespace TSA_WorldDomination
         private void TryFinishAmbushCleanupIfCraftGone()
         {
             if (AnyPlayerClashForceStanding()) return;
-            if (aerialLeaveInProgress || AnyEscapedSurvivorsStillOnThisMap()) return;
+            if (aerialLeaveInProgress || WD_TempEncounterAerialLeaveUtility.AnyEscapedSurvivorsStillOnThisMap(map)) return;
             DiscardEncounterLeftovers();
             QueueAmbushEncounterMapTeardown();
         }
@@ -353,7 +326,7 @@ namespace TSA_WorldDomination
         {
             if (!playerFled || playerHasWon) return;
             if (AnyPlayerClashForceStanding()) return;
-            if (aerialLeaveInProgress || AnyEscapedSurvivorsStillOnThisMap()) return;
+            if (aerialLeaveInProgress || WD_TempEncounterAerialLeaveUtility.AnyEscapedSurvivorsStillOnThisMap(map)) return;
 
             WDVerbose.Msg($"[TSA WD] Aerial/shuttle flee Phase B teardown for {travelerLabel}.");
             aerialLeaveInProgress = false;
@@ -361,201 +334,14 @@ namespace TSA_WorldDomination
             QueueAmbushEncounterMapTeardown();
         }
 
-        /// <summary>
-        /// Living player humanlikes in Odyssey shuttle / off-map aerial escape — not counting as “standing”.
-        /// </summary>
         private bool AnyPlayerClashSurvivorsEscaped()
-        {
-            if (AnyEscapedSurvivorsStillOnThisMap())
-                return true;
+            => WD_TempEncounterAerialLeaveUtility.AnyPlayerSurvivorsEscaped(map);
 
-            int clashTile = map != null && map.Tile.Valid ? map.Tile.tileId : -1;
-            if (clashTile < 0 || Find.WorldObjects == null) return false;
-
-            List<WorldObject> all = Find.WorldObjects.AllWorldObjects;
-            for (int i = 0; i < all.Count; i++)
-            {
-                WorldObject wo = all[i];
-                if (wo is not TravellingTransporters pods || pods.Destroyed) continue;
-                if (TryGetTravellingTransportersStartTileId(pods) != clashTile) continue;
-                if (PodsHaveLivingPlayerHumanlike(pods))
-                    return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Player escape craft still on the Ambush map: boarded shuttle, leaving skyfaller, or VF crew.
-        /// Must stay true while leave skyfallers tick — tearing down the Ambush mid-<c>LeaveMap</c> NREs / deletes them.
-        /// </summary>
-        private bool AnyEscapedSurvivorsStillOnThisMap()
-        {
-            if (map?.listerThings?.AllThings != null)
-            {
-                List<Thing> all = map.listerThings.AllThings;
-                for (int i = 0; i < all.Count; i++)
-                {
-                    Thing t = all[i];
-                    if (t == null || t.Destroyed) continue;
-
-                    // Odyssey shuttle leave skyfaller still owns the map until TravellingTransporters spawns.
-                    if (t is FlyShipLeaving)
-                        return true;
-
-                    if (t is Skyfaller skyfaller)
-                    {
-                        if (IsPassengerShuttleLeaveSkyfaller(skyfaller))
-                            return true;
-                        if (SkyfallerHasLivingPlayerHumanlike(skyfaller))
-                            return true;
-                    }
-
-                    if (ModsConfig.OdysseyActive
-                        && t is Building_PassengerShuttle shuttle
-                        && (shuttle.Faction == null || shuttle.Faction.IsPlayer)
-                        && ShuttleHasLivingPlayerHumanlike(shuttle))
-                        return true;
-                }
-            }
-
-            var spawned = map?.mapPawns?.AllPawnsSpawned;
-            if (spawned == null) return false;
-            for (int i = 0; i < spawned.Count; i++)
-            {
-                Pawn vehicle = spawned[i];
-                if (!VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(vehicle))
-                    continue;
-                if (vehicle.Faction == null || !vehicle.Faction.IsPlayer)
-                    continue;
-
-                aboardScratch.Clear();
-                aboardSeen.Clear();
-                VehicleFrameworkOutpostDissolveCompat.CollectPawnsAboardVehicleForRoster(
-                    vehicle, aboardScratch, aboardSeen);
-                for (int j = 0; j < aboardScratch.Count; j++)
-                {
-                    if (IsLivingPlayerHumanlike(aboardScratch[j]))
-                        return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool IsPassengerShuttleLeaveSkyfaller(Skyfaller skyfaller)
-        {
-            string defName = skyfaller?.def?.defName;
-            if (string.IsNullOrEmpty(defName)) return false;
-            return defName.IndexOf("PassengerShuttleLeaving", StringComparison.OrdinalIgnoreCase) >= 0
-                || defName.IndexOf("PassengerShuttleSkyfaller", StringComparison.OrdinalIgnoreCase) >= 0;
-        }
-
-        private static bool SkyfallerHasLivingPlayerHumanlike(Skyfaller skyfaller)
-        {
-            ThingOwner container = skyfaller?.innerContainer;
-            if (container == null) return false;
-            for (int i = 0; i < container.Count; i++)
-            {
-                if (container[i] is Pawn p && IsLivingPlayerHumanlike(p))
-                    return true;
-                if (container[i] is Building_PassengerShuttle shuttle
-                    && ShuttleHasLivingPlayerHumanlike(shuttle))
-                    return true;
-            }
-            return false;
-        }
-
-        private static bool ShuttleHasLivingPlayerHumanlike(Building_PassengerShuttle shuttle)
-        {
-            CompTransporter transporter = shuttle?.TransporterComp;
-            ThingOwner container = transporter?.innerContainer;
-            if (container == null) return false;
-            for (int i = 0; i < container.Count; i++)
-            {
-                if (container[i] is Pawn p && IsLivingPlayerHumanlike(p))
-                    return true;
-            }
-            return false;
-        }
-
-        private static bool PodsHaveLivingPlayerHumanlike(TravellingTransporters pods)
-        {
-            if (pods == null) return false;
-            foreach (Pawn p in pods.Pawns)
-            {
-                if (IsLivingPlayerHumanlike(p))
-                    return true;
-            }
-            return false;
-        }
-
-        private static bool IsLivingPlayerHumanlike(Pawn p)
-        {
-            if (p == null || p.Destroyed || p.Dead) return false;
-            if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(p)) return false;
-            if (p.RaceProps == null || !p.RaceProps.Humanlike) return false;
-            if (p.Faction == null || !p.Faction.IsPlayer) return false;
-            return true;
-        }
-
-        /// <summary>
-        /// Humanlike player fighters still in the fight: spawned colonists and VF crew aboard vehicles.
-        /// Vehicle shells and animals do not count (avoids soft-lock defeat / false standing).
-        /// </summary>
         private bool AnyPlayerClashForceStanding()
-        {
-            var spawned = map?.mapPawns?.AllPawnsSpawned;
-            if (spawned == null) return false;
+            => WD_TempEncounterAerialLeaveUtility.AnyPlayerForceStandingOnMap(map);
 
-            for (int i = 0; i < spawned.Count; i++)
-            {
-                Pawn p = spawned[i];
-                if (IsStandingPlayerHumanlike(p))
-                    return true;
-            }
-
-            for (int i = 0; i < spawned.Count; i++)
-            {
-                Pawn vehicle = spawned[i];
-                if (!VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(vehicle))
-                    continue;
-                if (vehicle.Faction == null || !vehicle.Faction.IsPlayer)
-                    continue;
-
-                aboardScratch.Clear();
-                aboardSeen.Clear();
-                VehicleFrameworkOutpostDissolveCompat.CollectPawnsAboardVehicleForRoster(
-                    vehicle, aboardScratch, aboardSeen);
-                for (int j = 0; j < aboardScratch.Count; j++)
-                {
-                    if (IsStandingPlayerHumanlike(aboardScratch[j]))
-                        return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool IsStandingPlayerHumanlike(Pawn p)
-        {
-            if (IsCombatIneffective(p)) return false;
-            if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(p)) return false;
-            if (p.RaceProps == null || !p.RaceProps.Humanlike) return false;
-            if (p.Faction == null || !p.Faction.IsPlayer) return false;
-            return true;
-        }
-
-        /// <summary>
-        /// Dead, downed, or PanicFlee — same bar for enemy threats and player “still standing”
-        /// (matches vanilla Reform Caravan “no active hostiles” and <see cref="WdSettlementTurretSilence"/>).
-        /// </summary>
         private static bool IsCombatIneffective(Pawn p)
-        {
-            if (p == null || p.Destroyed || p.Dead || p.Downed) return true;
-            if (p.MentalStateDef == MentalStateDefOf.PanicFlee) return true;
-            return false;
-        }
+            => WD_TempEncounterAerialLeaveUtility.IsCombatIneffective(p);
 
         private bool AnyLivingCaravanFactionPawnThreat()
         {

@@ -18,7 +18,8 @@ namespace TSA_WorldDomination
         public static readonly Material PathLineWhite = MakeAlwaysOnTopLineMat(Color.white, TravelerPathRenderQueue);
         public static readonly Material LogisticsGreen = MakeAlwaysOnTopLineMat(Color.green, LogisticsRenderQueue);
 
-        private static readonly Color LogisticsDarkCyanColor = new Color(0.2f, 0.8f, 0.8f, 1f);
+        /// <summary>Darker cyan used for logistics lines and UI tints (outpost-icon shade; not Unity Color.cyan).</summary>
+        public static readonly Color LogisticsDarkCyanColor = new Color(0f, 188f / 255f, 216f / 255f, 1f);
         public static readonly Material LogisticsDarkCyan = MakeAlwaysOnTopLineMat(LogisticsDarkCyanColor, LogisticsRenderQueue);
 
         public static readonly Color RecruitPurple = new Color(0.5f, 0f, 0.6f, 1f);

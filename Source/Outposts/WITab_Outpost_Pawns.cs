@@ -1182,8 +1182,10 @@ namespace TSA_WorldDomination
             string headline = OutpostTranslationUtil.TabHeadline(SelOutpost, "TSA_WD_Outpost_Pawns");
 
             int selectedCount = selectedForRemovalThingIds.Count;
-            bool anyTransferableSelected = HasTransferableSelection();
-            bool onlyPrisonersSelected = HasPrisonerSelection() && !anyTransferableSelected;
+            bool hasNonPrisonerSelected = HasNonPrisonerTransferableSelection();
+            bool hasPrisonerSelected = HasPrisonerSelection();
+            bool onlyPrisonersSelected = hasPrisonerSelected && !hasNonPrisonerSelected;
+            bool anyTransferableSelected = hasNonPrisonerSelected || hasPrisonerSelected;
 
             Rect transferBtn = new Rect(content.width - TransferBtnWidth - TransferBtnRightInset, 4f, TransferBtnWidth, 30f);
             Text.Font = GameFont.Small;
@@ -1307,7 +1309,10 @@ namespace TSA_WorldDomination
             }
         }
 
-        private bool HasTransferableSelection()
+        private bool HasTransferableSelection() =>
+            HasNonPrisonerTransferableSelection() || HasPrisonerSelection();
+
+        private bool HasNonPrisonerTransferableSelection()
         {
             if (selectedForRemovalThingIds.Count == 0 || SelOutpost == null) return false;
             var outpost = SelOutpost;
@@ -2035,25 +2040,8 @@ namespace TSA_WorldDomination
             if (row == null || tid.NullOrEmpty()) return false;
             if (row.isGroupHeader) return false;
 
-            // Prisoners and transferable pawns are mutually exclusive selection modes.
-            bool prisonerMode = IsPrisonerSelectionMode();
-
             if (row.rowKind == OutpostPawnRowKind.Prisoner)
-            {
-                // Always allow selecting prisoners (starts/switches to prisoner mode).
-                // Already-selected prisoners stay clickable to deselect.
                 return true;
-            }
-
-            if (prisonerMode)
-            {
-                // Switching away from prisoners: only a free occupant click starts transfer mode.
-                if (row.rowKind != OutpostPawnRowKind.Occupant) return false;
-                return OutpostPawnIdeologyUtil.CanToggleOutpostRemovalSelection(
-                    SelOutpost,
-                    new HashSet<string>(),
-                    row.pawn);
-            }
 
             bool sel = selectedForRemovalThingIds.Contains(tid);
             if (row.rowKind == OutpostPawnRowKind.Occupant)
@@ -2066,9 +2054,6 @@ namespace TSA_WorldDomination
             // Animals / vehicles / mechs / shuttles need a free (non-slave) occupant escort in the selection.
             return sel || OutpostPawnIdeologyUtil.SelectionIncludesNonSlaveOccupant(SelOutpost, selectedForRemovalThingIds);
         }
-
-        private bool IsPrisonerSelectionMode() =>
-            HasPrisonerSelection() && !HasTransferableSelection();
 
         private int CountSelectableVisibleOccupantRows()
         {
@@ -2147,7 +2132,6 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            ClearPrisonerSelection();
             // Free / non-slave occupants first so slaves and stored unlock.
             for (int i = 0; i < cachedRows.Count; i++)
             {
@@ -2197,7 +2181,6 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            ClearNonPrisonerSelection();
             for (int i = 0; i < cachedRows.Count; i++)
             {
                 CachedPawnRow row = cachedRows[i];
@@ -2645,15 +2628,6 @@ namespace TSA_WorldDomination
 
                 bool nowSelected = PawnRosterPaintSelect.Draw(
                     this, selectColRect, cx, cy, 24f, tid, selectedForRemovalThingIds, canInteract);
-
-                // Enforce exclusive modes: prisoners XOR colonists/vehicles/animals/mechs/shuttles.
-                if (nowSelected && !wasSelected)
-                {
-                    if (row.rowKind == OutpostPawnRowKind.Prisoner)
-                        ClearNonPrisonerSelection();
-                    else
-                        ClearPrisonerSelection();
-                }
 
                 if (row.rowKind != OutpostPawnRowKind.Prisoner && nowSelected != wasSelected)
                     AfterRemovalSelectionMutated();

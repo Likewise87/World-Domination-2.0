@@ -185,6 +185,9 @@ namespace TSA_WorldDomination
         /// <summary>When false, this outpost does not assign cumulative skill to physical-goods production (stats UI shows N/A). Default true.</summary>
         public bool usesPhysicalGoodsProductionSkill = true;
 
+        /// <summary>If true, omit from establish / requirements-preview menus. Def stays loaded for existing saves.</summary>
+        public bool hideFromEstablishMenu;
+
         /// <summary>Returns null if biome is allowed; otherwise returns a reason string. Same logic as Outposts mod: disallowed list wins, then allowed list if set.</summary>
         public string CanBuildInBiome(string biomeDefName, string biomeLabel, string outpostLabel)
         {

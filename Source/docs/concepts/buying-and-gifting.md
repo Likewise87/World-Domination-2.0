@@ -49,9 +49,9 @@ Vanilla launch-pod gifts into non-player settlements can feed a related investme
 
     Default investment: **20** strength per **100** silver, radius **50** tiles, upgrade costs **1,500 / 4,000 / 9,000**, tier-up chance **50%**.
 
-    Default goodwill for gifting conquered ruins: T1–T4 **15 / 28 / 45 / 70**. Gift goodwill from market value uses a much friendlier divisor than bribes.
+    Default goodwill for gifting conquered ruins: T1–T4 **15 / 28 / 45 / 70**. World-map gift goodwill divides raw market value by a configurable divisor (default **40**, friendlier than bribes). Minimum gift meter default **1,000** silver (sell-price valuation).
 
-    Full controls: [Settings: Diplomacy](../settings/diplomacy.md). Wider diplomacy context: [Diplomacy and escalation](../diplomacy.md).
+    Full controls: [Settings: Diplomacy](../settings/diplomacy.md) (**Gifts and purchases**). Wider diplomacy context: [Diplomacy and escalation](../diplomacy.md).
 
 ## Related chapters
 

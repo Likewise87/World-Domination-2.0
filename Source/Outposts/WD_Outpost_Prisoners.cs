@@ -87,6 +87,95 @@ namespace TSA_WorldDomination
             return true;
         }
 
+        /// <summary>
+        /// Strip a captive from this outpost for an escorted transfer caravan.
+        /// Keeps <see cref="GuestStatus.Prisoner"/>; clears recruit schedule; blocks Auto-add re-swallow as Occupant.
+        /// </summary>
+        public bool TryDetachPrisonerForTransfer(Pawn pawn, out Pawn detached)
+        {
+            detached = null!;
+            if (manualDefenseActive) return false;
+            if (pawn == null || pawn.Destroyed || pawn.Dead) return false;
+            if (!Prisoners.Contains(pawn)) return false;
+
+            Prisoners.Remove(pawn);
+            WorldComponent_PrisonerRecruitSchedule.Get()?.Clear(pawn.ThingID);
+
+            if (pawn.guest != null && !pawn.IsPrisonerOfColony)
+                pawn.guest.SetGuestStatus(Faction.OfPlayer, GuestStatus.Prisoner);
+
+            pawn.GetCaravan()?.RemovePawn(pawn);
+            pawn.holdingOwner?.Remove(pawn);
+            RegisterAutoAddBlockUntilPawnLeavesTile(pawn);
+            NotifyVirtualPawnsChanged();
+            Window_Prisoners.InvalidateCache();
+            detached = pawn;
+            return true;
+        }
+
+        /// <summary>
+        /// Intake for arriving caravan/pod pawns: colony prisoners are re-captured, never Occupant-promoted.
+        /// Returns true when the pawn was handled (captured or explicitly left on the caravan).
+        /// </summary>
+        public bool TryHandleArrivingPrisoner(Pawn pawn, Caravan caravan = null)
+        {
+            if (pawn == null || pawn.Destroyed || pawn.Dead) return false;
+            if (!pawn.IsPrisonerOfColony) return false;
+
+            if (ManualDefenseActive)
+            {
+                Messages.Message("TSA_WD_OutpostDefense_FrozenDuringManualDefense".Translate(), MessageTypeDefOf.RejectInput, false);
+                return true;
+            }
+
+            if (!TakePrisoners)
+            {
+                Messages.Message("TSA_WD_PawnTransfer_DestRefusesPrisoners".Translate(), MessageTypeDefOf.RejectInput, false);
+                return true;
+            }
+
+            VehicleFrameworkOutpostDissolveCompat.TryEjectPawnFromHostingVehicle(pawn);
+            caravan?.RemovePawn(pawn);
+            if (!TryCaptureAsPrisoner(pawn))
+            {
+                Messages.Message("TSA_WD_AddToOutpost_AddFailed".Translate(pawn.LabelShort), MessageTypeDefOf.RejectInput, false);
+                return true;
+            }
+
+            // Captives count as humanlike, so the last escort never triggers sole-humanlike dissolve.
+            // Clean up empty / animal-only remnants the same way AddCaravanPawnToOutpostRouted does.
+            TryCleanupCaravanAfterPrisonerIntake(caravan);
+            return true;
+        }
+
+        /// <summary>
+        /// After stripping a captive onto this outpost: destroy an empty caravan, or dissolve animals/vehicles
+        /// when no free (non-prisoner) humanlike escorts remain.
+        /// </summary>
+        private void TryCleanupCaravanAfterPrisonerIntake(Caravan caravan)
+        {
+            if (caravan == null || caravan.Destroyed) return;
+
+            var reading = caravan.PawnsListForReading;
+            if (reading == null || reading.Count == 0)
+            {
+                VehicleFrameworkOutpostDissolveCompat.DestroyCaravanWorldObjectAfterOutpostDissolve(caravan);
+                return;
+            }
+
+            for (int i = 0; i < reading.Count; i++)
+            {
+                Pawn p = reading[i];
+                if (p == null || p.Destroyed || p.Dead) continue;
+                if (p.RaceProps?.Humanlike != true) continue;
+                if (p.IsPrisonerOfColony) continue;
+                if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(p)) continue;
+                return; // free escort still on caravan — leave it alone
+            }
+
+            DissolveCaravanIntoOutpostPhysicalRemainder(caravan, creditVirtualFoodFromRemainder: true);
+        }
+
         /// <summary>Remove captive to the void. No map drop, no goodwill dump.</summary>
         public bool LetGoPrisoner(Pawn pawn)
         {

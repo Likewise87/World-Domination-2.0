@@ -522,7 +522,10 @@ namespace TSA_WorldDomination
         public const int DefAlliedRaidClaimCostT3 = 35;
         public const int DefAlliedRaidClaimCostT4 = 45;
 
-        // --- BUY SETTLEMENT ---
+        // --- GIFTS AND PURCHASES (world-map settlement gift + buy) ---
+        /// <summary>Raw gift market value ÷ this = goodwill (vanilla FactionGiftUtility uses 40).</summary>
+        public const float DefSettlementGiftGoodwillDivisor = 40f;
+        public const float DefSettlementGiftMinSilver = 1000f;
         public const bool DefEnableSettlementBuy = true;
         public const float DefSettlementBuyAskT1 = 5000f;
         public const float DefSettlementBuyAskT2 = 12000f;
@@ -620,7 +623,7 @@ namespace TSA_WorldDomination
         // Mid-game escalation (earlier, softer). Late supersedes when both thresholds are met.
         public const float DefMidGameShareThreshold = 0.08f;
         public const float DefMidGameOutpostStrengthThreshold = 4000f;
-        /// <summary>Mid activates when elapsed game days reach this (OR with share / outpost strength). Clamp 10–300.</summary>
+        /// <summary>Mid activates when elapsed game days reach this (OR with share / outpost strength). Clamp 10–600; must stay below Late.</summary>
         public const int DefMidGameDaysThreshold = 30;
         public const float DefMidGameRaidBiasPct = 0.25f;
         public const float DefMidGameGrowthMult = 1.5f;
@@ -673,7 +676,7 @@ namespace TSA_WorldDomination
         // Absolute outpost strength OR-gate for Late (was 8000 before Mid/Late split).
         /// <summary>Modifier activates when total player outpost strength reaches this value (OR with the global-share threshold).</summary>
         public const float DefLateGameOutpostStrengthThreshold = 7500f;
-        /// <summary>Late activates when elapsed game days reach this (OR with share / outpost strength). Clamp 10–300.</summary>
+        /// <summary>Late activates when elapsed game days reach this (OR with share / outpost strength). Clamp 10–600; must stay above Mid.</summary>
         public const int DefLateGameDaysThreshold = 90;
         /// <summary>Raid bias: player-owned targets are weighted (1 + this) more likely within a distance band when Mid/Late is active and the attacker can reach a player target.</summary>
         public const float DefLateGameRaidBiasPct = 0.50f;
@@ -1028,6 +1031,8 @@ namespace TSA_WorldDomination
         public const float DefFoodProductionPerOutpostBase = 3.0f;
         /// <summary>Max virtual food storage per outpost (slider).</summary>
         public const float DefMaxFoodPerOutpost = 300f;
+        /// <summary>Warehouse virtual food pool floor when the global outpost max is lower (other outposts keep <see cref="DefMaxFoodPerOutpost"/>).</summary>
+        public const float DefMaxFoodPerWarehouse = 500f;
         public const int DefMaxLogisticsRange = 25;
         /// <summary>Default and minimum (0–1) virtual food tile multiplier floor for farming/hunting hubs; effective mult = max(raw, floor). Slider cannot go below this.</summary>
         public const float DefVirtualFoodTileMultiplierFloor = 0.80f;
@@ -1501,6 +1506,8 @@ namespace TSA_WorldDomination
         public int alliedRaidClaimCostT3 = DefAlliedRaidClaimCostT3;
         public int alliedRaidClaimCostT4 = DefAlliedRaidClaimCostT4;
 
+        public float settlementGiftGoodwillDivisor = DefSettlementGiftGoodwillDivisor;
+        public float settlementGiftMinSilver = DefSettlementGiftMinSilver;
         public bool enableSettlementBuy = DefEnableSettlementBuy;
         public float settlementBuyAskT1 = DefSettlementBuyAskT1;
         public float settlementBuyAskT2 = DefSettlementBuyAskT2;
@@ -2701,6 +2708,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref alliedRaidClaimCostT2, "alliedRaidClaimCostT2", DefAlliedRaidClaimCostT2);
             Scribe_Values.Look(ref alliedRaidClaimCostT3, "alliedRaidClaimCostT3", DefAlliedRaidClaimCostT3);
             Scribe_Values.Look(ref alliedRaidClaimCostT4, "alliedRaidClaimCostT4", DefAlliedRaidClaimCostT4);
+            Scribe_Values.Look(ref settlementGiftGoodwillDivisor, "settlementGiftGoodwillDivisor", DefSettlementGiftGoodwillDivisor);
+            Scribe_Values.Look(ref settlementGiftMinSilver, "settlementGiftMinSilver", DefSettlementGiftMinSilver);
             Scribe_Values.Look(ref enableSettlementBuy, "enableSettlementBuy", DefEnableSettlementBuy);
             Scribe_Values.Look(ref settlementBuyAskT1, "settlementBuyAskT1", DefSettlementBuyAskT1);
             Scribe_Values.Look(ref settlementBuyAskT2, "settlementBuyAskT2", DefSettlementBuyAskT2);
@@ -4337,6 +4346,8 @@ namespace TSA_WorldDomination
             alliedRaidClaimCostT2 = DefAlliedRaidClaimCostT2;
             alliedRaidClaimCostT3 = DefAlliedRaidClaimCostT3;
             alliedRaidClaimCostT4 = DefAlliedRaidClaimCostT4;
+            settlementGiftGoodwillDivisor = DefSettlementGiftGoodwillDivisor;
+            settlementGiftMinSilver = DefSettlementGiftMinSilver;
             enableSettlementBuy = DefEnableSettlementBuy;
             settlementBuyAskT1 = DefSettlementBuyAskT1;
             settlementBuyAskT2 = DefSettlementBuyAskT2;
@@ -4673,24 +4684,51 @@ namespace TSA_WorldDomination
             NormalizeEscalationConstraints();
         }
 
-        /// <summary>Keep Mid share/strength ≤ Late, and Mid T4 flags imply Late T4 flags.</summary>
+        /// <summary>Keep Late share ≥ Mid, Late strength/days strictly above Mid, and Mid T4 flags imply Late T4 flags.</summary>
         public void NormalizeEscalationConstraints()
         {
             NormalizeEscalationThresholds();
             NormalizeEscalationT4Flags();
         }
 
-        /// <summary>Fixed slider ranges; clamp stored Mid thresholds so they never exceed Late.</summary>
+        /// <summary>Fixed slider ranges; Late days/strength must stay strictly above Mid (share may be equal).</summary>
         public void NormalizeEscalationThresholds()
         {
-            midGameDaysThreshold = Mathf.Clamp(midGameDaysThreshold, 10, 300);
-            lateGameDaysThreshold = Mathf.Clamp(lateGameDaysThreshold, 10, 300);
+            const int daysMin = 10;
+            const int daysMax = 600;
+            const float strengthMin = 100f;
+            const float strengthMax = 25000f;
+            const float strengthStep = 100f;
+
+            midGameDaysThreshold = Mathf.Clamp(midGameDaysThreshold, daysMin, daysMax);
+            lateGameDaysThreshold = Mathf.Clamp(lateGameDaysThreshold, daysMin, daysMax);
+            midGameOutpostStrengthThreshold = Mathf.Clamp(midGameOutpostStrengthThreshold, strengthMin, strengthMax);
+            lateGameOutpostStrengthThreshold = Mathf.Clamp(lateGameOutpostStrengthThreshold, strengthMin, strengthMax);
+
             if (midGameShareThreshold > lateGameShareThreshold)
                 midGameShareThreshold = lateGameShareThreshold;
-            if (midGameOutpostStrengthThreshold > lateGameOutpostStrengthThreshold)
-                midGameOutpostStrengthThreshold = lateGameOutpostStrengthThreshold;
-            if (midGameDaysThreshold > lateGameDaysThreshold)
-                midGameDaysThreshold = lateGameDaysThreshold;
+
+            if (lateGameDaysThreshold <= midGameDaysThreshold)
+            {
+                if (midGameDaysThreshold < daysMax)
+                    lateGameDaysThreshold = midGameDaysThreshold + 1;
+                else
+                {
+                    midGameDaysThreshold = daysMax - 1;
+                    lateGameDaysThreshold = daysMax;
+                }
+            }
+
+            if (lateGameOutpostStrengthThreshold <= midGameOutpostStrengthThreshold)
+            {
+                if (midGameOutpostStrengthThreshold < strengthMax)
+                    lateGameOutpostStrengthThreshold = Mathf.Min(strengthMax, midGameOutpostStrengthThreshold + strengthStep);
+                else
+                {
+                    midGameOutpostStrengthThreshold = strengthMax - strengthStep;
+                    lateGameOutpostStrengthThreshold = strengthMax;
+                }
+            }
         }
 
         /// <summary>Write-through legacy Mid/Late T4 bools and opportunity ignore-gate from threat stage gates.</summary>
