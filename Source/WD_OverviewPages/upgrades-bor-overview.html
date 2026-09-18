@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>World Domination 2.0 — Outpost Upgrades</title>
+  <title>World Domination 2.0 — Birth of the Republic Upgrades</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -127,7 +127,7 @@
     .overview {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
-      gap: 12px 8px;
+      gap: 18px 12px;
       padding: 28px 20px 32px;
       margin-bottom: 40px;
       background: var(--bg-panel);
@@ -326,244 +326,115 @@
   <div class="page">
     <header class="brand">
       <h1>WORLD <span class="dom">DOMINATION</span> 2.0</h1>
-      <div class="subtitle">Outpost Upgrades</div>
+      <div class="subtitle">Birth of the Republic Upgrades</div>
     </header>
-    <section class="overview" aria-label="Upgrade overview">
+    <section class="overview" aria-label="BOR upgrade overview">
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/Palisades.png" alt="" />
-        <span>Palisade Walls</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/StoneWall.png" alt="" />
-        <span>Stone Wall</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/Spikes.png" alt="" />
-        <span>Spike Traps</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/AutoTurret.png" alt="" />
-        <span>Auto Turrets</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/BasicHospital.png" alt="" />
-        <span>Basic Hospital</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/AdvancedHospital.png" alt="" />
-        <span>Advanced Hospital</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/MiningLift.png" alt="" />
-        <span>Mining Lift</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/ImprovedMiningLift.png" alt="" />
-        <span>Improved Mining Lift</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/AdvancedMiningLift.png" alt="" />
-        <span>Advanced Mining Lift</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/IrrigationCanals.png" alt="" />
-        <span>Irrigation Canals</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/IrrigationIndustrial.png" alt="" />
-        <span>Industrial Irrigation</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/IndustrialMeatHooks.png" alt="" />
-        <span>Industrial Meat Hooks</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/WoodenWatchTower.png" alt="" />
-        <span>Wooden Watch Tower</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/ImprovedWatchTower.png" alt="" />
-        <span>Improved Watch Tower</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/AdvancedWatchTower.png" alt="" />
-        <span>Advanced Watch Tower</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/FishingNets.png" alt="" />
-        <span>Fishing Nets</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/CoastalPier.png" alt="" />
-        <span>Coastal Pier</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/TrawlerGear.png" alt="" />
-        <span>Trawler Gear</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/AntiAirGun.png" alt="" />
-        <span>Anti-Air Gun</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/TargetingSystem.png" alt="" />
-        <span>Targeting System</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/ImprovedMortarShells.png" alt="" />
-        <span>Improved Shells</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/AdvancedMortarShell.png" alt="" />
-        <span>Advanced Shells</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/AdvancedMicroscopes.png" alt="" />
-        <span>Advanced Microscopes</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/AdvancedLabEquipment.png" alt="" />
-        <span>Advanced Lab Equipment</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/PowerPlant_SolarArrays.png" alt="" />
-        <span>Solar Arrays</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/PowerPlant_ChemfuelGenerators.png" alt="" />
-        <span>Chemfuel Generators</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/PowerPlant_AdvancedGridControls.png" alt="" />
-        <span>Advanced Grid Controls</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/PowerPlant_GeothermalPowerPlant.png" alt="" />
-        <span>Geothermal Power Plant</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/BasicBarn.png" alt="" />
-        <span>Basic Barn</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/InsulatedBarn.png" alt="" />
-        <span>Insulated Barn</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/TechBarn.png" alt="" />
-        <span>Tech Barn</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/WarehouseLogisticsNetwork.png" alt="" />
-        <span>Logistics Network</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/WarehouseForklifter.png" alt="" />
-        <span>Warehouse Forklifters</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/TunnelNetwork.png" alt="" />
-        <span>Tunnel Network</span>
-      </div>
-      <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/DecontaminationEquipment.png" alt="" />
-        <span>Decontamination Equipment</span>
-      </div>
-          <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/SteelWall_Icon.png" alt="" />
-        <span>Steel Wall</span>
+        <img src="../../Textures/UI/OutpostUpgrades/SunsteelWall_Icon.png" alt="" />
+        <span>Sunsteel Wall</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/PlasteelWall_Icon.png" alt="" />
-        <span>Plasteel Wall</span>
+        <img src="../../Textures/UI/OutpostUpgrades/QuasarAlloyWall_Icon.png" alt="" />
+        <span>Quasar Alloy Wall</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/BearTrap_Icon.png" alt="" />
-        <span>Bear Traps</span>
+        <img src="../../Textures/UI/OutpostUpgrades/SunweaveNet_Icon.png" alt="" />
+        <span>Sunweave Nets</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/PlasteelDetector_Icon.png" alt="" />
-        <span>Plasteel Detectors</span>
+        <img src="../../Textures/UI/OutpostUpgrades/QuasarSpiderweb_Icon.png" alt="" />
+        <span>Quasar Alloy Weave Slicers</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/AdvancedTurret_Icon.png" alt="" />
-        <span>Advanced</span>
+        <img src="../../Textures/UI/OutpostUpgrades/DefenderTurret_Icon.png" alt="" />
+        <span>Defender-class Space</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/SpacerHospital_Icon.png" alt="" />
-        <span>Spacer Hospital</span>
+        <img src="../../Textures/UI/OutpostUpgrades/SolarHospital_Icon.png" alt="" />
+        <span>Solar Hospital</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/UltraHospital_Icon.png" alt="" />
-        <span>Glitter Hospital</span>
+        <img src="../../Textures/UI/OutpostUpgrades/QuasarHospital_Icon.png" alt="" />
+        <span>Kwazaari Hospital</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/UltraLift_Icon.png" alt="" />
-        <span>Quantum Mining Lift</span>
+        <img src="../../Textures/UI/OutpostUpgrades/SolarLift_Icon.png" alt="" />
+        <span>Solar Mining Lift</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/SpacerIrrigation_Icon.png" alt="" />
-        <span>Advanced Irrigation</span>
+        <img src="../../Textures/UI/OutpostUpgrades/QuasarLift_Icon.png" alt="" />
+        <span>Kwazaari Mining Lift</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/UltraIrrigation_Icon.png" alt="" />
-        <span>Glitter-like Irrigation</span>
+        <img src="../../Textures/UI/OutpostUpgrades/SolarIrrigation_Icon.png" alt="" />
+        <span>Solar Tech Hydroponics</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/SpacerFridge_Icon.png" alt="" />
-        <span>Robo-fridges</span>
+        <img src="../../Textures/UI/OutpostUpgrades/QuasarIrrigation_Icon.png" alt="" />
+        <span>Kwzaari Tech Hydroponics</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/AutomatedBait_Icon.png" alt="" />
-        <span>Automated Bait-trapping</span>
+        <img src="../../Textures/UI/OutpostUpgrades/SolarHunting_Icon.png" alt="" />
+        <span>Solar Mind Tricks</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/UltraWatchtower_Icon.png" alt="" />
-        <span>Ultra Watch Tower</span>
+        <img src="../../Textures/UI/OutpostUpgrades/QuasarHunting_Icon.png" alt="" />
+        <span>Kwazaari Hunting</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/UltraBarn_Icon.png" alt="" />
-        <span>Glitter-Tech Barn</span>
+        <img src="../../Textures/UI/OutpostUpgrades/SolarWatchtower_Icon.png" alt="" />
+        <span>Solar Watch Tower</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/IntelligentGrid_Icon.png" alt="" />
-        <span>Intelligent Grid Controls</span>
+        <img src="../../Textures/UI/OutpostUpgrades/QuasarWatchtower_Icon.png" alt="" />
+        <span>Kwazaari Watch Tower</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/AdvancedGeothermal_Icon.png" alt="" />
-        <span>Advanced Geothermal</span>
+        <img src="../../Textures/UI/OutpostUpgrades/SolarPowerplant_Icon.png" alt="" />
+        <span>Solar-tech</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/UltraGeothermal_Icon.png" alt="" />
-        <span>Ultra Geothermal</span>
+        <img src="../../Textures/UI/OutpostUpgrades/QuasarPowerplant_Icon.png" alt="" />
+        <span>Kwazaari</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/AdvancedArray_Icon.png" alt="" />
-        <span>Advanced Solar Arrays</span>
+        <img src="../../Textures/UI/OutpostUpgrades/SolarBarn_Icon.png" alt="" />
+        <span>Solar-Tech Barn</span>
       </div>
 
       <div class="overview-cell">
-        <img src="../../Textures/UI/OutpostUpgrades/UltraArray_Icon.png" alt="" />
-        <span>Ultratech Solar Arrays</span>
+        <img src="../../Textures/UI/OutpostUpgrades/QuasarBarn_Icon.png" alt="" />
+        <span>Kwazaari-Tech Barn</span>
       </div>
-</section>
+
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/SolarGeothermal_Icon.png" alt="" />
+        <span>Solar geothermal</span>
+      </div>
+
+      <div class="overview-cell">
+        <img src="../../Textures/UI/OutpostUpgrades/SolarArray_Icon.png" alt="" />
+        <span>Solarite Solar Arrays</span>
+      </div>
+    </section>
+    <p class="more-details" style="margin-bottom:16px">Requires Birth of the Republic or BOR Redux</p>
     <p class="more-details">Click for more details</p>
   </div>
 </body>

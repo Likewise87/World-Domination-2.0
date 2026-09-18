@@ -16,6 +16,8 @@ PAGES = [
     "outposts-details.html",
     "upgrades-overview.html",
     "upgrades-details.html",
+    "upgrades-bor-overview.html",
+    "upgrades-bor-details.html",
     "caravans-overview.html",
     "caravans-details.html",
 ]
