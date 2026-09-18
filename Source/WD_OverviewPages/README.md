@@ -18,7 +18,7 @@ Named boards:
 | Snapshot | `snapshot-overview.png` |
 | Outposts | `outposts-overview.png`, `outposts-details.png` |
 | Upgrades (core + ungated Bambaryla) | `upgrades-overview.png`, `upgrades-details.png` |
-| Birth of the Republic upgrades | `upgrades-bor-overview.png`, `upgrades-bor-details.png` |
+| Beyond Our Reach upgrades | `upgrades-bor-overview.png`, `upgrades-bor-details.png` |
 | Caravans | `caravans-overview.png`, `caravans-details.png` |
 
 BOR boards (new):
