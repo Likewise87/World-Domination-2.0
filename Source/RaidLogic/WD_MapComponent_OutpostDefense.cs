@@ -177,7 +177,7 @@ namespace TSA_WorldDomination
             if (Find.TickManager.TicksGame % 60 == 0)
             {
                 if (aerialLeaveInProgress
-                    && !AnyBorrowedDefenderFightingOnMap()
+                    && !PlayerForceStillFightingForFlee()
                     && !WD_TempEncounterAerialLeaveUtility.AnyEscapedSurvivorsStillOnThisMap(map)
                     && RaidThreatStillActive())
                 {
@@ -226,7 +226,7 @@ namespace TSA_WorldDomination
             if (Find.TickManager.TicksGame <= startTick + 600)
                 return;
 
-            bool defenderFighting = AnyBorrowedDefenderFightingOnMap();
+            bool defenderFighting = PlayerForceStillContending();
 
             if (!defenderFighting)
             {
@@ -296,35 +296,20 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Incoming / opening drop pods still count as an unresolved raid (not a victory condition).
-        /// Includes skyfallers and post-landing DropPod things before pawns exit.
         /// </summary>
         private bool AnyInboundRaidThreat()
-        {
-            if (map?.listerThings?.AllThings == null) return false;
-            List<Thing> all = map.listerThings.AllThings;
-            for (int i = 0; i < all.Count; i++)
-            {
-                if (WD_TempEncounterAerialLeaveUtility.IsHostileInboundRaidThing(all[i]))
-                    return true;
-            }
-            return false;
-        }
+            => WD_TempEncounterAerialLeaveUtility.AnyInboundRaidThreat(map);
 
-        /// <summary>Borrowed humanlike still fighting on the defense map (Spawned). Boarded-only does not count.</summary>
-        private bool AnyBorrowedDefenderFightingOnMap()
-        {
-            if (borrowedPawns == null) return false;
-            for (int i = 0; i < borrowedPawns.Count; i++)
-            {
-                Pawn pawn = borrowedPawns[i];
-                if (pawn == null || pawn.Destroyed) continue;
-                if (!pawn.Spawned || pawn.Map != map) continue;
-                if (WD_TempEncounterAerialLeaveUtility.IsCombatIneffective(pawn)) continue;
-                if (pawn.RaceProps == null || !pawn.RaceProps.Humanlike) continue;
-                return true;
-            }
-            return false;
-        }
+        /// <summary>Standing, inbound arrival, or boarded hold — map-wide contending force (not borrowed-only).</summary>
+        private bool PlayerForceStillContending()
+            => WD_TempEncounterAerialLeaveUtility.PlayerForceStillContending(map);
+
+        /// <summary>
+        /// Flee Phase A/B: standing or inbound only. Boarded hold is the flee itself and must not block it.
+        /// </summary>
+        private bool PlayerForceStillFightingForFlee()
+            => WD_TempEncounterAerialLeaveUtility.AnyPlayerForceStandingOnMap(map)
+               || WD_TempEncounterAerialLeaveUtility.AnyInboundPlayerForce(map);
 
         private bool AnyBorrowedDefenderExists()
         {
@@ -347,7 +332,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Successful launch from this defense map. Marks leave-in-progress immediately so a mid-launch
-        /// wipe cannot tear down the map under the skyfaller. Full flee only if no on-map borrowed fighters.
+        /// wipe cannot tear down the map under the skyfaller. Full flee only if no on-map fighting force.
         /// </summary>
         public void NotifyPossibleAerialLeave()
         {
@@ -358,13 +343,13 @@ namespace TSA_WorldDomination
             aerialLeaveInProgress = true;
 
             if (!RaidThreatStillActive()) return;
-            if (AnyBorrowedDefenderFightingOnMap()) return;
+            if (PlayerForceStillFightingForFlee()) return;
 
             ResolvePlayerFledDefensePhaseA();
         }
 
         /// <summary>
-        /// World airborne spawned from this defense tile. No-op if borrowed fighters remain on the map.
+        /// World airborne spawned from this defense tile. No-op if fighters remain on the map.
         /// </summary>
         public void NotifyAirborneSurvivorsLeftThisDefense()
         {
@@ -376,7 +361,7 @@ namespace TSA_WorldDomination
 
             if (encounterActive)
             {
-                if (AnyBorrowedDefenderFightingOnMap())
+                if (PlayerForceStillFightingForFlee())
                 {
                     aerialLeaveInProgress = false;
                     return;
@@ -412,7 +397,7 @@ namespace TSA_WorldDomination
         private void TryFinishFleeDefeatIfSafe()
         {
             if (!playerFled || resolved) return;
-            if (AnyBorrowedDefenderFightingOnMap()) return;
+            if (PlayerForceStillFightingForFlee()) return;
             if (aerialLeaveInProgress || WD_TempEncounterAerialLeaveUtility.AnyEscapedSurvivorsStillOnThisMap(map))
                 return;
             ResolvePlayerFledDefensePhaseB();
@@ -421,7 +406,7 @@ namespace TSA_WorldDomination
         private void ResolvePlayerFledDefensePhaseB()
         {
             if (!playerFled || resolved) return;
-            if (AnyBorrowedDefenderFightingOnMap()) return;
+            if (PlayerForceStillFightingForFlee()) return;
             if (aerialLeaveInProgress || WD_TempEncounterAerialLeaveUtility.AnyEscapedSurvivorsStillOnThisMap(map))
                 return;
 

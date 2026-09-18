@@ -86,7 +86,7 @@ namespace TSA_WorldDomination
                 defaultLabel = "TSA_WD_EstablishOutpost".Translate(),
                 defaultDesc = tooltip.TrimStart(),
                 icon = cachedEstablishIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/EstablishOutpost", false) ?? ContentFinder<Texture2D>.Get("UI/Commands/Settle", false) ?? TexCommand.Replant,
-                defaultIconColor = WorldOverlayLineMaterials.LogisticsDarkCyanColor,
+                defaultIconColor = WorldOverlayLineMaterials.DarkCyanColor,
                 meetsMinRadius = meetsMinRadius && caravanStopped && !activeCamp,
                 tile = tileId,
                 defaultName = defaultName,

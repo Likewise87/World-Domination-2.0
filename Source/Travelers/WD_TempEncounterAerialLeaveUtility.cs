@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -8,13 +9,27 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Shared Odyssey/VF aerial-leave bus for temporary fight maps (caravan clash Ambush + outpost defense).
-    /// Launch / world-airborne hooks fan out here; map components own win/lose resolve.
+    /// Shared arrive / leave / contending-force helpers for temporary fight maps
+    /// (caravan clash Ambush + outpost defense). Classify by thingClass, not Faction heuristics.
     /// </summary>
     public static class WD_TempEncounterAerialLeaveUtility
     {
+        private const string VfSkyfallerArrivingTypeName = "Vehicles.VehicleSkyfaller_Arriving";
+        private const string VfSkyfallerLeavingTypeName = "Vehicles.VehicleSkyfaller_Leaving";
+        private const string VfVehicleFieldName = "vehicle";
+
         private static readonly FieldInfo TravellingTransportersInitialTileField =
             AccessTools_InitialTile();
+
+        private static readonly Type VfSkyfallerArrivingType =
+            AccessTools_TypeByName(VfSkyfallerArrivingTypeName);
+        private static readonly Type VfSkyfallerLeavingType =
+            AccessTools_TypeByName(VfSkyfallerLeavingTypeName);
+        private static readonly FieldInfo VfSkyfallerVehicleField =
+            VfSkyfallerArrivingType?.GetField(VfVehicleFieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+            ?? VfSkyfallerLeavingType?.GetField(VfVehicleFieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+            ?? AccessTools_TypeByName("Vehicles.VehicleSkyfaller")
+                ?.GetField(VfVehicleFieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
         private static readonly List<Pawn> aboardScratch = new List<Pawn>();
         private static readonly HashSet<Pawn> aboardSeen = new HashSet<Pawn>();
@@ -26,6 +41,18 @@ namespace TSA_WorldDomination
                 return typeof(TravellingTransporters).GetField(
                     "initialTile",
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private static Type AccessTools_TypeByName(string fullName)
+        {
+            try
+            {
+                return AccessTools.TypeByName(fullName);
             }
             catch
             {
@@ -69,7 +96,18 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Escape craft still on the fight map, or living player humanlikes in TravellingTransporters that started here.
+        /// Player still has fight-relevant force: standing, opening/inbound arrival craft, or boarded hold.
+        /// </summary>
+        public static bool PlayerForceStillContending(Map map)
+        {
+            if (AnyPlayerForceStandingOnMap(map)) return true;
+            if (AnyInboundPlayerForce(map)) return true;
+            if (AnyBoardedPlayerForceOnMap(map)) return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Departure craft still on the fight map, or player TravellingTransporters that started here.
         /// </summary>
         public static bool AnyPlayerSurvivorsEscaped(Map map)
         {
@@ -85,7 +123,7 @@ namespace TSA_WorldDomination
                 WorldObject wo = all[i];
                 if (wo is not TravellingTransporters pods || pods.Destroyed) continue;
                 if (TryGetTravellingTransportersStartTileId(pods) != tileId) continue;
-                if (PodsHaveLivingPlayerHumanlike(pods))
+                if (PodsHaveContendingPlayerFighter(pods))
                     return true;
             }
 
@@ -93,38 +131,120 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Player escape craft still on the map: boarded shuttle, leaving skyfaller, or VF crew aboard.
+        /// Departure craft only: <see cref="FlyShipLeaving"/> / VF Leaving. Not arrival pods or boarded holds.
         /// </summary>
         public static bool AnyEscapedSurvivorsStillOnThisMap(Map map)
         {
-            if (map?.listerThings?.AllThings != null)
+            if (map?.listerThings?.AllThings == null) return false;
+            List<Thing> all = map.listerThings.AllThings;
+            for (int i = 0; i < all.Count; i++)
             {
-                List<Thing> all = map.listerThings.AllThings;
-                for (int i = 0; i < all.Count; i++)
-                {
-                    Thing t = all[i];
-                    if (t == null || t.Destroyed) continue;
+                Thing t = all[i];
+                if (t == null || t.Destroyed) continue;
+                if (IsPlayerDepartureCraft(t))
+                    return true;
+            }
+            return false;
+        }
 
-                    if (t is FlyShipLeaving)
-                        return true;
+        /// <summary>Departure skyfaller / leave craft — never use Faction heuristics.</summary>
+        public static bool IsPlayerDepartureCraft(Thing t)
+        {
+            if (t == null || t.Destroyed) return false;
+            if (t is FlyShipLeaving) return true;
+            if (IsVfSkyfallerLeaving(t)) return true;
+            return false;
+        }
 
-                    if (t is Skyfaller skyfaller)
-                    {
-                        if (IsPassengerShuttleLeaveSkyfaller(skyfaller))
-                            return true;
-                        if (SkyfallerHasLivingPlayerHumanlike(skyfaller))
-                            return true;
-                    }
+        /// <summary>Legacy name — departure only (<see cref="FlyShipLeaving"/> / VF Leaving).</summary>
+        public static bool IsPlayerLeaveOrEscapeSkyfaller(Skyfaller skyfaller)
+            => IsPlayerDepartureCraft(skyfaller);
 
-                    if (ModsConfig.OdysseyActive
-                        && t is Building_PassengerShuttle shuttle
-                        && (shuttle.Faction == null || shuttle.Faction.IsPlayer)
-                        && ShuttleHasLivingPlayerHumanlike(shuttle))
-                        return true;
-                }
+        /// <summary>
+        /// Enemy arrival still unresolved. Departure craft and player-contending arrival craft excluded.
+        /// </summary>
+        public static bool IsHostileInboundRaidThing(Thing t)
+        {
+            if (t == null || t.Destroyed) return false;
+            if (IsPlayerDepartureCraft(t)) return false;
+            // Same arrival types as enemy pods — only skip when player fighters are inside.
+            if (IsArrivalCraft(t) && ArrivalCraftHasContendingPlayerFighter(t))
+                return false;
+
+            if (t is DropPodIncoming) return true;
+            if (t is ActiveTransporter) return true;
+            if (t is ShuttleIncoming) return true;
+
+            // Other enemy skyfallers (chunks, etc.) that are not leave / player arrival.
+            if (t is Skyfaller)
+                return true;
+
+            return false;
+        }
+
+        public static bool AnyInboundRaidThreat(Map map)
+        {
+            if (map?.listerThings?.AllThings == null) return false;
+            List<Thing> all = map.listerThings.AllThings;
+            for (int i = 0; i < all.Count; i++)
+            {
+                if (IsHostileInboundRaidThing(all[i]))
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool AnyInboundPlayerForce(Map map)
+        {
+            if (map?.listerThings?.AllThings == null) return false;
+            List<Thing> all = map.listerThings.AllThings;
+            for (int i = 0; i < all.Count; i++)
+            {
+                Thing t = all[i];
+                if (t == null || t.Destroyed) continue;
+                if (!IsArrivalCraft(t)) continue;
+                if (ArrivalCraftHasContendingPlayerFighter(t))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// DropPodIncoming / ActiveTransporter / ShuttleIncoming / VF Arriving (arrive-type, any faction).
+        /// </summary>
+        public static bool IsArrivalCraft(Thing t)
+        {
+            if (t == null || t.Destroyed) return false;
+            if (t is DropPodIncoming) return true;
+            if (t is ActiveTransporter) return true;
+            if (t is ShuttleIncoming) return true;
+            if (IsVfSkyfallerArriving(t)) return true;
+            return false;
+        }
+
+        /// <summary>Legacy alias for <see cref="IsArrivalCraft"/>.</summary>
+        public static bool IsPlayerArrivalCraft(Thing t) => IsArrivalCraft(t);
+
+        /// <summary>
+        /// Contending fighters boarded in a landed shuttle / VF vehicle (not yet launching).
+        /// </summary>
+        public static bool AnyBoardedPlayerForceOnMap(Map map)
+        {
+            if (map?.listerThings?.AllThings == null) return false;
+            List<Thing> all = map.listerThings.AllThings;
+            for (int i = 0; i < all.Count; i++)
+            {
+                Thing t = all[i];
+                if (t == null || t.Destroyed) continue;
+
+                if (ModsConfig.OdysseyActive
+                    && t is Building_PassengerShuttle shuttle
+                    && (shuttle.Faction == null || shuttle.Faction.IsPlayer)
+                    && ShuttleHasContendingPlayerFighter(shuttle))
+                    return true;
             }
 
-            var spawned = map?.mapPawns?.AllPawnsSpawned;
+            var spawned = map.mapPawns?.AllPawnsSpawned;
             if (spawned == null) return false;
             for (int i = 0; i < spawned.Count; i++)
             {
@@ -133,56 +253,15 @@ namespace TSA_WorldDomination
                     continue;
                 if (vehicle.Faction == null || !vehicle.Faction.IsPlayer)
                     continue;
-
-                aboardScratch.Clear();
-                aboardSeen.Clear();
-                VehicleFrameworkOutpostDissolveCompat.CollectPawnsAboardVehicleForRoster(
-                    vehicle, aboardScratch, aboardSeen);
-                for (int j = 0; j < aboardScratch.Count; j++)
-                {
-                    if (IsLivingPlayerHumanlike(aboardScratch[j]))
-                        return true;
-                }
+                if (VfVehicleHasContendingCrew(vehicle))
+                    return true;
             }
-
-            return false;
-        }
-
-        /// <summary>Player leave craft must not count as inbound raid threat.</summary>
-        public static bool IsPlayerLeaveOrEscapeSkyfaller(Skyfaller skyfaller)
-        {
-            if (skyfaller == null || skyfaller.Destroyed) return false;
-            if (skyfaller is FlyShipLeaving) return true;
-            if (IsPassengerShuttleLeaveSkyfaller(skyfaller)) return true;
-            if (skyfaller.Faction != null && skyfaller.Faction.IsPlayer)
-                return true;
-            return false;
-        }
-
-        public static bool IsHostileInboundRaidThing(Thing t)
-        {
-            if (t == null || t.Destroyed) return false;
-            if (t is Skyfaller skyfaller)
-            {
-                if (IsPlayerLeaveOrEscapeSkyfaller(skyfaller))
-                    return false;
-                return true;
-            }
-
-            string defName = t.def?.defName;
-            if (defName != null
-                && defName.IndexOf("DropPod", StringComparison.OrdinalIgnoreCase) >= 0)
-            {
-                if (t.Faction != null && t.Faction.IsPlayer)
-                    return false;
-                return true;
-            }
-
             return false;
         }
 
         /// <summary>
-        /// True if pawn already left the fight map via shuttle/pods (alive off-map escapee — do not Kill).
+        /// True if pawn left via departure craft / world transporters — do not Kill or restore into outpost.
+        /// Not arrival pods; not boarded-but-not-launched shuttle holds (those are still on the fight).
         /// </summary>
         public static bool IsAliveEscapeeOffMap(Pawn pawn, Map fightMap)
         {
@@ -205,23 +284,22 @@ namespace TSA_WorldDomination
                 }
             }
 
-            // Held in a leave skyfaller / shuttle still on the fight map.
             if (fightMap?.listerThings?.AllThings != null)
             {
                 List<Thing> things = fightMap.listerThings.AllThings;
                 for (int i = 0; i < things.Count; i++)
                 {
                     Thing t = things[i];
+                    if (!IsPlayerDepartureCraft(t)) continue;
                     if (t is Skyfaller sky && ThingOwnerContainsPawn(sky.innerContainer, pawn))
                         return true;
-                    if (ModsConfig.OdysseyActive
-                        && t is Building_PassengerShuttle shuttle
-                        && ThingOwnerContainsPawn(shuttle.TransporterComp?.innerContainer, pawn))
+                    if (IsVfSkyfallerLeaving(t) && VfSkyfallerContainsPawn(t, pawn))
                         return true;
                 }
             }
 
-            return pawn.holdingOwner != null;
+            // Generic holdingOwner is too broad (covers arrival ActiveTransporter / boarded shuttle).
+            return false;
         }
 
         public static bool IsLivingPlayerHumanlike(Pawn p)
@@ -240,16 +318,22 @@ namespace TSA_WorldDomination
             return false;
         }
 
-        public static bool IsStandingPlayerHumanlike(Pawn p)
+        /// <summary>Combat-effective player humanlike or mechanoid (not VF vehicle husk).</summary>
+        public static bool IsContendingPlayerFighter(Pawn p)
         {
             if (IsCombatIneffective(p)) return false;
             if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(p)) return false;
-            if (p.RaceProps == null || !p.RaceProps.Humanlike) return false;
             if (p.Faction == null || !p.Faction.IsPlayer) return false;
-            return true;
+            if (p.RaceProps == null) return false;
+            if (p.RaceProps.Humanlike) return true;
+            if (p.RaceProps.IsMechanoid) return true;
+            return false;
         }
 
-        /// <summary>Spawned player humanlikes + VF crew still in the fight on this map.</summary>
+        public static bool IsStandingPlayerHumanlike(Pawn p)
+            => IsContendingPlayerFighter(p) && p.RaceProps != null && p.RaceProps.Humanlike;
+
+        /// <summary>Spawned contending fighters + VF crew still in the fight on this map.</summary>
         public static bool AnyPlayerForceStandingOnMap(Map map)
         {
             var spawned = map?.mapPawns?.AllPawnsSpawned;
@@ -257,7 +341,7 @@ namespace TSA_WorldDomination
 
             for (int i = 0; i < spawned.Count; i++)
             {
-                if (IsStandingPlayerHumanlike(spawned[i]))
+                if (IsContendingPlayerFighter(spawned[i]))
                     return true;
             }
 
@@ -268,63 +352,150 @@ namespace TSA_WorldDomination
                     continue;
                 if (vehicle.Faction == null || !vehicle.Faction.IsPlayer)
                     continue;
-
-                aboardScratch.Clear();
-                aboardSeen.Clear();
-                VehicleFrameworkOutpostDissolveCompat.CollectPawnsAboardVehicleForRoster(
-                    vehicle, aboardScratch, aboardSeen);
-                for (int j = 0; j < aboardScratch.Count; j++)
-                {
-                    if (IsStandingPlayerHumanlike(aboardScratch[j]))
-                        return true;
-                }
+                if (VfVehicleHasContendingCrew(vehicle))
+                    return true;
             }
 
             return false;
         }
 
-        private static bool IsPassengerShuttleLeaveSkyfaller(Skyfaller skyfaller)
+        private static bool ArrivalCraftHasContendingPlayerFighter(Thing t)
         {
-            string defName = skyfaller?.def?.defName;
-            if (string.IsNullOrEmpty(defName)) return false;
-            return defName.IndexOf("PassengerShuttleLeaving", StringComparison.OrdinalIgnoreCase) >= 0
-                || defName.IndexOf("PassengerShuttleSkyfaller", StringComparison.OrdinalIgnoreCase) >= 0;
+            if (t is DropPodIncoming incoming)
+                return DropPodIncomingHasContendingFighter(incoming);
+            if (t is ActiveTransporter active)
+                return ActiveTransporterHasContendingFighter(active);
+            if (t is ShuttleIncoming shuttleIncoming)
+                return ShuttleIncomingHasContendingFighter(shuttleIncoming);
+            if (IsVfSkyfallerArriving(t))
+                return VfSkyfallerHasContendingCrew(t);
+            return false;
         }
 
-        private static bool SkyfallerHasLivingPlayerHumanlike(Skyfaller skyfaller)
+        private static bool DropPodIncomingHasContendingFighter(DropPodIncoming incoming)
         {
-            ThingOwner container = skyfaller?.innerContainer;
+            ThingOwner container = incoming?.innerContainer;
             if (container == null) return false;
             for (int i = 0; i < container.Count; i++)
             {
-                if (container[i] is Pawn p && IsLivingPlayerHumanlike(p))
+                if (container[i] is ActiveTransporter active
+                    && ActiveTransporterHasContendingFighter(active))
                     return true;
-                if (container[i] is Building_PassengerShuttle shuttle
-                    && ShuttleHasLivingPlayerHumanlike(shuttle))
+                if (container[i] is Pawn p && IsContendingPlayerFighter(p))
                     return true;
             }
             return false;
         }
 
-        private static bool ShuttleHasLivingPlayerHumanlike(Building_PassengerShuttle shuttle)
+        private static bool ActiveTransporterHasContendingFighter(ActiveTransporter active)
+        {
+            ActiveTransporterInfo info = active?.Contents;
+            ThingOwner container = info?.innerContainer;
+            if (container == null) return false;
+            for (int i = 0; i < container.Count; i++)
+            {
+                if (container[i] is Pawn p && IsContendingPlayerFighter(p))
+                    return true;
+            }
+            return false;
+        }
+
+        private static bool ShuttleIncomingHasContendingFighter(ShuttleIncoming incoming)
+        {
+            ThingOwner container = incoming?.innerContainer;
+            if (container == null) return false;
+            for (int i = 0; i < container.Count; i++)
+            {
+                if (container[i] is Building_PassengerShuttle shuttle
+                    && ShuttleHasContendingPlayerFighter(shuttle))
+                    return true;
+                if (container[i] is Pawn p && IsContendingPlayerFighter(p))
+                    return true;
+            }
+            return false;
+        }
+
+        private static bool ShuttleHasContendingPlayerFighter(Building_PassengerShuttle shuttle)
         {
             CompTransporter transporter = shuttle?.TransporterComp;
             ThingOwner container = transporter?.innerContainer;
             if (container == null) return false;
             for (int i = 0; i < container.Count; i++)
             {
-                if (container[i] is Pawn p && IsLivingPlayerHumanlike(p))
+                if (container[i] is Pawn p && IsContendingPlayerFighter(p))
                     return true;
             }
             return false;
         }
 
-        private static bool PodsHaveLivingPlayerHumanlike(TravellingTransporters pods)
+        private static bool PodsHaveContendingPlayerFighter(TravellingTransporters pods)
         {
             if (pods == null) return false;
             foreach (Pawn p in pods.Pawns)
             {
-                if (IsLivingPlayerHumanlike(p))
+                if (IsContendingPlayerFighter(p) || IsLivingPlayerHumanlike(p))
+                    return true;
+            }
+            return false;
+        }
+
+        private static bool IsVfSkyfallerArriving(Thing t)
+        {
+            if (t == null || VfSkyfallerArrivingType == null) return false;
+            return VfSkyfallerArrivingType.IsInstanceOfType(t);
+        }
+
+        private static bool IsVfSkyfallerLeaving(Thing t)
+        {
+            if (t == null || VfSkyfallerLeavingType == null) return false;
+            return VfSkyfallerLeavingType.IsInstanceOfType(t);
+        }
+
+        private static Pawn TryGetVfSkyfallerVehicle(Thing skyfaller)
+        {
+            if (skyfaller == null || VfSkyfallerVehicleField == null) return null;
+            try
+            {
+                return VfSkyfallerVehicleField.GetValue(skyfaller) as Pawn;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private static bool VfSkyfallerHasContendingCrew(Thing skyfaller)
+        {
+            Pawn vehicle = TryGetVfSkyfallerVehicle(skyfaller);
+            return VfVehicleHasContendingCrew(vehicle);
+        }
+
+        private static bool VfSkyfallerContainsPawn(Thing skyfaller, Pawn pawn)
+        {
+            if (pawn == null) return false;
+            Pawn vehicle = TryGetVfSkyfallerVehicle(skyfaller);
+            if (vehicle == null) return false;
+            aboardScratch.Clear();
+            aboardSeen.Clear();
+            VehicleFrameworkOutpostDissolveCompat.CollectPawnsAboardVehicleForRoster(
+                vehicle, aboardScratch, aboardSeen);
+            for (int i = 0; i < aboardScratch.Count; i++)
+            {
+                if (aboardScratch[i] == pawn) return true;
+            }
+            return false;
+        }
+
+        private static bool VfVehicleHasContendingCrew(Pawn vehicle)
+        {
+            if (vehicle == null || vehicle.Destroyed) return false;
+            aboardScratch.Clear();
+            aboardSeen.Clear();
+            VehicleFrameworkOutpostDissolveCompat.CollectPawnsAboardVehicleForRoster(
+                vehicle, aboardScratch, aboardSeen);
+            for (int j = 0; j < aboardScratch.Count; j++)
+            {
+                if (IsContendingPlayerFighter(aboardScratch[j]))
                     return true;
             }
             return false;
@@ -338,6 +509,9 @@ namespace TSA_WorldDomination
                 if (container[i] == pawn) return true;
                 if (container[i] is Building_PassengerShuttle shuttle
                     && ThingOwnerContainsPawn(shuttle.TransporterComp?.innerContainer, pawn))
+                    return true;
+                if (container[i] is ActiveTransporter active
+                    && ThingOwnerContainsPawn(active.Contents?.innerContainer, pawn))
                     return true;
             }
             return false;

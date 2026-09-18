@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_24_Title>New props textures, bugfixes</TSA_WD_Update_2_3_24_Title>
+  <TSA_WD_Update_2_3_24_Body><![CDATA[
+<size=16><b>2.3.24 – New props textures, bugfixes</b></size>\n
+<color=#00FFFFFF>Release date: September 18th 2026</color>\n
+------------------------------\n
+• All props textures for wagons, hayballs, crates/boxes have been remade by player Pesky (Thanks for that! The old ones were really poor).\n
+• Fixed a bug where in an outpost defense you would lose the fight instantly if the original pawns garrisoned there died despite having standing pawns from ad hoc reinforcements still there (sent e.g. via drop pod).\n
+• Fixed a bug where you would insta-lose a caravan clash if your pawns arrived there via drop pod.\n
+• If you have acquired the steel/plasteel or BOR wall upgrade for an outpost, those materials will now also be used on the actual defense map.\n
+• Added earlier already: Defeated factions are now still listed in all WD Dashboards.\n
+]]></TSA_WD_Update_2_3_24_Body>
   <TSA_WD_Update_2_3_23_Title>Move prisoners, Warehouse Food delivery</TSA_WD_Update_2_3_23_Title>
   <TSA_WD_Update_2_3_23_Body><![CDATA[
 <size=16><b>2.3.23 – Move prisoners, Warehouse Food delivery</b></size>\n

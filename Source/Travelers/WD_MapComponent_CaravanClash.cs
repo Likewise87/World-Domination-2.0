@@ -151,7 +151,7 @@ namespace TSA_WorldDomination
             {
                 // Launch started; ground force wiped mid-skyfaller — latch flee once craft is off-map.
                 if (aerialLeaveInProgress
-                    && !AnyPlayerClashForceStanding()
+                    && !PlayerForceStillFightingForFlee()
                     && !WD_TempEncounterAerialLeaveUtility.AnyEscapedSurvivorsStillOnThisMap(map)
                     && ThreatExists())
                 {
@@ -167,12 +167,13 @@ namespace TSA_WorldDomination
         private void CheckEncounterState()
         {
             bool threatExists = ThreatExists();
-            if (!threatExists)
+            bool inboundHostile = WD_TempEncounterAerialLeaveUtility.AnyInboundRaidThreat(map);
+            if (!threatExists && !inboundHostile)
                 enemiesBroken = true;
 
-            bool playerStanding = AnyPlayerClashForceStanding();
+            bool playerContending = PlayerForceStillContending();
 
-            if (!threatExists && playerStanding)
+            if (!threatExists && !inboundHostile && playerContending)
             {
                 if (Find.TickManager.TicksGame > startTick + 600)
                 {
@@ -185,7 +186,7 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            if (!playerStanding && threatExists)
+            if (!playerContending && (threatExists || inboundHostile))
             {
                 // Boarded / launching: suppress wipe. Lose only when craft has left (or leave hooks fire).
                 if (AnyPlayerClashSurvivorsEscaped() || aerialLeaveInProgress)
@@ -207,7 +208,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Successful launch from this Ambush map. Marks leave-in-progress immediately so a mid-launch
-        /// ground wipe cannot tear down the map under the skyfaller. Full flee only if no standing force.
+        /// ground wipe cannot tear down the map under the skyfaller. Full flee only if no standing/inbound force.
         /// </summary>
         public void NotifyPossibleAerialLeave()
         {
@@ -218,28 +219,28 @@ namespace TSA_WorldDomination
             aerialLeaveInProgress = true;
 
             if (!ThreatExists()) return;
-            if (AnyPlayerClashForceStanding()) return;
+            if (PlayerForceStillFightingForFlee()) return;
 
             ResolvePlayerFledClashPhaseA();
         }
 
         /// <summary>
         /// World airborne spawned from this clash tile (VF aerial / TravellingTransporters).
-        /// No-op if a standing player force remains on the Ambush (partial shuttle evacuate).
+        /// No-op if a standing/inbound player force remains on the Ambush (partial shuttle evacuate).
         /// </summary>
         public void NotifyAirborneSurvivorsLeftThisClash()
         {
             if (playerHasWon)
             {
                 aerialLeaveInProgress = false;
-                if (!AnyPlayerClashForceStanding())
+                if (!PlayerForceStillFightingForFlee())
                     TryFinishAmbushCleanupIfCraftGone();
                 return;
             }
             if (encounterActive)
             {
                 // Some left by air, some still fighting — keep the clash map alive.
-                if (AnyPlayerClashForceStanding())
+                if (PlayerForceStillFightingForFlee())
                 {
                     aerialLeaveInProgress = false;
                     return;
@@ -248,7 +249,7 @@ namespace TSA_WorldDomination
                 aerialLeaveInProgress = false;
 
                 // Enemies already cleared while boarding/leaving: win, do not respawn traveler.
-                if (enemiesBroken || !ThreatExists())
+                if (enemiesBroken || (!ThreatExists() && !WD_TempEncounterAerialLeaveUtility.AnyInboundRaidThreat(map)))
                 {
                     playerHasWon = true;
                     encounterActive = false;
@@ -308,7 +309,7 @@ namespace TSA_WorldDomination
         private void TryFinishFleeTeardownIfSafe()
         {
             if (!playerFled || playerHasWon) return;
-            if (AnyPlayerClashForceStanding()) return;
+            if (PlayerForceStillFightingForFlee()) return;
             if (aerialLeaveInProgress || WD_TempEncounterAerialLeaveUtility.AnyEscapedSurvivorsStillOnThisMap(map)) return;
             ResolvePlayerFledClashPhaseB();
         }
@@ -316,7 +317,7 @@ namespace TSA_WorldDomination
         /// <summary>Ambush cleanup after aerial leave when the clash already resolved (win or flee).</summary>
         private void TryFinishAmbushCleanupIfCraftGone()
         {
-            if (AnyPlayerClashForceStanding()) return;
+            if (PlayerForceStillFightingForFlee()) return;
             if (aerialLeaveInProgress || WD_TempEncounterAerialLeaveUtility.AnyEscapedSurvivorsStillOnThisMap(map)) return;
             DiscardEncounterLeftovers();
             QueueAmbushEncounterMapTeardown();
@@ -325,7 +326,7 @@ namespace TSA_WorldDomination
         private void ResolvePlayerFledClashPhaseB()
         {
             if (!playerFled || playerHasWon) return;
-            if (AnyPlayerClashForceStanding()) return;
+            if (PlayerForceStillFightingForFlee()) return;
             if (aerialLeaveInProgress || WD_TempEncounterAerialLeaveUtility.AnyEscapedSurvivorsStillOnThisMap(map)) return;
 
             WDVerbose.Msg($"[TSA WD] Aerial/shuttle flee Phase B teardown for {travelerLabel}.");
@@ -337,8 +338,12 @@ namespace TSA_WorldDomination
         private bool AnyPlayerClashSurvivorsEscaped()
             => WD_TempEncounterAerialLeaveUtility.AnyPlayerSurvivorsEscaped(map);
 
-        private bool AnyPlayerClashForceStanding()
-            => WD_TempEncounterAerialLeaveUtility.AnyPlayerForceStandingOnMap(map);
+        private bool PlayerForceStillContending()
+            => WD_TempEncounterAerialLeaveUtility.PlayerForceStillContending(map);
+
+        private bool PlayerForceStillFightingForFlee()
+            => WD_TempEncounterAerialLeaveUtility.AnyPlayerForceStandingOnMap(map)
+               || WD_TempEncounterAerialLeaveUtility.AnyInboundPlayerForce(map);
 
         private static bool IsCombatIneffective(Pawn p)
             => WD_TempEncounterAerialLeaveUtility.IsCombatIneffective(p);

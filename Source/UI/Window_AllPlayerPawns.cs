@@ -208,7 +208,7 @@ namespace TSA_WorldDomination
                 establishBtn,
                 WorldDomination_UIUtils.RosterEstablishOutpostIcon,
                 "TSA_WD_AllPlayerPawns_EstablishOutpost".Translate(),
-                iconTint: WorldOverlayLineMaterials.LogisticsDarkCyanColor))
+                iconTint: WorldOverlayLineMaterials.DarkCyanColor))
             {
                 var selected = PlayerPawnRosterUtility.ResolveSelectedEntriesIncludingHidden(cachedList, selectedThingIds);
                 Close();

@@ -554,6 +554,10 @@ namespace TSA_WorldDomination
 
         private void BootstrapLateGameMetrics()
         {
+            // Settled pass: heal false defeated again, then mark true zero-settlement wipes for listing.
+            WorldActions_Utils.ClearFalseDefeatedFlags();
+            WorldActions_Utils.MarkTrueWipeDefeatedFlagsIfSettled();
+
             SyncPlayerOutpostStrengthForLateGame();
             // Rebuild after occupants settle so WorldPowerStats / global share use real outpost strength.
             dailySnapshot = DailyWorldSnapshot.Build();
@@ -630,8 +634,8 @@ namespace TSA_WorldDomination
 
             if (fromLoad)
             {
-                // Repair saves wiped before WD set faction.defeated on last-settlement loss.
-                WorldActions_Utils.RepairWipedFactionDefeatedFlags();
+                // Heal only here — never mass-mark defeat in early FinalizeInit (settlements may be unsettled).
+                WorldActions_Utils.ClearFalseDefeatedFlags();
                 WorldActions_Utils.MarkExistingPlayerColoniesShieldHandled();
                 int removed = TravelerRemnantCleanup.RemoveOrphanedTravelers();
                 if (removed > 0 && Prefs.DevMode)

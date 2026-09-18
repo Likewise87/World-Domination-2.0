@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_24_Title>新道具贴图与错误修复</TSA_WD_Update_2_3_24_Title>
+  <TSA_WD_Update_2_3_24_Body><![CDATA[
+<size=16><b>2.3.24 – 新道具贴图与错误修复</b></size>\n
+<color=#00FFFFFF>发布日期：2026年9月18日</color>\n
+------------------------------\n
+• 玩家 Pesky 重做了所有货车、干草捆、板条箱/箱子道具贴图（非常感谢！旧贴图确实很差）。\n
+• 修复：前哨防御中，即便仍有临时增援（例如空投舱派来的）站着作战，只要原驻军死亡也会瞬间判负。\n
+• 修复：商队冲突中，若己方通过空投舱抵达会瞬间判负。\n
+• 若前哨已建成钢墙/塑钢墙升级，防御地图上现在也会使用对应材料。\n
+• 稍早已加入：战败派系仍会显示在所有 WD 仪表盘中。\n
+]]></TSA_WD_Update_2_3_24_Body>
   <TSA_WD_Update_2_3_23_Title>转移囚犯、仓库食物配送</TSA_WD_Update_2_3_23_Title>
   <TSA_WD_Update_2_3_23_Body><![CDATA[
 <size=16><b>2.3.23 – 转移囚犯、仓库食物配送</b></size>\n

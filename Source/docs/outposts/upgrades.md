@@ -10,6 +10,8 @@ Material costs and research requirements can be enabled or disabled in mod setti
 |---|---|---|---|
 | Palisade Walls | 350 wood | None | +50 defensive strength |
 | Stone Wall | 350 of any stone blocks | None | +120 defensive strength |
+| Steel Wall | 500 steel, 100 plasteel | None | +180 defensive strength |
+| Plasteel Wall Reinforcements | 500 plasteel, 200 steel | None | +240 defensive strength |
 | Spike Traps | 400 wood | None | +50 defensive strength |
 | IEDs | 100 steel, 12 industrial components, 200 chemfuel | IEDs | +150 defensive strength and explosive traps on defense maps |
 | Auto Turrets | 300 steel, 10 industrial components | Heavy Turrets | +160 defensive strength |
@@ -20,7 +22,7 @@ Material costs and research requirements can be enabled or disabled in mod setti
 | Hydroponics Basin | 200 steel, 12 industrial components, 20 plasteel | None | +12 flat virtual food per day |
 | Decontamination Equipment | 8 industrial components, 20 plasteel | Machining | Unlocks Decontamination Crew missions; requires Biotech |
 
-Palisade Walls and Stone Wall belong to the same wall line. Stone Wall provides its listed final bonus rather than adding a second wall tier on top. Basic and Advanced Hospital likewise occupy the same hospital line. The interface shows any replacement or prerequisite behavior before construction.
+Palisade Walls, Stone Wall, Steel Wall, and Plasteel Wall Reinforcements belong to the same wall line. Higher wall tiers replace lower ones for the listed defensive strength bonus (they do not stack). On a manual defense map, the perimeter uses that tier's material (wood, granite blocks, steel, or plasteel). Beyond Our Reach adds further wall tiers when that mod is active. Basic and Advanced Hospital likewise occupy the same hospital line. The interface shows any replacement or prerequisite behavior before construction.
 
 ## Mining Outpost
 

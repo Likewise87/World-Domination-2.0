@@ -412,10 +412,25 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// One-shot repair for saves wiped before WD set <c>defeated</c>: zero-settlement WD participants
-        /// without a refound traveler. Safe to call from world FinalizeInit; does not run inside stats getters.
+        /// Heal false <c>defeated</c> flags: living surface settlements remain but the flag stuck true
+        /// (e.g. unsafe mass-mark during early FinalizeInit). Does not revive already-failed quests.
         /// </summary>
-        public static void RepairWipedFactionDefeatedFlags()
+        public static void ClearFalseDefeatedFlags()
+        {
+            if (Find.FactionManager == null) return;
+            foreach (Faction f in Find.FactionManager.AllFactionsVisible)
+            {
+                if (f == null || f.IsPlayer || !f.defeated || f.def == null || f.def.hidden) continue;
+                if (CountWdSettlements(f) <= 0) continue;
+                f.defeated = false;
+            }
+        }
+
+        /// <summary>
+        /// After the world has settled (ExecuteWhenFinished): mark true zero-settlement WD wipes.
+        /// Do not call from early FinalizeInit — settlement wiring may still be incomplete.
+        /// </summary>
+        public static void MarkTrueWipeDefeatedFlagsIfSettled()
         {
             if (Find.FactionManager == null) return;
             foreach (Faction f in Find.FactionManager.AllFactionsVisible)

@@ -26,7 +26,7 @@ namespace TSA_WorldDomination
                 defaultLabel = "TSA_WD_Bribe_SettlementGizmoLabel".Translate(),
                 defaultDesc = "TSA_WD_Bribe_SettlementGizmoDesc".Translate(),
                 icon = BribeIcon,
-                defaultIconColor = Color.cyan,
+                defaultIconColor = WorldOverlayLineMaterials.DarkCyanColor,
                 action = () => Find.WindowStack.Add(new Dialog_SettlementBribeDeal(settlement))
             };
             if (!disabledReason.NullOrEmpty())
@@ -44,7 +44,7 @@ namespace TSA_WorldDomination
                 defaultLabel = "TSA_WD_Bribe_RaidGizmoLabel".Translate(),
                 defaultDesc = "TSA_WD_Bribe_RaidGizmoDesc".Translate(),
                 icon = BribeIcon,
-                defaultIconColor = Color.cyan,
+                defaultIconColor = WorldOverlayLineMaterials.DarkCyanColor,
                 action = () => Find.WindowStack.Add(new Dialog_SettlementBribeDeal(traveler))
             };
             if (!disabledReason.NullOrEmpty())

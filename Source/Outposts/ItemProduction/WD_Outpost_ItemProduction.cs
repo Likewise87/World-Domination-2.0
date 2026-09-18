@@ -105,7 +105,7 @@ namespace TSA_WorldDomination
                 if (label == "TSA_WD_Gizmo_Embassy" || label.Contains("TSA_WD_"))
                     label = string.IsNullOrEmpty(delivery) ? "Embassy" : delivery;
                 icon = cachedEmbassyIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/ManageRelationships", false) ?? TexCommand.Replant;
-                iconColor = Color.cyan;
+                iconColor = WorldOverlayLineMaterials.DarkCyanColor;
             }
             else if (isAcademy)
             {

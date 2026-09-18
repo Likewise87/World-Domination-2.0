@@ -271,7 +271,7 @@ namespace TSA_WorldDomination
             bool podsResearched = RapidResponseUtility.TransportPodsResearched();
             float controlsX = x + FooterLabelW + 6f;
             float controlsW = width - FooterLabelW - 6f;
-            Color cyan = WorldOverlayLineMaterials.LogisticsDarkCyanColor;
+            Color cyan = WorldOverlayLineMaterials.DarkCyanColor;
 
             // Row 1: delivery type dropdown + Ship Now
             DrawFooterRowLabel(x, rowY, "TSA_WD_WarehouseTab_RowDeliveryType".Translate());
@@ -367,7 +367,7 @@ namespace TSA_WorldDomination
                     }
                 },
                 LandIcon,
-                WorldOverlayLineMaterials.LogisticsDarkCyanColor));
+                WorldOverlayLineMaterials.DarkCyanColor));
 
             var podOpt = new FloatMenuOption(
                 "TSA_WD_DispatchMode_DropPod".Translate(),
@@ -380,7 +380,7 @@ namespace TSA_WorldDomination
                     }
                 },
                 DropPodIcon,
-                WorldOverlayLineMaterials.LogisticsDarkCyanColor);
+                WorldOverlayLineMaterials.DarkCyanColor);
             if (!podsResearched)
             {
                 podOpt.Disabled = true;
@@ -421,7 +421,7 @@ namespace TSA_WorldDomination
                         SoundDefOf.Click.PlayOneShotOnCamera();
                     },
                     ResolveDestinationMenuIcon(captured),
-                    WorldOverlayLineMaterials.LogisticsDarkCyanColor));
+                    WorldOverlayLineMaterials.DarkCyanColor));
             }
 
             Find.WindowStack.Add(new FloatMenu(options));

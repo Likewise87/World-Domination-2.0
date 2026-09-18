@@ -57,7 +57,7 @@ namespace TSA_WorldDomination
                     : "TSA_WD_DispatchMode_Land".Translate(),
                 defaultDesc = desc,
                 icon = viaPod ? DropPodIcon : LandIcon,
-                defaultIconColor = WorldOverlayLineMaterials.LogisticsDarkCyanColor,
+                defaultIconColor = WorldOverlayLineMaterials.DarkCyanColor,
                 action = () =>
                 {
                     if (viaPod)

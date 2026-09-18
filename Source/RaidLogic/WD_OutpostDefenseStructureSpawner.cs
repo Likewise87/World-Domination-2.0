@@ -55,9 +55,19 @@ namespace TSA_WorldDomination
         private const string UpgradeLineAutoTurrets = "AutoTurrets";
         private const string UpgradeIeds = "TSA_WD_Upgrade_IEDs";
 
+        private const string BorSunsteelDefName = "BOR_Sunsteel";
+        private const string BorQuasarAlloyDefName = "BOR_QuasarAlloy";
+
         private static ThingDef cachedWall;
         private static ThingDef cachedWallStuffWood;
         private static ThingDef cachedWallStuffStone;
+        private static ThingDef cachedWallStuffSteel;
+        private static ThingDef cachedWallStuffPlasteel;
+        private static ThingDef cachedWallStuffSunsteel;
+        private static ThingDef cachedWallStuffQuasar;
+        private static bool borSunsteelLookupDone;
+        private static bool borQuasarLookupDone;
+        private static bool loggedInvalidBorWallStuff;
         private static ThingDef cachedTrapSpike;
         private static ThingDef cachedTrapIed;
         private static ThingDef cachedTankTrap;
@@ -138,14 +148,64 @@ namespace TSA_WorldDomination
             cachedWall ??= ThingDefOf.Wall
                 ?? DefDatabase<ThingDef>.GetNamedSilentFail("Wall");
 
-        private static ThingDef WallStuffForTier(int wallTier) =>
-            wallTier >= 2 ? WallStuffStoneDef() : WallStuffWoodDef();
+        /// <summary>
+        /// Line_Walls tier → wall stuff. 1 wood, 2 granite, 3 steel, 4 plasteel,
+        /// 5+ BoR materials when present and valid for Wall, else plasteel.
+        /// </summary>
+        private static ThingDef WallStuffForTier(int wallTier)
+        {
+            if (wallTier <= 1)
+                return WallStuffWoodDef();
+            if (wallTier == 2)
+                return WallStuffStoneDef();
+            if (wallTier == 3)
+                return WallStuffSteelDef();
+            if (wallTier == 4)
+                return WallStuffPlasteelDef();
+            if (wallTier == 5)
+                return WallStuffBorOrPlasteel(BorSunsteelDefName, ref borSunsteelLookupDone, ref cachedWallStuffSunsteel);
+            return WallStuffBorOrPlasteel(BorQuasarAlloyDefName, ref borQuasarLookupDone, ref cachedWallStuffQuasar);
+        }
 
         private static ThingDef WallStuffWoodDef() =>
             cachedWallStuffWood ??= ThingDefOf.WoodLog;
 
         private static ThingDef WallStuffStoneDef() =>
             cachedWallStuffStone ??= ThingDefOf.BlocksGranite;
+
+        private static ThingDef WallStuffSteelDef() =>
+            cachedWallStuffSteel ??= ThingDefOf.Steel;
+
+        private static ThingDef WallStuffPlasteelDef() =>
+            cachedWallStuffPlasteel ??= ThingDefOf.Plasteel;
+
+        private static ThingDef WallStuffBorOrPlasteel(string defName, ref bool lookupDone, ref ThingDef cache)
+        {
+            ThingDef wall = WallDef();
+            if (!lookupDone)
+            {
+                lookupDone = true;
+                ThingDef candidate = DefDatabase<ThingDef>.GetNamedSilentFail(defName);
+                if (IsValidWallStuff(wall, candidate))
+                    cache = candidate;
+                else if (candidate != null && !loggedInvalidBorWallStuff)
+                {
+                    loggedInvalidBorWallStuff = true;
+                    Log.Warning($"[TSA WD] Outpost defense walls: {defName} is not valid Wall stuff; using Plasteel.");
+                }
+            }
+
+            if (cache != null)
+                return cache;
+            return WallStuffPlasteelDef();
+        }
+
+        private static bool IsValidWallStuff(ThingDef wallDef, ThingDef stuff)
+        {
+            if (wallDef == null || !wallDef.MadeFromStuff) return false;
+            if (stuff == null || !stuff.IsStuff || stuff.stuffProps == null) return false;
+            return stuff.stuffProps.CanMake(wallDef);
+        }
 
         private static ThingDef TrapSpikeDef() =>
             cachedTrapSpike ??= DefDatabase<ThingDef>.GetNamedSilentFail("TrapSpike")

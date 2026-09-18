@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_24_Title>Nuevas texturas de props, correcciones</TSA_WD_Update_2_3_24_Title>
+  <TSA_WD_Update_2_3_24_Body><![CDATA[
+<size=16><b>2.3.24 – Nuevas texturas de props, correcciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 18 de septiembre de 2026</color>\n
+------------------------------\n
+• Todas las texturas de props de carros, balas de heno y cajas/cajones las ha rehecho el jugador Pesky (¡gracias! Las antiguas eran realmente malas).\n
+• Corregido un fallo por el que en una defensa de avanzadilla perdías al instante si morían los peones de guarnición originales aunque siguieran en pie refuerzos ad hoc (p. ej. enviados por cápsula).\n
+• Corregido un fallo por el que perdías al instante un choque de caravanas si tus peones llegaban allí por cápsula.\n
+• Si has adquirido la mejora de muro de acero/plastiacero de una avanzadilla, esos materiales también se usan ahora en el mapa de defensa real.\n
+• Añadido ya antes: las facciones derrotadas siguen apareciendo en todos los paneles WD.\n
+]]></TSA_WD_Update_2_3_24_Body>
   <TSA_WD_Update_2_3_23_Title>Mover prisioneros, entrega de comida desde almacén</TSA_WD_Update_2_3_23_Title>
   <TSA_WD_Update_2_3_23_Body><![CDATA[
 <size=16><b>2.3.23 – Mover prisioneros, entrega de comida desde almacén</b></size>\n

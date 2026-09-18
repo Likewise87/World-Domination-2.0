@@ -508,7 +508,7 @@ namespace TSA_WorldDomination
 
                 Texture2D icon = GetDestinationMenuIcon(dest);
                 WorldObject captured = dest;
-                options.Add(new FloatMenuOption(label, () => onChosen(captured), icon, WorldOverlayLineMaterials.LogisticsDarkCyanColor));
+                options.Add(new FloatMenuOption(label, () => onChosen(captured), icon, WorldOverlayLineMaterials.DarkCyanColor));
             }
 
             Find.WindowStack.Add(new FloatMenu(options));
