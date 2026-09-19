@@ -260,6 +260,25 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
+        /// True if this VF hull is the <c>vehicle</c> field of a Leaving skyfaller still on the fight map.
+        /// Flee owns those — do not absorb / reform-caravan them.
+        /// </summary>
+        public static bool IsVfVehicleDepartingOnMap(Pawn vehicle, Map fightMap)
+        {
+            if (vehicle == null || vehicle.Destroyed || fightMap?.listerThings?.AllThings == null)
+                return false;
+            List<Thing> things = fightMap.listerThings.AllThings;
+            for (int i = 0; i < things.Count; i++)
+            {
+                Thing t = things[i];
+                if (!IsVfSkyfallerLeaving(t)) continue;
+                if (TryGetVfSkyfallerVehicle(t) == vehicle)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// True if pawn left via departure craft / world transporters — do not Kill or restore into outpost.
         /// Not arrival pods; not boarded-but-not-launched shuttle holds (those are still on the fight).
         /// </summary>

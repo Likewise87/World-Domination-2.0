@@ -1030,12 +1030,34 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
+        /// Empty crew + inventory cargo from a map <c>VehiclePawn</c> before absorb / caravan reform.
+        /// Roster-collect → <see cref="TryEjectPawnFromHostingVehicle"/> each, then VF
+        /// <c>DisembarkAll</c> + <c>DisembarkAllFromInventory</c> sweeps (VF keeps seats and cargo separate).
+        /// </summary>
+        public static void EmptyVehiclePawnForTransfer(Pawn vehiclePawn)
+        {
+            if (vehiclePawn == null || vehiclePawn.Destroyed) return;
+            if (!IsVehicleFrameworkVehiclePawn(vehiclePawn)) return;
+
+            var aboard = new List<Pawn>();
+            var seen = new HashSet<Pawn>();
+            CollectPawnsAboardVehicleForRoster(vehiclePawn, aboard, seen);
+            for (int i = 0; i < aboard.Count; i++)
+                TryEjectPawnFromHostingVehicle(aboard[i]);
+
+            TryDisembarkEveryoneFromVehiclePawn(vehiclePawn);
+        }
+
+        /// <summary>
         /// Empty crew/cargo pawns from a <c>VehiclePawn</c> before removal so VF/caravan lists stay consistent.
+        /// Calls <c>DisembarkAll</c> (seats) then <c>DisembarkAllFromInventory</c> (cargo) when present.
         /// </summary>
         private static void TryDisembarkEveryoneFromVehiclePawn(Pawn vehiclePawn)
         {
             if (vehiclePawn == null || vehiclePawn.Destroyed) return;
             Type vt = vehiclePawn.GetType();
+
+            bool seatsCleared = false;
             MethodInfo disembarkAll = vt.GetMethod(
                 "DisembarkAll",
                 BindingFlags.Public | BindingFlags.Instance,
@@ -1047,13 +1069,33 @@ namespace TSA_WorldDomination
                 try
                 {
                     disembarkAll.Invoke(vehiclePawn, Array.Empty<object>());
-                    return;
+                    seatsCleared = true;
                 }
                 catch (Exception ex)
                 {
                     Log.Warning($"[WD] Vehicle Framework compat: DisembarkAll failed, falling back: {ex.Message}");
                 }
             }
+
+            MethodInfo disembarkInventory = vt.GetMethod(
+                "DisembarkAllFromInventory",
+                BindingFlags.Public | BindingFlags.Instance,
+                null,
+                Type.EmptyTypes,
+                null);
+            if (disembarkInventory != null)
+            {
+                try
+                {
+                    disembarkInventory.Invoke(vehiclePawn, Array.Empty<object>());
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning($"[WD] Vehicle Framework compat: DisembarkAllFromInventory failed: {ex.Message}");
+                }
+            }
+
+            if (seatsCleared) return;
 
             PropertyInfo aboardProp = vt.GetProperty("AllPawnsAboard", BindingFlags.Public | BindingFlags.Instance);
             object rawList = aboardProp?.GetValue(vehiclePawn);

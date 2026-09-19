@@ -555,14 +555,14 @@ namespace TSA_WorldDomination
             }
         }
 
-        /// <summary>Victory: fold remaining extras + landed Odyssey shuttles into the outpost (not a caravan).</summary>
+        /// <summary>Victory: fold remaining extras + landed Odyssey shuttles + VF hulls into the outpost (not a caravan).</summary>
         private void AbsorbExtraPlayerForceIntoOutpost()
         {
             if (outpost == null || outpost.Destroyed || map == null || map.mapPawns == null)
                 return;
 
             var borrowed = BuildBorrowedSet();
-            var toAbsorb = new List<Pawn>();
+            var vehiclesToStore = new List<Pawn>();
             IReadOnlyList<Pawn> allPawns = map.mapPawns.AllPawnsSpawned;
             for (int i = 0; i < allPawns.Count; i++)
             {
@@ -570,7 +570,24 @@ namespace TSA_WorldDomination
                 if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
                 if (pawn.Faction != Faction.OfPlayer) continue;
                 if (borrowed.Contains(pawn)) continue;
+                if (!VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(pawn)) continue;
+                if (ShouldSkipVfHullOnDefenseTeardown(pawn)) continue;
+                vehiclesToStore.Add(pawn);
+            }
+
+            for (int i = 0; i < vehiclesToStore.Count; i++)
+                VehicleFrameworkOutpostDissolveCompat.EmptyVehiclePawnForTransfer(vehiclesToStore[i]);
+
+            var toAbsorb = new List<Pawn>();
+            allPawns = map.mapPawns.AllPawnsSpawned;
+            for (int i = 0; i < allPawns.Count; i++)
+            {
+                Pawn pawn = allPawns[i];
+                if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
+                if (pawn.Faction != Faction.OfPlayer) continue;
+                if (borrowed.Contains(pawn)) continue;
                 if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(pawn)) continue;
+                if (WD_TempEncounterAerialLeaveUtility.IsAliveEscapeeOffMap(pawn, map)) continue;
                 toAbsorb.Add(pawn);
             }
 
@@ -593,6 +610,13 @@ namespace TSA_WorldDomination
                     outpost.StoreAnimalOrVehicle(pawn);
             }
 
+            for (int i = 0; i < vehiclesToStore.Count; i++)
+            {
+                Pawn hull = vehiclesToStore[i];
+                if (hull == null || hull.Destroyed) continue;
+                outpost.StoreAnimalOrVehicle(hull);
+            }
+
             for (int i = 0; i < shuttles.Count; i++)
             {
                 Building_PassengerShuttle shuttle = shuttles[i];
@@ -602,6 +626,14 @@ namespace TSA_WorldDomination
                     shuttle.DeSpawn(DestroyMode.Vanish);
                 outpost.StorePassengerShuttle(shuttle);
             }
+        }
+
+        private bool ShouldSkipVfHullOnDefenseTeardown(Pawn hull)
+        {
+            if (hull == null || hull.Destroyed) return true;
+            if (WD_TempEncounterAerialLeaveUtility.IsAliveEscapeeOffMap(hull, map)) return true;
+            if (WD_TempEncounterAerialLeaveUtility.IsVfVehicleDepartingOnMap(hull, map)) return true;
+            return false;
         }
 
         private HashSet<Pawn> BuildBorrowedSet()
@@ -628,7 +660,7 @@ namespace TSA_WorldDomination
 
             var borrowed = BuildBorrowedSet();
 
-            var toReturn = new List<Pawn>();
+            // Disembark VF crew/cargo before MakeCaravan — boarded pawns are not in AllPawnsSpawned.
             IReadOnlyList<Pawn> allPawns = map.mapPawns.AllPawnsSpawned;
             for (int i = 0; i < allPawns.Count; i++)
             {
@@ -636,6 +668,21 @@ namespace TSA_WorldDomination
                 if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
                 if (pawn.Faction != Faction.OfPlayer) continue;
                 if (borrowed.Contains(pawn)) continue;
+                if (!VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(pawn)) continue;
+                if (ShouldSkipVfHullOnDefenseTeardown(pawn)) continue;
+                VehicleFrameworkOutpostDissolveCompat.EmptyVehiclePawnForTransfer(pawn);
+            }
+
+            var toReturn = new List<Pawn>();
+            allPawns = map.mapPawns.AllPawnsSpawned;
+            for (int i = 0; i < allPawns.Count; i++)
+            {
+                Pawn pawn = allPawns[i];
+                if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
+                if (pawn.Faction != Faction.OfPlayer) continue;
+                if (borrowed.Contains(pawn)) continue;
+                if (WD_TempEncounterAerialLeaveUtility.IsAliveEscapeeOffMap(pawn, map)) continue;
+                if (ShouldSkipVfHullOnDefenseTeardown(pawn)) continue;
                 if (!includeDowned && pawn.Downed) continue;
                 toReturn.Add(pawn);
             }

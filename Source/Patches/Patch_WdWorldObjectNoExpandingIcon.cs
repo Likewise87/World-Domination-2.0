@@ -16,9 +16,10 @@ namespace TSA_WorldDomination
     /// <item>Expandable layer <c>ShouldSkip</c> → never draw Material on the fade-with-zoom mesh layer.</item>
     /// <item>NonExpandable layer <c>ShouldSkip</c> → never draw Material there either.</item>
     /// <item><see cref="WorldObjectSelectionUtility.HiddenBehindTerrainNow"/> bypass at Close/VeryClose for
-    /// <b>camera-facing</b> icons only → near-surface camera chords false-positive the planet obstruction
-    /// test and would blank every front-side icon once Material is skipped. Far-side icons stay hidden
-    /// (hemisphere Dot gate) so you do not see through the planet.</item>
+    /// <b>camera-facing</b> icons only (Dot in the object's <see cref="PlanetLayer.Origin"/> frame) →
+    /// near-surface camera chords false-positive the planet obstruction test and would blank every
+    /// front-side settlement/outpost once Material is skipped. Far-side icons stay hidden so you do
+    /// not see through the planet.</item>
     /// </list>
     /// Without the layer skips, zoomed-out camera would still show Material under the icon (double image).
     /// Side effect: skipping both draw layers means <see cref="WorldObject.Draw"/> never runs for those
@@ -76,6 +77,27 @@ namespace TSA_WorldDomination
         [HarmonyPatch(typeof(ExpandableWorldObjectsUtility), nameof(ExpandableWorldObjectsUtility.TransitionPct))]
         public static class TransitionPct_Patch
         {
+            /// <summary>
+            /// Skip vanilla VeryClose fade-to-zero for ForceFixedIcon so Material-skipped objects
+            /// never lose their ExpandingIcon to the global transitionPct clamp.
+            /// </summary>
+            [HarmonyPrefix]
+            [HarmonyPriority(Priority.First)]
+            public static bool Prefix(WorldObject wo, ref float __result)
+            {
+                if (HideShellAtFarZoom(wo))
+                {
+                    __result = 0f;
+                    return false;
+                }
+                if (ForceFixedIcon(wo))
+                {
+                    __result = 1f;
+                    return false;
+                }
+                return true;
+            }
+
             [HarmonyPostfix]
             [HarmonyPriority(Priority.Last)]
             public static void Postfix(WorldObject wo, ref float __result)
@@ -116,8 +138,9 @@ namespace TSA_WorldDomination
         /// At Close/VeryClose the camera sits near the surface. Segment camera→icon is a short chord that
         /// dips inside the Surface sphere, so <see cref="PlanetLayer.LineIntersects"/> reports obstruction
         /// even for on-screen front tiles. Vanilla then draws Material; we skipped that, so clear that
-        /// false hide only for icons on the camera-facing hemisphere. Far-side icons keep vanilla hide
-        /// so they do not show through the planet. Far/VeryFar zoom is unchanged (no bypass).
+        /// false hide only for icons on the camera-facing hemisphere (in the object's
+        /// <see cref="PlanetLayer.Origin"/> frame). Far-side icons keep vanilla hide so they do not show
+        /// through the planet. Far/VeryFar zoom is unchanged (no bypass).
         /// </summary>
         [HarmonyPatch(typeof(WorldObjectSelectionUtility), nameof(WorldObjectSelectionUtility.HiddenBehindTerrainNow))]
         public static class HiddenBehindTerrainNow_Patch
@@ -131,11 +154,19 @@ namespace TSA_WorldDomination
                 if (cam == null || (int)cam.CurrentZoom > (int)WorldCameraZoomRange.Close)
                     return;
 
-                Camera worldCam = Find.WorldCamera;
-                if (worldCam == null) return;
+                // Layer-origin frame: DrawPos / CameraPosition are Layer.Origin + sphere vector.
+                // World-origin Dot fails when Origin is offset (or camera uses layer offset).
+                Vector3 origin = Vector3.zero;
+                if (o.Tile.Valid)
+                {
+                    PlanetLayer layer = o.Tile.Layer;
+                    if (layer != null)
+                        origin = layer.Origin;
+                }
 
-                // Planet center at origin: same half-space as the camera = front hemisphere.
-                if (Vector3.Dot(o.DrawPos, worldCam.transform.position) <= 0f)
+                Vector3 camPos = cam.CameraPosition - origin;
+                Vector3 iconPos = o.DrawPos - origin;
+                if (Vector3.Dot(iconPos, camPos) <= 0f)
                     return;
 
                 __result = false;
