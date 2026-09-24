@@ -35,6 +35,15 @@ namespace TSA_WorldDomination
         private static PropertyInfo vehiclePawnAllInventoryPawnsProperty;
         private static MethodInfo vehiclePawnTryAddPawnMethod;
 
+        private static bool vehicleRepairReflectReady;
+        private static bool vehicleRepairReflectOk;
+        private static PropertyInfo vehiclePawnStatHandlerProperty;
+        private static PropertyInfo vehicleStatHandlerNeedsRepairsProperty;
+        private static FieldInfo vehicleStatHandlerComponentsField;
+        private static PropertyInfo vehicleComponentMaxHealthProperty;
+        private static PropertyInfo vehicleComponentHealthProperty;
+        private static MethodInfo vehicleComponentHealMethod;
+
         private static bool vehicleCaravanStopReflectReady;
         private static bool vehicleCaravanStopReflectOk;
         private static FieldInfo vehicleCaravan_vehiclePatherField;
@@ -1128,6 +1137,163 @@ namespace TSA_WorldDomination
                     Log.Warning($"[WD] Vehicle Framework compat: RemovePawn aboard vehicle: {ex.Message}");
                 }
             }
+        }
+
+        /// <summary>
+        /// Once-per-day mothballed repair: each damaged VF component heals by
+        /// <paramref name="healthPercentPerDay"/> × that part's MaxHealth. Reflection only.
+        /// </summary>
+        public static bool TryRepairVehicleOneDay(Pawn vehiclePawn, float healthPercentPerDay)
+        {
+            if (healthPercentPerDay <= 0f) return false;
+            if (!IsVehicleFrameworkVehiclePawn(vehiclePawn) || vehiclePawn.Destroyed || vehiclePawn.Dead)
+                return false;
+            if (!EnsureVehicleRepairReflection(vehiclePawn.GetType()))
+                return false;
+
+            object statHandler;
+            try
+            {
+                statHandler = vehiclePawnStatHandlerProperty.GetValue(vehiclePawn);
+            }
+            catch
+            {
+                return false;
+            }
+            if (statHandler == null) return false;
+
+            bool needsRepairs;
+            try
+            {
+                object raw = vehicleStatHandlerNeedsRepairsProperty.GetValue(statHandler);
+                needsRepairs = raw is bool b && b;
+            }
+            catch
+            {
+                return false;
+            }
+            if (!needsRepairs) return false;
+
+            IList components;
+            try
+            {
+                components = vehicleStatHandlerComponentsField.GetValue(statHandler) as IList;
+            }
+            catch
+            {
+                return false;
+            }
+            if (components == null || components.Count == 0) return false;
+
+            bool anyRepaired = false;
+            for (int i = 0; i < components.Count; i++)
+            {
+                object comp = components[i];
+                if (comp == null) continue;
+                float maxHp;
+                float hp;
+                try
+                {
+                    maxHp = Convert.ToSingle(vehicleComponentMaxHealthProperty.GetValue(comp));
+                    hp = Convert.ToSingle(vehicleComponentHealthProperty.GetValue(comp));
+                }
+                catch
+                {
+                    continue;
+                }
+                if (maxHp <= 0f || hp >= maxHp - 0.01f) continue;
+
+                float apply = Mathf.Min(healthPercentPerDay * maxHp, maxHp - hp);
+                if (apply <= 0.01f) continue;
+
+                try
+                {
+                    vehicleComponentHealMethod.Invoke(comp, new object[] { apply });
+                    anyRepaired = true;
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning($"[WD] Vehicle Framework compat: HealComponent failed: {ex.Message}");
+                }
+            }
+
+            return anyRepaired;
+        }
+
+        private static bool EnsureVehicleRepairReflection(Type vehiclePawnType)
+        {
+            if (vehicleRepairReflectReady) return vehicleRepairReflectOk;
+            vehicleRepairReflectReady = true;
+            vehicleRepairReflectOk = false;
+            if (vehiclePawnType == null) return false;
+
+            try
+            {
+                vehiclePawnStatHandlerProperty = vehiclePawnType.GetProperty(
+                    "statHandler", BindingFlags.Public | BindingFlags.Instance);
+                if (vehiclePawnStatHandlerProperty == null) return false;
+
+                Type handlerType = vehiclePawnStatHandlerProperty.PropertyType;
+                vehicleStatHandlerNeedsRepairsProperty = handlerType.GetProperty(
+                    "NeedsRepairs", BindingFlags.Public | BindingFlags.Instance);
+                vehicleStatHandlerComponentsField = handlerType.GetField(
+                    "components", BindingFlags.Public | BindingFlags.Instance);
+                if (vehicleStatHandlerNeedsRepairsProperty == null || vehicleStatHandlerComponentsField == null)
+                    return false;
+
+                Type listType = vehicleStatHandlerComponentsField.FieldType;
+                Type componentType = null;
+                if (listType.IsGenericType)
+                    componentType = listType.GetGenericArguments()[0];
+                if (componentType == null)
+                {
+                    // Fallback: Vehicles.VehicleComponent
+                    componentType = AccessToolsFindType("Vehicles.VehicleComponent");
+                }
+                if (componentType == null) return false;
+
+                vehicleComponentMaxHealthProperty = componentType.GetProperty(
+                    "MaxHealth", BindingFlags.Public | BindingFlags.Instance);
+                vehicleComponentHealthProperty = componentType.GetProperty(
+                    "Health", BindingFlags.Public | BindingFlags.Instance);
+                vehicleComponentHealMethod = componentType.GetMethod(
+                    "HealComponent",
+                    BindingFlags.Public | BindingFlags.Instance,
+                    null,
+                    new[] { typeof(float) },
+                    null);
+
+                if (vehicleComponentMaxHealthProperty == null
+                    || vehicleComponentHealthProperty == null
+                    || vehicleComponentHealMethod == null)
+                    return false;
+
+                vehicleRepairReflectOk = true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Warning($"[WD] Vehicle Framework compat: repair reflection init failed: {ex.Message}");
+                vehicleRepairReflectOk = false;
+                return false;
+            }
+        }
+
+        private static Type AccessToolsFindType(string fullName)
+        {
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                try
+                {
+                    Type t = asm.GetType(fullName, throwOnError: false);
+                    if (t != null) return t;
+                }
+                catch
+                {
+                    // ignore unloadable assemblies
+                }
+            }
+            return null;
         }
     }
 }

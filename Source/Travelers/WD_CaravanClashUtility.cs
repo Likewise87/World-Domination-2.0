@@ -276,9 +276,20 @@ namespace TSA_WorldDomination
                 canSteal = false
             };
 
-            TryAssignInterceptionSpawn(map, parms);
+            WdRaidParmsUtility.EnsureFactionCompatibleRaidParms(parms, PawnsArrivalModeDefOf.EdgeWalkIn);
+            // Spawn steering only helps edge walk-in; drop arrivals resolve their own centers.
+            if (parms.raidArrivalMode == null || parms.raidArrivalMode == PawnsArrivalModeDefOf.EdgeWalkIn)
+                TryAssignInterceptionSpawn(map, parms);
 
-            IncidentDefOf.RaidEnemy.Worker.TryExecute(parms);
+            if (!IncidentDefOf.RaidEnemy.Worker.TryExecute(parms))
+            {
+                WdRaidParmsUtility.TryManualAssaultSpawn(
+                    map,
+                    faction,
+                    points,
+                    parms.raidStrategy,
+                    parms.customLetterLabel);
+            }
         }
 
         private static void StartTraderCaravanClashEncounter(Caravan playerCaravan, WorldObject_Traveler traveler)

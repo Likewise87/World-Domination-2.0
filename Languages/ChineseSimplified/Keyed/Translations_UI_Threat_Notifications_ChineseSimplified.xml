@@ -288,8 +288,12 @@
   <TSA_WD_MidGame_ShareThresholdTooltip>当你的前哨总实力达到全球总实力的此比例时激活中期游戏。</TSA_WD_MidGame_ShareThresholdTooltip>
   <TSA_WD_MidGame_OutpostStrengthThreshold>中期难度的玩家战力点数</TSA_WD_MidGame_OutpostStrengthThreshold>
   <TSA_WD_MidGame_OutpostStrengthThresholdTooltip>当你的前哨总实力达到此绝对数值时激活中期游戏，与全球占比无关。</TSA_WD_MidGame_OutpostStrengthThresholdTooltip>
+  <TSA_WD_MidGame_EnableDaysThreshold>允许按时间触发中期难度</TSA_WD_MidGame_EnableDaysThreshold>
+  <TSA_WD_MidGame_EnableDaysThresholdTooltip>开启后，即使占比与实力仍低于中期阈值，也可因经过天数进入中期游戏。关闭后，仅占比与前哨实力可触发中期。</TSA_WD_MidGame_EnableDaysThresholdTooltip>
   <TSA_WD_MidGame_DaysThreshold>中期难度的天数阈值</TSA_WD_MidGame_DaysThreshold>
   <TSA_WD_MidGame_DaysThresholdTooltip>经过这些天数后激活中期游戏，即使占比与实力仍低于中期阈值。</TSA_WD_MidGame_DaysThresholdTooltip>
+  <TSA_WD_LateGame_EnableDaysThreshold>允许按时间触发后期难度</TSA_WD_LateGame_EnableDaysThreshold>
+  <TSA_WD_LateGame_EnableDaysThresholdTooltip>开启后，即使占比与实力仍低于后期阈值，也可因经过天数进入后期游戏。关闭后，仅占比与前哨实力可触发后期。</TSA_WD_LateGame_EnableDaysThresholdTooltip>
   <TSA_WD_LateGame_DaysThreshold>后期难度的天数阈值</TSA_WD_LateGame_DaysThreshold>
   <TSA_WD_LateGame_DaysThresholdTooltip>经过这些天数后激活后期游戏，即使占比与实力仍低于后期阈值。</TSA_WD_LateGame_DaysThresholdTooltip>
   <TSA_WD_MidGame_RaidBias>玩家袭击偏向</TSA_WD_MidGame_RaidBias>

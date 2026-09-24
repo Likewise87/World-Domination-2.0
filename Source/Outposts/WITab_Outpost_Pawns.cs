@@ -864,9 +864,17 @@ namespace TSA_WorldDomination
             row.daysSinceJoin = PlayerPawnRosterUtility.GetDaysSinceJoin(p);
             row.constructionLabel = "?";
             row.resistanceValue = p.guest?.resistance ?? 0f;
-            float daily = recruiting ? OutpostPrisonerResistanceScaling.GetDailyDrop(SelOutpost) : 0f;
-            row.resistanceLabel = OutpostPrisonerResistanceScaling.FormatRateLabel(row.resistanceValue, daily);
-            row.resistanceTip = OutpostPrisonerResistanceScaling.BuildTooltip(SelOutpost);
+            if (p.guest != null && !p.guest.Recruitable)
+            {
+                row.resistanceLabel = "NonRecruitable".Translate();
+                row.resistanceTip = "NonRecruitableTip".Translate();
+            }
+            else
+            {
+                float daily = recruiting ? OutpostPrisonerResistanceScaling.GetDailyDrop(SelOutpost) : 0f;
+                row.resistanceLabel = OutpostPrisonerResistanceScaling.FormatRateLabel(row.resistanceValue, daily);
+                row.resistanceTip = OutpostPrisonerResistanceScaling.BuildTooltip(SelOutpost);
+            }
             PrisonerRosterUtility.FormatTraits(p, out row.traitsDisplay, out row.traitsTip);
             PawnRosterTraitFilter.FormatXenotype(p, out row.xenotypeDisplay, out row.xenotypeTip);
             PawnRosterTraitFilter.FormatPsycasts(p, out row.psycastsDisplay, out row.psycastsTip);

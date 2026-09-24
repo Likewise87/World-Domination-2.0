@@ -201,9 +201,9 @@ namespace TSA_WorldDomination
 
         private bool ThreatExists()
         {
-            return savedMission == TravelerMission.Trader
-                ? AnyLivingCaravanFactionPawnThreat()
-                : GenHostility.AnyHostileActiveThreatToPlayer(map, true);
+            // Same rule for trader and raid clashes: dead/downed/PanicFlee are not threats.
+            // (GenHostility(..., countDowned: true) would keep downed animals blocking victory.)
+            return AnyLivingCaravanFactionPawnThreat();
         }
 
         /// <summary>

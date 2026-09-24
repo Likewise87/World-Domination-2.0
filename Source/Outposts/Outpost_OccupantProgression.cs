@@ -220,6 +220,30 @@ namespace TSA_WorldDomination
                 outpost.GetComponent<CompViralSpread>()?.UpdateOutpostStrengthLogically();
         }
 
+        /// <summary>
+        /// Once per in-game day: slowly repair damaged Vehicle Framework hulls in
+        /// <see cref="WorldObject_WD_Outpost.StoredAnimalsAndVehicles"/> (percent of each damaged part's MaxHealth).
+        /// </summary>
+        public static void TickStoredVehiclesRepairOneDay(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null) return;
+            WorldDominationSettings settings = WorldDominationMod.settings;
+            if (settings == null) return;
+            float pctPerDay = settings.outpostVehicleRepairHealthPercentPerDay;
+            if (pctPerDay <= 0f) return;
+
+            List<Pawn> list = outpost.StoredAnimalsAndVehicles;
+            if (list == null || list.Count == 0) return;
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                Pawn p = list[i];
+                if (p == null || p.Destroyed || p.Dead) continue;
+                if (!VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(p)) continue;
+                VehicleFrameworkOutpostDissolveCompat.TryRepairVehicleOneDay(p, pctPerDay);
+            }
+        }
+
         private static bool IsAgeableStoredAnimal(Pawn pawn)
         {
             if (pawn?.RaceProps == null) return false;

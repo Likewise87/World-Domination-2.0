@@ -50,8 +50,9 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Despawn and store a recruitable humanlike as an outpost prisoner.
-        /// Skips unwavering / non-recruitable pawns. Does not add to Occupants.
+        /// Despawn and store a humanlike as an outpost prisoner (including unwavering).
+        /// Recruit stays locked for non-recruitable pawns; defense auto-capture still filters those via
+        /// <see cref="OutpostPrisonerUtility.IsRecruitableCapturable"/>. Does not add to Occupants.
         /// </summary>
         public bool TryCaptureAsPrisoner(Pawn pawn)
         {
@@ -59,7 +60,6 @@ namespace TSA_WorldDomination
             if (pawn.RaceProps?.Humanlike != true) return false;
             if (OutpostPawnClassificationUtil.IsMechanoidWorker(pawn)) return false;
             if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(pawn)) return false;
-            if (pawn.guest != null && !pawn.guest.Recruitable) return false;
 
             if (Occupants.Contains(pawn)) return false;
             if (Prisoners.Contains(pawn)) return true;
@@ -75,9 +75,19 @@ namespace TSA_WorldDomination
             if (pawn.guest != null)
             {
                 pawn.guest.SetGuestStatus(Faction.OfPlayer, GuestStatus.Prisoner);
-                PrisonerInteractionModeDef recruit = PrisonerInteractionModeDefOf.AttemptRecruit;
-                if (recruit != null)
-                    pawn.guest.SetExclusiveInteraction(recruit);
+                // Unwavering: maintain only. Recruitable: default to attempt recruit.
+                if (pawn.guest.Recruitable)
+                {
+                    PrisonerInteractionModeDef recruit = PrisonerInteractionModeDefOf.AttemptRecruit;
+                    if (recruit != null)
+                        pawn.guest.SetExclusiveInteraction(recruit);
+                }
+                else
+                {
+                    PrisonerInteractionModeDef maintain = PrisonerInteractionModeDefOf.MaintainOnly;
+                    if (maintain != null)
+                        pawn.guest.SetExclusiveInteraction(maintain);
+                }
             }
 
             Prisoners.Add(pawn);
@@ -139,6 +149,9 @@ namespace TSA_WorldDomination
             if (!TryCaptureAsPrisoner(pawn))
             {
                 Messages.Message("TSA_WD_AddToOutpost_AddFailed".Translate(pawn.LabelShort), MessageTypeDefOf.RejectInput, false);
+                // Capture failed after leaving the caravan: put them back so they are not orphaned/deleted.
+                if (caravan != null && !caravan.Destroyed && pawn != null && !pawn.Destroyed)
+                    caravan.AddPawn(pawn, true);
                 return true;
             }
 

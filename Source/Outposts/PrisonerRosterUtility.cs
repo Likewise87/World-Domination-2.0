@@ -227,8 +227,6 @@ namespace TSA_WorldDomination
                     Pawn p = captives[pi];
                     if (p == null || p.Destroyed || p.Dead) continue;
                     if (p.RaceProps?.Humanlike != true) continue;
-                    // Unwavering should never be stored; skip if they somehow are.
-                    if (p.guest != null && !p.guest.Recruitable) continue;
 
                     string name = p.Name?.ToStringFull ?? p.LabelCap ?? p.Label ?? "?";
 
@@ -269,7 +267,6 @@ namespace TSA_WorldDomination
                     if (p == null || p.Destroyed || p.Dead) continue;
                     if (p.RaceProps?.Humanlike != true) continue;
                     if (!p.IsPrisonerOfColony) continue;
-                    if (p.guest != null && !p.guest.Recruitable) continue;
 
                     string name = p.Name?.ToStringFull ?? p.LabelCap ?? p.Label ?? "?";
                     var entry = CreateBaseEntry(p, name);

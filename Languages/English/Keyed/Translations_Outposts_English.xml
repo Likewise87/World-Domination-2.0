@@ -564,6 +564,8 @@
   <TSA_WD_Outpost_StrengthRecovery_OffMinFlatTooltip>Floor for daily offensive recovery before upgrade multiplier. Actual gain is max(this, target cap × off. recovery %) × (1 + upgrade bonuses).</TSA_WD_Outpost_StrengthRecovery_OffMinFlatTooltip>
   <TSA_WD_Outpost_OccupantHealSeverity>Occupant healing (injury severity per day)</TSA_WD_Outpost_OccupantHealSeverity>
   <TSA_WD_Outpost_OccupantHealSeverityTooltip>Each day, every non-permanent injury on mothballed outpost occupants loses this many severity points (linear). Set to 0 to disable. Example: at 2 severity per day, a 6-severity wound heals in ~3 days; 20 severity in ~10 days. Hospital upgrades on each outpost multiply this rate (Basic +30%, Advanced +60%). Immunizable diseases still advance immunity at the same multiplier. Blood loss is reduced with the same daily amount.</TSA_WD_Outpost_OccupantHealSeverityTooltip>
+  <TSA_WD_Outpost_VehicleRepairPerDay>Vehicle repair per day</TSA_WD_Outpost_VehicleRepairPerDay>
+  <TSA_WD_Outpost_VehicleRepairPerDayTooltip>Each day, every damaged part on Vehicle Framework vehicles stored at the outpost regains this fraction of that part's max health. 0 disables.</TSA_WD_Outpost_VehicleRepairPerDayTooltip>
   <TSA_WD_Outpost_ProductionTimeMult>Production time multiplier</TSA_WD_Outpost_ProductionTimeMult>
   <TSA_WD_Outpost_ProductionTimeMultTooltip>Multiplies production cycle length (XML productionCycleDays or default). Lower = shorter cycles / more frequent deliveries. Remaining time rescales when you change this during a cycle.</TSA_WD_Outpost_ProductionTimeMultTooltip>
   <TSA_WD_Outpost_ProductionOutputMult>Production output multiplier</TSA_WD_Outpost_ProductionOutputMult>

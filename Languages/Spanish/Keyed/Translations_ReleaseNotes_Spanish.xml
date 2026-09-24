@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_25_Title>Reparación de vehículos, mejoras de avanzadillas, correcciones</TSA_WD_Update_2_3_25_Title>
+  <TSA_WD_Update_2_3_25_Body><![CDATA[
+<size=16><b>2.3.25 – Reparación de vehículos, mejoras de avanzadillas, correcciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 24 de septiembre de 2026</color>\n
+------------------------------\n
+• Nueva función: los vehículos guarnecidos en avanzadillas del jugador se reparan un 5% al día por cada pieza dañada.\n
+• Nueva función: nuevas mejoras de avanzadilla para Perforación Deepchem y Conformado de recursos brutos del addon Beyond Our Reach de Bambaryła.\n
+• Corrección: la duración de las ruinas tras arrasar un asentamiento/avanzadilla estaba limitada a 10 días aunque pusieras 50 en el menú. Ahora se usa el valor del deslizador (máximo subido a 100 días). Las ruinas siguen bloqueando el espacio a su alrededor e impiden que enemigos y tú os expandáis ahí.\n
+• Corrección: los prisioneros inquebrantables (Unwavering) ya se pueden guardar en avanzadillas. Las avanzadillas siguen sin poder reclutarlos. Los prisioneros de una defensa de avanzadilla o de un combate de caravana de Respuesta rápida nunca son inquebrantables: solo importa si llevas manualmente uno a una avanzadilla.\n
+• Corrección: los peones generados por la avanzadilla de reclutamiento WD siempre aparecen sin título de Royalty. Esto debería evitar el spam de cartas que algunos jugadores veían al rerollearse el título una y otra vez.\n
+• Ya publicado ayer: los disparadores por tiempo de dificultad Mid y Late Game se pueden desactivar por completo en los ajustes de Dificultad de combate.\n
+• Ya publicado ayer: si una incursión del narrador saca una facción desactivada, puedes elegir volver a tirar entre las facciones elegibles en lugar de cancelar la incursión. Se activa en Configurar alcance bajo la pestaña principal de WD.\n
+]]></TSA_WD_Update_2_3_25_Body>
   <TSA_WD_Update_2_3_24_Title>Nuevas texturas de props, correcciones</TSA_WD_Update_2_3_24_Title>
   <TSA_WD_Update_2_3_24_Body><![CDATA[
 <size=16><b>2.3.24 – Nuevas texturas de props, correcciones</b></size>\n

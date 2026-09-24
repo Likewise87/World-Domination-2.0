@@ -50,6 +50,9 @@ namespace TSA_WorldDomination
         public static float GetPawnCost(Pawn pawn)
         {
             if (pawn == null || pawn.Destroyed || pawn.Dead) return 0f;
+            // Captives do not contribute to outpost offensive strength, so withdrawing them
+            // must not consume the offensive-strength budget either.
+            if (pawn.IsPrisonerOfColony) return 0f;
             if (pawn.RaceProps?.Humanlike == true || OutpostPawnClassificationUtil.IsMechanoidWorker(pawn))
             {
                 VirtualPawnSummary summary = VirtualPawnSummary.FromPawn(pawn);
@@ -75,6 +78,7 @@ namespace TSA_WorldDomination
             {
                 PlayerPawnRosterEntry e = entries[i];
                 if (e?.pawn == null) continue;
+                if (e.outpostRole == PlayerPawnOutpostRole.Prisoner) continue;
                 sum += GetPawnCost(e.pawn);
             }
             return sum;

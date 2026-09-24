@@ -604,6 +604,7 @@ namespace TSA_WorldDomination
                     forceGenerateNewPawn: true,
                     canGeneratePawnRelations: false,
                     mustBeCapableOfViolence: true,
+                    forbidAnyTitle: true,
                     forcedXenotype: xenotype);
                 p = PawnGenerator.GeneratePawn(req);
             }
@@ -616,7 +617,8 @@ namespace TSA_WorldDomination
                     -1,
                     forceGenerateNewPawn: true,
                     canGeneratePawnRelations: false,
-                    mustBeCapableOfViolence: true);
+                    mustBeCapableOfViolence: true,
+                    forbidAnyTitle: true);
                 p = PawnGenerator.GeneratePawn(baselineReq);
             }
 

@@ -117,14 +117,26 @@ namespace TSA_WorldDomination
                 "TSA_WD_MidGame_ShareThresholdTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefMidGameShareThreshold);
             s.midGameOutpostStrengthThreshold = SettingsUI.LabeledSlider(l, "TSA_WD_MidGame_OutpostStrengthThreshold".Translate(), s.midGameOutpostStrengthThreshold, 100f, 25000f,
                 "TSA_WD_MidGame_OutpostStrengthThresholdTooltip".Translate(), 100f, SliderFormat.Fixed0, WorldDominationSettings.DefMidGameOutpostStrengthThreshold);
-            s.midGameDaysThreshold = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_MidGame_DaysThreshold".Translate(), s.midGameDaysThreshold, 10f, 600f,
-                "TSA_WD_MidGame_DaysThresholdTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefMidGameDaysThreshold));
+            SettingsUI.DrawCheckbox(l, "TSA_WD_MidGame_EnableDaysThreshold".Translate(), ref s.enableMidGameDaysThreshold,
+                "TSA_WD_MidGame_EnableDaysThresholdTooltip".Translate(),
+                defaultValue: WorldDominationSettings.DefEnableMidGameDaysThreshold);
+            if (s.enableMidGameDaysThreshold)
+            {
+                s.midGameDaysThreshold = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_MidGame_DaysThreshold".Translate(), s.midGameDaysThreshold, 10f, 600f,
+                    "TSA_WD_MidGame_DaysThresholdTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefMidGameDaysThreshold));
+            }
             s.lateGameShareThreshold = SettingsUI.LabeledSlider(l, "TSA_WD_Difficulty_ShareThreshold".Translate(), s.lateGameShareThreshold, 0f, 1f,
                 "TSA_WD_Difficulty_ShareThresholdTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefLateGameShareThreshold);
             s.lateGameOutpostStrengthThreshold = SettingsUI.LabeledSlider(l, "TSA_WD_Difficulty_OutpostStrengthThreshold".Translate(), s.lateGameOutpostStrengthThreshold, 100f, 25000f,
                 "TSA_WD_Difficulty_OutpostStrengthThresholdTooltip".Translate(), 100f, SliderFormat.Fixed0, WorldDominationSettings.DefLateGameOutpostStrengthThreshold);
-            s.lateGameDaysThreshold = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_LateGame_DaysThreshold".Translate(), s.lateGameDaysThreshold, 10f, 600f,
-                "TSA_WD_LateGame_DaysThresholdTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefLateGameDaysThreshold));
+            SettingsUI.DrawCheckbox(l, "TSA_WD_LateGame_EnableDaysThreshold".Translate(), ref s.enableLateGameDaysThreshold,
+                "TSA_WD_LateGame_EnableDaysThresholdTooltip".Translate(),
+                defaultValue: WorldDominationSettings.DefEnableLateGameDaysThreshold);
+            if (s.enableLateGameDaysThreshold)
+            {
+                s.lateGameDaysThreshold = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_LateGame_DaysThreshold".Translate(), s.lateGameDaysThreshold, 10f, 600f,
+                    "TSA_WD_LateGame_DaysThresholdTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefLateGameDaysThreshold));
+            }
             s.NormalizeEscalationThresholds();
 
             l.Gap(4f);

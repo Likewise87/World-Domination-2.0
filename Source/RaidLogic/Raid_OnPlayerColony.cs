@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
-using Verse.AI.Group;
 using UnityEngine;
 
 namespace TSA_WorldDomination
@@ -163,6 +161,7 @@ namespace TSA_WorldDomination
             else if (dropPod)
             {
                 parms.raidArrivalMode = Rand.Bool ? PawnsArrivalModeDefOf.CenterDrop : PawnsArrivalModeDefOf.EdgeDrop;
+                parms.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
             }
             else
             {
@@ -184,6 +183,9 @@ namespace TSA_WorldDomination
                     }
                 }
             }
+
+            if (!gravship)
+                WdRaidParmsUtility.EnsureFactionCompatibleRaidParms(parms, parms.raidArrivalMode);
 
             bool ok = false;
             try
@@ -220,13 +222,20 @@ namespace TSA_WorldDomination
                 }
                 if (!ok)
                 {
-                    ok = TryManualColonyRaidSpawn(map, attackerFaction, raidPoints, parms.customLetterLabel, parms.customLetterText);
+                    ok = WdRaidParmsUtility.TryManualAssaultSpawn(
+                        map,
+                        attackerFaction,
+                        raidPoints,
+                        parms.raidStrategy,
+                        parms.customLetterLabel,
+                        parms.customLetterText);
                     if (Prefs.DevMode)
                     {
                         Log.Warning("[TSA WD] WD colony raid incident failed; manual spawn fallback "
                             + (ok ? "succeeded" : "also failed")
                             + " faction=" + (attackerFaction?.Name ?? "?")
                             + " points=" + raidPoints.ToString("F0")
+                            + " strategy=" + (parms.raidStrategy?.defName ?? "(null)")
                             + " spawnCenterWas=" + parms.spawnCenter);
                     }
                 }
@@ -279,44 +288,7 @@ namespace TSA_WorldDomination
                 parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeDrop;
             else
                 parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
-        }
-
-        /// <summary>
-        /// Last-resort spawn when <see cref="IncidentWorker_RaidEnemy.TryExecuteWorker"/> returns false
-        /// (empty pawn group / bad spawn center). Mirrors reinforcement fallback.
-        /// </summary>
-        private static bool TryManualColonyRaidSpawn(Map map, Faction faction, float points, string letterLabel, string letterText)
-        {
-            if (map == null || faction == null) return false;
-
-            PawnGroupMakerParms pgmParms = new PawnGroupMakerParms
-            {
-                groupKind = PawnGroupKindDefOf.Combat,
-                points = Mathf.Max(points, faction.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat) * 1.05f),
-                faction = faction
-            };
-            List<Pawn> pawns = PawnGroupMakerUtility.GeneratePawns(pgmParms).ToList();
-            if (pawns.Count == 0) return false;
-
-            if (!CellFinder.TryFindRandomEdgeCellWith(c => c.Standable(map) && !c.Fogged(map), map, CellFinder.EdgeRoadChance_Hostile, out IntVec3 spawnCell))
-            {
-                if (!CellFinder.TryFindRandomEdgeCellWith(c => c.Standable(map), map, CellFinder.EdgeRoadChance_Hostile, out spawnCell))
-                    return false;
-            }
-
-            foreach (Pawn p in pawns)
-                GenSpawn.Spawn(p, spawnCell, map);
-            LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction), map, pawns);
-
-            if (!letterLabel.NullOrEmpty() || !letterText.NullOrEmpty())
-            {
-                Find.LetterStack.ReceiveLetter(
-                    letterLabel.NullOrEmpty() ? "Raid".Translate() : (TaggedString)letterLabel,
-                    letterText.NullOrEmpty() ? faction.Name : (TaggedString)letterText,
-                    LetterDefOf.ThreatBig,
-                    new TargetInfo(spawnCell, map));
-            }
-            return true;
+            WdRaidParmsUtility.EnsureFactionCompatibleRaidParms(parms, parms.raidArrivalMode);
         }
 
         /// <summary>

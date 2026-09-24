@@ -246,6 +246,7 @@ namespace TSA_WorldDomination
 
         private float DrawFilterRow(Rect inRect, float y)
         {
+            var s = WorldDominationMod.settings;
             Rect searchRect = new Rect(inRect.x, y, Mathf.Min(320f, inRect.width - 72f), 28f);
             searchTerm = Widgets.TextField(searchRect, searchTerm);
             if (string.IsNullOrEmpty(searchTerm))
@@ -262,6 +263,33 @@ namespace TSA_WorldDomination
             if (Widgets.ButtonText(clearBtnRect, "TSA_WD_BtnClear".Translate()))
                 searchTerm = "";
             Text.Font = GameFont.Small;
+
+            if (s != null)
+            {
+                float modeBtnW = Mathf.Min(360f, inRect.xMax - clearBtnRect.xMax - 12f);
+                if (modeBtnW > 120f)
+                {
+                    Rect modeRect = new Rect(clearBtnRect.xMax + 8f, y, modeBtnW, PageBtnH);
+                    string modeLabel = Patch_RaidEnemy_AdjustPoints.StorytellerBlockedRaidModeLabel(s.storytellerBlockedRaidMode);
+                    TooltipHandler.TipRegion(modeRect, SettingsUI.TooltipWithDefault(
+                        "TSA_WD_StorytellerBlockedRaid_Tooltip".Translate(),
+                        Patch_RaidEnemy_AdjustPoints.StorytellerBlockedRaidModeLabel(
+                            WorldDominationSettings.DefStorytellerBlockedRaidMode)));
+                    if (Widgets.ButtonText(modeRect, modeLabel))
+                    {
+                        var opts = new List<FloatMenuOption>
+                        {
+                            new FloatMenuOption(
+                                Patch_RaidEnemy_AdjustPoints.StorytellerBlockedRaidModeLabel(WdStorytellerBlockedRaidMode.DropInvalid),
+                                () => s.storytellerBlockedRaidMode = WdStorytellerBlockedRaidMode.DropInvalid),
+                            new FloatMenuOption(
+                                Patch_RaidEnemy_AdjustPoints.StorytellerBlockedRaidModeLabel(WdStorytellerBlockedRaidMode.SwapToValid),
+                                () => s.storytellerBlockedRaidMode = WdStorytellerBlockedRaidMode.SwapToValid)
+                        };
+                        Find.WindowStack.Add(new FloatMenu(opts));
+                    }
+                }
+            }
 
             return y + 32f;
         }

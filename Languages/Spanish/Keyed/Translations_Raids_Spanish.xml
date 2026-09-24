@@ -73,6 +73,7 @@
   <TSA_WD_OutpostRetreat_Letter_Text>Algunos defensores escaparon de {0} antes de su caída. {1} colonos se retiraron en caravana.</TSA_WD_OutpostRetreat_Letter_Text>
   <TSA_WD_OutpostDefense_MapFailed>No se pudo crear un mapa de defensa manual para {0}; los defensores regresan.</TSA_WD_OutpostDefense_MapFailed>
   <TSA_WD_OutpostDefense_ExtraPawnsReturned>{0} peón(es) extra regresaron del campo de batalla temporal como caravana en {1}.</TSA_WD_OutpostDefense_ExtraPawnsReturned>
+  <TSA_WD_OutpostDefense_RaidFailedToForm>La incursión sobre {0} de {1} no llegó a formarse. Los defensores regresaron a la avanzadilla.</TSA_WD_OutpostDefense_RaidFailedToForm>
   <TSA_WD_TempEncounter_EdgeExitBlocked>No puedes salir del mapa hasta que termine este combate.</TSA_WD_TempEncounter_EdgeExitBlocked>
   <TSA_WD_LaunchExpedition>Lanzar ataque</TSA_WD_LaunchExpedition>
   <TSA_WD_LaunchExpeditionDesc>Envía una fuerza de ataque desde esta avanzadilla para asaltar un asentamiento enemigo cercano o una AT Turret.</TSA_WD_LaunchExpeditionDesc>

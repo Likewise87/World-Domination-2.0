@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_25_Title>Vehicle Repair, Outpost Upgrades, Bugfixes</TSA_WD_Update_2_3_25_Title>
+  <TSA_WD_Update_2_3_25_Body><![CDATA[
+<size=16><b>2.3.25 – Vehicle Repair, Outpost Upgrades, Bugfixes</b></size>\n
+<color=#00FFFFFF>Release date: September 24th 2026</color>\n
+------------------------------\n
+• New Feature: Vehicles garrisoned at player outposts now get 5% repaired per day for each damaged vehicle part.\n
+• New Feature: New outpost upgrades for the Deepchem Drilling and Raw Resource Shaping outposts from Bambaryła's Beyond Our Reach addon.\n
+• Bugfix: Ruin linger duration after razing a settlement/outpost was clamped to 10 days even if you set 50 in the menu. The slider value is used now (max raised to 100 days). Ruins still block the space around them so enemies and you cannot expand there.\n
+• Bugfix: Unwavering prisoners can now be stored at outposts. Outposts still cannot recruit them. Prisoners from outpost defense or Rapid Response caravan battles are never unwavering — this only matters if you manually bring an unwavering prisoner to an outpost.\n
+• Bugfix: Pawns from the WD recruiting outpost now always spawn without a Royalty title. This should stop the letter spam some players saw when the title kept getting rerolled.\n
+• Already released yesterday: Time-based Mid and Late Game difficulty triggers can now be fully deactivated in Combat Difficulty mod settings.\n
+• Already released yesterday: If a storyteller raid rolls a deactivated faction, you can choose to reroll among eligible factions instead of dropping the raid. Toggle in Configure Scope under the WD main tab.\n
+]]></TSA_WD_Update_2_3_25_Body>
   <TSA_WD_Update_2_3_24_Title>New props textures, bugfixes</TSA_WD_Update_2_3_24_Title>
   <TSA_WD_Update_2_3_24_Body><![CDATA[
 <size=16><b>2.3.24 – New props textures, bugfixes</b></size>\n

@@ -73,6 +73,7 @@
   <TSA_WD_OutpostRetreat_Letter_Text>在 {0} 陷落前,部分守军成功撤离。{1} 名殖民者已乘商队撤退。</TSA_WD_OutpostRetreat_Letter_Text>
   <TSA_WD_OutpostDefense_MapFailed>无法为 {0} 创建手动防御地图;防守者已返回。</TSA_WD_OutpostDefense_MapFailed>
   <TSA_WD_OutpostDefense_ExtraPawnsReturned>{0} 名额外人员已从临时战场返回,并在 {1} 组成商队。</TSA_WD_OutpostDefense_ExtraPawnsReturned>
+  <TSA_WD_OutpostDefense_RaidFailedToForm>{1} 对 {0} 的突袭未能成军。防守者已返回前哨。</TSA_WD_OutpostDefense_RaidFailedToForm>
   <TSA_WD_TempEncounter_EdgeExitBlocked>战斗结束前无法离开地图。</TSA_WD_TempEncounter_EdgeExitBlocked>
   <TSA_WD_LaunchExpedition>发动攻击</TSA_WD_LaunchExpedition>
   <TSA_WD_LaunchExpeditionDesc>从此前哨站派遣突击队袭击附近敌方定居点或 AT 炮塔。</TSA_WD_LaunchExpeditionDesc>

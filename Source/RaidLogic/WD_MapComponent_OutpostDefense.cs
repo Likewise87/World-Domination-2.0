@@ -207,8 +207,15 @@ namespace TSA_WorldDomination
             raidThreatSeen = false;
             raidInboundSeen = false;
             WorldObject_Traveler traveler = RecreateTransientTraveler();
-            if (traveler != null)
-                WD_OutpostDefenseEncounterUtility.ExecuteRaidIncident(map, traveler, pendingRaidPoints);
+            if (traveler == null)
+            {
+                ResolveRaidLaunchFailed("no traveler context for raid launch");
+                return;
+            }
+
+            bool ok = WD_OutpostDefenseEncounterUtility.ExecuteRaidIncident(map, traveler, pendingRaidPoints);
+            if (!ok)
+                ResolveRaidLaunchFailed("raid incident and manual spawn produced no hostiles");
         }
 
         private void CheckEncounterState()
@@ -278,8 +285,8 @@ namespace TSA_WorldDomination
                 if (raidLaunchedTick >= 0
                     && Find.TickManager.TicksGame >= raidLaunchedTick + graceTicks)
                 {
-                    Log.Warning($"[TSA WD] Outpost defense raid produced no hostile pawns for {outpost?.Label ?? "unknown"}; resolving as victory.");
-                    ResolveManualVictory();
+                    // Never treat an empty launch as a defense victory (modded factions can fail to spawn).
+                    ResolveRaidLaunchFailed("no hostile pawns after grace");
                 }
                 return;
             }
@@ -427,6 +434,31 @@ namespace TSA_WorldDomination
             outpost?.ReturnManualDefenseMechanoids(SurvivingBorrowedMechanoids());
             outpost?.ReturnManualDefensePawns(SurvivingBorrowedPawns());
             outpost?.ClearManualDefenseActive();
+        }
+
+        /// <summary>
+        /// Raid never formed hostiles: restore borrowed defenders, park extras, resolve traveler as a failed attack
+        /// (not a player victory absorb / not an outpost-destroying defeat).
+        /// </summary>
+        private void ResolveRaidLaunchFailed(string reason)
+        {
+            if (resolved) return;
+
+            Log.Warning($"[TSA WD] Outpost defense raid failed to form for {outpost?.Label ?? "unknown"} ({reason}); aborting without victory.");
+
+            AbsorbExtraPlayerForceIntoOutpost();
+            AbortEncounterRestoreDefenders(reason);
+            ResolveSharedOutpostRaid(attackerWon: false);
+
+            string outpostLabel = outpost?.LabelCap ?? "Outpost";
+            string factionName = enemyFaction?.Name ?? "Unknown";
+            Messages.Message(
+                "TSA_WD_OutpostDefense_RaidFailedToForm".Translate(outpostLabel, factionName),
+                outpost ?? (LookTargets)new GlobalTargetInfo(map.Center, map),
+                MessageTypeDefOf.NeutralEvent,
+                false);
+
+            QueueTemporaryMapRemoval();
         }
 
         private List<Pawn> SurvivingBorrowedPawns()

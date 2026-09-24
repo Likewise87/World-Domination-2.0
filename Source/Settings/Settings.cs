@@ -605,6 +605,9 @@ namespace TSA_WorldDomination
         public HashSet<string> manualAllowStorytellerRaids = new HashSet<string>();
         /// <summary>Per-faction storyteller raid block override (wins over allow if both present).</summary>
         public HashSet<string> manualBlockStorytellerRaids = new HashSet<string>();
+        /// <summary>When storyteller picks a Storyteller-column-blocked faction: drop the raid or swap to an allowed faction.</summary>
+        public const WdStorytellerBlockedRaidMode DefStorytellerBlockedRaidMode = WdStorytellerBlockedRaidMode.DropInvalid;
+        public WdStorytellerBlockedRaidMode storytellerBlockedRaidMode = DefStorytellerBlockedRaidMode;
 
         // --- LEGACY INFLUENCE RADIUS (unused gameplay; keep fields + Scribe for ModConfig) + notification radius ---
         /// <summary>Notification radius (tiles) for Nearby world event letters. Live again; UI 1–500.</summary>
@@ -623,8 +626,10 @@ namespace TSA_WorldDomination
         // Mid-game escalation (earlier, softer). Late supersedes when both thresholds are met.
         public const float DefMidGameShareThreshold = 0.08f;
         public const float DefMidGameOutpostStrengthThreshold = 4000f;
+        /// <summary>When true, Mid can activate from elapsed days (OR with share / outpost strength).</summary>
+        public const bool DefEnableMidGameDaysThreshold = true;
         /// <summary>Mid activates when elapsed game days reach this (OR with share / outpost strength). Clamp 10–600; must stay below Late.</summary>
-        public const int DefMidGameDaysThreshold = 30;
+        public const int DefMidGameDaysThreshold = 90;
         public const float DefMidGameRaidBiasPct = 0.25f;
         public const float DefMidGameGrowthMult = 1.5f;
         /// <summary>Mid-game: additive attack-range bonus vs early baselines (0.50 = +50%).</summary>
@@ -676,8 +681,10 @@ namespace TSA_WorldDomination
         // Absolute outpost strength OR-gate for Late (was 8000 before Mid/Late split).
         /// <summary>Modifier activates when total player outpost strength reaches this value (OR with the global-share threshold).</summary>
         public const float DefLateGameOutpostStrengthThreshold = 7500f;
+        /// <summary>When true, Late can activate from elapsed days (OR with share / outpost strength).</summary>
+        public const bool DefEnableLateGameDaysThreshold = true;
         /// <summary>Late activates when elapsed game days reach this (OR with share / outpost strength). Clamp 10–600; must stay above Mid.</summary>
-        public const int DefLateGameDaysThreshold = 90;
+        public const int DefLateGameDaysThreshold = 150;
         /// <summary>Raid bias: player-owned targets are weighted (1 + this) more likely within a distance band when Mid/Late is active and the attacker can reach a player target.</summary>
         public const float DefLateGameRaidBiasPct = 0.50f;
         /// <summary>Flat growth multiplier for hostile settlements while Mid or Late is active.</summary>
@@ -995,6 +1002,8 @@ namespace TSA_WorldDomination
         public const float DefOutpostOffensiveRecoveryFractionPerDay = 0.15f;
         /// <summary>Flat injury severity healed per day for mothballed outpost occupants (scaled by hospital upgrades per outpost).</summary>
         public const float DefOutpostOccupantHealSeverityPerDay = 2f;
+        /// <summary>Fraction of each damaged VF component MaxHealth repaired per day for mothballed stored vehicles (every damaged part).</summary>
+        public const float DefOutpostVehicleRepairHealthPercentPerDay = 0.05f;
 
         public const float DefExpertStrategistMaxBonusPct = 0.50f;
         public const float DefExpertEntertainerMaxBonusPct = 0.25f;
@@ -1582,6 +1591,7 @@ namespace TSA_WorldDomination
         public float coalitionRaidPriorityBias = DefCoalitionRaidPriorityBias;
         public float midGameShareThreshold = DefMidGameShareThreshold;
         public float midGameOutpostStrengthThreshold = DefMidGameOutpostStrengthThreshold;
+        public bool enableMidGameDaysThreshold = DefEnableMidGameDaysThreshold;
         public int midGameDaysThreshold = DefMidGameDaysThreshold;
         public float midGameRaidBiasPct = DefMidGameRaidBiasPct;
         public float midGameGrowthMult = DefMidGameGrowthMult;
@@ -1601,6 +1611,7 @@ namespace TSA_WorldDomination
         public int lateGameGoodwillDrainAmount = DefLateGameGoodwillDrainAmount;
         public float lateGameShareThreshold = DefLateGameShareThreshold;
         public float lateGameOutpostStrengthThreshold = DefLateGameOutpostStrengthThreshold;
+        public bool enableLateGameDaysThreshold = DefEnableLateGameDaysThreshold;
         public int lateGameDaysThreshold = DefLateGameDaysThreshold;
         public float lateGameRaidBiasPct = DefLateGameRaidBiasPct;
         public float lateGameGrowthMult = DefLateGameGrowthMult;
@@ -1869,6 +1880,7 @@ namespace TSA_WorldDomination
         public float outpostOffensiveRecoveryMinFlatPerDay = DefOutpostOffensiveRecoveryMinFlatPerDay;
         public float outpostOffensiveRecoveryFractionPerDay = DefOutpostOffensiveRecoveryFractionPerDay;
         public float outpostOccupantHealSeverityPerDay = DefOutpostOccupantHealSeverityPerDay;
+        public float outpostVehicleRepairHealthPercentPerDay = DefOutpostVehicleRepairHealthPercentPerDay;
         public float expertStrategistMaxBonusPct = DefExpertStrategistMaxBonusPct;
         public float expertEntertainerMaxBonusPct = DefExpertEntertainerMaxBonusPct;
         public float expertCookMaxBonusPct = DefExpertCookMaxBonusPct;
@@ -2776,6 +2788,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref coalitionRaidPriorityBias, "coalitionRaidPriorityBias", DefCoalitionRaidPriorityBias);
             Scribe_Values.Look(ref midGameShareThreshold, "midGameShareThreshold", DefMidGameShareThreshold);
             Scribe_Values.Look(ref midGameOutpostStrengthThreshold, "midGameOutpostStrengthThreshold", DefMidGameOutpostStrengthThreshold);
+            Scribe_Values.Look(ref enableMidGameDaysThreshold, "enableMidGameDaysThreshold", DefEnableMidGameDaysThreshold);
             Scribe_Values.Look(ref midGameDaysThreshold, "midGameDaysThreshold", DefMidGameDaysThreshold);
             Scribe_Values.Look(ref midGameRaidBiasPct, "midGameRaidBiasPct", DefMidGameRaidBiasPct);
             Scribe_Values.Look(ref midGameGrowthMult, "midGameGrowthMult", DefMidGameGrowthMult);
@@ -2795,6 +2808,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref lateGameGoodwillDrainAmount, "lateGameGoodwillDrainAmount", DefLateGameGoodwillDrainAmount);
             Scribe_Values.Look(ref lateGameShareThreshold, "lateGameShareThreshold", DefLateGameShareThreshold);
             Scribe_Values.Look(ref lateGameOutpostStrengthThreshold, "lateGameOutpostStrengthThreshold", DefLateGameOutpostStrengthThreshold);
+            Scribe_Values.Look(ref enableLateGameDaysThreshold, "enableLateGameDaysThreshold", DefEnableLateGameDaysThreshold);
             Scribe_Values.Look(ref lateGameDaysThreshold, "lateGameDaysThreshold", DefLateGameDaysThreshold);
             Scribe_Values.Look(ref lateGameRaidBiasPct, "lateGameRaidBiasPct", DefLateGameRaidBiasPct);
             Scribe_Values.Look(ref lateGameGrowthMult, "lateGameGrowthMult", DefLateGameGrowthMult);
@@ -3092,6 +3106,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref outpostOffensiveRecoveryMinFlatPerDay, "outpostOffensiveRecoveryMinFlatPerDay", DefOutpostOffensiveRecoveryMinFlatPerDay);
             Scribe_Values.Look(ref outpostOffensiveRecoveryFractionPerDay, "outpostOffensiveRecoveryFractionPerDay", DefOutpostOffensiveRecoveryFractionPerDay);
             Scribe_Values.Look(ref outpostOccupantHealSeverityPerDay, "outpostOccupantHealSeverityPerDay", DefOutpostOccupantHealSeverityPerDay);
+            Scribe_Values.Look(ref outpostVehicleRepairHealthPercentPerDay, "outpostVehicleRepairHealthPercentPerDay", DefOutpostVehicleRepairHealthPercentPerDay);
             Scribe_Values.Look(ref expertStrategistMaxBonusPct, "expertStrategistMaxBonusPct", DefExpertStrategistMaxBonusPct);
             Scribe_Values.Look(ref expertEntertainerMaxBonusPct, "expertEntertainerMaxBonusPct", DefExpertEntertainerMaxBonusPct);
             Scribe_Values.Look(ref expertCookMaxBonusPct, "expertCookMaxBonusPct", DefExpertCookMaxBonusPct);
@@ -3326,6 +3341,7 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref manualIncludeInWd, "manualIncludeInWd", LookMode.Value);
             Scribe_Collections.Look(ref manualAllowStorytellerRaids, "manualAllowStorytellerRaids", LookMode.Value);
             Scribe_Collections.Look(ref manualBlockStorytellerRaids, "manualBlockStorytellerRaids", LookMode.Value);
+            Scribe_Values.Look(ref storytellerBlockedRaidMode, "storytellerBlockedRaidMode", DefStorytellerBlockedRaidMode);
             if (manualExcludeFromWdActions == null) manualExcludeFromWdActions = new HashSet<string>();
             if (manualExcludeFromWdBaseGen == null) manualExcludeFromWdBaseGen = new HashSet<string>();
             if (manualIncludeInWd == null) manualIncludeInWd = new HashSet<string>();
@@ -3843,6 +3859,7 @@ namespace TSA_WorldDomination
             // Mid pack always resets to Def* when applying a difficulty preset; Late numbers come from the preset.
             midGameShareThreshold = DefMidGameShareThreshold;
             midGameOutpostStrengthThreshold = DefMidGameOutpostStrengthThreshold;
+            enableMidGameDaysThreshold = DefEnableMidGameDaysThreshold;
             midGameDaysThreshold = DefMidGameDaysThreshold;
             midGameRaidBiasPct = DefMidGameRaidBiasPct;
             midGameGrowthMult = DefMidGameGrowthMult;
@@ -3860,6 +3877,7 @@ namespace TSA_WorldDomination
             lateGameAttackRangeBonusPct = DefLateGameAttackRangeBonusPct;
             midGameAllyRadiusBonusPct = DefMidGameAllyRadiusBonusPct;
             lateGameAllyRadiusBonusPct = DefLateGameAllyRadiusBonusPct;
+            enableLateGameDaysThreshold = DefEnableLateGameDaysThreshold;
             lateGameDaysThreshold = DefLateGameDaysThreshold;
             enableOutpostIncidents = DefEnableOutpostIncidents;
             outpostIncidentSeverity = DefOutpostIncidentSeverity;
@@ -4264,6 +4282,7 @@ namespace TSA_WorldDomination
             outpostOffensiveRecoveryMinFlatPerDay = DefOutpostOffensiveRecoveryMinFlatPerDay;
             outpostOffensiveRecoveryFractionPerDay = DefOutpostOffensiveRecoveryFractionPerDay;
             outpostOccupantHealSeverityPerDay = DefOutpostOccupantHealSeverityPerDay;
+            outpostVehicleRepairHealthPercentPerDay = DefOutpostVehicleRepairHealthPercentPerDay;
             expertStrategistMaxBonusPct = DefExpertStrategistMaxBonusPct;
             expertEntertainerMaxBonusPct = DefExpertEntertainerMaxBonusPct;
             expertCookMaxBonusPct = DefExpertCookMaxBonusPct;
@@ -4512,6 +4531,7 @@ namespace TSA_WorldDomination
             notifyOutpostIncident = DefNotifyOutpostIncident;
             midGameShareThreshold = DefMidGameShareThreshold;
             midGameOutpostStrengthThreshold = DefMidGameOutpostStrengthThreshold;
+            enableMidGameDaysThreshold = DefEnableMidGameDaysThreshold;
             midGameDaysThreshold = DefMidGameDaysThreshold;
             midGameRaidBiasPct = DefMidGameRaidBiasPct;
             midGameGrowthMult = DefMidGameGrowthMult;
@@ -4525,6 +4545,7 @@ namespace TSA_WorldDomination
             midGameOutpostIncidentDailyChance = DefMidGameOutpostIncidentDailyChance;
             lateGameShareThreshold = DefLateGameShareThreshold;
             lateGameOutpostStrengthThreshold = DefLateGameOutpostStrengthThreshold;
+            enableLateGameDaysThreshold = DefEnableLateGameDaysThreshold;
             lateGameDaysThreshold = DefLateGameDaysThreshold;
             lateGameRaidBiasPct = DefLateGameRaidBiasPct;
             lateGameGrowthMult = DefLateGameGrowthMult;
@@ -4648,6 +4669,7 @@ namespace TSA_WorldDomination
             notifyOutpostIncident = DefNotifyOutpostIncident;
             midGameShareThreshold = DefMidGameShareThreshold;
             midGameOutpostStrengthThreshold = DefMidGameOutpostStrengthThreshold;
+            enableMidGameDaysThreshold = DefEnableMidGameDaysThreshold;
             midGameDaysThreshold = DefMidGameDaysThreshold;
             midGameRaidBiasPct = DefMidGameRaidBiasPct;
             midGameGrowthMult = DefMidGameGrowthMult;
@@ -4665,6 +4687,7 @@ namespace TSA_WorldDomination
             lateGameGoodwillDrainAmount = DefLateGameGoodwillDrainAmount;
             lateGameShareThreshold = DefLateGameShareThreshold;
             lateGameOutpostStrengthThreshold = DefLateGameOutpostStrengthThreshold;
+            enableLateGameDaysThreshold = DefEnableLateGameDaysThreshold;
             lateGameDaysThreshold = DefLateGameDaysThreshold;
             lateGameRaidBiasPct = DefLateGameRaidBiasPct;
             lateGameGrowthMult = DefLateGameGrowthMult;
@@ -5272,6 +5295,7 @@ namespace TSA_WorldDomination
             manualIncludeInWd = new HashSet<string>();
             manualAllowStorytellerRaids = new HashSet<string>();
             manualBlockStorytellerRaids = new HashSet<string>();
+            storytellerBlockedRaidMode = DefStorytellerBlockedRaidMode;
         }
 
         public bool IsManualIncludeInWd(string defName) =>

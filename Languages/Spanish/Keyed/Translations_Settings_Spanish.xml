@@ -384,6 +384,9 @@
   <TSA_WD_FactionCol_NA>N/D</TSA_WD_FactionCol_NA>
   <TSA_WD_FactionCol_StorytellerRaids>Narrador</TSA_WD_FactionCol_StorytellerRaids>
   <TSA_WD_FactionCol_StorytellerRaids_Tooltip>¿Puede esta facción enviar incursiones del narrador? Desactivado por defecto. Puedes activar Acciones WD e incursiones del narrador para recibir ataques por ambas vías.</TSA_WD_FactionCol_StorytellerRaids_Tooltip>
+  <TSA_WD_StorytellerBlockedRaid_Drop>Descartar incursiones del narrador no válidas</TSA_WD_StorytellerBlockedRaid_Drop>
+  <TSA_WD_StorytellerBlockedRaid_Swap>Cambiar incursiones del narrador a facción válida</TSA_WD_StorytellerBlockedRaid_Swap>
+  <TSA_WD_StorytellerBlockedRaid_Tooltip>Cuando el narrador elige una facción con Narrador desactivado en esta lista: descarta la incursión, o la redirige a otra facción listada con Narrador activado y capaz de generar una incursión vanilla. Las facciones ocultas que no aparecen aquí (mecanoides, insectoides) siguen el comportamiento normal del narrador y nunca se usan como destino del cambio. Si no hay facción listada válida, se descarta.</TSA_WD_StorytellerBlockedRaid_Tooltip>
   <TSA_WD_FactionExclude_Hidden>Facción oculta. No puede participar en WD.</TSA_WD_FactionExclude_Hidden>
   <TSA_WD_FactionExclude_NonHumanlike>Desactivada por defecto. Activa Acciones WD para incluir esta facción no humanoide (avanzado).</TSA_WD_FactionExclude_NonHumanlike>
   <TSA_WD_FactionExclude_NoSettlementWeight>Sin peso de generación de asentamientos. Desactivada por defecto; activa Acciones WD para optar.</TSA_WD_FactionExclude_NoSettlementWeight>

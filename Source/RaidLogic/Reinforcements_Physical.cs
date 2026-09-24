@@ -170,24 +170,19 @@ namespace TSA_WorldDomination
                 customLetterLabel = "TSA_WD_ReinforcementsArrived".Translate(reinforcementFaction.Name)
             };
 
+            WdRaidParmsUtility.EnsureFactionCompatibleRaidParms(parms, PawnsArrivalModeDefOf.EdgeWalkIn);
+
             if (!IncidentDefOf.RaidEnemy.Worker.TryExecute(parms))
             {
-                ExecuteManualSpawnFallback(reinforcementFaction);
+                if (WdRaidParmsUtility.TryManualAssaultSpawn(
+                        map,
+                        reinforcementFaction,
+                        raidPoints,
+                        parms.raidStrategy))
+                {
+                    Messages.Message("TSA_WD_ReinforcementsArrived".Translate(reinforcementFaction.Name), MessageTypeDefOf.ThreatBig);
+                }
             }
-        }
-
-        private void ExecuteManualSpawnFallback(Faction faction)
-        {
-            PawnGroupMakerParms pgmParms = new PawnGroupMakerParms { groupKind = PawnGroupKindDefOf.Combat, points = raidPoints, faction = faction };
-            IEnumerable<Pawn> pawns = PawnGroupMakerUtility.GeneratePawns(pgmParms);
-            if (!pawns.Any()) return;
-
-            if (!CellFinder.TryFindRandomEdgeCellWith(c => c.Standable(map) && !c.Fogged(map), map, CellFinder.EdgeRoadChance_Hostile, out IntVec3 spawnCell))
-                CellFinder.TryFindRandomEdgeCellWith(c => c.Standable(map), map, CellFinder.EdgeRoadChance_Hostile, out spawnCell);
-
-            foreach (Pawn p in pawns) GenSpawn.Spawn(p, spawnCell, map);
-            LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction), map, pawns);
-            Messages.Message("TSA_WD_ReinforcementsArrived".Translate(faction.Name), MessageTypeDefOf.ThreatBig);
         }
 
         public override void ExposeData()

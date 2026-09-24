@@ -109,7 +109,7 @@
   <TSA_WD_Log_MinorInc_Downgrade>INCIDENTE MENOR: Pérdida de {0} de fuerza ({1} → {2}). Degradado a {3}.</TSA_WD_Log_MinorInc_Downgrade>
   <TSA_WD_Log_MinorInc_Standard>INCIDENTE MENOR: Pérdida de {0} de fuerza ({1} → {2}).</TSA_WD_Log_MinorInc_Standard>
   <TSA_WD_Letter_Revolt_Label>Reaparición de facción</TSA_WD_Letter_Revolt_Label>
-  <TSA_WD_Letter_Revolt_Text>¡Convulsión política! La facción {0} ha reaparecido y se ha hecho con: {1}. Perdido en la sublevación: {2}.</TSA_WD_Letter_Revolt_Text>
+  <TSA_WD_Letter_Revolt_Text>¡Convulsión política! La facción derrotada {0} ha regresado y se ha hecho con: {1}. Perdido en la sublevación: {2}.</TSA_WD_Letter_Revolt_Text>
   <TSA_WD_Letter_Vanguard_Label>Fuerzas de vanguardia en marcha</TSA_WD_Letter_Vanguard_Label>
   <TSA_WD_Letter_Vanguard_Text>{0} ha organizado asentamientos en {1} columnas de vanguardia. Cada hogar parte como caravana; las fuerzas cercanas se reúnen y luego atrincheran en tu frente. Deténlos antes de que fortifiquen.</TSA_WD_Letter_Vanguard_Text>
   <TSA_WD_Letter_Invasion_Label>Fuerzas de invasión en marcha</TSA_WD_Letter_Invasion_Label>

@@ -288,8 +288,12 @@
   <TSA_WD_MidGame_ShareThresholdTooltip>Mid Game se activa cuando tu fuerza total de avanzadillas alcanza esta fracción de la fuerza mundial.</TSA_WD_MidGame_ShareThresholdTooltip>
   <TSA_WD_MidGame_OutpostStrengthThreshold>Puntos de fuerza del jugador para dificultad Mid-Game</TSA_WD_MidGame_OutpostStrengthThreshold>
   <TSA_WD_MidGame_OutpostStrengthThresholdTooltip>Mid Game se activa cuando tu fuerza total de avanzadillas alcanza este valor absoluto, sin importar la cuota mundial.</TSA_WD_MidGame_OutpostStrengthThresholdTooltip>
+  <TSA_WD_MidGame_EnableDaysThreshold>Permitir dificultad mid-game por tiempo</TSA_WD_MidGame_EnableDaysThreshold>
+  <TSA_WD_MidGame_EnableDaysThresholdTooltip>Si está activo, Mid Game puede activarse por días transcurridos aunque la cuota y la fuerza sigan por debajo de sus umbrales de Mid. Si está desactivado, solo la cuota y la fuerza de avanzadillas pueden activar Mid.</TSA_WD_MidGame_EnableDaysThresholdTooltip>
   <TSA_WD_MidGame_DaysThreshold>Días para dificultad Mid-Game</TSA_WD_MidGame_DaysThreshold>
   <TSA_WD_MidGame_DaysThresholdTooltip>Mid Game se activa cuando pasan estos días, aunque la cuota y la fuerza sigan por debajo de sus umbrales de Mid.</TSA_WD_MidGame_DaysThresholdTooltip>
+  <TSA_WD_LateGame_EnableDaysThreshold>Permitir dificultad late-game por tiempo</TSA_WD_LateGame_EnableDaysThreshold>
+  <TSA_WD_LateGame_EnableDaysThresholdTooltip>Si está activo, Late Game puede activarse por días transcurridos aunque la cuota y la fuerza sigan por debajo de sus umbrales de Late. Si está desactivado, solo la cuota y la fuerza de avanzadillas pueden activar Late.</TSA_WD_LateGame_EnableDaysThresholdTooltip>
   <TSA_WD_LateGame_DaysThreshold>Días para dificultad Late-Game</TSA_WD_LateGame_DaysThreshold>
   <TSA_WD_LateGame_DaysThresholdTooltip>Late Game se activa cuando pasan estos días, aunque la cuota y la fuerza sigan por debajo de sus umbrales de Late.</TSA_WD_LateGame_DaysThresholdTooltip>
   <TSA_WD_MidGame_RaidBias>Sesgo de incursión hacia ti</TSA_WD_MidGame_RaidBias>

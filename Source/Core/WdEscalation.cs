@@ -22,6 +22,13 @@ namespace TSA_WorldDomination
         Always = 3
     }
 
+    /// <summary>How WD handles storyteller RaidEnemy when Allegiances Storyteller blocks the picked faction.</summary>
+    public enum WdStorytellerBlockedRaidMode : byte
+    {
+        DropInvalid = 0,
+        SwapToValid = 1
+    }
+
     /// <summary>
     /// Resolves Mid/Late gates and the active effect values for the current stage.
     /// Master switch remains <see cref="WorldDominationSettings.enableLateGameScaling"/>.
@@ -79,12 +86,12 @@ namespace TSA_WorldDomination
 
             bool late = globalShare >= seth.lateGameShareThreshold
                 || playerOutpostStrength >= seth.lateGameOutpostStrengthThreshold
-                || daysPassed >= seth.lateGameDaysThreshold;
+                || (seth.enableLateGameDaysThreshold && daysPassed >= seth.lateGameDaysThreshold);
             if (late) return WdEscalationStage.Late;
 
             bool mid = globalShare >= seth.midGameShareThreshold
                 || playerOutpostStrength >= seth.midGameOutpostStrengthThreshold
-                || daysPassed >= seth.midGameDaysThreshold;
+                || (seth.enableMidGameDaysThreshold && daysPassed >= seth.midGameDaysThreshold);
             return mid ? WdEscalationStage.Mid : WdEscalationStage.None;
         }
 

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <TSA_WD_ActiveTravelers_H_Actor>Actor</TSA_WD_ActiveTravelers_H_Actor>
   <TSA_WD_ActiveTravelers_H_ArrivalStrength>Arrival strength</TSA_WD_ActiveTravelers_H_ArrivalStrength>
@@ -317,8 +317,12 @@
   <TSA_WD_MidGame_ShareThresholdTooltip>Mid Game activates when your total outpost strength reaches this fraction of all world strength.</TSA_WD_MidGame_ShareThresholdTooltip>
   <TSA_WD_MidGame_OutpostStrengthThreshold>Player Strength Points for Mid-Game Difficulty</TSA_WD_MidGame_OutpostStrengthThreshold>
   <TSA_WD_MidGame_OutpostStrengthThresholdTooltip>Mid Game activates when your total outpost strength reaches this absolute value, regardless of world share.</TSA_WD_MidGame_OutpostStrengthThresholdTooltip>
+  <TSA_WD_MidGame_EnableDaysThreshold>Allow time based mid-game difficulty</TSA_WD_MidGame_EnableDaysThreshold>
+  <TSA_WD_MidGame_EnableDaysThresholdTooltip>When on, Mid Game can activate from elapsed days even if share and strength are still below their Mid thresholds. When off, only share and outpost strength can trigger Mid.</TSA_WD_MidGame_EnableDaysThresholdTooltip>
   <TSA_WD_MidGame_DaysThreshold>Days for Mid-Game Difficulty</TSA_WD_MidGame_DaysThreshold>
   <TSA_WD_MidGame_DaysThresholdTooltip>Mid Game activates when this many days have passed, even if share and strength are still below their Mid thresholds.</TSA_WD_MidGame_DaysThresholdTooltip>
+  <TSA_WD_LateGame_EnableDaysThreshold>Allow time based late-game difficulty</TSA_WD_LateGame_EnableDaysThreshold>
+  <TSA_WD_LateGame_EnableDaysThresholdTooltip>When on, Late Game can activate from elapsed days even if share and strength are still below their Late thresholds. When off, only share and outpost strength can trigger Late.</TSA_WD_LateGame_EnableDaysThresholdTooltip>
   <TSA_WD_LateGame_DaysThreshold>Days for Late-Game Difficulty</TSA_WD_LateGame_DaysThreshold>
   <TSA_WD_LateGame_DaysThresholdTooltip>Late Game activates when this many days have passed, even if share and strength are still below their Late thresholds.</TSA_WD_LateGame_DaysThresholdTooltip>
   <TSA_WD_MidGame_RaidBias>Player raid bias</TSA_WD_MidGame_RaidBias>

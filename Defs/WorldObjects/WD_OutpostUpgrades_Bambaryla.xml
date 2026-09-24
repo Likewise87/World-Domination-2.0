@@ -1010,5 +1010,230 @@
         </cost>
     </TSA_WorldDomination.OutpostUpgradeDef>
 
+    <!-- Deepchem Drilling Outpost production line -->
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele">
+        <defName>BOR_TSA_WD_Upgrade_DeepchemDrill_Tier1</defName>
+        <label>Reinforced Deepchem Drill</label>
+        <description>Reinforced Drill for improved deepchem extraction.</description>
+        <imagePath>UI/OutpostUpgrades/Deepchem_Well_Tier1</imagePath>
+        <upgradeLineId>Line_DeepchemProduction</upgradeLineId>
+        <lineTier>1</lineTier>
+        <requiresPreviousLineTier>true</requiresPreviousLineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_DeepchemDrill</li>
+        </allowedOutpostDefNames>
+        <productionEfficiencyBonus>0.25</productionEfficiencyBonus>
+        <cost>
+            <li>
+                <thingDef>Steel</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>ComponentIndustrial</thingDef>
+                <count>20</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele">
+        <defName>BOR_TSA_WD_Upgrade_DeepchemDrill_Tier2</defName>
+        <label>Powered Deepchem Well</label>
+        <description>Powered drill for enhanced deepchem extraction.</description>
+        <imagePath>UI/OutpostUpgrades/Deepchem_Well_Tier2</imagePath>
+        
+        <upgradeLineId>Line_DeepchemProduction</upgradeLineId>
+        <lineTier>2</lineTier>
+        <requiresPreviousLineTier>true</requiresPreviousLineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_DeepchemDrill</li>
+        </allowedOutpostDefNames>
+        <productionEfficiencyBonus>0.5</productionEfficiencyBonus>
+        <cost>
+            <li>
+                <thingDef>Steel</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>ComponentIndustrial</thingDef>
+                <count>20</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele">
+        <defName>BOR_TSA_WD_Upgrade_DeepchemDrill_Tier3</defName>
+        <label>Automated Deepchem Well</label>
+        <description>Automated drill for drastic improvement in deepchem extraction.</description>
+        <imagePath>UI/OutpostUpgrades/Deepchem_Well_Tier3</imagePath>
+        <upgradeLineId>Line_DeepchemProduction</upgradeLineId>
+        <lineTier>3</lineTier>
+        <requiresPreviousLineTier>true</requiresPreviousLineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_DeepchemDrill</li>
+        </allowedOutpostDefNames>
+        <productionEfficiencyBonus>0.75</productionEfficiencyBonus>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>15</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_DeepchemDrill_Tier4</defName>
+        <label>Sunsteel Deepchem Well</label>
+        <description>Sunsteel-reinforced drill for maximum deepchem extraction.</description>
+        <imagePath>UI/OutpostUpgrades/Deepchem_Well_Tier4</imagePath>
+        
+        <upgradeLineId>Line_DeepchemProduction</upgradeLineId>
+        <lineTier>4</lineTier>
+        <requiresPreviousLineTier>true</requiresPreviousLineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_DeepchemDrill</li>
+        </allowedOutpostDefNames>
+        <productionEfficiencyBonus>0.95</productionEfficiencyBonus>
+        <cost>
+            <li>
+                <thingDef>BOR_Sunsteel</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>15</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_DeepchemDrill_Tier5</defName>
+        <label>Kwazaari Deepchem Well</label>
+        <description>Kwazaari Alloy-reinforced drill for ultimate deepchem extraction.</description>
+        <imagePath>UI/OutpostUpgrades/Deepchem_Well_Tier5</imagePath>
+        
+        <upgradeLineId>Line_DeepchemProduction</upgradeLineId>
+        <lineTier>5</lineTier>
+        <requiresPreviousLineTier>true</requiresPreviousLineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_DeepchemDrill</li>
+        </allowedOutpostDefNames>
+        <productionEfficiencyBonus>1.1</productionEfficiencyBonus>
+        <cost>
+            <li>
+                <thingDef>BOR_QuasarAlloy</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>BOR_ComponentII</thingDef>
+                <count>10</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+
+    <!-- Raw Resource Shaping Outpost production line -->
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele">
+        <defName>BOR_TSA_WD_Upgrade_RawShaping_Tier1</defName>
+        <label>Autoclave Automation</label>
+        <description>Automation of the autoclave for shaping raw resources.</description>
+        <imagePath>UI/OutpostUpgrades/Autoclave_Tier1</imagePath>
+        <upgradeLineId>Line_RawShapingProduction</upgradeLineId>
+        <lineTier>1</lineTier>
+        <requiresPreviousLineTier>true</requiresPreviousLineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_RawShaping</li>
+        </allowedOutpostDefNames>
+        <productionEfficiencyBonus>0.5</productionEfficiencyBonus>
+        <cost>
+            <li>
+                <thingDef>Steel</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>ComponentIndustrial</thingDef>
+                <count>20</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele">
+        <defName>BOR_TSA_WD_Upgrade_RawShaping_Tier2</defName>
+        <label>Intermediate storage for raw substrate</label>
+        <description>Enhanced storage solutions for raw substrate, improving autoclave efficiency.</description>
+        <imagePath>UI/OutpostUpgrades/Autoclave_Tier2</imagePath>
+        
+        <upgradeLineId>Line_RawShapingProduction</upgradeLineId>
+        <lineTier>2</lineTier>
+        <requiresPreviousLineTier>true</requiresPreviousLineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_RawShaping</li>
+        </allowedOutpostDefNames>
+        <productionEfficiencyBonus>0.75</productionEfficiencyBonus>
+        <cost>
+            <li>
+                <thingDef>Plasteel</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>15</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_RawShaping_Tier3</defName>
+        <label>Sunsteel Autoclave Enhancements</label>
+        <description>Sunsteel-reinforced autoclave enhancements for shaping raw resources.</description>
+        <imagePath>UI/OutpostUpgrades/Autoclave_Tier3</imagePath>
+        
+        <upgradeLineId>Line_RawShapingProduction</upgradeLineId>
+        <lineTier>3</lineTier>
+        <requiresPreviousLineTier>true</requiresPreviousLineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_RawShaping</li>
+        </allowedOutpostDefNames>
+        <productionEfficiencyBonus>0.95</productionEfficiencyBonus>
+        <cost>
+            <li>
+                <thingDef>BOR_Sunsteel</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>ComponentSpacer</thingDef>
+                <count>15</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
+    <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Upgrade_RawShaping_Tier4</defName>
+        <label>Kwazaari Autoclave Enhancements</label>
+        <description>Kwazaari Alloy autoclave enhancements for shaping raw resources.</description>
+        <imagePath>UI/OutpostUpgrades/Autoclave_Tier4</imagePath>
+        
+        <upgradeLineId>Line_RawShapingProduction</upgradeLineId>
+        <lineTier>4</lineTier>
+        <requiresPreviousLineTier>true</requiresPreviousLineTier>
+        <outpostApplicability>Whitelist</outpostApplicability>
+        <allowedOutpostDefNames>
+            <li>TSA_WD_Outpost_RawShaping</li>
+        </allowedOutpostDefNames>
+        <productionEfficiencyBonus>1.1</productionEfficiencyBonus>
+        <cost>
+            <li>
+                <thingDef>BOR_QuasarAlloy</thingDef>
+                <count>500</count>
+            </li>
+            <li>
+                <thingDef>BOR_ComponentII</thingDef>
+                <count>10</count>
+            </li>
+        </cost>
+    </TSA_WorldDomination.OutpostUpgradeDef>
 
 </Defs>

@@ -8,6 +8,9 @@ namespace TSA_WorldDomination
 {
     public static class WD_OutpostDefenseEncounterUtility
     {
+        private const int FootprintClearanceCells = 2;
+        private const int OutsideWallRaidDelayTicks = 600;
+
         public static bool StartManualDefenseEncounter(WorldObject_Traveler traveler, WorldObject_WD_Outpost outpost, int raidArrivalDelayTicks = 900)
             => StartManualDefenseEncounter(traveler, outpost, raidArrivalDelayTicks, onlyTheseOccupants: null);
 
@@ -41,12 +44,16 @@ namespace TSA_WorldDomination
 
                 WD_OutpostDefenseStructureSpawner.SpawnDefenses(map, outpost);
 
-                List<Pawn> spawnedDefenders = SpawnDefenders(map, defenders, out List<Pawn> failedDefenders);
+                // Vehicles first so large footprints claim clear ground before colonists fill the courtyard.
+                List<Pawn> spawnedStoredTransport = SpawnDefenders(
+                    map, storedTransport, out List<Pawn> failedStoredTransport, out bool anyTransportOutsideWalls);
+                outpost.ReturnManualDefenseStoredTransportPawns(failedStoredTransport);
+
+                List<Pawn> spawnedDefenders = SpawnDefenders(map, defenders, out List<Pawn> failedDefenders, out _);
                 for (int i = 0; i < failedDefenders.Count; i++)
                     outpost.AddPawn(failedDefenders[i], null!);
-                List<Pawn> spawnedStoredTransport = SpawnDefenders(map, storedTransport, out List<Pawn> failedStoredTransport);
-                outpost.ReturnManualDefenseStoredTransportPawns(failedStoredTransport);
-                List<Pawn> spawnedMechanoids = SpawnDefenders(map, mechanoids, out List<Pawn> failedMechanoids);
+
+                List<Pawn> spawnedMechanoids = SpawnDefenders(map, mechanoids, out List<Pawn> failedMechanoids, out _);
                 outpost.ReturnManualDefenseMechanoids(failedMechanoids);
 
                 if (spawnedDefenders.Count == 0)
@@ -63,6 +70,16 @@ namespace TSA_WorldDomination
                     return;
                 }
 
+                if (anyTransportOutsideWalls)
+                {
+                    arrivalDelay += OutsideWallRaidDelayTicks;
+                    if (Prefs.DevMode)
+                    {
+                        Log.Message("[TSA WD] Outpost defense: stored transport spawned outside wall ring; "
+                            + $"attacker delay +{OutsideWallRaidDelayTicks / 60f:0}s (total {arrivalDelay / 60f:0.#}s).");
+                    }
+                }
+
                 WD_MapComponent_OutpostDefense tracker = GetOrAddTracker(map);
                 tracker.BeginEncounter(traveler, outpost, spawnedDefenders, spawnedStoredTransport, spawnedMechanoids);
 
@@ -76,9 +93,10 @@ namespace TSA_WorldDomination
                     string outpostLabel = outpost.LabelCap;
                     string factionName = traveler.Faction?.Name ?? "Unknown";
                     GlobalTargetInfo lookTarget = new GlobalTargetInfo(map.Center, map);
+                    int letterDelay = arrivalDelay;
                     LongEventHandler.ExecuteWhenFinished(delegate
                     {
-                        if (arrivalDelay <= 0)
+                        if (letterDelay <= 0)
                         {
                             Find.LetterStack.ReceiveLetter(
                                 "TSA_WD_OutpostDefense_LetterImmediate_Label".Translate(),
@@ -138,11 +156,19 @@ namespace TSA_WorldDomination
             return tracker;
         }
 
-        private static List<Pawn> SpawnDefenders(Map map, List<Pawn> defenders, out List<Pawn> failed)
+        private static List<Pawn> SpawnDefenders(
+            Map map,
+            List<Pawn> defenders,
+            out List<Pawn> failed,
+            out bool anySpawnedOutsideWallRing)
         {
             var spawned = new List<Pawn>();
             failed = new List<Pawn>();
+            anySpawnedOutsideWallRing = false;
             if (defenders == null) return spawned;
+
+            IntVec3 settlementCenter = WD_OutpostDefenseMapUtility.GetSettlementCenter(map);
+
             for (int i = 0; i < defenders.Count; i++)
             {
                 Pawn pawn = defenders[i];
@@ -154,8 +180,33 @@ namespace TSA_WorldDomination
                     if (pawn.Faction != Faction.OfPlayer)
                         pawn.SetFaction(Faction.OfPlayer);
 
-                    IntVec3 cell = FindDefenderSpawnCell(map);
-                    GenSpawn.Spawn(pawn, cell, map);
+                    IntVec3 cell;
+                    Rot4 rot = Rot4.North;
+                    if (NeedsFootprintSpawn(pawn))
+                    {
+                        if (!TryFindFootprintSpawn(map, pawn, settlementCenter, out cell, out rot))
+                        {
+                            if (Prefs.DevMode)
+                            {
+                                IntVec2 size = pawn.def?.Size ?? IntVec2.One;
+                                Log.Warning($"[TSA WD] No clear footprint (+{FootprintClearanceCells} pad) for "
+                                    + $"{pawn.LabelShortCap} size={size.x}x{size.z}; returning to outpost storage.");
+                            }
+                            failed.Add(pawn);
+                            continue;
+                        }
+                        GenSpawn.Spawn(pawn, cell, map, rot);
+                    }
+                    else
+                    {
+                        cell = FindDefenderSpawnCell(map);
+                        GenSpawn.Spawn(pawn, cell, map);
+                    }
+
+                    if (NeedsFootprintSpawn(pawn)
+                        && Chebyshev(cell, settlementCenter) > WD_OutpostDefenseStructureSpawner.WallRingRadius)
+                        anySpawnedOutsideWallRing = true;
+
                     spawned.Add(pawn);
                 }
                 catch (System.Exception ex)
@@ -166,6 +217,135 @@ namespace TSA_WorldDomination
             }
             return spawned;
         }
+
+        private static bool NeedsFootprintSpawn(Pawn pawn)
+        {
+            if (pawn == null) return false;
+            if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(pawn))
+                return true;
+            IntVec2 size = pawn.def?.Size ?? IntVec2.One;
+            return size.x * size.z > 1;
+        }
+
+        private static bool TryFindFootprintSpawn(
+            Map map,
+            Pawn pawn,
+            IntVec3 settlementCenter,
+            out IntVec3 cell,
+            out Rot4 rot)
+        {
+            cell = IntVec3.Invalid;
+            rot = Rot4.North;
+            if (map == null || pawn?.def == null) return false;
+
+            IntVec2 size = pawn.def.Size;
+            int halfMax = Mathf.Max(size.x, size.z) / 2;
+            int pad = FootprintClearanceCells;
+            int wallR = WD_OutpostDefenseStructureSpawner.WallRingRadius;
+            int outerR = WD_OutpostDefenseStructureSpawner.TankTrapRingRadius;
+
+            if (TryFindFootprintInRect(
+                    map, settlementCenter, size, pad,
+                    WD_OutpostDefenseStructureSpawner.GetInnerClearRect(map),
+                    minChebyshev: 0,
+                    maxChebyshev: int.MaxValue,
+                    tries: 400,
+                    out cell, out rot))
+                return true;
+
+            int insideMax = Mathf.Max(0, wallR - halfMax - pad - 1);
+            CellRect insideRect = CellRect.CenteredOn(settlementCenter, insideMax * 2 + 1).ClipInsideMap(map);
+            if (insideMax > 0
+                && TryFindFootprintInRect(
+                    map, settlementCenter, size, pad, insideRect,
+                    minChebyshev: 0,
+                    maxChebyshev: insideMax,
+                    tries: 600,
+                    out cell, out rot))
+                return true;
+
+            int outsideMin = outerR + halfMax + pad + 1;
+            CellRect whole = CellRect.WholeMap(map);
+            if (TryFindFootprintInRect(
+                    map, settlementCenter, size, pad, whole,
+                    minChebyshev: outsideMin,
+                    maxChebyshev: int.MaxValue,
+                    tries: 900,
+                    out cell, out rot))
+                return true;
+
+            return TryFindFootprintInRect(
+                map, settlementCenter, size, pad, whole,
+                minChebyshev: 0,
+                maxChebyshev: int.MaxValue,
+                tries: 1200,
+                out cell, out rot);
+        }
+
+        private static bool TryFindFootprintInRect(
+            Map map,
+            IntVec3 settlementCenter,
+            IntVec2 size,
+            int pad,
+            CellRect searchRect,
+            int minChebyshev,
+            int maxChebyshev,
+            int tries,
+            out IntVec3 cell,
+            out Rot4 rot)
+        {
+            cell = IntVec3.Invalid;
+            rot = Rot4.North;
+            if (searchRect.Area <= 0) return false;
+
+            Rot4[] rotations = { Rot4.North, Rot4.East, Rot4.South, Rot4.West };
+            for (int i = 0; i < tries; i++)
+            {
+                IntVec3 candidate = searchRect.RandomCell;
+                if (!candidate.InBounds(map)) continue;
+                int d = Chebyshev(candidate, settlementCenter);
+                if (d < minChebyshev || d > maxChebyshev) continue;
+
+                for (int r = 0; r < rotations.Length; r++)
+                {
+                    Rot4 tryRot = rotations[r];
+                    if (!FootprintAndPadClear(map, candidate, tryRot, size, pad))
+                        continue;
+                    cell = candidate;
+                    rot = tryRot;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static bool FootprintAndPadClear(Map map, IntVec3 cell, Rot4 rot, IntVec2 size, int pad)
+        {
+            CellRect body = GenAdj.OccupiedRect(cell, rot, size);
+            CellRect full = body.ExpandedBy(pad);
+            foreach (IntVec3 c in full)
+            {
+                if (!c.InBounds(map))
+                    return false;
+                if (!IsClearSpawnCell(map, c))
+                    return false;
+            }
+            return true;
+        }
+
+        private static bool IsClearSpawnCell(Map map, IntVec3 cell)
+        {
+            if (!cell.InBounds(map) || cell.Fogged(map))
+                return false;
+            if (!cell.Standable(map))
+                return false;
+            if (cell.GetFirstBuilding(map) != null)
+                return false;
+            return true;
+        }
+
+        private static int Chebyshev(IntVec3 a, IntVec3 b)
+            => Mathf.Max(Mathf.Abs(a.x - b.x), Mathf.Abs(a.z - b.z));
 
         private static IntVec3 FindDefenderSpawnCell(Map map)
         {
@@ -206,7 +386,11 @@ namespace TSA_WorldDomination
             return RaidPointsHelper.ClampRaidPointsToStorytellerBand(strength, map);
         }
 
-        public static void ExecuteRaidIncident(Map map, WorldObject_Traveler traveler, float points)
+        /// <summary>
+        /// Launch the outpost-defense raid incident. Returns false when neither the incident nor
+        /// manual assault spawn produced hostiles (caller should abort without auto-victory).
+        /// </summary>
+        public static bool ExecuteRaidIncident(Map map, WorldObject_Traveler traveler, float points)
         {
             IncidentParms parms = new IncidentParms
             {
@@ -227,7 +411,7 @@ namespace TSA_WorldDomination
                 try
                 {
                     if (GravshipRaidsCompat.TryExecuteWdGravshipRaid(map, traveler.Faction, points))
-                        return;
+                        return true;
                 }
                 finally
                 {
@@ -241,15 +425,38 @@ namespace TSA_WorldDomination
             else
                 parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
 
+            PawnsArrivalModeDef preferredArrival = parms.raidArrivalMode;
+            WdRaidParmsUtility.EnsureFactionCompatibleRaidParms(parms, preferredArrival);
+
+            bool ok = false;
             Raid_OnPlayerColony.IsWorldDominationRaid = true;
             try
             {
-                IncidentDefOf.RaidEnemy.Worker.TryExecute(parms);
+                ok = IncidentDefOf.RaidEnemy.Worker.TryExecute(parms);
             }
             finally
             {
                 Raid_OnPlayerColony.IsWorldDominationRaid = false;
             }
+
+            if (!ok)
+            {
+                ok = WdRaidParmsUtility.TryManualAssaultSpawn(
+                    map,
+                    traveler?.Faction ?? parms.faction,
+                    points,
+                    parms.raidStrategy,
+                    parms.customLetterLabel);
+                if (Prefs.DevMode)
+                {
+                    Log.Warning("[TSA WD] Outpost defense raid incident failed; manual spawn fallback "
+                        + (ok ? "succeeded" : "also failed")
+                        + " faction=" + (parms.faction?.Name ?? "?")
+                        + " strategy=" + (parms.raidStrategy?.defName ?? "(null)"));
+                }
+            }
+
+            return ok;
         }
     }
 }

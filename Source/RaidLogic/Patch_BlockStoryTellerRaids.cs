@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using Verse;
@@ -6,10 +7,9 @@ using RimWorld;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Blocks random storyteller <see cref="IncidentWorker_RaidEnemy"/> per Allegiances Storyteller column.
+    /// Blocks or redirects random storyteller <see cref="IncidentWorker_RaidEnemy"/> per Allegiances Storyteller column.
     /// Faction is often null until <c>TryResolveRaidFaction</c>; gate pre-set factions in Prefix and
-    /// drop after resolve (no reroll) so blocked factions cannot slip through.
-    /// Quest/scripted/WD/clash fires are exempt (<see cref="IncidentParms.forced"/>, quest field, flags).
+    /// after resolve in Postfix. Quest/scripted/WD/clash fires are exempt.
     /// </summary>
     [HarmonyPatch(typeof(IncidentWorker_RaidEnemy), "TryExecuteWorker")]
     public static class Patch_RaidEnemy_AdjustPoints
@@ -68,6 +68,91 @@ namespace TSA_WorldDomination
             Log.Message("[TSA WD] Picked Faction for Storyteller Raid: " + name + ", Blocked by mod settings -> Raid dropped");
         }
 
+        internal static void LogStorytellerRaidSwapped(Faction from, Faction to)
+        {
+            string fromName = from?.Name ?? from?.def?.defName ?? "(unknown)";
+            string toName = to?.Name ?? to?.def?.defName ?? "(unknown)";
+            Log.Message("[TSA WD] Picked Faction for Storyteller Raid: " + fromName + ", Blocked by mod settings -> Swapped to " + toName);
+        }
+
+        /// <summary>
+        /// When <paramref name="parms"/>.faction is blocked by Allegiances Storyteller:
+        /// Drop (default) or Swap to a vanilla-eligible allowed faction. Returns false if the raid should abort.
+        /// </summary>
+        internal static bool TryResolveBlockedStorytellerFaction(IncidentParms parms)
+        {
+            if (parms?.faction == null) return true;
+            if (WorldActions_Utils.IsStorytellerRaidAllowed(parms.faction)) return true;
+
+            var seth = WorldDominationMod.settings;
+            WdStorytellerBlockedRaidMode mode = seth?.storytellerBlockedRaidMode
+                ?? WorldDominationSettings.DefStorytellerBlockedRaidMode;
+
+            if (mode == WdStorytellerBlockedRaidMode.SwapToValid
+                && TrySwapToAllowedStorytellerFaction(parms, out Faction swap))
+            {
+                Faction blocked = parms.faction;
+                parms.faction = swap;
+                LogStorytellerRaidSwapped(blocked, swap);
+                return true;
+            }
+
+            LogStorytellerRaidDropped(parms.faction);
+            parms.faction = null;
+            return false;
+        }
+
+        private static bool TrySwapToAllowedStorytellerFaction(IncidentParms parms, out Faction swap)
+        {
+            swap = null;
+            if (parms?.target is not Map)
+                return false;
+
+            if (IncidentDefOf.RaidEnemy?.Worker is not IncidentWorker_RaidEnemy worker)
+                return false;
+
+            Faction blocked = parms.faction;
+            // Only factions Configure Scope can toggle (not hidden mechanoids/insects, etc.).
+            bool Candidate(Faction f) =>
+                f != null
+                && f != blocked
+                && !WorldActions_Utils.IsHardExcludedFromWd(f)
+                && WorldActions_Utils.IsStorytellerRaidAllowed(f)
+                && worker.FactionCanBeGroupSource(f, parms);
+
+            if (PawnGroupMakerUtility.TryGetRandomFactionForCombatPawnGroupWeighted(
+                    parms,
+                    out swap,
+                    Candidate,
+                    allowNonHostileToPlayer: true,
+                    allowHidden: false,
+                    allowDefeated: true)
+                && swap != null)
+                return true;
+
+            bool DesperateCandidate(Faction f) =>
+                f != null
+                && f != blocked
+                && !WorldActions_Utils.IsHardExcludedFromWd(f)
+                && WorldActions_Utils.IsStorytellerRaidAllowed(f)
+                && worker.FactionCanBeGroupSource(f, parms, desperate: true);
+
+            return PawnGroupMakerUtility.TryGetRandomFactionForCombatPawnGroupWeighted(
+                       parms,
+                       out swap,
+                       DesperateCandidate,
+                       allowNonHostileToPlayer: true,
+                       allowHidden: false,
+                       allowDefeated: true)
+                   && swap != null;
+        }
+
+        public static string StorytellerBlockedRaidModeLabel(WdStorytellerBlockedRaidMode mode) => mode switch
+        {
+            WdStorytellerBlockedRaidMode.SwapToValid => "TSA_WD_StorytellerBlockedRaid_Swap".Translate().ToString(),
+            _ => "TSA_WD_StorytellerBlockedRaid_Drop".Translate().ToString()
+        };
+
         [HarmonyPrefix]
         public static bool Prefix(IncidentParms parms)
         {
@@ -103,13 +188,18 @@ namespace TSA_WorldDomination
                 return true;
             }
 
-            LogStorytellerRaidDropped(parms.faction);
+            if (TryResolveBlockedStorytellerFaction(parms))
+            {
+                LogRaidDecision("Noticed Storyteller raid attempt. Swapped blocked faction; continuing", parms);
+                return true;
+            }
+
             return false;
         }
     }
 
     /// <summary>
-    /// After vanilla picks a raid faction, drop if Allegiances Storyteller blocks it (no reroll).
+    /// After vanilla picks a raid faction, drop or swap if Allegiances Storyteller blocks it.
     /// </summary>
     [HarmonyPatch(typeof(IncidentWorker_RaidEnemy), "TryResolveRaidFaction")]
     public static class Patch_RaidEnemy_TryResolveRaidFaction_StorytellerGate
@@ -121,7 +211,12 @@ namespace TSA_WorldDomination
             if (Patch_RaidEnemy_AdjustPoints.IsExemptFromStorytellerRaidGate(parms)) return;
             if (WorldActions_Utils.IsStorytellerRaidAllowed(parms.faction)) return;
 
-            Patch_RaidEnemy_AdjustPoints.LogStorytellerRaidDropped(parms.faction);
+            if (Patch_RaidEnemy_AdjustPoints.TryResolveBlockedStorytellerFaction(parms))
+            {
+                __result = true;
+                return;
+            }
+
             parms.faction = null;
             __result = false;
         }

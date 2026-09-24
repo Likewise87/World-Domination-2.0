@@ -488,6 +488,8 @@
   <TSA_WD_Outpost_StrengthRecovery_OffMinFlatTooltip>升级倍率之前的每日进攻恢复底线。实际增量 = max(本值, 目标上限 × 进攻恢复百分比) × (1 + 升级加成)。</TSA_WD_Outpost_StrengthRecovery_OffMinFlatTooltip>
   <TSA_WD_Outpost_OccupantHealSeverity>居民治疗(每日伤势严重度)</TSA_WD_Outpost_OccupantHealSeverity>
   <TSA_WD_Outpost_OccupantHealSeverityTooltip>每日,封存前哨每位居民的每条非永久伤势减少该严重度(线性)。设为0可禁用。例如:每日2点严重度时,严重度6约3天愈合;严重度20约10天。各前哨医院升级乘以此速率(基础 +30%,高级 +60%)。可免疫疾病仍以相同倍率推进免疫。失血也按相同的每日严重度降低。</TSA_WD_Outpost_OccupantHealSeverityTooltip>
+  <TSA_WD_Outpost_VehicleRepairPerDay>每日载具修理</TSA_WD_Outpost_VehicleRepairPerDay>
+  <TSA_WD_Outpost_VehicleRepairPerDayTooltip>每日,存放在前哨的 Vehicle Framework 载具上每个受损部件按该比例恢复其最大生命值。设为0可禁用。</TSA_WD_Outpost_VehicleRepairPerDayTooltip>
   <TSA_WD_Outpost_ProductionTimeMult>生产周期时长倍率</TSA_WD_Outpost_ProductionTimeMult>
   <TSA_WD_Outpost_ProductionTimeMultTooltip>乘以生产周期长度(XML 的 productionCycleDays 或默认)。调低则周期更短、交货更频繁;周期进行中改动会按比例调整剩余时间。</TSA_WD_Outpost_ProductionTimeMultTooltip>
   <TSA_WD_Outpost_ProductionOutputMult>生产产出倍率</TSA_WD_Outpost_ProductionOutputMult>

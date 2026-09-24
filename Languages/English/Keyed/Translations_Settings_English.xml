@@ -481,6 +481,9 @@
   <TSA_WD_FactionCol_NA>N/A</TSA_WD_FactionCol_NA>
   <TSA_WD_FactionCol_StorytellerRaids>Storyteller</TSA_WD_FactionCol_StorytellerRaids>
   <TSA_WD_FactionCol_StorytellerRaids_Tooltip>May this faction spawn storyteller raids? Off by default. You may activate both WD Actions and Storyteller Raids so you may get raided through both ways.</TSA_WD_FactionCol_StorytellerRaids_Tooltip>
+  <TSA_WD_StorytellerBlockedRaid_Drop>Drop invalid Storyteller Raids</TSA_WD_StorytellerBlockedRaid_Drop>
+  <TSA_WD_StorytellerBlockedRaid_Swap>Swap Storyteller Raids to valid Faction</TSA_WD_StorytellerBlockedRaid_Swap>
+  <TSA_WD_StorytellerBlockedRaid_Tooltip>When the storyteller picks a faction with Storyteller off in this list: drop the raid, or redirect it to another listed faction that has Storyteller on and can source a vanilla raid. Hidden factions not shown here (mechanoids, insectoids) keep normal storyteller behavior and are never used as swap targets. If no valid listed faction exists, the raid is dropped.</TSA_WD_StorytellerBlockedRaid_Tooltip>
   <TSA_WD_FactionExclude_Hidden>Hidden faction. Cannot participate in WD.</TSA_WD_FactionExclude_Hidden>
   <TSA_WD_FactionExclude_NonHumanlike>Off by default. Enable WD Actions to include this non-humanlike faction (advanced).</TSA_WD_FactionExclude_NonHumanlike>
   <TSA_WD_FactionExclude_NoSettlementWeight>No settlement generation weight. Off by default; enable WD Actions to opt in.</TSA_WD_FactionExclude_NoSettlementWeight>

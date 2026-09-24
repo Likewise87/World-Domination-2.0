@@ -176,6 +176,10 @@ namespace TSA_WorldDomination
                     "TSA_WD_Outpost_OccupantHealSeverity".Translate(), s.outpostOccupantHealSeverityPerDay, 0f, 10f,
                     "TSA_WD_Outpost_OccupantHealSeverityTooltip".Translate(), 0.1f, SliderFormat.Fixed1,
                     WorldDominationSettings.DefOutpostOccupantHealSeverityPerDay);
+                s.outpostVehicleRepairHealthPercentPerDay = SettingsUI.LabeledSlider(l,
+                    "TSA_WD_Outpost_VehicleRepairPerDay".Translate(), s.outpostVehicleRepairHealthPercentPerDay, 0f, 0.25f,
+                    "TSA_WD_Outpost_VehicleRepairPerDayTooltip".Translate(), 0.01f, SliderFormat.PercentDecimal,
+                    WorldDominationSettings.DefOutpostVehicleRepairHealthPercentPerDay);
             }
             }
             l.Gap(12f);

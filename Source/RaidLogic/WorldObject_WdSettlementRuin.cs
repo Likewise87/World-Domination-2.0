@@ -41,8 +41,9 @@ namespace TSA_WorldDomination
         public void Configure(string settlementName, float lingerDays)
         {
             originalSettlementName = settlementName;
-            float days = Mathf.Clamp(lingerDays, 5f, 10f);
-            expireTick = Find.TickManager.TicksGame + Mathf.Max(1, Mathf.RoundToInt(days * GenDate.TicksPerDay));
+            // Match World Raids slider (1–100 whole days). Do not hard-cap at 10.
+            int days = Mathf.Clamp(Mathf.RoundToInt(lingerDays), 1, 100);
+            expireTick = Find.TickManager.TicksGame + Mathf.Max(1, days * GenDate.TicksPerDay);
         }
 
         public float DaysRemaining

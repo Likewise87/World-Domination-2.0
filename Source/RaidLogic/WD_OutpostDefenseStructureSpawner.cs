@@ -10,9 +10,9 @@ namespace TSA_WorldDomination
     public static class WD_OutpostDefenseStructureSpawner
     {
         private const int InnerClearChebyshevRadius = 6;
-        /// <summary>Chebyshev distance from map center for the wall square.</summary>
-        private const int WallRingRadius = 28;
-        /// <summary>Chebyshev distance from map center for the trap square.</summary>
+        /// <summary>Chebyshev distance from settlement center for the wall square.</summary>
+        public const int WallRingRadius = 28;
+        /// <summary>Chebyshev distance from settlement center for the trap square.</summary>
         private const int TrapRingRadius = 30;
         /// <summary>Gate opening width in cells (centered on the map center axis).</summary>
         private const int GateWidth = 4;
@@ -25,7 +25,8 @@ namespace TSA_WorldDomination
         /// <summary>Extra outward trap rows at each gate (Chebyshev radius from center; walls required).</summary>
         private const int GateTrapCountPerRow = 5;
         private static readonly int[] GateTrapRingRadii = { 32, 34 };
-        private const int TankTrapRingRadius = 38;
+        /// <summary>Outermost defense ring (tank traps). Large vehicle spawns search beyond this.</summary>
+        public const int TankTrapRingRadius = 38;
         private const int TankTrapScatterCount = 32;
         private const int MinTurretCount = 4;
         private const int MaxTurretCount = 6;

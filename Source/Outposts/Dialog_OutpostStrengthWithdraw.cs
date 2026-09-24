@@ -107,6 +107,7 @@ namespace TSA_WorldDomination
                 PlayerPawnRosterEntry e = entries[i];
                 if (e?.pawn == null) continue;
                 if (GetFate(e.thingId) != PawnFate.FormCaravan) continue;
+                if (e.outpostRole == PlayerPawnOutpostRole.Prisoner) continue;
                 cost += OutpostStrengthBudget.GetPawnCost(e.pawn);
             }
             return cost;
@@ -236,19 +237,24 @@ namespace TSA_WorldDomination
             transferCost = CurrentTransferCost();
             under = OutpostStrengthBudget.IsUnderWithdrawBudget(transferCost, available);
             excess = OutpostStrengthBudget.WithdrawExcess(transferCost, available);
+            bool hasPrisonerEscort = HasValidPrisonerEscort();
 
             Rect btnRow = new Rect(0f, inRect.height - OutpostStrengthBudgetUi.BottomH, inRect.width, 36f);
             if (Widgets.ButtonText(btnRow.LeftHalf().ContractedBy(2f), "CancelButton".Translate()))
                 Close();
 
             Rect confirmRect = btnRow.RightHalf().ContractedBy(2f);
-            GUI.enabled = under;
+            GUI.enabled = under && hasPrisonerEscort;
             if (Widgets.ButtonText(confirmRect, "TSA_WD_StrengthBudget_ConfirmLeave".Translate()))
                 TryConfirm(under);
             GUI.enabled = true;
             if (!under)
             {
                 TooltipHandler.TipRegion(confirmRect, "TSA_WD_StrengthBudget_NeedStayBehind".Translate(excess.ToString("F0")));
+            }
+            else if (!hasPrisonerEscort)
+            {
+                TooltipHandler.TipRegion(confirmRect, "TSA_WD_PawnTransfer_PrisonerNeedsEscort".Translate());
             }
             else
             {
@@ -515,6 +521,14 @@ namespace TSA_WorldDomination
         private void TryConfirm(bool under)
         {
             if (resolved || !under) return;
+            if (!HasValidPrisonerEscort())
+            {
+                Messages.Message(
+                    "TSA_WD_PawnTransfer_PrisonerNeedsEscort".Translate(),
+                    MessageTypeDefOf.RejectInput,
+                    false);
+                return;
+            }
 
             var take = new List<PlayerPawnRosterEntry>();
             var stay = new List<Pawn>();
@@ -569,6 +583,27 @@ namespace TSA_WorldDomination
             }
 
             Finish(take, stay, lost, false);
+        }
+
+        /// <summary>
+        /// Prisoners forming the caravan require at least one normal humanlike occupant to form it too.
+        /// Validate before any Mark Lost choice can destroy that escort.
+        /// </summary>
+        private bool HasValidPrisonerEscort()
+        {
+            bool takingPrisoner = false;
+            bool takingEscort = false;
+            for (int i = 0; i < entries.Count; i++)
+            {
+                PlayerPawnRosterEntry e = entries[i];
+                if (e?.pawn == null || GetFate(e.thingId) != PawnFate.FormCaravan) continue;
+                if (e.outpostRole == PlayerPawnOutpostRole.Prisoner)
+                    takingPrisoner = true;
+                else if (e.outpostRole == PlayerPawnOutpostRole.Occupant
+                    && PlayerPawnTransferUtility.IsEscortHumanlike(e.pawn))
+                    takingEscort = true;
+            }
+            return !takingPrisoner || takingEscort;
         }
 
         /// <summary>

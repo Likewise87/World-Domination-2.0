@@ -429,7 +429,7 @@ namespace TSA_WorldDomination
         /// <summary>When true, auto-resolve and manual defense victories may take captives at this outpost.</summary>
         private bool takePrisoners = true;
 
-        /// <summary>Recruitable captives held at this outpost (not Occupants until recruited). Deep-scribed; never in WorldPawns.</summary>
+        /// <summary>Captives held at this outpost (not Occupants until recruited; may include unwavering). Deep-scribed; never in WorldPawns.</summary>
         private List<Pawn> prisoners = new List<Pawn>();
 
         private string expertStrategistThingId;
@@ -3095,7 +3095,10 @@ namespace TSA_WorldDomination
                         Outpost_OccupantProgression.TickOccupantsVirtualHealingOneDay(this);
                     }
                     if (StoredAnimalsAndVehicles.Count > 0)
+                    {
                         Outpost_OccupantProgression.TickStoredAnimalsBiologicalAgeOneDay(this);
+                        Outpost_OccupantProgression.TickStoredVehiclesRepairOneDay(this);
+                    }
                 }
                 if (Prisoners.Count > 0)
                 {

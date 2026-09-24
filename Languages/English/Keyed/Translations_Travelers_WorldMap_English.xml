@@ -115,7 +115,7 @@
   <TSA_WD_Log_MinorInc_Downgrade>MINOR INCIDENT: Lost {0} strength ({1} → {2}). Downgraded to {3}.</TSA_WD_Log_MinorInc_Downgrade>
   <TSA_WD_Log_MinorInc_Standard>MINOR INCIDENT: Lost {0} strength ({1} → {2}).</TSA_WD_Log_MinorInc_Standard>
   <TSA_WD_Letter_Revolt_Label>Faction Re-emergence</TSA_WD_Letter_Revolt_Label>
-  <TSA_WD_Letter_Revolt_Text>Political upheaval! The faction {0} has emerged from obscurity, seizing control of: {1}. Lost to the uprising: {2}.</TSA_WD_Letter_Revolt_Text>
+  <TSA_WD_Letter_Revolt_Text>Political upheaval! The defeated faction {0} has returned, seizing control of: {1}. Lost to the uprising: {2}.</TSA_WD_Letter_Revolt_Text>
   <TSA_WD_Letter_Vanguard_Label>Vanguard forces underway</TSA_WD_Letter_Vanguard_Label>
   <TSA_WD_Letter_Vanguard_Text>{0} has packed settlements into {1} Vanguard columns. Each home leaves as its own caravan; nearby forces rally, then dig in on your front. Stop them before they fortify.</TSA_WD_Letter_Vanguard_Text>
   <TSA_WD_Letter_Invasion_Label>Invasion forces underway</TSA_WD_Letter_Invasion_Label>

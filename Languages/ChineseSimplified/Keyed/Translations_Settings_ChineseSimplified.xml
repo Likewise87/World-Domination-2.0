@@ -392,6 +392,9 @@
   <TSA_WD_FactionCol_NA>不适用</TSA_WD_FactionCol_NA>
   <TSA_WD_FactionCol_StorytellerRaids>叙事者</TSA_WD_FactionCol_StorytellerRaids>
   <TSA_WD_FactionCol_StorytellerRaids_Tooltip>该派系是否可能产生叙事者袭击？默认关闭。可同时启用 WD 行动与叙事者袭击，从而通过两种方式遭到袭击。</TSA_WD_FactionCol_StorytellerRaids_Tooltip>
+  <TSA_WD_StorytellerBlockedRaid_Drop>丢弃无效的叙事者袭击</TSA_WD_StorytellerBlockedRaid_Drop>
+  <TSA_WD_StorytellerBlockedRaid_Swap>将叙事者袭击换为有效派系</TSA_WD_StorytellerBlockedRaid_Swap>
+  <TSA_WD_StorytellerBlockedRaid_Tooltip>当叙事者选中本列表中「叙事者」为关的派系时：丢弃该袭击，或改派给本列表中「叙事者」为开且能作为原版袭击来源的另一派系。未显示的隐藏派系（机械族、虫族）仍按叙事者正常规则出现，不会作为改派目标。若没有可用的列表内派系则丢弃。</TSA_WD_StorytellerBlockedRaid_Tooltip>
   <TSA_WD_FactionExclude_Hidden>隐藏派系。无法参与 WD。</TSA_WD_FactionExclude_Hidden>
   <TSA_WD_FactionExclude_NonHumanlike>默认关闭。启用 WD 行动以包含此非人形派系（高级）。</TSA_WD_FactionExclude_NonHumanlike>
   <TSA_WD_FactionExclude_NoSettlementWeight>无定居点生成权重。默认关闭；启用 WD 行动可手动加入。</TSA_WD_FactionExclude_NoSettlementWeight>

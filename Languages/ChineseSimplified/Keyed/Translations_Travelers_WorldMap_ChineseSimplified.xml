@@ -109,7 +109,7 @@
   <TSA_WD_Log_MinorInc_Downgrade>轻微事件:损失 {0} 实力({1} → {2})。降级为 {3}。</TSA_WD_Log_MinorInc_Downgrade>
   <TSA_WD_Log_MinorInc_Standard>轻微事件:损失 {0} 实力({1} → {2})。</TSA_WD_Log_MinorInc_Standard>
   <TSA_WD_Letter_Revolt_Label>阵营再度崛起</TSA_WD_Letter_Revolt_Label>
-  <TSA_WD_Letter_Revolt_Text>政局动荡！阵营 {0} 从沉寂中崛起，夺取了：{1}。在起义中失守的势力：{2}。</TSA_WD_Letter_Revolt_Text>
+  <TSA_WD_Letter_Revolt_Text>政局动荡！战败阵营 {0} 已卷土重来，夺取了：{1}。在起义中失守的势力：{2}。</TSA_WD_Letter_Revolt_Text>
   <TSA_WD_Letter_Vanguard_Label>先锋部队已出发</TSA_WD_Letter_Vanguard_Label>
   <TSA_WD_Letter_Vanguard_Text>{0} 已将定居点编为 {1} 路先锋纵队。每处旧营地各自启程，附近部队先集结再开向你的前线扎营。在他们筑稳前拦截。</TSA_WD_Letter_Vanguard_Text>
   <TSA_WD_Letter_Invasion_Label>入侵部队已出发</TSA_WD_Letter_Invasion_Label>

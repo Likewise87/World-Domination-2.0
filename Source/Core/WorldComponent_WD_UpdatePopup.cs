@@ -8,7 +8,7 @@ namespace TSA_WorldDomination
     /// Shows the "mod updated" popup once when entering play, if this version has not been acknowledged.
     /// Uses <see cref="FinalizeInit"/> (fires once after world load) + a deferred callback so the
     /// window stack and map are ready. No per-tick overhead.
-    /// Current mod version for the popup is <see cref="WD_UpdateEntries.Entries"/>[0] (newest, e.g. 2.3.24) in <c>Dialog_WD_UpdateWindows.cs</c>.
+    /// Current mod version for the popup is <see cref="WD_UpdateEntries.Entries"/>[0] (newest, e.g. 2.3.25) in <c>Dialog_WD_UpdateWindows.cs</c>.
     /// </summary>
     public class WorldComponent_WD_UpdatePopup : WorldComponent
     {

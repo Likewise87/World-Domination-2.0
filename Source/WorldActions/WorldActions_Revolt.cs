@@ -55,6 +55,7 @@ namespace TSA_WorldDomination
             if (targets.Count < 3) return;
 
             rebelFaction.defeated = false;
+            WDVerbose.Msg($"Revolt revive loadID={rebelFaction.loadID} name={rebelFaction.Name}");
 
             var victimNames = new List<string>();
             var seenVictims = new HashSet<Faction>();

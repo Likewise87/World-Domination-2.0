@@ -85,6 +85,7 @@ These controls appear only when advanced settings are shown.
 | Minimum defensive recovery per day | 25 | Flat floor for defensive recovery. |
 | Minimum offensive recovery per day | 80 | Flat floor for offensive recovery before upgrade bonuses. |
 | Occupant healing severity per day | 2.0 | Daily severity removed from non-permanent injuries on stored occupants. Hospital upgrades multiply it. |
+| Vehicle repair per day | 5% | Daily fraction of MaxHealth restored on every damaged Vehicle Framework part on stored hulls. 0 disables. |
 
 ## Food logistics
 
