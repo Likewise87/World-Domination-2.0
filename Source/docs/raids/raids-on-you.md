@@ -6,6 +6,8 @@ World Domination attacks the player through visible raid travelers. A hostile se
 
 For a raid that reaches a player colony, WD treats the traveler's remaining strength as approximately the raid points to generate. It then clamps that value to a configurable band around `StorytellerUtility.DefaultThreatPointsNow` for the selected baseline map.
 
+Hostile ground raid, Vanguard, desperation rally, and Turtle travelers that **step onto the colony tile** while traveling elsewhere are diverted into a colony map raid the same way Mortar and Rapid Response outposts choke columns that walk onto their tiles. Drop-pod and gravship raids do not walk tiles and are not diverted this way.
+
 In practical terms:
 
 1. The hostile settlement and supporting allies commit offensive strength.

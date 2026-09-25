@@ -298,7 +298,73 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        /// <summary>Ground missions that trigger mortar/RR fortress walk-over defense.</summary>
+        /// <summary>
+        /// Hostile ground columns that step onto the player colony tile are diverted into a colony map raid,
+        /// even when their original target was elsewhere. Same mission filter as
+        /// <see cref="TryInterceptRaidAtFortressOutpost"/>. Skip when the colony map is unloaded (do not consume).
+        /// Returns true when the traveler was stopped / consumed for this hop.
+        /// </summary>
+        public static bool TryInterceptRaidAtPlayerColony(WorldObject_Traveler traveler)
+        {
+            if (traveler == null || traveler.Destroyed) return false;
+            if (!IsFortressChokeEligibleMission(traveler.mission)) return false;
+
+            Faction player = Faction.OfPlayerSilentFail;
+            if (player == null || traveler.Faction == null) return false;
+            if (!WorldActions_Utils.SafeHostileTo(traveler.Faction, player)) return false;
+
+            Settlement colony = FindPlayerColonyAt(traveler.Tile.tileId);
+            if (colony == null || colony.Destroyed) return false;
+
+            // Intended destination is already this colony: normal arrival resolves it.
+            if (ReferenceEquals(traveler.targetObject, colony))
+                return false;
+
+            // Unloaded map: HandleRaidOnPlayer would no-op after applying cooldown. Let the traveler continue.
+            if (colony.Map == null)
+                return false;
+
+            WorldObject previousTarget = traveler.targetObject;
+            traveler.pather?.StopDead();
+            traveler.targetObject = colony;
+            traveler.suppressDestroyedWorldFx = true;
+
+            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            string prevLabel = previousTarget?.LabelCap ?? "?";
+            WDVerbose.Msg($"Raid colony choke: {traveler.LabelCap} diverted from {prevLabel} to colony {colony.LabelCap} tile={colony.Tile.tileId} mission={traveler.mission}");
+            manager?.AddLog(new SpreadLogEntry(
+                "TSA_WD_Log_Raid_ChokeInterceptColony".Translate(traveler.LabelCap, colony.LabelCap, prevLabel),
+                traveler, colony));
+
+            WorldObject attacker = TravelerEndpointUtility.GetRaidAttackerContext(traveler);
+            if (attacker is Settlement attSettlement)
+            {
+                Raid_OnPlayerColony.HandleRaidOnPlayer(
+                    attSettlement,
+                    colony,
+                    traveler.raidAttackerList,
+                    traveler.travelerStrength,
+                    traveler.raidAttackerDetails,
+                    manager,
+                    traveler);
+            }
+            else
+            {
+                // Vanguard / Turtle / pack-up / desperation columns have no live origin settlement.
+                Raid_OnPlayerColony.HandleRaidOnPlayerFromPackUp(
+                    colony,
+                    traveler.travelerStrength,
+                    manager,
+                    traveler);
+            }
+
+            if (traveler != null && !traveler.Destroyed)
+                traveler.Destroy();
+
+            return true;
+        }
+
+        /// <summary>Ground missions that trigger mortar/RR fortress and player-colony walk-over defense.</summary>
         public static bool IsFortressChokeEligibleMission(TravelerMission mission)
         {
             switch (mission)
@@ -331,6 +397,26 @@ namespace TSA_WorldDomination
                     best = op;
             }
             return best;
+        }
+
+        /// <summary>Player colony Settlement on this tile (not a WD outpost). Prefers <see cref="InfluenceUtils.GetPlayerColony"/>.</summary>
+        private static Settlement FindPlayerColonyAt(int tileId)
+        {
+            if (tileId < 0) return null;
+
+            Settlement primary = InfluenceUtils.GetPlayerColony();
+            if (primary != null && !primary.Destroyed && primary.Tile.tileId == tileId)
+                return primary;
+
+            if (Find.WorldObjects == null) return null;
+            foreach (WorldObject wo in Find.WorldObjects.ObjectsAt(tileId))
+            {
+                if (wo is not Settlement s || s.Destroyed) continue;
+                if (s is WorldObject_WD_Outpost) continue;
+                if (s.Faction == null || !s.Faction.IsPlayer) continue;
+                return s;
+            }
+            return null;
         }
 
         public static void ResolvePlayerOutpostRaidArrival(

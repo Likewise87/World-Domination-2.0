@@ -607,8 +607,8 @@
   <TSA_WD_WorldMap_ToggleCaravanBlockedTilesTip>Por defecto una avanzadilla necesita varias casillas libres respecto a asentamientos y otras avanzadillas. Con esta superposición, las casillas bloqueadas alrededor del cursor se traman con el color de la facción que las bloquea (gris oscuro si no hay). Si varias facciones se solapan, se elige una de forma coherente.</TSA_WD_WorldMap_ToggleCaravanBlockedTilesTip>
   <TSA_WD_WorldMap_ChangeNotes>Notas de cambios</TSA_WD_WorldMap_ChangeNotes>
   <TSA_WD_WorldMap_ChangeNotesTip>Abre el registro de actualizaciones de Dominación Mundial.</TSA_WD_WorldMap_ChangeNotesTip>
-  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>Bloqueos y trampas</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
-  <TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>Activa o desactiva los iconos cian de bloqueos y trampas/abrojos en el mapa mundial. También se ocultan al alejarse el zoom.</TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>Bloqueos, trampas y AT</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>Activa o desactiva los iconos de bloqueos, trampas/abrojos y torretas AT en el mapa mundial. Los iconos de superposición también se ocultan al alejarse el zoom.</TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>
   <TSA_WD_WorldMap_ToggleFortifyBlacklist>Casillas bloqueadas para fortificación NPC</TSA_WD_WorldMap_ToggleFortifyBlacklist>
   <TSA_WD_WorldMap_ToggleFortifyBlacklistTip>Muestra casillas marcadas para que aliados (y neutrales si está activo) no coloquen bloqueos o trampas nuevas. Las existentes permanecen hasta Quitar fortificaciones. También se ven al usar las herramientas de marcar/quitar.</TSA_WD_WorldMap_ToggleFortifyBlacklistTip>
   <TSA_WD_WorldMap_NoFortifyMarks>Marcas sin fortificar</TSA_WD_WorldMap_NoFortifyMarks>

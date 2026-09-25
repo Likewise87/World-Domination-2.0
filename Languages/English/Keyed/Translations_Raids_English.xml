@@ -123,6 +123,7 @@
   <TSA_WD_Log_Raid_ColonyDelegated>Picked Colony as target and delegated to closer ally</TSA_WD_Log_Raid_ColonyDelegated>
   <TSA_WD_Log_Raid_Failed>Raid Failed: The attackers were repelled.</TSA_WD_Log_Raid_Failed>
   <TSA_WD_Log_Raid_ChokeIntercept>Raid intercepted: {0} walked into fortress {1} (original target: {2}).</TSA_WD_Log_Raid_ChokeIntercept>
+  <TSA_WD_Log_Raid_ChokeInterceptColony>Raid intercepted: {0} walked into colony {1} (original target: {2}).</TSA_WD_Log_Raid_ChokeInterceptColony>
   <TSA_WD_Log_TargetOfOpportunity>{0} picked a target of opportunity: {1} -> {2}.</TSA_WD_Log_TargetOfOpportunity>
   <TSA_WD_Log_Marauding>{0} keeps marauding after victory: {1} -> {2}.</TSA_WD_Log_Marauding>
   <TSA_WD_Log_AT_TurretProximityDetour>{0} diverted to assault AT Turret {2} (was targeting {1}).</TSA_WD_Log_AT_TurretProximityDetour>

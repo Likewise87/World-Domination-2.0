@@ -123,6 +123,7 @@
   <TSA_WD_Log_Raid_ColonyDelegated>选定殖民地为目标，并委托给更近的盟友</TSA_WD_Log_Raid_ColonyDelegated>
   <TSA_WD_Log_Raid_Failed>袭击失败:进攻方被击退。</TSA_WD_Log_Raid_Failed>
   <TSA_WD_Log_Raid_ChokeIntercept>袭击被拦截:{0} 踏入要塞 {1}（原目标:{2}）。</TSA_WD_Log_Raid_ChokeIntercept>
+  <TSA_WD_Log_Raid_ChokeInterceptColony>袭击被拦截:{0} 踏入殖民地 {1}（原目标:{2}）。</TSA_WD_Log_Raid_ChokeInterceptColony>
   <TSA_WD_Log_TargetOfOpportunity>{0} 选择了一个机会目标:{1} -> {2}。</TSA_WD_Log_TargetOfOpportunity>
   <TSA_WD_Log_Marauding>{0} 在胜利后继续劫掠:{1} -> {2}。</TSA_WD_Log_Marauding>
   <TSA_WD_Log_AT_TurretProximityDetour>{0} 改道突击 AT 炮塔 {2}（原目标:{1}）。</TSA_WD_Log_AT_TurretProximityDetour>

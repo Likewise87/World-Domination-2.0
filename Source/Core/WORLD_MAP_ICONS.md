@@ -64,3 +64,5 @@ Do not point traveler `Material` at settlement art. Keep mission overrides in `R
 | Spike / caltrops | Overlay `MatFrom` + faction tint | n/a | `WorldObjects/WorldSpikeTrap` / `WorldObjects/Caltrops` |
 
 Do **not** use `*_Colorized` texture filenames. Greyscale WorldObjects art is tinted at draw time. Do **not** point AT build menus at world `AT_Gun_*` or ExpandingIcon at `*_Side`.
+
+World-map float menu **Road blocks, traps, and AT** (`ShowRoadBlocksAndTraps`, hotkey R, default on): road-block / trap overlays skip their draw; AT turrets suppress ExpandingIcon + Material via `HideAtTurretWhenFortificationsHidden` in `Patch_WdWorldObjectNoExpandingIcon` (call `NotifyIconModeChanged` when the flag flips).

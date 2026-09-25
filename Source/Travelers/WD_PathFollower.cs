@@ -341,8 +341,11 @@ namespace TSA_WorldDomination
                     AtTurretRetaliationUtility.TryClashOnSharedTile(traveler, traveler.Tile);
                     if (traveler.Destroyed) return;
                     // Mortar / RR outposts on this tile act as choke-point fortresses vs hostile ground raids,
-                    // Vanguard / Invasion rally columns, and Turtle migrants.
+                    // Vanguard / Invasion rally columns, and Turtle migrants. Player colony tile does the same
+                    // (map raid) with the same mission filter.
                     if (Raid_Simulated.TryInterceptRaidAtFortressOutpost(traveler))
+                        return;
+                    if (Raid_Simulated.TryInterceptRaidAtPlayerColony(traveler))
                         return;
                     // Feature A: opportunistic retargeting onto a weaker settlement/outpost passed en route.
                     // AT Turret proximity detour first (always-on magnet at fire range; save/restore, not permanent ToO).

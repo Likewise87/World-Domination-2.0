@@ -624,8 +624,8 @@
   <TSA_WD_WorldMap_HotkeyLine>Hotkey: {0}</TSA_WD_WorldMap_HotkeyLine>
   <TSA_WD_WorldMap_ToggleTierTexts>Settlement tier labels</TSA_WD_WorldMap_ToggleTierTexts>
   <TSA_WD_WorldMap_ToggleTierTextsTip>Toggle the T1–T4 labels shown over NPC settlements.</TSA_WD_WorldMap_ToggleTierTextsTip>
-  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>Road blocks and traps</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
-  <TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>Toggle cyan road-block and spike-trap / caltrops icons on the world map. Icons also hide when zoomed out.</TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>Road blocks, traps, and AT</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>Toggle road-block, spike-trap / caltrops, and AT Turret icons on the world map. Overlay icons also hide when zoomed out.</TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>
   <TSA_WD_WorldMap_ToggleFortifyBlacklist>Blocked tiles for NPC Fortification</TSA_WD_WorldMap_ToggleFortifyBlacklist>
   <TSA_WD_WorldMap_ToggleFortifyBlacklistTip>Show tiles marked so allies (and neutrals if enabled) may not place new road blocks or traps. Existing forts stay until you Remove fortifications. Marks also show while using the mark/remove tools.</TSA_WD_WorldMap_ToggleFortifyBlacklistTip>
   <TSA_WD_WorldMap_NoFortifyMarks>No-fortify marks</TSA_WD_WorldMap_NoFortifyMarks>

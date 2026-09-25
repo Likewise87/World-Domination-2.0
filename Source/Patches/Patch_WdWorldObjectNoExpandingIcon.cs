@@ -59,8 +59,25 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
+        /// WD float-menu "Road blocks, traps, and AT" (hotkey R): hide AT turret icons when off.
+        /// Road blocks / spike traps gate their own overlay draw; AT is a WorldObject so it needs
+        /// the same TransitionPct=0 + Material skip path as shells. Must run before
+        /// <see cref="ForceFixedIcon"/> or TransitionPct would stay forced to 1.
+        /// </summary>
+        private static bool HideAtTurretWhenFortificationsHidden(WorldObject wo)
+        {
+            if (wo is not WorldObject_AT_Turret) return false;
+            return !WorldComponent_WDVisualizerToggle.ShowRoadBlocksAndTraps;
+        }
+
+        /// <summary>True when this object's ExpandingIcon and Material should be fully suppressed.</summary>
+        private static bool SuppressWorldIcon(WorldObject wo)
+            => HideShellAtFarZoom(wo) || HideAtTurretWhenFortificationsHidden(wo);
+
+        /// <summary>
         /// Call after changing either always-show-icon setting so close-zoom Material meshes rebuild.
         /// No game restart required — settings are read live; only the world draw layers are cached.
+        /// Also call after flipping <see cref="WorldComponent_WDVisualizerToggle.ShowRoadBlocksAndTraps"/>.
         /// </summary>
         public static void NotifyIconModeChanged()
         {
@@ -85,7 +102,7 @@ namespace TSA_WorldDomination
             [HarmonyPriority(Priority.First)]
             public static bool Prefix(WorldObject wo, ref float __result)
             {
-                if (HideShellAtFarZoom(wo))
+                if (SuppressWorldIcon(wo))
                 {
                     __result = 0f;
                     return false;
@@ -102,7 +119,7 @@ namespace TSA_WorldDomination
             [HarmonyPriority(Priority.Last)]
             public static void Postfix(WorldObject wo, ref float __result)
             {
-                if (HideShellAtFarZoom(wo))
+                if (SuppressWorldIcon(wo))
                 {
                     __result = 0f;
                     return;
@@ -118,7 +135,7 @@ namespace TSA_WorldDomination
             [HarmonyPostfix]
             public static void Postfix(WorldObject worldObject, ref bool __result)
             {
-                if (HideShellAtFarZoom(worldObject) || ForceFixedIcon(worldObject))
+                if (SuppressWorldIcon(worldObject) || ForceFixedIcon(worldObject))
                     __result = true;
             }
         }
@@ -129,7 +146,7 @@ namespace TSA_WorldDomination
             [HarmonyPostfix]
             public static void Postfix(WorldObject worldObject, ref bool __result)
             {
-                if (HideShellAtFarZoom(worldObject) || ForceFixedIcon(worldObject))
+                if (SuppressWorldIcon(worldObject) || ForceFixedIcon(worldObject))
                     __result = true;
             }
         }

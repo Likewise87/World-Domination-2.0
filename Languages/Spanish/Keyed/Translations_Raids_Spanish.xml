@@ -123,6 +123,7 @@
   <TSA_WD_Log_Raid_ColonyDelegated>Eligió la colonia como objetivo y delegó a un aliado más cercano</TSA_WD_Log_Raid_ColonyDelegated>
   <TSA_WD_Log_Raid_Failed>Incursión fallida: Los atacantes fueron repelidos.</TSA_WD_Log_Raid_Failed>
   <TSA_WD_Log_Raid_ChokeIntercept>Incursión interceptada: {0} entró en la fortaleza {1} (objetivo original: {2}).</TSA_WD_Log_Raid_ChokeIntercept>
+  <TSA_WD_Log_Raid_ChokeInterceptColony>Incursión interceptada: {0} entró en la colonia {1} (objetivo original: {2}).</TSA_WD_Log_Raid_ChokeInterceptColony>
   <TSA_WD_Log_TargetOfOpportunity>{0} eligió un objetivo de oportunidad: {1} -> {2}.</TSA_WD_Log_TargetOfOpportunity>
   <TSA_WD_Log_Marauding>{0} sigue merodeando tras la victoria: {1} -> {2}.</TSA_WD_Log_Marauding>
   <TSA_WD_Log_AT_TurretProximityDetour>{0} se desvió para asaltar la AT Turret {2} (antes apuntaba a {1}).</TSA_WD_Log_AT_TurretProximityDetour>

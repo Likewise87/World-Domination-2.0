@@ -147,7 +147,11 @@ namespace TSA_WorldDomination
             AddToggleMenuOption(options, "TSA_WD_WorldMap_ToggleTierTexts", ShowSettlementTierTexts,
                 v => ShowSettlementTierTexts = v, tipKey: "TSA_WD_WorldMap_ToggleTierTextsTip", hotkey: "E");
             AddToggleMenuOption(options, "TSA_WD_WorldMap_ToggleRoadBlocksAndTraps", ShowRoadBlocksAndTraps,
-                v => ShowRoadBlocksAndTraps = v, tipKey: "TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip", hotkey: "R");
+                v =>
+                {
+                    ShowRoadBlocksAndTraps = v;
+                    Patch_WdWorldObjectNoExpandingIcon.NotifyIconModeChanged();
+                }, tipKey: "TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip", hotkey: "R");
             // RELATION_UNDERLAY begin
             AddToggleMenuOption(options, "TSA_WD_WorldMap_ToggleRelationUnderlays", ShowRelationUnderlays,
                 v => ShowRelationUnderlays = v, tipKey: "TSA_WD_WorldMap_ToggleRelationUnderlaysTip", hotkey: "Q");
@@ -1098,8 +1102,9 @@ namespace TSA_WorldDomination
                     ShowSettlementTierTexts = !ShowSettlementTierTexts;
                     NotifyWorldMapToggle("TSA_WD_WorldMap_ToggleTierTexts".Translate(), ShowSettlementTierTexts);
                     return;
-                case 3: // R - Road blocks and traps
+                case 3: // R - Road blocks, traps, and AT
                     ShowRoadBlocksAndTraps = !ShowRoadBlocksAndTraps;
+                    Patch_WdWorldObjectNoExpandingIcon.NotifyIconModeChanged();
                     NotifyWorldMapToggle("TSA_WD_WorldMap_ToggleRoadBlocksAndTraps".Translate(), ShowRoadBlocksAndTraps);
                     return;
                 case 4: // T - cycle outpost world-map label mode

@@ -610,8 +610,8 @@
   <TSA_WD_WorldMap_ToggleCaravanBlockedTilesTip>默认前哨站需要与定居点及其他前哨站保持一定空地。开启后，光标附近不可建前哨站的格子会按阻挡派系的颜色画斜线（无派系时为深灰）。多派系重叠时会稳定地选其中一个。</TSA_WD_WorldMap_ToggleCaravanBlockedTilesTip>
   <TSA_WD_WorldMap_ChangeNotes>更新说明</TSA_WD_WorldMap_ChangeNotes>
   <TSA_WD_WorldMap_ChangeNotesTip>打开世界统治更新/变更日志。</TSA_WD_WorldMap_ChangeNotesTip>
-  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>路障与陷阱</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
-  <TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>切换世界地图上的青色路障与刺钉/蒺藜陷阱图标。缩放过远时也会自动隐藏。</TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>路障、陷阱与反坦克</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>切换世界地图上的路障、刺钉/蒺藜陷阱与反坦克炮塔图标。叠加图标在缩放过远时也会自动隐藏。</TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>
   <TSA_WD_WorldMap_ToggleFortifyBlacklist>NPC 设防封锁地块</TSA_WD_WorldMap_ToggleFortifyBlacklist>
   <TSA_WD_WorldMap_ToggleFortifyBlacklistTip>显示已标记地块：盟友（若开启则含中立）不得在此新建路障或陷阱。已有设防需「移除设防」。使用标记/清除工具时也会显示。</TSA_WD_WorldMap_ToggleFortifyBlacklistTip>
   <TSA_WD_WorldMap_NoFortifyMarks>禁设防标记</TSA_WD_WorldMap_NoFortifyMarks>
