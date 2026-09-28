@@ -141,6 +141,34 @@
   <TSA_WD_Diplo_UnderdogBuffTooltip>最弱阵营变得小而灵活,在一段时间内获得成长速度提升。</TSA_WD_Diplo_UnderdogBuffTooltip>
   <TSA_WD_Diplo_UnderdogBuff_Label>增益:成长提升</TSA_WD_Diplo_UnderdogBuff_Label>
   <TSA_WD_Diplo_UnderdogBuff_Msg>增益:"{0}"因小而灵活,在接下来 {1} 天内将更快成长。</TSA_WD_Diplo_UnderdogBuff_Msg>
+  <TSA_WD_Diplo_UnderdogBuff_MsgMulti>增益:{0}因小而灵活,在接下来 {1} 天内将更快成长。</TSA_WD_Diplo_UnderdogBuff_MsgMulti>
+  <TSA_WD_Diplo_PerFactionCooldownTooltip>该效果结束后对该派系的冷却。其他派系仍可获得。</TSA_WD_Diplo_PerFactionCooldownTooltip>
+  <TSA_WD_Diplo_MaxConcurrentUnderdogs>同时弱者上限</TSA_WD_Diplo_MaxConcurrentUnderdogs>
+  <TSA_WD_Diplo_MaxConcurrentUnderdogsTooltip>一轮中可同时持有灵活增益的弱小NPC派系数量。</TSA_WD_Diplo_MaxConcurrentUnderdogsTooltip>
+  <TSA_WD_Diplo_LeaderGrowthGainMult>领袖:成长倍率</TSA_WD_Diplo_LeaderGrowthGainMult>
+  <TSA_WD_Diplo_LeaderGrowthGainTooltip>领袖减益生效时,被动成长强度乘以此值。</TSA_WD_Diplo_LeaderGrowthGainTooltip>
+  <TSA_WD_Diplo_LeaderAllyRadiusMult>领袖:盟友半径倍率</TSA_WD_Diplo_LeaderAllyRadiusMult>
+  <TSA_WD_Diplo_LeaderAllyRadiusTooltip>领袖减益期间缩小盟友增援半径。</TSA_WD_Diplo_LeaderAllyRadiusTooltip>
+  <TSA_WD_Diplo_LeaderExpandCdMult>领袖:扩张冷却倍率</TSA_WD_Diplo_LeaderExpandCdMult>
+  <TSA_WD_Diplo_LeaderExpandCdTooltip>领袖减益期间延长扩张冷却。</TSA_WD_Diplo_LeaderExpandCdTooltip>
+  <TSA_WD_Diplo_LeaderFortifyDensityMult>领袖:设防密度倍率</TSA_WD_Diplo_LeaderFortifyDensityMult>
+  <TSA_WD_Diplo_LeaderFortifyDensityTooltip>领袖减益期间缩放设防套件密度。</TSA_WD_Diplo_LeaderFortifyDensityTooltip>
+  <TSA_WD_Diplo_LeaderAttackAttWinMult>领袖进攻:进攻方胜率倍率</TSA_WD_Diplo_LeaderAttackAttWinMult>
+  <TSA_WD_Diplo_LeaderAttackAttWinTooltip>受减益的领袖进攻时,乘以进攻方胜率。</TSA_WD_Diplo_LeaderAttackAttWinTooltip>
+  <TSA_WD_Diplo_LeaderDefendAttWinMult>领袖防守:进攻方胜率倍率</TSA_WD_Diplo_LeaderDefendAttWinMult>
+  <TSA_WD_Diplo_LeaderDefendAttWinTooltip>受减益的领袖防守时,乘以进攻方胜率。</TSA_WD_Diplo_LeaderDefendAttWinTooltip>
+  <TSA_WD_Diplo_UnderdogAllyRadiusMult>弱者:盟友半径倍率</TSA_WD_Diplo_UnderdogAllyRadiusMult>
+  <TSA_WD_Diplo_UnderdogAllyRadiusTooltip>灵活增益期间扩大盟友增援半径。</TSA_WD_Diplo_UnderdogAllyRadiusTooltip>
+  <TSA_WD_Diplo_UnderdogExpandWeightMult>弱者:发展/扩张权重</TSA_WD_Diplo_UnderdogExpandWeightMult>
+  <TSA_WD_Diplo_UnderdogExpandWeightTooltip>灵活增益期间提高发展/扩张行动权重。</TSA_WD_Diplo_UnderdogExpandWeightTooltip>
+  <TSA_WD_Diplo_UnderdogExpandCdMult>弱者:扩张冷却倍率</TSA_WD_Diplo_UnderdogExpandCdMult>
+  <TSA_WD_Diplo_UnderdogExpandCdTooltip>灵活增益期间缩短扩张冷却。</TSA_WD_Diplo_UnderdogExpandCdTooltip>
+  <TSA_WD_Diplo_UnderdogFortifyDensityMult>弱者:设防密度倍率</TSA_WD_Diplo_UnderdogFortifyDensityMult>
+  <TSA_WD_Diplo_UnderdogFortifyDensityTooltip>灵活增益期间缩放设防套件密度。</TSA_WD_Diplo_UnderdogFortifyDensityTooltip>
+  <TSA_WD_Diplo_UnderdogDefendAttWinMult>弱者防守:进攻方胜率倍率</TSA_WD_Diplo_UnderdogDefendAttWinMult>
+  <TSA_WD_Diplo_UnderdogDefendAttWinTooltip>灵活派系防守时乘以进攻方胜率。</TSA_WD_Diplo_UnderdogDefendAttWinTooltip>
+  <TSA_WD_Diplo_UnderdogAttackAttWinMult>弱者进攻:进攻方胜率倍率</TSA_WD_Diplo_UnderdogAttackAttWinMult>
+  <TSA_WD_Diplo_UnderdogAttackAttWinTooltip>灵活派系进攻时乘以进攻方胜率。</TSA_WD_Diplo_UnderdogAttackAttWinTooltip>
   <TSA_WD_Diplo_UnderdogGrowthGain>弱势方:成长强度获得乘数</TSA_WD_Diplo_UnderdogGrowthGain>
   <TSA_WD_Diplo_UnderdogGrowthGainTooltip>当弱势方增益生效时,成长行动获得的强度乘以此值(如 2 = 双倍成长)。</TSA_WD_Diplo_UnderdogGrowthGainTooltip>
   <TSA_WD_Diplo_UnderdogIncidentWeight>事件发生概率乘数</TSA_WD_Diplo_UnderdogIncidentWeight>

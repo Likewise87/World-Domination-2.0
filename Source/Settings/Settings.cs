@@ -496,26 +496,39 @@ namespace TSA_WorldDomination
         public const float DefTurtlePressureRatio = 4f;
         public const bool DefEnableExpansionistZeal = true;
 
-        public const float DefDurLeaderHandicapDays = 10f;
-        public const float DefCdLeaderHandicapDays = 15f;
-        public const float DefDurUnderdogBuffDays = 10f;
-        public const float DefCdUnderdogBuffDays = 15f;
+        public const float DefDurLeaderHandicapDays = 7f;
+        public const float DefCdLeaderHandicapDays = 7f;
+        public const float DefDurUnderdogBuffDays = 7f;
+        public const float DefCdUnderdogBuffDays = 7f;
         public const float DefDurExpansionistZealDays = 10f;
         public const float DefCdExpansionistZealDays = 15f;
         public const float DefDurAntiLeaderCoalitionDays = 15f;
         public const float DefCdAntiLeaderCoalitionDays = 20f;
         public const float DefZealTriggerChance = 0.20f;
-        public const float DefLeaderHandicapTriggerChance = 0.35f;
-        public const float DefUnderdogBuffTriggerChance = 0.25f;
+        public const float DefLeaderHandicapTriggerChance = 0.85f;
+        public const float DefUnderdogBuffTriggerChance = 0.85f;
         public const float DefAntiLeaderCoalitionTriggerChance = 0.25f;
         public const float DefZealRaidRangeMult = 1.5f;
         public const float DefZealAttritionMult = 0.5f;
-        public const float DefUnderdogActionShareMult = 2f;
+        public const float DefUnderdogActionShareMult = 2.5f;
         public const float DefUnderdogIncidentWeightMult = 0.5f;
         public const float DefUnderdogIncidentSeverityMult = 0.5f;
-        public const float DefUnderdogGrowthGainMult = 2f;
+        public const float DefUnderdogGrowthGainMult = 2.5f;
         public const float DefLeaderIncidentWeightMult = 2f;
         public const float DefLeaderIncidentSeverityMult = 2f;
+        public const float DefLeaderGrowthGainMult = 0.6f;
+        public const int DefMaxConcurrentUnderdogs = 3;
+        public const float DefUnderdogDefendAttWinMult = 0.714f;
+        public const float DefUnderdogAttackAttWinMult = 1.5f;
+        public const float DefLeaderAttackAttWinMult = 0.80f;
+        public const float DefLeaderDefendAttWinMult = 1.15f;
+        public const float DefUnderdogAllyRadiusMult = 1.5f;
+        public const float DefLeaderAllyRadiusMult = 0.75f;
+        public const float DefUnderdogExpandWeightMult = 1.5f;
+        public const float DefUnderdogExpandCdMult = 0.6f;
+        public const float DefLeaderExpandCdMult = 1.4f;
+        public const float DefUnderdogFortifyDensityMult = 1.5f;
+        public const float DefLeaderFortifyDensityMult = 0.75f;
         public const float DefAlliedRaidOrderMinWinChance = 0.50f;
         public const int DefAlliedRaidClaimCostT1 = 15;
         public const int DefAlliedRaidClaimCostT2 = 25;
@@ -1509,6 +1522,19 @@ namespace TSA_WorldDomination
         public float underdogGrowthGainMult = DefUnderdogGrowthGainMult;
         public float leaderIncidentWeightMult = DefLeaderIncidentWeightMult;
         public float leaderIncidentSeverityMult = DefLeaderIncidentSeverityMult;
+        public float leaderGrowthGainMult = DefLeaderGrowthGainMult;
+        public int maxConcurrentUnderdogs = DefMaxConcurrentUnderdogs;
+        public float underdogDefendAttWinMult = DefUnderdogDefendAttWinMult;
+        public float underdogAttackAttWinMult = DefUnderdogAttackAttWinMult;
+        public float leaderAttackAttWinMult = DefLeaderAttackAttWinMult;
+        public float leaderDefendAttWinMult = DefLeaderDefendAttWinMult;
+        public float underdogAllyRadiusMult = DefUnderdogAllyRadiusMult;
+        public float leaderAllyRadiusMult = DefLeaderAllyRadiusMult;
+        public float underdogExpandWeightMult = DefUnderdogExpandWeightMult;
+        public float underdogExpandCdMult = DefUnderdogExpandCdMult;
+        public float leaderExpandCdMult = DefLeaderExpandCdMult;
+        public float underdogFortifyDensityMult = DefUnderdogFortifyDensityMult;
+        public float leaderFortifyDensityMult = DefLeaderFortifyDensityMult;
         public float alliedRaidOrderMinWinChance = DefAlliedRaidOrderMinWinChance;
         public int alliedRaidClaimCostT1 = DefAlliedRaidClaimCostT1;
         public int alliedRaidClaimCostT2 = DefAlliedRaidClaimCostT2;
@@ -1833,6 +1859,7 @@ namespace TSA_WorldDomination
         public bool clampOutpostSkillsAtLevel20 = DefClampOutpostSkillsAtLevel20;
         public bool enableOutpostSkillDiminishingReturns = OutpostSkillScaling.DefEnableDiminishingReturns;
         public float outpostSkillHardCapRaw = OutpostSkillScaling.DefHardCapRaw;
+        public float outpostSkillSocialFirstBandEnd = OutpostSkillScaling.DefSocialFirstBandEnd;
         public float[] outpostSkillBandEnds = (float[])OutpostSkillScaling.DefBandEnds.Clone();
         public float[] outpostSkillBandWeights = (float[])OutpostSkillScaling.DefBandWeights.Clone();
         public float outpostOccupantSkillXpPerProductionCycle = DefOutpostOccupantSkillXpPerProductionCycle;
@@ -2715,6 +2742,19 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref underdogGrowthGainMult, "underdogGrowthGainMult", DefUnderdogGrowthGainMult);
             Scribe_Values.Look(ref leaderIncidentWeightMult, "leaderIncidentWeightMult", DefLeaderIncidentWeightMult);
             Scribe_Values.Look(ref leaderIncidentSeverityMult, "leaderIncidentSeverityMult", DefLeaderIncidentSeverityMult);
+            Scribe_Values.Look(ref leaderGrowthGainMult, "leaderGrowthGainMult", DefLeaderGrowthGainMult);
+            Scribe_Values.Look(ref maxConcurrentUnderdogs, "maxConcurrentUnderdogs", DefMaxConcurrentUnderdogs);
+            Scribe_Values.Look(ref underdogDefendAttWinMult, "underdogDefendAttWinMult", DefUnderdogDefendAttWinMult);
+            Scribe_Values.Look(ref underdogAttackAttWinMult, "underdogAttackAttWinMult", DefUnderdogAttackAttWinMult);
+            Scribe_Values.Look(ref leaderAttackAttWinMult, "leaderAttackAttWinMult", DefLeaderAttackAttWinMult);
+            Scribe_Values.Look(ref leaderDefendAttWinMult, "leaderDefendAttWinMult", DefLeaderDefendAttWinMult);
+            Scribe_Values.Look(ref underdogAllyRadiusMult, "underdogAllyRadiusMult", DefUnderdogAllyRadiusMult);
+            Scribe_Values.Look(ref leaderAllyRadiusMult, "leaderAllyRadiusMult", DefLeaderAllyRadiusMult);
+            Scribe_Values.Look(ref underdogExpandWeightMult, "underdogExpandWeightMult", DefUnderdogExpandWeightMult);
+            Scribe_Values.Look(ref underdogExpandCdMult, "underdogExpandCdMult", DefUnderdogExpandCdMult);
+            Scribe_Values.Look(ref leaderExpandCdMult, "leaderExpandCdMult", DefLeaderExpandCdMult);
+            Scribe_Values.Look(ref underdogFortifyDensityMult, "underdogFortifyDensityMult", DefUnderdogFortifyDensityMult);
+            Scribe_Values.Look(ref leaderFortifyDensityMult, "leaderFortifyDensityMult", DefLeaderFortifyDensityMult);
             Scribe_Values.Look(ref alliedRaidOrderMinWinChance, "alliedRaidOrderMinWinChance", DefAlliedRaidOrderMinWinChance);
             Scribe_Values.Look(ref alliedRaidClaimCostT1, "alliedRaidClaimCostT1", DefAlliedRaidClaimCostT1);
             Scribe_Values.Look(ref alliedRaidClaimCostT2, "alliedRaidClaimCostT2", DefAlliedRaidClaimCostT2);
@@ -3043,6 +3083,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref clampOutpostSkillsAtLevel20, "clampOutpostSkillsAtLevel20", DefClampOutpostSkillsAtLevel20);
             Scribe_Values.Look(ref enableOutpostSkillDiminishingReturns, "enableOutpostSkillDiminishingReturns", OutpostSkillScaling.DefEnableDiminishingReturns);
             Scribe_Values.Look(ref outpostSkillHardCapRaw, "outpostSkillHardCapRaw", OutpostSkillScaling.DefHardCapRaw);
+            Scribe_Values.Look(ref outpostSkillSocialFirstBandEnd, "outpostSkillSocialFirstBandEnd", OutpostSkillScaling.DefSocialFirstBandEnd);
             if (Scribe.mode == LoadSaveMode.Saving || Scribe.mode == LoadSaveMode.LoadingVars)
             {
                 OutpostSkillScaling.EnsureArrays(this);
@@ -3368,6 +3409,7 @@ namespace TSA_WorldDomination
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
+                MigrateLegacyDefaultRaidWinChancesIfUnmodified();
                 EnsureRaidLossTablesInitialized();
                 EnsureRaidOutcomeSeverities();
             }
@@ -3599,6 +3641,23 @@ namespace TSA_WorldDomination
         private static float DefaultWinChanceAt(float threshold, float fallback = 0.5f)
         {
             if (Mathf.Abs(threshold - 0.00f) < 0.001f) return 0.00f;
+            if (Mathf.Abs(threshold - 0.10f) < 0.001f) return 0.02f;
+            if (Mathf.Abs(threshold - 0.25f) < 0.001f) return 0.06f;
+            if (Mathf.Abs(threshold - 0.50f) < 0.001f) return 0.15f;
+            if (Mathf.Abs(threshold - 1.00f) < 0.001f) return 0.35f;
+            if (Mathf.Abs(threshold - 1.50f) < 0.001f) return 0.48f;
+            if (Mathf.Abs(threshold - 2.00f) < 0.001f) return 0.58f;
+            if (Mathf.Abs(threshold - 3.00f) < 0.001f) return 0.72f;
+            if (Mathf.Abs(threshold - 4.00f) < 0.001f) return 0.82f;
+            if (Mathf.Abs(threshold - 5.00f) < 0.001f) return 0.88f;
+            if (Mathf.Abs(threshold - 6.00f) < 0.001f) return 0.92f;
+            return fallback;
+        }
+
+        /// <summary>Legacy default attacker win chances (pre underdog-fun retune). Used to detect unmodified tables for auto-migrate.</summary>
+        private static float LegacyDefaultWinChanceAt(float threshold)
+        {
+            if (Mathf.Abs(threshold - 0.00f) < 0.001f) return 0.00f;
             if (Mathf.Abs(threshold - 0.10f) < 0.001f) return 0.03f;
             if (Mathf.Abs(threshold - 0.25f) < 0.001f) return 0.10f;
             if (Mathf.Abs(threshold - 0.50f) < 0.001f) return 0.20f;
@@ -3609,7 +3668,28 @@ namespace TSA_WorldDomination
             if (Mathf.Abs(threshold - 4.00f) < 0.001f) return 0.94f;
             if (Mathf.Abs(threshold - 5.00f) < 0.001f) return 0.95f;
             if (Mathf.Abs(threshold - 6.00f) < 0.001f) return 0.99f;
-            return fallback;
+            return -1f;
+        }
+
+        /// <summary>If scribed raidOutcomes still match the old default winChance curve, rewrite to the new Def curve.</summary>
+        public void MigrateLegacyDefaultRaidWinChancesIfUnmodified()
+        {
+            if (raidOutcomes == null || raidOutcomes.Count == 0) return;
+            for (int i = 0; i < raidOutcomes.Count; i++)
+            {
+                var o = raidOutcomes[i];
+                if (o == null) return;
+                float legacy = LegacyDefaultWinChanceAt(o.threshold);
+                if (legacy < 0f) return; // non-standard threshold → treat as customized
+                if (Mathf.Abs(o.winChance - legacy) > 0.0015f) return;
+            }
+            for (int i = 0; i < raidOutcomes.Count; i++)
+            {
+                var o = raidOutcomes[i];
+                if (o == null) continue;
+                o.winChance = DefaultWinChanceAt(o.threshold, o.winChance);
+            }
+            InvalidateRaidOutcomesCache();
         }
 
         private static RaidOutcome DefaultRaidOutcomeAt(float threshold)
@@ -4360,6 +4440,19 @@ namespace TSA_WorldDomination
             underdogGrowthGainMult = DefUnderdogGrowthGainMult;
             leaderIncidentWeightMult = DefLeaderIncidentWeightMult;
             leaderIncidentSeverityMult = DefLeaderIncidentSeverityMult;
+            leaderGrowthGainMult = DefLeaderGrowthGainMult;
+            maxConcurrentUnderdogs = DefMaxConcurrentUnderdogs;
+            underdogDefendAttWinMult = DefUnderdogDefendAttWinMult;
+            underdogAttackAttWinMult = DefUnderdogAttackAttWinMult;
+            leaderAttackAttWinMult = DefLeaderAttackAttWinMult;
+            leaderDefendAttWinMult = DefLeaderDefendAttWinMult;
+            underdogAllyRadiusMult = DefUnderdogAllyRadiusMult;
+            leaderAllyRadiusMult = DefLeaderAllyRadiusMult;
+            underdogExpandWeightMult = DefUnderdogExpandWeightMult;
+            underdogExpandCdMult = DefUnderdogExpandCdMult;
+            leaderExpandCdMult = DefLeaderExpandCdMult;
+            underdogFortifyDensityMult = DefUnderdogFortifyDensityMult;
+            leaderFortifyDensityMult = DefLeaderFortifyDensityMult;
             alliedRaidOrderMinWinChance = DefAlliedRaidOrderMinWinChance;
             alliedRaidClaimCostT1 = DefAlliedRaidClaimCostT1;
             alliedRaidClaimCostT2 = DefAlliedRaidClaimCostT2;
@@ -5002,16 +5095,16 @@ namespace TSA_WorldDomination
             raidOutcomes = new List<RaidOutcome>
             {
                 MakeDefaultRaidOutcome(0.00f, 0.00f, 0.80f, 0.40f, 0.02f),
-                MakeDefaultRaidOutcome(0.10f, 0.03f, 0.80f, 0.5f, 0.05f),
-                MakeDefaultRaidOutcome(0.25f, 0.10f, 0.80f, 0.50f, 0.10f),
-                MakeDefaultRaidOutcome(0.50f, 0.20f, 0.80f, 0.60f, 0.20f),
-                MakeDefaultRaidOutcome(1.00f, 0.42f, 0.60f, 0.60f, 0.40f),
-                MakeDefaultRaidOutcome(1.50f, 0.58f, 0.50f, 0.60f, 0.45f),
-                MakeDefaultRaidOutcome(2.00f, 0.70f, 0.45f, 0.70f, 0.50f),
-                MakeDefaultRaidOutcome(3.00f, 0.88f, 0.25f, 0.70f, 0.60f),
-                MakeDefaultRaidOutcome(4.00f, 0.94f, 0.15f, 0.70f, 0.60f),
-                MakeDefaultRaidOutcome(5.00f, 0.95f, 0.12f, 0.70f, 0.60f),
-                MakeDefaultRaidOutcome(6.00f, 0.99f, 0.10f, 0.70f, 0.60f)
+                MakeDefaultRaidOutcome(0.10f, 0.02f, 0.80f, 0.5f, 0.05f),
+                MakeDefaultRaidOutcome(0.25f, 0.06f, 0.80f, 0.50f, 0.10f),
+                MakeDefaultRaidOutcome(0.50f, 0.15f, 0.80f, 0.60f, 0.20f),
+                MakeDefaultRaidOutcome(1.00f, 0.35f, 0.60f, 0.60f, 0.40f),
+                MakeDefaultRaidOutcome(1.50f, 0.48f, 0.50f, 0.60f, 0.45f),
+                MakeDefaultRaidOutcome(2.00f, 0.58f, 0.45f, 0.70f, 0.50f),
+                MakeDefaultRaidOutcome(3.00f, 0.72f, 0.25f, 0.70f, 0.60f),
+                MakeDefaultRaidOutcome(4.00f, 0.82f, 0.15f, 0.70f, 0.60f),
+                MakeDefaultRaidOutcome(5.00f, 0.88f, 0.12f, 0.70f, 0.60f),
+                MakeDefaultRaidOutcome(6.00f, 0.92f, 0.10f, 0.70f, 0.60f)
             };
             raidAttLossOnWin = new List<RaidSideLossEntry>(RaidSeverityDefaults.DefaultAttWinLoss());
             raidAttLossOnLoss = new List<RaidSideLossEntry>(RaidSeverityDefaults.DefaultAttLossLoss());

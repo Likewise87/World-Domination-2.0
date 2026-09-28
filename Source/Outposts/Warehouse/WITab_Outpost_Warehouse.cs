@@ -14,6 +14,39 @@ namespace TSA_WorldDomination
         Nonfood = 2
     }
 
+    /// <summary>
+    /// Warehouse-tab icons. Must live on a dedicated <see cref="StaticConstructorOnStartup"/> type —
+    /// not on <see cref="WITab_Outpost_Warehouse"/> — because inspect-tab types are constructed during
+    /// def resolve and that can run their static ctor off the main thread.
+    /// </summary>
+    [StaticConstructorOnStartup]
+    internal static class WITab_Outpost_WarehouseAssets
+    {
+        internal static readonly Texture2D LandIcon;
+        internal static readonly Texture2D DropPodIcon;
+        internal static readonly Texture2D AutoDeliverIconOn;
+        internal static readonly Texture2D AutoDeliverIconOff;
+        internal static readonly Texture2D DeliveryDestinationIcon;
+        internal static readonly Texture2D VirtualFoodIcon;
+
+        static WITab_Outpost_WarehouseAssets()
+        {
+            LandIcon = ContentFinder<Texture2D>.Get("UI/Commands/Icon_ActiveTravelers", false)
+                ?? TexCommand.Install;
+            DropPodIcon = ContentFinder<Texture2D>.Get("WorldObjects/DropPod_OutpostGoods", false)
+                ?? TexCommand.Install;
+            AutoDeliverIconOn = ContentFinder<Texture2D>.Get("UI/Commands/AutoDeliver", false)
+                ?? TexCommand.Install;
+            AutoDeliverIconOff = ContentFinder<Texture2D>.Get("UI/Commands/AutoDeliver_Off", false)
+                ?? AutoDeliverIconOn;
+            DeliveryDestinationIcon = ContentFinder<Texture2D>.Get("UI/Commands/DeliveryDestination", false)
+                ?? ContentFinder<Texture2D>.Get("UI/Commands/DeliveryTarget", false)
+                ?? TexCommand.Attack;
+            VirtualFoodIcon = ContentFinder<Texture2D>.Get("UI/Commands/ConvertFood", false)
+                ?? TexCommand.Install;
+        }
+    }
+
     /// <summary>Warehouse inventory + shipping controls (method, regular deliveries, ad hoc) in one inspect tab.</summary>
     public class WITab_Outpost_Warehouse : WITab
     {
@@ -45,33 +78,6 @@ namespace TSA_WorldDomination
         private const float ShipNowBtnW = 130f;
         private const float RowRightPad = 10f;
         private static float ControlsWidth => BtnW + CountColW + BtnW + BtnGap + BtnW + BtnGap + MaxBtnW;
-
-        private static Texture2D landIcon;
-        private static Texture2D dropPodIcon;
-        private static Texture2D autoDeliverIconOn;
-        private static Texture2D autoDeliverIconOff;
-        private static Texture2D deliveryDestinationIcon;
-
-        private static Texture2D LandIcon =>
-            landIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Icon_ActiveTravelers", false)
-                ?? TexCommand.Install;
-        private static Texture2D DropPodIcon =>
-            dropPodIcon ??= ContentFinder<Texture2D>.Get("WorldObjects/DropPod_OutpostGoods", false)
-                ?? TexCommand.Install;
-        private static Texture2D AutoDeliverIconOn =>
-            autoDeliverIconOn ??= ContentFinder<Texture2D>.Get("UI/Commands/AutoDeliver", false)
-                ?? TexCommand.Install;
-        private static Texture2D AutoDeliverIconOff =>
-            autoDeliverIconOff ??= ContentFinder<Texture2D>.Get("UI/Commands/AutoDeliver_Off", false)
-                ?? AutoDeliverIconOn;
-        private static Texture2D DeliveryDestinationIcon =>
-            deliveryDestinationIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/DeliveryDestination", false)
-                ?? ContentFinder<Texture2D>.Get("UI/Commands/DeliveryTarget", false)
-                ?? TexCommand.Attack;
-        private static Texture2D virtualFoodIcon;
-        private static Texture2D VirtualFoodIcon =>
-            virtualFoodIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/ConvertFood", false)
-                ?? TexCommand.Install;
 
         public WITab_Outpost_Warehouse()
         {
@@ -278,7 +284,7 @@ namespace TSA_WorldDomination
 
             float methodW = Mathf.Max(130f, controlsW - ShipNowBtnW - 8f) - 30f;
             Rect methodRect = new Rect(controlsX, rowY, methodW, FooterRowHeight);
-            Texture2D methodIcon = viaPod ? DropPodIcon : LandIcon;
+            Texture2D methodIcon = viaPod ? WITab_Outpost_WarehouseAssets.DropPodIcon : WITab_Outpost_WarehouseAssets.LandIcon;
             string methodLabel = viaPod
                 ? "TSA_WD_DispatchMode_DropPod".Translate()
                 : "TSA_WD_DispatchMode_Land".Translate();
@@ -293,7 +299,7 @@ namespace TSA_WorldDomination
             Rect shipNowRect = new Rect(methodRect.xMax + 8f, rowY, ShipNowBtnW, FooterRowHeight);
             if (WorldDomination_UIUtils.ButtonTextWithIcon(
                     shipNowRect,
-                    DeliveryDestinationIcon,
+                    WITab_Outpost_WarehouseAssets.DeliveryDestinationIcon,
                     "TSA_WD_WarehouseTab_ShipNow".Translate()))
                 BeginAdHocSend(outpost, comp);
             TooltipHandler.TipRegion(shipNowRect, "TSA_WD_WarehouseTab_AdHocSendTip".Translate());
@@ -334,14 +340,14 @@ namespace TSA_WorldDomination
         private static Texture2D ResolveAutoDeliveryButtonIcon(CompOutpostWarehouse comp)
         {
             if (comp == null || !comp.autoShipEnabled)
-                return AutoDeliverIconOff;
+                return WITab_Outpost_WarehouseAssets.AutoDeliverIconOff;
 
             WorldObject dest = comp.ResolveShipDestination();
             if (dest is WorldObject_WD_Outpost wo && wo.def?.ExpandingIconTexture != null)
                 return wo.def.ExpandingIconTexture;
             if (dest?.Faction?.def?.FactionIcon != null)
                 return dest.Faction.def.FactionIcon;
-            return AutoDeliverIconOn;
+            return WITab_Outpost_WarehouseAssets.AutoDeliverIconOn;
         }
 
         private static Texture2D ResolveDestinationMenuIcon(WorldObject destination)
@@ -366,7 +372,7 @@ namespace TSA_WorldDomination
                         SoundDefOf.Click.PlayOneShotOnCamera();
                     }
                 },
-                LandIcon,
+                WITab_Outpost_WarehouseAssets.LandIcon,
                 WorldOverlayLineMaterials.DarkCyanColor));
 
             var podOpt = new FloatMenuOption(
@@ -379,7 +385,7 @@ namespace TSA_WorldDomination
                         SoundDefOf.Click.PlayOneShotOnCamera();
                     }
                 },
-                DropPodIcon,
+                WITab_Outpost_WarehouseAssets.DropPodIcon,
                 WorldOverlayLineMaterials.DarkCyanColor);
             if (!podsResearched)
             {
@@ -402,7 +408,7 @@ namespace TSA_WorldDomination
                     comp.autoShipEnabled = false;
                     SoundDefOf.Click.PlayOneShotOnCamera();
                 },
-                AutoDeliverIconOff,
+                WITab_Outpost_WarehouseAssets.AutoDeliverIconOff,
                 Color.white));
 
             var destinations = Outpost_Warehouse_Delivery.CollectValidItemDeliveryDestinations(outpost);
@@ -545,8 +551,8 @@ namespace TSA_WorldDomination
 
             float contentY = y + RowHeight / 2f;
             Rect iconRect = new Rect(row.x + 4f, contentY - RowIconSize / 2f, RowIconSize, RowIconSize);
-            if (VirtualFoodIcon != null)
-                Widgets.DrawTextureFitted(iconRect, VirtualFoodIcon, 1f);
+            if (WITab_Outpost_WarehouseAssets.VirtualFoodIcon != null)
+                Widgets.DrawTextureFitted(iconRect, WITab_Outpost_WarehouseAssets.VirtualFoodIcon, 1f);
 
             float controlsX = width - ControlsWidth - RowRightPad;
             Rect labelRect = new Rect(iconRect.xMax + 8f, y, controlsX - iconRect.xMax - 12f, RowHeight);

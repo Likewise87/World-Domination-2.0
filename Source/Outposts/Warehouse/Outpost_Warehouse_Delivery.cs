@@ -10,6 +10,12 @@ namespace TSA_WorldDomination
     [StaticConstructorOnStartup]
     public static class Outpost_Warehouse_Delivery
     {
+        static Outpost_Warehouse_Delivery()
+        {
+            // Prefetch on main thread at startup (avoid lazy ContentFinder from early callers).
+            GetDeliveryTargetMouseIcon();
+        }
+
         public static bool IsWarehouseOutpost(WorldObject_WD_Outpost outpost) =>
             outpost != null && Outpost_Production_Utils.IsWarehouseOutpost(outpost.def);
 

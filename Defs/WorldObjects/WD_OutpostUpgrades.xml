@@ -777,4 +777,78 @@
     </cost>
   </TSA_WorldDomination.OutpostUpgradeDef>
 
+  <!-- Recruitment (universal): propaganda line + Conversion Chair -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_PropagandaPrinter</defName>
+    <label>Propaganda Printer</label>
+    <description>Leaflets and posters that soften captive resistance faster. Replaced by better propaganda gear on this line.</description>
+    <imagePath>UI/OutpostUpgrades/PrinterIcon</imagePath>
+    <category>Recruitment</category>
+    <upgradeLineId>Line_Propaganda</upgradeLineId>
+    <lineTier>1</lineTier>
+    <requiresPreviousLineTier>true</requiresPreviousLineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <prisonerRecruitSpeedBonus>0.15</prisonerRecruitSpeedBonus>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>150</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>6</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_PropagandaRadio</defName>
+    <label>Propaganda Radio</label>
+    <description>Broadcast propaganda that breaks down prisoner resistance faster. Replaces the Propaganda Printer.</description>
+    <imagePath>UI/OutpostUpgrades/PropagandaRadio</imagePath>
+    <category>Recruitment</category>
+    <upgradeLineId>Line_Propaganda</upgradeLineId>
+    <lineTier>2</lineTier>
+    <requiresPreviousLineTier>true</requiresPreviousLineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <prisonerRecruitSpeedBonus>0.25</prisonerRecruitSpeedBonus>
+    <requiredResearch>Electricity</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>250</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>10</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_ReEducationCenter</defName>
+    <label>Re-education Center</label>
+    <description>A dedicated facility that accelerates prisoner recruitment. Replaces Propaganda Radio on this line.</description>
+    <imagePath>UI/OutpostUpgrades/Re_EducationCenter</imagePath>
+    <category>Recruitment</category>
+    <upgradeLineId>Line_Propaganda</upgradeLineId>
+    <lineTier>3</lineTier>
+    <requiresPreviousLineTier>true</requiresPreviousLineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <prisonerRecruitSpeedBonus>0.35</prisonerRecruitSpeedBonus>
+    <requiredResearch>AdvancedFabrication</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>80</count></li>
+      <li><thingDef>Plasteel</thingDef><count>120</count></li>
+      <li><thingDef>ComponentSpacer</thingDef><count>4</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_ConversionChair</defName>
+    <label>Conversion Chair</label>
+    <description>Makes unwavering prisoners recruitable and speeds resistance reduction. Stacks with the propaganda line.</description>
+    <imagePath>UI/OutpostUpgrades/ConversionChair</imagePath>
+    <category>Recruitment</category>
+    <upgradeLineId>Line_ConversionChair</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <prisonerRecruitSpeedBonus>0.15</prisonerRecruitSpeedBonus>
+    <enablesUnwaveringRecruit>true</enablesUnwaveringRecruit>
+    <requiredResearch>AdvancedFabrication</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>100</count></li>
+      <li><thingDef>Plasteel</thingDef><count>80</count></li>
+      <li><thingDef>ComponentSpacer</thingDef><count>4</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
 </Defs>

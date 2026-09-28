@@ -189,7 +189,7 @@
   <TSA_WD_DescResetAll>Restore all mod settings to defaults.</TSA_WD_DescResetAll>
   <TSA_WD_DescSabotage>Success and failure likelihoods, cooldowns, and skill impact for sabotage missions.</TSA_WD_DescSabotage>
   <TSA_WD_DescWorldGen>How likely shall it be for T1, T2, T3, T4 settlements to be created at initial world generation?</TSA_WD_DescWorldGen>
-  <TSA_WD_DescWorldRaids>Configure simulated raid outcomes: win chance curves, losses, and the minimum strength ratio needed to attack. Travel strength loss while moving is under Caravans.</TSA_WD_DescWorldRaids>
+  <TSA_WD_DescWorldRaids>Configure simulated raid outcomes: win chance curves, losses, and the minimum strength ratio needed to attack. Default curve favors defenders (~35% attacker win at equal strength). Travel strength loss while moving is under Caravans.</TSA_WD_DescWorldRaids>
   <TSA_WD_DescCaravans>Travel attrition, water pathing for WD caravans, trader caravans, player colony trader spacing, outpost delivery costs, and storyteller trader blocking. Water pathing is also set by Setting presets → Performance.</TSA_WD_DescCaravans>
   <TSA_WD_DescExperimental>World actions and raid logic experiments, world-map icon zoom behavior, overlay hold key, NPC fortify travelers, traveler pollution damage, and pollution pathfinding toggles.</TSA_WD_DescExperimental>
   <TSA_WD_HeaderImportant>Setting presets</TSA_WD_HeaderImportant>
@@ -830,6 +830,8 @@
   <TSA_WD_SkillScaling_EnableTip>When on, stacking more total skill past the first threshold gives less and less extra production.</TSA_WD_SkillScaling_EnableTip>
   <TSA_WD_SkillScaling_HardCap>Hard cap (raw skill)</TSA_WD_SkillScaling_HardCap>
   <TSA_WD_SkillScaling_HardCapTip>Past this total raw skill, more skill adds no further production capacity.</TSA_WD_SkillScaling_HardCapTip>
+  <TSA_WD_SkillScaling_SocialFirstBand>Social outposts full efficiency until</TSA_WD_SkillScaling_SocialFirstBand>
+  <TSA_WD_SkillScaling_SocialFirstBandTip>For recruiting, trading, and embassy outposts only. Cumulative Social counts fully up to this total, then follows the shared efficiency bands below.</TSA_WD_SkillScaling_SocialFirstBandTip>
   <TSA_WD_SkillScaling_BandsHeader>Skill bands</TSA_WD_SkillScaling_BandsHeader>
   <TSA_WD_SkillScaling_BandsTip></TSA_WD_SkillScaling_BandsTip>
   <TSA_WD_SkillScaling_BandRange>Setting applies to cumulative skill from {0} to {1}</TSA_WD_SkillScaling_BandRange>
@@ -841,6 +843,7 @@
   <TSA_WD_SkillScaling_PreviewHeader>Preview</TSA_WD_SkillScaling_PreviewHeader>
   <TSA_WD_SkillScaling_PreviewRaw>Sample raw skill</TSA_WD_SkillScaling_PreviewRaw>
   <TSA_WD_SkillScaling_PreviewResult>Effective skill: {0}</TSA_WD_SkillScaling_PreviewResult>
+  <TSA_WD_SkillScaling_PreviewResultSocial>Social outposts effective: {0}</TSA_WD_SkillScaling_PreviewResultSocial>
   <TSA_WD_SkillScaling_RawToEffective>{0} → {1}</TSA_WD_SkillScaling_RawToEffective>
   <TSA_WD_SkillScaling_DisabledTip>Skill diminishing returns are disabled.</TSA_WD_SkillScaling_DisabledTip>
   <TSA_WD_SkillScaling_BreakdownHeader>Skill scaling: {0} raw → {1} effective</TSA_WD_SkillScaling_BreakdownHeader>
@@ -949,7 +952,7 @@
   <TSA_WD_Experimental_AT_TurretHitBand76To100Tip>Base hit chance at the outer edge of AT Turret range. Independent from mortar / T4 settlement accuracy.</TSA_WD_Experimental_AT_TurretHitBand76To100Tip>
   <TSA_WD_Experimental_HeaderControls>World map controls</TSA_WD_Experimental_HeaderControls>
   <TSA_WD_AutoAdd_DefaultOn>Auto-Add Arrivals on by default</TSA_WD_AutoAdd_DefaultOn>
-  <TSA_WD_AutoAdd_DefaultOnTip>When on, newly founded WD outposts start with the Auto-Add Arrivals gizmo enabled. Existing outposts are unchanged. You can still toggle each outpost individually.</TSA_WD_AutoAdd_DefaultOnTip>
+  <TSA_WD_AutoAdd_DefaultOnTip>When on, newly founded WD outposts start with the Auto-Add Arrivals gizmo enabled (caravans whose destination is the outpost). Existing outposts are unchanged. You can still toggle each outpost individually.</TSA_WD_AutoAdd_DefaultOnTip>
   <TSA_WD_TravelFood_PrisonerRecruit>Give food to prisoners transferred after recruitment</TSA_WD_TravelFood_PrisonerRecruit>
   <TSA_WD_TravelFood_PrisonerRecruitTip>When on, prisoners sent to a scheduled colony or outpost after recruitment leave with 150 pemmican each. From a colony, that pemmican is paid for with map food of equal nutrition (prefer food that spoils sooner). From an outpost, it is paid from virtual food. Shortfalls transfer without that pack.</TSA_WD_TravelFood_PrisonerRecruitTip>
   <TSA_WD_TravelFood_AllPlayerPawns>Give food to any pawn transferred via All Player Pawns</TSA_WD_TravelFood_AllPlayerPawns>

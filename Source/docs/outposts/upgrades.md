@@ -24,6 +24,19 @@ Material costs and research requirements can be enabled or disabled in mod setti
 
 Palisade Walls, Stone Wall, Steel Wall, and Plasteel Wall Reinforcements belong to the same wall line. Higher wall tiers replace lower ones for the listed defensive strength bonus (they do not stack). On a manual defense map, the perimeter uses that tier's material (wood, granite blocks, steel, or plasteel). Beyond Our Reach adds further wall tiers when that mod is active. Basic and Advanced Hospital likewise occupy the same hospital line. The interface shows any replacement or prerequisite behavior before construction.
 
+## Recruitment (universal)
+
+These upgrades speed **prisoner resistance reduction** at any outpost (same path as the Warden expert). They do not affect Recruiting Outpost production cycles.
+
+| Upgrade | Cost | Research | Effect |
+|---|---|---|---|
+| Propaganda Printer | 150 steel, 6 industrial components | None | +15% prisoner recruit speed |
+| Propaganda Radio | 250 steel, 10 industrial components | Electricity | +25% prisoner recruit speed (replaces Printer) |
+| Re-education Center | 80 steel, 120 plasteel, 4 advanced components | Advanced Fabrication | +35% prisoner recruit speed (replaces Radio) |
+| Conversion Chair | 100 steel, 80 plasteel, 4 advanced components | Advanced Fabrication | +15% recruit speed; unwavering captives become recruitable |
+
+Propaganda Printer, Radio, and Re-education Center share one line (build in order). Conversion Chair is a separate line and stacks with propaganda. With Conversion Chair, unwavering captives stay unwavering until a daily recruit pulse where they hold a concurrent recruit slot (list order, same slots as active recruits). That pulse only flips them recruitable (and Maintain Only → Attempt Recruit on first flip); resistance reduction starts on a later pulse. Maintain Only after conversion is an opt-out.
+
 ## Mining Outpost
 
 Mining lift tiers improve the tile mining score and add defense.

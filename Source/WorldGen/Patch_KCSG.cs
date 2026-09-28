@@ -195,9 +195,9 @@ namespace TSA_WorldDomination
 
             string label = __instance.LabelCap;
 
-            if (WorldActions_Utils.HasActiveQuest(__instance))
+            if (WorldActions_Utils.HasActiveQuestBlockingWdMapGen(__instance))
             {
-                LogKcsgHijackDecision(label, hijacked: false, "active quest");
+                LogKcsgHijackDecision(label, hijacked: false, "active quest (non-WD map-gen)");
                 return;
             }
 
@@ -250,10 +250,10 @@ namespace TSA_WorldDomination
             if (!WorldActions_Utils.IsWdBaseGenEligible(settlement.Faction)) return;
             if (!WorldActions_Utils.IsWdSurfaceTile(settlement.Tile)) return;
 
-            // QUEST EXCLUSION
-            if (WorldActions_Utils.HasActiveQuest(settlement))
+            // QUEST EXCLUSION (vanilla / non-WD map-gen quests only; Common Enemy destroy target still hijacks)
+            if (WorldActions_Utils.HasActiveQuestBlockingWdMapGen(settlement))
             {
-                WDVerbose.MsgNoTick($"KCSG layout override skipped for {settlement.LabelCap}: active quest");
+                WDVerbose.MsgNoTick($"KCSG layout override skipped for {settlement.LabelCap}: active quest (non-WD map-gen)");
                 return;
             }
 

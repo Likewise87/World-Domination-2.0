@@ -57,10 +57,14 @@ namespace TSA_WorldDomination
             manager.currentWorldLeader = null;
             manager.leaderHandicapExpiryTick = -1;
             manager.leaderHandicapCooldownTick = tickNow + Mathf.RoundToInt(seth.cdLeaderHandicapDays * 60000f);
+            manager.leaderHandicapCooldownByFaction?.Clear();
 
             manager.currentWeakestUnderdog = null;
+            if (manager.activeUnderdogs == null) manager.activeUnderdogs = new List<Faction>();
+            else manager.activeUnderdogs.Clear();
             manager.underdogBuffExpiryTick = -1;
             manager.underdogBuffCooldownTick = tickNow + Mathf.RoundToInt(seth.cdUnderdogBuffDays * 60000f);
+            manager.underdogBuffCooldownByFaction?.Clear();
 
             manager.expansionistZealFaction = null;
             manager.expansionistZealExpiryTick = -1;
@@ -76,6 +80,140 @@ namespace TSA_WorldDomination
             WorldActions_SpecialEventCooldown.Stamp(manager, SpecialWorldEventKind.Revolt);
         }
 
+        public static bool IsActiveLeader(Faction f, WorldComponent_SpreadManager manager = null)
+        {
+            if (f == null) return false;
+            manager ??= Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            if (manager == null) return false;
+            return manager.currentWorldLeader == f
+                && Find.TickManager.TicksGame < manager.leaderHandicapExpiryTick;
+        }
+
+        public static bool IsActiveUnderdog(Faction f, WorldComponent_SpreadManager manager = null)
+        {
+            if (f == null) return false;
+            manager ??= Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            if (manager == null || Find.TickManager.TicksGame >= manager.underdogBuffExpiryTick)
+                return false;
+            if (manager.activeUnderdogs != null)
+            {
+                for (int i = 0; i < manager.activeUnderdogs.Count; i++)
+                {
+                    if (manager.activeUnderdogs[i] == f) return true;
+                }
+            }
+            return manager.currentWeakestUnderdog == f;
+        }
+
+        public static bool IsFactionOnLeaderHandicapCooldown(Faction f, WorldComponent_SpreadManager manager)
+        {
+            if (f == null || manager?.leaderHandicapCooldownByFaction == null) return false;
+            return manager.leaderHandicapCooldownByFaction.TryGetValue(f.loadID, out int until)
+                && Find.TickManager.TicksGame < until;
+        }
+
+        public static bool IsFactionOnUnderdogCooldown(Faction f, WorldComponent_SpreadManager manager)
+        {
+            if (f == null || manager?.underdogBuffCooldownByFaction == null) return false;
+            return manager.underdogBuffCooldownByFaction.TryGetValue(f.loadID, out int until)
+                && Find.TickManager.TicksGame < until;
+        }
+
+        public static int GetLeaderCooldownUntil(Faction f, WorldComponent_SpreadManager manager)
+        {
+            if (f == null || manager?.leaderHandicapCooldownByFaction == null) return -1;
+            return manager.leaderHandicapCooldownByFaction.TryGetValue(f.loadID, out int until) ? until : -1;
+        }
+
+        public static int GetUnderdogCooldownUntil(Faction f, WorldComponent_SpreadManager manager)
+        {
+            if (f == null || manager?.underdogBuffCooldownByFaction == null) return -1;
+            return manager.underdogBuffCooldownByFaction.TryGetValue(f.loadID, out int until) ? until : -1;
+        }
+
+        private static void StampLeaderPersonalCooldown(WorldComponent_SpreadManager manager, Faction f, WorldDominationSettings seth)
+        {
+            if (manager == null || f == null || seth == null) return;
+            if (manager.leaderHandicapCooldownByFaction == null)
+                manager.leaderHandicapCooldownByFaction = new Dictionary<int, int>();
+            int until = Find.TickManager.TicksGame + Mathf.RoundToInt(seth.cdLeaderHandicapDays * 60000f);
+            manager.leaderHandicapCooldownByFaction[f.loadID] = until;
+        }
+
+        private static void StampUnderdogPersonalCooldown(WorldComponent_SpreadManager manager, Faction f, WorldDominationSettings seth)
+        {
+            if (manager == null || f == null || seth == null) return;
+            if (manager.underdogBuffCooldownByFaction == null)
+                manager.underdogBuffCooldownByFaction = new Dictionary<int, int>();
+            int until = Find.TickManager.TicksGame + Mathf.RoundToInt(seth.cdUnderdogBuffDays * 60000f);
+            manager.underdogBuffCooldownByFaction[f.loadID] = until;
+        }
+
+        /// <summary>Expire finished leader/underdog waves and stamp per-faction cooldowns.</summary>
+        public static void ClearExpiredLeaderAndUnderdog(WorldComponent_SpreadManager manager)
+        {
+            if (manager == null) return;
+            var seth = WorldDominationMod.settings;
+            int now = Find.TickManager.TicksGame;
+
+            if (manager.currentWorldLeader != null && manager.leaderHandicapExpiryTick >= 0 && now >= manager.leaderHandicapExpiryTick)
+            {
+                if (seth != null)
+                    StampLeaderPersonalCooldown(manager, manager.currentWorldLeader, seth);
+                manager.currentWorldLeader = null;
+                manager.leaderHandicapExpiryTick = -1;
+            }
+
+            bool underdogWaveEnded = manager.underdogBuffExpiryTick >= 0 && now >= manager.underdogBuffExpiryTick;
+            bool hasUnderdogs = (manager.activeUnderdogs != null && manager.activeUnderdogs.Count > 0)
+                || manager.currentWeakestUnderdog != null;
+            if (underdogWaveEnded && hasUnderdogs)
+            {
+                if (seth != null)
+                {
+                    if (manager.activeUnderdogs != null)
+                    {
+                        for (int i = 0; i < manager.activeUnderdogs.Count; i++)
+                            StampUnderdogPersonalCooldown(manager, manager.activeUnderdogs[i], seth);
+                    }
+                    if (manager.currentWeakestUnderdog != null)
+                        StampUnderdogPersonalCooldown(manager, manager.currentWeakestUnderdog, seth);
+                }
+                manager.activeUnderdogs?.Clear();
+                manager.currentWeakestUnderdog = null;
+                manager.underdogBuffExpiryTick = -1;
+            }
+        }
+
+        public static void MigrateLegacyUnderdogLeaderState(WorldComponent_SpreadManager manager)
+        {
+            if (manager == null) return;
+            if (manager.activeUnderdogs == null)
+                manager.activeUnderdogs = new List<Faction>();
+            if (manager.leaderHandicapCooldownByFaction == null)
+                manager.leaderHandicapCooldownByFaction = new Dictionary<int, int>();
+            if (manager.underdogBuffCooldownByFaction == null)
+                manager.underdogBuffCooldownByFaction = new Dictionary<int, int>();
+
+            if (manager.activeUnderdogs.Count == 0 && manager.currentWeakestUnderdog != null)
+                manager.activeUnderdogs.Add(manager.currentWeakestUnderdog);
+
+            // Migrate legacy global CD into personal CD for the active/legacy faction.
+            int now = Find.TickManager.TicksGame;
+            if (manager.leaderHandicapCooldownTick > now
+                && manager.currentWorldLeader != null
+                && !manager.leaderHandicapCooldownByFaction.ContainsKey(manager.currentWorldLeader.loadID))
+            {
+                manager.leaderHandicapCooldownByFaction[manager.currentWorldLeader.loadID] = manager.leaderHandicapCooldownTick;
+            }
+            if (manager.underdogBuffCooldownTick > now
+                && manager.currentWeakestUnderdog != null
+                && !manager.underdogBuffCooldownByFaction.ContainsKey(manager.currentWeakestUnderdog.loadID))
+            {
+                manager.underdogBuffCooldownByFaction[manager.currentWeakestUnderdog.loadID] = manager.underdogBuffCooldownTick;
+            }
+        }
+
         // 1. WORLD LEADER DEBUFF
         public static void ApplyLeaderHandicap(WorldComponent_SpreadManager manager, SpreadLogEntry.GlobalWorldStats precomputedStats = null)
         {
@@ -83,11 +221,12 @@ namespace TSA_WorldDomination
             var seth = WorldDominationMod.settings;
             if (!seth.enableLeaderHandicap) return;
 
-            // CHECK: Active status or Cooldown
+            ClearExpiredLeaderAndUnderdog(manager);
+
             if (manager.currentWorldLeader != null && Find.TickManager.TicksGame < manager.leaderHandicapExpiryTick) return;
+            // New-game / legacy global grace
             if (Find.TickManager.TicksGame < manager.leaderHandicapCooldownTick) return;
 
-            // Per-day likelihood (from Diplomacy settings: Trigger chance)
             if (Rand.Value > seth.leaderHandicapTriggerChance) return;
 
             var stats = precomputedStats ?? WorldStatsUtils.GetWorldPowerStats();
@@ -111,19 +250,19 @@ namespace TSA_WorldDomination
             if (!isDominant) return;
 
             Faction leader = leaderStat.faction;
+            if (IsFactionOnLeaderHandicapCooldown(leader, manager)) return;
+
             manager.currentWorldLeader = leader;
 
             int durationTicks = Mathf.RoundToInt(seth.durLeaderHandicapDays * 60000f);
-            int cooldownTicks = Mathf.RoundToInt(seth.cdLeaderHandicapDays * 60000f);
-
             manager.leaderHandicapExpiryTick = Find.TickManager.TicksGame + durationTicks;
-            manager.leaderHandicapCooldownTick = Find.TickManager.TicksGame + durationTicks + cooldownTicks;
+            manager.leaderHandicapCooldownTick = -1;
 
             string msg = "TSA_WD_Diplo_LeaderHandicap_Msg".Translate(leader.Name.Colorize(Color.cyan), seth.durLeaderHandicapDays.ToString("F0"));
             var anchorSettlement = manager.GetAnchorSettlementForFaction(leader);
             var leaderLog = new SpreadLogEntry(msg, anchorSettlement, null);
             leaderLog.highlightKind = SpreadLogHighlightKind.Diplomacy;
-            manager.AddLog(leaderLog); // action log lists a random settlement of that faction (targetA)
+            manager.AddLog(leaderLog);
 
             if (seth.notifyLeaderHandicap)
             {
@@ -131,53 +270,72 @@ namespace TSA_WorldDomination
             }
         }
 
-        // 2. WEAKEST FACTION BUFF
+        // 2. UNDERDOG BUFF (multi-faction wave)
         public static void ApplyUnderdogBuff(WorldComponent_SpreadManager manager, SpreadLogEntry.GlobalWorldStats precomputedStats = null)
         {
             if (IsGracePeriodActive) return;
             var seth = WorldDominationMod.settings;
             if (!seth.enableUnderdogBuff) return;
 
-            // CHECK: Active status or Cooldown
+            ClearExpiredLeaderAndUnderdog(manager);
+
+            if (manager.activeUnderdogs != null && manager.activeUnderdogs.Count > 0
+                && Find.TickManager.TicksGame < manager.underdogBuffExpiryTick) return;
             if (manager.currentWeakestUnderdog != null && Find.TickManager.TicksGame < manager.underdogBuffExpiryTick) return;
             if (Find.TickManager.TicksGame < manager.underdogBuffCooldownTick) return;
 
-            // Per-day likelihood (from Diplomacy settings: Trigger chance)
             if (Rand.Value > seth.underdogBuffTriggerChance) return;
 
             var stats = precomputedStats ?? WorldStatsUtils.GetWorldPowerStats();
             var npcStats = new List<SpreadLogEntry.FactionStat>();
             for (int i = 0; i < stats.FactionStats.Count; i++)
             {
-                if (stats.FactionStats[i].faction != Faction.OfPlayer)
+                if (stats.FactionStats[i].faction != null && stats.FactionStats[i].faction != Faction.OfPlayer)
                     npcStats.Add(stats.FactionStats[i]);
             }
 
             if (npcStats.Count < 2) return;
 
-            var weaklingStat = npcStats[npcStats.Count - 1];
-            if (weaklingStat == null) return;
-
             WorldStatsUtils.GetLivingNpcStrengthTotals(stats, out float npcTotal, out int livingN);
-            float relative = WorldStatsUtils.RelativeToNpcEqualShare(weaklingStat.TotalStr, npcTotal, livingN);
 
-            bool isPathetic = relative < 0.8f;
-            if (!isPathetic) return;
+            // Weakest first (FactionStats are typically strongest-first).
+            var weakestFirst = new List<SpreadLogEntry.FactionStat>(npcStats);
+            weakestFirst.Sort((a, b) => a.TotalStr.CompareTo(b.TotalStr));
 
-            Faction underdog = weaklingStat.faction;
-            manager.currentWeakestUnderdog = underdog;
+            int maxConcurrent = Mathf.Max(1, seth.maxConcurrentUnderdogs);
+            var picked = new List<Faction>();
+            for (int i = 0; i < weakestFirst.Count && picked.Count < maxConcurrent; i++)
+            {
+                var st = weakestFirst[i];
+                if (st?.faction == null || st.faction.IsPlayer) continue;
+                float relative = WorldStatsUtils.RelativeToNpcEqualShare(st.TotalStr, npcTotal, livingN);
+                if (relative >= 0.8f) continue;
+                if (IsFactionOnUnderdogCooldown(st.faction, manager)) continue;
+                picked.Add(st.faction);
+            }
+
+            if (picked.Count < 1) return;
+
+            if (manager.activeUnderdogs == null) manager.activeUnderdogs = new List<Faction>();
+            else manager.activeUnderdogs.Clear();
+            manager.activeUnderdogs.AddRange(picked);
+            manager.currentWeakestUnderdog = picked[0];
 
             int durationTicks = Mathf.RoundToInt(seth.durUnderdogBuffDays * 60000f);
-            int cooldownTicks = Mathf.RoundToInt(seth.cdUnderdogBuffDays * 60000f);
-
             manager.underdogBuffExpiryTick = Find.TickManager.TicksGame + durationTicks;
-            manager.underdogBuffCooldownTick = Find.TickManager.TicksGame + durationTicks + cooldownTicks;
+            manager.underdogBuffCooldownTick = -1;
 
-            string msg = "TSA_WD_Diplo_UnderdogBuff_Msg".Translate(underdog.Name.Colorize(Color.cyan), seth.durUnderdogBuffDays.ToString("F0"));
-            var anchorSettlement = manager.GetAnchorSettlementForFaction(underdog);
+            var nameList = new List<string>();
+            for (int i = 0; i < picked.Count; i++)
+                nameList.Add(picked[i].Name.Colorize(Color.cyan));
+            string names = nameList.ToCommaList(true);
+            string msg = picked.Count == 1
+                ? "TSA_WD_Diplo_UnderdogBuff_Msg".Translate(nameList[0], seth.durUnderdogBuffDays.ToString("F0"))
+                : "TSA_WD_Diplo_UnderdogBuff_MsgMulti".Translate(names, seth.durUnderdogBuffDays.ToString("F0"));
+            var anchorSettlement = manager.GetAnchorSettlementForFaction(picked[0]);
             var underdogLog = new SpreadLogEntry(msg, anchorSettlement, null);
             underdogLog.highlightKind = SpreadLogHighlightKind.Diplomacy;
-            manager.AddLog(underdogLog); // action log lists a random settlement of that faction (targetA)
+            manager.AddLog(underdogLog);
 
             if (seth.notifyUnderdogBuff)
             {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <!-- Walkable, no-cost marker. Outpost deliveries land here when one exists on the map. Only one allowed per map (see PlaceWorker_UniqueOnMap). -->
+  <!-- Walkable marker. Outpost deliveries land here when one exists on the map. Only one allowed per map (see PlaceWorker_UniqueOnMap). -->
   <ThingDef ParentName="BuildingBase">
     <defName>TSA_WD_OutpostDeliverySpot</defName>
     <label>WD Outpost Delivery Spot</label>
@@ -9,26 +9,27 @@
     <thingClass>Building</thingClass>
     <selectable>true</selectable>
     <drawerType>MapMeshOnly</drawerType>
-    <altitudeLayer>FloorEmplacement</altitudeLayer>
+    <altitudeLayer>Building</altitudeLayer>
     <passability>Standable</passability>
-    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <fillPercent>0.15</fillPercent>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
     <tickerType>Never</tickerType>
     <useHitPoints>false</useHitPoints>
     <rotatable>false</rotatable>
     <scatterableOnMapGen>false</scatterableOnMapGen>
-    <size>(1,1)</size>
+    <size>(1,2)</size>
     <statBases>
       <WorkToBuild>0</WorkToBuild>
     </statBases>
     <designationCategory>Misc</designationCategory>
     <drawGUIOverlay>true</drawGUIOverlay>
     <graphicData>
-      <texPath>WorldObjects/Caravan_OutpostGoods</texPath>
+      <texPath>Misc/WD_OutpostDeliverySpot</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <color>(0.55, 0.85, 1)</color>
+      <drawSize>(1,2)</drawSize>
     </graphicData>
     <building>
-      <isEdifice>false</isEdifice>
+      <isEdifice>true</isEdifice>
       <ai_chillDestination>false</ai_chillDestination>
     </building>
     <placeWorkers>

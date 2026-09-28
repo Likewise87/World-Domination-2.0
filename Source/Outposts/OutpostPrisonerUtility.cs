@@ -12,20 +12,29 @@ namespace TSA_WorldDomination
         private const int VirtualCaptiveSafetyCeiling = 12;
         private const float StrengthPerEstimatedAttacker = 50f;
 
-        public static bool IsRecruitableCapturable(Pawn pawn)
+        /// <summary>Humanlike captives eligible for outpost storage (includes unwavering). Excludes mechanoids / VF vehicles / subhumans.</summary>
+        public static bool IsOutpostCapturable(Pawn pawn)
         {
             if (pawn == null || pawn.Destroyed || pawn.Dead) return false;
             if (pawn.RaceProps?.Humanlike != true) return false;
+            if (pawn.IsSubhuman) return false;
             if (OutpostPawnClassificationUtil.IsMechanoidWorker(pawn)) return false;
             if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(pawn)) return false;
+            return true;
+        }
+
+        /// <summary>Same as <see cref="IsOutpostCapturable"/> but also requires <see cref="Pawn_GuestTracker.Recruitable"/>.</summary>
+        public static bool IsRecruitableCapturable(Pawn pawn)
+        {
+            if (!IsOutpostCapturable(pawn)) return false;
             if (pawn.guest != null && !pawn.guest.Recruitable) return false;
             return true;
         }
 
-        /// <summary>Downed hostiles and already-captured colony prisoners on a defense map.</summary>
+        /// <summary>Downed hostiles and already-captured colony prisoners on a defense map (unwavering allowed).</summary>
         public static bool IsManualDefenseCapturable(Pawn pawn, Faction playerFaction)
         {
-            if (!IsRecruitableCapturable(pawn)) return false;
+            if (!IsOutpostCapturable(pawn)) return false;
             if (pawn.Faction != null && pawn.Faction.IsPlayer) return false;
             if (pawn.IsPrisonerOfColony) return true;
             if (!pawn.Downed) return false;
@@ -100,7 +109,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < group.Count; i++)
             {
                 Pawn p = group[i];
-                if (IsRecruitableCapturable(p))
+                if (IsOutpostCapturable(p))
                     combatCaptiveCandidatesScratch.Add(p);
             }
 
@@ -217,17 +226,37 @@ namespace TSA_WorldDomination
             return pawn.guest.ExclusiveInteractionMode == PrisonerInteractionModeDefOf.AttemptRecruit;
         }
 
+        /// <summary>
+        /// Unwavering captive waiting for Conversion Chair: still takes a concurrent recruit slot
+        /// (list order) so conversion only happens when it is their turn.
+        /// </summary>
+        public static bool NeedsConversionChairFlip(WorldObject_WD_Outpost outpost, Pawn pawn)
+        {
+            if (outpost == null || !outpost.HasBuiltUnwaveringRecruitUnlock()) return false;
+            if (pawn?.guest == null || pawn.Destroyed || pawn.Dead) return false;
+            if (pawn.IsSubhuman) return false;
+            if (pawn.guest.Recruitable) return false;
+            return IsOutpostCapturable(pawn);
+        }
+
+        /// <summary>Consumes a concurrent recruit slot: active Attempt Recruit, or Conversion Chair pending flip.</summary>
+        public static bool ConsumesRecruitSlot(WorldObject_WD_Outpost outpost, Pawn pawn)
+        {
+            if (IsEligibleRecruitCandidate(pawn)) return true;
+            return NeedsConversionChairFlip(outpost, pawn);
+        }
+
         /// <summary>True when this captive currently occupies one of the outpost's concurrent recruit slots.</summary>
         public static bool IsCurrentlyBeingRecruited(WorldObject_WD_Outpost outpost, Pawn pawn)
         {
-            if (outpost == null || pawn == null || !IsEligibleRecruitCandidate(pawn)) return false;
+            if (outpost == null || pawn == null || !ConsumesRecruitSlot(outpost, pawn)) return false;
             int slots = OutpostPrisonerResistanceScaling.GetConcurrentRecruitSlots(outpost);
             int seen = 0;
             List<Pawn> list = outpost.Prisoners;
             for (int i = 0; i < list.Count; i++)
             {
                 Pawn cand = list[i];
-                if (!IsEligibleRecruitCandidate(cand)) continue;
+                if (!ConsumesRecruitSlot(outpost, cand)) continue;
                 if (cand == pawn) return seen < slots;
                 seen++;
                 if (seen >= slots) return false;
@@ -279,14 +308,25 @@ namespace TSA_WorldDomination
             int slots = OutpostPrisonerResistanceScaling.GetConcurrentRecruitSlots(outpost);
             int used = 0;
             float resistanceReduced = 0f;
+            bool convertedAny = false;
 
             var toRecruit = new List<Pawn>();
             for (int i = 0; i < list.Count; i++)
             {
                 Pawn pawn = list[i];
-                if (!IsEligibleRecruitCandidate(pawn)) continue;
+                if (!ConsumesRecruitSlot(outpost, pawn)) continue;
                 if (used >= slots) break;
                 used++;
+
+                // Conversion Chair pulse: flip Recruitable only; resistance starts on a later pulse.
+                if (NeedsConversionChairFlip(outpost, pawn))
+                {
+                    if (TryApplyConversionChairToPawn(pawn))
+                        convertedAny = true;
+                    continue;
+                }
+
+                if (!IsEligibleRecruitCandidate(pawn)) continue;
 
                 float resistance = pawn.guest.resistance;
                 if (resistance > 0f && resistanceDrop > 0f)
@@ -317,8 +357,31 @@ namespace TSA_WorldDomination
             if (toRecruit.Count > 0)
                 outpost.RecruitPrisonersBatch(toRecruit);
 
-            if (toRecruit.Count > 0 || (resistanceDrop > 0f && used > 0))
+            if (toRecruit.Count > 0 || convertedAny || (resistanceDrop > 0f && used > 0))
                 Window_Prisoners.InvalidateCache();
+        }
+
+        /// <summary>
+        /// Conversion Chair: flip unwavering → recruitable (permanent). On that first flip only,
+        /// switch MaintainOnly → Attempt Recruit. Returns true when a flip happened.
+        /// Resistance is not reduced here; the next daily pulse chips them if they still hold a slot.
+        /// </summary>
+        public static bool TryApplyConversionChairToPawn(Pawn pawn)
+        {
+            if (pawn?.guest == null || pawn.Destroyed || pawn.Dead) return false;
+            if (pawn.IsSubhuman) return false;
+            if (pawn.guest.Recruitable) return false;
+
+            pawn.guest.Recruitable = true;
+            if (!pawn.guest.Recruitable) return false;
+
+            if (pawn.guest.ExclusiveInteractionMode == PrisonerInteractionModeDefOf.MaintainOnly)
+            {
+                PrisonerInteractionModeDef recruit = PrisonerInteractionModeDefOf.AttemptRecruit;
+                if (recruit != null)
+                    pawn.guest.SetExclusiveInteraction(recruit);
+            }
+            return true;
         }
     }
 }

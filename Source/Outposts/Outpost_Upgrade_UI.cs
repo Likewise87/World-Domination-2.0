@@ -31,7 +31,9 @@ namespace TSA_WorldDomination
         RapidResponseOffense,
         AllyPullRadius,
         FoodStorageMax,
-        FoodProductionFlat
+        FoodProductionFlat,
+        PrisonerRecruitSpeed,
+        UnwaveringRecruitUnlock
     }
 
     internal struct AggregateBenefitLine
@@ -51,8 +53,9 @@ namespace TSA_WorldDomination
         public const float DeployedStatusBoxH = 36f;
         public const float BuildButtonH = 32f;
         public const float CompactRowIconSize = 32f;
-        public const float CompactRowHeight = 40f;
+        public const float CompactRowHeight = 52f;
         public const float CompactRowPadding = 6f;
+        public const int CompactImpactSummaryMaxBenefits = 3;
         public const float RightColHeaderH = 24f;
 
         private static readonly Dictionary<string, Texture2D> UpgradeTexCache = new Dictionary<string, Texture2D>();
@@ -127,7 +130,193 @@ namespace TSA_WorldDomination
             if (def.allyPullRadiusBonus > 0f) n++;
             if (def.foodStorageMaxBonus > 0f) n++;
             if (def.foodProductionFlatBonus > 0f) n++;
+            if (def.prisonerRecruitSpeedBonus > 0f) n++;
+            if (def.enablesUnwaveringRecruit) n++;
             return n;
+        }
+
+        /// <summary>
+        /// One-line impact subtitle for compact upgrade rows: up to
+        /// <see cref="CompactImpactSummaryMaxBenefits"/> benefit snippets joined with ", ".
+        /// Computed when rows are cached; do not call from FillTab every frame.
+        /// </summary>
+        public static string FormatCompactImpactSummary(OutpostUpgradeDef def)
+        {
+            if (def == null) return "";
+
+            var parts = new List<string>(CompactImpactSummaryMaxBenefits + 1);
+            void Add(string text)
+            {
+                if (parts.Count > CompactImpactSummaryMaxBenefits) return;
+                if (string.IsNullOrEmpty(text)) return;
+                parts.Add(text);
+            }
+
+            if (def.defensiveStrengthBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitDefensive", def.defensiveStrengthBonus.ToString("F0")));
+            if (def.offensiveRecoveryBonus > 0f)
+            {
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitRecovery", (def.offensiveRecoveryBonus * 100f).ToString("F0")));
+                if (def.category == OutpostUpgradeCategory.Hospital)
+                    Add(Key("TSA_WD_OutpostUpgrades_BenefitOccupantHeal", (def.offensiveRecoveryBonus * 100f).ToString("F0")));
+            }
+            if (def.tileFertilityBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitTileFertility", (def.tileFertilityBonus * 100f).ToString("F0")));
+            if (def.tileMiningBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitTileMining", (def.tileMiningBonus * 100f).ToString("F0")));
+            if (def.tileAnimalAbundanceBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitTileAnimals", (def.tileAnimalAbundanceBonus * 100f).ToString("F0")));
+            if (def.tileFishAbundanceBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitTileFish", (def.tileFishAbundanceBonus * 100f).ToString("F0")));
+            if (def.mortarShellDamageBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitMortarDamage", def.mortarShellDamageBonus.ToString("F0")));
+            if (def.mortarHitChanceBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitMortarHit", (def.mortarHitChanceBonus * 100f).ToString("F0")));
+            if (def.mortarCooldownReduction > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitMortarCooldown", (def.mortarCooldownReduction * 100f).ToString("F0")));
+            if (def.mortarRangeBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitMortarRange", def.mortarRangeBonus.ToString("F0")));
+            if (WD_AssaultArtillerySupport.IsAssaultShellUnlockUpgrade(def))
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitAssaultShellsShort"));
+            if (def.enablesAntiAir)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock"));
+            if (def.enablesDecontaminationCrew)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock"));
+            if (def.researchEfficiencyBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitResearchEfficiency", (def.researchEfficiencyBonus * 100f).ToString("F0")));
+            if (def.productionEfficiencyBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitProductionEfficiency", (def.productionEfficiencyBonus * 100f).ToString("F0")));
+            if (def.warehouseAuraBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitWarehouseAura", (def.warehouseAuraBonus * 100f).ToString("F0")));
+            if (def.warehouseAuraRadiusBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitWarehouseAuraRadius", def.warehouseAuraRadiusBonus.ToString("F0")));
+            if (def.remotePowerWattsBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitRemotePower", Outpost_PowerPlant.FormatWatts(def.remotePowerWattsBonus)));
+            if (def.rapidResponseOffensiveStrengthBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitRapidResponseOffense", (def.rapidResponseOffensiveStrengthBonus * 100f).ToString("F0")));
+            if (def.allyPullRadiusBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitAllyPullRadius", def.allyPullRadiusBonus.ToString("F0")));
+            if (def.foodStorageMaxBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitFoodStorageMax", def.foodStorageMaxBonus.ToString("F0")));
+            if (def.foodProductionFlatBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat", def.foodProductionFlatBonus.ToString("F0")));
+            if (def.prisonerRecruitSpeedBonus > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed", (def.prisonerRecruitSpeedBonus * 100f).ToString("F0")));
+            if (def.enablesUnwaveringRecruit)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock"));
+
+            if (parts.Count == 0) return "";
+
+            bool truncated = parts.Count > CompactImpactSummaryMaxBenefits;
+            int take = truncated ? CompactImpactSummaryMaxBenefits : parts.Count;
+            var sb = new StringBuilder();
+            for (int i = 0; i < take; i++)
+            {
+                if (i > 0) sb.Append(", ");
+                sb.Append(parts[i]);
+            }
+            if (truncated) sb.Append("...");
+            return sb.ToString();
+        }
+
+        /// <summary>Appends each <see cref="UpgradeBenefitKind"/> this def grants (same fields as benefit lines).</summary>
+        public static void CollectBenefitKinds(OutpostUpgradeDef def, List<UpgradeBenefitKind> into)
+        {
+            if (def == null || into == null) return;
+            if (def.defensiveStrengthBonus > 0f) into.Add(UpgradeBenefitKind.Defensive);
+            if (def.offensiveRecoveryBonus > 0f)
+            {
+                into.Add(UpgradeBenefitKind.OffensiveRecovery);
+                if (def.category == OutpostUpgradeCategory.Hospital)
+                    into.Add(UpgradeBenefitKind.OccupantHeal);
+            }
+            if (def.tileFertilityBonus > 0f) into.Add(UpgradeBenefitKind.TileFertility);
+            if (def.tileMiningBonus > 0f) into.Add(UpgradeBenefitKind.TileMining);
+            if (def.tileAnimalAbundanceBonus > 0f) into.Add(UpgradeBenefitKind.TileAnimals);
+            if (def.tileFishAbundanceBonus > 0f) into.Add(UpgradeBenefitKind.TileFish);
+            if (def.mortarShellDamageBonus > 0f) into.Add(UpgradeBenefitKind.MortarDamage);
+            if (def.mortarHitChanceBonus > 0f) into.Add(UpgradeBenefitKind.MortarHit);
+            if (def.mortarCooldownReduction > 0f) into.Add(UpgradeBenefitKind.MortarCooldown);
+            if (def.mortarRangeBonus > 0f) into.Add(UpgradeBenefitKind.MortarRange);
+            if (WD_AssaultArtillerySupport.IsAssaultShellUnlockUpgrade(def)) into.Add(UpgradeBenefitKind.AssaultShellUnlock);
+            if (def.enablesAntiAir) into.Add(UpgradeBenefitKind.AntiAirUnlock);
+            if (def.enablesDecontaminationCrew) into.Add(UpgradeBenefitKind.DecontaminationUnlock);
+            if (def.researchEfficiencyBonus > 0f) into.Add(UpgradeBenefitKind.ResearchEfficiency);
+            if (def.productionEfficiencyBonus > 0f) into.Add(UpgradeBenefitKind.ProductionEfficiency);
+            if (def.warehouseAuraBonus > 0f) into.Add(UpgradeBenefitKind.WarehouseAuraBonus);
+            if (def.warehouseAuraRadiusBonus > 0f) into.Add(UpgradeBenefitKind.WarehouseAuraRadius);
+            if (def.remotePowerWattsBonus > 0f) into.Add(UpgradeBenefitKind.RemotePower);
+            if (def.rapidResponseOffensiveStrengthBonus > 0f) into.Add(UpgradeBenefitKind.RapidResponseOffense);
+            if (def.allyPullRadiusBonus > 0f) into.Add(UpgradeBenefitKind.AllyPullRadius);
+            if (def.foodStorageMaxBonus > 0f) into.Add(UpgradeBenefitKind.FoodStorageMax);
+            if (def.foodProductionFlatBonus > 0f) into.Add(UpgradeBenefitKind.FoodProductionFlat);
+            if (def.prisonerRecruitSpeedBonus > 0f) into.Add(UpgradeBenefitKind.PrisonerRecruitSpeed);
+            if (def.enablesUnwaveringRecruit) into.Add(UpgradeBenefitKind.UnwaveringRecruitUnlock);
+        }
+
+        public static bool DefAffectsBenefit(OutpostUpgradeDef def, UpgradeBenefitKind kind)
+        {
+            return GetBenefitPerLevel(def, kind) > 0f;
+        }
+
+        /// <summary>Short player-facing stat name for the impact filter (no numbers).</summary>
+        public static string GetImpactFilterLabel(UpgradeBenefitKind kind)
+        {
+            switch (kind)
+            {
+                case UpgradeBenefitKind.Defensive:
+                    return Key("TSA_WD_OutpostUpgradeImpact_Defensive");
+                case UpgradeBenefitKind.OffensiveRecovery:
+                    return Key("TSA_WD_OutpostUpgradeImpact_OffensiveRecovery");
+                case UpgradeBenefitKind.OccupantHeal:
+                    return Key("TSA_WD_OutpostUpgradeImpact_OccupantHeal");
+                case UpgradeBenefitKind.TileFertility:
+                    return Key("TSA_WD_OutpostUpgradeImpact_TileFertility");
+                case UpgradeBenefitKind.TileMining:
+                    return Key("TSA_WD_OutpostUpgradeImpact_TileMining");
+                case UpgradeBenefitKind.TileAnimals:
+                    return Key("TSA_WD_OutpostUpgradeImpact_TileAnimals");
+                case UpgradeBenefitKind.TileFish:
+                    return Key("TSA_WD_OutpostUpgradeImpact_TileFish");
+                case UpgradeBenefitKind.MortarDamage:
+                    return Key("TSA_WD_OutpostUpgradeImpact_MortarDamage");
+                case UpgradeBenefitKind.MortarHit:
+                    return Key("TSA_WD_OutpostUpgradeImpact_MortarHit");
+                case UpgradeBenefitKind.MortarCooldown:
+                    return Key("TSA_WD_OutpostUpgradeImpact_MortarCooldown");
+                case UpgradeBenefitKind.MortarRange:
+                    return Key("TSA_WD_OutpostUpgradeImpact_MortarRange");
+                case UpgradeBenefitKind.AssaultShellUnlock:
+                    return Key("TSA_WD_OutpostUpgradeImpact_AssaultShells");
+                case UpgradeBenefitKind.AntiAirUnlock:
+                    return Key("TSA_WD_OutpostUpgradeImpact_AntiAir");
+                case UpgradeBenefitKind.DecontaminationUnlock:
+                    return Key("TSA_WD_OutpostUpgradeImpact_Decontamination");
+                case UpgradeBenefitKind.ResearchEfficiency:
+                    return Key("TSA_WD_OutpostUpgradeImpact_ResearchEfficiency");
+                case UpgradeBenefitKind.ProductionEfficiency:
+                    return Key("TSA_WD_OutpostUpgradeImpact_ProductionEfficiency");
+                case UpgradeBenefitKind.WarehouseAuraBonus:
+                    return Key("TSA_WD_OutpostUpgradeImpact_WarehouseAura");
+                case UpgradeBenefitKind.WarehouseAuraRadius:
+                    return Key("TSA_WD_OutpostUpgradeImpact_WarehouseAuraRadius");
+                case UpgradeBenefitKind.RemotePower:
+                    return Key("TSA_WD_OutpostUpgradeImpact_RemotePower");
+                case UpgradeBenefitKind.RapidResponseOffense:
+                    return Key("TSA_WD_OutpostUpgradeImpact_RapidResponseOffense");
+                case UpgradeBenefitKind.AllyPullRadius:
+                    return Key("TSA_WD_OutpostUpgradeImpact_AllyPullRadius");
+                case UpgradeBenefitKind.FoodStorageMax:
+                    return Key("TSA_WD_OutpostUpgradeImpact_FoodStorageMax");
+                case UpgradeBenefitKind.FoodProductionFlat:
+                    return Key("TSA_WD_OutpostUpgradeImpact_FoodProductionFlat");
+                case UpgradeBenefitKind.PrisonerRecruitSpeed:
+                    return Key("TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed");
+                case UpgradeBenefitKind.UnwaveringRecruitUnlock:
+                    return Key("TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit");
+                default:
+                    return Key("TSA_WD_OutpostUpgrades_FilterAll");
+            }
         }
 
         /// <summary>Multi-line summary of built upgrade bonuses for the left outcome box.</summary>
@@ -284,6 +473,14 @@ namespace TSA_WorldDomination
                 lines.Add(MakeAggregateLine(UpgradeBenefitKind.FoodProductionFlat,
                     Key("TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat", flatFood.ToString("F0"))));
 
+            float recruitSpeed = outpost.GetBuiltUpgradePrisonerRecruitSpeedBonus();
+            if (recruitSpeed > 1e-6f)
+                lines.Add(MakeAggregateLine(UpgradeBenefitKind.PrisonerRecruitSpeed,
+                    Key("TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed", (recruitSpeed * 100f).ToString("F0"))));
+            if (outpost.HasBuiltUnwaveringRecruitUnlock())
+                lines.Add(MakeAggregateLine(UpgradeBenefitKind.UnwaveringRecruitUnlock,
+                    Key("TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock")));
+
             return lines;
         }
 
@@ -371,6 +568,10 @@ namespace TSA_WorldDomination
                     return def.foodStorageMaxBonus;
                 case UpgradeBenefitKind.FoodProductionFlat:
                     return def.foodProductionFlatBonus;
+                case UpgradeBenefitKind.PrisonerRecruitSpeed:
+                    return def.prisonerRecruitSpeedBonus;
+                case UpgradeBenefitKind.UnwaveringRecruitUnlock:
+                    return def.enablesUnwaveringRecruit ? 1f : 0f;
                 default:
                     return 0f;
             }
@@ -391,6 +592,7 @@ namespace TSA_WorldDomination
                 case UpgradeBenefitKind.AssaultShellUnlock:
                 case UpgradeBenefitKind.AntiAirUnlock:
                 case UpgradeBenefitKind.DecontaminationUnlock:
+                case UpgradeBenefitKind.UnwaveringRecruitUnlock:
                     return false;
                 default:
                     return true;
@@ -611,6 +813,16 @@ namespace TSA_WorldDomination
                     Key("TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat", def.foodProductionFlatBonus.ToString("F0")),
                     benefitColor,
                     ResolveBenefitTooltip(outpost, def, benefitsActive, UpgradeBenefitKind.FoodProductionFlat));
+            if (def.prisonerRecruitSpeedBonus > 0f)
+                y = DrawBenefitLine(x, y, w,
+                    Key("TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed", (def.prisonerRecruitSpeedBonus * 100f).ToString("F0")),
+                    benefitColor,
+                    ResolveBenefitTooltip(outpost, def, benefitsActive, UpgradeBenefitKind.PrisonerRecruitSpeed));
+            if (def.enablesUnwaveringRecruit)
+                y = DrawBenefitLine(x, y, w,
+                    Key("TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock"),
+                    benefitColor,
+                    ResolveBenefitTooltip(outpost, def, benefitsActive, UpgradeBenefitKind.UnwaveringRecruitUnlock));
 
             return y;
         }

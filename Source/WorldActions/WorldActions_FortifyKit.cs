@@ -37,7 +37,8 @@ namespace TSA_WorldDomination
             out SpikeTrapKind trapKind,
             out RoadBlockKind blockKind,
             out AtTurretTier atTier,
-            out int maxAt)
+            out int maxAt,
+            Faction faction = null)
         {
             switch (tier)
             {
@@ -67,6 +68,21 @@ namespace TSA_WorldDomination
                     maxAt = 1;
                     break;
             }
+
+            float dens = FortifyDensityMult(faction);
+            if (Mathf.Abs(dens - 1f) > 0.001f)
+                maxAt = Mathf.Max(1, Mathf.CeilToInt(maxAt * dens));
+        }
+
+        public static float FortifyDensityMult(Faction faction)
+        {
+            var seth = WorldDominationMod.settings;
+            if (seth == null || faction == null) return 1f;
+            if (WorldActions_DiplomacyBuffsNerfs.IsActiveUnderdog(faction))
+                return Mathf.Max(0.1f, seth.underdogFortifyDensityMult);
+            if (WorldActions_DiplomacyBuffsNerfs.IsActiveLeader(faction))
+                return Mathf.Max(0.1f, seth.leaderFortifyDensityMult);
+            return 1f;
         }
 
         public static bool IsFortifyTileOk(int tileId)
@@ -212,7 +228,7 @@ namespace TSA_WorldDomination
         {
             if (centerTile < 0 || faction == null) return;
 
-            GetKit(kitTier, out SpikeTrapKind trapKind, out RoadBlockKind blockKind, out AtTurretTier atTier, out int maxAt);
+            GetKit(kitTier, out SpikeTrapKind trapKind, out RoadBlockKind blockKind, out AtTurretTier atTier, out int maxAt, faction);
 
             EnsureRingHasRoadExit(centerTile, kitTier);
 
@@ -279,7 +295,7 @@ namespace TSA_WorldDomination
             if (centerTile < 0 || faction == null)
                 return FortifyPhase.Complete;
 
-            GetKit(kitTier, out SpikeTrapKind trapKind, out RoadBlockKind blockKind, out _, out int maxAt);
+            GetKit(kitTier, out SpikeTrapKind trapKind, out RoadBlockKind blockKind, out _, out int maxAt, faction);
 
             if (NeedsTrapWork(centerTile, faction, trapKind, builtBySettlement))
                 return FortifyPhase.Traps;

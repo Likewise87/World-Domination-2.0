@@ -38,7 +38,7 @@ Construction projects include roads and road blocks. The Engineer is therefore m
 
 ### Warden
 
-Every outpost reduces prisoner resistance according to its cumulative Social skill. The Warden adds a percentage bonus to that resistance reduction. Captives still lose resistance without a Warden, but only from the base cumulative Social contribution.
+Every outpost reduces prisoner resistance according to its cumulative Social skill. The Warden adds a percentage bonus to that resistance reduction. Recruitment upgrades (propaganda line and Conversion Chair) add the same kind of percentage bonus and stack with the Warden. Captives still lose resistance without a Warden, but only from the base cumulative Social contribution.
 
 Assign a Warden where defense victories regularly produce prisoners. The role does not replace the need for Social-skilled occupants.
 

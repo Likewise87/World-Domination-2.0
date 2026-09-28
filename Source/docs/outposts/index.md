@@ -24,7 +24,7 @@ Launching an action immediately reserves or spends offensive strength. A busy ou
 
 When a defense uses a temporary battle map, the available offensive strength is also the pawn deployment budget. If the outpost cannot afford every occupant, only the selected pawns enter the battle. Unselected occupants remain abstracted at the outpost and do not participate.
 
-After a successful defense, enable **Take prisoners** if surviving enemies should become outpost captives. This works for both automatic resolution and manual defense maps. Prisoners appear in the Pawns tab, where cumulative Social skill and a Warden expert can reduce their resistance.
+After a successful defense, enable **Take prisoners** if surviving enemies should become outpost captives. This works for both automatic resolution and manual defense maps. Prisoners appear in the Pawns tab, where cumulative Social skill, a Warden expert, and recruitment upgrades can reduce their resistance. Unwavering captives can be held; the Conversion Chair upgrade makes them recruitable on a later daily pulse when it is their turn in the recruit queue.
 
 ## Outpost tabs
 

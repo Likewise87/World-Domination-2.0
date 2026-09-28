@@ -15,7 +15,9 @@ namespace TSA_WorldDomination
         private const float ColGap = 18f;
         private const float SearchRowHeight = 28f;
         private const float SearchRowGap = 6f;
-        private const float FilterButtonWidth = 150f;
+        private const float StatusFilterButtonWidth = 130f;
+        private const float ImpactFilterButtonWidth = 180f;
+        private const float FilterButtonGap = 8f;
         private const float IconColW = 56f;
         private const float IconPadding = 8f;
 
@@ -23,6 +25,7 @@ namespace TSA_WorldDomination
         private Vector2 leftDetailScrollPos;
         private string upgradeSearchFilter = "";
         private UpgradeTabFilter upgradeFilter = UpgradeTabFilter.All;
+        private UpgradeBenefitKind? upgradeImpactFilter;
         private string selectedUpgradeDefName;
         private WorldObject_WD_Outpost selectionOutpost;
 
@@ -32,6 +35,7 @@ namespace TSA_WorldDomination
         private List<CachedUpgradeRow> cachedRows = new List<CachedUpgradeRow>();
         private int cachedRowsTick = -1;
         private int cachedRowsFingerprint;
+        private static readonly List<UpgradeBenefitKind> ScratchBenefitKinds = new List<UpgradeBenefitKind>(8);
 
         private static readonly Dictionary<string, List<List<OutpostUpgradeDef>>> UpgradeGroupsByOutpostDef =
             new Dictionary<string, List<List<OutpostUpgradeDef>>>();
@@ -44,6 +48,8 @@ namespace TSA_WorldDomination
             public bool IsPending;
             public OutpostUpgradeUtility.PurchaseCheck Check;
             public string RowTooltip;
+            public string ImpactSummary;
+            public UpgradeBenefitKind[] ImpactKinds;
         }
 
         private readonly struct RowState
@@ -177,8 +183,10 @@ namespace TSA_WorldDomination
             GUI.color = Color.white;
             y += Outpost_Upgrade_UI.RightColHeaderH + 2f;
 
-            Rect filterRect = new Rect(rightArea.xMax - FilterButtonWidth, y, FilterButtonWidth, itemSearchBarH);
-            Rect searchRect = new Rect(rightArea.x, y, rightArea.width - FilterButtonWidth - 8f, itemSearchBarH);
+            float filterRowW = StatusFilterButtonWidth + FilterButtonGap + ImpactFilterButtonWidth;
+            Rect impactFilterRect = new Rect(rightArea.xMax - ImpactFilterButtonWidth, y, ImpactFilterButtonWidth, itemSearchBarH);
+            Rect filterRect = new Rect(impactFilterRect.x - FilterButtonGap - StatusFilterButtonWidth, y, StatusFilterButtonWidth, itemSearchBarH);
+            Rect searchRect = new Rect(rightArea.x, y, rightArea.width - filterRowW - FilterButtonGap, itemSearchBarH);
 
             string oldSearch = upgradeSearchFilter;
             upgradeSearchFilter = Widgets.TextField(searchRect, upgradeSearchFilter);
@@ -205,6 +213,26 @@ namespace TSA_WorldDomination
                     new FloatMenuOption(OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_FilterNotBuilt"), () => SetFilter(UpgradeTabFilter.NotBuilt)),
                     new FloatMenuOption(OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_FilterBuildable"), () => SetFilter(UpgradeTabFilter.Buildable)),
                 };
+                Find.WindowStack.Add(new FloatMenu(opts));
+            }
+
+            ClearImpactFilterIfUnavailable();
+            if (Widgets.ButtonText(impactFilterRect, GetImpactFilterButtonLabel(upgradeImpactFilter)))
+            {
+                var opts = new List<FloatMenuOption>
+                {
+                    new FloatMenuOption(OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_FilterAll"), () => SetImpactFilter(null)),
+                };
+                var present = CollectPresentImpactKinds();
+                present.Sort((a, b) => string.Compare(
+                    Outpost_Upgrade_UI.GetImpactFilterLabel(a),
+                    Outpost_Upgrade_UI.GetImpactFilterLabel(b),
+                    StringComparison.CurrentCultureIgnoreCase));
+                for (int i = 0; i < present.Count; i++)
+                {
+                    UpgradeBenefitKind kind = present[i];
+                    opts.Add(new FloatMenuOption(Outpost_Upgrade_UI.GetImpactFilterLabel(kind), () => SetImpactFilter(kind)));
+                }
                 Find.WindowStack.Add(new FloatMenu(opts));
             }
 
@@ -258,10 +286,23 @@ namespace TSA_WorldDomination
                 if (row.Def != null && row.Def.lineTier > 1)
                     label += " (Lv " + row.Def.lineTier + ")";
 
-                Rect labelRect = new Rect(IconColW, rowContentY, viewRect.width - IconColW - 8f, Outpost_Upgrade_UI.CompactRowHeight);
+                float textW = viewRect.width - IconColW - 8f;
+                Rect labelRect = new Rect(IconColW, rowContentY, textW, 22f);
                 Text.Anchor = TextAnchor.MiddleLeft;
                 Widgets.Label(labelRect, label);
                 Text.Anchor = TextAnchor.UpperLeft;
+
+                if (!string.IsNullOrEmpty(row.ImpactSummary))
+                {
+                    Rect impactRect = new Rect(IconColW, rowContentY + 22f, textW, 24f);
+                    Text.Font = GameFont.Tiny;
+                    GUI.color = new Color(0.65f, 0.65f, 0.65f);
+                    Text.Anchor = TextAnchor.UpperLeft;
+                    Widgets.Label(impactRect, row.ImpactSummary);
+                    Text.Anchor = TextAnchor.UpperLeft;
+                    GUI.color = Color.white;
+                    Text.Font = GameFont.Small;
+                }
 
                 if (Mouse.IsOver(rowRect)) Widgets.DrawHighlight(rowRect);
                 if (isSelected)
@@ -328,6 +369,8 @@ namespace TSA_WorldDomination
                         canBuy = check.canBuy;
                     }
 
+                    ScratchBenefitKinds.Clear();
+                    Outpost_Upgrade_UI.CollectBenefitKinds(def, ScratchBenefitKinds);
                     cachedRows.Add(new CachedUpgradeRow
                     {
                         Def = def,
@@ -335,7 +378,11 @@ namespace TSA_WorldDomination
                         CanBuy = canBuy,
                         IsPending = isPending,
                         Check = check,
-                        RowTooltip = BuildRowTooltip(rs, isPending, canBuy, check)
+                        RowTooltip = BuildRowTooltip(rs, isPending, canBuy, check),
+                        ImpactSummary = Outpost_Upgrade_UI.FormatCompactImpactSummary(def),
+                        ImpactKinds = ScratchBenefitKinds.Count > 0
+                            ? ScratchBenefitKinds.ToArray()
+                            : Array.Empty<UpgradeBenefitKind>()
                     });
                 }
             }
@@ -429,8 +476,10 @@ namespace TSA_WorldDomination
 
         private bool RowMatchesFilters(WorldObject_WD_Outpost outpost, CachedUpgradeRow row)
         {
-            if (!UpgradeMatchesSearch(row.Def, upgradeSearchFilter)) return false;
+            if (!UpgradeMatchesSearch(row, upgradeSearchFilter)) return false;
             if (row.State.superseded) return false;
+            if (upgradeImpactFilter.HasValue && !RowAffectsImpact(row, upgradeImpactFilter.Value))
+                return false;
 
             switch (upgradeFilter)
             {
@@ -452,6 +501,48 @@ namespace TSA_WorldDomination
             cachedRowsTick = -1;
         }
 
+        private void SetImpactFilter(UpgradeBenefitKind? kind)
+        {
+            upgradeImpactFilter = kind;
+            rightScrollPos = Vector2.zero;
+        }
+
+        private void ClearImpactFilterIfUnavailable()
+        {
+            if (!upgradeImpactFilter.HasValue) return;
+            UpgradeBenefitKind kind = upgradeImpactFilter.Value;
+            for (int i = 0; i < cachedRows.Count; i++)
+            {
+                if (RowAffectsImpact(cachedRows[i], kind))
+                    return;
+            }
+            upgradeImpactFilter = null;
+        }
+
+        private List<UpgradeBenefitKind> CollectPresentImpactKinds()
+        {
+            var present = new HashSet<UpgradeBenefitKind>();
+            for (int i = 0; i < cachedRows.Count; i++)
+            {
+                UpgradeBenefitKind[] kinds = cachedRows[i].ImpactKinds;
+                if (kinds == null) continue;
+                for (int k = 0; k < kinds.Length; k++)
+                    present.Add(kinds[k]);
+            }
+            return new List<UpgradeBenefitKind>(present);
+        }
+
+        private static bool RowAffectsImpact(CachedUpgradeRow row, UpgradeBenefitKind kind)
+        {
+            UpgradeBenefitKind[] kinds = row.ImpactKinds;
+            if (kinds == null) return false;
+            for (int i = 0; i < kinds.Length; i++)
+            {
+                if (kinds[i] == kind) return true;
+            }
+            return false;
+        }
+
         private static string GetFilterLabel(UpgradeTabFilter filter)
         {
             switch (filter)
@@ -465,6 +556,16 @@ namespace TSA_WorldDomination
                 default:
                     return OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_FilterAll");
             }
+        }
+
+        private static string GetImpactFilterButtonLabel(UpgradeBenefitKind? kind)
+        {
+            string label = !kind.HasValue
+                ? OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_FilterAll")
+                : Outpost_Upgrade_UI.GetImpactFilterLabel(kind.Value);
+            if (label != null && label.Length > 20)
+                return label.Substring(0, 17) + "...";
+            return label;
         }
 
         private static int UpgradeRowsFingerprint(WorldObject_WD_Outpost o)
@@ -576,13 +677,24 @@ namespace TSA_WorldDomination
             return new RowState(builtHere, superseded, showBuy, deployed, futureTier, sequentialBlocked);
         }
 
-        private static bool UpgradeMatchesSearch(OutpostUpgradeDef def, string filter)
+        private static bool UpgradeMatchesSearch(CachedUpgradeRow row, string filter)
         {
             string q = filter?.Trim();
             if (string.IsNullOrEmpty(q)) return true;
-            return TokenMatches(def?.LabelCap.Resolve(), q)
+            OutpostUpgradeDef def = row.Def;
+            if (TokenMatches(def?.LabelCap.Resolve(), q)
                 || TokenMatches(def?.label, q)
-                || TokenMatches(def?.defName, q);
+                || TokenMatches(def?.defName, q)
+                || TokenMatches(row.ImpactSummary, q))
+                return true;
+            UpgradeBenefitKind[] kinds = row.ImpactKinds;
+            if (kinds == null) return false;
+            for (int i = 0; i < kinds.Length; i++)
+            {
+                if (TokenMatches(Outpost_Upgrade_UI.GetImpactFilterLabel(kinds[i]), q))
+                    return true;
+            }
+            return false;
         }
 
         private static bool TokenMatches(string haystack, string needle)

@@ -53,7 +53,7 @@ namespace TSA_WorldDomination
             var pawns = outpost.VirtualPawns;
             for (int i = 0; i < pawns.Count; i++)
                 sum += pawns[i].social;
-            return OutpostSkillScaling.ToEffective(sum);
+            return OutpostSkillScaling.ToEffective(sum, outpost.def);
         }
 
         public static float GetDeliveryDrivingCapacityRaw(WorldObject_WD_Outpost outpost)

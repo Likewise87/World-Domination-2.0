@@ -132,13 +132,25 @@ namespace TSA_WorldDomination
                             s.durLeaderHandicapDays = SettingsUI.LabeledSlider(l, "TSA_WD_Slider_Duration".Translate(), s.durLeaderHandicapDays, 0.5f, 60f,
                                 "TSA_WD_Slider_DurationTooltip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefDurLeaderHandicapDays);
                             s.cdLeaderHandicapDays = SettingsUI.LabeledSlider(l, "TSA_WD_Slider_Cooldown".Translate(), s.cdLeaderHandicapDays, 0.5f, 60f,
-                                "TSA_WD_Slider_CooldownTooltip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefCdLeaderHandicapDays);
+                                "TSA_WD_Diplo_PerFactionCooldownTooltip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefCdLeaderHandicapDays);
                             s.leaderHandicapTriggerChance = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_TriggerChance".Translate(), s.leaderHandicapTriggerChance, 0f, 1f,
                                 "TSA_WD_Diplo_LeaderTriggerChanceTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefLeaderHandicapTriggerChance);
                             s.leaderIncidentWeightMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_IncidentWeight".Translate(), s.leaderIncidentWeightMult, 0.5f, 4f,
                                 "TSA_WD_Diplo_LeaderIncidentWeightTooltip".Translate(), 0.1f, SliderFormat.Fixed1, WorldDominationSettings.DefLeaderIncidentWeightMult);
                             s.leaderIncidentSeverityMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_IncidentSeverity".Translate(), s.leaderIncidentSeverityMult, 0.5f, 4f,
                                 "TSA_WD_Diplo_LeaderIncidentSeverityTooltip".Translate(), 0.1f, SliderFormat.Fixed1, WorldDominationSettings.DefLeaderIncidentSeverityMult);
+                            s.leaderGrowthGainMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_LeaderGrowthGainMult".Translate(), s.leaderGrowthGainMult, 0.1f, 1f,
+                                "TSA_WD_Diplo_LeaderGrowthGainTooltip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefLeaderGrowthGainMult);
+                            s.leaderAllyRadiusMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_LeaderAllyRadiusMult".Translate(), s.leaderAllyRadiusMult, 0.25f, 1.5f,
+                                "TSA_WD_Diplo_LeaderAllyRadiusTooltip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefLeaderAllyRadiusMult);
+                            s.leaderExpandCdMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_LeaderExpandCdMult".Translate(), s.leaderExpandCdMult, 0.5f, 3f,
+                                "TSA_WD_Diplo_LeaderExpandCdTooltip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefLeaderExpandCdMult);
+                            s.leaderFortifyDensityMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_LeaderFortifyDensityMult".Translate(), s.leaderFortifyDensityMult, 0.25f, 1.5f,
+                                "TSA_WD_Diplo_LeaderFortifyDensityTooltip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefLeaderFortifyDensityMult);
+                            s.leaderAttackAttWinMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_LeaderAttackAttWinMult".Translate(), s.leaderAttackAttWinMult, 0.25f, 1.5f,
+                                "TSA_WD_Diplo_LeaderAttackAttWinTooltip".Translate(), 0.01f, SliderFormat.Fixed2, WorldDominationSettings.DefLeaderAttackAttWinMult);
+                            s.leaderDefendAttWinMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_LeaderDefendAttWinMult".Translate(), s.leaderDefendAttWinMult, 0.5f, 2f,
+                                "TSA_WD_Diplo_LeaderDefendAttWinTooltip".Translate(), 0.01f, SliderFormat.Fixed2, WorldDominationSettings.DefLeaderDefendAttWinMult);
                             l.Gap(6f);
                         }
                     }
@@ -152,9 +164,11 @@ namespace TSA_WorldDomination
                             s.durUnderdogBuffDays = SettingsUI.LabeledSlider(l, "TSA_WD_Slider_Duration".Translate(), s.durUnderdogBuffDays, 0.5f, 60f,
                                 "TSA_WD_Slider_DurationTooltip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefDurUnderdogBuffDays);
                             s.cdUnderdogBuffDays = SettingsUI.LabeledSlider(l, "TSA_WD_Slider_Cooldown".Translate(), s.cdUnderdogBuffDays, 0.5f, 60f,
-                                "TSA_WD_Slider_CooldownTooltip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefCdUnderdogBuffDays);
+                                "TSA_WD_Diplo_PerFactionCooldownTooltip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefCdUnderdogBuffDays);
                             s.underdogBuffTriggerChance = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_TriggerChance".Translate(), s.underdogBuffTriggerChance, 0f, 1f,
                                 "TSA_WD_Diplo_UnderdogTriggerChanceTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefUnderdogBuffTriggerChance);
+                            s.maxConcurrentUnderdogs = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_MaxConcurrentUnderdogs".Translate(), s.maxConcurrentUnderdogs, 1f, 8f,
+                                "TSA_WD_Diplo_MaxConcurrentUnderdogsTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefMaxConcurrentUnderdogs));
                             s.underdogActionShareMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_ActionShareMult".Translate(), s.underdogActionShareMult, 1f, 4f,
                                 "TSA_WD_Diplo_UnderdogActionShareTooltip".Translate(), 0.1f, SliderFormat.Fixed1, WorldDominationSettings.DefUnderdogActionShareMult);
                             s.underdogIncidentWeightMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_UnderdogIncidentWeight".Translate(), s.underdogIncidentWeightMult, 0.1f, 1f,
@@ -163,6 +177,18 @@ namespace TSA_WorldDomination
                                 "TSA_WD_Diplo_UnderdogIncidentSeverityTooltip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefUnderdogIncidentSeverityMult);
                             s.underdogGrowthGainMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_GrowthGainMult".Translate(), s.underdogGrowthGainMult, 1f, 4f,
                                 "TSA_WD_Diplo_UnderdogGrowthGainTooltip".Translate(), 0.1f, SliderFormat.Fixed1, WorldDominationSettings.DefUnderdogGrowthGainMult);
+                            s.underdogAllyRadiusMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_UnderdogAllyRadiusMult".Translate(), s.underdogAllyRadiusMult, 1f, 3f,
+                                "TSA_WD_Diplo_UnderdogAllyRadiusTooltip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefUnderdogAllyRadiusMult);
+                            s.underdogExpandWeightMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_UnderdogExpandWeightMult".Translate(), s.underdogExpandWeightMult, 1f, 3f,
+                                "TSA_WD_Diplo_UnderdogExpandWeightTooltip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefUnderdogExpandWeightMult);
+                            s.underdogExpandCdMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_UnderdogExpandCdMult".Translate(), s.underdogExpandCdMult, 0.25f, 1f,
+                                "TSA_WD_Diplo_UnderdogExpandCdTooltip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefUnderdogExpandCdMult);
+                            s.underdogFortifyDensityMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_UnderdogFortifyDensityMult".Translate(), s.underdogFortifyDensityMult, 1f, 3f,
+                                "TSA_WD_Diplo_UnderdogFortifyDensityTooltip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefUnderdogFortifyDensityMult);
+                            s.underdogDefendAttWinMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_UnderdogDefendAttWinMult".Translate(), s.underdogDefendAttWinMult, 0.25f, 1f,
+                                "TSA_WD_Diplo_UnderdogDefendAttWinTooltip".Translate(), 0.01f, SliderFormat.Fixed2, WorldDominationSettings.DefUnderdogDefendAttWinMult);
+                            s.underdogAttackAttWinMult = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_UnderdogAttackAttWinMult".Translate(), s.underdogAttackAttWinMult, 1f, 2.5f,
+                                "TSA_WD_Diplo_UnderdogAttackAttWinTooltip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefUnderdogAttackAttWinMult);
                             l.Gap(6f);
                         }
                     }

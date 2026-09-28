@@ -107,10 +107,10 @@ namespace TSA_WorldDomination
             int contributors = outpost.WorkerPawnCount;
             float avgRelevant = contributors > 0 ? totalRaw / contributors : 0f;
 
-            string totalDisplay = OutpostSkillScaling.FormatRawEffective(totalRaw);
+            string totalDisplay = OutpostSkillScaling.FormatRawEffective(totalRaw, outpost.def);
             string totalTip = "TSA_WD_OutpostStats_Row_TotalRelevantSkillTip".Translate().ToString();
-            if (OutpostSkillScaling.IsDiminished(totalRaw))
-                totalTip = totalTip + "\n\n" + OutpostSkillScaling.BuildBandBreakdownTip(totalRaw);
+            if (OutpostSkillScaling.IsDiminished(totalRaw, outpost.def))
+                totalTip = totalTip + "\n\n" + OutpostSkillScaling.BuildBandBreakdownTip(totalRaw, outpost.def);
 
             AddRowWithLabel(section,
                 "TSA_WD_OutpostStats_Row_TotalRelevantSkill".Translate(skillName).ToString(),
@@ -493,12 +493,13 @@ namespace TSA_WorldDomination
                 MarkBoostedIf(healRow, healUpgrade + healExpert > 1e-6f);
 
                 float resistBase = OutpostPrisonerResistanceScaling.GetBaseDropPerDay(playerOutpost);
-                float resistBonus = OutpostPrisonerResistanceScaling.GetWardenBonusFraction(playerOutpost);
+                float resistWarden = OutpostPrisonerResistanceScaling.GetWardenBonusFraction(playerOutpost);
+                float resistUpgrade = OutpostPrisonerResistanceScaling.GetUpgradeRecruitSpeedBonusFraction(playerOutpost);
                 float resistDaily = OutpostPrisonerResistanceScaling.GetDailyDrop(playerOutpost);
                 var resistRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_PrisonerResistance",
                     "-" + resistDaily.ToString("F1"),
                     OutpostPrisonerResistanceScaling.BuildStatsTabTooltip(playerOutpost));
-                MarkBoostedIf(resistRow, resistBonus > 1e-6f && resistBase > 1e-6f);
+                MarkBoostedIf(resistRow, (resistWarden + resistUpgrade) > 1e-6f && resistBase > 1e-6f);
             }
 
             AppendCombatRaidRows(section, worldObject, comp, settings, manager, lookup, presentation);
@@ -1242,9 +1243,9 @@ namespace TSA_WorldDomination
             AddRow(section, "TSA_WD_OutpostStats_Row_NearbySettlements", nearby.ToString(), "TSA_WD_OutpostStats_Row_EmbassyNearbyTip");
 
             float socialRaw = Outpost_Embassy.GetDeliveryDrivingCapacityRaw(outpost);
-            float socialEff = OutpostSkillScaling.ToEffective(socialRaw);
+            float socialEff = OutpostSkillScaling.ToEffective(socialRaw, outpost.def);
             AddRow(section, "TSA_WD_OutpostStats_Row_EmbassySocial",
-                OutpostSkillScaling.FormatRawEffective(socialRaw),
+                OutpostSkillScaling.FormatRawEffective(socialRaw, outpost.def),
                 "TSA_WD_OutpostStats_Row_EmbassySocialTip");
 
             float mult = Outpost_Embassy.GetSocialMultiplier(outpost.GetCapacityForYieldPreview());

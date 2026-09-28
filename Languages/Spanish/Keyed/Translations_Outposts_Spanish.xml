@@ -179,7 +179,7 @@
   <TSA_WD_Pod_AddedPawn>{0} se unió a {1} desde cápsulas de transporte.</TSA_WD_Pod_AddedPawn>
   <TSA_WD_PodArrival_FoodConverted>{0} nutrición de las cápsulas de transporte convertida en comida virtual en {1}.</TSA_WD_PodArrival_FoodConverted>
   <TSA_WD_PodArrival_ItemNotStored>No se puede almacenar {0} en esta avanzadilla (solo colonos virtuales). Objeto perdido.</TSA_WD_PodArrival_ItemNotStored>
-  <TSA_WD_AutoAdd_Desc>Si está activo, cualquier caravana que llegue a esta casilla se añadirá automáticamente a la avanzadilla.</TSA_WD_AutoAdd_Desc>
+  <TSA_WD_AutoAdd_Desc>Si está activo, las caravanas cuyo destino es esta avanzadilla se añaden automáticamente al detenerse. Descansar o pausar aquí con otro destino no las añade.</TSA_WD_AutoAdd_Desc>
   <TSA_WD_AutoAdd_Label>Añadir llegadas automáticamente</TSA_WD_AutoAdd_Label>
   <TSA_WD_TakePrisoners_Label>Tomar prisioneros</TSA_WD_TakePrisoners_Label>
   <TSA_WD_TakePrisoners_Desc>Si está activo, esta avanzadilla toma cautivos tras ganar una defensa, tanto en resolución automática como en un mapa de defensa manual. Si está desactivado, los enemigos supervivientes no se toman como prisioneros de la avanzadilla.</TSA_WD_TakePrisoners_Desc>
@@ -1221,9 +1221,11 @@
   <TSA_WD_Status_LeaderTitle>Penalización de líder mundial</TSA_WD_Status_LeaderTitle>
   <TSA_WD_Status_LeaderBlurb>Da a la facción más fuerte más incidentes durante un tiempo.</TSA_WD_Status_LeaderBlurb>
   <TSA_WD_Status_LeaderActive>Activo. Los incidentes son {0} más probables. El efecto dura {1} días más.</TSA_WD_Status_LeaderActive>
+  <TSA_WD_Status_LeaderCooling>En enfriamiento. Puede volver a recibir la desventaja en {0} días.</TSA_WD_Status_LeaderCooling>
   <TSA_WD_Status_NimbleTitle>Buff Ágil</TSA_WD_Status_NimbleTitle>
-  <TSA_WD_Status_NimbleBlurb>Da a la facción más débil un impulso temporal de crecimiento, y puede reducir la frecuencia de incidentes y la fuerza que restan.</TSA_WD_Status_NimbleBlurb>
+  <TSA_WD_Status_NimbleBlurb>Da a facciones débiles un impulso temporal de crecimiento, y puede reducir la frecuencia de incidentes y la fuerza que restan.</TSA_WD_Status_NimbleBlurb>
   <TSA_WD_Status_NimbleActive>Activo. Crecimiento {0}. Probabilidad de incidente {1}. Daño por incidente {2}. El efecto dura {3} días más.</TSA_WD_Status_NimbleActive>
+  <TSA_WD_Status_NimbleCooling>En enfriamiento. Puede volver a recibir Ágil en {0} días.</TSA_WD_Status_NimbleCooling>
   <TSA_WD_Status_ExpansionistTitle>Buff expansionista</TSA_WD_Status_ExpansionistTitle>
   <TSA_WD_Status_ExpansionistBlurb>Da a las facciones un impulso temporal de alcance de ataque.</TSA_WD_Status_ExpansionistBlurb>
   <TSA_WD_Status_ExpansionistActive>Activo. El alcance de incursión es {0} mayor. El efecto dura {1} días más.</TSA_WD_Status_ExpansionistActive>
@@ -1252,6 +1254,31 @@
   <TSA_WD_OutpostUpgrades_FilterBuilt>Construidas</TSA_WD_OutpostUpgrades_FilterBuilt>
   <TSA_WD_OutpostUpgrades_FilterNotBuilt>No construidas</TSA_WD_OutpostUpgrades_FilterNotBuilt>
   <TSA_WD_OutpostUpgrades_FilterBuildable>Construible</TSA_WD_OutpostUpgrades_FilterBuildable>
+  <TSA_WD_OutpostUpgradeImpact_Defensive>Fuerza defensiva</TSA_WD_OutpostUpgradeImpact_Defensive>
+  <TSA_WD_OutpostUpgradeImpact_OffensiveRecovery>Recuperación ofensiva</TSA_WD_OutpostUpgradeImpact_OffensiveRecovery>
+  <TSA_WD_OutpostUpgradeImpact_OccupantHeal>Curación de ocupantes</TSA_WD_OutpostUpgradeImpact_OccupantHeal>
+  <TSA_WD_OutpostUpgradeImpact_TileFertility>Fertilidad</TSA_WD_OutpostUpgradeImpact_TileFertility>
+  <TSA_WD_OutpostUpgradeImpact_TileMining>Eficiencia minera</TSA_WD_OutpostUpgradeImpact_TileMining>
+  <TSA_WD_OutpostUpgradeImpact_TileAnimals>Abundancia animal</TSA_WD_OutpostUpgradeImpact_TileAnimals>
+  <TSA_WD_OutpostUpgradeImpact_TileFish>Reservas de peces</TSA_WD_OutpostUpgradeImpact_TileFish>
+  <TSA_WD_OutpostUpgradeImpact_MortarDamage>Daño de proyectil</TSA_WD_OutpostUpgradeImpact_MortarDamage>
+  <TSA_WD_OutpostUpgradeImpact_MortarHit>Precisión de mortero</TSA_WD_OutpostUpgradeImpact_MortarHit>
+  <TSA_WD_OutpostUpgradeImpact_MortarCooldown>Enfriamiento de mortero</TSA_WD_OutpostUpgradeImpact_MortarCooldown>
+  <TSA_WD_OutpostUpgradeImpact_MortarRange>Alcance de mortero</TSA_WD_OutpostUpgradeImpact_MortarRange>
+  <TSA_WD_OutpostUpgradeImpact_AssaultShells>Proyectiles de asalto</TSA_WD_OutpostUpgradeImpact_AssaultShells>
+  <TSA_WD_OutpostUpgradeImpact_AntiAir>Antiaéreo</TSA_WD_OutpostUpgradeImpact_AntiAir>
+  <TSA_WD_OutpostUpgradeImpact_Decontamination>Descontaminación</TSA_WD_OutpostUpgradeImpact_Decontamination>
+  <TSA_WD_OutpostUpgradeImpact_ResearchEfficiency>Eficiencia de investigación</TSA_WD_OutpostUpgradeImpact_ResearchEfficiency>
+  <TSA_WD_OutpostUpgradeImpact_ProductionEfficiency>Producción</TSA_WD_OutpostUpgradeImpact_ProductionEfficiency>
+  <TSA_WD_OutpostUpgradeImpact_WarehouseAura>Aura de almacén</TSA_WD_OutpostUpgradeImpact_WarehouseAura>
+  <TSA_WD_OutpostUpgradeImpact_WarehouseAuraRadius>Alcance del aura</TSA_WD_OutpostUpgradeImpact_WarehouseAuraRadius>
+  <TSA_WD_OutpostUpgradeImpact_RemotePower>Energía remota</TSA_WD_OutpostUpgradeImpact_RemotePower>
+  <TSA_WD_OutpostUpgradeImpact_RapidResponseOffense>Ofensiva de respuesta rápida</TSA_WD_OutpostUpgradeImpact_RapidResponseOffense>
+  <TSA_WD_OutpostUpgradeImpact_AllyPullRadius>Radio de aliados</TSA_WD_OutpostUpgradeImpact_AllyPullRadius>
+  <TSA_WD_OutpostUpgradeImpact_FoodStorageMax>Almacén de comida</TSA_WD_OutpostUpgradeImpact_FoodStorageMax>
+  <TSA_WD_OutpostUpgradeImpact_FoodProductionFlat>Producción de comida</TSA_WD_OutpostUpgradeImpact_FoodProductionFlat>
+  <TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed>Velocidad de reclutamiento</TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed>
+  <TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit>Reclutar inflexibles</TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit>
   <TSA_WD_OutpostUpgrades_UpgradeTitle>{0} (Nv. {1})</TSA_WD_OutpostUpgrades_UpgradeTitle>
   <TSA_WD_OutpostUpgrades_MaxLevelReached>Nivel máximo alcanzado</TSA_WD_OutpostUpgrades_MaxLevelReached>
   <TSA_WD_OutpostUpgrades_NextBonuses>Siguiente: +{0} def, +{1}% recuperación ofensiva</TSA_WD_OutpostUpgrades_NextBonuses>
@@ -1298,6 +1325,8 @@
   <TSA_WD_OutpostUpgrades_BenefitRapidResponseOffense>+{0}pp ofensiva de respuesta rápida</TSA_WD_OutpostUpgrades_BenefitRapidResponseOffense>
   <TSA_WD_OutpostUpgrades_BenefitFoodStorageMax>+{0} almacenamiento máx. de comida virtual</TSA_WD_OutpostUpgrades_BenefitFoodStorageMax>
   <TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>+{0} producción diaria de comida</TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>
+  <TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>+{0}% velocidad de reclutamiento de prisioneros</TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>
+  <TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>Los prisioneros inquebrantables pueden reclutarse</TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>
   <TSA_WD_OutpostUpgrades_RequiresResearch>REQUIERE INVESTIGACION: {0}</TSA_WD_OutpostUpgrades_RequiresResearch>
   <TSA_WD_OutpostUpgrades_UpgradeActive>(Mejora activa)</TSA_WD_OutpostUpgrades_UpgradeActive>
   <TSA_WD_OutpostUpgrades_ResearchNone>Ninguna</TSA_WD_OutpostUpgrades_ResearchNone>
@@ -1405,6 +1434,7 @@
   <TSA_WD_Experts_BenefitTooltip_TotalResistanceDrop>Bajada total en este puesto (Social acum. + Carcelero): -{0} / día</TSA_WD_Experts_BenefitTooltip_TotalResistanceDrop>
   <TSA_WD_Prisoners_ResistanceTip_CumSocial>Social acum.: {0} (Ef. {1}) → -{2} Resistencia/día</TSA_WD_Prisoners_ResistanceTip_CumSocial>
   <TSA_WD_Prisoners_ResistanceTip_Warden>Experto Carcelero: x{0}%</TSA_WD_Prisoners_ResistanceTip_Warden>
+  <TSA_WD_Prisoners_ResistanceTip_Upgrade>Mejoras de reclutamiento: x{0}%</TSA_WD_Prisoners_ResistanceTip_Upgrade>
   <TSA_WD_Prisoners_ResistanceTip_Result>Resultado: -{0}</TSA_WD_Prisoners_ResistanceTip_Result>
   <TSA_WD_Experts_Expanded_NoProductionPath>Este tipo de avanzadilla no recibe bonificaciones de producción del animador.</TSA_WD_Experts_Expanded_NoProductionPath>
   <TSA_WD_Experts_BenefitTooltip_RoleLine>{0}: {1}</TSA_WD_Experts_BenefitTooltip_RoleLine>
@@ -1575,6 +1605,7 @@
   <TSA_WD_OutpostStats_Row_PrisonerResistance>Reducción de resistencia de prisioneros por día</TSA_WD_OutpostStats_Row_PrisonerResistance>
   <TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Base>Reducción de resistencia de prisioneros por Social acum. {0}: -{1} por día</TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Base>
   <TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Warden>Bonificación de experto Carcelero: x{0}%</TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Warden>
+  <TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Upgrade>Mejoras de reclutamiento: x{0}%</TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Upgrade>
   <TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Result>Resultado: -{0}</TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Result>
   <TSA_WD_OutpostStats_Row_RRStrengthBonus>Bonus ofensivo RR</TSA_WD_OutpostStats_Row_RRStrengthBonus>
   <TSA_WD_OutpostStats_Row_RRStrengthBonusTip>Bonificación relativa al tope ofensivo (Respuesta Rápida). Ya incluida en el máximo ofensivo mostrado arriba.</TSA_WD_OutpostStats_Row_RRStrengthBonusTip>

@@ -841,7 +841,16 @@ namespace TSA_WorldDomination
         public bool IsSettlement => parent is Settlement;
         public bool IsOutpost => parent is WorldObject_WD_Outpost;
         /// <summary>Player map colony only. WD offensive/defensive pools are not used (always zero); strength applies to NPC settlements and player outposts.</summary>
-        public bool IsPlayerMapSettlement => IsSettlement && parent?.Faction?.IsPlayer == true;
+        public bool IsPlayerMapSettlement
+        {
+            get
+            {
+                if (!IsSettlement) return false;
+                Faction f = parent?.Faction;
+                // Faction.IsPlayer is def.isPlayer — throws if def is null (teardown / incomplete faction).
+                return f?.def != null && f.IsPlayer;
+            }
+        }
 
         public float GetDeployableOffense() => IsPlayerMapSettlement ? 0f : Mathf.Max(0f, offensiveStrength);
         public float GetTotalLocalDefensePower() => IsPlayerMapSettlement ? 0f : Mathf.Max(0f, offensiveStrength) + Mathf.Max(0f, defensiveStrength);
@@ -1072,7 +1081,8 @@ namespace TSA_WorldDomination
                 }
             }
 
-            if (!repairedMisclassifiedPlayerSubType && subType == "Excluded" && parent.Faction != null && parent.Faction.IsPlayer)
+            Faction repairFaction = parent?.Faction;
+            if (!repairedMisclassifiedPlayerSubType && subType == "Excluded" && repairFaction?.def != null && repairFaction.IsPlayer)
             {
                 repairedMisclassifiedPlayerSubType = true;
                 if (IsOutpost)

@@ -128,7 +128,7 @@ namespace TSA_WorldDomination
             foreach (var a in defSnap.allies) fullDefList.Add(a.obj);
 
             float ratio = attAgg / (defAgg > 0 ? defAgg : 1f);
-            RaidResolvedOutcome resolved = RaidCasualtyModel.Resolve(ratio, seth);
+            RaidResolvedOutcome resolved = RaidCasualtyModel.Resolve(ratio, seth, null, attackerFaction, target?.Faction);
             bool won = resolved.attackerWon;
             float winChance = resolved.winChance;
             float attLossPct = resolved.attLossPct;
@@ -472,8 +472,8 @@ namespace TSA_WorldDomination
 
             float ratio = effectiveAttAgg / (finalDefAgg > 0 ? finalDefAgg : 1f);
             RaidResolvedOutcome resolved = forcedAttackerWon.HasValue
-                ? RaidCasualtyModel.Resolve(ratio, seth, forcedAttackerWon)
-                : RaidCasualtyModel.Resolve(ratio, seth);
+                ? RaidCasualtyModel.Resolve(ratio, seth, forcedAttackerWon, attackerFaction, target?.Faction)
+                : RaidCasualtyModel.Resolve(ratio, seth, null, attackerFaction, target?.Faction);
             bool won = resolved.attackerWon;
             float winChance = resolved.winChance;
             float attLossPct = resolved.attLossPct;

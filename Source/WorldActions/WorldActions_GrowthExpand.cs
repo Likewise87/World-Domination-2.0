@@ -10,6 +10,17 @@ namespace TSA_WorldDomination
     {
         public const float DevelopNearCapFraction = 0.95f;
 
+        public static float ExpandCdMultFor(Faction faction)
+        {
+            var seth = WorldDominationMod.settings;
+            if (seth == null || faction == null) return 1f;
+            if (WorldActions_DiplomacyBuffsNerfs.IsActiveUnderdog(faction))
+                return Mathf.Max(0.1f, seth.underdogExpandCdMult);
+            if (WorldActions_DiplomacyBuffsNerfs.IsActiveLeader(faction))
+                return Mathf.Max(0.1f, seth.leaderExpandCdMult);
+            return 1f;
+        }
+
         /// <summary>Silent daily offensive gain for NPC settlements (no action log).</summary>
         public static void ApplyPassiveOffensiveGrowth(CompViralSpread comp)
         {
@@ -27,12 +38,10 @@ namespace TSA_WorldDomination
 
             float buffMult = 1f;
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            if (manager != null
-                && parent.Faction == manager.currentWeakestUnderdog
-                && Find.TickManager.TicksGame < manager.underdogBuffExpiryTick)
-            {
+            if (manager != null && WorldActions_DiplomacyBuffsNerfs.IsActiveUnderdog(parent.Faction, manager))
                 buffMult = seth.underdogGrowthGainMult;
-            }
+            else if (manager != null && WorldActions_DiplomacyBuffsNerfs.IsActiveLeader(parent.Faction, manager))
+                buffMult = seth.leaderGrowthGainMult;
 
             float gain = seth.GetPassiveGrowthAmount(comp.tier) * buffMult;
             if (manager != null && WdEscalation.IsMidOrLate(manager))
@@ -227,7 +236,7 @@ namespace TSA_WorldDomination
                 return false;
             }
 
-            parentComp.expansionCooldownTick = Find.TickManager.TicksGame + Mathf.RoundToInt(seth.cooldownExpandDays * 60000f);
+            parentComp.expansionCooldownTick = Find.TickManager.TicksGame + Mathf.RoundToInt(seth.cooldownExpandDays * ExpandCdMultFor(parent.Faction) * 60000f);
 
             float cost = parentComp.strength * 0.25f;
             parentComp.strength -= cost;
@@ -287,7 +296,7 @@ namespace TSA_WorldDomination
                     parent, playerAnchorTile, minR, maxR, seth, manager, excludeDestTiles, out int chosenTile))
                 return false;
 
-            parentComp.expansionCooldownTick = Find.TickManager.TicksGame + Mathf.RoundToInt(seth.cooldownExpandDays * 60000f);
+            parentComp.expansionCooldownTick = Find.TickManager.TicksGame + Mathf.RoundToInt(seth.cooldownExpandDays * ExpandCdMultFor(parent.Faction) * 60000f);
 
             float cost = parentComp.strength * 0.25f;
             parentComp.strength -= cost;

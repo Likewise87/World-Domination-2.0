@@ -181,7 +181,7 @@ namespace TSA_WorldDomination
         {
             var seth = WorldDominationMod.settings;
             float ratio = attBefore / Mathf.Max(defBefore, 0.0001f);
-            RaidResolvedOutcome resolved = RaidCasualtyModel.Resolve(ratio, seth);
+            RaidResolvedOutcome resolved = RaidCasualtyModel.Resolve(ratio, seth, null, attacker?.Faction, defender?.Faction);
 
             float attSurvivors = attBefore * (1f - resolved.attLossPct);
             float defSurvivors = defBefore * (1f - resolved.defLossPct);

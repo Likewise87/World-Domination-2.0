@@ -1,4 +1,5 @@
 using System.Text;
+using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
@@ -47,7 +48,18 @@ namespace TSA_WorldDomination
         /// <summary>Effective ally pull radius for this primary (attacker or defender).</summary>
         public static float GetEffective(WorldObject primary, WorldDominationSettings seth = null, WorldComponent_SpreadManager manager = null)
         {
-            return GetScaledBaseRadius(seth, manager) + GetTunnelBonus(primary);
+            seth ??= WorldDominationMod.settings;
+            manager ??= Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            float radius = GetScaledBaseRadius(seth, manager) + GetTunnelBonus(primary);
+            Faction f = primary?.Faction;
+            if (f != null && seth != null)
+            {
+                if (WorldActions_DiplomacyBuffsNerfs.IsActiveUnderdog(f, manager))
+                    radius *= seth.underdogAllyRadiusMult;
+                else if (WorldActions_DiplomacyBuffsNerfs.IsActiveLeader(f, manager))
+                    radius *= seth.leaderAllyRadiusMult;
+            }
+            return Mathf.Ceil(radius);
         }
 
         public static string BuildTooltip(WorldObject primary, WorldDominationSettings seth = null, WorldComponent_SpreadManager manager = null)

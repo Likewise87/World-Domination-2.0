@@ -961,17 +961,18 @@ namespace TSA_WorldDomination
 
             // ===== Snapshot: current skill + theoretical output now =====
             float currentRaw = GetProductionSkillRawForUi(outpost, isScavenging, isMining, isFarming, isHunting || isFishing, isRanch, isTrading);
+            WorldObjectDef skillDef = outpost?.def;
             string curSkillDisplay = isScavenging
                 ? snapshotSkill.ToString("F0")
-                : OutpostSkillScaling.FormatRawEffective(currentRaw);
+                : OutpostSkillScaling.FormatRawEffective(currentRaw, skillDef);
             string curSkillLine = isScavenging
                 ? Tr("TSA_WD_Production_Info_CurrentPawns", "Colonists at Outpost: " + curSkillDisplay, curSkillDisplay)
                 : Tr("TSA_WD_Production_Info_CurrentSkill", "Current " + skillCap + " Skill at Outpost: " + curSkillDisplay, skillCap, curSkillDisplay);
             string curTip = isScavenging
                 ? Tr("TSA_WD_Production_Info_CurrentPawnsTip", "Currently, this outpost has " + curSkillDisplay + " colonists.", curSkillDisplay)
-                : Tr("TSA_WD_Production_Info_CurrentSkillTip", "Currently, this outpost has " + currentRaw.ToString("F0") + " cumulative " + skillCap + " skill from pawns (effective " + OutpostSkillScaling.ToEffective(currentRaw).ToString("F0") + ").", currentRaw.ToString("F0"), skillCap);
-            if (!isScavenging && OutpostSkillScaling.IsDiminished(currentRaw))
-                curTip = curTip + "\n\n" + OutpostSkillScaling.BuildBandBreakdownTip(currentRaw);
+                : Tr("TSA_WD_Production_Info_CurrentSkillTip", "Currently, this outpost has " + currentRaw.ToString("F0") + " cumulative " + skillCap + " skill from pawns (effective " + OutpostSkillScaling.ToEffective(currentRaw, skillDef).ToString("F0") + ").", currentRaw.ToString("F0"), skillCap);
+            if (!isScavenging && OutpostSkillScaling.IsDiminished(currentRaw, skillDef))
+                curTip = curTip + "\n\n" + OutpostSkillScaling.BuildBandBreakdownTip(currentRaw, skillDef);
             Rect curSkillRect = new Rect(lx, ly, lw, lineH);
             Widgets.Label(curSkillRect, curSkillLine);
             TooltipHandler.TipRegion(curSkillRect, curTip);

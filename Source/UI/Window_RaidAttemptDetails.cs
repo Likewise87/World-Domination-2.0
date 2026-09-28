@@ -87,7 +87,15 @@ namespace TSA_WorldDomination
                 float ratio = entry.ratio > 0f
                     ? entry.ratio
                     : (entry.attStr * entry.efficiencyFactor) / (entry.defStr > 0f ? entry.defStr : 1f);
-                RaidOutcomeForecast forecast = RaidCasualtyModel.GetForecast(ratio, WorldDominationMod.settings);
+                Faction attFac = entry.targetA.HasThing ? entry.targetA.Thing.Faction
+                    : (entry.targetA.IsValid && entry.targetA.WorldObject != null ? entry.targetA.WorldObject.Faction : null);
+                Faction defFac = entry.targetB.HasThing ? entry.targetB.Thing.Faction
+                    : (entry.targetB.IsValid && entry.targetB.WorldObject != null ? entry.targetB.WorldObject.Faction : null);
+                RaidOutcomeForecast forecast = RaidCasualtyModel.GetForecast(
+                    ratio,
+                    WorldDominationMod.settings,
+                    attFac,
+                    defFac);
                 RaidUIUtils.DrawRaidForecast(listing, forecast, ratio, defenderPerspective: false,
                     "TSA_WD_RelativeStrength".Translate(relativeStr.ToString("F2")));
             }

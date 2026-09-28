@@ -115,6 +115,22 @@ namespace TSA_WorldDomination
             if (bandsDirty)
                 s.outpostSkillHardCapRaw = hardCapOut;
 
+            float socialFirstIn = Mathf.Round(s.outpostSkillSocialFirstBandEnd);
+            float socialFirstOut = SettingsUI.LabeledSlider(l, "TSA_WD_SkillScaling_SocialFirstBand".Translate(),
+                socialFirstIn,
+                OutpostSkillScaling.SocialFirstBandEndMin,
+                OutpostSkillScaling.SocialFirstBandEndMax,
+                "TSA_WD_SkillScaling_SocialFirstBandTip".Translate(),
+                1f, SliderFormat.Fixed0,
+                OutpostSkillScaling.DefSocialFirstBandEnd);
+            if (!Mathf.Approximately(socialFirstOut, socialFirstIn))
+            {
+                s.outpostSkillSocialFirstBandEnd = socialFirstOut;
+                bandsDirty = true;
+            }
+            if (bandsDirty)
+                OutpostSkillScaling.NormalizeBands(s);
+
             SettingsUI.DrawHeader(l, "TSA_WD_SkillScaling_BandsHeader".Translate(), SettingsUI.SectionHeaderColor);
             for (int i = 0; i < OutpostSkillScaling.BandCount; i++)
             {
@@ -170,12 +186,16 @@ namespace TSA_WorldDomination
             if (!Mathf.Approximately(previewOut, previewIn))
                 previewRaw = previewOut;
             float eff = OutpostSkillScaling.ToEffective(previewRaw);
+            float effSocial = OutpostSkillScaling.ToEffectiveSocial(previewRaw);
             Text.Font = GameFont.Small;
             l.Label("TSA_WD_SkillScaling_PreviewResult".Translate(eff.ToString("F0")));
+            l.Label("TSA_WD_SkillScaling_PreviewResultSocial".Translate(effSocial.ToString("F0")));
             l.Gap(4f);
             Text.Font = GameFont.Tiny;
             GUI.color = Color.gray;
-            l.Label(OutpostSkillScaling.BuildBandBreakdownTip(previewRaw));
+            l.Label(OutpostSkillScaling.BuildBandBreakdownTip(previewRaw, false));
+            l.Gap(2f);
+            l.Label(OutpostSkillScaling.BuildBandBreakdownTip(previewRaw, true));
             GUI.color = Color.white;
             Text.Font = GameFont.Small;
         }

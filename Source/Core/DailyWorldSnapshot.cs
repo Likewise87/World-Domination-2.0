@@ -57,7 +57,7 @@ namespace TSA_WorldDomination
                 var wo = allObjects[i];
                 if (wo is Settlement s)
                 {
-                    if (s.Faction == null || s.Faction.def.hidden || s.Faction.defeated) continue;
+                    if (s.Faction == null || s.Faction.def == null || s.Faction.def.hidden || s.Faction.defeated) continue;
                     if (!WorldActions_Utils.IsWdParticipant(s.Faction)) continue;
                     if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(s)) continue;
                     if (s.GetComponent<CompViralSpread>() == null) continue;

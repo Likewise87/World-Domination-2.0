@@ -173,13 +173,13 @@ namespace TSA_WorldDomination
             Text.Anchor = TextAnchor.MiddleLeft;
 
             float snapshotSocialRaw = outpost.GetTotalRelevantSkillRaw();
-            float snapshotSocial = OutpostSkillScaling.ToEffective(snapshotSocialRaw);
+            float snapshotSocial = OutpostSkillScaling.ToEffective(snapshotSocialRaw, outpost.def);
             float avgSocial = outpost.GetCapacityForYieldPreview();
             ThingDef previewDef = outpost.GetProducingDefForCurrentCycle() ?? outpost.SelectedProductionDef ?? ThingDefOf.Silver;
             string detailedMathAvg = Outpost_Trading.GetDetailedMathTooltip(outpost, avgSocial);
             string detailedMathSnapshot = Outpost_Trading.GetDetailedMathTooltip(outpost, snapshotSocial);
             string skillLabel = SkillDefOf.Social.label;
-            string snapshotSocialDisplay = OutpostSkillScaling.FormatRawEffective(snapshotSocialRaw);
+            string snapshotSocialDisplay = OutpostSkillScaling.FormatRawEffective(snapshotSocialRaw, outpost.def);
 
             const float lineH = Outpost_Dialog_UI.OutcomeLineH;
             const float boxPad = Outpost_Dialog_UI.OutcomeBoxPad;
@@ -219,8 +219,8 @@ namespace TSA_WorldDomination
             Rect curRect = new Rect(lx, ly, lw, lineH);
             Widgets.Label(curRect, OutpostTranslationUtil.Key("TSA_WD_Production_Info_CurrentSkill", skillLabel, snapshotSocialDisplay));
             string curTip = OutpostTranslationUtil.Key("TSA_WD_Trading_Info_CurrentSocialTip", snapshotSocialRaw.ToString("F0"));
-            if (OutpostSkillScaling.IsDiminished(snapshotSocialRaw))
-                curTip = curTip + "\n\n" + OutpostSkillScaling.BuildBandBreakdownTip(snapshotSocialRaw);
+            if (OutpostSkillScaling.IsDiminished(snapshotSocialRaw, outpost.def))
+                curTip = curTip + "\n\n" + OutpostSkillScaling.BuildBandBreakdownTip(snapshotSocialRaw, outpost.def);
             TooltipHandler.TipRegion(curRect, curTip);
             ly += lineH;
 

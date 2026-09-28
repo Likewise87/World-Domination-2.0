@@ -12,8 +12,10 @@ namespace TSA_WorldDomination
     /// NPC T4 settlements use 3× that interval and at most 3 scans per NPC cycle (round-robin).
     /// Out-of-range traveler pairs use skip-until so we do not re-distance every cycle.
     /// Hostile drop pods also wake AA-capable mortar outposts immediately on register.
-    /// Vanilla transport pods and Vehicle Framework aerials: arm AA along the flight arc at launch,
+    /// AA fire gate is always current position (<see cref="AntiAirFireUtils.IsAirborneInAaRange"/>).
+    /// Vanilla transport pods and Vehicle Framework aerials: arm along the flight arc at launch,
     /// recheck DrawPos every second, fire once when in range, then sleep that shooter for that target.
+    /// WD ballistic travelers: same fire gate; mid-flight 1Hz <c>WakeAllForDropPod</c> (not armed-pair lookup).
     /// </summary>
     public class WorldComponent_InterceptionScheduler : WorldComponent
     {
@@ -1203,7 +1205,7 @@ namespace TSA_WorldDomination
                 if (tf == iFaction) continue;
                 if (!WorldActions_Utils.SafeHostileTo(tf, iFaction)) continue;
 
-                // Airborne AA targets: event wake + mid-flight re-scan via dest/arc range (Tile stays at origin).
+                // Airborne AA targets: event wake + mid-flight 1Hz WakeAll; fire only when currently in range.
                 if (!AntiAirFireUtils.IsAirborneAaTarget(t)) continue;
 
                 bool inbound = AntiAirFireUtils.IsInboundThreatTo(self, t);

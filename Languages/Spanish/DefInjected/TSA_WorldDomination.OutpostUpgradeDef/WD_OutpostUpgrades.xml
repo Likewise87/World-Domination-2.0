@@ -107,4 +107,16 @@
 
   <TSA_WD_Upgrade_HydroponicsBasin.label>Cuenca hidropónica</TSA_WD_Upgrade_HydroponicsBasin.label>
   <TSA_WD_Upgrade_HydroponicsBasin.description>Infraestructura hidropónica que añade producción plana diaria de comida en esta avanzadilla.</TSA_WD_Upgrade_HydroponicsBasin.description>
+
+  <TSA_WD_Upgrade_PropagandaPrinter.label>Impresora de propaganda</TSA_WD_Upgrade_PropagandaPrinter.label>
+  <TSA_WD_Upgrade_PropagandaPrinter.description>Folletos y carteles que reducen más rápido la resistencia de los cautivos. Lo sustituye el siguiente equipo de esta línea.</TSA_WD_Upgrade_PropagandaPrinter.description>
+
+  <TSA_WD_Upgrade_PropagandaRadio.label>Radio de propaganda</TSA_WD_Upgrade_PropagandaRadio.label>
+  <TSA_WD_Upgrade_PropagandaRadio.description>Emisiones que rompen la resistencia de los prisioneros más rápido. Sustituye a la Impresora de propaganda.</TSA_WD_Upgrade_PropagandaRadio.description>
+
+  <TSA_WD_Upgrade_ReEducationCenter.label>Centro de reeducación</TSA_WD_Upgrade_ReEducationCenter.label>
+  <TSA_WD_Upgrade_ReEducationCenter.description>Una instalación dedicada que acelera el reclutamiento de prisioneros. Sustituye a la Radio de propaganda en esta línea.</TSA_WD_Upgrade_ReEducationCenter.description>
+
+  <TSA_WD_Upgrade_ConversionChair.label>Silla de conversión</TSA_WD_Upgrade_ConversionChair.label>
+  <TSA_WD_Upgrade_ConversionChair.description>Hace reclutables a los prisioneros inquebrantables y acelera la reducción de resistencia. Se acumula con la línea de propaganda.</TSA_WD_Upgrade_ConversionChair.description>
 </LanguageData>

@@ -832,6 +832,8 @@
   <TSA_WD_SkillScaling_EnableTip>Si está activo, apilar más habilidad total más allá del primer umbral aporta cada vez menos producción extra.</TSA_WD_SkillScaling_EnableTip>
   <TSA_WD_SkillScaling_HardCap>Tope duro (habilidad bruta)</TSA_WD_SkillScaling_HardCap>
   <TSA_WD_SkillScaling_HardCapTip>Por encima de esta habilidad bruta total, más habilidad no aporta capacidad de producción.</TSA_WD_SkillScaling_HardCapTip>
+  <TSA_WD_SkillScaling_SocialFirstBand>Eficiencia completa en puestos sociales hasta</TSA_WD_SkillScaling_SocialFirstBand>
+  <TSA_WD_SkillScaling_SocialFirstBandTip>Solo reclutamiento, comercio y embajada. El Social acumulado cuenta al completo hasta este total; después siguen las bandas de eficiencia compartidas.</TSA_WD_SkillScaling_SocialFirstBandTip>
   <TSA_WD_SkillScaling_BandsHeader>Bandas de habilidad</TSA_WD_SkillScaling_BandsHeader>
   <TSA_WD_SkillScaling_BandsTip></TSA_WD_SkillScaling_BandsTip>
   <TSA_WD_SkillScaling_BandRange>Ajuste para habilidad acumulada de {0} a {1}</TSA_WD_SkillScaling_BandRange>
@@ -842,7 +844,8 @@
   <TSA_WD_SkillScaling_BandWeightTip>Cuánto cuenta cada punto de habilidad de este rango hacia la producción. No puede ser mayor que la banda anterior.</TSA_WD_SkillScaling_BandWeightTip>
   <TSA_WD_SkillScaling_PreviewHeader>Vista previa</TSA_WD_SkillScaling_PreviewHeader>
   <TSA_WD_SkillScaling_PreviewRaw>Habilidad bruta de muestra</TSA_WD_SkillScaling_PreviewRaw>
-  <TSA_WD_SkillScaling_PreviewResult>Habilidad efectiva: {0} bruta → {1} efectiva</TSA_WD_SkillScaling_PreviewResult>
+  <TSA_WD_SkillScaling_PreviewResult>Habilidad efectiva: {0}</TSA_WD_SkillScaling_PreviewResult>
+  <TSA_WD_SkillScaling_PreviewResultSocial>Efectiva en puestos sociales: {0}</TSA_WD_SkillScaling_PreviewResultSocial>
   <TSA_WD_SkillScaling_RawToEffective>{0} → {1}</TSA_WD_SkillScaling_RawToEffective>
   <TSA_WD_SkillScaling_DisabledTip>Los rendimientos decrecientes de habilidad están desactivados.</TSA_WD_SkillScaling_DisabledTip>
   <TSA_WD_SkillScaling_BreakdownHeader>Escalado de habilidad: {0} bruta → {1} efectiva</TSA_WD_SkillScaling_BreakdownHeader>
@@ -943,7 +946,7 @@
   <TSA_WD_Experimental_AT_TurretHitBand76To100Tip>Acierto base en el borde exterior del alcance AT. Independiente de mortero / asentamiento T4.</TSA_WD_Experimental_AT_TurretHitBand76To100Tip>
   <TSA_WD_Experimental_HeaderControls>Controles del mapa mundial</TSA_WD_Experimental_HeaderControls>
   <TSA_WD_AutoAdd_DefaultOn>Añadir llegadas activo por defecto</TSA_WD_AutoAdd_DefaultOn>
-  <TSA_WD_AutoAdd_DefaultOnTip>Si está activo, las nuevas avanzadillas WD empiezan con el gizmo «Añadir llegadas automáticamente» activado. Las avanzadillas existentes no cambian. Sigues pudiendo activarlo o desactivarlo en cada una.</TSA_WD_AutoAdd_DefaultOnTip>
+  <TSA_WD_AutoAdd_DefaultOnTip>Si está activo, las nuevas avanzadillas WD empiezan con el gizmo «Añadir llegadas automáticamente» activado (caravanas cuyo destino es la avanzadilla). Las avanzadillas existentes no cambian. Sigues pudiendo activarlo o desactivarlo en cada una.</TSA_WD_AutoAdd_DefaultOnTip>
   <TSA_WD_TravelFood_PrisonerRecruit>Dar comida a prisioneros transferidos tras el reclutamiento</TSA_WD_TravelFood_PrisonerRecruit>
   <TSA_WD_TravelFood_PrisonerRecruitTip>Si está activo, los prisioneros enviados a una colonia o avanzadilla programada tras el reclutamiento salen con 150 de pemmican cada uno. Desde una colonia, ese pemmican se paga con comida del mapa de igual nutrición (prioridad a lo que se pudre antes). Desde una avanzadilla, se paga con comida virtual. Si falta comida, salen sin ese paquete.</TSA_WD_TravelFood_PrisonerRecruitTip>
   <TSA_WD_TravelFood_AllPlayerPawns>Dar comida a cualquier peón transferido desde Todos los peones</TSA_WD_TravelFood_AllPlayerPawns>

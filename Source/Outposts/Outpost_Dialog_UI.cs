@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using RimWorld;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
@@ -140,21 +142,24 @@ namespace TSA_WorldDomination
         public static float DrawSkillDiminishingReturnsBanner(float x, float y, float width, WorldObject_WD_Outpost outpost)
         {
             float raw = OutpostSkillScaling.GetBannerRawSkill(outpost);
-            return DrawSkillDiminishingReturnsBanner(x, y, width, raw);
+            return DrawSkillDiminishingReturnsBanner(x, y, width, raw, outpost?.def);
         }
 
-        public static float DrawSkillDiminishingReturnsBanner(float x, float y, float width, float rawSkill)
+        public static float DrawSkillDiminishingReturnsBanner(float x, float y, float width, float rawSkill) =>
+            DrawSkillDiminishingReturnsBanner(x, y, width, rawSkill, null);
+
+        public static float DrawSkillDiminishingReturnsBanner(float x, float y, float width, float rawSkill, WorldObjectDef def)
         {
-            if (!OutpostSkillScaling.IsDiminished(rawSkill))
+            if (!OutpostSkillScaling.IsDiminished(rawSkill, def))
                 return y;
 
-            float eff = OutpostSkillScaling.ToEffective(rawSkill);
+            float eff = OutpostSkillScaling.ToEffective(rawSkill, def);
             bool hard = OutpostSkillScaling.IsAtOrAboveHardCap(rawSkill);
             string text = hard
                 ? "TSA_WD_SkillScaling_BannerHardCap".Translate(rawSkill.ToString("F0"), eff.ToString("F0")).ToString()
                 : "TSA_WD_SkillScaling_BannerSoft".Translate(rawSkill.ToString("F0"), eff.ToString("F0")).ToString();
 
-            return DrawWarningBanner(x, y, width, text, OutpostSkillScaling.BuildBandBreakdownTip(rawSkill), hard);
+            return DrawWarningBanner(x, y, width, text, OutpostSkillScaling.BuildBandBreakdownTip(rawSkill, def), hard);
         }
 
         public static Color NearbyCountColor(int count)

@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_26_Title>Recruiting Outpost Upgrades &amp; Balancing</TSA_WD_Update_2_3_26_Title>
+  <TSA_WD_Update_2_3_26_Body><![CDATA[
+<size=16><b>2.3.26 – Recruiting Outpost Upgrades & Balancing</b></size>\n
+<color=#00FFFFFF>Release date: September 27th 2026</color>\n
+------------------------------\n
+• New Feature: 3 new universal outpost upgrades which improve recruiting speed at outposts and one that allows for recruiting unwavering prisoners. Prisoners captured by outposts may now be unwavering.\n
+• Balance adjustment: Several weak factions may now get the underdog buff at the same time. Check on the World Stats screen which faction currently has which buff/debuff. Underdog factions get better raid resolution outcomes now. Base defender win likelihood at equal strength is 65:35 now (was 58:42). With underdog buff it is 75:25 now; when underdogs attack they get about ×1.5 attacker win chance. Strong faction debuff reduces their attack win chance by roughly 20%.\n
+• Underdogs grow and act faster (growth and daily action share ×2.5), expand sooner (expand cooldown ×0.6, develop weight ×1.5), and fortify denser (×1.5). Leaders grow slower (×0.6), expand later (expand cooldown ×1.4), and fortify thinner (×0.75). Underdogs get bigger allied support radii; leaders get smaller ones. Underdogs never turtle but focus on fortifying themselves.\n
+• Some pretty drastic changes in the hopes to keep weak factions in the game longer.\n
+• Bugfix: Auto add to outpost now only works if the caravan has that very outpost as their destination. Previously, pawns could get auto-added if their caravan happened to rest on the outpost tile.\n
+• Bugfix: Flak turrets on the world map should now only shoot at incoming drop pod raiders once in range. There was a logic flaw where they could immediately shoot at the drop pod if its target was in range of the flak turret.\n
+]]></TSA_WD_Update_2_3_26_Body>
   <TSA_WD_Update_2_3_25_Title>Vehicle Repair, Outpost Upgrades, Bugfixes</TSA_WD_Update_2_3_25_Title>
   <TSA_WD_Update_2_3_25_Body><![CDATA[
 <size=16><b>2.3.25 – Vehicle Repair, Outpost Upgrades, Bugfixes</b></size>\n

@@ -14,6 +14,7 @@ Rules:
 
 - Put `[StaticConstructorOnStartup]` on the **exact type that owns the static field** (not a sibling helper in the same file, unless the field lives there).
 - Prefer a small dedicated static holder (see `WD_PlaySettingsWorldRowAssets`, `WorldOverlayLineMaterials`) when a `WorldComponent` / dialog would otherwise only exist for caching icons.
+- **Inspect tabs (`WITab_*`):** WorldObjectDefs instantiate tab types during def resolve. Do **not** put `ContentFinder` / static `Texture2D` fields on the WITab type itself — even with `[StaticConstructorOnStartup]`, early construction can run the static ctor off the main thread. Use a sibling assets holder (e.g. `WITab_Outpost_WarehouseAssets`).
 - Nested / companion types with their own static assets need their **own** attribute (e.g. `Dialog_OutpostSelection` vs `WD_OutpostSelectionCachedDefs`).
 - Properties that only *return* a `Texture2D` without storing one do not need the attribute; **fields** do.
 - Dictionaries of materials (`Dictionary<int, Material>`) are not flagged the same way, but if you add a bare `static Material` / `static Texture2D` field, add the attribute.

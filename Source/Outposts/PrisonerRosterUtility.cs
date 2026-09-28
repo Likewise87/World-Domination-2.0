@@ -370,6 +370,10 @@ namespace TSA_WorldDomination
 
         public static string GetOutpostInteractionLabel(Pawn pawn, WorldObject_WD_Outpost outpost)
         {
+            // Pending Conversion Chair flips still occupy a recruit slot; show that over Maintain.
+            if (OutpostPrisonerUtility.NeedsConversionChairFlip(outpost, pawn)
+                && OutpostPrisonerUtility.IsCurrentlyBeingRecruited(outpost, pawn))
+                return "TSA_WD_Prisoners_OutpostBeingRecruited".Translate();
             if (pawn?.guest?.ExclusiveInteractionMode == PrisonerInteractionModeDefOf.MaintainOnly)
                 return "TSA_WD_Prisoners_ModeMaintain".Translate();
             if (OutpostPrisonerUtility.IsCurrentlyBeingRecruited(outpost, pawn))

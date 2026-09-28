@@ -827,6 +827,8 @@
   <TSA_WD_SkillScaling_EnableTip>开启后，超过第一段阈值再堆总技能，额外产量越来越少。</TSA_WD_SkillScaling_EnableTip>
   <TSA_WD_SkillScaling_HardCap>硬上限（原始技能）</TSA_WD_SkillScaling_HardCap>
   <TSA_WD_SkillScaling_HardCapTip>超过此原始总技能后，再堆技能不再增加产能。</TSA_WD_SkillScaling_HardCapTip>
+  <TSA_WD_SkillScaling_SocialFirstBand>社交前哨满效率上限</TSA_WD_SkillScaling_SocialFirstBand>
+  <TSA_WD_SkillScaling_SocialFirstBandTip>仅招募、贸易和大使馆。累计社交技能在此总值内按满效率计算，之后沿用下方共享效率分段。</TSA_WD_SkillScaling_SocialFirstBandTip>
   <TSA_WD_SkillScaling_BandsHeader>技能分段</TSA_WD_SkillScaling_BandsHeader>
   <TSA_WD_SkillScaling_BandsTip></TSA_WD_SkillScaling_BandsTip>
   <TSA_WD_SkillScaling_BandRange>适用于累计技能 {0} 至 {1}</TSA_WD_SkillScaling_BandRange>
@@ -837,7 +839,8 @@
   <TSA_WD_SkillScaling_BandWeightTip>本段每个技能点有多少计入产量。不得超过上一段。</TSA_WD_SkillScaling_BandWeightTip>
   <TSA_WD_SkillScaling_PreviewHeader>预览</TSA_WD_SkillScaling_PreviewHeader>
   <TSA_WD_SkillScaling_PreviewRaw>示例原始技能</TSA_WD_SkillScaling_PreviewRaw>
-  <TSA_WD_SkillScaling_PreviewResult>有效技能：{0} 原始 → {1} 有效</TSA_WD_SkillScaling_PreviewResult>
+  <TSA_WD_SkillScaling_PreviewResult>有效技能：{0}</TSA_WD_SkillScaling_PreviewResult>
+  <TSA_WD_SkillScaling_PreviewResultSocial>社交前哨有效技能：{0}</TSA_WD_SkillScaling_PreviewResultSocial>
   <TSA_WD_SkillScaling_RawToEffective>{0} → {1}</TSA_WD_SkillScaling_RawToEffective>
   <TSA_WD_SkillScaling_DisabledTip>技能递减收益已关闭。</TSA_WD_SkillScaling_DisabledTip>
   <TSA_WD_SkillScaling_BreakdownHeader>技能缩放：{0} 原始 → {1} 有效</TSA_WD_SkillScaling_BreakdownHeader>
@@ -933,7 +936,7 @@
   <TSA_WD_Experimental_AT_TurretHitBand76To100Tip>外圈基础命中。与迫击炮 / T4 聚居地精度无关。</TSA_WD_Experimental_AT_TurretHitBand76To100Tip>
   <TSA_WD_Experimental_HeaderControls>世界地图控制</TSA_WD_Experimental_HeaderControls>
   <TSA_WD_AutoAdd_DefaultOn>默认开启自动加入抵达者</TSA_WD_AutoAdd_DefaultOn>
-  <TSA_WD_AutoAdd_DefaultOnTip>开启后，新建的 WD 前哨默认启用「自动加入抵达者」指令。已有前哨不受影响。仍可在每个前哨单独开关。</TSA_WD_AutoAdd_DefaultOnTip>
+  <TSA_WD_AutoAdd_DefaultOnTip>开启后，新建的 WD 前哨默认启用「自动加入抵达者」指令（目的地为该前哨的商队）。已有前哨不受影响。仍可在每个前哨单独开关。</TSA_WD_AutoAdd_DefaultOnTip>
   <TSA_WD_TravelFood_PrisonerRecruit>招募后转移囚犯时提供食物</TSA_WD_TravelFood_PrisonerRecruit>
   <TSA_WD_TravelFood_PrisonerRecruitTip>开启后，招募后送往预定殖民地或前哨的囚犯每人携带 150 份干肉饼启程。从殖民地出发时，用等量营养的地图食物支付（优先快坏的）；从前哨出发时从虚拟食物扣除。食物不足则不带该份干肉饼。</TSA_WD_TravelFood_PrisonerRecruitTip>
   <TSA_WD_TravelFood_AllPlayerPawns>通过全部玩家角色转移时提供食物</TSA_WD_TravelFood_AllPlayerPawns>

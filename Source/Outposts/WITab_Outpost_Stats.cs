@@ -70,12 +70,12 @@ namespace TSA_WorldDomination
             if (worldObject is WorldObject_WD_Outpost wdBanner)
             {
                 rawBanner = OutpostSkillScaling.GetBannerRawSkill(wdBanner);
-                if (OutpostSkillScaling.IsDiminished(rawBanner))
+                if (OutpostSkillScaling.IsDiminished(rawBanner, wdBanner.def))
                 {
                     Text.Font = GameFont.Small;
                     string probe = OutpostSkillScaling.IsAtOrAboveHardCap(rawBanner)
-                        ? "TSA_WD_SkillScaling_BannerHardCap".Translate(rawBanner.ToString("F0"), OutpostSkillScaling.ToEffective(rawBanner).ToString("F0")).ToString()
-                        : "TSA_WD_SkillScaling_BannerSoft".Translate(rawBanner.ToString("F0"), OutpostSkillScaling.ToEffective(rawBanner).ToString("F0")).ToString();
+                        ? "TSA_WD_SkillScaling_BannerHardCap".Translate(rawBanner.ToString("F0"), OutpostSkillScaling.ToEffective(rawBanner, wdBanner.def).ToString("F0")).ToString()
+                        : "TSA_WD_SkillScaling_BannerSoft".Translate(rawBanner.ToString("F0"), OutpostSkillScaling.ToEffective(rawBanner, wdBanner.def).ToString("F0")).ToString();
                     bannerExtra = Mathf.Max(24f, Text.CalcHeight(probe, contentWidth - 12f)) + 12f + 6f;
                 }
             }
@@ -216,6 +216,8 @@ namespace TSA_WorldDomination
                         h = h * 397 + settings.atTurretPlayerPerSiteMax;
                     }
                     h = h * 397 + BucketFloat(outpost.GetBuiltUpgradeAllyPullRadiusBonus());
+                    h = h * 397 + BucketFloat(outpost.GetBuiltUpgradePrisonerRecruitSpeedBonus(), 100f);
+                    h = h * 397 + (outpost.HasBuiltUnwaveringRecruitUnlock() ? 1 : 0);
                 }
                 else
                 {

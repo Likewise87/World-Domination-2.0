@@ -230,7 +230,13 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>Effective cumulative skill for cooldown / capacity (diminishing returns applied).</summary>
-        public float GetSkillSum(SkillDef skillDef) => OutpostSkillScaling.ToEffective(GetSkillSumRaw(skillDef));
+        public float GetSkillSum(SkillDef skillDef)
+        {
+            float raw = GetSkillSumRaw(skillDef);
+            if (OutpostSkillScaling.UsesSocialProductionScaling(def))
+                return OutpostSkillScaling.ToEffective(raw, def);
+            return OutpostSkillScaling.ToEffective(raw);
+        }
 
         /// <summary>Highest level of a skill among virtual occupants (mortar accuracy uses best Shooting).</summary>
         public float GetHighestVirtualPawnSkill(SkillDef skillDef)
@@ -339,7 +345,13 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>Effective cumulative skill for production/capacity (diminishing returns on the raw sum).</summary>
-        public float SumVirtualPawnSkill(SkillDef skillDef) => OutpostSkillScaling.ToEffective(SumVirtualPawnSkillRaw(skillDef));
+        public float SumVirtualPawnSkill(SkillDef skillDef)
+        {
+            float raw = SumVirtualPawnSkillRaw(skillDef);
+            if (OutpostSkillScaling.UsesSocialProductionScaling(def))
+                return OutpostSkillScaling.ToEffective(raw, def);
+            return OutpostSkillScaling.ToEffective(raw);
+        }
 
         public string Name;
         /// <summary>Real pawns at this outpost. Owned only by this outpost (deep-scribed); never stored in WorldPawns so nothing else can discard them.</summary>
@@ -3742,6 +3754,33 @@ namespace TSA_WorldDomination
                 if (def != null) total += def.mortarRangeBonus * kv.Value;
             }
             return total;
+        }
+
+        /// <summary>Σ <see cref="OutpostUpgradeDef.prisonerRecruitSpeedBonus"/> × built level (additive with Warden %).</summary>
+        public float GetBuiltUpgradePrisonerRecruitSpeedBonus()
+        {
+            if (builtUpgradeLevels == null || builtUpgradeLevels.Count == 0) return 0f;
+            float total = 0f;
+            foreach (var kv in builtUpgradeLevels)
+            {
+                if (kv.Value <= 0) continue;
+                var def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(kv.Key);
+                if (def != null) total += def.prisonerRecruitSpeedBonus * kv.Value;
+            }
+            return total;
+        }
+
+        /// <summary>True if any built upgrade has <see cref="OutpostUpgradeDef.enablesUnwaveringRecruit"/>.</summary>
+        public bool HasBuiltUnwaveringRecruitUnlock()
+        {
+            if (builtUpgradeLevels == null || builtUpgradeLevels.Count == 0) return false;
+            foreach (var kv in builtUpgradeLevels)
+            {
+                if (kv.Value <= 0) continue;
+                var def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(kv.Key);
+                if (def != null && def.enablesUnwaveringRecruit) return true;
+            }
+            return false;
         }
 
         /// <summary>Σ <see cref="OutpostUpgradeDef.researchEfficiencyBonus"/> × built level (flat percentage points on research efficiency).</summary>

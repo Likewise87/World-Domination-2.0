@@ -17,7 +17,7 @@ namespace TSA_WorldDomination
             if (!WorldActions_Utils.IsWdBaseGenEligible(settlement.Faction)) return false;
             if (!WorldActions_Utils.IsWdSurfaceTile(settlement.Tile)) return false;
             if (WorksitesExpandedCompat.ShouldSkipWdKcsgInterference(map)) return false;
-            if (WorldActions_Utils.HasActiveQuest(settlement)) return false;
+            if (WorldActions_Utils.HasActiveQuestBlockingWdMapGen(settlement)) return false;
             if (settlement.GetComponent<CompViralSpread>() == null) return false;
 
             var s = WorldDominationMod.settings;

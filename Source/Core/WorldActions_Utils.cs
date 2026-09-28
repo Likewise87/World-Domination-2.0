@@ -165,7 +165,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < settlements.Count; i++)
             {
                 Settlement s = settlements[i];
-                if (s.Faction == null || s.Faction.def.hidden || s.Faction.defeated || !IsWdParticipant(s.Faction)) continue;
+                if (s.Faction == null || s.Faction.def == null || s.Faction.def.hidden || s.Faction.defeated || !IsWdParticipant(s.Faction)) continue;
                 if (!IsWdSurfaceWorldObject(s)) continue;
                 var comp = s.GetComponent<CompViralSpread>();
                 if (comp == null || !string.IsNullOrEmpty(comp.subType) || comp.IsOutpost) continue;
@@ -180,7 +180,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < settlements.Count; i++)
             {
                 Settlement s = settlements[i];
-                if (s?.Faction?.IsPlayer != true) continue;
+                if (s?.Faction?.def == null || !s.Faction.IsPlayer) continue;
                 s.GetComponent<CompViralSpread>()?.EnsureInitialPlayerColonyShield();
             }
         }
@@ -192,7 +192,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < settlements.Count; i++)
             {
                 Settlement s = settlements[i];
-                if (s?.Faction?.IsPlayer != true) continue;
+                if (s?.Faction?.def == null || !s.Faction.IsPlayer) continue;
                 s.GetComponent<CompViralSpread>()?.MarkInitialPlayerColonyShieldHandled();
             }
         }
@@ -575,6 +575,20 @@ namespace TSA_WorldDomination
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// True when an ongoing quest should block WD KCSG hijack / layout / rock remapper / map power.
+        /// WD common-enemy destroy targets are exempt (player attack should look like a normal WD map).
+        /// Leave <see cref="HasActiveQuest"/> for NPC protection / reinforcements.
+        /// </summary>
+        public static bool HasActiveQuestBlockingWdMapGen(Settlement settlement)
+        {
+            if (!HasActiveQuest(settlement)) return false;
+            QuestPart_WdTrackedSettlement tracked =
+                WdCommonEnemySettlementQuestHelper.FindActiveTrackedPart();
+            if (tracked?.settlement == settlement) return false;
+            return true;
         }
 
         /// <summary>True if this faction can never leave hostility with the player (vanilla permanent-enemy rules).</summary>

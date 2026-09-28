@@ -84,13 +84,17 @@ namespace TSA_WorldDomination
         /// When <paramref name="caravan"/> is a VF vehicle caravan, evaluates stop state from
         /// <c>vehiclePather</c> and returns true (caller must not apply vanilla <c>pather</c> logic).
         /// Returns false if not a vehicle caravan or VF types are missing (vanilla path applies).
+        /// When <paramref name="requireDestinationMatchesTile"/> is true, destination is checked unless aerial/camp.
+        /// <paramref name="destinationMustEqualTile"/> (auto-add): dest tile id must equal <paramref name="tile"/>;
+        /// founding keeps soft reject (valid dest elsewhere only).
         /// </summary>
         public static bool TryEvaluateVehicleCaravanStoppedOnTile(
             Caravan caravan,
             int tile,
             bool requireDestinationMatchesTile,
             out bool ok,
-            out string reason)
+            out string reason,
+            bool destinationMustEqualTile = false)
         {
             ok = false;
             reason = null;
@@ -160,7 +164,15 @@ namespace TSA_WorldDomination
                 {
                     object dest = vehicleCaravanPather_Destination.GetValue(pather);
                     int destTileId = TryPlanetTileLikeToTileId(dest);
-                    if (destTileId >= 0 && destTileId != tile)
+                    if (destinationMustEqualTile)
+                    {
+                        if (destTileId < 0 || destTileId != tile)
+                        {
+                            reason = "TSA_WD_EstablishOutpost_WaitUntilStopped".Translate().ToString();
+                            return true;
+                        }
+                    }
+                    else if (destTileId >= 0 && destTileId != tile)
                     {
                         reason = "TSA_WD_EstablishOutpost_WaitUntilStopped".Translate().ToString();
                         return true;
@@ -168,7 +180,12 @@ namespace TSA_WorldDomination
                 }
                 catch
                 {
-                    // If destination cannot be read, do not block (same spirit as relaxed add-to-outpost).
+                    if (destinationMustEqualTile)
+                    {
+                        reason = "TSA_WD_EstablishOutpost_WaitUntilStopped".Translate().ToString();
+                        return true;
+                    }
+                    // Soft founding: if destination cannot be read, do not block.
                 }
             }
 

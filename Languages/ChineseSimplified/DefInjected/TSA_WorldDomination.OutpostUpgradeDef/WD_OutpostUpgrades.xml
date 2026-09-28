@@ -107,4 +107,16 @@
 
   <TSA_WD_Upgrade_HydroponicsBasin.label>水培盆地</TSA_WD_Upgrade_HydroponicsBasin.label>
   <TSA_WD_Upgrade_HydroponicsBasin.description>水培设施可为此前哨站提供固定的每日食物产量加成。</TSA_WD_Upgrade_HydroponicsBasin.description>
+
+  <TSA_WD_Upgrade_PropagandaPrinter.label>宣传印刷机</TSA_WD_Upgrade_PropagandaPrinter.label>
+  <TSA_WD_Upgrade_PropagandaPrinter.description>传单与海报可更快削弱俘虏的抵抗。本系列中更高级的宣传设施会替换它。</TSA_WD_Upgrade_PropagandaPrinter.description>
+
+  <TSA_WD_Upgrade_PropagandaRadio.label>宣传电台</TSA_WD_Upgrade_PropagandaRadio.label>
+  <TSA_WD_Upgrade_PropagandaRadio.description>广播宣传可更快瓦解囚犯抵抗。替换宣传印刷机。</TSA_WD_Upgrade_PropagandaRadio.description>
+
+  <TSA_WD_Upgrade_ReEducationCenter.label>再教育中心</TSA_WD_Upgrade_ReEducationCenter.label>
+  <TSA_WD_Upgrade_ReEducationCenter.description>专用设施可加速囚犯招募。在本线路上替换宣传电台。</TSA_WD_Upgrade_ReEducationCenter.description>
+
+  <TSA_WD_Upgrade_ConversionChair.label>转化椅</TSA_WD_Upgrade_ConversionChair.label>
+  <TSA_WD_Upgrade_ConversionChair.description>使意志坚定的囚犯可被招募，并加快抵抗下降。可与宣传线路叠加。</TSA_WD_Upgrade_ConversionChair.description>
 </LanguageData>

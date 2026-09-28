@@ -363,11 +363,15 @@ namespace TSA_WorldDomination
             }
         }
 
-        public static void WakeAllForDropPod(WorldObject_Traveler pod)
+        /// <param name="logSkips">Spawn wakes use true; mid-flight 1Hz pulse uses false to avoid skip spam.</param>
+        public static void WakeAllForDropPod(WorldObject_Traveler pod, bool logSkips = true)
         {
             if (pod == null || pod.Destroyed) return;
-            WDVerbose.Msg($"AA WakeAllForDropPod {pod.LabelCap}[{pod.mission}] tile={pod.Tile.tileId} moving={pod.pather?.moving} dest={(pod.pather != null && pod.pather.destTile.Valid ? pod.pather.destTile.tileId.ToString() : "-")} next={(pod.pather != null && pod.pather.nextTile.Valid ? pod.pather.nextTile.tileId.ToString() : "-")} fac={pod.Faction?.Name ?? "null"}");
-            WorldComponent_InterceptionScheduler.Current?.NotifyHostileAirborneTarget(pod);
+            if (logSkips)
+            {
+                WDVerbose.Msg($"AA WakeAllForDropPod {pod.LabelCap}[{pod.mission}] tile={pod.Tile.tileId} moving={pod.pather?.moving} dest={(pod.pather != null && pod.pather.destTile.Valid ? pod.pather.destTile.tileId.ToString() : "-")} next={(pod.pather != null && pod.pather.nextTile.Valid ? pod.pather.nextTile.tileId.ToString() : "-")} fac={pod.Faction?.Name ?? "null"}");
+            }
+            WorldComponent_InterceptionScheduler.Current?.NotifyHostileAirborneTarget(pod, logSkips);
         }
 
         public static void WakeAllForMortarShell(WorldObject_Traveler shell)
@@ -698,10 +702,12 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// True if the airborne target is in AA range now, or (for ballistic shells/pods) its destination /
-        /// aimed world object / great-circle flight arc comes within range — so flybys and inbound shells wake AA.
-        /// Ballistic travelers keep <see cref="WorldObject.Tile"/> at the launch tile until arrival; range must use
-        /// dest / arc / current hop progress — never “spawn tile only”.
+        /// Fire gate: true when the airborne target's <b>current</b> position is within AA range.
+        /// Vanilla / VF: <see cref="WorldObject.DrawPos"/>. WD ballistic travelers: hop progress
+        /// (<see cref="CurrentBallisticPosWithinRange"/>) — Tile stays at launch, so never use Tile / dest / arc here.
+        /// Arm/watch for vanilla uses <see cref="WillExternalAirborneFlightEnterAaRange"/>; WD mid-flight re-wake is
+        /// 1Hz <c>WakeAllForDropPod</c>. Pre-launch threat UI keeps dest/arc in
+        /// <see cref="TryGetHostileSettlementAaThreatsForDropPodFlight"/>.
         /// </summary>
         public static bool IsAirborneInAaRange(
             WorldObject aa,
@@ -728,36 +734,16 @@ namespace TSA_WorldDomination
                 return WorldDistTiles(aaPos, meet, grid) <= aaRange;
             }
 
-            if (TileWithin(manager, aaTile, target.Tile.tileId, aaRange))
-                return true;
-
             if (target is WorldObject_Traveler t)
             {
-                if (t.targetObject != null && !t.targetObject.Destroyed
-                    && TileWithin(manager, aaTile, t.targetObject.Tile.tileId, aaRange))
-                    return true;
+                // Ballistic: live hop progress only (matches DrawPos Slerp). Dest/arc/launch Tile are arm/UI, not fire.
+                if (WD_PathFollower.IsBallisticWorldFlight(t))
+                    return CurrentBallisticPosWithinRange(aaTile, t, aaRange);
 
-                WD_PathFollower path = t.pather;
-                if (path != null && path.moving)
-                {
-                    if (path.destTile.Valid && TileWithin(manager, aaTile, path.destTile.tileId, aaRange))
-                        return true;
-                    if (path.nextTile.Valid && TileWithin(manager, aaTile, path.nextTile.tileId, aaRange))
-                        return true;
-
-                    // Ballistic hop: Tile stays at origin until arrival. Check live progress + full arc for flybys
-                    // that start and end outside AA range but pass through it.
-                    if (WD_PathFollower.IsBallisticWorldFlight(t) && path.nextTile.Valid)
-                    {
-                        if (CurrentBallisticPosWithinRange(aaTile, t, aaRange))
-                            return true;
-                        if (BallisticArcComesWithinRange(aaTile, t.Tile.tileId, path.nextTile.tileId, aaRange))
-                            return true;
-                    }
-                }
+                return TileWithin(manager, aaTile, t.Tile.tileId, aaRange);
             }
 
-            return false;
+            return TileWithin(manager, aaTile, target.Tile.tileId, aaRange);
         }
 
         /// <summary>

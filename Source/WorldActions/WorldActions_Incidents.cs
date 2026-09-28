@@ -32,8 +32,8 @@ namespace TSA_WorldDomination
 
             // 1. Apply Diplomacy Multipliers (leader: more severe loss; underdog: reduced loss)
             float mult = 1f;
-            if (s.Faction == manager.currentWorldLeader && Find.TickManager.TicksGame < manager.leaderHandicapExpiryTick) mult = seth.leaderIncidentSeverityMult;
-            if (s.Faction == manager.currentWeakestUnderdog && Find.TickManager.TicksGame < manager.underdogBuffExpiryTick) mult = seth.underdogIncidentSeverityMult;
+            if (WorldActions_DiplomacyBuffsNerfs.IsActiveLeader(s.Faction, manager)) mult = seth.leaderIncidentSeverityMult;
+            if (WorldActions_DiplomacyBuffsNerfs.IsActiveUnderdog(s.Faction, manager)) mult = seth.underdogIncidentSeverityMult;
 
             float loss = (isMajor ? seth.majorIncidentSeverity : seth.minorIncidentSeverity) * mult;
             WDVerbose.Msg($"Incident {(isMajor ? "major" : "minor")}: {s.LabelCap} loss={loss:F0}");

@@ -102,6 +102,10 @@ namespace TSA_WorldDomination
             Settlement host = PickPrimaryHub(cluster, null);
             if (host == null || host.Destroyed) return false;
 
+            // Underdogs fortify in place rather than abandoning outer tiles.
+            if (WorldActions_DiplomacyBuffsNerfs.IsActiveUnderdog(faction, manager))
+                return FortifyHostInPlace(manager, seth, faction, host, forceDebug);
+
             float allyR = AllyRadiusUtil.GetEffective(host, seth, manager);
             var migrants = new List<Settlement>();
             int hostTile = host.Tile.tileId;
@@ -371,6 +375,10 @@ namespace TSA_WorldDomination
             bool forceDebug)
         {
             if (primaryHub == null || primaryHub.Destroyed) return false;
+
+            // Active underdogs dig in instead of packing/destroying outer leaves.
+            if (WorldActions_DiplomacyBuffsNerfs.IsActiveUnderdog(faction, manager))
+                return FortifyHostInPlace(manager, seth, faction, primaryHub, forceDebug);
 
             List<(Settlement leaf, Settlement dest)> assignments = BuildLeafAssignments(cluster, primaryHub, seth);
             if (assignments.Count < 1)

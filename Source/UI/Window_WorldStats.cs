@@ -583,12 +583,12 @@ namespace TSA_WorldDomination
             int nimbleExpiry = manager != null ? manager.underdogBuffExpiryTick : 0;
             int zealExpiry = manager != null ? manager.expansionistZealExpiryTick : 0;
             int coalitionExpiry = manager != null ? manager.antiLeaderCoalitionExpiryTick : 0;
-            bool leaderActive = manager != null
-                && faction == manager.currentWorldLeader
-                && ticksNow < leaderExpiry;
-            bool nimbleActive = manager != null
-                && faction == manager.currentWeakestUnderdog
-                && ticksNow < nimbleExpiry;
+            bool leaderActive = WorldActions_DiplomacyBuffsNerfs.IsActiveLeader(faction, manager);
+            bool nimbleActive = WorldActions_DiplomacyBuffsNerfs.IsActiveUnderdog(faction, manager);
+            int leaderCdUntil = WorldActions_DiplomacyBuffsNerfs.GetLeaderCooldownUntil(faction, manager);
+            int underdogCdUntil = WorldActions_DiplomacyBuffsNerfs.GetUnderdogCooldownUntil(faction, manager);
+            bool leaderCooling = !leaderActive && leaderCdUntil > ticksNow;
+            bool nimbleCooling = !nimbleActive && underdogCdUntil > ticksNow;
             bool zealActive = manager != null
                 && faction == manager.expansionistZealFaction
                 && ticksNow < zealExpiry;
@@ -606,7 +606,7 @@ namespace TSA_WorldDomination
             DrawStatusIcon(
                 new Rect(x, y, icon, icon),
                 StatusIconLeader,
-                leaderActive ? StatusIconActiveTint : StatusIconInactiveTint,
+                leaderActive ? StatusIconActiveTint : (leaderCooling ? new Color(0.55f, 0.55f, 0.35f) : StatusIconInactiveTint),
                 ComposeStatusTip(
                     "TSA_WD_Status_LeaderTitle",
                     "TSA_WD_Status_LeaderBlurb",
@@ -614,11 +614,13 @@ namespace TSA_WorldDomination
                         ? "TSA_WD_Status_LeaderActive".Translate(
                             FormatStatusMult(seth?.leaderIncidentWeightMult ?? WorldDominationSettings.DefLeaderIncidentWeightMult),
                             FormatStatusDays(leaderExpiry, ticksNow))
-                        : inactive));
+                        : leaderCooling
+                            ? "TSA_WD_Status_LeaderCooling".Translate(FormatStatusDays(leaderCdUntil, ticksNow))
+                            : inactive));
             DrawStatusIcon(
                 new Rect(x + step, y, icon, icon),
                 StatusIconNimble,
-                nimbleActive ? allyGreen : StatusIconInactiveTint,
+                nimbleActive ? allyGreen : (nimbleCooling ? new Color(0.45f, 0.55f, 0.45f) : StatusIconInactiveTint),
                 ComposeStatusTip(
                     "TSA_WD_Status_NimbleTitle",
                     "TSA_WD_Status_NimbleBlurb",
@@ -628,7 +630,9 @@ namespace TSA_WorldDomination
                             FormatStatusMult(seth?.underdogIncidentWeightMult ?? WorldDominationSettings.DefUnderdogIncidentWeightMult),
                             FormatStatusMult(seth?.underdogIncidentSeverityMult ?? WorldDominationSettings.DefUnderdogIncidentSeverityMult),
                             FormatStatusDays(nimbleExpiry, ticksNow))
-                        : inactive));
+                        : nimbleCooling
+                            ? "TSA_WD_Status_NimbleCooling".Translate(FormatStatusDays(underdogCdUntil, ticksNow))
+                            : inactive));
             DrawStatusIcon(
                 new Rect(x + step * 2f, y, icon, icon),
                 StatusIconExpansionist,

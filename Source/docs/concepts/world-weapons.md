@@ -20,7 +20,7 @@ Artillery Outposts can:
 - run **automatic** mortar fire against configured target types inside the adjusted auto range
 - unlock **anti-air** after the Anti-Air Gun upgrade
 
-Shooting skill and mortar upgrades improve hit chance and shorten mortar cooldown. Anti-air uses a short real-time cooldown and its own range.
+Shooting skill and mortar upgrades improve hit chance and shorten mortar cooldown. Anti-air uses a short real-time cooldown and its own range. Flak fires only when the target's **current** flight position is inside that range (not merely because the destination or flight arc will pass through later).
 
 **Adjust Range** shrinks automatic mortar or flak coverage. Manual mortar shots still use full range. Drop-pod launches from Rapid Response sites can be shot down by hostile AA, including T4 settlement batteries. Read the confirmation warning before launching valuable pawns or cargo.
 

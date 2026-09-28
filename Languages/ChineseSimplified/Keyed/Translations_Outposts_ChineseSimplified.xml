@@ -179,7 +179,7 @@
   <TSA_WD_Pod_AddedPawn>{0} 通过运输舱加入了 {1}。</TSA_WD_Pod_AddedPawn>
   <TSA_WD_PodArrival_FoodConverted>运输舱中的 {0} 营养已转换为 {1} 的虚拟食物。</TSA_WD_PodArrival_FoodConverted>
   <TSA_WD_PodArrival_ItemNotStored>无法将 {0} 存入此前哨站(WD 前哨站仅保留殖民者为虚拟单位)。物品已丢失。</TSA_WD_PodArrival_ItemNotStored>
-  <TSA_WD_AutoAdd_Desc>启用后,到达此格子的任何商队将自动加入前哨站。</TSA_WD_AutoAdd_Desc>
+  <TSA_WD_AutoAdd_Desc>启用后,目的地为此前哨的商队在停下时会自动加入。途中在此休息或暂停(目的地在别处)不会加入。</TSA_WD_AutoAdd_Desc>
   <TSA_WD_AutoAdd_Label>自动加入抵达者</TSA_WD_AutoAdd_Label>
   <TSA_WD_TakePrisoners_Label>俘获囚犯</TSA_WD_TakePrisoners_Label>
   <TSA_WD_TakePrisoners_Desc>启用后，此前哨在防守胜利时会俘获囚犯（自动结算与手动防御地图均适用）。关闭后，幸存敌人不会被收为前哨囚犯。</TSA_WD_TakePrisoners_Desc>
@@ -1221,9 +1221,11 @@
   <TSA_WD_Status_LeaderTitle>世界领袖减益</TSA_WD_Status_LeaderTitle>
   <TSA_WD_Status_LeaderBlurb>使最强派系在一段时间内遭遇更多事件。</TSA_WD_Status_LeaderBlurb>
   <TSA_WD_Status_LeaderActive>已激活。事件发生概率 {0}。效果还剩 {1} 天。</TSA_WD_Status_LeaderActive>
+  <TSA_WD_Status_LeaderCooling>冷却中。{0} 天后可再次获得领袖减益。</TSA_WD_Status_LeaderCooling>
   <TSA_WD_Status_NimbleTitle>灵活增益</TSA_WD_Status_NimbleTitle>
-  <TSA_WD_Status_NimbleBlurb>使最弱派系获得暂时的发展加速,并可降低事件发生概率与事件造成的强度损失。</TSA_WD_Status_NimbleBlurb>
+  <TSA_WD_Status_NimbleBlurb>使弱小派系获得暂时的发展加速,并可降低事件发生概率与事件造成的强度损失。</TSA_WD_Status_NimbleBlurb>
   <TSA_WD_Status_NimbleActive>已激活。派系发展 {0}。事件概率 {1}。事件伤害 {2}。效果还剩 {3} 天。</TSA_WD_Status_NimbleActive>
+  <TSA_WD_Status_NimbleCooling>冷却中。{0} 天后可再次获得灵活增益。</TSA_WD_Status_NimbleCooling>
   <TSA_WD_Status_ExpansionistTitle>扩张主义增益</TSA_WD_Status_ExpansionistTitle>
   <TSA_WD_Status_ExpansionistBlurb>使派系获得暂时的袭击范围提升。</TSA_WD_Status_ExpansionistBlurb>
   <TSA_WD_Status_ExpansionistActive>已激活。袭击范围 {0}。效果还剩 {1} 天。</TSA_WD_Status_ExpansionistActive>
@@ -1252,6 +1254,31 @@
   <TSA_WD_OutpostUpgrades_FilterBuilt>已建成</TSA_WD_OutpostUpgrades_FilterBuilt>
   <TSA_WD_OutpostUpgrades_FilterNotBuilt>未建成</TSA_WD_OutpostUpgrades_FilterNotBuilt>
   <TSA_WD_OutpostUpgrades_FilterBuildable>可建造</TSA_WD_OutpostUpgrades_FilterBuildable>
+  <TSA_WD_OutpostUpgradeImpact_Defensive>防御强度</TSA_WD_OutpostUpgradeImpact_Defensive>
+  <TSA_WD_OutpostUpgradeImpact_OffensiveRecovery>进攻强度恢复</TSA_WD_OutpostUpgradeImpact_OffensiveRecovery>
+  <TSA_WD_OutpostUpgradeImpact_OccupantHeal>驻员治疗</TSA_WD_OutpostUpgradeImpact_OccupantHeal>
+  <TSA_WD_OutpostUpgradeImpact_TileFertility>肥力</TSA_WD_OutpostUpgradeImpact_TileFertility>
+  <TSA_WD_OutpostUpgradeImpact_TileMining>采矿效率</TSA_WD_OutpostUpgradeImpact_TileMining>
+  <TSA_WD_OutpostUpgradeImpact_TileAnimals>动物丰度</TSA_WD_OutpostUpgradeImpact_TileAnimals>
+  <TSA_WD_OutpostUpgradeImpact_TileFish>鱼类储量</TSA_WD_OutpostUpgradeImpact_TileFish>
+  <TSA_WD_OutpostUpgradeImpact_MortarDamage>炮弹伤害</TSA_WD_OutpostUpgradeImpact_MortarDamage>
+  <TSA_WD_OutpostUpgradeImpact_MortarHit>迫击炮命中</TSA_WD_OutpostUpgradeImpact_MortarHit>
+  <TSA_WD_OutpostUpgradeImpact_MortarCooldown>迫击炮冷却</TSA_WD_OutpostUpgradeImpact_MortarCooldown>
+  <TSA_WD_OutpostUpgradeImpact_MortarRange>迫击炮射程</TSA_WD_OutpostUpgradeImpact_MortarRange>
+  <TSA_WD_OutpostUpgradeImpact_AssaultShells>突击炮弹</TSA_WD_OutpostUpgradeImpact_AssaultShells>
+  <TSA_WD_OutpostUpgradeImpact_AntiAir>防空</TSA_WD_OutpostUpgradeImpact_AntiAir>
+  <TSA_WD_OutpostUpgradeImpact_Decontamination>消毒</TSA_WD_OutpostUpgradeImpact_Decontamination>
+  <TSA_WD_OutpostUpgradeImpact_ResearchEfficiency>研究效率</TSA_WD_OutpostUpgradeImpact_ResearchEfficiency>
+  <TSA_WD_OutpostUpgradeImpact_ProductionEfficiency>生产产出</TSA_WD_OutpostUpgradeImpact_ProductionEfficiency>
+  <TSA_WD_OutpostUpgradeImpact_WarehouseAura>仓库光环</TSA_WD_OutpostUpgradeImpact_WarehouseAura>
+  <TSA_WD_OutpostUpgradeImpact_WarehouseAuraRadius>仓库光环范围</TSA_WD_OutpostUpgradeImpact_WarehouseAuraRadius>
+  <TSA_WD_OutpostUpgradeImpact_RemotePower>远程电力</TSA_WD_OutpostUpgradeImpact_RemotePower>
+  <TSA_WD_OutpostUpgradeImpact_RapidResponseOffense>快速反应进攻</TSA_WD_OutpostUpgradeImpact_RapidResponseOffense>
+  <TSA_WD_OutpostUpgradeImpact_AllyPullRadius>盟友牵引半径</TSA_WD_OutpostUpgradeImpact_AllyPullRadius>
+  <TSA_WD_OutpostUpgradeImpact_FoodStorageMax>食物储存</TSA_WD_OutpostUpgradeImpact_FoodStorageMax>
+  <TSA_WD_OutpostUpgradeImpact_FoodProductionFlat>食物生产</TSA_WD_OutpostUpgradeImpact_FoodProductionFlat>
+  <TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed>招募速度</TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed>
+  <TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit>招募坚定囚犯</TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit>
   <TSA_WD_OutpostUpgrades_UpgradeTitle>{0}(等级 {1})</TSA_WD_OutpostUpgrades_UpgradeTitle>
   <TSA_WD_OutpostUpgrades_MaxLevelReached>已达最高等级</TSA_WD_OutpostUpgrades_MaxLevelReached>
   <TSA_WD_OutpostUpgrades_NextBonuses>下一级:+{0} 防御,+{1}% 进攻恢复</TSA_WD_OutpostUpgrades_NextBonuses>
@@ -1298,6 +1325,8 @@
   <TSA_WD_OutpostUpgrades_BenefitRapidResponseOffense>+{0}pp 快速反应进攻</TSA_WD_OutpostUpgrades_BenefitRapidResponseOffense>
   <TSA_WD_OutpostUpgrades_BenefitFoodStorageMax>+{0} 虚拟食物最大储量</TSA_WD_OutpostUpgrades_BenefitFoodStorageMax>
   <TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>+{0} 每日食物产量</TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>
+  <TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>+{0}% 囚犯招募速度</TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>
+  <TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>可招募意志坚定的囚犯</TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>
   <TSA_WD_OutpostUpgrades_RequiresResearch>需要研究:{0}</TSA_WD_OutpostUpgrades_RequiresResearch>
   <TSA_WD_OutpostUpgrades_UpgradeActive>(升级已激活)</TSA_WD_OutpostUpgrades_UpgradeActive>
   <TSA_WD_OutpostUpgrades_ResearchNone>无</TSA_WD_OutpostUpgrades_ResearchNone>
@@ -1405,6 +1434,7 @@
   <TSA_WD_Experts_BenefitTooltip_TotalResistanceDrop>此前哨总下降（累计社交 + 狱卒）：-{0}/天</TSA_WD_Experts_BenefitTooltip_TotalResistanceDrop>
   <TSA_WD_Prisoners_ResistanceTip_CumSocial>累计社交：{0}（有效 {1}）→ -{2} 抵抗/天</TSA_WD_Prisoners_ResistanceTip_CumSocial>
   <TSA_WD_Prisoners_ResistanceTip_Warden>狱卒专家：x{0}%</TSA_WD_Prisoners_ResistanceTip_Warden>
+  <TSA_WD_Prisoners_ResistanceTip_Upgrade>招募升级：x{0}%</TSA_WD_Prisoners_ResistanceTip_Upgrade>
   <TSA_WD_Prisoners_ResistanceTip_Result>结果：-{0}</TSA_WD_Prisoners_ResistanceTip_Result>
   <TSA_WD_Experts_Expanded_NoProductionPath>此前哨类型不受艺人专家的产量加成。</TSA_WD_Experts_Expanded_NoProductionPath>
   <TSA_WD_Experts_BenefitTooltip_RoleLine>{0}：{1}</TSA_WD_Experts_BenefitTooltip_RoleLine>
@@ -1575,6 +1605,7 @@
   <TSA_WD_OutpostStats_Row_PrisonerResistance>囚犯抵抗每日下降</TSA_WD_OutpostStats_Row_PrisonerResistance>
   <TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Base>累计社交 {0} 的囚犯抵抗下降：-{1}/天</TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Base>
   <TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Warden>狱卒专家加成：x{0}%</TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Warden>
+  <TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Upgrade>招募升级：x{0}%</TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Upgrade>
   <TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Result>结果：-{0}</TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Result>
   <TSA_WD_OutpostStats_Row_RRStrengthBonus>快速反应进攻加成</TSA_WD_OutpostStats_Row_RRStrengthBonus>
   <TSA_WD_OutpostStats_Row_RRStrengthBonusTip>快速反应进攻上限相对加成。已计入上方显示的进攻上限最大值。</TSA_WD_OutpostStats_Row_RRStrengthBonusTip>

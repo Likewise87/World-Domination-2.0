@@ -321,8 +321,8 @@ namespace TSA_WorldDomination
                 var skillDefs = WorldObject_WD_Outpost.GetRelevantSkillDefs(outpost.def);
                 bool hasSkill = skillDefs != null && skillDefs.Count > 0;
                 float cumSkillRaw = hasSkill ? outpost.GetTotalRelevantSkillRaw() : 0f;
-                float cumSkill = hasSkill ? OutpostSkillScaling.ToEffective(cumSkillRaw) : 0f;
-                string cumSkillLabel = hasSkill ? OutpostSkillScaling.FormatRawEffective(cumSkillRaw) : "";
+                float cumSkill = hasSkill ? OutpostSkillScaling.ToEffective(cumSkillRaw, outpost.def) : 0f;
+                string cumSkillLabel = hasSkill ? OutpostSkillScaling.FormatRawEffective(cumSkillRaw, outpost.def) : "";
                 if (!hasSkill || skillName.NullOrEmpty() || skillName == "—")
                 {
                     hasSkill = false;

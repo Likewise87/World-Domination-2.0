@@ -1,3 +1,4 @@
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -38,11 +39,18 @@ namespace TSA_WorldDomination
 
     public static class RaidCasualtyModel
     {
-        public static RaidResolvedOutcome Resolve(float ratio, WorldDominationSettings seth, bool? forceAttackerWon = null)
+        public static RaidResolvedOutcome Resolve(
+            float ratio,
+            WorldDominationSettings seth,
+            bool? forceAttackerWon = null,
+            Faction attackerFaction = null,
+            Faction defenderFaction = null)
         {
             InterpolateOutcomeRow(ratio, seth, out float winChance,
                 out RaidMarginShares attWinAttSev, out RaidMarginShares attWinDefCoal,
                 out RaidMarginShares attLossAttSev, out RaidMarginShares attLossDefCoal);
+
+            winChance = ApplyDiplomacyWinChanceMults(winChance, seth, attackerFaction, defenderFaction);
 
             bool attackerWon = forceAttackerWon ?? (Rand.Value < winChance);
             RaidMarginShares attShares = attackerWon ? attWinAttSev : attLossAttSev;
@@ -67,11 +75,17 @@ namespace TSA_WorldDomination
             };
         }
 
-        public static RaidOutcomeForecast GetForecast(float ratio, WorldDominationSettings seth)
+        public static RaidOutcomeForecast GetForecast(
+            float ratio,
+            WorldDominationSettings seth,
+            Faction attackerFaction = null,
+            Faction defenderFaction = null)
         {
             InterpolateOutcomeRow(ratio, seth, out float winChance,
                 out RaidMarginShares attWinAttSev, out RaidMarginShares attWinDefCoal,
                 out RaidMarginShares attLossAttSev, out RaidMarginShares attLossDefCoal);
+
+            winChance = ApplyDiplomacyWinChanceMults(winChance, seth, attackerFaction, defenderFaction);
 
             attWinAttSev.Normalize();
             attWinDefCoal.Normalize();
@@ -106,12 +120,44 @@ namespace TSA_WorldDomination
             };
         }
 
+        /// <summary>
+        /// Apply underdog/leader winChance multipliers. winChance is attacker win probability.
+        /// Mutual active underdogs skip underdog mults. Order: defender underdog → attacker underdog → leader mods.
+        /// </summary>
+        public static float ApplyDiplomacyWinChanceMults(
+            float winChance,
+            WorldDominationSettings seth,
+            Faction attackerFaction,
+            Faction defenderFaction)
+        {
+            if (seth == null) return Mathf.Clamp(winChance, 0f, 0.99f);
+
+            bool attUnder = WorldActions_DiplomacyBuffsNerfs.IsActiveUnderdog(attackerFaction);
+            bool defUnder = WorldActions_DiplomacyBuffsNerfs.IsActiveUnderdog(defenderFaction);
+            bool mutualUnderdogs = attUnder && defUnder;
+
+            if (!mutualUnderdogs)
+            {
+                if (defUnder)
+                    winChance *= seth.underdogDefendAttWinMult;
+                if (attUnder)
+                    winChance *= seth.underdogAttackAttWinMult;
+            }
+
+            if (WorldActions_DiplomacyBuffsNerfs.IsActiveLeader(attackerFaction))
+                winChance *= seth.leaderAttackAttWinMult;
+            if (WorldActions_DiplomacyBuffsNerfs.IsActiveLeader(defenderFaction))
+                winChance *= seth.leaderDefendAttWinMult;
+
+            return Mathf.Clamp(winChance, 0f, 0.99f);
+        }
+
         private static void InterpolateOutcomeRow(float ratio, WorldDominationSettings seth, out float winChance,
             out RaidMarginShares attWinAttSev, out RaidMarginShares attWinDefCoal,
             out RaidMarginShares attLossAttSev, out RaidMarginShares attLossDefCoal)
         {
             var outcomes = seth.GetRaidOutcomesSorted();
-            winChance = 0.42f;
+            winChance = 0.35f;
             attWinAttSev = RaidSeverityDefaults.AttSeverityOnAttWinAt(1f);
             attWinDefCoal = RaidSeverityDefaults.DefCoalitionOnAttWinAt(1f);
             attLossAttSev = RaidSeverityDefaults.AttSeverityOnAttLossAt(1f);
@@ -200,22 +246,28 @@ namespace TSA_WorldDomination
             return BattleMarginTier.Decisive;
         }
 
-        private static void ComputeSeverityLossStats(WorldDominationSettings seth, RaidMarginShares shares, bool attackerSide, bool sideWon, out float min, out float max, out float expected)
+        private static void ComputeSeverityLossStats(
+            WorldDominationSettings seth,
+            RaidMarginShares shares,
+            bool attackerSide,
+            bool sideWon,
+            out float min,
+            out float max,
+            out float expected)
         {
-            min = float.MaxValue;
-            max = float.MinValue;
-            expected = 0f;
-            foreach (BattleMarginTier tier in new[] { BattleMarginTier.Close, BattleMarginTier.Normal, BattleMarginTier.Decisive })
-            {
-                float loss = attackerSide ? seth.GetAttCasualtyLoss(tier, sideWon) : seth.GetDefCoalitionCasualtyLoss(tier, sideWon);
-                min = Mathf.Min(min, loss);
-                max = Mathf.Max(max, loss);
-                float weight = tier == BattleMarginTier.Close ? shares.close
-                    : tier == BattleMarginTier.Normal ? shares.normal : shares.decisive;
-                expected += weight * loss;
-            }
-            if (min == float.MaxValue) min = 0f;
-            if (max == float.MinValue) max = 0f;
+            shares.Normalize();
+            float close = attackerSide
+                ? seth.GetAttCasualtyLoss(BattleMarginTier.Close, sideWon)
+                : seth.GetDefCoalitionCasualtyLoss(BattleMarginTier.Close, sideWon);
+            float normal = attackerSide
+                ? seth.GetAttCasualtyLoss(BattleMarginTier.Normal, sideWon)
+                : seth.GetDefCoalitionCasualtyLoss(BattleMarginTier.Normal, sideWon);
+            float decisive = attackerSide
+                ? seth.GetAttCasualtyLoss(BattleMarginTier.Decisive, sideWon)
+                : seth.GetDefCoalitionCasualtyLoss(BattleMarginTier.Decisive, sideWon);
+            min = Mathf.Min(close, normal, decisive);
+            max = Mathf.Max(close, normal, decisive);
+            expected = close * shares.close + normal * shares.normal + decisive * shares.decisive;
         }
     }
 }

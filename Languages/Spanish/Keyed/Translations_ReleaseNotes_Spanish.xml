@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_26_Title>Mejoras de reclutamiento en avanzadillas y equilibrio</TSA_WD_Update_2_3_26_Title>
+  <TSA_WD_Update_2_3_26_Body><![CDATA[
+<size=16><b>2.3.26 – Mejoras de reclutamiento en avanzadillas y equilibrio</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 27 de septiembre de 2026</color>\n
+------------------------------\n
+• Nueva función: 3 nuevas mejoras universales de avanzadilla que aceleran el reclutamiento, y una que permite reclutar prisioneros inquebrantables. Los prisioneros capturados por avanzadillas ahora pueden ser inquebrantables.\n
+• Ajuste de equilibrio: varias facciones débiles pueden recibir a la vez el buff de rezagado (underdog). En Estadísticas mundiales puedes ver qué facción tiene cada buff/debuff. Las facciones rezagadas tienen ahora mejores resultados en la resolución de incursiones. La probabilidad base de victoria del defensor a fuerza igual es 65:35 (antes 58:42). Con buff de rezagado es 75:25; cuando atacan, su probabilidad de victoria del atacante es unas ×1.5. El debuff de facción fuerte reduce su probabilidad de victoria al atacar en torno a un 20%.\n
+• Los rezagados crecen y actúan más rápido (crecimiento y cuota de acciones diarias ×2.5), se expanden antes (enfriamiento de expansión ×0.6, peso de desarrollo ×1.5) y fortifican más densamente (×1.5). Los líderes crecen más despacio (×0.6), se expanden más tarde (enfriamiento de expansión ×1.4) y fortifican más flojo (×0.75). Los rezagados tienen radios de apoyo aliado más grandes; los líderes, más pequeños. Los rezagados ya no hacen Turtle: se centran en fortificarse.\n
+• Cambios bastante drásticos con la esperanza de que las facciones débiles duren más en la partida.\n
+• Corrección: el auto-añadir a la avanzadilla solo funciona si la caravana tiene esa avanzadilla como destino. Antes podían añadirse peones si la caravana solo descansaba en la casilla de la avanzadilla.\n
+• Corrección: las torretas flak del mapa mundial solo deberían disparar a incursiones de cápsulas entrantes cuando ya están a alcance. Había un fallo de lógica por el que podían disparar de inmediato a la cápsula si su objetivo estaba dentro del alcance de la flak.\n
+]]></TSA_WD_Update_2_3_26_Body>
   <TSA_WD_Update_2_3_25_Title>Reparación de vehículos, mejoras de avanzadillas, correcciones</TSA_WD_Update_2_3_25_Title>
   <TSA_WD_Update_2_3_25_Body><![CDATA[
 <size=16><b>2.3.25 – Reparación de vehículos, mejoras de avanzadillas, correcciones</b></size>\n

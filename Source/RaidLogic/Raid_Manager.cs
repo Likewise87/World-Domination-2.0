@@ -591,7 +591,7 @@ namespace TSA_WorldDomination
             launchLog.ratio = forecastRatio;
 
             WDVerbose.Msg($"RaidLaunch {attacker.LabelCap}->{target.LabelCap}: drop={useDropPod} gravship={useGravship} invasion={eval.isInvasionRaid} committed={totalInvestedPower:F0} def={launchDefSnap.Total:F0} eff={finalEfficiency:F2} ratio={forecastRatio:F2} req={finalGate.requiredRatio:F2} min={seth.minRaidRatio:F2} pass={finalGate.passed || finalGate.bypassedMinRatio}");
-            float forecastedWinChance = RaidCasualtyModel.GetForecast(forecastRatio, seth).winChance;
+            float forecastedWinChance = RaidCasualtyModel.GetForecast(forecastRatio, seth, attacker.Faction, target?.Faction).winChance;
             launchLog.winChance = forecastedWinChance;
 
             float attStrengthAtArrival = totalInvestedPower * finalEfficiency;

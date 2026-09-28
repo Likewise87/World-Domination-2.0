@@ -322,7 +322,7 @@ namespace TSA_WorldDomination
             float effectiveAtkPower = totalAtkPower * predictedEfficiency;
             float ratio = effectiveAtkPower / (totalDefPower > 0 ? totalDefPower : 1f);
             effectiveRatio = ratio;
-            raidForecast = RaidCasualtyModel.GetForecast(ratio, seth);
+            raidForecast = RaidCasualtyModel.GetForecast(ratio, seth, source?.Faction, target?.Faction);
             winChance = raidForecast.winChance;
 
             cachedDepartureLine = "TSA_WD_StrengthAtDeparture".Translate() + ": " + totalAtkPower.ToString("F0");

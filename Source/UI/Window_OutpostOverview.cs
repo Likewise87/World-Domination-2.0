@@ -429,8 +429,8 @@ namespace TSA_WorldDomination
                     if (string.IsNullOrEmpty(prodTooltip) || prodTooltip.Contains("TSA_WD_"))
                         prodTooltip = null;
                     float skillDrRaw = OutpostSkillScaling.GetBannerRawSkill(o);
-                    bool hasSkillDr = OutpostSkillScaling.IsDiminished(skillDrRaw);
-                    string skillDrTip = hasSkillDr ? OutpostSkillScaling.BuildBandBreakdownTip(skillDrRaw) : null;
+                    bool hasSkillDr = OutpostSkillScaling.IsDiminished(skillDrRaw, o.def);
+                    string skillDrTip = hasSkillDr ? OutpostSkillScaling.BuildBandBreakdownTip(skillDrRaw, o.def) : null;
                     int expertsAssigned = OutpostExpertUtility.GetAssignedExpertCount(o);
                     int expertsMax = OutpostExpertUtility.GetMaxExpertSlots(o);
                     string expertsCountStr = expertsAssigned + "/" + expertsMax;

@@ -56,11 +56,17 @@ namespace TSA_WorldDomination
             return OutpostExpertUtility.GetExpertBonusFraction(outpost, OutpostExpertRole.Recruiter);
         }
 
+        public static float GetUpgradeRecruitSpeedBonusFraction(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null) return 0f;
+            return Mathf.Max(0f, outpost.GetBuiltUpgradePrisonerRecruitSpeedBonus());
+        }
+
         public static float GetDailyDrop(WorldObject_WD_Outpost outpost)
         {
             float baseDrop = GetBaseDropPerDay(outpost);
             if (baseDrop <= 0f) return 0f;
-            float bonus = GetWardenBonusFraction(outpost);
+            float bonus = GetWardenBonusFraction(outpost) + GetUpgradeRecruitSpeedBonusFraction(outpost);
             return baseDrop * (1f + bonus);
         }
 
@@ -84,37 +90,46 @@ namespace TSA_WorldDomination
             float raw = GetRawCumSocial(outpost);
             float eff = ToResistanceEffective(raw);
             float baseDrop = eff / SocialPerResistancePoint;
-            float bonus = GetWardenBonusFraction(outpost);
-            float finalDrop = baseDrop * (1f + bonus);
-            int bonusPct = Mathf.RoundToInt(bonus * 100f);
+            float warden = GetWardenBonusFraction(outpost);
+            float upgrade = GetUpgradeRecruitSpeedBonusFraction(outpost);
+            float finalDrop = baseDrop * (1f + warden + upgrade);
+            int wardenPct = Mathf.RoundToInt(warden * 100f);
+            int upgradePct = Mathf.RoundToInt(upgrade * 100f);
 
             var sb = new StringBuilder();
             sb.AppendLine("TSA_WD_Prisoners_ResistanceTip_CumSocial".Translate(
                 raw.ToString("F0"),
                 eff.ToString("F0"),
                 baseDrop.ToString("F1")));
-            if (bonusPct > 0)
-                sb.AppendLine("TSA_WD_Prisoners_ResistanceTip_Warden".Translate(bonusPct.ToString()));
+            if (wardenPct > 0)
+                sb.AppendLine("TSA_WD_Prisoners_ResistanceTip_Warden".Translate(wardenPct.ToString()));
+            if (upgradePct > 0)
+                sb.AppendLine("TSA_WD_Prisoners_ResistanceTip_Upgrade".Translate(upgradePct.ToString()));
             sb.Append("TSA_WD_Prisoners_ResistanceTip_Result".Translate(finalDrop.ToString("F1")));
             return sb.ToString().TrimEnd();
         }
 
-        /// <summary>Compact Stats-tab math: base from Cum. Social, Warden %, result.</summary>
+        /// <summary>Compact Stats-tab math: base from Cum. Social, Warden %, upgrades, result.</summary>
         public static string BuildStatsTabTooltip(WorldObject_WD_Outpost outpost)
         {
             if (outpost == null) return "";
             float raw = GetRawCumSocial(outpost);
             float baseDrop = GetBaseDropPerDay(outpost);
-            float bonus = GetWardenBonusFraction(outpost);
-            float finalDrop = baseDrop * (1f + bonus);
-            int bonusPct = Mathf.RoundToInt(bonus * 100f);
+            float warden = GetWardenBonusFraction(outpost);
+            float upgrade = GetUpgradeRecruitSpeedBonusFraction(outpost);
+            float finalDrop = baseDrop * (1f + warden + upgrade);
+            int wardenPct = Mathf.RoundToInt(warden * 100f);
+            int upgradePct = Mathf.RoundToInt(upgrade * 100f);
 
             var sb = new StringBuilder();
             sb.AppendLine("TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Base".Translate(
                 raw.ToString("F0"),
                 baseDrop.ToString("F1")));
             sb.AppendLine("TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Warden".Translate(
-                bonusPct.ToString()));
+                wardenPct.ToString()));
+            if (upgradePct > 0)
+                sb.AppendLine("TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Upgrade".Translate(
+                    upgradePct.ToString()));
             sb.Append("TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Result".Translate(
                 finalDrop.ToString("F1")));
             return sb.ToString().TrimEnd();

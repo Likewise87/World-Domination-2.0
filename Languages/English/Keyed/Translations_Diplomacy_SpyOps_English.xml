@@ -140,9 +140,37 @@
   <TSA_WD_Diplo_UnderdogActionShare>Underdog: Daily action share multiplier</TSA_WD_Diplo_UnderdogActionShare>
   <TSA_WD_Diplo_UnderdogActionShareTooltip>When underdog buff is active, that faction's share of daily actions is multiplied by this (e.g. 2 = twice as many actions).</TSA_WD_Diplo_UnderdogActionShareTooltip>
   <TSA_WD_Diplo_UnderdogBuff>Enable Underdog Growth Boost (Buff)</TSA_WD_Diplo_UnderdogBuff>
-  <TSA_WD_Diplo_UnderdogBuffTooltip>The weakest faction becomes small and nimble, granting them increased growth speed for a limited time.</TSA_WD_Diplo_UnderdogBuffTooltip>
+  <TSA_WD_Diplo_UnderdogBuffTooltip>Weak NPC factions below equal-share strength can become Nimble (up to several at once), granting faster growth and stronger defense for a limited time.</TSA_WD_Diplo_UnderdogBuffTooltip>
   <TSA_WD_Diplo_UnderdogBuff_Label>Buff: Growth Boost</TSA_WD_Diplo_UnderdogBuff_Label>
   <TSA_WD_Diplo_UnderdogBuff_Msg>Buff: '{0}' will grow faster for the next {1} days thanks to being small and nimble.</TSA_WD_Diplo_UnderdogBuff_Msg>
+  <TSA_WD_Diplo_UnderdogBuff_MsgMulti>Buff: {0} will grow faster for the next {1} days thanks to being small and nimble.</TSA_WD_Diplo_UnderdogBuff_MsgMulti>
+  <TSA_WD_Diplo_PerFactionCooldownTooltip>Per-faction cooldown after this buff/debuff ends for that faction. Other factions can still receive it.</TSA_WD_Diplo_PerFactionCooldownTooltip>
+  <TSA_WD_Diplo_MaxConcurrentUnderdogs>Max concurrent underdogs</TSA_WD_Diplo_MaxConcurrentUnderdogs>
+  <TSA_WD_Diplo_MaxConcurrentUnderdogsTooltip>How many weak NPC factions can hold the Nimble buff in one wave.</TSA_WD_Diplo_MaxConcurrentUnderdogsTooltip>
+  <TSA_WD_Diplo_LeaderGrowthGainMult>Leader: Growth strength gain multiplier</TSA_WD_Diplo_LeaderGrowthGainMult>
+  <TSA_WD_Diplo_LeaderGrowthGainTooltip>When the world-leader handicap is active, passive growth strength gain is multiplied by this.</TSA_WD_Diplo_LeaderGrowthGainTooltip>
+  <TSA_WD_Diplo_LeaderAllyRadiusMult>Leader: Ally pull radius multiplier</TSA_WD_Diplo_LeaderAllyRadiusMult>
+  <TSA_WD_Diplo_LeaderAllyRadiusTooltip>Shrinks ally reinforcement pull radius while leader handicap is active.</TSA_WD_Diplo_LeaderAllyRadiusTooltip>
+  <TSA_WD_Diplo_LeaderExpandCdMult>Leader: Expand cooldown multiplier</TSA_WD_Diplo_LeaderExpandCdMult>
+  <TSA_WD_Diplo_LeaderExpandCdTooltip>Lengthens expand cooldown while leader handicap is active.</TSA_WD_Diplo_LeaderExpandCdTooltip>
+  <TSA_WD_Diplo_LeaderFortifyDensityMult>Leader: Fortify density multiplier</TSA_WD_Diplo_LeaderFortifyDensityMult>
+  <TSA_WD_Diplo_LeaderFortifyDensityTooltip>Scales fortify kit AT count / caravan density while leader handicap is active.</TSA_WD_Diplo_LeaderFortifyDensityTooltip>
+  <TSA_WD_Diplo_LeaderAttackAttWinMult>Leader attacking: attacker win mult</TSA_WD_Diplo_LeaderAttackAttWinMult>
+  <TSA_WD_Diplo_LeaderAttackAttWinTooltip>Multiplies attacker win chance when the handicapped leader is attacking.</TSA_WD_Diplo_LeaderAttackAttWinTooltip>
+  <TSA_WD_Diplo_LeaderDefendAttWinMult>Leader defending: attacker win mult</TSA_WD_Diplo_LeaderDefendAttWinMult>
+  <TSA_WD_Diplo_LeaderDefendAttWinTooltip>Multiplies attacker win chance when the handicapped leader is defending (higher = easier to smash the leader).</TSA_WD_Diplo_LeaderDefendAttWinTooltip>
+  <TSA_WD_Diplo_UnderdogAllyRadiusMult>Underdog: Ally pull radius multiplier</TSA_WD_Diplo_UnderdogAllyRadiusMult>
+  <TSA_WD_Diplo_UnderdogAllyRadiusTooltip>Widens ally reinforcement pull radius while Nimble is active.</TSA_WD_Diplo_UnderdogAllyRadiusTooltip>
+  <TSA_WD_Diplo_UnderdogExpandWeightMult>Underdog: Develop/expand weight multiplier</TSA_WD_Diplo_UnderdogExpandWeightMult>
+  <TSA_WD_Diplo_UnderdogExpandWeightTooltip>Raises develop/expand action weight while Nimble is active.</TSA_WD_Diplo_UnderdogExpandWeightTooltip>
+  <TSA_WD_Diplo_UnderdogExpandCdMult>Underdog: Expand cooldown multiplier</TSA_WD_Diplo_UnderdogExpandCdMult>
+  <TSA_WD_Diplo_UnderdogExpandCdTooltip>Shortens expand cooldown while Nimble is active.</TSA_WD_Diplo_UnderdogExpandCdTooltip>
+  <TSA_WD_Diplo_UnderdogFortifyDensityMult>Underdog: Fortify density multiplier</TSA_WD_Diplo_UnderdogFortifyDensityMult>
+  <TSA_WD_Diplo_UnderdogFortifyDensityTooltip>Scales fortify kit AT count / caravan density while Nimble is active.</TSA_WD_Diplo_UnderdogFortifyDensityTooltip>
+  <TSA_WD_Diplo_UnderdogDefendAttWinMult>Underdog defending: attacker win mult</TSA_WD_Diplo_UnderdogDefendAttWinMult>
+  <TSA_WD_Diplo_UnderdogDefendAttWinTooltip>Multiplies attacker win chance when a Nimble faction is defending (lower = harder to erase underdogs).</TSA_WD_Diplo_UnderdogDefendAttWinTooltip>
+  <TSA_WD_Diplo_UnderdogAttackAttWinMult>Underdog attacking: attacker win mult</TSA_WD_Diplo_UnderdogAttackAttWinMult>
+  <TSA_WD_Diplo_UnderdogAttackAttWinTooltip>Multiplies attacker win chance when a Nimble faction is attacking (helps reclaim).</TSA_WD_Diplo_UnderdogAttackAttWinTooltip>
   <TSA_WD_Diplo_UnderdogGrowthGain>Underdog: Growth strength gain multiplier</TSA_WD_Diplo_UnderdogGrowthGain>
   <TSA_WD_Diplo_UnderdogGrowthGainTooltip>When underdog buff is active, strength gained from growth actions is multiplied by this (e.g. 2 = double growth).</TSA_WD_Diplo_UnderdogGrowthGainTooltip>
   <TSA_WD_Diplo_UnderdogIncidentWeight>Incident likelihood multiplier</TSA_WD_Diplo_UnderdogIncidentWeight>
@@ -150,7 +178,7 @@
   <TSA_WD_Diplo_UnderdogIncidentSeverity>Incident strength loss multiplier</TSA_WD_Diplo_UnderdogIncidentSeverity>
   <TSA_WD_Diplo_UnderdogIncidentSeverityTooltip>When underdog buff is active, strength removed by incidents is multiplied by this (e.g. 0.5 = half the loss).</TSA_WD_Diplo_UnderdogIncidentSeverityTooltip>
   <TSA_WD_Diplo_UnderdogTriggerChance>Underdog buff trigger chance</TSA_WD_Diplo_UnderdogTriggerChance>
-  <TSA_WD_Diplo_UnderdogTriggerChanceTooltip>Daily chance to apply the growth buff to the weakest faction when conditions are met.</TSA_WD_Diplo_UnderdogTriggerChanceTooltip>
+  <TSA_WD_Diplo_UnderdogTriggerChanceTooltip>Daily chance to start a Nimble wave for up to several weak factions when conditions are met.</TSA_WD_Diplo_UnderdogTriggerChanceTooltip>
   <TSA_WD_Diplo_ZealAttritionMult>Zeal: Travel attrition multiplier</TSA_WD_Diplo_ZealAttritionMult>
   <TSA_WD_Diplo_ZealAttritionMultTooltip>When a faction has Zeal, caravan strength loss per hour is multiplied by this (e.g. 0.5 = half the normal attrition).</TSA_WD_Diplo_ZealAttritionMultTooltip>
   <TSA_WD_Diplo_ZealRaidRangeMult>Zeal: Raid range multiplier</TSA_WD_Diplo_ZealRaidRangeMult>

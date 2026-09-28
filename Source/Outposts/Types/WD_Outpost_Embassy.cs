@@ -425,7 +425,7 @@ namespace TSA_WorldDomination
         public static string GetSocialMultStatsTooltip(WorldObject_WD_Outpost outpost)
         {
             float raw = GetDeliveryDrivingCapacityRaw(outpost);
-            float eff = OutpostSkillScaling.ToEffective(raw);
+            float eff = OutpostSkillScaling.ToEffective(raw, outpost?.def);
             float mult = GetSocialMultiplier(eff);
             return OutpostTranslationUtil.Key(
                 "TSA_WD_OutpostStats_Row_EmbassySocialMultTip",

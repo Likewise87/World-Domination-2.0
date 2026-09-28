@@ -51,13 +51,13 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Despawn and store a humanlike as an outpost prisoner (including unwavering).
-        /// Recruit stays locked for non-recruitable pawns; defense auto-capture still filters those via
-        /// <see cref="OutpostPrisonerUtility.IsRecruitableCapturable"/>. Does not add to Occupants.
+        /// Without Conversion Chair, unwavering default to Maintain Only. Does not add to Occupants.
         /// </summary>
         public bool TryCaptureAsPrisoner(Pawn pawn)
         {
             if (pawn == null || pawn.Destroyed || pawn.Dead) return false;
             if (pawn.RaceProps?.Humanlike != true) return false;
+            if (pawn.IsSubhuman) return false;
             if (OutpostPawnClassificationUtil.IsMechanoidWorker(pawn)) return false;
             if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(pawn)) return false;
 
@@ -76,6 +76,7 @@ namespace TSA_WorldDomination
             {
                 pawn.guest.SetGuestStatus(Faction.OfPlayer, GuestStatus.Prisoner);
                 // Unwavering: maintain only. Recruitable: default to attempt recruit.
+                // Conversion Chair (if built) flips unwavering to recruitable + Attempt Recruit below.
                 if (pawn.guest.Recruitable)
                 {
                     PrisonerInteractionModeDef recruit = PrisonerInteractionModeDefOf.AttemptRecruit;

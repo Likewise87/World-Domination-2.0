@@ -131,7 +131,7 @@ Code IDs stay the old names. UI strings are the new ones.
 
 | UI | Code |
 |----|------|
-| Nimble | `currentWeakestUnderdog`, `underdogBuff*`, `enableUnderdogBuff` |
+| Nimble | `activeUnderdogs`, `underdogBuff*`, per-faction CD maps, `enableUnderdogBuff` |
 | Expansionist | `expansionistZealFaction`, `expansionistZealExpiryTick`, `enableExpansionistZeal` |
 | Warden | `OutpostExpertRole.Recruiter`, `expertRecruiterThingId` |
 
@@ -178,4 +178,4 @@ SSoT for **promotion** (NPC settlements): Develop (`WorldActions_GrowthExpand.Tr
 - NPC settlement attack range: call `SettlementAttackRangeUtil.GetNpcSettlementAttackRangeWithZeal`. Player outpost range is a different knob (`raidTargetRadius` + strategist in `Action_Outpost_LaunchAttack`); do not fold it into the NPC util.
 - Raid outcome interpolation: `RaidCasualtyModel.GetForecast` / `Resolve`. Do not add a second interpolator.
 - Fortify kit layout (r=1 AT, r=2 traps/blocks, ensure road exit, tier `GetKit`): `WorldActions_FortifyKit`. Daily NPC Fortify and Turtle / desperation instant kit share it (T1 included); do not add a second kit interpolator.
-- Timed buffs on SpreadManager: Leader / Nimble / Expansionist / coalition are already parallel stacks (`currentWorldLeader`, `currentWeakestUnderdog`, `expansionistZealFaction`, `antiLeaderCoalition*`). Do not add a fifth loose expiry field.
+- Timed buffs on SpreadManager: Leader / Nimble (multi-faction set + per-faction CDs) / Expansionist / coalition are parallel stacks (`currentWorldLeader`, `activeUnderdogs`, `expansionistZealFaction`, `antiLeaderCoalition*`). Do not add a fifth loose expiry field.

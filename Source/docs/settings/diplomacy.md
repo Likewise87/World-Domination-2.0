@@ -116,24 +116,27 @@ The six tuning controls are shown while investment is enabled. Payment fills nea
 | Control | Default | Range or availability |
 |---|---:|---|
 | Enable | On | On or Off |
-| Duration | 10.0 days | 0.5 to 60 |
-| Cooldown | 15.0 days | 0.5 to 60 |
-| Leader debuff trigger chance | 35% | 0% to 100% |
+| Duration | 7.0 days | 0.5 to 60 |
+| Cooldown | 7.0 days (per faction) | 0.5 to 60 |
+| Leader debuff trigger chance | 85% | 0% to 100% |
 | Incident likelihood multiplier | 2.0x | 0.5x to 4.0x |
 | Incident strength loss multiplier | 2.0x | 0.5x to 4.0x |
+| Growth / ally radius / expand CD / fortify / raid win mults | See in-game advanced | — |
 
 ### Underdog growth buff
 
 | Control | Default | Range or availability |
 |---|---:|---|
 | Enable | On | On or Off |
-| Duration | 10.0 days | 0.5 to 60 |
-| Cooldown | 15.0 days | 0.5 to 60 |
-| Underdog buff trigger chance | 25% | 0% to 100% |
-| Underdog: Daily action share multiplier | 2.0x | 1.0x to 4.0x |
+| Duration | 7.0 days | 0.5 to 60 |
+| Cooldown | 7.0 days (per faction) | 0.5 to 60 |
+| Underdog buff trigger chance | 85% | 0% to 100% |
+| Max concurrent underdogs | 3 | 1 to 8 |
+| Underdog: Daily action share multiplier | 2.5x | 1.0x to 4.0x |
 | Incident likelihood multiplier | 0.50x | 0.10x to 1.00x |
 | Incident strength loss multiplier | 0.50x | 0.10x to 1.00x |
-| Underdog: Growth strength gain multiplier | 2.0x | 1.0x to 4.0x |
+| Underdog: Growth strength gain multiplier | 2.5x | 1.0x to 4.0x |
+| Ally / expand / fortify / raid win mults | See in-game advanced | — |
 
 ### Expansionist zeal
 

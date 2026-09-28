@@ -28,7 +28,8 @@ namespace TSA_WorldDomination
         RapidResponse = 12,
         Ranch = 13,
         Fishing = 14,
-        Warehouse = 15
+        Warehouse = 15,
+        Recruitment = 16
     }
 
     /// <summary>Cost line for upgrade XML (&lt;thingDef&gt; + &lt;count&gt;). Plain fields so nested defs do not hit ThingDefCountClass shorthand parsing.</summary>
@@ -86,6 +87,12 @@ namespace TSA_WorldDomination
 
         /// <summary>When true and built, unlocks Decontamination Crew missions on the Build menu (Biotech pollution scrub).</summary>
         public bool enablesDecontaminationCrew;
+
+        /// <summary>Additive prisoner resistance drop bonus per built level, 0–1 scale (0.15 = +15% like Warden).</summary>
+        public float prisonerRecruitSpeedBonus;
+
+        /// <summary>When true and built, Conversion Chair: unwavering captives can be made recruitable.</summary>
+        public bool enablesUnwaveringRecruit;
 
         /// <summary>Flat research efficiency bonus per built level, 0–1 scale (0.10 = +10 percentage points on outpost research efficiency).</summary>
         public float researchEfficiencyBonus;

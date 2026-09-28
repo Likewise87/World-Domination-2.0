@@ -427,7 +427,8 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Caravan must be fully stopped on <paramref name="tile"/> (not mid-move). Same idea as <see cref="WorldObjectComp_AutoAddPawn"/>.
+        /// Caravan must be fully stopped on <paramref name="tile"/> (not mid-move). Soft destination check
+        /// (reject only when destination is valid and elsewhere). Auto-add uses a stricter parked helper.
         /// Prevents founding with missing caravan pawns and falling through to conquest-style generated colonists.
         /// </summary>
         public static bool CaravanFullyStoppedOnTileForEstablishment(Caravan caravan, int tile, out string reason)
@@ -482,10 +483,16 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Relaxed stop check for add-to-outpost / auto-add only (not founding). Pod-spawned caravans can have
-        /// <c>pather.Destination != tile</c> while not moving; we only require same tile and not mid-move.
+        /// Stopped on <paramref name="tile"/> for add-to-outpost / auto-add (not founding).
+        /// When <paramref name="requireDestinationMatchesTile"/> is false (manual add): same tile and not mid-move only.
+        /// When true (auto-add): destination must be this tile (strict). Rest mid-route does not qualify.
+        /// Shuttle / abandoned-camp / VF aerial keep stale-destination exceptions.
         /// </summary>
-        public static bool CaravanParkedOnTileForAddToOutpost(Caravan caravan, int tile, out string reason)
+        public static bool CaravanParkedOnTileForAddToOutpost(
+            Caravan caravan,
+            int tile,
+            out string reason,
+            bool requireDestinationMatchesTile = false)
         {
             reason = null;
             if (caravan == null || caravan.Destroyed)
@@ -494,7 +501,12 @@ namespace TSA_WorldDomination
                 return false;
             }
             if (VehicleFrameworkOutpostDissolveCompat.TryEvaluateVehicleCaravanStoppedOnTile(
-                    caravan, tile, requireDestinationMatchesTile: false, out bool vfOk, out string vfReason))
+                    caravan,
+                    tile,
+                    requireDestinationMatchesTile,
+                    out bool vfOk,
+                    out string vfReason,
+                    destinationMustEqualTile: requireDestinationMatchesTile))
             {
                 reason = vfReason;
                 return vfOk;
@@ -514,6 +526,22 @@ namespace TSA_WorldDomination
 
             PlanetTile current = caravan.Tile;
             if (!current.Valid || current.tileId != tile)
+            {
+                reason = "TSA_WD_EstablishOutpost_WaitUntilStopped".Translate().ToString();
+                return false;
+            }
+
+            if (!requireDestinationMatchesTile)
+                return true;
+
+            // Stale destination after shuttle / camp land (same exceptions as founding).
+            if (OdysseyShuttleOutpostEstablishmentCompat.CaravanUsesPassengerShuttleForTravel(caravan))
+                return true;
+            if (TileHasVanillaAbandonedCamp(tile))
+                return true;
+
+            PlanetTile dest = caravan.pather.Destination;
+            if (!dest.Valid || dest != current)
             {
                 reason = "TSA_WD_EstablishOutpost_WaitUntilStopped".Translate().ToString();
                 return false;

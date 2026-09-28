@@ -105,11 +105,19 @@ namespace TSA_WorldDomination
 
         public Faction currentWorldLeader;
         public int leaderHandicapExpiryTick = -1;
+        /// <summary>Legacy / new-game grace gate. Per-faction CDs live in <see cref="leaderHandicapCooldownByFaction"/>.</summary>
         public int leaderHandicapCooldownTick = -1;
+        /// <summary>Faction loadID → tick when that faction may receive leader handicap again.</summary>
+        public Dictionary<int, int> leaderHandicapCooldownByFaction = new Dictionary<int, int>();
 
+        /// <summary>Legacy single-underdog ref; migrated into <see cref="activeUnderdogs"/> on load.</summary>
         public Faction currentWeakestUnderdog;
+        public List<Faction> activeUnderdogs = new List<Faction>();
         public int underdogBuffExpiryTick = -1;
+        /// <summary>Legacy / new-game grace gate. Per-faction CDs live in <see cref="underdogBuffCooldownByFaction"/>.</summary>
         public int underdogBuffCooldownTick = -1;
+        /// <summary>Faction loadID → tick when that faction may receive underdog buff again.</summary>
+        public Dictionary<int, int> underdogBuffCooldownByFaction = new Dictionary<int, int>();
 
         public Faction expansionistZealFaction;
         public int expansionistZealExpiryTick = -1;
@@ -799,6 +807,7 @@ namespace TSA_WorldDomination
 
             // Dissolve/restore before form or random diplomacy so expiry-day pairs are not mutated then overwritten.
             ClearExpiredCoalition();
+            WorldActions_DiplomacyBuffsNerfs.ClearExpiredLeaderAndUnderdog(this);
             WorldActions_DiplomacyBuffsNerfs.ApplyLeaderHandicap(this, worldPowerStats);
             WorldActions_DiplomacyBuffsNerfs.ApplyUnderdogBuff(this, worldPowerStats);
             WorldActions_DiplomacyBuffsNerfs.FormAntiLeaderCoalition(this, worldPowerStats);
@@ -817,7 +826,7 @@ namespace TSA_WorldDomination
             foreach (var kv in settlementsByFaction)
             {
                 Faction f = kv.Key;
-                if (f == null || f.def.hidden || f.defeated) continue;
+                if (f == null || f.def == null || f.def.hidden || f.defeated) continue;
 
                 float shares = 0;
                 foreach (var s in kv.Value)
@@ -829,7 +838,7 @@ namespace TSA_WorldDomination
                                       (comp.tier == SettlementTier.T3) ? seth.tier3Share :
                                       (comp.tier == SettlementTier.T2) ? seth.tier2Share : seth.tier1Share;
 
-                    if (f == currentWeakestUnderdog && Find.TickManager.TicksGame < underdogBuffExpiryTick)
+                    if (WorldActions_DiplomacyBuffsNerfs.IsActiveUnderdog(f, this))
                     {
                         baseShare *= seth.underdogActionShareMult;
                     }
@@ -901,8 +910,12 @@ namespace TSA_WorldDomination
             bool isRecovering = comp.strength < growthThreshold;
 
             float incidentMult = 1f;
-            if (f == currentWorldLeader && currentTick < leaderHandicapExpiryTick) incidentMult = seth.leaderIncidentWeightMult;
-            if (f == currentWeakestUnderdog && currentTick < underdogBuffExpiryTick) incidentMult = seth.underdogIncidentWeightMult;
+            if (WorldActions_DiplomacyBuffsNerfs.IsActiveLeader(f, this)) incidentMult = seth.leaderIncidentWeightMult;
+            if (WorldActions_DiplomacyBuffsNerfs.IsActiveUnderdog(f, this)) incidentMult = seth.underdogIncidentWeightMult;
+
+            float developMult = 1f;
+            if (WorldActions_DiplomacyBuffsNerfs.IsActiveUnderdog(f, this))
+                developMult = seth.underdogExpandWeightMult;
 
             bool developEligible = WorldActions_GrowthExpand.IsDevelopEligible(comp);
             bool fortifyEligible = WorldActions_NpcFortify.IsFortifyEligible(actor, comp);
@@ -910,7 +923,7 @@ namespace TSA_WorldDomination
             float wRaid = (!comp.IsRaidOnCooldown && !isRecovering) ? seth.weightRaid : 0f;
             float wMinor = (!comp.IsIncidentOnCooldown) ? seth.weightMinorIncident * incidentMult : 0f;
             float wMajor = (!comp.IsIncidentOnCooldown) ? seth.weightMajorIncident * incidentMult : 0f;
-            float wDevelop = developEligible ? seth.weightGrow : 0f;
+            float wDevelop = developEligible ? seth.weightGrow * developMult : 0f;
             float wBuildRoad = (!comp.IsRoadOnCooldown && !isRecovering) ? seth.weightBuildRoad : 0f;
             float wTrader = (!comp.IsTraderOnCooldown && !isRecovering) ? seth.weightTrader : 0f;
             float wFortify = fortifyEligible ? seth.weightFortify : 0f;
@@ -1098,7 +1111,9 @@ namespace TSA_WorldDomination
             for (int i = 0; i < tempThreatPlayerColonyTargets.Count; i++)
             {
                 if (!(tempThreatPlayerColonyTargets[i] is Settlement colony) || !colony.HasMap) continue;
-                float baseline = StorytellerUtility.DefaultThreatPointsNow(colony.Map);
+                Map map = colony.Map;
+                if (map == null) continue;
+                float baseline = StorytellerUtility.DefaultThreatPointsNow(map);
                 tempThreatColonyRows.Add((colony, baseline, 0f, null));
             }
 
@@ -1110,7 +1125,7 @@ namespace TSA_WorldDomination
             {
                 Settlement s = allSettlements[si];
                 if (s == null || s.Tile < 0 || s.Faction == null || s.Faction.IsPlayer) continue;
-                if (s.Faction.def.hidden || s.Faction.defeated) continue;
+                if (s.Faction.def == null || s.Faction.def.hidden || s.Faction.defeated) continue;
                 if (!WorldActions_Utils.SafeHostileTo(s.Faction, player)) continue;
                 if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(s)) continue;
                 if (!CanReachAnyPlayerTarget(s, tempThreatPlayerColonyTargets, seth)) continue;
@@ -1212,7 +1227,7 @@ namespace TSA_WorldDomination
                 {
                     Settlement s = allSettlements[si];
                     if (s == null || s.Tile < 0 || s.Faction == null || s.Faction.IsPlayer) continue;
-                    if (s.Faction.def.hidden || s.Faction.defeated) continue;
+                    if (s.Faction.def == null || s.Faction.def.hidden || s.Faction.defeated) continue;
                     if (!WorldActions_Utils.SafeHostileTo(s.Faction, player)) continue;
                     if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(s)) continue;
                     if (!CanReachAnyPlayerTarget(s, tempThreatPlayerColonyTargets, seth)) continue;
@@ -1676,6 +1691,7 @@ namespace TSA_WorldDomination
 
             Scribe_References.Look(ref currentWorldLeader, "currentWorldLeader");
             Scribe_References.Look(ref currentWeakestUnderdog, "currentWeakestUnderdog");
+            Scribe_Collections.Look(ref activeUnderdogs, "activeUnderdogs", LookMode.Reference);
 
             Scribe_References.Look(ref expansionistZealFaction, "expansionistZealFaction");
             Scribe_Values.Look(ref expansionistZealExpiryTick, "expansionistZealExpiryTick", -1);
@@ -1683,9 +1699,11 @@ namespace TSA_WorldDomination
 
             Scribe_Values.Look(ref leaderHandicapExpiryTick, "leaderHandicapExpiryTick", -1);
             Scribe_Values.Look(ref leaderHandicapCooldownTick, "leaderHandicapCooldownTick", -1);
+            Scribe_Collections.Look(ref leaderHandicapCooldownByFaction, "leaderHandicapCooldownByFaction", LookMode.Value, LookMode.Value);
 
             Scribe_Values.Look(ref underdogBuffExpiryTick, "underdogBuffExpiryTick", -1);
             Scribe_Values.Look(ref underdogBuffCooldownTick, "underdogBuffCooldownTick", -1);
+            Scribe_Collections.Look(ref underdogBuffCooldownByFaction, "underdogBuffCooldownByFaction", LookMode.Value, LookMode.Value);
 
             Scribe_Values.Look(ref antiLeaderCoalitionCooldownTick, "antiLeaderCoalitionCooldownTick", -1);
             Scribe_References.Look(ref antiLeaderCoalitionTarget, "antiLeaderCoalitionTarget");
@@ -1739,6 +1757,11 @@ namespace TSA_WorldDomination
             if (caravanMortarVitalityRemaining == null) caravanMortarVitalityRemaining = new Dictionary<int, float>();
             if (antiLeaderCoalitionMembers == null) antiLeaderCoalitionMembers = new List<Faction>();
             if (antiLeaderCoalitionPriorRelations == null) antiLeaderCoalitionPriorRelations = new List<AntiLeaderCoalitionPriorRelation>();
+            if (activeUnderdogs == null) activeUnderdogs = new List<Faction>();
+            if (leaderHandicapCooldownByFaction == null) leaderHandicapCooldownByFaction = new Dictionary<int, int>();
+            if (underdogBuffCooldownByFaction == null) underdogBuffCooldownByFaction = new Dictionary<int, int>();
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+                WorldActions_DiplomacyBuffsNerfs.MigrateLegacyUnderdogLeaderState(this);
             if (playerWdRaidLaunchTicks == null) playerWdRaidLaunchTicks = new List<int>();
             if (vanillaNpcSettlementCountsByFactionLoadId == null)
                 vanillaNpcSettlementCountsByFactionLoadId = new Dictionary<int, int>();

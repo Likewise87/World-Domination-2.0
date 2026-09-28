@@ -192,7 +192,7 @@
   <TSA_WD_Pod_AddedPawn>{0} joined {1} from transport pods.</TSA_WD_Pod_AddedPawn>
   <TSA_WD_PodArrival_FoodConverted>{0} nutrition from transport pods converted to virtual food at {1}.</TSA_WD_PodArrival_FoodConverted>
   <TSA_WD_PodArrival_ItemNotStored>Cannot store {0} in this outpost (WD outposts only hold colonists as virtual pawns). Item lost.</TSA_WD_PodArrival_ItemNotStored>
-  <TSA_WD_AutoAdd_Desc>When enabled, any caravan arriving at this tile will be automatically added to the outpost.</TSA_WD_AutoAdd_Desc>
+  <TSA_WD_AutoAdd_Desc>When enabled, caravans whose destination is this outpost are automatically added when they stop. Resting or pausing here while bound elsewhere does not.</TSA_WD_AutoAdd_Desc>
   <TSA_WD_AutoAdd_Label>Auto-Add Arrivals</TSA_WD_AutoAdd_Label>
   <TSA_WD_TakePrisoners_Label>Take prisoners</TSA_WD_TakePrisoners_Label>
   <TSA_WD_TakePrisoners_Desc>When enabled, this outpost takes captives after winning a defense, both in auto-resolve and on a manual defense map. When disabled, surviving enemies are not taken as outpost prisoners.</TSA_WD_TakePrisoners_Desc>
@@ -1323,9 +1323,11 @@
   <TSA_WD_Status_LeaderTitle>World leader debuff</TSA_WD_Status_LeaderTitle>
   <TSA_WD_Status_LeaderBlurb>Gives the strongest faction more incidents for a while.</TSA_WD_Status_LeaderBlurb>
   <TSA_WD_Status_LeaderActive>Active. Incidents {0} more likely. Effect lasts {1} more days.</TSA_WD_Status_LeaderActive>
+  <TSA_WD_Status_LeaderCooling>Cooling down. Can receive the leader handicap again in {0} days.</TSA_WD_Status_LeaderCooling>
   <TSA_WD_Status_NimbleTitle>Nimble buff</TSA_WD_Status_NimbleTitle>
-  <TSA_WD_Status_NimbleBlurb>Gives the weakest faction a temporary growth boost, and can reduce how often incidents hit them and how much strength those incidents remove.</TSA_WD_Status_NimbleBlurb>
+  <TSA_WD_Status_NimbleBlurb>Gives weak factions a temporary growth boost, and can reduce how often incidents hit them and how much strength those incidents remove.</TSA_WD_Status_NimbleBlurb>
   <TSA_WD_Status_NimbleActive>Active. Growth {0}. Incident chance {1}. Incident damage {2}. Effect lasts {3} more days.</TSA_WD_Status_NimbleActive>
+  <TSA_WD_Status_NimbleCooling>Cooling down. Can receive Nimble again in {0} days.</TSA_WD_Status_NimbleCooling>
   <TSA_WD_Status_ExpansionistTitle>Expansionist buff</TSA_WD_Status_ExpansionistTitle>
   <TSA_WD_Status_ExpansionistBlurb>Gives factions a temporary attack range boost.</TSA_WD_Status_ExpansionistBlurb>
   <TSA_WD_Status_ExpansionistActive>Active. Raid range {0} farther. Effect lasts {1} more days.</TSA_WD_Status_ExpansionistActive>
@@ -1355,6 +1357,31 @@
   <TSA_WD_OutpostUpgrades_FilterBuilt>Built</TSA_WD_OutpostUpgrades_FilterBuilt>
   <TSA_WD_OutpostUpgrades_FilterNotBuilt>Not built</TSA_WD_OutpostUpgrades_FilterNotBuilt>
   <TSA_WD_OutpostUpgrades_FilterBuildable>Buildable</TSA_WD_OutpostUpgrades_FilterBuildable>
+  <TSA_WD_OutpostUpgradeImpact_Defensive>Defensive Strength</TSA_WD_OutpostUpgradeImpact_Defensive>
+  <TSA_WD_OutpostUpgradeImpact_OffensiveRecovery>Offensive Strength Recovery</TSA_WD_OutpostUpgradeImpact_OffensiveRecovery>
+  <TSA_WD_OutpostUpgradeImpact_OccupantHeal>Occupant Healing</TSA_WD_OutpostUpgradeImpact_OccupantHeal>
+  <TSA_WD_OutpostUpgradeImpact_TileFertility>Fertility</TSA_WD_OutpostUpgradeImpact_TileFertility>
+  <TSA_WD_OutpostUpgradeImpact_TileMining>Mining Efficiency</TSA_WD_OutpostUpgradeImpact_TileMining>
+  <TSA_WD_OutpostUpgradeImpact_TileAnimals>Animal Abundance</TSA_WD_OutpostUpgradeImpact_TileAnimals>
+  <TSA_WD_OutpostUpgradeImpact_TileFish>Fish Stocks</TSA_WD_OutpostUpgradeImpact_TileFish>
+  <TSA_WD_OutpostUpgradeImpact_MortarDamage>Shell Damage</TSA_WD_OutpostUpgradeImpact_MortarDamage>
+  <TSA_WD_OutpostUpgradeImpact_MortarHit>Mortar Hit Chance</TSA_WD_OutpostUpgradeImpact_MortarHit>
+  <TSA_WD_OutpostUpgradeImpact_MortarCooldown>Mortar Cooldown</TSA_WD_OutpostUpgradeImpact_MortarCooldown>
+  <TSA_WD_OutpostUpgradeImpact_MortarRange>Mortar Range</TSA_WD_OutpostUpgradeImpact_MortarRange>
+  <TSA_WD_OutpostUpgradeImpact_AssaultShells>Assault Shells</TSA_WD_OutpostUpgradeImpact_AssaultShells>
+  <TSA_WD_OutpostUpgradeImpact_AntiAir>Anti-Air</TSA_WD_OutpostUpgradeImpact_AntiAir>
+  <TSA_WD_OutpostUpgradeImpact_Decontamination>Decontamination</TSA_WD_OutpostUpgradeImpact_Decontamination>
+  <TSA_WD_OutpostUpgradeImpact_ResearchEfficiency>Research Efficiency</TSA_WD_OutpostUpgradeImpact_ResearchEfficiency>
+  <TSA_WD_OutpostUpgradeImpact_ProductionEfficiency>Production Output</TSA_WD_OutpostUpgradeImpact_ProductionEfficiency>
+  <TSA_WD_OutpostUpgradeImpact_WarehouseAura>Warehouse Aura</TSA_WD_OutpostUpgradeImpact_WarehouseAura>
+  <TSA_WD_OutpostUpgradeImpact_WarehouseAuraRadius>Warehouse Aura Range</TSA_WD_OutpostUpgradeImpact_WarehouseAuraRadius>
+  <TSA_WD_OutpostUpgradeImpact_RemotePower>Remote Power</TSA_WD_OutpostUpgradeImpact_RemotePower>
+  <TSA_WD_OutpostUpgradeImpact_RapidResponseOffense>Rapid Response Offense</TSA_WD_OutpostUpgradeImpact_RapidResponseOffense>
+  <TSA_WD_OutpostUpgradeImpact_AllyPullRadius>Ally Pull Radius</TSA_WD_OutpostUpgradeImpact_AllyPullRadius>
+  <TSA_WD_OutpostUpgradeImpact_FoodStorageMax>Food Storage</TSA_WD_OutpostUpgradeImpact_FoodStorageMax>
+  <TSA_WD_OutpostUpgradeImpact_FoodProductionFlat>Food Production</TSA_WD_OutpostUpgradeImpact_FoodProductionFlat>
+  <TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed>Recruiting Speed</TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed>
+  <TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit>Unwavering Recruit</TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit>
   <TSA_WD_OutpostUpgrades_UpgradeTitle>{0} (Lv {1})</TSA_WD_OutpostUpgrades_UpgradeTitle>
   <TSA_WD_OutpostUpgrades_MaxLevelReached>Max level reached</TSA_WD_OutpostUpgrades_MaxLevelReached>
   <TSA_WD_OutpostUpgrades_NextBonuses>Next: +{0} def, +{1}% offense recovery</TSA_WD_OutpostUpgrades_NextBonuses>
@@ -1401,6 +1428,8 @@
   <TSA_WD_OutpostUpgrades_BenefitRapidResponseOffense>+{0}pp Rapid Response offense</TSA_WD_OutpostUpgrades_BenefitRapidResponseOffense>
   <TSA_WD_OutpostUpgrades_BenefitFoodStorageMax>+{0} max virtual food storage</TSA_WD_OutpostUpgrades_BenefitFoodStorageMax>
   <TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>+{0} daily food production</TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>
+  <TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>+{0}% prisoner recruit speed</TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>
+  <TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>Unwavering prisoners can be recruited</TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>
   <TSA_WD_OutpostUpgrades_RequiresResearch>REQUIRES RESEARCH: {0}</TSA_WD_OutpostUpgrades_RequiresResearch>
   <TSA_WD_OutpostUpgrades_UpgradeActive>(Upgrade active)</TSA_WD_OutpostUpgrades_UpgradeActive>
   <TSA_WD_OutpostUpgrades_ResearchNone>None</TSA_WD_OutpostUpgrades_ResearchNone>
@@ -1508,6 +1537,7 @@
   <TSA_WD_Experts_BenefitTooltip_TotalResistanceDrop>Total drop at this outpost (Cum. Social + Warden): -{0} / day</TSA_WD_Experts_BenefitTooltip_TotalResistanceDrop>
   <TSA_WD_Prisoners_ResistanceTip_CumSocial>Cum. Social: {0} (Eff. {1}) → -{2} Resistance/day</TSA_WD_Prisoners_ResistanceTip_CumSocial>
   <TSA_WD_Prisoners_ResistanceTip_Warden>Warden Expert: x{0}%</TSA_WD_Prisoners_ResistanceTip_Warden>
+  <TSA_WD_Prisoners_ResistanceTip_Upgrade>Recruitment upgrades: x{0}%</TSA_WD_Prisoners_ResistanceTip_Upgrade>
   <TSA_WD_Prisoners_ResistanceTip_Result>Result: -{0}</TSA_WD_Prisoners_ResistanceTip_Result>
   <TSA_WD_Experts_Expanded_NoProductionPath>This outpost type does not receive production bonuses from an Entertainer.</TSA_WD_Experts_Expanded_NoProductionPath>
   <TSA_WD_Experts_BenefitTooltip_RoleLine>{0}: {1}</TSA_WD_Experts_BenefitTooltip_RoleLine>
@@ -1698,6 +1728,7 @@
   <TSA_WD_OutpostStats_Row_PrisonerResistance>Prisoners Resistance Reduction per day</TSA_WD_OutpostStats_Row_PrisonerResistance>
   <TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Base>Prisoners Resistance Reduction for cum. Social {0}: -{1} per day</TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Base>
   <TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Warden>Bonus of Warden Expert: x{0}%</TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Warden>
+  <TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Upgrade>Recruitment upgrades: x{0}%</TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Upgrade>
   <TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Result>Result: -{0}</TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Result>
   <TSA_WD_OutpostStats_Row_RRStrengthBonus>Rapid Response offensive bonus</TSA_WD_OutpostStats_Row_RRStrengthBonus>
   <TSA_WD_OutpostStats_Row_RRStrengthBonusTip>Relative bonus to offensive strength cap from Rapid Response settings and upgrades. Already included in the offensive strength maximum shown above.</TSA_WD_OutpostStats_Row_RRStrengthBonusTip>

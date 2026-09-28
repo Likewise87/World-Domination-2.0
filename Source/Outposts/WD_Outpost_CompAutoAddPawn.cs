@@ -39,7 +39,7 @@ namespace TSA_WorldDomination
         public CompProperties_AutoAddPawn() => compClass = typeof(WorldObjectComp_AutoAddPawn);
     }
 
-    /// <summary>When enabled, any player caravan arriving at this outpost's tile is automatically added to the outpost (WD virtual pawns).</summary>
+    /// <summary>When enabled, player caravans whose path destination is this outpost are auto-added when they stop (not mid-route rests).</summary>
     public class WorldObjectComp_AutoAddPawn : WorldObjectComp
     {
         /// <summary>How often to try auto-add / prune blocks (world comp ticks). Cheap per tick; heavier work only on this interval.</summary>
@@ -75,7 +75,8 @@ namespace TSA_WorldDomination
             outpost.PruneAutoAddBlocksWherePawnLeftTile();
 
             Caravan caravan = Find.WorldObjects.PlayerControlledCaravanAt(parent.Tile);
-            if (!Outpost_EstablishmentRequirements.CaravanParkedOnTileForAddToOutpost(caravan, parent.Tile, out _))
+            if (!Outpost_EstablishmentRequirements.CaravanParkedOnTileForAddToOutpost(
+                    caravan, parent.Tile, out _, requireDestinationMatchesTile: true))
                 return;
 
             var reading = caravan.PawnsListForReading;

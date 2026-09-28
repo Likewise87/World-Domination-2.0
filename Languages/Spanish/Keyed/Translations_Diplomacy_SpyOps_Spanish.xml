@@ -141,6 +141,34 @@
   <TSA_WD_Diplo_UnderdogBuffTooltip>La facción más débil se vuelve pequeña y ágil, ganando velocidad de crecimiento durante un tiempo limitado.</TSA_WD_Diplo_UnderdogBuffTooltip>
   <TSA_WD_Diplo_UnderdogBuff_Label>Mejora: impulso de crecimiento</TSA_WD_Diplo_UnderdogBuff_Label>
   <TSA_WD_Diplo_UnderdogBuff_Msg>Mejora: "{0}" crecerá más rápido los próximos {1} días por ser pequeña y ágil.</TSA_WD_Diplo_UnderdogBuff_Msg>
+  <TSA_WD_Diplo_UnderdogBuff_MsgMulti>Mejora: {0} crecerán más rápido los próximos {1} días por ser pequeñas y ágiles.</TSA_WD_Diplo_UnderdogBuff_MsgMulti>
+  <TSA_WD_Diplo_PerFactionCooldownTooltip>Enfriamiento por facción tras acabar el efecto. Otras facciones aún pueden recibirlo.</TSA_WD_Diplo_PerFactionCooldownTooltip>
+  <TSA_WD_Diplo_MaxConcurrentUnderdogs>Máx. underdogs concurrentes</TSA_WD_Diplo_MaxConcurrentUnderdogs>
+  <TSA_WD_Diplo_MaxConcurrentUnderdogsTooltip>Cuántas facciones NPC débiles pueden tener Nimble a la vez.</TSA_WD_Diplo_MaxConcurrentUnderdogsTooltip>
+  <TSA_WD_Diplo_LeaderGrowthGainMult>Líder: multiplicador de crecimiento</TSA_WD_Diplo_LeaderGrowthGainMult>
+  <TSA_WD_Diplo_LeaderGrowthGainTooltip>Con la desventaja de líder, el crecimiento pasivo se multiplica por este valor.</TSA_WD_Diplo_LeaderGrowthGainTooltip>
+  <TSA_WD_Diplo_LeaderAllyRadiusMult>Líder: radio de aliados</TSA_WD_Diplo_LeaderAllyRadiusMult>
+  <TSA_WD_Diplo_LeaderAllyRadiusTooltip>Reduce el radio de refuerzos aliados mientras dura la desventaja.</TSA_WD_Diplo_LeaderAllyRadiusTooltip>
+  <TSA_WD_Diplo_LeaderExpandCdMult>Líder: CD de expansión</TSA_WD_Diplo_LeaderExpandCdMult>
+  <TSA_WD_Diplo_LeaderExpandCdTooltip>Alarga el enfriamiento de expansión del líder.</TSA_WD_Diplo_LeaderExpandCdTooltip>
+  <TSA_WD_Diplo_LeaderFortifyDensityMult>Líder: densidad de fortificación</TSA_WD_Diplo_LeaderFortifyDensityMult>
+  <TSA_WD_Diplo_LeaderFortifyDensityTooltip>Escala el kit de fortificación mientras dura la desventaja.</TSA_WD_Diplo_LeaderFortifyDensityTooltip>
+  <TSA_WD_Diplo_LeaderAttackAttWinMult>Líder atacando: mult. victoria atacante</TSA_WD_Diplo_LeaderAttackAttWinMult>
+  <TSA_WD_Diplo_LeaderAttackAttWinTooltip>Multiplica la probabilidad de victoria del atacante cuando el líder handicapado ataca.</TSA_WD_Diplo_LeaderAttackAttWinTooltip>
+  <TSA_WD_Diplo_LeaderDefendAttWinMult>Líder defendiendo: mult. victoria atacante</TSA_WD_Diplo_LeaderDefendAttWinMult>
+  <TSA_WD_Diplo_LeaderDefendAttWinTooltip>Multiplica la probabilidad de victoria del atacante cuando el líder handicapado defiende.</TSA_WD_Diplo_LeaderDefendAttWinTooltip>
+  <TSA_WD_Diplo_UnderdogAllyRadiusMult>Underdog: radio de aliados</TSA_WD_Diplo_UnderdogAllyRadiusMult>
+  <TSA_WD_Diplo_UnderdogAllyRadiusTooltip>Amplía el radio de refuerzos aliados con Nimble.</TSA_WD_Diplo_UnderdogAllyRadiusTooltip>
+  <TSA_WD_Diplo_UnderdogExpandWeightMult>Underdog: peso desarrollar/expandir</TSA_WD_Diplo_UnderdogExpandWeightMult>
+  <TSA_WD_Diplo_UnderdogExpandWeightTooltip>Sube el peso de desarrollar/expandir con Nimble.</TSA_WD_Diplo_UnderdogExpandWeightTooltip>
+  <TSA_WD_Diplo_UnderdogExpandCdMult>Underdog: CD de expansión</TSA_WD_Diplo_UnderdogExpandCdMult>
+  <TSA_WD_Diplo_UnderdogExpandCdTooltip>Acorta el enfriamiento de expansión con Nimble.</TSA_WD_Diplo_UnderdogExpandCdTooltip>
+  <TSA_WD_Diplo_UnderdogFortifyDensityMult>Underdog: densidad de fortificación</TSA_WD_Diplo_UnderdogFortifyDensityMult>
+  <TSA_WD_Diplo_UnderdogFortifyDensityTooltip>Escala el kit de fortificación con Nimble.</TSA_WD_Diplo_UnderdogFortifyDensityTooltip>
+  <TSA_WD_Diplo_UnderdogDefendAttWinMult>Underdog defendiendo: mult. victoria atacante</TSA_WD_Diplo_UnderdogDefendAttWinMult>
+  <TSA_WD_Diplo_UnderdogDefendAttWinTooltip>Multiplica la victoria del atacante cuando un underdog defiende.</TSA_WD_Diplo_UnderdogDefendAttWinTooltip>
+  <TSA_WD_Diplo_UnderdogAttackAttWinMult>Underdog atacando: mult. victoria atacante</TSA_WD_Diplo_UnderdogAttackAttWinMult>
+  <TSA_WD_Diplo_UnderdogAttackAttWinTooltip>Multiplica la victoria del atacante cuando un underdog ataca.</TSA_WD_Diplo_UnderdogAttackAttWinTooltip>
   <TSA_WD_Diplo_UnderdogGrowthGain>Rezagado: multiplicador de ganancia de fuerza por crecimiento</TSA_WD_Diplo_UnderdogGrowthGain>
   <TSA_WD_Diplo_UnderdogGrowthGainTooltip>Cuando la mejora de rezagado está activa, la fuerza ganada por acciones de crecimiento se multiplica por esto (ej. 2 = doble crecimiento).</TSA_WD_Diplo_UnderdogGrowthGainTooltip>
   <TSA_WD_Diplo_UnderdogIncidentWeight>Multiplicador de probabilidad de incidente</TSA_WD_Diplo_UnderdogIncidentWeight>

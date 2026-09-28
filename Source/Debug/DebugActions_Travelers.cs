@@ -753,6 +753,98 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
+        /// Click a player outpost: generate a humanlike captive with <see cref="Pawn_GuestTracker.Recruitable"/> forced false
+        /// (unwavering). Capture does not flip them; Conversion Chair waits for a daily recruit-slot pulse.
+        /// </summary>
+        [DebugAction("World Domination", "Add unwavering prisoner to outpost",
+            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+        public static void AddUnwaveringPrisonerToOutpost()
+        {
+            Messages.Message("WD debug: click a player outpost to add an unwavering prisoner.", MessageTypeDefOf.NeutralEvent);
+
+            Find.WorldTargeter.BeginTargeting(
+                (GlobalTargetInfo target) =>
+                {
+                    WorldObject_WD_Outpost outpost = FindPlayerOutpostAt(target.Tile);
+                    if (outpost == null)
+                    {
+                        Messages.Message("WD debug: clicked tile does not contain a player outpost.", MessageTypeDefOf.RejectInput);
+                        return true;
+                    }
+
+                    Pawn pawn = TryGenerateDebugUnwaveringCaptive();
+                    if (pawn == null)
+                    {
+                        Messages.Message("WD debug: failed to generate an unwavering captive.", MessageTypeDefOf.RejectInput);
+                        return true;
+                    }
+
+                    if (!outpost.TryCaptureAsPrisoner(pawn))
+                    {
+                        if (!pawn.Destroyed)
+                            pawn.Destroy(DestroyMode.Vanish);
+                        Messages.Message($"WD debug: capture failed at {outpost.LabelCap}.", MessageTypeDefOf.RejectInput);
+                        return true;
+                    }
+
+                    // Capture / guest status can recompute recruitability; keep debug captives unwavering.
+                    if (pawn.guest != null)
+                        pawn.guest.Recruitable = false;
+
+                    Messages.Message(
+                        $"WD debug: added unwavering prisoner {pawn.LabelShort} to {outpost.LabelCap}.",
+                        MessageTypeDefOf.PositiveEvent);
+                    return true;
+                },
+                true,
+                null!,
+                false,
+                null!,
+                null!,
+                target => FindPlayerOutpostAt(target.Tile) != null);
+        }
+
+        private static Pawn TryGenerateDebugUnwaveringCaptive()
+        {
+            Faction faction = FirstNonPlayerFactionHostileToColony()
+                ?? FirstNpcFactionForDebugConquest();
+            PawnKindDef kind = PawnKindDefOf.Colonist;
+
+            Pawn pawn;
+            try
+            {
+                var req = new PawnGenerationRequest(
+                    kind,
+                    faction,
+                    PawnGenerationContext.NonPlayer,
+                    -1,
+                    forceGenerateNewPawn: true,
+                    canGeneratePawnRelations: false,
+                    mustBeCapableOfViolence: true,
+                    forbidAnyTitle: true);
+                pawn = PawnGenerator.GeneratePawn(req);
+            }
+            catch (System.Exception e)
+            {
+                Log.Warning($"[TSA WD] Debug unwavering captive generate failed: {e.Message}");
+                return null;
+            }
+
+            if (pawn == null || pawn.Destroyed || pawn.Dead)
+                return null;
+            if (pawn.RaceProps?.Humanlike != true || pawn.IsSubhuman)
+            {
+                pawn.Destroy(DestroyMode.Vanish);
+                return null;
+            }
+
+            if (pawn.guest != null)
+                pawn.guest.Recruitable = false;
+
+            return pawn;
+        }
+
+        /// <summary>
         /// Debug: click a tile to spawn conquest ruins (if needed) and open the post-conquest outpost opportunity dialog
         /// (<see cref="Dialog_OutpostOpportunityChoices"/>), same flow as after defeating a settlement.
         /// </summary>

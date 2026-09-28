@@ -91,7 +91,7 @@ namespace TSA_WorldDomination
             BuildAttackerForceRows(seth, attackerStrength);
 
             attackerRatio = attackerStrength / (defenderStrength > 0f ? defenderStrength : 1f);
-            defenderForecast = RaidCasualtyModel.GetForecast(attackerRatio, seth);
+            defenderForecast = RaidCasualtyModel.GetForecast(attackerRatio, seth, traveler?.Faction, outpost?.Faction);
         }
 
         private void BuildAttackerForceRows(WorldDominationSettings seth, float arrivedStrength)

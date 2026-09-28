@@ -793,13 +793,13 @@ namespace TSA_WorldDomination
                 RefreshRapidResponseInterceptPath(false);
 
             // Ballistic AA targets keep Tile at launch; NPC T4 scan is sparse (3× interval, round-robin).
-            // Re-wake periodically so flak engages when the hop progress enters AA range mid-flight.
+            // Re-wake periodically so flak engages when hop progress enters AA range (fire gate is current-pos only).
             if (pather != null && pather.moving
                 && AntiAirFireUtils.IsAirborneAaTarget(this)
                 && this.IsHashIntervalTick(60, delta)
                 && spawnTick != Find.TickManager.TicksGame)
             {
-                AntiAirFireUtils.WakeAllForDropPod(this);
+                AntiAirFireUtils.WakeAllForDropPod(this, logSkips: false);
             }
 
             if (IsShellMission(mission) && pather != null && pather.moving

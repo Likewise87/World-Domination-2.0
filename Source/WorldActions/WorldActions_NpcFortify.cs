@@ -74,7 +74,7 @@ namespace TSA_WorldDomination
 
             SettlementTier kitTier = comp.tier;
             WorldActions_FortifyKit.GetKit(
-                kitTier, out SpikeTrapKind trapKind, out RoadBlockKind blockKind, out _, out int maxAt);
+                kitTier, out SpikeTrapKind trapKind, out RoadBlockKind blockKind, out _, out int maxAt, actor.Faction);
 
             var phase = WorldActions_FortifyKit.ResolveNextPhase(
                 actor.Tile.tileId, actor.Faction, kitTier, actor);
@@ -135,7 +135,7 @@ namespace TSA_WorldDomination
             var seth = WorldDominationMod.settings;
             if (seth == null || candidates == null || candidates.Count == 0) return false;
 
-            int desired = RollFortifyCaravanCount(comp.tier);
+            int desired = RollFortifyCaravanCount(comp.tier, actor.Faction);
             int maxAffordable = WorldActions_Utils.MaxAffordableExpeditionsLeavingGarrison(comp, cost, seth);
             int toLaunch = Mathf.Min(desired, maxAffordable, candidates.Count);
             if (toLaunch < 1) return false;
@@ -191,36 +191,48 @@ namespace TSA_WorldDomination
         /// Per-tier chance to launch extra fortify caravans (also used by NPC road multi-launch).
         /// T1–T3: chance of 2 (else 1). T4: chance of 3 (else 2).
         /// </summary>
-        public static int RollFortifyCaravanCount(SettlementTier tier)
+        public static int RollFortifyCaravanCount(SettlementTier tier, Faction faction = null)
         {
             var s = WorldDominationMod.settings;
+            int count;
             switch (tier)
             {
                 case SettlementTier.T4:
                 {
                     float p3 = Mathf.Clamp01(s?.fortifyMultiT4ChanceOf3
                         ?? WorldDominationSettings.DefFortifyMultiT4ChanceOf3);
-                    return Rand.Value < p3 ? 3 : 2;
+                    count = Rand.Value < p3 ? 3 : 2;
+                    break;
                 }
                 case SettlementTier.T3:
                 {
                     float p2 = Mathf.Clamp01(s?.fortifyMultiT3ChanceOf2
                         ?? WorldDominationSettings.DefFortifyMultiT3ChanceOf2);
-                    return Rand.Value < p2 ? 2 : 1;
+                    count = Rand.Value < p2 ? 2 : 1;
+                    break;
                 }
                 case SettlementTier.T2:
                 {
                     float p2 = Mathf.Clamp01(s?.fortifyMultiT2ChanceOf2
                         ?? WorldDominationSettings.DefFortifyMultiT2ChanceOf2);
-                    return Rand.Value < p2 ? 2 : 1;
+                    count = Rand.Value < p2 ? 2 : 1;
+                    break;
                 }
                 default:
                 {
                     float p2 = Mathf.Clamp01(s?.fortifyMultiT1ChanceOf2
                         ?? WorldDominationSettings.DefFortifyMultiT1ChanceOf2);
-                    return Rand.Value < p2 ? 2 : 1;
+                    count = Rand.Value < p2 ? 2 : 1;
+                    break;
                 }
             }
+
+            float dens = WorldActions_FortifyKit.FortifyDensityMult(faction);
+            if (dens > 1.01f && Rand.Chance(dens - 1f))
+                count++;
+            else if (dens < 0.99f && count > 1 && Rand.Chance(1f - dens))
+                count--;
+            return Mathf.Max(1, count);
         }
 
         public static void ExecuteFortifyArrival(WorldObject_Traveler traveler)

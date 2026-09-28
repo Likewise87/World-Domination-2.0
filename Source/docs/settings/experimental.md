@@ -79,7 +79,7 @@ These options expose systems that may substantially change world behavior, perfo
 | Control | Default | What it changes |
 |---|---:|---|
 | World map overlay hold key | Left Alt | Modifier used with WD page and overlay shortcuts. |
-| Auto-add arrivals by default | On | New outposts default to automatically adding arriving caravans. |
+| Auto-add arrivals by default | On | New outposts default to auto-adding caravans whose destination is the outpost (not mid-route rests). |
 | Give food on prisoner recruit transfer | On | Supplies travel food when a recruited prisoner transfers from an outpost. |
 | Give food on all player pawn transfers | On | Supplies travel food on other player-pawn transfers from outposts. |
 | Show outpost requirements preview in WD menu | Off | Adds the outpost requirement preview to the World Domination menu. |
