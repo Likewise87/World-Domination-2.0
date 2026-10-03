@@ -27,6 +27,7 @@
   <TSA_WD_Diplo_CoalitionAbandoned_Label>Coalición anti liderazgo abandonada</TSA_WD_Diplo_CoalitionAbandoned_Label>
   <TSA_WD_Diplo_CoalitionAbandoned_Msg>La coalición anti-líder se ha disuelto. Los lazos diplomáticos vuelven a su estado previo a la coalición.\n\n{0}</TSA_WD_Diplo_CoalitionAbandoned_Msg>
   <TSA_WD_Diplo_CoalitionAbandoned_Pair>{0} y {1}: {2}</TSA_WD_Diplo_CoalitionAbandoned_Pair>
+  <TSA_WD_Diplo_CoalitionShortened_Msg>La presión anti-líder cede: {0} es pequeño y ágil. La coalición dura unos {1} días más.</TSA_WD_Diplo_CoalitionShortened_Msg>
   <TSA_WD_Diplo_Enable>Activar</TSA_WD_Diplo_Enable>
   <TSA_WD_Diplo_ExpansionistZeal>Celera expansionista (mejora)</TSA_WD_Diplo_ExpansionistZeal>
   <TSA_WD_Diplo_ExpansionistZealTooltip>Permite que una facción ambiciosa aleatoria gane ocasionalmente +50% de alcance de ataque.</TSA_WD_Diplo_ExpansionistZealTooltip>

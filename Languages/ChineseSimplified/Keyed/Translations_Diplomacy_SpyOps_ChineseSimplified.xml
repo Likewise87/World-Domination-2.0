@@ -27,6 +27,7 @@
   <TSA_WD_Diplo_CoalitionAbandoned_Label>反霸主联盟已解散</TSA_WD_Diplo_CoalitionAbandoned_Label>
   <TSA_WD_Diplo_CoalitionAbandoned_Msg>反霸主联盟已经解散。外交关系恢复到结盟前的状态。\n\n{0}</TSA_WD_Diplo_CoalitionAbandoned_Msg>
   <TSA_WD_Diplo_CoalitionAbandoned_Pair>{0} 与 {1}：{2}</TSA_WD_Diplo_CoalitionAbandoned_Pair>
+  <TSA_WD_Diplo_CoalitionShortened_Msg>反领袖压力减弱：{0} 已变得弱小而灵活。联盟大约再持续 {1} 天。</TSA_WD_Diplo_CoalitionShortened_Msg>
   <TSA_WD_Diplo_Enable>启用</TSA_WD_Diplo_Enable>
   <TSA_WD_Diplo_ExpansionistZeal>扩张狂热(增益)</TSA_WD_Diplo_ExpansionistZeal>
   <TSA_WD_Diplo_ExpansionistZealTooltip>允许随机野心阵营偶尔获得 +50% 攻击范围。</TSA_WD_Diplo_ExpansionistZealTooltip>

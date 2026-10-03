@@ -210,7 +210,7 @@
   <TSA_WD_Raid_ColonySiegeChance>殖民地围攻概率（步行）</TSA_WD_Raid_ColonySiegeChance>
   <TSA_WD_Raid_ColonySiegeChanceTip>T3/T4 步行袭击商队抵达你的殖民地时，使用围攻策略的概率。空投袭击不会掷围攻。</TSA_WD_Raid_ColonySiegeChanceTip>
   <TSA_WD_Raid_MinRatio>最小强度比</TSA_WD_Raid_MinRatio>
-  <TSA_WD_Raid_MinRatioTooltip>NPC 认为对前哨或 NPC 定居点袭击可行所需的最小强度优势。对你殖民地的袭击改用独立的故事讲述者点数门控：攻击方至少需达到该点数的 0.7 倍，之后每安静一天降低 0.1 倍（最低 0）。安静天数从殖民地上次被选为 WD 袭击目标起算。当某据点本要袭击殖民地时，改由同派系中仍通过该门控且距离最近的据点出征。</TSA_WD_Raid_MinRatioTooltip>
+  <TSA_WD_Raid_MinRatioTooltip>NPC 认为对前哨或 NPC 定居点袭击可行所需的最小强度优势。对你殖民地的袭击改用独立的故事讲述者点数门控：攻击方至少需达到该点数的 0.7 倍，之后每安静一天降低 0.2 倍（最低 0）。安静天数从上次 WD 袭击实际出征该殖民地起算。当某据点本要袭击殖民地时，改由同派系中仍通过该门控且距离最近的据点出征。</TSA_WD_Raid_MinRatioTooltip>
   <TSA_WD_Raid_RazeChance>夷平概率</TSA_WD_Raid_RazeChance>
   <TSA_WD_Raid_RazeChanceTooltip>成功袭击完全摧毁目标定居点而非仅掠夺的概率。</TSA_WD_Raid_RazeChanceTooltip>
   <TSA_WD_Raid_Reset>将此页恢复为默认</TSA_WD_Raid_Reset>

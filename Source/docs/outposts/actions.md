@@ -53,7 +53,7 @@ AT turrets fire automatically on configured hostile ground travelers passing wit
 
 ### Remove fortifications
 
-This command sends a crew along a planned path to remove road blocks, spike traps, and AT turrets. You may click any passable destination, but work is performed only on tiles that contain fortifications.
+This command sends a crew along a planned path to remove road blocks, spike traps, and AT turrets. You may click any passable destination, but work is performed only on tiles that contain fortifications. It requires **10** cumulative Construction and does not spend materials.
 
 ### Decontamination
 

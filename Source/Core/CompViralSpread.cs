@@ -1010,7 +1010,7 @@ namespace TSA_WorldDomination
             spread.defenseCooldownTick = ticks + CooldownTicksFromDays(GetDefenseCooldownDaysFor(settlement));
         }
 
-        /// <summary>Resets experimental colony raid-ratio soften clock when the colony is picked as a WD raid target (or initial shield).</summary>
+        /// <summary>Resets colony raid-ratio soften clock when a WD raid traveler actually launches at the colony (or initial shield).</summary>
         public void MarkPlayerColonyWdRaidPicked()
         {
             lastPlayerColonyWdRaidPickTick = Find.TickManager.TicksGame;

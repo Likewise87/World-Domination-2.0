@@ -20,7 +20,7 @@
   <TSA_WD_Inspect_AT_TurretStatus>{0} toward "{2}"\nProgress: {1}%</TSA_WD_Inspect_AT_TurretStatus>
   <TSA_WD_Inspect_AT_TurretStatus_InTransit>{0} crew en route to "{1}" (prep {2}%)</TSA_WD_Inspect_AT_TurretStatus_InTransit>
   <TSA_WD_AT_Turret_SetFacingLabel>Set idle angle</TSA_WD_AT_Turret_SetFacingLabel>
-  <TSA_WD_AT_Turret_SetFacingDesc>Click a world tile to choose the direction this AT Turret faces when idle. After each shot it turns back to that facing at the same speed.</TSA_WD_AT_Turret_SetFacingDesc>
+  <TSA_WD_AT_Turret_SetFacingDesc>Click a world tile to set this AT Turret's rest heading. The barrel stays on its last shot unless you set this.</TSA_WD_AT_Turret_SetFacingDesc>
   <TSA_WD_AT_Turret_SetFacingPrompt>Click a tile to set the AT Turret resting facing. Right-click or Esc to cancel.</TSA_WD_AT_Turret_SetFacingPrompt>
   <TSA_WD_AT_Turret_SetFacingDone>AT Turret resting facing updated.</TSA_WD_AT_Turret_SetFacingDone>
   <TSA_WD_Inspect_AARadius>AA range: {0} tiles</TSA_WD_Inspect_AARadius>

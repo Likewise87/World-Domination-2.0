@@ -60,6 +60,28 @@ namespace TSA_WorldDomination
                 return;
             }
 
+            InitializeReinforcementsCore(map.Parent, map.ParentFaction);
+        }
+
+        /// <summary>
+        /// Drop-pod crash sites: ally/timer math uses a hostile <paramref name="proxy"/> Settlement,
+        /// while distances are measured to this crash map tile.
+        /// </summary>
+        public void InitializeReinforcementsForCrashSite(Settlement proxy)
+        {
+            if (initialized) return;
+            if (proxy == null || proxy.Destroyed)
+            {
+                ticksUntilArrival = -1;
+                initialized = true;
+                return;
+            }
+            InitializeReinforcementsCore(proxy, proxy.Faction);
+        }
+
+        private void InitializeReinforcementsCore(WorldObject allyPrimary, Faction defenderFaction)
+        {
+            if (initialized) return;
             initialized = true;
 
             var seth = WorldDominationMod.settings;
@@ -69,22 +91,25 @@ namespace TSA_WorldDomination
                 Log.Warning("[WorldDomination] Reinforcements: WorldComponent_SpreadManager not found, skipping.");
                 return;
             }
-            Faction defenderFaction = map.ParentFaction;
 
             if (defenderFaction == null || defenderFaction.IsPlayer) return;
+            if (allyPrimary == null || allyPrimary.Destroyed) return;
 
             var lookup = WorldActions_Utils.GetWorldObjectsWithCompByFaction();
 
             float maxWaitTicks = 14400f; // 4 Minutes ceiling
             float pointsFromStrengthMult = 0.5f;
 
-            float allyRadius = AllyRadiusUtil.GetEffective(map.Parent, seth, manager);
-            var rawAllies = Raid_ReinforcementLogic.GetReinforcements(map.Parent, null, allyRadius, lookup, manager);
+            float allyRadius = AllyRadiusUtil.GetEffective(allyPrimary, seth, manager);
+            var rawAllies = Raid_ReinforcementLogic.GetReinforcements(allyPrimary, null, allyRadius, lookup, manager);
             var hostileAllies = new List<WorldObject>();
             for (int i = 0; i < rawAllies.Count; i++)
             {
                 var a = rawAllies[i];
-                if (a != map.Parent && a.Tile != map.Parent.Tile && a.Faction != null && WorldActions_Utils.SafeHostileTo(a.Faction, Faction.OfPlayer))
+                if (a == null || a.Destroyed) continue;
+                if (a == allyPrimary) continue;
+                if (a.Tile == map.Parent.Tile || a.Tile == allyPrimary.Tile) continue;
+                if (a.Faction != null && WorldActions_Utils.SafeHostileTo(a.Faction, Faction.OfPlayer))
                     hostileAllies.Add(a);
             }
 
@@ -99,13 +124,13 @@ namespace TSA_WorldDomination
             float totalSecondsSaved = 0f;
 
             cachedMathLog.Clear();
-            cachedMathLog.Add($"--- TSA-WD Reinforcement Math: {map.Parent.Label} ---");
+            cachedMathLog.Add($"--- TSA-WD Reinforcement Math: {map.Parent?.Label} (primary={allyPrimary.Label}) ---");
             cachedMathLog.Add($"raidAllyRadius={allyRadius}, maxWaitTicks={maxWaitTicks}, hostileAllies count={hostileAllies.Count}");
 
             foreach (var ally in hostileAllies)
             {
                 var comp = ally.GetComponent<CompViralSpread>();
-                int distTiles = WorldActions_Utils.GetDistance(map.Tile, ally.Tile, manager);
+                int distTiles = WorldActions_Utils.GetDistance(map.Tile.tileId, ally.Tile.tileId, manager);
                 // Only count allies that are actually elsewhere (dist > 0); same-tile must not reduce arrival time
                 if (distTiles <= 0)
                 {
@@ -205,6 +230,15 @@ namespace TSA_WorldDomination
             if (settlement != null && settlement.Faction != null && WorldActions_Utils.SafeHostileTo(settlement.Faction, Faction.OfPlayer))
             {
                 map.GetComponent<MapComponent_ReinforcementTimer>()?.InitializeReinforcements();
+                return;
+            }
+
+            // Crash sites init reinforcements explicitly after proxy is set (see WdDropPodCrashUtility).
+            if (map.info.parent is WorldObject_WD_DropPodCrashSite crash
+                && crash.reinforcementProxy != null)
+            {
+                map.GetComponent<MapComponent_ReinforcementTimer>()
+                    ?.InitializeReinforcementsForCrashSite(crash.reinforcementProxy);
             }
         }
     }

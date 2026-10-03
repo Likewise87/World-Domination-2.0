@@ -27,7 +27,7 @@ This map-generation ownership can conflict with other mods that replace settleme
 
 During world setup, select the WD icon to open **WD: World Setup**. Use it before settling to review settlements, roads, and allegiances.
 
-The setup window can recreate settlements. World Generation settings control the relative tier weights used during assignment. Changing those values does not alter the daily activity share of each tier.
+The setup window can recreate settlements. Placement sliders control clustering, spacing, distance to other factions, and **Penalize bad biomes** (ice and barren desert are less likely, or blocked at 100). **Faction shares** sets how the settlement total is split; **Equal shares** gives every eligible faction the same weight. World Generation settings control the relative tier weights used during assignment. Changing those values does not alter the daily activity share of each tier.
 
 ## Rerolling tiers
 

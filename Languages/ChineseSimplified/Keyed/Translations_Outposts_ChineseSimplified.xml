@@ -1553,6 +1553,7 @@
   <TSA_WD_OutpostStats_TabLabel>统计</TSA_WD_OutpostStats_TabLabel>
   <TSA_WD_OutpostStats_Refresh>刷新</TSA_WD_OutpostStats_Refresh>
   <TSA_WD_OutpostStats_RefreshTooltip>立即重建此标签页的统计显示。多数数值会在有变化时自动更新；若数字看起来过时（例如刚安装升级后），可点此刷新。</TSA_WD_OutpostStats_RefreshTooltip>
+  <TSA_WD_OutpostStats_SearchPlaceholder>按名称筛选…</TSA_WD_OutpostStats_SearchPlaceholder>
   <TSA_WD_Experts_TabLabel>专家</TSA_WD_Experts_TabLabel>
   <TSA_WD_Experts_MutatorHeader>专家</TSA_WD_Experts_MutatorHeader>
   <TSA_WD_Experts_Role_Strategist>战略家</TSA_WD_Experts_Role_Strategist>

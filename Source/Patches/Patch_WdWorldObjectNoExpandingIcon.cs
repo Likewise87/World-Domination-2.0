@@ -21,9 +21,10 @@ namespace TSA_WorldDomination
     /// near-surface camera chords false-positive the planet obstruction test and would blank every
     /// front-side settlement/outpost once Material is skipped. Far-side icons stay hidden so you do
     /// not see through the planet.</item>
-    /// <item>VeryClose plain <see cref="GUI.DrawTexture"/> re-blit for ForceFixedIcon → vanilla
+    /// <item>VeryClose <see cref="GUI.DrawTexture"/> re-blit for ForceFixedIcon (with
+    /// <see cref="WorldObject.ExpandingIconRotation"/>) → vanilla
     /// <c>ExpandableWorldObjectsOnGUI</c> can report would-draw but still leave no visible pixels at
-    /// VeryClose once Material is skipped; this keeps the upright ExpandingIcon alive (no Material swap).</item>
+    /// VeryClose once Material is skipped; this keeps the ExpandingIcon alive (no Material swap).</item>
     /// </list>
     /// Without the layer skips, zoomed-out camera would still show Material under the icon (double image).
     /// Side effect: skipping both draw layers means <see cref="WorldObject.Draw"/> never runs for those
@@ -97,7 +98,8 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// VeryClose: vanilla OnGUI can leave ForceFixedIcon blank while gates still say would-draw
-        /// (Material already skipped → no fallback mesh). Re-blit ExpandingIcon with plain GUI.DrawTexture.
+        /// (Material already skipped → no fallback mesh). Re-blit ExpandingIcon with GUI.DrawTexture
+        /// and apply <see cref="WorldObject.ExpandingIconRotation"/> (AT turrets, shells).
         /// </summary>
         [HarmonyPatch(typeof(ExpandableWorldObjectsUtility), nameof(ExpandableWorldObjectsUtility.ExpandableWorldObjectsOnGUI))]
         public static class ExpandableWorldObjectsOnGUI_VeryCloseBlit_Patch
@@ -138,7 +140,18 @@ namespace TSA_WorldDomination
                     c.a *= transition;
                     GUI.color = c;
                     Rect rect = ExpandableWorldObjectsUtility.ExpandedIconScreenRect(wo);
-                    GUI.DrawTexture(rect, tex, ScaleMode.ScaleToFit, alphaBlend: true);
+                    float angle = wo.ExpandingIconRotation;
+                    if (Mathf.Abs(angle) > 0.01f)
+                    {
+                        Matrix4x4 matrix = GUI.matrix;
+                        UI.RotateAroundPivot(angle, rect.center);
+                        GUI.DrawTexture(rect, tex, ScaleMode.ScaleToFit, alphaBlend: true);
+                        GUI.matrix = matrix;
+                    }
+                    else
+                    {
+                        GUI.DrawTexture(rect, tex, ScaleMode.ScaleToFit, alphaBlend: true);
+                    }
                 }
 
                 GUI.color = Color.white;

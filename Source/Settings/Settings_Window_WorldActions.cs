@@ -71,11 +71,6 @@ namespace TSA_WorldDomination
                     "TSA_WD_Fortify_TravelerStrengthTip".Translate(),
                     5f, SliderFormat.Fixed0, WorldDominationSettings.DefFortifyTravelerStrength);
 
-                SettingsUI.DrawCheckbox(l, "TSA_WD_Fortify_ClearOnBuilderLoss".Translate(),
-                    ref s.fortifyClearOnBuilderLoss,
-                    "TSA_WD_Fortify_ClearOnBuilderLossTip".Translate(),
-                    defaultValue: WorldDominationSettings.DefFortifyClearOnBuilderLoss);
-
                 SettingsUI.DrawCheckbox(l, "TSA_WD_Fortify_EnableBlacklist".Translate(),
                     ref s.enableFortifyBlacklist,
                     "TSA_WD_Fortify_EnableBlacklistTip".Translate(),

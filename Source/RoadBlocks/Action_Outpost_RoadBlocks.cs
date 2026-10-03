@@ -234,9 +234,9 @@ namespace TSA_WorldDomination
             ColonyWorldBuildRequirements.ApplyGate(
                 removeForts,
                 ColonyWorldBuildUtility.GetActorConstructionSkillRaw(outpost),
-                WorldActions_RoadBlocks.GetMinConstruction(RoadBlockKind.Normal),
-                ColonyWorldBuildRequirements.GetRequiredResearchForRoadBlock(RoadBlockKind.Normal),
-                ColonyWorldBuildRequirements.GetMaterialCostsForRoadBlock(RoadBlockKind.Normal));
+                WorldActions_RoadBlocks.MinConstructionToRemoveFortifications,
+                null,
+                ColonyWorldBuildMaterials.EmptyCostList);
             return removeForts;
         }
 

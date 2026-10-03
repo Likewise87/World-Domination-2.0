@@ -1058,8 +1058,8 @@ namespace TSA_WorldDomination
                     return;
                 }
 
-                Thing takenAll = uniques.Take(unique, available);
-                if (OutpostArmoryUtility.TryGiveUniqueToPawn(outpost, pawn, takenAll, out string failU))
+                Thing takenFit = uniques.Take(unique, fit);
+                if (OutpostArmoryUtility.TryGiveUniqueToPawn(outpost, pawn, takenFit, out string failU))
                     NotifyChanged();
                 else if (!string.IsNullOrEmpty(failU))
                     pendingMessage = failU;
@@ -1139,7 +1139,14 @@ namespace TSA_WorldDomination
         {
             ThingOwner<Thing> uniques = Armory?.Uniques;
             if (uniques == null || unique == null || !uniques.Contains(unique)) return;
-            Thing taken = uniques.Take(unique, unique.stackCount > 0 ? unique.stackCount : 1);
+            int available = unique.stackCount > 0 ? unique.stackCount : 1;
+            int give = OutpostArmoryUtility.ClampAssignCount(pawn, unique.def, available);
+            if (give <= 0)
+            {
+                Messages.Message(OutpostArmoryUtility.NoCapacityReason(pawn, unique.def), outpost, MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+            Thing taken = uniques.Take(unique, give);
             if (OutpostArmoryUtility.TryGiveUniqueToPawn(outpost, pawn, taken, out string fail))
                 NotifyChanged();
             else if (!string.IsNullOrEmpty(fail))

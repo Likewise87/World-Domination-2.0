@@ -20,7 +20,7 @@
   <TSA_WD_Inspect_AT_TurretStatus>{0} hacia "{2}"\nProgreso: {1}%</TSA_WD_Inspect_AT_TurretStatus>
   <TSA_WD_Inspect_AT_TurretStatus_InTransit>Cuadrilla de {0} en ruta a "{1}" (prep. {2}%)</TSA_WD_Inspect_AT_TurretStatus_InTransit>
   <TSA_WD_AT_Turret_SetFacingLabel>Definir ángulo en reposo</TSA_WD_AT_Turret_SetFacingLabel>
-  <TSA_WD_AT_Turret_SetFacingDesc>Haz clic en una casilla del mapa mundial para elegir la dirección a la que mira esta AT Turret cuando está en reposo. Tras cada disparo volverá a esa orientación a la misma velocidad.</TSA_WD_AT_Turret_SetFacingDesc>
+  <TSA_WD_AT_Turret_SetFacingDesc>Haz clic en una casilla del mapa mundial para fijar el rumbo de reposo de esta AT Turret. El cañón se queda en el último disparo salvo que lo indiques aquí.</TSA_WD_AT_Turret_SetFacingDesc>
   <TSA_WD_AT_Turret_SetFacingPrompt>Haz clic en una casilla para definir la orientación en reposo de la AT Turret. Clic derecho o Esc para cancelar.</TSA_WD_AT_Turret_SetFacingPrompt>
   <TSA_WD_AT_Turret_SetFacingDone>Orientación en reposo de la AT Turret actualizada.</TSA_WD_AT_Turret_SetFacingDone>
   <TSA_WD_Inspect_AARadius>Alcance AA: {0} casillas</TSA_WD_Inspect_AARadius>

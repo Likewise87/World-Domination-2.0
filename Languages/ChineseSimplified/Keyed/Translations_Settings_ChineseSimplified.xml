@@ -228,6 +228,8 @@
   <TSA_WD_WorldSetup_MaxPerClusterTooltip>重建时，同派系聚在一起的定居点，每个簇不得超过此数量。超出的会开新簇。</TSA_WD_WorldSetup_MaxPerClusterTooltip>
   <TSA_WD_WorldSetup_MinClusterDistance>簇间最小距离</TSA_WD_WorldSetup_MinClusterDistance>
   <TSA_WD_WorldSetup_MinClusterDistanceTooltip>因上一簇已满或加入失败而开新同派系簇时的额外分隔。成簇概率只是选择不加入时不生效。为 0 关闭。默认 20。</TSA_WD_WorldSetup_MinClusterDistanceTooltip>
+  <TSA_WD_WorldSetup_BiomePenalty>惩罚恶劣生物群系</TSA_WD_WorldSetup_BiomePenalty>
+  <TSA_WD_WorldSetup_BiomePenaltyTooltip>重建时降低定居点落在冰原或贫瘠沙漠的频率。为 0 时这类地格与其他地格相同。为 100 时完全不用。中间值按比例降低概率（50 表示大约减半）。</TSA_WD_WorldSetup_BiomePenaltyTooltip>
   <TSA_WD_WorldSetup_FactionShares>派系份额</TSA_WD_WorldSetup_FactionShares>
   <TSA_WD_WorldSetup_FactionSharesTooltip>调整重建时各派系获得的定居点数量。初始为世界生成时的比例。</TSA_WD_WorldSetup_FactionSharesTooltip>
   <TSA_WD_WorldSetup_FactionSharesTitle>派系定居点份额</TSA_WD_WorldSetup_FactionSharesTitle>
@@ -236,6 +238,8 @@
   <TSA_WD_WorldSetup_FactionShares_H_Share>份额</TSA_WD_WorldSetup_FactionShares_H_Share>
   <TSA_WD_WorldSetup_FactionShares_H_Pct>%</TSA_WD_WorldSetup_FactionShares_H_Pct>
   <TSA_WD_WorldSetup_FactionShares_H_Count>定居点</TSA_WD_WorldSetup_FactionShares_H_Count>
+  <TSA_WD_WorldSetup_FactionShares_Equal>平均份额</TSA_WD_WorldSetup_FactionShares_Equal>
+  <TSA_WD_WorldSetup_FactionShares_EqualTip>将每个可用派系的份额设为相同，使定居点总数均分。</TSA_WD_WorldSetup_FactionShares_EqualTip>
   <TSA_WD_WorldSetup_FactionShares_Reset>恢复为世界生成</TSA_WD_WorldSetup_FactionShares_Reset>
   <TSA_WD_WorldSetup_FactionShares_Empty>本世界没有可用的 NPC 派系。</TSA_WD_WorldSetup_FactionShares_Empty>
   <TSA_WD_WorldSetup_SettlementCount>定居点数量</TSA_WD_WorldSetup_SettlementCount>

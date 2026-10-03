@@ -11,8 +11,8 @@ namespace TSA_WorldDomination
     /// Own strength / range / cooldown so it can be a valid target-of-opportunity/ambush/raid <c>targetObject</c>.
     /// Fires via <see cref="MortarFireUtils"/> so shells reuse shared combat visuals and letters.
     /// Expanding icon is Light/Medium/Heavy <c>AT_Gun_*</c> art (barrel faces north);
-    /// globe <see cref="Material"/> stays settlement-style + faction tint. After each shot the barrel returns to a
-    /// chosen default aim tile at the same turn rate.
+    /// globe <see cref="Material"/> stays settlement-style + faction tint. After a shot the barrel stays on that
+    /// heading unless the owning player sets a rest azimuth via gizmo.
     /// </summary>
     [StaticConstructorOnStartup]
     public class WorldObject_AT_Turret : WorldObject, IDefensiveInterceptor
@@ -30,7 +30,7 @@ namespace TSA_WorldDomination
         private const float FacingSnapEpsilonDeg = 1.5f;
         /// <summary>Hard cap so a moving target can never leave the turret stuck in <see cref="isAiming"/> forever.</summary>
         private const int MaxAimTicks = 300;
-        /// <summary>Hold on the shot bearing before starting the return-to-idle turn (2 seconds).</summary>
+        /// <summary>Hold on a player-set rest azimuth before turning (2 seconds). Unused after auto-fire.</summary>
         private const int PostShotHoldTicks = 120;
         /// <summary>
         /// Shell facing math assumes texture forward = east. AT_Gun barrel faces north in the PNG.
@@ -53,7 +53,7 @@ namespace TSA_WorldDomination
         public WorldObject builtBySite;
 
         private bool defenseActive = true;
-        private int defenseMaskRaw = (int)MissionMask.Raider;
+        private int defenseMaskRaw = (int)MissionMask.All;
         private int raidTargetMaskRaw = (int)(RaidTargetMask.Player | RaidTargetMask.Allies | RaidTargetMask.OtherNpcs);
         /// <summary>-1 = use configured max. Otherwise absolute tiles, clamped to [min..max] at read time.</summary>
         private float rangeOverride = -1f;
@@ -171,13 +171,16 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref currentFacingAngleDeg, "currentFacingAngleDeg", 0f);
             Scribe_Values.Look(ref defaultAimTileId, "defaultAimTileId", -1);
             Scribe_Values.Look(ref defenseActive, "atTurretDefenseActive", true);
-            Scribe_Values.Look(ref defenseMaskRaw, "atTurretDefenseMask", (int)MissionMask.Raider);
+            Scribe_Values.Look(ref defenseMaskRaw, "atTurretDefenseMask", (int)MissionMask.All);
             Scribe_Values.Look(ref raidTargetMaskRaw, "atTurretRaidTargetMask",
                 (int)(RaidTargetMask.Player | RaidTargetMask.Allies | RaidTargetMask.OtherNpcs));
             Scribe_Values.Look(ref rangeOverride, "atTurretRangeOverride", -1f);
             // Pending engagement / return-in-progress are short-lived; drop on load.
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
+                // Old spawn default was Raider-only, which skipped traders and other caravan types.
+                if (defenseMaskRaw == (int)MissionMask.Raider)
+                    defenseMaskRaw = (int)MissionMask.All;
                 ClearPendingEngagement();
                 isReturningToDefault = false;
                 returnHoldUntilTick = -99999;
@@ -424,7 +427,7 @@ namespace TSA_WorldDomination
             float dist = pendingApproxTileDist;
             ClearPendingEngagement();
             MortarFireUtils.FireFromAtTurret(this, target, dist);
-            BeginReturnToDefault(holdAfterShot: true);
+            // Keep the shot heading. Only the player gizmo turns the barrel to a rest azimuth.
         }
 
         /// <summary>
@@ -435,13 +438,8 @@ namespace TSA_WorldDomination
         {
             ClearPendingEngagement();
             if (IsOnCooldown)
-            {
-                BeginReturnToDefault();
                 return;
-            }
             WorldComponent_InterceptionScheduler.Current?.TryEngageAtTurretTargets(this);
-            if (!isAiming)
-                BeginReturnToDefault();
         }
 
         public bool IsAimingAt(WorldObject target)
@@ -538,7 +536,6 @@ namespace TSA_WorldDomination
                 // Cannot resolve screen facing (camera/off-world): fire immediately rather than stall forever.
                 ClearPendingEngagement();
                 MortarFireUtils.FireFromAtTurret(this, target, approxTileDist);
-                BeginReturnToDefault(holdAfterShot: true);
                 return;
             }
 
@@ -550,11 +547,10 @@ namespace TSA_WorldDomination
                 currentFacingAngleDeg = desiredFacingAngleDeg;
                 ClearPendingEngagement();
                 MortarFireUtils.FireFromAtTurret(this, target, approxTileDist);
-                BeginReturnToDefault(holdAfterShot: true);
             }
         }
 
-        /// <param name="holdAfterShot">When true, keep the shot bearing for <see cref="PostShotHoldTicks"/> before turning idle.</param>
+        /// <param name="holdAfterShot">When true, pause briefly before turning (player rest-azimuth only).</param>
         private void BeginReturnToDefault(bool holdAfterShot = false)
         {
             isReturningToDefault = true;
@@ -610,7 +606,7 @@ namespace TSA_WorldDomination
         private void SetDefaultAimTile(int tileId)
         {
             defaultAimTileId = tileId;
-            // If mid-shot aim, only update the rest facing; otherwise turn to the new default now.
+            // Player-assigned rest heading: turn there now unless already aiming a shot.
             if (!isAiming)
                 BeginReturnToDefault();
         }

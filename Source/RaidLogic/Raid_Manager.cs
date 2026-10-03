@@ -111,8 +111,8 @@ namespace TSA_WorldDomination
                     float quietDays = RaidLaunchGate.GetColonyQuietDays(target.GetComponent<CompViralSpread>());
                     lockedColonyRequiredRatio = gate.requiredRatio;
                     viable.Add(new RaidTargetCandidate(target, null, gate.defTotal));
-                    // Quiet = days since last target pick; stamp now so soften resets for later assessors.
-                    target.GetComponent<CompViralSpread>()?.MarkPlayerColonyWdRaidPicked();
+                    // Do not stamp quiet here — finalize can still abort (path efficiency, pollution, caps).
+                    // MarkPlayerColonyWdRaidPicked runs only when a traveler actually launches.
                     LogChoiceWithNearSkips(step, total, tgtLabel, entry.dist,
                         $"[player map colony] → chosen (ratio={gate.ratio:F2} ≥ req={gate.requiredRatio:F2}; quietDays={quietDays:F1}; storytellerDef={gate.defTotal:F0}; effAtt={gate.effectiveAtt:F0}; eval stops)");
                     return true;
@@ -1214,16 +1214,18 @@ namespace TSA_WorldDomination
                 && WorldActions_Utils.SafeHostileTo(attacker.Faction, coalitionTarget)
                 && Rand.Value < manager.GetCoalitionRaidPriorityChance();
 
-            // Escalation Mid/Late: soft boost only inside a band (player targets earlier within the same distance band).
+            // Within-band prefer player: Mid/Late always when bias > 0; Early a small chance (no escalation truck).
             Faction player = Faction.OfPlayerSilentFail;
             WdEscalationStage stage = manager.cachedEscalationStage;
             float biasPct = WdEscalation.GetRaidBiasPct(seth, stage);
-            bool preferPlayerInBand = WdEscalation.IsMidOrLate(manager)
-                && biasPct > 0f
-                && player != null
+            bool canBiasPlayer = player != null
                 && seth != null && seth.allowPlayerRaid
                 && WorldActions_Utils.SafeHostileTo(attacker.Faction, player)
                 && manager.CanReachAnyPlayerTargetPublic(attacker, seth);
+            bool preferPlayerInBand = canBiasPlayer
+                && ((WdEscalation.IsMidOrLate(manager) && biasPct > 0f)
+                    || (!WdEscalation.IsMidOrLate(manager)
+                        && Rand.Chance(WdEscalation.EarlyGameRaidBiasChance)));
 
             // Quest raid bias: bucket priority-target factions first (before coalition early-return).
             HashSet<int> questPriorityIds = manager.GetQuestRaidBiasPriorityTargetLoadIds(attacker.Faction);

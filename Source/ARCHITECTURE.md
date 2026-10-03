@@ -36,7 +36,9 @@ Also: `RoadBlocks/`, `SpikeTraps/`, `WorldGen/`, `Quests/`, `Gizmos/`. There is 
 
 | `CompOutpostArmory` | `Outposts/Armory/CompOutpostArmory.cs` (on every outpost) |
 
-Other WorldComponents: interception (`WorldActions/Interception/WorldComponent_InterceptionScheduler.cs`), logistics (`Outposts/FoodLogistics/WD_Outpost_FoodLogistics_Core.cs`), road blocks (`RoadBlocks/WorldComponent_RoadBlocks.cs`), traps (`SpikeTraps/WorldComponent_SpikeTraps.cs`), player pawn favorites (`Core/WorldComponent_PlayerPawnFavorites.cs`), Join Stamp (`Core/WorldComponent_PlayerPawnJoinTimes.cs`).
+Other WorldComponents: interception (`WorldActions/Interception/WorldComponent_InterceptionScheduler.cs`), logistics (`Outposts/FoodLogistics/WD_Outpost_FoodLogistics_Core.cs`), road blocks (`RoadBlocks/WorldComponent_RoadBlocks.cs`), traps (`SpikeTraps/WorldComponent_SpikeTraps.cs`), player pawn favorites (`Core/WorldComponent_PlayerPawnFavorites.cs`), Join Stamp (`Core/WorldComponent_PlayerPawnJoinTimes.cs`), drop-pod crash-evac ambush prime (`Travelers/WorldComponent_DropPodCrashEvac.cs`).
+
+Player pawn drop-pod AA: `WorldActions_Traveler_MortarAa.ResolveRapidResponseDropPodAaHit` (per-pawn hit/kill/crash) + `WdDropPodCrashUtility` / `WorldObject_WD_DropPodCrashSite`. Crash maps reuse `MapComponent_ReinforcementTimer` with a hostile Settlement proxy for ally timing.
 
 ## Outpost Ideology slave removal (SELECT vs COMMIT)
 
@@ -183,7 +185,7 @@ Code IDs stay the old names. UI strings are the new ones.
 
 `HarmonyLoader` (`Travelers/DisableMemoryLeakWarning.cs`) scans the assembly for static `[HarmonyPatch]` classes. Settlement gizmos go through `Patch_SettlementGetGizmos` (`Patches/Patch_SettlementGetGizmos.cs`). Caravan gizmos go through `Patch_CaravanGetGizmos` (`Patches/Patch_CaravanGetGizmos.cs`). Do not add a second `Settlement.GetGizmos` or `Caravan.GetGizmos` postfix.
 
-**Always-show world icons (do not regress):** `Patches/Patch_WdWorldObjectNoExpandingIcon.cs` keeps the upright ExpandingIcon at every zoom (no Material swap) for settlements / outposts / travelers / AT when the Experimental toggles are on. VeryClose blanks were a false `HiddenBehindTerrainNow` plus a wrong world-origin Dot (layer-origin facing + `TransitionPct` forced to 1); a remaining VeryClose blank with gates still saying would-draw is fixed by a plain `GUI.DrawTexture` re-blit after vanilla OnGUI. Full rules and anti-patterns: `Core/WORLD_MAP_ICONS.md`. Do not “fix” Close/VeryClose by restoring Material for ForceFixedIcon objects.
+**Always-show world icons (do not regress):** `Patches/Patch_WdWorldObjectNoExpandingIcon.cs` keeps the upright ExpandingIcon at every zoom (no Material swap) for settlements / outposts / travelers / AT when the Experimental toggles are on. VeryClose blanks were a false `HiddenBehindTerrainNow` plus a wrong world-origin Dot (layer-origin facing + `TransitionPct` forced to 1); a remaining VeryClose blank with gates still saying would-draw is fixed by a `GUI.DrawTexture` re-blit after vanilla OnGUI that also applies `ExpandingIconRotation` (AT turrets, shells). Full rules and anti-patterns: `Core/WORLD_MAP_ICONS.md`. Do not “fix” Close/VeryClose by restoring Material for ForceFixedIcon objects.
 
 ## Optional mods (no assembly dependencies)
 
@@ -208,6 +210,7 @@ Read maintained/throttled registries instead:
 - **Travelers:** `WorldObject_Traveler.LiveTravelers` (SpawnSetup registration is idempotent; Destroy removes all registrations). `WorldActions_Orchestrator.FinalizeInit` calls `RebuildLiveRegistry()` (and again after remnant cleanup on load) + `WdPlayerOutpostCache.Invalidate()` so stale static state cannot carry across save loads in one session.
 - **Def catalogs (shells, ammo, etc.):** discover once after defs are loaded (lazy first use is fine). Hot paths only read the cached lists and cheap runtime flags (e.g. outpost upgrade tier). Example: assault artillery mortar shells in `RaidLogic/WD_AssaultArtillerySupport.cs` (`EnsureShellCatalog`) — never re-scan shells when building tooltips or dialog rows.
 - Underlay raid-target caches are tick-gated (30t), not per-frame. Alert `GetLabel()` strings are cached (no per-frame `Translate`).
+- **Hub list tables (many rows):** record the scroll outer height (`lastScrollViewportHeight`); in `DrawRow`, early-return when the row Y is outside `[scrollPos.y - rowH, scrollPos.y + viewportH)`. Keep full `viewRect` height so the scrollbar still matches the list. Never call `Translate(args)` inside `DrawRow` — cache those strings on the row at rebuild (or on the window when the filter/destination changes). Pattern: `Window_AllPlayerPawns`, `Window_AllPlayerGear`. A `MaxRows` collect/sort cap is separate from draw cost.
 
 ## Settings defaults
 
@@ -222,4 +225,4 @@ SSoT for **promotion** (NPC settlements): Develop (`WorldActions_GrowthExpand.Tr
 - NPC settlement attack range: call `SettlementAttackRangeUtil.GetNpcSettlementAttackRangeWithZeal`. Player outpost range is a different knob (`raidTargetRadius` + strategist in `Action_Outpost_LaunchAttack`); do not fold it into the NPC util.
 - Raid outcome interpolation: `RaidCasualtyModel.GetForecast` / `Resolve`. Do not add a second interpolator.
 - Fortify kit layout (r=1 AT, r=2 traps/blocks, ensure road exit, tier `GetKit`): `WorldActions_FortifyKit`. Daily NPC Fortify and Turtle / desperation instant kit share it (T1 included); do not add a second kit interpolator.
-- Timed buffs on SpreadManager: Leader / Nimble (multi-faction set + per-faction CDs) / Expansionist / coalition are parallel stacks (`currentWorldLeader`, `activeUnderdogs`, `expansionistZealFaction`, `antiLeaderCoalition*`). Do not add a fifth loose expiry field.
+- Timed buffs on SpreadManager: Leader, Nimble (multi-faction set + per-faction CDs), Expansionist, and coalition use separate fields (`currentWorldLeader`, `activeUnderdogs`, `expansionistZealFaction`, `antiLeaderCoalition*`). Leader and Nimble are mutually exclusive for one faction (nimble clears leader; leader will not apply onto an active underdog). Coalition/zeal stay independent; if the coalition target becomes nimble, remaining coalition duration clamps to 3 days. Do not add a fifth loose expiry field.

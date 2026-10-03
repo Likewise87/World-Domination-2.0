@@ -701,8 +701,8 @@ namespace TSA_WorldDomination
             traveler.targetObject = TravelerEndpointUtility.IsLiveEndpoint(target) ? target : null;
             traveler.mission = TravelerMission.RapidResponseDropPod;
             traveler.ticksPerMove = GetDropPodTicksPerMove();
-            traveler.travelerStrength = 1f;
-            traveler.initialStrength = 1f;
+            traveler.travelerStrength = pawns.Count;
+            traveler.initialStrength = pawns.Count;
             traveler.carriedPawns = new List<Pawn>(pawns);
             if (deliveryItems != null && deliveryItems.Count > 0)
                 traveler.deliveryItems = new List<ThingDefCountClass>(deliveryItems);

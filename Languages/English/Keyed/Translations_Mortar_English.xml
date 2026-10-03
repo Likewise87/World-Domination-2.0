@@ -203,6 +203,11 @@ Cooldown is shortened by total garrison Shooting ({3}): each point is −2% dura
   <TSA_WD_AntiAir_GoodsDropPod_Destroyed_Text>{0}'s anti-air shot down a goods drop pod ({1}). The shipment is lost.</TSA_WD_AntiAir_GoodsDropPod_Destroyed_Text>
   <TSA_WD_AntiAir_RapidResponsePawnsKilled_Label>Drop pod pawns killed</TSA_WD_AntiAir_RapidResponsePawnsKilled_Label>
   <TSA_WD_AntiAir_RapidResponsePawnsKilled_Text>{0}'s anti-air destroyed a drop pod. The following pawns died:\n\n{1}</TSA_WD_AntiAir_RapidResponsePawnsKilled_Text>
+  <TSA_WD_AntiAir_PawnPods_Outcome_Label>Drop pods hit by anti-air</TSA_WD_AntiAir_PawnPods_Outcome_Label>
+  <TSA_WD_AntiAir_PawnPods_Outcome_Text>{0}'s anti-air struck a drop-pod flight.\n\n{1}</TSA_WD_AntiAir_PawnPods_Outcome_Text>
+  <TSA_WD_AntiAir_PawnPods_DiedHeader>Died:</TSA_WD_AntiAir_PawnPods_DiedHeader>
+  <TSA_WD_AntiAir_PawnPods_CrashedHeader>Crashed (wounded at crash site):</TSA_WD_AntiAir_PawnPods_CrashedHeader>
+  <TSA_WD_AntiAir_PawnPods_Resolved_Log>{0}'s AA vs drop pods: {1} dead, {2} crashed, {3} still flying.</TSA_WD_AntiAir_PawnPods_Resolved_Log>
   <TSA_WD_Inspect_MortarReady>Mortar: ready</TSA_WD_Inspect_MortarReady>
   <TSA_WD_Inspect_AntiAirReady>Anti-air: ready</TSA_WD_Inspect_AntiAirReady>
   <TSA_WD_Inspect_AntiAirCD>Anti-air cooling down: {0}s</TSA_WD_Inspect_AntiAirCD>

@@ -1,23 +1,36 @@
-﻿using RimWorld;
+using System.Collections.Generic;
+using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace TSA_WorldDomination
 {
-    public class WITab_Outpost_Stats : WITab
+    /// <summary>
+    /// Inspect Stats tab for player WD outposts and NPC settlements (same UI; different snapshot sections).
+    /// </summary>
+    public class WITab_OutpostAndSettlement_Stats : WITab
     {
         private Vector2 scrollPosition;
         private float scrollViewHeight = 400f;
 
         private const int CacheRefreshInterval = 2500;
+        private const float SearchBarH = 28f;
+        private const float SearchBarGap = 6f;
+
         private int lastCacheTick = -1;
         private WorldObject cachedWorldObject;
         private int cachedFingerprint = int.MinValue;
         private OutpostStatsSnapshot cachedSnapshot;
         private bool forceRefreshRequested;
 
-        public WITab_Outpost_Stats()
+        private string searchFilter = "";
+        private string searchNeedleLower = "";
+        private readonly List<OutpostStatsSection> filteredSections = new List<OutpostStatsSection>(16);
+        private OutpostStatsSnapshot filterSourceSnap;
+        private string filterSourceNeedle = "";
+
+        public WITab_OutpostAndSettlement_Stats()
         {
             size = new Vector2(820f, 560f);
             labelKey = "TSA_WD_OutpostStats_TabLabel";
@@ -39,6 +52,9 @@ namespace TSA_WorldDomination
                 return true;
             }
         }
+
+        private float HeaderConsumedHeight =>
+            OutpostTabStatsUi.TabHeaderConsumedHeight + SearchBarH + SearchBarGap;
 
         protected override void FillTab()
         {
@@ -62,14 +78,23 @@ namespace TSA_WorldDomination
             OutpostStatsSnapshot snap = cachedSnapshot;
             if (snap == null) return;
 
-            Rect scrollOuter = new Rect(body.x, body.y + OutpostTabStatsUi.TabHeaderConsumedHeight, body.width, body.height - OutpostTabStatsUi.TabHeaderConsumedHeight);
+            float searchY = body.y + OutpostTabStatsUi.TabHeaderConsumedHeight;
+            DrawSearchBar(new Rect(body.x, searchY, body.width - OutpostTabStatsUi.ScrollbarRightPadding, SearchBarH));
+
+            EnsureFilteredSections(snap);
+            IList<OutpostStatsSection> sections = filteredSections;
+
+            Rect scrollOuter = new Rect(
+                body.x,
+                body.y + HeaderConsumedHeight,
+                body.width,
+                body.height - HeaderConsumedHeight);
             float contentWidth = scrollOuter.width - OutpostTabStatsUi.ScrollbarRightPadding;
 
             float bannerExtra = 0f;
-            float rawBanner = 0f;
             if (worldObject is WorldObject_WD_Outpost wdBanner)
             {
-                rawBanner = OutpostSkillScaling.GetBannerRawSkill(wdBanner);
+                float rawBanner = OutpostSkillScaling.GetBannerRawSkill(wdBanner);
                 if (OutpostSkillScaling.IsDiminished(rawBanner, wdBanner.def))
                 {
                     Text.Font = GameFont.Small;
@@ -80,7 +105,7 @@ namespace TSA_WorldDomination
                 }
             }
 
-            scrollViewHeight = OutpostTabStatsUi.MeasureContentHeight(snap, contentWidth) + bannerExtra;
+            scrollViewHeight = OutpostTabStatsUi.MeasureContentHeight(sections, contentWidth) + bannerExtra;
             if (scrollViewHeight < scrollOuter.height)
                 scrollViewHeight = scrollOuter.height;
             Rect viewRect = new Rect(0f, 0f, contentWidth, scrollViewHeight);
@@ -90,9 +115,51 @@ namespace TSA_WorldDomination
             float drawY = 0f;
             if (worldObject is WorldObject_WD_Outpost wdDraw)
                 drawY = Outpost_Dialog_UI.DrawSkillDiminishingReturnsBanner(0f, drawY, contentWidth, wdDraw);
-            OutpostTabStatsUi.DrawStatsLayout(0f, drawY, contentWidth, snap.Sections);
+            OutpostTabStatsUi.DrawStatsLayout(0f, drawY, contentWidth, sections);
 
             Widgets.EndScrollView();
+        }
+
+        private void DrawSearchBar(Rect searchFieldRect)
+        {
+            string oldFilter = searchFilter;
+            searchFilter = Widgets.TextField(searchFieldRect, searchFilter ?? "");
+            if (searchFilter != oldFilter)
+            {
+                searchNeedleLower = string.IsNullOrEmpty(searchFilter)
+                    ? ""
+                    : searchFilter.Trim().ToLowerInvariant();
+                scrollPosition = Vector2.zero;
+                filterSourceSnap = null;
+            }
+
+            if (string.IsNullOrEmpty(searchFilter))
+            {
+                GUI.color = new Color(1f, 1f, 1f, 0.4f);
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Text.Font = GameFont.Tiny;
+                Widgets.Label(searchFieldRect, "TSA_WD_OutpostStats_SearchPlaceholder".Translate());
+                Text.Anchor = TextAnchor.UpperLeft;
+                Text.Font = GameFont.Small;
+                GUI.color = Color.white;
+            }
+        }
+
+        private void EnsureFilteredSections(OutpostStatsSnapshot snap)
+        {
+            if (snap == null)
+            {
+                filteredSections.Clear();
+                filterSourceSnap = null;
+                return;
+            }
+
+            if (filterSourceSnap == snap && filterSourceNeedle == searchNeedleLower)
+                return;
+
+            filterSourceSnap = snap;
+            filterSourceNeedle = searchNeedleLower ?? "";
+            OutpostTabStatsUi.FillFilteredSections(snap.Sections, filterSourceNeedle, filteredSections);
         }
 
         private static string BuildHeadline(WorldObject worldObject)
@@ -119,6 +186,7 @@ namespace TSA_WorldDomination
             cachedWorldObject = worldObject;
             cachedFingerprint = fp;
             cachedSnapshot = OutpostStatsSnapshot.Build(worldObject);
+            filterSourceSnap = null;
         }
 
         private static int BucketFloat(float v, float scale = 1f) => Mathf.RoundToInt(v * scale);

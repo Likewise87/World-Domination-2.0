@@ -31,11 +31,26 @@ namespace TSA_WorldDomination
         private sealed class RecreatePlacementContext
         {
             private readonly WorldGrid grid;
+            private readonly float biomePenalty01;
+            private readonly int randomAttemptBudget;
+            private readonly float nearbyAttemptMult;
             private readonly List<(int tile, Faction faction)> staticBlockers = new List<(int, Faction)>();
             private readonly List<(int tile, Faction faction)> placedThisRun = new List<(int, Faction)>();
             private readonly List<PlanetTile> neighborScratch = new List<PlanetTile>(8);
 
-            public RecreatePlacementContext(WorldGrid grid) => this.grid = grid;
+            public RecreatePlacementContext(WorldGrid grid, float biomePenalty01)
+            {
+                this.grid = grid;
+                this.biomePenalty01 = Mathf.Clamp01(biomePenalty01);
+                // Soft-reject burns tries; scale budget so default 70 still searches enough on ice-heavy maps.
+                float acceptFloor = Mathf.Max(0.15f, 1f - this.biomePenalty01);
+                float mult = this.biomePenalty01 > 0f ? 1f / acceptFloor : 1f;
+                randomAttemptBudget = Mathf.Clamp(
+                    Mathf.RoundToInt(MaxRandomAttemptsPerSettlement * mult),
+                    MaxRandomAttemptsPerSettlement,
+                    MaxRandomAttemptsPerSettlement * 8);
+                nearbyAttemptMult = Mathf.Clamp(mult, 1f, 8f);
+            }
 
             public int StaticBlockerCount => staticBlockers.Count;
             public int PlacedThisRunCount => placedThisRun.Count;
@@ -65,6 +80,17 @@ namespace TSA_WorldDomination
                 return CheckBlockerList(placedThisRun, tile, requiredDist, faction, otherFactionMinDist);
             }
 
+            private bool AcceptBiome(int tile)
+            {
+                if (!NpcSettlementSubtypeUtil.IsExtremeTile(tile))
+                    return true;
+                if (biomePenalty01 >= 1f)
+                    return false;
+                if (biomePenalty01 <= 0f)
+                    return true;
+                return Rand.Chance(1f - biomePenalty01);
+            }
+
             private bool CheckBlockerList(
                 List<(int tile, Faction faction)> blockers,
                 int tile,
@@ -91,11 +117,14 @@ namespace TSA_WorldDomination
                 int tiles = grid.TilesCount;
                 if (tiles <= 0) return -1;
 
-                for (int attempt = 0; attempt < MaxRandomAttemptsPerSettlement; attempt++)
+                for (int attempt = 0; attempt < randomAttemptBudget; attempt++)
                 {
                     int tile = Rand.Range(0, tiles);
-                    if (MeetsRequiredDistance(tile, requiredDist, faction, otherFactionMinDist))
-                        return tile;
+                    if (!MeetsRequiredDistance(tile, requiredDist, faction, otherFactionMinDist))
+                        continue;
+                    if (!AcceptBiome(tile))
+                        continue;
+                    return tile;
                 }
 
                 return -1;
@@ -112,13 +141,15 @@ namespace TSA_WorldDomination
                 int tiles = grid.TilesCount;
                 if (tiles <= 0) return -1;
 
-                for (int attempt = 0; attempt < MaxRandomAttemptsPerSettlement; attempt++)
+                for (int attempt = 0; attempt < randomAttemptBudget; attempt++)
                 {
                     int tile = Rand.Range(0, tiles);
                     if (!MeetsRequiredDistance(tile, requiredDist, faction, otherFactionMinDist))
                         continue;
                     if (minBetweenClusters > 0
                         && !IsFarEnoughFromOtherClusters(tile, existingClusters, minBetweenClusters))
+                        continue;
+                    if (!AcceptBiome(tile))
                         continue;
                     return tile;
                 }
@@ -136,9 +167,9 @@ namespace TSA_WorldDomination
                     otherFactionMinDist * 4,
                     Outpost_EstablishmentRequirements.MinDistanceTiles * 4);
                 int start = seedTiles[Rand.Range(0, seedTiles.Count)];
-                int maxAttempts = Mathf.Max(
+                int maxAttempts = Mathf.RoundToInt(Mathf.Max(
                     MaxNearbyAttemptsPerSettlement + requiredDist * 8 + otherFactionMinDist * 4,
-                    softRadius * softRadius);
+                    softRadius * softRadius) * nearbyAttemptMult);
 
                 var visited = new HashSet<int>();
                 var queue = new Queue<(int tile, int dist)>();
@@ -149,7 +180,9 @@ namespace TSA_WorldDomination
                 while (queue.Count > 0 && attempts < maxAttempts)
                 {
                     (int tile, int dist) = queue.Dequeue();
-                    if (dist > 0 && MeetsRequiredDistance(tile, requiredDist, faction, otherFactionMinDist))
+                    if (dist > 0
+                        && MeetsRequiredDistance(tile, requiredDist, faction, otherFactionMinDist)
+                        && AcceptBiome(tile))
                         return tile;
 
                     if (dist >= softRadius) continue;
@@ -555,7 +588,10 @@ namespace TSA_WorldDomination
                 swDestroy.Stop();
                 WD_DevPerformanceSpikeLog.Msg($"Recreate destroy settlements={destroyed} fortsCleared={destroyForts} ms={swDestroy.ElapsedMilliseconds}");
 
-                var placementContext = new RecreatePlacementContext(Find.WorldGrid);
+                var placementContext = new RecreatePlacementContext(
+                    Find.WorldGrid,
+                    Mathf.Clamp01((WorldDominationMod.settings?.settlementBiomePenalty
+                        ?? WorldDominationSettings.DefSettlementBiomePenalty) / 100f));
                 placementContext.SnapshotStaticBlockers();
                 WDVerbose.Msg($"Recreate placement snapshot staticBlockers={placementContext.StaticBlockerCount}");
 

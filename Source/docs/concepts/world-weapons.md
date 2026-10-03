@@ -24,6 +24,8 @@ Shooting skill and mortar upgrades improve hit chance and shorten mortar cooldow
 
 **Adjust Range** shrinks automatic mortar or flak coverage. Manual mortar shots still use full range. Drop-pod launches from Rapid Response sites can be shot down by hostile AA, including T4 settlement batteries. Read the confirmation warning before launching valuable pawns or cargo.
 
+Player **pawn** drop pods (Rapid Response / transfers) are treated as one pod per colonist. On a successful flak engagement, each passenger rolls hit/miss, then kill vs crash. Crashed survivors land wounded on a temporary crash site (corpses of mid-air kills appear there too when anyone crashes). Unhit pods keep flying. Nearby hostile settlements can send map reinforcements on a timer (same system as settlement assaults). After you reform a caravan off the crash site, a nearby Tier 2+ settlement is more likely to launch an ambush intercept.
+
 ## Enemy T4 batteries
 
 Tier 4 settlements can field mortar and anti-air when those master options are enabled.
@@ -41,7 +43,7 @@ Watch Mid / Late status on the dashboard before assuming the sky is safe.
 
 AT turrets are built as fortification projects. Players need enough Machining and respect global and per-site caps. Light, Medium, and Heavy guns differ in range, damage, cooldown, and HP.
 
-They auto-engage eligible hostile ground targets. Experimental settings can let NPC AT guns also fire on player WD travelers and real pawn caravans.
+They auto-engage eligible hostile ground travelers (raids, traders, expansion, roads, fortify, logistics) in a short tile range. After a shot the barrel stays on that heading; only a player AT turret can set a rest azimuth from its gizmo. Experimental settings can let NPC AT guns also fire on player WD travelers and real pawn caravans.
 
 AT turrets can be overrun by a player caravan on their tile and can be damaged by mortar fire. They do not replace a Rapid Response interceptor; they are a static choke-point weapon.
 

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <!-- Abstract. Not displayed -->
   <WorldObjectDef Name="TSA_WD_Outpost" Abstract="True">
@@ -9,7 +9,7 @@
     <expandingIcon>true</expandingIcon>
     <texture>World/WorldObjects/Settlements/Settlement</texture>
     <inspectorTabs>
-      <li>TSA_WorldDomination.WITab_Outpost_Stats, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_OutpostAndSettlement_Stats, TSA_WorldDomination</li>
       <li>TSA_WorldDomination.WITab_Outpost_Logistics, TSA_WorldDomination</li>
       <li>TSA_WorldDomination.WITab_Outpost_Pawns, TSA_WorldDomination</li>
       <li>TSA_WorldDomination.WITab_Outpost_Experts, TSA_WorldDomination</li>
@@ -170,7 +170,7 @@
     </modExtensions>
   </WorldObjectDef>
 
-  <!-- Scavenging: fixed cycle from productionCycleDays; reward market value = pawns × 500 per delivery -->
+  <!-- Scavenging: fixed cycle from productionCycleDays; reward market value = pawns � 500 per delivery -->
   <WorldObjectDef ParentName="TSA_WD_Outpost">
     <defName>TSA_WD_Outpost_Scavenging</defName>
     <label>Scavenging Outpost</label>
@@ -470,7 +470,7 @@
       </li>
     </modExtensions>
     <inspectorTabs Inherit="False">
-      <li>TSA_WorldDomination.WITab_Outpost_Stats, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_OutpostAndSettlement_Stats, TSA_WorldDomination</li>
       <li>TSA_WorldDomination.WITab_Outpost_Logistics, TSA_WorldDomination</li>
       <li>TSA_WorldDomination.WITab_Outpost_Pawns, TSA_WorldDomination</li>
       <li>TSA_WorldDomination.WITab_Outpost_Experts, TSA_WorldDomination</li>
@@ -499,7 +499,7 @@
       </li>
     </modExtensions>
     <inspectorTabs Inherit="False">
-      <li>TSA_WorldDomination.WITab_Outpost_Stats, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_OutpostAndSettlement_Stats, TSA_WorldDomination</li>
       <li>TSA_WorldDomination.WITab_Outpost_Logistics, TSA_WorldDomination</li>
       <li>TSA_WorldDomination.WITab_Outpost_Pawns, TSA_WorldDomination</li>
       <li>TSA_WorldDomination.WITab_Outpost_Experts, TSA_WorldDomination</li>
@@ -600,7 +600,7 @@
       </li>
     </modExtensions>
     <inspectorTabs Inherit="False">
-      <li>TSA_WorldDomination.WITab_Outpost_Stats, TSA_WorldDomination</li>
+      <li>TSA_WorldDomination.WITab_OutpostAndSettlement_Stats, TSA_WorldDomination</li>
       <li>TSA_WorldDomination.WITab_Outpost_Logistics, TSA_WorldDomination</li>
       <li>TSA_WorldDomination.WITab_Outpost_Pawns, TSA_WorldDomination</li>
       <li>TSA_WorldDomination.WITab_Outpost_Experts, TSA_WorldDomination</li>

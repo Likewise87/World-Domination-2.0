@@ -800,6 +800,7 @@ namespace TSA_WorldDomination
         {
             PawnRosterSkillHighlightMode.Off,
             PawnRosterSkillHighlightMode.Off,
+            PawnRosterSkillHighlightMode.Off,
             PawnRosterSkillHighlightMode.Off
         };
 
@@ -822,6 +823,7 @@ namespace TSA_WorldDomination
             {
                 case PawnRosterColumnWindow.OutpostPawns: return 1;
                 case PawnRosterColumnWindow.Prisoners: return 2;
+                case PawnRosterColumnWindow.RemoteEstablish: return 3;
                 default: return 0;
             }
         }

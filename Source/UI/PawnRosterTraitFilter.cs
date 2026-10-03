@@ -135,6 +135,7 @@ namespace TSA_WorldDomination
             Window_AllPlayerPawns.InvalidateCache();
             Window_Prisoners.InvalidateCache();
             WITab_Outpost_Pawns.InvalidateCache();
+            Window_RemoteEstablishPawns.InvalidateCache();
         }
 
         public static IReadOnlyList<PawnRosterTraitDegreeRow> GetSnapshotRows(out int totalHumanlikes)

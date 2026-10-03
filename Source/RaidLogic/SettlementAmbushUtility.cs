@@ -7,8 +7,8 @@ namespace TSA_WorldDomination
 {
     /// <summary>
     /// Feature C: settlements (and, via <see cref="WD_Outpost_RapidResponse"/>, player outposts) with ambush
-    /// capability launch a Rapid-Response-style interceptor at a passing hostile WD traveler (trader/gift/bribe
-    /// caravan, or a raid not already targeting this settlement) or a real vanilla player <see cref="Caravan"/>.
+    /// capability launch a Rapid-Response-style interceptor at a passing hostile WD traveler (any caravan-style
+    /// mission except decontamination; raids not already targeting this settlement) or a real vanilla player <see cref="Caravan"/>.
     /// Reuses <see cref="WorldComponent_SettlementWatchIndex"/> for O(1) tile lookups and
     /// <see cref="WorldActions_Traveler.SpawnRapidResponseInterceptTraveler"/> for the actual dispatch — no new
     /// per-tick scanning is added beyond the existing 20-tick caravan tile-change poll in <see cref="WD_SameTileTravelerClash"/>.
@@ -77,19 +77,29 @@ namespace TSA_WorldDomination
             WorldObject settlement = FindFirstEligibleAmbusher(watchers, caravan.Faction, null, null);
             if (settlement == null) return;
 
-            if (Rand.Value > seth.settlementAmbushChancePct) return;
+            var evac = WorldComponent_DropPodCrashEvac.Get();
+            bool primed = evac != null && evac.IsPrimed(caravan);
+            if (!primed && Rand.Value > seth.settlementAmbushChancePct) return;
 
             float caravanStrength = WorldComponent_SpreadManager.ComputeCaravanMortarStrengthPool(caravan);
-            TryDispatch(settlement, caravan, caravanStrength, watchIndex, seth, manager);
+            if (TryDispatch(settlement, caravan, caravanStrength, watchIndex, seth, manager) && primed)
+                evac.Clear(caravan);
         }
 
-        private static bool IsAmbushableMission(TravelerMission mission) =>
-            mission == TravelerMission.Trader
-            || mission == TravelerMission.SettlementGift
-            || mission == TravelerMission.SettlementBribe
-            || mission == TravelerMission.OutpostDelivery
-            || mission == TravelerMission.OutpostUpgrade
-            || WorldObject_Traveler.IsRaidMission(mission);
+        /// <summary>
+        /// Ground caravan-style travelers are ambushable. Decontamination crews are excluded.
+        /// Ballistic shells, AA, and Rapid Response dispatches are not caravans.
+        /// </summary>
+        private static bool IsAmbushableMission(TravelerMission mission)
+        {
+            if (mission == TravelerMission.Decontamination) return false;
+            if (mission == TravelerMission.MortarStrike
+                || mission == TravelerMission.AntiAirStrike
+                || mission == TravelerMission.RapidResponseIntercept
+                || mission == TravelerMission.RapidResponseDropPod)
+                return false;
+            return true;
+        }
 
         private static WorldObject FindFirstEligibleAmbusher(
             List<WorldObject> watchers, Faction targetFaction, WorldObject targetDestination, WorldObject targetOrigin)
@@ -112,20 +122,20 @@ namespace TSA_WorldDomination
             return null;
         }
 
-        private static void TryDispatch(
+        private static bool TryDispatch(
             WorldObject settlement, WorldObject target, float targetStrengthEstimate,
             WorldComponent_SettlementWatchIndex watchIndex, WorldDominationSettings seth, WorldComponent_SpreadManager manager)
         {
             var comp = settlement.GetComponent<CompViralSpread>();
-            if (comp == null) return;
+            if (comp == null) return false;
             float available = WorldActions_Utils.GetAvailableRaidStrength(comp, seth);
-            if (available <= 0f) return;
+            if (available <= 0f) return false;
 
             float minRatio = seth.settlementAmbushMinStrengthRatio;
-            if (minRatio > 0f && targetStrengthEstimate > 0f && available / targetStrengthEstimate < minRatio) return;
+            if (minRatio > 0f && targetStrengthEstimate > 0f && available / targetStrengthEstimate < minRatio) return false;
 
             float strength = RapidResponseUtility.CapSentStrength(available, targetStrengthEstimate, seth.settlementAmbushMaxStrengthRatio);
-            if (strength <= 0f) return;
+            if (strength <= 0f) return false;
 
             comp.strength -= strength;
             comp.CheckTierUpdate(false);
@@ -133,7 +143,7 @@ namespace TSA_WorldDomination
             if (response == null)
             {
                 comp.AddStrengthNoTierUpgrade(strength);
-                return;
+                return false;
             }
 
             response.isSettlementAmbushSally = true;
@@ -143,6 +153,7 @@ namespace TSA_WorldDomination
             manager?.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_SettlementAmbush".Translate(settlement.LabelCap, DescribeTargetKind(target), target.LabelCap),
                 settlement, target));
+            return true;
         }
 
         private static string DescribeTargetKind(WorldObject target)

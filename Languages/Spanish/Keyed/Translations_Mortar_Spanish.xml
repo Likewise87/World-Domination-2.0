@@ -194,6 +194,11 @@ El enfriamiento se acorta con la suma de Disparo de la guarnición ({3}): −2% 
   <TSA_WD_AntiAir_GoodsDropPod_Destroyed_Text>La antiaérea de {0} derribó una cápsula de mercancía ({1}). Se pierde el envío.</TSA_WD_AntiAir_GoodsDropPod_Destroyed_Text>
   <TSA_WD_AntiAir_RapidResponsePawnsKilled_Label>Peones de cápsula muertos</TSA_WD_AntiAir_RapidResponsePawnsKilled_Label>
   <TSA_WD_AntiAir_RapidResponsePawnsKilled_Text>El antiaéreo de {0} destruyó una cápsula. Murieron los siguientes peones:\n\n{1}</TSA_WD_AntiAir_RapidResponsePawnsKilled_Text>
+  <TSA_WD_AntiAir_PawnPods_Outcome_Label>Cápsulas alcanzadas por antiaéreo</TSA_WD_AntiAir_PawnPods_Outcome_Label>
+  <TSA_WD_AntiAir_PawnPods_Outcome_Text>El antiaéreo de {0} golpeó un vuelo de cápsulas.\n\n{1}</TSA_WD_AntiAir_PawnPods_Outcome_Text>
+  <TSA_WD_AntiAir_PawnPods_DiedHeader>Muertos:</TSA_WD_AntiAir_PawnPods_DiedHeader>
+  <TSA_WD_AntiAir_PawnPods_CrashedHeader>Estrellados (heridos en el lugar del accidente):</TSA_WD_AntiAir_PawnPods_CrashedHeader>
+  <TSA_WD_AntiAir_PawnPods_Resolved_Log>AA de {0} vs cápsulas: {1} muertos, {2} estrellados, {3} siguen volando.</TSA_WD_AntiAir_PawnPods_Resolved_Log>
   <TSA_WD_Inspect_MortarReady>Mortero: listo</TSA_WD_Inspect_MortarReady>
   <TSA_WD_Inspect_AntiAirReady>Antiaéreo: listo</TSA_WD_Inspect_AntiAirReady>
   <TSA_WD_Inspect_AntiAirCD>Antiaéreo enfriando: {0}s</TSA_WD_Inspect_AntiAirCD>

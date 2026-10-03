@@ -847,6 +847,13 @@ namespace TSA_WorldDomination
 
             if (!(impactTarget is WorldObject_Traveler hitPod) || hitPod.Destroyed) return null;
 
+            // Player pawn drop pods: per-pawn dice (no strength wipe). Never letter-gate Take/Kill.
+            if (hitPod is WorldObject_Traveler_RapidResponseDropPod rrPod && IsPlayerOwnedAirborne(rrPod))
+            {
+                return ResolveRapidResponseDropPodAaHit(
+                    rrPod, traveler.originObject, originLabel, notify, letterDef);
+            }
+
             float shellPotency = Mathf.Max(0f, traveler.mortarDamage);
             float before = hitPod.travelerStrength;
             hitPod.travelerStrength = Mathf.Max(0f, before - shellPotency);
@@ -895,7 +902,6 @@ namespace TSA_WorldDomination
 
             if (wiped)
             {
-                KillRapidResponsePawnsAndNotify(hitPod, traveler.originObject, originLabel);
                 AntiAirFireUtils.NotifyTargetDestroyed(hitPod);
                 return hitPod;
             }
@@ -905,33 +911,156 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Enemy T4 AA destroying a Rapid Response pod kills its real passengers.
-        /// Taking the pawn list first prevents the traveler's normal Destroy cleanup from returning them to the origin outpost.
-        /// The death letter is deliberately unconditional and independent of AA notification settings.
+        /// Per-pawn AA resolution for player Rapid Response / pawn drop pods.
+        /// Take passengers off the traveler before any Destroy. Letter policy never gates Take/spawn.
+        /// Returns the traveler to destroy when empty; null if survivors continue flying.
         /// </summary>
-        private static void KillRapidResponsePawnsAndNotify(
-            WorldObject_Traveler hitPod,
+        private static WorldObject ResolveRapidResponseDropPodAaHit(
+            WorldObject_Traveler_RapidResponseDropPod rapidPod,
             WorldObject aaOrigin,
-            string originLabel)
+            string originLabel,
+            bool notifyStrengthLetter,
+            LetterDef letterDef)
         {
-            if (!(hitPod is WorldObject_Traveler_RapidResponseDropPod rapidPod)) return;
-            if (!ShouldSendAntiAirPassengerDeathLetter(aaOrigin)) return;
+            if (rapidPod == null || rapidPod.Destroyed) return null;
 
-            List<Pawn> passengers = rapidPod.TakeCarriedPawns();
-            if (passengers == null || passengers.Count == 0) return;
-
-            List<string> killedNames = new List<string>();
-            for (int i = 0; i < passengers.Count; i++)
+            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            List<Pawn> all = rapidPod.TakeCarriedPawns();
+            if (all == null || all.Count == 0)
             {
-                Pawn pawn = passengers[i];
-                if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
-                string pawnName = pawn.LabelShortCap;
-                pawn.Kill(null);
-                if (pawn.Dead)
-                    killedNames.Add(pawnName);
+                AntiAirFireUtils.NotifyTargetDestroyed(rapidPod);
+                return rapidPod;
             }
 
-            TryNotifyAntiAirPassengerDeaths(aaOrigin, originLabel, killedNames);
+            var seth = WorldDominationMod.settings;
+            bool useNpc = aaOrigin != null && !IsPlayerFactionObject(aaOrigin);
+            float bandMax = AntiAirFireUtils.GetAntiAirConfiguredMaxRangeForOrigin(aaOrigin);
+            int podTile = rapidPod.Tile.tileId;
+            int originTile = aaOrigin?.Tile.tileId ?? podTile;
+            int distTiles = manager != null
+                ? WorldActions_Utils.GetDistance(originTile, podTile, manager)
+                : Mathf.RoundToInt(Find.WorldGrid.ApproxDistanceInTiles(originTile, podTile));
+            float hitChance = AntiAirFireUtils.BandBaseAntiAirHitChance(distTiles, bandMax, seth, useNpc);
+
+            var killed = new List<Pawn>();
+            var crashed = new List<Pawn>();
+            var unhit = new List<Pawn>();
+            var killedNames = new List<string>();
+            var crashedNames = new List<string>();
+
+            for (int i = 0; i < all.Count; i++)
+            {
+                Pawn p = all[i];
+                if (p == null || p.Destroyed || p.Dead) continue;
+                if (!Rand.Chance(hitChance))
+                {
+                    unhit.Add(p);
+                    continue;
+                }
+                if (Rand.Chance(WdDropPodCrashUtility.KillGivenHitChance))
+                {
+                    killed.Add(p);
+                    killedNames.Add(p.LabelShortCap);
+                }
+                else
+                {
+                    crashed.Add(p);
+                    crashedNames.Add(p.LabelShortCap);
+                }
+            }
+
+            // Put unhit back before any Destroy path.
+            rapidPod.carriedPawns = unhit;
+            rapidPod.travelerStrength = unhit.Count;
+            if (unhit.Count > 0)
+                rapidPod.initialStrength = Mathf.Max(rapidPod.initialStrength, unhit.Count);
+
+            WorldObject_WD_DropPodCrashSite crashSite = null;
+            if (crashed.Count > 0)
+            {
+                Settlement proxy = WdDropPodCrashUtility.FindReinforcementProxy(aaOrigin, podTile);
+                crashSite = WdDropPodCrashUtility.TryCreateAndLand(podTile, proxy, crashed, killed);
+                if (crashSite == null)
+                {
+                    // No free tile / map gen failed: treat crashed as mid-air deaths too.
+                    WdDropPodCrashUtility.VirtualKillAll(crashed, killedNames);
+                    WdDropPodCrashUtility.VirtualKillAll(killed, null);
+                    crashedNames.Clear();
+                }
+                else
+                {
+                    // Killed already spawned as corpses on the crash map.
+                    killedNames.Clear();
+                    for (int i = 0; i < killed.Count; i++)
+                    {
+                        Pawn p = killed[i];
+                        if (p != null && p.Dead)
+                            killedNames.Add(p.LabelShortCap);
+                        else if (p != null)
+                            killedNames.Add(p.LabelShortCap);
+                    }
+                }
+            }
+            else if (killed.Count > 0)
+            {
+                WdDropPodCrashUtility.VirtualKillAll(killed, null);
+            }
+
+            string logText = "TSA_WD_AntiAir_PawnPods_Resolved_Log".Translate(
+                originLabel,
+                killedNames.Count.ToString(),
+                crashedNames.Count.ToString(),
+                unhit.Count.ToString());
+            manager?.AddLog(new SpreadLogEntry(logText, aaOrigin, rapidPod));
+
+            bool sendPassengerLetter = ShouldSendAntiAirPassengerDeathLetter(aaOrigin)
+                || (notifyStrengthLetter && IsPlayerOwnedAirborne(rapidPod) && !IsPlayerFactionObject(aaOrigin));
+            if (sendPassengerLetter && (killedNames.Count > 0 || crashedNames.Count > 0))
+            {
+                SendRapidResponseAaOutcomeLetter(
+                    aaOrigin, originLabel, killedNames, crashedNames, crashSite, letterDef);
+            }
+
+            MortarWorldFx.NotifyFlakHitAt(rapidPod.DrawPos);
+
+            if (unhit.Count == 0)
+            {
+                AntiAirFireUtils.NotifyTargetDestroyed(rapidPod);
+                return rapidPod;
+            }
+            return null;
+        }
+
+        private static void SendRapidResponseAaOutcomeLetter(
+            WorldObject aaOrigin,
+            string originLabel,
+            List<string> killedNames,
+            List<string> crashedNames,
+            WorldObject_WD_DropPodCrashSite crashSite,
+            LetterDef letterDef)
+        {
+            var sb = new System.Text.StringBuilder();
+            if (killedNames != null && killedNames.Count > 0)
+            {
+                sb.AppendLine("TSA_WD_AntiAir_PawnPods_DiedHeader".Translate());
+                sb.AppendLine(FormatKilledPawnNamesBlock(killedNames));
+            }
+            if (crashedNames != null && crashedNames.Count > 0)
+            {
+                if (sb.Length > 0) sb.AppendLine();
+                sb.AppendLine("TSA_WD_AntiAir_PawnPods_CrashedHeader".Translate());
+                sb.AppendLine(FormatKilledPawnNamesBlock(crashedNames));
+            }
+
+            LookTargets look = crashSite != null && !crashSite.Destroyed
+                ? new LookTargets(crashSite)
+                : (aaOrigin != null ? new LookTargets(aaOrigin) : null);
+
+            Find.LetterStack.ReceiveLetter(
+                "TSA_WD_AntiAir_PawnPods_Outcome_Label".Translate(),
+                "TSA_WD_AntiAir_PawnPods_Outcome_Text".Translate(originLabel, sb.ToString().TrimEnd()),
+                letterDef ?? LetterDefOf.ThreatBig,
+                look);
         }
 
         /// <summary>

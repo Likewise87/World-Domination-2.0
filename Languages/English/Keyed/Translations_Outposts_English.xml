@@ -1659,6 +1659,7 @@
   <TSA_WD_OutpostStats_TabLabel>Stats</TSA_WD_OutpostStats_TabLabel>
   <TSA_WD_OutpostStats_Refresh>Refresh</TSA_WD_OutpostStats_Refresh>
   <TSA_WD_OutpostStats_RefreshTooltip>Rebuild this tab's stats display now. Most values update automatically when something changes; use this if the numbers look stale (for example after installing an upgrade).</TSA_WD_OutpostStats_RefreshTooltip>
+  <TSA_WD_OutpostStats_SearchPlaceholder>Filter by name…</TSA_WD_OutpostStats_SearchPlaceholder>
   <TSA_WD_Experts_TabLabel>Experts</TSA_WD_Experts_TabLabel>
   <TSA_WD_Experts_MutatorHeader>Experts</TSA_WD_Experts_MutatorHeader>
   <TSA_WD_Experts_Role_Strategist>Strategist</TSA_WD_Experts_Role_Strategist>

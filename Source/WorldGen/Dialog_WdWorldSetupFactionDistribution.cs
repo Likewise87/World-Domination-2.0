@@ -24,7 +24,7 @@ namespace TSA_WorldDomination
         private const float ShareMax = 200f;
 
         private static bool s_labelsInit;
-        private static string s_title, s_tip, s_hdrFaction, s_hdrShare, s_hdrPct, s_hdrCount, s_reset, s_empty;
+        private static string s_title, s_tip, s_hdrFaction, s_hdrShare, s_hdrPct, s_hdrCount, s_equal, s_reset, s_empty;
 
         public override Vector2 InitialSize => new Vector2(720f, 640f);
 
@@ -54,6 +54,7 @@ namespace TSA_WorldDomination
             s_hdrShare = "TSA_WD_WorldSetup_FactionShares_H_Share".Translate();
             s_hdrPct = "TSA_WD_WorldSetup_FactionShares_H_Pct".Translate();
             s_hdrCount = "TSA_WD_WorldSetup_FactionShares_H_Count".Translate();
+            s_equal = "TSA_WD_WorldSetup_FactionShares_Equal".Translate();
             s_reset = "TSA_WD_WorldSetup_FactionShares_Reset".Translate();
             s_empty = "TSA_WD_WorldSetup_FactionShares_Empty".Translate();
         }
@@ -135,14 +136,28 @@ namespace TSA_WorldDomination
                 Widgets.EndScrollView();
             }
 
-            float btnW = (inRect.width - 12f) / 2f;
-            if (Widgets.ButtonText(new Rect(0f, inRect.height - BottomH, btnW, 36f), s_reset))
+            float btnW = (inRect.width - 24f) / 3f;
+            Rect equalRect = new Rect(0f, inRect.height - BottomH, btnW, 36f);
+            TooltipHandler.TipRegion(equalRect, "TSA_WD_WorldSetup_FactionShares_EqualTip".Translate());
+            if (Widgets.ButtonText(equalRect, s_equal))
+            {
+                List<Faction> list = WD_SettlementLayoutUtility.ListRecreateEligibleFactions();
+                for (int i = 0; i < list.Count; i++)
+                {
+                    Faction f = list[i];
+                    if (f == null) continue;
+                    WD_SettlementLayoutUtility.SetFactionShare(f, 100f);
+                }
+                Refresh();
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
+            if (Widgets.ButtonText(new Rect(btnW + 12f, inRect.height - BottomH, btnW, 36f), s_reset))
             {
                 WD_SettlementLayoutUtility.ResetFactionSharesToVanillaSnapshot();
                 Refresh();
                 SoundDefOf.Click.PlayOneShotOnCamera();
             }
-            if (Widgets.ButtonText(new Rect(btnW + 12f, inRect.height - BottomH, btnW, 36f), "Close".Translate()))
+            if (Widgets.ButtonText(new Rect((btnW + 12f) * 2f, inRect.height - BottomH, btnW, 36f), "Close".Translate()))
                 Close();
         }
 

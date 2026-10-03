@@ -31,7 +31,7 @@ Some traveler labels include the word "Caravan" because that is their in-game mi
 - **AT Shell:** an anti-traveler shot from an AT turret.
 - **Flak Shell:** an anti-air projectile fired at eligible airborne targets.
 - **Rapid Response Caravan:** a fast intercept mission launched by a Rapid Response outpost.
-- **Rapid Response Drop Pods:** the drop-pod version of a rapid-response dispatch.
+- **Rapid Response Drop Pods:** the drop-pod version of a rapid-response dispatch. Hostile AA resolves each passenger as their own pod (hit/miss, then kill vs crash site). Unhit pods continue; crash sites can get settlement-style map reinforcements and crash-evac ambush priming after reform caravan.
 
 ### Settlement and diplomacy missions
 

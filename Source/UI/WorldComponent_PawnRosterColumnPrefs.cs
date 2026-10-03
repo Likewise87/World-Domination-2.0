@@ -4,12 +4,13 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>Per-save column visibility for All Player Pawns, Outpost Pawns tab, and Prisoners.</summary>
+    /// <summary>Per-save column visibility for All Player Pawns, Outpost Pawns, Prisoners, and Remote Establish.</summary>
     public class WorldComponent_PawnRosterColumnPrefs : WorldComponent
     {
         private Dictionary<string, bool> allPlayerPawns = new Dictionary<string, bool>();
         private Dictionary<string, bool> outpostPawns = new Dictionary<string, bool>();
         private Dictionary<string, bool> prisoners = new Dictionary<string, bool>();
+        private Dictionary<string, bool> remoteEstablish = new Dictionary<string, bool>();
 
         private static WorldComponent_PawnRosterColumnPrefs cached;
 
@@ -66,11 +67,13 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref allPlayerPawns, "pawnRosterColsAllPlayer", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref outpostPawns, "pawnRosterColsOutpost", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref prisoners, "pawnRosterColsPrisoners", LookMode.Value, LookMode.Value);
+            Scribe_Collections.Look(ref remoteEstablish, "pawnRosterColsRemoteEstablish", LookMode.Value, LookMode.Value);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 allPlayerPawns ??= new Dictionary<string, bool>();
                 outpostPawns ??= new Dictionary<string, bool>();
                 prisoners ??= new Dictionary<string, bool>();
+                remoteEstablish ??= new Dictionary<string, bool>();
             }
         }
 
@@ -80,6 +83,7 @@ namespace TSA_WorldDomination
             {
                 case PawnRosterColumnWindow.OutpostPawns: return outpostPawns;
                 case PawnRosterColumnWindow.Prisoners: return prisoners;
+                case PawnRosterColumnWindow.RemoteEstablish: return remoteEstablish;
                 default: return allPlayerPawns;
             }
         }

@@ -41,7 +41,7 @@ These options expose systems that may substantially change world behavior, perfo
 
 | Control | Default | What it changes |
 |---|---:|---|
-| Settlement ambush of passing travelers | On | Lets eligible NPC settlements launch interceptors against hostile passing traders, mission travelers, uninvolved raids, or real player caravans. |
+| Settlement ambush of passing travelers | On | Lets eligible NPC settlements launch interceptors against hostile passing ground travelers of any caravan type except decontamination, plus real player caravans. |
 | Ambush chance | 50% | Initial ambush roll before strength calculations. |
 | Minimum strength ratio to launch | 1.60 | Settlement available raid strength divided by passing target strength. |
 | Max relative strength to send | 2.0x | Caps interceptor strength relative to the target. |

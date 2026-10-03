@@ -20,7 +20,7 @@
   <TSA_WD_Inspect_AT_TurretStatus>{0} 前往“{2}”\n进度：{1}%</TSA_WD_Inspect_AT_TurretStatus>
   <TSA_WD_Inspect_AT_TurretStatus_InTransit>{0} 车队前往“{1}”（筹备 {2}%）</TSA_WD_Inspect_AT_TurretStatus_InTransit>
   <TSA_WD_AT_Turret_SetFacingLabel>设置待机角度</TSA_WD_AT_Turret_SetFacingLabel>
-  <TSA_WD_AT_Turret_SetFacingDesc>点击世界地图上的一格，设定此 AT 炮塔待机时的朝向。每次射击后会以相同速度转回该朝向。</TSA_WD_AT_Turret_SetFacingDesc>
+  <TSA_WD_AT_Turret_SetFacingDesc>点击世界地图上的一格，设定此 AT 炮塔的待机朝向。炮管会保持上次射击方向，除非你在此指定。</TSA_WD_AT_Turret_SetFacingDesc>
   <TSA_WD_AT_Turret_SetFacingPrompt>点击一格以设置 AT 炮塔待机朝向。右键或 Esc 取消。</TSA_WD_AT_Turret_SetFacingPrompt>
   <TSA_WD_AT_Turret_SetFacingDone>AT 炮塔待机朝向已更新。</TSA_WD_AT_Turret_SetFacingDone>
   <TSA_WD_Inspect_AARadius>防空射程:{0} 格</TSA_WD_Inspect_AARadius>

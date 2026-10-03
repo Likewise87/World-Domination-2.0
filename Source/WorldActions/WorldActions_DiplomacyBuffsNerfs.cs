@@ -80,13 +80,57 @@ namespace TSA_WorldDomination
             WorldActions_SpecialEventCooldown.Stamp(manager, SpecialWorldEventKind.Revolt);
         }
 
+        /// <summary>Days left on an anti-leader coalition when its target becomes nimble (underdog).</summary>
+        public const float AntiLeaderCoalitionNimbleRemainderDays = 3f;
+
         public static bool IsActiveLeader(Faction f, WorldComponent_SpreadManager manager = null)
         {
             if (f == null) return false;
             manager ??= Find.World?.GetComponent<WorldComponent_SpreadManager>();
             if (manager == null) return false;
+            // Nimble replaces leader for the same faction (effects must not stack).
+            if (IsActiveUnderdog(f, manager)) return false;
             return manager.currentWorldLeader == f
                 && Find.TickManager.TicksGame < manager.leaderHandicapExpiryTick;
+        }
+
+        /// <summary>
+        /// Clears leader handicap if <paramref name="f"/> is the current world leader, and stamps their personal CD.
+        /// Used when that faction becomes nimble (forward-only; does not scan for leftover dual-active saves).
+        /// </summary>
+        private static void ClearActiveLeaderHandicap(WorldComponent_SpreadManager manager, Faction f)
+        {
+            if (manager == null || f == null) return;
+            if (manager.currentWorldLeader != f) return;
+            var seth = WorldDominationMod.settings;
+            if (seth != null)
+                StampLeaderPersonalCooldown(manager, f, seth);
+            manager.currentWorldLeader = null;
+            manager.leaderHandicapExpiryTick = -1;
+        }
+
+        /// <summary>
+        /// If <paramref name="f"/> is the active coalition target, clamp remaining duration to
+        /// <see cref="AntiLeaderCoalitionNimbleRemainderDays"/>. Logs only when time is actually shortened.
+        /// </summary>
+        private static void TryShortenCoalitionForNimbleTarget(WorldComponent_SpreadManager manager, Faction f)
+        {
+            if (manager == null || f == null) return;
+            if (!manager.IsCoalitionActive() || manager.antiLeaderCoalitionTarget != f) return;
+
+            int now = Find.TickManager.TicksGame;
+            int capped = now + Mathf.RoundToInt(AntiLeaderCoalitionNimbleRemainderDays * 60000f);
+            if (manager.antiLeaderCoalitionExpiryTick <= capped) return;
+
+            manager.antiLeaderCoalitionExpiryTick = capped;
+            float daysLeft = AntiLeaderCoalitionNimbleRemainderDays;
+            string msg = "TSA_WD_Diplo_CoalitionShortened_Msg".Translate(
+                f.Name.Colorize(Color.cyan),
+                daysLeft.ToString("F0"));
+            var anchor = manager.GetAnchorSettlementForFaction(f);
+            var log = new SpreadLogEntry(msg, anchor, null);
+            log.highlightKind = SpreadLogHighlightKind.Diplomacy;
+            manager.AddLog(log);
         }
 
         public static bool IsActiveUnderdog(Faction f, WorldComponent_SpreadManager manager = null)
@@ -251,6 +295,7 @@ namespace TSA_WorldDomination
 
             Faction leader = leaderStat.faction;
             if (IsFactionOnLeaderHandicapCooldown(leader, manager)) return;
+            if (IsActiveUnderdog(leader, manager)) return;
 
             manager.currentWorldLeader = leader;
 
@@ -324,6 +369,13 @@ namespace TSA_WorldDomination
             int durationTicks = Mathf.RoundToInt(seth.durUnderdogBuffDays * 60000f);
             manager.underdogBuffExpiryTick = Find.TickManager.TicksGame + durationTicks;
             manager.underdogBuffCooldownTick = -1;
+
+            // Nimble replaces leader for the same faction; soften leftover coalition pressure on that target.
+            for (int i = 0; i < picked.Count; i++)
+            {
+                ClearActiveLeaderHandicap(manager, picked[i]);
+                TryShortenCoalitionForNimbleTarget(manager, picked[i]);
+            }
 
             var nameList = new List<string>();
             for (int i = 0; i < picked.Count; i++)

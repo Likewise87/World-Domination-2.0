@@ -807,11 +807,22 @@ namespace TSA_WorldDomination
             const float closeXLeftInset = 22f; // Widgets.CloseButtonFor: 18px button + 4px margin from the right edge
             const float rightScrollbarW = 16f;
             float rightContentRight = inRect.width - closeXLeftInset;
-            float headerSlotWidth = 165f; // 10% more than 150 so "Animal Abundance: 56 %" doesn't wrap
+            bool showHeaderSlot = isHuntingHeader || isFarming || isRanch || isMining || isTrading;
+            // Size from the live label so 3-digit % (and longer locales) stay one line; leave room for the title.
+            float headerSlotWidth = 165f;
+            if (showHeaderSlot && !cachedBiomeStatLabel.NullOrEmpty())
+            {
+                Text.Font = GameFont.Small;
+                bool prevWrapMeasure = Text.WordWrap;
+                Text.WordWrap = false;
+                headerSlotWidth = Mathf.Ceil(Text.CalcSize(cachedBiomeStatLabel).x) + 4f;
+                Text.WordWrap = prevWrapMeasure;
+                float maxSlot = Mathf.Max(165f, inRect.width - 220f);
+                headerSlotWidth = Mathf.Clamp(headerSlotWidth, 165f, maxSlot);
+            }
             float slotX = rightContentRight - headerSlotWidth; // right-align the efficiency stat with the search bar
 
             float y = 0;
-            bool showHeaderSlot = isHuntingHeader || isFarming || isRanch || isMining || isTrading;
             // Title and efficiency in one row: big title left, efficiency right
             Rect titleLeftRect = new Rect(0f, y, slotX - 8f, Outpost_Dialog_UI.DialogTitleHeight);
             Text.Font = GameFont.Medium;
@@ -843,7 +854,10 @@ namespace TSA_WorldDomination
                     Color nearbyCol = cachedNearbyCount == 0 ? Color.red : (cachedNearbyCount <= 2 ? Color.yellow : Color.green);
                     GUI.color = nearbyCol;
                 }
+                bool prevWrap = Text.WordWrap;
+                Text.WordWrap = false;
                 Widgets.Label(slotRect, cachedBiomeStatLabel);
+                Text.WordWrap = prevWrap;
                 TooltipHandler.TipRegion(slotRect, cachedBiomeStatTooltip);
                 GUI.color = Color.white;
                 Text.Anchor = TextAnchor.UpperLeft;

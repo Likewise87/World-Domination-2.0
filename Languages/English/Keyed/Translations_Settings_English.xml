@@ -310,6 +310,8 @@
   <TSA_WD_WorldSetup_MaxPerClusterTooltip>When recreating, same-faction settlements that pack together may not exceed this count in one cluster. Extra settlements start a new cluster.</TSA_WD_WorldSetup_MaxPerClusterTooltip>
   <TSA_WD_WorldSetup_MinClusterDistance>Min distance between clusters</TSA_WD_WorldSetup_MinClusterDistance>
   <TSA_WD_WorldSetup_MinClusterDistanceTooltip>Extra separation when starting a new same-faction cluster because the previous one is full or a join failed. Not applied when Cluster chance simply chooses not to join. At 0, off. Default 20.</TSA_WD_WorldSetup_MinClusterDistanceTooltip>
+  <TSA_WD_WorldSetup_BiomePenalty>Penalize bad biomes</TSA_WD_WorldSetup_BiomePenalty>
+  <TSA_WD_WorldSetup_BiomePenaltyTooltip>On Recreate, reduce how often settlements land on ice or barren desert. At 0 those tiles are treated like any other. At 100 none are used. Mid values cut the chance proportionally (50 means half as likely).</TSA_WD_WorldSetup_BiomePenaltyTooltip>
   <TSA_WD_WorldSetup_FactionShares>Faction shares</TSA_WD_WorldSetup_FactionShares>
   <TSA_WD_WorldSetup_FactionSharesTooltip>Change how many settlements each faction gets on recreate. Starts from the world gen mix.</TSA_WD_WorldSetup_FactionSharesTooltip>
   <TSA_WD_WorldSetup_FactionSharesTitle>Faction settlement shares</TSA_WD_WorldSetup_FactionSharesTitle>
@@ -318,6 +320,8 @@
   <TSA_WD_WorldSetup_FactionShares_H_Share>Share</TSA_WD_WorldSetup_FactionShares_H_Share>
   <TSA_WD_WorldSetup_FactionShares_H_Pct>%</TSA_WD_WorldSetup_FactionShares_H_Pct>
   <TSA_WD_WorldSetup_FactionShares_H_Count>Settlements</TSA_WD_WorldSetup_FactionShares_H_Count>
+  <TSA_WD_WorldSetup_FactionShares_Equal>Equal shares</TSA_WD_WorldSetup_FactionShares_Equal>
+  <TSA_WD_WorldSetup_FactionShares_EqualTip>Set every eligible faction to the same share weight so each gets an equal slice of the settlement total.</TSA_WD_WorldSetup_FactionShares_EqualTip>
   <TSA_WD_WorldSetup_FactionShares_Reset>Reset to world gen</TSA_WD_WorldSetup_FactionShares_Reset>
   <TSA_WD_WorldSetup_FactionShares_Empty>No eligible NPC factions on this world.</TSA_WD_WorldSetup_FactionShares_Empty>
   <TSA_WD_WorldSetup_SettlementCount>Number of settlements</TSA_WD_WorldSetup_SettlementCount>

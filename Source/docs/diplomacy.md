@@ -55,11 +55,11 @@ The base ally radius is 6 tiles. Mid and Late Game can increase it for both play
 
 ### Underdog growth boost
 
-The weakest faction can become small and nimble for a limited period. It receives a larger share of daily actions, gains more strength from growth, and suffers fewer and less severe incidents.
+The weakest faction can become small and nimble for a limited period. It receives a larger share of daily actions, gains more strength from growth, and suffers fewer and less severe incidents. Nimble and world-leader handicap cannot stack on the same faction: becoming nimble clears that faction's leader handicap. If they are also the anti-leader coalition target, remaining coalition time is clamped to **3 days**.
 
 ### World leader handicap
 
-The current strongest faction can suffer internal strife and logistical pressure. Its incidents become more likely and remove more strength.
+The current strongest faction can suffer internal strife and logistical pressure. Its incidents become more likely and remove more strength. An active underdog cannot receive this handicap.
 
 ### Anti-leader coalition
 
@@ -100,6 +100,7 @@ The WD dashboard and World Stats show the active stage and a tooltip with its cu
 
     - Mid activates at **15% world strength share OR 6,000 outpost strength**
     - Late activates at **25% world strength share OR 10,000 outpost strength**
+    - Early (pre-Mid): **10%** chance to prefer player targets inside the same distance band (no other escalation effects)
     - Mid: player raid bias **+25%**, hostile growth **1.5x**, NPC attack range **+50%**, ally radius **+40%**
     - Late: player raid bias **+50%**, hostile growth **2x**, NPC attack range **+100%**, ally radius **+100%**
     - Mid garrison **+15%**, expansion creep **4 tiles**, incident **100 strength** at **3.75% per day**, goodwill **-4 every 10 days**
@@ -113,6 +114,8 @@ The WD dashboard and World Stats show the active stage and a tooltip with its cu
     - Expansionist zeal: raid range **1.5x**, travel attrition **0.5x**
     - Leader handicap, underdog boost, and zeal each last **10 days** with a **15 day cooldown**
     - Anti-leader coalition lasts **15 days** with a **20 day cooldown**
+    - If the coalition target becomes nimble, remaining coalition time clamps to **3 days**
+    - Leader and nimble do not stack on the same faction
     - Daily trigger chances after eligibility and cooldown checks: leader **35%**, underdog **25%**, zeal **20%**, coalition **25%**
     - Coalition raid priority: **75%**
 

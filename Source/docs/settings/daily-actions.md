@@ -40,9 +40,10 @@ The percentage checkbox changes only the percentages displayed in the settings m
 | Max travel to place fortifications | 30 tiles | 5 to 80 |
 | Territory link range | 35 tiles | 10 to 80 |
 | Fortify traveler strength | 50 | 10 to 200 |
-| Clear fortifications on builder loss | Off | On or Off |
 | Enable mark tiles where allies may not build fortifications | On | On or Off |
 | Apply to neutral too | On | On or Off |
+
+When the settlement that placed road blocks or traps is destroyed or captured, those fortifications are removed (same as AT turrets). This is always on.
 
 Maximum distance is automatically kept at or above minimum distance. The neutral option is shown only while no-fortify marks are enabled. Hostile factions ignore those marks.
 

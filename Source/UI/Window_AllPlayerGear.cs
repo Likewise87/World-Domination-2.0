@@ -25,7 +25,7 @@ namespace TSA_WorldDomination
         private const float ActionStackTop = 4f;
         private const float FooterHeight = 22f;
         private const int UpdateIntervalTicks = 300;
-        private const int MaxRows = 300;
+        private const int MaxRows = 250;
 
         private const float LocIconPad = 4f;
         private const float LocIconDrawSize = 40f;
@@ -71,6 +71,8 @@ namespace TSA_WorldDomination
             public string rowId;
             public WorldObject source;
             public string sourceLabel;
+            /// <summary>Cached JumpTip with <see cref="sourceLabel"/>; set at row build (no per-frame Translate(args)).</summary>
+            public string jumpTip;
             public string sourceTypeLabel;
             public PlayerPawnLocationKind locationKind;
             public Texture2D locationIcon;
@@ -91,9 +93,12 @@ namespace TSA_WorldDomination
             public bool isOnPawn;
             public Pawn holderPawn;
             public string equippedByLabel = "";
+            /// <summary>Item label plus on-pawn tip when applicable; taint tip appended at draw if needed.</summary>
+            public string itemTip;
         }
 
         private Vector2 scrollPos;
+        private float lastScrollViewportHeight = 400f;
         private static string sortColumn = "Item";
         private static bool sortAscending = true;
         private static string itemSearchTerm = "";
@@ -112,6 +117,13 @@ namespace TSA_WorldDomination
         private readonly HashSet<string> selectedRowIds = new HashSet<string>();
         private readonly Dictionary<string, int> sendCounts = new Dictionary<string, int>();
         private readonly Dictionary<string, string> sendCountBuffers = new Dictionary<string, string>();
+        private string cachedOnPawnTip = "";
+        private string cachedQuantityAdjustTip = "";
+        private string cachedBlockedCaravanTip = "";
+        private string cachedBlockedDefenseTip = "";
+        private string cachedBlockedAssaultTip = "";
+        /// <summary>Set in <see cref="RefreshDrawStringCaches"/> for static row builders during rebuild.</summary>
+        private static string buildOnPawnTip = "";
 
         public override Vector2 InitialSize => new Vector2(UI.screenWidth, UI.screenHeight);
 
@@ -160,7 +172,9 @@ namespace TSA_WorldDomination
 
             float totalHeight = cachedRows.Count * RowHeight + 8f;
             Rect viewRect = new Rect(0f, 0f, totalWidth, Mathf.Max(totalHeight, tableHeight));
-            Widgets.BeginScrollView(new Rect(0f, listTop, inRect.width, tableHeight), ref scrollPos, viewRect);
+            Rect scrollOuter = new Rect(0f, listTop, inRect.width, tableHeight);
+            lastScrollViewportHeight = scrollOuter.height;
+            Widgets.BeginScrollView(scrollOuter, ref scrollPos, viewRect);
             for (int i = 0; i < cachedRows.Count; i++)
                 DrawRow(i * RowHeight, totalWidth, cachedRows[i], i % 2 == 0);
             Widgets.EndScrollView();
@@ -377,6 +391,11 @@ namespace TSA_WorldDomination
 
         private void DrawRow(float y, float width, InventoryRow row, bool alt)
         {
+            float visibleY = scrollPos.y - RowHeight;
+            float visibleYMax = scrollPos.y + lastScrollViewportHeight;
+            if (y < visibleY || y >= visibleYMax)
+                return;
+
             Rect rowRect = new Rect(0f, y, width, RowHeight);
             if (alt) Widgets.DrawAltRect(rowRect);
             if (Mouse.IsOver(rowRect)) Widgets.DrawHighlight(rowRect);
@@ -408,32 +427,32 @@ namespace TSA_WorldDomination
 
             Rect locNameRect = new Rect(curX, y, ColLocName, RowHeight);
             Widgets.Label(locNameRect, row.sourceLabel.Truncate(ColLocName - 4f));
-            TooltipHandler.TipRegion(locNameRect, "TSA_WD_AllPlayerPawns_JumpTip".Translate(row.sourceLabel));
+            TooltipHandler.TipRegion(locNameRect, row.jumpTip);
             if (Widgets.ButtonInvisible(locNameRect) && row.source != null)
                 CameraJumper.TryJumpAndSelect(row.source);
             curX += ColLocName;
 
-            string blockedKey = SendBlockedKey(row);
+            string blockedTip = SendBlockedTip(row);
             bool selected = selectedRowIds.Contains(row.rowId);
             bool next = selected;
             Widgets.Checkbox(
                 new Vector2(curX + (ColSelect - 24f) * 0.5f, y + (RowHeight - 24f) * 0.5f),
                 ref next,
-                disabled: blockedKey != null);
+                disabled: blockedTip != null);
             if (next != selected)
             {
                 if (next) selectedRowIds.Add(row.rowId);
                 else selectedRowIds.Remove(row.rowId);
             }
-            if (blockedKey != null)
+            if (blockedTip != null)
             {
-                TooltipHandler.TipRegion(new Rect(curX, y, ColSelect, RowHeight), blockedKey.Translate());
+                TooltipHandler.TipRegion(new Rect(curX, y, ColSelect, RowHeight), blockedTip);
             }
             else if (row.isOnPawn)
             {
                 TooltipHandler.TipRegion(
                     new Rect(curX, y, ColSelect, RowHeight),
-                    "TSA_WD_AllInventory_OnPawnTip".Translate());
+                    cachedOnPawnTip);
             }
             curX += ColSelect;
 
@@ -454,8 +473,7 @@ namespace TSA_WorldDomination
             else if (row.isUnique && !row.isOnPawn) GUI.color = WorldOverlayLineMaterials.DarkCyanColor;
             Widgets.Label(itemRect, row.itemLabel.Truncate(ColItem - 6f));
             GUI.color = Color.white;
-            string tip = row.itemLabel;
-            if (row.isOnPawn) tip += "\n" + "TSA_WD_AllInventory_OnPawnTip".Translate();
+            string tip = row.itemTip ?? row.itemLabel;
             if (taintTip != null) tip += "\n\n" + taintTip;
             TooltipHandler.TipRegion(itemRect, tip);
             curX += ColItem;
@@ -539,8 +557,8 @@ namespace TSA_WorldDomination
                 SetSendCount(key, 0);
             if (WdDragSelectButtons.ButtonText(maxRect, "Max", WdDragSelectButtons.Hash(key, "max")))
                 SetSendCount(key, stored);
-            TooltipHandler.TipRegion(minusRect, "TSA_WD_QuantityAdjustTip".Translate());
-            TooltipHandler.TipRegion(plusRect, "TSA_WD_QuantityAdjustTip".Translate());
+            TooltipHandler.TipRegion(minusRect, cachedQuantityAdjustTip);
+            TooltipHandler.TipRegion(plusRect, cachedQuantityAdjustTip);
 
             pick = sendCounts[key];
             if (!sendCountBuffers.TryGetValue(key, out string buffer) || buffer == null)
@@ -562,7 +580,7 @@ namespace TSA_WorldDomination
             sendCountBuffers[key] = value.ToString();
         }
 
-        /// <summary>Null when the row can be shipped; otherwise the keyed reason it cannot. Cheap enough for draw.</summary>
+        /// <summary>Null when the row can be shipped; otherwise the keyed reason it cannot.</summary>
         private static string SendBlockedKey(InventoryRow row)
         {
             if (row.source is Caravan) return "TSA_WD_AllInventory_CaravanNoSend";
@@ -571,6 +589,27 @@ namespace TSA_WorldDomination
             if (row.isOnPawn && PawnGearMapInCombat(row.holderPawn))
                 return "TSA_WD_AllInventory_InCombatNoSend";
             return null;
+        }
+
+        /// <summary>Translated blocked tip from window-level caches (refreshed in <see cref="RebuildRows"/>).</summary>
+        private string SendBlockedTip(InventoryRow row)
+        {
+            string key = SendBlockedKey(row);
+            if (key == null) return null;
+            if (key == "TSA_WD_AllInventory_CaravanNoSend") return cachedBlockedCaravanTip;
+            if (key == "TSA_WD_Armory_FailManualDefense") return cachedBlockedDefenseTip;
+            if (key == "TSA_WD_AllInventory_InCombatNoSend") return cachedBlockedAssaultTip;
+            return key.Translate();
+        }
+
+        private void RefreshDrawStringCaches()
+        {
+            cachedOnPawnTip = "TSA_WD_AllInventory_OnPawnTip".Translate();
+            buildOnPawnTip = cachedOnPawnTip;
+            cachedQuantityAdjustTip = "TSA_WD_QuantityAdjustTip".Translate();
+            cachedBlockedCaravanTip = "TSA_WD_AllInventory_CaravanNoSend".Translate();
+            cachedBlockedDefenseTip = "TSA_WD_Armory_FailManualDefense".Translate();
+            cachedBlockedAssaultTip = "TSA_WD_AllInventory_InCombatNoSend".Translate();
         }
 
         /// <summary>
@@ -695,6 +734,7 @@ namespace TSA_WorldDomination
 
         private void RebuildRows()
         {
+            RefreshDrawStringCaches();
             var rows = new List<InventoryRow>();
 
             CollectOutpostRows(rows);
@@ -920,6 +960,7 @@ namespace TSA_WorldDomination
                         + ((int)e.quality).ToString(),
                 source = source,
                 sourceLabel = sourceLabel,
+                jumpTip = "TSA_WD_AllPlayerPawns_JumpTip".Translate(sourceLabel),
                 sourceTypeLabel = sourceTypeLabel,
                 locationKind = kind,
                 locationIcon = icon,
@@ -929,6 +970,7 @@ namespace TSA_WorldDomination
                 def = e.thingDef,
                 stuff = e.stuff,
                 itemLabel = label,
+                itemTip = label,
                 typeLabel = OutpostArmoryUtility.TypeFilterLabel(typeKind),
                 hasQuality = hasQuality,
                 quality = e.quality,
@@ -953,11 +995,16 @@ namespace TSA_WorldDomination
         {
             ArmoryTypeFilter typeKind = OutpostArmoryUtility.TypeFilterFor(t.def);
             bool hasQuality = t.TryGetQuality(out QualityCategory q);
+            string label = OutpostArmoryUtility.DisplayLabel(t);
+            string tip = label;
+            if (isOnPawn && !buildOnPawnTip.NullOrEmpty())
+                tip += "\n" + buildOnPawnTip;
             return new InventoryRow
             {
                 rowId = source.ID + "|t|" + t.ThingID + (isOnPawn ? "|p" : ""),
                 source = source,
                 sourceLabel = sourceLabel,
+                jumpTip = "TSA_WD_AllPlayerPawns_JumpTip".Translate(sourceLabel),
                 sourceTypeLabel = sourceTypeLabel,
                 locationKind = kind,
                 locationIcon = icon,
@@ -966,7 +1013,8 @@ namespace TSA_WorldDomination
                 thing = t,
                 def = t.def,
                 stuff = t.Stuff,
-                itemLabel = OutpostArmoryUtility.DisplayLabel(t),
+                itemLabel = label,
+                itemTip = tip,
                 typeLabel = OutpostArmoryUtility.TypeFilterLabel(typeKind),
                 hasQuality = hasQuality,
                 quality = q,

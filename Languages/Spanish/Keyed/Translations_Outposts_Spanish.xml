@@ -1553,6 +1553,7 @@
   <TSA_WD_OutpostStats_TabLabel>Estadísticas</TSA_WD_OutpostStats_TabLabel>
   <TSA_WD_OutpostStats_Refresh>Actualizar</TSA_WD_OutpostStats_Refresh>
   <TSA_WD_OutpostStats_RefreshTooltip>Reconstruye ahora la vista de estadísticas de esta pestaña. La mayoría de valores se actualizan solos al cambiar algo; úsalo si los números parecen desactualizados (por ejemplo tras instalar una mejora).</TSA_WD_OutpostStats_RefreshTooltip>
+  <TSA_WD_OutpostStats_SearchPlaceholder>Filtrar por nombre…</TSA_WD_OutpostStats_SearchPlaceholder>
   <TSA_WD_Experts_TabLabel>Expertos</TSA_WD_Experts_TabLabel>
   <TSA_WD_Experts_MutatorHeader>Expertos</TSA_WD_Experts_MutatorHeader>
   <TSA_WD_Experts_Role_Strategist>Estratega</TSA_WD_Experts_Role_Strategist>

@@ -63,6 +63,9 @@ namespace TSA_WorldDomination
             return WorldActions_Roads.GetMinConstructionToBuildRoad(RoadBlockKindUtil.WorkBaselineTier(kind));
         }
 
+        /// <summary>Cumulative Construction required to start <c>Remove fortifications</c> (build kinds keep XML mins).</summary>
+        public const int MinConstructionToRemoveFortifications = 10;
+
         /// <summary>Localized label for the highest road-block kind this site can start (by Construction skill).</summary>
         public static string GetHighestBuildableKindLabel(float totalConstruction)
         {
@@ -483,7 +486,13 @@ namespace TSA_WorldDomination
                 return false;
             }
 
-            if (!ColonyWorldBuildRequirements.MeetsRoadBlockRequirements(actor, comp.selectedRoadBlockKind))
+            if (comp.roadBlockIsClearing)
+            {
+                float skill = ColonyWorldBuildUtility.GetActorConstructionSkillRaw(actor);
+                if (!ColonyWorldBuildRequirements.MeetsConstruction(skill, MinConstructionToRemoveFortifications))
+                    return false;
+            }
+            else if (!ColonyWorldBuildRequirements.MeetsRoadBlockRequirements(actor, comp.selectedRoadBlockKind))
                 return false;
             if (!comp.roadBlockIsClearing
                 && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(actor)

@@ -71,7 +71,9 @@ If you customized the old Threat settings checkboxes (**Block storyteller raids*
 
     World-map battle win chance at equal strength defaults to **35% attacker win** (65% defender). Active Nimble/leader diplomacy multipliers can shift that further. Saves that still had the old default curve (42% at 1:1) are auto-migrated on load; customized tables are left alone.
 
-    Colony launch eligibility uses a separate strength gate against storyteller points. The fresh required effective-attacker ratio starts at 0.7. It softens by 0.1 for each quiet day since the colony was last selected as a WD raid target, down to zero. This is not the general NPC or outpost minimum raid-ratio setting.
+    Colony launch eligibility uses a separate strength gate against storyteller points. The fresh required effective-attacker ratio starts at 0.7. It softens by 0.2 for each quiet day since a WD raid traveler last launched at the colony (or founding shield), down to zero. Failed assess/finalize attempts do not reset that clock. This is not the general NPC or outpost minimum raid-ratio setting.
+
+    Before Mid Game, raid target ordering has a 10% chance to prefer player targets inside the same distance band. Mid/Late still use their full within-band player bias when those stages are active.
 
 ## Related chapters
 

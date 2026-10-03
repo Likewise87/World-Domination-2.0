@@ -27,6 +27,7 @@
   <TSA_WD_Diplo_CoalitionAbandoned_Label>Anti leadership Coalition abandoned</TSA_WD_Diplo_CoalitionAbandoned_Label>
   <TSA_WD_Diplo_CoalitionAbandoned_Msg>The anti-leader coalition has dissolved. Diplomatic ties return to their pre-coalition states.\n\n{0}</TSA_WD_Diplo_CoalitionAbandoned_Msg>
   <TSA_WD_Diplo_CoalitionAbandoned_Pair>{0} and {1}: {2}</TSA_WD_Diplo_CoalitionAbandoned_Pair>
+  <TSA_WD_Diplo_CoalitionShortened_Msg>Anti-leader pressure eases: {0} is small and nimble. The coalition lasts about {1} more days.</TSA_WD_Diplo_CoalitionShortened_Msg>
   <TSA_WD_Diplo_Enable>Enable</TSA_WD_Diplo_Enable>
   <TSA_WD_Diplo_ExpansionistZeal>Expansionist Zeal (Buff)</TSA_WD_Diplo_ExpansionistZeal>
   <TSA_WD_Diplo_ExpansionistZealTooltip>Allows a random ambitious faction to occasionally gain +50% attack range.</TSA_WD_Diplo_ExpansionistZealTooltip>

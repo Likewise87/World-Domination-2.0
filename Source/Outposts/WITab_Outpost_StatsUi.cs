@@ -4,7 +4,7 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>Shared IMGUI helpers for <see cref="WITab_Outpost_Stats"/>.</summary>
+    /// <summary>Shared IMGUI helpers for <see cref="WITab_OutpostAndSettlement_Stats"/> and related previews.</summary>
     public static class OutpostTabStatsUi
     {
         public const float TabHeaderConsumedHeight = 38f;
@@ -15,6 +15,71 @@ namespace TSA_WorldDomination
         private const float SectionColumnGap = 16f;
         private const float SectionHeaderHeight = 30f;
         private const float RowHeight = 24f;
+
+        /// <summary>
+        /// Rebuild <paramref name="into"/> with sections/rows matching <paramref name="needleLower"/>
+        /// (empty needle copies all sections by reference). Matching is case-insensitive on section title,
+        /// row label, or row value.
+        /// </summary>
+        public static void FillFilteredSections(
+            IList<OutpostStatsSection> source,
+            string needleLower,
+            List<OutpostStatsSection> into)
+        {
+            into?.Clear();
+            if (into == null || source == null) return;
+
+            bool filter = !string.IsNullOrEmpty(needleLower);
+            for (int i = 0; i < source.Count; i++)
+            {
+                OutpostStatsSection section = source[i];
+                if (section == null) continue;
+
+                if (!filter)
+                {
+                    into.Add(section);
+                    continue;
+                }
+
+                bool titleMatch = !string.IsNullOrEmpty(section.Title)
+                    && section.Title.ToLowerInvariant().Contains(needleLower);
+                if (titleMatch)
+                {
+                    into.Add(section);
+                    continue;
+                }
+
+                if (section.Rows == null || section.Rows.Count == 0)
+                    continue;
+
+                OutpostStatsSection filtered = null;
+                for (int r = 0; r < section.Rows.Count; r++)
+                {
+                    OutpostStatRow row = section.Rows[r];
+                    if (row == null) continue;
+                    if (!RowMatches(row, needleLower)) continue;
+                    filtered ??= new OutpostStatsSection
+                    {
+                        Title = section.Title,
+                        FullWidth = section.FullWidth
+                    };
+                    filtered.Rows.Add(row);
+                }
+                if (filtered != null)
+                    into.Add(filtered);
+            }
+        }
+
+        private static bool RowMatches(OutpostStatRow row, string needleLower)
+        {
+            if (!string.IsNullOrEmpty(row.Label)
+                && row.Label.ToLowerInvariant().Contains(needleLower))
+                return true;
+            if (!string.IsNullOrEmpty(row.Value)
+                && row.Value.ToLowerInvariant().Contains(needleLower))
+                return true;
+            return false;
+        }
 
         public static void DrawHeadline(Rect body, string headline)
         {
@@ -175,29 +240,32 @@ namespace TSA_WorldDomination
             return SectionHeaderHeight + 4f + section.Rows.Count * RowHeight;
         }
 
-        public static float MeasureContentHeight(OutpostStatsSnapshot snap, float width)
+        public static float MeasureContentHeight(OutpostStatsSnapshot snap, float width) =>
+            MeasureContentHeight(snap?.Sections, width);
+
+        public static float MeasureContentHeight(IList<OutpostStatsSection> sections, float width)
         {
-            if (snap?.Sections == null || snap.Sections.Count == 0) return 200f;
+            if (sections == null || sections.Count == 0) return 200f;
 
             float h = 0f;
             int i = 0;
-            while (i < snap.Sections.Count)
+            while (i < sections.Count)
             {
                 if (i > 0) h += SectionGap;
 
-                if (snap.Sections[i].FullWidth)
+                if (sections[i].FullWidth)
                 {
-                    h += MeasureSectionHeight(snap.Sections[i]);
+                    h += MeasureSectionHeight(sections[i]);
                     i++;
                     continue;
                 }
 
-                float leftH = MeasureSectionHeight(snap.Sections[i]);
+                float leftH = MeasureSectionHeight(sections[i]);
                 float rightH = 0f;
                 i++;
-                if (i < snap.Sections.Count && !snap.Sections[i].FullWidth)
+                if (i < sections.Count && !sections[i].FullWidth)
                 {
-                    rightH = MeasureSectionHeight(snap.Sections[i]);
+                    rightH = MeasureSectionHeight(sections[i]);
                     i++;
                 }
                 h += Mathf.Max(leftH, rightH);

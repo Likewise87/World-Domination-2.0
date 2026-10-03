@@ -165,7 +165,7 @@ namespace TSA_WorldDomination
 
         private void Reset()
         {
-            defenseMask = MissionMask.Raider | MissionMask.Expansion;
+            defenseMask = MissionMask.All;
             raidTargetMask = RaidTargetMask.Player | RaidTargetMask.Allies;
             range = turret.GetConfiguredMaxRangeTiles();
             PushPreview();
@@ -181,7 +181,7 @@ namespace TSA_WorldDomination
 
             turret.SetDefenseActive(defenseMask != MissionMask.None);
             turret.SetDefenseMask(defenseMask == MissionMask.None
-                ? MissionMask.Raider | MissionMask.Expansion
+                ? MissionMask.All
                 : defenseMask);
             turret.SetRaidTargetMask(raidTargetMask);
             turret.SetRangeOverride(range);

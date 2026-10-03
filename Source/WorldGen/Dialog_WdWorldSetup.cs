@@ -189,6 +189,18 @@ namespace TSA_WorldDomination
                         step: 1f,
                         format: SliderFormat.Fixed0,
                         defaultValue: WorldDominationSettings.DefSettlementMinDistanceBetweenClusters));
+
+                    listing.Gap(4f);
+                    s.settlementBiomePenalty = SettingsUI.StackedSlider(
+                        listing,
+                        "TSA_WD_WorldSetup_BiomePenalty".Translate(),
+                        s.settlementBiomePenalty,
+                        0f,
+                        100f,
+                        "TSA_WD_WorldSetup_BiomePenaltyTooltip".Translate(),
+                        step: 1f,
+                        format: SliderFormat.Fixed0,
+                        defaultValue: WorldDominationSettings.DefSettlementBiomePenalty);
                 }
 
                 listing.Gap(4f);
@@ -291,7 +303,7 @@ namespace TSA_WorldDomination
                 h += 40f + 12f;
             h += 40f;
             if (distributionExpanded)
-                h += 6f * 58f + 6f + 40f + 4f + 40f + 4f + 34f + 4f + 28f + 12f;
+                h += 7f * 58f + 6f + 40f + 4f + 40f + 4f + 34f + 4f + 28f + 12f;
             h += 40f;
             if (layoutExpanded)
                 h += 6f * 40f + 12f;

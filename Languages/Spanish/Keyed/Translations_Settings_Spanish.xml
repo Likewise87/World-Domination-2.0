@@ -220,6 +220,8 @@
   <TSA_WD_WorldSetup_MaxPerClusterTooltip>Al recrear, los asentamientos de la misma facción que se agrupan no pueden superar este número en un grupo. Los demás inician un grupo nuevo.</TSA_WD_WorldSetup_MaxPerClusterTooltip>
   <TSA_WD_WorldSetup_MinClusterDistance>Dist. mín. entre grupos</TSA_WD_WorldSetup_MinClusterDistance>
   <TSA_WD_WorldSetup_MinClusterDistanceTooltip>Separación extra al iniciar un grupo nuevo de la misma facción porque el anterior está lleno o falló la unión. No se aplica cuando la probabilidad de agrupación simplemente elige no unirse. En 0, desactivado. Por defecto 20.</TSA_WD_WorldSetup_MinClusterDistanceTooltip>
+  <TSA_WD_WorldSetup_BiomePenalty>Penalizar biomas adversos</TSA_WD_WorldSetup_BiomePenalty>
+  <TSA_WD_WorldSetup_BiomePenaltyTooltip>Al recrear, reduce cuántos asentamientos caen en hielo o desierto yermo. En 0 esos tiles se tratan como cualquiera. En 100 no se usan. Valores medios bajan la probabilidad de forma proporcional (50 = la mitad de probable).</TSA_WD_WorldSetup_BiomePenaltyTooltip>
   <TSA_WD_WorldSetup_FactionShares>Cuotas por facción</TSA_WD_WorldSetup_FactionShares>
   <TSA_WD_WorldSetup_FactionSharesTooltip>Cambia cuántos asentamientos recibe cada facción al recrear. Parte del reparto de la generación del mundo.</TSA_WD_WorldSetup_FactionSharesTooltip>
   <TSA_WD_WorldSetup_FactionSharesTitle>Cuotas de asentamientos por facción</TSA_WD_WorldSetup_FactionSharesTitle>
@@ -228,6 +230,8 @@
   <TSA_WD_WorldSetup_FactionShares_H_Share>Cuota</TSA_WD_WorldSetup_FactionShares_H_Share>
   <TSA_WD_WorldSetup_FactionShares_H_Pct>%</TSA_WD_WorldSetup_FactionShares_H_Pct>
   <TSA_WD_WorldSetup_FactionShares_H_Count>Asentamientos</TSA_WD_WorldSetup_FactionShares_H_Count>
+  <TSA_WD_WorldSetup_FactionShares_Equal>Cuotas iguales</TSA_WD_WorldSetup_FactionShares_Equal>
+  <TSA_WD_WorldSetup_FactionShares_EqualTip>Pone la misma cuota a cada facción elegible para repartir el total de asentamientos a partes iguales.</TSA_WD_WorldSetup_FactionShares_EqualTip>
   <TSA_WD_WorldSetup_FactionShares_Reset>Restablecer a generación</TSA_WD_WorldSetup_FactionShares_Reset>
   <TSA_WD_WorldSetup_FactionShares_Empty>No hay facciones PNJ elegibles en este mundo.</TSA_WD_WorldSetup_FactionShares_Empty>
   <TSA_WD_WorldSetup_SettlementCount>Número de asentamientos</TSA_WD_WorldSetup_SettlementCount>

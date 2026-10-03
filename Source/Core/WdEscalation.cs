@@ -110,6 +110,12 @@ namespace TSA_WorldDomination
             return stage == WdEscalationStage.Mid || stage == WdEscalationStage.Late;
         }
 
+        /// <summary>
+        /// Pre-Mid only: chance that raid target ordering prefers player targets inside a distance band.
+        /// Mid/Late use full within-band prefer via settings bias; this is a light Early nudge only.
+        /// </summary>
+        public const float EarlyGameRaidBiasChance = 0.10f;
+
         public static float GetRaidBiasPct(WorldDominationSettings seth, WdEscalationStage stage)
         {
             if (seth == null) return 0f;

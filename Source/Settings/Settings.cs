@@ -1152,6 +1152,8 @@ namespace TSA_WorldDomination
         public const int DefSettlementMaxPerCluster = 5;
         /// <summary>Min tiles between distinct same-faction clusters when a cluster is full or join fails. 0 = off.</summary>
         public const int DefSettlementMinDistanceBetweenClusters = 10;
+        /// <summary>0 = ice/barren desert treated like any tile on recreate; 100 = never place there.</summary>
+        public const float DefSettlementBiomePenalty = 70f;
         /// <summary>When true, Recreate Settlements also clears NPC road blocks, spike traps, and AT turrets.</summary>
         public const bool DefWorldSetupDestroyFortificationsOnRecreate = false;
 
@@ -2115,6 +2117,7 @@ namespace TSA_WorldDomination
         public float settlementOtherFactionDistance = DefSettlementOtherFactionDistance;
         public int settlementMaxPerCluster = DefSettlementMaxPerCluster;
         public int settlementMinDistanceBetweenClusters = DefSettlementMinDistanceBetweenClusters;
+        public float settlementBiomePenalty = DefSettlementBiomePenalty;
         public bool worldSetupDestroyFortificationsOnRecreate = DefWorldSetupDestroyFortificationsOnRecreate;
 
         public bool allowWdSettlementBaseGeneration = DefAllowWdSettlementBaseGeneration;
@@ -3262,8 +3265,10 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref settlementOtherFactionDistance, "settlementOtherFactionDistance", DefSettlementOtherFactionDistance);
             Scribe_Values.Look(ref settlementMaxPerCluster, "settlementMaxPerCluster", DefSettlementMaxPerCluster);
             Scribe_Values.Look(ref settlementMinDistanceBetweenClusters, "settlementMinDistanceBetweenClusters", DefSettlementMinDistanceBetweenClusters);
+            Scribe_Values.Look(ref settlementBiomePenalty, "settlementBiomePenalty", DefSettlementBiomePenalty);
             settlementMaxPerCluster = Mathf.Clamp(settlementMaxPerCluster, 1, 20);
             settlementMinDistanceBetweenClusters = Mathf.Clamp(settlementMinDistanceBetweenClusters, 0, 50);
+            settlementBiomePenalty = Mathf.Clamp(settlementBiomePenalty, 0f, 100f);
             Scribe_Values.Look(ref worldSetupDestroyFortificationsOnRecreate, "worldSetupDestroyFortificationsOnRecreate", DefWorldSetupDestroyFortificationsOnRecreate);
 
             Scribe_Values.Look(ref allowWdSettlementBaseGeneration, "allowWdSettlementBaseGeneration", DefAllowWdSettlementBaseGeneration);
@@ -5383,6 +5388,7 @@ namespace TSA_WorldDomination
             settlementOtherFactionDistance = DefSettlementOtherFactionDistance;
             settlementMaxPerCluster = DefSettlementMaxPerCluster;
             settlementMinDistanceBetweenClusters = DefSettlementMinDistanceBetweenClusters;
+            settlementBiomePenalty = DefSettlementBiomePenalty;
             worldSetupDestroyFortificationsOnRecreate = DefWorldSetupDestroyFortificationsOnRecreate;
         }
 

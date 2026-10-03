@@ -645,12 +645,15 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// CE limits what fits in inventory by bulk and weight. Worn apparel and the primary slot are
-        /// not inventory, so only inventory-bound items are clamped.
+        /// Caps how many units one assign may give. Apparel and non-ammo/grenade weapons are always 1.
+        /// Ammo/food/etc. use CE inventory bulk/weight when CE is active.
         /// </summary>
         public static int ClampAssignCount(Pawn pawn, ThingDef def, int want)
         {
-            if (want <= 0) return 0;
+            if (want <= 0 || def == null) return 0;
+            // One wear/equip action at a time; ammo and grenades keep multi-count via NeedsAssignCountPrompt.
+            if (def.IsApparel) return 1;
+            if (def.IsWeapon && !NeedsAssignCountPrompt(def)) return 1;
             if (!OutpostCeAmmoCompat.IsCeActive) return want;
             if (!GoesToInventory(pawn, def)) return want;
             return OutpostCeAmmoCompat.ClampToInventoryFit(pawn, def, want);

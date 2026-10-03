@@ -11,7 +11,7 @@
     <Operation Class="PatchOperationAdd">
         <xpath>/Defs/WorldObjectDef[@Name="StaticWorldObjectBase"]/inspectorTabs</xpath>
         <value>
-            <li>TSA_WorldDomination.WITab_Outpost_Stats, TSA_WorldDomination</li>
+            <li>TSA_WorldDomination.WITab_OutpostAndSettlement_Stats, TSA_WorldDomination</li>
         </value>
     </Operation>
 </Patch>

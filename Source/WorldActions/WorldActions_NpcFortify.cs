@@ -327,10 +327,13 @@ namespace TSA_WorldDomination
             return true;
         }
 
+        /// <summary>
+        /// Builder settlement razed or captured: remove its road blocks and traps (same hooks as AT turrets).
+        /// Always on; legacy <c>fortifyClearOnBuilderLoss</c> is still scribed but no longer read.
+        /// </summary>
         public static void NotifyBuilderLost(Settlement settlement)
         {
-            var seth = WorldDominationMod.settings;
-            if (seth == null || !seth.fortifyClearOnBuilderLoss || settlement == null) return;
+            if (settlement == null) return;
             WorldComponent_RoadBlocks.Get()?.ClearBuiltBySettlement(settlement);
             WorldComponent_SpikeTraps.Get()?.ClearBuiltBySettlement(settlement);
         }

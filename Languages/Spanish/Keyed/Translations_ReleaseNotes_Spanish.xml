@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_4_Title>Ajustes finos</TSA_WD_Update_2_3_4_Title>
+  <TSA_WD_Update_2_3_4_Body><![CDATA[
+<size=16><b>2.3.4 – Ajustes finos</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 3 de octubre de 2026</color>\n
+------------------------------\n
+• Equilibrio: un poco más de sesgo a elegir al jugador como objetivo de incursión al inicio de la partida.\n
+• Equilibrio: las torretas AT enemigas y las caravanas de intercepción ahora atacan cualquier tipo de caravana WD.\n
+• Equilibrio: una facción con el debuff de "líder mundial" que cae de golpe a ser la más débil pierde ese debuff cuando recibe el buff ágil por debilidad. Las coaliciones anti-líder también se disuelven antes si el líder ha sido destronado con claridad.\n
+• Equilibrio: cualquier fortificación construida por un asentamiento (bloqueo de carretera, trampa, torreta AT) se destruye si ese asentamiento es capturado o arrasado.\n
+• Ya publicado hoy: en la nueva pestaña de armería solo se añade una prenda al peón aunque arrastres una pila (p. ej. 5 cascos: el peón solo recibe 1).\n
+• Ya publicado hoy: en lugar de muerte instantánea al ser derribado por flak/AA, hay una tirada por peón: puede no ser alcanzado, morir al instante o estrellarse. Si se estrellan, los enemigos cercanos intentarán asaltarlos.\n
+• Mejorado el diálogo para elegir peones al fundar una avanzadilla desde una casilla del mapa mundial (incluye todos los filtros relevantes).\n
+• La pestaña de estadísticas tiene barra de búsqueda.\n
+• Las torretas AT mantienen el ángulo tras disparar. Al acercar mucho la cámara, también conservan ese ángulo.\n
+• Mejor rendimiento con la pestaña Todo el equipo abierta.\n
+]]></TSA_WD_Update_2_3_4_Body>
   <TSA_WD_Update_2_3_3_Title>Actualización mayor</TSA_WD_Update_2_3_3_Title>
   <TSA_WD_Update_2_3_3_Body><![CDATA[
 <size=16><b>2.3.3 – Actualización mayor</b></size>\n

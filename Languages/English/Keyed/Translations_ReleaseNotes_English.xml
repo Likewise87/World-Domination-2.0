@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_4_Title>Fine tuning</TSA_WD_Update_2_3_4_Title>
+  <TSA_WD_Update_2_3_4_Body><![CDATA[
+<size=16><b>2.3.4 – Fine tuning</b></size>\n
+<color=#00FFFFFF>Release date: October 3rd 2026</color>\n
+------------------------------\n
+• Balance: A little more bias to pick the player as a raid target in the early game.\n
+• Balance: Enemy AT turrets and interception caravans will now engage any WD caravan type.\n
+• Balance: A faction suffering from the "world leader" that quickly falls all the way down to the weakest faction will get the world leader debuff removed when the nimble buff for being weak is applied. Also anti-leader coalitions will dissolve faster if the leader has been dethroned that clearly.\n
+• Balance: Any fortification built by a settlement (road block, trap, AT turret) is now destroyed if that settlement is captured or razed.\n
+• Shipped earlier today already: In the new armory tab only one apparel item is added to a pawn now even if you have a stack (i.e. when you have 5 helmets and drag them onto a pawn, that pawn only gets 1 helmet).\n
+• Shipped earlier today already: Instead of insta death when shot down by flak/AA, a roll is run per pawn. They may now either not get hit at all, get hit and die instantly, or get hit and crash. If pawns crash, nearby enemies will try to assault them.\n
+• Improved the dialog where you pick the pawns to establish an outpost when starting the process from a world tile (has all the relevant filters now).\n
+• The stats tab has a search bar now.\n
+• AT turrets keep the angle they were facing after the shot. When zooming in a lot, they keep that angle too.\n
+• Improved performance when the new All Gear tab is open.\n
+]]></TSA_WD_Update_2_3_4_Body>
   <TSA_WD_Update_2_3_3_Title>Major update</TSA_WD_Update_2_3_3_Title>
   <TSA_WD_Update_2_3_3_Body><![CDATA[
 <size=16><b>2.3.3 – Major update</b></size>\n

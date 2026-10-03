@@ -19,7 +19,7 @@ namespace TSA_WorldDomination
         /// <summary>Colony vs storyteller points: starting required ratio.</summary>
         public const float ColonyRaidRequiredRatioFresh = 0.7f;
         /// <summary>Subtracted from fresh ratio per quiet day since the colony was last picked as a WD raid target.</summary>
-        public const float ColonyRaidQuietRatioStepPerDay = 0.1f;
+        public const float ColonyRaidQuietRatioStepPerDay = 0.2f;
 
         public struct GateResult
         {
@@ -30,7 +30,7 @@ namespace TSA_WorldDomination
             public float ratio;
             public float efficiency;
             public bool bypassedMinRatio;
-            /// <summary>Ratio threshold used for this evaluate (outpost/NPC: minRaidRatio; colony: 0.7 then −0.1/quiet day).</summary>
+            /// <summary>Ratio threshold used for this evaluate (outpost/NPC: minRaidRatio; colony: 0.7 then −0.2/quiet day).</summary>
             public float requiredRatio;
             /// <summary>Non-colony only: defender snapshot from this Evaluate (null for colony / early returns).</summary>
             public RaidDefenderSnapshot defenders;
@@ -72,7 +72,7 @@ namespace TSA_WorldDomination
         /// Separate from <see cref="WorldDominationSettings.minRaidRatio"/> (outposts / NPC).
         /// Starts at <see cref="ColonyRaidRequiredRatioFresh"/>, then −<see cref="ColonyRaidQuietRatioStepPerDay"/>
         /// per quiet day (floor 0). Quiet = days since <see cref="CompViralSpread.lastPlayerColonyWdRaidPickTick"/>
-        /// (or since game start if never stamped).
+        /// (last successful WD raid launch / founding shield, or since game start if never stamped).
         /// </summary>
         public static float GetColonyRequiredRaidRatio(CompViralSpread colonyComp, WorldDominationSettings seth)
         {

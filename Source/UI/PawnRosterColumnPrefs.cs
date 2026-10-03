@@ -8,7 +8,8 @@ namespace TSA_WorldDomination
     {
         AllPlayerPawns,
         OutpostPawns,
-        Prisoners
+        Prisoners,
+        RemoteEstablish
     }
 
     /// <summary>Stable column ids for roster visibility prefs (per window, per save).</summary>
@@ -70,7 +71,10 @@ namespace TSA_WorldDomination
             {
                 case PawnRosterColumnWindow.OutpostPawns: return outpostPawns;
                 case PawnRosterColumnWindow.Prisoners: return prisoners;
-                default: return allPlayerPawns;
+                case PawnRosterColumnWindow.RemoteEstablish:
+                case PawnRosterColumnWindow.AllPlayerPawns:
+                default:
+                    return allPlayerPawns;
             }
         }
 
