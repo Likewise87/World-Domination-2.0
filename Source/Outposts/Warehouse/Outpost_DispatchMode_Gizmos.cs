@@ -36,19 +36,7 @@ namespace TSA_WorldDomination
             bool viaPod = OutpostDispatchMode.GetViaDropPod(origin);
             bool researched = RapidResponseUtility.TransportPodsResearched();
 
-            string desc;
-            if (viaPod)
-            {
-                desc = "TSA_WD_DispatchMode_DropPodDesc".Translate().ToString()
-                    + "\n\n"
-                    + "TSA_WD_DispatchMode_DropPodAaWarning".Translate();
-            }
-            else
-            {
-                desc = "TSA_WD_DispatchMode_LandDesc".Translate().ToString();
-                if (!researched)
-                    desc += "\n\n" + "TSA_WD_DispatchMode_NeedsResearch".Translate();
-            }
+            string desc = PlayerPawnDropPodUtility.BuildGoodsDispatchModeTip(viaPod, researched);
 
             return new Command_Action
             {

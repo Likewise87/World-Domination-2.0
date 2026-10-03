@@ -84,6 +84,8 @@ namespace TSA_WorldDomination
                 return "TSA_WD_RapidResponse_InspectRoadCaravans".Translate().ToString();
             if (m == MissionMask.Fortify)
                 return "TSA_WD_RapidResponse_InspectFortifyCaravans".Translate().ToString();
+            if (m == MissionMask.Logistics)
+                return "TSA_WD_RapidResponse_InspectLogisticsCaravans".Translate().ToString();
             return "TSA_WD_RapidResponse_InspectGroupCaravans".Translate(MortarFireUtils.MissionMaskLabel(m)).ToString();
         }
 
@@ -130,11 +132,6 @@ namespace TSA_WorldDomination
             if (ov < 0f) return max;
             float min = Mathf.Min(Dialog_OutpostRangeAdjust.MinTiles, max);
             return Mathf.Clamp(ov, min, max);
-        }
-
-        public static float GetDropPodRangeTiles()
-        {
-            return Mathf.Max(1f, WorldDominationMod.settings?.rapidResponseDropPodRange ?? WorldDominationSettings.DefRapidResponseDropPodRange);
         }
 
         /// <summary>Vanilla transport pod research (<c>TransportPod</c>).</summary>

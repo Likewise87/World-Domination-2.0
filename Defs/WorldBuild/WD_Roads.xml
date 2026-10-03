@@ -6,8 +6,7 @@
     <defName>TSA_WdRoad_Dirt</defName>
     <!-- movementCostMultiplier, workPerSegment, expeditionStrengthCost, winterPenaltyReduction
          defaults below are overridden by Mod Settings → Road Building at runtime.
-         minCumulativeConstructionSkill and researchPrerequisites are XML-authored
-         (players may PatchOperationReplace them). -->
+         minCumulativeConstructionSkill, researchPrerequisites, and cost are XML-authored. -->
     <label>dirt road</label>
     <tier>T1</tier>
     <roadDef>DirtRoad</roadDef>
@@ -17,15 +16,12 @@
     <winterPenaltyReduction>0.15</winterPenaltyReduction>
     <minCumulativeConstructionSkill>5</minCumulativeConstructionSkill>
     <researchPrerequisites />
+    <cost />
   </TSA_WorldDomination.WdRoadTierDef>
 
   <!-- Stone / T2 -->
   <TSA_WorldDomination.WdRoadTierDef>
     <defName>TSA_WdRoad_Stone</defName>
-    <!-- movementCostMultiplier, workPerSegment, expeditionStrengthCost, winterPenaltyReduction
-         defaults below are overridden by Mod Settings → Road Building at runtime.
-         minCumulativeConstructionSkill and researchPrerequisites are XML-authored
-         (players may PatchOperationReplace them). -->
     <label>stone road</label>
     <tier>T2</tier>
     <roadDef>StoneRoad</roadDef>
@@ -37,15 +33,18 @@
     <researchPrerequisites>
       <li>Machining</li>
     </researchPrerequisites>
+    <cost>
+      <li>
+        <thingDef>BlocksGranite</thingDef>
+        <costMode>AnyStoneBlocks</costMode>
+        <count>30</count>
+      </li>
+    </cost>
   </TSA_WorldDomination.WdRoadTierDef>
 
   <!-- Asphalt / T3-T4 -->
   <TSA_WorldDomination.WdRoadTierDef>
     <defName>TSA_WdRoad_Asphalt</defName>
-    <!-- movementCostMultiplier, workPerSegment, expeditionStrengthCost, winterPenaltyReduction
-         defaults below are overridden by Mod Settings → Road Building at runtime.
-         minCumulativeConstructionSkill and researchPrerequisites are XML-authored
-         (players may PatchOperationReplace them). -->
     <label>asphalt road</label>
     <tier>T3</tier>
     <roadDef>AncientAsphaltRoad</roadDef>
@@ -57,6 +56,10 @@
     <researchPrerequisites>
       <li>MicroelectronicsBasics</li>
     </researchPrerequisites>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>20</count></li>
+      <li><thingDef>Chemfuel</thingDef><count>20</count></li>
+    </cost>
   </TSA_WorldDomination.WdRoadTierDef>
 
 </Defs>

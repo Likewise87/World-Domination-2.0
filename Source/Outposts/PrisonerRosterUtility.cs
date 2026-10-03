@@ -32,6 +32,8 @@ namespace TSA_WorldDomination
         public string traitsTip = "";
         public int[] skillLevels = Array.Empty<int>();
         public int ageYears;
+        /// <summary>Summary health percent 0–100 (sortable Health column).</summary>
+        public float healthPercent;
         public MapParent mapParent;
         public WorldObject_WD_Outpost holdingOutpost;
         public Caravan holdingCaravan;
@@ -49,6 +51,7 @@ namespace TSA_WorldDomination
         public string scheduledDestLabel = "";
         public Texture2D scheduledDestIcon;
         public Color scheduledDestIconColor = Color.white;
+        public bool scheduledViaDropPod;
         /// <summary>True when destination comes from schedule; false when showing home colony/outpost as default.</summary>
         public bool hasExplicitSchedule;
         /// <summary>Index in the holding outpost's prisoner queue (recruit priority). Colony rows leave this at -1.</summary>
@@ -311,12 +314,16 @@ namespace TSA_WorldDomination
             entry.resistanceLabel = entry.resistance.ToString("F1");
             entry.skillLevels = BuildSkillLevels(VirtualPawnSummary.FromPawn(p));
             entry.ageYears = p.ageTracker != null ? p.ageTracker.AgeBiologicalYears : 0;
+            entry.healthPercent = OutpostStrengthBudgetUi.GetHealthPercent(p);
             FillTraits(p, entry);
             return entry;
         }
 
         private static void FillDestination(PrisonerRosterEntry entry, WorldComponent_PrisonerRecruitSchedule schedule)
         {
+            // Travel mode belongs to the outpost holding the prisoner, not to the prisoner.
+            entry.scheduledViaDropPod = entry.holdingOutpost != null
+                && PlayerPawnDropPodUtility.GetTravelViaDropPod(entry.holdingOutpost);
             if (schedule != null && schedule.TryGetDestination(entry.thingId, out WorldObject_WD_Outpost outpost, out MapParent colony))
             {
                 entry.hasExplicitSchedule = true;
@@ -517,6 +524,8 @@ namespace TSA_WorldDomination
                 return string.Compare(a.scheduledDestLabel, b.scheduledDestLabel, StringComparison.OrdinalIgnoreCase);
             if (col == "Age")
                 return a.ageYears.CompareTo(b.ageYears);
+            if (col == "Health")
+                return a.healthPercent.CompareTo(b.healthPercent);
 
             SkillDef[] skills = PlayerPawnRosterUtility.AllSkillColumns;
             for (int i = 0; i < skills.Length; i++)

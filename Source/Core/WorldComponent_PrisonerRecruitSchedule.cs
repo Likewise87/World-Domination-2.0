@@ -10,6 +10,7 @@ namespace TSA_WorldDomination
     public class WorldComponent_PrisonerRecruitSchedule : WorldComponent
     {
         private Dictionary<string, int> destOutpostIdByThingId = new Dictionary<string, int>();
+        private HashSet<string> viaDropPodThingIds = new HashSet<string>();
         private HashSet<int> smartAssignExcludedOutpostIds = new HashSet<int>();
         private List<string> tmpKeys;
         private List<int> tmpValues;
@@ -42,6 +43,29 @@ namespace TSA_WorldDomination
         {
             if (thingId.NullOrEmpty() || outpost == null || outpost.Destroyed) return;
             destOutpostIdByThingId[thingId] = outpost.ID;
+        }
+
+        /// <summary>
+        /// Legacy per-prisoner travel mode. Travel mode now belongs to the holding outpost
+        /// (<see cref="PlayerPawnDropPodUtility.GetTravelViaDropPod"/>). Kept with its Scribe key for save compatibility.
+        /// </summary>
+        public void SetViaDropPod(string thingId, bool viaDropPod)
+        {
+            if (thingId.NullOrEmpty()) return;
+            if (viaDropPod) viaDropPodThingIds.Add(thingId);
+            else viaDropPodThingIds.Remove(thingId);
+        }
+
+        public void SetViaDropPodForMany(IEnumerable<string> thingIds, bool viaDropPod)
+        {
+            if (thingIds == null) return;
+            foreach (string tid in thingIds)
+                SetViaDropPod(tid, viaDropPod);
+        }
+
+        public bool GetViaDropPod(string thingId)
+        {
+            return !thingId.NullOrEmpty() && viaDropPodThingIds.Contains(thingId);
         }
 
         public void SetDestForMany(IEnumerable<string> thingIds, WorldObject_WD_Outpost outpost)
@@ -78,6 +102,7 @@ namespace TSA_WorldDomination
         {
             if (thingId.NullOrEmpty()) return;
             destOutpostIdByThingId.Remove(thingId);
+            viaDropPodThingIds.Remove(thingId);
         }
 
         public void ClearMany(IEnumerable<string> thingIds)
@@ -85,8 +110,9 @@ namespace TSA_WorldDomination
             if (thingIds == null) return;
             foreach (string tid in thingIds)
             {
-                if (!tid.NullOrEmpty())
-                    destOutpostIdByThingId.Remove(tid);
+                if (tid.NullOrEmpty()) continue;
+                destOutpostIdByThingId.Remove(tid);
+                viaDropPodThingIds.Remove(tid);
             }
         }
 
@@ -212,6 +238,10 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref destOutpostIdByThingId, "destOutpostIdByThingId", LookMode.Value, LookMode.Value, ref tmpKeys, ref tmpValues);
             if (destOutpostIdByThingId == null)
                 destOutpostIdByThingId = new Dictionary<string, int>();
+
+            Scribe_Collections.Look(ref viaDropPodThingIds, "viaDropPodThingIds", LookMode.Value);
+            if (viaDropPodThingIds == null)
+                viaDropPodThingIds = new HashSet<string>();
 
             Scribe_Collections.Look(ref smartAssignExcludedOutpostIds, "smartAssignExcludedOutpostIds", LookMode.Value);
             if (smartAssignExcludedOutpostIds == null)

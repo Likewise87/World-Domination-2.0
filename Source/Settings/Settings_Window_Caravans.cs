@@ -69,6 +69,8 @@ namespace TSA_WorldDomination
             {
             SettingsUI.DrawCheckbox(l, "TSA_WD_Caravans_AllowTravelOverWater".Translate(), ref s.allowCaravansTravelOverWater,
                 "TSA_WD_Caravans_AllowTravelOverWaterTip".Translate(), defaultValue: WorldDominationSettings.DefAllowCaravansTravelOverWater);
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Caravans_T3T4DropPodsOverWater".Translate(), ref s.allowT3T4DropPodsOverWater,
+                "TSA_WD_Caravans_T3T4DropPodsOverWaterTip".Translate(), defaultValue: WorldDominationSettings.DefAllowT3T4DropPodsOverWater);
             if (s.allowCaravansTravelOverWater)
             {
                 l.Gap(6f);

@@ -4,8 +4,9 @@
     VFEPD palette mapping (MayRequire Vanilla Props and Decor):
     - Hayballs → Farm (farming layouts; also sprinkled via settlement scatter on T3/T4)
     - Wagons → Industrial (mining-focused)
-    - Boxes / carts → Storage when VFEPD active (PropDefs + Patches/SettlementScatter_Storage_WithVFEPD.xml).
-      Without VFEPD, settlement scatter uses explicit WD box/cart lists.
+    - Boxes / crate pallets 1–2 / carts → Storage when VFEPD active (PropDefs + Patches/SettlementScatter_Storage_WithVFEPD.xml).
+      BoxPallet_3 is Generic-only (explicit scatter; not in Storage PropDefs).
+      Without VFEPD, settlement scatter uses explicit WD box/pallet/cart lists.
   -->
 
   <!-- Farm / hay -->
@@ -26,6 +27,10 @@
   <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Box_3</defName><category>VFE_PropCategory_Storage</category><priority>122</priority><prop>TSA_WD_Box_3a</prop></VFEProps.PropDef>
   <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Box_4</defName><category>VFE_PropCategory_Storage</category><priority>123</priority><prop>TSA_WD_Box_4a</prop></VFEProps.PropDef>
   <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Box_5</defName><category>VFE_PropCategory_Storage</category><priority>124</priority><prop>TSA_WD_Box_5a</prop></VFEProps.PropDef>
+
+  <!-- Crate pallets (1–2 rustic; 3 is futuristic and stays Generic-only via explicit scatter, not this pool) -->
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_BoxPallet_1</defName><category>VFE_PropCategory_Storage</category><priority>125</priority><prop>TSA_WD_BoxPallet_1a</prop></VFEProps.PropDef>
+  <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_BoxPallet_2</defName><category>VFE_PropCategory_Storage</category><priority>126</priority><prop>TSA_WD_BoxPallet_2a</prop></VFEProps.PropDef>
 
   <!-- Generic carts -->
   <VFEProps.PropDef><defName>TSA_WD_Prop_Storage_Cart_5</defName><category>VFE_PropCategory_Storage</category><priority>130</priority><prop>TSA_WD_Cart_5a</prop></VFEProps.PropDef>

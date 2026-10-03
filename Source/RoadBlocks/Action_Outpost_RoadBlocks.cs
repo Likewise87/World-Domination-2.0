@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using RimWorld.Planet;
@@ -65,8 +65,8 @@ namespace TSA_WorldDomination
             if (blockBusy && !comp.roadBlockIsClearing)
             {
                 string kindLabel = RoadBlockKindUtil.LabelKey(comp.selectedRoadBlockKind).Translate();
-                string insufficient = comp.GetInsufficientStrengthConstructionMessage();
-                string dest = comp.roadBlockTargetName.NullOrEmpty() ? "â€¦" : comp.roadBlockTargetName;
+                string insufficient = comp.GetInsufficientConstructionMessage();
+                string dest = comp.roadBlockTargetName.NullOrEmpty() ? "…" : comp.roadBlockTargetName;
                 string label = insufficient
                     ?? "TSA_WD_Inspect_RoadBlockStatus".Translate(
                         kindLabel,
@@ -183,10 +183,10 @@ namespace TSA_WorldDomination
 
             if (blockBusy && comp.roadBlockIsClearing)
             {
-                string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+                string insufficient = comp.GetInsufficientConstructionMessage();
                 string label = insufficient
                     ?? "TSA_WD_FortificationClearStatus".Translate(
-                        comp.roadBlockTargetName.NullOrEmpty() ? "â€¦" : comp.roadBlockTargetName,
+                        comp.roadBlockTargetName.NullOrEmpty() ? "…" : comp.roadBlockTargetName,
                         (Mathf.Min(1f, comp.roadBlockProgress) * 100f).ToString("F0")).ToString();
                 return new FloatMenuOption(label, () => { }, icon, Color.white) { Disabled = true };
             }
@@ -458,7 +458,7 @@ namespace TSA_WorldDomination
             {
                 List<int> pathDestFirst = WorldActions_RoadBlocks.FindFlatHopPathDestFirst(nodes[i], nodes[i + 1]);
                 if (pathDestFirst == null || pathDestFirst.Count < 2) return null;
-                // dest-first â†’ append travel order after first tile (already in forward).
+                // dest-first → append travel order after first tile (already in forward).
                 for (int n = pathDestFirst.Count - 2; n >= 0; n--)
                     forward.Add(pathDestFirst[n]);
             }

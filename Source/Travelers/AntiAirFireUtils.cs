@@ -116,6 +116,8 @@ namespace TSA_WorldDomination
         /// <summary>
         /// Hostile T4 settlements with flak that threaten a player drop-pod flight (origin, destination,
         /// or ballistic arc within NPC AA range). Nearest to <paramref name="originTile"/> first.
+        /// Matches the AA wake gate: escalation allows player targeting (mortar or AA stage gate),
+        /// or the destination is inbound to that settlement (self-defense).
         /// </summary>
         public static bool TryGetHostileSettlementAaThreatsForDropPodFlight(
             int originTile,
@@ -128,10 +130,12 @@ namespace TSA_WorldDomination
                 return false;
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            if (!WdEscalation.CanTargetPlayerWithT4AntiAir(
-                    WorldDominationMod.settings,
-                    WdEscalation.GetCachedStage(manager)))
-                return false;
+            var seth = WorldDominationMod.settings;
+            WdEscalationStage stage = WdEscalation.GetCachedStage(manager);
+            // Match CompViralSpread.InterceptorCanTargetPlayer (mortar OR AA gate).
+            bool canTargetPlayerGenerally =
+                WdEscalation.CanTargetPlayerWithT4AntiAir(seth, stage)
+                || WdEscalation.CanTargetPlayerWithT4Mortar(seth, stage);
 
             float aaRange = GetNpcAntiAirMaxRangeTiles();
             var settlements = Find.WorldObjects?.Settlements;
@@ -150,7 +154,12 @@ namespace TSA_WorldDomination
                     continue;
 
                 int aaTile = settlement.Tile.tileId;
-                bool threatens = TileWithin(manager, aaTile, originTile, aaRange)
+                bool inbound = destTile == aaTile;
+                if (!canTargetPlayerGenerally && !inbound)
+                    continue;
+
+                bool threatens = inbound
+                    || TileWithin(manager, aaTile, originTile, aaRange)
                     || TileWithin(manager, aaTile, destTile, aaRange)
                     || BallisticArcComesWithinRange(aaTile, originTile, destTile, aaRange);
                 if (!threatens) continue;
@@ -851,8 +860,10 @@ namespace TSA_WorldDomination
             Vector3 from = grid.GetTileCenter(fromTile);
             Vector3 to = grid.GetTileCenter(toTile);
             float hopTiles = Mathf.Max(1f, grid.ApproxDistanceInTiles(fromTile, toTile));
-            // ~1 sample per tile so short clips of the AA bubble are not missed on long flybys.
-            int samples = Mathf.Clamp(Mathf.CeilToInt(hopTiles), 12, 64);
+            // Space samples by at most half AA range so long unlimited-range flights cannot skip a bubble
+            // that live fire still hits mid-hop.
+            float maxStep = Mathf.Max(0.5f, aaRange * 0.5f);
+            int samples = Mathf.Clamp(Mathf.CeilToInt(hopTiles / maxStep), 8, 8192);
             for (int i = 0; i <= samples; i++)
             {
                 float u = i / (float)samples;

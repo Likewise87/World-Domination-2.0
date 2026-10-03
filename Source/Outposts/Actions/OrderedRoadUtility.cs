@@ -99,7 +99,7 @@ namespace TSA_WorldDomination
         {
             if (comp == null || !comp.HasActivePlayerOrderedRoadProject)
                 return "—";
-            string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+            string insufficient = comp.GetInsufficientConstructionMessage();
             if (insufficient != null)
                 return insufficient;
             string target = comp.roadTargetName.NullOrEmpty() ? "?" : comp.roadTargetName;

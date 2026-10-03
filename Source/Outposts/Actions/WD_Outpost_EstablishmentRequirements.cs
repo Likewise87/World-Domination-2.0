@@ -549,8 +549,17 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        /// <summary>Returns true if the tile and caravan satisfy requirements for this outpost type. reason is set when false.</summary>
-        public static bool CanEstablishAt(int tile, WorldObjectDef outpostDef, Caravan caravan, out string reason)
+        /// <summary>
+        /// Returns true if the tile and caravan satisfy requirements for this outpost type. reason is set when false.
+        /// <paramref name="requireFullyStopped"/> is false for drop-pod finalize: the founding caravan is spawned on the tile
+        /// and may still look mid-move / have a stale destination to the stop helper.
+        /// </summary>
+        public static bool CanEstablishAt(
+            int tile,
+            WorldObjectDef outpostDef,
+            Caravan caravan,
+            out string reason,
+            bool requireFullyStopped = true)
         {
             reason = null;
 
@@ -566,7 +575,9 @@ namespace TSA_WorldDomination
                 return false;
             }
 
-            if (caravan != null && !CaravanFullyStoppedOnTileForEstablishment(caravan, tile, out reason))
+            if (requireFullyStopped
+                && caravan != null
+                && !CaravanFullyStoppedOnTileForEstablishment(caravan, tile, out reason))
                 return false;
 
             // Min distance is the General slider, not the nearby-settlements checkbox.

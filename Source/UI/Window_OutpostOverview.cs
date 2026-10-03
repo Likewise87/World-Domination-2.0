@@ -45,8 +45,8 @@ namespace TSA_WorldDomination
 
         private static bool s_overviewStringsInit;
         private static string s_ovTitle;
-        private static string s_hdrName, s_hdrDist, s_hdrPawns, s_hdrNonhumanPawns, s_hdrFood, s_hdrStrength, s_hdrUpgrades, s_hdrRoad, s_hdrStatus, s_hdrProduces, s_hdrOutput, s_hdrExperts;
-        private static string s_tipHdrName, s_tipHdrDist, s_tipHdrNonhumanPawns, s_tipHdrFood, s_tipHdrRoad, s_tipHdrStatus, s_tipHdrOutput;
+        private static string s_hdrName, s_hdrDist, s_hdrPawns, s_hdrNonhumanPawns, s_hdrFood, s_hdrStrength, s_hdrUpgrades, s_hdrRoad, s_hdrStatus, s_hdrProduces, s_hdrOutput, s_hdrExperts, s_hdrStores;
+        private static string s_tipHdrName, s_tipHdrDist, s_tipHdrNonhumanPawns, s_tipHdrFood, s_tipHdrRoad, s_tipHdrStatus, s_tipHdrOutput, s_tipHdrStores;
         private static string s_tipNonhumanMechanoids, s_tipNonhumanAnimals, s_tipNonhumanVehicles;
         private static string s_ovRenameTip, s_ovStrengthTip, s_ovNone;
         private static string s_skillDrLabel;
@@ -108,6 +108,9 @@ namespace TSA_WorldDomination
             public string ExpertsCountTooltip;
             public List<OutpostExpertRole> AssignedExpertRoles = new List<OutpostExpertRole>();
             public List<string> AssignedExpertTooltips = new List<string>();
+            public string StoresLabel;
+            public string StoresTooltip;
+            public int StoresTotal;
         }
 
         private static Texture2D overviewRoadBarFillTex;
@@ -163,6 +166,8 @@ namespace TSA_WorldDomination
                 s_hdrProduces = "TSA_WD_Outpost_Produces".Translate();
                 s_hdrOutput = "TSA_WD_OutpostOverview_HdrDelivery".Translate();
                 s_hdrExperts = "TSA_WD_Outpost_Experts".Translate();
+                s_hdrStores = "TSA_WD_Armory_HdrStores".Translate();
+                s_tipHdrStores = "TSA_WD_Armory_HdrStoresTip".Translate();
                 s_tipHdrName = "TSA_WD_Outpost_Name".Translate();
                 s_tipHdrDist = "TSA_WD_Outpost_Dist".Translate();
                 s_tipHdrNonhumanPawns = "TSA_WD_Outpost_NonhumanPawns".Translate();
@@ -197,10 +202,11 @@ namespace TSA_WorldDomination
             float colWhat = 175f;
             float colWhen = 130f;
             float colExperts = 100f;
+            float colStores = 150f;
             float contentWidth = colIcon + colPadding
                 + colName + colDist + colPawns + colNonhumanPawns + colExperts + colFood
                 + colStrength + colUpgrades + colRoad + colCooldown
-                + colWhat + colWhen;
+                + colWhat + colWhen + colStores;
             contentWidth = Mathf.Max(contentWidth, inRect.width - 16f);
 
             // --- HEADERS (sticky vertically; X synced to body horizontal scroll) ---
@@ -235,6 +241,7 @@ namespace TSA_WorldDomination
             DrawHeader(ref curX, colCooldown, s_hdrStatus, "Status", hRect, s_tipHdrStatus);
             DrawHeader(ref curX, colWhat, s_hdrProduces, "Produces", hRect);
             DrawHeader(ref curX, colWhen, s_hdrOutput, "Timer", hRect, s_tipHdrOutput);
+            DrawHeader(ref curX, colStores, s_hdrStores, "Stores", hRect, s_tipHdrStores);
 
             GUI.color = Color.white;
             Widgets.DrawLineHorizontal(0, hRect.yMax, inRect.width);
@@ -369,22 +376,22 @@ namespace TSA_WorldDomination
                     string roadProgressStr = null;
                     if (comp != null && comp.roadTargetTile != -1)
                     {
-                        string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+                        string insufficient = comp.GetInsufficientConstructionMessage();
                         roadProgressStr = insufficient ?? $"{(Mathf.Min(1f, comp.roadProgress) * 100f).ToString("F0")}%";
                     }
                     else if (comp != null && WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp))
                     {
-                        string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+                        string insufficient = comp.GetInsufficientConstructionMessage();
                         roadProgressStr = insufficient ?? $"{(Mathf.Min(1f, comp.roadBlockProgress) * 100f).ToString("F0")}%";
                     }
                     else if (comp != null && WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp))
                     {
-                        string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+                        string insufficient = comp.GetInsufficientConstructionMessage();
                         roadProgressStr = insufficient ?? $"{(Mathf.Min(1f, comp.spikeTrapProgress) * 100f).ToString("F0")}%";
                     }
                     else if (comp != null && WorldActions_Decontamination.HasActiveDecontaminationProject(comp))
                     {
-                        string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+                        string insufficient = comp.GetInsufficientConstructionMessage();
                         roadProgressStr = insufficient ?? $"{(Mathf.Min(1f, comp.decontamProgress) * 100f).ToString("F0")}%";
                     }
                     string raidStatusColorized = null;
@@ -433,6 +440,8 @@ namespace TSA_WorldDomination
                     string skillDrTip = hasSkillDr ? OutpostSkillScaling.BuildBandBreakdownTip(skillDrRaw, o.def) : null;
                     int expertsAssigned = OutpostExpertUtility.GetAssignedExpertCount(o);
                     int expertsMax = OutpostExpertUtility.GetMaxExpertSlots(o);
+                    OutpostArmoryUtility.FormatStoresSummary(o, out string storesLabel, out string storesTooltip, out int storesTotal);
+
                     string expertsCountStr = expertsAssigned + "/" + expertsMax;
                     string expertsCountTooltip = "TSA_WD_OutpostOverview_ExpertsAssignedTip"
                         .Translate(expertsAssigned, expertsMax).ToString();
@@ -504,7 +513,10 @@ namespace TSA_WorldDomination
                         ExpertsCountStr = expertsCountStr,
                         ExpertsCountTooltip = expertsCountTooltip,
                         AssignedExpertRoles = assignedExpertRoles,
-                        AssignedExpertTooltips = assignedExpertTooltips
+                        AssignedExpertTooltips = assignedExpertTooltips,
+                        StoresLabel = storesLabel,
+                        StoresTooltip = storesTooltip,
+                        StoresTotal = storesTotal
                     });
                 }
 
@@ -715,7 +727,7 @@ namespace TSA_WorldDomination
                     || WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp)
                     || WorldActions_Decontamination.HasActiveDecontaminationProject(comp)))
                 {
-                    string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+                    string insufficient = comp.GetInsufficientConstructionMessage();
                     if (insufficient != null)
                     {
                         GUI.color = Color.yellow;
@@ -821,6 +833,13 @@ namespace TSA_WorldDomination
                 if (entry.IsProductionPaused) GUI.color = Color.white;
                 rX += colWhen;
 
+                // 11. Stores: compact armory summary, full bucket breakdown in the tooltip.
+                Rect storesRect = new Rect(rX, row.y, colStores, rowHeight);
+                Widgets.Label(storesRect, entry.StoresLabel ?? s_ovNone);
+                if (!string.IsNullOrEmpty(entry.StoresTooltip))
+                    TooltipHandler.TipRegion(storesRect, entry.StoresTooltip);
+                rX += colStores;
+
                 // SURGICAL: Reset anchor to UpperLeft for the next iteration's early columns
                 Text.Anchor = TextAnchor.UpperLeft;
             }
@@ -890,6 +909,7 @@ namespace TSA_WorldDomination
                     "Produces" => string.Compare(a.ProdSummary, b.ProdSummary, StringComparison.OrdinalIgnoreCase),
                     "Timer" => a.TicksLeft.CompareTo(b.TicksLeft),
                     "Experts" => a.ExpertsAssigned.CompareTo(b.ExpertsAssigned),
+                    "Stores" => a.StoresTotal.CompareTo(b.StoresTotal),
                     _ => string.Compare(a.Outpost.LabelCap, b.Outpost.LabelCap, StringComparison.OrdinalIgnoreCase)
                 };
                 return sortAscending ? cmp : -cmp;

@@ -27,6 +27,7 @@
   <TSA_WD_Dash_NavTip_ActionLog>近期 World Domination 事件与行动（最近 500 条）。</TSA_WD_Dash_NavTip_ActionLog>
   <TSA_WD_Dash_NavTip_Prisoners>查看殖民地囚犯，并指定招募后前往的前哨。\n\n快捷键：{0}</TSA_WD_Dash_NavTip_Prisoners>
   <TSA_WD_Dash_NavTip_YourPawns>列出、筛选并在殖民地与前哨之间调动你的殖民者。\n\n快捷键：{0}</TSA_WD_Dash_NavTip_YourPawns>
+  <TSA_WD_Dash_NavTip_AllInventory>查看各处存放或装备了哪些物品，并可无需人员直接运往任意地点。\n\n快捷键：{0}</TSA_WD_Dash_NavTip_AllInventory>
   <TSA_WD_Dash_Goodwill_Best>最高好感</TSA_WD_Dash_Goodwill_Best>
   <TSA_WD_Dash_Goodwill_Worst>最低好感</TSA_WD_Dash_Goodwill_Worst>
   <TSA_WD_Dash_Goodwill_None>没有可显示的派系。</TSA_WD_Dash_Goodwill_None>
@@ -204,6 +205,11 @@
   <TSA_WD_Alert_ConstructionInsufficientStrength>WD：建造等待实力</TSA_WD_Alert_ConstructionInsufficientStrength>
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>以下前哨已准备好派出施工队但实力不足：</TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>- {0}：{1}</TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>
+  <TSA_WD_Notify_ConstructionInsufficientMaterials>显示建造材料不足警报（右侧）</TSA_WD_Notify_ConstructionInsufficientMaterials>
+  <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>当前哨站已准备好道路、工事或 AT 施工段，但材料不足以派出施工队时，在右侧警报栏显示静默持续警报。点击跳转到相关前哨。</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
+  <TSA_WD_Alert_ConstructionInsufficientMaterials>WD：建造等待材料</TSA_WD_Alert_ConstructionInsufficientMaterials>
+  <TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>以下前哨已准备好派出施工队但材料不足：</TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>
+  <TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>- {0}：{1}</TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>
   <TSA_WD_Notify_OutpostNoProduction>显示未选生产前哨警报（右侧）</TSA_WD_Notify_OutpostNoProduction>
   <TSA_WD_Notify_OutpostNoProductionTooltip>当你至少有一个 WD 前哨需要选择生产内容但尚未选择时，在右侧警报栏显示静默持续警报。悬停列出所有相关前哨。点击跳转到第一个。</TSA_WD_Notify_OutpostNoProductionTooltip>
   <TSA_WD_Notify_OutpostUnusedExperts>显示未用专家位前哨警报（右侧）</TSA_WD_Notify_OutpostUnusedExperts>
@@ -365,6 +371,7 @@
   <TS_WD_Threat_NoGoodwillHostilesTooltip>启用后,征服定居点不会向与你敌对的阵营授予好感。仅非敌对阵营可从你的征服中获得好感。</TS_WD_Threat_NoGoodwillHostilesTooltip>
   <TS_WD_Threat_Reset>将此页恢复为默认</TS_WD_Threat_Reset>
   <TSA_WD_AllPlayerPawns>你的殖民者</TSA_WD_AllPlayerPawns>
+  <TSA_WD_AllInventory>全部装备</TSA_WD_AllInventory>
   <TSA_WD_Prisoners>囚犯</TSA_WD_Prisoners>
   <TSA_WD_Prisoners_Title>囚犯</TSA_WD_Prisoners_Title>
   <TSA_WD_Prisoners_ColInteraction>互动</TSA_WD_Prisoners_ColInteraction>
@@ -433,7 +440,7 @@
   <TSA_WD_AllPlayerPawns_Transfer>调动至目的地</TSA_WD_AllPlayerPawns_Transfer>
   <TSA_WD_AllPlayerPawns_TransferTip>将所选殖民者送到你选择的殖民地或前哨。与“立即智能派出”使用同一批选择。</TSA_WD_AllPlayerPawns_TransferTip>
   <TSA_WD_AllPlayerPawns_EstablishOutpost>建立前哨站</TSA_WD_AllPlayerPawns_EstablishOutpost>
-  <TSA_WD_AllPlayerPawns_EstablishOutpostTip>派出所选殖民地殖民者，在世界地图选定格建立前哨站。至少需要两人。物资取自殖民地与仓库。同殖民地同伴可同行。</TSA_WD_AllPlayerPawns_EstablishOutpostTip>
+  <TSA_WD_AllPlayerPawns_EstablishOutpostTip>从同一殖民地或同一前哨站派出所选殖民者，在世界地图选定格建立前哨站。至少需要一名人形。物资取自殖民地与仓库。同一来源的同伴可同行。</TSA_WD_AllPlayerPawns_EstablishOutpostTip>
   <TSA_WD_AllPlayerPawns_RestoreDefault>恢复默认视图</TSA_WD_AllPlayerPawns_RestoreDefault>
   <TSA_WD_PawnRoster_Highlight>高亮:</TSA_WD_PawnRoster_Highlight>
   <TSA_WD_PawnRoster_HighlightOff>关闭</TSA_WD_PawnRoster_HighlightOff>
@@ -444,6 +451,8 @@
   <TSA_WD_PawnRoster_ColumnsReset>重置列</TSA_WD_PawnRoster_ColumnsReset>
   <TSA_WD_PawnRoster_ColAge>年龄</TSA_WD_PawnRoster_ColAge>
   <TSA_WD_PawnRoster_ColAgeTip>生物年龄（年）。</TSA_WD_PawnRoster_ColAgeTip>
+  <TSA_WD_PawnRoster_ColHealth>生命</TSA_WD_PawnRoster_ColHealth>
+  <TSA_WD_PawnRoster_ColHealthTip>当前生命百分比。健康为 100%。</TSA_WD_PawnRoster_ColHealthTip>
   <TSA_WD_PawnRoster_ColXenotype>异种</TSA_WD_PawnRoster_ColXenotype>
   <TSA_WD_PawnRoster_ColXenotypeTip>生物科技异种标签。悬停单元格查看描述。</TSA_WD_PawnRoster_ColXenotypeTip>
   <TSA_WD_PawnRoster_ColPsycasts>灵能</TSA_WD_PawnRoster_ColPsycasts>

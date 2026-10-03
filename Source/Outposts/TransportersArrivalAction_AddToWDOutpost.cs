@@ -110,43 +110,22 @@ namespace TSA_WorldDomination
             }
 
             bool isWarehouse = Outpost_Production_Utils.IsWarehouseOutpost(outpost.def);
-            if (isWarehouse)
+            int storedThings = 0;
+            foreach (Thing thing in nonPawns)
             {
-                var wh = CompOutpostWarehouse.Get(outpost);
-                if (wh != null && nonPawns.Count > 0)
+                if (thing == null || thing.Destroyed) continue;
+                if (OutpostStorageUtility.TryStoreThing(outpost, thing))
                 {
-                    int kinds = nonPawns.Count;
-                    wh.TryDepositThings(nonPawns);
-                    for (int i = 0; i < nonPawns.Count; i++)
-                    {
-                        Thing thing = nonPawns[i];
-                        if (thing == null || thing.Destroyed) continue;
-                        thing.Destroy(DestroyMode.Vanish);
-                    }
-                    Messages.Message("TSA_WD_Warehouse_PodDeposit".Translate(kinds, outpost.LabelCap),
-                        outpost, MessageTypeDefOf.TaskCompletion, false);
+                    storedThings++;
+                    continue;
                 }
+                Messages.Message("TSA_WD_PodArrival_ItemNotStored".Translate(thing.Label), MessageTypeDefOf.NeutralEvent);
+                thing.Destroy(DestroyMode.Vanish);
             }
-            else
-            {
-                var logi = outpost.GetComponent<CompOutpostLogistics>();
-                var settings = WorldDominationMod.settings;
-                if (logi != null && settings != null && settings.foodLogisticsActive)
-                {
-                    float added = CompOutpostLogistics.ConvertLooseItemsToVirtualFood(nonPawns, logi);
-                    if (added > 0f)
-                        Messages.Message("TSA_WD_PodArrival_FoodConverted".Translate(
-                            added.ToString("F1"), outpost.LabelCap),
-                            outpost, MessageTypeDefOf.TaskCompletion, false);
-                }
-
-                foreach (Thing thing in nonPawns)
-                {
-                    if (thing == null || thing.Destroyed) continue;
-                    Messages.Message("TSA_WD_PodArrival_ItemNotStored".Translate(thing.Label), MessageTypeDefOf.NeutralEvent);
-                    thing.Destroy(DestroyMode.Vanish);
-                }
-            }
+            if (storedThings > 0)
+                Messages.Message(
+                    (isWarehouse ? "TSA_WD_Warehouse_PodDeposit" : "TSA_WD_Armory_PodDeposit").Translate(storedThings, outpost.LabelCap),
+                    outpost, MessageTypeDefOf.TaskCompletion, false);
         }
 
         public override void ExposeData()

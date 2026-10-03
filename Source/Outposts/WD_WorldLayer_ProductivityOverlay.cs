@@ -10,7 +10,7 @@ namespace TSA_WorldDomination
     public class WD_WorldLayer_ProductivityOverlay : WorldDrawLayer
     {
         private const int BandCount = 40;
-        public const int OverlayRadius = 20;
+        public const int OverlayRadius = 30;
         private const float SurfaceOffset = 0.012f;
         private const float OverlayAlpha = 0.45f;
         private const int RenderQueue = 3580;

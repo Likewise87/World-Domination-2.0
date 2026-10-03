@@ -71,6 +71,11 @@ namespace TSA_WorldDomination
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_ConstructionInsufficientStrengthTooltip".Translate(), WorldDominationSettings.DefNotifyConstructionInsufficientStrength));
 
                 l.CheckboxLabeled(
+                    "TSA_WD_Notify_ConstructionInsufficientMaterials".Translate(),
+                    ref s.notifyConstructionInsufficientMaterials,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip".Translate(), WorldDominationSettings.DefNotifyConstructionInsufficientMaterials));
+
+                l.CheckboxLabeled(
                     "TSA_WD_Notify_OutpostNoProduction".Translate(),
                     ref s.notifyOutpostNoProduction,
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_OutpostNoProductionTooltip".Translate(), WorldDominationSettings.DefNotifyOutpostNoProduction));

@@ -27,7 +27,7 @@ namespace TSA_WorldDomination
             if (comp.HasActivePlayerOrderedRoadProject)
             {
                 string roadTypeLabel = WorldActions_Roads.GetRoadTierLabel(comp.selectedRoadTier);
-                string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+                string insufficient = comp.GetInsufficientConstructionMessage();
                 string status = insufficient
                     ?? "TSA_WD_OrderedRoad_Status".Translate(comp.roadTargetName, (Mathf.Min(1f, comp.roadProgress) * 100f).ToString("F0")).ToString();
                 yield return new Command_Action

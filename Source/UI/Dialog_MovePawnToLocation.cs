@@ -83,11 +83,26 @@ namespace TSA_WorldDomination
             Widgets.Label(new Rect(0f, 0f, inRect.width, 32f), "TSA_WD_PawnTransfer_DialogTitle".Translate());
 
             Text.Font = GameFont.Small;
-            Widgets.Label(new Rect(0f, 34f, inRect.width, 36f),
+            Widgets.Label(new Rect(0f, 34f, inRect.width, 28f),
                 "TSA_WD_PawnTransfer_DialogSubtitle".Translate(selected.Count.ToString()));
 
+            int launchCount = selected.Count;
+            float modeH = PlayerPawnDropPodUtility.DrawAdHocModeAndCostStrip(
+                new Rect(0f, 64f, inRect.width, 80f),
+                launchCount);
+
+            float mapPickY = 64f + modeH + 4f;
+            Rect mapPickRect = new Rect(0f, mapPickY, inRect.width, 32f);
+            TooltipHandler.TipRegion(mapPickRect, "TSA_WD_Shipment_PickOnMapTip".Translate());
+            if (Widgets.ButtonText(mapPickRect, "TSA_WD_Shipment_PickOnMap".Translate()))
+            {
+                StartPickDestinationOnMap();
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
+
             string oldSearch = searchTerm;
-            Rect searchRect = new Rect(0f, 74f, inRect.width, 28f);
+            float searchY = mapPickRect.yMax + 8f;
+            Rect searchRect = new Rect(0f, searchY, inRect.width, 28f);
             searchTerm = Widgets.TextField(searchRect, searchTerm);
             if (searchTerm != oldSearch) RebuildDestinations();
 
@@ -100,7 +115,7 @@ namespace TSA_WorldDomination
                 GUI.color = Color.white;
             }
 
-            float listY = 110f;
+            float listY = searchRect.yMax + 8f;
             float fixedCols = ColIcon + ColHumanoids + ColCumSkill + ColDist + ColTransfer + ColJump;
             float contentWidth = Mathf.Max(fixedCols + 120f, inRect.width - ScrollbarWidth);
             colNameWidth = Mathf.Max(120f, contentWidth - fixedCols);
@@ -302,14 +317,23 @@ namespace TSA_WorldDomination
             Text.Font = GameFont.Small;
 
             Rect transferBtn = new Rect(curX + 4f, r.y + 6f, ColTransfer - 8f, r.height - 12f);
-            if (!string.IsNullOrEmpty(row.disabledTip))
-                TooltipHandler.TipRegion(transferBtn, row.disabledTip);
-            else
-                TooltipHandler.TipRegion(transferBtn, "TSA_WD_AllPlayerPawns_TransferTip".Translate());
-            GUI.enabled = !row.disabled;
+            bool viaDropPod = PlayerPawnDropPodUtility.AdHocViaDropPod;
+            bool podBlockedExit = viaDropPod && row.dest.kind == PlayerPawnTransferDestinationKind.ExitHere;
+            bool podOutOfRange = viaDropPod
+                && row.dest.kind != PlayerPawnTransferDestinationKind.ExitHere
+                && !OriginsAllInDropPodRange(row.dest.Tile);
+            string sendTip = !string.IsNullOrEmpty(row.disabledTip)
+                ? row.disabledTip
+                : podBlockedExit
+                    ? "TSA_WD_PawnDropPod_NoExitHere".Translate()
+                    : podOutOfRange
+                        ? "TSA_WD_PawnDropPod_OutOfRange".Translate()
+                        : "TSA_WD_AllPlayerPawns_TransferTip".Translate();
+            TooltipHandler.TipRegion(transferBtn, sendTip);
+            GUI.enabled = !row.disabled && !podBlockedExit && !podOutOfRange;
             if (Widgets.ButtonText(transferBtn, "TSA_WD_PawnTransfer_SendHere".Translate()))
             {
-                PlayerPawnTransferUtility.TryTransfer(selected, row.dest);
+                PlayerPawnTransferUtility.TryTransfer(selected, row.dest, viaDropPod: viaDropPod);
                 onTransferred?.Invoke();
                 Close();
                 SoundDefOf.Click.PlayOneShotOnCamera();
@@ -326,6 +350,96 @@ namespace TSA_WorldDomination
             GUI.enabled = true;
 
             y += RowHeight;
+        }
+
+        private void StartPickDestinationOnMap()
+        {
+            var pending = new List<PlayerPawnRosterEntry>(selected);
+            Action? transferred = onTransferred;
+            bool viaDropPod = PlayerPawnDropPodUtility.AdHocViaDropPod;
+            WorldObject cameraOrigin = null;
+            for (int i = 0; i < pending.Count; i++)
+            {
+                PlayerPawnRosterEntry e = pending[i];
+                if (e?.sourceOutpost != null && !e.sourceOutpost.Destroyed)
+                {
+                    cameraOrigin = e.sourceOutpost;
+                    break;
+                }
+                if (e?.mapParent != null && !e.mapParent.Destroyed)
+                {
+                    cameraOrigin = e.mapParent;
+                    break;
+                }
+            }
+
+            Close();
+            PlayerPawnDropPodUtility.PrepareWorldMapDestinationPick(cameraOrigin);
+            Outpost_Warehouse_Delivery.CyanDeliveryMouseOverlayActive = true;
+            Find.WorldTargeter.BeginTargeting(
+                target =>
+                {
+                    if (!TryResolveTransferDestination(target.WorldObject, out PlayerPawnTransferDestination dest, out string rejectKey))
+                    {
+                        Messages.Message(
+                            rejectKey.NullOrEmpty()
+                                ? "TSA_WD_Warehouse_InvalidDestination".Translate()
+                                : rejectKey.Translate(),
+                            MessageTypeDefOf.RejectInput);
+                        return false;
+                    }
+
+                    if (viaDropPod && dest.kind == PlayerPawnTransferDestinationKind.ExitHere)
+                    {
+                        Messages.Message("TSA_WD_PawnDropPod_NoExitHere".Translate(), MessageTypeDefOf.RejectInput);
+                        return false;
+                    }
+
+                    PlayerPawnTransferUtility.TryTransfer(pending, dest, viaDropPod: viaDropPod);
+                    transferred?.Invoke();
+                    return true;
+                },
+                true,
+                Outpost_Warehouse_Delivery.GetDeliveryTargetMouseIcon(),
+                false,
+                null,
+                null);
+        }
+
+        private static bool TryResolveTransferDestination(
+            WorldObject wo,
+            out PlayerPawnTransferDestination dest,
+            out string rejectKey)
+        {
+            dest = default;
+            rejectKey = "TSA_WD_Warehouse_InvalidDestination";
+            if (wo == null || wo.Destroyed || !wo.Spawned) return false;
+            if (WorldActions_Utils.IsSpace(wo)) return false;
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(wo.Tile)) return false;
+
+            if (wo is WorldObject_WD_Outpost outpost && outpost.Faction == Faction.OfPlayer)
+            {
+                dest = new PlayerPawnTransferDestination
+                {
+                    kind = PlayerPawnTransferDestinationKind.Outpost,
+                    outpost = outpost
+                };
+                rejectKey = null;
+                return true;
+            }
+
+            if (wo is MapParent mp && mp.Faction == Faction.OfPlayer && mp.HasMap && wo is not WorldObject_WD_Outpost)
+            {
+                dest = new PlayerPawnTransferDestination
+                {
+                    kind = PlayerPawnTransferDestinationKind.Colony,
+                    colony = mp
+                };
+                rejectKey = null;
+                return true;
+            }
+
+            return false;
         }
 
         private void RebuildDestinations()
@@ -565,6 +679,19 @@ namespace TSA_WorldDomination
                 else if (sole != op) return null;
             }
             return sole;
+        }
+
+        private bool OriginsAllInDropPodRange(int destTile)
+        {
+            for (int i = 0; i < selected.Count; i++)
+            {
+                PlayerPawnRosterEntry e = selected[i];
+                WorldObject origin = e.sourceOutpost != null ? (WorldObject)e.sourceOutpost : e.mapParent;
+                if (origin == null) return false;
+                if (!PlayerPawnDropPodUtility.InDropPodRange(origin, destTile))
+                    return false;
+            }
+            return true;
         }
 
         private MapParent? GetSoleSourceColony()

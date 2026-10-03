@@ -94,7 +94,7 @@ namespace TSA_WorldDomination
 
         public void RegisterTraveler(WorldObject_Traveler t)
         {
-            if (t == null) return;
+            if (t == null || travelers.Contains(t)) return;
             travelers.Add(t);
             // Include player-faction shells/pods: hostility + late-game / inbound gates in Notify
             // (hostile mortar shells skip the escalation gate).

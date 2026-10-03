@@ -126,8 +126,14 @@
         <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_Pipes</li>
         <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_Planks</li>
         <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_ConcreteBags</li>
+        <li>TSA_WD_Box_1a</li>
         <li>TSA_WD_Box_2a</li>
+        <li>TSA_WD_Box_3a</li>
         <li>TSA_WD_Box_4a</li>
+        <li>TSA_WD_Box_5a</li>
+        <li>TSA_WD_BoxPallet_1a</li>
+        <li>TSA_WD_BoxPallet_2a</li>
+        <li>TSA_WD_BoxPallet_3a</li>
         <li>TSA_WD_Cart_5a</li>
         <li>TSA_WD_Cart_6a</li>
         <li>TSA_WD_Cart_7a</li>
@@ -136,10 +142,6 @@
         <li>TSA_WD_Cart_10a</li>
         <li>TSA_WD_Cart_11a</li>
         <li>TSA_WD_Cart_12a</li>
-
-
-
-      
       </scatterPropsDefs>
     </propsOptions>
 

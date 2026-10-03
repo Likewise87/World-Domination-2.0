@@ -545,24 +545,25 @@ namespace TSA_WorldDomination
         /// <summary>
         /// Rebuild the static live-traveler registry from the current world. Static state is not reset
         /// between save loads in one session, so orphaned travelers from a prior game can linger and
-        /// inflate <see cref="ActiveCount"/>. Called from <see cref="WorldComponent_SpreadManager.FinalizeInit"/>,
+        /// inflate <see cref="ActiveCount"/>. Called from <see cref="WorldActions_Orchestrator.FinalizeInit"/>,
         /// which runs after world objects are spawned on load, so it is order-independent and authoritative.
         /// </summary>
         public static void RebuildLiveRegistry()
         {
             liveTravelers.Clear();
-            ActiveCount = 0;
             WorldObjectsHolder worldObjects = Find.WorldObjects;
-            if (worldObjects == null) return;
+            if (worldObjects == null)
+            {
+                ActiveCount = 0;
+                return;
+            }
             List<WorldObject> all = worldObjects.AllWorldObjects;
             for (int i = 0; i < all.Count; i++)
             {
                 if (all[i] is WorldObject_Traveler t && !t.Destroyed)
-                {
                     liveTravelers.Add(t);
-                    ActiveCount++;
-                }
             }
+            ActiveCount = liveTravelers.Count;
         }
 
         public override void Destroy()
@@ -581,8 +582,8 @@ namespace TSA_WorldDomination
                     && !outpost.Destroyed)
                     outpost.ClearPendingUpgradeIfMatches(upgradeTraveler.upgradeDefName, upgradeTraveler.upgradeLevel);
                 // Rapid-response strength is deducted at dispatch; refunds only via TravelerEndpointUtility (abort / surviving clash strength).
-                ActiveCount--;
-                liveTravelers.Remove(this);
+                liveTravelers.RemoveAll(t => t == this);
+                ActiveCount = liveTravelers.Count;
                 pather?.StopDead();
                 if (mission == TravelerMission.RoadBuilding && originObject != null && !originObject.Destroyed)
                     originObject.GetComponent<CompViralSpread>()?.NotifyRoadBuilderReturned();
@@ -608,13 +609,19 @@ namespace TSA_WorldDomination
         public override void SpawnSetup()
         {
             base.SpawnSetup();
-            ActiveCount++;
-            liveTravelers.Add(this);
+            bool newlyLive = false;
+            if (!liveTravelers.Contains(this))
+            {
+                liveTravelers.Add(this);
+                ActiveCount = liveTravelers.Count;
+                newlyLive = true;
+            }
             tweenedPos = Find.WorldGrid.GetTileCenter(Tile);
             tweenFromCenter = tweenToCenter = tweenedPos;
             tweenFromTileId = tweenToTileId = Tile.tileId;
             if (spawnTick == 0) spawnTick = Find.TickManager.TicksGame;
-            WorldComponent_InterceptionScheduler.Current?.RegisterTraveler(this);
+            if (newlyLive)
+                WorldComponent_InterceptionScheduler.Current?.RegisterTraveler(this);
 
             // --- SURGICAL: Capture Initial Strength if not set yet ---
             if (initialStrength <= 0) initialStrength = travelerStrength;
@@ -881,10 +888,12 @@ namespace TSA_WorldDomination
                         travelerStrength = Mathf.Max(travelerStrength, strengthFloor);
                     }
 
-                    bool shouldExpire = mission != TravelerMission.OutpostDelivery && travelerStrength <= 0.01f;
+                    bool shouldExpire = travelerStrength <= 0.01f;
                     if (shouldExpire)
                     {
-                        TravelerEndpointUtility.AbortTraveler(this, "TSA_WD_Log_TravelerExpired".Translate(Label), manager);
+                        // Strength ran out under fire: this is a kill, not a cancellation, so cargo is lost.
+                        TravelerEndpointUtility.AbortTraveler(
+                            this, "TSA_WD_Log_TravelerExpired".Translate(Label), manager, refundCargo: false);
                         return;
                     }
                 }
@@ -1489,7 +1498,7 @@ namespace TSA_WorldDomination
     public class WorldObject_Traveler_Outpost_RoadBuilder : WorldObject_Traveler { }
 
     /// <summary>Traveler that carries produced items from an outpost to the player colony and delivers them at the map edge (teleport-style).</summary>
-    public class WorldObject_Traveler_Outpost_Delivery : WorldObject_Traveler
+    public class WorldObject_Traveler_Outpost_Delivery : WorldObject_Traveler, IThingHolder
     {
         public const string DropPodIconTexturePath = "WorldObjects/DropPod_OutpostGoods";
 
@@ -1499,11 +1508,148 @@ namespace TSA_WorldDomination
         /// <summary>When true, flies straight to the destination tile (mortar-style) and delivers via drop pods on arrival.</summary>
         public bool deliveryViaDropPod;
 
+        /// <summary>
+        /// Real Things riding along because def+stuff+quality cannot rebuild them (persona weapons,
+        /// art, quest items). Ordinary armory cargo uses <see cref="deliveryItems"/>.
+        /// </summary>
+        private ThingOwner<Thing> cargoUniques;
+
+        /// <summary>Set by the arrival handlers so Destroy does not also wipe delivered cargo.</summary>
+        private bool cargoHandled;
+
+        public WorldObject_Traveler_Outpost_Delivery()
+        {
+            cargoUniques = new ThingOwner<Thing>(this, LookMode.Deep, removeContentsIfDestroyed: true)
+            {
+                dontTickContents = true
+            };
+        }
+
+        public ThingOwner<Thing> CargoUniques => cargoUniques;
+
         public bool UsesBallisticWorldFlight => deliveryViaDropPod;
 
         public bool HasDeliveryCargo =>
             deliveryVirtualFood > 0.001f
-            || (deliveryItems != null && deliveryItems.Exists(tc => tc?.thingDef != null && tc.count > 0));
+            || (deliveryItems != null && deliveryItems.Exists(tc => tc?.thingDef != null && tc.count > 0))
+            || (cargoUniques != null && cargoUniques.Count > 0);
+
+        /// <summary>
+        /// Deliberately hides <see cref="WorldObject.ParentHolder"/>. Null keeps in-flight cargo out
+        /// of ThingOwnerUtility map and holder walks.
+        /// </summary>
+        public new IThingHolder ParentHolder => null;
+
+        public ThingOwner GetDirectlyHeldThings() => cargoUniques;
+
+        public void GetChildHolders(List<IThingHolder> outChildren) =>
+            ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, cargoUniques);
+
+        /// <summary>Called by arrival handlers once the cargo has been delivered somewhere.</summary>
+        public void MarkCargoHandled()
+        {
+            cargoHandled = true;
+            deliveryItems?.Clear();
+            deliveryVirtualFood = 0f;
+        }
+
+        /// <summary>
+        /// Returns cargo to its origin. Only for a genuine cancellation (the destination is gone);
+        /// attrition and hostile destruction both lose the cargo instead. Outpost origin: rows and
+        /// uniques go back into its store, virtual food into its pool, and rows it cannot store
+        /// (non-gear at a non-warehouse outpost) are dropped at a player colony. Colony origin: rows
+        /// and uniques are placed at the delivery spot.
+        /// </summary>
+        public void RefundCargoToOrigin()
+        {
+            if (cargoHandled) return;
+            cargoHandled = true;
+
+            if (originObject is WorldObject_WD_Outpost originOutpost && !originOutpost.Destroyed)
+            {
+                if (deliveryItems != null && deliveryItems.Count > 0)
+                    OutpostStorageUtility.DepositRows(originOutpost, deliveryItems);
+                OutpostStorageUtility.DepositUniques(originOutpost, cargoUniques);
+                if (deliveryVirtualFood > 0.001f)
+                {
+                    var logi = originOutpost.GetComponent<CompOutpostLogistics>();
+                    if (logi != null) CompOutpostLogistics.AddVirtualFoodNutrition(logi, deliveryVirtualFood);
+                }
+            }
+            else if (originObject is MapParent colony && colony.HasMap)
+            {
+                if (deliveryItems != null && deliveryItems.Count > 0)
+                    SettlementBuyUtility.RefundItems(colony, deliveryItems);
+                if (cargoUniques != null && cargoUniques.Count > 0)
+                {
+                    IntVec3 cell = WorldActions_Traveler.FindColonyDeliveryOrTradeDropCell(colony.Map);
+                    while (cargoUniques.Count > 0)
+                    {
+                        Thing t = cargoUniques[0];
+                        cargoUniques.Remove(t);
+                        if (t == null || t.Destroyed) continue;
+                        if (!GenPlace.TryPlaceThing(t, cell, colony.Map, ThingPlaceMode.Near) && !t.Destroyed)
+                            t.Destroy(DestroyMode.Vanish);
+                    }
+                }
+            }
+
+            deliveryItems?.Clear();
+            deliveryVirtualFood = 0f;
+            cargoUniques?.ClearAndDestroyContents();
+        }
+
+        public override void Destroy()
+        {
+            // Any death in transit loses the cargo: anti-air, mortars, ambush, clashes, attrition,
+            // road blocks, spike traps and pollution all funnel through here.
+            if (!cargoHandled)
+            {
+                NotifyCargoLost();
+                deliveryItems?.Clear();
+                deliveryVirtualFood = 0f;
+                cargoUniques?.ClearAndDestroyContents();
+                cargoHandled = true;
+            }
+            base.Destroy();
+        }
+
+        private void NotifyCargoLost()
+        {
+            if (Faction != Faction.OfPlayer) return;
+            if (!HasDeliveryCargo) return;
+
+            var sb = new System.Text.StringBuilder();
+            if (deliveryItems != null)
+            {
+                for (int i = 0; i < deliveryItems.Count; i++)
+                {
+                    ThingDefCountClass e = deliveryItems[i];
+                    if (e?.thingDef == null || e.count <= 0) continue;
+                    sb.AppendLine("  - " + e.thingDef.LabelCap + " x" + e.count);
+                }
+            }
+            if (cargoUniques != null)
+            {
+                for (int i = 0; i < cargoUniques.Count; i++)
+                {
+                    Thing t = cargoUniques[i];
+                    if (t != null) sb.AppendLine("  - " + t.LabelCap);
+                }
+            }
+            if (deliveryVirtualFood > 0.001f)
+                sb.AppendLine("  - " + "TSA_WD_Armory_LostFood".Translate(deliveryVirtualFood.ToString("F0")));
+
+            if (sb.Length == 0) return;
+
+            Find.LetterStack?.ReceiveLetter(
+                "TSA_WD_Armory_CargoLostLabel".Translate(),
+                "TSA_WD_Armory_CargoLost".Translate(
+                    TravelerEndpointUtility.IsLiveEndpoint(targetObject) ? targetObject.LabelCap : "?")
+                    + "\n" + sb,
+                LetterDefOf.NegativeEvent,
+                new LookTargets(this));
+        }
 
         /// <summary>
         /// Warehouse drop-pod deliveries share the goods traveler def; invalidate the cached material when the icon path changes.
@@ -1521,7 +1667,16 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref deliveryItems, "deliveryItems", LookMode.Deep);
             Scribe_Values.Look(ref deliveryVirtualFood, "deliveryVirtualFood", 0f);
             Scribe_Values.Look(ref deliveryViaDropPod, "deliveryViaDropPod", false);
+            Scribe_Deep.Look(ref cargoUniques, "cargoUniques", this);
+            Scribe_Values.Look(ref cargoHandled, "cargoHandled", false);
             if (deliveryItems == null) deliveryItems = new List<ThingDefCountClass>();
+            if (cargoUniques == null)
+            {
+                cargoUniques = new ThingOwner<Thing>(this, LookMode.Deep, removeContentsIfDestroyed: true)
+                {
+                    dontTickContents = true
+                };
+            }
             if (Scribe.mode == LoadSaveMode.PostLoadInit && deliveryViaDropPod)
                 InvalidateTravelerMaterialCache();
         }
@@ -1535,8 +1690,30 @@ namespace TSA_WorldDomination
         public int upgradeLevel;
         /// <summary>When true, flies ballistic like goods drop pods and can be engaged by anti-air.</summary>
         public bool upgradeViaDropPod;
+        /// <summary>Set once the upgrade has been applied, so Destroy knows this was not a loss.</summary>
+        public bool upgradeResolved;
 
         public bool UsesBallisticWorldFlight => upgradeViaDropPod;
+
+        public override void Destroy()
+        {
+            // Materials were deducted and pendingUpgradeDefName set at launch. Losing the traveler
+            // without clearing them would leave the outpost stuck "awaiting delivery" forever.
+            if (!upgradeResolved && targetObject is WorldObject_WD_Outpost outpost && !outpost.Destroyed)
+            {
+                if (outpost.ClearPendingUpgradeAfterLoss() && Faction == Faction.OfPlayer)
+                {
+                    string upgradeLabel = DefDatabase<OutpostUpgradeDef>
+                        .GetNamedSilentFail(upgradeDefName)?.LabelCap ?? upgradeDefName ?? "?";
+                    Find.LetterStack?.ReceiveLetter(
+                        "TSA_WD_Armory_UpgradeLostLabel".Translate(),
+                        "TSA_WD_Armory_UpgradeLost".Translate(upgradeLabel, outpost.LabelCap),
+                        LetterDefOf.NegativeEvent,
+                        new LookTargets(outpost));
+                }
+            }
+            base.Destroy();
+        }
 
         public override string? ResolveIconTexturePath()
         {
@@ -1551,6 +1728,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref upgradeDefName, "upgradeDefName");
             Scribe_Values.Look(ref upgradeLevel, "upgradeLevel", 0);
             Scribe_Values.Look(ref upgradeViaDropPod, "upgradeViaDropPod", false);
+            Scribe_Values.Look(ref upgradeResolved, "upgradeResolved", false);
             if (Scribe.mode == LoadSaveMode.PostLoadInit && upgradeViaDropPod)
                 InvalidateTravelerMaterialCache();
         }
@@ -1714,6 +1892,8 @@ namespace TSA_WorldDomination
     public class WorldObject_Traveler_RapidResponseDropPod : WorldObject_Traveler
     {
         public List<Pawn> carriedPawns = new List<Pawn>();
+        public WorldObjectDef establishOutpostDef;
+        public List<ThingDefCountClass> deliveryItems = new List<ThingDefCountClass>();
 
         public bool UsesBallisticWorldFlight => true;
 
@@ -1722,6 +1902,9 @@ namespace TSA_WorldDomination
             base.ExposeData();
             Scribe_Collections.Look(ref carriedPawns, "carriedPawns", LookMode.Deep);
             if (carriedPawns == null) carriedPawns = new List<Pawn>();
+            Scribe_Defs.Look(ref establishOutpostDef, "establishOutpostDef");
+            Scribe_Collections.Look(ref deliveryItems, "rrDeliveryItems", LookMode.Deep);
+            if (deliveryItems == null) deliveryItems = new List<ThingDefCountClass>();
         }
 
         public override void Destroy()
@@ -1730,19 +1913,44 @@ namespace TSA_WorldDomination
             base.Destroy();
         }
 
-        /// <summary>If destroyed or aborted before arrival, put surviving pawns back into the origin outpost.</summary>
+        /// <summary>If destroyed or aborted before arrival, put surviving pawns back into the origin outpost or colony.</summary>
         public void ReturnCarriedPawnsToOrigin()
         {
             if (carriedPawns == null || carriedPawns.Count == 0) return;
-            var origin = originObject as WorldObject_WD_Outpost;
-            for (int i = 0; i < carriedPawns.Count; i++)
+            var originOutpost = originObject as WorldObject_WD_Outpost;
+            if (originOutpost != null && !originOutpost.Destroyed)
             {
-                Pawn p = carriedPawns[i];
-                if (p == null || p.Destroyed || p.Dead) continue;
-                if (origin != null && !origin.Destroyed)
-                    origin.AddPawn(p, null!);
+                for (int i = 0; i < carriedPawns.Count; i++)
+                {
+                    Pawn p = carriedPawns[i];
+                    if (p == null || p.Destroyed || p.Dead) continue;
+                    originOutpost.AddPawn(p, null!);
+                }
+                carriedPawns.Clear();
+                return;
+            }
+
+            MapParent originColony = originObject as MapParent;
+            if (originColony != null && !(originColony is WorldObject_WD_Outpost) && !originColony.Destroyed)
+            {
+                if (originColony.HasMap)
+                    RapidResponseUtility.DropPawnsViaDropPods(carriedPawns, originColony.Map);
                 else
-                    p.Destroy();
+                    CaravanMaker.MakeCaravan(carriedPawns, Faction.OfPlayer, originColony.Tile, true);
+                carriedPawns.Clear();
+                return;
+            }
+
+            int tile = Tile.tileId;
+            if (tile >= 0 && Find.WorldGrid.InBounds(tile))
+                CaravanMaker.MakeCaravan(carriedPawns, Faction.OfPlayer, tile, true);
+            else
+            {
+                for (int i = 0; i < carriedPawns.Count; i++)
+                {
+                    Pawn p = carriedPawns[i];
+                    if (p != null && !p.Destroyed) p.Destroy();
+                }
             }
             carriedPawns.Clear();
         }

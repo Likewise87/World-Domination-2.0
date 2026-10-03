@@ -95,6 +95,18 @@ namespace TSA_WorldDomination
                     ref s.experimentalUnlimitedAssaultMortarSupport,
                     "TSA_WD_Experimental_UnlimitedAssaultMortarSupportTip".Translate(),
                     defaultValue: WorldDominationSettings.DefExperimentalUnlimitedAssaultMortarSupport);
+
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_OutpostCePassiveAmmo".Translate(),
+                    ref s.experimentalOutpostCePassiveAmmo,
+                    "TSA_WD_Experimental_OutpostCePassiveAmmoTip".Translate(
+                        OutpostCeAmmoCompat.MagazinesPerDay,
+                        OutpostCeAmmoCompat.MagazineCap),
+                    defaultValue: WorldDominationSettings.DefExperimentalOutpostCePassiveAmmo);
+
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_OutpostArmory".Translate(),
+                    ref s.experimentalOutpostArmory,
+                    "TSA_WD_Experimental_OutpostArmoryTip".Translate(),
+                    defaultValue: WorldDominationSettings.DefExperimentalOutpostArmory);
             }
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Notify_HeaderWorldMapIcons".Translate(), ref iconsExpanded, SettingsUI.SectionHeaderColor))

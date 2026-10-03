@@ -241,8 +241,10 @@
   <TSA_WD_SubType_Logging>Campamento maderero</TSA_WD_SubType_Logging>
   <TSA_WD_SubType_Mining>Campamento minero</TSA_WD_SubType_Mining>
   <TSA_WD_SubType_Farming>Campamento agrícola</TSA_WD_SubType_Farming>
+  <TSA_WD_SubType_Camp>Campamento</TSA_WD_SubType_Camp>
+  <TSA_WD_SubType_Refuge>Refugio</TSA_WD_SubType_Refuge>
   <TSA_WD_SubType_Production>Aldea de producción</TSA_WD_SubType_Production>
-  <TSA_WD_SubType_Slavery>Aldea de esclavos</TSA_WD_SubType_Slavery>
+  <TSA_WD_SubType_Slavery>Aldea prisión</TSA_WD_SubType_Slavery>
   <TSA_WD_SubType_Fortress>Pueblo</TSA_WD_SubType_Fortress>
   <TSA_WD_SubType_Vanguard>Vanguardia</TSA_WD_SubType_Vanguard>
   <TSA_WD_SubType_Citadel>Ciudadela</TSA_WD_SubType_Citadel>

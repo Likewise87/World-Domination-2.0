@@ -47,6 +47,10 @@ namespace TSA_WorldDomination
         private const float HeaderHeight = 36f;
         private const float ToolbarHeight = 48f;
         private const float TransferBtnWidth = 200f;
+        private const float TravelBtnWidth = PlayerPawnDropPodUtility.ModeIconSize
+            + PlayerPawnDropPodUtility.ModeFallbackGap
+            + PlayerPawnDropPodUtility.FallbackCheckboxSize;
+        private const float ArmoryBtnWidth = 120f;
         private const float SelectedLabelWidth = 130f;
         private const float ToolbarBtnGap = 10f;
         private const float ColSkillPad = 12f;
@@ -103,6 +107,24 @@ namespace TSA_WorldDomination
 
         /// <summary>Force next draw to rebuild rows (capture / let-go / recruit from other UIs).</summary>
         public static void InvalidateCache() => cacheInvalidated = true;
+
+        private void DrawArmoryButton(Rect rect)
+        {
+            bool enabled = OutpostArmoryUtility.CanMutate(SelOutpost);
+            if (!enabled) GUI.color = new Color(1f, 1f, 1f, 0.45f);
+            bool clicked = WorldDomination_UIUtils.ButtonTextWithIcon(
+                rect,
+                Dialog_OutpostArmoryAssets.ArmoryIcon,
+                "TSA_WD_Armory_OpenButton".Translate());
+            GUI.color = Color.white;
+
+            TooltipHandler.TipRegion(rect, enabled
+                ? "TSA_WD_Armory_OpenButtonTip".Translate()
+                : "TSA_WD_Armory_FailManualDefense".Translate());
+
+            if (clicked && enabled)
+                Find.WindowStack.Add(new Dialog_OutpostArmory(SelOutpost));
+        }
 
         private enum OutpostPawnRowKind
         {
@@ -1196,13 +1218,18 @@ namespace TSA_WorldDomination
             bool anyTransferableSelected = hasNonPrisonerSelected || hasPrisonerSelected;
 
             Rect transferBtn = new Rect(content.width - TransferBtnWidth - TransferBtnRightInset, 4f, TransferBtnWidth, 30f);
+            bool showFallback = PlayerPawnDropPodUtility.GetTravelViaDropPod(SelOutpost);
+            float travelW = PlayerPawnDropPodUtility.ToolbarWidth(showFallback);
+            Rect travelBtn = new Rect(transferBtn.x - ToolbarBtnGap - travelW, 4f, travelW, 30f);
             Text.Font = GameFont.Small;
             string selectedLabel = "TSA_WD_AllPlayerPawns_Selected".Translate(selectedCount.ToString());
             float selectedW = Mathf.Max(Text.CalcSize(selectedLabel).x + 8f, 80f);
             Text.Anchor = TextAnchor.MiddleRight;
-            Rect selectedRect = new Rect(transferBtn.x - ToolbarBtnGap - selectedW, 6f, selectedW, 28f);
+            Rect selectedRect = new Rect(travelBtn.x - ToolbarBtnGap - selectedW, 6f, selectedW, 28f);
             Widgets.Label(selectedRect, selectedLabel);
             Text.Anchor = TextAnchor.UpperLeft;
+
+            PlayerPawnDropPodUtility.DrawOriginModeAndFallbackSingle(travelBtn, SelOutpost);
 
             float viewControlsLeft = PlayerPawnRosterUtility.DrawRosterViewControls(
                 4f,
@@ -1212,8 +1239,18 @@ namespace TSA_WorldDomination
                 RestoreDefaultView,
                 () => Find.WindowStack.Add(new Dialog_PawnRosterColumns(ColWindow, OnColumnsChanged)));
 
+            // Armory is outpost-wide (not selection-scoped), so it sits with the view controls,
+            // immediately left of the skill-highlight pen.
+            float toolbarLeft = viewControlsLeft;
+            if (OutpostArmoryUtility.FeatureEnabled)
+            {
+                Rect armoryBtn = new Rect(viewControlsLeft - ToolbarBtnGap - ArmoryBtnWidth, 4f, ArmoryBtnWidth, 30f);
+                DrawArmoryButton(armoryBtn);
+                toolbarLeft = armoryBtn.x;
+            }
+
             Text.Font = GameFont.Medium;
-            float headlineW = Mathf.Max(80f, viewControlsLeft - 8f);
+            float headlineW = Mathf.Max(80f, toolbarLeft - 8f);
             Widgets.Label(new Rect(0f, 0f, headlineW, 32f), headline);
 
             Text.Font = GameFont.Tiny;
@@ -1244,6 +1281,9 @@ namespace TSA_WorldDomination
                     hdrTransfer))
                 {
                     var selected = PlayerPawnRosterUtility.BuildTransferEntriesForOutpost(SelOutpost, selectedForRemovalThingIds);
+                    // Transfer dialog uses session AdHoc mode; carry over this outpost's travel icon choice.
+                    PlayerPawnDropPodUtility.SetAdHocViaDropPod(
+                        PlayerPawnDropPodUtility.GetTravelViaDropPod(SelOutpost));
                     Find.WindowStack.Add(new Dialog_MovePawnToLocation(selected, () =>
                     {
                         selectedForRemovalThingIds.Clear();
@@ -1513,6 +1553,8 @@ namespace TSA_WorldDomination
             bool hasPawns = selectedPawns.Count > 0;
             bool selectionAllowed = hasPawns && !hasStoredSelected && OutpostPawnIdeologyUtil.BulkRemovalSelectionIsAllowed(outpost, selectedPawns);
             bool leavesGarrison = outpost.Occupants != null && selectedPawns.Count < outpost.Occupants.Count;
+            int have = PlayerPawnDropPodUtility.CountComponentsAvailable();
+            // Short stock never blocks the button: the launch confirm offers land travel instead.
             bool enabled = researched && selectionAllowed && leavesGarrison && !HasPrisonerSelection()
                 && !outpost.ManualDefenseActive;
 
@@ -1524,7 +1566,9 @@ namespace TSA_WorldDomination
             else if (hasStoredSelected) tip = "TSA_WD_RapidResponse_DropPodsNoStoredTransport".Translate();
             else if (!leavesGarrison) tip = "TSA_WD_RapidResponse_DropPodsLeavePawn".Translate();
             else if (!selectionAllowed) tip = hdrSlaveRemoveBlockedTip;
-            else tip = "TSA_WD_RapidResponse_DropPodsDesc".Translate();
+            else tip = "TSA_WD_RapidResponse_DropPodsDesc".Translate()
+                + "\n\n" + "TSA_WD_PawnDropPod_CostLine".Translate(PlayerPawnDropPodUtility.ComponentCostPerLaunch.ToString())
+                + "\n" + "TSA_WD_PawnDropPod_StockLine".Translate(have.ToString());
 
             TooltipHandler.TipRegion(btn, tip);
             if (!enabled)
@@ -1617,51 +1661,19 @@ namespace TSA_WorldDomination
                             DispatchSelectedPawnsToTile(outpost, selectedPawns, destTile);
                     };
 
-                    if (TryConfirmDropPodDespiteHostileAa(outpost.Tile.tileId, destTile, launch))
-                        return true;
-
                     launch();
                     return true;
                 },
                 true, null, false,
-                () =>
-                {
-                    WD_RadiusOverlayMode.DrawOrFill(
-                        outpost,
-                        RapidResponseUtility.GetDropPodRangeTiles(),
-                        OutpostCoverageFillKind.Purple,
-                        WorldOverlayLineMaterials.RecruitTradingRadiusRing);
-                },
+                null,
                 null,
                 target => IsValidRapidResponseDropPodDestination(outpost, target));
-        }
-
-        /// <summary>
-        /// If hostile T4 flak threatens this flight, show a confirmation and run <paramref name="onConfirm"/> only if accepted.
-        /// Returns true when a dialog was shown (caller should not launch immediately).
-        /// </summary>
-        private static bool TryConfirmDropPodDespiteHostileAa(int originTile, int destTile, Action onConfirm)
-        {
-            var threats = new List<Settlement>();
-            if (!AntiAirFireUtils.TryGetHostileSettlementAaThreatsForDropPodFlight(originTile, destTile, threats)
-                || threats.Count == 0)
-                return false;
-
-            string names = threats[0].LabelCap;
-            for (int i = 1; i < threats.Count; i++)
-                names += ", " + threats[i].LabelCap;
-
-            Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-                "TSA_WD_RapidResponse_DropPodsAaWarning".Translate(names),
-                onConfirm,
-                destructive: true));
-            return true;
         }
 
         private static bool IsValidRapidResponseDropPodDestination(WorldObject_WD_Outpost source, GlobalTargetInfo target)
         {
             if (source == null || source.Destroyed || !target.IsValid || target.Tile < 0) return false;
-            if (!WithinRapidResponseDropPodRange(source, target.Tile.tileId)) return false;
+            if (!PlayerPawnDropPodUtility.InDropPodRange(source, target.Tile.tileId)) return false;
 
             if (target.HasWorldObject && IsValidRapidResponseDropPodWorldObjectTarget(source, target.WorldObject))
                 return true;
@@ -1673,7 +1685,7 @@ namespace TSA_WorldDomination
         private static bool IsValidRapidResponseDropPodWorldObjectTarget(WorldObject_WD_Outpost source, WorldObject wo)
         {
             if (source == null || source.Destroyed || wo == null || wo.Destroyed) return false;
-            if (!WithinRapidResponseDropPodRange(source, wo.Tile.tileId)) return false;
+            if (!PlayerPawnDropPodUtility.InDropPodRange(source, wo.Tile.tileId)) return false;
 
             if (wo is WorldObject_Traveler traveler)
                 return traveler.Faction != null
@@ -1712,17 +1724,6 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        private static bool WithinRapidResponseDropPodRange(WorldObject_WD_Outpost source, int tileId)
-        {
-            if (source == null || tileId < 0) return false;
-            float range = RapidResponseUtility.GetDropPodRangeTiles();
-            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            float dist = manager != null
-                ? WorldActions_Utils.GetDistance(source.Tile, tileId, manager)
-                : Find.WorldGrid.ApproxDistanceInTiles(source.Tile, tileId);
-            return dist <= range;
-        }
-
         private static List<Pawn> RemoveSelectedPawnsForDropPod(WorldObject_WD_Outpost outpost, List<Pawn> selectedPawns)
         {
             var removed = new List<Pawn>(selectedPawns.Count);
@@ -1750,49 +1751,158 @@ namespace TSA_WorldDomination
 
         private static void DispatchSelectedPawnsToTarget(WorldObject_WD_Outpost outpost, List<Pawn> selectedPawns, WorldObject target)
         {
-            var removed = RemoveSelectedPawnsForDropPod(outpost, selectedPawns);
-            if (removed.Count == 0) return;
-
-            var traveler = WorldActions_Traveler.SpawnRapidResponseDropPodTraveler(outpost, target, removed);
-            if (traveler == null)
+            var origins = new List<WorldObject>();
+            PlayerPawnDropPodUtility.AddOriginSlots(origins, outpost, selectedPawns?.Count ?? 0);
+            PlayerPawnDropPodUtility.ConfirmIfShortThen(origins, alloc =>
             {
-                RestorePawnsToOutpost(outpost, removed);
-                Messages.Message("TSA_WD_RapidResponse_DropPodsAborted".Translate(), MessageTypeDefOf.RejectInput, false);
-                return;
-            }
+                var pod = new List<Pawn>();
+                var land = new List<Pawn>();
+                var abort = new List<Pawn>();
+                PlayerPawnDropPodUtility.PartitionByModes(selectedPawns, alloc, 0, pod, land, abort);
 
-            Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
-                "TSA_WD_Log_RapidResponseDropPodsLaunched".Translate(outpost.LabelCap, target.LabelCap, removed.Count.ToString()),
-                outpost,
-                target));
-            Messages.Message(
-                "TSA_WD_RapidResponse_DropPodsLaunched".Translate(removed.Count.ToString(), target.LabelCap),
-                MessageTypeDefOf.TaskCompletion,
-                false);
+                Action proceed = () =>
+                {
+                    if (pod.Count > 0)
+                    {
+                        int cost = pod.Count * PlayerPawnDropPodUtility.ComponentCostPerLaunch;
+                        if (!PlayerPawnDropPodUtility.TryConsumeComponents(cost, out string reason))
+                        {
+                            Messages.Message(reason ?? "TSA_WD_PawnDropPod_AllWouldAbort".Translate(), MessageTypeDefOf.RejectInput, false);
+                            land.AddRange(pod);
+                            pod.Clear();
+                        }
+                        else
+                        {
+                            var removed = RemoveSelectedPawnsForDropPod(outpost, pod);
+                            if (removed.Count > 0)
+                            {
+                                var traveler = WorldActions_Traveler.SpawnRapidResponseDropPodTraveler(outpost, target, removed);
+                                if (traveler == null)
+                                {
+                                    RestorePawnsToOutpost(outpost, removed);
+                                    Messages.Message("TSA_WD_RapidResponse_DropPodsAborted".Translate(), MessageTypeDefOf.RejectInput, false);
+                                }
+                                else
+                                {
+                                    Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
+                                        "TSA_WD_Log_RapidResponseDropPodsLaunched".Translate(outpost.LabelCap, target.LabelCap, removed.Count.ToString()),
+                                        outpost,
+                                        target));
+                                    Messages.Message(
+                                        "TSA_WD_RapidResponse_DropPodsLaunched".Translate(removed.Count.ToString(), target.LabelCap),
+                                        MessageTypeDefOf.TaskCompletion,
+                                        false);
+                                }
+                            }
+                        }
+                    }
+
+                    if (land.Count > 0)
+                    {
+                        PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(land, outpost);
+                        var removed = RemoveSelectedPawnsForDropPod(outpost, land);
+                        if (removed.Count > 0)
+                        {
+                            Caravan caravan = CaravanMaker.MakeCaravan(removed, Faction.OfPlayer, outpost.Tile, true);
+                            if (caravan == null || caravan.Destroyed)
+                                RestorePawnsToOutpost(outpost, removed);
+                            else
+                            {
+                                PlanetTile dest = PlanetSurfaceWorldActions.PlanetTileForWdTravel(target.Tile.tileId, outpost);
+                                caravan.pather.StartPath(dest, target is MapParent mp && mp.HasMap
+                                    ? new CaravanArrivalAction_Enter(mp)
+                                    : null, false, false);
+                            }
+                        }
+                    }
+
+                    if (abort.Count > 0)
+                        PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(abort, outpost);
+                };
+
+                if (pod.Count > 0
+                    && target != null
+                    && !target.Destroyed
+                    && PlayerPawnDropPodUtility.ConfirmHostileAaThen(
+                        outpost.Tile.tileId, target.Tile.tileId, proceed))
+                    return;
+                proceed();
+            });
         }
 
         private static void DispatchSelectedPawnsToTile(WorldObject_WD_Outpost outpost, List<Pawn> selectedPawns, int tileId)
         {
-            var removed = RemoveSelectedPawnsForDropPod(outpost, selectedPawns);
-            if (removed.Count == 0) return;
-
-            var traveler = WorldActions_Traveler.SpawnRapidResponseDropPodTraveler(outpost, tileId, removed);
-            if (traveler == null)
+            var origins = new List<WorldObject>();
+            PlayerPawnDropPodUtility.AddOriginSlots(origins, outpost, selectedPawns?.Count ?? 0);
+            PlayerPawnDropPodUtility.ConfirmIfShortThen(origins, alloc =>
             {
-                RestorePawnsToOutpost(outpost, removed);
-                Messages.Message("TSA_WD_RapidResponse_DropPodsAborted".Translate(), MessageTypeDefOf.RejectInput, false);
-                return;
-            }
+                var pod = new List<Pawn>();
+                var land = new List<Pawn>();
+                var abort = new List<Pawn>();
+                PlayerPawnDropPodUtility.PartitionByModes(selectedPawns, alloc, 0, pod, land, abort);
 
-            string destLabel = "#" + tileId;
-            Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
-                "TSA_WD_Log_RapidResponseDropPodsLaunched".Translate(outpost.LabelCap, destLabel, removed.Count.ToString()),
-                outpost,
-                null));
-            Messages.Message(
-                "TSA_WD_RapidResponse_DropPodsLaunched".Translate(removed.Count.ToString(), destLabel),
-                MessageTypeDefOf.TaskCompletion,
-                false);
+                Action proceed = () =>
+                {
+                    if (pod.Count > 0)
+                    {
+                        int cost = pod.Count * PlayerPawnDropPodUtility.ComponentCostPerLaunch;
+                        if (!PlayerPawnDropPodUtility.TryConsumeComponents(cost, out string reason))
+                        {
+                            Messages.Message(reason ?? "TSA_WD_PawnDropPod_AllWouldAbort".Translate(), MessageTypeDefOf.RejectInput, false);
+                            land.AddRange(pod);
+                            pod.Clear();
+                        }
+                        else
+                        {
+                            var removed = RemoveSelectedPawnsForDropPod(outpost, pod);
+                            if (removed.Count > 0)
+                            {
+                                var traveler = WorldActions_Traveler.SpawnRapidResponseDropPodTraveler(outpost, tileId, removed);
+                                if (traveler == null)
+                                {
+                                    RestorePawnsToOutpost(outpost, removed);
+                                    Messages.Message("TSA_WD_RapidResponse_DropPodsAborted".Translate(), MessageTypeDefOf.RejectInput, false);
+                                }
+                                else
+                                {
+                                    string destLabel = "#" + tileId;
+                                    Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
+                                        "TSA_WD_Log_RapidResponseDropPodsLaunched".Translate(outpost.LabelCap, destLabel, removed.Count.ToString()),
+                                        outpost,
+                                        null));
+                                    Messages.Message(
+                                        "TSA_WD_RapidResponse_DropPodsLaunched".Translate(removed.Count.ToString(), destLabel),
+                                        MessageTypeDefOf.TaskCompletion,
+                                        false);
+                                }
+                            }
+                        }
+                    }
+
+                    if (land.Count > 0)
+                    {
+                        PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(land, outpost);
+                        var removed = RemoveSelectedPawnsForDropPod(outpost, land);
+                        if (removed.Count > 0)
+                        {
+                            Caravan caravan = CaravanMaker.MakeCaravan(removed, Faction.OfPlayer, outpost.Tile, true);
+                            if (caravan == null || caravan.Destroyed)
+                                RestorePawnsToOutpost(outpost, removed);
+                            else
+                                caravan.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(tileId, outpost), null, false, false);
+                        }
+                    }
+
+                    if (abort.Count > 0)
+                        PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(abort, outpost);
+                };
+
+                if (pod.Count > 0
+                    && PlayerPawnDropPodUtility.ConfirmHostileAaThen(
+                        outpost.Tile.tileId, tileId, proceed))
+                    return;
+                proceed();
+            });
         }
 
         private void DoTableHeader(ref float curY)

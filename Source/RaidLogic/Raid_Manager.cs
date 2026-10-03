@@ -385,6 +385,13 @@ namespace TSA_WorldDomination
 
             bool useGravship = ShouldLaunchGravshipRaid(attComp, attacker, seth, eval.forceGravship);
             bool useDropPod = !useGravship && ShouldLaunchDropPodRaid(attComp, attacker, seth, eval.forceDropPod);
+            bool waterSubstituteDropPod = false;
+            if (!useGravship && !useDropPod
+                && TravelUtils.ShouldRaidUseDropPodsOverWater(attacker, attComp, target, seth))
+            {
+                useDropPod = true;
+                waterSubstituteDropPod = true;
+            }
             float dropEfficiency = 1f;
             float dropSynthTicks = -1f;
             if (useGravship || useDropPod)
@@ -393,7 +400,7 @@ namespace TSA_WorldDomination
                         attacker.Tile, target.Tile, seth, attacker.Faction,
                         out dropEfficiency, out dropSynthTicks))
                 {
-                    if (eval.forceGravship || eval.forceDropPod)
+                    if (eval.forceGravship || eval.forceDropPod || waterSubstituteDropPod)
                     {
                         dropEfficiency = 1f;
                         float dist = Mathf.Max(1f, Find.WorldGrid.ApproxDistanceInTiles(attacker.Tile, target.Tile));

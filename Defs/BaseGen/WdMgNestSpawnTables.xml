@@ -30,7 +30,27 @@
         <countMax>0</countMax>
       </li>
       <li>
-        <settlementLayout>TSA_Generic_T2_Slavery</settlementLayout>
+        <settlementLayout>TSA_Generic_T2_Prison</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Generic_T1_Camp</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Generic_T2_Camp</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Generic_T1_Refuge</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Generic_T2_Refuge</settlementLayout>
         <countMin>0</countMin>
         <countMax>0</countMax>
       </li>
@@ -86,7 +106,27 @@
         <countMax>0</countMax>
       </li>
       <li>
-        <settlementLayout>TSA_Tribal_T2_Slavery</settlementLayout>
+        <settlementLayout>TSA_Tribal_T2_Prison</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Tribal_T1_Camp</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Tribal_T2_Camp</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Tribal_T1_Refuge</settlementLayout>
+        <countMin>0</countMin>
+        <countMax>0</countMax>
+      </li>
+      <li>
+        <settlementLayout>TSA_Tribal_T2_Refuge</settlementLayout>
         <countMin>0</countMin>
         <countMax>0</countMax>
       </li>

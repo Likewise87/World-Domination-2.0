@@ -27,6 +27,7 @@
   <TSA_WD_Dash_NavTip_ActionLog>Eventos y acciones recientes de World Domination (últimas 500 entradas).</TSA_WD_Dash_NavTip_ActionLog>
   <TSA_WD_Dash_NavTip_Prisoners>Revisa prisioneros de la colonia y asigna avanzadillas de destino tras el reclutamiento.\n\nTecla: {0}</TSA_WD_Dash_NavTip_Prisoners>
   <TSA_WD_Dash_NavTip_YourPawns>Lista, filtra y mueve a tus colonos entre colonias y avanzadillas.\n\nTecla: {0}</TSA_WD_Dash_NavTip_YourPawns>
+  <TSA_WD_Dash_NavTip_AllInventory>Consulta qué equipo está guardado o equipado y envíalo a donde quieras sin colonos.\n\nTecla: {0}</TSA_WD_Dash_NavTip_AllInventory>
   <TSA_WD_Dash_Goodwill_Best>Mayor buena voluntad</TSA_WD_Dash_Goodwill_Best>
   <TSA_WD_Dash_Goodwill_Worst>Menor buena voluntad</TSA_WD_Dash_Goodwill_Worst>
   <TSA_WD_Dash_Goodwill_None>No hay facciones que mostrar.</TSA_WD_Dash_Goodwill_None>
@@ -204,6 +205,11 @@
   <TSA_WD_Alert_ConstructionInsufficientStrength>WD: Construcción esperando fuerza</TSA_WD_Alert_ConstructionInsufficientStrength>
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>Estas avanzadillas están listas para enviar una cuadrilla pero carecen de fuerza:</TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>- {0}: {1}</TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>
+  <TSA_WD_Notify_ConstructionInsufficientMaterials>Mostrar alerta de materiales insuficientes para construcción (lateral)</TSA_WD_Notify_ConstructionInsufficientMaterials>
+  <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>Muestra una alerta silenciosa y persistente en el panel lateral cuando una avanzadilla WD ha terminado de preparar un segmento de carretera, fortificación o AT pero no tiene materiales para enviar la cuadrilla. Haz clic para ir a una afectada.</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
+  <TSA_WD_Alert_ConstructionInsufficientMaterials>WD: Construcción esperando materiales</TSA_WD_Alert_ConstructionInsufficientMaterials>
+  <TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>Estas avanzadillas están listas para enviar una cuadrilla pero carecen de materiales:</TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>
+  <TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>- {0}: {1}</TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>
   <TSA_WD_Notify_OutpostNoProduction>Mostrar alerta de avanzadillas sin producción (lateral)</TSA_WD_Notify_OutpostNoProduction>
   <TSA_WD_Notify_OutpostNoProductionTooltip>Muestra una alerta silenciosa y persistente en el panel lateral cuando al menos una de tus avanzadillas WD necesita elegir producción pero no tiene nada seleccionado. Al pasar el ratón se listan todas las afectadas. Haz clic para ir a la primera.</TSA_WD_Notify_OutpostNoProductionTooltip>
   <TSA_WD_Notify_OutpostUnusedExperts>Mostrar alerta de avanzadillas sin expertos (lateral)</TSA_WD_Notify_OutpostUnusedExperts>
@@ -365,6 +371,7 @@
   <TS_WD_Threat_NoGoodwillHostilesTooltip>Si está activo, conquistar un asentamiento no otorga buena voluntad con facciones hostiles. Solo facciones no hostiles ganan buena voluntad por tus conquistas.</TS_WD_Threat_NoGoodwillHostilesTooltip>
   <TS_WD_Threat_Reset>Restablecer esta página a valores por defecto</TS_WD_Threat_Reset>
   <TSA_WD_AllPlayerPawns>Tus colonos</TSA_WD_AllPlayerPawns>
+  <TSA_WD_AllInventory>Todo el equipo</TSA_WD_AllInventory>
   <TSA_WD_Prisoners>Prisioneros</TSA_WD_Prisoners>
   <TSA_WD_Prisoners_Title>Prisioneros</TSA_WD_Prisoners_Title>
   <TSA_WD_Prisoners_ColInteraction>Interacción</TSA_WD_Prisoners_ColInteraction>
@@ -433,7 +440,7 @@
   <TSA_WD_AllPlayerPawns_Transfer>Trasladar a destino</TSA_WD_AllPlayerPawns_Transfer>
   <TSA_WD_AllPlayerPawns_TransferTip>Envía los colonos seleccionados a una colonia o puesto que elijas. Misma selección que Enviar ya (inteligente).</TSA_WD_AllPlayerPawns_TransferTip>
   <TSA_WD_AllPlayerPawns_EstablishOutpost>Establecer avanzadilla</TSA_WD_AllPlayerPawns_EstablishOutpost>
-  <TSA_WD_AllPlayerPawns_EstablishOutpostTip>Envía colonos de la colonia a fundar una avanzadilla en una casilla del mapa mundial. Se necesitan al menos dos peones. Los materiales salen de tu colonia y almacenes. Pueden ir compañeros de la misma colonia.</TSA_WD_AllPlayerPawns_EstablishOutpostTip>
+  <TSA_WD_AllPlayerPawns_EstablishOutpostTip>Envía peones de una colonia o de una avanzadilla a fundar una avanzadilla en una casilla del mapa mundial. Se necesita al menos un humanoide. Los materiales salen de tu colonia y almacenes. Pueden ir compañeros del mismo origen.</TSA_WD_AllPlayerPawns_EstablishOutpostTip>
   <TSA_WD_AllPlayerPawns_RestoreDefault>Restaurar vista predeterminada</TSA_WD_AllPlayerPawns_RestoreDefault>
   <TSA_WD_PawnRoster_Highlight>Resaltar:</TSA_WD_PawnRoster_Highlight>
   <TSA_WD_PawnRoster_HighlightOff>Desactivado</TSA_WD_PawnRoster_HighlightOff>
@@ -444,6 +451,8 @@
   <TSA_WD_PawnRoster_ColumnsReset>Restablecer columnas</TSA_WD_PawnRoster_ColumnsReset>
   <TSA_WD_PawnRoster_ColAge>Edad</TSA_WD_PawnRoster_ColAge>
   <TSA_WD_PawnRoster_ColAgeTip>Edad biológica en años.</TSA_WD_PawnRoster_ColAgeTip>
+  <TSA_WD_PawnRoster_ColHealth>Salud</TSA_WD_PawnRoster_ColHealth>
+  <TSA_WD_PawnRoster_ColHealthTip>Salud actual en porcentaje. Un peón sano está al 100%.</TSA_WD_PawnRoster_ColHealthTip>
   <TSA_WD_PawnRoster_ColXenotype>Xenotipo</TSA_WD_PawnRoster_ColXenotype>
   <TSA_WD_PawnRoster_ColXenotypeTip>Etiqueta de xenotipo (Biotech). Pasa el cursor sobre una celda para la descripción.</TSA_WD_PawnRoster_ColXenotypeTip>
   <TSA_WD_PawnRoster_ColPsycasts>Psicasts</TSA_WD_PawnRoster_ColPsycasts>

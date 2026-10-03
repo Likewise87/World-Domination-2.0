@@ -648,6 +648,8 @@ namespace TSA_WorldDomination
                 int removed = TravelerRemnantCleanup.RemoveOrphanedTravelers();
                 if (removed > 0 && Prefs.DevMode)
                     Log.Message($"[WD] Removed {removed} orphaned traveler(s) from previous mod version (namespace change).");
+                // Remnant Destroy strips list entries; rebuild so ActiveCount/LiveTravelers match the healed world.
+                WorldObject_Traveler.RebuildLiveRegistry();
                 PurgeLegacyWorldThreatManager();
             }
 

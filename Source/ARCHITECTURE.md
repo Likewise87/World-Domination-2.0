@@ -10,7 +10,7 @@ World-model ownership (one colony, player-only outposts, NPC holdings = Settleme
 |--------|-------|
 | `Core/` | Comps, snapshot, stats, range, planet guards, overlays |
 | `WorldActions/` | Daily orchestrator, growth, roads, traders, incidents, diplomacy, interception |
-| `Outposts/` | Player WD outposts, types, actions, warehouse, food logistics. Warehouse Storage tab: goods filter, Land/Drop Pod method, regular auto-ship (colony/warehouse dest), ad hoc send (food-only may target any player outpost → virtual food on arrival). Trading/Recruiting nearby SSoT: `Outpost_Trading` partner collect + type-aware `Outpost_EstablishmentRequirements.MeetsMinNearbySettlements` (hostiles count). Embassy nearby: `Outpost_Embassy.IsEligiblePartnerFaction`. Extra outpost/upgrade XML from Bambaryla absorb: `Defs/WorldObjects/WD_OutpostUpgrades_Bambaryla.xml`, Deepchem Drill (`MayRequire` Vanilla Chemfuel Expanded), Raw Shaping, Chemical Refinery (Biofuel defName) + legacy Deepchem Factory. |
+| `Outposts/` | Player WD outposts, types, actions, warehouse, armory (`Outposts/Armory/`), food logistics. Warehouse Storage tab: All Player Gear-style table (checkbox select, Type/Quality/Count, filterable headers, send amounts default to max), Land/Drop Pod method, regular auto-ship (colony/warehouse dest, per-warehouse Include Apparel/Weapons/Food/Drugs/Medicine flags in `CompOutpostWarehouse.AutoShipIncludes`), ad hoc send through `OutpostStorageShipping.TryLaunch` (armory items may target any player outpost), and Convert to virtual food for checked food rows only. Remote founding (`RemoteOutpostEstablishUtility`): founders from one colony map or one WD outpost; costs/pod components stay `GetPlayerColonyMap` + warehouses. Trading/Recruiting nearby SSoT: `Outpost_Trading` partner collect + type-aware `Outpost_EstablishmentRequirements.MeetsMinNearbySettlements` (hostiles count). Embassy nearby: `Outpost_Embassy.IsEligiblePartnerFaction`. Extra outpost/upgrade XML from Bambaryla absorb: `Defs/WorldObjects/WD_OutpostUpgrades_Bambaryla.xml`, Deepchem Drill (`MayRequire` Vanilla Chemfuel Expanded), Raw Shaping, Chemical Refinery (Biofuel defName) + legacy Deepchem Factory. |
 | `Travelers/` | World travelers, pathing, arrival, Harmony bootstrap |
 | `RaidLogic/` | Raid assess/finalize, gate, simulated resolve, colony executor |
 | `UI/` | Dashboard, stats, diplomacy, alerts, raid-detail windows |
@@ -34,6 +34,8 @@ Also: `RoadBlocks/`, `SpikeTraps/`, `WorldGen/`, `Quests/`, `Gizmos/`. There is 
 | `WorldObject_WD_Outpost` | `Outposts/WorldObject_WD_Outpost.cs` |
 | `WorldObject_Traveler` | `Travelers/WorldObject_Traveler.cs` |
 
+| `CompOutpostArmory` | `Outposts/Armory/CompOutpostArmory.cs` (on every outpost) |
+
 Other WorldComponents: interception (`WorldActions/Interception/WorldComponent_InterceptionScheduler.cs`), logistics (`Outposts/FoodLogistics/WD_Outpost_FoodLogistics_Core.cs`), road blocks (`RoadBlocks/WorldComponent_RoadBlocks.cs`), traps (`SpikeTraps/WorldComponent_SpikeTraps.cs`), player pawn favorites (`Core/WorldComponent_PlayerPawnFavorites.cs`), Join Stamp (`Core/WorldComponent_PlayerPawnJoinTimes.cs`).
 
 ## Outpost Ideology slave removal (SELECT vs COMMIT)
@@ -48,11 +50,38 @@ SSoT: `OutpostPawnIdeologyUtil` (`Outposts/OutpostPawnIdeologyUtil.cs`).
 
 Do not call COMMIT from SELECT gates (`BulkRemovalSelectionIsAllowedWithExtra` forwards to SELECT only).
 
+## Outpost Armory (loose gear)
+
+SSoT: `CompOutpostArmory` + `OutpostArmoryUtility` (`Outposts/Armory/`). Opt-out experimental setting `experimentalOutpostArmory`. The Type filter shared by the Armory dialog and All Player Gear (`ArmoryTypeFilter`: Guns / Bows / Melee / Grenades / Ammo / Armor / Headgear / Torso / Legs / Medicine / Drugs / Food / Other) is owned by `OutpostArmoryUtility.TypeFilterFor` (single display kind), `MatchesTypeFilter` (Headgear / Torso / Legs match by apparel coverage and overlap) and `BuildTypeFilterChoices`. Armor is the vanilla `ApparelArmor` category tree (helmets plus body armor). UI must not re-classify.
+
+Two stores side by side, because one model cannot hold both:
+
+| Store | Type | Holds | Scribe key |
+|-------|------|-------|------------|
+| `Stock` | `List<ThingDefCountClass>` | Everything ordinary, grouped by `def + stuff + quality` | `armoryStock` (non-warehouse) |
+| `uniques` | `ThingOwner<Thing>` (`ParentHolder` null, `dontTickContents`) | Items passing `IsIrreplaceable`: bladelink, art, quest tags, generated names, tainted apparel (taint is never cleared) | `armoryUniques` |
+
+**One item store per outpost.** On a warehouse, `CompOutpostArmory.Stock` *is* `CompOutpostWarehouse.storedItems` (`UsesWarehouseStock`), so the Armory dialog and the Warehouse Storage tab read and write the same rows. A warehouse's own `armoryStock` stays scribed for save compatibility but is not the live store. Consequences: armory rows on a warehouse count toward warehouse capacity and auto-ship; `ArmoryRows()` is the filtered view (`IsArmoryItem`) for gear UIs; `GetTotalItemCount` counts gear only; `ClearAndDestroyAll` never clears warehouse stock. Store rows are always plain (`CompOutpostWarehouse.PlainStockRow`): runtime `WdStockExtras` are stripped on deposit so `SameStockIdentity` merges cleanly.
+
+Intake SSoT: `OutpostStorageUtility` (`TryStoreThing`, `DepositRows`, `DepositUniques`). Caravan dissolve, pod arrival, delivery arrival and traveler refunds all go through it: armory first, then warehouse stock; anything neither accepts is refunded to the colony, never destroyed.
+
+Destination SSoT: `Outpost_Warehouse_Delivery.IsValidShipmentDestination(target, sender, rows, uniqueCount, virtualFood, out rejectKey)`. Armory items (gear, food, drugs, medicine, ammo) and uniques may go to any player outpost, colony or warehouse; other goods only to a colony or warehouse; virtual food only to another player outpost. No caller re-implements this.
+
+Food is always stored as items. Nothing auto-converts on arrival or intake. `OutpostFoodConversion.ConvertRows` is the only path to virtual food: the Warehouse tab converts checked food rows at their send amounts, the Armory dialog converts all stored food. Both clamp to `PoolHeadroom` and leave the remainder as items.
+
+Grouping only works because `OutpostArmoryUtility.Normalize` heals to max hit points on deposit, which collapses `CompOutpostWarehouse.StockKey` down to `def + stuff + quality`. Taint and biocoding are never cleared anywhere: tainted or biocoded gear is irreplaceable and kept as a real Thing in `uniques` (repaired, otherwise unchanged). Biocoded items get a "biocoded" tag via `StoredThingTag`; tainted apparel has no label tag but is drawn in `TaintedColor` (yellow) with `TaintedTip` in the Armory and All Player Gear. Under CE, deposit also unloads the magazine (rounds credited as ammo stock) so guns stay stackable.
+
+Occupant moves are map-free: never `TryDropEquipment` (routes through `MapHeld`) and never `Wear(ap, dropReplacedApparel: true)` (silently destroys the replaced apparel when `pawn.Map == null`). Conflicting apparel goes to the store first.
+
+Teardown: `WorldObject_WD_Outpost.Destroy` / `PostRemove` call `ClearAndDestroyAll`; loose stock dies with the outpost and retreat caravans do not evacuate it.
+
+Shipping reuses the goods traveler. `OutpostStorageShipping.TryLaunch` is the one outpost send path (Armory dialog, Warehouse tab, All Player Gear): it checks the destination rule, then `CanLaunchFrom` (manual defense, pod research, strength), withdraws rows, uniques and virtual food, and rolls all three back if `SpawnDeliveryTravelerFrom` returns false. `ColonyArmoryLaunchUtility.TryLaunch` does the pawn-free colony launch (free, since a colony has no `CompViralSpread` pool); it re-checks map stacks at launch and puts everything back on the map if the spawn fails. All Player Gear strips outpost pawn gear into the store via `TryStoreFromPawn` only after `CanLaunchFrom` passes, so a reject leaves it stored, not lost. Rows at an outpost under manual defense, gear in world caravans, and worn/carried gear on a map under an active hostile assault/siege lord (or an active WD outpost-defense / caravan-clash encounter) are not selectable. Ordinary rows ride `deliveryItems`; uniques ride `cargoUniques` on the traveler. Cargo destroyed in transit is gone, including strength-depletion attrition; only a genuine `AbortTraveler` cancellation refunds (`RefundCargoToOrigin`: outpost origin re-stores via `OutpostStorageUtility`, colony origin drops on the map).
+
 ## Outpost occupant skill XP
 
 SSoT: `Outpost_OccupantProgression` (`Outposts/Outpost_OccupantProgression.cs`).
 
-Also owns the once-per-day mothballed passes from `WorldObject_WD_Outpost.Tick`: occupant/prisoner virtual injury heal, stored-animal aging, and (when Vehicle Framework is present) stored-vehicle component repair via `VehicleFrameworkOutpostDissolveCompat.TryRepairVehicleOneDay` (percent of each damaged part's MaxHealth).
+Also owns the once-per-day mothballed passes from `WorldObject_WD_Outpost.Tick`: occupant/prisoner virtual injury heal, stored-animal aging, (when Vehicle Framework is present) stored-vehicle component repair via `VehicleFrameworkOutpostDissolveCompat.TryRepairVehicleOneDay` (percent of each damaged part's MaxHealth), and (when Combat Extended is active and experimental opt-out is on) CE basic Primary ammo via `OutpostCeAmmoCompat` / `TickOccupantsPassiveAmmoOneDay` (2 magazines/day, inventory cap 8).
 
 | Source | When | Amount | Skills |
 |--------|------|--------|--------|
@@ -114,6 +143,21 @@ SSoT: `WorldActions_Vanguard` + `WorldActions_PackUp` + `WdSettlementClusterUtil
 - **Orphan absorb:** same-tile rally orphans only (`TickVanguardRallyHost`); `vanguardMergeRadiusTiles` is legacy UI (not mid-route fold).
 - **Arrival:** absorb into existing same-faction `subType=Vanguard` settlement within 1 tile; else found. Redirect/refound uses the same tight blocker pad.
 
+## Player world-build materials
+
+SSoT for costs: `Defs/WorldBuild/` (`WD_Roads.xml`, `WD_AT_Turrets.xml`, `WD_RoadBlocks.xml`, `WD_SpikeTraps.xml`). Runtime gate/format: `ColonyWorldBuildRequirements`. Stock check/deduct (colony map + warehouses): `ColonyWorldBuildMaterials` (shared with outpost upgrades). Charge once per player crew launch (not on clear, not NPC Fortify). Progress ≥ 100% stalls on missing materials like strength; inspect/gizmo use `GetInsufficientConstructionMessage`; alert `Alert_WDConstructionInsufficientMaterials`.
+
+## NPC settlement subtypes (tile-aware)
+
+SSoT: `NpcSettlementSubtypeUtil` (`Core/NpcSettlementSubtypeUtil.cs`), called from `CompViralSpread.GetRandomSubType` with `parent.Tile`.
+
+- **Camp** (`subType` `Camp`): mixed everyday layouts. Normal (non-extreme) tiles only; T1/T2 pool member.
+- **Refuge** (`subType` `Refuge`): stripped barracks/kitchen/stockpile layouts. Extreme tiles only (farming fertility 0 and plant-density rank below logging floor). T1 extreme pool + Mining if hills; T2 extreme is Refuge only (no Production / Slavery). Unknown / unset tile is never treated as extreme (world-object `Initialize` often runs before `Tile` is valid; tier/subtype is deferred until `EnsureAllSettlementsInitialized`).
+- **Specialty gates:** Farming fertility ≥ 30%; Logging fertility ≥ 15%; Mining base score ≥ 0.5 (SmallHills+). Only enter the T1 pool when the tile passes.
+- **Layout resolve:** `Patch_KCSG` / `WdMgNestSpawner` build `TSA_{Tribal|Generic}_{tier}_{token}`. `LayoutTokenForSubtype` maps scribed `Slavery` → `Prison` SettlementLayoutDef names. Loot tables still key on `Slavery`.
+- **Display:** keyed `TSA_WD_SubType_Slavery` shows as Prison Village; Camp / Refuge have their own keys.
+- **Expand seed bias (early annulus only):** score ~3 ring tiles with `ExpandTileAttractiveness` (max fertility / hunting / mining), then one `TryFindFirstValidFromSeed` from the best. Mid/late toward-player and isolation stay first-valid. Landed tile’s `PickSubtype` sets the settlement type.
+
 ## Mid / Late escalation
 
 SSoT: `WdEscalation` (`Core/WdEscalation.cs`) + latched state on `WorldComponent_SpreadManager`.
@@ -139,7 +183,7 @@ Code IDs stay the old names. UI strings are the new ones.
 
 `HarmonyLoader` (`Travelers/DisableMemoryLeakWarning.cs`) scans the assembly for static `[HarmonyPatch]` classes. Settlement gizmos go through `Patch_SettlementGetGizmos` (`Patches/Patch_SettlementGetGizmos.cs`). Caravan gizmos go through `Patch_CaravanGetGizmos` (`Patches/Patch_CaravanGetGizmos.cs`). Do not add a second `Settlement.GetGizmos` or `Caravan.GetGizmos` postfix.
 
-**Always-show world icons (do not regress):** `Patches/Patch_WdWorldObjectNoExpandingIcon.cs` keeps the upright ExpandingIcon at every zoom (no Material swap) for settlements / outposts / travelers / AT when the Experimental toggles are on. VeryClose blanks were a false `HiddenBehindTerrainNow` plus a wrong world-origin Dot; the fix is layer-origin facing (`PlanetLayer.Origin`) plus `TransitionPct` forced to 1. Full rules and anti-patterns: `Core/WORLD_MAP_ICONS.md`. Do not “fix” Close/VeryClose by restoring Material for ForceFixedIcon objects.
+**Always-show world icons (do not regress):** `Patches/Patch_WdWorldObjectNoExpandingIcon.cs` keeps the upright ExpandingIcon at every zoom (no Material swap) for settlements / outposts / travelers / AT when the Experimental toggles are on. VeryClose blanks were a false `HiddenBehindTerrainNow` plus a wrong world-origin Dot (layer-origin facing + `TransitionPct` forced to 1); a remaining VeryClose blank with gates still saying would-draw is fixed by a plain `GUI.DrawTexture` re-blit after vanilla OnGUI. Full rules and anti-patterns: `Core/WORLD_MAP_ICONS.md`. Do not “fix” Close/VeryClose by restoring Material for ForceFixedIcon objects.
 
 ## Optional mods (no assembly dependencies)
 
@@ -160,8 +204,8 @@ Right-side `Alert`s and world-map `WorldComponentOnGUI` run every frame; `Alerts
 
 Read maintained/throttled registries instead:
 
-- **Player outposts:** `WdPlayerOutpostCache.PlayerOutposts` (`Core/WdPlayerOutpostCache.cs`) — throttled snapshot (one scan per ~1800 ticks), self-healing (backwards-clock guard). Used by `Alert_WDOutpostUnusedExperts`, `Alert_WDOutpostNoProduction`, `Alert_WDConstructionInsufficientStrength`, `Alert_WDDropPodDeliveryInAaRange`, and the underlays' player-outpost draw. Consumers still null/`Destroyed`-check each element (a since-destroyed outpost can linger up to one interval; guard `AlertReport.CulpritIs`).
-- **Travelers:** `WorldObject_Traveler.LiveTravelers` (maintained in SpawnSetup/Destroy). `WorldComponent_SpreadManager.FinalizeInit` calls `WorldObject_Traveler.RebuildLiveRegistry()` + `WdPlayerOutpostCache.Invalidate()` so stale static state cannot carry across save loads in one session.
+- **Player outposts:** `WdPlayerOutpostCache.PlayerOutposts` (`Core/WdPlayerOutpostCache.cs`) — throttled snapshot (one scan per ~1800 ticks), self-healing (backwards-clock guard). Used by `Alert_WDOutpostUnusedExperts`, `Alert_WDOutpostNoProduction`, `Alert_WDConstructionInsufficientStrength`, `Alert_WDConstructionInsufficientMaterials`, `Alert_WDDropPodDeliveryInAaRange`, and the underlays' player-outpost draw. Consumers still null/`Destroyed`-check each element (a since-destroyed outpost can linger up to one interval; guard `AlertReport.CulpritIs`).
+- **Travelers:** `WorldObject_Traveler.LiveTravelers` (SpawnSetup registration is idempotent; Destroy removes all registrations). `WorldActions_Orchestrator.FinalizeInit` calls `RebuildLiveRegistry()` (and again after remnant cleanup on load) + `WdPlayerOutpostCache.Invalidate()` so stale static state cannot carry across save loads in one session.
 - **Def catalogs (shells, ammo, etc.):** discover once after defs are loaded (lazy first use is fine). Hot paths only read the cached lists and cheap runtime flags (e.g. outpost upgrade tier). Example: assault artillery mortar shells in `RaidLogic/WD_AssaultArtillerySupport.cs` (`EnsureShellCatalog`) — never re-scan shells when building tooltips or dialog rows.
 - Underlay raid-target caches are tick-gated (30t), not per-frame. Alert `GetLabel()` strings are cached (no per-frame `Translate`).
 

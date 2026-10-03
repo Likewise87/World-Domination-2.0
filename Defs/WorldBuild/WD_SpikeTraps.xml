@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <TSA_WorldDomination.WdSpikeTrapKindDef>
+    <defName>TSA_WdSpikeTrap_Spike</defName>
+    <label>spike trap</label>
+    <kind>Spike</kind>
+    <minCumulativeConstructionSkill>5</minCumulativeConstructionSkill>
+    <researchPrerequisites />
+    <cost>
+      <li><thingDef>WoodLog</thingDef><count>40</count></li>
+    </cost>
+  </TSA_WorldDomination.WdSpikeTrapKindDef>
+
+  <TSA_WorldDomination.WdSpikeTrapKindDef>
+    <defName>TSA_WdSpikeTrap_Caltrops</defName>
+    <label>caltrops</label>
+    <kind>Caltrops</kind>
+    <minCumulativeConstructionSkill>15</minCumulativeConstructionSkill>
+    <researchPrerequisites>
+      <li>Machining</li>
+    </researchPrerequisites>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>60</count></li>
+    </cost>
+  </TSA_WorldDomination.WdSpikeTrapKindDef>
+
+</Defs>

@@ -9,7 +9,7 @@ namespace TSA_WorldDomination
 {
     /// <summary>
     /// Empty Surface tiles expose gizmos via <see cref="Tile.GetGizmos"/>.
-    /// Adds tile-first remote establish (type dialog then colony pawn picker).
+    /// Adds tile-first remote establish (type dialog then same-origin pawn picker). Colony map still required to pay costs.
     /// </summary>
     [StaticConstructorOnStartup]
     [HarmonyPatch(typeof(Tile), nameof(Tile.GetGizmos))]
@@ -105,7 +105,7 @@ namespace TSA_WorldDomination
                 fromCaravan: null,
                 requirementsPreviewOnly: false,
                 remoteEstablishEntries: null,
-                remoteEstablishSource: null,
+                remoteEstablishOrigin: null,
                 tileFirstRemoteEstablish: true));
         }
     }

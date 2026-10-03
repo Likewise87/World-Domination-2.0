@@ -429,6 +429,9 @@ namespace TSA_WorldDomination
                 || ColonyWorldBuildUtility.IsPlayerColonyBuildActor(actor);
             if (needsColonyBuildGate && !ColonyWorldBuildRequirements.MeetsRoadRequirements(actor, comp.selectedRoadTier))
                 return false;
+            if (needsColonyBuildGate && !comp.roadIsClearing
+                && !ColonyWorldBuildRequirements.HasMaterialCostsForRoad(comp.selectedRoadTier))
+                return false;
 
             comp.cachedWorkTile = nextGapTile;
             float cost = GetExpeditionStrengthCost(comp.selectedRoadTier);
@@ -824,7 +827,11 @@ namespace TSA_WorldDomination
             }
 
             traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(destTile, origin));
-            return !traveler.Destroyed;
+            if (traveler.Destroyed) return false;
+
+            if (comp.roadIsClearing) return true;
+            List<OutpostUpgradeCostEntry> materials = ColonyWorldBuildRequirements.GetMaterialCostsForRoad(tier);
+            return ColonyWorldBuildRequirements.TryFinalizeMaterialsOrAbort(origin, traveler, cost, materials);
         }
 
         /// <summary>Road builders never cross ocean/water tiles; paths must match land-only <see cref="WorldPath"/>.</summary>

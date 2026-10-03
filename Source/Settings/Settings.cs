@@ -680,6 +680,8 @@ namespace TSA_WorldDomination
         public const float MinPlayerCaravanVisibilityToTargetClampLow = 0.05f;
         public const float MinPlayerCaravanVisibilityToTargetClampHigh = 1.12f;
         public const bool DefEnableOutpostUpkeep = false;
+        /// <summary>When true, player drop-pod pawn/goods launches cost industrial components. Easy difficulty preset turns this off.</summary>
+        public const bool DefDropPodTransportCostComponents = true;
         public const bool DefGiveFoodOnPrisonerRecruitTransfer = true;
         public const bool DefGiveFoodOnAllPlayerPawnsTransfer = true;
         public const bool DefShowOutpostRequirementsPreviewInWdMenu = false;
@@ -761,6 +763,10 @@ namespace TSA_WorldDomination
         public const bool DefExperimentalTargetOfOpportunity = true;
         /// <summary>Experimental: assault-map artillery support without a mortar outpost in range / without CD.</summary>
         public const bool DefExperimentalUnlimitedAssaultMortarSupport = false;
+        /// <summary>Experimental opt-out: CE outpost Occupants passively stockpile basic Primary ammo (see <see cref="OutpostCeAmmoCompat"/>).</summary>
+        public const bool DefExperimentalOutpostCePassiveAmmo = true;
+        /// <summary>Experimental opt-out: outposts keep a loose gear store (see <see cref="CompOutpostArmory"/>).</summary>
+        public const bool DefExperimentalOutpostArmory = true;
         /// <summary>Cheap per-event coin flip rolled before any strength math; also the primary performance throttle.</summary>
         public const float DefTargetOfOpportunityEligibilityRollPct = 0.15f;
         /// <summary>Required ratio advantage over the current target's ratio to justify switching.</summary>
@@ -853,6 +859,8 @@ namespace TSA_WorldDomination
         /// <summary>Movement difficulty units for entering a water-covered tile (vanilla mountain/hill-style scale; matches typical mountain hop cost).</summary>
         public const float DefTravelerWaterMovementDifficulty = 4f;
         public const float DefWaterPathLandThresholdDays = 1.5f;
+        /// <summary>When true, T3/T4 tech-eligible raids with no land path launch as drop pods instead of water A*.</summary>
+        public const bool DefAllowT3T4DropPodsOverWater = true;
         /// <summary>0 = always crow-flies prep; 1 = always FindPath prep; default 0.3 ≈ every 3rd assess exact. Fraction 0–1 (UI shows %).</summary>
         public const float DefTravelPrepExactPercent = 0.3f;
 
@@ -1071,6 +1079,7 @@ namespace TSA_WorldDomination
         public const bool DefNotifyDropPodDeliveryInAaRange = true;
         public const bool DefNotifyOutpostUpkeep = true;
         public const bool DefNotifyConstructionInsufficientStrength = true;
+        public const bool DefNotifyConstructionInsufficientMaterials = true;
         public const bool DefNotifyOutpostNoProduction = true;
         public const bool DefNotifyOutpostUnusedExperts = true;
         public const bool DefNotifyLateGameActive = true;
@@ -1262,7 +1271,7 @@ namespace TSA_WorldDomination
         /// <summary>Minimum AA cooldown in seconds after skill/upgrade reductions.</summary>
         public const float DefAntiAirCooldownFloorSeconds = 20f;
         /// <summary>Player AA engagement range in world tiles (independent of mortar range).</summary>
-        public const float DefAntiAirRange = 32f;
+        public const float DefAntiAirRange = 24f;
         /// <summary>Player Anti-Air band base hit (0–1) at 0–50% of AA max range (pods/aerials only).</summary>
         public const float DefAntiAirHitChance0To50PctRange = DefMortarHitChance0To50PctRange;
         /// <summary>Player Anti-Air band base hit (0–1) at 51–75% of AA max range.</summary>
@@ -1741,12 +1750,15 @@ namespace TSA_WorldDomination
         public bool onlyTravelAcrossWaterIfNoOtherWay = DefOnlyTravelAcrossWaterIfNoOtherWay;
         public float travelerWaterMovementDifficulty = DefTravelerWaterMovementDifficulty;
         public float waterPathLandThresholdDays = DefWaterPathLandThresholdDays;
+        public bool allowT3T4DropPodsOverWater = DefAllowT3T4DropPodsOverWater;
         public float travelPrepExactPercent = DefTravelPrepExactPercent;
         public bool experimentalColonyWorldBuild = DefExperimentalColonyWorldBuild;
         public bool experimentalPlayerConquestRaze = DefExperimentalPlayerConquestRaze;
 
         public bool experimentalTargetOfOpportunity = DefExperimentalTargetOfOpportunity;
         public bool experimentalUnlimitedAssaultMortarSupport = DefExperimentalUnlimitedAssaultMortarSupport;
+        public bool experimentalOutpostCePassiveAmmo = DefExperimentalOutpostCePassiveAmmo;
+        public bool experimentalOutpostArmory = DefExperimentalOutpostArmory;
         public float targetOfOpportunityEligibilityRollPct = DefTargetOfOpportunityEligibilityRollPct;
         public float targetOfOpportunityMinRatioAdvantage = DefTargetOfOpportunityMinRatioAdvantage;
         public int targetOfOpportunityMaxRetargets = DefTargetOfOpportunityMaxRetargets;
@@ -1803,6 +1815,7 @@ namespace TSA_WorldDomination
         public bool enableAtTurretTargetPlayerCaravans = DefEnableAtTurretTargetPlayerCaravans;
         public float minPlayerCaravanVisibilityToTarget = DefMinPlayerCaravanVisibilityToTarget;
         public bool enableOutpostUpkeep = DefEnableOutpostUpkeep;
+        public bool dropPodTransportCostComponents = DefDropPodTransportCostComponents;
         public bool giveFoodOnPrisonerRecruitTransfer = DefGiveFoodOnPrisonerRecruitTransfer;
         public bool giveFoodOnAllPlayerPawnsTransfer = DefGiveFoodOnAllPlayerPawnsTransfer;
         public bool showOutpostRequirementsPreviewInWdMenu = DefShowOutpostRequirementsPreviewInWdMenu;
@@ -2046,6 +2059,7 @@ namespace TSA_WorldDomination
         public bool notifyDropPodDeliveryInAaRange = DefNotifyDropPodDeliveryInAaRange;
         public bool notifyOutpostUpkeep = DefNotifyOutpostUpkeep;
         public bool notifyConstructionInsufficientStrength = DefNotifyConstructionInsufficientStrength;
+        public bool notifyConstructionInsufficientMaterials = DefNotifyConstructionInsufficientMaterials;
         public bool notifyOutpostNoProduction = DefNotifyOutpostNoProduction;
         public bool notifyOutpostUnusedExperts = DefNotifyOutpostUnusedExperts;
         public bool notifyLateGameActive = DefNotifyLateGameActive;
@@ -2206,6 +2220,9 @@ namespace TSA_WorldDomination
         public float rapidResponseOffensiveRecoveryBonus = DefRapidResponseOffensiveRecoveryBonus;
         public float rapidResponseTicksPerMoveMultiplier = DefRapidResponseTicksPerMoveMultiplier;
         public float rapidResponseAutoInterceptRange = DefRapidResponseAutoInterceptRange;
+        /// <summary>
+        /// Legacy ModSettings field. Still scribed for save compatibility; unused (drop-pod range is unlimited).
+        /// </summary>
         public float rapidResponseDropPodRange = DefRapidResponseDropPodRange;
         public float dropPodTicksPerMove = DefDropPodTicksPerMove;
 
@@ -2927,6 +2944,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref onlyTravelAcrossWaterIfNoOtherWay, "onlyTravelAcrossWaterIfNoOtherWay", DefOnlyTravelAcrossWaterIfNoOtherWay);
             Scribe_Values.Look(ref travelerWaterMovementDifficulty, "travelerWaterMovementDifficulty", DefTravelerWaterMovementDifficulty);
             Scribe_Values.Look(ref waterPathLandThresholdDays, "waterPathLandThresholdDays", DefWaterPathLandThresholdDays);
+            Scribe_Values.Look(ref allowT3T4DropPodsOverWater, "allowT3T4DropPodsOverWater", DefAllowT3T4DropPodsOverWater);
             if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
                 float loadedPrep = -1f;
@@ -2955,6 +2973,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref experimentalPlayerConquestRaze, "experimentalPlayerConquestRaze", DefExperimentalPlayerConquestRaze);
             Scribe_Values.Look(ref experimentalTargetOfOpportunity, "experimentalTargetOfOpportunity", DefExperimentalTargetOfOpportunity);
             Scribe_Values.Look(ref experimentalUnlimitedAssaultMortarSupport, "experimentalUnlimitedAssaultMortarSupport", DefExperimentalUnlimitedAssaultMortarSupport);
+            Scribe_Values.Look(ref experimentalOutpostCePassiveAmmo, "experimentalOutpostCePassiveAmmo", DefExperimentalOutpostCePassiveAmmo);
+            Scribe_Values.Look(ref experimentalOutpostArmory, "experimentalOutpostArmory", DefExperimentalOutpostArmory);
             Scribe_Values.Look(ref targetOfOpportunityEligibilityRollPct, "targetOfOpportunityEligibilityRollPct", DefTargetOfOpportunityEligibilityRollPct);
             Scribe_Values.Look(ref targetOfOpportunityMinRatioAdvantage, "targetOfOpportunityMinRatioAdvantage", DefTargetOfOpportunityMinRatioAdvantage);
             Scribe_Values.Look(ref targetOfOpportunityMaxRetargets, "targetOfOpportunityMaxRetargets", DefTargetOfOpportunityMaxRetargets);
@@ -3024,6 +3044,7 @@ namespace TSA_WorldDomination
                 MinPlayerCaravanVisibilityToTargetClampLow,
                 MinPlayerCaravanVisibilityToTargetClampHigh);
             Scribe_Values.Look(ref enableOutpostUpkeep, "enableOutpostUpkeep", DefEnableOutpostUpkeep);
+            Scribe_Values.Look(ref dropPodTransportCostComponents, "dropPodTransportCostComponents", DefDropPodTransportCostComponents);
             Scribe_Values.Look(ref giveFoodOnPrisonerRecruitTransfer, "giveFoodOnPrisonerRecruitTransfer", DefGiveFoodOnPrisonerRecruitTransfer);
             Scribe_Values.Look(ref giveFoodOnAllPlayerPawnsTransfer, "giveFoodOnAllPlayerPawnsTransfer", DefGiveFoodOnAllPlayerPawnsTransfer);
             Scribe_Values.Look(ref showOutpostRequirementsPreviewInWdMenu, "showOutpostRequirementsPreviewInWdMenu", DefShowOutpostRequirementsPreviewInWdMenu);
@@ -3183,6 +3204,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref notifyDropPodDeliveryInAaRange, "notifyDropPodDeliveryInAaRange", DefNotifyDropPodDeliveryInAaRange);
             Scribe_Values.Look(ref notifyOutpostUpkeep, "notifyOutpostUpkeep", DefNotifyOutpostUpkeep);
             Scribe_Values.Look(ref notifyConstructionInsufficientStrength, "notifyConstructionInsufficientStrength", DefNotifyConstructionInsufficientStrength);
+            Scribe_Values.Look(ref notifyConstructionInsufficientMaterials, "notifyConstructionInsufficientMaterials", DefNotifyConstructionInsufficientMaterials);
             Scribe_Values.Look(ref notifyOutpostNoProduction, "notifyOutpostNoProduction", DefNotifyOutpostNoProduction);
             Scribe_Values.Look(ref notifyOutpostUnusedExperts, "notifyOutpostUnusedExperts", DefNotifyOutpostUnusedExperts);
             Scribe_Values.Look(ref notifyLateGameActive, "notifyLateGameActive", DefNotifyLateGameActive);
@@ -3830,6 +3852,7 @@ namespace TSA_WorldDomination
                 && gateThreatAttritionRest == DifficultyPresetThreatGate(preset)
                 && enableMidGameAllyRadiusScaling == (preset != WDSettingsDifficultyPreset.Easy)
                 && enableLateGameAllyRadiusScaling == (preset != WDSettingsDifficultyPreset.Easy)
+                && dropPodTransportCostComponents == (preset != WDSettingsDifficultyPreset.Easy)
                 && Approx(midGameAllyRadiusBonusPct, DefMidGameAllyRadiusBonusPct)
                 && Approx(lateGameAllyRadiusBonusPct, DefLateGameAllyRadiusBonusPct)
                 && enableOutpostSkillDiminishingReturns == skillDr;
@@ -3967,6 +3990,8 @@ namespace TSA_WorldDomination
             bool allyRadiusScale = preset != WDSettingsDifficultyPreset.Easy;
             enableMidGameAllyRadiusScaling = allyRadiusScale;
             enableLateGameAllyRadiusScaling = allyRadiusScale;
+            // Easy: free player drop-pod launches. Medium/Hard: charge components.
+            dropPodTransportCostComponents = preset != WDSettingsDifficultyPreset.Easy;
             NormalizeEscalationConstraints();
             ClampPlayerWdRaidRateCaps();
             if (skillDr)
@@ -4740,6 +4765,7 @@ namespace TSA_WorldDomination
         public void ResetEconomicDifficulty()
         {
             enableOutpostUpkeep = DefEnableOutpostUpkeep;
+            dropPodTransportCostComponents = DefDropPodTransportCostComponents;
             upkeepSilverPerOccupant = DefUpkeepSilverPerOccupant;
             upkeepIntervalDays = DefUpkeepIntervalDays;
             OutpostSkillScaling.ResetToDefaults(this);
@@ -5143,6 +5169,7 @@ namespace TSA_WorldDomination
             onlyTravelAcrossWaterIfNoOtherWay = DefOnlyTravelAcrossWaterIfNoOtherWay;
             travelerWaterMovementDifficulty = DefTravelerWaterMovementDifficulty;
             waterPathLandThresholdDays = DefWaterPathLandThresholdDays;
+            allowT3T4DropPodsOverWater = DefAllowT3T4DropPodsOverWater;
             outpostDeliveryStrengthCost = DefOutpostDeliveryStrengthCost;
             outpostDeliveryMinStrength = DefOutpostDeliveryMinStrength;
             maxGoodwill = DefMaxGoodwill;
@@ -5214,6 +5241,8 @@ namespace TSA_WorldDomination
             experimentalPlayerConquestRaze = DefExperimentalPlayerConquestRaze;
             experimentalTargetOfOpportunity = DefExperimentalTargetOfOpportunity;
             experimentalUnlimitedAssaultMortarSupport = DefExperimentalUnlimitedAssaultMortarSupport;
+            experimentalOutpostCePassiveAmmo = DefExperimentalOutpostCePassiveAmmo;
+            experimentalOutpostArmory = DefExperimentalOutpostArmory;
             targetOfOpportunityEligibilityRollPct = DefTargetOfOpportunityEligibilityRollPct;
             targetOfOpportunityMinRatioAdvantage = DefTargetOfOpportunityMinRatioAdvantage;
             targetOfOpportunityMaxRetargets = DefTargetOfOpportunityMaxRetargets;
@@ -5244,6 +5273,7 @@ namespace TSA_WorldDomination
             enableAtTurretTargetPlayerCaravans = DefEnableAtTurretTargetPlayerCaravans;
             minPlayerCaravanVisibilityToTarget = DefMinPlayerCaravanVisibilityToTarget;
             enableOutpostUpkeep = DefEnableOutpostUpkeep;
+            dropPodTransportCostComponents = DefDropPodTransportCostComponents;
             giveFoodOnPrisonerRecruitTransfer = DefGiveFoodOnPrisonerRecruitTransfer;
             giveFoodOnAllPlayerPawnsTransfer = DefGiveFoodOnAllPlayerPawnsTransfer;
             showOutpostRequirementsPreviewInWdMenu = DefShowOutpostRequirementsPreviewInWdMenu;
@@ -5286,6 +5316,7 @@ namespace TSA_WorldDomination
             notifyDropPodDeliveryInAaRange = DefNotifyDropPodDeliveryInAaRange;
             notifyOutpostUpkeep = DefNotifyOutpostUpkeep;
             notifyConstructionInsufficientStrength = DefNotifyConstructionInsufficientStrength;
+            notifyConstructionInsufficientMaterials = DefNotifyConstructionInsufficientMaterials;
             notifyOutpostNoProduction = DefNotifyOutpostNoProduction;
             notifyOutpostUnusedExperts = DefNotifyOutpostUnusedExperts;
             notifyLateGameActive = DefNotifyLateGameActive;

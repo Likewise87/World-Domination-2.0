@@ -34,6 +34,7 @@ El enfriamiento se acorta con la suma de Disparo de la guarnición ({3}): −2% 
   <TSA_WD_Mortar_AutoAttack_Menu_Expansion>Expansión</TSA_WD_Mortar_AutoAttack_Menu_Expansion>
   <TSA_WD_Mortar_AutoAttack_Menu_Road>Caminos</TSA_WD_Mortar_AutoAttack_Menu_Road>
   <TSA_WD_Mortar_AutoAttack_Menu_Fortify>Fortificar</TSA_WD_Mortar_AutoAttack_Menu_Fortify>
+  <TSA_WD_Mortar_AutoAttack_Menu_Logistics>Suministro</TSA_WD_Mortar_AutoAttack_Menu_Logistics>
 
   <TSA_WD_Mortar_Filter_All>Todas</TSA_WD_Mortar_Filter_All>
   <TSA_WD_Mortar_Filter_Raider>Asaltante</TSA_WD_Mortar_Filter_Raider>
@@ -41,6 +42,7 @@ El enfriamiento se acorta con la suma de Disparo de la guarnición ({3}): −2% 
   <TSA_WD_Mortar_Filter_Road>Camino</TSA_WD_Mortar_Filter_Road>
   <TSA_WD_Mortar_Filter_Trader>Comerciante</TSA_WD_Mortar_Filter_Trader>
   <TSA_WD_Mortar_Filter_Fortify>Fortificar</TSA_WD_Mortar_Filter_Fortify>
+  <TSA_WD_Mortar_Filter_Logistics>Suministro</TSA_WD_Mortar_Filter_Logistics>
 
   <TSA_WD_Mortar_Hit_Label>Impacto de mortero</TSA_WD_Mortar_Hit_Label>
   <TSA_WD_Mortar_Hit_Settlement_Line>Impacto de mortero: fuerza {0} --> {1}</TSA_WD_Mortar_Hit_Settlement_Line>

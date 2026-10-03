@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- AT Turret WorldObjectDefs. Medium keeps TSA_WD_AT_Turret for save compat.
+       Build cost / research live on WdWorldBuildCostExtension. Combat stats stay in settings. -->
+
+  <WorldObjectDef Name="TSA_WD_AT_TurretBase" Abstract="True">
+    <worldObjectClass>TSA_WorldDomination.WorldObject_AT_Turret, TSA_WorldDomination</worldObjectClass>
+    <selectable>true</selectable>
+    <expandingIcon>true</expandingIcon>
+    <texture>World/WorldObjects/Settlements/Settlement</texture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_AT_TurretBase">
+    <defName>TSA_WD_AT_Turret_Light</defName>
+    <label>AT Turret (Light)</label>
+    <expandingIconTexture>WorldObjects/AT_Gun_Light</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.WdWorldBuildCostExtension">
+        <minCumulativeConstructionSkill>5</minCumulativeConstructionSkill>
+        <researchPrerequisites>
+          <li>Machining</li>
+        </researchPrerequisites>
+        <cost>
+          <li><thingDef>Steel</thingDef><count>50</count></li>
+          <li><thingDef>ComponentIndustrial</thingDef><count>1</count></li>
+        </cost>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+
+  <!-- Released Medium defName — do not rename. -->
+  <WorldObjectDef ParentName="TSA_WD_AT_TurretBase">
+    <defName>TSA_WD_AT_Turret</defName>
+    <label>AT Turret</label>
+    <expandingIconTexture>WorldObjects/AT_Gun_Medium</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.WdWorldBuildCostExtension">
+        <minCumulativeConstructionSkill>15</minCumulativeConstructionSkill>
+        <researchPrerequisites>
+          <li>MicroelectronicsBasics</li>
+        </researchPrerequisites>
+        <cost>
+          <li><thingDef>Steel</thingDef><count>60</count></li>
+          <li><thingDef>ComponentIndustrial</thingDef><count>2</count></li>
+        </cost>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_AT_TurretBase">
+    <defName>TSA_WD_AT_Turret_Heavy</defName>
+    <label>AT Turret (Heavy)</label>
+    <expandingIconTexture>WorldObjects/AT_Gun_Heavy</expandingIconTexture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.WdWorldBuildCostExtension">
+        <minCumulativeConstructionSkill>25</minCumulativeConstructionSkill>
+        <researchPrerequisites>
+          <li>Fabrication</li>
+        </researchPrerequisites>
+        <cost>
+          <li><thingDef>Plasteel</thingDef><count>10</count></li>
+          <li><thingDef>ComponentIndustrial</thingDef><count>3</count></li>
+        </cost>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+</Defs>

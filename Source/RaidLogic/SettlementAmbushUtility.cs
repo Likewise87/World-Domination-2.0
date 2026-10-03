@@ -87,6 +87,8 @@ namespace TSA_WorldDomination
             mission == TravelerMission.Trader
             || mission == TravelerMission.SettlementGift
             || mission == TravelerMission.SettlementBribe
+            || mission == TravelerMission.OutpostDelivery
+            || mission == TravelerMission.OutpostUpgrade
             || WorldObject_Traveler.IsRaidMission(mission);
 
         private static WorldObject FindFirstEligibleAmbusher(
@@ -153,6 +155,8 @@ namespace TSA_WorldDomination
                     case TravelerMission.Trader: return "TSA_WD_TargetKind_TraderCaravan".Translate().ToString();
                     case TravelerMission.SettlementGift: return "TSA_WD_TargetKind_GiftCaravan".Translate().ToString();
                     case TravelerMission.SettlementBribe: return "TSA_WD_TargetKind_BribeCaravan".Translate().ToString();
+                    case TravelerMission.OutpostDelivery: return "TSA_WD_TargetKind_SupplyCaravan".Translate().ToString();
+                    case TravelerMission.OutpostUpgrade: return "TSA_WD_TargetKind_UpgradeCaravan".Translate().ToString();
                     case TravelerMission.Raid:
                     case TravelerMission.RaidDropPod:
                     case TravelerMission.RaidGravship:

@@ -29,7 +29,7 @@ namespace TSA_WorldDomination
             public bool IsColony => colony != null;
         }
 
-        public override Vector2 InitialSize => new Vector2(520f, 560f);
+        public override Vector2 InitialSize => new Vector2(520f, 620f);
 
         public Dialog_SchedulePrisonerDestination(List<string> thingIds, Action onScheduled = null)
         {
@@ -60,8 +60,16 @@ namespace TSA_WorldDomination
             Widgets.Label(new Rect(0f, 34f, inRect.width, 22f),
                 "TSA_WD_Prisoners_ScheduleSubtitle".Translate(thingIds.Count.ToString()));
 
+            float y = 58f;
+            Text.Font = GameFont.Tiny;
+            GUI.color = ColoredText.SubtleGrayColor;
+            Widgets.Label(new Rect(0f, y, inRect.width, 18f), "TSA_WD_PawnDropPod_ScheduleModeNote".Translate());
+            GUI.color = Color.white;
+            Text.Font = GameFont.Small;
+            y += 22f;
+
             string oldSearch = searchTerm;
-            Rect searchRect = new Rect(0f, 60f, inRect.width, 28f);
+            Rect searchRect = new Rect(0f, y, inRect.width, 28f);
             searchTerm = Widgets.TextField(searchRect, searchTerm);
             if (searchTerm != oldSearch) RebuildRows();
 
@@ -74,9 +82,9 @@ namespace TSA_WorldDomination
                 GUI.color = Color.white;
             }
 
-            float listY = 96f;
+            y += 32f;
             float clearH = 36f;
-            Rect clearRect = new Rect(0f, listY, inRect.width, clearH - 4f);
+            Rect clearRect = new Rect(0f, y, inRect.width, clearH - 4f);
             if (Widgets.ButtonText(clearRect, "TSA_WD_Prisoners_ClearDestination".Translate()))
             {
                 WorldComponent_PrisonerRecruitSchedule.Get()?.ClearMany(thingIds);
@@ -86,39 +94,39 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            listY += clearH;
-            float listH = inRect.height - listY - 10f;
+            y += clearH;
+            float listH = inRect.height - y - 10f;
             float rowH = 44f;
             float contentH = (colonyRows.Count + outpostRows.Count) * rowH + 100f;
             Rect viewRect = new Rect(0f, 0f, inRect.width - 20f, Mathf.Max(contentH, listH));
-            Widgets.BeginScrollView(new Rect(0f, listY, inRect.width, listH), ref scrollPos, viewRect);
+            Widgets.BeginScrollView(new Rect(0f, y, inRect.width, listH), ref scrollPos, viewRect);
 
-            float y = 0f;
-            DrawSectionHeader(ref y, viewRect.width, "TSA_WD_PawnTransfer_Colonies".Translate());
+            float listY = 0f;
+            DrawSectionHeader(ref listY, viewRect.width, "TSA_WD_PawnTransfer_Colonies".Translate());
             if (colonyRows.Count == 0)
             {
                 GUI.color = Color.gray;
-                Widgets.Label(new Rect(8f, y, viewRect.width - 16f, 22f), "TSA_WD_PawnTransfer_NoColonies".Translate());
+                Widgets.Label(new Rect(8f, listY, viewRect.width - 16f, 22f), "TSA_WD_PawnTransfer_NoColonies".Translate());
                 GUI.color = Color.white;
-                y += 26f;
+                listY += 26f;
             }
             else
             {
                 for (int i = 0; i < colonyRows.Count; i++)
-                    DrawRow(ref y, viewRect.width, rowH, colonyRows[i]);
+                    DrawRow(ref listY, viewRect.width, rowH, colonyRows[i]);
             }
 
-            DrawSectionHeader(ref y, viewRect.width, "TSA_WD_PawnTransfer_Outposts".Translate());
+            DrawSectionHeader(ref listY, viewRect.width, "TSA_WD_PawnTransfer_Outposts".Translate());
             if (outpostRows.Count == 0)
             {
                 GUI.color = Color.gray;
-                Widgets.Label(new Rect(8f, y, viewRect.width - 16f, 22f), "TSA_WD_PawnTransfer_NoOutposts".Translate());
+                Widgets.Label(new Rect(8f, listY, viewRect.width - 16f, 22f), "TSA_WD_PawnTransfer_NoOutposts".Translate());
                 GUI.color = Color.white;
             }
             else
             {
                 for (int i = 0; i < outpostRows.Count; i++)
-                    DrawRow(ref y, viewRect.width, rowH, outpostRows[i]);
+                    DrawRow(ref listY, viewRect.width, rowH, outpostRows[i]);
             }
 
             Widgets.EndScrollView();

@@ -104,6 +104,8 @@ namespace TSA_WorldDomination
         public string thingId = "";
         /// <summary>Biological age in whole years (sortable Age column).</summary>
         public int ageYears;
+        /// <summary>Summary health percent 0–100 (sortable Health column).</summary>
+        public float healthPercent;
         /// <summary>Odyssey passenger shuttle when <see cref="outpostRole"/> is <see cref="PlayerPawnOutpostRole.StoredShuttle"/>.</summary>
         public Thing? shuttle;
     }
@@ -681,6 +683,8 @@ namespace TSA_WorldDomination
             entry.daysSinceJoin = GetDaysSinceJoin(pawn);
             entry.skillLevels = BuildSkillLevels(entry.summary);
             entry.ageYears = pawn.ageTracker != null ? pawn.ageTracker.AgeBiologicalYears : 0;
+            entry.healthPercent = OutpostStrengthBudgetUi.GetHealthPercent(pawn);
+            entry.healthPercent = OutpostStrengthBudgetUi.GetHealthPercent(pawn);
             entry.pawnSortCategory = ClassifyPawn(pawn, entry.outpostRole);
             entry.pawnTypeLabel = GetPawnTypeLabel(entry.pawnSortCategory);
             entry.locationSortTier = GetLocationSortTier(entry);
@@ -730,6 +734,10 @@ namespace TSA_WorldDomination
                     entry.locationIcon = ResolveCampLocationIcon(entry.mapParent);
                     entry.locationIconColor = Color.white;
                     break;
+                case PlayerPawnLocationKind.WorldCaravan:
+                    entry.locationIcon = ResolveCaravanLocationIcon();
+                    entry.locationIconColor = Faction.OfPlayer?.Color ?? Color.white;
+                    break;
                 default:
                     Faction player = Faction.OfPlayer;
                     if (player?.def?.FactionIcon != null)
@@ -740,6 +748,10 @@ namespace TSA_WorldDomination
                     break;
             }
         }
+
+        private static Texture2D? ResolveCaravanLocationIcon() =>
+            ContentFinder<Texture2D>.Get("UI/Commands/Icon_ActiveTravelers", false)
+            ?? TexCommand.Install;
 
         private static Texture2D? ResolveCampLocationIcon(MapParent? mapParent)
         {
@@ -1104,6 +1116,8 @@ namespace TSA_WorldDomination
                 return a.daysSinceJoin.CompareTo(b.daysSinceJoin);
             if (sortColumn == "Age")
                 return a.ageYears.CompareTo(b.ageYears);
+            if (sortColumn == "Health")
+                return a.healthPercent.CompareTo(b.healthPercent);
             if (sortColumn == "Traits")
             {
                 PrisonerRosterUtility.FormatTraits(a.pawn, out _, out string ta);

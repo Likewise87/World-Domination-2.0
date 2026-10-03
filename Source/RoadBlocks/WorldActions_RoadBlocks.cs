@@ -57,6 +57,9 @@ namespace TSA_WorldDomination
 
         public static int GetMinConstruction(RoadBlockKind kind)
         {
+            WdRoadBlockKindDef def = WdWorldBuildKindDefResolver.GetRoadBlock(kind);
+            if (def != null && def.minCumulativeConstructionSkill >= 0)
+                return def.minCumulativeConstructionSkill;
             return WorldActions_Roads.GetMinConstructionToBuildRoad(RoadBlockKindUtil.WorkBaselineTier(kind));
         }
 
@@ -482,6 +485,10 @@ namespace TSA_WorldDomination
 
             if (!ColonyWorldBuildRequirements.MeetsRoadBlockRequirements(actor, comp.selectedRoadBlockKind))
                 return false;
+            if (!comp.roadBlockIsClearing
+                && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(actor)
+                && !ColonyWorldBuildRequirements.HasMaterialCostsForRoadBlock(comp.selectedRoadBlockKind))
+                return false;
 
             float cost = GetExpeditionStrengthCost(comp.selectedRoadBlockKind);
             if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(comp, cost)) return false;
@@ -518,7 +525,11 @@ namespace TSA_WorldDomination
                 WorldActions_Utils.RefundExpeditionStrength(comp, cost);
                 return false;
             }
-            return true;
+
+            if (comp.roadBlockIsClearing) return true;
+            List<OutpostUpgradeCostEntry> materials =
+                ColonyWorldBuildRequirements.GetMaterialCostsForRoadBlock(comp.selectedRoadBlockKind);
+            return ColonyWorldBuildRequirements.TryFinalizeMaterialsOrAbort(origin, traveler, cost, materials);
         }
 
         public static void ExecuteRoadBlockArrival(WorldObject_Traveler traveler)

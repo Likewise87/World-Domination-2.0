@@ -35,12 +35,16 @@ namespace TSA_WorldDomination
         private const float SetDestBtnWidth = 160f;
         private const float KickOutBtnWidth = 140f;
         private const float ClearDestBtnWidth = 160f;
+        private const float TravelBtnWidth = PlayerPawnDropPodUtility.ModeIconSize
+            + PlayerPawnDropPodUtility.ModeFallbackGap
+            + PlayerPawnDropPodUtility.FallbackCheckboxSize;
         private const float SmartAssignBtnWidth = 140f;
         private const float SmartAssignConfigBtnSize = 30f;
         private const float SmartAssignConfigGap = 1f;
         private const float SelectedLabelWidth = 130f;
         private const float ToolbarBtnGap = 10f;
         private const float ColAge = 44f;
+        private const float ColHealth = 56f;
         private const PawnRosterColumnWindow ColWindow = PawnRosterColumnWindow.Prisoners;
 
         private static readonly Vector2 PortraitSize = new Vector2(36f, 36f);
@@ -121,13 +125,21 @@ namespace TSA_WorldDomination
             Rect smartConfigBtn = new Rect(setDestBtn.x - ToolbarBtnGap - SmartAssignConfigBtnSize, 4f, SmartAssignConfigBtnSize, 30f);
             Rect smartAssignBtn = new Rect(smartConfigBtn.x - SmartAssignConfigGap - SmartAssignBtnWidth, 4f, SmartAssignBtnWidth, 30f);
             Rect clearDestBtn = new Rect(smartAssignBtn.x - ToolbarBtnGap - ClearDestBtnWidth, 4f, ClearDestBtnWidth, 30f);
+            var holdingOrigins = CollectSelectedHoldingOrigins();
+            bool showFallback = PlayerPawnDropPodUtility.TryGetSharedTravelMode(
+                holdingOrigins, out bool viaPod, out bool modeMixed)
+                && (viaPod || modeMixed);
+            float travelW = PlayerPawnDropPodUtility.ToolbarWidth(showFallback);
+            Rect travelBtn = new Rect(clearDestBtn.x - ToolbarBtnGap - travelW, 4f, travelW, 30f);
 
             string selectedLabel = "TSA_WD_AllPlayerPawns_Selected".Translate(selectedCount.ToString());
             Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.MiddleRight;
-            Rect selectedRect = new Rect(clearDestBtn.x - ToolbarBtnGap - SelectedLabelWidth, 6f, SelectedLabelWidth, 28f);
+            Rect selectedRect = new Rect(travelBtn.x - ToolbarBtnGap - SelectedLabelWidth, 6f, SelectedLabelWidth, 28f);
             Widgets.Label(selectedRect, selectedLabel);
             Text.Anchor = TextAnchor.UpperLeft;
+
+            PlayerPawnDropPodUtility.DrawOriginModeAndFallback(travelBtn, holdingOrigins);
 
             PlayerPawnRosterUtility.DrawRosterViewControls(
                 4f,
@@ -267,6 +279,8 @@ namespace TSA_WorldDomination
                 ClearSortToDefault();
             else if (!ColOn(PawnRosterColumnIds.Age) && sortColumn == "Age")
                 ClearSortToDefault();
+            else if (!ColOn(PawnRosterColumnIds.Health) && sortColumn == "Health")
+                ClearSortToDefault();
             else if (!ColOn(PawnRosterColumnIds.Destination) && sortColumn == "Destination")
                 ClearSortToDefault();
             else
@@ -301,6 +315,7 @@ namespace TSA_WorldDomination
             if (ColOn(PawnRosterColumnIds.Xenotype)) w += ColXenotype;
             if (ColOn(PawnRosterColumnIds.Psycasts)) w += ColPsycasts;
             if (ColOn(PawnRosterColumnIds.Age)) w += ColAge;
+            if (ColOn(PawnRosterColumnIds.Health)) w += ColHealth;
             SkillDef[] skills = PlayerPawnRosterUtility.AllSkillColumns;
             for (int i = 0; i < skills.Length; i++)
             {
@@ -463,6 +478,13 @@ namespace TSA_WorldDomination
                 Rect ageHdr = new Rect(curX, hRect.y, ColAge, hRect.height);
                 DrawHeader(ref curX, ColAge, "TSA_WD_PawnRoster_ColAge".Translate(), "Age", hRect, TextAnchor.MiddleCenter);
                 TooltipHandler.TipRegion(ageHdr, "TSA_WD_PawnRoster_ColAgeTip".Translate());
+            }
+
+            if (ColOn(PawnRosterColumnIds.Health))
+            {
+                Rect healthHdr = new Rect(curX, hRect.y, ColHealth, hRect.height);
+                DrawHeader(ref curX, ColHealth, "TSA_WD_PawnRoster_ColHealth".Translate(), "Health", hRect, TextAnchor.MiddleCenter);
+                TooltipHandler.TipRegion(healthHdr, "TSA_WD_PawnRoster_ColHealthTip".Translate());
             }
 
             SkillDef[] skills = PlayerPawnRosterUtility.AllSkillColumns;
@@ -712,6 +734,14 @@ namespace TSA_WorldDomination
                 Text.Anchor = TextAnchor.MiddleCenter;
                 Widgets.Label(new Rect(curX, y, ColAge, RowHeight), entry.ageYears.ToString());
                 curX += ColAge;
+            }
+
+            if (ColOn(PawnRosterColumnIds.Health))
+            {
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Widgets.Label(new Rect(curX, y, ColHealth, RowHeight),
+                    Mathf.RoundToInt(entry.healthPercent).ToString() + "%");
+                curX += ColHealth;
             }
 
             Text.Font = GameFont.Small;
@@ -977,14 +1007,43 @@ namespace TSA_WorldDomination
                 GUI.color = Color.white;
             }
 
+            float modeIconSize = 18f;
+            Rect modeRect = new Rect(destRect.xMax - modeIconSize - 4f, destRect.y + (destRect.height - modeIconSize) * 0.5f, modeIconSize, modeIconSize);
+            Texture2D modeIcon = entry.scheduledViaDropPod
+                ? WITab_Outpost_WarehouseAssets.DropPodIcon
+                : WITab_Outpost_WarehouseAssets.LandIcon;
+            if (entry.hasExplicitSchedule && modeIcon != null)
+                GUI.DrawTexture(modeRect, modeIcon, ScaleMode.ScaleToFit);
+
             Text.Anchor = TextAnchor.MiddleLeft;
             Text.Font = GameFont.Small;
-            Rect labelRect = new Rect(iconRect.xMax + 6f, destRect.y, destRect.width - DestIconSize - 14f, destRect.height);
+            float labelRight = entry.hasExplicitSchedule ? modeRect.x - 4f : destRect.xMax - 4f;
+            Rect labelRect = new Rect(iconRect.xMax + 6f, destRect.y, labelRight - iconRect.xMax - 6f, destRect.height);
             Widgets.Label(labelRect, entry.scheduledDestLabel.Truncate(labelRect.width));
             string tip = "TSA_WD_Prisoners_DestinationClickTip".Translate() + "\n" + entry.scheduledDestLabel;
             if (!entry.hasExplicitSchedule)
                 tip += "\n" + "TSA_WD_Prisoners_DestinationDefaultTip".Translate();
+            else if (entry.scheduledViaDropPod)
+                tip += "\n" + "TSA_WD_PawnDropPod_ScheduleDeferredCost".Translate(
+                    PlayerPawnDropPodUtility.CountComponentsAvailable().ToString());
             TooltipHandler.TipRegion(destRect, tip);
+        }
+
+        private List<WorldObject> CollectSelectedHoldingOrigins()
+        {
+            var origins = new List<WorldObject>();
+            var seen = new HashSet<int>();
+            List<PrisonerRosterEntry> selected = PrisonerRosterUtility.ResolveSelectedIncludingHidden(cachedList, selectedThingIds);
+            for (int i = 0; i < selected.Count; i++)
+            {
+                PrisonerRosterEntry e = selected[i];
+                if (e == null || e.isInTransit) continue;
+                WorldObject origin = e.holdingOutpost;
+                if (origin == null || origin.Destroyed) continue;
+                if (!seen.Add(origin.ID)) continue;
+                origins.Add(origin);
+            }
+            return origins;
         }
 
         private void OpenScheduleDialog(List<string> thingIds)

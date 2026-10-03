@@ -105,3 +105,14 @@ Guidelines:
   `FindPath`.
 - `SpaceMapGuard` — secondary def-name/biome heuristics for space-like maps (SOS2 etc.); a fallback,
   not the primary layer test.
+
+## Mouse-follow tile overlays
+
+Productivity, pollution, movement difficulty, and establishment-blocked overlays draw a local disk
+around the cursor (`WD_WorldLayer_ProductivityOverlay.OverlayRadius`, currently 30 hop tiles).
+Pollution and movement alias that constant; blocked does too.
+
+Productivity score modes (fertility / animals / fish / mining) keep planet-wide lazy score and band
+caches filled on first touch. There is no score prewarm and no full-planet mesh. Each mouse-tile
+change rebuilds only the visible disk mesh. Pollution, movement, and blocked overlays recompute
+their paint data as needed because those values can change.

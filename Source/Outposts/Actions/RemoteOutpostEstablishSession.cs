@@ -15,7 +15,7 @@ namespace TSA_WorldDomination
     {
         private static Texture2D mouseIcon;
         private static List<PlayerPawnRosterEntry> pendingEntries;
-        private static MapParent pendingSource;
+        private static WorldObject pendingOrigin;
         private static bool targetingActive;
         private static bool suppressStopClear;
 
@@ -23,20 +23,20 @@ namespace TSA_WorldDomination
 
         public static void BeginFromSelection(IReadOnlyList<PlayerPawnRosterEntry> selected)
         {
-            if (!RemoteOutpostEstablishUtility.TryValidateColonySelection(selected, out MapParent source, out List<PlayerPawnRosterEntry> entries, out string fail))
+            if (!RemoteOutpostEstablishUtility.TryValidateFoundingSelection(selected, out WorldObject origin, out List<PlayerPawnRosterEntry> entries, out string fail))
             {
                 Messages.Message(fail ?? "TSA_WD_RemoteEstablish_InvalidSelection".Translate(), MessageTypeDefOf.RejectInput, false);
                 return;
             }
 
             pendingEntries = entries;
-            pendingSource = source;
+            pendingOrigin = origin;
             BeginOrRestartTargeting(showHint: true);
         }
 
         public static void RestartTargetingWithPending()
         {
-            if (pendingEntries == null || pendingEntries.Count == 0 || pendingSource == null)
+            if (pendingEntries == null || pendingEntries.Count == 0 || pendingOrigin == null || pendingOrigin.Destroyed)
             {
                 Clear();
                 return;
@@ -47,7 +47,7 @@ namespace TSA_WorldDomination
         public static void Clear()
         {
             pendingEntries = null;
-            pendingSource = null;
+            pendingOrigin = null;
             targetingActive = false;
             suppressStopClear = false;
         }
@@ -88,7 +88,7 @@ namespace TSA_WorldDomination
 
                     suppressStopClear = true;
                     var entries = pendingEntries;
-                    var source = pendingSource;
+                    var origin = pendingOrigin;
                     targetingActive = false;
                     Find.WindowStack.Add(new Dialog_OutpostSelection(
                         tile,
@@ -99,7 +99,7 @@ namespace TSA_WorldDomination
                         fromCaravan: null,
                         requirementsPreviewOnly: false,
                         remoteEstablishEntries: entries,
-                        remoteEstablishSource: source));
+                        remoteEstablishOrigin: origin));
                     suppressStopClear = false;
                     return true;
                 },
@@ -135,9 +135,15 @@ namespace TSA_WorldDomination
             if (Find.MainTabsRoot?.OpenTab != null)
                 Find.MainTabsRoot.EscapeCurrentTab();
 
-            PlanetTile jumpTile = pendingSource != null ? pendingSource.Tile : PlanetTile.Invalid;
-            if (!jumpTile.Valid && Find.AnyPlayerHomeMap?.Parent != null)
-                jumpTile = Find.AnyPlayerHomeMap.Parent.Tile;
+            PlanetTile jumpTile = pendingOrigin != null && !pendingOrigin.Destroyed
+                ? pendingOrigin.Tile
+                : PlanetTile.Invalid;
+            if (!jumpTile.Valid)
+            {
+                Map colonyMap = Outpost_PowerPlant.GetPlayerColonyMap();
+                if (colonyMap?.Parent != null)
+                    jumpTile = colonyMap.Parent.Tile;
+            }
             if (jumpTile.Valid)
                 CameraJumper.TryJump(jumpTile);
         }

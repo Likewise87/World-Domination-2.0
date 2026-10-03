@@ -140,6 +140,8 @@
   <TSA_WD_TargetKind_TraderCaravan>贸易商队</TSA_WD_TargetKind_TraderCaravan>
   <TSA_WD_TargetKind_GiftCaravan>赠礼商队</TSA_WD_TargetKind_GiftCaravan>
   <TSA_WD_TargetKind_BribeCaravan>贿赂商队</TSA_WD_TargetKind_BribeCaravan>
+  <TSA_WD_TargetKind_SupplyCaravan>补给商队</TSA_WD_TargetKind_SupplyCaravan>
+  <TSA_WD_TargetKind_UpgradeCaravan>升级物资队</TSA_WD_TargetKind_UpgradeCaravan>
   <TSA_WD_TargetKind_Raid>袭击队</TSA_WD_TargetKind_Raid>
   <TSA_WD_Letter_RaidDivertedFromPlayer_Label>袭击已转向</TSA_WD_Letter_RaidDivertedFromPlayer_Label>
   <TSA_WD_Letter_RaidDivertedFromPlayer_Text>{0} 发现了一个机会目标，转而离开你去攻击 {1}。</TSA_WD_Letter_RaidDivertedFromPlayer_Text>

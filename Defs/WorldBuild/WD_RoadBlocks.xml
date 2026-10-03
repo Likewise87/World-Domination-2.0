@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <TSA_WorldDomination.WdRoadBlockKindDef>
+    <defName>TSA_WdRoadBlock_Light</defName>
+    <label>light road block</label>
+    <kind>Light</kind>
+    <minCumulativeConstructionSkill>5</minCumulativeConstructionSkill>
+    <researchPrerequisites />
+    <cost>
+      <li><thingDef>WoodLog</thingDef><count>30</count></li>
+    </cost>
+  </TSA_WorldDomination.WdRoadBlockKindDef>
+
+  <TSA_WorldDomination.WdRoadBlockKindDef>
+    <defName>TSA_WdRoadBlock_Medium</defName>
+    <label>medium road block</label>
+    <kind>Normal</kind>
+    <minCumulativeConstructionSkill>15</minCumulativeConstructionSkill>
+    <researchPrerequisites>
+      <li>Machining</li>
+    </researchPrerequisites>
+    <cost>
+      <li>
+        <thingDef>BlocksGranite</thingDef>
+        <costMode>AnyStoneBlocks</costMode>
+        <count>60</count>
+      </li>
+      <li><thingDef>Steel</thingDef><count>25</count></li>
+    </cost>
+  </TSA_WorldDomination.WdRoadBlockKindDef>
+
+  <TSA_WorldDomination.WdRoadBlockKindDef>
+    <defName>TSA_WdRoadBlock_Heavy</defName>
+    <label>heavy road block</label>
+    <kind>Heavy</kind>
+    <minCumulativeConstructionSkill>25</minCumulativeConstructionSkill>
+    <researchPrerequisites>
+      <li>MicroelectronicsBasics</li>
+    </researchPrerequisites>
+    <cost>
+      <li>
+        <thingDef>BlocksGranite</thingDef>
+        <costMode>AnyStoneBlocks</costMode>
+        <count>80</count>
+      </li>
+      <li><thingDef>Steel</thingDef><count>50</count></li>
+    </cost>
+  </TSA_WorldDomination.WdRoadBlockKindDef>
+
+</Defs>

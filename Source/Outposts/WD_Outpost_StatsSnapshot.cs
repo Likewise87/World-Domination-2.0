@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -306,7 +306,7 @@ namespace TSA_WorldDomination
                 || WorldActions_AtTurrets.HasActiveAtTurretProject(comp)
                 || WorldActions_Decontamination.HasActiveDecontaminationProject(comp)))
             {
-                string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+                string insufficient = comp.GetInsufficientConstructionMessage();
                 if (insufficient != null)
                     currentlyBuilding = insufficient;
                 else if (comp.roadTargetTile != -1)
@@ -346,7 +346,7 @@ namespace TSA_WorldDomination
 
         private static string FormatRoadSegmentDays(float days)
         {
-            if (days < 0f) return "â€”";
+            if (days < 0f) return "—";
             return "TSA_WD_Outpost_Delivery_DaysLeft".Translate(days.ToString("F2")).ToString();
         }
 
@@ -887,7 +887,7 @@ namespace TSA_WorldDomination
             if (demandTip.Contains("TSA_WD_")) demandTip = "Total virtual food consumed per day at this outpost.";
             string demandBreakdown = "TSA_WD_OutpostStats_Row_FoodDemandBreakdown".Translate(eatingPawns.ToString(), consumptionPerPawn.ToString("F1"), demand.ToString("F1")).ToString();
             if (demandBreakdown.Contains("TSA_WD_"))
-                demandBreakdown = eatingPawns + " eating pawns Ã— " + consumptionPerPawn.ToString("F1") + " food needed per day = " + demand.ToString("F1");
+                demandBreakdown = eatingPawns + " eating pawns × " + consumptionPerPawn.ToString("F1") + " food needed per day = " + demand.ToString("F1");
             demandTip = demandTip + "\n\n" + demandBreakdown;
 
             if (!logisticsActive)
@@ -931,7 +931,7 @@ namespace TSA_WorldDomination
                     totalSkillRaw.ToString("F0")).ToString();
                 if (extra == extraKey || extra.Contains("TSA_WD_"))
                     extra = "Food hub: base food production + (" + totalSkillEff.ToString("F0") + " effective " + skillName
-                        + " Ã— " + tilePct + "% " + tileStatLabel + ") = " + dailyProd.ToString("F1") + " total."
+                        + " × " + tilePct + "% " + tileStatLabel + ") = " + dailyProd.ToString("F1") + " total."
                         + (OutpostSkillScaling.IsDiminished(totalSkillRaw)
                             ? " Raw skill: " + totalSkillRaw.ToString("F0") + "."
                             : "");
@@ -1070,7 +1070,7 @@ namespace TSA_WorldDomination
                 {
                     timeLeft = outpost.GetProductionTimeLeftForOverview();
                     if (string.IsNullOrEmpty(timeLeft))
-                        timeLeft = "â€”";
+                        timeLeft = "—";
                     timeLeftTip = paused
                         ? string.Join("\n", pauseReasons)
                         : "TSA_WD_OutpostStats_Row_TimeLeftTip".Translate().ToString();
@@ -1285,10 +1285,10 @@ namespace TSA_WorldDomination
             string yieldKey = "TSA_WD_OutpostStats_Row_ScavengingYield";
             string yieldVal = yieldKey.Translate(workers.ToString(), totalMv.ToString("F0"), tierLabel).ToString();
             if (yieldVal == yieldKey || yieldVal.Contains("TSA_WD_"))
-                yieldVal = workers + " garrisoned pawns â†’ ~" + totalMv.ToString("F0") + " value (" + tierLabel + ")";
+                yieldVal = workers + " garrisoned pawns ? ~" + totalMv.ToString("F0") + " value (" + tierLabel + ")";
             string yieldTip = Outpost_Scavenging.GetKindRequirementTooltip(tier)
                 + "\n\n"
-                + workers + " Ã— " + perPawn.ToString("F0") + " silver/pawn = " + rawMv.ToString("F0") + " base target market value per cycle."
+                + workers + " × " + perPawn.ToString("F0") + " silver/pawn = " + rawMv.ToString("F0") + " base target market value per cycle."
                 + Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusSuffix(outpost);
             string softTip = Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusTooltip(outpost);
             if (!string.IsNullOrEmpty(softTip))
@@ -1368,9 +1368,6 @@ namespace TSA_WorldDomination
                     null,
                     RapidResponseUtility.GetConfiguredMaxRangeTiles(),
                     RapidResponseUtility.GetRangeTiles(outpost)));
-            AddRow(section, "TSA_WD_OutpostStats_Row_RRDropPodRange",
-                RapidResponseUtility.GetDropPodRangeTiles().ToString("F0"),
-                "TSA_WD_OutpostStats_Row_RRDropPodRangeTip");
             AddRow(section, "TSA_WD_OutpostStats_Row_TypeSummary", WD_Outpost_RapidResponse.GetInspectStatusLine(outpost), "TSA_WD_OutpostStats_Row_TypeSummaryTip");
         }
 
@@ -1770,7 +1767,7 @@ namespace TSA_WorldDomination
             {
                 expectedOutput = outpost.GetProductionLineForOverview();
                 if (string.IsNullOrEmpty(expectedOutput))
-                    expectedOutput = "â€”";
+                    expectedOutput = "—";
             }
 
             var expectedRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_ExpectedOutput",
@@ -2011,7 +2008,7 @@ namespace TSA_WorldDomination
 
         private static string FormatPercentagePointsValue(float bonusFraction)
         {
-            if (Mathf.Abs(bonusFraction) < 1e-6f) return "â€”";
+            if (Mathf.Abs(bonusFraction) < 1e-6f) return "—";
             int pp = Mathf.RoundToInt(bonusFraction * 100f);
             return (pp >= 0 ? "+" : "") + pp + " pp";
         }
@@ -2055,7 +2052,7 @@ namespace TSA_WorldDomination
             var row = new OutpostStatRow
             {
                 Label = labelKey.Translate().ToString(),
-                Value = value ?? "â€”",
+                Value = value ?? "—",
                 Tooltip = tip ?? ""
             };
             section.Rows.Add(row);
@@ -2074,7 +2071,7 @@ namespace TSA_WorldDomination
             section.Rows.Add(new OutpostStatRow
             {
                 Label = label ?? "",
-                Value = value ?? "â€”",
+                Value = value ?? "—",
                 Tooltip = tooltip ?? ""
             });
         }

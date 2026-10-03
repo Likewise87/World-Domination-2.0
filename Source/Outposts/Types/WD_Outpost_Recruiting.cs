@@ -577,13 +577,65 @@ namespace TSA_WorldDomination
                 return true;
             }
 
+            int destTile = comp.redirectionTargetTile;
+            float strengthCost = WorldDominationMod.settings?.outpostDeliveryStrengthCost ?? 50f;
+
+            bool wantPod = PlayerPawnDropPodUtility.GetTravelViaDropPod(outpost)
+                && RapidResponseUtility.TransportPodsResearched()
+                && PlayerPawnDropPodUtility.InDropPodRange(outpost, destTile);
+
+            if (wantPod)
+            {
+                var launches = new List<WorldObject>();
+                PlayerPawnDropPodUtility.AddOriginSlots(launches, outpost, pawnList.Count);
+                var alloc = PlayerPawnDropPodUtility.Allocate(launches);
+                // Redirected recruits stay together: pod only when every pawn can pod.
+                bool usePod = alloc.need > 0 && alloc.podCount == alloc.need;
+
+                if (usePod
+                    && PlayerPawnDropPodUtility.TryConsumeComponents(
+                        pawnList.Count * PlayerPawnDropPodUtility.ComponentCostPerLaunch, out _))
+                {
+                    var traveler = WorldActions_Traveler.SpawnPlayerPawnDropPodTraveler(outpost, destTile, pawnList);
+                    if (traveler != null)
+                    {
+                        if (comp != null) comp.strength = Mathf.Max(0, comp.strength - strengthCost);
+                        Messages.Message(
+                            "TSA_WD_RecruitsRedirected".Translate(pawnList.Count, outpost.Label),
+                            traveler,
+                            MessageTypeDefOf.NeutralEvent);
+                        return true;
+                    }
+                }
+
+                if (!usePod && alloc.landCount == 0)
+                {
+                    // No components and no land fallback: recruits wait at the outpost.
+                    PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(pawnList, outpost);
+                    int held = 0;
+                    for (int i = 0; i < pawnList.Count; i++)
+                    {
+                        if (outpost.AddPawn(pawnList[i], null))
+                            held++;
+                        else
+                            pawnList[i]?.Destroy();
+                    }
+                    if (held <= 0) return false;
+                    Messages.Message(
+                        "TSA_WD_RecruitsStayedAtOutpost".Translate(held, outpost.Label),
+                        outpost,
+                        MessageTypeDefOf.NeutralEvent);
+                    return true;
+                }
+
+                PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(pawnList, outpost);
+            }
+
             Caravan caravan = CaravanMaker.MakeCaravan(pawnList, Faction.OfPlayer, outpost.Tile, true);
             PlayerPawnTransferUtility.PackTravelPemmicanFromOutpost(caravan, pawnList.Count, outpost);
 
-            float cost = WorldDominationMod.settings?.outpostDeliveryStrengthCost ?? 50f;
-            if (comp != null) comp.strength = Mathf.Max(0, comp.strength - cost);
+            if (comp != null) comp.strength = Mathf.Max(0, comp.strength - strengthCost);
 
-            int destTile = comp.redirectionTargetTile;
             caravan.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(destTile, outpost), null, false, false);
 
             Messages.Message("TSA_WD_RecruitsRedirected".Translate(pawnList.Count, outpost.Label), outpost, MessageTypeDefOf.NeutralEvent);

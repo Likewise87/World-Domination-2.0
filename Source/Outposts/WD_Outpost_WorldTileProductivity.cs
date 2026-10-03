@@ -567,6 +567,28 @@ namespace TSA_WorldDomination
             return growingDaysFactor * biomePlantFactor * hillPenalty;
         }
 
+        /// <summary>
+        /// Biome plant-density rank only (0–1), without growing season or mutators.
+        /// Used for NPC logging eligibility (trees can exist with a short growing season).
+        /// </summary>
+        public static float GetPlantDensityRank(int tile)
+        {
+            var grid = Find.WorldGrid;
+            if (grid == null || tile < 0 || tile >= grid.TilesCount)
+                return 0f;
+            if (grid[tile].WaterCovered)
+                return 0f;
+
+            BiomeDef biome = WorldTileInfo.GetBiome(tile);
+            if (biome == null || biome.plantDensity <= 0f)
+                return 0f;
+
+            EnsureBaselines();
+            if (plantDensityMax <= plantDensityMin + 1e-5f)
+                return 1f;
+            return Mathf.Clamp01(Mathf.InverseLerp(plantDensityMin, plantDensityMax, biome.plantDensity));
+        }
+
         /// <summary>Biome animal density rank only (0–1), without mutator offsets.</summary>
         public static float GetHuntingBaseScore(int tile)
         {

@@ -187,7 +187,7 @@ namespace TSA_WorldDomination
                 return; // free escort still on caravan — leave it alone
             }
 
-            DissolveCaravanIntoOutpostPhysicalRemainder(caravan, creditVirtualFoodFromRemainder: true);
+            DissolveCaravanIntoOutpostPhysicalRemainder(caravan);
         }
 
         /// <summary>Remove captive to the void. No map drop, no goodwill dump.</summary>
@@ -360,69 +360,240 @@ namespace TSA_WorldDomination
                     false);
             }
 
+            // Travel mode is set per holding outpost, not per prisoner.
+            bool wantPod = PlayerPawnDropPodUtility.GetTravelViaDropPod(this)
+                && RapidResponseUtility.TransportPodsResearched();
+
+            // Partition each dest group into drop-pod-eligible vs land, then allocate 1 component per pawn.
+            var landJobs = new List<(PlayerPawnTransferDestination dest, string destLabel, List<Pawn> pawns, List<(string thingId, bool hadSchedule, WorldObject_WD_Outpost so, MapParent sc)> meta)>();
+            var podJobs = new List<(PlayerPawnTransferDestination dest, string destLabel, List<Pawn> pawns, List<(string thingId, bool hadSchedule, WorldObject_WD_Outpost so, MapParent sc)> meta)>();
+            var podLaunches = new List<WorldObject>();
+
             foreach (var kv in byDest)
             {
                 List<Pawn> group = kv.Value.pawns;
                 if (group.Count == 0) continue;
-
                 PlayerPawnTransferDestination dest = kv.Value.dest;
                 string destLabel = kv.Value.destLabel;
                 var meta = kv.Value.meta;
-                if (!PlayerPawnTransferUtility.TrySendUnspawnedPawnsFromTileWithPemmican(
-                        group,
-                        Tile,
-                        dest,
-                        Window_Prisoners.RecruitJourneyPemmican,
-                        this,
-                        showRouteMessages: false))
+
+                var landPawns = new List<Pawn>();
+                var landMeta = new List<(string, bool, WorldObject_WD_Outpost, MapParent)>();
+                var podPawns = new List<Pawn>();
+                var podMeta = new List<(string, bool, WorldObject_WD_Outpost, MapParent)>();
+
+                for (int i = 0; i < group.Count; i++)
                 {
-                    for (int i = 0; i < group.Count; i++)
+                    Pawn pawn = group[i];
+                    var m = meta[i];
+                    int destTile = dest.kind == PlayerPawnTransferDestinationKind.Colony
+                        ? (dest.colony?.Tile.tileId ?? -1)
+                        : (dest.outpost?.Tile.tileId ?? -1);
+                    bool canPod = wantPod
+                        && PlayerPawnDropPodUtility.InDropPodRange(this, destTile);
+                    if (canPod)
                     {
-                        Pawn pawn = group[i];
-                        if (pawn == null || pawn.Destroyed) continue;
-                        var m = meta[i];
-                        if (!AddPawn(pawn, null))
-                            RestoreAsPrisonerAfterFailedRecruit(pawn, schedule, m.thingId, m.hadSchedule, m.so, m.sc);
-                        else
-                        {
-                            if (m.hadSchedule) schedule?.Clear(m.thingId);
-                            Messages.Message(
-                                "TSA_WD_Prisoners_RecruitStayed".Translate(pawn.LabelShortCap, LabelCap),
-                                this,
-                                MessageTypeDefOf.TaskCompletion,
-                                false);
-                        }
+                        podPawns.Add(pawn);
+                        podMeta.Add(m);
                     }
-                    continue;
-                }
-
-                for (int i = 0; i < meta.Count; i++)
-                {
-                    if (meta[i].hadSchedule)
-                        schedule?.Clear(meta[i].thingId);
-                }
-
-                bool notify = WorldDominationMod.settings?.notifyPrisonerRecruitedUnderway
-                    ?? WorldDominationSettings.DefNotifyPrisonerRecruitedUnderway;
-                if (notify)
-                {
-                    GlobalTargetInfo look = dest.JumpTarget;
-                    for (int i = 0; i < group.Count; i++)
+                    else
                     {
-                        Pawn pawn = group[i];
-                        if (pawn == null || pawn.Destroyed) continue;
-                        Messages.Message(
-                            "TSA_WD_Prisoners_RecruitUnderway".Translate(
-                                pawn.LabelShortCap, LabelCap, destLabel),
-                            look,
-                            MessageTypeDefOf.PositiveEvent,
-                            false);
+                        landPawns.Add(pawn);
+                        landMeta.Add(m);
                     }
                 }
+
+                if (podPawns.Count > 0)
+                {
+                    podJobs.Add((dest, destLabel, podPawns, podMeta));
+                    PlayerPawnDropPodUtility.AddOriginSlots(podLaunches, this, podPawns.Count);
+                }
+                if (landPawns.Count > 0)
+                    landJobs.Add((dest, destLabel, landPawns, landMeta));
+            }
+
+            var alloc = PlayerPawnDropPodUtility.Allocate(podLaunches);
+            if (alloc.podCount > 0
+                && !PlayerPawnDropPodUtility.TryConsumeComponents(
+                    alloc.podCount * PlayerPawnDropPodUtility.ComponentCostPerLaunch, out string consumeReason))
+            {
+                Messages.Message(
+                    consumeReason ?? "TSA_WD_PawnDropPod_AllWouldAbort".Translate(),
+                    MessageTypeDefOf.RejectInput,
+                    false);
+                for (int i = 0; i < alloc.rows.Count; i++)
+                {
+                    var row = alloc.rows[i];
+                    if (row.mode != PlayerPawnDropPodUtility.LaunchMode.Pod) continue;
+                    alloc.rows[i] = new PlayerPawnDropPodUtility.OriginAllocation
+                    {
+                        origin = row.origin,
+                        mode = PlayerPawnDropPodUtility.GetFallbackToLand(row.origin)
+                            ? PlayerPawnDropPodUtility.LaunchMode.Land
+                            : PlayerPawnDropPodUtility.LaunchMode.Abort
+                    };
+                }
+            }
+
+            int rowIndex = 0;
+            for (int ji = 0; ji < podJobs.Count; ji++)
+            {
+                var job = podJobs[ji];
+                var podPawns = new List<Pawn>();
+                var landPawns = new List<Pawn>();
+                var abortPawns = new List<Pawn>();
+                var podMeta = new List<(string, bool, WorldObject_WD_Outpost, MapParent)>();
+                var landMeta = new List<(string, bool, WorldObject_WD_Outpost, MapParent)>();
+                var abortMeta = new List<(string, bool, WorldObject_WD_Outpost, MapParent)>();
+
+                for (int i = 0; i < job.pawns.Count; i++)
+                {
+                    var mode = rowIndex < alloc.rows.Count
+                        ? alloc.rows[rowIndex].mode
+                        : PlayerPawnDropPodUtility.LaunchMode.Abort;
+                    rowIndex++;
+                    if (mode == PlayerPawnDropPodUtility.LaunchMode.Pod)
+                    {
+                        podPawns.Add(job.pawns[i]);
+                        podMeta.Add(job.meta[i]);
+                    }
+                    else if (mode == PlayerPawnDropPodUtility.LaunchMode.Land)
+                    {
+                        landPawns.Add(job.pawns[i]);
+                        landMeta.Add(job.meta[i]);
+                    }
+                    else
+                    {
+                        abortPawns.Add(job.pawns[i]);
+                        abortMeta.Add(job.meta[i]);
+                    }
+                }
+
+                if (podPawns.Count > 0)
+                {
+                    WorldObject destWo = job.dest.kind == PlayerPawnTransferDestinationKind.Colony
+                        ? (WorldObject)job.dest.colony
+                        : job.dest.outpost;
+                    int destTile = destWo != null ? destWo.Tile.tileId : -1;
+                    var traveler = WorldActions_Traveler.SpawnPlayerPawnDropPodTraveler(this, destTile, podPawns, destWo);
+                    if (traveler != null)
+                    {
+                        ClearRecruitScheduleMeta(podMeta, schedule);
+                        NotifyRecruitUnderway(podPawns, job.destLabel, job.dest);
+                    }
+                    else if (PlayerPawnDropPodUtility.GetFallbackToLand(this))
+                    {
+                        PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(podPawns, this);
+                        if (!TryRecruitSendLand(podPawns, job.dest, job.destLabel, podMeta, schedule))
+                            RestoreRecruitGroup(podPawns, podMeta, schedule);
+                    }
+                    else
+                    {
+                        PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(podPawns, this);
+                        RestoreRecruitGroup(podPawns, podMeta, schedule);
+                    }
+                }
+
+                if (landPawns.Count > 0)
+                {
+                    PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(landPawns, this);
+                    if (!TryRecruitSendLand(landPawns, job.dest, job.destLabel, landMeta, schedule))
+                        RestoreRecruitGroup(landPawns, landMeta, schedule);
+                }
+
+                if (abortPawns.Count > 0)
+                {
+                    PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(abortPawns, this);
+                    RestoreRecruitGroup(abortPawns, abortMeta, schedule);
+                }
+            }
+
+            for (int ji = 0; ji < landJobs.Count; ji++)
+            {
+                var job = landJobs[ji];
+                if (!TryRecruitSendLand(job.pawns, job.dest, job.destLabel, job.meta, schedule))
+                    RestoreRecruitGroup(job.pawns, job.meta, schedule);
             }
 
             NotifyVirtualPawnsChanged();
             Window_Prisoners.InvalidateCache();
+        }
+
+        private bool TryRecruitSendLand(
+            List<Pawn> group,
+            PlayerPawnTransferDestination dest,
+            string destLabel,
+            List<(string thingId, bool hadSchedule, WorldObject_WD_Outpost so, MapParent sc)> meta,
+            WorldComponent_PrisonerRecruitSchedule schedule)
+        {
+            if (!PlayerPawnTransferUtility.TrySendUnspawnedPawnsFromTileWithPemmican(
+                    group,
+                    Tile,
+                    dest,
+                    Window_Prisoners.RecruitJourneyPemmican,
+                    this,
+                    showRouteMessages: false))
+                return false;
+
+            ClearRecruitScheduleMeta(meta, schedule);
+            NotifyRecruitUnderway(group, destLabel, dest);
+            return true;
+        }
+
+        private void ClearRecruitScheduleMeta(
+            List<(string thingId, bool hadSchedule, WorldObject_WD_Outpost so, MapParent sc)> meta,
+            WorldComponent_PrisonerRecruitSchedule schedule)
+        {
+            if (meta == null || schedule == null) return;
+            for (int i = 0; i < meta.Count; i++)
+            {
+                if (meta[i].hadSchedule)
+                    schedule.Clear(meta[i].thingId);
+            }
+        }
+
+        private void NotifyRecruitUnderway(List<Pawn> group, string destLabel, PlayerPawnTransferDestination dest)
+        {
+            bool notify = WorldDominationMod.settings?.notifyPrisonerRecruitedUnderway
+                ?? WorldDominationSettings.DefNotifyPrisonerRecruitedUnderway;
+            if (!notify || group == null) return;
+            GlobalTargetInfo look = dest.JumpTarget;
+            for (int i = 0; i < group.Count; i++)
+            {
+                Pawn pawn = group[i];
+                if (pawn == null || pawn.Destroyed) continue;
+                Messages.Message(
+                    "TSA_WD_Prisoners_RecruitUnderway".Translate(
+                        pawn.LabelShortCap, LabelCap, destLabel),
+                    look,
+                    MessageTypeDefOf.PositiveEvent,
+                    false);
+            }
+        }
+
+        private void RestoreRecruitGroup(
+            List<Pawn> group,
+            List<(string thingId, bool hadSchedule, WorldObject_WD_Outpost so, MapParent sc)> meta,
+            WorldComponent_PrisonerRecruitSchedule schedule)
+        {
+            if (group == null) return;
+            for (int i = 0; i < group.Count; i++)
+            {
+                Pawn pawn = group[i];
+                if (pawn == null || pawn.Destroyed) continue;
+                var m = meta[i];
+                if (!AddPawn(pawn, null))
+                    RestoreAsPrisonerAfterFailedRecruit(pawn, schedule, m.thingId, m.hadSchedule, m.so, m.sc);
+                else
+                {
+                    if (m.hadSchedule) schedule?.Clear(m.thingId);
+                    Messages.Message(
+                        "TSA_WD_Prisoners_RecruitStayed".Translate(pawn.LabelShortCap, LabelCap),
+                        this,
+                        MessageTypeDefOf.TaskCompletion,
+                        false);
+                }
+            }
         }
 
         private void RestoreAsPrisonerAfterFailedRecruit(

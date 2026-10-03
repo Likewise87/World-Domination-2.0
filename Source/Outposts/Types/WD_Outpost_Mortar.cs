@@ -526,6 +526,7 @@ namespace TSA_WorldDomination
             if ((mask & MissionMask.Road) != 0) parts.Add("TSA_WD_Mortar_Filter_Road".Translate());
             if ((mask & MissionMask.Trader) != 0) parts.Add("TSA_WD_Mortar_Filter_Trader".Translate());
             if ((mask & MissionMask.Fortify) != 0) parts.Add("TSA_WD_Mortar_Filter_Fortify".Translate());
+            if ((mask & MissionMask.Logistics) != 0) parts.Add("TSA_WD_Mortar_Filter_Logistics".Translate());
             return parts.Count == 0 ? "—" : string.Join(", ", parts);
         }
 

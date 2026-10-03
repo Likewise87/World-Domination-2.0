@@ -7,23 +7,16 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Stub material cost entry for player world builds (roads, fortifications, AT).
-    /// Deduction (colony map + warehouses anywhere) will mirror outpost upgrades later; lists are empty for now.
-    /// </summary>
-    public class ColonyWorldBuildCostEntry
-    {
-        public string thingDefName;
-        public int count = 1;
-    }
-
-    /// <summary>
-    /// Research + construction gates and tip formatting for player Build menu options.
+    /// Research + construction + material gates and tip formatting for player Build menu options.
+    /// Material lists come from WorldBuild Defs / AT ModExtensions.
     /// </summary>
     public static class ColonyWorldBuildRequirements
     {
         public const string ResearchMachining = "Machining";
         public const string ResearchMicroelectronics = "MicroelectronicsBasics";
         public const string ResearchFabrication = "Fabrication";
+
+        private static readonly List<OutpostUpgradeCostEntry> EmptyCosts = ColonyWorldBuildMaterials.EmptyCostList;
 
         public static ResearchProjectDef GetRequiredResearchForRoad(SettlementTier tier)
         {
@@ -37,7 +30,6 @@ namespace TSA_WorldDomination
                 }
             }
 
-            // Soft fallback if XML missing.
             if (tier == SettlementTier.T3 || tier == SettlementTier.T4)
                 return FindResearch(ResearchMicroelectronics);
             if (tier == SettlementTier.T2)
@@ -47,6 +39,16 @@ namespace TSA_WorldDomination
 
         public static ResearchProjectDef GetRequiredResearchForRoadBlock(RoadBlockKind kind)
         {
+            WdRoadBlockKindDef def = WdWorldBuildKindDefResolver.GetRoadBlock(kind);
+            if (def?.researchPrerequisites != null)
+            {
+                for (int i = 0; i < def.researchPrerequisites.Count; i++)
+                {
+                    if (def.researchPrerequisites[i] != null)
+                        return def.researchPrerequisites[i];
+                }
+            }
+
             if (kind == RoadBlockKind.Heavy)
                 return FindResearch(ResearchMicroelectronics);
             if (kind == RoadBlockKind.Normal)
@@ -56,6 +58,16 @@ namespace TSA_WorldDomination
 
         public static ResearchProjectDef GetRequiredResearchForSpikeTrap(SpikeTrapKind kind)
         {
+            WdSpikeTrapKindDef def = WdWorldBuildKindDefResolver.GetSpikeTrap(kind);
+            if (def?.researchPrerequisites != null)
+            {
+                for (int i = 0; i < def.researchPrerequisites.Count; i++)
+                {
+                    if (def.researchPrerequisites[i] != null)
+                        return def.researchPrerequisites[i];
+                }
+            }
+
             if (kind == SpikeTrapKind.Caltrops)
                 return FindResearch(ResearchMachining);
             return null;
@@ -63,6 +75,16 @@ namespace TSA_WorldDomination
 
         public static ResearchProjectDef GetRequiredResearchForAtTurret(AtTurretTier tier)
         {
+            WdWorldBuildCostExtension ext = GetAtTurretBuildExtension(tier);
+            if (ext?.researchPrerequisites != null)
+            {
+                for (int i = 0; i < ext.researchPrerequisites.Count; i++)
+                {
+                    if (ext.researchPrerequisites[i] != null)
+                        return ext.researchPrerequisites[i];
+                }
+            }
+
             if (tier == AtTurretTier.Heavy)
                 return FindResearch(ResearchFabrication);
             if (tier == AtTurretTier.Medium)
@@ -72,16 +94,86 @@ namespace TSA_WorldDomination
             return null;
         }
 
-        /// <summary>Material costs for this build (empty until goods costs are enabled).</summary>
-        public static List<ColonyWorldBuildCostEntry> GetMaterialCostsForRoad(SettlementTier tier) => EmptyCosts;
+        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForRoad(SettlementTier tier)
+        {
+            WdRoadTierDef def = WdBiomeTableResolver.GetRoadTierDef(tier);
+            if (def?.cost == null || def.cost.Count == 0) return EmptyCosts;
+            return def.cost;
+        }
 
-        public static List<ColonyWorldBuildCostEntry> GetMaterialCostsForRoadBlock(RoadBlockKind kind) => EmptyCosts;
+        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForRoadBlock(RoadBlockKind kind)
+        {
+            WdRoadBlockKindDef def = WdWorldBuildKindDefResolver.GetRoadBlock(kind);
+            if (def?.cost == null || def.cost.Count == 0) return EmptyCosts;
+            return def.cost;
+        }
 
-        public static List<ColonyWorldBuildCostEntry> GetMaterialCostsForSpikeTrap(SpikeTrapKind kind) => EmptyCosts;
+        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForSpikeTrap(SpikeTrapKind kind)
+        {
+            WdSpikeTrapKindDef def = WdWorldBuildKindDefResolver.GetSpikeTrap(kind);
+            if (def?.cost == null || def.cost.Count == 0) return EmptyCosts;
+            return def.cost;
+        }
 
-        public static List<ColonyWorldBuildCostEntry> GetMaterialCostsForAtTurret(AtTurretTier tier) => EmptyCosts;
+        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForAtTurret(AtTurretTier tier)
+        {
+            WdWorldBuildCostExtension ext = GetAtTurretBuildExtension(tier);
+            if (ext?.cost == null || ext.cost.Count == 0) return EmptyCosts;
+            return ext.cost;
+        }
 
-        private static readonly List<ColonyWorldBuildCostEntry> EmptyCosts = new List<ColonyWorldBuildCostEntry>();
+        /// <summary>True when this actor pays world-build materials (player outpost or colony build site).</summary>
+        public static bool ActorPaysWorldBuildMaterials(WorldObject actor)
+        {
+            if (actor == null) return false;
+            return actor is WorldObject_WD_Outpost
+                || ColonyWorldBuildUtility.IsPlayerColonyBuildActor(actor);
+        }
+
+        public static bool HasMaterialCostsForRoad(SettlementTier tier) =>
+            ColonyWorldBuildMaterials.HasMaterialCosts(GetMaterialCostsForRoad(tier));
+
+        public static bool HasMaterialCostsForRoadBlock(RoadBlockKind kind) =>
+            ColonyWorldBuildMaterials.HasMaterialCosts(GetMaterialCostsForRoadBlock(kind));
+
+        public static bool HasMaterialCostsForSpikeTrap(SpikeTrapKind kind) =>
+            ColonyWorldBuildMaterials.HasMaterialCosts(GetMaterialCostsForSpikeTrap(kind));
+
+        public static bool HasMaterialCostsForAtTurret(AtTurretTier tier) =>
+            ColonyWorldBuildMaterials.HasMaterialCosts(GetMaterialCostsForAtTurret(tier));
+
+        public static bool TryDeductForRoad(SettlementTier tier, out string reason) =>
+            ColonyWorldBuildMaterials.TryDeductMaterialCosts(GetMaterialCostsForRoad(tier), out reason);
+
+        public static bool TryDeductForRoadBlock(RoadBlockKind kind, out string reason) =>
+            ColonyWorldBuildMaterials.TryDeductMaterialCosts(GetMaterialCostsForRoadBlock(kind), out reason);
+
+        public static bool TryDeductForSpikeTrap(SpikeTrapKind kind, out string reason) =>
+            ColonyWorldBuildMaterials.TryDeductMaterialCosts(GetMaterialCostsForSpikeTrap(kind), out reason);
+
+        public static bool TryDeductForAtTurret(AtTurretTier tier, out string reason) =>
+            ColonyWorldBuildMaterials.TryDeductMaterialCosts(GetMaterialCostsForAtTurret(tier), out reason);
+
+        /// <summary>
+        /// After a player construction traveler successfully spawned: deduct materials or destroy traveler and refund strength.
+        /// </summary>
+        public static bool TryFinalizeMaterialsOrAbort(
+            WorldObject origin,
+            WorldObject_Traveler traveler,
+            float strengthCost,
+            List<OutpostUpgradeCostEntry> costs)
+        {
+            if (!ActorPaysWorldBuildMaterials(origin)) return true;
+            if (costs == null || costs.Count == 0) return true;
+            if (ColonyWorldBuildMaterials.TryDeductMaterialCosts(costs, out _)) return true;
+
+            var comp = origin?.GetComponent<CompViralSpread>();
+            if (traveler != null && !traveler.Destroyed)
+                traveler.Destroy();
+            if (comp != null && strengthCost > 0f)
+                WorldActions_Utils.RefundExpeditionStrength(comp, strengthCost);
+            return false;
+        }
 
         public static bool IsResearchMet(ResearchProjectDef project)
         {
@@ -140,7 +232,7 @@ namespace TSA_WorldDomination
             float currentConstruction,
             int minConstruction,
             ResearchProjectDef requiredResearch,
-            List<ColonyWorldBuildCostEntry> materialCosts)
+            List<OutpostUpgradeCostEntry> materialCosts)
         {
             if (opt == null) return;
 
@@ -151,7 +243,9 @@ namespace TSA_WorldDomination
             else
                 opt.tooltip = reqBlock;
 
-            bool unmet = !MeetsConstruction(currentConstruction, minConstruction) || !IsResearchMet(requiredResearch);
+            bool unmet = !MeetsConstruction(currentConstruction, minConstruction)
+                || !IsResearchMet(requiredResearch)
+                || !ColonyWorldBuildMaterials.HasMaterialCosts(materialCosts);
             if (unmet)
                 opt.Disabled = true;
         }
@@ -160,13 +254,14 @@ namespace TSA_WorldDomination
             float currentConstruction,
             int minConstruction,
             ResearchProjectDef requiredResearch,
-            List<ColonyWorldBuildCostEntry> materialCosts)
+            List<OutpostUpgradeCostEntry> materialCosts)
         {
             var sb = new StringBuilder();
             sb.AppendLine("TSA_WD_BuildReq_Header".Translate());
+            // {0} = required, {1} = current skill (e.g. Construction: 5 (30)).
             sb.AppendLine("TSA_WD_BuildReq_Construction".Translate(
-                currentConstruction.ToString("F0"),
-                minConstruction.ToString()));
+                minConstruction.ToString(),
+                currentConstruction.ToString("F0")));
 
             if (requiredResearch == null)
                 sb.AppendLine("TSA_WD_BuildReq_ResearchNone".Translate());
@@ -182,15 +277,22 @@ namespace TSA_WorldDomination
                 sb.AppendLine("TSA_WD_BuildReq_MaterialsHeader".Translate());
                 for (int i = 0; i < materialCosts.Count; i++)
                 {
-                    ColonyWorldBuildCostEntry e = materialCosts[i];
-                    if (e == null || string.IsNullOrEmpty(e.thingDefName)) continue;
-                    ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(e.thingDefName);
-                    string name = def != null ? def.LabelCap : e.thingDefName;
+                    OutpostUpgradeCostEntry e = materialCosts[i];
+                    if (e == null || e.count <= 0) continue;
+                    string name = ColonyWorldBuildMaterials.GetCostDisplayLabel(e);
+                    if (string.IsNullOrEmpty(name)) continue;
                     sb.AppendLine("TSA_WD_BuildReq_MaterialLine".Translate(name, e.count.ToString()));
                 }
             }
 
             return sb.ToString().TrimEnd();
+        }
+
+        public static WdWorldBuildCostExtension GetAtTurretBuildExtension(AtTurretTier tier)
+        {
+            string defName = AtTurretUtility.DefNameForTier(tier);
+            WorldObjectDef def = DefDatabase<WorldObjectDef>.GetNamedSilentFail(defName);
+            return def?.GetModExtension<WdWorldBuildCostExtension>();
         }
 
         private static ResearchProjectDef FindResearch(string defName)

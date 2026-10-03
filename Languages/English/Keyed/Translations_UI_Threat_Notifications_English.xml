@@ -27,6 +27,7 @@
   <TSA_WD_Dash_NavTip_ActionLog>Recent World Domination events and actions (last 500 entries).</TSA_WD_Dash_NavTip_ActionLog>
   <TSA_WD_Dash_NavTip_Prisoners>Review colony prisoners and assign post-recruit outpost destinations.\n\nHotkey: {0}</TSA_WD_Dash_NavTip_Prisoners>
   <TSA_WD_Dash_NavTip_YourPawns>List, filter, and move your pawns across colonies and outposts.\n\nHotkey: {0}</TSA_WD_Dash_NavTip_YourPawns>
+  <TSA_WD_Dash_NavTip_AllInventory>See which gear is stored or equipped where, and ship stored stacks anywhere without a pawn.\n\nHotkey: {0}</TSA_WD_Dash_NavTip_AllInventory>
   <TSA_WD_Dash_Goodwill_Best>Highest goodwill</TSA_WD_Dash_Goodwill_Best>
   <TSA_WD_Dash_Goodwill_Worst>Lowest goodwill</TSA_WD_Dash_Goodwill_Worst>
   <TSA_WD_Dash_Goodwill_None>No factions to show.</TSA_WD_Dash_Goodwill_None>
@@ -218,6 +219,11 @@
   <TSA_WD_Alert_ConstructionInsufficientStrength>WD: Construction waiting on strength</TSA_WD_Alert_ConstructionInsufficientStrength>
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>These outposts are ready to dispatch a construction crew but lack strength:</TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>- {0}: {1}</TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>
+  <TSA_WD_Notify_ConstructionInsufficientMaterials>Show construction insufficient-materials alert (right side)</TSA_WD_Notify_ConstructionInsufficientMaterials>
+  <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>Shows a silent, persistent alert on the right-side readout when a WD outpost has finished preparing a road, fortification, or AT segment but lacks materials to dispatch the crew. Click to jump to an affected outpost.</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
+  <TSA_WD_Alert_ConstructionInsufficientMaterials>WD: Construction waiting on materials</TSA_WD_Alert_ConstructionInsufficientMaterials>
+  <TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>These outposts are ready to dispatch a construction crew but lack materials:</TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>
+  <TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>- {0}: {1}</TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>
   <TSA_WD_Notify_OutpostNoProduction>Show outposts without production alert (right side)</TSA_WD_Notify_OutpostNoProduction>
   <TSA_WD_Notify_OutpostNoProductionTooltip>Shows a silent, persistent alert on the right-side readout when at least one of your WD outposts needs a production pick but has nothing selected. Mouseover lists all affected outposts. Click to jump to the first.</TSA_WD_Notify_OutpostNoProductionTooltip>
   <TSA_WD_Notify_OutpostUnusedExperts>Show outposts without experts alert (right side)</TSA_WD_Notify_OutpostUnusedExperts>
@@ -394,6 +400,7 @@
   <TS_WD_Threat_NoGoodwillHostilesTooltip>When enabled, conquering a settlement will not grant goodwill with factions that are hostile to you. Only non-hostile factions can gain goodwill from your conquests.</TS_WD_Threat_NoGoodwillHostilesTooltip>
   <TS_WD_Threat_Reset>Reset this page to Defaults</TS_WD_Threat_Reset>
   <TSA_WD_AllPlayerPawns>Your Pawns</TSA_WD_AllPlayerPawns>
+  <TSA_WD_AllInventory>All Gear</TSA_WD_AllInventory>
   <TSA_WD_Prisoners>Prisoners</TSA_WD_Prisoners>
   <TSA_WD_Prisoners_Title>Prisoners</TSA_WD_Prisoners_Title>
   <TSA_WD_Prisoners_ColInteraction>Interaction</TSA_WD_Prisoners_ColInteraction>
@@ -462,7 +469,7 @@
   <TSA_WD_AllPlayerPawns_Transfer>Transfer to Destination</TSA_WD_AllPlayerPawns_Transfer>
   <TSA_WD_AllPlayerPawns_TransferTip>Sends the selected pawns to a colony or outpost you choose. Same selection as Smart Send Now.</TSA_WD_AllPlayerPawns_TransferTip>
   <TSA_WD_AllPlayerPawns_EstablishOutpost>Establish outpost</TSA_WD_AllPlayerPawns_EstablishOutpost>
-  <TSA_WD_AllPlayerPawns_EstablishOutpostTip>Send selected colony pawns to found an outpost on a world tile you choose. Needs at least two pawns. Goods are taken from your colony and warehouses. Companions from the same colony may come along.</TSA_WD_AllPlayerPawns_EstablishOutpostTip>
+  <TSA_WD_AllPlayerPawns_EstablishOutpostTip>Send selected pawns from one colony or one outpost to found an outpost on a world tile you choose. Needs at least one humanlike. Goods are taken from your colony and warehouses. Companions from the same origin may come along.</TSA_WD_AllPlayerPawns_EstablishOutpostTip>
   <TSA_WD_AllPlayerPawns_RestoreDefault>Restore default view</TSA_WD_AllPlayerPawns_RestoreDefault>
   <TSA_WD_PawnRoster_Highlight>Highlight:</TSA_WD_PawnRoster_Highlight>
   <TSA_WD_PawnRoster_HighlightOff>Off</TSA_WD_PawnRoster_HighlightOff>
@@ -473,6 +480,8 @@
   <TSA_WD_PawnRoster_ColumnsReset>Reset columns</TSA_WD_PawnRoster_ColumnsReset>
   <TSA_WD_PawnRoster_ColAge>Age</TSA_WD_PawnRoster_ColAge>
   <TSA_WD_PawnRoster_ColAgeTip>Biological age in years.</TSA_WD_PawnRoster_ColAgeTip>
+  <TSA_WD_PawnRoster_ColHealth>Health</TSA_WD_PawnRoster_ColHealth>
+  <TSA_WD_PawnRoster_ColHealthTip>Current health as a percent. A healthy pawn is 100%.</TSA_WD_PawnRoster_ColHealthTip>
   <TSA_WD_PawnRoster_ColXenotype>Xenotype</TSA_WD_PawnRoster_ColXenotype>
   <TSA_WD_PawnRoster_ColXenotypeTip>Biotech xenotype label. Hover a cell for the description.</TSA_WD_PawnRoster_ColXenotypeTip>
   <TSA_WD_PawnRoster_ColPsycasts>Psycasts</TSA_WD_PawnRoster_ColPsycasts>

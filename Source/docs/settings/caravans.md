@@ -14,6 +14,7 @@ This page configures World Domination travelers, water routing, WD trader carava
 | Control | Default | What it changes |
 |---|---:|---|
 | Allow caravans to travel over water | On | Enables special water-capable routing for WD travelers. This is also managed by performance presets. |
+| T3 and T4 always use drop pods to pass over water | On | T3/T4 raids with no land route launch as drop pods (existing attrition/AA) instead of water pathfinding. Off = walk water like T1/T2. |
 | Travelers only cross water if no land route exists | On | Tries standard land routing first. When off, land and water-capable routes are compared. |
 | Traveler water tile movement difficulty | 4.00 | Difficulty applied when a WD traveler enters a water-covered tile. |
 | Skip water path if land path is shorter than | 1.5 days | Avoids the more expensive water-route calculation for short land routes. Set to 0 to always calculate it. |

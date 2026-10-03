@@ -442,7 +442,7 @@ namespace TSA_WorldDomination
                 TrySetBiocoded(t, true);
         }
 
-        private static void TrySetBiocoded(Thing t, bool biocoded)
+        internal static void TrySetBiocoded(Thing t, bool biocoded)
         {
             var comp = t?.TryGetComp<CompBiocodable>();
             if (comp == null) return;

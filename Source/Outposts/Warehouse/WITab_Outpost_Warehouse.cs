@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
@@ -7,13 +8,6 @@ using Verse.Sound;
 
 namespace TSA_WorldDomination
 {
-    public enum WarehouseGoodsFilter : byte
-    {
-        All = 0,
-        Food = 1,
-        Nonfood = 2
-    }
-
     /// <summary>
     /// Warehouse-tab icons. Must live on a dedicated <see cref="StaticConstructorOnStartup"/> type —
     /// not on <see cref="WITab_Outpost_Warehouse"/> — because inspect-tab types are constructed during
@@ -47,19 +41,48 @@ namespace TSA_WorldDomination
         }
     }
 
-    /// <summary>Warehouse inventory + shipping controls (method, regular deliveries, ad hoc) in one inspect tab.</summary>
+    /// <summary>
+    /// Warehouse inventory + shipping controls. Stock table chrome matches
+    /// <see cref="Window_AllPlayerGear"/>: checkbox selection, Type / Quality / Count columns,
+    /// filterable headers, clean item labels, and send amounts defaulting to max.
+    /// </summary>
     public class WITab_Outpost_Warehouse : WITab
     {
+        private sealed class StockRowView
+        {
+            public string key;
+            public ThingDefCountClass stock;
+            public Thing unique;
+            public bool isVirtualFood;
+            public ThingDef def;
+            public string itemLabel;
+            public string typeLabel;
+            public ArmoryTypeFilter typeKind;
+            public bool hasQuality;
+            public QualityCategory quality;
+            public string qualityLabel;
+            public int count;
+            public bool isUnique;
+        }
+
         private Vector2 scrollPosition;
         private float scrollViewHeight;
         private readonly Dictionary<string, int> selectedCounts = new Dictionary<string, int>();
         private readonly Dictionary<string, string> countEditBuffers = new Dictionary<string, string>();
+        private readonly HashSet<string> selectedRowIds = new HashSet<string>();
         private int selectedCountsSyncedWarehouseId = int.MinValue;
-        private WarehouseGoodsFilter goodsFilter = WarehouseGoodsFilter.All;
-        private string goodsSearch = "";
         private int selectedVirtualFood;
         private string virtualFoodEditBuffer = "0";
         private const string VirtualFoodRowKey = "__wd_virtual_food__";
+
+        private static string sortColumn = "Item";
+        private static bool sortAscending = true;
+        private static string itemSearchTerm = "";
+        private static ArmoryTypeFilter typeFilter = ArmoryTypeFilter.All;
+        private static int qualityFilter = QualityFilterAll;
+
+        private List<StockRowView> filterBaseRows = new List<StockRowView>();
+        private List<StockRowView> visibleRows = new List<StockRowView>();
 
         private const float TabHeaderConsumedHeight = 38f;
         private const float TableHeaderHeight = 28f;
@@ -73,15 +96,24 @@ namespace TSA_WorldDomination
         private const float FooterGap = 6f;
         private const float FooterTipHeight = 36f;
         private const float FooterLabelW = 118f;
-        private const float GoodsSearchMinW = 140f;
-        private const float GoodsSearchMaxW = 240f;
         private const float ShipNowBtnW = 130f;
+        private const float ConvertBtnW = 190f;
         private const float RowRightPad = 10f;
-        private static float ControlsWidth => BtnW + CountColW + BtnW + BtnGap + BtnW + BtnGap + MaxBtnW;
+        private const float ColSelect = 36f;
+        private const float ColItemIcon = 40f;
+        private const float ColType = 100f;
+        private const float ColQuality = 90f;
+        private const float ColCount = 56f;
+        private static float ColSend => BtnW + CountColW + BtnW + BtnGap + BtnW + BtnGap + MaxBtnW;
+        private static float FixedColsWidth =>
+            ColSelect + ColItemIcon + ColType + ColQuality + ColCount + ColSend + RowRightPad;
+
+        private const int QualityFilterAll = -1;
+        private const int QualityFilterNone = -2;
 
         public WITab_Outpost_Warehouse()
         {
-            size = new Vector2(710f, 620f);
+            size = new Vector2(820f, 620f);
             labelKey = "TSA_WD_WarehouseTab_Label";
         }
 
@@ -106,6 +138,7 @@ namespace TSA_WorldDomination
             if (comp == null) return;
 
             SyncSelectedCounts(outpost, comp);
+            RebuildVisibleRows(outpost, comp);
 
             Rect body = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
             Text.Font = GameFont.Medium;
@@ -118,7 +151,9 @@ namespace TSA_WorldDomination
                 FooterRowHeight * 2f + FooterGap * 3f + FooterTipHeight + 4f;
             float listY = body.y + TabHeaderConsumedHeight;
             float headerY = listY;
-            DrawStockTableHeader(body.x, headerY, body.width);
+            float tableInnerW = body.width;
+            float itemW = Mathf.Max(120f, tableInnerW - FixedColsWidth);
+            DrawStockTableHeader(body.x, headerY, tableInnerW, itemW);
 
             float scrollY = headerY + TableHeaderHeight + 4f;
             Rect listRect = new Rect(body.x, scrollY, body.width, body.yMax - scrollY - footerBlock);
@@ -126,34 +161,19 @@ namespace TSA_WorldDomination
             Widgets.BeginScrollView(listRect, ref scrollPosition, viewRect);
 
             float innerY = 0f;
-            int rowIndex = 0;
-            if (PassesVirtualFoodFilter() && PassesVirtualFoodSearch())
-            {
-                DrawVirtualFoodRow(viewRect.width, innerY, rowIndex, outpost);
-                innerY += RowHeight;
-                rowIndex++;
-            }
-
-            var items = comp.storedItems;
-            if (items != null && items.Count > 0)
-            {
-                for (int i = 0; i < items.Count; i++)
-                {
-                    var e = items[i];
-                    if (e?.thingDef == null || e.count <= 0) continue;
-                    if (!PassesGoodsFilter(e.thingDef)) continue;
-                    if (!PassesGoodsSearch(e)) continue;
-                    DrawShipRow(viewRect.width, innerY, rowIndex, e);
-                    innerY += RowHeight;
-                    rowIndex++;
-                }
-            }
-
-            if (rowIndex == 0)
+            if (visibleRows.Count == 0)
             {
                 LabelAnchored(new Rect(0f, innerY, viewRect.width, RowHeight),
                     "TSA_WD_Warehouse_InspectEmpty".Translate(), TextAnchor.MiddleLeft);
                 innerY += RowHeight;
+            }
+            else
+            {
+                for (int i = 0; i < visibleRows.Count; i++)
+                {
+                    DrawStockRow(viewRect.width, innerY, i, visibleRows[i], itemW);
+                    innerY += RowHeight;
+                }
             }
 
             if (Event.current.type == EventType.Layout) scrollViewHeight = innerY;
@@ -166,150 +186,366 @@ namespace TSA_WorldDomination
             PawnRosterHeaderFilter.DrawDropdownIfOpen();
         }
 
-        private void DrawStockTableHeader(float x, float y, float width)
+        private void RebuildVisibleRows(WorldObject_WD_Outpost outpost, CompOutpostWarehouse comp)
+        {
+            var rows = new List<StockRowView>();
+
+            int shippableVf = Outpost_Warehouse_Delivery.GetShippableVirtualFoodInt(outpost);
+            rows.Add(new StockRowView
+            {
+                key = VirtualFoodRowKey,
+                isVirtualFood = true,
+                def = null,
+                itemLabel = "TSA_WD_WarehouseTab_VirtualFood".Translate(),
+                typeKind = ArmoryTypeFilter.Food,
+                typeLabel = OutpostArmoryUtility.TypeFilterLabel(ArmoryTypeFilter.Food),
+                hasQuality = false,
+                qualityLabel = "",
+                count = shippableVf
+            });
+
+            var items = comp.storedItems;
+            if (items != null)
+            {
+                for (int i = 0; i < items.Count; i++)
+                {
+                    var e = items[i];
+                    if (e?.thingDef == null || e.count <= 0) continue;
+                    ArmoryTypeFilter kind = OutpostArmoryUtility.TypeFilterFor(e.thingDef);
+                    bool hasQuality = e.thingDef.HasComp(typeof(CompQuality));
+                    rows.Add(new StockRowView
+                    {
+                        key = CompOutpostWarehouse.StockKey(e),
+                        stock = e,
+                        def = e.thingDef,
+                        itemLabel = FormatItemName(e.thingDef, e.stuff),
+                        typeKind = kind,
+                        typeLabel = OutpostArmoryUtility.TypeFilterLabel(kind),
+                        hasQuality = hasQuality,
+                        quality = e.quality,
+                        qualityLabel = hasQuality ? e.quality.GetLabel().CapitalizeFirst() : "",
+                        count = e.count
+                    });
+                }
+            }
+
+            ThingOwner<Thing> uniques = CompOutpostArmory.Get(outpost)?.Uniques;
+            if (uniques != null)
+            {
+                for (int i = 0; i < uniques.Count; i++)
+                {
+                    Thing t = uniques[i];
+                    if (t?.def == null || t.Destroyed) continue;
+                    ArmoryTypeFilter kind = OutpostArmoryUtility.TypeFilterFor(t.def);
+                    bool hasQuality = t.TryGetQuality(out QualityCategory q);
+                    rows.Add(new StockRowView
+                    {
+                        key = UniqueKey(t),
+                        unique = t,
+                        def = t.def,
+                        itemLabel = OutpostArmoryUtility.DisplayLabel(t),
+                        typeKind = kind,
+                        typeLabel = OutpostArmoryUtility.TypeFilterLabel(kind),
+                        hasQuality = hasQuality,
+                        quality = q,
+                        qualityLabel = hasQuality ? q.GetLabel().CapitalizeFirst() : "",
+                        count = Mathf.Max(1, t.stackCount),
+                        isUnique = true
+                    });
+                }
+            }
+
+            filterBaseRows = rows;
+            visibleRows = new List<StockRowView>(rows.Count);
+            string itemFilter = string.IsNullOrEmpty(itemSearchTerm) ? null : itemSearchTerm.ToLowerInvariant();
+            for (int i = 0; i < rows.Count; i++)
+            {
+                StockRowView r = rows[i];
+                bool typeOk = typeFilter == ArmoryTypeFilter.All
+                    || (r.isVirtualFood
+                        ? typeFilter == ArmoryTypeFilter.Food
+                        : OutpostArmoryUtility.MatchesTypeFilter(r.def, typeFilter));
+                if (!typeOk) continue;
+                if (qualityFilter == QualityFilterNone && r.hasQuality) continue;
+                if (qualityFilter >= 0 && (!r.hasQuality || (int)r.quality != qualityFilter)) continue;
+                if (itemFilter != null
+                    && (r.itemLabel ?? "").ToLowerInvariant().IndexOf(itemFilter, System.StringComparison.Ordinal) < 0)
+                    continue;
+                visibleRows.Add(r);
+            }
+
+            SortVisibleRows();
+        }
+
+        private void SortVisibleRows()
+        {
+            visibleRows.Sort((a, b) =>
+            {
+                int cmp;
+                switch (sortColumn)
+                {
+                    case "Type":
+                        cmp = string.Compare(a.typeLabel, b.typeLabel, System.StringComparison.OrdinalIgnoreCase);
+                        break;
+                    case "Quality":
+                        cmp = a.hasQuality.CompareTo(b.hasQuality);
+                        if (cmp == 0 && a.hasQuality) cmp = a.quality.CompareTo(b.quality);
+                        break;
+                    case "Count":
+                        cmp = a.count.CompareTo(b.count);
+                        break;
+                    default:
+                        cmp = string.Compare(a.itemLabel, b.itemLabel, System.StringComparison.OrdinalIgnoreCase);
+                        break;
+                }
+                if (cmp == 0)
+                    cmp = string.Compare(a.itemLabel, b.itemLabel, System.StringComparison.OrdinalIgnoreCase);
+                return sortAscending ? cmp : -cmp;
+            });
+        }
+
+        private void DrawStockTableHeader(float x, float y, float width, float itemW)
         {
             Text.Font = GameFont.Tiny;
             GUI.color = Color.gray;
-            float goodsColW = Mathf.Max(120f, width - ControlsWidth - RowRightPad - 8f);
-            float filterIconW = PawnRosterHeaderFilter.FilterIconSize + 4f;
-            float searchW = Mathf.Clamp(goodsColW - filterIconW - 8f, GoodsSearchMinW, GoodsSearchMaxW);
-            searchW = Mathf.Min(searchW, goodsColW - filterIconW - 8f);
+            float curX = x;
 
-            Rect searchRect = new Rect(x, y + 3f, searchW, TableHeaderHeight - 6f);
-            string oldSearch = goodsSearch ?? "";
-            string nextSearch = Widgets.TextField(searchRect, oldSearch);
-            if (nextSearch != oldSearch)
-                goodsSearch = nextSearch;
-            if (string.IsNullOrEmpty(goodsSearch))
-            {
-                GUI.color = new Color(1f, 1f, 1f, 0.4f);
-                Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.Label(searchRect, "  " + "TSA_WD_WarehouseTab_SearchHint".Translate());
-                Text.Anchor = TextAnchor.UpperLeft;
-                GUI.color = Color.gray;
-            }
-            TooltipHandler.TipRegion(searchRect, "TSA_WD_WarehouseTab_SearchTip".Translate());
+            DrawSelectAllHeader(ref curX, y);
+            curX += ColItemIcon;
 
-            float curX = searchRect.xMax + 4f;
             PawnRosterHeaderFilter.DrawFilterableHeader(
-                ref curX,
-                y,
-                filterIconW,
-                TableHeaderHeight,
-                null,
-                false,
-                false,
+                ref curX, y, itemW, TableHeaderHeight,
+                "TSA_WD_Armory_HdrItem".Translate(),
+                sortColumn == "Item", sortAscending,
+                TextAnchor.MiddleLeft,
+                !itemSearchTerm.NullOrEmpty(),
+                "TSA_WD_FilterByName".Translate(),
+                icon => PawnRosterHeaderFilter.OpenTextDropdown(
+                    icon,
+                    "TSA_WD_FilterByName".Translate(),
+                    "TSA_WD_FilterByName".Translate(),
+                    () => itemSearchTerm,
+                    v => { itemSearchTerm = v ?? ""; },
+                    () => { itemSearchTerm = ""; }),
+                () => SetSort("Item"));
+
+            PawnRosterHeaderFilter.DrawFilterableHeader(
+                ref curX, y, ColType, TableHeaderHeight,
+                "TSA_WD_Armory_HdrType".Translate(),
+                sortColumn == "Type", sortAscending,
                 TextAnchor.MiddleCenter,
-                goodsFilter != WarehouseGoodsFilter.All,
-                "TSA_WD_WarehouseTab_FilterGoodsTip".Translate(),
+                typeFilter != ArmoryTypeFilter.All,
+                "TSA_WD_Armory_WeaponFilterTip".Translate(),
                 icon => PawnRosterHeaderFilter.OpenChoiceDropdown(
                     icon,
-                    "TSA_WD_WarehouseTab_FilterGoodsTitle".Translate(),
-                    BuildGoodsFilterChoices()),
-                null);
+                    "TSA_WD_Armory_HdrType".Translate(),
+                    BuildTypeFilterChoices()),
+                () => SetSort("Type"));
 
+            PawnRosterHeaderFilter.DrawFilterableHeader(
+                ref curX, y, ColQuality, TableHeaderHeight,
+                "TSA_WD_Armory_HdrQuality".Translate(),
+                sortColumn == "Quality", sortAscending,
+                TextAnchor.MiddleCenter,
+                qualityFilter != QualityFilterAll,
+                "TSA_WD_AllInventory_QualityFilterTip".Translate(),
+                icon => PawnRosterHeaderFilter.OpenChoiceDropdown(
+                    icon,
+                    "TSA_WD_Armory_HdrQuality".Translate(),
+                    BuildQualityFilterChoices()),
+                () => SetSort("Quality"));
+
+            DrawSortHeader(ref curX, y, ColCount, "TSA_WD_Armory_HdrCount".Translate(), "Count");
             LabelAnchored(
-                new Rect(x + width - ControlsWidth - RowRightPad, y, ControlsWidth, TableHeaderHeight),
+                new Rect(curX, y, ColSend, TableHeaderHeight),
                 "TSA_WD_WarehouseTab_ColShipAmt".Translate(),
                 TextAnchor.MiddleCenter);
+
             GUI.color = Color.white;
             Text.Font = GameFont.Small;
             Widgets.DrawLineHorizontal(x, y + TableHeaderHeight, width);
         }
 
-        private List<HeaderFilterChoice> BuildGoodsFilterChoices()
+        private void DrawSelectAllHeader(ref float curX, float y)
         {
-            return new List<HeaderFilterChoice>
+            Rect selHdr = new Rect(curX, y, ColSelect, TableHeaderHeight);
+            if (Mouse.IsOver(selHdr)) Widgets.DrawHighlight(selHdr);
+
+            int selectable = visibleRows.Count;
+            int selectedSelectable = 0;
+            for (int i = 0; i < visibleRows.Count; i++)
+            {
+                if (selectedRowIds.Contains(visibleRows[i].key))
+                    selectedSelectable++;
+            }
+            bool all = selectable > 0 && selectedSelectable == selectable;
+            bool next = all;
+            Widgets.Checkbox(
+                new Vector2(selHdr.x + (ColSelect - 24f) * 0.5f, selHdr.y + (TableHeaderHeight - 24f) * 0.5f),
+                ref next);
+            if (next != all)
+            {
+                if (next)
+                {
+                    for (int i = 0; i < visibleRows.Count; i++)
+                        selectedRowIds.Add(visibleRows[i].key);
+                }
+                else
+                {
+                    for (int i = 0; i < visibleRows.Count; i++)
+                        selectedRowIds.Remove(visibleRows[i].key);
+                }
+            }
+            curX += ColSelect;
+        }
+
+        private void DrawSortHeader(ref float curX, float y, float width, string label, string tag)
+        {
+            Rect headerRect = new Rect(curX, y, width, TableHeaderHeight);
+            if (Mouse.IsOver(headerRect)) Widgets.DrawHighlight(headerRect);
+            Text.Anchor = TextAnchor.MiddleCenter;
+            string headerText = label + (sortColumn == tag ? (sortAscending ? " ▲" : " ▼") : "");
+            Widgets.Label(headerRect, headerText.Truncate(width - 4f));
+            if (Widgets.ButtonInvisible(headerRect)) SetSort(tag);
+            Text.Anchor = TextAnchor.UpperLeft;
+            curX += width;
+        }
+
+        private void SetSort(string tag)
+        {
+            if (sortColumn == tag) sortAscending = !sortAscending;
+            else { sortColumn = tag; sortAscending = true; }
+        }
+
+        private List<HeaderFilterChoice> BuildTypeFilterChoices()
+        {
+            var defs = new List<ThingDef>(filterBaseRows.Count);
+            for (int i = 0; i < filterBaseRows.Count; i++)
+            {
+                if (filterBaseRows[i].def != null)
+                    defs.Add(filterBaseRows[i].def);
+            }
+            return OutpostArmoryUtility.BuildTypeFilterChoices(
+                defs, typeFilter, f => { typeFilter = f; });
+        }
+
+        private List<HeaderFilterChoice> BuildQualityFilterChoices()
+        {
+            int total = filterBaseRows.Count;
+            int none = 0;
+            var counts = new int[8];
+            for (int i = 0; i < filterBaseRows.Count; i++)
+            {
+                StockRowView r = filterBaseRows[i];
+                if (!r.hasQuality) { none++; continue; }
+                int idx = (int)r.quality;
+                if (idx >= 0 && idx < counts.Length) counts[idx]++;
+            }
+
+            string CountOf(int n) => total > 0 ? n + "/" + total : null;
+
+            var list = new List<HeaderFilterChoice>
             {
                 new HeaderFilterChoice(
-                    "TSA_WD_WarehouseTab_FilterAll".Translate(),
-                    goodsFilter == WarehouseGoodsFilter.All,
-                    () => goodsFilter = WarehouseGoodsFilter.All,
-                    separatorAfter: true),
+                    "TSA_WD_Armory_WeaponFilter_All".Translate(),
+                    qualityFilter == QualityFilterAll,
+                    () => { qualityFilter = QualityFilterAll; },
+                    separatorAfter: true,
+                    countLabel: CountOf(total)),
                 new HeaderFilterChoice(
-                    "TSA_WD_WarehouseTab_FilterFood".Translate(),
-                    goodsFilter == WarehouseGoodsFilter.Food,
-                    () => goodsFilter = WarehouseGoodsFilter.Food),
-                new HeaderFilterChoice(
-                    "TSA_WD_WarehouseTab_FilterNonfood".Translate(),
-                    goodsFilter == WarehouseGoodsFilter.Nonfood,
-                    () => goodsFilter = WarehouseGoodsFilter.Nonfood)
+                    "TSA_WD_AllInventory_QualityNone".Translate(),
+                    qualityFilter == QualityFilterNone,
+                    () => { qualityFilter = QualityFilterNone; },
+                    countLabel: CountOf(none))
             };
+
+            foreach (QualityCategory q in System.Enum.GetValues(typeof(QualityCategory)))
+            {
+                QualityCategory captured = q;
+                int idx = (int)q;
+                int n = idx >= 0 && idx < counts.Length ? counts[idx] : 0;
+                list.Add(new HeaderFilterChoice(
+                    q.GetLabel().CapitalizeFirst(),
+                    qualityFilter == idx,
+                    () => { qualityFilter = (int)captured; },
+                    countLabel: CountOf(n)));
+            }
+
+            return list;
         }
 
-        private bool PassesGoodsFilter(ThingDef def)
-        {
-            if (goodsFilter == WarehouseGoodsFilter.All) return true;
-            bool food = Outpost_Warehouse_Delivery.IsNutritionGivingStock(def);
-            return goodsFilter == WarehouseGoodsFilter.Food ? food : !food;
-        }
+        private static string UniqueKey(Thing t) => "__wd_unique__" + t.ThingID;
 
-        private bool PassesVirtualFoodFilter() => goodsFilter != WarehouseGoodsFilter.Nonfood;
-
-        private bool PassesVirtualFoodSearch()
+        private static string FormatItemName(ThingDef def, ThingDef stuff)
         {
-            if (goodsSearch.NullOrEmpty()) return true;
-            string needle = goodsSearch.Trim();
-            if (needle.Length == 0) return true;
-            string label = "TSA_WD_WarehouseTab_VirtualFood".Translate();
-            return !label.NullOrEmpty()
-                && label.ToString().IndexOf(needle, System.StringComparison.OrdinalIgnoreCase) >= 0;
-        }
-
-        private bool PassesGoodsSearch(ThingDefCountClass entry)
-        {
-            if (goodsSearch.NullOrEmpty()) return true;
-            string needle = goodsSearch.Trim();
-            if (needle.Length == 0) return true;
-            string label = FormatStockLabel(entry);
-            if (!label.NullOrEmpty()
-                && label.IndexOf(needle, System.StringComparison.OrdinalIgnoreCase) >= 0)
-                return true;
-            string defLabel = entry?.thingDef?.label;
-            return !defLabel.NullOrEmpty()
-                && defLabel.IndexOf(needle, System.StringComparison.OrdinalIgnoreCase) >= 0;
+            if (def == null) return "";
+            if (stuff != null)
+            {
+                string stuffAdj = stuff.LabelAsStuff;
+                if (!string.IsNullOrEmpty(stuffAdj))
+                    return stuffAdj.CapitalizeFirst() + " " + def.LabelCap;
+            }
+            return def.LabelCap;
         }
 
         private void DrawFooterRows(float x, float y, float width, WorldObject_WD_Outpost outpost, CompOutpostWarehouse comp)
         {
             float rowY = y;
             bool viaPod = OutpostDispatchMode.GetViaDropPod(outpost);
-            bool podsResearched = RapidResponseUtility.TransportPodsResearched();
             float controlsX = x + FooterLabelW + 6f;
             float controlsW = width - FooterLabelW - 6f;
             Color cyan = WorldOverlayLineMaterials.DarkCyanColor;
 
-            // Row 1: delivery type dropdown + Ship Now
+            // Row 1: delivery type icon + Ship Now + Convert (Ship Now / Convert flush right)
             DrawFooterRowLabel(x, rowY, "TSA_WD_WarehouseTab_RowDeliveryType".Translate());
 
-            float methodW = Mathf.Max(130f, controlsW - ShipNowBtnW - 8f) - 30f;
+            float methodW = PlayerPawnDropPodUtility.ModeIconSize;
             Rect methodRect = new Rect(controlsX, rowY, methodW, FooterRowHeight);
-            Texture2D methodIcon = viaPod ? WITab_Outpost_WarehouseAssets.DropPodIcon : WITab_Outpost_WarehouseAssets.LandIcon;
-            string methodLabel = viaPod
-                ? "TSA_WD_DispatchMode_DropPod".Translate()
-                : "TSA_WD_DispatchMode_Land".Translate();
-            if (WorldDomination_UIUtils.ButtonTextWithIcon(methodRect, methodIcon, methodLabel, iconTint: cyan))
-                OpenDeliveryMethodMenu(outpost, viaPod, podsResearched);
-            TooltipHandler.TipRegion(methodRect, viaPod
-                ? ("TSA_WD_DispatchMode_DropPodDesc".Translate().ToString()
-                    + "\n\n"
-                    + "TSA_WD_DispatchMode_DropPodAaWarning".Translate())
-                : "TSA_WD_DispatchMode_LandDesc".Translate());
+            PlayerPawnDropPodUtility.DrawGoodsDispatchModeIcon(
+                methodRect,
+                viaPod,
+                () => OutpostDispatchMode.SetViaDropPod(outpost, false),
+                () => OutpostDispatchMode.TrySetViaDropPod(outpost, true));
 
             Rect shipNowRect = new Rect(methodRect.xMax + 8f, rowY, ShipNowBtnW, FooterRowHeight);
+            bool canShip = HasAnythingToShip(outpost, comp);
+            bool prevEnabled = GUI.enabled;
+            GUI.enabled = prevEnabled && canShip;
             if (WorldDomination_UIUtils.ButtonTextWithIcon(
                     shipNowRect,
                     WITab_Outpost_WarehouseAssets.DeliveryDestinationIcon,
-                    "TSA_WD_WarehouseTab_ShipNow".Translate()))
+                    "TSA_WD_WarehouseTab_ShipNow".Translate())
+                && canShip)
                 BeginAdHocSend(outpost, comp);
-            TooltipHandler.TipRegion(shipNowRect, "TSA_WD_WarehouseTab_AdHocSendTip".Translate());
+            GUI.enabled = prevEnabled;
+            TooltipHandler.TipRegion(shipNowRect, canShip
+                ? "TSA_WD_WarehouseTab_AdHocSendTip".Translate()
+                : "TSA_WD_Warehouse_ShipNothingSelected".Translate());
+
+            Rect convertRect = new Rect(shipNowRect.xMax + 8f, rowY, ConvertBtnW, FooterRowHeight);
+            bool canConvert = OutpostFoodConversion.CanConvert(outpost)
+                && OutpostFoodConversion.PoolHeadroom(outpost) > 0.01f
+                && HasPickedFood(comp);
+            GUI.enabled = prevEnabled && canConvert;
+            if (WorldDomination_UIUtils.ButtonTextWithIcon(
+                    convertRect,
+                    WITab_Outpost_WarehouseAssets.VirtualFoodIcon,
+                    "TSA_WD_WarehouseTab_ConvertFood".Translate())
+                && canConvert)
+                ConvertPickedFood(outpost, comp);
+            GUI.enabled = prevEnabled;
+            GUI.color = Color.white;
+            TooltipHandler.TipRegion(convertRect, canConvert
+                ? "TSA_WD_WarehouseTab_ConvertFoodTip".Translate()
+                : "TSA_WD_WarehouseTab_ConvertFoodNone".Translate());
 
             rowY += FooterRowHeight + FooterGap;
 
-            // Row 2: daily auto delivery as Off / To destination dropdown
+            // Row 2: daily auto delivery ends under Ship Now (same right edge).
             DrawFooterRowLabel(x, rowY, "TSA_WD_WarehouseTab_RowDailyAuto".Translate());
 
-            Rect autoRect = new Rect(controlsX, rowY, methodW, FooterRowHeight);
+            float autoW = Mathf.Max(130f, shipNowRect.xMax - controlsX);
+            Rect autoRect = new Rect(controlsX, rowY, autoW, FooterRowHeight);
             Texture2D autoIcon = ResolveAutoDeliveryButtonIcon(comp);
             string autoLabel = FormatAutoDeliveryButtonLabel(comp);
             Color? autoTint = comp != null && comp.autoShipEnabled ? cyan : (Color?)null;
@@ -396,7 +632,13 @@ namespace TSA_WorldDomination
             Find.WindowStack.Add(new FloatMenu(options));
         }
 
-        private static void OpenAutoDeliveryMenu(WorldObject_WD_Outpost outpost, CompOutpostWarehouse comp)
+        /// <summary>Where the auto delivery menu sits, so a checkbox toggle reopens it in place.</summary>
+        private static Vector2? autoDeliveryMenuPos;
+
+        private static void OpenAutoDeliveryMenu(
+            WorldObject_WD_Outpost outpost,
+            CompOutpostWarehouse comp,
+            Vector2? atPosition = null)
         {
             if (comp == null || outpost == null) return;
 
@@ -430,7 +672,45 @@ namespace TSA_WorldDomination
                     WorldOverlayLineMaterials.DarkCyanColor));
             }
 
-            Find.WindowStack.Add(new FloatMenu(options));
+            AddAutoIncludeOption(options, outpost, comp, "TSA_WD_WarehouseTab_AutoInclude_Apparel",
+                () => comp.autoShipApparel, v => comp.autoShipApparel = v);
+            AddAutoIncludeOption(options, outpost, comp, "TSA_WD_WarehouseTab_AutoInclude_Weapons",
+                () => comp.autoShipWeapons, v => comp.autoShipWeapons = v);
+            AddAutoIncludeOption(options, outpost, comp, "TSA_WD_WarehouseTab_AutoInclude_Food",
+                () => comp.autoShipFood, v => comp.autoShipFood = v);
+            AddAutoIncludeOption(options, outpost, comp, "TSA_WD_WarehouseTab_AutoInclude_Drugs",
+                () => comp.autoShipDrugs, v => comp.autoShipDrugs = v);
+            AddAutoIncludeOption(options, outpost, comp, "TSA_WD_WarehouseTab_AutoInclude_Medicine",
+                () => comp.autoShipMedicine, v => comp.autoShipMedicine = v);
+
+            var menu = new WdFixedPosFloatMenu(options, atPosition);
+            Find.WindowStack.Add(menu);
+            autoDeliveryMenuPos = menu.windowRect.position;
+        }
+
+        /// <summary>
+        /// Checkbox entry; toggling reopens the menu so several categories can be set in one go.
+        /// The reopened menu is pinned to the old one's position so the rows do not move under the cursor.
+        /// </summary>
+        private static void AddAutoIncludeOption(
+            List<FloatMenuOption> options,
+            WorldObject_WD_Outpost outpost,
+            CompOutpostWarehouse comp,
+            string labelKey,
+            System.Func<bool> get,
+            System.Action<bool> set)
+        {
+            bool on = get();
+            options.Add(new FloatMenuOption(
+                labelKey.Translate(),
+                () =>
+                {
+                    set(!get());
+                    SoundDefOf.Click.PlayOneShotOnCamera();
+                    OpenAutoDeliveryMenu(outpost, comp, autoDeliveryMenuPos);
+                },
+                on ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex,
+                Color.white));
         }
 
         private static void DrawFooterRowLabel(float x, float y, string text)
@@ -445,10 +725,17 @@ namespace TSA_WorldDomination
         private void BeginAdHocSend(WorldObject_WD_Outpost outpost, CompOutpostWarehouse comp)
         {
             var request = BuildSelectedRequest(comp);
-            float virtualFood = selectedVirtualFood;
-            if (!Outpost_Warehouse_Delivery.RequestHasCargo(request, virtualFood))
+            List<Thing> uniques = BuildSelectedUniques(outpost);
+            float virtualFood = selectedRowIds.Contains(VirtualFoodRowKey) ? selectedVirtualFood : 0;
+            if (!Outpost_Warehouse_Delivery.RequestHasCargo(request, virtualFood) && uniques.Count == 0)
             {
                 Messages.Message("TSA_WD_Warehouse_ShipNothingSelected".Translate(), outpost, MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            if (outpost.ManualDefenseActive)
+            {
+                Messages.Message("TSA_WD_Armory_FailManualDefense".Translate(), outpost, MessageTypeDefOf.RejectInput);
                 return;
             }
 
@@ -459,20 +746,72 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            Outpost_Warehouse_Delivery.BeginAdHocShipmentTargeting(
+            OpenAdHocDestinationDialog(outpost, request, uniques, virtualFood, viaDropPod);
+        }
+
+        private void OpenAdHocDestinationDialog(
+            WorldObject_WD_Outpost outpost,
+            List<ThingDefCountClass> request,
+            List<Thing> uniques,
+            float virtualFood,
+            bool viaDropPod)
+        {
+            var dests = Outpost_Warehouse_Delivery.CollectValidShipmentDestinations(
+                outpost, request, uniques?.Count ?? 0, virtualFood);
+            Find.WindowStack.Add(new Dialog_AdHocShipmentDestination(
+                dests,
                 outpost,
-                comp,
-                request,
-                viaDropPod,
+                dest =>
+                {
+                    Action launch = () =>
+                    {
+                        if (OutpostStorageShipping.TryLaunch(outpost, request, uniques, virtualFood, dest, viaDropPod))
+                        {
+                            selectedCounts.Clear();
+                            countEditBuffers.Clear();
+                            selectedRowIds.Clear();
+                            selectedVirtualFood = 0;
+                            virtualFoodEditBuffer = "0";
+                        }
+                    };
+                    if (viaDropPod
+                        && dest != null
+                        && PlayerPawnDropPodUtility.ConfirmHostileAaThen(
+                            outpost.Tile.tileId, dest.Tile.tileId, launch))
+                        return;
+                    launch();
+                },
                 () =>
                 {
-                    selectedCounts.Clear();
-                    countEditBuffers.Clear();
-                    selectedVirtualFood = 0;
-                    virtualFoodEditBuffer = "0";
-                    CloseTab();
+                    PlayerPawnDropPodUtility.PrepareWorldMapDestinationPick(outpost);
+                    Outpost_Warehouse_Delivery.BeginAdHocShipmentTargeting(
+                        outpost,
+                        request,
+                        uniques,
+                        viaDropPod,
+                        () =>
+                        {
+                            selectedCounts.Clear();
+                            countEditBuffers.Clear();
+                            selectedRowIds.Clear();
+                            selectedVirtualFood = 0;
+                            virtualFoodEditBuffer = "0";
+                            CloseTab();
+                        },
+                        virtualFood,
+                        skipCameraJump: true);
                 },
-                virtualFood);
+                viaDropPod: viaDropPod,
+                launchCount: 1));
+        }
+
+        /// <summary>True when at least one checked row has a positive ship amount (stock, unique, or virtual food).</summary>
+        private bool HasAnythingToShip(WorldObject_WD_Outpost outpost, CompOutpostWarehouse comp)
+        {
+            float virtualFood = selectedRowIds.Contains(VirtualFoodRowKey) ? selectedVirtualFood : 0;
+            if (Outpost_Warehouse_Delivery.RequestHasCargo(BuildSelectedRequest(comp), virtualFood))
+                return true;
+            return BuildSelectedUniques(outpost).Count > 0;
         }
 
         private List<ThingDefCountClass> BuildSelectedRequest(CompOutpostWarehouse comp)
@@ -485,14 +824,80 @@ namespace TSA_WorldDomination
                 var e = items[i];
                 if (e?.thingDef == null || e.count <= 0) continue;
                 string key = CompOutpostWarehouse.StockKey(e);
+                if (!selectedRowIds.Contains(key)) continue;
                 if (!selectedCounts.TryGetValue(key, out int pick) || pick <= 0) continue;
-                request.Add(new ThingDefCountClass(e.thingDef, pick)
-                {
-                    stuff = e.stuff,
-                    quality = e.quality
-                });
+                request.Add(CompOutpostWarehouse.PlainStockRow(e, Mathf.Min(pick, e.count)));
             }
             return request;
+        }
+
+        private List<Thing> BuildSelectedUniques(WorldObject_WD_Outpost outpost)
+        {
+            var result = new List<Thing>();
+            ThingOwner<Thing> uniques = CompOutpostArmory.Get(outpost)?.Uniques;
+            if (uniques == null) return result;
+            for (int i = 0; i < uniques.Count; i++)
+            {
+                Thing t = uniques[i];
+                if (t == null || t.Destroyed) continue;
+                string key = UniqueKey(t);
+                if (!selectedRowIds.Contains(key)) continue;
+                if (selectedCounts.TryGetValue(key, out int pick) && pick > 0)
+                    result.Add(t);
+            }
+            return result;
+        }
+
+        private bool HasPickedFood(CompOutpostWarehouse comp)
+        {
+            var items = comp?.storedItems;
+            if (items == null) return false;
+            for (int i = 0; i < items.Count; i++)
+            {
+                var e = items[i];
+                if (e?.thingDef == null || e.count <= 0) continue;
+                if (!Outpost_Warehouse_Delivery.IsNutritionGivingStock(e.thingDef)) continue;
+                string key = CompOutpostWarehouse.StockKey(e);
+                if (!selectedRowIds.Contains(key)) continue;
+                if (selectedCounts.TryGetValue(key, out int pick) && pick > 0)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>Converts only checked food rows at their send amounts; other selections stay.</summary>
+        private void ConvertPickedFood(WorldObject_WD_Outpost outpost, CompOutpostWarehouse comp)
+        {
+            var picks = new List<ThingDefCountClass>();
+            var items = comp.storedItems;
+            for (int i = 0; i < items.Count; i++)
+            {
+                var e = items[i];
+                if (e?.thingDef == null || e.count <= 0) continue;
+                if (!Outpost_Warehouse_Delivery.IsNutritionGivingStock(e.thingDef)) continue;
+                string key = CompOutpostWarehouse.StockKey(e);
+                if (!selectedRowIds.Contains(key)) continue;
+                if (!selectedCounts.TryGetValue(key, out int pick) || pick <= 0) continue;
+                picks.Add(CompOutpostWarehouse.PlainStockRow(e, Mathf.Min(pick, e.count)));
+            }
+
+            float applied = OutpostFoodConversion.ConvertRows(outpost, picks, out List<ThingDefCountClass> converted);
+            for (int i = 0; i < converted.Count; i++)
+            {
+                string key = CompOutpostWarehouse.StockKey(converted[i]);
+                selectedRowIds.Remove(key);
+                if (selectedCounts.TryGetValue(key, out int pick))
+                    SetPick(key, Mathf.Max(0, pick - converted[i].count));
+            }
+
+            Messages.Message(
+                applied > 0.01f
+                    ? "TSA_WD_WarehouseTab_ConvertedFood".Translate(applied.ToString("F1"), outpost.LabelCap)
+                    : "TSA_WD_WarehouseTab_ConvertFoodNone".Translate(),
+                outpost,
+                applied > 0.01f ? MessageTypeDefOf.PositiveEvent : MessageTypeDefOf.RejectInput,
+                false);
+            if (applied > 0.01f) Window_OutpostOverview.InvalidateCache();
         }
 
         private void SyncSelectedCounts(WorldObject_WD_Outpost outpost, CompOutpostWarehouse comp)
@@ -501,18 +906,26 @@ namespace TSA_WorldDomination
             {
                 selectedCounts.Clear();
                 countEditBuffers.Clear();
+                selectedRowIds.Clear();
                 selectedVirtualFood = 0;
                 virtualFoodEditBuffer = "0";
                 selectedCountsSyncedWarehouseId = outpost.ID;
             }
 
             int shippableVf = Outpost_Warehouse_Delivery.GetShippableVirtualFoodInt(outpost);
+            // First visit to this warehouse: preselect full shippable virtual food.
+            if (!countEditBuffers.ContainsKey(VirtualFoodRowKey) && selectedVirtualFood == 0 && shippableVf > 0)
+            {
+                selectedVirtualFood = shippableVf;
+                virtualFoodEditBuffer = selectedVirtualFood.ToString();
+                countEditBuffers[VirtualFoodRowKey] = virtualFoodEditBuffer;
+            }
             selectedVirtualFood = Mathf.Clamp(selectedVirtualFood, 0, shippableVf);
 
             var items = comp.storedItems;
             if (items == null) return;
 
-            var stillPresent = new HashSet<string>();
+            var stillPresent = new HashSet<string> { VirtualFoodRowKey };
             for (int i = 0; i < items.Count; i++)
             {
                 var e = items[i];
@@ -520,9 +933,25 @@ namespace TSA_WorldDomination
                 string key = CompOutpostWarehouse.StockKey(e);
                 stillPresent.Add(key);
                 if (!selectedCounts.ContainsKey(key))
-                    selectedCounts[key] = 0;
+                    selectedCounts[key] = e.count;
                 else
                     selectedCounts[key] = Mathf.Clamp(selectedCounts[key], 0, e.count);
+            }
+
+            ThingOwner<Thing> uniques = CompOutpostArmory.Get(outpost)?.Uniques;
+            if (uniques != null)
+            {
+                for (int i = 0; i < uniques.Count; i++)
+                {
+                    Thing t = uniques[i];
+                    if (t == null || t.Destroyed) continue;
+                    string key = UniqueKey(t);
+                    stillPresent.Add(key);
+                    if (!selectedCounts.ContainsKey(key))
+                        selectedCounts[key] = 1;
+                    else
+                        selectedCounts[key] = Mathf.Clamp(selectedCounts[key], 0, 1);
+                }
             }
 
             if (selectedCounts.Count == 0) return;
@@ -536,34 +965,99 @@ namespace TSA_WorldDomination
             {
                 selectedCounts.Remove(toRemove[i]);
                 countEditBuffers.Remove(toRemove[i]);
+                selectedRowIds.Remove(toRemove[i]);
             }
         }
 
-        private void DrawVirtualFoodRow(float width, float y, int rowIndex, WorldObject_WD_Outpost outpost)
+        private void DrawStockRow(float width, float y, int rowIndex, StockRowView row, float itemW)
         {
-            int shippable = Outpost_Warehouse_Delivery.GetShippableVirtualFoodInt(outpost);
-            var logi = outpost.GetComponent<CompOutpostLogistics>();
-            float pool = logi?.currentFood ?? 0f;
+            Rect rowRect = new Rect(0f, y, width, RowHeight);
+            if (rowIndex % 2 == 0) Widgets.DrawHighlight(rowRect);
+            if (Mouse.IsOver(rowRect)) Widgets.DrawLightHighlight(rowRect);
+
+            Text.Font = GameFont.Tiny;
+            float curX = 0f;
+
+            bool selected = selectedRowIds.Contains(row.key);
+            bool next = selected;
+            Widgets.Checkbox(
+                new Vector2(curX + (ColSelect - 24f) * 0.5f, y + (RowHeight - 24f) * 0.5f),
+                ref next);
+            if (next != selected)
+            {
+                if (next) selectedRowIds.Add(row.key);
+                else selectedRowIds.Remove(row.key);
+            }
+            curX += ColSelect;
+
+            Rect iconRect = new Rect(
+                curX + (ColItemIcon - RowIconSize) * 0.5f,
+                y + (RowHeight - RowIconSize) * 0.5f,
+                RowIconSize,
+                RowIconSize);
+            if (row.isVirtualFood)
+            {
+                if (WITab_Outpost_WarehouseAssets.VirtualFoodIcon != null)
+                    Widgets.DrawTextureFitted(iconRect, WITab_Outpost_WarehouseAssets.VirtualFoodIcon, 1f);
+            }
+            else if (row.unique != null)
+                Widgets.ThingIcon(iconRect, row.unique);
+            else if (row.def != null)
+                Widgets.ThingIcon(iconRect, row.def, row.stock?.stuff);
+            curX += ColItemIcon;
+
+            Rect labelRect = new Rect(curX, y, itemW, RowHeight);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            string taintTip = OutpostArmoryUtility.TaintedTip(row.unique);
+            if (taintTip != null) GUI.color = OutpostArmoryUtility.TaintedColor;
+            else if (row.isUnique) GUI.color = WorldOverlayLineMaterials.DarkCyanColor;
+            Widgets.Label(labelRect, row.itemLabel.Truncate(itemW - 6f));
+            GUI.color = Color.white;
+            string tip = row.itemLabel;
+            if (row.isVirtualFood)
+            {
+                var logi = (SelObject as WorldObject_WD_Outpost)?.GetComponent<CompOutpostLogistics>();
+                float pool = logi?.currentFood ?? 0f;
+                tip = "TSA_WD_WarehouseTab_VirtualFoodDetail".Translate(
+                    pool.ToString("F0"),
+                    Outpost_Warehouse_Delivery.VirtualFoodShipReserve.ToString("F0"),
+                    row.count.ToString());
+            }
+            else if (taintTip != null)
+                tip += "\n\n" + taintTip;
+            TooltipHandler.TipRegion(labelRect, tip);
+            if (!row.isVirtualFood && Widgets.ButtonInvisible(labelRect))
+            {
+                if (row.unique != null)
+                    Find.WindowStack.Add(new Dialog_InfoCard(row.unique));
+                else if (row.stock != null)
+                    OpenStockInfoCard(row.stock);
+            }
+            curX += itemW;
+
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(new Rect(curX, y, ColType, RowHeight), row.typeLabel.Truncate(ColType - 6f));
+            curX += ColType;
+
+            Widgets.Label(new Rect(curX, y, ColQuality, RowHeight),
+                (row.hasQuality ? row.qualityLabel : "").Truncate(ColQuality - 6f));
+            curX += ColQuality;
+
+            Widgets.Label(new Rect(curX, y, ColCount, RowHeight), row.count.ToString());
+            curX += ColCount;
+
+            if (row.isVirtualFood)
+                DrawVirtualFoodPickControls(curX, y, row.count);
+            else
+                DrawPickControls(curX, y, row.key, row.count);
+
+            Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.UpperLeft;
+        }
+
+        private void DrawVirtualFoodPickControls(float controlsX, float y, int shippable)
+        {
             selectedVirtualFood = Mathf.Clamp(selectedVirtualFood, 0, shippable);
-
-            Rect row = new Rect(0f, y, width, RowHeight);
-            if (rowIndex % 2 == 0) Widgets.DrawHighlight(row);
-
-            float contentY = y + RowHeight / 2f;
-            Rect iconRect = new Rect(row.x + 4f, contentY - RowIconSize / 2f, RowIconSize, RowIconSize);
-            if (WITab_Outpost_WarehouseAssets.VirtualFoodIcon != null)
-                Widgets.DrawTextureFitted(iconRect, WITab_Outpost_WarehouseAssets.VirtualFoodIcon, 1f);
-
-            float controlsX = width - ControlsWidth - RowRightPad;
-            Rect labelRect = new Rect(iconRect.xMax + 8f, y, controlsX - iconRect.xMax - 12f, RowHeight);
-            string label = "TSA_WD_WarehouseTab_VirtualFood".Translate();
-            string detail = "TSA_WD_WarehouseTab_VirtualFoodDetail".Translate(
-                pool.ToString("F0"),
-                Outpost_Warehouse_Delivery.VirtualFoodShipReserve.ToString("F0"),
-                shippable.ToString());
-            LabelAnchored(labelRect, label + " (" + shippable + ")", TextAnchor.MiddleLeft);
-            TooltipHandler.TipRegion(labelRect, detail);
-
             float btnY = y + (RowHeight - BtnW) / 2f;
             float cx = controlsX;
             Rect minusRect = new Rect(cx, btnY, BtnW, BtnW);
@@ -607,40 +1101,11 @@ namespace TSA_WorldDomination
             virtualFoodEditBuffer = value.ToString();
         }
 
-        private void DrawShipRow(float width, float y, int rowIndex, ThingDefCountClass entry)
+        private void DrawPickControls(float controlsX, float y, string key, int stored)
         {
-            ThingDef def = entry.thingDef;
-            int stored = entry.count;
-            string key = CompOutpostWarehouse.StockKey(entry);
-
-            if (!selectedCounts.TryGetValue(key, out int pick)) pick = 0;
+            if (!selectedCounts.TryGetValue(key, out int pick)) pick = stored;
             pick = Mathf.Clamp(pick, 0, stored);
             selectedCounts[key] = pick;
-
-            Rect row = new Rect(0f, y, width, RowHeight);
-            if (rowIndex % 2 == 0) Widgets.DrawHighlight(row);
-
-            float contentY = y + RowHeight / 2f;
-            Rect iconRect = new Rect(row.x + 4f, contentY - RowIconSize / 2f, RowIconSize, RowIconSize);
-            if (def.uiIcon != null)
-            {
-                if (entry.stuff != null)
-                    Widgets.ThingIcon(iconRect, def, entry.stuff);
-                else
-                    Widgets.ThingIcon(iconRect, def);
-            }
-
-            float controlsX = width - ControlsWidth - RowRightPad;
-            Rect labelRect = new Rect(iconRect.xMax + 8f, y, controlsX - iconRect.xMax - 12f, RowHeight);
-            string label = FormatStockLabel(entry);
-            LabelAnchored(labelRect, label + " (" + stored + ")", TextAnchor.MiddleLeft);
-
-            Rect infoClickRect = new Rect(iconRect.x, y, labelRect.xMax - iconRect.x, RowHeight);
-            if (Mouse.IsOver(infoClickRect))
-                Widgets.DrawHighlight(infoClickRect);
-            TooltipHandler.TipRegion(infoClickRect, label);
-            if (Widgets.ButtonInvisible(infoClickRect))
-                OpenStockInfoCard(entry);
 
             float btnY = y + (RowHeight - BtnW) / 2f;
             float cx = controlsX;
@@ -677,20 +1142,6 @@ namespace TSA_WorldDomination
             countEditBuffers[key] = buffer;
             if (edited != pick)
                 SetPick(key, Mathf.Clamp(edited, 0, stored));
-        }
-
-        private static string FormatStockLabel(ThingDefCountClass entry)
-        {
-            if (entry?.thingDef == null) return "";
-            ThingDef def = entry.thingDef;
-            if (entry.stuff != null)
-            {
-                string stuffAdj = entry.stuff.LabelAsStuff;
-                if (!string.IsNullOrEmpty(stuffAdj))
-                    return stuffAdj.CapitalizeFirst() + " " + def.LabelCap;
-            }
-            string label = entry.LabelCap;
-            return string.IsNullOrEmpty(label) ? def.LabelCap : label;
         }
 
         private static void OpenStockInfoCard(ThingDefCountClass entry)

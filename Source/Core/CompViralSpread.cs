@@ -710,6 +710,66 @@ namespace TSA_WorldDomination
                 : "TSA_WD_InsufficientStrengthToBuild".Translate(projectLabel).ToString();
         }
 
+        /// <summary>
+        /// Ready to dispatch a construction crew but player lacks materials (build only; clearing is free).
+        /// </summary>
+        public bool IsConstructionWaitingOnMaterials(out string projectLabel)
+        {
+            projectLabel = null;
+            if (!ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent))
+                return false;
+
+            if (roadTargetTile != -1 && !builderInField && !roadIsClearing
+                && roadProgress >= 1f
+                && !ColonyWorldBuildRequirements.HasMaterialCostsForRoad(selectedRoadTier))
+            {
+                projectLabel = GetActiveRoadProjectLabel();
+                return true;
+            }
+
+            if (WorldActions_RoadBlocks.HasActiveRoadBlockProject(this) && !roadBlockBuilderInField
+                && !roadBlockIsClearing
+                && roadBlockProgress >= 1f
+                && !ColonyWorldBuildRequirements.HasMaterialCostsForRoadBlock(selectedRoadBlockKind))
+            {
+                projectLabel = RoadBlockKindUtil.LabelKey(selectedRoadBlockKind).Translate().ToString();
+                return true;
+            }
+
+            if (WorldActions_SpikeTraps.HasActiveSpikeTrapProject(this) && !spikeTrapBuilderInField
+                && !spikeTrapIsClearing
+                && spikeTrapProgress >= 1f
+                && !ColonyWorldBuildRequirements.HasMaterialCostsForSpikeTrap(selectedSpikeTrapKind))
+            {
+                projectLabel = SpikeTrapKindUtil.LabelKey(selectedSpikeTrapKind).Translate().ToString();
+                return true;
+            }
+
+            if (WorldActions_AtTurrets.HasActiveAtTurretProject(this) && !atTurretBuilderInField
+                && atTurretProgress >= 1f
+                && !ColonyWorldBuildRequirements.HasMaterialCostsForAtTurret(selectedAtTurretTier))
+            {
+                projectLabel = AtTurretUtility.LabelKey(selectedAtTurretTier).Translate().ToString();
+                return true;
+            }
+
+            return false;
+        }
+
+        public string GetInsufficientMaterialsConstructionMessage()
+        {
+            if (!IsConstructionWaitingOnMaterials(out string projectLabel))
+                return null;
+            return "TSA_WD_InsufficientMaterialsToBuild".Translate(projectLabel).ToString();
+        }
+
+        /// <summary>Strength wait first, then materials (inspect / gizmo / overview).</summary>
+        public string GetInsufficientConstructionMessage()
+        {
+            return GetInsufficientStrengthConstructionMessage()
+                ?? GetInsufficientMaterialsConstructionMessage();
+        }
+
         /// <summary>Inspect/overview label for the active road project (tier when building, clear label when removing).</summary>
         public string GetActiveRoadProjectLabel()
         {
@@ -995,7 +1055,9 @@ namespace TSA_WorldDomination
                     bool isPlayerSettlement = parent.Faction != null && parent.Faction.IsPlayer;
                     if (isPlayerSettlement)
                         EnsureInitialPlayerColonyShield();
-                    else
+                    // Tile/Layer are often unset during early world-object init; defer subtype
+                    // so tile-aware Camp/Refuge gates see a real tile (EnsureAllSettlementsInitialized).
+                    else if (parent.Tile.Valid)
                     {
                         if (SpreadManager != null) WorldActions_Utils.ApplyRandomTier(this);
                         else SetState(SettlementTier.T1);
@@ -1145,6 +1207,10 @@ namespace TSA_WorldDomination
                             // (includes min garrison retain — builders must not empty the outpost).
                             if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_Roads.GetExpeditionStrengthCost(selectedRoadTier)))
                                 break;
+                            if (!roadIsClearing
+                                && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
+                                && !ColonyWorldBuildRequirements.HasMaterialCostsForRoad(selectedRoadTier))
+                                break;
                             if (WorldActions_Roads.LaunchRoadBuilderFromOutpost(parent))
                             {
                                 roadProgress -= 1f;
@@ -1178,6 +1244,10 @@ namespace TSA_WorldDomination
                         while (roadBlockProgress >= 1f && !roadBlockBuilderInField)
                         {
                             if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_RoadBlocks.GetExpeditionStrengthCost(selectedRoadBlockKind)))
+                                break;
+                            if (!roadBlockIsClearing
+                                && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
+                                && !ColonyWorldBuildRequirements.HasMaterialCostsForRoadBlock(selectedRoadBlockKind))
                                 break;
                             if (WorldActions_RoadBlocks.LaunchRoadBlockCrewFromOutpost(parent))
                             {
@@ -1213,6 +1283,10 @@ namespace TSA_WorldDomination
                         {
                             if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_SpikeTraps.GetExpeditionStrengthCost(selectedSpikeTrapKind)))
                                 break;
+                            if (!spikeTrapIsClearing
+                                && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
+                                && !ColonyWorldBuildRequirements.HasMaterialCostsForSpikeTrap(selectedSpikeTrapKind))
+                                break;
                             if (WorldActions_SpikeTraps.LaunchSpikeTrapCrewFromOutpost(parent))
                             {
                                 spikeTrapProgress -= 1f;
@@ -1245,6 +1319,9 @@ namespace TSA_WorldDomination
                         while (atTurretProgress >= 1f && !atTurretBuilderInField)
                         {
                             if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_AtTurrets.GetExpeditionStrengthCost(selectedAtTurretTier)))
+                                break;
+                            if (ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
+                                && !ColonyWorldBuildRequirements.HasMaterialCostsForAtTurret(selectedAtTurretTier))
                                 break;
                             if (WorldActions_AtTurrets.LaunchAtTurretCrewFromOutpost(parent))
                             {
@@ -1786,24 +1863,10 @@ namespace TSA_WorldDomination
             return new FloatRange(100f, 500f);
         }
 
-        private static readonly string[] SubTypesT1 = { "Logging", "Mining", "Farming" };
-        private static readonly string[] SubTypesT2 = { "Production", "Slavery" };
-
         private string GetRandomSubType(SettlementTier forTier)
         {
-            switch (forTier)
-            {
-                case SettlementTier.T1:
-                    return SubTypesT1.RandomElement();
-                case SettlementTier.T2:
-                    return SubTypesT2.RandomElement();
-                case SettlementTier.T3:
-                    return "Fortress";
-                case SettlementTier.T4:
-                    return "Citadel";
-                default:
-                    return "Generic";
-            }
+            int tileId = parent != null && parent.Tile.Valid ? parent.Tile.tileId : -1;
+            return NpcSettlementSubtypeUtil.PickSubtype(forTier, tileId);
         }
 
         public override void PostExposeData()
@@ -2178,7 +2241,7 @@ namespace TSA_WorldDomination
             if (roadTargetTile != -1)
             {
                 sb.AppendLine();
-                string insufficient = GetInsufficientStrengthConstructionMessage();
+                string insufficient = GetInsufficientConstructionMessage();
                 if (insufficient != null)
                 {
                     sb.Append(insufficient.Colorize(Color.red));
@@ -2206,7 +2269,7 @@ namespace TSA_WorldDomination
             {
                 sb.AppendLine();
                 string dest = roadBlockTargetName.NullOrEmpty() ? "…" : roadBlockTargetName;
-                string insufficient = GetInsufficientStrengthConstructionMessage();
+                string insufficient = GetInsufficientConstructionMessage();
                 if (insufficient != null)
                 {
                     sb.Append(insufficient.Colorize(Color.red));
@@ -2225,7 +2288,7 @@ namespace TSA_WorldDomination
             {
                 sb.AppendLine();
                 string dest = spikeTrapTargetName.NullOrEmpty() ? "…" : spikeTrapTargetName;
-                string insufficient = GetInsufficientStrengthConstructionMessage();
+                string insufficient = GetInsufficientConstructionMessage();
                 if (insufficient != null)
                 {
                     sb.Append(insufficient.Colorize(Color.red));
@@ -2244,7 +2307,7 @@ namespace TSA_WorldDomination
             {
                 sb.AppendLine();
                 string dest = atTurretTargetName.NullOrEmpty() ? "…" : atTurretTargetName;
-                string insufficient = GetInsufficientStrengthConstructionMessage();
+                string insufficient = GetInsufficientConstructionMessage();
                 if (insufficient != null)
                 {
                     sb.Append(insufficient.Colorize(Color.red));

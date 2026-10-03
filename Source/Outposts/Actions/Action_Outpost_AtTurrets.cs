@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -76,8 +76,8 @@ namespace TSA_WorldDomination
             if (turretBusy)
             {
                 string kindLabel = AtTurretUtility.LabelKey(comp.selectedAtTurretTier).Translate();
-                string insufficient = comp.GetInsufficientStrengthConstructionMessage();
-                string dest = comp.atTurretTargetName.NullOrEmpty() ? "…" : comp.atTurretTargetName;
+                string insufficient = comp.GetInsufficientConstructionMessage();
+                string dest = comp.atTurretTargetName.NullOrEmpty() ? "�" : comp.atTurretTargetName;
                 string label = insufficient
                     ?? "TSA_WD_Inspect_AT_TurretStatus".Translate(
                         kindLabel,

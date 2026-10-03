@@ -34,14 +34,17 @@ namespace TSA_WorldDomination
             stack.WindowOfType<Window_ActionLog>()?.Close();
             stack.WindowOfType<Window_ActiveTravelers>()?.Close();
             stack.WindowOfType<Window_AllPlayerPawns>()?.Close();
+            stack.WindowOfType<Window_AllPlayerGear>()?.Close();
             stack.WindowOfType<Window_Prisoners>()?.Close();
             stack.WindowOfType<Window_FactionDetails>()?.Close();
             stack.WindowOfType<Window_RaidResolutionDetails>()?.Close();
             stack.WindowOfType<Window_RaidAttemptDetails>()?.Close();
             stack.WindowOfType<Window_CaravanClashDetails>()?.Close();
             stack.WindowOfType<Dialog_MovePawnToLocation>()?.Close();
+            stack.WindowOfType<Dialog_AdHocShipmentDestination>()?.Close();
             stack.WindowOfType<Dialog_SmartAssignOutpostFilter>()?.Close();
             stack.WindowOfType<Dialog_SchedulePrisonerDestination>()?.Close();
+            stack.WindowOfType<Dialog_OutpostArmory>()?.Close();
 
             if (escapeMainTab && Find.MainTabsRoot?.OpenTab != null)
                 Find.MainTabsRoot.EscapeCurrentTab();

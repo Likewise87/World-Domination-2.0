@@ -101,7 +101,7 @@ namespace TSA_WorldDomination
                     };
                 }
 
-                string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+                string insufficient = comp.GetInsufficientConstructionMessage();
                 if (insufficient != null)
                 {
                     return new FloatMenuOption(insufficient, () => { }, icon, Color.white) { Disabled = true };
@@ -158,7 +158,7 @@ namespace TSA_WorldDomination
                     };
                 }
 
-                string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+                string insufficient = comp.GetInsufficientConstructionMessage();
                 if (insufficient != null)
                 {
                     return new FloatMenuOption(insufficient, () => { }, icon, Color.white) { Disabled = true };

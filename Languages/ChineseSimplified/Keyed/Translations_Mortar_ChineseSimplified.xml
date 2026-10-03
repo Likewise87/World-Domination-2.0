@@ -34,6 +34,7 @@
   <TSA_WD_Mortar_AutoAttack_Menu_Expansion>扩张队</TSA_WD_Mortar_AutoAttack_Menu_Expansion>
   <TSA_WD_Mortar_AutoAttack_Menu_Road>筑路队</TSA_WD_Mortar_AutoAttack_Menu_Road>
   <TSA_WD_Mortar_AutoAttack_Menu_Fortify>设防队</TSA_WD_Mortar_AutoAttack_Menu_Fortify>
+  <TSA_WD_Mortar_AutoAttack_Menu_Logistics>补给队</TSA_WD_Mortar_AutoAttack_Menu_Logistics>
 
   <TSA_WD_Mortar_Filter_All>全部</TSA_WD_Mortar_Filter_All>
   <TSA_WD_Mortar_Filter_Raider>袭击者</TSA_WD_Mortar_Filter_Raider>
@@ -41,6 +42,7 @@
   <TSA_WD_Mortar_Filter_Road>筑路队</TSA_WD_Mortar_Filter_Road>
   <TSA_WD_Mortar_Filter_Trader>商队</TSA_WD_Mortar_Filter_Trader>
   <TSA_WD_Mortar_Filter_Fortify>设防队</TSA_WD_Mortar_Filter_Fortify>
+  <TSA_WD_Mortar_Filter_Logistics>补给队</TSA_WD_Mortar_Filter_Logistics>
 
   <TSA_WD_Mortar_Hit_Label>迫击炮命中</TSA_WD_Mortar_Hit_Label>
   <TSA_WD_Mortar_Hit_Settlement_Line>迫击炮命中: 强度 {0} --> {1}</TSA_WD_Mortar_Hit_Settlement_Line>

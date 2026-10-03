@@ -18,6 +18,7 @@
     <comps>
       <li Class="TSA_WorldDomination.CompProperties_ViralSpread, TSA_WorldDomination" />
       <li Class="TSA_WorldDomination.CompProperties_OutpostLogistics, TSA_WorldDomination" />
+      <li Class="TSA_WorldDomination.CompProperties_OutpostArmory, TSA_WorldDomination" />
       <li Class="TSA_WorldDomination.CompProperties_AutoAddPawn, TSA_WorldDomination" />
     </comps>
   </WorldObjectDef>

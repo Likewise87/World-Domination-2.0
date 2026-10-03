@@ -133,6 +133,8 @@ namespace TSA_WorldDomination
             DrawMaskRow(new Rect(lx, ly, innerW, RowH), "TSA_WD_Mortar_AutoAttack_Menu_Trader".Translate(), MissionMask.Trader);
             ly += RowH;
             DrawMaskRow(new Rect(lx, ly, innerW, RowH), "TSA_WD_Mortar_AutoAttack_Menu_Fortify".Translate(), MissionMask.Fortify);
+            ly += RowH;
+            DrawMaskRow(new Rect(lx, ly, innerW, RowH), "TSA_WD_Mortar_AutoAttack_Menu_Logistics".Translate(), MissionMask.Logistics);
 
             float rx = rightBox.x + SectionPad;
             float ry = rightBox.y + SectionPad;

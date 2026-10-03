@@ -35,7 +35,7 @@ Equivalent shooting skill adds one percentage point per level after the range-ba
 |---|---:|---|
 | Enemy T4 settlements fire anti-air | On | On or Off |
 | AA may target your airborne assets | On | Shown while enemy anti-air is enabled |
-| T4 AA range (tiles) | 32 | 10 to 250 |
+| T4 AA range (tiles) | 24 | 10 to 250 |
 | T4 AA cooldown (seconds) | 120 seconds | 5 to 300 |
 | T4 AA damage | 800 | 100 to 2,000 |
 | T4 AA skill equivalent | 10 | 0 to 40 |

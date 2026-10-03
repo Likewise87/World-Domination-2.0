@@ -38,7 +38,8 @@ namespace TSA_WorldDomination
         Road      = 1 << 2,
         Trader    = 1 << 3,
         Fortify   = 1 << 4,
-        All       = Raider | Expansion | Road | Trader | Fortify
+        Logistics = 1 << 5,
+        All       = Raider | Expansion | Road | Trader | Fortify | Logistics
     }
 
     /// <summary>
@@ -83,8 +84,19 @@ namespace TSA_WorldDomination
 
     public static class InterceptionMissionMaskUtils
     {
+        /// <summary>
+        /// Mask value of <see cref="MissionMask.All"/> before <see cref="MissionMask.Logistics"/> was
+        /// added. Saves written before that store this, and both mortar and rapid-response inspect
+        /// labels compare against All by equality, so it has to be migrated on load.
+        /// </summary>
+        public const int LegacyAllMaskValue = 31;
+
+        /// <summary>Promotes a scribed legacy "All" mask so it keeps meaning all missions.</summary>
+        public static int MigrateLegacyAllMask(int raw) =>
+            raw == LegacyAllMaskValue ? (int)MissionMask.All : raw;
+
         /// <summary>Maps a traveler mission to its <see cref="MissionMask"/> bit; returns <see cref="MissionMask.None"/>
-        /// for missions that should never be intercepted (outpost deliveries, upgrades, mortar shells themselves).</summary>
+        /// for missions that should never be intercepted (mortar shells themselves, rapid-response sallies).</summary>
         public static MissionMask MaskFor(TravelerMission mission)
         {
             switch (mission)
@@ -107,6 +119,8 @@ namespace TSA_WorldDomination
                 case TravelerMission.NpcFortify: return MissionMask.Fortify;
                 case TravelerMission.NpcAtTurret: return MissionMask.Fortify;
                 case TravelerMission.Trader:       return MissionMask.Trader;
+                case TravelerMission.OutpostDelivery: return MissionMask.Logistics;
+                case TravelerMission.OutpostUpgrade:  return MissionMask.Logistics;
                 default:                           return MissionMask.None;
             }
         }

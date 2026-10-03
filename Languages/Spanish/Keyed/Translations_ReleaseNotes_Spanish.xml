@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_3_Title>Actualización mayor</TSA_WD_Update_2_3_3_Title>
+  <TSA_WD_Update_2_3_3_Body><![CDATA[
+<size=16><b>2.3.3 – Actualización mayor</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 3 de octubre de 2026</color>\n
+------------------------------\n
+• Nueva función: el equipo de los peones se puede cambiar en las avanzadillas y transportar fácilmente entre ellas. Entra en una avanzadilla, abre la pestaña Peones y luego "Armería". Mueve objetos entre peones e inventario de la avanzadilla con arrastrar y soltar. En la pestaña principal de WD verás el nuevo botón/menú "Todo el equipo" (Hotkey: ALT+V) para enviar objetos entre cualquier avanzadilla y la colonia.\n
+• Nueva función: ahora puedes enviar cualquier cosa en cápsula de transporte. Con la investigación de "cápsulas de transporte", cualquier avanzadilla y la colonia pueden mover peones y mercancías por cápsula. Coste: 1 componente por peón o 1 por transporte de mercancías.\n
+• Nueva función: también puedes fundar nuevas avanzadillas desde otras avanzadillas, no solo desde la colonia. Haz clic en una casilla libre del mapa mundial, elige "establecer avanzadilla" y selecciona los peones. Mientras todos vengan del mismo origen (colonia o una sola avanzadilla), listo.\n
+• Nueva función: tipos de asentamiento según la casilla. Los asentamientos de agricultura y tala ya no aparecen en biomas extremos ni en casillas con fertilidad baja. Hay tipos genéricos "Campamento" y "Refugio" para biomas extremos como el hielo. No cambia los asentamientos que ya existían.\n
+• Ajuste de equilibrio: construir carreteras, bloqueos, trampas y torretas AT ahora cuesta materiales. Los costes están en XML para que puedas ajustarlos fácilmente.\n
+• Mayor radio de los overlays de WD (¡una función muy poco usada!). En el mapa mundial, pulsa el icono WD abajo a la derecha y activa overlays de fertilidad, abundancia animal, minería y casillas bloqueadas. Una gran ayuda para elegir sitios de avanzadilla.\n
+• Reducción del alcance de Flak/AA a 24 casillas (antes 32). Restablece todos los ajustes del mod, o los menús Artillería del jugador / Torretas enemigas T4, para aplicarlo.\n
+• Ajuste de equilibrio: las cápsulas de transporte de WD lanzadas por el jugador ya no tienen límite de alcance.\n
+• Muchas correcciones y ajustes menores.\n
+]]></TSA_WD_Update_2_3_3_Body>
   <TSA_WD_Update_2_3_26_Title>Mejoras de reclutamiento en avanzadillas y equilibrio</TSA_WD_Update_2_3_26_Title>
   <TSA_WD_Update_2_3_26_Body><![CDATA[
 <size=16><b>2.3.26 – Mejoras de reclutamiento en avanzadillas y equilibrio</b></size>\n

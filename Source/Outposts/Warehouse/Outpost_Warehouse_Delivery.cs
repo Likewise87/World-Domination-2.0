@@ -76,27 +76,6 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        public static bool IsFoodOnlyRequest(List<ThingDefCountClass> items) =>
-            IsFoodOnlyRequest(items, 0f);
-
-        public static bool IsFoodOnlyRequest(List<ThingDefCountClass> items, float virtualFood)
-        {
-            bool hasVirtual = virtualFood > 0.001f;
-            bool hasPhysical = false;
-            if (items != null)
-            {
-                for (int i = 0; i < items.Count; i++)
-                {
-                    ThingDefCountClass e = items[i];
-                    if (e?.thingDef == null || e.count <= 0) continue;
-                    hasPhysical = true;
-                    if (!IsNutritionGivingStock(e.thingDef))
-                        return false;
-                }
-            }
-            return hasVirtual || hasPhysical;
-        }
-
         public static bool RequestHasCargo(List<ThingDefCountClass> items, float virtualFood)
         {
             if (virtualFood > 0.001f) return true;
@@ -110,37 +89,81 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Ad hoc warehouse send: colony / warehouse always (no virtual food); any other player WD outpost when food-only.
-        /// Virtual food may only go to player outposts (including warehouses), never a colony, and never mixed with non-food.
+        /// SSoT for every shipment (Warehouse tab, Armory, AllPlayerGear, production, auto delivery).
+        /// Target: a player colony map or any player WD outpost on the planet surface, never the sender.
+        /// Virtual food only to outposts. Non-gear rows (steel, components) only to a colony or warehouse,
+        /// because other outposts store gear only. With the Armory off, non-warehouse outposts take
+        /// virtual food only. <paramref name="rejectKey"/> is a translation key for the reject message.
         /// </summary>
-        public static bool IsValidAdHocDeliveryDestination(
+        public static bool IsValidShipmentDestination(
             WorldObject target,
-            WorldObject_WD_Outpost sender,
-            bool foodOnly,
-            bool hasVirtualFood = false)
+            WorldObject sender,
+            List<ThingDefCountClass> rows,
+            int uniqueCount,
+            float virtualFood,
+            out string rejectKey)
         {
-            if (hasVirtualFood)
+            rejectKey = "TSA_WD_Warehouse_InvalidDestination";
+            if (target == null || target.Destroyed || !target.Spawned)
             {
-                // Outpost arrival converts/credits food only — refuse non-food mixes.
-                if (!foodOnly) return false;
-                if (target is not WorldObject_WD_Outpost op || op.Destroyed || !op.Spawned) return false;
-                if (op == sender) return false;
-                if (op.Faction != Faction.OfPlayer) return false;
-                if (WorldActions_Utils.IsSpace(op)) return false;
-                if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(op.Tile)) return false;
+                rejectKey = "TSA_WD_Warehouse_DestUnavailable";
+                return false;
+            }
+            if (target == sender)
+            {
+                rejectKey = "TSA_WD_Warehouse_DestSameAsOrigin";
+                return false;
+            }
+            if (WorldActions_Utils.IsSpace(target)
+                || !PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(target.Tile))
+            {
+                rejectKey = "TSA_WD_Warehouse_DestNotPlanetSurface";
+                return false;
+            }
+
+            var outpost = target as WorldObject_WD_Outpost;
+            bool isOutpost = outpost != null && outpost.Faction == Faction.OfPlayer;
+            bool isColony = outpost == null && target is MapParent mp && mp.Faction == Faction.OfPlayer && mp.HasMap;
+            if (!isOutpost && !isColony)
+            {
+                rejectKey = "TSA_WD_Warehouse_DestNotPlayerSite";
+                return false;
+            }
+
+            if (virtualFood > 0.001f && !isOutpost)
+            {
+                rejectKey = "TSA_WD_Warehouse_AdHocInvalidDestVirtual";
+                return false;
+            }
+
+            if (!isOutpost || IsWarehouseOutpost(outpost)) return true;
+
+            if (!OutpostArmoryUtility.FeatureEnabled)
+            {
+                if (uniqueCount > 0 || RequestHasPhysical(rows))
+                {
+                    rejectKey = "TSA_WD_Warehouse_AdHocInvalidDestGoods";
+                    return false;
+                }
                 return true;
             }
 
-            if (IsValidItemDeliveryDestination(target, sender))
-                return true;
-            if (!foodOnly) return false;
-            if (target is not WorldObject_WD_Outpost op2 || op2.Destroyed || !op2.Spawned) return false;
-            if (op2 == sender) return false;
-            if (op2.Faction != Faction.OfPlayer) return false;
-            if (WorldActions_Utils.IsSpace(op2)) return false;
-            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(op2.Tile)) return false;
+            if (rows != null)
+            {
+                for (int i = 0; i < rows.Count; i++)
+                {
+                    ThingDefCountClass e = rows[i];
+                    if (e?.thingDef == null || e.count <= 0) continue;
+                    if (OutpostArmoryUtility.IsArmoryItem(e.thingDef)) continue;
+                    rejectKey = "TSA_WD_Warehouse_AdHocInvalidDestGoods";
+                    return false;
+                }
+            }
             return true;
         }
+
+        private static bool RequestHasPhysical(List<ThingDefCountClass> rows) =>
+            rows != null && rows.Exists(tc => tc?.thingDef != null && tc.count > 0);
 
         /// <summary>Label with destination kind for warehouse ship UI, e.g. "Base (Colony)" or "Depot (Warehouse Outpost)".</summary>
         public static string GetDestinationLabelWithKind(WorldObject target)
@@ -363,120 +386,54 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Ad hoc send: world-target a destination (does not write regular ship dest). On confirm: strength check, withdraw, spawn.
+        /// Ad hoc send: world-target a destination (does not write regular ship dest), then launch through
+        /// <see cref="OutpostStorageShipping.TryLaunch"/>.
         /// </summary>
         public static void BeginAdHocShipmentTargeting(
             WorldObject_WD_Outpost warehouse,
-            CompOutpostWarehouse warehouseComp,
             List<ThingDefCountClass> request,
+            List<Thing> uniques,
             bool viaDropPod,
             Action onLaunched,
-            float virtualFood = 0f)
+            float virtualFood = 0f,
+            bool skipCameraJump = false)
         {
-            if (warehouse == null || warehouseComp == null) return;
-            if (!RequestHasCargo(request, virtualFood)) return;
-            bool foodOnly = IsFoodOnlyRequest(request, virtualFood);
-            bool hasVirtual = virtualFood > 0.001f;
-            if (hasVirtual && !foodOnly)
-            {
-                Messages.Message("TSA_WD_Warehouse_AdHocInvalidDestVirtualMix".Translate(), MessageTypeDefOf.RejectInput);
-                return;
-            }
-            CameraJumper.TryJump(warehouse.Tile);
+            if (warehouse == null) return;
+            int uniqueCount = uniques?.Count ?? 0;
+            if (!RequestHasCargo(request, virtualFood) && uniqueCount == 0) return;
+            if (!skipCameraJump)
+                CameraJumper.TryJump(warehouse.Tile);
+            CyanDeliveryMouseOverlayActive = true;
             Find.WorldTargeter.BeginTargeting(
                 target =>
                 {
                     WorldObject wo = target.WorldObject;
-                    if (!IsValidAdHocDeliveryDestination(wo, warehouse, foodOnly, hasVirtual))
+                    if (!IsValidShipmentDestination(wo, warehouse, request, uniqueCount, virtualFood, out string rejectKey))
                     {
-                        Messages.Message(
-                            hasVirtual && !foodOnly
-                                ? "TSA_WD_Warehouse_AdHocInvalidDestVirtualMix".Translate()
-                                : hasVirtual
-                                    ? "TSA_WD_Warehouse_AdHocInvalidDestVirtual".Translate()
-                                    : foodOnly
-                                        ? "TSA_WD_Warehouse_AdHocInvalidDest".Translate()
-                                        : "TSA_WD_Warehouse_AdHocInvalidDestGoods".Translate(),
-                            MessageTypeDefOf.RejectInput);
+                        Messages.Message(rejectKey.Translate(), MessageTypeDefOf.RejectInput);
                         return false;
                     }
-                    return TryLaunchAdHocShipment(warehouse, warehouseComp, request, wo, viaDropPod, onLaunched, virtualFood);
+
+                    bool launched = false;
+                    Action launch = () =>
+                    {
+                        launched = OutpostStorageShipping.TryLaunch(
+                            warehouse, request, uniques, virtualFood, wo, viaDropPod);
+                        if (launched)
+                            onLaunched?.Invoke();
+                    };
+                    if (viaDropPod
+                        && PlayerPawnDropPodUtility.ConfirmHostileAaThen(
+                            warehouse.Tile.tileId, wo.Tile.tileId, launch))
+                        return true;
+                    launch();
+                    return launched;
                 },
                 true,
                 GetDeliveryTargetMouseIcon(),
                 false,
                 null,
                 null);
-        }
-
-        public static bool TryLaunchAdHocShipment(
-            WorldObject_WD_Outpost warehouse,
-            CompOutpostWarehouse warehouseComp,
-            List<ThingDefCountClass> request,
-            WorldObject destination,
-            bool viaDropPod,
-            Action onLaunched,
-            float virtualFood = 0f)
-        {
-            if (warehouse == null || warehouseComp == null || destination == null)
-                return false;
-            if (!RequestHasCargo(request, virtualFood))
-                return false;
-
-            bool foodOnly = IsFoodOnlyRequest(request, virtualFood);
-            bool hasVirtual = virtualFood > 0.001f;
-            if (!IsValidAdHocDeliveryDestination(destination, warehouse, foodOnly, hasVirtual))
-            {
-                Messages.Message(
-                    hasVirtual && !foodOnly
-                        ? "TSA_WD_Warehouse_AdHocInvalidDestVirtualMix".Translate()
-                        : hasVirtual
-                            ? "TSA_WD_Warehouse_AdHocInvalidDestVirtual".Translate()
-                            : foodOnly
-                                ? "TSA_WD_Warehouse_AdHocInvalidDest".Translate()
-                                : "TSA_WD_Warehouse_AdHocInvalidDestGoods".Translate(),
-                    MessageTypeDefOf.RejectInput);
-                return false;
-            }
-
-            if (viaDropPod && !RapidResponseUtility.TransportPodsResearched())
-            {
-                Messages.Message("TSA_WD_RapidResponse_DropPodsNeedResearch".Translate(), MessageTypeDefOf.RejectInput);
-                return false;
-            }
-
-            float cost = WorldDominationMod.settings?.outpostDeliveryStrengthCost ?? 50f;
-            CompViralSpread viral = warehouse.GetComponent<CompViralSpread>();
-            if (viral == null || viral.strength < cost)
-            {
-                Messages.Message(
-                    "TSA_WD_Warehouse_AutoShipInsufficientStrength".Translate(warehouse.LabelCap),
-                    warehouse,
-                    MessageTypeDefOf.RejectInput);
-                return false;
-            }
-
-            bool hasPhysical = request != null && request.Exists(tc => tc?.thingDef != null && tc.count > 0);
-            if (hasPhysical && !warehouseComp.TryWithdraw(request))
-            {
-                Messages.Message("TSA_WD_Warehouse_ShipInsufficient".Translate(), warehouse, MessageTypeDefOf.RejectInput);
-                return false;
-            }
-
-            if (hasVirtual && !TryWithdrawVirtualFood(warehouse, virtualFood))
-            {
-                // Roll back physical withdraw if virtual withdraw fails after physical succeeded.
-                if (hasPhysical)
-                    warehouseComp.TryDeposit(request);
-                Messages.Message("TSA_WD_Warehouse_ShipInsufficientVirtual".Translate(), warehouse, MessageTypeDefOf.RejectInput);
-                return false;
-            }
-
-            WorldActions_Traveler.SpawnOutpostDeliveryTraveler(warehouse, request, destination, viaDropPod, virtualFood);
-            string msgKey = viaDropPod ? "TSA_WD_Warehouse_ShipLaunchedDropPod" : "TSA_WD_Warehouse_ShipLaunched";
-            Messages.Message(msgKey.Translate(destination.LabelCap), warehouse, MessageTypeDefOf.PositiveEvent);
-            onLaunched?.Invoke();
-            return true;
         }
 
         private static void StopDeliveryTargeting()
@@ -559,7 +516,48 @@ namespace TSA_WorldDomination
             return list;
         }
 
-        private static Texture2D GetDestinationMenuIcon(WorldObject destination)
+        /// <summary>Player colonies and player WD outposts valid for this cargo/sender, nearest first.</summary>
+        public static List<WorldObject> CollectValidShipmentDestinations(
+            WorldObject sender,
+            List<ThingDefCountClass> rows,
+            int uniqueCount,
+            float virtualFood)
+        {
+            var list = new List<WorldObject>();
+            if (sender == null) return list;
+
+            var maps = Find.Maps;
+            for (int i = 0; i < maps.Count; i++)
+            {
+                Map map = maps[i];
+                if (map?.Parent == null) continue;
+                if (IsValidShipmentDestination(map.Parent, sender, rows, uniqueCount, virtualFood, out _))
+                    list.Add(map.Parent);
+            }
+
+            var all = Find.WorldObjects.AllWorldObjects;
+            for (int i = 0; i < all.Count; i++)
+            {
+                if (all[i] is not WorldObject_WD_Outpost wo) continue;
+                if (wo.Faction != Faction.OfPlayer) continue;
+                if (list.Contains(wo)) continue;
+                if (IsValidShipmentDestination(wo, sender, rows, uniqueCount, virtualFood, out _))
+                    list.Add(wo);
+            }
+
+            int fromTile = sender.Tile;
+            list.Sort((a, b) =>
+            {
+                float da = Find.WorldGrid.ApproxDistanceInTiles(fromTile, a.Tile);
+                float db = Find.WorldGrid.ApproxDistanceInTiles(fromTile, b.Tile);
+                int cmp = da.CompareTo(db);
+                if (cmp != 0) return cmp;
+                return string.CompareOrdinal(a.LabelCap, b.LabelCap);
+            });
+            return list;
+        }
+
+        public static Texture2D GetDestinationIcon(WorldObject destination)
         {
             if (destination is WorldObject_WD_Outpost outpost && outpost.def?.ExpandingIconTexture != null)
                 return outpost.def.ExpandingIconTexture;
@@ -569,5 +567,8 @@ namespace TSA_WorldDomination
                 return destination.ExpandingIcon;
             return GetDeliveryTargetMouseIcon();
         }
+
+        private static Texture2D GetDestinationMenuIcon(WorldObject destination) =>
+            GetDestinationIcon(destination);
     }
 }

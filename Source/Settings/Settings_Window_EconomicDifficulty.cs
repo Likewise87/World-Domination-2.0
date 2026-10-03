@@ -93,6 +93,11 @@ namespace TSA_WorldDomination
                     "TSA_WD_Upkeep_IntervalDaysTip".Translate(),
                     1f, SliderFormat.Fixed0, WorldDominationSettings.DefUpkeepIntervalDays);
             }
+
+            SettingsUI.DrawCheckbox(l, "TSA_WD_DropPodTransportCostComponents".Translate(),
+                ref s.dropPodTransportCostComponents,
+                "TSA_WD_DropPodTransportCostComponentsTip".Translate(),
+                defaultValue: WorldDominationSettings.DefDropPodTransportCostComponents);
         }
 
         private void DrawSkillScaling(Listing_Standard l, WorldDominationSettings s)

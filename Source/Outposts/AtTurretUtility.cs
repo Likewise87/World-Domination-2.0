@@ -108,7 +108,15 @@ namespace TSA_WorldDomination
             }
         }
 
-        public static string DefNameForTier(AtTurretTier tier) => DefName;
+        public static string DefNameForTier(AtTurretTier tier)
+        {
+            switch (tier)
+            {
+                case AtTurretTier.Light: return "TSA_WD_AT_Turret_Light";
+                case AtTurretTier.Heavy: return "TSA_WD_AT_Turret_Heavy";
+                default: return DefName; // TSA_WD_AT_Turret (Medium; save-compat)
+            }
+        }
 
         public static int CountTurretsBuiltBy(Settlement settlement)
         {

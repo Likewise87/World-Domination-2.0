@@ -285,10 +285,21 @@ namespace TSA_WorldDomination
                 Rect selIconRect = new Rect(lx, ly, selIconSize, selIconSize);
                 Widgets.DrawTextureFitted(selIconRect, selIcon, 1f);
             }
+            var spreadComp = outpost.GetComponent<CompViralSpread>();
+            bool hasRedirect = spreadComp != null && spreadComp.redirectionTargetTile >= 0;
+            float travelW = PlayerPawnDropPodUtility.ToolbarWidth(
+                hasRedirect && PlayerPawnDropPodUtility.GetTravelViaDropPod(outpost));
             Text.Anchor = TextAnchor.UpperLeft;
-            Widgets.Label(new Rect(lx + selIconSize + 6f, ly, lw - selIconSize - 6f, 28f),
+            Widgets.Label(new Rect(lx + selIconSize + 6f, ly, lw - selIconSize - 6f - travelW - 8f, 28f),
                 OutpostTranslationUtil.Key("TSA_WD_Recruiting_SelectedTraining", selName));
             Text.Anchor = TextAnchor.MiddleLeft;
+
+            // Travel mode for redirected recruits: only meaningful once a redirection target is set.
+            PlayerPawnDropPodUtility.DrawOriginModeAndFallbackSingle(
+                new Rect(lx + lw - travelW, ly, travelW, 28f),
+                outpost,
+                enabled: hasRedirect,
+                disabledTip: OutpostTranslationUtil.Key("TSA_WD_PawnDropPod_ModeNoRedirectTip"));
             ly += 32f + 8f;
 
             ly = DrawCollapsiblePoolSection(

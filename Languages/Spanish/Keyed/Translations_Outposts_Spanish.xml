@@ -106,9 +106,10 @@
   <TSA_WD_RapidResponse_InspectExpansionCaravans>Interceptando caravanas de expansión en el radio</TSA_WD_RapidResponse_InspectExpansionCaravans>
   <TSA_WD_RapidResponse_InspectRoadCaravans>Interceptando caravanas constructoras de caminos en el radio</TSA_WD_RapidResponse_InspectRoadCaravans>
   <TSA_WD_RapidResponse_InspectFortifyCaravans>Interceptando caravanas de fortificación en el radio</TSA_WD_RapidResponse_InspectFortifyCaravans>
+  <TSA_WD_RapidResponse_InspectLogisticsCaravans>Interceptando caravanas de suministros en el radio</TSA_WD_RapidResponse_InspectLogisticsCaravans>
   <TSA_WD_RapidResponse_InspectGroupCaravans>Interceptando {0} en el radio</TSA_WD_RapidResponse_InspectGroupCaravans>
   <TSA_WD_RapidResponse_DropPods>Enviar por cápsulas ({0})</TSA_WD_RapidResponse_DropPods>
-  <TSA_WD_RapidResponse_DropPodsDesc>Lanza los peones seleccionados de la avanzadilla por cápsulas a cualquier casilla transitable en alcance (o a un viajero hostil / colonia / avanzadilla del jugador).</TSA_WD_RapidResponse_DropPodsDesc>
+  <TSA_WD_RapidResponse_DropPodsDesc>Lanza los peones seleccionados de la avanzadilla por cápsulas a cualquier casilla transitable en alcance (o a un viajero hostil / colonia / avanzadilla del jugador). Cuesta 1 componente industrial por peón viajero del stock de colonias y almacenes.</TSA_WD_RapidResponse_DropPodsDesc>
   <TSA_WD_RapidResponse_DropPodsNeedResearch>Requiere completar la investigación de cápsulas de transporte.</TSA_WD_RapidResponse_DropPodsNeedResearch>
   <TSA_WD_RapidResponse_DropPodsSelectPawns>Selecciona al menos un peón de la avanzadilla para enviarlo.</TSA_WD_RapidResponse_DropPodsSelectPawns>
   <TSA_WD_RapidResponse_DropPodsNoStoredTransport>Los animales y vehículos almacenados no pueden lanzarse con esta acción de cápsulas.</TSA_WD_RapidResponse_DropPodsNoStoredTransport>
@@ -145,6 +146,7 @@
   <TSA_WD_RapidResponse_Tip_TargetRoad>Interceptar caravanas hostiles de construcción o relacionadas con caminos en alcance.</TSA_WD_RapidResponse_Tip_TargetRoad>
   <TSA_WD_RapidResponse_Tip_TargetTrader>Interceptar caravanas comerciales hostiles en alcance.</TSA_WD_RapidResponse_Tip_TargetTrader>
   <TSA_WD_RapidResponse_Tip_TargetFortify>Interceptar caravanas hostiles de fortificación que colocan bloqueos o trampas de púas en alcance.</TSA_WD_RapidResponse_Tip_TargetFortify>
+  <TSA_WD_RapidResponse_Tip_TargetLogistics>Interceptar envíos de suministros y de mejoras en alcance, incluidos los tuyos si quien los envía es hostil a esta avanzada.</TSA_WD_RapidResponse_Tip_TargetLogistics>
   <TSA_WD_RapidResponse_Tip_RaidTargetPlayer>Interceptar asaltantes cuyo destino es tu colonia o una de tus avanzadillas.</TSA_WD_RapidResponse_Tip_RaidTargetPlayer>
   <TSA_WD_RapidResponse_Tip_RaidTargetAllies>Interceptar asaltantes cuyo destino pertenece a una facción aliada contigo.</TSA_WD_RapidResponse_Tip_RaidTargetAllies>
   <TSA_WD_RapidResponse_Tip_RaidTargetOtherNpcs>Interceptar asaltantes cuyo destino pertenece a una facción PNJ no aliada.</TSA_WD_RapidResponse_Tip_RaidTargetOtherNpcs>
@@ -177,7 +179,6 @@
   <TSA_WD_Pod_ReinforceDefense>Reforzar defensa de {0} (cápsulas de transporte)</TSA_WD_Pod_ReinforceDefense>
   <TSA_WD_Pod_ReinforcedDefense>Las cápsulas de transporte aterrizaron como refuerzos en el campo de batalla temporal de {0}.</TSA_WD_Pod_ReinforcedDefense>
   <TSA_WD_Pod_AddedPawn>{0} se unió a {1} desde cápsulas de transporte.</TSA_WD_Pod_AddedPawn>
-  <TSA_WD_PodArrival_FoodConverted>{0} nutrición de las cápsulas de transporte convertida en comida virtual en {1}.</TSA_WD_PodArrival_FoodConverted>
   <TSA_WD_PodArrival_ItemNotStored>No se puede almacenar {0} en esta avanzadilla (solo colonos virtuales). Objeto perdido.</TSA_WD_PodArrival_ItemNotStored>
   <TSA_WD_AutoAdd_Desc>Si está activo, las caravanas cuyo destino es esta avanzadilla se añaden automáticamente al detenerse. Descansar o pausar aquí con otro destino no las añade.</TSA_WD_AutoAdd_Desc>
   <TSA_WD_AutoAdd_Label>Añadir llegadas automáticamente</TSA_WD_AutoAdd_Label>
@@ -247,6 +248,7 @@
   <TSA_WD_BuildRoad>Construir carretera</TSA_WD_BuildRoad>
   <TSA_WD_CancelCurrentProjectFirst>Cancela primero el proyecto actual</TSA_WD_CancelCurrentProjectFirst>
   <TSA_WD_InsufficientStrengthToBuild>Fuerza insuficiente para entregar {0}</TSA_WD_InsufficientStrengthToBuild>
+  <TSA_WD_InsufficientMaterialsToBuild>Materiales insuficientes para entregar {0}</TSA_WD_InsufficientMaterialsToBuild>
   <TSA_WD_InsufficientStrengthToClear>Fuerza insuficiente para quitar {0}</TSA_WD_InsufficientStrengthToClear>
   <TSA_WD_BuildRoadDesc>Indica a esta avanzadilla que construya una red de carreteras hacia una casilla. La velocidad escala con la habilidad Construcción acumulada.\n\nMayús+clic para colocar puntos intermedios; clic sin Mayús para fijar el destino final.</TSA_WD_BuildRoadDesc>
   <TSA_WD_BuildRoadStatus>Construyendo hacia &quot;{0}&quot;\nProgreso: {1}%</TSA_WD_BuildRoadStatus>
@@ -1059,26 +1061,27 @@
   <TSA_WD_RemoteEstablish_Headline>Establecer avanzadilla en la casilla seleccionada</TSA_WD_RemoteEstablish_Headline>
   <TSA_WD_RemoteEstablish_Establish>Enviar y establecer</TSA_WD_RemoteEstablish_Establish>
   <TSA_WD_RemoteEstablish_ClickTileHint>Haz clic en una casilla del mapa mundial para fundar una avanzadilla. Clic derecho para cancelar.</TSA_WD_RemoteEstablish_ClickTileHint>
-  <TSA_WD_RemoteEstablish_ColonyOnly>Solo colonos de la colonia pueden enviarse a establecer una avanzadilla.</TSA_WD_RemoteEstablish_ColonyOnly>
+  <TSA_WD_RemoteEstablish_SingleOrigin>Selecciona peones de un solo mapa de colonia o de una sola avanzadilla.</TSA_WD_RemoteEstablish_SingleOrigin>
   <TSA_WD_RemoteEstablish_ColonyMapNotLoaded>El mapa de la colonia no está cargado.</TSA_WD_RemoteEstablish_ColonyMapNotLoaded>
-  <TSA_WD_RemoteEstablish_SingleColony>Selecciona colonos de un solo mapa de colonia.</TSA_WD_RemoteEstablish_SingleColony>
+  <TSA_WD_RemoteEstablish_WrongLocationKind>Solo peones de colonia o avanzadilla pueden fundar una avanzadilla de este modo.</TSA_WD_RemoteEstablish_WrongLocationKind>
   <TSA_WD_RemoteEstablish_NeedHumanlike>Selecciona al menos un colono humanoide.</TSA_WD_RemoteEstablish_NeedHumanlike>
+  <TSA_WD_RemoteEstablish_ShuttleNeedsLand>Las lanzaderas de pasajeros deben viajar por tierra. Cambia a Tierra o deja la lanzadera atrás.</TSA_WD_RemoteEstablish_ShuttleNeedsLand>
   <TSA_WD_RemoteEstablish_CarryTooHeavy>Estos peones no pueden cargar los materiales de establecimiento.\n\nCarga: {0} kg\nPueden llevar: {1} kg\nFaltan: {2} kg\n\n¿Enviarlos de todos modos?</TSA_WD_RemoteEstablish_CarryTooHeavy>
-  <TSA_WD_RemoteEstablish_InvalidSelection>Selecciona colonos de la colonia para establecer una avanzadilla.</TSA_WD_RemoteEstablish_InvalidSelection>
+  <TSA_WD_RemoteEstablish_InvalidSelection>Selecciona peones de colonia o avanzadilla para establecer una avanzadilla.</TSA_WD_RemoteEstablish_InvalidSelection>
   <TSA_WD_RemoteEstablish_Launched>Caravana enviada para fundar {0}.</TSA_WD_RemoteEstablish_Launched>
   <TSA_WD_RemoteEstablish_Failed>No se pudo establecer la avanzadilla.\n{0}</TSA_WD_RemoteEstablish_Failed>
   <TSA_WD_RemoteEstablish_ArrivalLabel>establecer {0}</TSA_WD_RemoteEstablish_ArrivalLabel>
   <TSA_WD_RemoteEstablish_ArrivalReport>Fundando {0}.</TSA_WD_RemoteEstablish_ArrivalReport>
   <TSA_WD_RemoteEstablish_Inspect>Fundando: {0}</TSA_WD_RemoteEstablish_Inspect>
   <TSA_WD_TileFirstEstablish_Gizmo>Establecer avanzadilla</TSA_WD_TileFirstEstablish_Gizmo>
-  <TSA_WD_TileFirstEstablish_GizmoTip>Elige un tipo de avanzadilla para esta casilla y luego selecciona colonos de tu colonia. Los materiales salen de tu colonia y almacenes. Distancia mínima: {0} casillas desde cualquier asentamiento, colonia o avanzadilla.</TSA_WD_TileFirstEstablish_GizmoTip>
+  <TSA_WD_TileFirstEstablish_GizmoTip>Elige un tipo de avanzadilla para esta casilla y luego selecciona colonos de un mapa de colonia o de una avanzadilla. Los materiales salen de tu colonia y almacenes. Distancia mínima: {0} casillas desde cualquier asentamiento, colonia o avanzadilla.</TSA_WD_TileFirstEstablish_GizmoTip>
   <TSA_WD_TileFirstEstablish_Occupied>Un asentamiento o avanzadilla ya ocupa esta casilla.</TSA_WD_TileFirstEstablish_Occupied>
   <TSA_WD_Establish_ActiveCamp>No se puede fundar una avanzadilla en un campamento activo. Abandónalo primero.</TSA_WD_Establish_ActiveCamp>
-  <TSA_WD_TileFirstEstablish_NoColony>Necesitas un mapa de colonia para enviar colonos y pagar el coste de establecimiento.</TSA_WD_TileFirstEstablish_NoColony>
+  <TSA_WD_TileFirstEstablish_NoColony>Necesitas un mapa de colonia para pagar el coste de establecimiento.</TSA_WD_TileFirstEstablish_NoColony>
   <TSA_WD_TileFirstEstablish_Headline>Establecer avanzadilla en esta casilla</TSA_WD_TileFirstEstablish_Headline>
   <TSA_WD_TileFirstEstablish_ChooseColonists>Elegir colonos</TSA_WD_TileFirstEstablish_ChooseColonists>
   <TSA_WD_TileFirstEstablish_CheckedWhenPawns>Se comprueba al elegir colonos.</TSA_WD_TileFirstEstablish_CheckedWhenPawns>
-  <TSA_WD_TileFirstEstablish_PawnWindowTitle>Colonos para {0}</TSA_WD_TileFirstEstablish_PawnWindowTitle>
+  <TSA_WD_TileFirstEstablish_PawnWindowTitle>Fundadores para {0}</TSA_WD_TileFirstEstablish_PawnWindowTitle>
   <TSA_WD_TileFirstEstablish_Confirm>Confirmar</TSA_WD_TileFirstEstablish_Confirm>
   <TSA_WD_RequirementsPreview_Headline>Vista previa de requisitos de avanzadilla</TSA_WD_RequirementsPreview_Headline>
   <TSA_WD_RequirementsPreview_ClickTileHint>Haz clic en una casilla del mapa para ver los requisitos de establecimiento. Cierra la ventana de vista previa para elegir otra casilla. Clic derecho en el mapa para salir del modo simulación.</TSA_WD_RequirementsPreview_ClickTileHint>
@@ -1145,6 +1148,109 @@
   <TSA_WD_PowerPlant_InspectNoColony>Energía remota disponible: {0} (sin mapa de colonia).</TSA_WD_PowerPlant_InspectNoColony>
   <TSA_WD_PowerPlant_OverviewProduct>{0} de energía remota</TSA_WD_PowerPlant_OverviewProduct>
   <TSA_WD_PowerPlant_OverviewAlways>Siempre activo</TSA_WD_PowerPlant_OverviewAlways>
+  <!-- Armería de avanzada -->
+  <TSA_WD_Armory_OpenButton>Armería</TSA_WD_Armory_OpenButton>
+  <TSA_WD_Armory_OpenButtonTip>Reparte armas, armaduras, medicina, drogas, comida y munición almacenadas entre los ocupantes de esta avanzada.</TSA_WD_Armory_OpenButtonTip>
+  <TSA_WD_Armory_ColumnPawns>Nombre</TSA_WD_Armory_ColumnPawns>
+  <TSA_WD_Armory_ColumnStore>Almacenado</TSA_WD_Armory_ColumnStore>
+  <TSA_WD_Armory_SecApparel>Ropa</TSA_WD_Armory_SecApparel>
+  <TSA_WD_Armory_SecWeapons>Armas</TSA_WD_Armory_SecWeapons>
+  <TSA_WD_Armory_SecFoodDrugs>Comida, drogas, medicina</TSA_WD_Armory_SecFoodDrugs>
+  <TSA_WD_Armory_NoOccupants>No hay ocupantes a los que equipar.</TSA_WD_Armory_NoOccupants>
+  <TSA_WD_Armory_StoreEmpty>Aquí no hay nada todavía. El equipo que llega en caravana o cápsula se guarda en la armería. Usa Abrir pestaña Todo el equipo abajo para enviarlo desde una colonia u otra avanzada.</TSA_WD_Armory_StoreEmpty>
+  <TSA_WD_Armory_NormalizeNote>El equipo almacenado se repara por completo, para que los objetos idénticos se apilen. El equipo contaminado o biocodificado se mantiene así y se guarda por separado.</TSA_WD_Armory_NormalizeNote>
+  <TSA_WD_Armory_UniqueTag>único</TSA_WD_Armory_UniqueTag>
+  <TSA_WD_Armory_BiocodedTag>biocodificado</TSA_WD_Armory_BiocodedTag>
+  <TSA_WD_Armory_TaintedTip>Contaminado: esta ropa la llevaba alguien que murió con ella puesta. Llevarla molesta a la mayoría de los colonos.</TSA_WD_Armory_TaintedTip>
+  <TSA_WD_Armory_SplitTitle>¿Cuántos {0}?</TSA_WD_Armory_SplitTitle>
+  <TSA_WD_Armory_ConvertFood>Convertir comida</TSA_WD_Armory_ConvertFood>
+  <TSA_WD_Armory_ConvertFoodTip>Convierte toda la comida física almacenada en la reserva de comida de esta avanzada. Lo que supere el tope se queda en la armería.</TSA_WD_Armory_ConvertFoodTip>
+  <TSA_WD_Armory_ConvertFoodNone>No hay comida almacenada que convertir, o la reserva ya está llena.</TSA_WD_Armory_ConvertFoodNone>
+  <TSA_WD_Armory_OpenInventory>Abrir pestaña Todo el equipo</TSA_WD_Armory_OpenInventory>
+  <TSA_WD_Armory_OpenInventoryTip>Abre la pestaña Todo el equipo para mover equipo rápidamente entre avanzadas y la colonia.</TSA_WD_Armory_OpenInventoryTip>
+  <TSA_WD_Armory_ConvertedFood>Comida almacenada convertida en {0} de comida de avanzada.</TSA_WD_Armory_ConvertedFood>
+  <TSA_WD_Armory_FailManualDefense>No se puede mover equipo mientras esta avanzada se está defendiendo.</TSA_WD_Armory_FailManualDefense>
+  <TSA_WD_Armory_FailLocked>{0} está bloqueado y no se puede quitar.</TSA_WD_Armory_FailLocked>
+  <TSA_WD_Armory_FailNotStorable>{0} no se puede guardar en una armería.</TSA_WD_Armory_FailNotStorable>
+  <TSA_WD_Armory_FailNoCapacity>Ese personaje no puede cargar más de esto.</TSA_WD_Armory_FailNoCapacity>
+  <TSA_WD_Armory_FailNoCapacityCe>{0} no tiene espacio para más {1}. Inventario libre: {2} de volumen, {3} kg.</TSA_WD_Armory_FailNoCapacityCe>
+  <TSA_WD_Armory_FailNoBodyParts>{0} no le queda a {1}.</TSA_WD_Armory_FailNoBodyParts>
+  <TSA_WD_Armory_FailCannotWear>{1} no puede llevar {0}.</TSA_WD_Armory_FailCannotWear>
+  <TSA_WD_Armory_FailPrimaryOccupied>{0} ya tiene un arma principal ({1}). Desequipala primero.</TSA_WD_Armory_FailPrimaryOccupied>
+  <TSA_WD_Armory_PodDeposit>Se guardaron {0} objeto(s) en la armería de {1}.</TSA_WD_Armory_PodDeposit>
+  <TSA_WD_Armory_DeliveryStored>Se guardaron {0} objeto(s) en la armería.</TSA_WD_Armory_DeliveryStored>
+  <TSA_WD_Armory_LostFood>{0} de comida</TSA_WD_Armory_LostFood>
+  <TSA_WD_Armory_CargoLostLabel>Envío perdido</TSA_WD_Armory_CargoLostLabel>
+  <TSA_WD_Armory_CargoLost>Un envío con destino a {0} fue destruido en ruta. Su carga se ha perdido:</TSA_WD_Armory_CargoLost>
+  <TSA_WD_Armory_UpgradeLostLabel>Envío de mejora perdido</TSA_WD_Armory_UpgradeLostLabel>
+  <TSA_WD_Armory_UpgradeLost>El envío de {0} con destino a {1} fue destruido en ruta. Los materiales se han perdido y la mejora se puede volver a encargar.</TSA_WD_Armory_UpgradeLost>
+  <TSA_WD_Armory_HdrStores>Armería</TSA_WD_Armory_HdrStores>
+  <TSA_WD_Armory_HdrStoresTip>Lo que esta avanzada guarda en su armería, por categoría.</TSA_WD_Armory_HdrStoresTip>
+  <TSA_WD_Armory_StoresMore>+{0} más</TSA_WD_Armory_StoresMore>
+  <TSA_WD_Armory_StoresTooltip>{0} objeto(s) almacenado(s).</TSA_WD_Armory_StoresTooltip>
+  <TSA_WD_Armory_HdrItem>Objeto</TSA_WD_Armory_HdrItem>
+  <TSA_WD_Armory_HdrType>Tipo</TSA_WD_Armory_HdrType>
+  <TSA_WD_Armory_HdrQuality>Calidad</TSA_WD_Armory_HdrQuality>
+  <TSA_WD_Armory_HdrCount>Cantidad</TSA_WD_Armory_HdrCount>
+  <TSA_WD_Armory_WeaponFilterTip>Filtra los objetos almacenados por tipo. Armadura incluye cascos y armadura corporal. Cabeza, Torso y Piernas filtran la ropa según lo que cubre, así que una prenda puede aparecer en varios.</TSA_WD_Armory_WeaponFilterTip>
+  <TSA_WD_Armory_WeaponFilter_All>Todo</TSA_WD_Armory_WeaponFilter_All>
+  <TSA_WD_Armory_WeaponFilter_Guns>Armas de fuego</TSA_WD_Armory_WeaponFilter_Guns>
+  <TSA_WD_Armory_WeaponFilter_Bows>Arcos</TSA_WD_Armory_WeaponFilter_Bows>
+  <TSA_WD_Armory_WeaponFilter_Melee>Cuerpo a cuerpo</TSA_WD_Armory_WeaponFilter_Melee>
+  <TSA_WD_Armory_WeaponFilter_Grenades>Granadas</TSA_WD_Armory_WeaponFilter_Grenades>
+  <TSA_WD_Armory_WeaponFilter_Other>Otros</TSA_WD_Armory_WeaponFilter_Other>
+  <TSA_WD_Armory_TypeFilter_Ammo>Munición</TSA_WD_Armory_TypeFilter_Ammo>
+  <TSA_WD_Armory_TypeFilter_Armor>Armadura</TSA_WD_Armory_TypeFilter_Armor>
+  <TSA_WD_Armory_TypeFilter_Headgear>Cabeza</TSA_WD_Armory_TypeFilter_Headgear>
+  <TSA_WD_Armory_TypeFilter_Torso>Torso</TSA_WD_Armory_TypeFilter_Torso>
+  <TSA_WD_Armory_TypeFilter_Legs>Piernas</TSA_WD_Armory_TypeFilter_Legs>
+  <TSA_WD_Armory_TypeFilter_Medicine>Medicina</TSA_WD_Armory_TypeFilter_Medicine>
+  <TSA_WD_Armory_TypeFilter_Drugs>Drogas</TSA_WD_Armory_TypeFilter_Drugs>
+  <TSA_WD_Armory_TypeFilter_Food>Comida</TSA_WD_Armory_TypeFilter_Food>
+  <TSA_WD_Armory_NoPawnMatch>Ningún ocupante coincide con este filtro.</TSA_WD_Armory_NoPawnMatch>
+  <TSA_WD_Armory_NoItemMatch>Ningún objeto almacenado coincide con estos filtros.</TSA_WD_Armory_NoItemMatch>
+  <TSA_WD_Armory_Bucket_Guns>armas de fuego</TSA_WD_Armory_Bucket_Guns>
+  <TSA_WD_Armory_Bucket_Bows>arcos</TSA_WD_Armory_Bucket_Bows>
+  <TSA_WD_Armory_Bucket_Melee>cuerpo a cuerpo</TSA_WD_Armory_Bucket_Melee>
+  <TSA_WD_Armory_Bucket_Grenades>granadas</TSA_WD_Armory_Bucket_Grenades>
+  <TSA_WD_Armory_Bucket_Armor>armaduras</TSA_WD_Armory_Bucket_Armor>
+  <TSA_WD_Armory_Bucket_Medicine>medicina</TSA_WD_Armory_Bucket_Medicine>
+  <TSA_WD_Armory_Bucket_Drugs>drogas</TSA_WD_Armory_Bucket_Drugs>
+  <TSA_WD_Armory_Bucket_Food>comida</TSA_WD_Armory_Bucket_Food>
+  <TSA_WD_Armory_Bucket_Ammo>munición</TSA_WD_Armory_Bucket_Ammo>
+  <TSA_WD_CountPicker_All>Todo</TSA_WD_CountPicker_All>
+
+  <!-- Ventana de inventario global -->
+  <TSA_WD_AllInventory_Title>Todo el equipo del jugador</TSA_WD_AllInventory_Title>
+  <TSA_WD_AllInventory_HdrItem>Objeto</TSA_WD_AllInventory_HdrItem>
+  <TSA_WD_AllInventory_HdrEquippedBy>Equipado por</TSA_WD_AllInventory_HdrEquippedBy>
+  <TSA_WD_AllInventory_HdrCategory>Tipo</TSA_WD_AllInventory_HdrCategory>
+  <TSA_WD_AllInventory_HdrQuality>Calidad</TSA_WD_AllInventory_HdrQuality>
+  <TSA_WD_AllInventory_HdrCount>Almacenado</TSA_WD_AllInventory_HdrCount>
+  <TSA_WD_AllInventory_HdrSendCount>Enviar</TSA_WD_AllInventory_HdrSendCount>
+  <TSA_WD_AllInventory_CategoryFilterTip>Filtrar por tipo de objeto</TSA_WD_AllInventory_CategoryFilterTip>
+  <TSA_WD_AllInventory_QualityFilterTip>Filtrar por calidad del objeto</TSA_WD_AllInventory_QualityFilterTip>
+  <TSA_WD_AllInventory_EquippedByFilterTip>Filtrar por quién lleva el objeto</TSA_WD_AllInventory_EquippedByFilterTip>
+  <TSA_WD_AllInventory_QualityNone>Sin calidad</TSA_WD_AllInventory_QualityNone>
+  <TSA_WD_AllInventory_TooMany>Demasiados objetos. Filtra la lista</TSA_WD_AllInventory_TooMany>
+  <TSA_WD_AllInventory_OnPawnTip>Equipado o llevado por un colono. Enviarlo se lo quita (bajo tu propio riesgo).</TSA_WD_AllInventory_OnPawnTip>
+  <TSA_WD_AllInventory_CaravanNoSend>El equipo que lleva una caravana en el mapa del mundo no se puede enviar desde aquí.</TSA_WD_AllInventory_CaravanNoSend>
+  <TSA_WD_AllInventory_InCombatNoSend>No se puede quitar equipo a un colono mientras su mapa esté bajo asalto o asedio.</TSA_WD_AllInventory_InCombatNoSend>
+  <TSA_WD_AllInventory_Selected>Seleccionados: {0}</TSA_WD_AllInventory_Selected>
+  <TSA_WD_AllInventory_Send>Enviar a...</TSA_WD_AllInventory_Send>
+  <TSA_WD_AllInventory_SendTip>Envía las filas seleccionadas a un único destino. Cada origen lanza su propia caravana y paga su propio coste de fuerza; las colonias no pagan nada. El equipo equipado se quita del colono al enviarlo.</TSA_WD_AllInventory_SendTip>
+  <TSA_WD_AllInventory_ModeLand>En caravana</TSA_WD_AllInventory_ModeLand>
+  <TSA_WD_AllInventory_ModePod>En cápsula</TSA_WD_AllInventory_ModePod>
+  <TSA_WD_AllInventory_ModeTip>Las caravanas viajan por tierra y pueden sufrir emboscadas o morteros. Las cápsulas vuelan y pueden ser derribadas por fuego antiaéreo.</TSA_WD_AllInventory_ModeTip>
+  <TSA_WD_AllInventory_NothingPicked>No hay nada seleccionado para enviar.</TSA_WD_AllInventory_NothingPicked>
+  <TSA_WD_AllInventory_NoSharedDest>Ningún destino es válido para todos los orígenes seleccionados.</TSA_WD_AllInventory_NoSharedDest>
+  <TSA_WD_AllInventory_AlreadyAtLocation>Al menos un objeto seleccionado ya está en esta ubicación.</TSA_WD_AllInventory_AlreadyAtLocation>
+  <TSA_WD_AllInventory_SkipSameDestTitle>Aviso: algunos objetos ya están en el destino</TSA_WD_AllInventory_SkipSameDestTitle>
+  <TSA_WD_AllInventory_SkipSameDestIntro>No se pueden enviar los siguientes bienes porque ya están en el destino "{0}":</TSA_WD_AllInventory_SkipSameDestIntro>
+  <TSA_WD_AllInventory_SkipSameDestLine>- {0}x {1}</TSA_WD_AllInventory_SkipSameDestLine>
+  <TSA_WD_AllInventory_SkipSameDestQuestion>¿Quieres enviar de todos modos los bienes de los otros orígenes?</TSA_WD_AllInventory_SkipSameDestQuestion>
+  <TSA_WD_AllInventory_SkipSameDestConfirm>Enviar el resto</TSA_WD_AllInventory_SkipSameDestConfirm>
+
   <TSA_WD_WarehouseTab_Label>Almacén</TSA_WD_WarehouseTab_Label>
   <TSA_WD_WarehouseTab_Title>Inventario del almacén</TSA_WD_WarehouseTab_Title>
   <TSA_WD_WarehouseTab_ShipDest>Destino de envío: {0}</TSA_WD_WarehouseTab_ShipDest>
@@ -1154,6 +1260,12 @@
   <TSA_WD_Warehouse_DestNone>colonia más cercana</TSA_WD_Warehouse_DestNone>
   <TSA_WD_Warehouse_DestKind_Colony>Colonia</TSA_WD_Warehouse_DestKind_Colony>
   <TSA_WD_Warehouse_DestKind_Warehouse>Avanzadilla almacén</TSA_WD_Warehouse_DestKind_Warehouse>
+  <TSA_WD_Warehouse_DestSameAsOrigin>El destino no puede ser el mismo que el origen.</TSA_WD_Warehouse_DestSameAsOrigin>
+  <TSA_WD_Warehouse_DestNotPlayerSite>Elige una colonia o avanzada del jugador.</TSA_WD_Warehouse_DestNotPlayerSite>
+  <TSA_WD_Warehouse_DestNotPlanetSurface>La entrega debe permanecer en la superficie del planeta.</TSA_WD_Warehouse_DestNotPlanetSurface>
+  <TSA_WD_Warehouse_DestUnavailable>Ese destino ya no está disponible.</TSA_WD_Warehouse_DestUnavailable>
+  <TSA_WD_Warehouse_AdHocInvalidDestVirtual>La comida virtual solo puede ir a otra avanzada del jugador.</TSA_WD_Warehouse_AdHocInvalidDestVirtual>
+  <TSA_WD_Warehouse_AdHocInvalidDestGoods>Esos bienes solo pueden ir a una colonia o almacén del jugador.</TSA_WD_Warehouse_AdHocInvalidDestGoods>
   <TSA_WD_Warehouse_InvalidDestination>Destino de entrega no válido.</TSA_WD_Warehouse_InvalidDestination>
   <TSA_WD_Warehouse_SetDeliveryDest>Establecer destino de entrega</TSA_WD_Warehouse_SetDeliveryDest>
   <TSA_WD_Warehouse_SetDeliveryDestDesc>Elige un almacén o mapa de colonia del jugador. Las entregas de ciclo irán allí en lugar de a la colonia más cercana.</TSA_WD_Warehouse_SetDeliveryDestDesc>
@@ -1188,20 +1300,67 @@
   <TSA_WD_Warehouse_ShipViaDropPodNow>Enviar con cápsula ahora</TSA_WD_Warehouse_ShipViaDropPodNow>
   <TSA_WD_Warehouse_ShipViaDropPodDesc>Lanza un envío rápido en línea recta. La mercancía llega por cápsula al borde del mapa, al punto de entrega o al almacén de destino.</TSA_WD_Warehouse_ShipViaDropPodDesc>
   <TSA_WD_Warehouse_AutoShip>Envío automático una vez al día</TSA_WD_Warehouse_AutoShip>
-  <TSA_WD_Warehouse_AutoShipDesc>Si está activo, este almacén envía todo su stock al destino configurado una vez al día. El viaje usa el modo Tierra vs cápsula de este almacén. Requiere destino y fuerza suficiente para el coste de entrega.</TSA_WD_Warehouse_AutoShipDesc>
+  <TSA_WD_Warehouse_AutoShipDesc>Si está activo, este almacén envía su stock físico al destino configurado una vez al día. Equipo, comida, drogas y medicina se quedan salvo que se incluyan en el menú de entrega. La comida virtual no se incluye. El viaje usa el modo Tierra vs cápsula de este almacén. Requiere destino y fuerza suficiente para el coste de entrega.</TSA_WD_Warehouse_AutoShipDesc>
   <TSA_WD_Warehouse_AutoShipInsufficientStrength>{0} no pudo enviar automáticamente: fuerza insuficiente para una entrega.</TSA_WD_Warehouse_AutoShipInsufficientStrength>
-  <TSA_WD_DispatchMode_Land>Entrega por tierra</TSA_WD_DispatchMode_Land>
-  <TSA_WD_DispatchMode_DropPod>Entrega por cápsula</TSA_WD_DispatchMode_DropPod>
-  <TSA_WD_DispatchMode_LandDesc>Las mejoras de avanzadilla, compras, regalos y negociaciones lanzados desde aquí viajan en caravana. Los sobornos siempre van por tierra. Los envíos automáticos de este almacén usan el mismo modo. Haz clic para cambiar a cápsulas cuando la investigación de cápsulas de transporte esté completa.</TSA_WD_DispatchMode_LandDesc>
-  <TSA_WD_DispatchMode_DropPodDesc>Las mejoras de avanzadilla, compras, regalos y negociaciones lanzados desde aquí viajan en cápsula. Los sobornos siempre van por tierra. Los envíos automáticos de este almacén usan el mismo modo.</TSA_WD_DispatchMode_DropPodDesc>
+  <TSA_WD_DispatchMode_Land>Caravana terrestre</TSA_WD_DispatchMode_Land>
+  <TSA_WD_DispatchMode_DropPod>Cápsula</TSA_WD_DispatchMode_DropPod>
+  <TSA_WD_DispatchMode_LandDesc>Viaje por caravana terrestre. Sin coste de componente industrial. Haz clic para cambiar.</TSA_WD_DispatchMode_LandDesc>
+  <TSA_WD_DispatchMode_DropPodDesc>Viaje por cápsula. Cuesta 1 componente industrial por lanzamiento (colonias + almacenes).</TSA_WD_DispatchMode_DropPodDesc>
   <TSA_WD_DispatchMode_DropPodAaWarning>Cuidado: las antiaéreas de asentamientos enemigos T4 pueden derribarlas!</TSA_WD_DispatchMode_DropPodAaWarning>
   <TSA_WD_DispatchMode_NeedsResearch>Cambiar a entrega por cápsula requiere la investigación Cápsulas de transporte completada.</TSA_WD_DispatchMode_NeedsResearch>
+  <TSA_WD_DispatchMode_AutoShipFreeNote>El envío automático diario del almacén no gasta un componente.</TSA_WD_DispatchMode_AutoShipFreeNote>
+  <TSA_WD_Shipment_DestDialogTitle>Elegir destino del envío</TSA_WD_Shipment_DestDialogTitle>
+  <TSA_WD_Shipment_PickOnMap>Elegir destino en el mapa</TSA_WD_Shipment_PickOnMap>
+  <TSA_WD_Shipment_PickOnMapTip>Cierra las ventanas abiertas y haz clic en una colonia o avanzadilla en el mapa mundial. Un destino no válido conserva tu selección para intentarlo de nuevo.</TSA_WD_Shipment_PickOnMapTip>
+  <TSA_WD_PawnDropPod_FallbackToLand>Si faltan materiales, viajar por tierra</TSA_WD_PawnDropPod_FallbackToLand>
+  <TSA_WD_PawnDropPod_FallbackToLandMixed>Si faltan materiales, viajar por tierra (mixto; marca para activar en todos)</TSA_WD_PawnDropPod_FallbackToLandMixed>
+  <TSA_WD_PawnDropPod_FallbackTip>Por avanzadilla o colonia. Si un lanzamiento de peones por cápsula no tiene componentes industriales: si está activo, viajan por tierra; si no, ese lanzamiento se cancela. Por defecto activo. No cambia las preferencias de cápsula programadas.</TSA_WD_PawnDropPod_FallbackTip>
+  <TSA_WD_PawnDropPod_FallbackTipOn>Respaldo activo: cuando a un envío automático desde aquí le faltan materiales de cápsula, esos peones viajan por tierra. Las acciones manuales siempre ofrecen tierra.</TSA_WD_PawnDropPod_FallbackTipOn>
+  <TSA_WD_PawnDropPod_FallbackTipOff>Respaldo desactivado: cuando a un envío automático desde aquí le faltan materiales de cápsula, el envío se retiene y esos peones se quedan. Las acciones manuales siempre ofrecen tierra.</TSA_WD_PawnDropPod_FallbackTipOff>
+  <TSA_WD_PawnDropPod_FallbackTipMixed>Los orígenes seleccionados no coinciden. Marca la casilla para usar el respaldo por tierra en todos sus envíos automáticos.</TSA_WD_PawnDropPod_FallbackTipMixed>
+  <TSA_WD_PawnDropPod_FallbackSelectOriginsTip>Selecciona peones para editar el respaldo de sus orígenes.</TSA_WD_PawnDropPod_FallbackSelectOriginsTip>
+  <TSA_WD_PawnDropPod_ModeLandTip>Viaje por caravana terrestre. Sin coste de componente industrial. Haz clic para cambiar.</TSA_WD_PawnDropPod_ModeLandTip>
+  <TSA_WD_PawnDropPod_ModeDropPodTip>Viaje por cápsula (1 componente por peón viajero, de colonias + almacenes). Haz clic para cambiar.</TSA_WD_PawnDropPod_ModeDropPodTip>
+  <TSA_WD_PawnDropPod_ModeOriginTipLand>Viaje por caravana terrestre. Sin coste de componente industrial. Haz clic para cambiar.</TSA_WD_PawnDropPod_ModeOriginTipLand>
+  <TSA_WD_PawnDropPod_ModeOriginTipPod>Viaje por cápsula (1 componente por peón viajero, de colonias + almacenes). Haz clic para cambiar.</TSA_WD_PawnDropPod_ModeOriginTipPod>
+  <TSA_WD_PawnDropPod_ModeOriginTipMixed>Los orígenes seleccionados no coinciden. Haz clic para fijar un solo modo de viaje para todos.</TSA_WD_PawnDropPod_ModeOriginTipMixed>
+  <TSA_WD_PawnDropPod_ModeNoRedirectTip>El modo de viaje se aplica cuando esta avanzadilla tiene un destino de redirección. Fija uno con Establecer redirección en la avanzadilla.</TSA_WD_PawnDropPod_ModeNoRedirectTip>
+  <TSA_WD_PawnDropPod_ScheduleModeNote>El modo de viaje y el respaldo por tierra se fijan por avanzadilla en la pestaña de prisioneros.</TSA_WD_PawnDropPod_ScheduleModeNote>
+  <TSA_WD_PawnDropPod_SmartSendModeLine>Modo de viaje: {0}</TSA_WD_PawnDropPod_SmartSendModeLine>
+  <TSA_WD_PawnDropPod_FallbackButtonOn>Respaldo: tierra</TSA_WD_PawnDropPod_FallbackButtonOn>
+  <TSA_WD_PawnDropPod_FallbackButtonOff>Respaldo: cancelar</TSA_WD_PawnDropPod_FallbackButtonOff>
+  <TSA_WD_PawnDropPod_FallbackButtonMixed>Respaldo: mixto</TSA_WD_PawnDropPod_FallbackButtonMixed>
+  <TSA_WD_PawnDropPod_FallbackButtonUnset>Respaldo</TSA_WD_PawnDropPod_FallbackButtonUnset>
+  <TSA_WD_PawnDropPod_FallbackMenuLand>Si faltan componentes: viajar por tierra</TSA_WD_PawnDropPod_FallbackMenuLand>
+  <TSA_WD_PawnDropPod_FallbackMenuAbort>Si faltan componentes: cancelar lanzamiento</TSA_WD_PawnDropPod_FallbackMenuAbort>
+  <TSA_WD_PawnDropPod_CostLine>Coste de cápsula: {0} componente(s) industrial(es) (1 componente por peón viajero)</TSA_WD_PawnDropPod_CostLine>
+  <TSA_WD_PawnDropPod_TotalCost>Coste total: {0}x</TSA_WD_PawnDropPod_TotalCost>
+  <TSA_WD_PawnDropPod_StockLine>En stock (colonias + almacenes): {0}</TSA_WD_PawnDropPod_StockLine>
+  <TSA_WD_PawnDropPod_NoComponentCost>Sin coste de componente industrial (viaje por tierra).</TSA_WD_PawnDropPod_NoComponentCost>
+  <TSA_WD_PawnDropPod_ShortStockNote>Faltan componentes — se te preguntará antes de lanzar.</TSA_WD_PawnDropPod_ShortStockNote>
+  <TSA_WD_PawnDropPod_StillLaunchTitle>Materiales de cápsula</TSA_WD_PawnDropPod_StillLaunchTitle>
+  <TSA_WD_PawnDropPod_StillLaunchNeedHave>Se necesitan {0} componentes industriales para enviar a todos los peones seleccionados en cápsula. Tienes {1}.</TSA_WD_PawnDropPod_StillLaunchNeedHave>
+  <TSA_WD_PawnDropPod_StillLaunchPodCount>{0} peón(es) irán en cápsula.</TSA_WD_PawnDropPod_StillLaunchPodCount>
+  <TSA_WD_PawnDropPod_StillLaunchLandCount>{0} peón(es) viajarán por tierra.</TSA_WD_PawnDropPod_StillLaunchLandCount>
+  <TSA_WD_PawnDropPod_StillLaunchAbortCount>{0} peón(es) se cancelarán.</TSA_WD_PawnDropPod_StillLaunchAbortCount>
+  <TSA_WD_PawnDropPod_StillLaunchAsk>¿Lanzar de todos modos?</TSA_WD_PawnDropPod_StillLaunchAsk>
+  <TSA_WD_PawnDropPod_AllWouldAbort>No hay suficientes componentes industriales para cápsulas, y el respaldo por tierra está desactivado en todos los orígenes.</TSA_WD_PawnDropPod_AllWouldAbort>
+  <TSA_WD_PawnDropPod_LackingMaterials>¡El peón {0} de {1} no pudo enviarse por cápsula. Faltan materiales!</TSA_WD_PawnDropPod_LackingMaterials>
+  <TSA_WD_PawnDropPod_LackingMaterialsGroup>¡{0} y {1} más de {2} no pudieron enviarse por cápsula. Faltan materiales!</TSA_WD_PawnDropPod_LackingMaterialsGroup>
+  <TSA_WD_PawnDropPod_NoExitHere>Las cápsulas no pueden Salir aquí — cambia a Tierra.</TSA_WD_PawnDropPod_NoExitHere>
+  <TSA_WD_PawnDropPod_OutOfRange>El destino está fuera del alcance de las cápsulas.</TSA_WD_PawnDropPod_OutOfRange>
+  <TSA_WD_PawnDropPod_NoComponentDef>Falta la def de componente industrial.</TSA_WD_PawnDropPod_NoComponentDef>
+  <TSA_WD_PawnDropPod_SmartSendTitle>Envío inteligente</TSA_WD_PawnDropPod_SmartSendTitle>
+  <TSA_WD_PawnDropPod_SmartSendConfirm>Confirmar Envío inteligente</TSA_WD_PawnDropPod_SmartSendConfirm>
+  <TSA_WD_PawnDropPod_ScheduleViaDropPod>Viajar por cápsula al reclutar (1 componente por peón viajero al enviar)</TSA_WD_PawnDropPod_ScheduleViaDropPod>
+  <TSA_WD_PawnDropPod_ScheduleDeferredCost>Se cobra al enviar el recluta: 1 componente por peón viajero (hay {0}).</TSA_WD_PawnDropPod_ScheduleDeferredCost>
+  <TSA_WD_PawnDropPod_ScheduleFallbackNote>Si faltan componentes al enviar: tierra o cancelar según el respaldo de la avanzadilla.</TSA_WD_PawnDropPod_ScheduleFallbackNote>
   <TSA_WD_Warehouse_ShipLaunchedDropPod>Envío por cápsula lanzado hacia {0}.</TSA_WD_Warehouse_ShipLaunchedDropPod>
   <TSA_WD_Warehouse_ShipNothingSelected>Selecciona al menos una pila para enviar.</TSA_WD_Warehouse_ShipNothingSelected>
   <TSA_WD_Warehouse_ShipInsufficient>Stock insuficiente para ese envío.</TSA_WD_Warehouse_ShipInsufficient>
   <TSA_WD_Warehouse_ShipLaunched>Envío lanzado hacia {0}.</TSA_WD_Warehouse_ShipLaunched>
-  <TSA_WD_Warehouse_Deposit_LetterLabel>Entrega en almacén: {0}</TSA_WD_Warehouse_Deposit_LetterLabel>
-  <TSA_WD_Warehouse_Deposit_Letter>Mercancía de {0} ha llegado al almacén {1}:</TSA_WD_Warehouse_Deposit_Letter>
+  <TSA_WD_Warehouse_GoodsArrived_LetterLabel>Mercancía llegada: {0}</TSA_WD_Warehouse_GoodsArrived_LetterLabel>
+  <TSA_WD_Warehouse_GoodsArrived_Letter>Objetos de {0} han llegado a {1}:</TSA_WD_Warehouse_GoodsArrived_Letter>
   <TSA_WD_Warehouse_PodDeposit>Almacenadas {0} pila(s) de objetos en {1}.</TSA_WD_Warehouse_PodDeposit>
   <TSA_WD_Warehouse_CaravanDeposit>Almacenados {0} objeto(s) de caravana en {1}.</TSA_WD_Warehouse_CaravanDeposit>
 

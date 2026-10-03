@@ -216,9 +216,9 @@
   <TSA_WD_Important_Diff_Easy>Easy Difficulty</TSA_WD_Important_Diff_Easy>
   <TSA_WD_Important_Diff_Medium>Medium Difficulty</TSA_WD_Important_Diff_Medium>
   <TSA_WD_Important_Diff_Hard>Hard Difficulty</TSA_WD_Important_Diff_Hard>
-  <TSA_WD_Important_Diff_EasyDesc>Longer raid cooldowns, fewer raids, weaker storyteller clamp (50–150%), raid weight 100. Threat stage gates Never (ToO, T4 vs you, Vanguard/Invasion, desperation, strong war). Mid/Late escalation off. Outpost skill diminishing returns off.</TSA_WD_Important_Diff_EasyDesc>
-  <TSA_WD_Important_Diff_MediumDesc>Default raid pressure and raid weight 200. Threat stage gates From Mid. Mid Game at 8% share or 4,000 outpost strength; Late Game at 14% or 7,500. Outpost skill diminishing returns on with default bands.</TSA_WD_Important_Diff_MediumDesc>
-  <TSA_WD_Important_Diff_HardDesc>Shorter cooldowns, more raids allowed, stronger storyteller clamp (100–300%), raid weight 200 (same as Medium). Threat stage gates Always. Same Mid/Late timing as Medium, but Late Game hits harder. Outpost skill diminishing returns on with default bands.</TSA_WD_Important_Diff_HardDesc>
+  <TSA_WD_Important_Diff_EasyDesc>Longer raid cooldowns, fewer raids, weaker storyteller clamp (50–150%), raid weight 100. Threat stage gates Never (ToO, T4 vs you, Vanguard/Invasion, desperation, strong war). Mid/Late escalation off. Outpost skill diminishing returns off. Drop pod transport component cost off.</TSA_WD_Important_Diff_EasyDesc>
+  <TSA_WD_Important_Diff_MediumDesc>Default raid pressure and raid weight 200. Threat stage gates From Mid. Mid Game at 8% share or 4,000 outpost strength; Late Game at 14% or 7,500. Outpost skill diminishing returns on with default bands. Drop pod transport component cost on.</TSA_WD_Important_Diff_MediumDesc>
+  <TSA_WD_Important_Diff_HardDesc>Shorter cooldowns, more raids allowed, stronger storyteller clamp (100–300%), raid weight 200 (same as Medium). Threat stage gates Always. Same Mid/Late timing as Medium, but Late Game hits harder. Outpost skill diminishing returns on with default bands. Drop pod transport component cost on.</TSA_WD_Important_Diff_HardDesc>
   <TSA_WD_PlayerArtillery_Reset>Reset this page to Defaults</TSA_WD_PlayerArtillery_Reset>
   <TSA_WD_FacDet_BtnView>View</TSA_WD_FacDet_BtnView>
   <TSA_WD_FacDet_HeaderName>Settlement Name</TSA_WD_FacDet_HeaderName>
@@ -517,7 +517,7 @@
   <TSA_WD_ShowUpdatePopups>Show mod update popup</TSA_WD_ShowUpdatePopups>
   <TSA_WD_ShowUpdatePopups_Tooltip>When enabled, a small window appears once after you load a map when this mod has been updated to a new version.</TSA_WD_ShowUpdatePopups_Tooltip>
   <TSA_WD_WorldMapOverlayHoldKey>World map overlay hold key</TSA_WD_WorldMapOverlayHoldKey>
-  <TSA_WD_WorldMapOverlayHoldKey_Tooltip>Hold this key and press A for Your Pawns, X for the WD main tab, S for World Stats, D for Diplomacy, Y for Prisoners, F for Outpost Overview, or G for Active Travelers. On the world map, also press 1–7 to toggle WD overlays (blocked tiles, fertility, animals, fish, mining, movement, pollution), or Q/W/E/R/T for Highlight Relationships, Highlight Player, settlement tier labels, road blocks and traps, and outpost labels.</TSA_WD_WorldMapOverlayHoldKey_Tooltip>
+  <TSA_WD_WorldMapOverlayHoldKey_Tooltip>Hold this key and press A for Your Pawns, X for the WD main tab, S for World Stats, D for Diplomacy, Y for Prisoners, F for Outpost Overview, G for Active Travelers, or V for All Gear. On the world map, also press 1–7 to toggle WD overlays (blocked tiles, fertility, animals, fish, mining, movement, pollution), or Q/W/E/R/T for Highlight Relationships, Highlight Player, settlement tier labels, road blocks and traps, and outpost labels.</TSA_WD_WorldMapOverlayHoldKey_Tooltip>
   <TSA_WD_VerboseLogging>Verbose logging</TSA_WD_VerboseLogging>
   <TSA_WD_VerboseLogging_Tooltip>When enabled, the mod writes extra correlation lines to the log ([WD] and [WD Perf]), e.g. food accounting, pathing, threat updates, and World Setup settlement recreation. Use for diagnosing stutter or placement issues.</TSA_WD_VerboseLogging_Tooltip>
   <TSA_WD_UpdatePopup_Open>Open</TSA_WD_UpdatePopup_Open>
@@ -559,6 +559,8 @@
   <TSA_WD_Caravans_HeaderWaterTravel>Water travel</TSA_WD_Caravans_HeaderWaterTravel>
   <TSA_WD_Caravans_AllowTravelOverWater>Allow caravans to travel over water</TSA_WD_Caravans_AllowTravelOverWater>
   <TSA_WD_Caravans_AllowTravelOverWaterTip>When enabled, WD travelers may use special pathfinding across water-covered tiles (see options below). When disabled, only standard world paths are used and no water pathfinding runs. Also managed by Setting presets → Performance when you use those packs.</TSA_WD_Caravans_AllowTravelOverWaterTip>
+  <TSA_WD_Caravans_T3T4DropPodsOverWater>T3 and T4 always use drop pods to pass over water</TSA_WD_Caravans_T3T4DropPodsOverWater>
+  <TSA_WD_Caravans_T3T4DropPodsOverWaterTip>When a T3/T4 raid has no land route, launch it as a drop-pod raid (normal drop-pod attrition and AA) instead of water pathfinding. When off, those raids walk water like T1/T2. Does not change land-connected raids or non-raid travelers. Default on.</TSA_WD_Caravans_T3T4DropPodsOverWaterTip>
   <TSA_WD_Caravans_HeaderTrader>Trader Caravans</TSA_WD_Caravans_HeaderTrader>
   <TSA_WD_Caravans_HeaderOutpostDelivery>Outpost Delivery Caravans</TSA_WD_Caravans_HeaderOutpostDelivery>
   <TSA_WD_Caravans_HeaderStoryteller>Storyteller Traders</TSA_WD_Caravans_HeaderStoryteller>
@@ -814,7 +816,7 @@
   <TSA_WD_SpikeTrapKindTooltip>Work: {0}\nDamage: {1}\nEst. days/tile: {2}\nStrength cost: {3}\nMax HP: {4}</TSA_WD_SpikeTrapKindTooltip>
   <TSA_WD_RoadKindTooltip>Work: {0}\nCost mult: {1}\nEst. days/segment: {2}\nStrength cost: {3}</TSA_WD_RoadKindTooltip>
   <TSA_WD_BuildReq_Header>Requirements</TSA_WD_BuildReq_Header>
-  <TSA_WD_BuildReq_Construction>Construction: {0} / {1}</TSA_WD_BuildReq_Construction>
+  <TSA_WD_BuildReq_Construction>Construction: {0} ({1})</TSA_WD_BuildReq_Construction>
   <TSA_WD_BuildReq_ResearchNone>Research: none</TSA_WD_BuildReq_ResearchNone>
   <TSA_WD_BuildReq_ResearchDone>Research: {0} (done)</TSA_WD_BuildReq_ResearchDone>
   <TSA_WD_BuildReq_ResearchMissing>Research: {0} (missing)</TSA_WD_BuildReq_ResearchMissing>
@@ -922,6 +924,10 @@
   <TSA_WD_Experimental_EnableWorldMapSoundsTip>When on, AT Turret, mortar, and flak fire play short oneshots on the world map. Turn off to mute all of those WD combat sounds. UI clicks are unchanged.</TSA_WD_Experimental_EnableWorldMapSoundsTip>
   <TSA_WD_Experimental_UnlimitedAssaultMortarSupport>Unlimited Mortar support on settlement assault</TSA_WD_Experimental_UnlimitedAssaultMortarSupport>
   <TSA_WD_Experimental_UnlimitedAssaultMortarSupportTip>When on, the assault-map artillery float button can fire without a mortar outpost in range and without putting an outpost on cooldown. Off by default.</TSA_WD_Experimental_UnlimitedAssaultMortarSupportTip>
+  <TSA_WD_Experimental_OutpostCePassiveAmmo>Outpost Combat Extended ammo stockpile</TSA_WD_Experimental_OutpostCePassiveAmmo>
+  <TSA_WD_Experimental_OutpostCePassiveAmmoTip>When Combat Extended is active, outpost colonists with a ranged primary slowly stockpile its basic ammo (FMJ, stone arrows, simple rockets) at {0} magazines per day, up to {1} magazines in their inventory. Free and a bit cheaty. Turn off to disable. On by default.</TSA_WD_Experimental_OutpostCePassiveAmmoTip>
+  <TSA_WD_Experimental_OutpostArmory>Outpost armory</TSA_WD_Experimental_OutpostArmory>
+  <TSA_WD_Experimental_OutpostArmoryTip>When on, every outpost keeps a loose store for weapons, armor, medicine, drugs, food and ammo. Gear arriving by caravan or drop pod is stored instead of destroyed, and you can hand it to occupants from the Armory button on the Pawns tab. Turn off to go back to discarding arriving gear. Anything already stored stays in the save. On by default.</TSA_WD_Experimental_OutpostArmoryTip>
   <TSA_WD_Experimental_T4GravshipRaids>Experimental: T4 gravship raids</TSA_WD_Experimental_T4GravshipRaids>
   <TSA_WD_Experimental_T4GravshipRaidsTip>When on, tier-4 settlements may launch ballistic gravship raid travelers at the player. Requires Odyssey and the Gravship Raids Workshop mod (sk.gravshipraids). Without those mods the option has no effect. Off by default.</TSA_WD_Experimental_T4GravshipRaidsTip>
   <TSA_WD_Experimental_GravshipRaidChanceT4>T4 gravship raid chance</TSA_WD_Experimental_GravshipRaidChanceT4>
@@ -1005,6 +1011,8 @@
   <TSA_WD_Experimental_HeaderUpkeep>Outpost silver upkeep</TSA_WD_Experimental_HeaderUpkeep>
   <TSA_WD_Upkeep_Enable>Enable outpost silver upkeep (Mid/Late)</TSA_WD_Upkeep_Enable>
   <TSA_WD_Upkeep_EnableTip>While Mid or Late escalation is active, your outpost colonists cost silver every upkeep period. Unpaid silver makes colonists leave. Experimental and off by default.</TSA_WD_Upkeep_EnableTip>
+  <TSA_WD_DropPodTransportCostComponents>Drop Pod transport cost components</TSA_WD_DropPodTransportCostComponents>
+  <TSA_WD_DropPodTransportCostComponentsTip>When on, player drop-pod launches spend industrial components (1 per traveling pawn; 1 per goods traveler). When off, the cost shown and charged is 0. Easy difficulty preset turns this off; Medium and Hard turn it on.</TSA_WD_DropPodTransportCostComponentsTip>
   <TSA_WD_Upkeep_SilverPerOccupant>Silver per outpost colonist</TSA_WD_Upkeep_SilverPerOccupant>
   <TSA_WD_Upkeep_SilverPerOccupantTip>Each Occupant at a player WD outpost adds this much silver to the bill. Mechanoids, prisoners, animals, and vehicles are free.</TSA_WD_Upkeep_SilverPerOccupantTip>
   <TSA_WD_Upkeep_IntervalDays>Upkeep period (days)</TSA_WD_Upkeep_IntervalDays>

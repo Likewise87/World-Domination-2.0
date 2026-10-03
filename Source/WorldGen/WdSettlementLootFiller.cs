@@ -696,16 +696,19 @@ namespace TSA_WorldDomination
         private static string MapSubtypeToLootType(string subType, SettlementTier tier)
         {
             if (string.IsNullOrEmpty(subType)) return "Default";
+            if (subType == "Camp" || subType == "Refuge" || subType == "Vanguard")
+                return "Default";
             if (subType == "Farming" || subType == "Mining" || subType == "Logging"
                 || subType == "Production" || subType == "Slavery" || subType == "Fortress"
-                || subType == "Citadel" || subType == "Vanguard")
-                return subType == "Vanguard" ? "Default" : subType;
+                || subType == "Citadel")
+                return subType;
             string s = subType.ToLowerInvariant();
             if (s.Contains("farm")) return "Farming";
             if (s.Contains("mine")) return "Mining";
             if (s.Contains("log") || s.Contains("lumber")) return "Logging";
             if (s.Contains("product") || s.Contains("industr")) return "Production";
-            if (s.Contains("slav")) return "Slavery";
+            if (s.Contains("slav") || s.Contains("prison")) return "Slavery";
+            if (s.Contains("camp") || s.Contains("refuge")) return "Default";
             if (s.Contains("fort")) return "Fortress";
             if (s.Contains("vanguard")) return "Default";
             if (s.Contains("citadel") || tier == SettlementTier.T4) return "Citadel";

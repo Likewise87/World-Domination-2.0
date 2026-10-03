@@ -621,7 +621,35 @@ namespace TSA_WorldDomination
                     });
             }
 
-            return expandRingScratch.TryRandomElement(out seedTileId);
+            if (expandRingScratch.Count == 0) return false;
+
+            // Cheap seed bias: score a few ring tiles, then first-valid from the best (no extra validity floods).
+            const int seedScoreSamples = 3;
+            int n = expandRingScratch.Count;
+            int samples = Mathf.Min(seedScoreSamples, n);
+            for (int i = 0; i < samples; i++)
+            {
+                int j = Rand.Range(i, n);
+                int tmp = expandRingScratch[i];
+                expandRingScratch[i] = expandRingScratch[j];
+                expandRingScratch[j] = tmp;
+            }
+
+            int bestTile = expandRingScratch[0];
+            float bestScore = NpcSettlementSubtypeUtil.ExpandTileAttractiveness(bestTile);
+            for (int i = 1; i < samples; i++)
+            {
+                int tile = expandRingScratch[i];
+                float score = NpcSettlementSubtypeUtil.ExpandTileAttractiveness(tile);
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestTile = tile;
+                }
+            }
+
+            seedTileId = bestTile;
+            return true;
         }
 
         private static bool TryFindFirstValidFromSeed(

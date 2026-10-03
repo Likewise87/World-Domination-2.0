@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -20,6 +21,9 @@ namespace TSA_WorldDomination
     /// near-surface camera chords false-positive the planet obstruction test and would blank every
     /// front-side settlement/outpost once Material is skipped. Far-side icons stay hidden so you do
     /// not see through the planet.</item>
+    /// <item>VeryClose plain <see cref="GUI.DrawTexture"/> re-blit for ForceFixedIcon → vanilla
+    /// <c>ExpandableWorldObjectsOnGUI</c> can report would-draw but still leave no visible pixels at
+    /// VeryClose once Material is skipped; this keeps the upright ExpandingIcon alive (no Material swap).</item>
     /// </list>
     /// Without the layer skips, zoomed-out camera would still show Material under the icon (double image).
     /// Side effect: skipping both draw layers means <see cref="WorldObject.Draw"/> never runs for those
@@ -89,6 +93,56 @@ namespace TSA_WorldDomination
             if (renderer == null) return;
             renderer.SetDirty<WorldDrawLayer_WorldObjects_Expandable>(surface);
             renderer.SetDirty<WorldDrawLayer_WorldObjects_NonExpandable>(surface);
+        }
+
+        /// <summary>
+        /// VeryClose: vanilla OnGUI can leave ForceFixedIcon blank while gates still say would-draw
+        /// (Material already skipped → no fallback mesh). Re-blit ExpandingIcon with plain GUI.DrawTexture.
+        /// </summary>
+        [HarmonyPatch(typeof(ExpandableWorldObjectsUtility), nameof(ExpandableWorldObjectsUtility.ExpandableWorldObjectsOnGUI))]
+        public static class ExpandableWorldObjectsOnGUI_VeryCloseBlit_Patch
+        {
+            [HarmonyPostfix]
+            public static void Postfix()
+            {
+                if (!WorldRendererUtility.WorldSelected) return;
+                if (Event.current.type != EventType.Repaint) return;
+
+                WorldCameraDriver cam = Find.WorldCameraDriver;
+                if (cam == null || cam.CurrentZoom != WorldCameraZoomRange.VeryClose) return;
+
+                List<WorldObject> all = Find.WorldObjects?.AllWorldObjects;
+                if (all == null) return;
+
+                for (int i = 0; i < all.Count; i++)
+                {
+                    WorldObject wo = all[i];
+                    if (wo == null || wo.Destroyed) continue;
+                    if (!ForceFixedIcon(wo) || SuppressWorldIcon(wo)) continue;
+                    if (wo.def == null || !wo.def.expandingIcon) continue;
+
+                    float transition = ExpandableWorldObjectsUtility.TransitionPct(wo);
+                    if (transition == 0f) continue;
+                    if (wo.HiddenBehindTerrainNow()) continue;
+
+                    Vector2 screen = wo.ScreenPos();
+                    // Skip off-screen before tex/rect/blit (full AllWorldObjects scan at VeryClose).
+                    if (screen.x < -40f || screen.y < -40f
+                        || screen.x > UI.screenWidth + 40f || screen.y > UI.screenHeight + 40f)
+                        continue;
+
+                    Texture2D tex = wo.ExpandingIcon;
+                    if (tex == null) continue;
+
+                    Color c = wo.ExpandingIconColor;
+                    c.a *= transition;
+                    GUI.color = c;
+                    Rect rect = ExpandableWorldObjectsUtility.ExpandedIconScreenRect(wo);
+                    GUI.DrawTexture(rect, tex, ScaleMode.ScaleToFit, alphaBlend: true);
+                }
+
+                GUI.color = Color.white;
+            }
         }
 
         [HarmonyPatch(typeof(ExpandableWorldObjectsUtility), nameof(ExpandableWorldObjectsUtility.TransitionPct))]
@@ -163,6 +217,7 @@ namespace TSA_WorldDomination
         public static class HiddenBehindTerrainNow_Patch
         {
             [HarmonyPostfix]
+            [HarmonyPriority(Priority.Last)]
             public static void Postfix(WorldObject o, ref bool __result)
             {
                 if (!__result) return;

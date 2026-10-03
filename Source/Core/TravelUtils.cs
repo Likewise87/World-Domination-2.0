@@ -167,6 +167,42 @@ namespace TSA_WorldDomination
             return true;
         }
 
+        /// <summary>Vanilla land-only world path between two surface tiles (no water A*).</summary>
+        public static bool HasVanillaLandPath(int startTileId, int destTileId)
+        {
+            if (startTileId < 0 || destTileId < 0
+                || startTileId >= Find.WorldGrid.TilesCount
+                || destTileId >= Find.WorldGrid.TilesCount)
+                return false;
+
+            PlanetLayer layer = PlanetSurfaceWorldActions.WdSurfaceLayer;
+            if (layer == null) return false;
+
+            using (WorldPath path = layer.Pather.FindPath(
+                       new PlanetTile(startTileId, layer), new PlanetTile(destTileId, layer), null))
+            {
+                return path != null && path.Found;
+            }
+        }
+
+        /// <summary>
+        /// Setting on + T3/T4 + drop-pod tech + no land path → raid should use existing drop-pod launch
+        /// instead of water pathfinding.
+        /// </summary>
+        public static bool ShouldRaidUseDropPodsOverWater(
+            Settlement attacker,
+            CompViralSpread attComp,
+            WorldObject target,
+            WorldDominationSettings seth)
+        {
+            if (seth == null || !seth.allowT3T4DropPodsOverWater) return false;
+            if (attacker == null || target == null || attComp == null) return false;
+            if (attComp.tier != SettlementTier.T3 && attComp.tier != SettlementTier.T4) return false;
+            if (attacker.Faction?.def == null || attacker.Faction.def.techLevel < seth.dropPodRaidMinTechLevel)
+                return false;
+            return !HasVanillaLandPath(attacker.Tile, target.Tile);
+        }
+
         /// <summary>
         /// Single source of truth for travel time and strength efficiency between two tiles.
         /// Uses pathfinding and terrain difficulty; efficiency uses exponential decay (1 - rate)^hours.

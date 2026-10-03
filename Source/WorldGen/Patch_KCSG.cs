@@ -274,7 +274,9 @@ namespace TSA_WorldDomination
             string tier = spreadComp.tier.ToString();
             string baseType = string.Equals(spreadComp.subType, "Vanguard", System.StringComparison.Ordinal)
                 ? "Vanguard"
-                : (spreadComp.tier == SettlementTier.T4) ? "Citadel" : spreadComp.subType;
+                : (spreadComp.tier == SettlementTier.T4)
+                    ? "Citadel"
+                    : NpcSettlementSubtypeUtil.LayoutTokenForSubtype(spreadComp.subType);
 
             string specificPattern = $"TSA_{techPrefix}_{tier}_{baseType}";
             string fallbackPattern = $"TSA_{techPrefix}_{tier}";

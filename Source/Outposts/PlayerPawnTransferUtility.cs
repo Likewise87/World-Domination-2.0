@@ -459,12 +459,32 @@ namespace TSA_WorldDomination
             IReadOnlyList<PlayerPawnRosterEntry> selected,
             PlayerPawnTransferDestination destination,
             HashSet<WorldObject_WD_Outpost> skipEmptyConfirmFor = null,
-            HashSet<WorldObject_WD_Outpost> skipBudgetGateFor = null)
+            HashSet<WorldObject_WD_Outpost> skipBudgetGateFor = null,
+            bool viaDropPod = false)
         {
             if (selected == null || selected.Count == 0)
             {
                 Messages.Message("TSA_WD_PawnTransfer_NoSelection".Translate(), MessageTypeDefOf.RejectInput, false);
                 return;
+            }
+
+            if (viaDropPod)
+            {
+                if (!RapidResponseUtility.TransportPodsResearched())
+                {
+                    Messages.Message("TSA_WD_RapidResponse_DropPodsNeedResearch".Translate(), MessageTypeDefOf.RejectInput, false);
+                    return;
+                }
+                if (destination.kind == PlayerPawnTransferDestinationKind.ExitHere)
+                {
+                    Messages.Message("TSA_WD_PawnDropPod_NoExitHere".Translate(), MessageTypeDefOf.RejectInput, false);
+                    return;
+                }
+                if (SelectionIncludesStoredTransportOrMechs(selected))
+                {
+                    Messages.Message("TSA_WD_RapidResponse_DropPodsNoStoredTransport".Translate(), MessageTypeDefOf.RejectInput, false);
+                    return;
+                }
             }
 
             for (int i = 0; i < selected.Count; i++)
@@ -550,6 +570,26 @@ namespace TSA_WorldDomination
                 }
             }
 
+            if (viaDropPod)
+            {
+                foreach (var kv in byOutpost)
+                {
+                    if (!PlayerPawnDropPodUtility.InDropPodRange(kv.Key, destination.Tile))
+                    {
+                        Messages.Message("TSA_WD_PawnDropPod_OutOfRange".Translate(), MessageTypeDefOf.RejectInput, false);
+                        return;
+                    }
+                }
+                foreach (var kv in byColony)
+                {
+                    if (!PlayerPawnDropPodUtility.InDropPodRange(kv.Key, destination.Tile))
+                    {
+                        Messages.Message("TSA_WD_PawnDropPod_OutOfRange".Translate(), MessageTypeDefOf.RejectInput, false);
+                        return;
+                    }
+                }
+            }
+
             foreach (var kv in byOutpost)
             {
                 if (!ValidateOutpostGroup(kv.Key, kv.Value, out string reject))
@@ -583,7 +623,6 @@ namespace TSA_WorldDomination
                     (take, stay, lost, willEmptyOutpost) =>
                     {
                         OutpostStrengthBudget.DestroyLostPawns(gatedOutpost, lost);
-                        // stay: remain on the outpost (not transferred, not destroyed).
                         var next = new List<PlayerPawnRosterEntry>();
                         for (int i = 0; i < selected.Count; i++)
                         {
@@ -604,10 +643,6 @@ namespace TSA_WorldDomination
                                 false);
                             return;
                         }
-                        // The fate dialog already warned about abandoning gatedOutpost (if applicable) with
-                        // full knowledge of the lost pawns; do not re-prompt for the same outcome below.
-                        // DestroyLostPawns also drops available strength, so do not re-open the budget gate
-                        // for the same outpost — the player already resolved it.
                         HashSet<WorldObject_WD_Outpost> skipEmpty = skipEmptyConfirmFor;
                         if (willEmptyOutpost)
                         {
@@ -620,7 +655,7 @@ namespace TSA_WorldDomination
                             ? new HashSet<WorldObject_WD_Outpost>(skipBudgetGateFor)
                             : new HashSet<WorldObject_WD_Outpost>();
                         skipBudget.Add(gatedOutpost);
-                        TryTransfer(next, destination, skipEmpty, skipBudget);
+                        TryTransfer(next, destination, skipEmpty, skipBudget, viaDropPod);
                     }));
                 return;
             }
@@ -636,6 +671,46 @@ namespace TSA_WorldDomination
                 }
             }
 
+            Action run = () =>
+            {
+                if (!viaDropPod)
+                {
+                    ExecuteAllTransfers(byOutpost, byColony, destination);
+                    return;
+                }
+                var origins = new List<WorldObject>();
+                foreach (var kv in byOutpost)
+                    PlayerPawnDropPodUtility.AddOriginSlots(origins, kv.Key, kv.Value.Count);
+                foreach (var kv in byColony)
+                    PlayerPawnDropPodUtility.AddOriginSlots(origins, kv.Key, kv.Value.Count);
+                PlayerPawnDropPodUtility.ConfirmIfShortThen(origins, alloc =>
+                {
+                    Action proceed = () =>
+                        ExecuteAllTransfersWithDropPodAllocation(byOutpost, byColony, destination, alloc);
+                    if (alloc.podCount <= 0)
+                    {
+                        proceed();
+                        return;
+                    }
+                    var flights = new List<(int originTile, int destTile)>();
+                    int destTile = destination.Tile;
+                    if (alloc.rows != null)
+                    {
+                        for (int i = 0; i < alloc.rows.Count; i++)
+                        {
+                            if (alloc.rows[i].mode != PlayerPawnDropPodUtility.LaunchMode.Pod)
+                                continue;
+                            WorldObject origin = alloc.rows[i].origin;
+                            if (origin == null || origin.Destroyed) continue;
+                            flights.Add((origin.Tile.tileId, destTile));
+                        }
+                    }
+                    if (flights.Count == 0
+                        || !PlayerPawnDropPodUtility.ConfirmHostileAaThen(flights, proceed))
+                        proceed();
+                });
+            };
+
             if (needsConfirm)
             {
                 string warnLabel = "TSA_WD_PawnTransfer_MultipleOutposts".Translate();
@@ -645,13 +720,28 @@ namespace TSA_WorldDomination
                 }
                 Dialog_MessageBox confirm = Dialog_MessageBox.CreateConfirmation(
                     "TSA_WD_RemoveLastPawnWarning".Translate(warnLabel),
-                    () => ExecuteAllTransfers(byOutpost, byColony, destination),
+                    () => run(),
                     destructive: true);
                 Find.WindowStack.Add(confirm);
                 return;
             }
 
-            ExecuteAllTransfers(byOutpost, byColony, destination);
+            run();
+        }
+
+        private static bool SelectionIncludesStoredTransportOrMechs(IReadOnlyList<PlayerPawnRosterEntry> selected)
+        {
+            if (selected == null) return false;
+            for (int i = 0; i < selected.Count; i++)
+            {
+                PlayerPawnRosterEntry e = selected[i];
+                if (e == null) continue;
+                if (e.outpostRole == PlayerPawnOutpostRole.StoredTransport
+                    || e.outpostRole == PlayerPawnOutpostRole.StoredMechanoid
+                    || e.outpostRole == PlayerPawnOutpostRole.StoredShuttle)
+                    return true;
+            }
+            return false;
         }
 
         public struct PlayerPawnTransferAssignment
@@ -667,11 +757,18 @@ namespace TSA_WorldDomination
         public static bool TryTransferWithPerPawnDestinations(
             IReadOnlyList<PlayerPawnTransferAssignment> assignments,
             HashSet<WorldObject_WD_Outpost> skipEmptyConfirmFor = null,
-            HashSet<WorldObject_WD_Outpost> skipBudgetGateFor = null)
+            HashSet<WorldObject_WD_Outpost> skipBudgetGateFor = null,
+            bool viaDropPod = false)
         {
             if (assignments == null || assignments.Count == 0)
             {
                 Messages.Message("TSA_WD_PawnTransfer_NoSelection".Translate(), MessageTypeDefOf.RejectInput, false);
+                return false;
+            }
+
+            if (viaDropPod && !RapidResponseUtility.TransportPodsResearched())
+            {
+                Messages.Message("TSA_WD_RapidResponse_DropPodsNeedResearch".Translate(), MessageTypeDefOf.RejectInput, false);
                 return false;
             }
 
@@ -825,7 +922,7 @@ namespace TSA_WorldDomination
                             ? new HashSet<WorldObject_WD_Outpost>(skipBudgetGateFor)
                             : new HashSet<WorldObject_WD_Outpost>();
                         skipBudget.Add(gatedOutpost);
-                        TryTransferWithPerPawnDestinations(nextAssignments, skipEmpty, skipBudget);
+                        TryTransferWithPerPawnDestinations(nextAssignments, skipEmpty, skipBudget, viaDropPod);
                     }));
                 return true;
             }
@@ -878,10 +975,98 @@ namespace TSA_WorldDomination
                     }
                 }
 
+                if (!viaDropPod)
+                {
+                    foreach (var kv in outpostGroups)
+                        ExecuteOutpostGroupTransfer(kv.Key.source, kv.Value.list, kv.Value.dest);
+                    foreach (var kv in colonyGroups)
+                        ExecuteColonyGroupTransfer(kv.Key.source, kv.Value.list, kv.Value.dest);
+                    return;
+                }
+
+                var launches = new List<WorldObject>();
                 foreach (var kv in outpostGroups)
-                    ExecuteOutpostGroupTransfer(kv.Key.source, kv.Value.list, kv.Value.dest);
+                    PlayerPawnDropPodUtility.AddOriginSlots(launches, kv.Key.source, kv.Value.list.Count);
                 foreach (var kv in colonyGroups)
-                    ExecuteColonyGroupTransfer(kv.Key.source, kv.Value.list, kv.Value.dest);
+                    PlayerPawnDropPodUtility.AddOriginSlots(launches, kv.Key.source, kv.Value.list.Count);
+                PlayerPawnDropPodUtility.ConfirmIfShortThen(launches, alloc =>
+                {
+                    Action proceed = () =>
+                    {
+                        int toConsume = alloc.podCount * PlayerPawnDropPodUtility.ComponentCostPerLaunch;
+                        if (toConsume > 0 && !PlayerPawnDropPodUtility.TryConsumeComponents(toConsume, out string reason))
+                        {
+                            Messages.Message(reason ?? "TSA_WD_PawnDropPod_AllWouldAbort".Translate(), MessageTypeDefOf.RejectInput, false);
+                            return;
+                        }
+                        int row = 0;
+                        foreach (var kv in outpostGroups)
+                        {
+                            var pod = new List<PlayerPawnRosterEntry>();
+                            var land = new List<PlayerPawnRosterEntry>();
+                            var abort = new List<PlayerPawnRosterEntry>();
+                            row = PlayerPawnDropPodUtility.PartitionByModes(kv.Value.list, alloc, row, pod, land, abort);
+                            if (pod.Count > 0)
+                            {
+                                WorldObject destWo = GetTransferDestinationWorldObject(kv.Value.dest);
+                                ExecuteOutpostGroupDropPod(kv.Key.source, pod, kv.Value.dest, destWo, kv.Value.dest.Tile);
+                            }
+                            if (land.Count > 0)
+                                ExecuteOutpostGroupTransfer(kv.Key.source, land, kv.Value.dest);
+                            if (abort.Count > 0)
+                                PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(CollectPawnsFromEntries(abort), kv.Key.source);
+                        }
+                        foreach (var kv in colonyGroups)
+                        {
+                            var pod = new List<PlayerPawnRosterEntry>();
+                            var land = new List<PlayerPawnRosterEntry>();
+                            var abort = new List<PlayerPawnRosterEntry>();
+                            row = PlayerPawnDropPodUtility.PartitionByModes(kv.Value.list, alloc, row, pod, land, abort);
+                            if (pod.Count > 0)
+                            {
+                                WorldObject destWo = GetTransferDestinationWorldObject(kv.Value.dest);
+                                ExecuteColonyGroupDropPod(kv.Key.source, pod, kv.Value.dest, destWo, kv.Value.dest.Tile);
+                            }
+                            if (land.Count > 0)
+                                ExecuteColonyGroupTransfer(kv.Key.source, land, kv.Value.dest);
+                            if (abort.Count > 0)
+                                PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(CollectPawnsFromEntries(abort), kv.Key.source);
+                        }
+                    };
+
+                    if (alloc.podCount <= 0)
+                    {
+                        proceed();
+                        return;
+                    }
+
+                    var flights = new List<(int originTile, int destTile)>();
+                    int previewRow = 0;
+                    foreach (var kv in outpostGroups)
+                    {
+                        var pod = new List<PlayerPawnRosterEntry>();
+                        var land = new List<PlayerPawnRosterEntry>();
+                        var abort = new List<PlayerPawnRosterEntry>();
+                        previewRow = PlayerPawnDropPodUtility.PartitionByModes(
+                            kv.Value.list, alloc, previewRow, pod, land, abort);
+                        if (pod.Count > 0 && kv.Key.source != null && !kv.Key.source.Destroyed)
+                            flights.Add((kv.Key.source.Tile.tileId, kv.Value.dest.Tile));
+                    }
+                    foreach (var kv in colonyGroups)
+                    {
+                        var pod = new List<PlayerPawnRosterEntry>();
+                        var land = new List<PlayerPawnRosterEntry>();
+                        var abort = new List<PlayerPawnRosterEntry>();
+                        previewRow = PlayerPawnDropPodUtility.PartitionByModes(
+                            kv.Value.list, alloc, previewRow, pod, land, abort);
+                        if (pod.Count > 0 && kv.Key.source != null && !kv.Key.source.Destroyed)
+                            flights.Add((kv.Key.source.Tile.tileId, kv.Value.dest.Tile));
+                    }
+
+                    if (flights.Count == 0
+                        || !PlayerPawnDropPodUtility.ConfirmHostileAaThen(flights, proceed))
+                        proceed();
+                });
             }
 
             if (needsConfirm)
@@ -937,6 +1122,168 @@ namespace TSA_WorldDomination
             foreach (var kv in byColony)
                 ExecuteColonyGroupTransfer(kv.Key, kv.Value, destination);
         }
+
+        private static void ExecuteAllTransfersWithDropPodAllocation(
+            Dictionary<WorldObject_WD_Outpost, List<PlayerPawnRosterEntry>> byOutpost,
+            Dictionary<MapParent, List<PlayerPawnRosterEntry>> byColony,
+            PlayerPawnTransferDestination destination,
+            PlayerPawnDropPodUtility.AllocationResult alloc)
+        {
+            int toConsume = alloc.podCount * PlayerPawnDropPodUtility.ComponentCostPerLaunch;
+            if (toConsume > 0 && !PlayerPawnDropPodUtility.TryConsumeComponents(toConsume, out string reason))
+            {
+                Messages.Message(reason ?? "TSA_WD_PawnDropPod_AllWouldAbort".Translate(), MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+
+            WorldObject destWo = GetTransferDestinationWorldObject(destination);
+            int destTile = destination.Tile;
+            int row = 0;
+
+            foreach (var kv in byOutpost)
+            {
+                var pod = new List<PlayerPawnRosterEntry>();
+                var land = new List<PlayerPawnRosterEntry>();
+                var abort = new List<PlayerPawnRosterEntry>();
+                row = PlayerPawnDropPodUtility.PartitionByModes(kv.Value, alloc, row, pod, land, abort);
+                if (pod.Count > 0)
+                    ExecuteOutpostGroupDropPod(kv.Key, pod, destination, destWo, destTile);
+                if (land.Count > 0)
+                    ExecuteOutpostGroupTransfer(kv.Key, land, destination);
+                if (abort.Count > 0)
+                    PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(CollectPawnsFromEntries(abort), kv.Key);
+            }
+            foreach (var kv in byColony)
+            {
+                var pod = new List<PlayerPawnRosterEntry>();
+                var land = new List<PlayerPawnRosterEntry>();
+                var abort = new List<PlayerPawnRosterEntry>();
+                row = PlayerPawnDropPodUtility.PartitionByModes(kv.Value, alloc, row, pod, land, abort);
+                if (pod.Count > 0)
+                    ExecuteColonyGroupDropPod(kv.Key, pod, destination, destWo, destTile);
+                if (land.Count > 0)
+                    ExecuteColonyGroupTransfer(kv.Key, land, destination);
+                if (abort.Count > 0)
+                    PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(CollectPawnsFromEntries(abort), kv.Key);
+            }
+        }
+
+        private static WorldObject GetTransferDestinationWorldObject(PlayerPawnTransferDestination destination)
+        {
+            if (destination.kind == PlayerPawnTransferDestinationKind.Outpost)
+                return destination.outpost;
+            if (destination.kind == PlayerPawnTransferDestinationKind.Colony)
+                return destination.colony;
+            return null;
+        }
+
+        private static List<Pawn> CollectPawnsFromEntries(List<PlayerPawnRosterEntry> group)
+        {
+            var list = new List<Pawn>();
+            if (group == null) return list;
+            for (int i = 0; i < group.Count; i++)
+            {
+                Pawn p = group[i]?.pawn;
+                if (p != null && !p.Destroyed && !p.Dead)
+                    list.Add(p);
+            }
+            return list;
+        }
+
+        private static void ExecuteOutpostGroupDropPod(
+            WorldObject_WD_Outpost source,
+            List<PlayerPawnRosterEntry> group,
+            PlayerPawnTransferDestination destination,
+            WorldObject destWo,
+            int destTile)
+        {
+            if (source == null || group == null || group.Count == 0) return;
+            var occupants = new List<Pawn>();
+            var captives = new List<Pawn>();
+            for (int i = 0; i < group.Count; i++)
+            {
+                PlayerPawnRosterEntry entry = group[i];
+                Pawn p = entry?.pawn;
+                if (p == null) continue;
+                if (entry.outpostRole == PlayerPawnOutpostRole.Prisoner && source.Prisoners.Contains(p))
+                    captives.Add(p);
+                else if (entry.outpostRole == PlayerPawnOutpostRole.Occupant && source.Occupants.Contains(p))
+                    occupants.Add(p);
+            }
+
+            var removed = new List<Pawn>();
+            for (int i = 0; i < occupants.Count; i++)
+            {
+                Pawn r = source.RemovePawn(occupants[i]);
+                if (r != null && !r.Destroyed && !r.Dead) removed.Add(r);
+            }
+            for (int i = 0; i < captives.Count; i++)
+            {
+                if (!source.TryDetachPrisonerForTransfer(captives[i], out Pawn detached)) continue;
+                if (detached != null && !detached.Destroyed && !detached.Dead)
+                    removed.Add(detached);
+            }
+            if (removed.Count == 0) return;
+
+            var traveler = WorldActions_Traveler.SpawnPlayerPawnDropPodTraveler(source, destTile, removed, destWo);
+            if (traveler == null)
+            {
+                for (int i = 0; i < removed.Count; i++)
+                {
+                    Pawn p = removed[i];
+                    if (p == null || p.Destroyed) continue;
+                    source.AddPawn(p, null!);
+                }
+                Messages.Message("TSA_WD_PawnTransfer_CaravanFailed".Translate(), MessageTypeDefOf.NegativeEvent, false);
+                return;
+            }
+            Window_Prisoners.InvalidateCache();
+            WITab_Outpost_Pawns.InvalidateCache();
+            Messages.Message(
+                "TSA_WD_RapidResponse_DropPodsLaunched".Translate(removed.Count.ToString(), destination.Label),
+                traveler,
+                MessageTypeDefOf.TaskCompletion,
+                false);
+        }
+
+        private static void ExecuteColonyGroupDropPod(
+            MapParent source,
+            List<PlayerPawnRosterEntry> group,
+            PlayerPawnTransferDestination destination,
+            WorldObject destWo,
+            int destTile)
+        {
+            if (source?.Map == null || group == null || group.Count == 0) return;
+            var removed = new List<Pawn>();
+            for (int i = 0; i < group.Count; i++)
+            {
+                Pawn p = group[i].pawn;
+                if (p == null || p.Destroyed || p.Dead) continue;
+                if (!PrepareMapPawnForTransfer(p)) continue;
+                removed.Add(p);
+            }
+            if (removed.Count == 0) return;
+
+            var traveler = WorldActions_Traveler.SpawnPlayerPawnDropPodTraveler(source, destTile, removed, destWo);
+            if (traveler == null)
+            {
+                Messages.Message("TSA_WD_PawnTransfer_CaravanFailed".Translate(), MessageTypeDefOf.NegativeEvent, false);
+                return;
+            }
+            Window_AllPlayerPawns.InvalidateCache();
+            Messages.Message(
+                "TSA_WD_RapidResponse_DropPodsLaunched".Translate(removed.Count.ToString(), destination.Label),
+                traveler,
+                MessageTypeDefOf.TaskCompletion,
+                false);
+        }
+
+        /// <summary>Public leave checks for an outpost group (transfer, remote establish).</summary>
+        public static bool TryValidateOutpostLeavingGroup(
+            WorldObject_WD_Outpost outpost,
+            List<PlayerPawnRosterEntry> group,
+            out string reject) =>
+            ValidateOutpostGroup(outpost, group, out reject);
 
         private static bool ValidateOutpostGroup(WorldObject_WD_Outpost outpost, List<PlayerPawnRosterEntry> group, out string reject)
         {

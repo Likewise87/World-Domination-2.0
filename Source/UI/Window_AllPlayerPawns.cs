@@ -33,12 +33,14 @@ namespace TSA_WorldDomination
         private const float ColPadding = 12f;
         private const float TransferBtnWidth = 220f;
         private const float EstablishBtnWidth = 185f;
+        private const float TravelModeBtnWidth = PlayerPawnDropPodUtility.ModeIconSize;
         private const float SmartSendBtnWidth = 180f;
         private const float SmartAssignConfigBtnSize = 30f;
         private const float SmartAssignConfigGap = 2f;
         private const float SelectedLabelWidth = 130f;
         private const float ToolbarBtnGap = 10f;
         private const float ColAge = 44f;
+        private const float ColHealth = 56f;
         private const float ColTraits = 128f;
         private const float ColXenotype = 100f;
         private const float ColPsycasts = 110f;
@@ -136,7 +138,12 @@ namespace TSA_WorldDomination
                 ActionStackTop,
                 EstablishBtnWidth,
                 ToolbarBtnHeight);
-            float braceX = establishBtn.x - SelectedGroupBraceGap;
+            Rect travelModeBtn = new Rect(
+                establishBtn.x - ToolbarBtnGap - TravelModeBtnWidth,
+                ActionStackTop,
+                TravelModeBtnWidth,
+                ToolbarBtnHeight);
+            float braceX = travelModeBtn.x - SelectedGroupBraceGap;
             Color prevLine = GUI.color;
             GUI.color = Color.white;
             Widgets.DrawLineVertical(braceX, ActionStackTop, ToolbarBtnHeight);
@@ -146,6 +153,8 @@ namespace TSA_WorldDomination
                 ActionStackTop,
                 SelectedLabelWidth,
                 ToolbarBtnHeight);
+
+            PlayerPawnDropPodUtility.DrawAdHocModeIcon(travelModeBtn);
 
             string selectedLabel = "TSA_WD_AllPlayerPawns_Selected".Translate(selectedCount.ToString());
             Text.Font = GameFont.Small;
@@ -269,26 +278,34 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            if (!PlayerPawnTransferUtility.TryTransferWithPerPawnDestinations(assignments))
-                return;
+            int launchEstimate = assigned;
+            Find.WindowStack.Add(new Dialog_SmartSendConfirm(
+                launchEstimate,
+                assigned,
+                () =>
+                {
+                    if (!PlayerPawnTransferUtility.TryTransferWithPerPawnDestinations(
+                            assignments, viaDropPod: PlayerPawnDropPodUtility.AdHocViaDropPod))
+                        return;
 
-            selectedThingIds.Clear();
-            lastUpdateTick = -9999;
+                    selectedThingIds.Clear();
+                    lastUpdateTick = -9999;
 
-            if (failed == 0)
-            {
-                Messages.Message(
-                    "TSA_WD_AllPlayerPawns_SmartAssignDone".Translate(assigned.ToString()),
-                    MessageTypeDefOf.TaskCompletion,
-                    false);
-            }
-            else
-            {
-                Messages.Message(
-                    "TSA_WD_AllPlayerPawns_SmartAssignPartial".Translate(assigned.ToString(), failed.ToString()),
-                    MessageTypeDefOf.NeutralEvent,
-                    false);
-            }
+                    if (failed == 0)
+                    {
+                        Messages.Message(
+                            "TSA_WD_AllPlayerPawns_SmartAssignDone".Translate(assigned.ToString()),
+                            MessageTypeDefOf.TaskCompletion,
+                            false);
+                    }
+                    else
+                    {
+                        Messages.Message(
+                            "TSA_WD_AllPlayerPawns_SmartAssignPartial".Translate(assigned.ToString(), failed.ToString()),
+                            MessageTypeDefOf.NeutralEvent,
+                            false);
+                    }
+                }));
         }
 
         private List<PlayerPawnRosterEntry> BuildCurrentRoster(
@@ -334,6 +351,8 @@ namespace TSA_WorldDomination
             else if (!ColOn(PawnRosterColumnIds.New) && sortColumn == "New")
                 ClearSortToDefault();
             else if (!ColOn(PawnRosterColumnIds.Age) && sortColumn == "Age")
+                ClearSortToDefault();
+            else if (!ColOn(PawnRosterColumnIds.Health) && sortColumn == "Health")
                 ClearSortToDefault();
             else if (!ColOn(PawnRosterColumnIds.Traits) && sortColumn == "Traits")
                 ClearSortToDefault();
@@ -396,21 +415,8 @@ namespace TSA_WorldDomination
         private bool CanRemoteEstablishSelection(out string disabledTip)
         {
             disabledTip = null;
-            if (selectedThingIds.Count == 0)
-            {
-                RemoteOutpostEstablishUtility.TryValidateColonySelection(
-                    new List<PlayerPawnRosterEntry>(), out _, out _, out disabledTip);
-                return false;
-            }
-
-            // Avoid rebuilding the full roster every frame when filters hide part of the selection.
-            var visible = PlayerPawnRosterUtility.ResolveSelectedEntries(cachedList, selectedThingIds);
-            if (visible.Count < selectedThingIds.Count)
-            {
-                if (visible.Count == 0) return true;
-                return RemoteOutpostEstablishUtility.TryValidateColonySelection(visible, out _, out _, out disabledTip);
-            }
-            return RemoteOutpostEstablishUtility.TryValidateColonySelection(visible, out _, out _, out disabledTip);
+            var full = PlayerPawnRosterUtility.ResolveSelectedEntriesIncludingHidden(cachedList, selectedThingIds);
+            return RemoteOutpostEstablishUtility.TryValidateFoundingSelection(full, out _, out _, out disabledTip);
         }
 
         private int CountDistinctTransferSources()
@@ -437,6 +443,7 @@ namespace TSA_WorldDomination
             if (ColOn(PawnRosterColumnIds.New)) w += ColNew;
             w += ColPadding;
             if (ColOn(PawnRosterColumnIds.Age)) w += ColAge;
+            if (ColOn(PawnRosterColumnIds.Health)) w += ColHealth;
             if (ColOn(PawnRosterColumnIds.Traits)) w += ColTraits;
             if (ColOn(PawnRosterColumnIds.Xenotype)) w += ColXenotype;
             if (ColOn(PawnRosterColumnIds.Psycasts)) w += ColPsycasts;
@@ -587,6 +594,13 @@ namespace TSA_WorldDomination
                 Rect ageHdr = new Rect(curX, hRect.y, ColAge, hRect.height);
                 DrawHeader(ref curX, ColAge, "TSA_WD_PawnRoster_ColAge".Translate(), "Age", hRect);
                 TooltipHandler.TipRegion(ageHdr, "TSA_WD_PawnRoster_ColAgeTip".Translate());
+            }
+
+            if (ColOn(PawnRosterColumnIds.Health))
+            {
+                Rect healthHdr = new Rect(curX, hRect.y, ColHealth, hRect.height);
+                DrawHeader(ref curX, ColHealth, "TSA_WD_PawnRoster_ColHealth".Translate(), "Health", hRect);
+                TooltipHandler.TipRegion(healthHdr, "TSA_WD_PawnRoster_ColHealthTip".Translate());
             }
 
             if (ColOn(PawnRosterColumnIds.Traits))
@@ -961,6 +975,14 @@ namespace TSA_WorldDomination
                 Text.Anchor = TextAnchor.MiddleCenter;
                 Widgets.Label(new Rect(curX, y, ColAge, rowH), entry.ageYears.ToString());
                 curX += ColAge;
+            }
+
+            if (ColOn(PawnRosterColumnIds.Health))
+            {
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Widgets.Label(new Rect(curX, y, ColHealth, rowH),
+                    Mathf.RoundToInt(entry.healthPercent).ToString() + "%");
+                curX += ColHealth;
             }
 
             if (ColOn(PawnRosterColumnIds.Traits))

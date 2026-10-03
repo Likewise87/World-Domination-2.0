@@ -106,9 +106,10 @@
   <TSA_WD_RapidResponse_InspectExpansionCaravans>Intercepting expansion caravans in radius</TSA_WD_RapidResponse_InspectExpansionCaravans>
   <TSA_WD_RapidResponse_InspectRoadCaravans>Intercepting road-builder caravans in radius</TSA_WD_RapidResponse_InspectRoadCaravans>
   <TSA_WD_RapidResponse_InspectFortifyCaravans>Intercepting fortify caravans in radius</TSA_WD_RapidResponse_InspectFortifyCaravans>
+  <TSA_WD_RapidResponse_InspectLogisticsCaravans>Intercepting supply caravans in radius</TSA_WD_RapidResponse_InspectLogisticsCaravans>
   <TSA_WD_RapidResponse_InspectGroupCaravans>Intercepting {0} in radius</TSA_WD_RapidResponse_InspectGroupCaravans>
   <TSA_WD_RapidResponse_DropPods>Drop-pod dispatch ({0})</TSA_WD_RapidResponse_DropPods>
-  <TSA_WD_RapidResponse_DropPodsDesc>Launch selected outpost pawns by drop pod to any passable world tile in range (or a hostile traveler / player colony / outpost).</TSA_WD_RapidResponse_DropPodsDesc>
+  <TSA_WD_RapidResponse_DropPodsDesc>Launch selected outpost pawns by drop pod to any passable world tile in range (or a hostile traveler / player colony / outpost). Costs 1 industrial component per traveling pawn from colony and warehouse stock.</TSA_WD_RapidResponse_DropPodsDesc>
   <TSA_WD_RapidResponse_DropPodsNeedResearch>Requires completed Transport Pod research.</TSA_WD_RapidResponse_DropPodsNeedResearch>
   <TSA_WD_RapidResponse_DropPodsSelectPawns>Select at least one outpost pawn to dispatch.</TSA_WD_RapidResponse_DropPodsSelectPawns>
   <TSA_WD_RapidResponse_DropPodsNoStoredTransport>Stored animals and vehicles cannot be launched by this drop-pod action.</TSA_WD_RapidResponse_DropPodsNoStoredTransport>
@@ -144,6 +145,7 @@
   <TSA_WD_RapidResponse_Tip_TargetRoad>Intercept hostile road-builder and road-related caravans in range.</TSA_WD_RapidResponse_Tip_TargetRoad>
   <TSA_WD_RapidResponse_Tip_TargetTrader>Intercept hostile trader caravans in range.</TSA_WD_RapidResponse_Tip_TargetTrader>
   <TSA_WD_RapidResponse_Tip_TargetFortify>Intercept hostile fortify caravans placing road blocks or spike traps in range.</TSA_WD_RapidResponse_Tip_TargetFortify>
+  <TSA_WD_RapidResponse_Tip_TargetLogistics>Intercept supply and upgrade shipments in range, including your own if the sender is hostile to this outpost.</TSA_WD_RapidResponse_Tip_TargetLogistics>
   <TSA_WD_RapidResponse_Tip_RaidTargetPlayer>Intercept raiders whose destination is your colony or one of your outposts.</TSA_WD_RapidResponse_Tip_RaidTargetPlayer>
   <TSA_WD_RapidResponse_Tip_RaidTargetAllies>Intercept raiders whose destination belongs to a faction allied with you.</TSA_WD_RapidResponse_Tip_RaidTargetAllies>
   <TSA_WD_RapidResponse_Tip_RaidTargetOtherNpcs>Intercept raiders whose destination belongs to a non-allied NPC faction.</TSA_WD_RapidResponse_Tip_RaidTargetOtherNpcs>
@@ -190,7 +192,6 @@
   <TSA_WD_Pod_ReinforceDefense>Reinforce {0} defense (transport pods)</TSA_WD_Pod_ReinforceDefense>
   <TSA_WD_Pod_ReinforcedDefense>Transport pods landed as reinforcements on {0}'s temporary battlefield.</TSA_WD_Pod_ReinforcedDefense>
   <TSA_WD_Pod_AddedPawn>{0} joined {1} from transport pods.</TSA_WD_Pod_AddedPawn>
-  <TSA_WD_PodArrival_FoodConverted>{0} nutrition from transport pods converted to virtual food at {1}.</TSA_WD_PodArrival_FoodConverted>
   <TSA_WD_PodArrival_ItemNotStored>Cannot store {0} in this outpost (WD outposts only hold colonists as virtual pawns). Item lost.</TSA_WD_PodArrival_ItemNotStored>
   <TSA_WD_AutoAdd_Desc>When enabled, caravans whose destination is this outpost are automatically added when they stop. Resting or pausing here while bound elsewhere does not.</TSA_WD_AutoAdd_Desc>
   <TSA_WD_AutoAdd_Label>Auto-Add Arrivals</TSA_WD_AutoAdd_Label>
@@ -264,6 +265,7 @@
   <TSA_WD_CancelCurrentProjectFirst>Cancel Current Project first</TSA_WD_CancelCurrentProjectFirst>
   <TSA_WD_InsufficientStrengthToBuild>Insufficient Strength to Deliver {0}</TSA_WD_InsufficientStrengthToBuild>
   <TSA_WD_InsufficientStrengthToClear>Insufficient Strength to Clear {0}</TSA_WD_InsufficientStrengthToClear>
+  <TSA_WD_InsufficientMaterialsToBuild>Insufficient Materials to Deliver {0}</TSA_WD_InsufficientMaterialsToBuild>
   <TSA_WD_BuildRoadDesc>Direct this outpost to begin constructing a road network towards a specific tile. Speed scales with cumulative Construction skill.\n\nShift+click to place waypoints; click without Shift to set the final destination.</TSA_WD_BuildRoadDesc>
   <TSA_WD_BuildRoadStatus>Currently building towards &quot;{0}&quot;\nProgress: {1}%</TSA_WD_BuildRoadStatus>
   <TSA_WD_CancelRoad>Cancel Road Construction</TSA_WD_CancelRoad>
@@ -1133,26 +1135,27 @@
   <TSA_WD_RemoteEstablish_Headline>Establish outpost at selected tile</TSA_WD_RemoteEstablish_Headline>
   <TSA_WD_RemoteEstablish_Establish>Send and establish</TSA_WD_RemoteEstablish_Establish>
   <TSA_WD_RemoteEstablish_ClickTileHint>Click a world tile to found an outpost. Right-click to cancel.</TSA_WD_RemoteEstablish_ClickTileHint>
-  <TSA_WD_RemoteEstablish_ColonyOnly>Only colony pawns can be sent to establish an outpost.</TSA_WD_RemoteEstablish_ColonyOnly>
+  <TSA_WD_RemoteEstablish_SingleOrigin>Select pawns from only one colony map or one outpost.</TSA_WD_RemoteEstablish_SingleOrigin>
   <TSA_WD_RemoteEstablish_ColonyMapNotLoaded>The colony map is not loaded.</TSA_WD_RemoteEstablish_ColonyMapNotLoaded>
-  <TSA_WD_RemoteEstablish_SingleColony>Select pawns from only one colony map.</TSA_WD_RemoteEstablish_SingleColony>
+  <TSA_WD_RemoteEstablish_WrongLocationKind>Only colony or outpost pawns can found an outpost this way.</TSA_WD_RemoteEstablish_WrongLocationKind>
   <TSA_WD_RemoteEstablish_NeedHumanlike>Select at least one humanlike colonist.</TSA_WD_RemoteEstablish_NeedHumanlike>
+  <TSA_WD_RemoteEstablish_ShuttleNeedsLand>Passenger shuttles must travel by land. Switch to Land or leave the shuttle behind.</TSA_WD_RemoteEstablish_ShuttleNeedsLand>
   <TSA_WD_RemoteEstablish_CarryTooHeavy>These pawns cannot carry the establish materials.\n\nPayload: {0} kg\nCan carry: {1} kg\nShort by: {2} kg\n\nSend them anyway?</TSA_WD_RemoteEstablish_CarryTooHeavy>
-  <TSA_WD_RemoteEstablish_InvalidSelection>Select colony pawns to establish an outpost.</TSA_WD_RemoteEstablish_InvalidSelection>
+  <TSA_WD_RemoteEstablish_InvalidSelection>Select colony or outpost pawns to establish an outpost.</TSA_WD_RemoteEstablish_InvalidSelection>
   <TSA_WD_RemoteEstablish_Launched>Caravan sent to found {0}.</TSA_WD_RemoteEstablish_Launched>
   <TSA_WD_RemoteEstablish_Failed>Could not establish the outpost.\n{0}</TSA_WD_RemoteEstablish_Failed>
   <TSA_WD_RemoteEstablish_ArrivalLabel>establish {0}</TSA_WD_RemoteEstablish_ArrivalLabel>
   <TSA_WD_RemoteEstablish_ArrivalReport>Founding {0}.</TSA_WD_RemoteEstablish_ArrivalReport>
   <TSA_WD_RemoteEstablish_Inspect>Founding: {0}</TSA_WD_RemoteEstablish_Inspect>
   <TSA_WD_TileFirstEstablish_Gizmo>Establish outpost</TSA_WD_TileFirstEstablish_Gizmo>
-  <TSA_WD_TileFirstEstablish_GizmoTip>Choose an outpost type for this tile, then pick colonists to send from your colony. Goods are taken from your colony and warehouses. Minimum distance: {0} tiles from any settlement, colony or outpost.</TSA_WD_TileFirstEstablish_GizmoTip>
+  <TSA_WD_TileFirstEstablish_GizmoTip>Choose an outpost type for this tile, then pick colonists from one colony map or one outpost. Goods are taken from your colony and warehouses. Minimum distance: {0} tiles from any settlement, colony or outpost.</TSA_WD_TileFirstEstablish_GizmoTip>
   <TSA_WD_TileFirstEstablish_Occupied>A settlement or outpost already occupies this tile.</TSA_WD_TileFirstEstablish_Occupied>
   <TSA_WD_Establish_ActiveCamp>Cannot found an outpost on an active camp. Abandon the camp first.</TSA_WD_Establish_ActiveCamp>
-  <TSA_WD_TileFirstEstablish_NoColony>You need a player colony map to send colonists and pay establishment costs.</TSA_WD_TileFirstEstablish_NoColony>
+  <TSA_WD_TileFirstEstablish_NoColony>You need a player colony map to pay establishment costs.</TSA_WD_TileFirstEstablish_NoColony>
   <TSA_WD_TileFirstEstablish_Headline>Establish outpost at this tile</TSA_WD_TileFirstEstablish_Headline>
   <TSA_WD_TileFirstEstablish_ChooseColonists>Choose colonists</TSA_WD_TileFirstEstablish_ChooseColonists>
   <TSA_WD_TileFirstEstablish_CheckedWhenPawns>Checked when you choose colonists.</TSA_WD_TileFirstEstablish_CheckedWhenPawns>
-  <TSA_WD_TileFirstEstablish_PawnWindowTitle>Colonists for {0}</TSA_WD_TileFirstEstablish_PawnWindowTitle>
+  <TSA_WD_TileFirstEstablish_PawnWindowTitle>Founders for {0}</TSA_WD_TileFirstEstablish_PawnWindowTitle>
   <TSA_WD_TileFirstEstablish_Confirm>Confirm</TSA_WD_TileFirstEstablish_Confirm>
   <TSA_WD_RequirementsPreview_Headline>Outpost Requirements Preview</TSA_WD_RequirementsPreview_Headline>
   <TSA_WD_RequirementsPreview_ClickTileHint>Click a world tile to preview outpost establishment requirements. Close the preview window to pick another tile. Right-click the map to exit simulation mode.</TSA_WD_RequirementsPreview_ClickTileHint>
@@ -1219,6 +1222,109 @@
   <TSA_WD_PowerPlant_InspectNoColony>Remote power available: {0} (no colony map).</TSA_WD_PowerPlant_InspectNoColony>
   <TSA_WD_PowerPlant_OverviewProduct>{0} remote power</TSA_WD_PowerPlant_OverviewProduct>
   <TSA_WD_PowerPlant_OverviewAlways>Always on</TSA_WD_PowerPlant_OverviewAlways>
+  <!-- Outpost Armory: loose gear store and its two-column dialog -->
+  <TSA_WD_Armory_OpenButton>Armory</TSA_WD_Armory_OpenButton>
+  <TSA_WD_Armory_OpenButtonTip>Hand stored weapons, armor, medicine, drugs, food and ammo to the occupants of this outpost.</TSA_WD_Armory_OpenButtonTip>
+  <TSA_WD_Armory_ColumnPawns>Pawn Name</TSA_WD_Armory_ColumnPawns>
+  <TSA_WD_Armory_ColumnStore>Stored</TSA_WD_Armory_ColumnStore>
+  <TSA_WD_Armory_SecApparel>Apparel</TSA_WD_Armory_SecApparel>
+  <TSA_WD_Armory_SecWeapons>Weapons</TSA_WD_Armory_SecWeapons>
+  <TSA_WD_Armory_SecFoodDrugs>Food, Drugs, Medicine</TSA_WD_Armory_SecFoodDrugs>
+  <TSA_WD_Armory_NoOccupants>No occupants to equip.</TSA_WD_Armory_NoOccupants>
+  <TSA_WD_Armory_StoreEmpty>Nothing stored here yet. Gear arriving by caravan or drop pod lands in the Armory. Use Open All Gear tab below to ship from a colony or another outpost.</TSA_WD_Armory_StoreEmpty>
+  <TSA_WD_Armory_NormalizeNote>Stored gear is repaired to full, so identical items stack together. Tainted and biocoded gear stays that way and is kept separately.</TSA_WD_Armory_NormalizeNote>
+  <TSA_WD_Armory_UniqueTag>unique</TSA_WD_Armory_UniqueTag>
+  <TSA_WD_Armory_BiocodedTag>biocoded</TSA_WD_Armory_BiocodedTag>
+  <TSA_WD_Armory_TaintedTip>Tainted: this apparel was worn by someone who died in it. Wearing it upsets most pawns.</TSA_WD_Armory_TaintedTip>
+  <TSA_WD_Armory_SplitTitle>How many {0}?</TSA_WD_Armory_SplitTitle>
+  <TSA_WD_Armory_ConvertFood>Convert food</TSA_WD_Armory_ConvertFood>
+  <TSA_WD_Armory_ConvertFoodTip>Turn all stored physical food into this outpost's food pool. Anything over the pool cap stays in the Armory.</TSA_WD_Armory_ConvertFoodTip>
+  <TSA_WD_Armory_ConvertFoodNone>No stored food to convert, or the food pool is already full.</TSA_WD_Armory_ConvertFoodNone>
+  <TSA_WD_Armory_OpenInventory>Open All Gear tab</TSA_WD_Armory_OpenInventory>
+  <TSA_WD_Armory_OpenInventoryTip>Open the All Gear tab to quickly move gear between outposts and the colony.</TSA_WD_Armory_OpenInventoryTip>
+  <TSA_WD_Armory_ConvertedFood>Converted stored food into {0} outpost food.</TSA_WD_Armory_ConvertedFood>
+  <TSA_WD_Armory_FailManualDefense>Gear cannot be moved while this outpost is defending itself.</TSA_WD_Armory_FailManualDefense>
+  <TSA_WD_Armory_FailLocked>{0} is locked and cannot be removed.</TSA_WD_Armory_FailLocked>
+  <TSA_WD_Armory_FailNotStorable>{0} cannot be stored in an armory.</TSA_WD_Armory_FailNotStorable>
+  <TSA_WD_Armory_FailNoCapacity>That pawn cannot carry any more of this.</TSA_WD_Armory_FailNoCapacity>
+  <TSA_WD_Armory_FailNoCapacityCe>{0} has no room for more {1}. Free inventory: {2} bulk, {3} kg.</TSA_WD_Armory_FailNoCapacityCe>
+  <TSA_WD_Armory_FailNoBodyParts>{0} does not fit {1}.</TSA_WD_Armory_FailNoBodyParts>
+  <TSA_WD_Armory_FailCannotWear>{1} cannot wear {0}.</TSA_WD_Armory_FailCannotWear>
+  <TSA_WD_Armory_FailPrimaryOccupied>{0} already has a primary weapon ({1}). Unequip it first.</TSA_WD_Armory_FailPrimaryOccupied>
+  <TSA_WD_Armory_PodDeposit>Stored {0} item(s) in the armory at {1}.</TSA_WD_Armory_PodDeposit>
+  <TSA_WD_Armory_DeliveryStored>Stored {0} item(s) in the armory.</TSA_WD_Armory_DeliveryStored>
+  <TSA_WD_Armory_LostFood>{0} food</TSA_WD_Armory_LostFood>
+  <TSA_WD_Armory_CargoLostLabel>Shipment lost</TSA_WD_Armory_CargoLostLabel>
+  <TSA_WD_Armory_CargoLost>A shipment bound for {0} was destroyed in transit. Its cargo is gone:</TSA_WD_Armory_CargoLost>
+  <TSA_WD_Armory_UpgradeLostLabel>Upgrade shipment lost</TSA_WD_Armory_UpgradeLostLabel>
+  <TSA_WD_Armory_UpgradeLost>The {0} shipment bound for {1} was destroyed in transit. The materials are gone and the upgrade can be ordered again.</TSA_WD_Armory_UpgradeLost>
+  <TSA_WD_Armory_HdrStores>Armory</TSA_WD_Armory_HdrStores>
+  <TSA_WD_Armory_HdrStoresTip>What this outpost holds in its armory, by category.</TSA_WD_Armory_HdrStoresTip>
+  <TSA_WD_Armory_StoresMore>+{0} more</TSA_WD_Armory_StoresMore>
+  <TSA_WD_Armory_StoresTooltip>{0} item(s) stored.</TSA_WD_Armory_StoresTooltip>
+  <TSA_WD_Armory_HdrItem>Item</TSA_WD_Armory_HdrItem>
+  <TSA_WD_Armory_HdrType>Type</TSA_WD_Armory_HdrType>
+  <TSA_WD_Armory_HdrQuality>Quality</TSA_WD_Armory_HdrQuality>
+  <TSA_WD_Armory_HdrCount>Count</TSA_WD_Armory_HdrCount>
+  <TSA_WD_Armory_WeaponFilterTip>Filter stored items by type. Armor covers helmets and body armor. Headgear, Torso and Legs filter apparel by what it covers, so one piece can show under several.</TSA_WD_Armory_WeaponFilterTip>
+  <TSA_WD_Armory_WeaponFilter_All>All</TSA_WD_Armory_WeaponFilter_All>
+  <TSA_WD_Armory_WeaponFilter_Guns>Guns</TSA_WD_Armory_WeaponFilter_Guns>
+  <TSA_WD_Armory_WeaponFilter_Bows>Bows</TSA_WD_Armory_WeaponFilter_Bows>
+  <TSA_WD_Armory_WeaponFilter_Melee>Melee</TSA_WD_Armory_WeaponFilter_Melee>
+  <TSA_WD_Armory_WeaponFilter_Grenades>Grenades</TSA_WD_Armory_WeaponFilter_Grenades>
+  <TSA_WD_Armory_WeaponFilter_Other>Other</TSA_WD_Armory_WeaponFilter_Other>
+  <TSA_WD_Armory_TypeFilter_Ammo>Ammo</TSA_WD_Armory_TypeFilter_Ammo>
+  <TSA_WD_Armory_TypeFilter_Armor>Armor</TSA_WD_Armory_TypeFilter_Armor>
+  <TSA_WD_Armory_TypeFilter_Headgear>Headgear</TSA_WD_Armory_TypeFilter_Headgear>
+  <TSA_WD_Armory_TypeFilter_Torso>Torso</TSA_WD_Armory_TypeFilter_Torso>
+  <TSA_WD_Armory_TypeFilter_Legs>Legs</TSA_WD_Armory_TypeFilter_Legs>
+  <TSA_WD_Armory_TypeFilter_Medicine>Medicine</TSA_WD_Armory_TypeFilter_Medicine>
+  <TSA_WD_Armory_TypeFilter_Drugs>Drugs</TSA_WD_Armory_TypeFilter_Drugs>
+  <TSA_WD_Armory_TypeFilter_Food>Food</TSA_WD_Armory_TypeFilter_Food>
+  <TSA_WD_Armory_NoPawnMatch>No occupants match this filter.</TSA_WD_Armory_NoPawnMatch>
+  <TSA_WD_Armory_NoItemMatch>No stored items match these filters.</TSA_WD_Armory_NoItemMatch>
+  <TSA_WD_Armory_Bucket_Guns>guns</TSA_WD_Armory_Bucket_Guns>
+  <TSA_WD_Armory_Bucket_Bows>bows</TSA_WD_Armory_Bucket_Bows>
+  <TSA_WD_Armory_Bucket_Melee>melee</TSA_WD_Armory_Bucket_Melee>
+  <TSA_WD_Armory_Bucket_Grenades>grenades</TSA_WD_Armory_Bucket_Grenades>
+  <TSA_WD_Armory_Bucket_Armor>armor</TSA_WD_Armory_Bucket_Armor>
+  <TSA_WD_Armory_Bucket_Medicine>medicine</TSA_WD_Armory_Bucket_Medicine>
+  <TSA_WD_Armory_Bucket_Drugs>drugs</TSA_WD_Armory_Bucket_Drugs>
+  <TSA_WD_Armory_Bucket_Food>food</TSA_WD_Armory_Bucket_Food>
+  <TSA_WD_Armory_Bucket_Ammo>ammo</TSA_WD_Armory_Bucket_Ammo>
+  <TSA_WD_CountPicker_All>All</TSA_WD_CountPicker_All>
+
+  <!-- All-outpost inventory window -->
+  <TSA_WD_AllInventory_Title>All player gear</TSA_WD_AllInventory_Title>
+  <TSA_WD_AllInventory_HdrItem>Item</TSA_WD_AllInventory_HdrItem>
+  <TSA_WD_AllInventory_HdrEquippedBy>Equipped by</TSA_WD_AllInventory_HdrEquippedBy>
+  <TSA_WD_AllInventory_HdrCategory>Type</TSA_WD_AllInventory_HdrCategory>
+  <TSA_WD_AllInventory_HdrQuality>Quality</TSA_WD_AllInventory_HdrQuality>
+  <TSA_WD_AllInventory_HdrCount>Stored</TSA_WD_AllInventory_HdrCount>
+  <TSA_WD_AllInventory_HdrSendCount>Send</TSA_WD_AllInventory_HdrSendCount>
+  <TSA_WD_AllInventory_CategoryFilterTip>Filter by item type</TSA_WD_AllInventory_CategoryFilterTip>
+  <TSA_WD_AllInventory_QualityFilterTip>Filter by item quality</TSA_WD_AllInventory_QualityFilterTip>
+  <TSA_WD_AllInventory_EquippedByFilterTip>Filter by who is wearing or carrying the item</TSA_WD_AllInventory_EquippedByFilterTip>
+  <TSA_WD_AllInventory_QualityNone>No quality</TSA_WD_AllInventory_QualityNone>
+  <TSA_WD_AllInventory_TooMany>Too many items. Filter the list</TSA_WD_AllInventory_TooMany>
+  <TSA_WD_AllInventory_OnPawnTip>Equipped or carried by a pawn. Shipping strips it from them (at your own risk).</TSA_WD_AllInventory_OnPawnTip>
+  <TSA_WD_AllInventory_CaravanNoSend>Gear carried by a world map caravan cannot be shipped from here.</TSA_WD_AllInventory_CaravanNoSend>
+  <TSA_WD_AllInventory_InCombatNoSend>Cannot strip gear from a pawn while their map is under raid or assault.</TSA_WD_AllInventory_InCombatNoSend>
+  <TSA_WD_AllInventory_Selected>Selected: {0}</TSA_WD_AllInventory_Selected>
+  <TSA_WD_AllInventory_Send>Send to...</TSA_WD_AllInventory_Send>
+  <TSA_WD_AllInventory_SendTip>Ship the selected rows to one destination. Each source launches its own caravan and pays its own strength cost; colonies pay nothing. Equipped gear is stripped from the pawn when shipped.</TSA_WD_AllInventory_SendTip>
+  <TSA_WD_AllInventory_ModeLand>By caravan</TSA_WD_AllInventory_ModeLand>
+  <TSA_WD_AllInventory_ModePod>By drop pod</TSA_WD_AllInventory_ModePod>
+  <TSA_WD_AllInventory_ModeTip>Caravans travel overland and can be ambushed or mortared. Drop pods fly and can be shot down by anti-air.</TSA_WD_AllInventory_ModeTip>
+  <TSA_WD_AllInventory_NothingPicked>Nothing selected to send.</TSA_WD_AllInventory_NothingPicked>
+  <TSA_WD_AllInventory_NoSharedDest>No destination is valid for every selected source.</TSA_WD_AllInventory_NoSharedDest>
+  <TSA_WD_AllInventory_AlreadyAtLocation>At least one selected item is already at this location.</TSA_WD_AllInventory_AlreadyAtLocation>
+  <TSA_WD_AllInventory_SkipSameDestTitle>Warning: Some items already at destination</TSA_WD_AllInventory_SkipSameDestTitle>
+  <TSA_WD_AllInventory_SkipSameDestIntro>Cannot ship the following goods as they are already at the destination "{0}":</TSA_WD_AllInventory_SkipSameDestIntro>
+  <TSA_WD_AllInventory_SkipSameDestLine>- {0}x {1}</TSA_WD_AllInventory_SkipSameDestLine>
+  <TSA_WD_AllInventory_SkipSameDestQuestion>Do you still want to ship the goods from the other origins?</TSA_WD_AllInventory_SkipSameDestQuestion>
+  <TSA_WD_AllInventory_SkipSameDestConfirm>Ship the rest</TSA_WD_AllInventory_SkipSameDestConfirm>
+
   <TSA_WD_WarehouseTab_Label>Storage</TSA_WD_WarehouseTab_Label>
   <TSA_WD_WarehouseTab_Title>Warehouse inventory</TSA_WD_WarehouseTab_Title>
   <TSA_WD_WarehouseTab_ShipDest>Ship destination: {0}</TSA_WD_WarehouseTab_ShipDest>
@@ -1241,22 +1347,33 @@
   <TSA_WD_WarehouseTab_VirtualFood>Virtual food</TSA_WD_WarehouseTab_VirtualFood>
   <TSA_WD_WarehouseTab_VirtualFoodDetail>Warehouse food supply: {0}. At least {1} must stay here. Shippable now: {2}. Can be mixed with physical food; destinations are player outposts only (not the colony).</TSA_WD_WarehouseTab_VirtualFoodDetail>
   <TSA_WD_WarehouseTab_AdHocSend>Send selected (incl. outpost food)</TSA_WD_WarehouseTab_AdHocSend>
-  <TSA_WD_WarehouseTab_AdHocSendTip>Pick amounts above, then click a destination on the world map. Uses the delivery type dropdown. Does not change daily auto delivery.</TSA_WD_WarehouseTab_AdHocSendTip>
-  <TSA_WD_WarehouseTab_DestRulesTip>Food-only selections (incl. virtual food) may go to player outposts. Virtual food cannot go to the colony. Selections with non-food may only go to a colony or another warehouse (no virtual food). Daily auto delivery always sends the entire physical stock to the chosen colony/warehouse.</TSA_WD_WarehouseTab_DestRulesTip>
-  <TSA_WD_Warehouse_AdHocInvalidDest>Invalid destination. Food may go to a player colony, warehouse, or other outpost.</TSA_WD_Warehouse_AdHocInvalidDest>
-  <TSA_WD_Warehouse_AdHocInvalidDestVirtual>Invalid destination. Virtual food may only go to another player outpost (not the colony).</TSA_WD_Warehouse_AdHocInvalidDestVirtual>
-  <TSA_WD_Warehouse_AdHocInvalidDestVirtualMix>Virtual food cannot be mixed with non-food items in one shipment.</TSA_WD_Warehouse_AdHocInvalidDestVirtualMix>
-  <TSA_WD_Warehouse_AdHocInvalidDestGoods>Invalid destination. Non-food (or mixed) shipments may only go to a player colony or warehouse.</TSA_WD_Warehouse_AdHocInvalidDestGoods>
+  <TSA_WD_WarehouseTab_AdHocSendTip>Check items and amounts, then choose a destination from the list or pick one on the world map. Uses the land / drop-pod icon. Does not change daily auto delivery.</TSA_WD_WarehouseTab_AdHocSendTip>
+  <TSA_WD_WarehouseTab_ConvertFood>Convert to virtual food</TSA_WD_WarehouseTab_ConvertFood>
+  <TSA_WD_WarehouseTab_ConvertFoodTip>Converts checked food rows at their send amounts into virtual food at this outpost, up to free food supply capacity. Unchecked stock stays as items.</TSA_WD_WarehouseTab_ConvertFoodTip>
+  <TSA_WD_WarehouseTab_ConvertFoodNone>Check food rows in the list to convert. Needs free food supply capacity.</TSA_WD_WarehouseTab_ConvertFoodNone>
+  <TSA_WD_WarehouseTab_ConvertedFood>Converted {0} nutrition into virtual food at {1}.</TSA_WD_WarehouseTab_ConvertedFood>
+  <TSA_WD_WarehouseTab_AutoInclude_Apparel>Include apparel</TSA_WD_WarehouseTab_AutoInclude_Apparel>
+  <TSA_WD_WarehouseTab_AutoInclude_Weapons>Include weapons and ammo</TSA_WD_WarehouseTab_AutoInclude_Weapons>
+  <TSA_WD_WarehouseTab_AutoInclude_Food>Include food</TSA_WD_WarehouseTab_AutoInclude_Food>
+  <TSA_WD_WarehouseTab_AutoInclude_Drugs>Include drugs</TSA_WD_WarehouseTab_AutoInclude_Drugs>
+  <TSA_WD_WarehouseTab_AutoInclude_Medicine>Include medicine</TSA_WD_WarehouseTab_AutoInclude_Medicine>
+  <TSA_WD_WarehouseTab_DestRulesTip>Gear, food and drugs may go to any player outpost, colony or warehouse. Other goods only to a colony or another warehouse. Virtual food only to another player outpost. Daily auto delivery skips gear, food, drugs and medicine unless included in its menu.</TSA_WD_WarehouseTab_DestRulesTip>
+  <TSA_WD_Warehouse_AdHocInvalidDestVirtual>Virtual food can only go to another player outpost.</TSA_WD_Warehouse_AdHocInvalidDestVirtual>
+  <TSA_WD_Warehouse_AdHocInvalidDestGoods>Those goods can only go to a player colony or warehouse.</TSA_WD_Warehouse_AdHocInvalidDestGoods>
   <TSA_WD_Warehouse_ShipInsufficientVirtual>Not enough virtual food to ship (warehouse must keep a reserve).</TSA_WD_Warehouse_ShipInsufficientVirtual>
   <TSA_WD_Warehouse_DestKind_Outpost>Outpost</TSA_WD_Warehouse_DestKind_Outpost>
-  <TSA_WD_Warehouse_FoodDelivery_LetterLabel>Food delivery: {0}</TSA_WD_Warehouse_FoodDelivery_LetterLabel>
-  <TSA_WD_Warehouse_FoodDelivery_Letter>Food from {0} arrived at {1}. +{2} food supply (now {3}/{4}).</TSA_WD_Warehouse_FoodDelivery_Letter>
+  <TSA_WD_Warehouse_GoodsArrived_LetterLabel>Goods arrived: {0}</TSA_WD_Warehouse_GoodsArrived_LetterLabel>
+  <TSA_WD_Warehouse_GoodsArrived_Letter>Items from {0} have arrived at {1}:</TSA_WD_Warehouse_GoodsArrived_Letter>
   <TSA_WD_Warehouse_InspectEmpty>Storage empty.</TSA_WD_Warehouse_InspectEmpty>
   <TSA_WD_Warehouse_InspectStock>{0} item types in storage.</TSA_WD_Warehouse_InspectStock>
   <TSA_WD_Warehouse_InspectAuraBoost>Production boost to nearby Outposts: {0}%</TSA_WD_Warehouse_InspectAuraBoost>
   <TSA_WD_Warehouse_DestNone>nearest colony</TSA_WD_Warehouse_DestNone>
   <TSA_WD_Warehouse_DestKind_Colony>Colony</TSA_WD_Warehouse_DestKind_Colony>
   <TSA_WD_Warehouse_DestKind_Warehouse>Warehouse Outpost</TSA_WD_Warehouse_DestKind_Warehouse>
+  <TSA_WD_Warehouse_DestSameAsOrigin>Destination cannot be the same as the origin.</TSA_WD_Warehouse_DestSameAsOrigin>
+  <TSA_WD_Warehouse_DestNotPlayerSite>Choose a player colony or player outpost.</TSA_WD_Warehouse_DestNotPlayerSite>
+  <TSA_WD_Warehouse_DestNotPlanetSurface>Delivery must stay on the planet surface.</TSA_WD_Warehouse_DestNotPlanetSurface>
+  <TSA_WD_Warehouse_DestUnavailable>That destination is no longer available.</TSA_WD_Warehouse_DestUnavailable>
   <TSA_WD_Warehouse_InvalidDestination>Invalid delivery destination.</TSA_WD_Warehouse_InvalidDestination>
   <TSA_WD_Warehouse_SetDeliveryDest>Set delivery destination</TSA_WD_Warehouse_SetDeliveryDest>
   <TSA_WD_Warehouse_SetDeliveryDestDesc>Choose a player warehouse or colony map. Cycle deliveries from this outpost go there instead of the nearest colony.</TSA_WD_Warehouse_SetDeliveryDestDesc>
@@ -1291,20 +1408,65 @@
   <TSA_WD_Warehouse_ShipViaDropPodNow>Ship via drop pod now</TSA_WD_Warehouse_ShipViaDropPodNow>
   <TSA_WD_Warehouse_ShipViaDropPodDesc>Launch a fast straight-line pod shipment. Goods arrive by drop pod at the colony map edge, your delivery spot, or the target warehouse.</TSA_WD_Warehouse_ShipViaDropPodDesc>
   <TSA_WD_Warehouse_AutoShip>Auto ship once per day</TSA_WD_Warehouse_AutoShip>
-  <TSA_WD_Warehouse_AutoShipDesc>When enabled, this warehouse ships its entire physical stock to the set destination once per day. Virtual food is not included. Travel uses the Land vs Drop Pod delivery mode on this warehouse. Requires a ship destination and enough outpost strength for the delivery cost.</TSA_WD_Warehouse_AutoShipDesc>
+  <TSA_WD_Warehouse_AutoShipDesc>When enabled, this warehouse ships its physical stock to the set destination once per day. Gear, food, drugs and medicine stay unless included in the delivery menu. Virtual food is not included. Travel uses the Land vs Drop Pod delivery mode on this warehouse. Requires a ship destination and enough outpost strength for the delivery cost.</TSA_WD_Warehouse_AutoShipDesc>
   <TSA_WD_Warehouse_AutoShipInsufficientStrength>{0} could not auto-ship: not enough strength for a delivery.</TSA_WD_Warehouse_AutoShipInsufficientStrength>
-  <TSA_WD_DispatchMode_Land>Land delivery</TSA_WD_DispatchMode_Land>
-  <TSA_WD_DispatchMode_DropPod>Drop pod delivery</TSA_WD_DispatchMode_DropPod>
-  <TSA_WD_DispatchMode_LandDesc>Outpost upgrades, settlement purchases, gifts, and negotiations launched from this origin travel by land caravan. Bribes always travel by land. On warehouses, daily auto goods ships use the same mode. Click to switch to drop pods when Transport Pods is researched.</TSA_WD_DispatchMode_LandDesc>
-  <TSA_WD_DispatchMode_DropPodDesc>Outpost upgrades, settlement purchases, gifts, and negotiations launched from this origin travel by drop pod. Bribes always travel by land. On warehouses, daily auto goods ships use the same mode.</TSA_WD_DispatchMode_DropPodDesc>
+  <TSA_WD_DispatchMode_Land>Land caravan</TSA_WD_DispatchMode_Land>
+  <TSA_WD_DispatchMode_DropPod>Drop pod</TSA_WD_DispatchMode_DropPod>
+  <TSA_WD_DispatchMode_LandDesc>Travel by land caravan. No industrial component cost. Click to change.</TSA_WD_DispatchMode_LandDesc>
+  <TSA_WD_DispatchMode_DropPodDesc>Travel by drop pod. Costs 1 industrial component per launch (colonies + warehouses).</TSA_WD_DispatchMode_DropPodDesc>
   <TSA_WD_DispatchMode_DropPodAaWarning>Careful, those could be shot down by anti-air guns of enemy T4 settlements!</TSA_WD_DispatchMode_DropPodAaWarning>
   <TSA_WD_DispatchMode_NeedsResearch>Switching to drop pod delivery requires completed Transport Pod research.</TSA_WD_DispatchMode_NeedsResearch>
+  <TSA_WD_DispatchMode_AutoShipFreeNote>Warehouse daily auto-ship does not spend a component.</TSA_WD_DispatchMode_AutoShipFreeNote>
+  <TSA_WD_Shipment_DestDialogTitle>Choose shipment destination</TSA_WD_Shipment_DestDialogTitle>
+  <TSA_WD_Shipment_PickOnMap>Pick destination on map</TSA_WD_Shipment_PickOnMap>
+  <TSA_WD_Shipment_PickOnMapTip>Close open windows and click a colony or outpost on the world map. Invalid targets keep your selection so you can try again.</TSA_WD_Shipment_PickOnMapTip>
+  <TSA_WD_PawnDropPod_FallbackToLand>Fallback to land travel</TSA_WD_PawnDropPod_FallbackToLand>
+  <TSA_WD_PawnDropPod_FallbackToLandMixed>Fallback to land travel (mixed; check to enable all)</TSA_WD_PawnDropPod_FallbackToLandMixed>
+  <TSA_WD_PawnDropPod_FallbackTip>Per outpost or colony. When a drop-pod pawn launch lacks industrial components: if on, those pawns travel by land instead; if off, that launch aborts. Default on. Does not change scheduled drop-pod preferences.</TSA_WD_PawnDropPod_FallbackTip>
+  <TSA_WD_PawnDropPod_FallbackTipOn>Fallback on: when an automated send from here lacks drop-pod materials, those pawns travel by land instead. Manual actions always offer land.</TSA_WD_PawnDropPod_FallbackTipOn>
+  <TSA_WD_PawnDropPod_FallbackTipOff>Fallback off: when an automated send from here lacks drop-pod materials, the send is held and those pawns stay. Manual actions always offer land.</TSA_WD_PawnDropPod_FallbackTipOff>
+  <TSA_WD_PawnDropPod_FallbackTipMixed>Selected origins disagree. Check the box to use land fallback for all of their automated sends.</TSA_WD_PawnDropPod_FallbackTipMixed>
+  <TSA_WD_PawnDropPod_FallbackSelectOriginsTip>Select pawns to edit fallback for their origins.</TSA_WD_PawnDropPod_FallbackSelectOriginsTip>
+  <TSA_WD_PawnDropPod_ModeLandTip>Travel by land caravan. No industrial component cost. Click to change.</TSA_WD_PawnDropPod_ModeLandTip>
+  <TSA_WD_PawnDropPod_ModeDropPodTip>Travel by drop pod (1 component per traveling pawn, from colonies + warehouses). Click to change.</TSA_WD_PawnDropPod_ModeDropPodTip>
+  <TSA_WD_PawnDropPod_ModeOriginTipLand>Travel by land caravan. No industrial component cost. Click to change.</TSA_WD_PawnDropPod_ModeOriginTipLand>
+  <TSA_WD_PawnDropPod_ModeOriginTipPod>Travel by drop pod (1 component per traveling pawn, from colonies + warehouses). Click to change.</TSA_WD_PawnDropPod_ModeOriginTipPod>
+  <TSA_WD_PawnDropPod_ModeOriginTipMixed>Selected origins disagree. Click to set one travel mode for all of them.</TSA_WD_PawnDropPod_ModeOriginTipMixed>
+  <TSA_WD_PawnDropPod_ModeNoRedirectTip>Travel mode applies once this outpost has a redirection target. Set one with Set Redirection on the outpost.</TSA_WD_PawnDropPod_ModeNoRedirectTip>
+  <TSA_WD_PawnDropPod_ScheduleModeNote>Travel mode and land fallback are set per holding outpost on the prisoners tab.</TSA_WD_PawnDropPod_ScheduleModeNote>
+  <TSA_WD_PawnDropPod_SmartSendModeLine>Travel mode: {0}</TSA_WD_PawnDropPod_SmartSendModeLine>
+  <TSA_WD_PawnDropPod_FallbackButtonOn>Fallback: land</TSA_WD_PawnDropPod_FallbackButtonOn>
+  <TSA_WD_PawnDropPod_FallbackButtonOff>Fallback: abort</TSA_WD_PawnDropPod_FallbackButtonOff>
+  <TSA_WD_PawnDropPod_FallbackButtonMixed>Fallback: mixed</TSA_WD_PawnDropPod_FallbackButtonMixed>
+  <TSA_WD_PawnDropPod_FallbackButtonUnset>Fallback</TSA_WD_PawnDropPod_FallbackButtonUnset>
+  <TSA_WD_PawnDropPod_FallbackMenuLand>If short on components: travel by land</TSA_WD_PawnDropPod_FallbackMenuLand>
+  <TSA_WD_PawnDropPod_FallbackMenuAbort>If short on components: abort launch</TSA_WD_PawnDropPod_FallbackMenuAbort>
+  <TSA_WD_PawnDropPod_CostLine>Drop pod cost: {0} industrial component(s) (1 component per traveling pawn)</TSA_WD_PawnDropPod_CostLine>
+  <TSA_WD_PawnDropPod_TotalCost>Total Cost: {0}x</TSA_WD_PawnDropPod_TotalCost>
+  <TSA_WD_PawnDropPod_StockLine>In stock (colonies + warehouses): {0}</TSA_WD_PawnDropPod_StockLine>
+  <TSA_WD_PawnDropPod_NoComponentCost>No industrial component cost (land travel).</TSA_WD_PawnDropPod_NoComponentCost>
+  <TSA_WD_PawnDropPod_ShortStockNote>Short on components. You will be asked before launching.</TSA_WD_PawnDropPod_ShortStockNote>
+  <TSA_WD_PawnDropPod_StillLaunchTitle>Drop pod materials</TSA_WD_PawnDropPod_StillLaunchTitle>
+  <TSA_WD_PawnDropPod_StillLaunchNeedHave>Need {0} industrial components to drop-pod all selected pawns. You have {1}.</TSA_WD_PawnDropPod_StillLaunchNeedHave>
+  <TSA_WD_PawnDropPod_StillLaunchPodCount>{0} pawn(s) will drop-pod.</TSA_WD_PawnDropPod_StillLaunchPodCount>
+  <TSA_WD_PawnDropPod_StillLaunchLandCount>{0} pawn(s) will travel by land.</TSA_WD_PawnDropPod_StillLaunchLandCount>
+  <TSA_WD_PawnDropPod_StillLaunchAbortCount>{0} pawn(s) will abort.</TSA_WD_PawnDropPod_StillLaunchAbortCount>
+  <TSA_WD_PawnDropPod_StillLaunchAsk>Still launch?</TSA_WD_PawnDropPod_StillLaunchAsk>
+  <TSA_WD_PawnDropPod_AllWouldAbort>Not enough industrial components for drop pods, and land fallback is off for every origin.</TSA_WD_PawnDropPod_AllWouldAbort>
+  <TSA_WD_PawnDropPod_LackingMaterials>Pawn {0} from {1} could not be dispatched via drop pod. Lacking materials!</TSA_WD_PawnDropPod_LackingMaterials>
+  <TSA_WD_PawnDropPod_LackingMaterialsGroup>{0} and {1} other(s) from {2} could not be dispatched via drop pod. Lacking materials!</TSA_WD_PawnDropPod_LackingMaterialsGroup>
+  <TSA_WD_PawnDropPod_NoExitHere>Drop pods cannot Exit Here. Switch to Land.</TSA_WD_PawnDropPod_NoExitHere>
+  <TSA_WD_PawnDropPod_OutOfRange>Destination is outside drop-pod range.</TSA_WD_PawnDropPod_OutOfRange>
+  <TSA_WD_PawnDropPod_NoComponentDef>Industrial component def missing.</TSA_WD_PawnDropPod_NoComponentDef>
+  <TSA_WD_PawnDropPod_SmartSendTitle>Smart Send</TSA_WD_PawnDropPod_SmartSendTitle>
+  <TSA_WD_PawnDropPod_SmartSendConfirm>Confirm Smart Send</TSA_WD_PawnDropPod_SmartSendConfirm>
+  <TSA_WD_PawnDropPod_ScheduleViaDropPod>Travel by drop pod when recruited (1 component per traveling pawn at send)</TSA_WD_PawnDropPod_ScheduleViaDropPod>
+  <TSA_WD_PawnDropPod_ScheduleDeferredCost>Charged when recruitment sends the pawn: 1 component per traveling pawn (have {0}).</TSA_WD_PawnDropPod_ScheduleDeferredCost>
+  <TSA_WD_PawnDropPod_ScheduleFallbackNote>If components are missing at send: land or abort per outpost fallback setting.</TSA_WD_PawnDropPod_ScheduleFallbackNote>
   <TSA_WD_Warehouse_ShipLaunchedDropPod>Drop pod shipment launched toward {0}.</TSA_WD_Warehouse_ShipLaunchedDropPod>
   <TSA_WD_Warehouse_ShipNothingSelected>Select at least one stack to ship.</TSA_WD_Warehouse_ShipNothingSelected>
   <TSA_WD_Warehouse_ShipInsufficient>Not enough stock for that shipment.</TSA_WD_Warehouse_ShipInsufficient>
   <TSA_WD_Warehouse_ShipLaunched>Shipment launched to {0}.</TSA_WD_Warehouse_ShipLaunched>
-  <TSA_WD_Warehouse_Deposit_LetterLabel>Warehouse delivery: {0}</TSA_WD_Warehouse_Deposit_LetterLabel>
-  <TSA_WD_Warehouse_Deposit_Letter>Goods from {0} have arrived at warehouse {1}:</TSA_WD_Warehouse_Deposit_Letter>
   <TSA_WD_Warehouse_PodDeposit>Stored {0} item stack(s) at {1}.</TSA_WD_Warehouse_PodDeposit>
   <TSA_WD_Warehouse_CaravanDeposit>Stored {0} caravan item(s) at {1}.</TSA_WD_Warehouse_CaravanDeposit>
   <TSA_WD_SetRedirection>Set redirection target</TSA_WD_SetRedirection>

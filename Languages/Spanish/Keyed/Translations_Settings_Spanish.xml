@@ -420,6 +420,8 @@
   <TSA_WD_Caravans_HeaderWaterTravel>Viaje por agua</TSA_WD_Caravans_HeaderWaterTravel>
   <TSA_WD_Caravans_AllowTravelOverWater>Permitir que las caravanas crucen agua</TSA_WD_Caravans_AllowTravelOverWater>
   <TSA_WD_Caravans_AllowTravelOverWaterTip>Si está activo, los viajeros WD pueden usar pathfinding especial por casillas cubiertas de agua (opciones abajo). Si está desactivado, solo se usan rutas mundiales normales y no se calcula ruta acuática. También se gestiona en Presets de ajustes → Rendimiento si usas esos packs.</TSA_WD_Caravans_AllowTravelOverWaterTip>
+  <TSA_WD_Caravans_T3T4DropPodsOverWater>T3 y T4 siempre usan cápsulas para cruzar agua</TSA_WD_Caravans_T3T4DropPodsOverWater>
+  <TSA_WD_Caravans_T3T4DropPodsOverWaterTip>Si una incursión T3/T4 no tiene ruta por tierra, se lanza como incursión en cápsulas (atrición y AA normales de cápsula) en lugar de pathfinding acuático. Si está desactivado, esas incursiones cruzan agua a pie como T1/T2. No cambia incursiones con ruta terrestre ni otros viajeros. Activado por defecto.</TSA_WD_Caravans_T3T4DropPodsOverWaterTip>
   <TSA_WD_Caravans_HeaderTrader>Caravanas comerciales WD</TSA_WD_Caravans_HeaderTrader>
   <TSA_WD_Caravans_HeaderOutpostDelivery>Entregas de avanzadilla</TSA_WD_Caravans_HeaderOutpostDelivery>
   <TSA_WD_Caravans_HeaderStoryteller>Comerciantes del narrador</TSA_WD_Caravans_HeaderStoryteller>
@@ -459,7 +461,7 @@
   <TSA_WD_ShowUpdatePopups>Mostrar aviso de actualización del mod</TSA_WD_ShowUpdatePopups>
   <TSA_WD_ShowUpdatePopups_Tooltip>Si se activa, aparece una pequeña ventana una vez al cargar un mapa cuando este mod se ha actualizado a una nueva versión.</TSA_WD_ShowUpdatePopups_Tooltip>
   <TSA_WD_WorldMapOverlayHoldKey>Tecla de retención de superposiciones (mapa del mundo)</TSA_WD_WorldMapOverlayHoldKey>
-  <TSA_WD_WorldMapOverlayHoldKey_Tooltip>Mantén esta tecla y pulsa A para Tus colonos, X para la pestaña principal WD, S para Estadísticas del mundo, D para Diplomacia, Y para Prisioneros, F para Resumen de avanzadillas o G para Viajeros activos. En el mapa del mundo, también pulsa 1–7 para alternar las superposiciones WD (casillas bloqueadas, fertilidad, animales, peces, minería, movimiento, contaminación), o Q/W/E/R/T para Resaltar relaciones, Resaltar jugador, etiquetas de nivel, bloqueos/trampas y etiquetas de puesto.</TSA_WD_WorldMapOverlayHoldKey_Tooltip>
+  <TSA_WD_WorldMapOverlayHoldKey_Tooltip>Mantén esta tecla y pulsa A para Tus colonos, X para la pestaña principal WD, S para Estadísticas del mundo, D para Diplomacia, Y para Prisioneros, F para Resumen de avanzadillas, G para Viajeros activos o V para Todo el equipo. En el mapa del mundo, también pulsa 1–7 para alternar las superposiciones WD (casillas bloqueadas, fertilidad, animales, peces, minería, movimiento, contaminación), o Q/W/E/R/T para Resaltar relaciones, Resaltar jugador, etiquetas de nivel, bloqueos/trampas y etiquetas de puesto.</TSA_WD_WorldMapOverlayHoldKey_Tooltip>
   <TSA_WD_VerboseLogging>Registro detallado</TSA_WD_VerboseLogging>
   <TSA_WD_VerboseLogging_Tooltip>Si está activo, el mod escribe líneas extra de correlación en el registro ([WD] y [WD Perf]): p. ej. contabilidad de comida, pathing, amenazas y recreación de asentamientos en configuración mundial. Útil para diagnosticar tirones o problemas de colocación.</TSA_WD_VerboseLogging_Tooltip>
   <TSA_WD_UpdatePopup_Open>Abrir</TSA_WD_UpdatePopup_Open>
@@ -697,7 +699,7 @@
   <TSA_WD_SpikeTrapKindTooltip>Trabajo: {0}\nDaño: {1}\nDías est./casilla: {2}\nCoste de fuerza: {3}\nPV máx.: {4}</TSA_WD_SpikeTrapKindTooltip>
   <TSA_WD_RoadKindTooltip>Trabajo: {0}\nMult. de coste: {1}\nDías est./segmento: {2}\nCoste de fuerza: {3}</TSA_WD_RoadKindTooltip>
   <TSA_WD_BuildReq_Header>Requisitos</TSA_WD_BuildReq_Header>
-  <TSA_WD_BuildReq_Construction>Construcción: {0} / {1}</TSA_WD_BuildReq_Construction>
+  <TSA_WD_BuildReq_Construction>Construcción: {0} ({1})</TSA_WD_BuildReq_Construction>
   <TSA_WD_BuildReq_ResearchNone>Investigación: ninguna</TSA_WD_BuildReq_ResearchNone>
   <TSA_WD_BuildReq_ResearchDone>Investigación: {0} (completa)</TSA_WD_BuildReq_ResearchDone>
   <TSA_WD_BuildReq_ResearchMissing>Investigación: {0} (falta)</TSA_WD_BuildReq_ResearchMissing>
@@ -822,7 +824,7 @@
   <TSA_WD_Important_Diff_Easy>Dificultad fácil</TSA_WD_Important_Diff_Easy>
   <TSA_WD_Important_Diff_Medium>Dificultad media</TSA_WD_Important_Diff_Medium>
   <TSA_WD_Important_Diff_Hard>Dificultad difícil</TSA_WD_Important_Diff_Hard>
-  <TSA_WD_Important_Diff_EasyDesc>Enfriamientos de incursión más largos, menos incursiones, límite del narrador más débil (50–150%), menor peso de incursión. Mid Game y Late Game no se activan.</TSA_WD_Important_Diff_EasyDesc>
+  <TSA_WD_Important_Diff_EasyDesc>Enfriamientos de incursión más largos, menos incursiones, límite del narrador más débil (50–150%), menor peso de incursión. Mid Game y Late Game no se activan. Coste de componentes de transporte por cápsula desactivado.</TSA_WD_Important_Diff_EasyDesc>
   <TSA_WD_Important_Diff_MediumDesc>Presión de incursión por defecto. Mid Game al 8% de cuota o 4.000 de fuerza de avanzadillas; Late Game al 14% o 7.500. Morteros/AA T4 contra ti solo en Late Game.</TSA_WD_Important_Diff_MediumDesc>
   <TSA_WD_Important_Diff_HardDesc>Enfriamientos más cortos, más incursiones, límite del narrador más fuerte (100–300%), mayor peso de incursión. Misma sincronización Mid Game / Late Game que Medio, pero Late Game golpea más duro y morteros/AA T4 contra ti ya están activos en Mid Game.</TSA_WD_Important_Diff_HardDesc>
 
@@ -920,6 +922,10 @@
   <TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>Cuando está activado, la redirección hacia objetivos de oportunidad, el saqueo tras la victoria y la emboscada de asentamientos (los que estén activados arriba) pueden activarse desde el mismísimo comienzo de una partida, en lugar de solo al alcanzar la escalada media o avanzada. No tiene ningún efecto sobre los tres a menos que al menos uno de ellos también esté activado.</TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>
   <TSA_WD_Experimental_EnableWorldMapSounds>Sonidos de combate WD en el mapa mundial</TSA_WD_Experimental_EnableWorldMapSounds>
   <TSA_WD_Experimental_EnableWorldMapSoundsTip>Cuando está activado, AT Turret, mortero y flak reproducen sonidos cortos en el mapa mundial. Desactívalo para silenciar esos sonidos de combate WD. Los clics de la interfaz no cambian.</TSA_WD_Experimental_EnableWorldMapSoundsTip>
+  <TSA_WD_Experimental_OutpostCePassiveAmmo>Munición Combat Extended en avanzada</TSA_WD_Experimental_OutpostCePassiveAmmo>
+  <TSA_WD_Experimental_OutpostCePassiveAmmoTip>Con Combat Extended activo, los colonos de avanzada con arma a distancia primaria acumulan su munición básica (FMJ, flechas de piedra, cohetes simples) a {0} cargadores por día, hasta {1} cargadores en el inventario. Gratis y un poco tramposo. Desactívalo para deshabilitarlo. Activado por defecto.</TSA_WD_Experimental_OutpostCePassiveAmmoTip>
+  <TSA_WD_Experimental_OutpostArmory>Armería de avanzada</TSA_WD_Experimental_OutpostArmory>
+  <TSA_WD_Experimental_OutpostArmoryTip>Cuando está activado, cada avanzada mantiene un almacén suelto para armas, armaduras, medicina, drogas, comida y munición. El equipo que llega en caravana o cápsula se guarda en lugar de destruirse, y puedes repartirlo entre los ocupantes desde el botón Armería de la pestaña Personajes. Desactívalo para volver a descartar el equipo entrante. Lo ya guardado permanece en la partida. Activado por defecto.</TSA_WD_Experimental_OutpostArmoryTip>
   <TSA_WD_Experimental_OutpostWithdrawStrengthBudget>Experimental: presupuesto de fuerza al retirar de avanzadillas</TSA_WD_Experimental_OutpostWithdrawStrengthBudget>
   <TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>Si está activado, las retiradas usan la fuerza ofensiva actual sin tope con un margen del 5 % para confirmar. Si los peones seleccionados superan ese presupuesto, se abre un selector: Formar caravana, Quedarse en la avanzadilla o Marcar como perdido. Si está desactivado, las transferencias siguen sin esa comprobación.</TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>
   <TSA_WD_Experimental_OutpostDefenseDeployBudget>Experimental: presupuesto de fuerza al desplegar defensa</TSA_WD_Experimental_OutpostDefenseDeployBudget>
@@ -999,6 +1005,8 @@
   <TSA_WD_Experimental_HeaderUpkeep>Mantenimiento de plata de avanzadillas</TSA_WD_Experimental_HeaderUpkeep>
   <TSA_WD_Upkeep_Enable>Activar mantenimiento de plata (Medio/Tardío)</TSA_WD_Upkeep_Enable>
   <TSA_WD_Upkeep_EnableTip>Con la escalada Media o Tardía activa, tus colonos en avanzadillas cuestan plata cada periodo. La plata no pagada hace que se vayan. Experimental y desactivado por defecto.</TSA_WD_Upkeep_EnableTip>
+  <TSA_WD_DropPodTransportCostComponents>Coste de componentes de transporte por cápsula</TSA_WD_DropPodTransportCostComponents>
+  <TSA_WD_DropPodTransportCostComponentsTip>Si está activo, los lanzamientos por cápsula del jugador gastan componentes industriales (1 por peón viajero; 1 por viajero de mercancías). Si está desactivado, el coste mostrado y cobrado es 0. El preset Fácil lo desactiva; Medio y Difícil lo activan.</TSA_WD_DropPodTransportCostComponentsTip>
   <TSA_WD_Upkeep_SilverPerOccupant>Plata por colono de avanzadilla</TSA_WD_Upkeep_SilverPerOccupant>
   <TSA_WD_Upkeep_SilverPerOccupantTip>Cada ocupante en una avanzadilla WD del jugador suma esta plata a la factura. Mecanoides, prisioneros, animales y vehículos son gratis.</TSA_WD_Upkeep_SilverPerOccupantTip>
   <TSA_WD_Upkeep_IntervalDays>Periodo de mantenimiento (días)</TSA_WD_Upkeep_IntervalDays>

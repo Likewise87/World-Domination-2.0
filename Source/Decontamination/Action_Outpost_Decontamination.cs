@@ -67,7 +67,7 @@ namespace TSA_WorldDomination
 
             if (decontamBusy)
             {
-                string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+                string insufficient = comp.GetInsufficientConstructionMessage();
                 string label = insufficient
                     ?? "TSA_WD_DecontaminationBuildStatus".Translate(
                         comp.decontamTargetName.NullOrEmpty() ? "…" : comp.decontamTargetName,

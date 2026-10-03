@@ -4,11 +4,11 @@ How to use this file: open when adding or changing globe-mesh `Material`, expand
 
 ## Unity assets on static fields (`Texture2D` / `Material`)
 
-RimWorld requires types that declare **static** `Texture2D` or `Material` fields to be marked with `[StaticConstructorOnStartup]`. Those assets must load on the **main thread** at startup. This is a general C# rule, not just a world-map one. Without the attribute, the game logs:
+RimWorld requires types that declare **static** `Texture`, `Texture2D`, or `Material` fields to be marked with `[StaticConstructorOnStartup]`. Those assets must load on the **main thread** at startup. This is a general C# rule, not just a world-map one. Without the attribute, the game logs:
 
-`Type X probably needs a StaticConstructorOnStartup attribute, because it has a field … of type Texture2D/Material.`
+`Type X probably needs a StaticConstructorOnStartup attribute, because it has a field … of type Texture/Texture2D/Material.`
 
-**Always check this when adding cached icons, mats, or lazy `ContentFinder` / `MaterialPool` fields.**
+**Always check this when adding cached icons, mats, or lazy `ContentFinder` / `MaterialPool` fields** — including runtime-only holders like `WdItemDragDrop.dragIcon` (no `ContentFinder`; still flagged because the field type is `Texture`).
 
 Rules:
 
@@ -17,7 +17,7 @@ Rules:
 - **Inspect tabs (`WITab_*`):** WorldObjectDefs instantiate tab types during def resolve. Do **not** put `ContentFinder` / static `Texture2D` fields on the WITab type itself — even with `[StaticConstructorOnStartup]`, early construction can run the static ctor off the main thread. Use a sibling assets holder (e.g. `WITab_Outpost_WarehouseAssets`).
 - Nested / companion types with their own static assets need their **own** attribute (e.g. `Dialog_OutpostSelection` vs `WD_OutpostSelectionCachedDefs`).
 - Properties that only *return* a `Texture2D` without storing one do not need the attribute; **fields** do.
-- Dictionaries of materials (`Dictionary<int, Material>`) are not flagged the same way, but if you add a bare `static Material` / `static Texture2D` field, add the attribute.
+- Dictionaries of materials (`Dictionary<int, Material>`) are not flagged the same way, but if you add a bare `static Material` / `static Texture` / `static Texture2D` field, add the attribute.
 - Treat this warning as a regression, not as harmless noise. If a new static cached icon/texture/material is added, the owning type must get the attribute in the same pass.
 
 ## WD outpost world-map icons (`Material` vs expanding)
@@ -39,6 +39,7 @@ Vanilla draws world objects in two layers. Mixing their textures is what made ou
 - **Suppressing the globe mesh for WD outposts / travelers / settlements:** use isolated `Patch_WdWorldObjectNoExpandingIcon` (TransitionPct=1 **plus** both Expandable/NonExpandable `ShouldSkip` so Material never draws), gated by Notifications settings toggles (default on). That keeps the upright expanding icon at every zoom and avoids the planet-tangent / double-image look. Do not point Material at outpost-type art as a substitute.
 - **Mortar / flak shells + `MortarWorldFx`:** at far zoom use the same `WD_WorldMapZoomUtil.IsSurfaceOverlayZoomedTooFarOut` gate as road blocks / spike traps. Shell travelers (`MortarStrike` / `AntiAirStrike` only — not drop pods) force TransitionPct=0 and skip both Material layers so they do not stay visible from space when always-show traveler icons is on.
 - **Close-zoom disappearing icons:** vanilla fades expanding icons at `WorldCameraZoomRange.VeryClose` and shows Material instead. With Material skipped, icons must stay (`TransitionPct` Prefix/Postfix = 1 for ForceFixedIcon). Also patch `WorldObjectSelectionUtility.HiddenBehindTerrainNow`: near the surface the camera–icon chord clips inside the planet sphere (`obstructsExpandingIcons`), so the hide test false-positives and blanks upright settlement/outpost icons. Bypass that hide only at Close/VeryClose for ForceFixedIcon objects on the **camera-facing hemisphere**, measured in the object's `PlanetLayer.Origin` frame (`Dot(DrawPos - Origin, CameraPosition - Origin) > 0`). Do not use world-origin Dot (wrong when layer Origin is offset). Keep far-side hide so icons do not show through the planet. At Far/VeryFar leave vanilla hide alone. Never restore Material for ForceFixedIcon to “fix” VeryClose blanks.
+- **VeryClose blank despite would-draw:** with Material skipped, vanilla `ExpandableWorldObjectsOnGUI` can still leave ForceFixedIcon with no visible pixels at `WorldCameraZoomRange.VeryClose` even when `TransitionPct=1` and `HiddenBehindTerrainNow=false`. After that OnGUI, re-blit ForceFixedIcon with plain `GUI.DrawTexture` + `ExpandedIconScreenRect` (see `ExpandableWorldObjectsOnGUI_VeryCloseBlit_Patch`). Do not re-enable Material. Dot / zoom-band hide-bypass tweaks do not fix this path.
 - Road-block `DrawQuadTangentialToPlanet` rotation and FlakSmoke `GUI.matrix` rotation were red herrings for this bug.
 
 ## Traveler expanding / Material icons (`ResolveIconTexturePath`)

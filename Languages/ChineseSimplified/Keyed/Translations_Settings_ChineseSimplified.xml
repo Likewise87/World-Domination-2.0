@@ -428,7 +428,7 @@
   <TSA_WD_ShowUpdatePopups>显示模组更新提示</TSA_WD_ShowUpdatePopups>
   <TSA_WD_ShowUpdatePopups_Tooltip>启用后,当此模组更新到新版本且你加载地图时,会弹出一次简短提示窗口。</TSA_WD_ShowUpdatePopups_Tooltip>
   <TSA_WD_WorldMapOverlayHoldKey>世界地图叠加层按住键</TSA_WD_WorldMapOverlayHoldKey>
-  <TSA_WD_WorldMapOverlayHoldKey_Tooltip>按住此键并按 A 打开你的殖民者，按 X 打开 WD 主标签，按 S 打开世界统计，按 D 打开外交，按 Y 打开囚犯，按 F 打开前哨总览，按 G 打开活跃旅行者。在世界地图上还可按 1–7 切换 WD 叠加层（禁建格、肥力、动物、鱼类、采矿、移动、污染）；按 Q/W/E/R/T 可切换关系高亮、玩家高亮、定居点等级标签、路障与陷阱，以及前哨标签。</TSA_WD_WorldMapOverlayHoldKey_Tooltip>
+  <TSA_WD_WorldMapOverlayHoldKey_Tooltip>按住此键并按 A 打开你的殖民者，按 X 打开 WD 主标签，按 S 打开世界统计，按 D 打开外交，按 Y 打开囚犯，按 F 打开前哨总览，按 G 打开活跃旅行者，按 V 打开全部装备。在世界地图上还可按 1–7 切换 WD 叠加层（禁建格、肥力、动物、鱼类、采矿、移动、污染）；按 Q/W/E/R/T 可切换关系高亮、玩家高亮、定居点等级标签、路障与陷阱，以及前哨标签。</TSA_WD_WorldMapOverlayHoldKey_Tooltip>
   <TSA_WD_VerboseLogging>详细日志</TSA_WD_VerboseLogging>
   <TSA_WD_VerboseLogging_Tooltip>启用后，模组会向日志写入额外的关联诊断行（[WD] 与 [WD Perf]），例如食物结算、寻路、威胁更新以及世界设置中的定居点重建。用于排查卡顿或放置问题。</TSA_WD_VerboseLogging_Tooltip>
   <TSA_WD_UpdatePopup_Open>打开</TSA_WD_UpdatePopup_Open>
@@ -469,6 +469,8 @@
   <TSA_WD_Caravans_HeaderWaterTravel>水域通行</TSA_WD_Caravans_HeaderWaterTravel>
   <TSA_WD_Caravans_AllowTravelOverWater>允许商队穿越水域</TSA_WD_Caravans_AllowTravelOverWater>
   <TSA_WD_Caravans_AllowTravelOverWaterTip>启用后，WD 行进者可使用针对被水覆盖地格的特殊寻路（见下方选项）。关闭后仅使用原版世界路径，不运行任何水路寻路。使用这些预设包时也可在「设置预设 → 性能」中管理。</TSA_WD_Caravans_AllowTravelOverWaterTip>
+  <TSA_WD_Caravans_T3T4DropPodsOverWater>T3/T4 过水一律使用空降舱</TSA_WD_Caravans_T3T4DropPodsOverWater>
+  <TSA_WD_Caravans_T3T4DropPodsOverWaterTip>当 T3/T4 袭击没有陆路时，改为空降舱袭击（沿用现有空降舱损耗与防空），而不走水路寻路。关闭后这些袭击与 T1/T2 一样涉水步行。不影响有陆路的袭击或其他行进者。默认开启。</TSA_WD_Caravans_T3T4DropPodsOverWaterTip>
   <TSA_WD_Caravans_HeaderTrader>WD 贸易商队</TSA_WD_Caravans_HeaderTrader>
   <TSA_WD_Caravans_HeaderOutpostDelivery>前哨配送商队</TSA_WD_Caravans_HeaderOutpostDelivery>
   <TSA_WD_Caravans_HeaderStoryteller>叙事者商人</TSA_WD_Caravans_HeaderStoryteller>
@@ -700,7 +702,7 @@
   <TSA_WD_SpikeTrapKindTooltip>工作量：{0}\n伤害：{1}\n预计天数/格：{2}\n实力消耗：{3}\n最大 HP：{4}</TSA_WD_SpikeTrapKindTooltip>
   <TSA_WD_RoadKindTooltip>工作量：{0}\n代价倍率：{1}\n预计天数/段：{2}\n实力消耗：{3}</TSA_WD_RoadKindTooltip>
   <TSA_WD_BuildReq_Header>需求</TSA_WD_BuildReq_Header>
-  <TSA_WD_BuildReq_Construction>建造：{0} / {1}</TSA_WD_BuildReq_Construction>
+  <TSA_WD_BuildReq_Construction>建造：{0}（{1}）</TSA_WD_BuildReq_Construction>
   <TSA_WD_BuildReq_ResearchNone>研究：无</TSA_WD_BuildReq_ResearchNone>
   <TSA_WD_BuildReq_ResearchDone>研究：{0}（已完成）</TSA_WD_BuildReq_ResearchDone>
   <TSA_WD_BuildReq_ResearchMissing>研究：{0}（未完成）</TSA_WD_BuildReq_ResearchMissing>
@@ -817,7 +819,7 @@
   <TSA_WD_Important_Diff_Easy>简单难度</TSA_WD_Important_Diff_Easy>
   <TSA_WD_Important_Diff_Medium>中等难度</TSA_WD_Important_Diff_Medium>
   <TSA_WD_Important_Diff_Hard>困难难度</TSA_WD_Important_Diff_Hard>
-  <TSA_WD_Important_Diff_EasyDesc>更长的袭击冷却、更少袭击、更弱的叙事者钳制（50–150%）、更低袭击权重。中期游戏与后期游戏永不激活。</TSA_WD_Important_Diff_EasyDesc>
+  <TSA_WD_Important_Diff_EasyDesc>更长的袭击冷却、更少袭击、更弱的叙事者钳制（50–150%）、更低袭击权重。中期游戏与后期游戏永不激活。运输舱出行零件消耗关闭。</TSA_WD_Important_Diff_EasyDesc>
   <TSA_WD_Important_Diff_MediumDesc>默认袭击压力。中期游戏为 8% 占比或 4,000 前哨实力；后期游戏为 14% 或 7,500。对你的 T4 迫击炮/防空仅在后期游戏开启。</TSA_WD_Important_Diff_MediumDesc>
   <TSA_WD_Important_Diff_HardDesc>更短冷却、允许更多袭击、更强叙事者钳制（100–300%）、更高袭击权重。中期游戏与后期游戏时机与中等相同，但后期游戏打击更重，且对你的 T4 迫击炮/防空在中期游戏已启用。</TSA_WD_Important_Diff_HardDesc>
 
@@ -915,6 +917,10 @@
   <TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>开启后，机会目标改道、胜利后劫掠、以及据点伏击（以上三项中已开启的那些）可以从游戏一开始就触发，而不必等到进入中期或后期升级阶段。如果以上三项均未开启，此选项不会产生任何效果。</TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>
   <TSA_WD_Experimental_EnableWorldMapSounds>WD 世界地图战斗音效</TSA_WD_Experimental_EnableWorldMapSounds>
   <TSA_WD_Experimental_EnableWorldMapSoundsTip>开启后，AT 炮塔、迫击炮与防空高射在世界地图上播放短音效。关闭可静音这些 WD 战斗音效。界面点击音不受影响。</TSA_WD_Experimental_EnableWorldMapSoundsTip>
+  <TSA_WD_Experimental_OutpostCePassiveAmmo>前哨 Combat Extended 弹药囤积</TSA_WD_Experimental_OutpostCePassiveAmmo>
+  <TSA_WD_Experimental_OutpostCePassiveAmmoTip>启用 Combat Extended 时，携带远程主武器的前哨殖民者会缓慢囤积该武器的基础弹药（全金属被甲弹、石箭头、简易火箭），每天 {0} 个弹匣，库存上限 {1} 个弹匣。免费且略偏作弊。关闭可禁用。默认开启。</TSA_WD_Experimental_OutpostCePassiveAmmoTip>
+  <TSA_WD_Experimental_OutpostArmory>前哨军械库</TSA_WD_Experimental_OutpostArmory>
+  <TSA_WD_Experimental_OutpostArmoryTip>开启后，每个前哨都会保留一个散装仓库，可存放武器、护甲、药品、毒品、食物与弹药。通过商队或投送舱抵达的装备将被存入而非销毁，你可以在人员标签页的"军械库"按钮中把它们分发给驻守人员。关闭后恢复为丢弃抵达的装备；已存入的物品仍保留在存档中。默认开启。</TSA_WD_Experimental_OutpostArmoryTip>
   <TSA_WD_Experimental_OutpostWithdrawStrengthBudget>实验：前哨撤离兵力预算</TSA_WD_Experimental_OutpostWithdrawStrengthBudget>
   <TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>开启后，撤离使用当前未封顶的进攻兵力，并允许 5% 的确认余量。若所选殖民者超过该预算，会弹出选择：组建商队、留在前哨或标记失去。关闭后，调动不再做该兵力检查。</TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>
   <TSA_WD_Experimental_OutpostDefenseDeployBudget>实验：前哨手动防御部署兵力预算</TSA_WD_Experimental_OutpostDefenseDeployBudget>
@@ -989,6 +995,8 @@
   <TSA_WD_Experimental_HeaderUpkeep>前哨银币维护</TSA_WD_Experimental_HeaderUpkeep>
   <TSA_WD_Upkeep_Enable>启用前哨银币维护（中期/后期）</TSA_WD_Upkeep_Enable>
   <TSA_WD_Upkeep_EnableTip>中期或后期升级激活时，前哨殖民者每周期需要银币。未付清会使殖民者离开。实验性功能，默认关闭。</TSA_WD_Upkeep_EnableTip>
+  <TSA_WD_DropPodTransportCostComponents>运输舱出行零件消耗</TSA_WD_DropPodTransportCostComponents>
+  <TSA_WD_DropPodTransportCostComponentsTip>开启时，玩家运输舱发射消耗工业零件（每位出行殖民者 1 个；每位货物旅行者 1 个）。关闭时，显示与扣除的消耗均为 0。简单难度预设关闭此选项；中等与困难开启。</TSA_WD_DropPodTransportCostComponentsTip>
   <TSA_WD_Upkeep_SilverPerOccupant>每名前哨殖民者银币</TSA_WD_Upkeep_SilverPerOccupant>
   <TSA_WD_Upkeep_SilverPerOccupantTip>玩家 WD 前哨的每位驻员计入此银币费用。机械体、囚犯、动物与载具免费。</TSA_WD_Upkeep_SilverPerOccupantTip>
   <TSA_WD_Upkeep_IntervalDays>维护周期（天）</TSA_WD_Upkeep_IntervalDays>

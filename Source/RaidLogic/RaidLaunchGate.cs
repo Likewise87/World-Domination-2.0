@@ -116,7 +116,7 @@ namespace TSA_WorldDomination
                 else if (pathTravelTicks >= 0f)
                     result.efficiency = ResolveEfficiency(attacker.Tile, target.Tile, seth, attacker.Faction, pathTravelTicks);
                 else
-                    result.efficiency = ResolveEfficiency(attacker.Tile, target.Tile, seth, attacker.Faction, -1f);
+                    result.efficiency = ResolveEfficiencyForRaidAssess(attacker, target, seth);
                 result.effectiveAtt = result.rawAttPower * result.efficiency;
                 result.requiredRatio = requiredRatioOverride >= 0f
                     ? requiredRatioOverride
@@ -134,12 +134,29 @@ namespace TSA_WorldDomination
 
             result.efficiency = efficiencyOverride >= 0f
                 ? efficiencyOverride
-                : ResolveEfficiency(attacker.Tile, target.Tile, seth, attacker.Faction, pathTravelTicks);
+                : pathTravelTicks >= 0f
+                    ? ResolveEfficiency(attacker.Tile, target.Tile, seth, attacker.Faction, pathTravelTicks)
+                    : ResolveEfficiencyForRaidAssess(attacker, target, seth);
             result.effectiveAtt = result.rawAttPower * result.efficiency;
             result.ratio = result.effectiveAtt / outpostDenom;
             result.requiredRatio = seth.minRaidRatio;
             result.passed = result.ratio >= result.requiredRatio;
             return result;
+        }
+
+        /// <summary>
+        /// Assess-time efficiency: T3/T4 over-water → drop-pod attrition (skip water A*); otherwise prep path/heuristic.
+        /// </summary>
+        private static float ResolveEfficiencyForRaidAssess(Settlement attacker, WorldObject target, WorldDominationSettings seth)
+        {
+            CompViralSpread attComp = attacker?.GetComponent<CompViralSpread>();
+            if (TravelUtils.ShouldRaidUseDropPodsOverWater(attacker, attComp, target, seth)
+                && TravelUtils.TryDropPodRaidEfficiency(
+                    attacker.Tile, target.Tile, seth, attacker.Faction, out float podEff, out _))
+            {
+                return podEff;
+            }
+            return ResolveEfficiency(attacker.Tile, target.Tile, seth, attacker.Faction, -1f);
         }
 
         /// <summary>

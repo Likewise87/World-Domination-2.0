@@ -22,7 +22,7 @@ Em dashes and keyed tone: `COPY_STYLE.md`.
 
 ## Layout conventions
 
-- Recruiting dialog follows **Outpost Production** two-column layout: stats and context on the left, selectable rows on the right.
+- Recruiting dialog follows **Outpost Production** two-column layout: stats and context on the left, selectable rows on the right. The travel mode icon plus fallback checkbox sit right-aligned on the left column's selected-training row (not the full-width header row, which would float above the right-hand picker).
 - Right-column rows match production: icon, name, gray formula line, Select button.
 - Do not stack long explanatory paragraphs above a picker table; use one selected summary line on the left (icon + name) and formula text on each row.
 
@@ -36,7 +36,7 @@ See `Dialog_OutpostSkillScalingSettings` + `OutpostSkillScaling.NormalizeBands`.
 
 ## Hubs and exclusivity
 
-`WdNavWindows` (`UI/WdNavWindows.cs`): `OpenExclusive` closes all nav windows then opens one. `ToggleExclusive` closes if already open. `CloseAllNavWindows` also closes faction/raid-detail overlays and a few pawn dialogs.
+`WdNavWindows` (`UI/WdNavWindows.cs`): `OpenExclusive` closes all nav windows then opens one. `ToggleExclusive` closes if already open. `CloseAllNavWindows` also closes faction/raid-detail overlays, a few pawn dialogs, and `Dialog_OutpostArmory`.
 
 | Class | File |
 |-------|------|
@@ -46,6 +46,7 @@ See `Dialog_OutpostSkillScalingSettings` + `OutpostSkillScaling.NormalizeBands`.
 | `Window_ActionLog` | `UI/Window_ActionLog.cs` (dashboard only) |
 | `Window_ActiveTravelers` | `UI/Window_ActiveTravelers.cs` |
 | `Window_AllPlayerPawns` | `UI/Window_AllPlayerPawns.cs` |
+| `Window_AllPlayerGear` | `UI/Window_AllPlayerGear.cs` |
 | `Window_Prisoners` | `UI/Window_Prisoners.cs` |
 
 Main tab: `MainTabWindow_WorldDomination` (`UI/Window_MainDashboard.cs`). `Window_RemoteEstablishPawns` is not in this exclusive set.
@@ -74,6 +75,28 @@ Column sets differ. Chrome must not be copied again.
 
 Extend `DrawRosterViewControls` / `DrawFilterableHeader`. Do not start a fifth copy.
 
+## Pawn travel mode controls
+
+All drawing lives in `Outposts/PlayerPawnDropPodUtility.cs`. Icons are the warehouse `LandIcon` / `DropPodIcon` tinted `WorldOverlayLineMaterials.DarkCyanColor`, with a float menu on click. No visible labels on the mode icon; everything is explained on mouseover. Ad hoc strips and confirms use one line: mode icon, then if drop pod `Total Cost: {N}x` plus the industrial-component `ThingIcon` (`DrawModeAndTotalCostLine` / `DrawAdHocModeAndCostStrip` / `DrawModeReadoutWithTotalCost`). Stock and short-stock notes live on the cost-segment tip.
+
+| Scope | Helper | Where |
+|-------|--------|--------|
+| Ad hoc, one global choice, session only | `DrawAdHocModeIcon` (28f) and `DrawAdHocModeAndCostStrip` (single-line Total Cost) | `Window_AllPlayerPawns` toolbar sets it; Transfer, Remote establish, and the tile-first picker read it |
+
+Remote founding (All Player Pawns Establish / tile-first picker): founders must share one origin (one colony map or one WD outpost of any type). Mixed origins disable Establish/Confirm with the fail tip. Materials and drop-pod components still come from the player colony map plus warehouses (`Outpost_PowerPlant.GetPlayerColonyMap`), never from the outpost origin map.
+| Confirm / goods dest | `DrawModeReadoutWithTotalCost` | `Dialog_SmartSendConfirm`, `Dialog_AdHocShipmentDestination` (Gear + Warehouse Ship Now) |
+| Automated sends, persisted per origin | `DrawOriginModeAndFallback(Single)` (58f: icon, 6f gap, 24f checkbox) | `Window_Prisoners`, `WITab_Outpost_Pawns`, `Dialog_OutpostRecruiting` left column |
+
+The fallback checkbox only appears next to a per-origin mode icon, because it governs automated sends only. Manual actions pass `ShortStockFallback.AlwaysLand` and let the player back out of the "Still launch?" confirm instead. Do not add a fallback checkbox to an ad-hoc toolbar. Ad hoc pod launches (Gear, Warehouse Ship Now, Transfer / Smart Send, remote establish, Rapid Response) call `PlayerPawnDropPodUtility.ConfirmHostileAaThen` before commit; multi-origin warns if any remaining pod flight is threatened.
+
+## Armory windows
+
+- `Outposts/Armory/Dialog_OutpostArmory.cs` — two-column gear dialog, opened from the Armory button on `WITab_Outpost_Pawns`. Occupants on the left read **live** `pawn.equipment` / `pawn.apparel` (`VirtualPawnSummary` never snapshots those); the store on the right renders grouped `ArmoryRows()` (on a warehouse, the gear slice of the shared warehouse stock) and ungrouped uniques. Its Convert to virtual food button converts all stored food via `OutpostFoodConversion`. Chrome matches All Player Pawns: `PawnRosterHeaderFilter` name search on occupants, Item search + Type weapon filter (Guns / Bows / Melee / Grenades / Other) + Count sort on the store, static session filters, zebra rows, shared dropdown. Occupant rows also show Shooting / Melee / Health% (sortable; Health on by default here) and icon-only Apparel / Weapons / Food & Drugs sections. Armory / All Gear buttons use the vanilla recon armor icon (`Apparel_ReconArmor`).
+- `UI/Window_AllPlayerGear.cs` — every outpost Armory, uncommitted colony-map stacks, and pawn-equipped gear, with multi-select send from stores/maps. Outposts send through `OutpostStorageShipping.TryLaunch`, colonies through `ColonyArmoryLaunchUtility.TryLaunch`; the targeter validates each source with `IsValidShipmentDestination`. Rows at an outpost under manual defense, gear in world caravans, and worn/carried gear on a map under an active hostile assault/siege lord (or an active WD defense/clash encounter) show a disabled checkbox with the reason on hover. Multi-origin send to a destination that is also one of the selected origins opens `Dialog_AllInventorySkipSameDest` (scrollable skipped list) and ships only the other origins on confirm. Part of the exclusive nav set above.
+- `Outposts/Warehouse/WITab_Outpost_Warehouse.cs` Storage tab lists the whole warehouse stock (armory rows included) plus armory uniques (cyan), with All Player Gear chrome: checkboxes, Type / Quality / Count columns, filterable Item / Type / Quality headers, clean labels (quality not in the name), and send amounts defaulting to max. Ship Now and Convert to virtual food only use checked rows. The daily auto delivery button ends under Ship Now. The auto-delivery menu carries the per-warehouse Include Apparel / Weapons and ammo / Food / Drugs / Medicine checkboxes; picking one toggles it and reopens the menu through `WdFixedPosFloatMenu` at the old menu's position, so the rows do not jump to the cursor. Any self-rebuilding float menu must do the same; `UI/WdCascadingFloatMenu.cs` is only for the parent/child build cascade, since its statics treat every instance as part of one cascade.
+- `UI/WdItemDragDrop.cs` — the only drag-and-drop helper. Built on `Widgets.ButtonInvisibleDraggable`, which also gives click-to-move from the same call. It owns the payload and mouse-up itself, because the lists cull rows while scrolling and that would otherwise drop Widgets' active control mid-drag. Draw the ghost after the last `EndScrollView`/`EndGroup` or it is clipped.
+- `UI/Dialog_WdCountPicker.cs` — shared count prompt (shift-drop to split a stack), using the established `Widgets.TextFieldNumeric` convention.
+
 **Join Stamp** (prefs id still `New`): days since first player-faction join via `WorldComponent_PlayerPawnJoinTimes`. Shared filter enum `PawnRosterJoinedFilter` and helpers in `PlayerPawnRosterUtility` / `PawnRosterHeaderFilter.JoinedFilterChoices`. Used by All Player Pawns and Outpost Pawns.
 
 ## Table headers
@@ -86,6 +109,7 @@ Leftover local headers (leave unless touching that window): `Window_FactionDetai
 
 - Diplomacy: `searchTerm`, `sortColumn`, `sortAscending` are **static** (survive close).
 - All Player Pawns: filters and sort are **static**.
+- Outpost Armory: `pawnSearchTerm`, `itemSearchTerm`, `typeFilter`, `sortColumn`, `sortAscending` are **static**.
 - World Stats: `nameFilter`, `sortColumn`, and `sortAscending` are **static**.
 
 Match the window you are editing. Do not assume all hubs share one pattern.

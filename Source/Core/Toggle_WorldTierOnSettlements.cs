@@ -918,7 +918,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Hold configured key (default Left Alt): on the world map, 1–7 / Q–T toggle overlays;
-        /// anywhere in play, A/X/S/D/Y/F/G/C open WD windows / world map (pawns, main tab, world stats, diplomacy, prisoners, outposts, travelers, world map).
+        /// anywhere in play, A/X/S/D/Y/F/G/C/V open WD windows / world map (pawns, main tab, world stats, diplomacy, prisoners, outposts, travelers, world map, all gear).
         /// Uses Unity Input (not Event.current) so a leftover TextField focus — common after
         /// search boxes / rename fields — cannot permanently kill the chord mid-game.
         /// Safe to call from WorldComponentOnGUI and from hub DoWindowContents (frame-debounced).
@@ -1001,7 +1001,7 @@ namespace TSA_WorldDomination
             return -1;
         }
 
-        /// <summary>A / X / S / D / Y / F / G / C → window / world-map shortcuts.</summary>
+        /// <summary>A / X / S / D / Y / F / G / C / V → window / world-map shortcuts.</summary>
         private static int OverlayWindowHotkeyFromInput()
         {
             if (Input.GetKeyDown(KeyCode.A)) return 0;
@@ -1012,6 +1012,7 @@ namespace TSA_WorldDomination
             if (Input.GetKeyDown(KeyCode.F)) return 5;
             if (Input.GetKeyDown(KeyCode.G)) return 6;
             if (Input.GetKeyDown(KeyCode.C)) return 7;
+            if (Input.GetKeyDown(KeyCode.V)) return 8;
             return -1;
         }
 
@@ -1042,6 +1043,10 @@ namespace TSA_WorldDomination
                     return;
                 case 7: // C — World map
                     WdNavWindows.ToggleWorldMap();
+                    return;
+                case 8: // V — All Player Gear
+                    if (!OutpostArmoryUtility.FeatureEnabled) return;
+                    WdNavWindows.ToggleExclusive(() => new Window_AllPlayerGear());
                     return;
             }
         }

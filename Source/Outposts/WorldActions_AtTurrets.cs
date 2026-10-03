@@ -15,6 +15,10 @@ namespace TSA_WorldDomination
 
         public static int GetMinConstruction(AtTurretTier tier)
         {
+            WdWorldBuildCostExtension ext = ColonyWorldBuildRequirements.GetAtTurretBuildExtension(tier);
+            if (ext != null && ext.minCumulativeConstructionSkill >= 0)
+                return ext.minCumulativeConstructionSkill;
+
             var s = WorldDominationMod.settings;
             if (s != null)
                 return s.GetAtTurretMinConstruction(tier);
@@ -142,6 +146,9 @@ namespace TSA_WorldDomination
                 return false;
             if (!ColonyWorldBuildRequirements.MeetsAtTurretRequirements(actor, comp.selectedAtTurretTier))
                 return false;
+            if (ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(actor)
+                && !ColonyWorldBuildRequirements.HasMaterialCostsForAtTurret(comp.selectedAtTurretTier))
+                return false;
 
             float cost = GetExpeditionStrengthCost(comp.selectedAtTurretTier);
             if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(comp, cost)) return false;
@@ -178,7 +185,10 @@ namespace TSA_WorldDomination
                 WorldActions_Utils.RefundExpeditionStrength(comp, cost);
                 return false;
             }
-            return true;
+
+            List<OutpostUpgradeCostEntry> materials =
+                ColonyWorldBuildRequirements.GetMaterialCostsForAtTurret(comp.selectedAtTurretTier);
+            return ColonyWorldBuildRequirements.TryFinalizeMaterialsOrAbort(origin, traveler, cost, materials);
         }
 
         public static void ExecuteAtTurretArrival(WorldObject_Traveler traveler)

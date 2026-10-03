@@ -78,12 +78,23 @@ namespace TSA_WorldDomination
             traveler.rapidResponseStrengthRefunded = true;
         }
 
-        /// <summary>Refund strength, release raid goodwill, log, and destroy the traveler.</summary>
-        public static void AbortTraveler(WorldObject_Traveler traveler, string reason, WorldComponent_SpreadManager manager = null)
+        /// <summary>
+        /// Refund strength, release raid goodwill, log, and destroy the traveler.
+        /// <paramref name="refundCargo"/> must be false when the traveler is dying to damage rather
+        /// than being cancelled, otherwise routing a shipment into attrition would return the goods.
+        /// </summary>
+        public static void AbortTraveler(
+            WorldObject_Traveler traveler,
+            string reason,
+            WorldComponent_SpreadManager manager = null,
+            bool refundCargo = true)
         {
             if (traveler == null || traveler.Destroyed) return;
 
             manager ??= Find.World?.GetComponent<WorldComponent_SpreadManager>();
+
+            if (refundCargo && traveler is WorldObject_Traveler_Outpost_Delivery delivery)
+                delivery.RefundCargoToOrigin();
 
             RefundTravelerStrength(traveler, 1f);
             if (WorldObject_Traveler.IsRaidMission(traveler.mission))

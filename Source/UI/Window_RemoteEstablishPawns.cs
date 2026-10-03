@@ -9,7 +9,7 @@ using Verse.Sound;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Colony-only pawn picker for tile-first remote establish.
+    /// Same-origin pawn picker for tile-first remote establish (colony or one outpost).
     /// Confirm launches via <see cref="RemoteOutpostEstablishUtility.TryLaunch"/>.
     /// </summary>
     [StaticConstructorOnStartup]
@@ -112,23 +112,25 @@ namespace TSA_WorldDomination
             Widgets.Label(new Rect(0f, 0f, inRect.width - ConfirmBtnWidth - 16f, 32f), title);
             Text.Font = GameFont.Small;
 
-            var selected = PlayerPawnRosterUtility.ResolveSelectedEntries(cachedList, selectedThingIds);
-            bool hasHiddenSelection = selected.Count < selectedThingIds.Count;
-            bool canConfirm;
-            string disabledTip;
-            if (hasHiddenSelection)
-            {
-                // Keep Confirm enabled while filters hide part of the selection; validate fully on click.
-                if (selected.Count == 0)
-                {
-                    canConfirm = selectedThingIds.Count > 0;
-                    disabledTip = null;
-                }
-                else
-                    canConfirm = CanConfirm(selected, out disabledTip);
-            }
-            else
-                canConfirm = CanConfirm(selected, out disabledTip);
+            float modeStripY = 34f;
+            var selectedForPod = PlayerPawnRosterUtility.ResolveSelectedEntriesIncludingHidden(cachedList, selectedThingIds);
+            WorldObject podOrigin = null;
+            if (RemoteOutpostEstablishUtility.TryValidateFoundingSelection(selectedForPod, out WorldObject origin, out _, out _))
+                podOrigin = origin;
+            bool allowPod = RapidResponseUtility.TransportPodsResearched()
+                && podOrigin != null
+                && !podOrigin.Destroyed
+                && PlayerPawnDropPodUtility.InDropPodRange(podOrigin, tile);
+            string podTip = !RapidResponseUtility.TransportPodsResearched()
+                ? "TSA_WD_DispatchMode_NeedsResearch".Translate()
+                : (!allowPod ? "TSA_WD_PawnDropPod_OutOfRange".Translate() : null);
+            float modeH = PlayerPawnDropPodUtility.DrawAdHocModeAndCostStrip(
+                new Rect(0f, modeStripY, Mathf.Max(280f, inRect.width - ConfirmBtnWidth - 24f), 90f),
+                launchCount: 1,
+                allowDropPod: allowPod,
+                disabledPodTip: podTip);
+
+            bool canConfirm = CanConfirm(selectedForPod, out string disabledTip);
 
             Rect confirmRect = new Rect(inRect.width - ConfirmBtnWidth, 2f, ConfirmBtnWidth, ToolbarBtnHeight());
             if (!canConfirm)
@@ -141,12 +143,10 @@ namespace TSA_WorldDomination
             }
             else if (Widgets.ButtonText(confirmRect, "TSA_WD_TileFirstEstablish_Confirm".Translate()))
             {
-                var full = PlayerPawnRosterUtility.ResolveSelectedEntriesIncludingHidden(cachedList, selectedThingIds);
-                full.RemoveAll(e => e.locationKind != PlayerPawnLocationKind.Colony);
-                TryConfirm(full);
+                TryConfirm(selectedForPod);
             }
 
-            float headerTop = ToolbarHeight;
+            float headerTop = modeStripY + modeH + 6f;
             float listTop = headerTop + HeaderHeight + 4f;
             float tableHeight = inRect.height - listTop - 8f;
 
@@ -175,14 +175,15 @@ namespace TSA_WorldDomination
         private bool CanConfirm(List<PlayerPawnRosterEntry> selected, out string disabledTip)
         {
             disabledTip = null;
-            if (!RemoteOutpostEstablishUtility.TryValidateColonySelection(selected, out MapParent source, out _, out string fail, colonyOnlyRoster: true))
+            if (!RemoteOutpostEstablishUtility.TryValidateFoundingSelection(selected, out _, out _, out string fail))
             {
                 disabledTip = fail;
                 return false;
             }
 
+            Map colonyMap = Outpost_PowerPlant.GetPlayerColonyMap();
             List<Pawn> pawns = RemoteOutpostEstablishUtility.CollectPawns(selected);
-            if (!RemoteOutpostEstablishUtility.CanEstablishAtRemote(tile, outpostDef, pawns, source?.Map, out string establishFail))
+            if (!RemoteOutpostEstablishUtility.CanEstablishAtRemote(tile, outpostDef, pawns, colonyMap, out string establishFail))
             {
                 disabledTip = establishFail;
                 return false;
@@ -193,19 +194,20 @@ namespace TSA_WorldDomination
 
         private void TryConfirm(List<PlayerPawnRosterEntry> selected)
         {
-            if (!RemoteOutpostEstablishUtility.TryValidateColonySelection(selected, out MapParent source, out List<PlayerPawnRosterEntry> entries, out string fail, colonyOnlyRoster: true))
+            if (!RemoteOutpostEstablishUtility.TryValidateFoundingSelection(selected, out WorldObject origin, out List<PlayerPawnRosterEntry> entries, out string fail))
             {
                 Messages.Message(fail ?? "TSA_WD_RemoteEstablish_InvalidSelection".Translate(), MessageTypeDefOf.RejectInput, false);
                 return;
             }
 
             RemoteOutpostEstablishUtility.LaunchAfterOptionalCarryConfirm(
-                tile, outpostDef, source, entries,
+                tile, outpostDef, origin, entries,
                 onSuccess: () => Close(),
                 onFail: launchFail => Messages.Message(
                     launchFail ?? "TSA_WD_RemoteEstablish_Failed".Translate(),
                     MessageTypeDefOf.RejectInput, false),
-                onCancel: null);
+                onCancel: null,
+                viaDropPod: PlayerPawnDropPodUtility.AdHocViaDropPod);
         }
 
         private static void DrawHorizontallyScrolledSection(Rect viewport, float scrollX, float contentWidth, Action<float> draw)
@@ -220,11 +222,9 @@ namespace TSA_WorldDomination
             PlayerPawnStarFilter? starF = null)
         {
             string pawnSearchLower = string.IsNullOrEmpty(pawnSearchTerm) ? null : pawnSearchTerm.ToLowerInvariant();
-            var list = PlayerPawnRosterUtility.BuildRoster(
+            return PlayerPawnRosterUtility.BuildRoster(
                 pawnSearchLower, null, null, null,
                 useDefaultGrouping, sortColumn, sortAscending, starF ?? starFilter, typeF);
-            list.RemoveAll(e => e.locationKind != PlayerPawnLocationKind.Colony);
-            return list;
         }
 
         private static float ComputeTotalTableWidth()
@@ -382,11 +382,48 @@ namespace TSA_WorldDomination
             {
                 for (int i = 0; i < cachedList.Count; i++)
                 {
-                    if (!cachedList[i].isMovable) continue;
-                    string tid = cachedList[i].thingId;
-                    if (!tid.NullOrEmpty())
-                        selectedThingIds.Add(tid);
+                    PlayerPawnRosterEntry e = cachedList[i];
+                    if (!e.isMovable || e.thingId.NullOrEmpty()) continue;
+                    if (e.sourceOutpost != null && OutpostPawnIdeologyUtil.IsSlaveHumanlike(e.pawn)) continue;
+                    selectedThingIds.Add(e.thingId);
                 }
+                for (int i = 0; i < cachedList.Count; i++)
+                {
+                    PlayerPawnRosterEntry e = cachedList[i];
+                    if (!e.isMovable || e.thingId.NullOrEmpty()) continue;
+                    if (e.sourceOutpost == null || !OutpostPawnIdeologyUtil.IsSlaveHumanlike(e.pawn)) continue;
+                    if (OutpostPawnIdeologyUtil.CanToggleOutpostRemovalSelection(e.sourceOutpost, selectedThingIds, e.pawn))
+                        selectedThingIds.Add(e.thingId);
+                }
+                PruneAllOutpostRemovalSelections();
+            }
+        }
+
+        private void PruneAllOutpostRemovalSelections()
+        {
+            if (cachedList == null || selectedThingIds.Count == 0) return;
+            var seen = new HashSet<WorldObject_WD_Outpost>();
+            for (int i = 0; i < cachedList.Count; i++)
+            {
+                WorldObject_WD_Outpost op = cachedList[i].sourceOutpost;
+                if (op == null || !seen.Add(op)) continue;
+                PruneOutpostRemovalSelection(op);
+            }
+        }
+
+        private void PruneOutpostRemovalSelection(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null) return;
+            OutpostPawnIdeologyUtil.PruneDependentRemovalSelection(outpost, selectedThingIds);
+            if (OutpostPawnIdeologyUtil.SelectionIncludesNonSlaveOccupant(outpost, selectedThingIds))
+                return;
+            for (int i = 0; i < cachedList.Count; i++)
+            {
+                PlayerPawnRosterEntry e = cachedList[i];
+                if (e.sourceOutpost != outpost || e.thingId.NullOrEmpty()) continue;
+                if (e.pawn != null && outpost.Occupants != null && outpost.Occupants.Contains(e.pawn))
+                    continue;
+                selectedThingIds.Remove(e.thingId);
             }
         }
 
@@ -459,7 +496,24 @@ namespace TSA_WorldDomination
             curX += ColLocName;
 
             Rect selRect = new Rect(curX, y, ColSelect, RowHeight);
-            if (entry.isMovable && entry.mapParent != null)
+            if (entry.isMovable && entry.sourceOutpost != null)
+            {
+                bool wasSelected = selectedThingIds.Contains(entry.thingId);
+                bool canInteract = OutpostPawnIdeologyUtil.CanToggleOutpostRemovalSelection(
+                    entry.sourceOutpost,
+                    selectedThingIds,
+                    entry.pawn);
+                float cx = curX + (ColSelect - 24f) * 0.5f;
+                float cy = y + (RowHeight - 24f) * 0.5f;
+                if (!wasSelected && !canInteract)
+                    TooltipHandler.TipRegion(selRect, "TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip".Translate());
+                bool nowSelected = PawnRosterPaintSelect.Draw(this, selRect, cx, cy, 24f, entry.thingId, selectedThingIds, canInteract);
+                if (nowSelected != wasSelected)
+                    PruneOutpostRemovalSelection(entry.sourceOutpost);
+            }
+            else if (entry.isMovable
+                && entry.locationKind == PlayerPawnLocationKind.Colony
+                && entry.mapParent != null)
             {
                 bool canInteract = PlayerPawnTransferUtility.ColonyBulkSelectionIsAllowedWithExtra(
                     entry.mapParent,
@@ -474,7 +528,7 @@ namespace TSA_WorldDomination
                     for (int i = 0; i < cachedList.Count; i++)
                     {
                         PlayerPawnRosterEntry e = cachedList[i];
-                        if (e.mapParent != entry.mapParent) continue;
+                        if (e.mapParent != entry.mapParent || e.sourceOutpost != null) continue;
                         if (e.pawn == null || e.thingId.NullOrEmpty()) continue;
                         if (selectedThingIds.Contains(e.thingId) || e.thingId == entry.thingId)
                             probe.Add(e.pawn);

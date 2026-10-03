@@ -716,55 +716,13 @@ namespace TSA_WorldDomination
     public static class OutpostUpgradeUtility
     {
         /// <summary>The single player colony map (we assume one player home map).</summary>
-        private static Map GetColonyMap() => Find.AnyPlayerHomeMap;
-
-        private static int warehouseCacheTick = -1;
-        private static List<WorldObject_WD_Outpost> warehouseCache;
+        private static Map GetColonyMap() => ColonyWorldBuildMaterials.GetColonyMap();
 
         /// <summary>All player warehouse outposts. Colony map plus every warehouse count toward upgrade payment.</summary>
         private static List<WorldObject_WD_Outpost> GetContributingWarehouses(int outpostTile)
         {
             _ = outpostTile;
-            int t = Find.TickManager?.TicksGame ?? 0;
-            if (warehouseCache != null && t == warehouseCacheTick)
-                return warehouseCache;
-
-            var result = new List<WorldObject_WD_Outpost>();
-            IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
-            for (int i = 0; i < outposts.Count; i++)
-            {
-                WorldObject_WD_Outpost wo = outposts[i];
-                if (wo == null || wo.Destroyed || !Outpost_Warehouse_Delivery.IsWarehouseOutpost(wo)) continue;
-                if (CompOutpostWarehouse.Get(wo) == null) continue;
-                result.Add(wo);
-            }
-            warehouseCache = result;
-            warehouseCacheTick = t;
-            return result;
-        }
-
-        private static int CountWarehouseStored(List<WorldObject_WD_Outpost> warehouses, ThingDef def)
-        {
-            if (warehouses == null || def == null) return 0;
-            int total = 0;
-            for (int i = 0; i < warehouses.Count; i++)
-            {
-                var comp = CompOutpostWarehouse.Get(warehouses[i]);
-                if (comp != null) total += comp.GetStoredCount(def);
-            }
-            return total;
-        }
-
-        private static int CountWarehouseStoneBlocks(List<WorldObject_WD_Outpost> warehouses)
-        {
-            if (warehouses == null) return 0;
-            int total = 0;
-            for (int i = 0; i < warehouses.Count; i++)
-            {
-                var comp = CompOutpostWarehouse.Get(warehouses[i]);
-                if (comp != null) total += comp.GetStoredStoneBlocksCount();
-            }
-            return total;
+            return ColonyWorldBuildMaterials.GetContributingWarehouses();
         }
 
         /// <summary>Origin for the symbolic upgrade caravan: nearest warehouse or colony, whichever is closer to the upgrading outpost.</summary>
@@ -955,130 +913,26 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        public static bool IsAnyStoneBlocksCost(OutpostUpgradeCostEntry c)
-        {
-            if (c == null) return false;
-            if (c.costMode == OutpostUpgradeCostMode.AnyStoneBlocks) return true;
-            return c.thingDef != null && c.thingDef.defName != null && c.thingDef.defName.StartsWith("Blocks");
-        }
+        public static bool IsAnyStoneBlocksCost(OutpostUpgradeCostEntry c) =>
+            ColonyWorldBuildMaterials.IsAnyStoneBlocksCost(c);
 
-        public static string GetCostDisplayLabel(OutpostUpgradeCostEntry c)
-        {
-            if (c == null) return "";
-            if (IsAnyStoneBlocksCost(c))
-                return "TSA_WD_OutpostUpgrades_AnyStoneBlocks".Translate().ToString();
-            return c.thingDef?.LabelCap ?? "—";
-        }
+        public static string GetCostDisplayLabel(OutpostUpgradeCostEntry c) =>
+            ColonyWorldBuildMaterials.GetCostDisplayLabel(c);
 
-        private static bool HasCost(Map map, List<WorldObject_WD_Outpost> warehouses, List<OutpostUpgradeCostEntry> cost, out string reason, Dictionary<string, bool> availabilityByDefName = null)
-        {
-            reason = null;
-            if (cost == null || cost.Count == 0) return true;
-            foreach (var c in cost)
-            {
-                if (c?.thingDef == null || c.count <= 0) continue;
-                bool isStone = IsAnyStoneBlocksCost(c);
-                int have = isStone
-                    ? CountAnyStoneBlocks(map) + CountWarehouseStoneBlocks(warehouses)
-                    : CountAvailable(map, c.thingDef) + CountWarehouseStored(warehouses, c.thingDef);
-                if (availabilityByDefName != null)
-                    availabilityByDefName[c.thingDef.defName] = have >= c.count;
-                if (have < c.count)
-                {
-                    reason = "TSA_WD_OutpostUpgrades_NeedHave".Translate(c.count.ToString(), GetCostDisplayLabel(c), have.ToString());
-                    return false;
-                }
-            }
-            return true;
-        }
+        private static bool HasCost(
+            Map map,
+            List<WorldObject_WD_Outpost> warehouses,
+            List<OutpostUpgradeCostEntry> cost,
+            out string reason,
+            Dictionary<string, bool> availabilityByDefName = null) =>
+            ColonyWorldBuildMaterials.HasCost(map, warehouses, cost, out reason, availabilityByDefName);
 
         private static bool DeductCost(
             Map map,
             List<WorldObject_WD_Outpost> warehouses,
             List<OutpostUpgradeCostEntry> cost,
             out string reason,
-            out HashSet<WorldObject_WD_Outpost> warehousesThatContributed)
-        {
-            reason = null;
-            warehousesThatContributed = new HashSet<WorldObject_WD_Outpost>();
-            if (cost == null || cost.Count == 0) return true;
-            foreach (var c in cost)
-            {
-                if (c?.thingDef == null || c.count <= 0) continue;
-                int toRemove = c.count;
-                bool isStone = IsAnyStoneBlocksCost(c);
-
-                if (map != null)
-                    toRemove -= DeductFromMap(map, c.thingDef, isStone, toRemove);
-
-                if (toRemove > 0 && warehouses != null)
-                {
-                    for (int i = 0; i < warehouses.Count && toRemove > 0; i++)
-                    {
-                        var comp = CompOutpostWarehouse.Get(warehouses[i]);
-                        if (comp == null) continue;
-                        int took = isStone ? comp.WithdrawStoneBlocksUpTo(toRemove) : comp.WithdrawUpTo(c.thingDef, toRemove);
-                        if (took > 0)
-                            warehousesThatContributed.Add(warehouses[i]);
-                        toRemove -= took;
-                    }
-                }
-
-                if (toRemove > 0)
-                {
-                    reason = "TSA_WD_OutpostUpgrades_DeductFailed".Translate(GetCostDisplayLabel(c));
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        private static int DeductFromMap(Map map, ThingDef def, bool isStone, int amount)
-        {
-            if (map == null || amount <= 0) return 0;
-            int toRemove = amount;
-            var source = isStone ? map.listerThings.AllThings : map.listerThings.ThingsOfDef(def);
-            var pool = new List<Thing>();
-            for (int pi = 0; pi < source.Count; pi++)
-            {
-                var item = source[pi];
-                if (!item.Spawned) continue;
-                if (isStone && (item.def?.defName == null || !item.def.defName.StartsWith("Blocks"))) continue;
-                pool.Add(item);
-            }
-            foreach (var t in pool)
-            {
-                if (toRemove <= 0) break;
-                int take = Mathf.Min(toRemove, t.stackCount);
-                if (take == t.stackCount) t.Destroy(DestroyMode.Vanish);
-                else t.SplitOff(take).Destroy(DestroyMode.Vanish);
-                toRemove -= take;
-            }
-            return amount - toRemove;
-        }
-
-        private static int CountAvailable(Map map, ThingDef def)
-        {
-            if (map == null || def == null) return 0;
-            var things = map.listerThings.ThingsOfDef(def);
-            int total = 0;
-            for (int i = 0; i < things.Count; i++)
-                if (things[i].Spawned) total += things[i].stackCount;
-            return total;
-        }
-
-        private static int CountAnyStoneBlocks(Map map)
-        {
-            if (map == null) return 0;
-            var things = map.listerThings.AllThings;
-            int total = 0;
-            for (int i = 0; i < things.Count; i++)
-            {
-                var t = things[i];
-                if (t.Spawned && t.def?.defName != null && t.def.defName.StartsWith("Blocks"))
-                    total += t.stackCount;
-            }
-            return total;
-        }
+            out HashSet<WorldObject_WD_Outpost> warehousesThatContributed) =>
+            ColonyWorldBuildMaterials.DeductCost(map, warehouses, cost, out reason, out warehousesThatContributed);
     }
 }

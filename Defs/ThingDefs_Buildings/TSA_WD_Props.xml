@@ -199,6 +199,50 @@
     </graphicData>
   </ThingDef>
 
+  <!-- ========== Storage: crate pallets (2x2). BoxPallet_3 is futuristic — Generic scatter only. ========== -->
+  <ThingDef Name="TSA_WD_BoxPalletBase" ParentName="TSA_WD_PropBase" Abstract="True">
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.35</fillPercent>
+    <pathCost>20</pathCost>
+    <size>(2,2)</size>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Mass>18</Mass>
+      <Flammability>0.7</Flammability>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="TSA_WD_BoxPalletBase">
+    <defName>TSA_WD_BoxPallet_1a</defName>
+    <label>crate pallet</label>
+    <description>A wooden pallet stacked with storage crates.</description>
+    <graphicData>
+      <texPath>Props/WD_BoxPallet_1</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_BoxPalletBase">
+    <defName>TSA_WD_BoxPallet_2a</defName>
+    <label>crate pallet</label>
+    <description>A wooden pallet stacked with storage crates.</description>
+    <graphicData>
+      <texPath>Props/WD_BoxPallet_2</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+  </ThingDef>
+  <ThingDef ParentName="TSA_WD_BoxPalletBase">
+    <defName>TSA_WD_BoxPallet_3a</defName>
+    <label>crate pallet</label>
+    <description>A pallet of industrial storage crates.</description>
+    <graphicData>
+      <texPath>Props/WD_BoxPallet_3</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+  </ThingDef>
+
   <!-- ========== Generic: carts (square art; VFE-style drawSize > footprint) ========== -->
   <ThingDef Name="TSA_WD_CartBase" ParentName="TSA_WD_PropBase" Abstract="True">
     <passability>Impassable</passability>

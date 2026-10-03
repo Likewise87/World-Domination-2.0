@@ -660,7 +660,7 @@ namespace TSA_WorldDomination
         {
             if (origin == null || target == null || target.Destroyed || pawns == null || pawns.Count == 0)
                 return null;
-            return SpawnRapidResponseDropPodTraveler(origin, target.Tile.tileId, pawns, target);
+            return SpawnPlayerPawnDropPodTraveler(origin, target.Tile.tileId, pawns, target);
         }
 
         /// <summary>Ballistic RR drop-pod to a destination tile. Optional <paramref name="target"/> enables special arrival (clash, colony map, outpost join).</summary>
@@ -669,8 +669,21 @@ namespace TSA_WorldDomination
             int destTileId,
             List<Pawn> pawns,
             WorldObject target = null)
+            => SpawnPlayerPawnDropPodTraveler(origin, destTileId, pawns, target);
+
+        /// <summary>
+        /// Player pawn drop-pod from an outpost or colony <paramref name="origin"/>.
+        /// Uses the RapidResponseDropPod world object / arrival path.
+        /// </summary>
+        public static WorldObject_Traveler_RapidResponseDropPod SpawnPlayerPawnDropPodTraveler(
+            WorldObject origin,
+            int destTileId,
+            List<Pawn> pawns,
+            WorldObject target = null,
+            List<ThingDefCountClass> deliveryItems = null,
+            WorldObjectDef establishOutpostDef = null)
         {
-            if (origin == null || pawns == null || pawns.Count == 0)
+            if (origin == null || origin.Destroyed || pawns == null || pawns.Count == 0)
                 return null;
             if (destTileId < 0 || !Find.WorldGrid.InBounds(destTileId))
                 return null;
@@ -683,7 +696,7 @@ namespace TSA_WorldDomination
 
             var traveler = (WorldObject_Traveler_RapidResponseDropPod)WorldObjectMaker.MakeWorldObject(def);
             traveler.Tile = origin.Tile;
-            traveler.SetFaction(origin.Faction);
+            traveler.SetFaction(origin.Faction ?? Faction.OfPlayer);
             traveler.originObject = origin;
             traveler.targetObject = TravelerEndpointUtility.IsLiveEndpoint(target) ? target : null;
             traveler.mission = TravelerMission.RapidResponseDropPod;
@@ -691,11 +704,23 @@ namespace TSA_WorldDomination
             traveler.travelerStrength = 1f;
             traveler.initialStrength = 1f;
             traveler.carriedPawns = new List<Pawn>(pawns);
+            if (deliveryItems != null && deliveryItems.Count > 0)
+                traveler.deliveryItems = new List<ThingDefCountClass>(deliveryItems);
+            traveler.establishOutpostDef = establishOutpostDef;
             Find.WorldObjects.Add(traveler);
             traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(destTileId, origin));
-            // SpawnSetup wakes AA before StartPath (no dest/arc yet). Re-wake so nearby T4 AA sees the flyby.
             AntiAirFireUtils.WakeAllForDropPod(traveler);
             return traveler;
+        }
+
+        public static WorldObject_Traveler_RapidResponseDropPod SpawnPlayerPawnDropPodTraveler(
+            WorldObject origin,
+            WorldObject target,
+            List<Pawn> pawns)
+        {
+            if (origin == null || target == null || target.Destroyed)
+                return null;
+            return SpawnPlayerPawnDropPodTraveler(origin, target.Tile.tileId, pawns, target);
         }
 
         private static void ExecuteRapidResponseDropPodArrival(WorldObject_Traveler_RapidResponseDropPod traveler)
@@ -704,26 +729,48 @@ namespace TSA_WorldDomination
             List<Pawn> removed = traveler.TakeCarriedPawns();
             if (removed == null || removed.Count == 0) return;
 
+            if (traveler.establishOutpostDef != null)
+            {
+                ExecuteEstablishDropPodArrival(traveler, removed);
+                return;
+            }
+
             WorldObject target = traveler.targetObject;
-            WorldObject_WD_Outpost origin = traveler.originObject as WorldObject_WD_Outpost;
+            WorldObject originWo = traveler.originObject;
+            WorldObject_WD_Outpost origin = originWo as WorldObject_WD_Outpost;
+            MapParent originColony = originWo as MapParent;
+            if (originColony is WorldObject_WD_Outpost) originColony = null;
             int landTile = traveler.Tile.tileId;
 
             void ReturnHome()
             {
-                if (origin == null || origin.Destroyed)
+                if (origin != null && !origin.Destroyed)
                 {
                     for (int i = 0; i < removed.Count; i++)
                     {
                         Pawn p = removed[i];
-                        if (p != null && !p.Destroyed) p.Destroy();
+                        if (p == null || p.Destroyed || p.Dead) continue;
+                        origin.AddPawn(p, null!);
                     }
+                    return;
+                }
+                if (originColony != null && !originColony.Destroyed && originColony.HasMap)
+                {
+                    RapidResponseUtility.DropPawnsViaDropPods(removed, originColony.Map);
+                    return;
+                }
+                int homeTile = originWo != null && !originWo.Destroyed
+                    ? originWo.Tile.tileId
+                    : landTile;
+                if (homeTile >= 0 && Find.WorldGrid.InBounds(homeTile))
+                {
+                    CaravanMaker.MakeCaravan(removed, Faction.OfPlayer, homeTile, true);
                     return;
                 }
                 for (int i = 0; i < removed.Count; i++)
                 {
                     Pawn p = removed[i];
-                    if (p == null || p.Destroyed || p.Dead) continue;
-                    origin.AddPawn(p, null!);
+                    if (p != null && !p.Destroyed) p.Destroy();
                 }
             }
 
@@ -790,9 +837,89 @@ namespace TSA_WorldDomination
             Messages.Message("TSA_WD_RapidResponse_DropPodsArrived".Translate(removed.Count.ToString(), destLabel), MessageTypeDefOf.NeutralEvent, false);
         }
 
+        private static void ExecuteEstablishDropPodArrival(WorldObject_Traveler_RapidResponseDropPod traveler, List<Pawn> removed)
+        {
+            WorldObjectDef outpostDef = traveler.establishOutpostDef;
+            traveler.establishOutpostDef = null;
+            int landTile = traveler.Tile.tileId;
+            var goods = MaterializeDeliveryItems(traveler.deliveryItems);
+            if (traveler.deliveryItems != null)
+                traveler.deliveryItems.Clear();
+
+            Faction fac = traveler.Faction ?? Faction.OfPlayer;
+            if (outpostDef == null || landTile < 0 || !Find.WorldGrid.InBounds(landTile))
+            {
+                Caravan orphan = CaravanMaker.MakeCaravan(removed, fac, Mathf.Max(0, landTile), true);
+                for (int i = 0; i < goods.Count; i++)
+                    if (goods[i] != null && !goods[i].Destroyed && orphan != null)
+                        orphan.AddPawnOrItem(goods[i], false);
+                Messages.Message(
+                    "TSA_WD_RemoteEstablish_Failed".Translate(outpostDef?.LabelCap ?? ""),
+                    orphan,
+                    MessageTypeDefOf.RejectInput,
+                    false);
+                return;
+            }
+
+            Caravan establishCaravan = CaravanMaker.MakeCaravan(removed, fac, landTile, true);
+            if (establishCaravan == null || establishCaravan.Destroyed)
+            {
+                for (int i = 0; i < goods.Count; i++)
+                    if (goods[i] != null && !goods[i].Destroyed)
+                        goods[i].Destroy(DestroyMode.Vanish);
+                Messages.Message(
+                    "TSA_WD_RemoteEstablish_Failed".Translate(outpostDef.LabelCap),
+                    MessageTypeDefOf.RejectInput,
+                    false);
+                return;
+            }
+            for (int i = 0; i < goods.Count; i++)
+            {
+                Thing t = goods[i];
+                if (t == null || t.Destroyed) continue;
+                establishCaravan.AddPawnOrItem(t, false);
+            }
+
+            // Fresh caravan from drop-pod land: skip fully-stopped gate (stale MovingNow / Destination).
+            string reason = null;
+            if (!Outpost_EstablishmentRequirements.CanEstablishAt(
+                    landTile, outpostDef, establishCaravan, out reason, requireFullyStopped: false)
+                || !CaravanArrivalAction_EstablishWdOutpost.TryFinalizeFromCaravan(establishCaravan, landTile, outpostDef))
+            {
+                Messages.Message(
+                    "TSA_WD_RemoteEstablish_Failed".Translate(reason ?? outpostDef.LabelCap),
+                    establishCaravan,
+                    MessageTypeDefOf.RejectInput,
+                    false);
+            }
+        }
+
+        private static List<Thing> MaterializeDeliveryItems(List<ThingDefCountClass> items)
+        {
+            var list = new List<Thing>();
+            if (items == null) return list;
+            for (int i = 0; i < items.Count; i++)
+            {
+                ThingDefCountClass tc = items[i];
+                if (tc?.thingDef == null || tc.count <= 0) continue;
+                int remaining = tc.count;
+                int stackLimit = Mathf.Max(1, tc.thingDef.stackLimit);
+                while (remaining > 0)
+                {
+                    Thing t = ThingMaker.MakeThing(tc.thingDef);
+                    if (t == null) break;
+                    t.stackCount = Mathf.Min(remaining, stackLimit);
+                    remaining -= t.stackCount;
+                    list.Add(t);
+                }
+            }
+            return list;
+        }
+
         private static void ExecuteOutpostUpgradeArrival(WorldObject_Traveler_Outpost_Upgrade traveler)
         {
             if (!(traveler.targetObject is WorldObject_WD_Outpost outpost)) return;
+            traveler.upgradeResolved = true;
             bool applied = outpost.ApplyPendingUpgrade();
             var manager = Find.World.GetComponent<WorldComponent_SpreadManager>();
             var upDef = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(traveler.upgradeDefName);
@@ -922,41 +1049,24 @@ namespace TSA_WorldDomination
         {
             if (delivery == null || !delivery.HasDeliveryCargo) return;
 
-            if (delivery.targetObject is WorldObject_WD_Outpost whOutpost && Outpost_Warehouse_Delivery.IsWarehouseOutpost(whOutpost))
+            // Cargo reached a destination, so Destroy must not treat it as lost in transit.
+            // Set before the branches: every path below either delivers or deliberately discards.
+            try
             {
-                var whComp = CompOutpostWarehouse.Get(whOutpost);
-                if (whComp == null) return;
-                if (delivery.deliveryItems != null && delivery.deliveryItems.Count > 0)
-                    whComp.TryDeposit(delivery.deliveryItems);
-                float vfAdded = 0f;
-                if (delivery.deliveryVirtualFood > 0.001f)
-                {
-                    var logi = whOutpost.GetComponent<CompOutpostLogistics>();
-                    if (logi != null)
-                        vfAdded = CompOutpostLogistics.AddVirtualFoodNutrition(logi, delivery.deliveryVirtualFood);
-                }
-                string originLabel = delivery.originObject?.Label ?? "?";
-                string text = "TSA_WD_Warehouse_Deposit_Letter".Translate(originLabel, whOutpost.LabelCap) + "\n";
-                if (delivery.deliveryItems != null)
-                {
-                    foreach (var tc in delivery.deliveryItems)
-                    {
-                        if (tc?.thingDef == null || tc.count <= 0) continue;
-                        text += "  - " + tc.thingDef.LabelCap + " x" + tc.count + "\n";
-                    }
-                }
-                if (vfAdded > 0.001f)
-                    text += "  - " + "TSA_WD_WarehouseTab_VirtualFood".Translate() + " +" + vfAdded.ToString("F0") + "\n";
-                string letterLabel = "TSA_WD_Warehouse_Deposit_LetterLabel".Translate(whOutpost.LabelCap);
-                if (WorldDominationMod.settings?.notifyWarehouseGoodsArrived ?? WorldDominationSettings.DefNotifyWarehouseGoodsArrived)
-                    Find.LetterStack.ReceiveLetter(letterLabel, text.TrimEnd(), LetterDefOf.PositiveEvent, whOutpost);
-                return;
+                ExecuteOutpostDeliveryInner(delivery);
             }
-
-            if (delivery.targetObject is WorldObject_WD_Outpost foodOutpost
-                && foodOutpost.Faction == Faction.OfPlayer)
+            finally
             {
-                ExecuteOutpostDeliveryVirtualFood(delivery, foodOutpost);
+                delivery.MarkCargoHandled();
+            }
+        }
+
+        private static void ExecuteOutpostDeliveryInner(WorldObject_Traveler_Outpost_Delivery delivery)
+        {
+            if (delivery.targetObject is WorldObject_WD_Outpost playerOutpost
+                && playerOutpost.Faction == Faction.OfPlayer)
+            {
+                ExecuteOutpostDeliveryToPlayerOutpost(delivery, playerOutpost);
                 return;
             }
 
@@ -965,7 +1075,9 @@ namespace TSA_WorldDomination
 
             var mapParent = delivery.targetObject as MapParent;
             if (mapParent == null || !mapParent.HasMap) return;
-            if (delivery.deliveryItems == null || delivery.deliveryItems.Count == 0) return;
+            bool anyRows = delivery.deliveryItems != null && delivery.deliveryItems.Count > 0;
+            bool anyUniques = delivery.CargoUniques != null && delivery.CargoUniques.Count > 0;
+            if (!anyRows && !anyUniques) return;
 
             if (delivery.deliveryViaDropPod)
             {
@@ -976,28 +1088,88 @@ namespace TSA_WorldDomination
             ExecuteOutpostDeliveryColonyCaravan(delivery, mapParent);
         }
 
-        private static void ExecuteOutpostDeliveryVirtualFood(
+        /// <summary>
+        /// Player outpost arrival (warehouse or not): physical cargo, meals included, is stored as items
+        /// through <see cref="OutpostStorageUtility"/>. Only explicit
+        /// <see cref="WorldObject_Traveler_Outpost_Delivery.deliveryVirtualFood"/> tops up the food pool.
+        /// </summary>
+        private static void ExecuteOutpostDeliveryToPlayerOutpost(
             WorldObject_Traveler_Outpost_Delivery delivery,
             WorldObject_WD_Outpost outpost)
         {
             var logi = outpost.GetComponent<CompOutpostLogistics>();
-            if (logi == null) return;
+            float vfAdded = 0f;
+            if (delivery.deliveryVirtualFood > 0.001f && logi != null)
+                vfAdded = CompOutpostLogistics.AddVirtualFoodNutrition(logi, delivery.deliveryVirtualFood);
 
-            float fromItems = CompOutpostLogistics.ConvertDeliveryItemsToVirtualFood(delivery.deliveryItems, logi);
-            float fromPool = 0f;
-            if (delivery.deliveryVirtualFood > 0.001f)
-                fromPool = CompOutpostLogistics.AddVirtualFoodNutrition(logi, delivery.deliveryVirtualFood);
-            float added = fromItems + fromPool;
+            List<ThingDefCountClass> storedRows = OutpostStorageUtility.DepositRows(outpost, delivery.deliveryItems);
+            List<string> uniqueLines = OutpostStorageUtility.DepositUniques(outpost, delivery.CargoUniques);
+            SendGoodsArrivedLetter(delivery, outpost, storedRows, vfAdded, logi, uniqueLines);
+        }
+
+        private static void SendGoodsArrivedLetter(
+            WorldObject_Traveler_Outpost_Delivery delivery,
+            WorldObject_WD_Outpost outpost,
+            List<ThingDefCountClass> storedRows,
+            float vfAdded,
+            CompOutpostLogistics logi,
+            List<string> uniqueLines)
+        {
             string originLabel = delivery.originObject?.Label ?? "?";
-            string letterLabel = "TSA_WD_Warehouse_FoodDelivery_LetterLabel".Translate(outpost.LabelCap);
-            string text = "TSA_WD_Warehouse_FoodDelivery_Letter".Translate(
-                originLabel,
-                outpost.LabelCap,
-                added.ToString("F1"),
-                logi.currentFood.ToString("F1"),
-                logi.EffectiveMaxFood.ToString("F0"));
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine("TSA_WD_Warehouse_GoodsArrived_Letter".Translate(originLabel, outpost.LabelCap));
+
+            if (storedRows != null)
+            {
+                for (int i = 0; i < storedRows.Count; i++)
+                    sb.AppendLine("- " + FormatDeliveryItemLine(storedRows[i]));
+            }
+
+            if (uniqueLines != null)
+            {
+                for (int i = 0; i < uniqueLines.Count; i++)
+                    sb.AppendLine(uniqueLines[i]);
+            }
+
+            if (vfAdded > 0.001f && logi != null)
+            {
+                sb.AppendLine("- " + "TSA_WD_WarehouseTab_VirtualFood".Translate()
+                    + " +" + vfAdded.ToString("F0")
+                    + " (" + logi.currentFood.ToString("F0") + "/" + logi.EffectiveMaxFood.ToString("F0") + ")");
+            }
+
+            string letterLabel = "TSA_WD_Warehouse_GoodsArrived_LetterLabel".Translate(outpost.LabelCap);
             if (WorldDominationMod.settings?.notifyWarehouseGoodsArrived ?? WorldDominationSettings.DefNotifyWarehouseGoodsArrived)
-                Find.LetterStack.ReceiveLetter(letterLabel, text, LetterDefOf.PositiveEvent, outpost);
+                Find.LetterStack.ReceiveLetter(letterLabel, sb.ToString().TrimEnd(), LetterDefOf.PositiveEvent, outpost);
+        }
+
+        private static string FormatDeliveryItemLine(ThingDefCountClass tc)
+        {
+            string name = tc.thingDef.LabelCap;
+            if (tc.stuff != null)
+            {
+                string stuffAdj = tc.stuff.LabelAsStuff;
+                if (!string.IsNullOrEmpty(stuffAdj))
+                    name = stuffAdj.CapitalizeFirst() + " " + tc.thingDef.LabelCap;
+            }
+            if (tc.thingDef.HasComp(typeof(CompQuality)))
+                name += " (" + tc.quality.GetLabel() + ")";
+            return name + " " + tc.count + "x";
+        }
+
+        /// <summary>Detaches every unique from the traveler so the caller owns them outright.</summary>
+        private static List<Thing> TakeCargoUniques(WorldObject_Traveler_Outpost_Delivery delivery)
+        {
+            var result = new List<Thing>();
+            ThingOwner<Thing> uniques = delivery?.CargoUniques;
+            if (uniques == null) return result;
+            while (uniques.Count > 0)
+            {
+                Thing t = uniques[0];
+                uniques.Remove(t);
+                if (t != null && !t.Destroyed) result.Add(t);
+            }
+            return result;
         }
 
         private static void ExecuteOutpostDeliveryColonyCaravan(WorldObject_Traveler_Outpost_Delivery delivery, MapParent mapParent)
@@ -1023,6 +1195,12 @@ namespace TSA_WorldDomination
             var lookAt = new List<Thing>();
             var things = new List<Thing>();
             IntVec3 nextCell = dropCell;
+            // Uniques are placed as the real instances they are, so traits and art survive the trip.
+            foreach (Thing unique in TakeCargoUniques(delivery))
+            {
+                things.Add(unique);
+                TryPlaceDeliveryThing(unique, ref nextCell, map, dropCell, lookAt, clusterTight);
+            }
             foreach (var tc in delivery.deliveryItems)
             {
                 if (tc?.thingDef == null || tc.count <= 0) continue;
@@ -1084,6 +1262,8 @@ namespace TSA_WorldDomination
                 }
             }
 
+            things.AddRange(TakeCargoUniques(delivery));
+
             if (things.Count == 0) return;
 
             DropPodUtility.DropThingsNear(dropCell, map, things);
@@ -1113,7 +1293,7 @@ namespace TSA_WorldDomination
         /// strips leftover Stuff that would trip CostListAdjusted (e.g. CE-stuffed FlakVest after a mod
         /// removes stuffCategories).
         /// </summary>
-        private static Thing MakeDeliveryThing(ThingDef def, int stackCount, ThingDef preferredStuff, QualityCategory? preferredQuality)
+        internal static Thing MakeDeliveryThing(ThingDef def, int stackCount, ThingDef preferredStuff, QualityCategory? preferredQuality)
         {
             if (def == null || def.category == ThingCategory.Ethereal || def.category == ThingCategory.Pawn) return null;
             // Never spawn the abstract minified-crate root (or other unusable junk) as a delivery.
@@ -1300,36 +1480,57 @@ namespace TSA_WorldDomination
             return DropCellFinder.TradeDropSpot(map);
         }
 
-        /// <summary>Spawn an outpost delivery traveler to a resolved colony or warehouse target.</summary>
-        public static void SpawnOutpostDeliveryTraveler(
+        /// <summary>
+        /// Spawn an outpost delivery traveler to a resolved colony or warehouse target. Returns false
+        /// without spawning when the destination fails <see cref="Outpost_Warehouse_Delivery.IsValidShipmentDestination"/>;
+        /// callers that already withdrew cargo must put it back.
+        /// </summary>
+        public static bool SpawnOutpostDeliveryTraveler(
             WorldObject_WD_Outpost outpost,
             List<ThingDefCountClass> items,
             WorldObject explicitDestination = null,
             bool viaDropPod = false,
-            float virtualFood = 0f)
+            float virtualFood = 0f,
+            List<Thing> uniques = null)
         {
-            if (outpost == null) return;
-            bool hasItems = items != null && items.Exists(tc => tc?.thingDef != null && tc.count > 0);
-            if (!hasItems && virtualFood <= 0.001f) return;
-            if (viaDropPod && !RapidResponseUtility.TransportPodsResearched()) return;
+            if (outpost == null) return false;
 
             WorldObject destination = explicitDestination;
             if (destination == null && !Outpost_Warehouse_Delivery.TryResolveDeliveryTarget(outpost, out destination))
-                return;
-            if (!Outpost_Warehouse_Delivery.IsValidAdHocDeliveryDestination(
-                    destination,
-                    outpost,
-                    Outpost_Warehouse_Delivery.IsFoodOnlyRequest(items, virtualFood),
-                    virtualFood > 0.001f))
-                return;
+                return false;
+            if (!Outpost_Warehouse_Delivery.IsValidShipmentDestination(
+                    destination, outpost, items, uniques?.Count ?? 0, virtualFood, out _))
+                return false;
+
+            return SpawnDeliveryTravelerFrom(outpost, items, destination, viaDropPod, virtualFood, uniques);
+        }
+
+        /// <summary>
+        /// Shared spawn for any delivery origin. Colonies have no <see cref="CompViralSpread"/>, so
+        /// they pay no strength; that matches other colony-origin actions such as road building.
+        /// Returns false before touching <paramref name="uniques"/> when nothing can be spawned.
+        /// </summary>
+        public static bool SpawnDeliveryTravelerFrom(
+            WorldObject origin,
+            List<ThingDefCountClass> items,
+            WorldObject destination,
+            bool viaDropPod = false,
+            float virtualFood = 0f,
+            List<Thing> uniques = null)
+        {
+            if (origin == null || destination == null) return false;
+            bool hasItems = items != null && items.Exists(tc => tc?.thingDef != null && tc.count > 0);
+            bool hasUniques = uniques != null && uniques.Count > 0;
+            if (!hasItems && !hasUniques && virtualFood <= 0.001f) return false;
+            if (viaDropPod && !RapidResponseUtility.TransportPodsResearched()) return false;
 
             var def = DefDatabase<WorldObjectDef>.GetNamedSilentFail("TSA_WD_Traveler_Outpost_Delivery");
-            if (def == null) return;
+            if (def == null) return false;
 
             var traveler = (WorldObject_Traveler_Outpost_Delivery)WorldObjectMaker.MakeWorldObject(def);
-            traveler.Tile = outpost.Tile;
-            traveler.SetFaction(outpost.Faction);
-            traveler.originObject = outpost;
+            traveler.Tile = origin.Tile;
+            traveler.SetFaction(origin.Faction ?? Faction.OfPlayer);
+            traveler.originObject = origin;
             traveler.targetObject = destination;
             traveler.mission = TravelerMission.OutpostDelivery;
             traveler.deliveryViaDropPod = viaDropPod;
@@ -1340,15 +1541,29 @@ namespace TSA_WorldDomination
             traveler.deliveryVirtualFood = Mathf.Max(0f, virtualFood);
             traveler.ticksPerMove = viaDropPod ? GetDropPodTicksPerMove() : WorldObject_Traveler.DefaultTicksPerMove;
             traveler.travelerStrength = cost;
+
+            if (hasUniques)
+            {
+                for (int i = 0; i < uniques.Count; i++)
+                {
+                    Thing t = uniques[i];
+                    if (t == null || t.Destroyed) continue;
+                    if (t.Spawned) t.DeSpawn(DestroyMode.Vanish);
+                    if (!traveler.CargoUniques.TryAddOrTransfer(t, canMergeWithExistingStacks: false) && !t.Destroyed)
+                        t.Destroy(DestroyMode.Vanish);
+                }
+            }
+
             Find.WorldObjects.Add(traveler);
 
-            var comp = outpost.GetComponent<CompViralSpread>();
+            var comp = origin.GetComponent<CompViralSpread>();
             if (comp != null)
                 comp.strength = Mathf.Max(0, comp.strength - cost);
 
-            traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(destination.Tile, outpost));
+            traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(destination.Tile, origin));
             if (viaDropPod)
                 AntiAirFireUtils.WakeAllForDropPod(traveler);
+            return true;
         }
 
         /// <param name="origin">Visual dispatch origin (the colony map parent or a contributing warehouse outpost). The traveler is symbolic and carries no cargo.</param>
@@ -1361,6 +1576,16 @@ namespace TSA_WorldDomination
 
             bool viaDropPod = OutpostDispatchMode.GetViaDropPod(origin)
                 && RapidResponseUtility.TransportPodsResearched();
+            if (viaDropPod
+                && !PlayerPawnDropPodUtility.TryConsumeComponents(
+                    PlayerPawnDropPodUtility.ComponentCostPerLaunch, out string componentReason))
+            {
+                Messages.Message(
+                    componentReason ?? "TSA_WD_PawnDropPod_AllWouldAbort".Translate(),
+                    origin,
+                    MessageTypeDefOf.RejectInput);
+                return false;
+            }
 
             var traveler = (WorldObject_Traveler_Outpost_Upgrade)WorldObjectMaker.MakeWorldObject(def);
             traveler.Tile = origin.Tile;
@@ -1392,6 +1617,19 @@ namespace TSA_WorldDomination
             && OutpostDispatchMode.GetViaDropPod(origin)
             && RapidResponseUtility.TransportPodsResearched();
 
+        private static bool TryConsumeTradeDropPodComponent(WorldObject origin)
+        {
+            if (!OriginWantsTradeDropPod(origin)) return true;
+            if (PlayerPawnDropPodUtility.TryConsumeComponents(
+                    PlayerPawnDropPodUtility.ComponentCostPerLaunch, out string componentReason))
+                return true;
+            Messages.Message(
+                componentReason ?? "TSA_WD_PawnDropPod_AllWouldAbort".Translate(),
+                origin,
+                MessageTypeDefOf.RejectInput);
+            return false;
+        }
+
         private static void ApplyTradeDropPodLaunch(WorldObject_Traveler_TradePayment traveler, WorldObject origin)
         {
             bool viaDropPod = OriginWantsTradeDropPod(origin);
@@ -1416,6 +1654,7 @@ namespace TSA_WorldDomination
         {
             if (settlement == null || origin == null || settlement.Destroyed) return false;
             if (origin.Tile == settlement.Tile) return false;
+            if (!TryConsumeTradeDropPodComponent(origin)) return false;
             var def = DefDatabase<WorldObjectDef>.GetNamedSilentFail("TSA_WD_Traveler_SettlementBuy");
             if (def == null) return false;
 
@@ -1455,6 +1694,7 @@ namespace TSA_WorldDomination
         {
             if (settlement == null || origin == null || settlement.Destroyed) return false;
             if (origin.Tile == settlement.Tile) return false;
+            if (!TryConsumeTradeDropPodComponent(origin)) return false;
             var def = DefDatabase<WorldObjectDef>.GetNamedSilentFail("TSA_WD_Traveler_SettlementGift");
             if (def == null) return false;
 
@@ -1495,6 +1735,7 @@ namespace TSA_WorldDomination
         {
             if (destination == null || origin == null || destination.Destroyed) return false;
             if (origin.Tile == destination.Tile) return false;
+            if (!TryConsumeTradeDropPodComponent(origin)) return false;
             var def = DefDatabase<WorldObjectDef>.GetNamedSilentFail("TSA_WD_Traveler_DiplomacyNegotiate");
             if (def == null) return false;
 

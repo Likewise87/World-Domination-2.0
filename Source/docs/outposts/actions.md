@@ -10,23 +10,46 @@ The committed strength leaves the outpost while the operation is underway. Do no
 
 ## Build menu
 
-The **Build** menu starts world projects from an outpost. Construction speed scales with cumulative Construction skill, while an Engineer expert can improve speed and planning radius. Most projects send a crew and spend offensive strength. Cancelling a crew after launch does not normally refund that strength.
+The **Build** menu starts world projects from an outpost. Construction speed scales with cumulative Construction skill, while an Engineer expert can improve speed and planning radius. Most projects send a crew and spend offensive strength plus materials from the colony map and warehouse outposts (XML costs in `Defs/WorldBuild/`). Clearing projects do not spend materials. Cancelling a crew after launch does not normally refund strength or materials.
 
 ### Roads
 
 Choose **Build Road**, then click a destination. Hold Shift while clicking to add waypoints and click without Shift to confirm the final destination. The outpost constructs the planned route over time. Road removal follows the same path-planning method and removes existing road segments.
 
+| Road | Materials per tile |
+|---|---|
+| Dirt | Free |
+| Stone | 30 any stone blocks |
+| Asphalt | 20 steel, 20 chemfuel |
+
 ### Road blocks
 
 Road blocks increase movement difficulty on their world tile. Choose a light, normal, or heavy block where available, then place the first block directly on a tile. Add further nodes with Shift. Clear road blocks with the corresponding removal command or **Remove fortifications**.
+
+| Block | Materials per placement |
+|---|---|
+| Light | 30 wood |
+| Medium | 60 any stone blocks, 25 steel |
+| Heavy | 80 any stone blocks, 50 steel |
 
 ### Spike traps
 
 World spike traps damage hostile ground travelers when they leave a trapped tile, then the trap is destroyed. Friendly and neutral travelers are unaffected. A traveler can trigger only a limited number of traps. Traps cannot share invalid sites such as settlements, outposts, road blocks, or existing traps.
 
+| Trap | Materials per placement |
+|---|---|
+| Spike | 40 wood |
+| Caltrops | 60 steel |
+
 ### AT turrets
 
-AT turrets fire automatically on configured hostile ground travelers passing within range. **Machining** is required. Set target categories and raid filters after placement. Turrets require free, passable tiles and are subject to both global and per-site caps.
+AT turrets fire automatically on configured hostile ground travelers passing within range. Research and Construction gates depend on tier. Set target categories and raid filters after placement. Turrets require free, passable tiles and are subject to both global and per-site caps.
+
+| Turret | Materials per gun |
+|---|---|
+| Light | 50 steel, 1 industrial component |
+| Medium | 60 steel, 2 industrial components |
+| Heavy | 10 plasteel, 3 industrial components |
 
 ### Remove fortifications
 
@@ -52,7 +75,7 @@ Use **Adjust Range** to reduce automatic mortar or flak coverage when you want t
 
 Configure a Rapid Response Outpost to intercept selected categories of hostile travelers, including raiders, traders, expansion forces, road builders, and fortification crews. Raider interception can be limited by whether the raid targets you, an ally, or another faction. Minimum relative strength prevents weak dispatches, while the maximum ratio limits how much strength is sent.
 
-After **Transport Pods** research, use the Pawns tab to drop selected outpost colonists on a passable tile, hostile traveler, colony, or outpost within drop-pod range. At least one pawn must remain at the origin. Prisoners and stored animals or vehicles cannot be launched this way.
+After **Transport Pods** research, use the Pawns tab to drop selected outpost colonists on a passable tile, hostile traveler, colony, or outpost. At least one pawn must remain at the origin. Prisoners and stored animals or vehicles cannot be launched this way.
 
 !!! warning
     Drop pods can be intercepted by hostile anti-air coverage, including anti-air at enemy Tier 4 settlements. Read the confirmation warning before launching valuable colonists or warehouse cargo.
@@ -73,7 +96,7 @@ Production outposts have a separate **delivery destination** control. Use it to 
 
 - **Auto-Add Arrivals** automatically absorbs any player caravan that reaches the outpost tile. Occupants join the outpost, while supported animals, vehicles, and mechanoids are stored.
 - **Take prisoners** keeps surviving hostile captives after a successful defense. Disable it when the outpost should not maintain prisoners.
-- **Adjust Range** limits Rapid Response auto-interception or automatic artillery and flak operations. It does not reduce Rapid Response drop-pod range or manual mortar range.
+- **Adjust Range** limits Rapid Response auto-interception or automatic artillery and flak operations. It does not reduce manual mortar range.
 - **Mark no-fortify zone** paints tiles where allies, and neutrals if enabled, may not place new road blocks or traps. Existing fortifications remain.
 - **Erase no-fortify marks** removes those restrictions instantly. Neither marking command sends a crew.
 

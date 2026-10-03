@@ -16,7 +16,7 @@ In practical terms:
 4. WD applies the active storyteller floor and ceiling.
 5. The resulting points create the map raid.
 
-Ground raids walk in. Drop-pod raids (T3/T4) and Experimental T4 gravship raids arrive ballistically. Gravship arrival uses the Gravship Raids Workshop mod with WD's clamped points and faction when Odyssey and that mod are loaded; otherwise WD falls back to a drop-pod style raid.
+Ground raids walk in. Drop-pod raids (T3/T4) and Experimental T4 gravship raids arrive ballistically. Gravship arrival uses the Gravship Raids Workshop mod with WD's clamped points and faction when Odyssey and that mod are loaded; otherwise WD falls back to a drop-pod style raid. When **T3 and T4 always use drop pods to pass over water** is on (Caravans → Water travel, default on), a T3/T4 raid with no land route launches as a drop-pod raid instead of water pathfinding.
 
 The vanilla **Threat Scale** setting already affects `DefaultThreatPointsNow`. WD uses that storyteller value as the clamp baseline. It does not apply the vanilla threat multiplier a second time after clamping.
 

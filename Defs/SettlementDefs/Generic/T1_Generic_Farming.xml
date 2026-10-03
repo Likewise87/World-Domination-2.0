@@ -60,9 +60,12 @@
         <li>TSA_WD_Hayball_5a</li>
         <li>TSA_WD_Box_1a</li>
         <li>TSA_WD_Box_2a</li>
-
-
-      
+        <li>TSA_WD_Box_3a</li>
+        <li>TSA_WD_Box_4a</li>
+        <li>TSA_WD_Box_5a</li>
+        <li>TSA_WD_BoxPallet_1a</li>
+        <li>TSA_WD_BoxPallet_2a</li>
+        <li>TSA_WD_BoxPallet_3a</li>
       </scatterPropsDefs>
     </propsOptions>
 

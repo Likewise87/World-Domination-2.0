@@ -20,6 +20,13 @@ namespace TSA_WorldDomination
         /// <summary>When true, once per day ship entire stock to the configured destination.</summary>
         public bool autoShipEnabled;
         public int lastAutoShipTick = -999999;
+        /// <summary>Daily auto delivery always ships non-gear goods; Armory categories only when opted in.</summary>
+        public bool autoShipApparel;
+        /// <summary>Includes CE ammo.</summary>
+        public bool autoShipWeapons;
+        public bool autoShipFood;
+        public bool autoShipDrugs;
+        public bool autoShipMedicine;
         /// <summary>Set in <see cref="Initialize"/> for newly created warehouses; cleared on load so cleared destinations stay cleared.</summary>
         private bool pendingApplyDefaultColonyShipDest;
 
@@ -37,6 +44,11 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref dispatchViaDropPod, "dispatchViaDropPod", false);
             Scribe_Values.Look(ref autoShipEnabled, "autoShipEnabled", false);
             Scribe_Values.Look(ref lastAutoShipTick, "lastAutoShipTick", -999999);
+            Scribe_Values.Look(ref autoShipApparel, "autoShipApparel", false);
+            Scribe_Values.Look(ref autoShipWeapons, "autoShipWeapons", false);
+            Scribe_Values.Look(ref autoShipFood, "autoShipFood", false);
+            Scribe_Values.Look(ref autoShipDrugs, "autoShipDrugs", false);
+            Scribe_Values.Look(ref autoShipMedicine, "autoShipMedicine", false);
             if (Scribe.mode == LoadSaveMode.LoadingVars)
                 pendingApplyDefaultColonyShipDest = false;
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
@@ -81,7 +93,7 @@ namespace TSA_WorldDomination
             if (!autoShipEnabled) return;
             if (!(parent is WorldObject_WD_Outpost warehouse) || warehouse.Faction != Faction.OfPlayer)
                 return;
-            if (GetTotalStoredItemCount() <= 0) return;
+            if (!HasAutoShippableStock()) return;
 
             WorldObject dest = ResolveShipDestination();
             if (dest == null) return;
@@ -103,6 +115,7 @@ namespace TSA_WorldDomination
             {
                 var e = storedItems[i];
                 if (e?.thingDef == null || e.count <= 0) continue;
+                if (!AutoShipIncludes(e.thingDef)) continue;
                 request.Add(new ThingDefCountClass(e.thingDef, e.count)
                 {
                     stuff = e.stuff,
@@ -114,10 +127,42 @@ namespace TSA_WorldDomination
             if (!TryWithdraw(request)) return;
 
             bool viaDropPod = dispatchViaDropPod && RapidResponseUtility.TransportPodsResearched();
-            WorldActions_Traveler.SpawnOutpostDeliveryTraveler(warehouse, request, dest, viaDropPod);
+            if (!WorldActions_Traveler.SpawnOutpostDeliveryTraveler(warehouse, request, dest, viaDropPod))
+            {
+                TryDeposit(request);
+                return;
+            }
             lastAutoShipTick = Find.TickManager.TicksGame;
             string msgKey = viaDropPod ? "TSA_WD_Warehouse_ShipLaunchedDropPod" : "TSA_WD_Warehouse_ShipLaunched";
             Messages.Message(msgKey.Translate(dest.LabelCap), warehouse, MessageTypeDefOf.PositiveEvent);
+        }
+
+        /// <summary>Non-gear goods always ship; Armory categories only when their flag is on.</summary>
+        public bool AutoShipIncludes(ThingDef def)
+        {
+            if (def == null) return false;
+            if (!OutpostArmoryUtility.IsArmoryItem(def)) return true;
+            switch (OutpostArmoryUtility.BucketFor(def))
+            {
+                case ArmoryBucket.Armor: return autoShipApparel;
+                case ArmoryBucket.Food: return autoShipFood;
+                case ArmoryBucket.Drugs: return autoShipDrugs;
+                case ArmoryBucket.Medicine: return autoShipMedicine;
+                default: return autoShipWeapons;
+            }
+        }
+
+        /// <summary>True when daily auto delivery would ship at least one stored row.</summary>
+        public bool HasAutoShippableStock()
+        {
+            if (storedItems == null) return false;
+            for (int i = 0; i < storedItems.Count; i++)
+            {
+                var e = storedItems[i];
+                if (e?.thingDef != null && e.count > 0 && AutoShipIncludes(e.thingDef))
+                    return true;
+            }
+            return false;
         }
 
         public static CompOutpostWarehouse Get(WorldObject_WD_Outpost outpost) =>
@@ -243,8 +288,22 @@ namespace TSA_WorldDomination
                 if (entry?.thingDef == null || entry.count <= 0) continue;
                 // Abstract minified-crate defs are unrecoverable in def+count storage; never keep them.
                 if (IsUnusableMinifiedDef(entry.thingDef)) continue;
-                MergeCount(storedItems, entry);
+                MergeCount(storedItems, PlainStockRow(entry, entry.count));
             }
+        }
+
+        /// <summary>
+        /// Row with def+stuff+quality only. Store rows never carry <see cref="WdStockExtras"/>: those live
+        /// in a runtime-only table, and requests rebuilt from def+stuff+quality must still match.
+        /// </summary>
+        public static ThingDefCountClass PlainStockRow(ThingDefCountClass src, int count)
+        {
+            if (src?.thingDef == null) return null;
+            return new ThingDefCountClass(src.thingDef, count)
+            {
+                stuff = src.stuff,
+                quality = src.quality
+            };
         }
 
         public void TryDepositThings(IEnumerable<Thing> things)
@@ -356,7 +415,7 @@ namespace TSA_WorldDomination
             return WdStockExtrasTable.GetHitPoints(a) == WdStockExtrasTable.GetHitPoints(b);
         }
 
-        private static void MergeCount(List<ThingDefCountClass> list, ThingDefCountClass add)
+        internal static void MergeCount(List<ThingDefCountClass> list, ThingDefCountClass add)
         {
             if (list == null || add?.thingDef == null || add.count <= 0) return;
             for (int i = 0; i < list.Count; i++)
@@ -394,7 +453,7 @@ namespace TSA_WorldDomination
             }
         }
 
-        private static void PruneEmpty(List<ThingDefCountClass> list)
+        internal static void PruneEmpty(List<ThingDefCountClass> list)
         {
             if (list == null) return;
             for (int i = list.Count - 1; i >= 0; i--)
@@ -408,7 +467,7 @@ namespace TSA_WorldDomination
         /// Removes saved "Minified things" rows. Inner sculptures were never stored, so these stacks
         /// cannot be shipped (MakeDeliveryThing rejects MinifiedThing) and would vanish on withdraw.
         /// </summary>
-        private static void PruneUnusableMinifiedStock(List<ThingDefCountClass> list)
+        internal static void PruneUnusableMinifiedStock(List<ThingDefCountClass> list)
         {
             if (list == null) return;
             for (int i = list.Count - 1; i >= 0; i--)
@@ -419,14 +478,14 @@ namespace TSA_WorldDomination
             }
         }
 
-        private static bool IsUnusableMinifiedDef(ThingDef def) =>
+        internal static bool IsUnusableMinifiedDef(ThingDef def) =>
             def?.thingClass != null && typeof(MinifiedThing).IsAssignableFrom(def.thingClass);
 
         /// <summary>
         /// Preserve stuff from the live thing when the def is stuffable and the candidate still CanMake it.
         /// Does not invent random stuff on deposit (unlike scavenging generation).
         /// </summary>
-        private static ThingDef ResolveStuffForDeposit(ThingDef def, ThingDef candidateStuff)
+        internal static ThingDef ResolveStuffForDeposit(ThingDef def, ThingDef candidateStuff)
         {
             if (def == null || !def.MadeFromStuff) return null;
             if (candidateStuff != null && candidateStuff.IsStuff && candidateStuff.stuffProps != null

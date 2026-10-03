@@ -7,7 +7,7 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>Skill XP, biological aging, and virtual healing for outpost occupants and stored animals (real pawns, not world-ticked). Mutates pawns; occupant changes refresh via <see cref="WorldObject_WD_Outpost.NotifyVirtualPawnsChanged"/>.</summary>
+    /// <summary>Skill XP, biological aging, virtual healing, and (with Combat Extended) passive Primary ammo for outpost occupants and stored animals (real pawns, not world-ticked). Mutates pawns; occupant changes refresh via <see cref="WorldObject_WD_Outpost.NotifyVirtualPawnsChanged"/>.</summary>
     public static class Outpost_OccupantProgression
     {
         public const float EventXpResearchPerDay = 500f;
@@ -294,6 +294,15 @@ namespace TSA_WorldDomination
 
             if (anyHealed)
                 Window_Prisoners.InvalidateCache();
+        }
+
+        /// <summary>
+        /// Once per in-game day: when Combat Extended is active and the experimental setting is on,
+        /// grant basic ammo for each Occupant's ranged Primary (2 magazines/day, cap 8). See <see cref="OutpostCeAmmoCompat"/>.
+        /// </summary>
+        public static void TickOccupantsPassiveAmmoOneDay(WorldObject_WD_Outpost outpost)
+        {
+            OutpostCeAmmoCompat.TickOccupantsPassiveAmmoOneDay(outpost);
         }
 
         /// <summary>Once per in-game day: heal injuries, blood loss, and immunizable conditions for mothballed occupants.</summary>

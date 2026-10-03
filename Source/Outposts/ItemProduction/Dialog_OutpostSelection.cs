@@ -49,7 +49,7 @@ namespace TSA_WorldDomination
         private bool conquestChoiceConsumed;
         private Caravan fromCaravan;
         private readonly List<PlayerPawnRosterEntry> remoteEstablishEntries;
-        private readonly MapParent remoteEstablishSource;
+        private readonly WorldObject remoteEstablishOrigin;
         private bool remoteRetargetOnClose;
         private List<Pawn> cachedRemotePawns;
         private static readonly List<Pawn> EmptyPawnListForCost = new List<Pawn>();
@@ -62,7 +62,6 @@ namespace TSA_WorldDomination
         private readonly bool requirementsPreviewOnly;
         /// <summary>Tile known; pawns chosen next in <see cref="Window_RemoteEstablishPawns"/>.</summary>
         private readonly bool tileFirstRemoteEstablish;
-
         private enum EstablishmentTabFilter
         {
             All,
@@ -112,7 +111,8 @@ namespace TSA_WorldDomination
         private EstablishmentRowCache[] cachedRows;
 
         private bool IsRemoteEstablish =>
-            remoteEstablishEntries != null && remoteEstablishEntries.Count > 0 && remoteEstablishSource != null;
+            remoteEstablishEntries != null && remoteEstablishEntries.Count > 0
+            && remoteEstablishOrigin != null && !remoteEstablishOrigin.Destroyed;
 
         private bool IsTileFirstRemoteEstablish => tileFirstRemoteEstablish;
 
@@ -123,8 +123,8 @@ namespace TSA_WorldDomination
 
         /// <param name="fromCaravan">If set, caravan pawns are converted to virtual pawns and removed from the caravan; otherwise pawns are generated.</param>
         /// <param name="requirementsPreviewOnly">If true, shows costs and requirements for planning only; <paramref name="fromCaravan"/> must be null.</param>
-        /// <param name="remoteEstablishEntries">Colony roster selection for remote establish send (AllPlayerPawns).</param>
-        /// <param name="tileFirstRemoteEstablish">Tile selected first; Establish opens the colony pawn picker instead of launching.</param>
+        /// <param name="remoteEstablishEntries">Same-origin roster selection for remote establish send (AllPlayerPawns).</param>
+        /// <param name="tileFirstRemoteEstablish">Tile selected first; Establish opens the founding pawn picker instead of launching.</param>
         public Dialog_OutpostSelection(
             int tile,
             string name,
@@ -134,7 +134,7 @@ namespace TSA_WorldDomination
             Caravan fromCaravan = null,
             bool requirementsPreviewOnly = false,
             List<PlayerPawnRosterEntry> remoteEstablishEntries = null,
-            MapParent remoteEstablishSource = null,
+            WorldObject remoteEstablishOrigin = null,
             bool tileFirstRemoteEstablish = false)
         {
             this.tile = tile;
@@ -145,7 +145,7 @@ namespace TSA_WorldDomination
             this.fromCaravan = fromCaravan;
             this.requirementsPreviewOnly = requirementsPreviewOnly;
             this.remoteEstablishEntries = remoteEstablishEntries;
-            this.remoteEstablishSource = remoteEstablishSource;
+            this.remoteEstablishOrigin = remoteEstablishOrigin;
             this.tileFirstRemoteEstablish = tileFirstRemoteEstablish;
             doCloseButton = conquestContext == null && !IsRemoteEstablish;
             doCloseX = true;
@@ -278,12 +278,7 @@ namespace TSA_WorldDomination
             bool showCostColumn = fromCaravan != null || requirementsPreviewOnly || IsAnyRemoteEstablishPath;
             Map remoteMap = null;
             List<WorldObject_WD_Outpost> remoteWarehouses = null;
-            if (IsRemoteEstablish)
-            {
-                remoteMap = remoteEstablishSource.Map;
-                remoteWarehouses = ColonyWarehouseStockUtility.GetAllWarehouses();
-            }
-            else if (IsTileFirstRemoteEstablish)
+            if (IsAnyRemoteEstablishPath)
             {
                 remoteMap = Outpost_PowerPlant.GetPlayerColonyMap();
                 remoteWarehouses = ColonyWarehouseStockUtility.GetAllWarehouses();
@@ -805,6 +800,8 @@ namespace TSA_WorldDomination
                     defs[selectedIdx], cachedRows[selectedIdx], showCostColumn,
                     !string.IsNullOrEmpty(Outpost_Establishment_UI.GetOutpostDescription(defs[selectedIdx])), requirementsPreviewOnly, lw - 16f)
                 : Outpost_Dialog_UI.OutcomeLineH;
+            if (IsRemoteEstablish)
+                detailContentH += 96f;
 
             float detailScrollH = leftArea.yMax - ly - 4f;
             Rect detailOuter = new Rect(lx, ly, lw, detailScrollH);
@@ -823,15 +820,33 @@ namespace TSA_WorldDomination
                         canEstablish = CanTileFirstEstablish(def, out blockReason);
                     else if (IsRemoteEstablish)
                         canEstablish = RemoteOutpostEstablishUtility.CanEstablishAtRemote(
-                            tile, def, cachedRemotePawns, remoteEstablishSource?.Map, out blockReason);
+                            tile, def, cachedRemotePawns, Outpost_PowerPlant.GetPlayerColonyMap(), out blockReason);
                     else
                         canEstablish = fromCaravan != null
                             ? Outpost_EstablishmentRequirements.CanEstablishAt(tile, def, fromCaravan, out blockReason)
                             : Outpost_EstablishmentRequirements.CanEstablishAtForConquest(tile, def, tier, out blockReason);
                 }
 
+                float detailY = 0f;
+                if (IsRemoteEstablish)
+                {
+                    bool allowPod = RapidResponseUtility.TransportPodsResearched()
+                        && remoteEstablishOrigin != null
+                        && !remoteEstablishOrigin.Destroyed
+                        && PlayerPawnDropPodUtility.InDropPodRange(remoteEstablishOrigin, tile);
+                    string podTip = !RapidResponseUtility.TransportPodsResearched()
+                        ? "TSA_WD_DispatchMode_NeedsResearch".Translate()
+                        : (!allowPod ? "TSA_WD_PawnDropPod_OutOfRange".Translate() : null);
+                    detailY += PlayerPawnDropPodUtility.DrawAdHocModeAndCostStrip(
+                        new Rect(0f, detailY, detailView.width, 90f),
+                        launchCount: 1,
+                        allowDropPod: allowPod,
+                        disabledPodTip: podTip);
+                    detailY += 4f;
+                }
+
                 Outpost_Establishment_UI.DrawSelectedOutpostDetail(
-                    0f, 0f, detailView.width, def, row, showCostColumn, requirementsPreviewOnly,
+                    0f, detailY, detailView.width, def, row, showCostColumn, requirementsPreviewOnly,
                     cachedCostLabel, cachedNoCostLabel, cachedSkillsHeader, cachedRequirementsHeader,
                     cachedEstablishLabel,
                     canEstablish, blockReason,
@@ -847,7 +862,7 @@ namespace TSA_WorldDomination
                         if (IsRemoteEstablish)
                         {
                             RemoteOutpostEstablishUtility.LaunchAfterOptionalCarryConfirm(
-                                tile, def, remoteEstablishSource, remoteEstablishEntries,
+                                tile, def, remoteEstablishOrigin, remoteEstablishEntries,
                                 onSuccess: () => Close(),
                                 onFail: fail => Messages.Message(
                                     fail ?? "TSA_WD_RemoteEstablish_Failed".Translate(),
@@ -857,7 +872,8 @@ namespace TSA_WorldDomination
                                     // Back to All Player Pawns so the player can change who is sent.
                                     Close();
                                     Find.WindowStack.Add(new Window_AllPlayerPawns());
-                                });
+                                },
+                                viaDropPod: PlayerPawnDropPodUtility.AdHocViaDropPod);
                             return;
                         }
                         FinalizeOutpost(def);
@@ -1039,7 +1055,7 @@ namespace TSA_WorldDomination
                 return CanTileFirstEstablish(def, out _);
             if (IsRemoteEstablish)
                 return RemoteOutpostEstablishUtility.CanEstablishAtRemote(
-                    tile, def, cachedRemotePawns, remoteEstablishSource?.Map, out _);
+                    tile, def, cachedRemotePawns, Outpost_PowerPlant.GetPlayerColonyMap(), out _);
             if (fromCaravan != null)
                 return Outpost_EstablishmentRequirements.CanEstablishAt(tile, def, fromCaravan, out _);
             return Outpost_EstablishmentRequirements.CanEstablishAtForConquest(tile, def, tier, out _);

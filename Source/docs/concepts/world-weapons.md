@@ -52,7 +52,7 @@ Use mortar, AT, and anti-air overlays to paint accuracy bands and coverage befor
 ??? note "Advanced"
     Player mortar defaults: range **40** tiles, cooldown **3 days**, base shell damage **300**, hit bands **80% / 55% / 30%**.
 
-    Player AA defaults: range **32** tiles, damage **800**, cooldown **120** seconds (floor **20**), vs mortar shells **80%**.
+    Player AA defaults: range **24** tiles, damage **800**, cooldown **120** seconds (floor **20**), vs mortar shells **80%**.
 
     NPC T4 mortar default damage **150**. Mid player-target toggles default off; Late defaults on.
 

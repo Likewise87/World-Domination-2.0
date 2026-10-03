@@ -57,6 +57,9 @@ namespace TSA_WorldDomination
 
         public static int GetMinConstruction(SpikeTrapKind kind)
         {
+            WdSpikeTrapKindDef def = WdWorldBuildKindDefResolver.GetSpikeTrap(kind);
+            if (def != null && def.minCumulativeConstructionSkill >= 0)
+                return def.minCumulativeConstructionSkill;
             return WorldActions_Roads.GetMinConstructionToBuildRoad(SpikeTrapKindUtil.WorkBaselineTier(kind));
         }
 
@@ -252,6 +255,10 @@ namespace TSA_WorldDomination
 
             if (!ColonyWorldBuildRequirements.MeetsSpikeTrapRequirements(actor, comp.selectedSpikeTrapKind))
                 return false;
+            if (!comp.spikeTrapIsClearing
+                && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(actor)
+                && !ColonyWorldBuildRequirements.HasMaterialCostsForSpikeTrap(comp.selectedSpikeTrapKind))
+                return false;
 
             float cost = GetExpeditionStrengthCost(comp.selectedSpikeTrapKind);
             if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(comp, cost)) return false;
@@ -289,7 +296,11 @@ namespace TSA_WorldDomination
                 WorldActions_Utils.RefundExpeditionStrength(comp, cost);
                 return false;
             }
-            return true;
+
+            if (comp.spikeTrapIsClearing) return true;
+            List<OutpostUpgradeCostEntry> materials =
+                ColonyWorldBuildRequirements.GetMaterialCostsForSpikeTrap(comp.selectedSpikeTrapKind);
+            return ColonyWorldBuildRequirements.TryFinalizeMaterialsOrAbort(origin, traveler, cost, materials);
         }
 
         public static void ExecuteSpikeTrapArrival(WorldObject_Traveler traveler)

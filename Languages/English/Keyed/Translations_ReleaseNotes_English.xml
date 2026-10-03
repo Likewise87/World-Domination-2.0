@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_3_Title>Major update</TSA_WD_Update_2_3_3_Title>
+  <TSA_WD_Update_2_3_3_Body><![CDATA[
+<size=16><b>2.3.3 – Major update</b></size>\n
+<color=#00FFFFFF>Release date: October 3rd 2026</color>\n
+------------------------------\n
+• New feature: Pawn gear can now be swapped out at outposts and easily be transported between outposts. Go to an Outpost, open the Pawn tab and then "Armory". Move items between pawns and the outpost inventory via drag and drop. Go to the WD main tab and see the new button/menu "All Gear" (Hotkey: ALT+V) allowing you to easily ship items between any outpost and the colony.\n
+• New feature: Ship anything via drop pod now. Once "transport pods" have been researched, any outpost and the colony can now move any pawn and goods via drop pod. However: Drop pods cost 1 component now (1 per pawn or 1 per goods transport).\n
+• New feature: You can now establish new outposts from outposts as well, not just from the colony. Click a free tile on the world map, click "establish outpost". Select the pawns you want to use. As long as they all come from the same single origin, you are good to go (whether colony or outpost).\n
+• New feature: Tile-aware settlement types. Farming and logging settlements will no longer spawn in extreme biomes or on tiles with low fertility. Added generic "Camp" settlement types as well as "Refuge" for extreme biomes like ice. Will not change already existing settlements though!\n
+• Balance adjustment: Building roads, road blocks, traps and AT turrets costs materials now. Exposed via XML so you can easily adjust the cost list there.\n
+• Increased the radius for the WD overlays (a wildly underused feature!!!). On the world map, click the WD icon at the right bottom and activate overlays to show the fertility, animal abundance, mining efficiency and blocked tiles. A huge help to find good spots for your outposts!\n
+• Nerfed Flak/AA range to 24 tiles (was 32). Reset all mod settings, or the Player Artillery / NPC Artillery (T4) settings menus, to apply.\n
+• Balance adjustment: WD drop pods launched by the player have no range restriction anymore.\n
+• Many bugfixes and minor tweaks.\n
+]]></TSA_WD_Update_2_3_3_Body>
   <TSA_WD_Update_2_3_26_Title>Recruiting Outpost Upgrades &amp; Balancing</TSA_WD_Update_2_3_26_Title>
   <TSA_WD_Update_2_3_26_Body><![CDATA[
 <size=16><b>2.3.26 – Recruiting Outpost Upgrades & Balancing</b></size>\n

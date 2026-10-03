@@ -38,6 +38,7 @@ Cooldown is shortened by total garrison Shooting ({3}): each point is −2% dura
   <TSA_WD_Mortar_AutoAttack_Menu_Expansion>Expansion</TSA_WD_Mortar_AutoAttack_Menu_Expansion>
   <TSA_WD_Mortar_AutoAttack_Menu_Road>Road</TSA_WD_Mortar_AutoAttack_Menu_Road>
   <TSA_WD_Mortar_AutoAttack_Menu_Fortify>Fortify</TSA_WD_Mortar_AutoAttack_Menu_Fortify>
+  <TSA_WD_Mortar_AutoAttack_Menu_Logistics>Supply</TSA_WD_Mortar_AutoAttack_Menu_Logistics>
 
   <!-- Used by MissionMaskLabel (multi-type fallback) -->
   <TSA_WD_Mortar_Filter_All>All</TSA_WD_Mortar_Filter_All>
@@ -46,6 +47,7 @@ Cooldown is shortened by total garrison Shooting ({3}): each point is −2% dura
   <TSA_WD_Mortar_Filter_Road>Road</TSA_WD_Mortar_Filter_Road>
   <TSA_WD_Mortar_Filter_Trader>Trader</TSA_WD_Mortar_Filter_Trader>
   <TSA_WD_Mortar_Filter_Fortify>Fortify</TSA_WD_Mortar_Filter_Fortify>
+  <TSA_WD_Mortar_Filter_Logistics>Supply</TSA_WD_Mortar_Filter_Logistics>
 
   <!-- Letters -->
   <TSA_WD_Mortar_Hit_Label>Mortar Hit</TSA_WD_Mortar_Hit_Label>

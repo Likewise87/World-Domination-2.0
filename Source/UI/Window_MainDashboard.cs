@@ -32,6 +32,7 @@ namespace TSA_WorldDomination
             ContentFinder<Texture2D>.Get("UI/Commands/Icon_AllPlayerPawns", false);
         private static readonly Texture2D IconPrisoners =
             ContentFinder<Texture2D>.Get("UI/Commands/Icon_Prisoners", false);
+        private static Texture2D IconAllInventory => Dialog_OutpostArmoryAssets.ArmoryIcon;
         private static readonly Texture2D IconPlayerOutposts =
             ContentFinder<Texture2D>.Get("UI/Commands/Icon_PlayerOutposts", false)
             ?? ContentFinder<Texture2D>.Get("WorldObjects/Icon_PlayerOutposts", false);
@@ -132,7 +133,7 @@ namespace TSA_WorldDomination
         private static string dashUnknownLabel;
         private static string dashOpenLabel;
         private static string dashNoneLabel;
-        private static string navDiplomacy, navOutpost, navWorldStats, navActionLog, navTravelers, navAllPlayerPawns, navPrisoners;
+        private static string navDiplomacy, navOutpost, navWorldStats, navActionLog, navTravelers, navAllPlayerPawns, navPrisoners, navAllInventory;
         private static string hdrThreats, hdrNearbyThreats, hdrFarThreats, hdrOutposts, hdrTravelers;
         private static string dashNoOutposts, dashNoTravelers, dashNoThreatSettlements, dashNoNearbyThreats, dashNoFarThreats, dashMoreEntries;
         private static string dashTravelerStartTip, dashTravelerDestTip;
@@ -158,6 +159,7 @@ namespace TSA_WorldDomination
             navTravelers = dashOpenLabel;
             navAllPlayerPawns = "TSA_WD_AllPlayerPawns".Translate();
             navPrisoners = "TSA_WD_Prisoners".Translate();
+            navAllInventory = "TSA_WD_AllInventory".Translate();
             hdrThreats = "TSA_WD_Dash_Threats".Translate();
             hdrNearbyThreats = "TSA_WD_Dash_NearbyThreats".Translate();
             hdrFarThreats = "TSA_WD_Dash_FarThreats".Translate();
@@ -188,7 +190,7 @@ namespace TSA_WorldDomination
         private string cachedOutpostPawnSummaryLabel;
         private string cachedOutpostPawnSummaryTip;
 
-        public override Vector2 RequestedTabSize => new Vector2(1280f, 608f);
+        public override Vector2 RequestedTabSize => new Vector2(1340f, 608f);
 
         public override void PreOpen()
         {
@@ -202,12 +204,14 @@ namespace TSA_WorldDomination
         private static void NavOpenTravelers() => WdNavWindows.OpenExclusive(() => new Window_ActiveTravelers());
         private static void NavOpenAllPlayerPawns() => WdNavWindows.OpenExclusive(() => new Window_AllPlayerPawns());
         private static void NavOpenPrisoners() => WdNavWindows.OpenExclusive(() => new Window_Prisoners());
+        private static void NavOpenAllInventory() => WdNavWindows.OpenExclusive(() => new Window_AllPlayerGear());
 
         private static void ClickOpenDiplomacy() { NavOpenDiplomacy(); SoundDefOf.Click.PlayOneShotOnCamera(); }
         private static void ClickOpenOutpost() { NavOpenOutpost(); SoundDefOf.Click.PlayOneShotOnCamera(); }
         private static void ClickOpenTravelers() { NavOpenTravelers(); SoundDefOf.Click.PlayOneShotOnCamera(); }
         private static void ClickOpenAllPlayerPawns() { NavOpenAllPlayerPawns(); SoundDefOf.Click.PlayOneShotOnCamera(); }
         private static void ClickOpenPrisoners() { NavOpenPrisoners(); SoundDefOf.Click.PlayOneShotOnCamera(); }
+        private static void ClickOpenAllInventory() { NavOpenAllInventory(); SoundDefOf.Click.PlayOneShotOnCamera(); }
 
         private static Rect InsetIconDrawRect(Rect outer, float pad = 2f)
         {
@@ -247,12 +251,14 @@ namespace TSA_WorldDomination
             float actionLogMinW = MeasureNavButtonWidth(navActionLog);
             float travelersMinW = MeasureNavButtonWidth(navTravelers);
             float allPawnsMinW = MeasureNavButtonWidth(navAllPlayerPawns);
+            bool showAllInventory = OutpostArmoryUtility.FeatureEnabled;
+            float allInventoryMinW = showAllInventory ? MeasureNavButtonWidth(navAllInventory) : 0f;
             float prisonersMinW = MeasureNavButtonWidth(navPrisoners);
             float diplomacyMinW = MeasureNavButtonWidth(navDiplomacy);
             float outpostMinW = MeasureNavButtonWidth(navOutpost);
             float worldStatsMinW = MeasureNavButtonWidth(navWorldStats);
             const float configGap = 4f;
-            const int navBtnCount = 8;
+            int navBtnCount = showAllInventory ? 9 : 8;
 
             Rect configRect = new Rect(
                 rightEdge - configBtnSize,
@@ -262,7 +268,7 @@ namespace TSA_WorldDomination
             float stripRight = configRect.x - configGap;
             float stripLeft = NavBarPadX;
             float stripMinW = diplomacyMinW + outpostMinW + worldStatsMinW + prisonersMinW + allPawnsMinW
-                + travelersMinW + actionLogMinW + configureScopeMinW
+                + allInventoryMinW + travelersMinW + actionLogMinW + configureScopeMinW
                 + ButtonSpacing * (navBtnCount - 1);
             float stripExtra = Mathf.Max(0f, stripRight - stripLeft - stripMinW);
             float stripExtraEach = stripExtra / navBtnCount;
@@ -272,6 +278,7 @@ namespace TSA_WorldDomination
             float worldStatsW = worldStatsMinW + stripExtraEach;
             float prisonersW = prisonersMinW + stripExtraEach;
             float allPawnsW = allPawnsMinW + stripExtraEach;
+            float allInventoryW = showAllInventory ? allInventoryMinW + stripExtraEach : 0f;
             float travelersBtnW = travelersMinW + stripExtraEach;
             float actionLogW = actionLogMinW + stripExtraEach;
             float configureScopeW = configureScopeMinW + stripExtraEach;
@@ -287,6 +294,8 @@ namespace TSA_WorldDomination
             navX += prisonersW + ButtonSpacing;
             Rect allPawnsRect = new Rect(navX, pawnsBtnY, allPawnsW, ButtonHeight);
             navX += allPawnsW + ButtonSpacing;
+            Rect allInventoryRect = new Rect(navX, pawnsBtnY, allInventoryW, ButtonHeight);
+            if (showAllInventory) navX += allInventoryW + ButtonSpacing;
             Rect travelersRect = new Rect(navX, pawnsBtnY, travelersBtnW, ButtonHeight);
             navX += travelersBtnW + ButtonSpacing;
             Rect actionLogRect = new Rect(navX, pawnsBtnY, actionLogW, ButtonHeight);
@@ -296,7 +305,11 @@ namespace TSA_WorldDomination
 
             // Status boxes aligned to nav buttons: Threat=Diplomacy+Outposts, Goodwill=World Stats→Your Pawns, Rank=Travelers→config.
             Rect raidsRect = new Rect(diplomacyRect.x, y, outpostRect.xMax - diplomacyRect.x, hintRowH);
-            Rect goodwillRect = new Rect(worldStatsRect.x, y, allPawnsRect.xMax - worldStatsRect.x, hintRowH);
+            Rect goodwillRect = new Rect(
+                worldStatsRect.x,
+                y,
+                (showAllInventory ? allInventoryRect.xMax : allPawnsRect.xMax) - worldStatsRect.x,
+                hintRowH);
             Rect rankRect = new Rect(travelersRect.x, y, rightEdge - travelersRect.x, hintRowH);
 
             DrawPlayerWdRaidLaunchCapsBox(raidsRect);
@@ -310,6 +323,7 @@ namespace TSA_WorldDomination
             string hotkeyTravelers = FormatWdWindowHotkey("G");
             string hotkeyPawns = FormatWdWindowHotkey("A");
             string hotkeyPrisoners = FormatWdWindowHotkey("Y");
+            string hotkeyAllGear = FormatWdWindowHotkey("V");
             DrawNavButtonAt(diplomacyRect, navDiplomacy, NavOpenDiplomacy, IconDiplomacy,
                 "TSA_WD_Dash_NavTip_Diplomacy".Translate(hotkeyDiplomacy));
             DrawNavButtonAt(outpostRect, navOutpost, NavOpenOutpost, IconPlayerOutposts,
@@ -320,6 +334,9 @@ namespace TSA_WorldDomination
                 "TSA_WD_Dash_NavTip_Prisoners".Translate(hotkeyPrisoners));
             DrawNavButtonAt(allPawnsRect, navAllPlayerPawns, ClickOpenAllPlayerPawns, IconAllPlayerPawns,
                 "TSA_WD_Dash_NavTip_YourPawns".Translate(hotkeyPawns));
+            if (showAllInventory)
+                DrawNavButtonAt(allInventoryRect, navAllInventory, ClickOpenAllInventory, IconAllInventory,
+                    "TSA_WD_Dash_NavTip_AllInventory".Translate(hotkeyAllGear));
             DrawNavButtonAt(travelersRect, navTravelers, ClickOpenTravelers, IconActiveTravelers,
                 "TSA_WD_Dash_NavTip_Travelers".Translate(hotkeyTravelers));
             DrawNavButtonAt(actionLogRect, navActionLog, () =>

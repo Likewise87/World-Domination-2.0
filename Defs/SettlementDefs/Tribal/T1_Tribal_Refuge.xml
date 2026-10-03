@@ -1,74 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
+  <!-- Extreme-biome T1 refuge: barracks / stockpile / kitchen only. No farm, log, pen, hay. -->
   <KCSG.SettlementLayoutDef>
-    <defName>TSA_Tribal_T2_Slavery</defName>
-    <settlementSize>64,64</settlementSize>
+    <defName>TSA_Tribal_T1_Refuge</defName>
+    <settlementSize>52,52</settlementSize>
     <avoidBridgeable>true</avoidBridgeable>
     <avoidMountains>true</avoidMountains>
-    
+
     <centerBuildings>
-      <centralBuildingTags>
-        <li>TSA_Tribal_BigBarracks</li>
-        <li>TSA_Tribal_Slavery</li>
-      </centralBuildingTags>
-      <centerSize>56,56</centerSize>
+      <centerSize>44,44</centerSize>
       <spaceAround>1</spaceAround>
+      <centralBuildingTags>
+        <li>TSA_Tribal_VanguardBarracks</li>
+      </centralBuildingTags>
       <allowedStructures>
         <li>
-          <tag>TSA_Tribal_Slavery</tag>
-          <count>1~2</count>
+          <tag>TSA_Tribal_VanguardBarracks</tag>
+          <count>2~4</count>
+        </li>
+        <li>
+          <tag>TSA_Tribal_BigBarracks</tag>
+          <count>0~1</count>
         </li>
         <li>
           <tag>TSA_Tribal_Stockpile</tag>
-          <count>0~1</count>
-        </li>
-        <li>
-          <tag>TSA_Tribal_Barracks</tag>
-          <count>0~1</count>
-        </li>
-        <li>
-          <count>0~1</count>
-          <tag>TSA_Tribal_Recreation</tag>
-        </li>
-        <li>
-          <count>0~1</count>
-          <tag>Generic_Graveyard</tag>
-        </li>
-        <li>
-          <tag>TSA_Pen</tag>
-          <count>0~1</count>
+          <count>1~2</count>
         </li>
         <li>
           <tag>TribalKitchen</tag>
           <count>0~1</count>
         </li>
-</allowedStructures>
+      </allowedStructures>
     </centerBuildings>
 
     <peripheralBuildings>
       <allowedStructures>
         <li>
           <tag>TSA_Tribal_Barricade</tag>
-          <count>1~4</count>
+          <count>2~3</count>
         </li>
       </allowedStructures>
     </peripheralBuildings>
 
     <defenseOptions>
-      <pawnGroupMultiplier>0.75</pawnGroupMultiplier>
+      <pawnGroupMultiplier>0.4</pawnGroupMultiplier>
     </defenseOptions>
 
     <propsOptions>
       <scatterProps>true</scatterProps>
       <scatterMinDistance>5</scatterMinDistance>
-      <scatterMaxAmount>6</scatterMaxAmount>
+      <scatterMaxAmount>5</scatterMaxAmount>
       <scatterPropsDefs>
-        <li MayRequire="VanillaExpanded.VFEPropsandDecor">VFEPD_FilthDirt</li>
+        <li>TSA_WD_Box_1a</li>
         <li>TSA_WD_Box_2a</li>
+        <li>TSA_WD_Box_3a</li>
         <li>TSA_WD_Box_4a</li>
-
-
-      
+        <li>TSA_WD_Box_5a</li>
+        <li>TSA_WD_BoxPallet_1a</li>
+        <li>TSA_WD_BoxPallet_2a</li>
+        <li>TSA_WD_Cart_5a</li>
+        <li>TSA_WD_Cart_6a</li>
       </scatterPropsDefs>
     </propsOptions>
 
@@ -80,5 +71,5 @@
     <stockpileOptions>
       <fillStorageBuildings>false</fillStorageBuildings>
     </stockpileOptions>
-</KCSG.SettlementLayoutDef>
+  </KCSG.SettlementLayoutDef>
 </Defs>

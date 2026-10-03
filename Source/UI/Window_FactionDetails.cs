@@ -388,7 +388,7 @@ namespace TSA_WorldDomination
                 Widgets.FillableBar(barRect, Mathf.Clamp01(comp.roadProgress), facDetRoadBarTex);
 
                 Text.Font = GameFont.Tiny;
-                string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+                string insufficient = comp.GetInsufficientConstructionMessage();
                 string label = insufficient
                     ?? (comp.playerOrderedRoad
                         ? OrderedRoadUtility.FormatRoadProgressLabel(comp)
@@ -408,7 +408,7 @@ namespace TSA_WorldDomination
                 Widgets.FillableBar(barRect, Mathf.Clamp01(comp.roadBlockProgress), facDetRoadBarTex);
 
                 Text.Font = GameFont.Tiny;
-                string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+                string insufficient = comp.GetInsufficientConstructionMessage();
                 string label = insufficient;
                 if (label == null)
                 {

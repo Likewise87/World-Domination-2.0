@@ -113,7 +113,7 @@ namespace TSA_WorldDomination
                 manager?.AddLog(new SpreadLogEntry(destroyText, traveler));
                 WDVerbose.Msg($"[WD] Pollution destroyed traveler={traveler.LabelCap} tile={leftTileId}");
                 // Empty reason: we already logged with Actor A only (AbortTraveler would pair origin as B).
-                TravelerEndpointUtility.AbortTraveler(traveler, null, manager);
+                TravelerEndpointUtility.AbortTraveler(traveler, null, manager, refundCargo: false);
             }
         }
 

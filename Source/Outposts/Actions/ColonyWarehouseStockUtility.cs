@@ -176,6 +176,43 @@ namespace TSA_WorldDomination
             return true;
         }
 
+        public static bool TryConsume(
+            Map map,
+            List<WorldObject_WD_Outpost> warehouses,
+            ThingDef def,
+            int count,
+            out string reason)
+        {
+            reason = null;
+            if (def == null || count <= 0) return true;
+            int have = CountAvailable(map, warehouses, def);
+            if (have < count)
+            {
+                reason = "TSA_WD_OutpostUpgrades_NeedHave".Translate(count.ToString(), def.LabelCap, have.ToString());
+                return false;
+            }
+
+            int remaining = count;
+            if (map != null)
+                remaining -= DeductFromMap(map, def, remaining);
+            if (remaining > 0 && warehouses != null)
+            {
+                for (int w = 0; w < warehouses.Count && remaining > 0; w++)
+                {
+                    var comp = CompOutpostWarehouse.Get(warehouses[w]);
+                    if (comp == null) continue;
+                    remaining -= comp.WithdrawUpTo(def, remaining);
+                }
+            }
+
+            if (remaining > 0)
+            {
+                reason = "TSA_WD_OutpostUpgrades_DeductFailed".Translate(def.LabelCap);
+                return false;
+            }
+            return true;
+        }
+
         private static int DeductFromMap(Map map, ThingDef def, int amount)
         {
             if (map == null || def == null || amount <= 0) return 0;

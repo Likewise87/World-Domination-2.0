@@ -77,7 +77,6 @@ namespace TSA_WorldDomination
         public static bool TryBeforeTravelerEntersTile_TravelerVsTraveler(WorldObject_Traveler incoming, int destTile)
         {
             if (incoming == null || incoming.Destroyed || destTile < 0) return false;
-            if (incoming.mission == TravelerMission.OutpostDelivery) return false;
             if (incoming.Faction == null) return false;
 
             // Pass 1: abort before any clash if tile has a home / MapParent / gravship (order-independent).
@@ -88,7 +87,6 @@ namespace TSA_WorldDomination
             foreach (WorldObject wo in Find.WorldObjects.ObjectsAt(destTile))
             {
                 if (wo is WorldObject_Traveler other && other != incoming && !other.Destroyed
-                    && other.mission != TravelerMission.OutpostDelivery
                     && other.Faction != null && WorldActions_Utils.SafeHostileTo(incoming.Faction, other.Faction))
                 {
                     if (IsDeferredRapidResponseInterceptClash(incoming, other)
@@ -107,7 +105,6 @@ namespace TSA_WorldDomination
         public static void AfterTravelerLanded_TravelerVsCaravan(WorldObject_Traveler traveler, int tile)
         {
             if (traveler == null || traveler.Destroyed || tile < 0) return;
-            if (traveler.mission == TravelerMission.OutpostDelivery) return;
             if (traveler.Faction == null) return;
 
             // Pass 1: colony / landed gravship / launch site — never start clash (ObjectsAt order is unreliable).
@@ -175,7 +172,7 @@ namespace TSA_WorldDomination
 
             foreach (WorldObject wo in Find.WorldObjects.ObjectsAt(tile))
             {
-                if (wo is WorldObject_Traveler tr && !tr.Destroyed && tr.mission != TravelerMission.OutpostDelivery
+                if (wo is WorldObject_Traveler tr && !tr.Destroyed
                     && tr.Faction != null && WorldActions_Utils.SafeHostileTo(caravan.Faction, tr.Faction))
                 {
                     if (Prefs.DevMode)

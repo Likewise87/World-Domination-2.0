@@ -106,9 +106,10 @@
   <TSA_WD_RapidResponse_InspectExpansionCaravans>在半径内拦截扩张商队</TSA_WD_RapidResponse_InspectExpansionCaravans>
   <TSA_WD_RapidResponse_InspectRoadCaravans>在半径内拦截修路商队</TSA_WD_RapidResponse_InspectRoadCaravans>
   <TSA_WD_RapidResponse_InspectFortifyCaravans>在半径内拦截设防商队</TSA_WD_RapidResponse_InspectFortifyCaravans>
+  <TSA_WD_RapidResponse_InspectLogisticsCaravans>在半径内拦截补给商队</TSA_WD_RapidResponse_InspectLogisticsCaravans>
   <TSA_WD_RapidResponse_InspectGroupCaravans>在半径内拦截{0}</TSA_WD_RapidResponse_InspectGroupCaravans>
   <TSA_WD_RapidResponse_DropPods>空投派遣 ({0})</TSA_WD_RapidResponse_DropPods>
-  <TSA_WD_RapidResponse_DropPodsDesc>将选中的前哨殖民者通过空投舱投送到射程内任意可通行世界地块（或敌对旅行者 / 玩家殖民地 / 前哨）。</TSA_WD_RapidResponse_DropPodsDesc>
+  <TSA_WD_RapidResponse_DropPodsDesc>将选中的前哨殖民者通过空投舱投送到射程内任意可通行世界地块（或敌对旅行者 / 玩家殖民地 / 前哨）。每位出行殖民者从殖民地与仓库库存消耗 1 个工业零件。</TSA_WD_RapidResponse_DropPodsDesc>
   <TSA_WD_RapidResponse_DropPodsNeedResearch>需要完成运输舱研究。</TSA_WD_RapidResponse_DropPodsNeedResearch>
   <TSA_WD_RapidResponse_DropPodsSelectPawns>请选择至少一名前哨殖民者进行派遣。</TSA_WD_RapidResponse_DropPodsSelectPawns>
   <TSA_WD_RapidResponse_DropPodsNoStoredTransport>储存的动物和载具不能通过此空投行动发射。</TSA_WD_RapidResponse_DropPodsNoStoredTransport>
@@ -145,6 +146,7 @@
   <TSA_WD_RapidResponse_Tip_TargetRoad>拦截范围内的敌对筑路及相关道路商队。</TSA_WD_RapidResponse_Tip_TargetRoad>
   <TSA_WD_RapidResponse_Tip_TargetTrader>拦截范围内的敌对贸易商队。</TSA_WD_RapidResponse_Tip_TargetTrader>
   <TSA_WD_RapidResponse_Tip_TargetFortify>拦截范围内正在放置路障或尖刺陷阱的敌对设防商队。</TSA_WD_RapidResponse_Tip_TargetFortify>
+  <TSA_WD_RapidResponse_Tip_TargetLogistics>拦截范围内的补给与升级运输队，包括发出方对本前哨敌对时你自己的运输队。</TSA_WD_RapidResponse_Tip_TargetLogistics>
   <TSA_WD_RapidResponse_Tip_RaidTargetPlayer>拦截目的地为你的殖民地或前哨的袭击者。</TSA_WD_RapidResponse_Tip_RaidTargetPlayer>
   <TSA_WD_RapidResponse_Tip_RaidTargetAllies>拦截目的地属于你的盟友派系的袭击者。</TSA_WD_RapidResponse_Tip_RaidTargetAllies>
   <TSA_WD_RapidResponse_Tip_RaidTargetOtherNpcs>拦截目的地属于非盟友 NPC 派系的袭击者。</TSA_WD_RapidResponse_Tip_RaidTargetOtherNpcs>
@@ -177,7 +179,6 @@
   <TSA_WD_Pod_ReinforceDefense>增援 {0} 防御(运输舱)</TSA_WD_Pod_ReinforceDefense>
   <TSA_WD_Pod_ReinforcedDefense>运输舱已作为增援降落在 {0} 的临时战场。</TSA_WD_Pod_ReinforcedDefense>
   <TSA_WD_Pod_AddedPawn>{0} 通过运输舱加入了 {1}。</TSA_WD_Pod_AddedPawn>
-  <TSA_WD_PodArrival_FoodConverted>运输舱中的 {0} 营养已转换为 {1} 的虚拟食物。</TSA_WD_PodArrival_FoodConverted>
   <TSA_WD_PodArrival_ItemNotStored>无法将 {0} 存入此前哨站(WD 前哨站仅保留殖民者为虚拟单位)。物品已丢失。</TSA_WD_PodArrival_ItemNotStored>
   <TSA_WD_AutoAdd_Desc>启用后,目的地为此前哨的商队在停下时会自动加入。途中在此休息或暂停(目的地在别处)不会加入。</TSA_WD_AutoAdd_Desc>
   <TSA_WD_AutoAdd_Label>自动加入抵达者</TSA_WD_AutoAdd_Label>
@@ -247,6 +248,7 @@
   <TSA_WD_BuildRoad>修建道路</TSA_WD_BuildRoad>
   <TSA_WD_CancelCurrentProjectFirst>请先取消当前工程</TSA_WD_CancelCurrentProjectFirst>
   <TSA_WD_InsufficientStrengthToBuild>实力不足以派出{0}</TSA_WD_InsufficientStrengthToBuild>
+  <TSA_WD_InsufficientMaterialsToBuild>材料不足以派出{0}</TSA_WD_InsufficientMaterialsToBuild>
   <TSA_WD_InsufficientStrengthToClear>实力不足以清除{0}</TSA_WD_InsufficientStrengthToClear>
   <TSA_WD_BuildRoadDesc>指示此前哨站开始向指定格子修建道路网。速度随累计建造技能缩放。\n\n按住Shift点击放置路径点；不按Shift点击以设定最终目的地。</TSA_WD_BuildRoadDesc>
   <TSA_WD_BuildRoadStatus>正在向"{0}"修建\n进度:{1}%</TSA_WD_BuildRoadStatus>
@@ -1059,26 +1061,27 @@
   <TSA_WD_RemoteEstablish_Headline>在所选地块建立前哨站</TSA_WD_RemoteEstablish_Headline>
   <TSA_WD_RemoteEstablish_Establish>派出并建立</TSA_WD_RemoteEstablish_Establish>
   <TSA_WD_RemoteEstablish_ClickTileHint>点击世界地图地块以建立前哨站。右键取消。</TSA_WD_RemoteEstablish_ClickTileHint>
-  <TSA_WD_RemoteEstablish_ColonyOnly>仅可派出殖民地殖民者去建立前哨站。</TSA_WD_RemoteEstablish_ColonyOnly>
+  <TSA_WD_RemoteEstablish_SingleOrigin>请只从同一殖民地地图或同一前哨站选择殖民者。</TSA_WD_RemoteEstablish_SingleOrigin>
   <TSA_WD_RemoteEstablish_ColonyMapNotLoaded>殖民地地图未加载。</TSA_WD_RemoteEstablish_ColonyMapNotLoaded>
-  <TSA_WD_RemoteEstablish_SingleColony>请只从同一殖民地地图选择殖民者。</TSA_WD_RemoteEstablish_SingleColony>
+  <TSA_WD_RemoteEstablish_WrongLocationKind>只有殖民地或前哨站的殖民者能用这种方式建立前哨站。</TSA_WD_RemoteEstablish_WrongLocationKind>
   <TSA_WD_RemoteEstablish_NeedHumanlike>请至少选择一名人形殖民者。</TSA_WD_RemoteEstablish_NeedHumanlike>
+  <TSA_WD_RemoteEstablish_ShuttleNeedsLand>载人穿梭机必须陆路出行。请改用陆路，或不要带上穿梭机。</TSA_WD_RemoteEstablish_ShuttleNeedsLand>
   <TSA_WD_RemoteEstablish_CarryTooHeavy>这些殖民者无法携带建立材料。\n\n载荷：{0} 千克\n可携带：{1} 千克\n还差：{2} 千克\n\n仍要派出吗？</TSA_WD_RemoteEstablish_CarryTooHeavy>
-  <TSA_WD_RemoteEstablish_InvalidSelection>请选择殖民地殖民者以建立前哨站。</TSA_WD_RemoteEstablish_InvalidSelection>
+  <TSA_WD_RemoteEstablish_InvalidSelection>请选择殖民地或前哨站的殖民者以建立前哨站。</TSA_WD_RemoteEstablish_InvalidSelection>
   <TSA_WD_RemoteEstablish_Launched>商队已派出以建立 {0}。</TSA_WD_RemoteEstablish_Launched>
   <TSA_WD_RemoteEstablish_Failed>无法建立前哨站。\n{0}</TSA_WD_RemoteEstablish_Failed>
   <TSA_WD_RemoteEstablish_ArrivalLabel>建立 {0}</TSA_WD_RemoteEstablish_ArrivalLabel>
   <TSA_WD_RemoteEstablish_ArrivalReport>正在建立 {0}。</TSA_WD_RemoteEstablish_ArrivalReport>
   <TSA_WD_RemoteEstablish_Inspect>正在建立：{0}</TSA_WD_RemoteEstablish_Inspect>
   <TSA_WD_TileFirstEstablish_Gizmo>建立前哨站</TSA_WD_TileFirstEstablish_Gizmo>
-  <TSA_WD_TileFirstEstablish_GizmoTip>先为此地块选择前哨站类型，再从殖民地挑选殖民者派出。物资取自殖民地与仓库。最小距离:距任意定居点、殖民地或前哨站 {0} 格。</TSA_WD_TileFirstEstablish_GizmoTip>
+  <TSA_WD_TileFirstEstablish_GizmoTip>先为此地块选择前哨站类型，再从同一殖民地地图或同一前哨站挑选殖民者派出。物资取自殖民地与仓库。最小距离:距任意定居点、殖民地或前哨站 {0} 格。</TSA_WD_TileFirstEstablish_GizmoTip>
   <TSA_WD_TileFirstEstablish_Occupied>此格已有定居点或前哨站。</TSA_WD_TileFirstEstablish_Occupied>
   <TSA_WD_Establish_ActiveCamp>不能在仍在使用的营地建立前哨站。请先放弃营地。</TSA_WD_Establish_ActiveCamp>
-  <TSA_WD_TileFirstEstablish_NoColony>需要有玩家殖民地地图才能派出殖民者并支付建立费用。</TSA_WD_TileFirstEstablish_NoColony>
+  <TSA_WD_TileFirstEstablish_NoColony>需要有玩家殖民地地图才能支付建立费用。</TSA_WD_TileFirstEstablish_NoColony>
   <TSA_WD_TileFirstEstablish_Headline>在此地块建立前哨站</TSA_WD_TileFirstEstablish_Headline>
   <TSA_WD_TileFirstEstablish_ChooseColonists>选择殖民者</TSA_WD_TileFirstEstablish_ChooseColonists>
   <TSA_WD_TileFirstEstablish_CheckedWhenPawns>选择殖民者时再检查。</TSA_WD_TileFirstEstablish_CheckedWhenPawns>
-  <TSA_WD_TileFirstEstablish_PawnWindowTitle>用于 {0} 的殖民者</TSA_WD_TileFirstEstablish_PawnWindowTitle>
+  <TSA_WD_TileFirstEstablish_PawnWindowTitle>用于 {0} 的建立者</TSA_WD_TileFirstEstablish_PawnWindowTitle>
   <TSA_WD_TileFirstEstablish_Confirm>确认</TSA_WD_TileFirstEstablish_Confirm>
   <TSA_WD_RequirementsPreview_Headline>前哨站需求预览</TSA_WD_RequirementsPreview_Headline>
   <TSA_WD_RequirementsPreview_ClickTileHint>点击世界地图地块以预览前哨站建立需求。关闭预览窗口后可选择其他地块。右键地图退出模拟模式。</TSA_WD_RequirementsPreview_ClickTileHint>
@@ -1145,6 +1148,109 @@
   <TSA_WD_PowerPlant_InspectNoColony>可用远程电力：{0}（无殖民地地图）。</TSA_WD_PowerPlant_InspectNoColony>
   <TSA_WD_PowerPlant_OverviewProduct>{0} 远程电力</TSA_WD_PowerPlant_OverviewProduct>
   <TSA_WD_PowerPlant_OverviewAlways>持续启用</TSA_WD_PowerPlant_OverviewAlways>
+  <!-- 前哨军械库 -->
+  <TSA_WD_Armory_OpenButton>军械库</TSA_WD_Armory_OpenButton>
+  <TSA_WD_Armory_OpenButtonTip>把存放的武器、护甲、药品、毒品、食物与弹药分发给本前哨的驻守人员。</TSA_WD_Armory_OpenButtonTip>
+  <TSA_WD_Armory_ColumnPawns>人员名称</TSA_WD_Armory_ColumnPawns>
+  <TSA_WD_Armory_ColumnStore>库存</TSA_WD_Armory_ColumnStore>
+  <TSA_WD_Armory_SecApparel>服装</TSA_WD_Armory_SecApparel>
+  <TSA_WD_Armory_SecWeapons>武器</TSA_WD_Armory_SecWeapons>
+  <TSA_WD_Armory_SecFoodDrugs>食物、毒品、药品</TSA_WD_Armory_SecFoodDrugs>
+  <TSA_WD_Armory_NoOccupants>没有可装备的驻守人员。</TSA_WD_Armory_NoOccupants>
+  <TSA_WD_Armory_StoreEmpty>这里还没有任何物品。通过商队或投送舱抵达的装备会存入军械库。用下方的“打开全部装备页”从殖民地或其他前哨运来。</TSA_WD_Armory_StoreEmpty>
+  <TSA_WD_Armory_NormalizeNote>存入的装备会被修复至满耐久，因此相同物品可以堆叠。被污染的衣物保持污染并单独存放。</TSA_WD_Armory_NormalizeNote>
+  <TSA_WD_Armory_UniqueTag>独特</TSA_WD_Armory_UniqueTag>
+  <TSA_WD_Armory_BiocodedTag>生物编码</TSA_WD_Armory_BiocodedTag>
+  <TSA_WD_Armory_TaintedTip>已污染：这件衣物曾被某人穿着死去。穿上它会让大多数殖民者心情变差。</TSA_WD_Armory_TaintedTip>
+  <TSA_WD_Armory_SplitTitle>需要多少{0}？</TSA_WD_Armory_SplitTitle>
+  <TSA_WD_Armory_ConvertFood>转换食物</TSA_WD_Armory_ConvertFood>
+  <TSA_WD_Armory_ConvertFoodTip>把所有存放的实体食物并入本前哨的食物储备。超出上限的部分留在军械库。</TSA_WD_Armory_ConvertFoodTip>
+  <TSA_WD_Armory_ConvertFoodNone>没有可转换的存放食物，或食物储备已满。</TSA_WD_Armory_ConvertFoodNone>
+  <TSA_WD_Armory_OpenInventory>打开全部装备页</TSA_WD_Armory_OpenInventory>
+  <TSA_WD_Armory_OpenInventoryTip>打开全部装备页，以便在前哨与殖民地之间快速转移装备。</TSA_WD_Armory_OpenInventoryTip>
+  <TSA_WD_Armory_ConvertedFood>已把存放的食物转换为 {0} 点前哨食物。</TSA_WD_Armory_ConvertedFood>
+  <TSA_WD_Armory_FailManualDefense>本前哨正在进行防御，无法搬运装备。</TSA_WD_Armory_FailManualDefense>
+  <TSA_WD_Armory_FailLocked>{0} 已锁定，无法取下。</TSA_WD_Armory_FailLocked>
+  <TSA_WD_Armory_FailNotStorable>{0} 无法存入军械库。</TSA_WD_Armory_FailNotStorable>
+  <TSA_WD_Armory_FailNoCapacity>该人员无法再携带更多此物品。</TSA_WD_Armory_FailNoCapacity>
+  <TSA_WD_Armory_FailNoCapacityCe>{0} 没有空间携带更多{1}。剩余背包：{2} 体积，{3} 千克。</TSA_WD_Armory_FailNoCapacityCe>
+  <TSA_WD_Armory_FailNoBodyParts>{1} 没有可穿戴 {0} 的部位。</TSA_WD_Armory_FailNoBodyParts>
+  <TSA_WD_Armory_FailCannotWear>{1} 无法穿戴 {0}。</TSA_WD_Armory_FailCannotWear>
+  <TSA_WD_Armory_FailPrimaryOccupied>{0} 已有主武器（{1}）。请先卸下。</TSA_WD_Armory_FailPrimaryOccupied>
+  <TSA_WD_Armory_PodDeposit>已在 {1} 的军械库存入 {0} 件物品。</TSA_WD_Armory_PodDeposit>
+  <TSA_WD_Armory_DeliveryStored>已在军械库存入 {0} 件物品。</TSA_WD_Armory_DeliveryStored>
+  <TSA_WD_Armory_LostFood>{0} 点食物</TSA_WD_Armory_LostFood>
+  <TSA_WD_Armory_CargoLostLabel>运输队损失</TSA_WD_Armory_CargoLostLabel>
+  <TSA_WD_Armory_CargoLost>一支前往 {0} 的运输队在途中被摧毁，所载货物全部损失：</TSA_WD_Armory_CargoLost>
+  <TSA_WD_Armory_UpgradeLostLabel>升级运输队损失</TSA_WD_Armory_UpgradeLostLabel>
+  <TSA_WD_Armory_UpgradeLost>前往 {1} 的 {0} 运输队在途中被摧毁。材料已损失，该升级可以重新下单。</TSA_WD_Armory_UpgradeLost>
+  <TSA_WD_Armory_HdrStores>军械库</TSA_WD_Armory_HdrStores>
+  <TSA_WD_Armory_HdrStoresTip>本前哨军械库按类别存放的物品。</TSA_WD_Armory_HdrStoresTip>
+  <TSA_WD_Armory_StoresMore>还有 {0} 类</TSA_WD_Armory_StoresMore>
+  <TSA_WD_Armory_StoresTooltip>共存放 {0} 件物品。</TSA_WD_Armory_StoresTooltip>
+  <TSA_WD_Armory_HdrItem>物品</TSA_WD_Armory_HdrItem>
+  <TSA_WD_Armory_HdrType>类型</TSA_WD_Armory_HdrType>
+  <TSA_WD_Armory_HdrQuality>品质</TSA_WD_Armory_HdrQuality>
+  <TSA_WD_Armory_HdrCount>数量</TSA_WD_Armory_HdrCount>
+  <TSA_WD_Armory_WeaponFilterTip>按类型筛选库存。护甲包括头盔和身体护甲。头部、躯干和腿部按衣物覆盖部位筛选，同一件衣物可能出现在多个分类中。</TSA_WD_Armory_WeaponFilterTip>
+  <TSA_WD_Armory_WeaponFilter_All>全部</TSA_WD_Armory_WeaponFilter_All>
+  <TSA_WD_Armory_WeaponFilter_Guns>枪械</TSA_WD_Armory_WeaponFilter_Guns>
+  <TSA_WD_Armory_WeaponFilter_Bows>弓弩</TSA_WD_Armory_WeaponFilter_Bows>
+  <TSA_WD_Armory_WeaponFilter_Melee>近战</TSA_WD_Armory_WeaponFilter_Melee>
+  <TSA_WD_Armory_WeaponFilter_Grenades>手雷</TSA_WD_Armory_WeaponFilter_Grenades>
+  <TSA_WD_Armory_WeaponFilter_Other>其他</TSA_WD_Armory_WeaponFilter_Other>
+  <TSA_WD_Armory_TypeFilter_Ammo>弹药</TSA_WD_Armory_TypeFilter_Ammo>
+  <TSA_WD_Armory_TypeFilter_Armor>护甲</TSA_WD_Armory_TypeFilter_Armor>
+  <TSA_WD_Armory_TypeFilter_Headgear>头部</TSA_WD_Armory_TypeFilter_Headgear>
+  <TSA_WD_Armory_TypeFilter_Torso>躯干</TSA_WD_Armory_TypeFilter_Torso>
+  <TSA_WD_Armory_TypeFilter_Legs>腿部</TSA_WD_Armory_TypeFilter_Legs>
+  <TSA_WD_Armory_TypeFilter_Medicine>医药</TSA_WD_Armory_TypeFilter_Medicine>
+  <TSA_WD_Armory_TypeFilter_Drugs>药物</TSA_WD_Armory_TypeFilter_Drugs>
+  <TSA_WD_Armory_TypeFilter_Food>食物</TSA_WD_Armory_TypeFilter_Food>
+  <TSA_WD_Armory_NoPawnMatch>没有符合此筛选的驻守人员。</TSA_WD_Armory_NoPawnMatch>
+  <TSA_WD_Armory_NoItemMatch>没有符合这些筛选的库存物品。</TSA_WD_Armory_NoItemMatch>
+  <TSA_WD_Armory_Bucket_Guns>枪械</TSA_WD_Armory_Bucket_Guns>
+  <TSA_WD_Armory_Bucket_Bows>弓弩</TSA_WD_Armory_Bucket_Bows>
+  <TSA_WD_Armory_Bucket_Melee>近战武器</TSA_WD_Armory_Bucket_Melee>
+  <TSA_WD_Armory_Bucket_Grenades>手雷</TSA_WD_Armory_Bucket_Grenades>
+  <TSA_WD_Armory_Bucket_Armor>护甲</TSA_WD_Armory_Bucket_Armor>
+  <TSA_WD_Armory_Bucket_Medicine>药品</TSA_WD_Armory_Bucket_Medicine>
+  <TSA_WD_Armory_Bucket_Drugs>毒品</TSA_WD_Armory_Bucket_Drugs>
+  <TSA_WD_Armory_Bucket_Food>食物</TSA_WD_Armory_Bucket_Food>
+  <TSA_WD_Armory_Bucket_Ammo>弹药</TSA_WD_Armory_Bucket_Ammo>
+  <TSA_WD_CountPicker_All>全部</TSA_WD_CountPicker_All>
+
+  <!-- 全局库存窗口 -->
+  <TSA_WD_AllInventory_Title>全部玩家装备</TSA_WD_AllInventory_Title>
+  <TSA_WD_AllInventory_HdrItem>物品</TSA_WD_AllInventory_HdrItem>
+  <TSA_WD_AllInventory_HdrEquippedBy>装备者</TSA_WD_AllInventory_HdrEquippedBy>
+  <TSA_WD_AllInventory_HdrCategory>类型</TSA_WD_AllInventory_HdrCategory>
+  <TSA_WD_AllInventory_HdrQuality>品质</TSA_WD_AllInventory_HdrQuality>
+  <TSA_WD_AllInventory_HdrCount>库存</TSA_WD_AllInventory_HdrCount>
+  <TSA_WD_AllInventory_HdrSendCount>发送</TSA_WD_AllInventory_HdrSendCount>
+  <TSA_WD_AllInventory_CategoryFilterTip>按物品类型筛选</TSA_WD_AllInventory_CategoryFilterTip>
+  <TSA_WD_AllInventory_QualityFilterTip>按物品品质筛选</TSA_WD_AllInventory_QualityFilterTip>
+  <TSA_WD_AllInventory_EquippedByFilterTip>按装备或携带该物品的殖民者筛选</TSA_WD_AllInventory_EquippedByFilterTip>
+  <TSA_WD_AllInventory_QualityNone>无品质</TSA_WD_AllInventory_QualityNone>
+  <TSA_WD_AllInventory_TooMany>物品过多。请筛选列表</TSA_WD_AllInventory_TooMany>
+  <TSA_WD_AllInventory_OnPawnTip>由殖民者装备或携带。发送时会从其身上取下（自负风险）。</TSA_WD_AllInventory_OnPawnTip>
+  <TSA_WD_AllInventory_CaravanNoSend>世界地图上远行队携带的装备无法从此处发送。</TSA_WD_AllInventory_CaravanNoSend>
+  <TSA_WD_AllInventory_InCombatNoSend>地图处于袭击或突击时，无法从殖民者身上取下装备。</TSA_WD_AllInventory_InCombatNoSend>
+  <TSA_WD_AllInventory_Selected>已选择：{0}</TSA_WD_AllInventory_Selected>
+  <TSA_WD_AllInventory_Send>发送至…</TSA_WD_AllInventory_Send>
+  <TSA_WD_AllInventory_SendTip>把所选行发往同一个目的地。每个来源各自派出运输队并支付自己的兵力消耗；殖民地不消耗兵力。发送装备中的物品会从殖民者身上取下。</TSA_WD_AllInventory_SendTip>
+  <TSA_WD_AllInventory_ModeLand>陆路商队</TSA_WD_AllInventory_ModeLand>
+  <TSA_WD_AllInventory_ModePod>投送舱</TSA_WD_AllInventory_ModePod>
+  <TSA_WD_AllInventory_ModeTip>陆路商队沿地面行进，可能遭到伏击或迫击炮打击。投送舱飞行，可能被防空火力击落。</TSA_WD_AllInventory_ModeTip>
+  <TSA_WD_AllInventory_NothingPicked>没有选择要发送的内容。</TSA_WD_AllInventory_NothingPicked>
+  <TSA_WD_AllInventory_NoSharedDest>没有对所有所选来源都有效的目的地。</TSA_WD_AllInventory_NoSharedDest>
+  <TSA_WD_AllInventory_AlreadyAtLocation>至少一个所选物品已经在此地点。</TSA_WD_AllInventory_AlreadyAtLocation>
+  <TSA_WD_AllInventory_SkipSameDestTitle>警告：部分物品已在目的地</TSA_WD_AllInventory_SkipSameDestTitle>
+  <TSA_WD_AllInventory_SkipSameDestIntro>以下货物已在目的地“{0}”，无法发送：</TSA_WD_AllInventory_SkipSameDestIntro>
+  <TSA_WD_AllInventory_SkipSameDestLine>- {0}x {1}</TSA_WD_AllInventory_SkipSameDestLine>
+  <TSA_WD_AllInventory_SkipSameDestQuestion>是否仍要从其他来源发送货物？</TSA_WD_AllInventory_SkipSameDestQuestion>
+  <TSA_WD_AllInventory_SkipSameDestConfirm>发送其余货物</TSA_WD_AllInventory_SkipSameDestConfirm>
+
   <TSA_WD_WarehouseTab_Label>仓储</TSA_WD_WarehouseTab_Label>
   <TSA_WD_WarehouseTab_Title>仓库库存</TSA_WD_WarehouseTab_Title>
   <TSA_WD_WarehouseTab_ShipDest>发货目的地：{0}</TSA_WD_WarehouseTab_ShipDest>
@@ -1154,6 +1260,12 @@
   <TSA_WD_Warehouse_DestNone>最近的殖民地</TSA_WD_Warehouse_DestNone>
   <TSA_WD_Warehouse_DestKind_Colony>殖民地</TSA_WD_Warehouse_DestKind_Colony>
   <TSA_WD_Warehouse_DestKind_Warehouse>仓库前哨</TSA_WD_Warehouse_DestKind_Warehouse>
+  <TSA_WD_Warehouse_DestSameAsOrigin>目的地不能与来源相同。</TSA_WD_Warehouse_DestSameAsOrigin>
+  <TSA_WD_Warehouse_DestNotPlayerSite>请选择玩家殖民地或玩家前哨。</TSA_WD_Warehouse_DestNotPlayerSite>
+  <TSA_WD_Warehouse_DestNotPlanetSurface>配送必须留在行星表面。</TSA_WD_Warehouse_DestNotPlanetSurface>
+  <TSA_WD_Warehouse_DestUnavailable>该目的地已不可用。</TSA_WD_Warehouse_DestUnavailable>
+  <TSA_WD_Warehouse_AdHocInvalidDestVirtual>虚拟食物只能送往另一处玩家前哨。</TSA_WD_Warehouse_AdHocInvalidDestVirtual>
+  <TSA_WD_Warehouse_AdHocInvalidDestGoods>这些货物只能送往玩家殖民地或仓库。</TSA_WD_Warehouse_AdHocInvalidDestGoods>
   <TSA_WD_Warehouse_InvalidDestination>无效的配送目的地。</TSA_WD_Warehouse_InvalidDestination>
   <TSA_WD_Warehouse_SetDeliveryDest>设置配送目的地</TSA_WD_Warehouse_SetDeliveryDest>
   <TSA_WD_Warehouse_SetDeliveryDestDesc>选择玩家仓库或殖民地地图。该前哨的周期配送将发往此处，而非最近的殖民地。</TSA_WD_Warehouse_SetDeliveryDestDesc>
@@ -1188,20 +1300,67 @@
   <TSA_WD_Warehouse_ShipViaDropPodNow>立即运输舱发货</TSA_WD_Warehouse_ShipViaDropPodNow>
   <TSA_WD_Warehouse_ShipViaDropPodDesc>发射沿直线快速飞行的运输舱。货物将通过运输舱送达殖民地地图边缘、送货点或目标仓库。</TSA_WD_Warehouse_ShipViaDropPodDesc>
   <TSA_WD_Warehouse_AutoShip>每日自动发货</TSA_WD_Warehouse_AutoShip>
-  <TSA_WD_Warehouse_AutoShipDesc>启用后，此仓库每天一次将全部库存发往设定目的地。行程使用该仓库的陆运/运输舱模式。需要已设目的地，且有足够前哨力量支付送货消耗。</TSA_WD_Warehouse_AutoShipDesc>
+  <TSA_WD_Warehouse_AutoShipDesc>启用后，此仓库每天一次将实物库存发往设定目的地。装备、食物、药物和医药默认保留，除非在送货菜单中勾选。不包括虚拟食物。行程使用该仓库的陆运/运输舱模式。需要已设目的地，且有足够前哨力量支付送货消耗。</TSA_WD_Warehouse_AutoShipDesc>
   <TSA_WD_Warehouse_AutoShipInsufficientStrength>{0} 无法自动发货：力量不足，无法支付送货消耗。</TSA_WD_Warehouse_AutoShipInsufficientStrength>
-  <TSA_WD_DispatchMode_Land>陆运送货</TSA_WD_DispatchMode_Land>
-  <TSA_WD_DispatchMode_DropPod>运输舱送货</TSA_WD_DispatchMode_DropPod>
-  <TSA_WD_DispatchMode_LandDesc>从此处发出的前哨升级、定居点购买、送礼和谈判以陆运商队行进。贿赂始终走陆路。此仓库的自动货物使用相同模式。完成运输舱研究后可点击切换为运输舱。</TSA_WD_DispatchMode_LandDesc>
-  <TSA_WD_DispatchMode_DropPodDesc>从此处发出的前哨升级、定居点购买、送礼和谈判以运输舱行进。贿赂始终走陆路。此仓库的自动货物使用相同模式。</TSA_WD_DispatchMode_DropPodDesc>
+  <TSA_WD_DispatchMode_Land>陆运商队</TSA_WD_DispatchMode_Land>
+  <TSA_WD_DispatchMode_DropPod>运输舱</TSA_WD_DispatchMode_DropPod>
+  <TSA_WD_DispatchMode_LandDesc>陆运商队旅行。无工业零件消耗。点击切换。</TSA_WD_DispatchMode_LandDesc>
+  <TSA_WD_DispatchMode_DropPodDesc>运输舱旅行。每次发射消耗 1 个工业零件（殖民地 + 仓库）。</TSA_WD_DispatchMode_DropPodDesc>
   <TSA_WD_DispatchMode_DropPodAaWarning>小心：敌方 T4 定居点的防空炮可能击落它们！</TSA_WD_DispatchMode_DropPodAaWarning>
   <TSA_WD_DispatchMode_NeedsResearch>切换为运输舱送货需要已完成运输舱研究。</TSA_WD_DispatchMode_NeedsResearch>
+  <TSA_WD_DispatchMode_AutoShipFreeNote>仓库每日自动发货不消耗零件。</TSA_WD_DispatchMode_AutoShipFreeNote>
+  <TSA_WD_Shipment_DestDialogTitle>选择发货目的地</TSA_WD_Shipment_DestDialogTitle>
+  <TSA_WD_Shipment_PickOnMap>在地图上选择目的地</TSA_WD_Shipment_PickOnMap>
+  <TSA_WD_Shipment_PickOnMapTip>关闭已打开的窗口，然后在世界地图上点击殖民地或前哨。无效目标会保留你的选择，可再试。</TSA_WD_Shipment_PickOnMapTip>
+  <TSA_WD_PawnDropPod_FallbackToLand>材料不足时改陆路</TSA_WD_PawnDropPod_FallbackToLand>
+  <TSA_WD_PawnDropPod_FallbackToLandMixed>材料不足时改陆路（混合；勾选以全部开启）</TSA_WD_PawnDropPod_FallbackToLandMixed>
+  <TSA_WD_PawnDropPod_FallbackTip>按前哨或殖民地设置。当运输舱派出缺少工业零件时：开启则改陆路；关闭则取消该次派出。默认开启。不会改动已排程的运输舱偏好。</TSA_WD_PawnDropPod_FallbackTip>
+  <TSA_WD_PawnDropPod_FallbackTipOn>回退开启：此地的自动派出缺少运输舱材料时，这些殖民者改走陆路。手动操作始终可选陆路。</TSA_WD_PawnDropPod_FallbackTipOn>
+  <TSA_WD_PawnDropPod_FallbackTipOff>回退关闭：此地的自动派出缺少运输舱材料时暂不派出，殖民者留在原地。手动操作始终可选陆路。</TSA_WD_PawnDropPod_FallbackTipOff>
+  <TSA_WD_PawnDropPod_FallbackTipMixed>所选出发地设置不一致。勾选可让全部的自动派出都使用陆路回退。</TSA_WD_PawnDropPod_FallbackTipMixed>
+  <TSA_WD_PawnDropPod_FallbackSelectOriginsTip>选择殖民者以编辑其出发地的回退设置。</TSA_WD_PawnDropPod_FallbackSelectOriginsTip>
+  <TSA_WD_PawnDropPod_ModeLandTip>陆运商队旅行。无工业零件消耗。点击切换。</TSA_WD_PawnDropPod_ModeLandTip>
+  <TSA_WD_PawnDropPod_ModeDropPodTip>运输舱旅行（每位出行殖民者 1 个零件，来自殖民地 + 仓库）。点击切换。</TSA_WD_PawnDropPod_ModeDropPodTip>
+  <TSA_WD_PawnDropPod_ModeOriginTipLand>陆运商队旅行。无工业零件消耗。点击切换。</TSA_WD_PawnDropPod_ModeOriginTipLand>
+  <TSA_WD_PawnDropPod_ModeOriginTipPod>运输舱旅行（每位出行殖民者 1 个零件，来自殖民地 + 仓库）。点击切换。</TSA_WD_PawnDropPod_ModeOriginTipPod>
+  <TSA_WD_PawnDropPod_ModeOriginTipMixed>所选出发地设置不一致。点击可为全部设定同一种旅行方式。</TSA_WD_PawnDropPod_ModeOriginTipMixed>
+  <TSA_WD_PawnDropPod_ModeNoRedirectTip>设定重定向目标后，此旅行方式才会生效。请在前哨上使用“设置重定向”。</TSA_WD_PawnDropPod_ModeNoRedirectTip>
+  <TSA_WD_PawnDropPod_ScheduleModeNote>旅行方式与陆路回退在囚犯页按关押前哨设置。</TSA_WD_PawnDropPod_ScheduleModeNote>
+  <TSA_WD_PawnDropPod_SmartSendModeLine>旅行方式：{0}</TSA_WD_PawnDropPod_SmartSendModeLine>
+  <TSA_WD_PawnDropPod_FallbackButtonOn>回退：陆路</TSA_WD_PawnDropPod_FallbackButtonOn>
+  <TSA_WD_PawnDropPod_FallbackButtonOff>回退：取消</TSA_WD_PawnDropPod_FallbackButtonOff>
+  <TSA_WD_PawnDropPod_FallbackButtonMixed>回退：混合</TSA_WD_PawnDropPod_FallbackButtonMixed>
+  <TSA_WD_PawnDropPod_FallbackButtonUnset>回退</TSA_WD_PawnDropPod_FallbackButtonUnset>
+  <TSA_WD_PawnDropPod_FallbackMenuLand>零件不足时：改陆路</TSA_WD_PawnDropPod_FallbackMenuLand>
+  <TSA_WD_PawnDropPod_FallbackMenuAbort>零件不足时：取消派出</TSA_WD_PawnDropPod_FallbackMenuAbort>
+  <TSA_WD_PawnDropPod_CostLine>运输舱消耗：{0} 个工业零件（每位出行殖民者 1 个）</TSA_WD_PawnDropPod_CostLine>
+  <TSA_WD_PawnDropPod_TotalCost>总消耗：{0}x</TSA_WD_PawnDropPod_TotalCost>
+  <TSA_WD_PawnDropPod_StockLine>库存（殖民地 + 仓库）：{0}</TSA_WD_PawnDropPod_StockLine>
+  <TSA_WD_PawnDropPod_NoComponentCost>无工业零件消耗（陆路）。</TSA_WD_PawnDropPod_NoComponentCost>
+  <TSA_WD_PawnDropPod_ShortStockNote>零件不足 — 发射前会再次确认。</TSA_WD_PawnDropPod_ShortStockNote>
+  <TSA_WD_PawnDropPod_StillLaunchTitle>运输舱材料</TSA_WD_PawnDropPod_StillLaunchTitle>
+  <TSA_WD_PawnDropPod_StillLaunchNeedHave>全部用运输舱需要 {0} 个工业零件（按所选人数）。你有 {1} 个。</TSA_WD_PawnDropPod_StillLaunchNeedHave>
+  <TSA_WD_PawnDropPod_StillLaunchPodCount>{0} 人将使用运输舱。</TSA_WD_PawnDropPod_StillLaunchPodCount>
+  <TSA_WD_PawnDropPod_StillLaunchLandCount>{0} 人将改陆路。</TSA_WD_PawnDropPod_StillLaunchLandCount>
+  <TSA_WD_PawnDropPod_StillLaunchAbortCount>{0} 人将取消派出。</TSA_WD_PawnDropPod_StillLaunchAbortCount>
+  <TSA_WD_PawnDropPod_StillLaunchAsk>仍要发射吗？</TSA_WD_PawnDropPod_StillLaunchAsk>
+  <TSA_WD_PawnDropPod_AllWouldAbort>工业零件不足以发射运输舱，且所有出发地都关闭了陆路回退。</TSA_WD_PawnDropPod_AllWouldAbort>
+  <TSA_WD_PawnDropPod_LackingMaterials>来自 {1} 的殖民者 {0} 无法以运输舱派出。材料不足！</TSA_WD_PawnDropPod_LackingMaterials>
+  <TSA_WD_PawnDropPod_LackingMaterialsGroup>来自 {2} 的 {0} 及其他 {1} 人无法以运输舱派出。材料不足！</TSA_WD_PawnDropPod_LackingMaterialsGroup>
+  <TSA_WD_PawnDropPod_NoExitHere>运输舱不能在此退出 — 请改用陆路。</TSA_WD_PawnDropPod_NoExitHere>
+  <TSA_WD_PawnDropPod_OutOfRange>目的地超出运输舱射程。</TSA_WD_PawnDropPod_OutOfRange>
+  <TSA_WD_PawnDropPod_NoComponentDef>缺少工业零件定义。</TSA_WD_PawnDropPod_NoComponentDef>
+  <TSA_WD_PawnDropPod_SmartSendTitle>智能派遣</TSA_WD_PawnDropPod_SmartSendTitle>
+  <TSA_WD_PawnDropPod_SmartSendConfirm>确认智能派遣</TSA_WD_PawnDropPod_SmartSendConfirm>
+  <TSA_WD_PawnDropPod_ScheduleViaDropPod>招募后以运输舱前往（发送时每位出行殖民者 1 个零件）</TSA_WD_PawnDropPod_ScheduleViaDropPod>
+  <TSA_WD_PawnDropPod_ScheduleDeferredCost>在招募发送时收取：每位出行殖民者 1 个零件（现有 {0}）。</TSA_WD_PawnDropPod_ScheduleDeferredCost>
+  <TSA_WD_PawnDropPod_ScheduleFallbackNote>发送时若零件不足：按前哨回退设置改陆路或取消。</TSA_WD_PawnDropPod_ScheduleFallbackNote>
   <TSA_WD_Warehouse_ShipLaunchedDropPod>运输舱货物已发往{0}。</TSA_WD_Warehouse_ShipLaunchedDropPod>
   <TSA_WD_Warehouse_ShipNothingSelected>请至少选择一堆物品发货。</TSA_WD_Warehouse_ShipNothingSelected>
   <TSA_WD_Warehouse_ShipInsufficient>库存不足，无法完成该次发货。</TSA_WD_Warehouse_ShipInsufficient>
   <TSA_WD_Warehouse_ShipLaunched>货物已发往 {0}。</TSA_WD_Warehouse_ShipLaunched>
-  <TSA_WD_Warehouse_Deposit_LetterLabel>仓库到货：{0}</TSA_WD_Warehouse_Deposit_LetterLabel>
-  <TSA_WD_Warehouse_Deposit_Letter>来自 {0} 的货物已送达仓库 {1}：</TSA_WD_Warehouse_Deposit_Letter>
+  <TSA_WD_Warehouse_GoodsArrived_LetterLabel>货物抵达：{0}</TSA_WD_Warehouse_GoodsArrived_LetterLabel>
+  <TSA_WD_Warehouse_GoodsArrived_Letter>来自 {0} 的物品已送达 {1}：</TSA_WD_Warehouse_GoodsArrived_Letter>
   <TSA_WD_Warehouse_PodDeposit>已在 {1} 存入 {0} 堆物品。</TSA_WD_Warehouse_PodDeposit>
   <TSA_WD_Warehouse_CaravanDeposit>已在 {1} 存入 {0} 件商队物品。</TSA_WD_Warehouse_CaravanDeposit>
 

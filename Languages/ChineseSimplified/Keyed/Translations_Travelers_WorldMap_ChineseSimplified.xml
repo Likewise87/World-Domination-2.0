@@ -241,8 +241,10 @@
   <TSA_WD_SubType_Logging>伐木营地</TSA_WD_SubType_Logging>
   <TSA_WD_SubType_Mining>采矿营地</TSA_WD_SubType_Mining>
   <TSA_WD_SubType_Farming>农耕营地</TSA_WD_SubType_Farming>
+  <TSA_WD_SubType_Camp>营地</TSA_WD_SubType_Camp>
+  <TSA_WD_SubType_Refuge>避难所</TSA_WD_SubType_Refuge>
   <TSA_WD_SubType_Production>生产村落</TSA_WD_SubType_Production>
-  <TSA_WD_SubType_Slavery>奴隶村落</TSA_WD_SubType_Slavery>
+  <TSA_WD_SubType_Slavery>监狱村落</TSA_WD_SubType_Slavery>
   <TSA_WD_SubType_Fortress>城镇</TSA_WD_SubType_Fortress>
   <TSA_WD_SubType_Vanguard>先锋</TSA_WD_SubType_Vanguard>
   <TSA_WD_SubType_Citadel>要塞城堡</TSA_WD_SubType_Citadel>

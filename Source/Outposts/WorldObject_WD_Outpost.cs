@@ -1127,6 +1127,8 @@ namespace TSA_WorldDomination
             Log.Warning($"[TSA WD] Destroying outpost '{Label}' tile={Tile.tileId} def={def?.defName} occupants={Occupants?.Count ?? 0} prisoners={Prisoners?.Count ?? 0} manualDefense={manualDefenseActive}\n{StackTraceUtility.ExtractStackTrace()}");
             DestroyAllPrisoners();
             ClearPendingSkirmishDefense();
+            // Loose armory stock dies with the outpost; retreating pawns keep only worn/carried gear.
+            CompOutpostArmory.Get(this)?.ClearAndDestroyAll();
             if (IsPowerPlantOutpost)
                 Outpost_PowerPlant.NotifyRemotePowerDirty();
             bool wasWarehouse = Outpost_Production_Utils.IsWarehouseOutpost(def);
@@ -2177,7 +2179,7 @@ namespace TSA_WorldDomination
         {
             if (caravan == null || caravan.Destroyed) return;
             if (caravan.PawnsListForReading == null || caravan.PawnsListForReading.Count == 0) return;
-            DissolveCaravanIntoOutpostPhysicalRemainder(caravan, creditVirtualFoodFromRemainder: false);
+            DissolveCaravanIntoOutpostPhysicalRemainder(caravan);
         }
 
         /// <summary>
@@ -2185,11 +2187,11 @@ namespace TSA_WorldDomination
         /// store vehicle pawns and non-humanlikes, destroy remaining non-warehouse inventory,
         /// destroy caravan when empty.
         /// </summary>
-        private void DissolveCaravanIntoOutpostPhysicalRemainder(Caravan caravan, bool creditVirtualFoodFromRemainder)
+        private void DissolveCaravanIntoOutpostPhysicalRemainder(Caravan caravan)
         {
             if (caravan == null || caravan.Destroyed) return;
 
-            WDVerbose.Msg($"Outpost dissolve begin: caravan {caravan.LabelCap} (creditFood={creditVirtualFoodFromRemainder})");
+            WDVerbose.Msg($"Outpost dissolve begin: caravan {caravan.LabelCap}");
 
             VehicleFrameworkOutpostDissolveCompat.EjectAllPawnsFromHostVehiclesForOutpostDissolve(caravan);
 
@@ -2201,9 +2203,8 @@ namespace TSA_WorldDomination
                 nonHumanDissolveSnapshot,
                 dissolveSeen);
 
-            if (creditVirtualFoodFromRemainder)
-                CompOutpostLogistics.TryDissolveCaravanIntoOutpostVirtualFood(caravan, this, notifyPlayer: true);
-
+            // Pawn-carried food is no longer auto-converted; it lands in the Armory below and the
+            // player converts on demand from the Armory dialog.
             StoreAnyAliveNonHumanlikeDissolveTargets(caravan, nonHumanDissolveSnapshot);
             VehicleFrameworkOutpostDissolveCompat.DestroyStashedVehiclesAtTileForPlayer(Tile);
             OdysseyShuttleOutpostEstablishmentCompat.TryStoreShuttlesFromOccupants(this);
@@ -2215,33 +2216,26 @@ namespace TSA_WorldDomination
 
                         var inventorySnapshot = new List<Thing>(CaravanInventoryUtility.AllInventoryItems(caravan));
             int invDestroyed = 0;
-            if (Outpost_Production_Utils.IsWarehouseOutpost(def))
+            int invStored = 0;
+            for (int ti = 0; ti < inventorySnapshot.Count; ti++)
             {
-                var whComp = CompOutpostWarehouse.Get(this);
-                if (whComp != null && inventorySnapshot.Count > 0)
+                Thing thing = inventorySnapshot[ti];
+                if (thing == null || thing.Destroyed) continue;
+                if (OdysseyShuttleOutpostEstablishmentCompat.IsPassengerShuttle(thing)) continue;
+                if (OutpostStorageUtility.TryStoreThing(this, thing))
                 {
-                    whComp.TryDepositThings(inventorySnapshot);
-                    for (int ti = 0; ti < inventorySnapshot.Count; ti++)
-                    {
-                        Thing thing = inventorySnapshot[ti];
-                        if (thing == null || thing.Destroyed) continue;
-                        thing.Destroy(DestroyMode.Vanish);
-                        invDestroyed++;
-                    }
-                    if (WorldDominationMod.settings?.notifyWarehouseGoodsArrived ?? WorldDominationSettings.DefNotifyWarehouseGoodsArrived)
-                        Messages.Message("TSA_WD_Warehouse_CaravanDeposit".Translate(invDestroyed, LabelCap), this, MessageTypeDefOf.PositiveEvent);
+                    invStored++;
+                    continue;
                 }
+                thing.Destroy(DestroyMode.Vanish);
+                invDestroyed++;
             }
-            else
+            if (invStored > 0)
             {
-                for (int ti = 0; ti < inventorySnapshot.Count; ti++)
-                {
-                    Thing thing = inventorySnapshot[ti];
-                    if (thing == null || thing.Destroyed) continue;
-                    if (OdysseyShuttleOutpostEstablishmentCompat.IsPassengerShuttle(thing)) continue;
-                    thing.Destroy(DestroyMode.Vanish);
-                    invDestroyed++;
-                }
+                WDVerbose.Msg($"Outpost dissolve: stored {invStored} caravan inventory thing(s)");
+                if (Outpost_Production_Utils.IsWarehouseOutpost(def)
+                    && (WorldDominationMod.settings?.notifyWarehouseGoodsArrived ?? WorldDominationSettings.DefNotifyWarehouseGoodsArrived))
+                    Messages.Message("TSA_WD_Warehouse_CaravanDeposit".Translate(invStored, LabelCap), this, MessageTypeDefOf.PositiveEvent);
             }
 
             if (invDestroyed > 0)
@@ -2440,7 +2434,7 @@ namespace TSA_WorldDomination
             }
 
             if (!caravan.Destroyed && dissolveCaravan)
-                DissolveCaravanIntoOutpostPhysicalRemainder(caravan, creditVirtualFoodFromRemainder: true);
+                DissolveCaravanIntoOutpostPhysicalRemainder(caravan);
 
             NotifyVirtualPawnsChanged();
         }
@@ -3075,6 +3069,8 @@ namespace TSA_WorldDomination
         public override void PostRemove()
         {
             ReinforcementNeighborCache.BumpGeneration();
+            // Safety net: Destroy() is the normal hook, but PostRemove can also be reached directly.
+            CompOutpostArmory.Get(this)?.ClearAndDestroyAll();
             if (IsMortarOutpost || IsRapidResponseOutpost)
             {
                 WorldComponent_InterceptionScheduler.Current?.UnregisterInterceptor(this);
@@ -3105,6 +3101,7 @@ namespace TSA_WorldDomination
                     {
                         Outpost_OccupantProgression.TickOccupantsBiologicalAgeOneDay(this);
                         Outpost_OccupantProgression.TickOccupantsVirtualHealingOneDay(this);
+                        Outpost_OccupantProgression.TickOccupantsPassiveAmmoOneDay(this);
                     }
                     if (StoredAnimalsAndVehicles.Count > 0)
                     {
@@ -3267,6 +3264,12 @@ namespace TSA_WorldDomination
         /// <summary>When set, item delivery travelers from this outpost target this world object (warehouse or colony). -1 = nearest colony.</summary>
         public int itemDeliveryTargetWorldObjectId = -1;
 
+        /// <summary>When drop-pod components are missing for pawn launches from this outpost: land instead of abort. Default on.</summary>
+        public bool dropPodFallbackToLand = true;
+
+        /// <summary>Land vs drop pod for automated pawn sends from this outpost (prisoner recruits, recruiting redirect).</summary>
+        public bool pawnTravelViaDropPod;
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -3315,6 +3318,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref pendingUpgradeDefName, "pendingUpgradeDefName");
             Scribe_Values.Look(ref pendingUpgradeLevel, "pendingUpgradeLevel", 0);
             Scribe_Values.Look(ref itemDeliveryTargetWorldObjectId, "itemDeliveryTargetWorldObjectId", -1);
+            Scribe_Values.Look(ref dropPodFallbackToLand, "dropPodFallbackToLand", true);
+            Scribe_Values.Look(ref pawnTravelViaDropPod, "pawnTravelViaDropPod", false);
             Scribe_Values.Look(ref mortarDefenseActive, "mortarDefenseActive", false);
             Scribe_Values.Look(ref mortarDefenseMaskRaw, "mortarDefenseMaskRaw", (int)MissionMask.All);
             Scribe_Values.Look(ref antiAirDefenseActive, "antiAirDefenseActive", true);
@@ -3323,6 +3328,12 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref antiAirKindMaskRaw, "antiAirKindMaskRaw", (int)AntiAirKindMask.All);
             Scribe_Values.Look(ref rapidResponseActive, "rapidResponseActive", false);
             Scribe_Values.Look(ref rapidResponseMaskRaw, "rapidResponseMaskRaw", (int)MissionMask.All);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                // Saves predating MissionMask.Logistics stored All as 31; promote so "All" stays all.
+                mortarDefenseMaskRaw = InterceptionMissionMaskUtils.MigrateLegacyAllMask(mortarDefenseMaskRaw);
+                rapidResponseMaskRaw = InterceptionMissionMaskUtils.MigrateLegacyAllMask(rapidResponseMaskRaw);
+            }
             Scribe_Values.Look(ref rapidResponseRangeOverride, "rapidResponseRangeOverride", -1f);
             Scribe_Values.Look(ref rapidResponseMinStrengthRatio, "rapidResponseMinStrengthRatio", 0.9f);
             Scribe_Values.Look(ref rapidResponseMaxStrengthRatio, "rapidResponseMaxStrengthRatio", RapidResponseUtility.DefaultMaxStrengthRatio);
@@ -3884,6 +3895,18 @@ namespace TSA_WorldDomination
             bool ok = ApplyUpgrade(pendingUpgradeDefName, pendingUpgradeLevel);
             ClearPendingUpgrade();
             return ok;
+        }
+
+        /// <summary>
+        /// Releases the "awaiting delivery" state when an upgrade traveler dies in transit. Materials
+        /// were already spent and are not refunded, matching the cargo rule for destroyed shipments.
+        /// Returns true when there actually was a pending upgrade to clear.
+        /// </summary>
+        public bool ClearPendingUpgradeAfterLoss()
+        {
+            if (string.IsNullOrEmpty(pendingUpgradeDefName) && pendingUpgradeLevel <= 0) return false;
+            ClearPendingUpgrade();
+            return true;
         }
 
         public bool ApplyUpgrade(string upgradeDefName, int level)

@@ -32,6 +32,7 @@ namespace TSA_WorldDomination
         public const string Construction = "Construction";
         public const string DailyFood = "DailyFood";
         public const string Hurt = "Hurt";
+        public const string Health = "Health";
         public const string Shooting = "Shooting";
         public const string Melee = "Melee";
 
@@ -94,6 +95,7 @@ namespace TSA_WorldDomination
                 new PawnRosterColumnOption(PawnRosterColumnIds.Star, "TSA_WD_AllPlayerPawns_ColStar", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.New, "TSA_WD_PawnRoster_ColNew", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Age, "TSA_WD_PawnRoster_ColAge", false),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Health, "TSA_WD_PawnRoster_ColHealth", false),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Traits, "TSA_WD_Prisoners_ColTraits", false),
             };
             AddDlcBioOptions(allPlayerPawns);
@@ -138,6 +140,7 @@ namespace TSA_WorldDomination
                 new PawnRosterColumnOption(PawnRosterColumnIds.Age, "TSA_WD_PawnRoster_ColAge", false),
             };
             AddDlcBioOptions(prisoners);
+            prisoners.Add(new PawnRosterColumnOption(PawnRosterColumnIds.Health, "TSA_WD_PawnRoster_ColHealth", false));
             AddSkillOptions(prisoners, prefixFullSkill: false, defaultOn: true);
             prisoners.Add(new PawnRosterColumnOption(PawnRosterColumnIds.Destination, "TSA_WD_Prisoners_ColDestination", true));
         }

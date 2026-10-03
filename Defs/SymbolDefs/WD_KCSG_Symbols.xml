@@ -64,6 +64,20 @@
     <thing>TSA_WD_Box_5a</thing>
   </KCSG.SymbolDef>
 
+  <!-- Box pallets (BoxPallet_3 = Generic scatter only) -->
+  <KCSG.SymbolDef>
+    <defName>TSA_WD_BoxPallet_1a</defName>
+    <thing>TSA_WD_BoxPallet_1a</thing>
+  </KCSG.SymbolDef>
+  <KCSG.SymbolDef>
+    <defName>TSA_WD_BoxPallet_2a</defName>
+    <thing>TSA_WD_BoxPallet_2a</thing>
+  </KCSG.SymbolDef>
+  <KCSG.SymbolDef>
+    <defName>TSA_WD_BoxPallet_3a</defName>
+    <thing>TSA_WD_BoxPallet_3a</thing>
+  </KCSG.SymbolDef>
+
   <!-- Carts -->
   <KCSG.SymbolDef>
     <defName>TSA_WD_Cart_5a</defName>

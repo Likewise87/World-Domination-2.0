@@ -140,6 +140,8 @@
   <TSA_WD_TargetKind_TraderCaravan>trader caravan</TSA_WD_TargetKind_TraderCaravan>
   <TSA_WD_TargetKind_GiftCaravan>gift caravan</TSA_WD_TargetKind_GiftCaravan>
   <TSA_WD_TargetKind_BribeCaravan>bribe caravan</TSA_WD_TargetKind_BribeCaravan>
+  <TSA_WD_TargetKind_SupplyCaravan>supply caravan</TSA_WD_TargetKind_SupplyCaravan>
+  <TSA_WD_TargetKind_UpgradeCaravan>upgrade caravan</TSA_WD_TargetKind_UpgradeCaravan>
   <TSA_WD_TargetKind_Raid>raid</TSA_WD_TargetKind_Raid>
   <TSA_WD_Letter_RaidDivertedFromPlayer_Label>Raid diverted</TSA_WD_Letter_RaidDivertedFromPlayer_Label>
   <TSA_WD_Letter_RaidDivertedFromPlayer_Text>{0} spotted a target of opportunity and diverted away from you to attack {1} instead.</TSA_WD_Letter_RaidDivertedFromPlayer_Text>

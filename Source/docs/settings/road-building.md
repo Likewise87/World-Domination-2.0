@@ -19,6 +19,8 @@ Each road type exposes the same five controls.
 
 Movement difficulty multiplies world path difficulty, so lower values are faster. Work is abstract project work. Dispatch strength is deducted when a road-builder traveler launches. Minimum Construction is the cumulative outpost requirement.
 
+Player material costs (per tile) are XML-authored in `Defs/WorldBuild/WD_Roads.xml`: Dirt free; Stone 30 any stone; Asphalt 20 steel + 20 chemfuel. Taken from the colony map and warehouse outposts when the crew launches.
+
 ## Road blocks
 
 | Control | Default | What it changes |
@@ -32,6 +34,8 @@ Movement difficulty multiplies world path difficulty, so lower values are faster
 | Heavy | 500 | 125 | +4.00 | 2,500 |
 
 The penalty is added after road multipliers when a ground traveler enters the tile. Max health determines placement health and how much hostile traffic the block can withstand.
+
+Player material costs (per placement) are in `Defs/WorldBuild/WD_RoadBlocks.xml`: Light 30 wood; Medium 60 any stone + 25 steel; Heavy 80 any stone + 50 steel.
 
 ## Traps
 
@@ -47,6 +51,8 @@ The penalty is added after road multipliers when a ground traveler enters the ti
 | Control | Default | What it changes |
 |---|---:|---|
 | Max traps per traveler | 3 | Maximum traps one WD traveler can trigger. Later traps on its route are ignored. |
+
+Player material costs (per placement) are in `Defs/WorldBuild/WD_SpikeTraps.xml`: Spike 40 wood; Caltrops 60 steel.
 
 ## AT Turrets
 
@@ -70,6 +76,8 @@ Each turret type has independent construction and combat values.
 | Hit chance at 76 to 100% of range | 70% |
 
 Dispatch strength is the traveling crew cost, not turret health. Strength/HP applies to newly built guns. Damage, cooldown, and range are live combat settings.
+
+Player material costs (per gun) are on each AT `WorldObjectDef` in `Defs/WorldBuild/WD_AT_Turrets.xml`: Light 50 steel + 1 component; Medium 60 steel + 2 components; Heavy 10 plasteel + 3 components.
 
 ## Decontamination
 

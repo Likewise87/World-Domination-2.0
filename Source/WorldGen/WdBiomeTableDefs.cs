@@ -94,7 +94,7 @@ namespace TSA_WorldDomination
             tiers != null && (tiers.Contains(tier) || IsDefaultTier);
     }
 
-    /// <summary>WD world-road tier. Research + min Construction are XML-authored; economy metrics are settings-overridable defaults.</summary>
+    /// <summary>WD world-road tier. Research, min Construction, and material cost are XML-authored; economy metrics are settings-overridable defaults.</summary>
     public class WdRoadTierDef : Def
     {
         public string tier;
@@ -105,6 +105,7 @@ namespace TSA_WorldDomination
         public float winterPenaltyReduction = 0.15f;
         public int minCumulativeConstructionSkill = 5;
         public List<ResearchProjectDef> researchPrerequisites = new List<ResearchProjectDef>();
+        public List<OutpostUpgradeCostEntry> cost = new List<OutpostUpgradeCostEntry>();
     }
 
     public class WdMgNestSpawnEntry

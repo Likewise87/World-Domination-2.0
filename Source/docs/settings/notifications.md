@@ -11,6 +11,7 @@ These settings decide which World Domination events produce right-side alerts, m
 | WD: Drop Pod Delivery in range of AA | On |
 | Show outpost silver upkeep alert (right side) | On |
 | Show construction insufficient-strength alert (right side) | On |
+| Show construction insufficient-materials alert (right side) | On |
 | Show outposts without production alert (right side) | On |
 | Show outposts without experts alert (right side) | On |
 | Show Mid Game alert (right side) | On |

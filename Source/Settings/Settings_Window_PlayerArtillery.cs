@@ -89,8 +89,6 @@ namespace TSA_WorldDomination
                     "TSA_WD_Outpost_RapidResponseRecoveryBonusTooltip".Translate(), 0.01f, SliderFormat.PercentDecimal, WorldDominationSettings.DefRapidResponseOffensiveRecoveryBonus);
                 s.rapidResponseAutoInterceptRange = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_RapidResponseAutoRange".Translate(), s.rapidResponseAutoInterceptRange, 1f, 100f,
                     "TSA_WD_Outpost_RapidResponseAutoRangeTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefRapidResponseAutoInterceptRange);
-                s.rapidResponseDropPodRange = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_RapidResponseDropPodRange".Translate(), s.rapidResponseDropPodRange, 1f, 100f,
-                    "TSA_WD_Outpost_RapidResponseDropPodRangeTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefRapidResponseDropPodRange);
                 s.dropPodTicksPerMove = SettingsUI.LabeledSlider(l, "TSA_WD_Settings_DropPodTicksPerMove".Translate(), s.dropPodTicksPerMove, 1f, 40f,
                     "TSA_WD_Settings_DropPodTicksPerMoveTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefDropPodTicksPerMove);
                 if (advanced)

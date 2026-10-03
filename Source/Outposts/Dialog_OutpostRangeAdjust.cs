@@ -135,6 +135,8 @@ namespace TSA_WorldDomination
             DrawMaskCheckboxRow(new Rect(lx, ly, innerW, RrRowH), "TSA_WD_Mortar_AutoAttack_Menu_Trader".Translate(), MissionMask.Trader, "TSA_WD_RapidResponse_Tip_TargetTrader".Translate());
             ly += RrRowH;
             DrawMaskCheckboxRow(new Rect(lx, ly, innerW, RrRowH), "TSA_WD_Mortar_AutoAttack_Menu_Fortify".Translate(), MissionMask.Fortify, "TSA_WD_RapidResponse_Tip_TargetFortify".Translate());
+            ly += RrRowH;
+            DrawMaskCheckboxRow(new Rect(lx, ly, innerW, RrRowH), "TSA_WD_Mortar_AutoAttack_Menu_Logistics".Translate(), MissionMask.Logistics, "TSA_WD_RapidResponse_Tip_TargetLogistics".Translate());
 
             float rx = rightBox.x + RrSectionPad;
             float ry = rightBox.y + RrSectionPad;

@@ -55,7 +55,7 @@ namespace TSA_WorldDomination
             if (trapBusy && !comp.spikeTrapIsClearing)
             {
                 string kindLabel = SpikeTrapKindUtil.LabelKey(comp.selectedSpikeTrapKind).Translate();
-                string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+                string insufficient = comp.GetInsufficientConstructionMessage();
                 string dest = comp.spikeTrapTargetName.NullOrEmpty() ? "…" : comp.spikeTrapTargetName;
                 string label = insufficient
                     ?? "TSA_WD_Inspect_SpikeTrapStatus".Translate(
@@ -174,7 +174,7 @@ namespace TSA_WorldDomination
 
             if (trapBusy && comp.spikeTrapIsClearing)
             {
-                string insufficient = comp.GetInsufficientStrengthConstructionMessage();
+                string insufficient = comp.GetInsufficientConstructionMessage();
                 string label = insufficient
                     ?? "TSA_WD_SpikeTrapClearStatus".Translate(
                         comp.spikeTrapTargetName.NullOrEmpty() ? "…" : comp.spikeTrapTargetName,
