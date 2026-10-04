@@ -90,6 +90,11 @@ Guidelines:
   `PlanetTile` (`grid[pt]`) so you read the right layer.
 - WD travel is surface-only. Destinations are built on the destination's own layer (or the origin's
   layer) via `PlanetSurfaceWorldActions.PlanetTileForWdTravel`, never via `grid[int]`.
+- **Bridged water:** `WaterCovered` ocean/lake tiles that carry WD road bridges stay on the Ocean
+  biome. Passability comes from `WorldComponent_WdBridges` + Harmony (`CalculatedMovementDifficultyAt`,
+  `SurfaceTile.Roads`), not biome mutation. Globe mesh: `WD_WorldLayer_BridgeRoads` draws full road
+  strips above water (`WorldDrawLayer_Roads` skips `WaterCovered`). Always resolve those tiles with
+  `PlanetTile` on the surface layer. Open ocean without a bridge remains impassable for land travel.
 
 ## WD scope semantics
 
@@ -111,6 +116,9 @@ Guidelines:
 Productivity, pollution, movement difficulty, and establishment-blocked overlays draw a local disk
 around the cursor (`WD_WorldLayer_ProductivityOverlay.OverlayRadius`, currently 30 hop tiles).
 Pollution and movement alias that constant; blocked does too.
+
+Bridge targeting (`WD_WorldLayer_BridgeTargetFill`) does **not** use that disk. It meshes only
+precomputed valid bank tiles and rebuilds when the set changes (start-bank pick / targeting end).
 
 Productivity score modes (fertility / animals / fish / mining) keep planet-wide lazy score and band
 caches filled on first touch. There is no score prewarm and no full-planet mesh. Each mouse-tile

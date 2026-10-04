@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using RimWorld;
+using RimWorld.Planet;
 using Verse;
 
 namespace TSA_WorldDomination
@@ -32,6 +33,29 @@ namespace TSA_WorldDomination
             wh.TryDepositThings(new List<Thing> { thing });
             if (!thing.Destroyed) thing.Destroy(DestroyMode.Vanish);
             return true;
+        }
+
+        /// <summary>Failed intake: leave on the caravan or drop at the player colony. Never Destroy.</summary>
+        public static void RefundUnstoredThing(Thing thing, Caravan leaveOn = null)
+        {
+            if (thing == null || thing.Destroyed) return;
+            thing.holdingOwner?.Remove(thing);
+            if (leaveOn != null && !leaveOn.Destroyed)
+            {
+                leaveOn.AddPawnOrItem(thing, true);
+                return;
+            }
+
+            Map map = Find.AnyPlayerHomeMap;
+            if (map != null)
+            {
+                DropPodUtility.DropThingsNear(DropCellFinder.TradeDropSpot(map), map, new List<Thing> { thing });
+                return;
+            }
+
+            Messages.Message(
+                "TSA_WD_PodArrival_ItemNotStored".Translate(thing.Label),
+                MessageTypeDefOf.NeutralEvent);
         }
 
         /// <summary>Whether a delivered row has a home at <paramref name="outpost"/>.</summary>

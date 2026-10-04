@@ -33,11 +33,18 @@ namespace TSA_WorldDomination
     }
 
     /// <summary>Cost line for upgrade XML (&lt;thingDef&gt; + &lt;count&gt;). Plain fields so nested defs do not hit ThingDefCountClass shorthand parsing.</summary>
-    public class OutpostUpgradeCostEntry
+    public class OutpostUpgradeCostEntry : IExposable
     {
         public ThingDef thingDef;
         public int count = 1;
         public OutpostUpgradeCostMode costMode = OutpostUpgradeCostMode.SpecificThingDef;
+
+        public void ExposeData()
+        {
+            Scribe_Defs.Look(ref thingDef, "thingDef");
+            Scribe_Values.Look(ref count, "count", 1);
+            Scribe_Values.Look(ref costMode, "costMode", OutpostUpgradeCostMode.SpecificThingDef);
+        }
     }
 
     public class OutpostUpgradeDef : Def

@@ -44,6 +44,10 @@
   <TSA_WD_Inspect_RoadStatus_InTransit>Estado: {0} equipo en tránsito hacia {1} (prep. {2}%)...</TSA_WD_Inspect_RoadStatus_InTransit>
   <TSA_WD_Inspect_RoadClearStatus>Quitando carreteras hacia {0}: {1}%</TSA_WD_Inspect_RoadClearStatus>
   <TSA_WD_Inspect_RoadClearStatus_InTransit>Estado: cuadrilla de retirada de carreteras en tránsito hacia {0} (prep. {1}%)...</TSA_WD_Inspect_RoadClearStatus_InTransit>
+  <TSA_WD_Inspect_BridgeStatus>Construcción de puente: {0}% hacia {1}</TSA_WD_Inspect_BridgeStatus>
+  <TSA_WD_Inspect_BridgeStatus_InTransit>Estado: cuadrilla de puente en tránsito hacia {0} (prep. {1}%)...</TSA_WD_Inspect_BridgeStatus_InTransit>
+  <TSA_WD_Inspect_BridgeClearStatus>Quitando puente hacia {0}: {1}%</TSA_WD_Inspect_BridgeClearStatus>
+  <TSA_WD_Inspect_BridgeClearStatus_InTransit>Estado: cuadrilla de desmontaje en tránsito hacia {0} (prep. {1}%)...</TSA_WD_Inspect_BridgeClearStatus_InTransit>
   <TSA_WD_Inspect_RoadBlockBuild>Bloqueos de carretera</TSA_WD_Inspect_RoadBlockBuild>
   <TSA_WD_Inspect_RoadBlockClear>Quitando bloqueos</TSA_WD_Inspect_RoadBlockClear>
   <TSA_WD_Inspect_RoadBlockStatus>{0}: {1}% hacia {2}</TSA_WD_Inspect_RoadBlockStatus>
@@ -84,6 +88,10 @@
   <TSA_WD_Interception_Label>Enfrentamiento de caravanas</TSA_WD_Interception_Label>
   <TSA_WD_Letter_Interception_Label>Enfrentamiento de caravanas</TSA_WD_Letter_Interception_Label>
   <TSA_WD_Letter_Interception_Text>Tu caravana ha chocado con una {0} de {1}. ¡Prepárate para el combate!</TSA_WD_Letter_Interception_Text>
+  <TSA_WD_CampClash_Label>Ataque al campamento</TSA_WD_CampClash_Label>
+  <TSA_WD_Letter_CampClash_Label>Campamento bajo ataque</TSA_WD_Letter_CampClash_Label>
+  <TSA_WD_Letter_CampClash_Text>Una {0} de {1} ha entrado en tu campamento. ¡Prepárate para el combate!</TSA_WD_Letter_CampClash_Text>
+  <TSA_WD_Log_Raid_ChokeInterceptCamp>{0} fue desviado a un combate en el campamento {1} (iba hacia {2}).</TSA_WD_Log_Raid_ChokeInterceptCamp>
   <TSA_WD_Letter_PlayerCaravanClashWon_Label>Caravana del jugador ganó el enfrentamiento</TSA_WD_Letter_PlayerCaravanClashWon_Label>
   <TSA_WD_Letter_PlayerCaravanClashWon_Text>Tu caravana derrotó a {0} en un enfrentamiento de caravanas.</TSA_WD_Letter_PlayerCaravanClashWon_Text>
   <TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>Caravana del jugador destruida en enfrentamiento</TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>
@@ -218,6 +226,8 @@
   <TSA_WD_RaiderCaravan>Caravana de atacantes</TSA_WD_RaiderCaravan>
   <TSA_WD_RaiderDropPods>Cápsulas de atacantes</TSA_WD_RaiderDropPods>
   <TSA_WD_RoadBuilderCaravan>Caravana de constructores</TSA_WD_RoadBuilderCaravan>
+  <TSA_WD_BridgeBuilderCaravan>Caravana de constructores de puentes</TSA_WD_BridgeBuilderCaravan>
+  <TSA_WD_BridgeDeconstructCaravan>Caravana de desmontaje de puentes</TSA_WD_BridgeDeconstructCaravan>
   <TSA_WD_TraderCaravan>Caravana comerciante</TSA_WD_TraderCaravan>
   <TSA_WD_Traveler_Outpost_Delivery>Caravana con suministros del puesto</TSA_WD_Traveler_Outpost_Delivery>
   <TSA_WD_Traveler_Outpost_Upgrade>Caravana de mejora del puesto</TSA_WD_Traveler_Outpost_Upgrade>

@@ -124,17 +124,10 @@ namespace TSA_WorldDomination
             }
             if (request.Count == 0) return;
 
-            if (!TryWithdraw(request)) return;
-
             bool viaDropPod = dispatchViaDropPod && RapidResponseUtility.TransportPodsResearched();
-            if (!WorldActions_Traveler.SpawnOutpostDeliveryTraveler(warehouse, request, dest, viaDropPod))
-            {
-                TryDeposit(request);
+            if (!OutpostStorageShipping.TryLaunch(warehouse, request, null, 0f, dest, viaDropPod))
                 return;
-            }
             lastAutoShipTick = Find.TickManager.TicksGame;
-            string msgKey = viaDropPod ? "TSA_WD_Warehouse_ShipLaunchedDropPod" : "TSA_WD_Warehouse_ShipLaunched";
-            Messages.Message(msgKey.Translate(dest.LabelCap), warehouse, MessageTypeDefOf.PositiveEvent);
         }
 
         /// <summary>Non-gear goods always ship; Armory categories only when their flag is on.</summary>

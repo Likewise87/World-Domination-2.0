@@ -33,24 +33,19 @@ namespace TSA_WorldDomination
             int skill = bestCrafter.skills.GetSkill(SkillDefOf.Crafting).Level;
 
             Faction player = Faction.OfPlayer;
-            var snapshot = new List<(Settlement Settlement, CompViralSpread Comp)>();
+            int allyCount = 0;
+            bool anyAvailable = false;
             for (int i = 0; i < neighborSettlements.Count; i++)
             {
                 var n = neighborSettlements[i];
                 if (n.Settlement?.Faction == null) continue;
                 if (WorldActions_Utils.SafeHostileTo(n.Settlement.Faction, player)) continue;
-                snapshot.Add(n);
+                allyCount++;
+                if (!n.Comp.IsAidOnCooldown) anyAvailable = true;
             }
 
-            if (snapshot.Count == 0) yield break;
+            if (allyCount == 0) yield break;
 
-            bool anyAvailable = false;
-            for (int ti = 0; ti < snapshot.Count; ti++)
-            {
-                if (!snapshot[ti].Comp.IsAidOnCooldown) { anyAvailable = true; break; }
-            }
-
-            CompViralSpread singleComp = snapshot.Count == 1 ? snapshot[0].Comp : null;
             Pawn crafter = bestCrafter;
 
             Command_Action fortify = new Command_Action
@@ -61,31 +56,40 @@ namespace TSA_WorldDomination
                     : (cachedIconCooldown ?? (cachedIconCooldown = ContentFinder<Texture2D>.Get("UI/Commands/Fortify_Cooldown", false) ?? TexCommand.ForbidOff)),
                 action = () =>
                 {
+                    var snapshot = new List<(Settlement Settlement, CompViralSpread Comp)>();
+                    Patch_CaravanGetGizmos.FillNeighborNpcSettlements(caravan, snapshot);
+                    Faction playerFaction = Faction.OfPlayer;
+                    for (int i = snapshot.Count - 1; i >= 0; i--)
+                    {
+                        var n = snapshot[i];
+                        if (n.Settlement?.Faction == null || WorldActions_Utils.SafeHostileTo(n.Settlement.Faction, playerFaction))
+                            snapshot.RemoveAt(i);
+                    }
+                    if (snapshot.Count == 0) return;
                     if (snapshot.Count == 1)
                     {
-                        ExecuteFortify(singleComp, caravan, crafter);
+                        ExecuteFortify(snapshot[0].Comp, caravan, crafter);
+                        return;
                     }
-                    else
-                    {
-                        List<FloatMenuOption> options = new List<FloatMenuOption>();
-                        for (int i = 0; i < snapshot.Count; i++)
-                        {
-                            var target = snapshot[i];
-                            float chance = GetFortifySuccessChance(skill);
-                            string label = "TSA_WD_Fort_MenuOption".Translate(target.Settlement.LabelCap, chance.ToString("P0"));
 
-                            if (target.Comp.IsAidOnCooldown)
-                            {
-                                options.Add(new FloatMenuOption(label + " " + "TSA_WD_OnCooldown".Translate(), null));
-                            }
-                            else
-                            {
-                                CompViralSpread clickComp = target.Comp;
-                                options.Add(new FloatMenuOption(label, () => ExecuteFortify(clickComp, caravan, crafter)));
-                            }
+                    List<FloatMenuOption> options = new List<FloatMenuOption>();
+                    for (int i = 0; i < snapshot.Count; i++)
+                    {
+                        var target = snapshot[i];
+                        float chance = GetFortifySuccessChance(skill);
+                        string label = "TSA_WD_Fort_MenuOption".Translate(target.Settlement.LabelCap, chance.ToString("P0"));
+
+                        if (target.Comp.IsAidOnCooldown)
+                        {
+                            options.Add(new FloatMenuOption(label + " " + "TSA_WD_OnCooldown".Translate(), null));
                         }
-                        Find.WindowStack.Add(new FloatMenu(options));
+                        else
+                        {
+                            CompViralSpread clickComp = target.Comp;
+                            options.Add(new FloatMenuOption(label, () => ExecuteFortify(clickComp, caravan, crafter)));
+                        }
                     }
+                    Find.WindowStack.Add(new FloatMenu(options));
                 }
             };
 

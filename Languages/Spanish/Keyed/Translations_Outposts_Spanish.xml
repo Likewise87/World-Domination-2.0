@@ -246,6 +246,61 @@
   <TSA_WD_Biome_Tooltip_TradingNearbyPartnerLine>{0} ({1})</TSA_WD_Biome_Tooltip_TradingNearbyPartnerLine>
   <TSA_WD_Biome_Tooltip_TradingNearbyPartnersNone>Ninguno en alcance.</TSA_WD_Biome_Tooltip_TradingNearbyPartnersNone>
   <TSA_WD_BuildRoad>Construir carretera</TSA_WD_BuildRoad>
+  <TSA_WD_BuildBridge>Construir puente</TSA_WD_BuildBridge>
+  <TSA_WD_BuildBridgeDesc>Construye un puente de carretera de piedra sobre el agua (orilla a orilla, hasta {0} casillas de agua). Elige ambas orillas; luego la avanzada prepara el trabajo como una carretera. Cada cuadrilla pavimenta una casilla de agua. Se pueden colocar bloqueos y trampas; no torretas AT.</TSA_WD_BuildBridgeDesc>
+  <TSA_WD_BuildBridgeKindTip>{0} bloques de cualquier piedra por casilla de agua, pagados cuando sale la cuadrilla de ese segmento. Solo se reembolsa si esa cuadrilla no pinta. Reanudar no vuelve a cobrar casillas ya hechas. Misma habilidad e investigacion que las carreteras de piedra.</TSA_WD_BuildBridgeKindTip>
+  <TSA_WD_BridgeCostTip>Fuerza de expedicion por cuadrilla de segmento: {0}</TSA_WD_BridgeCostTip>
+  <TSA_WD_BuildBridgeStatus>Construyendo puente hacia "{0}": {1}%</TSA_WD_BuildBridgeStatus>
+  <TSA_WD_DeconstructBridge>Desmontar puente</TSA_WD_DeconstructBridge>
+  <TSA_WD_DeconstructBridgeDesc>Haz clic en cualquiera de las orillas de un puente o de un tramo incompleto (hasta {0} casillas de agua). Luego la avanzada quita un borde por cuadrilla. La ocupacion se comprueba en la casilla de agua que se desmonta. Gratis (sin reembolso de materiales).</TSA_WD_DeconstructBridgeDesc>
+  <TSA_WD_DeconstructBridgeStatus>Desmontando puente hacia "{0}": {1}%</TSA_WD_DeconstructBridgeStatus>
+  <TSA_WD_CancelBridge>Cancelar puente</TSA_WD_CancelBridge>
+  <TSA_WD_CancelBridgeDesc>Cancela el proyecto de puente. Los segmentos pintados permanecen. Se reembolsa una cuadrilla en ruta si aun no ha pintado.</TSA_WD_CancelBridgeDesc>
+  <TSA_WD_CancelBridgeDeconstruct>Cancelar desmontaje</TSA_WD_CancelBridgeDeconstruct>
+  <TSA_WD_CancelBridgeDeconstructDesc>Cancela el desmontaje. El tablero restante permanece. Se reembolsa una cuadrilla en ruta si aun no ha desconectado.</TSA_WD_CancelBridgeDeconstructDesc>
+  <TSA_WD_BridgeCancelled>Proyecto de puente cancelado en {0}.</TSA_WD_BridgeCancelled>
+  <TSA_WD_BridgeDeconstructCancelled>Desmontaje de puente cancelado en {0}.</TSA_WD_BridgeDeconstructCancelled>
+  <TSA_WD_BridgeBuilt>Puente completado desde {0}.</TSA_WD_BridgeBuilt>
+  <TSA_WD_BridgeDeconstructed>Puente eliminado por la cuadrilla de {0}.</TSA_WD_BridgeDeconstructed>
+  <TSA_WD_BridgeCrewLaunched>Cuadrilla de puente lanzada desde {0}.</TSA_WD_BridgeCrewLaunched>
+  <TSA_WD_BridgeCrewLaunchedWithStone>Cuadrilla de puente lanzada desde {0}. Gastados {1} bloques de cualquier piedra en este segmento.</TSA_WD_BridgeCrewLaunchedWithStone>
+  <TSA_WD_BridgeDeconstructCrewLaunched>Cuadrilla de desmontaje lanzada desde {0}.</TSA_WD_BridgeDeconstructCrewLaunched>
+  <TSA_WD_BridgeProjectSet>Proyecto de puente fijado en {0}. Las cuadrillas saldran al completar el progreso.</TSA_WD_BridgeProjectSet>
+  <TSA_WD_BridgeDeconstructProjectSet>Desmontaje de puente fijado en {0}. Las cuadrillas saldran al completar el progreso.</TSA_WD_BridgeDeconstructProjectSet>
+  <TSA_WD_BridgeSegmentComplete>{0} ha terminado de pavimentar un segmento de puente.</TSA_WD_BridgeSegmentComplete>
+  <TSA_WD_BridgeDeconstructSegmentComplete>{0} ha terminado de quitar un segmento de puente.</TSA_WD_BridgeDeconstructSegmentComplete>
+  <TSA_WD_BridgeLaunchFailed>No se pudo lanzar la cuadrilla del puente (fuerza, materiales o ruta).</TSA_WD_BridgeLaunchFailed>
+  <TSA_WD_BridgeStartBankSelected>Orilla de inicio seleccionada. Haz clic en la orilla del otro lado.</TSA_WD_BridgeStartBankSelected>
+  <TSA_WD_BridgeTip_PickStartBank>Haz clic en una orilla junto al agua donde debe empezar el puente.</TSA_WD_BridgeTip_PickStartBank>
+  <TSA_WD_BridgeTip_PickEndBank>Haz clic en la orilla opuesta (tramo de agua, max. {0} casillas). El naranja muestra el alcance maximo desde la orilla de inicio.</TSA_WD_BridgeTip_PickEndBank>
+  <TSA_WD_BridgeTip_PickEndBankDeconstruct>Haz clic en la orilla opuesta de un puente existente (max. {0} casillas de agua). El naranja muestra el alcance desde la orilla de inicio.</TSA_WD_BridgeTip_PickEndBankDeconstruct>
+  <TSA_WD_BridgeTip_PickBankDeconstruct>Haz clic en cualquiera de las orillas de un puente existente para demolerlo. El naranja muestra el alcance de la avanzada.</TSA_WD_BridgeTip_PickBankDeconstruct>
+  <TSA_WD_BridgeReject_NeedLandBanks>Ambos extremos deben ser orillas de tierra (no agua).</TSA_WD_BridgeReject_NeedLandBanks>
+  <TSA_WD_BridgeReject_StartNotAdjacentToWater>La orilla de inicio debe estar junto a una casilla de agua.</TSA_WD_BridgeReject_StartNotAdjacentToWater>
+  <TSA_WD_BridgeReject_EndNotAdjacentToWater>La orilla final debe estar junto a una casilla de agua.</TSA_WD_BridgeReject_EndNotAdjacentToWater>
+  <TSA_WD_BridgeReject_OutOfBridgeRange>Esa casilla esta fuera del alcance maximo del puente desde la orilla de inicio.</TSA_WD_BridgeReject_OutOfBridgeRange>
+  <TSA_WD_BridgeReject_SameTile>Elige dos orillas distintas.</TSA_WD_BridgeReject_SameTile>
+  <TSA_WD_BridgeReject_AlreadyBridged>Ese tramo de agua ya esta totalmente puentado.</TSA_WD_BridgeReject_AlreadyBridged>
+  <TSA_WD_BridgeReject_BankAlreadyUsed>Esa orilla ya tiene un puente. Dos puentes no pueden compartir la misma casilla de inicio o fin.</TSA_WD_BridgeReject_BankAlreadyUsed>
+  <TSA_WD_StoneBridgeLabel>puente de piedra</TSA_WD_StoneBridgeLabel>
+  <TSA_WD_BridgeReject_NotBridged>No hay puente ni tramo incompleto desde esa orilla.</TSA_WD_BridgeReject_NotBridged>
+  <TSA_WD_BridgeReject_AmbiguousBridge>Esa orilla conecta con mas de un puente. Elige una orilla que pertenezca a un solo tramo.</TSA_WD_BridgeReject_AmbiguousBridge>
+  <TSA_WD_BridgeReject_SpanOccupied>Algo ocupa las casillas de agua del puente.</TSA_WD_BridgeReject_SpanOccupied>
+  <TSA_WD_BridgeReject_ProjectLocked>Otro proyecto de puente ya reclama parte de ese tramo.</TSA_WD_BridgeReject_ProjectLocked>
+  <TSA_WD_BridgeReject_ImpassableBank>Una de las orillas es infranqueable.</TSA_WD_BridgeReject_ImpassableBank>
+  <TSA_WD_BridgeReject_NotStraightOrTooLong>Se necesita un corredor de agua de 1 a {0} casillas entre las orillas.</TSA_WD_BridgeReject_NotStraightOrTooLong>
+  <TSA_WD_BridgeReject_SameShore>Los puentes deben llegar a la orilla opuesta, no a lo largo de la misma costa.</TSA_WD_BridgeReject_SameShore>
+  <TSA_WD_BridgeReject_Invalid>Objetivo de puente no valido.</TSA_WD_BridgeReject_Invalid>
+  <TSA_WD_Bridge_MovementDifficultyBase>Puente</TSA_WD_Bridge_MovementDifficultyBase>
+  <TSA_WD_BridgeOccupant_Ambush>enfrentamiento de caravana</TSA_WD_BridgeOccupant_Ambush>
+  <TSA_WD_BridgeOccupant_CampClash>enfrentamiento en campamento</TSA_WD_BridgeOccupant_CampClash>
+  <TSA_WD_BridgeDeconstructBlockedLetterLabel>Desmontaje de puente bloqueado</TSA_WD_BridgeDeconstructBlockedLetterLabel>
+  <TSA_WD_BridgeDeconstructBlockedLetterText>La cuadrilla de desmontaje de {0} llego, pero {1} estaba en esa casilla ({2}). Ese segmento permanece; el resto del tablero no se desmonto.</TSA_WD_BridgeDeconstructBlockedLetterText>
+  <TSA_WD_BridgeDeconstructBlockedMessage>Desmontaje desde {0} cancelado: {1} en casilla {2}.</TSA_WD_BridgeDeconstructBlockedMessage>
+  <TSA_WD_BridgeRemovedTravelerImpact>Puente eliminado: {0} viajero(s) reenrutados, {1} mision(es) canceladas.</TSA_WD_BridgeRemovedTravelerImpact>
+  <TSA_WD_Log_BridgeCancelled>{0} mision cancelada: proyecto de puente abortado.</TSA_WD_Log_BridgeCancelled>
+  <TSA_WD_Log_BridgeDeconstructCancelled>{0} mision cancelada: desmontaje de puente abortado.</TSA_WD_Log_BridgeDeconstructCancelled>
+  <TSA_WD_Log_BridgePathInvalidated>{0} mision cancelada: la ruta del puente ya no es valida.</TSA_WD_Log_BridgePathInvalidated>
   <TSA_WD_CancelCurrentProjectFirst>Cancela primero el proyecto actual</TSA_WD_CancelCurrentProjectFirst>
   <TSA_WD_InsufficientStrengthToBuild>Fuerza insuficiente para entregar {0}</TSA_WD_InsufficientStrengthToBuild>
   <TSA_WD_InsufficientMaterialsToBuild>Materiales insuficientes para entregar {0}</TSA_WD_InsufficientMaterialsToBuild>
@@ -410,6 +465,9 @@
   <TSA_WD_Log_RoadCancelled>Misión {0} cancelada: Carretera ya construida u origen perdido.</TSA_WD_Log_RoadCancelled>
   <TSA_WD_Log_Road_AbortedDanger>{0} abortó la construcción: el asentamiento enemigo {1} está demasiado cerca ({2} casillas).</TSA_WD_Log_Road_AbortedDanger>
   <TSA_WD_Log_Road_ExpeditionLaunched>INTENTO DE CONSTRUCCIÓN: Trabajadores enviados a pavimentar la ruta hacia {1}.</TSA_WD_Log_Road_ExpeditionLaunched>
+  <TSA_WD_Log_Road_HybridStarted>CARRETERA: {0} comenzó un corredor de carretera y puente hacia {1}.</TSA_WD_Log_Road_HybridStarted>
+  <TSA_WD_Log_Road_HybridBridgeCrew>CARRETERA: {0} envió un equipo de puente hacia {1}.</TSA_WD_Log_Road_HybridBridgeCrew>
+  <TSA_WD_Log_Road_HybridComplete>CARRETERA: {0} terminó el corredor de carretera y puente hacia {1}.</TSA_WD_Log_Road_HybridComplete>
   <TSA_WD_Log_Road_Progress>{0} construyó una casilla de carretera hacia {1}. Quedan {2} casillas para completar.</TSA_WD_Log_Road_Progress>
   <TSA_WD_Log_TravelerClash>Enfrentamiento entre caravanas</TSA_WD_Log_TravelerClash>
   <TSA_WD_Log_NpcCaravanClash>La caravana {0} combatió contra {1} ({2} vs {3}).</TSA_WD_Log_NpcCaravanClash>
@@ -1333,9 +1391,9 @@
   <TSA_WD_PawnDropPod_FallbackButtonUnset>Respaldo</TSA_WD_PawnDropPod_FallbackButtonUnset>
   <TSA_WD_PawnDropPod_FallbackMenuLand>Si faltan componentes: viajar por tierra</TSA_WD_PawnDropPod_FallbackMenuLand>
   <TSA_WD_PawnDropPod_FallbackMenuAbort>Si faltan componentes: cancelar lanzamiento</TSA_WD_PawnDropPod_FallbackMenuAbort>
-  <TSA_WD_PawnDropPod_CostLine>Coste de cápsula: {0} componente(s) industrial(es) (1 componente por peón viajero)</TSA_WD_PawnDropPod_CostLine>
-  <TSA_WD_PawnDropPod_TotalCost>Coste total: {0}x</TSA_WD_PawnDropPod_TotalCost>
-  <TSA_WD_PawnDropPod_StockLine>En stock (colonias + almacenes): {0}</TSA_WD_PawnDropPod_StockLine>
+  <TSA_WD_PawnDropPod_CostLine>Coste: {0} componente(s) industrial(es) (1 por peón viajero)</TSA_WD_PawnDropPod_CostLine>
+  <TSA_WD_PawnDropPod_TotalCost>Coste: {0}</TSA_WD_PawnDropPod_TotalCost>
+  <TSA_WD_PawnDropPod_StockLine>Disponible (colonia + todos los almacenes): {0}</TSA_WD_PawnDropPod_StockLine>
   <TSA_WD_PawnDropPod_NoComponentCost>Sin coste de componente industrial (viaje por tierra).</TSA_WD_PawnDropPod_NoComponentCost>
   <TSA_WD_PawnDropPod_ShortStockNote>Faltan componentes — se te preguntará antes de lanzar.</TSA_WD_PawnDropPod_ShortStockNote>
   <TSA_WD_PawnDropPod_StillLaunchTitle>Materiales de cápsula</TSA_WD_PawnDropPod_StillLaunchTitle>
@@ -1677,8 +1735,8 @@
   <TSA_WD_OutpostStats_Row_AtTurretHighestTierTip>Mejor tipo de AT Turret que puede iniciar, según Construcción acumulada frente a los mínimos.</TSA_WD_OutpostStats_Row_AtTurretHighestTierTip>
   <TSA_WD_OutpostStats_Row_RoadTimeDirt>Tiempo por segmento de tierra</TSA_WD_OutpostStats_Row_RoadTimeDirt>
   <TSA_WD_OutpostStats_Row_RoadTimeDirtTip>Días estimados para preparar un segmento de camino de tierra con la Construcción acumulada actual (solo barra de progreso; sin viaje de caravana).</TSA_WD_OutpostStats_Row_RoadTimeDirtTip>
-  <TSA_WD_OutpostStats_Row_RoadTimeStone>Tiempo por segmento de piedra</TSA_WD_OutpostStats_Row_RoadTimeStone>
-  <TSA_WD_OutpostStats_Row_RoadTimeStoneTip>Días estimados para preparar un segmento de camino de piedra con la Construcción acumulada actual (solo barra de progreso; sin viaje de caravana).</TSA_WD_OutpostStats_Row_RoadTimeStoneTip>
+  <TSA_WD_OutpostStats_Row_RoadTimeStone>Tiempo por segmento de piedra / puente</TSA_WD_OutpostStats_Row_RoadTimeStone>
+  <TSA_WD_OutpostStats_Row_RoadTimeStoneTip>Días estimados para preparar un segmento de camino de piedra o una casilla de agua de puente con la Construcción acumulada actual (solo barra de progreso; sin viaje de caravana).</TSA_WD_OutpostStats_Row_RoadTimeStoneTip>
   <TSA_WD_OutpostStats_Row_RoadTimeAsphalt>Tiempo por segmento de asfalto</TSA_WD_OutpostStats_Row_RoadTimeAsphalt>
   <TSA_WD_OutpostStats_Row_RoadTimeAsphaltTip>Días estimados para preparar un segmento de camino de asfalto con la Construcción acumulada actual (solo barra de progreso; sin viaje de caravana).</TSA_WD_OutpostStats_Row_RoadTimeAsphaltTip>
   <TSA_WD_OutpostStats_Row_RoadTimeRoadBlock>Tiempo por segmento de bloqueo</TSA_WD_OutpostStats_Row_RoadTimeRoadBlock>

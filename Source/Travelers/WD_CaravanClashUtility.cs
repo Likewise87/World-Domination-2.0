@@ -57,9 +57,13 @@ namespace TSA_WorldDomination
                     return;
 
                 // Temporary overrun before Ambush map gen (player AT fate is marked when the traveler is stored).
-                AtTurretUtility.TryOverrunHostileAtTurret(playerCaravan);
+                if (!WorldComponent_WdBridges.IsBridgedWaterTile(playerCaravan.Tile))
+                    AtTurretUtility.TryOverrunHostileAtTurret(playerCaravan);
 
-                Map map = GetOrGenerateMapForTile(playerCaravan.Tile);
+                Map map = GetOrGenerateMapForTile(
+                    playerCaravan.Tile,
+                    GenStep_WD_BridgeClash.CameFromWorldTile(playerCaravan),
+                    GenStep_WD_BridgeClash.CameFromWorldTile(traveler));
                 if (map == null)
                 {
                     ResumeTravelerAfterFailedClashEncounter(traveler);
@@ -89,7 +93,7 @@ namespace TSA_WorldDomination
                     Raid_OnPlayerColony.IsCaravanClashInterception = true;
 
                     StopBothForEncounter(playerCaravan, traveler);
-                    CaravanEnterMapUtility.Enter(playerCaravan, map, CaravanEnterMode.Edge);
+                    EnterPlayerCaravanForClash(playerCaravan, map, tracker);
 
                     ExecuteInterceptionRaidIncident(map, traveler, points);
                 }
@@ -105,14 +109,17 @@ namespace TSA_WorldDomination
             }, "GeneratingArea", false, null);
         }
 
-        public static void StartInterceptionEncounterDropPods(IReadOnlyList<Pawn> playerPawns, WorldObject_Traveler traveler)
+        /// <summary>
+        /// Hostile column walks onto a player Camp: raid the existing camp map (no Ambush site).
+        /// Caller already validated busy/empty gates; traveler is stored and destroyed like caravan clash.
+        /// </summary>
+        public static void StartCampClashEncounter(MapParent camp, WorldObject_Traveler traveler)
         {
-            if (playerPawns == null || playerPawns.Count == 0 || traveler == null || traveler.Destroyed) return;
-
-            if (WD_MapComponent_CaravanClash.TileHasBusyCaravanClashAmbush(traveler.Tile))
+            if (camp == null || camp.Destroyed || traveler == null || traveler.Destroyed) return;
+            if (WD_MapComponent_CaravanClash.TileHasBusyCampClash(camp.Tile))
             {
                 if (Prefs.DevMode)
-                    WDVerbose.Msg($"[TSA WD] Skipping RR drop-pod clash: busy Ambush map on tile {traveler.Tile}");
+                    WDVerbose.Msg($"[TSA WD] Skipping camp clash: busy Camp clash on tile {camp.Tile}");
                 return;
             }
 
@@ -121,15 +128,129 @@ namespace TSA_WorldDomination
 
             LongEventHandler.QueueLongEvent(delegate
             {
-                if (traveler == null || traveler.Destroyed) return;
+                if (camp == null || camp.Destroyed || traveler == null || traveler.Destroyed)
+                    return;
 
-                int fightTile = traveler.Tile.tileId;
-                AtTurretUtility.TryOverrunHostileAtTurretOnTile(fightTile, Faction.OfPlayer, traveler);
+                if (WorldObject_Traveler.IsRaidMission(traveler.mission)
+                    && Raid_Simulated.TryAbortIfNoLongerHostile(
+                        traveler,
+                        traveler.originObject,
+                        traveler.targetObject,
+                        Find.World.GetComponent<WorldComponent_SpreadManager>(),
+                        Faction.OfPlayerSilentFail))
+                {
+                    traveler.Destroy();
+                    return;
+                }
 
-                Map map = GetOrGenerateMapForTile(traveler.Tile);
+                Map map = camp.Map;
+                if (map == null)
+                    map = GetOrGenerateMapUtility.GetOrGenerateMap(camp.Tile, Find.World.info.initialMapSize, camp.def);
                 if (map == null)
                 {
                     ResumeTravelerAfterFailedClashEncounter(traveler);
+                    return;
+                }
+
+                if (!CampMapHasLivingPlayerPawn(map))
+                {
+                    ResumeTravelerAfterFailedClashEncounter(traveler);
+                    return;
+                }
+
+                var tracker = GetOrAddClashTracker(map);
+                if (WorldComponent_WdBridges.IsBridgedWaterTile(map.Tile))
+                {
+                    tracker.IsBridgeClash = true;
+                    int playerFrom = GenStep_WD_BridgeClash.CameFromWorldTile(
+                        GenStep_WD_BridgeClash.FindPlayerCaravanOnTile(map.Tile));
+                    GenStep_WD_BridgeClash.ApplyEncounterApproaches(
+                        map,
+                        playerFrom,
+                        GenStep_WD_BridgeClash.CameFromWorldTile(traveler));
+                }
+
+                float points = ComputeInterceptionRaidPoints(traveler, map);
+                LogInterceptionRaidPoints(traveler, map, points);
+
+                traveler.pather?.StopDead();
+
+                tracker.InterceptionRaidPending = true;
+                try
+                {
+                    Raid_OnPlayerColony.IsCaravanClashInterception = true;
+                    ExecuteInterceptionRaidIncident(map, traveler, points, "TSA_WD_CampClash_Label".Translate());
+                }
+                finally
+                {
+                    Raid_OnPlayerColony.IsCaravanClashInterception = false;
+                    tracker.InterceptionRaidPending = false;
+                }
+
+                tracker.StoreAndDestroyTraveler(traveler);
+                SendPlayerCampClashStartedLetter(map, letterTravelerLabel, letterFactionName);
+            }, "GeneratingArea", false, null);
+        }
+
+        public static bool CampMapHasLivingPlayerPawn(Map map)
+        {
+            var spawned = map?.mapPawns?.AllPawnsSpawned;
+            if (spawned == null) return false;
+            for (int i = 0; i < spawned.Count; i++)
+            {
+                Pawn p = spawned[i];
+                if (p == null || p.Destroyed || p.Dead) continue;
+                if (p.Faction != null && p.Faction.IsPlayer)
+                    return true;
+            }
+            return false;
+        }
+
+        public static void StartInterceptionEncounterDropPods(
+            IReadOnlyList<Pawn> playerPawns,
+            WorldObject_Traveler traveler,
+            WorldObject origin = null)
+        {
+            if (playerPawns == null || playerPawns.Count == 0 || traveler == null || traveler.Destroyed) return;
+
+            int tileId = traveler.Tile.tileId;
+            Map loaded = RapidResponseUtility.MapAtTile(tileId);
+            if (loaded != null)
+            {
+                RapidResponseUtility.DropPawnsViaDropPods(playerPawns, loaded);
+                WdRrInterceptDropUtility.RegisterOnMap(loaded, origin, playerPawns);
+                return;
+            }
+
+            if (WD_PathFollower.IsBallisticWorldFlight(traveler))
+            {
+                WdRrInterceptDropUtility.DumpPawnsAsCaravan(playerPawns, tileId);
+                return;
+            }
+
+            string letterTravelerLabel = traveler.Label;
+            string letterFactionName = traveler.Faction?.Name ?? "";
+
+            LongEventHandler.QueueLongEvent(delegate
+            {
+                if (traveler == null || traveler.Destroyed)
+                {
+                    WdRrInterceptDropUtility.ReturnPawnsToOrigin(origin, playerPawns as List<Pawn> ?? new List<Pawn>(playerPawns), tileId);
+                    return;
+                }
+
+                int fightTile = traveler.Tile.tileId;
+                if (!WorldComponent_WdBridges.IsBridgedWaterTile(fightTile))
+                    AtTurretUtility.TryOverrunHostileAtTurretOnTile(fightTile, Faction.OfPlayer, traveler);
+
+                Map map = GetOrGenerateMapForTile(
+                    traveler.Tile,
+                    -1,
+                    GenStep_WD_BridgeClash.CameFromWorldTile(traveler));
+                if (map == null)
+                {
+                    ResumeTravelerAfterFailedClashEncounter(traveler);
+                    WdRrInterceptDropUtility.ReturnPawnsToOrigin(origin, playerPawns as List<Pawn> ?? new List<Pawn>(playerPawns), fightTile);
                     return;
                 }
                 Faction encounterFaction = traveler.Faction;
@@ -143,11 +264,13 @@ namespace TSA_WorldDomination
                         Faction.OfPlayer))
                 {
                     traveler.Destroy();
+                    WdRrInterceptDropUtility.ReturnPawnsToOrigin(origin, playerPawns as List<Pawn> ?? new List<Pawn>(playerPawns), fightTile);
                     return;
                 }
 
                 var tracker = GetOrAddClashTracker(map);
                 RapidResponseUtility.DropPawnsViaDropPods(playerPawns, map);
+                WdRrInterceptDropUtility.RegisterOnMap(map, origin, playerPawns);
 
                 if (traveler.mission == TravelerMission.Trader)
                 {
@@ -258,10 +381,22 @@ namespace TSA_WorldDomination
 
         private static void ExecuteInterceptionRaidIncident(Map map, WorldObject_Traveler traveler, float points)
         {
-            ExecuteInterceptionRaidIncident(map, traveler?.Faction, points);
+            ExecuteInterceptionRaidIncident(map, traveler?.Faction, points, "TSA_WD_Interception_Label".Translate());
+        }
+
+        private static void ExecuteInterceptionRaidIncident(
+            Map map, WorldObject_Traveler traveler, float points, string customLetterLabel)
+        {
+            ExecuteInterceptionRaidIncident(map, traveler?.Faction, points, customLetterLabel);
         }
 
         private static void ExecuteInterceptionRaidIncident(Map map, Faction faction, float points)
+        {
+            ExecuteInterceptionRaidIncident(map, faction, points, "TSA_WD_Interception_Label".Translate());
+        }
+
+        private static void ExecuteInterceptionRaidIncident(
+            Map map, Faction faction, float points, string customLetterLabel)
         {
             IncidentParms parms = new IncidentParms
             {
@@ -271,7 +406,7 @@ namespace TSA_WorldDomination
                 raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn,
                 raidStrategy = RaidStrategyDefOf.ImmediateAttack,
                 silent = true,
-                customLetterLabel = "TSA_WD_Interception_Label".Translate(),
+                customLetterLabel = customLetterLabel,
                 canKidnap = false,
                 canSteal = false
             };
@@ -302,9 +437,13 @@ namespace TSA_WorldDomination
                 if (playerCaravan == null || playerCaravan.Destroyed || traveler == null || traveler.Destroyed)
                     return;
 
-                AtTurretUtility.TryOverrunHostileAtTurret(playerCaravan);
+                if (!WorldComponent_WdBridges.IsBridgedWaterTile(playerCaravan.Tile))
+                    AtTurretUtility.TryOverrunHostileAtTurret(playerCaravan);
 
-                Map map = GetOrGenerateMapForTile(playerCaravan.Tile);
+                Map map = GetOrGenerateMapForTile(
+                    playerCaravan.Tile,
+                    GenStep_WD_BridgeClash.CameFromWorldTile(playerCaravan),
+                    GenStep_WD_BridgeClash.CameFromWorldTile(traveler));
                 if (map == null)
                 {
                     ResumeTravelerAfterFailedClashEncounter(traveler);
@@ -314,7 +453,7 @@ namespace TSA_WorldDomination
                 var tracker = GetOrAddClashTracker(map);
 
                 StopBothForEncounter(playerCaravan, traveler);
-                CaravanEnterMapUtility.Enter(playerCaravan, map, CaravanEnterMode.Edge);
+                EnterPlayerCaravanForClash(playerCaravan, map, tracker);
                 if (!WD_TraderCaravanClash.SpawnTraderClashForces(map, traveler))
                 {
                     float raidPoints = ComputeInterceptionRaidPoints(traveler, map);
@@ -351,8 +490,41 @@ namespace TSA_WorldDomination
             );
         }
 
+        private static void SendPlayerCampClashStartedLetter(Map map, string travelerLabel, string factionName)
+        {
+            if (!(WorldDominationMod.settings?.notifyPlayerCaravanClash ?? WorldDominationSettings.DefNotifyPlayerCaravanClash))
+                return;
+            Find.LetterStack.ReceiveLetter(
+                "TSA_WD_Letter_CampClash_Label".Translate(),
+                "TSA_WD_Letter_CampClash_Text".Translate(travelerLabel, factionName),
+                LetterDefOf.ThreatBig,
+                new GlobalTargetInfo(map.Center, map)
+            );
+        }
+
+        private static void EnterPlayerCaravanForClash(Caravan playerCaravan, Map map, WD_MapComponent_CaravanClash tracker)
+        {
+            if (tracker != null && tracker.IsBridgeClash
+                && GenStep_WD_BridgeClash.TryFindStandableNear(map, GenStep_WD_BridgeClash.WestSpawnCell(map), out IntVec3 west))
+            {
+                CaravanEnterMapUtility.Enter(playerCaravan, map, _ => west);
+                return;
+            }
+            CaravanEnterMapUtility.Enter(playerCaravan, map, CaravanEnterMode.Edge);
+        }
+
         private static void TryAssignInterceptionSpawn(Map map, IncidentParms parms)
         {
+            var bridgeTracker = map.GetComponent<WD_MapComponent_CaravanClash>();
+            if (bridgeTracker != null && bridgeTracker.IsBridgeClash
+                && GenStep_WD_BridgeClash.TryFindStandableNear(map, GenStep_WD_BridgeClash.EastSpawnCell(map), out IntVec3 east))
+            {
+                parms.spawnCenter = east;
+                IntVec3 toward = GenStep_WD_BridgeClash.WestSpawnCell(map);
+                parms.spawnRotation = Rot4.FromAngleFlat((toward - east).ToVector3().AngleFlat());
+                return;
+            }
+
             var playerCells = map.mapPawns.AllPawnsSpawned
                 .Where(p => p.Faction != null && p.Faction.IsPlayer)
                 .Select(p => p.Position)
@@ -481,7 +653,25 @@ namespace TSA_WorldDomination
             }
         }
 
-        private static Map GetOrGenerateMapForTile(PlanetTile tile)
+        private static MapGeneratorDef ClashMapGeneratorForTile(PlanetTile tile)
+        {
+            if (WorldComponent_WdBridges.IsBridgedWaterTile(tile))
+            {
+                MapGeneratorDef bridge = DefDatabase<MapGeneratorDef>.GetNamedSilentFail("WD_BridgeClash");
+                if (bridge != null) return bridge;
+            }
+            return MapGeneratorDefOf.Encounter;
+        }
+
+        private static Map FinishClashMap(Map map, PlanetTile tile)
+        {
+            if (map == null) return null;
+            if (WorldComponent_WdBridges.IsBridgedWaterTile(tile))
+                GetOrAddClashTracker(map).IsBridgeClash = true;
+            return map;
+        }
+
+        private static Map GetOrGenerateMapForTile(PlanetTile tile, int playerFromTile = -1, int hostileFromTile = -1)
         {
             if (!tile.Valid) return null;
 
@@ -494,27 +684,46 @@ namespace TSA_WorldDomination
                 return null;
             }
 
-            // Only reuse temporary Ambush encounter maps — never a player home / gravship landing map.
-            Map map = Current.Game.Maps.FirstOrDefault(m => m.Tile == tile && IsTemporaryClashAmbushMap(m));
-            if (map != null) return map;
+            MapGeneratorDef genDef = ClashMapGeneratorForTile(tile);
 
-            MapParent existing = Find.WorldObjects.MapParentAt(tile);
-            if (existing != null)
+            Map Finish(Map generated)
             {
-                if (existing.def == WorldObjectDefOf.Ambush)
-                {
-                    return MapGenerator.GenerateMap(
-                        Find.World.info.initialMapSize, existing, MapGeneratorDefOf.Encounter, null, null);
-                }
-
-                // Non-Ambush MapParent on tile: do not GenerateMap onto it (would risk wiping a home).
-                if (Prefs.DevMode)
-                    WDVerbose.Msg($"[TSA WD] Aborting caravan clash map gen: non-Ambush MapParent ({existing.def?.defName}) on tile {tile}");
-                return null;
+                Map m = FinishClashMap(generated, tile);
+                if (m != null && WorldComponent_WdBridges.IsBridgedWaterTile(tile))
+                    GenStep_WD_BridgeClash.ApplyEncounterApproaches(m, playerFromTile, hostileFromTile);
+                return m;
             }
 
-            MapParent site = CreateEncounterSite(tile);
-            return MapGenerator.GenerateMap(Find.World.info.initialMapSize, site, MapGeneratorDefOf.Encounter, null, null);
+            // Only reuse temporary Ambush encounter maps — never a player home / gravship landing map.
+            Map map = Current.Game.Maps.FirstOrDefault(m => m.Tile == tile && IsTemporaryClashAmbushMap(m));
+            if (map != null) return Finish(map);
+
+            MapParent existing = Find.WorldObjects.MapParentAt(tile);
+            GenStep_WD_BridgeClash.PushEncounterApproaches(playerFromTile, hostileFromTile);
+            try
+            {
+                if (existing != null)
+                {
+                    if (existing.def == WorldObjectDefOf.Ambush)
+                    {
+                        return Finish(
+                            MapGenerator.GenerateMap(Find.World.info.initialMapSize, existing, genDef, null, null));
+                    }
+
+                    // Non-Ambush MapParent on tile: do not GenerateMap onto it (would risk wiping a home).
+                    if (Prefs.DevMode)
+                        WDVerbose.Msg($"[TSA WD] Aborting caravan clash map gen: non-Ambush MapParent ({existing.def?.defName}) on tile {tile}");
+                    return null;
+                }
+
+                MapParent site = CreateEncounterSite(tile);
+                return Finish(
+                    MapGenerator.GenerateMap(Find.World.info.initialMapSize, site, genDef, null, null));
+            }
+            finally
+            {
+                GenStep_WD_BridgeClash.ClearEncounterApproaches();
+            }
         }
 
         private static bool IsTemporaryClashAmbushMap(Map map) =>

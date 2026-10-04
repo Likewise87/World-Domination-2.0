@@ -781,6 +781,7 @@ namespace TSA_WorldDomination
         public static void Prefix_WorldTargeter_StopEstablishmentPreview()
         {
             RemoteOutpostEstablishSession.NotifyWorldTargeterStopped();
+            WD_WorldLayer_BridgeTargetFill.Hide();
             if (!Dialog_OutpostSelection.IsEstablishmentPreviewOverlayActive) return;
             if (Dialog_OutpostSelection.IsSuppressingEstablishmentPreviewEnd()) return;
             Dialog_OutpostSelection.SetEstablishmentPreviewOverlayActive(false);
@@ -908,6 +909,7 @@ namespace TSA_WorldDomination
             RefreshPollutionOverlayForMouseTile();
             RefreshEstablishmentBlockedOverlayForMouseTile();
             RadiusFillHoverController.EndFrame();
+            WD_WorldLayer_BridgeTargetFill.EndFrame();
             DrawOverlayHoverLabel();
         }
 
@@ -1235,7 +1237,13 @@ namespace TSA_WorldDomination
             if (!mouseTile.Valid || Find.WorldGrid == null) return;
 
             Tile tileInfo = Find.WorldGrid[mouseTile];
-            if (tileInfo == null || tileInfo.WaterCovered) return;
+            if (tileInfo == null) return;
+            // Bridged water: show movement-difficulty hover. Other overlays stay land-only.
+            if (tileInfo.WaterCovered)
+            {
+                if (!(showMovement && WorldComponent_WdBridges.IsBridgedWaterTile(mouseTile)))
+                    return;
+            }
 
             string label;
             float boxH;

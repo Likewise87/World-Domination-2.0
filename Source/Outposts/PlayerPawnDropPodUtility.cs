@@ -685,8 +685,8 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Single line: travel-mode icon, then if drop pod <c>Total Cost: Nx</c> + component icon.
-        /// Stock / short-stock live in a tip on the cost segment. Returns height used.
+        /// Travel-mode icon, then if drop pod two lines: Cost + Available (colony + warehouses) with component icons.
+        /// Returns height used.
         /// </summary>
         public static float DrawModeAndTotalCostLine(
             Rect rect,
@@ -697,11 +697,11 @@ namespace TSA_WorldDomination
             string disabledPodTip = null)
         {
             const float gap = 8f;
-            const float componentIconSize = 22f;
+            const float componentIconSize = 20f;
+            const float lineGap = 2f;
 
-            Rect modeRect = new Rect(rect.x, rect.y, ModeIconSize, ModeIconSize);
             bool researched = RapidResponseUtility.TransportPodsResearched();
-
+            Rect modeRect = new Rect(rect.x, rect.y, ModeIconSize, ModeIconSize);
             if (interactiveModeIcon)
             {
                 DrawAdHocModeIcon(modeRect, allowDropPod, disabledPodTip);
@@ -709,59 +709,73 @@ namespace TSA_WorldDomination
             }
             else
             {
-                Rect iconRect = new Rect(
-                    modeRect.x,
-                    modeRect.y + (modeRect.height - ModeIconSize) * 0.5f,
-                    ModeIconSize,
-                    ModeIconSize);
                 Texture2D icon = ModeIcon(viaDropPod);
                 if (icon != null)
                 {
                     Color prev = GUI.color;
                     GUI.color = WorldOverlayLineMaterials.DarkCyanColor;
-                    GUI.DrawTexture(iconRect, icon, ScaleMode.ScaleToFit);
+                    GUI.DrawTexture(modeRect, icon, ScaleMode.ScaleToFit);
                     GUI.color = prev;
                 }
-                TooltipHandler.TipRegion(iconRect, BuildModeTip(viaDropPod, allowDropPod, researched, disabledPodTip));
+                TooltipHandler.TipRegion(modeRect, BuildModeTip(viaDropPod, allowDropPod, researched, disabledPodTip));
             }
 
             if (!viaDropPod)
                 return ModeIconSize;
 
+            Text.Font = GameFont.Small;
+            float lineH = Mathf.Max(18f, Text.CalcSize("Ay").y);
+            float contentH = Mathf.Max(ModeIconSize, lineH * 2f + lineGap);
+
             int have = CountComponentsAvailable();
             int need = Mathf.Max(0, launchCount) * ComponentCostPerLaunch;
             bool shortStock = have < need;
+            ThingDef component = ComponentDef;
 
             float x = modeRect.xMax + gap;
-            float midY = rect.y + ModeIconSize * 0.5f;
+            float textMaxW = Mathf.Max(80f, rect.xMax - x - componentIconSize - 8f);
             string costText = "TSA_WD_PawnDropPod_TotalCost".Translate(need.ToString());
-            Text.Font = GameFont.Small;
-            Vector2 textSize = Text.CalcSize(costText);
-            float labelH = Mathf.Max(18f, textSize.y);
-            Rect labelRect = new Rect(x, midY - labelH * 0.5f, textSize.x, labelH);
+            string availText = "TSA_WD_PawnDropPod_StockLine".Translate(have.ToString());
 
             Color prevColor = GUI.color;
             GUI.color = shortStock ? new Color(1f, 0.75f, 0.35f) : Color.white;
             Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(labelRect, costText);
-            Text.Anchor = TextAnchor.UpperLeft;
 
-            x = labelRect.xMax + 4f;
-            Rect compRect = new Rect(x, midY - componentIconSize * 0.5f, componentIconSize, componentIconSize);
-            ThingDef component = ComponentDef;
+            float y0 = rect.y;
+            Rect costLabelRect = new Rect(x, y0, textMaxW, lineH);
+            Widgets.Label(costLabelRect, costText.Truncate(textMaxW));
             if (component != null)
-                Widgets.ThingIcon(compRect, component);
+            {
+                Rect costIcon = new Rect(
+                    x + Mathf.Min(textMaxW, Text.CalcSize(costText).x) + 4f,
+                    y0 + (lineH - componentIconSize) * 0.5f,
+                    componentIconSize,
+                    componentIconSize);
+                Widgets.ThingIcon(costIcon, component);
+            }
+
+            float y1 = y0 + lineH + lineGap;
+            Rect availLabelRect = new Rect(x, y1, textMaxW, lineH);
+            Widgets.Label(availLabelRect, availText.Truncate(textMaxW));
+            if (component != null)
+            {
+                Rect availIcon = new Rect(
+                    x + Mathf.Min(textMaxW, Text.CalcSize(availText).x) + 4f,
+                    y1 + (lineH - componentIconSize) * 0.5f,
+                    componentIconSize,
+                    componentIconSize);
+                Widgets.ThingIcon(availIcon, component);
+            }
+
+            Text.Anchor = TextAnchor.UpperLeft;
             GUI.color = prevColor;
             Text.Font = GameFont.Small;
 
-            float costRight = component != null ? compRect.xMax : labelRect.xMax;
-            Rect tipRect = new Rect(labelRect.x, rect.y, Mathf.Max(8f, costRight - labelRect.x), ModeIconSize);
-            string tip = "TSA_WD_PawnDropPod_StockLine".Translate(have.ToString());
+            Rect tipRect = new Rect(x, rect.y, Mathf.Max(8f, rect.xMax - x), contentH);
             if (shortStock)
-                tip += "\n" + "TSA_WD_PawnDropPod_ShortStockNote".Translate();
-            TooltipHandler.TipRegion(tipRect, tip);
+                TooltipHandler.TipRegion(tipRect, "TSA_WD_PawnDropPod_ShortStockNote".Translate());
 
-            return ModeIconSize;
+            return contentH;
         }
 
         /// <summary>Ad-hoc mode icon plus Total Cost on one line. Returns height used.</summary>

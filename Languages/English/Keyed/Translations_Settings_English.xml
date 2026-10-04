@@ -363,8 +363,10 @@
   <TSA_WD_WorldSetup_ToolRoadBlock>Place Road Block</TSA_WD_WorldSetup_ToolRoadBlock>
   <TSA_WD_WorldSetup_ToolTrap>Place Trap</TSA_WD_WorldSetup_ToolTrap>
   <TSA_WD_WorldSetup_ToolPlaceRoad>Place Road</TSA_WD_WorldSetup_ToolPlaceRoad>
+  <TSA_WD_WorldSetup_ToolPlaceBridge>Place Bridge</TSA_WD_WorldSetup_ToolPlaceBridge>
   <TSA_WD_WorldSetup_ToolRemoveFortify>Remove fortification here</TSA_WD_WorldSetup_ToolRemoveFortify>
   <TSA_WD_WorldSetup_ToolRemoveRoad>Remove Road</TSA_WD_WorldSetup_ToolRemoveRoad>
+  <TSA_WD_WorldSetup_ToolDestroyBridge>Destroy Bridge</TSA_WD_WorldSetup_ToolDestroyBridge>
   <TSA_WD_WorldSetup_InvalidTile>That tile is not valid.</TSA_WD_WorldSetup_InvalidTile>
   <TSA_WD_WorldSetup_TileOccupied>Tile {0} already has a world object.</TSA_WD_WorldSetup_TileOccupied>
   <TSA_WD_WorldSetup_TileInvalidSettlement>Tile {0} cannot host a settlement.</TSA_WD_WorldSetup_TileInvalidSettlement>
@@ -395,9 +397,16 @@
   <TSA_WD_WorldSetup_PlaceRoadHint>Click the start tile, then the end tile.</TSA_WD_WorldSetup_PlaceRoadHint>
   <TSA_WD_WorldSetup_PlaceRoadPickEnd>Now click the end tile.</TSA_WD_WorldSetup_PlaceRoadPickEnd>
   <TSA_WD_WorldSetup_PlaceRoadDone>Road placed along the path.</TSA_WD_WorldSetup_PlaceRoadDone>
-  <TSA_WD_WorldSetup_RemoveRoadHint>Click a tile with roads to strip its road links.</TSA_WD_WorldSetup_RemoveRoadHint>
+  <TSA_WD_WorldSetup_RemoveRoadHint>Click a tile with roads to strip its land road links (bridges are left alone).</TSA_WD_WorldSetup_RemoveRoadHint>
   <TSA_WD_WorldSetup_RemoveRoadNone>No roads on that tile.</TSA_WD_WorldSetup_RemoveRoadNone>
   <TSA_WD_WorldSetup_RemoveRoadDone>Removed {0} road links.</TSA_WD_WorldSetup_RemoveRoadDone>
+  <TSA_WD_WorldSetup_PlaceBridgeHint>Click the near bank, then the far bank.</TSA_WD_WorldSetup_PlaceBridgeHint>
+  <TSA_WD_WorldSetup_PlaceBridgePickEnd>Now click the far bank.</TSA_WD_WorldSetup_PlaceBridgePickEnd>
+  <TSA_WD_WorldSetup_PlaceBridgeDone>Bridge placed.</TSA_WD_WorldSetup_PlaceBridgeDone>
+  <TSA_WD_WorldSetup_PlaceBridgeFailed>Could not place a bridge there.</TSA_WD_WorldSetup_PlaceBridgeFailed>
+  <TSA_WD_WorldSetup_DestroyBridgeHint>Click a bridge bank or bridged water tile to destroy that bridge.</TSA_WD_WorldSetup_DestroyBridgeHint>
+  <TSA_WD_WorldSetup_DestroyBridgeNone>No WD bridge on that tile.</TSA_WD_WorldSetup_DestroyBridgeNone>
+  <TSA_WD_WorldSetup_DestroyBridgeDone>Bridge destroyed.</TSA_WD_WorldSetup_DestroyBridgeDone>
   <TSA_WD_WorldSetup_RemoveSettlementHint>Click an NPC settlement to remove it. Right-click or Esc to stop.</TSA_WD_WorldSetup_RemoveSettlementHint>
   <TSA_WD_WorldSetup_RemoveSettlementDone>Removed {0}.</TSA_WD_WorldSetup_RemoveSettlementDone>
   <TSA_WD_WorldSetup_RemoveSettlementPlayer>Player sites cannot be removed here.</TSA_WD_WorldSetup_RemoveSettlementPlayer>

@@ -281,8 +281,10 @@
   <TSA_WD_WorldSetup_ToolRoadBlock>放置路障</TSA_WD_WorldSetup_ToolRoadBlock>
   <TSA_WD_WorldSetup_ToolTrap>放置陷阱</TSA_WD_WorldSetup_ToolTrap>
   <TSA_WD_WorldSetup_ToolPlaceRoad>放置道路</TSA_WD_WorldSetup_ToolPlaceRoad>
+  <TSA_WD_WorldSetup_ToolPlaceBridge>放置桥梁</TSA_WD_WorldSetup_ToolPlaceBridge>
   <TSA_WD_WorldSetup_ToolRemoveFortify>移除此处工事</TSA_WD_WorldSetup_ToolRemoveFortify>
   <TSA_WD_WorldSetup_ToolRemoveRoad>移除道路</TSA_WD_WorldSetup_ToolRemoveRoad>
+  <TSA_WD_WorldSetup_ToolDestroyBridge>拆除桥梁</TSA_WD_WorldSetup_ToolDestroyBridge>
   <TSA_WD_WorldSetup_InvalidTile>该地块无效。</TSA_WD_WorldSetup_InvalidTile>
   <TSA_WD_WorldSetup_TileOccupied>地块 {0} 已有世界物体。</TSA_WD_WorldSetup_TileOccupied>
   <TSA_WD_WorldSetup_TileInvalidSettlement>地块 {0} 无法建立定居点。</TSA_WD_WorldSetup_TileInvalidSettlement>
@@ -316,6 +318,13 @@
   <TSA_WD_WorldSetup_RemoveRoadHint>点击有道路的地块以移除其道路连接。</TSA_WD_WorldSetup_RemoveRoadHint>
   <TSA_WD_WorldSetup_RemoveRoadNone>该地块没有道路。</TSA_WD_WorldSetup_RemoveRoadNone>
   <TSA_WD_WorldSetup_RemoveRoadDone>已移除 {0} 条道路连接。</TSA_WD_WorldSetup_RemoveRoadDone>
+  <TSA_WD_WorldSetup_PlaceBridgeHint>先点击近岸，再点击对岸。</TSA_WD_WorldSetup_PlaceBridgeHint>
+  <TSA_WD_WorldSetup_PlaceBridgePickEnd>现在点击对岸。</TSA_WD_WorldSetup_PlaceBridgePickEnd>
+  <TSA_WD_WorldSetup_PlaceBridgeDone>桥梁已放置。</TSA_WD_WorldSetup_PlaceBridgeDone>
+  <TSA_WD_WorldSetup_PlaceBridgeFailed>无法在此处放置桥梁。</TSA_WD_WorldSetup_PlaceBridgeFailed>
+  <TSA_WD_WorldSetup_DestroyBridgeHint>点击桥岸或桥面水域以拆除该桥。</TSA_WD_WorldSetup_DestroyBridgeHint>
+  <TSA_WD_WorldSetup_DestroyBridgeNone>该地块没有 WD 桥梁。</TSA_WD_WorldSetup_DestroyBridgeNone>
+  <TSA_WD_WorldSetup_DestroyBridgeDone>桥梁已拆除。</TSA_WD_WorldSetup_DestroyBridgeDone>
   <TSA_WD_WorldSetup_RemoveSettlementHint>点击一个 NPC 定居点以移除。右键或 Esc 停止。</TSA_WD_WorldSetup_RemoveSettlementHint>
   <TSA_WD_WorldSetup_RemoveSettlementDone>已移除 {0}。</TSA_WD_WorldSetup_RemoveSettlementDone>
   <TSA_WD_WorldSetup_RemoveSettlementPlayer>此处不能移除玩家地点。</TSA_WD_WorldSetup_RemoveSettlementPlayer>

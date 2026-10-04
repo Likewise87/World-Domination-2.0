@@ -101,16 +101,20 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        private static bool TryCompute4Dir(
-            int mapTile, int sourceTile,
-            out int weightLeft, out int weightRight, out int weightTop, out int weightBottom)
+        /// <summary>
+        /// Project world tile <paramref name="otherTile"/> as seen from <paramref name="mapTile"/>
+        /// onto local map axes. Matches Force Raid Direction / mortar ingress:
+        /// local +X is map-east (right), local +Z is map-north (top); world-east is flipped onto map-west.
+        /// </summary>
+        public static bool TryWorldToLocalMapAxes(int mapTile, int otherTile, out float localX, out float localZ)
         {
-            weightLeft = weightRight = weightTop = weightBottom = 0;
+            localX = -1f;
+            localZ = 0f;
             var grid = Find.WorldGrid;
-            if (grid == null) return false;
+            if (grid == null || mapTile < 0 || otherTile < 0) return false;
 
             Vector3 from = grid.GetTileCenter(mapTile).normalized;
-            Vector3 to = grid.GetTileCenter(sourceTile).normalized;
+            Vector3 to = grid.GetTileCenter(otherTile).normalized;
 
             Vector3 up = from;
             Vector3 globalNorth = new Vector3(0f, 1f, 0f);
@@ -120,49 +124,60 @@ namespace TSA_WorldDomination
                 Vector3 alt = new Vector3(0f, 0f, 1f);
                 northT = alt - Vector3.Dot(alt, up) * up;
             }
+            if (northT.sqrMagnitude < 1e-8f) return false;
             northT.Normalize();
 
             Vector3 eastT = Vector3.Cross(northT, up).normalized;
 
             Vector3 chord = to - from;
-            if (chord.sqrMagnitude < 1e-8f)
-            {
-                weightLeft = 100;
-                return true;
-            }
+            if (chord.sqrMagnitude < 1e-8f) return false;
 
             Vector3 tangentDir = chord - Vector3.Dot(chord, up) * up;
-            if (tangentDir.sqrMagnitude < 1e-8f)
-            {
-                weightLeft = 100;
-                return true;
-            }
+            if (tangentDir.sqrMagnitude < 1e-8f) return false;
             tangentDir.Normalize();
 
             float eComp = Vector3.Dot(tangentDir, eastT);
             float nComp = Vector3.Dot(tangentDir, northT);
+            localX = -eComp;
+            localZ = nComp;
+            return true;
+        }
 
-            float east = Mathf.Max(0f, eComp);
-            float west = Mathf.Max(0f, -eComp);
-            float north = Mathf.Max(0f, nComp);
-            float south = Mathf.Max(0f, -nComp);
+        private static bool TryCompute4Dir(
+            int mapTile, int sourceTile,
+            out int weightLeft, out int weightRight, out int weightTop, out int weightBottom)
+        {
+            weightLeft = weightRight = weightTop = weightBottom = 0;
+            if (!TryWorldToLocalMapAxes(mapTile, sourceTile, out float localX, out float localZ))
+            {
+                if (Find.WorldGrid == null || mapTile < 0 || sourceTile < 0) return false;
+                weightLeft = 100;
+                return true;
+            }
 
-            float sum = east + west + north + south;
+            // localX+ = map east (right), localZ+ = map north (top).
+            // Ingress band is the map edge the shot comes from (same as FRD spawn edge).
+            float mapEast = Mathf.Max(0f, localX);
+            float mapWest = Mathf.Max(0f, -localX);
+            float mapNorth = Mathf.Max(0f, localZ);
+            float mapSouth = Mathf.Max(0f, -localZ);
+
+            float sum = mapEast + mapWest + mapNorth + mapSouth;
             if (sum <= 1e-6f)
             {
                 weightTop = 100;
                 return true;
             }
 
-            east /= sum;
-            west /= sum;
-            north /= sum;
-            south /= sum;
+            mapEast /= sum;
+            mapWest /= sum;
+            mapNorth /= sum;
+            mapSouth /= sum;
 
-            weightRight = Mathf.RoundToInt(west * 100f);
-            weightLeft = Mathf.RoundToInt(east * 100f);
-            weightTop = Mathf.RoundToInt(north * 100f);
-            weightBottom = Mathf.RoundToInt(south * 100f);
+            weightRight = Mathf.RoundToInt(mapEast * 100f);
+            weightLeft = Mathf.RoundToInt(mapWest * 100f);
+            weightTop = Mathf.RoundToInt(mapNorth * 100f);
+            weightBottom = Mathf.RoundToInt(mapSouth * 100f);
 
             int total = weightTop + weightBottom + weightRight + weightLeft;
             if (total != 100)

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Darker fill than vanilla Stone so water spans read as bridges. Outline stays vanilla-dark. -->
+  <RoadWorldLayerDef>
+    <defName>TSA_WD_BridgeDeck</defName>
+    <order>210</order>
+    <color>(0.26, 0.24, 0.22)</color>
+  </RoadWorldLayerDef>
+
+  <!-- Player-painted water span only. Do not set tilesPerSegment like StoneRoad:
+       vanilla world gen would then lay this def on inland stone routes. -->
+  <RoadDef>
+    <defName>TSA_WD_StoneBridge</defName>
+    <label>stone bridge</label>
+    <priority>30</priority>
+    <movementCostMultiplier>0.5</movementCostMultiplier>
+    <tilesPerSegment>99999</tilesPerSegment>
+    <pathingMode>Avoid</pathingMode>
+    <distortionFrequency>0.2</distortionFrequency>
+    <distortionIntensity>0.10</distortionIntensity>
+    <worldRenderSteps>
+      <li>
+        <layer>Outline</layer>
+        <width>0.55</width>
+      </li>
+      <li>
+        <layer>TSA_WD_BridgeDeck</layer>
+        <width>0.4</width>
+      </li>
+    </worldRenderSteps>
+    <worldTransitionGroup>Stone</worldTransitionGroup>
+  </RoadDef>
+
+</Defs>

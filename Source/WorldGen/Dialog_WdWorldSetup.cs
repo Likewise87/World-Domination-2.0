@@ -52,6 +52,14 @@ namespace TSA_WorldDomination
         private static readonly Texture2D IconRemoveRoad =
             ContentFinder<Texture2D>.Get("UI/Commands/RemoveRoad", false)
             ?? ContentFinder<Texture2D>.Get("UI/Commands/Remove_RoadBlock", false);
+        private static readonly Texture2D IconPlaceBridge =
+            ContentFinder<Texture2D>.Get("UI/Commands/BuildRoad", false)
+            ?? ContentFinder<Texture2D>.Get("UI/Commands/Build_Bridge", false)
+            ?? TexCommand.Install;
+        private static readonly Texture2D IconRemoveBridge =
+            ContentFinder<Texture2D>.Get("UI/Commands/RemoveRoad", false)
+            ?? ContentFinder<Texture2D>.Get("UI/Commands/Remove_RoadBlock", false)
+            ?? TexButton.Delete;
         private static readonly Texture2D IconDiplomacy =
             ContentFinder<Texture2D>.Get("UI/Commands/Icon_Diplomacy", false);
         private static readonly Texture2D IconConfig =
@@ -285,10 +293,14 @@ namespace TSA_WorldDomination
                     IconTrap, WdWorldSetupTool.Trap, WD_WorldSetupTools.BeginPlaceSpikeTrap);
                 DrawToolButton(listing, "TSA_WD_WorldSetup_ToolPlaceRoad".Translate(),
                     IconPlaceRoad, WdWorldSetupTool.PlaceRoad, WD_WorldSetupTools.BeginPlaceRoad);
+                DrawToolButton(listing, "TSA_WD_WorldSetup_ToolPlaceBridge".Translate(),
+                    IconPlaceBridge, WdWorldSetupTool.PlaceBridge, WD_WorldSetupTools.BeginPlaceBridge);
                 DrawToolButton(listing, "TSA_WD_WorldSetup_ToolRemoveFortify".Translate(),
                     IconRemoveFortify, WdWorldSetupTool.RemoveFortify, WD_WorldSetupTools.BeginRemoveFortification);
                 DrawToolButton(listing, "TSA_WD_WorldSetup_ToolRemoveRoad".Translate(),
                     IconRemoveRoad, WdWorldSetupTool.RemoveRoad, WD_WorldSetupTools.BeginRemoveRoad);
+                DrawToolButton(listing, "TSA_WD_WorldSetup_ToolDestroyBridge".Translate(),
+                    IconRemoveBridge, WdWorldSetupTool.RemoveBridge, WD_WorldSetupTools.BeginRemoveBridge);
             }
 
             listing.End();
@@ -309,7 +321,7 @@ namespace TSA_WorldDomination
                 h += 6f * 40f + 12f;
             h += 40f;
             if (roadsExpanded)
-                h += 6f * 40f + 12f;
+                h += 8f * 40f + 12f;
             return Mathf.Max(h, 200f);
         }
 

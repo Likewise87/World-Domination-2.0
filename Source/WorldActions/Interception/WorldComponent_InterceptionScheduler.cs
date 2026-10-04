@@ -1120,6 +1120,18 @@ namespace TSA_WorldDomination
             MissionMask mask = ip.InterceptorMissionMask;
             if (mask == MissionMask.None) return;
 
+            bool isRapidResponse = false;
+            WorldObject_WD_Outpost defenseOutpost = null;
+            if (self is WorldObject_WD_Outpost wdOutpost)
+            {
+                if (wdOutpost.IsRapidResponseOutpost) { isRapidResponse = true; defenseOutpost = wdOutpost; }
+                else if (wdOutpost.IsMortarOutpost) defenseOutpost = wdOutpost;
+            }
+
+            // RR outposts may always sally against hostile interceptor caravans (mask stays None for mortars).
+            bool rrVsHostileInterceptor = isRapidResponse
+                && t.mission == TravelerMission.RapidResponseIntercept;
+
             if (tf.IsPlayer)
             {
                 if (self is WorldObject_AT_Turret atTurret)
@@ -1129,20 +1141,12 @@ namespace TSA_WorldDomination
                 else
                 {
                     if (!ip.InterceptorCanTargetPlayer) return;
-                    if (!InterceptionMissionMaskUtils.Matches(t.mission, mask)) return;
+                    if (!rrVsHostileInterceptor && !InterceptionMissionMaskUtils.Matches(t.mission, mask)) return;
                 }
             }
-            else if (!InterceptionMissionMaskUtils.Matches(t.mission, mask))
+            else if (!rrVsHostileInterceptor && !InterceptionMissionMaskUtils.Matches(t.mission, mask))
             {
                 return;
-            }
-
-            bool isRapidResponse = false;
-            WorldObject_WD_Outpost defenseOutpost = null;
-            if (self is WorldObject_WD_Outpost wdOutpost)
-            {
-                if (wdOutpost.IsRapidResponseOutpost) { isRapidResponse = true; defenseOutpost = wdOutpost; }
-                else if (wdOutpost.IsMortarOutpost) defenseOutpost = wdOutpost;
             }
             if (defenseOutpost != null)
             {

@@ -102,8 +102,9 @@ namespace TSA_WorldDomination
             PlanetLayer layer = PlanetSurfaceWorldActions.WdSurfaceLayer ?? grid.Surface;
             if (layer == null) return false;
             PlanetTile pTile = new PlanetTile(tileId, layer);
-            if (Find.World.Impassable(pTile)) return false;
-            if (grid[tileId].WaterCovered) return false;
+            bool bridgedWater = WorldComponent_WdBridges.IsBridgedWaterTile(tileId);
+            if (!bridgedWater && Find.World.Impassable(pTile)) return false;
+            if (grid[tileId].WaterCovered && !bridgedWater) return false;
             if (TileHasSettlementOrOutpost(tileId)) return false;
             return true;
         }
@@ -293,7 +294,7 @@ namespace TSA_WorldDomination
             return destFirst;
         }
 
-        /// <summary>Walkable for planning corridors: land only; settlements and existing blocks allowed.</summary>
+        /// <summary>Walkable for planning corridors: land (and bridged water); settlements and existing blocks allowed.</summary>
         public static bool IsFlatPathWalkable(int tileId, PlanetLayer layer = null)
         {
             WorldGrid grid = Find.WorldGrid;
@@ -301,8 +302,9 @@ namespace TSA_WorldDomination
             layer ??= PlanetSurfaceWorldActions.WdSurfaceLayer ?? grid.Surface;
             if (layer == null) return false;
             PlanetTile pTile = new PlanetTile(tileId, layer);
-            if (Find.World.Impassable(pTile)) return false;
-            if (grid[tileId].WaterCovered) return false;
+            bool bridgedWater = WorldComponent_WdBridges.IsBridgedWaterTile(tileId);
+            if (!bridgedWater && Find.World.Impassable(pTile)) return false;
+            if (grid[tileId].WaterCovered && !bridgedWater) return false;
             return true;
         }
 
@@ -429,6 +431,7 @@ namespace TSA_WorldDomination
                     && t.originObject == origin
                     && !t.Destroyed)
                 {
+                    ColonyWorldBuildRequirements.RefundConstructionAbort(t);
                     t.Destroy();
                 }
             }
@@ -567,6 +570,7 @@ namespace TSA_WorldDomination
                 if (IsValidBuildTile(tile, comp.selectedRoadBlockKind, builder)
                     && (WorldComponent_RoadBlocks.Get()?.TryPlaceOrUpgrade(tile, builder, comp.selectedRoadBlockKind) ?? false))
                 {
+                    traveler.MarkConstructionWorkApplied();
                     Outpost_ConstructionXp.TryGrant(traveler, Outpost_ConstructionXp.XpForRoadBlockKind(comp.selectedRoadBlockKind));
                 }
             }

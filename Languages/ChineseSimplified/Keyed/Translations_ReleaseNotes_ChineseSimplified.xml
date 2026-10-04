@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_41_Title>桥梁、平衡与性能</TSA_WD_Update_2_3_41_Title>
+  <TSA_WD_Update_2_3_41_Body><![CDATA[
+<size=16><b>2.3.41 – 桥梁、平衡与性能</b></size>\n
+<color=#00FFFFFF>发布日期：2026年10月4日</color>\n
+------------------------------\n
+• 新功能：现在可用殖民地和前哨建造桥梁。选择该选项，先点选一处岸边地格，再点选水域对岸的岸边地格。也可以在桥上作战（会生成真正的桥梁地图）。NPC 派系也会建造桥梁。\n
+• 快速反应前哨的最大进攻实力提升至 2700（原为 1500）。其他前哨上限为 2200。这应有助于后期对抗非常强大的敌人。\n
+• 修复部分浮动菜单内容被不必要地反复计算导致的性能问题。\n
+• 其他一些性能修复。\n
+]]></TSA_WD_Update_2_3_41_Body>
   <TSA_WD_Update_2_3_4_Title>细节调整</TSA_WD_Update_2_3_4_Title>
   <TSA_WD_Update_2_3_4_Body><![CDATA[
 <size=16><b>2.3.4 – 细节调整</b></size>\n

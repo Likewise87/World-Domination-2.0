@@ -57,7 +57,7 @@ namespace TSA_WorldDomination
         public static FloatMenuOption MakeBuildRoadBlocksMenuOption(WorldObject outpost, CompViralSpread comp)
         {
             Texture2D icon = BuildRoadBlockIcon;
-            bool roadBusy = comp.roadTargetTile != -1;
+            bool roadBusy = comp.roadTargetTile != -1 || WorldActions_BuildBridge.HasActiveBridgeProject(comp);
             bool blockBusy = WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp);
             bool trapBusy = WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp);
             bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp);
@@ -176,7 +176,7 @@ namespace TSA_WorldDomination
         public static FloatMenuOption MakeRemoveFortificationsMenuOption(WorldObject outpost, CompViralSpread comp)
         {
             Texture2D icon = ClearRoadBlockIcon;
-            bool roadBusy = comp.roadTargetTile != -1;
+            bool roadBusy = comp.roadTargetTile != -1 || WorldActions_BuildBridge.HasActiveBridgeProject(comp);
             bool blockBusy = WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp);
             bool trapBusy = WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp);
             bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp);

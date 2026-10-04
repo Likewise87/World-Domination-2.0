@@ -8,7 +8,8 @@ namespace TSA_WorldDomination
     /// <summary>
     /// Feature C: settlements (and, via <see cref="WD_Outpost_RapidResponse"/>, player outposts) with ambush
     /// capability launch a Rapid-Response-style interceptor at a passing hostile WD traveler (any caravan-style
-    /// mission except decontamination; raids not already targeting this settlement) or a real vanilla player <see cref="Caravan"/>.
+    /// mission except decontamination / shells / drop-pods — including hostile interceptor caravans)
+    /// or a real vanilla player <see cref="Caravan"/>.
     /// Reuses <see cref="WorldComponent_SettlementWatchIndex"/> for O(1) tile lookups and
     /// <see cref="WorldActions_Traveler.SpawnRapidResponseInterceptTraveler"/> for the actual dispatch — no new
     /// per-tick scanning is added beyond the existing 20-tick caravan tile-change poll in <see cref="WD_SameTileTravelerClash"/>.
@@ -88,14 +89,14 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Ground caravan-style travelers are ambushable. Decontamination crews are excluded.
-        /// Ballistic shells, AA, and Rapid Response dispatches are not caravans.
+        /// Ballistic shells, AA, and Rapid Response drop-pods are not caravans.
+        /// Hostile Rapid Response / ambush interceptor caravans are ambushable (interceptor-vs-interceptor).
         /// </summary>
         private static bool IsAmbushableMission(TravelerMission mission)
         {
             if (mission == TravelerMission.Decontamination) return false;
             if (mission == TravelerMission.MortarStrike
                 || mission == TravelerMission.AntiAirStrike
-                || mission == TravelerMission.RapidResponseIntercept
                 || mission == TravelerMission.RapidResponseDropPod)
                 return false;
             return true;
@@ -172,6 +173,8 @@ namespace TSA_WorldDomination
                     case TravelerMission.RaidDropPod:
                     case TravelerMission.RaidGravship:
                         return "TSA_WD_TargetKind_Raid".Translate().ToString();
+                    case TravelerMission.RapidResponseIntercept:
+                        return "TSA_WD_TargetKind_Interceptor".Translate().ToString();
                 }
             }
             return target.LabelCap.ToString();

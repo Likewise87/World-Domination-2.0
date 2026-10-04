@@ -17,9 +17,13 @@ namespace TSA_WorldDomination
         private static Texture2D cachedRecruitRedirectIcon;
         private static Texture2D cachedEmbassyIcon;
 
-        private static int gizmoTooltipTick = -1;
-        private static int gizmoTooltipFingerprint;
+        private const int GizmoPresentationCacheLifetimeTicks = 60;
+        private static int gizmoPresentationTick = -99999;
+        private static int gizmoPresentationFingerprint;
         private static string gizmoTooltipCached;
+        private static string gizmoLabelCached;
+        private static Texture2D gizmoIconCached;
+        private static Color gizmoIconColorCached = Color.white;
 
         private static int GizmoTooltipStateFingerprint(WorldObject_WD_Outpost o)
         {
@@ -33,6 +37,8 @@ namespace TSA_WorldDomination
                 h = h * 31 + (o.SelectedScavengingKind.HasValue ? (int)o.SelectedScavengingKind.Value + 1 : 0);
                 var lockedK = o.GetProducingScavengingKindForCurrentCycle();
                 h = h * 31 + (lockedK.HasValue ? ((int)lockedK.Value + 1) * 17 : 0);
+                h = h * 31 + (o.GetProducingDefForCurrentCycle()?.defName?.GetHashCode() ?? 0);
+                h = h * 31 + (o.GetProducingPawnKindForCurrentCycle()?.defName?.GetHashCode() ?? 0);
                 h = h * 31 + (o.SelectedAcademySkillDefName?.GetHashCode() ?? 0);
                 h = h * 31 + (o.LockedAcademySkillDefName?.GetHashCode() ?? 0);
                 h = h * 31 + (o.IsSelectionLockedForThisCycle ? 1 : 0);
@@ -40,17 +46,36 @@ namespace TSA_WorldDomination
             }
         }
 
-        private static string GetProductionTooltipForGizmo(WorldObject_WD_Outpost outpost)
+        private static bool TryGetCachedPresentation(WorldObject_WD_Outpost outpost, out string label, out string desc, out Texture2D icon, out Color iconColor)
         {
             int tick = Find.TickManager.TicksGame;
             int fp = GizmoTooltipStateFingerprint(outpost);
-            if (tick == gizmoTooltipTick && fp == gizmoTooltipFingerprint && gizmoTooltipCached != null)
-                return gizmoTooltipCached;
-            gizmoTooltipTick = tick;
-            gizmoTooltipFingerprint = fp;
-            // Gizmo hover: short "Producing …" only. Full math stays in production dialogs / stats.
-            gizmoTooltipCached = GetShortGizmoDesc(outpost);
-            return gizmoTooltipCached;
+            if (tick - gizmoPresentationTick < GizmoPresentationCacheLifetimeTicks
+                && fp == gizmoPresentationFingerprint
+                && gizmoLabelCached != null
+                && gizmoTooltipCached != null)
+            {
+                label = gizmoLabelCached;
+                desc = gizmoTooltipCached;
+                icon = gizmoIconCached;
+                iconColor = gizmoIconColorCached;
+                return true;
+            }
+            label = null;
+            desc = null;
+            icon = null;
+            iconColor = Color.white;
+            return false;
+        }
+
+        private static void StorePresentationCache(WorldObject_WD_Outpost outpost, string label, string desc, Texture2D icon, Color iconColor)
+        {
+            gizmoPresentationTick = Find.TickManager.TicksGame;
+            gizmoPresentationFingerprint = GizmoTooltipStateFingerprint(outpost);
+            gizmoLabelCached = label;
+            gizmoTooltipCached = desc;
+            gizmoIconCached = icon;
+            gizmoIconColorCached = iconColor;
         }
 
         /// <summary>One-line gizmo description (no formula breakdown).</summary>
@@ -81,23 +106,23 @@ namespace TSA_WorldDomination
             return GetProductionTooltip(outpost);
         }
 
-        public static IEnumerable<Gizmo> GetGizmos(WorldObject_WD_Outpost outpost)
+        private static void BuildProductionGizmoPresentation(
+            WorldObject_WD_Outpost outpost,
+            out string label,
+            out string desc,
+            out Texture2D icon,
+            out Color iconColor)
         {
-            if (outpost == null || outpost.Faction != Faction.OfPlayer) yield break;
-
             bool isRecruiting = Outpost_Production_Utils.IsRecruitingOutpost(outpost.def);
             bool isTrading = Outpost_Production_Utils.IsTradingOutpost(outpost.def);
             bool isEmbassy = Outpost_Production_Utils.IsEmbassyOutpost(outpost.def);
             bool isScavenging = Outpost_Production_Utils.IsScavengingOutpost(outpost.def);
             bool isAcademy = Outpost_Production_Utils.IsAcademyOutpost(outpost.def);
             bool isHunting = Outpost_Production_Utils.IsHuntingOutpost(outpost.def);
-            // Show what is producing THIS cycle (locked selection), not a pending next-cycle change.
             PawnKindDef huntingKind = outpost.GetProducingPawnKindForCurrentCycle();
             ThingDef currentProduct = outpost.GetProducingDefForCurrentCycle();
 
-            string label;
-            Texture2D icon;
-            Color iconColor = Color.white;
+            iconColor = Color.white;
             if (isEmbassy)
             {
                 string delivery = Outpost_Embassy.GetInspectProductLine(outpost);
@@ -151,7 +176,7 @@ namespace TSA_WorldDomination
                 {
                     label = "TSA_WD_Production".Translate().ToString();
                     if (label == "TSA_WD_Production") label = "Select production";
-                    icon = TexCommand.Replant; // match other outposts' "nothing selected" look
+                    icon = TexCommand.Replant;
                 }
             }
             else if (isHunting && huntingKind != null)
@@ -192,10 +217,29 @@ namespace TSA_WorldDomination
                 icon = TexCommand.Replant;
             }
 
+            desc = GetShortGizmoDesc(outpost);
+        }
+
+        public static IEnumerable<Gizmo> GetGizmos(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null || outpost.Faction != Faction.OfPlayer) yield break;
+
+            bool isRecruiting = Outpost_Production_Utils.IsRecruitingOutpost(outpost.def);
+
+            string label;
+            string desc;
+            Texture2D icon;
+            Color iconColor;
+            if (!TryGetCachedPresentation(outpost, out label, out desc, out icon, out iconColor))
+            {
+                BuildProductionGizmoPresentation(outpost, out label, out desc, out icon, out iconColor);
+                StorePresentationCache(outpost, label, desc, icon, iconColor);
+            }
+
             yield return new Command_Action
             {
                 defaultLabel = label,
-                defaultDesc = GetProductionTooltipForGizmo(outpost),
+                defaultDesc = desc,
                 icon = icon,
                 defaultIconColor = iconColor,
                 action = () =>

@@ -246,6 +246,61 @@
   <TSA_WD_Biome_Tooltip_TradingNearbyPartnerLine>{0} ({1})</TSA_WD_Biome_Tooltip_TradingNearbyPartnerLine>
   <TSA_WD_Biome_Tooltip_TradingNearbyPartnersNone>范围内无目标。</TSA_WD_Biome_Tooltip_TradingNearbyPartnersNone>
   <TSA_WD_BuildRoad>修建道路</TSA_WD_BuildRoad>
+  <TSA_WD_BuildBridge>修建桥梁</TSA_WD_BuildBridge>
+  <TSA_WD_BuildBridgeDesc>在水面上修建石路桥（两岸相连，最多 {0} 个水域格）。先点两岸，然后前哨像修路一样筹备。每支施工队铺一块水域格。桥上可建路障与陷阱，不可建反坦克炮。</TSA_WD_BuildBridgeDesc>
+  <TSA_WD_BuildBridgeKindTip>每块水域格消耗 {0} 任意石砖，在该段施工队出发时扣除。仅当该队尚未铺设时退还。续建不会对已铺格子再收费。技能与研究同石路。</TSA_WD_BuildBridgeKindTip>
+  <TSA_WD_BridgeCostTip>每段施工队远征力量：{0}</TSA_WD_BridgeCostTip>
+  <TSA_WD_BuildBridgeStatus>正在建桥，前往“{0}”：{1}%</TSA_WD_BuildBridgeStatus>
+  <TSA_WD_DeconstructBridge>拆除桥梁</TSA_WD_DeconstructBridge>
+  <TSA_WD_DeconstructBridgeDesc>点击桥梁或未完成桥段的任一岸（最多 {0} 个水域格）。之后前哨每支施工队拆除一条边。占用检查针对正在拆除的水域格。免费（不退还材料）。</TSA_WD_DeconstructBridgeDesc>
+  <TSA_WD_DeconstructBridgeStatus>正在拆桥，前往“{0}”：{1}%</TSA_WD_DeconstructBridgeStatus>
+  <TSA_WD_CancelBridge>取消建桥</TSA_WD_CancelBridge>
+  <TSA_WD_CancelBridgeDesc>取消建桥工程。已铺路段保留。若在途施工队尚未铺设则退还。</TSA_WD_CancelBridgeDesc>
+  <TSA_WD_CancelBridgeDeconstruct>取消拆桥</TSA_WD_CancelBridgeDeconstruct>
+  <TSA_WD_CancelBridgeDeconstructDesc>取消拆桥工程。剩余桥面保留。若在途施工队尚未拆除则退还。</TSA_WD_CancelBridgeDeconstructDesc>
+  <TSA_WD_BridgeCancelled>已取消 {0} 的建桥工程。</TSA_WD_BridgeCancelled>
+  <TSA_WD_BridgeDeconstructCancelled>已取消 {0} 的拆桥工程。</TSA_WD_BridgeDeconstructCancelled>
+  <TSA_WD_BridgeBuilt>已完成来自 {0} 的桥梁。</TSA_WD_BridgeBuilt>
+  <TSA_WD_BridgeDeconstructed>来自 {0} 的施工队已拆除桥梁。</TSA_WD_BridgeDeconstructed>
+  <TSA_WD_BridgeCrewLaunched>已从 {0} 派出建桥施工队。</TSA_WD_BridgeCrewLaunched>
+  <TSA_WD_BridgeCrewLaunchedWithStone>已从 {0} 派出建桥施工队。本段花费 {1} 任意石砖。</TSA_WD_BridgeCrewLaunchedWithStone>
+  <TSA_WD_BridgeDeconstructCrewLaunched>已从 {0} 派出拆桥施工队。</TSA_WD_BridgeDeconstructCrewLaunched>
+  <TSA_WD_BridgeProjectSet>已在 {0} 设定建桥工程。进度完成后施工队出发。</TSA_WD_BridgeProjectSet>
+  <TSA_WD_BridgeDeconstructProjectSet>已在 {0} 设定拆桥工程。进度完成后施工队出发。</TSA_WD_BridgeDeconstructProjectSet>
+  <TSA_WD_BridgeSegmentComplete>{0} 已完成一段桥梁铺设。</TSA_WD_BridgeSegmentComplete>
+  <TSA_WD_BridgeDeconstructSegmentComplete>{0} 已完成一段桥梁拆除。</TSA_WD_BridgeDeconstructSegmentComplete>
+  <TSA_WD_BridgeLaunchFailed>无法派出建桥施工队（力量、材料或路径）。</TSA_WD_BridgeLaunchFailed>
+  <TSA_WD_BridgeStartBankSelected>已选择起始河岸。请点击对岸陆地。</TSA_WD_BridgeStartBankSelected>
+  <TSA_WD_BridgeTip_PickStartBank>点击紧邻水域的陆地河岸作为起点。</TSA_WD_BridgeTip_PickStartBank>
+  <TSA_WD_BridgeTip_PickEndBank>点击对岸陆地（水域跨度最多 {0} 格）。橙色显示从起始河岸起的最大建桥范围。</TSA_WD_BridgeTip_PickEndBank>
+  <TSA_WD_BridgeTip_PickEndBankDeconstruct>点击已有桥梁的对岸陆地（最多 {0} 个水域格）。橙色显示从起始河岸起的最大范围。</TSA_WD_BridgeTip_PickEndBankDeconstruct>
+  <TSA_WD_BridgeTip_PickBankDeconstruct>点击已有桥梁的任一岸即可拆除。橙色显示前哨范围。</TSA_WD_BridgeTip_PickBankDeconstruct>
+  <TSA_WD_BridgeReject_NeedLandBanks>两端都必须是陆地河岸（不能是水域）。</TSA_WD_BridgeReject_NeedLandBanks>
+  <TSA_WD_BridgeReject_StartNotAdjacentToWater>起始河岸必须紧邻水域格。</TSA_WD_BridgeReject_StartNotAdjacentToWater>
+  <TSA_WD_BridgeReject_EndNotAdjacentToWater>终点河岸必须紧邻水域格。</TSA_WD_BridgeReject_EndNotAdjacentToWater>
+  <TSA_WD_BridgeReject_OutOfBridgeRange>该格超出起始河岸的最大建桥范围。</TSA_WD_BridgeReject_OutOfBridgeRange>
+  <TSA_WD_BridgeReject_SameTile>请选择两个不同的河岸。</TSA_WD_BridgeReject_SameTile>
+  <TSA_WD_BridgeReject_AlreadyBridged>该水域跨度已完全建成桥梁。</TSA_WD_BridgeReject_AlreadyBridged>
+  <TSA_WD_BridgeReject_BankAlreadyUsed>该河岸已有桥梁。两座桥不能共用同一起点或终点格。</TSA_WD_BridgeReject_BankAlreadyUsed>
+  <TSA_WD_StoneBridgeLabel>石桥</TSA_WD_StoneBridgeLabel>
+  <TSA_WD_BridgeReject_NotBridged>该河岸没有桥梁或未完成的桥段。</TSA_WD_BridgeReject_NotBridged>
+  <TSA_WD_BridgeReject_AmbiguousBridge>该河岸连接不止一座桥。请选择只属于一段桥的河岸。</TSA_WD_BridgeReject_AmbiguousBridge>
+  <TSA_WD_BridgeReject_SpanOccupied>桥上水域格被占用。</TSA_WD_BridgeReject_SpanOccupied>
+  <TSA_WD_BridgeReject_ProjectLocked>另一个建桥工程已占用该跨度的部分格子。</TSA_WD_BridgeReject_ProjectLocked>
+  <TSA_WD_BridgeReject_ImpassableBank>其中一侧河岸不可通行。</TSA_WD_BridgeReject_ImpassableBank>
+  <TSA_WD_BridgeReject_NotStraightOrTooLong>两岸之间需要 1 到 {0} 格的水域走廊。</TSA_WD_BridgeReject_NotStraightOrTooLong>
+  <TSA_WD_BridgeReject_SameShore>桥梁必须通向对岸，不能沿着同一侧岸线建造。</TSA_WD_BridgeReject_SameShore>
+  <TSA_WD_BridgeReject_Invalid>无效的建桥目标。</TSA_WD_BridgeReject_Invalid>
+  <TSA_WD_Bridge_MovementDifficultyBase>桥梁</TSA_WD_Bridge_MovementDifficultyBase>
+  <TSA_WD_BridgeOccupant_Ambush>商队冲突</TSA_WD_BridgeOccupant_Ambush>
+  <TSA_WD_BridgeOccupant_CampClash>营地冲突</TSA_WD_BridgeOccupant_CampClash>
+  <TSA_WD_BridgeDeconstructBlockedLetterLabel>拆桥受阻</TSA_WD_BridgeDeconstructBlockedLetterLabel>
+  <TSA_WD_BridgeDeconstructBlockedLetterText>来自 {0} 的拆桥施工队已抵达，但 {1} 仍在该格（{2}）。该段未拆除，其余桥面保留。</TSA_WD_BridgeDeconstructBlockedLetterText>
+  <TSA_WD_BridgeDeconstructBlockedMessage>来自 {0} 的拆桥已取消：{1} 位于格子 {2}。</TSA_WD_BridgeDeconstructBlockedMessage>
+  <TSA_WD_BridgeRemovedTravelerImpact>桥梁已拆除：{0} 名旅行者改道，{1} 项任务取消。</TSA_WD_BridgeRemovedTravelerImpact>
+  <TSA_WD_Log_BridgeCancelled>{0} 任务取消：建桥工程中止。</TSA_WD_Log_BridgeCancelled>
+  <TSA_WD_Log_BridgeDeconstructCancelled>{0} 任务取消：拆桥工程中止。</TSA_WD_Log_BridgeDeconstructCancelled>
+  <TSA_WD_Log_BridgePathInvalidated>{0} 任务取消：桥梁路径不再有效。</TSA_WD_Log_BridgePathInvalidated>
   <TSA_WD_CancelCurrentProjectFirst>请先取消当前工程</TSA_WD_CancelCurrentProjectFirst>
   <TSA_WD_InsufficientStrengthToBuild>实力不足以派出{0}</TSA_WD_InsufficientStrengthToBuild>
   <TSA_WD_InsufficientMaterialsToBuild>材料不足以派出{0}</TSA_WD_InsufficientMaterialsToBuild>
@@ -410,6 +465,9 @@
   <TSA_WD_Log_RoadCancelled>{0} 任务取消:道路已建成或起点丢失。</TSA_WD_Log_RoadCancelled>
   <TSA_WD_Log_Road_AbortedDanger>{0} 中止修路:敌方定居点 {1} 过近({2} 格)。</TSA_WD_Log_Road_AbortedDanger>
   <TSA_WD_Log_Road_ExpeditionLaunched>修路尝试:工人已派往铺设通往 {1} 的路线。</TSA_WD_Log_Road_ExpeditionLaunched>
+  <TSA_WD_Log_Road_HybridStarted>筑路:{0} 开始通往 {1} 的道路与桥梁廊道。</TSA_WD_Log_Road_HybridStarted>
+  <TSA_WD_Log_Road_HybridBridgeCrew>筑路:{0} 已派出桥梁队伍前往 {1}。</TSA_WD_Log_Road_HybridBridgeCrew>
+  <TSA_WD_Log_Road_HybridComplete>筑路:{0} 已完成通往 {1} 的道路与桥梁廊道。</TSA_WD_Log_Road_HybridComplete>
   <TSA_WD_Log_Road_Progress>{0} 向 {1} 铺设了道路格。剩余 {2} 格完成。</TSA_WD_Log_Road_Progress>
   <TSA_WD_Log_TravelerClash>商队冲突</TSA_WD_Log_TravelerClash>
   <TSA_WD_Log_NpcCaravanClash>{0} 商队与 {1} 交战（{2} 对 {3}）。</TSA_WD_Log_NpcCaravanClash>
@@ -1333,9 +1391,9 @@
   <TSA_WD_PawnDropPod_FallbackButtonUnset>回退</TSA_WD_PawnDropPod_FallbackButtonUnset>
   <TSA_WD_PawnDropPod_FallbackMenuLand>零件不足时：改陆路</TSA_WD_PawnDropPod_FallbackMenuLand>
   <TSA_WD_PawnDropPod_FallbackMenuAbort>零件不足时：取消派出</TSA_WD_PawnDropPod_FallbackMenuAbort>
-  <TSA_WD_PawnDropPod_CostLine>运输舱消耗：{0} 个工业零件（每位出行殖民者 1 个）</TSA_WD_PawnDropPod_CostLine>
-  <TSA_WD_PawnDropPod_TotalCost>总消耗：{0}x</TSA_WD_PawnDropPod_TotalCost>
-  <TSA_WD_PawnDropPod_StockLine>库存（殖民地 + 仓库）：{0}</TSA_WD_PawnDropPod_StockLine>
+  <TSA_WD_PawnDropPod_CostLine>消耗：{0} 个工业零件（每位出行殖民者 1 个）</TSA_WD_PawnDropPod_CostLine>
+  <TSA_WD_PawnDropPod_TotalCost>消耗：{0}</TSA_WD_PawnDropPod_TotalCost>
+  <TSA_WD_PawnDropPod_StockLine>可用（殖民地+全部仓库）：{0}</TSA_WD_PawnDropPod_StockLine>
   <TSA_WD_PawnDropPod_NoComponentCost>无工业零件消耗（陆路）。</TSA_WD_PawnDropPod_NoComponentCost>
   <TSA_WD_PawnDropPod_ShortStockNote>零件不足 — 发射前会再次确认。</TSA_WD_PawnDropPod_ShortStockNote>
   <TSA_WD_PawnDropPod_StillLaunchTitle>运输舱材料</TSA_WD_PawnDropPod_StillLaunchTitle>
@@ -1677,8 +1735,8 @@
   <TSA_WD_OutpostStats_Row_AtTurretHighestTierTip>根据累计建造技能与最低门槛，此前哨可开工的最佳 AT 炮塔类型。</TSA_WD_OutpostStats_Row_AtTurretHighestTierTip>
   <TSA_WD_OutpostStats_Row_RoadTimeDirt>土路段完工时间</TSA_WD_OutpostStats_Row_RoadTimeDirt>
   <TSA_WD_OutpostStats_Row_RoadTimeDirtTip>按当前累计建造技能估算完成一段土路所需天数（仅进度条填充，不含商队行程）。</TSA_WD_OutpostStats_Row_RoadTimeDirtTip>
-  <TSA_WD_OutpostStats_Row_RoadTimeStone>石路段完工时间</TSA_WD_OutpostStats_Row_RoadTimeStone>
-  <TSA_WD_OutpostStats_Row_RoadTimeStoneTip>按当前累计建造技能估算完成一段石路所需天数（仅进度条填充，不含商队行程）。</TSA_WD_OutpostStats_Row_RoadTimeStoneTip>
+  <TSA_WD_OutpostStats_Row_RoadTimeStone>石路/桥段完工时间</TSA_WD_OutpostStats_Row_RoadTimeStone>
+  <TSA_WD_OutpostStats_Row_RoadTimeStoneTip>按当前累计建造技能估算完成一段石路或一格桥面水域所需天数（仅进度条填充，不含商队行程）。</TSA_WD_OutpostStats_Row_RoadTimeStoneTip>
   <TSA_WD_OutpostStats_Row_RoadTimeAsphalt>沥青路段完工时间</TSA_WD_OutpostStats_Row_RoadTimeAsphalt>
   <TSA_WD_OutpostStats_Row_RoadTimeAsphaltTip>按当前累计建造技能估算完成一段沥青路所需天数（仅进度条填充，不含商队行程）。</TSA_WD_OutpostStats_Row_RoadTimeAsphaltTip>
   <TSA_WD_OutpostStats_Row_RoadTimeRoadBlock>路障段完工时间</TSA_WD_OutpostStats_Row_RoadTimeRoadBlock>

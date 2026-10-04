@@ -47,7 +47,7 @@ namespace TSA_WorldDomination
         public static FloatMenuOption MakeBuildSpikeTrapMenuOption(WorldObject outpost, CompViralSpread comp)
         {
             Texture2D icon = BuildSpikeTrapIcon;
-            bool roadBusy = comp.roadTargetTile != -1;
+            bool roadBusy = comp.roadTargetTile != -1 || WorldActions_BuildBridge.HasActiveBridgeProject(comp);
             bool blockBusy = WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp);
             bool trapBusy = WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp);
             bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp);
@@ -167,7 +167,7 @@ namespace TSA_WorldDomination
         public static FloatMenuOption MakeClearSpikeTrapMenuOption(WorldObject outpost, CompViralSpread comp)
         {
             Texture2D icon = ClearSpikeTrapIcon;
-            bool roadBusy = comp.roadTargetTile != -1;
+            bool roadBusy = comp.roadTargetTile != -1 || WorldActions_BuildBridge.HasActiveBridgeProject(comp);
             bool blockBusy = WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp);
             bool trapBusy = WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp);
             bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp);
@@ -420,8 +420,9 @@ namespace TSA_WorldDomination
                     if (Find.WorldGrid.ApproxDistanceInTiles(source.Tile, target.Tile) > range) return false;
 
                     PlanetTile pTile = new PlanetTile(target.Tile, layer);
-                    if (Find.World.Impassable(pTile)) return false;
-                    if (Find.WorldGrid.InBounds(target.Tile) && Find.WorldGrid[target.Tile].WaterCovered)
+                    bool bridged = WorldComponent_WdBridges.IsBridgedWaterTile(target.Tile.tileId);
+                    if (!bridged && Find.World.Impassable(pTile)) return false;
+                    if (Find.WorldGrid.InBounds(target.Tile) && Find.WorldGrid[target.Tile].WaterCovered && !bridged)
                         return false;
 
                     if (anchor < 0)

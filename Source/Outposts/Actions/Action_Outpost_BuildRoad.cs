@@ -112,23 +112,11 @@ namespace TSA_WorldDomination
                 return busy;
             }
 
-            if (WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp))
-            {
-                return new FloatMenuOption("TSA_WD_CancelCurrentProjectFirst".Translate(), () => { }, icon, Color.white)
-                {
-                    Disabled = true
-                };
-            }
-
-            if (WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp))
-            {
-                return new FloatMenuOption("TSA_WD_CancelCurrentProjectFirst".Translate(), () => { }, icon, Color.white)
-                {
-                    Disabled = true
-                };
-            }
-
-            if (WorldActions_Decontamination.HasActiveDecontaminationProject(comp))
+            if (WorldActions_BuildBridge.HasActiveBridgeProject(comp)
+                || WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp)
+                || WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp)
+                || WorldActions_Decontamination.HasActiveDecontaminationProject(comp)
+                || WorldActions_AtTurrets.HasActiveAtTurretProject(comp))
             {
                 return new FloatMenuOption("TSA_WD_CancelCurrentProjectFirst".Translate(), () => { }, icon, Color.white)
                 {
@@ -192,7 +180,7 @@ namespace TSA_WorldDomination
                 GetTotalConstructionSkill(outpost),
                 WorldActions_Roads.GetMinConstructionToBuildRoad(SettlementTier.T1),
                 ColonyWorldBuildRequirements.GetRequiredResearchForRoad(SettlementTier.T1),
-                ColonyWorldBuildRequirements.GetMaterialCostsForRoad(SettlementTier.T1));
+                ColonyWorldBuildMaterials.EmptyCostList);
             return removeRoads;
         }
 

@@ -37,7 +37,14 @@ namespace TSA_WorldDomination
             }
             if (!playerStart.IsValid) playerStart = map.Center;
 
-            if (!CellFinder.TryFindRandomEdgeCellWith(c => c.Standable(map) && (c - playerStart).LengthHorizontal > 30f, map, CellFinder.EdgeRoadChance_Neutral, out IntVec3 entryCell))
+            IntVec3 entryCell;
+            var bridgeClash = map.GetComponent<WD_MapComponent_CaravanClash>();
+            if (bridgeClash != null && bridgeClash.IsBridgeClash
+                && GenStep_WD_BridgeClash.TryFindStandableNear(map, GenStep_WD_BridgeClash.EastSpawnCell(map), out entryCell))
+            {
+                // Opposite end of the granite bridge from the player.
+            }
+            else if (!CellFinder.TryFindRandomEdgeCellWith(c => c.Standable(map) && (c - playerStart).LengthHorizontal > 30f, map, CellFinder.EdgeRoadChance_Neutral, out entryCell))
                 CellFinder.TryFindRandomEdgeCellWith(c => c.Standable(map), map, CellFinder.EdgeRoadChance_Neutral, out entryCell);
 
             IncidentParms incidentParms = new IncidentParms

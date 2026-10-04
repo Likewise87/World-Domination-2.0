@@ -49,6 +49,39 @@ namespace TSA_WorldDomination
             return false;
         }
 
+        /// <summary>
+        /// Resolve a delivery destination by ID without scanning <c>AllWorldObjects</c> (GUI hot path).
+        /// Valid targets are player map parents and player warehouse outposts.
+        /// </summary>
+        public static WorldObject TryFindWorldObjectById(int id)
+        {
+            if (id < 0) return null;
+
+            var maps = Find.Maps;
+            if (maps != null)
+            {
+                for (int i = 0; i < maps.Count; i++)
+                {
+                    MapParent mp = maps[i]?.Parent;
+                    if (mp != null && mp.ID == id)
+                        return mp;
+                }
+            }
+
+            IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
+            if (outposts != null)
+            {
+                for (int i = 0; i < outposts.Count; i++)
+                {
+                    WorldObject_WD_Outpost op = outposts[i];
+                    if (op != null && !op.Destroyed && op.ID == id)
+                        return op;
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>Nutrition-giving ingestible stock (same bar as caravan/pod → virtual food convert).</summary>
         public static bool IsNutritionGivingStock(ThingDef def)
             => def != null && def.ingestible != null && def.IsNutritionGivingIngestible;
@@ -188,8 +221,7 @@ namespace TSA_WorldDomination
 
             if (sender.itemDeliveryTargetWorldObjectId >= 0)
             {
-                WorldObject explicitTarget = Find.WorldObjects.AllWorldObjects.Find(
-                    o => o != null && o.ID == sender.itemDeliveryTargetWorldObjectId);
+                WorldObject explicitTarget = TryFindWorldObjectById(sender.itemDeliveryTargetWorldObjectId);
                 if (IsValidItemDeliveryDestination(explicitTarget, sender))
                 {
                     target = explicitTarget;
@@ -258,8 +290,7 @@ namespace TSA_WorldDomination
         public static WorldObject ResolveExplicitDeliveryTarget(WorldObject_WD_Outpost outpost)
         {
             if (outpost == null || outpost.itemDeliveryTargetWorldObjectId < 0) return null;
-            WorldObject wo = Find.WorldObjects.AllWorldObjects.Find(
-                o => o != null && o.ID == outpost.itemDeliveryTargetWorldObjectId);
+            WorldObject wo = TryFindWorldObjectById(outpost.itemDeliveryTargetWorldObjectId);
             return IsValidItemDeliveryDestination(wo, outpost) ? wo : null;
         }
 

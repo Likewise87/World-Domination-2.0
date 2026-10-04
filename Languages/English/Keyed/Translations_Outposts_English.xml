@@ -262,6 +262,61 @@
   <TSA_WD_BuildDesc>Construct roads, road blocks, or spike traps from this outpost.</TSA_WD_BuildDesc>
   <TSA_WD_ColonyBuildDesc>Construct roads, road blocks, or spike traps from your colony. Progress uses colony Construction skill. No strength cost.</TSA_WD_ColonyBuildDesc>
   <TSA_WD_BuildRoad>Build Road</TSA_WD_BuildRoad>
+  <TSA_WD_BuildBridge>Build Bridge</TSA_WD_BuildBridge>
+  <TSA_WD_BuildBridgeDesc>Build a stone road bridge over water (bank to bank, up to {0} water tiles). Pick both banks, then the outpost prepares like a road job. Each crew paves one water tile. Road blocks and traps can be placed on the bridge; AT Turrets cannot.</TSA_WD_BuildBridgeDesc>
+  <TSA_WD_BuildBridgeKindTip>{0} Any Stone Blocks per water tile, paid when that segment's crew leaves. Refunded only if that crew never paints. Resume does not recharge already-built tiles. Same skill and research as stone roads.</TSA_WD_BuildBridgeKindTip>
+  <TSA_WD_BridgeCostTip>Expedition strength per segment crew: {0}</TSA_WD_BridgeCostTip>
+  <TSA_WD_BuildBridgeStatus>Building bridge towards "{0}": {1}%</TSA_WD_BuildBridgeStatus>
+  <TSA_WD_DeconstructBridge>Deconstruct Bridge</TSA_WD_DeconstructBridge>
+  <TSA_WD_DeconstructBridgeDesc>Click either bank of a bridge or unfinished stub (up to {0} water tiles). The outpost then strips one edge per crew. Occupancy is checked on the water tile being stripped. Free (no material refund).</TSA_WD_DeconstructBridgeDesc>
+  <TSA_WD_DeconstructBridgeStatus>Tearing down bridge towards "{0}": {1}%</TSA_WD_DeconstructBridgeStatus>
+  <TSA_WD_CancelBridge>Cancel Bridge</TSA_WD_CancelBridge>
+  <TSA_WD_CancelBridgeDesc>Cancel the bridge project. Painted segments stay. An in-flight crew is refunded if it has not painted yet.</TSA_WD_CancelBridgeDesc>
+  <TSA_WD_CancelBridgeDeconstruct>Cancel Bridge Teardown</TSA_WD_CancelBridgeDeconstruct>
+  <TSA_WD_CancelBridgeDeconstructDesc>Cancel the teardown project. Remaining deck stays. An in-flight crew is refunded if it has not unlinked yet.</TSA_WD_CancelBridgeDeconstructDesc>
+  <TSA_WD_BridgeCancelled>Bridge project cancelled at {0}.</TSA_WD_BridgeCancelled>
+  <TSA_WD_BridgeDeconstructCancelled>Bridge teardown cancelled at {0}.</TSA_WD_BridgeDeconstructCancelled>
+  <TSA_WD_BridgeBuilt>Bridge completed from {0}.</TSA_WD_BridgeBuilt>
+  <TSA_WD_BridgeDeconstructed>Bridge removed by crew from {0}.</TSA_WD_BridgeDeconstructed>
+  <TSA_WD_BridgeCrewLaunched>Bridge crew launched from {0}.</TSA_WD_BridgeCrewLaunched>
+  <TSA_WD_BridgeCrewLaunchedWithStone>Bridge crew launched from {0}. Spent {1} Any Stone Blocks for this segment.</TSA_WD_BridgeCrewLaunchedWithStone>
+  <TSA_WD_BridgeDeconstructCrewLaunched>Bridge teardown crew launched from {0}.</TSA_WD_BridgeDeconstructCrewLaunched>
+  <TSA_WD_BridgeProjectSet>Bridge project set at {0}. Crews will leave as progress completes.</TSA_WD_BridgeProjectSet>
+  <TSA_WD_BridgeDeconstructProjectSet>Bridge teardown set at {0}. Crews will leave as progress completes.</TSA_WD_BridgeDeconstructProjectSet>
+  <TSA_WD_BridgeSegmentComplete>{0} has finished paving a bridge segment.</TSA_WD_BridgeSegmentComplete>
+  <TSA_WD_BridgeDeconstructSegmentComplete>{0} has finished removing a bridge segment.</TSA_WD_BridgeDeconstructSegmentComplete>
+  <TSA_WD_BridgeLaunchFailed>Could not launch the bridge crew (strength, materials, or path).</TSA_WD_BridgeLaunchFailed>
+  <TSA_WD_BridgeStartBankSelected>Start bank selected. Click the land bank on the other side.</TSA_WD_BridgeStartBankSelected>
+  <TSA_WD_BridgeTip_PickStartBank>Click a land bank next to water where the bridge should start.</TSA_WD_BridgeTip_PickStartBank>
+  <TSA_WD_BridgeTip_PickEndBank>Click the opposite land bank (water span, max {0} tiles). Orange shows max bridge range from the start bank.</TSA_WD_BridgeTip_PickEndBank>
+  <TSA_WD_BridgeTip_PickEndBankDeconstruct>Click the opposite land bank of an existing bridge (max {0} water tiles). Orange shows max range from the start bank.</TSA_WD_BridgeTip_PickEndBankDeconstruct>
+  <TSA_WD_BridgeTip_PickBankDeconstruct>Click either bank of an existing bridge to tear it down. Orange shows outpost range.</TSA_WD_BridgeTip_PickBankDeconstruct>
+  <TSA_WD_BridgeReject_NeedLandBanks>Both ends must be land banks (not water).</TSA_WD_BridgeReject_NeedLandBanks>
+  <TSA_WD_BridgeReject_StartNotAdjacentToWater>Start bank must be next to a water tile.</TSA_WD_BridgeReject_StartNotAdjacentToWater>
+  <TSA_WD_BridgeReject_EndNotAdjacentToWater>End bank must be next to a water tile.</TSA_WD_BridgeReject_EndNotAdjacentToWater>
+  <TSA_WD_BridgeReject_OutOfBridgeRange>That tile is outside max bridge range from the start bank.</TSA_WD_BridgeReject_OutOfBridgeRange>
+  <TSA_WD_BridgeReject_SameTile>Pick two different banks.</TSA_WD_BridgeReject_SameTile>
+  <TSA_WD_BridgeReject_AlreadyBridged>That water span is already fully bridged.</TSA_WD_BridgeReject_AlreadyBridged>
+  <TSA_WD_BridgeReject_BankAlreadyUsed>That bank already has a bridge. Two bridges cannot share the same start or end tile.</TSA_WD_BridgeReject_BankAlreadyUsed>
+  <TSA_WD_StoneBridgeLabel>stone bridge</TSA_WD_StoneBridgeLabel>
+  <TSA_WD_BridgeReject_NotBridged>No bridge or unfinished stub from that bank.</TSA_WD_BridgeReject_NotBridged>
+  <TSA_WD_BridgeReject_AmbiguousBridge>That bank connects to more than one bridge. Pick a bank that belongs to only one span.</TSA_WD_BridgeReject_AmbiguousBridge>
+  <TSA_WD_BridgeReject_SpanOccupied>Something is occupying the bridge water tiles.</TSA_WD_BridgeReject_SpanOccupied>
+  <TSA_WD_BridgeReject_ProjectLocked>Another bridge project already claims part of that span.</TSA_WD_BridgeReject_ProjectLocked>
+  <TSA_WD_BridgeReject_ImpassableBank>One of the banks is impassable.</TSA_WD_BridgeReject_ImpassableBank>
+  <TSA_WD_BridgeReject_NotStraightOrTooLong>Need a water corridor of 1 to {0} tiles between the banks.</TSA_WD_BridgeReject_NotStraightOrTooLong>
+  <TSA_WD_BridgeReject_SameShore>Bridges must reach the opposite bank, not along the same shore.</TSA_WD_BridgeReject_SameShore>
+  <TSA_WD_BridgeReject_Invalid>Invalid bridge target.</TSA_WD_BridgeReject_Invalid>
+  <TSA_WD_Bridge_MovementDifficultyBase>Bridge</TSA_WD_Bridge_MovementDifficultyBase>
+  <TSA_WD_BridgeOccupant_Ambush>caravan clash</TSA_WD_BridgeOccupant_Ambush>
+  <TSA_WD_BridgeOccupant_CampClash>camp clash</TSA_WD_BridgeOccupant_CampClash>
+  <TSA_WD_BridgeDeconstructBlockedLetterLabel>Bridge teardown blocked</TSA_WD_BridgeDeconstructBlockedLetterLabel>
+  <TSA_WD_BridgeDeconstructBlockedLetterText>The bridge teardown crew from {0} arrived, but {1} was on that tile ({2}). That segment was left in place; remaining deck was not torn down.</TSA_WD_BridgeDeconstructBlockedLetterText>
+  <TSA_WD_BridgeDeconstructBlockedMessage>Bridge teardown from {0} cancelled: {1} on tile {2}.</TSA_WD_BridgeDeconstructBlockedMessage>
+  <TSA_WD_BridgeRemovedTravelerImpact>Bridge removed: {0} traveler(s) rerouted, {1} mission(s) cancelled.</TSA_WD_BridgeRemovedTravelerImpact>
+  <TSA_WD_Log_BridgeCancelled>{0} mission cancelled: bridge project aborted.</TSA_WD_Log_BridgeCancelled>
+  <TSA_WD_Log_BridgeDeconstructCancelled>{0} mission cancelled: bridge teardown aborted.</TSA_WD_Log_BridgeDeconstructCancelled>
+  <TSA_WD_Log_BridgePathInvalidated>{0} mission cancelled: bridge path no longer valid.</TSA_WD_Log_BridgePathInvalidated>
   <TSA_WD_CancelCurrentProjectFirst>Cancel Current Project first</TSA_WD_CancelCurrentProjectFirst>
   <TSA_WD_InsufficientStrengthToBuild>Insufficient Strength to Deliver {0}</TSA_WD_InsufficientStrengthToBuild>
   <TSA_WD_InsufficientStrengthToClear>Insufficient Strength to Clear {0}</TSA_WD_InsufficientStrengthToClear>
@@ -485,6 +540,9 @@
   <TSA_WD_Log_RoadCancelled>{0} mission cancelled: Road already built or origin lost.</TSA_WD_Log_RoadCancelled>
   <TSA_WD_Log_Road_AbortedDanger>{0} aborted road construction: Enemy settlement {1} is too close ({2} tiles).</TSA_WD_Log_Road_AbortedDanger>
   <TSA_WD_Log_Road_ExpeditionLaunched>ROAD BUILDING ATTEMPT: Workers dispatched to pave the route to {1}.</TSA_WD_Log_Road_ExpeditionLaunched>
+  <TSA_WD_Log_Road_HybridStarted>ROAD: {0} began a road-and-bridge corridor to {1}.</TSA_WD_Log_Road_HybridStarted>
+  <TSA_WD_Log_Road_HybridBridgeCrew>ROAD: {0} dispatched a bridge crew toward {1}.</TSA_WD_Log_Road_HybridBridgeCrew>
+  <TSA_WD_Log_Road_HybridComplete>ROAD: {0} finished the road-and-bridge corridor to {1}.</TSA_WD_Log_Road_HybridComplete>
   <TSA_WD_Log_Road_Progress>{0} built road tile towards {1}. {2} tiles remaining for completion.</TSA_WD_Log_Road_Progress>
   <TSA_WD_Log_TravelerClash>Caravan clash</TSA_WD_Log_TravelerClash>
   <TSA_WD_Log_NpcCaravanClash>{0} caravan fought {1} ({2} vs {3}).</TSA_WD_Log_NpcCaravanClash>
@@ -1441,9 +1499,9 @@
   <TSA_WD_PawnDropPod_FallbackButtonUnset>Fallback</TSA_WD_PawnDropPod_FallbackButtonUnset>
   <TSA_WD_PawnDropPod_FallbackMenuLand>If short on components: travel by land</TSA_WD_PawnDropPod_FallbackMenuLand>
   <TSA_WD_PawnDropPod_FallbackMenuAbort>If short on components: abort launch</TSA_WD_PawnDropPod_FallbackMenuAbort>
-  <TSA_WD_PawnDropPod_CostLine>Drop pod cost: {0} industrial component(s) (1 component per traveling pawn)</TSA_WD_PawnDropPod_CostLine>
-  <TSA_WD_PawnDropPod_TotalCost>Total Cost: {0}x</TSA_WD_PawnDropPod_TotalCost>
-  <TSA_WD_PawnDropPod_StockLine>In stock (colonies + warehouses): {0}</TSA_WD_PawnDropPod_StockLine>
+  <TSA_WD_PawnDropPod_CostLine>Cost: {0} industrial component(s) (1 per traveling pawn)</TSA_WD_PawnDropPod_CostLine>
+  <TSA_WD_PawnDropPod_TotalCost>Cost: {0}</TSA_WD_PawnDropPod_TotalCost>
+  <TSA_WD_PawnDropPod_StockLine>Available (Colony+all Warehouses): {0}</TSA_WD_PawnDropPod_StockLine>
   <TSA_WD_PawnDropPod_NoComponentCost>No industrial component cost (land travel).</TSA_WD_PawnDropPod_NoComponentCost>
   <TSA_WD_PawnDropPod_ShortStockNote>Short on components. You will be asked before launching.</TSA_WD_PawnDropPod_ShortStockNote>
   <TSA_WD_PawnDropPod_StillLaunchTitle>Drop pod materials</TSA_WD_PawnDropPod_StillLaunchTitle>
@@ -1800,8 +1858,8 @@
   <TSA_WD_OutpostStats_Row_AtTurretHighestTierTip>Best AT Turret type this outpost can start, based on cumulative Construction skill vs. minimum thresholds.</TSA_WD_OutpostStats_Row_AtTurretHighestTierTip>
   <TSA_WD_OutpostStats_Row_RoadTimeDirt>Time per dirt segment</TSA_WD_OutpostStats_Row_RoadTimeDirt>
   <TSA_WD_OutpostStats_Row_RoadTimeDirtTip>Estimated days to prepare one dirt road segment at current cumulative Construction skill (progress bar fill only; excludes caravan travel).</TSA_WD_OutpostStats_Row_RoadTimeDirtTip>
-  <TSA_WD_OutpostStats_Row_RoadTimeStone>Time per stone segment</TSA_WD_OutpostStats_Row_RoadTimeStone>
-  <TSA_WD_OutpostStats_Row_RoadTimeStoneTip>Estimated days to prepare one stone road segment at current cumulative Construction skill (progress bar fill only; excludes caravan travel).</TSA_WD_OutpostStats_Row_RoadTimeStoneTip>
+  <TSA_WD_OutpostStats_Row_RoadTimeStone>Time per stone / bridge segment</TSA_WD_OutpostStats_Row_RoadTimeStone>
+  <TSA_WD_OutpostStats_Row_RoadTimeStoneTip>Estimated days to prepare one stone road segment or one bridge water tile at current cumulative Construction skill (progress bar fill only; excludes caravan travel).</TSA_WD_OutpostStats_Row_RoadTimeStoneTip>
   <TSA_WD_OutpostStats_Row_RoadTimeAsphalt>Time per asphalt segment</TSA_WD_OutpostStats_Row_RoadTimeAsphalt>
   <TSA_WD_OutpostStats_Row_RoadTimeAsphaltTip>Estimated days to prepare one asphalt road segment at current cumulative Construction skill (progress bar fill only; excludes caravan travel).</TSA_WD_OutpostStats_Row_RoadTimeAsphaltTip>
   <TSA_WD_OutpostStats_Row_RoadTimeRoadBlockLight>Time per light road block</TSA_WD_OutpostStats_Row_RoadTimeRoadBlockLight>

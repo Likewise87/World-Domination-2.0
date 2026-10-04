@@ -122,11 +122,11 @@ namespace TSA_WorldDomination
         {
             if (settlement == null) return 0;
             int count = 0;
-            var all = Find.WorldObjects?.AllWorldObjects;
-            if (all == null) return 0;
-            for (int i = 0; i < all.Count; i++)
+            IReadOnlyList<WorldObject_AT_Turret> live = WorldObject_AT_Turret.LiveTurrets;
+            for (int i = 0; i < live.Count; i++)
             {
-                if (all[i] is WorldObject_AT_Turret t && !t.Destroyed && t.builtBySettlement == settlement)
+                WorldObject_AT_Turret t = live[i];
+                if (t != null && !t.Destroyed && t.builtBySettlement == settlement)
                     count++;
             }
             return count;
@@ -135,11 +135,11 @@ namespace TSA_WorldDomination
         public static int CountPlayerTurrets()
         {
             int count = 0;
-            var all = Find.WorldObjects?.AllWorldObjects;
-            if (all == null) return 0;
-            for (int i = 0; i < all.Count; i++)
+            IReadOnlyList<WorldObject_AT_Turret> live = WorldObject_AT_Turret.LiveTurrets;
+            for (int i = 0; i < live.Count; i++)
             {
-                if (all[i] is WorldObject_AT_Turret t && !t.Destroyed && t.Faction?.IsPlayer == true)
+                WorldObject_AT_Turret t = live[i];
+                if (t != null && !t.Destroyed && t.Faction?.IsPlayer == true)
                     count++;
             }
             return count;
@@ -153,11 +153,11 @@ namespace TSA_WorldDomination
         {
             if (site == null || site.Destroyed) return 0;
             int count = 0;
-            var all = Find.WorldObjects?.AllWorldObjects;
-            if (all == null) return 0;
-            for (int i = 0; i < all.Count; i++)
+            IReadOnlyList<WorldObject_AT_Turret> live = WorldObject_AT_Turret.LiveTurrets;
+            for (int i = 0; i < live.Count; i++)
             {
-                if (!(all[i] is WorldObject_AT_Turret t) || t.Destroyed) continue;
+                WorldObject_AT_Turret t = live[i];
+                if (t == null || t.Destroyed) continue;
                 if (t.builtBySite != null)
                 {
                     if (t.builtBySite == site)
@@ -309,12 +309,13 @@ namespace TSA_WorldDomination
 
         public static int CountInFlightTurretCrewsFrom(WorldObject origin)
         {
-            if (origin == null || Find.WorldObjects == null) return 0;
+            if (origin == null) return 0;
             int count = 0;
-            var all = Find.WorldObjects.AllWorldObjects;
-            for (int i = 0; i < all.Count; i++)
+            IReadOnlyList<WorldObject_Traveler> live = WorldObject_Traveler.LiveTravelers;
+            for (int i = 0; i < live.Count; i++)
             {
-                if (!(all[i] is WorldObject_Traveler t) || t.Destroyed) continue;
+                WorldObject_Traveler t = live[i];
+                if (t == null || t.Destroyed) continue;
                 if (t.originObject != origin) continue;
                 if (t.mission == TravelerMission.NpcAtTurret || t.mission == TravelerMission.AtTurret)
                     count++;
@@ -324,12 +325,12 @@ namespace TSA_WorldDomination
 
         public static int CountInFlightPlayerTurretCrews()
         {
-            if (Find.WorldObjects == null) return 0;
             int count = 0;
-            var all = Find.WorldObjects.AllWorldObjects;
-            for (int i = 0; i < all.Count; i++)
+            IReadOnlyList<WorldObject_Traveler> live = WorldObject_Traveler.LiveTravelers;
+            for (int i = 0; i < live.Count; i++)
             {
-                if (!(all[i] is WorldObject_Traveler t) || t.Destroyed) continue;
+                WorldObject_Traveler t = live[i];
+                if (t == null || t.Destroyed) continue;
                 if (t.Faction?.IsPlayer != true) continue;
                 if (t.mission == TravelerMission.AtTurret)
                     count++;
@@ -340,12 +341,12 @@ namespace TSA_WorldDomination
         public static void DestroyTurretsBuiltBy(Settlement settlement)
         {
             if (settlement == null) return;
-            var all = Find.WorldObjects?.AllWorldObjects;
-            if (all == null) return;
+            IReadOnlyList<WorldObject_AT_Turret> live = WorldObject_AT_Turret.LiveTurrets;
             List<WorldObject_AT_Turret> doomed = null;
-            for (int i = 0; i < all.Count; i++)
+            for (int i = 0; i < live.Count; i++)
             {
-                if (!(all[i] is WorldObject_AT_Turret t) || t.Destroyed) continue;
+                WorldObject_AT_Turret t = live[i];
+                if (t == null || t.Destroyed) continue;
                 if (t.builtBySettlement != settlement) continue;
                 doomed ??= new List<WorldObject_AT_Turret>();
                 doomed.Add(t);
@@ -397,6 +398,8 @@ namespace TSA_WorldDomination
         /// </summary>
         public static bool IsPlayerBuildableTurretTile(int tileId)
         {
+            // AT turrets never on bridged water (blocks/traps may use that carve).
+            if (WorldComponent_WdBridges.IsBridgedWaterTile(tileId)) return false;
             if (!WorldActions_RoadBlocks.IsTileBaseEligibleForRoadBlock(tileId)) return false;
             if (WorldComponent_RoadBlocks.Get()?.HasBlockAt(tileId) == true) return false;
             if (WorldComponent_SpikeTraps.Get()?.HasTrapAt(tileId) == true) return false;
@@ -478,6 +481,7 @@ namespace TSA_WorldDomination
         /// <summary>Empty site for an AT gun. When <paramref name="requireOffRoad"/> is false, road tiles are allowed.</summary>
         public static bool IsEmptyTurretSite(int tileId, bool requireOffRoad = true)
         {
+            if (WorldComponent_WdBridges.IsBridgedWaterTile(tileId)) return false;
             if (!WorldActions_RoadBlocks.IsTileBaseEligibleForRoadBlock(tileId)) return false;
             if (requireOffRoad && TileHasRoad(tileId)) return false;
             if (WorldComponent_RoadBlocks.Get()?.HasBlockAt(tileId) == true) return false;

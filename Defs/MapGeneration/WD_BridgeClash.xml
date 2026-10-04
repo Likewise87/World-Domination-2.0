@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <GenStepDef>
+    <defName>WD_BridgeClashTerrain</defName>
+    <order>210</order>
+    <genStep Class="TSA_WorldDomination.GenStep_WD_BridgeClash"/>
+  </GenStepDef>
+
+  <MapGeneratorDef>
+    <defName>WD_BridgeClash</defName>
+    <genSteps>
+      <li>WD_BridgeClashTerrain</li>
+      <li>FindPlayerStartSpot</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+</Defs>

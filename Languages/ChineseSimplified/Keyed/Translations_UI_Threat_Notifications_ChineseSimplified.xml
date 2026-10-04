@@ -206,7 +206,9 @@
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>以下前哨已准备好派出施工队但实力不足：</TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>- {0}：{1}</TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>
   <TSA_WD_Notify_ConstructionInsufficientMaterials>显示建造材料不足警报（右侧）</TSA_WD_Notify_ConstructionInsufficientMaterials>
-  <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>当前哨站已准备好道路、工事或 AT 施工段，但材料不足以派出施工队时，在右侧警报栏显示静默持续警报。点击跳转到相关前哨。</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
+  <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>当前哨站已准备好道路、桥梁段、工事或 AT 施工段，但材料不足以派出施工队时，在右侧警报栏显示静默持续警报。点击跳转到相关前哨。</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
+  <TSA_WD_Notify_BridgeDeconstructBlocked>拆桥受阻时显示信件</TSA_WD_Notify_BridgeDeconstructBlocked>
+  <TSA_WD_Notify_BridgeDeconstructBlockedTooltip>拆桥施工队抵达时若跨度被占用，显示黄色 NeutralEvent 信件并点名阻挡者。关闭后仅显示消息。</TSA_WD_Notify_BridgeDeconstructBlockedTooltip>
   <TSA_WD_Alert_ConstructionInsufficientMaterials>WD：建造等待材料</TSA_WD_Alert_ConstructionInsufficientMaterials>
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>以下前哨已准备好派出施工队但材料不足：</TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>- {0}：{1}</TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>

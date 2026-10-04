@@ -67,7 +67,7 @@ namespace TSA_WorldDomination
                 { Disabled = true };
             }
 
-            bool roadBusy = comp.roadTargetTile != -1;
+            bool roadBusy = comp.roadTargetTile != -1 || WorldActions_BuildBridge.HasActiveBridgeProject(comp);
             bool blockBusy = WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp);
             bool trapBusy = WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp);
             bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp);
@@ -184,7 +184,7 @@ namespace TSA_WorldDomination
                         return false;
                     }
 
-                    if (!WorldActions_AtTurrets.IsValidBuildTile(tileId, source.Faction))
+                    if (!WorldActions_AtTurrets.IsValidBuildTile(tileId, source.Faction, comp))
                     {
                         Messages.Message("TSA_WD_AT_Turret_InvalidTile".Translate(), MessageTypeDefOf.RejectInput);
                         return false;
@@ -249,7 +249,7 @@ namespace TSA_WorldDomination
                     int mouseTile = GenWorld.MouseTile();
                     if (mouseTile >= 0
                         && Find.WorldGrid.ApproxDistanceInTiles(source.Tile.tileId, mouseTile) <= range + 0.01f
-                        && WorldActions_AtTurrets.IsValidBuildTile(mouseTile, source.Faction)
+                        && WorldActions_AtTurrets.IsValidBuildTile(mouseTile, source.Faction, comp)
                         && !sessionTiles.Contains(mouseTile))
                     {
                         Action_Outpost_BuildRoad.DrawOrangeStar(mouseTile);
@@ -270,7 +270,7 @@ namespace TSA_WorldDomination
                     float dist = Find.WorldGrid.ApproxDistanceInTiles(source.Tile.tileId, tileId);
                     if (dist > range + 0.01f) return false;
                     if (sessionTiles.Contains(tileId)) return false;
-                    return WorldActions_AtTurrets.IsValidBuildTile(tileId, source.Faction);
+                    return WorldActions_AtTurrets.IsValidBuildTile(tileId, source.Faction, comp);
                 },
                 null,
                 true);

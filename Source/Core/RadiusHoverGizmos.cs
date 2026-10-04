@@ -39,6 +39,9 @@ namespace TSA_WorldDomination
         private static Texture2D cachedTurretAttackOn;
         private static Texture2D cachedTurretAttackOff;
 
+        private static readonly Dictionary<long, string> descCache = new Dictionary<long, string>();
+        private static int descCacheSettingsFingerprint = int.MinValue;
+
         public static IEnumerable<Gizmo> GetForOutpost(WorldObject_WD_Outpost outpost)
         {
             if (outpost == null || outpost.Destroyed || outpost.Faction != Faction.OfPlayer)
@@ -236,18 +239,69 @@ namespace TSA_WorldDomination
         {
             Texture2D on = cachedOn ??= ContentFinder<Texture2D>.Get(texPath, false) ?? fallback;
             Texture2D off = cachedOff ??= ContentFinder<Texture2D>.Get(texPath + "_Off", false) ?? on;
-            string desc = descKey.Translate(rangeLabel).ToString();
-            if (!extraDesc.NullOrEmpty())
-                desc += extraDesc;
             return new Command_RadiusOverlayToggle
             {
                 defaultLabel = labelKey.Translate(),
-                defaultDesc = desc,
+                defaultDesc = GetCachedDesc(category, kind, descKey, rangeLabel, extraDesc),
                 iconOn = on,
                 iconOff = off,
                 isActive = () => WD_RadiusOverlayPrefs.IsActive(category, kind),
                 toggleAction = () => WD_RadiusOverlayPrefs.Toggle(category, kind)
             };
+        }
+
+        private static string GetCachedDesc(
+            WD_RadiusOverlayCategory category,
+            WD_RadiusOverlayKind kind,
+            string descKey,
+            string rangeLabel,
+            string extraDesc)
+        {
+            int settingsFp = GetSettingsDescFingerprint();
+            if (settingsFp != descCacheSettingsFingerprint)
+            {
+                descCache.Clear();
+                descCacheSettingsFingerprint = settingsFp;
+            }
+
+            long key = ((long)(int)category << 48)
+                ^ ((long)(int)kind << 40)
+                ^ ((long)(rangeLabel?.GetHashCode() ?? 0) << 8)
+                ^ (extraDesc?.GetHashCode() ?? 0);
+            if (descCache.TryGetValue(key, out string cached) && cached != null)
+                return cached;
+
+            string desc = descKey.Translate(rangeLabel).ToString();
+            if (!extraDesc.NullOrEmpty())
+                desc += extraDesc;
+            descCache[key] = desc;
+            return desc;
+        }
+
+        private static int GetSettingsDescFingerprint()
+        {
+            var s = WorldDominationMod.settings;
+            if (s == null) return 0;
+            unchecked
+            {
+                int h = s.maxLogisticsRange.GetHashCode();
+                h = h * 31 + s.mortarHitChance0To50PctRange.GetHashCode();
+                h = h * 31 + s.mortarHitChance51To75PctRange.GetHashCode();
+                h = h * 31 + s.mortarHitChance76To100PctRange.GetHashCode();
+                h = h * 31 + s.antiAirHitChance0To50PctRange.GetHashCode();
+                h = h * 31 + s.antiAirHitChance51To75PctRange.GetHashCode();
+                h = h * 31 + s.antiAirHitChance76To100PctRange.GetHashCode();
+                h = h * 31 + s.npcMortarHitChance0To50PctRange.GetHashCode();
+                h = h * 31 + s.npcMortarHitChance51To75PctRange.GetHashCode();
+                h = h * 31 + s.npcMortarHitChance76To100PctRange.GetHashCode();
+                h = h * 31 + s.npcAntiAirHitChance0To50PctRange.GetHashCode();
+                h = h * 31 + s.npcAntiAirHitChance51To75PctRange.GetHashCode();
+                h = h * 31 + s.npcAntiAirHitChance76To100PctRange.GetHashCode();
+                h = h * 31 + s.atTurretHitChance0To50PctRange.GetHashCode();
+                h = h * 31 + s.atTurretHitChance51To75PctRange.GetHashCode();
+                h = h * 31 + s.atTurretHitChance76To100PctRange.GetHashCode();
+                return h;
+            }
         }
 
         private static string GetAttackRangeLabel(WorldObject_WD_Outpost outpost)

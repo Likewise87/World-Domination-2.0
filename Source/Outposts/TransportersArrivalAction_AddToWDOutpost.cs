@@ -26,16 +26,23 @@ namespace TSA_WorldDomination
 
         public override void Arrived(List<ActiveTransporterInfo> transporters, PlanetTile tile)
         {
-            if (outpost == null || !outpost.Spawned) return;
-
             List<Thing> list = new List<Thing>();
-            for (int i = 0; i < transporters.Count; i++)
+            if (transporters != null)
             {
-                foreach (Thing thing in transporters[i].innerContainer)
+                for (int i = 0; i < transporters.Count; i++)
                 {
-                    if (thing != null)
-                        list.Add(thing);
+                    foreach (Thing thing in transporters[i].innerContainer)
+                    {
+                        if (thing != null)
+                            list.Add(thing);
+                    }
                 }
+            }
+
+            if (outpost == null || !outpost.Spawned)
+            {
+                DumpTransporterThingsAsCaravan(list, tile.tileId);
+                return;
             }
 
             // Mid-flight / reinforce: drop onto the active defense map as extras (not into virtual garrison).
@@ -120,7 +127,7 @@ namespace TSA_WorldDomination
                     continue;
                 }
                 Messages.Message("TSA_WD_PodArrival_ItemNotStored".Translate(thing.Label), MessageTypeDefOf.NeutralEvent);
-                thing.Destroy(DestroyMode.Vanish);
+                OutpostStorageUtility.RefundUnstoredThing(thing);
             }
             if (storedThings > 0)
                 Messages.Message(

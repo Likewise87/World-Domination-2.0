@@ -34,17 +34,12 @@ namespace TSA_WorldDomination
             if (bestDiplomat == null) yield break;
             int skill = bestDiplomat.skills.GetSkill(SkillDefOf.Social).Level;
 
-            var snapshot = new List<(Settlement Settlement, CompViralSpread Comp)>(neighborSettlements.Count);
-            for (int i = 0; i < neighborSettlements.Count; i++)
-                snapshot.Add(neighborSettlements[i]);
-
             bool anyAvailable = false;
-            for (int ti = 0; ti < snapshot.Count; ti++)
+            for (int ti = 0; ti < neighborSettlements.Count; ti++)
             {
-                if (!snapshot[ti].Comp.IsEspionageOnCooldown) { anyAvailable = true; break; }
+                if (!neighborSettlements[ti].Comp.IsEspionageOnCooldown) { anyAvailable = true; break; }
             }
 
-            CompViralSpread singleComp = snapshot.Count == 1 ? snapshot[0].Comp : null;
             Pawn diplomat = bestDiplomat;
 
             Command_Action disinformation = new Command_Action
@@ -55,34 +50,36 @@ namespace TSA_WorldDomination
                     : (cachedIconCooldown ?? (cachedIconCooldown = ContentFinder<Texture2D>.Get("UI/Commands/Disinformation_Cooldown", false) ?? TexCommand.ForbidOff)),
                 action = () =>
                 {
+                    var snapshot = new List<(Settlement Settlement, CompViralSpread Comp)>();
+                    Patch_CaravanGetGizmos.FillNeighborNpcSettlements(caravan, snapshot);
+                    if (snapshot.Count == 0) return;
                     if (snapshot.Count == 1)
                     {
-                        ExecuteDisinformation(singleComp, caravan, diplomat);
+                        ExecuteDisinformation(snapshot[0].Comp, caravan, diplomat);
+                        return;
                     }
-                    else
-                    {
-                        List<FloatMenuOption> options = new List<FloatMenuOption>();
-                        for (int i = 0; i < snapshot.Count; i++)
-                        {
-                            var target = snapshot[i];
-                            float displayChance = GetCurrentDisChance(target.Comp, diplomat, seth);
-                            string label = "TSA_WD_Dis_MenuOption".Translate(target.Settlement.LabelCap, target.Comp.tier.ToString(), displayChance.ToString("P0"));
 
-                            if (target.Comp.IsEspionageOnCooldown)
-                            {
-                                options.Add(new FloatMenuOption(label + " " + "TSA_WD_OnCooldown".Translate(), null));
-                            }
-                            else
-                            {
-                                CompViralSpread clickComp = target.Comp;
-                                options.Add(new FloatMenuOption(label, () =>
-                                {
-                                    ExecuteDisinformation(clickComp, caravan, diplomat);
-                                }));
-                            }
+                    List<FloatMenuOption> options = new List<FloatMenuOption>();
+                    for (int i = 0; i < snapshot.Count; i++)
+                    {
+                        var target = snapshot[i];
+                        float displayChance = GetCurrentDisChance(target.Comp, diplomat, seth);
+                        string label = "TSA_WD_Dis_MenuOption".Translate(target.Settlement.LabelCap, target.Comp.tier.ToString(), displayChance.ToString("P0"));
+
+                        if (target.Comp.IsEspionageOnCooldown)
+                        {
+                            options.Add(new FloatMenuOption(label + " " + "TSA_WD_OnCooldown".Translate(), null));
                         }
-                        Find.WindowStack.Add(new FloatMenu(options));
+                        else
+                        {
+                            CompViralSpread clickComp = target.Comp;
+                            options.Add(new FloatMenuOption(label, () =>
+                            {
+                                ExecuteDisinformation(clickComp, caravan, diplomat);
+                            }));
+                        }
                     }
+                    Find.WindowStack.Add(new FloatMenu(options));
                 }
             };
 
@@ -91,10 +88,10 @@ namespace TSA_WorldDomination
                 disinformation.Disable("TSA_WD_Dis_DisabledAlert".Translate());
             }
 
-            var primeTarget = snapshot[0];
-            for (int ti = 0; ti < snapshot.Count; ti++)
+            var primeTarget = neighborSettlements[0];
+            for (int ti = 0; ti < neighborSettlements.Count; ti++)
             {
-                if (!snapshot[ti].Comp.IsEspionageOnCooldown) { primeTarget = snapshot[ti]; break; }
+                if (!neighborSettlements[ti].Comp.IsEspionageOnCooldown) { primeTarget = neighborSettlements[ti]; break; }
             }
             int tier = (int)primeTarget.Comp.tier;
             float healthMult = GetPawnHealthFactor(diplomat, seth);

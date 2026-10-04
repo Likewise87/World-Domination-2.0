@@ -47,7 +47,7 @@ namespace TSA_WorldDomination
 
             if (outpost != null)
             {
-                rrTargetMask = outpost.RapidResponseMask;
+                rrTargetMask = outpost.RapidResponseMask & ~MissionMask.Logistics;
                 if (!outpost.RapidResponseActive)
                     rrTargetMask = MissionMask.None;
                 rrRaidTargetMask = outpost.RapidResponseRaidTargetMask;
@@ -135,8 +135,6 @@ namespace TSA_WorldDomination
             DrawMaskCheckboxRow(new Rect(lx, ly, innerW, RrRowH), "TSA_WD_Mortar_AutoAttack_Menu_Trader".Translate(), MissionMask.Trader, "TSA_WD_RapidResponse_Tip_TargetTrader".Translate());
             ly += RrRowH;
             DrawMaskCheckboxRow(new Rect(lx, ly, innerW, RrRowH), "TSA_WD_Mortar_AutoAttack_Menu_Fortify".Translate(), MissionMask.Fortify, "TSA_WD_RapidResponse_Tip_TargetFortify".Translate());
-            ly += RrRowH;
-            DrawMaskCheckboxRow(new Rect(lx, ly, innerW, RrRowH), "TSA_WD_Mortar_AutoAttack_Menu_Logistics".Translate(), MissionMask.Logistics, "TSA_WD_RapidResponse_Tip_TargetLogistics".Translate());
 
             float rx = rightBox.x + RrSectionPad;
             float ry = rightBox.y + RrSectionPad;
@@ -219,8 +217,9 @@ namespace TSA_WorldDomination
             float max = RapidResponseUtility.GetConfiguredMaxRangeTiles();
             float min = Mathf.Min(MinTiles, max);
             float value = Mathf.Clamp(sliderValue, min, max);
-            outpost.SetRapidResponseActive(rrTargetMask != MissionMask.None);
-            outpost.SetRapidResponseMask(rrTargetMask == MissionMask.None ? MissionMask.Raider : rrTargetMask);
+            MissionMask commitMask = rrTargetMask & ~MissionMask.Logistics;
+            outpost.SetRapidResponseActive(commitMask != MissionMask.None);
+            outpost.SetRapidResponseMask(commitMask == MissionMask.None ? MissionMask.Raider : commitMask);
             outpost.SetRapidResponseRaidTargetMask(rrRaidTargetMask);
             outpost.SetRapidResponseMinStrengthRatio(rrMinStrengthRatio);
             outpost.SetRapidResponseMaxStrengthRatio(rrMaxStrengthRatio);

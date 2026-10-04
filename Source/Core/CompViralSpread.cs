@@ -258,11 +258,11 @@ namespace TSA_WorldDomination
                 best = s;
             }
 
-            var all = Find.WorldObjects.AllWorldObjects;
-            for (int i = 0; i < all.Count; i++)
+            IReadOnlyList<WorldObject_AT_Turret> liveTurrets = WorldObject_AT_Turret.LiveTurrets;
+            for (int i = 0; i < liveTurrets.Count; i++)
             {
-                if (!(all[i] is WorldObject_AT_Turret at)) continue;
-                if (at.Destroyed || at.Faction == null) continue;
+                WorldObject_AT_Turret at = liveTurrets[i];
+                if (at == null || at.Destroyed || at.Faction == null) continue;
                 if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(at)) continue;
                 if (!WorldActions_Utils.SafeHostileTo(at.Faction, iFaction)) continue;
                 if (at.Faction.IsPlayer && (!canTargetPlayer || player == null)) continue;
@@ -507,6 +507,33 @@ namespace TSA_WorldDomination
         /// <summary>True while a road builder traveler from this outpost is en route. Set when we launch, cleared when traveler is destroyed (event-based).</summary>
         private bool builderInField;
 
+        // --- Bridge project (mutex with road / fortify projects; finish-on-arrival at start bank) ---
+        public List<int> bridgeSpanTiles = new List<int>();
+        public string bridgeTargetName = string.Empty;
+        public bool bridgeBuilderInField;
+        /// <summary>True when the active bridge project is deconstruct (not build).</summary>
+        public bool bridgeIsClearing;
+        public float bridgeProgress;
+        private int lastBridgeProgressTick = -1;
+
+        /// <summary>
+        /// NPC-only hybrid corridor: ally settlement tile while paving near bank → stone bridge → far bank.
+        /// −1 = inactive. Planned water span lives in <see cref="npcHybridBridgeSpanTiles"/> until bridge kickoff.
+        /// </summary>
+        public int npcHybridRoadTargetTile = -1;
+        public List<int> npcHybridBridgeSpanTiles = new List<int>();
+
+        public bool HasNpcHybridCorridor =>
+            npcHybridRoadTargetTile >= 0
+            && npcHybridBridgeSpanTiles != null
+            && npcHybridBridgeSpanTiles.Count >= 2;
+
+        public void ClearNpcHybridCorridor()
+        {
+            npcHybridRoadTargetTile = -1;
+            npcHybridBridgeSpanTiles?.Clear();
+        }
+
         // --- Road block project (mutex with roadTargetTile) ---
         public List<int> roadBlockPlannedTiles = new List<int>();
         /// <summary>Player-clicked polyline nodes (waypoints + final). Used for X/star overlays.</summary>
@@ -591,11 +618,38 @@ namespace TSA_WorldDomination
         private string cachedInspectString;
         private int cachedInspectTick = -999;
         private WD_RadiusOverlayKind cachedInspectRadiusKind = WD_RadiusOverlayKind.Off;
+        private string cachedBridgeMenuStatus;
+        private int cachedBridgeMenuStatusKey = int.MinValue;
 
         /// <summary>Called when a road builder from this outpost is destroyed (arrived or expired). Allows progress to accumulate for the next builder.</summary>
         public void NotifyRoadBuilderReturned()
         {
             builderInField = false;
+        }
+
+        /// <summary>Called when a bridge crew from this outpost is destroyed (arrived or cancelled).</summary>
+        public void NotifyBridgeCrewReturned()
+        {
+            bridgeBuilderInField = false;
+            cachedBridgeMenuStatusKey = int.MinValue;
+        }
+
+        public string GetCachedBridgeMenuStatus()
+        {
+            string dest = bridgeTargetName.NullOrEmpty() ? "…" : bridgeTargetName;
+            int pctBucket = (int)(Mathf.Min(1f, bridgeProgress) * 100f);
+            int key = pctBucket;
+            key = key * 2 + (bridgeIsClearing ? 1 : 0);
+            key = key * 2 + (bridgeBuilderInField ? 1 : 0);
+            key ^= dest.GetHashCode();
+            if (cachedBridgeMenuStatus != null && key == cachedBridgeMenuStatusKey)
+                return cachedBridgeMenuStatus;
+            cachedBridgeMenuStatusKey = key;
+            string pct = pctBucket.ToString("F0");
+            cachedBridgeMenuStatus = bridgeIsClearing
+                ? "TSA_WD_DeconstructBridgeStatus".Translate(dest, pct).ToString()
+                : "TSA_WD_BuildBridgeStatus".Translate(dest, pct).ToString();
+            return cachedBridgeMenuStatus;
         }
 
         /// <summary>Called when a road-block crew from this outpost is destroyed (arrived or cancelled).</summary>
@@ -637,6 +691,19 @@ namespace TSA_WorldDomination
         {
             projectLabel = null;
             clearing = false;
+
+            if (WorldActions_BuildBridge.HasActiveBridgeProject(this) && !bridgeBuilderInField)
+            {
+                float cost = WorldActions_Roads.GetExpeditionStrengthCost(WorldActions_BuildBridge.BridgeRoadTier);
+                if (bridgeProgress >= 1f && !WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, cost))
+                {
+                    clearing = bridgeIsClearing;
+                    projectLabel = bridgeIsClearing
+                        ? "TSA_WD_DeconstructBridge".Translate().ToString()
+                        : "TSA_WD_BuildBridge".Translate().ToString();
+                    return true;
+                }
+            }
 
             if (roadTargetTile != -1 && !builderInField)
             {
@@ -718,6 +785,14 @@ namespace TSA_WorldDomination
             projectLabel = null;
             if (!ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent))
                 return false;
+
+            if (WorldActions_BuildBridge.HasActiveBridgeProject(this) && !bridgeBuilderInField && !bridgeIsClearing
+                && bridgeProgress >= 1f
+                && !WorldActions_BuildBridge.HasMaterialCostsForBridge(1))
+            {
+                projectLabel = "TSA_WD_BuildBridge".Translate().ToString();
+                return true;
+            }
 
             if (roadTargetTile != -1 && !builderInField && !roadIsClearing
                 && roadProgress >= 1f
@@ -809,6 +884,9 @@ namespace TSA_WorldDomination
                 WorldActions_AtTurrets.ClearAtTurretProject(this);
             if (WorldActions_Decontamination.HasActiveDecontaminationProject(this))
                 WorldActions_Decontamination.ClearDecontaminationProject(this);
+            if (WorldActions_BuildBridge.HasActiveBridgeProject(this))
+                WorldActions_BuildBridge.ClearBridgeProject(this);
+            ClearNpcHybridCorridor();
             if (parent is Settlement settlement)
             {
                 AtTurretUtility.DestroyTurretsBuiltBy(settlement);
@@ -1223,6 +1301,51 @@ namespace TSA_WorldDomination
                             roadProgress = 1f;
                     }
                 }
+                }
+            }
+
+            // Player outposts / colony world-build, plus NPC settlements with an active bridge (hybrid corridor).
+            bool npcSettlementBridge =
+                IsSettlement
+                && parent?.Faction != null
+                && !parent.Faction.IsPlayer
+                && WorldActions_BuildBridge.HasActiveBridgeProject(this)
+                && !bridgeIsClearing;
+            if (WorldActions_BuildBridge.HasActiveBridgeProject(this) && (IsOutpost || colonyWorldBuild || npcSettlementBridge))
+            {
+                int nowTickBr = Find.TickManager.TicksGame;
+                if (lastBridgeProgressTick < 0)
+                    lastBridgeProgressTick = nowTickBr;
+                else if (nowTickBr - lastBridgeProgressTick >= RoadProgressUpdateIntervalTicks)
+                {
+                    int dtBr = nowTickBr - lastBridgeProgressTick;
+                    dtBr = Mathf.Min(dtBr, MaxRoadProgressCatchUpTicks);
+                    lastBridgeProgressTick = nowTickBr;
+                    float workSpeedBr = WorldActions_Roads.GetRoadProgressWorkSpeed(parent);
+                    if (workSpeedBr > 0f)
+                    {
+                        float rateBr = workSpeedBr / WorldActions_Roads.GetRoadProgressRequiredTicks(WorldActions_BuildBridge.BridgeRoadTier);
+                        bridgeProgress += rateBr * dtBr;
+                        while (bridgeProgress >= 1f && !bridgeBuilderInField)
+                        {
+                            if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(
+                                this, WorldActions_Roads.GetExpeditionStrengthCost(WorldActions_BuildBridge.BridgeRoadTier)))
+                                break;
+                            if (!bridgeIsClearing
+                                && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
+                                && !WorldActions_BuildBridge.HasMaterialCostsForBridge(1))
+                                break;
+                            if (WorldActions_BuildBridge.LaunchBridgeSegmentCrew(parent))
+                            {
+                                bridgeProgress -= 1f;
+                                bridgeBuilderInField = true;
+                            }
+                            else
+                                break;
+                        }
+                        if (bridgeProgress > 1f)
+                            bridgeProgress = 1f;
+                    }
                 }
             }
 
@@ -1946,6 +2069,20 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref lastPathSourceTile, "lastPathSourceTile", -1);
             Scribe_Values.Look(ref cachedWorkTile, "cachedWorkTile", -1);
             Scribe_Values.Look(ref builderInField, "builderInField", false);
+            Scribe_Collections.Look(ref bridgeSpanTiles, "bridgeSpanTiles", LookMode.Value);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && bridgeSpanTiles == null)
+                bridgeSpanTiles = new List<int>();
+            Scribe_Values.Look(ref bridgeTargetName, "bridgeTargetName", string.Empty);
+            Scribe_Values.Look(ref bridgeBuilderInField, "bridgeBuilderInField", false);
+            Scribe_Values.Look(ref bridgeIsClearing, "bridgeIsClearing", false);
+            Scribe_Values.Look(ref bridgeProgress, "bridgeProgress", 0f);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && bridgeProgress > 1f)
+                bridgeProgress = 1f;
+            Scribe_Values.Look(ref lastBridgeProgressTick, "lastBridgeProgressTick", -1);
+            Scribe_Values.Look(ref npcHybridRoadTargetTile, "npcHybridRoadTargetTile", -1);
+            Scribe_Collections.Look(ref npcHybridBridgeSpanTiles, "npcHybridBridgeSpanTiles", LookMode.Value);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && npcHybridBridgeSpanTiles == null)
+                npcHybridBridgeSpanTiles = new List<int>();
             Scribe_Values.Look(ref lastRoadProgressTick, "lastRoadProgressTick", -1);
             Scribe_Values.Look(ref lastStrengthRegenTick, "lastStrengthRegenTick", -99999);
             Scribe_Values.Look(ref lastPollutionSiteDamageTick, "lastPollutionSiteDamageTick", -1);
@@ -2034,6 +2171,11 @@ namespace TSA_WorldDomination
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit && roadTargetTile != -1 && builderInField && !WorldActions_Roads.HasActiveRoadBuilderFrom(parent))
                 builderInField = false;
+            if (Scribe.mode == LoadSaveMode.PostLoadInit
+                && WorldActions_BuildBridge.HasActiveBridgeProject(this)
+                && bridgeBuilderInField
+                && !WorldActions_BuildBridge.HasActiveBridgeCrewFrom(parent))
+                bridgeBuilderInField = false;
             if (Scribe.mode == LoadSaveMode.PostLoadInit
                 && WorldActions_RoadBlocks.HasActiveRoadBlockProject(this)
                 && roadBlockBuilderInField
@@ -2263,6 +2405,31 @@ namespace TSA_WorldDomination
                         sb.Append("TSA_WD_Inspect_RoadStatus_InTransit".Translate(roadTypeLabel, roadTargetName, roadPct));
                     else
                         sb.Append("TSA_WD_Inspect_RoadStatus".Translate(roadTypeLabel, roadPct, roadTargetName));
+                }
+            }
+            else if (WorldActions_BuildBridge.HasActiveBridgeProject(this))
+            {
+                sb.AppendLine();
+                string dest = bridgeTargetName.NullOrEmpty() ? "…" : bridgeTargetName;
+                string insufficient = GetInsufficientConstructionMessage();
+                if (insufficient != null)
+                {
+                    sb.Append(insufficient.Colorize(Color.red));
+                }
+                else
+                {
+                    string pct = (Mathf.Min(1f, bridgeProgress) * 100f).ToString("F0");
+                    if (bridgeIsClearing)
+                    {
+                        if (bridgeBuilderInField)
+                            sb.Append("TSA_WD_Inspect_BridgeClearStatus_InTransit".Translate(dest, pct));
+                        else
+                            sb.Append("TSA_WD_Inspect_BridgeClearStatus".Translate(dest, pct));
+                    }
+                    else if (bridgeBuilderInField)
+                        sb.Append("TSA_WD_Inspect_BridgeStatus_InTransit".Translate(dest, pct));
+                    else
+                        sb.Append("TSA_WD_Inspect_BridgeStatus".Translate(pct, dest));
                 }
             }
             else if (WorldActions_RoadBlocks.HasActiveRoadBlockProject(this))

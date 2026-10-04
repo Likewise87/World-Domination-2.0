@@ -96,7 +96,8 @@ namespace TSA_WorldDomination
             raw == LegacyAllMaskValue ? (int)MissionMask.All : raw;
 
         /// <summary>Maps a traveler mission to its <see cref="MissionMask"/> bit; returns <see cref="MissionMask.None"/>
-        /// for missions that should never be intercepted (mortar shells themselves, rapid-response sallies).</summary>
+        /// for missions that should never be mortar-masked (shells themselves, interceptor caravans —
+        /// RR outposts engage hostile interceptors via a dedicated scheduler bypass).</summary>
         public static MissionMask MaskFor(TravelerMission mission)
         {
             switch (mission)

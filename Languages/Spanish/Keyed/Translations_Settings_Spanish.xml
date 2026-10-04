@@ -273,8 +273,10 @@
   <TSA_WD_WorldSetup_ToolRoadBlock>Colocar bloqueo de camino</TSA_WD_WorldSetup_ToolRoadBlock>
   <TSA_WD_WorldSetup_ToolTrap>Colocar trampa</TSA_WD_WorldSetup_ToolTrap>
   <TSA_WD_WorldSetup_ToolPlaceRoad>Colocar camino</TSA_WD_WorldSetup_ToolPlaceRoad>
+  <TSA_WD_WorldSetup_ToolPlaceBridge>Colocar puente</TSA_WD_WorldSetup_ToolPlaceBridge>
   <TSA_WD_WorldSetup_ToolRemoveFortify>Quitar fortificación aquí</TSA_WD_WorldSetup_ToolRemoveFortify>
   <TSA_WD_WorldSetup_ToolRemoveRoad>Quitar camino</TSA_WD_WorldSetup_ToolRemoveRoad>
+  <TSA_WD_WorldSetup_ToolDestroyBridge>Destruir puente</TSA_WD_WorldSetup_ToolDestroyBridge>
   <TSA_WD_WorldSetup_InvalidTile>Esa casilla no es válida.</TSA_WD_WorldSetup_InvalidTile>
   <TSA_WD_WorldSetup_TileOccupied>La casilla {0} ya tiene un objeto mundial.</TSA_WD_WorldSetup_TileOccupied>
   <TSA_WD_WorldSetup_TileInvalidSettlement>La casilla {0} no puede alojar un asentamiento.</TSA_WD_WorldSetup_TileInvalidSettlement>
@@ -308,6 +310,13 @@
   <TSA_WD_WorldSetup_RemoveRoadHint>Haz clic en una casilla con caminos para quitar sus enlaces.</TSA_WD_WorldSetup_RemoveRoadHint>
   <TSA_WD_WorldSetup_RemoveRoadNone>No hay caminos en esa casilla.</TSA_WD_WorldSetup_RemoveRoadNone>
   <TSA_WD_WorldSetup_RemoveRoadDone>Se quitaron {0} enlaces de camino.</TSA_WD_WorldSetup_RemoveRoadDone>
+  <TSA_WD_WorldSetup_PlaceBridgeHint>Haz clic en la orilla cercana y luego en la lejana.</TSA_WD_WorldSetup_PlaceBridgeHint>
+  <TSA_WD_WorldSetup_PlaceBridgePickEnd>Ahora haz clic en la orilla lejana.</TSA_WD_WorldSetup_PlaceBridgePickEnd>
+  <TSA_WD_WorldSetup_PlaceBridgeDone>Puente colocado.</TSA_WD_WorldSetup_PlaceBridgeDone>
+  <TSA_WD_WorldSetup_PlaceBridgeFailed>No se pudo colocar un puente ahí.</TSA_WD_WorldSetup_PlaceBridgeFailed>
+  <TSA_WD_WorldSetup_DestroyBridgeHint>Haz clic en una orilla o casilla de agua del puente para destruirlo.</TSA_WD_WorldSetup_DestroyBridgeHint>
+  <TSA_WD_WorldSetup_DestroyBridgeNone>No hay un puente WD en esa casilla.</TSA_WD_WorldSetup_DestroyBridgeNone>
+  <TSA_WD_WorldSetup_DestroyBridgeDone>Puente destruido.</TSA_WD_WorldSetup_DestroyBridgeDone>
   <TSA_WD_WorldSetup_RemoveSettlementHint>Haz clic en un asentamiento PNJ para quitarlo. Clic derecho o Esc para parar.</TSA_WD_WorldSetup_RemoveSettlementHint>
   <TSA_WD_WorldSetup_RemoveSettlementDone>Se quitó {0}.</TSA_WD_WorldSetup_RemoveSettlementDone>
   <TSA_WD_WorldSetup_RemoveSettlementPlayer>Los sitios del jugador no se pueden quitar aquí.</TSA_WD_WorldSetup_RemoveSettlementPlayer>

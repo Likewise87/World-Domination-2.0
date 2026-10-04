@@ -23,7 +23,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Withdraw-only budget: current outpost offensive strength in uncapped space.
-        /// Keeps current damage/loss state, but removes the 1500 offensive cap and garrison retain floor.
+        /// Keeps current damage/loss state, but removes the offensive strength cap and garrison retain floor.
         /// </summary>
         public static float GetAvailableForWithdraw(WorldObject_WD_Outpost outpost)
         {

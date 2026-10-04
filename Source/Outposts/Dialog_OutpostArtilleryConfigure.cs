@@ -55,7 +55,7 @@ namespace TSA_WorldDomination
             hasAntiAir = AntiAirFireUtils.HasAntiAirUpgrade(outpost);
             tab = ArtilleryConfigureTab.Mortar;
 
-            mortarMask = outpost.MortarDefenseMask;
+            mortarMask = outpost.MortarDefenseMask & ~MissionMask.Logistics;
             if (!outpost.MortarDefenseActive)
                 mortarMask = MissionMask.None;
             mortarRaidMask = outpost.MortarRaidTargetMask;
@@ -191,8 +191,6 @@ namespace TSA_WorldDomination
             DrawMaskRow(new Rect(lx, ly, innerW, RowH), "TSA_WD_Mortar_AutoAttack_Menu_Trader".Translate(), MissionMask.Trader);
             ly += RowH;
             DrawMaskRow(new Rect(lx, ly, innerW, RowH), "TSA_WD_Mortar_AutoAttack_Menu_Fortify".Translate(), MissionMask.Fortify);
-            ly += RowH;
-            DrawMaskRow(new Rect(lx, ly, innerW, RowH), "TSA_WD_Mortar_AutoAttack_Menu_Logistics".Translate(), MissionMask.Logistics);
 
             float rx = rightBox.x + SectionPad;
             float ry = rightBox.y + SectionPad;
@@ -299,8 +297,9 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            outpost.SetMortarDefenseActive(mortarMask != MissionMask.None);
-            outpost.SetMortarDefenseMask(mortarMask == MissionMask.None ? MissionMask.Raider | MissionMask.Expansion : mortarMask);
+            MissionMask commitMask = mortarMask & ~MissionMask.Logistics;
+            outpost.SetMortarDefenseActive(commitMask != MissionMask.None);
+            outpost.SetMortarDefenseMask(commitMask == MissionMask.None ? MissionMask.Raider | MissionMask.Expansion : commitMask);
             outpost.SetMortarRaidTargetMask(mortarRaidMask);
             outpost.SetMortarRangeOverride(mortarRange);
 

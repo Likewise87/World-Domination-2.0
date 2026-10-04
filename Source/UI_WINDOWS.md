@@ -77,7 +77,9 @@ Extend `DrawRosterViewControls` / `DrawFilterableHeader`. Do not start a fifth c
 
 ## Pawn travel mode controls
 
-All drawing lives in `Outposts/PlayerPawnDropPodUtility.cs`. Icons are the warehouse `LandIcon` / `DropPodIcon` tinted `WorldOverlayLineMaterials.DarkCyanColor`, with a float menu on click. No visible labels on the mode icon; everything is explained on mouseover. Ad hoc strips and confirms use one line: mode icon, then if drop pod `Total Cost: {N}x` plus the industrial-component `ThingIcon` (`DrawModeAndTotalCostLine` / `DrawAdHocModeAndCostStrip` / `DrawModeReadoutWithTotalCost`). Stock and short-stock notes live on the cost-segment tip.
+All drawing lives in `Outposts/PlayerPawnDropPodUtility.cs`. Icons are the warehouse `LandIcon` / `DropPodIcon` tinted `WorldOverlayLineMaterials.DarkCyanColor`, with a float menu on click. No visible labels on the mode icon. Ad hoc strips and confirms use `DrawModeAndTotalCostLine` / `DrawAdHocModeAndCostStrip` / `DrawModeReadoutWithTotalCost`: mode icon, then if drop pod two lines (`Cost: {N}` and `Available (Colony+all Warehouses): {M}`) each with a component `ThingIcon`. Short-stock tints those lines and keeps `ShortStockNote` on tip.
+
+World-build float menus (roads, road blocks, traps, AT) show material **count + ThingIcon** on the row via `ColonyWorldBuildRequirements.ApplyGate` (`extraPartOnGUI`, stock snapshotted when the menu opens). Full construction/research/material text stays in the tooltip.
 
 | Scope | Helper | Where |
 |-------|--------|--------|

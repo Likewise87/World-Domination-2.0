@@ -76,6 +76,11 @@ namespace TSA_WorldDomination
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip".Translate(), WorldDominationSettings.DefNotifyConstructionInsufficientMaterials));
 
                 l.CheckboxLabeled(
+                    "TSA_WD_Notify_BridgeDeconstructBlocked".Translate(),
+                    ref s.notifyBridgeDeconstructBlocked,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_BridgeDeconstructBlockedTooltip".Translate(), WorldDominationSettings.DefNotifyBridgeDeconstructBlocked));
+
+                l.CheckboxLabeled(
                     "TSA_WD_Notify_OutpostNoProduction".Translate(),
                     ref s.notifyOutpostNoProduction,
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_OutpostNoProductionTooltip".Translate(), WorldDominationSettings.DefNotifyOutpostNoProduction));

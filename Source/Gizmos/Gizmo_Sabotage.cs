@@ -34,17 +34,13 @@ namespace TSA_WorldDomination
             if (bestCrafter == null) yield break;
             int skill = bestCrafter.skills.GetSkill(SkillDefOf.Crafting).Level;
 
-            var snapshot = new List<(Settlement Settlement, CompViralSpread Comp)>(neighborSettlements.Count);
-            for (int i = 0; i < neighborSettlements.Count; i++)
-                snapshot.Add(neighborSettlements[i]);
-
             bool anyAvailable = false;
-            for (int ti = 0; ti < snapshot.Count; ti++)
+            for (int ti = 0; ti < neighborSettlements.Count; ti++)
             {
-                if (!snapshot[ti].Comp.IsEspionageOnCooldown) { anyAvailable = true; break; }
+                if (!neighborSettlements[ti].Comp.IsEspionageOnCooldown) { anyAvailable = true; break; }
             }
 
-            CompViralSpread singleComp = snapshot.Count == 1 ? snapshot[0].Comp : null;
+            CompViralSpread firstComp = neighborSettlements[0].Comp;
             Pawn crafter = bestCrafter;
 
             Command_Action sabotage = new Command_Action
@@ -56,40 +52,43 @@ namespace TSA_WorldDomination
 
                 action = () =>
                 {
+                    // Snapshot only on click — GetGizmos must not allocate neighbor copies every GUI pass.
+                    var snapshot = new List<(Settlement Settlement, CompViralSpread Comp)>();
+                    Patch_CaravanGetGizmos.FillNeighborNpcSettlements(caravan, snapshot);
+                    if (snapshot.Count == 0) return;
                     if (snapshot.Count == 1)
                     {
-                        ExecuteSabotage(singleComp, caravan, crafter);
+                        ExecuteSabotage(snapshot[0].Comp, caravan, crafter);
+                        return;
                     }
-                    else
-                    {
-                        List<FloatMenuOption> options = new List<FloatMenuOption>();
-                        for (int i = 0; i < snapshot.Count; i++)
-                        {
-                            var target = snapshot[i];
-                            float displayChance = GetCurrentSuccessChance(target.Comp, crafter, seth);
-                            string label = "TSA_WD_Sab_MenuOption".Translate(target.Settlement.LabelCap, target.Comp.tier.ToString(), displayChance.ToString("P0"));
 
-                            if (target.Comp.IsEspionageOnCooldown)
-                            {
-                                options.Add(new FloatMenuOption(label + " " + "TSA_WD_OnCooldown".Translate(), null));
-                            }
-                            else
-                            {
-                                CompViralSpread clickComp = target.Comp;
-                                options.Add(new FloatMenuOption(label, () =>
-                                {
-                                    ExecuteSabotage(clickComp, caravan, crafter);
-                                }));
-                            }
+                    List<FloatMenuOption> options = new List<FloatMenuOption>();
+                    for (int i = 0; i < snapshot.Count; i++)
+                    {
+                        var target = snapshot[i];
+                        float displayChance = GetCurrentSuccessChance(target.Comp, crafter, seth);
+                        string label = "TSA_WD_Sab_MenuOption".Translate(target.Settlement.LabelCap, target.Comp.tier.ToString(), displayChance.ToString("P0"));
+
+                        if (target.Comp.IsEspionageOnCooldown)
+                        {
+                            options.Add(new FloatMenuOption(label + " " + "TSA_WD_OnCooldown".Translate(), null));
                         }
-                        Find.WindowStack.Add(new FloatMenu(options));
+                        else
+                        {
+                            CompViralSpread clickComp = target.Comp;
+                            options.Add(new FloatMenuOption(label, () =>
+                            {
+                                ExecuteSabotage(clickComp, caravan, crafter);
+                            }));
+                        }
                     }
+                    Find.WindowStack.Add(new FloatMenu(options));
                 }
             };
 
             if (!anyAvailable) sabotage.Disable("TSA_WD_Sab_DisabledAlert".Translate());
 
-            float totalChance = GetCurrentSuccessChance(snapshot[0].Comp, crafter, seth);
+            float totalChance = GetCurrentSuccessChance(firstComp, crafter, seth);
             sabotage.defaultDesc = "TSA_WD_Sab_GizmoDesc".Translate(crafter.LabelShort, skill, totalChance.ToString("P0"));
             yield return sabotage;
         }

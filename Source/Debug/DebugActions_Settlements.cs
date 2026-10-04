@@ -150,6 +150,37 @@ namespace TSA_WorldDomination
             Find.World.GetComponent<WorldComponent_SpreadManager>()?.Notify_WeightsChanged();
         }
 
+        [DebugAction("World Domination", "Clear raid protection CD (Click)",
+            actionType = DebugActionType.ToolWorld,
+            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+        public static void ClearRaidProtectionCooldown()
+        {
+            int tile = GenWorld.MouseTile();
+            WorldObject obj = Find.WorldObjects.ObjectsAt(tile)
+                .FirstOrDefault(x => x is Settlement || x is WorldObject_WD_Outpost);
+            if (obj == null)
+            {
+                Messages.Message("Debug: click an outpost, settlement, or colony.", MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            var comp = obj.GetComponent<CompViralSpread>();
+            if (comp == null)
+            {
+                Messages.Message($"Debug: {obj.LabelCap} has no CompViralSpread.", MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            if (!comp.IsDefenseOnCooldown)
+            {
+                Messages.Message($"Debug: {obj.LabelCap} has no active raid protection.", MessageTypeDefOf.NeutralEvent);
+                return;
+            }
+
+            comp.defenseCooldownTick = -1;
+            Messages.Message($"Debug: cleared raid protection on {obj.LabelCap}.", MessageTypeDefOf.CautionInput);
+        }
+
         [DebugAction("World Domination", "Increase Strength +100",
             actionType = DebugActionType.ToolWorld,
             allowedGameStates = AllowedGameStates.PlayingOnWorld)]

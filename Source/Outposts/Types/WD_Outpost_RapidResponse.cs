@@ -178,6 +178,10 @@ namespace TSA_WorldDomination
         public static bool IsEligibleAutoInterceptTarget(WorldObject_Traveler traveler)
         {
             if (traveler == null || traveler.Destroyed) return false;
+            // Interceptor caravans: always eligible for RR auto-fire (mask bypassed in scheduler);
+            // do not apply raid destination filters (their "destination" is the quarry traveler).
+            if (traveler.mission == TravelerMission.RapidResponseIntercept)
+                return true;
             if (InterceptionMissionMaskUtils.MaskFor(traveler.mission) != MissionMask.Raider)
                 return true;
             return IsRaidTargetingPlayerOrAlly(traveler);
@@ -186,6 +190,8 @@ namespace TSA_WorldDomination
         public static bool IsEligibleAutoInterceptTarget(WorldObject_Traveler traveler, RaidTargetMask mask)
         {
             if (traveler == null || traveler.Destroyed) return false;
+            if (traveler.mission == TravelerMission.RapidResponseIntercept)
+                return true;
             if (InterceptionMissionMaskUtils.MaskFor(traveler.mission) != MissionMask.Raider)
                 return true;
             if (mask == RaidTargetMask.None) return false;
@@ -315,6 +321,11 @@ namespace TSA_WorldDomination
 
         private static IntVec3 FindDropCell(Map map)
         {
+            var bridgeClash = map.GetComponent<WD_MapComponent_CaravanClash>();
+            if (bridgeClash != null && bridgeClash.IsBridgeClash
+                && GenStep_WD_BridgeClash.TryFindStandableNear(map, GenStep_WD_BridgeClash.WestSpawnCell(map), out IntVec3 bridgeCell))
+                return bridgeCell;
+
             IntVec3 cell;
             if (CellFinderLoose.TryGetRandomCellWith(c => c.InBounds(map) && c.Standable(map) && !c.Fogged(map), map, 1000, out cell))
                 return cell;

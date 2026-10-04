@@ -69,12 +69,14 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Traveler movement difficulty with strict mixed traversal behavior:
-        /// normal land difficulty on land hops, fixed fly-style cost for hops into water-covered tiles.
+        /// normal land difficulty on land hops (including bridged water),
+        /// fixed fly-style cost only for hops into unbridged water-covered tiles.
         /// </summary>
         public static float GetTravelerHopDifficultyUnits(PlanetTile from, PlanetTile to)
         {
             if (!from.Valid || !to.Valid) return 0f;
-            if (Find.WorldGrid[to.tileId].WaterCovered)
+            if (Find.WorldGrid[to.tileId].WaterCovered
+                && !WorldComponent_WdBridges.IsBridgedWaterTile(to.tileId))
                 return GetTravelerWaterMovementDifficultyUnits();
             return GetHopDifficultyUnits(from, to);
         }

@@ -15,6 +15,10 @@ namespace TSA_WorldDomination
         private static readonly List<(Settlement Settlement, CompViralSpread Comp)> neighborScratch =
             new List<(Settlement, CompViralSpread)>();
 
+        private static int neighborCacheCaravanId = -1;
+        private static int neighborCacheTileId = -1;
+        private static int neighborCacheTick = -99999;
+
         public static IEnumerable<Gizmo> Postfix(IEnumerable<Gizmo> __result, Caravan __instance)
         {
             if (__result != null)
@@ -43,9 +47,25 @@ namespace TSA_WorldDomination
         /// <summary>NPC surface settlements on neighboring tiles that have CompViralSpread (hostiles included).</summary>
         public static void FillNeighborNpcSettlements(Caravan caravan, List<(Settlement Settlement, CompViralSpread Comp)> dest)
         {
-            dest.Clear();
-            if (caravan == null || Find.WorldGrid == null || Find.WorldObjects == null) return;
+            if (caravan == null || Find.WorldGrid == null || Find.WorldObjects == null)
+            {
+                dest.Clear();
+                return;
+            }
 
+            int tick = Find.TickManager?.TicksGame ?? 0;
+            int caravanId = caravan.ID;
+            int tileId = caravan.Tile.tileId;
+            // Same caravan/tile within the same tick: reuse prior fill (GetGizmos is re-queried often).
+            if (dest == neighborScratch
+                && caravanId == neighborCacheCaravanId
+                && tileId == neighborCacheTileId
+                && tick == neighborCacheTick)
+            {
+                return;
+            }
+
+            dest.Clear();
             neighborTiles.Clear();
             Find.WorldGrid.GetTileNeighbors(caravan.Tile, neighborTiles);
             neighborIDs.Clear();
@@ -53,16 +73,25 @@ namespace TSA_WorldDomination
                 neighborIDs.Add(neighborTiles[i].tileId);
 
             var settlements = Find.WorldObjects.Settlements;
-            if (settlements == null) return;
-            for (int si = 0; si < settlements.Count; si++)
+            if (settlements != null)
             {
-                Settlement s = settlements[si];
-                if (s == null || !neighborIDs.Contains(s.Tile.tileId) || s.Faction == null || s.Faction.IsPlayer)
-                    continue;
-                if (!WorldActions_Utils.IsWdSurfaceWorldObject(s)) continue;
-                CompViralSpread comp = s.GetComponent<CompViralSpread>();
-                if (comp != null)
-                    dest.Add((s, comp));
+                for (int si = 0; si < settlements.Count; si++)
+                {
+                    Settlement s = settlements[si];
+                    if (s == null || !neighborIDs.Contains(s.Tile.tileId) || s.Faction == null || s.Faction.IsPlayer)
+                        continue;
+                    if (!WorldActions_Utils.IsWdSurfaceWorldObject(s)) continue;
+                    CompViralSpread comp = s.GetComponent<CompViralSpread>();
+                    if (comp != null)
+                        dest.Add((s, comp));
+                }
+            }
+
+            if (dest == neighborScratch)
+            {
+                neighborCacheCaravanId = caravanId;
+                neighborCacheTileId = tileId;
+                neighborCacheTick = tick;
             }
         }
     }

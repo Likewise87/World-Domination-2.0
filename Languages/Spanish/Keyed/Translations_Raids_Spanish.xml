@@ -31,6 +31,9 @@
   <TSA_WD_InterceptionFailed>Enfrentamiento de caravanas perdido. {0} ha roto el combate y sigue con su misión.</TSA_WD_InterceptionFailed>
   <TSA_WD_InterceptionFled>Enfrentamiento de caravanas perdido: tu caravana huyó. {0} sigue con su misión.</TSA_WD_InterceptionFled>
   <TSA_WD_InterceptionVictory>¡Enfrentamiento de caravanas ganado! Las fuerzas hostiles han sido eliminadas y su misión ha terminado.</TSA_WD_InterceptionVictory>
+  <TSA_WD_CampClashFailed>Defensa del campamento perdida. {0} ha roto el combate y sigue con su misión.</TSA_WD_CampClashFailed>
+  <TSA_WD_CampClashFled>Defensa del campamento perdida. Tu fuerza huyó. {0} sigue con su misión.</TSA_WD_CampClashFled>
+  <TSA_WD_CampClashVictory>¡Defensa del campamento ganada! Las fuerzas hostiles han sido eliminadas y su misión ha terminado.</TSA_WD_CampClashVictory>
   <TSA_WD_OutpostDefense_ChoiceTitle>Avanzadilla bajo ataque</TSA_WD_OutpostDefense_ChoiceTitle>
   <TSA_WD_OutpostDefense_ChoiceText>{0} está bajo ataque de {1}. Elige si quieres resolver la incursión automáticamente o combatirla manualmente en un mapa temporal.</TSA_WD_OutpostDefense_ChoiceText>
   <TSA_WD_OutpostDefense_SkirmishTitle>Escaramuzas desfavorables</TSA_WD_OutpostDefense_SkirmishTitle>
@@ -143,6 +146,7 @@
   <TSA_WD_TargetKind_SupplyCaravan>caravana de suministros</TSA_WD_TargetKind_SupplyCaravan>
   <TSA_WD_TargetKind_UpgradeCaravan>caravana de mejora</TSA_WD_TargetKind_UpgradeCaravan>
   <TSA_WD_TargetKind_Raid>incursión</TSA_WD_TargetKind_Raid>
+  <TSA_WD_TargetKind_Interceptor>interceptor</TSA_WD_TargetKind_Interceptor>
   <TSA_WD_Letter_RaidDivertedFromPlayer_Label>Incursión desviada</TSA_WD_Letter_RaidDivertedFromPlayer_Label>
   <TSA_WD_Letter_RaidDivertedFromPlayer_Text>{0} detectó un objetivo de oportunidad y se desvió de ti para atacar {1} en su lugar.</TSA_WD_Letter_RaidDivertedFromPlayer_Text>
   <TSA_WD_Log_Raid_PlayerAttack>INCURSIÓN: Ataque a colonia del jugador</TSA_WD_Log_Raid_PlayerAttack>

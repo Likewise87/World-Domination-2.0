@@ -634,10 +634,12 @@ namespace TSA_WorldDomination
             WorldActions_Utils.EnsureAllSettlementsInitialized();
             WD_SettlementLayoutUtility.EnsureVanillaSnapshot();
 
-            // Static live-traveler registry + player-outpost cache are not per-World and are not reset
-            // between save loads in one session. Rebuild/invalidate now (after world objects are spawned)
-            // so stale entries from a prior game cannot linger. Safe on new games (finds zero travelers).
+            // Static traveler / AT turret / construction-project registries + player-outpost cache
+            // are not per-World and are not reset between save loads in one session. Rebuild now
+            // (after world objects are spawned) so stale entries from a prior game cannot linger.
             WorldObject_Traveler.RebuildLiveRegistry();
+            WorldObject_AT_Turret.RebuildLiveRegistry();
+            WorldConstructionProjectRegistry.Rebuild();
             WdPlayerOutpostCache.Invalidate();
 
             if (fromLoad)
@@ -650,6 +652,8 @@ namespace TSA_WorldDomination
                     Log.Message($"[WD] Removed {removed} orphaned traveler(s) from previous mod version (namespace change).");
                 // Remnant Destroy strips list entries; rebuild so ActiveCount/LiveTravelers match the healed world.
                 WorldObject_Traveler.RebuildLiveRegistry();
+                WorldObject_AT_Turret.RebuildLiveRegistry();
+                WorldConstructionProjectRegistry.Rebuild();
                 PurgeLegacyWorldThreatManager();
             }
 

@@ -200,6 +200,7 @@ namespace TSA_WorldDomination
                     && t.originObject == origin
                     && !t.Destroyed)
                 {
+                    ColonyWorldBuildRequirements.RefundConstructionAbort(t);
                     t.Destroy();
                 }
             }
@@ -322,6 +323,7 @@ namespace TSA_WorldDomination
                 if (IsValidBuildTile(tile, comp.selectedSpikeTrapKind, builder)
                     && (WorldComponent_SpikeTraps.Get()?.TryPlaceOrUpgrade(tile, builder, comp.selectedSpikeTrapKind) ?? false))
                 {
+                    traveler.MarkConstructionWorkApplied();
                     Outpost_ConstructionXp.TryGrant(traveler, Outpost_ConstructionXp.XpForSpikeTrapKind(comp.selectedSpikeTrapKind));
                 }
             }

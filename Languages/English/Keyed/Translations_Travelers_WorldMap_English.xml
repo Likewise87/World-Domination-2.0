@@ -44,6 +44,10 @@
   <TSA_WD_Inspect_RoadStatus_InTransit>Status: {0} crew in transit to {1} (prep {2}%)...</TSA_WD_Inspect_RoadStatus_InTransit>
   <TSA_WD_Inspect_RoadClearStatus>Removing roads toward {0}: {1}%</TSA_WD_Inspect_RoadClearStatus>
   <TSA_WD_Inspect_RoadClearStatus_InTransit>Status: road-removal crew in transit to {0} (prep {1}%)...</TSA_WD_Inspect_RoadClearStatus_InTransit>
+  <TSA_WD_Inspect_BridgeStatus>Bridge Construction: {0}% to {1}</TSA_WD_Inspect_BridgeStatus>
+  <TSA_WD_Inspect_BridgeStatus_InTransit>Status: bridge crew in transit to {0} (prep {1}%)...</TSA_WD_Inspect_BridgeStatus_InTransit>
+  <TSA_WD_Inspect_BridgeClearStatus>Removing bridge toward {0}: {1}%</TSA_WD_Inspect_BridgeClearStatus>
+  <TSA_WD_Inspect_BridgeClearStatus_InTransit>Status: bridge-removal crew in transit to {0} (prep {1}%)...</TSA_WD_Inspect_BridgeClearStatus_InTransit>
   <TSA_WD_Inspect_RoadBlockBuild>Road Blocks</TSA_WD_Inspect_RoadBlockBuild>
   <TSA_WD_Inspect_RoadBlockClear>Clearing Road Blocks</TSA_WD_Inspect_RoadBlockClear>
   <TSA_WD_Inspect_RoadBlockStatus>{0}: {1}% toward {2}</TSA_WD_Inspect_RoadBlockStatus>
@@ -84,6 +88,10 @@
   <TSA_WD_Interception_Label>Caravan clash</TSA_WD_Interception_Label>
   <TSA_WD_Letter_Interception_Label>Caravan clash</TSA_WD_Letter_Interception_Label>
   <TSA_WD_Letter_Interception_Text>Your caravan has clashed with a {0} from {1}. Prepare for combat!</TSA_WD_Letter_Interception_Text>
+  <TSA_WD_CampClash_Label>Camp attack</TSA_WD_CampClash_Label>
+  <TSA_WD_Letter_CampClash_Label>Camp under attack</TSA_WD_Letter_CampClash_Label>
+  <TSA_WD_Letter_CampClash_Text>A {0} from {1} has walked onto your camp. Prepare for combat!</TSA_WD_Letter_CampClash_Text>
+  <TSA_WD_Log_Raid_ChokeInterceptCamp>{0} was diverted into a fight at camp {1} (was headed for {2}).</TSA_WD_Log_Raid_ChokeInterceptCamp>
   <TSA_WD_Letter_PlayerCaravanClashWon_Label>Player caravan won clash</TSA_WD_Letter_PlayerCaravanClashWon_Label>
   <TSA_WD_Letter_PlayerCaravanClashWon_Text>Your caravan defeated {0} in a caravan clash.</TSA_WD_Letter_PlayerCaravanClashWon_Text>
   <TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>Player caravan destroyed in clash</TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>
@@ -227,6 +235,8 @@
   <TSA_WD_RaiderGravship>Raider Gravship</TSA_WD_RaiderGravship>
   <TSA_WD_TraderCaravan>Trader Caravan</TSA_WD_TraderCaravan>
   <TSA_WD_RoadBuilderCaravan>Road Builder Caravan</TSA_WD_RoadBuilderCaravan>
+  <TSA_WD_BridgeBuilderCaravan>Bridge Builder Caravan</TSA_WD_BridgeBuilderCaravan>
+  <TSA_WD_BridgeDeconstructCaravan>Bridge Teardown Caravan</TSA_WD_BridgeDeconstructCaravan>
   <TSA_WD_SettlementBuyerCaravan>Settlement Buyer Caravan</TSA_WD_SettlementBuyerCaravan>
   <TSA_WD_DiplomacyNegotiateCaravan>Diplomacy Negotiate Caravan</TSA_WD_DiplomacyNegotiateCaravan>
   <TSA_WD_TravelerCaravan>Traveler Caravan</TSA_WD_TravelerCaravan>

@@ -95,6 +95,7 @@ namespace TSA_WorldDomination
         public static void ClearAtTurretProject(CompViralSpread comp)
         {
             if (comp == null) return;
+            DestroyActiveAtTurretCrewsFrom(comp.parent);
             comp.atTurretPlannedTiles?.Clear();
             comp.atTurretWorkIndex = 0;
             comp.atTurretProgress = 0f;
@@ -102,10 +103,51 @@ namespace TSA_WorldDomination
             comp.atTurretCachedWorkTile = -1;
             comp.atTurretTargetName = string.Empty;
             comp.lastAtTurretProgressTick = -1;
+            WorldConstructionProjectRegistry.NotifyAtTurretChanged(comp);
         }
 
-        public static bool IsValidBuildTile(int tileId, Faction builder) =>
-            AtTurretUtility.IsPlayerBuildableTurretTile(tileId);
+        public static void DestroyActiveAtTurretCrewsFrom(WorldObject origin)
+        {
+            if (origin == null) return;
+            IReadOnlyList<WorldObject_Traveler> live = WorldObject_Traveler.LiveTravelers;
+            for (int wi = live.Count - 1; wi >= 0; wi--)
+            {
+                WorldObject_Traveler t = live[wi];
+                if (t != null
+                    && t.mission == TravelerMission.AtTurret
+                    && t.originObject == origin
+                    && !t.Destroyed)
+                {
+                    ColonyWorldBuildRequirements.RefundConstructionAbort(t);
+                    t.Destroy();
+                }
+            }
+        }
+
+        public static bool IsValidBuildTile(int tileId, Faction builder, CompViralSpread exclude = null) =>
+            AtTurretUtility.IsPlayerBuildableTurretTile(tileId)
+            && !IsAtTurretTileProjectLocked(tileId, exclude);
+
+        /// <summary>Another site already queued this tile (live project comps, not the 30s outpost cache).</summary>
+        public static bool IsAtTurretTileProjectLocked(int tileId, CompViralSpread exclude = null)
+        {
+            if (tileId < 0) return false;
+            IReadOnlyList<CompViralSpread> projects = WorldConstructionProjectRegistry.ActiveAtTurretProjects;
+            for (int i = 0; i < projects.Count; i++)
+            {
+                CompViralSpread c = projects[i];
+                if (c == null || c == exclude) continue;
+                if (c.parent == null || c.parent.Destroyed) continue;
+                List<int> planned = c.atTurretPlannedTiles;
+                if (planned == null) continue;
+                for (int j = 0; j < planned.Count; j++)
+                {
+                    if (planned[j] == tileId)
+                        return true;
+                }
+            }
+            return false;
+        }
 
         public static Settlement ResolveBuiltBySettlement(WorldObject actor)
         {
@@ -120,7 +162,7 @@ namespace TSA_WorldDomination
             while (comp.atTurretWorkIndex < comp.atTurretPlannedTiles.Count)
             {
                 int tile = comp.atTurretPlannedTiles[comp.atTurretWorkIndex];
-                if (IsValidBuildTile(tile, comp.parent?.Faction))
+                if (IsValidBuildTile(tile, comp.parent?.Faction, comp))
                     return tile;
                 comp.atTurretWorkIndex++;
             }
@@ -207,12 +249,13 @@ namespace TSA_WorldDomination
             if (builtBy != null
                 && AtTurretUtility.IsTierBuildable(tier)
                 && ColonyWorldBuildRequirements.MeetsAtTurretRequirements(origin, tier)
-                && IsValidBuildTile(tile, faction)
+                && IsValidBuildTile(tile, faction, comp)
                 && AtTurretUtility.CanPlayerSiteAcceptPlacedTurret(origin))
             {
                 WorldObject_AT_Turret turret = AtTurretUtility.TrySpawn(tile, faction, tier, builtBy, origin);
                 if (turret != null)
                 {
+                    traveler.MarkConstructionWorkApplied();
                     Outpost_ConstructionXp.TryGrant(traveler, Outpost_ConstructionXp.XpForAtTurretTier(tier));
                     Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(
                         new SpreadLogEntry(
@@ -242,10 +285,12 @@ namespace TSA_WorldDomination
 
         public static bool HasActiveAtTurretCrewFrom(WorldObject origin)
         {
-            if (origin == null || Find.WorldObjects == null) return false;
-            foreach (var wo in Find.WorldObjects.AllWorldObjects)
+            if (origin == null) return false;
+            IReadOnlyList<WorldObject_Traveler> live = WorldObject_Traveler.LiveTravelers;
+            for (int i = 0; i < live.Count; i++)
             {
-                if (wo is WorldObject_Traveler t && !t.Destroyed
+                WorldObject_Traveler t = live[i];
+                if (t != null && !t.Destroyed
                     && t.mission == TravelerMission.AtTurret
                     && t.originObject == origin)
                     return true;
@@ -266,6 +311,7 @@ namespace TSA_WorldDomination
                 ? plannedTiles[0].ToString()
                 : plannedTiles.Count + " tiles";
             comp.lastAtTurretProgressTick = -1;
+            WorldConstructionProjectRegistry.NotifyAtTurretChanged(comp);
         }
     }
 }

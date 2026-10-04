@@ -83,6 +83,7 @@ namespace TSA_WorldDomination
             {
                 SetRoadMovement("DirtRoad", s.GetFallbackRoadMovement(SettlementTier.T1));
                 SetRoadMovement("StoneRoad", s.GetFallbackRoadMovement(SettlementTier.T2));
+                SetRoadMovement("TSA_WD_StoneBridge", s.GetFallbackRoadMovement(SettlementTier.T2));
                 SetRoadMovement("AncientAsphaltRoad", s.GetFallbackRoadMovement(SettlementTier.T3));
             }
 
@@ -109,6 +110,7 @@ namespace TSA_WorldDomination
                 SetRotRWinterFactor("DirtPath", dirt);
                 SetRotRWinterFactor("StoneRoad", stone);
                 SetRotRWinterFactor("StoneRoadBuilt", stone);
+                SetRotRWinterFactor("TSA_WD_StoneBridge", stone);
                 SetRotRWinterFactor("AncientAsphaltRoad", asphalt);
                 SetRotRWinterFactor("AsphaltRoad", asphalt);
                 SetRotRWinterFactor("AncientAsphaltHighway", asphalt);
@@ -222,10 +224,19 @@ namespace TSA_WorldDomination
                 float speed = wdOutpost.TotalConstructionSkill();
                 return speed * (1f + OutpostExpertUtility.GetEngineerRoadSpeedBonus(wdOutpost));
             }
-            if (actor is Settlement settlement && ColonyWorldBuildUtility.IsPlayerColonyBuildActor(settlement))
-                return ColonyWorldBuildUtility.GetConstructionSkillEffective(settlement);
-            if (actor is Settlement && actor.GetComponent<CompViralSpread>() is CompViralSpread comp && comp.playerOrderedRoad)
-                return GetAssumedConstructionForSettlementTier(comp.tier);
+            if (actor is Settlement colonySite && ColonyWorldBuildUtility.IsPlayerColonyBuildActor(colonySite))
+                return ColonyWorldBuildUtility.GetConstructionSkillEffective(colonySite);
+            if (actor is Settlement settlement && actor.GetComponent<CompViralSpread>() is CompViralSpread comp)
+            {
+                if (comp.playerOrderedRoad)
+                    return GetAssumedConstructionForSettlementTier(comp.tier);
+                // NPC hybrid bridge CompTick: tier-assumed Construction (no player skill/research).
+                if (settlement.Faction != null
+                    && !settlement.Faction.IsPlayer
+                    && WorldActions_BuildBridge.HasActiveBridgeProject(comp)
+                    && !comp.bridgeIsClearing)
+                    return GetAssumedConstructionForSettlementTier(comp.tier);
+            }
             return 0f;
         }
 
@@ -265,14 +276,31 @@ namespace TSA_WorldDomination
             int count = 0;
             for (int i = nodesDestFirst.Count - 1; i > 0; i--)
             {
-                if (ShouldUpgradeRoad(
-                        new PlanetTile(nodesDestFirst[i], layer),
-                        new PlanetTile(nodesDestFirst[i - 1], layer),
-                        targetRoad))
+                int from = nodesDestFirst[i];
+                int to = nodesDestFirst[i - 1];
+                // Bridge/water deck edges are never land-road pave/upgrade work.
+                if (IsBridgeOrWaterRoadEdge(from, to)) continue;
+                if (ShouldUpgradeRoad(new PlanetTile(from, layer), new PlanetTile(to, layer), targetRoad))
                     count++;
             }
             return count;
         }
+
+        /// <summary>
+        /// True when either endpoint is water (including painted WD bridges). Land-road build/remove
+        /// must skip these edges; crews may still path across bridged water.
+        /// </summary>
+        public static bool IsBridgeOrWaterRoadEdge(int tileA, int tileB)
+        {
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null) return false;
+            if (grid.InBounds(tileA) && grid[tileA].WaterCovered) return true;
+            if (grid.InBounds(tileB) && grid[tileB].WaterCovered) return true;
+            return false;
+        }
+
+        public static bool IsBridgeOrWaterRoadEdge(PlanetTile a, PlanetTile b)
+            => IsBridgeOrWaterRoadEdge(a.tileId, b.tileId);
 
         public static int CountRemainingWorkSegments(CompViralSpread comp)
         {
@@ -323,13 +351,6 @@ namespace TSA_WorldDomination
         {
             var seth = WorldDominationMod.settings;
 
-            // --- SURGICAL: Respect the independent Road Cooldown ---
-            if (comp.IsRoadOnCooldown)
-            {
-                manager.AddLog(new SpreadLogEntry("TSA_WD_Log_Road_SkippedCooldown".Translate(actor.LabelCap), actor));
-                return false;
-            }
-
             if (comp.HasActivePlayerOrderedRoadProject)
                 return false;
 
@@ -339,15 +360,31 @@ namespace TSA_WorldDomination
                 return false;
             }
 
+            // NPC hybrid corridor: advance phases even when not picking a new ally.
+            // While road cooldown is active, CompTick continues any in-flight bridge; skip quietly.
+            bool allowHybrid = actor.Faction != null && !actor.Faction.IsPlayer;
+            if (allowHybrid && comp.HasNpcHybridCorridor)
+            {
+                if (comp.IsRoadOnCooldown)
+                    return false;
+                return AdvanceNpcHybridCorridor(actor, comp, manager);
+            }
+
+            if (comp.IsRoadOnCooldown)
+            {
+                manager.AddLog(new SpreadLogEntry("TSA_WD_Log_Road_SkippedCooldown".Translate(actor.LabelCap), actor));
+                return false;
+            }
+
             var allSettlements = Find.WorldObjects.Settlements;
             Settlement closestEnemy = null;
             int closestEnemyDist = int.MaxValue;
             Settlement bestOwnTarget = null;
-            int bestOwnDist = int.MaxValue;
+            float bestOwnApprox = float.MaxValue;
             Settlement bestAllyTarget = null;
-            int bestAllyDist = int.MaxValue;
+            float bestAllyApprox = float.MaxValue;
 
-            float roadScanApprox = seth.maxRoadRangeNpc + 45f;
+            float maxApprox = seth.maxRoadRangeNpc;
             for (int i = 0; i < allSettlements.Count; i++)
             {
                 Settlement s = allSettlements[i];
@@ -364,13 +401,12 @@ namespace TSA_WorldDomination
                 }
                 else if (s != actor)
                 {
-                    if (approx > roadScanApprox) continue;
+                    if (approx > maxApprox) continue;
                     bool sameF = s.Faction == actor.Faction;
                     bool allied = sameF || WorldActions_Utils.SafeRelationKindWith(actor.Faction, s.Faction) == FactionRelationKind.Ally;
                     if (!allied) continue;
-                    int d = WorldActions_Utils.GetDistance(actor.Tile, s.Tile, manager);
-                    if (sameF) { if (d < bestOwnDist) { bestOwnTarget = s; bestOwnDist = d; } }
-                    else       { if (d < bestAllyDist) { bestAllyTarget = s; bestAllyDist = d; } }
+                    if (sameF) { if (approx < bestOwnApprox) { bestOwnTarget = s; bestOwnApprox = approx; } }
+                    else       { if (approx < bestAllyApprox) { bestAllyTarget = s; bestAllyApprox = approx; } }
                 }
             }
 
@@ -395,14 +431,194 @@ namespace TSA_WorldDomination
                 return false;
             }
 
-            int dist = WorldActions_Utils.GetDistance(actor.Tile, target.Tile, manager);
-            if (dist > seth.maxRoadRangeNpc)
+            // Pure land corridor: FindPath OK, no water, hops within max range.
+            bool pureLandOk = TryGetRoadCorridorWork(
+                    actor, target.Tile.tileId, comp.tier, allowBridgedWater: false, out _, out List<int> pureWork)
+                && CountPathHops(actor.Tile.tileId, target.Tile.tileId) <= seth.maxRoadRangeNpc;
+            if (pureLandOk)
             {
-                manager.AddLog(new SpreadLogEntry("TSA_WD_Log_Road_SkippedTargetTooFar".Translate(actor.LabelCap, target.LabelCap, dist, seth.maxRoadRangeNpc), actor, target));
+                if (pureWork.Count > 0)
+                    return LaunchRoadBuilder(actor, target, manager);
+                manager.AddLog(new SpreadLogEntry(
+                    "TSA_WD_Log_Road_SkippedNoWork".Translate(actor.LabelCap, target.LabelCap), actor, target));
                 return false;
             }
 
-            return LaunchRoadBuilder(actor, target, manager);
+            // Hybrid: short opposite-bank span with banks near both ends.
+            if (allowHybrid
+                && WorldActions_BuildBridge.TryFindNpcBridgeSpan(
+                    actor.Tile.tileId, target.Tile.tileId, comp, out List<int> span))
+            {
+                comp.npcHybridRoadTargetTile = target.Tile.tileId;
+                if (comp.npcHybridBridgeSpanTiles == null)
+                    comp.npcHybridBridgeSpanTiles = new List<int>(span.Count);
+                else
+                    comp.npcHybridBridgeSpanTiles.Clear();
+                comp.npcHybridBridgeSpanTiles.AddRange(span);
+                manager.AddLog(new SpreadLogEntry(
+                    "TSA_WD_Log_Road_HybridStarted".Translate(actor.LabelCap, target.LabelCap), actor, target));
+                return AdvanceNpcHybridCorridor(actor, comp, manager);
+            }
+
+            // Land detour only if a land path within range still exists.
+            if (TryGetRoadCorridorWork(actor, target.Tile.tileId, comp.tier, allowBridgedWater: false, out _, out List<int> detourWork)
+                && detourWork.Count > 0
+                && CountPathHops(actor.Tile.tileId, target.Tile.tileId) <= seth.maxRoadRangeNpc)
+            {
+                return LaunchRoadBuilder(actor, target, manager);
+            }
+
+            manager.AddLog(new SpreadLogEntry(
+                "TSA_WD_Log_Road_SkippedNoWork".Translate(actor.LabelCap, target.LabelCap), actor, target));
+            return false;
+        }
+
+        private static int CountPathHops(int fromTileId, int toTileId)
+        {
+            PlanetLayer layer = PlanetSurfaceWorldActions.WdSurfaceLayer;
+            if (layer == null) return int.MaxValue;
+            using (WorldPath path = layer.Pather.FindPath(
+                new PlanetTile(fromTileId, layer),
+                new PlanetTile(toTileId, layer),
+                null))
+            {
+                if (path == null || !path.Found) return int.MaxValue;
+                return Mathf.Max(0, path.NodesReversed.Count - 1);
+            }
+        }
+
+        /// <summary>NPC hybrid phase advance: road to near bank → bridge → road to target.</summary>
+        private static bool AdvanceNpcHybridCorridor(
+            Settlement actor, CompViralSpread comp, WorldComponent_SpreadManager manager)
+        {
+            if (comp == null || !comp.HasNpcHybridCorridor) return false;
+
+            Settlement target = FindSettlementAtTile(comp.npcHybridRoadTargetTile);
+            List<int> planned = comp.npcHybridBridgeSpanTiles;
+            if (target == null
+                || planned == null
+                || planned.Count < 3
+                || !PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(target)
+                || WorldActions_Utils.SafeHostileTo(target.Faction, actor.Faction))
+            {
+                if (WorldActions_BuildBridge.HasActiveBridgeProject(comp))
+                    WorldActions_BuildBridge.ClearBridgeProject(comp);
+                comp.ClearNpcHybridCorridor();
+                return false;
+            }
+
+            int startBank = planned[0];
+            int endBank = planned[planned.Count - 1];
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null
+                || !grid.InBounds(startBank) || !grid.InBounds(endBank)
+                || grid[startBank].WaterCovered || grid[endBank].WaterCovered)
+            {
+                if (WorldActions_BuildBridge.HasActiveBridgeProject(comp))
+                    WorldActions_BuildBridge.ClearBridgeProject(comp);
+                comp.ClearNpcHybridCorridor();
+                return false;
+            }
+
+            // Bridge in flight: never launch land road in parallel.
+            if (WorldActions_BuildBridge.HasActiveBridgeProject(comp)
+                && (comp.bridgeBuilderInField || WorldActions_BuildBridge.HasActiveBridgeCrewFrom(actor)))
+                return false;
+
+            SettlementTier tier = comp.tier;
+
+            // Phase 1: unfinished land road actor → start bank.
+            if (TryGetRoadCorridorWork(actor, startBank, tier, allowBridgedWater: false, out _, out List<int> nearWork)
+                && nearWork.Count > 0)
+            {
+                return LaunchRoadBuilderToTile(actor, startBank, manager, target, allowBridgedWater: false);
+            }
+
+            // Phase 2: bridge water span (kickoff once; CompTick continues segments).
+            if (!WdBridgeGeometry.SpanIsFullyBridged(planned))
+            {
+                if (WorldActions_BuildBridge.HasActiveBridgeProject(comp))
+                    return false; // CompTick will launch the next segment
+
+                if (!WorldActions_BuildBridge.LaunchNpcBridgeKickoff(actor, planned))
+                {
+                    manager.AddLog(new SpreadLogEntry(
+                        "TSA_WD_Log_Road_SkippedLaunchFailed".Translate(actor.LabelCap, target.LabelCap),
+                        actor, target));
+                    return false;
+                }
+
+                comp.roadCooldownTick = Find.TickManager.TicksGame
+                    + Mathf.RoundToInt(WorldDominationMod.settings.cooldownGrowDays * 60000f);
+                manager.AddLog(new SpreadLogEntry(
+                    "TSA_WD_Log_Road_HybridBridgeCrew".Translate(actor.LabelCap, target.LabelCap),
+                    actor, target));
+                return true;
+            }
+
+            // Phase 3: unfinished land road across bridge to target (bridged water OK).
+            if (TryGetRoadCorridorWork(actor, target.Tile.tileId, tier, allowBridgedWater: true, out _, out List<int> farWork)
+                && farWork.Count > 0)
+            {
+                return LaunchRoadBuilderToTile(actor, target.Tile.tileId, manager, target, allowBridgedWater: true);
+            }
+
+            manager.AddLog(new SpreadLogEntry(
+                "TSA_WD_Log_Road_HybridComplete".Translate(actor.LabelCap, target.LabelCap), actor, target));
+            comp.ClearNpcHybridCorridor();
+            return false;
+        }
+
+        private static Settlement FindSettlementAtTile(int tileId)
+        {
+            if (tileId < 0) return null;
+            var list = Find.WorldObjects.Settlements;
+            for (int i = 0; i < list.Count; i++)
+            {
+                Settlement s = list[i];
+                if (s != null && !s.Destroyed && s.Tile.tileId == tileId)
+                    return s;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// FindPath corridor work tiles for NPC road launch.
+        /// When <paramref name="allowBridgedWater"/> is false, any water on the path fails.
+        /// </summary>
+        private static bool TryGetRoadCorridorWork(
+            Settlement actor,
+            int destTileId,
+            SettlementTier tier,
+            bool allowBridgedWater,
+            out List<int> pathTilesDestFirst,
+            out List<int> workTiles)
+        {
+            pathTilesDestFirst = null;
+            workTiles = new List<int>();
+            if (actor == null || destTileId < 0) return false;
+            PlanetLayer layer = PlanetSurfaceWorldActions.WdSurfaceLayer;
+            if (layer == null) return false;
+
+            using (WorldPath path = layer.Pather.FindPath(
+                new PlanetTile(actor.Tile, layer),
+                new PlanetTile(destTileId, layer),
+                null))
+            {
+                if (path == null || !path.Found) return false;
+                // Pure land / near-bank legs reject all water; far hybrid leg allows painted bridges.
+                if (allowBridgedWater)
+                {
+                    if (RoadBuildingPathTouchesUnbridgedWater(path)) return false;
+                }
+                else if (RoadBuildingPathTouchesAnyWater(path))
+                    return false;
+
+                pathTilesDestFirst = PathNodesToTileIds(path.NodesReversed);
+            }
+
+            CollectUnfinishedRoadWorkTiles(pathTilesDestFirst, tier, workTiles);
+            return true;
         }
 
         /// <summary>True if a road-builder traveler was spawned and still exists (path started). False if project finished (no gaps) or launch failed.</summary>
@@ -520,12 +736,19 @@ namespace TSA_WorldDomination
 
         public static void DestroyActiveRoadBuildersFrom(WorldObject origin)
         {
-            if (origin == null || Find.WorldObjects == null) return;
-            var allWo = Find.WorldObjects.AllWorldObjects;
-            for (int wi = allWo.Count - 1; wi >= 0; wi--)
+            if (origin == null) return;
+            IReadOnlyList<WorldObject_Traveler> live = WorldObject_Traveler.LiveTravelers;
+            for (int wi = live.Count - 1; wi >= 0; wi--)
             {
-                if (allWo[wi] is WorldObject_Traveler t && t.mission == TravelerMission.RoadBuilding && t.originObject == origin)
+                WorldObject_Traveler t = live[wi];
+                if (t != null
+                    && t.mission == TravelerMission.RoadBuilding
+                    && t.originObject == origin
+                    && !t.Destroyed)
+                {
+                    ColonyWorldBuildRequirements.RefundConstructionAbort(t);
                     t.Destroy();
+                }
             }
         }
 
@@ -635,7 +858,8 @@ namespace TSA_WorldDomination
             for (int i = 0; i < tiles.Count; i++)
             {
                 int id = tiles[i];
-                if (id >= 0 && id < grid.TilesCount && grid[id].WaterCovered)
+                if (id >= 0 && id < grid.TilesCount && grid[id].WaterCovered
+                    && !WorldComponent_WdBridges.IsBridgedWaterTile(id))
                     return true;
             }
             return false;
@@ -652,10 +876,12 @@ namespace TSA_WorldDomination
         /// <summary>Used after load / cancel to detect stale <see cref="CompViralSpread"/> builder-in-field state.</summary>
         public static bool HasActiveRoadBuilderFrom(WorldObject origin)
         {
-            if (origin == null || Find.WorldObjects == null) return false;
-            foreach (var wo in Find.WorldObjects.AllWorldObjects)
+            if (origin == null) return false;
+            IReadOnlyList<WorldObject_Traveler> live = WorldObject_Traveler.LiveTravelers;
+            for (int i = 0; i < live.Count; i++)
             {
-                if (wo is WorldObject_Traveler t && !t.Destroyed
+                WorldObject_Traveler t = live[i];
+                if (t != null && !t.Destroyed
                     && t.mission == TravelerMission.RoadBuilding
                     && t.originObject == origin)
                     return true;
@@ -664,43 +890,33 @@ namespace TSA_WorldDomination
         }
 
         public static bool LaunchRoadBuilder(Settlement actor, Settlement target, WorldComponent_SpreadManager manager)
+            => LaunchRoadBuilderToTile(actor, target.Tile.tileId, manager, target, allowBridgedWater: false);
+
+        /// <summary>
+        /// Spawn road crews toward unfinished land work on the FindPath corridor to <paramref name="destTileId"/>.
+        /// Bridged water may be crossed when <paramref name="allowBridgedWater"/> is true (hybrid far approach).
+        /// </summary>
+        public static bool LaunchRoadBuilderToTile(
+            Settlement actor,
+            int destTileId,
+            WorldComponent_SpreadManager manager,
+            Settlement logTarget,
+            bool allowBridgedWater)
         {
             var comp = actor.GetComponent<CompViralSpread>();
             SettlementTier tier = comp != null ? comp.tier : SettlementTier.T1;
             float costNeeded = GetExpeditionStrengthCost(tier);
+            string targetLabel = logTarget?.LabelCap ?? ("Tile " + destTileId);
             if (comp == null || costNeeded <= 0.01f)
             {
-                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Road_SkippedLowStrength".Translate(actor.LabelCap, 0f.ToString("F0")), actor, target));
+                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Road_SkippedLowStrength".Translate(actor.LabelCap, 0f.ToString("F0")), actor, logTarget));
                 return false;
             }
 
-            PlanetLayer layer = PlanetSurfaceWorldActions.WdSurfaceLayer;
-            if (layer == null)
+            if (!TryGetRoadCorridorWork(actor, destTileId, tier, allowBridgedWater, out List<int> pathTilesDestFirst, out List<int> workTiles)
+                || workTiles.Count == 0)
             {
-                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Road_SkippedLaunchFailed".Translate(actor.LabelCap, target.LabelCap), actor, target));
-                return false;
-            }
-
-            List<int> pathTilesDestFirst;
-            List<int> workTiles = new List<int>();
-            using (WorldPath path = layer.Pather.FindPath(
-                new PlanetTile(actor.Tile, layer),
-                new PlanetTile(target.Tile, layer),
-                null))
-            {
-                if (path == null || !path.Found || RoadBuildingPathTouchesWater(path))
-                {
-                    manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Road_SkippedNoWork".Translate(actor.LabelCap, target.LabelCap), actor, target));
-                    return false;
-                }
-
-                pathTilesDestFirst = PathNodesToTileIds(path.NodesReversed);
-            }
-
-            CollectUnfinishedRoadWorkTiles(pathTilesDestFirst, tier, workTiles);
-            if (workTiles.Count == 0)
-            {
-                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Road_SkippedNoWork".Translate(actor.LabelCap, target.LabelCap), actor, target));
+                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Road_SkippedNoWork".Translate(actor.LabelCap, targetLabel), actor, logTarget));
                 return false;
             }
 
@@ -712,7 +928,7 @@ namespace TSA_WorldDomination
                 manager?.AddLog(new SpreadLogEntry(
                     "TSA_WD_Log_Road_SkippedLowStrength".Translate(actor.LabelCap, comp.strength.ToString("F0")),
                     actor,
-                    target));
+                    logTarget));
                 return false;
             }
 
@@ -744,13 +960,13 @@ namespace TSA_WorldDomination
 
             if (launched < 1)
             {
-                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Road_SkippedLaunchFailed".Translate(actor.LabelCap, target.LabelCap), actor, target));
+                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_Road_SkippedLaunchFailed".Translate(actor.LabelCap, targetLabel), actor, logTarget));
                 return false;
             }
 
             comp.roadCooldownTick = Find.TickManager.TicksGame + Mathf.RoundToInt(WorldDominationMod.settings.cooldownGrowDays * 60000f);
 
-            manager.AddLog(new SpreadLogEntry("TSA_WD_Log_Road_ExpeditionLaunched".Translate(actor.LabelCap, target.LabelCap), actor, target));
+            manager.AddLog(new SpreadLogEntry("TSA_WD_Log_Road_ExpeditionLaunched".Translate(actor.LabelCap, targetLabel), actor, logTarget));
             return true;
         }
 
@@ -778,6 +994,9 @@ namespace TSA_WorldDomination
             {
                 int from = nodesDestFirst[i];
                 int to = nodesDestFirst[i - 1];
+                // Bridge water is painted by the bridge system, never as land road work.
+                if (IsBridgeOrWaterRoadEdge(from, to))
+                    continue;
                 if (ShouldUpgradeRoad(new PlanetTile(from, layer), new PlanetTile(to, layer), targetRoad))
                     // NPC multi-launch uses unique adjacent edge ends (not GetRoadEdgeWorkTile, which can repeat).
                     into.Add(to);
@@ -834,8 +1053,12 @@ namespace TSA_WorldDomination
             return ColonyWorldBuildRequirements.TryFinalizeMaterialsOrAbort(origin, traveler, cost, materials);
         }
 
-        /// <summary>Road builders never cross ocean/water tiles; paths must match land-only <see cref="WorldPath"/>.</summary>
+        /// <summary>True if path touches unbridged water. Bridged deck tiles are allowed for road crews.</summary>
         public static bool RoadBuildingPathTouchesWater(WorldPath path)
+            => RoadBuildingPathTouchesUnbridgedWater(path);
+
+        /// <summary>Any WaterCovered tile on the path (including painted bridges).</summary>
+        public static bool RoadBuildingPathTouchesAnyWater(WorldPath path)
         {
             if (path == null || !path.Found) return false;
             WorldGrid grid = Find.WorldGrid;
@@ -845,6 +1068,23 @@ namespace TSA_WorldDomination
             {
                 int id = nodes[i].tileId;
                 if (id >= 0 && id < grid.TilesCount && grid[id].WaterCovered)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>Road builders may cross painted bridge water; unbridged ocean still blocks.</summary>
+        public static bool RoadBuildingPathTouchesUnbridgedWater(WorldPath path)
+        {
+            if (path == null || !path.Found) return false;
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null) return false;
+            var nodes = path.NodesReversed;
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                int id = nodes[i].tileId;
+                if (id >= 0 && id < grid.TilesCount && grid[id].WaterCovered
+                    && !WorldComponent_WdBridges.IsBridgedWaterTile(id))
                     return true;
             }
             return false;
@@ -896,6 +1136,9 @@ namespace TSA_WorldDomination
             {
                 int from = nodesDestFirst[i];
                 int to = nodesDestFirst[i - 1];
+                // Skip bridge/water deck: asphalt upgrades must not replace TSA_WD_StoneBridge.
+                if (IsBridgeOrWaterRoadEdge(from, to))
+                    continue;
                 if (ShouldUpgradeRoad(new PlanetTile(from, layer), new PlanetTile(to, layer), targetRoad))
                 {
                     fromTile = from;
@@ -924,7 +1167,10 @@ namespace TSA_WorldDomination
             int count = 0;
             for (int i = nodesDestFirst.Count - 1; i > 0; i--)
             {
-                if (HasRoadLink(nodesDestFirst[i], nodesDestFirst[i - 1]))
+                int from = nodesDestFirst[i];
+                int to = nodesDestFirst[i - 1];
+                if (IsBridgeOrWaterRoadEdge(from, to)) continue;
+                if (HasRoadLink(from, to))
                     count++;
             }
             return count;
@@ -952,6 +1198,8 @@ namespace TSA_WorldDomination
             {
                 int from = nodesDestFirst[i];
                 int to = nodesDestFirst[i - 1];
+                // Never tear down bridge deck links via land road-removal missions.
+                if (IsBridgeOrWaterRoadEdge(from, to)) continue;
                 if (HasRoadLink(from, to))
                 {
                     fromTile = from;
@@ -1040,6 +1288,7 @@ namespace TSA_WorldDomination
         /// <summary>
         /// Per-hop validation for road-building travelers: allow crossing edges that already meet the planned tier.
         /// <see cref="ShouldUpgradeRoad"/> is false on those edges and would cancel the caravan when the route revisits completed segments.
+        /// Bridged water edges are traverse-only (never paved by land-road crews).
         /// </summary>
         public static bool RoadBuilderMayCrossEdge(int fromTileId, int toTileId, PlanetLayer layer, RoadDef plannedRoad)
         {
@@ -1047,6 +1296,15 @@ namespace TSA_WorldDomination
             WorldGrid grid = Find.WorldGrid;
             if (grid == null || !grid.InBounds(fromTileId) || !grid.InBounds(toTileId)) return false;
             if (!grid.IsNeighbor(fromTileId, toTileId)) return false;
+
+            // Path across painted bridges; do not treat StoneBridge as an asphalt upgrade target.
+            if (IsBridgeOrWaterRoadEdge(fromTileId, toTileId))
+            {
+                if (WorldComponent_WdBridges.IsBridgedWaterTile(fromTileId)
+                    || WorldComponent_WdBridges.IsBridgedWaterTile(toTileId))
+                    return true;
+                return HasRoadLink(fromTileId, toTileId);
+            }
 
             RoadDef existing = grid.GetRoadDef(fromTileId, toTileId, visibleOnly: false);
             if (existing != null && existing.priority >= plannedRoad.priority)
@@ -1063,8 +1321,16 @@ namespace TSA_WorldDomination
             ApplyRoadLink(a, b, GetRoadDefForActor(actor));
         }
 
-        /// <summary>Paint a specific <see cref="RoadDef"/> between neighboring tiles (World Setup / tools).</summary>
         public static void ApplyRoadLink(PlanetTile a, PlanetTile b, RoadDef road)
+            => ApplyRoadLink(a, b, road, clearFortsOnA: true, clearFortsOnB: true);
+
+        /// <summary>Paint a specific <see cref="RoadDef"/> between neighboring tiles (World Setup / tools).</summary>
+        public static void ApplyRoadLink(
+            PlanetTile a,
+            PlanetTile b,
+            RoadDef road,
+            bool clearFortsOnA,
+            bool clearFortsOnB)
         {
             if (road == null) return;
             if (Find.WorldGrid == null || !Find.WorldGrid.InBounds(a.tileId) || !Find.WorldGrid.InBounds(b.tileId)) return;
@@ -1075,13 +1341,20 @@ namespace TSA_WorldDomination
             }
 
             Find.WorldGrid.OverlayRoad(a.tileId, b.tileId, road);
-            // Road wins over fortifications on the paved tiles.
-            WorldActions_SpikeTraps.ClearIfPresent(a.tileId);
-            WorldActions_SpikeTraps.ClearIfPresent(b.tileId);
-            WorldActions_RoadBlocks.ClearIfPresent(a.tileId);
-            WorldActions_RoadBlocks.ClearIfPresent(b.tileId);
+            // Road wins over fortifications on the paved tiles (skip land banks when painting a bridge).
+            if (clearFortsOnA)
+            {
+                WorldActions_SpikeTraps.ClearIfPresent(a.tileId);
+                WorldActions_RoadBlocks.ClearIfPresent(a.tileId);
+            }
+            if (clearFortsOnB)
+            {
+                WorldActions_SpikeTraps.ClearIfPresent(b.tileId);
+                WorldActions_RoadBlocks.ClearIfPresent(b.tileId);
+            }
             ScheduleRoadLayerDirtyFlush();
             WD_WorldLayer_MovementDifficultyOverlay.InvalidateAndDirtyIfActive();
+            WorldActions_BuildBridge.NotifyRoadLinkChanged(a.tileId, b.tileId);
         }
 
         /// <summary>
@@ -1102,6 +1375,7 @@ namespace TSA_WorldDomination
             RemoveRoadLinkOneWay(b.tileId, a);
             ScheduleRoadLayerDirtyFlush();
             WD_WorldLayer_MovementDifficultyOverlay.InvalidateAndDirtyIfActive();
+            WorldActions_BuildBridge.NotifyRoadLinkChanged(a.tileId, b.tileId);
         }
 
         private static void RemoveRoadLinkOneWay(int fromTileId, PlanetTile toNeighbor)

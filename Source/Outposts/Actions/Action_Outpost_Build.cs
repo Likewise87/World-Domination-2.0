@@ -19,20 +19,21 @@ namespace TSA_WorldDomination
             var comp = outpost.GetComponent<CompViralSpread>();
             if (comp == null) yield break;
 
-            List<FloatMenuOption> menu = BuildRootMenuOptions(outpost, comp);
-            if (menu != null && menu.Count > 0)
+            // Never BuildRootMenuOptions here — RimWorld re-queries GetGizmos every GUI pass.
+            // Menu (gates / material counts / AT cap) is built only when the player clicks.
+            // AT is always in the root menu, so the Build button is always shown for player outposts.
+            yield return new Command_Action
             {
-                yield return new Command_Action
-                {
-                    defaultLabel = "TSA_WD_Build".Translate(),
-                    defaultDesc = "TSA_WD_BuildDesc".Translate(),
-                    icon = cachedBuildIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Build", false) ?? TexCommand.Replant,
-                    defaultIconColor = Color.cyan,
-                    action = () => Find.WindowStack.Add(new WdCascadingFloatMenu(BuildRootMenuOptions(outpost, comp)))
-                };
-            }
+                defaultLabel = "TSA_WD_Build".Translate(),
+                defaultDesc = "TSA_WD_BuildDesc".Translate(),
+                icon = cachedBuildIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Build", false) ?? TexCommand.Replant,
+                defaultIconColor = Color.cyan,
+                action = () => Find.WindowStack.Add(new WdCascadingFloatMenu(BuildRootMenuOptions(outpost, comp)))
+            };
 
             foreach (var g in Action_Outpost_BuildRoad.GetGizmos(outpost))
+                yield return g;
+            foreach (var g in Action_Outpost_BuildBridge.GetGizmos(outpost))
                 yield return g;
             foreach (var g in Action_Outpost_RoadBlocks.GetGizmos(outpost))
                 yield return g;
@@ -52,20 +53,18 @@ namespace TSA_WorldDomination
             var comp = colony.GetComponent<CompViralSpread>();
             if (comp == null) yield break;
 
-            List<FloatMenuOption> menu = BuildRootMenuOptions(colony, comp);
-            if (menu != null && menu.Count > 0)
+            yield return new Command_Action
             {
-                yield return new Command_Action
-                {
-                    defaultLabel = "TSA_WD_Build".Translate(),
-                    defaultDesc = "TSA_WD_ColonyBuildDesc".Translate(),
-                    icon = cachedBuildIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Build", false) ?? TexCommand.Replant,
-                    defaultIconColor = Color.cyan,
-                    action = () => Find.WindowStack.Add(new WdCascadingFloatMenu(BuildRootMenuOptions(colony, comp)))
-                };
-            }
+                defaultLabel = "TSA_WD_Build".Translate(),
+                defaultDesc = "TSA_WD_ColonyBuildDesc".Translate(),
+                icon = cachedBuildIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Build", false) ?? TexCommand.Replant,
+                defaultIconColor = Color.cyan,
+                action = () => Find.WindowStack.Add(new WdCascadingFloatMenu(BuildRootMenuOptions(colony, comp)))
+            };
 
             foreach (var g in Action_Outpost_BuildRoad.GetGizmos(colony))
+                yield return g;
+            foreach (var g in Action_Outpost_BuildBridge.GetGizmos(colony))
                 yield return g;
             foreach (var g in Action_Outpost_RoadBlocks.GetGizmos(colony))
                 yield return g;
@@ -90,6 +89,14 @@ namespace TSA_WorldDomination
                 var road = Action_Outpost_BuildRoad.MakeBuildRoadMenuOption(outpost, comp);
                 road.orderInPriority = 500;
                 list.Add(road);
+
+                var bridge = Action_Outpost_BuildBridge.MakeBuildBridgeMenuOption(outpost, comp);
+                bridge.orderInPriority = 490;
+                list.Add(bridge);
+
+                var deconstructBridge = Action_Outpost_BuildBridge.MakeDeconstructBridgeMenuOption(outpost, comp);
+                deconstructBridge.orderInPriority = 155;
+                list.Add(deconstructBridge);
 
                 var removeRoads = Action_Outpost_BuildRoad.MakeRemoveRoadsMenuOption(outpost, comp);
                 removeRoads.orderInPriority = 160;

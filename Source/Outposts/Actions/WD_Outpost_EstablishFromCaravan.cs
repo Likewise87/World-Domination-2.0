@@ -33,6 +33,20 @@ namespace TSA_WorldDomination
     {
         private static Texture2D cachedEstablishIcon;
 
+        private const int TipCacheLifetimeTicks = 30;
+        private static int tipCacheCaravanId = -1;
+        private static int tipCacheTileId = -1;
+        private static int tipCacheTick = -99999;
+        private static int tipCacheHumanlikeCount = -1;
+        private static bool tipCacheHasOutpostHere;
+        private static bool tipCacheMeetsMin;
+        private static bool tipCacheStopped;
+        private static bool tipCacheActiveCamp;
+        private static string tipCacheTooltip;
+        private static string tipCacheDisableReason;
+        private static string tipCacheDefaultName;
+        private static SettlementTier tipCacheTier;
+
         public static IEnumerable<Gizmo> GetGizmos(Caravan caravan)
         {
             if (caravan == null || caravan.Destroyed) yield break;
@@ -40,38 +54,81 @@ namespace TSA_WorldDomination
 
             var pawnsList = caravan.PawnsListForReading;
             if (pawnsList == null || pawnsList.Count == 0) yield break;
-            var humanlike = new List<Pawn>();
+
+            int humanlikeCount = 0;
             for (int i = 0; i < pawnsList.Count; i++)
             {
                 var p = pawnsList[i];
-                if (p?.RaceProps?.Humanlike == true && !p.Dead) humanlike.Add(p);
+                if (p?.RaceProps?.Humanlike == true && !p.Dead) humanlikeCount++;
             }
-            if (humanlike.Count == 0) yield break;
+            if (humanlikeCount == 0) yield break;
 
-            bool hasOutpostHere = false;
+            EnsureTipCache(caravan, humanlikeCount);
+            if (tipCacheHasOutpostHere) yield break;
+
+            var cmd = new Command_EstablishOutpost
+            {
+                defaultLabel = "TSA_WD_EstablishOutpost".Translate(),
+                defaultDesc = tipCacheTooltip,
+                icon = cachedEstablishIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/EstablishOutpost", false) ?? ContentFinder<Texture2D>.Get("UI/Commands/Settle", false) ?? TexCommand.Replant,
+                defaultIconColor = WorldOverlayLineMaterials.DarkCyanColor,
+                meetsMinRadius = tipCacheMeetsMin && tipCacheStopped && !tipCacheActiveCamp,
+                tile = tipCacheTileId,
+                defaultName = tipCacheDefaultName,
+                tierFromCount = tipCacheTier,
+                fromCaravan = caravan
+            };
+            if (!string.IsNullOrEmpty(tipCacheDisableReason))
+                cmd.Disable(tipCacheDisableReason);
+            yield return cmd;
+        }
+
+        private static void EnsureTipCache(Caravan caravan, int humanlikeCount)
+        {
+            int tick = Find.TickManager?.TicksGame ?? 0;
+            int caravanId = caravan.ID;
+            int tileId = caravan.Tile.tileId;
+            if (caravanId == tipCacheCaravanId
+                && tileId == tipCacheTileId
+                && humanlikeCount == tipCacheHumanlikeCount
+                && tick - tipCacheTick < TipCacheLifetimeTicks
+                && tipCacheTooltip != null)
+            {
+                return;
+            }
+
+            tipCacheCaravanId = caravanId;
+            tipCacheTileId = tileId;
+            tipCacheHumanlikeCount = humanlikeCount;
+            tipCacheTick = tick;
+
+            tipCacheHasOutpostHere = false;
             foreach (var o in Find.WorldObjects.ObjectsAt(caravan.Tile))
             {
                 if (o.Faction == Faction.OfPlayer && o is WorldObject_WD_Outpost)
                 {
-                    hasOutpostHere = true;
-                    break;
+                    tipCacheHasOutpostHere = true;
+                    tipCacheTooltip = "";
+                    tipCacheDisableReason = null;
+                    return;
                 }
             }
-            if (hasOutpostHere) yield break;
 
-            int tileId = caravan.Tile.tileId;
             bool meetsMinRadius = Outpost_EstablishmentRequirements.MeetsMinDistanceOnly(tileId, out string minRadiusReason);
             int minTiles = Outpost_EstablishmentRequirements.MinDistanceTiles;
             bool caravanStopped = Outpost_EstablishmentRequirements.CaravanFullyStoppedOnTileForEstablishment(caravan, tileId, out string stoppedReason);
             bool activeCamp = Outpost_EstablishmentRequirements.TileHasActiveCamp(tileId);
 
-            SettlementTier tierFromCount = humanlike.Count >= 20 ? SettlementTier.T4
-                : humanlike.Count >= 12 ? SettlementTier.T3
-                : humanlike.Count >= 7 ? SettlementTier.T2
+            tipCacheMeetsMin = meetsMinRadius;
+            tipCacheStopped = caravanStopped;
+            tipCacheActiveCamp = activeCamp;
+            tipCacheTier = humanlikeCount >= 20 ? SettlementTier.T4
+                : humanlikeCount >= 12 ? SettlementTier.T3
+                : humanlikeCount >= 7 ? SettlementTier.T2
                 : SettlementTier.T1;
 
-            string defaultName = "TSA_WD_OutpostDefaultName".Translate(caravan.Tile).ToString();
-            if (string.IsNullOrEmpty(defaultName)) defaultName = "Outpost";
+            tipCacheDefaultName = "TSA_WD_OutpostDefaultName".Translate(caravan.Tile).ToString();
+            if (string.IsNullOrEmpty(tipCacheDefaultName)) tipCacheDefaultName = "Outpost";
 
             string tooltip = "TSA_WD_EstablishOutpostTooltip".Translate(minTiles).ToString();
             if (activeCamp)
@@ -80,26 +137,16 @@ namespace TSA_WorldDomination
                 tooltip = (minRadiusReason ?? "TSA_WD_Establish_TooClose".Translate(minTiles, "?").ToString()) + "\n\n" + tooltip;
             if (!caravanStopped)
                 tooltip = (stoppedReason ?? "") + "\n\n" + tooltip;
+            tipCacheTooltip = tooltip.TrimStart();
 
-            var cmd = new Command_EstablishOutpost
-            {
-                defaultLabel = "TSA_WD_EstablishOutpost".Translate(),
-                defaultDesc = tooltip.TrimStart(),
-                icon = cachedEstablishIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/EstablishOutpost", false) ?? ContentFinder<Texture2D>.Get("UI/Commands/Settle", false) ?? TexCommand.Replant,
-                defaultIconColor = WorldOverlayLineMaterials.DarkCyanColor,
-                meetsMinRadius = meetsMinRadius && caravanStopped && !activeCamp,
-                tile = tileId,
-                defaultName = defaultName,
-                tierFromCount = tierFromCount,
-                fromCaravan = caravan
-            };
             if (activeCamp)
-                cmd.Disable("TSA_WD_Establish_ActiveCamp".Translate());
+                tipCacheDisableReason = "TSA_WD_Establish_ActiveCamp".Translate();
             else if (!caravanStopped)
-                cmd.Disable(stoppedReason);
+                tipCacheDisableReason = stoppedReason;
             else if (!meetsMinRadius)
-                cmd.Disable(minRadiusReason);
-            yield return cmd;
+                tipCacheDisableReason = minRadiusReason;
+            else
+                tipCacheDisableReason = null;
         }
     }
 

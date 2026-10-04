@@ -1080,6 +1080,7 @@ namespace TSA_WorldDomination
         public const bool DefNotifyOutpostUpkeep = true;
         public const bool DefNotifyConstructionInsufficientStrength = true;
         public const bool DefNotifyConstructionInsufficientMaterials = true;
+        public const bool DefNotifyBridgeDeconstructBlocked = true;
         public const bool DefNotifyOutpostNoProduction = true;
         public const bool DefNotifyOutpostUnusedExperts = true;
         public const bool DefNotifyLateGameActive = true;
@@ -2062,6 +2063,7 @@ namespace TSA_WorldDomination
         public bool notifyOutpostUpkeep = DefNotifyOutpostUpkeep;
         public bool notifyConstructionInsufficientStrength = DefNotifyConstructionInsufficientStrength;
         public bool notifyConstructionInsufficientMaterials = DefNotifyConstructionInsufficientMaterials;
+        public bool notifyBridgeDeconstructBlocked = DefNotifyBridgeDeconstructBlocked;
         public bool notifyOutpostNoProduction = DefNotifyOutpostNoProduction;
         public bool notifyOutpostUnusedExperts = DefNotifyOutpostUnusedExperts;
         public bool notifyLateGameActive = DefNotifyLateGameActive;
@@ -3208,6 +3210,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref notifyOutpostUpkeep, "notifyOutpostUpkeep", DefNotifyOutpostUpkeep);
             Scribe_Values.Look(ref notifyConstructionInsufficientStrength, "notifyConstructionInsufficientStrength", DefNotifyConstructionInsufficientStrength);
             Scribe_Values.Look(ref notifyConstructionInsufficientMaterials, "notifyConstructionInsufficientMaterials", DefNotifyConstructionInsufficientMaterials);
+            Scribe_Values.Look(ref notifyBridgeDeconstructBlocked, "notifyBridgeDeconstructBlocked", DefNotifyBridgeDeconstructBlocked);
             Scribe_Values.Look(ref notifyOutpostNoProduction, "notifyOutpostNoProduction", DefNotifyOutpostNoProduction);
             Scribe_Values.Look(ref notifyOutpostUnusedExperts, "notifyOutpostUnusedExperts", DefNotifyOutpostUnusedExperts);
             Scribe_Values.Look(ref notifyLateGameActive, "notifyLateGameActive", DefNotifyLateGameActive);
@@ -5322,6 +5325,7 @@ namespace TSA_WorldDomination
             notifyOutpostUpkeep = DefNotifyOutpostUpkeep;
             notifyConstructionInsufficientStrength = DefNotifyConstructionInsufficientStrength;
             notifyConstructionInsufficientMaterials = DefNotifyConstructionInsufficientMaterials;
+            notifyBridgeDeconstructBlocked = DefNotifyBridgeDeconstructBlocked;
             notifyOutpostNoProduction = DefNotifyOutpostNoProduction;
             notifyOutpostUnusedExperts = DefNotifyOutpostUnusedExperts;
             notifyLateGameActive = DefNotifyLateGameActive;

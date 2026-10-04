@@ -58,8 +58,14 @@ namespace TSA_WorldDomination
         /// <summary>True when this clash map was opened on a tile that still has a player AT Turret.</summary>
         private bool foughtOnPlayerAtTurret;
 
+        private List<Pawn> interceptRrPawns = new List<Pawn>();
+        private WorldObject interceptRrOrigin;
+
         /// <summary>True only while the interception raid incident is executing; not saved.</summary>
         public bool InterceptionRaidPending { get; set; }
+
+        /// <summary>Clash map generated with <c>WD_BridgeClash</c> (water + granite bridge). Not saved; Ambush is temporary.</summary>
+        public bool IsBridgeClash { get; set; }
 
         /// <summary>For ForceRaidDirection / other mods: do not steer this raid; WD sets spawn or encounter is active.</summary>
         public bool ShouldSkipExternalRaidSteering => InterceptionRaidPending || encounterActive;
@@ -71,7 +77,41 @@ namespace TSA_WorldDomination
         /// </summary>
         public bool BlocksPlayerEdgeExit => (encounterActive || playerFled || aerialLeaveInProgress) && !playerHasWon;
 
+        /// <summary>Clash running on a persistent player Camp map (not a temporary Ambush site).</summary>
+        public bool IsCampClash =>
+            map?.Parent != null
+            && !map.Parent.Destroyed
+            && Outpost_EstablishmentRequirements.IsActiveCamp(map.Parent);
+
         public WD_MapComponent_CaravanClash(Map map) : base(map) { }
+
+        public void RegisterInterceptRrDrop(WorldObject origin, IReadOnlyList<Pawn> pawns)
+        {
+            if (origin != null)
+                interceptRrOrigin = origin;
+            if (pawns == null) return;
+            interceptRrPawns ??= new List<Pawn>();
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                Pawn p = pawns[i];
+                if (p == null || p.Destroyed) continue;
+                if (!interceptRrPawns.Contains(p))
+                    interceptRrPawns.Add(p);
+            }
+        }
+
+        public bool IsInterceptRrTagged(Pawn pawn)
+            => pawn != null && interceptRrPawns != null && interceptRrPawns.Contains(pawn);
+
+        /// <summary>Ambush teardown only. Camp clashes keep tagged pawns on the persistent map.</summary>
+        public void ReturnInterceptRrPawnsIfTempMap()
+        {
+            if (IsCampClash) return;
+            if (interceptRrPawns == null || interceptRrPawns.Count == 0) return;
+            int tile = map != null && map.Tile.Valid ? map.Tile.tileId : -1;
+            WdRrInterceptDropUtility.ReturnPawnsToOrigin(interceptRrOrigin, interceptRrPawns, tile);
+            interceptRrOrigin = null;
+        }
 
         /// <summary>True when this tile already has a loaded temporary Ambush map hosting a WD caravan clash.</summary>
         public static bool TileHasBusyCaravanClashAmbush(PlanetTile tile)
@@ -89,6 +129,35 @@ namespace TSA_WorldDomination
                     return true;
             }
             return false;
+        }
+
+        /// <summary>True while a Camp clash on this tile is still fighting or mid aerial-flee cleanup.</summary>
+        public static bool TileHasBusyCampClash(PlanetTile tile)
+        {
+            if (!tile.Valid) return false;
+            var maps = Current.Game?.Maps;
+            if (maps == null) return false;
+            for (int i = 0; i < maps.Count; i++)
+            {
+                Map m = maps[i];
+                if (m == null || m.Tile != tile) continue;
+                MapParent parent = m.Parent;
+                if (parent == null || parent.Destroyed) continue;
+                if (!Outpost_EstablishmentRequirements.IsActiveCamp(parent)) continue;
+                WD_MapComponent_CaravanClash clash = m.GetComponent<WD_MapComponent_CaravanClash>();
+                if (clash == null) continue;
+                if (clash.encounterActive || clash.playerFled)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool TileHasBusyCampClash(int tileId)
+        {
+            if (tileId < 0) return false;
+            PlanetLayer surface = Find.WorldGrid?.Surface;
+            if (surface == null) return false;
+            return TileHasBusyCampClash(new PlanetTile(tileId, surface));
         }
 
         public void StoreAndDestroyTraveler(WorldObject_Traveler traveler)
@@ -181,7 +250,13 @@ namespace TSA_WorldDomination
                     playerHasWon = true;
                     encounterActive = false;
                     aerialLeaveInProgress = false;
-                    Messages.Message("TSA_WD_InterceptionVictory".Translate(), MessageTypeDefOf.PositiveEvent);
+                    if (IsCampClash)
+                        DiscardEncounterLeftovers();
+                    else
+                        ReturnInterceptRrPawnsIfTempMap();
+                    Messages.Message(
+                        (IsCampClash ? "TSA_WD_CampClashVictory" : "TSA_WD_InterceptionVictory").Translate(),
+                        MessageTypeDefOf.PositiveEvent);
                 }
                 return;
             }
@@ -193,9 +268,11 @@ namespace TSA_WorldDomination
                     return;
 
                 RespawnNewTraveler(fled: false);
+                ReturnInterceptRrPawnsIfTempMap();
                 ExecuteAllDownedPlayerPawns();
                 DiscardEncounterLeftovers();
-                QueueAmbushEncounterMapTeardown();
+                if (!IsCampClash)
+                    QueueAmbushEncounterMapTeardown();
             }
         }
 
@@ -303,6 +380,7 @@ namespace TSA_WorldDomination
             WDVerbose.Msg($"[TSA WD] Aerial/shuttle flee Phase A for {travelerLabel}.");
             RespawnNewTraveler(fled: true);
             playerFled = true;
+            ReturnInterceptRrPawnsIfTempMap();
             ExecuteAllDownedPlayerPawns();
         }
 
@@ -332,6 +410,12 @@ namespace TSA_WorldDomination
             WDVerbose.Msg($"[TSA WD] Aerial/shuttle flee Phase B teardown for {travelerLabel}.");
             aerialLeaveInProgress = false;
             DiscardEncounterLeftovers();
+            if (IsCampClash)
+            {
+                // Persistent Camp: clear flee latch so later walkers are not blocked forever.
+                playerFled = false;
+                return;
+            }
             QueueAmbushEncounterMapTeardown();
         }
 
@@ -367,7 +451,8 @@ namespace TSA_WorldDomination
             for (int i = allPawns.Count - 1; i >= 0; i--)
             {
                 var p = allPawns[i];
-                if (p.Faction != null && p.Faction.IsPlayer && p.Downed && !p.Dead)
+                if (p.Faction != null && p.Faction.IsPlayer && p.Downed && !p.Dead
+                    && !IsInterceptRrTagged(p))
                     p.Kill(null);
             }
         }
@@ -397,6 +482,7 @@ namespace TSA_WorldDomination
 
             playerFled = false;
 
+            ReturnInterceptRrPawnsIfTempMap();
             DiscardEncounterLeftovers();
             DestroyAmbushParentIfPresent();
 
@@ -452,9 +538,10 @@ namespace TSA_WorldDomination
             }
 
             WDVerbose.Msg($"[TSA WD] {(fled ? "Flee" : "Defeat")}/Closure: {travelerLabel} recreated on world map dest={destId} moving={moving}.");
-            Messages.Message(
-                (fled ? "TSA_WD_InterceptionFled" : "TSA_WD_InterceptionFailed").Translate(travelerLabel),
-                MessageTypeDefOf.NegativeEvent);
+            string failKey = IsCampClash
+                ? (fled ? "TSA_WD_CampClashFled" : "TSA_WD_CampClashFailed")
+                : (fled ? "TSA_WD_InterceptionFled" : "TSA_WD_InterceptionFailed");
+            Messages.Message(failKey.Translate(travelerLabel), MessageTypeDefOf.NegativeEvent);
 
             if (foughtOnPlayerAtTurret)
             {
@@ -628,6 +715,9 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref leftoversDiscarded, "leftoversDiscarded", false);
             Scribe_Values.Look(ref foughtOnPlayerAtTurret, "foughtOnPlayerAtTurret", false);
             Scribe_Values.Look(ref lootResolved, "lootResolved", false);
+            Scribe_Collections.Look(ref interceptRrPawns, "interceptRrPawns", LookMode.Reference);
+            Scribe_References.Look(ref interceptRrOrigin, "interceptRrOrigin");
+            if (interceptRrPawns == null) interceptRrPawns = new List<Pawn>();
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit && playerHasWon)
                 encounterActive = false;

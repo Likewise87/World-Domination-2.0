@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_41_Title>Puentes, equilibrio y rendimiento</TSA_WD_Update_2_3_41_Title>
+  <TSA_WD_Update_2_3_41_Body><![CDATA[
+<size=16><b>2.3.41 – Puentes, equilibrio y rendimiento</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 4 de octubre de 2026</color>\n
+------------------------------\n
+• Nueva función: ya puedes construir puentes desde la colonia y las avanzadillas. Elige la opción, selecciona una casilla de orilla y luego otra en la orilla opuesta del agua. También puedes combatir sobre puentes (se genera un mapa de puente real). Las facciones NPC también construirán puentes.\n
+• La fuerza ofensiva máxima de las avanzadillas de respuesta rápida sube a 2700 (antes 1500). Para el resto de avanzadillas el tope es 2200. Esto debería ayudar en el juego tardío frente a enemigos muy fuertes.\n
+• Corregido un problema de rendimiento: el contenido de algunos menús flotantes se recalculaba innecesariamente.\n
+• Otras mejoras de rendimiento.\n
+]]></TSA_WD_Update_2_3_41_Body>
   <TSA_WD_Update_2_3_4_Title>Ajustes finos</TSA_WD_Update_2_3_4_Title>
   <TSA_WD_Update_2_3_4_Body><![CDATA[
 <size=16><b>2.3.4 – Ajustes finos</b></size>\n

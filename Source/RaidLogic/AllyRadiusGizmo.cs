@@ -12,6 +12,11 @@ namespace TSA_WorldDomination
         private static Texture2D cachedIconOn;
         private static Texture2D cachedIconOff;
 
+        private const int DescCacheLifetimeTicks = 60;
+        private static int descCacheWoId = -1;
+        private static int descCacheTick = -99999;
+        private static string descCacheString;
+
         public static IEnumerable<Gizmo> Get(WorldObject worldObject)
         {
             if (worldObject == null || worldObject.Destroyed || worldObject.Faction == null)
@@ -39,7 +44,20 @@ namespace TSA_WorldDomination
                 toggleAction = () => WD_RadiusOverlayPrefs.Toggle(category, WD_RadiusOverlayKind.Ally);
             }
 
-            public override string Desc => BuildDesc(worldObject);
+            public override string Desc => GetCachedDesc(worldObject);
+
+            private static string GetCachedDesc(WorldObject wo)
+            {
+                if (wo == null) return "";
+                int tick = Find.TickManager?.TicksGame ?? 0;
+                int id = wo.ID;
+                if (id == descCacheWoId && tick - descCacheTick < DescCacheLifetimeTicks && descCacheString != null)
+                    return descCacheString;
+                descCacheWoId = id;
+                descCacheTick = tick;
+                descCacheString = BuildDesc(wo);
+                return descCacheString;
+            }
 
             private static string BuildDesc(WorldObject wo)
             {

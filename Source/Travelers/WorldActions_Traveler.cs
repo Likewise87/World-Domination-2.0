@@ -79,6 +79,10 @@ namespace TSA_WorldDomination
                     if (prev < 0) return true;
                     return WorldActions_Roads.RoadBuilderMayCrossEdge(prev, traveler.Tile.tileId, traveler.Tile.Layer, plannedRoad);
 
+                case TravelerMission.BridgeBuilding:
+                case TravelerMission.BridgeDeconstruct:
+                    return traveler.originObject != null && !traveler.originObject.Destroyed;
+
                 case TravelerMission.RoadBlock:
                     return traveler.originObject != null && !traveler.originObject.Destroyed;
 
@@ -216,22 +220,47 @@ namespace TSA_WorldDomination
                 case TravelerMission.RoadBuilding:
                     ExecuteRoadPaving(traveler, previousTileId);
                     if (traveler != null && !traveler.Destroyed)
+                    {
+                        ColonyWorldBuildRequirements.TryRefundUnappliedConstructionMaterials(traveler);
+                        traveler.Destroy();
+                    }
+                    break;
+                case TravelerMission.BridgeBuilding:
+                    WorldActions_BuildBridge.ExecuteBridgeArrival(traveler);
+                    if (traveler != null && !traveler.Destroyed)
+                    {
+                        ColonyWorldBuildRequirements.TryRefundUnappliedConstructionMaterials(traveler);
+                        traveler.Destroy();
+                    }
+                    break;
+                case TravelerMission.BridgeDeconstruct:
+                    WorldActions_BuildBridge.ExecuteBridgeDeconstructArrival(traveler);
+                    if (traveler != null && !traveler.Destroyed)
                         traveler.Destroy();
                     break;
                 case TravelerMission.RoadBlock:
                     WorldActions_RoadBlocks.ExecuteRoadBlockArrival(traveler);
                     if (traveler != null && !traveler.Destroyed)
+                    {
+                        ColonyWorldBuildRequirements.TryRefundUnappliedConstructionMaterials(traveler);
                         traveler.Destroy();
+                    }
                     break;
                 case TravelerMission.SpikeTrap:
                     WorldActions_SpikeTraps.ExecuteSpikeTrapArrival(traveler);
                     if (traveler != null && !traveler.Destroyed)
+                    {
+                        ColonyWorldBuildRequirements.TryRefundUnappliedConstructionMaterials(traveler);
                         traveler.Destroy();
+                    }
                     break;
                 case TravelerMission.AtTurret:
                     WorldActions_AtTurrets.ExecuteAtTurretArrival(traveler);
                     if (traveler != null && !traveler.Destroyed)
+                    {
+                        ColonyWorldBuildRequirements.TryRefundUnappliedConstructionMaterials(traveler);
                         traveler.Destroy();
+                    }
                     break;
                 case TravelerMission.NpcAtTurret:
                     WorldActions_NpcFortify.ExecuteNpcAtTurretArrival(traveler);
@@ -737,97 +766,91 @@ namespace TSA_WorldDomination
 
             WorldObject target = traveler.targetObject;
             WorldObject originWo = traveler.originObject;
-            WorldObject_WD_Outpost origin = originWo as WorldObject_WD_Outpost;
-            MapParent originColony = originWo as MapParent;
-            if (originColony is WorldObject_WD_Outpost) originColony = null;
             int landTile = traveler.Tile.tileId;
 
             void ReturnHome()
             {
-                if (origin != null && !origin.Destroyed)
+                WdRrInterceptDropUtility.ReturnPawnsToOrigin(originWo, removed, landTile);
+            }
+
+            void DropOnMap(Map map, bool interceptTag)
+            {
+                if (target is Caravan targetCaravan && !targetCaravan.Destroyed)
+                    CaravanEnterMapUtility.Enter(targetCaravan, map, CaravanEnterMode.Edge);
+                RapidResponseUtility.DropPawnsViaDropPods(removed, map);
+                if (interceptTag)
+                    WdRrInterceptDropUtility.RegisterOnMap(map, originWo, removed);
+                string label = map.Parent?.LabelCap ?? ("#" + landTile);
+                Messages.Message(
+                    "TSA_WD_RapidResponse_DropPodsArrived".Translate(removed.Count.ToString(), label),
+                    MessageTypeDefOf.NeutralEvent,
+                    false);
+            }
+
+            // 1. Destination is a player outpost: extras of that outpost (no intercept tag).
+            if (target is WorldObject_WD_Outpost destOutpost && destOutpost.Faction == Faction.OfPlayer
+                && !destOutpost.Destroyed)
+            {
+                Map defenseMap = WD_MapComponent_OutpostDefense.FindActiveMapFor(destOutpost);
+                if (defenseMap != null)
                 {
-                    for (int i = 0; i < removed.Count; i++)
-                    {
-                        Pawn p = removed[i];
-                        if (p == null || p.Destroyed || p.Dead) continue;
-                        origin.AddPawn(p, null!);
-                    }
+                    DropOnMap(defenseMap, interceptTag: false);
                     return;
                 }
-                if (originColony != null && !originColony.Destroyed && originColony.HasMap)
+                if (destOutpost.ManualDefenseActive)
                 {
-                    RapidResponseUtility.DropPawnsViaDropPods(removed, originColony.Map);
+                    WdRrInterceptDropUtility.DumpPawnsAsCaravan(removed, destOutpost.Tile.tileId);
+                    Messages.Message("TSA_WD_OutpostDefense_FrozenDuringManualDefense".Translate(), MessageTypeDefOf.RejectInput, false);
                     return;
                 }
-                int homeTile = originWo != null && !originWo.Destroyed
-                    ? originWo.Tile.tileId
-                    : landTile;
-                if (homeTile >= 0 && Find.WorldGrid.InBounds(homeTile))
-                {
-                    CaravanMaker.MakeCaravan(removed, Faction.OfPlayer, homeTile, true);
-                    return;
-                }
+                int added = 0;
                 for (int i = 0; i < removed.Count; i++)
                 {
-                    Pawn p = removed[i];
-                    if (p != null && !p.Destroyed) p.Destroy();
+                    Pawn pawn = removed[i];
+                    if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
+                    if (destOutpost.AddPawn(pawn, null!))
+                        added++;
+                    else if (originWo is WorldObject_WD_Outpost originLive && !originLive.Destroyed)
+                        originLive.AddPawn(pawn, null!);
                 }
+                Messages.Message("TSA_WD_RapidResponse_DropPodsArrived".Translate(added.ToString(), destOutpost.LabelCap), MessageTypeDefOf.NeutralEvent, false);
+                return;
             }
 
-            if (TravelerEndpointUtility.IsLiveEndpoint(target))
+            // 2. Any loaded map on the land tile (defense, clash, camp, colony).
+            Map loaded = RapidResponseUtility.MapAtTile(landTile);
+            if (loaded == null && target != null && !target.Destroyed)
+                loaded = RapidResponseUtility.MapAtTile(target.Tile.tileId);
+            if (loaded != null)
             {
-                if (target is WorldObject_Traveler hostileTraveler)
-                {
-                    WD_CaravanClashUtility.StartInterceptionEncounterDropPods(removed, hostileTraveler);
-                    return;
-                }
-
-                if (target is WorldObject_WD_Outpost targetOutpost && RapidResponseUtility.MapAtTile(targetOutpost.Tile) == null)
-                {
-                    int added = 0;
-                    for (int i = 0; i < removed.Count; i++)
-                    {
-                        Pawn pawn = removed[i];
-                        if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
-                        if (targetOutpost.AddPawn(pawn, null!))
-                            added++;
-                        else if (origin != null && !origin.Destroyed)
-                            origin.AddPawn(pawn, null!);
-                    }
-                    Messages.Message("TSA_WD_RapidResponse_DropPodsArrived".Translate(added.ToString(), targetOutpost.LabelCap), MessageTypeDefOf.NeutralEvent, false);
-                    return;
-                }
-
-                Map map = null;
-                if (target is MapParent mapParent && mapParent.HasMap)
-                    map = mapParent.Map;
-                else
-                    map = RapidResponseUtility.MapAtTile(target.Tile);
-
-                if (map != null)
-                {
-                    if (target is Caravan targetCaravan && !targetCaravan.Destroyed)
-                        CaravanEnterMapUtility.Enter(targetCaravan, map, CaravanEnterMode.Edge);
-                    RapidResponseUtility.DropPawnsViaDropPods(removed, map);
-                    Messages.Message("TSA_WD_RapidResponse_DropPodsArrived".Translate(removed.Count.ToString(), target.LabelCap), MessageTypeDefOf.NeutralEvent, false);
-                    return;
-                }
+                bool intercept = target is WorldObject_Traveler;
+                DropOnMap(loaded, intercept);
+                return;
             }
 
-            // Tile destination (or WO lost mid-flight / no map): drop on map if present, else form a caravan.
+            // 3. No map, ballistic target: land as caravan, leave the enemy flying.
+            if (target is WorldObject_Traveler ballistic
+                && WD_PathFollower.IsBallisticWorldFlight(ballistic))
+            {
+                WdRrInterceptDropUtility.DumpPawnsAsCaravan(removed, landTile);
+                Messages.Message(
+                    "TSA_WD_RapidResponse_DropPodsArrived".Translate(removed.Count.ToString(), "#" + landTile),
+                    MessageTypeDefOf.NeutralEvent,
+                    false);
+                return;
+            }
+
+            // 4. Walking traveler, no map: start a clash.
+            if (target is WorldObject_Traveler hostileTraveler && TravelerEndpointUtility.IsLiveEndpoint(hostileTraveler))
+            {
+                WD_CaravanClashUtility.StartInterceptionEncounterDropPods(removed, hostileTraveler, originWo);
+                return;
+            }
+
             if (landTile < 0 || !Find.WorldGrid.InBounds(landTile))
             {
                 ReturnHome();
                 Messages.Message("TSA_WD_RapidResponse_DropPodsAborted".Translate(), MessageTypeDefOf.RejectInput, false);
-                return;
-            }
-
-            Map landMap = RapidResponseUtility.MapAtTile(landTile);
-            if (landMap != null)
-            {
-                RapidResponseUtility.DropPawnsViaDropPods(removed, landMap);
-                string mapLabel = landMap.Parent?.LabelCap ?? ("#" + landTile);
-                Messages.Message("TSA_WD_RapidResponse_DropPodsArrived".Translate(removed.Count.ToString(), mapLabel), MessageTypeDefOf.NeutralEvent, false);
                 return;
             }
 
@@ -1104,6 +1127,7 @@ namespace TSA_WorldDomination
 
             List<ThingDefCountClass> storedRows = OutpostStorageUtility.DepositRows(outpost, delivery.deliveryItems);
             List<string> uniqueLines = OutpostStorageUtility.DepositUniques(outpost, delivery.CargoUniques);
+            Window_AllPlayerGear.InvalidateCache();
             SendGoodsArrivedLetter(delivery, outpost, storedRows, vfAdded, logi, uniqueLines);
         }
 
@@ -2077,11 +2101,13 @@ namespace TSA_WorldDomination
                 paveTo = traveler.Tile.tileId;
             }
 
-            bool stillNeedsWork = WorldActions_Roads.ShouldUpgradeRoad(
-                new PlanetTile(paveFrom, layer),
-                new PlanetTile(paveTo, layer),
-                plannedRoad
-            );
+            // Bridge/water deck: never OverlayRoad asphalt (would replace TSA_WD_StoneBridge and unregister the bridge).
+            bool stillNeedsWork = !WorldActions_Roads.IsBridgeOrWaterRoadEdge(paveFrom, paveTo)
+                && WorldActions_Roads.ShouldUpgradeRoad(
+                    new PlanetTile(paveFrom, layer),
+                    new PlanetTile(paveTo, layer),
+                    plannedRoad
+                );
 
             var manager = Find.World.GetComponent<WorldComponent_SpreadManager>();
 
@@ -2092,6 +2118,7 @@ namespace TSA_WorldDomination
                     new PlanetTile(paveFrom, layer),
                     traveler.originObject
                 );
+                traveler.MarkConstructionWorkApplied();
 
                 if (manager != null)
                 {
@@ -2153,7 +2180,9 @@ namespace TSA_WorldDomination
                 to = traveler.Tile.tileId;
             }
 
-            bool stillHasRoad = WorldActions_Roads.HasRoadLink(from, to);
+            // Bridge teardown is its own mission — land road-removal must not strip deck links.
+            bool stillHasRoad = !WorldActions_Roads.IsBridgeOrWaterRoadEdge(from, to)
+                && WorldActions_Roads.HasRoadLink(from, to);
             bool playerRoadProject = traveler.originObject is WorldObject_WD_Outpost
                 || ColonyWorldBuildUtility.IsPlayerColonyBuildActor(traveler.originObject);
 

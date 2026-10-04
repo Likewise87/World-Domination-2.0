@@ -111,6 +111,7 @@ namespace TSA_WorldDomination
         private static bool _cacheInvalidated;
 
         private int lastUpdateTick = -9999;
+        private bool wasPaused;
         private List<InventoryRow> cachedRows = new List<InventoryRow>();
         private List<InventoryRow> filterBaseRows = new List<InventoryRow>();
         private int totalMatchCount;
@@ -147,6 +148,12 @@ namespace TSA_WorldDomination
 
             if (_cacheInvalidated) { lastUpdateTick = -9999; _cacheInvalidated = false; }
 
+            bool paused = Find.TickManager.Paused;
+            if (Find.TickManager.TicksGame >= lastUpdateTick + UpdateIntervalTicks
+                || (wasPaused && !paused))
+                RebuildRows();
+            wasPaused = paused;
+
             float totalWidth = ComputeTotalTableWidth();
             float tableRight = Mathf.Min(totalWidth, inRect.width - 5f);
 
@@ -166,9 +173,6 @@ namespace TSA_WorldDomination
             DrawTableHeader(-scrollPos.x);
             GUI.EndGroup();
             Widgets.DrawLineHorizontal(0f, headerTop + HeaderHeight, inRect.width);
-
-            if (Find.TickManager.TicksGame >= lastUpdateTick + UpdateIntervalTicks || cachedRows.Count == 0)
-                RebuildRows();
 
             float totalHeight = cachedRows.Count * RowHeight + 8f;
             Rect viewRect = new Rect(0f, 0f, totalWidth, Mathf.Max(totalHeight, tableHeight));
@@ -800,10 +804,12 @@ namespace TSA_WorldDomination
 
         private static void CollectOutpostRows(List<InventoryRow> rows)
         {
-            IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
-            for (int i = 0; i < outposts.Count; i++)
+            List<WorldObject> all = Find.WorldObjects?.AllWorldObjects;
+            if (all == null) return;
+            for (int i = 0; i < all.Count; i++)
             {
-                WorldObject_WD_Outpost o = outposts[i];
+                if (all[i] is not WorldObject_WD_Outpost o) continue;
+                if (o.Destroyed || o.Faction != Faction.OfPlayer) continue;
                 string srcLabel = o.LabelCap;
                 string typeLabel = o.def?.LabelCap ?? "TSA_WD_AllPlayerPawns_LocOutpost".Translate();
                 Texture2D icon = o.def?.ExpandingIconTexture;
@@ -1288,6 +1294,7 @@ namespace TSA_WorldDomination
             selectedRowIds.Clear();
             sendCounts.Clear();
             sendCountBuffers.Clear();
+            InvalidateCache(); // Force next draw to RebuildRows so shipped stock isn't still sendable from stale counts.
             Window_OutpostOverview.InvalidateCache();
             return true;
         }

@@ -120,6 +120,7 @@ namespace TSA_WorldDomination
             string msgKey = viaDropPod ? "TSA_WD_Warehouse_ShipLaunchedDropPod" : "TSA_WD_Warehouse_ShipLaunched";
             Messages.Message(msgKey.Translate(destination.LabelCap), sender, MessageTypeDefOf.PositiveEvent);
             Window_OutpostOverview.InvalidateCache();
+            Window_AllPlayerGear.InvalidateCache();
             return true;
         }
 

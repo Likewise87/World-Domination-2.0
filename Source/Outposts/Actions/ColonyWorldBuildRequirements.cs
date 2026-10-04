@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Text;
 using RimWorld;
 using RimWorld.Planet;
+using UnityEngine;
 using Verse;
 
 namespace TSA_WorldDomination
@@ -156,6 +157,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// After a player construction traveler successfully spawned: deduct materials or destroy traveler and refund strength.
+        /// On success, stores a cost clone on the traveler for abort refunds.
         /// </summary>
         public static bool TryFinalizeMaterialsOrAbort(
             WorldObject origin,
@@ -165,7 +167,11 @@ namespace TSA_WorldDomination
         {
             if (!ActorPaysWorldBuildMaterials(origin)) return true;
             if (costs == null || costs.Count == 0) return true;
-            if (ColonyWorldBuildMaterials.TryDeductMaterialCosts(costs, out _)) return true;
+            if (ColonyWorldBuildMaterials.TryDeductMaterialCosts(costs, out _))
+            {
+                traveler?.StoreConstructionMaterialCosts(ColonyWorldBuildMaterials.CloneCosts(costs));
+                return true;
+            }
 
             var comp = origin?.GetComponent<CompViralSpread>();
             if (traveler != null && !traveler.Destroyed)
@@ -173,6 +179,36 @@ namespace TSA_WorldDomination
             if (comp != null && strengthCost > 0f)
                 WorldActions_Utils.RefundExpeditionStrength(comp, strengthCost);
             return false;
+        }
+
+        public static bool IsWorldBuildConstructionMission(TravelerMission mission) =>
+            mission == TravelerMission.RoadBuilding
+            || mission == TravelerMission.RoadBlock
+            || mission == TravelerMission.SpikeTrap
+            || mission == TravelerMission.AtTurret
+            || mission == TravelerMission.BridgeBuilding;
+
+        /// <summary>
+        /// Clean abort: refund strength once; refund materials if the paid work unit was never applied.
+        /// </summary>
+        public static void RefundConstructionAbort(WorldObject_Traveler traveler)
+        {
+            if (traveler == null || traveler.constructionAbortRefunded) return;
+            traveler.constructionAbortRefunded = true;
+            TravelerEndpointUtility.RefundTravelerStrength(traveler, 1f);
+            TryRefundUnappliedConstructionMaterials(traveler);
+        }
+
+        /// <summary>Arrival no-op / destroy without abort: return materials if work never applied.</summary>
+        public static void TryRefundUnappliedConstructionMaterials(WorldObject_Traveler traveler)
+        {
+            if (traveler == null || traveler.constructionMaterialsRefunded) return;
+            if (traveler.constructionWorkApplied) return;
+            if (traveler.constructionMaterialCosts == null || traveler.constructionMaterialCosts.Count == 0)
+                return;
+            traveler.constructionMaterialsRefunded = true;
+            ColonyWorldBuildMaterials.TryRefundMaterialCosts(traveler.constructionMaterialCosts);
+            traveler.constructionMaterialCosts = null;
         }
 
         public static bool IsResearchMet(ResearchProjectDef project)
@@ -224,8 +260,20 @@ namespace TSA_WorldDomination
             return MeetsConstruction(skill, minC) && IsResearchMet(GetRequiredResearchForAtTurret(tier));
         }
 
+        private const float CostIconSize = 18f;
+        private const float CostIconGap = 4f;
+        private const float CostCountMinW = 18f;
+
+        private struct CostIconSnap
+        {
+            public ThingDef iconDef;
+            public int need;
+            public bool shortStock;
+        }
+
         /// <summary>
         /// Grey the option if unmet; keep the normal label. Append requirements (construction, research, materials) to the tooltip.
+        /// When materials are non-empty, also draws count + ThingIcon on the float-menu row (stock snapshotted once).
         /// </summary>
         public static void ApplyGate(
             FloatMenuOption opt,
@@ -248,6 +296,69 @@ namespace TSA_WorldDomination
                 || !ColonyWorldBuildMaterials.HasMaterialCosts(materialCosts);
             if (unmet)
                 opt.Disabled = true;
+
+            AttachMaterialCostIcons(opt, materialCosts);
+        }
+
+        private static void AttachMaterialCostIcons(FloatMenuOption opt, List<OutpostUpgradeCostEntry> materialCosts)
+        {
+            if (opt == null || materialCosts == null || materialCosts.Count == 0)
+                return;
+
+            var snaps = new List<CostIconSnap>(materialCosts.Count);
+            Text.Font = GameFont.Tiny;
+            float totalW = 0f;
+            for (int i = 0; i < materialCosts.Count; i++)
+            {
+                OutpostUpgradeCostEntry e = materialCosts[i];
+                if (e == null || e.count <= 0) continue;
+                ThingDef iconDef = ColonyWorldBuildMaterials.GetCostIconThingDef(e);
+                if (iconDef == null) continue;
+                int have = ColonyWorldBuildMaterials.CountHaveForCost(e);
+                var snap = new CostIconSnap
+                {
+                    iconDef = iconDef,
+                    need = e.count,
+                    shortStock = have < e.count
+                };
+                snaps.Add(snap);
+                float numW = Mathf.Max(CostCountMinW, Text.CalcSize(snap.need.ToString()).x);
+                totalW += numW + CostIconSize + CostIconGap;
+            }
+            Text.Font = GameFont.Small;
+            if (snaps.Count == 0) return;
+
+            opt.extraPartWidth = totalW;
+            opt.extraPartOnGUI = rect =>
+            {
+                DrawMaterialCostIcons(rect, snaps);
+                return false;
+            };
+        }
+
+        private static void DrawMaterialCostIcons(Rect rect, List<CostIconSnap> snaps)
+        {
+            if (snaps == null || snaps.Count == 0) return;
+            float x = rect.x;
+            float midY = rect.y + rect.height * 0.5f;
+            Text.Font = GameFont.Tiny;
+            for (int i = 0; i < snaps.Count; i++)
+            {
+                CostIconSnap s = snaps[i];
+                string num = s.need.ToString();
+                float numW = Mathf.Max(CostCountMinW, Text.CalcSize(num).x);
+                Color prev = GUI.color;
+                GUI.color = s.shortStock ? new Color(1f, 0.55f, 0.35f) : Color.white;
+                Text.Anchor = TextAnchor.MiddleRight;
+                Widgets.Label(new Rect(x, rect.y, numW, rect.height), num);
+                Text.Anchor = TextAnchor.UpperLeft;
+                Rect iconRect = new Rect(x + numW, midY - CostIconSize * 0.5f, CostIconSize, CostIconSize);
+                if (s.iconDef != null)
+                    Widgets.ThingIcon(iconRect, s.iconDef);
+                GUI.color = prev;
+                x += numW + CostIconSize + CostIconGap;
+            }
+            Text.Font = GameFont.Small;
         }
 
         public static string FormatRequirementsBlock(

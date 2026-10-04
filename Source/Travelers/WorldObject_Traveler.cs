@@ -9,7 +9,7 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    public enum TravelerMission { Expansion, Raid, RoadBuilding, RoadBlock, SpikeTrap, Decontamination, OutpostDelivery, Trader, OutpostUpgrade, MortarStrike, AntiAirStrike, RapidResponseIntercept, RapidResponseDropPod, DebugRaidTransit, RaidDropPod, RaidGravship, SettlementBuy, SettlementGift, SettlementBribe, RaidBribe, NpcFortify, DiplomacyNegotiate, AtTurret, NpcAtTurret, MassRelocation, DesperationRally, TurtleConsolidate }
+    public enum TravelerMission { Expansion, Raid, RoadBuilding, RoadBlock, SpikeTrap, Decontamination, OutpostDelivery, Trader, OutpostUpgrade, MortarStrike, AntiAirStrike, RapidResponseIntercept, RapidResponseDropPod, DebugRaidTransit, RaidDropPod, RaidGravship, SettlementBuy, SettlementGift, SettlementBribe, RaidBribe, NpcFortify, DiplomacyNegotiate, AtTurret, NpcAtTurret, MassRelocation, DesperationRally, TurtleConsolidate, BridgeBuilding, BridgeDeconstruct }
     public enum RaidOrderOutcome { PlayerOutpostConquestMenu, AllyClaimsTarget, AllyAwardsToPlayer }
 
     public class WorldObject_Traveler : WorldObject
@@ -191,6 +191,28 @@ namespace TSA_WorldDomination
         // --- SURGICAL: Road Path Caching for Travelers ---
         public List<int> cachedPathTiles = new List<int>();
 
+        /// <summary>Materials deducted at launch for world-build construction; used for abort refunds.</summary>
+        public List<OutpostUpgradeCostEntry> constructionMaterialCosts;
+        /// <summary>True after the paid construction unit was successfully applied.</summary>
+        public bool constructionWorkApplied;
+        /// <summary>Prevents double strength+material abort refunds.</summary>
+        public bool constructionAbortRefunded;
+        /// <summary>Prevents double material-only refunds.</summary>
+        public bool constructionMaterialsRefunded;
+
+        public void StoreConstructionMaterialCosts(List<OutpostUpgradeCostEntry> costs)
+        {
+            constructionMaterialCosts = costs;
+            constructionWorkApplied = false;
+            constructionMaterialsRefunded = false;
+            constructionAbortRefunded = false;
+        }
+
+        public void MarkConstructionWorkApplied()
+        {
+            constructionWorkApplied = true;
+        }
+
         /// <summary>Paired lists avoid RimWorld dict scribe errors when keys/values counts mismatch (corrupt saves).</summary>
         private List<WorldObject> scribeContribKeys;
         private List<float> scribeContribVals;
@@ -285,6 +307,8 @@ namespace TSA_WorldDomination
                     TravelerMission.DesperationRally => "TSA_WD_DesperationRallyCaravan".Translate(),
                     TravelerMission.TurtleConsolidate => "TSA_WD_TurtleConsolidateCaravan".Translate(),
                     TravelerMission.RoadBuilding => "TSA_WD_RoadBuilderCaravan".Translate(),
+                    TravelerMission.BridgeBuilding => "TSA_WD_BridgeBuilderCaravan".Translate(),
+                    TravelerMission.BridgeDeconstruct => "TSA_WD_BridgeDeconstructCaravan".Translate(),
                     TravelerMission.RoadBlock => "TSA_WD_Traveler_Outpost_RoadBlock".Translate(),
                     TravelerMission.SpikeTrap => "TSA_WD_Traveler_Outpost_SpikeTrap".Translate(),
                     TravelerMission.Decontamination => "TSA_WD_Traveler_Outpost_Decontamination".Translate(),
@@ -587,6 +611,9 @@ namespace TSA_WorldDomination
                 pather?.StopDead();
                 if (mission == TravelerMission.RoadBuilding && originObject != null && !originObject.Destroyed)
                     originObject.GetComponent<CompViralSpread>()?.NotifyRoadBuilderReturned();
+                if ((mission == TravelerMission.BridgeBuilding || mission == TravelerMission.BridgeDeconstruct)
+                    && originObject != null && !originObject.Destroyed)
+                    originObject.GetComponent<CompViralSpread>()?.NotifyBridgeCrewReturned();
                 if (mission == TravelerMission.RoadBlock && originObject != null && !originObject.Destroyed)
                     originObject.GetComponent<CompViralSpread>()?.NotifyRoadBlockCrewReturned();
                 if (mission == TravelerMission.SpikeTrap && originObject != null && !originObject.Destroyed)
@@ -1396,6 +1423,12 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref fortifySpikeTrapKind, "fortifySpikeTrapKind", SpikeTrapKind.Spike);
             Scribe_Values.Look(ref fortifyRoadBlockKind, "fortifyRoadBlockKind", RoadBlockKind.Light);
             Scribe_Values.Look(ref isolationPressureExpand, "isolationPressureExpand", false);
+            Scribe_Collections.Look(ref constructionMaterialCosts, "constructionMaterialCosts", LookMode.Deep);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && constructionMaterialCosts == null)
+                constructionMaterialCosts = null;
+            Scribe_Values.Look(ref constructionWorkApplied, "constructionWorkApplied", false);
+            Scribe_Values.Look(ref constructionAbortRefunded, "constructionAbortRefunded", false);
+            Scribe_Values.Look(ref constructionMaterialsRefunded, "constructionMaterialsRefunded", false);
             Scribe_Values.Look(ref spawnTick, "spawnTick");
             Scribe_Values.Look(ref mortarDamage, "mortarDamage", 0f);
             Scribe_Values.Look(ref mortarHit, "mortarHit", true);

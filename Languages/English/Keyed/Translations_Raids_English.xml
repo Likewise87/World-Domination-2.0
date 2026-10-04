@@ -31,6 +31,9 @@
   <TSA_WD_InterceptionFailed>Caravan clash lost. {0} has broken off and is continuing its mission.</TSA_WD_InterceptionFailed>
   <TSA_WD_InterceptionFled>Caravan clash lost. Your caravan fled. {0} is continuing its mission.</TSA_WD_InterceptionFled>
   <TSA_WD_InterceptionVictory>Caravan clash won! Hostile forces have been eliminated and their mission is over.</TSA_WD_InterceptionVictory>
+  <TSA_WD_CampClashFailed>Camp defense lost. {0} has broken off and is continuing its mission.</TSA_WD_CampClashFailed>
+  <TSA_WD_CampClashFled>Camp defense lost. Your force fled. {0} is continuing its mission.</TSA_WD_CampClashFled>
+  <TSA_WD_CampClashVictory>Camp defense won! Hostile forces have been eliminated and their mission is over.</TSA_WD_CampClashVictory>
   <TSA_WD_OutpostDefense_ChoiceTitle>Outpost Under Attack</TSA_WD_OutpostDefense_ChoiceTitle>
   <TSA_WD_OutpostDefense_ChoiceText>{0} is under attack by {1}. Choose whether to auto-resolve the raid or fight it manually on a temporary map.</TSA_WD_OutpostDefense_ChoiceText>
   <TSA_WD_OutpostDefense_SkirmishTitle>Skirmishes Going Badly</TSA_WD_OutpostDefense_SkirmishTitle>
@@ -143,6 +146,7 @@
   <TSA_WD_TargetKind_SupplyCaravan>supply caravan</TSA_WD_TargetKind_SupplyCaravan>
   <TSA_WD_TargetKind_UpgradeCaravan>upgrade caravan</TSA_WD_TargetKind_UpgradeCaravan>
   <TSA_WD_TargetKind_Raid>raid</TSA_WD_TargetKind_Raid>
+  <TSA_WD_TargetKind_Interceptor>interceptor</TSA_WD_TargetKind_Interceptor>
   <TSA_WD_Letter_RaidDivertedFromPlayer_Label>Raid diverted</TSA_WD_Letter_RaidDivertedFromPlayer_Label>
   <TSA_WD_Letter_RaidDivertedFromPlayer_Text>{0} spotted a target of opportunity and diverted away from you to attack {1} instead.</TSA_WD_Letter_RaidDivertedFromPlayer_Text>
   <TSA_WD_Log_Raid_PlayerAttack>RAID: Attack on player colony</TSA_WD_Log_Raid_PlayerAttack>

@@ -1,5 +1,6 @@
 using System.Text;
 using HarmonyLib;
+using RimWorld;
 using RimWorld.Planet;
 using Verse;
 
@@ -17,6 +18,8 @@ namespace TSA_WorldDomination
             PlanetTile tile = Find.WorldSelector?.SelectedTile ?? PlanetTile.Invalid;
             if (!tile.Valid) return;
             int tileId = tile.tileId;
+
+            RemapStoneRoadInspectToBridge(ref __result, tileId);
 
             string roadLine = TryFormatRoadBlockLine(tileId);
             string trapLine = TryFormatSpikeTrapLine(tileId);
@@ -80,6 +83,27 @@ namespace TSA_WorldDomination
             if (!builderLabel.NullOrEmpty())
                 line += "\n" + "TSA_WD_Inspect_AT_TurretBuilder".Translate(builderLabel);
             return line;
+        }
+
+        /// <summary>
+        /// Vanilla lists <see cref="RoadDef"/> labels from potentialRoads. Legacy spans used StoneRoad;
+        /// remapped here so bridged water and bridge banks read as Stone Bridge.
+        /// </summary>
+        private static void RemapStoneRoadInspectToBridge(ref string result, int tileId)
+        {
+            if (result.NullOrEmpty()) return;
+            bool bridgedWater = WorldComponent_WdBridges.IsBridgedWaterTile(tileId);
+            if (!bridgedWater && !WdBridgeGeometry.BankAlreadyAnchorsBridge(tileId))
+                return;
+
+            RoadDef stone = DefDatabase<RoadDef>.GetNamedSilentFail("StoneRoad");
+            if (stone == null) return;
+            string from = stone.LabelCap;
+            if (from.NullOrEmpty() || result.IndexOf(from) < 0) return;
+
+            RoadDef bridge = DefDatabase<RoadDef>.GetNamedSilentFail("TSA_WD_StoneBridge");
+            string to = bridge != null ? bridge.LabelCap : "TSA_WD_StoneBridgeLabel".Translate().CapitalizeFirst();
+            result = result.Replace(from, to);
         }
     }
 }

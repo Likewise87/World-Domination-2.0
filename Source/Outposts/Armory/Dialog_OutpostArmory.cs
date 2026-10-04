@@ -1206,6 +1206,7 @@ namespace TSA_WorldDomination
             rowsDirty = true;
             outpost.NotifyVirtualPawnsChanged();
             Window_OutpostOverview.InvalidateCache();
+            Window_AllPlayerGear.InvalidateCache();
         }
 
         private void RebuildRows()

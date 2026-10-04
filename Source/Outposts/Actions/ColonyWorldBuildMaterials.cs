@@ -55,6 +55,30 @@ namespace TSA_WorldDomination
             return c.thingDef?.LabelCap ?? c.thingDef?.defName ?? "";
         }
 
+        /// <summary>Icon ThingDef for float-menu / UI (AnyStoneBlocks uses a representative blocks def).</summary>
+        public static ThingDef GetCostIconThingDef(OutpostUpgradeCostEntry c)
+        {
+            if (c == null) return null;
+            if (IsAnyStoneBlocksCost(c))
+            {
+                return DefDatabase<ThingDef>.GetNamedSilentFail("BlocksGranite")
+                    ?? DefDatabase<ThingDef>.GetNamedSilentFail("BlocksSandstone");
+            }
+            return c.thingDef;
+        }
+
+        /// <summary>Colony map + warehouse stock for one cost line.</summary>
+        public static int CountHaveForCost(OutpostUpgradeCostEntry c)
+        {
+            if (c == null || c.count <= 0) return 0;
+            Map map = GetColonyMap();
+            List<WorldObject_WD_Outpost> warehouses = GetContributingWarehouses();
+            if (IsAnyStoneBlocksCost(c))
+                return CountAnyStoneBlocks(map) + CountWarehouseStoneBlocks(warehouses);
+            if (c.thingDef == null) return 0;
+            return CountAvailable(map, c.thingDef) + CountWarehouseStored(warehouses, c.thingDef);
+        }
+
         public static bool HasMaterialCosts(List<OutpostUpgradeCostEntry> cost, out string reason)
         {
             Map colonyMap = GetColonyMap();
@@ -90,6 +114,78 @@ namespace TSA_WorldDomination
                 return false;
             }
             return DeductCost(colonyMap, warehouses, cost, out reason, out _);
+        }
+
+        /// <summary>Clone cost lines for traveler abort-refund bookkeeping.</summary>
+        public static List<OutpostUpgradeCostEntry> CloneCosts(List<OutpostUpgradeCostEntry> cost)
+        {
+            if (cost == null || cost.Count == 0) return null;
+            var clone = new List<OutpostUpgradeCostEntry>(cost.Count);
+            for (int i = 0; i < cost.Count; i++)
+            {
+                OutpostUpgradeCostEntry e = cost[i];
+                if (e == null || e.count <= 0) continue;
+                if (e.thingDef == null && !IsAnyStoneBlocksCost(e)) continue;
+                clone.Add(new OutpostUpgradeCostEntry
+                {
+                    thingDef = e.thingDef,
+                    count = e.count,
+                    costMode = e.costMode
+                });
+            }
+            return clone.Count > 0 ? clone : null;
+        }
+
+        /// <summary>Return materials to colony map (preferred) or first warehouse. Best-effort.</summary>
+        public static void TryRefundMaterialCosts(List<OutpostUpgradeCostEntry> cost)
+        {
+            if (cost == null || cost.Count == 0) return;
+            Map map = GetColonyMap();
+            List<WorldObject_WD_Outpost> warehouses = GetContributingWarehouses();
+            for (int i = 0; i < cost.Count; i++)
+            {
+                OutpostUpgradeCostEntry c = cost[i];
+                if (c == null || c.count <= 0) continue;
+                bool isStone = IsAnyStoneBlocksCost(c);
+                ThingDef def = isStone
+                    ? (GetCostIconThingDef(c) ?? DefDatabase<ThingDef>.GetNamedSilentFail("BlocksGranite"))
+                    : c.thingDef;
+                if (def == null) continue;
+                int remaining = c.count;
+                if (map != null)
+                    remaining -= PlaceRefundOnMap(map, def, remaining);
+                if (remaining > 0 && warehouses != null && warehouses.Count > 0)
+                {
+                    var deposit = new List<ThingDefCountClass>
+                    {
+                        new ThingDefCountClass(def, remaining)
+                    };
+                    CompOutpostWarehouse.Get(warehouses[0])?.TryDeposit(deposit);
+                }
+            }
+        }
+
+        private static int PlaceRefundOnMap(Map map, ThingDef def, int amount)
+        {
+            if (map == null || def == null || amount <= 0) return 0;
+            IntVec3 cell = WorldActions_Traveler.FindColonyDeliveryOrTradeDropCell(map);
+            if (!cell.IsValid) cell = map.Center;
+            int placed = 0;
+            int left = amount;
+            while (left > 0)
+            {
+                int stack = Mathf.Min(left, def.stackLimit > 0 ? def.stackLimit : left);
+                Thing t = ThingMaker.MakeThing(def);
+                t.stackCount = stack;
+                if (!GenPlace.TryPlaceThing(t, cell, map, ThingPlaceMode.Near))
+                {
+                    if (!t.Destroyed) t.Destroy(DestroyMode.Vanish);
+                    break;
+                }
+                placed += stack;
+                left -= stack;
+            }
+            return placed;
         }
 
         public static bool HasCost(

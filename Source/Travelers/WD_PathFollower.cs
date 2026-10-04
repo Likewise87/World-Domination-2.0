@@ -108,7 +108,9 @@ namespace TSA_WorldDomination
                 hasVanillaPath = curPath != null && curPath.Found;
 
                 // Road builders: follow the planned corridor when available (no A* shortcuts that leave gaps at waypoints).
-                if (traveler.mission == TravelerMission.RoadBuilding)
+                if (traveler.mission == TravelerMission.RoadBuilding
+                    || traveler.mission == TravelerMission.BridgeBuilding
+                    || traveler.mission == TravelerMission.BridgeDeconstruct)
                 {
                     List<PlanetTile> corridor = null;
                     if (traveler.cachedPathTiles != null && traveler.cachedPathTiles.Count >= 2)
@@ -122,7 +124,26 @@ namespace TSA_WorldDomination
                         fallbackPathNodes = corridor;
                         fallbackPathIndex = 0;
                     }
-                    else if (!hasVanillaPath || WorldActions_Roads.RoadBuildingPathTouchesWater(curPath))
+                    else if (traveler.mission == TravelerMission.BridgeDeconstruct
+                        && traveler.cachedPathTiles != null
+                        && traveler.cachedPathTiles.Count >= 2)
+                    {
+                        curPath?.ReleaseToPool();
+                        curPath = null;
+                        fallbackPathNodes = new List<PlanetTile>(traveler.cachedPathTiles.Count);
+                        for (int i = traveler.cachedPathTiles.Count - 1; i >= 0; i--)
+                            fallbackPathNodes.Add(new PlanetTile(traveler.cachedPathTiles[i], traveler.Tile.Layer));
+                        fallbackPathIndex = 0;
+                    }
+                    else if (traveler.mission == TravelerMission.RoadBuilding
+                        && (!hasVanillaPath || WorldActions_Roads.RoadBuildingPathTouchesWater(curPath)))
+                    {
+                        StopDead();
+                        traveler.Destroy();
+                        return;
+                    }
+                    else if (!hasVanillaPath
+                        && traveler.mission == TravelerMission.BridgeBuilding)
                     {
                         StopDead();
                         traveler.Destroy();
@@ -313,7 +334,8 @@ namespace TSA_WorldDomination
                         || traveler.mission == TravelerMission.NpcAtTurret
                         || traveler.mission == TravelerMission.AtTurret
                         || traveler.mission == TravelerMission.Decontamination)
-                    && Find.WorldGrid.InBounds(destTileId) && Find.WorldGrid[destTileId].WaterCovered)
+                    && Find.WorldGrid.InBounds(destTileId) && Find.WorldGrid[destTileId].WaterCovered
+                    && !WorldComponent_WdBridges.IsBridgedWaterTile(destTileId))
                 {
                     CancelMission("TSA_WD_RoadBuilderCannotCrossWater".Translate());
                     return;
@@ -342,10 +364,13 @@ namespace TSA_WorldDomination
                     if (traveler.Destroyed) return;
                     // Mortar / RR outposts on this tile act as choke-point fortresses vs hostile ground raids,
                     // Vanguard / Invasion rally columns, and Turtle migrants. Player colony tile does the same
-                    // (map raid) with the same mission filter.
+                    // (map raid) with the same mission filter. Player Camp: clash on the existing map
+                    // (resume traveler if the camp loses).
                     if (Raid_Simulated.TryInterceptRaidAtFortressOutpost(traveler))
                         return;
                     if (Raid_Simulated.TryInterceptRaidAtPlayerColony(traveler))
+                        return;
+                    if (Raid_Simulated.TryInterceptRaidAtPlayerCamp(traveler))
                         return;
                     // Feature A: opportunistic retargeting onto a weaker settlement/outpost passed en route.
                     // AT Turret proximity detour first (always-on magnet at fire range; save/restore, not permanent ToO).
@@ -374,7 +399,7 @@ namespace TSA_WorldDomination
             }
         }
 
-        private void CancelMission(string reason)
+        public void CancelMission(string reason)
         {
             if (traveler.mission == TravelerMission.TurtleConsolidate)
             {
@@ -385,6 +410,10 @@ namespace TSA_WorldDomination
                 || traveler.mission == TravelerMission.DesperationRally)
             {
                 WorldActions_PackUp.TryRefoundFromTraveler(traveler);
+            }
+            else if (ColonyWorldBuildRequirements.IsWorldBuildConstructionMission(traveler.mission))
+            {
+                ColonyWorldBuildRequirements.RefundConstructionAbort(traveler);
             }
             else
             {
@@ -439,6 +468,8 @@ namespace TSA_WorldDomination
                         break;
                     case TravelerMission.TurtleConsolidate: reason = "TSA_WD_Log_TurtleCancelled".Translate(traveler.Label); break;
                     case TravelerMission.RoadBuilding: reason = "TSA_WD_Log_RoadCancelled".Translate(traveler.Label); break;
+                    case TravelerMission.BridgeBuilding: reason = "TSA_WD_Log_BridgeCancelled".Translate(traveler.Label); break;
+                    case TravelerMission.BridgeDeconstruct: reason = "TSA_WD_Log_BridgeDeconstructCancelled".Translate(traveler.Label); break;
                     default: reason = "TSA_WD_Log_MissionAborted_TargetInvalid".Translate(); break;
                 }
             }

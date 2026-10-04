@@ -21,13 +21,19 @@ namespace TSA_WorldDomination
         Trap,
         PlaceRoad,
         RemoveFortify,
-        RemoveRoad
+        RemoveRoad,
+        PlaceBridge,
+        RemoveBridge
     }
 
     /// <summary>World-targeter tools for Dialog_WdWorldSetup (works during Select Starting Site).</summary>
     public static class WD_WorldSetupTools
     {
         private static int pendingRoadFromTile = -1;
+        private static int pendingBridgeFromTile = -1;
+        private static readonly HashSet<int> BridgeBankScratch = new HashSet<int>(64);
+        private static readonly HashSet<int> BridgeReservedScratch = new HashSet<int>(8);
+        private static readonly Dictionary<int, List<int>> BridgeChainScratch = new Dictionary<int, List<int>>(32);
 
         public static WdWorldSetupTool ActiveTool { get; private set; }
 
@@ -36,8 +42,7 @@ namespace TSA_WorldDomination
             if (ActiveTool == WdWorldSetupTool.None) return;
             if (Find.WorldTargeter != null && Find.WorldTargeter.IsTargeting) return;
             if (Find.WindowStack != null && Find.WindowStack.IsOpen<FloatMenu>()) return;
-            ActiveTool = WdWorldSetupTool.None;
-            pendingRoadFromTile = -1;
+            ClearToolState();
         }
 
         public static bool TryToggleOff(WdWorldSetupTool tool)
@@ -49,11 +54,20 @@ namespace TSA_WorldDomination
 
         public static void CancelActive()
         {
-            ActiveTool = WdWorldSetupTool.None;
-            pendingRoadFromTile = -1;
             if (Find.WorldTargeter != null && Find.WorldTargeter.IsTargeting)
                 Find.WorldTargeter.StopTargeting();
             CloseOpenFloatMenu();
+            ClearToolState();
+        }
+
+        private static void ClearToolState()
+        {
+            ActiveTool = WdWorldSetupTool.None;
+            pendingRoadFromTile = -1;
+            pendingBridgeFromTile = -1;
+            BridgeBankScratch.Clear();
+            BridgeChainScratch.Clear();
+            WD_WorldLayer_BridgeTargetFill.Hide();
         }
 
         private static void Activate(WdWorldSetupTool tool)
@@ -61,6 +75,10 @@ namespace TSA_WorldDomination
             if (ActiveTool != WdWorldSetupTool.None && ActiveTool != tool)
             {
                 pendingRoadFromTile = -1;
+                pendingBridgeFromTile = -1;
+                BridgeBankScratch.Clear();
+                BridgeChainScratch.Clear();
+                WD_WorldLayer_BridgeTargetFill.Hide();
                 if (Find.WorldTargeter != null && Find.WorldTargeter.IsTargeting)
                     Find.WorldTargeter.StopTargeting();
                 CloseOpenFloatMenu();
@@ -544,13 +562,116 @@ namespace TSA_WorldDomination
                 false,
                 null,
                 null,
+                t => TryGetSurfaceTile(t, out int tile) && WD_WorldRoadEditUtility.TileHasRemovableLandRoad(tile));
+        }
+
+        public static void BeginPlaceBridge()
+        {
+            Activate(WdWorldSetupTool.PlaceBridge);
+            pendingBridgeFromTile = -1;
+            BridgeBankScratch.Clear();
+            BridgeChainScratch.Clear();
+            WD_WorldLayer_BridgeTargetFill.Hide();
+            Messages.Message("TSA_WD_WorldSetup_PlaceBridgeHint".Translate(), MessageTypeDefOf.NeutralEvent);
+            Find.WorldTargeter.BeginTargeting(
+                target =>
+                {
+                    if (!TryGetSurfaceTile(target, out int tile)) return false;
+                    WorldGrid grid = Find.WorldGrid;
+                    if (grid == null || grid[tile].WaterCovered)
+                    {
+                        Messages.Message(
+                            WorldActions_BuildBridge.RejectMessage(WdBridgeGeometry.RejectReason.StartNotLand),
+                            MessageTypeDefOf.RejectInput);
+                        return false;
+                    }
+
+                    if (pendingBridgeFromTile < 0)
+                    {
+                        if (!WdBridgeGeometry.IsLandAdjacentToWater(tile))
+                        {
+                            Messages.Message(
+                                WorldActions_BuildBridge.RejectMessage(WdBridgeGeometry.RejectReason.StartNotAdjacentToWater),
+                                MessageTypeDefOf.RejectInput);
+                            return false;
+                        }
+                        BridgeReservedScratch.Clear();
+                        WorldActions_BuildBridge.CollectReservedBankTiles(BridgeReservedScratch);
+                        if (BridgeReservedScratch.Contains(tile))
+                        {
+                            Messages.Message(
+                                WorldActions_BuildBridge.RejectMessage(WdBridgeGeometry.RejectReason.BankAlreadyUsed),
+                                MessageTypeDefOf.RejectInput);
+                            return false;
+                        }
+
+                        pendingBridgeFromTile = tile;
+                        BridgeChainScratch.Clear();
+                        BridgeBankScratch.Clear();
+                        WdBridgeGeometry.CollectFarBanksWithChains(
+                            tile, BridgeReservedScratch, BridgeBankScratch, BridgeChainScratch);
+                        WD_WorldLayer_BridgeTargetFill.Show(BridgeBankScratch);
+                        Messages.Message("TSA_WD_WorldSetup_PlaceBridgePickEnd".Translate(), MessageTypeDefOf.NeutralEvent);
+                        return false;
+                    }
+
+                    int from = pendingBridgeFromTile;
+                    pendingBridgeFromTile = -1;
+                    if (!WD_WorldRoadEditUtility.TryPlaceBridgeBetweenBanks(from, tile, out string fail))
+                    {
+                        Messages.Message(fail ?? "TSA_WD_WorldSetup_PlaceBridgeFailed".Translate(), MessageTypeDefOf.RejectInput);
+                        WD_WorldLayer_BridgeTargetFill.Hide();
+                        BridgeBankScratch.Clear();
+                        BridgeChainScratch.Clear();
+                        return false;
+                    }
+
+                    Messages.Message("TSA_WD_WorldSetup_PlaceBridgeDone".Translate(), MessageTypeDefOf.PositiveEvent);
+                    WD_WorldLayer_BridgeTargetFill.Hide();
+                    BridgeBankScratch.Clear();
+                    BridgeChainScratch.Clear();
+                    return false;
+                },
+                true,
+                null,
+                false,
+                null,
+                target => pendingBridgeFromTile < 0
+                    ? "TSA_WD_BridgeTip_PickStartBank".Translate()
+                    : "TSA_WD_BridgeTip_PickEndBank".Translate(WorldComponent_WdBridges.MaxWaterTiles),
                 t =>
                 {
                     if (!TryGetSurfaceTile(t, out int tile)) return false;
-                    if (!(Find.WorldGrid?[tile] is SurfaceTile surface)) return false;
-                    return (surface.potentialRoads != null && surface.potentialRoads.Count > 0)
-                        || (surface.Roads != null && surface.Roads.Count > 0);
+                    WorldGrid grid = Find.WorldGrid;
+                    if (grid == null || grid[tile].WaterCovered) return false;
+                    if (pendingBridgeFromTile < 0)
+                        return WdBridgeGeometry.IsLandAdjacentToWater(tile);
+                    return BridgeBankScratch.Contains(tile) || BridgeChainScratch.ContainsKey(tile);
                 });
+        }
+
+        public static void BeginRemoveBridge()
+        {
+            Activate(WdWorldSetupTool.RemoveBridge);
+            Messages.Message("TSA_WD_WorldSetup_DestroyBridgeHint".Translate(), MessageTypeDefOf.NeutralEvent);
+            Find.WorldTargeter.BeginTargeting(
+                target =>
+                {
+                    if (!TryGetSurfaceTile(target, out int tile)) return false;
+                    if (!WD_WorldRoadEditUtility.TryDestroyBridgeAtTile(tile, out string fail))
+                    {
+                        Messages.Message(fail ?? "TSA_WD_WorldSetup_DestroyBridgeNone".Translate(), MessageTypeDefOf.RejectInput);
+                        return false;
+                    }
+                    Messages.Message("TSA_WD_WorldSetup_DestroyBridgeDone".Translate(), MessageTypeDefOf.PositiveEvent);
+                    return false;
+                },
+                true,
+                null,
+                false,
+                null,
+                null,
+                t => TryGetSurfaceTile(t, out int tile) && WD_WorldRoadEditUtility.TileHasDestroyableBridge(tile));
         }
 
         private static bool TryGetSurfaceTile(GlobalTargetInfo target, out int tile)

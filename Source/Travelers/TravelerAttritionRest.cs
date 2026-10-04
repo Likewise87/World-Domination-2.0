@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -67,12 +68,12 @@ namespace TSA_WorldDomination
             if (travelerTileId < 0) return false;
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            var all = Find.WorldObjects?.AllWorldObjects;
-            if (all == null) return false;
+            IReadOnlyList<WorldObject_AT_Turret> live = WorldObject_AT_Turret.LiveTurrets;
 
-            for (int i = 0; i < all.Count; i++)
+            for (int i = 0; i < live.Count; i++)
             {
-                if (!(all[i] is WorldObject_AT_Turret gun) || gun.Destroyed || !gun.DefenseActive)
+                WorldObject_AT_Turret gun = live[i];
+                if (gun == null || gun.Destroyed || !gun.DefenseActive)
                     continue;
 
                 Faction gunFaction = gun.Faction;

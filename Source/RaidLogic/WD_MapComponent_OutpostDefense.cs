@@ -47,8 +47,36 @@ namespace TSA_WorldDomination
         private bool aerialLeaveInProgress;
         /// <summary>Full aerial flee latched; await craft gone then defeat teardown.</summary>
         private bool playerFled;
+        private List<Pawn> interceptRrPawns = new List<Pawn>();
+        private WorldObject interceptRrOrigin;
 
         public WD_MapComponent_OutpostDefense(Map map) : base(map) { }
+
+        public void RegisterInterceptRrDrop(WorldObject origin, IReadOnlyList<Pawn> pawns)
+        {
+            if (origin != null)
+                interceptRrOrigin = origin;
+            if (pawns == null) return;
+            interceptRrPawns ??= new List<Pawn>();
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                Pawn p = pawns[i];
+                if (p == null || p.Destroyed) continue;
+                if (!interceptRrPawns.Contains(p))
+                    interceptRrPawns.Add(p);
+            }
+        }
+
+        public bool IsInterceptRrTagged(Pawn pawn)
+            => pawn != null && interceptRrPawns != null && interceptRrPawns.Contains(pawn);
+
+        public void ReturnInterceptRrPawns()
+        {
+            if (interceptRrPawns == null || interceptRrPawns.Count == 0) return;
+            int tile = map != null && map.Tile.Valid ? map.Tile.tileId : -1;
+            WdRrInterceptDropUtility.ReturnPawnsToOrigin(interceptRrOrigin, interceptRrPawns, tile);
+            interceptRrOrigin = null;
+        }
 
         public bool IsActiveEncounterFor(WorldObject_WD_Outpost target)
             => encounterActive && !resolved && outpost != null && outpost == target;
@@ -433,6 +461,7 @@ namespace TSA_WorldDomination
             outpost?.ReturnManualDefenseStoredTransportPawns(SurvivingBorrowedStoredTransportPawns());
             outpost?.ReturnManualDefenseMechanoids(SurvivingBorrowedMechanoids());
             outpost?.ReturnManualDefensePawns(SurvivingBorrowedPawns());
+            ReturnInterceptRrPawns();
             outpost?.ClearManualDefenseActive();
         }
 
@@ -446,6 +475,7 @@ namespace TSA_WorldDomination
 
             Log.Warning($"[TSA WD] Outpost defense raid failed to form for {outpost?.Label ?? "unknown"} ({reason}); aborting without victory.");
 
+            ReturnInterceptRrPawns();
             AbsorbExtraPlayerForceIntoOutpost();
             AbortEncounterRestoreDefenders(reason);
             ResolveSharedOutpostRaid(attackerWon: false);
@@ -517,6 +547,7 @@ namespace TSA_WorldDomination
             outpost?.ReturnManualDefenseStoredTransportPawns(SurvivingBorrowedStoredTransportPawns());
             outpost?.ReturnManualDefenseMechanoids(SurvivingBorrowedMechanoids());
             int returned = outpost?.ReturnManualDefensePawns(SurvivingBorrowedPawns()) ?? 0;
+            ReturnInterceptRrPawns();
             AbsorbExtraPlayerForceIntoOutpost();
             int captivesTaken = 0;
             if (outpost != null && !outpost.Destroyed)
@@ -541,6 +572,7 @@ namespace TSA_WorldDomination
             encounterActive = false;
 
             string outpostLabel = outpost?.LabelCap ?? "Outpost";
+            ReturnInterceptRrPawns();
             ReturnExtraPlayerPawnsAsCaravan(includeDowned: false);
             KillRemainingBorrowedPawns();
             KillRemainingBorrowedStoredTransportPawns();
@@ -602,6 +634,7 @@ namespace TSA_WorldDomination
                 if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
                 if (pawn.Faction != Faction.OfPlayer) continue;
                 if (borrowed.Contains(pawn)) continue;
+                if (IsInterceptRrTagged(pawn)) continue;
                 if (!VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(pawn)) continue;
                 if (ShouldSkipVfHullOnDefenseTeardown(pawn)) continue;
                 vehiclesToStore.Add(pawn);
@@ -618,6 +651,7 @@ namespace TSA_WorldDomination
                 if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
                 if (pawn.Faction != Faction.OfPlayer) continue;
                 if (borrowed.Contains(pawn)) continue;
+                if (IsInterceptRrTagged(pawn)) continue;
                 if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(pawn)) continue;
                 if (WD_TempEncounterAerialLeaveUtility.IsAliveEscapeeOffMap(pawn, map)) continue;
                 toAbsorb.Add(pawn);
@@ -700,6 +734,7 @@ namespace TSA_WorldDomination
                 if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
                 if (pawn.Faction != Faction.OfPlayer) continue;
                 if (borrowed.Contains(pawn)) continue;
+                if (IsInterceptRrTagged(pawn)) continue;
                 if (!VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(pawn)) continue;
                 if (ShouldSkipVfHullOnDefenseTeardown(pawn)) continue;
                 VehicleFrameworkOutpostDissolveCompat.EmptyVehiclePawnForTransfer(pawn);
@@ -713,6 +748,7 @@ namespace TSA_WorldDomination
                 if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
                 if (pawn.Faction != Faction.OfPlayer) continue;
                 if (borrowed.Contains(pawn)) continue;
+                if (IsInterceptRrTagged(pawn)) continue;
                 if (WD_TempEncounterAerialLeaveUtility.IsAliveEscapeeOffMap(pawn, map)) continue;
                 if (ShouldSkipVfHullOnDefenseTeardown(pawn)) continue;
                 if (!includeDowned && pawn.Downed) continue;
@@ -869,6 +905,7 @@ namespace TSA_WorldDomination
                     resolved = true;
                     encounterActive = false;
                     aerialLeaveInProgress = false;
+                    ReturnInterceptRrPawns();
                     ReturnExtraPlayerPawnsAsCaravan(includeDowned: false);
                     KillRemainingBorrowedPawns();
                     KillRemainingBorrowedStoredTransportPawns();
@@ -923,6 +960,8 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref borrowedPawns, "borrowedPawns", LookMode.Reference);
             Scribe_Collections.Look(ref borrowedStoredTransportPawns, "borrowedStoredTransportPawns", LookMode.Reference);
             Scribe_Collections.Look(ref borrowedMechanoids, "borrowedMechanoids", LookMode.Reference);
+            Scribe_Collections.Look(ref interceptRrPawns, "interceptRrPawns", LookMode.Reference);
+            Scribe_References.Look(ref interceptRrOrigin, "interceptRrOrigin");
             Scribe_Values.Look(ref encounterActive, "encounterActive", false);
             Scribe_Values.Look(ref resolved, "resolved", false);
             Scribe_Values.Look(ref aerialLeaveInProgress, "aerialLeaveInProgress", false);
@@ -945,6 +984,7 @@ namespace TSA_WorldDomination
             if (borrowedPawns == null) borrowedPawns = new List<Pawn>();
             if (borrowedStoredTransportPawns == null) borrowedStoredTransportPawns = new List<Pawn>();
             if (borrowedMechanoids == null) borrowedMechanoids = new List<Pawn>();
+            if (interceptRrPawns == null) interceptRrPawns = new List<Pawn>();
             if (Scribe.mode == LoadSaveMode.PostLoadInit && encounterActive && !resolved)
             {
                 postLoadGraceUntilTick = Find.TickManager.TicksGame + 300;

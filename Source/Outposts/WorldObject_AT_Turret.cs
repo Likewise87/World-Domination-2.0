@@ -71,6 +71,43 @@ namespace TSA_WorldDomination
         private int aimStartedTick = -99999;
         /// <summary>World tile the barrel rests toward when idle. -1 = art default (no rotation / north).</summary>
         private int defaultAimTileId = -1;
+
+        private static readonly List<WorldObject_AT_Turret> liveTurrets = new List<WorldObject_AT_Turret>();
+
+        /// <summary>Spawned AT turrets. Do not mutate. Rebuild on world FinalizeInit.</summary>
+        public static IReadOnlyList<WorldObject_AT_Turret> LiveTurrets => liveTurrets;
+
+        /// <summary>
+        /// Static live-turret list is not per-World. Called from <see cref="WorldActions_Orchestrator.FinalizeInit"/>
+        /// after world objects spawn so a prior save cannot leave orphans.
+        /// </summary>
+        public static void RebuildLiveRegistry()
+        {
+            liveTurrets.Clear();
+            WorldObjectsHolder worldObjects = Find.WorldObjects;
+            if (worldObjects == null) return;
+            List<WorldObject> all = worldObjects.AllWorldObjects;
+            for (int i = 0; i < all.Count; i++)
+            {
+                if (all[i] is WorldObject_AT_Turret t && !t.Destroyed)
+                    liveTurrets.Add(t);
+            }
+        }
+
+        public override void SpawnSetup()
+        {
+            base.SpawnSetup();
+            if (!liveTurrets.Contains(this))
+                liveTurrets.Add(this);
+        }
+
+        public override void Destroy()
+        {
+            if (!Destroyed)
+                liveTurrets.RemoveAll(t => t == this);
+            base.Destroy();
+        }
+
         private Material cachedMaterial;
         private string cachedInspectString;
         private int cachedInspectTick = -999;
@@ -193,6 +230,8 @@ namespace TSA_WorldDomination
         public override void PostAdd()
         {
             base.PostAdd();
+            if (!liveTurrets.Contains(this))
+                liveTurrets.Add(this);
             RefreshInterceptorRegistration();
             WorldComponent_InterceptionScheduler.Current?.NotifyAtTurretEngagementOpportunity(this);
         }
@@ -206,6 +245,7 @@ namespace TSA_WorldDomination
             WorldComponent_InterceptionScheduler.Current?.NotifyPotentialAtTargetDestroyed(this);
             WorldComponent_InterceptionScheduler.Current?.UnregisterInterceptor(this);
             WorldComponent_SettlementWatchIndex.Get()?.Invalidate();
+            liveTurrets.RemoveAll(t => t == this);
             base.PostRemove();
         }
 

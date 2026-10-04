@@ -220,7 +220,9 @@
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>These outposts are ready to dispatch a construction crew but lack strength:</TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>- {0}: {1}</TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>
   <TSA_WD_Notify_ConstructionInsufficientMaterials>Show construction insufficient-materials alert (right side)</TSA_WD_Notify_ConstructionInsufficientMaterials>
-  <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>Shows a silent, persistent alert on the right-side readout when a WD outpost has finished preparing a road, fortification, or AT segment but lacks materials to dispatch the crew. Click to jump to an affected outpost.</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
+  <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>Shows a silent, persistent alert on the right-side readout when a WD outpost has finished preparing a road, bridge segment, fortification, or AT segment but lacks materials to dispatch the crew. Click to jump to an affected outpost.</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
+  <TSA_WD_Notify_BridgeDeconstructBlocked>Show letter when bridge teardown is blocked</TSA_WD_Notify_BridgeDeconstructBlocked>
+  <TSA_WD_Notify_BridgeDeconstructBlockedTooltip>When a bridge teardown crew arrives and the span is occupied, show a yellow NeutralEvent letter naming the blocker. If off, only a message is shown.</TSA_WD_Notify_BridgeDeconstructBlockedTooltip>
   <TSA_WD_Alert_ConstructionInsufficientMaterials>WD: Construction waiting on materials</TSA_WD_Alert_ConstructionInsufficientMaterials>
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>These outposts are ready to dispatch a construction crew but lack materials:</TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>- {0}: {1}</TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>

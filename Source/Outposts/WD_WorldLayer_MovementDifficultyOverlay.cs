@@ -92,7 +92,9 @@ namespace TSA_WorldDomination
             foreach (PlanetTile tile in EnumerateTilesInRadius(grid, centerTile, OverlayRadius))
             {
                 Tile tileInfo = grid[tile];
-                if (tileInfo == null || tileInfo.WaterCovered)
+                if (tileInfo == null) continue;
+                // Bridged water is passable land travel; paint it. Open ocean stays skipped.
+                if (tileInfo.WaterCovered && !WorldComponent_WdBridges.IsBridgedWaterTile(tile))
                     continue;
 
                 int bandKey = GetCachedBandKey(tile);
@@ -151,6 +153,9 @@ namespace TSA_WorldDomination
         private static bool IsImpassableForOverlay(PlanetTile tile)
         {
             if (!tile.Valid) return true;
+            // Bridged ocean stays Ocean biome (impassable flag) but is pathable via WD bridges.
+            if (WorldComponent_WdBridges.IsBridgedWaterTile(tile)) return false;
+
             World world = Find.World;
             if (world == null) return true;
             if (world.Impassable(tile)) return true;

@@ -364,7 +364,53 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        /// <summary>Ground missions that trigger mortar/RR fortress and player-colony walk-over defense.</summary>
+        /// <summary>
+        /// Hostile ground columns that step onto a player Camp tile fight on the existing camp map
+        /// (caravan-clash bookkeeping: resume on player loss). Busy / empty camps: pass through.
+        /// Same mission filter as <see cref="TryInterceptRaidAtFortressOutpost"/>.
+        /// Returns true when the traveler was stopped / consumed for this hop.
+        /// </summary>
+        public static bool TryInterceptRaidAtPlayerCamp(WorldObject_Traveler traveler)
+        {
+            if (traveler == null || traveler.Destroyed) return false;
+            if (!IsFortressChokeEligibleMission(traveler.mission)) return false;
+
+            Faction player = Faction.OfPlayerSilentFail;
+            if (player == null || traveler.Faction == null) return false;
+            if (!WorldActions_Utils.SafeHostileTo(traveler.Faction, player)) return false;
+
+            MapParent camp = FindPlayerCampAt(traveler.Tile.tileId);
+            if (camp == null || camp.Destroyed) return false;
+
+            if (WD_MapComponent_CaravanClash.TileHasBusyCampClash(traveler.Tile))
+                return false;
+
+            Map map = camp.Map;
+            if (map == null)
+            {
+                // Need the map to verify living pawns before consuming; generate onto the Camp parent.
+                map = GetOrGenerateMapUtility.GetOrGenerateMap(camp.Tile, Find.World.info.initialMapSize, camp.def);
+            }
+            if (map == null) return false;
+            if (!WD_CaravanClashUtility.CampMapHasLivingPlayerPawn(map))
+                return false;
+
+            WorldObject previousTarget = traveler.targetObject;
+            traveler.pather?.StopDead();
+            traveler.suppressDestroyedWorldFx = true;
+
+            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            string prevLabel = previousTarget?.LabelCap ?? "?";
+            WDVerbose.Msg($"Raid camp choke: {traveler.LabelCap} diverted from {prevLabel} to camp {camp.LabelCap} tile={camp.Tile.tileId} mission={traveler.mission}");
+            manager?.AddLog(new SpreadLogEntry(
+                "TSA_WD_Log_Raid_ChokeInterceptCamp".Translate(traveler.LabelCap, camp.LabelCap, prevLabel),
+                traveler, camp));
+
+            WD_CaravanClashUtility.StartCampClashEncounter(camp, traveler);
+            return true;
+        }
+
+        /// <summary>Ground missions that trigger mortar/RR fortress, player-colony, and player-camp walk-over defense.</summary>
         public static bool IsFortressChokeEligibleMission(TravelerMission mission)
         {
             switch (mission)
@@ -377,6 +423,20 @@ namespace TSA_WorldDomination
                 default:
                     return false;
             }
+        }
+
+        private static MapParent FindPlayerCampAt(int tileId)
+        {
+            if (tileId < 0 || Find.WorldObjects == null) return null;
+            foreach (WorldObject wo in Find.WorldObjects.ObjectsAt(tileId))
+            {
+                if (wo == null || wo.Destroyed) continue;
+                if (!Outpost_EstablishmentRequirements.IsActiveCamp(wo)) continue;
+                if (wo.Faction == null || !wo.Faction.IsPlayer) continue;
+                if (wo is MapParent mp)
+                    return mp;
+            }
+            return null;
         }
 
         private static WorldObject_WD_Outpost FindPlayerFortressOutpostAt(int tileId)

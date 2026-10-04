@@ -14,6 +14,7 @@ namespace TSA_WorldDomination
         public static void Postfix(WorldObject __instance)
         {
             Action_Outpost_BuildRoad.DrawRoadOverlayIfSelected(__instance);
+            Action_Outpost_BuildBridge.DrawBridgeOverlayIfSelected(__instance);
             Action_Outpost_RoadBlocks.DrawRoadBlockOverlayIfSelected(__instance);
             Action_Outpost_SpikeTraps.DrawSpikeTrapOverlayIfSelected(__instance);
             Action_Outpost_AtTurrets.DrawAtTurretOverlayIfSelected(__instance);

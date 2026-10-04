@@ -1198,11 +1198,18 @@ namespace TSA_WorldDomination
 
         public int PawnCount => Occupants.Count;
 
-        /// <summary>Combat strength from occupants plus stored animals/vehicles and mechanoids (capped at 1500). WD trader arrivals refill CompViralSpread offensive toward this max only (no tier upgrades).</summary>
-        public float GetTargetStrength()
-            => Mathf.Min(GetTargetStrengthUncapped(), 1500f);
+        public const float DefaultOffensiveStrengthCap = 2200f;
+        public const float RapidResponseOffensiveStrengthCap = 2700f;
 
-        /// <summary>Same outpost offensive strength calculation as <see cref="GetTargetStrength"/>, but without the 1500 cap.</summary>
+        /// <summary>Combat strength from occupants plus stored animals/vehicles and mechanoids (capped). WD trader arrivals refill CompViralSpread offensive toward this max only (no tier upgrades).</summary>
+        public float GetTargetStrength()
+            => Mathf.Min(GetTargetStrengthUncapped(), GetOffensiveStrengthCap());
+
+        /// <summary>Hard ceiling on <see cref="GetTargetStrength"/>; Rapid Response uses a higher cap.</summary>
+        public float GetOffensiveStrengthCap()
+            => IsRapidResponseOutpost ? RapidResponseOffensiveStrengthCap : DefaultOffensiveStrengthCap;
+
+        /// <summary>Same outpost offensive strength calculation as <see cref="GetTargetStrength"/>, but without the hard cap.</summary>
         public float GetTargetStrengthUncapped()
         {
             float baseStrength = 100f;
@@ -2227,7 +2234,7 @@ namespace TSA_WorldDomination
                     invStored++;
                     continue;
                 }
-                thing.Destroy(DestroyMode.Vanish);
+                OutpostStorageUtility.RefundUnstoredThing(thing, caravan);
                 invDestroyed++;
             }
             if (invStored > 0)
@@ -2239,7 +2246,7 @@ namespace TSA_WorldDomination
             }
 
             if (invDestroyed > 0)
-                WDVerbose.Msg($"Outpost dissolve: destroyed {invDestroyed} remaining caravan inventory thing(s) (non-edible or overflow)");
+                WDVerbose.Msg($"Outpost dissolve: refunded {invDestroyed} remaining caravan inventory thing(s) (non-storable here)");
 
             StoreAnyAliveNonHumanlikeDissolveTargets(caravan, nonHumanDissolveSnapshot);
 
@@ -2539,11 +2546,12 @@ namespace TSA_WorldDomination
         public override string GetInspectString()
         {
             int tick = Find.TickManager.TicksGame;
-            int researchFingerprint = IsResearchOutpost ? Outpost_Research.GetInspectFingerprint(this) : int.MinValue;
-            if (tick - cachedInspectTick < 60 && cachedInspectString != null && (!IsResearchOutpost || researchFingerprint == cachedResearchInspectFingerprint))
+            // Do not pay GetInspectFingerprint before the 60t cache early-out (science was hot every frame).
+            if (tick - cachedInspectTick < 60 && cachedInspectString != null)
                 return cachedInspectString;
             cachedInspectTick = tick;
-            cachedResearchInspectFingerprint = researchFingerprint;
+            if (IsResearchOutpost)
+                cachedResearchInspectFingerprint = Outpost_Research.GetInspectFingerprint(this);
             string typeLine = def != null ? def.label : "Outpost";
             string baseStr = base.GetInspectString();
             if (!string.IsNullOrEmpty(baseStr))
@@ -2642,7 +2650,7 @@ namespace TSA_WorldDomination
             var compViral = GetComponent<CompViralSpread>();
             if (Outpost_Warehouse_Delivery.UsesItemDeliveryTraveler(def) && itemDeliveryTargetWorldObjectId >= 0)
             {
-                WorldObject explicitDest = Find.WorldObjects.AllWorldObjects.Find(o => o != null && o.ID == itemDeliveryTargetWorldObjectId);
+                WorldObject explicitDest = Outpost_Warehouse_Delivery.TryFindWorldObjectById(itemDeliveryTargetWorldObjectId);
                 baseStr += "\n" + "TSA_WD_Warehouse_DeliveryDestInspect".Translate(Outpost_Warehouse_Delivery.GetDestinationLabel(explicitDest));
             }
             int storedTransport = StoredTransportPawnCount;

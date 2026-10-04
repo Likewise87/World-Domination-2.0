@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_41_Title>Bridges, balancing, performance</TSA_WD_Update_2_3_41_Title>
+  <TSA_WD_Update_2_3_41_Body><![CDATA[
+<size=16><b>2.3.41 – Bridges, balancing, performance</b></size>\n
+<color=#00FFFFFF>Release date: October 4th 2026</color>\n
+------------------------------\n
+• New feature: You can build bridges now with your colony and outposts. Select the option, select a shore tile, then select a shore tile on the opposite side of the water. You can also fight on bridges (an actual bridge map will get generated). NPC factions will also build bridges.\n
+• Max offensive strength for Rapid Response outposts bumped to 2700 (was 1500). For all other outposts the ceiling is 2200. This should help in late game when you are facing really strong enemies.\n
+• Fixed a performance issue with contents of some float menus getting recalculated unnecessarily.\n
+• Some other performance fixes.\n
+]]></TSA_WD_Update_2_3_41_Body>
   <TSA_WD_Update_2_3_4_Title>Fine tuning</TSA_WD_Update_2_3_4_Title>
   <TSA_WD_Update_2_3_4_Body><![CDATA[
 <size=16><b>2.3.4 – Fine tuning</b></size>\n
