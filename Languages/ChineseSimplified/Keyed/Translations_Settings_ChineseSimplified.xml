@@ -422,11 +422,13 @@
   <TSA_WD_Outpost_MaxTravelStrengthLoss>最大行进实力损失</TSA_WD_Outpost_MaxTravelStrengthLoss>
   <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>行进者(袭击、扩张、修路)在行进中可损失的最大出发实力百分比。会保留剩余的初始实力,不会仅因损耗而消失。</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
   <TSA_WD_Caravans_AttritionRestGate>中/后期行进损耗休整</TSA_WD_Caravans_AttritionRestGate>
-  <TSA_WD_Caravans_AttritionRestGateTooltip>中期或后期升级生效时(或设为始终),步行行进者因损耗降至休整下限时会停下,恢复至出发实力后再继续。预估与袭击门槛按至少该下限计算。简单难度预设为从不。</TSA_WD_Caravans_AttritionRestGateTooltip>
+  <TSA_WD_Caravans_AttritionRestGateTooltip>中期或后期升级生效时(或设为始终),步行行进者因损耗降至休整下限时会停下,恢复至恢复比例后再继续。预估与袭击门槛按至少该下限计算。简单难度预设为从不。</TSA_WD_Caravans_AttritionRestGateTooltip>
   <TSA_WD_Caravans_AttritionRestMinRatio>损耗休整实力下限</TSA_WD_Caravans_AttritionRestMinRatio>
-  <TSA_WD_Caravans_AttritionRestMinRatioTooltip>触发挥整并限制损耗预估的出发实力比例(默认80%)。战斗、陷阱与污染仍可降低实际实力。</TSA_WD_Caravans_AttritionRestMinRatioTooltip>
+  <TSA_WD_Caravans_AttritionRestMinRatioTooltip>触发挥整并限制损耗预估的出发实力比例(默认75%)。战斗、陷阱与污染仍可降低实际实力。</TSA_WD_Caravans_AttritionRestMinRatioTooltip>
+  <TSA_WD_Caravans_AttritionRestResumeRatio>损耗休整恢复比例</TSA_WD_Caravans_AttritionRestResumeRatio>
+  <TSA_WD_Caravans_AttritionRestResumeRatioTooltip>休整后重新出发的出发实力比例(默认95%)。不得低于休整下限。</TSA_WD_Caravans_AttritionRestResumeRatioTooltip>
   <TSA_WD_Caravans_AttritionRestRegen>休整每小时恢复</TSA_WD_Caravans_AttritionRestRegen>
-  <TSA_WD_Caravans_AttritionRestRegenTooltip>休整时每小时恢复的出发实力比例(默认2%,约10小时从80%到100%)。</TSA_WD_Caravans_AttritionRestRegenTooltip>
+  <TSA_WD_Caravans_AttritionRestRegenTooltip>休整时每小时恢复的出发实力比例(默认2%,约10小时从75%到95%)。</TSA_WD_Caravans_AttritionRestRegenTooltip>
   <TSA_WD_Caravans_AttritionRestFireGrace>开火后休整冷却(天)</TSA_WD_Caravans_AttritionRestFireGrace>
   <TSA_WD_Caravans_AttritionRestFireGraceTooltip>被迫击炮、反坦克或防空击中后,这些天内不会开始休整(默认0.5)。休整中被击中会立即继续行进。</TSA_WD_Caravans_AttritionRestFireGraceTooltip>
   <TSA_WD_Caravans_AttritionRestNearDest>接近目的地跳过休整(天)</TSA_WD_Caravans_AttritionRestNearDest>

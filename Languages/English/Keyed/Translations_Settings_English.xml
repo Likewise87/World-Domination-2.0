@@ -511,11 +511,13 @@
   <TSA_WD_Outpost_MaxTravelStrengthLoss>Max. travel strength loss</TSA_WD_Outpost_MaxTravelStrengthLoss>
   <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>Maximum percentage of departure strength that travelers (raids, expansion, road builders) can lose during travel. They keep the remaining share of initial strength and never expire from attrition alone.</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
   <TSA_WD_Caravans_AttritionRestGate>Mid/Late attrition rest</TSA_WD_Caravans_AttritionRestGate>
-  <TSA_WD_Caravans_AttritionRestGateTooltip>When Mid or Late escalation is active (or Always), walking travelers that hit the rest strength floor from attrition stop, regenerate to full departure strength, then resume. Forecasts and raid gates assume at least this floor. Easy difficulty presets set this to Never.</TSA_WD_Caravans_AttritionRestGateTooltip>
+  <TSA_WD_Caravans_AttritionRestGateTooltip>When Mid or Late escalation is active (or Always), walking travelers that hit the rest strength floor from attrition stop, regenerate toward the resume ratio, then resume. Forecasts and raid gates assume at least this floor. Easy difficulty presets set this to Never.</TSA_WD_Caravans_AttritionRestGateTooltip>
   <TSA_WD_Caravans_AttritionRestMinRatio>Attrition rest strength floor</TSA_WD_Caravans_AttritionRestMinRatio>
-  <TSA_WD_Caravans_AttritionRestMinRatioTooltip>Share of departure strength that triggers rest and floors attrition forecasts (default 80%). Combat, traps, and pollution can still push live strength lower.</TSA_WD_Caravans_AttritionRestMinRatioTooltip>
+  <TSA_WD_Caravans_AttritionRestMinRatioTooltip>Share of departure strength that triggers rest and floors attrition forecasts (default 75%). Combat, traps, and pollution can still push live strength lower.</TSA_WD_Caravans_AttritionRestMinRatioTooltip>
+  <TSA_WD_Caravans_AttritionRestResumeRatio>Attrition rest resume strength</TSA_WD_Caravans_AttritionRestResumeRatio>
+  <TSA_WD_Caravans_AttritionRestResumeRatioTooltip>Share of departure strength at which resting travelers resume travel (default 95%). Must be at least the rest floor.</TSA_WD_Caravans_AttritionRestResumeRatioTooltip>
   <TSA_WD_Caravans_AttritionRestRegen>Attrition rest regen per hour</TSA_WD_Caravans_AttritionRestRegen>
-  <TSA_WD_Caravans_AttritionRestRegenTooltip>Fraction of departure strength restored each hour while resting (default 2% → about 10 hours from 80% to 100%).</TSA_WD_Caravans_AttritionRestRegenTooltip>
+  <TSA_WD_Caravans_AttritionRestRegenTooltip>Fraction of departure strength restored each hour while resting (default 2% → about 10 hours from 75% to 95%).</TSA_WD_Caravans_AttritionRestRegenTooltip>
   <TSA_WD_Caravans_AttritionRestFireGrace>Attrition rest fire cooldown (days)</TSA_WD_Caravans_AttritionRestFireGrace>
   <TSA_WD_Caravans_AttritionRestFireGraceTooltip>After a mortar, AT, or AA hit, the traveler will not start resting for this many days (default 0.5). A hit while resting cancels rest immediately.</TSA_WD_Caravans_AttritionRestFireGraceTooltip>
   <TSA_WD_Caravans_AttritionRestNearDest>Skip rest near destination (days)</TSA_WD_Caravans_AttritionRestNearDest>

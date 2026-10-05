@@ -848,7 +848,8 @@ namespace TSA_WorldDomination
         public const float DefMinEfficiency = 0.5f;
         public const float DefStrengthLossPerHour = 0.01f;
         public const float DefMaxTravelPercentageStrengthLoss = 0.60f;
-        public const float DefAttritionRestMinRatio = 0.80f;
+        public const float DefAttritionRestMinRatio = 0.75f;
+        public const float DefAttritionRestResumeRatio = 0.95f;
         public const float DefAttritionRestRegenPerHour = 0.02f;
         public const float DefAttritionRestFireGraceDays = 0.5f;
         public const float DefAttritionRestNearDestBufferDays = 0.1f;
@@ -1746,6 +1747,7 @@ namespace TSA_WorldDomination
         public float strengthLossPerHour = DefStrengthLossPerHour;
         public float maxTravelPercentageStrengthLoss = DefMaxTravelPercentageStrengthLoss;
         public float attritionRestMinRatio = DefAttritionRestMinRatio;
+        public float attritionRestResumeRatio = DefAttritionRestResumeRatio;
         public float attritionRestRegenPerHour = DefAttritionRestRegenPerHour;
         public float attritionRestFireGraceDays = DefAttritionRestFireGraceDays;
         public float attritionRestNearDestBufferDays = DefAttritionRestNearDestBufferDays;
@@ -2942,6 +2944,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref strengthLossPerHour, "strengthLossPerHour", DefStrengthLossPerHour);
             Scribe_Values.Look(ref maxTravelPercentageStrengthLoss, "maxTravelPercentageStrengthLoss", DefMaxTravelPercentageStrengthLoss);
             Scribe_Values.Look(ref attritionRestMinRatio, "attritionRestMinRatio", DefAttritionRestMinRatio);
+            Scribe_Values.Look(ref attritionRestResumeRatio, "attritionRestResumeRatio", DefAttritionRestResumeRatio);
             Scribe_Values.Look(ref attritionRestRegenPerHour, "attritionRestRegenPerHour", DefAttritionRestRegenPerHour);
             Scribe_Values.Look(ref attritionRestFireGraceDays, "attritionRestFireGraceDays", DefAttritionRestFireGraceDays);
             Scribe_Values.Look(ref attritionRestNearDestBufferDays, "attritionRestNearDestBufferDays", DefAttritionRestNearDestBufferDays);
@@ -5170,6 +5173,7 @@ namespace TSA_WorldDomination
             maxTravelPercentageStrengthLoss = DefMaxTravelPercentageStrengthLoss;
             gateThreatAttritionRest = DefGateThreatAttritionRest;
             attritionRestMinRatio = DefAttritionRestMinRatio;
+            attritionRestResumeRatio = DefAttritionRestResumeRatio;
             attritionRestRegenPerHour = DefAttritionRestRegenPerHour;
             attritionRestFireGraceDays = DefAttritionRestFireGraceDays;
             attritionRestNearDestBufferDays = DefAttritionRestNearDestBufferDays;

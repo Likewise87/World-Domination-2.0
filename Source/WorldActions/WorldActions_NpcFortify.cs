@@ -239,8 +239,10 @@ namespace TSA_WorldDomination
         {
             if (traveler == null) return;
             Settlement origin = traveler.originObject as Settlement;
+            // Origin razed mid-flight: crew should already be aborted; never orphan-place under a dead builder.
+            if (origin == null || origin.Destroyed) return;
             int tile = traveler.Tile.tileId;
-            Faction faction = traveler.Faction ?? origin?.Faction;
+            Faction faction = traveler.Faction ?? origin.Faction;
 
             if (WorldComponent_FortifyBlacklist.BlocksNpcFortify(tile, faction))
                 return;
@@ -257,7 +259,7 @@ namespace TSA_WorldDomination
                     tile, faction, traveler.fortifyRoadBlockKind, origin) == true;
             }
 
-            if (!placed || origin == null) return;
+            if (!placed) return;
 
             string msg = traveler.fortifyIsTrap
                 ? "TSA_WD_Log_Fortify_SpikeTrapComplete".Translate(origin.LabelCap, tile).ToString()
@@ -270,9 +272,10 @@ namespace TSA_WorldDomination
         {
             if (traveler == null) return;
             Settlement origin = traveler.originObject as Settlement;
+            if (origin == null || origin.Destroyed) return;
             int tile = traveler.Tile.tileId;
-            Faction faction = traveler.Faction ?? origin?.Faction;
-            if (origin == null || faction == null) return;
+            Faction faction = traveler.Faction ?? origin.Faction;
+            if (faction == null) return;
             if (WorldComponent_FortifyBlacklist.BlocksNpcFortify(tile, faction))
                 return;
 
@@ -328,14 +331,32 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Builder settlement razed or captured: remove its road blocks and traps (same hooks as AT turrets).
+        /// Builder settlement razed or captured: remove its road blocks, traps, and abort in-flight fortify crews.
         /// Always on; legacy <c>fortifyClearOnBuilderLoss</c> is still scribed but no longer read.
         /// </summary>
         public static void NotifyBuilderLost(Settlement settlement)
         {
             if (settlement == null) return;
+            DestroyActiveNpcFortifyCrewsFrom(settlement);
             WorldComponent_RoadBlocks.Get()?.ClearBuiltBySettlement(settlement);
             WorldComponent_SpikeTraps.Get()?.ClearBuiltBySettlement(settlement);
+        }
+
+        /// <summary>Kill live NPC fortify / AT crews whose origin is this settlement (no orphan placements after razing).</summary>
+        public static void DestroyActiveNpcFortifyCrewsFrom(WorldObject origin)
+        {
+            if (origin == null) return;
+            IReadOnlyList<WorldObject_Traveler> live = WorldObject_Traveler.LiveTravelers;
+            for (int i = live.Count - 1; i >= 0; i--)
+            {
+                WorldObject_Traveler t = live[i];
+                if (t == null || t.Destroyed) continue;
+                if (t.originObject != origin) continue;
+                if (t.mission != TravelerMission.NpcFortify && t.mission != TravelerMission.NpcAtTurret)
+                    continue;
+                t.suppressDestroyedWorldFx = true;
+                t.Destroy();
+            }
         }
 
         private static WorldObject ResolveThreat(Settlement actor, CompViralSpread comp)

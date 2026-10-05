@@ -56,6 +56,10 @@ namespace TSA_WorldDomination
             {
                 s.attritionRestMinRatio = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_AttritionRestMinRatio".Translate(), s.attritionRestMinRatio, 0.5f, 1f,
                     "TSA_WD_Caravans_AttritionRestMinRatioTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefAttritionRestMinRatio);
+                s.attritionRestResumeRatio = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_AttritionRestResumeRatio".Translate(), s.attritionRestResumeRatio, 0.5f, 1f,
+                    "TSA_WD_Caravans_AttritionRestResumeRatioTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefAttritionRestResumeRatio);
+                if (s.attritionRestResumeRatio < s.attritionRestMinRatio)
+                    s.attritionRestResumeRatio = s.attritionRestMinRatio;
                 s.attritionRestRegenPerHour = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_AttritionRestRegen".Translate(), s.attritionRestRegenPerHour, 0.01f, 0.25f,
                     "TSA_WD_Caravans_AttritionRestRegenTooltip".Translate(), 0.005f, SliderFormat.PercentDecimal, WorldDominationSettings.DefAttritionRestRegenPerHour);
                 s.attritionRestFireGraceDays = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_AttritionRestFireGrace".Translate(), s.attritionRestFireGraceDays, 0f, 3f,

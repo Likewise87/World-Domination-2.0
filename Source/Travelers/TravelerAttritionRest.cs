@@ -7,8 +7,8 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Mid/Late attrition rest: walkers stop near the efficiency floor, regen to full initial strength, then resume.
-    /// Forecasts use <see cref="GetMinTravelEfficiency"/> so raid gates assume at least the rest floor (Def 80%).
+    /// Mid/Late attrition rest: walkers stop near the efficiency floor, regen toward the resume ratio, then resume.
+    /// Forecasts use <see cref="GetMinTravelEfficiency"/> so raid gates assume at least the rest floor (Def 75%).
     /// </summary>
     public static class TravelerAttritionRest
     {
@@ -34,6 +34,15 @@ namespace TSA_WorldDomination
         {
             if (traveler == null || seth == null) return 0f;
             return traveler.initialStrength * Mathf.Clamp01(seth.attritionRestMinRatio);
+        }
+
+        public static float RestResumeStrength(WorldObject_Traveler traveler, WorldDominationSettings seth)
+        {
+            if (traveler == null || seth == null) return 0f;
+            float resume = Mathf.Clamp01(seth.attritionRestResumeRatio);
+            float floor = Mathf.Clamp01(seth.attritionRestMinRatio);
+            if (resume < floor) resume = floor;
+            return traveler.initialStrength * resume;
         }
 
         public static bool IsWithinFireGrace(WorldObject_Traveler traveler, WorldDominationSettings seth)
@@ -155,11 +164,12 @@ namespace TSA_WorldDomination
             if (traveler == null || !traveler.attritionResting || seth == null) return;
             if (!traveler.IsHashIntervalTick(180, delta)) return;
 
+            float target = RestResumeStrength(traveler, seth);
             float regen = traveler.initialStrength * Mathf.Max(0f, seth.attritionRestRegenPerHour) * (180f / 2500f);
-            traveler.travelerStrength = Mathf.Min(traveler.initialStrength, traveler.travelerStrength + regen);
-            if (traveler.travelerStrength >= traveler.initialStrength - 0.01f)
+            traveler.travelerStrength = Mathf.Min(target, traveler.travelerStrength + regen);
+            if (traveler.travelerStrength >= target - 0.01f)
             {
-                traveler.travelerStrength = traveler.initialStrength;
+                traveler.travelerStrength = target;
                 ResumeFromRest(traveler);
             }
         }

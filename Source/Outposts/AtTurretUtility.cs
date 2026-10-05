@@ -343,11 +343,32 @@ namespace TSA_WorldDomination
             if (settlement == null) return;
             IReadOnlyList<WorldObject_AT_Turret> live = WorldObject_AT_Turret.LiveTurrets;
             List<WorldObject_AT_Turret> doomed = null;
+            Faction faction = settlement.Faction;
+            int center = settlement.Tile.tileId;
+            float maxDist = WorldDominationMod.settings?.fortifyMaxTilesFromSelf
+                ?? WorldDominationSettings.DefFortifyMaxTilesFromSelf;
+            WorldGrid grid = Find.WorldGrid;
+
             for (int i = 0; i < live.Count; i++)
             {
                 WorldObject_AT_Turret t = live[i];
                 if (t == null || t.Destroyed) continue;
-                if (t.builtBySettlement != settlement) continue;
+
+                bool match = t.builtBySettlement == settlement;
+                // Pre-stamp / null-owner: same faction within fortify ring (same heuristic as road blocks).
+                if (!match
+                    && t.builtBySettlement == null
+                    && faction != null
+                    && t.Faction == faction
+                    && center >= 0
+                    && grid != null
+                    && t.Tile.tileId >= 0
+                    && grid.ApproxDistanceInTiles(center, t.Tile.tileId) <= maxDist + 0.01f)
+                {
+                    match = true;
+                }
+
+                if (!match) continue;
                 doomed ??= new List<WorldObject_AT_Turret>();
                 doomed.Add(t);
             }

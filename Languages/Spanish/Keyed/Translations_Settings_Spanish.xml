@@ -414,11 +414,13 @@
   <TSA_WD_Outpost_MaxTravelStrengthLoss>Pérdida de fuerza máxima por viaje</TSA_WD_Outpost_MaxTravelStrengthLoss>
   <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>Porcentaje máximo de la fuerza de partida que los viajeros (incursiones, expansión, constructores) pueden perder en ruta. Conservan el resto de la fuerza inicial y no expiran solo por desgaste.</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>
   <TSA_WD_Caravans_AttritionRestGate>Descanso por desgaste (medio/tarde)</TSA_WD_Caravans_AttritionRestGate>
-  <TSA_WD_Caravans_AttritionRestGateTooltip>Con escalada Media o Tarde (o Siempre), los viajeros a pie que llegan al suelo de fuerza por desgaste se detienen, regeneran hasta la fuerza de partida y reanudan. Las previsiones y compuertas de incursión asumen al menos ese suelo. En Easy esto queda en Nunca.</TSA_WD_Caravans_AttritionRestGateTooltip>
+  <TSA_WD_Caravans_AttritionRestGateTooltip>Con escalada Media o Tarde (o Siempre), los viajeros a pie que llegan al suelo de fuerza por desgaste se detienen, regeneran hasta la ratio de reanudación y reanudan. Las previsiones y compuertas de incursión asumen al menos ese suelo. En Easy esto queda en Nunca.</TSA_WD_Caravans_AttritionRestGateTooltip>
   <TSA_WD_Caravans_AttritionRestMinRatio>Suelo de fuerza del descanso</TSA_WD_Caravans_AttritionRestMinRatio>
-  <TSA_WD_Caravans_AttritionRestMinRatioTooltip>Fracción de la fuerza de partida que dispara el descanso y limita las previsiones de desgaste (por defecto 80%). Combate, trampas y contaminación pueden bajar la fuerza real.</TSA_WD_Caravans_AttritionRestMinRatioTooltip>
+  <TSA_WD_Caravans_AttritionRestMinRatioTooltip>Fracción de la fuerza de partida que dispara el descanso y limita las previsiones de desgaste (por defecto 75%). Combate, trampas y contaminación pueden bajar la fuerza real.</TSA_WD_Caravans_AttritionRestMinRatioTooltip>
+  <TSA_WD_Caravans_AttritionRestResumeRatio>Fuerza de reanudación del descanso</TSA_WD_Caravans_AttritionRestResumeRatio>
+  <TSA_WD_Caravans_AttritionRestResumeRatioTooltip>Fracción de la fuerza de partida a la que los viajeros en descanso reanudan el viaje (por defecto 95%). Debe ser al menos el suelo de descanso.</TSA_WD_Caravans_AttritionRestResumeRatioTooltip>
   <TSA_WD_Caravans_AttritionRestRegen>Regeneración del descanso por hora</TSA_WD_Caravans_AttritionRestRegen>
-  <TSA_WD_Caravans_AttritionRestRegenTooltip>Fracción de la fuerza de partida recuperada cada hora en descanso (por defecto 2% → ~10 h del 80% al 100%).</TSA_WD_Caravans_AttritionRestRegenTooltip>
+  <TSA_WD_Caravans_AttritionRestRegenTooltip>Fracción de la fuerza de partida recuperada cada hora en descanso (por defecto 2% → ~10 h del 75% al 95%).</TSA_WD_Caravans_AttritionRestRegenTooltip>
   <TSA_WD_Caravans_AttritionRestFireGrace>Enfriamiento tras fuego (días)</TSA_WD_Caravans_AttritionRestFireGrace>
   <TSA_WD_Caravans_AttritionRestFireGraceTooltip>Tras un impacto de mortero, AT o AA, no inicia descanso durante estos días (por defecto 0,5). Un impacto durante el descanso lo cancela de inmediato.</TSA_WD_Caravans_AttritionRestFireGraceTooltip>
   <TSA_WD_Caravans_AttritionRestNearDest>Omitir descanso cerca del destino (días)</TSA_WD_Caravans_AttritionRestNearDest>

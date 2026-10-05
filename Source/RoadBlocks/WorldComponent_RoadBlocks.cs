@@ -186,7 +186,32 @@ namespace TSA_WorldDomination
         public int ClearBuiltBySettlement(Settlement settlement)
         {
             if (settlement == null || records == null || records.Count == 0) return 0;
+
+            // Exact stamp match (current NPC Fortify / turtle kits).
             int removed = records.RemoveAll(r => r != null && r.builtBySettlement == settlement);
+
+            // Pre-stamp / null-owner leftovers: same faction, within that settlement's fortify ring.
+            // Looking back only works while the settlement still exists (PostDestroy); we cannot re-attribute
+            // after a save where the builder ref was already wiped to null.
+            Faction faction = settlement.Faction;
+            int center = settlement.Tile.tileId;
+            if (faction != null && center >= 0)
+            {
+                float maxDist = WorldDominationMod.settings?.fortifyMaxTilesFromSelf
+                    ?? WorldDominationSettings.DefFortifyMaxTilesFromSelf;
+                WorldGrid grid = Find.WorldGrid;
+                if (grid != null)
+                {
+                    removed += records.RemoveAll(r =>
+                    {
+                        if (r == null || r.builtBySettlement != null) return false;
+                        if (r.builtByFaction != faction) return false;
+                        if (r.tileId < 0 || !grid.InBounds(r.tileId)) return false;
+                        return grid.ApproxDistanceInTiles(center, r.tileId) <= maxDist + 0.01f;
+                    });
+                }
+            }
+
             if (removed > 0)
             {
                 RebuildIndex();
