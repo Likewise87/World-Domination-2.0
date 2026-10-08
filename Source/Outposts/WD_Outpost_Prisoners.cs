@@ -64,6 +64,8 @@ namespace TSA_WorldDomination
             if (Occupants.Contains(pawn)) return false;
             if (Prisoners.Contains(pawn)) return true;
 
+            bool wasAlreadyColonyPrisoner = pawn.IsPrisonerOfColony;
+
             pawn.ownership?.UnclaimAll();
             VehicleFrameworkOutpostDissolveCompat.TryEjectPawnFromHostingVehicle(pawn);
 
@@ -95,6 +97,8 @@ namespace TSA_WorldDomination
             NotePrisonerMaybeNeedsHealing(pawn);
             NotifyVirtualPawnsChanged();
             Window_Prisoners.InvalidateCache();
+            if (!wasAlreadyColonyPrisoner)
+                PrisonerRosterUtility.TryAutoSmartAssignNewCapture(pawn, this);
             return true;
         }
 
@@ -280,6 +284,7 @@ namespace TSA_WorldDomination
                     pawn.guest.SetGuestStatus(null);
                 if (pawn.Faction != Faction.OfPlayer)
                     pawn.SetFaction(Faction.OfPlayer);
+                OutpostPawnIdeologyUtil.ApplyPlayerPrimaryIdeoIfActive(pawn);
 
                 if (destColony != null)
                 {

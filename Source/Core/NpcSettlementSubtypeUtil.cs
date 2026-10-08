@@ -75,6 +75,38 @@ namespace TSA_WorldDomination
             return subType;
         }
 
+        /// <summary>
+        /// Player-facing subtype label for inspect / faction UI.
+        /// Layout token <c>Prison</c> uses the Slavery key. Unknown or empty → Generic (or raw token).
+        /// </summary>
+        public static string GetSubtypeInspectLabel(string subType)
+        {
+            if (string.IsNullOrEmpty(subType)
+                || subType == "Excluded"
+                || subType == "Outpost"
+                || subType == "Colony")
+            {
+                return null;
+            }
+
+            string key = "TSA_WD_SubType_" + subType;
+            if (key.CanTranslate())
+                return key.Translate();
+
+            // Layout resolve uses Prison; scribed gameplay subtype is Slavery.
+            if (string.Equals(subType, "Prison", System.StringComparison.Ordinal))
+            {
+                const string slaveryKey = "TSA_WD_SubType_Slavery";
+                if (slaveryKey.CanTranslate())
+                    return slaveryKey.Translate();
+            }
+
+            const string genericKey = "TSA_WD_SubType_Generic";
+            if (genericKey.CanTranslate())
+                return genericKey.Translate();
+            return subType;
+        }
+
         /// <summary>Tile-aware random specialty for NPC settlements.</summary>
         public static string PickSubtype(SettlementTier tier, int tileId)
         {

@@ -450,6 +450,13 @@ namespace TSA_WorldDomination
         private string expertDoctorThingId;
         private string expertEngineerThingId;
         private string expertRecruiterThingId;
+        /// <summary>When true, filling a newly unlocked expert slot (every 4 humanoids) auto-assigns the best vacant role.</summary>
+        public bool autoAssignExpertsOnSlotUnlock = true;
+        /// <summary>
+        /// Runtime baseline for unlock detection. -1 = not primed (skip auto-assign until first sync so load/enable does not backfill).
+        /// Updated from <see cref="NotifyVirtualPawnsChanged"/> so prisoner recruit-in-place and every other occupant change are covered.
+        /// </summary>
+        private int lastKnownMaxExpertSlots = -1;
 
         /// <summary>Real pawns at this outpost. Only we own them (deep-scribed); we never put them in WorldPawns.</summary>
         public List<Pawn> Occupants => occupants ?? (occupants = new List<Pawn>());
@@ -646,6 +653,7 @@ namespace TSA_WorldDomination
                 Occupants.Add(pawn);
             ClearAutoAddBlockForPawn(pawn);
             NoteOccupantMaybeNeedsHealing(pawn);
+            // Expert slot unlock auto-assign runs inside NotifyVirtualPawnsChanged (covers recruit-in-place).
             NotifyVirtualPawnsChanged();
             return true;
         }
@@ -1348,6 +1356,7 @@ namespace TSA_WorldDomination
             cachedProductionTicksInterval = -1;
             InvalidateInspectCache();
             OutpostExpertUtility.ValidateAssignments(this);
+            TryAutoAssignExpertsAfterSlotUnlock();
             GetComponent<CompViralSpread>()?.UpdateOutpostStrengthLogically();
             if (IsAcademyOutpost)
                 Outpost_Academy.ValidateTeachingStateAfterOccupantsChanged(this);
@@ -1362,6 +1371,34 @@ namespace TSA_WorldDomination
                     mgr?.NotifyFoodLogisticsInputsChanged();
                 }
             }
+        }
+
+        /// <summary>
+        /// When humanoid capacity crosses another multiple of 4, fill each newly unlocked expert slot once.
+        /// Primed baseline skips load/enable backfill. Runs after ValidateAssignments so ghost IDs are cleared first.
+        /// </summary>
+        private void TryAutoAssignExpertsAfterSlotUnlock()
+        {
+            int slotsNow = OutpostExpertUtility.GetMaxExpertSlots(this);
+            if (autoAssignExpertsOnSlotUnlock
+                && lastKnownMaxExpertSlots >= 0
+                && slotsNow > lastKnownMaxExpertSlots
+                && !ManualDefenseActive)
+            {
+                int newlyUnlocked = slotsNow - lastKnownMaxExpertSlots;
+                for (int i = 0; i < newlyUnlocked; i++)
+                {
+                    if (!OutpostExpertUtility.TryAutoAssignOnSlotUnlock(this))
+                        break;
+                }
+            }
+            lastKnownMaxExpertSlots = slotsNow;
+        }
+
+        /// <summary>Prime unlock baseline after load so existing open capacity is not treated as a new unlock.</summary>
+        private void SyncExpertSlotUnlockBaseline()
+        {
+            lastKnownMaxExpertSlots = OutpostExpertUtility.GetMaxExpertSlots(this);
         }
 
         private void InvalidateInspectCache()
@@ -3389,6 +3426,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref expertDoctorThingId, "expertDoctorThingId");
             Scribe_Values.Look(ref expertEngineerThingId, "expertEngineerThingId");
             Scribe_Values.Look(ref expertRecruiterThingId, "expertRecruiterThingId");
+            Scribe_Values.Look(ref autoAssignExpertsOnSlotUnlock, "autoAssignExpertsOnSlotUnlock", true);
 
             if (occupants == null) occupants = new List<Pawn>();
             if (prisoners == null) prisoners = new List<Pawn>();
@@ -3463,6 +3501,7 @@ namespace TSA_WorldDomination
                     }
                 }
                 OutpostExpertUtility.ValidateAssignments(this);
+                SyncExpertSlotUnlockBaseline();
                 GetComponent<CompViralSpread>()?.UpdateOutpostStrengthLogically();
                 if (ShouldRegisterAsInterceptor())
                     WorldComponent_InterceptionScheduler.Current?.RegisterInterceptor(this);

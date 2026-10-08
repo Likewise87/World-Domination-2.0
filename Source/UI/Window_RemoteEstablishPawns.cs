@@ -40,6 +40,7 @@ namespace TSA_WorldDomination
         private const float ColTraits = 128f;
         private const float ColXenotype = 100f;
         private const float ColPsycasts = 110f;
+        private const float ColIdeology = 110f;
         private const float ConfirmBtnWidth = 140f;
         private const float ViewControlsGap = 10f;
         private const PawnRosterColumnWindow ColWindow = PawnRosterColumnWindow.RemoteEstablish;
@@ -62,6 +63,7 @@ namespace TSA_WorldDomination
         private PawnRosterJoinedFilter joinedFilter = PawnRosterJoinedFilter.All;
         private string xenotypeFilter = "";
         private string psycastFilter = "";
+        private string ideoFilter = "";
         private int lastUpdateTick = -9999;
         private bool cacheInvalidated;
         private List<PlayerPawnRosterEntry> cachedList = new List<PlayerPawnRosterEntry>();
@@ -273,7 +275,8 @@ namespace TSA_WorldDomination
             PawnRosterJoinedFilter? joinedF = null,
             bool applyXenotype = true,
             bool applyLocationType = true,
-            bool applyPsycast = true)
+            bool applyPsycast = true,
+            bool applyIdeology = true)
         {
             string pawnSearchLower = string.IsNullOrEmpty(pawnSearchTerm) ? null : pawnSearchTerm.ToLowerInvariant();
             string locNameLower = string.IsNullOrEmpty(locationNameSearchTerm) ? null : locationNameSearchTerm.ToLowerInvariant();
@@ -291,6 +294,8 @@ namespace TSA_WorldDomination
                 PawnRosterTraitFilter.ApplyXenotypeToPlayerRows(list, xenotypeFilter);
             if (applyPsycast && ColOn(PawnRosterColumnIds.Psycasts))
                 PawnRosterTraitFilter.ApplyPsycastToPlayerRows(list, psycastFilter);
+            if (applyIdeology && ColOn(PawnRosterColumnIds.Ideology))
+                PawnRosterTraitFilter.ApplyIdeologyToPlayerRows(list, ideoFilter);
             return list;
         }
 
@@ -311,6 +316,8 @@ namespace TSA_WorldDomination
             else if (!ColOn(PawnRosterColumnIds.Xenotype) && sortColumn == "Xenotype")
                 ClearSortToDefault();
             else if (!ColOn(PawnRosterColumnIds.Psycasts) && sortColumn == "Psycasts")
+                ClearSortToDefault();
+            else if (!ColOn(PawnRosterColumnIds.Ideology) && sortColumn == "Ideology")
                 ClearSortToDefault();
             else
             {
@@ -347,6 +354,7 @@ namespace TSA_WorldDomination
             joinedFilter = PawnRosterJoinedFilter.All;
             xenotypeFilter = "";
             psycastFilter = "";
+            ideoFilter = "";
             scrollPos = Vector2.zero;
             lastUpdateTick = -9999;
             PlayerPawnRosterUtility.ResetSkillDisplayOptions(ColWindow);
@@ -378,6 +386,7 @@ namespace TSA_WorldDomination
             if (ColOn(PawnRosterColumnIds.Traits)) w += ColTraits;
             if (ColOn(PawnRosterColumnIds.Xenotype)) w += ColXenotype;
             if (ColOn(PawnRosterColumnIds.Psycasts)) w += ColPsycasts;
+            if (ColOn(PawnRosterColumnIds.Ideology)) w += ColIdeology;
             SkillDef[] skills = PlayerPawnRosterUtility.AllSkillColumns;
             for (int i = 0; i < skills.Length; i++)
             {
@@ -582,6 +591,26 @@ namespace TSA_WorldDomination
                             lastUpdateTick = -9999;
                         }, PawnRosterHeaderFilter.PsycastListsFrom(BuildCurrentRoster(applyPsycast: false)))),
                     () => SetSort("Psycasts"));
+            }
+
+            if (ColOn(PawnRosterColumnIds.Ideology))
+            {
+                PawnRosterHeaderFilter.DrawFilterableHeader(
+                    ref curX, hRect.y, ColIdeology, HeaderHeight,
+                    "TSA_WD_PawnRoster_ColIdeology".Translate(),
+                    sortColumn == "Ideology", sortAscending,
+                    TextAnchor.MiddleCenter,
+                    !ideoFilter.NullOrEmpty(),
+                    "TSA_WD_FilterByIdeology".Translate(),
+                    icon => PawnRosterHeaderFilter.OpenChoiceDropdown(
+                        icon,
+                        "TSA_WD_FilterByIdeology".Translate(),
+                        PawnRosterHeaderFilter.IdeoChoices(ideoFilter, v =>
+                        {
+                            ideoFilter = v ?? "";
+                            lastUpdateTick = -9999;
+                        }, PawnRosterHeaderFilter.IdeoKeysFrom(BuildCurrentRoster(applyIdeology: false)))),
+                    () => SetSort("Ideology"));
             }
 
             SkillDef[] skills = PlayerPawnRosterUtility.AllSkillColumns;
@@ -957,6 +986,14 @@ namespace TSA_WorldDomination
                 Rect cell = new Rect(curX + 2f, y + 2f, ColPsycasts - 4f, rowH - 4f);
                 PrisonerRosterUtility.DrawTraitsCell(cell, pDisplay, pTip);
                 curX += ColPsycasts;
+            }
+
+            if (ColOn(PawnRosterColumnIds.Ideology))
+            {
+                PawnRosterTraitFilter.FormatIdeology(entry.pawn, out string iDisplay, out string iTip);
+                Rect cell = new Rect(curX + 2f, y + 2f, ColIdeology - 4f, rowH - 4f);
+                PrisonerRosterUtility.DrawTraitsCell(cell, iDisplay, iTip);
+                curX += ColIdeology;
             }
 
             Text.Anchor = TextAnchor.MiddleLeft;

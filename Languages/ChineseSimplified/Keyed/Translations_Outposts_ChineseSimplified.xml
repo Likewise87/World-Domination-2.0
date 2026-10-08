@@ -1209,11 +1209,16 @@
   <!-- 前哨军械库 -->
   <TSA_WD_Armory_OpenButton>军械库</TSA_WD_Armory_OpenButton>
   <TSA_WD_Armory_OpenButtonTip>把存放的武器、护甲、药品、毒品、食物与弹药分发给本前哨的驻守人员。</TSA_WD_Armory_OpenButtonTip>
-  <TSA_WD_Armory_ColumnPawns>人员名称</TSA_WD_Armory_ColumnPawns>
+  <TSA_WD_Armory_ColumnPawns>名称</TSA_WD_Armory_ColumnPawns>
   <TSA_WD_Armory_ColumnStore>库存</TSA_WD_Armory_ColumnStore>
-  <TSA_WD_Armory_SecApparel>服装</TSA_WD_Armory_SecApparel>
-  <TSA_WD_Armory_SecWeapons>武器</TSA_WD_Armory_SecWeapons>
-  <TSA_WD_Armory_SecFoodDrugs>食物、毒品、药品</TSA_WD_Armory_SecFoodDrugs>
+  <TSA_WD_Armory_SecApparel>装备服装</TSA_WD_Armory_SecApparel>
+  <TSA_WD_Armory_SecWeapons>装备武器</TSA_WD_Armory_SecWeapons>
+  <TSA_WD_Armory_SecFoodDrugsAmmo>食物、毒品、弹药、药品</TSA_WD_Armory_SecFoodDrugsAmmo>
+  <TSA_WD_Armory_SecOtherInventory>其他物品</TSA_WD_Armory_SecOtherInventory>
+  <TSA_WD_Armory_ColMass>质量</TSA_WD_Armory_ColMass>
+  <TSA_WD_Armory_ColMassTip>已携带质量 / 负重上限（当前/最大）。启用 Combat Extended 时使用 CE 负重。</TSA_WD_Armory_ColMassTip>
+  <TSA_WD_Armory_ColBulk>体积</TSA_WD_Armory_ColBulk>
+  <TSA_WD_Armory_ColBulkTip>Combat Extended 携带体积（当前/最大）。仅在启用 Combat Extended 时显示。</TSA_WD_Armory_ColBulkTip>
   <TSA_WD_Armory_NoOccupants>没有可装备的驻守人员。</TSA_WD_Armory_NoOccupants>
   <TSA_WD_Armory_StoreEmpty>这里还没有任何物品。通过商队或投送舱抵达的装备会存入军械库。用下方的“打开全部装备页”从殖民地或其他前哨运来。</TSA_WD_Armory_StoreEmpty>
   <TSA_WD_Armory_NormalizeNote>存入的装备会被修复至满耐久，因此相同物品可以堆叠。被污染的衣物保持污染并单独存放。</TSA_WD_Armory_NormalizeNote>
@@ -1224,12 +1229,36 @@
   <TSA_WD_Armory_ConvertFood>转换食物</TSA_WD_Armory_ConvertFood>
   <TSA_WD_Armory_ConvertFoodTip>把所有存放的实体食物并入本前哨的食物储备。超出上限的部分留在军械库。</TSA_WD_Armory_ConvertFoodTip>
   <TSA_WD_Armory_ConvertFoodNone>没有可转换的存放食物，或食物储备已满。</TSA_WD_Armory_ConvertFoodNone>
+  <TSA_WD_Armory_MenuFood>食物</TSA_WD_Armory_MenuFood>
+  <TSA_WD_Armory_MenuFoodTip>食物助手：从驻员卸下、从军械库分配，或把存放食物转为前哨食物储备。</TSA_WD_Armory_MenuFoodTip>
+  <TSA_WD_Armory_MenuAmmo>弹药</TSA_WD_Armory_MenuAmmo>
+  <TSA_WD_Armory_MenuAmmoTip>Combat Extended 弹药助手：从驻员卸下，或从军械库添加。</TSA_WD_Armory_MenuAmmoTip>
+  <TSA_WD_Armory_Menu_RemoveFood>从驻员卸下食物</TSA_WD_Armory_Menu_RemoveFood>
+  <TSA_WD_Armory_Menu_RemoveFoodTip>把驻员背包中的营养食物全部移入军械库。毒品与药品留在殖民者身上。</TSA_WD_Armory_Menu_RemoveFoodTip>
+  <TSA_WD_Armory_Menu_AssignFood>给驻员分配食物</TSA_WD_Armory_Menu_AssignFood>
+  <TSA_WD_Armory_Menu_AssignFoodTip>把军械库营养食物平均分给驻员（每人最多 10 件）。不会取走殖民者已携带的食物。</TSA_WD_Armory_Menu_AssignFoodTip>
+  <TSA_WD_Armory_Menu_ConvertFood>把实体食物转为前哨食物</TSA_WD_Armory_Menu_ConvertFood>
+  <TSA_WD_Armory_Menu_RemoveAmmo>卸下</TSA_WD_Armory_Menu_RemoveAmmo>
+  <TSA_WD_Armory_Menu_RemoveAmmoTip>把驻员背包中的 Combat Extended 弹药全部移入军械库。不会卸载枪内弹匣。</TSA_WD_Armory_Menu_RemoveAmmoTip>
+  <TSA_WD_Armory_Menu_AddAmmo>添加</TSA_WD_Armory_Menu_AddAmmo>
+  <TSA_WD_Armory_Menu_AddAmmoTip>从军械库库存给每位驻员最多 4 满匣合适弹药，再把剩余弹药分给他们。多种可用时混搭。不会取走殖民者已携带的弹药。</TSA_WD_Armory_Menu_AddAmmoTip>
+  <TSA_WD_Armory_RemovedFood>已将 {0} 组背包食物移入军械库。</TSA_WD_Armory_RemovedFood>
+  <TSA_WD_Armory_RemovedFoodNone>驻员背包中没有可移动的食物。</TSA_WD_Armory_RemovedFoodNone>
+  <TSA_WD_Armory_AssignedFood>已从军械库库存分配 {0} 份食物。</TSA_WD_Armory_AssignedFood>
+  <TSA_WD_Armory_AssignedFoodNone>军械库没有食物，或驻员无法再携带。</TSA_WD_Armory_AssignedFoodNone>
+  <TSA_WD_Armory_RemovedAmmo>已将 {0} 组背包弹药移入军械库。</TSA_WD_Armory_RemovedAmmo>
+  <TSA_WD_Armory_RemovedAmmoNone>驻员背包中没有可移动的弹药。</TSA_WD_Armory_RemovedAmmoNone>
+  <TSA_WD_Armory_AssignedAmmo>已从军械库库存分配 {0} 发弹药。</TSA_WD_Armory_AssignedAmmo>
+  <TSA_WD_Armory_AssignedAmmoNone>军械库没有合适弹药，或没有装备匹配远程武器的驻员。</TSA_WD_Armory_AssignedAmmoNone>
+  <TSA_WD_Armory_RightClickStoreTip>右键：移入军械库。</TSA_WD_Armory_RightClickStoreTip>
   <TSA_WD_Armory_OpenInventory>打开全部装备页</TSA_WD_Armory_OpenInventory>
   <TSA_WD_Armory_OpenInventoryTip>打开全部装备页，以便在前哨与殖民地之间快速转移装备。</TSA_WD_Armory_OpenInventoryTip>
   <TSA_WD_Armory_ConvertedFood>已把存放的食物转换为 {0} 点前哨食物。</TSA_WD_Armory_ConvertedFood>
   <TSA_WD_Armory_FailManualDefense>本前哨正在进行防御，无法搬运装备。</TSA_WD_Armory_FailManualDefense>
   <TSA_WD_Armory_FailLocked>{0} 已锁定，无法取下。</TSA_WD_Armory_FailLocked>
   <TSA_WD_Armory_FailNotStorable>{0} 无法存入军械库。</TSA_WD_Armory_FailNotStorable>
+  <TSA_WD_Armory_DestroyNotStorable>前哨站无法存放该物品。是否销毁？\n\n{0}</TSA_WD_Armory_DestroyNotStorable>
+  <TSA_WD_Armory_FailNotEquippable>{0} 无法装备。请拖到物品栏。</TSA_WD_Armory_FailNotEquippable>
   <TSA_WD_Armory_FailNoCapacity>该人员无法再携带更多此物品。</TSA_WD_Armory_FailNoCapacity>
   <TSA_WD_Armory_FailNoCapacityCe>{0} 没有空间携带更多{1}。剩余背包：{2} 体积，{3} 千克。</TSA_WD_Armory_FailNoCapacityCe>
   <TSA_WD_Armory_FailNoBodyParts>{1} 没有可穿戴 {0} 的部位。</TSA_WD_Armory_FailNoBodyParts>
@@ -1660,6 +1689,8 @@
   <TSA_WD_Experts_BenefitTooltip_Formula>（技能 {0} / {1} × 最大 {2}% = +{3}%）</TSA_WD_Experts_BenefitTooltip_Formula>
   <TSA_WD_Experts_TotalBenefits>专家总收益</TSA_WD_Experts_TotalBenefits>
   <TSA_WD_Experts_ChooseRoleHeader>选择专家角色：</TSA_WD_Experts_ChooseRoleHeader>
+  <TSA_WD_Experts_AutoAssignTipOn>当新增类人殖民者解锁下一个专家名额（每4人）时，自动将空缺角色分配给该角色技能最高且尚未担任专家的殖民者。不会填补此前已空着的名额。</TSA_WD_Experts_AutoAssignTipOn>
+  <TSA_WD_Experts_AutoAssignTipOff>新解锁的专家名额保持空缺，需手动分配。</TSA_WD_Experts_AutoAssignTipOff>
   <TSA_WD_Experts_CapacityMax>最多可分配专家：{0}</TSA_WD_Experts_CapacityMax>
   <TSA_WD_Experts_CapacityTooltip>此前哨站每有4名类人殖民者可分配1名专家。当前有{0}名类人殖民者，因此最多可分配{1}名专家。</TSA_WD_Experts_CapacityTooltip>
   <TSA_WD_Experts_RemovedTooFewPawns>{0} 不再担任 {2} 的{1}，因为乘员人数不足以维持这么多专家。</TSA_WD_Experts_RemovedTooFewPawns>

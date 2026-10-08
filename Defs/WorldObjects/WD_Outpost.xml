@@ -639,5 +639,136 @@
       </li>
     </modExtensions>
   </WorldObjectDef>
+  
+  
+  
+    <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction" MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Outpost_DrugLab</defName>
+        <label>Advanced Drug Lab Outpost</label>
+        <texture>AllBamba/UI/WorldObjects/SO_Drug</texture>
+        <expandingIconTexture>AllBamba/UI/WorldObjects/SO_Drug</expandingIconTexture>
+        <modExtensions>
+            <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+                <outpostTier>3</outpostTier>
+                <minPawnsToFound>1</minPawnsToFound>
+                <requiredResearchProjectDefNames>
+                    <li>BOR_Research_Drugs_I</li>
+                </requiredResearchProjectDefNames>
+                <MinCumulativeSkill>
+                    <li>
+                        <Intellectual>15</Intellectual>
+                    </li>
+                </MinCumulativeSkill>
+                <establishmentCost>
+                    <BOR_Sunsteel>100</BOR_Sunsteel>
+                    <ComponentSpacer>8</ComponentSpacer>
+                </establishmentCost>
+                <productionCycleDays>20</productionCycleDays>
+                <productionOptions>
+                    <li>
+                        <thingDef>BOR_Sunlite</thingDef>
+                        <amountPerSkillLevel>2</amountPerSkillLevel>
+                        <minSkillLevel>12</minSkillLevel>
+                    </li>
+                    <li>
+                        <thingDef>BOR_Trot</thingDef>
+                        <amountPerSkillLevel>3</amountPerSkillLevel>
+                        <minSkillLevel>14</minSkillLevel>
+                    </li>
+                    <li>
+                        <thingDef>BOR_Aegis</thingDef>
+                        <amountPerSkillLevel>2</amountPerSkillLevel>
+                        <minSkillLevel>15</minSkillLevel>
+                    </li>
+                    <li>
+                        <thingDef>BOR_WideAWake</thingDef>
+                        <amountPerSkillLevel>3</amountPerSkillLevel>
+                        <minSkillLevel>15</minSkillLevel>
+                    </li>
+                    <li>
+                        <thingDef>BOR_Canter</thingDef>
+                        <amountPerSkillLevel>2</amountPerSkillLevel>
+                        <minSkillLevel>12</minSkillLevel>
+                        <requiredResearch>BOR_Research_Drugs_II</requiredResearch>
+                    </li>
+                    <li>
+                        <thingDef>BOR_Castra</thingDef>
+                        <amountPerSkillLevel>3</amountPerSkillLevel>
+                        <minSkillLevel>14</minSkillLevel>
+                        <requiredResearch>BOR_Research_Drugs_II</requiredResearch>
+                    </li>
+                    <li>
+                        <thingDef>BOR_Sleepquitin</thingDef>
+                        <amountPerSkillLevel>2</amountPerSkillLevel>
+                        <minSkillLevel>15</minSkillLevel>
+                        <requiredResearch>BOR_Research_Drugs_II</requiredResearch>
+                    </li>
+                    <li>
+                        <thingDef>BOR_Sunlight</thingDef>
+                        <amountPerSkillLevel>3</amountPerSkillLevel>
+                        <minSkillLevel>15</minSkillLevel>
+                        <requiredResearch>BOR_Research_Drugs_II</requiredResearch>
+                    </li>
+                </productionOptions>
+            </li>
+        </modExtensions>
+    </WorldObjectDef>
+
+    <!-- Fabrication -->
+    <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction" MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
+        <defName>BOR_TSA_WD_Outpost_Fabrication</defName>
+        <label>Advanced Fabrication Outpost</label>
+        <texture>AllBamba/UI/WorldObjects/BOR_Factory</texture>
+        <expandingIconTexture>AllBamba/UI/WorldObjects/BOR_Factory</expandingIconTexture>
+        <modExtensions>
+            <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
+                <outpostTier>3</outpostTier>
+                <minPawnsToFound>2</minPawnsToFound>
+                <requiredResearchProjectDefNames>
+                    <li>BOR_Research_Production_I</li>
+                </requiredResearchProjectDefNames>
+                <MinCumulativeSkill>
+                    <li>
+                        <Crafting>15</Crafting>
+                    </li>
+                </MinCumulativeSkill>
+                <establishmentCost>
+                    <BOR_Sunsteel>300</BOR_Sunsteel>
+                    <ComponentSpacer>10</ComponentSpacer>
+                </establishmentCost>
+                <productionCycleDays>30</productionCycleDays>
+                <productionOptions>
+                    <li>
+                        <thingDef>BOR_Sunsteel</thingDef>
+                        <amountPerSkillLevel>5</amountPerSkillLevel>
+                        <minSkillLevel>12</minSkillLevel>
+                    </li>
+                    <li>
+                        <thingDef>BOR_Sunweave</thingDef>
+                        <amountPerSkillLevel>3</amountPerSkillLevel>
+                        <minSkillLevel>12</minSkillLevel>
+                    </li>
+                    <li>
+                        <thingDef>BOR_ComponentII</thingDef>
+                        <amountPerSkillLevel>0.3</amountPerSkillLevel>
+                        <minSkillLevel>15</minSkillLevel>
+                        <requiredResearch>BOR_Research_Production_II</requiredResearch>
+                    </li>
+                    <li>
+                        <thingDef>BOR_QuasarAlloy</thingDef>
+                        <amountPerSkillLevel>4</amountPerSkillLevel>
+                        <minSkillLevel>15</minSkillLevel>
+                        <requiredResearch>BOR_Research_Production_II</requiredResearch>
+                    </li>
+                    <li>
+                        <thingDef>BOR_QuasarAlloyWeave</thingDef>
+                        <amountPerSkillLevel>2</amountPerSkillLevel>
+                        <minSkillLevel>15</minSkillLevel>
+                        <requiredResearch>BOR_Research_Production_II</requiredResearch>
+                    </li>
+                </productionOptions>
+            </li>
+        </modExtensions>
+    </WorldObjectDef>
     
 </Defs>

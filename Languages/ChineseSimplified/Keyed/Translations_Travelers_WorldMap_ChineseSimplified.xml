@@ -255,6 +255,7 @@
   <TSA_WD_SubType_Refuge>避难所</TSA_WD_SubType_Refuge>
   <TSA_WD_SubType_Production>生产村落</TSA_WD_SubType_Production>
   <TSA_WD_SubType_Slavery>监狱村落</TSA_WD_SubType_Slavery>
+  <TSA_WD_SubType_Prison>监狱村落</TSA_WD_SubType_Prison>
   <TSA_WD_SubType_Fortress>城镇</TSA_WD_SubType_Fortress>
   <TSA_WD_SubType_Vanguard>先锋</TSA_WD_SubType_Vanguard>
   <TSA_WD_SubType_Citadel>要塞城堡</TSA_WD_SubType_Citadel>

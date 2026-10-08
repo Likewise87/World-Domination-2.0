@@ -29,6 +29,9 @@ namespace TSA_WorldDomination
         /// <summary>Stop granting when inventory holds this many magazines of the basic ammo.</summary>
         public const int MagazineCap = 8;
 
+        /// <summary>Armory auto-assign helper: magazines to give per pawn from store stock.</summary>
+        public const int AutoAssignMagazines = 4;
+
         private static bool inventoryLookupDone;
         private static Type compInventoryType;
         private static MethodInfo canFitInInventoryDef;
@@ -36,6 +39,10 @@ namespace TSA_WorldDomination
         private static MethodInfo updateInventory;
         private static PropertyInfo availableBulkProp;
         private static PropertyInfo availableWeightProp;
+        private static PropertyInfo currentWeightProp;
+        private static PropertyInfo capacityWeightProp;
+        private static PropertyInfo currentBulkProp;
+        private static PropertyInfo capacityBulkProp;
 
         /// <summary>True when Combat Extended is active (package id only; types resolved on use).</summary>
         public static bool IsCeActive => ModsConfig.IsActive(CePackageId);
@@ -192,30 +199,79 @@ namespace TSA_WorldDomination
             }
         }
 
-        /// <summary>Prefer first non-advanced ammoClass link; else first link (CE default).</summary>
-        internal static ThingDef ResolveBasicAmmoDef(object ammoSet)
+        /// <summary>
+        /// Primary ranged weapon with a CE ammo user that uses ammo. Soft-fails without CE or when
+        /// the pawn has no suitable primary.
+        /// </summary>
+        internal static bool TryGetPrimaryAmmoUser(Pawn pawn, out ThingComp ammoUser, out object props, out object ammoSet)
         {
-            object ammoTypes = GetFieldValue(ammoSet, "ammoTypes");
-            if (ammoTypes == null) return null;
+            ammoUser = null;
+            props = null;
+            ammoSet = null;
+            if (!IsCeActive || pawn?.equipment?.Primary == null) return false;
 
-            ThingDef first = null;
-            ThingDef firstNonAdvanced = null;
+            ThingWithComps primary = pawn.equipment.Primary;
+            if (primary.def == null || !primary.def.IsRangedWeapon) return false;
+
+            ammoUser = FindAmmoUserComp(primary);
+            if (ammoUser == null) return false;
+            if (!IsUseAmmo(ammoUser)) return false;
+
+            props = ammoUser.props;
+            if (props == null) return false;
+
+            ammoSet = GetFieldValue(props, "ammoSet");
+            return ammoSet != null;
+        }
+
+        /// <summary>Every ammo def linked from an AmmoSet (reflection; order preserved).</summary>
+        internal static List<ThingDef> ListAmmoDefsFromSet(object ammoSet)
+        {
+            var result = new List<ThingDef>();
+            if (ammoSet == null) return result;
+
+            object ammoTypes = GetFieldValue(ammoSet, "ammoTypes");
+            if (ammoTypes == null) return result;
+
+            if (ammoTypes is IDictionary dict)
+            {
+                foreach (object key in dict.Keys)
+                {
+                    ThingDef ammo = key as ThingDef
+                        ?? GetFieldValue(key, "ammo") as ThingDef;
+                    if (ammo != null && !result.Contains(ammo))
+                        result.Add(ammo);
+                }
+                return result;
+            }
 
             if (ammoTypes is IEnumerable enumerable)
             {
                 foreach (object link in enumerable)
                 {
                     if (link == null) continue;
-                    ThingDef ammo = GetFieldValue(link, "ammo") as ThingDef;
-                    if (ammo == null) continue;
-                    if (first == null)
-                        first = ammo;
-                    if (firstNonAdvanced == null && !IsAdvancedAmmoClass(ammo))
-                        firstNonAdvanced = ammo;
+                    ThingDef ammo = link as ThingDef
+                        ?? GetFieldValue(link, "ammo") as ThingDef;
+                    if (ammo != null && !result.Contains(ammo))
+                        result.Add(ammo);
                 }
             }
 
-            return firstNonAdvanced ?? first;
+            return result;
+        }
+
+        /// <summary>Prefer first non-advanced ammoClass link; else first link (CE default).</summary>
+        internal static ThingDef ResolveBasicAmmoDef(object ammoSet)
+        {
+            List<ThingDef> all = ListAmmoDefsFromSet(ammoSet);
+            if (all.Count == 0) return null;
+
+            for (int i = 0; i < all.Count; i++)
+            {
+                if (!IsAdvancedAmmoClass(all[i]))
+                    return all[i];
+            }
+            return all[0];
         }
 
         private static bool IsAdvancedAmmoClass(ThingDef ammo)
@@ -278,6 +334,15 @@ namespace TSA_WorldDomination
         /// CE caches carried bulk and weight and only recalculates on tick. Outpost pawns are not
         /// spawned, so the cache is stale after every armory move unless refreshed here.
         /// </summary>
+        internal static void RefreshPawnInventory(Pawn pawn)
+        {
+            if (pawn == null || !IsCeActive) return;
+            EnsureInventoryLookup();
+            if (compInventoryType == null) return;
+            ThingComp inv = FindCompOfType(pawn, compInventoryType);
+            RefreshInventory(inv);
+        }
+
         private static void RefreshInventory(ThingComp inv)
         {
             if (inv == null || updateInventory == null) return;
@@ -300,6 +365,41 @@ namespace TSA_WorldDomination
             {
                 freeBulk = Convert.ToSingle(availableBulkProp.GetValue(inv));
                 freeWeight = Convert.ToSingle(availableWeightProp.GetValue(inv));
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// CE carry load after <see cref="RefreshInventory"/>: current/capacity weight and bulk.
+        /// False when CE is off or the pawn has no CompInventory.
+        /// </summary>
+        internal static bool TryGetCarryLoad(
+            Pawn pawn,
+            out float currentWeight,
+            out float capacityWeight,
+            out float currentBulk,
+            out float capacityBulk)
+        {
+            currentWeight = capacityWeight = currentBulk = capacityBulk = 0f;
+            EnsureInventoryLookup();
+            if (pawn == null || !IsCeActive || compInventoryType == null) return false;
+            if (currentWeightProp == null || capacityWeightProp == null
+                || currentBulkProp == null || capacityBulkProp == null)
+                return false;
+
+            ThingComp inv = FindCompOfType(pawn, compInventoryType);
+            if (inv == null) return false;
+            RefreshInventory(inv);
+            try
+            {
+                currentWeight = Convert.ToSingle(currentWeightProp.GetValue(inv));
+                capacityWeight = Convert.ToSingle(capacityWeightProp.GetValue(inv));
+                currentBulk = Convert.ToSingle(currentBulkProp.GetValue(inv));
+                capacityBulk = Convert.ToSingle(capacityBulkProp.GetValue(inv));
                 return true;
             }
             catch
@@ -414,6 +514,10 @@ namespace TSA_WorldDomination
                 updateInventory = compInventoryType.GetMethod("UpdateInventory", Inst, null, Type.EmptyTypes, null);
                 availableBulkProp = compInventoryType.GetProperty("availableBulk", Inst);
                 availableWeightProp = compInventoryType.GetProperty("availableWeight", Inst);
+                currentWeightProp = compInventoryType.GetProperty("currentWeight", Inst);
+                capacityWeightProp = compInventoryType.GetProperty("capacityWeight", Inst);
+                currentBulkProp = compInventoryType.GetProperty("currentBulk", Inst);
+                capacityBulkProp = compInventoryType.GetProperty("capacityBulk", Inst);
             }
             catch
             {

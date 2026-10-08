@@ -459,6 +459,12 @@ namespace TSA_WorldDomination
         private bool repairedMisclassifiedPlayerSubType;
         /// <summary>True after the one-time starting raid shield for this player map colony has been applied (or skipped on load).</summary>
         private bool appliedInitialPlayerColonyShield;
+        /// <summary>
+        /// NPC settlement still waiting for first tier/subtype bootstrap. Set when <see cref="Initialize"/> runs
+        /// before <see cref="WorldObject.Tile"/> is valid (WorldObjectMaker order); cleared by
+        /// <see cref="TryCompleteNpcSettlementBootstrap"/>. Empty <see cref="subType"/> also implies pending.
+        /// </summary>
+        private bool npcSettlementBootstrapPending;
         /// <summary>After <see cref="WorldObject.Tile"/> is valid, strip comp if orbit (init can run before tile/layer exist).</summary>
         private bool evaluatedDeferredOrbitStrip;
         private int ticksExisted = 0;
@@ -1133,12 +1139,14 @@ namespace TSA_WorldDomination
                     bool isPlayerSettlement = parent.Faction != null && parent.Faction.IsPlayer;
                     if (isPlayerSettlement)
                         EnsureInitialPlayerColonyShield();
-                    // Tile/Layer are often unset during early world-object init; defer subtype
-                    // so tile-aware Camp/Refuge gates see a real tile (EnsureAllSettlementsInitialized).
-                    else if (parent.Tile.Valid)
+                    else
                     {
-                        if (SpreadManager != null) WorldActions_Utils.ApplyRandomTier(this);
-                        else SetState(SettlementTier.T1);
+                        // WorldObjectMaker calls Initialize before callers set Tile. Never leave subtype blank:
+                        // provisional pick now, tile-aware bootstrap when Tile is valid (CompTick / FinalizeInit).
+                        npcSettlementBootstrapPending = true;
+                        subType = NpcSettlementSubtypeUtil.PickSubtype(SettlementTier.T1, -1);
+                        if (parent.Tile.Valid)
+                            TryCompleteNpcSettlementBootstrap();
                     }
                 }
             }
@@ -1240,6 +1248,11 @@ namespace TSA_WorldDomination
                     EnsureInitialPlayerColonyShield();
                 }
             }
+
+            // WorldObjectMaker sets Tile after Initialize — finish bootstrap on the first tick Tile is valid.
+            if (IsSettlement && parent != null && parent.Tile.Valid
+                && (npcSettlementBootstrapPending || string.IsNullOrEmpty(subType)))
+                TryCompleteNpcSettlementBootstrap();
 
             EnsureInitialPlayerColonyShield();
 
@@ -1661,6 +1674,7 @@ namespace TSA_WorldDomination
             SettlementTier oldTier = tier;
             tier = newTier;
             subType = GetRandomSubType(newTier);
+            npcSettlementBootstrapPending = false;
             var range = GetStrengthRange(newTier);
             if (offensiveStrength <= 0) offensiveStrength = range.RandomInRange;
             defensiveStrength = GetBaseDefensiveStrength();
@@ -1997,6 +2011,7 @@ namespace TSA_WorldDomination
             base.PostExposeData();
             Scribe_Values.Look(ref tier, "tier", SettlementTier.T1);
             Scribe_Values.Look(ref subType, "subType", "");
+            Scribe_Values.Look(ref npcSettlementBootstrapPending, "npcSettlementBootstrapPending", false);
             float legacyStrength = offensiveStrength;
             Scribe_Values.Look(ref offensiveStrength, "offensiveStrength", -1f);
             Scribe_Values.Look(ref defensiveStrength, "defensiveStrength", -1f);
@@ -2228,10 +2243,62 @@ namespace TSA_WorldDomination
                     if (string.IsNullOrEmpty(subType) || subType == "Excluded")
                         subType = "Outpost";
                 }
+                else if (IsSettlement)
+                {
+                    // Legacy saves: blank subtype means bootstrap never finished.
+                    if (string.IsNullOrEmpty(subType))
+                        npcSettlementBootstrapPending = true;
+                    TryCompleteNpcSettlementBootstrap();
+                }
 
                 UpdateInterceptorRegistration();
             }
         }
+
+        /// <summary>
+        /// Finish NPC settlement tier/subtype after Tile is known. WorldObjectMaker always runs
+        /// <see cref="Initialize"/> before callers set Tile — that used to leave <see cref="subType"/> blank
+        /// until <see cref="WorldActions_Utils.EnsureAllSettlementsInitialized"/>, which could miss settlements.
+        /// Invariant: once Tile is valid, participant NPC settlements never keep an empty subtype.
+        /// </summary>
+        public void TryCompleteNpcSettlementBootstrap()
+        {
+            if (!IsSettlement || IsPlayerMapSettlement) return;
+            if (parent?.Faction != null && parent.Faction.IsPlayer) return;
+            if (parent?.Faction != null && !WorldActions_Utils.IsWdParticipant(parent.Faction))
+            {
+                subType = "Excluded";
+                npcSettlementBootstrapPending = false;
+                return;
+            }
+            if (subType == "Excluded") return;
+            if (parent == null || !parent.Tile.Valid) return;
+
+            bool blankSubtype = string.IsNullOrEmpty(subType);
+            if (!npcSettlementBootstrapPending && !blankSubtype) return;
+
+            bool virginStrength = offensiveStrength <= 0f && defensiveStrength <= 0f;
+            if (npcSettlementBootstrapPending && virginStrength)
+            {
+                if (SpreadManager != null)
+                    WorldActions_Utils.ApplyRandomTier(this);
+                else
+                    SetState(SettlementTier.T1);
+            }
+            else if (blankSubtype || npcSettlementBootstrapPending)
+            {
+                // Strength/tier already set (legacy save or caller SetState): tile-aware subtype only.
+                subType = GetRandomSubType(tier);
+            }
+
+            npcSettlementBootstrapPending = false;
+            if (string.IsNullOrEmpty(subType))
+                subType = NpcSettlementSubtypeUtil.PickSubtype(tier, parent.Tile.tileId);
+            cachedInspectString = null;
+        }
+
+        /// <summary>Back-compat alias for UI; routes to <see cref="TryCompleteNpcSettlementBootstrap"/>.</summary>
+        public void EnsureNpcSettlementSubtypeAssigned() => TryCompleteNpcSettlementBootstrap();
 
         public override string CompInspectStringExtra()
         {
@@ -2261,11 +2328,13 @@ namespace TSA_WorldDomination
                 }
                 else
                 {
+                    TryCompleteNpcSettlementBootstrap();
                     string tierKey = (tier == SettlementTier.T4) ? "TSA_WD_Tier4" :
                                      (tier == SettlementTier.T3) ? "TSA_WD_Tier3" :
                                      (tier == SettlementTier.T2) ? "TSA_WD_Tier2" : "TSA_WD_Tier1";
-                    string subTypeKey = "TSA_WD_SubType_" + subType;
-                    sb.Append("TSA_WD_Inspect_Settlement".Translate(tierKey.Translate(), subTypeKey.Translate()));
+                    string subtypeLabel = NpcSettlementSubtypeUtil.GetSubtypeInspectLabel(subType)
+                        ?? "TSA_WD_SubType_Generic".Translate();
+                    sb.Append("TSA_WD_Inspect_Settlement".Translate(tierKey.Translate(), subtypeLabel));
                     sb.AppendLine();
                     sb.Append("TSA_WD_Inspect_StrengthSimpleLine".Translate(
                         totalCurrent.ToString("F0"), totalMax.ToString("F0")));

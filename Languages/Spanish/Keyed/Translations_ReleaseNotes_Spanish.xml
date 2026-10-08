@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_43_Title>Calidad de vida</TSA_WD_Update_2_3_43_Title>
+  <TSA_WD_Update_2_3_43_Body><![CDATA[
+<size=16><b>2.3.43 – Calidad de vida</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 8 de octubre de 2026</color>\n
+------------------------------\n
+• Nueva función: con Ideología activa, los peones reclutados en la avanzada de reclutamiento y los prisioneros reclutados en una avanzada reciben al instante la ideología del jugador.\n
+• Dos nuevos tipos de avanzada con el mod Beyond Our Reach: Advanced Drug Lab Outpost y Advanced Fabrication Outpost, que producen drogas y materiales de BOR.\n
+• Interruptor en la pestaña Todos los prisioneros. Si está activado, cada prisionero recién capturado recibe automáticamente una asignación inteligente: se envía a una avanzada adecuada al reclutarlo.\n
+• Igualmente, interruptor en la pestaña Expertos de las avanzadas. Si está activado (activado por defecto), se asigna un experto automáticamente cuando tienes peones suficientes para permitirte otro.\n
+]]></TSA_WD_Update_2_3_43_Body>
+  <TSA_WD_Update_2_3_42_Title>Mejoras de calidad en la armería</TSA_WD_Update_2_3_42_Title>
+  <TSA_WD_Update_2_3_42_Body><![CDATA[
+<size=16><b>2.3.42 – Mejoras de calidad en la armería</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 6 de octubre de 2026</color>\n
+------------------------------\n
+• Recordatorio: ve a la pestaña "Peones" de cualquier avanzada. Arriba hay un icono de armadura que dice "Armería". Úsalo para cambiar el equipo de los peones apostados allí.\n
+• Esta ventana ahora tiene todas las columnas de peones que puedas querer. También se añadieron Masa y Volumen para Combat Extended.\n
+• Ahora se distingue la ropa equipada de la ropa guardada en el inventario (como en la mochila). Así puedes llevar ropa y armas a la avanzada a mano y descargarlas allí.\n
+• Controles masivos arriba para quitar toda la comida de los peones y repartirla por igual. También hay funciones rápidas para quitar y añadir munición de CE.\n
+• Los objetos se pueden mover libremente entre peones y sus ranuras.\n
+• Cualquier objeto que no sea ropa, arma, munición, medicina o droga no se puede almacenar en una avanzada que no sea almacén. Si lo intentas, verás el aviso "¿quieres destruir el objeto?". Esos objetos sí se pueden mover entre peones.\n
+]]></TSA_WD_Update_2_3_42_Body>
   <TSA_WD_Update_2_3_41_Title>Puentes, equilibrio y rendimiento</TSA_WD_Update_2_3_41_Title>
   <TSA_WD_Update_2_3_41_Body><![CDATA[
 <size=16><b>2.3.41 – Puentes, equilibrio y rendimiento</b></size>\n

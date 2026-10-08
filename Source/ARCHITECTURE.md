@@ -52,6 +52,8 @@ SSoT: `OutpostPawnIdeologyUtil` (`Outposts/OutpostPawnIdeologyUtil.cs`).
 
 Do not call COMMIT from SELECT gates (`BulkRemovalSelectionIsAllowedWithExtra` forwards to SELECT only).
 
+**Player Ideo assign (Ideology DLC active only):** `ApplyPlayerPrimaryIdeoIfActive` sets the pawn to `Faction.OfPlayer.ideos.PrimaryIdeo` via `SetIdeo`. Call sites: `RecruitPrisonersBatch` (after `SetFaction`) and `Outpost_Recruiting.GenerateRecruitPawn` (Recruiting outpost production and conquest founding pawns). No-op when Ideology is inactive or there is no primary Ideo.
+
 ## Outpost Armory (loose gear)
 
 SSoT: `CompOutpostArmory` + `OutpostArmoryUtility` (`Outposts/Armory/`). Opt-out experimental setting `experimentalOutpostArmory`. The Type filter shared by the Armory dialog and All Player Gear (`ArmoryTypeFilter`: Guns / Bows / Melee / Grenades / Ammo / Armor / Headgear / Torso / Legs / Medicine / Drugs / Food / Other) is owned by `OutpostArmoryUtility.TypeFilterFor` (single display kind), `MatchesTypeFilter` (Headgear / Torso / Legs match by apparel coverage and overlap) and `BuildTypeFilterChoices`. Armor is the vanilla `ApparelArmor` category tree (helmets plus body armor). UI must not re-classify.
@@ -110,7 +112,7 @@ Humanlike occupants only; respects `outpostOccupantSkillXpMaxLevel`. Most event 
 
 ### Mid/Late attrition rest
 
-When `gateThreatAttritionRest` passes (`WdEscalation.PassesGate`, Def FromMid), walking travelers that hit `attritionRestMinRatio` of `initialStrength` from **attrition only** stop (`StopDead`), regenerate toward 100% of initial (`TravelerAttritionRest`), then `StartPath` again. Suppress begin-rest if recently hit by mortar/AT/AA (`lastHostileFireTick` + fire-grace days), a hostile AT can engage them, or remaining path ETA ≤ near-dest buffer (Def 0.1 days). Hit while resting cancels rest immediately. Attrition still clamps at the rest floor when rest is suppressed; combat/traps/pollution can push live strength below without snapping up. Forecast helpers in `TravelUtils` (`GetMinTravelEfficiency` via `TravelerAttritionRest`) floor predicted efficiency at the rest ratio so raid gates / projected arrival assume ≥80% when the feature is active. Regen Def is 2%/hour (~10h from 80% to 100%). V1 has no special rest-camp clash map.
+When `gateThreatAttritionRest` passes (`WdEscalation.PassesGate`, Def FromMid), walking travelers that hit `attritionRestMinRatio` of `initialStrength` from **attrition only** stop (`StopDead`), regenerate toward 100% of initial (`TravelerAttritionRest`), then `StartPath` again. Suppress begin-rest if recently hit by mortar/AT/AA (`lastHostileFireTick` + fire-grace days), a hostile AT can engage them, or remaining path ETA ≤ near-dest buffer (Def 0.1 days). Hostile strength damage while resting (`TravelerAttritionRest.NotifyHostileFire`: mortar/AT/AA shells, open-field traveler/caravan/AT clashes, spike traps) cancels rest and resumes the journey immediately; resting travelers also leave if a hostile AT becomes able to engage. Attrition still clamps at the rest floor when rest is suppressed; combat/traps/pollution can push live strength below without snapping up. Forecast helpers in `TravelUtils` (`GetMinTravelEfficiency` via `TravelerAttritionRest`) floor predicted efficiency at the rest ratio so raid gates / projected arrival assume ≥80% when the feature is active. Regen Def is 2%/hour (~10h from 80% to 100%). V1 has no special rest-camp clash map.
 
 ## Caravan clash (player vs traveler)
 
@@ -166,10 +168,11 @@ Caravan clashes **and Camp** on bridged water use `MapGeneratorDef` `WD_BridgeCl
 SSoT: `NpcSettlementSubtypeUtil` (`Core/NpcSettlementSubtypeUtil.cs`), called from `CompViralSpread.GetRandomSubType` with `parent.Tile`.
 
 - **Camp** (`subType` `Camp`): mixed everyday layouts. Normal (non-extreme) tiles only; T1/T2 pool member.
-- **Refuge** (`subType` `Refuge`): stripped barracks/kitchen/stockpile layouts. Extreme tiles only (farming fertility 0 and plant-density rank below logging floor). T1 extreme pool + Mining if hills; T2 extreme is Refuge only (no Production / Slavery). Unknown / unset tile is never treated as extreme (world-object `Initialize` often runs before `Tile` is valid; tier/subtype is deferred until `EnsureAllSettlementsInitialized`).
+- **Refuge** (`subType` `Refuge`): stripped barracks/kitchen/stockpile layouts. Extreme tiles only (farming fertility 0 and plant-density rank below logging floor). T1 extreme pool + Mining if hills; T2 extreme is Refuge only (no Production / Slavery). Unknown / unset tile is never treated as extreme.
+- **Bootstrap:** `WorldObjectMaker` runs `CompViralSpread.Initialize` before callers set `Tile`, so NPC settlements set `npcSettlementBootstrapPending` + a provisional subtype (never blank). `TryCompleteNpcSettlementBootstrap` (CompTick / `EnsureAllSettlementsInitialized` / PostLoadInit / inspect) applies tile-aware `ApplyRandomTier` or subtype re-pick once `Tile` is valid. Invariant: participant NPC settlements never keep an empty `subType` after Tile is known.
 - **Specialty gates:** Farming fertility ≥ 30%; Logging fertility ≥ 15%; Mining base score ≥ 0.5 (SmallHills+). Only enter the T1 pool when the tile passes.
 - **Layout resolve:** `Patch_KCSG` / `WdMgNestSpawner` build `TSA_{Tribal|Generic}_{tier}_{token}`. `LayoutTokenForSubtype` maps scribed `Slavery` → `Prison` SettlementLayoutDef names. Loot tables still key on `Slavery`.
-- **Display:** keyed `TSA_WD_SubType_Slavery` shows as Prison Village; Camp / Refuge have their own keys.
+- **Display:** keyed `TSA_WD_SubType_*` (Slavery / Prison alias → Prison Village; Camp / Refuge / specialties / Fortress / Citadel / Vanguard / Generic) via `GetSubtypeInspectLabel`.
 - **Expand seed bias (early annulus only):** score ~3 ring tiles with `ExpandTileAttractiveness` (max fertility / hunting / mining), then one `TryFindFirstValidFromSeed` from the best. Mid/late toward-player and isolation stay first-valid. Landed tile’s `PickSubtype` sets the settlement type.
 
 ## Mid / Late escalation
@@ -192,6 +195,8 @@ Code IDs stay the old names. UI strings are the new ones.
 | Nimble | `activeUnderdogs`, `underdogBuff*`, per-faction CD maps, `enableUnderdogBuff` |
 | Expansionist | `expansionistZealFaction`, `expansionistZealExpiryTick`, `enableExpansionistZeal` |
 | Warden | `OutpostExpertRole.Recruiter`, `expertRecruiterThingId` |
+
+Outpost expert slot unlock auto-assign (`autoAssignExpertsOnSlotUnlock`, default on) is owned by `OutpostExpertUtility.TryAutoAssignOnSlotUnlock`, toggled per outpost from `WITab_Outpost_Experts`; runs from `WorldObject_WD_Outpost.NotifyVirtualPawnsChanged` when `GetMaxExpertSlots` increases (covers `AddPawn`, prisoner recruit-in-place, and other occupant changes). Load primes a baseline so existing open capacity is not backfilled.
 
 ## Harmony
 

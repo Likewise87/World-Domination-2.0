@@ -7,6 +7,19 @@ namespace TSA_WorldDomination
     /// <summary>Ideology guest status for outpost occupants (slaves vs free colonists). No-op when Ideology is inactive.</summary>
     public static class OutpostPawnIdeologyUtil
     {
+        /// <summary>
+        /// Instantly assign the player's primary Ideo when Ideology is active.
+        /// Used after outpost prisoner recruit and on WD-generated recruits / conquest founders.
+        /// </summary>
+        public static void ApplyPlayerPrimaryIdeoIfActive(Pawn pawn)
+        {
+            if (!ModsConfig.IdeologyActive || pawn?.ideo == null) return;
+            Ideo playerIdeo = Faction.OfPlayer?.ideos?.PrimaryIdeo;
+            if (playerIdeo == null) return;
+            if (pawn.ideo.Ideo == playerIdeo) return;
+            pawn.ideo.SetIdeo(playerIdeo);
+        }
+
         public static bool IsSlaveHumanlike(Pawn pawn)
         {
             if (pawn?.RaceProps?.Humanlike != true) return false;

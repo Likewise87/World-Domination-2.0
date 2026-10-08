@@ -29,6 +29,7 @@ namespace TSA_WorldDomination
         private const float ColTraits = PawnRosterTraitFilter.ColWidth;
         private const float ColXenotype = 100f;
         private const float ColPsycasts = 110f;
+        private const float ColIdeology = 110f;
         private const float ColSkill = 60f;
         private const float ColDest = 230f;
         private const float LocIconDrawSize = 28f;
@@ -41,6 +42,8 @@ namespace TSA_WorldDomination
         private const float SmartAssignBtnWidth = 140f;
         private const float SmartAssignConfigBtnSize = 30f;
         private const float SmartAssignConfigGap = 1f;
+        private const float AutoSmartAssignCheckSize = 24f;
+        private const float AutoSmartAssignCheckGap = 4f;
         private const float SelectedLabelWidth = 130f;
         private const float ToolbarBtnGap = 10f;
         private const float ColAge = 44f;
@@ -67,6 +70,7 @@ namespace TSA_WorldDomination
         private static PrisonerRosterSourceFilter sourceFilter = PrisonerRosterSourceFilter.All;
         private static string xenotypeFilter = "";
         private static string psycastFilter = "";
+        private static string ideoFilter = "";
         private int lastUpdateTick = -9999;
         private List<PrisonerRosterEntry> cachedList = new List<PrisonerRosterEntry>();
         private readonly HashSet<string> selectedThingIds = new HashSet<string>();
@@ -123,7 +127,16 @@ namespace TSA_WorldDomination
             Rect kickOutBtn = new Rect(tableRight - KickOutBtnWidth, 4f, KickOutBtnWidth, 30f);
             Rect setDestBtn = new Rect(kickOutBtn.x - ToolbarBtnGap - SetDestBtnWidth, 4f, SetDestBtnWidth, 30f);
             Rect smartConfigBtn = new Rect(setDestBtn.x - ToolbarBtnGap - SmartAssignConfigBtnSize, 4f, SmartAssignConfigBtnSize, 30f);
-            Rect smartAssignBtn = new Rect(smartConfigBtn.x - SmartAssignConfigGap - SmartAssignBtnWidth, 4f, SmartAssignBtnWidth, 30f);
+            Rect autoSmartCheck = new Rect(
+                smartConfigBtn.x - AutoSmartAssignCheckGap - AutoSmartAssignCheckSize,
+                4f + (30f - AutoSmartAssignCheckSize) * 0.5f,
+                AutoSmartAssignCheckSize,
+                AutoSmartAssignCheckSize);
+            Rect smartAssignBtn = new Rect(
+                autoSmartCheck.x - SmartAssignConfigGap - SmartAssignBtnWidth,
+                4f,
+                SmartAssignBtnWidth,
+                30f);
             Rect clearDestBtn = new Rect(smartAssignBtn.x - ToolbarBtnGap - ClearDestBtnWidth, 4f, ClearDestBtnWidth, 30f);
             var holdingOrigins = CollectSelectedHoldingOrigins();
             bool showFallback = PlayerPawnDropPodUtility.TryGetSharedTravelMode(
@@ -155,8 +168,25 @@ namespace TSA_WorldDomination
             TooltipHandler.TipRegion(setDestBtn, transitBlockTip ?? "TSA_WD_Prisoners_SetDestinationTip".Translate());
             TooltipHandler.TipRegion(smartAssignBtn, transitBlockTip ?? "TSA_WD_Prisoners_SmartAssignTip".Translate());
             TooltipHandler.TipRegion(smartConfigBtn, "TSA_WD_Prisoners_SmartAssignConfigTip".Translate());
+            TooltipHandler.TipRegion(autoSmartCheck, "TSA_WD_Prisoners_AutoSmartAssignTip".Translate());
             TooltipHandler.TipRegion(clearDestBtn, transitBlockTip ?? "TSA_WD_Prisoners_ClearDestinationTip".Translate());
             TooltipHandler.TipRegion(kickOutBtn, transitBlockTip ?? "TSA_WD_Prisoners_LetGoSelectedTip".Translate());
+
+            var schedule = WorldComponent_PrisonerRecruitSchedule.Get();
+            if (schedule != null)
+            {
+                bool autoOn = schedule.autoSmartAssignNewPrisoners;
+                Widgets.Checkbox(new Vector2(autoSmartCheck.x, autoSmartCheck.y), ref autoOn, AutoSmartAssignCheckSize);
+                if (autoOn != schedule.autoSmartAssignNewPrisoners)
+                {
+                    schedule.autoSmartAssignNewPrisoners = autoOn;
+                    SoundDefOf.Click.PlayOneShotOnCamera();
+                }
+            }
+            else
+            {
+                Widgets.CheckboxDraw(autoSmartCheck.x, autoSmartCheck.y, false, true, AutoSmartAssignCheckSize);
+            }
 
             Texture2D configIcon = ConfigIcon;
             if (Widgets.ButtonImage(smartConfigBtn, configIcon))
@@ -257,6 +287,7 @@ namespace TSA_WorldDomination
             sourceFilter = PrisonerRosterSourceFilter.All;
             xenotypeFilter = "";
             psycastFilter = "";
+            ideoFilter = "";
             scrollPos = Vector2.zero;
             lastUpdateTick = -9999;
             PlayerPawnRosterUtility.ResetSkillDisplayOptions(ColWindow);
@@ -276,6 +307,8 @@ namespace TSA_WorldDomination
             else if (!ColOn(PawnRosterColumnIds.Xenotype) && sortColumn == "Xenotype")
                 ClearSortToDefault();
             else if (!ColOn(PawnRosterColumnIds.Psycasts) && sortColumn == "Psycasts")
+                ClearSortToDefault();
+            else if (!ColOn(PawnRosterColumnIds.Ideology) && sortColumn == "Ideology")
                 ClearSortToDefault();
             else if (!ColOn(PawnRosterColumnIds.Age) && sortColumn == "Age")
                 ClearSortToDefault();
@@ -314,6 +347,7 @@ namespace TSA_WorldDomination
             if (ColOn(PawnRosterColumnIds.Traits)) w += ColTraits;
             if (ColOn(PawnRosterColumnIds.Xenotype)) w += ColXenotype;
             if (ColOn(PawnRosterColumnIds.Psycasts)) w += ColPsycasts;
+            if (ColOn(PawnRosterColumnIds.Ideology)) w += ColIdeology;
             if (ColOn(PawnRosterColumnIds.Age)) w += ColAge;
             if (ColOn(PawnRosterColumnIds.Health)) w += ColHealth;
             SkillDef[] skills = PlayerPawnRosterUtility.AllSkillColumns;
@@ -329,7 +363,8 @@ namespace TSA_WorldDomination
         private List<PrisonerRosterEntry> BuildCurrentRoster(
             PrisonerRosterSourceFilter source,
             bool applyXenotype,
-            bool applyPsycast = true)
+            bool applyPsycast = true,
+            bool applyIdeology = true)
         {
             string nameSearchLower = string.IsNullOrEmpty(pawnSearchTerm) ? null : pawnSearchTerm.ToLowerInvariant();
             var list = PrisonerRosterUtility.BuildRoster(nameSearchLower, sortColumn, sortAscending, source);
@@ -338,6 +373,8 @@ namespace TSA_WorldDomination
                 PawnRosterTraitFilter.ApplyXenotypeToPrisonerRows(list, xenotypeFilter);
             if (applyPsycast && ColOn(PawnRosterColumnIds.Psycasts))
                 PawnRosterTraitFilter.ApplyPsycastToPrisonerRows(list, psycastFilter);
+            if (applyIdeology && ColOn(PawnRosterColumnIds.Ideology))
+                PawnRosterTraitFilter.ApplyIdeologyToPrisonerRows(list, ideoFilter);
             return list;
         }
 
@@ -376,6 +413,19 @@ namespace TSA_WorldDomination
                 PrisonerRosterEntry e = rows[i];
                 if (e == null || e.isGroupHeader) continue;
                 keys.Add(PawnRosterHeaderFilter.XenotypeKey(e.pawn));
+            }
+            return keys;
+        }
+
+        private static List<string> IdeoKeysFromPrisoners(IReadOnlyList<PrisonerRosterEntry> rows)
+        {
+            var keys = new List<string>(rows?.Count ?? 0);
+            if (rows == null) return keys;
+            for (int i = 0; i < rows.Count; i++)
+            {
+                PrisonerRosterEntry e = rows[i];
+                if (e == null || e.isGroupHeader) continue;
+                keys.Add(PawnRosterHeaderFilter.IdeoKey(e.pawn));
             }
             return keys;
         }
@@ -472,6 +522,25 @@ namespace TSA_WorldDomination
                             lastUpdateTick = -9999;
                         }, PsycastListsFromPrisoners(BuildCurrentRoster(sourceFilter, applyXenotype: true, applyPsycast: false)))),
                     () => SetSort("Psycasts"));
+            }
+            if (ColOn(PawnRosterColumnIds.Ideology))
+            {
+                PawnRosterHeaderFilter.DrawFilterableHeader(
+                    ref curX, hRect.y, ColIdeology, HeaderHeight,
+                    "TSA_WD_PawnRoster_ColIdeology".Translate(),
+                    sortColumn == "Ideology", sortAscending,
+                    TextAnchor.MiddleCenter,
+                    !ideoFilter.NullOrEmpty(),
+                    "TSA_WD_FilterByIdeology".Translate(),
+                    icon => PawnRosterHeaderFilter.OpenChoiceDropdown(
+                        icon,
+                        "TSA_WD_FilterByIdeology".Translate(),
+                        PawnRosterHeaderFilter.IdeoChoices(ideoFilter, v =>
+                        {
+                            ideoFilter = v ?? "";
+                            lastUpdateTick = -9999;
+                        }, IdeoKeysFromPrisoners(BuildCurrentRoster(sourceFilter, applyXenotype: true, applyPsycast: true, applyIdeology: false)))),
+                    () => SetSort("Ideology"));
             }
             if (ColOn(PawnRosterColumnIds.Age))
             {
@@ -727,6 +796,14 @@ namespace TSA_WorldDomination
                 Rect cell = new Rect(curX + 2f, y + 2f, ColPsycasts - 4f, RowHeight - 4f);
                 PrisonerRosterUtility.DrawTraitsCell(cell, pDisplay, pTip);
                 curX += ColPsycasts;
+            }
+
+            if (ColOn(PawnRosterColumnIds.Ideology))
+            {
+                PawnRosterTraitFilter.FormatIdeology(entry.pawn, out string iDisplay, out string iTip);
+                Rect cell = new Rect(curX + 2f, y + 2f, ColIdeology - 4f, RowHeight - 4f);
+                PrisonerRosterUtility.DrawTraitsCell(cell, iDisplay, iTip);
+                curX += ColIdeology;
             }
 
             if (ColOn(PawnRosterColumnIds.Age))

@@ -41,6 +41,7 @@ Additional outpost types and upgrade tiers absorbed from Bambaryla and Pesky (Wo
 	  <li>VanillaExpanded.VChemfuelE</li>
 	  <li>bambaryla.bor</li>
 	  <li>bambaryla.bor.redux</li>
+	  <li>derekbickley.ltocolonygroupsfinal</li>
 	</loadAfter>
 	<loadBefore>
 		<li>voult.betterpawncontrol</li>

@@ -227,6 +227,8 @@ namespace TSA_WorldDomination
                     WorldActions_Traveler.StampTraderInterceptedIfApplicable(attacker);
                     attacker.Destroy();
                 }
+                else
+                    TravelerAttritionRest.NotifyHostileFire(attacker);
             }
             else
             {
@@ -241,6 +243,8 @@ namespace TSA_WorldDomination
                     WorldActions_Traveler.StampTraderInterceptedIfApplicable(defender);
                     defender.Destroy();
                 }
+                else
+                    TravelerAttritionRest.NotifyHostileFire(defender);
             }
         }
 
@@ -259,6 +263,8 @@ namespace TSA_WorldDomination
                     WorldActions_Traveler.StampTraderInterceptedIfApplicable(traveler);
                     traveler.Destroy();
                 }
+                else
+                    TravelerAttritionRest.NotifyHostileFire(traveler);
             }
             else
             {
@@ -299,6 +305,8 @@ namespace TSA_WorldDomination
                     WorldActions_Traveler.StampTraderInterceptedIfApplicable(traveler);
                     traveler.Destroy();
                 }
+                else
+                    TravelerAttritionRest.NotifyHostileFire(traveler);
             }
             else
             {

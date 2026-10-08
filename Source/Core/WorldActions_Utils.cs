@@ -168,8 +168,9 @@ namespace TSA_WorldDomination
                 if (s.Faction == null || s.Faction.def == null || s.Faction.def.hidden || s.Faction.defeated || !IsWdParticipant(s.Faction)) continue;
                 if (!IsWdSurfaceWorldObject(s)) continue;
                 var comp = s.GetComponent<CompViralSpread>();
-                if (comp == null || !string.IsNullOrEmpty(comp.subType) || comp.IsOutpost) continue;
-                ApplyRandomTier(comp);
+                if (comp == null || comp.IsOutpost) continue;
+                // Completes deferred Initialize (Tile was unset) and repairs blank subtypes.
+                comp.TryCompleteNpcSettlementBootstrap();
             }
         }
 

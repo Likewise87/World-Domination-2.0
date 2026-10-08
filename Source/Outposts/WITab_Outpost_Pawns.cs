@@ -30,6 +30,7 @@ namespace TSA_WorldDomination
         private const float ColTraits = PawnRosterTraitFilter.ColWidth;
         private const float ColXenotype = 100f;
         private const float ColPsycasts = 110f;
+        private const float ColIdeology = 110f;
         private const float ColAge = 44f;
         private const float ColSkill = 56f;
         private const float ColRelevantXp = 72f;
@@ -70,6 +71,7 @@ namespace TSA_WorldDomination
         private PawnRosterJoinedFilter joinedFilter = PawnRosterJoinedFilter.All;
         private string xenotypeFilter = "";
         private string psycastFilter = "";
+        private string ideoFilter = "";
 
         private static string hdrNoPawns, hdrName, hdrAge, hdrMelee, hdrStrength, hdrSortTip,
             hdrSelectColumnTip, hdrXpSuffix, hdrRelevantXp, hdrHunt,
@@ -95,6 +97,7 @@ namespace TSA_WorldDomination
         private OutpostPawnStarFilter cachedStarFilter;
         private PawnRosterJoinedFilter cachedJoinedFilter;
         private string cachedXenotypeFilter = "";
+        private string cachedIdeoFilter = "";
         private string cachedPsycastFilter = "";
         private int cachedPrisonerCount = -1;
         private List<CachedPawnRow> cachedRows = null!;
@@ -165,6 +168,8 @@ namespace TSA_WorldDomination
             public string xenotypeTip = null!;
             public string psycastsDisplay = null!;
             public string psycastsTip = null!;
+            public string ideologyDisplay = null!;
+            public string ideologyTip = null!;
             public bool needsHealing;
             /// <summary>Outpost prisoner currently occupying a recruit slot.</summary>
             public bool isBeingRecruited;
@@ -304,6 +309,8 @@ namespace TSA_WorldDomination
                     return ColOn(PawnRosterColumnIds.Xenotype);
                 case OutpostPawnTableSortColumn.Psycasts:
                     return ColOn(PawnRosterColumnIds.Psycasts);
+                case OutpostPawnTableSortColumn.Ideology:
+                    return ColOn(PawnRosterColumnIds.Ideology);
                 case OutpostPawnTableSortColumn.Hurt:
                     return ColOn(PawnRosterColumnIds.Hurt);
                 case OutpostPawnTableSortColumn.RelevantCombined:
@@ -347,6 +354,7 @@ namespace TSA_WorldDomination
             joinedFilter = PawnRosterJoinedFilter.All;
             xenotypeFilter = "";
             psycastFilter = "";
+            ideoFilter = "";
             scrollPosition = Vector2.zero;
             lastCacheTick = -1;
             PlayerPawnRosterUtility.ResetSkillDisplayOptions(ColWindow);
@@ -369,6 +377,7 @@ namespace TSA_WorldDomination
             if (ColOn(PawnRosterColumnIds.Traits)) w += ColTraits;
             if (ColOn(PawnRosterColumnIds.Xenotype)) w += ColXenotype;
             if (ColOn(PawnRosterColumnIds.Psycasts)) w += ColPsycasts;
+            if (ColOn(PawnRosterColumnIds.Ideology)) w += ColIdeology;
             if (ColOn(PawnRosterColumnIds.Age)) w += ColAge;
             if (ColOn(PawnRosterColumnIds.Shooting)) w += ColSkill;
             if (ColOn(PawnRosterColumnIds.Melee)) w += ColSkill;
@@ -435,6 +444,7 @@ namespace TSA_WorldDomination
                 || cachedJoinedFilter != joinedFilter
                 || !string.Equals(cachedXenotypeFilter, xenotypeFilter, StringComparison.Ordinal)
                 || !string.Equals(cachedPsycastFilter, psycastFilter, StringComparison.Ordinal)
+                || !string.Equals(cachedIdeoFilter, ideoFilter, StringComparison.Ordinal)
                 || cachedPrisonerCount != prisonerCount
                 || cacheInvalidated
                 || tick - lastCacheTick >= CacheRefreshInterval
@@ -449,6 +459,7 @@ namespace TSA_WorldDomination
             cachedJoinedFilter = joinedFilter;
             cachedXenotypeFilter = xenotypeFilter ?? "";
             cachedPsycastFilter = psycastFilter ?? "";
+            cachedIdeoFilter = ideoFilter ?? "";
             cachedPrisonerCount = prisonerCount;
 
             if (cachedOutpost != null && cachedOutpost != outpost)
@@ -623,7 +634,8 @@ namespace TSA_WorldDomination
             bool applyStarFilter = true,
             bool applyJoinedFilter = true,
             bool applyXenotypeFilter = true,
-            bool applyPsycastFilter = true)
+            bool applyPsycastFilter = true,
+            bool applyIdeologyFilter = true)
         {
             if (row != null && row.isGroupHeader) return true;
             if (applyTypeFilter
@@ -655,6 +667,11 @@ namespace TSA_WorldDomination
                 && !psycastFilter.NullOrEmpty()
                 && !PawnRosterTraitFilter.MatchesPsycast(row.pawn, psycastFilter))
                 return false;
+            if (applyIdeologyFilter
+                && ColOn(PawnRosterColumnIds.Ideology)
+                && !ideoFilter.NullOrEmpty()
+                && !PawnRosterTraitFilter.MatchesIdeology(row.pawn, ideoFilter))
+                return false;
             return true;
         }
 
@@ -664,7 +681,8 @@ namespace TSA_WorldDomination
             bool applyStarFilter,
             bool applyXenotypeFilter,
             bool applyPsycastFilter = true,
-            bool applyJoinedFilter = true)
+            bool applyJoinedFilter = true,
+            bool applyIdeologyFilter = true)
         {
             var outpost = SelOutpost;
             if (outpost?.Occupants == null || consider == null) return;
@@ -677,7 +695,7 @@ namespace TSA_WorldDomination
             void tryAdd(CachedPawnRow row)
             {
                 if (row == null || row.isGroupHeader) return;
-                if (!PassesFilters(row, nameFilterLower, applyTypeFilter, applyStarFilter, applyJoinedFilter, applyXenotypeFilter, applyPsycastFilter))
+                if (!PassesFilters(row, nameFilterLower, applyTypeFilter, applyStarFilter, applyJoinedFilter, applyXenotypeFilter, applyPsycastFilter, applyIdeologyFilter))
                     return;
                 if (traitFilter && (row.pawn == null || !PawnRosterTraitFilter.Matches(row.pawn))) return;
                 consider(row);
@@ -795,6 +813,18 @@ namespace TSA_WorldDomination
             return lists;
         }
 
+        private List<string> IdeoPopulationForFilterDialog()
+        {
+            var keys = new List<string>();
+            ForEachFilterCountRow(
+                row => keys.Add(PawnRosterHeaderFilter.IdeoKey(row.pawn)),
+                applyTypeFilter: true,
+                applyStarFilter: true,
+                applyXenotypeFilter: true,
+                applyIdeologyFilter: false);
+            return keys;
+        }
+
         private CachedPawnRow BuildOccupantRow(Pawn p, bool hasRelevant, float foodPerPawn)
         {
             var v = VirtualPawnSummary.FromPawn(p);
@@ -821,11 +851,14 @@ namespace TSA_WorldDomination
             row.xenotypeTip = "";
             row.psycastsDisplay = "?";
             row.psycastsTip = "";
+            row.ideologyDisplay = "?";
+            row.ideologyTip = "";
             if (p.RaceProps?.Humanlike == true)
             {
                 PrisonerRosterUtility.FormatTraits(p, out row.traitsDisplay, out row.traitsTip);
                 PawnRosterTraitFilter.FormatXenotype(p, out row.xenotypeDisplay, out row.xenotypeTip);
                 PawnRosterTraitFilter.FormatPsycasts(p, out row.psycastsDisplay, out row.psycastsTip);
+                PawnRosterTraitFilter.FormatIdeology(p, out row.ideologyDisplay, out row.ideologyTip);
             }
             if (v != null)
             {
@@ -900,6 +933,7 @@ namespace TSA_WorldDomination
             PrisonerRosterUtility.FormatTraits(p, out row.traitsDisplay, out row.traitsTip);
             PawnRosterTraitFilter.FormatXenotype(p, out row.xenotypeDisplay, out row.xenotypeTip);
             PawnRosterTraitFilter.FormatPsycasts(p, out row.psycastsDisplay, out row.psycastsTip);
+            PawnRosterTraitFilter.FormatIdeology(p, out row.ideologyDisplay, out row.ideologyTip);
             if (v != null)
             {
                 string ageLabel = "?";
@@ -1135,6 +1169,18 @@ namespace TSA_WorldDomination
                 cachedRows.Sort((a, b) =>
                 {
                     int cmp = string.Compare(a.psycastsDisplay, b.psycastsDisplay, StringComparison.OrdinalIgnoreCase);
+                    if (cmp == 0)
+                        cmp = string.Compare(a.nameLabel, b.nameLabel, StringComparison.OrdinalIgnoreCase);
+                    return sortAscending ? cmp : -cmp;
+                });
+                return;
+            }
+
+            if (sortColumn == OutpostPawnTableSortColumn.Ideology)
+            {
+                cachedRows.Sort((a, b) =>
+                {
+                    int cmp = string.Compare(a.ideologyDisplay, b.ideologyDisplay, StringComparison.OrdinalIgnoreCase);
                     if (cmp == 0)
                         cmp = string.Compare(a.nameLabel, b.nameLabel, StringComparison.OrdinalIgnoreCase);
                     return sortAscending ? cmp : -cmp;
@@ -2051,6 +2097,26 @@ namespace TSA_WorldDomination
                         }, PsycastPopulationForFilterDialog())),
                     () => ToggleSort(OutpostPawnTableSortColumn.Psycasts));
             }
+            if (ColOn(PawnRosterColumnIds.Ideology))
+            {
+                PawnRosterHeaderFilter.DrawFilterableHeader(
+                    ref x, curY, ColIdeology, HeaderHeight,
+                    "TSA_WD_PawnRoster_ColIdeology".Translate(),
+                    !useDefaultGrouping && sortColumn == OutpostPawnTableSortColumn.Ideology,
+                    sortAscending,
+                    TextAnchor.MiddleCenter,
+                    !ideoFilter.NullOrEmpty(),
+                    "TSA_WD_FilterByIdeology".Translate(),
+                    icon => PawnRosterHeaderFilter.OpenChoiceDropdown(
+                        icon,
+                        "TSA_WD_FilterByIdeology".Translate(),
+                        PawnRosterHeaderFilter.IdeoChoices(ideoFilter, v =>
+                        {
+                            ideoFilter = v ?? "";
+                            lastCacheTick = -1;
+                        }, IdeoPopulationForFilterDialog())),
+                    () => ToggleSort(OutpostPawnTableSortColumn.Ideology));
+            }
             if (ColOn(PawnRosterColumnIds.Age))
                 DrawSortableHeader(ref x, curY, ColAge, hdrAge, OutpostPawnTableSortColumn.Age, true);
             if (ColOn(PawnRosterColumnIds.Shooting))
@@ -2531,6 +2597,14 @@ namespace TSA_WorldDomination
                         PrisonerRosterUtility.DrawTraitsCell(cell, row.psycastsDisplay, row.psycastsTip);
                         Text.Font = GameFont.Tiny;
                         x += ColPsycasts;
+                    }
+
+                    if (ColOn(PawnRosterColumnIds.Ideology))
+                    {
+                        Rect cell = new Rect(x + 2f, curY + 2f, ColIdeology - 4f, rowH - 4f);
+                        PrisonerRosterUtility.DrawTraitsCell(cell, row.ideologyDisplay, row.ideologyTip);
+                        Text.Font = GameFont.Tiny;
+                        x += ColIdeology;
                     }
 
                     if (ColOn(PawnRosterColumnIds.Age))

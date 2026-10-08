@@ -220,6 +220,7 @@ namespace TSA_WorldDomination
 
             traveler.travelerStrength = Mathf.Max(0f, traveler.travelerStrength - damage);
             traveler.spikeTrapsTriggered++;
+            TravelerAttritionRest.NotifyHostileFire(traveler);
 
             // Wear by traveler strength as they arrived (before trap damage).
             float travelerStrengthBefore = traveler.travelerStrength + damage;

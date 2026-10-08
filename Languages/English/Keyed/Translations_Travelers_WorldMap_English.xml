@@ -266,6 +266,8 @@
   <TSA_WD_SubType_Refuge>Refuge</TSA_WD_SubType_Refuge>
   <TSA_WD_SubType_Production>Production Village</TSA_WD_SubType_Production>
   <TSA_WD_SubType_Slavery>Prison Village</TSA_WD_SubType_Slavery>
+  <!-- Layout token alias (SettlementLayoutDef uses Prison; gameplay scribes Slavery). -->
+  <TSA_WD_SubType_Prison>Prison Village</TSA_WD_SubType_Prison>
   <TSA_WD_SubType_Fortress>Town</TSA_WD_SubType_Fortress>
   <TSA_WD_SubType_Vanguard>Vanguard</TSA_WD_SubType_Vanguard>
   <TSA_WD_SubType_Citadel>Citadel</TSA_WD_SubType_Citadel>

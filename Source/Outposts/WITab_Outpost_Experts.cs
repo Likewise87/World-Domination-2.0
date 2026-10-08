@@ -4,6 +4,7 @@ using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace TSA_WorldDomination
 {
@@ -32,6 +33,7 @@ namespace TSA_WorldDomination
         private const float BenefitLabelMaxWidth = 170f;
         private const float BenefitColumnGap = 40f;
         private const float ConflictLabelWidth = 190f;
+        private const float AutoAssignCheckboxSize = 24f;
 
         private static readonly Color ConflictRowTint = new Color(0.85f, 0.22f, 0.22f, 0.22f);
         private static readonly Color CapacityColorRed = new Color(1f, 0.45f, 0.45f);
@@ -89,10 +91,32 @@ namespace TSA_WorldDomination
             ly = Outpost_Expert_UI.DrawTotalBenefitsBox(lx, ly, lw, outpost);
             ly += Outpost_Dialog_UI.OutcomeBoxGap;
 
+            float headerRowH = Mathf.Max(22f, AutoAssignCheckboxSize);
+            // Match DrawRoleRow benefit column: content width is scroll area (lw - 16f).
+            float contentRight = lx + (lw - 16f) - BenefitColumnGap - ListRowRightMargin;
+            Rect checkRect = new Rect(
+                contentRight - AutoAssignCheckboxSize,
+                ly + (headerRowH - AutoAssignCheckboxSize) * 0.5f,
+                AutoAssignCheckboxSize,
+                AutoAssignCheckboxSize);
+            bool autoAssign = outpost.autoAssignExpertsOnSlotUnlock;
+            Widgets.Checkbox(checkRect.position, ref autoAssign, AutoAssignCheckboxSize);
+            if (autoAssign != outpost.autoAssignExpertsOnSlotUnlock)
+            {
+                outpost.autoAssignExpertsOnSlotUnlock = autoAssign;
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
+            TooltipHandler.TipRegion(
+                checkRect,
+                autoAssign
+                    ? "TSA_WD_Experts_AutoAssignTipOn".Translate()
+                    : "TSA_WD_Experts_AutoAssignTipOff".Translate());
+
             GUI.color = new Color(0.75f, 0.82f, 1f);
-            Widgets.Label(new Rect(lx, ly, lw, 22f), "TSA_WD_Experts_ChooseRoleHeader".Translate());
+            float headerLabelW = Mathf.Max(1f, checkRect.x - lx - 6f);
+            Widgets.Label(new Rect(lx, ly, headerLabelW, headerRowH), "TSA_WD_Experts_ChooseRoleHeader".Translate());
             GUI.color = Color.white;
-            ly += 24f;
+            ly += headerRowH + 2f;
 
             int humanoids = OutpostExpertUtility.GetHumanoidOccupantCount(outpost);
             int maxSlots = OutpostExpertUtility.GetMaxExpertSlots(outpost);

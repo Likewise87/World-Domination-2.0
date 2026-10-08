@@ -801,6 +801,7 @@ namespace TSA_WorldDomination
             PawnRosterSkillHighlightMode.Off,
             PawnRosterSkillHighlightMode.Off,
             PawnRosterSkillHighlightMode.Off,
+            PawnRosterSkillHighlightMode.Off,
             PawnRosterSkillHighlightMode.Off
         };
 
@@ -824,6 +825,7 @@ namespace TSA_WorldDomination
                 case PawnRosterColumnWindow.OutpostPawns: return 1;
                 case PawnRosterColumnWindow.Prisoners: return 2;
                 case PawnRosterColumnWindow.RemoteEstablish: return 3;
+                case PawnRosterColumnWindow.OutpostArmory: return 4;
                 default: return 0;
             }
         }
@@ -1130,6 +1132,8 @@ namespace TSA_WorldDomination
                 return PawnRosterTraitFilter.CompareXenotype(a.pawn, b.pawn);
             if (sortColumn == "Psycasts")
                 return PawnRosterTraitFilter.ComparePsycasts(a.pawn, b.pawn);
+            if (sortColumn == "Ideology")
+                return PawnRosterTraitFilter.CompareIdeology(a.pawn, b.pawn);
             if (sortColumn == "Hurt")
             {
                 int ah = a.needsHealing ? 1 : 0;

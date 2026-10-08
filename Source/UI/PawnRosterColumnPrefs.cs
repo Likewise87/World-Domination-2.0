@@ -9,7 +9,8 @@ namespace TSA_WorldDomination
         AllPlayerPawns,
         OutpostPawns,
         Prisoners,
-        RemoteEstablish
+        RemoteEstablish,
+        OutpostArmory
     }
 
     /// <summary>Stable column ids for roster visibility prefs (per window, per save).</summary>
@@ -24,6 +25,7 @@ namespace TSA_WorldDomination
         public const string Traits = "Traits";
         public const string Xenotype = "Xenotype";
         public const string Psycasts = "Psycasts";
+        public const string Ideology = "Ideology";
         public const string Destination = "Destination";
         public const string Select = "Select";
         public const string Portrait = "Portrait";
@@ -36,6 +38,12 @@ namespace TSA_WorldDomination
         public const string Health = "Health";
         public const string Shooting = "Shooting";
         public const string Melee = "Melee";
+        /// <summary>Armory-only: carried non-consumable inventory section.</summary>
+        public const string OtherInventory = "OtherInventory";
+        /// <summary>Armory-only: carry mass cur/cap (CE weight when CE is active, else MassUtility).</summary>
+        public const string Mass = "Mass";
+        /// <summary>Armory-only, CE: carry bulk cur/cap.</summary>
+        public const string Bulk = "Bulk";
 
         /// <summary>Full skill-grid id (outpost tab), distinct from dedicated combat cols.</summary>
         public static string FullSkill(SkillDef skill) => "Skill_" + (skill?.defName ?? "");
@@ -63,6 +71,7 @@ namespace TSA_WorldDomination
         private static List<PawnRosterColumnOption> allPlayerPawns;
         private static List<PawnRosterColumnOption> outpostPawns;
         private static List<PawnRosterColumnOption> prisoners;
+        private static List<PawnRosterColumnOption> outpostArmory;
 
         public static IReadOnlyList<PawnRosterColumnOption> OptionsFor(PawnRosterColumnWindow window)
         {
@@ -71,6 +80,7 @@ namespace TSA_WorldDomination
             {
                 case PawnRosterColumnWindow.OutpostPawns: return outpostPawns;
                 case PawnRosterColumnWindow.Prisoners: return prisoners;
+                case PawnRosterColumnWindow.OutpostArmory: return outpostArmory;
                 case PawnRosterColumnWindow.RemoteEstablish:
                 case PawnRosterColumnWindow.AllPlayerPawns:
                 default:
@@ -147,6 +157,35 @@ namespace TSA_WorldDomination
             prisoners.Add(new PawnRosterColumnOption(PawnRosterColumnIds.Health, "TSA_WD_PawnRoster_ColHealth", false));
             AddSkillOptions(prisoners, prefixFullSkill: false, defaultOn: true);
             prisoners.Add(new PawnRosterColumnOption(PawnRosterColumnIds.Destination, "TSA_WD_Prisoners_ColDestination", true));
+
+            // Same option set as All Player Pawns, but defaults match the prior Armory layout:
+            // only Shooting / Melee / Health on; everything else available but off.
+            outpostArmory = new List<PawnRosterColumnOption>
+            {
+                new PawnRosterColumnOption(PawnRosterColumnIds.Type, "TSA_WD_AllPlayerPawns_ColPawnType", false),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Star, "TSA_WD_AllPlayerPawns_ColStar", false),
+                new PawnRosterColumnOption(PawnRosterColumnIds.New, "TSA_WD_PawnRoster_ColNew", false),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Age, "TSA_WD_PawnRoster_ColAge", false),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Health, "TSA_WD_PawnRoster_ColHealth", true),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Traits, "TSA_WD_Prisoners_ColTraits", false),
+            };
+            AddDlcBioOptions(outpostArmory);
+            outpostArmory.Add(new PawnRosterColumnOption(
+                PawnRosterColumnIds.OtherInventory, "TSA_WD_Armory_SecOtherInventory", true));
+            outpostArmory.Add(new PawnRosterColumnOption(
+                PawnRosterColumnIds.Mass, "TSA_WD_Armory_ColMass", false));
+            if (OutpostCeAmmoCompat.IsCeActive)
+            {
+                outpostArmory.Add(new PawnRosterColumnOption(
+                    PawnRosterColumnIds.Bulk, "TSA_WD_Armory_ColBulk", false));
+            }
+            AddSkillOptions(outpostArmory, prefixFullSkill: false, defaultOn: false);
+            for (int i = 0; i < outpostArmory.Count; i++)
+            {
+                PawnRosterColumnOption opt = outpostArmory[i];
+                if (opt.Id == PawnRosterColumnIds.Shooting || opt.Id == PawnRosterColumnIds.Melee)
+                    outpostArmory[i] = new PawnRosterColumnOption(opt.Id, opt.LabelKey, true);
+            }
         }
 
         private static void AddDlcBioOptions(List<PawnRosterColumnOption> list)
@@ -155,6 +194,8 @@ namespace TSA_WorldDomination
                 list.Add(new PawnRosterColumnOption(PawnRosterColumnIds.Xenotype, "TSA_WD_PawnRoster_ColXenotype", false));
             if (ModsConfig.RoyaltyActive)
                 list.Add(new PawnRosterColumnOption(PawnRosterColumnIds.Psycasts, "TSA_WD_PawnRoster_ColPsycasts", false));
+            if (ModsConfig.IdeologyActive)
+                list.Add(new PawnRosterColumnOption(PawnRosterColumnIds.Ideology, "TSA_WD_PawnRoster_ColIdeology", false));
         }
 
         private static void AddSkillOptions(List<PawnRosterColumnOption> list, bool prefixFullSkill, bool defaultOn, bool skipShootingAndMelee = false)

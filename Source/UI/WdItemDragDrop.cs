@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -21,6 +22,7 @@ namespace TSA_WorldDomination
         private static object hoverTarget;
         private static Rect hoverRect;
         private static bool hoverValid;
+        private static readonly List<Rect> inputBlockers = new List<Rect>(4);
 
         public static bool DragActive => dragPayload != null;
         public static object Payload => dragPayload;
@@ -32,6 +34,9 @@ namespace TSA_WorldDomination
         /// </summary>
         public static bool DraggableIcon(Rect rect, object payload, object source, string label, Texture icon)
         {
+            if (IsPointerOverInputBlocker())
+                return false;
+
             Widgets.DraggableResult result = Widgets.ButtonInvisibleDraggable(rect, false);
 
             if (result == Widgets.DraggableResult.Dragged)
@@ -48,6 +53,29 @@ namespace TSA_WorldDomination
 
             return result == Widgets.DraggableResult.Pressed
                 || result == Widgets.DraggableResult.DraggedThenPressed;
+        }
+
+        /// <summary>Clear scrollbar / chrome blockers at the start of each window frame.</summary>
+        public static void ClearInputBlockers()
+        {
+            inputBlockers.Clear();
+        }
+
+        /// <summary>Rects that must not start an item drag (e.g. scrollbars drawn over list chrome).</summary>
+        public static void BlockInput(Rect rect)
+        {
+            if (rect.width > 0f && rect.height > 0f)
+                inputBlockers.Add(rect);
+        }
+
+        private static bool IsPointerOverInputBlocker()
+        {
+            for (int i = 0; i < inputBlockers.Count; i++)
+            {
+                if (Mouse.IsOver(inputBlockers[i]))
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>Call while drawing each drop zone. Highlights the zone when a drag hovers it.</summary>

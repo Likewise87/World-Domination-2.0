@@ -28,6 +28,7 @@ namespace TSA_WorldDomination
         public const string LocationTypeCamp = "Camp";
         public const string LocationTypePhysicalMap = "PhysicalMap";
         public const string PsycastFilterNone = "__none__";
+        public const string IdeoFilterNone = "__none__";
 
         private static readonly Texture2D FilterIconTex =
             ContentFinder<Texture2D>.Get("UI/Buttons/OpenSpecificTab", false)
@@ -855,6 +856,100 @@ namespace TSA_WorldDomination
         }
 
         public static string XenotypeKey(Pawn pawn) => pawn?.genes?.Xenotype?.defName ?? "";
+
+        public static string IdeoKey(Pawn pawn)
+        {
+            if (!ModsConfig.IdeologyActive || pawn?.ideo?.Ideo == null) return "";
+            return pawn.ideo.Ideo.id.ToString();
+        }
+
+        public static List<string> IdeoKeysFrom(IReadOnlyList<PlayerPawnRosterEntry> rows)
+        {
+            var list = new List<string>(rows?.Count ?? 0);
+            if (rows == null) return list;
+            for (int i = 0; i < rows.Count; i++)
+                list.Add(IdeoKey(rows[i]?.pawn));
+            return list;
+        }
+
+        public static List<HeaderFilterChoice> IdeoChoices(
+            string current,
+            Action<string> onPick,
+            IReadOnlyList<string> ideoKeys = null)
+        {
+            string cur = current ?? "";
+            bool show = ideoKeys != null;
+            int total = 0;
+            int none = 0;
+            Dictionary<string, int> byId = null;
+            if (show)
+            {
+                byId = new Dictionary<string, int>();
+                for (int i = 0; i < ideoKeys.Count; i++)
+                {
+                    total++;
+                    string key = ideoKeys[i] ?? "";
+                    if (key.Length == 0)
+                    {
+                        none++;
+                        continue;
+                    }
+                    byId.TryGetValue(key, out int n);
+                    byId[key] = n + 1;
+                }
+            }
+
+            var list = new List<HeaderFilterChoice>
+            {
+                MakeCountedChoice(
+                    "TSA_WD_Filter_AllIdeologies".Translate(),
+                    cur.Length == 0,
+                    () => onPick?.Invoke(""),
+                    total, total, show, separatorAfter: true),
+                MakeCountedChoice(
+                    "TSA_WD_Filter_NoIdeology".Translate(),
+                    cur == IdeoFilterNone,
+                    () => onPick?.Invoke(IdeoFilterNone),
+                    none, total, show, separatorAfter: true)
+            };
+            if (!ModsConfig.IdeologyActive) return list;
+
+            List<Ideo> ideos = Find.IdeoManager?.IdeosListForReading;
+            if (ideos == null || ideos.Count == 0) return list;
+
+            var named = new List<Ideo>();
+            for (int i = 0; i < ideos.Count; i++)
+            {
+                Ideo ideo = ideos[i];
+                if (ideo == null || ideo.name.NullOrEmpty()) continue;
+                named.Add(ideo);
+            }
+            named.Sort((a, b) =>
+            {
+                int na = 0;
+                int nb = 0;
+                if (byId != null)
+                {
+                    byId.TryGetValue(a.id.ToString(), out na);
+                    byId.TryGetValue(b.id.ToString(), out nb);
+                }
+                return CompareCountThenLabel(na, a.name, nb, b.name);
+            });
+            for (int i = 0; i < named.Count; i++)
+            {
+                Ideo captured = named[i];
+                string idKey = captured.id.ToString();
+                int n = 0;
+                if (byId != null)
+                    byId.TryGetValue(idKey, out n);
+                list.Add(MakeCountedChoice(
+                    captured.name,
+                    cur == idKey,
+                    () => onPick?.Invoke(idKey),
+                    n, total, show));
+            }
+            return list;
+        }
 
         public static List<HeaderFilterChoice> OutpostTypeChoices(
             string current,

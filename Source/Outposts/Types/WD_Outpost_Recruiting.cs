@@ -679,6 +679,7 @@ namespace TSA_WorldDomination
                 return GenerateRecruitPawn(xenotype, prioritySkill, PawnKindDefOf.Colonist);
 
             ApplyPrioritySkillFloor(p, prioritySkill);
+            OutpostPawnIdeologyUtil.ApplyPlayerPrimaryIdeoIfActive(p);
             WorldComponent_PlayerPawnJoinTimes.Get()?.NoteJoinedPlayerFaction(p);
             return p;
         }

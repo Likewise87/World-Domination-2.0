@@ -392,6 +392,7 @@
   <TSA_WD_Prisoners_SmartAssignPartial>已智能分配 {0} 名囚犯，另有 {1} 名无法匹配。</TSA_WD_Prisoners_SmartAssignPartial>
   <TSA_WD_Prisoners_SmartAssignNone>所选囚犯没有可匹配的前哨。</TSA_WD_Prisoners_SmartAssignNone>
   <TSA_WD_Prisoners_SmartAssignConfigTip>选择智能分配可使用的前哨。</TSA_WD_Prisoners_SmartAssignConfigTip>
+  <TSA_WD_Prisoners_AutoSmartAssignTip>开启后，每个新俘获的囚犯（殖民地或前哨）会自动获得智能分配目的地。使用与齿轮按钮相同的前哨筛选。默认关闭。会记住本存档中的选择。</TSA_WD_Prisoners_AutoSmartAssignTip>
   <TSA_WD_Prisoners_SmartAssignConfigTitle>智能分配前哨</TSA_WD_Prisoners_SmartAssignConfigTitle>
   <TSA_WD_Prisoners_SmartAssignConfigSubtitle>未勾选的前哨不会被智能分配使用。手动设定目的地仍可用于任意前哨。</TSA_WD_Prisoners_SmartAssignConfigSubtitle>
   <TSA_WD_Prisoners_SmartAssignEnableAll>启用当前显示</TSA_WD_Prisoners_SmartAssignEnableAll>
@@ -459,6 +460,8 @@
   <TSA_WD_PawnRoster_ColXenotypeTip>生物科技异种标签。悬停单元格查看描述。</TSA_WD_PawnRoster_ColXenotypeTip>
   <TSA_WD_PawnRoster_ColPsycasts>灵能</TSA_WD_PawnRoster_ColPsycasts>
   <TSA_WD_PawnRoster_ColPsycastsTip>已知的灵能能力。悬停查看完整列表。</TSA_WD_PawnRoster_ColPsycastsTip>
+  <TSA_WD_PawnRoster_ColIdeology>文化</TSA_WD_PawnRoster_ColIdeology>
+  <TSA_WD_PawnRoster_ColIdeologyTip>启用 Ideology DLC 时的文化名称。悬停单元格查看标签。</TSA_WD_PawnRoster_ColIdeologyTip>
   <TSA_WD_TraitFilter_Title>按特性筛选</TSA_WD_TraitFilter_Title>
   <TSA_WD_TraitFilter_Subtitle>隐藏不匹配的行。计数包含所有玩家类人（殖民地、前哨、商队、囚犯）。</TSA_WD_TraitFilter_Subtitle>
   <TSA_WD_TraitFilter_Search>搜索特性...</TSA_WD_TraitFilter_Search>
@@ -517,6 +520,9 @@
   <TSA_WD_FilterByPsycast>按灵能筛选</TSA_WD_FilterByPsycast>
   <TSA_WD_Filter_AllPsycasts>全部单位</TSA_WD_Filter_AllPsycasts>
   <TSA_WD_Filter_NoPsycasts>无灵能</TSA_WD_Filter_NoPsycasts>
+  <TSA_WD_FilterByIdeology>按文化筛选</TSA_WD_FilterByIdeology>
+  <TSA_WD_Filter_AllIdeologies>全部文化</TSA_WD_Filter_AllIdeologies>
+  <TSA_WD_Filter_NoIdeology>无文化</TSA_WD_Filter_NoIdeology>
   <TSA_WD_AllPlayerPawns_LocColony>殖民地</TSA_WD_AllPlayerPawns_LocColony>
   <TSA_WD_AllPlayerPawns_LocCamp>营地</TSA_WD_AllPlayerPawns_LocCamp>
   <TSA_WD_AllPlayerPawns_LocOutpost>前哨站</TSA_WD_AllPlayerPawns_LocOutpost>

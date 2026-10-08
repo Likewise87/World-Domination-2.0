@@ -295,16 +295,12 @@ namespace TSA_WorldDomination
         /// <summary>NPC specialty from CompViralSpread.subType (Mining, Farming, Slavery, …); outposts fall back to def label.</summary>
         private static string GetSettlementTypeLabel(WorldObject obj, CompViralSpread comp)
         {
-            if (comp != null && !string.IsNullOrEmpty(comp.subType)
-                && comp.subType != "Excluded"
-                && comp.subType != "Outpost"
-                && comp.subType != "Colony")
+            if (comp != null)
             {
-                string key = "TSA_WD_SubType_" + comp.subType;
-                TaggedString translated = key.Translate();
-                if (translated.RawText != key)
-                    return translated.Resolve();
-                return comp.subType;
+                comp.EnsureNpcSettlementSubtypeAssigned();
+                string label = NpcSettlementSubtypeUtil.GetSubtypeInspectLabel(comp.subType);
+                if (!label.NullOrEmpty())
+                    return label;
             }
 
             if (obj is WorldObject_WD_Outpost outpost && outpost.def != null)

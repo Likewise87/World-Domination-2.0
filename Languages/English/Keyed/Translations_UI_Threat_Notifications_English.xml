@@ -422,6 +422,7 @@
   <TSA_WD_Prisoners_SmartAssignPartial>Smart assigned {0} prisoner(s). Could not match {1}.</TSA_WD_Prisoners_SmartAssignPartial>
   <TSA_WD_Prisoners_SmartAssignNone>No matching outpost for the selected prisoners.</TSA_WD_Prisoners_SmartAssignNone>
   <TSA_WD_Prisoners_SmartAssignConfigTip>Choose which outposts Smart Assign may use.</TSA_WD_Prisoners_SmartAssignConfigTip>
+  <TSA_WD_Prisoners_AutoSmartAssignTip>When on, every newly captured prisoner (colony or outpost) automatically gets a Smart Assign destination. Uses the same outpost filter as the gear button. Off by default. Remembers your choice for this save.</TSA_WD_Prisoners_AutoSmartAssignTip>
   <TSA_WD_Prisoners_SmartAssignConfigTitle>Smart Assign outposts</TSA_WD_Prisoners_SmartAssignConfigTitle>
   <TSA_WD_Prisoners_SmartAssignConfigSubtitle>Unchecked outposts are ignored by Smart Assign. Manual Set Destination still works for any outpost.</TSA_WD_Prisoners_SmartAssignConfigSubtitle>
   <TSA_WD_Prisoners_SmartAssignEnableAll>Enable all shown</TSA_WD_Prisoners_SmartAssignEnableAll>
@@ -488,6 +489,8 @@
   <TSA_WD_PawnRoster_ColXenotypeTip>Biotech xenotype label. Hover a cell for the description.</TSA_WD_PawnRoster_ColXenotypeTip>
   <TSA_WD_PawnRoster_ColPsycasts>Psycasts</TSA_WD_PawnRoster_ColPsycasts>
   <TSA_WD_PawnRoster_ColPsycastsTip>Known psycast abilities. Hover for the full list.</TSA_WD_PawnRoster_ColPsycastsTip>
+  <TSA_WD_PawnRoster_ColIdeology>Ideology</TSA_WD_PawnRoster_ColIdeology>
+  <TSA_WD_PawnRoster_ColIdeologyTip>Ideology name when the Ideology DLC is active. Hover a cell for the label.</TSA_WD_PawnRoster_ColIdeologyTip>
   <TSA_WD_TraitFilter_Title>Filter by traits</TSA_WD_TraitFilter_Title>
   <TSA_WD_TraitFilter_Subtitle>Hide roster rows that do not match. Counts include all player humanlikes (colony, outposts, caravans, prisoners).</TSA_WD_TraitFilter_Subtitle>
   <TSA_WD_TraitFilter_Search>Search traits...</TSA_WD_TraitFilter_Search>
@@ -546,6 +549,9 @@
   <TSA_WD_FilterByPsycast>Filter by psycast</TSA_WD_FilterByPsycast>
   <TSA_WD_Filter_AllPsycasts>All pawns</TSA_WD_Filter_AllPsycasts>
   <TSA_WD_Filter_NoPsycasts>No psycasts</TSA_WD_Filter_NoPsycasts>
+  <TSA_WD_FilterByIdeology>Filter by ideology</TSA_WD_FilterByIdeology>
+  <TSA_WD_Filter_AllIdeologies>All ideologies</TSA_WD_Filter_AllIdeologies>
+  <TSA_WD_Filter_NoIdeology>No ideology</TSA_WD_Filter_NoIdeology>
   <TSA_WD_AllPlayerPawns_LocColony>Colony</TSA_WD_AllPlayerPawns_LocColony>
   <TSA_WD_AllPlayerPawns_LocCamp>Camp</TSA_WD_AllPlayerPawns_LocCamp>
   <TSA_WD_AllPlayerPawns_LocOutpost>Outpost</TSA_WD_AllPlayerPawns_LocOutpost>

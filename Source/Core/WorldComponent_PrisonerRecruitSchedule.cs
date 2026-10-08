@@ -12,6 +12,8 @@ namespace TSA_WorldDomination
         private Dictionary<string, int> destOutpostIdByThingId = new Dictionary<string, int>();
         private HashSet<string> viaDropPodThingIds = new HashSet<string>();
         private HashSet<int> smartAssignExcludedOutpostIds = new HashSet<int>();
+        /// <summary>When true, newly captured colony/outpost prisoners get Smart Assign destinations automatically.</summary>
+        public bool autoSmartAssignNewPrisoners;
         private List<string> tmpKeys;
         private List<int> tmpValues;
         private int lastPruneTick = -99999;
@@ -246,6 +248,8 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref smartAssignExcludedOutpostIds, "smartAssignExcludedOutpostIds", LookMode.Value);
             if (smartAssignExcludedOutpostIds == null)
                 smartAssignExcludedOutpostIds = new HashSet<int>();
+
+            Scribe_Values.Look(ref autoSmartAssignNewPrisoners, "autoSmartAssignNewPrisoners", false);
         }
     }
 }

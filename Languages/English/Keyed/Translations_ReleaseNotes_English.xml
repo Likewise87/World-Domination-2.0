@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_43_Title>QOL</TSA_WD_Update_2_3_43_Title>
+  <TSA_WD_Update_2_3_43_Body><![CDATA[
+<size=16><b>2.3.43 – QOL</b></size>\n
+<color=#00FFFFFF>Release date: October 8th 2026</color>\n
+------------------------------\n
+• New feature: When playing with Ideology, recruited pawns from the recruiting outpost and prisoners recruited at an outpost will get the player ideology instantly.\n
+• Added two new outpost types when playing with the Beyond Our Reach mod: Advanced Drug Lab Outpost and Advanced Fabrication Outpost, yielding BOR drugs and materials.\n
+• Added a toggle to the All Prisoners tab. When switched on, all newly captured prisoners will automatically get smart assigned, i.e. sent to a suitable outpost upon recruitment.\n
+• Similarly, added a toggle to the Expert tab on outposts. When switched on (on by default), an expert will get auto assigned when you have enough pawns to afford another expert.\n
+]]></TSA_WD_Update_2_3_43_Body>
+  <TSA_WD_Update_2_3_42_Title>QOL update for the Armory</TSA_WD_Update_2_3_42_Title>
+  <TSA_WD_Update_2_3_42_Body><![CDATA[
+<size=16><b>2.3.42 – QOL update for the Armory</b></size>\n
+<color=#00FFFFFF>Release date: October 6th 2026</color>\n
+------------------------------\n
+• Reminder: Go to the "Pawns" tab on any outpost. At the top there is an armor icon saying "Armory". Go there to change the equipment of pawns garrisoned at an outpost.\n
+• This window now has all the pawn columns you might desire. Added Bulk and Mass for Combat Extended too.\n
+• We now distinguish equipped apparel from apparel stored in the inventory (like in the backpack). So you can now manually bring apparel and weapons to the outpost and unload it there.\n
+• Added bulk controls at the top to remove all food from pawns and equally assign it to everybody. Likewise, there are QOL functions to remove and add CE ammo.\n
+• Items can be freely moved between pawns and their slots.\n
+• Any item that is not apparel, a weapon, ammo, medicine or a drug cannot be stored at a non-warehouse outpost. Trying to do so will trigger a prompt "do you want to destroy the item?". But those items can be moved between pawns.\n
+]]></TSA_WD_Update_2_3_42_Body>
   <TSA_WD_Update_2_3_41_Title>Bridges, balancing, performance</TSA_WD_Update_2_3_41_Title>
   <TSA_WD_Update_2_3_41_Body><![CDATA[
 <size=16><b>2.3.41 – Bridges, balancing, performance</b></size>\n

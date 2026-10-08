@@ -392,6 +392,7 @@
   <TSA_WD_Prisoners_SmartAssignPartial>Asignación inteligente: {0} prisionero(s). Sin coincidencia para {1}.</TSA_WD_Prisoners_SmartAssignPartial>
   <TSA_WD_Prisoners_SmartAssignNone>Ningún puesto coincide con los prisioneros seleccionados.</TSA_WD_Prisoners_SmartAssignNone>
   <TSA_WD_Prisoners_SmartAssignConfigTip>Elige qué puestos puede usar la asignación inteligente.</TSA_WD_Prisoners_SmartAssignConfigTip>
+  <TSA_WD_Prisoners_AutoSmartAssignTip>Si está activado, cada prisionero recién capturado (colonia o avanzadilla) recibe automáticamente un destino de asignación inteligente. Usa el mismo filtro de puestos que el botón de engranaje. Desactivado por defecto. Recuerda tu elección en esta partida.</TSA_WD_Prisoners_AutoSmartAssignTip>
   <TSA_WD_Prisoners_SmartAssignConfigTitle>Puestos para asignación inteligente</TSA_WD_Prisoners_SmartAssignConfigTitle>
   <TSA_WD_Prisoners_SmartAssignConfigSubtitle>Los puestos sin marcar los ignora la asignación inteligente. Asignar destino a mano sigue funcionando con cualquier puesto.</TSA_WD_Prisoners_SmartAssignConfigSubtitle>
   <TSA_WD_Prisoners_SmartAssignEnableAll>Activar visibles</TSA_WD_Prisoners_SmartAssignEnableAll>
@@ -459,6 +460,8 @@
   <TSA_WD_PawnRoster_ColXenotypeTip>Etiqueta de xenotipo (Biotech). Pasa el cursor sobre una celda para la descripción.</TSA_WD_PawnRoster_ColXenotypeTip>
   <TSA_WD_PawnRoster_ColPsycasts>Psicasts</TSA_WD_PawnRoster_ColPsycasts>
   <TSA_WD_PawnRoster_ColPsycastsTip>Habilidades psíquicas conocidas. Pasa el cursor para ver la lista completa.</TSA_WD_PawnRoster_ColPsycastsTip>
+  <TSA_WD_PawnRoster_ColIdeology>Ideología</TSA_WD_PawnRoster_ColIdeology>
+  <TSA_WD_PawnRoster_ColIdeologyTip>Nombre de la ideología cuando el DLC Ideology está activo. Pasa el cursor sobre una celda para la etiqueta.</TSA_WD_PawnRoster_ColIdeologyTip>
   <TSA_WD_TraitFilter_Title>Filtrar por rasgos</TSA_WD_TraitFilter_Title>
   <TSA_WD_TraitFilter_Subtitle>Oculta filas que no coincidan. Los recuentos incluyen todos los humanoides del jugador (colonia, puestos, caravanas, prisioneros).</TSA_WD_TraitFilter_Subtitle>
   <TSA_WD_TraitFilter_Search>Buscar rasgos...</TSA_WD_TraitFilter_Search>
@@ -517,6 +520,9 @@
   <TSA_WD_FilterByPsycast>Filtrar por psicast</TSA_WD_FilterByPsycast>
   <TSA_WD_Filter_AllPsycasts>Todos los peones</TSA_WD_Filter_AllPsycasts>
   <TSA_WD_Filter_NoPsycasts>Sin psicasts</TSA_WD_Filter_NoPsycasts>
+  <TSA_WD_FilterByIdeology>Filtrar por ideología</TSA_WD_FilterByIdeology>
+  <TSA_WD_Filter_AllIdeologies>Todas las ideologías</TSA_WD_Filter_AllIdeologies>
+  <TSA_WD_Filter_NoIdeology>Sin ideología</TSA_WD_Filter_NoIdeology>
   <TSA_WD_AllPlayerPawns_LocColony>Colonia</TSA_WD_AllPlayerPawns_LocColony>
   <TSA_WD_AllPlayerPawns_LocCamp>Campamento</TSA_WD_AllPlayerPawns_LocCamp>
   <TSA_WD_AllPlayerPawns_LocOutpost>Puesto avanzado</TSA_WD_AllPlayerPawns_LocOutpost>

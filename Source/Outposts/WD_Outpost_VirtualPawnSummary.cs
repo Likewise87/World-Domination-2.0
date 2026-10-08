@@ -19,6 +19,7 @@ namespace TSA_WorldDomination
         Traits,
         Xenotype,
         Psycasts,
+        Ideology,
         Age,
         Shooting,
         Melee,

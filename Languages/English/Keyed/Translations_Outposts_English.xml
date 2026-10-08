@@ -1283,11 +1283,16 @@
   <!-- Outpost Armory: loose gear store and its two-column dialog -->
   <TSA_WD_Armory_OpenButton>Armory</TSA_WD_Armory_OpenButton>
   <TSA_WD_Armory_OpenButtonTip>Hand stored weapons, armor, medicine, drugs, food and ammo to the occupants of this outpost.</TSA_WD_Armory_OpenButtonTip>
-  <TSA_WD_Armory_ColumnPawns>Pawn Name</TSA_WD_Armory_ColumnPawns>
+  <TSA_WD_Armory_ColumnPawns>Name</TSA_WD_Armory_ColumnPawns>
   <TSA_WD_Armory_ColumnStore>Stored</TSA_WD_Armory_ColumnStore>
-  <TSA_WD_Armory_SecApparel>Apparel</TSA_WD_Armory_SecApparel>
-  <TSA_WD_Armory_SecWeapons>Weapons</TSA_WD_Armory_SecWeapons>
-  <TSA_WD_Armory_SecFoodDrugs>Food, Drugs, Medicine</TSA_WD_Armory_SecFoodDrugs>
+  <TSA_WD_Armory_SecApparel>Equip. Apparel</TSA_WD_Armory_SecApparel>
+  <TSA_WD_Armory_SecWeapons>Equip. Weapon</TSA_WD_Armory_SecWeapons>
+  <TSA_WD_Armory_SecFoodDrugsAmmo>Food, Drugs, Ammo, Medicine</TSA_WD_Armory_SecFoodDrugsAmmo>
+  <TSA_WD_Armory_SecOtherInventory>Other Inventory</TSA_WD_Armory_SecOtherInventory>
+  <TSA_WD_Armory_ColMass>Mass</TSA_WD_Armory_ColMass>
+  <TSA_WD_Armory_ColMassTip>Carried mass over carry capacity (current/max). With Combat Extended, uses CE carry weight.</TSA_WD_Armory_ColMassTip>
+  <TSA_WD_Armory_ColBulk>Bulk</TSA_WD_Armory_ColBulk>
+  <TSA_WD_Armory_ColBulkTip>Combat Extended carry bulk (current/max). Only shown when Combat Extended is active.</TSA_WD_Armory_ColBulkTip>
   <TSA_WD_Armory_NoOccupants>No occupants to equip.</TSA_WD_Armory_NoOccupants>
   <TSA_WD_Armory_StoreEmpty>Nothing stored here yet. Gear arriving by caravan or drop pod lands in the Armory. Use Open All Gear tab below to ship from a colony or another outpost.</TSA_WD_Armory_StoreEmpty>
   <TSA_WD_Armory_NormalizeNote>Stored gear is repaired to full, so identical items stack together. Tainted and biocoded gear stays that way and is kept separately.</TSA_WD_Armory_NormalizeNote>
@@ -1298,12 +1303,36 @@
   <TSA_WD_Armory_ConvertFood>Convert food</TSA_WD_Armory_ConvertFood>
   <TSA_WD_Armory_ConvertFoodTip>Turn all stored physical food into this outpost's food pool. Anything over the pool cap stays in the Armory.</TSA_WD_Armory_ConvertFoodTip>
   <TSA_WD_Armory_ConvertFoodNone>No stored food to convert, or the food pool is already full.</TSA_WD_Armory_ConvertFoodNone>
+  <TSA_WD_Armory_MenuFood>Food</TSA_WD_Armory_MenuFood>
+  <TSA_WD_Armory_MenuFoodTip>Food helpers: strip from pawns, assign from Armory stock, or convert stored food into the outpost food pool.</TSA_WD_Armory_MenuFoodTip>
+  <TSA_WD_Armory_MenuAmmo>Ammo</TSA_WD_Armory_MenuAmmo>
+  <TSA_WD_Armory_MenuAmmoTip>Combat Extended ammo helpers: strip from pawns, or add from Armory stock.</TSA_WD_Armory_MenuAmmoTip>
+  <TSA_WD_Armory_Menu_RemoveFood>Remove food from pawns</TSA_WD_Armory_Menu_RemoveFood>
+  <TSA_WD_Armory_Menu_RemoveFoodTip>Move all nutrition food from occupant inventories into the Armory. Drugs and medicine stay on the pawns.</TSA_WD_Armory_Menu_RemoveFoodTip>
+  <TSA_WD_Armory_Menu_AssignFood>Assign food to pawns</TSA_WD_Armory_Menu_AssignFood>
+  <TSA_WD_Armory_Menu_AssignFoodTip>Share Armory nutrition food evenly across occupants (up to 10 items each). Does not take food already carried by pawns.</TSA_WD_Armory_Menu_AssignFoodTip>
+  <TSA_WD_Armory_Menu_ConvertFood>Convert real food to outpost food</TSA_WD_Armory_Menu_ConvertFood>
+  <TSA_WD_Armory_Menu_RemoveAmmo>Remove</TSA_WD_Armory_Menu_RemoveAmmo>
+  <TSA_WD_Armory_Menu_RemoveAmmoTip>Move all Combat Extended ammo from occupant inventories into the Armory. Does not unload magazines still in guns.</TSA_WD_Armory_Menu_RemoveAmmoTip>
+  <TSA_WD_Armory_Menu_AddAmmo>Add</TSA_WD_Armory_Menu_AddAmmo>
+  <TSA_WD_Armory_Menu_AddAmmoTip>Give each occupant up to 4 full magazines of suitable ammo from Armory stock, then share any leftover among them. Mixes ammo types when several fit. Does not take ammo already carried by pawns.</TSA_WD_Armory_Menu_AddAmmoTip>
+  <TSA_WD_Armory_RemovedFood>Moved food from {0} inventory stack(s) into the Armory.</TSA_WD_Armory_RemovedFood>
+  <TSA_WD_Armory_RemovedFoodNone>No food in occupant inventories to move.</TSA_WD_Armory_RemovedFoodNone>
+  <TSA_WD_Armory_AssignedFood>Assigned {0} food item(s) from Armory stock.</TSA_WD_Armory_AssignedFood>
+  <TSA_WD_Armory_AssignedFoodNone>No food in Armory stock, or occupants cannot carry more.</TSA_WD_Armory_AssignedFoodNone>
+  <TSA_WD_Armory_RemovedAmmo>Moved ammo from {0} inventory stack(s) into the Armory.</TSA_WD_Armory_RemovedAmmo>
+  <TSA_WD_Armory_RemovedAmmoNone>No ammo in occupant inventories to move.</TSA_WD_Armory_RemovedAmmoNone>
+  <TSA_WD_Armory_AssignedAmmo>Assigned {0} ammo item(s) from Armory stock.</TSA_WD_Armory_AssignedAmmo>
+  <TSA_WD_Armory_AssignedAmmoNone>No suitable ammo in Armory stock, or no occupants with a matching ranged weapon.</TSA_WD_Armory_AssignedAmmoNone>
+  <TSA_WD_Armory_RightClickStoreTip>Right-click: move to Armory.</TSA_WD_Armory_RightClickStoreTip>
   <TSA_WD_Armory_OpenInventory>Open All Gear tab</TSA_WD_Armory_OpenInventory>
   <TSA_WD_Armory_OpenInventoryTip>Open the All Gear tab to quickly move gear between outposts and the colony.</TSA_WD_Armory_OpenInventoryTip>
   <TSA_WD_Armory_ConvertedFood>Converted stored food into {0} outpost food.</TSA_WD_Armory_ConvertedFood>
   <TSA_WD_Armory_FailManualDefense>Gear cannot be moved while this outpost is defending itself.</TSA_WD_Armory_FailManualDefense>
   <TSA_WD_Armory_FailLocked>{0} is locked and cannot be removed.</TSA_WD_Armory_FailLocked>
   <TSA_WD_Armory_FailNotStorable>{0} cannot be stored in an armory.</TSA_WD_Armory_FailNotStorable>
+  <TSA_WD_Armory_DestroyNotStorable>Outpost cannot hold this item. Do you want to destroy it?\n\n{0}</TSA_WD_Armory_DestroyNotStorable>
+  <TSA_WD_Armory_FailNotEquippable>{0} cannot be equipped. Drop it on Inventory instead.</TSA_WD_Armory_FailNotEquippable>
   <TSA_WD_Armory_FailNoCapacity>That pawn cannot carry any more of this.</TSA_WD_Armory_FailNoCapacity>
   <TSA_WD_Armory_FailNoCapacityCe>{0} has no room for more {1}. Free inventory: {2} bulk, {3} kg.</TSA_WD_Armory_FailNoCapacityCe>
   <TSA_WD_Armory_FailNoBodyParts>{0} does not fit {1}.</TSA_WD_Armory_FailNoBodyParts>
@@ -1766,6 +1795,8 @@
   <TSA_WD_Experts_BenefitTooltip_Formula>(skill {0} / {1} × max {2}% = +{3}%)</TSA_WD_Experts_BenefitTooltip_Formula>
   <TSA_WD_Experts_TotalBenefits>Total benefits from experts</TSA_WD_Experts_TotalBenefits>
   <TSA_WD_Experts_ChooseRoleHeader>Choose expert role:</TSA_WD_Experts_ChooseRoleHeader>
+  <TSA_WD_Experts_AutoAssignTipOn>When a new humanoid unlocks another expert slot (every 4), auto-assign the vacant role to the best matching unassigned pawn by role skill. Does not fill slots that were already open.</TSA_WD_Experts_AutoAssignTipOn>
+  <TSA_WD_Experts_AutoAssignTipOff>New expert slots stay empty until you assign them manually.</TSA_WD_Experts_AutoAssignTipOff>
   <TSA_WD_Experts_CapacityMax>Maximum assignable Experts: {0}</TSA_WD_Experts_CapacityMax>
   <TSA_WD_Experts_CapacityTooltip>For each 4 humanoid pawns at this outpost you may assign 1 Expert. You have {0} humanoid pawns here so you may assign {1} Expert(s).</TSA_WD_Experts_CapacityTooltip>
   <TSA_WD_Experts_RemovedTooFewPawns>{0} is no longer {1} at {2} because there are too few pawns to support this many experts.</TSA_WD_Experts_RemovedTooFewPawns>

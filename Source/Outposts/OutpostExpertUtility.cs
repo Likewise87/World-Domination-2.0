@@ -905,6 +905,45 @@ namespace TSA_WorldDomination
             return true;
         }
 
+        /// <summary>
+        /// After a capacity unlock (every 4 humanoids), assign one vacant available role to the
+        /// unassigned humanoid with the highest skill for that role. Does not reassign existing experts
+        /// or backfill slots that were already open. Caller decides when an unlock happened
+        /// (typically <see cref="WorldObject_WD_Outpost"/> after occupant changes).
+        /// </summary>
+        public static bool TryAutoAssignOnSlotUnlock(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null || outpost.ManualDefenseActive) return false;
+            if (GetAssignedExpertCount(outpost) >= GetMaxExpertSlots(outpost)) return false;
+
+            OutpostExpertRole bestRole = default;
+            Pawn bestPawn = null;
+            int bestSkill = -1;
+
+            foreach (OutpostExpertRole role in Enum.GetValues(typeof(OutpostExpertRole)))
+            {
+                if (!IsRoleAvailableForOutpost(outpost, role)) continue;
+                // Prefer resolved assignee; clear stale ThingIDs so capacity matches the Experts UI.
+                if (outpost.GetAssignedExpert(role) != null) continue;
+                if (!outpost.GetExpertThingId(role).NullOrEmpty())
+                    outpost.SetExpertThingId(role, null);
+
+                foreach (Pawn pawn in GetAllHumanoidOccupants(outpost))
+                {
+                    if (GetAssignedRoleForPawn(outpost, pawn).HasValue) continue;
+                    int skill = GetRoleSkillLevel(pawn, role);
+                    // Enum order is the tie-break (Strategist before Cook): only replace on strictly greater skill.
+                    if (skill <= bestSkill) continue;
+                    bestSkill = skill;
+                    bestRole = role;
+                    bestPawn = pawn;
+                }
+            }
+
+            if (bestPawn == null) return false;
+            return TryAssignExpert(outpost, bestRole, bestPawn);
+        }
+
         public static void ClearExpert(WorldObject_WD_Outpost outpost, OutpostExpertRole role)
         {
             if (outpost == null) return;

@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_43_Title>体验优化</TSA_WD_Update_2_3_43_Title>
+  <TSA_WD_Update_2_3_43_Body><![CDATA[
+<size=16><b>2.3.43 – 体验优化</b></size>\n
+<color=#00FFFFFF>发布日期：2026年10月8日</color>\n
+------------------------------\n
+• 新功能：启用 Ideology 时，征募前哨征募的人员以及在前哨招募的囚犯会立即获得玩家意识形态。\n
+• 在启用 Beyond Our Reach 模组时新增两种前哨：Advanced Drug Lab Outpost 与 Advanced Fabrication Outpost，产出 BOR 毒品与材料。\n
+• 在“全部囚犯”页签新增开关。开启后，所有新俘获的囚犯会自动获得智能分配，即招募完成后被送往合适的前哨。\n
+• 同样在前哨的“专家”页签新增开关。开启后（默认开启），当你有足够人员负担下一位专家时，会自动分配专家。\n
+]]></TSA_WD_Update_2_3_43_Body>
+  <TSA_WD_Update_2_3_42_Title>军械库体验优化更新</TSA_WD_Update_2_3_42_Title>
+  <TSA_WD_Update_2_3_42_Body><![CDATA[
+<size=16><b>2.3.42 – 军械库体验优化更新</b></size>\n
+<color=#00FFFFFF>发布日期：2026年10月6日</color>\n
+------------------------------\n
+• 提醒：打开任意前哨的“人员”页签。顶部有一个标注“军械库”的护甲图标。在那里可更换驻守人员的装备。\n
+• 该窗口现已提供你可能需要的全部人员列。也为 Combat Extended 增加了质量与体积列。\n
+• 现已区分已装备服装与存放在物品栏（如背包）中的服装。因此你可手动把服装和武器带到前哨并在那里卸下。\n
+• 顶部新增批量操作：可从人员身上取走全部食物并均分给所有人；同样有便捷的 CE 弹药移除与添加功能。\n
+• 物品可在人员及其槽位之间自由移动。\n
+• 非服装、武器、弹药、药品或毒品的物品，不能存放在非仓库前哨。尝试存放会弹出“是否销毁该物品？”提示。但这些物品仍可在人员之间转移。\n
+]]></TSA_WD_Update_2_3_42_Body>
   <TSA_WD_Update_2_3_41_Title>桥梁、平衡与性能</TSA_WD_Update_2_3_41_Title>
   <TSA_WD_Update_2_3_41_Body><![CDATA[
 <size=16><b>2.3.41 – 桥梁、平衡与性能</b></size>\n

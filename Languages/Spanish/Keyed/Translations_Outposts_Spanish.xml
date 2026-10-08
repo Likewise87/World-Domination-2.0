@@ -1211,9 +1211,14 @@
   <TSA_WD_Armory_OpenButtonTip>Reparte armas, armaduras, medicina, drogas, comida y munición almacenadas entre los ocupantes de esta avanzada.</TSA_WD_Armory_OpenButtonTip>
   <TSA_WD_Armory_ColumnPawns>Nombre</TSA_WD_Armory_ColumnPawns>
   <TSA_WD_Armory_ColumnStore>Almacenado</TSA_WD_Armory_ColumnStore>
-  <TSA_WD_Armory_SecApparel>Ropa</TSA_WD_Armory_SecApparel>
-  <TSA_WD_Armory_SecWeapons>Armas</TSA_WD_Armory_SecWeapons>
-  <TSA_WD_Armory_SecFoodDrugs>Comida, drogas, medicina</TSA_WD_Armory_SecFoodDrugs>
+  <TSA_WD_Armory_SecApparel>Equip. ropa</TSA_WD_Armory_SecApparel>
+  <TSA_WD_Armory_SecWeapons>Equip. arma</TSA_WD_Armory_SecWeapons>
+  <TSA_WD_Armory_SecFoodDrugsAmmo>Comida, drogas, munición, medicina</TSA_WD_Armory_SecFoodDrugsAmmo>
+  <TSA_WD_Armory_SecOtherInventory>Otro inventario</TSA_WD_Armory_SecOtherInventory>
+  <TSA_WD_Armory_ColMass>Masa</TSA_WD_Armory_ColMass>
+  <TSA_WD_Armory_ColMassTip>Masa cargada sobre la capacidad de carga (actual/máx.). Con Combat Extended, usa el peso de carga de CE.</TSA_WD_Armory_ColMassTip>
+  <TSA_WD_Armory_ColBulk>Volumen</TSA_WD_Armory_ColBulk>
+  <TSA_WD_Armory_ColBulkTip>Volumen de carga de Combat Extended (actual/máx.). Solo se muestra con Combat Extended activo.</TSA_WD_Armory_ColBulkTip>
   <TSA_WD_Armory_NoOccupants>No hay ocupantes a los que equipar.</TSA_WD_Armory_NoOccupants>
   <TSA_WD_Armory_StoreEmpty>Aquí no hay nada todavía. El equipo que llega en caravana o cápsula se guarda en la armería. Usa Abrir pestaña Todo el equipo abajo para enviarlo desde una colonia u otra avanzada.</TSA_WD_Armory_StoreEmpty>
   <TSA_WD_Armory_NormalizeNote>El equipo almacenado se repara por completo, para que los objetos idénticos se apilen. El equipo contaminado o biocodificado se mantiene así y se guarda por separado.</TSA_WD_Armory_NormalizeNote>
@@ -1224,12 +1229,36 @@
   <TSA_WD_Armory_ConvertFood>Convertir comida</TSA_WD_Armory_ConvertFood>
   <TSA_WD_Armory_ConvertFoodTip>Convierte toda la comida física almacenada en la reserva de comida de esta avanzada. Lo que supere el tope se queda en la armería.</TSA_WD_Armory_ConvertFoodTip>
   <TSA_WD_Armory_ConvertFoodNone>No hay comida almacenada que convertir, o la reserva ya está llena.</TSA_WD_Armory_ConvertFoodNone>
+  <TSA_WD_Armory_MenuFood>Comida</TSA_WD_Armory_MenuFood>
+  <TSA_WD_Armory_MenuFoodTip>Ayudas de comida: quitar de los peones, asignar desde el stock de la armería, o convertir comida almacenada a la reserva de la avanzada.</TSA_WD_Armory_MenuFoodTip>
+  <TSA_WD_Armory_MenuAmmo>Munición</TSA_WD_Armory_MenuAmmo>
+  <TSA_WD_Armory_MenuAmmoTip>Ayudas de munición de Combat Extended: quitar de los peones, o añadir desde el stock de la armería.</TSA_WD_Armory_MenuAmmoTip>
+  <TSA_WD_Armory_Menu_RemoveFood>Quitar comida de los peones</TSA_WD_Armory_Menu_RemoveFood>
+  <TSA_WD_Armory_Menu_RemoveFoodTip>Mueve toda la comida nutritiva del inventario de los ocupantes a la armería. Drogas y medicinas se quedan en los peones.</TSA_WD_Armory_Menu_RemoveFoodTip>
+  <TSA_WD_Armory_Menu_AssignFood>Asignar comida a los peones</TSA_WD_Armory_Menu_AssignFood>
+  <TSA_WD_Armory_Menu_AssignFoodTip>Reparte la comida nutritiva de la armería equitativamente entre los ocupantes (hasta 10 ítems cada uno). No toma comida que ya lleven los peones.</TSA_WD_Armory_Menu_AssignFoodTip>
+  <TSA_WD_Armory_Menu_ConvertFood>Convertir comida real a comida de avanzada</TSA_WD_Armory_Menu_ConvertFood>
+  <TSA_WD_Armory_Menu_RemoveAmmo>Quitar</TSA_WD_Armory_Menu_RemoveAmmo>
+  <TSA_WD_Armory_Menu_RemoveAmmoTip>Mueve toda la munición de Combat Extended del inventario de los ocupantes a la armería. No descarga cargadores aún en las armas.</TSA_WD_Armory_Menu_RemoveAmmoTip>
+  <TSA_WD_Armory_Menu_AddAmmo>Añadir</TSA_WD_Armory_Menu_AddAmmo>
+  <TSA_WD_Armory_Menu_AddAmmoTip>Da a cada ocupante hasta 4 cargadores completos de munición adecuada desde el stock de la armería y reparte el resto entre ellos. Mezcla tipos cuando varios encajan. No toma munición que ya lleven los peones.</TSA_WD_Armory_Menu_AddAmmoTip>
+  <TSA_WD_Armory_RemovedFood>Se movió comida de {0} pila(s) de inventario a la armería.</TSA_WD_Armory_RemovedFood>
+  <TSA_WD_Armory_RemovedFoodNone>No hay comida en los inventarios de los ocupantes.</TSA_WD_Armory_RemovedFoodNone>
+  <TSA_WD_Armory_AssignedFood>Se asignaron {0} alimento(s) desde el stock de la armería.</TSA_WD_Armory_AssignedFood>
+  <TSA_WD_Armory_AssignedFoodNone>No hay comida en el stock de la armería, o los ocupantes no pueden llevar más.</TSA_WD_Armory_AssignedFoodNone>
+  <TSA_WD_Armory_RemovedAmmo>Se movió munición de {0} pila(s) de inventario a la armería.</TSA_WD_Armory_RemovedAmmo>
+  <TSA_WD_Armory_RemovedAmmoNone>No hay munición en los inventarios de los ocupantes.</TSA_WD_Armory_RemovedAmmoNone>
+  <TSA_WD_Armory_AssignedAmmo>Se asignaron {0} munición(es) desde el stock de la armería.</TSA_WD_Armory_AssignedAmmo>
+  <TSA_WD_Armory_AssignedAmmoNone>No hay munición adecuada en el stock de la armería, o ningún ocupante con un arma a distancia compatible.</TSA_WD_Armory_AssignedAmmoNone>
+  <TSA_WD_Armory_RightClickStoreTip>Clic derecho: mover a la armería.</TSA_WD_Armory_RightClickStoreTip>
   <TSA_WD_Armory_OpenInventory>Abrir pestaña Todo el equipo</TSA_WD_Armory_OpenInventory>
   <TSA_WD_Armory_OpenInventoryTip>Abre la pestaña Todo el equipo para mover equipo rápidamente entre avanzadas y la colonia.</TSA_WD_Armory_OpenInventoryTip>
   <TSA_WD_Armory_ConvertedFood>Comida almacenada convertida en {0} de comida de avanzada.</TSA_WD_Armory_ConvertedFood>
   <TSA_WD_Armory_FailManualDefense>No se puede mover equipo mientras esta avanzada se está defendiendo.</TSA_WD_Armory_FailManualDefense>
   <TSA_WD_Armory_FailLocked>{0} está bloqueado y no se puede quitar.</TSA_WD_Armory_FailLocked>
   <TSA_WD_Armory_FailNotStorable>{0} no se puede guardar en una armería.</TSA_WD_Armory_FailNotStorable>
+  <TSA_WD_Armory_DestroyNotStorable>El puesto no puede guardar este objeto. ¿Quieres destruirlo?\n\n{0}</TSA_WD_Armory_DestroyNotStorable>
+  <TSA_WD_Armory_FailNotEquippable>{0} no se puede equipar. Suéltalo en Inventario.</TSA_WD_Armory_FailNotEquippable>
   <TSA_WD_Armory_FailNoCapacity>Ese personaje no puede cargar más de esto.</TSA_WD_Armory_FailNoCapacity>
   <TSA_WD_Armory_FailNoCapacityCe>{0} no tiene espacio para más {1}. Inventario libre: {2} de volumen, {3} kg.</TSA_WD_Armory_FailNoCapacityCe>
   <TSA_WD_Armory_FailNoBodyParts>{0} no le queda a {1}.</TSA_WD_Armory_FailNoBodyParts>
@@ -1660,6 +1689,8 @@
   <TSA_WD_Experts_BenefitTooltip_Formula>(habilidad {0} / {1} × máx. {2}% = +{3}%)</TSA_WD_Experts_BenefitTooltip_Formula>
   <TSA_WD_Experts_TotalBenefits>Beneficios totales de expertos</TSA_WD_Experts_TotalBenefits>
   <TSA_WD_Experts_ChooseRoleHeader>Elegir rol de experto:</TSA_WD_Experts_ChooseRoleHeader>
+  <TSA_WD_Experts_AutoAssignTipOn>Cuando un nuevo humanoide desbloquea otra plaza de experto (cada 4), asigna automáticamente el rol vacante al colono sin asignar con la mejor habilidad para ese rol. No rellena plazas que ya estaban abiertas.</TSA_WD_Experts_AutoAssignTipOn>
+  <TSA_WD_Experts_AutoAssignTipOff>Las nuevas plazas de experto quedan vacías hasta que las asignes a mano.</TSA_WD_Experts_AutoAssignTipOff>
   <TSA_WD_Experts_CapacityMax>Expertos asignables como máximo: {0}</TSA_WD_Experts_CapacityMax>
   <TSA_WD_Experts_CapacityTooltip>Por cada 4 colonos humanoides en esta avanzadilla puedes asignar 1 experto. Tienes {0} colonos humanoides aquí, así que puedes asignar {1} experto(s).</TSA_WD_Experts_CapacityTooltip>
   <TSA_WD_Experts_RemovedTooFewPawns>{0} ya no es {1} en {2} porque hay demasiados pocos colonos para mantener tantos expertos.</TSA_WD_Experts_RemovedTooFewPawns>

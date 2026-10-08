@@ -291,9 +291,14 @@ namespace TSA_WorldDomination
             PostMortarStrengthHitLetter(manager, shell.originObject, settlement, beforeTotal, afterTotal, wiped, "TSA_WD_Mortar_Hit_DestroyedSuffix");
             if (wiped)
             {
+                int tile = settlement.Tile.tileId;
+                string originalName = settlement.Name ?? settlement.LabelCap;
+                Faction ruinFaction = settlement.Faction;
                 Faction shellFaction = shell.originObject?.Faction ?? shell.Faction;
                 WorldActions_DesperationRaid.NotifyNpcSettlementLost(settlement, shellFaction);
                 settlement.Destroy();
+                // Same timed scar as NPC raze / sabotage / pollution wipe.
+                WorldObject_WdSettlementRuin.Spawn(tile, originalName, ruinFaction);
             }
         }
 
@@ -314,14 +319,20 @@ namespace TSA_WorldDomination
 
             // Sustained enemy bombardment can wipe a player outpost once its strength is fully depleted. Reuse the
             // raid path's teardown: WorldObject.Destroy() drops the outpost and its deep-scribed occupants with it
-            // (same as Raid_Simulated.HandlePlayerOutpostRaidArrival).
+            // (same as Raid_Simulated.HandlePlayerOutpostRaidArrival). Leave timed WD ruins like pollution / outpost incidents.
             bool wiped = comp.offensiveStrength + comp.defensiveStrength <= 0f;
 
             float beforeTotal = beforeOff + beforeDef;
             float afterTotal = comp.offensiveStrength + comp.defensiveStrength;
             PostMortarStrengthHitLetter(manager, shell.originObject, outpost, beforeTotal, afterTotal, wiped, "TSA_WD_Mortar_Hit_DestroyedOutpostSuffix");
             if (wiped)
+            {
+                int tile = outpost.Tile.tileId;
+                string label = outpost.LabelCap;
+                Faction ruinFaction = outpost.Faction;
                 outpost.Destroy();
+                WorldObject_WdSettlementRuin.Spawn(tile, label, ruinFaction);
+            }
         }
 
         private static void ApplyMortarHitToAtTurret(WorldObject_Traveler shell, WorldComponent_SpreadManager manager, WorldObject_AT_Turret turret, float shellPotency)

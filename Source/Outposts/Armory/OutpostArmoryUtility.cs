@@ -507,18 +507,30 @@ namespace TSA_WorldDomination
             Thing detached = TryTakeFromPawn(pawn, thing, count, out failReason);
             if (detached == null) return false;
 
-            if (TryDeposit(outpost, detached, out bool consumed))
-            {
-                if (!consumed && !detached.Destroyed)
-                    detached.Destroy(DestroyMode.Vanish);
+            // Armory gear first; warehouse outposts also accept non-gear via TryStoreThing.
+            if (OutpostStorageUtility.TryStoreThing(outpost, detached))
                 return true;
-            }
 
             // Rejected by category: put it back rather than losing it.
             if (!TryGiveBackToPawn(pawn, detached))
                 armory.Uniques.TryAddOrTransfer(detached, canMergeWithExistingStacks: false);
             failReason = "TSA_WD_Armory_FailNotStorable".Translate(detached.LabelCap);
             return false;
+        }
+
+        /// <summary>Removes from the pawn and destroys. Used when the outpost cannot store the def.</summary>
+        public static bool TryDestroyFromPawn(
+            WorldObject_WD_Outpost outpost, Pawn pawn, Thing thing, int count, out string failReason)
+        {
+            failReason = null;
+            if (!CanMutate(outpost)) { failReason = "TSA_WD_Armory_FailManualDefense".Translate(); return false; }
+            if (pawn == null || thing == null || thing.Destroyed || count <= 0) return false;
+
+            Thing detached = TryTakeFromPawn(pawn, thing, count, out failReason);
+            if (detached == null) return false;
+            if (!detached.Destroyed)
+                detached.Destroy(DestroyMode.Vanish);
+            return true;
         }
 
         /// <summary>Removes a Thing from whichever pawn tracker holds it, re-homing it immediately.</summary>
@@ -557,7 +569,7 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>Equips or stows a stock row on a pawn, materializing the item first.</summary>
-        public static bool TryGiveStockToPawn(WorldObject_WD_Outpost outpost, Pawn pawn, ThingDefCountClass row, int count, out string failReason)
+        public static bool TryGiveStockToPawn(WorldObject_WD_Outpost outpost, Pawn pawn, ThingDefCountClass row, int count, out string failReason, bool forceInventory = false)
         {
             failReason = null;
             if (!CanMutate(outpost)) { failReason = "TSA_WD_Armory_FailManualDefense".Translate(); return false; }
@@ -566,7 +578,7 @@ namespace TSA_WorldDomination
             var armory = CompOutpostArmory.Get(outpost);
             if (armory == null) return false;
 
-            count = ClampAssignCount(pawn, row.thingDef, count);
+            count = ClampAssignCount(pawn, row.thingDef, count, forceInventory);
             if (count <= 0) { failReason = NoCapacityReason(pawn, row.thingDef); return false; }
 
             int taken = armory.WithdrawUpToMatching(row, count);
@@ -579,7 +591,7 @@ namespace TSA_WorldDomination
                 return false;
             }
 
-            if (TryGiveThingToPawn(outpost, pawn, made, out failReason)) return true;
+            if (TryGiveThingToPawn(outpost, pawn, made, out failReason, forceInventory)) return true;
 
             // Could not be worn or carried: bank it again so nothing is lost.
             TryDepositAndDispose(outpost, made);
@@ -590,7 +602,7 @@ namespace TSA_WorldDomination
         /// Equips an already-detached unique Thing. The caller must have taken it out of the store
         /// first; on failure it is banked again so the item is never orphaned.
         /// </summary>
-        public static bool TryGiveUniqueToPawn(WorldObject_WD_Outpost outpost, Pawn pawn, Thing thing, out string failReason)
+        public static bool TryGiveUniqueToPawn(WorldObject_WD_Outpost outpost, Pawn pawn, Thing thing, out string failReason, bool forceInventory = false)
         {
             failReason = null;
             if (thing == null) return false;
@@ -601,9 +613,139 @@ namespace TSA_WorldDomination
                 return false;
             }
 
-            if (TryGiveThingToPawn(outpost, pawn, thing, out failReason)) return true;
+            if (TryGiveThingToPawn(outpost, pawn, thing, out failReason, forceInventory)) return true;
             Rebank(outpost, thing);
             return false;
+        }
+
+        /// <summary>True for apparel / weapons that belong on Equipped columns (not ammo-only defs).</summary>
+        public static bool IsEquipSlotDef(ThingDef def) =>
+            def != null && (def.IsApparel || (def.IsWeapon && !IsAmmoDef(def)));
+
+        /// <summary>
+        /// Moves a worn/equipped/carried Thing onto <paramref name="dst"/>, either equipping or
+        /// forcing inventory. Same-pawn stow/equip is supported.
+        /// </summary>
+        public static bool TryMoveThingToPawn(
+            WorldObject_WD_Outpost outpost,
+            Pawn src,
+            Pawn dst,
+            Thing thing,
+            int count,
+            bool forceInventory,
+            out string failReason)
+        {
+            failReason = null;
+            if (!CanMutate(outpost)) { failReason = "TSA_WD_Armory_FailManualDefense".Translate(); return false; }
+            if (src == null || dst == null || thing == null || thing.Destroyed || count <= 0)
+                return false;
+
+            if (!forceInventory && !IsEquipSlotDef(thing.def))
+            {
+                failReason = "TSA_WD_Armory_FailNotEquippable".Translate(thing.LabelCap);
+                return false;
+            }
+
+            // Same-pawn stow: detach first so CE mass/bulk no longer counts the equipped item.
+            if (src == dst && forceInventory)
+                return TryStowToInventorySamePawn(outpost, src, thing, count, out failReason);
+
+            if (!CanReceiveThing(dst, thing, out failReason, forceInventory))
+                return false;
+
+            count = ClampAssignCount(dst, thing.def, count, forceInventory);
+            if (count <= 0)
+            {
+                failReason = NoCapacityReason(dst, thing.def);
+                return false;
+            }
+
+            Thing detached = TryTakeFromPawn(src, thing, count, out failReason);
+            if (detached == null) return false;
+
+            if (TryGiveThingToPawn(outpost, dst, detached, out failReason, forceInventory))
+                return true;
+
+            if (!TryGiveBackToPawn(src, detached) && !TryGiveThingToPawn(outpost, src, detached, out _, forceInventory: true))
+                Rebank(outpost, detached);
+            return false;
+        }
+
+        /// <summary>
+        /// Unequip/stow onto the same pawn's backpack. Detach before the CE fit check so Primary /
+        /// worn gear is not double-counted; restore the original slot if inventory refuses.
+        /// </summary>
+        private static bool TryStowToInventorySamePawn(
+            WorldObject_WD_Outpost outpost, Pawn pawn, Thing thing, int count, out string failReason)
+        {
+            failReason = null;
+            bool wasEquipment = thing is ThingWithComps eq
+                && pawn.equipment != null
+                && pawn.equipment.Contains(eq);
+            bool wasApparel = thing is Apparel ap
+                && pawn.apparel != null
+                && pawn.apparel.WornApparel.Contains(ap);
+
+            Thing detached = TryTakeFromPawn(pawn, thing, count, out failReason);
+            if (detached == null) return false;
+
+            OutpostCeAmmoCompat.RefreshPawnInventory(pawn);
+
+            count = ClampAssignCount(pawn, detached.def, detached.stackCount > 0 ? detached.stackCount : 1, forceInventory: true);
+            if (count <= 0 || !CanReceiveThing(pawn, detached, out failReason, forceInventory: true))
+            {
+                if (string.IsNullOrEmpty(failReason))
+                    failReason = NoCapacityReason(pawn, detached.def);
+                RestoreToOriginalSlot(pawn, detached, wasEquipment, wasApparel, outpost);
+                return false;
+            }
+
+            if (TryGiveThingToPawn(outpost, pawn, detached, out failReason, forceInventory: true))
+            {
+                OutpostCeAmmoCompat.RefreshPawnInventory(pawn);
+                return true;
+            }
+
+            RestoreToOriginalSlot(pawn, detached, wasEquipment, wasApparel, outpost);
+            return false;
+        }
+
+        private static void RestoreToOriginalSlot(
+            Pawn pawn, Thing thing, bool wasEquipment, bool wasApparel, WorldObject_WD_Outpost outpost)
+        {
+            if (thing == null || thing.Destroyed || pawn == null) return;
+
+            if (wasEquipment && thing is ThingWithComps eq && pawn.equipment != null)
+            {
+                if (pawn.equipment.Primary == null)
+                {
+                    pawn.equipment.AddEquipment(eq);
+                    OutpostCeAmmoCompat.RefreshPawnInventory(pawn);
+                    return;
+                }
+            }
+
+            if (wasApparel && thing is Apparel apparel && pawn.apparel != null)
+            {
+                try
+                {
+                    pawn.apparel.Wear(apparel, dropReplacedApparel: false, locked: false);
+                    OutpostCeAmmoCompat.RefreshPawnInventory(pawn);
+                    return;
+                }
+                catch
+                {
+                    // Fall through to inventory / rebank.
+                }
+            }
+
+            if (TryGiveBackToPawn(pawn, thing))
+            {
+                OutpostCeAmmoCompat.RefreshPawnInventory(pawn);
+                return;
+            }
+
+            Rebank(outpost, thing);
         }
 
         private static void Rebank(WorldObject_WD_Outpost outpost, Thing thing)
@@ -648,14 +790,17 @@ namespace TSA_WorldDomination
         /// Caps how many units one assign may give. Apparel and non-ammo/grenade weapons are always 1.
         /// Ammo/food/etc. use CE inventory bulk/weight when CE is active.
         /// </summary>
-        public static int ClampAssignCount(Pawn pawn, ThingDef def, int want)
+        public static int ClampAssignCount(Pawn pawn, ThingDef def, int want, bool forceInventory = false)
         {
             if (want <= 0 || def == null) return 0;
             // One wear/equip action at a time; ammo and grenades keep multi-count via NeedsAssignCountPrompt.
-            if (def.IsApparel) return 1;
-            if (def.IsWeapon && !NeedsAssignCountPrompt(def)) return 1;
+            if (!forceInventory)
+            {
+                if (def.IsApparel) return 1;
+                if (def.IsWeapon && !NeedsAssignCountPrompt(def)) return 1;
+            }
             if (!OutpostCeAmmoCompat.IsCeActive) return want;
-            if (!GoesToInventory(pawn, def)) return want;
+            if (!forceInventory && !GoesToInventory(pawn, def)) return want;
             return OutpostCeAmmoCompat.ClampToInventoryFit(pawn, def, want);
         }
 
@@ -675,9 +820,27 @@ namespace TSA_WorldDomination
             return "TSA_WD_Armory_FailNoCapacity".Translate();
         }
 
-        private static bool TryGiveThingToPawn(WorldObject_WD_Outpost outpost, Pawn pawn, Thing thing, out string failReason)
+        private static bool TryGiveThingToPawn(
+            WorldObject_WD_Outpost outpost, Pawn pawn, Thing thing, out string failReason, bool forceInventory = false)
         {
             failReason = null;
+
+            if (forceInventory)
+            {
+                if (pawn.inventory?.innerContainer == null) return false;
+                if (OutpostCeAmmoCompat.IsCeActive
+                    && OutpostCeAmmoCompat.ClampToInventoryFit(pawn, thing.def, thing.stackCount) < thing.stackCount)
+                {
+                    failReason = NoCapacityReason(pawn, thing.def);
+                    return false;
+                }
+                if (!pawn.inventory.innerContainer.TryAdd(thing, canMergeWithExistingStacks: true))
+                {
+                    failReason = NoCapacityReason(pawn, thing.def);
+                    return false;
+                }
+                return true;
+            }
 
             if (thing is Apparel apparel)
             {
@@ -749,10 +912,20 @@ namespace TSA_WorldDomination
         /// Whether <paramref name="pawn"/> can take <paramref name="thing"/> without destroying or
         /// orphaning it. Used to cancel pawn-to-pawn drags before the source is stripped.
         /// </summary>
-        public static bool CanReceiveThing(Pawn pawn, Thing thing, out string failReason)
+        public static bool CanReceiveThing(Pawn pawn, Thing thing, out string failReason, bool forceInventory = false)
         {
             failReason = null;
             if (pawn == null || thing?.def == null) return false;
+
+            if (forceInventory)
+            {
+                if (pawn.inventory?.innerContainer == null || ClampAssignCount(pawn, thing.def, 1, forceInventory: true) <= 0)
+                {
+                    failReason = NoCapacityReason(pawn, thing.def);
+                    return false;
+                }
+                return true;
+            }
 
             if (thing is Apparel apparel)
             {
@@ -900,6 +1073,309 @@ namespace TSA_WorldDomination
             if (ordered.Count > 2)
                 label += " " + "TSA_WD_Armory_StoresMore".Translate((ordered.Count - 2).ToString());
             tooltip = "TSA_WD_Armory_StoresTooltip".Translate(total.ToString()) + "\n\n" + string.Join("\n", full);
+        }
+
+        /// <summary>Nutrition-giving inventory food (not drugs or medicine).</summary>
+        public static bool IsNutritionFoodDef(ThingDef def) =>
+            def?.ingestible != null && def.IsNutritionGivingIngestible && !def.IsDrug && !def.IsMedicine;
+
+        /// <summary>
+        /// Moves matching inventory stacks from every occupant into the armory. Snapshots first so
+        /// the container is never mutated while iterating.
+        /// </summary>
+        public static int StripInventoryMatching(
+            WorldObject_WD_Outpost outpost,
+            Predicate<ThingDef> match,
+            out string failReason)
+        {
+            failReason = null;
+            if (!CanMutate(outpost))
+            {
+                failReason = "TSA_WD_Armory_FailManualDefense".Translate();
+                return 0;
+            }
+            if (outpost?.Occupants == null || match == null) return 0;
+
+            var snapshot = new List<Pair<Pawn, Thing>>();
+            List<Pawn> occupants = outpost.Occupants;
+            for (int i = 0; i < occupants.Count; i++)
+            {
+                Pawn pawn = occupants[i];
+                if (pawn?.inventory?.innerContainer == null) continue;
+                List<Thing> list = pawn.inventory.innerContainer.InnerListForReading;
+                for (int j = 0; j < list.Count; j++)
+                {
+                    Thing t = list[j];
+                    if (t == null || t.Destroyed || t.def == null) continue;
+                    if (!match(t.def)) continue;
+                    snapshot.Add(new Pair<Pawn, Thing>(pawn, t));
+                }
+            }
+
+            int moved = 0;
+            for (int i = 0; i < snapshot.Count; i++)
+            {
+                Pawn pawn = snapshot[i].First;
+                Thing thing = snapshot[i].Second;
+                if (thing == null || thing.Destroyed) continue;
+                int count = thing.stackCount > 0 ? thing.stackCount : 1;
+                if (TryStoreFromPawn(outpost, pawn, thing, count, out _))
+                    moved++;
+            }
+            return moved;
+        }
+
+        /// <summary>Soft cap per occupant when auto-assigning food from Armory stock.</summary>
+        public const int AutoAssignFoodUnitsPerPawn = 10;
+
+        /// <summary>
+        /// Distribute nutrition food from armory stock evenly across occupants (round-robin one
+        /// unit at a time), up to <see cref="AutoAssignFoodUnitsPerPawn"/> each. Returns units
+        /// transferred.
+        /// </summary>
+        public static int TryAutoAssignFoodFromStore(WorldObject_WD_Outpost outpost, out string failReason)
+        {
+            failReason = null;
+            if (!CanMutate(outpost))
+            {
+                failReason = "TSA_WD_Armory_FailManualDefense".Translate();
+                return 0;
+            }
+            if (outpost?.Occupants == null) return 0;
+
+            var armory = CompOutpostArmory.Get(outpost);
+            if (armory == null) return 0;
+
+            var recipients = new List<Pawn>();
+            List<Pawn> occupants = outpost.Occupants;
+            for (int i = 0; i < occupants.Count; i++)
+            {
+                Pawn pawn = occupants[i];
+                if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
+                if (pawn.inventory?.innerContainer == null) continue;
+                recipients.Add(pawn);
+            }
+            if (recipients.Count == 0) return 0;
+
+            int[] given = new int[recipients.Count];
+            int totalGiven = 0;
+            int maxRounds = recipients.Count * AutoAssignFoodUnitsPerPawn + 8;
+            for (int round = 0; round < maxRounds; round++)
+            {
+                bool anyThisRound = false;
+                for (int i = 0; i < recipients.Count; i++)
+                {
+                    if (given[i] >= AutoAssignFoodUnitsPerPawn) continue;
+
+                    ThingDefCountClass row = FindAnyNutritionFoodStockRow(armory);
+                    if (row == null) return totalGiven;
+
+                    if (ClampAssignCount(recipients[i], row.thingDef, 1) < 1)
+                        continue;
+
+                    if (!TryGiveStockToPawn(outpost, recipients[i], row, 1, out _))
+                        continue;
+
+                    given[i]++;
+                    totalGiven++;
+                    anyThisRound = true;
+                }
+                if (!anyThisRound) break;
+            }
+            return totalGiven;
+        }
+
+        private static ThingDefCountClass FindAnyNutritionFoodStockRow(CompOutpostArmory armory)
+        {
+            if (armory == null) return null;
+            List<ThingDefCountClass> rows = armory.ArmoryRows();
+            for (int i = 0; i < rows.Count; i++)
+            {
+                ThingDefCountClass e = rows[i];
+                if (e?.thingDef == null || e.count <= 0) continue;
+                if (!IsNutritionFoodDef(e.thingDef)) continue;
+                return e;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// CE helper: give each occupant up to <see cref="OutpostCeAmmoCompat.AutoAssignMagazines"/>
+        /// full magazines from armory stock, then randomly dump leftover suitable ammo. Returns
+        /// total ammo units transferred.
+        /// </summary>
+        public static int TryAutoAssignAmmoFromStore(WorldObject_WD_Outpost outpost, out string failReason)
+        {
+            failReason = null;
+            if (!OutpostCeAmmoCompat.IsCeActive) return 0;
+            if (!CanMutate(outpost))
+            {
+                failReason = "TSA_WD_Armory_FailManualDefense".Translate();
+                return 0;
+            }
+            if (outpost?.Occupants == null) return 0;
+
+            var armory = CompOutpostArmory.Get(outpost);
+            if (armory == null) return 0;
+
+            int unitsGiven = 0;
+            List<Pawn> occupants = outpost.Occupants;
+            for (int i = 0; i < occupants.Count; i++)
+            {
+                unitsGiven += AutoAssignAmmoForPawn(outpost, armory, occupants[i]);
+            }
+
+            unitsGiven += DumpLeftoverAmmoRandomly(outpost, armory, occupants);
+            return unitsGiven;
+        }
+
+        /// <returns>Ammo units (rounds/items) given during the 4-mag phase.</returns>
+        private static int AutoAssignAmmoForPawn(
+            WorldObject_WD_Outpost outpost,
+            CompOutpostArmory armory,
+            Pawn pawn)
+        {
+            if (pawn == null || pawn.Destroyed || pawn.Dead) return 0;
+            if (!OutpostCeAmmoCompat.TryGetPrimaryAmmoUser(pawn, out _, out object props, out object ammoSet))
+                return 0;
+
+            List<ThingDef> ammoDefs = OutpostCeAmmoCompat.ListAmmoDefsFromSet(ammoSet);
+            if (ammoDefs.Count == 0) return 0;
+
+            // Prefer types that currently have at least one full mag in the store.
+            var candidates = new List<ThingDef>();
+            for (int i = 0; i < ammoDefs.Count; i++)
+            {
+                ThingDef def = ammoDefs[i];
+                if (def == null) continue;
+                int oneMag = OutpostCeAmmoCompat.ResolveOneMagazineRounds(props, def);
+                if (oneMag <= 0) continue;
+                if (armory.GetStockCountOfDef(def) >= oneMag)
+                    candidates.Add(def);
+            }
+            if (candidates.Count == 0) return 0;
+
+            int magsGiven = 0;
+            int unitsGiven = 0;
+            int target = OutpostCeAmmoCompat.AutoAssignMagazines;
+            // Guard against pathological fit/stock thrashing.
+            for (int pass = 0; pass < target * candidates.Count && magsGiven < target; pass++)
+            {
+                ThingDef def = candidates[pass % candidates.Count];
+                int oneMag = OutpostCeAmmoCompat.ResolveOneMagazineRounds(props, def);
+                if (oneMag <= 0 || armory.GetStockCountOfDef(def) < oneMag)
+                {
+                    // Drop empty types so round-robin does not spin on them.
+                    if (candidates.Count > 1)
+                    {
+                        candidates.Remove(def);
+                        if (candidates.Count == 0) break;
+                    }
+                    else if (armory.GetStockCountOfDef(def) < oneMag)
+                        break;
+                    continue;
+                }
+
+                var row = new ThingDefCountClass(def, oneMag);
+                if (!TryGiveStockToPawn(outpost, pawn, row, oneMag, out _))
+                {
+                    // Inventory full or other refusal: stop for this pawn.
+                    break;
+                }
+                magsGiven++;
+                unitsGiven += oneMag;
+            }
+
+            return unitsGiven;
+        }
+
+        /// <summary>
+        /// After the magazine pass: randomly give remaining store ammo to pawns that can use it,
+        /// any amount that fits (not limited to full magazines).
+        /// </summary>
+        private static int DumpLeftoverAmmoRandomly(
+            WorldObject_WD_Outpost outpost,
+            CompOutpostArmory armory,
+            List<Pawn> occupants)
+        {
+            if (armory == null || occupants == null || occupants.Count == 0) return 0;
+
+            var contexts = new List<AmmoPawnContext>();
+            for (int i = 0; i < occupants.Count; i++)
+            {
+                Pawn pawn = occupants[i];
+                if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
+                if (!OutpostCeAmmoCompat.TryGetPrimaryAmmoUser(pawn, out _, out object props, out object ammoSet))
+                    continue;
+                List<ThingDef> defs = OutpostCeAmmoCompat.ListAmmoDefsFromSet(ammoSet);
+                if (defs.Count == 0) continue;
+                contexts.Add(new AmmoPawnContext(pawn, props, defs));
+            }
+            if (contexts.Count == 0) return 0;
+
+            int unitsGiven = 0;
+            // Cap iterations so a weird fit loop cannot hang the UI.
+            for (int guard = 0; guard < 400; guard++)
+            {
+                if (!TryPickLeftoverGive(armory, contexts, out Pawn pawn, out ThingDef ammoDef, out int give))
+                    break;
+
+                var row = new ThingDefCountClass(ammoDef, give);
+                if (!TryGiveStockToPawn(outpost, pawn, row, give, out _))
+                    break;
+                unitsGiven += give;
+            }
+            return unitsGiven;
+        }
+
+        private static bool TryPickLeftoverGive(
+            CompOutpostArmory armory,
+            List<AmmoPawnContext> contexts,
+            out Pawn pawn,
+            out ThingDef ammoDef,
+            out int give)
+        {
+            pawn = null;
+            ammoDef = null;
+            give = 0;
+
+            // Collect viable (context index, ammo def, fit) triples, then pick one at random.
+            var viable = new List<IntVec3>(); // x=context, y=ammo index in that context's list, z=fit
+            for (int i = 0; i < contexts.Count; i++)
+            {
+                AmmoPawnContext ctx = contexts[i];
+                for (int j = 0; j < ctx.AmmoDefs.Count; j++)
+                {
+                    ThingDef def = ctx.AmmoDefs[j];
+                    int stock = armory.GetStockCountOfDef(def);
+                    if (stock <= 0) continue;
+                    int fit = ClampAssignCount(ctx.Pawn, def, stock);
+                    if (fit <= 0) continue;
+                    viable.Add(new IntVec3(i, j, fit));
+                }
+            }
+            if (viable.Count == 0) return false;
+
+            IntVec3 pick = viable[Rand.Range(0, viable.Count)];
+            AmmoPawnContext chosen = contexts[pick.x];
+            pawn = chosen.Pawn;
+            ammoDef = chosen.AmmoDefs[pick.y];
+            give = pick.z;
+            return pawn != null && ammoDef != null && give > 0;
+        }
+
+        private readonly struct AmmoPawnContext
+        {
+            public readonly Pawn Pawn;
+            public readonly object Props;
+            public readonly List<ThingDef> AmmoDefs;
+
+            public AmmoPawnContext(Pawn pawn, object props, List<ThingDef> ammoDefs)
+            {
+                Pawn = pawn;
+                Props = props;
+                AmmoDefs = ammoDefs;
+            }
         }
     }
 }

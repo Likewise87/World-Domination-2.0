@@ -144,13 +144,19 @@ namespace TSA_WorldDomination
                 dest = PlanetSurfaceWorldActions.PlanetTileForWdTravel(traveler.attritionRestDestTile, traveler);
             if (!dest.Valid)
                 dest = traveler.pather.destTile;
-            if (!dest.Valid && traveler.targetObject != null)
-                dest = traveler.targetObject.Tile;
+            if (!dest.Valid && traveler.targetObject != null && !traveler.targetObject.Destroyed)
+                dest = PlanetSurfaceWorldActions.PlanetTileForWdTravel(traveler.targetObject.Tile, traveler);
             traveler.attritionRestDestTile = -1;
             if (!dest.Valid) return;
+            if (traveler.pather.moving && traveler.pather.destTile == dest)
+                return;
             traveler.pather.StartPath(dest, skipLaunchTravelCache: true);
         }
 
+        /// <summary>
+        /// Mortar/AT/AA shell hits, open-field clashes, and similar hostile strength damage.
+        /// Cancels attrition rest immediately and starts the fire-grace cooldown so they do not sit back down.
+        /// </summary>
         public static void NotifyHostileFire(WorldObject_Traveler traveler)
         {
             if (traveler == null || traveler.Destroyed) return;
@@ -163,6 +169,13 @@ namespace TSA_WorldDomination
         {
             if (traveler == null || !traveler.attritionResting || seth == null) return;
             if (!traveler.IsHashIntervalTick(180, delta)) return;
+
+            // Under an enemy AT that can engage: leave rest (same outcome as a shell hit).
+            if (HostileAtCanEngage(traveler))
+            {
+                NotifyHostileFire(traveler);
+                return;
+            }
 
             float target = RestResumeStrength(traveler, seth);
             float regen = traveler.initialStrength * Mathf.Max(0f, seth.attritionRestRegenPerHour) * (180f / 2500f);

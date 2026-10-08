@@ -417,6 +417,52 @@ namespace TSA_WorldDomination
             return string.Compare(da, db, StringComparison.OrdinalIgnoreCase);
         }
 
+        public static void FormatIdeology(Pawn pawn, out string display, out string tip)
+        {
+            display = "-";
+            tip = "";
+            if (!ModsConfig.IdeologyActive || pawn?.ideo?.Ideo == null) return;
+            string name = pawn.ideo.Ideo.name;
+            if (name.NullOrEmpty()) return;
+            display = name;
+            tip = name;
+        }
+
+        public static int CompareIdeology(Pawn a, Pawn b)
+        {
+            FormatIdeology(a, out string da, out _);
+            FormatIdeology(b, out string db, out _);
+            return string.Compare(da, db, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static bool MatchesIdeology(Pawn pawn, string filter)
+        {
+            if (filter.NullOrEmpty()) return true;
+            string key = PawnRosterHeaderFilter.IdeoKey(pawn);
+            if (filter == PawnRosterHeaderFilter.IdeoFilterNone)
+                return key.Length == 0;
+            return key == filter;
+        }
+
+        public static void ApplyIdeologyToPlayerRows(List<PlayerPawnRosterEntry> rows, string filter)
+        {
+            if (rows == null || filter.NullOrEmpty()) return;
+            rows.RemoveAll(e => !MatchesIdeology(e?.pawn, filter));
+        }
+
+        public static void ApplyIdeologyToPrisonerRows(List<PrisonerRosterEntry> rows, string filter)
+        {
+            if (rows == null || filter.NullOrEmpty()) return;
+            rows.RemoveAll(e => !e.isGroupHeader && !MatchesIdeology(e.pawn, filter));
+            for (int i = rows.Count - 1; i >= 0; i--)
+            {
+                if (!rows[i].isGroupHeader) continue;
+                bool hasBody = i + 1 < rows.Count && !rows[i + 1].isGroupHeader;
+                if (!hasBody)
+                    rows.RemoveAt(i);
+            }
+        }
+
         /// <summary>Traits header: sort on the label, filter icon glued to the title. Returns true if the filter button was clicked.</summary>
         public static bool DrawTraitsHeader(
             ref float curX,

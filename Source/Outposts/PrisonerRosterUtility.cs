@@ -520,6 +520,8 @@ namespace TSA_WorldDomination
                 return PawnRosterTraitFilter.CompareXenotype(a.pawn, b.pawn);
             if (col == "Psycasts")
                 return PawnRosterTraitFilter.ComparePsycasts(a.pawn, b.pawn);
+            if (col == "Ideology")
+                return PawnRosterTraitFilter.CompareIdeology(a.pawn, b.pawn);
             if (col == "Destination")
                 return string.Compare(a.scheduledDestLabel, b.scheduledDestLabel, StringComparison.OrdinalIgnoreCase);
             if (col == "Age")
@@ -593,6 +595,48 @@ namespace TSA_WorldDomination
                     failed++;
             }
             return assigned;
+        }
+
+        /// <summary>
+        /// Soft assign for a newly captured prisoner when the prisoners-window auto toggle is on.
+        /// Same destination rules as manual Smart Assign; silent on miss.
+        /// </summary>
+        public static bool TryAutoSmartAssignNewCapture(Pawn pawn, WorldObject_WD_Outpost holdingOutpost = null)
+        {
+            var schedule = WorldComponent_PrisonerRecruitSchedule.Get();
+            if (schedule == null || !schedule.autoSmartAssignNewPrisoners) return false;
+            if (pawn == null || pawn.Destroyed || pawn.Dead) return false;
+            if (pawn.RaceProps?.Humanlike != true) return false;
+
+            Dictionary<SkillDef, List<WorldObject_WD_Outpost>> bySkill =
+                SmartAssignOutpostUtility.BuildOutpostsByRelevantSkill();
+            if (bySkill.Count == 0) return false;
+
+            var entry = new PrisonerRosterEntry
+            {
+                pawn = pawn,
+                thingId = pawn.ThingID ?? ""
+            };
+            if (holdingOutpost != null && !holdingOutpost.Destroyed)
+            {
+                entry.holdingOutpost = holdingOutpost;
+                entry.isOutpostPrisoner = true;
+            }
+            else
+            {
+                entry.mapParent = pawn.Map?.Parent as MapParent;
+                if (entry.mapParent == null
+                    || entry.mapParent.Destroyed
+                    || entry.mapParent.Faction?.IsPlayer != true
+                    || entry.mapParent is WorldObject_WD_Outpost)
+                    return false;
+                entry.isOutpostPrisoner = false;
+            }
+
+            bool ok = TrySmartAssignOne(entry, bySkill, schedule);
+            if (ok)
+                Window_Prisoners.InvalidateCache();
+            return ok;
         }
 
         private static bool TrySmartAssignOne(

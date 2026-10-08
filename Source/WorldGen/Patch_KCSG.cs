@@ -17,6 +17,28 @@ namespace TSA_WorldDomination
     {
         static KCSG_Integration_Init()
         {
+            // Hard typerefs on patch method signatures used to TypeLoadException the whole
+            // type initializer when KCSG.dll failed to resolve — gate + soft Def signatures below.
+            Type structureLayoutDefType = AccessTools.TypeByName("KCSG.StructureLayoutDef");
+            Type customGenType = AccessTools.TypeByName("KCSG.CustomGenOption");
+            if (structureLayoutDefType == null || customGenType == null)
+            {
+                Log.Warning("[TSA WD] KCSG not available (StructureLayoutDef/CustomGenOption missing); skipping KCSG integration.");
+                return;
+            }
+
+            try
+            {
+                ApplyPatches(structureLayoutDefType, customGenType);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"[TSA WD] KCSG integration init failed: {ex}");
+            }
+        }
+
+        private static void ApplyPatches(Type structureLayoutDefType, Type customGenType)
+        {
             var harmony = new Harmony("TSA.WorldDomination.KCSG_Final_Solution");
 
             var genDefMethod = AccessTools.PropertyGetter(typeof(Settlement), "MapGeneratorDef");
@@ -25,16 +47,12 @@ namespace TSA_WorldDomination
                 harmony.Patch(genDefMethod, postfix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.ForceKCSGGeneratorPostfix)));
             }
 
-            Type customGenType = AccessTools.TypeByName("KCSG.CustomGenOption");
-            if (customGenType != null)
+            var targetMethod = AccessTools.Method(customGenType, "Generate", new[] { typeof(IntVec3), typeof(Map) });
+            if (targetMethod != null)
             {
-                var targetMethod = AccessTools.Method(customGenType, "Generate", new[] { typeof(IntVec3), typeof(Map) });
-                if (targetMethod != null)
-                {
-                    harmony.Patch(targetMethod, prefix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.LayoutOverridePrefix)));
-                    harmony.Patch(targetMethod, postfix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.CustomGenOptionGeneratePostfix)));
-                    harmony.Patch(targetMethod, finalizer: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.LayoutOverrideFinalizer)));
-                }
+                harmony.Patch(targetMethod, prefix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.LayoutOverridePrefix)));
+                harmony.Patch(targetMethod, postfix: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.CustomGenOptionGeneratePostfix)));
+                harmony.Patch(targetMethod, finalizer: new HarmonyMethod(typeof(KCSG_Integration_Patch), nameof(KCSG_Integration_Patch.LayoutOverrideFinalizer)));
             }
 
             var pawnGroupMethod = AccessTools.Method(typeof(PawnGroupMakerUtility), nameof(PawnGroupMakerUtility.GeneratePawns),
@@ -57,7 +75,7 @@ namespace TSA_WorldDomination
                 MethodInfo symbolGenerate = AccessTools.Method(symbolUtils, "Generate", new[]
                 {
                     AccessTools.TypeByName("KCSG.SymbolDef"),
-                    AccessTools.TypeByName("KCSG.StructureLayoutDef"),
+                    structureLayoutDefType,
                     typeof(Map),
                     typeof(IntVec3),
                     typeof(Faction),
@@ -79,7 +97,7 @@ namespace TSA_WorldDomination
                     typeof(Map),
                     typeof(IntVec3),
                     AccessTools.TypeByName("KCSG.SymbolDef"),
-                    AccessTools.TypeByName("KCSG.StructureLayoutDef"),
+                    structureLayoutDefType,
                     typeof(Faction),
                     typeof(ICollection<Thing>),
                     typeof(ThingDef)
@@ -120,12 +138,11 @@ namespace TSA_WorldDomination
             }
 
             Type layoutUtils = AccessTools.TypeByName("KCSG.LayoutUtils");
-            Type structureLayoutDef = AccessTools.TypeByName("KCSG.StructureLayoutDef");
-            if (layoutUtils != null && structureLayoutDef != null)
+            if (layoutUtils != null)
             {
                 MethodInfo layoutGenerate = AccessTools.Method(layoutUtils, "Generate", new[]
                 {
-                    structureLayoutDef,
+                    structureLayoutDefType,
                     typeof(CellRect),
                     typeof(Map),
                     typeof(ICollection<Thing>),
@@ -375,14 +392,24 @@ namespace TSA_WorldDomination
             }
         }
 
-        public static void LayoutUtilsGeneratePrefix(KCSG.StructureLayoutDef layout)
+        /// <summary>
+        /// Use <see cref="Def"/> (not KCSG.StructureLayoutDef) so Harmony can resolve this patch
+        /// even when the KCSG assembly typeref fails — avoids TypeLoadException on the whole class.
+        /// </summary>
+        public static void LayoutUtilsGeneratePrefix(Def layout)
         {
-            KcsgRockTypeRemapper.BeginLayout(layout?.defName, layout?.tags);
+            IEnumerable<string> tags = null;
+            if (layout != null)
+            {
+                FieldInfo tagsField = AccessTools.Field(layout.GetType(), "tags");
+                tags = tagsField?.GetValue(layout) as IEnumerable<string>;
+            }
+            KcsgRockTypeRemapper.BeginLayout(layout?.defName, tags);
             KcsgRockTypeRemapper.RerollCropForLayout();
             KcsgRockTypeRemapper.RerollOresForLayout();
         }
 
-        public static void LayoutUtilsGeneratePostfix(KCSG.StructureLayoutDef layout, CellRect rect, Map map)
+        public static void LayoutUtilsGeneratePostfix(Def layout, CellRect rect, Map map)
         {
             WdLayoutSpawnCellTracker.RecordGenerateRect(map, rect);
             KcsgRockTypeRemapper.EnsureBuildableFloorsUnderLayout(map, rect);
