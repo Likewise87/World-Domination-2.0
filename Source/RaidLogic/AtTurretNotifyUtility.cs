@@ -159,7 +159,10 @@ namespace TSA_WorldDomination
             manager.AddLog(entry);
         }
 
-        /// <summary>NPC AT or settlement mortar shell hit a player caravan (pawn kill/wound resolution already applied).</summary>
+        /// <summary>
+        /// NPC AT or settlement mortar shell hit a player caravan (pawn kill/wound already applied).
+        /// Combat is shared; notify toggles and letter labels split by origin type.
+        /// </summary>
         public static void NotifyNpcHitPlayerCaravan(
             WorldComponent_SpreadManager manager,
             WorldObject origin,
@@ -172,6 +175,11 @@ namespace TSA_WorldDomination
             manager ??= Find.World?.GetComponent<WorldComponent_SpreadManager>();
             var seth = WorldDominationMod.settings;
 
+            bool fromMortar = origin is Settlement;
+            string originLabel = origin.LabelCap;
+            // Caravan.LabelCap is arbitrary; faction name is what players recognize.
+            string caravanLabel = FormatTargetLabel(caravan);
+
             // Capture before Destroy(); wiped letters must jump to the death tile, not the gun.
             PlanetTile siteTile = caravan.Tile;
             LookTargets look;
@@ -182,11 +190,18 @@ namespace TSA_WorldDomination
             else
                 look = LookFor(caravan, origin);
 
-            // Deaths on a ground caravan use a dedicated ThreatBig letter (not AA drop-pod copy).
+            // Named deaths: always ThreatBig (high value); label says who / what / where / outcome.
             if (lookPawns != null && lookPawns.Count > 0)
             {
+                TaggedString killLabel = fromMortar
+                    ? (wiped
+                        ? "TSA_WD_Mortar_NpcCaravanPawnsWiped_Label".Translate(originLabel, caravanLabel)
+                        : "TSA_WD_Mortar_NpcCaravanPawnsKilled_Label".Translate(originLabel, caravanLabel))
+                    : (wiped
+                        ? "TSA_WD_AT_Turret_NpcCaravanPawnsWiped_Label".Translate(originLabel, caravanLabel)
+                        : "TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label".Translate(originLabel, caravanLabel));
                 Find.LetterStack.ReceiveLetter(
-                    "TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label".Translate(),
+                    killLabel,
                     bodyText,
                     LetterDefOf.ThreatBig,
                     wiped ? LookAtTileOr(siteTile, origin) : look);
@@ -195,22 +210,27 @@ namespace TSA_WorldDomination
 
             if (wiped)
             {
-                if (seth == null || seth.notifyNpcAtTurretKilledPlayer)
-                {
-                    Find.LetterStack.ReceiveLetter(
-                        "TSA_WD_AT_Turret_NpcCaravanDestroyed_Label".Translate(),
-                        bodyText,
-                        LetterDefOf.NegativeEvent,
-                        look);
-                }
+                bool allowWipe = fromMortar
+                    ? (seth == null || seth.notifyNpcMortarHitPlayer)
+                    : (seth == null || seth.notifyNpcAtTurretKilledPlayer);
+                if (!allowWipe) return;
+
+                TaggedString wipeLabel = fromMortar
+                    ? "TSA_WD_Mortar_NpcCaravanDestroyed_Label".Translate()
+                    : "TSA_WD_AT_Turret_NpcCaravanDestroyed_Label".Translate();
+                Find.LetterStack.ReceiveLetter(wipeLabel, bodyText, LetterDefOf.NegativeEvent, look);
             }
-            else if (seth == null || seth.notifyNpcAtTurretDamagedPlayer)
+            else
             {
-                Find.LetterStack.ReceiveLetter(
-                    "TSA_WD_AT_Turret_NpcCaravanWounded_Label".Translate(),
-                    bodyText,
-                    LetterDefOf.NegativeEvent,
-                    look);
+                bool allowWound = fromMortar
+                    ? (seth == null || seth.notifyNpcMortarHitPlayer)
+                    : (seth == null || seth.notifyNpcAtTurretDamagedPlayer);
+                if (!allowWound) return;
+
+                TaggedString woundLabel = fromMortar
+                    ? "TSA_WD_Mortar_NpcCaravanWounded_Label".Translate()
+                    : "TSA_WD_AT_Turret_NpcCaravanWounded_Label".Translate();
+                Find.LetterStack.ReceiveLetter(woundLabel, bodyText, LetterDefOf.NegativeEvent, look);
             }
         }
 

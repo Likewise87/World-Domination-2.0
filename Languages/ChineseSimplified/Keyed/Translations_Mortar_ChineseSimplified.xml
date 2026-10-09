@@ -61,6 +61,10 @@
   <TSA_WD_Mortar_DestroyedYou_Text>来自 {0} 的迫击炮摧毁了 {1}。</TSA_WD_Mortar_DestroyedYou_Text>
   <TSA_WD_Mortar_Miss_Label>迫击炮脱靶</TSA_WD_Mortar_Miss_Label>
   <TSA_WD_Mortar_Miss_Text>来自 {0} 瞄准 {1} 的迫击炮炮弹偏离了目标。</TSA_WD_Mortar_Miss_Text>
+  <TSA_WD_Mortar_NpcCaravanDestroyed_Label>迫击炮摧毁了你的商队</TSA_WD_Mortar_NpcCaravanDestroyed_Label>
+  <TSA_WD_Mortar_NpcCaravanWounded_Label>迫击炮击中了你的商队</TSA_WD_Mortar_NpcCaravanWounded_Label>
+  <TSA_WD_Mortar_NpcCaravanPawnsKilled_Label>{0} 的迫击炮击中了 {1}</TSA_WD_Mortar_NpcCaravanPawnsKilled_Label>
+  <TSA_WD_Mortar_NpcCaravanPawnsWiped_Label>{0} 的迫击炮歼灭了 {1}</TSA_WD_Mortar_NpcCaravanPawnsWiped_Label>
 
   <TSA_WD_Log_MortarLaunched>{0} 向 {1} 发射了迫击炮(强度 {2})。</TSA_WD_Log_MortarLaunched>
 

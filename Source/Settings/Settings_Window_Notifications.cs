@@ -278,6 +278,11 @@ namespace TSA_WorldDomination
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_MortarHitTooltip".Translate(), WorldDominationSettings.DefNotifyMortarHit));
 
                 l.CheckboxLabeled(
+                    "TSA_WD_Notify_MortarMiss".Translate(),
+                    ref s.notifyMortarMiss,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_MortarMissTooltip".Translate(), WorldDominationSettings.DefNotifyMortarMiss));
+
+                l.CheckboxLabeled(
                     "TSA_WD_Notify_AntiAirHit".Translate(),
                     ref s.notifyAntiAirHit,
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_AntiAirHitTooltip".Translate(), WorldDominationSettings.DefNotifyAntiAirHit));

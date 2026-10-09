@@ -210,13 +210,14 @@
   <TSA_WD_AT_Turret_NpcDamagedYou_Label>AT 炮塔击伤了你的部队</TSA_WD_AT_Turret_NpcDamagedYou_Label>
   <TSA_WD_AT_Turret_NpcDamagedYou_Text>{0} 击中了你的 {1}（实力 {2} → {3}）。</TSA_WD_AT_Turret_NpcDamagedYou_Text>
   <TSA_WD_AT_Turret_NpcCaravanDestroyed_Label>AT 炮塔摧毁了你的商队</TSA_WD_AT_Turret_NpcCaravanDestroyed_Label>
-  <TSA_WD_AT_Turret_NpcCaravanDestroyed_Text>{0} 摧毁了你的商队 {1}。</TSA_WD_AT_Turret_NpcCaravanDestroyed_Text>
-  <TSA_WD_AT_Turret_NpcCaravanEmptyDestroyed_Text>{0} 摧毁了你的空商队 {1}。</TSA_WD_AT_Turret_NpcCaravanEmptyDestroyed_Text>
-  <TSA_WD_AT_Turret_NpcCaravanWiped_Text>{0} 歼灭了你的商队 {1}。以下人员阵亡：\n\n{2}</TSA_WD_AT_Turret_NpcCaravanWiped_Text>
+  <TSA_WD_AT_Turret_NpcCaravanDestroyed_Text>{0} 摧毁了你的 {1}。</TSA_WD_AT_Turret_NpcCaravanDestroyed_Text>
+  <TSA_WD_AT_Turret_NpcCaravanEmptyDestroyed_Text>{0} 摧毁了你空的 {1}。</TSA_WD_AT_Turret_NpcCaravanEmptyDestroyed_Text>
+  <TSA_WD_AT_Turret_NpcCaravanWiped_Text>{0} 歼灭了你的 {1}。以下人员阵亡：\n\n{2}</TSA_WD_AT_Turret_NpcCaravanWiped_Text>
   <TSA_WD_AT_Turret_NpcCaravanWounded_Label>AT 炮塔击中了你的商队</TSA_WD_AT_Turret_NpcCaravanWounded_Label>
-  <TSA_WD_AT_Turret_NpcCaravanWounded_Text>{0} 击中了你的商队 {1}（{2} 人死亡，{3} 人受伤）。</TSA_WD_AT_Turret_NpcCaravanWounded_Text>
-  <TSA_WD_AT_Turret_NpcCaravanWounded_WithNames_Text>{0} 击中了你的商队 {1}（{2} 人死亡，{3} 人受伤）。以下人员阵亡：\n\n{4}</TSA_WD_AT_Turret_NpcCaravanWounded_WithNames_Text>
-  <TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label>商队人员阵亡</TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label>
+  <TSA_WD_AT_Turret_NpcCaravanWounded_Text>{0} 击中了你的 {1}（{2} 人死亡，{3} 人受伤）。</TSA_WD_AT_Turret_NpcCaravanWounded_Text>
+  <TSA_WD_AT_Turret_NpcCaravanWounded_WithNames_Text>{0} 击中了你的 {1}（{2} 人死亡，{3} 人受伤）。以下人员阵亡：\n\n{4}</TSA_WD_AT_Turret_NpcCaravanWounded_WithNames_Text>
+  <TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label>{0} 击中了 {1}</TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label>
+  <TSA_WD_AT_Turret_NpcCaravanPawnsWiped_Label>{0} 歼灭了 {1}</TSA_WD_AT_Turret_NpcCaravanPawnsWiped_Label>
   <TSA_WD_AT_Turret_PlayerDestroyed_Label>AT 炮塔被毁</TSA_WD_AT_Turret_PlayerDestroyed_Label>
   <TSA_WD_AT_Turret_PlayerDestroyed_Text>你的 {0} 被摧毁了。</TSA_WD_AT_Turret_PlayerDestroyed_Text>
   <TSA_WD_AT_Turret_PlayerDestroyedBy_Text>你的 {0} 被 {1} 摧毁了。</TSA_WD_AT_Turret_PlayerDestroyedBy_Text>

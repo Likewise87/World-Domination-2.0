@@ -155,8 +155,10 @@
   <TSA_WD_Notify_RaidArrivalOutpostTooltip>Receive a high-priority letter when you open a manual outpost defense and the hostile expedition arrives on the encounter map.</TSA_WD_Notify_RaidArrivalOutpostTooltip>
   <TSA_WD_Notify_RaidDivertedFromPlayer>Notify when a raid diverts away from you</TSA_WD_Notify_RaidDivertedFromPlayer>
   <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>Receive a letter when a raid that was headed at your colony or an outpost spots a target of opportunity and diverts to attack it instead.</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
-  <TSA_WD_Notify_MortarHit>Notify when your mortar fires</TSA_WD_Notify_MortarHit>
-  <TSA_WD_Notify_MortarHitTooltip>Receive a silent blue letter when your artillery outpost destroys a target. Partial hits only go to the action log. Misses still send a letter when this is on.</TSA_WD_Notify_MortarHitTooltip>
+  <TSA_WD_Notify_MortarHit>Notify when your mortar destroys a target</TSA_WD_Notify_MortarHit>
+  <TSA_WD_Notify_MortarHitTooltip>Receive a silent blue letter when your artillery outpost destroys a target. Partial hits only go to the action log.</TSA_WD_Notify_MortarHitTooltip>
+  <TSA_WD_Notify_MortarMiss>Notify when your mortar misses</TSA_WD_Notify_MortarMiss>
+  <TSA_WD_Notify_MortarMissTooltip>Receive a silent blue letter when your artillery outpost misses. Off by default to reduce noise.</TSA_WD_Notify_MortarMissTooltip>
   <TSA_WD_Notify_AntiAirHit>Notify when your anti-air fires</TSA_WD_Notify_AntiAirHit>
   <TSA_WD_Notify_AntiAirHitTooltip>Receive a letter when your anti-air flak hits or misses a hostile airborne target. Hostile mortar shells use a separate setting below.</TSA_WD_Notify_AntiAirHitTooltip>
   <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>Notify when your anti-air shoots down hostile mortar shells</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>

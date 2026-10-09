@@ -141,8 +141,10 @@
   <TSA_WD_Notify_RaidArrivalOutpostTooltip>当你打开手动前哨防御且敌对远征军抵达遭遇地图时收到高优先级信件。</TSA_WD_Notify_RaidArrivalOutpostTooltip>
   <TSA_WD_Notify_RaidDivertedFromPlayer>当袭击转向偏离你时通知</TSA_WD_Notify_RaidDivertedFromPlayer>
   <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>当原本冲着你的殖民地或前哨站而来的袭击发现了一个机会目标并转而攻击它时收到信件。</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
-  <TSA_WD_Notify_MortarHit>你的迫击炮开火时通知</TSA_WD_Notify_MortarHit>
-  <TSA_WD_Notify_MortarHitTooltip>当你的火炮前哨摧毁目标时发送无声蓝色信件。未摧毁的命中只记入行动日志。开启时脱靶仍会发信。</TSA_WD_Notify_MortarHitTooltip>
+  <TSA_WD_Notify_MortarHit>你的迫击炮摧毁目标时通知</TSA_WD_Notify_MortarHit>
+  <TSA_WD_Notify_MortarHitTooltip>当你的火炮前哨摧毁目标时发送无声蓝色信件。未摧毁的命中只记入行动日志。</TSA_WD_Notify_MortarHitTooltip>
+  <TSA_WD_Notify_MortarMiss>你的迫击炮脱靶时通知</TSA_WD_Notify_MortarMiss>
+  <TSA_WD_Notify_MortarMissTooltip>当你的火炮前哨脱靶时发送无声蓝色信件。默认关闭以减少干扰。</TSA_WD_Notify_MortarMissTooltip>
   <TSA_WD_Notify_AntiAirHit>你的防空开火时通知</TSA_WD_Notify_AntiAirHit>
   <TSA_WD_Notify_AntiAirHitTooltip>当你的防空高射命中或未中敌对空中目标时发送信件。敌对迫击炮弹使用下方单独设置。</TSA_WD_Notify_AntiAirHitTooltip>
   <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>你的防空击落敌对迫击炮弹时通知</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>

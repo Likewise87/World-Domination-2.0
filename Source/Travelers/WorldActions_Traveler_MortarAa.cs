@@ -249,10 +249,12 @@ namespace TSA_WorldDomination
         /// </summary>
         private static bool ShouldShowMortarLetter(WorldDominationSettings seth, WorldObject origin, WorldObject target, bool isHit, out LetterDef letterDef)
         {
-            // 1. Your mortar outpost firing at a target.
+            // 1. Your mortar outpost: destroy and miss are separate toggles.
             if (IsPlayerFactionObject(origin))
             {
                 letterDef = LetterDefOf.NeutralEvent;
+                if (!isHit)
+                    return seth != null && seth.notifyMortarMiss;
                 return seth == null || seth.notifyMortarHit;
             }
             // 2. Enemy mortar firing at one of your WD assets.
@@ -281,7 +283,8 @@ namespace TSA_WorldDomination
             comp.offensiveStrength = off;
             comp.defensiveStrength = def;
             comp.ClampDefensiveStrengthToStructuralMax();
-            comp.CheckTierUpdate(allowDemotion: true);
+            // Mortar chips strength only — never demote tier. Wipe only when total strength hits 0.
+            comp.CheckTierUpdate(allowDemotion: false);
 
             bool allowWipeFromMortar = !comp.IsPlayerMapSettlement && settlement.Faction != null && !settlement.Faction.IsPlayer;
             bool wiped = allowWipeFromMortar && comp.offensiveStrength + comp.defensiveStrength <= 0f;
@@ -395,7 +398,8 @@ namespace TSA_WorldDomination
             if (caravan == null || caravan.Destroyed || origin == null) return;
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             string originLabel = origin.LabelCap;
-            string caravanLabel = caravan.LabelCap;
+            // Prefer faction over arbitrary caravan name (FormatTargetLabel → "{faction} caravan").
+            string caravanLabel = AtTurretNotifyUtility.FormatTargetLabel(caravan);
 
             List<Pawn> pawns = new List<Pawn>();
             CollectCaravanPawns(caravan, pawns);
@@ -780,6 +784,9 @@ namespace TSA_WorldDomination
                     missText = "TSA_WD_AntiAir_Miss_Text".Translate(originLabel, targetLabel);
                     missLabel = "TSA_WD_AntiAir_Miss_Label".Translate();
                 }
+                // Player AA miss: Neutral (hits stay Positive via GetAntiAirLetterDef).
+                if (IsPlayerFactionObject(traveler.originObject))
+                    missLetter = LetterDefOf.NeutralEvent;
                 manager?.AddLog(new SpreadLogEntry(missText, traveler.originObject, impactTarget));
                 if (notify)
                 {
@@ -1282,12 +1289,13 @@ namespace TSA_WorldDomination
                     ? "TSA_WD_AntiAir_VanillaPods_Destroyed_Text".Translate(originLabel, pods.LabelCap)
                     : "TSA_WD_AntiAir_VanillaPods_Wiped_Text".Translate(originLabel, pods.LabelCap, namesBlock);
                 manager?.AddLog(new SpreadLogEntry(wipeText, origin, pods));
-                if (notify)
+                // Who-died ThreatBig already covers the player-facing letter.
+                if (notify && !hit.DeathLetterSent)
                 {
                     LookTargets look = hit.KilledPawns.Count > 0
                         ? new LookTargets(hit.KilledPawns)
                         : (origin != null ? new LookTargets(origin) : null);
-                    string wipeLabel = hit.DeathLetterSent || hit.KilledNames.Count == 0
+                    string wipeLabel = hit.KilledNames.Count == 0
                         ? "TSA_WD_AntiAir_VanillaPods_Destroyed_Label".Translate()
                         : "TSA_WD_AntiAir_VanillaPods_Wiped_Label".Translate();
                     Find.LetterStack.ReceiveLetter(wipeLabel, wipeText, destroyLetter, look);
@@ -1300,7 +1308,7 @@ namespace TSA_WorldDomination
                     originLabel, pods.LabelCap, hit.Killed, hit.Wounded, FormatKilledPawnNamesBlock(hit.KilledNames))
                 : "TSA_WD_AntiAir_VanillaPods_Wounded_Text".Translate(originLabel, pods.LabelCap, hit.Killed, hit.Wounded);
             manager?.AddLog(new SpreadLogEntry(woundText, origin, pods));
-            if (notify)
+            if (notify && !hit.DeathLetterSent)
             {
                 LookTargets look = hit.KilledPawns.Count > 0
                     ? new LookTargets(hit.KilledPawns)

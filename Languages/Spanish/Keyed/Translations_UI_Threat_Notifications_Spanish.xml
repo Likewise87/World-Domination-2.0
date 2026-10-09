@@ -141,8 +141,10 @@
   <TSA_WD_Notify_RaidArrivalOutpostTooltip>Recibir carta de alta prioridad cuando abras una defensa manual de avanzadilla y la expedición hostil llegue al mapa de encuentro.</TSA_WD_Notify_RaidArrivalOutpostTooltip>
   <TSA_WD_Notify_RaidDivertedFromPlayer>Notificar cuando una incursión se desvía de ti</TSA_WD_Notify_RaidDivertedFromPlayer>
   <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>Recibir una carta cuando una incursión que se dirigía a tu colonia o a una avanzadilla detecte un objetivo de oportunidad y se desvíe para atacarlo en su lugar.</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
-  <TSA_WD_Notify_MortarHit>Notificar cuando tu mortero dispara</TSA_WD_Notify_MortarHit>
-  <TSA_WD_Notify_MortarHitTooltip>Recibir una carta azul silenciosa cuando tu puesto de artillería destruye un objetivo. Los impactos parciales solo van al registro de acciones. Los fallos siguen enviando carta si está activo.</TSA_WD_Notify_MortarHitTooltip>
+  <TSA_WD_Notify_MortarHit>Notificar cuando tu mortero destruye un objetivo</TSA_WD_Notify_MortarHit>
+  <TSA_WD_Notify_MortarHitTooltip>Recibir una carta azul silenciosa cuando tu puesto de artillería destruye un objetivo. Los impactos parciales solo van al registro de acciones.</TSA_WD_Notify_MortarHitTooltip>
+  <TSA_WD_Notify_MortarMiss>Notificar cuando tu mortero falla</TSA_WD_Notify_MortarMiss>
+  <TSA_WD_Notify_MortarMissTooltip>Recibir una carta azul silenciosa cuando tu puesto de artillería falla. Desactivado por defecto para reducir ruido.</TSA_WD_Notify_MortarMissTooltip>
   <TSA_WD_Notify_AntiAirHit>Notificar cuando tu antiaéreo dispara</TSA_WD_Notify_AntiAirHit>
   <TSA_WD_Notify_AntiAirHitTooltip>Recibir una carta cuando tu flak antiaéreo acierta o falla un objetivo aéreo hostil. Los proyectiles de mortero hostiles usan el ajuste de abajo.</TSA_WD_Notify_AntiAirHitTooltip>
   <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>Notificar cuando tu antiaéreo derribe proyectiles de mortero hostiles</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>

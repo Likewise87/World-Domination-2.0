@@ -217,13 +217,14 @@
   <TSA_WD_AT_Turret_NpcDamagedYou_Label>AT Turret hit your force</TSA_WD_AT_Turret_NpcDamagedYou_Label>
   <TSA_WD_AT_Turret_NpcDamagedYou_Text>{0} hit your {1} ({2} → {3} strength).</TSA_WD_AT_Turret_NpcDamagedYou_Text>
   <TSA_WD_AT_Turret_NpcCaravanDestroyed_Label>AT Turret destroyed your caravan</TSA_WD_AT_Turret_NpcCaravanDestroyed_Label>
-  <TSA_WD_AT_Turret_NpcCaravanDestroyed_Text>{0} destroyed your caravan {1}.</TSA_WD_AT_Turret_NpcCaravanDestroyed_Text>
-  <TSA_WD_AT_Turret_NpcCaravanEmptyDestroyed_Text>{0} destroyed your empty caravan {1}.</TSA_WD_AT_Turret_NpcCaravanEmptyDestroyed_Text>
-  <TSA_WD_AT_Turret_NpcCaravanWiped_Text>{0} wiped out your caravan {1}. The following pawns died:\n\n{2}</TSA_WD_AT_Turret_NpcCaravanWiped_Text>
+  <TSA_WD_AT_Turret_NpcCaravanDestroyed_Text>{0} destroyed your {1}.</TSA_WD_AT_Turret_NpcCaravanDestroyed_Text>
+  <TSA_WD_AT_Turret_NpcCaravanEmptyDestroyed_Text>{0} destroyed your empty {1}.</TSA_WD_AT_Turret_NpcCaravanEmptyDestroyed_Text>
+  <TSA_WD_AT_Turret_NpcCaravanWiped_Text>{0} wiped out your {1}. The following pawns died:\n\n{2}</TSA_WD_AT_Turret_NpcCaravanWiped_Text>
   <TSA_WD_AT_Turret_NpcCaravanWounded_Label>AT Turret hit your caravan</TSA_WD_AT_Turret_NpcCaravanWounded_Label>
-  <TSA_WD_AT_Turret_NpcCaravanWounded_Text>{0} hit your caravan {1} ({2} killed, {3} wounded).</TSA_WD_AT_Turret_NpcCaravanWounded_Text>
-  <TSA_WD_AT_Turret_NpcCaravanWounded_WithNames_Text>{0} hit your caravan {1} ({2} killed, {3} wounded). The following pawns died:\n\n{4}</TSA_WD_AT_Turret_NpcCaravanWounded_WithNames_Text>
-  <TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label>Caravan pawns killed</TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label>
+  <TSA_WD_AT_Turret_NpcCaravanWounded_Text>{0} hit your {1} ({2} killed, {3} wounded).</TSA_WD_AT_Turret_NpcCaravanWounded_Text>
+  <TSA_WD_AT_Turret_NpcCaravanWounded_WithNames_Text>{0} hit your {1} ({2} killed, {3} wounded). The following pawns died:\n\n{4}</TSA_WD_AT_Turret_NpcCaravanWounded_WithNames_Text>
+  <TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label>{0} hit {1}</TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label>
+  <TSA_WD_AT_Turret_NpcCaravanPawnsWiped_Label>{0} wiped {1}</TSA_WD_AT_Turret_NpcCaravanPawnsWiped_Label>
   <TSA_WD_AT_Turret_PlayerDestroyed_Label>AT Turret destroyed</TSA_WD_AT_Turret_PlayerDestroyed_Label>
   <TSA_WD_AT_Turret_PlayerDestroyed_Text>Your {0} was destroyed.</TSA_WD_AT_Turret_PlayerDestroyed_Text>
   <TSA_WD_AT_Turret_PlayerDestroyedBy_Text>Your {0} was destroyed by {1}.</TSA_WD_AT_Turret_PlayerDestroyedBy_Text>

@@ -67,6 +67,10 @@ Cooldown is shortened by total garrison Shooting ({3}): each point is −2% dura
   <TSA_WD_Mortar_DestroyedYou_Text>Mortar from {0} destroyed {1}.</TSA_WD_Mortar_DestroyedYou_Text>
   <TSA_WD_Mortar_Miss_Label>Mortar strike: miss</TSA_WD_Mortar_Miss_Label>
   <TSA_WD_Mortar_Miss_Text>A mortar shell from {0} fired at {1} fell wide of its mark.</TSA_WD_Mortar_Miss_Text>
+  <TSA_WD_Mortar_NpcCaravanDestroyed_Label>Mortar destroyed your caravan</TSA_WD_Mortar_NpcCaravanDestroyed_Label>
+  <TSA_WD_Mortar_NpcCaravanWounded_Label>Mortar hit your caravan</TSA_WD_Mortar_NpcCaravanWounded_Label>
+  <TSA_WD_Mortar_NpcCaravanPawnsKilled_Label>{0} mortar hit {1}</TSA_WD_Mortar_NpcCaravanPawnsKilled_Label>
+  <TSA_WD_Mortar_NpcCaravanPawnsWiped_Label>{0} mortar wiped {1}</TSA_WD_Mortar_NpcCaravanPawnsWiped_Label>
 
   <!-- Log -->
   <TSA_WD_Log_MortarLaunched>{0} launched a mortar strike at {1} ({2} strength).</TSA_WD_Log_MortarLaunched>

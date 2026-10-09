@@ -1108,8 +1108,10 @@ namespace TSA_WorldDomination
         public const bool DefNotifyRaidArrivalOutpost = true;
         /// <summary>Feature A: letter when a raid's original player-owned target is successfully diverted onto a different, non-player target-of-opportunity candidate.</summary>
         public const bool DefNotifyRaidDivertedFromPlayer = true;
-        /// <summary>Letter (neutral) when YOUR mortar outpost fires at a target. On by default.</summary>
+        /// <summary>Silent blue letter when YOUR mortar outpost destroys a target. On by default. Misses use <see cref="DefNotifyMortarMiss"/>.</summary>
         public const bool DefNotifyMortarHit = true;
+        /// <summary>Silent blue letter when YOUR mortar misses. Off by default.</summary>
+        public const bool DefNotifyMortarMiss = false;
         public const bool DefNotifyAntiAirHit = true;
         /// <summary>Letter when YOUR AA destroys/misses a hostile mortar shell. Off by default to avoid spam.</summary>
         public const bool DefNotifyPlayerAntiAirVsHostileMortarShell = false;
@@ -2091,6 +2093,7 @@ namespace TSA_WorldDomination
         public bool notifyRaidArrivalOutpost = DefNotifyRaidArrivalOutpost;
         public bool notifyRaidDivertedFromPlayer = DefNotifyRaidDivertedFromPlayer;
         public bool notifyMortarHit = DefNotifyMortarHit;
+        public bool notifyMortarMiss = DefNotifyMortarMiss;
         public bool notifyAntiAirHit = DefNotifyAntiAirHit;
         public bool notifyPlayerAntiAirVsHostileMortarShell = DefNotifyPlayerAntiAirVsHostileMortarShell;
         public bool notifyNpcMortarHitPlayer = DefNotifyNpcMortarHitPlayer;
@@ -3242,6 +3245,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref notifyRaidArrivalOutpost, "notifyRaidArrivalOutpost", DefNotifyRaidArrivalOutpost);
             Scribe_Values.Look(ref notifyRaidDivertedFromPlayer, "notifyRaidDivertedFromPlayer", DefNotifyRaidDivertedFromPlayer);
             Scribe_Values.Look(ref notifyMortarHit, "notifyMortarHit", DefNotifyMortarHit);
+            Scribe_Values.Look(ref notifyMortarMiss, "notifyMortarMiss", DefNotifyMortarMiss);
             Scribe_Values.Look(ref notifyAntiAirHit, "notifyAntiAirHit", DefNotifyAntiAirHit);
             Scribe_Values.Look(ref notifyPlayerAntiAirVsHostileMortarShell, "notifyPlayerAntiAirVsHostileMortarShell", DefNotifyPlayerAntiAirVsHostileMortarShell);
             Scribe_Values.Look(ref notifyNpcMortarHitPlayer, "notifyNpcMortarHitPlayer", DefNotifyNpcMortarHitPlayer);
@@ -5353,6 +5357,7 @@ namespace TSA_WorldDomination
             notifyRaidArrivalOutpost = DefNotifyRaidArrivalOutpost;
             notifyRaidDivertedFromPlayer = DefNotifyRaidDivertedFromPlayer;
             notifyMortarHit = DefNotifyMortarHit;
+            notifyMortarMiss = DefNotifyMortarMiss;
             notifyAntiAirHit = DefNotifyAntiAirHit;
             notifyPlayerAntiAirVsHostileMortarShell = DefNotifyPlayerAntiAirVsHostileMortarShell;
             notifyT4AntiAirHitPlayer = DefNotifyT4AntiAirHitPlayer;

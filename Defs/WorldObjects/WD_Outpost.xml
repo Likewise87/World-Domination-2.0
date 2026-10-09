@@ -645,8 +645,8 @@
     <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction" MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Outpost_DrugLab</defName>
         <label>Advanced Drug Lab Outpost</label>
-        <texture>AllBamba/UI/WorldObjects/SO_Drug</texture>
-        <expandingIconTexture>AllBamba/UI/WorldObjects/SO_Drug</expandingIconTexture>
+        <texture>WorldObjects/SO_Drug</texture>
+        <expandingIconTexture>WorldObjects/SO_Drug</expandingIconTexture>
         <modExtensions>
             <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
                 <outpostTier>3</outpostTier>
@@ -718,8 +718,8 @@
     <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction" MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Outpost_Fabrication</defName>
         <label>Advanced Fabrication Outpost</label>
-        <texture>AllBamba/UI/WorldObjects/BOR_Factory</texture>
-        <expandingIconTexture>AllBamba/UI/WorldObjects/BOR_Factory</expandingIconTexture>
+        <texture>WorldObjects/BOR_Factory</texture>
+        <expandingIconTexture>WorldObjects/BOR_Factory</expandingIconTexture>
         <modExtensions>
             <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
                 <outpostTier>3</outpostTier>
