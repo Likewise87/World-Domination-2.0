@@ -116,26 +116,26 @@ Cooldown is shortened by total garrison Shooting ({3}): each point is −2% dura
   <TSA_WD_Settings_ResetMortarInterception>Reset artillery / interception tuning</TSA_WD_Settings_ResetMortarInterception>
 
   <!-- Enemy T4 settlement turrets window (mortar + AA; decoupled from player values) -->
-  <TSA_WD_T4Mortar_Header>Enemy T4 settlement turrets</TSA_WD_T4Mortar_Header>
-  <TSA_WD_T4Mortar_EnableAll>Enemy T4 settlements fire mortars</TSA_WD_T4Mortar_EnableAll>
-  <TSA_WD_T4Mortar_EnableAllTooltip>Master toggle. When on, tier-4 enemy settlements act as defensive mortar interceptors: they fire at hostile NON-player WD travelers in range, and when none are in range they shell the nearest hostile settlement. Whether they may also target YOU is the separate option below.</TSA_WD_T4Mortar_EnableAllTooltip>
-  <TSA_WD_T4Mortar_MinTech>T4 turrets: min tech level</TSA_WD_T4Mortar_MinTech>
-  <TSA_WD_T4Mortar_MinTechTip>Only factions at this tech level or higher may use T4 settlement mortars and anti-air. Neolithic allows essentially all factions.</TSA_WD_T4Mortar_MinTechTip>
+  <TSA_WD_T4Mortar_Header>Enemy artillery turrets</TSA_WD_T4Mortar_Header>
+  <TSA_WD_T4Mortar_EnableAll>Enemy Mortar Turrets fire</TSA_WD_T4Mortar_EnableAll>
+  <TSA_WD_T4Mortar_EnableAllTooltip>Master toggle. NPC settlements build Mortar Turrets as advanced building projects (tier 3 on a 30% roll, one free turret on reaching tier 4). When on, these turrets fire at hostile NON-player WD travelers in range, and when none are in range they shell hostile targets nearby. Settlements themselves never fire. Whether turrets may also target YOU is set under Threat timing.</TSA_WD_T4Mortar_EnableAllTooltip>
+  <TSA_WD_T4Mortar_MinTech>Artillery turrets: min tech level</TSA_WD_T4Mortar_MinTech>
+  <TSA_WD_T4Mortar_MinTechTip>Only factions at this tech level or higher may build and fire Mortar and AA Turrets. Neolithic allows essentially all factions.</TSA_WD_T4Mortar_MinTechTip>
   <TSA_WD_T4Mortar_TargetPlayer>May target your WD travelers and outposts</TSA_WD_T4Mortar_TargetPlayer>
-  <TSA_WD_T4Mortar_TargetPlayerTooltip>When on, enemy T4 mortars may also fire at your WD caravans and outposts, but only while Late Game is active. With this off, they never target you in Late Game. Mid Game has its own toggle; turning Mid Game on forces this Late Game toggle on.</TSA_WD_T4Mortar_TargetPlayerTooltip>
-  <TSA_WD_T4Mortar_Range>T4 mortar range (tiles)</TSA_WD_T4Mortar_Range>
-  <TSA_WD_T4Mortar_RangeTooltip>Maximum world distance (tiles) an enemy T4 settlement mortar can reach. Independent of the player artillery range.</TSA_WD_T4Mortar_RangeTooltip>
-  <TSA_WD_T4Mortar_Cooldown>T4 mortar cooldown (days)</TSA_WD_T4Mortar_Cooldown>
-  <TSA_WD_T4Mortar_CooldownTooltip>Days between shots for an enemy T4 settlement mortar. Independent of the player artillery cooldown.</TSA_WD_T4Mortar_CooldownTooltip>
+  <TSA_WD_T4Mortar_TargetPlayerTooltip>When on, enemy Mortar Turrets may also fire at your WD caravans and outposts, but only while Late Game is active. With this off, they never target you in Late Game. Mid Game has its own toggle; turning Mid Game on forces this Late Game toggle on.</TSA_WD_T4Mortar_TargetPlayerTooltip>
+  <TSA_WD_T4Mortar_Range>Mortar Turret range (tiles)</TSA_WD_T4Mortar_Range>
+  <TSA_WD_T4Mortar_RangeTooltip>Maximum world distance (tiles) an enemy Mortar Turret can reach. Independent of the player artillery range.</TSA_WD_T4Mortar_RangeTooltip>
+  <TSA_WD_T4Mortar_Cooldown>Mortar Turret cooldown (days)</TSA_WD_T4Mortar_Cooldown>
+  <TSA_WD_T4Mortar_CooldownTooltip>Days between shots for an enemy Mortar Turret. Independent of the player artillery cooldown.</TSA_WD_T4Mortar_CooldownTooltip>
   <TSA_WD_T4Mortar_HitBand0To50>Hit chance at 0–50% of max range</TSA_WD_T4Mortar_HitBand0To50>
-  <TSA_WD_T4Mortar_HitBand0To50Tooltip>Base hit chance for T4 mortar shots at 0–50% of max range, before the equivalent shooting-skill bonus.</TSA_WD_T4Mortar_HitBand0To50Tooltip>
+  <TSA_WD_T4Mortar_HitBand0To50Tooltip>Base hit chance for Mortar Turret shots at 0–50% of max range, before the equivalent shooting-skill bonus.</TSA_WD_T4Mortar_HitBand0To50Tooltip>
   <TSA_WD_T4Mortar_HitBand51To75>Hit chance at 51–75% of max range</TSA_WD_T4Mortar_HitBand51To75>
-  <TSA_WD_T4Mortar_HitBand51To75Tooltip>Base hit chance for T4 mortar shots at 51–75% of max range.</TSA_WD_T4Mortar_HitBand51To75Tooltip>
+  <TSA_WD_T4Mortar_HitBand51To75Tooltip>Base hit chance for Mortar Turret shots at 51–75% of max range.</TSA_WD_T4Mortar_HitBand51To75Tooltip>
   <TSA_WD_T4Mortar_HitBand76To100>Hit chance at 76–100% of max range</TSA_WD_T4Mortar_HitBand76To100>
-  <TSA_WD_T4Mortar_HitBand76To100Tooltip>Base hit chance for T4 mortar shots at 76–100% of max range.</TSA_WD_T4Mortar_HitBand76To100Tooltip>
-  <TSA_WD_T4Mortar_ScanSharedNote>Player artillery and Rapid Response outposts use it as-is. Enemy T4 settlements use three times this interval to save performance.</TSA_WD_T4Mortar_ScanSharedNote>
-  <TSA_WD_T4Mortar_DisabledHint>Enemy T4 settlement mortars are disabled.</TSA_WD_T4Mortar_DisabledHint>
-  <TSA_WD_T4Mortar_Reset>Reset enemy T4 turret settings</TSA_WD_T4Mortar_Reset>
+  <TSA_WD_T4Mortar_HitBand76To100Tooltip>Base hit chance for Mortar Turret shots at 76–100% of max range.</TSA_WD_T4Mortar_HitBand76To100Tooltip>
+  <TSA_WD_T4Mortar_ScanSharedNote>Player artillery and Rapid Response outposts use it as-is. Enemy artillery turrets use three times this interval to save performance.</TSA_WD_T4Mortar_ScanSharedNote>
+  <TSA_WD_T4Mortar_DisabledHint>Enemy Mortar Turrets are disabled.</TSA_WD_T4Mortar_DisabledHint>
+  <TSA_WD_T4Mortar_Reset>Reset enemy artillery turret settings</TSA_WD_T4Mortar_Reset>
   <TSA_WD_Food_Header>Food logistics</TSA_WD_Food_Header>
 
   <!-- Mortar inspect tab (world object) -->
@@ -301,26 +301,26 @@ Cooldown is shortened by total garrison Shooting ({3}): each point is −2% dura
   <TSA_WD_T4_AutoAA_On>Auto AA On</TSA_WD_T4_AutoAA_On>
   <TSA_WD_T4_AutoAA_Off>Auto AA Off</TSA_WD_T4_AutoAA_Off>
   <TSA_WD_T4_AutoAA_Desc>When on, this T4 settlement auto-engages hostile airborne targets in AA range.</TSA_WD_T4_AutoAA_Desc>
-  <TSA_WD_T4AA_EnableAll>Enemy T4 settlements fire anti-air</TSA_WD_T4AA_EnableAll>
-  <TSA_WD_T4AA_EnableAllTooltip>Master toggle for T4 settlement anti-air against hostile airborne targets.</TSA_WD_T4AA_EnableAllTooltip>
+  <TSA_WD_T4AA_EnableAll>Enemy AA Turrets fire</TSA_WD_T4AA_EnableAll>
+  <TSA_WD_T4AA_EnableAllTooltip>Master toggle for NPC AA Turrets against hostile airborne targets. Settlements build AA Turrets as advanced building projects; settlements themselves never fire.</TSA_WD_T4AA_EnableAllTooltip>
   <TSA_WD_T4AA_TargetPlayer>AA may target your airborne assets</TSA_WD_T4AA_TargetPlayer>
-  <TSA_WD_T4AA_TargetPlayerTooltip>When on, T4 AA may engage your drop pods and shells while Late Game is active. Mid Game has its own toggle; turning Mid Game on forces this Late Game toggle on.</TSA_WD_T4AA_TargetPlayerTooltip>
-  <TSA_WD_T4AA_Range>T4 AA range (tiles)</TSA_WD_T4AA_Range>
-  <TSA_WD_T4AA_RangeTooltip>Maximum AA engagement range for enemy T4 settlements.</TSA_WD_T4AA_RangeTooltip>
-  <TSA_WD_T4AA_Cooldown>T4 AA cooldown (seconds)</TSA_WD_T4AA_Cooldown>
-  <TSA_WD_T4AA_CooldownTooltip>Seconds between T4 AA engagements.</TSA_WD_T4AA_CooldownTooltip>
-  <TSA_WD_T4AA_Damage>T4 AA damage</TSA_WD_T4AA_Damage>
-  <TSA_WD_T4AA_DamageTooltip>Flak resolver damage for T4 settlement anti-air.</TSA_WD_T4AA_DamageTooltip>
-  <TSA_WD_T4AA_Skill>T4 AA skill equivalent</TSA_WD_T4AA_Skill>
-  <TSA_WD_T4AA_SkillTooltip>Equivalent Shooting skill used for T4 Anti-Air hit bands vs drop pods, transport pods, and aerials (+1 percentage point per level). Does not affect the flat Anti-Air chance vs mortar shells.</TSA_WD_T4AA_SkillTooltip>
-  <TSA_WD_T4AA_HitBand0To50>T4 Anti-Air hit chance at 0–50% of max range</TSA_WD_T4AA_HitBand0To50>
-  <TSA_WD_T4AA_HitBand0To50Tooltip>Base T4 Anti-Air hit vs pods and aerials at 0-50% of Anti-Air max range. Skill equivalent adds +1 percentage point per level. Does not apply to mortar shells.</TSA_WD_T4AA_HitBand0To50Tooltip>
-  <TSA_WD_T4AA_HitBand51To75>T4 Anti-Air hit chance at 51–75% of max range</TSA_WD_T4AA_HitBand51To75>
-  <TSA_WD_T4AA_HitBand51To75Tooltip>Base T4 Anti-Air hit vs pods and aerials at 51-75% of Anti-Air max range. Mortar shells use the flat T4 Anti-Air vs shells chance instead.</TSA_WD_T4AA_HitBand51To75Tooltip>
-  <TSA_WD_T4AA_HitBand76To100>T4 Anti-Air hit chance at 76–100% of max range</TSA_WD_T4AA_HitBand76To100>
-  <TSA_WD_T4AA_HitBand76To100Tooltip>Base T4 Anti-Air hit vs pods and aerials at 76–100% of Anti-Air max range. Mortar shells use the flat T4 Anti-Air vs shells chance instead.</TSA_WD_T4AA_HitBand76To100Tooltip>
-  <TSA_WD_T4AA_VsMortar>T4 Anti-Air hit chance vs mortar shells</TSA_WD_T4AA_VsMortar>
-  <TSA_WD_T4AA_VsMortarTooltip>Flat chance for T4 Anti-Air to destroy a hostile mortar shell. Ignores Anti-Air range bands and skill equivalent.</TSA_WD_T4AA_VsMortarTooltip>
+  <TSA_WD_T4AA_TargetPlayerTooltip>When on, enemy AA Turrets may engage your drop pods and shells while Late Game is active. Mid Game has its own toggle; turning Mid Game on forces this Late Game toggle on.</TSA_WD_T4AA_TargetPlayerTooltip>
+  <TSA_WD_T4AA_Range>AA Turret range (tiles)</TSA_WD_T4AA_Range>
+  <TSA_WD_T4AA_RangeTooltip>Maximum engagement range for enemy AA Turrets.</TSA_WD_T4AA_RangeTooltip>
+  <TSA_WD_T4AA_Cooldown>AA Turret cooldown (seconds)</TSA_WD_T4AA_Cooldown>
+  <TSA_WD_T4AA_CooldownTooltip>Seconds between AA Turret engagements.</TSA_WD_T4AA_CooldownTooltip>
+  <TSA_WD_T4AA_Damage>AA Turret damage</TSA_WD_T4AA_Damage>
+  <TSA_WD_T4AA_DamageTooltip>Flak resolver damage for NPC AA Turrets.</TSA_WD_T4AA_DamageTooltip>
+  <TSA_WD_T4AA_Skill>AA Turret skill equivalent</TSA_WD_T4AA_Skill>
+  <TSA_WD_T4AA_SkillTooltip>Equivalent Shooting skill used for AA Turret hit bands vs drop pods, transport pods, and aerials (+1 percentage point per level). Does not affect the flat AA Turret chance vs mortar shells.</TSA_WD_T4AA_SkillTooltip>
+  <TSA_WD_T4AA_HitBand0To50>AA Turret hit chance at 0–50% of max range</TSA_WD_T4AA_HitBand0To50>
+  <TSA_WD_T4AA_HitBand0To50Tooltip>Base AA Turret hit vs pods and aerials at 0-50% of max range. Skill equivalent adds +1 percentage point per level. Does not apply to mortar shells.</TSA_WD_T4AA_HitBand0To50Tooltip>
+  <TSA_WD_T4AA_HitBand51To75>AA Turret hit chance at 51–75% of max range</TSA_WD_T4AA_HitBand51To75>
+  <TSA_WD_T4AA_HitBand51To75Tooltip>Base AA Turret hit vs pods and aerials at 51-75% of max range. Mortar shells use the flat AA Turret vs shells chance instead.</TSA_WD_T4AA_HitBand51To75Tooltip>
+  <TSA_WD_T4AA_HitBand76To100>AA Turret hit chance at 76–100% of max range</TSA_WD_T4AA_HitBand76To100>
+  <TSA_WD_T4AA_HitBand76To100Tooltip>Base AA Turret hit vs pods and aerials at 76–100% of max range. Mortar shells use the flat AA Turret vs shells chance instead.</TSA_WD_T4AA_HitBand76To100Tooltip>
+  <TSA_WD_T4AA_VsMortar>AA Turret hit chance vs mortar shells</TSA_WD_T4AA_VsMortar>
+  <TSA_WD_T4AA_VsMortarTooltip>Flat chance for an AA Turret to destroy a hostile mortar shell. Ignores range bands and skill equivalent.</TSA_WD_T4AA_VsMortarTooltip>
   <TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>Unlocks anti-air turret vs. drop pods and shells</TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>
   <TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>Unlocks Decontamination Missions</TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>
   <TSA_WD_OutpostUpgrades_BenefitAssaultShellsShort>Adv. Settlement Assault Shells</TSA_WD_OutpostUpgrades_BenefitAssaultShellsShort>

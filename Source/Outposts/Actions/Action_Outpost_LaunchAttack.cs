@@ -128,7 +128,7 @@ namespace TSA_WorldDomination
         {
             if (wo == null || wo.Destroyed || wo.Faction == null || attackerFaction == null) return false;
             if (!WorldActions_Utils.SafeHostileTo(wo.Faction, attackerFaction)) return false;
-            return wo is Settlement || wo is WorldObject_AT_Turret;
+            return wo is Settlement || wo is WorldObject_AT_Turret || wo is WorldObject_WD_AdvancedBuilding;
         }
     }
 
@@ -190,7 +190,7 @@ namespace TSA_WorldDomination
         private WorldObject target;
         private bool alliedOrder;
         private Faction attackerFaction;
-        private bool TargetIsAtTurret => target is WorldObject_AT_Turret;
+        private bool TargetIsAtTurret => AtTurretRetaliationUtility.IsFieldStructureTarget(target);
 
         private float totalAtkPower;
         private float totalDefPower;
@@ -242,10 +242,17 @@ namespace TSA_WorldDomination
             var lookup = WorldActions_Utils.GetWorldObjectsWithCompByFaction();
 
             List<Faction> defenderCoalition;
-            if (target is WorldObject_AT_Turret turret)
+            if (AtTurretRetaliationUtility.IsFieldStructureTarget(target))
             {
+                WorldObject turret = target;
                 defReinforcements = new List<WorldObject>();
-                totalDefPower = Mathf.Max(0f, turret.strength);
+                totalDefPower = turret switch
+                {
+                    WorldObject_AT_Turret at => Mathf.Max(0f, at.strength),
+                    WorldObject_WD_ArtilleryTurret art => Mathf.Max(0f, art.strength),
+                    // Economic buildings have no garrison; any hostile column that reaches them wins.
+                    _ => 1f
+                };
                 defForceRows.Clear();
                 RaidForceRow turretRow = RaidForceRow.FromWorldObject(
                     turret, RaidContribRole.DefenderPrimary, totalDefPower, seth, included: true, canToggle: false);

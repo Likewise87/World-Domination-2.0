@@ -123,14 +123,14 @@ namespace TSA_WorldDomination
                 return true;
             }
 
-            var threats = new List<Settlement>();
+            var threats = new List<WorldObject>();
             if (!AntiAirFireUtils.TryGetHostileSettlementAaThreatsForDropPodFlight(originTile, destTile, threats)
                 || threats.Count == 0)
                 return true;
 
-            string names = threats[0].LabelCap;
+            string names = AdvancedBuildingCombatUtility.LabelWithOwner(threats[0]);
             for (int i = 1; i < threats.Count; i++)
-                names += ", " + threats[i].LabelCap;
+                names += ", " + AdvancedBuildingCombatUtility.LabelWithOwner(threats[i]);
 
             pendingMethod = __originalMethod as MethodInfo;
             pendingInstance = __instance;

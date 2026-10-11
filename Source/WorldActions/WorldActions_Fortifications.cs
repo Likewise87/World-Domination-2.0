@@ -3,13 +3,14 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>Shared clear helpers for road blocks, spike traps, and AT turrets.</summary>
+    /// <summary>Shared clear helpers for road blocks, spike traps, AT turrets, and advanced buildings.</summary>
     public static class WorldActions_Fortifications
     {
         public static bool HasFortificationAt(int tileId) =>
             WorldComponent_RoadBlocks.Get()?.HasBlockAt(tileId) == true
             || WorldComponent_SpikeTraps.Get()?.HasTrapAt(tileId) == true
-            || AtTurretUtility.TileHasAtTurret(tileId);
+            || AtTurretUtility.TileHasAtTurret(tileId)
+            || WorldComponent_AdvancedBuildings.Get()?.HasAt(tileId) == true;
 
         public static bool TryClearAt(int tileId)
         {
@@ -25,6 +26,14 @@ namespace TSA_WorldDomination
             {
                 turret.suppressDestroyedLetter = true;
                 turret.Destroy();
+                cleared = true;
+            }
+
+            WorldObject_WD_AdvancedBuilding building = WorldComponent_AdvancedBuildings.Get()?.At(tileId);
+            if (building != null && !building.Destroyed)
+            {
+                building.suppressDestroyedLetter = true;
+                building.Destroy();
                 cleared = true;
             }
 

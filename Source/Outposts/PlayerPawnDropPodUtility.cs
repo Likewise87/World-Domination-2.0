@@ -422,9 +422,9 @@ namespace TSA_WorldDomination
             if (onConfirm == null || flights == null || flights.Count == 0)
                 return false;
 
-            var threats = new List<Settlement>();
+            var threats = new List<WorldObject>();
             var seen = new HashSet<int>();
-            var scratch = new List<Settlement>();
+            var scratch = new List<WorldObject>();
             for (int i = 0; i < flights.Count; i++)
             {
                 int origin = flights[i].originTile;
@@ -435,7 +435,7 @@ namespace TSA_WorldDomination
                     continue;
                 for (int t = 0; t < scratch.Count; t++)
                 {
-                    Settlement s = scratch[t];
+                    WorldObject s = scratch[t];
                     if (s == null || s.Destroyed) continue;
                     if (!seen.Add(s.ID)) continue;
                     threats.Add(s);
@@ -445,9 +445,9 @@ namespace TSA_WorldDomination
             if (threats.Count == 0)
                 return false;
 
-            string names = threats[0].LabelCap;
+            string names = AdvancedBuildingCombatUtility.LabelWithOwner(threats[0]);
             for (int i = 1; i < threats.Count; i++)
-                names += ", " + threats[i].LabelCap;
+                names += ", " + AdvancedBuildingCombatUtility.LabelWithOwner(threats[i]);
 
             Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
                 "TSA_WD_RapidResponse_DropPodsAaWarning".Translate(names),

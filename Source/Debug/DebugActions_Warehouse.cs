@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using LudeonTK;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -8,8 +7,7 @@ namespace TSA_WorldDomination
 {
     public static class DebugActions_Warehouse
     {
-        [DebugAction("World Domination", "Warehouse: add full stack...",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void AddFullStackToWarehouse()
         {
             Messages.Message(

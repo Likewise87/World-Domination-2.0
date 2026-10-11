@@ -9,6 +9,7 @@ namespace TSA_WorldDomination
         private readonly string windowTitle;
         private bool weightsExpanded = true;
         private bool fortifyExpanded = true;
+        private bool advancedBuildingsExpanded = true;
         private bool cooldownsExpanded;
 
         public override Vector2 InitialSize => new Vector2(850f, 750f);
@@ -35,8 +36,8 @@ namespace TSA_WorldDomination
             var s = WorldDominationMod.settings;
             bool advanced = s.showAdvancedSettings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetDailyActions(),
-                () => { weightsExpanded = fortifyExpanded = cooldownsExpanded = true; },
-                () => { weightsExpanded = fortifyExpanded = cooldownsExpanded = false; });
+                () => { weightsExpanded = fortifyExpanded = advancedBuildingsExpanded = cooldownsExpanded = true; },
+                () => { weightsExpanded = fortifyExpanded = advancedBuildingsExpanded = cooldownsExpanded = false; });
             SettingsUI.DrawSettingsSearchBar(l);
 
             // 1. ACTION LIKELIHOOD WEIGHTS - core (prioritized, always visible)
@@ -49,6 +50,7 @@ namespace TSA_WorldDomination
             s.weightBuildRoad = SettingsUI.WeightSlider(l, "TSA_WD_Daily_WeightBuildRoad".Translate(), s.weightBuildRoad, displayPool, 0f, 400f, "TSA_WD_Daily_WeightBuildRoadTip".Translate(), WorldDominationSettings.DefWeightBuildRoad);
             s.weightTrader = SettingsUI.WeightSlider(l, "TSA_WD_Daily_WeightTrader".Translate(), s.weightTrader, displayPool, 0f, 400f, "TSA_WD_Daily_WeightTraderTip".Translate(), WorldDominationSettings.DefWeightTrader);
             s.weightFortify = SettingsUI.WeightSlider(l, "TSA_WD_Daily_WeightFortify".Translate(), s.weightFortify, displayPool, 0f, 400f, "TSA_WD_Daily_WeightFortifyTip".Translate(), WorldDominationSettings.DefWeightFortify);
+            s.weightAdvancedBuildings = SettingsUI.WeightSlider(l, "TSA_WD_Daily_WeightAdvancedBuildings".Translate(), s.weightAdvancedBuildings, displayPool, 0f, 400f, "TSA_WD_Daily_WeightAdvancedBuildingsTip".Translate(), WorldDominationSettings.DefWeightAdvancedBuildings);
 
             l.Gap(8f);
             SettingsUI.DrawHeader(l, "TSA_WD_Daily_HeaderNearCapActions".Translate());
@@ -140,6 +142,21 @@ namespace TSA_WorldDomination
                 s.atTurretMaxT4 = (int)atCaps[3];
             }
 
+            l.Gap(12f);
+            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Daily_HeaderAdvancedBuildings".Translate(), ref advancedBuildingsExpanded, SettingsUI.SectionHeaderColor))
+            {
+                s.advancedBuildingEffectPct = SettingsUI.LabeledSlider(l,
+                    "TSA_WD_AdvBuild_Setting_EffectPct".Translate(),
+                    s.advancedBuildingEffectPct, 0f, 0.5f,
+                    "TSA_WD_AdvBuild_Setting_EffectPctTip".Translate(),
+                    0.01f, SliderFormat.Percent, WorldDominationSettings.DefAdvancedBuildingEffectPct);
+                s.artilleryTurretStrength = SettingsUI.LabeledSlider(l,
+                    "TSA_WD_AdvBuild_Setting_ArtilleryStrength".Translate(),
+                    s.artilleryTurretStrength, 50f, 2000f,
+                    "TSA_WD_AdvBuild_Setting_ArtilleryStrengthTip".Translate(),
+                    10f, SliderFormat.Fixed0, WorldDominationSettings.DefArtilleryTurretStrength);
+            }
+
             // 3. COOLDOWNS - advanced only
             if (advanced)
             {
@@ -182,14 +199,15 @@ namespace TSA_WorldDomination
                 s.cooldownTraderDays = cdRow3[1];
 
                 l.Gap(2f);
-                float[] cdRow4 = { s.cooldownFortifyDays, 0f };
+                float[] cdRow4 = { s.cooldownFortifyDays, s.cooldownAdvancedBuildingDays };
                 SettingsUI.MultiColumnSlider(l,
-                    new[] { "TSA_WD_Daily_CdFortify".Translate().ToString(), "" },
+                    new[] { "TSA_WD_Daily_CdFortify".Translate().ToString(), "TSA_WD_Daily_CdAdvancedBuildings".Translate().ToString() },
                     cdRow4, new Vector2(0f, 15f),
-                    new[] { "TSA_WD_Daily_CdFortifyTip".Translate().ToString(), "" },
+                    new[] { "TSA_WD_Daily_CdFortifyTip".Translate().ToString(), "TSA_WD_Daily_CdAdvancedBuildingsTip".Translate().ToString() },
                     0.1f, SliderFormat.Fixed1, 38f,
-                    new[] { WorldDominationSettings.DefCdFortifyDays, 0f });
+                    new[] { WorldDominationSettings.DefCdFortifyDays, WorldDominationSettings.DefCdAdvancedBuildingDays });
                 s.cooldownFortifyDays = cdRow4[0];
+                s.cooldownAdvancedBuildingDays = cdRow4[1];
                 }
             }
 

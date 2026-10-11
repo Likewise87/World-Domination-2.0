@@ -36,9 +36,9 @@ namespace TSA_WorldDomination
                 || WorldDominationMod.settings.enableCommonEnemySettlementQuest;
         }
 
-        public static bool GenerateQuest()
+        public static bool GenerateQuest(bool ignoreSetting = false)
         {
-            if (!IsSettingEnabled())
+            if (!ignoreSetting && !IsSettingEnabled())
                 return false;
 
             QuestScriptDef? def = DefDatabase<QuestScriptDef>.GetNamedSilentFail(QuestDefName);

@@ -30,7 +30,7 @@ namespace TSA_WorldDomination
             if (seth == null) return;
             if (traveler == null || traveler.Destroyed || traveler.pather == null) return;
             if (traveler.isTurretDetour) return;
-            if (traveler.targetObject is WorldObject_AT_Turret) return;
+            if (AtTurretRetaliationUtility.IsFieldStructureTarget(traveler.targetObject)) return;
             // Outpost-issued raids (Action_Outpost_LaunchAttack) keep the player-chosen target.
             if (traveler.originObject is WorldObject_WD_Outpost) return;
             // Forward Assault Invasion multi-raid stays aimed at assigned player targets.
@@ -134,7 +134,7 @@ namespace TSA_WorldDomination
             if (traveler.mission == TravelerMission.RaidDropPod)
             {
                 traveler.mission = TravelerMission.Raid;
-                traveler.ticksPerMove = WorldActions_Traveler.GetWalkingTicksPerMove();
+                traveler.ticksPerMove = AdvancedBuildingEffects.GetNpcLandTicksPerMove(traveler.originObject);
                 traveler.SetLaunchTotalTravelTicks(-1f);
                 traveler.InvalidateTravelerMaterialCache();
             }
@@ -174,7 +174,7 @@ namespace TSA_WorldDomination
         {
             if (!TravelerEndpointUtility.IsLiveEndpoint(candidate)) return false;
             // AT Turrets use save/restore detours via AtTurretRetaliationUtility, never permanent ToO/maraud swaps.
-            if (candidate is WorldObject_AT_Turret) return false;
+            if (AtTurretRetaliationUtility.IsFieldStructureTarget(candidate)) return false;
             if (candidate == traveler.targetObject) return false;
             if (WorldActions_Utils.IsSpace(candidate)) return false;
             if (candidate.Faction == null) return false;
@@ -193,7 +193,7 @@ namespace TSA_WorldDomination
         public static bool TryConvertPackUpToRaid(WorldObject_Traveler traveler, WorldObject candidate)
         {
             if (traveler == null || traveler.Destroyed || candidate == null || candidate.Destroyed) return false;
-            if (candidate is WorldObject_AT_Turret) return false;
+            if (AtTurretRetaliationUtility.IsFieldStructureTarget(candidate)) return false;
             if (candidate.Faction == null) return false;
             if (!WorldActions_Utils.SafeHostileTo(traveler.Faction, candidate.Faction)) return false;
             if (WorldActions_Utils.IsSpace(candidate)) return false;

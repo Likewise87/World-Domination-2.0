@@ -51,7 +51,8 @@ namespace TSA_WorldDomination
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             return baseline
                 * GetMidLateBaselineMultiplier(seth, manager)
-                * GetSettlementAgeFactor(comp, seth);
+                * GetSettlementAgeFactor(comp, seth)
+                * AdvancedBuildingEffects.AttackRangeMult(settlement);
         }
 
         public static float GetNpcSettlementAttackRangeWithZeal(Settlement settlement, WorldDominationSettings seth, WorldComponent_SpreadManager manager)
@@ -81,7 +82,7 @@ namespace TSA_WorldDomination
             baseline = seth?.GetAttackRangeBaseline(tier) ?? WorldDominationSettings.DefTier1AttackRangeBaseline;
             midLateMult = GetMidLateBaselineMultiplier(seth, manager);
             ageFactor = GetSettlementAgeFactor(comp, seth);
-            rangeWithoutZeal = baseline * midLateMult * ageFactor;
+            rangeWithoutZeal = baseline * midLateMult * ageFactor * AdvancedBuildingEffects.AttackRangeMult(settlement);
         }
 
         /// <summary>Stats-tab tooltip: short description plus factor breakdown (and zeal when active).</summary>
@@ -102,6 +103,8 @@ namespace TSA_WorldDomination
                 baseline.ToString("F0"),
                 (midLateMult * 100f).ToString("F0"),
                 (ageFactor * 100f).ToString("F0")).ToString());
+            if (AdvancedBuildingEffects.Has(settlement, AdvancedBuildingEffect.AttackRangePct))
+                sb.AppendLine("TSA_WD_AdvBuild_AttackRangeWatchTowerTip".Translate(AdvancedBuildingEffects.EffectPctLabel).ToString());
             if (hasZeal)
             {
                 float zealMult = seth?.zealRaidRangeMult ?? WorldDominationSettings.DefZealRaidRangeMult;

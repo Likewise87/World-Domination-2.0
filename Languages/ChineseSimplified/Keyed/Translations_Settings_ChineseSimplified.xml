@@ -53,9 +53,9 @@
   <TSA_WD_Combat_HeaderAdvancedWorld>高级世界战斗</TSA_WD_Combat_HeaderAdvancedWorld>
   <TSA_WD_Combat_HeaderAdvancedWorldTip>AT 瞄准玩家旅行者/商队，以及实验性 T4 重力飞船袭击。</TSA_WD_Combat_HeaderAdvancedWorldTip>
   <TSA_WD_Combat_HeaderGarrisonTip>NPC 定居点留在家园的实力多少。</TSA_WD_Combat_HeaderGarrisonTip>
-  <TSA_WD_Combat_HeaderT4MortarTip>敌方定居点迫击炮开火。</TSA_WD_Combat_HeaderT4MortarTip>
+  <TSA_WD_Combat_HeaderT4MortarTip>敌方迫击炮塔开火。</TSA_WD_Combat_HeaderT4MortarTip>
   <TSA_WD_Combat_HeaderAntiAirTip>敌方防空对抗你的空投与飞行单位。</TSA_WD_Combat_HeaderAntiAirTip>
-  <TSA_WD_Combat_HeaderT4Hardware>T4 迫击炮 / 防空硬件</TSA_WD_Combat_HeaderT4Hardware>
+  <TSA_WD_Combat_HeaderT4Hardware>NPC 迫击炮塔 / 防空炮塔硬件</TSA_WD_Combat_HeaderT4Hardware>
   <TSA_WD_Combat_HeaderT4HardwareTip>启用系统并调整射程、伤害与精度。对玩家开火时机在“威胁时机”中设置。</TSA_WD_Combat_HeaderT4HardwareTip>
   <TSA_WD_Combat_T4TimingNote>对玩家开火时机由上方威胁时机门控制（不再使用单独的中/后期勾选项）。</TSA_WD_Combat_T4TimingNote>
   <TSA_WD_Combat_HeaderGoodwillDrain>好感度流失</TSA_WD_Combat_HeaderGoodwillDrain>
@@ -65,10 +65,10 @@
   <TSA_WD_Combat_GateToOTip>机会目标重定位的阶段门。</TSA_WD_Combat_GateToOTip>
   <TSA_WD_Combat_GateMaraudTip>胜利后劫掠的阶段门。</TSA_WD_Combat_GateMaraudTip>
   <TSA_WD_Combat_GateAmbushTip>定居点发起伏击的阶段门。</TSA_WD_Combat_GateAmbushTip>
-  <TSA_WD_Combat_GateT4Mortar>T4 迫击炮对玩家</TSA_WD_Combat_GateT4Mortar>
-  <TSA_WD_Combat_GateT4MortarTip>敌方 T4 定居点迫击炮何时可瞄准玩家。</TSA_WD_Combat_GateT4MortarTip>
-  <TSA_WD_Combat_GateT4AntiAir>T4 防空对玩家</TSA_WD_Combat_GateT4AntiAir>
-  <TSA_WD_Combat_GateT4AntiAirTip>敌方 T4 定居点防空何时可瞄准玩家。</TSA_WD_Combat_GateT4AntiAirTip>
+  <TSA_WD_Combat_GateT4Mortar>NPC 迫击炮塔对玩家</TSA_WD_Combat_GateT4Mortar>
+  <TSA_WD_Combat_GateT4MortarTip>敌方迫击炮塔何时可瞄准玩家。</TSA_WD_Combat_GateT4MortarTip>
+  <TSA_WD_Combat_GateT4AntiAir>NPC 防空炮塔对玩家</TSA_WD_Combat_GateT4AntiAir>
+  <TSA_WD_Combat_GateT4AntiAirTip>敌方防空炮塔何时可瞄准玩家。</TSA_WD_Combat_GateT4AntiAirTip>
   <TSA_WD_Combat_GateVanguard>先锋</TSA_WD_Combat_GateVanguard>
   <TSA_WD_Combat_GateVanguardTip>前锋突击先锋阶段门：将远方定居点并入少数强商队，在你的前线扎营（不贴着殖民地）。</TSA_WD_Combat_GateVanguardTip>
   <TSA_WD_Combat_GateInvasion>入侵</TSA_WD_Combat_GateInvasion>
@@ -280,6 +280,7 @@
   <TSA_WD_WorldSetup_ToolTurret>放置反载具炮塔</TSA_WD_WorldSetup_ToolTurret>
   <TSA_WD_WorldSetup_ToolRoadBlock>放置路障</TSA_WD_WorldSetup_ToolRoadBlock>
   <TSA_WD_WorldSetup_ToolTrap>放置陷阱</TSA_WD_WorldSetup_ToolTrap>
+  <TSA_WD_WorldSetup_ToolAdvBuilding>放置高级建筑</TSA_WD_WorldSetup_ToolAdvBuilding>
   <TSA_WD_WorldSetup_ToolPlaceRoad>放置道路</TSA_WD_WorldSetup_ToolPlaceRoad>
   <TSA_WD_WorldSetup_ToolPlaceBridge>放置桥梁</TSA_WD_WorldSetup_ToolPlaceBridge>
   <TSA_WD_WorldSetup_ToolRemoveFortify>移除此处工事</TSA_WD_WorldSetup_ToolRemoveFortify>
@@ -303,7 +304,7 @@
   <TSA_WD_WorldSetup_PlaceFortifyHint>点击地块放置。右键或 Esc 停止。</TSA_WD_WorldSetup_PlaceFortifyHint>
   <TSA_WD_WorldSetup_PlaceFortifyFailed>无法在此处放置。</TSA_WD_WorldSetup_PlaceFortifyFailed>
   <TSA_WD_WorldSetup_PlaceFortifyDone>已放置。</TSA_WD_WorldSetup_PlaceFortifyDone>
-  <TSA_WD_WorldSetup_RemoveFortifyHint>点击路障、陷阱或反载具炮塔以移除。</TSA_WD_WorldSetup_RemoveFortifyHint>
+  <TSA_WD_WorldSetup_RemoveFortifyHint>点击路障、陷阱、反坦克炮塔或高级建筑以移除。</TSA_WD_WorldSetup_RemoveFortifyHint>
   <TSA_WD_WorldSetup_RemoveFortifyNone>该地块没有可移除物。</TSA_WD_WorldSetup_RemoveFortifyNone>
   <TSA_WD_WorldSetup_RemoveFortifyDone>已移除工事。</TSA_WD_WorldSetup_RemoveFortifyDone>
   <TSA_WD_WorldSetup_RoadDirt>土路</TSA_WD_WorldSetup_RoadDirt>
@@ -630,7 +631,7 @@
   <TSA_WD_WorldMap_ToggleCaravanBlockedTilesTip>默认前哨站需要与定居点及其他前哨站保持一定空地。开启后，光标附近不可建前哨站的格子会按阻挡派系的颜色画斜线（无派系时为深灰）。多派系重叠时会稳定地选其中一个。</TSA_WD_WorldMap_ToggleCaravanBlockedTilesTip>
   <TSA_WD_WorldMap_ChangeNotes>更新说明</TSA_WD_WorldMap_ChangeNotes>
   <TSA_WD_WorldMap_ChangeNotesTip>打开世界统治更新/变更日志。</TSA_WD_WorldMap_ChangeNotesTip>
-  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>路障、陷阱与反坦克</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>路障、陷阱、反坦克与建筑</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
   <TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>切换世界地图上的路障、刺钉/蒺藜陷阱与反坦克炮塔图标。叠加图标在缩放过远时也会自动隐藏。</TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>
   <TSA_WD_WorldMap_ToggleFortifyBlacklist>NPC 设防封锁地块</TSA_WD_WorldMap_ToggleFortifyBlacklist>
   <TSA_WD_WorldMap_ToggleFortifyBlacklistTip>显示已标记地块：盟友（若开启则含中立）不得在此新建路障或陷阱。已有设防需「移除设防」。使用标记/清除工具时也会显示。</TSA_WD_WorldMap_ToggleFortifyBlacklistTip>
@@ -729,7 +730,7 @@
   <TSA_WD_BuildReq_MaterialLine>  - {0} x{1}</TSA_WD_BuildReq_MaterialLine>
   <TSA_WD_BuildReq_Unmet>未满足建造技能或研究需求。</TSA_WD_BuildReq_Unmet>
   <TSA_WD_BtnLateGame>中期游戏与后期游戏</TSA_WD_BtnLateGame>
-  <TSA_WD_BtnT4Mortar>敌方 T4 炮塔</TSA_WD_BtnT4Mortar>
+  <TSA_WD_BtnT4Mortar>NPC 火炮炮塔</TSA_WD_BtnT4Mortar>
   <TSA_WD_DescLateGame>配置你变强后的中期游戏与后期游戏反扑：阈值、偏向袭击、更快成长、扩张、好感流失、T4 迫击炮（仅后期游戏）与前哨事件。</TSA_WD_DescLateGame>
   <TSA_WD_DescT4Mortar>配置敌方四级定居点的迫击炮与防空：是否开火、是否可攻击你，以及射程、冷却、伤害与精度。</TSA_WD_DescT4Mortar>
   <TSA_WD_DescPlayerArtillery>前哨迫击炮、防空与快速反应的战斗逻辑（伤害、射程、冷却、命中分段、拦截强度）。步行旅行者、空投舱与拦截商队的旅行速度在“商队与贸易”中设置。</TSA_WD_DescPlayerArtillery>
@@ -1040,4 +1041,25 @@
   <TSA_WD_LateGame_OnlyFireT4AntiAirAtPlayer>仅在后期游戏生效时对玩家开火（T4 防空）</TSA_WD_LateGame_OnlyFireT4AntiAirAtPlayer>
   <TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>仅在中期游戏生效时对玩家开火（T4 迫击炮）</TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>
   <TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>仅在中期游戏生效时对玩家开火（T4 防空）</TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>
+
+  <!-- Advanced buildings + sally overhaul -->
+  <TSA_WD_Daily_WeightAdvancedBuildings>高级建筑概率</TSA_WD_Daily_WeightAdvancedBuildings>
+  <TSA_WD_Daily_WeightAdvancedBuildingsTip>定居点派出施工队在附近建造高级建筑的概率：粮仓、医院、瞭望塔、马厩、迫击炮塔或防空炮塔。每个定居点的槽位数等于其等级，每种类型最多一座。远离敌人的安全定居点建造更频繁；受威胁的定居点只建造火炮。若被选中但无法启动任何项目，则改用另一个符合条件的每日行动。</TSA_WD_Daily_WeightAdvancedBuildingsTip>
+  <TSA_WD_Daily_CdAdvancedBuildings>高级建筑后冷却</TSA_WD_Daily_CdAdvancedBuildings>
+  <TSA_WD_Daily_CdAdvancedBuildingsTip>此定居点再次开始高级建筑前的天数。不影响其他行动类型。</TSA_WD_Daily_CdAdvancedBuildingsTip>
+  <TSA_WD_Daily_HeaderAdvancedBuildings>NPC 高级建筑</TSA_WD_Daily_HeaderAdvancedBuildings>
+  <TSA_WD_AdvBuild_Setting_EffectPct>经济建筑加成</TSA_WD_AdvBuild_Setting_EffectPct>
+  <TSA_WD_AdvBuild_Setting_EffectPctTip>每座经济建筑给予所有者的加成：粮仓（最大进攻强度）、医院（进攻与防御恢复）、瞭望塔（攻击范围）、马厩（陆地商队速度）。</TSA_WD_AdvBuild_Setting_EffectPctTip>
+  <TSA_WD_AdvBuild_Setting_ArtilleryStrength>火炮炮塔强度</TSA_WD_AdvBuild_Setting_ArtilleryStrength>
+  <TSA_WD_AdvBuild_Setting_ArtilleryStrengthTip>新建 NPC 迫击炮塔与防空炮塔的强度。袭击必须超过此值才能摧毁炮塔；迫击炮命中会削减强度。炮塔不会恢复。已有炮塔保持原强度。</TSA_WD_AdvBuild_Setting_ArtilleryStrengthTip>
+  <TSA_WD_Experimental_AmbushWatchRangeAssets>拥有建筑时的伏击警戒范围（格）</TSA_WD_Experimental_AmbushWatchRangeAssets>
+  <TSA_WD_Experimental_AmbushWatchRangeAssetsTip>拥有反坦克炮塔或高级建筑的定居点的警戒范围。取此值与普通警戒范围中的较大者，使定居点能保护其外围资产。</TSA_WD_Experimental_AmbushWatchRangeAssetsTip>
+  <TSA_WD_Experimental_AmbushSelfDefenseRatio>保卫本地时的伏击最低比例</TSA_WD_Experimental_AmbushSelfDefenseRatio>
+  <TSA_WD_Experimental_AmbushSelfDefenseRatioTip>没有外围资产的定居点出击拦截前往本定居点的商队前所需的最低（可用强度 / 敌方强度）。保护反坦克炮塔或高级建筑的定居点使用更低的门槛。</TSA_WD_Experimental_AmbushSelfDefenseRatioTip>
+  <TSA_WD_WorldSetup_PlaceAdvBuildingHint>点击 NPC 定居点以在附近放置{0}。右键或 Esc 停止。</TSA_WD_WorldSetup_PlaceAdvBuildingHint>
+  <TSA_WD_WorldSetup_PlaceAdvBuildingNeedNpc>请点击 NPC 定居点（非玩家）。</TSA_WD_WorldSetup_PlaceAdvBuildingNeedNpc>
+  <TSA_WD_WorldSetup_PlaceAdvBuildingDuplicate>{0} 已拥有{1}。</TSA_WD_WorldSetup_PlaceAdvBuildingDuplicate>
+  <TSA_WD_WorldSetup_PlaceAdvBuildingNoTile>范围内没有可建造地块。</TSA_WD_WorldSetup_PlaceAdvBuildingNoTile>
+  <TSA_WD_WorldSetup_PlaceAdvBuildingDone>已为 {1} 在地块 {2} 放置{0}。</TSA_WD_WorldSetup_PlaceAdvBuildingDone>
+  <TSA_WD_WorldSetup_NoAdvBuildingDefs>未加载高级建筑定义。</TSA_WD_WorldSetup_NoAdvBuildingDefs>
 </LanguageData>

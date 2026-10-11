@@ -92,6 +92,9 @@ namespace TSA_WorldDomination
                 pendingAtCooldownWakeTickById.Remove(ip.Self.ID);
         }
 
+        /// <summary>Registered WD travelers (read-only; may contain destroyed entries until purge).</summary>
+        public IReadOnlyCollection<WorldObject_Traveler> RegisteredTravelers => travelers;
+
         public void RegisterTraveler(WorldObject_Traveler t)
         {
             if (t == null || travelers.Contains(t)) return;
@@ -434,21 +437,19 @@ namespace TSA_WorldDomination
                     continue;
                 }
 
-                if (ip.Self is Settlement settlement)
+                if (ip.Self is WorldObject_WD_AaTurret aaTurret)
                 {
-                    var comp = settlement.GetComponent<CompViralSpread>();
-                    if (comp == null || !comp.IsSettlementAntiAirAutoActive) continue;
-                    if (!CompViralSpread.IsSettlementAntiAirEligible(settlement)) continue;
+                    if (!aaTurret.IsFiringEnabled) continue;
                     considered++;
                     float aaRange = AntiAirFireUtils.GetNpcAntiAirMaxRangeTiles();
-                    if (!AntiAirFireUtils.IsAirborneInAaRange(settlement, target, aaRange, manager))
+                    if (!AntiAirFireUtils.IsAirborneInAaRange(aaTurret, target, aaRange, manager))
                     {
                         if (logSkips)
                         {
                             float cur = target.Tile.tileId >= 0
                                 ? (manager != null
-                                    ? WorldActions_Utils.GetDistance(settlement.Tile.tileId, target.Tile.tileId, manager)
-                                    : Find.WorldGrid.ApproxDistanceInTiles(settlement.Tile.tileId, target.Tile.tileId))
+                                    ? WorldActions_Utils.GetDistance(aaTurret.Tile.tileId, target.Tile.tileId, manager)
+                                    : Find.WorldGrid.ApproxDistanceInTiles(aaTurret.Tile.tileId, target.Tile.tileId))
                                 : -1f;
                             int destId = -1;
                             float progDist = -1f;
@@ -462,7 +463,7 @@ namespace TSA_WorldDomination
                                 if (ballistic && tt.pather != null && tt.pather.moving && tt.pather.nextTile.Valid)
                                 {
                                     WorldGrid grid = Find.WorldGrid;
-                                    Vector3 aaPos = grid.GetTileCenter(settlement.Tile.tileId);
+                                    Vector3 aaPos = grid.GetTileCenter(aaTurret.Tile.tileId);
                                     Vector3 from = grid.GetTileCenter(tt.Tile.tileId);
                                     Vector3 to = grid.GetTileCenter(tt.pather.nextTile.tileId);
                                     float total = Mathf.Max(0.001f, tt.pather.nextTileCostTotal);
@@ -480,27 +481,27 @@ namespace TSA_WorldDomination
                                 if (draw.sqrMagnitude > 0.0001f)
                                 {
                                     WorldGrid grid = Find.WorldGrid;
-                                    Vector3 aaPos = grid.GetTileCenter(settlement.Tile.tileId);
+                                    Vector3 aaPos = grid.GetTileCenter(aaTurret.Tile.tileId);
                                     float cos = Mathf.Clamp(Vector3.Dot(aaPos.normalized, draw.normalized), -1f, 1f);
                                     progDist = grid.ApproxDistanceInTiles(Mathf.Acos(cos));
                                 }
                             }
                             float destDist = destId >= 0
                                 ? (manager != null
-                                    ? WorldActions_Utils.GetDistance(settlement.Tile.tileId, destId, manager)
-                                    : Find.WorldGrid.ApproxDistanceInTiles(settlement.Tile.tileId, destId))
+                                    ? WorldActions_Utils.GetDistance(aaTurret.Tile.tileId, destId, manager)
+                                    : Find.WorldGrid.ApproxDistanceInTiles(aaTurret.Tile.tileId, destId))
                                 : -1f;
-                            WDVerbose.Msg($"AA wake skip {settlement.LabelCap} vs {LabelOf(target)}: out of AA range ({aaRange:F0}); tileDist={cur:F1} (launch tile) progDist={progDist:F1} destDist={destDist:F1} destTile={destId} ballistic={ballistic} inbound={inbound} canTargetPlayer={ip.InterceptorCanTargetPlayer}");
+                            WDVerbose.Msg($"AA wake skip {aaTurret.LabelCap} vs {LabelOf(target)}: out of AA range ({aaRange:F0}); tileDist={cur:F1} (launch tile) progDist={progDist:F1} destDist={destDist:F1} destTile={destId} ballistic={ballistic} inbound={inbound} canTargetPlayer={ip.InterceptorCanTargetPlayer}");
                         }
                         continue;
                     }
-                    if (AntiAirFireUtils.TryEngageFromSettlement(settlement, target))
+                    if (AntiAirFireUtils.TryQueueEngage(aaTurret, target))
                         queued++;
                     else
                     {
-                        TryArmMortarShellAa(settlement, target);
+                        TryArmMortarShellAa(aaTurret, target);
                         if (logSkips)
-                            WDVerbose.Msg($"AA wake {settlement.LabelCap} vs {LabelOf(target)}: in range but TryQueueEngage failed (cooldown/classify/ready)");
+                            WDVerbose.Msg($"AA wake {aaTurret.LabelCap} vs {LabelOf(target)}: in range but TryQueueEngage failed (cooldown/classify/ready)");
                     }
                 }
             }
@@ -527,6 +528,8 @@ namespace TSA_WorldDomination
                 return $"interceptor is not CompViralSpread (type {ip.GetType().Name}); settlement {settlement.LabelCap}";
             if (ip?.Self is WorldObject_WD_Outpost)
                 return "player outpost interceptor (never targets player)";
+            if (ip?.Self is WorldObject_WD_ArtilleryTurret turret)
+                return $"artillery turret {turret.LabelCap} owner={turret.builtBySettlement?.LabelCap ?? "none"} firing={turret.IsFiringEnabled} canTargetPlayer={ip.InterceptorCanTargetPlayer}";
             return $"interceptor type {ip?.Self?.GetType().Name ?? "null"}";
         }
 
@@ -553,6 +556,8 @@ namespace TSA_WorldDomination
 
         private static bool IsNpcT4Interceptor(IDefensiveInterceptor ip)
         {
+            if (ip?.Self is WorldObject_WD_ArtilleryTurret turret)
+                return turret.Faction != null && !turret.Faction.IsPlayer;
             if (!(ip?.Self is Settlement settlement)) return false;
             if (settlement.Faction == null || settlement.Faction.IsPlayer) return false;
             var comp = settlement.GetComponent<CompViralSpread>();
@@ -635,6 +640,9 @@ namespace TSA_WorldDomination
             if ((tick & 1023) == 0)
                 PurgeDestroyed();
         }
+
+        /// <summary>True when a mortar shell is already in flight at <paramref name="targetId"/> (valid after the last scan rebuild).</summary>
+        public bool IsInboundMortarTarget(int targetId) => inboundMortarTargetIdsScratch.Contains(targetId);
 
         private void RebuildInboundTargetIds()
         {
@@ -913,22 +921,10 @@ namespace TSA_WorldDomination
                 return aaRange > 0f;
             }
 
-            if (ip.Self is Settlement settlement)
+            if (ip.Self is WorldObject_WD_AaTurret aaTurret)
             {
-                var comp = settlement.GetComponent<CompViralSpread>();
-                if (comp == null || !comp.IsSettlementAntiAirAutoActive) return false;
-                if (!CompViralSpread.IsSettlementAntiAirEligible(settlement)) return false;
-                shooter = settlement;
-                aaRange = AntiAirFireUtils.GetNpcAntiAirMaxRangeTiles();
-                return aaRange > 0f;
-            }
-
-            // CompViralSpread may be the interceptor while Self is the settlement.
-            if (ip is CompViralSpread viral && viral.parent is Settlement s2)
-            {
-                if (!viral.IsSettlementAntiAirAutoActive) return false;
-                if (!CompViralSpread.IsSettlementAntiAirEligible(s2)) return false;
-                shooter = s2;
+                if (!aaTurret.IsFiringEnabled) return false;
+                shooter = aaTurret;
                 aaRange = AntiAirFireUtils.GetNpcAntiAirMaxRangeTiles();
                 return aaRange > 0f;
             }
@@ -1293,60 +1289,9 @@ namespace TSA_WorldDomination
                 }
             }
 
-            // T4 settlement mortar caravan path: prefer in-range player caravans over InterceptorNoTargetFire static fallback.
-            if (self is Settlement settlement
-                && settlement.GetComponent<CompViralSpread>() is CompViralSpread svc
-                && svc.IsSettlementMortarAutoActive
-                && !svc.IsMortarOnCooldown
-                && NpcT4GlobalFireStagger.IsMortarSlotOpen()
-                && ip.InterceptorCanTargetPlayer
-                && AtTurretUtility.IsPlayerCaravanTargetingEnabled())
-            {
-                Caravan bestCaravan = null;
-                float bestCaravanDist = float.MaxValue;
-                List<Caravan> caravans = Find.WorldObjects?.Caravans;
-                if (caravans != null)
-                {
-                    for (int i = 0; i < caravans.Count; i++)
-                    {
-                        Caravan c = caravans[i];
-                        if (c == null || c.Destroyed || !c.Spawned) continue;
-                        if (!AtTurretUtility.CanEnemySystemsTargetPlayerCaravan(c)) continue;
-                        if (iFaction == null || c.Faction == null || c.Faction == iFaction) continue;
-                        if (!WorldActions_Utils.SafeHostileTo(c.Faction, iFaction)) continue;
-                        if (inboundMortarTargetIdsScratch.Contains(c.ID)) continue;
-
-                        long pairKey = MakePairKey(interceptorId, c.ID);
-                        if (skipUntilByPair.TryGetValue(pairKey, out int until) && now < until)
-                            continue;
-
-                        int cTileId = c.Tile.tileId;
-                        if (cTileId < 0) continue;
-
-                        float dist = manager != null
-                            ? (float)WorldActions_Utils.GetDistance(iTile.tileId, cTileId, manager)
-                            : Find.WorldGrid.ApproxDistanceInTiles(iTile.tileId, cTileId);
-                        if (dist > range)
-                        {
-                            skipUntilByPair[pairKey] = now + GenDate.TicksPerHour;
-                            continue;
-                        }
-
-                        skipUntilByPair.Remove(pairKey);
-                        if (dist < bestCaravanDist)
-                        {
-                            bestCaravanDist = dist;
-                            bestCaravan = c;
-                        }
-                    }
-                }
-
-                if (bestCaravan != null)
-                {
-                    svc.InterceptorFireAtCaravan(bestCaravan, bestCaravanDist);
-                    return;
-                }
-            }
+            // NPC mortar turrets pick player caravans inside their idle priority (InterceptorNoTargetFire).
+            if (self is WorldObject_WD_MortarTurret)
+                RebuildInboundTargetIds();
 
             ip.InterceptorNoTargetFire();
         }

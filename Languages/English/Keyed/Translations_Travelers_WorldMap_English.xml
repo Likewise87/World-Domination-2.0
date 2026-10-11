@@ -282,4 +282,43 @@
   <TSA_WD_DebugOutpostRaidNoOutpost>WD debug: Clicked tile does not contain a player outpost.</TSA_WD_DebugOutpostRaidNoOutpost>
   <TSA_WD_DebugOutpostRaidNoStart>WD debug: Could not find a valid start tile about 4 tiles away with a path to this outpost.</TSA_WD_DebugOutpostRaidNoStart>
   <TSA_WD_DebugOutpostRaidSpawned>WD debug: Spawned {0} outpost raid traveler from tile {1} toward {2}.</TSA_WD_DebugOutpostRaidSpawned>
+
+  <!-- Advanced buildings + sally overhaul -->
+  <TSA_WD_AdvBuild_Silo>Silo</TSA_WD_AdvBuild_Silo>
+  <TSA_WD_AdvBuild_Hospital>Hospital</TSA_WD_AdvBuild_Hospital>
+  <TSA_WD_AdvBuild_WatchTower>Watch Tower</TSA_WD_AdvBuild_WatchTower>
+  <TSA_WD_AdvBuild_Stable>Stable</TSA_WD_AdvBuild_Stable>
+  <TSA_WD_AdvBuild_MortarTurret>Mortar Turret</TSA_WD_AdvBuild_MortarTurret>
+  <TSA_WD_AdvBuild_AaTurret>AA Turret</TSA_WD_AdvBuild_AaTurret>
+  <TSA_WD_AdvBuild_LabelWithOwner>{0} of {1}</TSA_WD_AdvBuild_LabelWithOwner>
+  <TSA_WD_AdvBuild_Inspect_BuiltBy>Built by {0} ({1})</TSA_WD_AdvBuild_Inspect_BuiltBy>
+  <TSA_WD_AdvBuild_Inspect_OwnerLost>Owner lost. This building will be removed.</TSA_WD_AdvBuild_Inspect_OwnerLost>
+  <TSA_WD_AdvBuild_Inspect_None>none</TSA_WD_AdvBuild_Inspect_None>
+  <TSA_WD_AdvBuild_Inspect_SettlementBuildings>Buildings ({1}/{2}): {0}</TSA_WD_AdvBuild_Inspect_SettlementBuildings>
+  <TSA_WD_AdvBuild_Inspect_ArtilleryVulnerable>Defended: hostile raids must beat its strength to destroy it. Mortar hits wear it down; it never regenerates.</TSA_WD_AdvBuild_Inspect_ArtilleryVulnerable>
+  <TSA_WD_AdvBuild_Inspect_EconomicVulnerable>Undefended: any hostile caravan that crosses this tile, or a single mortar hit, destroys it.</TSA_WD_AdvBuild_Inspect_EconomicVulnerable>
+  <TSA_WD_AdvBuild_Inspect_Grace>Too new to shell: {0} left</TSA_WD_AdvBuild_Inspect_Grace>
+  <TSA_WD_AdvBuild_Inspect_Inactive>Inactive (disabled in settings, or the owner's tech level is too low)</TSA_WD_AdvBuild_Inspect_Inactive>
+  <TSA_WD_AdvBuild_Inspect_Cooldown>Reloading: {0}</TSA_WD_AdvBuild_Inspect_Cooldown>
+  <TSA_WD_AdvBuild_Inspect_Ready>Ready to fire</TSA_WD_AdvBuild_Inspect_Ready>
+  <TSA_WD_AdvBuild_Provides_Mortar>Fires mortar shells at hostile travelers and targets within {0} tiles.</TSA_WD_AdvBuild_Provides_Mortar>
+  <TSA_WD_AdvBuild_Provides_AntiAir>Engages hostile drop pods, gravships, transport pods and mortar shells within {0} tiles.</TSA_WD_AdvBuild_Provides_AntiAir>
+  <TSA_WD_AdvBuild_Boost_Silo>Owner max offensive strength +{0}% ({1} to {2}).</TSA_WD_AdvBuild_Boost_Silo>
+  <TSA_WD_AdvBuild_Boost_Hospital>Owner offensive and defensive recovery +{0}% (now {1} / {2} per day).</TSA_WD_AdvBuild_Boost_Hospital>
+  <TSA_WD_AdvBuild_Boost_WatchTower>Owner attack range +{0}% ({1} to {2} tiles).</TSA_WD_AdvBuild_Boost_WatchTower>
+  <TSA_WD_AdvBuild_Boost_Stable>Land caravans from the owner move {0}% faster.</TSA_WD_AdvBuild_Boost_Stable>
+  <TSA_WD_AdvBuild_AttackRangeWatchTowerTip>Watch Tower: +{0}%</TSA_WD_AdvBuild_AttackRangeWatchTowerTip>
+  <TSA_WD_AdvBuild_ReasonShellGrace>Too new to shell ({0} left).</TSA_WD_AdvBuild_ReasonShellGrace>
+  <TSA_WD_AdvBuild_Msg_PlayerDestroyed>{1} destroyed {0}.</TSA_WD_AdvBuild_Msg_PlayerDestroyed>
+  <TSA_WD_AdvBuild_Log_BuilderLaunched>{0} sent a crew to build a {1}.</TSA_WD_AdvBuild_Log_BuilderLaunched>
+  <TSA_WD_AdvBuild_Log_Built>{0} built a {1}.</TSA_WD_AdvBuild_Log_Built>
+  <TSA_WD_AdvBuild_Log_Destroyed>{0} was destroyed.</TSA_WD_AdvBuild_Log_Destroyed>
+  <TSA_WD_AdvBuild_Log_DestroyedBy>{0} was destroyed by {1}.</TSA_WD_AdvBuild_Log_DestroyedBy>
+  <TSA_WD_AdvBuild_Log_FreeArtillery>{0} raised a {1} on reaching tier 4.</TSA_WD_AdvBuild_Log_FreeArtillery>
+  <TSA_WD_Traveler_AdvancedBuilder>Building crew</TSA_WD_Traveler_AdvancedBuilder>
+  <TSA_WD_AdvBuild_Inspect_Strength>Strength: {0}/{1}</TSA_WD_AdvBuild_Inspect_Strength>
+  <TSA_WD_AdvBuild_Inspect_Faction>Faction: {0}</TSA_WD_AdvBuild_Inspect_Faction>
+  <TSA_WD_AdvBuild_Inspect_BuiltBySettlement>Built by Settlement: {0}</TSA_WD_AdvBuild_Inspect_BuiltBySettlement>
+  <TSA_WD_AdvBuild_Inspect_ReloadingDays>Reloading: {0} Days</TSA_WD_AdvBuild_Inspect_ReloadingDays>
+  <TSA_WD_AdvBuild_Inspect_ShellProtectionDays>Protection from being shelled: {0} Days</TSA_WD_AdvBuild_Inspect_ShellProtectionDays>
 </LanguageData>

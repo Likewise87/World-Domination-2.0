@@ -89,15 +89,17 @@ namespace TSA_WorldDomination
 
             if (target is Settlement settlement && target.Faction != null && target.Faction.IsPlayer && !(target is WorldObject_WD_Outpost))
             {
+                // World caravan becomes a map raid; not a combat wipe overlay.
+                // No live origin settlement: pack-up / desperation / debug Create-raid columns
+                // (same as TryInterceptRaidAtPlayerColony). Uses traveler.Faction + mission
+                // (land / drop-pod / gravship) for the incident.
+                traveler.suppressDestroyedWorldFx = true;
                 if (attacker is Settlement attSettlement)
                 {
-                    // World caravan becomes a map raid; not a combat wipe overlay.
-                    traveler.suppressDestroyedWorldFx = true;
                     Raid_OnPlayerColony.HandleRaidOnPlayer(attSettlement, settlement, traveler.raidAttackerList, traveler.travelerStrength, traveler.raidAttackerDetails, manager, traveler);
                 }
-                else if (traveler.packUpRequiresRefound || traveler.isDesperationRaid)
+                else if (traveler.Faction != null)
                 {
-                    traveler.suppressDestroyedWorldFx = true;
                     Raid_OnPlayerColony.HandleRaidOnPlayerFromPackUp(settlement, traveler.travelerStrength, manager, traveler);
                 }
                 else
@@ -112,7 +114,6 @@ namespace TSA_WorldDomination
                     manager?.AddLog(abortEntry);
                     RefundStrength(traveler, 1.0f);
                     RefundAlliedRaidOrderGoodwill(traveler);
-                    traveler.suppressDestroyedWorldFx = true;
                 }
                 return false;
             }

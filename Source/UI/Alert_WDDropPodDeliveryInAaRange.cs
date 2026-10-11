@@ -7,7 +7,7 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Right-side alert when a player warehouse in drop-pod dispatch mode sits within enemy T4 AA range
+    /// Right-side alert when a player warehouse in drop-pod dispatch mode sits within enemy AA turret range
     /// (origin tile only; no path/arc scan). Toggled by notifyDropPodDeliveryInAaRange.
     /// </summary>
     public class Alert_WDDropPodDeliveryInAaRange : Alert
@@ -70,8 +70,8 @@ namespace TSA_WorldDomination
             if (Find.WorldObjects == null) return;
 
             float aaRange = AntiAirFireUtils.GetNpcAntiAirMaxRangeTiles();
-            var aaSettlements = Find.WorldObjects.Settlements;
-            if (aaSettlements == null || aaSettlements.Count == 0) return;
+            var buildings = WorldComponent_AdvancedBuildings.Get()?.All;
+            if (buildings == null || buildings.Count == 0) return;
 
             IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
             for (int i = 0; i < outposts.Count; i++)
@@ -86,18 +86,14 @@ namespace TSA_WorldDomination
                 int warehouseTile = warehouse.Tile.tileId;
                 if (warehouseTile < 0) continue;
 
-                for (int s = 0; s < aaSettlements.Count; s++)
+                for (int s = 0; s < buildings.Count; s++)
                 {
-                    Settlement settlement = aaSettlements[s];
-                    if (settlement == null || settlement.Destroyed || settlement.Tile < 0) continue;
-                    if (settlement.Faction == null || settlement.Faction.IsPlayer) continue;
-                    if (!WorldActions_Utils.SafeHostileTo(settlement.Faction, Faction.OfPlayer)) continue;
+                    if (!(buildings[s] is WorldObject_WD_AaTurret aa) || aa.Destroyed || !aa.Tile.Valid) continue;
+                    if (aa.Faction == null || aa.Faction.IsPlayer) continue;
+                    if (!WorldActions_Utils.SafeHostileTo(aa.Faction, Faction.OfPlayer)) continue;
+                    if (!aa.IsFiringEnabled) continue;
 
-                    CompViralSpread viral = settlement.GetComponent<CompViralSpread>();
-                    if (viral == null || !viral.IsSettlementAntiAirEligible() || !viral.IsSettlementAntiAirAutoActive)
-                        continue;
-
-                    int aaTile = settlement.Tile.tileId;
+                    int aaTile = aa.Tile.tileId;
                     float dist = manager != null
                         ? WorldActions_Utils.GetDistance(warehouseTile, aaTile, manager)
                         : Find.WorldGrid.ApproxDistanceInTiles(warehouseTile, aaTile);

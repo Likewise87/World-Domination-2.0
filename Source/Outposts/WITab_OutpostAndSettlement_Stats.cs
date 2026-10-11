@@ -208,6 +208,7 @@ namespace TSA_WorldDomination
             unchecked
             {
                 int h = worldObject.ID;
+                h = h * 397 + (WorldComponent_AdvancedBuildings.Get()?.Version ?? 0);
 
                 if (worldObject is WorldObject_WD_Outpost outpost)
                 {

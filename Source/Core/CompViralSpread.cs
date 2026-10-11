@@ -314,17 +314,11 @@ namespace TSA_WorldDomination
             return IsSettlementT4TurretBaseEligible();
         }
 
-        private bool IsSettlementT4TurretBaseEligible()
-        {
-            if (parent == null || parent.Destroyed) return false;
-            if (!(parent is Settlement)) return false;
-            if (tier != SettlementTier.T4) return false;
-            Faction f = parent.Faction;
-            if (f == null || f.IsPlayer) return false;
-            TechLevel minTech = WorldDominationMod.settings?.npcT4MortarMinTechLevel ?? WorldDominationSettings.DefNpcT4MortarMinTechLevel;
-            if (f.def.techLevel < minTech) return false;
-            return true;
-        }
+        /// <summary>
+        /// Always false: the built-in T4 mortar/AA moved to <see cref="WorldObject_WD_MortarTurret"/> /
+        /// <see cref="WorldObject_WD_AaTurret"/>. Kept so the old auto-active / cooldown Scribe keys still load.
+        /// </summary>
+        private bool IsSettlementT4TurretBaseEligible() => false;
 
         public bool IsSettlementMortarAutoActive => t4MortarAutoActive;
         public bool IsSettlementAntiAirAutoActive => t4AntiAirAutoActive;
@@ -356,32 +350,26 @@ namespace TSA_WorldDomination
             return skillEquiv > 0f;
         }
 
-        /// <summary>Keep scheduler registration in sync with tier/faction eligibility (event-driven; not polled every CompTick).</summary>
+        /// <summary>
+        /// Settlements never fire mortar/AA themselves (NPC Mortar / AA Turrets do). Only drops a stale registration.
+        /// </summary>
         private void UpdateInterceptorRegistration()
         {
-            bool eligible = (IsSettlementMortarInterceptorEligible() && IsSettlementMortarAutoActive)
-                || (IsSettlementAntiAirEligible() && IsSettlementAntiAirAutoActive);
-            if (eligible == registeredAsInterceptor) return;
+            if (!registeredAsInterceptor) return;
             var sched = WorldComponent_InterceptionScheduler.Current;
             if (sched == null) return;
-            if (eligible) sched.RegisterInterceptor(this);
-            else sched.UnregisterInterceptor(this);
-            registeredAsInterceptor = eligible;
+            sched.UnregisterInterceptor(this);
+            registeredAsInterceptor = false;
         }
 
         /// <summary>
-        /// New T4 settlements must not snap-fire mortar/AA on the tick they unlock (develop, trade, turtle, world gen, etc.).
-        /// Stamps full NPC mortar + AA cooldowns when entering T4 from a lower tier.
+        /// Tier-change hook (name kept for the many call sites). Settlements no longer fire mortar/AA themselves;
+        /// this forwards to advanced buildings (T3 artillery roll, free first T4 turret, which starts on full cooldown).
         /// </summary>
         private void StampT4WorldDefensesOnCooldownIfEntering(SettlementTier oldTier, SettlementTier newTier)
         {
-            if (oldTier == SettlementTier.T4 || newTier != SettlementTier.T4) return;
             if (IsOutpost || IsPlayerMapSettlement) return;
-            if (parent?.Faction == null || parent.Faction.IsPlayer) return;
-
-            MortarFireUtils.ApplyNpcMortarCooldown(this);
-            if (parent != null)
-                AntiAirFireUtils.ApplyAntiAirCooldown(this, parent);
+            WorldActions_AdvancedBuildings.NotifyTierChanged(this, oldTier, newTier);
         }
 
         /// <summary>
@@ -439,6 +427,12 @@ namespace TSA_WorldDomination
         public int incidentCooldownTick = -1;   // Target: Protected from Minor/Major incidents
         public int mortarCooldownTick = -1;     // Actor: Shared cooldown for manual mortar strikes and defensive auto-fire
         public int antiAirCooldownTick = -1;    // Actor: Separate short cooldown for AA flak engagements
+        /// <summary>Actor: advanced building projects daily action cooldown.</summary>
+        public int advancedBuildCooldownTick = -1;
+        /// <summary>T3 artillery chance, rolled once on first reaching T3: -1 unrolled, 0 failed, 1 passed.</summary>
+        public int artilleryRoll = -1;
+        /// <summary>Free first T4 artillery handled for the current T4 stint (cleared when entering T4).</summary>
+        public bool freeT4ArtilleryDone;
         private bool t4MortarAutoActive = true;
         private bool t4AntiAirAutoActive = true;
         /// <summary>Player map colony: convert map food into travel pemmican when transferring pawns away. Default on.</summary>
@@ -971,6 +965,7 @@ namespace TSA_WorldDomination
         public bool IsExpansionOnCooldown => Find.TickManager.TicksGame < expansionCooldownTick;
         public bool IsRoadOnCooldown => Find.TickManager.TicksGame < roadCooldownTick;
         public bool IsFortifyOnCooldown => Find.TickManager.TicksGame < fortifyCooldownTick;
+        public bool IsAdvancedBuildOnCooldown => Find.TickManager.TicksGame < advancedBuildCooldownTick;
         public bool IsTraderOnCooldown => Find.TickManager.TicksGame < traderCooldownTick;
         public bool IsAmbushOnCooldown => Find.TickManager.TicksGame < ambushCooldownTick;
         public bool IsPlayerColonyWdTraderTargetOnCooldown => Find.TickManager.TicksGame < playerColonyWdTraderCooldownTick;
@@ -1595,9 +1590,7 @@ namespace TSA_WorldDomination
                 defensiveStrength = defMax;
             else if (defensiveStrength < defMax)
             {
-                float gain = Mathf.Max(GetOutpostDefensiveRecoveryMinFlat(), defMax * GetOutpostDefensiveRecoveryFraction());
-                if (parent is WorldObject_WD_Outpost woDef)
-                    gain *= 1f + woDef.GetOutpostDefensiveRecoveryMultiplierBonus();
+                float gain = GetNpcDailyDefensiveRecovery();
                 defensiveStrength = Mathf.Min(defensiveStrength + gain, defMax);
             }
         }
@@ -1635,8 +1628,24 @@ namespace TSA_WorldDomination
         {
             if (IsPlayerMapSettlement) return 0f;
             if (IsOutpost) return GetOutpostOffensiveRegenTarget();
-            if (IsSettlement) return GetStrengthRange(tier).max;
+            if (IsSettlement) return GetEffectiveOffensiveMaxForTier(tier);
             return float.MaxValue;
+        }
+
+        /// <summary>Settlement offensive cap for <paramref name="forTier"/>: base tier max, raised by a Silo. Tier thresholds and Develop keep the base max.</summary>
+        public float GetEffectiveOffensiveMaxForTier(SettlementTier forTier) =>
+            AdvancedBuildingEffects.GetEffectiveOffensiveMax(this, forTier);
+
+        /// <summary>Daily defensive recovery amount for this settlement/outpost (before the cap), Hospital included.</summary>
+        public float GetNpcDailyDefensiveRecovery()
+        {
+            float defMax = GetBaseDefensiveStrength();
+            float gain = Mathf.Max(GetOutpostDefensiveRecoveryMinFlat(), defMax * GetOutpostDefensiveRecoveryFraction());
+            if (parent is WorldObject_WD_Outpost woDef)
+                gain *= 1f + woDef.GetOutpostDefensiveRecoveryMultiplierBonus();
+            else if (IsSettlement)
+                gain *= AdvancedBuildingEffects.RegenMult(parent);
+            return gain;
         }
 
         /// <summary>Feature E: flat tier-indexed trader-caravan escort strength floor for this settlement (interception/combat math only, not the resource cost deducted at launch). Non-settlements fall back to <see cref="GetMaxOffensiveStrength"/>.</summary>
@@ -1704,7 +1713,7 @@ namespace TSA_WorldDomination
             }
             if (IsSettlement)
             {
-                float currentTierMax = GetStrengthRange(tier).max;
+                float currentTierMax = GetEffectiveOffensiveMaxForTier(tier);
                 offensiveStrength = Mathf.Clamp(offensiveStrength + amount, 0f, currentTierMax);
             }
         }
@@ -1723,7 +1732,7 @@ namespace TSA_WorldDomination
             {
             }
 
-            float max = GetStrengthRange(tier).max;
+            float max = GetEffectiveOffensiveMaxForTier(tier);
             if (offensiveStrength > max)
                 offensiveStrength = max;
         }
@@ -1744,7 +1753,7 @@ namespace TSA_WorldDomination
             tier = nextTier;
             subType = GetRandomSubType(nextTier);
             FloatRange nr = GetStrengthRange(nextTier);
-            offensiveStrength = Mathf.Clamp(offensiveStrength, nr.min, nr.max);
+            offensiveStrength = Mathf.Clamp(offensiveStrength, nr.min, GetEffectiveOffensiveMaxForTier(nextTier));
             defensiveStrength = GetBaseDefensiveStrength();
             lastRadiusUpdateTick = -9999;
             UpdateInterceptorRegistration();
@@ -1759,7 +1768,7 @@ namespace TSA_WorldDomination
 
             float offensiveMax = IsOutpost
                 ? GetTargetOutpostStrength()
-                : (IsSettlement ? GetStrengthRange(tier).max : float.MaxValue);
+                : (IsSettlement ? GetEffectiveOffensiveMaxForTier(tier) : float.MaxValue);
             float defensiveMax = GetBaseDefensiveStrength();
             float offensiveRoom = Mathf.Max(0f, offensiveMax - offensiveStrength);
             float defensiveRoom = Mathf.Max(0f, defensiveMax - defensiveStrength);
@@ -1803,8 +1812,7 @@ namespace TSA_WorldDomination
                 return TraderArrivalRewardOutcome.StrengthOnly;
             }
 
-            FloatRange r = GetStrengthRange(tier);
-            float tierMax = r.max;
+            float tierMax = GetEffectiveOffensiveMaxForTier(tier);
             const float eps = 0.01f;
             bool atCap = offensiveStrength >= tierMax - eps;
             bool wouldExceed = offensiveStrength + amount > tierMax + eps;
@@ -1855,7 +1863,7 @@ namespace TSA_WorldDomination
             tier = newTier;
             subType = GetRandomSubType(newTier);
             FloatRange nr = GetStrengthRange(newTier);
-            offensiveStrength = Mathf.Clamp(offensiveStrength + rewardAmount, nr.min, nr.max);
+            offensiveStrength = Mathf.Clamp(offensiveStrength + rewardAmount, nr.min, GetEffectiveOffensiveMaxForTier(newTier));
             defensiveStrength = GetBaseDefensiveStrength();
             lastRadiusUpdateTick = -9999;
             UpdateInterceptorRegistration();
@@ -1885,7 +1893,7 @@ namespace TSA_WorldDomination
             tier = nextTier;
             subType = GetRandomSubType(nextTier);
             FloatRange nr = GetStrengthRange(nextTier);
-            offensiveStrength = Mathf.Clamp(offensiveStrength, nr.min, nr.max);
+            offensiveStrength = Mathf.Clamp(offensiveStrength, nr.min, GetEffectiveOffensiveMaxForTier(nextTier));
             defensiveStrength = GetBaseDefensiveStrength();
             lastRadiusUpdateTick = -9999;
             UpdateInterceptorRegistration();
@@ -1904,7 +1912,7 @@ namespace TSA_WorldDomination
                 return;
             }
             FloatRange r = GetStrengthRange(tier);
-            offensiveStrength = Mathf.Clamp(offensiveStrength + delta, r.min, r.max);
+            offensiveStrength = Mathf.Clamp(offensiveStrength + delta, r.min, GetEffectiveOffensiveMaxForTier(tier));
         }
 
         /// <summary>Raid (or similar) loss: same fraction removed from offensive and defensive so total drops by that fraction of prior total (e.g. 50% loss halves both pools).</summary>
@@ -1950,7 +1958,7 @@ namespace TSA_WorldDomination
             if (allowDemotion && fromStrength < oldTier)
                 tier = fromStrength;
 
-            float max = GetStrengthRange(tier).max;
+            float max = GetEffectiveOffensiveMaxForTier(tier);
             if (offensiveStrength > max) offensiveStrength = max;
 
             if (oldTier != tier)
@@ -2012,6 +2020,9 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref tier, "tier", SettlementTier.T1);
             Scribe_Values.Look(ref subType, "subType", "");
             Scribe_Values.Look(ref npcSettlementBootstrapPending, "npcSettlementBootstrapPending", false);
+            Scribe_Values.Look(ref artilleryRoll, "advArtilleryRoll", -1);
+            Scribe_Values.Look(ref advancedBuildCooldownTick, "advancedBuildCooldownTick", -1);
+            Scribe_Values.Look(ref freeT4ArtilleryDone, "advFreeT4ArtilleryDone", false);
             float legacyStrength = offensiveStrength;
             Scribe_Values.Look(ref offensiveStrength, "offensiveStrength", -1f);
             Scribe_Values.Look(ref defensiveStrength, "defensiveStrength", -1f);
@@ -2406,33 +2417,14 @@ namespace TSA_WorldDomination
                 sb.AppendLine();
                 sb.Append("TSA_WD_Inspect_AidCD".Translate(daysLeft.ToString("F1")).Colorize(Color.gray));
             }
-            // T4 mortar / AA status — same ready/CD pattern as player mortar outposts.
-            if (IsSettlementMortarInterceptorEligible())
+            if (parent.Faction != null && !parent.Faction.IsPlayer && parent is Settlement npcSettlement)
             {
-                sb.AppendLine();
-                if (IsMortarOnCooldown)
+                string buildings = AdvancedBuildingEffects.BuildingsInspectLine(npcSettlement, this);
+                if (!buildings.NullOrEmpty())
                 {
-                    float daysLeft = (mortarCooldownTick - ticksNow) / 60000f;
-                    sb.Append("TSA_WD_Inspect_MortarCD".Translate(daysLeft.ToString("F1")).Colorize(Color.cyan));
+                    sb.AppendLine();
+                    sb.Append(buildings);
                 }
-                else
-                    sb.Append("TSA_WD_Inspect_MortarReady".Translate().Colorize(Color.cyan));
-            }
-            if (IsSettlementAntiAirEligible())
-            {
-                sb.AppendLine();
-                if (!IsSettlementAntiAirAutoActive)
-                    sb.Append("TSA_WD_AntiAir_Auto_Off".Translate().Colorize(Color.gray));
-                else if (IsAntiAirOnCooldown)
-                {
-                    float secLeft = (antiAirCooldownTick - ticksNow) / 60f;
-                    sb.Append("TSA_WD_Inspect_AntiAirCD".Translate(secLeft.ToString("F0")).Colorize(Color.cyan));
-                }
-                else
-                    sb.Append("TSA_WD_Inspect_AntiAirReady".Translate().Colorize(Color.cyan));
-            }
-            if (parent.Faction != null && !parent.Faction.IsPlayer && IsSettlement)
-            {
                 AppendActiveRadiusInspectLine(sb);
             }
 

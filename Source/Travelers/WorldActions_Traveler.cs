@@ -77,7 +77,7 @@ namespace TSA_WorldDomination
                 case TravelerMission.RaidGravship:
                     if (traveler.isTurretDetour)
                     {
-                        if (traveler.targetObject is WorldObject_AT_Turret liveTurret && !liveTurret.Destroyed)
+                        if (AtTurretRetaliationUtility.IsFieldStructureTarget(traveler.targetObject) && !traveler.targetObject.Destroyed)
                             return true;
                         // Turret gone mid-route: resume original target instead of aborting the whole raid.
                         return AtTurretRetaliationUtility.TryResumeAfterTurretDetour(traveler);
@@ -109,6 +109,8 @@ namespace TSA_WorldDomination
 
                 case TravelerMission.NpcAtTurret:
                     if (traveler.originObject == null || traveler.originObject.Destroyed) return false;
+                    if (traveler.IsAdvancedBuilder)
+                        return WorldActions_AdvancedBuildings.IsBuildableTile(destTile.tileId, traveler.originObject as Settlement);
                     return AtTurretUtility.IsEmptyOffRoadTurretSite(destTile.tileId);
 
                 case TravelerMission.NpcFortify:
@@ -278,7 +280,10 @@ namespace TSA_WorldDomination
                     }
                     break;
                 case TravelerMission.NpcAtTurret:
-                    WorldActions_NpcFortify.ExecuteNpcAtTurretArrival(traveler);
+                    if (traveler.IsAdvancedBuilder)
+                        WorldActions_AdvancedBuildings.ExecuteBuilderArrival(traveler);
+                    else
+                        WorldActions_NpcFortify.ExecuteNpcAtTurretArrival(traveler);
                     if (traveler != null && !traveler.Destroyed)
                         traveler.Destroy();
                     break;

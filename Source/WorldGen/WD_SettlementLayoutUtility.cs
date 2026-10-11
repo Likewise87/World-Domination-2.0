@@ -914,15 +914,20 @@ namespace TSA_WorldDomination
 
             var all = Find.WorldObjects?.AllWorldObjects;
             if (all == null) return;
-            var turrets = new List<WorldObject_AT_Turret>();
+            var turrets = new List<WorldObject>();
             for (int i = 0; i < all.Count; i++)
             {
-                if (all[i] is WorldObject_AT_Turret t && !t.Destroyed
-                    && (t.Faction == null || !t.Faction.IsPlayer))
-                    turrets.Add(t);
+                if ((all[i] is WorldObject_AT_Turret || all[i] is WorldObject_WD_AdvancedBuilding)
+                    && !all[i].Destroyed
+                    && (all[i].Faction == null || !all[i].Faction.IsPlayer))
+                    turrets.Add(all[i]);
             }
             for (int i = 0; i < turrets.Count; i++)
+            {
+                if (turrets[i] is WorldObject_WD_AdvancedBuilding b)
+                    b.suppressDestroyedLetter = true;
                 turrets[i].Destroy();
+            }
         }
 
         private static SettlementTier PickRandomTier()

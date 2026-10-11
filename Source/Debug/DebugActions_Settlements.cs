@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LudeonTK;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -11,8 +10,7 @@ namespace TSA_WorldDomination
 {
     public static class DebugActions_Settlements
     {
-        [DebugAction("World Domination", "Spawn WD Settlement (multi-place)...",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void SpawnWdSettlementMultiPlace()
         {
             var tierOpts = new List<FloatMenuOption>();
@@ -104,9 +102,7 @@ namespace TSA_WorldDomination
         private static bool TrySpawnWdSettlementAt(int tile, SettlementTier tier, Faction faction, out string failReason) =>
             WD_SettlementEditUtility.TrySpawnWdSettlementAt(tile, tier, faction, out failReason, enforceMinDistance: false);
 
-        [DebugAction("World Domination", "Upgrade Settlement Tier (Click)",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void UpgradeSettlementTier()
         {
             int tile = GenWorld.MouseTile();
@@ -127,9 +123,7 @@ namespace TSA_WorldDomination
             Find.World.GetComponent<WorldComponent_SpreadManager>()?.Notify_WeightsChanged();
         }
 
-        [DebugAction("World Domination", "Downgrade Settlement Tier (Click)",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void DowngradeSettlementTier()
         {
             int tile = GenWorld.MouseTile();
@@ -150,9 +144,7 @@ namespace TSA_WorldDomination
             Find.World.GetComponent<WorldComponent_SpreadManager>()?.Notify_WeightsChanged();
         }
 
-        [DebugAction("World Domination", "Clear raid protection CD (Click)",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void ClearRaidProtectionCooldown()
         {
             int tile = GenWorld.MouseTile();
@@ -181,9 +173,7 @@ namespace TSA_WorldDomination
             Messages.Message($"Debug: cleared raid protection on {obj.LabelCap}.", MessageTypeDefOf.CautionInput);
         }
 
-        [DebugAction("World Domination", "Increase Strength +100",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void DebugStrengthPlus100()
         {
             int tile = GenWorld.MouseTile();
@@ -196,9 +186,7 @@ namespace TSA_WorldDomination
             Find.World.GetComponent<WorldComponent_SpreadManager>()?.Notify_WeightsChanged();
         }
 
-        [DebugAction("World Domination", "Decrease Strength -100",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void DebugStrengthMinus100()
         {
             int tile = GenWorld.MouseTile();
@@ -215,9 +203,7 @@ namespace TSA_WorldDomination
         /// Force this NPC settlement to pick the player colony, then run experimental local-executor handoff
         /// (same faction, closer base launches). Requires experimental weighted target bands.
         /// </summary>
-        [DebugAction("World Domination", "Force colony raid + executor handoff (Click NPC)",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void DebugForceColonyRaidExecutorHandoff()
         {
             int tile = GenWorld.MouseTile();
@@ -253,8 +239,7 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>Watch-index build/perf inspection for target-of-opportunity/marauding/ambush/Feature D tuning.</summary>
-        [DebugAction("World Domination", "Force-Rebuild Settlement Watch Index",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void ForceRebuildSettlementWatchIndex()
         {
             var idx = WorldComponent_SettlementWatchIndex.Get();

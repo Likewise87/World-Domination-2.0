@@ -36,14 +36,47 @@ namespace TSA_WorldDomination
             var watchIndex = WorldComponent_SettlementWatchIndex.Get();
             if (watchIndex == null) return;
             List<WorldObject> watchers = watchIndex.GetWatchers(exitedTileId, WatchCapability.Nearby);
-            if (watchers == null || watchers.Count == 0) return;
-
-            WorldObject_AT_Turret best = FindClosestHostileTurret(traveler, watchers, exitedTileId);
-            if (best == null) return;
-
-            if (!TryBeginTurretDetour(traveler, best, proximity: true))
+            WorldObject_AT_Turret best = watchers != null && watchers.Count > 0
+                ? FindClosestHostileTurret(traveler, watchers, exitedTileId)
+                : null;
+            if (best != null)
+            {
+                TryBeginTurretDetour(traveler, best, proximity: true);
                 return;
+            }
+
+            List<WorldObject> buildingWatchers = watchIndex.GetWatchers(exitedTileId, WatchCapability.AdvancedBuilding);
+            if (buildingWatchers == null || buildingWatchers.Count == 0) return;
+            WorldObject_WD_AdvancedBuilding bestBuilding = FindClosestHostileAdvancedBuilding(traveler, buildingWatchers, exitedTileId);
+            if (bestBuilding != null)
+                TryBeginTurretDetour(traveler, bestBuilding, proximity: true);
         }
+
+        private static WorldObject_WD_AdvancedBuilding FindClosestHostileAdvancedBuilding(
+            WorldObject_Traveler traveler, List<WorldObject> watchers, int fromTileId)
+        {
+            WorldObject_WD_AdvancedBuilding best = null;
+            float bestDist = float.MaxValue;
+            WorldGrid grid = Find.WorldGrid;
+            for (int i = 0; i < watchers.Count; i++)
+            {
+                if (!(watchers[i] is WorldObject_WD_AdvancedBuilding b) || b.Destroyed) continue;
+                if (b.Faction == null || traveler.targetObject == b) continue;
+                if (!WorldActions_Utils.SafeHostileTo(traveler.Faction, b.Faction)) continue;
+                float dist = grid != null ? grid.ApproxDistanceInTiles(fromTileId, b.Tile.tileId) : 0f;
+                if (dist > WorldComponent_SettlementWatchIndex.AdvancedBuildingDetourRadiusTiles + 0.01f) continue;
+                if (dist < bestDist)
+                {
+                    bestDist = dist;
+                    best = b;
+                }
+            }
+            return best;
+        }
+
+        /// <summary>Detour/primary target that is resolved on arrival as a field fight (AT turret or advanced building).</summary>
+        public static bool IsFieldStructureTarget(WorldObject wo) =>
+            wo is WorldObject_AT_Turret || wo is WorldObject_WD_AdvancedBuilding;
 
         /// <summary>
         /// After an AT shell hit that leaves the traveler alive: begin save/restore detour onto the firing turret.
@@ -87,7 +120,7 @@ namespace TSA_WorldDomination
         /// Save original mission target once, set turret as target, and repath.
         /// No-op when already detouring, destroyed, or not hostile to the turret.
         /// </summary>
-        public static bool TryBeginTurretDetour(WorldObject_Traveler traveler, WorldObject_AT_Turret turret, bool proximity)
+        public static bool TryBeginTurretDetour(WorldObject_Traveler traveler, WorldObject turret, bool proximity)
         {
             if (traveler == null || traveler.Destroyed || traveler.pather == null) return false;
             if (traveler.isTurretDetour) return false;
@@ -130,7 +163,7 @@ namespace TSA_WorldDomination
                 key.Translate(
                     traveler.LabelCap,
                     traveler.preTurretDetourTarget?.LabelCap ?? "?",
-                    turret.LabelCap),
+                    AdvancedBuildingCombatUtility.LabelWithOwner(turret)),
                 traveler, turret));
 
             return true;
@@ -145,13 +178,14 @@ namespace TSA_WorldDomination
         public static bool TryResolveTurretDetourArrival(WorldObject_Traveler traveler, WorldComponent_SpreadManager manager)
         {
             if (traveler == null || traveler.Destroyed) return false;
-            if (!traveler.isTurretDetour && !(traveler.targetObject is WorldObject_AT_Turret))
+            if (!traveler.isTurretDetour && !IsFieldStructureTarget(traveler.targetObject))
                 return false;
 
             manager ??= Find.World?.GetComponent<WorldComponent_SpreadManager>();
             bool primaryTurretRaid = !traveler.isTurretDetour;
 
-            if (!(traveler.targetObject is WorldObject_AT_Turret turret) || turret.Destroyed)
+            WorldObject turret = traveler.targetObject;
+            if (!IsFieldStructureTarget(turret) || turret.Destroyed)
             {
                 if (primaryTurretRaid)
                     FinishPrimaryTurretRaid(traveler);
@@ -230,10 +264,21 @@ namespace TSA_WorldDomination
         /// <summary>
         /// Open-field raid math: traveler is always attacker, AT turret always defender. Winner keeps severity remnant.
         /// </summary>
-        public static void ResolveClash(WorldObject_Traveler traveler, WorldObject_AT_Turret turret, WorldComponent_SpreadManager manager)
+        public static void ResolveClash(WorldObject_Traveler traveler, WorldObject turret, WorldComponent_SpreadManager manager)
         {
             manager ??= Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            OpenFieldClashUtility.ResolveTravelerVsAtTurret(traveler, turret, manager);
+            switch (turret)
+            {
+                case WorldObject_AT_Turret at:
+                    OpenFieldClashUtility.ResolveTravelerVsAtTurret(traveler, at, manager);
+                    break;
+                case WorldObject_WD_ArtilleryTurret art:
+                    OpenFieldClashUtility.ResolveTravelerVsArtilleryTurret(traveler, art, manager);
+                    break;
+                case WorldObject_WD_AdvancedBuilding economic:
+                    AdvancedBuildingCombatUtility.DestroyBuilding(economic, traveler);
+                    break;
+            }
         }
 
         private static WorldObject_AT_Turret FindClosestHostileTurret(

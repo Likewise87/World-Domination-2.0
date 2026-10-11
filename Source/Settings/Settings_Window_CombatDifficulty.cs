@@ -218,6 +218,13 @@ namespace TSA_WorldDomination
                 "TSA_WD_Experimental_AmbushWatchRangeTip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefSettlementAmbushWatchRangeTiles);
             if (!Mathf.Approximately(prevWatchRange, s.settlementAmbushWatchRangeTiles))
                 WorldComponent_SettlementWatchIndex.Get()?.Invalidate();
+            float prevAssetRange = s.settlementAmbushWatchRangeWithAssetsTiles;
+            s.settlementAmbushWatchRangeWithAssetsTiles = SettingsUI.LabeledSlider(l, "TSA_WD_Experimental_AmbushWatchRangeAssets".Translate(), s.settlementAmbushWatchRangeWithAssetsTiles, 1f, 40f,
+                "TSA_WD_Experimental_AmbushWatchRangeAssetsTip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefSettlementAmbushWatchRangeWithAssetsTiles);
+            if (!Mathf.Approximately(prevAssetRange, s.settlementAmbushWatchRangeWithAssetsTiles))
+                WorldComponent_SettlementWatchIndex.Get()?.Invalidate();
+            s.settlementAmbushSelfDefenseMinRatio = SettingsUI.LabeledSlider(l, "TSA_WD_Experimental_AmbushSelfDefenseRatio".Translate(), s.settlementAmbushSelfDefenseMinRatio, 0f, 3f,
+                "TSA_WD_Experimental_AmbushSelfDefenseRatioTip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefSettlementAmbushSelfDefenseMinRatio);
         }
 
         private void DrawVanguardAndInvasion(Listing_Standard l, WorldDominationSettings s)

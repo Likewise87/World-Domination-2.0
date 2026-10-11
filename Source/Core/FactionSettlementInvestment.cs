@@ -122,7 +122,7 @@ namespace TSA_WorldDomination
                     CompViralSpread comp = candidates[i].Comp;
                     Settlement settlement = candidates[i].Settlement;
                     if (comp == null || settlement == null) continue;
-                    float max = CompViralSpread.GetStrengthRange(comp.tier).max;
+                    float max = comp.GetEffectiveOffensiveMaxForTier(comp.tier);
                     float room = Mathf.Max(0f, max - comp.offensiveStrength);
                     if (room <= CapEpsilon) continue;
 
@@ -159,7 +159,7 @@ namespace TSA_WorldDomination
                     if (settlement == null || comp == null) continue;
                     if (comp.tier >= SettlementTier.T4) continue;
 
-                    float max = CompViralSpread.GetStrengthRange(comp.tier).max;
+                    float max = comp.GetEffectiveOffensiveMaxForTier(comp.tier);
                     if (comp.offensiveStrength < max - CapEpsilon) continue;
 
                     if (!WorldActions_GrowthExpand.CanPromoteNextTierRegionally(settlement, comp.tier))
@@ -315,7 +315,7 @@ namespace TSA_WorldDomination
                 CompViralSpread comp = candidates[i].Comp;
                 if (comp == null) return false;
                 if (comp.tier < SettlementTier.T4) return false;
-                float max = CompViralSpread.GetStrengthRange(SettlementTier.T4).max;
+                float max = comp.GetEffectiveOffensiveMaxForTier(SettlementTier.T4);
                 if (comp.offensiveStrength < max - CapEpsilon) return false;
             }
             return true;

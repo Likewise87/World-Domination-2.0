@@ -152,6 +152,13 @@ namespace TSA_WorldDomination
                 (target) =>
                 {
                     var wo = target.WorldObject;
+                    if (wo is WorldObject_WD_AdvancedBuilding graced && graced.IsInShellGrace)
+                    {
+                        Messages.Message(
+                            "TSA_WD_AdvBuild_ReasonShellGrace".Translate(graced.ShellGraceTicksLeft.ToStringTicksToPeriod()),
+                            MessageTypeDefOf.RejectInput, false);
+                        return false;
+                    }
                     if (!MortarFireUtils.IsValidMortarManualTarget(wo, source, manager, range)) return false;
                     MortarFireUtils.FireManualAtWorldTarget(source, wo);
                     return true;
@@ -170,6 +177,10 @@ namespace TSA_WorldDomination
                     if (!target.IsValid || target.Tile < 0) return false;
                     if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(target.Tile)) return false;
                     if (!target.HasWorldObject) return false;
+                    // Let the click through so the "just built" reason is shown instead of a silent reject.
+                    if (target.WorldObject is WorldObject_WD_AdvancedBuilding graced && graced.IsInShellGrace
+                        && graced.Faction != null && WorldActions_Utils.SafeHostileTo(graced.Faction, Faction.OfPlayer))
+                        return true;
                     return MortarFireUtils.IsValidMortarManualTarget(target.WorldObject, source, manager, range);
                 }
             );
@@ -197,6 +208,8 @@ namespace TSA_WorldDomination
                     return s.Faction != null && WorldActions_Utils.SafeHostileTo(s.Faction, Faction.OfPlayer);
                 case WorldObject_AT_Turret at:
                     return at.Faction != null && WorldActions_Utils.SafeHostileTo(at.Faction, Faction.OfPlayer);
+                case WorldObject_WD_AdvancedBuilding b:
+                    return b.Faction != null && !b.IsInShellGrace && WorldActions_Utils.SafeHostileTo(b.Faction, Faction.OfPlayer);
                 case Caravan c:
                     return c.Faction != null && WorldActions_Utils.SafeHostileTo(c.Faction, Faction.OfPlayer);
                 case WorldObject_Traveler t:
@@ -209,7 +222,9 @@ namespace TSA_WorldDomination
         public static void FireManualAtWorldTarget(WorldObject_WD_Outpost origin, WorldObject target)
         {
             if (origin == null || target == null) return;
-            if (!(target is Settlement || target is WorldObject_AT_Turret || target is Caravan || target is WorldObject_Traveler)) return;
+            if (!(target is Settlement || target is WorldObject_AT_Turret || target is WorldObject_WD_AdvancedBuilding
+                  || target is Caravan || target is WorldObject_Traveler)) return;
+            if (target is WorldObject_WD_AdvancedBuilding graced && graced.IsInShellGrace) return;
             var seth = WorldDominationMod.settings;
             var comp = origin.GetComponent<CompViralSpread>();
             if (comp == null || comp.IsMortarOnCooldown) return;
@@ -353,6 +368,35 @@ namespace TSA_WorldDomination
             ApplyNpcMortarCooldown(comp);
             // Static targets resolve to their own tile inside SpawnMortarTraveler (no caravan leading needed).
             WorldActions_Traveler.SpawnMortarTraveler(origin, target, damage, guaranteedHit: hit);
+        }
+
+        /// <summary>NPC Mortar Turret shot (traveler, caravan, or static target). Uses the NPC mortar damage/skill/range/bands,
+        /// the turret's own cooldown, and the global NPC mortar stagger.</summary>
+        public static bool FireFromNpcMortarTurret(WorldObject_WD_MortarTurret origin, WorldObject target, float approxTileDist)
+        {
+            if (origin == null || origin.Destroyed || target == null || target.Destroyed) return false;
+            if (!origin.IsFiringEnabled || origin.IsOnCooldown) return false;
+            if (target is WorldObject_WD_AdvancedBuilding building && building.IsInShellGrace) return false;
+            if (target is Caravan caravan)
+            {
+                if (!caravan.Spawned || !AtTurretUtility.CanEnemySystemsTargetPlayerCaravan(caravan)) return false;
+            }
+            if (target.Faction == null || target.Faction == origin.Faction) return false;
+            if (!WorldActions_Utils.SafeHostileTo(origin.Faction, target.Faction)) return false;
+
+            var seth = WorldDominationMod.settings;
+            float damage = seth?.npcMortarDamage ?? WorldDominationSettings.DefNpcMortarDamage;
+            float skillEquiv = seth?.npcMortarSkillEquivalent ?? WorldDominationSettings.DefNpcMortarSkillEquivalent;
+            float maxRange = origin.RangeTiles;
+            if (approxTileDist > maxRange) return false;
+            bool hit = RollMortarHit(approxTileDist, maxRange, skillEquiv, seth, 0f, useNpcBands: true);
+            bool moving = target is Caravan || target is WorldObject_Traveler;
+            int aimTile = moving ? MortarCaravanIntercept.ResolveMortarAimTileId(origin, target, maxRange) : -1;
+
+            if (!NpcT4GlobalFireStagger.TryClaimMortarFire()) return false;
+            origin.ApplyCooldown();
+            WorldActions_Traveler.SpawnMortarTraveler(origin, target, damage, guaranteedHit: hit, aimTileIdOverride: aimTile);
+            return true;
         }
 
         /// <summary>AT Turret defensive shot: settings damage/cooldown/accuracy bands, own cooldown field.

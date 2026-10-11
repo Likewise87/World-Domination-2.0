@@ -101,6 +101,9 @@ namespace TSA_WorldDomination
         public bool rapidResponseWinXpGranted;
         /// <summary>True when this intercept was launched by Feature C settlement ambush (sally, not player Rapid Response).</summary>
         public bool isSettlementAmbushSally;
+        /// <summary>NpcAtTurret crew building an advanced building (def name); null for AT turret crews.</summary>
+        public string advancedBuildDefName;
+        public bool IsAdvancedBuilder => mission == TravelerMission.NpcAtTurret && !advancedBuildDefName.NullOrEmpty();
         private int lastRapidResponseTargetTile = -1;
         private int lastRapidResponseInterceptTile = -1;
 
@@ -358,7 +361,9 @@ namespace TSA_WorldDomination
             {
                 string baseLabel = mission == TravelerMission.MortarStrike && originObject is WorldObject_AT_Turret
                     ? (string)"TSA_WD_Traveler_AT_Shell".Translate()
-                    : GetMissionTypeLabel(this);
+                    : IsAdvancedBuilder
+                        ? (string)"TSA_WD_Traveler_AdvancedBuilder".Translate()
+                        : GetMissionTypeLabel(this);
                 if (!ShowTargetingPlayerWarning) return baseLabel;
                 targetingYouCache ??= "TSA_WD_TargetingYou".Translate();
                 return $"{baseLabel} ({targetingYouCache})";
@@ -1139,7 +1144,7 @@ namespace TSA_WorldDomination
                 manager);
         }
 
-        /// <summary>Feature C sally: give up if the quarry is farther than 1.6× ambush watch range from the origin settlement.</summary>
+        /// <summary>Feature C sally: give up if the quarry is farther than <see cref="SettlementAmbushUtility.PursuitRangeMult"/> × the origin's ambush watch range.</summary>
         private bool TryAbortSettlementAmbushIfTargetEscaped(int targetTile)
         {
             if (!isSettlementAmbushSally || mission != TravelerMission.RapidResponseIntercept) return false;
@@ -1152,8 +1157,7 @@ namespace TSA_WorldDomination
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             if (manager == null) return false;
             int dist = WorldActions_Utils.GetDistance(originTile, targetTile, manager);
-            float watch = WorldDominationMod.settings?.settlementAmbushWatchRangeTiles
-                ?? WorldDominationSettings.DefSettlementAmbushWatchRangeTiles;
+            float watch = SettlementAmbushUtility.GetWatchRangeTiles(originObject, WorldDominationMod.settings);
             if (dist <= watch * SettlementAmbushUtility.PursuitRangeMult) return false;
 
             bool notifyPlayer = targetObject?.Faction != null && targetObject.Faction.IsPlayer;
@@ -1406,6 +1410,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref legacyAtTurretDetourConsumed, "atTurretDetourConsumed", false);
             Scribe_Values.Look(ref atTurretProximityDetourConsumed, "atTurretProximityDetourConsumed", false);
             Scribe_Values.Look(ref atTurretHitDetourCount, "atTurretHitDetourCount", 0);
+            Scribe_Values.Look(ref advancedBuildDefName, "advancedBuildDefName");
             if (Scribe.mode == LoadSaveMode.LoadingVars && legacyAtTurretDetourConsumed)
             {
                 atTurretProximityDetourConsumed = true;

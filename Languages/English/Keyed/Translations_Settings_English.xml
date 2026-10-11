@@ -19,7 +19,7 @@
   <TSA_WD_BtnUpdateNotes>Show Update Notes</TSA_WD_BtnUpdateNotes>
   <TSA_WD_BtnRaidMult>Raids on Player</TSA_WD_BtnRaidMult>
   <TSA_WD_BtnLateGame>Mid Game and Late Game</TSA_WD_BtnLateGame>
-  <TSA_WD_BtnT4Mortar>NPC Artillery (T4)</TSA_WD_BtnT4Mortar>
+  <TSA_WD_BtnT4Mortar>NPC artillery turrets</TSA_WD_BtnT4Mortar>
   <TSA_WD_BtnCombatDifficulty>Combat Difficulty</TSA_WD_BtnCombatDifficulty>
   <TSA_WD_DescCombatDifficulty>Mid/Late Game difficulty, threat timing gates, raid pressure on the player, stage combat bonuses, arrival styles, garrison scaling, and NPC T4 mortar/AA hardware.</TSA_WD_DescCombatDifficulty>
   <TSA_WD_BtnEconomicDifficulty>Economic Difficulty</TSA_WD_BtnEconomicDifficulty>
@@ -55,9 +55,9 @@
   <TSA_WD_Combat_HeaderAdvancedWorld>Advanced world combat</TSA_WD_Combat_HeaderAdvancedWorld>
   <TSA_WD_Combat_HeaderAdvancedWorldTip>AT targeting of player travelers/caravans, and experimental T4 gravship raids.</TSA_WD_Combat_HeaderAdvancedWorldTip>
   <TSA_WD_Combat_HeaderGarrisonTip>How much strength NPC settlements keep at home.</TSA_WD_Combat_HeaderGarrisonTip>
-  <TSA_WD_Combat_HeaderT4MortarTip>Enemy settlement mortar fire.</TSA_WD_Combat_HeaderT4MortarTip>
+  <TSA_WD_Combat_HeaderT4MortarTip>Enemy Mortar Turret fire.</TSA_WD_Combat_HeaderT4MortarTip>
   <TSA_WD_Combat_HeaderAntiAirTip>Enemy AA vs your drop pods and flyers.</TSA_WD_Combat_HeaderAntiAirTip>
-  <TSA_WD_Combat_HeaderT4Hardware>T4 mortar / AA hardware</TSA_WD_Combat_HeaderT4Hardware>
+  <TSA_WD_Combat_HeaderT4Hardware>NPC Mortar / AA Turret hardware</TSA_WD_Combat_HeaderT4Hardware>
   <TSA_WD_Combat_HeaderT4HardwareTip>Enable systems and tune range, damage, and accuracy. When they may fire at the player is set under Threat timing.</TSA_WD_Combat_HeaderT4HardwareTip>
   <TSA_WD_Combat_HeaderT4Requirements>Tech requirements</TSA_WD_Combat_HeaderT4Requirements>
   <TSA_WD_Combat_T4TimingNote>Player-targeting timing is controlled by the Threat timing gates above (not separate Mid/Late checkboxes).</TSA_WD_Combat_T4TimingNote>
@@ -68,10 +68,10 @@
   <TSA_WD_Combat_GateToOTip>Stage gate for target-of-opportunity retargeting.</TSA_WD_Combat_GateToOTip>
   <TSA_WD_Combat_GateMaraudTip>Stage gate for post-victory marauding.</TSA_WD_Combat_GateMaraudTip>
   <TSA_WD_Combat_GateAmbushTip>Stage gate for settlement-launched ambush.</TSA_WD_Combat_GateAmbushTip>
-  <TSA_WD_Combat_GateT4Mortar>T4 mortar vs player</TSA_WD_Combat_GateT4Mortar>
-  <TSA_WD_Combat_GateT4MortarTip>When enemy T4 settlement mortars may target the player.</TSA_WD_Combat_GateT4MortarTip>
-  <TSA_WD_Combat_GateT4AntiAir>T4 anti-air vs player</TSA_WD_Combat_GateT4AntiAir>
-  <TSA_WD_Combat_GateT4AntiAirTip>When enemy T4 settlement anti-air may target the player.</TSA_WD_Combat_GateT4AntiAirTip>
+  <TSA_WD_Combat_GateT4Mortar>NPC Mortar Turrets vs player</TSA_WD_Combat_GateT4Mortar>
+  <TSA_WD_Combat_GateT4MortarTip>When enemy Mortar Turrets may target the player.</TSA_WD_Combat_GateT4MortarTip>
+  <TSA_WD_Combat_GateT4AntiAir>NPC AA Turrets vs player</TSA_WD_Combat_GateT4AntiAir>
+  <TSA_WD_Combat_GateT4AntiAirTip>When enemy AA Turrets may target the player.</TSA_WD_Combat_GateT4AntiAirTip>
   <TSA_WD_Combat_GateVanguard>Vanguard</TSA_WD_Combat_GateVanguard>
   <TSA_WD_Combat_GateVanguardTip>Stage gate for Forward Assault Vanguard: packs far settlements into a few strong caravans that dig in on your front line (not on the colony).</TSA_WD_Combat_GateVanguardTip>
   <TSA_WD_Combat_GateInvasion>Invasion</TSA_WD_Combat_GateInvasion>
@@ -362,6 +362,7 @@
   <TSA_WD_WorldSetup_ToolTurret>Place AT Turret</TSA_WD_WorldSetup_ToolTurret>
   <TSA_WD_WorldSetup_ToolRoadBlock>Place Road Block</TSA_WD_WorldSetup_ToolRoadBlock>
   <TSA_WD_WorldSetup_ToolTrap>Place Trap</TSA_WD_WorldSetup_ToolTrap>
+  <TSA_WD_WorldSetup_ToolAdvBuilding>Place Advanced Building</TSA_WD_WorldSetup_ToolAdvBuilding>
   <TSA_WD_WorldSetup_ToolPlaceRoad>Place Road</TSA_WD_WorldSetup_ToolPlaceRoad>
   <TSA_WD_WorldSetup_ToolPlaceBridge>Place Bridge</TSA_WD_WorldSetup_ToolPlaceBridge>
   <TSA_WD_WorldSetup_ToolRemoveFortify>Remove fortification here</TSA_WD_WorldSetup_ToolRemoveFortify>
@@ -385,7 +386,7 @@
   <TSA_WD_WorldSetup_PlaceFortifyHint>Click tiles to place. Right-click or Esc to stop.</TSA_WD_WorldSetup_PlaceFortifyHint>
   <TSA_WD_WorldSetup_PlaceFortifyFailed>Could not place there.</TSA_WD_WorldSetup_PlaceFortifyFailed>
   <TSA_WD_WorldSetup_PlaceFortifyDone>Placed.</TSA_WD_WorldSetup_PlaceFortifyDone>
-  <TSA_WD_WorldSetup_RemoveFortifyHint>Click a road block, trap, or AT turret to remove it.</TSA_WD_WorldSetup_RemoveFortifyHint>
+  <TSA_WD_WorldSetup_RemoveFortifyHint>Click a road block, trap, AT turret, or advanced building to remove it.</TSA_WD_WorldSetup_RemoveFortifyHint>
   <TSA_WD_WorldSetup_RemoveFortifyNone>Nothing to remove on that tile.</TSA_WD_WorldSetup_RemoveFortifyNone>
   <TSA_WD_WorldSetup_RemoveFortifyDone>Removed fortification.</TSA_WD_WorldSetup_RemoveFortifyDone>
   <TSA_WD_WorldSetup_RoadDirt>Dirt road</TSA_WD_WorldSetup_RoadDirt>
@@ -644,7 +645,7 @@
   <TSA_WD_WorldMap_HotkeyLine>Hotkey: {0}</TSA_WD_WorldMap_HotkeyLine>
   <TSA_WD_WorldMap_ToggleTierTexts>Settlement tier labels</TSA_WD_WorldMap_ToggleTierTexts>
   <TSA_WD_WorldMap_ToggleTierTextsTip>Toggle the T1–T4 labels shown over NPC settlements.</TSA_WD_WorldMap_ToggleTierTextsTip>
-  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>Road blocks, traps, and AT</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>Road blocks, traps, AT, and buildings</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
   <TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>Toggle road-block, spike-trap / caltrops, and AT Turret icons on the world map. Overlay icons also hide when zoomed out.</TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>
   <TSA_WD_WorldMap_ToggleFortifyBlacklist>Blocked tiles for NPC Fortification</TSA_WD_WorldMap_ToggleFortifyBlacklist>
   <TSA_WD_WorldMap_ToggleFortifyBlacklistTip>Show tiles marked so allies (and neutrals if enabled) may not place new road blocks or traps. Existing forts stay until you Remove fortifications. Marks also show while using the mark/remove tools.</TSA_WD_WorldMap_ToggleFortifyBlacklistTip>
@@ -1055,4 +1056,25 @@
   <TSA_WD_LateGame_OnlyFireT4AntiAirAtPlayer>Only fire T4 Anti Air at player while Late Game is active</TSA_WD_LateGame_OnlyFireT4AntiAirAtPlayer>
   <TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>Only fire T4 Mortars at player while Mid Game is active</TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>
   <TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>Only fire T4 Anti Air at player while Mid Game is active</TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>
+
+  <!-- Advanced buildings + sally overhaul -->
+  <TSA_WD_Daily_WeightAdvancedBuildings>Advanced building likelihood</TSA_WD_Daily_WeightAdvancedBuildings>
+  <TSA_WD_Daily_WeightAdvancedBuildingsTip>Likelihood that a settlement sends a crew to build an advanced building nearby: Silo, Hospital, Watch Tower, Stable, Mortar Turret or AA Turret. Each settlement has as many slots as its tier and at most one of each type. Safe settlements far from enemies build more often; threatened settlements only build artillery. If chosen but no project can launch, another eligible daily action is used instead.</TSA_WD_Daily_WeightAdvancedBuildingsTip>
+  <TSA_WD_Daily_CdAdvancedBuildings>Cooldown after advanced building</TSA_WD_Daily_CdAdvancedBuildings>
+  <TSA_WD_Daily_CdAdvancedBuildingsTip>Days before this settlement can start another advanced building. Does not block other action types.</TSA_WD_Daily_CdAdvancedBuildingsTip>
+  <TSA_WD_Daily_HeaderAdvancedBuildings>NPC Advanced Buildings</TSA_WD_Daily_HeaderAdvancedBuildings>
+  <TSA_WD_AdvBuild_Setting_EffectPct>Economic building bonus</TSA_WD_AdvBuild_Setting_EffectPct>
+  <TSA_WD_AdvBuild_Setting_EffectPctTip>Bonus each economic building gives its owner: Silo (max offensive strength), Hospital (offensive and defensive recovery), Watch Tower (attack range), Stable (land caravan speed).</TSA_WD_AdvBuild_Setting_EffectPctTip>
+  <TSA_WD_AdvBuild_Setting_ArtilleryStrength>Artillery turret strength</TSA_WD_AdvBuild_Setting_ArtilleryStrength>
+  <TSA_WD_AdvBuild_Setting_ArtilleryStrengthTip>Strength of newly built NPC Mortar and AA Turrets. Raids must beat this to destroy one; mortar hits chip it down. Turrets never regenerate. Existing turrets keep their strength.</TSA_WD_AdvBuild_Setting_ArtilleryStrengthTip>
+  <TSA_WD_Experimental_AmbushWatchRangeAssets>Ambush watch range with buildings (tiles)</TSA_WD_Experimental_AmbushWatchRangeAssets>
+  <TSA_WD_Experimental_AmbushWatchRangeAssetsTip>Watch range for settlements that own an AT Turret or advanced building. The larger of this and the plain watch range is used, so a settlement can defend its outlying assets.</TSA_WD_Experimental_AmbushWatchRangeAssetsTip>
+  <TSA_WD_Experimental_AmbushSelfDefenseRatio>Ambush min ratio when defending home</TSA_WD_Experimental_AmbushSelfDefenseRatio>
+  <TSA_WD_Experimental_AmbushSelfDefenseRatioTip>Minimum (available strength / enemy strength) before a settlement without outlying assets sallies against a caravan heading for the settlement itself. Settlements guarding an AT Turret or advanced building use lower thresholds.</TSA_WD_Experimental_AmbushSelfDefenseRatioTip>
+  <TSA_WD_WorldSetup_PlaceAdvBuildingHint>Click an NPC settlement to place a {0} nearby. Right-click or Esc to stop.</TSA_WD_WorldSetup_PlaceAdvBuildingHint>
+  <TSA_WD_WorldSetup_PlaceAdvBuildingNeedNpc>Click an NPC settlement (not player).</TSA_WD_WorldSetup_PlaceAdvBuildingNeedNpc>
+  <TSA_WD_WorldSetup_PlaceAdvBuildingDuplicate>{0} already owns a {1}.</TSA_WD_WorldSetup_PlaceAdvBuildingDuplicate>
+  <TSA_WD_WorldSetup_PlaceAdvBuildingNoTile>No buildable tile within range.</TSA_WD_WorldSetup_PlaceAdvBuildingNoTile>
+  <TSA_WD_WorldSetup_PlaceAdvBuildingDone>Placed {0} for {1} on tile {2}.</TSA_WD_WorldSetup_PlaceAdvBuildingDone>
+  <TSA_WD_WorldSetup_NoAdvBuildingDefs>No advanced building defs loaded.</TSA_WD_WorldSetup_NoAdvBuildingDefs>
 </LanguageData>

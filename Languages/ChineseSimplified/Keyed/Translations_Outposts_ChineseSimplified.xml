@@ -1904,10 +1904,10 @@
   <TSA_WD_OutpostStats_Row_FoodRadiusTip>此类前哨的食物物流范围（模组设置）。</TSA_WD_OutpostStats_Row_FoodRadiusTip>
   <TSA_WD_OutpostStats_Row_PeopleRadiusTip>招募、贸易与大使馆的附近聚居地半径。</TSA_WD_OutpostStats_Row_PeopleRadiusTip>
   <TSA_WD_OutpostStats_Row_WarehouseRadiusTip>此类前哨的仓库光环半径。</TSA_WD_OutpostStats_Row_WarehouseRadiusTip>
-  <TSA_WD_OutpostStats_Row_NpcMortarRangeTip>NPC T4 迫击炮交战范围（模组设置）。</TSA_WD_OutpostStats_Row_NpcMortarRangeTip>
-  <TSA_WD_OutpostStats_Row_NpcMortarCooldownTip>NPC T4 迫击炮射击间隔的标称天数（模组设置）。</TSA_WD_OutpostStats_Row_NpcMortarCooldownTip>
-  <TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>NPC T4 防空交战范围（模组设置）。</TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>
-  <TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>NPC T4 防空射击间隔的标称秒数（模组设置）。</TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>
+  <TSA_WD_OutpostStats_Row_NpcMortarRangeTip>迫击炮塔交战范围（模组设置）。</TSA_WD_OutpostStats_Row_NpcMortarRangeTip>
+  <TSA_WD_OutpostStats_Row_NpcMortarCooldownTip>迫击炮塔射击间隔的标称天数（模组设置）。</TSA_WD_OutpostStats_Row_NpcMortarCooldownTip>
+  <TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>防空炮塔交战范围（模组设置）。</TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>
+  <TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>防空炮塔射击间隔的标称秒数（模组设置）。</TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>
   <TSA_WD_OutpostStats_Row_AllyStrength>盟友支援实力</TSA_WD_OutpostStats_Row_AllyStrength>
   <TSA_WD_OutpostStats_Row_AllyStrengthTip>盟友拉动半径内邻居的进攻实力。同阵营始终加入；其他阵营盟友视战斗局势而定。明细：</TSA_WD_OutpostStats_Row_AllyStrengthTip>
   <TSA_WD_Gizmo_ShowAllyRadius>盟友半径</TSA_WD_Gizmo_ShowAllyRadius>
@@ -2147,4 +2147,12 @@
   <TSA_WD_StatsTooltip_ResultFlat>结果：{0} + {1} = {2}</TSA_WD_StatsTooltip_ResultFlat>
   <TSA_WD_StatsTooltip_ResultMult>结果：{0} × {1} = {2}</TSA_WD_StatsTooltip_ResultMult>
   <TSA_WD_StatsTooltip_UpgradeSource>升级「{0}」</TSA_WD_StatsTooltip_UpgradeSource>
+
+  <!-- Advanced buildings + sally overhaul -->
+  <TSA_WD_OutpostStats_Row_AdvBuildings>高级建筑</TSA_WD_OutpostStats_Row_AdvBuildings>
+  <TSA_WD_OutpostStats_Row_AdvBuildingsTip>此定居点拥有的高级建筑。槽位等于定居点等级（{0}）；每种类型最多一座。</TSA_WD_OutpostStats_Row_AdvBuildingsTip>
+  <TSA_WD_OutpostStats_Row_LandSpeed>陆地商队速度</TSA_WD_OutpostStats_Row_LandSpeed>
+  <TSA_WD_OutpostStats_Row_LandSpeedTip>马厩对从此定居点出发的商队步行速度的加成。</TSA_WD_OutpostStats_Row_LandSpeedTip>
+  <TSA_WD_OutpostStats_SiloMaxLine>粮仓：{0} +{1}% = {2}</TSA_WD_OutpostStats_SiloMaxLine>
+  <TSA_WD_OutpostStats_HospitalLine>医院：+{0}%</TSA_WD_OutpostStats_HospitalLine>
 </LanguageData>

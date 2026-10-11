@@ -319,6 +319,7 @@ namespace TSA_WorldDomination
             traveler.originObject = origin;
             traveler.travelerStrength = cost;
             traveler.initialStrength = cost;
+            AdvancedBuildingEffects.ApplyNpcLandSpeed(traveler, origin);
 
             Find.WorldObjects.Add(traveler);
             traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(destTile, origin));
@@ -340,6 +341,7 @@ namespace TSA_WorldDomination
             DestroyActiveNpcFortifyCrewsFrom(settlement);
             WorldComponent_RoadBlocks.Get()?.ClearBuiltBySettlement(settlement);
             WorldComponent_SpikeTraps.Get()?.ClearBuiltBySettlement(settlement);
+            WorldComponent_AdvancedBuildings.Get()?.DestroyAllOwnedBy(settlement);
         }
 
         /// <summary>Kill live NPC fortify / AT crews whose origin is this settlement (no orphan placements after razing).</summary>
@@ -540,6 +542,7 @@ namespace TSA_WorldDomination
             traveler.fortifyIsTrap = placeTrap;
             traveler.fortifySpikeTrapKind = trapKind;
             traveler.fortifyRoadBlockKind = blockKind;
+            AdvancedBuildingEffects.ApplyNpcLandSpeed(traveler, origin);
 
             Find.WorldObjects.Add(traveler);
             traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(destTile, origin));

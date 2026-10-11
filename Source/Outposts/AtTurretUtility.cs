@@ -317,6 +317,7 @@ namespace TSA_WorldDomination
                 WorldObject_Traveler t = live[i];
                 if (t == null || t.Destroyed) continue;
                 if (t.originObject != origin) continue;
+                if (t.IsAdvancedBuilder) continue;
                 if (t.mission == TravelerMission.NpcAtTurret || t.mission == TravelerMission.AtTurret)
                     count++;
             }
@@ -425,6 +426,7 @@ namespace TSA_WorldDomination
             if (WorldComponent_RoadBlocks.Get()?.HasBlockAt(tileId) == true) return false;
             if (WorldComponent_SpikeTraps.Get()?.HasTrapAt(tileId) == true) return false;
             if (TileHasAtTurret(tileId)) return false;
+            if (WorldComponent_AdvancedBuildings.Get()?.HasAt(tileId) == true) return false;
             return true;
         }
 
@@ -464,10 +466,11 @@ namespace TSA_WorldDomination
         public static bool TryOverrunHostileAtTurretOnTile(int tileId, Faction playerFaction, WorldObject logSubject = null)
         {
             if (tileId < 0 || playerFaction == null || !playerFaction.IsPlayer) return false;
+            bool overranBuilding = AdvancedBuildingCombatUtility.TryOverrunByPlayer(tileId, playerFaction, logSubject);
             WorldObject_AT_Turret turret = FindTurretAt(tileId);
-            if (turret == null || turret.Destroyed) return false;
-            if (turret.Faction == null || turret.Faction.IsPlayer) return false;
-            if (!WorldActions_Utils.SafeHostileTo(playerFaction, turret.Faction)) return false;
+            if (turret == null || turret.Destroyed) return overranBuilding;
+            if (turret.Faction == null || turret.Faction.IsPlayer) return overranBuilding;
+            if (!WorldActions_Utils.SafeHostileTo(playerFaction, turret.Faction)) return overranBuilding;
 
             string gunLabel = turret.LabelCap;
             turret.suppressDestroyedLetter = true;
@@ -508,6 +511,7 @@ namespace TSA_WorldDomination
             if (WorldComponent_RoadBlocks.Get()?.HasBlockAt(tileId) == true) return false;
             if (WorldComponent_SpikeTraps.Get()?.HasTrapAt(tileId) == true) return false;
             if (TileHasAtTurret(tileId)) return false;
+            if (WorldComponent_AdvancedBuildings.Get()?.HasAt(tileId) == true) return false;
             return true;
         }
 

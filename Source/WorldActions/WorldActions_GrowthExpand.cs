@@ -28,13 +28,23 @@ namespace TSA_WorldDomination
             WorldObject parent = comp.parent;
             if (parent?.Faction == null || parent.Faction.IsPlayer) return;
 
-            var seth = WorldDominationMod.settings;
-            if (seth == null) return;
-
-            FloatRange band = CompViralSpread.GetStrengthRange(comp.tier);
-            float tierMax = band.max;
+            float tierMax = comp.GetEffectiveOffensiveMaxForTier(comp.tier);
             float oldStr = comp.strength;
             if (oldStr >= tierMax - 0.01f) return;
+
+            float gain = GetPassiveOffensiveGrowthGain(comp);
+            if (gain <= 0f) return;
+            comp.strength = Mathf.Min(oldStr + gain, tierMax);
+        }
+
+        /// <summary>Daily passive offensive gain for an NPC settlement (buffs, late game, Hospital), before the cap.</summary>
+        public static float GetPassiveOffensiveGrowthGain(CompViralSpread comp)
+        {
+            if (comp == null || !comp.IsSettlement || comp.IsOutpost) return 0f;
+            WorldObject parent = comp.parent;
+            if (parent?.Faction == null || parent.Faction.IsPlayer) return 0f;
+            var seth = WorldDominationMod.settings;
+            if (seth == null) return 0f;
 
             float buffMult = 1f;
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
@@ -46,9 +56,8 @@ namespace TSA_WorldDomination
             float gain = seth.GetPassiveGrowthAmount(comp.tier) * buffMult;
             if (manager != null && WdEscalation.IsMidOrLate(manager))
                 gain *= manager.GetLateGameGrowthMultiplier();
-
-            if (gain <= 0f) return;
-            comp.strength = Mathf.Min(oldStr + gain, tierMax);
+            gain *= AdvancedBuildingEffects.RegenMult(parent);
+            return Mathf.Max(0f, gain);
         }
 
         public static bool IsDevelopEligible(CompViralSpread comp)
@@ -252,6 +261,7 @@ namespace TSA_WorldDomination
             traveler.travelerStrength = cost;
             traveler.initialStrength = cost;
             traveler.originObject = parent;
+            AdvancedBuildingEffects.ApplyNpcLandSpeed(traveler, parent);
 
             Find.WorldObjects.Add(traveler);
             traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(chosenTile, parent));
@@ -312,6 +322,7 @@ namespace TSA_WorldDomination
             traveler.initialStrength = cost;
             traveler.originObject = parent;
             traveler.isolationPressureExpand = markIsolationPressure;
+            AdvancedBuildingEffects.ApplyNpcLandSpeed(traveler, parent);
 
             Find.WorldObjects.Add(traveler);
             traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(chosenTile, parent));

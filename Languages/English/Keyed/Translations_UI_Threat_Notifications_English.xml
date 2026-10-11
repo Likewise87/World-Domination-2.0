@@ -85,10 +85,10 @@
   <TSA_WD_Dash_EscalationTip_Growth>Hostile settlement growth: x{0}</TSA_WD_Dash_EscalationTip_Growth>
   <TSA_WD_Dash_EscalationTip_Garrison>Settlement garrison strength: +{0}%</TSA_WD_Dash_EscalationTip_Garrison>
   <TSA_WD_Dash_EscalationTip_Expand>Hostile expansion toward you: up to {0} tiles</TSA_WD_Dash_EscalationTip_Expand>
-  <TSA_WD_Dash_EscalationTip_T4MortarOn>Enemy T4 mortars vs your caravans and outposts: on</TSA_WD_Dash_EscalationTip_T4MortarOn>
-  <TSA_WD_Dash_EscalationTip_T4MortarOff>Enemy T4 mortars vs your caravans and outposts: off</TSA_WD_Dash_EscalationTip_T4MortarOff>
-  <TSA_WD_Dash_EscalationTip_T4AaOn>Enemy T4 anti-air vs your pods and projectiles: on</TSA_WD_Dash_EscalationTip_T4AaOn>
-  <TSA_WD_Dash_EscalationTip_T4AaOff>Enemy T4 anti-air vs your pods and projectiles: off</TSA_WD_Dash_EscalationTip_T4AaOff>
+  <TSA_WD_Dash_EscalationTip_T4MortarOn>Enemy Mortar Turrets vs your caravans and outposts: on</TSA_WD_Dash_EscalationTip_T4MortarOn>
+  <TSA_WD_Dash_EscalationTip_T4MortarOff>Enemy Mortar Turrets vs your caravans and outposts: off</TSA_WD_Dash_EscalationTip_T4MortarOff>
+  <TSA_WD_Dash_EscalationTip_T4AaOn>Enemy AA Turrets vs your pods and projectiles: on</TSA_WD_Dash_EscalationTip_T4AaOn>
+  <TSA_WD_Dash_EscalationTip_T4AaOff>Enemy AA Turrets vs your pods and projectiles: off</TSA_WD_Dash_EscalationTip_T4AaOff>
   <TSA_WD_Dash_EscalationTip_IncidentsOn>Outpost incidents: {0} strength loss, {1}% chance per day</TSA_WD_Dash_EscalationTip_IncidentsOn>
   <TSA_WD_Dash_EscalationTip_IncidentsOff>Outpost incidents: off</TSA_WD_Dash_EscalationTip_IncidentsOff>
   <TSA_WD_Dash_EscalationTip_Goodwill>Goodwill drain: -{0} every {1} days</TSA_WD_Dash_EscalationTip_Goodwill>
@@ -214,7 +214,7 @@
   <TSA_WD_Notify_DropPodDeliveryInAaRange>WD: Drop Pod Delivery in range of AA</TSA_WD_Notify_DropPodDeliveryInAaRange>
   <TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>Shows a right-side alert when one of your warehouses is set to drop pod delivery and sits within anti-air range of a hostile Tier 4 settlement with AA active. Checks the warehouse tile only (not the full flight path). Switch that warehouse to land delivery or clear the AA threat.</TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>
   <TSA_WD_Alert_DropPodDeliveryInAaRange>WD: Drop Pod Delivery in range of AA</TSA_WD_Alert_DropPodDeliveryInAaRange>
-  <TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>These warehouses use drop pod delivery while inside enemy Tier 4 anti-air range:</TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>
+  <TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>These warehouses use drop pod delivery while inside enemy AA Turret range:</TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>
   <TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>- {0}</TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>
   <TSA_WD_Notify_ConstructionInsufficientStrength>Show construction insufficient-strength alert (right side)</TSA_WD_Notify_ConstructionInsufficientStrength>
   <TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>Shows a silent, persistent alert on the right-side readout when a WD outpost has finished preparing a road-block or trap segment but lacks the strength to dispatch the crew. Click to jump to an affected outpost.</TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>

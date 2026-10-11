@@ -1,5 +1,4 @@
 using System.Linq;
-using LudeonTK;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -9,31 +8,25 @@ namespace TSA_WorldDomination
     /// <summary>Dev tools: force an NPC settlement through <see cref="WorldActions_Raid"/> immediately.</summary>
     public static class DebugActions_ForceSettlementRaid
     {
-        [DebugAction("World Domination", "Force raid from clicked NPC settlement",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void ForceRaidFromClickedSettlement()
         {
             TryForceRaidAtMouse(forceDropPod: false, forceGravship: false);
         }
 
-        [DebugAction("World Domination", "Force DROP-POD raid from clicked T4 settlement",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void ForceDropPodRaidFromClickedSettlement()
         {
             TryForceRaidAtMouse(forceDropPod: true, forceGravship: false);
         }
 
-        [DebugAction("World Domination", "Force GRAVSHIP raid at player from clicked NPC settlement",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void ForceGravshipRaidFromClickedSettlement()
         {
             TryForceRaidAtMouse(forceDropPod: false, forceGravship: true);
         }
 
-        private static void TryForceRaidAtMouse(bool forceDropPod, bool forceGravship)
+        public static void TryForceRaidAtMouse(bool forceDropPod, bool forceGravship)
         {
             int tile = GenWorld.MouseTile();
             if (tile < 0) return;

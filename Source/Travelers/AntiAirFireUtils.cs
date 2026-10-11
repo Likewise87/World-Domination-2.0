@@ -114,15 +114,15 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Hostile T4 settlements with flak that threaten a player drop-pod flight (origin, destination,
+        /// Hostile NPC AA turrets that threaten a player drop-pod flight (origin, destination,
         /// or ballistic arc within NPC AA range). Nearest to <paramref name="originTile"/> first.
-        /// Matches the AA wake gate: escalation allows player targeting (mortar or AA stage gate),
-        /// or the destination is inbound to that settlement (self-defense).
+        /// Matches the AA wake gate: escalation allows player targeting (AA stage gate),
+        /// or the destination is the turret tile or its owner settlement tile (self-defense).
         /// </summary>
         public static bool TryGetHostileSettlementAaThreatsForDropPodFlight(
             int originTile,
             int destTile,
-            List<Settlement> into)
+            List<WorldObject> into)
         {
             into?.Clear();
             if (into == null || originTile < 0 || destTile < 0) return false;
@@ -132,29 +132,24 @@ namespace TSA_WorldDomination
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             var seth = WorldDominationMod.settings;
             WdEscalationStage stage = WdEscalation.GetCachedStage(manager);
-            // Match CompViralSpread.InterceptorCanTargetPlayer (mortar OR AA gate).
-            bool canTargetPlayerGenerally =
-                WdEscalation.CanTargetPlayerWithT4AntiAir(seth, stage)
-                || WdEscalation.CanTargetPlayerWithT4Mortar(seth, stage);
+            bool canTargetPlayerGenerally = WdEscalation.CanTargetPlayerWithT4AntiAir(seth, stage);
 
             float aaRange = GetNpcAntiAirMaxRangeTiles();
-            var settlements = Find.WorldObjects?.Settlements;
-            if (settlements == null) return false;
+            var registry = WorldComponent_AdvancedBuildings.Get();
+            if (registry == null) return false;
+            IReadOnlyList<WorldObject_WD_AdvancedBuilding> buildings = registry.All;
 
-            var scored = new List<(Settlement s, float dist)>();
-            for (int i = 0; i < settlements.Count; i++)
+            var scored = new List<(WorldObject s, float dist)>();
+            for (int i = 0; i < buildings.Count; i++)
             {
-                Settlement settlement = settlements[i];
-                if (settlement == null || settlement.Destroyed || settlement.Tile < 0) continue;
-                if (settlement.Faction == null || settlement.Faction.IsPlayer) continue;
-                if (!WorldActions_Utils.SafeHostileTo(settlement.Faction, Faction.OfPlayer)) continue;
+                if (!(buildings[i] is WorldObject_WD_AaTurret turret)) continue;
+                if (turret.Destroyed || turret.Tile < 0) continue;
+                if (!turret.IsFiringEnabled) continue;
+                if (!WorldActions_Utils.SafeHostileTo(turret.Faction, Faction.OfPlayer)) continue;
 
-                CompViralSpread comp = settlement.GetComponent<CompViralSpread>();
-                if (comp == null || !comp.IsSettlementAntiAirEligible() || !comp.IsSettlementAntiAirAutoActive)
-                    continue;
-
-                int aaTile = settlement.Tile.tileId;
-                bool inbound = destTile == aaTile;
+                int aaTile = turret.Tile.tileId;
+                bool inbound = destTile == aaTile
+                    || (turret.builtBySettlement != null && destTile == turret.builtBySettlement.Tile.tileId);
                 if (!canTargetPlayerGenerally && !inbound)
                     continue;
 
@@ -167,7 +162,7 @@ namespace TSA_WorldDomination
                 float dist = manager != null
                     ? WorldActions_Utils.GetDistance(originTile, aaTile, manager)
                     : Find.WorldGrid.ApproxDistanceInTiles(originTile, aaTile);
-                scored.Add((settlement, dist));
+                scored.Add((turret, dist));
             }
 
             if (scored.Count == 0) return false;
@@ -230,6 +225,11 @@ namespace TSA_WorldDomination
 
         public static void ApplyAntiAirCooldown(CompViralSpread comp, WorldObject origin)
         {
+            if (origin is WorldObject_WD_AaTurret aaTurret)
+            {
+                aaTurret.ApplyCooldown();
+                return;
+            }
             if (comp == null || origin == null) return;
             float sec = origin is WorldObject_WD_Outpost op
                 ? GetAntiAirEffectiveCooldownSeconds(op, out _)
@@ -300,7 +300,7 @@ namespace TSA_WorldDomination
                 return false;
             }
             // NPC T4: one global AA engage at a time, then 3s before the next settlement may queue.
-            bool npcSettlement = origin is Settlement;
+            bool npcSettlement = origin is Settlement || origin is WorldObject_WD_AaTurret;
             if (npcSettlement && !NpcT4GlobalFireStagger.CanQueueNpcAa())
             {
                 WDVerbose.Msg($"AA queue fail {origin?.LabelCap} -> {target?.LabelCap}: global NPC AA stagger");
@@ -551,7 +551,7 @@ namespace TSA_WorldDomination
 
         private static void ExecuteEngage(PendingEngage p)
         {
-            bool npcSettlement = p.origin is Settlement;
+            bool npcSettlement = p.origin is Settlement || p.origin is WorldObject_WD_AaTurret;
             bool fired = false;
             try
             {
@@ -692,11 +692,11 @@ namespace TSA_WorldDomination
                 return bestShooting > 0f;
             }
 
-            if (origin is Settlement settlement)
+            if (origin is WorldObject_WD_AaTurret aaTurret)
             {
-                if (!CompViralSpread.IsSettlementAntiAirReady(settlement, out comp, out bestShooting))
-                    return false;
-                return true;
+                if (!aaTurret.IsFiringEnabled || aaTurret.IsOnCooldown) return false;
+                bestShooting = WorldDominationMod.settings?.npcAntiAirSkillEquivalent ?? WorldDominationSettings.DefNpcAntiAirSkillEquivalent;
+                return bestShooting > 0f;
             }
 
             return false;
@@ -881,6 +881,16 @@ namespace TSA_WorldDomination
 
         /// <summary>True when a mortar shell, drop pod, or transport pod is aimed at this shooter — self-defense, no late-game gate.</summary>
         public static bool IsInboundThreatTo(WorldObject shooter, WorldObject airborne)
+        {
+            if (shooter is WorldObject_WD_AaTurret aaTurret
+                && aaTurret.builtBySettlement != null
+                && !aaTurret.builtBySettlement.Destroyed
+                && IsInboundThreatToSingle(aaTurret.builtBySettlement, airborne))
+                return true;
+            return IsInboundThreatToSingle(shooter, airborne);
+        }
+
+        private static bool IsInboundThreatToSingle(WorldObject shooter, WorldObject airborne)
         {
             if (shooter == null || airborne == null) return false;
 

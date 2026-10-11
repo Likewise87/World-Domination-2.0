@@ -108,6 +108,7 @@ namespace TSA_WorldDomination
                 if (wo is WorldObject_WD_Outpost) return false;
                 if (wo is Caravan) return false;
                 if (wo is WorldObject_AT_Turret) return false;
+                if (wo is WorldObject_WD_AdvancedBuilding) return false;
                 if (wo is WorldObject_Traveler) return false;
             }
             return Find.WorldObjects.MapParentAt(pt) == null;

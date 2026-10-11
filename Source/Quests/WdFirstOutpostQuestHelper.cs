@@ -22,10 +22,14 @@ namespace TSA_WorldDomination
                 || WorldDominationMod.settings.enableFirstOutpostQuest;
         }
 
-        public static bool GenerateQuest()
+        public static bool GenerateQuest(bool ignoreSetting = false)
         {
-            if (!IsSettingEnabled())
+            if (!ignoreSetting && !IsSettingEnabled())
                 return false;
+
+            var gc = Current.Game?.GetComponent<GameComponent_WdFirstOutpostQuest>();
+            if (gc != null && ignoreSetting)
+                gc.permanentlyDone = false;
 
             QuestScriptDef? def = DefDatabase<QuestScriptDef>.GetNamedSilentFail(QuestDefName);
             if (def == null)

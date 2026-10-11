@@ -86,14 +86,14 @@ namespace TSA_WorldDomination
             int destTile = destinationTile.tileId;
             if (destTile < 0) return true;
 
-            var threats = new List<Settlement>();
+            var threats = new List<WorldObject>();
             if (!AntiAirFireUtils.TryGetHostileSettlementAaThreatsForDropPodFlight(originTile, destTile, threats)
                 || threats.Count == 0)
                 return true;
 
-            string names = threats[0].LabelCap;
+            string names = AdvancedBuildingCombatUtility.LabelWithOwner(threats[0]);
             for (int i = 1; i < threats.Count; i++)
-                names += ", " + threats[i].LabelCap;
+                names += ", " + AdvancedBuildingCombatUtility.LabelWithOwner(threats[i]);
 
             pendingLaunchable = __instance;
             pendingDestination = destinationTile;

@@ -23,7 +23,8 @@ namespace TSA_WorldDomination
         RemoveFortify,
         RemoveRoad,
         PlaceBridge,
-        RemoveBridge
+        RemoveBridge,
+        AdvBuilding
     }
 
     /// <summary>World-targeter tools for Dialog_WdWorldSetup (works during Select Starting Site).</summary>
@@ -261,6 +262,31 @@ namespace TSA_WorldDomination
         public static void BeginPlaceRoadBlock()
         {
             Activate(WdWorldSetupTool.RoadBlock);
+            var factions = new List<Faction>();
+            DebugActions_FloatMenus.CollectDebugFactions(factions);
+            if (factions.Count == 0)
+            {
+                Messages.Message("TSA_WD_WorldSetup_NoFactions".Translate(), MessageTypeDefOf.RejectInput);
+                CancelActive();
+                return;
+            }
+
+            var factionOpts = new List<FloatMenuOption>();
+            for (int i = 0; i < factions.Count; i++)
+            {
+                Faction f = factions[i];
+                Faction captured = f;
+                factionOpts.Add(new FloatMenuOption(
+                    captured.Name,
+                    () => OpenRoadBlockKindMenu(captured),
+                    captured.def?.FactionIcon,
+                    captured.Color));
+            }
+            DebugActions_FloatMenus.OpenCentered(factionOpts);
+        }
+
+        private static void OpenRoadBlockKindMenu(Faction faction)
+        {
             var kindOpts = new List<FloatMenuOption>();
             foreach (RoadBlockKind kind in Enum.GetValues(typeof(RoadBlockKind)))
             {
@@ -268,7 +294,7 @@ namespace TSA_WorldDomination
                 RoadBlockKind captured = kind;
                 kindOpts.Add(new FloatMenuOption(
                     RoadBlockKindUtil.LabelKey(captured).Translate(),
-                    () => BeginPlaceRoadBlockTargeting(captured)));
+                    () => BeginPlaceRoadBlockTargeting(faction, captured)));
             }
             if (kindOpts.Count == 0)
             {
@@ -279,17 +305,8 @@ namespace TSA_WorldDomination
             DebugActions_FloatMenus.OpenCentered(kindOpts);
         }
 
-        private static void BeginPlaceRoadBlockTargeting(RoadBlockKind kind)
+        private static void BeginPlaceRoadBlockTargeting(Faction builder, RoadBlockKind kind)
         {
-            var factions = new List<Faction>();
-            DebugActions_FloatMenus.CollectDebugFactions(factions);
-            if (factions.Count == 0)
-            {
-                Messages.Message("TSA_WD_WorldSetup_NoFactions".Translate(), MessageTypeDefOf.RejectInput);
-                CancelActive();
-                return;
-            }
-            Faction builder = factions[0];
             Messages.Message("TSA_WD_WorldSetup_PlaceFortifyHint".Translate(), MessageTypeDefOf.NeutralEvent);
             Find.WorldTargeter.BeginTargeting(
                 target =>
@@ -440,10 +457,95 @@ namespace TSA_WorldDomination
                 {
                     if (!TryGetSurfaceTile(t, out int tile)) return false;
                     if (AtTurretUtility.TileHasAtTurret(tile)) return false;
+                    if (WorldComponent_AdvancedBuildings.Get()?.HasAt(tile) == true) return false;
                     return faction?.IsPlayer == true
                         ? AtTurretUtility.IsPlayerBuildableTurretTile(tile)
                         : AtTurretUtility.IsEmptyOffRoadTurretSite(tile);
                 });
+        }
+
+        public static void BeginPlaceAdvancedBuilding()
+        {
+            Activate(WdWorldSetupTool.AdvBuilding);
+            var opts = new List<FloatMenuOption>();
+            void Add(AdvancedBuildingDef def)
+            {
+                if (def == null) return;
+                AdvancedBuildingDef captured = def;
+                opts.Add(new FloatMenuOption(captured.LabelText,
+                    () => BeginPlaceAdvancedBuildingTargeting(captured)));
+            }
+            Add(AdvancedBuildingDefOf.TSA_WD_AdvBuilding_Silo);
+            Add(AdvancedBuildingDefOf.TSA_WD_AdvBuilding_Hospital);
+            Add(AdvancedBuildingDefOf.TSA_WD_AdvBuilding_WatchTower);
+            Add(AdvancedBuildingDefOf.TSA_WD_AdvBuilding_Stable);
+            Add(AdvancedBuildingDefOf.TSA_WD_AdvBuilding_MortarTurret);
+            Add(AdvancedBuildingDefOf.TSA_WD_AdvBuilding_AaTurret);
+            if (opts.Count == 0)
+            {
+                Messages.Message("TSA_WD_WorldSetup_NoAdvBuildingDefs".Translate(), MessageTypeDefOf.RejectInput);
+                ClearToolState();
+                return;
+            }
+            DebugActions_FloatMenus.OpenCentered(opts);
+        }
+
+        private static void BeginPlaceAdvancedBuildingTargeting(AdvancedBuildingDef def)
+        {
+            Messages.Message("TSA_WD_WorldSetup_PlaceAdvBuildingHint".Translate(def.LabelText), MessageTypeDefOf.NeutralEvent);
+            Find.WorldTargeter.BeginTargeting(
+                target =>
+                {
+                    if (!TryGetSurfaceTile(target, out int tile)) return false;
+                    Settlement s = SettlementAtTile(tile);
+                    if (s == null || s.Faction == null || s.Faction.IsPlayer)
+                    {
+                        Messages.Message("TSA_WD_WorldSetup_PlaceAdvBuildingNeedNpc".Translate(), MessageTypeDefOf.RejectInput);
+                        return false;
+                    }
+                    if (WorldComponent_AdvancedBuildings.Get()?.Has(s, def) == true)
+                    {
+                        Messages.Message("TSA_WD_WorldSetup_PlaceAdvBuildingDuplicate".Translate(s.LabelCap, def.LabelText),
+                            MessageTypeDefOf.RejectInput);
+                        return false;
+                    }
+                    if (!WorldActions_AdvancedBuildings.FindBuildTile(s, def, out int buildTile))
+                    {
+                        Messages.Message("TSA_WD_WorldSetup_PlaceAdvBuildingNoTile".Translate(), MessageTypeDefOf.RejectInput);
+                        return false;
+                    }
+                    var b = WorldActions_AdvancedBuildings.Place(def, s, buildTile);
+                    if (b == null)
+                    {
+                        Messages.Message("TSA_WD_WorldSetup_PlaceFortifyFailed".Translate(), MessageTypeDefOf.RejectInput);
+                        return false;
+                    }
+                    Messages.Message("TSA_WD_WorldSetup_PlaceAdvBuildingDone".Translate(def.LabelText, s.LabelCap, buildTile.ToString()),
+                        MessageTypeDefOf.PositiveEvent);
+                    return false;
+                },
+                true,
+                null,
+                false,
+                null,
+                null,
+                t =>
+                {
+                    if (!TryGetSurfaceTile(t, out int tile)) return false;
+                    Settlement s = SettlementAtTile(tile);
+                    return s != null && s.Faction != null && !s.Faction.IsPlayer;
+                });
+        }
+
+        private static Settlement SettlementAtTile(int tile)
+        {
+            if (Find.WorldObjects == null) return null;
+            foreach (WorldObject o in Find.WorldObjects.ObjectsAt(tile))
+            {
+                if (o is Settlement s && !s.Destroyed)
+                    return s;
+            }
+            return null;
         }
 
         public static void BeginRemoveFortification()
@@ -460,6 +562,13 @@ namespace TSA_WorldDomination
                     if (turret != null && !turret.Destroyed)
                     {
                         turret.Destroy();
+                        cleared = true;
+                    }
+                    WorldObject_WD_AdvancedBuilding building = WorldComponent_AdvancedBuildings.Get()?.At(tile);
+                    if (building != null && !building.Destroyed)
+                    {
+                        building.suppressDestroyedLetter = true;
+                        building.Destroy();
                         cleared = true;
                     }
                     if (!cleared)
@@ -480,7 +589,8 @@ namespace TSA_WorldDomination
                     if (!TryGetSurfaceTile(t, out int tile)) return false;
                     return WorldComponent_RoadBlocks.Get()?.HasBlockAt(tile) == true
                         || WorldComponent_SpikeTraps.Get()?.HasTrapAt(tile) == true
-                        || AtTurretUtility.TileHasAtTurret(tile);
+                        || AtTurretUtility.TileHasAtTurret(tile)
+                        || WorldComponent_AdvancedBuildings.Get()?.HasAt(tile) == true;
                 });
         }
 

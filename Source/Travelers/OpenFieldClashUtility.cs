@@ -130,6 +130,66 @@ namespace TSA_WorldDomination
             return result;
         }
 
+        /// <summary>Traveler (always attacker) vs NPC artillery turret (always defender). Same math as AT turret clashes.</summary>
+        public static OpenFieldClashResult ResolveTravelerVsArtilleryTurret(
+            WorldObject_Traveler traveler,
+            WorldObject_WD_ArtilleryTurret turret,
+            WorldComponent_SpreadManager manager)
+        {
+            var empty = default(OpenFieldClashResult);
+            if (traveler == null || turret == null || traveler.Destroyed || turret.Destroyed) return empty;
+
+            float attBefore = Mathf.Max(0f, traveler.travelerStrength);
+            float defBefore = Mathf.Max(0f, turret.strength);
+            if (defBefore <= 0f)
+            {
+                AdvancedBuildingCombatUtility.DestroyBuilding(turret, traveler);
+                return empty;
+            }
+            if (attBefore <= 0f) return empty;
+
+            OpenFieldClashResult result = RollAndFill(traveler, turret, attBefore, defBefore);
+            LogArtilleryTurretClash(result, traveler, turret, manager);
+            if (result.attackerWon)
+            {
+                traveler.travelerStrength = result.attAfter;
+                AdvancedBuildingCombatUtility.DestroyBuilding(turret, traveler, log: !result.ok);
+                if (traveler.travelerStrength <= 0.01f && !traveler.Destroyed)
+                {
+                    WorldActions_Traveler.StampTraderInterceptedIfApplicable(traveler);
+                    traveler.Destroy();
+                }
+                else
+                    TravelerAttritionRest.NotifyHostileFire(traveler);
+            }
+            else
+            {
+                turret.strength = result.defAfter;
+                WorldActions_Traveler.StampTraderInterceptedIfApplicable(traveler);
+                if (!traveler.Destroyed)
+                    traveler.Destroy();
+                if (turret.strength <= 0.01f)
+                    AdvancedBuildingCombatUtility.DestroyBuilding(turret, traveler, log: !result.ok);
+            }
+            return result;
+        }
+
+        private static void LogArtilleryTurretClash(
+            OpenFieldClashResult result,
+            WorldObject_Traveler traveler,
+            WorldObject_WD_ArtilleryTurret turret,
+            WorldComponent_SpreadManager manager)
+        {
+            if (manager == null || !result.ok) return;
+            string turretLabel = AdvancedBuildingCombatUtility.LabelWithOwner(turret);
+            string outcome = result.attackerWon
+                ? "TSA_WD_Log_AT_TurretClash_TravelerWon".Translate(traveler.LabelCap, turretLabel, result.attAfter.ToString("F0"))
+                : "TSA_WD_Log_AT_TurretClash_TurretWon".Translate(turretLabel, traveler.LabelCap, result.defAfter.ToString("F0"));
+            var entry = new SpreadLogEntry(outcome, traveler, turret);
+            FillClashEntry(entry, result, traveler, turret);
+            manager.AddLog(entry);
+        }
+
         /// <summary>
         /// NPC caravan vs traveler. Interceptor/raid traveler is attacker; otherwise the initiator is attacker.
         /// </summary>
@@ -397,6 +457,7 @@ namespace TSA_WorldDomination
             string attMission = attacker is WorldObject_Traveler at ? at.mission.ToString() : "AT";
             string defMission = defender is WorldObject_Traveler dt ? dt.mission.ToString()
                 : defender is WorldObject_AT_Turret ? "ATTurret"
+                : defender is WorldObject_WD_ArtilleryTurret ? "ArtilleryTurret"
                 : defender is Caravan ? "Caravan" : "?";
 
             entry.attDetails = new System.Collections.Generic.List<string>

@@ -296,6 +296,7 @@ namespace TSA_WorldDomination
         public const float DefWeightBuildRoad = 60f;
         public const float DefWeightTrader = 48f;
         public const float DefWeightFortify = 80f;
+        public const float DefWeightAdvancedBuildings = 40f;
         /// <summary>Settings UI only: whether Develop is folded into the % shown next to usual-action sliders.</summary>
         public const bool DefIncludeDevelopWeightInPercentDisplay = false;
 
@@ -307,6 +308,13 @@ namespace TSA_WorldDomination
         public const float DefCdIncidentDays = 2.0f;
         public const float DefCdTraderDays = 1.0f;
         public const float DefCdFortifyDays = 0.5f;
+        public const float DefCdAdvancedBuildingDays = 3f;
+
+        // --- ADVANCED BUILDING PROJECTS (NPC settlements) ---
+        /// <summary>Silo / Hospital / Watch Tower / Stable bonus as a fraction (0.15 = +15%).</summary>
+        public const float DefAdvancedBuildingEffectPct = 0.15f;
+        /// <summary>Mortar / AA turret strength at spawn (matches Medium AT turret).</summary>
+        public const float DefArtilleryTurretStrength = DefAtTurretMediumMaxStrength;
 
         // --- NPC FORTIFY (World Actions) ---
         public const int DefFortifyMinTilesFromSelf = 2;
@@ -786,12 +794,16 @@ namespace TSA_WorldDomination
 
         // --- FEATURE C: SETTLEMENT-LAUNCHED AMBUSH (experimental) ---
         public const bool DefExperimentalSettlementAmbush = true;
-        public const float DefSettlementAmbushChancePct = 0.50f;
+        public const float DefSettlementAmbushChancePct = 1.0f;
         /// <summary>Must be above 1.0: settlement must be somewhat stronger than the target to sally.</summary>
         public const float DefSettlementAmbushMinStrengthRatio = 1.2f;
         /// <summary>Matches the inner blocked-tile / expansion min radius (5), not Rapid Response range.</summary>
         public const float DefSettlementAmbushWatchRangeTiles = 5f;
-        public const float DefSettlementAmbushMaxStrengthRatio = 2.0f;
+        /// <summary>Watch radius for towns that own AT turrets or advanced buildings.</summary>
+        public const float DefSettlementAmbushWatchRangeWithAssetsTiles = 8f;
+        /// <summary>Ratio needed to sally at a raid heading for this town when it owns no AT turret or advanced building.</summary>
+        public const float DefSettlementAmbushSelfDefenseMinRatio = 1.5f;
+        public const float DefSettlementAmbushMaxStrengthRatio = 3.0f;
         public const SettlementTier DefSettlementAmbushMinTier = SettlementTier.T2;
         /// <summary>0 = unlimited. Performance pack overwrites this (Low 4, Medium 8, High 0).</summary>
         public const int DefSettlementAmbushMaxConcurrent = 8;
@@ -1344,6 +1356,7 @@ namespace TSA_WorldDomination
         public float weightBuildRoad = DefWeightBuildRoad;
         public float weightTrader = DefWeightTrader;
         public float weightFortify = DefWeightFortify;
+        public float weightAdvancedBuildings = DefWeightAdvancedBuildings;
         /// <summary>Settings UI only. Does not change in-game action rolls.</summary>
         public bool includeDevelopWeightInPercentDisplay = DefIncludeDevelopWeightInPercentDisplay;
         /// <summary>Road-building actor cooldown days (legacy save name; growth has no cooldown).</summary>
@@ -1355,6 +1368,9 @@ namespace TSA_WorldDomination
         public float cooldownIncidentDays = DefCdIncidentDays;
         public float cooldownTraderDays = DefCdTraderDays;
         public float cooldownFortifyDays = DefCdFortifyDays;
+        public float cooldownAdvancedBuildingDays = DefCdAdvancedBuildingDays;
+        public float advancedBuildingEffectPct = DefAdvancedBuildingEffectPct;
+        public float artilleryTurretStrength = DefArtilleryTurretStrength;
 
         public int fortifyMinTilesFromSelf = DefFortifyMinTilesFromSelf;
         public int fortifyMinTilesFromOtherSettlement = DefFortifyMinTilesFromOtherSettlement;
@@ -1789,6 +1805,8 @@ namespace TSA_WorldDomination
         public float settlementAmbushChancePct = DefSettlementAmbushChancePct;
         public float settlementAmbushMinStrengthRatio = DefSettlementAmbushMinStrengthRatio;
         public float settlementAmbushWatchRangeTiles = DefSettlementAmbushWatchRangeTiles;
+        public float settlementAmbushWatchRangeWithAssetsTiles = DefSettlementAmbushWatchRangeWithAssetsTiles;
+        public float settlementAmbushSelfDefenseMinRatio = DefSettlementAmbushSelfDefenseMinRatio;
         public float settlementAmbushMaxStrengthRatio = DefSettlementAmbushMaxStrengthRatio;
         public SettlementTier settlementAmbushMinTier = DefSettlementAmbushMinTier;
         public int settlementAmbushMaxConcurrent = DefSettlementAmbushMaxConcurrent;
@@ -2261,11 +2279,11 @@ namespace TSA_WorldDomination
         /// <summary>Setting presets → Difficulty pack (last applied named preset). Apply only overwrites this pack's fields.</summary>
         public WDSettingsDifficultyPreset difficultyPreset = DefDifficultyPreset;
 
-        public float TotalWeight => weightGrow + weightRaid + weightMinorIncident + weightMajorIncident + weightBuildRoad + weightTrader + weightFortify;
+        public float TotalWeight => weightGrow + weightRaid + weightMinorIncident + weightMajorIncident + weightBuildRoad + weightTrader + weightFortify + weightAdvancedBuildings;
 
         /// <summary>Settings-menu % pool: usual actions, optionally plus Develop (near-cap only in gameplay).</summary>
         public float WeightPercentDisplayPool =>
-            weightRaid + weightMinorIncident + weightMajorIncident + weightBuildRoad + weightTrader + weightFortify
+            weightRaid + weightMinorIncident + weightMajorIncident + weightBuildRoad + weightTrader + weightFortify + weightAdvancedBuildings
             + (includeDevelopWeightInPercentDisplay ? weightGrow : 0f);
         public float TotalSabWeight => weightSabSuccess + weightSabCleanFail + weightSabInjuredFail + weightSabFatalFail;
         public float TotalDisWeight => weightDisSuccess + weightDisCleanFail + weightDisInjuredFail + weightDisFatalFail;
@@ -2557,6 +2575,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref weightBuildRoad, "weightBuildRoad", DefWeightBuildRoad);
             Scribe_Values.Look(ref weightTrader, "weightTrader", DefWeightTrader);
             Scribe_Values.Look(ref weightFortify, "weightFortify", DefWeightFortify);
+            Scribe_Values.Look(ref weightAdvancedBuildings, "weightAdvancedBuildings", DefWeightAdvancedBuildings);
             Scribe_Values.Look(ref includeDevelopWeightInPercentDisplay, "includeDevelopWeightInPercentDisplay", DefIncludeDevelopWeightInPercentDisplay);
             Scribe_Values.Look(ref cooldownGrowDays, "cooldownGrowDays", DefCdGrowDays);
             Scribe_Values.Look(ref cooldownExpandDays, "cooldownExpandDays", DefCdExpandDays);
@@ -2565,6 +2584,9 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref cooldownIncidentDays, "cooldownIncidentDays", DefCdIncidentDays);
             Scribe_Values.Look(ref cooldownTraderDays, "cooldownTraderDays", DefCdTraderDays);
             Scribe_Values.Look(ref cooldownFortifyDays, "cooldownFortifyDays", DefCdFortifyDays);
+            Scribe_Values.Look(ref cooldownAdvancedBuildingDays, "cooldownAdvancedBuildingDays", DefCdAdvancedBuildingDays);
+            Scribe_Values.Look(ref advancedBuildingEffectPct, "advancedBuildingEffectPct", DefAdvancedBuildingEffectPct);
+            Scribe_Values.Look(ref artilleryTurretStrength, "artilleryTurretStrength", DefArtilleryTurretStrength);
             Scribe_Values.Look(ref fortifyMinTilesFromSelf, "fortifyMinTilesFromSelf", DefFortifyMinTilesFromSelf);
             Scribe_Values.Look(ref fortifyMinTilesFromOtherSettlement, "fortifyMinTilesFromOtherSettlement", DefFortifyMinTilesFromOtherSettlement);
             Scribe_Values.Look(ref fortifyMaxTilesFromSelf, "fortifyMaxTilesFromSelf", DefFortifyMaxTilesFromSelf);
@@ -3009,6 +3031,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref settlementAmbushChancePct, "settlementAmbushChancePct", DefSettlementAmbushChancePct);
             Scribe_Values.Look(ref settlementAmbushMinStrengthRatio, "settlementAmbushMinStrengthRatio", DefSettlementAmbushMinStrengthRatio);
             Scribe_Values.Look(ref settlementAmbushWatchRangeTiles, "settlementAmbushWatchRangeTiles", DefSettlementAmbushWatchRangeTiles);
+            Scribe_Values.Look(ref settlementAmbushWatchRangeWithAssetsTiles, "settlementAmbushWatchRangeWithAssetsTiles", DefSettlementAmbushWatchRangeWithAssetsTiles);
+            Scribe_Values.Look(ref settlementAmbushSelfDefenseMinRatio, "settlementAmbushSelfDefenseMinRatio", DefSettlementAmbushSelfDefenseMinRatio);
             Scribe_Values.Look(ref settlementAmbushMaxStrengthRatio, "settlementAmbushMaxStrengthRatio", DefSettlementAmbushMaxStrengthRatio);
             Scribe_Values.Look(ref settlementAmbushMinTier, "settlementAmbushMinTier", DefSettlementAmbushMinTier);
             Scribe_Values.Look(ref settlementAmbushMaxConcurrent, "settlementAmbushMaxConcurrent", DefSettlementAmbushMaxConcurrent);
@@ -3020,6 +3044,11 @@ namespace TSA_WorldDomination
                     settlementAmbushMinStrengthRatio = DefSettlementAmbushMinStrengthRatio;
                 if (Mathf.Approximately(settlementAmbushWatchRangeTiles, 7f))
                     settlementAmbushWatchRangeTiles = DefSettlementAmbushWatchRangeTiles;
+                // Sally overhaul raised the old 50% / 2x defaults.
+                if (Mathf.Approximately(settlementAmbushChancePct, 0.5f))
+                    settlementAmbushChancePct = DefSettlementAmbushChancePct;
+                if (Mathf.Approximately(settlementAmbushMaxStrengthRatio, 2f))
+                    settlementAmbushMaxStrengthRatio = DefSettlementAmbushMaxStrengthRatio;
             }
             Scribe_Values.Look(ref opportunityFeaturesIgnoreEscalationGate, "opportunityFeaturesIgnoreEscalationGate", DefOpportunityFeaturesIgnoreEscalationGate);
             Scribe_Values.Look(ref experimentalOutpostWithdrawStrengthBudget, "experimentalOutpostWithdrawStrengthBudget", DefExperimentalOutpostWithdrawStrengthBudget);
@@ -4187,6 +4216,7 @@ namespace TSA_WorldDomination
             weightBuildRoad = DefWeightBuildRoad;
             weightTrader = DefWeightTrader;
             weightFortify = DefWeightFortify;
+            weightAdvancedBuildings = DefWeightAdvancedBuildings;
             includeDevelopWeightInPercentDisplay = DefIncludeDevelopWeightInPercentDisplay;
             cooldownGrowDays = DefCdGrowDays;
             cooldownExpandDays = DefCdExpandDays;
@@ -4195,6 +4225,9 @@ namespace TSA_WorldDomination
             cooldownIncidentDays = DefCdIncidentDays;
             cooldownTraderDays = DefCdTraderDays;
             cooldownFortifyDays = DefCdFortifyDays;
+            cooldownAdvancedBuildingDays = DefCdAdvancedBuildingDays;
+            advancedBuildingEffectPct = DefAdvancedBuildingEffectPct;
+            artilleryTurretStrength = DefArtilleryTurretStrength;
 
             fortifyMinTilesFromSelf = DefFortifyMinTilesFromSelf;
             fortifyMinTilesFromOtherSettlement = DefFortifyMinTilesFromOtherSettlement;
@@ -4788,6 +4821,8 @@ namespace TSA_WorldDomination
             settlementAmbushChancePct = DefSettlementAmbushChancePct;
             settlementAmbushMinStrengthRatio = DefSettlementAmbushMinStrengthRatio;
             settlementAmbushWatchRangeTiles = DefSettlementAmbushWatchRangeTiles;
+            settlementAmbushWatchRangeWithAssetsTiles = DefSettlementAmbushWatchRangeWithAssetsTiles;
+            settlementAmbushSelfDefenseMinRatio = DefSettlementAmbushSelfDefenseMinRatio;
             settlementAmbushMaxStrengthRatio = DefSettlementAmbushMaxStrengthRatio;
             settlementAmbushMinTier = DefSettlementAmbushMinTier;
             settlementAmbushMaxConcurrent = DefSettlementAmbushMaxConcurrent;
@@ -5293,6 +5328,8 @@ namespace TSA_WorldDomination
             settlementAmbushChancePct = DefSettlementAmbushChancePct;
             settlementAmbushMinStrengthRatio = DefSettlementAmbushMinStrengthRatio;
             settlementAmbushWatchRangeTiles = DefSettlementAmbushWatchRangeTiles;
+            settlementAmbushWatchRangeWithAssetsTiles = DefSettlementAmbushWatchRangeWithAssetsTiles;
+            settlementAmbushSelfDefenseMinRatio = DefSettlementAmbushSelfDefenseMinRatio;
             settlementAmbushMaxStrengthRatio = DefSettlementAmbushMaxStrengthRatio;
             settlementAmbushMinTier = DefSettlementAmbushMinTier;
             settlementAmbushMaxConcurrent = DefSettlementAmbushMaxConcurrent;

@@ -608,14 +608,14 @@ namespace TSA_WorldDomination
         {
             if (c == null) return 0f;
             SettlementTier capTier = c.tier == SettlementTier.T4 ? SettlementTier.T4 : SettlementTier.T3;
-            float cap = CompViralSpread.GetStrengthRange(capTier).max;
+            float cap = c.GetEffectiveOffensiveMaxForTier(capTier);
             return Mathf.Max(0f, cap - Mathf.Max(0f, c.offensiveStrength));
         }
 
         private static float OffensiveRoomToT4Cap(CompViralSpread c)
         {
             if (c == null) return 0f;
-            float cap = CompViralSpread.GetStrengthRange(SettlementTier.T4).max;
+            float cap = c.GetEffectiveOffensiveMaxForTier(SettlementTier.T4);
             return Mathf.Max(0f, cap - Mathf.Max(0f, c.offensiveStrength));
         }
 

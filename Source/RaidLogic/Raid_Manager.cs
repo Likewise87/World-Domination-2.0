@@ -479,6 +479,7 @@ namespace TSA_WorldDomination
                 traveler.isInvasionRaid = eval.isInvasionRaid;
                 traveler.travelerStrength = totalInvestedPower;
                 traveler.initialStrength = totalInvestedPower;
+                AdvancedBuildingEffects.ApplyNpcLandSpeed(traveler, attacker);
                 if (traveler.contributionFactors == null) traveler.contributionFactors = new Dictionary<WorldObject, float>();
 
                 Find.WorldObjects.Add(traveler);

@@ -20,7 +20,9 @@ namespace TSA_WorldDomination
         Nearby = 1 << 1,
         /// <summary>Plain NPC settlements (no Rapid Response/mortar) at or above min ambush tier, within their dedicated ambush-only radius.</summary>
         Ambush = 1 << 2,
-        Any = Interceptor | Nearby | Ambush
+        /// <summary>NPC advanced buildings at <see cref="WorldComponent_SettlementWatchIndex.AdvancedBuildingDetourRadiusTiles"/> (proximity detour only; kept out of the ToO pool).</summary>
+        AdvancedBuilding = 1 << 3,
+        Any = Interceptor | Nearby | Ambush | AdvancedBuilding
     }
 
     /// <summary>
@@ -53,6 +55,7 @@ namespace TSA_WorldDomination
         private long lastRebuildElapsedMs = -1;
         private int lastRebuildWatcherCount = -1;
         private const int SafetyRebuildIntervalTicks = 60000;
+        public const float AdvancedBuildingDetourRadiusTiles = 2f;
 
         /// <summary>
         /// Feature A/B/C anti-dogpile stamps, keyed by <see cref="WorldObject.ID"/>. Intentionally not
@@ -148,7 +151,6 @@ namespace TSA_WorldDomination
             // --- Nearby capability: every non-player-map settlement + player outpost (target-of-opportunity / maraud pool). ---
             // --- Ambush capability: plain (non-interceptor) NPC settlements get a separate, smaller dedicated ambush radius. ---
             bool ambushEnabled = seth != null && seth.gateThreatAmbush != WdThreatStageGate.Never;
-            float ambushRadius = seth?.settlementAmbushWatchRangeTiles ?? WorldDominationSettings.DefSettlementAmbushWatchRangeTiles;
             foreach (Settlement s in Find.WorldObjects.Settlements)
             {
                 if (s == null || s.Destroyed || s.Faction == null) continue;
@@ -162,9 +164,13 @@ namespace TSA_WorldDomination
                     BfsAdd(s, tile, radius, WatchCapability.Nearby);
                     watcherCount++;
                 }
-                if (ambushEnabled && ambushRadius > 0f && !IsRegisteredInterceptor(s)
+                if (ambushEnabled
                     && comp.tier >= (seth?.settlementAmbushMinTier ?? WorldDominationSettings.DefSettlementAmbushMinTier))
-                    BfsAdd(s, tile, ambushRadius, WatchCapability.Ambush);
+                {
+                    float r = SettlementAmbushUtility.GetWatchRangeTiles(s, seth);
+                    if (r > 0f)
+                        BfsAdd(s, tile, r, WatchCapability.Ambush);
+                }
             }
 
             var allObjects = Find.WorldObjects.AllWorldObjects;
@@ -187,6 +193,22 @@ namespace TSA_WorldDomination
                 if (!tile.Valid || !IsWatchableTile(tile)) continue;
                 BfsAdd(turret, tile, turret.EffectiveRangeTiles, WatchCapability.Nearby);
                 watcherCount++;
+            }
+
+            // --- AdvancedBuilding: NPC advanced buildings at a short detour radius. ---
+            var advRegistry = WorldComponent_AdvancedBuildings.Get();
+            if (advRegistry != null)
+            {
+                IReadOnlyList<WorldObject_WD_AdvancedBuilding> buildings = advRegistry.All;
+                for (int i = 0; i < buildings.Count; i++)
+                {
+                    WorldObject_WD_AdvancedBuilding b = buildings[i];
+                    if (b == null || b.Destroyed) continue;
+                    PlanetTile tile = b.Tile;
+                    if (!tile.Valid || !IsWatchableTile(tile)) continue;
+                    BfsAdd(b, tile, AdvancedBuildingDetourRadiusTiles, WatchCapability.AdvancedBuilding);
+                    watcherCount++;
+                }
             }
 
             sw.Stop();

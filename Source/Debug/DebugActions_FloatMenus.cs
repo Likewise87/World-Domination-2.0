@@ -5,12 +5,35 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>Shared debug UI helpers (centered float menus survive the edge-docked Dev toolbar).</summary>
+    /// <summary>
+    /// Shared debug/setup UI helpers: wizard float menus anchored near the clicked dialog button.
+    /// </summary>
     public static class DebugActions_FloatMenus
     {
+        private static Vector2? nextMenuAnchor;
+
+        /// <summary>Call from dialog dash buttons on click (before starting menus/targeters).</summary>
+        public static void NotifyDialogButtonClicked(Rect buttonLocalRect)
+        {
+            if (Event.current != null)
+                Event.current.Use();
+            nextMenuAnchor = UI.GUIToScreenPoint(new Vector2(buttonLocalRect.xMax + 56f, buttonLocalRect.y));
+        }
+
         public static void OpenCentered(List<FloatMenuOption> options)
         {
-            Find.WindowStack.Add(new CenteredDebugFloatMenu(options));
+            Vector2 pos;
+            if (nextMenuAnchor.HasValue)
+                pos = nextMenuAnchor.Value;
+            else
+            {
+                Vector2 m = UI.MousePositionOnUIInverted;
+                pos = new Vector2(m.x + 20f, m.y);
+            }
+
+            var menu = new WdFixedPosFloatMenu(options, pos);
+            menu.vanishIfMouseDistant = false;
+            Find.WindowStack.Add(menu);
         }
 
         /// <summary>
@@ -34,24 +57,6 @@ namespace TSA_WorldDomination
                 if (!WorldActions_Utils.IsWdParticipant(f))
                     continue;
                 into.Add(f);
-            }
-        }
-
-        private sealed class CenteredDebugFloatMenu : FloatMenu
-        {
-            public CenteredDebugFloatMenu(List<FloatMenuOption> options) : base(options)
-            {
-                vanishIfMouseDistant = false;
-            }
-
-            protected override void SetInitialSizeAndPosition()
-            {
-                Vector2 size = InitialSize;
-                float x = (UI.screenWidth - size.x) * 0.5f;
-                float y = (UI.screenHeight - size.y) * 0.5f;
-                if (x < 0f) x = 0f;
-                if (y < 0f) y = 0f;
-                windowRect = new Rect(x, y, size.x, size.y);
             }
         }
     }

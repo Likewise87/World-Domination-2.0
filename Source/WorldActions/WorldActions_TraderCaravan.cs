@@ -207,6 +207,7 @@ namespace TSA_WorldDomination
                 : senderComp.GetTraderEscortFloor();
             traveler.travelerStrength = Mathf.Max(cost, escortStrength);
             traveler.initialStrength = traveler.travelerStrength;
+            AdvancedBuildingEffects.ApplyNpcLandSpeed(traveler, sender);
 
             Find.WorldObjects.Add(traveler);
             traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(target.Tile, sender));

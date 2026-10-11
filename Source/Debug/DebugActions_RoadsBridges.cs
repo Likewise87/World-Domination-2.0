@@ -1,4 +1,3 @@
-using LudeonTK;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -8,9 +7,7 @@ namespace TSA_WorldDomination
     /// <summary>Debug click tools that reuse World Setup road/bridge edit utilities.</summary>
     public static class DebugActions_RoadsBridges
     {
-        [DebugAction("World Domination", "Destroy road links (Click tile)",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void DestroyRoadLinksClick()
         {
             int tile = GenWorld.MouseTile();
@@ -29,9 +26,7 @@ namespace TSA_WorldDomination
             Messages.Message("TSA_WD_WorldSetup_RemoveRoadDone".Translate(removed), MessageTypeDefOf.PositiveEvent);
         }
 
-        [DebugAction("World Domination", "Destroy bridge (Click bank/water)",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void DestroyBridgeClick()
         {
             int tile = GenWorld.MouseTile();

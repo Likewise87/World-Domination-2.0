@@ -42,7 +42,8 @@ namespace TSA_WorldDomination
             // icons + Close-zoom terrain-hide bypass makes space settlements pop onto the surface view.
             if (WorldActions_Utils.IsSpace(wo)) return false;
             var s = WorldDominationMod.settings;
-            if (wo is WorldObject_WD_Outpost || wo is WorldObject_Traveler || wo is WorldObject_AT_Turret)
+            if (wo is WorldObject_WD_Outpost || wo is WorldObject_Traveler || wo is WorldObject_AT_Turret
+                || wo is WorldObject_WD_AdvancedBuilding)
                 return s?.alwaysShowOutpostTravelerIconsRegardlessOfZoom
                     ?? WorldDominationSettings.DefAlwaysShowOutpostTravelerIconsRegardlessOfZoom;
             if (wo is Settlement)
@@ -64,14 +65,14 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// WD float-menu "Road blocks, traps, and AT" (hotkey R): hide AT turret icons when off.
+        /// WD float-menu "Road blocks, traps, and AT" (hotkey R): hide AT turret and advanced building icons when off.
         /// Road blocks / spike traps gate their own overlay draw; AT is a WorldObject so it needs
         /// the same TransitionPct=0 + Material skip path as shells. Must run before
         /// <see cref="ForceFixedIcon"/> or TransitionPct would stay forced to 1.
         /// </summary>
         private static bool HideAtTurretWhenFortificationsHidden(WorldObject wo)
         {
-            if (wo is not WorldObject_AT_Turret) return false;
+            if (wo is not WorldObject_AT_Turret && wo is not WorldObject_WD_AdvancedBuilding) return false;
             return !WorldComponent_WDVisualizerToggle.ShowRoadBlocksAndTraps;
         }
 

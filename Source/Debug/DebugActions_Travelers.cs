@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using LudeonTK;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -13,8 +12,7 @@ namespace TSA_WorldDomination
         private const float DebugRaidTravelerStrength = 500f;
         private const float DebugOutpostRaidTravelerStrength = 500f;
 
-        [DebugAction("World Domination", "Force random diplomacy change (test freeze CD)",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void ForceRandomDiplomacyChange()
         {
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
@@ -22,8 +20,7 @@ namespace TSA_WorldDomination
             Messages.Message(result, MessageTypeDefOf.CautionInput);
         }
 
-        [DebugAction("World Domination", "Destroy all active travelers",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void DestroyAllActiveTravelers()
         {
             List<WorldObject_Traveler> travelers = Find.WorldObjects.AllWorldObjects
@@ -45,9 +42,7 @@ namespace TSA_WorldDomination
         /// Click an NPC settlement: destroy it (simulated loss) and force-pack its connected surrounding
         /// cluster into a desperation raid aimed at the player. Skips chance / weak / cooldown / cluster-size gates.
         /// </summary>
-        [DebugAction("World Domination", "Show Cluster Stats",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void ShowClusterStats()
         {
             int tile = GenWorld.MouseTile();
@@ -64,9 +59,7 @@ namespace TSA_WorldDomination
             Find.WindowStack.Add(new Dialog_MessageBox(report, "OK".Translate()));
         }
 
-        [DebugAction("World Domination", "Force desperation raid (click NPC settlement)",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void ForceDesperationRaidClickSettlement()
         {
             int tile = GenWorld.MouseTile();
@@ -95,9 +88,7 @@ namespace TSA_WorldDomination
         /// Click an NPC settlement: force a turtle consolidate seeded from that settlement's connected cluster.
         /// Skips chance / cooldown / pressure / min-cluster gates.
         /// </summary>
-        [DebugAction("World Domination", "Force Turtle (click NPC settlement)",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void ForceTurtleClickSettlement()
         {
             int tile = GenWorld.MouseTile();
@@ -116,9 +107,7 @@ namespace TSA_WorldDomination
                 ok ? MessageTypeDefOf.CautionInput : MessageTypeDefOf.RejectInput);
         }
 
-        [DebugAction("World Domination", "Force Vanguard (click NPC settlement)",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void ForceVanguardForwardAssault()
         {
             int tile = GenWorld.MouseTile();
@@ -137,9 +126,7 @@ namespace TSA_WorldDomination
                 ok ? MessageTypeDefOf.CautionInput : MessageTypeDefOf.RejectInput);
         }
 
-        [DebugAction("World Domination", "Force Invasion (click NPC settlement)",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void ForceInvasionForwardAssault()
         {
             int tile = GenWorld.MouseTile();
@@ -158,8 +145,7 @@ namespace TSA_WorldDomination
                 ok ? MessageTypeDefOf.CautionInput : MessageTypeDefOf.RejectInput);
         }
 
-        [DebugAction("World Domination", "Destroy WD travelers on tile",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void DestroyTravelersOnTile()
         {
             Messages.Message("WD debug: click a world tile to destroy all WD travelers on it (raids, mortars, caravans, etc.).", MessageTypeDefOf.NeutralEvent);
@@ -186,9 +172,33 @@ namespace TSA_WorldDomination
                 t => TryGetValidSurfaceTile(t, out _));
         }
 
-        [DebugAction("World Domination", "Create Roadblock (multi-place)...",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void CreateRoadblockHere()
+        {
+            var factions = new List<Faction>();
+            DebugActions_FloatMenus.CollectDebugFactions(factions);
+            if (factions.Count == 0)
+            {
+                Messages.Message("WD debug: no factions available.", MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            var factionOpts = new List<FloatMenuOption>();
+            for (int i = 0; i < factions.Count; i++)
+            {
+                Faction f = factions[i];
+                Faction captured = f;
+                Texture2D icon = captured.def?.FactionIcon;
+                factionOpts.Add(new FloatMenuOption(
+                    captured.Name,
+                    () => OpenRoadBlockKindMenu(captured),
+                    icon,
+                    captured.Color));
+            }
+            DebugActions_FloatMenus.OpenCentered(factionOpts);
+        }
+
+        private static void OpenRoadBlockKindMenu(Faction faction)
         {
             var kindOpts = new List<FloatMenuOption>();
             foreach (RoadBlockKind kind in System.Enum.GetValues(typeof(RoadBlockKind)))
@@ -197,7 +207,7 @@ namespace TSA_WorldDomination
                 RoadBlockKind captured = kind;
                 kindOpts.Add(new FloatMenuOption(
                     RoadBlockKindUtil.LabelKey(captured).Translate(),
-                    () => BeginPlaceRoadBlockTargeting(captured)));
+                    () => BeginPlaceRoadBlockTargeting(faction, captured)));
             }
             if (kindOpts.Count == 0)
             {
@@ -207,11 +217,11 @@ namespace TSA_WorldDomination
             DebugActions_FloatMenus.OpenCentered(kindOpts);
         }
 
-        private static void BeginPlaceRoadBlockTargeting(RoadBlockKind kind)
+        private static void BeginPlaceRoadBlockTargeting(Faction builder, RoadBlockKind kind)
         {
             string kindLabel = RoadBlockKindUtil.LabelKey(kind).Translate();
             Messages.Message(
-                $"WD debug: click tiles to place {kindLabel}. Right-click or Esc to stop.",
+                $"WD debug: click tiles to place {kindLabel} for {builder.Name}. Right-click or Esc to stop.",
                 MessageTypeDefOf.NeutralEvent);
 
             Find.WorldTargeter.BeginTargeting(
@@ -227,7 +237,7 @@ namespace TSA_WorldDomination
                         return false;
                     }
 
-                    if (!blocks.TryPlace(tile, Faction.OfPlayer, kind))
+                    if (!blocks.TryPlace(tile, builder, kind))
                     {
                         Messages.Message(
                             $"WD debug: cannot place {kindLabel} on tile {tile}.",
@@ -235,7 +245,9 @@ namespace TSA_WorldDomination
                         return false;
                     }
 
-                    Messages.Message($"WD debug: placed {kindLabel} on tile {tile}.", MessageTypeDefOf.PositiveEvent);
+                    Messages.Message(
+                        $"WD debug: placed {kindLabel} ({builder.Name}) on tile {tile}.",
+                        MessageTypeDefOf.PositiveEvent);
                     return false;
                 },
                 true,
@@ -250,8 +262,7 @@ namespace TSA_WorldDomination
                 });
         }
 
-        [DebugAction("World Domination", "Create Spike Trap (multi-place)...",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void CreateSpikeTrapHere()
         {
             var factions = new List<Faction>();
@@ -335,8 +346,7 @@ namespace TSA_WorldDomination
                 });
         }
 
-        [DebugAction("World Domination", "Create AT Turret (multi-place)...",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void CreateAtTurretHere()
         {
             var factions = new List<Faction>();
@@ -412,6 +422,7 @@ namespace TSA_WorldDomination
                 {
                     if (!TryGetValidSurfaceTile(t, out int tile)) return false;
                     if (AtTurretUtility.TileHasAtTurret(tile)) return false;
+                    if (WorldComponent_AdvancedBuildings.Get()?.HasAt(tile) == true) return false;
                     return faction.IsPlayer
                         ? AtTurretUtility.IsPlayerBuildableTurretTile(tile)
                         : AtTurretUtility.IsEmptyOffRoadTurretSite(tile);
@@ -487,8 +498,7 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        [DebugAction("World Domination", "Delete Roadblock, Trap, or AT Turret here",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void DeleteRoadblockHere()
         {
             Messages.Message(
@@ -525,6 +535,15 @@ namespace TSA_WorldDomination
                         return false;
                     }
 
+                    WorldObject_WD_AdvancedBuilding building = WorldComponent_AdvancedBuildings.Get()?.At(tile);
+                    if (building != null && !building.Destroyed)
+                    {
+                        building.suppressDestroyedLetter = true;
+                        building.Destroy();
+                        Messages.Message($"WD debug: removed advanced building on tile {tile}.", MessageTypeDefOf.PositiveEvent);
+                        return false;
+                    }
+
                     Messages.Message(
                         $"WD debug: no road block, spike trap, or AT Turret on tile {tile}.",
                         MessageTypeDefOf.RejectInput);
@@ -540,62 +559,16 @@ namespace TSA_WorldDomination
                     if (!TryGetValidSurfaceTile(t, out int tile)) return false;
                     return WorldActions_RoadBlocks.IsValidClearTile(tile)
                         || WorldActions_SpikeTraps.IsValidClearTile(tile)
-                        || AtTurretUtility.TileHasAtTurret(tile);
+                        || AtTurretUtility.TileHasAtTurret(tile)
+                        || WorldComponent_AdvancedBuildings.Get()?.HasAt(tile) == true;
                 });
         }
 
 
-        [DebugAction("World Domination", "Damage roadblock 500",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
-        public static void DamageRoadblock500()
-        {
-            AdjustRoadblockHealthAtMouse(-500f);
-        }
 
-        [DebugAction("World Domination", "Heal roadblock 500",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
-        public static void HealRoadblock500()
-        {
-            AdjustRoadblockHealthAtMouse(500f);
-        }
+        public static void DamageRoadblock500() => WD_WorldDebugOps.DamageFortification500();
 
-        private static void AdjustRoadblockHealthAtMouse(float delta)
-        {
-            int tile = GenWorld.MouseTile();
-            if (tile < 0) return;
-
-            WorldComponent_RoadBlocks blocks = WorldComponent_RoadBlocks.Get();
-            if (blocks == null)
-            {
-                Messages.Message("WD debug: road-block world component missing.", MessageTypeDefOf.RejectInput);
-                return;
-            }
-
-            if (!blocks.TryGet(tile, out _))
-            {
-                Messages.Message($"WD debug: no road block on tile {tile}.", MessageTypeDefOf.RejectInput);
-                return;
-            }
-
-            if (!blocks.TryAdjustHealth(tile, delta, out float newHealth))
-            {
-                Messages.Message($"WD debug: failed to adjust road block on tile {tile}.", MessageTypeDefOf.RejectInput);
-                return;
-            }
-
-            if (newHealth <= 0f)
-            {
-                Messages.Message($"WD debug: road block on tile {tile} destroyed.", MessageTypeDefOf.NeutralEvent);
-                return;
-            }
-
-            string verb = delta < 0f ? "damaged" : "healed";
-            Messages.Message(
-                $"WD debug: {verb} road block on tile {tile} → HP {newHealth:F0}.",
-                MessageTypeDefOf.PositiveEvent);
-        }
+        public static void HealRoadblock500() => WD_WorldDebugOps.HealFortification500();
 
         private static int DestroyWdTravelersAtTile(int tile)
         {
@@ -616,8 +589,7 @@ namespace TSA_WorldDomination
         /// Interception / mortar defensive fire still treats it as a raider caravan.
         /// Destination is a random tile ~10 grid steps away with a valid land path (single click: start only).
         /// </summary>
-        [DebugAction("World Domination", "Spawn DEBUG raid caravan (500 str, ~20 tiles, mortar bait)",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void SpawnDebugRaidCaravanMortarBait()
         {
             Messages.Message("TSA_WD_DebugRaidPickStart".Translate(), MessageTypeDefOf.NeutralEvent);
@@ -649,8 +621,7 @@ namespace TSA_WorldDomination
         /// Spawns a real outpost raid traveler a few tiles away from a clicked player outpost.
         /// Unlike DebugRaidTransit, this uses mission Raid and the outpost raid traveler def so arrival runs normal raid logic.
         /// </summary>
-        [DebugAction("World Domination", "Raid selected outpost in ~4 tiles (500 str)",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void SpawnDebugRaidAgainstPlayerOutpost()
         {
             Messages.Message("TSA_WD_DebugOutpostRaidPickTarget".Translate(), MessageTypeDefOf.NeutralEvent);
@@ -682,8 +653,7 @@ namespace TSA_WorldDomination
                 target => FindPlayerOutpostAt(target.Tile) != null);
         }
 
-        [DebugAction("World Domination", "Raid selected outpost in ~12 tiles (500 str)",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void SpawnDebugRaidAgainstPlayerOutpostFar()
         {
             Messages.Message("WD debug: Click a player outpost. Spawns a real hostile raid caravan (500 str) about 12 tiles away and sends it to attack that outpost.", MessageTypeDefOf.NeutralEvent);
@@ -715,8 +685,7 @@ namespace TSA_WorldDomination
                 target => FindPlayerOutpostAt(target.Tile) != null);
         }
 
-        [DebugAction("World Domination", "Unlock Outpost Upgrade Delivery (if stuck)",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void UnlockOutpostUpgradeSelection()
         {
             Messages.Message("WD debug: click a player outpost to clear a stuck pending upgrade delivery.", MessageTypeDefOf.NeutralEvent);
@@ -756,8 +725,7 @@ namespace TSA_WorldDomination
         /// Click a player outpost: generate a humanlike captive with <see cref="Pawn_GuestTracker.Recruitable"/> forced false
         /// (unwavering). Capture does not flip them; Conversion Chair waits for a daily recruit-slot pulse.
         /// </summary>
-        [DebugAction("World Domination", "Add unwavering prisoner to outpost",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void AddUnwaveringPrisonerToOutpost()
         {
             Messages.Message("WD debug: click a player outpost to add an unwavering prisoner.", MessageTypeDefOf.NeutralEvent);
@@ -848,8 +816,7 @@ namespace TSA_WorldDomination
         /// Debug: click a tile to spawn conquest ruins (if needed) and open the post-conquest outpost opportunity dialog
         /// (<see cref="Dialog_OutpostOpportunityChoices"/>), same flow as after defeating a settlement.
         /// </summary>
-        [DebugAction("World Domination", "Simulate Settlement Conquered here",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+
         public static void OpenConquestOutpostDialogAtTile()
         {
             Messages.Message("WD debug: click a world tile to simulate a conquered settlement (creates ruins if empty, opens outpost choice dialog).", MessageTypeDefOf.NeutralEvent);

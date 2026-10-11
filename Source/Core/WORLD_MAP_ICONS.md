@@ -64,7 +64,10 @@ Do not point traveler `Material` at settlement art. Keep mission overrides in `R
 | AT turret | `Material` = settlement path + faction tint (never AT_Gun) | `WorldObjects/AT_Gun_{Light\|Medium\|Heavy}` via `AtTurretUtility.TexturePathForTier` | `UI/Commands/AT_Gun_{Light\|Medium\|Heavy}_Side` via `UiSideTexturePathForTier` |
 | Roadblock | Overlay `MatFrom` + `builtByFaction.Color` (cyan fallback) | n/a (not a WorldObject) | Kind icons from `RoadBlockKindUtil.TexturePath` → `WorldObjects/RoadBlock_{Light\|Medium\|Heavy}` |
 | Spike / caltrops | Overlay `MatFrom` + faction tint | n/a | `WorldObjects/WorldSpikeTrap` / `WorldObjects/Caltrops` |
+| NPC advanced building (Silo, Hospital, Watch Tower, Stable, Mortar / AA Turret) | `Material` = owner settlement path + faction tint at `GlobeIconAlpha` 0.9 (AT convention, slightly transparent vs settlements) | `WorldObjects/AdvWO_{Silo\|Hospital\|Watchtower\|Stable\|Mortar\|AA}` from the WorldObjectDef `expandingIconTexture`; same alpha via `ExpandingIconColor` | n/a (NPC only) |
 
 Do **not** use `*_Colorized` texture filenames. Greyscale WorldObjects art is tinted at draw time. Do **not** point AT build menus at world `AT_Gun_*` or ExpandingIcon at `*_Side`.
 
-World-map float menu **Road blocks, traps, and AT** (`ShowRoadBlocksAndTraps`, hotkey R, default on): road-block / trap overlays skip their draw; AT turrets suppress ExpandingIcon + Material via `HideAtTurretWhenFortificationsHidden` in `Patch_WdWorldObjectNoExpandingIcon` (call `NotifyIconModeChanged` when the flag flips).
+Advanced buildings are `ForceFixedIcon` like AT turrets. Their art is drawn upright, so `WorldObject_WD_AdvancedBuilding` does **not** override `ExpandingIconRotation`. If top-down turret art is added later, mirror `WorldObject_AT_Turret` (facing state + `ExpandingIconRotation` + north-art offset) so the VeryClose re-blit keeps the facing. The old `WorldObjects/AA_Gun` texture was removed; AA Turrets use `AdvWO_AA`.
+
+World-map float menu **Road blocks, traps, AT, and buildings** (`ShowRoadBlocksAndTraps`, hotkey R, default on): road-block / trap overlays skip their draw; AT turrets and advanced buildings suppress ExpandingIcon + Material via `HideAtTurretWhenFortificationsHidden` in `Patch_WdWorldObjectNoExpandingIcon` (call `NotifyIconModeChanged` when the flag flips).

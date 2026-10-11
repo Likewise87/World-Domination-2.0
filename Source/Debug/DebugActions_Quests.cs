@@ -1,4 +1,3 @@
-using LudeonTK;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -7,8 +6,6 @@ namespace TSA_WorldDomination
 {
     public static class DebugActions_Quests
     {
-        [DebugAction("World Domination", "Victory: Force generate quest",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
         public static void VictoryForceGenerateQuest()
         {
             var gc = WdWorldDominationVictoryQuestHelper.Comp;
@@ -31,8 +28,6 @@ namespace TSA_WorldDomination
                 Messages.Message("WD debug: victory quest generate failed.", MessageTypeDefOf.RejectInput);
         }
 
-        [DebugAction("World Domination", "Victory: Set streak to 14",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
         public static void VictoryStreak14()
         {
             if (!WdWorldDominationVictoryQuestHelper.AnyActive())
@@ -44,8 +39,6 @@ namespace TSA_WorldDomination
             Messages.Message("WD debug: victory streak = 14.", MessageTypeDefOf.TaskCompletion);
         }
 
-        [DebugAction("World Domination", "Victory: Force complete (open dialog)",
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
         public static void VictoryForceComplete()
         {
             var gc = WdWorldDominationVictoryQuestHelper.Comp;
@@ -67,9 +60,51 @@ namespace TSA_WorldDomination
             Messages.Message("WD debug: opened victory dialog (no active quest).", MessageTypeDefOf.TaskCompletion);
         }
 
-        [DebugAction("World Domination", "Quest raid bias: clicked faction → player (15d)",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
+        public static void RoadBuildingForceGenerate()
+        {
+            if (WdColonyRoadLinkQuestHelper.AnyActive())
+            {
+                Messages.Message("WD debug: road-building quest already active.", MessageTypeDefOf.RejectInput);
+                return;
+            }
+            if (WdColonyRoadLinkQuestHelper.GenerateQuest(ignoreSetting: true))
+                Messages.Message("WD debug: road-building quest generated.", MessageTypeDefOf.TaskCompletion);
+            else
+                Messages.Message(
+                    "WD debug: road-building quest generate failed (need colony + nearby ally/neutral town).",
+                    MessageTypeDefOf.RejectInput);
+        }
+
+        public static void BuildOutpostForceGenerate()
+        {
+            if (WdFirstOutpostQuestHelper.AnyActive())
+            {
+                Messages.Message("WD debug: build-outpost quest already active.", MessageTypeDefOf.RejectInput);
+                return;
+            }
+            if (WdFirstOutpostQuestHelper.GenerateQuest(ignoreSetting: true))
+                Messages.Message("WD debug: build-outpost quest generated.", MessageTypeDefOf.TaskCompletion);
+            else
+                Messages.Message(
+                    "WD debug: build-outpost quest generate failed (need nearby ally/neutral asker).",
+                    MessageTypeDefOf.RejectInput);
+        }
+
+        public static void CaptureSettlementForceGenerate()
+        {
+            if (WdCommonEnemySettlementQuestHelper.AnyActive())
+            {
+                Messages.Message("WD debug: capture-settlement quest already active.", MessageTypeDefOf.RejectInput);
+                return;
+            }
+            if (WdCommonEnemySettlementQuestHelper.GenerateQuest(ignoreSetting: true))
+                Messages.Message("WD debug: capture-settlement quest generated.", MessageTypeDefOf.TaskCompletion);
+            else
+                Messages.Message(
+                    "WD debug: capture-settlement quest generate failed (need asker + common enemy town).",
+                    MessageTypeDefOf.RejectInput);
+        }
+
         public static void RaidBiasClickedToPlayer()
         {
             Faction attacker = FindFactionAtMouseTile();
@@ -82,9 +117,6 @@ namespace TSA_WorldDomination
             Messages.Message($"WD debug: raid bias {attacker.Name} → player (15d).", MessageTypeDefOf.TaskCompletion);
         }
 
-        [DebugAction("World Domination", "Quest raid bias: clear clicked faction",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
         public static void RaidBiasClearClicked()
         {
             Faction attacker = FindFactionAtMouseTile();
@@ -95,23 +127,6 @@ namespace TSA_WorldDomination
             }
             WdQuestRaidBias.Clear(attacker);
             Messages.Message($"WD debug: cleared raid bias for {attacker.Name}.", MessageTypeDefOf.TaskCompletion);
-        }
-
-        [DebugAction("World Domination", "Quest goodwill: -20 from clicked faction",
-            actionType = DebugActionType.ToolWorld,
-            allowedGameStates = AllowedGameStates.PlayingOnWorld)]
-        public static void GoodwillLossClicked()
-        {
-            Faction asker = FindFactionAtMouseTile();
-            if (asker == null)
-            {
-                Messages.Message("WD debug: click an NPC settlement/outpost.", MessageTypeDefOf.RejectInput);
-                return;
-            }
-            if (WdQuestGoodwillPenalties.ApplyLossOnQuestFailed(asker))
-                Messages.Message($"WD debug: applied -20 goodwill vs {asker.Name}.", MessageTypeDefOf.TaskCompletion);
-            else
-                Messages.Message("WD debug: goodwill change rejected.", MessageTypeDefOf.RejectInput);
         }
 
         private static Faction FindFactionAtMouseTile()

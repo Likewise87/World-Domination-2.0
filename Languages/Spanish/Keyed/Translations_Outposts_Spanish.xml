@@ -1904,10 +1904,10 @@
   <TSA_WD_OutpostStats_Row_FoodRadiusTip>Alcance de logística de comida para este tipo de avanzadilla (ajuste del mod).</TSA_WD_OutpostStats_Row_FoodRadiusTip>
   <TSA_WD_OutpostStats_Row_PeopleRadiusTip>Radio de asentamientos cercanos para reclutamiento, comercio y embajada.</TSA_WD_OutpostStats_Row_PeopleRadiusTip>
   <TSA_WD_OutpostStats_Row_WarehouseRadiusTip>Aura de almacén para este tipo de avanzadilla.</TSA_WD_OutpostStats_Row_WarehouseRadiusTip>
-  <TSA_WD_OutpostStats_Row_NpcMortarRangeTip>Alcance de mortero T4 PNJ (ajustes del mod).</TSA_WD_OutpostStats_Row_NpcMortarRangeTip>
-  <TSA_WD_OutpostStats_Row_NpcMortarCooldownTip>Días nominales entre disparos de mortero T4 PNJ (ajustes del mod).</TSA_WD_OutpostStats_Row_NpcMortarCooldownTip>
-  <TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>Alcance antiaéreo T4 PNJ (ajustes del mod).</TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>
-  <TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>Segundos nominales entre disparos antiaéreos T4 PNJ (ajustes del mod).</TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>
+  <TSA_WD_OutpostStats_Row_NpcMortarRangeTip>Alcance de Torreta de mortero (ajustes del mod).</TSA_WD_OutpostStats_Row_NpcMortarRangeTip>
+  <TSA_WD_OutpostStats_Row_NpcMortarCooldownTip>Días nominales entre disparos de Torreta de mortero (ajustes del mod).</TSA_WD_OutpostStats_Row_NpcMortarCooldownTip>
+  <TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>Alcance de Torreta AA (ajustes del mod).</TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>
+  <TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>Segundos nominales entre disparos de Torreta AA (ajustes del mod).</TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>
   <TSA_WD_OutpostStats_Row_AllyStrength>Fuerza aliada de apoyo</TSA_WD_OutpostStats_Row_AllyStrength>
   <TSA_WD_OutpostStats_Row_AllyStrengthTip>Fuerza ofensiva de vecinos dentro del radio de atracción aliada. La misma facción siempre se une; aliados de otra facción solo según el combate. Desglose:</TSA_WD_OutpostStats_Row_AllyStrengthTip>
   <TSA_WD_Gizmo_ShowAllyRadius>Radio aliado</TSA_WD_Gizmo_ShowAllyRadius>
@@ -2147,4 +2147,12 @@
   <TSA_WD_StatsTooltip_ResultFlat>Resultado: {0} + {1} = {2}</TSA_WD_StatsTooltip_ResultFlat>
   <TSA_WD_StatsTooltip_ResultMult>Resultado: {0} × {1} = {2}</TSA_WD_StatsTooltip_ResultMult>
   <TSA_WD_StatsTooltip_UpgradeSource>Mejora "{0}"</TSA_WD_StatsTooltip_UpgradeSource>
+
+  <!-- Advanced buildings + sally overhaul -->
+  <TSA_WD_OutpostStats_Row_AdvBuildings>Edificios avanzados</TSA_WD_OutpostStats_Row_AdvBuildings>
+  <TSA_WD_OutpostStats_Row_AdvBuildingsTip>Edificios avanzados de este asentamiento. Las ranuras equivalen al nivel ({0}); como máximo uno de cada tipo.</TSA_WD_OutpostStats_Row_AdvBuildingsTip>
+  <TSA_WD_OutpostStats_Row_LandSpeed>Velocidad de caravanas terrestres</TSA_WD_OutpostStats_Row_LandSpeed>
+  <TSA_WD_OutpostStats_Row_LandSpeedTip>Bono del Establo a la velocidad a pie de las caravanas que salen de este asentamiento.</TSA_WD_OutpostStats_Row_LandSpeedTip>
+  <TSA_WD_OutpostStats_SiloMaxLine>Silo: {0} +{1}% = {2}</TSA_WD_OutpostStats_SiloMaxLine>
+  <TSA_WD_OutpostStats_HospitalLine>Hospital: +{0}%</TSA_WD_OutpostStats_HospitalLine>
 </LanguageData>

@@ -270,4 +270,43 @@
   <TSA_WD_DebugOutpostRaidNoOutpost>WD depuración: la casilla elegida no contiene una avanzadilla del jugador.</TSA_WD_DebugOutpostRaidNoOutpost>
   <TSA_WD_DebugOutpostRaidNoStart>WD depuración: no se encontró una casilla inicial válida a unas 4 casillas con ruta a esta avanzadilla.</TSA_WD_DebugOutpostRaidNoStart>
   <TSA_WD_DebugOutpostRaidSpawned>WD depuración: creado viajero de asalto de {0} desde la casilla {1} hacia {2}.</TSA_WD_DebugOutpostRaidSpawned>
+
+  <!-- Advanced buildings + sally overhaul -->
+  <TSA_WD_AdvBuild_Silo>Silo</TSA_WD_AdvBuild_Silo>
+  <TSA_WD_AdvBuild_Hospital>Hospital</TSA_WD_AdvBuild_Hospital>
+  <TSA_WD_AdvBuild_WatchTower>Torre de vigía</TSA_WD_AdvBuild_WatchTower>
+  <TSA_WD_AdvBuild_Stable>Establo</TSA_WD_AdvBuild_Stable>
+  <TSA_WD_AdvBuild_MortarTurret>Torreta de mortero</TSA_WD_AdvBuild_MortarTurret>
+  <TSA_WD_AdvBuild_AaTurret>Torreta AA</TSA_WD_AdvBuild_AaTurret>
+  <TSA_WD_AdvBuild_LabelWithOwner>{0} de {1}</TSA_WD_AdvBuild_LabelWithOwner>
+  <TSA_WD_AdvBuild_Inspect_BuiltBy>Construido por {0} ({1})</TSA_WD_AdvBuild_Inspect_BuiltBy>
+  <TSA_WD_AdvBuild_Inspect_OwnerLost>Propietario perdido. Este edificio será retirado.</TSA_WD_AdvBuild_Inspect_OwnerLost>
+  <TSA_WD_AdvBuild_Inspect_None>ninguno</TSA_WD_AdvBuild_Inspect_None>
+  <TSA_WD_AdvBuild_Inspect_SettlementBuildings>Edificios ({1}/{2}): {0}</TSA_WD_AdvBuild_Inspect_SettlementBuildings>
+  <TSA_WD_AdvBuild_Inspect_ArtilleryVulnerable>Defendido: las incursiones hostiles deben superar su fuerza para destruirlo. Los impactos de mortero lo desgastan; nunca se regenera.</TSA_WD_AdvBuild_Inspect_ArtilleryVulnerable>
+  <TSA_WD_AdvBuild_Inspect_EconomicVulnerable>Sin defensa: cualquier caravana hostil que cruce esta casilla, o un solo impacto de mortero, lo destruye.</TSA_WD_AdvBuild_Inspect_EconomicVulnerable>
+  <TSA_WD_AdvBuild_Inspect_Grace>Demasiado nuevo para bombardear: quedan {0}</TSA_WD_AdvBuild_Inspect_Grace>
+  <TSA_WD_AdvBuild_Inspect_Inactive>Inactivo (desactivado en ajustes, o el nivel tecnológico del propietario es demasiado bajo)</TSA_WD_AdvBuild_Inspect_Inactive>
+  <TSA_WD_AdvBuild_Inspect_Cooldown>Recargando: {0}</TSA_WD_AdvBuild_Inspect_Cooldown>
+  <TSA_WD_AdvBuild_Inspect_Ready>Listo para disparar</TSA_WD_AdvBuild_Inspect_Ready>
+  <TSA_WD_AdvBuild_Provides_Mortar>Dispara proyectiles de mortero a viajeros y objetivos hostiles a menos de {0} casillas.</TSA_WD_AdvBuild_Provides_Mortar>
+  <TSA_WD_AdvBuild_Provides_AntiAir>Ataca cápsulas, naves gravitatorias, transportes y proyectiles de mortero hostiles a menos de {0} casillas.</TSA_WD_AdvBuild_Provides_AntiAir>
+  <TSA_WD_AdvBuild_Boost_Silo>Fuerza ofensiva máxima del propietario +{0}% ({1} a {2}).</TSA_WD_AdvBuild_Boost_Silo>
+  <TSA_WD_AdvBuild_Boost_Hospital>Recuperación ofensiva y defensiva del propietario +{0}% (ahora {1} / {2} por día).</TSA_WD_AdvBuild_Boost_Hospital>
+  <TSA_WD_AdvBuild_Boost_WatchTower>Alcance de ataque del propietario +{0}% ({1} a {2} casillas).</TSA_WD_AdvBuild_Boost_WatchTower>
+  <TSA_WD_AdvBuild_Boost_Stable>Las caravanas terrestres del propietario se mueven un {0}% más rápido.</TSA_WD_AdvBuild_Boost_Stable>
+  <TSA_WD_AdvBuild_AttackRangeWatchTowerTip>Torre de vigía: +{0}%</TSA_WD_AdvBuild_AttackRangeWatchTowerTip>
+  <TSA_WD_AdvBuild_ReasonShellGrace>Demasiado nuevo para bombardear (quedan {0}).</TSA_WD_AdvBuild_ReasonShellGrace>
+  <TSA_WD_AdvBuild_Msg_PlayerDestroyed>{1} destruyó {0}.</TSA_WD_AdvBuild_Msg_PlayerDestroyed>
+  <TSA_WD_AdvBuild_Log_BuilderLaunched>{0} envió una cuadrilla a construir: {1}.</TSA_WD_AdvBuild_Log_BuilderLaunched>
+  <TSA_WD_AdvBuild_Log_Built>{0} construyó: {1}.</TSA_WD_AdvBuild_Log_Built>
+  <TSA_WD_AdvBuild_Log_Destroyed>{0} fue destruido.</TSA_WD_AdvBuild_Log_Destroyed>
+  <TSA_WD_AdvBuild_Log_DestroyedBy>{0} fue destruido por {1}.</TSA_WD_AdvBuild_Log_DestroyedBy>
+  <TSA_WD_AdvBuild_Log_FreeArtillery>{0} levantó: {1} al alcanzar el nivel 4.</TSA_WD_AdvBuild_Log_FreeArtillery>
+  <TSA_WD_Traveler_AdvancedBuilder>Cuadrilla de construcción</TSA_WD_Traveler_AdvancedBuilder>
+  <TSA_WD_AdvBuild_Inspect_Strength>Fuerza: {0}/{1}</TSA_WD_AdvBuild_Inspect_Strength>
+  <TSA_WD_AdvBuild_Inspect_Faction>Facción: {0}</TSA_WD_AdvBuild_Inspect_Faction>
+  <TSA_WD_AdvBuild_Inspect_BuiltBySettlement>Construido por asentamiento: {0}</TSA_WD_AdvBuild_Inspect_BuiltBySettlement>
+  <TSA_WD_AdvBuild_Inspect_ReloadingDays>Recargando: {0} días</TSA_WD_AdvBuild_Inspect_ReloadingDays>
+  <TSA_WD_AdvBuild_Inspect_ShellProtectionDays>Protección contra bombardeo: {0} días</TSA_WD_AdvBuild_Inspect_ShellProtectionDays>
 </LanguageData>

@@ -270,4 +270,43 @@
   <TSA_WD_DebugOutpostRaidNoOutpost>WD 调试:所选地块没有玩家前哨。</TSA_WD_DebugOutpostRaidNoOutpost>
   <TSA_WD_DebugOutpostRaidNoStart>WD 调试:找不到约 4 格外且能通往此前哨的有效起点。</TSA_WD_DebugOutpostRaidNoStart>
   <TSA_WD_DebugOutpostRaidSpawned>WD 调试:已生成 {0} 前哨袭击旅行者,从地块 {1} 前往 {2}。</TSA_WD_DebugOutpostRaidSpawned>
+
+  <!-- Advanced buildings + sally overhaul -->
+  <TSA_WD_AdvBuild_Silo>粮仓</TSA_WD_AdvBuild_Silo>
+  <TSA_WD_AdvBuild_Hospital>医院</TSA_WD_AdvBuild_Hospital>
+  <TSA_WD_AdvBuild_WatchTower>瞭望塔</TSA_WD_AdvBuild_WatchTower>
+  <TSA_WD_AdvBuild_Stable>马厩</TSA_WD_AdvBuild_Stable>
+  <TSA_WD_AdvBuild_MortarTurret>迫击炮塔</TSA_WD_AdvBuild_MortarTurret>
+  <TSA_WD_AdvBuild_AaTurret>防空炮塔</TSA_WD_AdvBuild_AaTurret>
+  <TSA_WD_AdvBuild_LabelWithOwner>{1}的{0}</TSA_WD_AdvBuild_LabelWithOwner>
+  <TSA_WD_AdvBuild_Inspect_BuiltBy>建造者：{0}（{1}）</TSA_WD_AdvBuild_Inspect_BuiltBy>
+  <TSA_WD_AdvBuild_Inspect_OwnerLost>所有者已失去。此建筑将被移除。</TSA_WD_AdvBuild_Inspect_OwnerLost>
+  <TSA_WD_AdvBuild_Inspect_None>无</TSA_WD_AdvBuild_Inspect_None>
+  <TSA_WD_AdvBuild_Inspect_SettlementBuildings>建筑（{1}/{2}）：{0}</TSA_WD_AdvBuild_Inspect_SettlementBuildings>
+  <TSA_WD_AdvBuild_Inspect_ArtilleryVulnerable>有防御：敌对袭击必须击败其强度才能摧毁它。迫击炮命中会削弱它；它不会恢复。</TSA_WD_AdvBuild_Inspect_ArtilleryVulnerable>
+  <TSA_WD_AdvBuild_Inspect_EconomicVulnerable>无防御：任何经过此地块的敌对商队，或一次迫击炮命中，都会摧毁它。</TSA_WD_AdvBuild_Inspect_EconomicVulnerable>
+  <TSA_WD_AdvBuild_Inspect_Grace>刚建成，暂不可炮击：剩余 {0}</TSA_WD_AdvBuild_Inspect_Grace>
+  <TSA_WD_AdvBuild_Inspect_Inactive>未激活（设置中已禁用，或所有者科技等级过低）</TSA_WD_AdvBuild_Inspect_Inactive>
+  <TSA_WD_AdvBuild_Inspect_Cooldown>装填中：{0}</TSA_WD_AdvBuild_Inspect_Cooldown>
+  <TSA_WD_AdvBuild_Inspect_Ready>可以开火</TSA_WD_AdvBuild_Inspect_Ready>
+  <TSA_WD_AdvBuild_Provides_Mortar>向 {0} 格内的敌对旅行者与目标发射迫击炮弹。</TSA_WD_AdvBuild_Provides_Mortar>
+  <TSA_WD_AdvBuild_Provides_AntiAir>拦截 {0} 格内的敌对空投舱、重力飞船、运输舱与迫击炮弹。</TSA_WD_AdvBuild_Provides_AntiAir>
+  <TSA_WD_AdvBuild_Boost_Silo>所有者最大进攻强度 +{0}%（{1} 到 {2}）。</TSA_WD_AdvBuild_Boost_Silo>
+  <TSA_WD_AdvBuild_Boost_Hospital>所有者进攻与防御恢复 +{0}%（当前每天 {1} / {2}）。</TSA_WD_AdvBuild_Boost_Hospital>
+  <TSA_WD_AdvBuild_Boost_WatchTower>所有者攻击范围 +{0}%（{1} 到 {2} 格）。</TSA_WD_AdvBuild_Boost_WatchTower>
+  <TSA_WD_AdvBuild_Boost_Stable>所有者的陆地商队移动速度提高 {0}%。</TSA_WD_AdvBuild_Boost_Stable>
+  <TSA_WD_AdvBuild_AttackRangeWatchTowerTip>瞭望塔：+{0}%</TSA_WD_AdvBuild_AttackRangeWatchTowerTip>
+  <TSA_WD_AdvBuild_ReasonShellGrace>刚建成，暂不可炮击（剩余 {0}）。</TSA_WD_AdvBuild_ReasonShellGrace>
+  <TSA_WD_AdvBuild_Msg_PlayerDestroyed>{1} 摧毁了 {0}。</TSA_WD_AdvBuild_Msg_PlayerDestroyed>
+  <TSA_WD_AdvBuild_Log_BuilderLaunched>{0} 派出施工队建造{1}。</TSA_WD_AdvBuild_Log_BuilderLaunched>
+  <TSA_WD_AdvBuild_Log_Built>{0} 建成了{1}。</TSA_WD_AdvBuild_Log_Built>
+  <TSA_WD_AdvBuild_Log_Destroyed>{0} 被摧毁。</TSA_WD_AdvBuild_Log_Destroyed>
+  <TSA_WD_AdvBuild_Log_DestroyedBy>{0} 被 {1} 摧毁。</TSA_WD_AdvBuild_Log_DestroyedBy>
+  <TSA_WD_AdvBuild_Log_FreeArtillery>{0} 升至四级时建起了{1}。</TSA_WD_AdvBuild_Log_FreeArtillery>
+  <TSA_WD_Traveler_AdvancedBuilder>施工队</TSA_WD_Traveler_AdvancedBuilder>
+  <TSA_WD_AdvBuild_Inspect_Strength>强度：{0}/{1}</TSA_WD_AdvBuild_Inspect_Strength>
+  <TSA_WD_AdvBuild_Inspect_Faction>派系：{0}</TSA_WD_AdvBuild_Inspect_Faction>
+  <TSA_WD_AdvBuild_Inspect_BuiltBySettlement>建造定居点：{0}</TSA_WD_AdvBuild_Inspect_BuiltBySettlement>
+  <TSA_WD_AdvBuild_Inspect_ReloadingDays>装填中：{0} 天</TSA_WD_AdvBuild_Inspect_ReloadingDays>
+  <TSA_WD_AdvBuild_Inspect_ShellProtectionDays>防炮击保护：{0} 天</TSA_WD_AdvBuild_Inspect_ShellProtectionDays>
 </LanguageData>

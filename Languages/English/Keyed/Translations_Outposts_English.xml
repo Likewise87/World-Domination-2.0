@@ -2029,10 +2029,10 @@
   <TSA_WD_OutpostStats_Row_FoodRadiusTip>Food logistics range for this outpost type (mod setting).</TSA_WD_OutpostStats_Row_FoodRadiusTip>
   <TSA_WD_OutpostStats_Row_PeopleRadiusTip>Nearby-settlement radius for recruiting, trading, and embassy outposts.</TSA_WD_OutpostStats_Row_PeopleRadiusTip>
   <TSA_WD_OutpostStats_Row_WarehouseRadiusTip>Warehouse aura radius for this outpost type.</TSA_WD_OutpostStats_Row_WarehouseRadiusTip>
-  <TSA_WD_OutpostStats_Row_NpcMortarRangeTip>NPC T4 mortar engagement range (mod settings).</TSA_WD_OutpostStats_Row_NpcMortarRangeTip>
-  <TSA_WD_OutpostStats_Row_NpcMortarCooldownTip>Nominal days between NPC T4 mortar shots (mod settings).</TSA_WD_OutpostStats_Row_NpcMortarCooldownTip>
-  <TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>NPC T4 Anti-Air engagement range (mod settings).</TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>
-  <TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>Nominal seconds between NPC T4 Anti-Air shots (mod settings).</TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>
+  <TSA_WD_OutpostStats_Row_NpcMortarRangeTip>Mortar Turret engagement range (mod settings).</TSA_WD_OutpostStats_Row_NpcMortarRangeTip>
+  <TSA_WD_OutpostStats_Row_NpcMortarCooldownTip>Nominal days between Mortar Turret shots (mod settings).</TSA_WD_OutpostStats_Row_NpcMortarCooldownTip>
+  <TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>AA Turret engagement range (mod settings).</TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>
+  <TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>Nominal seconds between AA Turret shots (mod settings).</TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>
   <TSA_WD_OutpostStats_Row_AllyStrength>Supporting allied strength</TSA_WD_OutpostStats_Row_AllyStrength>
   <TSA_WD_OutpostStats_Row_AllyStrengthTip>Offensive strength from neighbors inside the ally pull radius. Same-faction always joins; other-faction allies only join depending on the fight. Breakdown:</TSA_WD_OutpostStats_Row_AllyStrengthTip>
   <TSA_WD_Gizmo_ShowAllyRadius>Ally Radius</TSA_WD_Gizmo_ShowAllyRadius>
@@ -2185,4 +2185,12 @@
   <TSA_WD_OutpostStats_Row_WarehouseAuraRadiusTip>World-tile radius of this warehouse's production boost aura.</TSA_WD_OutpostStats_Row_WarehouseAuraRadiusTip>
   <TSA_WD_OutpostStats_Row_WarehouseAuraBonus>Aura production boost</TSA_WD_OutpostStats_Row_WarehouseAuraBonus>
   <TSA_WD_OutpostStats_Row_WarehouseAuraBonusTip>Production bonus granted to nearby eligible outposts (goods, virtual food, academy XP). Only the best warehouse in range applies.</TSA_WD_OutpostStats_Row_WarehouseAuraBonusTip>
+
+  <!-- Advanced buildings + sally overhaul -->
+  <TSA_WD_OutpostStats_Row_AdvBuildings>Advanced buildings</TSA_WD_OutpostStats_Row_AdvBuildings>
+  <TSA_WD_OutpostStats_Row_AdvBuildingsTip>Advanced buildings owned by this settlement. Slots equal the settlement tier ({0}); one of each type at most.</TSA_WD_OutpostStats_Row_AdvBuildingsTip>
+  <TSA_WD_OutpostStats_Row_LandSpeed>Land caravan speed</TSA_WD_OutpostStats_Row_LandSpeed>
+  <TSA_WD_OutpostStats_Row_LandSpeedTip>Stable bonus to the walking speed of caravans launched from this settlement.</TSA_WD_OutpostStats_Row_LandSpeedTip>
+  <TSA_WD_OutpostStats_SiloMaxLine>Silo: {0} +{1}% = {2}</TSA_WD_OutpostStats_SiloMaxLine>
+  <TSA_WD_OutpostStats_HospitalLine>Hospital: +{0}%</TSA_WD_OutpostStats_HospitalLine>
 </LanguageData>

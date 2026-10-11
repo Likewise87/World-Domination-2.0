@@ -362,6 +362,8 @@ namespace TSA_WorldDomination
                     // Hostile raid walking onto an AT Turret tile clashes by strength (destination turret left to arrival).
                     AtTurretRetaliationUtility.TryClashOnSharedTile(traveler, traveler.Tile);
                     if (traveler.Destroyed) return;
+                    AdvancedBuildingCombatUtility.TryResolveWalkOver(traveler, traveler.Tile);
+                    if (traveler.Destroyed) return;
                     // Mortar / RR outposts on this tile act as choke-point fortresses vs hostile ground raids,
                     // Vanguard / Invasion rally columns, and Turtle migrants. Player colony tile does the same
                     // (map raid) with the same mission filter. Player Camp: clash on the existing map

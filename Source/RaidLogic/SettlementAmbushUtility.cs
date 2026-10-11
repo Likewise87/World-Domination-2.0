@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
+using UnityEngine;
 using Verse;
 
 namespace TSA_WorldDomination
@@ -17,7 +18,24 @@ namespace TSA_WorldDomination
     public static class SettlementAmbushUtility
     {
         /// <summary>Max chase distance = ambush watch range × this, measured from the origin settlement.</summary>
-        public const float PursuitRangeMult = 1.6f;
+        public const float PursuitRangeMult = 1.25f;
+        /// <summary>Min (available + turret strength) / threat when the target is near or heading for an owned AT turret.</summary>
+        public const float AtTurretDefenseMinRatio = 1.25f;
+        /// <summary>Min available / threat when the target is near or heading for an owned advanced building.</summary>
+        public const float AdvancedBuildingDefenseMinRatio = 1.0f;
+
+        /// <summary>Ambush watch radius: towns owning any AT turret or advanced building watch farther.</summary>
+        public static float GetWatchRangeTiles(WorldObject settlement, WorldDominationSettings seth)
+        {
+            float baseR = seth?.settlementAmbushWatchRangeTiles ?? WorldDominationSettings.DefSettlementAmbushWatchRangeTiles;
+            if (settlement is Settlement s && WorldComponent_AdvancedBuildings.Get()?.OwnerHasAssets(s) == true)
+            {
+                float withAssets = seth?.settlementAmbushWatchRangeWithAssetsTiles
+                    ?? WorldDominationSettings.DefSettlementAmbushWatchRangeWithAssetsTiles;
+                return Mathf.Max(baseR, withAssets);
+            }
+            return baseR;
+        }
         /// <summary>Per-target anti-dogpile (90 real-time seconds at 1x).</summary>
         public const int TargetCooldownTicks = 5400;
         /// <summary>Per-origin launch cooldown (3 real-time minutes at 1x).</summary>
@@ -33,7 +51,6 @@ namespace TSA_WorldDomination
             var seth = WorldDominationMod.settings;
             if (seth == null) return;
             if (traveler == null || traveler.Destroyed || traveler.Faction == null) return;
-            if (traveler.isTurretDetour) return;
             if (!IsAmbushableMission(traveler.mission)) return;
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
@@ -47,13 +64,13 @@ namespace TSA_WorldDomination
             List<WorldObject> watchers = watchIndex.GetWatchers(tileId, WatchCapability.Ambush);
             if (watchers.Count == 0) return;
 
-            WorldObject settlement = FindFirstEligibleAmbusher(watchers, traveler.Faction, traveler.targetObject, traveler.originObject);
+            WorldObject settlement = FindBestAmbusher(watchers, traveler, traveler.Faction, traveler.targetObject, traveler.originObject, seth);
             if (settlement == null) return;
 
             // Coin flip before any strength math, per Feature C ordering.
             if (Rand.Value > seth.settlementAmbushChancePct) return;
 
-            TryDispatch(settlement, traveler, traveler.travelerStrength, watchIndex, seth, manager);
+            TryDispatch(settlement, traveler, traveler.travelerStrength, traveler.targetObject, watchIndex, seth, manager);
         }
 
         /// <summary>Real-Caravan half: called from <see cref="WD_SameTileTravelerClash.TickCaravanClashDetection"/> on a detected tile change.</summary>
@@ -75,7 +92,7 @@ namespace TSA_WorldDomination
             List<WorldObject> watchers = watchIndex.GetWatchers(tileId, WatchCapability.Ambush);
             if (watchers.Count == 0) return;
 
-            WorldObject settlement = FindFirstEligibleAmbusher(watchers, caravan.Faction, null, null);
+            WorldObject settlement = FindBestAmbusher(watchers, caravan, caravan.Faction, null, null, seth);
             if (settlement == null) return;
 
             var evac = WorldComponent_DropPodCrashEvac.Get();
@@ -83,7 +100,7 @@ namespace TSA_WorldDomination
             if (!primed && Rand.Value > seth.settlementAmbushChancePct) return;
 
             float caravanStrength = WorldComponent_SpreadManager.ComputeCaravanMortarStrengthPool(caravan);
-            if (TryDispatch(settlement, caravan, caravanStrength, watchIndex, seth, manager) && primed)
+            if (TryDispatch(settlement, caravan, caravanStrength, null, watchIndex, seth, manager) && primed)
                 evac.Clear(caravan);
         }
 
@@ -102,29 +119,108 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        private static WorldObject FindFirstEligibleAmbusher(
-            List<WorldObject> watchers, Faction targetFaction, WorldObject targetDestination, WorldObject targetOrigin)
+        /// <summary>
+        /// Highest available strength among eligible watchers; ties go to the owner of a threatened asset.
+        /// Raiders heading for the watcher itself are valid (only the target's origin is skipped).
+        /// </summary>
+        private static WorldObject FindBestAmbusher(
+            List<WorldObject> watchers, WorldObject target, Faction targetFaction,
+            WorldObject targetDestination, WorldObject targetOrigin, WorldDominationSettings seth)
         {
+            SettlementTier minTier = seth?.settlementAmbushMinTier ?? WorldDominationSettings.DefSettlementAmbushMinTier;
+            WorldObject best = null;
+            float bestAvail = 0f;
+            bool bestOwnsAsset = false;
             for (int i = 0; i < watchers.Count; i++)
             {
                 WorldObject settlement = watchers[i];
                 if (settlement == null || settlement.Destroyed) continue;
-                if (settlement == targetDestination || settlement == targetOrigin) continue;
+                if (settlement == targetOrigin) continue;
                 if (settlement.Faction == null) continue;
                 if (!WorldActions_Utils.SafeHostileTo(settlement.Faction, targetFaction)) continue;
                 var originComp = settlement.GetComponent<CompViralSpread>();
                 if (originComp == null) continue;
-                SettlementTier minTier = WorldDominationMod.settings?.settlementAmbushMinTier
-                    ?? WorldDominationSettings.DefSettlementAmbushMinTier;
                 if (originComp.tier < minTier) continue;
                 if (originComp.IsAmbushOnCooldown) continue;
-                return settlement;
+                float avail = WorldActions_Utils.GetAvailableRaidStrength(originComp, seth);
+                if (avail <= 0f) continue;
+                bool ownsAsset = FindThreatenedAsset(settlement, target, targetDestination) != null;
+                bool better = best == null
+                    || avail > bestAvail + 0.01f
+                    || (Mathf.Abs(avail - bestAvail) <= 0.01f && ownsAsset && !bestOwnsAsset);
+                if (!better) continue;
+                best = settlement;
+                bestAvail = avail;
+                bestOwnsAsset = ownsAsset;
+            }
+            return best;
+        }
+
+        /// <summary>
+        /// Owned AT turret or advanced building that <paramref name="target"/> is heading for or standing near
+        /// (AT: within its fire range; advanced building: within the detour radius). AT turrets win ties.
+        /// </summary>
+        private static WorldObject FindThreatenedAsset(WorldObject settlement, WorldObject target, WorldObject targetDestination)
+        {
+            if (!(settlement is Settlement owner) || target == null) return null;
+            if (targetDestination is WorldObject_AT_Turret destAt && !destAt.Destroyed && destAt.builtBySettlement == owner)
+                return destAt;
+            if (targetDestination is WorldObject_WD_AdvancedBuilding destB && !destB.Destroyed && destB.builtBySettlement == owner)
+                return destB;
+
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null) return null;
+            int tile = target.Tile.tileId;
+            IReadOnlyList<WorldObject_AT_Turret> ats = WorldObject_AT_Turret.LiveTurrets;
+            for (int i = 0; i < ats.Count; i++)
+            {
+                var at = ats[i];
+                if (at == null || at.Destroyed || at.builtBySettlement != owner) continue;
+                if (grid.ApproxDistanceInTiles(tile, at.Tile.tileId) <= at.EffectiveRangeTiles + 0.01f) return at;
+            }
+            var owned = WorldComponent_AdvancedBuildings.Get()?.OwnedBy(owner);
+            if (owned != null)
+            {
+                for (int i = 0; i < owned.Count; i++)
+                {
+                    var b = owned[i];
+                    if (b == null || b.Destroyed) continue;
+                    if (grid.ApproxDistanceInTiles(tile, b.Tile.tileId)
+                        <= WorldComponent_SettlementWatchIndex.AdvancedBuildingDetourRadiusTiles + 0.01f)
+                        return b;
+                }
             }
             return null;
         }
 
+        /// <summary>
+        /// Min ratio for this sally: owned AT turret 1.25 (turret strength counts as support), owned advanced building 1.0,
+        /// target heading for the town 1.2 with assets / <see cref="WorldDominationSettings.settlementAmbushSelfDefenseMinRatio"/> without,
+        /// else <see cref="WorldDominationSettings.settlementAmbushMinStrengthRatio"/>.
+        /// </summary>
+        private static float ResolveMinRatio(
+            WorldObject settlement, WorldObject target, WorldObject targetDestination, WorldDominationSettings seth, out float support)
+        {
+            support = 0f;
+            WorldObject asset = FindThreatenedAsset(settlement, target, targetDestination);
+            if (asset is WorldObject_AT_Turret at)
+            {
+                support = Mathf.Max(0f, at.strength);
+                return AtTurretDefenseMinRatio;
+            }
+            if (asset is WorldObject_WD_AdvancedBuilding)
+                return AdvancedBuildingDefenseMinRatio;
+            float baseRatio = seth.settlementAmbushMinStrengthRatio;
+            if (targetDestination != null && targetDestination == settlement)
+            {
+                bool hasAssets = settlement is Settlement s && WorldComponent_AdvancedBuildings.Get()?.OwnerHasAssets(s) == true;
+                return hasAssets ? baseRatio : seth.settlementAmbushSelfDefenseMinRatio;
+            }
+            return baseRatio;
+        }
+
         private static bool TryDispatch(
-            WorldObject settlement, WorldObject target, float targetStrengthEstimate,
+            WorldObject settlement, WorldObject target, float targetStrengthEstimate, WorldObject targetDestination,
             WorldComponent_SettlementWatchIndex watchIndex, WorldDominationSettings seth, WorldComponent_SpreadManager manager)
         {
             var comp = settlement.GetComponent<CompViralSpread>();
@@ -132,8 +228,8 @@ namespace TSA_WorldDomination
             float available = WorldActions_Utils.GetAvailableRaidStrength(comp, seth);
             if (available <= 0f) return false;
 
-            float minRatio = seth.settlementAmbushMinStrengthRatio;
-            if (minRatio > 0f && targetStrengthEstimate > 0f && available / targetStrengthEstimate < minRatio) return false;
+            float minRatio = ResolveMinRatio(settlement, target, targetDestination, seth, out float support);
+            if (minRatio > 0f && targetStrengthEstimate > 0f && (available + support) / targetStrengthEstimate < minRatio) return false;
 
             float strength = RapidResponseUtility.CapSentStrength(available, targetStrengthEstimate, seth.settlementAmbushMaxStrengthRatio);
             if (strength <= 0f) return false;

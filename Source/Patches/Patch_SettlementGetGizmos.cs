@@ -29,8 +29,6 @@ namespace TSA_WorldDomination
                 yield return g;
             foreach (Gizmo g in Patch_SettlementAllyRadiusGizmo.GetGizmos(__instance))
                 yield return g;
-            foreach (Gizmo g in Patch_SettlementT4TurretGizmos.GetGizmos(__instance))
-                yield return g;
         }
     }
 }

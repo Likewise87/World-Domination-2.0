@@ -53,7 +53,9 @@ namespace TSA_WorldDomination
                     return;
                 }
 
-                string originLabel = traveler.originObject?.LabelCap ?? traveler.Faction?.Name ?? "?";
+                string originLabel = traveler.originObject != null
+                    ? AdvancedBuildingCombatUtility.LabelWithOwner(traveler.originObject)
+                    : traveler.Faction?.Name ?? "?";
                 string targetLabel = impactTarget?.LabelCap ?? traveler.targetObject?.LabelCap ?? "?";
                 string missText = "TSA_WD_Mortar_Miss_Text".Translate(originLabel, targetLabel);
                 var lookMiss = impactTarget != null && !impactTarget.Destroyed ? new LookTargets(impactTarget) : new LookTargets(traveler);
@@ -81,6 +83,12 @@ namespace TSA_WorldDomination
             }
 
             float shellPotency = Mathf.Max(0f, traveler.mortarDamage);
+
+            if (impactTarget is WorldObject_WD_AdvancedBuilding advBuilding)
+            {
+                ApplyMortarHitToAdvancedBuilding(traveler, manager, advBuilding, shellPotency);
+                return;
+            }
 
             if (impactTarget is Settlement settlement)
             {
@@ -200,6 +208,8 @@ namespace TSA_WorldDomination
         private static string FormatMortarAttackerLabel(WorldObject origin)
         {
             if (origin == null) return "?";
+            if (origin is WorldObject_WD_AdvancedBuilding)
+                return AdvancedBuildingCombatUtility.LabelWithOwner(origin);
             string name = origin.LabelCap;
             if (origin.Faction != null && !origin.Faction.IsPlayer && !origin.Faction.Hidden)
             {
@@ -354,6 +364,29 @@ namespace TSA_WorldDomination
             }
         }
 
+        /// <summary>Economic advanced buildings die to one hit; artillery turrets lose strength like an AT turret.</summary>
+        private static void ApplyMortarHitToAdvancedBuilding(WorldObject_Traveler shell, WorldComponent_SpreadManager manager, WorldObject_WD_AdvancedBuilding building, float shellPotency)
+        {
+            if (building == null || building.Destroyed) return;
+            WorldObject origin = shell.originObject;
+            if (building is WorldObject_WD_ArtilleryTurret turret)
+            {
+                float before = turret.strength;
+                float after = Mathf.Max(0f, before - Mathf.Max(0f, shellPotency));
+                bool wiped = after <= 0.01f;
+                PostMortarStrengthHitLetter(manager, origin, turret, before, after, wiped, "TSA_WD_Mortar_Hit_DestroyedMobileSuffix");
+                turret.ApplyDamage(Mathf.Max(0f, shellPotency));
+                return;
+            }
+
+            if (IsPlayerFactionObject(origin))
+                PostMortarStrengthHitLetter(manager, origin, building, 1f, 0f, wiped: true, "TSA_WD_Mortar_Hit_DestroyedMobileSuffix");
+            else
+                AdvancedBuildingCombatUtility.LogBuildingDestroyed(building, origin);
+            building.suppressDestroyedLetter = true;
+            building.Destroy();
+        }
+
         private static void ApplyMortarHitToCaravan(WorldObject_Traveler shell, WorldComponent_SpreadManager manager, Caravan caravan, float shellPotency)
         {
             if (caravan == null || caravan.Destroyed) return;
@@ -368,13 +401,14 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            // NPC settlement mortar vs player caravan: Heavy AT 2-slot kill/wound pattern.
-            if (shell?.originObject is Settlement settlement
+            // NPC mortar (turret, or legacy settlement shell in flight) vs player caravan: Heavy AT 2-slot kill/wound pattern.
+            WorldObject npcMortarOrigin = shell?.originObject;
+            if ((npcMortarOrigin is Settlement || npcMortarOrigin is WorldObject_WD_MortarTurret)
                 && caravan.Faction?.IsPlayer == true
-                && settlement.Faction != null
-                && !settlement.Faction.IsPlayer)
+                && npcMortarOrigin.Faction != null
+                && !npcMortarOrigin.Faction.IsPlayer)
             {
-                ApplyAtStyleHitToPlayerCaravan(settlement, caravan, slotCount: 2);
+                ApplyAtStyleHitToPlayerCaravan(npcMortarOrigin, caravan, slotCount: 2);
                 return;
             }
 
@@ -397,7 +431,7 @@ namespace TSA_WorldDomination
         {
             if (caravan == null || caravan.Destroyed || origin == null) return;
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            string originLabel = origin.LabelCap;
+            string originLabel = AdvancedBuildingCombatUtility.LabelWithOwner(origin);
             // Prefer faction over arbitrary caravan name (FormatTargetLabel → "{faction} caravan").
             string caravanLabel = AtTurretNotifyUtility.FormatTargetLabel(caravan);
 
@@ -750,7 +784,9 @@ namespace TSA_WorldDomination
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             WorldObject impactTarget = traveler.targetObject;
-            string originLabel = traveler.originObject?.LabelCap ?? traveler.Faction?.Name ?? "?";
+            string originLabel = traveler.originObject != null
+                ? AdvancedBuildingCombatUtility.LabelWithOwner(traveler.originObject)
+                : traveler.Faction?.Name ?? "?";
             string targetLabel = DescribeAntiAirTarget(impactTarget);
             var look = impactTarget != null && !impactTarget.Destroyed ? new LookTargets(impactTarget) : new LookTargets(traveler);
             bool notify = ShouldNotifyAntiAir(traveler.originObject, impactTarget);
@@ -1087,6 +1123,8 @@ namespace TSA_WorldDomination
         /// </summary>
         private static bool ShouldSendAntiAirPassengerDeathLetter(WorldObject aaOrigin)
         {
+            if (aaOrigin is WorldObject_WD_AaTurret)
+                return !IsPlayerFactionObject(aaOrigin);
             CompViralSpread aaComp = aaOrigin?.GetComponent<CompViralSpread>();
             return aaComp != null
                 && aaComp.tier == SettlementTier.T4

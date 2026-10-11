@@ -85,10 +85,10 @@
   <TSA_WD_Dash_EscalationTip_Growth>Crecimiento de asentamientos hostiles: x{0}</TSA_WD_Dash_EscalationTip_Growth>
   <TSA_WD_Dash_EscalationTip_Garrison>Fuerza de guarnición de asentamientos: +{0}%</TSA_WD_Dash_EscalationTip_Garrison>
   <TSA_WD_Dash_EscalationTip_Expand>Expansión hostil hacia ti: hasta {0} casillas</TSA_WD_Dash_EscalationTip_Expand>
-  <TSA_WD_Dash_EscalationTip_T4MortarOn>Morteros T4 enemigos vs tus caravanas y avanzadillas: activo</TSA_WD_Dash_EscalationTip_T4MortarOn>
-  <TSA_WD_Dash_EscalationTip_T4MortarOff>Morteros T4 enemigos vs tus caravanas y avanzadillas: apagado</TSA_WD_Dash_EscalationTip_T4MortarOff>
-  <TSA_WD_Dash_EscalationTip_T4AaOn>Antiaéreo T4 enemigo vs tus cápsulas y proyectiles: activo</TSA_WD_Dash_EscalationTip_T4AaOn>
-  <TSA_WD_Dash_EscalationTip_T4AaOff>Antiaéreo T4 enemigo vs tus cápsulas y proyectiles: apagado</TSA_WD_Dash_EscalationTip_T4AaOff>
+  <TSA_WD_Dash_EscalationTip_T4MortarOn>Torretas de mortero enemigas vs tus caravanas y avanzadillas: activo</TSA_WD_Dash_EscalationTip_T4MortarOn>
+  <TSA_WD_Dash_EscalationTip_T4MortarOff>Torretas de mortero enemigas vs tus caravanas y avanzadillas: apagado</TSA_WD_Dash_EscalationTip_T4MortarOff>
+  <TSA_WD_Dash_EscalationTip_T4AaOn>Torretas AA enemigas vs tus cápsulas y proyectiles: activo</TSA_WD_Dash_EscalationTip_T4AaOn>
+  <TSA_WD_Dash_EscalationTip_T4AaOff>Torretas AA enemigas vs tus cápsulas y proyectiles: apagado</TSA_WD_Dash_EscalationTip_T4AaOff>
   <TSA_WD_Dash_EscalationTip_IncidentsOn>Incidentes en avanzadillas: {0} de fuerza perdida, {1}% de probabilidad al día</TSA_WD_Dash_EscalationTip_IncidentsOn>
   <TSA_WD_Dash_EscalationTip_IncidentsOff>Incidentes en avanzadillas: apagado</TSA_WD_Dash_EscalationTip_IncidentsOff>
   <TSA_WD_Dash_EscalationTip_Goodwill>Drenaje de buena voluntad: -{0} cada {1} días</TSA_WD_Dash_EscalationTip_Goodwill>
@@ -200,7 +200,7 @@
   <TSA_WD_Notify_DropPodDeliveryInAaRange>WD: entrega por cápsula en alcance AA</TSA_WD_Notify_DropPodDeliveryInAaRange>
   <TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>Muestra una alerta lateral cuando un almacén tuyo usa entrega por cápsula y está dentro del alcance antiaéreo de un asentamiento hostil Tier 4 con AA activo. Solo comprueba la casilla del almacén (no toda la ruta). Cambia a entrega por tierra o elimina la amenaza AA.</TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>
   <TSA_WD_Alert_DropPodDeliveryInAaRange>WD: entrega por cápsula en alcance AA</TSA_WD_Alert_DropPodDeliveryInAaRange>
-  <TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>Estos almacenes usan entrega por cápsula dentro del alcance antiaéreo enemigo Tier 4:</TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>
+  <TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>Estos almacenes usan entrega por cápsula dentro del alcance de una Torreta AA enemiga:</TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>
   <TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>- {0}</TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>
   <TSA_WD_Notify_ConstructionInsufficientStrength>Mostrar alerta de fuerza insuficiente para construcción (lateral)</TSA_WD_Notify_ConstructionInsufficientStrength>
   <TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>Muestra una alerta silenciosa y persistente en el panel lateral cuando una avanzadilla WD ha terminado de preparar un segmento de bloqueo o trampa pero no tiene fuerza para enviar la cuadrilla. Haz clic para ir a una afectada.</TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>

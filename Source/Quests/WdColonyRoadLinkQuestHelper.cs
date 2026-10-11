@@ -25,14 +25,18 @@ namespace TSA_WorldDomination
                 || WorldDominationMod.settings.enableColonyRoadLinkQuest;
         }
 
-        public static bool GenerateQuest()
+        public static bool GenerateQuest(bool ignoreSetting = false)
         {
-            if (!IsSettingEnabled())
+            if (!ignoreSetting && !IsSettingEnabled())
                 return false;
 
             var gc = Current.Game?.GetComponent<GameComponent_WdColonyRoadLinkQuest>();
             if (gc != null && gc.permanentlyDone)
-                return false;
+            {
+                if (!ignoreSetting)
+                    return false;
+                gc.permanentlyDone = false;
+            }
 
             QuestScriptDef? def = DefDatabase<QuestScriptDef>.GetNamedSilentFail(QuestDefName);
             if (def == null)

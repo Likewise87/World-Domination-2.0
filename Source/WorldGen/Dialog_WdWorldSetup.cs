@@ -60,6 +60,10 @@ namespace TSA_WorldDomination
             ContentFinder<Texture2D>.Get("UI/Commands/RemoveRoad", false)
             ?? ContentFinder<Texture2D>.Get("UI/Commands/Remove_RoadBlock", false)
             ?? TexButton.Delete;
+        private static readonly Texture2D IconAdvBuilding =
+            ContentFinder<Texture2D>.Get("WorldObjects/AdvWO_Silo", false)
+            ?? ContentFinder<Texture2D>.Get("UI/Commands/Build_RoadBlock", false)
+            ?? TexCommand.Install;
         private static readonly Texture2D IconDiplomacy =
             ContentFinder<Texture2D>.Get("UI/Commands/Icon_Diplomacy", false);
         private static readonly Texture2D IconConfig =
@@ -291,6 +295,8 @@ namespace TSA_WorldDomination
                     IconRoadBlock, WdWorldSetupTool.RoadBlock, WD_WorldSetupTools.BeginPlaceRoadBlock);
                 DrawToolButton(listing, "TSA_WD_WorldSetup_ToolTrap".Translate(),
                     IconTrap, WdWorldSetupTool.Trap, WD_WorldSetupTools.BeginPlaceSpikeTrap);
+                DrawToolButton(listing, "TSA_WD_WorldSetup_ToolAdvBuilding".Translate(),
+                    IconAdvBuilding, WdWorldSetupTool.AdvBuilding, WD_WorldSetupTools.BeginPlaceAdvancedBuilding);
                 DrawToolButton(listing, "TSA_WD_WorldSetup_ToolPlaceRoad".Translate(),
                     IconPlaceRoad, WdWorldSetupTool.PlaceRoad, WD_WorldSetupTools.BeginPlaceRoad);
                 DrawToolButton(listing, "TSA_WD_WorldSetup_ToolPlaceBridge".Translate(),
@@ -321,7 +327,7 @@ namespace TSA_WorldDomination
                 h += 6f * 40f + 12f;
             h += 40f;
             if (roadsExpanded)
-                h += 8f * 40f + 12f;
+                h += 9f * 40f + 12f;
             return Mathf.Max(h, 200f);
         }
 
@@ -398,6 +404,7 @@ namespace TSA_WorldDomination
                 TooltipHandler.TipRegion(r, tip);
             if (Widgets.ButtonInvisible(r))
             {
+                DebugActions_FloatMenus.NotifyDialogButtonClicked(r);
                 SoundDefOf.Click.PlayOneShotOnCamera();
                 onClick();
             }

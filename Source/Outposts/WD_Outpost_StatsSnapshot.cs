@@ -388,6 +388,14 @@ namespace TSA_WorldDomination
             var offRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_OffensiveStrength",
                 offCur.ToString("F0") + " / " + offMax.ToString("F0"),
                 offTipKey.Translate().ToString());
+            if (presentation == CombatStatsPresentation.WorldSettlement
+                && AdvancedBuildingEffects.Has(worldObject, AdvancedBuildingEffect.OffensiveMaxPct))
+            {
+                float baseOffMax = CompViralSpread.GetStrengthRange(comp.tier).max;
+                offRow.Tooltip += "\n\n" + "TSA_WD_OutpostStats_SiloMaxLine".Translate(
+                    baseOffMax.ToString("F0"), AdvancedBuildingEffects.EffectPctLabel, offMax.ToString("F0")).ToString();
+                MarkBoosted(offRow);
+            }
 
             float retainFloor = WorldActions_Utils.GetGarrisonRetainFloor(comp, settings);
             AddRow(section, "TSA_WD_OutpostStats_Row_MinGarrison",
@@ -606,7 +614,10 @@ namespace TSA_WorldDomination
                 BuildTotalAttackStrengthTip(selfAttack, allyStr));
         }
 
-        /// <summary>Static T4 NPC mortar/AA range and nominal cooldown rows (not remaining cooldown).</summary>
+        /// <summary>
+        /// Advanced building rows (slots, recovery, land speed) plus mortar/AA range and nominal cooldown
+        /// for owned artillery turrets (not remaining cooldown).
+        /// </summary>
         private static void AppendNpcT4TurretStatRows(
             OutpostStatsSection section,
             Settlement settlement,
@@ -614,10 +625,44 @@ namespace TSA_WorldDomination
             WorldDominationSettings settings)
         {
             if (settlement == null || comp == null || settings == null) return;
-            if (comp.tier != SettlementTier.T4) return;
+            var reg = WorldComponent_AdvancedBuildings.Get();
+            if (reg == null) return;
 
-            bool mortarEligible = settings.enableNpcT4Mortar;
-            bool aaEligible = settings.enableNpcT4AntiAir;
+            var owned = reg.OwnedBy(settlement);
+            int count = reg.CountOwnedBy(settlement);
+            int slots = WorldActions_AdvancedBuildings.SlotsForTier(comp.tier);
+            var tip = new StringBuilder("TSA_WD_OutpostStats_Row_AdvBuildingsTip".Translate(slots.ToString()).ToString());
+            for (int i = 0; i < owned.Count; i++)
+            {
+                if (owned[i] == null || owned[i].Destroyed) continue;
+                tip.AppendLine().Append("- ").Append(owned[i].LabelCap);
+            }
+            AddRowRawTip(section, "TSA_WD_OutpostStats_Row_AdvBuildings", count + "/" + slots, tip.ToString());
+
+            bool hasHospital = AdvancedBuildingEffects.Has(settlement, AdvancedBuildingEffect.RegenPct);
+            string hospitalLine = hasHospital
+                ? "\n\n" + "TSA_WD_OutpostStats_HospitalLine".Translate(AdvancedBuildingEffects.EffectPctLabel).ToString()
+                : "";
+            var offRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_OffensiveRecovery",
+                WorldActions_GrowthExpand.GetPassiveOffensiveGrowthGain(comp).ToString("F0"),
+                "TSA_WD_OutpostStats_Row_OffensiveRecoveryTip".Translate().ToString() + hospitalLine);
+            MarkBoostedIf(offRow, hasHospital);
+            var defRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_DefensiveRecovery",
+                comp.GetNpcDailyDefensiveRecovery().ToString("F0"),
+                "TSA_WD_OutpostStats_Row_DefensiveRecoveryTip".Translate().ToString() + hospitalLine);
+            MarkBoostedIf(defRow, hasHospital);
+            if (AdvancedBuildingEffects.Has(settlement, AdvancedBuildingEffect.LandSpeedPct))
+            {
+                var speedRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_LandSpeed",
+                    "+" + AdvancedBuildingEffects.EffectPctLabel + "%",
+                    "TSA_WD_OutpostStats_Row_LandSpeedTip".Translate().ToString());
+                MarkBoostedIf(speedRow, true);
+            }
+
+            bool mortarEligible = settings.enableNpcT4Mortar
+                && reg.Has(settlement, AdvancedBuildingDefOf.TSA_WD_AdvBuilding_MortarTurret);
+            bool aaEligible = settings.enableNpcT4AntiAir
+                && reg.Has(settlement, AdvancedBuildingDefOf.TSA_WD_AdvBuilding_AaTurret);
             if (!mortarEligible && !aaEligible) return;
 
             TechLevel minTech = settings.npcT4MortarMinTechLevel;

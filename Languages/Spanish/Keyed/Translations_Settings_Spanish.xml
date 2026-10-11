@@ -53,9 +53,9 @@
   <TSA_WD_Combat_HeaderAdvancedWorld>Combate mundial avanzado</TSA_WD_Combat_HeaderAdvancedWorld>
   <TSA_WD_Combat_HeaderAdvancedWorldTip>Apuntado AT a viajeros/caravanas del jugador, e incursiones experimentales T4 con gravnave.</TSA_WD_Combat_HeaderAdvancedWorldTip>
   <TSA_WD_Combat_HeaderGarrisonTip>Cuánta fuerza guardan en casa los asentamientos NPC.</TSA_WD_Combat_HeaderGarrisonTip>
-  <TSA_WD_Combat_HeaderT4MortarTip>Fuego de mortero desde asentamientos enemigos.</TSA_WD_Combat_HeaderT4MortarTip>
+  <TSA_WD_Combat_HeaderT4MortarTip>Fuego de Torretas de mortero enemigas.</TSA_WD_Combat_HeaderT4MortarTip>
   <TSA_WD_Combat_HeaderAntiAirTip>AA enemigo contra tus cápsulas y voladores.</TSA_WD_Combat_HeaderAntiAirTip>
-  <TSA_WD_Combat_HeaderT4Hardware>Hardware T4 (mortero / AA)</TSA_WD_Combat_HeaderT4Hardware>
+  <TSA_WD_Combat_HeaderT4Hardware>Hardware de Torretas de mortero / AA PNJ</TSA_WD_Combat_HeaderT4Hardware>
   <TSA_WD_Combat_HeaderT4HardwareTip>Activa sistemas y ajusta alcance, daño y precisión. El momento vs jugador está en Momento de amenazas.</TSA_WD_Combat_HeaderT4HardwareTip>
   <TSA_WD_Combat_T4TimingNote>El momento de disparo al jugador se controla con las puertas de Momento de amenazas (no con casillas Mid/Late).</TSA_WD_Combat_T4TimingNote>
   <TSA_WD_Combat_HeaderGoodwillDrain>Drenaje de buena voluntad</TSA_WD_Combat_HeaderGoodwillDrain>
@@ -65,10 +65,10 @@
   <TSA_WD_Combat_GateToOTip>Puerta de etapa para retargeting de oportunidad.</TSA_WD_Combat_GateToOTip>
   <TSA_WD_Combat_GateMaraudTip>Puerta de etapa para saqueo post-victoria.</TSA_WD_Combat_GateMaraudTip>
   <TSA_WD_Combat_GateAmbushTip>Puerta de etapa para emboscada desde asentamientos.</TSA_WD_Combat_GateAmbushTip>
-  <TSA_WD_Combat_GateT4Mortar>Mortero T4 vs jugador</TSA_WD_Combat_GateT4Mortar>
-  <TSA_WD_Combat_GateT4MortarTip>Cuándo los morteros T4 enemigos pueden apuntarte.</TSA_WD_Combat_GateT4MortarTip>
-  <TSA_WD_Combat_GateT4AntiAir>AA T4 vs jugador</TSA_WD_Combat_GateT4AntiAir>
-  <TSA_WD_Combat_GateT4AntiAirTip>Cuándo el AA T4 enemigo puede apuntarte.</TSA_WD_Combat_GateT4AntiAirTip>
+  <TSA_WD_Combat_GateT4Mortar>Torretas de mortero PNJ vs jugador</TSA_WD_Combat_GateT4Mortar>
+  <TSA_WD_Combat_GateT4MortarTip>Cuándo las Torretas de mortero enemigas pueden apuntarte.</TSA_WD_Combat_GateT4MortarTip>
+  <TSA_WD_Combat_GateT4AntiAir>Torretas AA PNJ vs jugador</TSA_WD_Combat_GateT4AntiAir>
+  <TSA_WD_Combat_GateT4AntiAirTip>Cuándo las Torretas AA enemigas pueden apuntarte.</TSA_WD_Combat_GateT4AntiAirTip>
   <TSA_WD_Combat_GateVanguard>Vanguardia</TSA_WD_Combat_GateVanguard>
   <TSA_WD_Combat_GateVanguardTip>Puerta para Vanguardia: pliega asentamientos lejanos en pocas caravanas fuertes que se atrincheran en tu frente (no en la colonia).</TSA_WD_Combat_GateVanguardTip>
   <TSA_WD_Combat_GateInvasion>Invasión</TSA_WD_Combat_GateInvasion>
@@ -272,6 +272,7 @@
   <TSA_WD_WorldSetup_ToolTurret>Colocar torreta AT</TSA_WD_WorldSetup_ToolTurret>
   <TSA_WD_WorldSetup_ToolRoadBlock>Colocar bloqueo de camino</TSA_WD_WorldSetup_ToolRoadBlock>
   <TSA_WD_WorldSetup_ToolTrap>Colocar trampa</TSA_WD_WorldSetup_ToolTrap>
+  <TSA_WD_WorldSetup_ToolAdvBuilding>Colocar edificio avanzado</TSA_WD_WorldSetup_ToolAdvBuilding>
   <TSA_WD_WorldSetup_ToolPlaceRoad>Colocar camino</TSA_WD_WorldSetup_ToolPlaceRoad>
   <TSA_WD_WorldSetup_ToolPlaceBridge>Colocar puente</TSA_WD_WorldSetup_ToolPlaceBridge>
   <TSA_WD_WorldSetup_ToolRemoveFortify>Quitar fortificación aquí</TSA_WD_WorldSetup_ToolRemoveFortify>
@@ -295,7 +296,7 @@
   <TSA_WD_WorldSetup_PlaceFortifyHint>Haz clic en casillas para colocar. Clic derecho o Esc para parar.</TSA_WD_WorldSetup_PlaceFortifyHint>
   <TSA_WD_WorldSetup_PlaceFortifyFailed>No se pudo colocar ahí.</TSA_WD_WorldSetup_PlaceFortifyFailed>
   <TSA_WD_WorldSetup_PlaceFortifyDone>Colocado.</TSA_WD_WorldSetup_PlaceFortifyDone>
-  <TSA_WD_WorldSetup_RemoveFortifyHint>Haz clic en un bloqueo, trampa o torreta AT para quitarlo.</TSA_WD_WorldSetup_RemoveFortifyHint>
+  <TSA_WD_WorldSetup_RemoveFortifyHint>Haz clic en un bloqueo, trampa, torreta AT o edificio avanzado para quitarlo.</TSA_WD_WorldSetup_RemoveFortifyHint>
   <TSA_WD_WorldSetup_RemoveFortifyNone>Nada que quitar en esa casilla.</TSA_WD_WorldSetup_RemoveFortifyNone>
   <TSA_WD_WorldSetup_RemoveFortifyDone>Fortificación eliminada.</TSA_WD_WorldSetup_RemoveFortifyDone>
   <TSA_WD_WorldSetup_RoadDirt>Camino de tierra</TSA_WD_WorldSetup_RoadDirt>
@@ -627,7 +628,7 @@
   <TSA_WD_WorldMap_ToggleCaravanBlockedTilesTip>Por defecto una avanzadilla necesita varias casillas libres respecto a asentamientos y otras avanzadillas. Con esta superposición, las casillas bloqueadas alrededor del cursor se traman con el color de la facción que las bloquea (gris oscuro si no hay). Si varias facciones se solapan, se elige una de forma coherente.</TSA_WD_WorldMap_ToggleCaravanBlockedTilesTip>
   <TSA_WD_WorldMap_ChangeNotes>Notas de cambios</TSA_WD_WorldMap_ChangeNotes>
   <TSA_WD_WorldMap_ChangeNotesTip>Abre el registro de actualizaciones de Dominación Mundial.</TSA_WD_WorldMap_ChangeNotesTip>
-  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>Bloqueos, trampas y AT</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>Bloqueos, trampas, AT y edificios</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
   <TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>Activa o desactiva los iconos de bloqueos, trampas/abrojos y torretas AT en el mapa mundial. Los iconos de superposición también se ocultan al alejarse el zoom.</TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>
   <TSA_WD_WorldMap_ToggleFortifyBlacklist>Casillas bloqueadas para fortificación NPC</TSA_WD_WorldMap_ToggleFortifyBlacklist>
   <TSA_WD_WorldMap_ToggleFortifyBlacklistTip>Muestra casillas marcadas para que aliados (y neutrales si está activo) no coloquen bloqueos o trampas nuevas. Las existentes permanecen hasta Quitar fortificaciones. También se ven al usar las herramientas de marcar/quitar.</TSA_WD_WorldMap_ToggleFortifyBlacklistTip>
@@ -726,7 +727,7 @@
   <TSA_WD_BuildReq_MaterialLine>  - {0} x{1}</TSA_WD_BuildReq_MaterialLine>
   <TSA_WD_BuildReq_Unmet>No se cumplen los requisitos de Construcción o de investigación.</TSA_WD_BuildReq_Unmet>
   <TSA_WD_BtnLateGame>Mid Game y Late Game</TSA_WD_BtnLateGame>
-  <TSA_WD_BtnT4Mortar>Torretas enemigas T4</TSA_WD_BtnT4Mortar>
+  <TSA_WD_BtnT4Mortar>Torretas de artillería PNJ</TSA_WD_BtnT4Mortar>
   <TSA_WD_Daily_CdTrader>Enfriamiento tras caravana comercial</TSA_WD_Daily_CdTrader>
   <TSA_WD_Daily_CdTraderTip>Días antes de que este asentamiento pueda lanzar otra caravana comercial. No bloquea otros tipos de acción.</TSA_WD_Daily_CdTraderTip>
   <TSA_WD_Daily_WeightTrader>Probabilidad de caravana comercial</TSA_WD_Daily_WeightTrader>
@@ -1050,4 +1051,25 @@
   <TSA_WD_LateGame_OnlyFireT4AntiAirAtPlayer>Solo dispara antiaéreo T4 al jugador con Late Game activo</TSA_WD_LateGame_OnlyFireT4AntiAirAtPlayer>
   <TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>Solo dispara morteros T4 al jugador con Mid Game activo</TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>
   <TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>Solo dispara antiaéreo T4 al jugador con Mid Game activo</TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>
+
+  <!-- Advanced buildings + sally overhaul -->
+  <TSA_WD_Daily_WeightAdvancedBuildings>Probabilidad de edificio avanzado</TSA_WD_Daily_WeightAdvancedBuildings>
+  <TSA_WD_Daily_WeightAdvancedBuildingsTip>Probabilidad de que un asentamiento envíe una cuadrilla a construir un edificio avanzado cercano: Silo, Hospital, Torre de vigía, Establo, Torreta de mortero o Torreta AA. Cada asentamiento tiene tantas ranuras como su nivel y como máximo uno de cada tipo. Los asentamientos seguros, lejos de enemigos, construyen más a menudo; los amenazados solo construyen artillería. Si se elige pero ningún proyecto puede iniciarse, se usa otra acción diaria elegible.</TSA_WD_Daily_WeightAdvancedBuildingsTip>
+  <TSA_WD_Daily_CdAdvancedBuildings>Enfriamiento tras edificio avanzado</TSA_WD_Daily_CdAdvancedBuildings>
+  <TSA_WD_Daily_CdAdvancedBuildingsTip>Días antes de que este asentamiento pueda iniciar otro edificio avanzado. No bloquea otros tipos de acción.</TSA_WD_Daily_CdAdvancedBuildingsTip>
+  <TSA_WD_Daily_HeaderAdvancedBuildings>Edificios avanzados PNJ</TSA_WD_Daily_HeaderAdvancedBuildings>
+  <TSA_WD_AdvBuild_Setting_EffectPct>Bono de edificio económico</TSA_WD_AdvBuild_Setting_EffectPct>
+  <TSA_WD_AdvBuild_Setting_EffectPctTip>Bono que cada edificio económico da a su propietario: Silo (fuerza ofensiva máxima), Hospital (recuperación ofensiva y defensiva), Torre de vigía (alcance de ataque), Establo (velocidad de caravanas terrestres).</TSA_WD_AdvBuild_Setting_EffectPctTip>
+  <TSA_WD_AdvBuild_Setting_ArtilleryStrength>Fuerza de torretas de artillería</TSA_WD_AdvBuild_Setting_ArtilleryStrength>
+  <TSA_WD_AdvBuild_Setting_ArtilleryStrengthTip>Fuerza de las nuevas Torretas de mortero y AA PNJ. Las incursiones deben superarla para destruir una; los impactos de mortero la reducen. Las torretas nunca se regeneran. Las torretas existentes conservan su fuerza.</TSA_WD_AdvBuild_Setting_ArtilleryStrengthTip>
+  <TSA_WD_Experimental_AmbushWatchRangeAssets>Rango de vigilancia con edificios (casillas)</TSA_WD_Experimental_AmbushWatchRangeAssets>
+  <TSA_WD_Experimental_AmbushWatchRangeAssetsTip>Rango de vigilancia para asentamientos que poseen una Torreta AT o un edificio avanzado. Se usa el mayor entre este y el rango normal, para que el asentamiento pueda defender sus activos exteriores.</TSA_WD_Experimental_AmbushWatchRangeAssetsTip>
+  <TSA_WD_Experimental_AmbushSelfDefenseRatio>Proporción mín. de emboscada en defensa propia</TSA_WD_Experimental_AmbushSelfDefenseRatio>
+  <TSA_WD_Experimental_AmbushSelfDefenseRatioTip>Mínimo (fuerza disponible / fuerza enemiga) antes de que un asentamiento sin activos exteriores salga contra una caravana que se dirige al propio asentamiento. Los asentamientos que protegen una Torreta AT o un edificio avanzado usan umbrales más bajos.</TSA_WD_Experimental_AmbushSelfDefenseRatioTip>
+  <TSA_WD_WorldSetup_PlaceAdvBuildingHint>Haz clic en un asentamiento PNJ para colocar un {0} cerca. Clic derecho o Esc para parar.</TSA_WD_WorldSetup_PlaceAdvBuildingHint>
+  <TSA_WD_WorldSetup_PlaceAdvBuildingNeedNpc>Haz clic en un asentamiento PNJ (no del jugador).</TSA_WD_WorldSetup_PlaceAdvBuildingNeedNpc>
+  <TSA_WD_WorldSetup_PlaceAdvBuildingDuplicate>{0} ya posee un {1}.</TSA_WD_WorldSetup_PlaceAdvBuildingDuplicate>
+  <TSA_WD_WorldSetup_PlaceAdvBuildingNoTile>No hay casilla edificable en el alcance.</TSA_WD_WorldSetup_PlaceAdvBuildingNoTile>
+  <TSA_WD_WorldSetup_PlaceAdvBuildingDone>Colocado {0} para {1} en la casilla {2}.</TSA_WD_WorldSetup_PlaceAdvBuildingDone>
+  <TSA_WD_WorldSetup_NoAdvBuildingDefs>No hay defs de edificios avanzados cargadas.</TSA_WD_WorldSetup_NoAdvBuildingDefs>
 </LanguageData>

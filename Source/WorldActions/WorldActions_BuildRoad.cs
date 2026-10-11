@@ -1034,6 +1034,7 @@ namespace TSA_WorldDomination
 
             traveler.travelerStrength = cost;
             traveler.initialStrength = cost;
+            AdvancedBuildingEffects.ApplyNpcLandSpeed(traveler, origin);
 
             Find.WorldObjects.Add(traveler);
             List<int> pathSource = pathTilesDestFirst;

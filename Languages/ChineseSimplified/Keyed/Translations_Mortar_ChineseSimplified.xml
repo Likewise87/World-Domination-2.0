@@ -108,26 +108,26 @@
   <TSA_WD_Settings_ResetMortarInterception>重置火炮 / 拦截参数</TSA_WD_Settings_ResetMortarInterception>
 
   <!-- 敌方 T4 聚居地迫击炮窗口（与玩家迫击炮数值完全独立） -->
-  <TSA_WD_T4Mortar_Header>敌方 T4 聚居地迫击炮</TSA_WD_T4Mortar_Header>
-  <TSA_WD_T4Mortar_EnableAll>敌方 T4 聚居地发射迫击炮</TSA_WD_T4Mortar_EnableAll>
-  <TSA_WD_T4Mortar_EnableAllTooltip>主开关。开启时，四级敌方聚居地会作为防御性拦截器：向射程内的敌对非玩家 WD 旅行者开火；若没有，则炮击最近的敌对聚居地。是否也会攻击你由下方单独的选项控制。</TSA_WD_T4Mortar_EnableAllTooltip>
-  <TSA_WD_T4Mortar_MinTech>T4 迫击炮：最低科技等级</TSA_WD_T4Mortar_MinTech>
-  <TSA_WD_T4Mortar_MinTechTip>仅此科技等级及以上的派系可使用 T4 定居点迫击炮与防空。新石器时代几乎允许所有派系。</TSA_WD_T4Mortar_MinTechTip>
+  <TSA_WD_T4Mortar_Header>敌方火炮炮塔</TSA_WD_T4Mortar_Header>
+  <TSA_WD_T4Mortar_EnableAll>敌方迫击炮塔开火</TSA_WD_T4Mortar_EnableAll>
+  <TSA_WD_T4Mortar_EnableAllTooltip>主开关。NPC 定居点将迫击炮塔作为高级建筑建造（三级时有 30% 概率，升至四级时免费获得一座）。开启时，这些炮塔会向射程内的敌对非玩家 WD 旅行者开火；射程内没有目标时会炮击附近的敌对目标。定居点本身从不开火。炮塔是否也可攻击你在“威胁时机”中设置。</TSA_WD_T4Mortar_EnableAllTooltip>
+  <TSA_WD_T4Mortar_MinTech>火炮炮塔：最低科技等级</TSA_WD_T4Mortar_MinTech>
+  <TSA_WD_T4Mortar_MinTechTip>仅此科技等级及以上的派系可建造并使用迫击炮塔与防空炮塔。新石器时代几乎允许所有派系。</TSA_WD_T4Mortar_MinTechTip>
   <TSA_WD_T4Mortar_TargetPlayer>可攻击你的 WD 商队与前哨</TSA_WD_T4Mortar_TargetPlayer>
-  <TSA_WD_T4Mortar_TargetPlayerTooltip>开启时，敌方 T4 迫击炮也可向你的 WD 商队和前哨开火，但仅在后期游戏激活时。关闭时，后期不会攻击你。中期游戏有单独开关；打开中期游戏会强制打开此后期游戏开关。</TSA_WD_T4Mortar_TargetPlayerTooltip>
-  <TSA_WD_T4Mortar_Range>T4 迫击炮射程(格)</TSA_WD_T4Mortar_Range>
-  <TSA_WD_T4Mortar_RangeTooltip>敌方 T4 聚居地迫击炮可达的最大世界距离(格)。与玩家火炮射程相互独立。</TSA_WD_T4Mortar_RangeTooltip>
-  <TSA_WD_T4Mortar_Cooldown>T4 迫击炮冷却(天)</TSA_WD_T4Mortar_Cooldown>
-  <TSA_WD_T4Mortar_CooldownTooltip>敌方 T4 聚居地迫击炮两次开火之间的天数。与玩家火炮冷却相互独立。</TSA_WD_T4Mortar_CooldownTooltip>
+  <TSA_WD_T4Mortar_TargetPlayerTooltip>开启时，敌方迫击炮塔也可在后期游戏激活时向你的 WD 商队与前哨开火。关闭时，后期游戏中它们从不攻击你。中期游戏有单独开关；打开中期游戏会强制打开此后期游戏开关。</TSA_WD_T4Mortar_TargetPlayerTooltip>
+  <TSA_WD_T4Mortar_Range>迫击炮塔射程（格）</TSA_WD_T4Mortar_Range>
+  <TSA_WD_T4Mortar_RangeTooltip>敌方迫击炮塔可达到的最大世界距离（格）。与玩家火炮射程相互独立。</TSA_WD_T4Mortar_RangeTooltip>
+  <TSA_WD_T4Mortar_Cooldown>迫击炮塔冷却（天）</TSA_WD_T4Mortar_Cooldown>
+  <TSA_WD_T4Mortar_CooldownTooltip>敌方迫击炮塔两次开火之间的天数。与玩家火炮冷却相互独立。</TSA_WD_T4Mortar_CooldownTooltip>
   <TSA_WD_T4Mortar_HitBand0To50>最大射程 0–50% 距离时的命中率</TSA_WD_T4Mortar_HitBand0To50>
-  <TSA_WD_T4Mortar_HitBand0To50Tooltip>T4 迫击炮在 0–50% 最大射程的基础命中率（计入等效射击技能加成之前）。</TSA_WD_T4Mortar_HitBand0To50Tooltip>
+  <TSA_WD_T4Mortar_HitBand0To50Tooltip>迫击炮塔在 0–50% 最大射程的基础命中率（计入等效射击技能加成之前）。</TSA_WD_T4Mortar_HitBand0To50Tooltip>
   <TSA_WD_T4Mortar_HitBand51To75>最大射程 51–75% 距离时的命中率</TSA_WD_T4Mortar_HitBand51To75>
-  <TSA_WD_T4Mortar_HitBand51To75Tooltip>T4 迫击炮在 51–75% 最大射程的基础命中率。</TSA_WD_T4Mortar_HitBand51To75Tooltip>
+  <TSA_WD_T4Mortar_HitBand51To75Tooltip>迫击炮塔在 51–75% 最大射程的基础命中率。</TSA_WD_T4Mortar_HitBand51To75Tooltip>
   <TSA_WD_T4Mortar_HitBand76To100>最大射程 76–100% 距离时的命中率</TSA_WD_T4Mortar_HitBand76To100>
-  <TSA_WD_T4Mortar_HitBand76To100Tooltip>T4 迫击炮在 76–100% 最大射程的基础命中率。</TSA_WD_T4Mortar_HitBand76To100Tooltip>
-  <TSA_WD_T4Mortar_ScanSharedNote>注意：上方的射程、冷却、伤害与命中率仅作用于 T4。下方的扫描间隔是共享的：玩家火炮与快速反应前哨按此值扫描；敌方 T4 聚居地使用其三倍。</TSA_WD_T4Mortar_ScanSharedNote>
-  <TSA_WD_T4Mortar_DisabledHint>敌方 T4 聚居地迫击炮已禁用。</TSA_WD_T4Mortar_DisabledHint>
-  <TSA_WD_T4Mortar_Reset>重置敌方 T4 迫击炮设置</TSA_WD_T4Mortar_Reset>
+  <TSA_WD_T4Mortar_HitBand76To100Tooltip>迫击炮塔在 76–100% 最大射程的基础命中率。</TSA_WD_T4Mortar_HitBand76To100Tooltip>
+  <TSA_WD_T4Mortar_ScanSharedNote>注意：上方的射程、冷却、伤害与命中率仅作用于 NPC 炮塔。下方的扫描间隔是共享的：玩家火炮与快速反应前哨按此值扫描；敌方火炮炮塔使用其三倍。</TSA_WD_T4Mortar_ScanSharedNote>
+  <TSA_WD_T4Mortar_DisabledHint>敌方迫击炮塔已禁用。</TSA_WD_T4Mortar_DisabledHint>
+  <TSA_WD_T4Mortar_Reset>重置敌方火炮炮塔设置</TSA_WD_T4Mortar_Reset>
   <TSA_WD_Food_Header>食物物流</TSA_WD_Food_Header>
 
   <TSA_WD_MortarTab_Label>迫击炮</TSA_WD_MortarTab_Label>
@@ -297,30 +297,30 @@
   <TSA_WD_T4_AutoAA_On>自动防空 开</TSA_WD_T4_AutoAA_On>
   <TSA_WD_T4_AutoAA_Off>自动防空 关</TSA_WD_T4_AutoAA_Off>
   <TSA_WD_T4_AutoAA_Desc>开启后，该 T4 聚居地会自动交战防空射程内的敌对空中目标。</TSA_WD_T4_AutoAA_Desc>
-  <TSA_WD_T4AA_EnableAll>敌方 T4 聚居地使用防空</TSA_WD_T4AA_EnableAll>
-  <TSA_WD_T4AA_EnableAllTooltip>T4 聚居地防空主开关，对抗敌对空中目标。</TSA_WD_T4AA_EnableAllTooltip>
+  <TSA_WD_T4AA_EnableAll>敌方防空炮塔开火</TSA_WD_T4AA_EnableAll>
+  <TSA_WD_T4AA_EnableAllTooltip>NPC 防空炮塔对抗敌对空中目标的主开关。定居点将其作为高级建筑建造；定居点本身从不开火。</TSA_WD_T4AA_EnableAllTooltip>
   <TSA_WD_T4AA_TargetPlayer>防空可攻击你的空中单位</TSA_WD_T4AA_TargetPlayer>
-  <TSA_WD_T4AA_TargetPlayerTooltip>开启时，T4 防空可在后期游戏激活时攻击你的空投与炮弹。中期游戏有单独开关；打开中期游戏会强制打开此后期游戏开关。</TSA_WD_T4AA_TargetPlayerTooltip>
-  <TSA_WD_T4AA_Range>T4 防空射程（格）</TSA_WD_T4AA_Range>
-  <TSA_WD_T4AA_RangeTooltip>敌方 T4 聚居地防空的最大交战距离。</TSA_WD_T4AA_RangeTooltip>
-  <TSA_WD_T4AA_Cooldown>T4 防空冷却（秒）</TSA_WD_T4AA_Cooldown>
-  <TSA_WD_T4AA_CooldownTooltip>T4 防空两次交战之间的秒数。</TSA_WD_T4AA_CooldownTooltip>
-  <TSA_WD_T4AA_Damage>T4 防空伤害</TSA_WD_T4AA_Damage>
-  <TSA_WD_T4AA_DamageTooltip>T4 聚居地防空高射炮结算伤害。</TSA_WD_T4AA_DamageTooltip>
-  <TSA_WD_T4AA_Skill>T4 防空等效射击技能</TSA_WD_T4AA_Skill>
-  <TSA_WD_T4AA_SkillTooltip>T4 防空对空投、运输舱与飞行器命中段使用的等效射击技能（每级 +1 百分点）。不影响固定的防空对迫击炮弹概率。</TSA_WD_T4AA_SkillTooltip>
-  <TSA_WD_T4AA_HitBand0To50>T4 防空命中率（最大射程的 0–50%）</TSA_WD_T4AA_HitBand0To50>
-  <TSA_WD_T4AA_HitBand0To50Tooltip>T4 防空对空投与飞行器在最大防空射程 0-50% 处的基础命中。等效技能每级 +1 百分点。不适用于迫击炮弹。</TSA_WD_T4AA_HitBand0To50Tooltip>
-  <TSA_WD_T4AA_HitBand51To75>T4 防空命中率（最大射程的 51–75%）</TSA_WD_T4AA_HitBand51To75>
-  <TSA_WD_T4AA_HitBand51To75Tooltip>T4 防空对空投与飞行器在最大防空射程 51-75% 处的基础命中。迫击炮弹改用固定的 T4 防空对炮弹概率。</TSA_WD_T4AA_HitBand51To75Tooltip>
-  <TSA_WD_T4AA_HitBand76To100>T4 防空命中率（最大射程的 76–100%）</TSA_WD_T4AA_HitBand76To100>
-  <TSA_WD_T4AA_HitBand76To100Tooltip>T4 防空对空投与飞行器在最大防空射程 76–100% 处的基础命中。迫击炮弹改用固定的 T4 防空对炮弹概率。</TSA_WD_T4AA_HitBand76To100Tooltip>
-  <TSA_WD_T4AA_VsMortar>T4 防空对迫击炮弹命中率</TSA_WD_T4AA_VsMortar>
-  <TSA_WD_T4AA_VsMortarTooltip>T4 防空摧毁敌对迫击炮弹的固定概率。忽略防空射程段与等效技能。</TSA_WD_T4AA_VsMortarTooltip>
-  <TSA_WD_T4Mortar_Header>敌方 T4 聚居地炮塔</TSA_WD_T4Mortar_Header>
-  <TSA_WD_T4Mortar_MinTech>T4 炮塔：最低科技等级</TSA_WD_T4Mortar_MinTech>
-  <TSA_WD_T4Mortar_MinTechTip>仅此科技等级及以上的派系可使用 T4 定居点迫击炮与防空。新石器时代几乎允许所有派系。</TSA_WD_T4Mortar_MinTechTip>
-  <TSA_WD_T4Mortar_Reset>重置敌方 T4 炮塔设置</TSA_WD_T4Mortar_Reset>
+  <TSA_WD_T4AA_TargetPlayerTooltip>开启时，敌方防空炮塔可在后期游戏激活时攻击你的空投与炮弹。中期游戏有单独开关；打开中期游戏会强制打开此后期游戏开关。</TSA_WD_T4AA_TargetPlayerTooltip>
+  <TSA_WD_T4AA_Range>防空炮塔射程（格）</TSA_WD_T4AA_Range>
+  <TSA_WD_T4AA_RangeTooltip>敌方防空炮塔的最大交战距离。</TSA_WD_T4AA_RangeTooltip>
+  <TSA_WD_T4AA_Cooldown>防空炮塔冷却（秒）</TSA_WD_T4AA_Cooldown>
+  <TSA_WD_T4AA_CooldownTooltip>防空炮塔两次交战之间的秒数。</TSA_WD_T4AA_CooldownTooltip>
+  <TSA_WD_T4AA_Damage>防空炮塔伤害</TSA_WD_T4AA_Damage>
+  <TSA_WD_T4AA_DamageTooltip>NPC 防空炮塔高射炮结算伤害。</TSA_WD_T4AA_DamageTooltip>
+  <TSA_WD_T4AA_Skill>防空炮塔等效射击技能</TSA_WD_T4AA_Skill>
+  <TSA_WD_T4AA_SkillTooltip>防空炮塔对空投、运输舱与飞行器命中段使用的等效射击技能（每级 +1 百分点）。不影响固定的防空炮塔对迫击炮弹概率。</TSA_WD_T4AA_SkillTooltip>
+  <TSA_WD_T4AA_HitBand0To50>防空炮塔命中率（最大射程的 0–50%）</TSA_WD_T4AA_HitBand0To50>
+  <TSA_WD_T4AA_HitBand0To50Tooltip>防空炮塔对空投与飞行器在最大射程 0-50% 处的基础命中。等效技能每级 +1 百分点。不适用于迫击炮弹。</TSA_WD_T4AA_HitBand0To50Tooltip>
+  <TSA_WD_T4AA_HitBand51To75>防空炮塔命中率（最大射程的 51–75%）</TSA_WD_T4AA_HitBand51To75>
+  <TSA_WD_T4AA_HitBand51To75Tooltip>防空炮塔对空投与飞行器在最大射程 51-75% 处的基础命中。迫击炮弹改用固定的防空炮塔对炮弹概率。</TSA_WD_T4AA_HitBand51To75Tooltip>
+  <TSA_WD_T4AA_HitBand76To100>防空炮塔命中率（最大射程的 76–100%）</TSA_WD_T4AA_HitBand76To100>
+  <TSA_WD_T4AA_HitBand76To100Tooltip>防空炮塔对空投与飞行器在最大射程 76–100% 处的基础命中。迫击炮弹改用固定的防空炮塔对炮弹概率。</TSA_WD_T4AA_HitBand76To100Tooltip>
+  <TSA_WD_T4AA_VsMortar>防空炮塔对迫击炮弹命中率</TSA_WD_T4AA_VsMortar>
+  <TSA_WD_T4AA_VsMortarTooltip>防空炮塔摧毁敌对迫击炮弹的固定概率。忽略射程段与等效技能。</TSA_WD_T4AA_VsMortarTooltip>
+  <TSA_WD_T4Mortar_Header>敌方火炮炮塔</TSA_WD_T4Mortar_Header>
+  <TSA_WD_T4Mortar_MinTech>火炮炮塔：最低科技等级</TSA_WD_T4Mortar_MinTech>
+  <TSA_WD_T4Mortar_MinTechTip>仅此科技等级及以上的派系可建造并使用迫击炮塔与防空炮塔。新石器时代几乎允许所有派系。</TSA_WD_T4Mortar_MinTechTip>
+  <TSA_WD_T4Mortar_Reset>重置敌方火炮炮塔设置</TSA_WD_T4Mortar_Reset>
 
   <!-- Assault-map artillery support -->
   <TSA_WD_AssaultArtillery_ButtonTip>炮火支援。从附近据点呼叫迫击炮火力。</TSA_WD_AssaultArtillery_ButtonTip>

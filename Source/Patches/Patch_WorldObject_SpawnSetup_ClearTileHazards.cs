@@ -23,6 +23,11 @@ namespace TSA_WorldDomination
 
             WorldActions_RoadBlocks.ClearIfPresent(tileId);
             WorldActions_SpikeTraps.ClearIfPresent(tileId);
+            // Founding pickers reject building tiles; this only catches quests / edits that land on one anyway.
+            if (Scribe.mode != LoadSaveMode.Inactive || Current.ProgramState != ProgramState.Playing) return;
+            WorldObject_WD_AdvancedBuilding building = WorldComponent_AdvancedBuildings.Get()?.At(tileId);
+            if (building != null && !building.Destroyed)
+                AdvancedBuildingCombatUtility.DestroyBuilding(building, null);
         }
 
         private static bool ShouldClearHazardsUnder(WorldObject wo)

@@ -187,41 +187,41 @@ namespace TSA_WorldDomination
                 AppendAtTurretAccuracyBandsLegend());
         }
 
-        public static IEnumerable<Gizmo> GetT4TurretRadius(Settlement settlement, bool mortarEligible, bool aaEligible)
+        /// <summary>Mortar / AA range toggle on an NPC artillery turret (stored as Attack / Off on its own category).</summary>
+        public static IEnumerable<Gizmo> GetForArtilleryTurret(WorldObject_WD_ArtilleryTurret turret)
         {
-            if (!WD_RadiusOverlayPrefs.TryGetCategory(settlement, out WD_RadiusOverlayCategory category))
+            if (turret == null || turret.Destroyed)
                 yield break;
 
-            if (mortarEligible)
+            const WD_RadiusOverlayCategory category = WD_RadiusOverlayCategory.ArtilleryTurret;
+            string range = turret.RangeTiles.ToString("F0");
+            if (turret is WorldObject_WD_AaTurret)
             {
-                float range = WorldDominationMod.settings?.npcMortarRange ?? WorldDominationSettings.DefNpcMortarRange;
                 yield return MakeToggle(
                     category,
-                    WD_RadiusOverlayKind.Mortar,
-                    "TSA_WD_Gizmo_ShowMortarRadius",
-                    "TSA_WD_Gizmo_ShowMortarRadiusDesc",
-                    range.ToString("F0"),
-                    ref cachedMortarOn,
-                    ref cachedMortarOff,
-                    "UI/Commands/MortarRadius",
-                    TexCommand.Attack,
-                    AppendAccuracyBandsLegend(isNpc: true, forAntiAir: false));
-            }
-
-            if (aaEligible)
-            {
-                float range = AntiAirFireUtils.GetNpcAntiAirMaxRangeTiles();
-                yield return MakeToggle(
-                    category,
-                    WD_RadiusOverlayKind.AA,
+                    WD_RadiusOverlayKind.Attack,
                     "TSA_WD_Gizmo_ShowAARadius",
                     "TSA_WD_Gizmo_ShowAARadiusDesc",
-                    range.ToString("F0"),
+                    range,
                     ref cachedAaOn,
                     ref cachedAaOff,
                     "UI/Commands/AntiAirRadius",
                     TexCommand.Attack,
                     AppendAccuracyBandsLegend(isNpc: true, forAntiAir: true));
+            }
+            else
+            {
+                yield return MakeToggle(
+                    category,
+                    WD_RadiusOverlayKind.Attack,
+                    "TSA_WD_Gizmo_ShowMortarRadius",
+                    "TSA_WD_Gizmo_ShowMortarRadiusDesc",
+                    range,
+                    ref cachedMortarOn,
+                    ref cachedMortarOff,
+                    "UI/Commands/MortarRadius",
+                    TexCommand.Attack,
+                    AppendAccuracyBandsLegend(isNpc: true, forAntiAir: false));
             }
         }
 
@@ -267,7 +267,8 @@ namespace TSA_WorldDomination
             long key = ((long)(int)category << 48)
                 ^ ((long)(int)kind << 40)
                 ^ ((long)(rangeLabel?.GetHashCode() ?? 0) << 8)
-                ^ (extraDesc?.GetHashCode() ?? 0);
+                ^ (extraDesc?.GetHashCode() ?? 0)
+                ^ ((long)(descKey?.GetHashCode() ?? 0) << 20);
             if (descCache.TryGetValue(key, out string cached) && cached != null)
                 return cached;
 

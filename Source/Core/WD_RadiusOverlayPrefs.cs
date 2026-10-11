@@ -15,10 +15,12 @@ namespace TSA_WorldDomination
         Mortar = 4,
         /// <summary>Rapid response and other player outposts without a type-primary radius.</summary>
         RapidResponse = 5,
-        /// <summary>T4 NPC settlements (Attack / Ally / Mortar / AA). Separate from lower-tier NPCs.</summary>
+        /// <summary>T4 NPC settlements (Attack / Ally). Separate from lower-tier NPCs; Mortar/AA moved to artillery turrets.</summary>
         NpcSettlementT4 = 6,
         /// <summary>AT Turret attack-range overlay (Attack / Off). Player-owned for now; NPCs may get placement later.</summary>
-        AtTurret = 7
+        AtTurret = 7,
+        /// <summary>NPC Mortar / AA Turret fire-range overlay (Attack / Off).</summary>
+        ArtilleryTurret = 8
     }
 
     public enum WD_RadiusOverlayKind : byte
@@ -46,6 +48,7 @@ namespace TSA_WorldDomination
         public static WD_RadiusOverlayKind mortar = WD_RadiusOverlayKind.Mortar;
         public static WD_RadiusOverlayKind rapidResponse = WD_RadiusOverlayKind.Off;
         public static WD_RadiusOverlayKind atTurret = WD_RadiusOverlayKind.Attack;
+        public static WD_RadiusOverlayKind artilleryTurret = WD_RadiusOverlayKind.Attack;
 
         private static int suppressFillFrame = -1;
 
@@ -68,8 +71,12 @@ namespace TSA_WorldDomination
                 case WD_RadiusOverlayCategory.Warehouse: return warehouse;
                 case WD_RadiusOverlayCategory.Mortar: return mortar;
                 case WD_RadiusOverlayCategory.RapidResponse: return rapidResponse;
-                case WD_RadiusOverlayCategory.NpcSettlementT4: return npcSettlementT4;
+                case WD_RadiusOverlayCategory.NpcSettlementT4:
+                    if (npcSettlementT4 == WD_RadiusOverlayKind.Mortar || npcSettlementT4 == WD_RadiusOverlayKind.AA)
+                        return WD_RadiusOverlayKind.Attack;
+                    return npcSettlementT4;
                 case WD_RadiusOverlayCategory.AtTurret: return atTurret;
+                case WD_RadiusOverlayCategory.ArtilleryTurret: return artilleryTurret;
                 default:
                     if (npcSettlement == WD_RadiusOverlayKind.Mortar || npcSettlement == WD_RadiusOverlayKind.AA)
                         return WD_RadiusOverlayKind.Attack;
@@ -97,6 +104,8 @@ namespace TSA_WorldDomination
                     rapidResponse = kind;
                     break;
                 case WD_RadiusOverlayCategory.NpcSettlementT4:
+                    if (kind == WD_RadiusOverlayKind.Mortar || kind == WD_RadiusOverlayKind.AA)
+                        kind = WD_RadiusOverlayKind.Attack;
                     npcSettlementT4 = kind;
                     break;
                 case WD_RadiusOverlayCategory.AtTurret:
@@ -104,6 +113,11 @@ namespace TSA_WorldDomination
                     if (kind != WD_RadiusOverlayKind.Off)
                         kind = WD_RadiusOverlayKind.Attack;
                     atTurret = kind;
+                    break;
+                case WD_RadiusOverlayCategory.ArtilleryTurret:
+                    if (kind != WD_RadiusOverlayKind.Off)
+                        kind = WD_RadiusOverlayKind.Attack;
+                    artilleryTurret = kind;
                     break;
                 default:
                     // Lower-tier NPCs only support Attack / Ally / Off.
@@ -133,6 +147,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref mortar, "WD_RadiusOverlay_Mortar", WD_RadiusOverlayKind.Mortar);
             Scribe_Values.Look(ref rapidResponse, "WD_RadiusOverlay_RapidResponse", WD_RadiusOverlayKind.Off);
             Scribe_Values.Look(ref atTurret, "WD_RadiusOverlay_AtTurret", WD_RadiusOverlayKind.Attack);
+            Scribe_Values.Look(ref artilleryTurret, "WD_RadiusOverlay_ArtilleryTurret", WD_RadiusOverlayKind.Attack);
 
             // Pre-T4-split saves may have stored Mortar/AA on the shared NPC slot.
             if (Scribe.mode == LoadSaveMode.LoadingVars
@@ -153,6 +168,7 @@ namespace TSA_WorldDomination
             mortar = WD_RadiusOverlayKind.Mortar;
             rapidResponse = WD_RadiusOverlayKind.Off;
             atTurret = WD_RadiusOverlayKind.Attack;
+            artilleryTurret = WD_RadiusOverlayKind.Attack;
         }
 
         public static WD_RadiusOverlayKind DefaultKind(WD_RadiusOverlayCategory category)
@@ -166,6 +182,7 @@ namespace TSA_WorldDomination
                 case WD_RadiusOverlayCategory.RapidResponse: return WD_RadiusOverlayKind.Attack;
                 case WD_RadiusOverlayCategory.NpcSettlementT4: return WD_RadiusOverlayKind.Attack;
                 case WD_RadiusOverlayCategory.AtTurret: return WD_RadiusOverlayKind.Attack;
+                case WD_RadiusOverlayCategory.ArtilleryTurret: return WD_RadiusOverlayKind.Attack;
                 default: return WD_RadiusOverlayKind.Attack;
             }
         }
@@ -225,6 +242,12 @@ namespace TSA_WorldDomination
             if (worldObject is WorldObject_AT_Turret)
             {
                 category = WD_RadiusOverlayCategory.AtTurret;
+                return true;
+            }
+
+            if (worldObject is WorldObject_WD_ArtilleryTurret)
+            {
+                category = WD_RadiusOverlayCategory.ArtilleryTurret;
                 return true;
             }
 
@@ -290,7 +313,8 @@ namespace TSA_WorldDomination
 
             bool accuracyBands = kind == WD_RadiusOverlayKind.Mortar
                 || kind == WD_RadiusOverlayKind.AA
-                || (kind == WD_RadiusOverlayKind.Attack && worldObject is WorldObject_AT_Turret);
+                || (kind == WD_RadiusOverlayKind.Attack
+                    && (worldObject is WorldObject_AT_Turret || worldObject is WorldObject_WD_ArtilleryTurret));
             bool attackRangeBands = kind == WD_RadiusOverlayKind.Attack && worldObject is Settlement;
             bool zealAttackInnerCyan = false;
             if (attackRangeBands && worldObject is Settlement settlement)
@@ -310,6 +334,8 @@ namespace TSA_WorldDomination
                     accuracyBandMax = AntiAirFireUtils.GetPlayerAntiAirConfiguredMaxRangeTiles(aaOp);
                 else if (worldObject is WorldObject_AT_Turret at)
                     accuracyBandMax = at.GetConfiguredMaxRangeTiles();
+                else if (worldObject is WorldObject_WD_ArtilleryTurret art)
+                    accuracyBandMax = art.RangeTiles;
                 else if (kind == WD_RadiusOverlayKind.Mortar)
                     accuracyBandMax = WorldDominationMod.settings?.npcMortarRange ?? WorldDominationSettings.DefNpcMortarRange;
                 else if (kind == WD_RadiusOverlayKind.AA)
@@ -457,6 +483,12 @@ namespace TSA_WorldDomination
             if (worldObject is WorldObject_AT_Turret turret)
             {
                 radius = turret.EffectiveRangeTiles;
+                return radius > 0f;
+            }
+
+            if (worldObject is WorldObject_WD_ArtilleryTurret artillery)
+            {
+                radius = artillery.RangeTiles;
                 return radius > 0f;
             }
 

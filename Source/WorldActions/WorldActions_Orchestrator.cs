@@ -933,8 +933,9 @@ namespace TSA_WorldDomination
             float wBuildRoad = (!comp.IsRoadOnCooldown && !isRecovering) ? seth.weightBuildRoad : 0f;
             float wTrader = (!comp.IsTraderOnCooldown && !isRecovering) ? seth.weightTrader : 0f;
             float wFortify = fortifyEligible ? seth.weightFortify : 0f;
+            float wAdvanced = WorldActions_AdvancedBuildings.GetDailyWeight(actor, comp, isRecovering, this);
 
-            float totalWeight = wRaid + wMinor + wMajor + wDevelop + wBuildRoad + wTrader + wFortify;
+            float totalWeight = wRaid + wMinor + wMajor + wDevelop + wBuildRoad + wTrader + wFortify + wAdvanced;
             if (totalWeight <= 0f)
             {
                 // Soft fail: no eligible action for this slot (silent).
@@ -974,15 +975,25 @@ namespace TSA_WorldDomination
                 WDVerbose.Msg($"DailyAction pick=trader faction={f.Name} actor={actor.LabelCap}");
                 WorldActions_TraderCaravan.AttemptTraderCaravan(actor, comp, this);
             }
-            else
+            else if (rand < (cursor += wFortify))
             {
                 WDVerbose.Msg($"DailyAction pick=fortify faction={f.Name} actor={actor.LabelCap}");
                 if (!WorldActions_NpcFortify.AttemptFortify(actor, comp, this))
                 {
                     // Kit complete / no launch: re-roll among other eligible weights (exclude Fortify).
-                    TryFallbackDailyActionExcludingFortify(
-                        actor, comp, f,
-                        wRaid, wMinor, wMajor, wDevelop, wBuildRoad, wTrader);
+                    TryFallbackDailyAction(
+                        actor, comp, f, isRecovering,
+                        wRaid, wMinor, wMajor, wDevelop, wBuildRoad, wTrader, 0f, wAdvanced);
+                }
+            }
+            else
+            {
+                WDVerbose.Msg($"DailyAction pick=advancedBuilding faction={f.Name} actor={actor.LabelCap}");
+                if (!WorldActions_AdvancedBuildings.Attempt(actor, comp, this, isRecovering))
+                {
+                    TryFallbackDailyAction(
+                        actor, comp, f, isRecovering,
+                        wRaid, wMinor, wMajor, wDevelop, wBuildRoad, wTrader, wFortify, 0f);
                 }
             }
 
@@ -990,20 +1001,24 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// One-shot fallback when Fortify was picked but could not launch. Does not recurse into Fortify.
+        /// One-shot fallback when Fortify or Advanced building projects was picked but could not launch
+        /// (the caller zeroes that weight). Never recurses: a failed fallback just ends the slot.
         /// </summary>
-        private void TryFallbackDailyActionExcludingFortify(
+        private void TryFallbackDailyAction(
             Settlement actor,
             CompViralSpread comp,
             Faction f,
+            bool isRecovering,
             float wRaid,
             float wMinor,
             float wMajor,
             float wDevelop,
             float wBuildRoad,
-            float wTrader)
+            float wTrader,
+            float wFortify,
+            float wAdvanced)
         {
-            float total = wRaid + wMinor + wMajor + wDevelop + wBuildRoad + wTrader;
+            float total = wRaid + wMinor + wMajor + wDevelop + wBuildRoad + wTrader + wFortify + wAdvanced;
             if (total <= 0f)
             {
                 WDVerbose.Msg($"DailyAction fortifyFallback=none faction={f?.Name} actor={actor?.LabelCap}");
@@ -1037,10 +1052,20 @@ namespace TSA_WorldDomination
                 WDVerbose.Msg($"DailyAction fortifyFallback=road faction={f.Name} actor={actor.LabelCap}");
                 WorldActions_Roads.AttemptBuildRoad(actor, comp, this);
             }
-            else
+            else if (rand < (cursor += wTrader))
             {
                 WDVerbose.Msg($"DailyAction fortifyFallback=trader faction={f.Name} actor={actor.LabelCap}");
                 WorldActions_TraderCaravan.AttemptTraderCaravan(actor, comp, this);
+            }
+            else if (rand < (cursor += wFortify))
+            {
+                WDVerbose.Msg($"DailyAction fallback=fortify faction={f.Name} actor={actor.LabelCap}");
+                WorldActions_NpcFortify.AttemptFortify(actor, comp, this);
+            }
+            else
+            {
+                WDVerbose.Msg($"DailyAction fallback=advancedBuilding faction={f.Name} actor={actor.LabelCap}");
+                WorldActions_AdvancedBuildings.Attempt(actor, comp, this, isRecovering);
             }
         }
 

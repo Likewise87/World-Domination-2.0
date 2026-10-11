@@ -85,10 +85,10 @@
   <TSA_WD_Dash_EscalationTip_Growth>敌对定居点成长：x{0}</TSA_WD_Dash_EscalationTip_Growth>
   <TSA_WD_Dash_EscalationTip_Garrison>定居点驻军强度：+{0}%</TSA_WD_Dash_EscalationTip_Garrison>
   <TSA_WD_Dash_EscalationTip_Expand>敌对向你扩张：最多 {0} 格</TSA_WD_Dash_EscalationTip_Expand>
-  <TSA_WD_Dash_EscalationTip_T4MortarOn>敌方 T4 迫击炮攻击你的商队与前哨：开</TSA_WD_Dash_EscalationTip_T4MortarOn>
-  <TSA_WD_Dash_EscalationTip_T4MortarOff>敌方 T4 迫击炮攻击你的商队与前哨：关</TSA_WD_Dash_EscalationTip_T4MortarOff>
-  <TSA_WD_Dash_EscalationTip_T4AaOn>敌方 T4 防空攻击你的空投与弹体：开</TSA_WD_Dash_EscalationTip_T4AaOn>
-  <TSA_WD_Dash_EscalationTip_T4AaOff>敌方 T4 防空攻击你的空投与弹体：关</TSA_WD_Dash_EscalationTip_T4AaOff>
+  <TSA_WD_Dash_EscalationTip_T4MortarOn>敌方迫击炮塔攻击你的商队与前哨：开</TSA_WD_Dash_EscalationTip_T4MortarOn>
+  <TSA_WD_Dash_EscalationTip_T4MortarOff>敌方迫击炮塔攻击你的商队与前哨：关</TSA_WD_Dash_EscalationTip_T4MortarOff>
+  <TSA_WD_Dash_EscalationTip_T4AaOn>敌方防空炮塔攻击你的空投与弹体：开</TSA_WD_Dash_EscalationTip_T4AaOn>
+  <TSA_WD_Dash_EscalationTip_T4AaOff>敌方防空炮塔攻击你的空投与弹体：关</TSA_WD_Dash_EscalationTip_T4AaOff>
   <TSA_WD_Dash_EscalationTip_IncidentsOn>前哨事件：损失 {0} 实力，每日 {1}% 概率</TSA_WD_Dash_EscalationTip_IncidentsOn>
   <TSA_WD_Dash_EscalationTip_IncidentsOff>前哨事件：关</TSA_WD_Dash_EscalationTip_IncidentsOff>
   <TSA_WD_Dash_EscalationTip_Goodwill>好感流失：每 {1} 天 -{0}</TSA_WD_Dash_EscalationTip_Goodwill>
@@ -200,7 +200,7 @@
   <TSA_WD_Notify_DropPodDeliveryInAaRange>WD：运输舱送货处于防空范围内</TSA_WD_Notify_DropPodDeliveryInAaRange>
   <TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>当你的仓库设为运输舱送货，且位于敌对四级定居点（防空已开启）的防空射程内时，在右侧显示警报。只检查仓库所在格子（不检查整条航线）。可改回陆运，或清除防空威胁。</TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>
   <TSA_WD_Alert_DropPodDeliveryInAaRange>WD：运输舱送货处于防空范围内</TSA_WD_Alert_DropPodDeliveryInAaRange>
-  <TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>这些仓库使用运输舱送货，且处于敌方四级防空射程内：</TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>
+  <TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>这些仓库使用运输舱送货，且处于敌方防空炮塔射程内：</TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>
   <TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>- {0}</TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>
   <TSA_WD_Notify_ConstructionInsufficientStrength>显示建造实力不足警报（右侧）</TSA_WD_Notify_ConstructionInsufficientStrength>
   <TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>当前哨站已准备好路障/陷阱施工段，但实力不足以派出施工队时，在右侧警报栏显示静默持续警报。点击跳转到相关前哨。</TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>

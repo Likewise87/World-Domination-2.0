@@ -108,26 +108,26 @@ El enfriamiento se acorta con la suma de Disparo de la guarnición ({3}): −2% 
   <TSA_WD_Settings_ResetMortarInterception>Restablecer ajustes de artillería / intercepción</TSA_WD_Settings_ResetMortarInterception>
 
   <!-- Ventana de morteros de asentamientos T4 enemigos (independiente de los valores del jugador) -->
-  <TSA_WD_T4Mortar_Header>Morteros de asentamientos T4 enemigos</TSA_WD_T4Mortar_Header>
-  <TSA_WD_T4Mortar_EnableAll>Los asentamientos T4 enemigos disparan morteros</TSA_WD_T4Mortar_EnableAll>
-  <TSA_WD_T4Mortar_EnableAllTooltip>Interruptor maestro. Cuando está activo, los asentamientos enemigos de nivel 4 actúan como interceptores: disparan a los viajeros WD hostiles NO del jugador en rango y, si no hay ninguno, bombardean el asentamiento hostil más cercano. Si además pueden atacarte a TI se controla con la opción de abajo.</TSA_WD_T4Mortar_EnableAllTooltip>
-  <TSA_WD_T4Mortar_MinTech>Morteros T4: tech mínima</TSA_WD_T4Mortar_MinTech>
-  <TSA_WD_T4Mortar_MinTechTip>Solo facciones con este nivel tecnológico o superior pueden usar morteros de asentamientos T4 y antiaéreo. Neolítico permite esencialmente todas las facciones.</TSA_WD_T4Mortar_MinTechTip>
+  <TSA_WD_T4Mortar_Header>Torretas de artillería enemigas</TSA_WD_T4Mortar_Header>
+  <TSA_WD_T4Mortar_EnableAll>Las Torretas de mortero enemigas disparan</TSA_WD_T4Mortar_EnableAll>
+  <TSA_WD_T4Mortar_EnableAllTooltip>Interruptor maestro. Los asentamientos PNJ construyen Torretas de mortero como edificios avanzados (nivel 3 con una tirada del 30%, una torreta gratis al alcanzar el nivel 4). Cuando está activo, estas torretas disparan a los viajeros WD hostiles NO del jugador en rango y, si no hay ninguno, bombardean objetivos hostiles cercanos. Los asentamientos nunca disparan. Si además pueden atacarte a TI se controla en Momento de amenazas.</TSA_WD_T4Mortar_EnableAllTooltip>
+  <TSA_WD_T4Mortar_MinTech>Torretas de artillería: tech mínima</TSA_WD_T4Mortar_MinTech>
+  <TSA_WD_T4Mortar_MinTechTip>Solo facciones con este nivel tecnológico o superior pueden construir y disparar Torretas de mortero y AA. Neolítico permite esencialmente todas las facciones.</TSA_WD_T4Mortar_MinTechTip>
   <TSA_WD_T4Mortar_TargetPlayer>Pueden atacar tus caravanas y puestos WD</TSA_WD_T4Mortar_TargetPlayer>
-  <TSA_WD_T4Mortar_TargetPlayerTooltip>Cuando está activo, los morteros T4 enemigos también pueden disparar a tus caravanas y puestos WD, pero solo mientras Late Game esté activo. Si está desactivado, nunca te atacan en Late Game. Mid Game tiene su propio interruptor; activar Mid Game fuerza este interruptor Late Game.</TSA_WD_T4Mortar_TargetPlayerTooltip>
-  <TSA_WD_T4Mortar_Range>Alcance del mortero T4 (casillas)</TSA_WD_T4Mortar_Range>
-  <TSA_WD_T4Mortar_RangeTooltip>Distancia máxima en el mapamundi de un mortero de asentamiento T4 enemigo. Independiente del alcance de artillería del jugador.</TSA_WD_T4Mortar_RangeTooltip>
-  <TSA_WD_T4Mortar_Cooldown>Enfriamiento del mortero T4 (días)</TSA_WD_T4Mortar_Cooldown>
-  <TSA_WD_T4Mortar_CooldownTooltip>Días entre disparos de un mortero de asentamiento T4 enemigo. Independiente del enfriamiento de artillería del jugador.</TSA_WD_T4Mortar_CooldownTooltip>
+  <TSA_WD_T4Mortar_TargetPlayerTooltip>Cuando está activo, las Torretas de mortero enemigas también pueden disparar a tus caravanas y puestos WD, pero solo mientras Late Game esté activo. Si está desactivado, nunca te atacan en Late Game. Mid Game tiene su propio interruptor; activar Mid Game fuerza este interruptor Late Game.</TSA_WD_T4Mortar_TargetPlayerTooltip>
+  <TSA_WD_T4Mortar_Range>Alcance de Torreta de mortero (casillas)</TSA_WD_T4Mortar_Range>
+  <TSA_WD_T4Mortar_RangeTooltip>Distancia máxima en el mapamundi de una Torreta de mortero enemiga. Independiente del alcance de artillería del jugador.</TSA_WD_T4Mortar_RangeTooltip>
+  <TSA_WD_T4Mortar_Cooldown>Enfriamiento de Torreta de mortero (días)</TSA_WD_T4Mortar_Cooldown>
+  <TSA_WD_T4Mortar_CooldownTooltip>Días entre disparos de una Torreta de mortero enemiga. Independiente del enfriamiento de artillería del jugador.</TSA_WD_T4Mortar_CooldownTooltip>
   <TSA_WD_T4Mortar_HitBand0To50>Prob. de acierto al 0–50% del alcance máx.</TSA_WD_T4Mortar_HitBand0To50>
-  <TSA_WD_T4Mortar_HitBand0To50Tooltip>Probabilidad base de acierto del mortero T4 al 0–50% del alcance, antes del bono de habilidad equivalente.</TSA_WD_T4Mortar_HitBand0To50Tooltip>
+  <TSA_WD_T4Mortar_HitBand0To50Tooltip>Probabilidad base de acierto de la Torreta de mortero al 0–50% del alcance, antes del bono de habilidad equivalente.</TSA_WD_T4Mortar_HitBand0To50Tooltip>
   <TSA_WD_T4Mortar_HitBand51To75>Prob. de acierto al 51–75% del alcance máx.</TSA_WD_T4Mortar_HitBand51To75>
-  <TSA_WD_T4Mortar_HitBand51To75Tooltip>Probabilidad base de acierto del mortero T4 al 51–75% del alcance.</TSA_WD_T4Mortar_HitBand51To75Tooltip>
+  <TSA_WD_T4Mortar_HitBand51To75Tooltip>Probabilidad base de acierto de la Torreta de mortero al 51–75% del alcance.</TSA_WD_T4Mortar_HitBand51To75Tooltip>
   <TSA_WD_T4Mortar_HitBand76To100>Prob. de acierto al 76–100% del alcance máx.</TSA_WD_T4Mortar_HitBand76To100>
-  <TSA_WD_T4Mortar_HitBand76To100Tooltip>Probabilidad base de acierto del mortero T4 al 76–100% del alcance.</TSA_WD_T4Mortar_HitBand76To100Tooltip>
-  <TSA_WD_T4Mortar_ScanSharedNote>Nota: alcance, enfriamiento, daño y acierto de arriba son solo T4. El intervalo de escaneo de abajo es compartido: artillería y Respuesta Rápida del jugador lo usan tal cual; los asentamientos T4 enemigos usan el triple.</TSA_WD_T4Mortar_ScanSharedNote>
-  <TSA_WD_T4Mortar_DisabledHint>Los morteros de asentamientos T4 enemigos están desactivados.</TSA_WD_T4Mortar_DisabledHint>
-  <TSA_WD_T4Mortar_Reset>Restablecer ajustes de morteros T4 enemigos</TSA_WD_T4Mortar_Reset>
+  <TSA_WD_T4Mortar_HitBand76To100Tooltip>Probabilidad base de acierto de la Torreta de mortero al 76–100% del alcance.</TSA_WD_T4Mortar_HitBand76To100Tooltip>
+  <TSA_WD_T4Mortar_ScanSharedNote>Nota: alcance, enfriamiento, daño y acierto de arriba son solo para torretas PNJ. El intervalo de escaneo de abajo es compartido: artillería y Respuesta Rápida del jugador lo usan tal cual; las torretas de artillería enemigas usan el triple.</TSA_WD_T4Mortar_ScanSharedNote>
+  <TSA_WD_T4Mortar_DisabledHint>Las Torretas de mortero enemigas están desactivadas.</TSA_WD_T4Mortar_DisabledHint>
+  <TSA_WD_T4Mortar_Reset>Restablecer ajustes de torretas de artillería enemigas</TSA_WD_T4Mortar_Reset>
   <TSA_WD_Food_Header>Logística de alimentos</TSA_WD_Food_Header>
 
   <TSA_WD_MortarTab_Label>Mortero</TSA_WD_MortarTab_Label>
@@ -297,30 +297,30 @@ El enfriamiento se acorta con la suma de Disparo de la guarnición ({3}): −2% 
   <TSA_WD_T4_AutoAA_On>Auto AA On</TSA_WD_T4_AutoAA_On>
   <TSA_WD_T4_AutoAA_Off>Auto AA Off</TSA_WD_T4_AutoAA_Off>
   <TSA_WD_T4_AutoAA_Desc>Si está activado, este asentamiento T4 ataca automáticamente objetivos aéreos hostiles en alcance AA.</TSA_WD_T4_AutoAA_Desc>
-  <TSA_WD_T4AA_EnableAll>Los asentamientos T4 enemigos usan antiaéreo</TSA_WD_T4AA_EnableAll>
-  <TSA_WD_T4AA_EnableAllTooltip>Interruptor maestro del antiaéreo de asentamientos T4 contra objetivos aéreos hostiles.</TSA_WD_T4AA_EnableAllTooltip>
+  <TSA_WD_T4AA_EnableAll>Las Torretas AA enemigas disparan</TSA_WD_T4AA_EnableAll>
+  <TSA_WD_T4AA_EnableAllTooltip>Interruptor maestro de las Torretas AA PNJ contra objetivos aéreos hostiles. Los asentamientos las construyen como edificios avanzados; los asentamientos nunca disparan.</TSA_WD_T4AA_EnableAllTooltip>
   <TSA_WD_T4AA_TargetPlayer>El AA puede atacar tus activos aéreos</TSA_WD_T4AA_TargetPlayer>
-  <TSA_WD_T4AA_TargetPlayerTooltip>Si está activo, el AA T4 puede atacar tus cápsulas y proyectiles mientras Late Game esté activo. Mid Game tiene su propio interruptor; activar Mid Game fuerza este interruptor Late Game.</TSA_WD_T4AA_TargetPlayerTooltip>
-  <TSA_WD_T4AA_Range>Alcance AA T4 (casillas)</TSA_WD_T4AA_Range>
-  <TSA_WD_T4AA_RangeTooltip>Alcance máximo AA de asentamientos T4 enemigos.</TSA_WD_T4AA_RangeTooltip>
-  <TSA_WD_T4AA_Cooldown>Enfriamiento AA T4 (segundos)</TSA_WD_T4AA_Cooldown>
-  <TSA_WD_T4AA_CooldownTooltip>Segundos entre disparos AA de asentamientos T4.</TSA_WD_T4AA_CooldownTooltip>
-  <TSA_WD_T4AA_Damage>Daño AA T4</TSA_WD_T4AA_Damage>
-  <TSA_WD_T4AA_DamageTooltip>Daño del flak AA de asentamientos T4.</TSA_WD_T4AA_DamageTooltip>
-  <TSA_WD_T4AA_Skill>Habilidad equivalente AA T4</TSA_WD_T4AA_Skill>
-  <TSA_WD_T4AA_SkillTooltip>Disparo equivalente usado para bandas de acierto antiaéreo T4 contra cápsulas, transportes y aéreos (+1 punto porcentual por nivel). No afecta la probabilidad plana antiaéreo vs proyectiles de mortero.</TSA_WD_T4AA_SkillTooltip>
-  <TSA_WD_T4AA_HitBand0To50>Prob. antiaéreo T4 al 0–50% del alcance máx.</TSA_WD_T4AA_HitBand0To50>
-  <TSA_WD_T4AA_HitBand0To50Tooltip>Acierto antiaéreo T4 base vs cápsulas y aéreos al 0-50% del alcance antiaéreo máximo. La habilidad equivalente suma +1 punto porcentual por nivel. No aplica a proyectiles de mortero.</TSA_WD_T4AA_HitBand0To50Tooltip>
-  <TSA_WD_T4AA_HitBand51To75>Prob. antiaéreo T4 al 51–75% del alcance máx.</TSA_WD_T4AA_HitBand51To75>
-  <TSA_WD_T4AA_HitBand51To75Tooltip>Acierto antiaéreo T4 base vs cápsulas y aéreos al 51-75% del alcance antiaéreo máximo. Los proyectiles de mortero usan la probabilidad plana antiaéreo T4 vs proyectiles.</TSA_WD_T4AA_HitBand51To75Tooltip>
-  <TSA_WD_T4AA_HitBand76To100>Prob. antiaéreo T4 al 76–100% del alcance máx.</TSA_WD_T4AA_HitBand76To100>
-  <TSA_WD_T4AA_HitBand76To100Tooltip>Acierto antiaéreo T4 base vs cápsulas y aéreos al 76–100% del alcance antiaéreo máximo. Los proyectiles de mortero usan la probabilidad plana antiaéreo T4 vs proyectiles.</TSA_WD_T4AA_HitBand76To100Tooltip>
-  <TSA_WD_T4AA_VsMortar>Prob. antiaéreo T4 vs proyectiles de mortero</TSA_WD_T4AA_VsMortar>
-  <TSA_WD_T4AA_VsMortarTooltip>Probabilidad plana de que el antiaéreo T4 destruya un proyectil de mortero hostil. Ignora las bandas de alcance antiaéreo y la habilidad equivalente.</TSA_WD_T4AA_VsMortarTooltip>
-  <TSA_WD_T4Mortar_Header>Torretas de asentamientos T4 enemigos</TSA_WD_T4Mortar_Header>
-  <TSA_WD_T4Mortar_MinTech>Torretas T4: tech mínima</TSA_WD_T4Mortar_MinTech>
-  <TSA_WD_T4Mortar_MinTechTip>Solo facciones con este nivel tecnológico o superior pueden usar morteros de asentamientos T4 y antiaéreo. Neolítico permite esencialmente todas las facciones.</TSA_WD_T4Mortar_MinTechTip>
-  <TSA_WD_T4Mortar_Reset>Restablecer ajustes de torretas T4 enemigas</TSA_WD_T4Mortar_Reset>
+  <TSA_WD_T4AA_TargetPlayerTooltip>Si está activo, las Torretas AA enemigas pueden atacar tus cápsulas y proyectiles mientras Late Game esté activo. Mid Game tiene su propio interruptor; activar Mid Game fuerza este interruptor Late Game.</TSA_WD_T4AA_TargetPlayerTooltip>
+  <TSA_WD_T4AA_Range>Alcance de Torreta AA (casillas)</TSA_WD_T4AA_Range>
+  <TSA_WD_T4AA_RangeTooltip>Alcance máximo de las Torretas AA enemigas.</TSA_WD_T4AA_RangeTooltip>
+  <TSA_WD_T4AA_Cooldown>Enfriamiento de Torreta AA (segundos)</TSA_WD_T4AA_Cooldown>
+  <TSA_WD_T4AA_CooldownTooltip>Segundos entre disparos de Torreta AA.</TSA_WD_T4AA_CooldownTooltip>
+  <TSA_WD_T4AA_Damage>Daño de Torreta AA</TSA_WD_T4AA_Damage>
+  <TSA_WD_T4AA_DamageTooltip>Daño del flak de las Torretas AA PNJ.</TSA_WD_T4AA_DamageTooltip>
+  <TSA_WD_T4AA_Skill>Habilidad equivalente de Torreta AA</TSA_WD_T4AA_Skill>
+  <TSA_WD_T4AA_SkillTooltip>Disparo equivalente usado para bandas de acierto de Torreta AA contra cápsulas, transportes y aéreos (+1 punto porcentual por nivel). No afecta la probabilidad plana de Torreta AA vs proyectiles de mortero.</TSA_WD_T4AA_SkillTooltip>
+  <TSA_WD_T4AA_HitBand0To50>Prob. de Torreta AA al 0–50% del alcance máx.</TSA_WD_T4AA_HitBand0To50>
+  <TSA_WD_T4AA_HitBand0To50Tooltip>Acierto base de Torreta AA vs cápsulas y aéreos al 0-50% del alcance máximo. La habilidad equivalente suma +1 punto porcentual por nivel. No aplica a proyectiles de mortero.</TSA_WD_T4AA_HitBand0To50Tooltip>
+  <TSA_WD_T4AA_HitBand51To75>Prob. de Torreta AA al 51–75% del alcance máx.</TSA_WD_T4AA_HitBand51To75>
+  <TSA_WD_T4AA_HitBand51To75Tooltip>Acierto base de Torreta AA vs cápsulas y aéreos al 51-75% del alcance máximo. Los proyectiles de mortero usan la probabilidad plana de Torreta AA vs proyectiles.</TSA_WD_T4AA_HitBand51To75Tooltip>
+  <TSA_WD_T4AA_HitBand76To100>Prob. de Torreta AA al 76–100% del alcance máx.</TSA_WD_T4AA_HitBand76To100>
+  <TSA_WD_T4AA_HitBand76To100Tooltip>Acierto base de Torreta AA vs cápsulas y aéreos al 76–100% del alcance máximo. Los proyectiles de mortero usan la probabilidad plana de Torreta AA vs proyectiles.</TSA_WD_T4AA_HitBand76To100Tooltip>
+  <TSA_WD_T4AA_VsMortar>Prob. de Torreta AA vs proyectiles de mortero</TSA_WD_T4AA_VsMortar>
+  <TSA_WD_T4AA_VsMortarTooltip>Probabilidad plana de que una Torreta AA destruya un proyectil de mortero hostil. Ignora bandas de alcance y habilidad equivalente.</TSA_WD_T4AA_VsMortarTooltip>
+  <TSA_WD_T4Mortar_Header>Torretas de artillería enemigas</TSA_WD_T4Mortar_Header>
+  <TSA_WD_T4Mortar_MinTech>Torretas de artillería: tech mínima</TSA_WD_T4Mortar_MinTech>
+  <TSA_WD_T4Mortar_MinTechTip>Solo facciones con este nivel tecnológico o superior pueden construir y disparar Torretas de mortero y AA. Neolítico permite esencialmente todas las facciones.</TSA_WD_T4Mortar_MinTechTip>
+  <TSA_WD_T4Mortar_Reset>Restablecer ajustes de torretas de artillería enemigas</TSA_WD_T4Mortar_Reset>
 
   <!-- Assault-map artillery support -->
   <TSA_WD_AssaultArtillery_ButtonTip>Apoyo de artillería. Llama fuego de mortero desde puestos cercanos.</TSA_WD_AssaultArtillery_ButtonTip>

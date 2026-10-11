@@ -175,8 +175,8 @@ namespace TSA_WorldDomination
             manager ??= Find.World?.GetComponent<WorldComponent_SpreadManager>();
             var seth = WorldDominationMod.settings;
 
-            bool fromMortar = origin is Settlement;
-            string originLabel = origin.LabelCap;
+            bool fromMortar = origin is Settlement || origin is WorldObject_WD_MortarTurret;
+            string originLabel = AdvancedBuildingCombatUtility.LabelWithOwner(origin);
             // Caravan.LabelCap is arbitrary; faction name is what players recognize.
             string caravanLabel = FormatTargetLabel(caravan);
 
