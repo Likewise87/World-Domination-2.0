@@ -627,7 +627,8 @@ namespace TSA_WorldDomination
                     else if (traveler.raidOrderOutcome == RaidOrderOutcome.AllyAwardsToPlayer)
                     {
                         ConquestOpportunityUtility.RegisterSimulatedConquest(tile, originalName, tier);
-                        Find.WindowStack.Add(new Dialog_OutpostSelection(tile, originalName, -1, tier, conquestContext: null));
+                        var allyAwardContext = new ConquestOpportunityContext(tile, originalName, -1, tier, targetFaction, -1);
+                        Find.WindowStack.Add(new Dialog_OutpostSelection(tile, originalName, -1, tier, allyAwardContext));
                     }
                     else
                     {
@@ -744,7 +745,8 @@ namespace TSA_WorldDomination
                 WorldActions_DesperationRaid.NotifyNpcSettlementLost(lostNpc2, Faction.OfPlayer);
             target.Destroy();
             ConquestOpportunityUtility.RegisterSimulatedConquest(tile, originalName, tier);
-            Find.WindowStack.Add(new Dialog_OutpostSelection(tile, originalName, -1, tier, conquestContext: null!));
+            var allyAwardContext = new ConquestOpportunityContext(tile, originalName, -1, tier, targetFaction, -1);
+            Find.WindowStack.Add(new Dialog_OutpostSelection(tile, originalName, -1, tier, allyAwardContext));
         }
 
         private static int CountNpcSurfaceSettlements()
