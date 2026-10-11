@@ -609,6 +609,27 @@
   <TSA_WD_Outpost_NameNewDialogTitle>Nombra tu nuevo {0}</TSA_WD_Outpost_NameNewDialogTitle>
   <TSA_WD_Outpost_NameNewDialogTip>También puedes renombrar la avanzadilla más tarde haciendo clic en su nombre en la ventana "Resumen de avanzadillas" bajo la pestaña principal de WD.</TSA_WD_Outpost_NameNewDialogTip>
   <TSA_WD_Outpost_NameNewDialogDiceTip>Generar un nombre aleatorio</TSA_WD_Outpost_NameNewDialogDiceTip>
+  <TSA_WD_Outpost_NameNewDialogAddType>Añadir tipo de avanzadilla al nombre</TSA_WD_Outpost_NameNewDialogAddType>
+  <TSA_WD_Outpost_NameTag_Format>{0} {1}</TSA_WD_Outpost_NameTag_Format>
+  <TSA_WD_Outpost_NameTag_Farm>Granja</TSA_WD_Outpost_NameTag_Farm>
+  <TSA_WD_Outpost_NameTag_Mine>Mina</TSA_WD_Outpost_NameTag_Mine>
+  <TSA_WD_Outpost_NameTag_Ranch>Rancho</TSA_WD_Outpost_NameTag_Ranch>
+  <TSA_WD_Outpost_NameTag_Academy>Academia</TSA_WD_Outpost_NameTag_Academy>
+  <TSA_WD_Outpost_NameTag_Institute>Instituto</TSA_WD_Outpost_NameTag_Institute>
+  <TSA_WD_Outpost_NameTag_Refinery>Refinería</TSA_WD_Outpost_NameTag_Refinery>
+  <TSA_WD_Outpost_NameTag_Warehouse>Almacén</TSA_WD_Outpost_NameTag_Warehouse>
+  <TSA_WD_Outpost_NameTag_Embassy>Embajada</TSA_WD_Outpost_NameTag_Embassy>
+  <TSA_WD_Outpost_NameTag_Market>Mercado</TSA_WD_Outpost_NameTag_Market>
+  <TSA_WD_Outpost_NameTag_Factory>Fábrica</TSA_WD_Outpost_NameTag_Factory>
+  <TSA_WD_Outpost_NameTag_Fishery>Pesquería</TSA_WD_Outpost_NameTag_Fishery>
+  <TSA_WD_Outpost_NameTag_Lodge>Coto</TSA_WD_Outpost_NameTag_Lodge>
+  <TSA_WD_Outpost_NameTag_Battery>Batería</TSA_WD_Outpost_NameTag_Battery>
+  <TSA_WD_Outpost_NameTag_Reactor>Reactor</TSA_WD_Outpost_NameTag_Reactor>
+  <TSA_WD_Outpost_NameTag_Lab>Lab</TSA_WD_Outpost_NameTag_Lab>
+  <TSA_WD_Outpost_NameTag_Rig>Torre</TSA_WD_Outpost_NameTag_Rig>
+  <TSA_WD_Outpost_NameTag_Chemworks>Química</TSA_WD_Outpost_NameTag_Chemworks>
+  <TSA_WD_Outpost_NameTag_Scrapyard>Desguace</TSA_WD_Outpost_NameTag_Scrapyard>
+  <TSA_WD_Outpost_NameTag_Garrison>Guarnición</TSA_WD_Outpost_NameTag_Garrison>
   <TSA_WD_Outpost_Reset>Restablecer configuración de avanzadillas</TSA_WD_Outpost_Reset>
   <TSA_WD_Outpost_Road>Proyecto de construcción</TSA_WD_Outpost_Road>
   <TSA_WD_OutpostOverview_ProjectRoad>Camino</TSA_WD_OutpostOverview_ProjectRoad>

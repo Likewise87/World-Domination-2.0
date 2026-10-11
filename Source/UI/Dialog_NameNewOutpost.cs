@@ -18,7 +18,13 @@ namespace TSA_WorldDomination
         private readonly string titleText;
         private readonly string tipText;
         private readonly string diceTip;
+        private readonly bool supportsTypeTag;
+        private readonly string typeTag;
+
+        private string rootName;
         private string curName;
+        private bool includeTypeTag;
+        private string lastFieldValue;
 
         private const float SidePad = 4f;
         private const float CloseXLeftInset = 22f;
@@ -26,14 +32,26 @@ namespace TSA_WorldDomination
         private const float TextFieldHeight = 28f;
         private const float DiceSize = 28f;
         private const float DiceGap = 6f;
-        private const int MaxNameLength = 30;
+        private const float CheckboxRowHeight = 28f;
 
-        public override Vector2 InitialSize => new Vector2(500f, 240f);
+        public override Vector2 InitialSize =>
+            new Vector2(500f, supportsTypeTag ? 275f : 240f);
 
         public Dialog_NameNewOutpost(WorldObject_WD_Outpost outpost)
         {
             this.outpost = outpost;
-            curName = ClampName(outpost?.Name ?? "");
+
+            supportsTypeTag = OutpostNameTagUtility.TryGetTypeTag(outpost?.def, out typeTag);
+            includeTypeTag = supportsTypeTag;
+
+            string spawnName = outpost?.Name ?? "";
+            if (supportsTypeTag && OutpostNameTagUtility.TrySplitRoot(spawnName, typeTag, out string splitRoot))
+                rootName = splitRoot;
+            else
+                rootName = spawnName;
+
+            curName = spawnName;
+            lastFieldValue = curName;
 
             string typeLabel = outpost?.def?.LabelCap ?? OutpostTranslationUtil.Key("TSA_WD_Outpost_GenericLabel");
             titleText = OutpostTranslationUtil.Key("TSA_WD_Outpost_NameNewDialogTitle", typeLabel);
@@ -72,8 +90,16 @@ namespace TSA_WorldDomination
             float fieldWidth = contentWidth - DiceSize - DiceGap;
             Rect fieldRect = new Rect(SidePad, y, fieldWidth, TextFieldHeight);
             Text.Font = GameFont.Tiny;
-            curName = ClampName(Widgets.TextField(fieldRect, curName));
+            string typed = ClampName(Widgets.TextField(fieldRect, curName));
             Text.Font = GameFont.Small;
+            if (typed != lastFieldValue)
+            {
+                curName = typed;
+                lastFieldValue = typed;
+                // Manual edit is authoritative; keep root in sync with bare field when tag off.
+                if (!includeTypeTag)
+                    rootName = curName;
+            }
 
             Rect diceRect = new Rect(SidePad + fieldWidth + DiceGap, y, DiceSize, DiceSize);
             if (RandomizeTex != null)
@@ -86,7 +112,20 @@ namespace TSA_WorldDomination
                 RerollName();
             }
             TooltipHandler.TipRegion(diceRect, diceTip);
-            y += TextFieldHeight + 10f;
+            y += TextFieldHeight + 8f;
+
+            if (supportsTypeTag)
+            {
+                bool prev = includeTypeTag;
+                Rect checkRect = new Rect(SidePad, y, contentWidth, CheckboxRowHeight);
+                Widgets.CheckboxLabeled(
+                    checkRect,
+                    OutpostTranslationUtil.Key("TSA_WD_Outpost_NameNewDialogAddType"),
+                    ref includeTypeTag);
+                if (includeTypeTag != prev)
+                    OnTypeTagToggled();
+                y += CheckboxRowHeight + 6f;
+            }
 
             Text.Font = GameFont.Tiny;
             GUI.color = Color.gray;
@@ -106,11 +145,33 @@ namespace TSA_WorldDomination
                 ApplyAndClose();
         }
 
+        private void OnTypeTagToggled()
+        {
+            if (includeTypeTag)
+            {
+                // Prefer split if the field already ends with this tag; else use field as root.
+                if (OutpostNameTagUtility.TrySplitRoot(curName, typeTag, out string split))
+                    rootName = split;
+                else
+                    rootName = (curName ?? "").Trim();
+                curName = OutpostNameTagUtility.ComposeIfFits(rootName, typeTag);
+            }
+            // Turning off: leave field as-is (no clever strip).
+            lastFieldValue = curName;
+        }
+
         private void RerollName()
         {
             if (outpost?.def == null) return;
             int tileId = outpost.Tile.tileId;
-            curName = ClampName(Dialog_OutpostSelection.GenerateOutpostNamePublic(outpost.def, tileId) ?? "");
+            string generated = Dialog_OutpostSelection.GenerateOutpostNamePublic(
+                outpost.def, tileId, includeTypeTag && supportsTypeTag, out rootName);
+            curName = generated ?? "";
+            // Generator never clips composed names; only clamp bare overflow roots.
+            if (curName.Length > OutpostNameTagUtility.MaxNameLength
+                && !(includeTypeTag && supportsTypeTag))
+                curName = ClampName(curName);
+            lastFieldValue = curName;
         }
 
         private void ApplyAndClose()
@@ -124,7 +185,9 @@ namespace TSA_WorldDomination
                     trimmed = curName?.Trim();
                 }
                 if (string.IsNullOrEmpty(trimmed))
-                    trimmed = ClampName(outpost.Name ?? outpost.Tile.tileId.ToString());
+                    trimmed = outpost.Name ?? outpost.Tile.tileId.ToString();
+                if (trimmed.Length > OutpostNameTagUtility.MaxNameLength)
+                    trimmed = trimmed.Substring(0, OutpostNameTagUtility.MaxNameLength);
                 outpost.Name = trimmed;
                 Window_OutpostOverview.InvalidateCache();
             }
@@ -134,7 +197,8 @@ namespace TSA_WorldDomination
         private static string ClampName(string name)
         {
             if (string.IsNullOrEmpty(name)) return "";
-            return name.Length <= MaxNameLength ? name : name.Substring(0, MaxNameLength);
+            int max = OutpostNameTagUtility.MaxNameLength;
+            return name.Length <= max ? name : name.Substring(0, max);
         }
     }
 }

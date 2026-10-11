@@ -685,6 +685,27 @@
   <TSA_WD_Outpost_NameNewDialogTitle>Name your new {0}</TSA_WD_Outpost_NameNewDialogTitle>
   <TSA_WD_Outpost_NameNewDialogTip>You can also later rename your outpost by clicking its name in the "Outpost Overview" window under the main WD tab.</TSA_WD_Outpost_NameNewDialogTip>
   <TSA_WD_Outpost_NameNewDialogDiceTip>Generate a random name</TSA_WD_Outpost_NameNewDialogDiceTip>
+  <TSA_WD_Outpost_NameNewDialogAddType>Add outpost type to name</TSA_WD_Outpost_NameNewDialogAddType>
+  <TSA_WD_Outpost_NameTag_Format>{0} {1}</TSA_WD_Outpost_NameTag_Format>
+  <TSA_WD_Outpost_NameTag_Farm>Farm</TSA_WD_Outpost_NameTag_Farm>
+  <TSA_WD_Outpost_NameTag_Mine>Mine</TSA_WD_Outpost_NameTag_Mine>
+  <TSA_WD_Outpost_NameTag_Ranch>Ranch</TSA_WD_Outpost_NameTag_Ranch>
+  <TSA_WD_Outpost_NameTag_Academy>Academy</TSA_WD_Outpost_NameTag_Academy>
+  <TSA_WD_Outpost_NameTag_Institute>Institute</TSA_WD_Outpost_NameTag_Institute>
+  <TSA_WD_Outpost_NameTag_Refinery>Refinery</TSA_WD_Outpost_NameTag_Refinery>
+  <TSA_WD_Outpost_NameTag_Warehouse>Warehouse</TSA_WD_Outpost_NameTag_Warehouse>
+  <TSA_WD_Outpost_NameTag_Embassy>Embassy</TSA_WD_Outpost_NameTag_Embassy>
+  <TSA_WD_Outpost_NameTag_Market>Market</TSA_WD_Outpost_NameTag_Market>
+  <TSA_WD_Outpost_NameTag_Factory>Factory</TSA_WD_Outpost_NameTag_Factory>
+  <TSA_WD_Outpost_NameTag_Fishery>Fishery</TSA_WD_Outpost_NameTag_Fishery>
+  <TSA_WD_Outpost_NameTag_Lodge>Lodge</TSA_WD_Outpost_NameTag_Lodge>
+  <TSA_WD_Outpost_NameTag_Battery>Battery</TSA_WD_Outpost_NameTag_Battery>
+  <TSA_WD_Outpost_NameTag_Reactor>Reactor</TSA_WD_Outpost_NameTag_Reactor>
+  <TSA_WD_Outpost_NameTag_Lab>Lab</TSA_WD_Outpost_NameTag_Lab>
+  <TSA_WD_Outpost_NameTag_Rig>Rig</TSA_WD_Outpost_NameTag_Rig>
+  <TSA_WD_Outpost_NameTag_Chemworks>Chemworks</TSA_WD_Outpost_NameTag_Chemworks>
+  <TSA_WD_Outpost_NameTag_Scrapyard>Scrapyard</TSA_WD_Outpost_NameTag_Scrapyard>
+  <TSA_WD_Outpost_NameTag_Garrison>Garrison</TSA_WD_Outpost_NameTag_Garrison>
   <TSA_WD_Outpost_Reset>Reset Outpost Settings</TSA_WD_Outpost_Reset>
   <TSA_WD_Outpost_Road>Construction Project</TSA_WD_Outpost_Road>
   <TSA_WD_OutpostOverview_ProjectRoad>Road</TSA_WD_OutpostOverview_ProjectRoad>

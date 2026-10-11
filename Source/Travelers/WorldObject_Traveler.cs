@@ -14,7 +14,7 @@ namespace TSA_WorldDomination
 
     public class WorldObject_Traveler : WorldObject
     {
-        /// <summary>≈ lightly loaded walking human caravan (~2200 TPM). Lower = faster. Vanilla default fallback is 3300.</summary>
+        /// <summary>Def for <see cref="WorldDominationSettings.walkingTravelerTicksPerMove"/> (~lightly loaded walk). Live spawn/prep use <see cref="WorldActions_Traveler.GetWalkingTicksPerMove"/>. Lower = faster.</summary>
         public const int DefaultTicksPerMove = 2200;
 
         /// <summary>True for walking raids and T4 ballistic drop-pod raids.</summary>

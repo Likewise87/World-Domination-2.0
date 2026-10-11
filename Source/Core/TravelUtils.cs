@@ -103,11 +103,11 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// WD world travel math: per-hop time uses <paramref name="ticksPerMoveOrZero"/> when &gt; 0, otherwise <see cref="WorldObject_Traveler.DefaultTicksPerMove"/>.
-        /// Pass <see cref="WorldObject_Traveler.DefaultTicksPerMove"/> explicitly at call sites that have no traveler instance.
+        /// WD world travel math: per-hop time uses <paramref name="ticksPerMoveOrZero"/> when &gt; 0, otherwise
+        /// <see cref="WorldActions_Traveler.GetWalkingTicksPerMove"/>.
         /// </summary>
         public static int ResolveTicksPerMove(int ticksPerMoveOrZero) =>
-            ticksPerMoveOrZero > 0 ? ticksPerMoveOrZero : WorldObject_Traveler.DefaultTicksPerMove;
+            ticksPerMoveOrZero > 0 ? ticksPerMoveOrZero : WorldActions_Traveler.GetWalkingTicksPerMove();
 
         /// <summary>
         /// Attrition efficiency from path travel ticks already summed via <see cref="SumFullPathTicks"/> (same rules as <see cref="GetTravelStrengthEstimate"/>).
@@ -132,8 +132,9 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// T4 drop-pod raid attrition: crow-flies distance × <see cref="WorldObject_Traveler.DefaultTicksPerMove"/>
-        /// as synthetic travel ticks, with <see cref="WorldDominationSettings.dropPodRaidAttritionMult"/> on loss/hour.
+        /// T4 drop-pod raid attrition: crow-flies distance × walking TPM
+        /// (<see cref="WorldActions_Traveler.GetWalkingTicksPerMove"/>) as synthetic travel ticks, with
+        /// <see cref="WorldDominationSettings.dropPodRaidAttritionMult"/> on loss/hour.
         /// Same floor / zeal rules as walking. Used for gate, letter, and traveler strength (must match).
         /// </summary>
         public static bool TryDropPodRaidEfficiency(
@@ -153,7 +154,7 @@ namespace TSA_WorldDomination
                 return false;
 
             float dist = Mathf.Max(1f, Find.WorldGrid.ApproxDistanceInTiles(startTileId, destTileId));
-            syntheticTicks = dist * WorldObject_Traveler.DefaultTicksPerMove;
+            syntheticTicks = dist * WorldActions_Traveler.GetWalkingTicksPerMove();
             float totalHours = syntheticTicks / 2500f;
             float mult = Mathf.Max(1f, seth.dropPodRaidAttritionMult);
             float effectiveLossPerHour = Mathf.Clamp(seth.strengthLossPerHour * mult, 0f, 0.99f);
@@ -210,7 +211,7 @@ namespace TSA_WorldDomination
         /// Uses pathfinding and terrain difficulty; efficiency uses exponential decay (1 - rate)^hours.
         /// When travelerFaction has Expansionist Zeal active, effective attrition is reduced (ZealAttritionMult).
         /// </summary>
-        /// <param name="ticksPerMoveOverride">0 = use <see cref="WorldObject_Traveler.DefaultTicksPerMove"/>; otherwise same units as <see cref="WorldObject_Traveler.ticksPerMove"/>.</param>
+        /// <param name="ticksPerMoveOverride">0 = use <see cref="WorldActions_Traveler.GetWalkingTicksPerMove"/>; otherwise same units as <see cref="WorldObject_Traveler.ticksPerMove"/>.</param>
         public static TravelStrengthEstimate GetTravelStrengthEstimate(int startTileId, int destTileId, WorldDominationSettings seth, Faction travelerFaction = null, int ticksPerMoveOverride = 0)
         {
             var result = new TravelStrengthEstimate { Found = false, Efficiency = 0f };

@@ -125,7 +125,7 @@
   <TSA_WD_BtnWorldRaids>World Map Raids</TSA_WD_BtnWorldRaids>
   <TSA_WD_BtnCaravans>Caravans &amp; Trade</TSA_WD_BtnCaravans>
   <TSA_WD_BtnExperimental>Experimental</TSA_WD_BtnExperimental>
-  <TSA_WD_BtnPlayerArtillery>Player Artillery</TSA_WD_BtnPlayerArtillery>
+  <TSA_WD_BtnPlayerArtillery>Mortar, Anti Air and Rapid Response Logic</TSA_WD_BtnPlayerArtillery>
   <TSA_WD_Category>World Domination</TSA_WD_Category>
   <TSA_WD_Settings_DefaultValue>Default: {0}</TSA_WD_Settings_DefaultValue>
   <TSA_WD_Settings_DefaultOn>On</TSA_WD_Settings_DefaultOn>
@@ -185,7 +185,7 @@
   <TSA_WD_DescRaidMult>Configure how raid points are multiplied, whether your outposts may be attacked and whether you want storyteller raids.</TSA_WD_DescRaidMult>
   <TSA_WD_DescLateGame>Configure Mid Game and Late Game pushback once you grow strong: thresholds, biased raids, faster growth, expansion creep, goodwill drain, T4 mortars, and outpost incidents.</TSA_WD_DescLateGame>
   <TSA_WD_DescT4Mortar>Configure enemy tier-4 settlement mortars and anti-air: whether they fire, whether they may target you, and their own ranges, cooldowns, damage and accuracy.</TSA_WD_DescT4Mortar>
-  <TSA_WD_DescPlayerArtillery>Your outpost mortars, anti-air, and Rapid Response intercept settings.</TSA_WD_DescPlayerArtillery>
+  <TSA_WD_DescPlayerArtillery>Outpost mortar, anti-air, and Rapid Response combat logic (damage, range, cooldowns, hit bands, intercept strength). Travel speeds for walking travelers, drop pods, and Interception Caravans are under Caravans and Trade.</TSA_WD_DescPlayerArtillery>
   <TSA_WD_DescResetAll>Restore all mod settings to defaults.</TSA_WD_DescResetAll>
   <TSA_WD_DescSabotage>Success and failure likelihoods, cooldowns, and skill impact for sabotage missions.</TSA_WD_DescSabotage>
   <TSA_WD_DescWorldGen>How likely shall it be for T1, T2, T3, T4 settlements to be created at initial world generation?</TSA_WD_DescWorldGen>
@@ -571,6 +571,9 @@
   <TSA_WD_Outpost_ReqCost>Require establishment cost</TSA_WD_Outpost_ReqCost>
   <TSA_WD_Outpost_ReqCost_Tooltip>If disabled, caravans do not need to pay the wood or custom resource cost when founding outposts.</TSA_WD_Outpost_ReqCost_Tooltip>
   <TSA_WD_Caravans_HeaderTravel>Travel and Attrition</TSA_WD_Caravans_HeaderTravel>
+  <TSA_WD_Caravans_WalkingTicksPerMove>Walking traveler ticks per tile</TSA_WD_Caravans_WalkingTicksPerMove>
+  <TSA_WD_Caravans_WalkingTicksPerMoveTip>World ticks per tile for land WD travelers. Lower = faster. Also used for raid and trader prep attrition estimates. Applies to newly launched travelers; already moving ones keep their launch speed.</TSA_WD_Caravans_WalkingTicksPerMoveTip>
+  <TSA_WD_Artillery_TravelSpeedsInCaravansTip>Travel speeds (walking travelers, drop pods, Interception Caravans) are under Caravans and Trade → Travel and Attrition.</TSA_WD_Artillery_TravelSpeedsInCaravansTip>
   <TSA_WD_Caravans_HeaderWaterTravel>Water travel</TSA_WD_Caravans_HeaderWaterTravel>
   <TSA_WD_Caravans_AllowTravelOverWater>Allow caravans to travel over water</TSA_WD_Caravans_AllowTravelOverWater>
   <TSA_WD_Caravans_AllowTravelOverWaterTip>When enabled, WD travelers may use special pathfinding across water-covered tiles (see options below). When disabled, only standard world paths are used and no water pathfinding runs. Also managed by Setting presets → Performance when you use those packs.</TSA_WD_Caravans_AllowTravelOverWaterTip>

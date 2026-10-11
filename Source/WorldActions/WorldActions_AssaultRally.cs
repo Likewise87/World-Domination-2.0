@@ -61,7 +61,7 @@ namespace TSA_WorldDomination
         {
             if (fromTile < 0 || rallyTile < 0) return false;
             float dist = Find.WorldGrid.ApproxDistanceInTiles(fromTile, rallyTile);
-            float ticks = dist * WorldObject_Traveler.DefaultTicksPerMove;
+            float ticks = dist * WorldActions_Traveler.GetWalkingTicksPerMove();
             return ticks <= RallyPathCapDays * 60000f;
         }
 

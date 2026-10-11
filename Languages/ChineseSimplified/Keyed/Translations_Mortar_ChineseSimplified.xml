@@ -91,10 +91,10 @@
   <TSA_WD_Outpost_RapidResponseAutoRangeTooltip>自动快速反应虚拟反制商队的最大世界格距离。选择前哨时会显示为紫色范围圈。</TSA_WD_Outpost_RapidResponseAutoRangeTooltip>
   <TSA_WD_Outpost_RapidResponseDropPodRange>快速反应空投范围</TSA_WD_Outpost_RapidResponseDropPodRange>
   <TSA_WD_Outpost_RapidResponseDropPodRangeTooltip>从人员标签页手动空投派遣殖民者的最大世界格距离。</TSA_WD_Outpost_RapidResponseDropPodRangeTooltip>
-  <TSA_WD_Outpost_RapidResponseSpeedMult>快速反应旅行时间倍率</TSA_WD_Outpost_RapidResponseSpeedMult>
-  <TSA_WD_Outpost_RapidResponseSpeedMultTooltip>虚拟快速反应/定居点伏击反制商队的每步 tick 倍率。数值越低，移动越快。另有约 10% 追击加成，便于追上速度相近的目标。</TSA_WD_Outpost_RapidResponseSpeedMultTooltip>
+  <TSA_WD_Outpost_RapidResponseSpeedMult>拦截商队旅行时间倍率</TSA_WD_Outpost_RapidResponseSpeedMult>
+  <TSA_WD_Outpost_RapidResponseSpeedMultTooltip>拦截商队（玩家快速反应与 NPC 定居点伏击）的每步 tick 倍率。相对步行旅行者速度设置。越低越快。仍有约 10% 追击加成，便于追上速度相近的目标。</TSA_WD_Outpost_RapidResponseSpeedMultTooltip>
   <TSA_WD_Settings_DropPodTicksPerMove>空投舱每格旅行 ticks</TSA_WD_Settings_DropPodTicksPerMove>
-  <TSA_WD_Settings_DropPodTicksPerMoveTooltip>弹道空投旅行者（袭击与空投交付）每世界格的 ticks。越低越快。不影响快速反应虚拟反制商队（请用下方旅行时间倍率）。</TSA_WD_Settings_DropPodTicksPerMoveTooltip>
+  <TSA_WD_Settings_DropPodTicksPerMoveTooltip>弹道空投旅行者（袭击、仓库/殖民地交付、快速反应人员舱、贸易舱等）每世界格的 ticks。越低越快。不影响陆上拦截商队（请用拦截商队旅行时间倍率）。</TSA_WD_Settings_DropPodTicksPerMoveTooltip>
   <TSA_WD_Settings_MortarShellTicksPerMove>迫击炮弹每格旅行 ticks</TSA_WD_Settings_MortarShellTicksPerMove>
   <TSA_WD_Settings_MortarShellTicksPerMoveTooltip>世界地图上迫击炮弹旅行者每格的 ticks。越低越快。</TSA_WD_Settings_MortarShellTicksPerMoveTooltip>
   <TSA_WD_Settings_FlakShellTicksPerMove>防空高射弹每格旅行 ticks</TSA_WD_Settings_FlakShellTicksPerMove>

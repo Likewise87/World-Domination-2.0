@@ -99,10 +99,10 @@ Cooldown is shortened by total garrison Shooting ({3}): each point is −2% dura
   <TSA_WD_Outpost_RapidResponseAutoRangeTooltip>Maximum world-tile distance for automatic Rapid Response virtual counter-caravans. Drawn as a purple ring while the outpost is selected.</TSA_WD_Outpost_RapidResponseAutoRangeTooltip>
   <TSA_WD_Outpost_RapidResponseDropPodRange>Rapid Response drop-pod range</TSA_WD_Outpost_RapidResponseDropPodRange>
   <TSA_WD_Outpost_RapidResponseDropPodRangeTooltip>Maximum world-tile distance for manual Rapid Response pawn drop-pod dispatch from the Pawns tab.</TSA_WD_Outpost_RapidResponseDropPodRangeTooltip>
-  <TSA_WD_Outpost_RapidResponseSpeedMult>Rapid Response travel time multiplier</TSA_WD_Outpost_RapidResponseSpeedMult>
-  <TSA_WD_Outpost_RapidResponseSpeedMultTooltip>Ticks per move multiplier for virtual Rapid Response / settlement-ambush counter-caravans. Lower values make them faster than normal WD travelers. Interceptors also get an extra ~10% chase speed so they can catch targets moving at a similar pace.</TSA_WD_Outpost_RapidResponseSpeedMultTooltip>
+  <TSA_WD_Outpost_RapidResponseSpeedMult>Interception Caravan travel time multiplier</TSA_WD_Outpost_RapidResponseSpeedMult>
+  <TSA_WD_Outpost_RapidResponseSpeedMultTooltip>Ticks per move multiplier for Interception Caravans (player Rapid Response and NPC settlement ambush). Relative to the walking traveler speed setting. Lower = faster. An extra ~10% chase edge still applies so they can catch targets moving at a similar pace.</TSA_WD_Outpost_RapidResponseSpeedMultTooltip>
   <TSA_WD_Settings_DropPodTicksPerMove>Drop-pod travel ticks per tile</TSA_WD_Settings_DropPodTicksPerMove>
-  <TSA_WD_Settings_DropPodTicksPerMoveTooltip>World ticks per tile for ballistic drop-pod travelers (raids and drop-pod deliveries). Lower = faster. Does not affect Rapid Response virtual counter-caravans (use the travel time multiplier below).</TSA_WD_Settings_DropPodTicksPerMoveTooltip>
+  <TSA_WD_Settings_DropPodTicksPerMoveTooltip>World ticks per tile for ballistic drop-pod travelers (raids, warehouse and colony deliveries, Rapid Response pawn pods, trade pods, and similar). Lower = faster. Does not affect land Interception Caravans (use the Interception Caravan travel time multiplier).</TSA_WD_Settings_DropPodTicksPerMoveTooltip>
   <TSA_WD_Settings_MortarShellTicksPerMove>Mortar shell travel ticks per tile</TSA_WD_Settings_MortarShellTicksPerMove>
   <TSA_WD_Settings_MortarShellTicksPerMoveTooltip>World ticks per tile for mortar shell travelers on the world map. Lower = faster shells.</TSA_WD_Settings_MortarShellTicksPerMoveTooltip>
   <TSA_WD_Settings_FlakShellTicksPerMove>Anti-Air flak travel ticks per tile</TSA_WD_Settings_FlakShellTicksPerMove>

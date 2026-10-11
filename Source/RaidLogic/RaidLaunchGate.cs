@@ -196,7 +196,7 @@ namespace TSA_WorldDomination
             if (pathTravelTicks >= 0f && TravelUtils.TryEfficiencyFromPathTravelTicks(pathTravelTicks, seth, faction, out float effFromPath))
                 return effFromPath;
             // Assess-time: honor travelPrepExactPercent (launch still uses real path ticks when supplied).
-            return TravelUtils.ResolvePrepEfficiency(startTile, destTile, seth, faction, WorldObject_Traveler.DefaultTicksPerMove);
+            return TravelUtils.ResolvePrepEfficiency(startTile, destTile, seth, faction, WorldActions_Traveler.GetWalkingTicksPerMove());
         }
     }
 }

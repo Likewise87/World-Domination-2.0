@@ -3,7 +3,7 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>Player mortar, anti-air, and Rapid Response (extracted from Outpost Settings).</summary>
+    /// <summary>Mortar, Anti Air and Rapid Response Logic settings page.</summary>
     public class Dialog_PlayerArtillerySettings : Window
     {
         private Vector2 scrollPosition;
@@ -34,7 +34,6 @@ namespace TSA_WorldDomination
             Listing_Standard l = new Listing_Standard();
             l.Begin(scrollViewRect);
             var s = WorldDominationMod.settings;
-            bool advanced = s.showAdvancedSettings;
 
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetPlayerArtillery(),
                 () => { mortarExpanded = antiAirExpanded = rapidResponseExpanded = true; },
@@ -89,13 +88,8 @@ namespace TSA_WorldDomination
                     "TSA_WD_Outpost_RapidResponseRecoveryBonusTooltip".Translate(), 0.01f, SliderFormat.PercentDecimal, WorldDominationSettings.DefRapidResponseOffensiveRecoveryBonus);
                 s.rapidResponseAutoInterceptRange = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_RapidResponseAutoRange".Translate(), s.rapidResponseAutoInterceptRange, 1f, 100f,
                     "TSA_WD_Outpost_RapidResponseAutoRangeTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefRapidResponseAutoInterceptRange);
-                s.dropPodTicksPerMove = SettingsUI.LabeledSlider(l, "TSA_WD_Settings_DropPodTicksPerMove".Translate(), s.dropPodTicksPerMove, 1f, 40f,
-                    "TSA_WD_Settings_DropPodTicksPerMoveTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefDropPodTicksPerMove);
-                if (advanced)
-                {
-                    s.rapidResponseTicksPerMoveMultiplier = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_RapidResponseSpeedMult".Translate(), s.rapidResponseTicksPerMoveMultiplier, 0.25f, 1.25f,
-                        "TSA_WD_Outpost_RapidResponseSpeedMultTooltip".Translate(), 0.01f, SliderFormat.PercentDecimal, WorldDominationSettings.DefRapidResponseTicksPerMoveMultiplier);
-                }
+                l.Gap(4f);
+                l.Label("TSA_WD_Artillery_TravelSpeedsInCaravansTip".Translate());
             }
 
             l.End();

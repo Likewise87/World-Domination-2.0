@@ -1313,6 +1313,14 @@ namespace TSA_WorldDomination
         public const float DefRapidResponseDropPodRange = 35f;
         /// <summary>World ticks per tile for ballistic drop-pod travelers (raids/deliveries; lower = faster). Matches <see cref="WorldActions_Traveler.DropPodTicksPerMove"/>.</summary>
         public const float DefDropPodTicksPerMove = WorldActions_Traveler.DropPodTicksPerMove;
+        /// <summary>World ticks per tile for walking WD travelers (lower = faster). Def matches <see cref="WorldObject_Traveler.DefaultTicksPerMove"/>.</summary>
+        public const float DefWalkingTravelerTicksPerMove = WorldObject_Traveler.DefaultTicksPerMove;
+        public const float MinWalkingTravelerTicksPerMove = 1000f;
+        public const float MaxWalkingTravelerTicksPerMove = 5000f;
+        public const float MinDropPodTicksPerMove = 5f;
+        public const float MaxDropPodTicksPerMove = 50f;
+        public const float MinRapidResponseTicksPerMoveMultiplier = 0.30f;
+        public const float MaxRapidResponseTicksPerMoveMultiplier = 2.00f;
 
         // ==========================================
         // SETTINGS VARIABLES
@@ -2235,6 +2243,8 @@ namespace TSA_WorldDomination
         /// </summary>
         public float rapidResponseDropPodRange = DefRapidResponseDropPodRange;
         public float dropPodTicksPerMove = DefDropPodTicksPerMove;
+        /// <summary>World ticks per tile for walking WD travelers at spawn and in prep math (lower = faster).</summary>
+        public float walkingTravelerTicksPerMove = DefWalkingTravelerTicksPerMove;
 
         /// <summary>When true, main settings window shows advanced hub rows and in-dialog advanced sections.</summary>
         public bool showAdvancedSettings = false;
@@ -3400,6 +3410,16 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref rapidResponseAutoInterceptRange, "rapidResponseAutoInterceptRange", DefRapidResponseAutoInterceptRange);
             Scribe_Values.Look(ref rapidResponseDropPodRange, "rapidResponseDropPodRange", DefRapidResponseDropPodRange);
             Scribe_Values.Look(ref dropPodTicksPerMove, "dropPodTicksPerMove", DefDropPodTicksPerMove);
+            Scribe_Values.Look(ref walkingTravelerTicksPerMove, "walkingTravelerTicksPerMove", DefWalkingTravelerTicksPerMove);
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
+            {
+                walkingTravelerTicksPerMove = Mathf.Clamp(walkingTravelerTicksPerMove, MinWalkingTravelerTicksPerMove, MaxWalkingTravelerTicksPerMove);
+                dropPodTicksPerMove = Mathf.Clamp(dropPodTicksPerMove, MinDropPodTicksPerMove, MaxDropPodTicksPerMove);
+                rapidResponseTicksPerMoveMultiplier = Mathf.Clamp(
+                    rapidResponseTicksPerMoveMultiplier,
+                    MinRapidResponseTicksPerMoveMultiplier,
+                    MaxRapidResponseTicksPerMoveMultiplier);
+            }
 
             // Meta / UX state
             Scribe_Values.Look(ref showUpdatePopups, "showUpdatePopups", DefShowUpdatePopups);
@@ -4117,13 +4137,11 @@ namespace TSA_WorldDomination
         {
             rapidResponseOffensiveStrengthBonus = DefRapidResponseOffensiveStrengthBonus;
             rapidResponseOffensiveRecoveryBonus = DefRapidResponseOffensiveRecoveryBonus;
-            rapidResponseTicksPerMoveMultiplier = DefRapidResponseTicksPerMoveMultiplier;
             rapidResponseAutoInterceptRange = DefRapidResponseAutoInterceptRange;
             rapidResponseDropPodRange = DefRapidResponseDropPodRange;
-            dropPodTicksPerMove = DefDropPodTicksPerMove;
         }
 
-        /// <summary>Player mortar, AA, and Rapid Response (Player Artillery settings page).</summary>
+        /// <summary>Player mortar, AA, and Rapid Response combat tuning (speeds live under Caravans).</summary>
         public void ResetPlayerArtillery()
         {
             ResetMortarInterception();
@@ -5206,6 +5224,9 @@ namespace TSA_WorldDomination
             traderDestinationSearchRadius = DefTraderDestinationSearchRadius;
             goodwillFromTradeEnabled = DefGoodwillFromTradeEnabled;
             goodwillFromTradePer1000Silver = DefGoodwillFromTradePer1000Silver;
+            walkingTravelerTicksPerMove = DefWalkingTravelerTicksPerMove;
+            dropPodTicksPerMove = DefDropPodTicksPerMove;
+            rapidResponseTicksPerMoveMultiplier = DefRapidResponseTicksPerMoveMultiplier;
         }
 
         public void ResetSabotage()

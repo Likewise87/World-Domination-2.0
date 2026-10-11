@@ -274,7 +274,7 @@ namespace TSA_WorldDomination
 
             atkReinforcements = Raid_MathSnapshot.GetAttackerAllies(source, target, defenderCoalition, lookup, manager, seth);
 
-            var travelEst = TravelUtils.GetTravelStrengthEstimate(source.Tile, target.Tile, seth, source.Faction, WorldObject_Traveler.DefaultTicksPerMove);
+            var travelEst = TravelUtils.GetTravelStrengthEstimate(source.Tile, target.Tile, seth, source.Faction, WorldActions_Traveler.GetWalkingTicksPerMove());
             predictedEfficiency = travelEst.Found ? travelEst.Efficiency : 0f;
             if (travelEst.Found)
                 travelDays = travelEst.TravelDays;
@@ -662,7 +662,7 @@ namespace TSA_WorldDomination
                     launchLog.efficiencyFactor = effFromPath;
                 else
                 {
-                    var est = TravelUtils.GetTravelStrengthEstimate(source.Tile, target.Tile, seth, source.Faction, WorldObject_Traveler.DefaultTicksPerMove);
+                    var est = TravelUtils.GetTravelStrengthEstimate(source.Tile, target.Tile, seth, source.Faction, WorldActions_Traveler.GetWalkingTicksPerMove());
                     launchLog.pathTravelTicks = est.Found ? est.TravelTicks : -1f;
                     launchLog.efficiencyFactor = est.Found ? est.Efficiency : predictedEfficiency;
                 }

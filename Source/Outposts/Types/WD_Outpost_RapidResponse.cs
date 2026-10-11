@@ -165,10 +165,14 @@ namespace TSA_WorldDomination
         {
             float mult = WorldDominationMod.settings?.rapidResponseTicksPerMoveMultiplier
                 ?? WorldDominationSettings.DefRapidResponseTicksPerMoveMultiplier;
-            // Extra ~10% chase edge so interceptors (player RR and settlement ambush) can catch targets
+            mult = Mathf.Clamp(
+                mult,
+                WorldDominationSettings.MinRapidResponseTicksPerMoveMultiplier,
+                WorldDominationSettings.MaxRapidResponseTicksPerMoveMultiplier);
+            // Extra ~10% chase edge so Interception Caravans (player RR and NPC settlement ambush) can catch targets
             // that move at a similar base speed, especially real caravans that only re-aim at the current tile.
             mult *= 0.90f;
-            return Mathf.Max(60, Mathf.RoundToInt(WorldObject_Traveler.DefaultTicksPerMove * Mathf.Clamp(mult, 0.1f, 2f)));
+            return Mathf.Max(60, Mathf.RoundToInt(WorldActions_Traveler.GetWalkingTicksPerMove() * mult));
         }
 
         /// <summary>

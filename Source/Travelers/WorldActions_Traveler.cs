@@ -20,7 +20,22 @@ namespace TSA_WorldDomination
         public static int GetDropPodTicksPerMove()
         {
             float v = WorldDominationMod.settings?.dropPodTicksPerMove ?? DropPodTicksPerMove;
+            v = Mathf.Clamp(v, WorldDominationSettings.MinDropPodTicksPerMove, WorldDominationSettings.MaxDropPodTicksPerMove);
             return Mathf.Max(1, Mathf.RoundToInt(v));
+        }
+
+        /// <summary>
+        /// Walking WD traveler ticks per tile from settings (clamped). Used for spawn TPM and prep/attrition estimates.
+        /// </summary>
+        public static int GetWalkingTicksPerMove()
+        {
+            float v = WorldDominationMod.settings?.walkingTravelerTicksPerMove
+                ?? WorldDominationSettings.DefWalkingTravelerTicksPerMove;
+            v = Mathf.Clamp(
+                v,
+                WorldDominationSettings.MinWalkingTravelerTicksPerMove,
+                WorldDominationSettings.MaxWalkingTravelerTicksPerMove);
+            return Mathf.RoundToInt(v);
         }
 
         public static bool ValidateMission(WorldObject_Traveler traveler, PlanetTile destTile)
@@ -1563,7 +1578,7 @@ namespace TSA_WorldDomination
             float cost = WorldDominationMod.settings?.outpostDeliveryStrengthCost ?? 50f;
             traveler.deliveryItems = hasItems ? new List<ThingDefCountClass>(items) : new List<ThingDefCountClass>();
             traveler.deliveryVirtualFood = Mathf.Max(0f, virtualFood);
-            traveler.ticksPerMove = viaDropPod ? GetDropPodTicksPerMove() : WorldObject_Traveler.DefaultTicksPerMove;
+            traveler.ticksPerMove = viaDropPod ? GetDropPodTicksPerMove() : GetWalkingTicksPerMove();
             traveler.travelerStrength = cost;
 
             if (hasUniques)
@@ -1620,7 +1635,7 @@ namespace TSA_WorldDomination
             traveler.upgradeViaDropPod = viaDropPod;
             if (viaDropPod)
                 traveler.InvalidateTravelerMaterialCache();
-            traveler.ticksPerMove = viaDropPod ? GetDropPodTicksPerMove() : WorldObject_Traveler.DefaultTicksPerMove;
+            traveler.ticksPerMove = viaDropPod ? GetDropPodTicksPerMove() : GetWalkingTicksPerMove();
             traveler.travelerStrength = 100f;
             traveler.initialStrength = 100f;
             traveler.upgradeDefName = upgradeDefName;
@@ -1658,7 +1673,7 @@ namespace TSA_WorldDomination
         {
             bool viaDropPod = OriginWantsTradeDropPod(origin);
             traveler.tradeViaDropPod = viaDropPod;
-            traveler.ticksPerMove = viaDropPod ? GetDropPodTicksPerMove() : WorldObject_Traveler.DefaultTicksPerMove;
+            traveler.ticksPerMove = viaDropPod ? GetDropPodTicksPerMove() : GetWalkingTicksPerMove();
             if (viaDropPod)
                 traveler.InvalidateTravelerMaterialCache();
         }
@@ -1834,7 +1849,7 @@ namespace TSA_WorldDomination
             traveler.targetObject = settlement;
             traveler.mission = TravelerMission.SettlementBribe;
             traveler.bribeKind = WorldObject_Traveler_SettlementBribe.BribeKind.Settlement;
-            traveler.ticksPerMove = WorldObject_Traveler.DefaultTicksPerMove;
+            traveler.ticksPerMove = GetWalkingTicksPerMove();
             traveler.travelerStrength = 100f;
             traveler.initialStrength = 100f;
             traveler.targetFaction = targetFaction;
@@ -1873,7 +1888,7 @@ namespace TSA_WorldDomination
             traveler.targetObject = raid;
             traveler.mission = TravelerMission.RaidBribe;
             traveler.bribeKind = WorldObject_Traveler_SettlementBribe.BribeKind.Raid;
-            traveler.ticksPerMove = WorldObject_Traveler.DefaultTicksPerMove;
+            traveler.ticksPerMove = GetWalkingTicksPerMove();
             traveler.travelerStrength = 100f;
             traveler.initialStrength = 100f;
             traveler.targetFaction = targetFaction;

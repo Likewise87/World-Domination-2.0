@@ -117,7 +117,7 @@
   <TSA_WD_BtnWorldRaids>世界地图袭击</TSA_WD_BtnWorldRaids>
   <TSA_WD_BtnCaravans>远行队与贸易</TSA_WD_BtnCaravans>
   <TSA_WD_BtnExperimental>实验性</TSA_WD_BtnExperimental>
-  <TSA_WD_BtnPlayerArtillery>玩家火炮</TSA_WD_BtnPlayerArtillery>
+  <TSA_WD_BtnPlayerArtillery>迫击炮、防空与快速反应逻辑</TSA_WD_BtnPlayerArtillery>
   <TSA_WD_Category>世界霸权</TSA_WD_Category>
   <TSA_WD_Daily_CapTip>该定居点单日可发起的最大不同行动数(袭击、修路、发展等)。</TSA_WD_Daily_CapTip>
   <TSA_WD_Daily_CdBeingRaided>防御护盾</TSA_WD_Daily_CdBeingRaided>
@@ -481,6 +481,9 @@
   <TSA_WD_Outpost_ReqCost>要求支付建站成本</TSA_WD_Outpost_ReqCost>
   <TSA_WD_Outpost_ReqCost_Tooltip>关闭后,商队在建立前哨时无需支付木材或自定义资源成本。</TSA_WD_Outpost_ReqCost_Tooltip>
   <TSA_WD_Caravans_HeaderTravel>旅行与损耗</TSA_WD_Caravans_HeaderTravel>
+  <TSA_WD_Caravans_WalkingTicksPerMove>步行旅行者每格 ticks</TSA_WD_Caravans_WalkingTicksPerMove>
+  <TSA_WD_Caravans_WalkingTicksPerMoveTip>陆上 WD 旅行者每世界格的 ticks。越低越快。也用于袭击与商队准备阶段的损耗估算。作用于新出发的旅行者；已在途中的仍保持出发时的速度。</TSA_WD_Caravans_WalkingTicksPerMoveTip>
+  <TSA_WD_Artillery_TravelSpeedsInCaravansTip>旅行速度（步行旅行者、空投舱、拦截商队）在“商队与贸易 → 旅行与损耗”中设置。</TSA_WD_Artillery_TravelSpeedsInCaravansTip>
   <TSA_WD_Caravans_HeaderWaterTravel>水域通行</TSA_WD_Caravans_HeaderWaterTravel>
   <TSA_WD_Caravans_AllowTravelOverWater>允许商队穿越水域</TSA_WD_Caravans_AllowTravelOverWater>
   <TSA_WD_Caravans_AllowTravelOverWaterTip>启用后，WD 行进者可使用针对被水覆盖地格的特殊寻路（见下方选项）。关闭后仅使用原版世界路径，不运行任何水路寻路。使用这些预设包时也可在「设置预设 → 性能」中管理。</TSA_WD_Caravans_AllowTravelOverWaterTip>
@@ -729,7 +732,7 @@
   <TSA_WD_BtnT4Mortar>敌方 T4 炮塔</TSA_WD_BtnT4Mortar>
   <TSA_WD_DescLateGame>配置你变强后的中期游戏与后期游戏反扑：阈值、偏向袭击、更快成长、扩张、好感流失、T4 迫击炮（仅后期游戏）与前哨事件。</TSA_WD_DescLateGame>
   <TSA_WD_DescT4Mortar>配置敌方四级定居点的迫击炮与防空：是否开火、是否可攻击你，以及射程、冷却、伤害与精度。</TSA_WD_DescT4Mortar>
-  <TSA_WD_DescPlayerArtillery>你的前哨迫击炮、防空与快速反应拦截设置。</TSA_WD_DescPlayerArtillery>
+  <TSA_WD_DescPlayerArtillery>前哨迫击炮、防空与快速反应的战斗逻辑（伤害、射程、冷却、命中分段、拦截强度）。步行旅行者、空投舱与拦截商队的旅行速度在“商队与贸易”中设置。</TSA_WD_DescPlayerArtillery>
   <TSA_WD_Diplo_LaunchPodGiftStrengthPer100>发射舱礼物强度（每 100 市场价值）</TSA_WD_Diplo_LaunchPodGiftStrengthPer100>
   <TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>通过发射舱向定居点送礼物时立即获得的额外实力，均分给进攻与防御。若一侧已满，剩余加到另一侧。原版好感不变。不会提升定居点等级。</TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>
   <TSA_WD_BaseGen_Intro>这些选项在 WD/KCSG 生成运行时进行调整。前哨防御地图始终使用 WD 布局。NPC 袭击地图仅对在世界设置 → 派系关系 中启用 MapGen 的派系使用 WD。</TSA_WD_BaseGen_Intro>

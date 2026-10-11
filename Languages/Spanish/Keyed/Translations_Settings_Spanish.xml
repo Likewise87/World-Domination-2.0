@@ -117,7 +117,7 @@
   <TSA_WD_BtnWorldRaids>Incursiones del mapa mundial</TSA_WD_BtnWorldRaids>
   <TSA_WD_BtnCaravans>Caravanas y comercio</TSA_WD_BtnCaravans>
   <TSA_WD_BtnExperimental>Experimental</TSA_WD_BtnExperimental>
-  <TSA_WD_BtnPlayerArtillery>Artillería del jugador</TSA_WD_BtnPlayerArtillery>
+  <TSA_WD_BtnPlayerArtillery>Mortero, antiaéreo y lógica de respuesta rápida</TSA_WD_BtnPlayerArtillery>
   <TSA_WD_Category>Dominación Mundial</TSA_WD_Category>
   <TSA_WD_Daily_CapTip>Número máximo de acciones distintas (incursión, construir carretera, crecer, etc.) que este asentamiento puede iniciar en un solo día.</TSA_WD_Daily_CapTip>
   <TSA_WD_Daily_CdBeingRaided>Escudo defensivo</TSA_WD_Daily_CdBeingRaided>
@@ -432,6 +432,9 @@
   <TSA_WD_Caravans_WaterPathThreshold>Ruta acuática: omitir si ruta terrestre menor a (días)</TSA_WD_Caravans_WaterPathThreshold>
   <TSA_WD_Caravans_WaterPathThresholdTip>Si existe una ruta terrestre y dura menos días que este umbral, se omite el cálculo de ruta acuática. 0 = calcular siempre. Valores más altos mejoran el rendimiento a costa de perder atajos acuáticos ocasionalmente.</TSA_WD_Caravans_WaterPathThresholdTip>
   <TSA_WD_Caravans_HeaderTravel>Viaje y desgaste</TSA_WD_Caravans_HeaderTravel>
+  <TSA_WD_Caravans_WalkingTicksPerMove>Ticks por casilla de viajero a pie</TSA_WD_Caravans_WalkingTicksPerMove>
+  <TSA_WD_Caravans_WalkingTicksPerMoveTip>Ticks mundiales por casilla para viajeros WD por tierra. Más bajo = más rápido. También se usa en las estimaciones de desgaste de incursiones y caravanas comerciales. Afecta a los viajeros recién lanzados; los que ya van de camino mantienen la velocidad del lanzamiento.</TSA_WD_Caravans_WalkingTicksPerMoveTip>
+  <TSA_WD_Artillery_TravelSpeedsInCaravansTip>Las velocidades de viaje (viajeros a pie, cápsulas, caravanas de interceptación) están en Caravanas y comercio → Viaje y desgaste.</TSA_WD_Artillery_TravelSpeedsInCaravansTip>
   <TSA_WD_Caravans_HeaderWaterTravel>Viaje por agua</TSA_WD_Caravans_HeaderWaterTravel>
   <TSA_WD_Caravans_AllowTravelOverWater>Permitir que las caravanas crucen agua</TSA_WD_Caravans_AllowTravelOverWater>
   <TSA_WD_Caravans_AllowTravelOverWaterTip>Si está activo, los viajeros WD pueden usar pathfinding especial por casillas cubiertas de agua (opciones abajo). Si está desactivado, solo se usan rutas mundiales normales y no se calcula ruta acuática. También se gestiona en Presets de ajustes → Rendimiento si usas esos packs.</TSA_WD_Caravans_AllowTravelOverWaterTip>
@@ -734,7 +737,7 @@
   <TSA_WD_Daily_CdFortifyTip>Días antes de que este asentamiento pueda fortificar de nuevo. No bloquea otros tipos de acción.</TSA_WD_Daily_CdFortifyTip>
   <TSA_WD_DescLateGame>Configura el contraataque Mid Game y Late Game cuando te haces fuerte: umbrales, incursiones sesgadas, crecimiento más rápido, expansión, drenaje de buena voluntad, morteros T4 (solo Late Game) e incidentes en avanzadillas.</TSA_WD_DescLateGame>
   <TSA_WD_DescT4Mortar>Configura morteros y antiaéreos de asentamientos enemigos de nivel 4: si disparan, si pueden apuntarte, y sus alcances, enfriamientos, daño y precisión.</TSA_WD_DescT4Mortar>
-  <TSA_WD_DescPlayerArtillery>Tus morteros de avanzadilla, antiaéreo e interceptores de respuesta rápida.</TSA_WD_DescPlayerArtillery>
+  <TSA_WD_DescPlayerArtillery>Lógica de combate de mortero, antiaéreo y respuesta rápida de avanzadilla (daño, alcance, enfriamientos, bandas de acierto, fuerza de interceptación). Las velocidades de viaje (viajeros a pie, cápsulas y caravanas de interceptación) están en Caravanas y comercio.</TSA_WD_DescPlayerArtillery>
   <TSA_WD_Diplo_LaunchPodGiftStrengthPer100>Fuerza por regalo en cápsula por 100 de valor de mercado</TSA_WD_Diplo_LaunchPodGiftStrengthPer100>
   <TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>Fuerza extra concedida al instante a un asentamiento cuando le envías regalos por cápsula, repartida a partes iguales entre ofensiva y defensiva. Si un lado está lleno, el resto va al otro. La buena voluntad vanilla no cambia. No sube el nivel del asentamiento.</TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>
   <TSA_WD_BaseGen_Intro>Estas opciones ajustan la generación WD/KCSG cuando se ejecuta. Los mapas de defensa de avanzadillas siempre usan diseños WD. Los asaltos a asentamientos NPC solo usan WD para facciones con MapGen activo en Configuración del mundo → Lealtades.</TSA_WD_BaseGen_Intro>

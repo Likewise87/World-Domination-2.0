@@ -404,7 +404,7 @@ namespace TSA_WorldDomination
                     {
                         dropEfficiency = 1f;
                         float dist = Mathf.Max(1f, Find.WorldGrid.ApproxDistanceInTiles(attacker.Tile, target.Tile));
-                        dropSynthTicks = dist * WorldObject_Traveler.DefaultTicksPerMove;
+                        dropSynthTicks = dist * WorldActions_Traveler.GetWalkingTicksPerMove();
                     }
                     else if (useGravship)
                         useGravship = false;
@@ -514,7 +514,7 @@ namespace TSA_WorldDomination
                     finalEfficiency = effFromPath;
                 else
                 {
-                    var est = TravelUtils.GetTravelStrengthEstimate(attacker.Tile, target.Tile, seth, attacker.Faction, WorldObject_Traveler.DefaultTicksPerMove);
+                    var est = TravelUtils.GetTravelStrengthEstimate(attacker.Tile, target.Tile, seth, attacker.Faction, WorldActions_Traveler.GetWalkingTicksPerMove());
                     pathTicks = est.Found ? est.TravelTicks : -1f;
                     if (est.Found) finalEfficiency = est.Efficiency;
                 }

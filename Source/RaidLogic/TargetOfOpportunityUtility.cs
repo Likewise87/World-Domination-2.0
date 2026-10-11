@@ -134,7 +134,7 @@ namespace TSA_WorldDomination
             if (traveler.mission == TravelerMission.RaidDropPod)
             {
                 traveler.mission = TravelerMission.Raid;
-                traveler.ticksPerMove = WorldObject_Traveler.DefaultTicksPerMove;
+                traveler.ticksPerMove = WorldActions_Traveler.GetWalkingTicksPerMove();
                 traveler.SetLaunchTotalTravelTicks(-1f);
                 traveler.InvalidateTravelerMaterialCache();
             }

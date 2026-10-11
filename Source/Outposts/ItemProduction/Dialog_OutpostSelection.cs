@@ -1294,31 +1294,14 @@ namespace TSA_WorldDomination
             Dialog_NameNewOutpost.Open(outpost);
         }
 
-        public static string GenerateOutpostNamePublic(WorldObjectDef outpostDef, int outpostTile) =>
-            GenerateOutpostName(outpostDef, outpostTile);
+        public static string GenerateOutpostNamePublic(WorldObjectDef outpostDef, int outpostTile, bool includeTypeTag = true) =>
+            OutpostNameTagUtility.GenerateName(outpostDef, outpostTile, includeTypeTag, out _);
 
-        private static string GenerateOutpostName(WorldObjectDef outpostDef, int outpostTile)
-        {
-            var faction = Faction.OfPlayer;
-            var nameMaker = faction?.def?.settlementNameMaker;
-            if (nameMaker == null) return outpostTile.ToString();
-            var existing = new List<string>();
-            var allWo = Find.WorldObjects.AllWorldObjects;
-            for (int i = 0; i < allWo.Count; i++)
-            {
-                if (allWo[i] is WorldObject_WD_Outpost o && !string.IsNullOrEmpty(o.Name))
-                    existing.Add(o.Name);
-            }
-            return NameGenerator.GenerateName(nameMaker, existing);
-        }
+        public static string GenerateOutpostNamePublic(WorldObjectDef outpostDef, int outpostTile, bool includeTypeTag, out string rootName) =>
+            OutpostNameTagUtility.GenerateName(outpostDef, outpostTile, includeTypeTag, out rootName);
 
-        private static string GetOutpostTypePrefix(WorldObjectDef def)
-        {
-            if (def?.label == null) return "TSA_WD_Select_OutpostDefault".Translate();
-            string label = def.label;
-            int idx = label.IndexOf(" Outpost", StringComparison.OrdinalIgnoreCase);
-            return idx > 0 ? label.Substring(0, idx).Trim() : label;
-        }
+        private static string GenerateOutpostName(WorldObjectDef outpostDef, int outpostTile) =>
+            OutpostNameTagUtility.GenerateName(outpostDef, outpostTile, includeTypeTag: true, out _);
 
         /// <summary>Sum of this skill's level across all humanlike caravan pawns (for display).</summary>
         private static int GetCumulativeSkillForCaravan(Caravan caravan, SkillDef skill)

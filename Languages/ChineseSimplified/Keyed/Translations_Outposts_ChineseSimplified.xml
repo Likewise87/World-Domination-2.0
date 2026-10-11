@@ -609,6 +609,27 @@
   <TSA_WD_Outpost_NameNewDialogTitle>为你的新{0}命名</TSA_WD_Outpost_NameNewDialogTitle>
   <TSA_WD_Outpost_NameNewDialogTip>之后也可以在主 WD 标签下的「前哨站概览」窗口中点击其名称来重命名。</TSA_WD_Outpost_NameNewDialogTip>
   <TSA_WD_Outpost_NameNewDialogDiceTip>生成随机名称</TSA_WD_Outpost_NameNewDialogDiceTip>
+  <TSA_WD_Outpost_NameNewDialogAddType>在名称中加入前哨类型</TSA_WD_Outpost_NameNewDialogAddType>
+  <TSA_WD_Outpost_NameTag_Format>{0}·{1}</TSA_WD_Outpost_NameTag_Format>
+  <TSA_WD_Outpost_NameTag_Farm>农场</TSA_WD_Outpost_NameTag_Farm>
+  <TSA_WD_Outpost_NameTag_Mine>矿</TSA_WD_Outpost_NameTag_Mine>
+  <TSA_WD_Outpost_NameTag_Ranch>牧场</TSA_WD_Outpost_NameTag_Ranch>
+  <TSA_WD_Outpost_NameTag_Academy>学院</TSA_WD_Outpost_NameTag_Academy>
+  <TSA_WD_Outpost_NameTag_Institute>研究所</TSA_WD_Outpost_NameTag_Institute>
+  <TSA_WD_Outpost_NameTag_Refinery>炼厂</TSA_WD_Outpost_NameTag_Refinery>
+  <TSA_WD_Outpost_NameTag_Warehouse>仓库</TSA_WD_Outpost_NameTag_Warehouse>
+  <TSA_WD_Outpost_NameTag_Embassy>使馆</TSA_WD_Outpost_NameTag_Embassy>
+  <TSA_WD_Outpost_NameTag_Market>市场</TSA_WD_Outpost_NameTag_Market>
+  <TSA_WD_Outpost_NameTag_Factory>工厂</TSA_WD_Outpost_NameTag_Factory>
+  <TSA_WD_Outpost_NameTag_Fishery>渔场</TSA_WD_Outpost_NameTag_Fishery>
+  <TSA_WD_Outpost_NameTag_Lodge>猎场</TSA_WD_Outpost_NameTag_Lodge>
+  <TSA_WD_Outpost_NameTag_Battery>炮台</TSA_WD_Outpost_NameTag_Battery>
+  <TSA_WD_Outpost_NameTag_Reactor>反应堆</TSA_WD_Outpost_NameTag_Reactor>
+  <TSA_WD_Outpost_NameTag_Lab>药厂</TSA_WD_Outpost_NameTag_Lab>
+  <TSA_WD_Outpost_NameTag_Rig>钻井</TSA_WD_Outpost_NameTag_Rig>
+  <TSA_WD_Outpost_NameTag_Chemworks>化工厂</TSA_WD_Outpost_NameTag_Chemworks>
+  <TSA_WD_Outpost_NameTag_Scrapyard>废料场</TSA_WD_Outpost_NameTag_Scrapyard>
+  <TSA_WD_Outpost_NameTag_Garrison>驻军</TSA_WD_Outpost_NameTag_Garrison>
   <TSA_WD_Outpost_Reset>重置前哨站设置</TSA_WD_Outpost_Reset>
   <TSA_WD_Outpost_Road>建设项目</TSA_WD_Outpost_Road>
   <TSA_WD_OutpostOverview_ProjectRoad>道路</TSA_WD_OutpostOverview_ProjectRoad>

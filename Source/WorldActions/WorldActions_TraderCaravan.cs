@@ -48,7 +48,7 @@ namespace TSA_WorldDomination
             if (dist > seth.traderDestinationSearchRadius)
                 return IsComplete;
 
-            float eff = TravelUtils.ResolvePrepEfficiency(sender.Tile, wo.Tile, seth, sender.Faction, WorldObject_Traveler.DefaultTicksPerMove);
+            float eff = TravelUtils.ResolvePrepEfficiency(sender.Tile, wo.Tile, seth, sender.Faction, WorldActions_Traveler.GetWalkingTicksPerMove());
             if (eff > 0f)
                 viable.Add(wo);
 

@@ -30,7 +30,7 @@ namespace TSA_WorldDomination
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
             float contentWidth = contentRect.width - 24f;
-            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2100f);
+            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2300f);
 
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
             Listing_Standard l = new Listing_Standard();
@@ -44,6 +44,18 @@ namespace TSA_WorldDomination
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Caravans_HeaderTravel".Translate(), ref travelExpanded, SettingsUI.SectionHeaderColor))
             {
+            s.walkingTravelerTicksPerMove = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_WalkingTicksPerMove".Translate(), s.walkingTravelerTicksPerMove,
+                WorldDominationSettings.MinWalkingTravelerTicksPerMove, WorldDominationSettings.MaxWalkingTravelerTicksPerMove,
+                "TSA_WD_Caravans_WalkingTicksPerMoveTip".Translate(), 100f, SliderFormat.Fixed0, WorldDominationSettings.DefWalkingTravelerTicksPerMove);
+            s.dropPodTicksPerMove = SettingsUI.LabeledSlider(l, "TSA_WD_Settings_DropPodTicksPerMove".Translate(), s.dropPodTicksPerMove,
+                WorldDominationSettings.MinDropPodTicksPerMove, WorldDominationSettings.MaxDropPodTicksPerMove,
+                "TSA_WD_Settings_DropPodTicksPerMoveTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefDropPodTicksPerMove);
+            if (s.showAdvancedSettings)
+            {
+                s.rapidResponseTicksPerMoveMultiplier = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_RapidResponseSpeedMult".Translate(), s.rapidResponseTicksPerMoveMultiplier,
+                    WorldDominationSettings.MinRapidResponseTicksPerMoveMultiplier, WorldDominationSettings.MaxRapidResponseTicksPerMoveMultiplier,
+                    "TSA_WD_Outpost_RapidResponseSpeedMultTooltip".Translate(), 0.05f, SliderFormat.PercentDecimal, WorldDominationSettings.DefRapidResponseTicksPerMoveMultiplier);
+            }
             s.strengthLossPerHour = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_LossPerHour".Translate(), s.strengthLossPerHour, 0f, 0.25f,
                 "TSA_WD_Raid_LossPerHourTooltip".Translate(), 0.005f, SliderFormat.PercentDecimal, WorldDominationSettings.DefStrengthLossPerHour);
             s.maxTravelPercentageStrengthLoss = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_MaxTravelStrengthLoss".Translate(), s.maxTravelPercentageStrengthLoss, 0f, 1f,
