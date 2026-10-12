@@ -1063,7 +1063,7 @@
 
   <!-- Advanced buildings + sally overhaul -->
   <TSA_WD_Daily_WeightAdvancedBuildings>Advanced building likelihood</TSA_WD_Daily_WeightAdvancedBuildings>
-  <TSA_WD_Daily_WeightAdvancedBuildingsTip>Likelihood that a settlement sends a crew to build an advanced building nearby: Silo, Hospital, Watch Tower, Stable, Mortar Turret or AA Turret. Each settlement has as many slots as its tier and at most one of each type. Safe settlements far from enemies build more often; threatened settlements only build artillery. If chosen but no project can launch, another eligible daily action is used instead.</TSA_WD_Daily_WeightAdvancedBuildingsTip>
+  <TSA_WD_Daily_WeightAdvancedBuildingsTip>Likelihood that a settlement sends a crew to build an advanced building nearby: Silo, Hospital, Watch Tower, Stable, Mortar Turret or AA Turret. Each settlement has as many slots as its tier and at most one of each type. Safe settlements far from enemies build more often; threatened or recovering settlements still can, but less often and with a bias toward artillery when eligible. If chosen but no project can launch, another eligible daily action is used instead.</TSA_WD_Daily_WeightAdvancedBuildingsTip>
   <TSA_WD_Daily_CdAdvancedBuildings>Cooldown after advanced building</TSA_WD_Daily_CdAdvancedBuildings>
   <TSA_WD_Daily_CdAdvancedBuildingsTip>Days before this settlement can start another advanced building. Does not block other action types.</TSA_WD_Daily_CdAdvancedBuildingsTip>
   <TSA_WD_Experimental_AmbushWatchRangeAssets>Ambush watch range with buildings (tiles)</TSA_WD_Experimental_AmbushWatchRangeAssets>

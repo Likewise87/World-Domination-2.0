@@ -1048,7 +1048,7 @@
 
   <!-- Advanced buildings + sally overhaul -->
   <TSA_WD_Daily_WeightAdvancedBuildings>高级建筑概率</TSA_WD_Daily_WeightAdvancedBuildings>
-  <TSA_WD_Daily_WeightAdvancedBuildingsTip>定居点派出施工队在附近建造高级建筑的概率：粮仓、医院、瞭望塔、马厩、迫击炮塔或防空炮塔。每个定居点的槽位数等于其等级，每种类型最多一座。远离敌人的安全定居点建造更频繁；受威胁的定居点只建造火炮。若被选中但无法启动任何项目，则改用另一个符合条件的每日行动。</TSA_WD_Daily_WeightAdvancedBuildingsTip>
+  <TSA_WD_Daily_WeightAdvancedBuildingsTip>定居点派出施工队在附近建造高级建筑的概率：粮仓、医院、瞭望塔、马厩、迫击炮塔或防空炮塔。每个定居点的槽位数等于其等级，每种类型最多一座。远离敌人的安全定居点建造更频繁；受威胁或恢复中的定居点仍可建造，但频率较低，且在符合条件时更偏向火炮。若被选中但无法启动任何项目，则改用另一个符合条件的每日行动。</TSA_WD_Daily_WeightAdvancedBuildingsTip>
   <TSA_WD_Daily_CdAdvancedBuildings>高级建筑后冷却</TSA_WD_Daily_CdAdvancedBuildings>
   <TSA_WD_Daily_CdAdvancedBuildingsTip>此定居点再次开始高级建筑前的天数。不影响其他行动类型。</TSA_WD_Daily_CdAdvancedBuildingsTip>
   <TSA_WD_Experimental_AmbushWatchRangeAssets>拥有建筑时的伏击警戒范围（格）</TSA_WD_Experimental_AmbushWatchRangeAssets>

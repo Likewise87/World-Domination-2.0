@@ -1058,7 +1058,7 @@
 
   <!-- Advanced buildings + sally overhaul -->
   <TSA_WD_Daily_WeightAdvancedBuildings>Probabilidad de edificio avanzado</TSA_WD_Daily_WeightAdvancedBuildings>
-  <TSA_WD_Daily_WeightAdvancedBuildingsTip>Probabilidad de que un asentamiento envíe una cuadrilla a construir un edificio avanzado cercano: Silo, Hospital, Torre de vigía, Establo, Torreta de mortero o Torreta AA. Cada asentamiento tiene tantas ranuras como su nivel y como máximo uno de cada tipo. Los asentamientos seguros, lejos de enemigos, construyen más a menudo; los amenazados solo construyen artillería. Si se elige pero ningún proyecto puede iniciarse, se usa otra acción diaria elegible.</TSA_WD_Daily_WeightAdvancedBuildingsTip>
+  <TSA_WD_Daily_WeightAdvancedBuildingsTip>Probabilidad de que un asentamiento envíe una cuadrilla a construir un edificio avanzado cercano: Silo, Hospital, Torre de vigía, Establo, Torreta de mortero o Torreta AA. Cada asentamiento tiene tantas ranuras como su nivel y como máximo uno de cada tipo. Los asentamientos seguros, lejos de enemigos, construyen más a menudo; los amenazados o en recuperación también pueden, pero menos y con sesgo hacia artillería si aplica. Si se elige pero ningún proyecto puede iniciarse, se usa otra acción diaria elegible.</TSA_WD_Daily_WeightAdvancedBuildingsTip>
   <TSA_WD_Daily_CdAdvancedBuildings>Enfriamiento tras edificio avanzado</TSA_WD_Daily_CdAdvancedBuildings>
   <TSA_WD_Daily_CdAdvancedBuildingsTip>Días antes de que este asentamiento pueda iniciar otro edificio avanzado. No bloquea otros tipos de acción.</TSA_WD_Daily_CdAdvancedBuildingsTip>
   <TSA_WD_Experimental_AmbushWatchRangeAssets>Rango de vigilancia con edificios (casillas)</TSA_WD_Experimental_AmbushWatchRangeAssets>

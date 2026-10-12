@@ -7,14 +7,20 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// "Advanced building projects" daily action (inverse of Fortify: safer towns build more) plus the
-    /// artillery rules: T3 30% roll, free first T4 turret, one-time grant for saves from before turrets.
-    /// Slots = tier number (T1 1 .. T4 4), one building per type, never torn down to make room.
+    /// "Advanced building projects" daily action (inverse of Fortify: safer towns build more, floor so
+    /// threatened towns still participate) plus the artillery rules: T3 30% roll, free first T4 turret,
+    /// one-time grant for saves from before turrets. Threatened/recovering bias artillery in the pick pool
+    /// but keep economic types eligible. Slots = tier number (T1 1 .. T4 4), one per type.
     /// </summary>
     public static class WorldActions_AdvancedBuildings
     {
         public const float T3ArtilleryRollChance = 0.30f;
+        /// <summary>Far-from-hostile bonus on the safety mult (can push above 1).</summary>
         public const float NoHostileNearbySafetyMult = 1.5f;
+        /// <summary>Floor so threatened / near-frontline towns still roll economic projects.</summary>
+        public const float SafetyMultFloor = 0.35f;
+        /// <summary>When threatened/recovering, artillery entries in the pick pool are scaled by this.</summary>
+        public const float ThreatenedArtilleryWeightBias = 2f;
         public const string BuilderTravelerDefName = "TSA_WD_Traveler_Outpost_RoadBlock";
 
         private static Dictionary<WorldObjectDef, AdvancedBuildingDef> byWorldObjectDef;
@@ -149,9 +155,10 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Fills the weighted pool for this settlement. Returns false when nothing is buildable.
-        /// T4 without artillery: only artillery (if any type is enabled).
+        /// T4 without artillery still prioritizes artillery exclusively until the first turret is placed/in flight.
+        /// Otherwise economic types are always eligible; <paramref name="preferArtillery"/> only biases artillery weights up.
         /// </summary>
-        public static bool BuildPool(Settlement s, CompViralSpread comp, bool artilleryOnly,
+        public static bool BuildPool(Settlement s, CompViralSpread comp, bool preferArtillery,
             List<AdvancedBuildingDef> defs, List<float> weights)
         {
             defs.Clear();
@@ -181,12 +188,14 @@ namespace TSA_WorldDomination
                 }
                 else continue;
                 if (w <= 0f) continue;
+                if (preferArtillery) w *= ThreatenedArtilleryWeightBias;
                 defs.Add(d);
                 weights.Add(w);
             }
 
+            // First T4 turret is still mandatory before economic projects.
             bool t4NeedsFirst = tier == SettlementTier.T4 && artOwned == 0 && defs.Count > 0;
-            if (artilleryOnly || t4NeedsFirst)
+            if (t4NeedsFirst)
                 return defs.Count > 0;
 
             for (int i = 0; i < all.Count; i++)
@@ -220,13 +229,14 @@ namespace TSA_WorldDomination
         // ---------- Daily weight ----------
 
         /// <summary>
-        /// Safety multiplier (inverse of Fortify): 0 when threatened/recovering; else
-        /// clamp((nearestHostileDist / attackRange - 1) / 2, 0, 1), x1.5 if no hostile within expandMaxRadius * 2.
+        /// Safety multiplier (inverse of Fortify): floored so frontline towns still participate.
+        /// Threatened/recovering → <see cref="SafetyMultFloor"/>; else
+        /// max(floor, clamp((nearestHostileDist / attackRange - 1) / 2)), ×1.5 if no hostile / very far.
         /// </summary>
         public static float GetSafetyMult(Settlement actor, CompViralSpread comp, bool isRecovering, WorldComponent_SpreadManager manager)
         {
             if (actor == null || comp == null) return 0f;
-            if (comp.fortifyThreatenedToday || isRecovering) return 0f;
+            if (comp.fortifyThreatenedToday || isRecovering) return SafetyMultFloor;
             var seth = WorldDominationMod.settings;
             WorldObject hostile = comp.fortifyNearestHostile;
             float expandR = Mathf.Max(1f, seth?.expandMaxRadius ?? WorldDominationSettings.DefExpandMaxRad);
@@ -236,12 +246,12 @@ namespace TSA_WorldDomination
                 ? (float)WorldActions_Utils.GetDistance(actor.Tile, hostile.Tile, manager)
                 : Find.WorldGrid.ApproxDistanceInTiles(actor.Tile, hostile.Tile);
             float range = Mathf.Max(1f, SettlementAttackRangeUtil.GetNpcSettlementAttackRangeTiles(actor, seth));
-            float score = Mathf.Clamp01((dist / range - 1f) / 2f);
+            float score = Mathf.Max(SafetyMultFloor, Mathf.Clamp01((dist / range - 1f) / 2f));
             if (dist > expandR * 2f) score *= NoHostileNearbySafetyMult;
             return score;
         }
 
-        /// <summary>Weight for the orchestrator. Threatened/recovering towns keep full weight only for artillery.</summary>
+        /// <summary>Weight for the orchestrator. Always scaled by floored safety mult; pool keeps economic + artillery.</summary>
         public static float GetDailyWeight(Settlement actor, CompViralSpread comp, bool isRecovering, WorldComponent_SpreadManager manager)
         {
             var seth = WorldDominationMod.settings;
@@ -251,9 +261,8 @@ namespace TSA_WorldDomination
             if (comp.IsAdvancedBuildOnCooldown) return 0f;
             if (!HasFreeSlot(actor, comp)) return 0f;
 
-            bool artilleryOnly = comp.fortifyThreatenedToday || isRecovering;
-            if (!BuildPool(actor, comp, artilleryOnly, tmpPoolDefs, tmpPoolWeights)) return 0f;
-            if (artilleryOnly) return baseW;
+            bool preferArtillery = comp.fortifyThreatenedToday || isRecovering;
+            if (!BuildPool(actor, comp, preferArtillery, tmpPoolDefs, tmpPoolWeights)) return 0f;
             return baseW * GetSafetyMult(actor, comp, isRecovering, manager);
         }
 
@@ -265,8 +274,8 @@ namespace TSA_WorldDomination
             if (seth == null || !IsNpcBuilderSettlement(actor, comp)) return false;
             if (comp.IsAdvancedBuildOnCooldown || !HasFreeSlot(actor, comp)) return false;
 
-            bool artilleryOnly = comp.fortifyThreatenedToday || isRecovering;
-            if (!BuildPool(actor, comp, artilleryOnly, tmpPoolDefs, tmpPoolWeights)) return false;
+            bool preferArtillery = comp.fortifyThreatenedToday || isRecovering;
+            if (!BuildPool(actor, comp, preferArtillery, tmpPoolDefs, tmpPoolWeights)) return false;
 
             while (tmpPoolDefs.Count > 0)
             {
