@@ -12,6 +12,14 @@ namespace TSA_WorldDomination
             || AtTurretUtility.TileHasAtTurret(tileId)
             || WorldComponent_AdvancedBuildings.Get()?.HasAt(tileId) == true;
 
+        /// <summary>
+        /// AT turret or advanced building on the tile. Road blocks / traps must refuse these tiles
+        /// (same mutual exclusion AT eligibility already applies the other way).
+        /// </summary>
+        public static bool HasWorldObjectAssetAt(int tileId) =>
+            AtTurretUtility.TileHasAtTurret(tileId)
+            || WorldComponent_AdvancedBuildings.Get()?.HasAt(tileId) == true;
+
         public static bool TryClearAt(int tileId)
         {
             if (tileId < 0) return false;

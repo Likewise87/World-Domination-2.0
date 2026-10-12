@@ -294,9 +294,9 @@ namespace TSA_WorldDomination
         public const float DefWeightMinorIncident = 50f;
         public const float DefWeightMajorIncident = 8f;
         public const float DefWeightBuildRoad = 60f;
-        public const float DefWeightTrader = 48f;
+        public const float DefWeightTrader = 50f;
         public const float DefWeightFortify = 100f;
-        public const float DefWeightAdvancedBuildings = 60f;
+        public const float DefWeightAdvancedBuildings = 80f;
         /// <summary>Settings UI only: whether Develop is folded into the % shown next to usual-action sliders.</summary>
         public const bool DefIncludeDevelopWeightInPercentDisplay = false;
 
@@ -308,7 +308,7 @@ namespace TSA_WorldDomination
         public const float DefCdIncidentDays = 2.0f;
         public const float DefCdTraderDays = 1.0f;
         public const float DefCdFortifyDays = 0.5f;
-        public const float DefCdAdvancedBuildingDays = 3f;
+        public const float DefCdAdvancedBuildingDays = 1f;
 
         // --- ADVANCED BUILDING PROJECTS (NPC settlements) ---
         /// <summary>Silo / Hospital / Watch Tower / Stable bonus as a fraction (0.15 = +15%).</summary>
@@ -1112,7 +1112,7 @@ namespace TSA_WorldDomination
         public const bool DefNotifyStrongFactionWar = true;
         public const bool DefNotifyDesperationRaid = true;
         public const bool DefNotifyTurtle = true;
-        public const int CurrentSettingsDataVersion = 5;
+        public const int CurrentSettingsDataVersion = 6;
         // SURGICAL: New Defaults for Incoming Raid Notifications
         public const bool DefNotifyIncomingRaidColony = true;
         public const bool DefNotifyIncomingRaidOutpost = true;
@@ -3492,6 +3492,8 @@ namespace TSA_WorldDomination
                     MigrateRaidLossTablesToWinLossV4();
                 if (settingsDataVersion < 5)
                     MigrateDailyActionWeightsV5();
+                if (settingsDataVersion < 6)
+                    MigrateDailyActionWeightsV6();
                 settingsDataVersion = CurrentSettingsDataVersion;
             }
 
@@ -3610,6 +3612,14 @@ namespace TSA_WorldDomination
             weightRaid = DefWeightRaid;
             weightFortify = DefWeightFortify;
             weightAdvancedBuildings = DefWeightAdvancedBuildings;
+        }
+
+        /// <summary>Adv buildings 80 / trader 50 / adv CD 1 day.</summary>
+        private void MigrateDailyActionWeightsV6()
+        {
+            weightAdvancedBuildings = DefWeightAdvancedBuildings;
+            weightTrader = DefWeightTrader;
+            cooldownAdvancedBuildingDays = DefCdAdvancedBuildingDays;
         }
 
         private void MigrateDiplomacyNotificationSettingsFromLegacy()

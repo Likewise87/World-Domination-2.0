@@ -295,6 +295,10 @@
   <TSA_WD_AdvBuild_Boost_Hospital>Recuperación ofensiva y defensiva del propietario +{0}% (ahora {1} / {2} por día).</TSA_WD_AdvBuild_Boost_Hospital>
   <TSA_WD_AdvBuild_Boost_WatchTower>Alcance de ataque del propietario +{0}% ({1} a {2} casillas).</TSA_WD_AdvBuild_Boost_WatchTower>
   <TSA_WD_AdvBuild_Boost_Stable>Las caravanas terrestres del propietario se mueven un {0}% más rápido.</TSA_WD_AdvBuild_Boost_Stable>
+  <TSA_WD_AdvBuild_Benefit_Silo>Beneficio: fuerza máxima del asentamiento +{0}%</TSA_WD_AdvBuild_Benefit_Silo>
+  <TSA_WD_AdvBuild_Benefit_Hospital>Beneficio: recuperación del asentamiento +{0}%</TSA_WD_AdvBuild_Benefit_Hospital>
+  <TSA_WD_AdvBuild_Benefit_WatchTower>Beneficio: alcance de ataque +{0}%</TSA_WD_AdvBuild_Benefit_WatchTower>
+  <TSA_WD_AdvBuild_Benefit_Stable>Beneficio: velocidad de caravana terrestre +{0}%</TSA_WD_AdvBuild_Benefit_Stable>
   <TSA_WD_AdvBuild_AttackRangeWatchTowerTip>Torre de vigía: +{0}%</TSA_WD_AdvBuild_AttackRangeWatchTowerTip>
   <TSA_WD_AdvBuild_ReasonShellGrace>Demasiado nuevo para bombardear (quedan {0}).</TSA_WD_AdvBuild_ReasonShellGrace>
   <TSA_WD_AdvBuild_Msg_PlayerDestroyed>{1} destruyó {0}.</TSA_WD_AdvBuild_Msg_PlayerDestroyed>

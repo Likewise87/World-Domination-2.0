@@ -98,6 +98,8 @@ namespace TSA_WorldDomination
             if (Find.World.Impassable(tileId)) return false;
             if (Find.WorldObjects.AnySettlementAt(tileId)) return false;
             if (Outpost_EstablishmentRequirements.TileHasActiveCamp(tileId)) return false;
+            // Leave AT / advanced-building tiles alone (same exclusivity as AT build eligibility).
+            if (WorldActions_Fortifications.HasWorldObjectAssetAt(tileId)) return false;
             return true;
         }
 

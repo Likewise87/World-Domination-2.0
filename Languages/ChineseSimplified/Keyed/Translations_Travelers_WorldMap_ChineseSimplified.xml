@@ -295,6 +295,10 @@
   <TSA_WD_AdvBuild_Boost_Hospital>所有者进攻与防御恢复 +{0}%（当前每天 {1} / {2}）。</TSA_WD_AdvBuild_Boost_Hospital>
   <TSA_WD_AdvBuild_Boost_WatchTower>所有者攻击范围 +{0}%（{1} 到 {2} 格）。</TSA_WD_AdvBuild_Boost_WatchTower>
   <TSA_WD_AdvBuild_Boost_Stable>所有者的陆地商队移动速度提高 {0}%。</TSA_WD_AdvBuild_Boost_Stable>
+  <TSA_WD_AdvBuild_Benefit_Silo>效果：定居点最大强度 +{0}%</TSA_WD_AdvBuild_Benefit_Silo>
+  <TSA_WD_AdvBuild_Benefit_Hospital>效果：定居点恢复 +{0}%</TSA_WD_AdvBuild_Benefit_Hospital>
+  <TSA_WD_AdvBuild_Benefit_WatchTower>效果：攻击范围 +{0}%</TSA_WD_AdvBuild_Benefit_WatchTower>
+  <TSA_WD_AdvBuild_Benefit_Stable>效果：陆地商队速度 +{0}%</TSA_WD_AdvBuild_Benefit_Stable>
   <TSA_WD_AdvBuild_AttackRangeWatchTowerTip>瞭望塔：+{0}%</TSA_WD_AdvBuild_AttackRangeWatchTowerTip>
   <TSA_WD_AdvBuild_ReasonShellGrace>刚建成，暂不可炮击（剩余 {0}）。</TSA_WD_AdvBuild_ReasonShellGrace>
   <TSA_WD_AdvBuild_Msg_PlayerDestroyed>{1} 摧毁了 {0}。</TSA_WD_AdvBuild_Msg_PlayerDestroyed>

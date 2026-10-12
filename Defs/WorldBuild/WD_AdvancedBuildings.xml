@@ -8,6 +8,8 @@
     <worldObjectClass>TSA_WorldDomination.WorldObject_WD_AdvancedBuilding, TSA_WorldDomination</worldObjectClass>
     <selectable>true</selectable>
     <expandingIcon>true</expandingIcon>
+    <!-- Silo / Hospital / Watch Tower / Stable: 25% smaller expanding icons than artillery. -->
+    <expandingIconDrawSize>0.75</expandingIconDrawSize>
     <texture>World/WorldObjects/Settlements/Settlement</texture>
   </WorldObjectDef>
 
@@ -40,6 +42,7 @@
     <label>Mortar Turret</label>
     <worldObjectClass>TSA_WorldDomination.WorldObject_WD_MortarTurret, TSA_WorldDomination</worldObjectClass>
     <expandingIconTexture>WorldObjects/AdvancedBuildings/AdvWO_Mortar</expandingIconTexture>
+    <expandingIconDrawSize>0.90</expandingIconDrawSize>
   </WorldObjectDef>
 
   <WorldObjectDef ParentName="TSA_WD_AdvWO_EconomicBase">
@@ -47,6 +50,7 @@
     <label>AA Turret</label>
     <worldObjectClass>TSA_WorldDomination.WorldObject_WD_AaTurret, TSA_WorldDomination</worldObjectClass>
     <expandingIconTexture>WorldObjects/AdvancedBuildings/AdvWO_AA</expandingIconTexture>
+    <expandingIconDrawSize>0.90</expandingIconDrawSize>
   </WorldObjectDef>
 
   <TSA_WorldDomination.AdvancedBuildingDef>

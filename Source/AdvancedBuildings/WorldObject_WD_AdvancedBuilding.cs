@@ -191,8 +191,28 @@ namespace TSA_WorldDomination
             return sb.ToString().TrimEndNewlines();
         }
 
-        /// <summary>Artillery adds Strength / Reloading; economic buildings add nothing.</summary>
-        protected virtual void AppendInspectExtraLines(StringBuilder sb) { }
+        /// <summary>Economic buildings: Benefit line. Artillery overrides with Strength / Reloading.</summary>
+        protected virtual void AppendInspectExtraLines(StringBuilder sb)
+        {
+            AdvancedBuildingDef bDef = BuildingDef;
+            if (bDef == null || bDef.IsArtillery) return;
+            string pct = AdvancedBuildingEffects.EffectPctLabel;
+            switch (bDef.effect)
+            {
+                case AdvancedBuildingEffect.OffensiveMaxPct:
+                    sb.AppendLine("TSA_WD_AdvBuild_Benefit_Silo".Translate(pct).ToString());
+                    break;
+                case AdvancedBuildingEffect.RegenPct:
+                    sb.AppendLine("TSA_WD_AdvBuild_Benefit_Hospital".Translate(pct).ToString());
+                    break;
+                case AdvancedBuildingEffect.AttackRangePct:
+                    sb.AppendLine("TSA_WD_AdvBuild_Benefit_WatchTower".Translate(pct).ToString());
+                    break;
+                case AdvancedBuildingEffect.LandSpeedPct:
+                    sb.AppendLine("TSA_WD_AdvBuild_Benefit_Stable".Translate(pct).ToString());
+                    break;
+            }
+        }
 
         public override void DrawExtraSelectionOverlays()
         {

@@ -126,6 +126,8 @@ namespace TSA_WorldDomination
             if (tileId < 0) return false;
             if (!RoadBlockKindUtil.IsPlaceableFromUi(kind)) return false;
             if (!WorldActions_RoadBlocks.IsTileBaseEligibleForRoadBlock(tileId)) return false;
+            // Never stack on AT turrets / advanced buildings (blocks and traps swap with each other only).
+            if (WorldActions_Fortifications.HasWorldObjectAssetAt(tileId)) return false;
 
             // Fortifications are mutually exclusive with each other. Never remove paved roads here.
             WorldActions_SpikeTraps.ClearIfPresent(tileId);

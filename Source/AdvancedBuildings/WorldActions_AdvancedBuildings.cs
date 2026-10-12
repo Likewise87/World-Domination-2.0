@@ -15,12 +15,12 @@ namespace TSA_WorldDomination
     public static class WorldActions_AdvancedBuildings
     {
         public const float T3ArtilleryRollChance = 0.30f;
-        /// <summary>Far-from-hostile bonus on the safety mult (can push above 1).</summary>
-        public const float NoHostileNearbySafetyMult = 1.5f;
-        /// <summary>Floor so threatened / near-frontline towns still roll economic projects.</summary>
-        public const float SafetyMultFloor = 0.35f;
-        /// <summary>When threatened/recovering, artillery entries in the pick pool are scaled by this.</summary>
-        public const float ThreatenedArtilleryWeightBias = 2f;
+        /// <summary>Fully safe / no hostile nearby. Threatened is only ~20% below this.</summary>
+        public const float SafetyMultSafe = 1.0f;
+        /// <summary>Threatened / recovering / near-frontline floor (~20% below <see cref="SafetyMultSafe"/>).</summary>
+        public const float SafetyMultFloor = 0.80f;
+        /// <summary>When threatened/recovering, artillery pick-weights × this (~20% bias).</summary>
+        public const float ThreatenedArtilleryWeightBias = 1.20f;
         public const string BuilderTravelerDefName = "TSA_WD_Traveler_Outpost_RoadBlock";
 
         private static Dictionary<WorldObjectDef, AdvancedBuildingDef> byWorldObjectDef;
@@ -229,9 +229,9 @@ namespace TSA_WorldDomination
         // ---------- Daily weight ----------
 
         /// <summary>
-        /// Safety multiplier (inverse of Fortify): floored so frontline towns still participate.
-        /// Threatened/recovering → <see cref="SafetyMultFloor"/>; else
-        /// max(floor, clamp((nearestHostileDist / attackRange - 1) / 2)), ×1.5 if no hostile / very far.
+        /// Safety multiplier (inverse of Fortify): only ~20% spread between threatened and fully safe.
+        /// Threatened/recovering → <see cref="SafetyMultFloor"/> (0.8); no hostile / far → <see cref="SafetyMultSafe"/> (1.0);
+        /// otherwise lerp floor→safe by how far past attack range the nearest hostile is.
         /// </summary>
         public static float GetSafetyMult(Settlement actor, CompViralSpread comp, bool isRecovering, WorldComponent_SpreadManager manager)
         {
@@ -241,14 +241,16 @@ namespace TSA_WorldDomination
             WorldObject hostile = comp.fortifyNearestHostile;
             float expandR = Mathf.Max(1f, seth?.expandMaxRadius ?? WorldDominationSettings.DefExpandMaxRad);
             if (hostile == null || hostile.Destroyed)
-                return NoHostileNearbySafetyMult;
+                return SafetyMultSafe;
             float dist = manager != null
                 ? (float)WorldActions_Utils.GetDistance(actor.Tile, hostile.Tile, manager)
                 : Find.WorldGrid.ApproxDistanceInTiles(actor.Tile, hostile.Tile);
+            if (dist > expandR * 2f)
+                return SafetyMultSafe;
             float range = Mathf.Max(1f, SettlementAttackRangeUtil.GetNpcSettlementAttackRangeTiles(actor, seth));
-            float score = Mathf.Max(SafetyMultFloor, Mathf.Clamp01((dist / range - 1f) / 2f));
-            if (dist > expandR * 2f) score *= NoHostileNearbySafetyMult;
-            return score;
+            // 0 at attack range, 1 at 3× attack range (same shape as before, mapped into [floor, safe]).
+            float t = Mathf.Clamp01((dist / range - 1f) / 2f);
+            return Mathf.Lerp(SafetyMultFloor, SafetyMultSafe, t);
         }
 
         /// <summary>Weight for the orchestrator. Always scaled by floored safety mult; pool keeps economic + artillery.</summary>

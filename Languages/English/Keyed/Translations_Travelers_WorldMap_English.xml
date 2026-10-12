@@ -307,6 +307,10 @@
   <TSA_WD_AdvBuild_Boost_Hospital>Owner offensive and defensive recovery +{0}% (now {1} / {2} per day).</TSA_WD_AdvBuild_Boost_Hospital>
   <TSA_WD_AdvBuild_Boost_WatchTower>Owner attack range +{0}% ({1} to {2} tiles).</TSA_WD_AdvBuild_Boost_WatchTower>
   <TSA_WD_AdvBuild_Boost_Stable>Land caravans from the owner move {0}% faster.</TSA_WD_AdvBuild_Boost_Stable>
+  <TSA_WD_AdvBuild_Benefit_Silo>Benefit: Max Settlement Strength +{0}%</TSA_WD_AdvBuild_Benefit_Silo>
+  <TSA_WD_AdvBuild_Benefit_Hospital>Benefit: Settlement Recovery +{0}%</TSA_WD_AdvBuild_Benefit_Hospital>
+  <TSA_WD_AdvBuild_Benefit_WatchTower>Benefit: Attack Range +{0}%</TSA_WD_AdvBuild_Benefit_WatchTower>
+  <TSA_WD_AdvBuild_Benefit_Stable>Benefit: Land Caravan Speed +{0}%</TSA_WD_AdvBuild_Benefit_Stable>
   <TSA_WD_AdvBuild_AttackRangeWatchTowerTip>Watch Tower: +{0}%</TSA_WD_AdvBuild_AttackRangeWatchTowerTip>
   <TSA_WD_AdvBuild_ReasonShellGrace>Too new to shell ({0} left).</TSA_WD_AdvBuild_ReasonShellGrace>
   <TSA_WD_AdvBuild_Msg_PlayerDestroyed>{1} destroyed {0}.</TSA_WD_AdvBuild_Msg_PlayerDestroyed>
