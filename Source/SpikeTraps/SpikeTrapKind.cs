@@ -34,8 +34,8 @@ namespace TSA_WorldDomination
         public static string TexturePath(SpikeTrapKind kind)
         {
             return kind == SpikeTrapKind.Caltrops
-                ? "WorldObjects/Caltrops"
-                : "WorldObjects/WorldSpikeTrap";
+                ? "WorldObjects/Fortifications/Caltrops"
+                : "WorldObjects/Fortifications/WorldSpikeTrap";
         }
 
         public static string LabelKey(SpikeTrapKind kind)

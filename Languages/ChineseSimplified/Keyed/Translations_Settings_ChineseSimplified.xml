@@ -590,6 +590,10 @@
   <TSA_WD_WorldMap_HotkeyLine>快捷键：{0}</TSA_WD_WorldMap_HotkeyLine>
   <TSA_WD_WorldMap_ToggleTierTexts>定居点等级标签</TSA_WD_WorldMap_ToggleTierTexts>
   <TSA_WD_WorldMap_ToggleTierTextsTip>切换 NPC 定居点上方显示的 T1–T4 标签。</TSA_WD_WorldMap_ToggleTierTextsTip>
+  <TSA_WD_WorldMap_ToggleStrengthTexts>显示进攻实力</TSA_WD_WorldMap_ToggleStrengthTexts>
+  <TSA_WD_WorldMap_ToggleStrengthTextsTip>当前进攻实力。不包含防御实力。</TSA_WD_WorldMap_ToggleStrengthTextsTip>
+  <TSA_WD_WorldMap_ToggleSettlementTypeIcons>定居点类型图标</TSA_WD_WorldMap_ToggleSettlementTypeIcons>
+  <TSA_WD_WorldMap_ToggleSettlementTypeIconsTip>开：子类型图标。关：派系图标。</TSA_WD_WorldMap_ToggleSettlementTypeIconsTip>
   <TSA_WD_WorldMap_OutpostLabels>前哨站标签</TSA_WD_WorldMap_OutpostLabels>
   <TSA_WD_WorldMap_OutpostLabelsTip>在玩家前哨站上显示当前食物、当前实力、名称、袭击冷却，或不显示。</TSA_WD_WorldMap_OutpostLabelsTip>
   <TSA_WD_OutpostWorldMapLabel_Off>关闭</TSA_WD_OutpostWorldMapLabel_Off>
@@ -1047,11 +1051,6 @@
   <TSA_WD_Daily_WeightAdvancedBuildingsTip>定居点派出施工队在附近建造高级建筑的概率：粮仓、医院、瞭望塔、马厩、迫击炮塔或防空炮塔。每个定居点的槽位数等于其等级，每种类型最多一座。远离敌人的安全定居点建造更频繁；受威胁的定居点只建造火炮。若被选中但无法启动任何项目，则改用另一个符合条件的每日行动。</TSA_WD_Daily_WeightAdvancedBuildingsTip>
   <TSA_WD_Daily_CdAdvancedBuildings>高级建筑后冷却</TSA_WD_Daily_CdAdvancedBuildings>
   <TSA_WD_Daily_CdAdvancedBuildingsTip>此定居点再次开始高级建筑前的天数。不影响其他行动类型。</TSA_WD_Daily_CdAdvancedBuildingsTip>
-  <TSA_WD_Daily_HeaderAdvancedBuildings>NPC 高级建筑</TSA_WD_Daily_HeaderAdvancedBuildings>
-  <TSA_WD_AdvBuild_Setting_EffectPct>经济建筑加成</TSA_WD_AdvBuild_Setting_EffectPct>
-  <TSA_WD_AdvBuild_Setting_EffectPctTip>每座经济建筑给予所有者的加成：粮仓（最大进攻强度）、医院（进攻与防御恢复）、瞭望塔（攻击范围）、马厩（陆地商队速度）。</TSA_WD_AdvBuild_Setting_EffectPctTip>
-  <TSA_WD_AdvBuild_Setting_ArtilleryStrength>火炮炮塔强度</TSA_WD_AdvBuild_Setting_ArtilleryStrength>
-  <TSA_WD_AdvBuild_Setting_ArtilleryStrengthTip>新建 NPC 迫击炮塔与防空炮塔的强度。袭击必须超过此值才能摧毁炮塔；迫击炮命中会削减强度。炮塔不会恢复。已有炮塔保持原强度。</TSA_WD_AdvBuild_Setting_ArtilleryStrengthTip>
   <TSA_WD_Experimental_AmbushWatchRangeAssets>拥有建筑时的伏击警戒范围（格）</TSA_WD_Experimental_AmbushWatchRangeAssets>
   <TSA_WD_Experimental_AmbushWatchRangeAssetsTip>拥有反坦克炮塔或高级建筑的定居点的警戒范围。取此值与普通警戒范围中的较大者，使定居点能保护其外围资产。</TSA_WD_Experimental_AmbushWatchRangeAssetsTip>
   <TSA_WD_Experimental_AmbushSelfDefenseRatio>保卫本地时的伏击最低比例</TSA_WD_Experimental_AmbushSelfDefenseRatio>

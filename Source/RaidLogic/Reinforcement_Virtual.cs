@@ -89,7 +89,8 @@ namespace TSA_WorldDomination
                         if (s.Faction != null && s.Faction.IsPlayer && s is Settlement playerS && playerS.HasMap)
                             continue;
 
-                        if (WorldActions_Utils.GetDistance(primary.Tile, s.Tile, manager) <= radius)
+                        float dist = WorldActions_Utils.GetDistance(primary.Tile, s.Tile, manager);
+                        if (AllyRadiusUtil.MayPullAtDistance(primary, s, dist, radius, null, manager))
                             into.Add(s);
                     }
                 }

@@ -38,8 +38,8 @@ namespace TSA_WorldDomination
         }
         /// <summary>Per-target anti-dogpile (90 real-time seconds at 1x).</summary>
         public const int TargetCooldownTicks = 5400;
-        /// <summary>Per-origin launch cooldown (3 real-time minutes at 1x).</summary>
-        public const int OriginCooldownTicks = 10800;
+        /// <summary>Per-origin launch cooldown (40 real-time seconds at 1x).</summary>
+        public const int OriginCooldownTicks = 2400;
 
         /// <summary>Ambush stage gate (<see cref="WorldDominationSettings.gateThreatAmbush"/>).</summary>
         private static bool PassesEscalationGate(WorldComponent_SpreadManager manager, WorldDominationSettings seth) =>

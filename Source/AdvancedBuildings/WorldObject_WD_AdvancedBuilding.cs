@@ -194,6 +194,13 @@ namespace TSA_WorldDomination
         /// <summary>Artillery adds Strength / Reloading; economic buildings add nothing.</summary>
         protected virtual void AppendInspectExtraLines(StringBuilder sb) { }
 
+        public override void DrawExtraSelectionOverlays()
+        {
+            base.DrawExtraSelectionOverlays();
+            if (!Find.WorldSelector.IsSelected(this)) return;
+            SettlementOwnedAssetSelectionLines.DrawToOwner(this, builtBySettlement);
+        }
+
         public override IEnumerable<Gizmo> GetGizmos()
         {
             foreach (Gizmo g in base.GetGizmos())

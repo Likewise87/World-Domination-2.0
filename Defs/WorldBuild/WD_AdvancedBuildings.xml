@@ -14,39 +14,39 @@
   <WorldObjectDef ParentName="TSA_WD_AdvWO_EconomicBase">
     <defName>TSA_WD_AdvWO_Silo</defName>
     <label>Silo</label>
-    <expandingIconTexture>WorldObjects/AdvWO_Silo</expandingIconTexture>
+    <expandingIconTexture>WorldObjects/AdvancedBuildings/AdvWO_Silo</expandingIconTexture>
   </WorldObjectDef>
 
   <WorldObjectDef ParentName="TSA_WD_AdvWO_EconomicBase">
     <defName>TSA_WD_AdvWO_Hospital</defName>
     <label>Hospital</label>
-    <expandingIconTexture>WorldObjects/AdvWO_Hospital</expandingIconTexture>
+    <expandingIconTexture>WorldObjects/AdvancedBuildings/AdvWO_Hospital</expandingIconTexture>
   </WorldObjectDef>
 
   <WorldObjectDef ParentName="TSA_WD_AdvWO_EconomicBase">
     <defName>TSA_WD_AdvWO_WatchTower</defName>
     <label>Watch Tower</label>
-    <expandingIconTexture>WorldObjects/AdvWO_Watchtower</expandingIconTexture>
+    <expandingIconTexture>WorldObjects/AdvancedBuildings/AdvWO_Watchtower</expandingIconTexture>
   </WorldObjectDef>
 
   <WorldObjectDef ParentName="TSA_WD_AdvWO_EconomicBase">
     <defName>TSA_WD_AdvWO_Stable</defName>
     <label>Stable</label>
-    <expandingIconTexture>WorldObjects/AdvWO_Stable</expandingIconTexture>
+    <expandingIconTexture>WorldObjects/AdvancedBuildings/AdvWO_Stable</expandingIconTexture>
   </WorldObjectDef>
 
   <WorldObjectDef ParentName="TSA_WD_AdvWO_EconomicBase">
     <defName>TSA_WD_AdvWO_MortarTurret</defName>
     <label>Mortar Turret</label>
     <worldObjectClass>TSA_WorldDomination.WorldObject_WD_MortarTurret, TSA_WorldDomination</worldObjectClass>
-    <expandingIconTexture>WorldObjects/AdvWO_Mortar</expandingIconTexture>
+    <expandingIconTexture>WorldObjects/AdvancedBuildings/AdvWO_Mortar</expandingIconTexture>
   </WorldObjectDef>
 
   <WorldObjectDef ParentName="TSA_WD_AdvWO_EconomicBase">
     <defName>TSA_WD_AdvWO_AaTurret</defName>
     <label>AA Turret</label>
     <worldObjectClass>TSA_WorldDomination.WorldObject_WD_AaTurret, TSA_WorldDomination</worldObjectClass>
-    <expandingIconTexture>WorldObjects/AdvWO_AA</expandingIconTexture>
+    <expandingIconTexture>WorldObjects/AdvancedBuildings/AdvWO_AA</expandingIconTexture>
   </WorldObjectDef>
 
   <TSA_WorldDomination.AdvancedBuildingDef>
@@ -56,7 +56,7 @@
     <category>Economic</category>
     <effect>OffensiveMaxPct</effect>
     <tierWeights><li>1.0</li><li>1.0</li><li>1.0</li><li>1.0</li></tierWeights>
-    <iconTexPath>WorldObjects/AdvWO_Silo</iconTexPath>
+    <iconTexPath>WorldObjects/AdvancedBuildings/AdvWO_Silo</iconTexPath>
     <worldObjectDef>TSA_WD_AdvWO_Silo</worldObjectDef>
   </TSA_WorldDomination.AdvancedBuildingDef>
 
@@ -67,7 +67,7 @@
     <category>Economic</category>
     <effect>RegenPct</effect>
     <tierWeights><li>1.0</li><li>1.0</li><li>1.0</li><li>1.0</li></tierWeights>
-    <iconTexPath>WorldObjects/AdvWO_Hospital</iconTexPath>
+    <iconTexPath>WorldObjects/AdvancedBuildings/AdvWO_Hospital</iconTexPath>
     <worldObjectDef>TSA_WD_AdvWO_Hospital</worldObjectDef>
   </TSA_WorldDomination.AdvancedBuildingDef>
 
@@ -78,7 +78,7 @@
     <category>Economic</category>
     <effect>AttackRangePct</effect>
     <tierWeights><li>0.15</li><li>0.15</li><li>1.0</li><li>1.0</li></tierWeights>
-    <iconTexPath>WorldObjects/AdvWO_Watchtower</iconTexPath>
+    <iconTexPath>WorldObjects/AdvancedBuildings/AdvWO_Watchtower</iconTexPath>
     <worldObjectDef>TSA_WD_AdvWO_WatchTower</worldObjectDef>
   </TSA_WorldDomination.AdvancedBuildingDef>
 
@@ -89,7 +89,7 @@
     <category>Economic</category>
     <effect>LandSpeedPct</effect>
     <tierWeights><li>0.15</li><li>0.15</li><li>1.0</li><li>1.0</li></tierWeights>
-    <iconTexPath>WorldObjects/AdvWO_Stable</iconTexPath>
+    <iconTexPath>WorldObjects/AdvancedBuildings/AdvWO_Stable</iconTexPath>
     <worldObjectDef>TSA_WD_AdvWO_Stable</worldObjectDef>
   </TSA_WorldDomination.AdvancedBuildingDef>
 
@@ -100,7 +100,7 @@
     <category>Artillery</category>
     <effect>Mortar</effect>
     <tierWeights><li>0</li><li>0</li><li>0.5</li><li>1.0</li></tierWeights>
-    <iconTexPath>WorldObjects/AdvWO_Mortar</iconTexPath>
+    <iconTexPath>WorldObjects/AdvancedBuildings/AdvWO_Mortar</iconTexPath>
     <worldObjectDef>TSA_WD_AdvWO_MortarTurret</worldObjectDef>
   </TSA_WorldDomination.AdvancedBuildingDef>
 
@@ -111,7 +111,7 @@
     <category>Artillery</category>
     <effect>AntiAir</effect>
     <tierWeights><li>0</li><li>0</li><li>0.5</li><li>1.0</li></tierWeights>
-    <iconTexPath>WorldObjects/AdvWO_AA</iconTexPath>
+    <iconTexPath>WorldObjects/AdvancedBuildings/AdvWO_AA</iconTexPath>
     <worldObjectDef>TSA_WD_AdvWO_AaTurret</worldObjectDef>
   </TSA_WorldDomination.AdvancedBuildingDef>
 </Defs>

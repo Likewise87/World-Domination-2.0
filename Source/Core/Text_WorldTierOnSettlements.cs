@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
@@ -53,7 +52,9 @@ namespace TSA_WorldDomination
             if (!isValidState || !WorldRendererUtility.WorldRendered)
                 return;
 
-            if (!WorldComponent_WDVisualizerToggle.ShowSettlementTierTexts)
+            bool showTier = WorldComponent_WDVisualizerToggle.ShowSettlementTierTexts;
+            bool showStrength = WorldComponent_WDVisualizerToggle.ShowSettlementStrengthTexts;
+            if (!showTier && !showStrength)
                 return;
 
             if (Event.current.type != EventType.Repaint)
@@ -67,49 +68,73 @@ namespace TSA_WorldDomination
             if (tierLabelCache == null || tierLabelCache.Count == 0) return;
 
             float bottomStripHeight = 80f;
+            bool prevWordWrap = Text.WordWrap;
+            Text.WordWrap = false;
 
-            for (int i = 0; i < tierLabelCache.Count; i++)
+            try
             {
-                var (worldObject, comp) = tierLabelCache[i];
-                if (worldObject.Destroyed) continue;
-
-                if (!WorldObjectSelectionUtility.VisibleToCameraNow(worldObject)) continue;
-
-                Vector2 screenPos = WorldObjectSelectionUtility.ScreenPos(worldObject);
-
-                int tierIdx = (int)comp.tier;
-                string labelText = TierLabels[tierIdx];
-                Text.Font = GameFont.Tiny;
-                Text.Anchor = TextAnchor.MiddleCenter;
-                if (!tierLabelWidthsCached)
+                for (int i = 0; i < tierLabelCache.Count; i++)
                 {
-                    for (int t = 0; t < 4; t++) TierLabelWidths[t] = Text.CalcSize(TierLabels[t]).x;
-                    tierLabelWidthsCached = true;
-                }
-                float textSize = TierLabelWidths[tierIdx];
-                float yOffset = -32f;
-                Rect rect = new Rect(screenPos.x - textSize / 2f, screenPos.y + yOffset, textSize, 20f);
+                    var (worldObject, comp) = tierLabelCache[i];
+                    if (worldObject.Destroyed) continue;
 
-                if (rect.yMax > (float)UI.screenHeight - bottomStripHeight)
-                {
+                    if (!WorldObjectSelectionUtility.VisibleToCameraNow(worldObject)) continue;
+
+                    Vector2 screenPos = WorldObjectSelectionUtility.ScreenPos(worldObject);
+
+                    int tierIdx = (int)comp.tier;
+                    string labelText;
+                    if (showTier && showStrength)
+                        labelText = TierLabels[tierIdx] + " (" + Mathf.RoundToInt(comp.strength).ToString() + ")";
+                    else if (showStrength)
+                        labelText = Mathf.RoundToInt(comp.strength).ToString();
+                    else
+                        labelText = TierLabels[tierIdx];
+
+                    Text.Font = GameFont.Tiny;
+                    Text.Anchor = TextAnchor.MiddleCenter;
+                    float textSize;
+                    if (showStrength)
+                    {
+                        textSize = Text.CalcSize(labelText).x;
+                    }
+                    else
+                    {
+                        if (!tierLabelWidthsCached)
+                        {
+                            for (int t = 0; t < 4; t++) TierLabelWidths[t] = Text.CalcSize(TierLabels[t]).x;
+                            tierLabelWidthsCached = true;
+                        }
+                        textSize = TierLabelWidths[tierIdx];
+                    }
+                    float yOffset = -32f;
+                    Rect rect = new Rect(screenPos.x - textSize / 2f, screenPos.y + yOffset, textSize, 20f);
+
+                    if (rect.yMax > (float)UI.screenHeight - bottomStripHeight)
+                    {
+                        Text.Anchor = TextAnchor.UpperLeft;
+                        Text.Font = GameFont.Small;
+                        continue;
+                    }
+
+                    Color labelColor = showTier ? GetColorForTier(comp.tier) : Color.white;
+                    Color originalColor = GUI.color;
+
+                    GUI.color = ShadowColor;
+                    Rect shadowRect = new Rect(rect.x + 1f, rect.y + 1f, rect.width, rect.height);
+                    Widgets.Label(shadowRect, labelText);
+
+                    GUI.color = labelColor;
+                    Widgets.Label(rect, labelText);
+
+                    GUI.color = originalColor;
                     Text.Anchor = TextAnchor.UpperLeft;
                     Text.Font = GameFont.Small;
-                    continue;
                 }
-
-                Color labelColor = GetColorForTier(comp.tier);
-                Color originalColor = GUI.color;
-
-                GUI.color = ShadowColor;
-                Rect shadowRect = new Rect(rect.x + 1f, rect.y + 1f, rect.width, rect.height);
-                Widgets.Label(shadowRect, labelText);
-
-                GUI.color = labelColor;
-                Widgets.Label(rect, labelText);
-
-                GUI.color = originalColor;
-                Text.Anchor = TextAnchor.UpperLeft;
-                Text.Font = GameFont.Small;
+            }
+            finally
+            {
+                Text.WordWrap = prevWordWrap;
             }
         }
 

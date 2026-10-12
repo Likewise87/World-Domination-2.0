@@ -209,6 +209,7 @@ namespace TSA_WorldDomination
             {
                 int h = worldObject.ID;
                 h = h * 397 + (WorldComponent_AdvancedBuildings.Get()?.Version ?? 0);
+                h = h * 397 + ReinforcementNeighborCache.Generation;
 
                 if (worldObject is WorldObject_WD_Outpost outpost)
                 {

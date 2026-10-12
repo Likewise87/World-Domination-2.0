@@ -75,6 +75,7 @@ namespace TSA_WorldDomination
             public int tick;
             public int tile;
             public float fertBonus;
+            public bool raiseEcologyBaseline;
             public float value;
         }
 
@@ -812,7 +813,8 @@ namespace TSA_WorldDomination
         {
             if (outpost == null) return 0;
             float b = outpost.GetBuiltUpgradeTileFertilityBonus();
-            return Mathf.RoundToInt(Mathf.Clamp(WorldTileProductivity.GetFarmingFertilityScore(outpost.Tile, b), 0f, WorldTileProductivity.ProductivityScoreCap) * 100f);
+            bool raise = outpost.HasBuiltUpgradeRaiseTileEcologyBaselineToFull();
+            return Mathf.RoundToInt(Mathf.Clamp(WorldTileProductivity.GetFarmingFertilityScore(outpost.Tile, b, raise), 0f, WorldTileProductivity.ProductivityScoreCap) * 100f);
         }
 
         /// <summary>
@@ -826,14 +828,16 @@ namespace TSA_WorldDomination
             int id = outpost.ID;
             int tile = outpost.Tile;
             float fertBonus = outpost.GetBuiltUpgradeTileFertilityBonus();
+            bool raise = outpost.HasBuiltUpgradeRaiseTileEcologyBaselineToFull();
             if (farmingTileFactorCache.TryGetValue(id, out FarmingTileFactorCacheEntry c)
                 && c.tick == tick
                 && c.tile == tile
-                && Mathf.Approximately(c.fertBonus, fertBonus))
+                && Mathf.Approximately(c.fertBonus, fertBonus)
+                && c.raiseEcologyBaseline == raise)
                 return c.value;
 
             float factor = Mathf.Clamp(
-                WorldTileProductivity.GetFarmingFertilityScore(tile, fertBonus),
+                WorldTileProductivity.GetFarmingFertilityScore(tile, fertBonus, raise),
                 0f,
                 WorldTileProductivity.ProductivityScoreCap);
             farmingTileFactorCache[id] = new FarmingTileFactorCacheEntry
@@ -841,6 +845,7 @@ namespace TSA_WorldDomination
                 tick = tick,
                 tile = tile,
                 fertBonus = fertBonus,
+                raiseEcologyBaseline = raise,
                 value = factor
             };
             return factor;
@@ -857,7 +862,10 @@ namespace TSA_WorldDomination
         {
             if (outpost == null) return 0f;
             return Mathf.Clamp(
-                WorldTileProductivity.GetHuntingScore(outpost.Tile, outpost.GetBuiltUpgradeTileAnimalAbundanceBonus()),
+                WorldTileProductivity.GetHuntingScore(
+                    outpost.Tile,
+                    outpost.GetBuiltUpgradeTileAnimalAbundanceBonus(),
+                    outpost.HasBuiltUpgradeRaiseTileEcologyBaselineToFull()),
                 0f,
                 WorldTileProductivity.ProductivityScoreCap);
         }

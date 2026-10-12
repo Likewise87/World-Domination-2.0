@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -45,8 +45,8 @@ namespace TSA_WorldDomination
         public float MortarRangeOverride => mortarRangeOverride;
         public float AntiAirRangeOverride => antiAirRangeOverride;
 
-        public const string MortarOutpostTexturePath = "WorldObjects/WD_Outpost_Mortar";
-        public const string MortarOutpostAntiAirTexturePath = "WorldObjects/WD_Outpost_Mortar_AA";
+        public const string MortarOutpostTexturePath = "WorldObjects/Outposts/WD_Outpost_Mortar";
+        public const string MortarOutpostAntiAirTexturePath = "WorldObjects/Outposts/WD_Outpost_Mortar_AA";
 
         public void SetMortarDefenseActive(bool on)
         {
@@ -3772,6 +3772,19 @@ namespace TSA_WorldDomination
             return false;
         }
 
+        /// <summary>True if any built upgrade has <see cref="OutpostUpgradeDef.raiseTileEcologyBaselineToFull"/>.</summary>
+        public bool HasBuiltUpgradeRaiseTileEcologyBaselineToFull()
+        {
+            if (builtUpgradeLevels == null || builtUpgradeLevels.Count == 0) return false;
+            foreach (var kv in builtUpgradeLevels)
+            {
+                if (kv.Value <= 0) continue;
+                var def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(kv.Key);
+                if (def != null && def.raiseTileEcologyBaselineToFull) return true;
+            }
+            return false;
+        }
+
         /// <summary>Σ <see cref="OutpostUpgradeDef.mortarHitChanceBonus"/> × built level (additive to final hit chance).</summary>
         public float GetBuiltUpgradeMortarHitChanceBonus()
         {
@@ -3989,6 +4002,8 @@ namespace TSA_WorldDomination
             if (trackDefCap && compSpread != null)
                 compSpread.ApplyDefensiveCurrentForStructuralCapDelta(compSpread.GetBaseDefensiveStrength() - structuralDefBefore);
             compSpread?.UpdateOutpostStrengthLogically();
+            if (defUpgrade.allyPullRadiusBonus > 0f)
+                ReinforcementNeighborCache.BumpGeneration();
             if (WorldDominationMod.settings?.foodLogisticsActive == true && GetComponent<CompOutpostLogistics>() != null)
                 Find.World?.GetComponent<WorldComponent_LogisticsManager>()?.NotifyFoodLogisticsInputsChanged();
             if (IsPowerPlantOutpost)
@@ -4004,6 +4019,8 @@ namespace TSA_WorldDomination
                 InvalidateWorldMapIconCache();
                 RefreshInterceptorRegistration();
             }
+            if (defUpgrade.raiseTileEcologyBaselineToFull)
+                TerraformingUpgradeUtility.ClearPollutionInRadius(Tile, TerraformingUpgradeUtility.BuildPollutionClearRadius);
             InvalidateInspectCache();
             return true;
         }

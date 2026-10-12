@@ -107,9 +107,10 @@ namespace TSA_WorldDomination
                 curPath = traveler.Tile.Layer.Pather.FindPath(traveler.Tile, destTile, null);
                 hasVanillaPath = curPath != null && curPath.Found;
 
-                // Road builders: follow the planned corridor when available (no A* shortcuts that leave gaps at waypoints).
-                if (traveler.mission == TravelerMission.RoadBuilding
-                    || traveler.mission == TravelerMission.BridgeBuilding
+                // Bridge crews: stay on the planned water span (no A* chords off the deck).
+                // Road crews: vanilla A* to the worksite. Paving uses the planned unfinished edge
+                // (ExecuteRoadPaving), not the walk path, so forced corridor travel is not required.
+                if (traveler.mission == TravelerMission.BridgeBuilding
                     || traveler.mission == TravelerMission.BridgeDeconstruct)
                 {
                     List<PlanetTile> corridor = null;
@@ -135,15 +136,17 @@ namespace TSA_WorldDomination
                             fallbackPathNodes.Add(new PlanetTile(traveler.cachedPathTiles[i], traveler.Tile.Layer));
                         fallbackPathIndex = 0;
                     }
-                    else if (traveler.mission == TravelerMission.RoadBuilding
-                        && (!hasVanillaPath || WorldActions_Roads.RoadBuildingPathTouchesWater(curPath)))
+                    else if (!hasVanillaPath
+                        && traveler.mission == TravelerMission.BridgeBuilding)
                     {
                         StopDead();
                         traveler.Destroy();
                         return;
                     }
-                    else if (!hasVanillaPath
-                        && traveler.mission == TravelerMission.BridgeBuilding)
+                }
+                else if (traveler.mission == TravelerMission.RoadBuilding)
+                {
+                    if (!hasVanillaPath || WorldActions_Roads.RoadBuildingPathTouchesWater(curPath))
                     {
                         StopDead();
                         traveler.Destroy();

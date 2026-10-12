@@ -9,8 +9,7 @@ namespace TSA_WorldDomination
 {
     /// <summary>
     /// Shared fortify-kit layout for Turtle / desperation finalize and daily NPC Fortify.
-    /// Radius 1: AT turrets (spread). Kit AT counts are soft targets; World Actions
-    /// <c>atTurretMaxT*</c> caps how many a settlement may own. Radius 2: traps on roads, blocks on non-roads.
+    /// AT prefer r=1 then r=2. Outer traps/blocks: r=2 (T1/T2) or r=3 (T3/T4).
     /// Ensures at least one road exit on the outer ring before placing traps.
     /// </summary>
     public static class WorldActions_FortifyKit
@@ -18,11 +17,14 @@ namespace TSA_WorldDomination
         private static readonly List<PlanetTile> tmpNeighbors = new List<PlanetTile>();
         private static readonly List<int> tmpRingTiles = new List<int>();
         private static readonly List<int> tmpInnerRingTiles = new List<int>();
+        private static readonly List<int> tmpAtRing2 = new List<int>();
         private static readonly List<int> tmpAtPick = new List<int>();
         private static readonly List<int> tmpAtEligibleIdx = new List<int>();
         private static readonly List<int> tmpAtPickedIdx = new List<int>();
         private static readonly List<int> tmpPath = new List<int>();
         private static readonly HashSet<int> tmpSeen = new HashSet<int>();
+        private static readonly Dictionary<int, int> tmpBfsParent = new Dictionary<int, int>();
+        private static readonly Queue<(int tile, int dist)> tmpBfsQ = new Queue<(int, int)>();
 
         public enum FortifyPhase : byte
         {
@@ -31,6 +33,10 @@ namespace TSA_WorldDomination
             AtTurrets = 2,
             Complete = 3
         }
+
+        /// <summary>Trap/block ring: T1/T2 = 2, T3/T4 = 3.</summary>
+        public static int OuterFortifyRadius(SettlementTier tier) =>
+            tier >= SettlementTier.T3 ? 3 : 2;
 
         public static void GetKit(
             SettlementTier tier,
@@ -193,15 +199,16 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// If the r=2 ring has no road among eligible tiles, paint a short corridor from the hub
+        /// If the outer fortify ring has no road among eligible tiles, paint a short corridor from the hub
         /// to one eligible outer tile (road def from kit tier). Returns the outer tile that was
         /// paved when a road was created; otherwise -1. Caller places the trap after pave.
         /// </summary>
         public static int EnsureRingHasRoadExit(int centerTile, SettlementTier kitTier)
         {
             if (centerTile < 0) return -1;
+            int outer = OuterFortifyRadius(kitTier);
 
-            CollectTilesAtExactRadius(centerTile, 2, tmpRingTiles);
+            CollectTilesAtExactRadius(centerTile, outer, tmpRingTiles);
             for (int i = 0; i < tmpRingTiles.Count; i++)
             {
                 int t = tmpRingTiles[i];
@@ -210,12 +217,12 @@ namespace TSA_WorldDomination
                     return -1;
             }
 
-            int dest = PickEligibleOuterTile(centerTile);
+            int dest = PickEligibleOuterTile(centerTile, outer);
             if (dest < 0) return -1;
 
             RoadDef road = WorldActions_Roads.GetRoadDefByTier(kitTier);
             if (road == null) return -1;
-            if (!TryPaintShortRoadPath(centerTile, dest, road)) return -1;
+            if (!TryPaintShortRoadPath(centerTile, dest, road, outer)) return -1;
             return dest;
         }
 
@@ -229,6 +236,7 @@ namespace TSA_WorldDomination
             if (centerTile < 0 || faction == null) return;
 
             GetKit(kitTier, out SpikeTrapKind trapKind, out RoadBlockKind blockKind, out AtTurretTier atTier, out int maxAt, faction);
+            int outer = OuterFortifyRadius(kitTier);
 
             EnsureRingHasRoadExit(centerTile, kitTier);
 
@@ -236,21 +244,11 @@ namespace TSA_WorldDomination
             var traps = WorldComponent_SpikeTraps.Get();
 
             int atWant = AdditionalAtWant(
-                maxAt, builtBySettlement, CountAtTurretsAtRadius1(centerTile, faction), includeInFlight: false);
-            CollectOrderedNeighbors(centerTile, tmpInnerRingTiles);
-            PickSpreadRingTiles(tmpInnerRingTiles, atWant, tmpAtPick, IsFortifyTileOk);
-            int atPlaced = 0;
-            for (int i = 0; i < tmpAtPick.Count; i++)
-            {
-                if (AtTurretUtility.TrySpawn(
-                        tmpAtPick[i], faction, atTier, builtBySettlement, builtBySite,
-                        requirePlayerBuildSite: false,
-                        allowRoadTile: true,
-                        ignoreSettlementCap: false) != null)
-                    atPlaced++;
-            }
+                maxAt, builtBySettlement, CountAtTurretsInAtRings(centerTile, faction), includeInFlight: false);
+            int atPlaced = PlaceAtOnPreferRings(
+                centerTile, faction, atTier, atWant, builtBySettlement, builtBySite, exclude: null);
 
-            CollectTilesAtExactRadius(centerTile, 2, tmpRingTiles);
+            CollectTilesAtExactRadius(centerTile, outer, tmpRingTiles);
             int trapsPlaced = 0;
             int blocksPlaced = 0;
 
@@ -283,7 +281,7 @@ namespace TSA_WorldDomination
             }
 
             WDVerbose.Msg(
-                $"Fortify kit tier={kitTier} tile={centerTile} atR=1 outerR=2 traps={trapsPlaced} blocks={blocksPlaced} at={atPlaced}");
+                $"Fortify kit tier={kitTier} tile={centerTile} atR=1..2 outerR={outer} traps={trapsPlaced} blocks={blocksPlaced} at={atPlaced}");
         }
 
         public static FortifyPhase ResolveNextPhase(
@@ -297,9 +295,9 @@ namespace TSA_WorldDomination
 
             GetKit(kitTier, out SpikeTrapKind trapKind, out RoadBlockKind blockKind, out _, out int maxAt, faction);
 
-            if (NeedsTrapWork(centerTile, faction, trapKind, builtBySettlement))
+            if (NeedsTrapWork(centerTile, faction, trapKind, kitTier))
                 return FortifyPhase.Traps;
-            if (NeedsBlockWork(centerTile, faction, blockKind, builtBySettlement))
+            if (NeedsBlockWork(centerTile, faction, blockKind, kitTier))
                 return FortifyPhase.Blocks;
             if (NeedsAtWork(centerTile, faction, maxAt, builtBySettlement))
                 return FortifyPhase.AtTurrets;
@@ -316,7 +314,8 @@ namespace TSA_WorldDomination
         {
             into.Clear();
             if (centerTile < 0) return;
-            CollectTilesAtExactRadius(centerTile, 2, tmpRingTiles);
+            SettlementTier tier = builtBySettlement?.GetComponent<CompViralSpread>()?.tier ?? SettlementTier.T1;
+            CollectTilesAtExactRadius(centerTile, OuterFortifyRadius(tier), tmpRingTiles);
             var traps = WorldComponent_SpikeTraps.Get();
             for (int i = 0; i < tmpRingTiles.Count; i++)
             {
@@ -340,7 +339,8 @@ namespace TSA_WorldDomination
         {
             into.Clear();
             if (centerTile < 0) return;
-            CollectTilesAtExactRadius(centerTile, 2, tmpRingTiles);
+            SettlementTier tier = builtBySettlement?.GetComponent<CompViralSpread>()?.tier ?? SettlementTier.T1;
+            CollectTilesAtExactRadius(centerTile, OuterFortifyRadius(tier), tmpRingTiles);
             var blocks = WorldComponent_RoadBlocks.Get();
             var traps = WorldComponent_SpikeTraps.Get();
             for (int i = 0; i < tmpRingTiles.Count; i++)
@@ -369,28 +369,78 @@ namespace TSA_WorldDomination
             into.Clear();
             if (centerTile < 0 || maxAt <= 0) return;
 
-            int ringExisting = CountAtTurretsAtRadius1(centerTile, faction);
+            int ringExisting = CountAtTurretsInAtRings(centerTile, faction);
             int want = AdditionalAtWant(maxAt, builtBySettlement, ringExisting, includeInFlight: true);
             if (want <= 0) return;
 
-            CollectOrderedNeighbors(centerTile, tmpInnerRingTiles);
-            PickSpreadRingTiles(tmpInnerRingTiles, want, tmpAtPick, t =>
+            CollectAtCandidatesPreferRings(centerTile, faction, want, exclude, into);
+        }
+
+        private static void CollectAtCandidatesPreferRings(
+            int centerTile,
+            Faction faction,
+            int want,
+            HashSet<int> exclude,
+            List<int> into)
+        {
+            into.Clear();
+            if (want <= 0) return;
+
+            Func<int, bool> eligible = t =>
             {
                 if (exclude != null && exclude.Contains(t)) return false;
                 if (!IsFortifyTileOk(t)) return false;
                 if (WorldComponent_FortifyBlacklist.BlocksNpcFortify(t, faction)) return false;
                 return AtTurretUtility.IsEmptyTurretSite(t, requireOffRoad: false);
+            };
+
+            CollectOrderedNeighbors(centerTile, tmpInnerRingTiles);
+            PickSpreadRingTiles(tmpInnerRingTiles, want, tmpAtPick, eligible);
+            into.AddRange(tmpAtPick);
+            int remain = want - into.Count;
+            if (remain <= 0) return;
+
+            CollectTilesAtExactRadius(centerTile, 2, tmpAtRing2);
+            // Ordered for PickSpread: use BFS order as-is.
+            PickSpreadRingTiles(tmpAtRing2, remain, tmpAtPick, t =>
+            {
+                if (into.Contains(t)) return false;
+                return eligible(t);
             });
             into.AddRange(tmpAtPick);
+        }
+
+        private static int PlaceAtOnPreferRings(
+            int centerTile,
+            Faction faction,
+            AtTurretTier atTier,
+            int want,
+            Settlement builtBySettlement,
+            WorldObject builtBySite,
+            HashSet<int> exclude)
+        {
+            if (want <= 0) return 0;
+            CollectAtCandidatesPreferRings(centerTile, faction, want, exclude, tmpPath);
+            int placed = 0;
+            for (int i = 0; i < tmpPath.Count; i++)
+            {
+                if (AtTurretUtility.TrySpawn(
+                        tmpPath[i], faction, atTier, builtBySettlement, builtBySite,
+                        requirePlayerBuildSite: false,
+                        allowRoadTile: true,
+                        ignoreSettlementCap: false) != null)
+                    placed++;
+            }
+            return placed;
         }
 
         private static bool NeedsTrapWork(
             int centerTile,
             Faction faction,
             SpikeTrapKind trapKind,
-            Settlement builtBySettlement)
+            SettlementTier kitTier)
         {
-            CollectTilesAtExactRadius(centerTile, 2, tmpRingTiles);
+            CollectTilesAtExactRadius(centerTile, OuterFortifyRadius(kitTier), tmpRingTiles);
             bool anyEligible = false;
             bool anyRoad = false;
             var traps = WorldComponent_SpikeTraps.Get();
@@ -416,9 +466,9 @@ namespace TSA_WorldDomination
             int centerTile,
             Faction faction,
             RoadBlockKind blockKind,
-            Settlement builtBySettlement)
+            SettlementTier kitTier)
         {
-            CollectTilesAtExactRadius(centerTile, 2, tmpRingTiles);
+            CollectTilesAtExactRadius(centerTile, OuterFortifyRadius(kitTier), tmpRingTiles);
             var blocks = WorldComponent_RoadBlocks.Get();
             var traps = WorldComponent_SpikeTraps.Get();
             for (int i = 0; i < tmpRingTiles.Count; i++)
@@ -436,9 +486,10 @@ namespace TSA_WorldDomination
 
         private static bool NeedsAtWork(int centerTile, Faction faction, int maxAt, Settlement builtBySettlement)
         {
-            int ringExisting = CountAtTurretsAtRadius1(centerTile, faction);
+            int ringExisting = CountAtTurretsInAtRings(centerTile, faction);
             if (AdditionalAtWant(maxAt, builtBySettlement, ringExisting, includeInFlight: true) <= 0)
                 return false;
+
             CollectOrderedNeighbors(centerTile, tmpInnerRingTiles);
             for (int i = 0; i < tmpInnerRingTiles.Count; i++)
             {
@@ -448,11 +499,21 @@ namespace TSA_WorldDomination
                 if (AtTurretUtility.IsEmptyTurretSite(t, requireOffRoad: false))
                     return true;
             }
+
+            CollectTilesAtExactRadius(centerTile, 2, tmpAtRing2);
+            for (int i = 0; i < tmpAtRing2.Count; i++)
+            {
+                int t = tmpAtRing2[i];
+                if (!IsFortifyTileOk(t)) continue;
+                if (WorldComponent_FortifyBlacklist.BlocksNpcFortify(t, faction)) continue;
+                if (AtTurretUtility.IsEmptyTurretSite(t, requireOffRoad: false))
+                    return true;
+            }
             return false;
         }
 
         /// <summary>
-        /// How many more ATs to place: min(kit remaining vs ring, World Actions settlement capacity remaining).
+        /// How many more ATs to place: min(kit remaining vs preferred AT rings, World Actions settlement capacity remaining).
         /// Null builder → 0 (no uncapped orphans).
         /// </summary>
         private static int AdditionalAtWant(
@@ -489,7 +550,8 @@ namespace TSA_WorldDomination
             return RoadBlockKindUtil.CanUpgradeTo(existing.kind, want);
         }
 
-        private static int CountAtTurretsAtRadius1(int centerTile, Faction faction)
+        /// <summary>ATs already on preferred rings r=1 and r=2 (counts toward kit fill).</summary>
+        private static int CountAtTurretsInAtRings(int centerTile, Faction faction)
         {
             int count = 0;
             CollectOrderedNeighbors(centerTile, tmpInnerRingTiles);
@@ -500,80 +562,100 @@ namespace TSA_WorldDomination
                 if (faction != null && t.Faction != faction) continue;
                 count++;
             }
+            CollectTilesAtExactRadius(centerTile, 2, tmpAtRing2);
+            for (int i = 0; i < tmpAtRing2.Count; i++)
+            {
+                WorldObject_AT_Turret t = AtTurretUtility.FindTurretAt(tmpAtRing2[i]);
+                if (t == null || t.Destroyed) continue;
+                if (faction != null && t.Faction != faction) continue;
+                count++;
+            }
             return count;
         }
 
-        private static int PickEligibleOuterTile(int centerTile)
+        private static int PickEligibleOuterTile(int centerTile, int outerRadius)
         {
-            CollectTilesAtExactRadius(centerTile, 2, tmpRingTiles);
+            CollectTilesAtExactRadius(centerTile, outerRadius, tmpRingTiles);
             tmpPath.Clear();
             for (int i = 0; i < tmpRingTiles.Count; i++)
             {
                 int t = tmpRingTiles[i];
                 if (!IsFortifyTileOk(t)) continue;
-                if (!CanReachWithPassableMids(centerTile, t)) continue;
+                if (!TryBuildShortPath(centerTile, t, outerRadius, paint: false, road: null)) continue;
                 tmpPath.Add(t);
             }
             if (tmpPath.Count == 0) return -1;
             return tmpPath[Rand.Range(0, tmpPath.Count)];
         }
 
-        private static bool CanReachWithPassableMids(int center, int dest)
+        private static bool TryPaintShortRoadPath(int center, int dest, RoadDef road, int maxHops) =>
+            TryBuildShortPath(center, dest, maxHops, paint: true, road);
+
+        /// <summary>
+        /// BFS path of at most <paramref name="maxHops"/> hops with passable mids.
+        /// When <paramref name="paint"/>, applies <paramref name="road"/> along the path.
+        /// </summary>
+        private static bool TryBuildShortPath(int center, int dest, int maxHops, bool paint, RoadDef road)
         {
             WorldGrid grid = Find.WorldGrid;
-            if (grid == null) return false;
-            if (grid.IsNeighbor(center, dest)) return true;
+            if (grid == null || center < 0 || dest < 0 || maxHops < 1) return false;
+            if (center == dest) return false;
 
-            tmpNeighbors.Clear();
-            grid.GetTileNeighbors(center, tmpNeighbors);
-            for (int i = 0; i < tmpNeighbors.Count; i++)
+            tmpBfsParent.Clear();
+            tmpBfsQ.Clear();
+            tmpSeen.Clear();
+            tmpBfsQ.Enqueue((center, 0));
+            tmpSeen.Add(center);
+            tmpBfsParent[center] = -1;
+            bool found = false;
+            while (tmpBfsQ.Count > 0)
             {
-                int mid = tmpNeighbors[i].tileId;
-                if (!grid.IsNeighbor(mid, dest)) continue;
-                if (Find.World.Impassable(mid)) continue;
-                if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(mid)) continue;
-                return true;
+                var (tile, dist) = tmpBfsQ.Dequeue();
+                if (tile == dest)
+                {
+                    found = true;
+                    break;
+                }
+                if (dist >= maxHops) continue;
+                tmpNeighbors.Clear();
+                grid.GetTileNeighbors(tile, tmpNeighbors);
+                for (int i = 0; i < tmpNeighbors.Count; i++)
+                {
+                    int n = tmpNeighbors[i].tileId;
+                    if (!tmpSeen.Add(n)) continue;
+                    if (n != dest)
+                    {
+                        if (Find.World.Impassable(n)) continue;
+                        if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(n)) continue;
+                    }
+                    tmpBfsParent[n] = tile;
+                    tmpBfsQ.Enqueue((n, dist + 1));
+                }
             }
-            return false;
-        }
+            if (!found || !tmpBfsParent.ContainsKey(dest)) return false;
 
-        private static bool TryPaintShortRoadPath(int center, int dest, RoadDef road)
-        {
-            WorldGrid grid = Find.WorldGrid;
-            if (grid == null || road == null) return false;
+            if (!paint) return true;
+            if (road == null) return false;
 
-            // Direct neighbor (should not happen for r=2, but safe).
-            if (grid.IsNeighbor(center, dest))
+            tmpPath.Clear();
+            int walk = dest;
+            while (walk >= 0)
             {
+                tmpPath.Add(walk);
+                if (!tmpBfsParent.TryGetValue(walk, out int parent) || parent < 0)
+                    break;
+                walk = parent;
+            }
+            // tmpPath is dest → … → center
+            for (int i = tmpPath.Count - 1; i > 0; i--)
+            {
+                int a = tmpPath[i];
+                int b = tmpPath[i - 1];
                 WorldActions_Roads.ApplyRoadLink(
-                    new PlanetTile(center, grid[center].Layer),
-                    new PlanetTile(dest, grid[dest].Layer),
+                    new PlanetTile(a, grid[a].Layer),
+                    new PlanetTile(b, grid[b].Layer),
                     road);
-                return true;
             }
-
-            tmpNeighbors.Clear();
-            grid.GetTileNeighbors(center, tmpNeighbors);
-            List<int> mids = new List<int>();
-            for (int i = 0; i < tmpNeighbors.Count; i++)
-            {
-                int mid = tmpNeighbors[i].tileId;
-                if (!grid.IsNeighbor(mid, dest)) continue;
-                if (Find.World.Impassable(mid)) continue;
-                if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(mid)) continue;
-                mids.Add(mid);
-            }
-            if (mids.Count == 0) return false;
-
-            int midPick = mids[Rand.Range(0, mids.Count)];
-            WorldActions_Roads.ApplyRoadLink(
-                new PlanetTile(center, grid[center].Layer),
-                new PlanetTile(midPick, grid[midPick].Layer),
-                road);
-            WorldActions_Roads.ApplyRoadLink(
-                new PlanetTile(midPick, grid[midPick].Layer),
-                new PlanetTile(dest, grid[dest].Layer),
-                road);
             return true;
         }
     }

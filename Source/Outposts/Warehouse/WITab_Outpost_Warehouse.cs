@@ -27,7 +27,7 @@ namespace TSA_WorldDomination
         {
             LandIcon = ContentFinder<Texture2D>.Get("UI/Commands/Icon_ActiveTravelers", false)
                 ?? TexCommand.Install;
-            DropPodIcon = ContentFinder<Texture2D>.Get("WorldObjects/DropPod_OutpostGoods", false)
+            DropPodIcon = ContentFinder<Texture2D>.Get("WorldObjects/Travelers/DropPod_OutpostGoods", false)
                 ?? TexCommand.Install;
             AutoDeliverIconOn = ContentFinder<Texture2D>.Get("UI/Commands/AutoDeliver", false)
                 ?? TexCommand.Install;

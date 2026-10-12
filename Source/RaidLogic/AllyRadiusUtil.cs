@@ -7,7 +7,8 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Effective ally pull radius: ceil(base × mid/late mult) + optional Tunnel Network flat on WD outposts.
+    /// Effective ally pull radius: ceil(base × mid/late × dip) plus optional Tunnel Network flat.
+    /// Tunnel annulus (beyond base) only pulls peers that also have Tunnel Network.
     /// Same formula for attacker and defender primaries.
     /// </summary>
     public static class AllyRadiusUtil
@@ -45,12 +46,13 @@ namespace TSA_WorldDomination
             return 0f;
         }
 
-        /// <summary>Effective ally pull radius for this primary (attacker or defender).</summary>
-        public static float GetEffective(WorldObject primary, WorldDominationSettings seth = null, WorldComponent_SpreadManager manager = null)
+        public static bool HasTunnelNetwork(WorldObject worldObject)
         {
-            seth ??= WorldDominationMod.settings;
-            manager ??= Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            float radius = GetScaledBaseRadius(seth, manager) + GetTunnelBonus(primary);
+            return GetTunnelBonus(worldObject) > 1e-6f;
+        }
+
+        private static float ApplyDiplomacyRadiusMult(float radius, WorldObject primary, WorldDominationSettings seth, WorldComponent_SpreadManager manager)
+        {
             Faction f = primary?.Faction;
             if (f != null && seth != null)
             {
@@ -62,14 +64,52 @@ namespace TSA_WorldDomination
             return Mathf.Ceil(radius);
         }
 
+        /// <summary>Scaled base ally radius with underdog/leader mult, without Tunnel Network flat.</summary>
+        public static float GetBaseEffective(WorldObject primary, WorldDominationSettings seth = null, WorldComponent_SpreadManager manager = null)
+        {
+            seth ??= WorldDominationMod.settings;
+            manager ??= Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            return ApplyDiplomacyRadiusMult(GetScaledBaseRadius(seth, manager), primary, seth, manager);
+        }
+
+        /// <summary>Effective ally pull radius for this primary (attacker or defender).</summary>
+        public static float GetEffective(WorldObject primary, WorldDominationSettings seth = null, WorldComponent_SpreadManager manager = null)
+        {
+            seth ??= WorldDominationMod.settings;
+            manager ??= Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            float radius = GetScaledBaseRadius(seth, manager) + GetTunnelBonus(primary);
+            return ApplyDiplomacyRadiusMult(radius, primary, seth, manager);
+        }
+
+        /// <summary>
+        /// True when <paramref name="candidate"/> may reinforce <paramref name="primary"/> at <paramref name="distance"/>.
+        /// Base disk: any eligible ally. Tunnel annulus: both must have Tunnel Network.
+        /// </summary>
+        public static bool MayPullAtDistance(
+            WorldObject primary,
+            WorldObject candidate,
+            float distance,
+            float fullRadius,
+            WorldDominationSettings seth = null,
+            WorldComponent_SpreadManager manager = null)
+        {
+            if (primary == null || candidate == null || fullRadius <= 0f || distance > fullRadius)
+                return false;
+
+            float baseR = GetBaseEffective(primary, seth, manager);
+            if (distance <= baseR)
+                return true;
+
+            return HasTunnelNetwork(primary) && HasTunnelNetwork(candidate);
+        }
+
         public static string BuildTooltip(WorldObject primary, WorldDominationSettings seth = null, WorldComponent_SpreadManager manager = null)
         {
             seth ??= WorldDominationMod.settings;
             manager ??= Find.World?.GetComponent<WorldComponent_SpreadManager>();
             float baseR = seth?.raidAllyRadius ?? WorldDominationSettings.DefRaidAllyRadius;
-            float scaled = GetScaledBaseRadius(seth, manager);
             float flat = GetTunnelBonus(primary);
-            float effective = scaled + flat;
+            float effective = GetEffective(primary, seth, manager);
 
             var sb = new StringBuilder();
             sb.AppendLine("TSA_WD_OutpostStats_Row_AllyRadiusTip".Translate().ToString());

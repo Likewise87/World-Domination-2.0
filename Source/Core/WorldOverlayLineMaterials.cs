@@ -1,3 +1,4 @@
+using RimWorld;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Verse;
@@ -14,9 +15,19 @@ namespace TSA_WorldDomination
         private const int DeliveryOverlayRenderQueue = 3630;
         /// <summary>Above orange construction corridors so selected-crew white routes stay readable.</summary>
         private const int TravelerPathRenderQueue = 3640;
+        /// <summary>Settlement ↔ owned AT / advanced-building selection ownership chords.</summary>
+        private const int AffiliationOwnershipRenderQueue = 3625;
 
         public static readonly Material PathLineWhite = MakeAlwaysOnTopLineMat(Color.white, TravelerPathRenderQueue);
         public static readonly Material LogisticsGreen = MakeAlwaysOnTopLineMat(Color.green, LogisticsRenderQueue);
+
+        /// <summary>Player-relative ownership lines (selected NPC settlement / AT / advanced building).</summary>
+        public static readonly Material AffiliationHostile = MakeAlwaysOnTopLineMat(
+            FactionRelationKind.Hostile.GetColor(), AffiliationOwnershipRenderQueue);
+        public static readonly Material AffiliationAlly = MakeAlwaysOnTopLineMat(
+            FactionRelationKind.Ally.GetColor(), AffiliationOwnershipRenderQueue);
+        /// <summary>Neutral ownership lines reuse white traveler path (same RGB as affiliation neutral).</summary>
+        public static Material AffiliationNeutral => PathLineWhite;
 
         /// <summary>Shared dark cyan for WD UI tints and logistics lines (not Unity Color.cyan).</summary>
         public static readonly Color DarkCyanColor = new Color(0f, 188f / 255f, 216f / 255f, 1f);
@@ -34,6 +45,12 @@ namespace TSA_WorldDomination
 
         public static readonly Material RadiusRed = MaterialPool.MatFrom("UI/Overlays/ThingLine", ShaderDatabase.WorldOverlayTransparent, Color.red, RenderQueue);
         public static readonly Material RadiusCyan = MaterialPool.MatFrom("UI/Overlays/ThingLine", ShaderDatabase.WorldOverlayTransparent, Color.cyan, RenderQueue);
+        /// <summary>Tunnel Network ally-radius outer hop ring (deeper blue than <see cref="RadiusCyan"/>).</summary>
+        public static readonly Material RadiusCyanDeep = MaterialPool.MatFrom(
+            "UI/Overlays/ThingLine",
+            ShaderDatabase.WorldOverlayTransparent,
+            new Color(0.20f, 0.40f, 0.95f, 1f),
+            RenderQueue);
 
         /// <summary>
         /// Own material instance with ZTest Always so great-circle segments stay visible over hills/tiles

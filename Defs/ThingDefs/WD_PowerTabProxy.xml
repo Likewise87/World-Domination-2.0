@@ -10,7 +10,7 @@
     <selectable>false</selectable>
     <tickerType>Never</tickerType>
     <graphicData>
-      <texPath>WorldObjects/WD_Outpost_Powerplant</texPath>
+      <texPath>WorldObjects/Outposts/WD_Outpost_Powerplant</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(1,1)</drawSize>
     </graphicData>

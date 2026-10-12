@@ -771,6 +771,16 @@ namespace TSA_WorldDomination
             {
                 if (RoadBuildingTileListTouchesWater(comp.cachedRoadPathTiles))
                     return false;
+                int destTile = comp.roadTargetTile;
+                bool detached = comp.roadTargetUsesDetachedStart;
+                ApplyCorridorSourceOrientationSideEffects(
+                    comp.cachedRoadPathTiles,
+                    comp.roadWaypointTiles,
+                    sourceTileId,
+                    ref destTile,
+                    ref detached);
+                comp.roadTargetTile = destTile;
+                comp.roadTargetUsesDetachedStart = detached;
                 workTile = comp.roadIsClearing
                     ? GetFirstRoadRemovalWorkTileOnTileList(comp.cachedRoadPathTiles, sourceTileId)
                     : GetFirstRoadWorkTileOnTileList(comp.cachedRoadPathTiles, tier, sourceTileId);
@@ -802,11 +812,67 @@ namespace TSA_WorldDomination
             else
                 comp.cachedRoadPathTiles.Clear();
             comp.cachedRoadPathTiles.AddRange(pathTiles);
+            int destTileRebuild = destTileId;
+            bool detachedRebuild = comp.roadTargetUsesDetachedStart;
+            ApplyCorridorSourceOrientationSideEffects(
+                comp.cachedRoadPathTiles,
+                comp.roadWaypointTiles,
+                sourceTileId,
+                ref destTileRebuild,
+                ref detachedRebuild);
+            comp.roadTargetTile = destTileRebuild;
+            comp.roadTargetUsesDetachedStart = detachedRebuild;
             comp.lastPathSourceTile = sourceTileId;
             workTile = comp.roadIsClearing
-                ? GetFirstRoadRemovalWorkTileOnTileList(pathTiles, sourceTileId)
-                : GetFirstRoadWorkTileOnTileList(pathTiles, tier, sourceTileId);
+                ? GetFirstRoadRemovalWorkTileOnTileList(comp.cachedRoadPathTiles, sourceTileId)
+                : GetFirstRoadWorkTileOnTileList(comp.cachedRoadPathTiles, tier, sourceTileId);
             return true;
+        }
+
+        /// <summary>
+        /// Dest-first lists assume index Count-1 is travel-order source. If <paramref name="builderTile"/>
+        /// sits only at the dest end (index 0), reverse in place so the builder is the source.
+        /// No-op when the builder is already the source, absent from the list, or mid-corridor only.
+        /// </summary>
+        /// <returns>True when the list was reversed.</returns>
+        public static bool EnsureBuilderIsCorridorSource(List<int> nodesDestFirst, int builderTile)
+        {
+            if (nodesDestFirst == null || nodesDestFirst.Count < 2 || builderTile < 0)
+                return false;
+            int last = nodesDestFirst.Count - 1;
+            if (nodesDestFirst[last] == builderTile)
+                return false;
+            if (nodesDestFirst[0] != builderTile)
+                return false;
+            nodesDestFirst.Reverse();
+            return true;
+        }
+
+        /// <summary>
+        /// After <see cref="EnsureBuilderIsCorridorSource"/>, sync dest tile / waypoints / detached-start flag.
+        /// </summary>
+        public static void ApplyCorridorSourceOrientationSideEffects(
+            List<int> nodesDestFirst,
+            List<int> waypointTiles,
+            int builderTile,
+            ref int roadTargetTile,
+            ref bool roadTargetUsesDetachedStart)
+        {
+            if (!EnsureBuilderIsCorridorSource(nodesDestFirst, builderTile))
+                return;
+
+            roadTargetTile = nodesDestFirst[0];
+            if (waypointTiles == null || waypointTiles.Count == 0)
+            {
+                roadTargetUsesDetachedStart = false;
+                return;
+            }
+
+            waypointTiles.Reverse();
+            while (waypointTiles.Count > 0 && waypointTiles[waypointTiles.Count - 1] == roadTargetTile)
+                waypointTiles.RemoveAt(waypointTiles.Count - 1);
+            if (waypointTiles.Count == 0)
+                roadTargetUsesDetachedStart = false;
         }
 
         /// <summary>

@@ -381,6 +381,12 @@ namespace TSA_WorldDomination
                         return false;
                     }
 
+                    var waypointsCopy = new List<int>(sessionNodes);
+                    int destTile = target.Tile;
+                    bool detachedStart = true;
+                    WorldActions_Roads.ApplyCorridorSourceOrientationSideEffects(
+                        fullPath, waypointsCopy, source.Tile, ref destTile, ref detachedStart);
+
                     int currentGap;
                     int segmentCount;
                     if (clearing)
@@ -404,15 +410,14 @@ namespace TSA_WorldDomination
                         segmentCount = WorldActions_Roads.CountRoadWorkSegmentsOnTileList(fullPath, comp.selectedRoadTier);
                     }
 
-                    var worldObject = Find.WorldObjects.ObjectsAt(target.Tile).FirstOrDefault(x => x is Settlement || x is WorldObject_WD_Outpost);
-                    string targetName = worldObject != null ? worldObject.LabelCap : "Tile " + target.Tile;
-                    var waypointsCopy = new List<int>(sessionNodes);
+                    var worldObject = Find.WorldObjects.ObjectsAt(destTile).FirstOrDefault(x => x is Settlement || x is WorldObject_WD_Outpost);
+                    string targetName = worldObject != null ? worldObject.LabelCap : "Tile " + destTile;
 
                     if (onTargetAccepted != null)
                     {
                         onTargetAccepted(new RoadTargetSelection
                         {
-                            TargetTile = target.Tile,
+                            TargetTile = destTile,
                             TargetName = targetName,
                             PathTiles = fullPath,
                             WaypointTiles = waypointsCopy,
@@ -425,12 +430,12 @@ namespace TSA_WorldDomination
                     if (clearing)
                         comp.selectedRoadTier = SettlementTier.T1;
                     comp.roadIsClearing = clearing;
-                    comp.roadTargetTile = target.Tile;
+                    comp.roadTargetTile = destTile;
                     comp.roadProgress = 0f;
                     comp.cachedRoadPathTiles = fullPath;
                     comp.roadWaypointTiles = waypointsCopy;
                     comp.lastPathSourceTile = source.Tile;
-                    comp.roadTargetUsesDetachedStart = true;
+                    comp.roadTargetUsesDetachedStart = detachedStart;
                     comp.cachedWorkTile = currentGap;
                     comp.roadTargetName = targetName;
                     Messages.Message(

@@ -43,7 +43,7 @@ namespace TSA_WorldDomination
         private static readonly Texture2D IconRoadBlock =
             ContentFinder<Texture2D>.Get("UI/Commands/Build_RoadBlock", false);
         private static readonly Texture2D IconTrap =
-            ContentFinder<Texture2D>.Get("WorldObjects/WorldSpikeTrap", false);
+            ContentFinder<Texture2D>.Get("WorldObjects/Fortifications/WorldSpikeTrap", false);
         private static readonly Texture2D IconPlaceRoad =
             ContentFinder<Texture2D>.Get("UI/Commands/BuildRoad", false);
         private static readonly Texture2D IconRemoveFortify =
@@ -61,7 +61,7 @@ namespace TSA_WorldDomination
             ?? ContentFinder<Texture2D>.Get("UI/Commands/Remove_RoadBlock", false)
             ?? TexButton.Delete;
         private static readonly Texture2D IconAdvBuilding =
-            ContentFinder<Texture2D>.Get("WorldObjects/AdvWO_Silo", false)
+            ContentFinder<Texture2D>.Get("WorldObjects/AdvancedBuildings/AdvWO_Silo", false)
             ?? ContentFinder<Texture2D>.Get("UI/Commands/Build_RoadBlock", false)
             ?? TexCommand.Install;
         private static readonly Texture2D IconDiplomacy =

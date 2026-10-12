@@ -9,7 +9,6 @@ namespace TSA_WorldDomination
         private readonly string windowTitle;
         private bool weightsExpanded = true;
         private bool fortifyExpanded = true;
-        private bool advancedBuildingsExpanded = true;
         private bool cooldownsExpanded;
 
         public override Vector2 InitialSize => new Vector2(850f, 750f);
@@ -36,8 +35,8 @@ namespace TSA_WorldDomination
             var s = WorldDominationMod.settings;
             bool advanced = s.showAdvancedSettings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetDailyActions(),
-                () => { weightsExpanded = fortifyExpanded = advancedBuildingsExpanded = cooldownsExpanded = true; },
-                () => { weightsExpanded = fortifyExpanded = advancedBuildingsExpanded = cooldownsExpanded = false; });
+                () => { weightsExpanded = fortifyExpanded = cooldownsExpanded = true; },
+                () => { weightsExpanded = fortifyExpanded = cooldownsExpanded = false; });
             SettingsUI.DrawSettingsSearchBar(l);
 
             // 1. ACTION LIKELIHOOD WEIGHTS - core (prioritized, always visible)
@@ -140,21 +139,6 @@ namespace TSA_WorldDomination
                 s.atTurretMaxT2 = (int)atCaps[1];
                 s.atTurretMaxT3 = (int)atCaps[2];
                 s.atTurretMaxT4 = (int)atCaps[3];
-            }
-
-            l.Gap(12f);
-            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Daily_HeaderAdvancedBuildings".Translate(), ref advancedBuildingsExpanded, SettingsUI.SectionHeaderColor))
-            {
-                s.advancedBuildingEffectPct = SettingsUI.LabeledSlider(l,
-                    "TSA_WD_AdvBuild_Setting_EffectPct".Translate(),
-                    s.advancedBuildingEffectPct, 0f, 0.5f,
-                    "TSA_WD_AdvBuild_Setting_EffectPctTip".Translate(),
-                    0.01f, SliderFormat.Percent, WorldDominationSettings.DefAdvancedBuildingEffectPct);
-                s.artilleryTurretStrength = SettingsUI.LabeledSlider(l,
-                    "TSA_WD_AdvBuild_Setting_ArtilleryStrength".Translate(),
-                    s.artilleryTurretStrength, 50f, 2000f,
-                    "TSA_WD_AdvBuild_Setting_ArtilleryStrengthTip".Translate(),
-                    10f, SliderFormat.Fixed0, WorldDominationSettings.DefArtilleryTurretStrength);
             }
 
             // 3. COOLDOWNS - advanced only

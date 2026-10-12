@@ -80,6 +80,13 @@ namespace TSA_WorldDomination
         /// <summary>Additive fishing fish-abundance score when built (0.15 = +15pp).</summary>
         public float tileFishAbundanceBonus;
 
+        /// <summary>
+        /// When built, floors pre-upgrade tile fertility and animal-abundance baselines to 100% after pollution
+        /// (no effect if already 100%+). Other tile upgrade bonuses still apply after. Also triggers a one-off
+        /// pollution clear on apply (see ApplyUpgrade).
+        /// </summary>
+        public bool raiseTileEcologyBaselineToFull;
+
         // --- Mortar outpost (TSA_WD_Outpost_Mortar); bonuses × built level when stacked on same def line ---
         /// <summary>Additive shell strength damage per built level (only source of damage scaling beyond <see cref="WorldDominationSettings.mortarBaseShellDamage"/>).</summary>
         public float mortarShellDamageBonus;

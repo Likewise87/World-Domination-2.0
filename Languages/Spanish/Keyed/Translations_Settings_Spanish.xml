@@ -587,6 +587,10 @@
   <TSA_WD_WorldMap_HotkeyLine>Tecla: {0}</TSA_WD_WorldMap_HotkeyLine>
   <TSA_WD_WorldMap_ToggleTierTexts>Etiquetas de nivel de asentamiento</TSA_WD_WorldMap_ToggleTierTexts>
   <TSA_WD_WorldMap_ToggleTierTextsTip>Activa o desactiva las etiquetas T1–T4 sobre los asentamientos NPC.</TSA_WD_WorldMap_ToggleTierTextsTip>
+  <TSA_WD_WorldMap_ToggleStrengthTexts>Mostrar fuerza ofensiva</TSA_WD_WorldMap_ToggleStrengthTexts>
+  <TSA_WD_WorldMap_ToggleStrengthTextsTip>Fuerza ofensiva actual. NO incluye la fuerza defensiva.</TSA_WD_WorldMap_ToggleStrengthTextsTip>
+  <TSA_WD_WorldMap_ToggleSettlementTypeIcons>Iconos de tipo de asentamiento</TSA_WD_WorldMap_ToggleSettlementTypeIcons>
+  <TSA_WD_WorldMap_ToggleSettlementTypeIconsTip>Activado: arte de subtipo. Desactivado: iconos de facción.</TSA_WD_WorldMap_ToggleSettlementTypeIconsTip>
   <TSA_WD_WorldMap_OutpostLabels>Etiquetas de avanzadillas</TSA_WD_WorldMap_OutpostLabels>
   <TSA_WD_WorldMap_OutpostLabelsTip>Muestra comida actual, fuerza actual, nombre, enfriamiento de incursión o nada sobre tus avanzadillas.</TSA_WD_WorldMap_OutpostLabelsTip>
   <TSA_WD_OutpostWorldMapLabel_Off>Desactivado</TSA_WD_OutpostWorldMapLabel_Off>
@@ -1057,11 +1061,6 @@
   <TSA_WD_Daily_WeightAdvancedBuildingsTip>Probabilidad de que un asentamiento envíe una cuadrilla a construir un edificio avanzado cercano: Silo, Hospital, Torre de vigía, Establo, Torreta de mortero o Torreta AA. Cada asentamiento tiene tantas ranuras como su nivel y como máximo uno de cada tipo. Los asentamientos seguros, lejos de enemigos, construyen más a menudo; los amenazados solo construyen artillería. Si se elige pero ningún proyecto puede iniciarse, se usa otra acción diaria elegible.</TSA_WD_Daily_WeightAdvancedBuildingsTip>
   <TSA_WD_Daily_CdAdvancedBuildings>Enfriamiento tras edificio avanzado</TSA_WD_Daily_CdAdvancedBuildings>
   <TSA_WD_Daily_CdAdvancedBuildingsTip>Días antes de que este asentamiento pueda iniciar otro edificio avanzado. No bloquea otros tipos de acción.</TSA_WD_Daily_CdAdvancedBuildingsTip>
-  <TSA_WD_Daily_HeaderAdvancedBuildings>Edificios avanzados PNJ</TSA_WD_Daily_HeaderAdvancedBuildings>
-  <TSA_WD_AdvBuild_Setting_EffectPct>Bono de edificio económico</TSA_WD_AdvBuild_Setting_EffectPct>
-  <TSA_WD_AdvBuild_Setting_EffectPctTip>Bono que cada edificio económico da a su propietario: Silo (fuerza ofensiva máxima), Hospital (recuperación ofensiva y defensiva), Torre de vigía (alcance de ataque), Establo (velocidad de caravanas terrestres).</TSA_WD_AdvBuild_Setting_EffectPctTip>
-  <TSA_WD_AdvBuild_Setting_ArtilleryStrength>Fuerza de torretas de artillería</TSA_WD_AdvBuild_Setting_ArtilleryStrength>
-  <TSA_WD_AdvBuild_Setting_ArtilleryStrengthTip>Fuerza de las nuevas Torretas de mortero y AA PNJ. Las incursiones deben superarla para destruir una; los impactos de mortero la reducen. Las torretas nunca se regeneran. Las torretas existentes conservan su fuerza.</TSA_WD_AdvBuild_Setting_ArtilleryStrengthTip>
   <TSA_WD_Experimental_AmbushWatchRangeAssets>Rango de vigilancia con edificios (casillas)</TSA_WD_Experimental_AmbushWatchRangeAssets>
   <TSA_WD_Experimental_AmbushWatchRangeAssetsTip>Rango de vigilancia para asentamientos que poseen una Torreta AT o un edificio avanzado. Se usa el mayor entre este y el rango normal, para que el asentamiento pueda defender sus activos exteriores.</TSA_WD_Experimental_AmbushWatchRangeAssetsTip>
   <TSA_WD_Experimental_AmbushSelfDefenseRatio>Proporción mín. de emboscada en defensa propia</TSA_WD_Experimental_AmbushSelfDefenseRatio>

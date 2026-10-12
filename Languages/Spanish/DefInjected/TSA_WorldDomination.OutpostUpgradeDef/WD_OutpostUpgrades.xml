@@ -85,7 +85,7 @@
   <TSA_WD_Upgrade_DecontaminationEquipment.description>Desbloquea misiones de descontaminación. Envía una cuadrilla a limpiar la contaminación de casillas del mundo.</TSA_WD_Upgrade_DecontaminationEquipment.description>
 
   <TSA_WD_Upgrade_TunnelNetwork.label>Red de túneles</TSA_WD_Upgrade_TunnelNetwork.label>
-  <TSA_WD_Upgrade_TunnelNetwork.description>Rutas subterráneas que permiten a aliados cercanos responder a llamadas de apoyo desde más lejos.</TSA_WD_Upgrade_TunnelNetwork.description>
+  <TSA_WD_Upgrade_TunnelNetwork.description>Rutas subterráneas que amplían el radio de atracción aliada. Más allá del radio normal, solo pueden unirse otros puestos con Red de túneles.</TSA_WD_Upgrade_TunnelNetwork.description>
 
   <TSA_WD_Upgrade_FishingNets.label>Redes de pesca</TSA_WD_Upgrade_FishingNets.label>
   <TSA_WD_Upgrade_FishingNets.description>Redes costeras que aumentan las capturas y refuerzan el campamento.</TSA_WD_Upgrade_FishingNets.description>
@@ -107,6 +107,12 @@
 
   <TSA_WD_Upgrade_HydroponicsBasin.label>Cuenca hidropónica</TSA_WD_Upgrade_HydroponicsBasin.label>
   <TSA_WD_Upgrade_HydroponicsBasin.description>Infraestructura hidropónica que añade producción plana diaria de comida en esta avanzadilla.</TSA_WD_Upgrade_HydroponicsBasin.description>
+
+  <TSA_WD_Upgrade_AdvancedHydroponicsBasin.label>Cuenca hidropónica avanzada</TSA_WD_Upgrade_AdvancedHydroponicsBasin.label>
+  <TSA_WD_Upgrade_AdvancedHydroponicsBasin.description>Hidroponía ampliada que aumenta mucho la producción plana diaria de comida en esta avanzadilla. Sustituye a la Cuenca hidropónica en esta línea.</TSA_WD_Upgrade_AdvancedHydroponicsBasin.description>
+
+  <TSA_WD_Upgrade_Terraforming.label>Terraformación</TSA_WD_Upgrade_Terraforming.label>
+  <TSA_WD_Upgrade_Terraforming.description>Sube la fertilidad y la abundancia animal base de esta casilla al 100% si están por debajo (otras mejoras siguen sumando después). Al construir, limpia la contaminación en esta casilla y en un radio de 2 casillas, una sola vez.</TSA_WD_Upgrade_Terraforming.description>
 
   <TSA_WD_Upgrade_PropagandaPrinter.label>Impresora de propaganda</TSA_WD_Upgrade_PropagandaPrinter.label>
   <TSA_WD_Upgrade_PropagandaPrinter.description>Folletos y carteles que reducen más rápido la resistencia de los cautivos. Lo sustituye el siguiente equipo de esta línea.</TSA_WD_Upgrade_PropagandaPrinter.description>

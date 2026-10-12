@@ -100,13 +100,19 @@
   <TSA_WD_Upgrade_DecontaminationEquipment.description>解锁净化任务。派出小队清除世界格污染。</TSA_WD_Upgrade_DecontaminationEquipment.description>
 
   <TSA_WD_Upgrade_TunnelNetwork.label>隧道网络</TSA_WD_Upgrade_TunnelNetwork.label>
-  <TSA_WD_Upgrade_TunnelNetwork.description>地下通道让附近盟友能从更远处响应支援请求。</TSA_WD_Upgrade_TunnelNetwork.description>
+  <TSA_WD_Upgrade_TunnelNetwork.description>地下通道扩大盟友拉动范围。超出常规半径后，只有同样拥有隧道网络的前哨才能加入。</TSA_WD_Upgrade_TunnelNetwork.description>
 
   <TSA_WD_Upgrade_Silo.label>粮仓</TSA_WD_Upgrade_Silo.label>
   <TSA_WD_Upgrade_Silo.description>大容量粮仓可提高此前哨站的虚拟食物最大储量。</TSA_WD_Upgrade_Silo.description>
 
   <TSA_WD_Upgrade_HydroponicsBasin.label>水培盆地</TSA_WD_Upgrade_HydroponicsBasin.label>
   <TSA_WD_Upgrade_HydroponicsBasin.description>水培设施可为此前哨站提供固定的每日食物产量加成。</TSA_WD_Upgrade_HydroponicsBasin.description>
+
+  <TSA_WD_Upgrade_AdvancedHydroponicsBasin.label>高级水培盆地</TSA_WD_Upgrade_AdvancedHydroponicsBasin.label>
+  <TSA_WD_Upgrade_AdvancedHydroponicsBasin.description>扩大的水培设施大幅提高此前哨站的固定每日食物产量。在本线路上替换水培盆地。</TSA_WD_Upgrade_AdvancedHydroponicsBasin.description>
+
+  <TSA_WD_Upgrade_Terraforming.label>地形改造</TSA_WD_Upgrade_Terraforming.label>
+  <TSA_WD_Upgrade_Terraforming.description>将本前哨所在格的肥力与动物丰度基线提升至100%（若低于该值；其他升级仍在其后叠加）。建造时一次性清除本格及周围2格内的污染。</TSA_WD_Upgrade_Terraforming.description>
 
   <TSA_WD_Upgrade_PropagandaPrinter.label>宣传印刷机</TSA_WD_Upgrade_PropagandaPrinter.label>
   <TSA_WD_Upgrade_PropagandaPrinter.description>传单与海报可更快削弱俘虏的抵抗。本系列中更高级的宣传设施会替换它。</TSA_WD_Upgrade_PropagandaPrinter.description>

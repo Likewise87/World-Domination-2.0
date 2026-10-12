@@ -10,9 +10,9 @@ namespace TSA_WorldDomination
     public static class Outpost_DispatchMode_Gizmos
     {
         private static readonly Texture2D LandIcon =
-            ContentFinder<Texture2D>.Get("WorldObjects/Caravan_OutpostUpgrade", false) ?? TexCommand.Replant;
+            ContentFinder<Texture2D>.Get("WorldObjects/Travelers/Caravan_OutpostUpgrade", false) ?? TexCommand.Replant;
         private static readonly Texture2D DropPodIcon =
-            ContentFinder<Texture2D>.Get("WorldObjects/DropPod_OutpostUpgrade", false) ?? TexCommand.Replant;
+            ContentFinder<Texture2D>.Get("WorldObjects/Travelers/DropPod_OutpostUpgrade", false) ?? TexCommand.Replant;
         private static readonly Texture2D AutoDeliverIconOn =
             ContentFinder<Texture2D>.Get("UI/Commands/AutoDeliver", false) ?? TexCommand.Replant;
         private static readonly Texture2D AutoDeliverIconOff =

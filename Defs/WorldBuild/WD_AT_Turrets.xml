@@ -13,7 +13,7 @@
   <WorldObjectDef ParentName="TSA_WD_AT_TurretBase">
     <defName>TSA_WD_AT_Turret_Light</defName>
     <label>AT Turret (Light)</label>
-    <expandingIconTexture>WorldObjects/AT_Gun_Light</expandingIconTexture>
+    <expandingIconTexture>WorldObjects/Fortifications/AT_Gun_Light</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.WdWorldBuildCostExtension">
         <minCumulativeConstructionSkill>5</minCumulativeConstructionSkill>
@@ -32,7 +32,7 @@
   <WorldObjectDef ParentName="TSA_WD_AT_TurretBase">
     <defName>TSA_WD_AT_Turret</defName>
     <label>AT Turret</label>
-    <expandingIconTexture>WorldObjects/AT_Gun_Medium</expandingIconTexture>
+    <expandingIconTexture>WorldObjects/Fortifications/AT_Gun_Medium</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.WdWorldBuildCostExtension">
         <minCumulativeConstructionSkill>15</minCumulativeConstructionSkill>
@@ -50,7 +50,7 @@
   <WorldObjectDef ParentName="TSA_WD_AT_TurretBase">
     <defName>TSA_WD_AT_Turret_Heavy</defName>
     <label>AT Turret (Heavy)</label>
-    <expandingIconTexture>WorldObjects/AT_Gun_Heavy</expandingIconTexture>
+    <expandingIconTexture>WorldObjects/Fortifications/AT_Gun_Heavy</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.WdWorldBuildCostExtension">
         <minCumulativeConstructionSkill>25</minCumulativeConstructionSkill>

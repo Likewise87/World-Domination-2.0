@@ -1652,6 +1652,8 @@
   <TSA_WD_OutpostUpgradeImpact_FoodProductionFlat>Food Production</TSA_WD_OutpostUpgradeImpact_FoodProductionFlat>
   <TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed>Recruiting Speed</TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed>
   <TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit>Unwavering Recruit</TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit>
+  <TSA_WD_OutpostUpgradeImpact_EcologyBaselineFloor>Ecology Baseline</TSA_WD_OutpostUpgradeImpact_EcologyBaselineFloor>
+  <TSA_WD_OutpostUpgradeImpact_PollutionScrubOneOff>Pollution Scrub</TSA_WD_OutpostUpgradeImpact_PollutionScrubOneOff>
   <TSA_WD_OutpostUpgrades_UpgradeTitle>{0} (Lv {1})</TSA_WD_OutpostUpgrades_UpgradeTitle>
   <TSA_WD_OutpostUpgrades_MaxLevelReached>Max level reached</TSA_WD_OutpostUpgrades_MaxLevelReached>
   <TSA_WD_OutpostUpgrades_NextBonuses>Next: +{0} def, +{1}% offense recovery</TSA_WD_OutpostUpgrades_NextBonuses>
@@ -1689,7 +1691,7 @@
   <TSA_WD_OutpostUpgrades_BenefitMortarHit>+{0}% mortar hit chance</TSA_WD_OutpostUpgrades_BenefitMortarHit>
   <TSA_WD_OutpostUpgrades_BenefitMortarCooldown>−{0}% cooldown</TSA_WD_OutpostUpgrades_BenefitMortarCooldown>
   <TSA_WD_OutpostUpgrades_BenefitMortarRange>+{0} max mortar range tiles</TSA_WD_OutpostUpgrades_BenefitMortarRange>
-  <TSA_WD_OutpostUpgrades_BenefitAllyPullRadius>+{0} ally pull radius tiles</TSA_WD_OutpostUpgrades_BenefitAllyPullRadius>
+  <TSA_WD_OutpostUpgrades_BenefitAllyPullRadius>+{0} ally pull radius from outposts also having tunnels</TSA_WD_OutpostUpgrades_BenefitAllyPullRadius>
   <TSA_WD_OutpostUpgrades_BenefitResearchEfficiency>+{0}pp research efficiency</TSA_WD_OutpostUpgrades_BenefitResearchEfficiency>
   <TSA_WD_OutpostUpgrades_BenefitProductionEfficiency>+{0}pp production output</TSA_WD_OutpostUpgrades_BenefitProductionEfficiency>
   <TSA_WD_OutpostUpgrades_BenefitWarehouseAura>+{0}% warehouse aura</TSA_WD_OutpostUpgrades_BenefitWarehouseAura>
@@ -1700,6 +1702,8 @@
   <TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>+{0} daily food production</TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>
   <TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>+{0}% prisoner recruit speed</TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>
   <TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>Unwavering prisoners can be recruited</TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>
+  <TSA_WD_OutpostUpgrades_BenefitEcologyBaselineFloor>Min. Animal Abundance & Fertility = 100 %</TSA_WD_OutpostUpgrades_BenefitEcologyBaselineFloor>
+  <TSA_WD_OutpostUpgrades_BenefitPollutionScrubOneOff>Clears pollution on build within {0} tiles (once)</TSA_WD_OutpostUpgrades_BenefitPollutionScrubOneOff>
   <TSA_WD_OutpostUpgrades_RequiresResearch>REQUIRES RESEARCH: {0}</TSA_WD_OutpostUpgrades_RequiresResearch>
   <TSA_WD_OutpostUpgrades_UpgradeActive>(Upgrade active)</TSA_WD_OutpostUpgrades_UpgradeActive>
   <TSA_WD_OutpostUpgrades_ResearchNone>None</TSA_WD_OutpostUpgrades_ResearchNone>
@@ -2017,14 +2021,14 @@
   <TSA_WD_OutpostStats_Row_MinGarrisonTip>Strength this outpost must keep at home: garrison retain % of its occupant max (mod settings). Applies to raids, traders, and building crews (not decontamination).</TSA_WD_OutpostStats_Row_MinGarrisonTip>
   <TSA_WD_OutpostStats_Row_MinGarrisonSettlementTip>Strength this settlement must keep at home when sending raids, trader caravans, or building crews: garrison retain % of its tier max (mod settings). Decontamination is exempt.</TSA_WD_OutpostStats_Row_MinGarrisonSettlementTip>
   <TSA_WD_OutpostStats_Row_AllyRadius>Ally pull radius</TSA_WD_OutpostStats_Row_AllyRadius>
-  <TSA_WD_OutpostStats_Row_AllyRadiusTip>World-tile radius for same-faction neighbors and diplomatic allies that can support this site in attacks or defenses.</TSA_WD_OutpostStats_Row_AllyRadiusTip>
+  <TSA_WD_OutpostStats_Row_AllyRadiusTip>World-tile radius for same-faction neighbors and diplomatic allies that can support this site in attacks or defenses. Tunnel Network adds an outer ring that only pulls other outposts with Tunnel Network.</TSA_WD_OutpostStats_Row_AllyRadiusTip>
   <TSA_WD_AllyRadius_BreakdownBase>Base: {0}</TSA_WD_AllyRadius_BreakdownBase>
   <TSA_WD_AllyRadius_BreakdownStageNone>Stage scaling: none (early game, scaling off, or no active stage)</TSA_WD_AllyRadius_BreakdownStageNone>
   <TSA_WD_AllyRadius_BreakdownMid>Mid Game ally scale: +{0}%</TSA_WD_AllyRadius_BreakdownMid>
   <TSA_WD_AllyRadius_BreakdownMidOff>Mid Game ally scale: off for this stage</TSA_WD_AllyRadius_BreakdownMidOff>
   <TSA_WD_AllyRadius_BreakdownLate>Late Game ally scale: +{0}%</TSA_WD_AllyRadius_BreakdownLate>
   <TSA_WD_AllyRadius_BreakdownLateOff>Late Game ally scale: off for this stage (no Mid fallback)</TSA_WD_AllyRadius_BreakdownLateOff>
-  <TSA_WD_AllyRadius_BreakdownTunnel>Tunnel Network: +{0}</TSA_WD_AllyRadius_BreakdownTunnel>
+  <TSA_WD_AllyRadius_BreakdownTunnel>Tunnel Network: +{0} (outer ring: Tunnel Network peers only)</TSA_WD_AllyRadius_BreakdownTunnel>
   <TSA_WD_AllyRadius_BreakdownResult>Effective ally pull radius: {0}</TSA_WD_AllyRadius_BreakdownResult>
   <TSA_WD_OutpostStats_Row_FoodRadiusTip>Food logistics range for this outpost type (mod setting).</TSA_WD_OutpostStats_Row_FoodRadiusTip>
   <TSA_WD_OutpostStats_Row_PeopleRadiusTip>Nearby-settlement radius for recruiting, trading, and embassy outposts.</TSA_WD_OutpostStats_Row_PeopleRadiusTip>
@@ -2034,9 +2038,9 @@
   <TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>AA Turret engagement range (mod settings).</TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>
   <TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>Nominal seconds between AA Turret shots (mod settings).</TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>
   <TSA_WD_OutpostStats_Row_AllyStrength>Supporting allied strength</TSA_WD_OutpostStats_Row_AllyStrength>
-  <TSA_WD_OutpostStats_Row_AllyStrengthTip>Offensive strength from neighbors inside the ally pull radius. Same-faction always joins; other-faction allies only join depending on the fight. Breakdown:</TSA_WD_OutpostStats_Row_AllyStrengthTip>
+  <TSA_WD_OutpostStats_Row_AllyStrengthTip>Offensive strength from neighbors inside the ally pull radius. Same-faction always joins; other-faction allies only join depending on the fight. Beyond the base radius, only Tunnel Network outposts count. Breakdown:</TSA_WD_OutpostStats_Row_AllyStrengthTip>
   <TSA_WD_Gizmo_ShowAllyRadius>Ally Radius</TSA_WD_Gizmo_ShowAllyRadius>
-  <TSA_WD_Gizmo_ShowAllyRadiusDesc>Toggle ally pull radius for this site type (applies to all sites of the same type). Lists nearby same-faction and other-faction allies.</TSA_WD_Gizmo_ShowAllyRadiusDesc>
+  <TSA_WD_Gizmo_ShowAllyRadiusDesc>Toggle ally pull radius for this site type (applies to all sites of the same type). Base ring is cyan; Tunnel Network outer ring is a deeper blue and only pulls Tunnel Network peers.</TSA_WD_Gizmo_ShowAllyRadiusDesc>
   <TSA_WD_Gizmo_ShowAttackRadius>Attack Radius</TSA_WD_Gizmo_ShowAttackRadius>
   <TSA_WD_Gizmo_ShowAttackRadiusDesc>Toggle attack range ({0} tiles) for this site type. Applies to all sites of the same type.</TSA_WD_Gizmo_ShowAttackRadiusDesc>
   <TSA_WD_Gizmo_AttackRadiusBandsLegend>Color bands (raid target pick likelihood):\nRed = 0–25% of max range. Highest likelihood to pick a target.\nOrange = 25–50% of max range.\nYellow = 50–75% of max range.\nPale yellow-green = 75–100% of max range. Lowest likelihood.\nUnder Expansionist Zeal, the innermost band shows cyan instead of red.</TSA_WD_Gizmo_AttackRadiusBandsLegend>

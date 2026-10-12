@@ -30,8 +30,10 @@ namespace TSA_WorldDomination
         public AdvancedBuildingEffect effect = AdvancedBuildingEffect.OffensiveMaxPct;
         /// <summary>Pick weight per owner tier (T1..T4). Artillery entries are ignored outside the artillery rules.</summary>
         public List<float> tierWeights = new List<float>();
+        /// <summary>Legacy XML hint; placement uses category + owner tier in <see cref="WorldActions_AdvancedBuildings.FindBuildTile"/>.</summary>
         public int preferredMaxRadius = 2;
-        public int maxRadius = 4;
+        /// <summary>Hard search cap (economic needs ≥5 so T3/T4 outside-fortify r=4 has headroom).</summary>
+        public int maxRadius = 5;
         public float travelerStrength = 50f;
         public string iconTexPath;
         public WorldObjectDef worldObjectDef;

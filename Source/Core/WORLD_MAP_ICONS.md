@@ -27,14 +27,14 @@ Vanilla draws world objects in two layers. Mixing their textures is what made ou
 | Layer | API | WD outpost source | When visible |
 |-------|-----|-------------------|--------------|
 | Globe mesh | `WorldObject.Material` → `DrawQuadTangentialToPlanet` | `Faction.def.settlementTexturePath` (settlement-style, faction-colored) | Far / close zoom; planet-tangent (can look tilted on screen) |
-| Expanding UI | `WorldObject.ExpandingIcon` (default from def) | XML `expandingIconTexture` (outpost-type art, e.g. `WorldObjects/WD_Outpost_Farming`) | Screen-upright IMGUI icons while expand transition is active |
+| Expanding UI | `WorldObject.ExpandingIcon` (default from def) | XML `expandingIconTexture` (outpost-type art, e.g. `WorldObjects/Outposts/WD_Outpost_Farming`) | Screen-upright IMGUI icons while expand transition is active |
 
 **Hard rules (Jul 2026 regression):**
 
 - **Never** point `WorldObject_WD_Outpost.Material` at `def.texture` / outpost-type art. That stacks the same art as an upright expanding icon **on top of** a planet-tangent mesh → "normal icon + rotated copy".
 - Keep `Material` on `Faction.def.settlementTexturePath` (fallback `World/WorldObjects/Settlements/Settlement`), same as the working Jul 22 backup.
 - Outpost-type identity when zoomed for expanding icons comes from XML `expandingIconTexture` only. Do not override `ExpandingIcon` to `FactionIcon` (that made every outpost look like the colony).
-- If AA (or any upgrade) should change the look, swap **`ExpandingIcon` only** (or XML), never the `Material` path used for the globe mesh. Mortar + AA upgrade uses `WorldObjects/WD_Outpost_Mortar_AA` via `WorldObject_WD_Outpost.ExpandingIcon`.
+- If AA (or any upgrade) should change the look, swap **`ExpandingIcon` only** (or XML), never the `Material` path used for the globe mesh. Mortar + AA upgrade uses `WorldObjects/Outposts/WD_Outpost_Mortar_AA` via `WorldObject_WD_Outpost.ExpandingIcon`.
 - Do not empty-override `Draw()` to "fix" tilt. Restore the settlement-path `Material` instead.
 - **Suppressing the globe mesh for WD outposts / travelers / settlements:** use isolated `Patch_WdWorldObjectNoExpandingIcon` (TransitionPct=1 **plus** both Expandable/NonExpandable `ShouldSkip` so Material never draws), gated by Notifications settings toggles (default on). That keeps the upright expanding icon at every zoom and avoids the planet-tangent / double-image look. Do not point Material at outpost-type art as a substitute.
 - **Mortar / flak shells + `MortarWorldFx`:** at far zoom use the same `WD_WorldMapZoomUtil.IsSurfaceOverlayZoomedTooFarOut` gate as road blocks / spike traps. Shell travelers (`MortarStrike` / `AntiAirStrike` only — not drop pods) force TransitionPct=0 and skip both Material layers so they do not stay visible from space when always-show traveler icons is on.
@@ -42,17 +42,31 @@ Vanilla draws world objects in two layers. Mixing their textures is what made ou
 - **VeryClose blank despite would-draw:** with Material skipped, vanilla `ExpandableWorldObjectsOnGUI` can still leave ForceFixedIcon with no visible pixels at `WorldCameraZoomRange.VeryClose` even when `TransitionPct=1` and `HiddenBehindTerrainNow=false`. After that OnGUI, re-blit ForceFixedIcon with `GUI.DrawTexture` + `ExpandedIconScreenRect` (see `ExpandableWorldObjectsOnGUI_VeryCloseBlit_Patch`). Apply `WorldObject.ExpandingIconRotation` (`UI.RotateAroundPivot` around `rect.center`, restore `GUI.matrix`) so AT turrets and shells keep facing; skip the matrix path when the angle is ~0. Do not re-enable Material. Dot / zoom-band hide-bypass tweaks do not fix this path.
 - Road-block `DrawQuadTangentialToPlanet` rotation and FlakSmoke `GUI.matrix` rotation were red herrings for the blank-icon bug. Use `GUI.matrix` only to apply ExpandingIconRotation on the VeryClose re-blit.
 
+## NPC settlement ExpandingIcon (subtype art)
+
+Vanilla `Settlement.ExpandingIcon` is `Faction.def.FactionIcon`. WD overrides that for **NPC** settlements that have a known T1/T2 subtype on `CompViralSpread`:
+
+| Layer | Rule |
+|-------|------|
+| ExpandingIcon | When `WorldComponent_WDVisualizerToggle.ShowSettlementTypeIcons` is on (default): Harmony Prefix on `Settlement.get_ExpandingIcon` → `SettlementTypeIconUtility` returns subtype art (`WorldObjects/Settlements/T1_*` / `T2_*`) only. No faction badge. Resolved tex cached on `CompViralSpread` until `NotifySettlementTypeIconDirty` (tier/subtype change). When off: vanilla `FactionIcon`. |
+| ExpandingIconColor | Vanilla (faction tint on greyscale type art, same as other WorldObjects). |
+| Material | Unchanged (`settlementTexturePath` + faction tint). Still skipped when always-show settlement icons is on (`Patch_WdWorldObjectNoExpandingIcon`). |
+
+**Path map:** Farming→`T1_Farm`, Logging→`T1_Logging`, Mining→`T1_Mining`, Refuge→`T1_Refuge`, Camp→`T1_Camp`/`T2_Camp`, Production→`T2_Production`, Slavery→`T2_Prison`, Vanguard→`T1_Vanguard`/`T2_Vanguard` (by tier). T3 Fortress / T4 Citadel / unknown / missing file / player Colony·Outpost → keep vanilla FactionIcon.
+
+Do **not** put subtype art on `Material`. Do **not** Destroy ContentFinder textures when clearing the per-comp cache (null the pointers only).
+
 ## Traveler expanding / Material icons (`ResolveIconTexturePath`)
 
 `WorldObject_Traveler` resolves art per instance (shared defs, mission flags). Both `ExpandingIcon` and `Material` use `ResolveIconTexturePath()` (cached; call `InvalidateTravelerMaterialCache` if the path can change after spawn).
 
 | Traveler | Path |
 |----------|------|
-| Turtle consolidate | `WorldObjects/Caravan_Turtle` (Raid def is only the spawn vehicle) |
-| Vanguard mass relocation | `WorldObjects/Caravan_Vanguard` (also on `TSA_WD_Traveler_MassRelocation` XML) |
-| Invasion land raid (`isInvasionRaid`) | `WorldObjects/Caravan_Invasion` |
-| Invasion rally / host (`DesperationRally` + `!isDesperationRaid`) | `WorldObjects/Caravan_Invasion` |
-| Invasion drop-pod / gravship | Keep def `DropPod_Raiders` / `Gravship_Raiders` |
+| Turtle consolidate | `WorldObjects/Travelers/Caravan_Turtle` (Raid def is only the spawn vehicle) |
+| Vanguard mass relocation | `WorldObjects/Travelers/Caravan_Vanguard` (also on `TSA_WD_Traveler_MassRelocation` XML) |
+| Invasion land raid (`isInvasionRaid`) | `WorldObjects/Travelers/Caravan_Invasion` |
+| Invasion rally / host (`DesperationRally` + `!isDesperationRaid`) | `WorldObjects/Travelers/Caravan_Invasion` |
+| Invasion drop-pod / gravship | Keep def `WorldObjects/Travelers/DropPod_Raiders` / `WorldObjects/Travelers/Gravship_Raiders` |
 | Else | Def `expandingIconTexture` / `texture` |
 
 Do not point traveler `Material` at settlement art. Keep mission overrides in `ResolveIconTexturePath`, not one-off XML defs per flag.
@@ -61,13 +75,13 @@ Do not point traveler `Material` at settlement art. Keep mission overrides in `R
 
 | Thing | Globe / overlay | Expanding / identity | Build float menu |
 |-------|-----------------|----------------------|------------------|
-| AT turret | `Material` = settlement path + faction tint (never AT_Gun) | `WorldObjects/AT_Gun_{Light\|Medium\|Heavy}` via `AtTurretUtility.TexturePathForTier` | `UI/Commands/AT_Gun_{Light\|Medium\|Heavy}_Side` via `UiSideTexturePathForTier` |
-| Roadblock | Overlay `MatFrom` + `builtByFaction.Color` (cyan fallback) | n/a (not a WorldObject) | Kind icons from `RoadBlockKindUtil.TexturePath` → `WorldObjects/RoadBlock_{Light\|Medium\|Heavy}` |
-| Spike / caltrops | Overlay `MatFrom` + faction tint | n/a | `WorldObjects/WorldSpikeTrap` / `WorldObjects/Caltrops` |
-| NPC advanced building (Silo, Hospital, Watch Tower, Stable, Mortar / AA Turret) | `Material` = owner settlement path + faction tint at `GlobeIconAlpha` 0.9 (AT convention, slightly transparent vs settlements) | `WorldObjects/AdvWO_{Silo\|Hospital\|Watchtower\|Stable\|Mortar\|AA}` from the WorldObjectDef `expandingIconTexture`; same alpha via `ExpandingIconColor` | n/a (NPC only) |
+| AT turret | `Material` = settlement path + faction tint (never AT_Gun) | `WorldObjects/Fortifications/AT_Gun_{Light\|Medium\|Heavy}` via `AtTurretUtility.TexturePathForTier` | `UI/Commands/AT_Gun_{Light\|Medium\|Heavy}_Side` via `UiSideTexturePathForTier` |
+| Roadblock | Overlay `MatFrom` + `builtByFaction.Color` (cyan fallback) | n/a (not a WorldObject) | Kind icons from `RoadBlockKindUtil.TexturePath` → `WorldObjects/Fortifications/RoadBlock_{Light\|Medium\|Heavy}` |
+| Spike / caltrops | Overlay `MatFrom` + faction tint | n/a | `WorldObjects/Fortifications/WorldSpikeTrap` / `WorldObjects/Fortifications/Caltrops` |
+| NPC advanced building (Silo, Hospital, Watch Tower, Stable, Mortar / AA Turret) | `Material` = owner settlement path + faction tint at `GlobeIconAlpha` 0.9 (AT convention, slightly transparent vs settlements) | `WorldObjects/AdvancedBuildings/AdvWO_{Silo\|Hospital\|Watchtower\|Stable\|Mortar\|AA}` from the WorldObjectDef `expandingIconTexture`; same alpha via `ExpandingIconColor` | n/a (NPC only) |
 
 Do **not** use `*_Colorized` texture filenames. Greyscale WorldObjects art is tinted at draw time. Do **not** point AT build menus at world `AT_Gun_*` or ExpandingIcon at `*_Side`.
 
-Advanced buildings are `ForceFixedIcon` like AT turrets. Their art is drawn upright, so `WorldObject_WD_AdvancedBuilding` does **not** override `ExpandingIconRotation`. If top-down turret art is added later, mirror `WorldObject_AT_Turret` (facing state + `ExpandingIconRotation` + north-art offset) so the VeryClose re-blit keeps the facing. The old `WorldObjects/AA_Gun` texture was removed; AA Turrets use `AdvWO_AA`.
+Advanced buildings are `ForceFixedIcon` like AT turrets. Their art is drawn upright, so `WorldObject_WD_AdvancedBuilding` does **not** override `ExpandingIconRotation`. If top-down turret art is added later, mirror `WorldObject_AT_Turret` (facing state + `ExpandingIconRotation` + north-art offset) so the VeryClose re-blit keeps the facing. The old `WorldObjects/AA_Gun` texture was removed; AA Turrets use `WorldObjects/AdvancedBuildings/AdvWO_AA`.
 
 World-map float menu **Road blocks, traps, AT, and buildings** (`ShowRoadBlocksAndTraps`, hotkey R, default on): road-block / trap overlays skip their draw; AT turrets and advanced buildings suppress ExpandingIcon + Material via `HideAtTurretWhenFortificationsHidden` in `Patch_WdWorldObjectNoExpandingIcon` (call `NotifyIconModeChanged` when the flag flips).

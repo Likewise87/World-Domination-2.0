@@ -382,6 +382,9 @@ namespace TSA_WorldDomination
 
         public SettlementTier tier = SettlementTier.T1;
         public string subType = "";
+        /// <summary>Runtime ExpandingIcon cache for NPC subtype art (not scribed). Cleared on tier/subtype change.</summary>
+        private Texture2D cachedSettlementTypeExpandingIcon;
+        private string cachedSettlementTypeExpandingIconPath;
         public float offensiveStrength;
         public float defensiveStrength;
         /// <summary>Backward-compatible alias used by legacy callers; maps to offensive strength.</summary>
@@ -1690,6 +1693,33 @@ namespace TSA_WorldDomination
             lastRadiusUpdateTick = -9999;
             UpdateInterceptorRegistration();
             StampT4WorldDefensesOnCooldownIfEntering(oldTier, newTier);
+            NotifySettlementTypeIconDirty();
+        }
+
+        /// <summary>Drop per-settlement subtype ExpandingIcon cache after tier/subtype identity changes.</summary>
+        public void NotifySettlementTypeIconDirty()
+        {
+            cachedSettlementTypeExpandingIcon = null;
+            cachedSettlementTypeExpandingIconPath = null;
+        }
+
+        /// <summary>Runtime cache for <see cref="SettlementTypeIconUtility.TryGetExpandingIcon"/> (not ContentFinder ownership).</summary>
+        internal bool TryGetCachedSettlementTypeExpandingIcon(string typePath, out Texture2D tex)
+        {
+            if (cachedSettlementTypeExpandingIcon != null
+                && string.Equals(cachedSettlementTypeExpandingIconPath, typePath, System.StringComparison.Ordinal))
+            {
+                tex = cachedSettlementTypeExpandingIcon;
+                return true;
+            }
+            tex = null;
+            return false;
+        }
+
+        internal void SetCachedSettlementTypeExpandingIcon(string typePath, Texture2D tex)
+        {
+            cachedSettlementTypeExpandingIconPath = typePath;
+            cachedSettlementTypeExpandingIcon = tex;
         }
 
         /// <summary>
@@ -1758,6 +1788,7 @@ namespace TSA_WorldDomination
             lastRadiusUpdateTick = -9999;
             UpdateInterceptorRegistration();
             StampT4WorldDefensesOnCooldownIfEntering(oldTier, nextTier);
+            NotifySettlementTypeIconDirty();
             return true;
         }
 
@@ -1868,6 +1899,7 @@ namespace TSA_WorldDomination
             lastRadiusUpdateTick = -9999;
             UpdateInterceptorRegistration();
             StampT4WorldDefensesOnCooldownIfEntering(oldTier, newTier);
+            NotifySettlementTypeIconDirty();
         }
 
         /// <summary>
@@ -1898,6 +1930,7 @@ namespace TSA_WorldDomination
             lastRadiusUpdateTick = -9999;
             UpdateInterceptorRegistration();
             StampT4WorldDefensesOnCooldownIfEntering(oldTier, nextTier);
+            NotifySettlementTypeIconDirty();
             return InvestmentPromoteResult.Promoted;
         }
 
@@ -1968,6 +2001,7 @@ namespace TSA_WorldDomination
                 lastRadiusUpdateTick = -9999;
                 UpdateInterceptorRegistration();
                 StampT4WorldDefensesOnCooldownIfEntering(oldTier, tier);
+                NotifySettlementTypeIconDirty();
             }
         }
 
@@ -1997,6 +2031,7 @@ namespace TSA_WorldDomination
                 defensiveStrength = GetBaseDefensiveStrength();
                 lastRadiusUpdateTick = -9999;
                 UpdateInterceptorRegistration();
+                NotifySettlementTypeIconDirty();
             }
         }
 
@@ -2306,6 +2341,7 @@ namespace TSA_WorldDomination
             if (string.IsNullOrEmpty(subType))
                 subType = NpcSettlementSubtypeUtil.PickSubtype(tier, parent.Tile.tileId);
             cachedInspectString = null;
+            NotifySettlementTypeIconDirty();
         }
 
         /// <summary>Back-compat alias for UI; routes to <see cref="TryCompleteNpcSettlementBootstrap"/>.</summary>

@@ -1546,6 +1546,8 @@
   <TSA_WD_OutpostUpgradeImpact_FoodProductionFlat>食物生产</TSA_WD_OutpostUpgradeImpact_FoodProductionFlat>
   <TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed>招募速度</TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed>
   <TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit>招募坚定囚犯</TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit>
+  <TSA_WD_OutpostUpgradeImpact_EcologyBaselineFloor>生态基线</TSA_WD_OutpostUpgradeImpact_EcologyBaselineFloor>
+  <TSA_WD_OutpostUpgradeImpact_PollutionScrubOneOff>污染清除</TSA_WD_OutpostUpgradeImpact_PollutionScrubOneOff>
   <TSA_WD_OutpostUpgrades_UpgradeTitle>{0}(等级 {1})</TSA_WD_OutpostUpgrades_UpgradeTitle>
   <TSA_WD_OutpostUpgrades_MaxLevelReached>已达最高等级</TSA_WD_OutpostUpgrades_MaxLevelReached>
   <TSA_WD_OutpostUpgrades_NextBonuses>下一级:+{0} 防御,+{1}% 进攻恢复</TSA_WD_OutpostUpgrades_NextBonuses>
@@ -1583,7 +1585,7 @@
   <TSA_WD_OutpostUpgrades_BenefitMortarHit>+{0}% 迫击炮命中率</TSA_WD_OutpostUpgrades_BenefitMortarHit>
   <TSA_WD_OutpostUpgrades_BenefitMortarCooldown>−{0}% 冷却</TSA_WD_OutpostUpgrades_BenefitMortarCooldown>
   <TSA_WD_OutpostUpgrades_BenefitMortarRange>+{0} 最大迫击炮射程格</TSA_WD_OutpostUpgrades_BenefitMortarRange>
-  <TSA_WD_OutpostUpgrades_BenefitAllyPullRadius>+{0} 盟友拉动半径格</TSA_WD_OutpostUpgrades_BenefitAllyPullRadius>
+  <TSA_WD_OutpostUpgrades_BenefitAllyPullRadius>+{0} 盟友牵引半径（仅来自同样有隧道的前哨）</TSA_WD_OutpostUpgrades_BenefitAllyPullRadius>
   <TSA_WD_OutpostUpgrades_BenefitResearchEfficiency>+{0}pp 研究效率</TSA_WD_OutpostUpgrades_BenefitResearchEfficiency>
   <TSA_WD_OutpostUpgrades_BenefitProductionEfficiency>+{0}pp 产量</TSA_WD_OutpostUpgrades_BenefitProductionEfficiency>
   <TSA_WD_OutpostUpgrades_BenefitWarehouseAura>+{0}% 仓库光环</TSA_WD_OutpostUpgrades_BenefitWarehouseAura>
@@ -1594,6 +1596,8 @@
   <TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>+{0} 每日食物产量</TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>
   <TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>+{0}% 囚犯招募速度</TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>
   <TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>可招募意志坚定的囚犯</TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>
+  <TSA_WD_OutpostUpgrades_BenefitEcologyBaselineFloor>最低动物丰度与肥力 = 100 %</TSA_WD_OutpostUpgrades_BenefitEcologyBaselineFloor>
+  <TSA_WD_OutpostUpgrades_BenefitPollutionScrubOneOff>建造时清除周围{0}格内的污染（一次性）</TSA_WD_OutpostUpgrades_BenefitPollutionScrubOneOff>
   <TSA_WD_OutpostUpgrades_RequiresResearch>需要研究:{0}</TSA_WD_OutpostUpgrades_RequiresResearch>
   <TSA_WD_OutpostUpgrades_UpgradeActive>(升级已激活)</TSA_WD_OutpostUpgrades_UpgradeActive>
   <TSA_WD_OutpostUpgrades_ResearchNone>无</TSA_WD_OutpostUpgrades_ResearchNone>
@@ -1892,14 +1896,14 @@
   <TSA_WD_OutpostStats_Row_MinGarrisonTip>此前哨必须保留的最低进攻实力（模组设置）。适用于袭击、商队与建设小队（清污除外）。</TSA_WD_OutpostStats_Row_MinGarrisonTip>
   <TSA_WD_OutpostStats_Row_MinGarrisonSettlementTip>此定居点发动袭击、商队或建设小队时必须保留的最低进攻实力（模组设置）。清污不受此限。</TSA_WD_OutpostStats_Row_MinGarrisonSettlementTip>
   <TSA_WD_OutpostStats_Row_AllyRadius>盟友拉动半径</TSA_WD_OutpostStats_Row_AllyRadius>
-  <TSA_WD_OutpostStats_Row_AllyRadiusTip>同阵营邻居与外交盟友可在攻防中支援此地点的世界格半径。</TSA_WD_OutpostStats_Row_AllyRadiusTip>
+  <TSA_WD_OutpostStats_Row_AllyRadiusTip>同阵营邻居与外交盟友可在攻防中支援此地点的世界格半径。隧道网络另加外环，仅拉动同样拥有隧道网络的前哨。</TSA_WD_OutpostStats_Row_AllyRadiusTip>
   <TSA_WD_AllyRadius_BreakdownBase>基础：{0}</TSA_WD_AllyRadius_BreakdownBase>
   <TSA_WD_AllyRadius_BreakdownStageNone>阶段缩放：无（早期、缩放关闭或无激活阶段）</TSA_WD_AllyRadius_BreakdownStageNone>
   <TSA_WD_AllyRadius_BreakdownMid>中期盟友缩放：+{0}%</TSA_WD_AllyRadius_BreakdownMid>
   <TSA_WD_AllyRadius_BreakdownMidOff>中期盟友缩放：本阶段关闭</TSA_WD_AllyRadius_BreakdownMidOff>
   <TSA_WD_AllyRadius_BreakdownLate>后期盟友缩放：+{0}%</TSA_WD_AllyRadius_BreakdownLate>
   <TSA_WD_AllyRadius_BreakdownLateOff>后期盟友缩放：本阶段关闭（不会回退到中期）</TSA_WD_AllyRadius_BreakdownLateOff>
-  <TSA_WD_AllyRadius_BreakdownTunnel>隧道网络：+{0}</TSA_WD_AllyRadius_BreakdownTunnel>
+  <TSA_WD_AllyRadius_BreakdownTunnel>隧道网络：+{0}（外环仅限隧道网络同伴）</TSA_WD_AllyRadius_BreakdownTunnel>
   <TSA_WD_AllyRadius_BreakdownResult>有效盟友拉动半径：{0}</TSA_WD_AllyRadius_BreakdownResult>
   <TSA_WD_OutpostStats_Row_FoodRadiusTip>此类前哨的食物物流范围（模组设置）。</TSA_WD_OutpostStats_Row_FoodRadiusTip>
   <TSA_WD_OutpostStats_Row_PeopleRadiusTip>招募、贸易与大使馆的附近聚居地半径。</TSA_WD_OutpostStats_Row_PeopleRadiusTip>
@@ -1909,9 +1913,9 @@
   <TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>防空炮塔交战范围（模组设置）。</TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>
   <TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>防空炮塔射击间隔的标称秒数（模组设置）。</TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>
   <TSA_WD_OutpostStats_Row_AllyStrength>盟友支援实力</TSA_WD_OutpostStats_Row_AllyStrength>
-  <TSA_WD_OutpostStats_Row_AllyStrengthTip>盟友拉动半径内邻居的进攻实力。同阵营始终加入；其他阵营盟友视战斗局势而定。明细：</TSA_WD_OutpostStats_Row_AllyStrengthTip>
+  <TSA_WD_OutpostStats_Row_AllyStrengthTip>盟友拉动半径内邻居的进攻实力。同阵营始终加入；其他阵营盟友视战斗局势而定。超出基础半径后，仅计隧道网络前哨。明细：</TSA_WD_OutpostStats_Row_AllyStrengthTip>
   <TSA_WD_Gizmo_ShowAllyRadius>盟友半径</TSA_WD_Gizmo_ShowAllyRadius>
-  <TSA_WD_Gizmo_ShowAllyRadiusDesc>开关此类地点的盟友拉动半径（同类型全部生效）。并列出同阵营与其他阵营盟友。</TSA_WD_Gizmo_ShowAllyRadiusDesc>
+  <TSA_WD_Gizmo_ShowAllyRadiusDesc>开关此类地点的盟友拉动半径（同类型全部生效）。内环为青色；隧道网络外环为更深蓝色，且仅拉动隧道网络同伴。</TSA_WD_Gizmo_ShowAllyRadiusDesc>
   <TSA_WD_Gizmo_ShowAttackRadius>攻击半径</TSA_WD_Gizmo_ShowAttackRadius>
   <TSA_WD_Gizmo_ShowAttackRadiusDesc>开关此类地点的攻击范围（{0} 格）。同类型全部生效。</TSA_WD_Gizmo_ShowAttackRadiusDesc>
   <TSA_WD_Gizmo_AttackRadiusBandsLegend>颜色分段（袭击目标选取概率）：\n红 = 最大射程的 0–25%。最容易被选为目标。\n橙 = 最大射程的 25–50%。\n黄 = 最大射程的 50–75%。\n浅黄绿 = 最大射程的 75–100%。最不容易被选中。\n在扩张狂热下，最内圈显示为青色而非红色。</TSA_WD_Gizmo_AttackRadiusBandsLegend>

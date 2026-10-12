@@ -271,8 +271,8 @@ namespace TSA_WorldDomination
             if (cachedDeliveryMouseIcon != null) return cachedDeliveryMouseIcon;
             cachedDeliveryMouseIcon = ContentFinder<Texture2D>.Get("UI/Commands/DeliveryDestination", false)
                 ?? ContentFinder<Texture2D>.Get("UI/Commands/DeliveryTarget", false)
-                ?? ContentFinder<Texture2D>.Get("WorldObjects/Caravan_OutpostGoods", false)
-                ?? ContentFinder<Texture2D>.Get("WorldObjects/WD_Outpost_Warehouse", false)
+                ?? ContentFinder<Texture2D>.Get("WorldObjects/Travelers/Caravan_OutpostGoods", false)
+                ?? ContentFinder<Texture2D>.Get("WorldObjects/Outposts/WD_Outpost_Warehouse", false)
                 ?? TexCommand.Attack;
             return cachedDeliveryMouseIcon;
         }

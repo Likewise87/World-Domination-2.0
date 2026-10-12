@@ -182,7 +182,7 @@
   <TSA_WD_Raid_AllowPlayer>Allow Player Colony to be Raided</TSA_WD_Raid_AllowPlayer>
   <TSA_WD_Raid_AllowPlayerTooltip>If enabled, NPC settlements within range can launch actual raids against your colony map.</TSA_WD_Raid_AllowPlayerTooltip>
   <TSA_WD_Raid_AllyRadius>Ally pull radius</TSA_WD_Raid_AllyRadius>
-  <TSA_WD_Raid_AllyRadiusTooltip>Base world-tile radius for same-faction and allied-faction neighbors that can join attacks or defenses. Mid/Late Game and the Tunnel Network upgrade can raise the effective radius per site.</TSA_WD_Raid_AllyRadiusTooltip>
+  <TSA_WD_Raid_AllyRadiusTooltip>Base world-tile radius for same-faction and allied-faction neighbors that can join attacks or defenses. Mid/Late Game can raise the base. Tunnel Network adds an outer ring that only pulls other outposts with Tunnel Network.</TSA_WD_Raid_AllyRadiusTooltip>
   <TSA_WD_Raid_CdPlayer>Player Raid Cooldown</TSA_WD_Raid_CdPlayer>
   <TSA_WD_Raid_CdPlayerTooltip>How many days must pass before your colony can be targeted again by a world-triggered raid.</TSA_WD_Raid_CdPlayerTooltip>
   <TSA_WD_Raid_MaxPerDay>Max player WD raids per day</TSA_WD_Raid_MaxPerDay>

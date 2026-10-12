@@ -56,7 +56,10 @@ namespace TSA_WorldDomination
             float cropBaseline = Outpost_Baselines.GetCropBaselinePerSkill(crop);
             float harvestDifficulty = Outpost_Baselines.GetCropHarvestDifficultyFactor(crop);
             float fert01 = Mathf.Clamp(
-                WorldTileProductivity.GetFarmingFertilityScore(outpost.Tile, outpost.GetBuiltUpgradeTileFertilityBonus()),
+                WorldTileProductivity.GetFarmingFertilityScore(
+                    outpost.Tile,
+                    outpost.GetBuiltUpgradeTileFertilityBonus(),
+                    outpost.HasBuiltUpgradeRaiseTileEcologyBaselineToFull()),
                 0f,
                 WorldTileProductivity.ProductivityScoreCap);
             float tileYieldMult = Outpost_Production_Utils.GetFarmingTileProductionFactor(outpost);

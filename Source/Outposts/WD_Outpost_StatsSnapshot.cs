@@ -346,7 +346,7 @@ namespace TSA_WorldDomination
 
         private static string FormatRoadSegmentDays(float days)
         {
-            if (days < 0f) return "—";
+            if (days < 0f) return "ï¿½";
             return "TSA_WD_Outpost_Delivery_DaysLeft".Translate(days.ToString("F2")).ToString();
         }
 
@@ -786,7 +786,7 @@ namespace TSA_WorldDomination
                 section.Rows[section.Rows.Count - 1].ValueColor = color;
         }
 
-        /// <summary>Short actor cooldowns shown in minutes (Feature C origin ambush: 3 min at 1x).</summary>
+        /// <summary>Short actor cooldowns shown in minutes (Feature C origin ambush: 40s at 1x).</summary>
         private static void AddWorldActionCooldownRowMinutes(
             OutpostStatsSection section,
             string labelKey,
@@ -932,7 +932,7 @@ namespace TSA_WorldDomination
             if (demandTip.Contains("TSA_WD_")) demandTip = "Total virtual food consumed per day at this outpost.";
             string demandBreakdown = "TSA_WD_OutpostStats_Row_FoodDemandBreakdown".Translate(eatingPawns.ToString(), consumptionPerPawn.ToString("F1"), demand.ToString("F1")).ToString();
             if (demandBreakdown.Contains("TSA_WD_"))
-                demandBreakdown = eatingPawns + " eating pawns × " + consumptionPerPawn.ToString("F1") + " food needed per day = " + demand.ToString("F1");
+                demandBreakdown = eatingPawns + " eating pawns ï¿½ " + consumptionPerPawn.ToString("F1") + " food needed per day = " + demand.ToString("F1");
             demandTip = demandTip + "\n\n" + demandBreakdown;
 
             if (!logisticsActive)
@@ -976,7 +976,7 @@ namespace TSA_WorldDomination
                     totalSkillRaw.ToString("F0")).ToString();
                 if (extra == extraKey || extra.Contains("TSA_WD_"))
                     extra = "Food hub: base food production + (" + totalSkillEff.ToString("F0") + " effective " + skillName
-                        + " × " + tilePct + "% " + tileStatLabel + ") = " + dailyProd.ToString("F1") + " total."
+                        + " ï¿½ " + tilePct + "% " + tileStatLabel + ") = " + dailyProd.ToString("F1") + " total."
                         + (OutpostSkillScaling.IsDiminished(totalSkillRaw)
                             ? " Raw skill: " + totalSkillRaw.ToString("F0") + "."
                             : "");
@@ -1115,7 +1115,7 @@ namespace TSA_WorldDomination
                 {
                     timeLeft = outpost.GetProductionTimeLeftForOverview();
                     if (string.IsNullOrEmpty(timeLeft))
-                        timeLeft = "—";
+                        timeLeft = "ï¿½";
                     timeLeftTip = paused
                         ? string.Join("\n", pauseReasons)
                         : "TSA_WD_OutpostStats_Row_TimeLeftTip".Translate().ToString();
@@ -1333,7 +1333,7 @@ namespace TSA_WorldDomination
                 yieldVal = workers + " garrisoned pawns ? ~" + totalMv.ToString("F0") + " value (" + tierLabel + ")";
             string yieldTip = Outpost_Scavenging.GetKindRequirementTooltip(tier)
                 + "\n\n"
-                + workers + " × " + perPawn.ToString("F0") + " silver/pawn = " + rawMv.ToString("F0") + " base target market value per cycle."
+                + workers + " ï¿½ " + perPawn.ToString("F0") + " silver/pawn = " + rawMv.ToString("F0") + " base target market value per cycle."
                 + Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusSuffix(outpost);
             string softTip = Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusTooltip(outpost);
             if (!string.IsNullOrEmpty(softTip))
@@ -1812,7 +1812,7 @@ namespace TSA_WorldDomination
             {
                 expectedOutput = outpost.GetProductionLineForOverview();
                 if (string.IsNullOrEmpty(expectedOutput))
-                    expectedOutput = "—";
+                    expectedOutput = "ï¿½";
             }
 
             var expectedRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_ExpectedOutput",
@@ -1902,11 +1902,12 @@ namespace TSA_WorldDomination
             if (Outpost_Production_Utils.IsFarmingOutpost(def) || Outpost_Production_Utils.IsRanchOutpost(def))
             {
                 float fertUpg = outpost.GetBuiltUpgradeTileFertilityBonus();
-                int basePct = Mathf.RoundToInt(WorldTileProductivity.GetFarmingFertilityScore(tile, 0f) * 100f);
+                bool raiseBase = outpost.HasBuiltUpgradeRaiseTileEcologyBaselineToFull();
+                int basePct = Mathf.RoundToInt(WorldTileProductivity.GetFarmingFertilityScore(tile, 0f, raiseBase) * 100f);
                 string linesFert = WorldTileProductivity.BuildOutpostUpgradeProductivityLines(outpost, d => d.tileFertilityBonus);
                 AddRowRawTip(section, "TSA_WD_OutpostStats_Row_TileFertilityBase",
                     "TSA_WD_Biome_FertilityPercent".Translate(basePct).ToString(),
-                    WorldTileProductivity.GetFarmingFertilityTooltipText(tile, 0f, null));
+                    WorldTileProductivity.GetFarmingFertilityTooltipText(tile, 0f, null, raiseBase));
                 if (fertUpg > 1e-6f)
                 {
                     var upgRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_TileFertilityUpgrade",
@@ -1918,11 +1919,12 @@ namespace TSA_WorldDomination
             else if (Outpost_Production_Utils.IsHuntingOutpost(def))
             {
                 float huntUpg = outpost.GetBuiltUpgradeTileAnimalAbundanceBonus();
-                int basePct = Mathf.RoundToInt(WorldTileProductivity.GetHuntingScore(tile, 0f) * 100f);
+                bool raiseBase = outpost.HasBuiltUpgradeRaiseTileEcologyBaselineToFull();
+                int basePct = Mathf.RoundToInt(WorldTileProductivity.GetHuntingScore(tile, 0f, raiseBase) * 100f);
                 string linesHunt = WorldTileProductivity.BuildOutpostUpgradeProductivityLines(outpost, d => d.tileAnimalAbundanceBonus);
                 AddRowRawTip(section, "TSA_WD_OutpostStats_Row_TileAnimalAbundanceBase",
                     "TSA_WD_Biome_AnimalsPercent".Translate(basePct).ToString(),
-                    WorldTileProductivity.GetHuntingScoreTooltipText(tile, 0f, null));
+                    WorldTileProductivity.GetHuntingScoreTooltipText(tile, 0f, null, raiseBase));
                 if (huntUpg > 1e-6f)
                 {
                     var upgRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_TileAnimalAbundanceUpgrade",
@@ -2053,7 +2055,7 @@ namespace TSA_WorldDomination
 
         private static string FormatPercentagePointsValue(float bonusFraction)
         {
-            if (Mathf.Abs(bonusFraction) < 1e-6f) return "—";
+            if (Mathf.Abs(bonusFraction) < 1e-6f) return "ï¿½";
             int pp = Mathf.RoundToInt(bonusFraction * 100f);
             return (pp >= 0 ? "+" : "") + pp + " pp";
         }
@@ -2097,7 +2099,7 @@ namespace TSA_WorldDomination
             var row = new OutpostStatRow
             {
                 Label = labelKey.Translate().ToString(),
-                Value = value ?? "—",
+                Value = value ?? "ï¿½",
                 Tooltip = tip ?? ""
             };
             section.Rows.Add(row);
@@ -2116,7 +2118,7 @@ namespace TSA_WorldDomination
             section.Rows.Add(new OutpostStatRow
             {
                 Label = label ?? "",
-                Value = value ?? "—",
+                Value = value ?? "ï¿½",
                 Tooltip = tooltip ?? ""
             });
         }

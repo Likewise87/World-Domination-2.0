@@ -714,13 +714,13 @@
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_TunnelNetwork</defName>
     <label>Tunnel Network</label>
-    <description>Underground routes that let nearby allies answer calls for support from farther away.</description>
+    <description>Underground routes that extend ally pull range. Beyond the normal radius, only other outposts that also have Tunnel Network can join.</description>
     <imagePath>UI/OutpostUpgrades/TunnelNetwork</imagePath>
     <category>Walls</category>
     <upgradeLineId>Line_TunnelNetwork</upgradeLineId>
     <lineTier>1</lineTier>
     <outpostApplicability>All</outpostApplicability>
-    <allyPullRadiusBonus>4</allyPullRadiusBonus>
+    <allyPullRadiusBonus>3</allyPullRadiusBonus>
     <cost>
       <li><thingDef>Steel</thingDef><count>350</count></li>
       <li><thingDef>ComponentIndustrial</thingDef><count>6</count></li>
@@ -753,9 +753,51 @@
     <lineTier>1</lineTier>
     <outpostApplicability>All</outpostApplicability>
     <foodProductionFlatBonus>12</foodProductionFlatBonus>
+    <requiredResearch>Machining</requiredResearch>
     <cost>
       <li><thingDef>Steel</thingDef><count>200</count></li>
       <li><thingDef>ComponentIndustrial</thingDef><count>12</count></li>
+      <li><thingDef>Plasteel</thingDef><count>20</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_AdvancedHydroponicsBasin</defName>
+    <label>Advanced Hydroponics Basin</label>
+    <description>Expanded hydroponics that greatly increases flat daily food output at this outpost. Replaces the Hydroponics Basin on this line.</description>
+    <imagePath>UI/OutpostUpgrades/Advanced_HydroponicsBasin</imagePath>
+    <category>Production</category>
+    <upgradeLineId>Line_HydroponicsBasin</upgradeLineId>
+    <lineTier>2</lineTier>
+    <outpostApplicability>All</outpostApplicability>
+    <foodProductionFlatBonus>36</foodProductionFlatBonus>
+    <requiredResearch>Hydroponics</requiredResearch>
+    <cost>
+      <li><thingDef>Plasteel</thingDef><count>160</count></li>
+      <li><thingDef>ComponentSpacer</thingDef><count>10</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>16</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_Terraforming</defName>
+    <label>Terraforming</label>
+    <description>Raises this outpost tile's fertility and animal abundance baselines to 100% when below (other upgrades still stack after). On build, clears pollution on this tile and nearby tiles within 2 tiles once.</description>
+    <imagePath>UI/OutpostUpgrades/TerraformingUpgrade</imagePath>
+    <category>Production</category>
+    <upgradeLineId>Line_Terraforming</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Farming</li>
+      <li>TSA_WD_Outpost_Ranch</li>
+      <li>TSA_WD_Outpost_Hunting</li>
+    </allowedOutpostDefNames>
+    <raiseTileEcologyBaselineToFull>true</raiseTileEcologyBaselineToFull>
+    <requiredResearch>MicroelectronicsBasics</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>300</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>20</count></li>
       <li><thingDef>Plasteel</thingDef><count>20</count></li>
     </cost>
   </TSA_WorldDomination.OutpostUpgradeDef>

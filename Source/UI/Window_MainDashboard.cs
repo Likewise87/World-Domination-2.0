@@ -35,9 +35,9 @@ namespace TSA_WorldDomination
         private static Texture2D IconAllInventory => Dialog_OutpostArmoryAssets.ArmoryIcon;
         private static readonly Texture2D IconPlayerOutposts =
             ContentFinder<Texture2D>.Get("UI/Commands/Icon_PlayerOutposts", false)
-            ?? ContentFinder<Texture2D>.Get("WorldObjects/Icon_PlayerOutposts", false);
+            ?? ContentFinder<Texture2D>.Get("WorldObjects/Outposts/Icon_PlayerOutposts", false);
         private static readonly Texture2D RaidersIcon =
-            ContentFinder<Texture2D>.Get("WorldObjects/Caravan_Raiders", false);
+            ContentFinder<Texture2D>.Get("WorldObjects/Travelers/Caravan_Raiders", false);
         private const float FactionRankIconSize = 36f;
         private const float SectionPadding = 10f;
         private const float ColumnGap = 8f;

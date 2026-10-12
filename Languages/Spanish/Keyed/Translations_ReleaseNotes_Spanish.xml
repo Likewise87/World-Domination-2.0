@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_5_Title>Actualización mayor</TSA_WD_Update_2_3_5_Title>
+  <TSA_WD_Update_2_3_5_Body><![CDATA[
+<size=16><b>2.3.5 – Actualización mayor</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 12 de octubre de 2026</color>\n
+------------------------------\n
+• Nueva función: los asentamientos PNJ pueden construir edificios avanzados: Silo, Hospital, Torre de vigía, Torreta AA, Torreta de mortero y Establo. El Silo aumenta la fuerza máxima. El Hospital acelera la recuperación de fuerza. La Torre de vigía amplía el radio de ataque. El Establo acelera las caravanas terrestres. Camina sobre cualquiera de ellos para destruirlos, o dispara con tus propios morteros.\n
+• Los asentamientos T4 ya no tienen torretas AA ni morteros "internos". En su lugar, pueden construirlos cerca. Los asentamientos T3 tienen una pequeña probabilidad de construir también AA y Mortero. Motivo: poder destruir torretas AA y morteros desde lejos o forzar a los defensores a enfrentarse a ti en campo abierto.\n
+• Nueva función: gracias al jugador Pesky, hay iconos bonitos para todos los tipos de asentamiento T1 y T2. En el menú WD abajo a la derecha del mapa mundial puedes elegir si ver los iconos de tipo de asentamiento o los iconos de facción (comportamiento vanilla). Más iconos para T3 y T4 en camino.\n
+• Nueva función: todos los ajustes de depuración WD del mapa mundial se han unido en un menú flotante central. Construye en depuración, lanza incursiones, inicia misiones, elimina viajeros atascados, etc. desde ese menú.\n
+• Nuevas mejoras de avanzada: "Hidroponía avanzada", que da producción fija de comida para alimentar la avanzada local, y "Terraformación", que sube la fertilidad BASE local y la abundancia animal al 100% y limpia la contaminación local en un radio de 1 casilla. Uso principal: hacer viables granjas, ranchos y avanzadas de caza en biomas adversos como desiertos. ¡La terraformación NO lleva la fertilidad etc. por encima del 100%!\n
+• Ajuste de equilibrio: la mejora de avanzada Red de túneles podía ser bastante OP. Radio reducido de 4 a 3. Y solo cuenta la fuerza de otras avanzadas en el radio extra que también tengan la mejora Red de túneles.\n
+• Corrección: planes raros de construcción de carreteras podían hacer que las carreteras no se construyeran. Además: las caravanas de construcción de carreteras ya no recorrerán toda la carretera planificada si hay caminos más cortos hasta el destino.\n
+]]></TSA_WD_Update_2_3_5_Body>
   <TSA_WD_Update_2_3_43_Title>Calidad de vida</TSA_WD_Update_2_3_43_Title>
   <TSA_WD_Update_2_3_43_Body><![CDATA[
 <size=16><b>2.3.43 – Calidad de vida</b></size>\n

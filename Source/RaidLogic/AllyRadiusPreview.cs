@@ -9,6 +9,7 @@ namespace TSA_WorldDomination
     /// <summary>
     /// Peacetime UI preview of who sits inside the unified ally radius.
     /// Same-faction neighbors always join fights; other-faction diplomatic allies are conditional on constellation.
+    /// Tunnel Network outer annulus only includes peers that also have Tunnel Network (same rule as live scans).
     /// Live raid resolution still uses <see cref="Raid_ReinforcementLogic.GetReinforcements"/> with enemy/exclusions.
     /// </summary>
     public static class AllyRadiusPreview
@@ -49,7 +50,7 @@ namespace TSA_WorldDomination
             var lookup = WorldActions_Utils.GetWorldObjectsWithCompByFaction();
 
             scratch.Clear();
-            CollectNeighbors(primary, radius, lookup, manager, scratch);
+            CollectNeighbors(primary, radius, lookup, manager, seth, scratch);
 
             sb.Clear();
             sb.AppendLine("TSA_WD_AllyPreview_SameFactionHeader".Translate());
@@ -108,6 +109,7 @@ namespace TSA_WorldDomination
             float radius,
             Dictionary<Faction, List<WorldObject>> lookup,
             WorldComponent_SpreadManager manager,
+            WorldDominationSettings seth,
             List<WorldObject> into)
         {
             Faction primaryFaction = primary.Faction;
@@ -128,7 +130,8 @@ namespace TSA_WorldDomination
                     if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(s.Tile)) continue;
                     if (s.Faction != null && s.Faction.IsPlayer && s is Settlement playerS && playerS.HasMap)
                         continue;
-                    if (WorldActions_Utils.GetDistance(primary.Tile, s.Tile, manager) > radius)
+                    float dist = WorldActions_Utils.GetDistance(primary.Tile, s.Tile, manager);
+                    if (!AllyRadiusUtil.MayPullAtDistance(primary, s, dist, radius, seth, manager))
                         continue;
                     into.Add(s);
                 }

@@ -34,8 +34,8 @@
   <WorldObjectDef ParentName="TSA_WD_Outpost">
     <defName>TSA_WD_Outpost_Farming</defName>
     <label>Farming Outpost</label>
-    <texture>WorldObjects/WD_Outpost_Farming</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_Farming</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_Farming</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_Farming</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>1</outpostTier>
@@ -57,8 +57,8 @@
   <WorldObjectDef ParentName="TSA_WD_Outpost">
     <defName>TSA_WD_Outpost_Hunting</defName>
     <label>Hunting Outpost</label>
-    <texture>WorldObjects/WD_Outpost_Hunting</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_Hunting</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_Hunting</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_Hunting</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>1</outpostTier>
@@ -79,8 +79,8 @@
   <WorldObjectDef ParentName="TSA_WD_Outpost" MayRequire="Ludeon.RimWorld.Odyssey">
     <defName>TSA_WD_Outpost_Fishing</defName>
     <label>Fishing Outpost</label>
-    <texture>WorldObjects/WD_Outpost_Fishing</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_Fishing</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_Fishing</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_Fishing</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>1</outpostTier>
@@ -101,8 +101,8 @@
   <WorldObjectDef ParentName="TSA_WD_Outpost">
     <defName>TSA_WD_Outpost_Recruiting</defName>
     <label>Recruiting Outpost</label>
-    <texture>WorldObjects/WD_Outpost_Recruiting</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_Recruiting</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_Recruiting</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_Recruiting</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>2</outpostTier>
@@ -125,8 +125,8 @@
   <WorldObjectDef ParentName="TSA_WD_Outpost">
     <defName>TSA_WD_Outpost_Trading</defName>
     <label>Trading Outpost</label>
-    <texture>WorldObjects/WD_Outpost_Trading</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_Trading</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_Trading</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_Trading</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>2</outpostTier>
@@ -149,8 +149,8 @@
   <WorldObjectDef ParentName="TSA_WD_Outpost">
     <defName>TSA_WD_Outpost_Embassy</defName>
     <label>Embassy Outpost</label>
-    <texture>WorldObjects/WD_Outpost_Embassy</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_Embassy</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_Embassy</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_Embassy</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>3</outpostTier>
@@ -170,12 +170,12 @@
     </modExtensions>
   </WorldObjectDef>
 
-  <!-- Scavenging: fixed cycle from productionCycleDays; reward market value = pawns × 500 per delivery -->
+  <!-- Scavenging: fixed cycle from productionCycleDays; reward market value = pawns ï¿½ 500 per delivery -->
   <WorldObjectDef ParentName="TSA_WD_Outpost">
     <defName>TSA_WD_Outpost_Scavenging</defName>
     <label>Scavenging Outpost</label>
-    <texture>WorldObjects/WD_Outpost_Scavenging</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_Scavenging</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_Scavenging</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_Scavenging</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>1</outpostTier>
@@ -193,8 +193,8 @@
   <WorldObjectDef ParentName="TSA_WD_Outpost">
     <defName>TSA_WD_Outpost_Mining</defName>
     <label>Mining Outpost</label>
-    <texture>WorldObjects/WD_Outpost_Mining</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_Mining</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_Mining</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_Mining</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>1</outpostTier>
@@ -217,8 +217,8 @@
   <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction">
     <defName>TSA_WD_Outpost_Fabrication</defName>
     <label>Fabrication Outpost</label>
-    <texture>WorldObjects/WD_Outpost_Fabrication</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_Fabrication</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_Fabrication</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_Fabrication</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>3</outpostTier>
@@ -248,8 +248,8 @@
     <defName>TSA_WD_Outpost_BiofuelRefinery</defName>
     <label>Chemical Refinery</label>
     <description>Produces chemfuel, neutroamine, and dye.</description>
-    <texture>WorldObjects/WD_Outpost_BiofuelRefinery</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_BiofuelRefinery</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_BiofuelRefinery</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_BiofuelRefinery</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>2</outpostTier>
@@ -281,8 +281,8 @@
     <defName>TSA_WD_Outpost_DeepchemDrill</defName>
     <label>Deepchem Drilling Outpost</label>
     <description>Drills deepchem on desert tiles. Requires Vanilla Chemfuel Expanded.</description>
-    <texture>WorldObjects/WD_Outpost_DeepchemDrill</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_DeepchemDrill</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_DeepchemDrill</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_DeepchemDrill</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <allowedBiomes>
@@ -318,8 +318,8 @@
     <defName>TSA_WD_Outpost_RawShaping</defName>
     <label>Raw Resource Shaping Outpost</label>
     <description>Produces plasteel, synthread, or hyperweave on desert tiles.</description>
-    <texture>WorldObjects/WD_Outpost_RawShaping</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_RawShaping</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_RawShaping</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_RawShaping</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <allowedBiomes>
@@ -367,8 +367,8 @@
     <defName>TSA_WD_Outpost_DeepchemFactory</defName>
     <label>Deepchem Factory Outpost</label>
     <description>Legacy chemical outpost from the Bambaryla addon. Produces neutroamine and dye. Prefer founding a Chemical Refinery for new outposts.</description>
-    <texture>WorldObjects/WD_Outpost_DeepchemFactory</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_DeepchemFactory</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_DeepchemFactory</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_DeepchemFactory</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <hideFromEstablishMenu>true</hideFromEstablishMenu>
@@ -410,8 +410,8 @@
     <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction">
     <defName>TSA_WD_Outpost_Ranch</defName>
     <label>Ranch Outpost</label>
-    <texture>WorldObjects/WD_Outpost_Ranch</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_Ranch</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_Ranch</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_Ranch</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>1</outpostTier>
@@ -448,8 +448,8 @@
   <WorldObjectDef ParentName="TSA_WD_Outpost">
     <defName>TSA_WD_Outpost_Mortar</defName>
     <label>Artillery Outpost</label>
-    <texture>WorldObjects/WD_Outpost_Mortar</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_Mortar</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_Mortar</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_Mortar</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>3</outpostTier>
@@ -482,8 +482,8 @@
   <WorldObjectDef ParentName="TSA_WD_Outpost">
     <defName>TSA_WD_Outpost_RapidResponse</defName>
     <label>Rapid Response Outpost</label>
-    <texture>WorldObjects/WD_Outpost_RapidResponse</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_RapidResponse</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_RapidResponse</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_RapidResponse</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>2</outpostTier>
@@ -511,8 +511,8 @@
   <WorldObjectDef ParentName="TSA_WD_Outpost">
     <defName>TSA_WD_Outpost_Academy</defName>
     <label>Academy Outpost</label>
-    <texture>WorldObjects/WD_Outpost_Academy</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_Academy</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_Academy</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_Academy</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>2</outpostTier>
@@ -536,8 +536,8 @@
   <WorldObjectDef ParentName="TSA_WD_Outpost">
     <defName>TSA_WD_Outpost_Research</defName>
     <label>Research Outpost</label>
-    <texture>WorldObjects/WD_Outpost_Research</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_Research</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_Research</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_Research</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>1</outpostTier>
@@ -561,8 +561,8 @@
   <WorldObjectDef ParentName="TSA_WD_Outpost">
     <defName>TSA_WD_Outpost_PowerPlant</defName>
     <label>Power Plant Outpost</label>
-    <texture>WorldObjects/WD_Outpost_Powerplant</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_Powerplant</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_Powerplant</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_Powerplant</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>1</outpostTier>
@@ -584,8 +584,8 @@
   <WorldObjectDef ParentName="TSA_WD_Outpost">
     <defName>TSA_WD_Outpost_Warehouse</defName>
     <label>Warehouse Outpost</label>
-    <texture>WorldObjects/WD_Outpost_Warehouse</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_Warehouse</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_Warehouse</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_Warehouse</expandingIconTexture>
     <comps>
       <li Class="TSA_WorldDomination.CompProperties_OutpostWarehouse, TSA_WorldDomination" />
     </comps>
@@ -612,8 +612,8 @@
     <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction">
     <defName>TSA_WD_Outpost_DrugLab</defName>
     <label>Drug Lab Outpost</label>
-    <texture>WorldObjects/WD_Outpost_BiofuelRefinery</texture>
-    <expandingIconTexture>WorldObjects/WD_Outpost_DrugLab</expandingIconTexture>
+    <texture>WorldObjects/Outposts/WD_Outpost_BiofuelRefinery</texture>
+    <expandingIconTexture>WorldObjects/Outposts/WD_Outpost_DrugLab</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>2</outpostTier>
@@ -645,8 +645,8 @@
     <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction" MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Outpost_DrugLab</defName>
         <label>Advanced Drug Lab Outpost</label>
-        <texture>WorldObjects/SO_Drug</texture>
-        <expandingIconTexture>WorldObjects/SO_Drug</expandingIconTexture>
+        <texture>WorldObjects/Outposts/SO_Drug</texture>
+        <expandingIconTexture>WorldObjects/Outposts/SO_Drug</expandingIconTexture>
         <modExtensions>
             <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
                 <outpostTier>3</outpostTier>
@@ -718,8 +718,8 @@
     <WorldObjectDef ParentName="TSA_WD_Outpost_SimpleProduction" MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Outpost_Fabrication</defName>
         <label>Advanced Fabrication Outpost</label>
-        <texture>WorldObjects/BOR_Factory</texture>
-        <expandingIconTexture>WorldObjects/BOR_Factory</expandingIconTexture>
+        <texture>WorldObjects/Outposts/BOR_Factory</texture>
+        <expandingIconTexture>WorldObjects/Outposts/BOR_Factory</expandingIconTexture>
         <modExtensions>
             <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
                 <outpostTier>3</outpostTier>

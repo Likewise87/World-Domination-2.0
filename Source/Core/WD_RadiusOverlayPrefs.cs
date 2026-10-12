@@ -284,6 +284,7 @@ namespace TSA_WorldDomination
             float radius;
             OutpostCoverageFillKind fillKind;
             Material hopMat;
+            float allyInnerSplit;
             int tick = Find.TickManager?.TicksGame ?? 0;
             bool cacheHit = resolveCacheOk
                 && resolveCacheObjectId == worldObject.ID
@@ -294,10 +295,11 @@ namespace TSA_WorldDomination
                 radius = resolveCacheRadius;
                 fillKind = resolveCacheFillKind;
                 hopMat = resolveCacheHopMat;
+                allyInnerSplit = resolveCacheAllyInnerSplit;
             }
             else
             {
-                if (!TryResolve(worldObject, kind, out radius, out fillKind, out hopMat))
+                if (!TryResolve(worldObject, kind, out radius, out fillKind, out hopMat, out allyInnerSplit))
                 {
                     resolveCacheOk = false;
                     return;
@@ -308,6 +310,7 @@ namespace TSA_WorldDomination
                 resolveCacheRadius = radius;
                 resolveCacheFillKind = fillKind;
                 resolveCacheHopMat = hopMat;
+                resolveCacheAllyInnerSplit = allyInnerSplit;
                 resolveCacheTick = tick;
             }
 
@@ -346,7 +349,8 @@ namespace TSA_WorldDomination
                 accuracyBands: accuracyBands,
                 attackRangeBands: attackRangeBands,
                 zealAttackInnerCyan: zealAttackInnerCyan,
-                accuracyBandMaxRange: accuracyBandMax);
+                accuracyBandMaxRange: accuracyBandMax,
+                allyInnerRadiusSplit: allyInnerSplit);
 
             if (kind == WD_RadiusOverlayKind.Mortar || kind == WD_RadiusOverlayKind.AA)
                 Patch_SettlementT4TurretGizmos.MarkTurretRangeHoverPublic();
@@ -359,6 +363,7 @@ namespace TSA_WorldDomination
         private static float resolveCacheRadius;
         private static OutpostCoverageFillKind resolveCacheFillKind;
         private static Material resolveCacheHopMat;
+        private static float resolveCacheAllyInnerSplit = -1f;
         private static int resolveCacheTick = -99999;
 
         /// <summary>Drop the select-driven radius resolve cache (e.g. after a configure dialog commits a new range).</summary>
@@ -376,9 +381,21 @@ namespace TSA_WorldDomination
             out OutpostCoverageFillKind fillKind,
             out Material hopMat)
         {
+            return TryResolve(worldObject, kind, out radius, out fillKind, out hopMat, out _);
+        }
+
+        public static bool TryResolve(
+            WorldObject worldObject,
+            WD_RadiusOverlayKind kind,
+            out float radius,
+            out OutpostCoverageFillKind fillKind,
+            out Material hopMat,
+            out float allyInnerRadiusSplit)
+        {
             radius = 0f;
             fillKind = OutpostCoverageFillKind.Red;
             hopMat = WorldOverlayLineMaterials.RadiusRed;
+            allyInnerRadiusSplit = -1f;
 
             switch (kind)
             {
@@ -386,6 +403,12 @@ namespace TSA_WorldDomination
                     radius = AllyRadiusPreview.GetRadius(worldObject);
                     fillKind = OutpostCoverageFillKind.Cyan;
                     hopMat = WorldOverlayLineMaterials.RadiusCyan;
+                    if (AllyRadiusUtil.HasTunnelNetwork(worldObject))
+                    {
+                        float baseR = AllyRadiusUtil.GetBaseEffective(worldObject);
+                        if (baseR > 0f && baseR < radius - 1e-3f)
+                            allyInnerRadiusSplit = baseR;
+                    }
                     return radius > 0f;
 
                 case WD_RadiusOverlayKind.Attack:

@@ -387,19 +387,31 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        /// <summary>Random buildable tile at ring 1..preferredMaxRadius, else out to maxRadius.</summary>
+        /// <summary>
+        /// Pick one exact ring at a time (no mixing closer rings into the pool).
+        /// Artillery: r=1, then 2..max. Economic: r=2, then outside fortify belt, then outward, then remaining rings.
+        /// </summary>
         public static bool FindBuildTile(Settlement owner, AdvancedBuildingDef def, out int tile)
         {
             tile = -1;
             if (owner == null || def == null) return false;
             WorldGrid grid = Find.WorldGrid;
             if (grid == null) return false;
-            int preferred = Mathf.Max(1, def.preferredMaxRadius);
-            int max = Mathf.Max(preferred, def.maxRadius);
+
+            var comp = owner.GetComponent<CompViralSpread>();
+            SettlementTier tier = comp?.tier ?? SettlementTier.T1;
+            int outerFortify = WorldActions_FortifyKit.OuterFortifyRadius(tier);
+            int max = Mathf.Max(5, def.maxRadius);
+            if (def.IsArtillery)
+                max = Mathf.Max(4, def.maxRadius);
+
+            // Build per-ring candidate lists once via BFS.
+            var byRing = new List<int>[max + 1];
+            for (int r = 0; r <= max; r++)
+                byRing[r] = new List<int>(8);
 
             tmpVisited.Clear();
             tmpFrontier.Clear();
-            tmpTiles.Clear();
             int origin = owner.Tile.tileId;
             tmpVisited.Add(origin);
             tmpFrontier.Add(origin);
@@ -417,19 +429,47 @@ namespace TSA_WorldDomination
                         if (!tmpVisited.Add(id)) continue;
                         tmpNext.Add(id);
                         if (IsBuildableTile(id, owner) && !IsBuilderDestTile(id))
-                            tmpTiles.Add(id);
+                            byRing[ring].Add(id);
                     }
-                }
-                if (ring >= preferred && tmpTiles.Count > 0)
-                {
-                    tile = tmpTiles.RandomElement();
-                    return true;
                 }
                 tmpFrontier.Clear();
                 tmpFrontier.AddRange(tmpNext);
                 if (tmpFrontier.Count == 0) break;
             }
+
+            if (def.IsArtillery)
+            {
+                for (int ring = 1; ring <= max; ring++)
+                {
+                    if (TryPickFromRing(byRing[ring], out tile))
+                        return true;
+                }
+                return false;
+            }
+
+            // Economic: prefer r=2, then outside fortify (outer+1..max), skip fortify belt until last resort, then r=1.
+            int outside = outerFortify + 1;
+            if (TryPickFromRing(byRing[2], out tile))
+                return true;
+            for (int ring = outside; ring <= max; ring++)
+            {
+                if (TryPickFromRing(byRing[ring], out tile))
+                    return true;
+            }
+            // Last resort: fortify belt (if not already tried as r=2), then r=1.
+            if (outerFortify != 2 && TryPickFromRing(byRing[outerFortify], out tile))
+                return true;
+            if (TryPickFromRing(byRing[1], out tile))
+                return true;
             return false;
+        }
+
+        private static bool TryPickFromRing(List<int> ringTiles, out int tile)
+        {
+            tile = -1;
+            if (ringTiles == null || ringTiles.Count == 0) return false;
+            tile = ringTiles.RandomElement();
+            return true;
         }
 
         // ---------- Placement ----------

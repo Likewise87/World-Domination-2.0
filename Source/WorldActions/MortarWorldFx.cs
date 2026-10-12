@@ -10,13 +10,12 @@ namespace TSA_WorldDomination
     [StaticConstructorOnStartup]
     public static class MortarWorldFx
     {
-        public const string ExplosionTexturePath = "WorldObjects/Explosion";
-        public const string DropPodExplosionTexturePath = "WorldObjects/DropPodExplosion";
-        public const string ArtilleryShellDestroyedTexturePath = "WorldObjects/Artillery_Shell_Destroyed";
-        public const string CaravanRaidersDestroyedTexturePath = "WorldObjects/Caravan_Raiders_Destroyed";
-        public const string CaravanRapidResponseDestroyedTexturePath = "WorldObjects/Caravan_RapidResponse_Destroyed";
-        public const string FlakHitTexturePath = "WorldObjects/FlakHit";
-        public const string FlakSmokeTexturePathPrefix = "WorldObjects/FlakSmoke_";
+        public const string ExplosionTexturePath = "WorldObjects/VFX/Explosion";
+        public const string DropPodExplosionTexturePath = "WorldObjects/VFX/DropPodExplosion";
+        public const string ArtilleryShellDestroyedTexturePath = "WorldObjects/VFX/Artillery_Shell_Destroyed";
+        public const string CaravanRaidersDestroyedTexturePath = "WorldObjects/VFX/Caravan_Raiders_Destroyed";
+        public const string CaravanRapidResponseDestroyedTexturePath = "WorldObjects/VFX/Caravan_RapidResponse_Destroyed";
+        public const string FlakSmokeTexturePathPrefix = "WorldObjects/VFX/FlakSmoke_";
         private const int FlakSmokeVariantCount = 5;
 
         private const float DefaultDurationSeconds = 2f;
@@ -52,7 +51,6 @@ namespace TSA_WorldDomination
         private static Texture2D artilleryShellDestroyedTex;
         private static Texture2D caravanRaidersDestroyedTex;
         private static Texture2D caravanRapidResponseDestroyedTex;
-        private static Texture2D flakHitTex;
         private static readonly Texture2D[] flakSmokeVariants = new Texture2D[FlakSmokeVariantCount];
 
         static MortarWorldFx()
@@ -62,7 +60,6 @@ namespace TSA_WorldDomination
             artilleryShellDestroyedTex = ContentFinder<Texture2D>.Get(ArtilleryShellDestroyedTexturePath, false);
             caravanRaidersDestroyedTex = ContentFinder<Texture2D>.Get(CaravanRaidersDestroyedTexturePath, false);
             caravanRapidResponseDestroyedTex = ContentFinder<Texture2D>.Get(CaravanRapidResponseDestroyedTexturePath, false);
-            flakHitTex = ContentFinder<Texture2D>.Get(FlakHitTexturePath, false);
             for (int i = 0; i < FlakSmokeVariantCount; i++)
                 flakSmokeVariants[i] = ContentFinder<Texture2D>.Get(FlakSmokeTexturePathPrefix + (i + 1), false);
         }
@@ -72,7 +69,6 @@ namespace TSA_WorldDomination
         private static Texture2D ArtilleryShellDestroyedTex => artilleryShellDestroyedTex ?? explosionTex;
         private static Texture2D CaravanRaidersDestroyedTex => caravanRaidersDestroyedTex ?? explosionTex;
         private static Texture2D CaravanRapidResponseDestroyedTex => caravanRapidResponseDestroyedTex ?? explosionTex;
-        private static Texture2D FlakHitTex => flakHitTex ?? explosionTex;
 
         /// <summary>2s burst at <paramref name="impact"/>.<see cref="WorldObject.DrawPos"/> when the shell arrives (hit or miss).</summary>
         public static void NotifyMortarImpactHit(WorldObject impact)
@@ -119,9 +115,9 @@ namespace TSA_WorldDomination
                 NotifyRapidResponseCaravanDestroyedAt(pos, color);
         }
 
-        /// <summary>2s flak damage overlay (hit but target still flying).</summary>
+        /// <summary>2s flak damage overlay (hit but target still flying). Uses Explosion texture.</summary>
         public static void NotifyFlakHitAt(Vector3 worldPos)
-            => NotifyExplosionAt(worldPos, FlakHitTex, Color.white, 1f, DefaultDurationSeconds, fadeOut: true);
+            => NotifyExplosionAt(worldPos, ExplosionTex, Color.white, 1f, DefaultDurationSeconds, fadeOut: true);
 
         /// <summary>Fading smoke puff where a flak shell despawns. Uses FlakSmoke_1..4, random size/rotation, nudged away from nearby active smoke.</summary>
         public static void NotifyFlakSmokeAt(Vector3 worldPos)

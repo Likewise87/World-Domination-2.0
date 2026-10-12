@@ -63,6 +63,8 @@ namespace TSA_WorldDomination
     public class WorldComponent_WDVisualizerToggle : WorldComponent
     {
         public static bool ShowSettlementTierTexts = true;
+        public static bool ShowSettlementStrengthTexts = false;
+        public static bool ShowSettlementTypeIcons = true;
         public static bool ShowEstablishmentBlockedOverlay = false;
         public static bool ShowRoadBlocksAndTraps = true;
         public static bool ShowFortifyBlacklistOverlay = false;
@@ -146,6 +148,14 @@ namespace TSA_WorldDomination
 
             AddToggleMenuOption(options, "TSA_WD_WorldMap_ToggleTierTexts", ShowSettlementTierTexts,
                 v => ShowSettlementTierTexts = v, tipKey: "TSA_WD_WorldMap_ToggleTierTextsTip", hotkey: "E");
+            AddToggleMenuOption(options, "TSA_WD_WorldMap_ToggleStrengthTexts", ShowSettlementStrengthTexts,
+                v => ShowSettlementStrengthTexts = v, tipKey: "TSA_WD_WorldMap_ToggleStrengthTextsTip");
+            AddToggleMenuOption(options, "TSA_WD_WorldMap_ToggleSettlementTypeIcons", ShowSettlementTypeIcons,
+                v =>
+                {
+                    ShowSettlementTypeIcons = v;
+                    Patch_WdWorldObjectNoExpandingIcon.NotifyIconModeChanged();
+                }, tipKey: "TSA_WD_WorldMap_ToggleSettlementTypeIconsTip");
             AddToggleMenuOption(options, "TSA_WD_WorldMap_ToggleRoadBlocksAndTraps", ShowRoadBlocksAndTraps,
                 v =>
                 {
@@ -827,6 +837,8 @@ namespace TSA_WorldDomination
             bool legacyShowVisuals = true;
             Scribe_Values.Look(ref legacyShowVisuals, "ShowWDVisuals", true);
             Scribe_Values.Look(ref ShowSettlementTierTexts, "ShowWDTierTexts", legacyShowVisuals);
+            Scribe_Values.Look(ref ShowSettlementStrengthTexts, "WD_ShowSettlementStrengthTexts", false);
+            Scribe_Values.Look(ref ShowSettlementTypeIcons, "WD_ShowSettlementTypeIcons", true);
             bool legacyShowFoodTexts = legacyShowVisuals;
             Scribe_Values.Look(ref legacyShowFoodTexts, "ShowWDFoodTexts", legacyShowVisuals);
             Scribe_Values.Look(ref OutpostWorldMapLabelMode, "WD_OutpostWorldMapLabelMode",

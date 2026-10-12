@@ -182,7 +182,7 @@
   <TSA_WD_Raid_AllowPlayer>Permitir que asalten tu colonia</TSA_WD_Raid_AllowPlayer>
   <TSA_WD_Raid_AllowPlayerTooltip>Si está activo, asentamientos NPC en alcance pueden lanzar incursiones reales contra el mapa de tu colonia.</TSA_WD_Raid_AllowPlayerTooltip>
   <TSA_WD_Raid_AllyRadius>Radio de atracción aliada</TSA_WD_Raid_AllyRadius>
-  <TSA_WD_Raid_AllyRadiusTooltip>Radio base en casillas del mundo para vecinos de la misma facción y aliados diplomáticos que pueden unirse a ataques o defensas. Mid/Late Game y la mejora Red de túneles pueden aumentar el radio efectivo por sitio.</TSA_WD_Raid_AllyRadiusTooltip>
+  <TSA_WD_Raid_AllyRadiusTooltip>Radio base en casillas del mundo para vecinos de la misma facción y aliados diplomáticos que pueden unirse a ataques o defensas. Mid/Late Game puede subir la base. La Red de túneles añade un anillo exterior que solo atrae otros puestos con Red de túneles.</TSA_WD_Raid_AllyRadiusTooltip>
   <TSA_WD_Raid_CdPlayer>Enfriamiento de incursión al jugador</TSA_WD_Raid_CdPlayer>
   <TSA_WD_Raid_CdPlayerTooltip>Días que deben pasar antes de que tu colonia pueda ser objetivo de otra incursión mundial.</TSA_WD_Raid_CdPlayerTooltip>
   <TSA_WD_Raid_MaxPerDay>Máx. incursiones WD al jugador por día</TSA_WD_Raid_MaxPerDay>

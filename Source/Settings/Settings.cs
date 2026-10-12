@@ -290,13 +290,13 @@ namespace TSA_WorldDomination
         public const int DefCapT4 = 2;
 
         public const float DefWeightGrow = 280f;
-        public const float DefWeightRaid = 200f;
+        public const float DefWeightRaid = 160f;
         public const float DefWeightMinorIncident = 50f;
         public const float DefWeightMajorIncident = 8f;
         public const float DefWeightBuildRoad = 60f;
         public const float DefWeightTrader = 48f;
-        public const float DefWeightFortify = 80f;
-        public const float DefWeightAdvancedBuildings = 40f;
+        public const float DefWeightFortify = 100f;
+        public const float DefWeightAdvancedBuildings = 60f;
         /// <summary>Settings UI only: whether Develop is folded into the % shown next to usual-action sliders.</summary>
         public const bool DefIncludeDevelopWeightInPercentDisplay = false;
 
@@ -626,6 +626,8 @@ namespace TSA_WorldDomination
         public HashSet<string> manualAllowStorytellerRaids = new HashSet<string>();
         /// <summary>Per-faction storyteller raid block override (wins over allow if both present).</summary>
         public HashSet<string> manualBlockStorytellerRaids = new HashSet<string>();
+        /// <summary>Ordered favorite tool labels for <see cref="Dialog_WdWorldDebug"/> (cross-save ModSettings).</summary>
+        public List<string> wdDebugFavoriteIds = new List<string>();
         /// <summary>When storyteller picks a Storyteller-column-blocked faction: drop the raid or swap to an allowed faction.</summary>
         public const WdStorytellerBlockedRaidMode DefStorytellerBlockedRaidMode = WdStorytellerBlockedRaidMode.DropInvalid;
         public WdStorytellerBlockedRaidMode storytellerBlockedRaidMode = DefStorytellerBlockedRaidMode;
@@ -1110,7 +1112,7 @@ namespace TSA_WorldDomination
         public const bool DefNotifyStrongFactionWar = true;
         public const bool DefNotifyDesperationRaid = true;
         public const bool DefNotifyTurtle = true;
-        public const int CurrentSettingsDataVersion = 4;
+        public const int CurrentSettingsDataVersion = 5;
         // SURGICAL: New Defaults for Incoming Raid Notifications
         public const bool DefNotifyIncomingRaidColony = true;
         public const bool DefNotifyIncomingRaidOutpost = true;
@@ -1369,8 +1371,6 @@ namespace TSA_WorldDomination
         public float cooldownTraderDays = DefCdTraderDays;
         public float cooldownFortifyDays = DefCdFortifyDays;
         public float cooldownAdvancedBuildingDays = DefCdAdvancedBuildingDays;
-        public float advancedBuildingEffectPct = DefAdvancedBuildingEffectPct;
-        public float artilleryTurretStrength = DefArtilleryTurretStrength;
 
         public int fortifyMinTilesFromSelf = DefFortifyMinTilesFromSelf;
         public int fortifyMinTilesFromOtherSettlement = DefFortifyMinTilesFromOtherSettlement;
@@ -2585,8 +2585,6 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref cooldownTraderDays, "cooldownTraderDays", DefCdTraderDays);
             Scribe_Values.Look(ref cooldownFortifyDays, "cooldownFortifyDays", DefCdFortifyDays);
             Scribe_Values.Look(ref cooldownAdvancedBuildingDays, "cooldownAdvancedBuildingDays", DefCdAdvancedBuildingDays);
-            Scribe_Values.Look(ref advancedBuildingEffectPct, "advancedBuildingEffectPct", DefAdvancedBuildingEffectPct);
-            Scribe_Values.Look(ref artilleryTurretStrength, "artilleryTurretStrength", DefArtilleryTurretStrength);
             Scribe_Values.Look(ref fortifyMinTilesFromSelf, "fortifyMinTilesFromSelf", DefFortifyMinTilesFromSelf);
             Scribe_Values.Look(ref fortifyMinTilesFromOtherSettlement, "fortifyMinTilesFromOtherSettlement", DefFortifyMinTilesFromOtherSettlement);
             Scribe_Values.Look(ref fortifyMaxTilesFromSelf, "fortifyMaxTilesFromSelf", DefFortifyMaxTilesFromSelf);
@@ -3468,12 +3466,14 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref manualIncludeInWd, "manualIncludeInWd", LookMode.Value);
             Scribe_Collections.Look(ref manualAllowStorytellerRaids, "manualAllowStorytellerRaids", LookMode.Value);
             Scribe_Collections.Look(ref manualBlockStorytellerRaids, "manualBlockStorytellerRaids", LookMode.Value);
+            Scribe_Collections.Look(ref wdDebugFavoriteIds, "wdDebugFavoriteIds", LookMode.Value);
             Scribe_Values.Look(ref storytellerBlockedRaidMode, "storytellerBlockedRaidMode", DefStorytellerBlockedRaidMode);
             if (manualExcludeFromWdActions == null) manualExcludeFromWdActions = new HashSet<string>();
             if (manualExcludeFromWdBaseGen == null) manualExcludeFromWdBaseGen = new HashSet<string>();
             if (manualIncludeInWd == null) manualIncludeInWd = new HashSet<string>();
             if (manualAllowStorytellerRaids == null) manualAllowStorytellerRaids = new HashSet<string>();
             if (manualBlockStorytellerRaids == null) manualBlockStorytellerRaids = new HashSet<string>();
+            if (wdDebugFavoriteIds == null) wdDebugFavoriteIds = new List<string>();
 
             if (raidOutcomes == null || raidOutcomes.Count == 0) InitializeDefaults();
 
@@ -3490,6 +3490,8 @@ namespace TSA_WorldDomination
                     MigrateDecoupledRaidSettingsFromV2();
                 if (settingsDataVersion < 4)
                     MigrateRaidLossTablesToWinLossV4();
+                if (settingsDataVersion < 5)
+                    MigrateDailyActionWeightsV5();
                 settingsDataVersion = CurrentSettingsDataVersion;
             }
 
@@ -3597,6 +3599,17 @@ namespace TSA_WorldDomination
             raidAttLossOnLoss = new List<RaidSideLossEntry>(RaidSeverityDefaults.DefaultAttLossLoss());
             raidDefLossOnWin = new List<RaidSideLossEntry>(RaidSeverityDefaults.DefaultDefWinLoss());
             raidDefLossOnLoss = new List<RaidSideLossEntry>(RaidSeverityDefaults.DefaultDefLossLoss());
+        }
+
+        /// <summary>
+        /// One-shot: retune daily-action weights (raid down, fortify + advanced buildings up).
+        /// Forces the three knobs to current Defs so existing configs pick up the balance pass once.
+        /// </summary>
+        private void MigrateDailyActionWeightsV5()
+        {
+            weightRaid = DefWeightRaid;
+            weightFortify = DefWeightFortify;
+            weightAdvancedBuildings = DefWeightAdvancedBuildings;
         }
 
         private void MigrateDiplomacyNotificationSettingsFromLegacy()
@@ -4226,8 +4239,6 @@ namespace TSA_WorldDomination
             cooldownTraderDays = DefCdTraderDays;
             cooldownFortifyDays = DefCdFortifyDays;
             cooldownAdvancedBuildingDays = DefCdAdvancedBuildingDays;
-            advancedBuildingEffectPct = DefAdvancedBuildingEffectPct;
-            artilleryTurretStrength = DefArtilleryTurretStrength;
 
             fortifyMinTilesFromSelf = DefFortifyMinTilesFromSelf;
             fortifyMinTilesFromOtherSettlement = DefFortifyMinTilesFromOtherSettlement;
@@ -5461,6 +5472,23 @@ namespace TSA_WorldDomination
             settlementMinDistanceBetweenClusters = DefSettlementMinDistanceBetweenClusters;
             settlementBiomePenalty = DefSettlementBiomePenalty;
             worldSetupDestroyFortificationsOnRecreate = DefWorldSetupDestroyFortificationsOnRecreate;
+        }
+
+        public bool IsWdDebugFavorite(string id) =>
+            !string.IsNullOrEmpty(id)
+            && wdDebugFavoriteIds != null
+            && wdDebugFavoriteIds.Contains(id);
+
+        public void ToggleWdDebugFavorite(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return;
+            wdDebugFavoriteIds ??= new List<string>();
+            int idx = wdDebugFavoriteIds.IndexOf(id);
+            if (idx >= 0)
+                wdDebugFavoriteIds.RemoveAt(idx);
+            else
+                wdDebugFavoriteIds.Add(id);
+            WorldDominationMod.SaveSettingsToDisk();
         }
 
         public bool IsManualWdExclude(string defName) =>

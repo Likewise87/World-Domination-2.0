@@ -33,7 +33,9 @@ namespace TSA_WorldDomination
         FoodStorageMax,
         FoodProductionFlat,
         PrisonerRecruitSpeed,
-        UnwaveringRecruitUnlock
+        UnwaveringRecruitUnlock,
+        EcologyBaselineFloor,
+        PollutionScrubOneOff
     }
 
     internal struct AggregateBenefitLine
@@ -132,6 +134,7 @@ namespace TSA_WorldDomination
             if (def.foodProductionFlatBonus > 0f) n++;
             if (def.prisonerRecruitSpeedBonus > 0f) n++;
             if (def.enablesUnwaveringRecruit) n++;
+            if (def.raiseTileEcologyBaselineToFull) n++;
             return n;
         }
 
@@ -204,6 +207,8 @@ namespace TSA_WorldDomination
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed", (def.prisonerRecruitSpeedBonus * 100f).ToString("F0")));
             if (def.enablesUnwaveringRecruit)
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock"));
+            if (def.raiseTileEcologyBaselineToFull)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitEcologyBaselineFloor"));
 
             if (parts.Count == 0) return "";
 
@@ -252,6 +257,8 @@ namespace TSA_WorldDomination
             if (def.foodProductionFlatBonus > 0f) into.Add(UpgradeBenefitKind.FoodProductionFlat);
             if (def.prisonerRecruitSpeedBonus > 0f) into.Add(UpgradeBenefitKind.PrisonerRecruitSpeed);
             if (def.enablesUnwaveringRecruit) into.Add(UpgradeBenefitKind.UnwaveringRecruitUnlock);
+            if (def.raiseTileEcologyBaselineToFull)
+                into.Add(UpgradeBenefitKind.EcologyBaselineFloor);
         }
 
         public static bool DefAffectsBenefit(OutpostUpgradeDef def, UpgradeBenefitKind kind)
@@ -314,6 +321,10 @@ namespace TSA_WorldDomination
                     return Key("TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed");
                 case UpgradeBenefitKind.UnwaveringRecruitUnlock:
                     return Key("TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit");
+                case UpgradeBenefitKind.EcologyBaselineFloor:
+                    return Key("TSA_WD_OutpostUpgradeImpact_EcologyBaselineFloor");
+                case UpgradeBenefitKind.PollutionScrubOneOff:
+                    return Key("TSA_WD_OutpostUpgradeImpact_PollutionScrubOneOff");
                 default:
                     return Key("TSA_WD_OutpostUpgrades_FilterAll");
             }
@@ -481,6 +492,10 @@ namespace TSA_WorldDomination
                 lines.Add(MakeAggregateLine(UpgradeBenefitKind.UnwaveringRecruitUnlock,
                     Key("TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock")));
 
+            if (outpost.HasBuiltUpgradeRaiseTileEcologyBaselineToFull())
+                lines.Add(MakeAggregateLine(UpgradeBenefitKind.EcologyBaselineFloor,
+                    Key("TSA_WD_OutpostUpgrades_BenefitEcologyBaselineFloor")));
+
             return lines;
         }
 
@@ -572,6 +587,9 @@ namespace TSA_WorldDomination
                     return def.prisonerRecruitSpeedBonus;
                 case UpgradeBenefitKind.UnwaveringRecruitUnlock:
                     return def.enablesUnwaveringRecruit ? 1f : 0f;
+                case UpgradeBenefitKind.EcologyBaselineFloor:
+                case UpgradeBenefitKind.PollutionScrubOneOff:
+                    return def.raiseTileEcologyBaselineToFull ? 1f : 0f;
                 default:
                     return 0f;
             }
@@ -593,6 +611,8 @@ namespace TSA_WorldDomination
                 case UpgradeBenefitKind.AntiAirUnlock:
                 case UpgradeBenefitKind.DecontaminationUnlock:
                 case UpgradeBenefitKind.UnwaveringRecruitUnlock:
+                case UpgradeBenefitKind.EcologyBaselineFloor:
+                case UpgradeBenefitKind.PollutionScrubOneOff:
                     return false;
                 default:
                     return true;
@@ -823,6 +843,13 @@ namespace TSA_WorldDomination
                     Key("TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock"),
                     benefitColor,
                     ResolveBenefitTooltip(outpost, def, benefitsActive, UpgradeBenefitKind.UnwaveringRecruitUnlock));
+            if (def.raiseTileEcologyBaselineToFull)
+            {
+                y = DrawBenefitLine(x, y, w,
+                    Key("TSA_WD_OutpostUpgrades_BenefitEcologyBaselineFloor"),
+                    benefitColor,
+                    ResolveBenefitTooltip(outpost, def, benefitsActive, UpgradeBenefitKind.EcologyBaselineFloor));
+            }
 
             return y;
         }

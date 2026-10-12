@@ -400,17 +400,17 @@ namespace TSA_WorldDomination
         {
             // Turtle uses the Raid def as the spawn vehicle; Vanguard / Invasion reuse raid or rally defs.
             if (mission == TravelerMission.TurtleConsolidate)
-                return "WorldObjects/Caravan_Turtle";
+                return "WorldObjects/Travelers/Caravan_Turtle";
             if (mission == TravelerMission.MassRelocation)
-                return "WorldObjects/Caravan_Vanguard";
+                return "WorldObjects/Travelers/Caravan_Vanguard";
             if (mission == TravelerMission.Raid && isInvasionRaid)
-                return "WorldObjects/Caravan_Invasion";
+                return "WorldObjects/Travelers/Caravan_Invasion";
             // Walking Raid (incl. maraud after a drop-pod first strike that flipped mission but kept the pod def).
             if (mission == TravelerMission.Raid)
-                return "WorldObjects/Caravan_Raiders";
+                return "WorldObjects/Travelers/Caravan_Raiders";
             // Invasion assembly / host wait still uses DesperationRally mission for save compat.
             if (mission == TravelerMission.DesperationRally && !isDesperationRaid)
-                return "WorldObjects/Caravan_Invasion";
+                return "WorldObjects/Travelers/Caravan_Invasion";
             return GetIconTexturePathFromDef(def);
         }
 
@@ -1538,7 +1538,7 @@ namespace TSA_WorldDomination
     /// <summary>Traveler that carries produced items from an outpost to the player colony and delivers them at the map edge (teleport-style).</summary>
     public class WorldObject_Traveler_Outpost_Delivery : WorldObject_Traveler, IThingHolder
     {
-        public const string DropPodIconTexturePath = "WorldObjects/DropPod_OutpostGoods";
+        public const string DropPodIconTexturePath = "WorldObjects/Travelers/DropPod_OutpostGoods";
 
         public List<ThingDefCountClass> deliveryItems = new List<ThingDefCountClass>();
         /// <summary>Virtual food pool nutrition transferred with this shipment (warehouse → outpost).</summary>
@@ -1722,7 +1722,7 @@ namespace TSA_WorldDomination
 
     public class WorldObject_Traveler_Outpost_Upgrade : WorldObject_Traveler
     {
-        public const string DropPodIconTexturePath = "WorldObjects/DropPod_OutpostUpgrade";
+        public const string DropPodIconTexturePath = "WorldObjects/Travelers/DropPod_OutpostUpgrade";
 
         public string upgradeDefName;
         public int upgradeLevel;
@@ -1775,7 +1775,7 @@ namespace TSA_WorldDomination
     /// <summary>Buy / gift / negotiate payment travelers. Share Caravan_Trader / DropPod_Trader art; bribes stay land-only.</summary>
     public abstract class WorldObject_Traveler_TradePayment : WorldObject_Traveler
     {
-        public const string DropPodTraderTexturePath = "WorldObjects/DropPod_Trader";
+        public const string DropPodTraderTexturePath = "WorldObjects/Travelers/DropPod_Trader";
 
         public bool tradeViaDropPod;
 

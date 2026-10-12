@@ -50,6 +50,7 @@ namespace TSA_WorldDomination
             public int tileId;
             public int prodOutpostId;
             public float fertUpg, huntUpg, fishUpg, mineUpg;
+            public bool raiseEcologyBaseline;
 
             public MetricData Fert, Animals, Fish, Mining;
             public List<SpeciesRow> Wildlife;
@@ -183,7 +184,7 @@ namespace TSA_WorldDomination
         }
 
         private void EnsureCache(int tile, Tile tileInfo, WorldObject_WD_Outpost prodOutpost,
-            float fertUpg, float huntUpg, float fishUpg, float mineUpg)
+            float fertUpg, float huntUpg, float fishUpg, float mineUpg, bool raiseEcologyBaseline)
         {
             int opId = prodOutpost?.ID ?? -1;
             if (cache.unityFrame == Time.frameCount
@@ -193,6 +194,7 @@ namespace TSA_WorldDomination
                 && Mathf.Approximately(cache.huntUpg, huntUpg)
                 && Mathf.Approximately(cache.fishUpg, fishUpg)
                 && Mathf.Approximately(cache.mineUpg, mineUpg)
+                && cache.raiseEcologyBaseline == raiseEcologyBaseline
                 && cache.Wildlife != null)
                 return;
 
@@ -218,7 +220,7 @@ namespace TSA_WorldDomination
                 mutFish = AppendModifierLine(mutFish, pollutionLine);
             }
 
-            float huntFactor = WorldTileProductivity.GetHuntingScore(tile, huntUpg);
+            float huntFactor = WorldTileProductivity.GetHuntingScore(tile, huntUpg, raiseEcologyBaseline);
             float fishFactor = WorldTileProductivity.GetFishingScore(tile, fishUpg);
             BiomeDef biome = WorldTileInfo.GetBiome(tile);
 
@@ -275,17 +277,18 @@ namespace TSA_WorldDomination
                 huntUpg = huntUpg,
                 fishUpg = fishUpg,
                 mineUpg = mineUpg,
+                raiseEcologyBaseline = raiseEcologyBaseline,
                 Fert = MakeMetric(
                     "TSA_WD_Biome_ColFertility".Translate(),
-                    WorldTileProductivity.GetFarmingFertilityScore(tile, fertUpg),
+                    WorldTileProductivity.GetFarmingFertilityScore(tile, fertUpg, raiseEcologyBaseline),
                     WorldTileProductivity.GetFarmingBaseScore(tile),
-                    WorldTileProductivity.GetFarmingFertilityTooltipText(tile, fertUpg, fertUpgLines),
+                    WorldTileProductivity.GetFarmingFertilityTooltipText(tile, fertUpg, fertUpgLines, raiseEcologyBaseline),
                     mutF, fertUpgLines),
                 Animals = MakeMetric(
                     "TSA_WD_Biome_ColAnimals".Translate(),
                     huntFactor,
                     WorldTileProductivity.GetHuntingBaseScore(tile),
-                    WorldTileProductivity.GetHuntingScoreTooltipText(tile, huntUpg, huntUpgLines),
+                    WorldTileProductivity.GetHuntingScoreTooltipText(tile, huntUpg, huntUpgLines, raiseEcologyBaseline),
                     mutH, huntUpgLines),
                 Fish = MakeMetric(
                     "TSA_WD_Biome_ColFish".Translate(),
@@ -351,7 +354,8 @@ namespace TSA_WorldDomination
                 prodOutpost?.GetBuiltUpgradeTileFertilityBonus() ?? 0f,
                 prodOutpost?.GetBuiltUpgradeTileAnimalAbundanceBonus() ?? 0f,
                 prodOutpost?.GetBuiltUpgradeTileFishAbundanceBonus() ?? 0f,
-                prodOutpost?.GetBuiltUpgradeTileMiningBonus() ?? 0f);
+                prodOutpost?.GetBuiltUpgradeTileMiningBonus() ?? 0f,
+                prodOutpost?.HasBuiltUpgradeRaiseTileEcologyBaselineToFull() ?? false);
 
             float leftW = Mathf.Max(LeftMinW, body.width * LeftFrac);
             Rect leftArea = new Rect(body.x, body.y, leftW, body.height);

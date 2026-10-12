@@ -17,7 +17,7 @@ namespace TSA_WorldDomination
         public static Material LineMat => WorldOverlayLineMaterials.RoadOrange;
 
         public static Texture2D BuildSpikeTrapIcon =>
-            cachedBuildIcon ??= ContentFinder<Texture2D>.Get("WorldObjects/WorldSpikeTrap", false) ?? TexCommand.Replant;
+            cachedBuildIcon ??= ContentFinder<Texture2D>.Get("WorldObjects/Fortifications/WorldSpikeTrap", false) ?? TexCommand.Replant;
 
         public static Texture2D ClearSpikeTrapIcon =>
             cachedRemoveIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Remove_WorldSpikeTrap", false) ?? TexCommand.Replant;
@@ -122,7 +122,7 @@ namespace TSA_WorldDomination
             int minConstruction = WorldActions_SpikeTraps.GetMinConstruction(kind);
             string label = SpikeTrapKindUtil.LabelKey(kind).Translate();
             Texture2D icon = kind == SpikeTrapKind.Caltrops
-                ? (ContentFinder<Texture2D>.Get("WorldObjects/Caltrops", false) ?? BuildSpikeTrapIcon)
+                ? (ContentFinder<Texture2D>.Get("WorldObjects/Fortifications/Caltrops", false) ?? BuildSpikeTrapIcon)
                 : BuildSpikeTrapIcon;
             var option = new FloatMenuOption(label, WdCascadingFloatMenu.WrapLeaf(() =>
             {

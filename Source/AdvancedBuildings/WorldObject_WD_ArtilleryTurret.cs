@@ -18,7 +18,7 @@ namespace TSA_WorldDomination
         public int cooldownTick = -99999;
 
         public static float ConfiguredStrength =>
-            Mathf.Max(1f, WorldDominationMod.settings?.artilleryTurretStrength ?? WorldDominationSettings.DefArtilleryTurretStrength);
+            Mathf.Max(1f, WorldDominationSettings.DefArtilleryTurretStrength);
 
         public float MaxStrength => maxStrength > 0f ? maxStrength : ConfiguredStrength;
 

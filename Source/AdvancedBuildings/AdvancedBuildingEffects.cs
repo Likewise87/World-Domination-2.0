@@ -9,7 +9,7 @@ namespace TSA_WorldDomination
     public static class AdvancedBuildingEffects
     {
         public static float EffectPct =>
-            Mathf.Clamp(WorldDominationMod.settings?.advancedBuildingEffectPct ?? WorldDominationSettings.DefAdvancedBuildingEffectPct, 0f, 5f);
+            Mathf.Clamp(WorldDominationSettings.DefAdvancedBuildingEffectPct, 0f, 5f);
 
         public static string EffectPctLabel => (EffectPct * 100f).ToString("F0");
 

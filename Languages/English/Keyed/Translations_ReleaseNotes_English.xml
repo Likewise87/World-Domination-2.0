@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_5_Title>Major update</TSA_WD_Update_2_3_5_Title>
+  <TSA_WD_Update_2_3_5_Body><![CDATA[
+<size=16><b>2.3.5 – Major update</b></size>\n
+<color=#00FFFFFF>Release date: October 12th 2026</color>\n
+------------------------------\n
+• New feature: NPC settlements can build advanced buildings now: Silo, Hospital, Watch Tower, AA Turret, Mortar Turret, Stable. Silo boosts max strength. Hospital boosts strength recovery. Watch Tower boosts attack radius. Stable boosts land caravan travel speed. Walk over any of those to destroy them, or shoot them with your own mortars.\n
+• T4 settlements no longer have "internal" AA turrets and mortars. Instead, T4 settlements may build those close to them. T3 settlements have a small chance to also build AA and Mortar. Why: so you can destroy AA turrets and mortars from afar or force the defenders to meet you in the open field.\n
+• New feature: Thanks to player Pesky, we have nice icons now for all the different T1 and T2 settlement types. You can toggle at the right bottom on the world map in the WD menu whether you want to see the settlement type icons or the faction icons (the normal vanilla behavior). More icons for T3 and T4 to follow.\n
+• New feature: All WD debug settings on the world map have been merged into a convenient central debug float menu. Debug-build stuff, issue raids, launch quests, delete stuck travelers, and more from that menu.\n
+• New outpost upgrades: "Advanced Hydroponics" giving you flat food production to feed the local outpost, and "Terraforming" which boosts the local BASE fertility and animal abundance to 100% and clears local pollution in a 1-tile radius. Primary use case: make farms, ranches and hunting outposts viable in adverse biomes like deserts. Terraforming does NOT push fertility etc. above 100%!\n
+• Balance change: The Tunnel Network outpost upgrade could be pretty OP. Reduced its radius to 3 from 4. And it will only take into account strength from other outposts in the extra radius that also have the Tunnel Network upgrade.\n
+• Bugfix: Fixed an issue where weird road building plans would result in roads not getting built. Also: road building caravans will now not travel the entire planned road to get to their destination if there are shorter paths to the destination.\n
+]]></TSA_WD_Update_2_3_5_Body>
   <TSA_WD_Update_2_3_43_Title>QOL</TSA_WD_Update_2_3_43_Title>
   <TSA_WD_Update_2_3_43_Body><![CDATA[
 <size=16><b>2.3.43 – QOL</b></size>\n

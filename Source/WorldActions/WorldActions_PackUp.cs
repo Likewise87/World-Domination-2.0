@@ -703,7 +703,10 @@ namespace TSA_WorldDomination
                     tier = SettlementTier.T1;
                 comp.SetState(tier);
                 if (!subType.NullOrEmpty())
+                {
                     comp.subType = subType;
+                    comp.NotifySettlementTypeIconDirty();
+                }
                 comp.offensiveStrength = Mathf.Max(10f, traveler.travelerStrength);
                 if (traveler.massRelocationDefensiveStrength > 0f)
                     comp.defensiveStrength = traveler.massRelocationDefensiveStrength;

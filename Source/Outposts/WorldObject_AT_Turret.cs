@@ -425,6 +425,8 @@ namespace TSA_WorldDomination
                     accuracyBands: true,
                     accuracyBandMaxRange: GetConfiguredMaxRangeTiles());
             }
+
+            SettlementOwnedAssetSelectionLines.DrawToOwner(this, builtBySettlement);
         }
 
         protected override void Tick()

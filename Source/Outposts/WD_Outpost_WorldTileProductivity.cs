@@ -313,7 +313,7 @@ namespace TSA_WorldDomination
         /// <summary>Hover text: base score, per-mutator percentage points, total (matches column %).</summary>
         /// <param name="outpostUpgradeAdditive">Built outpost upgrades: additive fraction (e.g. 0.15 = +15pp) before cap.</param>
         /// <param name="outpostUpgradeDetailLines">Preformatted bullet lines from <see cref="BuildOutpostUpgradeProductivityLines"/> (optional).</param>
-        public static string GetFarmingFertilityTooltipText(int tile, float outpostUpgradeAdditive = 0f, string outpostUpgradeDetailLines = null)
+        public static string GetFarmingFertilityTooltipText(int tile, float outpostUpgradeAdditive = 0f, string outpostUpgradeDetailLines = null, bool raiseEcologyBaselineToFull = false)
         {
             var grid = Find.WorldGrid;
             if (grid == null || tile < 0 || tile >= grid.TilesCount)
@@ -323,8 +323,11 @@ namespace TSA_WorldDomination
                 return "TSA_WD_ProductivityTooltip_WaterTile".Translate().ToString();
             float baseScore = GetFarmingBaseScore(tile);
             float mutSum = SumMutatorScoreOffsets(tileInfo, MutatorFarmingScoreOffsets);
-            float raw = ApplyPollutionEcologyMultiplier(baseScore + mutSum + outpostUpgradeAdditive, tile);
-            float final = GetFarmingFertilityScore(tile, outpostUpgradeAdditive);
+            float pollutedBaseline = ApplyPollutionEcologyMultiplier(baseScore + mutSum, tile);
+            if (raiseEcologyBaselineToFull && pollutedBaseline < 1f)
+                pollutedBaseline = 1f;
+            float raw = pollutedBaseline + outpostUpgradeAdditive;
+            float final = GetFarmingFertilityScore(tile, outpostUpgradeAdditive, raiseEcologyBaselineToFull);
             var sb = new StringBuilder();
             sb.AppendLine("TSA_WD_ProductivityTooltip_FertilityIntro".Translate().ToString());
             sb.AppendLine();
@@ -351,7 +354,7 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>Hover text for hunting score: biome rank + mutator lines + total.</summary>
-        public static string GetHuntingScoreTooltipText(int tile, float outpostUpgradeAdditive = 0f, string outpostUpgradeDetailLines = null)
+        public static string GetHuntingScoreTooltipText(int tile, float outpostUpgradeAdditive = 0f, string outpostUpgradeDetailLines = null, bool raiseEcologyBaselineToFull = false)
         {
             var grid = Find.WorldGrid;
             if (grid == null || tile < 0 || tile >= grid.TilesCount)
@@ -361,8 +364,11 @@ namespace TSA_WorldDomination
                 return "TSA_WD_ProductivityTooltip_WaterTile".Translate().ToString();
             float baseScore = GetHuntingBaseScore(tile);
             float mutSum = SumMutatorScoreOffsets(tileInfo, MutatorHuntingScoreOffsets);
-            float raw = ApplyPollutionEcologyMultiplier(baseScore + mutSum + outpostUpgradeAdditive, tile);
-            float final = GetHuntingScore(tile, outpostUpgradeAdditive);
+            float pollutedBaseline = ApplyPollutionEcologyMultiplier(baseScore + mutSum, tile);
+            if (raiseEcologyBaselineToFull && pollutedBaseline < 1f)
+                pollutedBaseline = 1f;
+            float raw = pollutedBaseline + outpostUpgradeAdditive;
+            float final = GetHuntingScore(tile, outpostUpgradeAdditive, raiseEcologyBaselineToFull);
             var sb = new StringBuilder();
             sb.AppendLine("TSA_WD_ProductivityTooltip_HuntingIntro".Translate().ToString());
             sb.AppendLine();
@@ -639,7 +645,11 @@ namespace TSA_WorldDomination
         /// Water tiles always return 0.
         /// </summary>
         /// <param name="outpostUpgradeAdditive">Additive bonus from built <see cref="OutpostUpgradeDef.tileFertilityBonus"/> (fraction; 0.15 = +15pp).</param>
-        public static float GetFarmingFertilityScore(int tile, float outpostUpgradeAdditive = 0f)
+        /// <param name="raiseEcologyBaselineToFull">
+        /// When true, floors the post-pollution zero-upgrade baseline to 1.0 before adding upgrade bonuses
+        /// (no effect if already 100%+). Used by terraforming upgrades.
+        /// </param>
+        public static float GetFarmingFertilityScore(int tile, float outpostUpgradeAdditive = 0f, bool raiseEcologyBaselineToFull = false)
         {
             var grid = Find.WorldGrid;
             if (grid == null || tile < 0 || tile >= grid.TilesCount)
@@ -647,11 +657,12 @@ namespace TSA_WorldDomination
             if (grid[tile].WaterCovered)
                 return 0f;
 
-            float score = GetFarmingBaseScore(tile);
-            score += SumMutatorScoreOffsets(grid[tile], MutatorFarmingScoreOffsets);
-            score += outpostUpgradeAdditive;
-            score = ApplyPollutionEcologyMultiplier(score, tile);
-            return ClampProductivityScore(score);
+            float baseline = GetFarmingBaseScore(tile);
+            baseline += SumMutatorScoreOffsets(grid[tile], MutatorFarmingScoreOffsets);
+            baseline = ApplyPollutionEcologyMultiplier(baseline, tile);
+            if (raiseEcologyBaselineToFull && baseline < 1f)
+                baseline = 1f;
+            return ClampProductivityScore(baseline + outpostUpgradeAdditive);
         }
 
         /// <summary>Mining efficiency by hilliness plus flat mutator offsets (same cap as <see cref="ProductivityScoreCap"/>). Water tiles return 0.</summary>
@@ -687,7 +698,11 @@ namespace TSA_WorldDomination
         /// Hunting productivity: biome animal density rank plus flat mutator offsets (up to <see cref="ProductivityScoreCap"/>). Water tiles return 0.
         /// </summary>
         /// <param name="outpostUpgradeAdditive">From built <see cref="OutpostUpgradeDef.tileAnimalAbundanceBonus"/>.</param>
-        public static float GetHuntingScore(int tile, float outpostUpgradeAdditive = 0f)
+        /// <param name="raiseEcologyBaselineToFull">
+        /// When true, floors the post-pollution zero-upgrade baseline to 1.0 before adding upgrade bonuses
+        /// (no effect if already 100%+). Used by terraforming upgrades.
+        /// </param>
+        public static float GetHuntingScore(int tile, float outpostUpgradeAdditive = 0f, bool raiseEcologyBaselineToFull = false)
         {
             var grid = Find.WorldGrid;
             if (grid == null || tile < 0 || tile >= grid.TilesCount)
@@ -695,11 +710,12 @@ namespace TSA_WorldDomination
             if (grid[tile].WaterCovered)
                 return 0f;
 
-            float score = GetHuntingBaseScore(tile);
-            score += SumMutatorScoreOffsets(grid[tile], MutatorHuntingScoreOffsets);
-            score += outpostUpgradeAdditive;
-            score = ApplyPollutionEcologyMultiplier(score, tile);
-            return ClampProductivityScore(score);
+            float baseline = GetHuntingBaseScore(tile);
+            baseline += SumMutatorScoreOffsets(grid[tile], MutatorHuntingScoreOffsets);
+            baseline = ApplyPollutionEcologyMultiplier(baseline, tile);
+            if (raiseEcologyBaselineToFull && baseline < 1f)
+                baseline = 1f;
+            return ClampProductivityScore(baseline + outpostUpgradeAdditive);
         }
 
         /// <summary>Biome maxFishPopulation rank only (0–1). Non-coastal / water / zero population → 0.</summary>

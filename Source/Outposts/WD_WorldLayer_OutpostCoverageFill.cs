@@ -13,7 +13,9 @@ namespace TSA_WorldDomination
         Green = 1,
         Cyan = 2,
         Red = 3,
-        Orange = 4
+        Orange = 4,
+        /// <summary>Tunnel Network annulus (deeper blue than base ally cyan).</summary>
+        CyanDeep = 5
     }
 
     /// <summary>
@@ -31,6 +33,7 @@ namespace TSA_WorldDomination
         private const float AlphaPurple = 0.36f;
         private const float AlphaGreen = 0.20f;
         private const float AlphaCyan = 0.18f;
+        private const float AlphaCyanDeep = 0.20f;
         // Combat radius fills (attack / mortar / AA): keep denser than logistics greens.
         private const float AlphaRed = 0.28f;
         private const float AlphaOrange = 0.16f;
@@ -49,6 +52,7 @@ namespace TSA_WorldDomination
         private static Material? purpleFillMaterial;
         private static Material? greenFillMaterial;
         private static Material? cyanFillMaterial;
+        private static Material? cyanDeepFillMaterial;
         private static Material? redFillMaterial;
         private static Material? orangeFillMaterial;
         private static Material? accuracyBand0FillMaterial;
@@ -70,6 +74,8 @@ namespace TSA_WorldDomination
         private static float accuracyBandMaxRange;
         private static bool attackRangeBands;
         private static bool zealAttackInnerCyan;
+        /// <summary>When &gt; 0 and fill is Cyan: tiles beyond this use <see cref="OutpostCoverageFillKind.CyanDeep"/> (Tunnel annulus).</summary>
+        private static float allyInnerRadiusSplit = -1f;
 
         private readonly List<Vector3> tileVerts = new List<Vector3>(8);
         private readonly List<PlanetTile> neighborTiles = new List<PlanetTile>(8);
@@ -90,6 +96,9 @@ namespace TSA_WorldDomination
                     return new Color(Color.green.r, Color.green.g, Color.green.b, AlphaGreen);
                 case OutpostCoverageFillKind.Cyan:
                     return new Color(Color.cyan.r, Color.cyan.g, Color.cyan.b, AlphaCyan);
+                case OutpostCoverageFillKind.CyanDeep:
+                    // Deeper blue than base ally cyan (Tunnel Network outer ring).
+                    return new Color(0.20f, 0.40f, 0.95f, AlphaCyanDeep);
                 case OutpostCoverageFillKind.Red:
                     return new Color(Color.red.r, Color.red.g, Color.red.b, AlphaRed);
                 case OutpostCoverageFillKind.Orange:
@@ -201,6 +210,7 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>Returns true if the target changed (caller should dirty the layer).</summary>
+        /// <param name="allyInnerRadiusSplit">When &gt; 0 and <paramref name="kind"/> is Cyan, tiles beyond this use CyanDeep.</param>
         public static bool TrySetTarget(
             PlanetTile center,
             float radius,
@@ -208,19 +218,22 @@ namespace TSA_WorldDomination
             bool accuracyBands = false,
             bool attackRangeBands = false,
             bool zealAttackInnerCyan = false,
-            float accuracyBandMaxRange = -1f)
+            float accuracyBandMaxRange = -1f,
+            float allyInnerRadiusSplit = -1f)
         {
             int r = Mathf.CeilToInt(radius);
             if (!center.Valid || r <= 0)
                 return ClearTarget();
 
             float bandMax = accuracyBands && accuracyBandMaxRange > 0f ? accuracyBandMaxRange : -1f;
+            float split = allyInnerRadiusSplit > 0f ? allyInnerRadiusSplit : -1f;
 
             if (hasTarget && centerTile == center && radiusTiles == r && fillKind == kind
                 && WD_WorldLayer_OutpostCoverageFill.accuracyBands == accuracyBands
                 && WD_WorldLayer_OutpostCoverageFill.attackRangeBands == attackRangeBands
                 && WD_WorldLayer_OutpostCoverageFill.zealAttackInnerCyan == zealAttackInnerCyan
-                && Mathf.Approximately(WD_WorldLayer_OutpostCoverageFill.accuracyBandMaxRange, bandMax))
+                && Mathf.Approximately(WD_WorldLayer_OutpostCoverageFill.accuracyBandMaxRange, bandMax)
+                && Mathf.Approximately(WD_WorldLayer_OutpostCoverageFill.allyInnerRadiusSplit, split))
                 return false;
 
             hasTarget = true;
@@ -231,6 +244,7 @@ namespace TSA_WorldDomination
             WD_WorldLayer_OutpostCoverageFill.accuracyBandMaxRange = bandMax;
             WD_WorldLayer_OutpostCoverageFill.attackRangeBands = attackRangeBands;
             WD_WorldLayer_OutpostCoverageFill.zealAttackInnerCyan = zealAttackInnerCyan;
+            WD_WorldLayer_OutpostCoverageFill.allyInnerRadiusSplit = split;
             return true;
         }
 
@@ -242,12 +256,13 @@ namespace TSA_WorldDomination
             bool accuracyBands = false,
             bool attackRangeBands = false,
             bool zealAttackInnerCyan = false,
-            float accuracyBandMaxRange = -1f)
+            float accuracyBandMaxRange = -1f,
+            float allyInnerRadiusSplit = -1f)
         {
             if (outpost == null || radius <= 0)
                 return ClearTarget();
             PlanetLayer layer = PlanetSurfaceWorldActions.LayerOf(outpost);
-            return TrySetTarget(new PlanetTile(outpost.Tile, layer), radius, kind, accuracyBands, attackRangeBands, zealAttackInnerCyan, accuracyBandMaxRange);
+            return TrySetTarget(new PlanetTile(outpost.Tile, layer), radius, kind, accuracyBands, attackRangeBands, zealAttackInnerCyan, accuracyBandMaxRange, allyInnerRadiusSplit);
         }
 
         /// <summary>Returns true if a previous target was cleared.</summary>
@@ -262,6 +277,7 @@ namespace TSA_WorldDomination
             accuracyBandMaxRange = -1f;
             attackRangeBands = false;
             zealAttackInnerCyan = false;
+            allyInnerRadiusSplit = -1f;
             return true;
         }
 
@@ -323,6 +339,11 @@ namespace TSA_WorldDomination
                     int band = MortarFireUtils.GetAccuracyBandIndex(approxDist, bandMax);
                     mat = GetAccuracyBandMaterial(band);
                 }
+                else if (allyInnerRadiusSplit > 0f && fillKind == OutpostCoverageFillKind.Cyan
+                    && approxDist > allyInnerRadiusSplit)
+                {
+                    mat = GetFillMaterial(OutpostCoverageFillKind.CyanDeep);
+                }
 
                 AddTileToSubMesh(grid, tile, mat);
                 landProcessed++;
@@ -369,6 +390,8 @@ namespace TSA_WorldDomination
                     return greenFillMaterial ??= MakeFillMat(GetFillColor(kind));
                 case OutpostCoverageFillKind.Cyan:
                     return cyanFillMaterial ??= MakeFillMat(GetFillColor(kind));
+                case OutpostCoverageFillKind.CyanDeep:
+                    return cyanDeepFillMaterial ??= MakeFillMat(GetFillColor(kind));
                 case OutpostCoverageFillKind.Red:
                     return redFillMaterial ??= MakeFillMat(GetFillColor(kind));
                 case OutpostCoverageFillKind.Orange:

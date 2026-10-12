@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -91,9 +91,9 @@ namespace TSA_WorldDomination
         {
             switch (tier)
             {
-                case AtTurretTier.Light: return "WorldObjects/AT_Gun_Light";
-                case AtTurretTier.Heavy: return "WorldObjects/AT_Gun_Heavy";
-                default: return "WorldObjects/AT_Gun_Medium";
+                case AtTurretTier.Light: return "WorldObjects/Fortifications/AT_Gun_Light";
+                case AtTurretTier.Heavy: return "WorldObjects/Fortifications/AT_Gun_Heavy";
+                default: return "WorldObjects/Fortifications/AT_Gun_Medium";
             }
         }
 

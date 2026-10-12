@@ -1546,6 +1546,8 @@
   <TSA_WD_OutpostUpgradeImpact_FoodProductionFlat>Producción de comida</TSA_WD_OutpostUpgradeImpact_FoodProductionFlat>
   <TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed>Velocidad de reclutamiento</TSA_WD_OutpostUpgradeImpact_PrisonerRecruitSpeed>
   <TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit>Reclutar inflexibles</TSA_WD_OutpostUpgradeImpact_UnwaveringRecruit>
+  <TSA_WD_OutpostUpgradeImpact_EcologyBaselineFloor>Línea base ecológica</TSA_WD_OutpostUpgradeImpact_EcologyBaselineFloor>
+  <TSA_WD_OutpostUpgradeImpact_PollutionScrubOneOff>Limpieza de contaminación</TSA_WD_OutpostUpgradeImpact_PollutionScrubOneOff>
   <TSA_WD_OutpostUpgrades_UpgradeTitle>{0} (Nv. {1})</TSA_WD_OutpostUpgrades_UpgradeTitle>
   <TSA_WD_OutpostUpgrades_MaxLevelReached>Nivel máximo alcanzado</TSA_WD_OutpostUpgrades_MaxLevelReached>
   <TSA_WD_OutpostUpgrades_NextBonuses>Siguiente: +{0} def, +{1}% recuperación ofensiva</TSA_WD_OutpostUpgrades_NextBonuses>
@@ -1583,7 +1585,7 @@
   <TSA_WD_OutpostUpgrades_BenefitMortarHit>+{0}% probabilidad de acierto del mortero</TSA_WD_OutpostUpgrades_BenefitMortarHit>
   <TSA_WD_OutpostUpgrades_BenefitMortarCooldown>−{0}% enfriamiento</TSA_WD_OutpostUpgrades_BenefitMortarCooldown>
   <TSA_WD_OutpostUpgrades_BenefitMortarRange>+{0} casillas de alcance máx. de mortero</TSA_WD_OutpostUpgrades_BenefitMortarRange>
-  <TSA_WD_OutpostUpgrades_BenefitAllyPullRadius>+{0} casillas de radio de atracción aliada</TSA_WD_OutpostUpgrades_BenefitAllyPullRadius>
+  <TSA_WD_OutpostUpgrades_BenefitAllyPullRadius>+{0} radio de atracción desde avanzadas que también tengan túneles</TSA_WD_OutpostUpgrades_BenefitAllyPullRadius>
   <TSA_WD_OutpostUpgrades_BenefitResearchEfficiency>+{0}pp eficiencia de investigación</TSA_WD_OutpostUpgrades_BenefitResearchEfficiency>
   <TSA_WD_OutpostUpgrades_BenefitProductionEfficiency>+{0}pp producción</TSA_WD_OutpostUpgrades_BenefitProductionEfficiency>
   <TSA_WD_OutpostUpgrades_BenefitWarehouseAura>+{0}% aura de almacén</TSA_WD_OutpostUpgrades_BenefitWarehouseAura>
@@ -1594,6 +1596,8 @@
   <TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>+{0} producción diaria de comida</TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>
   <TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>+{0}% velocidad de reclutamiento de prisioneros</TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>
   <TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>Los prisioneros inquebrantables pueden reclutarse</TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>
+  <TSA_WD_OutpostUpgrades_BenefitEcologyBaselineFloor>Mín. abundancia animal y fertilidad = 100 %</TSA_WD_OutpostUpgrades_BenefitEcologyBaselineFloor>
+  <TSA_WD_OutpostUpgrades_BenefitPollutionScrubOneOff>Al construir, limpia la contaminación en un radio de {0} casillas (una vez)</TSA_WD_OutpostUpgrades_BenefitPollutionScrubOneOff>
   <TSA_WD_OutpostUpgrades_RequiresResearch>REQUIERE INVESTIGACION: {0}</TSA_WD_OutpostUpgrades_RequiresResearch>
   <TSA_WD_OutpostUpgrades_UpgradeActive>(Mejora activa)</TSA_WD_OutpostUpgrades_UpgradeActive>
   <TSA_WD_OutpostUpgrades_ResearchNone>Ninguna</TSA_WD_OutpostUpgrades_ResearchNone>
@@ -1892,14 +1896,14 @@
   <TSA_WD_OutpostStats_Row_MinGarrisonTip>Fuerza ofensiva mínima que esta avanzadilla debe reservar (ajustes del mod). Aplica a incursiones, comerciantes y cuadrillas de construcción (no descontaminación).</TSA_WD_OutpostStats_Row_MinGarrisonTip>
   <TSA_WD_OutpostStats_Row_MinGarrisonSettlementTip>Fuerza ofensiva mínima que este asentamiento reserva al enviar incursiones, caravanas o cuadrillas de construcción (ajustes del mod). La descontaminación está exenta.</TSA_WD_OutpostStats_Row_MinGarrisonSettlementTip>
   <TSA_WD_OutpostStats_Row_AllyRadius>Radio de atracción aliada</TSA_WD_OutpostStats_Row_AllyRadius>
-  <TSA_WD_OutpostStats_Row_AllyRadiusTip>Casillas del mundo para vecinos de la misma facción y aliados diplomáticos que pueden apoyar este sitio en ataques o defensas.</TSA_WD_OutpostStats_Row_AllyRadiusTip>
+  <TSA_WD_OutpostStats_Row_AllyRadiusTip>Casillas del mundo para vecinos de la misma facción y aliados diplomáticos que pueden apoyar este sitio en ataques o defensas. La Red de túneles añade un anillo exterior que solo atrae otros puestos con Red de túneles.</TSA_WD_OutpostStats_Row_AllyRadiusTip>
   <TSA_WD_AllyRadius_BreakdownBase>Base: {0}</TSA_WD_AllyRadius_BreakdownBase>
   <TSA_WD_AllyRadius_BreakdownStageNone>Escalado de etapa: ninguno (juego temprano, escalado apagado o sin etapa activa)</TSA_WD_AllyRadius_BreakdownStageNone>
   <TSA_WD_AllyRadius_BreakdownMid>Escalado aliado Mid Game: +{0}%</TSA_WD_AllyRadius_BreakdownMid>
   <TSA_WD_AllyRadius_BreakdownMidOff>Escalado aliado Mid Game: apagado en esta etapa</TSA_WD_AllyRadius_BreakdownMidOff>
   <TSA_WD_AllyRadius_BreakdownLate>Escalado aliado Late Game: +{0}%</TSA_WD_AllyRadius_BreakdownLate>
   <TSA_WD_AllyRadius_BreakdownLateOff>Escalado aliado Late Game: apagado en esta etapa (sin volver a Mid)</TSA_WD_AllyRadius_BreakdownLateOff>
-  <TSA_WD_AllyRadius_BreakdownTunnel>Red de túneles: +{0}</TSA_WD_AllyRadius_BreakdownTunnel>
+  <TSA_WD_AllyRadius_BreakdownTunnel>Red de túneles: +{0} (anillo exterior: solo pares con Red de túneles)</TSA_WD_AllyRadius_BreakdownTunnel>
   <TSA_WD_AllyRadius_BreakdownResult>Radio efectivo de atracción aliada: {0}</TSA_WD_AllyRadius_BreakdownResult>
   <TSA_WD_OutpostStats_Row_FoodRadiusTip>Alcance de logística de comida para este tipo de avanzadilla (ajuste del mod).</TSA_WD_OutpostStats_Row_FoodRadiusTip>
   <TSA_WD_OutpostStats_Row_PeopleRadiusTip>Radio de asentamientos cercanos para reclutamiento, comercio y embajada.</TSA_WD_OutpostStats_Row_PeopleRadiusTip>
@@ -1909,9 +1913,9 @@
   <TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>Alcance de Torreta AA (ajustes del mod).</TSA_WD_OutpostStats_Row_NpcAntiAirRangeTip>
   <TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>Segundos nominales entre disparos de Torreta AA (ajustes del mod).</TSA_WD_OutpostStats_Row_NpcAntiAirCooldownTip>
   <TSA_WD_OutpostStats_Row_AllyStrength>Fuerza aliada de apoyo</TSA_WD_OutpostStats_Row_AllyStrength>
-  <TSA_WD_OutpostStats_Row_AllyStrengthTip>Fuerza ofensiva de vecinos dentro del radio de atracción aliada. La misma facción siempre se une; aliados de otra facción solo según el combate. Desglose:</TSA_WD_OutpostStats_Row_AllyStrengthTip>
+  <TSA_WD_OutpostStats_Row_AllyStrengthTip>Fuerza ofensiva de vecinos dentro del radio de atracción aliada. La misma facción siempre se une; aliados de otra facción solo según el combate. Más allá del radio base, solo cuentan puestos con Red de túneles. Desglose:</TSA_WD_OutpostStats_Row_AllyStrengthTip>
   <TSA_WD_Gizmo_ShowAllyRadius>Radio aliado</TSA_WD_Gizmo_ShowAllyRadius>
-  <TSA_WD_Gizmo_ShowAllyRadiusDesc>Activa o desactiva el radio de atracción aliada para este tipo de sitio (vale para todos los del mismo tipo). Lista aliados de la misma facción y de otras.</TSA_WD_Gizmo_ShowAllyRadiusDesc>
+  <TSA_WD_Gizmo_ShowAllyRadiusDesc>Activa o desactiva el radio de atracción aliada para este tipo de sitio (vale para todos los del mismo tipo). El anillo base es cian; el exterior de Red de túneles es azul más intenso y solo atrae pares con Red de túneles.</TSA_WD_Gizmo_ShowAllyRadiusDesc>
   <TSA_WD_Gizmo_ShowAttackRadius>Radio de ataque</TSA_WD_Gizmo_ShowAttackRadius>
   <TSA_WD_Gizmo_ShowAttackRadiusDesc>Activa o desactiva el alcance de ataque ({0} casillas) para este tipo de sitio. Vale para todos los del mismo tipo.</TSA_WD_Gizmo_ShowAttackRadiusDesc>
   <TSA_WD_Gizmo_AttackRadiusBandsLegend>Bandas de color (probabilidad de elegir objetivo de incursión):\nRojo = 0–25% del alcance máximo. Mayor probabilidad de elegir un objetivo.\nNaranja = 25–50% del alcance máximo.\nAmarillo = 50–75% del alcance máximo.\nAmarillo verdoso pálido = 75–100% del alcance máximo. Menor probabilidad.\nCon Celo Expansionista, la banda interior se muestra en cian en lugar de rojo.</TSA_WD_Gizmo_AttackRadiusBandsLegend>

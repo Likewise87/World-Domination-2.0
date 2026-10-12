@@ -182,7 +182,7 @@
   <TSA_WD_Raid_AllowPlayer>允许玩家殖民地遭袭</TSA_WD_Raid_AllowPlayer>
   <TSA_WD_Raid_AllowPlayerTooltip>启用后,范围内 NPC 定居点可对你的殖民地地图发动真实袭击。</TSA_WD_Raid_AllowPlayerTooltip>
   <TSA_WD_Raid_AllyRadius>盟友拉动半径</TSA_WD_Raid_AllyRadius>
-  <TSA_WD_Raid_AllyRadiusTooltip>同阵营与外交盟友邻居可加入进攻或防守的基础世界格半径。中期/后期与隧道网络升级可按地点提高有效半径。</TSA_WD_Raid_AllyRadiusTooltip>
+  <TSA_WD_Raid_AllyRadiusTooltip>同阵营与外交盟友邻居可加入进攻或防守的基础世界格半径。中期/后期可提高基础值。隧道网络另加外环，仅拉动同样拥有隧道网络的前哨。</TSA_WD_Raid_AllyRadiusTooltip>
   <TSA_WD_Raid_CdPlayer>玩家袭击冷却</TSA_WD_Raid_CdPlayer>
   <TSA_WD_Raid_CdPlayerTooltip>世界触发的袭击再次以你殖民地为目标前需经过的天数。</TSA_WD_Raid_CdPlayerTooltip>
   <TSA_WD_Raid_MaxPerDay>每日玩家 WD 袭击上限</TSA_WD_Raid_MaxPerDay>

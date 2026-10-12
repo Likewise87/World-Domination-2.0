@@ -19,6 +19,13 @@ namespace TSA_WorldDomination
         {
             new WD_UpdateEntry
             {
+                Version = "2.3.5",
+                TitleKey = "TSA_WD_Update_2_3_5_Title",
+                BodyKey = "TSA_WD_Update_2_3_5_Body",
+                ReleaseDate = "October 12th 2026"
+            },
+            new WD_UpdateEntry
+            {
                 Version = "2.3.43",
                 TitleKey = "TSA_WD_Update_2_3_43_Title",
                 BodyKey = "TSA_WD_Update_2_3_43_Body",
@@ -691,10 +698,13 @@ namespace TSA_WorldDomination
             Widgets.Label(headerRect, cachedHeader);
 
             Text.Font = GameFont.Small;
-            Rect dateRect = new Rect(leftRect.x, headerRect.yMax + 4f, leftRect.width, 22f);
+            Rect dateRect = new Rect(leftRect.x, headerRect.yMax + 4f, leftRect.width, 24f);
+            TextAnchor prevDateAnchor = Text.Anchor;
+            Text.Anchor = TextAnchor.MiddleLeft;
             GUI.color = UpdateLogDateColor;
             Widgets.Label(dateRect, cachedDateLabel);
             GUI.color = Color.white;
+            Text.Anchor = prevDateAnchor;
 
             Rect sepRect = new Rect(leftRect.x, dateRect.yMax + 6f, leftRect.width, 2f);
             Widgets.DrawLineHorizontal(sepRect.x, sepRect.y, sepRect.width);
@@ -751,16 +761,26 @@ namespace TSA_WorldDomination
         private void DrawEntryListColumn(Rect rightRect)
         {
             Text.Font = GameFont.Tiny;
+            float lineH = Mathf.Max(18f, Text.LineHeight);
+            const float headerH = 18f;
+            const float rowPadTop = 4f;
+            const float rowPadBottom = 4f;
+            float entryH = rowPadTop + lineH * 3f + rowPadBottom;
+            const float entryGap = 4f;
+
             GUI.color = new Color(0.75f, 0.82f, 1f);
-            Widgets.Label(new Rect(rightRect.x, rightRect.y, rightRect.width, 18f), "TSA_WD_UpdateLog_EntryListHeader".Translate());
+            Widgets.Label(new Rect(rightRect.x, rightRect.y, rightRect.width, headerH), "TSA_WD_UpdateLog_EntryListHeader".Translate());
             GUI.color = Color.white;
 
-            const float entryH = 54f;
-            const float entryGap = 4f;
-            Rect listRect = new Rect(rightRect.x, rightRect.y + 22f, rightRect.width, rightRect.height - 22f);
+            float listTop = rightRect.y + headerH + 4f;
+            Rect listRect = new Rect(rightRect.x, listTop, rightRect.width, rightRect.yMax - listTop);
             float contentH = WD_UpdateEntries.Count * (entryH + entryGap);
             Rect viewRect = new Rect(0f, 0f, listRect.width - 16f, contentH);
             Widgets.BeginScrollView(listRect, ref entryListScrollPos, viewRect);
+
+            TextAnchor prevAnchor = Text.Anchor;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Text.Font = GameFont.Tiny;
 
             float y = 0f;
             for (int i = 0; i < WD_UpdateEntries.Count; i++)
@@ -777,13 +797,23 @@ namespace TSA_WorldDomination
                 if (title == e.TitleKey || title.Contains("TSA_WD_"))
                     title = "Update " + e.Version;
 
-                Text.Font = GameFont.Tiny;
+                float labelW = rowRect.width - 12f;
+                float labelX = rowRect.x + 6f;
+                float lineY = rowRect.y + rowPadTop;
+                Rect versionRect = new Rect(labelX, lineY, labelW, lineH);
+                Rect titleRect = new Rect(labelX, lineY + lineH, labelW, lineH);
+                Rect dateRect = new Rect(labelX, lineY + lineH * 2f, labelW, lineH);
+
+                string titleDrawn = title.Truncate(labelW);
+
                 GUI.color = selected ? Color.white : new Color(0.9f, 0.9f, 0.9f);
-                Widgets.Label(new Rect(rowRect.x + 6f, rowRect.y + 3f, rowRect.width - 12f, 16f), e.Version);
+                Widgets.Label(versionRect, e.Version);
                 GUI.color = selected ? new Color(0.92f, 0.92f, 0.92f) : new Color(0.8f, 0.8f, 0.8f);
-                Widgets.Label(new Rect(rowRect.x + 6f, rowRect.y + 18f, rowRect.width - 12f, 16f), title);
+                Widgets.Label(titleRect, titleDrawn);
+                if (titleDrawn != title)
+                    TooltipHandler.TipRegion(titleRect, title);
                 GUI.color = UpdateLogDateColor;
-                Widgets.Label(new Rect(rowRect.x + 6f, rowRect.y + 33f, rowRect.width - 12f, 16f), e.ReleaseDate ?? e.Version);
+                Widgets.Label(dateRect, e.ReleaseDate ?? e.Version);
                 GUI.color = Color.white;
 
                 if (Widgets.ButtonInvisible(rowRect))
@@ -796,6 +826,7 @@ namespace TSA_WorldDomination
                 y += entryH + entryGap;
             }
 
+            Text.Anchor = prevAnchor;
             Widgets.EndScrollView();
         }
     }

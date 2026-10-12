@@ -11,6 +11,7 @@ World-model **ownership** (one colony, player-only outposts, NPC holdings = Sett
 - NPC mobile forces are WD travelers (`WorldObject_Traveler` with abstract strength). There are **no** normal NPC caravans with real pawns.
 - **Only the player** uses vanilla `Caravan` objects with real pawns on the world map.
 - Do not write copy, UI, or design notes that imply “NPC caravans” as pawn-bearing world objects. Say **NPC traveler / WD caravan / raid caravan** (strength pool) vs **player caravan** (real pawns).
+- **Never say “sally” / “sallies”** in player-facing copy. Prefer **interception caravan**, **ambush**, or **intercept** (code may still use Feature C / sally internally).
 
 Globe icons and static `Texture2D` / `Material`: `Core/WORLD_MAP_ICONS.md`.
 Label heights and hub layout: `UI_WINDOWS.md`.
