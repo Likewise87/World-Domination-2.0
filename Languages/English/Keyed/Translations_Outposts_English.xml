@@ -1702,7 +1702,7 @@
   <TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>+{0} daily food production</TSA_WD_OutpostUpgrades_BenefitFoodProductionFlat>
   <TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>+{0}% prisoner recruit speed</TSA_WD_OutpostUpgrades_BenefitPrisonerRecruitSpeed>
   <TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>Unwavering prisoners can be recruited</TSA_WD_OutpostUpgrades_BenefitUnwaveringRecruitUnlock>
-  <TSA_WD_OutpostUpgrades_BenefitEcologyBaselineFloor>Min. Animal Abundance & Fertility = 100 %</TSA_WD_OutpostUpgrades_BenefitEcologyBaselineFloor>
+  <TSA_WD_OutpostUpgrades_BenefitEcologyBaselineFloor>Min. Animal Abundance &amp; Fertility = 100 %</TSA_WD_OutpostUpgrades_BenefitEcologyBaselineFloor>
   <TSA_WD_OutpostUpgrades_BenefitPollutionScrubOneOff>Clears pollution on build within {0} tiles (once)</TSA_WD_OutpostUpgrades_BenefitPollutionScrubOneOff>
   <TSA_WD_OutpostUpgrades_RequiresResearch>REQUIRES RESEARCH: {0}</TSA_WD_OutpostUpgrades_RequiresResearch>
   <TSA_WD_OutpostUpgrades_UpgradeActive>(Upgrade active)</TSA_WD_OutpostUpgrades_UpgradeActive>
