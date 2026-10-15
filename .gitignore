@@ -27,6 +27,7 @@ tools/_workshop_stage/
 **/_ft_decompile/
 
 # Build outputs
+*.pdb
 **/[Bb]in/
 **/[Oo]bj/
 site/
