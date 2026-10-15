@@ -926,16 +926,17 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// OnGUI can run multiple times per frame; GetKeyDown stays true for the whole frame.
+        /// Action keys already consumed for this physical press. Waylith can report GetKeyDown every
+        /// frame while held, which would open then immediately close menus / undo toggles.
         /// </summary>
-        private static int lastOverlayHotkeyProcessedFrame = -1;
+        private static readonly HashSet<KeyCode> latchedActionKeys = new HashSet<KeyCode>();
 
         /// <summary>
         /// Hold configured key (default Left Alt): on the world map, 1–7 / Q–T toggle overlays;
         /// anywhere in play, A/X/S/D/Y/F/G/C/V open WD windows / world map (pawns, main tab, world stats, diplomacy, prisoners, outposts, travelers, world map, all gear).
-        /// Uses Unity Input (not Event.current) so a leftover TextField focus — common after
-        /// search boxes / rename fields — cannot permanently kill the chord mid-game.
-        /// Safe to call from WorldComponentOnGUI and from hub DoWindowContents (frame-debounced).
+        /// Uses held-key edge detection (RawKeys.GetKey on 1.7 when present) so each chord fires once
+        /// until the letter/digit is released. Clears IMGUI text focus before polling.
+        /// Safe to call from WorldComponentOnGUI and from hub DoWindowContents.
         /// </summary>
         public static void ProcessWindowAndOverlayHotkeys()
         {
@@ -946,14 +947,26 @@ namespace TSA_WorldDomination
         {
             bool playing = Current.ProgramState == ProgramState.Playing;
             bool entryWorld = Current.ProgramState == ProgramState.Entry && Find.World != null;
-            if (!playing && !entryWorld) return;
+            if (!playing && !entryWorld)
+            {
+                latchedActionKeys.Clear();
+                return;
+            }
 
             KeyCode holdKey = WorldDominationMod.settings?.worldMapOverlayHoldKey
                 ?? WorldDominationSettings.DefWorldMapOverlayHoldKey;
-            if (holdKey == KeyCode.None || !IsOverlayHoldKeyPressed(holdKey)) return;
+            if (holdKey == KeyCode.None || !IsOverlayHoldKeyPressed(holdKey))
+            {
+                latchedActionKeys.Clear();
+                return;
+            }
 
-            int frame = Time.frameCount;
-            if (frame == lastOverlayHotkeyProcessedFrame) return;
+            // Clear focus so swallowed Input paths (and any fallback) can see letter/digit keys.
+            if (GUIUtility.keyboardControl != 0)
+            {
+                GUIUtility.keyboardControl = 0;
+                GUI.FocusControl(null);
+            }
 
             // Window chords must work even while a force-paused hub (Diplomacy / World Stats) is open.
             int windowSlot = OverlayWindowHotkeyFromInput();
@@ -968,15 +981,6 @@ namespace TSA_WorldDomination
             }
             if (windowSlot < 0 && digitSlot < 0 && letterSlot < 0) return;
 
-            lastOverlayHotkeyProcessedFrame = frame;
-
-            // Stale IMGUI focus (closed window / inspect search) otherwise eats digit keys forever.
-            if (GUIUtility.keyboardControl != 0)
-            {
-                GUIUtility.keyboardControl = 0;
-                GUI.FocusControl(null);
-            }
-
             Event e = Event.current;
             if (e != null && e.type == EventType.KeyDown)
                 e.Use();
@@ -989,44 +993,93 @@ namespace TSA_WorldDomination
                 ApplyWorldMapToggleHotkeyLetter(letterSlot);
         }
 
+        private static bool rawKeysResolved;
+        private static Func<KeyCode, bool> rawGetKey;
+
+        /// <summary>1.7 UnityStubs.Internal.RawKeys.GetKey when present; otherwise UnityEngine.Input.GetKey.</summary>
+        private static void EnsureRawKeysResolved()
+        {
+            if (rawKeysResolved) return;
+            rawKeysResolved = true;
+            try
+            {
+                Type rawKeysType = AccessTools.TypeByName("UnityStubs.Internal.RawKeys");
+                if (rawKeysType == null) return;
+                var getKey = AccessTools.Method(rawKeysType, "GetKey", new[] { typeof(KeyCode) });
+                if (getKey == null) return;
+                rawGetKey = (Func<KeyCode, bool>)Delegate.CreateDelegate(typeof(Func<KeyCode, bool>), getKey);
+            }
+            catch
+            {
+                rawGetKey = null;
+            }
+        }
+
+        private static bool OverlayKey(KeyCode key)
+        {
+            EnsureRawKeysResolved();
+            if (rawGetKey != null) return rawGetKey(key);
+            return Input.GetKey(key);
+        }
+
+        /// <summary>
+        /// True once when <paramref name="key"/> goes down; stays false until released.
+        /// Prefer this over GetKeyDown — Waylith may keep GetKeyDown true across frames while held.
+        /// </summary>
+        private static bool TryConsumeActionKey(KeyCode key)
+        {
+            if (!OverlayKey(key))
+            {
+                latchedActionKeys.Remove(key);
+                return false;
+            }
+            if (latchedActionKeys.Contains(key))
+                return false;
+            latchedActionKeys.Add(key);
+            return true;
+        }
+
+        private static bool TryConsumeActionKeyPair(KeyCode a, KeyCode b) =>
+            TryConsumeActionKey(a) || TryConsumeActionKey(b);
+
         /// <summary>
         /// Left/Right Alt (or Ctrl/Shift) accept either side of the pair so "Alt" feels like a single modifier.
         /// </summary>
         private static bool IsOverlayHoldKeyPressed(KeyCode holdKey)
         {
             if (holdKey == KeyCode.LeftAlt || holdKey == KeyCode.RightAlt)
-                return Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt);
+                return OverlayKey(KeyCode.LeftAlt) || OverlayKey(KeyCode.RightAlt);
             if (holdKey == KeyCode.LeftControl || holdKey == KeyCode.RightControl)
-                return Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+                return OverlayKey(KeyCode.LeftControl) || OverlayKey(KeyCode.RightControl);
             if (holdKey == KeyCode.LeftShift || holdKey == KeyCode.RightShift)
-                return Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-            return Input.GetKey(holdKey);
+                return OverlayKey(KeyCode.LeftShift) || OverlayKey(KeyCode.RightShift);
+            return OverlayKey(holdKey);
         }
 
         private static int OverlayHotkeySlotFromInput()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1)) return 1;
-            if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2)) return 2;
-            if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3)) return 3;
-            if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4)) return 4;
-            if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5)) return 5;
-            if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6)) return 6;
-            if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7)) return 7;
+            if (TryConsumeActionKeyPair(KeyCode.Alpha1, KeyCode.Keypad1)) return 1;
+            if (TryConsumeActionKeyPair(KeyCode.Alpha2, KeyCode.Keypad2)) return 2;
+            if (TryConsumeActionKeyPair(KeyCode.Alpha3, KeyCode.Keypad3)) return 3;
+            if (TryConsumeActionKeyPair(KeyCode.Alpha4, KeyCode.Keypad4)) return 4;
+            if (TryConsumeActionKeyPair(KeyCode.Alpha5, KeyCode.Keypad5)) return 5;
+            if (TryConsumeActionKeyPair(KeyCode.Alpha6, KeyCode.Keypad6)) return 6;
+            if (TryConsumeActionKeyPair(KeyCode.Alpha7, KeyCode.Keypad7)) return 7;
             return -1;
         }
 
         /// <summary>A / X / S / D / Y / F / G / C / V → window / world-map shortcuts.</summary>
         private static int OverlayWindowHotkeyFromInput()
         {
-            if (Input.GetKeyDown(KeyCode.A)) return 0;
-            if (Input.GetKeyDown(KeyCode.X)) return 1;
-            if (Input.GetKeyDown(KeyCode.S)) return 2;
-            if (Input.GetKeyDown(KeyCode.D)) return 3;
-            if (Input.GetKeyDown(KeyCode.Y)) return 4;
-            if (Input.GetKeyDown(KeyCode.F)) return 5;
-            if (Input.GetKeyDown(KeyCode.G)) return 6;
-            if (Input.GetKeyDown(KeyCode.C)) return 7;
-            if (Input.GetKeyDown(KeyCode.V)) return 8;
+            if (TryConsumeActionKey(KeyCode.A)) return 0;
+            if (TryConsumeActionKey(KeyCode.X)) return 1;
+            if (TryConsumeActionKey(KeyCode.S)) return 2;
+            if (TryConsumeActionKey(KeyCode.D)) return 3;
+            if (TryConsumeActionKey(KeyCode.Y)) return 4;
+            if (TryConsumeActionKey(KeyCode.F)) return 5;
+            if (TryConsumeActionKey(KeyCode.G)) return 6;
+            if (TryConsumeActionKey(KeyCode.C)) return 7;
+            if (TryConsumeActionKey(KeyCode.V)) return 8;
             return -1;
         }
 
@@ -1068,11 +1121,11 @@ namespace TSA_WorldDomination
         /// <summary>Q/W/E/R/T → 0..4 for non-productivity WD float-menu toggles.</summary>
         private static int OverlayToggleHotkeyLetterFromInput()
         {
-            if (Input.GetKeyDown(KeyCode.Q)) return 0;
-            if (Input.GetKeyDown(KeyCode.W)) return 1;
-            if (Input.GetKeyDown(KeyCode.E)) return 2;
-            if (Input.GetKeyDown(KeyCode.R)) return 3;
-            if (Input.GetKeyDown(KeyCode.T)) return 4;
+            if (TryConsumeActionKey(KeyCode.Q)) return 0;
+            if (TryConsumeActionKey(KeyCode.W)) return 1;
+            if (TryConsumeActionKey(KeyCode.E)) return 2;
+            if (TryConsumeActionKey(KeyCode.R)) return 3;
+            if (TryConsumeActionKey(KeyCode.T)) return 4;
             return -1;
         }
 
