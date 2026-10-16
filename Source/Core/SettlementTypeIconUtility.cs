@@ -8,7 +8,7 @@ namespace TSA_WorldDomination
     /// <summary>
     /// NPC settlement ExpandingIcon: subtype art under <c>WorldObjects/Settlements/</c>.
     /// Type art is faction-tinted via ExpandingIconColor. No faction badge overlay.
-    /// T3/T4 / unknown / missing → caller keeps vanilla FactionIcon.
+    /// Unknown / missing file / player Colony·Outpost → caller keeps vanilla FactionIcon.
     /// Resolved tex is cached on <see cref="CompViralSpread"/> until tier/subtype changes.
     /// </summary>
     public static class SettlementTypeIconUtility
@@ -43,9 +43,7 @@ namespace TSA_WorldDomination
             if (string.IsNullOrEmpty(sub)
                 || sub == "Colony"
                 || sub == "Outpost"
-                || sub == "Excluded"
-                || sub == "Fortress"
-                || sub == "Citadel")
+                || sub == "Excluded")
                 return false;
 
             string file = FileNameFor(comp.tier, sub);
@@ -67,8 +65,16 @@ namespace TSA_WorldDomination
             {
                 if (tier == SettlementTier.T1) return "T1_Vanguard";
                 if (tier == SettlementTier.T2) return "T2_Vanguard";
+                if (tier == SettlementTier.T3) return "T3_Vanguard";
+                if (tier == SettlementTier.T4) return "T4_Vanguard";
                 return null;
             }
+
+            if (string.Equals(subType, "Fortress", System.StringComparison.Ordinal))
+                return tier == SettlementTier.T3 ? "T3_Fortress" : null;
+
+            if (string.Equals(subType, "Citadel", System.StringComparison.Ordinal))
+                return tier == SettlementTier.T4 ? "T4_Citadel" : null;
 
             switch (subType)
             {

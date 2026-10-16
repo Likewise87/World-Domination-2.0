@@ -263,7 +263,7 @@ namespace TSA_WorldDomination
             h += SectionHeight(raidsExpanded, raidsTools?.Count ?? 9);
             h += SectionHeight(progressionExpanded, progressionTools?.Count ?? 4);
             h += SectionHeight(questsExpanded, questsTools?.Count ?? 6);
-            h += SectionHeight(miscExpanded, miscTools?.Count ?? 7);
+            h += SectionHeight(miscExpanded, miscTools?.Count ?? 10);
             return Mathf.Max(h, 200f);
         }
 
@@ -509,6 +509,15 @@ namespace TSA_WorldDomination
             Add(miscTools, "Force random diplomacy change", IconConfig,
                 "Force a random diplomacy buff/nerf change.",
                 DebugDashKind.Instant, DebugActions_Travelers.ForceRandomDiplomacyChange);
+            Add(miscTools, "Trigger revolt", IconConfig,
+                "Pick rebel faction (defeated labeled), then click a seed settlement for a real 3-7 revolt.",
+                DebugDashKind.SelfManaged, DebugActions_Settlements.BeginTriggerRevolt);
+            Add(miscTools, "Defeat Faction", IconConfig,
+                "Click an NPC WD settlement: destroy all of that faction's towns and mark defeated.",
+                DebugDashKind.SelfManaged, DebugActions_Settlements.BeginDefeatFaction);
+            Add(miscTools, "Change Settlement Owner", IconConfig,
+                "Click an NPC WD settlement, then pick a new WD owner (defeated labeled). Replaces the settlement (name/type/strength kept); respawns owned AT/advanced buildings; restamps road blocks and spike traps.",
+                DebugDashKind.SelfManaged, DebugActions_Settlements.BeginChangeSettlementOwner);
             Add(miscTools, "Warehouse: add full stack...", IconConfig,
                 "Pick a thing def and add a full stack to a warehouse.",
                 DebugDashKind.Action, DebugActions_Warehouse.AddFullStackToWarehouse);

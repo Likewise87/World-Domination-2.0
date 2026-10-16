@@ -1696,6 +1696,36 @@ namespace TSA_WorldDomination
             NotifySettlementTypeIconDirty();
         }
 
+        /// <summary>
+        /// Overwrite tier / type / strength / artillery bootstrap without <see cref="SetState"/> side effects
+        /// (no random subtype, no free-T4 grant queue via <c>NotifyTierChanged</c>).
+        /// Used by revolt and debug owner transfer.
+        /// </summary>
+        public void ApplyCopiedSettlementState(
+            SettlementTier newTier,
+            float offensive,
+            float defensive,
+            string newSubType,
+            int copiedArtilleryRoll = -1,
+            bool copiedFreeT4ArtilleryDone = false)
+        {
+            if (IsOutpost || IsPlayerMapSettlement) return;
+            FloatRange range = GetStrengthRange(newTier);
+            float clampedOff = Mathf.Clamp(Mathf.Max(offensive, 0.01f), range.min, range.max);
+            tier = newTier;
+            if (!string.IsNullOrEmpty(newSubType))
+                subType = newSubType;
+            offensiveStrength = clampedOff;
+            float defMax = GetBaseDefensiveStrength();
+            defensiveStrength = defensive > 0f ? Mathf.Min(defensive, defMax) : defMax;
+            artilleryRoll = copiedArtilleryRoll;
+            freeT4ArtilleryDone = copiedFreeT4ArtilleryDone;
+            npcSettlementBootstrapPending = false;
+            lastRadiusUpdateTick = -9999;
+            UpdateInterceptorRegistration();
+            NotifySettlementTypeIconDirty();
+        }
+
         /// <summary>Drop per-settlement subtype ExpandingIcon cache after tier/subtype identity changes.</summary>
         public void NotifySettlementTypeIconDirty()
         {

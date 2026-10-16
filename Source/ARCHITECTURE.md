@@ -18,7 +18,7 @@ World-model ownership (one colony, player-only outposts, NPC holdings = Settleme
 | `Patches/` | Dedicated Harmony patches (settlement gizmos, goodwill, overlays) |
 | `Buildings/` | Map buildings tied to WD |
 | `Compat/` | Optional-mod bridges (reflection only; see `Guardrails/OPTIONAL_MODS.md`) |
-| `Debug/` | Dev helpers; Playing world debug UI is `Dialog_WdWorldDebug` (Dev Tools → WD Debug Tools; Expand/Collapse all; Fortifications+roads; Create raid wizards; Quests). SSS layout stays `Dialog_WdWorldSetup` + `WD_WorldSetupTools` (no raid/CD kit). |
+| `Debug/` | Dev helpers; Playing world debug UI is `Dialog_WdWorldDebug` (Dev Tools → WD Debug Tools; Expand/Collapse all; Fortifications+roads; Create raid wizards; Quests). SSS layout stays `Dialog_WdWorldSetup` + `WD_WorldSetupTools` (no raid/CD kit). Change Settlement Owner destroys+recreates the town (`CompViralSpread.ApplyCopiedSettlementState`), respawns owned AT/advanced buildings, and restamps road blocks/spike traps — not a soft `SetFaction`. |
 | `Decontamination/` | Decontamination flow |
 | `Guardrails/` | Developer guardrails and Cursor rules (do not ship to players) |
 | `dev/` | Local one-off scripts only (not guardrails) |
@@ -188,7 +188,7 @@ SSoT: `AdvancedBuildings/` (`AdvancedBuildingDef` in `Defs/WorldBuild/WD_Advance
 
 ### NPC settlement sally (ambush)
 
-SSoT: `RaidLogic/SettlementAmbushUtility.cs` + `WorldComponent_SettlementWatchIndex`. Watch range is `GetWatchRangeTiles`: plain range, or the larger `settlementAmbushWatchRangeWithAssetsTiles` when the settlement owns an AT turret or advanced building. `FindBestAmbusher` picks the strongest available watcher (ties favour the owner of a threatened asset); only the target's own origin is skipped. Min ratio (`ResolveMinRatio`): guarding an owned AT turret 1.25 (turret strength counts as support), guarding an owned advanced building 1.0, target heading for the town itself uses `settlementAmbushSelfDefenseMinRatio` unless the town owns assets, else `settlementAmbushMinStrengthRatio`. Origin sally cooldown `OriginCooldownTicks` = 40s at 1x (per launching settlement). Target anti-dogpile `TargetCooldownTicks` = 90s at 1x (global per ambushed traveler/caravan, not per settlement).
+SSoT: `RaidLogic/SettlementAmbushUtility.cs` + `WorldComponent_SettlementWatchIndex`. Watch range is `GetWatchRangeTiles`: plain range, or the larger `settlementAmbushWatchRangeWithAssetsTiles` when the settlement owns an AT turret or advanced building. `FindBestAmbusher` picks the strongest available watcher (ties favour the owner of a threatened asset); only the target's own origin is skipped. Min ratio (`ResolveMinRatio`): guarding an owned AT turret 1.25 (turret strength counts as support), guarding an owned advanced building 1.0, target heading for the town itself uses `settlementAmbushSelfDefenseMinRatio` unless the town owns assets, else `settlementAmbushMinStrengthRatio`. Origin sally cooldown `OriginCooldownTicks` = 80s at 1x (per launching settlement). Target anti-dogpile `TargetCooldownTicks` = 90s at 1x (global per ambushed traveler/caravan, not per settlement). Reforming out of a won WD Ambush clash re-stamps the new caravan via `SettlementAmbushUtility.NotifyCaravanReformedAfterClash` (caravan ID changes on enter/reform).
 
 ## NPC settlement subtypes (tile-aware)
 

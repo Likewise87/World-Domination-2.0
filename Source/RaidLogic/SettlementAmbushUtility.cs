@@ -38,8 +38,8 @@ namespace TSA_WorldDomination
         }
         /// <summary>Per-target anti-dogpile (90 real-time seconds at 1x).</summary>
         public const int TargetCooldownTicks = 5400;
-        /// <summary>Per-origin launch cooldown (40 real-time seconds at 1x).</summary>
-        public const int OriginCooldownTicks = 2400;
+        /// <summary>Per-origin launch cooldown (80 real-time seconds at 1x).</summary>
+        public const int OriginCooldownTicks = 4800;
 
         /// <summary>Ambush stage gate (<see cref="WorldDominationSettings.gateThreatAmbush"/>).</summary>
         private static bool PassesEscalationGate(WorldComponent_SpreadManager manager, WorldDominationSettings seth) =>
@@ -71,6 +71,17 @@ namespace TSA_WorldDomination
             if (Rand.Value > seth.settlementAmbushChancePct) return;
 
             TryDispatch(settlement, traveler, traveler.travelerStrength, traveler.targetObject, watchIndex, seth, manager);
+        }
+
+        /// <summary>
+        /// After winning a WD Ambush clash, reform creates a new caravan ID. Re-stamp target anti-dogpile
+        /// so surrounding settlements cannot immediately sally again.
+        /// </summary>
+        public static void NotifyCaravanReformedAfterClash(Caravan caravan)
+        {
+            if (caravan == null || caravan.Destroyed || caravan.Faction?.IsPlayer != true) return;
+            if (WD_MapComponent_CaravanClash.FindWonClashOnTile(caravan.Tile) == null) return;
+            WorldComponent_SettlementWatchIndex.Get()?.StampAmbushTarget(caravan);
         }
 
         /// <summary>Real-Caravan half: called from <see cref="WD_SameTileTravelerClash.TickCaravanClashDetection"/> on a detected tile change.</summary>

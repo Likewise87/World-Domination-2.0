@@ -77,6 +77,33 @@ namespace TSA_WorldDomination
         /// </summary>
         public bool BlocksPlayerEdgeExit => (encounterActive || playerFled || aerialLeaveInProgress) && !playerHasWon;
 
+        /// <summary>True after WD victory latch (reform caravan may leave).</summary>
+        public bool PlayerHasWon => playerHasWon;
+
+        /// <summary>
+        /// Won WD Ambush clash on this tile (for reform caravan ambush target re-stamp).
+        /// Prefers Ambush parents; falls back to any won clash tracker on the tile.
+        /// </summary>
+        public static WD_MapComponent_CaravanClash FindWonClashOnTile(PlanetTile tile)
+        {
+            if (!tile.Valid) return null;
+            var maps = Current.Game?.Maps;
+            if (maps == null) return null;
+            WD_MapComponent_CaravanClash fallback = null;
+            for (int i = 0; i < maps.Count; i++)
+            {
+                Map m = maps[i];
+                if (m == null || m.Tile != tile) continue;
+                WD_MapComponent_CaravanClash clash = m.GetComponent<WD_MapComponent_CaravanClash>();
+                if (clash == null || !clash.playerHasWon) continue;
+                MapParent parent = m.Parent;
+                if (parent != null && !parent.Destroyed && parent.def == WorldObjectDefOf.Ambush)
+                    return clash;
+                fallback ??= clash;
+            }
+            return fallback;
+        }
+
         /// <summary>Clash running on a persistent player Camp map (not a temporary Ambush site).</summary>
         public bool IsCampClash =>
             map?.Parent != null

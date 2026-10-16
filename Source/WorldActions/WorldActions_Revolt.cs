@@ -23,36 +23,69 @@ namespace TSA_WorldDomination
             if (Rand.Value > seth.revoltChance) return;
 
             Faction rebelFaction = defeatedFactions.RandomElement();
+            ExecuteRevolt(rebelFaction, forcedSeed: null, stampSpecialEventCooldown: true);
+        }
 
-            Dictionary<Faction, List<Settlement>> byFaction = BuildEligibleSettlementsByFaction();
-            List<Faction> top = RankNpcFactionsBySettlementCount(byFaction, 3);
-            if (top.Count == 0) return;
-
-            List<Settlement> firstPool = byFaction[top[0]];
-            if (firstPool == null || firstPool.Count < 3) return;
-
-            int want = Rand.RangeInclusive(3, 7);
-            var targets = new List<Settlement>();
-            targets.AddRange(TakeWeighted(firstPool, 3));
-
-            int remaining = want - targets.Count;
-            if (remaining > 0 && top.Count > 1)
+        /// <summary>
+        /// Debug: force a real revolt (3-7 weighted) for a chosen rebel, seeded by a clicked settlement.
+        /// Skips chance and special-event cooldown. Still stamps comeback CD and sends the revolt letter.
+        /// </summary>
+        public static bool DebugForceRevolt(Faction rebelFaction, Settlement seed, out string failReason)
+        {
+            failReason = null;
+            if (rebelFaction == null)
             {
-                var pool = new List<Settlement>();
-                for (int i = 1; i < top.Count; i++)
-                {
-                    if (!byFaction.TryGetValue(top[i], out List<Settlement> list) || list == null) continue;
-                    for (int j = 0; j < list.Count; j++)
-                    {
-                        Settlement s = list[j];
-                        if (s != null && !targets.Contains(s))
-                            pool.Add(s);
-                    }
-                }
-                targets.AddRange(TakeWeighted(pool, remaining));
+                failReason = "WD debug: no rebel faction.";
+                return false;
+            }
+            if (seed == null || seed.Destroyed)
+            {
+                failReason = "WD debug: click an eligible NPC settlement.";
+                return false;
+            }
+            if (seed.Faction == null || seed.Faction.IsPlayer)
+            {
+                failReason = "WD debug: revolt seed must be an NPC settlement.";
+                return false;
+            }
+            if (seed.Faction == rebelFaction)
+            {
+                failReason = "WD debug: rebel faction cannot be the seed owner.";
+                return false;
+            }
+            if (!IsEligibleRevoltVictim(seed))
+            {
+                failReason = "WD debug: seed settlement is not an eligible revolt victim (protected, no CompViralSpread, etc.).";
+                return false;
             }
 
-            if (targets.Count < 3) return;
+            if (!ExecuteRevolt(rebelFaction, seed, stampSpecialEventCooldown: false))
+            {
+                failReason =
+                    "WD debug: revolt failed (need at least 3 eligible towns on the seed faction, then fill to 3-7).";
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Shared revolt execution: revive rebel, pick 3-7 targets, transfer, letter, comeback CD.
+        /// When <paramref name="forcedSeed"/> is set, that settlement is forced into the set and its
+        /// faction is the primary pool (instead of the largest empire).
+        /// </summary>
+        public static bool ExecuteRevolt(
+            Faction rebelFaction,
+            Settlement forcedSeed = null,
+            bool stampSpecialEventCooldown = true)
+        {
+            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            if (manager == null || rebelFaction == null) return false;
+
+            Dictionary<Faction, List<Settlement>> byFaction = BuildEligibleSettlementsByFaction();
+            if (!TryBuildRevoltTargets(byFaction, forcedSeed, out List<Settlement> targets))
+                return false;
+
+            if (targets.Count < 3) return false;
 
             rebelFaction.defeated = false;
             WDVerbose.Msg($"Revolt revive loadID={rebelFaction.loadID} name={rebelFaction.Name}");
@@ -79,6 +112,8 @@ namespace TSA_WorldDomination
                 float oldDef = oldComp != null ? oldComp.defensiveStrength : 0f;
                 SettlementTier oldTier = oldComp != null ? oldComp.tier : SettlementTier.T1;
                 string oldSubType = oldComp?.subType;
+                int oldArtilleryRoll = oldComp != null ? oldComp.artilleryRoll : -1;
+                bool oldFreeT4 = oldComp != null && oldComp.freeT4ArtilleryDone;
 
                 liberatedNames.Add(target.Label);
                 lastTile = tile;
@@ -93,7 +128,7 @@ namespace TSA_WorldDomination
 
                 var nc = newS.GetComponent<CompViralSpread>();
                 if (nc != null)
-                    ApplyCopiedSettlementState(nc, oldTier, oldOff, oldDef, oldSubType);
+                    nc.ApplyCopiedSettlementState(oldTier, oldOff, oldDef, oldSubType, oldArtilleryRoll, oldFreeT4);
 
                 WorldActions_RoadBlocks.ClearIfPresent(tile);
                 WorldActions_SpikeTraps.ClearIfPresent(tile);
@@ -109,9 +144,10 @@ namespace TSA_WorldDomination
                 manager.AddLog(new SpreadLogEntry(logText, rebelFaction, newS, victimName, victimFaction));
             }
 
-            if (liberatedNames.Count == 0) return;
+            if (liberatedNames.Count == 0) return false;
 
-            WorldActions_SpecialEventCooldown.Stamp(manager, SpecialWorldEventKind.Revolt);
+            if (stampSpecialEventCooldown)
+                WorldActions_SpecialEventCooldown.Stamp(manager, SpecialWorldEventKind.Revolt);
             StampComebackCooldown(manager, rebelFaction);
 
             string settlementList = liberatedNames.ToCommaList(true);
@@ -131,6 +167,78 @@ namespace TSA_WorldDomination
 
             WorldActions_Utils.RefreshMap();
             Find.World?.GetComponent<Text_WorldTierOnSettlements>()?.NotifyTierLabelCacheDirty();
+            return true;
+        }
+
+        private static bool TryBuildRevoltTargets(
+            Dictionary<Faction, List<Settlement>> byFaction,
+            Settlement forcedSeed,
+            out List<Settlement> targets)
+        {
+            targets = new List<Settlement>();
+            if (byFaction == null || byFaction.Count == 0) return false;
+
+            List<Settlement> firstPool;
+            List<Faction> topOthers;
+
+            if (forcedSeed != null)
+            {
+                Faction primary = forcedSeed.Faction;
+                if (primary == null || !byFaction.TryGetValue(primary, out firstPool)
+                    || firstPool == null || firstPool.Count < 3)
+                    return false;
+
+                topOthers = RankNpcFactionsBySettlementCount(byFaction, 3, exclude: primary);
+            }
+            else
+            {
+                List<Faction> top = RankNpcFactionsBySettlementCount(byFaction, 3, exclude: null);
+                if (top.Count == 0) return false;
+                firstPool = byFaction[top[0]];
+                if (firstPool == null || firstPool.Count < 3) return false;
+                topOthers = new List<Faction>();
+                for (int i = 1; i < top.Count; i++)
+                    topOthers.Add(top[i]);
+            }
+
+            int want = Rand.RangeInclusive(3, 7);
+
+            if (forcedSeed != null)
+            {
+                targets.Add(forcedSeed);
+                var withoutSeed = new List<Settlement>();
+                for (int i = 0; i < firstPool.Count; i++)
+                {
+                    Settlement s = firstPool[i];
+                    if (s != null && s != forcedSeed)
+                        withoutSeed.Add(s);
+                }
+                targets.AddRange(TakeWeighted(withoutSeed, 2));
+            }
+            else
+            {
+                targets.AddRange(TakeWeighted(firstPool, 3));
+            }
+
+            int remaining = want - targets.Count;
+            if (remaining > 0 && topOthers.Count > 0)
+            {
+                var pool = new List<Settlement>();
+                for (int i = 0; i < topOthers.Count; i++)
+                {
+                    if (!byFaction.TryGetValue(topOthers[i], out List<Settlement> list) || list == null)
+                        continue;
+                    for (int j = 0; j < list.Count; j++)
+                    {
+                        Settlement s = list[j];
+                        if (s != null && !targets.Contains(s))
+                            pool.Add(s);
+                    }
+                }
+                targets.AddRange(TakeWeighted(pool, remaining));
+            }
+
+            return targets.Count >= 3;
         }
 
         /// <summary>
@@ -209,7 +317,8 @@ namespace TSA_WorldDomination
 
         private static List<Faction> RankNpcFactionsBySettlementCount(
             Dictionary<Faction, List<Settlement>> byFaction,
-            int take)
+            int take,
+            Faction exclude)
         {
             var ranked = new List<Faction>();
             if (byFaction == null || byFaction.Count == 0 || take <= 0) return ranked;
@@ -218,6 +327,7 @@ namespace TSA_WorldDomination
             foreach (var kv in byFaction)
             {
                 if (kv.Key == null || kv.Key.IsPlayer || kv.Key.defeated) continue;
+                if (exclude != null && kv.Key == exclude) continue;
                 if (kv.Value == null || kv.Value.Count == 0) continue;
                 entries.Add(kv);
             }
@@ -271,27 +381,5 @@ namespace TSA_WorldDomination
             return result;
         }
 
-        /// <summary>
-        /// Initialize may have rolled a random tier; overwrite with the stolen settlement's full state.
-        /// Set strength before <see cref="CompViralSpread.SetState"/> so it does not re-roll offense.
-        /// </summary>
-        private static void ApplyCopiedSettlementState(
-            CompViralSpread nc,
-            SettlementTier tier,
-            float offensive,
-            float defensive,
-            string subType)
-        {
-            if (nc == null) return;
-            FloatRange range = CompViralSpread.GetStrengthRange(tier);
-            float clampedOff = Mathf.Clamp(Mathf.Max(offensive, 0.01f), range.min, range.max);
-            nc.offensiveStrength = clampedOff;
-            nc.SetState(tier);
-            if (!string.IsNullOrEmpty(subType))
-                nc.subType = subType;
-            nc.offensiveStrength = clampedOff;
-            float defMax = nc.GetBaseDefensiveStrength();
-            nc.defensiveStrength = defensive > 0f ? Mathf.Min(defensive, defMax) : defMax;
-        }
     }
 }

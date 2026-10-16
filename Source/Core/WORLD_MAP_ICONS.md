@@ -48,11 +48,11 @@ Vanilla `Settlement.ExpandingIcon` is `Faction.def.FactionIcon`. WD overrides th
 
 | Layer | Rule |
 |-------|------|
-| ExpandingIcon | When `WorldComponent_WDVisualizerToggle.ShowSettlementTypeIcons` is on (default): Harmony Prefix on `Settlement.get_ExpandingIcon` → `SettlementTypeIconUtility` returns subtype art (`WorldObjects/Settlements/T1_*` / `T2_*`) only. No faction badge. Resolved tex cached on `CompViralSpread` until `NotifySettlementTypeIconDirty` (tier/subtype change). When off: vanilla `FactionIcon`. |
+| ExpandingIcon | When `WorldComponent_WDVisualizerToggle.ShowSettlementTypeIcons` is on (default): Harmony Prefix on `Settlement.get_ExpandingIcon` → `SettlementTypeIconUtility` returns subtype art (`WorldObjects/Settlements/T1_*` … `T4_*`) only. No faction badge. Resolved tex cached on `CompViralSpread` until `NotifySettlementTypeIconDirty` (tier/subtype change). When off: vanilla `FactionIcon`. |
 | ExpandingIconColor | Vanilla (faction tint on greyscale type art, same as other WorldObjects). |
 | Material | Unchanged (`settlementTexturePath` + faction tint). Still skipped when always-show settlement icons is on (`Patch_WdWorldObjectNoExpandingIcon`). |
 
-**Path map:** Farming→`T1_Farm`, Logging→`T1_Logging`, Mining→`T1_Mining`, Refuge→`T1_Refuge`, Camp→`T1_Camp`/`T2_Camp`, Production→`T2_Production`, Slavery→`T2_Prison`, Vanguard→`T1_Vanguard`/`T2_Vanguard` (by tier). T3 Fortress / T4 Citadel / unknown / missing file / player Colony·Outpost → keep vanilla FactionIcon.
+**Path map:** Farming→`T1_Farm`, Logging→`T1_Logging`, Mining→`T1_Mining`, Refuge→`T1_Refuge`, Camp→`T1_Camp`/`T2_Camp`, Production→`T2_Production`, Slavery→`T2_Prison`, Vanguard→`T1_Vanguard`/`T2_Vanguard`/`T3_Vanguard`/`T4_Vanguard` (by tier), Fortress→`T3_Fortress`, Citadel→`T4_Citadel`. Unknown / missing file / player Colony·Outpost → keep vanilla FactionIcon.
 
 Do **not** put subtype art on `Material`. Do **not** Destroy ContentFinder textures when clearing the per-comp cache (null the pointers only).
 

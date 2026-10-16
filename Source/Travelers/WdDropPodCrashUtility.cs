@@ -255,6 +255,8 @@ namespace TSA_WorldDomination
     {
         public static void Postfix(Caravan __result)
         {
+            // Ambush target CD before crash-evac (which may TryCheckAmbushForCaravan).
+            SettlementAmbushUtility.NotifyCaravanReformedAfterClash(__result);
             WdDropPodCrashUtility.NotifyCrashEvacCaravanIfFromCrashMap(__result);
         }
     }

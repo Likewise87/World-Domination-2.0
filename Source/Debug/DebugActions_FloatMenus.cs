@@ -38,6 +38,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Player plus placeable NPC factions (non-hidden, not defeated, not WD-excluded).
+        /// Used by forts / World Setup. Do not add defeated here.
         /// </summary>
         public static void CollectDebugFactions(List<Faction> into)
         {
@@ -58,6 +59,36 @@ namespace TSA_WorldDomination
                     continue;
                 into.Add(f);
             }
+        }
+
+        /// <summary>
+        /// NPC WD participants only (no player). Optionally includes defeated empires.
+        /// </summary>
+        public static void CollectWdParticipantFactions(List<Faction> into, bool includeDefeated)
+        {
+            into.Clear();
+            var factions = Find.FactionManager?.AllFactionsListForReading;
+            if (factions == null) return;
+
+            for (int i = 0; i < factions.Count; i++)
+            {
+                Faction f = factions[i];
+                if (f == null || f.IsPlayer || f.def == null || f.def.hidden)
+                    continue;
+                if (!includeDefeated && f.defeated)
+                    continue;
+                if (!WorldActions_Utils.IsWdParticipant(f))
+                    continue;
+                into.Add(f);
+            }
+        }
+
+        public static string FactionMenuLabel(Faction f)
+        {
+            if (f == null) return "?";
+            if (f.defeated)
+                return f.Name + " [defeated]";
+            return f.Name;
         }
     }
 }

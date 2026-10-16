@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_51_Title>新图标、调试改进与体验优化（1.7）</TSA_WD_Update_2_3_51_Title>
+  <TSA_WD_Update_2_3_51_Body><![CDATA[
+<size=16><b>2.3.51 - 新图标、调试改进与体验优化（1.7）</b></size>\n
+<color=#00FFFFFF>发布日期：2026年10月16日</color>\n
+------------------------------\n
+!!!所有新内容仅适用于 1.7 版本!!!\n
+• 新调试选项：击败派系（删除其全部定居点）、触发叛乱（让已败派系接管随机定居点）、更改定居点所有者。也可通过调试为已败派系创建新定居点。\n
+• 新图标：感谢玩家 Pesky 提供出色的全新 T3、T4 各类定居点图标。\n
+• 修复：诸如“Left ALT+X”的快捷键现已可在 RimWorld 1.7 中正常使用。\n
+]]></TSA_WD_Update_2_3_51_Body>
   <TSA_WD_Update_2_3_5_Title>重大更新</TSA_WD_Update_2_3_5_Title>
   <TSA_WD_Update_2_3_5_Body><![CDATA[
 <size=16><b>2.3.5 – 重大更新</b></size>\n

@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_51_Title>Nuevos iconos, mejoras de depuración y calidad de vida (1.7)</TSA_WD_Update_2_3_51_Title>
+  <TSA_WD_Update_2_3_51_Body><![CDATA[
+<size=16><b>2.3.51 - Nuevos iconos, mejoras de depuración y calidad de vida (1.7)</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 16 de octubre de 2026</color>\n
+------------------------------\n
+!!!Todas las novedades aplican solo a la versión 1.7!!!\n
+• Nuevas opciones de depuración: Derrotar una facción (elimina todos sus asentamientos), Provocar una revuelta (permite que una facción derrotada tome asentamientos al azar), Cambiar el dueño del asentamiento. También se pueden crear asentamientos nuevos por depuración para facciones derrotadas.\n
+• Nuevos iconos: gracias al jugador Pesky por los excelentes iconos nuevos para todos los tipos de asentamiento T3 y T4.\n
+• Corrección: atajos como "Left ALT+X" también funcionan ahora en RimWorld 1.7.\n
+]]></TSA_WD_Update_2_3_51_Body>
   <TSA_WD_Update_2_3_5_Title>Actualización mayor</TSA_WD_Update_2_3_5_Title>
   <TSA_WD_Update_2_3_5_Body><![CDATA[
 <size=16><b>2.3.5 – Actualización mayor</b></size>\n

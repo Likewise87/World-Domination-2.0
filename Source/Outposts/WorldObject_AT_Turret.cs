@@ -124,6 +124,7 @@ namespace TSA_WorldDomination
         public MissionMask DefenseMask => (MissionMask)defenseMaskRaw;
         public RaidTargetMask DefenseRaidTargetMask => (RaidTargetMask)raidTargetMaskRaw;
         public float RangeOverride => rangeOverride;
+        public int DefaultAimTileId => defaultAimTileId;
 
         /// <summary>Settings tier max range (absolute ceiling for the configure slider).</summary>
         public float GetConfiguredMaxRangeTiles()
@@ -651,6 +652,31 @@ namespace TSA_WorldDomination
             // Player-assigned rest heading: turn there now unless already aiming a shot.
             if (!isAiming)
                 BeginReturnToDefault();
+        }
+
+        /// <summary>Debug / ownership transfer: restore combat fields after a fresh spawn.</summary>
+        public void ApplyCopiedTransferState(
+            float copiedStrength,
+            int copiedCooldownTick,
+            bool copiedDefenseActive,
+            MissionMask copiedDefenseMask,
+            RaidTargetMask copiedRaidMask,
+            float copiedRangeOverride,
+            int copiedDefaultAimTileId)
+        {
+            strength = copiedStrength;
+            cooldownTick = copiedCooldownTick;
+            SetDefenseActive(copiedDefenseActive);
+            SetDefenseMask(copiedDefenseMask);
+            SetRaidTargetMask(copiedRaidMask);
+            SetRangeOverride(copiedRangeOverride);
+            defaultAimTileId = copiedDefaultAimTileId;
+            currentFacingAngleDeg = 0f;
+            desiredFacingAngleDeg = 0f;
+            isAiming = false;
+            isReturningToDefault = false;
+            pendingTarget = null;
+            InvalidateWorldMapIconCache();
         }
 
         private bool TryGetDefaultDesiredFacing(out float angleDeg)

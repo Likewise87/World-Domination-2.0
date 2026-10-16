@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_51_Title>New icons, debug improvements &amp; QOL (1.7)</TSA_WD_Update_2_3_51_Title>
+  <TSA_WD_Update_2_3_51_Body><![CDATA[
+<size=16><b>2.3.51 - New icons, debug improvements & QOL (1.7)</b></size>\n
+<color=#00FFFFFF>Release date: October 16th 2026</color>\n
+------------------------------\n
+!!!All new features apply to the 1.7 version only!!!\n
+• New debug options: Defeat a faction (deletes all their settlements), Trigger a revolt (allow a defeated faction to take over random settlements), Change settlement owner. New settlements can be created now via debug actions for defeated factions as well.\n
+• New icons: Thanks to player Pesky for giving us amazing new icons for all T3 and T4 settlement types.\n
+• Fixed: Shortcuts like "Left ALT+X" now also work in RimWorld 1.7.\n
+]]></TSA_WD_Update_2_3_51_Body>
   <TSA_WD_Update_2_3_5_Title>Major update</TSA_WD_Update_2_3_5_Title>
   <TSA_WD_Update_2_3_5_Body><![CDATA[
 <size=16><b>2.3.5 – Major update</b></size>\n
