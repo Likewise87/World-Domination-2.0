@@ -27,8 +27,10 @@ namespace TSA_WorldDomination
 
         public static IEnumerable<Gizmo> GetWarehouseGizmos(WorldObject_WD_Outpost warehouse)
         {
-            // Dispatch mode, auto-ship, and ship destination live on WITab_Outpost_Warehouse.
-            yield break;
+            if (warehouse == null || warehouse.Faction != Faction.OfPlayer) yield break;
+            if (CompOutpostWarehouse.Get(warehouse) == null) yield break;
+            // Same SSoT as WITab_Outpost_Warehouse (OutpostDispatchMode → CompOutpostWarehouse.dispatchViaDropPod).
+            yield return MakeDispatchModeGizmo(warehouse);
         }
 
         private static Command_Action MakeDispatchModeGizmo(WorldObject origin)

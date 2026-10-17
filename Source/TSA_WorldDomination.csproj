@@ -19,17 +19,26 @@
 	  <Compile Remove="docs/**" />
 	  <Compile Remove="dev/**" />
 	  <Compile Remove="Guardrails/**" />
+	  <Compile Remove="obj/**" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Lib.Harmony" Version="2.3.6" />
+		<!-- Compile against Harmony 3 to match RimWorld 1.7 Workshop brrainz.harmony (do not ship Harmony). -->
+		<PackageReference Include="Lib.Harmony" Version="3.0.0-rc.2">
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
 		<Reference Include="Assembly-CSharp">
 			<HintPath>$(RimWorldDir)\Assembly-CSharp.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
-		<!-- Waylith redirects UnityEngine* → UnityStubs. -->
+		<!-- Waylith redirects UnityEngine* → UnityStubs; Waylith.dll required for native APIs. -->
 		<Reference Include="UnityStubs">
 			<HintPath>$(RimWorldDir)\UnityStubs.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Waylith">
+			<HintPath>$(RimWorldDir)\Waylith.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="KCSG">

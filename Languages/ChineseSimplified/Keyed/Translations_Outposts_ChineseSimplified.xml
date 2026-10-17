@@ -375,6 +375,8 @@
   <TSA_WD_ConquestDialog_Header>你可以选择 ≤ T{0} 的前哨站类型;仅需满足生物群系与附近定居点条件。</TSA_WD_ConquestDialog_Header>
   <TSA_WD_ConquestLetter_Label>征服结果</TSA_WD_ConquestLetter_Label>
   <TSA_WD_ConquestLetter_Text>{0}(等级 {1})的废墟已由你控制。选择建立前哨站、招募幸存者、将地点交给友好派系,或直接离开。</TSA_WD_ConquestLetter_Text>
+  <TSA_WD_Letter_SettlementConquered_Label>{0} 已被征服</TSA_WD_Letter_SettlementConquered_Label>
+  <TSA_WD_Letter_SettlementConquered_Text>{0} 已被征服。</TSA_WD_Letter_SettlementConquered_Text>
   <TSA_WD_Conquest_OptEstablish>建立前哨站</TSA_WD_Conquest_OptEstablish>
   <TSA_WD_Conquest_OptRecruit>招募幸存者</TSA_WD_Conquest_OptRecruit>
   <TSA_WD_Conquest_OptGiveAlly>让盟友或中立派系在此定居</TSA_WD_Conquest_OptGiveAlly>
@@ -1007,6 +1009,29 @@
   <TSA_WD_RelativeStrength>相对实力:{0}</TSA_WD_RelativeStrength>
   <TSA_WD_RelevantSkills>技能:{0}</TSA_WD_RelevantSkills>
   <TSA_WD_RemoveLastPawnWarning>移出最后一名殖民者将摧毁前哨站"{0}"。继续?</TSA_WD_RemoveLastPawnWarning>
+  <TSA_WD_AbandonOutpost>放弃前哨站</TSA_WD_AbandonOutpost>
+  <TSA_WD_AbandonOutpostTip>撤出此前哨站所有人员（等同于全选并转移、在此处离开）。使用相同的进攻力量预算与最后一人警告。</TSA_WD_AbandonOutpostTip>
+  <TSA_WD_AbandonOutpost_NoRoster>此前哨站没有可撤出的人员。</TSA_WD_AbandonOutpost_NoRoster>
+  <TSA_WD_ChangeOutpostType>更改前哨站类型</TSA_WD_ChangeOutpostType>
+  <TSA_WD_ChangeOutpostTypeTip>将此前哨站转为其他类型。材料费用等于新建该类型，并由殖民地或最近仓库以升级同款方式送达。驻军技能与人数须满足新类型。路障与反坦克炮台保留；不适用的升级将被丢弃。</TSA_WD_ChangeOutpostTypeTip>
+  <TSA_WD_TypeChange_Confirm>开始转换</TSA_WD_TypeChange_Confirm>
+  <TSA_WD_TypeChange_ConfirmBody>将"{0}"转换为{1}？</TSA_WD_TypeChange_ConfirmBody>
+  <TSA_WD_TypeChange_WarehouseLossConfirm>此仓库中的货物无法带到新类型前哨站，将被丢弃。继续？</TSA_WD_TypeChange_WarehouseLossConfirm>
+  <TSA_WD_TypeChange_Invalid>无法更改前哨站类型。</TSA_WD_TypeChange_Invalid>
+  <TSA_WD_TypeChange_SameType>这已经是此前哨站的类型。</TSA_WD_TypeChange_SameType>
+  <TSA_WD_TypeChange_AlreadyPending>已有类型转换在途。</TSA_WD_TypeChange_AlreadyPending>
+  <TSA_WD_TypeChange_TileConflict>该格已有其他玩家前哨站。</TSA_WD_TypeChange_TileConflict>
+  <TSA_WD_TypeChange_QueueFailed>无法排队类型转换。</TSA_WD_TypeChange_QueueFailed>
+  <TSA_WD_TypeChange_LaunchFailed>无法派出转换商队。</TSA_WD_TypeChange_LaunchFailed>
+  <TSA_WD_TypeChange_SpawnFailed>无法生成替换前哨站。</TSA_WD_TypeChange_SpawnFailed>
+  <TSA_WD_TypeChange_ApplyFailed>到达时类型转换失败。</TSA_WD_TypeChange_ApplyFailed>
+  <TSA_WD_TypeChange_Completed>{0} 已转换为 {1}。</TSA_WD_TypeChange_Completed>
+  <TSA_WD_TypeChange_Launched>正在前往转换为{0}。</TSA_WD_TypeChange_Launched>
+  <TSA_WD_TypeChange_LostLabel>前哨站转换丢失</TSA_WD_TypeChange_LostLabel>
+  <TSA_WD_TypeChange_Lost>前往转换为{0}的商队已丢失。为"{1}"花费的材料无法退回。</TSA_WD_TypeChange_Lost>
+  <TSA_WD_Traveler_Outpost_TypeChange>前哨站转换商队</TSA_WD_Traveler_Outpost_TypeChange>
+  <TSA_WD_Log_OutpostTypeChangeLaunched>{0}向{1}派出转换商队（{2}）。</TSA_WD_Log_OutpostTypeChangeLaunched>
+  <TSA_WD_Debug_ForceTypeChange>调试：强制更改前哨站类型…</TSA_WD_Debug_ForceTypeChange>
   <TSA_WD_StrengthBudget_ColName>殖民者</TSA_WD_StrengthBudget_ColName>
   <TSA_WD_StrengthBudget_ColGear>装备</TSA_WD_StrengthBudget_ColGear>
   <TSA_WD_StrengthBudget_ColShooting>射击</TSA_WD_StrengthBudget_ColShooting>

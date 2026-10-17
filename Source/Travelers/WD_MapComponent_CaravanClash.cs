@@ -17,6 +17,24 @@ namespace TSA_WorldDomination
         private TravelerMission savedMission = TravelerMission.Expansion;
         private WorldObject savedOrigin;
         private WorldObject savedTarget;
+
+        /// <summary>Type-change Path B safety net (encounters should be gated off).</summary>
+        public int RetargetOutpostIfMatches(WorldObject_WD_Outpost oldOutpost, WorldObject_WD_Outpost newOutpost)
+        {
+            if (oldOutpost == null || newOutpost == null) return 0;
+            int n = 0;
+            if (ReferenceEquals(savedOrigin, oldOutpost))
+            {
+                savedOrigin = newOutpost;
+                n++;
+            }
+            if (ReferenceEquals(savedTarget, oldOutpost))
+            {
+                savedTarget = newOutpost;
+                n++;
+            }
+            return n;
+        }
         private float savedInitialStrength;
         private bool savedPackUpRequiresRefound;
         private string savedPackUpOriginLabel;

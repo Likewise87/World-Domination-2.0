@@ -877,19 +877,23 @@ namespace TSA_WorldDomination
         public override void PostDestroy()
         {
             Faction faction = parent?.Faction;
-            if (playerOrderedRoad && roadTargetTile != -1 && !playerOrderedRoadGoodwillRefunded)
-                WorldActions_Roads.ClearRoadProject(this, RoadProjectClearReason.SettlementDestroyed, faction);
-            if (WorldActions_RoadBlocks.HasActiveRoadBlockProject(this))
-                WorldActions_RoadBlocks.ClearRoadBlockProject(this);
-            if (WorldActions_SpikeTraps.HasActiveSpikeTrapProject(this))
-                WorldActions_SpikeTraps.ClearSpikeTrapProject(this);
-            if (WorldActions_AtTurrets.HasActiveAtTurretProject(this))
-                WorldActions_AtTurrets.ClearAtTurretProject(this);
-            if (WorldActions_Decontamination.HasActiveDecontaminationProject(this))
-                WorldActions_Decontamination.ClearDecontaminationProject(this);
-            if (WorldActions_BuildBridge.HasActiveBridgeProject(this))
-                WorldActions_BuildBridge.ClearBridgeProject(this);
-            ClearNpcHybridCorridor();
+            bool skipProjectClears = parent is WorldObject_WD_Outpost wdOutpost && wdOutpost.typeChangeShellRemoval;
+            if (!skipProjectClears)
+            {
+                if (playerOrderedRoad && roadTargetTile != -1 && !playerOrderedRoadGoodwillRefunded)
+                    WorldActions_Roads.ClearRoadProject(this, RoadProjectClearReason.SettlementDestroyed, faction);
+                if (WorldActions_RoadBlocks.HasActiveRoadBlockProject(this))
+                    WorldActions_RoadBlocks.ClearRoadBlockProject(this);
+                if (WorldActions_SpikeTraps.HasActiveSpikeTrapProject(this))
+                    WorldActions_SpikeTraps.ClearSpikeTrapProject(this);
+                if (WorldActions_AtTurrets.HasActiveAtTurretProject(this))
+                    WorldActions_AtTurrets.ClearAtTurretProject(this);
+                if (WorldActions_Decontamination.HasActiveDecontaminationProject(this))
+                    WorldActions_Decontamination.ClearDecontaminationProject(this);
+                if (WorldActions_BuildBridge.HasActiveBridgeProject(this))
+                    WorldActions_BuildBridge.ClearBridgeProject(this);
+                ClearNpcHybridCorridor();
+            }
             if (parent is Settlement settlement)
             {
                 AtTurretUtility.DestroyTurretsBuiltBy(settlement);
@@ -897,6 +901,131 @@ namespace TSA_WorldDomination
             }
             ReinforcementNeighborCache.BumpGeneration();
             base.PostDestroy();
+        }
+
+        /// <summary>
+        /// Copy player outpost strength pools, cooldowns, and world-build project state onto another comp
+        /// (type-change Path B). Does not touch settlement-only NPC fields.
+        /// </summary>
+        public void CopyWorldBuildStateTo(CompViralSpread dest)
+        {
+            if (dest == null || ReferenceEquals(this, dest)) return;
+            dest.offensiveStrength = offensiveStrength;
+            dest.defensiveStrength = defensiveStrength;
+            dest.outpostInitialized = outpostInitialized;
+            dest.lastTargetOutpostStrength = lastTargetOutpostStrength;
+            dest.subType = subType;
+            dest.raidCooldownTick = raidCooldownTick;
+            dest.roadCooldownTick = roadCooldownTick;
+            dest.fortifyCooldownTick = fortifyCooldownTick;
+            dest.traderCooldownTick = traderCooldownTick;
+            dest.defenseCooldownTick = defenseCooldownTick;
+            dest.mortarCooldownTick = mortarCooldownTick;
+            dest.antiAirCooldownTick = antiAirCooldownTick;
+            dest.incidentCooldownTick = incidentCooldownTick;
+
+            dest.roadTargetTile = roadTargetTile;
+            dest.roadProgress = roadProgress;
+            dest.roadTargetName = roadTargetName;
+            dest.selectedRoadTier = selectedRoadTier;
+            dest.roadIsClearing = roadIsClearing;
+            dest.playerOrderedRoad = playerOrderedRoad;
+            dest.playerOrderedRoadGoodwillPaid = playerOrderedRoadGoodwillPaid;
+            dest.playerOrderedRoadGoodwillRefunded = playerOrderedRoadGoodwillRefunded;
+            dest.playerOrderedRoadInitialSegments = playerOrderedRoadInitialSegments;
+            dest.playerOrderedRoadBaseCost = playerOrderedRoadBaseCost;
+            dest.playerOrderedRoadPerSegmentRate = playerOrderedRoadPerSegmentRate;
+            dest.roadTargetUsesDetachedStart = roadTargetUsesDetachedStart;
+            dest.cachedRoadPathTiles = CloneIntList(cachedRoadPathTiles);
+            dest.roadWaypointTiles = CloneIntList(roadWaypointTiles);
+            dest.lastPathSourceTile = lastPathSourceTile;
+            dest.cachedWorkTile = cachedWorkTile;
+            dest.builderInField = builderInField;
+            dest.lastRoadProgressTick = lastRoadProgressTick;
+
+            dest.bridgeSpanTiles = CloneIntList(bridgeSpanTiles);
+            dest.bridgeTargetName = bridgeTargetName;
+            dest.bridgeBuilderInField = bridgeBuilderInField;
+            dest.bridgeIsClearing = bridgeIsClearing;
+            dest.bridgeProgress = bridgeProgress;
+            dest.lastBridgeProgressTick = lastBridgeProgressTick;
+
+            dest.roadBlockPlannedTiles = CloneIntList(roadBlockPlannedTiles);
+            dest.roadBlockClickedNodes = CloneIntList(roadBlockClickedNodes);
+            dest.roadBlockCachedPathTiles = CloneIntList(roadBlockCachedPathTiles);
+            dest.roadBlockWorkIndex = roadBlockWorkIndex;
+            dest.roadBlockProgress = roadBlockProgress;
+            dest.roadBlockIsClearing = roadBlockIsClearing;
+            dest.roadBlockClearAnyFortification = roadBlockClearAnyFortification;
+            dest.roadBlockCachedWorkTile = roadBlockCachedWorkTile;
+            dest.roadBlockTargetName = roadBlockTargetName;
+            dest.selectedRoadBlockKind = selectedRoadBlockKind;
+            dest.roadBlockBuilderInField = roadBlockBuilderInField;
+            dest.lastRoadBlockProgressTick = lastRoadBlockProgressTick;
+
+            dest.spikeTrapPlannedTiles = CloneIntList(spikeTrapPlannedTiles);
+            dest.spikeTrapClickedNodes = CloneIntList(spikeTrapClickedNodes);
+            dest.spikeTrapCachedPathTiles = CloneIntList(spikeTrapCachedPathTiles);
+            dest.spikeTrapWorkIndex = spikeTrapWorkIndex;
+            dest.spikeTrapProgress = spikeTrapProgress;
+            dest.spikeTrapIsClearing = spikeTrapIsClearing;
+            dest.spikeTrapCachedWorkTile = spikeTrapCachedWorkTile;
+            dest.spikeTrapTargetName = spikeTrapTargetName;
+            dest.selectedSpikeTrapKind = selectedSpikeTrapKind;
+            dest.spikeTrapBuilderInField = spikeTrapBuilderInField;
+            dest.lastSpikeTrapProgressTick = lastSpikeTrapProgressTick;
+
+            dest.atTurretPlannedTiles = CloneIntList(atTurretPlannedTiles);
+            dest.atTurretWorkIndex = atTurretWorkIndex;
+            dest.atTurretProgress = atTurretProgress;
+            dest.atTurretBuilderInField = atTurretBuilderInField;
+
+            dest.decontamPlannedTiles = CloneIntList(decontamPlannedTiles);
+            dest.decontamClickedNodes = CloneIntList(decontamClickedNodes);
+            dest.decontamCachedPathTiles = CloneIntList(decontamCachedPathTiles);
+            dest.decontamWorkIndex = decontamWorkIndex;
+            dest.decontamProgress = decontamProgress;
+            dest.decontamCachedWorkTile = decontamCachedWorkTile;
+            dest.decontamTargetName = decontamTargetName;
+            dest.decontamBuilderInField = decontamBuilderInField;
+        }
+
+        /// <summary>Zero world-build project fields without calling Clear*Project (type-change shell idle).</summary>
+        public void ZeroWorldBuildProjectsWithoutClear()
+        {
+            roadTargetTile = -1;
+            roadProgress = 0f;
+            builderInField = false;
+            cachedRoadPathTiles = null;
+            roadWaypointTiles = null;
+            bridgeSpanTiles = null;
+            bridgeProgress = 0f;
+            bridgeBuilderInField = false;
+            roadBlockPlannedTiles = null;
+            roadBlockClickedNodes = null;
+            roadBlockCachedPathTiles = null;
+            roadBlockProgress = 0f;
+            roadBlockBuilderInField = false;
+            spikeTrapPlannedTiles = null;
+            spikeTrapClickedNodes = null;
+            spikeTrapCachedPathTiles = null;
+            spikeTrapProgress = 0f;
+            spikeTrapBuilderInField = false;
+            atTurretPlannedTiles = null;
+            atTurretProgress = 0f;
+            atTurretBuilderInField = false;
+            decontamPlannedTiles = null;
+            decontamClickedNodes = null;
+            decontamCachedPathTiles = null;
+            decontamProgress = 0f;
+            decontamBuilderInField = false;
+            playerOrderedRoad = false;
+        }
+
+        private static List<int> CloneIntList(List<int> src)
+        {
+            if (src == null || src.Count == 0) return src == null ? null : new List<int>();
+            return new List<int>(src);
         }
 
         private static float GetOutpostDefensiveRecoveryMinFlat()

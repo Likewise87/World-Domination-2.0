@@ -118,7 +118,7 @@ namespace TSA_WorldDomination
                 antiAirRangeOverride = Mathf.Clamp(tilesOrClear, min, max);
         }
 
-        private void RefreshInterceptorRegistration()
+        public void RefreshInterceptorRegistration()
         {
             var sched = WorldComponent_InterceptionScheduler.Current;
             if (sched != null)
@@ -1130,13 +1130,22 @@ namespace TSA_WorldDomination
             NotifyVirtualPawnsChanged();
         }
 
+        /// <summary>When true, <see cref="Destroy"/> / <see cref="PostRemove"/> skip prisoner/armory/skirmish wipes (type-change shell removal).</summary>
+        public bool typeChangeShellRemoval;
+
+        /// <summary>When true, <see cref="PostAdd"/> skips RR/warehouse/interceptor/logistics bootstrap (Path B spawn before MOVE).</summary>
+        public bool suppressBootstrapHooks;
+
         public override void Destroy()
         {
-            Log.Warning($"[TSA WD] Destroying outpost '{Label}' tile={Tile.tileId} def={def?.defName} occupants={Occupants?.Count ?? 0} prisoners={Prisoners?.Count ?? 0} manualDefense={manualDefenseActive}\n{StackTraceUtility.ExtractStackTrace()}");
-            DestroyAllPrisoners();
-            ClearPendingSkirmishDefense();
-            // Loose armory stock dies with the outpost; retreating pawns keep only worn/carried gear.
-            CompOutpostArmory.Get(this)?.ClearAndDestroyAll();
+            Log.Warning($"[TSA WD] Destroying outpost '{Label}' tile={Tile.tileId} def={def?.defName} occupants={Occupants?.Count ?? 0} prisoners={Prisoners?.Count ?? 0} manualDefense={manualDefenseActive} shellRemoval={typeChangeShellRemoval}\n{StackTraceUtility.ExtractStackTrace()}");
+            if (!typeChangeShellRemoval)
+            {
+                DestroyAllPrisoners();
+                ClearPendingSkirmishDefense();
+                // Loose armory stock dies with the outpost; retreating pawns keep only worn/carried gear.
+                CompOutpostArmory.Get(this)?.ClearAndDestroyAll();
+            }
             if (IsPowerPlantOutpost)
                 Outpost_PowerPlant.NotifyRemotePowerDirty();
             bool wasWarehouse = Outpost_Production_Utils.IsWarehouseOutpost(def);
@@ -1396,12 +1405,12 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>Prime unlock baseline after load so existing open capacity is not treated as a new unlock.</summary>
-        private void SyncExpertSlotUnlockBaseline()
+        public void SyncExpertSlotUnlockBaseline()
         {
             lastKnownMaxExpertSlots = OutpostExpertUtility.GetMaxExpertSlots(this);
         }
 
-        private void InvalidateInspectCache()
+        public void InvalidateInspectCache()
         {
             cachedInspectString = null;
             cachedInspectTick = -999;
@@ -1581,6 +1590,10 @@ namespace TSA_WorldDomination
 
             if (Faction != Faction.OfPlayer) yield break;
 
+            foreach (var g in Action_Outpost_Abandon.GetGizmos(this))
+                yield return g;
+            foreach (var g in Action_Outpost_ChangeType.GetGizmos(this))
+                yield return g;
             foreach (var g in Action_Outpost_LaunchAttack.GetGizmos(this))
                 yield return g;
             foreach (var g in WD_Outpost_Mortar.GetGizmos(this))
@@ -3095,6 +3108,13 @@ namespace TSA_WorldDomination
         {
             base.PostAdd();
             ReinforcementNeighborCache.BumpGeneration();
+            if (suppressBootstrapHooks) return;
+            RunTypeChangeBootstrapHooks();
+        }
+
+        /// <summary>PostAdd bootstrap (also called once after Path B MOVE when suppressBootstrapHooks is cleared).</summary>
+        public void RunTypeChangeBootstrapHooks()
+        {
             if (IsRapidResponseOutpost && Faction == Faction.OfPlayer)
                 WD_Outpost_RapidResponse.ApplyEstablishmentDefaults(this);
             if (ShouldRegisterAsInterceptor())
@@ -3115,7 +3135,8 @@ namespace TSA_WorldDomination
         {
             ReinforcementNeighborCache.BumpGeneration();
             // Safety net: Destroy() is the normal hook, but PostRemove can also be reached directly.
-            CompOutpostArmory.Get(this)?.ClearAndDestroyAll();
+            if (!typeChangeShellRemoval)
+                CompOutpostArmory.Get(this)?.ClearAndDestroyAll();
             if (IsMortarOutpost || IsRapidResponseOutpost)
             {
                 WorldComponent_InterceptionScheduler.Current?.UnregisterInterceptor(this);
@@ -3146,6 +3167,7 @@ namespace TSA_WorldDomination
                     {
                         Outpost_OccupantProgression.TickOccupantsBiologicalAgeOneDay(this);
                         Outpost_OccupantProgression.TickOccupantsVirtualHealingOneDay(this);
+                        Outpost_OccupantNeedsProgression.TickOccupantsNeedsOneDay(this);
                         Outpost_OccupantProgression.TickOccupantsPassiveAmmoOneDay(this);
                     }
                     if (StoredAnimalsAndVehicles.Count > 0)
@@ -3158,6 +3180,7 @@ namespace TSA_WorldDomination
                 {
                     PruneInvalidPrisonersRuntime();
                     Outpost_OccupantProgression.TickPrisonersVirtualHealingOneDay(this);
+                    Outpost_OccupantNeedsProgression.TickPrisonersNeedsOneDay(this);
                     OutpostPrisonerUtility.TickPrisonerRecruitmentOneDay(this);
                 }
             }
@@ -3305,6 +3328,8 @@ namespace TSA_WorldDomination
         /// <summary>In-flight upgrade for this outpost only; cleared after <see cref="ApplyPendingUpgrade"/>.</summary>
         private string pendingUpgradeDefName;
         private int pendingUpgradeLevel;
+        /// <summary>In-flight type change target <see cref="WorldObjectDef.defName"/>; additive save key.</summary>
+        private string pendingTypeChangeDefName;
 
         /// <summary>When set, item delivery travelers from this outpost target this world object (warehouse or colony). -1 = nearest colony.</summary>
         public int itemDeliveryTargetWorldObjectId = -1;
@@ -3362,6 +3387,7 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref builtUpgradeLevels, "builtUpgradeLevels", LookMode.Value, LookMode.Value);
             Scribe_Values.Look(ref pendingUpgradeDefName, "pendingUpgradeDefName");
             Scribe_Values.Look(ref pendingUpgradeLevel, "pendingUpgradeLevel", 0);
+            Scribe_Values.Look(ref pendingTypeChangeDefName, "pendingTypeChangeDefName");
             Scribe_Values.Look(ref itemDeliveryTargetWorldObjectId, "itemDeliveryTargetWorldObjectId", -1);
             Scribe_Values.Look(ref dropPodFallbackToLand, "dropPodFallbackToLand", true);
             Scribe_Values.Look(ref pawnTravelViaDropPod, "pawnTravelViaDropPod", false);
@@ -3538,6 +3564,121 @@ namespace TSA_WorldDomination
         public IReadOnlyDictionary<string, int> BuiltUpgradeLevels => builtUpgradeLevels;
         public string PendingUpgradeDefName => pendingUpgradeDefName;
         public int PendingUpgradeLevel => pendingUpgradeLevel;
+        public string PendingTypeChangeDefName => pendingTypeChangeDefName;
+
+        public bool TryQueuePendingTypeChange(string targetDefName)
+        {
+            if (string.IsNullOrEmpty(targetDefName)) return false;
+            if (!string.IsNullOrEmpty(pendingTypeChangeDefName)) return false;
+            if (!string.IsNullOrEmpty(pendingUpgradeDefName)) return false;
+            pendingTypeChangeDefName = targetDefName;
+            return true;
+        }
+
+        public void ClearPendingTypeChange()
+        {
+            pendingTypeChangeDefName = null;
+        }
+
+        public bool ClearPendingTypeChangeAfterLoss()
+        {
+            if (string.IsNullOrEmpty(pendingTypeChangeDefName)) return false;
+            pendingTypeChangeDefName = null;
+            return true;
+        }
+
+        /// <summary>Type-change Path A: swap def in place (same world object ID).</summary>
+        public void TypeChangeAssignDef(WorldObjectDef newDef)
+        {
+            if (newDef == null) return;
+            def = newDef;
+        }
+
+        /// <summary>Prune upgrade keys that do not apply to <paramref name="newDef"/>; returns kept/dropped counts.</summary>
+        public void TypeChangePruneUpgrades(WorldObjectDef newDef, out int kept, out int dropped)
+        {
+            kept = 0;
+            dropped = 0;
+            if (builtUpgradeLevels == null || builtUpgradeLevels.Count == 0) return;
+            string newName = newDef?.defName;
+            var remove = new List<string>();
+            foreach (var kv in builtUpgradeLevels)
+            {
+                if (kv.Value <= 0) { remove.Add(kv.Key); continue; }
+                var ud = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(kv.Key);
+                if (ud == null || string.IsNullOrEmpty(newName) || !ud.AppliesToOutpost(newName))
+                    remove.Add(kv.Key);
+                else
+                    kept++;
+            }
+            for (int i = 0; i < remove.Count; i++)
+            {
+                builtUpgradeLevels.Remove(remove[i]);
+                dropped++;
+            }
+            if (!string.IsNullOrEmpty(pendingUpgradeDefName))
+            {
+                var pud = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(pendingUpgradeDefName);
+                if (pud == null || string.IsNullOrEmpty(newName) || !pud.AppliesToOutpost(newName))
+                    ClearPendingUpgrade();
+            }
+        }
+
+        public void TypeChangeClearProductionAndTypeOnlyFields(WorldObjectDef oldDef, WorldObjectDef newDef)
+        {
+            selectedProductionDefName = null;
+            selectedPawnKindDefName = null;
+            selectedFishDefName = null;
+            lockedProductionDefName = null;
+            lockedPawnKindDefName = null;
+            lockedFishDefName = null;
+            selectedScavengingKindRaw = -1;
+            lockedScavengingKindRaw = -1;
+            lockedAcademySkillDefName = null;
+            selectedAcademySkillDefName = null;
+            selectedRecruitPrioritySkillDefName = null;
+            recruitingHalted = false;
+            lockedForThisCycle = false;
+            productionTicksLeft = 0;
+            deliveryCapacityRunningSum = 0f;
+            deliveryCapacitySampleCount = 0;
+            lastResearchSkillXpDay = -1;
+
+            bool wasMortar = Outpost_Production_Utils.IsMortarOutpost(oldDef);
+            bool isMortar = Outpost_Production_Utils.IsMortarOutpost(newDef);
+            if (wasMortar && !isMortar)
+            {
+                mortarDefenseActive = false;
+                antiAirDefenseActive = false;
+                mortarRangeOverride = -1f;
+                antiAirRangeOverride = -1f;
+            }
+
+            bool wasRr = Outpost_Production_Utils.IsRapidResponseOutpost(oldDef);
+            bool isRr = Outpost_Production_Utils.IsRapidResponseOutpost(newDef);
+            if (wasRr && !isRr)
+            {
+                rapidResponseActive = false;
+                rapidResponseRangeOverride = -1f;
+            }
+
+            if (!Outpost_Warehouse_Delivery.UsesItemDeliveryTraveler(newDef))
+                itemDeliveryTargetWorldObjectId = -1;
+        }
+
+        public void TypeChangeReplaceBuiltUpgrades(Dictionary<string, int> source)
+        {
+            builtUpgradeLevels = source != null
+                ? new Dictionary<string, int>(source)
+                : new Dictionary<string, int>();
+        }
+
+        public Dictionary<string, int> TypeChangeCloneBuiltUpgrades()
+        {
+            return builtUpgradeLevels != null
+                ? new Dictionary<string, int>(builtUpgradeLevels)
+                : new Dictionary<string, int>();
+        }
 
         public int GetUpgradeLevel(string upgradeDefName)
         {

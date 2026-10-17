@@ -375,6 +375,8 @@
   <TSA_WD_ConquestDialog_Header>Puedes elegir tipos de avanzadilla ≤ T{0}; solo aplican comprobaciones de bioma y asentamientos cercanos.</TSA_WD_ConquestDialog_Header>
   <TSA_WD_ConquestLetter_Label>Resultado de la conquista</TSA_WD_ConquestLetter_Label>
   <TSA_WD_ConquestLetter_Text>Las ruinas de {0} (nivel {1}) están bajo tu control. Decide si establecer una avanzadilla, reclutar a los supervivientes, entregar el lugar a una facción amiga o marcharte.</TSA_WD_ConquestLetter_Text>
+  <TSA_WD_Letter_SettlementConquered_Label>{0} ha sido conquistado</TSA_WD_Letter_SettlementConquered_Label>
+  <TSA_WD_Letter_SettlementConquered_Text>{0} ha sido conquistado.</TSA_WD_Letter_SettlementConquered_Text>
   <TSA_WD_Conquest_OptEstablish>Establecer avanzadilla</TSA_WD_Conquest_OptEstablish>
   <TSA_WD_Conquest_OptRecruit>Reclutar a los supervivientes</TSA_WD_Conquest_OptRecruit>
   <TSA_WD_Conquest_OptGiveAlly>Dejar que un aliado o facción neutral se asiente aquí</TSA_WD_Conquest_OptGiveAlly>
@@ -1007,6 +1009,29 @@
   <TSA_WD_RelativeStrength>Fuerza relativa: {0}</TSA_WD_RelativeStrength>
   <TSA_WD_RelevantSkills>Habilidades: {0}</TSA_WD_RelevantSkills>
   <TSA_WD_RemoveLastPawnWarning>Quitar al último colono destruirá la avanzadilla &quot;{0}&quot;. ¿Continuar?</TSA_WD_RemoveLastPawnWarning>
+  <TSA_WD_AbandonOutpost>Abandonar avanzadilla</TSA_WD_AbandonOutpost>
+  <TSA_WD_AbandonOutpostTip>Retira a todos de esta avanzadilla (igual que seleccionar todos y transferir con Salir aquí). Usa el mismo presupuesto de fuerza y avisos del último colono.</TSA_WD_AbandonOutpostTip>
+  <TSA_WD_AbandonOutpost_NoRoster>No queda nada que retirar de esta avanzadilla.</TSA_WD_AbandonOutpost_NoRoster>
+  <TSA_WD_ChangeOutpostType>Cambiar tipo de avanzadilla</TSA_WD_ChangeOutpostType>
+  <TSA_WD_ChangeOutpostTypeTip>Convierte esta avanzadilla a otro tipo. Los materiales equivalen a fundar el tipo nuevo y llegan desde la colonia o el almacén más cercano como las mejoras. Las habilidades y el número de la guarnición deben cumplir el tipo nuevo. Bloques de carretera y torretas AT se mantienen; las mejoras incompatibles se pierden.</TSA_WD_ChangeOutpostTypeTip>
+  <TSA_WD_TypeChange_Confirm>Iniciar conversión</TSA_WD_TypeChange_Confirm>
+  <TSA_WD_TypeChange_ConfirmBody>¿Convertir &quot;{0}&quot; a {1}?</TSA_WD_TypeChange_ConfirmBody>
+  <TSA_WD_TypeChange_WarehouseLossConfirm>El stock de este almacén no puede pasar al tipo nuevo y se perderá. ¿Continuar?</TSA_WD_TypeChange_WarehouseLossConfirm>
+  <TSA_WD_TypeChange_Invalid>No se puede cambiar el tipo de avanzada.</TSA_WD_TypeChange_Invalid>
+  <TSA_WD_TypeChange_SameType>Ese ya es el tipo de esta avanzadilla.</TSA_WD_TypeChange_SameType>
+  <TSA_WD_TypeChange_AlreadyPending>Ya hay un cambio de tipo en tránsito.</TSA_WD_TypeChange_AlreadyPending>
+  <TSA_WD_TypeChange_TileConflict>Ya hay otra avanzadilla del jugador en esta casilla.</TSA_WD_TypeChange_TileConflict>
+  <TSA_WD_TypeChange_QueueFailed>No se pudo encolar el cambio de tipo.</TSA_WD_TypeChange_QueueFailed>
+  <TSA_WD_TypeChange_LaunchFailed>No se pudo lanzar la caravana de conversión.</TSA_WD_TypeChange_LaunchFailed>
+  <TSA_WD_TypeChange_SpawnFailed>No se pudo crear la avanzadilla de reemplazo.</TSA_WD_TypeChange_SpawnFailed>
+  <TSA_WD_TypeChange_ApplyFailed>El cambio de tipo falló al llegar.</TSA_WD_TypeChange_ApplyFailed>
+  <TSA_WD_TypeChange_Completed>{0} convertida a {1}.</TSA_WD_TypeChange_Completed>
+  <TSA_WD_TypeChange_Launched>La conversión a {0} está en camino.</TSA_WD_TypeChange_Launched>
+  <TSA_WD_TypeChange_LostLabel>Conversión de avanzadilla perdida</TSA_WD_TypeChange_LostLabel>
+  <TSA_WD_TypeChange_Lost>Se perdió la caravana que convertía a {0}. Los materiales gastados para &quot;{1}&quot; se han perdido.</TSA_WD_TypeChange_Lost>
+  <TSA_WD_Traveler_Outpost_TypeChange>Caravana de conversión de avanzadilla</TSA_WD_Traveler_Outpost_TypeChange>
+  <TSA_WD_Log_OutpostTypeChangeLaunched>{0} envió una caravana de conversión a {1} ({2}).</TSA_WD_Log_OutpostTypeChangeLaunched>
+  <TSA_WD_Debug_ForceTypeChange>Debug: forzar cambio de tipo de avanzadilla…</TSA_WD_Debug_ForceTypeChange>
   <TSA_WD_StrengthBudget_ColName>Colono</TSA_WD_StrengthBudget_ColName>
   <TSA_WD_StrengthBudget_ColGear>Equipo</TSA_WD_StrengthBudget_ColGear>
   <TSA_WD_StrengthBudget_ColShooting>Disparo</TSA_WD_StrengthBudget_ColShooting>

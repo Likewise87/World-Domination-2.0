@@ -138,7 +138,7 @@ namespace TSA_WorldDomination
         public static void ResumeFromRest(WorldObject_Traveler traveler)
         {
             if (traveler == null || traveler.Destroyed || traveler.pather == null) return;
-            traveler.attritionResting = false;
+
             PlanetTile dest = PlanetTile.Invalid;
             if (traveler.attritionRestDestTile >= 0)
                 dest = PlanetSurfaceWorldActions.PlanetTileForWdTravel(traveler.attritionRestDestTile, traveler);
@@ -146,11 +146,32 @@ namespace TSA_WorldDomination
                 dest = traveler.pather.destTile;
             if (!dest.Valid && traveler.targetObject != null && !traveler.targetObject.Destroyed)
                 dest = PlanetSurfaceWorldActions.PlanetTileForWdTravel(traveler.targetObject.Tile, traveler);
+
             traveler.attritionRestDestTile = -1;
-            if (!dest.Valid) return;
+            traveler.attritionResting = false;
+
+            if (!dest.Valid)
+            {
+                AbortFailedResume(traveler);
+                return;
+            }
+
             if (traveler.pather.moving && traveler.pather.destTile == dest)
                 return;
+
             traveler.pather.StartPath(dest, skipLaunchTravelCache: true);
+            if (!traveler.Destroyed && traveler.pather != null && !traveler.pather.moving
+                && !TravelerMotionGuard.IsIntentionallyStationary(traveler))
+                AbortFailedResume(traveler);
+        }
+
+        private static void AbortFailedResume(WorldObject_Traveler traveler)
+        {
+            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            TravelerEndpointUtility.AbortTraveler(
+                traveler,
+                "TSA_WD_Log_TravelerAborted_Stranded".Translate(traveler.Label),
+                manager);
         }
 
         /// <summary>

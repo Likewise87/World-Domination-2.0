@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using RimWorld;
+using RimWorld.Planet;
 using Verse;
 
 namespace TSA_WorldDomination
@@ -18,6 +19,16 @@ namespace TSA_WorldDomination
         {
             if (map == null || defeatedFaction == null || defeatedFaction.IsPlayer) return;
             if (!ClaimedMapIds.Add(map.uniqueID)) return;
+
+            string settlementName = (map.Parent as Settlement)?.Name
+                ?? map.Parent?.LabelCap
+                ?? defeatedFaction.Name
+                ?? "Settlement";
+            Find.LetterStack.ReceiveLetter(
+                "TSA_WD_Letter_SettlementConquered_Label".Translate(settlementName),
+                "TSA_WD_Letter_SettlementConquered_Text".Translate(settlementName),
+                LetterDefOf.PositiveEvent,
+                map.Parent);
 
             var buildings = map.listerThings?.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
             if (buildings == null || buildings.Count == 0) return;

@@ -284,17 +284,22 @@ namespace TSA_WorldDomination
             traveler.targetObject = fortress;
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            string prevLabel = previousTarget?.LabelCap ?? "?";
-            WDVerbose.Msg($"Raid choke intercept: {traveler.LabelCap} diverted from {prevLabel} to fortress {fortress.LabelCap} tile={fortress.Tile.tileId} mission={traveler.mission}");
-            manager?.AddLog(new SpreadLogEntry(
-                "TSA_WD_Log_Raid_ChokeIntercept".Translate(traveler.LabelCap, fortress.LabelCap, prevLabel),
-                traveler, fortress));
+            try
+            {
+                string prevLabel = previousTarget?.LabelCap ?? "?";
+                WDVerbose.Msg($"Raid choke intercept: {traveler.LabelCap} diverted from {prevLabel} to fortress {fortress.LabelCap} tile={fortress.Tile.tileId} mission={traveler.mission}");
+                manager?.AddLog(new SpreadLogEntry(
+                    "TSA_WD_Log_Raid_ChokeIntercept".Translate(traveler.LabelCap, fortress.LabelCap, prevLabel),
+                    traveler, fortress));
 
-            HandlePlayerOutpostRaidArrival(traveler, manager);
-
-            // Same cleanup as ExecuteArrival raid path (dialog may hold a destroyed traveler ref; fields remain readable).
-            if (traveler != null && !traveler.Destroyed)
-                traveler.Destroy();
+                HandlePlayerOutpostRaidArrival(traveler, manager);
+            }
+            finally
+            {
+                // Never leave StopDead + live traveler if arrival/dialog path threw or skipped Destroy.
+                if (traveler != null && !traveler.Destroyed)
+                    traveler.Destroy();
+            }
 
             return true;
         }
@@ -331,36 +336,41 @@ namespace TSA_WorldDomination
             traveler.suppressDestroyedWorldFx = true;
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            string prevLabel = previousTarget?.LabelCap ?? "?";
-            WDVerbose.Msg($"Raid colony choke: {traveler.LabelCap} diverted from {prevLabel} to colony {colony.LabelCap} tile={colony.Tile.tileId} mission={traveler.mission}");
-            manager?.AddLog(new SpreadLogEntry(
-                "TSA_WD_Log_Raid_ChokeInterceptColony".Translate(traveler.LabelCap, colony.LabelCap, prevLabel),
-                traveler, colony));
-
-            WorldObject attacker = TravelerEndpointUtility.GetRaidAttackerContext(traveler);
-            if (attacker is Settlement attSettlement)
+            try
             {
-                Raid_OnPlayerColony.HandleRaidOnPlayer(
-                    attSettlement,
-                    colony,
-                    traveler.raidAttackerList,
-                    traveler.travelerStrength,
-                    traveler.raidAttackerDetails,
-                    manager,
-                    traveler);
-            }
-            else
-            {
-                // Vanguard / Turtle / pack-up / desperation columns have no live origin settlement.
-                Raid_OnPlayerColony.HandleRaidOnPlayerFromPackUp(
-                    colony,
-                    traveler.travelerStrength,
-                    manager,
-                    traveler);
-            }
+                string prevLabel = previousTarget?.LabelCap ?? "?";
+                WDVerbose.Msg($"Raid colony choke: {traveler.LabelCap} diverted from {prevLabel} to colony {colony.LabelCap} tile={colony.Tile.tileId} mission={traveler.mission}");
+                manager?.AddLog(new SpreadLogEntry(
+                    "TSA_WD_Log_Raid_ChokeInterceptColony".Translate(traveler.LabelCap, colony.LabelCap, prevLabel),
+                    traveler, colony));
 
-            if (traveler != null && !traveler.Destroyed)
-                traveler.Destroy();
+                WorldObject attacker = TravelerEndpointUtility.GetRaidAttackerContext(traveler);
+                if (attacker is Settlement attSettlement)
+                {
+                    Raid_OnPlayerColony.HandleRaidOnPlayer(
+                        attSettlement,
+                        colony,
+                        traveler.raidAttackerList,
+                        traveler.travelerStrength,
+                        traveler.raidAttackerDetails,
+                        manager,
+                        traveler);
+                }
+                else
+                {
+                    // Vanguard / Turtle / pack-up / desperation columns have no live origin settlement.
+                    Raid_OnPlayerColony.HandleRaidOnPlayerFromPackUp(
+                        colony,
+                        traveler.travelerStrength,
+                        manager,
+                        traveler);
+                }
+            }
+            finally
+            {
+                if (traveler != null && !traveler.Destroyed)
+                    traveler.Destroy();
+            }
 
             return true;
         }

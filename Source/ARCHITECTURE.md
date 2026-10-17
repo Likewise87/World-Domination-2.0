@@ -10,7 +10,7 @@ World-model ownership (one colony, player-only outposts, NPC holdings = Settleme
 |--------|-------|
 | `Core/` | Comps, snapshot, stats, range, planet guards, overlays |
 | `WorldActions/` | Daily orchestrator, growth, roads, traders, incidents, diplomacy, interception |
-| `Outposts/` | Player WD outposts, types, actions, warehouse, armory (`Outposts/Armory/`), food logistics. Warehouse Storage tab: All Player Gear-style table (checkbox select, Type/Quality/Count, filterable headers, send amounts default to max), Land/Drop Pod method, regular auto-ship (colony/warehouse dest, per-warehouse Include Apparel/Weapons/Food/Drugs/Medicine flags in `CompOutpostWarehouse.AutoShipIncludes`), ad hoc send through `OutpostStorageShipping.TryLaunch` (armory items may target any player outpost), and Convert to virtual food for checked food rows only. Remote founding (`RemoteOutpostEstablishUtility`): founders from one colony map or one WD outpost; costs/pod components stay `GetPlayerColonyMap` + warehouses. Trading/Recruiting nearby SSoT: `Outpost_Trading` partner collect + type-aware `Outpost_EstablishmentRequirements.MeetsMinNearbySettlements` (hostiles count). Embassy nearby: `Outpost_Embassy.IsEligiblePartnerFaction`. Extra outpost/upgrade XML from Bambaryla absorb: `Defs/WorldObjects/WD_OutpostUpgrades_Bambaryla.xml`, Deepchem Drill (`MayRequire` Vanilla Chemfuel Expanded), Raw Shaping, Chemical Refinery (Biofuel defName) + legacy Deepchem Factory. Tile ecology: `WorldTileProductivity` fertility/hunting scores; `raiseTileEcologyBaselineToFull` floors the post-pollution baseline to 100% before `tileFertilityBonus` / `tileAnimalAbundanceBonus`; terraforming apply also one-off clears pollution in radius 2 via `TerraformingUpgradeUtility` (not a daily pulse). |
+| `Outposts/` | Player WD outposts, types, actions, warehouse, armory (`Outposts/Armory/`), food logistics. Selection gizmos: **Abandon** (`Action_Outpost_Abandon`) reuses full-roster `TryTransfer` / strength budget; **Change type** reuses `Dialog_OutpostSelection` (garrison skills + establish costs/reqs), then `OutpostTypeChangeUtility` charges full establish cost via colony/warehouse stock, symbolic traveler, then Path A in-place def swap or Path B soft replace (retarget AT `builtBySite` / travelers / IDs; never wipe road blocks or AT; upgrades pruned by `AppliesToOutpost`). Warehouse Storage tab: All Player Gear-style table (checkbox select, Type/Quality/Count, filterable headers, send amounts default to max), Land/Drop Pod method, regular auto-ship (colony/warehouse dest, per-warehouse Include Apparel/Weapons/Food/Drugs/Medicine flags in `CompOutpostWarehouse.AutoShipIncludes`), ad hoc send through `OutpostStorageShipping.TryLaunch` (armory items may target any player outpost), and Convert to virtual food for checked food rows only. Remote founding (`RemoteOutpostEstablishUtility`): founders from one colony map or one WD outpost; costs/pod components stay `GetPlayerColonyMap` + warehouses. Trading/Recruiting nearby SSoT: `Outpost_Trading` partner collect + type-aware `Outpost_EstablishmentRequirements.MeetsMinNearbySettlements` (hostiles count). Embassy nearby: `Outpost_Embassy.IsEligiblePartnerFaction`. Extra outpost/upgrade XML from Bambaryla absorb: `Defs/WorldObjects/WD_OutpostUpgrades_Bambaryla.xml`, Deepchem Drill (`MayRequire` Vanilla Chemfuel Expanded), Raw Shaping, Chemical Refinery (Biofuel defName) + legacy Deepchem Factory. Tile ecology: `WorldTileProductivity` fertility/hunting scores; `raiseTileEcologyBaselineToFull` floors the post-pollution baseline to 100% before `tileFertilityBonus` / `tileAnimalAbundanceBonus`; terraforming apply also one-off clears pollution in radius 2 via `TerraformingUpgradeUtility` (not a daily pulse). |
 | `Travelers/` | World travelers, pathing, arrival, Harmony bootstrap |
 | `RaidLogic/` | Raid assess/finalize, gate, simulated resolve, colony executor |
 | `UI/` | Dashboard, stats, diplomacy, alerts, raid-detail windows |
@@ -85,7 +85,7 @@ Shipping reuses the goods traveler. `OutpostStorageShipping.TryLaunch` is the on
 
 SSoT: `Outpost_OccupantProgression` (`Outposts/Outpost_OccupantProgression.cs`).
 
-Also owns the once-per-day mothballed passes from `WorldObject_WD_Outpost.Tick`: occupant/prisoner virtual injury heal, stored-animal aging, (when Vehicle Framework is present) stored-vehicle component repair via `VehicleFrameworkOutpostDissolveCompat.TryRepairVehicleOneDay` (percent of each damaged part's MaxHealth), and (when Combat Extended is active and experimental opt-out is on) CE basic Primary ammo via `OutpostCeAmmoCompat` / `TickOccupantsPassiveAmmoOneDay` (2 magazines/day, inventory cap 8).
+Also owns the once-per-day mothballed passes from `WorldObject_WD_Outpost.Tick`: occupant/prisoner virtual injury heal, stored-animal aging, (when Vehicle Framework is present) stored-vehicle component repair via `VehicleFrameworkOutpostDissolveCompat.TryRepairVehicleOneDay` (percent of each damaged part's MaxHealth), and (when Combat Extended is active and experimental opt-out is on) CE basic Primary ammo via `OutpostCeAmmoCompat` / `TickOccupantsPassiveAmmoOneDay` (2 magazines/day, inventory cap 8). Comfort needs (Food/Rest/Joy/Beauty/Comfort/Outdoors) are topped once per day by `Outpost_OccupantNeedsProgression` for occupants and prisoners (not on intake; does not spend virtual food).
 
 | Source | When | Amount | Skills |
 |--------|------|--------|--------|
@@ -109,6 +109,10 @@ Humanlike occupants only; respects `outpostOccupantSkillXpMaxLevel`. Most event 
 2. `ticksUntilNextAction` → `ExecuteNextAction` → `WorldActions_Raid.AttemptRaid` (`RaidLogic/Raid_Manager.cs`) and sibling action attempts.
 3. Staggered eval: `pendingRaid.EvaluateNext` → `WorldActions_Raid.FinalizeRaid` spawns a traveler.
 4. Arrival: `WD_PathFollower.ArrivalAction` → `WorldActions_Traveler.ExecuteArrival` (`Travelers/WorldActions_Traveler.cs`).
+
+### Stranded traveler motion
+
+`TravelerMotionGuard` heals live travelers stuck with `pather.moving == false` when not intentionally parked (attrition rest, rally/Vanguard host wait, RR/bribe lead wait, AA lead flight, deferred outpost `BlocksAutoRaidResolution`, post-load arrival grace, busy camp-clash tile). Hash interval 600: repath to live `targetObject` (else dest), or `AbortTraveler`. Camp choke busy after `StopDead` must `ResumeTravelerAfterFailedClashEncounter`. Colony/fortress choke `StopDead` is fail-closed with `try/finally` Destroy. Deferred raid arrival retries via `ExecuteArrival` (not outpost-only).
 
 ### Mid/Late attrition rest
 
@@ -224,6 +228,10 @@ Code IDs stay the old names. UI strings are the new ones.
 | Warden | `OutpostExpertRole.Recruiter`, `expertRecruiterThingId` |
 
 Outpost expert slot unlock auto-assign (`autoAssignExpertsOnSlotUnlock`, default on) is owned by `OutpostExpertUtility.TryAutoAssignOnSlotUnlock`, toggled per outpost from `WITab_Outpost_Experts`; runs from `WorldObject_WD_Outpost.NotifyVirtualPawnsChanged` when `GetMaxExpertSlots` increases (covers `AddPawn`, prisoner recruit-in-place, and other occupant changes). Load primes a baseline so existing open capacity is not backfilled.
+
+## Build refs (RimWorld 1.7 / Waylith)
+
+`Source/TSA_WorldDomination.csproj` targets `net10.0` and references (all `Private=False`): `Assembly-CSharp.dll`, `UnityStubs.dll`, and `Waylith.dll` from the RimWorld install root. Compile against Harmony via NuGet `Lib.Harmony` **3.0-rc2**; runtime Harmony comes from Workshop `brrainz.harmony` (do not ship Harmony). UnityEngine calls go through UnityStubs, which already forward draw into Waylith (`MeshDrawSubmission`); adding `Waylith.dll` enables native APIs without implying an automatic FPS win.
 
 ## Harmony
 

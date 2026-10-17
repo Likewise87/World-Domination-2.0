@@ -9,7 +9,7 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    public enum TravelerMission { Expansion, Raid, RoadBuilding, RoadBlock, SpikeTrap, Decontamination, OutpostDelivery, Trader, OutpostUpgrade, MortarStrike, AntiAirStrike, RapidResponseIntercept, RapidResponseDropPod, DebugRaidTransit, RaidDropPod, RaidGravship, SettlementBuy, SettlementGift, SettlementBribe, RaidBribe, NpcFortify, DiplomacyNegotiate, AtTurret, NpcAtTurret, MassRelocation, DesperationRally, TurtleConsolidate, BridgeBuilding, BridgeDeconstruct }
+    public enum TravelerMission { Expansion, Raid, RoadBuilding, RoadBlock, SpikeTrap, Decontamination, OutpostDelivery, Trader, OutpostUpgrade, OutpostTypeChange, MortarStrike, AntiAirStrike, RapidResponseIntercept, RapidResponseDropPod, DebugRaidTransit, RaidDropPod, RaidGravship, SettlementBuy, SettlementGift, SettlementBribe, RaidBribe, NpcFortify, DiplomacyNegotiate, AtTurret, NpcAtTurret, MassRelocation, DesperationRally, TurtleConsolidate, BridgeBuilding, BridgeDeconstruct }
     public enum RaidOrderOutcome { PlayerOutpostConquestMenu, AllyClaimsTarget, AllyAwardsToPlayer }
 
     public class WorldObject_Traveler : WorldObject
@@ -318,6 +318,7 @@ namespace TSA_WorldDomination
                     TravelerMission.OutpostDelivery => "TSA_WD_Traveler_Outpost_Delivery".Translate(),
                     TravelerMission.Trader => "TSA_WD_TraderCaravan".Translate(),
                     TravelerMission.OutpostUpgrade => "TSA_WD_Traveler_Outpost_Upgrade".Translate(),
+                    TravelerMission.OutpostTypeChange => "TSA_WD_Traveler_Outpost_TypeChange".Translate(),
                     TravelerMission.MortarStrike => "TSA_WD_Traveler_MortarStrike".Translate(),
                     TravelerMission.AntiAirStrike => "TSA_WD_Traveler_FlakShell".Translate(),
                     TravelerMission.RapidResponseIntercept => "TSA_WD_Traveler_RapidResponseIntercept".Translate(),
@@ -825,7 +826,12 @@ namespace TSA_WorldDomination
                 && this.IsHashIntervalTick(250, delta))
                 WorldActions_PackUp.TickVanguardRallyHost(this);
 
-            TryRetryDeferredOutpostRaidArrival(delta);
+            TryRetryDeferredRaidArrival(delta);
+
+            if (!IsShellMission(mission)
+                && (pather == null || !pather.moving)
+                && this.IsHashIntervalTick(TravelerMotionGuard.StrandedHealHashInterval, delta))
+                TravelerMotionGuard.TryHealStrandedMotion(this);
 
             if ((mission == TravelerMission.RapidResponseIntercept || mission == TravelerMission.RaidBribe)
                 && this.IsHashIntervalTick(180, delta))
@@ -1033,28 +1039,32 @@ namespace TSA_WorldDomination
             cachedShellFacingValid = false;
         }
 
-        private void TryRetryDeferredOutpostRaidArrival(int delta)
+        /// <summary>
+        /// After ArrivalAction StopDead, post-load grace or busy outpost defense can defer resolution.
+        /// Retry via <see cref="WorldActions_Traveler.ExecuteArrival"/> (handles colony + outpost correctly).
+        /// </summary>
+        private void TryRetryDeferredRaidArrival(int delta)
         {
-            if (mission != TravelerMission.Raid || Destroyed)
+            if (!IsRaidMission(mission) || Destroyed)
                 return;
             if (pather == null || pather.moving)
                 return;
-            if (!(targetObject is WorldObject_WD_Outpost outpost) || outpost.Destroyed)
+            if (!TravelerEndpointUtility.IsLiveEndpoint(targetObject))
                 return;
-            if (outpost.Tile != Tile)
+            if (targetObject.Tile != Tile)
                 return;
             if (WdPostLoadGuard.ShouldDeferTravelerArrival())
                 return;
-            if (outpost.BlocksAutoRaidResolution())
+            if (targetObject is WorldObject_WD_Outpost outpost && outpost.BlocksAutoRaidResolution())
                 return;
             if (!this.IsHashIntervalTick(60, delta))
                 return;
 
-            var manager = Find.World.GetComponent<WorldComponent_SpreadManager>();
-            targetRaidDefenseCooldownReservationTick = -1;
-            playerColonyRaidCooldownReservationTick = -1;
-            Raid_Simulated.ExecuteTravelerRaid(this, manager);
-            if (!Destroyed)
+            int prev = pather.previousTileId;
+            WorldActions_Traveler.ExecuteArrival(this, prev);
+            if (!Destroyed
+                && (pather == null || !pather.moving)
+                && !TravelerMotionGuard.IsIntentionallyStationary(this))
                 Destroy();
         }
 

@@ -46,8 +46,8 @@ namespace TSA_WorldDomination
 
         private static IEnumerable<Gizmo> GetWarehouseGizmos(WorldObject_WD_Outpost warehouse)
         {
-            // Shipping controls moved to WITab_Outpost_Warehouse.
-            yield break;
+            foreach (Gizmo g in Outpost_DispatchMode_Gizmos.GetWarehouseGizmos(warehouse))
+                yield return g;
         }
     }
 }

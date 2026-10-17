@@ -120,6 +120,8 @@ namespace TSA_WorldDomination
             {
                 if (Prefs.DevMode)
                     WDVerbose.Msg($"[TSA WD] Skipping camp clash: busy Camp clash on tile {camp.Tile}");
+                // Caller may already have StopDead(); never leave a live non-moving traveler here.
+                ResumeTravelerAfterFailedClashEncounter(traveler);
                 return;
             }
 
@@ -749,11 +751,21 @@ namespace TSA_WorldDomination
         {
             if (traveler == null || traveler.Destroyed) return;
             WD_PathFollower pather = traveler.pather;
-            if (pather == null || !pather.destTile.Valid) return;
+            if (pather == null) return;
             if (pather.moving) return;
 
-            pather.StartPath(pather.destTile, skipLaunchTravelCache: true);
-            if (!pather.moving && !traveler.Destroyed)
+            PlanetTile dest = TravelerMotionGuard.ResolveResumeDest(traveler);
+            if (!dest.Valid)
+            {
+                TravelerMotionGuard.TryHealStrandedMotion(traveler);
+                return;
+            }
+
+            if (pather.destTile != dest)
+                pather.destTile = dest;
+            pather.StartPath(dest, skipLaunchTravelCache: true);
+            if (!pather.moving && !traveler.Destroyed
+                && !TravelerMotionGuard.IsIntentionallyStationary(traveler))
             {
                 var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
                 TravelerEndpointUtility.AbortTraveler(

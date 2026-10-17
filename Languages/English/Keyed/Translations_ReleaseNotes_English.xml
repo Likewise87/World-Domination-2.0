@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_52_Title>QOL and bugfixes</TSA_WD_Update_2_3_52_Title>
+  <TSA_WD_Update_2_3_52_Body><![CDATA[
+<size=16><b>2.3.52 - QOL and bugfixes</b></size>\n
+<color=#00FFFFFF>Release date: October 17th 2026</color>\n
+------------------------------\n
+!!! Changes apply to 1.7 version only!!!\n
+• Added a gizmo to all outposts allowing you to abandon it quickly. Was already possible by withdrawing all pawns from the outpost but now streamlined with this single gizmo/button.\n
+• Added a gizmo to all outposts allowing you to change the outpost type. You will have to spend the full material cost of the new outpost type but the materials are shipped by a virtual WD caravan (just like for outpost upgrades) and compatible outpost upgrades are carried over.\n
+• Pawns and outposts get their food, comfort and recreation needs filled once per day so they are fresh if you withdraw them or fight with them in a defense.\n
+• Hardened the logic for WD caravans so idle caravans are auto cleaned up (hopefully).\n
+• Some misc bugfixes and QOL stuff.\n
+]]></TSA_WD_Update_2_3_52_Body>
   <TSA_WD_Update_2_3_51_Title>New icons, debug improvements &amp; QOL (1.7)</TSA_WD_Update_2_3_51_Title>
   <TSA_WD_Update_2_3_51_Body><![CDATA[
 <size=16><b>2.3.51 - New icons, debug improvements & QOL (1.7)</b></size>\n

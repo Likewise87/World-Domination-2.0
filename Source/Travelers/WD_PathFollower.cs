@@ -45,21 +45,9 @@ namespace TSA_WorldDomination
             destTile = dest;
             if (dest == traveler.Tile)
             {
-                // Fresh launch with dest == current would otherwise StopDead() and leak an already-added
-                // world object (e.g. a mortar shell aimed at a target sitting on the firing tile). For mortars,
-                // resolve arrival so the strike applies and the shell is destroyed instead of getting stuck.
-                // Decontamination uses the same rule for NPC home-tile scrubs.
-                // DesperationRally / Raid: same-tile start must run ArrivalAction (host wait / merge / assault)
-                // or the traveler sits forever without converting.
-                if (skipLaunchTravelCache
-                    || UsesBallisticWorldFlight(traveler)
-                    || traveler.mission == TravelerMission.Decontamination
-                    || traveler.mission == TravelerMission.DesperationRally
-                    || traveler.mission == TravelerMission.TurtleConsolidate
-                    || WorldObject_Traveler.IsRaidMission(traveler.mission))
-                    HandleArrivedOnDestTile();
-                else
-                    StopDead();
+                // Same-tile start must run ArrivalAction (or intentional park inside it). Silent StopDead
+                // leaves a live traveler forever with moving=false.
+                HandleArrivedOnDestTile();
                 return;
             }
             if (curPath != null) curPath.ReleaseToPool();
@@ -722,6 +710,7 @@ namespace TSA_WorldDomination
             if (t.mission == TravelerMission.RaidGravship) return true;
             return t is WorldObject_Traveler_Outpost_Delivery d && d.deliveryViaDropPod
                 || t is WorldObject_Traveler_Outpost_Upgrade u && u.upgradeViaDropPod
+                || t is WorldObject_Traveler_Outpost_TypeChange tc && tc.typeChangeViaDropPod
                 || t is WorldObject_Traveler_TradePayment trade && trade.tradeViaDropPod;
         }
     }

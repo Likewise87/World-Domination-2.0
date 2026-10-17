@@ -449,6 +449,8 @@
   <TSA_WD_ConquestDialog_Header>You may choose outpost types ≤ T{0}; only biome and nearby settlement checks apply.</TSA_WD_ConquestDialog_Header>
   <TSA_WD_ConquestLetter_Label>Conquest outcome</TSA_WD_ConquestLetter_Label>
   <TSA_WD_ConquestLetter_Text>The ruins of {0} (Tier {1}) are under your control. Decide whether to establish an outpost, recruit the survivors, hand the site to a friendly faction, or leave it behind.</TSA_WD_ConquestLetter_Text>
+  <TSA_WD_Letter_SettlementConquered_Label>{0} has been conquered</TSA_WD_Letter_SettlementConquered_Label>
+  <TSA_WD_Letter_SettlementConquered_Text>{0} has been conquered.</TSA_WD_Letter_SettlementConquered_Text>
   <TSA_WD_Conquest_OptEstablish>Establish outpost</TSA_WD_Conquest_OptEstablish>
   <TSA_WD_Conquest_OptRecruit>Recruit the survivors</TSA_WD_Conquest_OptRecruit>
   <TSA_WD_Conquest_OptGiveAlly>Let an ally or neutral faction settle here</TSA_WD_Conquest_OptGiveAlly>
@@ -1081,6 +1083,29 @@
   <TSA_WD_RelativeStrength>Relative Strength: {0}</TSA_WD_RelativeStrength>
   <TSA_WD_RelevantSkills>Skills: {0}</TSA_WD_RelevantSkills>
   <TSA_WD_RemoveLastPawnWarning>Removing the last pawn will destroy the outpost &quot;{0}&quot;. Continue?</TSA_WD_RemoveLastPawnWarning>
+  <TSA_WD_AbandonOutpost>Abandon Outpost</TSA_WD_AbandonOutpost>
+  <TSA_WD_AbandonOutpostTip>Withdraw everyone from this outpost (same as selecting all pawns and transferring with Exit here). Uses the same strength budget and last-pawn warnings.</TSA_WD_AbandonOutpostTip>
+  <TSA_WD_AbandonOutpost_NoRoster>Nothing left to withdraw from this outpost.</TSA_WD_AbandonOutpost_NoRoster>
+  <TSA_WD_ChangeOutpostType>Change Outpost Type</TSA_WD_ChangeOutpostType>
+  <TSA_WD_ChangeOutpostTypeTip>Convert this outpost to another type. Materials equal a full establishment of the new type and ship from the colony or nearest warehouse like upgrades. Garrison skills and headcount must meet the new type. Road blocks and AT turrets stay; incompatible upgrades are dropped.</TSA_WD_ChangeOutpostTypeTip>
+  <TSA_WD_TypeChange_Confirm>Start Conversion</TSA_WD_TypeChange_Confirm>
+  <TSA_WD_TypeChange_ConfirmBody>Convert &quot;{0}&quot; to {1}?</TSA_WD_TypeChange_ConfirmBody>
+  <TSA_WD_TypeChange_WarehouseLossConfirm>Stock in this warehouse cannot move to the new outpost type and will be lost. Continue?</TSA_WD_TypeChange_WarehouseLossConfirm>
+  <TSA_WD_TypeChange_Invalid>Cannot change outpost type.</TSA_WD_TypeChange_Invalid>
+  <TSA_WD_TypeChange_SameType>That is already this outpost's type.</TSA_WD_TypeChange_SameType>
+  <TSA_WD_TypeChange_AlreadyPending>A type change is already in transit.</TSA_WD_TypeChange_AlreadyPending>
+  <TSA_WD_TypeChange_TileConflict>Another player outpost is already on this tile.</TSA_WD_TypeChange_TileConflict>
+  <TSA_WD_TypeChange_QueueFailed>Could not queue the type change.</TSA_WD_TypeChange_QueueFailed>
+  <TSA_WD_TypeChange_LaunchFailed>Could not launch the conversion caravan.</TSA_WD_TypeChange_LaunchFailed>
+  <TSA_WD_TypeChange_SpawnFailed>Could not spawn the replacement outpost.</TSA_WD_TypeChange_SpawnFailed>
+  <TSA_WD_TypeChange_ApplyFailed>Type change failed on arrival.</TSA_WD_TypeChange_ApplyFailed>
+  <TSA_WD_TypeChange_Completed>{0} converted to {1}.</TSA_WD_TypeChange_Completed>
+  <TSA_WD_TypeChange_Launched>Conversion to {0} is on the way.</TSA_WD_TypeChange_Launched>
+  <TSA_WD_TypeChange_LostLabel>Outpost conversion lost</TSA_WD_TypeChange_LostLabel>
+  <TSA_WD_TypeChange_Lost>The caravan converting to {0} was lost. Materials spent for &quot;{1}&quot; are gone.</TSA_WD_TypeChange_Lost>
+  <TSA_WD_Traveler_Outpost_TypeChange>Outpost Conversion Caravan</TSA_WD_Traveler_Outpost_TypeChange>
+  <TSA_WD_Log_OutpostTypeChangeLaunched>{0} dispatched a conversion caravan to {1} ({2}).</TSA_WD_Log_OutpostTypeChangeLaunched>
+  <TSA_WD_Debug_ForceTypeChange>Debug: force outpost type change…</TSA_WD_Debug_ForceTypeChange>
   <TSA_WD_StrengthBudget_ColName>Colonist</TSA_WD_StrengthBudget_ColName>
   <TSA_WD_StrengthBudget_ColGear>Gear</TSA_WD_StrengthBudget_ColGear>
   <TSA_WD_StrengthBudget_ColShooting>Shoot</TSA_WD_StrengthBudget_ColShooting>

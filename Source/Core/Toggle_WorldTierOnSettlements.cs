@@ -1075,7 +1075,8 @@ namespace TSA_WorldDomination
             if (TryConsumeActionKey(KeyCode.X)) return 1;
             if (TryConsumeActionKey(KeyCode.S)) return 2;
             if (TryConsumeActionKey(KeyCode.D)) return 3;
-            if (TryConsumeActionKey(KeyCode.Y)) return 4;
+            // Y and Z: QWERTZ boards label "Y" on the physical Z scancode (Unity KeyCode.Z).
+            if (TryConsumeActionKeyPair(KeyCode.Y, KeyCode.Z)) return 4;
             if (TryConsumeActionKey(KeyCode.F)) return 5;
             if (TryConsumeActionKey(KeyCode.G)) return 6;
             if (TryConsumeActionKey(KeyCode.C)) return 7;

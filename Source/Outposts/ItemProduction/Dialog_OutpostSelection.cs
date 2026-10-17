@@ -62,6 +62,8 @@ namespace TSA_WorldDomination
         private readonly bool requirementsPreviewOnly;
         /// <summary>Tile known; pawns chosen next in <see cref="Window_RemoteEstablishPawns"/>.</summary>
         private readonly bool tileFirstRemoteEstablish;
+        /// <summary>Convert an existing outpost: same UI as establish, garrison skills, colony/warehouse cost, confirm → type-change traveler.</summary>
+        private readonly WorldObject_WD_Outpost typeChangeOutpost;
         private enum EstablishmentTabFilter
         {
             All,
@@ -119,6 +121,11 @@ namespace TSA_WorldDomination
         /// <summary>Pawn-backed remote send or tile-first remote (colony warehouses for cost).</summary>
         private bool IsAnyRemoteEstablishPath => IsRemoteEstablish || IsTileFirstRemoteEstablish;
 
+        private bool IsTypeChange => typeChangeOutpost != null && !typeChangeOutpost.Destroyed;
+
+        /// <summary>Skills/min-pawns behave like remote; cost from colony warehouses; no conquest tier gate.</summary>
+        private bool TreatAsGarrisonBackedEstablish => IsAnyRemoteEstablishPath || IsTypeChange;
+
         public override Vector2 InitialSize => new Vector2(960f, 780f);
 
         /// <param name="fromCaravan">If set, caravan pawns are converted to virtual pawns and removed from the caravan; otherwise pawns are generated.</param>
@@ -151,6 +158,22 @@ namespace TSA_WorldDomination
             doCloseX = true;
             absorbInputAroundWindow = true;
             forcePause = conquestContext != null;
+        }
+
+        /// <summary>Same establishment chrome; confirm launches type-change traveler for <paramref name="outpost"/>.</summary>
+        public Dialog_OutpostSelection(WorldObject_WD_Outpost outpost)
+            : this(
+                outpost?.Tile.tileId ?? -1,
+                outpost?.Name ?? "",
+                -1,
+                SettlementTier.T1,
+                null,
+                null,
+                requirementsPreviewOnly: false)
+        {
+            typeChangeOutpost = outpost;
+            forcePause = true;
+            doCloseButton = true;
         }
 
         public override void PostClose()
@@ -195,15 +218,17 @@ namespace TSA_WorldDomination
 
             cachedHeadline = requirementsPreviewOnly
                 ? "TSA_WD_RequirementsPreview_Headline".Translate().ToString()
-                : IsTileFirstRemoteEstablish
-                    ? "TSA_WD_TileFirstEstablish_Headline".Translate().ToString()
-                    : IsRemoteEstablish
-                        ? "TSA_WD_RemoteEstablish_Headline".Translate().ToString()
-                        : (!originalName.NullOrEmpty()
-                            ? (conquestContext != null && conquestContext.fromSettlementBuy
-                                ? "TSA_WD_SelectOutpostType_Purchased".Translate(originalName).ToString()
-                                : "TSA_WD_SelectOutpostType_Ruins".Translate(originalName).ToString())
-                            : "TSA_WD_SelectOutpostType".Translate().ToString());
+                : IsTypeChange
+                    ? "TSA_WD_ChangeOutpostType".Translate().ToString()
+                    : IsTileFirstRemoteEstablish
+                        ? "TSA_WD_TileFirstEstablish_Headline".Translate().ToString()
+                        : IsRemoteEstablish
+                            ? "TSA_WD_RemoteEstablish_Headline".Translate().ToString()
+                            : (!originalName.NullOrEmpty()
+                                ? (conquestContext != null && conquestContext.fromSettlementBuy
+                                    ? "TSA_WD_SelectOutpostType_Purchased".Translate(originalName).ToString()
+                                    : "TSA_WD_SelectOutpostType_Ruins".Translate(originalName).ToString())
+                                : "TSA_WD_SelectOutpostType".Translate().ToString());
 
             if (IsRemoteEstablish)
                 cachedRemotePawns = RemoteOutpostEstablishUtility.CollectPawns(remoteEstablishEntries);
@@ -243,7 +268,7 @@ namespace TSA_WorldDomination
                 cachedTileProximityBlockedTip = blockReason;
             }
 
-            if (fromCaravan == null && !requirementsPreviewOnly && !IsAnyRemoteEstablishPath)
+            if (fromCaravan == null && !requirementsPreviewOnly && !TreatAsGarrisonBackedEstablish)
                 cachedConquestHeader = "TSA_WD_ConquestDialog_Header".Translate((int)tier + 1).ToString();
 
             string skillTooltipNormal = "TSA_WD_CumSkill_Tooltip".Translate().ToString();
@@ -258,11 +283,13 @@ namespace TSA_WorldDomination
             cachedCostLabel = "TSA_WD_CostToEstablish".Translate().ToString();
             cachedNoCostLabel = "TSA_WD_NoCostConquest".Translate().ToString();
             cachedInfoOnlyLabel = "TSA_WD_RequirementsPreview_InfoOnly".Translate().ToString();
-            cachedEstablishLabel = IsTileFirstRemoteEstablish
-                ? "TSA_WD_TileFirstEstablish_ChooseColonists".Translate().ToString()
-                : IsRemoteEstablish
-                    ? "TSA_WD_RemoteEstablish_Establish".Translate().ToString()
-                    : "TSA_WD_Select_Establish".Translate().ToString();
+            cachedEstablishLabel = IsTypeChange
+                ? "TSA_WD_TypeChange_Confirm".Translate().ToString()
+                : IsTileFirstRemoteEstablish
+                    ? "TSA_WD_TileFirstEstablish_ChooseColonists".Translate().ToString()
+                    : IsRemoteEstablish
+                        ? "TSA_WD_RemoteEstablish_Establish".Translate().ToString()
+                        : "TSA_WD_Select_Establish".Translate().ToString();
             cachedBackLabel = "TSA_WD_Conquest_Back".Translate().ToString();
             cachedSearchPlaceholder = "TSA_WD_OutpostUpgrades_SearchPlaceholder".Translate().ToString();
             if (cachedSearchPlaceholder.Contains("TSA_WD_")) cachedSearchPlaceholder = "Filter by name...";
@@ -275,13 +302,18 @@ namespace TSA_WorldDomination
             var defs = WD_OutpostSelectionCachedDefs.List;
             cachedRows = new EstablishmentRowCache[defs.Count];
 
-            bool showCostColumn = fromCaravan != null || requirementsPreviewOnly || IsAnyRemoteEstablishPath;
+            bool showCostColumn = fromCaravan != null || requirementsPreviewOnly || TreatAsGarrisonBackedEstablish;
             Map remoteMap = null;
             List<WorldObject_WD_Outpost> remoteWarehouses = null;
             if (IsAnyRemoteEstablishPath)
             {
                 remoteMap = Outpost_PowerPlant.GetPlayerColonyMap();
                 remoteWarehouses = ColonyWarehouseStockUtility.GetAllWarehouses();
+            }
+            else if (IsTypeChange)
+            {
+                remoteMap = Find.AnyPlayerHomeMap;
+                remoteWarehouses = ColonyWorldBuildMaterials.GetContributingWarehouses();
             }
 
             for (int i = 0; i < defs.Count; i++)
@@ -315,6 +347,17 @@ namespace TSA_WorldDomination
                         row.skillLine = string.Join("\n", lines);
                         row.skillTooltip = skillTooltipNormal;
                     }
+                    else if (IsTypeChange)
+                    {
+                        var lines = new List<string>();
+                        foreach (var skill in row.displaySkills)
+                        {
+                            int sum = Outpost_EstablishmentRequirements.GetCumulativeOutpostSkillForSkill(typeChangeOutpost, skill);
+                            lines.Add("TSA_WD_CumCaravanSkill".Translate(skill.LabelCap, sum).ToString());
+                        }
+                        row.skillLine = string.Join("\n", lines);
+                        row.skillTooltip = skillTooltipNormal;
+                    }
                     else if (requirementsPreviewOnly || IsTileFirstRemoteEstablish)
                     {
                         var linesPv = new List<string>();
@@ -343,7 +386,7 @@ namespace TSA_WorldDomination
                     {
                         if (c?.thingDef == null) continue;
                         bool costWaived = !Outpost_EstablishmentRequirements.EnforceCost;
-                        bool colorByAvailability = !costWaived && (fromCaravan != null || IsAnyRemoteEstablishPath);
+                        bool colorByAvailability = !costWaived && (fromCaravan != null || TreatAsGarrisonBackedEstablish);
                         bool met = true;
                         int have = 0;
                         if (!costWaived && fromCaravan != null)
@@ -356,7 +399,7 @@ namespace TSA_WorldDomination
                             have = ColonyWarehouseStockUtility.CountAvailable(remoteMap, remoteWarehouses, c.thingDef, cachedRemotePawns);
                             met = have >= c.count;
                         }
-                        else if (!costWaived && IsTileFirstRemoteEstablish)
+                        else if (!costWaived && (IsTileFirstRemoteEstablish || IsTypeChange))
                         {
                             have = ColonyWarehouseStockUtility.CountAvailable(remoteMap, remoteWarehouses, c.thingDef, EmptyPawnListForCost);
                             met = have >= c.count;
@@ -384,8 +427,8 @@ namespace TSA_WorldDomination
                 row.reqCount = 0;
                 for (int li = 1; li <= 9; li++)
                 {
-                    bool extraCheck = li != 7 || (fromCaravan != null || requirementsPreviewOnly || IsAnyRemoteEstablishPath);
-                    if (extraCheck && RequirementApplies(def, li, fromCaravan, requirementsPreviewOnly, IsAnyRemoteEstablishPath))
+                    bool extraCheck = li != 7 || (fromCaravan != null || requirementsPreviewOnly || TreatAsGarrisonBackedEstablish);
+                    if (extraCheck && RequirementApplies(def, li, fromCaravan, requirementsPreviewOnly, TreatAsGarrisonBackedEstablish))
                     {
                         row.reqApplies[li - 1] = true;
                         row.reqCount++;
@@ -430,7 +473,7 @@ namespace TSA_WorldDomination
             switch (lineIndex)
             {
                 case 1:
-                    if (IsTileFirstRemoteEstablish || (requirementsPreviewOnly && fromCaravan == null && !IsRemoteEstablish))
+                    if (IsTileFirstRemoteEstablish || (requirementsPreviewOnly && fromCaravan == null && !IsRemoteEstablish && !IsTypeChange))
                     {
                         var extPv = def?.GetModExtension<OutpostDefExtension>();
                         var skillSetsPv = extPv?.MinCumulativeSkill;
@@ -482,15 +525,17 @@ namespace TSA_WorldDomination
                                 if (kv.Key == null || kv.Value <= 0) continue;
                                 int have = fromCaravan != null
                                     ? Outpost_EstablishmentRequirements.GetCumulativeCaravanSkillForSkill(fromCaravan, kv.Key)
-                                    : (IsRemoteEstablish
+                                    : IsRemoteEstablish
                                         ? RemoteOutpostEstablishUtility.GetCumulativeSkill(cachedRemotePawns, kv.Key)
-                                        : 0);
+                                        : IsTypeChange
+                                            ? Outpost_EstablishmentRequirements.GetCumulativeOutpostSkillForSkill(typeChangeOutpost, kv.Key)
+                                            : 0;
                                 bool skillMet = have >= kv.Value;
                                 if (!skillMet) allMet = false;
                                 parts.Add(kv.Key.LabelCap + " " + have + "/" + kv.Value);
                             }
                         }
-                        line.text = parts.Count > 0 ? string.Join(", ", parts) : "â€”";
+                        line.text = parts.Count > 0 ? string.Join(", ", parts) : "—";
                         line.met = parts.Count == 0 || allMet;
                         line.tooltip = line.met ? "TSA_WD_Req_Tooltip_CumSkillMet".Translate().ToString() : "TSA_WD_Req_Tooltip_CumSkillUnmet".Translate().ToString();
                     }
@@ -574,7 +619,7 @@ namespace TSA_WorldDomination
                 }
                 case 7:
                 {
-                    if (IsTileFirstRemoteEstablish || (requirementsPreviewOnly && fromCaravan == null && !IsRemoteEstablish))
+                    if (IsTileFirstRemoteEstablish || (requirementsPreviewOnly && fromCaravan == null && !IsRemoteEstablish && !IsTypeChange))
                     {
                         int minPawnsPv = Outpost_EstablishmentRequirements.GetMinPawnsToFound(def);
                         line.text = "TSA_WD_Req_MinPawns".Translate(0, minPawnsPv).ToString();
@@ -597,6 +642,8 @@ namespace TSA_WorldDomination
                     }
                     else if (IsRemoteEstablish)
                         pawnCount = RemoteOutpostEstablishUtility.CountHumanlikes(cachedRemotePawns);
+                    else if (IsTypeChange)
+                        pawnCount = typeChangeOutpost.PawnCount;
                     line.text = "TSA_WD_Req_MinPawns".Translate(pawnCount, minPawns).ToString();
                     line.met = pawnCount >= minPawns;
                     line.tooltip = line.met ? "TSA_WD_Req_Tooltip_MinPawnsMet".Translate().ToString() : "TSA_WD_Req_Tooltip_MinPawnsUnmet".Translate(minPawns, pawnCount).ToString();
@@ -673,7 +720,7 @@ namespace TSA_WorldDomination
                         MarkReqWaived(ref line, settingsTip);
                     break;
                 case 5:
-                    bool conquest = fromCaravan == null && !requirementsPreviewOnly && !IsAnyRemoteEstablishPath;
+                    bool conquest = fromCaravan == null && !requirementsPreviewOnly && !TreatAsGarrisonBackedEstablish;
                     if (conquest)
                         MarkReqWaived(ref line, "TSA_WD_Req_WaivedConquestResearch".Translate());
                     else if (!Outpost_EstablishmentRequirements.EnforceResearch)
@@ -707,6 +754,12 @@ namespace TSA_WorldDomination
 
         public override void DoWindowContents(Rect inRect)
         {
+            if (typeChangeOutpost != null && typeChangeOutpost.Destroyed)
+            {
+                Close();
+                return;
+            }
+
             if (!cacheBuilt)
                 RebuildStringCache();
 
@@ -776,7 +829,7 @@ namespace TSA_WorldDomination
                 cachedTileProximityBlockedHint, cachedTileProximityBlockedTip);
             ly += Outpost_Dialog_UI.OutcomeBoxGap;
 
-            if (fromCaravan == null && !requirementsPreviewOnly && !IsAnyRemoteEstablishPath)
+            if (fromCaravan == null && !requirementsPreviewOnly && !TreatAsGarrisonBackedEstablish)
             {
                 GUI.color = new Color(0.9f, 0.85f, 0.6f);
                 float conquestHeaderH = Mathf.Max(Outpost_Dialog_UI.YieldLineH, Text.CalcHeight(cachedConquestHeader, lw));
@@ -794,7 +847,7 @@ namespace TSA_WorldDomination
             ly += Outpost_Dialog_UI.OutcomeLineH + 4f;
 
             int selectedIdx = FindDefIndex(selectedOutpostDefName);
-            bool showCostColumn = fromCaravan != null || requirementsPreviewOnly || IsAnyRemoteEstablishPath;
+            bool showCostColumn = fromCaravan != null || requirementsPreviewOnly || TreatAsGarrisonBackedEstablish;
             float detailContentH = selectedIdx >= 0
                 ? Outpost_Establishment_UI.MeasureSelectedDetailHeight(
                     defs[selectedIdx], cachedRows[selectedIdx], showCostColumn,
@@ -802,7 +855,6 @@ namespace TSA_WorldDomination
                 : Outpost_Dialog_UI.OutcomeLineH;
             if (IsRemoteEstablish)
                 detailContentH += 96f;
-
             float detailScrollH = leftArea.yMax - ly - 4f;
             Rect detailOuter = new Rect(lx, ly, lw, detailScrollH);
             Rect detailView = new Rect(0f, 0f, lw - 16f, Mathf.Max(detailContentH, detailScrollH));
@@ -816,7 +868,9 @@ namespace TSA_WorldDomination
                 string blockReason = null;
                 if (!requirementsPreviewOnly)
                 {
-                    if (IsTileFirstRemoteEstablish)
+                    if (IsTypeChange)
+                        canEstablish = OutpostTypeChangeUtility.CanLaunchTypeChange(typeChangeOutpost, def, out blockReason);
+                    else if (IsTileFirstRemoteEstablish)
                         canEstablish = CanTileFirstEstablish(def, out blockReason);
                     else if (IsRemoteEstablish)
                         canEstablish = RemoteOutpostEstablishUtility.CanEstablishAtRemote(
@@ -853,6 +907,11 @@ namespace TSA_WorldDomination
                     () =>
                     {
                         if (!canEstablish) return;
+                        if (IsTypeChange)
+                        {
+                            ConfirmTypeChange(def);
+                            return;
+                        }
                         if (IsTileFirstRemoteEstablish)
                         {
                             Find.WindowStack.Add(new Window_RemoteEstablishPawns(tile, def));
@@ -1028,6 +1087,11 @@ namespace TSA_WorldDomination
 
         private bool RowPassesFilters(WorldObjectDef def, int rowIdx)
         {
+            if (IsTypeChange
+                && def != null
+                && typeChangeOutpost?.def != null
+                && def.defName == typeChangeOutpost.def.defName)
+                return false;
             if (!OutpostDefMatchesSearch(def, outpostSearchFilter)) return false;
             if (establishmentFilter == EstablishmentTabFilter.Buildable)
                 return IsBuildableOutpost(def, rowIdx);
@@ -1051,6 +1115,8 @@ namespace TSA_WorldDomination
                 return true;
             }
 
+            if (IsTypeChange)
+                return OutpostTypeChangeUtility.CanLaunchTypeChange(typeChangeOutpost, def, out _);
             if (IsTileFirstRemoteEstablish)
                 return CanTileFirstEstablish(def, out _);
             if (IsRemoteEstablish)
@@ -1059,6 +1125,47 @@ namespace TSA_WorldDomination
             if (fromCaravan != null)
                 return Outpost_EstablishmentRequirements.CanEstablishAt(tile, def, fromCaravan, out _);
             return Outpost_EstablishmentRequirements.CanEstablishAtForConquest(tile, def, tier, out _);
+        }
+
+        private void ConfirmTypeChange(WorldObjectDef newDef)
+        {
+            if (!IsTypeChange || newDef == null) return;
+            if (!OutpostTypeChangeUtility.CanLaunchTypeChange(typeChangeOutpost, newDef, out string reason))
+            {
+                Messages.Message(reason ?? "TSA_WD_TypeChange_Invalid".Translate(), MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+
+            void Launch()
+            {
+                if (OutpostTypeChangeUtility.TryLaunch(typeChangeOutpost, newDef, out string fail))
+                {
+                    Messages.Message(
+                        "TSA_WD_TypeChange_Launched".Translate(newDef.LabelCap),
+                        typeChangeOutpost,
+                        MessageTypeDefOf.TaskCompletion);
+                    Close();
+                }
+                else
+                {
+                    Messages.Message(fail ?? "TSA_WD_TypeChange_LaunchFailed".Translate(), MessageTypeDefOf.RejectInput, false);
+                }
+            }
+
+            if (OutpostTypeChangeUtility.HasNonTransferableStock(typeChangeOutpost, newDef))
+            {
+                Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+                    "TSA_WD_TypeChange_WarehouseLossConfirm".Translate(typeChangeOutpost.LabelCap),
+                    Launch,
+                    destructive: true));
+            }
+            else
+            {
+                Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+                    "TSA_WD_TypeChange_ConfirmBody".Translate(typeChangeOutpost.LabelCap, newDef.LabelCap),
+                    Launch,
+                    destructive: false));
+            }
         }
 
         /// <summary>Tile + research + warehouse cost for tile-first mode (pawn/skill gates deferred to Confirm).</summary>

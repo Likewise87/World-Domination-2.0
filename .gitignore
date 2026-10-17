@@ -24,6 +24,7 @@ Source/Guardrails/
 
 # Staging / scratch
 tools/_workshop_stage/
+tools/_build_1_7/
 **/_ft_decompile/
 
 # Build outputs

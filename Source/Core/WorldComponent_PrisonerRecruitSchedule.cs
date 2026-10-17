@@ -125,6 +125,32 @@ namespace TSA_WorldDomination
             return destOutpostIdByThingId.TryGetValue(thingId, out destId);
         }
 
+        /// <summary>Type-change Path B: remap stored outpost IDs after soft replace.</summary>
+        public int RemapOutpostId(int oldId, int newId)
+        {
+            if (oldId < 0 || newId < 0 || oldId == newId) return 0;
+            int changed = 0;
+            if (destOutpostIdByThingId != null && destOutpostIdByThingId.Count > 0)
+            {
+                var keys = new List<string>(destOutpostIdByThingId.Keys);
+                for (int i = 0; i < keys.Count; i++)
+                {
+                    string k = keys[i];
+                    if (destOutpostIdByThingId[k] == oldId)
+                    {
+                        destOutpostIdByThingId[k] = newId;
+                        changed++;
+                    }
+                }
+            }
+            if (smartAssignExcludedOutpostIds != null && smartAssignExcludedOutpostIds.Remove(oldId))
+            {
+                smartAssignExcludedOutpostIds.Add(newId);
+                changed++;
+            }
+            return changed;
+        }
+
         /// <summary>Legacy name: returns stored id whether it points at an outpost or colony.</summary>
         public bool TryGetOutpostId(string thingId, out int outpostId) => TryGetDestId(thingId, out outpostId);
 

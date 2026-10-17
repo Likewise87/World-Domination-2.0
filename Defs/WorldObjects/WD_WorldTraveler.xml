@@ -153,6 +153,14 @@
   </WorldObjectDef>
 
   <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_Outpost_TypeChange</defName>
+    <label>Outpost Conversion Caravan</label>
+    <worldObjectClass>TSA_WorldDomination.WorldObject_Traveler_Outpost_TypeChange, TSA_WorldDomination</worldObjectClass>
+    <texture>WorldObjects/Travelers/Caravan_OutpostUpgrade</texture>
+    <expandingIconTexture>WorldObjects/Travelers/Caravan_OutpostUpgrade</expandingIconTexture>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
     <defName>TSA_WD_Traveler_SettlementBuy</defName>
     <label>Settlement Purchase Caravan</label>
     <worldObjectClass>TSA_WorldDomination.WorldObject_Traveler_SettlementBuy, TSA_WorldDomination</worldObjectClass>

@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_52_Title>Calidad de vida y correcciones</TSA_WD_Update_2_3_52_Title>
+  <TSA_WD_Update_2_3_52_Body><![CDATA[
+<size=16><b>2.3.52 - Calidad de vida y correcciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 17 de octubre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Nuevo gizmo en todos los puestos para abandonarlos rápido. Ya se podía retirando todos los peones, ahora va en un solo botón.\n
+• Nuevo gizmo en todos los puestos para cambiar el tipo de puesto. Pagas el coste completo de materiales del nuevo tipo; los materiales los lleva una caravana virtual WD (como las mejoras) y las mejoras de puesto compatibles se conservan.\n
+• Peones y puestos reciben comida, confort y recreación una vez al día para estar frescos al retirarlos o al defender.\n
+• Lógica más robusta para caravanas WD: las idle se limpian solas (con suerte).\n
+• Varias correcciones y mejoras de calidad de vida.\n
+]]></TSA_WD_Update_2_3_52_Body>
   <TSA_WD_Update_2_3_51_Title>Nuevos iconos, mejoras de depuración y calidad de vida (1.7)</TSA_WD_Update_2_3_51_Title>
   <TSA_WD_Update_2_3_51_Body><![CDATA[
 <size=16><b>2.3.51 - Nuevos iconos, mejoras de depuración y calidad de vida (1.7)</b></size>\n

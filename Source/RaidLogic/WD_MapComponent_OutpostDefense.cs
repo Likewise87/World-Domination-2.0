@@ -81,6 +81,29 @@ namespace TSA_WorldDomination
         public bool IsActiveEncounterFor(WorldObject_WD_Outpost target)
             => encounterActive && !resolved && outpost != null && outpost == target;
 
+        /// <summary>Type-change Path B safety net (encounters should be gated off).</summary>
+        public int RetargetOutpostIfMatches(WorldObject_WD_Outpost oldOutpost, WorldObject_WD_Outpost newOutpost)
+        {
+            if (oldOutpost == null || newOutpost == null) return 0;
+            int n = 0;
+            if (ReferenceEquals(outpost, oldOutpost))
+            {
+                outpost = newOutpost;
+                n++;
+            }
+            if (ReferenceEquals(savedOrigin, oldOutpost))
+            {
+                savedOrigin = newOutpost;
+                n++;
+            }
+            if (ReferenceEquals(interceptRrOrigin, oldOutpost))
+            {
+                interceptRrOrigin = newOutpost;
+                n++;
+            }
+            return n;
+        }
+
         /// <summary>
         /// Active unresolved defense / mid-flee: block drafted map-edge auto-caravan exit.
         /// </summary>

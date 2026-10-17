@@ -314,6 +314,12 @@ namespace TSA_WorldDomination
                     if (traveler != null && !traveler.Destroyed)
                         traveler.Destroy();
                     break;
+                case TravelerMission.OutpostTypeChange:
+                    if (traveler is WorldObject_Traveler_Outpost_TypeChange typeChangeTraveler)
+                        ExecuteOutpostTypeChangeArrival(typeChangeTraveler);
+                    if (traveler != null && !traveler.Destroyed)
+                        traveler.Destroy();
+                    break;
                 case TravelerMission.SettlementBuy:
                     if (traveler is WorldObject_Traveler_SettlementBuy buyTraveler)
                         ExecuteSettlementBuyArrival(buyTraveler);
@@ -971,6 +977,73 @@ namespace TSA_WorldDomination
                 manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_OutpostUpgradeApplied".Translate(outpost.LabelCap, upgradeLabel, traveler.upgradeLevel.ToString()), traveler.originObject, outpost));
             else
                 manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_OutpostUpgradeApplyFailed".Translate(outpost.LabelCap), traveler.originObject, outpost));
+        }
+
+        private static void ExecuteOutpostTypeChangeArrival(WorldObject_Traveler_Outpost_TypeChange traveler)
+        {
+            traveler.typeChangeResolved = true;
+            if (!(traveler.targetObject is WorldObject_WD_Outpost outpost) || outpost.Destroyed)
+                return;
+            WorldObjectDef newDef = DefDatabase<WorldObjectDef>.GetNamedSilentFail(traveler.typeChangeDefName)
+                ?? DefDatabase<WorldObjectDef>.GetNamedSilentFail(outpost.PendingTypeChangeDefName);
+            if (newDef == null)
+            {
+                outpost.ClearPendingTypeChange();
+                return;
+            }
+            if (!OutpostTypeChangeUtility.Apply(outpost, newDef, traveler, out string reason))
+            {
+                outpost.ClearPendingTypeChange();
+                if (traveler.Faction == Faction.OfPlayer)
+                    Messages.Message(reason ?? "TSA_WD_TypeChange_ApplyFailed".Translate(), outpost, MessageTypeDefOf.NegativeEvent);
+            }
+        }
+
+        /// <param name="origin">Visual dispatch origin (colony or warehouse). Symbolic traveler carries no cargo.</param>
+        public static bool SpawnOutpostTypeChangeTraveler(WorldObject_WD_Outpost outpost, WorldObject origin, string typeChangeDefName)
+        {
+            if (outpost == null || origin == null || string.IsNullOrEmpty(typeChangeDefName)) return false;
+            if (ReferenceEquals(outpost, origin) || outpost.Tile == origin.Tile) return false;
+            var def = DefDatabase<WorldObjectDef>.GetNamedSilentFail("TSA_WD_Traveler_Outpost_TypeChange");
+            if (def == null) return false;
+
+            bool viaDropPod = OutpostDispatchMode.GetViaDropPod(origin)
+                && RapidResponseUtility.TransportPodsResearched();
+            if (viaDropPod
+                && !PlayerPawnDropPodUtility.TryConsumeComponents(
+                    PlayerPawnDropPodUtility.ComponentCostPerLaunch, out string componentReason))
+            {
+                Messages.Message(
+                    componentReason ?? "TSA_WD_PawnDropPod_AllWouldAbort".Translate(),
+                    origin,
+                    MessageTypeDefOf.RejectInput);
+                return false;
+            }
+
+            var traveler = (WorldObject_Traveler_Outpost_TypeChange)WorldObjectMaker.MakeWorldObject(def);
+            traveler.Tile = origin.Tile;
+            traveler.SetFaction(Faction.OfPlayer);
+            traveler.originObject = origin;
+            traveler.targetObject = outpost;
+            traveler.mission = TravelerMission.OutpostTypeChange;
+            traveler.typeChangeViaDropPod = viaDropPod;
+            if (viaDropPod)
+                traveler.InvalidateTravelerMaterialCache();
+            traveler.ticksPerMove = viaDropPod ? GetDropPodTicksPerMove() : GetWalkingTicksPerMove();
+            traveler.travelerStrength = 100f;
+            traveler.initialStrength = 100f;
+            traveler.typeChangeDefName = typeChangeDefName;
+            Find.WorldObjects.Add(traveler);
+            traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(outpost.Tile, origin));
+            if (traveler.Destroyed)
+                return false;
+            if (viaDropPod)
+                AntiAirFireUtils.WakeAllForDropPod(traveler);
+            string typeLabel = DefDatabase<WorldObjectDef>.GetNamedSilentFail(typeChangeDefName)?.LabelCap ?? typeChangeDefName;
+            Find.World.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
+                "TSA_WD_Log_OutpostTypeChangeLaunched".Translate(origin.LabelCap, outpost.LabelCap, typeLabel),
+                origin, outpost));
+            return true;
         }
 
         private static void ExecuteTraderArrival(WorldObject_Traveler traveler)
