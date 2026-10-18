@@ -9,6 +9,7 @@
   <v1.7>
     <li>/</li>
     <li>1.7</li>
+    <li>Defs17</li>
     <li IfModActive="VanillaExpanded.VFEPropsandDecor">PropDefs</li>
     <li IfModActive="VanillaExpanded.VChemfuelE">LanguagesVCHE</li>
   </v1.7>
