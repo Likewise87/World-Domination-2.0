@@ -524,7 +524,8 @@ namespace TSA_WorldDomination
         MissionMask IDefensiveInterceptor.InterceptorMissionMask =>
             defenseActive ? DefenseMask : MissionMask.None;
         bool IDefensiveInterceptor.InterceptorCanFireNow() =>
-            defenseActive && !Destroyed && !IsOnCooldown && !isAiming;
+            defenseActive && !Destroyed && !IsOnCooldown && !isAiming
+            && (Faction == null || Faction.IsPlayer || WorldActions_Utils.IsWdParticipant(Faction));
         /// <summary>Traveler flag only (caravan scan uses <see cref="AtTurretUtility.CanAutoTargetPlayerCaravan"/> separately).</summary>
         bool IDefensiveInterceptor.InterceptorCanTargetPlayer => AtTurretUtility.IsPlayerTravelerTargetingEnabled();
 

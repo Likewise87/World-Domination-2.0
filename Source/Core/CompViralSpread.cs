@@ -1651,7 +1651,7 @@ namespace TSA_WorldDomination
                 SitePollutionDamage.TryApplyDaily(this);
             }
 
-            if (IsSettlement && parent.Faction != null && !parent.Faction.IsPlayer)
+            if (IsSettlement && WorldActions_Utils.CanNpcWdReactiveAction(parent.Faction))
             {
                 if (lastNpcDecontamAssessTick < 0)
                     lastNpcDecontamAssessTick = ticksNow - (parent.ID % NpcAutoDecontamIntervalTicks);

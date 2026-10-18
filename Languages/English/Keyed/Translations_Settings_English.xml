@@ -488,7 +488,7 @@
   <TSA_WD_Allegiances_SectionDiplomacy_Tooltip>Edit goodwill and relations between faction pairs. Lock NPC pairs to block random WD diplomacy.</TSA_WD_Allegiances_SectionDiplomacy_Tooltip>
   <TSA_WD_FactionCol_Name>Faction</TSA_WD_FactionCol_Name>
   <TSA_WD_FactionCol_WdActions>WD Actions</TSA_WD_FactionCol_WdActions>
-  <TSA_WD_FactionCol_WdActions_Tooltip>Allow this faction to perform WD actions like sending out caravans to raid, expand, trade, or build fortifications.</TSA_WD_FactionCol_WdActions_Tooltip>
+  <TSA_WD_FactionCol_WdActions_Tooltip>Allow this faction to perform WD actions: raid, expand, trade, fortify, scrub pollution, launch settlement ambush interceptors, and fire defensive mortar/AA/AT.</TSA_WD_FactionCol_WdActions_Tooltip>
   <TSA_WD_FactionCol_BaseGen>MapGen</TSA_WD_FactionCol_BaseGen>
   <TSA_WD_FactionCol_BaseGen_Tooltip>Allow WD to control map generation for this faction when you attack one of their settlements. T1 settlements become tiny villages; T4 citadels become actual fortresses.</TSA_WD_FactionCol_BaseGen_Tooltip>
   <TSA_WD_FactionCol_BaseGen_RequiresWdActions>Requires WD Actions for this faction.</TSA_WD_FactionCol_BaseGen_RequiresWdActions>

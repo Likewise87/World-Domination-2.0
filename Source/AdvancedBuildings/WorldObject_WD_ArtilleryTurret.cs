@@ -30,13 +30,13 @@ namespace TSA_WorldDomination
         protected abstract int CooldownDurationTicks { get; }
         public abstract float RangeTiles { get; }
 
-        /// <summary>Owner alive and non-player, master toggle on, owner faction meets the NPC artillery tech level. No tier requirement.</summary>
+        /// <summary>Owner alive, WD Actions on for that faction, master toggle on, owner meets NPC artillery tech level. No tier requirement.</summary>
         public bool IsFiringEnabled
         {
             get
             {
                 if (Destroyed || !Spawned) return false;
-                if (Faction == null || Faction.IsPlayer) return false;
+                if (!WorldActions_Utils.CanNpcWdReactiveAction(Faction)) return false;
                 if (IsOrphan) return false;
                 if (!MasterToggleOn) return false;
                 TechLevel minTech = WorldDominationMod.settings?.npcT4MortarMinTechLevel ?? WorldDominationSettings.DefNpcT4MortarMinTechLevel;

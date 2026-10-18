@@ -549,7 +549,7 @@
   <TSA_WD_Outpost_StrengthRecovery_OffMinFlat>最低进攻实力恢复(每日)</TSA_WD_Outpost_StrengthRecovery_OffMinFlat>
   <TSA_WD_Outpost_StrengthRecovery_OffMinFlatTooltip>升级倍率之前的每日进攻恢复底线。实际增量 = max(本值, 目标上限 × 进攻恢复百分比) × (1 + 升级加成)。</TSA_WD_Outpost_StrengthRecovery_OffMinFlatTooltip>
   <TSA_WD_Outpost_OccupantHealSeverity>居民治疗(每日伤势严重度)</TSA_WD_Outpost_OccupantHealSeverity>
-  <TSA_WD_Outpost_OccupantHealSeverityTooltip>每日,封存前哨每位居民的每条非永久伤势减少该严重度(线性)。设为0可禁用。例如:每日2点严重度时,严重度6约3天愈合;严重度20约10天。各前哨医院升级乘以此速率(基础 +30%,高级 +60%)。可免疫疾病仍以相同倍率推进免疫。失血也按相同的每日严重度降低。</TSA_WD_Outpost_OccupantHealSeverityTooltip>
+  <TSA_WD_Outpost_OccupantHealSeverityTooltip>每日,封存前哨每位居民的每条非永久伤势减少该严重度(线性)。设为0可禁用伤势愈合(限时状态仍会消退)。例如:每日2点严重度时,严重度6约3天愈合;严重度20约10天。各前哨医院升级乘以该伤势/免疫速率(基础 +30%,高级 +60%)。可免疫疾病以相同倍率推进免疫与自然恢复严重度。失血优先用其自然恢复速率,否则用此每日量。另外,药劲、食物中毒、酒精/宿醉等限时状态按原版每天推进一天消退;低体温与中暑在前哨庇护下清除;营养不良在食物需求已满时恢复。</TSA_WD_Outpost_OccupantHealSeverityTooltip>
   <TSA_WD_Outpost_VehicleRepairPerDay>每日载具修理</TSA_WD_Outpost_VehicleRepairPerDay>
   <TSA_WD_Outpost_VehicleRepairPerDayTooltip>每日,存放在前哨的 Vehicle Framework 载具上每个受损部件按该比例恢复其最大生命值。设为0可禁用。</TSA_WD_Outpost_VehicleRepairPerDayTooltip>
   <TSA_WD_Outpost_ProductionTimeMult>生产周期时长倍率</TSA_WD_Outpost_ProductionTimeMult>
@@ -1900,7 +1900,7 @@
   <TSA_WD_OutpostStats_Row_DefensiveRecovery>每日防御恢复</TSA_WD_OutpostStats_Row_DefensiveRecovery>
   <TSA_WD_OutpostStats_Row_DefensiveRecoveryTip>每天恢复的防御实力。</TSA_WD_OutpostStats_Row_DefensiveRecoveryTip>
   <TSA_WD_OutpostStats_Row_OccupantHeal>伤势/感染愈合速度</TSA_WD_OutpostStats_Row_OccupantHeal>
-  <TSA_WD_OutpostStats_Row_OccupantHealTip>驻防单位每日愈合的伤势、失血与感染严重度（模组设置基础值×医院升级）。</TSA_WD_OutpostStats_Row_OccupantHealTip>
+  <TSA_WD_OutpostStats_Row_OccupantHealTip>驻防单位伤势/免疫愈合速率。限时状态（药劲、毒素等）按原版日速率另行消退。</TSA_WD_OutpostStats_Row_OccupantHealTip>
   <TSA_WD_OutpostStats_Row_PrisonerResistance>囚犯抵抗每日下降</TSA_WD_OutpostStats_Row_PrisonerResistance>
   <TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Base>累计社交 {0} 的囚犯抵抗下降：-{1}/天</TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Base>
   <TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Warden>狱卒专家加成：x{0}%</TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Warden>

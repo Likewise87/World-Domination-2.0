@@ -348,6 +348,7 @@ namespace TSA_WorldDomination
         /// <summary>
         /// WD world sim participant (hard/soft gates + manual include/exclude).
         /// Near-opposite of legacy “excluded from sim”: migrate <c>if (IsExcludedFaction(f)) continue</c> to <c>if (!IsWdParticipant(f)) continue</c>.
+        /// Returns false for the player — do not use bare <c>!IsWdParticipant</c> to block fire/dispatch (use <see cref="CanNpcWdReactiveAction"/>).
         /// </summary>
         public static bool IsWdParticipant(Faction f)
         {
@@ -359,6 +360,13 @@ namespace TSA_WorldDomination
                 return settings != null && settings.IsManualIncludeInWd(f.def.defName);
             return true;
         }
+
+        /// <summary>
+        /// NPC reactive WD actions (decontam, ambush sally, mortar/AA/AT fire) when Configure Scope WD Actions is on.
+        /// Player is never gated here (player is not an <see cref="IsWdParticipant"/>).
+        /// </summary>
+        public static bool CanNpcWdReactiveAction(Faction f)
+            => f != null && !f.IsPlayer && IsWdParticipant(f);
 
         /// <summary>
         /// True if this faction has a traveler mid PackUp/Turtle/AssaultRally relocation that still needs to refound.

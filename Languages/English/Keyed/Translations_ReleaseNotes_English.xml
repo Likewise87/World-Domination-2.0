@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_53_Title>Bugfixes</TSA_WD_Update_2_3_53_Title>
+  <TSA_WD_Update_2_3_53_Body><![CDATA[
+<size=16><b>2.3.53 - Bugfixes</b></size>\n
+<color=#00FFFFFF>Release date: October 18th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• Biotech Mechanoids garrisoned at outposts will now be disconnected from their Mechanitor and thus no longer consume bandwidth. They can still fight on outpost defense and ambush maps.\n
+• Drug effects, status effects like "burning", and abilities will now all wear off/reset for pawns garrisoned at outposts. Addictions remain unchanged.\n
+• Factions excluded from WD actions will no longer send decontamination caravans or interception caravans. Those were not "world actions" under the daily WD action budget and could still fire for excluded factions.\n
+]]></TSA_WD_Update_2_3_53_Body>
   <TSA_WD_Update_2_3_52_Title>QOL and bugfixes</TSA_WD_Update_2_3_52_Title>
   <TSA_WD_Update_2_3_52_Body><![CDATA[
 <size=16><b>2.3.52 - QOL and bugfixes</b></size>\n

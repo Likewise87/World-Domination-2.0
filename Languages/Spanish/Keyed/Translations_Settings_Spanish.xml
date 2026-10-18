@@ -391,7 +391,7 @@
   <TSA_WD_Allegiances_SectionDiplomacy_Tooltip>Edita buena voluntad y relaciones entre pares de facciones. Bloquea pares PNJ para impedir la diplomacia aleatoria WD.</TSA_WD_Allegiances_SectionDiplomacy_Tooltip>
   <TSA_WD_FactionCol_Name>Facción</TSA_WD_FactionCol_Name>
   <TSA_WD_FactionCol_WdActions>Acciones WD</TSA_WD_FactionCol_WdActions>
-  <TSA_WD_FactionCol_WdActions_Tooltip>Permite que esta facción realice acciones WD, como enviar caravanas para asaltar, expandirse, comerciar o construir fortificaciones.</TSA_WD_FactionCol_WdActions_Tooltip>
+  <TSA_WD_FactionCol_WdActions_Tooltip>Permite que esta facción realice acciones WD: asaltar, expandirse, comerciar, fortificar, limpiar contaminación, lanzar interceptores de emboscada y disparar mortero/AA/AT defensivos.</TSA_WD_FactionCol_WdActions_Tooltip>
   <TSA_WD_FactionCol_BaseGen>MapGen</TSA_WD_FactionCol_BaseGen>
   <TSA_WD_FactionCol_BaseGen_Tooltip>Permite que WD controle la generación del mapa de esta facción cuando atacas uno de sus asentamientos. Los asentamientos T1 serán aldeas pequeñas; las ciudadelas T4, fortalezas de verdad.</TSA_WD_FactionCol_BaseGen_Tooltip>
   <TSA_WD_FactionCol_BaseGen_RequiresWdActions>Requiere Acciones WD para esta facción.</TSA_WD_FactionCol_BaseGen_RequiresWdActions>

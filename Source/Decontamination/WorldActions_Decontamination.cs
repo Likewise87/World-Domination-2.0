@@ -200,7 +200,7 @@ namespace TSA_WorldDomination
         {
             var comp = settlement?.GetComponent<CompViralSpread>();
             if (comp == null || !comp.IsSettlement) return false;
-            if (settlement.Faction == null || settlement.Faction.IsPlayer) return false;
+            if (!WorldActions_Utils.CanNpcWdReactiveAction(settlement.Faction)) return false;
             if (PollutionImmunity.IsImmune(settlement)) return false;
 
             var s = WorldDominationMod.settings;

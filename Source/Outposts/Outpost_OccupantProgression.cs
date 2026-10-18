@@ -7,7 +7,7 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>Skill XP, biological aging, virtual healing, and (with Combat Extended) passive Primary ammo for outpost occupants and stored animals (real pawns, not world-ticked). Mutates pawns; occupant changes refresh via <see cref="WorldObject_WD_Outpost.NotifyVirtualPawnsChanged"/>.</summary>
+    /// <summary>Skill XP, biological aging, ability CD finalize, Disappears wear-off, virtual healing, and (with Combat Extended) passive Primary ammo for outpost occupants and stored animals (real pawns, not world-ticked). Mutates pawns; occupant changes refresh via <see cref="WorldObject_WD_Outpost.NotifyVirtualPawnsChanged"/>.</summary>
     public static class Outpost_OccupantProgression
     {
         public const float EventXpResearchPerDay = 500f;
@@ -175,6 +175,115 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
+        /// Once per in-game day (ungated): finalize ability cooldowns whose absolute end tick has elapsed,
+        /// catch up charge pools, and pulse psychic entropy. Does not call <see cref="Ability.AbilityTick"/>.
+        /// </summary>
+        public static void TickOccupantsAbilitiesOneDay(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost?.Occupants == null || outpost.Occupants.Count == 0) return;
+
+            for (int i = 0; i < outpost.Occupants.Count; i++)
+            {
+                Pawn p = outpost.Occupants[i];
+                if (p == null || p.Destroyed || p.Dead) continue;
+                if (p.RaceProps == null || !p.RaceProps.Humanlike) continue;
+
+                try
+                {
+                    FinalizePawnAbilitiesOneDay(p);
+                }
+                catch
+                {
+                    // Modded abilities must not break the daily pass
+                }
+
+                try
+                {
+                    if (p.psychicEntropy != null)
+                        p.psychicEntropy.PsychicEntropyTrackerTickInterval(GenDate.TicksPerDay);
+                }
+                catch
+                {
+                    // Royalty / mod psychic trackers
+                }
+            }
+        }
+
+        private static void FinalizePawnAbilitiesOneDay(Pawn pawn)
+        {
+            Pawn_AbilityTracker tracker = pawn.abilities;
+            if (tracker == null) return;
+            List<Ability> abs = tracker.AllAbilitiesForReading;
+            if (abs == null || abs.Count == 0) return;
+
+            for (int i = 0; i < abs.Count; i++)
+            {
+                Ability ability = abs[i];
+                if (ability?.def == null) continue;
+                try
+                {
+                    FinalizeAbilityCooldownOneDay(ability);
+                }
+                catch
+                {
+                    // Per-ability isolation
+                }
+            }
+        }
+
+        private static void FinalizeAbilityCooldownOneDay(Ability ability)
+        {
+            AbilityDef def = ability.def;
+            if (def == null || def.hasExternallyHandledCooldown) return;
+            if (!ability.HasCooldown || !ability.OnCooldown) return;
+            if (ability.CooldownTicksRemaining > 0) return;
+
+            // Absolute end-tick already elapsed; complete CD without ready letter / AbilityTick FX.
+            if (def.cooldownPerCharge && ability.UsesCharges)
+            {
+                ability.RemainingCharges = ability.maxCharges;
+                ability.ResetCooldown();
+                return;
+            }
+
+            ability.ResetCooldown();
+            if (ability.UsesCharges && ability.RemainingCharges < ability.maxCharges)
+                ability.RemainingCharges = ability.maxCharges;
+        }
+
+        /// <summary>
+        /// Once per in-game day (ungated): advance every <see cref="HediffComp_Disappears"/> by one day
+        /// (ability buffs, anesthetic, etc.). Independent of <c>occupantsNeedHealing</c>.
+        /// </summary>
+        public static void TickOccupantsDisappearsOneDay(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost?.Occupants == null || outpost.Occupants.Count == 0) return;
+
+            for (int oi = 0; oi < outpost.Occupants.Count; oi++)
+            {
+                Pawn p = outpost.Occupants[oi];
+                if (p == null || p.Destroyed || p.Dead) continue;
+                if (p.RaceProps == null || !p.RaceProps.Humanlike) continue;
+                List<Hediff> hediffs = p.health?.hediffSet?.hediffs;
+                if (hediffs == null || hediffs.Count == 0) continue;
+
+                for (int i = hediffs.Count - 1; i >= 0; i--)
+                {
+                    Hediff hediff = hediffs[i];
+                    if (hediff == null || hediff.pawn == null) continue;
+                    try
+                    {
+                        TryAdvanceDisappearsOneDay(p, hediff);
+                    }
+                    catch
+                    {
+                        // Modded hediffs
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Advance biological age for stored animals (not vehicles/mechs): one in-game day per call.
         /// Refreshes outpost strength only when a life stage changes or an animal dies of age.
         /// </summary>
@@ -254,15 +363,15 @@ namespace TSA_WorldDomination
             return pawn.RaceProps.Animal;
         }
 
-        /// <summary>Once per in-game day: heal injuries, blood loss, and immunizable conditions for mothballed outpost prisoners (Doctor bonus applies).</summary>
+        /// <summary>Once per in-game day: heal injuries / immunizable and advance natural wear-off for mothballed prisoners.</summary>
         public static void TickPrisonersVirtualHealingOneDay(WorldObject_WD_Outpost outpost)
         {
             if (outpost == null || !outpost.PrisonersNeedHealing) return;
             WorldDominationSettings settings = WorldDominationMod.settings;
             if (settings == null) return;
-            float baseSeverityPerDay = settings.outpostOccupantHealSeverityPerDay;
-            if (baseSeverityPerDay <= 0f) return;
 
+            // Injury heal may be 0; natural wear-off / immunizable recovery still runs.
+            float baseSeverityPerDay = Mathf.Max(0f, settings.outpostOccupantHealSeverityPerDay);
             float healMult = 1f + outpost.GetHospitalOccupantHealMultiplierBonus() + outpost.GetOutpostExpertOccupantHealMultiplierBonus();
             float dailySeverityHeal = baseSeverityPerDay * healMult;
 
@@ -305,15 +414,15 @@ namespace TSA_WorldDomination
             OutpostCeAmmoCompat.TickOccupantsPassiveAmmoOneDay(outpost);
         }
 
-        /// <summary>Once per in-game day: heal injuries, blood loss, and immunizable conditions for mothballed occupants.</summary>
+        /// <summary>Once per in-game day: heal injuries / immunizable and advance natural wear-off for mothballed occupants.</summary>
         public static void TickOccupantsVirtualHealingOneDay(WorldObject_WD_Outpost outpost)
         {
             if (outpost == null || !outpost.OccupantsNeedHealing) return;
             WorldDominationSettings settings = WorldDominationMod.settings;
             if (settings == null) return;
-            float baseSeverityPerDay = settings.outpostOccupantHealSeverityPerDay;
-            if (baseSeverityPerDay <= 0f) return;
 
+            // Injury heal may be 0; natural wear-off / immunizable recovery still runs.
+            float baseSeverityPerDay = Mathf.Max(0f, settings.outpostOccupantHealSeverityPerDay);
             float healMult = 1f + outpost.GetHospitalOccupantHealMultiplierBonus() + outpost.GetOutpostExpertOccupantHealMultiplierBonus();
             float dailySeverityHeal = baseSeverityPerDay * healMult;
 
@@ -453,6 +562,8 @@ namespace TSA_WorldDomination
                         return true;
                     if (hediff.TryGetComp<HediffComp_Immunizable>() != null)
                         return true;
+                    if (IsWearOffCandidate(hediff))
+                        return true;
                 }
                 catch
                 {
@@ -462,7 +573,7 @@ namespace TSA_WorldDomination
             return false;
         }
 
-            private static bool ApplyVirtualHealPass(Pawn pawn, float dailySeverityHeal, float healMult)
+        private static bool ApplyVirtualHealPass(Pawn pawn, float dailySeverityHeal, float healMult)
         {
             if (pawn?.health?.hediffSet?.hediffs == null) return false;
             bool changed = false;
@@ -484,6 +595,8 @@ namespace TSA_WorldDomination
                         continue;
                     }
                     if (TryAdvanceImmunity(pawn, hediff, healMult))
+                        changed = true;
+                    if (TryAdvanceNaturalWearOff(pawn, hediff))
                         changed = true;
                 }
                 catch
@@ -547,8 +660,12 @@ namespace TSA_WorldDomination
             if (!IsBloodLoss(hediff)) return false;
             float severity = hediff.Severity;
             if (severity <= 0f) return false;
-            if (dailySeverityHeal <= 0f) return false;
 
+            // Prefer natural recovery rate when present (recovery-only).
+            if (TryApplyRecoverySeverityPerDay(pawn, hediff, healMult: 1f))
+                return true;
+
+            if (dailySeverityHeal <= 0f) return false;
             hediff.Severity = severity - dailySeverityHeal;
             if (hediff.Severity <= HediffRemoveSeverityThreshold)
                 pawn.health.RemoveHediff(hediff);
@@ -560,48 +677,58 @@ namespace TSA_WorldDomination
             HediffComp_Immunizable immComp = hediff.TryGetComp<HediffComp_Immunizable>();
             if (immComp?.Props is not HediffCompProperties_Immunizable props) return false;
 
+            bool changed = false;
             float current = immComp.Immunity;
 
             // Phase 1: fully immune — fade severity each day until removed (vanilla post-immunity behavior).
             if (current >= FullImmunityThreshold && props.severityPerDayImmune < 0f)
-                return TryFadeImmuneHediff(pawn, hediff, healMult, props);
-
-            // Phase 2: gain immunity while still sick.
-            float gainPerDay = props.immunityPerDaySick;
-            if (gainPerDay <= 0f) return false;
-
-            float gain = gainPerDay * healMult;
-            if (gain <= 0f) return false;
-
-            float factor = 1f;
-            try
             {
-                if (pawn?.health != null)
+                if (TryFadeImmuneHediff(pawn, hediff, healMult, props))
+                    changed = true;
+            }
+            else
+            {
+                // Phase 2: gain immunity while still sick.
+                float gainPerDay = props.immunityPerDaySick;
+                if (gainPerDay > 0f)
                 {
-                    float stat = pawn.GetStatValue(StatDefOf.ImmunityGainSpeed);
-                    if (stat > 0f)
-                        factor = stat / 100f;
+                    float gain = gainPerDay * healMult;
+                    float factor = 1f;
+                    try
+                    {
+                        if (pawn?.health != null)
+                        {
+                            float stat = pawn.GetStatValue(StatDefOf.ImmunityGainSpeed);
+                            if (stat > 0f)
+                                factor = stat / 100f;
+                        }
+                    }
+                    catch
+                    {
+                        factor = 1f;
+                    }
+
+                    gain *= factor;
+                    float next = Mathf.Min(1f, current + gain);
+                    if (next > current + 0.0001f && ImmunizableImmunityField != null)
+                    {
+                        ImmunizableImmunityField.SetValue(immComp, next);
+                        changed = true;
+                        current = next;
+                    }
+
+                    if (current >= FullImmunityThreshold && props.severityPerDayImmune < 0f
+                        && TryFadeImmuneHediff(pawn, hediff, healMult, props))
+                        changed = true;
                 }
             }
-            catch
-            {
-                factor = 1f;
-            }
 
-            gain *= factor;
+            // Natural immunizable severity curve for one day (e.g. ToxicBuildup severityPerDayNotImmune).
+            // Recovery-only; hospital/expert mult applies (medical care).
+            if (hediff != null && hediff.pawn != null && TryApplyImmunizableSeverityRecovery(pawn, hediff, immComp, healMult))
+                changed = true;
 
-            float next = Mathf.Min(1f, current + gain);
-            if (next <= current + 0.0001f) return false;
-
-            if (ImmunizableImmunityField != null)
-                ImmunizableImmunityField.SetValue(immComp, next);
-            else
-                return false;
-
-            if (next >= FullImmunityThreshold && props.severityPerDayImmune < 0f)
-                return TryFadeImmuneHediff(pawn, hediff, healMult, props);
-
-            return true;
+            return changed;
         }
 
         private static bool TryFadeImmuneHediff(Pawn pawn, Hediff hediff, float healMult, HediffCompProperties_Immunizable props)
@@ -616,6 +743,128 @@ namespace TSA_WorldDomination
                 return true;
             }
             return true;
+        }
+
+        /// <summary>One day of immunizable <see cref="HediffComp_Immunizable.SeverityChangePerDay"/> when recovering.</summary>
+        private static bool TryApplyImmunizableSeverityRecovery(Pawn pawn, Hediff hediff, HediffComp_Immunizable immComp, float healMult)
+        {
+            if (pawn == null || hediff == null || immComp == null || hediff.pawn == null) return false;
+            float delta;
+            try
+            {
+                delta = immComp.SeverityChangePerDay();
+            }
+            catch
+            {
+                return false;
+            }
+            if (delta >= 0f) return false;
+            float apply = delta * Mathf.Max(0f, healMult);
+            if (apply >= 0f) return false;
+            return ApplySeverityDelta(pawn, hediff, apply);
+        }
+
+        // --- Natural wear-off (closed candidates; Disappears / recovery SeverityPerDay; no hospital mult) ---
+
+        /// <summary>Refeed recovery when Food is topped (Malnutrition has no SeverityPerDay / Disappears).</summary>
+        private const float MalnutritionSeverityRecoveryPerDay = 0.1f;
+
+        private static bool IsWearOffCandidate(Hediff hediff)
+        {
+            if (hediff?.def == null) return false;
+            if (hediff is Hediff_High) return true;
+            HediffDef def = hediff.def;
+            if (def == HediffDefOf.FoodPoisoning) return true;
+            if (def == HediffDefOf.AlcoholHigh) return true;
+            if (def == HediffDefOf.Hangover) return true;
+            if (def == HediffDefOf.ToxicBuildup) return true;
+            if (def == HediffDefOf.Hypothermia) return true;
+            if (def == HediffDefOf.Heatstroke) return true;
+            if (def == HediffDefOf.Malnutrition) return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Closed-set wear-off (not Disappears — that runs ungated in <see cref="TickOccupantsDisappearsOneDay"/>).
+        /// Hypothermia/Heatstroke: immediate clear. Malnutrition: refeed when Food full. Else recovery SeverityPerDay.
+        /// </summary>
+        private static bool TryAdvanceNaturalWearOff(Pawn pawn, Hediff hediff)
+        {
+            if (pawn == null || hediff?.def == null || hediff.pawn == null) return false;
+            if (!IsWearOffCandidate(hediff)) return false;
+
+            // Sheltered at outpost: ambient temp stress cannot persist.
+            if (hediff.def == HediffDefOf.Hypothermia || hediff.def == HediffDefOf.Heatstroke)
+            {
+                pawn.health.RemoveHediff(hediff);
+                return true;
+            }
+
+            if (hediff.def == HediffDefOf.Malnutrition)
+                return TryRecoverMalnutritionOneDay(pawn, hediff);
+
+            // ToxicBuildup is immunizable; recovery severity is handled in TryAdvanceImmunity.
+            if (hediff.def == HediffDefOf.ToxicBuildup)
+                return false;
+
+            // Disappears handled ungated elsewhere — avoid double −1 day.
+            return TryApplyRecoverySeverityPerDay(pawn, hediff, healMult: 1f);
+        }
+
+        private static bool TryRecoverMalnutritionOneDay(Pawn pawn, Hediff hediff)
+        {
+            if (pawn?.needs == null || hediff == null) return false;
+            Need food = pawn.needs.TryGetNeed(NeedDefOf.Food);
+            if (food == null || food.CurLevelPercentage < 0.99f) return false;
+            return ApplySeverityDelta(pawn, hediff, -MalnutritionSeverityRecoveryPerDay);
+        }
+
+        private static bool TryAdvanceDisappearsOneDay(Pawn pawn, Hediff hediff)
+        {
+            HediffComp_Disappears disappears = hediff.TryGetComp<HediffComp_Disappears>();
+            if (disappears == null) return false;
+
+            int lostPerTick = Mathf.Max(1, disappears.TicksLostPerTick);
+            int dayTicks = GenDate.TicksPerDay * lostPerTick;
+            disappears.ticksToDisappear -= dayTicks;
+            if (disappears.ticksToDisappear > 0 && !disappears.CompShouldRemove)
+                return true;
+
+            pawn.health.RemoveHediff(hediff);
+            return true;
+        }
+
+        /// <summary>Apply one day of <see cref="HediffComp_SeverityPerDay.SeverityChangePerDay"/> when recovering (delta &lt; 0).</summary>
+        private static bool TryApplyRecoverySeverityPerDay(Pawn pawn, Hediff hediff, float healMult)
+        {
+            HediffComp_SeverityPerDay sevComp = hediff.TryGetComp<HediffComp_SeverityPerDay>();
+            if (sevComp == null) return false;
+            float delta;
+            try
+            {
+                delta = sevComp.SeverityChangePerDay();
+            }
+            catch
+            {
+                return false;
+            }
+            if (delta >= 0f) return false;
+            float apply = delta * Mathf.Max(0f, healMult);
+            if (apply >= 0f) return false;
+            return ApplySeverityDelta(pawn, hediff, apply);
+        }
+
+        private static bool ApplySeverityDelta(Pawn pawn, Hediff hediff, float delta)
+        {
+            if (pawn == null || hediff == null || hediff.pawn == null || delta == 0f) return false;
+            float before = hediff.Severity;
+            hediff.Severity = Mathf.Max(0f, before + delta);
+            if (hediff.Severity <= HediffRemoveSeverityThreshold)
+            {
+                pawn.health.RemoveHediff(hediff);
+                return true;
+            }
+            return hediff.Severity < before - 0.0001f || hediff.Severity > before + 0.0001f;
         }
     }
 }

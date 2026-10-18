@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_53_Title>错误修复</TSA_WD_Update_2_3_53_Title>
+  <TSA_WD_Update_2_3_53_Body><![CDATA[
+<size=16><b>2.3.53 - 错误修复</b></size>\n
+<color=#00FFFFFF>发布日期：2026年10月18日</color>\n
+------------------------------\n
+!!!改动仅适用于 1.7 版本!!!\n
+• 驻守前哨的 Biotech 机械体现在会与机械师断开连接，不再占用带宽。它们仍可参与前哨防御与伏击地图战斗。\n
+• 驻守前哨的殖民者：药物效果、燃烧等状态效果与技能冷却会随时间消退/重置。成瘾不变。\n
+• 在配置范围中排除 WD 行动的派系，不再派出清除污染商队或拦截商队。这些原先不计入每日世界行动预算，排除后仍可能发生。\n
+]]></TSA_WD_Update_2_3_53_Body>
   <TSA_WD_Update_2_3_52_Title>体验优化与错误修复</TSA_WD_Update_2_3_52_Title>
   <TSA_WD_Update_2_3_52_Body><![CDATA[
 <size=16><b>2.3.52 - 体验优化与错误修复</b></size>\n

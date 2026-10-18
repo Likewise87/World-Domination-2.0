@@ -399,7 +399,7 @@
   <TSA_WD_Allegiances_SectionDiplomacy_Tooltip>编辑派系对之间的好感与关系。锁定 NPC 对以阻止随机 WD 外交。</TSA_WD_Allegiances_SectionDiplomacy_Tooltip>
   <TSA_WD_FactionCol_Name>派系</TSA_WD_FactionCol_Name>
   <TSA_WD_FactionCol_WdActions>WD 行动</TSA_WD_FactionCol_WdActions>
-  <TSA_WD_FactionCol_WdActions_Tooltip>允许该派系执行 WD 行动，例如派出商队袭击、扩张、贸易或修筑工事。</TSA_WD_FactionCol_WdActions_Tooltip>
+  <TSA_WD_FactionCol_WdActions_Tooltip>允许该派系执行 WD 行动：袭击、扩张、贸易、设防、清除污染、派出定居点伏击拦截队，以及防御性迫击炮/防空/反装甲开火。</TSA_WD_FactionCol_WdActions_Tooltip>
   <TSA_WD_FactionCol_BaseGen>MapGen</TSA_WD_FactionCol_BaseGen>
   <TSA_WD_FactionCol_BaseGen_Tooltip>进攻该派系定居点时，允许 WD 控制地图生成。T1 定居点会是小村庄，T4 要塞则是真正的堡垒。</TSA_WD_FactionCol_BaseGen_Tooltip>
   <TSA_WD_FactionCol_BaseGen_RequiresWdActions>需要该派系的 WD 行动。</TSA_WD_FactionCol_BaseGen_RequiresWdActions>

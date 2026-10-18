@@ -98,6 +98,9 @@ namespace TSA_WorldDomination
         /// <summary>True after WD victory latch (reform caravan may leave).</summary>
         public bool PlayerHasWon => playerHasWon;
 
+        /// <summary>True while a WD caravan/camp/bridge clash fight is active (mech control bypass gate).</summary>
+        public bool EncounterActive => encounterActive;
+
         /// <summary>
         /// Won WD Ambush clash on this tile (for reform caravan ambush target re-stamp).
         /// Prefers Ambush parents; falls back to any won clash tracker on the tile.

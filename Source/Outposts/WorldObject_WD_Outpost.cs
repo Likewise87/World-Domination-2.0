@@ -362,6 +362,8 @@ namespace TSA_WorldDomination
         private List<Thing> storedPassengerShuttles = new List<Thing>();
         /// <summary>Stored mechanoid workers: contribute production skills and combat strength but do not consume food or gain XP.</summary>
         private List<Pawn> storedMechanoids = new List<Pawn>();
+        /// <summary>Biotech: prior Overseer ThingID per mothballed mech (mech ThingID → overseer ThingID) for sticky restore on withdraw.</summary>
+        private Dictionary<string, string> mothballMechStickyOverseerIds;
         private Material cachedMaterial;
         private static Texture2D cachedAddToOutpostIcon;
         private static Texture2D cachedConvertFoodCaravanIcon;
@@ -743,6 +745,7 @@ namespace TSA_WorldDomination
 
             if (!StoredMechanoids.Contains(pawn))
                 StoredMechanoids.Add(pawn);
+            OutpostMechanoidOverseerUtil.ClearOverseerForMothball(this, pawn);
             NotifyMechanoidsChanged();
             return true;
         }
@@ -757,6 +760,31 @@ namespace TSA_WorldDomination
                 pawn.SetFaction(Faction.OfPlayer);
             NotifyMechanoidsChanged();
             return pawn;
+        }
+
+        internal void RememberMothballMechOverseer(Pawn mech, Pawn overseer)
+        {
+            if (mech == null || overseer == null) return;
+            string mechId = mech.ThingID;
+            string overseerId = overseer.ThingID;
+            if (mechId.NullOrEmpty() || overseerId.NullOrEmpty()) return;
+            if (mothballMechStickyOverseerIds == null)
+                mothballMechStickyOverseerIds = new Dictionary<string, string>();
+            mothballMechStickyOverseerIds[mechId] = overseerId;
+        }
+
+        internal string PeekMothballMechOverseerId(Pawn mech)
+        {
+            if (mech == null || mothballMechStickyOverseerIds == null) return null;
+            return mothballMechStickyOverseerIds.TryGetValue(mech.ThingID, out string id) ? id : null;
+        }
+
+        internal void ClearMothballMechOverseer(Pawn mech)
+        {
+            if (mech == null || mothballMechStickyOverseerIds == null) return;
+            mothballMechStickyOverseerIds.Remove(mech.ThingID);
+            if (mothballMechStickyOverseerIds.Count == 0)
+                mothballMechStickyOverseerIds = null;
         }
 
         private bool StoreNonHumanlikeDissolvePawn(Pawn pawn, Caravan sourceCaravan)
@@ -1184,6 +1212,9 @@ namespace TSA_WorldDomination
             PruneInvalidPawns(storedAnimalsAndVehicles);
             PruneInvalidPawns(storedMechanoids);
             PruneStoredPassengerShuttles();
+
+            OutpostMechanoidOverseerUtil.ClearOverseersForAllStoredMechanoids(this);
+            OutpostMechanoidOverseerUtil.ScrubDeadOverseerSubjectsOncePerGame();
 
             if (manualDefenseActive && !WD_MapComponent_OutpostDefense.HasActiveEncounterFor(this))
             {
@@ -1858,6 +1889,7 @@ namespace TSA_WorldDomination
             if (detachedShuttles.Count > 0)
                 OdysseyShuttleOutpostEstablishmentCompat.AttachStoredShuttlesToCaravan(caravan, detachedShuttles);
             VehicleFrameworkOutpostDissolveCompat.TryAutoBoardPawnsIntoSelectedVehicles(caravan, removed);
+            OutpostMechanoidOverseerUtil.TryRestoreStickyOverseersInCaravan(this, caravan);
             SelectOnlyCreatedCaravan(caravan);
             if (Occupants != null && Occupants.Count == 0)
                 Destroy();
@@ -3166,6 +3198,8 @@ namespace TSA_WorldDomination
                     if (Occupants.Count > 0)
                     {
                         Outpost_OccupantProgression.TickOccupantsBiologicalAgeOneDay(this);
+                        Outpost_OccupantProgression.TickOccupantsAbilitiesOneDay(this);
+                        Outpost_OccupantProgression.TickOccupantsDisappearsOneDay(this);
                         Outpost_OccupantProgression.TickOccupantsVirtualHealingOneDay(this);
                         Outpost_OccupantNeedsProgression.TickOccupantsNeedsOneDay(this);
                         Outpost_OccupantProgression.TickOccupantsPassiveAmmoOneDay(this);
@@ -3349,6 +3383,7 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref storedAnimalsAndVehicles, "storedAnimalsAndVehicles", LookMode.Deep);
             Scribe_Collections.Look(ref storedPassengerShuttles, "storedPassengerShuttles", LookMode.Deep);
             Scribe_Collections.Look(ref storedMechanoids, "storedMechanoids", LookMode.Deep);
+            Scribe_Collections.Look(ref mothballMechStickyOverseerIds, "mothballMechStickyOverseerIds", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref legacyFrozenPawnsForLoad, "frozenPawns", LookMode.Deep);
             Scribe_Values.Look(ref selectedProductionDefName, "selectedProductionDefName");
             float legacyCaravanBonusStrength = 0f;

@@ -588,6 +588,8 @@ namespace TSA_WorldDomination
                         removed.Add(detached);
                 }
 
+                OutpostMechanoidOverseerUtil.TryRestoreStickyOverseersAmong(source, removed);
+
                 if (removed.Count == 0 || CountHumanlikes(removed) == 0)
                 {
                     failReason = "TSA_WD_PawnTransfer_CaravanFailed".Translate();

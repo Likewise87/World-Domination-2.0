@@ -247,6 +247,7 @@ namespace TSA_WorldDomination
             if (!((IDefensiveInterceptor)gun).InterceptorCanFireNow()) return;
             Faction iFaction = gun.Faction;
             if (iFaction == null) return;
+            if (!iFaction.IsPlayer && !WorldActions_Utils.IsWdParticipant(iFaction)) return;
 
             PlanetTile iTile = gun.Tile;
             if (iTile.tileId < 0) return;
@@ -1107,6 +1108,7 @@ namespace TSA_WorldDomination
 
             Faction iFaction = ip.InterceptorFaction;
             if (iFaction == null || tf == iFaction || !WorldActions_Utils.SafeHostileTo(tf, iFaction)) return;
+            if (!iFaction.IsPlayer && !WorldActions_Utils.IsWdParticipant(iFaction)) return;
 
             PlanetTile iTile = ip.InterceptorTile;
             if (iTile.tileId < 0) return;
@@ -1179,6 +1181,7 @@ namespace TSA_WorldDomination
 
             Faction iFaction = ip.InterceptorFaction;
             if (iFaction == null) return;
+            if (!iFaction.IsPlayer && !WorldActions_Utils.IsWdParticipant(iFaction)) return;
 
             PlanetTile iTile = ip.InterceptorTile;
             if (iTile.tileId < 0) return;

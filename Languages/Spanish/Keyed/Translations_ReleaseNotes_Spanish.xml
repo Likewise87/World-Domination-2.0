@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_53_Title>Correcciones</TSA_WD_Update_2_3_53_Title>
+  <TSA_WD_Update_2_3_53_Body><![CDATA[
+<size=16><b>2.3.53 - Correcciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 18 de octubre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Los mecanoides de Biotech acuartelados en puestos se desconectan de su Mecanitor y ya no consumen ancho de banda. Siguen pudiendo pelear en mapas de defensa y emboscada.\n
+• Efectos de drogas, estados como "quemándose" y habilidades ahora se agotan o reinician en peones acuartelados. Las adicciones no cambian.\n
+• Las facciones excluidas de las acciones WD ya no envían caravanas de descontaminación ni de intercepción. Esas no contaban como "acciones mundiales" del presupuesto diario y seguían siendo posibles.\n
+]]></TSA_WD_Update_2_3_53_Body>
   <TSA_WD_Update_2_3_52_Title>Calidad de vida y correcciones</TSA_WD_Update_2_3_52_Title>
   <TSA_WD_Update_2_3_52_Body><![CDATA[
 <size=16><b>2.3.52 - Calidad de vida y correcciones</b></size>\n

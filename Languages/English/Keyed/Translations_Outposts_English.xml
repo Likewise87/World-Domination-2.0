@@ -625,7 +625,7 @@
   <TSA_WD_Outpost_StrengthRecovery_OffMinFlat>Min. offensive strength recovery (per day)</TSA_WD_Outpost_StrengthRecovery_OffMinFlat>
   <TSA_WD_Outpost_StrengthRecovery_OffMinFlatTooltip>Floor for daily offensive recovery before upgrade multiplier. Actual gain is max(this, target cap × off. recovery %) × (1 + upgrade bonuses).</TSA_WD_Outpost_StrengthRecovery_OffMinFlatTooltip>
   <TSA_WD_Outpost_OccupantHealSeverity>Occupant healing (injury severity per day)</TSA_WD_Outpost_OccupantHealSeverity>
-  <TSA_WD_Outpost_OccupantHealSeverityTooltip>Each day, every non-permanent injury on mothballed outpost occupants loses this many severity points (linear). Set to 0 to disable. Example: at 2 severity per day, a 6-severity wound heals in ~3 days; 20 severity in ~10 days. Hospital upgrades on each outpost multiply this rate (Basic +30%, Advanced +60%). Immunizable diseases still advance immunity at the same multiplier. Blood loss is reduced with the same daily amount.</TSA_WD_Outpost_OccupantHealSeverityTooltip>
+  <TSA_WD_Outpost_OccupantHealSeverityTooltip>Each day, every non-permanent injury on mothballed outpost occupants loses this many severity points (linear). Set to 0 to disable injury healing (timed hediffs still wear off). Example: at 2 severity per day, a 6-severity wound heals in ~3 days; 20 severity in ~10 days. Hospital upgrades on each outpost multiply this injury/immunity rate (Basic +30%, Advanced +60%). Immunizable diseases advance immunity and natural recovery severity at the same multiplier. Blood loss prefers its natural recovery rate, otherwise this daily amount. Separately, drug highs, food poisoning, alcohol/hangover, and similar timed hediffs advance one in-game day of their vanilla wear-off each day; hypothermia and heatstroke clear when sheltered at the outpost; malnutrition recovers while Food is topped.</TSA_WD_Outpost_OccupantHealSeverityTooltip>
   <TSA_WD_Outpost_VehicleRepairPerDay>Vehicle repair per day</TSA_WD_Outpost_VehicleRepairPerDay>
   <TSA_WD_Outpost_VehicleRepairPerDayTooltip>Each day, every damaged part on Vehicle Framework vehicles stored at the outpost regains this fraction of that part's max health. 0 disables.</TSA_WD_Outpost_VehicleRepairPerDayTooltip>
   <TSA_WD_Outpost_ProductionTimeMult>Production time multiplier</TSA_WD_Outpost_ProductionTimeMult>
@@ -1903,7 +1903,7 @@
   <TSA_WD_StatsTooltip_UpgradeSource>Upgrade "{0}"</TSA_WD_StatsTooltip_UpgradeSource>
   <TSA_WD_OutpostStats_Row_OffensiveRecoveryTip>Offensive strength regained per day toward the cap.</TSA_WD_OutpostStats_Row_OffensiveRecoveryTip>
   <TSA_WD_OutpostStats_Row_DefensiveRecoveryTip>Defensive strength regained per day toward the cap.</TSA_WD_OutpostStats_Row_DefensiveRecoveryTip>
-  <TSA_WD_OutpostStats_Row_OccupantHealTip>Injury, blood loss, and infection healing per day for garrisoned occupants.</TSA_WD_OutpostStats_Row_OccupantHealTip>
+  <TSA_WD_OutpostStats_Row_OccupantHealTip>Injury/immunity heal rate for garrisoned occupants. Timed hediffs (highs, toxins, etc.) wear off at vanilla day rates separately.</TSA_WD_OutpostStats_Row_OccupantHealTip>
   <TSA_WD_OutpostStats_Row_AttackRangeTip>Maximum tile distance for manual raids launched from this outpost.</TSA_WD_OutpostStats_Row_AttackRangeTip>
   <TSA_WD_OutpostStats_Row_AttackRangeSettlementTip>Maximum tile distance this settlement can raid.</TSA_WD_OutpostStats_Row_AttackRangeSettlementTip>
   <TSA_WD_OutpostStats_Row_AttackRangeZealValue>{0} (Zeal)</TSA_WD_OutpostStats_Row_AttackRangeZealValue>

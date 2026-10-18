@@ -147,7 +147,7 @@ namespace TSA_WorldDomination
                 WorldObject settlement = watchers[i];
                 if (settlement == null || settlement.Destroyed) continue;
                 if (settlement == targetOrigin) continue;
-                if (settlement.Faction == null) continue;
+                if (!WorldActions_Utils.CanNpcWdReactiveAction(settlement.Faction)) continue;
                 if (!WorldActions_Utils.SafeHostileTo(settlement.Faction, targetFaction)) continue;
                 var originComp = settlement.GetComponent<CompViralSpread>();
                 if (originComp == null) continue;

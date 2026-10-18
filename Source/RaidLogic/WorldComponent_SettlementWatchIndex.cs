@@ -165,6 +165,7 @@ namespace TSA_WorldDomination
                     watcherCount++;
                 }
                 if (ambushEnabled
+                    && WorldActions_Utils.CanNpcWdReactiveAction(s.Faction)
                     && comp.tier >= (seth?.settlementAmbushMinTier ?? WorldDominationSettings.DefSettlementAmbushMinTier))
                 {
                     float r = SettlementAmbushUtility.GetWatchRangeTiles(s, seth);
