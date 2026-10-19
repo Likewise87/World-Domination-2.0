@@ -271,7 +271,7 @@
   <TSA_WD_DebugOutpostRaidNoStart>WD 调试:找不到约 4 格外且能通往此前哨的有效起点。</TSA_WD_DebugOutpostRaidNoStart>
   <TSA_WD_DebugOutpostRaidSpawned>WD 调试:已生成 {0} 前哨袭击旅行者,从地块 {1} 前往 {2}。</TSA_WD_DebugOutpostRaidSpawned>
 
-  <!-- Advanced buildings + sally overhaul -->
+  <!-- Advanced buildings + ambush interception overhaul -->
   <TSA_WD_AdvBuild_Silo>粮仓</TSA_WD_AdvBuild_Silo>
   <TSA_WD_AdvBuild_Hospital>医院</TSA_WD_AdvBuild_Hospital>
   <TSA_WD_AdvBuild_WatchTower>瞭望塔</TSA_WD_AdvBuild_WatchTower>

@@ -35,7 +35,7 @@
   <TSA_WD_Combat_HeaderOpportunityFeatures>机会特性（机会目标 / 劫掠 / 伏击）</TSA_WD_Combat_HeaderOpportunityFeatures>
   <TSA_WD_Combat_HeaderTargetOfOpportunityTip>行进中的袭击者可能改道去打更弱的目标。</TSA_WD_Combat_HeaderTargetOfOpportunityTip>
   <TSA_WD_Combat_HeaderMaraudingTip>战斗结束后，幸存者可能继续攻向下一个目标。</TSA_WD_Combat_HeaderMaraudingTip>
-  <TSA_WD_Combat_HeaderSettlementAmbushTip>若你途经附近，敌方定居点可能伏击你的商队。</TSA_WD_Combat_HeaderSettlementAmbushTip>
+  <TSA_WD_Combat_HeaderSettlementAmbushTip>若你途经附近，敌方定居点可能伏击你的商队（受阶段门限制）。它们在前期也可向其他 NPC 远行队派出拦截商队。</TSA_WD_Combat_HeaderSettlementAmbushTip>
   <TSA_WD_Combat_HeaderVanguard>先锋</TSA_WD_Combat_HeaderVanguard>
   <TSA_WD_Combat_HeaderInvasion>入侵</TSA_WD_Combat_HeaderInvasion>
   <TSA_WD_Combat_HeaderVanguardAndInvasion>先锋与入侵</TSA_WD_Combat_HeaderVanguardAndInvasion>
@@ -61,10 +61,10 @@
   <TSA_WD_Combat_HeaderGoodwillDrain>好感度流失</TSA_WD_Combat_HeaderGoodwillDrain>
   <TSA_WD_Combat_GateWhen>激活时机</TSA_WD_Combat_GateWhen>
   <TSA_WD_Combat_GateOpportunity>机会（机会目标 / 劫掠 / 伏击）</TSA_WD_Combat_GateOpportunity>
-  <TSA_WD_Combat_GateOpportunityTip>机会目标、胜利后劫掠与定居点伏击的阶段门。</TSA_WD_Combat_GateOpportunityTip>
+  <TSA_WD_Combat_GateOpportunityTip>机会目标、胜利后劫掠与针对你的定居点伏击的阶段门（NPC 互拦的拦截商队单独处理，前期即可）。</TSA_WD_Combat_GateOpportunityTip>
   <TSA_WD_Combat_GateToOTip>机会目标重定位的阶段门。</TSA_WD_Combat_GateToOTip>
   <TSA_WD_Combat_GateMaraudTip>胜利后劫掠的阶段门。</TSA_WD_Combat_GateMaraudTip>
-  <TSA_WD_Combat_GateAmbushTip>定居点发起伏击的阶段门。</TSA_WD_Combat_GateAmbushTip>
+  <TSA_WD_Combat_GateAmbushTip>针对玩家的定居点拦截商队阶段门（你的远行队与真实商队）。NPC 互拦的拦截商队无视此门，前期即可发生。</TSA_WD_Combat_GateAmbushTip>
   <TSA_WD_Combat_GateT4Mortar>NPC 迫击炮塔对玩家</TSA_WD_Combat_GateT4Mortar>
   <TSA_WD_Combat_GateT4MortarTip>敌方迫击炮塔何时可瞄准玩家。</TSA_WD_Combat_GateT4MortarTip>
   <TSA_WD_Combat_GateT4AntiAir>NPC 防空炮塔对玩家</TSA_WD_Combat_GateT4AntiAir>
@@ -735,7 +735,7 @@
   <TSA_WD_BuildReq_Unmet>未满足建造技能或研究需求。</TSA_WD_BuildReq_Unmet>
   <TSA_WD_BtnLateGame>中期游戏与后期游戏</TSA_WD_BtnLateGame>
   <TSA_WD_BtnT4Mortar>NPC 火炮炮塔</TSA_WD_BtnT4Mortar>
-  <TSA_WD_DescLateGame>配置你变强后的中期游戏与后期游戏反扑：阈值、偏向袭击、更快成长、扩张、好感流失、T4 迫击炮（仅后期游戏）与前哨事件。</TSA_WD_DescLateGame>
+  <TSA_WD_DescLateGame>配置你变强后的中期游戏与后期游戏反扑：阈值、偏向袭击、更快成长、扩张、好感流失、T4 迫击炮、前哨事件，以及可能袭击你商队与远行队的敌方定居点拦截商队（NPC 互拦在前期已可发生）。</TSA_WD_DescLateGame>
   <TSA_WD_DescT4Mortar>配置敌方四级定居点的迫击炮与防空：是否开火、是否可攻击你，以及射程、冷却、伤害与精度。</TSA_WD_DescT4Mortar>
   <TSA_WD_DescPlayerArtillery>前哨迫击炮、防空与快速反应的战斗逻辑（伤害、射程、冷却、命中分段、拦截强度）。步行旅行者、空投舱与拦截商队的旅行速度在“商队与贸易”中设置。</TSA_WD_DescPlayerArtillery>
   <TSA_WD_Diplo_LaunchPodGiftStrengthPer100>发射舱礼物强度（每 100 市场价值）</TSA_WD_Diplo_LaunchPodGiftStrengthPer100>
@@ -922,7 +922,7 @@
   <TSA_WD_Experimental_MaraudMaxChainTip>限制单次袭击在必须停止并解散前，最多可以连续获胜并连锁攻击多少个新目标。</TSA_WD_Experimental_MaraudMaxChainTip>
   <TSA_WD_Experimental_HeaderSettlementAmbush>定居点主动伏击</TSA_WD_Experimental_HeaderSettlementAmbush>
   <TSA_WD_Experimental_SettlementAmbush>实验：定居点伏击途经的远行队</TSA_WD_Experimental_SettlementAmbush>
-  <TSA_WD_Experimental_SettlementAmbushTip>开启后，达到最低伏击等级（默认为 2 级）的 NPC 定居点可能会对经过监视范围的敌对贸易商队、礼物/贿赂商队、无关袭击或真实玩家商队派出拦截部队。玩家的快速反应和迫击炮前哨不属于此功能，它们通过各自的防御射程拦截。默认仅在中期或后期阶段后生效；开启下方的「允许机会目标、劫掠与伏击从游戏一开始就生效」可跳过该门槛。</TSA_WD_Experimental_SettlementAmbushTip>
+  <TSA_WD_Experimental_SettlementAmbushTip>开启后，达到最低伏击等级的 NPC 定居点可能会对经过监视范围的敌对贸易远行队、礼物/贿赂远行队、无关袭击或真实玩家商队派出拦截商队。玩家的快速反应和迫击炮前哨不属于此功能，它们通过各自的防御射程拦截。NPC 互拦可在前期发生。针对你的拦截仍等待中期/后期阶段门，除非开启下方的「允许机会目标、劫掠与伏击从游戏一开始就生效」。</TSA_WD_Experimental_SettlementAmbushTip>
   <TSA_WD_Experimental_AmbushChancePct>伏击概率(抛硬币判定)</TSA_WD_Experimental_AmbushChancePct>
   <TSA_WD_Experimental_AmbushChancePctTip>在阶段判定通过后、任何实力计算之前掷骰，因此判定失败绝不会浪费更昂贵的实力比检查。</TSA_WD_Experimental_AmbushChancePctTip>
   <TSA_WD_Experimental_AmbushMinRatio>发起伏击所需的最低实力比</TSA_WD_Experimental_AmbushMinRatio>
@@ -937,7 +937,7 @@
   <TSA_WD_Experimental_AmbushWatchRange>普通定居点伏击监视范围(格)</TSA_WD_Experimental_AmbushWatchRange>
   <TSA_WD_Experimental_AmbushWatchRangeTip>符合等级条件的普通 NPC 定居点监视伏击目标的距离。设计上与定居点周围的内圈阻挡格半径一致。迫击炮和快速反应前哨通过各自的防御射程拦截，不使用这个伏击监视范围。</TSA_WD_Experimental_AmbushWatchRangeTip>
   <TSA_WD_Experimental_OpportunityIgnoreEscalationGate>允许机会目标、劫掠与伏击从游戏一开始就生效</TSA_WD_Experimental_OpportunityIgnoreEscalationGate>
-  <TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>开启后，机会目标改道、胜利后劫掠、以及据点伏击（以上三项中已开启的那些）可以从游戏一开始就触发，而不必等到进入中期或后期升级阶段。如果以上三项均未开启，此选项不会产生任何效果。</TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>
+  <TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>开启后，机会目标改道、胜利后劫掠、以及针对你的拦截商队（以上已开启的那些）可以从开局触发，而不必等到中期或后期。NPC 互拦本就无视阶段门。若上述功能均未开启，此选项无效。</TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>
   <TSA_WD_Experimental_EnableWorldMapSounds>WD 世界地图战斗音效</TSA_WD_Experimental_EnableWorldMapSounds>
   <TSA_WD_Experimental_EnableWorldMapSoundsTip>开启后，AT 炮塔、迫击炮与防空高射在世界地图上播放短音效。关闭可静音这些 WD 战斗音效。界面点击音不受影响。</TSA_WD_Experimental_EnableWorldMapSoundsTip>
   <TSA_WD_Experimental_OutpostCePassiveAmmo>前哨 Combat Extended 弹药囤积</TSA_WD_Experimental_OutpostCePassiveAmmo>
@@ -1046,7 +1046,7 @@
   <TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>仅在中期游戏生效时对玩家开火（T4 迫击炮）</TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>
   <TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>仅在中期游戏生效时对玩家开火（T4 防空）</TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>
 
-  <!-- Advanced buildings + sally overhaul -->
+  <!-- Advanced buildings + ambush interception overhaul -->
   <TSA_WD_Daily_WeightAdvancedBuildings>高级建筑概率</TSA_WD_Daily_WeightAdvancedBuildings>
   <TSA_WD_Daily_WeightAdvancedBuildingsTip>定居点派出施工队在附近建造高级建筑的概率：粮仓、医院、瞭望塔、马厩、迫击炮塔或防空炮塔。每个定居点的槽位数等于其等级，每种类型最多一座。远离敌人的安全定居点建造更频繁；受威胁或恢复中的定居点仍可建造，但频率较低，且在符合条件时更偏向火炮。若被选中但无法启动任何项目，则改用另一个符合条件的每日行动。</TSA_WD_Daily_WeightAdvancedBuildingsTip>
   <TSA_WD_Daily_CdAdvancedBuildings>高级建筑后冷却</TSA_WD_Daily_CdAdvancedBuildings>

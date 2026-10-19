@@ -772,7 +772,8 @@ namespace TSA_WorldDomination
             float iconSize = -1f,
             Color? iconTint = null,
             bool centerContents = false,
-            Color? fill = null)
+            Color? fill = null,
+            GameFont font = GameFont.Small)
         {
             bool mouseOver = Mouse.IsOver(rect);
             bool pressed = mouseOver && Input.GetMouseButton(0) && GUI.enabled;
@@ -787,6 +788,8 @@ namespace TSA_WorldDomination
             Widgets.DrawBox(rect, 1);
             GUI.color = GUI.enabled ? Color.white : new Color(1f, 1f, 1f, 0.4f);
 
+            GameFont prevFont = Text.Font;
+            Text.Font = font;
             float drawIcon = iconSize > 0f ? iconSize : Mathf.Min(SlateNavIconSize, rect.height - 8f);
             float textLeft = rect.x + SlateNavIconPad;
             string text = label ?? "";
@@ -808,12 +811,12 @@ namespace TSA_WorldDomination
                 textLeft = iconRect.xMax + SlateNavIconTextGap;
             }
 
-            Text.Font = GameFont.Small;
             TextAnchor prev = Text.Anchor;
             Text.Anchor = TextAnchor.MiddleLeft;
             float labelW = Mathf.Max(0f, rect.xMax - textLeft - SlateNavIconPad);
             Widgets.Label(new Rect(textLeft, rect.y, labelW, rect.height), text.Truncate(labelW));
             Text.Anchor = prev;
+            Text.Font = prevFont;
             GUI.color = Color.white;
 
             return GUI.enabled && Widgets.ButtonInvisible(rect);

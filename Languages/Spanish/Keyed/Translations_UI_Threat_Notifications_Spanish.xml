@@ -89,6 +89,8 @@
   <TSA_WD_Dash_EscalationTip_T4MortarOff>Torretas de mortero enemigas vs tus caravanas y avanzadillas: apagado</TSA_WD_Dash_EscalationTip_T4MortarOff>
   <TSA_WD_Dash_EscalationTip_T4AaOn>Torretas AA enemigas vs tus cápsulas y proyectiles: activo</TSA_WD_Dash_EscalationTip_T4AaOn>
   <TSA_WD_Dash_EscalationTip_T4AaOff>Torretas AA enemigas vs tus cápsulas y proyectiles: apagado</TSA_WD_Dash_EscalationTip_T4AaOff>
+  <TSA_WD_Dash_EscalationTip_InterceptOn>Caravanas de interceptación NPC vs tus caravanas y viajeros: activo</TSA_WD_Dash_EscalationTip_InterceptOn>
+  <TSA_WD_Dash_EscalationTip_InterceptOff>Caravanas de interceptación NPC vs tus caravanas y viajeros: apagado</TSA_WD_Dash_EscalationTip_InterceptOff>
   <TSA_WD_Dash_EscalationTip_IncidentsOn>Incidentes en avanzadillas: {0} de fuerza perdida, {1}% de probabilidad al día</TSA_WD_Dash_EscalationTip_IncidentsOn>
   <TSA_WD_Dash_EscalationTip_IncidentsOff>Incidentes en avanzadillas: apagado</TSA_WD_Dash_EscalationTip_IncidentsOff>
   <TSA_WD_Dash_EscalationTip_Goodwill>Drenaje de buena voluntad: -{0} cada {1} días</TSA_WD_Dash_EscalationTip_Goodwill>
@@ -247,9 +249,9 @@
   <TS_WD_OutpostDefenseAlwaysUseStrength>Usar siempre la fuerza en defensa manual de avanzadilla</TS_WD_OutpostDefenseAlwaysUseStrength>
   <TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>Si está activo, los combates manuales en el mapa de defensa de avanzadilla usan la fuerza del viajero como puntos de incursión sin límite del narrador. Si está desactivado, se aplican el mismo suelo y techo que en otras incursiones WD. Las incursiones a la colonia y los choques de caravanas usan el ajuste de arriba.</TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>
   <TSA_WD_Alert_MidGameActive>WD: Mid Game activado</TSA_WD_Alert_MidGameActive>
-  <TSA_WD_Alert_MidGameActiveDesc>La fuerza de tus avanzadillas ha activado Mid Game. Los asentamientos hostiles crecen más rápido, ganan más alcance de ataque y sesgan incursiones hacia ti. Los asentamientos se expanden hacia tus posesiones, la buena voluntad baja con el tiempo, y tus avanzadillas pueden sufrir incidentes de desgaste más leves. Los morteros y el AA T4 aún no te apuntan salvo que actives los interruptores de Mid Game.</TSA_WD_Alert_MidGameActiveDesc>
+  <TSA_WD_Alert_MidGameActiveDesc>La fuerza de tus avanzadillas ha activado Mid Game. Los asentamientos hostiles crecen más rápido, ganan más alcance de ataque y sesgan incursiones hacia ti. Los asentamientos se expanden hacia tus posesiones, la buena voluntad baja con el tiempo, y tus avanzadillas pueden sufrir incidentes de desgaste más leves. Las caravanas de interceptación NPC pueden emboscar tus caravanas y viajeros. Los morteros y el AA T4 aún no te apuntan salvo que actives los interruptores de Mid Game.</TSA_WD_Alert_MidGameActiveDesc>
   <TSA_WD_Alert_LateGameActive>WD: Late Game activado</TSA_WD_Alert_LateGameActive>
-  <TSA_WD_Alert_LateGameActiveDesc>La fuerza de tus avanzadillas ha activado Late Game. Los asentamientos hostiles crecen mucho más rápido, ganan más alcance de ataque y sesgan más las incursiones hacia ti. Los asentamientos se expanden más lejos hacia tus posesiones, la buena voluntad cae más rápido, los morteros y AA T4 enemigos pueden atacar tus caravanas y avanzadillas WD si están activados, y tus avanzadillas pueden sufrir incidentes de desgaste más fuertes.</TSA_WD_Alert_LateGameActiveDesc>
+  <TSA_WD_Alert_LateGameActiveDesc>La fuerza de tus avanzadillas ha activado Late Game. Los asentamientos hostiles crecen mucho más rápido, ganan más alcance de ataque y sesgan más las incursiones hacia ti. Los asentamientos se expanden más lejos hacia tus posesiones, la buena voluntad cae más rápido, los morteros y AA T4 enemigos pueden atacar tus caravanas y avanzadillas WD si están activados, las caravanas de interceptación NPC pueden emboscarte, y tus avanzadillas pueden sufrir incidentes de desgaste más fuertes.</TSA_WD_Alert_LateGameActiveDesc>
   <TSA_WD_Letter_MidGameActiveIntro>Mid Game ya está activo. Qué cambia:</TSA_WD_Letter_MidGameActiveIntro>
   <TSA_WD_Letter_LateGameActiveIntro>Late Game ya está activo. Qué cambia:</TSA_WD_Letter_LateGameActiveIntro>
   <TSA_WD_Alert_CriticalFood>WD: Avanzadilla con nivel de comida crítico</TSA_WD_Alert_CriticalFood>
@@ -571,10 +573,33 @@
   <TSA_WD_AllPlayerPawns_DeselectAll>Deseleccionar todo</TSA_WD_AllPlayerPawns_DeselectAll>
   <TSA_WD_AllPlayerPawns_DeselectAllTip>Borra la selección actual. No selecciona a nadie.</TSA_WD_AllPlayerPawns_DeselectAllTip>
   <TSA_WD_AllPlayerPawns_SmartSendNow>Enviar ya (inteligente)</TSA_WD_AllPlayerPawns_SmartSendNow>
-  <TSA_WD_AllPlayerPawns_SmartSendTip>Envía de inmediato a los colonos seleccionados como caravanas. Para cada uno elige su mejor habilidad, luego el puesto más cercano que la use desde donde está, y parte al momento. No es una programación. Usa la misma lista de exclusión que la asignación inteligente de prisioneros.</TSA_WD_AllPlayerPawns_SmartSendTip>
+  <TSA_WD_AllPlayerPawns_SmartSendTip>Abre una confirmación para enviar a los colonos seleccionados como caravanas. Para cada uno elige su mejor habilidad, luego puntúa los puestos que la usan por menor carga de habilidad y plena eficiencia, con la distancia como factor suave, y reparte envíos en el mismo lote. No es una programación. Usa la misma lista de exclusión que la asignación inteligente de prisioneros.</TSA_WD_AllPlayerPawns_SmartSendTip>
   <TSA_WD_AllPlayerPawns_SmartAssignDone>Asignación inteligente: enviados {0} colono(s).</TSA_WD_AllPlayerPawns_SmartAssignDone>
   <TSA_WD_AllPlayerPawns_SmartAssignPartial>Asignación inteligente: enviados {0} colono(s). No se pudo emparejar o enviar {1}.</TSA_WD_AllPlayerPawns_SmartAssignPartial>
   <TSA_WD_AllPlayerPawns_SmartAssignNone>Ningún puesto coincide con los colonos seleccionados (o ninguno estaba listo para viajar).</TSA_WD_AllPlayerPawns_SmartAssignNone>
+  <TSA_WD_AllPlayerPawns_SmartAssignAlreadyPlaced>{0} colono(s) seleccionado(s) ya están en un puesto adecuado. No hay nada que enviar.</TSA_WD_AllPlayerPawns_SmartAssignAlreadyPlaced>
+  <TSA_WD_SmartSend_ColPawn>Colono</TSA_WD_SmartSend_ColPawn>
+  <TSA_WD_SmartSend_ColOrigin>Origen</TSA_WD_SmartSend_ColOrigin>
+  <TSA_WD_SmartSend_ColDestination>Destino</TSA_WD_SmartSend_ColDestination>
+  <TSA_WD_SmartSend_ColReason>Motivo</TSA_WD_SmartSend_ColReason>
+  <TSA_WD_SmartSend_SelectDest>Elegir</TSA_WD_SmartSend_SelectDest>
+  <TSA_WD_SmartSend_ReasonOverrideDest>Cambio manual: {0}</TSA_WD_SmartSend_ReasonOverrideDest>
+  <TSA_WD_SmartSend_ReasonSkill>Mejor habilidad: {0} = {1}</TSA_WD_SmartSend_ReasonSkill>
+  <TSA_WD_SmartSend_ReasonDistance>Distancia: {0}</TSA_WD_SmartSend_ReasonDistance>
+  <TSA_WD_SmartSend_ReasonCumSkillFull>Hab. {0} del puesto: {1} (plena ef.)</TSA_WD_SmartSend_ReasonCumSkillFull>
+  <TSA_WD_SmartSend_ReasonCumSkillDr>Hab. {0} del puesto: {1} (rend. decr.)</TSA_WD_SmartSend_ReasonCumSkillDr>
+  <TSA_WD_SmartSend_ReasonTipHeader>Ranking:</TSA_WD_SmartSend_ReasonTipHeader>
+  <TSA_WD_SmartSend_ReasonTipRow>{0}, {1}</TSA_WD_SmartSend_ReasonTipRow>
+  <TSA_WD_SmartSend_ReasonTipNoOther>Ningún otro puesto requiere la habilidad {0}</TSA_WD_SmartSend_ReasonTipNoOther>
+  <TSA_WD_SmartSend_ReasonTipFormula>Ranking = habilidad del puesto + (distancia × {0}) + penalización por rend. decrecientes</TSA_WD_SmartSend_ReasonTipFormula>
+  <TSA_WD_SmartSend_ReasonTipFormulaDistOnly>Ranking = distancia</TSA_WD_SmartSend_ReasonTipFormulaDistOnly>
+  <TSA_WD_SmartSend_ReasonTipLowerWins>Gana el ranking más bajo.</TSA_WD_SmartSend_ReasonTipLowerWins>
+  <TSA_WD_SmartSend_RemoveTip>Quitar a este colono del envío inteligente.</TSA_WD_SmartSend_RemoveTip>
+  <TSA_WD_SmartSend_OverrideTip>Clic para elegir otro destino</TSA_WD_SmartSend_OverrideTip>
+  <TSA_WD_SmartSend_OverrideTitle>Cambiar destino</TSA_WD_SmartSend_OverrideTitle>
+  <TSA_WD_SmartSend_Reset>Restablecer asignación</TSA_WD_SmartSend_Reset>
+  <TSA_WD_SmartSend_ReasonStay>Ya bien colocado (sin traslado).</TSA_WD_SmartSend_ReasonStay>
+  <TSA_WD_SmartSend_SubtitleMixed>Enviando {0}. Se quedan: {1}.</TSA_WD_SmartSend_SubtitleMixed>
   <TSA_WD_PawnTransfer_DialogTitle>Elegir destino</TSA_WD_PawnTransfer_DialogTitle>
   <TSA_WD_PawnTransfer_DialogSubtitle>Trasladando {0} colono(s)</TSA_WD_PawnTransfer_DialogSubtitle>
   <TSA_WD_PawnTransfer_SendHere>Enviar aquí</TSA_WD_PawnTransfer_SendHere>

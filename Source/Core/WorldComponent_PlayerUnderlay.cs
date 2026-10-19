@@ -176,8 +176,7 @@ namespace TSA_WorldDomination
             {
                 name = "WD_PlayerUnderlayDisc",
                 wrapMode = TextureWrapMode.Clamp,
-                filterMode = FilterMode.Bilinear,
-                hideFlags = HideFlags.HideAndDontSave
+                filterMode = FilterMode.Bilinear
             };
 
             float center = (size - 1) * 0.5f;
@@ -212,8 +211,7 @@ namespace TSA_WorldDomination
             {
                 name = "WD_PlayerUnderlayStar",
                 wrapMode = TextureWrapMode.Clamp,
-                filterMode = FilterMode.Bilinear,
-                hideFlags = HideFlags.HideAndDontSave
+                filterMode = FilterMode.Bilinear
             };
 
             float center = (size - 1) * 0.5f;

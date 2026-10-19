@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_54_Title>More Bugfixes and QOL</TSA_WD_Update_2_3_54_Title>
+  <TSA_WD_Update_2_3_54_Body><![CDATA[
+<size=16><b>2.3.54 - More Bugfixes and QOL</b></size>\n
+<color=#00FFFFFF>Release date: October 19th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• Enhanced Smart Send when moving pawns from an outpost or colony to another destination: better scoring for where each pawn should go, plus a confirmation dialog that clearly shows who is sent where (you can override destinations or remove pawns before launching).\n
+• Bugfix: Changes to Configure Scope (faction exclusions, storyteller raid overrides, and related options) were not persisted. Those settings are now saved with the world.\n
+• Bugfix: Wrong reference to the change-outpost-type caravan def on RimWorld 1.7. It now loads from Defs17 correctly.\n
+• NPC-on-NPC ambush/interception caravans are now already possible in the early game. Players will only become a target from mid-game onwards.\n
+]]></TSA_WD_Update_2_3_54_Body>
   <TSA_WD_Update_2_3_53_Title>Bugfixes</TSA_WD_Update_2_3_53_Title>
   <TSA_WD_Update_2_3_53_Body><![CDATA[
 <size=16><b>2.3.53 - Bugfixes</b></size>\n

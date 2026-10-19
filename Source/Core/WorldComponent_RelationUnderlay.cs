@@ -322,8 +322,7 @@ namespace TSA_WorldDomination
             {
                 name = name,
                 wrapMode = TextureWrapMode.Clamp,
-                filterMode = FilterMode.Bilinear,
-                hideFlags = HideFlags.HideAndDontSave
+                filterMode = FilterMode.Bilinear
             };
         }
 

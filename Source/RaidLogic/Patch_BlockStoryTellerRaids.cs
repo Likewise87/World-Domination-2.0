@@ -84,8 +84,8 @@ namespace TSA_WorldDomination
             if (parms?.faction == null) return true;
             if (WorldActions_Utils.IsStorytellerRaidAllowed(parms.faction)) return true;
 
-            var seth = WorldDominationMod.settings;
-            WdStorytellerBlockedRaidMode mode = seth?.storytellerBlockedRaidMode
+            WdStorytellerBlockedRaidMode mode =
+                WorldComponent_WdFactionScope.Get()?.StorytellerBlockedRaidMode
                 ?? WorldDominationSettings.DefStorytellerBlockedRaidMode;
 
             if (mode == WdStorytellerBlockedRaidMode.SwapToValid

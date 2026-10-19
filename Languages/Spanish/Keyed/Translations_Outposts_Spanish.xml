@@ -2177,7 +2177,7 @@
   <TSA_WD_StatsTooltip_ResultMult>Resultado: {0} × {1} = {2}</TSA_WD_StatsTooltip_ResultMult>
   <TSA_WD_StatsTooltip_UpgradeSource>Mejora "{0}"</TSA_WD_StatsTooltip_UpgradeSource>
 
-  <!-- Advanced buildings + sally overhaul -->
+  <!-- Advanced buildings + ambush interception overhaul -->
   <TSA_WD_OutpostStats_Row_AdvBuildings>Edificios avanzados</TSA_WD_OutpostStats_Row_AdvBuildings>
   <TSA_WD_OutpostStats_Row_AdvBuildingsTip>Edificios avanzados de este asentamiento. Las ranuras equivalen al nivel ({0}); como máximo uno de cada tipo.</TSA_WD_OutpostStats_Row_AdvBuildingsTip>
   <TSA_WD_OutpostStats_Row_LandSpeed>Velocidad de caravanas terrestres</TSA_WD_OutpostStats_Row_LandSpeed>

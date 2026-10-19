@@ -2177,7 +2177,7 @@
   <TSA_WD_StatsTooltip_ResultMult>结果：{0} × {1} = {2}</TSA_WD_StatsTooltip_ResultMult>
   <TSA_WD_StatsTooltip_UpgradeSource>升级「{0}」</TSA_WD_StatsTooltip_UpgradeSource>
 
-  <!-- Advanced buildings + sally overhaul -->
+  <!-- Advanced buildings + ambush interception overhaul -->
   <TSA_WD_OutpostStats_Row_AdvBuildings>高级建筑</TSA_WD_OutpostStats_Row_AdvBuildings>
   <TSA_WD_OutpostStats_Row_AdvBuildingsTip>此定居点拥有的高级建筑。槽位等于定居点等级（{0}）；每种类型最多一座。</TSA_WD_OutpostStats_Row_AdvBuildingsTip>
   <TSA_WD_OutpostStats_Row_LandSpeed>陆地商队速度</TSA_WD_OutpostStats_Row_LandSpeed>

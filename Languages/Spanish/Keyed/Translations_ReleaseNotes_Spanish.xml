@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_54_Title>Más correcciones y calidad de vida</TSA_WD_Update_2_3_54_Title>
+  <TSA_WD_Update_2_3_54_Body><![CDATA[
+<size=16><b>2.3.54 - Más correcciones y calidad de vida</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 19 de octubre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Envío inteligente mejorado al mover peones desde un puesto o colonia a otro destino: mejor puntuación de destino y un diálogo de confirmación que muestra claramente quién va a dónde (puedes cambiar destinos o quitar peones antes de lanzar).\n
+• Corrección: Los cambios de Configurar alcance (exclusiones de facción, anulaciones de asaltos del narrador y opciones relacionadas) no se guardaban. Ahora se guardan con el mundo.\n
+• Corrección: Referencia incorrecta al def de la caravana de cambio de tipo de puesto en RimWorld 1.7. Ahora carga bien desde Defs17.\n
+• Las caravanas de emboscada/intercepción entre PNJ ya son posibles en el juego temprano. Los jugadores solo pasan a ser objetivo a partir de la media partida.\n
+]]></TSA_WD_Update_2_3_54_Body>
   <TSA_WD_Update_2_3_53_Title>Correcciones</TSA_WD_Update_2_3_53_Title>
   <TSA_WD_Update_2_3_53_Body><![CDATA[
 <size=16><b>2.3.53 - Correcciones</b></size>\n

@@ -272,6 +272,7 @@ namespace TSA_WorldDomination
         // SOURCE OF TRUTH: DEFAULT VALUES
         // ==========================================
 
+        /// <summary>Legacy ModSettings only — SSoT is <see cref="WorldComponent_WdFactionScope"/>.</summary>
         public bool initialAllegianceLockDone = false;
 
         public const WDSettingsPerformancePreset DefPerformancePreset = WDSettingsPerformancePreset.Medium;
@@ -615,21 +616,23 @@ namespace TSA_WorldDomination
         public const float DefFactionInvestmentNotifyMinSilver = 200f;
         public const int DefMaxGoodwill = 200;
 
+        /// <summary>Legacy ModSettings only — SSoT is <see cref="WorldComponent_WdFactionScope"/>.</summary>
         public HashSet<string> lockedAllegiancePairs = new HashSet<string>();
-        /// <summary>Manual opt-out from WD world sim by <see cref="FactionDef.defName"/>.</summary>
+        /// <summary>Legacy ModSettings only — SSoT is <see cref="WorldComponent_WdFactionScope"/>.</summary>
         public HashSet<string> manualExcludeFromWdActions = new HashSet<string>();
-        /// <summary>Manual opt-out from KCSG base generation by <see cref="FactionDef.defName"/>.</summary>
+        /// <summary>Legacy ModSettings only — SSoT is <see cref="WorldComponent_WdFactionScope"/>.</summary>
         public HashSet<string> manualExcludeFromWdBaseGen = new HashSet<string>();
-        /// <summary>Manual opt-in for soft-default-excluded factions (non-humanlike, zero settlement weight).</summary>
+        /// <summary>Legacy ModSettings only — SSoT is <see cref="WorldComponent_WdFactionScope"/>.</summary>
         public HashSet<string> manualIncludeInWd = new HashSet<string>();
-        /// <summary>Per-faction storyteller raid allow override.</summary>
+        /// <summary>Legacy ModSettings only — SSoT is <see cref="WorldComponent_WdFactionScope"/>.</summary>
         public HashSet<string> manualAllowStorytellerRaids = new HashSet<string>();
-        /// <summary>Per-faction storyteller raid block override (wins over allow if both present).</summary>
+        /// <summary>Legacy ModSettings only — SSoT is <see cref="WorldComponent_WdFactionScope"/>.</summary>
         public HashSet<string> manualBlockStorytellerRaids = new HashSet<string>();
         /// <summary>Ordered favorite tool labels for <see cref="Dialog_WdWorldDebug"/> (cross-save ModSettings).</summary>
         public List<string> wdDebugFavoriteIds = new List<string>();
         /// <summary>When storyteller picks a Storyteller-column-blocked faction: drop the raid or swap to an allowed faction.</summary>
         public const WdStorytellerBlockedRaidMode DefStorytellerBlockedRaidMode = WdStorytellerBlockedRaidMode.DropInvalid;
+        /// <summary>Legacy ModSettings only — SSoT is <see cref="WorldComponent_WdFactionScope"/>.</summary>
         public WdStorytellerBlockedRaidMode storytellerBlockedRaidMode = DefStorytellerBlockedRaidMode;
 
         // --- LEGACY INFLUENCE RADIUS (unused gameplay; keep fields + Scribe for ModConfig) + notification radius ---
@@ -5501,153 +5504,65 @@ namespace TSA_WorldDomination
             WorldDominationMod.SaveSettingsToDisk();
         }
 
+        /// <summary>Forwarder to <see cref="WorldComponent_WdFactionScope"/> (per-save SSoT).</summary>
         public bool IsManualWdExclude(string defName) =>
-            !string.IsNullOrEmpty(defName)
-            && manualExcludeFromWdActions != null
-            && manualExcludeFromWdActions.Contains(defName);
+            WorldComponent_WdFactionScope.Get()?.IsManualWdExclude(defName) ?? false;
 
-        public void SetManualWdExclude(string defName, bool exclude)
-        {
-            if (string.IsNullOrEmpty(defName)) return;
-            manualExcludeFromWdActions ??= new HashSet<string>();
-            if (exclude) manualExcludeFromWdActions.Add(defName);
-            else manualExcludeFromWdActions.Remove(defName);
-        }
+        /// <summary>Forwarder to <see cref="WorldComponent_WdFactionScope"/> (per-save SSoT).</summary>
+        public void SetManualWdExclude(string defName, bool exclude) =>
+            WorldComponent_WdFactionScope.Get()?.SetManualWdExclude(defName, exclude);
 
+        /// <summary>Forwarder to <see cref="WorldComponent_WdFactionScope"/> (per-save SSoT).</summary>
         public bool IsManualWdBaseGenExclude(string defName) =>
-            !string.IsNullOrEmpty(defName)
-            && manualExcludeFromWdBaseGen != null
-            && manualExcludeFromWdBaseGen.Contains(defName);
+            WorldComponent_WdFactionScope.Get()?.IsManualWdBaseGenExclude(defName) ?? false;
 
-        public void SetManualWdBaseGenExclude(string defName, bool exclude)
-        {
-            if (string.IsNullOrEmpty(defName)) return;
-            manualExcludeFromWdBaseGen ??= new HashSet<string>();
-            if (exclude) manualExcludeFromWdBaseGen.Add(defName);
-            else manualExcludeFromWdBaseGen.Remove(defName);
-        }
+        /// <summary>Forwarder to <see cref="WorldComponent_WdFactionScope"/> (per-save SSoT).</summary>
+        public void SetManualWdBaseGenExclude(string defName, bool exclude) =>
+            WorldComponent_WdFactionScope.Get()?.SetManualWdBaseGenExclude(defName, exclude);
 
-        public void ResetManualFactionParticipation()
-        {
-            manualExcludeFromWdActions = new HashSet<string>();
-            manualExcludeFromWdBaseGen = new HashSet<string>();
-            manualIncludeInWd = new HashSet<string>();
-            manualAllowStorytellerRaids = new HashSet<string>();
-            manualBlockStorytellerRaids = new HashSet<string>();
-            storytellerBlockedRaidMode = DefStorytellerBlockedRaidMode;
-        }
+        /// <summary>Forwarder to <see cref="WorldComponent_WdFactionScope"/> (per-save SSoT).</summary>
+        public void ResetManualFactionParticipation() =>
+            WorldComponent_WdFactionScope.Get()?.ResetManualFactionParticipation();
 
+        /// <summary>Forwarder to <see cref="WorldComponent_WdFactionScope"/> (per-save SSoT).</summary>
         public bool IsManualIncludeInWd(string defName) =>
-            !string.IsNullOrEmpty(defName)
-            && manualIncludeInWd != null
-            && manualIncludeInWd.Contains(defName);
+            WorldComponent_WdFactionScope.Get()?.IsManualIncludeInWd(defName) ?? false;
 
-        public void SetManualIncludeInWd(string defName, bool include)
-        {
-            if (string.IsNullOrEmpty(defName)) return;
-            manualIncludeInWd ??= new HashSet<string>();
-            if (include) manualIncludeInWd.Add(defName);
-            else manualIncludeInWd.Remove(defName);
-        }
+        /// <summary>Forwarder to <see cref="WorldComponent_WdFactionScope"/> (per-save SSoT).</summary>
+        public void SetManualIncludeInWd(string defName, bool include) =>
+            WorldComponent_WdFactionScope.Get()?.SetManualIncludeInWd(defName, include);
 
+        /// <summary>Forwarder to <see cref="WorldComponent_WdFactionScope"/> (per-save SSoT).</summary>
         public bool GetStorytellerRaidsAllowed(string defName, bool wdParticipantEffective)
         {
-            if (!string.IsNullOrEmpty(defName)
-                && manualBlockStorytellerRaids != null
-                && manualBlockStorytellerRaids.Contains(defName))
-                return false;
-            if (!string.IsNullOrEmpty(defName)
-                && manualAllowStorytellerRaids != null
-                && manualAllowStorytellerRaids.Contains(defName))
-                return true;
-            return !wdParticipantEffective;
+            var scope = WorldComponent_WdFactionScope.Get();
+            if (scope == null) return !wdParticipantEffective;
+            return scope.GetStorytellerRaidsAllowed(defName, wdParticipantEffective);
         }
 
-        public void SetManualStorytellerRaidsAllow(string defName, bool allow, bool wdParticipantEffective)
-        {
-            if (string.IsNullOrEmpty(defName)) return;
-            manualAllowStorytellerRaids ??= new HashSet<string>();
-            manualBlockStorytellerRaids ??= new HashSet<string>();
-            bool defaultAllow = !wdParticipantEffective;
-            if (allow == defaultAllow)
-            {
-                manualAllowStorytellerRaids.Remove(defName);
-                manualBlockStorytellerRaids.Remove(defName);
-                return;
-            }
+        /// <summary>Forwarder to <see cref="WorldComponent_WdFactionScope"/> (per-save SSoT).</summary>
+        public void SetManualStorytellerRaidsAllow(string defName, bool allow, bool wdParticipantEffective) =>
+            WorldComponent_WdFactionScope.Get()?.SetManualStorytellerRaidsAllow(defName, allow, wdParticipantEffective);
 
-            if (allow)
-            {
-                manualAllowStorytellerRaids.Add(defName);
-                manualBlockStorytellerRaids.Remove(defName);
-            }
-            else
-            {
-                manualBlockStorytellerRaids.Add(defName);
-                manualAllowStorytellerRaids.Remove(defName);
-            }
-        }
+        /// <summary>Forwarder to <see cref="WorldComponent_WdFactionScope"/> (per-save SSoT).</summary>
+        public void ClearManualStorytellerOverride(string defName) =>
+            WorldComponent_WdFactionScope.Get()?.ClearManualStorytellerOverride(defName);
 
-        public void ClearManualStorytellerOverride(string defName)
-        {
-            if (string.IsNullOrEmpty(defName)) return;
-            manualAllowStorytellerRaids?.Remove(defName);
-            manualBlockStorytellerRaids?.Remove(defName);
-        }
+        /// <summary>Forwarder to <see cref="WorldComponent_WdFactionScope"/> (per-save SSoT).</summary>
+        public bool IsPairLocked(Faction a, Faction b) =>
+            WorldComponent_WdFactionScope.Get()?.IsPairLocked(a, b) ?? false;
 
-        public bool IsPairLocked(Faction a, Faction b)
-        {
-            if (a == null || b == null) return false;
-            string key = GetFactionPairKey(a, b);
-            return lockedAllegiancePairs.Contains(key);
-        }
-
+        /// <summary>Forwarder to <see cref="WorldComponent_WdFactionScope"/> (per-save SSoT).</summary>
         public string GetFactionPairKey(Faction a, Faction b)
         {
+            var scope = WorldComponent_WdFactionScope.Get();
+            if (scope != null) return scope.GetFactionPairKey(a, b);
             return a.loadID < b.loadID ? $"{a.loadID}_{b.loadID}" : $"{b.loadID}_{a.loadID}";
         }
 
-        public void ResetAllegianceLocks(bool lockAllHostiles = false)
-        {
-            lockedAllegiancePairs = new HashSet<string>();
-            if (Find.FactionManager == null) return;
-
-            // Include the player so Perm. Hostile can lock player×permanent-enemy pairs too.
-            var factions = Find.FactionManager.AllFactionsVisible
-                .Where(f => f != null && (f.IsPlayer || !WorldActions_Utils.IsAutoExcludedFromWd(f)))
-                .ToList();
-
-            foreach (var f in factions)
-            {
-                bool fPerm = IsAllegianceLockPermanentHostile(f);
-                bool fHive = IsAllegianceLockHive(f);
-
-                foreach (var other in factions)
-                {
-                    if (f == other) continue;
-
-                    bool otherPerm = IsAllegianceLockPermanentHostile(other);
-                    bool otherHive = IsAllegianceLockHive(other);
-
-                    if (fHive || otherHive)
-                    {
-                        lockedAllegiancePairs.Add(GetFactionPairKey(f, other));
-                        continue;
-                    }
-
-                    if (lockAllHostiles)
-                    {
-                        // Lock every pair that includes a permanently hostile faction.
-                        if (fPerm || otherPerm)
-                            lockedAllegiancePairs.Add(GetFactionPairKey(f, other));
-                    }
-                    else if (fPerm && otherPerm && WorldActions_Utils.SafeHostileTo(f, other))
-                    {
-                        lockedAllegiancePairs.Add(GetFactionPairKey(f, other));
-                    }
-                }
-            }
-        }
+        /// <summary>Forwarder to <see cref="WorldComponent_WdFactionScope"/> (per-save SSoT).</summary>
+        public void ResetAllegianceLocks(bool lockAllHostiles = false) =>
+            WorldComponent_WdFactionScope.Get()?.ResetAllegianceLocks(lockAllHostiles);
 
         /// <summary>Factions that should never get WD diplomacy rolls when using Perm. Hostile lock.</summary>
         public static bool IsAllegianceLockPermanentHostile(Faction f)
@@ -5656,19 +5571,11 @@ namespace TSA_WorldDomination
             if (f.def.permanentEnemy) return true;
             if (f.def.permanentEnemyToEveryoneExceptPlayer) return true;
             if (WorldActions_Utils.IsPermanentEnemyOfPlayer(f)) return true;
-            return IsAllegianceLockHive(f);
+            return f != null && !f.IsPlayer && f.def != null && !f.def.humanlikeFaction;
         }
 
-        private static bool IsAllegianceLockHive(Faction f) =>
-            f != null && !f.IsPlayer && f.def != null && !f.def.humanlikeFaction;
-
-        public void EnsureInitialLaunchDefaults()
-        {
-            if (!initialAllegianceLockDone)
-            {
-                ResetAllegianceLocks();
-                initialAllegianceLockDone = true;
-            }
-        }
+        /// <summary>Forwarder to <see cref="WorldComponent_WdFactionScope"/> (per-save SSoT).</summary>
+        public void EnsureInitialLaunchDefaults() =>
+            WorldComponent_WdFactionScope.Get()?.EnsureInitialLaunchDefaults();
     }
 }

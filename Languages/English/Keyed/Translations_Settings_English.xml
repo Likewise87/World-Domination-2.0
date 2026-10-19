@@ -37,7 +37,7 @@
   <TSA_WD_Combat_HeaderOpportunityFeatures>Opportunity features (ToO / maraud / ambush)</TSA_WD_Combat_HeaderOpportunityFeatures>
   <TSA_WD_Combat_HeaderTargetOfOpportunityTip>Traveling raiders may switch to a weaker target along the way.</TSA_WD_Combat_HeaderTargetOfOpportunityTip>
   <TSA_WD_Combat_HeaderMaraudingTip>After a fight, survivors may push on to another target.</TSA_WD_Combat_HeaderMaraudingTip>
-  <TSA_WD_Combat_HeaderSettlementAmbushTip>Enemy settlements may ambush your caravan if you pass close.</TSA_WD_Combat_HeaderSettlementAmbushTip>
+  <TSA_WD_Combat_HeaderSettlementAmbushTip>Enemy settlements may ambush your caravan if you pass close (stage-gated). They can also launch interception caravans at other NPC travelers in early game.</TSA_WD_Combat_HeaderSettlementAmbushTip>
   <TSA_WD_Combat_HeaderVanguard>Vanguard</TSA_WD_Combat_HeaderVanguard>
   <TSA_WD_Combat_HeaderInvasion>Invasion</TSA_WD_Combat_HeaderInvasion>
   <TSA_WD_Combat_HeaderVanguardAndInvasion>Vanguard and Invasion</TSA_WD_Combat_HeaderVanguardAndInvasion>
@@ -64,10 +64,10 @@
   <TSA_WD_Combat_HeaderGoodwillDrain>Goodwill drain</TSA_WD_Combat_HeaderGoodwillDrain>
   <TSA_WD_Combat_GateWhen>Activates</TSA_WD_Combat_GateWhen>
   <TSA_WD_Combat_GateOpportunity>Opportunity (ToO / maraud / ambush)</TSA_WD_Combat_GateOpportunity>
-  <TSA_WD_Combat_GateOpportunityTip>Stage gate for target-of-opportunity, marauding after conquest, and settlement ambush.</TSA_WD_Combat_GateOpportunityTip>
+  <TSA_WD_Combat_GateOpportunityTip>Stage gate for target-of-opportunity, marauding after conquest, and settlement ambush against you (NPC-vs-NPC interception caravans are separate and can run early).</TSA_WD_Combat_GateOpportunityTip>
   <TSA_WD_Combat_GateToOTip>Stage gate for target-of-opportunity retargeting.</TSA_WD_Combat_GateToOTip>
   <TSA_WD_Combat_GateMaraudTip>Stage gate for post-victory marauding.</TSA_WD_Combat_GateMaraudTip>
-  <TSA_WD_Combat_GateAmbushTip>Stage gate for settlement-launched ambush.</TSA_WD_Combat_GateAmbushTip>
+  <TSA_WD_Combat_GateAmbushTip>Stage gate for settlement interception caravans against you (your travelers and real caravans). NPC-vs-NPC interception caravans ignore this gate and can happen in early game.</TSA_WD_Combat_GateAmbushTip>
   <TSA_WD_Combat_GateT4Mortar>NPC Mortar Turrets vs player</TSA_WD_Combat_GateT4Mortar>
   <TSA_WD_Combat_GateT4MortarTip>When enemy Mortar Turrets may target the player.</TSA_WD_Combat_GateT4MortarTip>
   <TSA_WD_Combat_GateT4AntiAir>NPC AA Turrets vs player</TSA_WD_Combat_GateT4AntiAir>
@@ -183,7 +183,7 @@
   <TSA_WD_DescOutpostSettings>Outpost establishment, production, academy/experts, food logistics, and after-conquest founding. Player mortar/AA is under Player Artillery.</TSA_WD_DescOutpostSettings>
   <TSA_WD_DescUpdateNotes>View the World Domination update notes and changelog.</TSA_WD_DescUpdateNotes>
   <TSA_WD_DescRaidMult>Configure how raid points are multiplied, whether your outposts may be attacked and whether you want storyteller raids.</TSA_WD_DescRaidMult>
-  <TSA_WD_DescLateGame>Configure Mid Game and Late Game pushback once you grow strong: thresholds, biased raids, faster growth, expansion creep, goodwill drain, T4 mortars, and outpost incidents.</TSA_WD_DescLateGame>
+  <TSA_WD_DescLateGame>Configure Mid Game and Late Game pushback once you grow strong: thresholds, biased raids, faster growth, expansion creep, goodwill drain, T4 mortars, outpost incidents, and enemy settlement interception caravans that can hit your caravans and travelers (NPC-vs-NPC interception already runs in early game).</TSA_WD_DescLateGame>
   <TSA_WD_DescT4Mortar>Configure enemy tier-4 settlement mortars and anti-air: whether they fire, whether they may target you, and their own ranges, cooldowns, damage and accuracy.</TSA_WD_DescT4Mortar>
   <TSA_WD_DescPlayerArtillery>Outpost mortar, anti-air, and Rapid Response combat logic (damage, range, cooldowns, hit bands, intercept strength). Travel speeds for walking travelers, drop pods, and Interception Caravans are under Caravans and Trade.</TSA_WD_DescPlayerArtillery>
   <TSA_WD_DescResetAll>Restore all mod settings to defaults.</TSA_WD_DescResetAll>
@@ -927,7 +927,7 @@
   <TSA_WD_Experimental_MaraudMaxChainTip>Caps how many victories in a row a single raid can chain into a new target before it must stop and disband.</TSA_WD_Experimental_MaraudMaxChainTip>
   <TSA_WD_Experimental_HeaderSettlementAmbush>Settlement-launched ambush</TSA_WD_Experimental_HeaderSettlementAmbush>
   <TSA_WD_Experimental_SettlementAmbush>Experimental: settlement ambush of passing travelers</TSA_WD_Experimental_SettlementAmbush>
-  <TSA_WD_Experimental_SettlementAmbushTip>When on, NPC settlements at the minimum ambush tier (Tier 2 by default) may launch an interceptor at a hostile trader caravan, gift/bribe caravan, uninvolved raid, or real player caravan that passes within watch range. Player Rapid Response and mortar outposts are not this feature; they intercept through their own defense range. By default only after mid or late escalation; turn on "Allow target-of-opportunity, marauding and ambush from the start" below to skip that gate.</TSA_WD_Experimental_SettlementAmbushTip>
+  <TSA_WD_Experimental_SettlementAmbushTip>When on, NPC settlements at the minimum ambush tier may launch an interception caravan at a hostile trader traveler, gift/bribe traveler, uninvolved raid, or real player caravan that passes within watch range. Player Rapid Response and mortar outposts are not this feature; they intercept through their own defense range. NPC-vs-NPC interception caravans can fire in early game. Interception against you waits for the Mid/Late stage gate unless you turn on "Allow target-of-opportunity, marauding and ambush from the start" below.</TSA_WD_Experimental_SettlementAmbushTip>
   <TSA_WD_Experimental_AmbushChancePct>Ambush chance (coin flip)</TSA_WD_Experimental_AmbushChancePct>
   <TSA_WD_Experimental_AmbushChancePctTip>Rolled after the escalation gate but before any strength math, so a failed roll never costs the more expensive strength-ratio check.</TSA_WD_Experimental_AmbushChancePctTip>
   <TSA_WD_Experimental_AmbushMinRatio>Minimum strength ratio to launch</TSA_WD_Experimental_AmbushMinRatio>
@@ -942,7 +942,7 @@
   <TSA_WD_Experimental_AmbushWatchRange>Plain settlement ambush watch range (tiles)</TSA_WD_Experimental_AmbushWatchRange>
   <TSA_WD_Experimental_AmbushWatchRangeTip>How far an eligible-tier plain NPC settlement watches for ambush targets. Meant to match the inner blocked-tile radius around a settlement. Mortar and Rapid Response sites intercept through their own defense range, not this ambush watch.</TSA_WD_Experimental_AmbushWatchRangeTip>
   <TSA_WD_Experimental_OpportunityIgnoreEscalationGate>Allow target-of-opportunity, marauding and ambush from the start</TSA_WD_Experimental_OpportunityIgnoreEscalationGate>
-  <TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>When on, target-of-opportunity retargeting, post-victory marauding, and settlement ambush (whichever of the three are enabled in the sections above) can trigger from the very start of a game instead of only once mid or late escalation is reached. Has no effect on any of the three unless at least one of them is also switched on.</TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>
+  <TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>When on, target-of-opportunity retargeting, post-victory marauding, and settlement interception caravans against you (whichever are enabled above) can trigger from the start instead of waiting for mid or late escalation. NPC-vs-NPC interception caravans already ignore the stage gate. Has no effect unless at least one of those features is also on.</TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>
   <TSA_WD_Experimental_EnableWorldMapSounds>WD world map combat sounds</TSA_WD_Experimental_EnableWorldMapSounds>
   <TSA_WD_Experimental_EnableWorldMapSoundsTip>When on, AT Turret, mortar, and flak fire play short oneshots on the world map. Turn off to mute all of those WD combat sounds. UI clicks are unchanged.</TSA_WD_Experimental_EnableWorldMapSoundsTip>
   <TSA_WD_Experimental_UnlimitedAssaultMortarSupport>Unlimited Mortar support on settlement assault</TSA_WD_Experimental_UnlimitedAssaultMortarSupport>
@@ -1061,7 +1061,7 @@
   <TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>Only fire T4 Mortars at player while Mid Game is active</TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>
   <TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>Only fire T4 Anti Air at player while Mid Game is active</TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>
 
-  <!-- Advanced buildings + sally overhaul -->
+  <!-- Advanced buildings + ambush interception overhaul -->
   <TSA_WD_Daily_WeightAdvancedBuildings>Advanced building likelihood</TSA_WD_Daily_WeightAdvancedBuildings>
   <TSA_WD_Daily_WeightAdvancedBuildingsTip>Likelihood that a settlement sends a crew to build an advanced building nearby: Silo, Hospital, Watch Tower, Stable, Mortar Turret or AA Turret. Each settlement has as many slots as its tier and at most one of each type. Safe settlements far from enemies build more often; threatened or recovering settlements still can, but less often and with a bias toward artillery when eligible. If chosen but no project can launch, another eligible daily action is used instead.</TSA_WD_Daily_WeightAdvancedBuildingsTip>
   <TSA_WD_Daily_CdAdvancedBuildings>Cooldown after advanced building</TSA_WD_Daily_CdAdvancedBuildings>

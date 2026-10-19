@@ -89,6 +89,8 @@
   <TSA_WD_Dash_EscalationTip_T4MortarOff>Enemy Mortar Turrets vs your caravans and outposts: off</TSA_WD_Dash_EscalationTip_T4MortarOff>
   <TSA_WD_Dash_EscalationTip_T4AaOn>Enemy AA Turrets vs your pods and projectiles: on</TSA_WD_Dash_EscalationTip_T4AaOn>
   <TSA_WD_Dash_EscalationTip_T4AaOff>Enemy AA Turrets vs your pods and projectiles: off</TSA_WD_Dash_EscalationTip_T4AaOff>
+  <TSA_WD_Dash_EscalationTip_InterceptOn>NPC interception caravans vs your caravans and travelers: on</TSA_WD_Dash_EscalationTip_InterceptOn>
+  <TSA_WD_Dash_EscalationTip_InterceptOff>NPC interception caravans vs your caravans and travelers: off</TSA_WD_Dash_EscalationTip_InterceptOff>
   <TSA_WD_Dash_EscalationTip_IncidentsOn>Outpost incidents: {0} strength loss, {1}% chance per day</TSA_WD_Dash_EscalationTip_IncidentsOn>
   <TSA_WD_Dash_EscalationTip_IncidentsOff>Outpost incidents: off</TSA_WD_Dash_EscalationTip_IncidentsOff>
   <TSA_WD_Dash_EscalationTip_Goodwill>Goodwill drain: -{0} every {1} days</TSA_WD_Dash_EscalationTip_Goodwill>
@@ -279,9 +281,9 @@
   <TS_WD_OutpostDefenseAlwaysUseStrength>Always use Strength for manual outpost defense</TS_WD_OutpostDefenseAlwaysUseStrength>
   <TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>When on, manual outpost defense map fights use traveler strength as raid points with no storyteller band clamp. When off, the same floor and ceiling as other WD raids apply. Colony raids and caravan clashes use the setting above.</TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>
   <TSA_WD_Alert_MidGameActive>WD: Mid Game activated</TSA_WD_Alert_MidGameActive>
-  <TSA_WD_Alert_MidGameActiveDesc>Your outpost strength has triggered Mid Game. Hostile settlements grow faster, gain more attack range, and bias raids toward you. Settlements expand toward your holdings, goodwill drifts down over time, and your outposts may suffer lighter attrition incidents. T4 mortars and AA do not target you yet unless the Mid Game toggles are on.</TSA_WD_Alert_MidGameActiveDesc>
+  <TSA_WD_Alert_MidGameActiveDesc>Your outpost strength has triggered Mid Game. Hostile settlements grow faster, gain more attack range, and bias raids toward you. Settlements expand toward your holdings, goodwill drifts down over time, and your outposts may suffer lighter attrition incidents. NPC interception caravans may ambush your caravans and travelers. T4 mortars and AA do not target you yet unless the Mid Game toggles are on.</TSA_WD_Alert_MidGameActiveDesc>
   <TSA_WD_Alert_LateGameActive>WD: Late Game activated</TSA_WD_Alert_LateGameActive>
-  <TSA_WD_Alert_LateGameActiveDesc>Your outpost strength has triggered Late Game. Hostile settlements grow much faster, gain more attack range, and bias raids harder toward you. Settlements expand farther toward your holdings, goodwill drops faster, enemy T4 mortars and AA may target your WD caravans and outposts if enabled, and your outposts may suffer fuller attrition incidents.</TSA_WD_Alert_LateGameActiveDesc>
+  <TSA_WD_Alert_LateGameActiveDesc>Your outpost strength has triggered Late Game. Hostile settlements grow much faster, gain more attack range, and bias raids harder toward you. Settlements expand farther toward your holdings, goodwill drops faster, enemy T4 mortars and AA may target your WD caravans and outposts if enabled, NPC interception caravans may ambush you, and your outposts may suffer fuller attrition incidents.</TSA_WD_Alert_LateGameActiveDesc>
   <TSA_WD_Letter_MidGameActiveIntro>Mid Game is now active. What changed:</TSA_WD_Letter_MidGameActiveIntro>
   <TSA_WD_Letter_LateGameActiveIntro>Late Game is now active. What changed:</TSA_WD_Letter_LateGameActiveIntro>
   <TSA_WD_Difficulty_HeaderScaling>Late Game</TSA_WD_Difficulty_HeaderScaling>
@@ -600,10 +602,33 @@
   <TSA_WD_AllPlayerPawns_DeselectAll>Deselect all</TSA_WD_AllPlayerPawns_DeselectAll>
   <TSA_WD_AllPlayerPawns_DeselectAllTip>Clears the current selection. Does not select anyone.</TSA_WD_AllPlayerPawns_DeselectAllTip>
   <TSA_WD_AllPlayerPawns_SmartSendNow>Smart Send Now</TSA_WD_AllPlayerPawns_SmartSendNow>
-  <TSA_WD_AllPlayerPawns_SmartSendTip>Immediately sends the selected pawns as caravans. For each pawn it picks their best skill, then the closest matching outpost from where they are now, and launches right away. This is not a schedule. Uses the same outpost exclusion list as prisoner Smart Assign.</TSA_WD_AllPlayerPawns_SmartSendTip>
+  <TSA_WD_AllPlayerPawns_SmartSendTip>Opens a confirmation to send selected pawns as caravans. For each pawn it picks their best skill, then scores matching outposts for lower skill load and full efficiency, with distance as a soft factor, and spreads picks within the same send. This is not a schedule. Uses the same outpost exclusion list as prisoner Smart Assign.</TSA_WD_AllPlayerPawns_SmartSendTip>
   <TSA_WD_AllPlayerPawns_SmartAssignDone>Smart assigned and sent {0} pawn(s).</TSA_WD_AllPlayerPawns_SmartAssignDone>
   <TSA_WD_AllPlayerPawns_SmartAssignPartial>Smart assigned and sent {0} pawn(s). Could not match or send {1}.</TSA_WD_AllPlayerPawns_SmartAssignPartial>
   <TSA_WD_AllPlayerPawns_SmartAssignNone>No matching outpost for the selected pawns (or none were ready to travel).</TSA_WD_AllPlayerPawns_SmartAssignNone>
+  <TSA_WD_AllPlayerPawns_SmartAssignAlreadyPlaced>{0} selected pawn(s) are already at a good matching outpost. Nothing to send.</TSA_WD_AllPlayerPawns_SmartAssignAlreadyPlaced>
+  <TSA_WD_SmartSend_ColPawn>Pawn</TSA_WD_SmartSend_ColPawn>
+  <TSA_WD_SmartSend_ColOrigin>Origin</TSA_WD_SmartSend_ColOrigin>
+  <TSA_WD_SmartSend_ColDestination>Destination</TSA_WD_SmartSend_ColDestination>
+  <TSA_WD_SmartSend_ColReason>Reason</TSA_WD_SmartSend_ColReason>
+  <TSA_WD_SmartSend_SelectDest>Select</TSA_WD_SmartSend_SelectDest>
+  <TSA_WD_SmartSend_ReasonOverrideDest>Manual override: {0}</TSA_WD_SmartSend_ReasonOverrideDest>
+  <TSA_WD_SmartSend_ReasonSkill>Highest skill: {0} = {1}</TSA_WD_SmartSend_ReasonSkill>
+  <TSA_WD_SmartSend_ReasonDistance>Distance: {0}</TSA_WD_SmartSend_ReasonDistance>
+  <TSA_WD_SmartSend_ReasonCumSkillFull>Outpost {0} Skill: {1} (Full Eff.)</TSA_WD_SmartSend_ReasonCumSkillFull>
+  <TSA_WD_SmartSend_ReasonCumSkillDr>Outpost {0} Skill: {1} (Dim. Returns)</TSA_WD_SmartSend_ReasonCumSkillDr>
+  <TSA_WD_SmartSend_ReasonTipHeader>Ranking:</TSA_WD_SmartSend_ReasonTipHeader>
+  <TSA_WD_SmartSend_ReasonTipRow>{0}, {1}</TSA_WD_SmartSend_ReasonTipRow>
+  <TSA_WD_SmartSend_ReasonTipNoOther>No other outpost requiring {0} skill</TSA_WD_SmartSend_ReasonTipNoOther>
+  <TSA_WD_SmartSend_ReasonTipFormula>Ranking = Outpost Skill + (distance × {0}) + dim. returns penalty</TSA_WD_SmartSend_ReasonTipFormula>
+  <TSA_WD_SmartSend_ReasonTipFormulaDistOnly>Ranking = distance</TSA_WD_SmartSend_ReasonTipFormulaDistOnly>
+  <TSA_WD_SmartSend_ReasonTipLowerWins>Lower ranking wins.</TSA_WD_SmartSend_ReasonTipLowerWins>
+  <TSA_WD_SmartSend_RemoveTip>Remove this pawn from Smart Send.</TSA_WD_SmartSend_RemoveTip>
+  <TSA_WD_SmartSend_OverrideTip>Click to pick a different destination</TSA_WD_SmartSend_OverrideTip>
+  <TSA_WD_SmartSend_OverrideTitle>Override destination</TSA_WD_SmartSend_OverrideTitle>
+  <TSA_WD_SmartSend_Reset>Reset smart assignment</TSA_WD_SmartSend_Reset>
+  <TSA_WD_SmartSend_ReasonStay>Already well placed (no move).</TSA_WD_SmartSend_ReasonStay>
+  <TSA_WD_SmartSend_SubtitleMixed>Sending {0}. Staying put: {1}.</TSA_WD_SmartSend_SubtitleMixed>
   <TSA_WD_PawnTransfer_DialogTitle>Choose destination</TSA_WD_PawnTransfer_DialogTitle>
   <TSA_WD_PawnTransfer_DialogSubtitle>Moving {0} pawn(s)</TSA_WD_PawnTransfer_DialogSubtitle>
   <TSA_WD_PawnTransfer_SendHere>Send here</TSA_WD_PawnTransfer_SendHere>

@@ -283,7 +283,7 @@
   <TSA_WD_DebugOutpostRaidNoStart>WD debug: Could not find a valid start tile about 4 tiles away with a path to this outpost.</TSA_WD_DebugOutpostRaidNoStart>
   <TSA_WD_DebugOutpostRaidSpawned>WD debug: Spawned {0} outpost raid traveler from tile {1} toward {2}.</TSA_WD_DebugOutpostRaidSpawned>
 
-  <!-- Advanced buildings + sally overhaul -->
+  <!-- Advanced buildings + ambush interception overhaul -->
   <TSA_WD_AdvBuild_Silo>Silo</TSA_WD_AdvBuild_Silo>
   <TSA_WD_AdvBuild_Hospital>Hospital</TSA_WD_AdvBuild_Hospital>
   <TSA_WD_AdvBuild_WatchTower>Watch Tower</TSA_WD_AdvBuild_WatchTower>

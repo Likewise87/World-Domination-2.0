@@ -89,6 +89,8 @@
   <TSA_WD_Dash_EscalationTip_T4MortarOff>敌方迫击炮塔攻击你的商队与前哨：关</TSA_WD_Dash_EscalationTip_T4MortarOff>
   <TSA_WD_Dash_EscalationTip_T4AaOn>敌方防空炮塔攻击你的空投与弹体：开</TSA_WD_Dash_EscalationTip_T4AaOn>
   <TSA_WD_Dash_EscalationTip_T4AaOff>敌方防空炮塔攻击你的空投与弹体：关</TSA_WD_Dash_EscalationTip_T4AaOff>
+  <TSA_WD_Dash_EscalationTip_InterceptOn>NPC拦截商队可袭击你的商队与旅行者：开</TSA_WD_Dash_EscalationTip_InterceptOn>
+  <TSA_WD_Dash_EscalationTip_InterceptOff>NPC拦截商队可袭击你的商队与旅行者：关</TSA_WD_Dash_EscalationTip_InterceptOff>
   <TSA_WD_Dash_EscalationTip_IncidentsOn>前哨事件：损失 {0} 实力，每日 {1}% 概率</TSA_WD_Dash_EscalationTip_IncidentsOn>
   <TSA_WD_Dash_EscalationTip_IncidentsOff>前哨事件：关</TSA_WD_Dash_EscalationTip_IncidentsOff>
   <TSA_WD_Dash_EscalationTip_Goodwill>好感流失：每 {1} 天 -{0}</TSA_WD_Dash_EscalationTip_Goodwill>
@@ -247,9 +249,9 @@
   <TS_WD_OutpostDefenseAlwaysUseStrength>手动前哨防御始终使用实力</TS_WD_OutpostDefenseAlwaysUseStrength>
   <TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>开启时，手动前哨防御地图战使用旅行者实力作为袭击点数，不受叙事者区间钳制。关闭时，与其他 WD 袭击相同的最小/最大限制。殖民地袭击与商队冲突使用上方设置。</TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>
   <TSA_WD_Alert_MidGameActive>WD：中期游戏已激活</TSA_WD_Alert_MidGameActive>
-  <TSA_WD_Alert_MidGameActiveDesc>你的前哨实力已触发中期游戏。敌对定居点成长更快、攻击范围提高，并更倾向于袭击你。定居点会朝你的领地扩张，好感会随时间下降，你的前哨可能遭遇较轻的消耗事件。除非开启中期游戏相关开关，否则 T4 迫击炮与防空尚不会攻击你。</TSA_WD_Alert_MidGameActiveDesc>
+  <TSA_WD_Alert_MidGameActiveDesc>你的前哨实力已触发中期游戏。敌对定居点成长更快、攻击范围提高，并更倾向于袭击你。定居点会朝你的领地扩张，好感会随时间下降，你的前哨可能遭遇较轻的消耗事件。NPC拦截商队可伏击你的商队与旅行者。除非开启中期游戏相关开关，否则 T4 迫击炮与防空尚不会攻击你。</TSA_WD_Alert_MidGameActiveDesc>
   <TSA_WD_Alert_LateGameActive>WD：后期游戏已激活</TSA_WD_Alert_LateGameActive>
-  <TSA_WD_Alert_LateGameActiveDesc>你的前哨实力已触发后期游戏。敌对定居点成长更快、攻击范围更高，袭击更偏向你。定居点向你扩张得更远，好感下降更快；若已启用，敌方 T4 迫击炮与防空可攻击你的 WD 商队和前哨；前哨也可能遭遇更强的消耗事件。</TSA_WD_Alert_LateGameActiveDesc>
+  <TSA_WD_Alert_LateGameActiveDesc>你的前哨实力已触发后期游戏。敌对定居点成长更快、攻击范围更高，袭击更偏向你。定居点向你扩张得更远，好感下降更快；若已启用，敌方 T4 迫击炮与防空可攻击你的 WD 商队和前哨；NPC拦截商队可伏击你；前哨也可能遭遇更强的消耗事件。</TSA_WD_Alert_LateGameActiveDesc>
   <TSA_WD_Letter_MidGameActiveIntro>中期游戏现已激活。当前变化：</TSA_WD_Letter_MidGameActiveIntro>
   <TSA_WD_Letter_LateGameActiveIntro>后期游戏现已激活。当前变化：</TSA_WD_Letter_LateGameActiveIntro>
   <TSA_WD_Alert_CriticalFood>WD：前哨食物水平危急</TSA_WD_Alert_CriticalFood>
@@ -571,10 +573,33 @@
   <TSA_WD_AllPlayerPawns_DeselectAll>取消全选</TSA_WD_AllPlayerPawns_DeselectAll>
   <TSA_WD_AllPlayerPawns_DeselectAllTip>清除当前选择。不会选中任何人。</TSA_WD_AllPlayerPawns_DeselectAllTip>
   <TSA_WD_AllPlayerPawns_SmartSendNow>立即智能派出</TSA_WD_AllPlayerPawns_SmartSendNow>
-  <TSA_WD_AllPlayerPawns_SmartSendTip>立即将所选殖民者以商队派出。按每人最高技能，从当前位置送到最近匹配前哨，马上出发。不是预约安排。使用与囚犯智能分配相同的前哨排除列表。</TSA_WD_AllPlayerPawns_SmartSendTip>
+  <TSA_WD_AllPlayerPawns_SmartSendTip>打开确认界面，将所选殖民者以商队派出。按每人最高技能，为匹配前哨打分：优先较低技能负荷与满效率，距离为软因子，并在同一次派出中分散目标。不是预约安排。使用与囚犯智能分配相同的前哨排除列表。</TSA_WD_AllPlayerPawns_SmartSendTip>
   <TSA_WD_AllPlayerPawns_SmartAssignDone>已智能分配并派出 {0} 名殖民者。</TSA_WD_AllPlayerPawns_SmartAssignDone>
   <TSA_WD_AllPlayerPawns_SmartAssignPartial>已智能分配并派出 {0} 名殖民者，另有 {1} 名无法匹配或派出。</TSA_WD_AllPlayerPawns_SmartAssignPartial>
   <TSA_WD_AllPlayerPawns_SmartAssignNone>所选殖民者没有可匹配的前哨（或无人处于可立即旅行状态）。</TSA_WD_AllPlayerPawns_SmartAssignNone>
+  <TSA_WD_AllPlayerPawns_SmartAssignAlreadyPlaced>所选 {0} 名殖民者已在合适的匹配前哨，无需派出。</TSA_WD_AllPlayerPawns_SmartAssignAlreadyPlaced>
+  <TSA_WD_SmartSend_ColPawn>殖民者</TSA_WD_SmartSend_ColPawn>
+  <TSA_WD_SmartSend_ColOrigin>来源</TSA_WD_SmartSend_ColOrigin>
+  <TSA_WD_SmartSend_ColDestination>目的地</TSA_WD_SmartSend_ColDestination>
+  <TSA_WD_SmartSend_ColReason>原因</TSA_WD_SmartSend_ColReason>
+  <TSA_WD_SmartSend_SelectDest>选择</TSA_WD_SmartSend_SelectDest>
+  <TSA_WD_SmartSend_ReasonOverrideDest>手动覆盖：{0}</TSA_WD_SmartSend_ReasonOverrideDest>
+  <TSA_WD_SmartSend_ReasonSkill>最高技能：{0} = {1}</TSA_WD_SmartSend_ReasonSkill>
+  <TSA_WD_SmartSend_ReasonDistance>距离：{0}</TSA_WD_SmartSend_ReasonDistance>
+  <TSA_WD_SmartSend_ReasonCumSkillFull>前哨{0}技能：{1}（满效率）</TSA_WD_SmartSend_ReasonCumSkillFull>
+  <TSA_WD_SmartSend_ReasonCumSkillDr>前哨{0}技能：{1}（收益递减）</TSA_WD_SmartSend_ReasonCumSkillDr>
+  <TSA_WD_SmartSend_ReasonTipHeader>排名：</TSA_WD_SmartSend_ReasonTipHeader>
+  <TSA_WD_SmartSend_ReasonTipRow>{0}，{1}</TSA_WD_SmartSend_ReasonTipRow>
+  <TSA_WD_SmartSend_ReasonTipNoOther>没有其他需要{0}技能的前哨</TSA_WD_SmartSend_ReasonTipNoOther>
+  <TSA_WD_SmartSend_ReasonTipFormula>排名 = 前哨技能 +（距离 × {0}）+ 收益递减惩罚</TSA_WD_SmartSend_ReasonTipFormula>
+  <TSA_WD_SmartSend_ReasonTipFormulaDistOnly>排名 = 距离</TSA_WD_SmartSend_ReasonTipFormulaDistOnly>
+  <TSA_WD_SmartSend_ReasonTipLowerWins>排名数字越低越好。</TSA_WD_SmartSend_ReasonTipLowerWins>
+  <TSA_WD_SmartSend_RemoveTip>从本次智能派出中移除该殖民者。</TSA_WD_SmartSend_RemoveTip>
+  <TSA_WD_SmartSend_OverrideTip>点击以另选目的地</TSA_WD_SmartSend_OverrideTip>
+  <TSA_WD_SmartSend_OverrideTitle>覆盖目的地</TSA_WD_SmartSend_OverrideTitle>
+  <TSA_WD_SmartSend_Reset>重置智能分配</TSA_WD_SmartSend_Reset>
+  <TSA_WD_SmartSend_ReasonStay>已在合适位置（无需调动）。</TSA_WD_SmartSend_ReasonStay>
+  <TSA_WD_SmartSend_SubtitleMixed>派出 {0} 名。留守 {1} 名。</TSA_WD_SmartSend_SubtitleMixed>
   <TSA_WD_PawnTransfer_DialogTitle>选择目的地</TSA_WD_PawnTransfer_DialogTitle>
   <TSA_WD_PawnTransfer_DialogSubtitle>调动 {0} 名殖民者</TSA_WD_PawnTransfer_DialogSubtitle>
   <TSA_WD_PawnTransfer_SendHere>送到这里</TSA_WD_PawnTransfer_SendHere>

@@ -1327,14 +1327,17 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Smart-assign closest matching outposts for free pawns (current-tile geography).
-        /// Returns assignments ready for batched transfer; failed = unmatched / not travel-ready / no skills.
+        /// Smart-assign matching outposts for free pawns (soft load/distance score, batch provisional banner raw).
+        /// Returns move assignments; alreadyPlaced lists pawns that should stay at their current outpost.
+        /// failed = unmatched / not travel-ready / no skills.
         /// </summary>
         public static List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> SmartAssignDestinations(
             List<PlayerPawnRosterEntry> selected,
-            out int failed)
+            out int failed,
+            out List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> alreadyPlaced)
         {
             failed = 0;
+            alreadyPlaced = new List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment>();
             var result = new List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment>();
             if (selected == null || selected.Count == 0) return result;
 
@@ -1344,6 +1347,8 @@ namespace TSA_WorldDomination
                 failed = selected.Count;
                 return result;
             }
+
+            var provisionalBannerRaw = new Dictionary<WorldObject_WD_Outpost, float>();
 
             for (int i = 0; i < selected.Count; i++)
             {
@@ -1375,14 +1380,15 @@ namespace TSA_WorldDomination
                         fromTile,
                         bySkill,
                         entry.sourceOutpost,
-                        out WorldObject_WD_Outpost? dest)
+                        out WorldObject_WD_Outpost? dest,
+                        provisionalBannerRaw)
                     || dest == null)
                 {
                     failed++;
                     continue;
                 }
 
-                result.Add(new PlayerPawnTransferUtility.PlayerPawnTransferAssignment
+                var assignment = new PlayerPawnTransferUtility.PlayerPawnTransferAssignment
                 {
                     entry = entry,
                     destination = new PlayerPawnTransferDestination
@@ -1390,10 +1396,30 @@ namespace TSA_WorldDomination
                         kind = PlayerPawnTransferDestinationKind.Outpost,
                         outpost = dest
                     }
-                });
+                };
+
+                if (entry.sourceOutpost != null && dest == entry.sourceOutpost)
+                {
+                    alreadyPlaced.Add(assignment);
+                    continue;
+                }
+
+                result.Add(assignment);
+                SmartAssignOutpostUtility.BumpProvisionalBannerRaw(dest, entry.pawn, provisionalBannerRaw);
             }
 
             return result;
+        }
+
+        /// <summary>Overload without alreadyPlaced list.</summary>
+        public static List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> SmartAssignDestinations(
+            List<PlayerPawnRosterEntry> selected,
+            out int failed)
+        {
+            return SmartAssignDestinations(
+                selected,
+                out failed,
+                out List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> _);
         }
     }
 }

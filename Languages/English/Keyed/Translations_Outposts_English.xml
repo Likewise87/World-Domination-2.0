@@ -2215,7 +2215,7 @@
   <TSA_WD_OutpostStats_Row_WarehouseAuraBonus>Aura production boost</TSA_WD_OutpostStats_Row_WarehouseAuraBonus>
   <TSA_WD_OutpostStats_Row_WarehouseAuraBonusTip>Production bonus granted to nearby eligible outposts (goods, virtual food, academy XP). Only the best warehouse in range applies.</TSA_WD_OutpostStats_Row_WarehouseAuraBonusTip>
 
-  <!-- Advanced buildings + sally overhaul -->
+  <!-- Advanced buildings + ambush interception overhaul -->
   <TSA_WD_OutpostStats_Row_AdvBuildings>Advanced buildings</TSA_WD_OutpostStats_Row_AdvBuildings>
   <TSA_WD_OutpostStats_Row_AdvBuildingsTip>Advanced buildings owned by this settlement. Slots equal the settlement tier ({0}); one of each type at most.</TSA_WD_OutpostStats_Row_AdvBuildingsTip>
   <TSA_WD_OutpostStats_Row_LandSpeed>Land caravan speed</TSA_WD_OutpostStats_Row_LandSpeed>

@@ -271,7 +271,7 @@
   <TSA_WD_DebugOutpostRaidNoStart>WD depuración: no se encontró una casilla inicial válida a unas 4 casillas con ruta a esta avanzadilla.</TSA_WD_DebugOutpostRaidNoStart>
   <TSA_WD_DebugOutpostRaidSpawned>WD depuración: creado viajero de asalto de {0} desde la casilla {1} hacia {2}.</TSA_WD_DebugOutpostRaidSpawned>
 
-  <!-- Advanced buildings + sally overhaul -->
+  <!-- Advanced buildings + ambush interception overhaul -->
   <TSA_WD_AdvBuild_Silo>Silo</TSA_WD_AdvBuild_Silo>
   <TSA_WD_AdvBuild_Hospital>Hospital</TSA_WD_AdvBuild_Hospital>
   <TSA_WD_AdvBuild_WatchTower>Torre de vigía</TSA_WD_AdvBuild_WatchTower>

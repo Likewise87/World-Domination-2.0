@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_54_Title>更多错误修复与体验优化</TSA_WD_Update_2_3_54_Title>
+  <TSA_WD_Update_2_3_54_Body><![CDATA[
+<size=16><b>2.3.54 - 更多错误修复与体验优化</b></size>\n
+<color=#00FFFFFF>发布日期：2026年10月19日</color>\n
+------------------------------\n
+!!!改动仅适用于 1.7 版本!!!\n
+• 改进从前哨/殖民地向外智能派出：更好的目的地评分，并增加确认界面，清楚显示谁被送到哪里（出发前可改目的地或移除殖民者）。\n
+• 修复：配置范围（派系排除、故事叙述者袭击覆盖及相关选项）的改动此前不会保存。现已随存档持久化。\n
+• 修复：RimWorld 1.7 上前哨类型转换商队 def 路径错误。现已正确从 Defs17 加载。\n
+• NPC 对 NPC 的伏击/拦截商队现已可在前期发生。玩家要到中期之后才会成为目标。\n
+]]></TSA_WD_Update_2_3_54_Body>
   <TSA_WD_Update_2_3_53_Title>错误修复</TSA_WD_Update_2_3_53_Title>
   <TSA_WD_Update_2_3_53_Body><![CDATA[
 <size=16><b>2.3.53 - 错误修复</b></size>\n

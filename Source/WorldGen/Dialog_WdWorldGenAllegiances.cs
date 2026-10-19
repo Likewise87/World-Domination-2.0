@@ -126,7 +126,7 @@ namespace TSA_WorldDomination
             if (s_filterPlaceholder == null)
                 s_filterPlaceholder = "TSA_WD_FilterByName".Translate();
 
-            WorldDominationMod.settings?.EnsureInitialLaunchDefaults();
+            WorldComponent_WdFactionScope.Get()?.EnsureInitialLaunchDefaults();
             RefreshFactionData();
         }
 
@@ -195,8 +195,8 @@ namespace TSA_WorldDomination
         public override void DoWindowContents(Rect inRect)
         {
             float y = inRect.y;
-            var s = WorldDominationMod.settings;
-            if (s == null) return;
+            var scope = WorldComponent_WdFactionScope.Get();
+            if (scope == null) return;
 
             Text.Font = GameFont.Medium;
             Widgets.Label(new Rect(inRect.x, y, inRect.width, Outpost_Dialog_UI.DialogTitleHeight),
@@ -215,38 +215,37 @@ namespace TSA_WorldDomination
                 y = Outpost_Dialog_UI.DrawWarningBanner(inRect.x, y, inRect.width,
                     "TSA_WD_Allegiances_LiveEditWarning".Translate(), severe: true);
 
-            y = DrawFilterRow(inRect, y) + 8f;
+            y = DrawFilterRow(inRect, y, scope) + 8f;
             RebuildFilteredPairsIfNeeded();
 
             float bottomReserve = 44f;
             float remainingH = inRect.yMax - y - bottomReserve;
 
-            if (DrawFactionsSectionHeader(new Rect(inRect.x, y, inRect.width, SectionHeaderH), s))
+            if (DrawFactionsSectionHeader(new Rect(inRect.x, y, inRect.width, SectionHeaderH), scope))
             {
                 y += SectionHeaderH + SectionToTableGap;
                 float rosterH = Mathf.Min(RosterBodyMinH, Mathf.Max(RosterBodyMinH, remainingH * 0.42f));
                 Rect rosterOut = new Rect(inRect.x, y, inRect.width, rosterH);
-                DrawFactionRosterTable(rosterOut, s);
+                DrawFactionRosterTable(rosterOut, scope);
                 y += rosterH + 6f;
                 remainingH = inRect.yMax - y - bottomReserve;
             }
             else
                 y += SectionHeaderH + SectionToTableGap;
 
-            if (DrawDiplomaticPairsSectionHeader(new Rect(inRect.x, y, inRect.width, SectionHeaderH), s))
+            if (DrawDiplomaticPairsSectionHeader(new Rect(inRect.x, y, inRect.width, SectionHeaderH), scope))
             {
                 y += SectionHeaderH + SectionToTableGap;
                 float diploH = Mathf.Max(120f, remainingH - SectionHeaderH);
                 Rect diploOut = new Rect(inRect.x, y, inRect.width, diploH);
-                DrawDiplomacyTable(diploOut, s);
+                DrawDiplomacyTable(diploOut, scope);
             }
             else
                 y += SectionHeaderH + SectionToTableGap;
         }
 
-        private float DrawFilterRow(Rect inRect, float y)
+        private float DrawFilterRow(Rect inRect, float y, WorldComponent_WdFactionScope scope)
         {
-            var s = WorldDominationMod.settings;
             Rect searchRect = new Rect(inRect.x, y, Mathf.Min(320f, inRect.width - 72f), 28f);
             searchTerm = Widgets.TextField(searchRect, searchTerm);
             if (string.IsNullOrEmpty(searchTerm))
@@ -264,13 +263,14 @@ namespace TSA_WorldDomination
                 searchTerm = "";
             Text.Font = GameFont.Small;
 
-            if (s != null)
+            if (scope != null)
             {
                 float modeBtnW = Mathf.Min(360f, inRect.xMax - clearBtnRect.xMax - 12f);
                 if (modeBtnW > 120f)
                 {
                     Rect modeRect = new Rect(clearBtnRect.xMax + 8f, y, modeBtnW, PageBtnH);
-                    string modeLabel = Patch_RaidEnemy_AdjustPoints.StorytellerBlockedRaidModeLabel(s.storytellerBlockedRaidMode);
+                    string modeLabel = Patch_RaidEnemy_AdjustPoints.StorytellerBlockedRaidModeLabel(
+                        scope.StorytellerBlockedRaidMode);
                     TooltipHandler.TipRegion(modeRect, SettingsUI.TooltipWithDefault(
                         "TSA_WD_StorytellerBlockedRaid_Tooltip".Translate(),
                         Patch_RaidEnemy_AdjustPoints.StorytellerBlockedRaidModeLabel(
@@ -281,10 +281,10 @@ namespace TSA_WorldDomination
                         {
                             new FloatMenuOption(
                                 Patch_RaidEnemy_AdjustPoints.StorytellerBlockedRaidModeLabel(WdStorytellerBlockedRaidMode.DropInvalid),
-                                () => s.storytellerBlockedRaidMode = WdStorytellerBlockedRaidMode.DropInvalid),
+                                () => scope.StorytellerBlockedRaidMode = WdStorytellerBlockedRaidMode.DropInvalid),
                             new FloatMenuOption(
                                 Patch_RaidEnemy_AdjustPoints.StorytellerBlockedRaidModeLabel(WdStorytellerBlockedRaidMode.SwapToValid),
-                                () => s.storytellerBlockedRaidMode = WdStorytellerBlockedRaidMode.SwapToValid)
+                                () => scope.StorytellerBlockedRaidMode = WdStorytellerBlockedRaidMode.SwapToValid)
                         };
                         Find.WindowStack.Add(new FloatMenu(opts));
                     }
@@ -310,7 +310,7 @@ namespace TSA_WorldDomination
             }
         }
 
-        private bool DrawFactionsSectionHeader(Rect row, WorldDominationSettings s)
+        private bool DrawFactionsSectionHeader(Rect row, WorldComponent_WdFactionScope scope)
         {
             Rect resetRect = ResetSectionButtonRect(row);
             Rect titleRect = new Rect(row.x, row.y, resetRect.x - row.x - 6f, row.height);
@@ -321,13 +321,13 @@ namespace TSA_WorldDomination
 
             if (DrawHeaderButton(resetRect, "TSA_WD_BtnResetSection".Translate(),
                 "TSA_WD_BtnResetFactionParticipation_Tooltip".Translate(),
-                () => s.ResetManualFactionParticipation()))
+                () => scope.ResetManualFactionParticipation()))
                 SoundDefOf.Tick_High.PlayOneShotOnCamera();
 
             return factionsControlledExpanded;
         }
 
-        private bool DrawDiplomaticPairsSectionHeader(Rect row, WorldDominationSettings s)
+        private bool DrawDiplomaticPairsSectionHeader(Rect row, WorldComponent_WdFactionScope scope)
         {
             Rect resetRect = ResetSectionButtonRect(row);
             float buttonsLeft = resetRect.x - DiplomacyHeaderButtonsWidth();
@@ -337,7 +337,7 @@ namespace TSA_WorldDomination
                 "TSA_WD_Allegiances_SectionDiplomacy",
                 "TSA_WD_Allegiances_SectionDiplomacy_Tooltip");
 
-            DrawDiplomacyHeaderButtons(s, resetRect);
+            DrawDiplomacyHeaderButtons(scope, resetRect);
             return diplomaticPairsExpanded;
         }
 
@@ -351,7 +351,7 @@ namespace TSA_WorldDomination
             return w;
         }
 
-        private void DrawDiplomacyHeaderButtons(WorldDominationSettings s, Rect resetRect)
+        private void DrawDiplomacyHeaderButtons(WorldComponent_WdFactionScope scope, Rect resetRect)
         {
             Text.Font = PageBtnFont;
             float btnH = PageBtnH;
@@ -381,15 +381,15 @@ namespace TSA_WorldDomination
 
             x -= PageBtnGap;
             x -= DrawPackedHeaderButton(ref x, y, btnH, "TSA_WD_BtnResetGlobal".Translate(),
-                "TSA_WD_BtnResetGlobal_Tooltip".Translate(), () => s.ResetAllegianceLocks(true),
+                "TSA_WD_BtnResetGlobal_Tooltip".Translate(), () => scope.ResetAllegianceLocks(true),
                 SoundDefOf.Tick_High);
             x -= PageBtnGap;
             x -= DrawPackedHeaderButton(ref x, y, btnH, "TSA_WD_BtnReset".Translate(),
-                "TSA_WD_BtnReset_Tooltip".Translate(), () => s.ResetAllegianceLocks(false),
+                "TSA_WD_BtnReset_Tooltip".Translate(), () => scope.ResetAllegianceLocks(false),
                 SoundDefOf.Tick_High);
             x -= PageBtnGap;
             x -= DrawPackedHeaderButton(ref x, y, btnH, "TSA_WD_BtnAllowAll".Translate(),
-                "TSA_WD_BtnAllowAll_Tooltip".Translate(), () => s.lockedAllegiancePairs.Clear(),
+                "TSA_WD_BtnAllowAll_Tooltip".Translate(), () => scope.ClearAllegianceLocks(),
                 SoundDefOf.Checkbox_TurnedOff);
             x -= PageBtnGap;
             DrawPackedHeaderButton(ref x, y, btnH, "TSA_WD_BtnLockAll".Translate(),
@@ -434,12 +434,14 @@ namespace TSA_WorldDomination
 
         private void LockAllNpcPairs()
         {
-            var s = WorldDominationMod.settings;
-            if (s == null) return;
+            var scope = WorldComponent_WdFactionScope.Get();
+            if (scope == null) return;
             for (int i = 0; i < factionPairs.Count; i++)
             {
                 if (!IsNpcNpcPair(factionPairs[i])) continue;
-                s.lockedAllegiancePairs.Add(s.GetFactionPairKey(factionPairs[i].First, factionPairs[i].Second));
+                scope.SetPairKeyLocked(
+                    scope.GetFactionPairKey(factionPairs[i].First, factionPairs[i].Second),
+                    true);
             }
         }
 
@@ -458,7 +460,7 @@ namespace TSA_WorldDomination
             Text.Font = GameFont.Small;
         }
 
-        private void DrawFactionRosterTable(Rect outRect, WorldDominationSettings s)
+        private void DrawFactionRosterTable(Rect outRect, WorldComponent_WdFactionScope scope)
         {
             string searchLower = string.IsNullOrEmpty(searchTerm) ? null : searchTerm.ToLowerInvariant();
             var visible = new List<Faction>();
@@ -494,7 +496,7 @@ namespace TSA_WorldDomination
                 {
                     int index = row * RosterColumnsPerRow + col;
                     if (index >= visible.Count) break;
-                    DrawRosterFactionCell(s, visible, index, layout, col, rowY);
+                    DrawRosterFactionCell(scope, visible, index, layout, col, rowY);
                 }
             }
 
@@ -546,7 +548,7 @@ namespace TSA_WorldDomination
         }
 
         private static void DrawRosterFactionCell(
-            WorldDominationSettings s,
+            WorldComponent_WdFactionScope scope,
             List<Faction> visible,
             int index,
             RosterLayout layout,
@@ -559,7 +561,7 @@ namespace TSA_WorldDomination
             bool defeated = f.defeated;
             string defName = f.def.defName;
             bool wdOn = WorldActions_Utils.IsWdParticipant(f);
-            bool mapGenOn = wdOn && !s.IsManualWdBaseGenExclude(defName);
+            bool mapGenOn = wdOn && !scope.IsManualWdBaseGenExclude(defName);
             bool storytellerOn = WorldActions_Utils.IsStorytellerRaidAllowed(f);
 
             float blockX = layout.BlockX(column);
@@ -584,29 +586,29 @@ namespace TSA_WorldDomination
                 GUI.enabled = true;
                 if (wdEditable && nextWd != wdOn)
                 {
-                    s.ClearManualStorytellerOverride(defName);
+                    scope.ClearManualStorytellerOverride(defName);
                     if (softDefaultExcluded)
                     {
-                        s.SetManualIncludeInWd(defName, nextWd);
+                        scope.SetManualIncludeInWd(defName, nextWd);
                         if (!nextWd)
                         {
-                            s.SetManualWdExclude(defName, true);
-                            s.SetManualWdBaseGenExclude(defName, true);
+                            scope.SetManualWdExclude(defName, true);
+                            scope.SetManualWdBaseGenExclude(defName, true);
                         }
                         else
                         {
-                            s.SetManualWdExclude(defName, false);
-                            s.SetManualWdBaseGenExclude(defName, false);
+                            scope.SetManualWdExclude(defName, false);
+                            scope.SetManualWdBaseGenExclude(defName, false);
                         }
                     }
                     else
                     {
-                        s.SetManualIncludeInWd(defName, false);
-                        s.SetManualWdExclude(defName, !nextWd);
+                        scope.SetManualIncludeInWd(defName, false);
+                        scope.SetManualWdExclude(defName, !nextWd);
                         if (!nextWd)
-                            s.SetManualWdBaseGenExclude(defName, true);
+                            scope.SetManualWdBaseGenExclude(defName, true);
                         else
-                            s.SetManualWdBaseGenExclude(defName, false);
+                            scope.SetManualWdBaseGenExclude(defName, false);
                     }
                 }
 
@@ -634,7 +636,7 @@ namespace TSA_WorldDomination
                 Widgets.Checkbox(new Vector2(x + (RosterColMapGen - 24f) * 0.5f, rowY + 8f), ref nextMap);
                 GUI.enabled = true;
                 if (mapEditable && nextMap != mapGenOn)
-                    s.SetManualWdBaseGenExclude(defName, !nextMap);
+                    scope.SetManualWdBaseGenExclude(defName, !nextMap);
 
                 string mapTip = !wdOn
                     ? "TSA_WD_FactionCol_BaseGen_RequiresWdActions".Translate()
@@ -659,13 +661,13 @@ namespace TSA_WorldDomination
                 Widgets.Checkbox(new Vector2(x + (RosterColStoryteller - 24f) * 0.5f, rowY + 8f), ref nextSt);
                 GUI.enabled = true;
                 if (stEditable && nextSt != storytellerOn)
-                    s.SetManualStorytellerRaidsAllow(defName, nextSt, WorldActions_Utils.IsWdParticipant(f));
+                    scope.SetManualStorytellerRaidsAllow(defName, nextSt, WorldActions_Utils.IsWdParticipant(f));
 
                 TooltipHandler.TipRegion(stCell, "TSA_WD_FactionCol_StorytellerRaids_Tooltip".Translate());
             }
         }
 
-        private void DrawDiplomacyTable(Rect outRect, WorldDominationSettings s)
+        private void DrawDiplomacyTable(Rect outRect, WorldComponent_WdFactionScope scope)
         {
             int lastPlayerPairIndex = -1;
             for (int i = 0; i < filteredPairsCache.Count; i++)
@@ -690,7 +692,7 @@ namespace TSA_WorldDomination
                 if (i % 2 == 0) Widgets.DrawHighlight(rowRect);
                 if (Mouse.IsOver(rowRect)) Widgets.DrawLightHighlight(rowRect);
 
-                string key = s.GetFactionPairKey(pair.First, pair.Second);
+                string key = scope.GetFactionPairKey(pair.First, pair.Second);
                 FactionRelationKind kind = GetRelationKind(pair.First, pair.Second);
                 int goodwill = GetGoodwill(pair.First, pair.Second);
                 bool permVsPlayer = IsPermanentHostileVsPlayer(pair);
@@ -749,7 +751,7 @@ namespace TSA_WorldDomination
 
                     if (npcNpc)
                     {
-                        bool isLocked = s.lockedAllegiancePairs.Contains(key);
+                        bool isLocked = scope.IsPairKeyLocked(key);
                         Rect lockRect = new Rect(x, relY, LockBtnW, relBtnH);
                         Text.Font = PageBtnFont;
                         if (Widgets.ButtonText(lockRect,
@@ -757,8 +759,7 @@ namespace TSA_WorldDomination
                                 ? "TSA_WD_StatusLocked".Translate().Colorize(Color.red)
                                 : "TSA_WD_StatusPossible".Translate()))
                         {
-                            if (isLocked) s.lockedAllegiancePairs.Remove(key);
-                            else s.lockedAllegiancePairs.Add(key);
+                            scope.SetPairKeyLocked(key, !isLocked);
                             if (isLocked) SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera();
                             else SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera();
                         }
@@ -887,7 +888,10 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            string key = WorldDominationMod.settings.GetFactionPairKey(a, b);
+            var scope = WorldComponent_WdFactionScope.Get();
+            string key = scope != null
+                ? scope.GetFactionPairKey(a, b)
+                : (a.loadID < b.loadID ? $"{a.loadID}_{b.loadID}" : $"{b.loadID}_{a.loadID}");
             goodwillEditBuffers[key] = FormatGoodwill(goodwill);
             SoundDefOf.Tick_High.PlayOneShotOnCamera();
         }

@@ -41,9 +41,19 @@ namespace TSA_WorldDomination
         /// <summary>Per-origin launch cooldown (80 real-time seconds at 1x).</summary>
         public const int OriginCooldownTicks = 4800;
 
-        /// <summary>Ambush stage gate (<see cref="WorldDominationSettings.gateThreatAmbush"/>).</summary>
-        private static bool PassesEscalationGate(WorldComponent_SpreadManager manager, WorldDominationSettings seth) =>
-            seth != null && WdEscalation.PassesGate(seth.gateThreatAmbush, manager);
+        /// <summary>
+        /// Ambush stage gate (<see cref="WorldDominationSettings.gateThreatAmbush"/>).
+        /// Applies only when the ambush target is the player (real caravan or player-faction traveler).
+        /// NPC-vs-NPC interception caravans are allowed in early game.
+        /// </summary>
+        private static bool PassesEscalationGateForTarget(
+            Faction targetFaction, WorldComponent_SpreadManager manager, WorldDominationSettings seth)
+        {
+            if (seth == null) return false;
+            if (targetFaction == null || !targetFaction.IsPlayer)
+                return true;
+            return WdEscalation.PassesGate(seth.gateThreatAmbush, manager);
+        }
 
         /// <summary>WD-traveler half: called from <see cref="WD_PathFollower.PatherTick"/>'s tile-exit block.</summary>
         public static void TryCheckAmbush(WorldObject_Traveler traveler, int tileId)
@@ -54,7 +64,7 @@ namespace TSA_WorldDomination
             if (!IsAmbushableMission(traveler.mission)) return;
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            if (!PassesEscalationGate(manager, seth)) return;
+            if (!PassesEscalationGateForTarget(traveler.Faction, manager, seth)) return;
 
             var watchIndex = WorldComponent_SettlementWatchIndex.Get();
             if (watchIndex == null) return;
@@ -75,7 +85,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// After winning a WD Ambush clash, reform creates a new caravan ID. Re-stamp target anti-dogpile
-        /// so surrounding settlements cannot immediately sally again.
+        /// so surrounding settlements cannot immediately launch another interception caravan.
         /// </summary>
         public static void NotifyCaravanReformedAfterClash(Caravan caravan)
         {
@@ -93,7 +103,7 @@ namespace TSA_WorldDomination
             if (!AtTurretUtility.MeetsPlayerCaravanVisibilityThreshold(caravan)) return;
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-            if (!PassesEscalationGate(manager, seth)) return;
+            if (!PassesEscalationGateForTarget(caravan.Faction, manager, seth)) return;
 
             var watchIndex = WorldComponent_SettlementWatchIndex.Get();
             if (watchIndex == null) return;
@@ -205,7 +215,7 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Min ratio for this sally: owned AT turret 1.25 (turret strength counts as support), owned advanced building 1.0,
+        /// Min ratio for this interception: owned AT turret 1.25 (turret strength counts as support), owned advanced building 1.0,
         /// target heading for the town 1.2 with assets / <see cref="WorldDominationSettings.settlementAmbushSelfDefenseMinRatio"/> without,
         /// else <see cref="WorldDominationSettings.settlementAmbushMinStrengthRatio"/>.
         /// </summary>

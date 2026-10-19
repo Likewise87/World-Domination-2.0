@@ -35,7 +35,7 @@
   <TSA_WD_Combat_HeaderOpportunityFeatures>Funciones de oportunidad (ToO / saqueo / emboscada)</TSA_WD_Combat_HeaderOpportunityFeatures>
   <TSA_WD_Combat_HeaderTargetOfOpportunityTip>Los asaltantes en viaje pueden cambiar a un objetivo más débil por el camino.</TSA_WD_Combat_HeaderTargetOfOpportunityTip>
   <TSA_WD_Combat_HeaderMaraudingTip>Tras un combate, los supervivientes pueden seguir hacia otro objetivo.</TSA_WD_Combat_HeaderMaraudingTip>
-  <TSA_WD_Combat_HeaderSettlementAmbushTip>Los asentamientos enemigos pueden emboscar tu caravana si pasas cerca.</TSA_WD_Combat_HeaderSettlementAmbushTip>
+  <TSA_WD_Combat_HeaderSettlementAmbushTip>Los asentamientos enemigos pueden emboscar tu caravana si pasas cerca (con puerta de etapa). También pueden lanzar caravanas de intercepción contra otros viajeros PNJ en la partida temprana.</TSA_WD_Combat_HeaderSettlementAmbushTip>
   <TSA_WD_Combat_HeaderVanguard>Vanguardia</TSA_WD_Combat_HeaderVanguard>
   <TSA_WD_Combat_HeaderInvasion>Invasión</TSA_WD_Combat_HeaderInvasion>
   <TSA_WD_Combat_HeaderVanguardAndInvasion>Vanguardia e Invasión</TSA_WD_Combat_HeaderVanguardAndInvasion>
@@ -61,10 +61,10 @@
   <TSA_WD_Combat_HeaderGoodwillDrain>Drenaje de buena voluntad</TSA_WD_Combat_HeaderGoodwillDrain>
   <TSA_WD_Combat_GateWhen>Se activa</TSA_WD_Combat_GateWhen>
   <TSA_WD_Combat_GateOpportunity>Oportunidad (ToO / saqueo / emboscada)</TSA_WD_Combat_GateOpportunity>
-  <TSA_WD_Combat_GateOpportunityTip>Puerta de etapa para ToO, saqueo y emboscada.</TSA_WD_Combat_GateOpportunityTip>
+  <TSA_WD_Combat_GateOpportunityTip>Puerta de etapa para ToO, saqueo y emboscada contra ti (las caravanas de intercepción PNJ contra PNJ son aparte y pueden ocurrir temprano).</TSA_WD_Combat_GateOpportunityTip>
   <TSA_WD_Combat_GateToOTip>Puerta de etapa para retargeting de oportunidad.</TSA_WD_Combat_GateToOTip>
   <TSA_WD_Combat_GateMaraudTip>Puerta de etapa para saqueo post-victoria.</TSA_WD_Combat_GateMaraudTip>
-  <TSA_WD_Combat_GateAmbushTip>Puerta de etapa para emboscada desde asentamientos.</TSA_WD_Combat_GateAmbushTip>
+  <TSA_WD_Combat_GateAmbushTip>Puerta de etapa para caravanas de intercepción contra ti (tus viajeros y caravanas reales). Las caravanas de intercepción PNJ contra PNJ ignoran esta puerta y pueden ocurrir en la partida temprana.</TSA_WD_Combat_GateAmbushTip>
   <TSA_WD_Combat_GateT4Mortar>Torretas de mortero PNJ vs jugador</TSA_WD_Combat_GateT4Mortar>
   <TSA_WD_Combat_GateT4MortarTip>Cuándo las Torretas de mortero enemigas pueden apuntarte.</TSA_WD_Combat_GateT4MortarTip>
   <TSA_WD_Combat_GateT4AntiAir>Torretas AA PNJ vs jugador</TSA_WD_Combat_GateT4AntiAir>
@@ -740,7 +740,7 @@
   <TSA_WD_Daily_WeightFortifyTip>Probabilidad de que un asentamiento amenazado coloque bloqueos o trampas hacia el hostil más cercano. Los niveles altos pueden enviar varias cuadrillas a la vez (T1 suele 1, T3 siempre 2, T4 hasta 3). Solo se elige si hay un hostil en rango de ataque y un anillo libre.</TSA_WD_Daily_WeightFortifyTip>
   <TSA_WD_Daily_CdFortify>Enfriamiento tras fortificar</TSA_WD_Daily_CdFortify>
   <TSA_WD_Daily_CdFortifyTip>Días antes de que este asentamiento pueda fortificar de nuevo. No bloquea otros tipos de acción.</TSA_WD_Daily_CdFortifyTip>
-  <TSA_WD_DescLateGame>Configura el contraataque Mid Game y Late Game cuando te haces fuerte: umbrales, incursiones sesgadas, crecimiento más rápido, expansión, drenaje de buena voluntad, morteros T4 (solo Late Game) e incidentes en avanzadillas.</TSA_WD_DescLateGame>
+  <TSA_WD_DescLateGame>Configura el contraataque Mid Game y Late Game cuando te haces fuerte: umbrales, incursiones sesgadas, crecimiento más rápido, expansión, drenaje de buena voluntad, morteros T4, incidentes en avanzadillas, y caravanas de intercepción enemigas que pueden golpear tus caravanas y viajeros (la intercepción PNJ contra PNJ ya funciona en la partida temprana).</TSA_WD_DescLateGame>
   <TSA_WD_DescT4Mortar>Configura morteros y antiaéreos de asentamientos enemigos de nivel 4: si disparan, si pueden apuntarte, y sus alcances, enfriamientos, daño y precisión.</TSA_WD_DescT4Mortar>
   <TSA_WD_DescPlayerArtillery>Lógica de combate de mortero, antiaéreo y respuesta rápida de avanzadilla (daño, alcance, enfriamientos, bandas de acierto, fuerza de interceptación). Las velocidades de viaje (viajeros a pie, cápsulas y caravanas de interceptación) están en Caravanas y comercio.</TSA_WD_DescPlayerArtillery>
   <TSA_WD_Diplo_LaunchPodGiftStrengthPer100>Fuerza por regalo en cápsula por 100 de valor de mercado</TSA_WD_Diplo_LaunchPodGiftStrengthPer100>
@@ -927,7 +927,7 @@
   <TSA_WD_Experimental_MaraudMaxChainTip>Limita cuántas victorias seguidas puede encadenar una misma incursión hacia un nuevo objetivo antes de tener que detenerse y disolverse.</TSA_WD_Experimental_MaraudMaxChainTip>
   <TSA_WD_Experimental_HeaderSettlementAmbush>Emboscada lanzada por asentamiento</TSA_WD_Experimental_HeaderSettlementAmbush>
   <TSA_WD_Experimental_SettlementAmbush>Experimental: emboscada de asentamiento a viajeros de paso</TSA_WD_Experimental_SettlementAmbush>
-  <TSA_WD_Experimental_SettlementAmbushTip>Si está activo, los asentamientos NPC del nivel mínimo de emboscada (nivel 2 por defecto) pueden lanzar un interceptor contra una caravana comerciante hostil, una caravana de regalo/soborno, una incursión no relacionada o una caravana real del jugador que pase dentro del alcance de vigilancia. La Respuesta Rápida y los morteros del jugador no son esta función; interceptan con su propio alcance de defensa. Por defecto solo tras la fase intermedia o avanzada; activa abajo «Permitir objetivos de oportunidad, saqueo y emboscada desde el principio» para saltarte esa puerta.</TSA_WD_Experimental_SettlementAmbushTip>
+  <TSA_WD_Experimental_SettlementAmbushTip>Si está activo, los asentamientos NPC del nivel mínimo de emboscada pueden lanzar una caravana de intercepción contra un viajero comerciante hostil, un viajero de regalo/soborno, una incursión no relacionada o una caravana real del jugador que pase dentro del alcance de vigilancia. La Respuesta Rápida y los morteros del jugador no son esta función; interceptan con su propio alcance de defensa. La intercepción PNJ contra PNJ puede activarse en la partida temprana. La intercepción contra ti espera la puerta Mid/Late salvo que actives abajo «Permitir objetivos de oportunidad, saqueo y emboscada desde el principio».</TSA_WD_Experimental_SettlementAmbushTip>
   <TSA_WD_Experimental_AmbushChancePct>Probabilidad de emboscada (moneda al aire)</TSA_WD_Experimental_AmbushChancePct>
   <TSA_WD_Experimental_AmbushChancePctTip>Se sortea tras la comprobación de fase, pero antes de cualquier cálculo de fuerza, de modo que un sorteo fallido nunca paga el coste de la comprobación de proporción de fuerza, más cara.</TSA_WD_Experimental_AmbushChancePctTip>
   <TSA_WD_Experimental_AmbushMinRatio>Proporción de fuerza mínima para lanzar</TSA_WD_Experimental_AmbushMinRatio>
@@ -942,7 +942,7 @@
   <TSA_WD_Experimental_AmbushWatchRange>Alcance de vigilancia de emboscada de asentamiento simple (teselas)</TSA_WD_Experimental_AmbushWatchRange>
   <TSA_WD_Experimental_AmbushWatchRangeTip>Hasta dónde vigila un asentamiento NPC simple del nivel elegible en busca de objetivos de emboscada. Pensado para coincidir con el radio interior de teselas bloqueadas alrededor de un asentamiento. Los morteros y la Respuesta Rápida interceptan con su propio alcance de defensa, no con esta vigilancia de emboscada.</TSA_WD_Experimental_AmbushWatchRangeTip>
   <TSA_WD_Experimental_OpportunityIgnoreEscalationGate>Permitir objetivos de oportunidad, saqueo y emboscada desde el principio</TSA_WD_Experimental_OpportunityIgnoreEscalationGate>
-  <TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>Cuando está activado, la redirección hacia objetivos de oportunidad, el saqueo tras la victoria y la emboscada de asentamientos (los que estén activados arriba) pueden activarse desde el mismísimo comienzo de una partida, en lugar de solo al alcanzar la escalada media o avanzada. No tiene ningún efecto sobre los tres a menos que al menos uno de ellos también esté activado.</TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>
+  <TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>Cuando está activado, la redirección hacia objetivos de oportunidad, el saqueo tras la victoria y las caravanas de intercepción contra ti (los que estén activados arriba) pueden activarse desde el comienzo, en lugar de esperar la escalada media o avanzada. La intercepción PNJ contra PNJ ya ignora la puerta de etapa. No tiene efecto a menos que al menos una de esas funciones también esté activada.</TSA_WD_Experimental_OpportunityIgnoreEscalationGateTip>
   <TSA_WD_Experimental_EnableWorldMapSounds>Sonidos de combate WD en el mapa mundial</TSA_WD_Experimental_EnableWorldMapSounds>
   <TSA_WD_Experimental_EnableWorldMapSoundsTip>Cuando está activado, AT Turret, mortero y flak reproducen sonidos cortos en el mapa mundial. Desactívalo para silenciar esos sonidos de combate WD. Los clics de la interfaz no cambian.</TSA_WD_Experimental_EnableWorldMapSoundsTip>
   <TSA_WD_Experimental_OutpostCePassiveAmmo>Munición Combat Extended en avanzada</TSA_WD_Experimental_OutpostCePassiveAmmo>
@@ -1056,7 +1056,7 @@
   <TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>Solo dispara morteros T4 al jugador con Mid Game activo</TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer>
   <TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>Solo dispara antiaéreo T4 al jugador con Mid Game activo</TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer>
 
-  <!-- Advanced buildings + sally overhaul -->
+  <!-- Advanced buildings + ambush interception overhaul -->
   <TSA_WD_Daily_WeightAdvancedBuildings>Probabilidad de edificio avanzado</TSA_WD_Daily_WeightAdvancedBuildings>
   <TSA_WD_Daily_WeightAdvancedBuildingsTip>Probabilidad de que un asentamiento envíe una cuadrilla a construir un edificio avanzado cercano: Silo, Hospital, Torre de vigía, Establo, Torreta de mortero o Torreta AA. Cada asentamiento tiene tantas ranuras como su nivel y como máximo uno de cada tipo. Los asentamientos seguros, lejos de enemigos, construyen más a menudo; los amenazados o en recuperación también pueden, pero menos y con sesgo hacia artillería si aplica. Si se elige pero ningún proyecto puede iniciarse, se usa otra acción diaria elegible.</TSA_WD_Daily_WeightAdvancedBuildingsTip>
   <TSA_WD_Daily_CdAdvancedBuildings>Enfriamiento tras edificio avanzado</TSA_WD_Daily_CdAdvancedBuildings>
