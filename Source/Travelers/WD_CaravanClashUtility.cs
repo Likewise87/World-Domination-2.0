@@ -408,10 +408,9 @@ namespace TSA_WorldDomination
                 raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn,
                 raidStrategy = RaidStrategyDefOf.ImmediateAttack,
                 silent = true,
-                customLetterLabel = customLetterLabel,
-                canKidnap = false,
-                canSteal = false
+                customLetterLabel = customLetterLabel
             };
+            WdRaidParmsUtility.ApplyFightToLastRaidParms(parms);
 
             WdRaidParmsUtility.EnsureFactionCompatibleRaidParms(parms, PawnsArrivalModeDefOf.EdgeWalkIn);
             // Spawn steering only helps edge walk-in; drop arrivals resolve their own centers.

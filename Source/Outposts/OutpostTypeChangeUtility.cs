@@ -73,6 +73,9 @@ namespace TSA_WorldDomination
             if (Outpost_EstablishmentRequirements.EnforceBiome
                 && !Outpost_EstablishmentRequirements.BiomeAllowedForOutpost(outpost.Tile.tileId, newDef, out reason))
                 return false;
+            if (Outpost_EstablishmentRequirements.EnforceResearch
+                && !Outpost_EstablishmentRequirements.ResearchRequirementsMet(newDef, out reason))
+                return false;
             if (!MeetsSkillsAndPawnsForTarget(outpost, newDef, out reason))
                 return false;
 

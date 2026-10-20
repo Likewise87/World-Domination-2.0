@@ -16,6 +16,27 @@ namespace TSA_WorldDomination
     public static class WdRaidParmsUtility
     {
         /// <summary>
+        /// Clash / outpost-defense maps: no kidnap, steal, or timeout flee (early leave can latch a false WD win).
+        /// </summary>
+        public static void ApplyFightToLastRaidParms(IncidentParms parms)
+        {
+            if (parms == null) return;
+            parms.canKidnap = false;
+            parms.canSteal = false;
+            parms.canTimeoutOrFlee = false;
+        }
+
+        /// <summary>Assault lord matching <see cref="ApplyFightToLastRaidParms"/> for direct LordMaker spawns.</summary>
+        public static LordJob_AssaultColony MakeFightToLastAssaultColonyLordJob(Faction faction) =>
+            new LordJob_AssaultColony(
+                faction,
+                canKidnap: false,
+                canTimeoutOrFlee: false,
+                sappers: false,
+                useAvoidGridSmart: false,
+                canSteal: false);
+
+        /// <summary>
         /// Ensure <paramref name="parms"/>.raidStrategy is usable with the faction's Combat makers;
         /// fix arrival from that strategy's <c>arriveModes</c> (or clear for vanilla resolve).
         /// </summary>
@@ -98,7 +119,7 @@ namespace TSA_WorldDomination
 
             for (int i = 0; i < pawns.Count; i++)
                 GenSpawn.Spawn(pawns[i], spawnCell, map);
-            LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction), map, pawns);
+            LordMaker.MakeNewLord(faction, MakeFightToLastAssaultColonyLordJob(faction), map, pawns);
 
             if (!letterLabel.NullOrEmpty() || !letterText.NullOrEmpty())
             {

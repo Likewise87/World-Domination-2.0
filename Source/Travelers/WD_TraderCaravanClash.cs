@@ -93,7 +93,7 @@ namespace TSA_WorldDomination
                     old.lordManager.RemoveLord(old);
             }
 
-            LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction), map, list);
+            LordMaker.MakeNewLord(faction, WdRaidParmsUtility.MakeFightToLastAssaultColonyLordJob(faction), map, list);
             return true;
         }
     }

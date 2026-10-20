@@ -400,10 +400,9 @@ namespace TSA_WorldDomination
                 raidStrategy = RaidStrategyDefOf.ImmediateAttack,
                 forced = true,
                 silent = true,
-                customLetterLabel = "TSA_WD_OutpostDefense_RaidLabel".Translate(),
-                canKidnap = false,
-                canSteal = false
+                customLetterLabel = "TSA_WD_OutpostDefense_RaidLabel".Translate()
             };
+            WdRaidParmsUtility.ApplyFightToLastRaidParms(parms);
 
             if (traveler != null && traveler.mission == TravelerMission.RaidGravship)
             {
