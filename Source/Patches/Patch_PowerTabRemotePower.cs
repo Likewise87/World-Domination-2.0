@@ -11,252 +11,270 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    [StaticConstructorOnStartup]
-    public static class Patch_PowerTabRemotePower
-    {
-        private const string PowerTabPackageId = "Mersid.PowerTab";
-        private const string ProxyThingDefName = "TSA_WD_RemotePowerTabSource";
+	/// <summary>
+	/// Compatibility with Power Tab 2 Fixed Fork (Owlchemist.PowerTab.forked.RunningBugs).
+	/// Injects remote WD power-plant outposts into PowerTabUtility.GeneratePowerAudit.
+	/// </summary>
+	[StaticConstructorOnStartup]
+	public static class Patch_PowerTabRemotePower
+	{
+		private const string PowerTabPackageId = "Owlchemist.PowerTab.forked.RunningBugs";
+		private const string ProxyThingDefName = "TSA_WD_RemotePowerTabSource";
 
-        private static Type powerTabType;
-        private static Type compPowerTrackerType;
-        private static PropertyInfo trackingProperty;
-        private static PropertyInfo powerTrackersProperty;
-        private static FieldInfo powerTrackersField;
-        private static FieldInfo maxObservedPowerOutputField;
+		private static Type powerTabThingType;
+		private static ConstructorInfo powerTabThingCtor;
+		private static object powerTypeProducer;
 
-        private static Type powerTabThingType;
-        private static PropertyInfo thingProperty;
-        private static PropertyInfo powerProperty;
-        private static FieldInfo barFillField;
-        private static FieldInfo parentTabWidthField;
+		private static FieldInfo thingField;
+		private static FieldInfo currentPowerOutputField;
+		private static FieldInfo parentTabWidthField;
+		private static FieldInfo barFillField;
+		private static FieldInfo isBatteryField;
 
-        private static readonly Dictionary<int, ThingWithComps> proxyThingsByOutpostId = new Dictionary<int, ThingWithComps>();
-        private static readonly Dictionary<int, object> proxyTrackersByOutpostId = new Dictionary<int, object>();
+		private static readonly Dictionary<int, Building> proxyBuildingsByOutpostId = new Dictionary<int, Building>();
 
-        static Patch_PowerTabRemotePower()
-        {
-            if (!IsPowerTabActive())
-                return;
+		static Patch_PowerTabRemotePower()
+		{
+			if (!IsPowerTabActive())
+				return;
 
-            try
-            {
-                powerTabType = AccessTools.TypeByName("PowerTab.PowerTab");
-                compPowerTrackerType = AccessTools.TypeByName("PowerTab.CompPowerTracker");
-                powerTabThingType = AccessTools.TypeByName("PowerTab.UIElements.PowerTabThing");
-                if (powerTabType == null || compPowerTrackerType == null || powerTabThingType == null)
-                    return;
+			try
+			{
+				Type utilityType = AccessTools.TypeByName("PowerTab.PowerTabUtility");
+				powerTabThingType = AccessTools.TypeByName("PowerTab.UIElements.PowerTabThing");
+				Type powerTypeEnumType = AccessTools.TypeByName("PowerTab.PowerTabUtility+PowerType")
+					?? utilityType?.GetNestedType("PowerType", BindingFlags.Public | BindingFlags.NonPublic);
+				if (utilityType == null || powerTabThingType == null || powerTypeEnumType == null)
+					return;
 
-                MethodInfo buildTrackers = AccessTools.Method(powerTabType, "BuildTrackers");
-                MethodInfo drawThing = AccessTools.Method(powerTabThingType, "Draw", new[] { typeof(float) });
-                if (buildTrackers == null || drawThing == null)
-                    return;
+				MethodInfo generateAudit = AccessTools.Method(utilityType, "GeneratePowerAudit", new[] { typeof(Thing) });
+				MethodInfo drawThing = AccessTools.Method(powerTabThingType, "Draw", new[] { typeof(float) });
+				if (generateAudit == null || drawThing == null)
+					return;
 
-                trackingProperty = AccessTools.Property(powerTabType, "Tracking");
-                powerTrackersProperty = AccessTools.Property(powerTabType, "PowerTrackers");
-                powerTrackersField = AccessTools.Field(powerTabType, "<PowerTrackers>k__BackingField");
-                maxObservedPowerOutputField = AccessTools.Field(compPowerTrackerType, "_maxObservedPowerOutput");
+				powerTypeProducer = Enum.Parse(powerTypeEnumType, "Producer");
+				powerTabThingCtor = AccessTools.Constructor(
+					powerTabThingType,
+					new[] { typeof(Thing), typeof(float), typeof(float), typeof(float), powerTypeEnumType });
+				if (powerTabThingCtor == null)
+					return;
 
-                thingProperty = AccessTools.Property(powerTabThingType, "Thing");
-                powerProperty = AccessTools.Property(powerTabThingType, "Power");
-                barFillField = AccessTools.Field(powerTabThingType, "_barFill");
-                parentTabWidthField = AccessTools.Field(powerTabThingType, "_parentTabWidth");
+				thingField = AccessTools.Field(powerTabThingType, "thing");
+				currentPowerOutputField = AccessTools.Field(powerTabThingType, "currentPowerOutput");
+				parentTabWidthField = AccessTools.Field(powerTabThingType, "parentTabWidth");
+				barFillField = AccessTools.Field(powerTabThingType, "barFill");
+				isBatteryField = AccessTools.Field(powerTabThingType, "isBattery");
 
-                var harmony = new Harmony("TSA.WorldDomination.PowerTabCompat");
-                harmony.Patch(buildTrackers, postfix: new HarmonyMethod(typeof(Patch_PowerTabRemotePower), nameof(BuildTrackersPostfix)));
-                harmony.Patch(drawThing, prefix: new HarmonyMethod(typeof(Patch_PowerTabRemotePower), nameof(PowerTabThingDrawPrefix)));
-            }
-            catch (Exception ex)
-            {
-                Log.Warning($"[TSA WD] Power Tab compatibility hook disabled: {ex.Message}");
-            }
-        }
+				var harmony = new Harmony("TSA.WorldDomination.PowerTabCompat");
+				harmony.Patch(
+					generateAudit,
+					postfix: new HarmonyMethod(typeof(Patch_PowerTabRemotePower), nameof(GeneratePowerAuditPostfix)));
+				harmony.Patch(
+					drawThing,
+					prefix: new HarmonyMethod(typeof(Patch_PowerTabRemotePower), nameof(PowerTabThingDrawPrefix)));
+			}
+			catch (Exception ex)
+			{
+				Log.Warning($"[TSA WD] Power Tab compatibility hook disabled: {ex.Message}");
+			}
+		}
 
-        private static bool IsPowerTabActive()
-        {
-            if (ModsConfig.IsActive(PowerTabPackageId) || ModsConfig.IsActive(PowerTabPackageId + "_steam"))
-                return true;
+		private static bool IsPowerTabActive()
+		{
+			if (ModsConfig.IsActive(PowerTabPackageId) || ModsConfig.IsActive(PowerTabPackageId + "_steam"))
+				return true;
 
-            var mods = LoadedModManager.RunningModsListForReading;
-            for (int i = 0; i < mods.Count; i++)
-            {
-                string packageId = mods[i]?.PackageId;
-                if (string.Equals(packageId, PowerTabPackageId, StringComparison.OrdinalIgnoreCase)
-                    || string.Equals(packageId, PowerTabPackageId + "_steam", StringComparison.OrdinalIgnoreCase))
-                    return true;
-            }
-            return false;
-        }
+			var mods = LoadedModManager.RunningModsListForReading;
+			for (int i = 0; i < mods.Count; i++)
+			{
+				string packageId = mods[i]?.PackageId;
+				if (string.Equals(packageId, PowerTabPackageId, StringComparison.OrdinalIgnoreCase)
+					|| string.Equals(packageId, PowerTabPackageId + "_steam", StringComparison.OrdinalIgnoreCase))
+					return true;
+			}
+			return false;
+		}
 
-        public static void BuildTrackersPostfix(object __instance)
-        {
-            try
-            {
-                CompPower tracking = trackingProperty?.GetValue(__instance, null) as CompPower;
-                PowerNet net = tracking?.PowerNet;
-                if (net == null) return;
+		public static void GeneratePowerAuditPostfix(Thing SelThing, object __result)
+		{
+			try
+			{
+				if (__result == null || SelThing == null)
+					return;
 
-                IList trackers = GetPowerTrackers(__instance);
-                if (trackers == null) return;
+				IDictionary dict = __result as IDictionary;
+				if (dict == null)
+					return;
 
-                List<WorldObject_WD_Outpost> outposts = GetPowerPlantOutposts();
-                if (outposts.Count == 0) return;
+				CompPower tracking = SelThing.TryGetComp<CompPower>();
+				PowerNet net = tracking?.PowerNet;
+				if (net == null)
+					return;
 
-                int netCount = CountPowerNets(net.Map);
-                if (netCount <= 0) return;
+				List<WorldObject_WD_Outpost> outposts = GetPowerPlantOutposts();
+				if (outposts.Count == 0)
+					return;
 
-                for (int i = 0; i < outposts.Count; i++)
-                {
-                    WorldObject_WD_Outpost outpost = outposts[i];
-                    float watts = Outpost_PowerPlant.GetRemotePowerWatts(outpost) / netCount;
-                    if (watts <= 0f) continue;
+				int netCount = CountPowerNets(net.Map);
+				if (netCount <= 0)
+					return;
 
-                    object tracker = GetOrCreateProxyTracker(outpost, watts);
-                    if (tracker != null && !trackers.Contains(tracker))
-                        trackers.Add(tracker);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.WarningOnce($"[TSA WD] Failed to add remote outpost power to Power Tab: {ex.Message}", 0x51A0D51);
-            }
-        }
+				for (int i = 0; i < outposts.Count; i++)
+				{
+					WorldObject_WD_Outpost outpost = outposts[i];
+					float watts = Outpost_PowerPlant.GetRemotePowerWatts(outpost) / netCount;
+					if (watts <= 0f)
+						continue;
 
-        public static bool PowerTabThingDrawPrefix(object __instance, float y)
-        {
-            Thing thing = thingProperty?.GetValue(__instance, null) as Thing;
-            if (thing?.def?.defName != ProxyThingDefName)
-                return true;
+					Building proxy = GetOrCreateProxyBuilding(outpost, watts);
+					if (proxy == null)
+						continue;
 
-            float parentTabWidth = GetFieldFloat(parentTabWidthField, __instance, 450f);
-            float power = GetPropertyFloat(powerProperty, __instance, 0f);
-            float barFill = GetFieldFloat(barFillField, __instance, 1f);
+					object row = powerTabThingCtor.Invoke(new object[]
+					{
+						proxy,
+						watts,
+						watts,
+						0f,
+						powerTypeProducer
+					});
+					dict[proxy] = row;
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.WarningOnce($"[TSA WD] Failed to add remote outpost power to Power Tab: {ex.Message}", 0x51A0D51);
+			}
+		}
 
-            Rect mainRect = new Rect(0f, y, parentTabWidth - GenUI.GapTiny * 3f - GenUI.ScrollBarWidth, GenUI.ListSpacing);
-            Widgets.DrawHighlightIfMouseover(mainRect);
+		public static bool PowerTabThingDrawPrefix(object __instance, float y)
+		{
+			Thing thing = thingField?.GetValue(__instance) as Thing;
+			if (thing?.def?.defName != ProxyThingDefName)
+				return true;
 
-            Rect iconRect = new Rect(0f, y, GenUI.ListSpacing, GenUI.ListSpacing);
-            Widgets.ThingIcon(iconRect, thing);
+			float parentTabWidth = GetFieldFloat(parentTabWidthField, __instance, 450f);
+			try
+			{
+				Type modType = AccessTools.TypeByName("PowerTab.Mod");
+				object powerTab = AccessTools.Field(modType, "powerTab")?.GetValue(null);
+				if (powerTab != null)
+				{
+					object innerSize = AccessTools.Field(powerTab.GetType(), "innerSize")?.GetValue(powerTab);
+					if (innerSize is Vector2 size)
+						parentTabWidth = size.x;
+				}
+			}
+			catch
+			{
+				// keep fallback width
+			}
 
-            Rect labelRect = new Rect(35f, y + 3f, parentTabWidth / 2.5f, Text.SmallFontHeight);
-            Widgets.Label(labelRect, thing.LabelCap);
+			int currentPowerOutput = 0;
+			object powerVal = currentPowerOutputField?.GetValue(__instance);
+			if (powerVal is int powerInt)
+				currentPowerOutput = powerInt;
+			else if (powerVal is float powerFloat)
+				currentPowerOutput = Mathf.RoundToInt(powerFloat);
 
-            Rect barRect = new Rect(parentTabWidth / 2.5f + 40f, y, parentTabWidth / 2f - 25f, GenUI.ListSpacing);
-            Widgets.FillableBar(barRect.ContractedBy(2f), Mathf.Clamp01(barFill));
+			float barFill = GetFieldFloat(barFillField, __instance, 1f);
+			bool isBattery = isBatteryField?.GetValue(__instance) is bool battery && battery;
 
-            string powerDrawStr = $"{power:F0} W";
-            float textWidth = Text.CalcSize(powerDrawStr).x;
-            Rect wattBkgRect = new Rect(parentTabWidth / 2.5f + 40f, y, textWidth + 16f, GenUI.ListSpacing);
-            Widgets.DrawRectFast(wattBkgRect.ContractedBy(GenUI.GapTiny * 1.5f), Color.black);
+			Rect mainRect = new Rect(0f, y, parentTabWidth - 12f - 16f, 28f);
+			Widgets.DrawHighlightIfMouseover(mainRect);
+			// No ButtonInvisible / CameraJumper — proxy is not on the map.
 
-            Rect wattLabelRect = new Rect(wattBkgRect.x + 6f, y + 3f, textWidth, GenUI.ListSpacing);
-            Widgets.Label(wattLabelRect, powerDrawStr);
-            return false;
-        }
+			Widgets.ThingIcon(new Rect(0f, y, 28f, 28f), thing);
+			Widgets.Label(new Rect(35f, y + 3f, parentTabWidth / 2.5f, 22f), thing.LabelCap);
 
-        private static IList GetPowerTrackers(object powerTab)
-        {
-            return powerTrackersProperty?.GetValue(powerTab, null) as IList
-                ?? powerTrackersField?.GetValue(powerTab) as IList;
-        }
+			Widgets.FillableBar(
+				new Rect(parentTabWidth / 2.5f + 40f, y, parentTabWidth / 2f - 25f, 28f).ContractedBy(2f),
+				Mathf.Clamp01(barFill));
 
-        private static List<WorldObject_WD_Outpost> GetPowerPlantOutposts()
-        {
-            var result = new List<WorldObject_WD_Outpost>();
-            IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
-            for (int i = 0; i < outposts.Count; i++)
-            {
-                WorldObject_WD_Outpost outpost = outposts[i];
-                if (outpost != null && !outpost.Destroyed && Outpost_PowerPlant.GetRemotePowerWatts(outpost) > 0f)
-                    result.Add(outpost);
-            }
-            return result;
-        }
+			string powerDrawStr = isBattery ? $"{currentPowerOutput} Wd" : $"{currentPowerOutput} W";
+			float textWidth = Text.CalcSize(powerDrawStr).x;
+			Rect wattBkgRect = new Rect(parentTabWidth / 2.5f + 40f, y, textWidth + 16f, 28f);
+			Widgets.DrawRectFast(wattBkgRect.ContractedBy(6f), Color.black);
+			Widgets.Label(new Rect(wattBkgRect.x + 6f, y + 3f, textWidth, 28f), powerDrawStr);
+			return false;
+		}
 
-        private static int CountPowerNets(Map map)
-        {
-            var nets = map?.powerNetManager?.AllNetsListForReading;
-            return nets?.Count ?? 0;
-        }
+		private static List<WorldObject_WD_Outpost> GetPowerPlantOutposts()
+		{
+			var result = new List<WorldObject_WD_Outpost>();
+			IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
+			for (int i = 0; i < outposts.Count; i++)
+			{
+				WorldObject_WD_Outpost outpost = outposts[i];
+				if (outpost != null && !outpost.Destroyed && Outpost_PowerPlant.GetRemotePowerWatts(outpost) > 0f)
+					result.Add(outpost);
+			}
+			return result;
+		}
 
-        private static object GetOrCreateProxyTracker(WorldObject_WD_Outpost outpost, float watts)
-        {
-            ThingWithComps thing = GetOrCreateProxyThing(outpost, watts);
-            if (thing == null || compPowerTrackerType == null) return null;
+		private static int CountPowerNets(Map map)
+		{
+			var nets = map?.powerNetManager?.AllNetsListForReading;
+			return nets?.Count ?? 0;
+		}
 
-            int id = outpost.ID;
-            if (!proxyTrackersByOutpostId.TryGetValue(id, out object tracker) || !compPowerTrackerType.IsInstanceOfType(tracker))
-            {
-                tracker = Activator.CreateInstance(compPowerTrackerType);
-                var trackerComp = tracker as ThingComp;
-                if (trackerComp == null) return null;
+		private static Building GetOrCreateProxyBuilding(WorldObject_WD_Outpost outpost, float watts)
+		{
+			int id = outpost.ID;
+			if (!proxyBuildingsByOutpostId.TryGetValue(id, out Building proxy) || proxy == null || proxy.Destroyed)
+			{
+				ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(ProxyThingDefName);
+				if (def == null)
+				{
+					Log.WarningOnce(
+						"[TSA WD] Missing ThingDef TSA_WD_RemotePowerTabSource; cannot display remote outpost power in Power Tab.",
+						0x51A0D52);
+					return null;
+				}
 
-                trackerComp.parent = thing;
-                if (!thing.AllComps.Contains(trackerComp))
-                    thing.AllComps.Add(trackerComp);
-                proxyTrackersByOutpostId[id] = tracker;
-            }
+				proxy = ThingMaker.MakeThing(def) as Building;
+				if (proxy == null)
+				{
+					Log.WarningOnce(
+						"[TSA WD] TSA_WD_RemotePowerTabSource must use a Building thingClass for Power Tab 2.",
+						0x51A0D53);
+					return null;
+				}
+				proxyBuildingsByOutpostId[id] = proxy;
+			}
 
-            var comp = tracker as ThingComp;
-            if (comp != null && comp.parent != thing)
-                comp.parent = thing;
+			if (proxy is WD_RemotePowerTabThing remoteThing)
+			{
+				string outpostLabel = outpost.LabelCap;
+				remoteThing.powerTabLabel = string.IsNullOrEmpty(outpostLabel) ? outpost.Label : outpostLabel;
+			}
 
-            maxObservedPowerOutputField?.SetValue(tracker, watts);
-            return tracker;
-        }
+			CompPowerTrader powerTrader = proxy.TryGetComp<CompPowerTrader>();
+			if (powerTrader != null)
+			{
+				powerTrader.PowerOn = true;
+				powerTrader.PowerOutput = watts;
+			}
+			return proxy;
+		}
 
-        private static ThingWithComps GetOrCreateProxyThing(WorldObject_WD_Outpost outpost, float watts)
-        {
-            int id = outpost.ID;
-            if (!proxyThingsByOutpostId.TryGetValue(id, out ThingWithComps proxyThing) || proxyThing == null || proxyThing.Destroyed)
-            {
-                ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(ProxyThingDefName);
-                if (def == null)
-                {
-                    Log.WarningOnce("[TSA WD] Missing ThingDef TSA_WD_RemotePowerTabSource; cannot display remote outpost power in Power Tab.", 0x51A0D52);
-                    return null;
-                }
-                proxyThing = ThingMaker.MakeThing(def) as ThingWithComps;
-                proxyThingsByOutpostId[id] = proxyThing;
-            }
+		private static float GetFieldFloat(FieldInfo field, object instance, float fallback)
+		{
+			object value = field?.GetValue(instance);
+			return value is float f ? f : fallback;
+		}
+	}
 
-            if (proxyThing is WD_RemotePowerTabThing remoteThing)
-            {
-                string outpostLabel = outpost.LabelCap;
-                remoteThing.powerTabLabel = string.IsNullOrEmpty(outpostLabel) ? outpost.Label : outpostLabel;
-            }
+	public class WD_RemotePowerTabThing : Building
+	{
+		public string powerTabLabel;
 
-            CompPowerTrader powerTrader = proxyThing?.TryGetComp<CompPowerTrader>();
-            if (powerTrader != null)
-            {
-                powerTrader.PowerOn = true;
-                powerTrader.PowerOutput = watts;
-            }
-            return proxyThing;
-        }
-
-        private static float GetFieldFloat(FieldInfo field, object instance, float fallback)
-        {
-            object value = field?.GetValue(instance);
-            return value is float f ? f : fallback;
-        }
-
-        private static float GetPropertyFloat(PropertyInfo property, object instance, float fallback)
-        {
-            object value = property?.GetValue(instance, null);
-            return value is float f ? f : fallback;
-        }
-    }
-
-    public class WD_RemotePowerTabThing : ThingWithComps
-    {
-        public string powerTabLabel;
-
-        public override string Label => string.IsNullOrEmpty(powerTabLabel) ? base.Label : powerTabLabel;
-        public override string LabelNoCount => Label;
-        public override string LabelCap => Label.CapitalizeFirst();
-        public override string LabelCapNoCount => LabelCap;
-        public override string LabelShort => Label;
-        public override string LabelShortCap => LabelCap;
-        public override string LabelMouseover => LabelCap;
-    }
+		public override string Label => string.IsNullOrEmpty(powerTabLabel) ? base.Label : powerTabLabel;
+		public override string LabelNoCount => Label;
+		public override string LabelCap => Label.CapitalizeFirst();
+		public override string LabelCapNoCount => LabelCap;
+		public override string LabelShort => Label;
+		public override string LabelShortCap => LabelCap;
+		public override string LabelMouseover => LabelCap;
+	}
 }

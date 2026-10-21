@@ -630,11 +630,14 @@ namespace TSA_WorldDomination
             if (traveler == null || target == null) return;
             int reservedUntilTick = Raid_DefenseCooldownReservations.ApplyRaidDefenseCooldownReservation(target);
             traveler.targetRaidDefenseCooldownReservationTick = reservedUntilTick;
-            if (target is Settlement ps && ps.Faction?.IsPlayer == true && ps.HasMap)
+            if (PlayerWdRaidDispatchUtil.IsPlayerBoundRaidTarget(target))
             {
-                traveler.playerColonyRaidCooldownReservationTick = reservedUntilTick;
-                manager?.RecordPlayerWdRaidLaunch();
-                ps.GetComponent<CompViralSpread>()?.MarkPlayerColonyWdRaidPicked();
+                if (target is Settlement ps && ps.Faction?.IsPlayer == true && ps.HasMap)
+                {
+                    traveler.playerColonyRaidCooldownReservationTick = reservedUntilTick;
+                    ps.GetComponent<CompViralSpread>()?.MarkPlayerColonyWdRaidPicked();
+                }
+                PlayerWdRaidDispatchUtil.ApplyOnPlayerBoundLaunch(traveler, manager);
             }
         }
 

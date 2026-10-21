@@ -4,7 +4,7 @@
   <TSA_WD_AlliedRaidOrder_AwardToPlayer>Attack and award to player (-{0} goodwill. Current goodwill: {1})</TSA_WD_AlliedRaidOrder_AwardToPlayer>
   <TSA_WD_AlliedRaidOrder_ClaimForAlly>Attack and claim for themselves (-{0} goodwill. Current goodwill: {1})</TSA_WD_AlliedRaidOrder_ClaimForAlly>
   <TSA_WD_AlliedRaidOrder_DestroyTurret>Attack and destroy (-{0} goodwill. Current goodwill: {1})</TSA_WD_AlliedRaidOrder_DestroyTurret>
-  <TSA_WD_Log_Raid_Aborted_BelowMinRatio>Raid aborted: launch ratio {0}× below minimum {1}×. No strength committed.</TSA_WD_Log_Raid_Aborted_BelowMinRatio>
+  <TSA_WD_Log_Raid_Aborted_BelowMinRatio>RAID: Aborted (launch ratio {0}x below minimum {1}x). No strength committed.</TSA_WD_Log_Raid_Aborted_BelowMinRatio>
   <TSA_WD_Log_Raid_Aborted_Pollution>{0} cancelled a raid on {1}: the route would lose about {2} strength to pollution.</TSA_WD_Log_Raid_Aborted_Pollution>
   <TSA_WD_AlliedRaidOrder_DisabledGoodwill>Costs {0} goodwill. You have {1}; at least {2} goodwill must remain.</TSA_WD_AlliedRaidOrder_DisabledGoodwill>
   <TSA_WD_AlliedRaidOrder_DisabledLowWinChance>Success probability is below the configured minimum.</TSA_WD_AlliedRaidOrder_DisabledLowWinChance>
@@ -92,6 +92,9 @@
   <TSA_WD_Letter_IncomingDropRaid_Dispatch_Text>{0} has dispatched drop pods from {1} against your colony {2}.\n\nExpected raid points on arrival: {3}\nEstimated arrival in {4} days.</TSA_WD_Letter_IncomingDropRaid_Dispatch_Text>
   <TSA_WD_Letter_IncomingRaid_Outpost_Label>WD raid on {0} launched ({1})</TSA_WD_Letter_IncomingRaid_Outpost_Label>
   <TSA_WD_Letter_IncomingRaid_Outpost_Text>A hostile expedition from {0} is heading for your outpost {1} across the world map.\n\nExpected raid points on arrival: {2}\nOutpost strength: {3}\nDefense win likelihood (auto-resolve): {4}\nEstimated arrival in {5} days.\n\nYou have time to prepare defenses or intercept them on the world map before they arrive.</TSA_WD_Letter_IncomingRaid_Outpost_Text>
+  <TSA_WD_Letter_Raid_BeyondNormalRange>Beyond its normal range.</TSA_WD_Letter_Raid_BeyondNormalRange>
+  <TSA_WD_Letter_RaidPartyDestroyed_Label>Raid party destroyed</TSA_WD_Letter_RaidPartyDestroyed_Label>
+  <TSA_WD_Letter_RaidPartyDestroyed_Text>A raid from {0} headed for {1} was destroyed on the world map before it arrived.</TSA_WD_Letter_RaidPartyDestroyed_Text>
   <TSA_WD_Letter_IncomingRaid_JumpAttacker>Jump to attacker</TSA_WD_Letter_IncomingRaid_JumpAttacker>
   <TSA_WD_Letter_IncomingRaid_JumpTarget>Jump to target</TSA_WD_Letter_IncomingRaid_JumpTarget>
   <TSA_WD_Letter_OutpostDefended_Label>Outpost Defended</TSA_WD_Letter_OutpostDefended_Label>
@@ -106,25 +109,25 @@
   <TSA_WD_Log_AttemptHeader>Attempted Raid Analysis</TSA_WD_Log_AttemptHeader>
   <TSA_WD_Log_AttemptHeader_Aborted>Expedition Aborted</TSA_WD_Log_AttemptHeader_Aborted>
   <TSA_WD_Log_AttemptHeader_Launched>Expedition Launched</TSA_WD_Log_AttemptHeader_Launched>
-  <TSA_WD_Log_Clash_Detail>{0} ({2}) — Strength: {1}</TSA_WD_Log_Clash_Detail>
-  <TSA_WD_Log_AlliedRaidLaunchedByPlayer>EXPEDITION: Allied settlement {0} launched a raid against {1} (initialized by player)</TSA_WD_Log_AlliedRaidLaunchedByPlayer>
-  <TSA_WD_Log_PlayerRaidLaunched>EXPEDITION: Your Outpost {0} launched a raid against {1}</TSA_WD_Log_PlayerRaidLaunched>
-  <TSA_WD_Log_RaidCancelled>{0} mission cancelled: Target destroyed or invalid.</TSA_WD_Log_RaidCancelled>
+  <TSA_WD_Log_Clash_Detail>{0} ({2}): strength {1}</TSA_WD_Log_Clash_Detail>
+  <TSA_WD_Log_AlliedRaidLaunchedByPlayer>RAID: Allied settlement {0} launched a raid against {1}.</TSA_WD_Log_AlliedRaidLaunchedByPlayer>
+  <TSA_WD_Log_PlayerRaidLaunched>RAID: Your outpost {0} launched a raid against {1}.</TSA_WD_Log_PlayerRaidLaunched>
+  <TSA_WD_Log_RaidCancelled>{0} mission cancelled: target destroyed or invalid.</TSA_WD_Log_RaidCancelled>
   <TSA_WD_Log_DebugRaidCancelled>{0} (debug path) cancelled: destination became invalid.</TSA_WD_Log_DebugRaidCancelled>
-  <TSA_WD_Log_Raid_Aborted>RAID ABORTED: Target is no longer valid or has been destroyed.</TSA_WD_Log_Raid_Aborted>
-  <TSA_WD_Log_Raid_AbortedSpace>RAID: Aborted (attacker in space)</TSA_WD_Log_Raid_AbortedSpace>
+  <TSA_WD_Log_Raid_Aborted>RAID: Aborted (target no longer valid or destroyed).</TSA_WD_Log_Raid_Aborted>
+  <TSA_WD_Log_Raid_AbortedSpace>RAID: Aborted (attacker in space).</TSA_WD_Log_Raid_AbortedSpace>
   <TSA_WD_Log_Raid_Aborted_Detail>This expedition was aborted before combat.</TSA_WD_Log_Raid_Aborted_Detail>
-  <TSA_WD_Log_Raid_Aborted_SameFaction>RAID: Aborted (same faction)</TSA_WD_Log_Raid_Aborted_SameFaction>
-  <TSA_WD_Log_Raid_Aborted_TargetDespawned>RAID: Aborted (target despawned)</TSA_WD_Log_Raid_Aborted_TargetDespawned>
-  <TSA_WD_Log_Raid_Aborted_TargetNull>RAID: Aborted (target no longer exists)</TSA_WD_Log_Raid_Aborted_TargetNull>
-  <TSA_WD_Log_Raid_Aborted_NoLongerHostile>RAID: Aborted — {0} and {1} are no longer at war. Committed strength refunded.</TSA_WD_Log_Raid_Aborted_NoLongerHostile>
+  <TSA_WD_Log_Raid_Aborted_SameFaction>RAID: Aborted (same faction).</TSA_WD_Log_Raid_Aborted_SameFaction>
+  <TSA_WD_Log_Raid_Aborted_TargetDespawned>RAID: Aborted (target despawned).</TSA_WD_Log_Raid_Aborted_TargetDespawned>
+  <TSA_WD_Log_Raid_Aborted_TargetNull>RAID: Aborted (target no longer exists).</TSA_WD_Log_Raid_Aborted_TargetNull>
+  <TSA_WD_Log_Raid_Aborted_NoLongerHostile>RAID: Aborted ({0} and {1} are no longer at war). Committed strength refunded.</TSA_WD_Log_Raid_Aborted_NoLongerHostile>
   <TSA_WD_Log_Raid_DefBase>Garrison at {0}: {1} strength.</TSA_WD_Log_Raid_DefBase>
   <TSA_WD_Log_Raid_DefContrib>{0} ({1}) provided +{2} defense power. (Raw: {3}, Eff: {4}% over {5} tiles).</TSA_WD_Log_Raid_DefContrib>
-  <TSA_WD_Log_Raid_ExpeditionLaunched>Raid dispatched: Caravan is underway.</TSA_WD_Log_Raid_ExpeditionLaunched>
+  <TSA_WD_Log_Raid_ExpeditionLaunched>RAID: {0} dispatched a raid against {1}.</TSA_WD_Log_Raid_ExpeditionLaunched>
   <TSA_WD_RaidExpeditionLaunched>Raid expedition launched against {0}.</TSA_WD_RaidExpeditionLaunched>
   <TSA_WD_Log_Raid_FactionDispatch>{0} dispatched a raid from {1} against {2}.</TSA_WD_Log_Raid_FactionDispatch>
-  <TSA_WD_Log_Raid_ColonyDelegated>Picked Colony as target and delegated to closer ally</TSA_WD_Log_Raid_ColonyDelegated>
-  <TSA_WD_Log_Raid_Failed>Raid Failed: The attackers were repelled.</TSA_WD_Log_Raid_Failed>
+  <TSA_WD_Log_Raid_ColonyDelegated>RAID: Colony chosen as target; delegated to a closer ally.</TSA_WD_Log_Raid_ColonyDelegated>
+  <TSA_WD_Log_Raid_Failed>RAID: Attackers were repelled.</TSA_WD_Log_Raid_Failed>
   <TSA_WD_Log_Raid_ChokeIntercept>Raid intercepted: {0} walked into fortress {1} (original target: {2}).</TSA_WD_Log_Raid_ChokeIntercept>
   <TSA_WD_Log_Raid_ChokeInterceptColony>Raid intercepted: {0} walked into colony {1} (original target: {2}).</TSA_WD_Log_Raid_ChokeInterceptColony>
   <TSA_WD_Log_TargetOfOpportunity>{0} picked a target of opportunity: {1} -> {2}.</TSA_WD_Log_TargetOfOpportunity>
@@ -149,10 +152,10 @@
   <TSA_WD_TargetKind_Interceptor>interceptor</TSA_WD_TargetKind_Interceptor>
   <TSA_WD_Letter_RaidDivertedFromPlayer_Label>Raid diverted</TSA_WD_Letter_RaidDivertedFromPlayer_Label>
   <TSA_WD_Letter_RaidDivertedFromPlayer_Text>{0} spotted a target of opportunity and diverted away from you to attack {1} instead.</TSA_WD_Letter_RaidDivertedFromPlayer_Text>
-  <TSA_WD_Log_Raid_PlayerAttack>RAID: Attack on player colony</TSA_WD_Log_Raid_PlayerAttack>
+  <TSA_WD_Log_Raid_PlayerAttack>RAID: Attack on player colony.</TSA_WD_Log_Raid_PlayerAttack>
   <TSA_WD_Log_Raid_SkippedLowRaidPower>RAID: {0} skipped (available raid power {1}; minimum 50 required).</TSA_WD_Log_Raid_SkippedLowRaidPower>
   <TSA_WD_Log_Raid_SkippedLowStrength>RAID: {0} skipped (strength {1}; needs {2} to launch raids at this tier).</TSA_WD_Log_Raid_SkippedLowStrength>
-  <TSA_WD_Log_Raid_SkippedNoTarget>RAID: Skipped (no valid target in range)</TSA_WD_Log_Raid_SkippedNoTarget>
+  <TSA_WD_Log_Raid_SkippedNoTarget>RAID: skipped (no valid target in range).</TSA_WD_Log_Raid_SkippedNoTarget>
   <TSA_WD_Log_Raid_BandPicked>Band {0} picked.</TSA_WD_Log_Raid_BandPicked>
   <TSA_WD_Log_Raid_BandFallback>Band {0} picked but no valid target. Fallback Band {1}.</TSA_WD_Log_Raid_BandFallback>
   <TSA_WD_Log_OutpostIncident>Outpost incident at {0}: lost {1} defensive strength ({2} → {3}).</TSA_WD_Log_OutpostIncident>
@@ -161,7 +164,7 @@
   <TSA_WD_Letter_OutpostIncident_Text>A minor world incident has reduced defensive strength at {0} by {1}.</TSA_WD_Letter_OutpostIncident_Text>
   <TSA_WD_Letter_OutpostIncidentDestroyed_Label>Outpost destroyed: {0}</TSA_WD_Letter_OutpostIncidentDestroyed_Label>
   <TSA_WD_Letter_OutpostIncidentDestroyed_Text>A world incident wiped out {0} (lost {1} strength). Ruins remain for a while and block new outposts nearby.</TSA_WD_Letter_OutpostIncidentDestroyed_Text>
-  <TSA_WD_Log_Raid_Successful>Raid Successful: {0} has been conquered.</TSA_WD_Log_Raid_Successful>
+  <TSA_WD_Log_Raid_Successful>RAID: {0} was conquered.</TSA_WD_Log_Raid_Successful>
   <TSA_WD_MinGarrisonCap>Garrison retain floor: {0} Strength</TSA_WD_MinGarrisonCap>
   <TSA_WD_Raid_GarrisonRetain>Garrison retain (%)</TSA_WD_Raid_GarrisonRetain>
   <TSA_WD_Raid_GarrisonRetainTooltip>Settlements and outposts always keep at least this percentage of their maximum strength at home when sending a raid, trader caravan, or building crew (roads, roadblocks, spike traps, fortify). Tier max for settlements, occupant max for outposts. Decontamination crews are exempt. Primary attackers and allies use the same rule for raids.</TSA_WD_Raid_GarrisonRetainTooltip>

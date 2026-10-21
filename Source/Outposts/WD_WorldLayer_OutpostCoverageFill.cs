@@ -318,12 +318,10 @@ namespace TSA_WorldDomination
             const int yieldEveryLandTiles = 200;
             int landProcessed = 0;
 
+            // Include water and WD bridge decks — combat range overlays match ApproxDistance gameplay
+            // (AT turrets / mortars can cover bridged water; land-only fills would under-show).
             foreach (PlanetTile tile in EnumerateTilesInRadius(grid, centerTile, hopWindow))
             {
-                Tile tileInfo = grid[tile];
-                if (tileInfo == null || tileInfo.WaterCovered)
-                    continue;
-
                 float approxDist = grid.ApproxDistanceInTiles(centerTile, tile);
                 if (approxDist > radiusTiles)
                     continue;

@@ -1780,6 +1780,9 @@
   <TSA_WD_Experts_RowBenefit_RoadSpeed>建设项目速度 +{0}%</TSA_WD_Experts_RowBenefit_RoadSpeed>
   <TSA_WD_Experts_RowBenefit_Engineer>建设项目速度 +{0}%\n建设项目半径 +{1}%\n防御恢复 +{0}%</TSA_WD_Experts_RowBenefit_Engineer>
   <TSA_WD_Outpost_Pawns_ExpertsHint>专家角色在“专家”标签页中分配。</TSA_WD_Outpost_Pawns_ExpertsHint>
+  <TSA_WD_OutpostStats_Row_AmbushWatch>拦截半径</TSA_WD_OutpostStats_Row_AmbushWatch>
+  <TSA_WD_OutpostStats_Row_AmbushWatchTip>该定居点监视并拦截敌对旅行队的格数（{0}）。</TSA_WD_OutpostStats_Row_AmbushWatchTip>
+  <TSA_WD_OutpostStats_Row_AmbushWatchTip_Stable>基础拦截半径 {0} 格。马厩将其扩展至 {1} 格。</TSA_WD_OutpostStats_Row_AmbushWatchTip_Stable>
   <TSA_WD_OutpostStats_Row_AttackRange>袭击范围</TSA_WD_OutpostStats_Row_AttackRange>
   <TSA_WD_OutpostStats_Row_AttackRangeTip>从此前哨站发起手动袭击的最大格距(基础设置 × 战略家加成)。</TSA_WD_OutpostStats_Row_AttackRangeTip>
   <TSA_WD_OutpostStats_Row_AttackRangeSettlementTip>该定居点可发动袭击的最大格距。</TSA_WD_OutpostStats_Row_AttackRangeSettlementTip>
@@ -2181,7 +2184,7 @@
   <TSA_WD_OutpostStats_Row_AdvBuildings>高级建筑</TSA_WD_OutpostStats_Row_AdvBuildings>
   <TSA_WD_OutpostStats_Row_AdvBuildingsTip>此定居点拥有的高级建筑。槽位等于定居点等级（{0}）；每种类型最多一座。</TSA_WD_OutpostStats_Row_AdvBuildingsTip>
   <TSA_WD_OutpostStats_Row_LandSpeed>陆地商队速度</TSA_WD_OutpostStats_Row_LandSpeed>
-  <TSA_WD_OutpostStats_Row_LandSpeedTip>马厩对从此定居点出发的商队步行速度的加成。</TSA_WD_OutpostStats_Row_LandSpeedTip>
+  <TSA_WD_OutpostStats_Row_LandSpeedTip>从此定居点出发的商队步行速度加成。马厩提供该加成；没有马厩时为 +0%。</TSA_WD_OutpostStats_Row_LandSpeedTip>
   <TSA_WD_OutpostStats_SiloMaxLine>粮仓：{0} +{1}% = {2}</TSA_WD_OutpostStats_SiloMaxLine>
   <TSA_WD_OutpostStats_HospitalLine>医院：+{0}%</TSA_WD_OutpostStats_HospitalLine>
 </LanguageData>

@@ -548,7 +548,7 @@
   <TSA_WD_Log_BribeRaidLaunched>{0} envió una caravana de soborno tras {1} ({2}).</TSA_WD_Log_BribeRaidLaunched>
   <TSA_WD_Log_BribeSettlementCompleted>Alto el fuego por soborno con {1} vía {0} durante {2} días.</TSA_WD_Log_BribeSettlementCompleted>
   <TSA_WD_Log_BribeRaidCompleted>Sobornada y disuelta {0} ({1}).</TSA_WD_Log_BribeRaidCompleted>
-  <TSA_WD_Log_Raid_SkippedBribeCeasefire>Incursión omitida: aún hay alto el fuego por soborno con {0}.</TSA_WD_Log_Raid_SkippedBribeCeasefire>
+  <TSA_WD_Log_Raid_SkippedBribeCeasefire>INCURSIÓN: omitida (aún hay alto el fuego por soborno con {0}).</TSA_WD_Log_Raid_SkippedBribeCeasefire>
   <TSA_WD_Bribe_CostHeader>Coste del soborno</TSA_WD_Bribe_CostHeader>
   <TSA_WD_Bribe_SettlementSilverPerStr>Plata por fuerza (asentamiento)</TSA_WD_Bribe_SettlementSilverPerStr>
   <TSA_WD_Bribe_SettlementSilverPerStrTip>Tasa fija para sobornos de alto el fuego. La escalada Media/Tardía no cambia esta tasa (la amenaza sí puede subir si más pueblos entran en alcance).</TSA_WD_Bribe_SettlementSilverPerStrTip>

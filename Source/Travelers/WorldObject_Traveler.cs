@@ -101,6 +101,18 @@ namespace TSA_WorldDomination
         public bool rapidResponseWinXpGranted;
         /// <summary>True when this intercept was launched by Feature C settlement ambush (sally, not player Rapid Response).</summary>
         public bool isSettlementAmbushSally;
+        /// <summary>Feature C: when false, settlements will not ambush this traveler (rolled once at player-bound raid dispatch).</summary>
+        public bool canBeAmbushed = true;
+        /// <summary>TicksGame stamp from <see cref="WorldComponent_SpreadManager.RecordPlayerWdRaidLaunch"/>; -1 if none.</summary>
+        public int playerWdRaidCapStampTick = -1;
+        /// <summary>True after this raid reaches player colony / outpost defense / player clash (drought timer + no unstamp).</summary>
+        public bool playerRaidContacted;
+        /// <summary>Forced drought raid launched beyond the settlement's normal attack range.</summary>
+        public bool beyondNormalAttackRange;
+        /// <summary>Faction that wiped this traveler in combat (set immediately before Destroy). Used for raid-cap unstamp.</summary>
+        public Faction destroyedByFaction;
+        /// <summary>True when wiped by attrition expire or pollution (set before Destroy/Abort). Used for raid-cap unstamp.</summary>
+        public bool destroyedByEnvironment;
         /// <summary>NpcAtTurret crew building an advanced building (def name); null for AT turret crews.</summary>
         public string advancedBuildDefName;
         public bool IsAdvancedBuilder => mission == TravelerMission.NpcAtTurret && !advancedBuildDefName.NullOrEmpty();
@@ -635,6 +647,7 @@ namespace TSA_WorldDomination
                     WorldComponent_SettlementWatchIndex.Get()?.NotifyAmbushSallyDestroyed();
                 if (assaultArtillerySupport && mission == TravelerMission.MortarStrike)
                     WD_AssaultArtillerySupport.NotifyAssaultShellRemoved(this);
+                PlayerWdRaidDispatchUtil.NotifyDestroyedBeforeContact(this);
             }
             base.Destroy();
         }
@@ -930,6 +943,7 @@ namespace TSA_WorldDomination
                     if (shouldExpire)
                     {
                         // Strength ran out under fire: this is a kill, not a cancellation, so cargo is lost.
+                        PlayerWdRaidDispatchUtil.MarkDestroyedByEnvironment(this);
                         TravelerEndpointUtility.AbortTraveler(
                             this, "TSA_WD_Log_TravelerExpired".Translate(Label), manager, refundCargo: false);
                         return;
@@ -1462,6 +1476,12 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref rapidResponseStrengthRefunded, "rapidResponseStrengthRefunded", false);
             Scribe_Values.Look(ref rapidResponseWinXpGranted, "rapidResponseWinXpGranted", false);
             Scribe_Values.Look(ref isSettlementAmbushSally, "isSettlementAmbushSally", false);
+            Scribe_Values.Look(ref canBeAmbushed, "canBeAmbushed", true);
+            Scribe_Values.Look(ref playerWdRaidCapStampTick, "playerWdRaidCapStampTick", -1);
+            Scribe_Values.Look(ref playerRaidContacted, "playerRaidContacted", false);
+            Scribe_Values.Look(ref beyondNormalAttackRange, "beyondNormalAttackRange", false);
+            Scribe_References.Look(ref destroyedByFaction, "destroyedByFaction");
+            Scribe_Values.Look(ref destroyedByEnvironment, "destroyedByEnvironment", false);
             Scribe_Values.Look(ref lastRapidResponseTargetTile, "lastRapidResponseTargetTile", -1);
             Scribe_Values.Look(ref lastRapidResponseInterceptTile, "lastRapidResponseInterceptTile", -1);
 

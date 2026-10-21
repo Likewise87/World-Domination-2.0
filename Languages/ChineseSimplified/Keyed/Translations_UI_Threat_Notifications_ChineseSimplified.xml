@@ -143,6 +143,8 @@
   <TSA_WD_Notify_RaidArrivalOutpostTooltip>当你打开手动前哨防御且敌对远征军抵达遭遇地图时收到高优先级信件。</TSA_WD_Notify_RaidArrivalOutpostTooltip>
   <TSA_WD_Notify_RaidDivertedFromPlayer>当袭击转向偏离你时通知</TSA_WD_Notify_RaidDivertedFromPlayer>
   <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>当原本冲着你的殖民地或前哨站而来的袭击发现了一个机会目标并转而攻击它时收到信件。</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
+  <TSA_WD_Notify_RaidPartyDestroyed>当袭击队伍在抵达前被摧毁时通知</TSA_WD_Notify_RaidPartyDestroyed>
+  <TSA_WD_Notify_RaidPartyDestroyedTooltip>当冲着你而来的敌对袭击在世界地图上被消灭、尚未抵达时收到信件。</TSA_WD_Notify_RaidPartyDestroyedTooltip>
   <TSA_WD_Notify_MortarHit>你的迫击炮摧毁目标时通知</TSA_WD_Notify_MortarHit>
   <TSA_WD_Notify_MortarHitTooltip>当你的火炮前哨摧毁目标时发送无声蓝色信件。未摧毁的命中只记入行动日志。</TSA_WD_Notify_MortarHitTooltip>
   <TSA_WD_Notify_MortarMiss>你的迫击炮脱靶时通知</TSA_WD_Notify_MortarMiss>

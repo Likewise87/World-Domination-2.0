@@ -4,7 +4,7 @@
   <TSA_WD_AlliedRaidOrder_AwardToPlayer>攻击并交给玩家(-{0} 好感。当前好感: {1})</TSA_WD_AlliedRaidOrder_AwardToPlayer>
   <TSA_WD_AlliedRaidOrder_ClaimForAlly>攻击并由其占领(-{0} 好感。当前好感: {1})</TSA_WD_AlliedRaidOrder_ClaimForAlly>
   <TSA_WD_AlliedRaidOrder_DestroyTurret>攻击并摧毁(-{0} 好感。当前好感: {1})</TSA_WD_AlliedRaidOrder_DestroyTurret>
-  <TSA_WD_Log_Raid_Aborted_BelowMinRatio>袭击中止:出发比率 {0}× 低于最低 {1}×。未投入实力。</TSA_WD_Log_Raid_Aborted_BelowMinRatio>
+  <TSA_WD_Log_Raid_Aborted_BelowMinRatio>袭击: 已中止（出发比率 {0}x 低于最低 {1}x）。未投入实力。</TSA_WD_Log_Raid_Aborted_BelowMinRatio>
   <TSA_WD_Log_Raid_Aborted_Pollution>{0} 取消了对 {1} 的袭击：该路线约因污染损失 {2} 力量。</TSA_WD_Log_Raid_Aborted_Pollution>
   <TSA_WD_AlliedRaidOrder_DisabledGoodwill>需要花费 {0} 好感。当前:{1};行动后至少必须保留 {2} 好感。</TSA_WD_AlliedRaidOrder_DisabledGoodwill>
   <TSA_WD_AlliedRaidOrder_DisabledLowWinChance>成功概率低于配置的最低值。</TSA_WD_AlliedRaidOrder_DisabledLowWinChance>
@@ -92,6 +92,9 @@
   <TSA_WD_Letter_IncomingDropRaid_Dispatch_Text>{0} 已从 {1} 派出空投舱进攻你的殖民地 {2}。\n\n预计抵达时袭击点数:{3}\n预计 {4} 天后抵达。</TSA_WD_Letter_IncomingDropRaid_Dispatch_Text>
   <TSA_WD_Letter_IncomingRaid_Outpost_Label>WD 对 {0} 的袭击已发动({1})</TSA_WD_Letter_IncomingRaid_Outpost_Label>
   <TSA_WD_Letter_IncomingRaid_Outpost_Text>来自 {0} 的敌对远征军正穿越世界地图前往你的前哨站 {1}。\n\n预计抵达时袭击点数:{2}\n前哨实力:{3}\n防守胜率(自动结算):{4}\n预计 {5} 天后抵达。\n\n你有时间巩固防御或在他们抵达前在世界地图上拦截他们。</TSA_WD_Letter_IncomingRaid_Outpost_Text>
+  <TSA_WD_Letter_Raid_BeyondNormalRange>超出其正常范围。</TSA_WD_Letter_Raid_BeyondNormalRange>
+  <TSA_WD_Letter_RaidPartyDestroyed_Label>袭击队伍被摧毁</TSA_WD_Letter_RaidPartyDestroyed_Label>
+  <TSA_WD_Letter_RaidPartyDestroyed_Text>来自 {0}、前往 {1} 的袭击在抵达前于世界地图上被摧毁。</TSA_WD_Letter_RaidPartyDestroyed_Text>
   <TSA_WD_Letter_IncomingRaid_JumpAttacker>跳转到进攻方</TSA_WD_Letter_IncomingRaid_JumpAttacker>
   <TSA_WD_Letter_IncomingRaid_JumpTarget>跳转到目标</TSA_WD_Letter_IncomingRaid_JumpTarget>
   <TSA_WD_Letter_OutpostDefended_Label>前哨站防守成功</TSA_WD_Letter_OutpostDefended_Label>
@@ -106,25 +109,25 @@
   <TSA_WD_Log_AttemptHeader>袭击尝试分析</TSA_WD_Log_AttemptHeader>
   <TSA_WD_Log_AttemptHeader_Aborted>远征已中止</TSA_WD_Log_AttemptHeader_Aborted>
   <TSA_WD_Log_AttemptHeader_Launched>远征已出发</TSA_WD_Log_AttemptHeader_Launched>
-  <TSA_WD_Log_Clash_Detail>{0}({2})— 强度:{1}</TSA_WD_Log_Clash_Detail>
-  <TSA_WD_Log_AlliedRaidLaunchedByPlayer>远征:盟友定居点 {0} 对 {1} 发动了袭击（由玩家发起）</TSA_WD_Log_AlliedRaidLaunchedByPlayer>
-  <TSA_WD_Log_PlayerRaidLaunched>远征:你的前哨站 {0} 对 {1} 发动了袭击</TSA_WD_Log_PlayerRaidLaunched>
-  <TSA_WD_Log_RaidCancelled>{0} 任务取消:目标已摧毁或无效。</TSA_WD_Log_RaidCancelled>
+  <TSA_WD_Log_Clash_Detail>{0} ({2}): 强度 {1}</TSA_WD_Log_Clash_Detail>
+  <TSA_WD_Log_AlliedRaidLaunchedByPlayer>袭击: 盟友定居点 {0} 对 {1} 发动了袭击。</TSA_WD_Log_AlliedRaidLaunchedByPlayer>
+  <TSA_WD_Log_PlayerRaidLaunched>袭击: 你的前哨站 {0} 对 {1} 发动了袭击。</TSA_WD_Log_PlayerRaidLaunched>
+  <TSA_WD_Log_RaidCancelled>{0} 任务取消: 目标已摧毁或无效。</TSA_WD_Log_RaidCancelled>
   <TSA_WD_Log_DebugRaidCancelled>{0}(调试路径)已取消:目的地无效。</TSA_WD_Log_DebugRaidCancelled>
-  <TSA_WD_Log_Raid_Aborted>袭击中止:目标已无效或已被摧毁。</TSA_WD_Log_Raid_Aborted>
-  <TSA_WD_Log_Raid_AbortedSpace>袭击:已中止(进攻方在太空中)</TSA_WD_Log_Raid_AbortedSpace>
+  <TSA_WD_Log_Raid_Aborted>袭击: 已中止（目标已无效或已被摧毁）。</TSA_WD_Log_Raid_Aborted>
+  <TSA_WD_Log_Raid_AbortedSpace>袭击: 已中止（进攻方在太空中）。</TSA_WD_Log_Raid_AbortedSpace>
   <TSA_WD_Log_Raid_Aborted_Detail>此次远征在战斗前被中止。</TSA_WD_Log_Raid_Aborted_Detail>
-  <TSA_WD_Log_Raid_Aborted_SameFaction>袭击:已中止(同阵营)</TSA_WD_Log_Raid_Aborted_SameFaction>
-  <TSA_WD_Log_Raid_Aborted_TargetDespawned>袭击:已中止(目标已消失)</TSA_WD_Log_Raid_Aborted_TargetDespawned>
-  <TSA_WD_Log_Raid_Aborted_TargetNull>袭击:已中止(目标已不存在)</TSA_WD_Log_Raid_Aborted_TargetNull>
-  <TSA_WD_Log_Raid_Aborted_NoLongerHostile>袭击:已中止 — {0} 与 {1} 不再处于战争状态。已退还投入实力。</TSA_WD_Log_Raid_Aborted_NoLongerHostile>
+  <TSA_WD_Log_Raid_Aborted_SameFaction>袭击: 已中止（同阵营）。</TSA_WD_Log_Raid_Aborted_SameFaction>
+  <TSA_WD_Log_Raid_Aborted_TargetDespawned>袭击: 已中止（目标已消失）。</TSA_WD_Log_Raid_Aborted_TargetDespawned>
+  <TSA_WD_Log_Raid_Aborted_TargetNull>袭击: 已中止（目标已不存在）。</TSA_WD_Log_Raid_Aborted_TargetNull>
+  <TSA_WD_Log_Raid_Aborted_NoLongerHostile>袭击: 已中止（{0} 与 {1} 不再处于战争状态）。已退还投入实力。</TSA_WD_Log_Raid_Aborted_NoLongerHostile>
   <TSA_WD_Log_Raid_DefBase>{0} 守军:{1} 强度。</TSA_WD_Log_Raid_DefBase>
   <TSA_WD_Log_Raid_DefContrib>{0}({1})提供 +{2} 防守力量。(原始:{3},效率:{4}%,距离 {5} 格)。</TSA_WD_Log_Raid_DefContrib>
-  <TSA_WD_Log_Raid_ExpeditionLaunched>袭击已派出:商队正在途中。</TSA_WD_Log_Raid_ExpeditionLaunched>
+  <TSA_WD_Log_Raid_ExpeditionLaunched>袭击: {0} 对 {1} 派出了袭击。</TSA_WD_Log_Raid_ExpeditionLaunched>
   <TSA_WD_RaidExpeditionLaunched>已对 {0} 派出袭击远征。</TSA_WD_RaidExpeditionLaunched>
   <TSA_WD_Log_Raid_FactionDispatch>{0} 已从 {1} 派出袭击部队进攻 {2}。</TSA_WD_Log_Raid_FactionDispatch>
-  <TSA_WD_Log_Raid_ColonyDelegated>选定殖民地为目标，并委托给更近的盟友</TSA_WD_Log_Raid_ColonyDelegated>
-  <TSA_WD_Log_Raid_Failed>袭击失败:进攻方被击退。</TSA_WD_Log_Raid_Failed>
+  <TSA_WD_Log_Raid_ColonyDelegated>袭击: 选定殖民地为目标，并委托给更近的盟友。</TSA_WD_Log_Raid_ColonyDelegated>
+  <TSA_WD_Log_Raid_Failed>袭击: 进攻方被击退。</TSA_WD_Log_Raid_Failed>
   <TSA_WD_Log_Raid_ChokeIntercept>袭击被拦截:{0} 踏入要塞 {1}（原目标:{2}）。</TSA_WD_Log_Raid_ChokeIntercept>
   <TSA_WD_Log_Raid_ChokeInterceptColony>袭击被拦截:{0} 踏入殖民地 {1}（原目标:{2}）。</TSA_WD_Log_Raid_ChokeInterceptColony>
   <TSA_WD_Log_TargetOfOpportunity>{0} 选择了一个机会目标:{1} -> {2}。</TSA_WD_Log_TargetOfOpportunity>
@@ -149,10 +152,10 @@
   <TSA_WD_TargetKind_Interceptor>interceptor</TSA_WD_TargetKind_Interceptor>
   <TSA_WD_Letter_RaidDivertedFromPlayer_Label>袭击已转向</TSA_WD_Letter_RaidDivertedFromPlayer_Label>
   <TSA_WD_Letter_RaidDivertedFromPlayer_Text>{0} 发现了一个机会目标，转而离开你去攻击 {1}。</TSA_WD_Letter_RaidDivertedFromPlayer_Text>
-  <TSA_WD_Log_Raid_PlayerAttack>袭击:对玩家殖民地进攻</TSA_WD_Log_Raid_PlayerAttack>
-  <TSA_WD_Log_Raid_SkippedLowRaidPower>袭击:{0} 已跳过(可用袭击力量 {1};最低需要 50)。</TSA_WD_Log_Raid_SkippedLowRaidPower>
-  <TSA_WD_Log_Raid_SkippedLowStrength>袭击:{0} 已跳过(强度 {1};此层级发动袭击需要 {2})。</TSA_WD_Log_Raid_SkippedLowStrength>
-  <TSA_WD_Log_Raid_SkippedNoTarget>袭击:已跳过(范围内无有效目标)</TSA_WD_Log_Raid_SkippedNoTarget>
+  <TSA_WD_Log_Raid_PlayerAttack>袭击: 对玩家殖民地进攻。</TSA_WD_Log_Raid_PlayerAttack>
+  <TSA_WD_Log_Raid_SkippedLowRaidPower>袭击: {0} 已跳过（可用袭击力量 {1}; 最低需要 50）。</TSA_WD_Log_Raid_SkippedLowRaidPower>
+  <TSA_WD_Log_Raid_SkippedLowStrength>袭击: {0} 已跳过（强度 {1}; 此层级发动袭击需要 {2}）。</TSA_WD_Log_Raid_SkippedLowStrength>
+  <TSA_WD_Log_Raid_SkippedNoTarget>袭击: 已跳过（范围内无有效目标）。</TSA_WD_Log_Raid_SkippedNoTarget>
   <TSA_WD_Log_Raid_BandPicked>距离段 {0} 已选。</TSA_WD_Log_Raid_BandPicked>
   <TSA_WD_Log_Raid_BandFallback>距离段 {0} 已选但无有效目标。回退距离段 {1}。</TSA_WD_Log_Raid_BandFallback>
   <TSA_WD_Log_OutpostIncident>前哨事件 {0}：损失 {1} 防御实力（{2} → {3}）。</TSA_WD_Log_OutpostIncident>
@@ -161,7 +164,7 @@
   <TSA_WD_Letter_OutpostIncident_Text>一次小型世界事件使 {0} 的防御实力减少了 {1}。</TSA_WD_Letter_OutpostIncident_Text>
   <TSA_WD_Letter_OutpostIncidentDestroyed_Label>前哨被摧毁：{0}</TSA_WD_Letter_OutpostIncidentDestroyed_Label>
   <TSA_WD_Letter_OutpostIncidentDestroyed_Text>一次世界事件彻底摧毁了 {0}（损失 {1} 实力）。废墟会残留一段时间，并阻止附近新建前哨。</TSA_WD_Letter_OutpostIncidentDestroyed_Text>
-  <TSA_WD_Log_Raid_Successful>袭击成功:{0} 已被征服。</TSA_WD_Log_Raid_Successful>
+  <TSA_WD_Log_Raid_Successful>袭击: {0} 已被征服。</TSA_WD_Log_Raid_Successful>
   <TSA_WD_MinGarrisonCap>驻军保留下限:{0} 强度</TSA_WD_MinGarrisonCap>
   <TSA_WD_Raid_GarrisonRetain>驻军保留 (%)</TSA_WD_Raid_GarrisonRetain>
   <TSA_WD_Raid_GarrisonRetainTooltip>定居点与前哨派出袭击、贸易商队或建设小队（道路、路障、尖刺陷阱、加固）时，始终至少保留其最大强度的该百分比在家（定居点为等级上限，前哨为人员上限）。清污小队不受此限。主攻方与盟友在袭击中使用同一规则。</TSA_WD_Raid_GarrisonRetainTooltip>

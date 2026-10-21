@@ -423,6 +423,8 @@ namespace TSA_WorldDomination
         public int playerColonyWdTraderCooldownTick = -1;
         /// <summary>TicksGame this settlement last had one of its outgoing Trader travelers destroyed via ambush/Rapid Response/mortar interception (not ordinary arrival). Drives Feature E's temporary full-force escort strength. -1 = never.</summary>
         public int lastCaravanInterceptedTick = -99999;
+        /// <summary>TicksGame when an Expansion caravan from this settlement was killed by interception (scared expand window).</summary>
+        public int lastExpansionInterceptedTick = -99999;
 
         public int defenseCooldownTick = -1;    // Target: Protected from Raids/Caravans
         /// <summary>TicksGame when this player colony was last picked as a WD raid target (experimental soften clock). Not raid arrival. -1 = never stamped.</summary>
@@ -1809,6 +1811,21 @@ namespace TSA_WorldDomination
             lastCaravanInterceptedTick = Find.TickManager.TicksGame;
         }
 
+        /// <summary>Stamp expansion loss to interception for closer next expand.</summary>
+        public void MarkExpansionIntercepted()
+        {
+            lastExpansionInterceptedTick = Find.TickManager.TicksGame;
+        }
+
+        /// <summary>True if this settlement recently lost an Expansion caravan to interception.</summary>
+        public bool IsExpansionRecentlyIntercepted()
+        {
+            var seth = WorldDominationMod.settings;
+            if (seth == null || seth.traderEscortRecentInterceptWindowDays <= 0f) return false;
+            int windowTicks = CooldownTicksFromDays(seth.traderEscortRecentInterceptWindowDays);
+            return Find.TickManager.TicksGame - lastExpansionInterceptedTick <= windowTicks;
+        }
+
         public void SetState(SettlementTier newTier)
         {
             if (IsOutpost || IsPlayerMapSettlement) return;
@@ -2233,6 +2250,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref ambushCooldownTick, "ambushCooldownTick", -1);
             Scribe_Values.Look(ref playerColonyWdTraderCooldownTick, "playerColonyWdTraderCooldownTick", -1);
             Scribe_Values.Look(ref lastCaravanInterceptedTick, "lastCaravanInterceptedTick", -99999);
+            Scribe_Values.Look(ref lastExpansionInterceptedTick, "lastExpansionInterceptedTick", -99999);
             Scribe_Values.Look(ref defenseCooldownTick, "defenseCooldownTick", -1);
             Scribe_Values.Look(ref lastPlayerColonyWdRaidPickTick, "lastPlayerColonyWdRaidPickTick", -1);
             Scribe_Values.Look(ref incidentCooldownTick, "incidentCooldownTick", -1);

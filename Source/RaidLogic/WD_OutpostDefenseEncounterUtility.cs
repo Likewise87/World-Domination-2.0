@@ -82,6 +82,7 @@ namespace TSA_WorldDomination
 
                 WD_MapComponent_OutpostDefense tracker = GetOrAddTracker(map);
                 tracker.BeginEncounter(traveler, outpost, spawnedDefenders, spawnedStoredTransport, spawnedMechanoids);
+                PlayerWdRaidDispatchUtil.NotifyPlayerContact(traveler);
 
                 float points = ComputeRaidPoints(traveler, map);
                 tracker.ScheduleRaidArrival(points, arrivalDelay);

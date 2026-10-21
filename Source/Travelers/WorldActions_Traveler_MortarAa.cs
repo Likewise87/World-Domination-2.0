@@ -570,7 +570,9 @@ namespace TSA_WorldDomination
             PostMortarStrengthHitLetter(manager, shell.originObject, target, before, after, wiped, "TSA_WD_Mortar_Hit_DestroyedMobileSuffix");
             if (wiped)
             {
-                StampTraderInterceptedIfApplicable(target);
+                StampOriginInterceptedIfApplicable(target);
+                PlayerWdRaidDispatchUtil.MarkDestroyedBy(
+                    target, shell.originObject?.Faction ?? shell.Faction);
                 target.Destroy();
                 return;
             }
@@ -771,6 +773,11 @@ namespace TSA_WorldDomination
                 }
                 else
                     MortarWorldFx.NotifyExplosionAt(targetPos);
+                if (wipeTarget is WorldObject_Traveler wipeTraveler)
+                {
+                    PlayerWdRaidDispatchUtil.MarkDestroyedBy(
+                        wipeTraveler, traveler.originObject?.Faction ?? traveler.Faction);
+                }
                 wipeTarget.Destroy();
             }
         }

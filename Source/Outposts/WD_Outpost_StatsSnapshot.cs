@@ -575,6 +575,13 @@ namespace TSA_WorldDomination
                     SettlementAttackRangeUtil.BuildSettlementAttackRangeTooltip(settlement, settings, manager, hasZeal, range));
                 MarkBoostedIf(attackRangeRow, hasZeal);
 
+                float ambushWatch = SettlementAmbushUtility.GetWatchRangeTiles(settlement, settings);
+                bool hasStable = WorldComponent_AdvancedBuildings.Get()?.OwnerHasStable(settlement) == true;
+                var ambushWatchRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_AmbushWatch",
+                    ambushWatch.ToString("F0"),
+                    SettlementAmbushUtility.BuildWatchRangeStatsTooltip(settlement, settings));
+                MarkBoostedIf(ambushWatchRow, hasStable);
+
                 AppendNpcT4TurretStatRows(section, settlement, comp, settings);
             }
 
@@ -651,13 +658,14 @@ namespace TSA_WorldDomination
                 comp.GetNpcDailyDefensiveRecovery().ToString("F0"),
                 "TSA_WD_OutpostStats_Row_DefensiveRecoveryTip".Translate().ToString() + hospitalLine);
             MarkBoostedIf(defRow, hasHospital);
-            if (AdvancedBuildingEffects.Has(settlement, AdvancedBuildingEffect.LandSpeedPct))
-            {
-                var speedRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_LandSpeed",
-                    "+" + AdvancedBuildingEffects.EffectPctLabel + "%",
-                    "TSA_WD_OutpostStats_Row_LandSpeedTip".Translate().ToString());
-                MarkBoostedIf(speedRow, true);
-            }
+            bool hasStableLandSpeed = AdvancedBuildingEffects.Has(settlement, AdvancedBuildingEffect.LandSpeedPct);
+            string landSpeedValue = hasStableLandSpeed
+                ? "+" + AdvancedBuildingEffects.EffectPctLabel + "%"
+                : "+0%";
+            var speedRow = AddRowReturn(section, "TSA_WD_OutpostStats_Row_LandSpeed",
+                landSpeedValue,
+                "TSA_WD_OutpostStats_Row_LandSpeedTip".Translate().ToString());
+            MarkBoostedIf(speedRow, hasStableLandSpeed);
 
             bool mortarEligible = settings.enableNpcT4Mortar
                 && reg.Has(settlement, AdvancedBuildingDefOf.TSA_WD_AdvBuilding_MortarTurret);

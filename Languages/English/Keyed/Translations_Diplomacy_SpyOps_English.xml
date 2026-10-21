@@ -600,7 +600,7 @@
   <TSA_WD_Log_BribeRaidLaunched>{0} dispatched a bribe caravan after {1} ({2}).</TSA_WD_Log_BribeRaidLaunched>
   <TSA_WD_Log_BribeSettlementCompleted>Bribe ceasefire with {1} via {0} for {2} days.</TSA_WD_Log_BribeSettlementCompleted>
   <TSA_WD_Log_BribeRaidCompleted>Bribed and dissolved {0} ({1}).</TSA_WD_Log_BribeRaidCompleted>
-  <TSA_WD_Log_Raid_SkippedBribeCeasefire>Raid skipped: bribe ceasefire still active with {0}.</TSA_WD_Log_Raid_SkippedBribeCeasefire>
+  <TSA_WD_Log_Raid_SkippedBribeCeasefire>RAID: skipped (bribe ceasefire still active with {0}).</TSA_WD_Log_Raid_SkippedBribeCeasefire>
   <TSA_WD_Bribe_CostHeader>Bribe cost</TSA_WD_Bribe_CostHeader>
   <TSA_WD_Bribe_SettlementSilverPerStr>Settlement silver per strength</TSA_WD_Bribe_SettlementSilverPerStr>
   <TSA_WD_Bribe_SettlementSilverPerStrTip>Flat rate for ceasefire bribes. Mid and Late escalation do not change this rate (threat can still rise as more towns enter attack range).</TSA_WD_Bribe_SettlementSilverPerStrTip>

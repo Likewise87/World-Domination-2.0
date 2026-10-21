@@ -1886,6 +1886,9 @@
   <TSA_WD_Experts_RowBenefit_RoadSpeed>Construction Project Speed +{0}%</TSA_WD_Experts_RowBenefit_RoadSpeed>
   <TSA_WD_Experts_RowBenefit_Engineer>Construction Project Speed +{0}%\nConstruction Project Radius +{1}%\nDefensive Recovery +{0}%</TSA_WD_Experts_RowBenefit_Engineer>
   <TSA_WD_Outpost_Pawns_ExpertsHint>Expert roles are assigned in the Experts tab.</TSA_WD_Outpost_Pawns_ExpertsHint>
+  <TSA_WD_OutpostStats_Row_AmbushWatch>Interception radius</TSA_WD_OutpostStats_Row_AmbushWatch>
+  <TSA_WD_OutpostStats_Row_AmbushWatchTip>Tiles this settlement watches for hostile travelers to intercept ({0}).</TSA_WD_OutpostStats_Row_AmbushWatchTip>
+  <TSA_WD_OutpostStats_Row_AmbushWatchTip_Stable>Base interception radius {0} tiles. Stable extends it to {1} tiles.</TSA_WD_OutpostStats_Row_AmbushWatchTip_Stable>
   <TSA_WD_OutpostStats_Row_AttackRange>Attack range</TSA_WD_OutpostStats_Row_AttackRange>
   <TSA_WD_StatsTooltip_Baseline>Baseline: {0}</TSA_WD_StatsTooltip_Baseline>
   <TSA_WD_StatsTooltip_MaxRange>Max range: {0}</TSA_WD_StatsTooltip_MaxRange>
@@ -2219,7 +2222,7 @@
   <TSA_WD_OutpostStats_Row_AdvBuildings>Advanced buildings</TSA_WD_OutpostStats_Row_AdvBuildings>
   <TSA_WD_OutpostStats_Row_AdvBuildingsTip>Advanced buildings owned by this settlement. Slots equal the settlement tier ({0}); one of each type at most.</TSA_WD_OutpostStats_Row_AdvBuildingsTip>
   <TSA_WD_OutpostStats_Row_LandSpeed>Land caravan speed</TSA_WD_OutpostStats_Row_LandSpeed>
-  <TSA_WD_OutpostStats_Row_LandSpeedTip>Stable bonus to the walking speed of caravans launched from this settlement.</TSA_WD_OutpostStats_Row_LandSpeedTip>
+  <TSA_WD_OutpostStats_Row_LandSpeedTip>Bonus to the walking speed of caravans launched from this settlement. A Stable provides the bonus; without one the bonus is +0%.</TSA_WD_OutpostStats_Row_LandSpeedTip>
   <TSA_WD_OutpostStats_SiloMaxLine>Silo: {0} +{1}% = {2}</TSA_WD_OutpostStats_SiloMaxLine>
   <TSA_WD_OutpostStats_HospitalLine>Hospital: +{0}%</TSA_WD_OutpostStats_HospitalLine>
 </LanguageData>

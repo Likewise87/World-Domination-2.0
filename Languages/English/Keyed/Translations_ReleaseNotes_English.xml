@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_55_Title>Balancing</TSA_WD_Update_2_3_55_Title>
+  <TSA_WD_Update_2_3_55_Body><![CDATA[
+<size=16><b>2.3.55 - Balancing</b></size>\n
+<color=#00FFFFFF>Release date: October 21st 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• Raid drought: after ~5 days without a raid, force a colony raid (strongest in range, else beyond-range with letter note) to mitigate situations where you get too few raids.\n
+• If a raider caravan targeting the player colony gets destroyed on its way, this will reset the raid count (i.e. it no longer counts against the limit).\n
+• The max range of NPC Rapid Response/Interception caravans now depends on the strength of the target. Weak caravans can only be targeted if passing very close to the settlement.\n
+• WD caravans have a Stats tab now showing useful information.\n
+• Player WD caravans with inventory (equipment, bribe, outpost delivery, outpost upgrade) have a tab now showing what they carry.\n
+• Power produced by WD Powerplant Outposts is now shown in the tab added by the mod "Power Tab 2 Fixed Fork".\n
+• Mental states now wear off for pawns garrisoned at WD outposts.\n
+• Made Action Log entries more coherent in length, wording, and formatting.\n
+• AT turret range is now also shown over water and bridges.\n
+]]></TSA_WD_Update_2_3_55_Body>
   <TSA_WD_Update_2_3_54_Title>More Bugfixes and QOL</TSA_WD_Update_2_3_54_Title>
   <TSA_WD_Update_2_3_54_Body><![CDATA[
 <size=16><b>2.3.54 - More Bugfixes and QOL</b></size>\n

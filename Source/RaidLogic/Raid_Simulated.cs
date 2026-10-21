@@ -53,6 +53,7 @@ namespace TSA_WorldDomination
         {
             if (traveler?.targetObject is WorldObject_WD_Outpost outpost && outpost.Faction == Faction.OfPlayer)
             {
+                PlayerWdRaidDispatchUtil.NotifyPlayerContact(traveler);
                 HandlePlayerOutpostRaidArrival(traveler, manager);
                 return false;
             }
@@ -93,6 +94,7 @@ namespace TSA_WorldDomination
                 // No live origin settlement: pack-up / desperation / debug Create-raid columns
                 // (same as TryInterceptRaidAtPlayerColony). Uses traveler.Faction + mission
                 // (land / drop-pod / gravship) for the incident.
+                PlayerWdRaidDispatchUtil.NotifyPlayerContact(traveler);
                 traveler.suppressDestroyedWorldFx = true;
                 if (attacker is Settlement attSettlement)
                 {

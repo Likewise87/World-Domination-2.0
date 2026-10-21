@@ -155,7 +155,7 @@
   <TSA_WD_Log_ForwardAssault_RatioBypass>(lanzado bajo la ratio mínima)</TSA_WD_Log_ForwardAssault_RatioBypass>
   <TSA_WD_Log_ForwardAssault_VanguardFounded>VANGUARDIA: Fundado {0}.</TSA_WD_Log_ForwardAssault_VanguardFounded>
   <TSA_WD_Log_ForwardAssault_VanguardAbsorbed>VANGUARDIA: Refuerzos absorbidos en un atrincheramiento existente ({0}).</TSA_WD_Log_ForwardAssault_VanguardAbsorbed>
-  <TSA_WD_Log_ForwardAssault_BlockedRaid>VANGUARDIA: {0} encuentra {1} en la casilla — desvía a asalto.</TSA_WD_Log_ForwardAssault_BlockedRaid>
+  <TSA_WD_Log_ForwardAssault_BlockedRaid>VANGUARDIA: {0} encuentra {1} en la casilla reservada (desvía a asalto).</TSA_WD_Log_ForwardAssault_BlockedRaid>
   <TSA_WD_Log_ForwardAssault_Refound>VANGUARDIA: {0} remonta como {1}.</TSA_WD_Log_ForwardAssault_Refound>
   <TSA_WD_Log_ConquestSettlementFounded>CONQUISTA: {0} fundó {1} ({2}) tras una incursión exitosa.</TSA_WD_Log_ConquestSettlementFounded>
   <TSA_WD_Log_ExpansionCancelled>Misión {0} cancelada: Casilla ocupada o saturada.</TSA_WD_Log_ExpansionCancelled>
@@ -313,4 +313,38 @@
   <TSA_WD_AdvBuild_Inspect_BuiltBySettlement>Construido por asentamiento: {0}</TSA_WD_AdvBuild_Inspect_BuiltBySettlement>
   <TSA_WD_AdvBuild_Inspect_ReloadingDays>Recargando: {0} días</TSA_WD_AdvBuild_Inspect_ReloadingDays>
   <TSA_WD_AdvBuild_Inspect_ShellProtectionDays>Protección contra bombardeo: {0} días</TSA_WD_AdvBuild_Inspect_ShellProtectionDays>
+  <TSA_WD_TravelerStats_TabLabel>Estadísticas</TSA_WD_TravelerStats_TabLabel>
+  <TSA_WD_TravelerStats_Section_Route>Ruta</TSA_WD_TravelerStats_Section_Route>
+  <TSA_WD_TravelerStats_Section_Force>Fuerza</TSA_WD_TravelerStats_Section_Force>
+  <TSA_WD_TravelerStats_Section_Ambush>Emboscada</TSA_WD_TravelerStats_Section_Ambush>
+  <TSA_WD_TravelerStats_Section_PlayerThreat>Amenaza al jugador</TSA_WD_TravelerStats_Section_PlayerThreat>
+  <TSA_WD_TravelerStats_Row_Mission>Misión</TSA_WD_TravelerStats_Row_Mission>
+  <TSA_WD_TravelerStats_Row_Faction>Facción</TSA_WD_TravelerStats_Row_Faction>
+  <TSA_WD_TravelerStats_Row_Origin>Origen</TSA_WD_TravelerStats_Row_Origin>
+  <TSA_WD_TravelerStats_Row_Destination>Destino</TSA_WD_TravelerStats_Row_Destination>
+  <TSA_WD_TravelerStats_Row_Strength>Fuerza (actual / inicial)</TSA_WD_TravelerStats_Row_Strength>
+  <TSA_WD_TravelerStats_Row_StrengthRemaining>Fuerza restante</TSA_WD_TravelerStats_Row_StrengthRemaining>
+  <TSA_WD_TravelerStats_Row_EtaDays>ETA (días)</TSA_WD_TravelerStats_Row_EtaDays>
+  <TSA_WD_TravelerStats_Row_TravelMode>Modo de viaje</TSA_WD_TravelerStats_Row_TravelMode>
+  <TSA_WD_TravelerStats_Row_AttritionResting>Descansando por desgaste</TSA_WD_TravelerStats_Row_AttritionResting>
+  <TSA_WD_TravelerStats_Mode_Land>Tierra</TSA_WD_TravelerStats_Mode_Land>
+  <TSA_WD_TravelerStats_Mode_DropPod>Cápsula</TSA_WD_TravelerStats_Mode_DropPod>
+  <TSA_WD_TravelerStats_Mode_Gravship>Nave gravitatoria</TSA_WD_TravelerStats_Mode_Gravship>
+  <TSA_WD_TravelerStats_Row_AmbushRangeBand>Visibilidad de emboscada</TSA_WD_TravelerStats_Row_AmbushRangeBand>
+  <TSA_WD_TravelerStats_Row_AmbushRangeBandValue>{0} de {1} casillas</TSA_WD_TravelerStats_Row_AmbushRangeBandValue>
+  <TSA_WD_TravelerStats_Row_AmbushRangeBandTip>Hasta qué distancia los asentamientos pueden detectar a este viajero para emboscarlo. Las partidas más débiles solo se ven de cerca. Comerciantes y expansiones cuentan como más fuertes al detectarlos.</TSA_WD_TravelerStats_Row_AmbushRangeBandTip>
+  <TSA_WD_TravelerStats_Row_CanBeAmbushed>Puede ser emboscado</TSA_WD_TravelerStats_Row_CanBeAmbushed>
+  <TSA_WD_TravelerStats_Row_RaidTargetKind>Objetivo de incursión</TSA_WD_TravelerStats_Row_RaidTargetKind>
+  <TSA_WD_TravelerStats_Row_BeyondNormalRange>Más allá del alcance normal</TSA_WD_TravelerStats_Row_BeyondNormalRange>
+  <TSA_WD_TravelerStats_Row_CapStamped>Cuenta para el tope de incursiones</TSA_WD_TravelerStats_Row_CapStamped>
+  <TSA_WD_TravelerStats_Row_Contacted>Contacto con el jugador</TSA_WD_TravelerStats_Row_Contacted>
+  <TSA_WD_TravelerStats_Yes>Sí</TSA_WD_TravelerStats_Yes>
+  <TSA_WD_TravelerStats_No>No</TSA_WD_TravelerStats_No>
+  <TSA_WD_TravelerStats_RaidTarget_Colony>Colonia</TSA_WD_TravelerStats_RaidTarget_Colony>
+  <TSA_WD_TravelerStats_RaidTarget_Outpost>Avanzadilla</TSA_WD_TravelerStats_RaidTarget_Outpost>
+  <TSA_WD_TravelerStats_RaidTarget_Settlement>Asentamiento</TSA_WD_TravelerStats_RaidTarget_Settlement>
+  <TSA_WD_TravelerInventory_TabLabel>Inventario</TSA_WD_TravelerInventory_TabLabel>
+  <TSA_WD_TravelerInventory_Empty>Este viajero no lleva carga.</TSA_WD_TravelerInventory_Empty>
+  <TSA_WD_TravelerInventory_UpgradeLine>Mejora: {0} (nivel {1})</TSA_WD_TravelerInventory_UpgradeLine>
+  <TSA_WD_TravelerInventory_TypeChangeLine>Convirtiendo a: {0}</TSA_WD_TravelerInventory_TypeChangeLine>
 </LanguageData>

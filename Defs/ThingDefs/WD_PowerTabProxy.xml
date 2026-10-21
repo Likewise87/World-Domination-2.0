@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <!-- Display-only proxy used to show World Domination remote outpost power in the optional Power Tab mod. Never spawned on maps. -->
+  <!-- Display-only Building proxy for Power Tab 2 (Dictionary&lt;Building, PowerTabThing&gt;). Never spawned on maps. -->
   <ThingDef>
     <defName>TSA_WD_RemotePowerTabSource</defName>
     <label>WD remote power</label>
     <description>Abstract remote power supplied by World Domination power plant outposts.</description>
     <thingClass>TSA_WorldDomination.WD_RemotePowerTabThing, TSA_WorldDomination</thingClass>
-    <category>Item</category>
+    <category>Building</category>
     <selectable>false</selectable>
+    <destroyable>false</destroyable>
+    <useHitPoints>false</useHitPoints>
     <tickerType>Never</tickerType>
     <graphicData>
       <texPath>WorldObjects/Outposts/WD_Outpost_Powerplant</texPath>

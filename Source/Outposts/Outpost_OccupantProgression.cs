@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>Skill XP, biological aging, ability CD finalize, Disappears wear-off, virtual healing, and (with Combat Extended) passive Primary ammo for outpost occupants and stored animals (real pawns, not world-ticked). Mutates pawns; occupant changes refresh via <see cref="WorldObject_WD_Outpost.NotifyVirtualPawnsChanged"/>.</summary>
+    /// <summary>Skill XP, biological aging, ability CD finalize, Disappears wear-off, virtual healing, mind hygiene, and (with Combat Extended) passive Primary ammo for outpost occupants and stored animals (real pawns, not world-ticked). Mutates pawns; occupant changes refresh via <see cref="WorldObject_WD_Outpost.NotifyVirtualPawnsChanged"/>.</summary>
     public static class Outpost_OccupantProgression
     {
         public const float EventXpResearchPerDay = 500f;
@@ -21,8 +23,15 @@ namespace TSA_WorldDomination
         private const float HediffRemoveSeverityThreshold = 0.001f;
         private const float FullImmunityThreshold = 1f - 0.0001f;
 
-        private static readonly System.Reflection.FieldInfo ImmunizableImmunityField =
+        private static readonly FieldInfo ImmunizableImmunityField =
             AccessTools.Field(typeof(HediffComp_Immunizable), "immunity");
+
+        /// <summary>
+        /// Vanilla <see cref="MentalState.MentalStateTick"/> only adds 30 age when its 30-tick hash gate fires,
+        /// so a day-sized <c>MentalStateHandlerTickInterval</c> does not advance a full day. We bump age first.
+        /// </summary>
+        private static readonly FieldInfo MentalStateAgeField =
+            AccessTools.Field(typeof(MentalState), "age");
 
         /// <summary>Player outpost that launched this traveler, or null.</summary>
         public static WorldObject_WD_Outpost OutpostFromTravelerOrigin(WorldObject_Traveler traveler)
@@ -172,6 +181,123 @@ namespace TSA_WorldDomination
             }
             if (any)
                 outpost.NotifyVirtualPawnsChanged();
+        }
+
+        /// <summary>
+        /// Once per in-game day: advance mental-break age one day, undraft leftovers, and age inspirations
+        /// for mothballed occupants (despawned — no <c>MentalStateTick</c>).
+        /// </summary>
+        public static void TickOccupantsMindHygieneOneDay(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost?.Occupants == null || outpost.Occupants.Count == 0) return;
+            ApplyMindHygieneOneDay(outpost.Occupants);
+        }
+
+        /// <summary>
+        /// Once per in-game day: same mind hygiene for mothballed prisoners (runs during manual defense).
+        /// </summary>
+        public static void TickPrisonersMindHygieneOneDay(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost?.Prisoners == null || outpost.Prisoners.Count == 0) return;
+            ApplyMindHygieneOneDay(outpost.Prisoners);
+        }
+
+        private static void ApplyMindHygieneOneDay(List<Pawn> pawns)
+        {
+            if (pawns == null || pawns.Count == 0) return;
+
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                Pawn p = pawns[i];
+                if (p == null || p.Destroyed || p.Dead) continue;
+                if (p.RaceProps == null || !p.RaceProps.Humanlike) continue;
+
+                try
+                {
+                    AdvanceMentalStateOneDay(p);
+                }
+                catch
+                {
+                    // Modded mental states must not break the daily pass
+                }
+
+                try
+                {
+                    if (p.Drafted && p.drafter != null)
+                        p.drafter.Drafted = false;
+                }
+                catch
+                {
+                    // Draft leftovers from map defense
+                }
+
+                try
+                {
+                    // Age existing inspiration only — do not call InspirationHandlerTickInterval
+                    // (that also rolls CheckStartRandomInspiration).
+                    Inspiration insp = p.Inspiration;
+                    if (insp != null)
+                        insp.InspirationTick(GenDate.TicksPerDay);
+                }
+                catch
+                {
+                    // Inspiration / mod handlers
+                }
+            }
+        }
+
+        private static void AdvanceMentalStateOneDay(Pawn pawn)
+        {
+            if (pawn?.mindState?.mentalStateHandler == null) return;
+            if (!pawn.InMentalState) return;
+
+            MentalState state = pawn.MentalState;
+            if (state == null) return;
+
+            if (MentalStateAgeField != null)
+            {
+                object raw = MentalStateAgeField.GetValue(state);
+                if (raw is int age)
+                    MentalStateAgeField.SetValue(state, age + GenDate.TicksPerDay);
+            }
+
+            try
+            {
+                pawn.mindState.mentalStateHandler.MentalStateHandlerTickInterval(GenDate.TicksPerDay);
+            }
+            catch
+            {
+                try
+                {
+                    state.RecoverFromState();
+                }
+                catch
+                {
+                    // Last-resort recover failed
+                }
+                return;
+            }
+
+            // Ensure hard duration / forceRecover caps clear even if subclass Tick skipped base recovery.
+            state = pawn.MentalState;
+            if (state == null) return;
+            MentalStateDef def = state.def;
+            if (def == null) return;
+
+            int ageNow = state.Age;
+            bool pastMax = ageNow >= def.maxTicksBeforeRecovery;
+            bool pastForce = state.forceRecoverAfterTicks != -1 && ageNow >= state.forceRecoverAfterTicks;
+            if (pastMax || pastForce)
+            {
+                try
+                {
+                    state.RecoverFromState();
+                }
+                catch
+                {
+                    // Cap recover
+                }
+            }
         }
 
         /// <summary>

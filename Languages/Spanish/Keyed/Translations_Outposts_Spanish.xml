@@ -1780,6 +1780,9 @@
   <TSA_WD_Experts_RowBenefit_RoadSpeed>Velocidad de proyectos de construcción +{0}%</TSA_WD_Experts_RowBenefit_RoadSpeed>
   <TSA_WD_Experts_RowBenefit_Engineer>Velocidad de proyectos de construcción +{0}%\nRadio de proyectos de construcción +{1}%\nRecuperación defensiva +{0}%</TSA_WD_Experts_RowBenefit_Engineer>
   <TSA_WD_Outpost_Pawns_ExpertsHint>Los roles de experto se asignan en la pestaña Expertos.</TSA_WD_Outpost_Pawns_ExpertsHint>
+  <TSA_WD_OutpostStats_Row_AmbushWatch>Radio de intercepción</TSA_WD_OutpostStats_Row_AmbushWatch>
+  <TSA_WD_OutpostStats_Row_AmbushWatchTip>Casillas que este asentamiento vigila para interceptar viajeros hostiles ({0}).</TSA_WD_OutpostStats_Row_AmbushWatchTip>
+  <TSA_WD_OutpostStats_Row_AmbushWatchTip_Stable>Radio de intercepción base: {0} casillas. El Establo lo amplía a {1} casillas.</TSA_WD_OutpostStats_Row_AmbushWatchTip_Stable>
   <TSA_WD_OutpostStats_Row_AttackRange>Alcance de ataque</TSA_WD_OutpostStats_Row_AttackRange>
   <TSA_WD_OutpostStats_Row_AttackRangeTip>Distancia máxima en casillas para incursiones manuales desde esta avanzadilla (ajuste base × bonificación del estratega).</TSA_WD_OutpostStats_Row_AttackRangeTip>
   <TSA_WD_OutpostStats_Row_AttackRangeSettlementTip>Distancia máxima en casillas que este asentamiento puede asaltar.</TSA_WD_OutpostStats_Row_AttackRangeSettlementTip>
@@ -2181,7 +2184,7 @@
   <TSA_WD_OutpostStats_Row_AdvBuildings>Edificios avanzados</TSA_WD_OutpostStats_Row_AdvBuildings>
   <TSA_WD_OutpostStats_Row_AdvBuildingsTip>Edificios avanzados de este asentamiento. Las ranuras equivalen al nivel ({0}); como máximo uno de cada tipo.</TSA_WD_OutpostStats_Row_AdvBuildingsTip>
   <TSA_WD_OutpostStats_Row_LandSpeed>Velocidad de caravanas terrestres</TSA_WD_OutpostStats_Row_LandSpeed>
-  <TSA_WD_OutpostStats_Row_LandSpeedTip>Bono del Establo a la velocidad a pie de las caravanas que salen de este asentamiento.</TSA_WD_OutpostStats_Row_LandSpeedTip>
+  <TSA_WD_OutpostStats_Row_LandSpeedTip>Bono a la velocidad a pie de las caravanas que salen de este asentamiento. Un Establo aporta el bono; sin él es +0%.</TSA_WD_OutpostStats_Row_LandSpeedTip>
   <TSA_WD_OutpostStats_SiloMaxLine>Silo: {0} +{1}% = {2}</TSA_WD_OutpostStats_SiloMaxLine>
   <TSA_WD_OutpostStats_HospitalLine>Hospital: +{0}%</TSA_WD_OutpostStats_HospitalLine>
 </LanguageData>

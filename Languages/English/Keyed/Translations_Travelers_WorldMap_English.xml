@@ -161,7 +161,7 @@
   <TSA_WD_Log_ForwardAssault_RatioBypass>(launched under min strength ratio)</TSA_WD_Log_ForwardAssault_RatioBypass>
   <TSA_WD_Log_ForwardAssault_VanguardFounded>VANGUARD: Founded {0}.</TSA_WD_Log_ForwardAssault_VanguardFounded>
   <TSA_WD_Log_ForwardAssault_VanguardAbsorbed>VANGUARD: Reinforcements absorbed into an existing dig-in ({0}).</TSA_WD_Log_ForwardAssault_VanguardAbsorbed>
-  <TSA_WD_Log_ForwardAssault_BlockedRaid>VANGUARD: {0} found {1} on reserved tile — diverting to raid.</TSA_WD_Log_ForwardAssault_BlockedRaid>
+  <TSA_WD_Log_ForwardAssault_BlockedRaid>VANGUARD: {0} found {1} on reserved tile (diverting to raid).</TSA_WD_Log_ForwardAssault_BlockedRaid>
   <TSA_WD_Log_ForwardAssault_Refound>VANGUARD: {0} remounted as {1}.</TSA_WD_Log_ForwardAssault_Refound>
   <TSA_WD_Log_ConquestSettlementFounded>CONQUEST: {0} founded {1} ({2}) after a successful raid.</TSA_WD_Log_ConquestSettlementFounded>
   <TSA_WD_Log_ExpansionCancelled>{0} mission cancelled: Tile occupied or saturated.</TSA_WD_Log_ExpansionCancelled>
@@ -325,4 +325,38 @@
   <TSA_WD_AdvBuild_Inspect_BuiltBySettlement>Built by Settlement: {0}</TSA_WD_AdvBuild_Inspect_BuiltBySettlement>
   <TSA_WD_AdvBuild_Inspect_ReloadingDays>Reloading: {0} Days</TSA_WD_AdvBuild_Inspect_ReloadingDays>
   <TSA_WD_AdvBuild_Inspect_ShellProtectionDays>Protection from being shelled: {0} Days</TSA_WD_AdvBuild_Inspect_ShellProtectionDays>
+  <TSA_WD_TravelerStats_TabLabel>Stats</TSA_WD_TravelerStats_TabLabel>
+  <TSA_WD_TravelerStats_Section_Route>Route</TSA_WD_TravelerStats_Section_Route>
+  <TSA_WD_TravelerStats_Section_Force>Force</TSA_WD_TravelerStats_Section_Force>
+  <TSA_WD_TravelerStats_Section_Ambush>Ambush</TSA_WD_TravelerStats_Section_Ambush>
+  <TSA_WD_TravelerStats_Section_PlayerThreat>Player threat</TSA_WD_TravelerStats_Section_PlayerThreat>
+  <TSA_WD_TravelerStats_Row_Mission>Mission</TSA_WD_TravelerStats_Row_Mission>
+  <TSA_WD_TravelerStats_Row_Faction>Faction</TSA_WD_TravelerStats_Row_Faction>
+  <TSA_WD_TravelerStats_Row_Origin>Origin</TSA_WD_TravelerStats_Row_Origin>
+  <TSA_WD_TravelerStats_Row_Destination>Destination</TSA_WD_TravelerStats_Row_Destination>
+  <TSA_WD_TravelerStats_Row_Strength>Strength (current / initial)</TSA_WD_TravelerStats_Row_Strength>
+  <TSA_WD_TravelerStats_Row_StrengthRemaining>Strength remaining</TSA_WD_TravelerStats_Row_StrengthRemaining>
+  <TSA_WD_TravelerStats_Row_EtaDays>ETA (days)</TSA_WD_TravelerStats_Row_EtaDays>
+  <TSA_WD_TravelerStats_Row_TravelMode>Travel mode</TSA_WD_TravelerStats_Row_TravelMode>
+  <TSA_WD_TravelerStats_Row_AttritionResting>Resting from attrition</TSA_WD_TravelerStats_Row_AttritionResting>
+  <TSA_WD_TravelerStats_Mode_Land>Land</TSA_WD_TravelerStats_Mode_Land>
+  <TSA_WD_TravelerStats_Mode_DropPod>Drop pod</TSA_WD_TravelerStats_Mode_DropPod>
+  <TSA_WD_TravelerStats_Mode_Gravship>Gravship</TSA_WD_TravelerStats_Mode_Gravship>
+  <TSA_WD_TravelerStats_Row_AmbushRangeBand>Ambush visibility</TSA_WD_TravelerStats_Row_AmbushRangeBand>
+  <TSA_WD_TravelerStats_Row_AmbushRangeBandValue>{0} of {1} tiles</TSA_WD_TravelerStats_Row_AmbushRangeBandValue>
+  <TSA_WD_TravelerStats_Row_AmbushRangeBandTip>How far settlements can spot this traveler for ambush. Weaker parties are only seen nearby. Trader and Expansion parties count as stronger for spotting.</TSA_WD_TravelerStats_Row_AmbushRangeBandTip>
+  <TSA_WD_TravelerStats_Row_CanBeAmbushed>Can be ambushed</TSA_WD_TravelerStats_Row_CanBeAmbushed>
+  <TSA_WD_TravelerStats_Row_RaidTargetKind>Raid target</TSA_WD_TravelerStats_Row_RaidTargetKind>
+  <TSA_WD_TravelerStats_Row_BeyondNormalRange>Beyond normal range</TSA_WD_TravelerStats_Row_BeyondNormalRange>
+  <TSA_WD_TravelerStats_Row_CapStamped>Counts toward raid caps</TSA_WD_TravelerStats_Row_CapStamped>
+  <TSA_WD_TravelerStats_Row_Contacted>Reached player contact</TSA_WD_TravelerStats_Row_Contacted>
+  <TSA_WD_TravelerStats_Yes>Yes</TSA_WD_TravelerStats_Yes>
+  <TSA_WD_TravelerStats_No>No</TSA_WD_TravelerStats_No>
+  <TSA_WD_TravelerStats_RaidTarget_Colony>Colony</TSA_WD_TravelerStats_RaidTarget_Colony>
+  <TSA_WD_TravelerStats_RaidTarget_Outpost>Outpost</TSA_WD_TravelerStats_RaidTarget_Outpost>
+  <TSA_WD_TravelerStats_RaidTarget_Settlement>Settlement</TSA_WD_TravelerStats_RaidTarget_Settlement>
+  <TSA_WD_TravelerInventory_TabLabel>Inventory</TSA_WD_TravelerInventory_TabLabel>
+  <TSA_WD_TravelerInventory_Empty>No cargo on this traveler.</TSA_WD_TravelerInventory_Empty>
+  <TSA_WD_TravelerInventory_UpgradeLine>Upgrade: {0} (level {1})</TSA_WD_TravelerInventory_UpgradeLine>
+  <TSA_WD_TravelerInventory_TypeChangeLine>Converting to: {0}</TSA_WD_TravelerInventory_TypeChangeLine>
 </LanguageData>

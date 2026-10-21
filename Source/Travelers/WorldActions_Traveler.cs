@@ -541,12 +541,16 @@ namespace TSA_WorldDomination
             WorldComponent_SpreadManager manager)
             => ResolveTravelerClashByRaidMath(attacker, defender, attacker, manager);
 
-        /// <summary>Feature E: stamp the sending settlement's <see cref="CompViralSpread.lastCaravanInterceptedTick"/> when a Trader-mission traveler is actually destroyed via interception (ambush/Rapid Response/mortar), never on ordinary arrival.</summary>
-        internal static void StampTraderInterceptedIfApplicable(WorldObject_Traveler destroyed)
+        /// <summary>Stamp origin settlement when a Trader or Expansion caravan is killed by interception (not ordinary arrival).</summary>
+        internal static void StampOriginInterceptedIfApplicable(WorldObject_Traveler destroyed)
         {
-            if (destroyed == null || destroyed.mission != TravelerMission.Trader) return;
+            if (destroyed == null) return;
             var senderComp = destroyed.originObject?.GetComponent<CompViralSpread>();
-            senderComp?.MarkCaravanIntercepted();
+            if (senderComp == null) return;
+            if (destroyed.mission == TravelerMission.Trader)
+                senderComp.MarkCaravanIntercepted();
+            else if (destroyed.mission == TravelerMission.Expansion)
+                senderComp.MarkExpansionIntercepted();
         }
 
         /// <summary>

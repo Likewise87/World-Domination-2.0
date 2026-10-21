@@ -229,6 +229,9 @@ namespace TSA_WorldDomination
                 ? Mathf.Min(seth.expandMaxRadius, Mathf.Max(minRadius, expandTiles))
                 : seth.expandMaxRadius;
             if (maxRadius < minRadius) maxRadius = minRadius;
+            // Scared expansion: prefer closer tiles after a recent intercept kill of an expand caravan.
+            if (parentComp.IsExpansionRecentlyIntercepted() && maxRadius > minRadius)
+                maxRadius = Mathf.Max(minRadius, (minRadius + maxRadius) / 2);
 
             int chosenTile = -1;
             bool hasTile = biasTowardPlayer

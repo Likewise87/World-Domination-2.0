@@ -191,7 +191,7 @@ namespace TSA_WorldDomination
             return n;
         }
 
-        /// <summary>True when the owner has any AT turret or advanced building (used by sally watch range and ratios).</summary>
+        /// <summary>True when the owner has any AT turret or advanced building (ratios / self-defense ratios).</summary>
         public bool OwnerHasAssets(Settlement owner)
         {
             if (owner == null) return false;
@@ -201,6 +201,22 @@ namespace TSA_WorldDomination
             {
                 var t = turrets[i];
                 if (t != null && !t.Destroyed && t.builtBySettlement == owner) return true;
+            }
+            return false;
+        }
+
+        /// <summary>True when the owner has a Stable (Feature C extended ambush watch radius).</summary>
+        public bool OwnerHasStable(Settlement owner)
+        {
+            if (owner == null) return false;
+            var list = OwnedBy(owner);
+            for (int i = 0; i < list.Count; i++)
+            {
+                var b = list[i];
+                if (b == null || b.Destroyed) continue;
+                AdvancedBuildingDef def = b.BuildingDef;
+                if (def != null && def.effect == AdvancedBuildingEffect.LandSpeedPct)
+                    return true;
             }
             return false;
         }

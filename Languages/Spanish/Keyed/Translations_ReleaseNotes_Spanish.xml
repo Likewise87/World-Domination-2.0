@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_55_Title>Equilibrio</TSA_WD_Update_2_3_55_Title>
+  <TSA_WD_Update_2_3_55_Body><![CDATA[
+<size=16><b>2.3.55 - Equilibrio</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 21 de octubre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Sequía de asaltos: tras ~5 días sin asalto, se fuerza un asalto a la colonia (el más fuerte en alcance; si no, fuera de alcance con nota en la carta) para mitigar partidas con demasiados pocos asaltos.\n
+• Si una caravana de asalto dirigida a la colonia del jugador se destruye en el camino, se reinicia el contador de asaltos (ya no cuenta contra el límite).\n
+• El alcance máximo de las caravanas PNJ de respuesta rápida/intercepción ahora depende de la fuerza del objetivo. Las caravanas débiles solo pueden ser atacadas si pasan muy cerca del asentamiento.\n
+• Las caravanas WD tienen ahora una pestaña de Estadísticas con información útil.\n
+• Las caravanas WD del jugador con inventario (equipo, soborno, entrega a puesto, mejora de puesto) tienen ahora una pestaña que muestra lo que llevan.\n
+• La energía producida por los puestos de central WD ahora aparece en la pestaña del mod "Power Tab 2 Fixed Fork".\n
+• Los estados mentales ahora se agotan en peones guarnecidos en puestos WD.\n
+• Las entradas del registro de acciones son más coherentes en longitud, redacción y formato.\n
+• El alcance de las torretas AT ahora también se muestra sobre agua y puentes.\n
+]]></TSA_WD_Update_2_3_55_Body>
   <TSA_WD_Update_2_3_54_Title>Más correcciones y calidad de vida</TSA_WD_Update_2_3_54_Title>
   <TSA_WD_Update_2_3_54_Body><![CDATA[
 <size=16><b>2.3.54 - Más correcciones y calidad de vida</b></size>\n

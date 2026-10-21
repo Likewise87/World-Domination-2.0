@@ -548,7 +548,7 @@
   <TSA_WD_Log_BribeRaidLaunched>{0} 派出贿赂商队追赶 {1}（{2}）。</TSA_WD_Log_BribeRaidLaunched>
   <TSA_WD_Log_BribeSettlementCompleted>通过 {0} 与 {1} 达成 {2} 天贿赂停火。</TSA_WD_Log_BribeSettlementCompleted>
   <TSA_WD_Log_BribeRaidCompleted>已贿赂并解散 {0}（{1}）。</TSA_WD_Log_BribeRaidCompleted>
-  <TSA_WD_Log_Raid_SkippedBribeCeasefire>袭击已跳过：与 {0} 的贿赂停火仍有效。</TSA_WD_Log_Raid_SkippedBribeCeasefire>
+  <TSA_WD_Log_Raid_SkippedBribeCeasefire>袭击: 已跳过（与 {0} 的贿赂停火仍有效）。</TSA_WD_Log_Raid_SkippedBribeCeasefire>
   <TSA_WD_Bribe_CostHeader>贿赂费用</TSA_WD_Bribe_CostHeader>
   <TSA_WD_Bribe_SettlementSilverPerStr>定居点每强度银价</TSA_WD_Bribe_SettlementSilverPerStr>
   <TSA_WD_Bribe_SettlementSilverPerStrTip>停火贿赂的固定费率。中期/晚期升级不会改变此费率（威胁仍可能因更多城镇进入攻击范围而上升）。</TSA_WD_Bribe_SettlementSilverPerStrTip>

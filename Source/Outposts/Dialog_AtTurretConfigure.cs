@@ -27,7 +27,7 @@ namespace TSA_WorldDomination
         private const float SectionGap = 12f;
         private const float SliderH = 28f;
 
-        public override Vector2 InitialSize => new Vector2(540f, 326f);
+        public override Vector2 InitialSize => new Vector2(540f, 376f);
 
         public Dialog_AtTurretConfigure(WorldObject_AT_Turret turret)
         {
@@ -112,7 +112,8 @@ namespace TSA_WorldDomination
             float contentW = area.width;
             float colGap = 10f;
             float colW = (contentW - colGap) / 2f;
-            float topH = SectionPad * 2f + HeaderH + 5f * RowH;
+            // Six caravan mask rows (+50 vs prior 5-row box height so Logistics is not clipped).
+            float topH = SectionPad * 2f + HeaderH + 5f * RowH + 50f;
 
             Rect leftBox = new Rect(area.x, area.y, colW, topH);
             Rect rightBox = new Rect(area.x + colW + colGap, area.y, colW, topH);

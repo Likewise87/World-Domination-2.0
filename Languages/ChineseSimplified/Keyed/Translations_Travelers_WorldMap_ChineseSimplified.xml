@@ -155,7 +155,7 @@
   <TSA_WD_Log_ForwardAssault_RatioBypass>（低于最低兵力比仍已发射）</TSA_WD_Log_ForwardAssault_RatioBypass>
   <TSA_WD_Log_ForwardAssault_VanguardFounded>先锋：建立了 {0}。</TSA_WD_Log_ForwardAssault_VanguardFounded>
   <TSA_WD_Log_ForwardAssault_VanguardAbsorbed>先锋：增援并入既有据点（{0}）。</TSA_WD_Log_ForwardAssault_VanguardAbsorbed>
-  <TSA_WD_Log_ForwardAssault_BlockedRaid>先锋：{0} 在预留格遇到 {1} — 转为突袭。</TSA_WD_Log_ForwardAssault_BlockedRaid>
+  <TSA_WD_Log_ForwardAssault_BlockedRaid>先锋: {0} 在预留格遇到 {1}（转为突袭）。</TSA_WD_Log_ForwardAssault_BlockedRaid>
   <TSA_WD_Log_ForwardAssault_Refound>先锋：{0} 重新驻扎为 {1}。</TSA_WD_Log_ForwardAssault_Refound>
   <TSA_WD_Log_ConquestSettlementFounded>征服:{0} 在成功突袭后建立了 {1}（{2}）。</TSA_WD_Log_ConquestSettlementFounded>
   <TSA_WD_Log_ExpansionCancelled>{0} 任务取消:地块已被占领或饱和。</TSA_WD_Log_ExpansionCancelled>
@@ -313,4 +313,38 @@
   <TSA_WD_AdvBuild_Inspect_BuiltBySettlement>建造定居点：{0}</TSA_WD_AdvBuild_Inspect_BuiltBySettlement>
   <TSA_WD_AdvBuild_Inspect_ReloadingDays>装填中：{0} 天</TSA_WD_AdvBuild_Inspect_ReloadingDays>
   <TSA_WD_AdvBuild_Inspect_ShellProtectionDays>防炮击保护：{0} 天</TSA_WD_AdvBuild_Inspect_ShellProtectionDays>
+  <TSA_WD_TravelerStats_TabLabel>数据</TSA_WD_TravelerStats_TabLabel>
+  <TSA_WD_TravelerStats_Section_Route>路线</TSA_WD_TravelerStats_Section_Route>
+  <TSA_WD_TravelerStats_Section_Force>兵力</TSA_WD_TravelerStats_Section_Force>
+  <TSA_WD_TravelerStats_Section_Ambush>伏击</TSA_WD_TravelerStats_Section_Ambush>
+  <TSA_WD_TravelerStats_Section_PlayerThreat>对玩家威胁</TSA_WD_TravelerStats_Section_PlayerThreat>
+  <TSA_WD_TravelerStats_Row_Mission>任务</TSA_WD_TravelerStats_Row_Mission>
+  <TSA_WD_TravelerStats_Row_Faction>派系</TSA_WD_TravelerStats_Row_Faction>
+  <TSA_WD_TravelerStats_Row_Origin>出发地</TSA_WD_TravelerStats_Row_Origin>
+  <TSA_WD_TravelerStats_Row_Destination>目的地</TSA_WD_TravelerStats_Row_Destination>
+  <TSA_WD_TravelerStats_Row_Strength>强度（当前 / 初始）</TSA_WD_TravelerStats_Row_Strength>
+  <TSA_WD_TravelerStats_Row_StrengthRemaining>剩余强度</TSA_WD_TravelerStats_Row_StrengthRemaining>
+  <TSA_WD_TravelerStats_Row_EtaDays>预计抵达（天）</TSA_WD_TravelerStats_Row_EtaDays>
+  <TSA_WD_TravelerStats_Row_TravelMode>行进方式</TSA_WD_TravelerStats_Row_TravelMode>
+  <TSA_WD_TravelerStats_Row_AttritionResting>因损耗休整中</TSA_WD_TravelerStats_Row_AttritionResting>
+  <TSA_WD_TravelerStats_Mode_Land>陆路</TSA_WD_TravelerStats_Mode_Land>
+  <TSA_WD_TravelerStats_Mode_DropPod>空投舱</TSA_WD_TravelerStats_Mode_DropPod>
+  <TSA_WD_TravelerStats_Mode_Gravship>重力飞船</TSA_WD_TravelerStats_Mode_Gravship>
+  <TSA_WD_TravelerStats_Row_AmbushRangeBand>伏击可见范围</TSA_WD_TravelerStats_Row_AmbushRangeBand>
+  <TSA_WD_TravelerStats_Row_AmbushRangeBandValue>{0} / {1} 格</TSA_WD_TravelerStats_Row_AmbushRangeBandValue>
+  <TSA_WD_TravelerStats_Row_AmbushRangeBandTip>定居点能在多远发现这支旅行队并发起伏击。较弱队伍只能在近处被发现。商队与扩张队在侦测时按更强计算。</TSA_WD_TravelerStats_Row_AmbushRangeBandTip>
+  <TSA_WD_TravelerStats_Row_CanBeAmbushed>可被伏击</TSA_WD_TravelerStats_Row_CanBeAmbushed>
+  <TSA_WD_TravelerStats_Row_RaidTargetKind>袭击目标</TSA_WD_TravelerStats_Row_RaidTargetKind>
+  <TSA_WD_TravelerStats_Row_BeyondNormalRange>超出正常范围</TSA_WD_TravelerStats_Row_BeyondNormalRange>
+  <TSA_WD_TravelerStats_Row_CapStamped>计入袭击上限</TSA_WD_TravelerStats_Row_CapStamped>
+  <TSA_WD_TravelerStats_Row_Contacted>已接触玩家</TSA_WD_TravelerStats_Row_Contacted>
+  <TSA_WD_TravelerStats_Yes>是</TSA_WD_TravelerStats_Yes>
+  <TSA_WD_TravelerStats_No>否</TSA_WD_TravelerStats_No>
+  <TSA_WD_TravelerStats_RaidTarget_Colony>殖民地</TSA_WD_TravelerStats_RaidTarget_Colony>
+  <TSA_WD_TravelerStats_RaidTarget_Outpost>前哨站</TSA_WD_TravelerStats_RaidTarget_Outpost>
+  <TSA_WD_TravelerStats_RaidTarget_Settlement>定居点</TSA_WD_TravelerStats_RaidTarget_Settlement>
+  <TSA_WD_TravelerInventory_TabLabel>物品</TSA_WD_TravelerInventory_TabLabel>
+  <TSA_WD_TravelerInventory_Empty>这支旅行队没有货物。</TSA_WD_TravelerInventory_Empty>
+  <TSA_WD_TravelerInventory_UpgradeLine>升级：{0}（等级 {1}）</TSA_WD_TravelerInventory_UpgradeLine>
+  <TSA_WD_TravelerInventory_TypeChangeLine>转换为：{0}</TSA_WD_TravelerInventory_TypeChangeLine>
 </LanguageData>

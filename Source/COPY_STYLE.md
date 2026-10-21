@@ -25,6 +25,19 @@ Label heights and hub layout: `UI_WINDOWS.md`.
 - Prefer short labels in lists; put detail in tooltips or formula lines under the label.
 - Write like a game manual, not a design doc. No internal terms (`weight`, `tier weight sum`, `floor()`, `divisor`).
 
+## Action Log (row messages)
+
+Applies to keyed strings used as `SpreadLogEntry.message` (Action Log Action column). Not Details dialog titles, not `FormatRaidLogSuffix` margin chips / win-chance chips (those stay Title Case UI chips).
+
+1. **One sentence, sentence case.** Capitalize the first word and proper names / placeholders only.
+2. **Trailing period** on every full row line. Parenthetical suffixes and raid outcome chips are exceptions.
+3. **No em dashes; no arrows** (`→`, `->`, `-->`) in rows. Prefer `to`, parentheses, or `{0} to {1}`.
+4. **Active voice, actor first** when Actor A is that actor: `{0} skipped …`, `{0} dispatched …`.
+5. **Short category tags only** (same casing, colon, space): `RAID:`, `TRADER:`, `TRADE:`, `ROAD:`, `EXPAND:`, `GROW:`, `UPGRADE:`, `TURTLE:`, `VANGUARD:`, `INVASION:`, `DESPERATION:`, `CONQUEST:`, `REVOLT:`, `FORTIFY:`, `OUTPOST UPGRADE:`, `MAJOR INCIDENT:`, `MINOR INCIDENT:`, `ISOLATION:`. Drop long ALL-CAPS essays (`RAID ABORTED:`, `EXPANSION ATTEMPT:`, `ROAD BUILDING ATTEMPT:`, `ISOLATION PRESSURE:`).
+6. **Skip template:** `TAG: {0} skipped (reason).` (lowercase `skipped`, reason in parentheses, trailing period).
+7. **NPC mobiles:** traveler / raid force / WD trader in prose. Do not write “Caravan is underway” for NPC raids. **Exception:** keep the established **Caravan clash** event label until interception letters are renamed in the same pass.
+8. **Band pick rows:** keep an English `Band ` substring in EN `TSA_WD_Log_Raid_BandPicked` / `BandFallback` (Action Log tiny-font heuristic). Historical scribed rows keep whatever text was stored at write time.
+
 ## Recruiting outpost (player model)
 
 Layout for the recruiting dialog (two-column production picker): `UI_WINDOWS.md`.

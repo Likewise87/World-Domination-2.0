@@ -245,14 +245,36 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        /// <summary>Record a committed WD raid launch against a player colony or outpost.</summary>
-        public void RecordPlayerWdRaidLaunch()
+        /// <summary>Record a committed WD raid launch against a player colony or outpost. Returns the stamp tick.</summary>
+        public int RecordPlayerWdRaidLaunch()
         {
             if (playerWdRaidLaunchTicks == null)
                 playerWdRaidLaunchTicks = new List<int>();
             int now = Find.TickManager.TicksGame;
             PrunePlayerWdRaidLaunchTicks(now);
             playerWdRaidLaunchTicks.Add(now);
+            return now;
+        }
+
+        /// <summary>Remove one matching launch stamp (raid died mid-travel before player contact).</summary>
+        public void UnrecordPlayerWdRaidLaunch(int stampTick)
+        {
+            if (stampTick < 0 || playerWdRaidLaunchTicks == null || playerWdRaidLaunchTicks.Count == 0) return;
+            for (int i = playerWdRaidLaunchTicks.Count - 1; i >= 0; i--)
+            {
+                if (playerWdRaidLaunchTicks[i] != stampTick) continue;
+                playerWdRaidLaunchTicks.RemoveAt(i);
+                return;
+            }
+        }
+
+        /// <summary>TicksGame of last successful WD raid contact with the player (arrival / defense / clash).</summary>
+        public int lastPlayerWdRaidContactTick = -1;
+
+        /// <summary>Stamp successful player raid contact for the drought-raid quiet timer.</summary>
+        public void RecordPlayerWdRaidContact()
+        {
+            lastPlayerWdRaidContactTick = Find.TickManager?.TicksGame ?? lastPlayerWdRaidContactTick;
         }
 
         /// <summary>
@@ -773,6 +795,7 @@ namespace TSA_WorldDomination
             {
                 TickPlayerBribeCeasefireExpiry(currentTick);
                 TickQuestRaidBiasExpiry(currentTick);
+                ForcedPlayerRaidDroughtUtil.Tick(this);
             }
 
             if (dailyActionQueue.Count > 0)
@@ -1719,6 +1742,7 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref spaceTileCache, "spaceTileCache", LookMode.Value);
             Scribe_Collections.Look(ref caravanMortarVitalityRemaining, "caravanMortarVitalityRemaining", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref playerWdRaidLaunchTicks, "playerWdRaidLaunchTicks", LookMode.Value);
+            Scribe_Values.Look(ref lastPlayerWdRaidContactTick, "lastPlayerWdRaidContactTick", -1);
 
             Scribe_References.Look(ref currentWorldLeader, "currentWorldLeader");
             Scribe_References.Look(ref currentWeakestUnderdog, "currentWeakestUnderdog");

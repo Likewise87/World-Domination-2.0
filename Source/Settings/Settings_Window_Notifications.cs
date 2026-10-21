@@ -182,6 +182,11 @@ namespace TSA_WorldDomination
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_RaidDivertedFromPlayerTooltip".Translate(), WorldDominationSettings.DefNotifyRaidDivertedFromPlayer));
 
                 l.CheckboxLabeled(
+                    "TSA_WD_Notify_RaidPartyDestroyed".Translate(),
+                    ref s.notifyRaidPartyDestroyed,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_RaidPartyDestroyedTooltip".Translate(), WorldDominationSettings.DefNotifyRaidPartyDestroyed));
+
+                l.CheckboxLabeled(
                     "TSA_WD_Difficulty_NotifyOutpostInc".Translate(),
                     ref s.notifyOutpostIncident,
                     SettingsUI.TooltipWithDefault("TSA_WD_Difficulty_NotifyOutpostIncTooltip".Translate(), WorldDominationSettings.DefNotifyOutpostIncident));

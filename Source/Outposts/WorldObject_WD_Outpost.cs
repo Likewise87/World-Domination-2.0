@@ -3200,6 +3200,7 @@ namespace TSA_WorldDomination
                         Outpost_OccupantProgression.TickOccupantsBiologicalAgeOneDay(this);
                         Outpost_OccupantProgression.TickOccupantsAbilitiesOneDay(this);
                         Outpost_OccupantProgression.TickOccupantsDisappearsOneDay(this);
+                        Outpost_OccupantProgression.TickOccupantsMindHygieneOneDay(this);
                         Outpost_OccupantProgression.TickOccupantsVirtualHealingOneDay(this);
                         Outpost_OccupantNeedsProgression.TickOccupantsNeedsOneDay(this);
                         Outpost_OccupantProgression.TickOccupantsPassiveAmmoOneDay(this);
@@ -3214,6 +3215,7 @@ namespace TSA_WorldDomination
                 {
                     PruneInvalidPrisonersRuntime();
                     Outpost_OccupantProgression.TickPrisonersVirtualHealingOneDay(this);
+                    Outpost_OccupantProgression.TickPrisonersMindHygieneOneDay(this);
                     Outpost_OccupantNeedsProgression.TickPrisonersNeedsOneDay(this);
                     OutpostPrisonerUtility.TickPrisonerRecruitmentOneDay(this);
                 }

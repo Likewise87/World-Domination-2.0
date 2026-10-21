@@ -156,7 +156,8 @@ namespace TSA_WorldDomination
                 AdvancedBuildingCombatUtility.DestroyBuilding(turret, traveler, log: !result.ok);
                 if (traveler.travelerStrength <= 0.01f && !traveler.Destroyed)
                 {
-                    WorldActions_Traveler.StampTraderInterceptedIfApplicable(traveler);
+                    WorldActions_Traveler.StampOriginInterceptedIfApplicable(traveler);
+                    PlayerWdRaidDispatchUtil.MarkDestroyedBy(traveler, turret.Faction);
                     traveler.Destroy();
                 }
                 else
@@ -165,9 +166,12 @@ namespace TSA_WorldDomination
             else
             {
                 turret.strength = result.defAfter;
-                WorldActions_Traveler.StampTraderInterceptedIfApplicable(traveler);
+                WorldActions_Traveler.StampOriginInterceptedIfApplicable(traveler);
                 if (!traveler.Destroyed)
+                {
+                    PlayerWdRaidDispatchUtil.MarkDestroyedBy(traveler, turret.Faction);
                     traveler.Destroy();
+                }
                 if (turret.strength <= 0.01f)
                     AdvancedBuildingCombatUtility.DestroyBuilding(turret, traveler, log: !result.ok);
             }
@@ -216,6 +220,12 @@ namespace TSA_WorldDomination
             float defBefore = travelerAttacks ? caravanStr : tStr;
 
             OpenFieldClashResult result = RollAndFill(attackerObj, defenderObj, attBefore, defBefore);
+            if (caravan.Faction?.IsPlayer == true
+                && PlayerWdRaidDispatchUtil.IsPlayerBoundRaidMission(traveler.mission)
+                && PlayerWdRaidDispatchUtil.IsPlayerBoundRaidTarget(traveler.targetObject))
+            {
+                PlayerWdRaidDispatchUtil.NotifyPlayerContact(traveler);
+            }
             ApplyNpcCaravanOutcome(caravan, traveler, travelerAttacks, result);
             LogNpcCaravanClash(result, caravan, traveler, manager);
             return result;
@@ -279,12 +289,16 @@ namespace TSA_WorldDomination
                 attacker.travelerStrength = result.attAfter;
                 SettlementCaravanLootUtility.TrySeizeBeforeDestroy(defender, attacker.Faction);
                 WorldActions_Traveler.TryAwardTraderInterceptLoot(attacker, defender);
-                WorldActions_Traveler.StampTraderInterceptedIfApplicable(defender);
+                WorldActions_Traveler.StampOriginInterceptedIfApplicable(defender);
                 if (!defender.Destroyed)
+                {
+                    PlayerWdRaidDispatchUtil.MarkDestroyedBy(defender, attacker.Faction);
                     defender.Destroy();
+                }
                 if (attacker.travelerStrength <= 0.01f && !attacker.Destroyed)
                 {
-                    WorldActions_Traveler.StampTraderInterceptedIfApplicable(attacker);
+                    WorldActions_Traveler.StampOriginInterceptedIfApplicable(attacker);
+                    PlayerWdRaidDispatchUtil.MarkDestroyedBy(attacker, defender.Faction);
                     attacker.Destroy();
                 }
                 else
@@ -295,12 +309,16 @@ namespace TSA_WorldDomination
                 defender.travelerStrength = result.defAfter;
                 SettlementCaravanLootUtility.TrySeizeBeforeDestroy(attacker, defender.Faction);
                 WorldActions_Traveler.TryAwardTraderInterceptLoot(defender, attacker);
-                WorldActions_Traveler.StampTraderInterceptedIfApplicable(attacker);
+                WorldActions_Traveler.StampOriginInterceptedIfApplicable(attacker);
                 if (!attacker.Destroyed)
+                {
+                    PlayerWdRaidDispatchUtil.MarkDestroyedBy(attacker, defender.Faction);
                     attacker.Destroy();
+                }
                 if (defender.travelerStrength <= 0.01f && !defender.Destroyed)
                 {
-                    WorldActions_Traveler.StampTraderInterceptedIfApplicable(defender);
+                    WorldActions_Traveler.StampOriginInterceptedIfApplicable(defender);
+                    PlayerWdRaidDispatchUtil.MarkDestroyedBy(defender, attacker.Faction);
                     defender.Destroy();
                 }
                 else
@@ -320,7 +338,8 @@ namespace TSA_WorldDomination
                 DestroyAtTurretIfLive(turret, traveler);
                 if (traveler.travelerStrength <= 0.01f && !traveler.Destroyed)
                 {
-                    WorldActions_Traveler.StampTraderInterceptedIfApplicable(traveler);
+                    WorldActions_Traveler.StampOriginInterceptedIfApplicable(traveler);
+                    PlayerWdRaidDispatchUtil.MarkDestroyedBy(traveler, turret.Faction);
                     traveler.Destroy();
                 }
                 else
@@ -329,10 +348,13 @@ namespace TSA_WorldDomination
             else
             {
                 turret.strength = result.defAfter;
-                WorldActions_Traveler.StampTraderInterceptedIfApplicable(traveler);
+                WorldActions_Traveler.StampOriginInterceptedIfApplicable(traveler);
                 AtTurretNotifyUtility.NotifyShellOrStrengthHit(manager, turret, traveler, result.attBefore, 0f, wiped: true);
                 if (!traveler.Destroyed)
+                {
+                    PlayerWdRaidDispatchUtil.MarkDestroyedBy(traveler, turret.Faction);
                     traveler.Destroy();
+                }
                 if (turret.strength <= 0.01f)
                     DestroyAtTurretIfLive(turret, traveler);
             }
@@ -362,7 +384,8 @@ namespace TSA_WorldDomination
                     caravan.Destroy();
                 if (traveler.travelerStrength <= 0.01f && !traveler.Destroyed)
                 {
-                    WorldActions_Traveler.StampTraderInterceptedIfApplicable(traveler);
+                    WorldActions_Traveler.StampOriginInterceptedIfApplicable(traveler);
+                    PlayerWdRaidDispatchUtil.MarkDestroyedBy(traveler, caravan.Faction);
                     traveler.Destroy();
                 }
                 else
@@ -371,9 +394,12 @@ namespace TSA_WorldDomination
             else
             {
                 SettlementCaravanLootUtility.TrySeizeBeforeDestroy(traveler, caravan.Faction);
-                WorldActions_Traveler.StampTraderInterceptedIfApplicable(traveler);
+                WorldActions_Traveler.StampOriginInterceptedIfApplicable(traveler);
                 if (!traveler.Destroyed)
+                {
+                    PlayerWdRaidDispatchUtil.MarkDestroyedBy(traveler, caravan.Faction);
                     traveler.Destroy();
+                }
                 // NPC caravans have no vitality pool to chip; leave intact on win.
             }
         }

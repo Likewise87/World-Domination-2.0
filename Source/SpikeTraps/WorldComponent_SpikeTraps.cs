@@ -256,6 +256,7 @@ namespace TSA_WorldDomination
 
             if (traveler.travelerStrength <= 0.01f && !traveler.Destroyed)
             {
+                PlayerWdRaidDispatchUtil.MarkDestroyedBy(traveler, builder);
                 var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
                 TravelerEndpointUtility.AbortTraveler(
                     traveler,

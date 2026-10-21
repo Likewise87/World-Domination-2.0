@@ -59,6 +59,10 @@ namespace TSA_WorldDomination
         internal bool forceGravship;
         /// <summary>Invasion coordinated multi-raid: skip min-ratio abort, player raid rate caps, colony executor handoff, grow fallback, and per-raid incoming letters.</summary>
         internal bool isInvasionRaid;
+        /// <summary>Drought / forced host: keep the chosen attacker (no colony executor handoff).</summary>
+        internal bool skipColonyExecutorHandoff;
+        /// <summary>Copied onto the traveler before the incoming letter so OOR copy can append.</summary>
+        internal bool beyondNormalAttackRange;
         /// <summary>Set by <see cref="WorldActions_Raid.FinalizeRaid"/> when a traveler is successfully committed.</summary>
         internal WorldObject_Traveler launchedTraveler;
 
@@ -320,7 +324,7 @@ namespace TSA_WorldDomination
 
             // Colony: faction intent from scheduler, launch from nearest eligible same-faction executor.
             bool colonyRaidHandedOff = false;
-            if (targetKind == RaidLaunchTargetKind.PlayerColony && !eval.isInvasionRaid)
+            if (targetKind == RaidLaunchTargetKind.PlayerColony && !eval.isInvasionRaid && !eval.skipColonyExecutorHandoff)
             {
                 Settlement executor = RaidColonyExecutor.SelectExecutor(
                     attacker,
@@ -444,6 +448,7 @@ namespace TSA_WorldDomination
                 traveler.targetObject = target;
                 traveler.cachedTargetKind = targetKind;
                 traveler.isInvasionRaid = eval.isInvasionRaid;
+                traveler.beyondNormalAttackRange = eval.beyondNormalAttackRange;
                 float arrivalStrength = totalInvestedPower * dropEfficiency;
                 traveler.travelerStrength = arrivalStrength;
                 traveler.initialStrength = arrivalStrength;
@@ -477,6 +482,7 @@ namespace TSA_WorldDomination
                 traveler.targetObject = target;
                 traveler.cachedTargetKind = targetKind;
                 traveler.isInvasionRaid = eval.isInvasionRaid;
+                traveler.beyondNormalAttackRange = eval.beyondNormalAttackRange;
                 traveler.travelerStrength = totalInvestedPower;
                 traveler.initialStrength = totalInvestedPower;
                 AdvancedBuildingEffects.ApplyNpcLandSpeed(traveler, attacker);
@@ -545,7 +551,7 @@ namespace TSA_WorldDomination
                 if (target is Settlement playerRaidTarget && playerRaidTarget.Faction?.IsPlayer == true && playerRaidTarget.HasMap)
                     traveler.playerColonyRaidCooldownReservationTick = reservedUntilTick;
                 if (targetingPlayer)
-                    manager?.RecordPlayerWdRaidLaunch();
+                    PlayerWdRaidDispatchUtil.ApplyOnPlayerBoundLaunch(traveler, manager);
                 if (targetKind == RaidLaunchTargetKind.PlayerColony)
                     target.GetComponent<CompViralSpread>()?.MarkPlayerColonyWdRaidPicked();
             }
@@ -729,6 +735,59 @@ namespace TSA_WorldDomination
                 dist = WorldActions_Utils.GetDistance(host.Tile, target.Tile, manager),
             });
             eval.viable.Add(new RaidTargetCandidate(target, null, defTotal));
+
+            FinalizeRaid(eval);
+            return eval.launchedTraveler;
+        }
+
+        /// <summary>
+        /// Drought force: one committed ground raid at the player map colony from a chosen host.
+        /// Bypasses min-ratio / attack-range gates via <see cref="PendingRaidEvaluation.debugForce"/>;
+        /// still stamps the player raid cap. Sets OOR on the traveler before the incoming letter.
+        /// </summary>
+        public static WorldObject_Traveler LaunchForcedRaidAtPlayerColony(
+            Settlement host,
+            CompViralSpread attComp,
+            Settlement colony,
+            WorldComponent_SpreadManager manager,
+            bool beyondNormalAttackRange)
+        {
+            if (host == null || host.Destroyed || !host.Spawned || colony == null || colony.Destroyed || !colony.Spawned)
+                return null;
+            var seth = WorldDominationMod.settings;
+            if (attComp == null || seth == null || manager == null)
+                return null;
+
+            var lookup = WorldActions_Utils.GetWorldObjectsWithCompByFaction();
+            var attAllies = new List<WorldObject>(
+                Raid_ReinforcementLogic.GetReinforcements(
+                    host, null, AllyRadiusUtil.GetEffective(host, seth, manager), lookup, manager));
+
+            float defTotal = RaidLaunchGate.GetColonyStorytellerDefense(colony);
+
+            var eval = new PendingRaidEvaluation
+            {
+                attacker = host,
+                attComp = attComp,
+                manager = manager,
+                seth = seth,
+                objectsWithComp = lookup,
+                attAllies = attAllies,
+                totalAvailableAttPower = RaidLaunchGate.SumAvailableAttPower(host, attAllies, seth),
+                debugForce = true,
+                isInvasionRaid = false,
+                skipColonyExecutorHandoff = true,
+                beyondNormalAttackRange = beyondNormalAttackRange,
+                lockedColonyRequiredRatio = RaidLaunchGate.GetColonyRequiredRaidRatio(
+                    colony.GetComponent<CompViralSpread>(), seth),
+            };
+            eval.pending.Add(new PendingRaidEvaluation.CandidateEntry
+            {
+                target = colony,
+                kind = PendingRaidEvaluation.CandidateKind.PlayerColony,
+                dist = WorldActions_Utils.GetDistance(host.Tile, colony.Tile, manager),
+            });
+            eval.viable.Add(new RaidTargetCandidate(colony, null, defTotal));
 
             FinalizeRaid(eval);
             return eval.launchedTraveler;
@@ -1153,6 +1212,9 @@ namespace TSA_WorldDomination
                     defenderWinChance.ToStringPercent(),
                     eta);
             }
+
+            if (traveler != null && traveler.beyondNormalAttackRange)
+                text = text + "\n\n" + "TSA_WD_Letter_Raid_BeyondNormalRange".Translate();
 
             ReceiveIncomingRaidLetter(label, text, attacker, target, traveler);
         }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+  <!-- 1.7-only (Defs17 loadFolders): WITab types live in 1.7/Assemblies. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/WorldObjectDef[@Name="TSA_WD_TravelerBase"]</xpath>
+    <value>
+      <inspectorTabs>
+        <li>TSA_WorldDomination.WITab_Traveler_Stats, TSA_WorldDomination</li>
+        <li>TSA_WorldDomination.WITab_Traveler_Inventory, TSA_WorldDomination</li>
+      </inspectorTabs>
+    </value>
+  </Operation>
+</Patch>

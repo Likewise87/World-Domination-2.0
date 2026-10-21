@@ -24,17 +24,52 @@ namespace TSA_WorldDomination
         /// <summary>Min available / threat when the target is near or heading for an owned advanced building.</summary>
         public const float AdvancedBuildingDefenseMinRatio = 1.0f;
 
-        /// <summary>Ambush watch radius: towns owning any AT turret or advanced building watch farther.</summary>
+        /// <summary>Strength at which ambush watch shrinks to the minimum tile band.</summary>
+        public const float AmbushRangeStrengthMin = 50f;
+        /// <summary>Strength at which ambush watch reaches the settlement's full watch radius.</summary>
+        public const float AmbushRangeStrengthFull = 500f;
+        /// <summary>Trader / Expansion use this multiplier on strength for the watch-range lerp only.</summary>
+        public const float AmbushRangeTradeExpandStrengthMult = 2f;
+
+        /// <summary>Ambush watch radius: towns with a Stable watch farther.</summary>
         public static float GetWatchRangeTiles(WorldObject settlement, WorldDominationSettings seth)
         {
             float baseR = seth?.settlementAmbushWatchRangeTiles ?? WorldDominationSettings.DefSettlementAmbushWatchRangeTiles;
-            if (settlement is Settlement s && WorldComponent_AdvancedBuildings.Get()?.OwnerHasAssets(s) == true)
+            if (settlement is Settlement s && WorldComponent_AdvancedBuildings.Get()?.OwnerHasStable(s) == true)
             {
-                float withAssets = seth?.settlementAmbushWatchRangeWithAssetsTiles
+                float withStable = seth?.settlementAmbushWatchRangeWithAssetsTiles
                     ?? WorldDominationSettings.DefSettlementAmbushWatchRangeWithAssetsTiles;
-                return Mathf.Max(baseR, withAssets);
+                return Mathf.Max(baseR, withStable);
             }
             return baseR;
+        }
+
+        /// <summary>
+        /// How far this settlement can spot <paramref name="targetStrength"/> for ambush.
+        /// Trader/Expansion use 2× strength in the lerp; result is clamped to full watch.
+        /// </summary>
+        public static float GetEffectiveAmbushRangeTiles(
+            WorldObject settlement, float targetStrength, TravelerMission? mission, WorldDominationSettings seth)
+        {
+            float full = GetWatchRangeTiles(settlement, seth);
+            float effective = Mathf.Max(0f, targetStrength);
+            if (mission == TravelerMission.Trader || mission == TravelerMission.Expansion)
+                effective *= AmbushRangeTradeExpandStrengthMult;
+            float t = Mathf.InverseLerp(AmbushRangeStrengthMin, AmbushRangeStrengthFull, effective);
+            t = Mathf.Clamp01(t);
+            return Mathf.Lerp(1f, full, t);
+        }
+
+        /// <summary>Tooltip lines for NPC settlement Stats: base watch and Stable bonus.</summary>
+        public static string BuildWatchRangeStatsTooltip(Settlement settlement, WorldDominationSettings seth)
+        {
+            float baseR = seth?.settlementAmbushWatchRangeTiles ?? WorldDominationSettings.DefSettlementAmbushWatchRangeTiles;
+            float full = GetWatchRangeTiles(settlement, seth);
+            bool hasStable = settlement != null && WorldComponent_AdvancedBuildings.Get()?.OwnerHasStable(settlement) == true;
+            if (hasStable)
+                return "TSA_WD_OutpostStats_Row_AmbushWatchTip_Stable".Translate(
+                    baseR.ToString("F0"), full.ToString("F0")).ToString();
+            return "TSA_WD_OutpostStats_Row_AmbushWatchTip".Translate(full.ToString("F0")).ToString();
         }
         /// <summary>Per-target anti-dogpile (90 real-time seconds at 1x).</summary>
         public const int TargetCooldownTicks = 5400;
@@ -62,6 +97,7 @@ namespace TSA_WorldDomination
             if (seth == null) return;
             if (traveler == null || traveler.Destroyed || traveler.Faction == null) return;
             if (!IsAmbushableMission(traveler.mission)) return;
+            if (!traveler.canBeAmbushed) return;
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             if (!PassesEscalationGateForTarget(traveler.Faction, manager, seth)) return;
@@ -74,7 +110,9 @@ namespace TSA_WorldDomination
             List<WorldObject> watchers = watchIndex.GetWatchers(tileId, WatchCapability.Ambush);
             if (watchers.Count == 0) return;
 
-            WorldObject settlement = FindBestAmbusher(watchers, traveler, traveler.Faction, traveler.targetObject, traveler.originObject, seth);
+            WorldObject settlement = FindBestAmbusher(
+                watchers, traveler, traveler.Faction, traveler.targetObject, traveler.originObject,
+                traveler.travelerStrength, traveler.mission, tileId, seth);
             if (settlement == null) return;
 
             // Coin flip before any strength math, per Feature C ordering.
@@ -113,14 +151,17 @@ namespace TSA_WorldDomination
             List<WorldObject> watchers = watchIndex.GetWatchers(tileId, WatchCapability.Ambush);
             if (watchers.Count == 0) return;
 
-            WorldObject settlement = FindBestAmbusher(watchers, caravan, caravan.Faction, null, null, seth);
+            float caravanStrength = WorldComponent_SpreadManager.ComputeCaravanMortarStrengthPool(caravan);
+            // Real caravans: full watch range (no strength→range shrink); visibility gate already applied above.
+            WorldObject settlement = FindBestAmbusher(
+                watchers, caravan, caravan.Faction, null, null,
+                AmbushRangeStrengthFull, null, tileId, seth);
             if (settlement == null) return;
 
             var evac = WorldComponent_DropPodCrashEvac.Get();
             bool primed = evac != null && evac.IsPrimed(caravan);
             if (!primed && Rand.Value > seth.settlementAmbushChancePct) return;
 
-            float caravanStrength = WorldComponent_SpreadManager.ComputeCaravanMortarStrengthPool(caravan);
             if (TryDispatch(settlement, caravan, caravanStrength, null, watchIndex, seth, manager) && primed)
                 evac.Clear(caravan);
         }
@@ -146,9 +187,11 @@ namespace TSA_WorldDomination
         /// </summary>
         private static WorldObject FindBestAmbusher(
             List<WorldObject> watchers, WorldObject target, Faction targetFaction,
-            WorldObject targetDestination, WorldObject targetOrigin, WorldDominationSettings seth)
+            WorldObject targetDestination, WorldObject targetOrigin,
+            float targetStrength, TravelerMission? mission, int targetTileId, WorldDominationSettings seth)
         {
             SettlementTier minTier = seth?.settlementAmbushMinTier ?? WorldDominationSettings.DefSettlementAmbushMinTier;
+            WorldGrid grid = Find.WorldGrid;
             WorldObject best = null;
             float bestAvail = 0f;
             bool bestOwnsAsset = false;
@@ -163,6 +206,12 @@ namespace TSA_WorldDomination
                 if (originComp == null) continue;
                 if (originComp.tier < minTier) continue;
                 if (originComp.IsAmbushOnCooldown) continue;
+                if (grid != null && targetTileId >= 0)
+                {
+                    float effRange = GetEffectiveAmbushRangeTiles(settlement, targetStrength, mission, seth);
+                    float dist = grid.ApproxDistanceInTiles(settlement.Tile.tileId, targetTileId);
+                    if (dist > effRange + 0.01f) continue;
+                }
                 float avail = WorldActions_Utils.GetAvailableRaidStrength(originComp, seth);
                 if (avail <= 0f) continue;
                 bool ownsAsset = FindThreatenedAsset(settlement, target, targetDestination) != null;
