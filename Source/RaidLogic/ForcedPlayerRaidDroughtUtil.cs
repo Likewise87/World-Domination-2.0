@@ -28,6 +28,8 @@ namespace TSA_WorldDomination
             if (now - lastCheckTick < CheckIntervalTicks) return;
             lastCheckTick = now;
 
+            PlayerWdRaidDispatchUtil.AbortTravelersTargetingNonSurfacePlayerSites();
+
             if (HasLivePlayerBoundRaid()) return;
             if (!manager.CanAcceptPlayerWdRaid(seth)) return;
 
@@ -74,6 +76,7 @@ namespace TSA_WorldDomination
                 if (s == null || s.Destroyed || !s.Spawned) continue;
                 if (s.Faction?.IsPlayer != true || !s.HasMap) continue;
                 if (s is WorldObject_WD_Outpost) continue;
+                if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(s)) continue;
                 return s;
             }
             return null;

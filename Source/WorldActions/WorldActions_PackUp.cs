@@ -251,8 +251,9 @@ namespace TSA_WorldDomination
             for (int i = 0; i < settlements.Count; i++)
             {
                 Settlement s = settlements[i];
-                if (s?.Faction?.IsPlayer == true && s.HasMap)
-                    list.Add(s);
+                if (s?.Faction?.IsPlayer != true || !s.HasMap) continue;
+                if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(s)) continue;
+                list.Add(s);
             }
             IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
             if (outposts != null)
@@ -260,8 +261,9 @@ namespace TSA_WorldDomination
                 for (int i = 0; i < outposts.Count; i++)
                 {
                     WorldObject_WD_Outpost o = outposts[i];
-                    if (o != null && !o.Destroyed)
-                        list.Add(o);
+                    if (o == null || o.Destroyed) continue;
+                    if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(o)) continue;
+                    list.Add(o);
                 }
             }
             return list;

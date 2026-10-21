@@ -944,6 +944,8 @@
   <TSA_WD_Experimental_OutpostCePassiveAmmoTip>启用 Combat Extended 时，携带远程主武器的前哨殖民者会缓慢囤积该武器的基础弹药（全金属被甲弹、石箭头、简易火箭），每天 {0} 个弹匣，库存上限 {1} 个弹匣。免费且略偏作弊。关闭可禁用。默认开启。</TSA_WD_Experimental_OutpostCePassiveAmmoTip>
   <TSA_WD_Experimental_OutpostArmory>前哨军械库</TSA_WD_Experimental_OutpostArmory>
   <TSA_WD_Experimental_OutpostArmoryTip>开启后，每个前哨都会保留一个散装仓库，可存放武器、护甲、药品、毒品、食物与弹药。通过商队或投送舱抵达的装备将被存入而非销毁，你可以在人员标签页的"军械库"按钮中把它们分发给驻守人员。关闭后恢复为丢弃抵达的装备；已存入的物品仍保留在存档中。默认开启。</TSA_WD_Experimental_OutpostArmoryTip>
+  <TSA_WD_Experimental_DisableVanillaCaravanIncidents>禁用原版商队旅途事件</TSA_WD_Experimental_DisableVanillaCaravanIncidents>
+  <TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip>开启后，屏蔽旅途中商队的随机原版故事叙述者事件：伏击、狂暴动物伏击、商队遭遇、勒索，以及商队疾病。不影响 WD 定居点伏击、快速反应或旅行者交战。默认关闭。</TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip>
   <TSA_WD_Experimental_OutpostWithdrawStrengthBudget>实验：前哨撤离兵力预算</TSA_WD_Experimental_OutpostWithdrawStrengthBudget>
   <TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>开启后，撤离使用当前未封顶的进攻兵力，并允许 5% 的确认余量。若所选殖民者超过该预算，会弹出选择：组建商队、留在前哨或标记失去。关闭后，调动不再做该兵力检查。</TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>
   <TSA_WD_Experimental_OutpostDefenseDeployBudget>实验：前哨手动防御部署兵力预算</TSA_WD_Experimental_OutpostDefenseDeployBudget>

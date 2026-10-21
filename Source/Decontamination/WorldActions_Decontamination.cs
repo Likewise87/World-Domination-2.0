@@ -39,9 +39,12 @@ namespace TSA_WorldDomination
                 : WorldDominationSettings.DefDecontaminationExpeditionStrength);
         }
 
+        /// <summary>Cumulative Construction skill required to launch a decontamination mission.</summary>
+        public const int MinConstructionSkill = 10;
+
         public static int GetMinConstruction()
         {
-            return WorldActions_Roads.GetMinConstructionToBuildRoad(SettlementTier.T3);
+            return MinConstructionSkill;
         }
 
         public static float GetMaxRange()

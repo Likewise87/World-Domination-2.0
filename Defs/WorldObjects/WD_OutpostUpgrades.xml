@@ -814,8 +814,8 @@
     <enablesDecontaminationCrew>true</enablesDecontaminationCrew>
     <requiredResearch>Machining</requiredResearch>
     <cost>
-      <li><thingDef>ComponentIndustrial</thingDef><count>8</count></li>
-      <li><thingDef>Plasteel</thingDef><count>20</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>6</count></li>
+      <li><thingDef>Plasteel</thingDef><count>10</count></li>
     </cost>
   </TSA_WorldDomination.OutpostUpgradeDef>
 

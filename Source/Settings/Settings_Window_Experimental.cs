@@ -107,6 +107,11 @@ namespace TSA_WorldDomination
                     ref s.experimentalOutpostArmory,
                     "TSA_WD_Experimental_OutpostArmoryTip".Translate(),
                     defaultValue: WorldDominationSettings.DefExperimentalOutpostArmory);
+
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_DisableVanillaCaravanIncidents".Translate(),
+                    ref s.experimentalDisableVanillaCaravanIncidents,
+                    "TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip".Translate(),
+                    defaultValue: WorldDominationSettings.DefExperimentalDisableVanillaCaravanIncidents);
             }
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Notify_HeaderWorldMapIcons".Translate(), ref iconsExpanded, SettingsUI.SectionHeaderColor))

@@ -709,6 +709,9 @@ namespace TSA_WorldDomination
 
             ScheduleLateGameMetricsBootstrap();
 
+            // After world objects are ready: drop raids/pack columns stuck aiming at orbit/space colonies.
+            LongEventHandler.ExecuteWhenFinished(PlayerWdRaidDispatchUtil.AbortTravelersTargetingNonSurfacePlayerSites);
+
             if (Current.ProgramState == ProgramState.Playing && Find.TickManager.TicksGame > 0)
                 ActionDayOfYearId = GenDate.DayOfYear(Find.TickManager.TicksAbs, 0f);
         }

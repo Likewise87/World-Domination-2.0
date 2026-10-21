@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -23,6 +24,42 @@ namespace TSA_WorldDomination
             if (target.Faction?.IsPlayer != true) return false;
             if (target is Settlement) return true;
             if (target is WorldObject_WD_Outpost) return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Abort hostile travelers aimed at player colonies/outposts on non-surface layers
+        /// (orbit/space). Cross-layer pathing cannot reach them.
+        /// </summary>
+        public static void AbortTravelersTargetingNonSurfacePlayerSites()
+        {
+            IReadOnlyList<WorldObject_Traveler> live = WorldObject_Traveler.LiveTravelers;
+            if (live == null || live.Count == 0) return;
+
+            for (int i = live.Count - 1; i >= 0; i--)
+            {
+                WorldObject_Traveler t = live[i];
+                if (t == null || t.Destroyed) continue;
+                if (!ShouldAbortForNonSurfacePlayerTarget(t)) continue;
+
+                WorldObject target = t.targetObject;
+                TravelerEndpointUtility.AbortTraveler(
+                    t,
+                    $"[TSA WD] Aborted {t.mission} at non-surface player site '{target?.LabelCap ?? "?"}' (unreachable across planet layers).",
+                    refundCargo: true);
+            }
+        }
+
+        private static bool ShouldAbortForNonSurfacePlayerTarget(WorldObject_Traveler traveler)
+        {
+            WorldObject target = traveler.targetObject;
+            if (!IsPlayerBoundRaidTarget(target)) return false;
+            if (PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(target)) return false;
+
+            if (IsPlayerBoundRaidMission(traveler.mission)) return true;
+            if (WorldObject_Traveler.IsRaidMission(traveler.mission)) return true;
+            // Pack-up / Vanguard mass relocation can also pick CollectDistinctPlayerTargets.
+            if (traveler.mission == TravelerMission.MassRelocation) return true;
             return false;
         }
 
