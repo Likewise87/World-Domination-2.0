@@ -197,6 +197,14 @@
   <TSA_WD_Raid_DisabledPlayer>Player raiding is currently disabled.</TSA_WD_Raid_DisabledPlayer>
   <TSA_WD_Raid_HeaderOutcome>Battle Outcome Tiers (Auto-Balancing)</TSA_WD_Raid_HeaderOutcome>
   <TSA_WD_Raid_HeaderPlayer>World Raids on Player Colony</TSA_WD_Raid_HeaderPlayer>
+  <TSA_WD_Raid_HeaderForceDrought>Force raid after quiet stretch</TSA_WD_Raid_HeaderForceDrought>
+  <TSA_WD_Raid_HeaderForceDroughtTip>If no WD raid contacts your colony for long enough, force one from a strong eligible hostile. Hard difficulty preset turns this on.</TSA_WD_Raid_HeaderForceDroughtTip>
+  <TSA_WD_Raid_ForceDrought>Force raid after quiet stretch</TSA_WD_Raid_ForceDrought>
+  <TSA_WD_Raid_ForceDroughtTooltip>After enough quiet days with no player WD raid contact, launch one forced raid at your surface colony map from the strongest eligible hostile in attack range (or beyond range if allowed below). Still respects player raid cooldowns and daily caps. Hard difficulty preset enables this.</TSA_WD_Raid_ForceDroughtTooltip>
+  <TSA_WD_Raid_ForceDroughtQuietDays>Quiet days before force</TSA_WD_Raid_ForceDroughtQuietDays>
+  <TSA_WD_Raid_ForceDroughtQuietDaysTooltip>Days without player WD raid contact before a forced drought raid can fire.</TSA_WD_Raid_ForceDroughtQuietDaysTooltip>
+  <TSA_WD_Raid_ForceDroughtBeyondRange>Allow beyond-range attackers</TSA_WD_Raid_ForceDroughtBeyondRange>
+  <TSA_WD_Raid_ForceDroughtBeyondRangeTooltip>If no eligible hostile is in attack range, pick a strong hostile closest past their attack range. Off: drought only fires when someone is already in range.</TSA_WD_Raid_ForceDroughtBeyondRangeTooltip>
   <TSA_WD_Raid_HeaderSim>World Raid Simulation Parameters</TSA_WD_Raid_HeaderSim>
   <TSA_WD_Raid_TravelPrepExactPct>Pre-raid exact path and travel cost calculation</TSA_WD_Raid_TravelPrepExactPct>
   <TSA_WD_Raid_TravelPrepExactPctTip>Share of raid/trader destination prep assessments that use full world pathfinding (FindPath). 0% always uses the crow-flies heuristic (often the biggest performance gain on huge worlds). 100% always pathfinds. In between, a deterministic cadence uses exact pathing that share of the time. Prep can understate mountain/sea detours (e.g. real path 4× longer), so a raid may launch that arrives weaker: acceptable fog of war, not a bug. Launch still uses a real path. Also managed by Setting presets → Performance when you use those packs.</TSA_WD_Raid_TravelPrepExactPctTip>

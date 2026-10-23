@@ -756,6 +756,11 @@ namespace TSA_WorldDomination
         private static void AdvanceCoverageFillProgressiveRegen()
         {
             if (coverageFillProgressiveRegen == null) return;
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected())
+            {
+                CancelCoverageFillProgressiveRegen();
+                return;
+            }
 
             try
             {
@@ -1226,6 +1231,7 @@ namespace TSA_WorldDomination
         {
             if (!IsProductivityScoreOverlayActive()) return;
             if (!WorldRendererUtility.WorldRendered) return;
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             if (Event.current == null || Event.current.type != EventType.Repaint) return;
 
             PlanetTile mouseTile = GenWorld.MouseTile();
@@ -1240,6 +1246,7 @@ namespace TSA_WorldDomination
         {
             if (!IsMovementDifficultyOverlayActive()) return;
             if (!WorldRendererUtility.WorldRendered) return;
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             if (Event.current == null || Event.current.type != EventType.Repaint) return;
 
             PlanetTile mouseTile = GenWorld.MouseTile();
@@ -1254,6 +1261,7 @@ namespace TSA_WorldDomination
         {
             if (!IsPollutionOverlayActive()) return;
             if (!WorldRendererUtility.WorldRendered) return;
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             if (Event.current == null || Event.current.type != EventType.Repaint) return;
 
             PlanetTile mouseTile = GenWorld.MouseTile();
@@ -1268,6 +1276,7 @@ namespace TSA_WorldDomination
         {
             if (!ShowEstablishmentBlockedOverlay) return;
             if (!WorldRendererUtility.WorldRendered) return;
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             if (Event.current == null || Event.current.type != EventType.Repaint) return;
 
             PlanetTile mouseTile = GenWorld.MouseTile();
@@ -1297,6 +1306,7 @@ namespace TSA_WorldDomination
             bool showForSimulation = Dialog_OutpostSelection.IsEstablishmentPreviewOverlayActive;
             if (!showMovement && !showPollution && !showForProductivity && !showForSimulation) return;
             if (!WorldRendererUtility.WorldRendered) return;
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             if (Event.current == null || Event.current.type != EventType.Repaint) return;
 
             PlanetTile mouseTile = GenWorld.MouseTile();

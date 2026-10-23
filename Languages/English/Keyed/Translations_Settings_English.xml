@@ -507,7 +507,7 @@
   <TSA_WD_BtnResetSection>Reset Section</TSA_WD_BtnResetSection>
   <TSA_WD_BtnResetFactionParticipation>Reset participation</TSA_WD_BtnResetFactionParticipation>
   <TSA_WD_BtnResetFactionParticipation_Tooltip>Clears manual WD Actions, MapGen, and Storyteller overrides plus soft opt-ins. Hard-excluded factions are unchanged.</TSA_WD_BtnResetFactionParticipation_Tooltip>
-  <TSA_WD_Threat_StorytellerMovedHint>Per-faction storyteller raid rules moved to WD Faction scope and Allegiances.</TSA_WD_Threat_StorytellerMovedHint>
+  <TSA_WD_Threat_StorytellerMovedHint>Manage per-faction storyteller raids and faction diplomacy and allegiances in-game. Open the WD main tab then click "Configure Scope" near the top right of that window.</TSA_WD_Threat_StorytellerMovedHint>
   <TSA_WD_AllegianceMatrixInGameOnly>Allowed diplomacy changes can only be opened while playing (not from the main menu).</TSA_WD_AllegianceMatrixInGameOnly>
   <TSA_WD_Outpost_MaxTravelStrengthLoss>Max. travel strength loss</TSA_WD_Outpost_MaxTravelStrengthLoss>
   <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>Maximum percentage of departure strength that travelers (raids, expansion, road builders) can lose during travel. They keep the remaining share of initial strength and never expire from attrition alone.</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>

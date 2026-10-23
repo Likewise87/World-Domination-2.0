@@ -198,6 +198,14 @@
   <TSA_WD_Raid_DisabledPlayer>玩家袭击当前已禁用。</TSA_WD_Raid_DisabledPlayer>
   <TSA_WD_Raid_HeaderOutcome>战斗结果档位(自动平衡)</TSA_WD_Raid_HeaderOutcome>
   <TSA_WD_Raid_HeaderPlayer>对玩家殖民地的世界袭击</TSA_WD_Raid_HeaderPlayer>
+  <TSA_WD_Raid_HeaderForceDrought>安静期后强制袭击</TSA_WD_Raid_HeaderForceDrought>
+  <TSA_WD_Raid_HeaderForceDroughtTip>若足够长时间没有 WD 袭击接触你的殖民地，则从一名强力合格敌对强制发动一次。困难难度预设会开启此项。</TSA_WD_Raid_HeaderForceDroughtTip>
+  <TSA_WD_Raid_ForceDrought>安静期后强制袭击</TSA_WD_Raid_ForceDrought>
+  <TSA_WD_Raid_ForceDroughtTooltip>在足够多天没有玩家 WD 袭击接触后，从攻击范围内最强的合格敌对（若下方允许也可选超距）向你的地表殖民地地图发动一次强制袭击。仍遵守玩家袭击冷却与每日上限。困难难度预设会开启此项。</TSA_WD_Raid_ForceDroughtTooltip>
+  <TSA_WD_Raid_ForceDroughtQuietDays>强制前的安静天数</TSA_WD_Raid_ForceDroughtQuietDays>
+  <TSA_WD_Raid_ForceDroughtQuietDaysTooltip>在可触发干旱强制袭击前，没有玩家 WD 袭击接触的天数。</TSA_WD_Raid_ForceDroughtQuietDaysTooltip>
+  <TSA_WD_Raid_ForceDroughtBeyondRange>允许超距攻击者</TSA_WD_Raid_ForceDroughtBeyondRange>
+  <TSA_WD_Raid_ForceDroughtBeyondRangeTooltip>若没有合格敌对在攻击范围内，则选择刚超出其攻击范围、距离最近的强力敌对。关闭时：仅当已有人在范围内才会触发干旱袭击。</TSA_WD_Raid_ForceDroughtBeyondRangeTooltip>
   <TSA_WD_Raid_HeaderSim>世界袭击模拟参数</TSA_WD_Raid_HeaderSim>
   <TSA_WD_Raid_TravelPrepExactPct>突袭前精确路径与行程成本计算</TSA_WD_Raid_TravelPrepExactPct>
   <TSA_WD_Raid_TravelPrepExactPctTip>袭击/贸易商队目的地筹备评估中使用完整世界寻路（FindPath）的比例。0% 始终用直线启发（超大地图上往往是最大的性能收益）。100% 始终寻路。中间值为确定性节奏。筹备可能低估绕山/绕海；袭击可能到达时更弱：可接受的战争迷雾，不是 bug。出发仍用真实路径。使用这些预设包时也可在「设置预设 → 性能」中管理。</TSA_WD_Raid_TravelPrepExactPctTip>

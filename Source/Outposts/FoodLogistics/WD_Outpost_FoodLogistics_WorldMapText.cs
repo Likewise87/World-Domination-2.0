@@ -36,6 +36,7 @@ namespace TSA_WorldDomination
             base.WorldComponentOnGUI();
 
             if (Current.ProgramState != ProgramState.Playing || !WorldRendererUtility.WorldRendered) return;
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
 
             WD_OutpostWorldMapLabelMode mode = WorldComponent_WDVisualizerToggle.OutpostWorldMapLabelMode;
             if (mode == WD_OutpostWorldMapLabelMode.Off) return;

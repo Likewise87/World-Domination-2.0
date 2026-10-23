@@ -418,7 +418,7 @@
   <TSA_WD_BtnResetSection>重置部分</TSA_WD_BtnResetSection>
   <TSA_WD_BtnResetFactionParticipation>重置参与</TSA_WD_BtnResetFactionParticipation>
   <TSA_WD_BtnResetFactionParticipation_Tooltip>清除 WD 行动、MapGen 与叙事者的手动覆盖及软加入。硬排除派系不变。</TSA_WD_BtnResetFactionParticipation_Tooltip>
-  <TSA_WD_Threat_StorytellerMovedHint>按派系的叙事者袭击规则已移至 WD 派系范围与关系。</TSA_WD_Threat_StorytellerMovedHint>
+  <TSA_WD_Threat_StorytellerMovedHint>在游戏中管理按派系的叙事者袭击以及派系外交与关系。打开 WD 主标签页，然后点击该窗口右上角附近的“配置范围”。</TSA_WD_Threat_StorytellerMovedHint>
   <TSA_WD_AllegianceMatrixInGameOnly>「允许的外交变化」仅可在进行游戏时打开(主菜单中不可用)。</TSA_WD_AllegianceMatrixInGameOnly>
   <TSA_WD_Outpost_MaxTravelStrengthLoss>最大行进实力损失</TSA_WD_Outpost_MaxTravelStrengthLoss>
   <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>行进者(袭击、扩张、修路)在行进中可损失的最大出发实力百分比。会保留剩余的初始实力,不会仅因损耗而消失。</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>

@@ -124,3 +124,18 @@ Productivity score modes (fertility / animals / fish / mining) keep planet-wide 
 caches filled on first touch. There is no score prewarm and no full-planet mesh. Each mouse-tile
 change rebuilds only the visible disk mesh. Pollution, movement, and blocked overlays recompute
 their paint data as needed because those values can change.
+
+## Surface-only world-map drawing (orbit)
+
+WD globe art is **planet-surface view only**. When the selected planet layer is not
+`WorldGrid.Surface` (e.g. Odyssey orbit):
+
+- Use `PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()` (`Surface.IsSelected`).
+- Every WD `WorldDrawLayer` must use `Visible => base.Visible && …` and
+  `VisibleWhenLayerNotSelected => false`. Overriding `Visible` without `base.Visible` bypasses
+  the engine layer check and will keep drawing / regenerating on orbit.
+- Mouse-follow centers go through `ForMouseFollowOverlay` (strict surface tile or `Invalid`).
+- Shared drawers (`DrawOrFill`, `WorldMapRadiusVisual`, `GenDraw_WorldLineSmooth`, orange markers)
+  and OnGUI/Update painters early-out on the same selected-layer check.
+- Zoom declutter (`WD_WorldMapZoomUtil`) stays for surface overview; stack **layer first, then zoom**.
+  Do not use altitude alone to mean “orbit.”

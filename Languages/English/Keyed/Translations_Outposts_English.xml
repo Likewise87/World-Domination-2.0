@@ -1097,6 +1097,7 @@
   <TSA_WD_TypeChange_TileConflict>Another player outpost is already on this tile.</TSA_WD_TypeChange_TileConflict>
   <TSA_WD_TypeChange_QueueFailed>Could not queue the type change.</TSA_WD_TypeChange_QueueFailed>
   <TSA_WD_TypeChange_LaunchFailed>Could not launch the conversion caravan.</TSA_WD_TypeChange_LaunchFailed>
+  <TSA_WD_TypeChange_DropPodShortAfterBuy>After paying for this conversion, you would not have enough industrial components left for drop-pod delivery from {0}. Switch {0} to land delivery, or get more components.</TSA_WD_TypeChange_DropPodShortAfterBuy>
   <TSA_WD_TypeChange_SpawnFailed>Could not spawn the replacement outpost.</TSA_WD_TypeChange_SpawnFailed>
   <TSA_WD_TypeChange_ApplyFailed>Type change failed on arrival.</TSA_WD_TypeChange_ApplyFailed>
   <TSA_WD_TypeChange_Completed>{0} converted to {1}.</TSA_WD_TypeChange_Completed>
@@ -1695,6 +1696,7 @@
   <TSA_WD_OutpostUpgrades_NoColonyMap>No player colony map found to pay costs from.</TSA_WD_OutpostUpgrades_NoColonyMap>
   <TSA_WD_OutpostUpgrades_QueueFailed>Could not queue the upgrade.</TSA_WD_OutpostUpgrades_QueueFailed>
   <TSA_WD_OutpostUpgrades_LaunchFailed>Could not launch the upgrade caravan.</TSA_WD_OutpostUpgrades_LaunchFailed>
+  <TSA_WD_OutpostUpgrades_DropPodShortAfterBuy>After paying for this upgrade, you would not have enough industrial components left for drop-pod delivery from {0}. Switch {0} to land delivery, or get more components.</TSA_WD_OutpostUpgrades_DropPodShortAfterBuy>
   <TSA_WD_OutpostUpgrades_NeedHave>Need {0} {1}, have {2}.</TSA_WD_OutpostUpgrades_NeedHave>
   <TSA_WD_OutpostUpgrades_DeductFailed>Failed to deduct the full resource cost for {0}.</TSA_WD_OutpostUpgrades_DeductFailed>
   <TSA_WD_OutpostUpgrades_AnyStoneBlocks>Any Stone Blocks</TSA_WD_OutpostUpgrades_AnyStoneBlocks>

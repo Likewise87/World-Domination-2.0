@@ -213,6 +213,7 @@ namespace TSA_WorldDomination
         {
             if (entries.Count == 0) return;
             if (!WorldRendererUtility.WorldRendered || Find.WorldCamera == null) return;
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
 
             int now = Find.TickManager?.TicksGame ?? 0;
             float altitude = Find.WorldCameraDriver?.AltitudePercent ?? 1f;

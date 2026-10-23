@@ -26,8 +26,8 @@ namespace TSA_WorldDomination
 
         private readonly List<Vector3> tileVerts = new List<Vector3>(8);
 
-        public override bool Visible => hasTarget && tiles.Count > 0;
-        public override bool VisibleWhenLayerNotSelected => true;
+        public override bool Visible => base.Visible && hasTarget && tiles.Count > 0;
+        public override bool VisibleWhenLayerNotSelected => false;
         public override bool VisibleInBackground => false;
 
         public static void EnsureRegistered()

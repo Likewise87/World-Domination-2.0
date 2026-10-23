@@ -56,6 +56,8 @@ namespace TSA_WorldDomination
 
         public static void DrawSmoothWorldLine(Vector3 start, Vector3 end, Material mat, float width, float lift = DefaultLift, int segments = -1)
         {
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected())
+                return;
             if (mat == null)
                 return;
             int seg = (segments == -1) ? SegmentsForChord(start, end) : Mathf.Max(1, segments);
@@ -69,6 +71,8 @@ namespace TSA_WorldDomination
 
         public static void DrawSmoothWorldLine(int fromTile, int toTile, WorldGrid grid, Material mat, float width, float lift = DefaultLift, int segments = -1)
         {
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected())
+                return;
             if (grid == null || mat == null)
                 return;
             DrawSmoothWorldLine(grid.GetTileCenter(fromTile), grid.GetTileCenter(toTile), mat, width, lift, segments);
@@ -76,6 +80,8 @@ namespace TSA_WorldDomination
 
         public static void DrawSmoothWorldPolyline(IReadOnlyList<Vector3> points, Material mat, float width, float lift = DefaultLift, int segmentsOverride = -1)
         {
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected())
+                return;
             if (mat == null || points == null || points.Count < 2)
                 return;
             for (int i = 0; i < points.Count - 1; i++)

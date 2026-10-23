@@ -151,18 +151,91 @@ namespace TSA_WorldDomination
                     ? (GetCostIconThingDef(c) ?? DefDatabase<ThingDef>.GetNamedSilentFail("BlocksGranite"))
                     : c.thingDef;
                 if (def == null) continue;
-                int remaining = c.count;
-                if (map != null)
-                    remaining -= PlaceRefundOnMap(map, def, remaining);
-                if (remaining > 0 && warehouses != null && warehouses.Count > 0)
-                {
-                    var deposit = new List<ThingDefCountClass>
-                    {
-                        new ThingDefCountClass(def, remaining)
-                    };
-                    CompOutpostWarehouse.Get(warehouses[0])?.TryDeposit(deposit);
-                }
+                RefundOneDef(map, warehouses, def, c.count);
             }
+        }
+
+        /// <summary>Best-effort refund for establish / type-change <see cref="ThingDefCountClass"/> bills.</summary>
+        public static void TryRefundThingDefCounts(List<ThingDefCountClass> cost)
+        {
+            if (cost == null || cost.Count == 0) return;
+            Map map = GetColonyMap();
+            List<WorldObject_WD_Outpost> warehouses = GetContributingWarehouses();
+            for (int i = 0; i < cost.Count; i++)
+            {
+                ThingDefCountClass c = cost[i];
+                if (c?.thingDef == null || c.count <= 0) continue;
+                RefundOneDef(map, warehouses, c.thingDef, c.count);
+            }
+        }
+
+        private static void RefundOneDef(Map map, List<WorldObject_WD_Outpost> warehouses, ThingDef def, int count)
+        {
+            if (def == null || count <= 0) return;
+            int remaining = count;
+            if (map != null)
+                remaining -= PlaceRefundOnMap(map, def, remaining);
+            if (remaining > 0 && warehouses != null && warehouses.Count > 0)
+            {
+                var deposit = new List<ThingDefCountClass>
+                {
+                    new ThingDefCountClass(def, remaining)
+                };
+                CompOutpostWarehouse.Get(warehouses[0])?.TryDeposit(deposit);
+            }
+        }
+
+        public static int CountIndustrialComponentsInUpgradeCost(List<OutpostUpgradeCostEntry> cost)
+        {
+            ThingDef comp = ThingDefOf.ComponentIndustrial;
+            if (comp == null || cost == null || cost.Count == 0) return 0;
+            int n = 0;
+            for (int i = 0; i < cost.Count; i++)
+            {
+                OutpostUpgradeCostEntry c = cost[i];
+                if (c?.thingDef == comp && c.count > 0)
+                    n += c.count;
+            }
+            return n;
+        }
+
+        public static int CountIndustrialComponentsInThingCosts(List<ThingDefCountClass> cost)
+        {
+            ThingDef comp = ThingDefOf.ComponentIndustrial;
+            if (comp == null || cost == null || cost.Count == 0) return 0;
+            int n = 0;
+            for (int i = 0; i < cost.Count; i++)
+            {
+                ThingDefCountClass c = cost[i];
+                if (c?.thingDef == comp && c.count > 0)
+                    n += c.count;
+            }
+            return n;
+        }
+
+        /// <summary>
+        /// When <paramref name="origin"/> would dispatch via drop pod, ensure stock covers the material bill's
+        /// industrial components plus the pod fee. Uses the same pool as <see cref="PlayerPawnDropPodUtility.TryConsumeComponents"/>.
+        /// </summary>
+        public static bool WouldHavePodComponentsAfterCost(
+            WorldObject origin,
+            int componentsInMaterialCost,
+            string shortAfterBuyKey,
+            out string reason)
+        {
+            reason = null;
+            int podNeed = PlayerPawnDropPodUtility.ComponentCostPerLaunch;
+            if (podNeed <= 0) return true;
+            if (origin == null) return true;
+            if (!OutpostDispatchMode.GetViaDropPod(origin) || !RapidResponseUtility.TransportPodsResearched())
+                return true;
+
+            int have = PlayerPawnDropPodUtility.CountComponentsAvailable();
+            int after = have - Mathf.Max(0, componentsInMaterialCost);
+            if (after >= podNeed) return true;
+
+            reason = shortAfterBuyKey.Translate(origin.LabelCap).ToString();
+            return false;
         }
 
         private static int PlaceRefundOnMap(Map map, ThingDef def, int amount)

@@ -197,6 +197,14 @@
   <TSA_WD_Raid_DisabledPlayer>Las incursiones del jugador están desactivadas.</TSA_WD_Raid_DisabledPlayer>
   <TSA_WD_Raid_HeaderOutcome>Niveles de resultado de batalla (auto-equilibrado)</TSA_WD_Raid_HeaderOutcome>
   <TSA_WD_Raid_HeaderPlayer>Incursiones mundiales contra tu colonia</TSA_WD_Raid_HeaderPlayer>
+  <TSA_WD_Raid_HeaderForceDrought>Forzar incursión tras calma</TSA_WD_Raid_HeaderForceDrought>
+  <TSA_WD_Raid_HeaderForceDroughtTip>Si ninguna incursión WD contacta tu colonia el tiempo suficiente, fuerza una desde un hostil elegible fuerte. El preset de dificultad Difícil lo activa.</TSA_WD_Raid_HeaderForceDroughtTip>
+  <TSA_WD_Raid_ForceDrought>Forzar incursión tras calma</TSA_WD_Raid_ForceDrought>
+  <TSA_WD_Raid_ForceDroughtTooltip>Tras suficientes días sin contacto de incursión WD al jugador, lanza una incursión forzada al mapa de colonia en superficie desde el hostil elegible más fuerte en alcance de ataque (o fuera de alcance si se permite abajo). Sigue respetando enfriamientos y límites diarios. El preset Difícil lo activa.</TSA_WD_Raid_ForceDroughtTooltip>
+  <TSA_WD_Raid_ForceDroughtQuietDays>Días de calma antes de forzar</TSA_WD_Raid_ForceDroughtQuietDays>
+  <TSA_WD_Raid_ForceDroughtQuietDaysTooltip>Días sin contacto de incursión WD al jugador antes de que pueda dispararse una incursión forzada por sequía.</TSA_WD_Raid_ForceDroughtQuietDaysTooltip>
+  <TSA_WD_Raid_ForceDroughtBeyondRange>Permitir atacantes fuera de alcance</TSA_WD_Raid_ForceDroughtBeyondRange>
+  <TSA_WD_Raid_ForceDroughtBeyondRangeTooltip>Si ningún hostil elegible está en alcance de ataque, elige un hostil fuerte lo más cerca posible más allá de su alcance. Desactivado: la sequía solo dispara cuando ya hay alguien en alcance.</TSA_WD_Raid_ForceDroughtBeyondRangeTooltip>
   <TSA_WD_Raid_HeaderSim>Parámetros de simulación de incursión mundial</TSA_WD_Raid_HeaderSim>
   <TSA_WD_Raid_TravelPrepExactPct>Cálculo exacto de ruta y coste de viaje pre-incursión</TSA_WD_Raid_TravelPrepExactPct>
   <TSA_WD_Raid_TravelPrepExactPctTip>Fracción de evaluaciones de destino (incursiones/comerciantes) que usan pathfinding completo (FindPath). 0% siempre usa heurística en línea recta (a menudo la mayor ganancia de rendimiento en mundos enormes). 100% siempre pathfinds. Entre medias, una cadencia determinista usa path exacto esa fracción del tiempo. La preparación puede subestimar desvíos (montañas/mar); una incursión puede llegar más débil: niebla de guerra aceptable. El lanzamiento sigue usando camino real. También se gestiona en Presets de ajustes → Rendimiento si usas esos packs.</TSA_WD_Raid_TravelPrepExactPctTip>

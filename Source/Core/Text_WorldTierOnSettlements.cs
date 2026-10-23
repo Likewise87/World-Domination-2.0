@@ -51,6 +51,8 @@ namespace TSA_WorldDomination
 
             if (!isValidState || !WorldRendererUtility.WorldRendered)
                 return;
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected())
+                return;
 
             bool showTier = WorldComponent_WDVisualizerToggle.ShowSettlementTierTexts;
             bool showStrength = WorldComponent_WDVisualizerToggle.ShowSettlementStrengthTexts;

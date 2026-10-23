@@ -865,7 +865,16 @@ namespace TSA_WorldDomination
             Map colonyMap = GetColonyMap();
             var warehouses = GetContributingWarehouses(outpost.Tile);
             if (colonyMap == null && warehouses.Count == 0) { result.reason = "TSA_WD_OutpostUpgrades_NoColonyMap".Translate(); return result; }
-            if (!HasCost(colonyMap, warehouses, upgrade.GetEffectiveCost(), out result.reason, result.costAvailableByDefName)) return result;
+            List<OutpostUpgradeCostEntry> effectiveCost = upgrade.GetEffectiveCost();
+            if (!HasCost(colonyMap, warehouses, effectiveCost, out result.reason, result.costAvailableByDefName)) return result;
+
+            WorldObject origin = ResolveUpgradeOrigin(outpost, colonyMap, warehouses);
+            if (!ColonyWorldBuildMaterials.WouldHavePodComponentsAfterCost(
+                    origin,
+                    ColonyWorldBuildMaterials.CountIndustrialComponentsInUpgradeCost(effectiveCost),
+                    "TSA_WD_OutpostUpgrades_DropPodShortAfterBuy",
+                    out result.reason))
+                return result;
 
             result.canBuy = !ignoreLineTierForPreview;
             return result;
@@ -901,12 +910,27 @@ namespace TSA_WorldDomination
             Map colonyMap = GetColonyMap();
             var warehouses = GetContributingWarehouses(outpost.Tile);
             if (colonyMap == null && warehouses.Count == 0) { reason = "TSA_WD_OutpostUpgrades_NoColonyMap".Translate(); return false; }
-            if (!DeductCost(colonyMap, warehouses, upgrade.GetEffectiveCost(), out reason, out _)) return false;
-            if (!outpost.TryQueuePendingUpgrade(upgrade.defName, level)) { reason = "TSA_WD_OutpostUpgrades_QueueFailed".Translate(); return false; }
+
+            List<OutpostUpgradeCostEntry> effectiveCost = upgrade.GetEffectiveCost();
             WorldObject origin = ResolveUpgradeOrigin(outpost, colonyMap, warehouses);
+            if (!ColonyWorldBuildMaterials.WouldHavePodComponentsAfterCost(
+                    origin,
+                    ColonyWorldBuildMaterials.CountIndustrialComponentsInUpgradeCost(effectiveCost),
+                    "TSA_WD_OutpostUpgrades_DropPodShortAfterBuy",
+                    out reason))
+                return false;
+
+            if (!DeductCost(colonyMap, warehouses, effectiveCost, out reason, out _)) return false;
+            if (!outpost.TryQueuePendingUpgrade(upgrade.defName, level))
+            {
+                ColonyWorldBuildMaterials.TryRefundMaterialCosts(effectiveCost);
+                reason = "TSA_WD_OutpostUpgrades_QueueFailed".Translate();
+                return false;
+            }
             if (origin == null || !WorldActions_Traveler.SpawnOutpostUpgradeTraveler(outpost, origin, upgrade.defName, level))
             {
                 outpost.ClearPendingUpgradeIfMatches(upgrade.defName, level);
+                ColonyWorldBuildMaterials.TryRefundMaterialCosts(effectiveCost);
                 reason = "TSA_WD_OutpostUpgrades_LaunchFailed".Translate();
                 return false;
             }

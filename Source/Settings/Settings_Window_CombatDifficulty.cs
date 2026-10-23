@@ -18,6 +18,7 @@ namespace TSA_WorldDomination
         private bool isolationPressureExpanded = true;
         private bool strongWarExpanded = true;
         private bool raidPressureExpanded = true;
+        private bool raidDroughtExpanded = true;
         private bool clampExpanded;
         private bool stageCombatExpanded = true;
         private bool arrivalExpanded;
@@ -51,7 +52,7 @@ namespace TSA_WorldDomination
             escalationExpanded = tooExpanded = maraudExpanded = ambushExpanded =
                 vanguardInvasionExpanded = desperationExpanded = turtleExpanded =
                 isolationPressureExpanded = strongWarExpanded =
-                raidPressureExpanded = clampExpanded = stageCombatExpanded =
+                raidPressureExpanded = raidDroughtExpanded = clampExpanded = stageCombatExpanded =
                 arrivalExpanded = advancedWorldExpanded = garrisonExpanded =
                 t4MortarFeatureExpanded = t4AaFeatureExpanded = expanded;
         }
@@ -74,6 +75,7 @@ namespace TSA_WorldDomination
             SettingsUI.DrawSettingsSearchBar(l);
 
             DrawRaidPressure(l, s);
+            DrawRaidDrought(l, s);
             DrawEscalationStages(l, s);
             DrawTargetOfOpportunity(l, s);
             DrawMarauding(l, s);
@@ -409,6 +411,28 @@ namespace TSA_WorldDomination
             {
                 s.strongFactionWarCooldownDays = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_StrongFactionWarCooldown".Translate(), s.strongFactionWarCooldownDays, 0.5f, 60f,
                     "TSA_WD_Diplo_StrongFactionWarCooldownTooltip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefStrongFactionWarCooldownDays);
+            }
+        }
+
+        private void DrawRaidDrought(Listing_Standard l, WorldDominationSettings s)
+        {
+            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Raid_HeaderForceDrought".Translate(), ref raidDroughtExpanded, SettingsUI.SectionHeaderColor,
+                "TSA_WD_Raid_HeaderForceDroughtTip".Translate()))
+            {
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Raid_ForceDrought".Translate(), ref s.forceRaidDroughtEnabled,
+                    "TSA_WD_Raid_ForceDroughtTooltip".Translate(),
+                    defaultValue: WorldDominationSettings.DefForceRaidDroughtEnabled);
+
+                if (s.forceRaidDroughtEnabled)
+                {
+                    s.forceRaidDroughtQuietDays = Mathf.Clamp(Mathf.RoundToInt(SettingsUI.LabeledSlider(l,
+                        "TSA_WD_Raid_ForceDroughtQuietDays".Translate(), s.forceRaidDroughtQuietDays, 1f, 30f,
+                        "TSA_WD_Raid_ForceDroughtQuietDaysTooltip".Translate(), 1f, SliderFormat.Fixed0,
+                        WorldDominationSettings.DefForceRaidDroughtQuietDays)), 1, 30);
+                    SettingsUI.DrawCheckbox(l, "TSA_WD_Raid_ForceDroughtBeyondRange".Translate(), ref s.forceRaidDroughtAllowBeyondRange,
+                        "TSA_WD_Raid_ForceDroughtBeyondRangeTooltip".Translate(),
+                        defaultValue: WorldDominationSettings.DefForceRaidDroughtAllowBeyondRange);
+                }
             }
         }
 

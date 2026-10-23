@@ -756,6 +756,11 @@ namespace TSA_WorldDomination
         public const int DefMaxPlayerWdRaidsPer4Days = 2;
         /// <summary>Global cap: max WD world raids targeting player in a 7-day window (≥ per-4-day cap).</summary>
         public const int DefMaxPlayerWdRaidsPer7Days = 3;
+        /// <summary>Combat Difficulty: after this many quiet days with no player WD raid contact, force one raid (off by default; Hard preset on).</summary>
+        public const bool DefForceRaidDroughtEnabled = false;
+        public const int DefForceRaidDroughtQuietDays = 5;
+        /// <summary>When drought is on: allow picking a strong hostile past attack range if none are in range.</summary>
+        public const bool DefForceRaidDroughtAllowBeyondRange = true;
         public const float DefRaidTargetRadius = 25f;
         public const float DefTier1AttackRangeBaseline = 12f;
         public const float DefTier2AttackRangeBaseline = 16f;
@@ -1718,6 +1723,12 @@ namespace TSA_WorldDomination
         public int maxPlayerWdRaidsPer4Days = DefMaxPlayerWdRaidsPer4Days;
         /// <summary>Global max WD world raids against player colonies + outposts per 7 days (1–30, ≥ per-4-days).</summary>
         public int maxPlayerWdRaidsPer7Days = DefMaxPlayerWdRaidsPer7Days;
+        /// <summary>When true, after quiet days with no player WD raid contact, force a raid from a strong eligible hostile.</summary>
+        public bool forceRaidDroughtEnabled = DefForceRaidDroughtEnabled;
+        /// <summary>Quiet days (no player WD raid contact) before drought may force a raid. Clamped 1–30.</summary>
+        public int forceRaidDroughtQuietDays = DefForceRaidDroughtQuietDays;
+        /// <summary>When drought is on: allow an out-of-range hostile if none are in attack range.</summary>
+        public bool forceRaidDroughtAllowBeyondRange = DefForceRaidDroughtAllowBeyondRange;
         /// <summary>Flat attack range for player outpost manual raids only; NPC settlements use tier baselines + time bonus.</summary>
         public float raidTargetRadius = DefRaidTargetRadius;
         public float tier1AttackRangeBaseline = DefTier1AttackRangeBaseline;
@@ -2950,6 +2961,11 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref maxPlayerWdRaidsPer7Days, "maxPlayerWdRaidsPer7Days", DefMaxPlayerWdRaidsPer7Days);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
                 ClampPlayerWdRaidRateCaps();
+            Scribe_Values.Look(ref forceRaidDroughtEnabled, "forceRaidDroughtEnabled", DefForceRaidDroughtEnabled);
+            Scribe_Values.Look(ref forceRaidDroughtQuietDays, "forceRaidDroughtQuietDays", DefForceRaidDroughtQuietDays);
+            Scribe_Values.Look(ref forceRaidDroughtAllowBeyondRange, "forceRaidDroughtAllowBeyondRange", DefForceRaidDroughtAllowBeyondRange);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+                forceRaidDroughtQuietDays = Mathf.Clamp(forceRaidDroughtQuietDays, 1, 30);
             Scribe_Values.Look(ref raidTargetRadius, "raidTargetRadius", DefRaidTargetRadius);
             Scribe_Values.Look(ref tier1AttackRangeBaseline, "tier1AttackRangeBaseline", DefTier1AttackRangeBaseline);
             Scribe_Values.Look(ref tier2AttackRangeBaseline, "tier2AttackRangeBaseline", DefTier2AttackRangeBaseline);
@@ -3951,6 +3967,9 @@ namespace TSA_WorldDomination
                 && enableMidGameAllyRadiusScaling == (preset != WDSettingsDifficultyPreset.Easy)
                 && enableLateGameAllyRadiusScaling == (preset != WDSettingsDifficultyPreset.Easy)
                 && dropPodTransportCostComponents == (preset != WDSettingsDifficultyPreset.Easy)
+                && forceRaidDroughtEnabled == (preset == WDSettingsDifficultyPreset.Hard)
+                && forceRaidDroughtQuietDays == DefForceRaidDroughtQuietDays
+                && forceRaidDroughtAllowBeyondRange == DefForceRaidDroughtAllowBeyondRange
                 && Approx(midGameAllyRadiusBonusPct, DefMidGameAllyRadiusBonusPct)
                 && Approx(lateGameAllyRadiusBonusPct, DefLateGameAllyRadiusBonusPct)
                 && enableOutpostSkillDiminishingReturns == skillDr;
@@ -4090,6 +4109,10 @@ namespace TSA_WorldDomination
             enableLateGameAllyRadiusScaling = allyRadiusScale;
             // Easy: free player drop-pod launches. Medium/Hard: charge components.
             dropPodTransportCostComponents = preset != WDSettingsDifficultyPreset.Easy;
+            // Hard: force raid drought on. Easy/Medium: off. Child knobs always reset to Defs.
+            forceRaidDroughtEnabled = preset == WDSettingsDifficultyPreset.Hard;
+            forceRaidDroughtQuietDays = DefForceRaidDroughtQuietDays;
+            forceRaidDroughtAllowBeyondRange = DefForceRaidDroughtAllowBeyondRange;
             NormalizeEscalationConstraints();
             ClampPlayerWdRaidRateCaps();
             if (skillDr)
@@ -4717,6 +4740,9 @@ namespace TSA_WorldDomination
             alwaysUseStrengthAsOutpostDefenseRaidPoints = DefAlwaysUseStrengthAsOutpostDefenseRaidPoints;
             minRaidPoints = DefMinRaidPoints;
             maxRaidPoints = DefMaxRaidPoints;
+            forceRaidDroughtEnabled = DefForceRaidDroughtEnabled;
+            forceRaidDroughtQuietDays = DefForceRaidDroughtQuietDays;
+            forceRaidDroughtAllowBeyondRange = DefForceRaidDroughtAllowBeyondRange;
             NormalizeRaidClampFractions();
         }
 

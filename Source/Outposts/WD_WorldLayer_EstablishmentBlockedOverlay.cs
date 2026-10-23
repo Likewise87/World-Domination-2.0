@@ -65,14 +65,16 @@ namespace TSA_WorldDomination
             public float quaternaryDist;
         }
 
-        public override bool Visible => WorldComponent_WDVisualizerToggle.ShowEstablishmentBlockedOverlay;
-        public override bool VisibleWhenLayerNotSelected => true;
+        public override bool Visible =>
+            base.Visible && WorldComponent_WDVisualizerToggle.ShowEstablishmentBlockedOverlay;
+        public override bool VisibleWhenLayerNotSelected => false;
         public override bool VisibleInBackground => false;
 
         public static PlanetTile CenterTile => centerTile;
 
         public static bool SetCenterTile(PlanetTile tile)
         {
+            tile = PlanetSurfaceWorldActions.ForMouseFollowOverlay(tile);
             if (centerTile == tile) return false;
             centerTile = tile;
             return true;

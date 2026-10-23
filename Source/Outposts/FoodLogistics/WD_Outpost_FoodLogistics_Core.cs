@@ -143,6 +143,7 @@ namespace TSA_WorldDomination
         public override void PostDrawExtraSelectionOverlays()
         {
             base.PostDrawExtraSelectionOverlays();
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
 
             if (parent is WorldObject_WD_Outpost outpost)
             {

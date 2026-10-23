@@ -741,6 +741,7 @@ namespace TSA_WorldDomination
         public override void DrawExtraSelectionOverlays()
         {
             base.DrawExtraSelectionOverlays();
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             // Path must live here — not in Draw(). When always-show-icon is on,
             // Patch_WdWorldObjectNoExpandingIcon skips both world-object draw layers,
             // so Draw() never runs for travelers (expanding OnGUI icon still does).

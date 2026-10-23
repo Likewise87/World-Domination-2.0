@@ -78,6 +78,28 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
+        /// True when the root planet surface is the selected world-map layer (not orbit / other).
+        /// Cheap: <see cref="PlanetLayer.IsSelected"/> → <see cref="WorldSelector.SelectedLayer"/>.
+        /// Use to suppress WD surface globe drawing while viewing orbit.
+        /// </summary>
+        public static bool IsPlanetSurfaceLayerSelected()
+        {
+            PlanetLayer surface = Find.WorldGrid?.Surface;
+            return surface != null && surface.IsSelected;
+        }
+
+        /// <summary>
+        /// Mouse-follow overlay center: keep only strict surface tiles; otherwise <see cref="PlanetTile.Invalid"/>.
+        /// Prevents orbit (or mismatched layerId) tiles from entering surface overlay <c>Regenerate</c>.
+        /// </summary>
+        public static PlanetTile ForMouseFollowOverlay(PlanetTile tile)
+        {
+            if (!tile.Valid || !IsPlanetSurfaceTileForWorldActions(tile))
+                return PlanetTile.Invalid;
+            return tile;
+        }
+
+        /// <summary>
         /// Destination <see cref="PlanetTile"/> for WD travelers, preserving the destination's own layer.
         /// The layer is taken from <paramref name="destTile"/> directly (its <c>layerId</c>), then the origin's
         /// layer, then <see cref="WorldGrid.Surface"/>. This never routes the layer lookup through the

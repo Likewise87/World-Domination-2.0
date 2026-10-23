@@ -410,7 +410,7 @@
   <TSA_WD_BtnResetSection>Restablecer sección</TSA_WD_BtnResetSection>
   <TSA_WD_BtnResetFactionParticipation>Restablecer participación</TSA_WD_BtnResetFactionParticipation>
   <TSA_WD_BtnResetFactionParticipation_Tooltip>Borra anulaciones manuales de Acciones WD, MapGen y Narrador, y opt-ins suaves. Las facciones excluidas de forma dura no cambian.</TSA_WD_BtnResetFactionParticipation_Tooltip>
-  <TSA_WD_Threat_StorytellerMovedHint>Las reglas de incursiones del narrador por facción se movieron a Alcance de facciones WD y lealtades.</TSA_WD_Threat_StorytellerMovedHint>
+  <TSA_WD_Threat_StorytellerMovedHint>Gestiona en partida las incursiones del narrador por facción y la diplomacia y lealtades. Abre la pestaña principal de WD y pulsa "Config. alcance" cerca de la esquina superior derecha de esa ventana.</TSA_WD_Threat_StorytellerMovedHint>
   <TSA_WD_AllegianceMatrixInGameOnly>Los cambios diplomáticos permitidos solo se pueden abrir durante una partida (no desde el menú principal).</TSA_WD_AllegianceMatrixInGameOnly>
   <TSA_WD_Outpost_MaxTravelStrengthLoss>Pérdida de fuerza máxima por viaje</TSA_WD_Outpost_MaxTravelStrengthLoss>
   <TSA_WD_Outpost_MaxTravelStrengthLossTooltip>Porcentaje máximo de la fuerza de partida que los viajeros (incursiones, expansión, constructores) pueden perder en ruta. Conservan el resto de la fuerza inicial y no expiran solo por desgaste.</TSA_WD_Outpost_MaxTravelStrengthLossTooltip>

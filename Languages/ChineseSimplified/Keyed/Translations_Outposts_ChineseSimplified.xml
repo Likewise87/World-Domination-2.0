@@ -1023,6 +1023,7 @@
   <TSA_WD_TypeChange_TileConflict>该格已有其他玩家前哨站。</TSA_WD_TypeChange_TileConflict>
   <TSA_WD_TypeChange_QueueFailed>无法排队类型转换。</TSA_WD_TypeChange_QueueFailed>
   <TSA_WD_TypeChange_LaunchFailed>无法派出转换商队。</TSA_WD_TypeChange_LaunchFailed>
+  <TSA_WD_TypeChange_DropPodShortAfterBuy>支付此次转换后，你将没有足够的工业零件供 {0} 用运输舱运送。请将 {0} 改为陆路运送，或获取更多零件。</TSA_WD_TypeChange_DropPodShortAfterBuy>
   <TSA_WD_TypeChange_SpawnFailed>无法生成替换前哨站。</TSA_WD_TypeChange_SpawnFailed>
   <TSA_WD_TypeChange_ApplyFailed>到达时类型转换失败。</TSA_WD_TypeChange_ApplyFailed>
   <TSA_WD_TypeChange_Completed>{0} 已转换为 {1}。</TSA_WD_TypeChange_Completed>
@@ -1589,6 +1590,7 @@
   <TSA_WD_OutpostUpgrades_NoColonyMap>未找到可用于支付费用的玩家殖民地地图。</TSA_WD_OutpostUpgrades_NoColonyMap>
   <TSA_WD_OutpostUpgrades_QueueFailed>无法排队该升级。</TSA_WD_OutpostUpgrades_QueueFailed>
   <TSA_WD_OutpostUpgrades_LaunchFailed>无法派出升级商队。</TSA_WD_OutpostUpgrades_LaunchFailed>
+  <TSA_WD_OutpostUpgrades_DropPodShortAfterBuy>支付此次升级后，你将没有足够的工业零件供 {0} 用运输舱运送。请将 {0} 改为陆路运送，或获取更多零件。</TSA_WD_OutpostUpgrades_DropPodShortAfterBuy>
   <TSA_WD_OutpostUpgrades_NeedHave>需要 {0} {1},现有 {2}。</TSA_WD_OutpostUpgrades_NeedHave>
   <TSA_WD_OutpostUpgrades_DeductFailed>未能从地图扣除 {0} 的完整资源费用。</TSA_WD_OutpostUpgrades_DeductFailed>
   <TSA_WD_OutpostUpgrades_AnyStoneBlocks>任意石块</TSA_WD_OutpostUpgrades_AnyStoneBlocks>

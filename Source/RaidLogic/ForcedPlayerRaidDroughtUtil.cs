@@ -12,7 +12,6 @@ namespace TSA_WorldDomination
     /// </summary>
     public static class ForcedPlayerRaidDroughtUtil
     {
-        public const float QuietDaysBeforeForce = 5f;
         private const int CheckIntervalTicks = 2500;
         private const float MinRaidStrength = 50f;
 
@@ -30,11 +29,13 @@ namespace TSA_WorldDomination
 
             PlayerWdRaidDispatchUtil.AbortTravelersTargetingNonSurfacePlayerSites();
 
+            if (!seth.forceRaidDroughtEnabled) return;
             if (HasLivePlayerBoundRaid()) return;
             if (!manager.CanAcceptPlayerWdRaid(seth)) return;
 
             float quietDays = GetQuietDays(manager, now);
-            if (quietDays < QuietDaysBeforeForce) return;
+            int quietThreshold = Mathf.Clamp(seth.forceRaidDroughtQuietDays, 1, 30);
+            if (quietDays < quietThreshold) return;
 
             Settlement colony = FindPlayerMapColony();
             if (colony == null) return;
@@ -140,6 +141,8 @@ namespace TSA_WorldDomination
                     continue;
                 }
 
+                if (!seth.forceRaidDroughtAllowBeyondRange) continue;
+
                 float overshoot = dist - attackRange;
                 if (overshoot < bestOorOvershoot - 0.01f
                     || (Mathf.Abs(overshoot - bestOorOvershoot) <= 0.01f && strength > bestOorStr + 0.01f))
@@ -159,7 +162,7 @@ namespace TSA_WorldDomination
                 return true;
             }
 
-            if (bestOor != null && bestOorComp != null)
+            if (seth.forceRaidDroughtAllowBeyondRange && bestOor != null && bestOorComp != null)
             {
                 attacker = bestOor;
                 attComp = bestOorComp;

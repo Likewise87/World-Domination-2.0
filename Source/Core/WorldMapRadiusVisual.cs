@@ -64,6 +64,8 @@ namespace TSA_WorldDomination
 
         public static void DrawApproxRadiusRing(PlanetTile center, float approxLogicRadius, Material mat)
         {
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected())
+                return;
             if (!center.Valid || approxLogicRadius <= 0f || mat == null)
                 return;
 
@@ -77,6 +79,8 @@ namespace TSA_WorldDomination
 
         public static void DrawApproxRadiusRing(int centerTile, float approxLogicRadius, Material mat)
         {
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected())
+                return;
             if (centerTile < 0 || approxLogicRadius <= 0f || mat == null)
                 return;
 

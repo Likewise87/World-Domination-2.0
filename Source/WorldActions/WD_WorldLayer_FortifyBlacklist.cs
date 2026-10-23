@@ -18,10 +18,11 @@ namespace TSA_WorldDomination
         private readonly List<Vector3> tileVerts = new List<Vector3>(8);
 
         public override bool Visible =>
-            WorldComponent_WDVisualizerToggle.ShowFortifyBlacklistOverlay
-            || Action_Outpost_FortifyBlacklist.IsPaintSessionActive;
+            base.Visible
+            && (WorldComponent_WDVisualizerToggle.ShowFortifyBlacklistOverlay
+                || Action_Outpost_FortifyBlacklist.IsPaintSessionActive);
 
-        public override bool VisibleWhenLayerNotSelected => true;
+        public override bool VisibleWhenLayerNotSelected => false;
         public override bool VisibleInBackground => false;
 
         private static Material FillMat

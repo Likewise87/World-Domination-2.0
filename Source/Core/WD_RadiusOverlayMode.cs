@@ -31,6 +31,8 @@ namespace TSA_WorldDomination
             float accuracyBandMaxRange = -1f,
             float allyInnerRadiusSplit = -1f)
         {
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected())
+                return;
             if (UseHopRadiusRings)
             {
                 if (allyInnerRadiusSplit > 0f && fillKind == OutpostCoverageFillKind.Cyan)

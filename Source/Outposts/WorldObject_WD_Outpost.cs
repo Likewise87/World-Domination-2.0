@@ -2566,6 +2566,7 @@ namespace TSA_WorldDomination
         public override void DrawExtraSelectionOverlays()
         {
             base.DrawExtraSelectionOverlays();
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             if (!Find.WorldSelector.IsSelected(this) || def == null) return;
 
             if (Dialog_OutpostRangeAdjust.TryGetPreview(this, out OutpostRangeAdjustMode previewMode, out float previewRadius))

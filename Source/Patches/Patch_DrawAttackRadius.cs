@@ -13,6 +13,8 @@ namespace TSA_WorldDomination
         [HarmonyPostfix]
         public static void Postfix(WorldObject __instance)
         {
+            // Do not skip the original method (Prefix false would); only WD postfix draws.
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             Action_Outpost_BuildRoad.DrawRoadOverlayIfSelected(__instance);
             Action_Outpost_BuildBridge.DrawBridgeOverlayIfSelected(__instance);
             Action_Outpost_RoadBlocks.DrawRoadBlockOverlayIfSelected(__instance);

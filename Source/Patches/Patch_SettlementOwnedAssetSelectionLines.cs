@@ -16,6 +16,7 @@ namespace TSA_WorldDomination
         [HarmonyPostfix]
         public static void Postfix(WorldObject __instance)
         {
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             if (__instance is not Settlement settlement) return;
             if (settlement.Destroyed) return;
             if (!Find.WorldSelector.IsSelected(settlement)) return;

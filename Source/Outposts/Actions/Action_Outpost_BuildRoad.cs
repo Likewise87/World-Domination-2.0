@@ -586,6 +586,8 @@ namespace TSA_WorldDomination
 
         public static void DrawOrangeX(int tileId)
         {
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected())
+                return;
             if (!TryGetPlanetMarkerFrame(tileId, out Vector3 c, out Vector3 tangent, out Vector3 bitangent, out float arm))
                 return;
             Material mat = WorldOverlayLineMaterials.RoadOrangeMarker;
@@ -597,6 +599,8 @@ namespace TSA_WorldDomination
 
         public static void DrawOrangeStar(int tileId)
         {
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected())
+                return;
             if (!TryGetPlanetMarkerFrame(tileId, out Vector3 c, out Vector3 tangent, out Vector3 bitangent, out float arm))
                 return;
             Material mat = WorldOverlayLineMaterials.RoadOrangeMarker;
@@ -612,6 +616,8 @@ namespace TSA_WorldDomination
         /// <summary>Next worksite tile marker: filled opaque orange disc (roads, blocks, traps, AT, decontam).</summary>
         public static void DrawOrangeCircle(int tileId, int segments = 20)
         {
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected())
+                return;
             _ = segments;
             WorldGrid grid = Find.WorldGrid;
             if (grid == null || !grid.InBounds(tileId)) return;

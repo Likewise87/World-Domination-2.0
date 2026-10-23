@@ -78,7 +78,14 @@ namespace TSA_WorldDomination
 
         /// <summary>True when this object's ExpandingIcon and Material should be fully suppressed.</summary>
         private static bool SuppressWorldIcon(WorldObject wo)
-            => HideShellAtFarZoom(wo) || HideAtTurretWhenFortificationsHidden(wo);
+        {
+            if (HideShellAtFarZoom(wo) || HideAtTurretWhenFortificationsHidden(wo))
+                return true;
+            // Orbit view: hide WD always-show icons only (do not blank every world object).
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected() && ForceFixedIcon(wo))
+                return true;
+            return false;
+        }
 
         /// <summary>
         /// Call after changing either always-show-icon setting so close-zoom Material meshes rebuild.

@@ -39,15 +39,17 @@ namespace TSA_WorldDomination
         private readonly Dictionary<int, int> distancesByTileId = new Dictionary<int, int>();
 
         public override bool Visible =>
-            WorldComponent_WDVisualizerToggle.ProductivityOverlayMode == WD_ProductivityOverlayMode.MovementDifficulty;
+            base.Visible
+            && WorldComponent_WDVisualizerToggle.ProductivityOverlayMode == WD_ProductivityOverlayMode.MovementDifficulty;
 
-        public override bool VisibleWhenLayerNotSelected => true;
+        public override bool VisibleWhenLayerNotSelected => false;
         public override bool VisibleInBackground => false;
 
         public static PlanetTile CenterTile => centerTile;
 
         public static bool SetCenterTile(PlanetTile tile)
         {
+            tile = PlanetSurfaceWorldActions.ForMouseFollowOverlay(tile);
             if (centerTile == tile) return false;
             centerTile = tile;
             return true;

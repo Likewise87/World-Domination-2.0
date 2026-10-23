@@ -85,6 +85,14 @@ namespace TSA_WorldDomination
             if (!ColonyWarehouseStockUtility.HasCosts(colonyMap, warehouses, cost, null, out reason))
                 return false;
 
+            WorldObject origin = ResolveOrigin(outpost, colonyMap, warehouses);
+            if (!ColonyWorldBuildMaterials.WouldHavePodComponentsAfterCost(
+                    origin,
+                    ColonyWorldBuildMaterials.CountIndustrialComponentsInThingCosts(cost),
+                    "TSA_WD_TypeChange_DropPodShortAfterBuy",
+                    out reason))
+                return false;
+
             return true;
         }
 
@@ -134,18 +142,27 @@ namespace TSA_WorldDomination
             var cost = Outpost_EstablishmentRequirements.GetCost(newDef);
             Map colonyMap = Find.AnyPlayerHomeMap;
             var warehouses = ColonyWorldBuildMaterials.GetContributingWarehouses();
+            WorldObject origin = ResolveOrigin(outpost, colonyMap, warehouses);
+            if (!ColonyWorldBuildMaterials.WouldHavePodComponentsAfterCost(
+                    origin,
+                    ColonyWorldBuildMaterials.CountIndustrialComponentsInThingCosts(cost),
+                    "TSA_WD_TypeChange_DropPodShortAfterBuy",
+                    out reason))
+                return false;
+
             if (!DeductEstablishCost(colonyMap, warehouses, cost, out reason)) return false;
 
             if (!outpost.TryQueuePendingTypeChange(newDef.defName))
             {
+                ColonyWorldBuildMaterials.TryRefundThingDefCounts(cost);
                 reason = "TSA_WD_TypeChange_QueueFailed".Translate();
                 return false;
             }
 
-            WorldObject origin = ResolveOrigin(outpost, colonyMap, warehouses);
             if (origin == null || !WorldActions_Traveler.SpawnOutpostTypeChangeTraveler(outpost, origin, newDef.defName))
             {
                 outpost.ClearPendingTypeChange();
+                ColonyWorldBuildMaterials.TryRefundThingDefCounts(cost);
                 reason = "TSA_WD_TypeChange_LaunchFailed".Translate();
                 return false;
             }

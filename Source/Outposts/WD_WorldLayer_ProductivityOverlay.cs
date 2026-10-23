@@ -27,14 +27,16 @@ namespace TSA_WorldDomination
         private readonly Queue<PlanetTile> openTiles = new Queue<PlanetTile>();
         private readonly Dictionary<int, int> distancesByTileId = new Dictionary<int, int>();
 
-        public override bool Visible => WorldComponent_WDVisualizerToggle.IsProductivityScoreOverlayActive();
-        public override bool VisibleWhenLayerNotSelected => true;
+        public override bool Visible =>
+            base.Visible && WorldComponent_WDVisualizerToggle.IsProductivityScoreOverlayActive();
+        public override bool VisibleWhenLayerNotSelected => false;
         public override bool VisibleInBackground => false;
 
         public static PlanetTile CenterTile => centerTile;
 
         public static bool SetCenterTile(PlanetTile tile)
         {
+            tile = PlanetSurfaceWorldActions.ForMouseFollowOverlay(tile);
             if (centerTile == tile) return false;
             centerTile = tile;
             return true;

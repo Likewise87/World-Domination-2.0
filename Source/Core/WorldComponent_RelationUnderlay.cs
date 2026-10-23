@@ -97,6 +97,7 @@ namespace TSA_WorldDomination
             if (!WorldComponent_WDVisualizerToggle.ShowRelationUnderlays) return;
             if (Current.ProgramState != ProgramState.Playing && Current.ProgramState != ProgramState.Entry) return;
             if (!WorldRendererUtility.WorldRendered) return;
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             if (Event.current.type != EventType.Repaint) return;
             if (WD_WorldMapZoomUtil.IsZoomedTooFarOut(HideAltitudePercent)) return;
 

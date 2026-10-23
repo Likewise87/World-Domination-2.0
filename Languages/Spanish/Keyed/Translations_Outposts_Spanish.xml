@@ -1023,6 +1023,7 @@
   <TSA_WD_TypeChange_TileConflict>Ya hay otra avanzadilla del jugador en esta casilla.</TSA_WD_TypeChange_TileConflict>
   <TSA_WD_TypeChange_QueueFailed>No se pudo encolar el cambio de tipo.</TSA_WD_TypeChange_QueueFailed>
   <TSA_WD_TypeChange_LaunchFailed>No se pudo lanzar la caravana de conversión.</TSA_WD_TypeChange_LaunchFailed>
+  <TSA_WD_TypeChange_DropPodShortAfterBuy>Tras pagar esta conversión, no te quedarían suficientes componentes industriales para el envío en cápsula desde {0}. Cambia {0} a envío terrestre, o consigue más componentes.</TSA_WD_TypeChange_DropPodShortAfterBuy>
   <TSA_WD_TypeChange_SpawnFailed>No se pudo crear la avanzadilla de reemplazo.</TSA_WD_TypeChange_SpawnFailed>
   <TSA_WD_TypeChange_ApplyFailed>El cambio de tipo falló al llegar.</TSA_WD_TypeChange_ApplyFailed>
   <TSA_WD_TypeChange_Completed>{0} convertida a {1}.</TSA_WD_TypeChange_Completed>
@@ -1589,6 +1590,7 @@
   <TSA_WD_OutpostUpgrades_NoColonyMap>No hay mapa de colonia del jugador para pagar los costes.</TSA_WD_OutpostUpgrades_NoColonyMap>
   <TSA_WD_OutpostUpgrades_QueueFailed>No se pudo encolar la mejora.</TSA_WD_OutpostUpgrades_QueueFailed>
   <TSA_WD_OutpostUpgrades_LaunchFailed>No se pudo lanzar la caravana de mejora.</TSA_WD_OutpostUpgrades_LaunchFailed>
+  <TSA_WD_OutpostUpgrades_DropPodShortAfterBuy>Tras pagar esta mejora, no te quedarían suficientes componentes industriales para el envío en cápsula desde {0}. Cambia {0} a envío terrestre, o consigue más componentes.</TSA_WD_OutpostUpgrades_DropPodShortAfterBuy>
   <TSA_WD_OutpostUpgrades_NeedHave>Se necesitan {0} {1}, hay {2}.</TSA_WD_OutpostUpgrades_NeedHave>
   <TSA_WD_OutpostUpgrades_DeductFailed>No se pudo deducir el coste completo de recursos para {0}.</TSA_WD_OutpostUpgrades_DeductFailed>
   <TSA_WD_OutpostUpgrades_AnyStoneBlocks>Bloques de piedra (cualquier tipo)</TSA_WD_OutpostUpgrades_AnyStoneBlocks>

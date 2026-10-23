@@ -414,6 +414,7 @@ namespace TSA_WorldDomination
         public override void DrawExtraSelectionOverlays()
         {
             base.DrawExtraSelectionOverlays();
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             if (!Find.WorldSelector.IsSelected(this)) return;
 
             if (Dialog_AtTurretConfigure.TryGetPreview(this, out float previewRadius) && previewRadius > 0f)

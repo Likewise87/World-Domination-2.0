@@ -24,10 +24,11 @@ namespace TSA_WorldDomination
         private readonly ModuleBase roadDisplacementZ = new Perlin(1.0, 2.0, 0.5, 3, 87116801, QualityMode.Medium);
 
         public override bool Visible =>
-            WorldComponent_WdBridges.Get() != null
+            base.Visible
+            && WorldComponent_WdBridges.Get() != null
             && WorldComponent_WdBridges.Get().HasAnyBridges;
 
-        public override bool VisibleWhenLayerNotSelected => true;
+        public override bool VisibleWhenLayerNotSelected => false;
         public override bool VisibleInBackground => false;
 
         /// <summary>Match vanilla road wobble, then lift above ocean water so the strip stays visible.</summary>

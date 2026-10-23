@@ -26,6 +26,7 @@ namespace TSA_WorldDomination
         [HarmonyPostfix]
         public static void Postfix(Caravan __instance)
         {
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             if (__instance == null || __instance.Destroyed) return;
             if (!Find.WorldSelector.IsSelected(__instance)) return;
 

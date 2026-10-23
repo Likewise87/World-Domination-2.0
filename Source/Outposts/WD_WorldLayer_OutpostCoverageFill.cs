@@ -84,8 +84,8 @@ namespace TSA_WorldDomination
 
         public static bool HasTarget => hasTarget;
 
-        public override bool Visible => hasTarget;
-        public override bool VisibleWhenLayerNotSelected => true;
+        public override bool Visible => base.Visible && hasTarget;
+        public override bool VisibleWhenLayerNotSelected => false;
         public override bool VisibleInBackground => false;
 
         public static Color GetFillColor(OutpostCoverageFillKind kind)

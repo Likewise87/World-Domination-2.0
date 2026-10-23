@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_56_Title>Mostly Bugfixes</TSA_WD_Update_2_3_56_Title>
+  <TSA_WD_Update_2_3_56_Body><![CDATA[
+<size=16><b>2.3.56 - Mostly Bugfixes</b></size>\n
+<color=#00FFFFFF>Release date: October 23rd 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• The Raid Drought feature is now configurable in the Combat Settings menu of the mod settings. Off by default unless you picked the Hard difficulty preset on the mod settings main page. If activated, you may configure the quiet-days interval and whether out-of-range settlements may launch an attack (key idea: you keep getting some raids even if your colony sits in the middle of nowhere).\n
+• Bugfix: WD overlays, lines, and world objects are now completely hidden when you are looking at the orbit layer of the world map.\n
+• Bugfix: Rare edge case where you had exactly enough materials for an outpost upgrade but not enough left for drop-pod shipping, which made the materials vanish. You now get a warning instead and the buy does not go through.\n
+]]></TSA_WD_Update_2_3_56_Body>
   <TSA_WD_Update_2_3_55_Title>Balancing</TSA_WD_Update_2_3_55_Title>
   <TSA_WD_Update_2_3_55_Body><![CDATA[
 <size=16><b>2.3.55 - Balancing</b></size>\n

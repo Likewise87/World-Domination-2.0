@@ -70,6 +70,7 @@ namespace TSA_WorldDomination
         {
             if (records == null || records.Count == 0) return;
             if (!WorldRendererUtility.WorldRendered) return;
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             if (!WorldComponent_WDVisualizerToggle.ShowRoadBlocksAndTraps) return;
             if (WD_WorldMapZoomUtil.IsSurfaceOverlayZoomedTooFarOut()) return;
             DrawBlocks();

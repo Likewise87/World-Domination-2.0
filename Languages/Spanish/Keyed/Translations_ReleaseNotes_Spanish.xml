@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_56_Title>Sobre todo correcciones</TSA_WD_Update_2_3_56_Title>
+  <TSA_WD_Update_2_3_56_Body><![CDATA[
+<size=16><b>2.3.56 - Sobre todo correcciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 23 de octubre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• La sequía de asaltos ahora se configura en el menú Ajustes de combate de la configuración del mod. Desactivada por defecto salvo que elijas el preset de dificultad Difícil en la página principal de ajustes. Si está activa, puedes configurar el intervalo de días en calma y si los asentamientos fuera de alcance pueden lanzar un ataque (idea clave: seguir recibiendo algunos asaltos aunque tu colonia esté en medio de la nada).\n
+• Corrección: los overlays, líneas y objetos del mundo WD quedan completamente ocultos al mirar la capa orbital del mapa mundial.\n
+• Corrección: caso raro en el que tenías exactamente los materiales para una mejora de puesto, pero no bastaban luego para el envío en cápsula y los materiales desaparecían. Ahora recibes un aviso y la compra no se realiza.\n
+]]></TSA_WD_Update_2_3_56_Body>
   <TSA_WD_Update_2_3_55_Title>Equilibrio</TSA_WD_Update_2_3_55_Title>
   <TSA_WD_Update_2_3_55_Body><![CDATA[
 <size=16><b>2.3.55 - Equilibrio</b></size>\n

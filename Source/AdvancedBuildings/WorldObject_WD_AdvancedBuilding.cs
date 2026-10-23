@@ -217,6 +217,7 @@ namespace TSA_WorldDomination
         public override void DrawExtraSelectionOverlays()
         {
             base.DrawExtraSelectionOverlays();
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             if (!Find.WorldSelector.IsSelected(this)) return;
             SettlementOwnedAssetSelectionLines.DrawToOwner(this, builtBySettlement);
         }
