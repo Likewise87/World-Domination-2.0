@@ -191,39 +191,45 @@ namespace TSA_WorldDomination
 
         public void RecalculatePathCostsForTiles(IReadOnlyList<int> tileIds)
         {
-            if (tileIds == null || Find.World?.pathGrid == null) return;
+            if (tileIds == null || Find.World == null) return;
+
             WorldGrid grid = Find.WorldGrid;
-            if (grid == null) return;
-            PlanetLayer layer = PlanetSurfaceWorldActions.WdSurfaceLayer ?? grid.Surface;
-            if (layer == null) return;
-
             WorldPathGrid pathGrid = Find.World.pathGrid;
-            if (!pathGrid.layerMovementDifficulty.TryGetValue(layer, out float[] costs) || costs == null)
-                return;
-
-            bool touchedBridge = false;
-            for (int i = 0; i < tileIds.Count; i++)
+            if (grid != null && pathGrid != null)
             {
-                int id = tileIds[i];
-                if (id < 0 || id >= costs.Length || !grid.InBounds(id)) continue;
-
-                PlanetTile pt = new PlanetTile(id, layer);
-                pathGrid.RecalculatePerceivedMovementDifficultyAt(pt, out _);
-
-                // FindPath reads this array directly (not PerceivedMovementDifficultyAt).
-                // Force land-like cost for bridged water if a recalc race left ocean at 1000.
-                if (bridgedSet.Contains(id))
+                PlanetLayer layer = PlanetSurfaceWorldActions.WdSurfaceLayer ?? grid.Surface;
+                if (layer != null
+                    && pathGrid.layerMovementDifficulty.TryGetValue(layer, out float[] costs)
+                    && costs != null)
                 {
-                    touchedBridge = true;
-                    if (costs[id] >= 1000f)
-                        costs[id] = 1f;
+                    bool touchedBridge = false;
+                    for (int i = 0; i < tileIds.Count; i++)
+                    {
+                        int id = tileIds[i];
+                        if (id < 0 || id >= costs.Length || !grid.InBounds(id)) continue;
+
+                        PlanetTile pt = new PlanetTile(id, layer);
+                        pathGrid.RecalculatePerceivedMovementDifficultyAt(pt, out _);
+
+                        // FindPath reads this array directly (not PerceivedMovementDifficultyAt).
+                        // Force land-like cost for bridged water if a recalc race left ocean at 1000.
+                        if (bridgedSet.Contains(id))
+                        {
+                            touchedBridge = true;
+                            if (costs[id] >= 1000f)
+                                costs[id] = 1f;
+                        }
+                    }
+
+                    // Without this, CanReach still treats opposite banks as disconnected islands
+                    // even after path costs are correct.
+                    if (touchedBridge)
+                        Find.WorldReachability?.ClearCache();
                 }
             }
 
-            // Without this, CanReach still treats opposite banks as disconnected islands
-            // even after path costs are correct.
-            if (touchedBridge)
-                Find.WorldReachability?.ClearCache();
+            // VF land cars use a separate path grid / reachability (not vanilla WorldPathGrid).
+            VehicleFrameworkBridgePathingCompat.NotifyTilesChanged(tileIds);
         }
 
         /// <summary>

@@ -1191,7 +1191,7 @@ namespace TSA_WorldDomination
                 GUI.color = Color.gray;
                 string none = goodwillNoneLabel ?? "TSA_WD_Dash_Goodwill_None".Translate();
                 Widgets.Label(inner, none.Truncate(inner.width));
-                GUI.color = Color.white;
+            GUI.color = Color.white;
                 Text.Anchor = TextAnchor.UpperLeft;
                 return;
             }

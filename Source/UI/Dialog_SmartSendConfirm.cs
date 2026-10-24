@@ -10,12 +10,14 @@ namespace TSA_WorldDomination
 {
     /// <summary>
     /// Confirm Smart Send. Table chrome matches All Player Pawns; Override uses Transfer list helper.
+    /// Launch rows first; stay/inconclusive under a group header when both sections are non-empty.
     /// </summary>
     [StaticConstructorOnStartup]
     public class Dialog_SmartSendConfirm : Window
     {
         private const float RowHeight = 56f;
         private const float HeaderHeight = 28f;
+        private const float GroupHeaderHeight = 28f;
         private const float PortraitSize = 36f;
         private const float LocIconDrawSize = 40f;
         private const float LocIconPad = 4f;
@@ -40,17 +42,19 @@ namespace TSA_WorldDomination
         private static readonly Color RemoveTint = new Color(0.9f, 0.25f, 0.25f);
 
         private readonly List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> assignments;
-        private readonly Action onConfirm;
+        private readonly Action<int, int> onConfirm;
         private readonly List<RowSnapshot> originalSnapshot = new List<RowSnapshot>();
         private readonly List<RowVm> rows = new List<RowVm>();
-        private readonly List<RowVm> filteredRows = new List<RowVm>();
+        private readonly List<DisplayItem> displayItems = new List<DisplayItem>();
         private Vector2 scrollPos;
         private float lastScrollViewportHeight = 200f;
         private string cachedSubtitle = "";
         private string cachedResetLabel;
         private string cachedOverrideTip;
         private string cachedRemoveTip;
-        private string cachedStayReason;
+        private string cachedInconclusiveReason;
+        private string cachedInconclusiveTip;
+        private string cachedSectionStay;
         private string cachedColOrigin;
         private string cachedColPawn;
         private string cachedColDest;
@@ -68,6 +72,7 @@ namespace TSA_WorldDomination
             public PlayerPawnRosterEntry entry;
             public PlayerPawnTransferDestination dest;
             public bool isStay;
+            public bool isInconclusive;
             public SkillDef matchedSkill;
         }
 
@@ -92,7 +97,15 @@ namespace TSA_WorldDomination
             public PlayerPawnTransferDestination smartDest;
             public bool isOverridden;
             public bool isStay;
+            public bool isInconclusive;
             public bool willLaunch;
+        }
+
+        private class DisplayItem
+        {
+            public bool isGroupHeader;
+            public string headerLabel;
+            public RowVm row;
         }
 
         public override Vector2 InitialSize =>
@@ -103,7 +116,8 @@ namespace TSA_WorldDomination
         public Dialog_SmartSendConfirm(
             List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> moveAssignments,
             List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> stayAssignments,
-            Action onConfirm)
+            List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> inconclusiveAssignments,
+            Action<int, int> onConfirm)
         {
             assignments = moveAssignments ?? new List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment>();
             this.onConfirm = onConfirm;
@@ -117,20 +131,30 @@ namespace TSA_WorldDomination
             cachedResetLabel = "TSA_WD_SmartSend_Reset".Translate();
             cachedOverrideTip = "TSA_WD_SmartSend_OverrideTip".Translate();
             cachedRemoveTip = "TSA_WD_SmartSend_RemoveTip".Translate();
-            cachedStayReason = "TSA_WD_SmartSend_ReasonStay".Translate();
+            cachedInconclusiveReason = "TSA_WD_SmartSend_ReasonInconclusive".Translate();
+            cachedInconclusiveTip = "TSA_WD_SmartSend_ReasonInconclusiveTip".Translate();
+            cachedSectionStay = "TSA_WD_SmartSend_SectionStayOrInconclusive".Translate();
             cachedColOrigin = "TSA_WD_SmartSend_ColOrigin".Translate();
             cachedColPawn = "TSA_WD_SmartSend_ColPawn".Translate();
             cachedColDest = "TSA_WD_SmartSend_ColDestination".Translate();
             cachedColReason = "TSA_WD_SmartSend_ColReason".Translate();
 
-            CaptureSnapshot(assignments, stayAssignments);
+            CaptureSnapshot(assignments, stayAssignments, inconclusiveAssignments);
             RestoreFromSnapshot();
+        }
+
+        public Dialog_SmartSendConfirm(
+            List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> moveAssignments,
+            List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> stayAssignments,
+            Action<int, int> onConfirm)
+            : this(moveAssignments, stayAssignments, null, onConfirm)
+        {
         }
 
         public Dialog_SmartSendConfirm(
             List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> assignments,
             Action onConfirm)
-            : this(assignments, null, onConfirm)
+            : this(assignments, null, null, (sent, _) => onConfirm?.Invoke())
         {
         }
 
@@ -176,15 +200,32 @@ namespace TSA_WorldDomination
             Rect scrollOuter = new Rect(0f, tableTop + HeaderHeight, inRect.width, tableAreaH - HeaderHeight);
             lastScrollViewportHeight = scrollOuter.height;
             float contentW = fixedLeft + reasonWidth;
-            Rect viewRect = new Rect(0f, 0f, contentW, filteredRows.Count * RowHeight + 2f);
+            float contentH = 2f;
+            for (int i = 0; i < displayItems.Count; i++)
+                contentH += displayItems[i].isGroupHeader ? GroupHeaderHeight : RowHeight;
+            Rect viewRect = new Rect(0f, 0f, contentW, contentH);
             Widgets.BeginScrollView(scrollOuter, ref scrollPos, viewRect);
-            for (int i = 0; i < filteredRows.Count; i++)
+            float y = 0f;
+            int zebra = 0;
+            for (int i = 0; i < displayItems.Count; i++)
             {
-                float rowY = i * RowHeight;
-                if (rowY + RowHeight < scrollPos.y - RowHeight) continue;
-                if (rowY > scrollPos.y + lastScrollViewportHeight + RowHeight) continue;
-                int sourceIndex = rows.IndexOf(filteredRows[i]);
-                DrawRow(0f, rowY, contentW, reasonWidth, sourceIndex, filteredRows[i], i % 2 == 0);
+                DisplayItem item = displayItems[i];
+                if (item.isGroupHeader)
+                {
+                    if (y + GroupHeaderHeight >= scrollPos.y - GroupHeaderHeight
+                        && y <= scrollPos.y + lastScrollViewportHeight + GroupHeaderHeight)
+                        DrawGroupHeader(0f, y, contentW, item.headerLabel);
+                    y += GroupHeaderHeight;
+                    continue;
+                }
+
+                float rowY = y;
+                y += RowHeight;
+                if (rowY + RowHeight < scrollPos.y - RowHeight) { zebra++; continue; }
+                if (rowY > scrollPos.y + lastScrollViewportHeight + RowHeight) { zebra++; continue; }
+                int sourceIndex = rows.IndexOf(item.row);
+                DrawRow(0f, rowY, contentW, reasonWidth, sourceIndex, item.row, zebra % 2 == 0);
+                zebra++;
             }
             Widgets.EndScrollView();
 
@@ -205,8 +246,9 @@ namespace TSA_WorldDomination
                     "TSA_WD_PawnDropPod_SmartSendConfirm".Translate())
                 && canConfirm)
             {
+                int notSent = rows.Count - launchCount;
                 SyncAssignmentsFromRows();
-                onConfirm?.Invoke();
+                onConfirm?.Invoke(assignments.Count, notSent);
                 Close();
                 SoundDefOf.Click.PlayOneShotOnCamera();
             }
@@ -225,22 +267,31 @@ namespace TSA_WorldDomination
 
         private void CaptureSnapshot(
             List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> moves,
-            List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> stays)
+            List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> stays,
+            List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> inconclusive)
         {
             originalSnapshot.Clear();
             if (moves != null)
             {
                 for (int i = 0; i < moves.Count; i++)
-                    AddSnapshot(moves[i], isStay: false);
+                    AddSnapshot(moves[i], isStay: false, isInconclusive: false);
             }
             if (stays != null)
             {
                 for (int i = 0; i < stays.Count; i++)
-                    AddSnapshot(stays[i], isStay: true);
+                    AddSnapshot(stays[i], isStay: true, isInconclusive: false);
+            }
+            if (inconclusive != null)
+            {
+                for (int i = 0; i < inconclusive.Count; i++)
+                    AddSnapshot(inconclusive[i], isStay: true, isInconclusive: true);
             }
         }
 
-        private void AddSnapshot(PlayerPawnTransferUtility.PlayerPawnTransferAssignment a, bool isStay)
+        private void AddSnapshot(
+            PlayerPawnTransferUtility.PlayerPawnTransferAssignment a,
+            bool isStay,
+            bool isInconclusive)
         {
             PlayerPawnRosterEntry entry = a.entry;
             if (entry?.pawn == null) return;
@@ -252,7 +303,7 @@ namespace TSA_WorldDomination
                 && (dest.colony == null || dest.colony.Destroyed))
                 return;
 
-            SkillDef matched = dest.kind == PlayerPawnTransferDestinationKind.Outpost
+            SkillDef matched = !isInconclusive && dest.kind == PlayerPawnTransferDestinationKind.Outpost
                 ? SmartAssignOutpostUtility.FindMatchedSkillForDest(entry.pawn, dest.outpost)
                 : null;
 
@@ -261,6 +312,7 @@ namespace TSA_WorldDomination
                 entry = entry,
                 dest = dest,
                 isStay = isStay,
+                isInconclusive = isInconclusive,
                 matchedSkill = matched
             });
         }
@@ -274,7 +326,8 @@ namespace TSA_WorldDomination
                 if (s.entry?.pawn == null) continue;
                 PlanetTile fromTile = ResolveFromTile(s.entry);
                 rows.Add(BuildRowVm(
-                    s.entry, s.entry.pawn, fromTile, s.dest, s.matchedSkill, s.isStay, smartDest: s.dest));
+                    s.entry, s.entry.pawn, fromTile, s.dest, s.matchedSkill, s.isStay, s.isInconclusive,
+                    smartDest: s.dest));
             }
             RebuildFiltered();
             RefreshSubtitle();
@@ -316,27 +369,55 @@ namespace TSA_WorldDomination
 
         private void RebuildFiltered()
         {
-            filteredRows.Clear();
+            var launch = new List<RowVm>();
+            var stay = new List<RowVm>();
             for (int i = 0; i < rows.Count; i++)
             {
                 RowVm r = rows[i];
-                if (!originFilter.NullOrEmpty()
-                    && (r.originLabel == null || r.originLabel.IndexOf(originFilter, StringComparison.OrdinalIgnoreCase) < 0))
-                    continue;
-                if (!pawnFilter.NullOrEmpty()
-                    && (r.pawnName == null || r.pawnName.IndexOf(pawnFilter, StringComparison.OrdinalIgnoreCase) < 0))
-                    continue;
-                if (!destFilter.NullOrEmpty()
-                    && (r.destLabel == null || r.destLabel.IndexOf(destFilter, StringComparison.OrdinalIgnoreCase) < 0))
-                    continue;
-                if (!reasonFilter.NullOrEmpty()
-                    && (r.reasonText == null || r.reasonText.IndexOf(reasonFilter, StringComparison.OrdinalIgnoreCase) < 0))
-                    continue;
-                filteredRows.Add(r);
+                if (!PassesFilter(r)) continue;
+                if (r.willLaunch) launch.Add(r);
+                else stay.Add(r);
             }
 
+            SortRows(launch);
+            SortRows(stay);
+
+            displayItems.Clear();
+            for (int i = 0; i < launch.Count; i++)
+                displayItems.Add(new DisplayItem { row = launch[i] });
+            if (launch.Count > 0 && stay.Count > 0)
+            {
+                displayItems.Add(new DisplayItem
+                {
+                    isGroupHeader = true,
+                    headerLabel = cachedSectionStay
+                });
+            }
+            for (int i = 0; i < stay.Count; i++)
+                displayItems.Add(new DisplayItem { row = stay[i] });
+        }
+
+        private bool PassesFilter(RowVm r)
+        {
+            if (!originFilter.NullOrEmpty()
+                && (r.originLabel == null || r.originLabel.IndexOf(originFilter, StringComparison.OrdinalIgnoreCase) < 0))
+                return false;
+            if (!pawnFilter.NullOrEmpty()
+                && (r.pawnName == null || r.pawnName.IndexOf(pawnFilter, StringComparison.OrdinalIgnoreCase) < 0))
+                return false;
+            if (!destFilter.NullOrEmpty()
+                && (r.destLabel == null || r.destLabel.IndexOf(destFilter, StringComparison.OrdinalIgnoreCase) < 0))
+                return false;
+            if (!reasonFilter.NullOrEmpty()
+                && (r.reasonText == null || r.reasonText.IndexOf(reasonFilter, StringComparison.OrdinalIgnoreCase) < 0))
+                return false;
+            return true;
+        }
+
+        private void SortRows(List<RowVm> list)
+        {
             bool asc = sortAscending;
-            filteredRows.Sort((a, b) =>
+            list.Sort((a, b) =>
             {
                 int cmp = sortColumn switch
                 {
@@ -389,28 +470,34 @@ namespace TSA_WorldDomination
             PlayerPawnTransferDestination dest,
             SkillDef matchedSkill,
             bool isStay,
+            bool isInconclusive,
             PlayerPawnTransferDestination smartDest)
         {
             FillDestVisuals(dest, out Texture destIcon, out Color destColor, out string destLabel);
 
             string reason;
             string reasonTip = "";
-            if (dest.kind == PlayerPawnTransferDestinationKind.Outpost && dest.outpost != null)
+            if (isInconclusive)
             {
-                string baseReason = SmartAssignOutpostUtility.BuildAssignmentReasonText(
+                reason = cachedInconclusiveReason;
+                reasonTip = cachedInconclusiveTip;
+            }
+            else if (dest.kind == PlayerPawnTransferDestinationKind.Outpost && dest.outpost != null)
+            {
+                // Stay rows: same skill/distance/cum lines as moves (distance is 0). Section header covers "no move".
+                reason = SmartAssignOutpostUtility.BuildAssignmentReasonText(
                     pawn, fromTile, dest.outpost, matchedSkill);
                 reasonTip = SmartAssignOutpostUtility.BuildAssignmentReasonTip(
                     pawn, fromTile, dest.outpost, matchedSkill);
-                reason = isStay ? cachedStayReason + "\n" + baseReason : baseReason;
             }
             else
             {
                 reason = isStay
-                    ? cachedStayReason
+                    ? ""
                     : "TSA_WD_SmartSend_ReasonOverrideDest".Translate(destLabel);
             }
 
-            bool willLaunch = !isStay && !IsSameAsOrigin(entry, dest);
+            bool willLaunch = !isStay && !isInconclusive && !IsSameAsOrigin(entry, dest);
             bool overridden = !DestEquals(dest, smartDest);
 
             return new RowVm
@@ -434,6 +521,7 @@ namespace TSA_WorldDomination
                 smartDest = smartDest,
                 isOverridden = overridden,
                 isStay = isStay,
+                isInconclusive = isInconclusive,
                 willLaunch = willLaunch
             };
         }
@@ -470,8 +558,9 @@ namespace TSA_WorldDomination
             SkillDef matched = newDest.kind == PlayerPawnTransferDestinationKind.Outpost
                 ? SmartAssignOutpostUtility.FindMatchedSkillForDest(old.pawn, newDest.outpost)
                 : null;
+            // Manual override clears inconclusive; stay only if destination is still origin.
             rows[rowIndex] = BuildRowVm(
-                old.entry, old.pawn, old.fromTile, newDest, matched, stay, old.smartDest);
+                old.entry, old.pawn, old.fromTile, newDest, matched, stay, isInconclusive: false, old.smartDest);
             RebuildFiltered();
             RefreshSubtitle();
             SoundDefOf.Click.PlayOneShotOnCamera();
@@ -522,6 +611,19 @@ namespace TSA_WorldDomination
             Find.WindowStack.Add(new Dialog_PickPlayerOutpost(
                 one,
                 dest => ApplyOverride(captured, dest)));
+        }
+
+        private void DrawGroupHeader(float x, float y, float width, string label)
+        {
+            GUI.color = Color.white;
+            Widgets.DrawLineHorizontal(x, y, width);
+            Widgets.DrawLineHorizontal(x, y + GroupHeaderHeight - 1f, width);
+            Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            GUI.color = Color.yellow;
+            Widgets.Label(new Rect(x + 8f, y, width - 16f, GroupHeaderHeight), label);
+            GUI.color = Color.white;
+            Text.Anchor = TextAnchor.UpperLeft;
         }
 
         private void DrawTableHeader(Rect rect, float reasonWidth)
@@ -610,7 +712,7 @@ namespace TSA_WorldDomination
         private void DrawRow(float x, float y, float width, float reasonWidth, int rowIndex, RowVm row, bool zebra)
         {
             Rect r = new Rect(x, y, width, RowHeight);
-            if (row.isStay)
+            if (row.isStay || row.isInconclusive)
                 Widgets.DrawBoxSolid(r, new Color(0.35f, 0.35f, 0.35f, 0.18f));
             else if (zebra)
                 Widgets.DrawHighlight(r);
@@ -633,7 +735,6 @@ namespace TSA_WorldDomination
             GUI.color = Color.white;
             curX += ColRemove;
 
-            // Origin icon (jump) + name
             Rect originIconRect = new Rect(
                 curX + LocIconPad,
                 y + (RowHeight - LocIconDrawSize) * 0.5f,
@@ -674,7 +775,6 @@ namespace TSA_WorldDomination
                 OpenPawnInfo(row.pawn);
             curX += ColPawnName;
 
-            // Dest icon (jump) + Destination chrome button
             Rect destIconRect = new Rect(
                 curX + LocIconPad,
                 y + (RowHeight - LocIconDrawSize) * 0.5f,

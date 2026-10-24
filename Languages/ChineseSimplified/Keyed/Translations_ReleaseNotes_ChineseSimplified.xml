@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_57_Title>更多修复与打磨</TSA_WD_Update_2_3_57_Title>
+  <TSA_WD_Update_2_3_57_Body><![CDATA[
+<size=16><b>2.3.57 - 更多修复与打磨</b></size>\n
+<color=#00FFFFFF>发布日期：2026年10月24日</color>\n
+------------------------------\n
+!!!改动仅适用于 1.7 版本!!!\n
+• 净化商队现可锁定水域地块。此前若相邻水域被污染，前哨与定居点可能逐渐受损却无法处理。\n
+• 附近污染及由此产生的每日伤害现会显示在统计标签页。\n
+• 智能分配囚犯（招募后应去何处）的界面应能正确显示。\n
+• WD 商队现会同时显示当前目标与原始目标（例如借机袭击或对反坦克炮塔反击时）。\n
+• Vehicles Framework 的载具商队现应能在世界地图上正确通过 WD 桥梁。\n
+• 修复了打开 WD 世界地块信息标签页时的性能问题。\n
+]]></TSA_WD_Update_2_3_57_Body>
   <TSA_WD_Update_2_3_56_Title>主要为错误修复</TSA_WD_Update_2_3_56_Title>
   <TSA_WD_Update_2_3_56_Body><![CDATA[
 <size=16><b>2.3.56 - 主要为错误修复</b></size>\n

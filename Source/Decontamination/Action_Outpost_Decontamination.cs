@@ -142,12 +142,8 @@ namespace TSA_WorldDomination
                 if (tile == source.Tile) return true;
                 if (Find.WorldGrid.ApproxDistanceInTiles(source.Tile, tile) > range)
                     return false;
-                using (WorldPath path = layer.Pather.FindPath(
-                    new PlanetTile(source.Tile, layer), new PlanetTile(tile, layer), null))
-                {
-                    return path != null && path.Found
-                        && !WorldActions_Roads.RoadBuildingPathTouchesWater(path);
-                }
+                return WorldActions_Decontamination.CanReachDecontamWorkTile(
+                    new PlanetTile(source.Tile, layer), new PlanetTile(tile, layer));
             }
 
             Find.WorldTargeter.BeginTargeting(
@@ -176,7 +172,7 @@ namespace TSA_WorldDomination
 
                     if (lastNode >= 0)
                     {
-                        List<int> leg = WorldActions_RoadBlocks.FindFlatHopPathDestFirst(lastNode, target.Tile);
+                        List<int> leg = WorldActions_Decontamination.FindDecontamHopPathDestFirst(lastNode, target.Tile);
                         if (leg == null || leg.Count < 2)
                         {
                             Messages.Message("TSA_WD_DecontaminationNoPath".Translate(), MessageTypeDefOf.RejectInput);
@@ -243,7 +239,8 @@ namespace TSA_WorldDomination
                 false,
                 () =>
                 {
-                    WorldMapRadiusVisual.DrawApproxRadiusRing(new PlanetTile(source.Tile, layer), range, LineMat);
+                    WD_RadiusOverlayMode.DrawOrFill(
+                        new PlanetTile(source.Tile, layer), range, OutpostCoverageFillKind.Orange, LineMat);
 
                     Action_Outpost_BuildRoad.DrawRoadPathFromCalculatedNodes(committedNodePathTiles, LineMat);
                     DrawWaypointMarkers(sessionNodes);
@@ -274,7 +271,7 @@ namespace TSA_WorldDomination
                         if (mouseTile == anchor)
                             previewLegTiles = null;
                         else
-                            previewLegTiles = WorldActions_RoadBlocks.FindFlatHopPathDestFirst(anchor, mouseTile);
+                            previewLegTiles = WorldActions_Decontamination.FindDecontamHopPathDestFirst(anchor, mouseTile);
                     }
 
                     if (anchor >= 0)
@@ -300,12 +297,7 @@ namespace TSA_WorldDomination
                     int anchor = LastNodeOrNone();
                     if (Find.WorldGrid.ApproxDistanceInTiles(source.Tile, target.Tile) > range) return false;
 
-                    PlanetTile pTile = new PlanetTile(target.Tile, layer);
-                    if (Find.World.Impassable(pTile)) return false;
-                    if (Find.WorldGrid.InBounds(target.Tile) && Find.WorldGrid[target.Tile].WaterCovered)
-                        return false;
-
-                    // Settlements, colonies, outposts (including the sending outpost tile) are valid plan nodes.
+                    // Settlements, colonies, outposts, and open/bridged water are valid plan nodes.
                     if (anchor < 0)
                         return WorldActions_Decontamination.IsValidPlanNode(target.Tile);
 
@@ -314,7 +306,7 @@ namespace TSA_WorldDomination
 
                     if (previewMouseTile == target.Tile)
                         return previewLegTiles != null && previewLegTiles.Count >= 2;
-                    return true;
+                    return WorldActions_Decontamination.IsValidPlanNode(target.Tile);
                 },
                 null,
                 true
@@ -328,7 +320,7 @@ namespace TSA_WorldDomination
             var forward = new List<int> { nodes[0] };
             for (int i = 0; i < nodes.Count - 1; i++)
             {
-                List<int> pathDestFirst = WorldActions_RoadBlocks.FindFlatHopPathDestFirst(nodes[i], nodes[i + 1]);
+                List<int> pathDestFirst = WorldActions_Decontamination.FindDecontamHopPathDestFirst(nodes[i], nodes[i + 1]);
                 if (pathDestFirst == null || pathDestFirst.Count < 2) return null;
                 for (int n = pathDestFirst.Count - 2; n >= 0; n--)
                     forward.Add(pathDestFirst[n]);

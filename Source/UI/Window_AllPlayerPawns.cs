@@ -273,8 +273,13 @@ namespace TSA_WorldDomination
             }
 
             var assignments = PlayerPawnRosterUtility.SmartAssignDestinations(
-                movable, out int failed, out List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> alreadyPlaced);
-            if (assignments.Count == 0 && (alreadyPlaced == null || alreadyPlaced.Count == 0))
+                movable,
+                out int _,
+                out List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> alreadyPlaced,
+                out List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> inconclusive);
+            if (assignments.Count == 0
+                && (alreadyPlaced == null || alreadyPlaced.Count == 0)
+                && (inconclusive == null || inconclusive.Count == 0))
             {
                 Messages.Message("TSA_WD_AllPlayerPawns_SmartAssignNone".Translate(), MessageTypeDefOf.RejectInput, false);
                 return;
@@ -283,9 +288,9 @@ namespace TSA_WorldDomination
             Find.WindowStack.Add(new Dialog_SmartSendConfirm(
                 assignments,
                 alreadyPlaced,
-                () =>
+                inconclusive,
+                (sent, notSent) =>
                 {
-                    int sent = assignments.Count;
                     if (sent == 0) return;
 
                     if (!PlayerPawnTransferUtility.TryTransferWithPerPawnDestinations(
@@ -295,7 +300,7 @@ namespace TSA_WorldDomination
                     selectedThingIds.Clear();
                     lastUpdateTick = -9999;
 
-                    if (failed == 0)
+                    if (notSent == 0)
                     {
                         Messages.Message(
                             "TSA_WD_AllPlayerPawns_SmartAssignDone".Translate(sent.ToString()),
@@ -305,7 +310,7 @@ namespace TSA_WorldDomination
                     else
                     {
                         Messages.Message(
-                            "TSA_WD_AllPlayerPawns_SmartAssignPartial".Translate(sent.ToString(), failed.ToString()),
+                            "TSA_WD_AllPlayerPawns_SmartAssignPartial".Translate(sent.ToString(), notSent.ToString()),
                             MessageTypeDefOf.NeutralEvent,
                             false);
                     }

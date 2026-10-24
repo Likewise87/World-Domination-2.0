@@ -920,7 +920,7 @@
   <TSA_WD_Experimental_MaraudMinStrengthTip>袭击获胜后剩余的实力必须达到这个数值，才值得继续派往下一个目标。</TSA_WD_Experimental_MaraudMinStrengthTip>
   <TSA_WD_Experimental_MaraudMaxChain>最大连锁目标数</TSA_WD_Experimental_MaraudMaxChain>
   <TSA_WD_Experimental_MaraudMaxChainTip>限制单次袭击在必须停止并解散前，最多可以连续获胜并连锁攻击多少个新目标。</TSA_WD_Experimental_MaraudMaxChainTip>
-  <TSA_WD_Experimental_HeaderSettlementAmbush>定居点主动伏击</TSA_WD_Experimental_HeaderSettlementAmbush>
+  <TSA_WD_Experimental_HeaderSettlementAmbush>NPC 拦截/快速反应商队</TSA_WD_Experimental_HeaderSettlementAmbush>
   <TSA_WD_Experimental_SettlementAmbush>实验：定居点伏击途经的远行队</TSA_WD_Experimental_SettlementAmbush>
   <TSA_WD_Experimental_SettlementAmbushTip>开启后，达到最低伏击等级的 NPC 定居点可能会对经过监视范围的敌对贸易远行队、礼物/贿赂远行队、无关袭击或真实玩家商队派出拦截商队。玩家的快速反应和迫击炮前哨不属于此功能，它们通过各自的防御射程拦截。NPC 互拦可在前期发生。针对你的拦截仍等待中期/后期阶段门，除非开启下方的「允许机会目标、劫掠与伏击从游戏一开始就生效」。</TSA_WD_Experimental_SettlementAmbushTip>
   <TSA_WD_Experimental_AmbushChancePct>伏击概率(抛硬币判定)</TSA_WD_Experimental_AmbushChancePct>

@@ -75,6 +75,7 @@ namespace TSA_WorldDomination
         private List<PrisonerRosterEntry> cachedList = new List<PrisonerRosterEntry>();
         private readonly HashSet<string> selectedThingIds = new HashSet<string>();
         private static bool cacheInvalidated;
+        private int lastDestinationRevision = -1;
         private float lastScrollViewportHeight = 400f;
 
         public override Vector2 InitialSize => new Vector2(UI.screenWidth, UI.screenHeight);
@@ -111,6 +112,19 @@ namespace TSA_WorldDomination
                 cachedList = BuildCurrentRoster(sourceFilter, applyXenotype: true);
                 PrisonerRosterUtility.PruneSelectionToLastScan(selectedThingIds);
                 lastUpdateTick = Find.TickManager.TicksGame;
+                var schedAfterRebuild = WorldComponent_PrisonerRecruitSchedule.Get();
+                lastDestinationRevision = schedAfterRebuild != null ? schedAfterRebuild.DestinationRevision : -1;
+            }
+            else
+            {
+                // Schedule changed (e.g. auto Smart Assign) mid-interval — refresh dest cells only, not full roster.
+                var destSchedule = WorldComponent_PrisonerRecruitSchedule.Get();
+                int rev = destSchedule != null ? destSchedule.DestinationRevision : -1;
+                if (rev != lastDestinationRevision)
+                {
+                    PrisonerRosterUtility.RefreshDestinationsFromSchedule(cachedList);
+                    lastDestinationRevision = rev;
+                }
             }
 
             float totalWidth = ComputeTotalTableWidth();

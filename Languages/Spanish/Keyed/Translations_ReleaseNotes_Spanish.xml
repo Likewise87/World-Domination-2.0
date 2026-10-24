@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_57_Title>Más correcciones y pulido</TSA_WD_Update_2_3_57_Title>
+  <TSA_WD_Update_2_3_57_Body><![CDATA[
+<size=16><b>2.3.57 - Más correcciones y pulido</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 24 de octubre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Las caravanas de descontaminación ya pueden apuntar a casillas de agua. Antes, puestos y asentamientos podían destruirse poco a poco si una casilla de agua adyacente estaba contaminada y no podían hacer nada al respecto.\n
+• La contaminación cercana y el daño diario resultante ahora se muestran en la pestaña de Estadísticas.\n
+• La interfaz de asignación inteligente de prisioneros (dónde deben ir tras el reclutamiento) debería mostrarse correctamente.\n
+• Las caravanas WD ahora muestran tanto su destino actual como el original (por ejemplo si toman un objetivo de oportunidad o contraatacan a una torreta AT).\n
+• Las caravanas de vehículos de Vehicles Framework deberían poder cruzar correctamente los puentes WD en el mapa mundial.\n
+• Corregido un problema de rendimiento al tener abierta la pestaña de información de casilla mundial WD.\n
+]]></TSA_WD_Update_2_3_57_Body>
   <TSA_WD_Update_2_3_56_Title>Sobre todo correcciones</TSA_WD_Update_2_3_56_Title>
   <TSA_WD_Update_2_3_56_Body><![CDATA[
 <size=16><b>2.3.56 - Sobre todo correcciones</b></size>\n

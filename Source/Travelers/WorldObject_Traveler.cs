@@ -158,6 +158,11 @@ namespace TSA_WorldDomination
 
         public WorldObject originObject;
         public WorldObject targetObject;
+        /// <summary>
+        /// Launch-time destination. Set once via <see cref="CaptureOriginalTargetIfUnset"/> and kept across
+        /// target-of-opportunity, maraud, choke intercept, and AT Turret detours (those only change <see cref="targetObject"/>).
+        /// </summary>
+        public WorldObject originalTargetObject;
         /// <summary>Player-ordered trader caravan (goodwill paid); skips arrival goodwill gain and uses <see cref="orderedTraderKind"/>.</summary>
         public bool playerOrderedTrader;
         public TraderKindDef orderedTraderKind;
@@ -794,6 +799,17 @@ namespace TSA_WorldDomination
             pather?.StopDead();
         }
 
+        /// <summary>
+        /// Remember the current <see cref="targetObject"/> as the launch destination if not already captured.
+        /// Call before any mid-travel retarget (ToO, maraud, choke, AT detour).
+        /// </summary>
+        public void CaptureOriginalTargetIfUnset()
+        {
+            if (originalTargetObject != null) return;
+            if (!TravelerEndpointUtility.IsLiveEndpoint(targetObject)) return;
+            originalTargetObject = targetObject;
+        }
+
         /// <summary>True if the shell’s strike target no longer exists (destroyed or despawned). Manual and auto shells both use this to despawn mid-flight.</summary>
         private bool MortarStrikePrimaryTargetGone()
             => targetObject == null || targetObject.Destroyed;
@@ -1417,6 +1433,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref cachedTotalTravelTicksAtLaunch, "cachedTotalTravelTicksAtLaunch", -1f);
             Scribe_References.Look(ref originObject, "originObject");
             Scribe_References.Look(ref targetObject, "targetObject");
+            Scribe_References.Look(ref originalTargetObject, "originalTargetObject");
             Scribe_Values.Look(ref playerOrderedTrader, "playerOrderedTrader", false);
             Scribe_Defs.Look(ref orderedTraderKind, "orderedTraderKind");
             Scribe_Values.Look(ref raidOrderOutcome, "raidOrderOutcome", RaidOrderOutcome.PlayerOutpostConquestMenu);

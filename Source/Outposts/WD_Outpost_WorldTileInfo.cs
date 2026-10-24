@@ -46,40 +46,48 @@ namespace TSA_WorldDomination
         {
             var grid = Find.WorldGrid;
             if (grid == null || tile < 0 || tile >= grid.TilesCount) return null;
-            var tileObj = grid.GetType().GetProperty("Item", new[] { typeof(int) })?.GetMethod?.Invoke(grid, new object[] { tile });
-            if (tileObj == null) return null;
-            var t = tileObj.GetType();
-            Def biome = null;
-            var prop = t.GetProperty("biome", BindingFlags.Public | BindingFlags.Instance) ?? t.GetProperty("Biome", BindingFlags.Public | BindingFlags.Instance);
-            if (prop != null) biome = prop.GetValue(tileObj) as Def;
-            if (biome == null) { var f = t.GetField("biome", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance) ?? t.GetField("Biome", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance); if (f != null) biome = f.GetValue(tileObj) as Def; }
-            return biome?.defName;
+            try
+            {
+                BiomeDef typed = grid[tile].PrimaryBiome;
+                if (typed != null) return typed.defName;
+            }
+            catch { /* fall through */ }
+            try
+            {
+                object tileObj = grid[tile];
+                return GetBiomeFromTileObject(tileObj)?.defName;
+            }
+            catch { return null; }
         }
 
         private static Hilliness GetHillinessReflection(int tile)
         {
             var grid = Find.WorldGrid;
             if (grid == null || tile < 0 || tile >= grid.TilesCount) return Hilliness.Flat;
-            var tileObj = grid.GetType().GetProperty("Item", new[] { typeof(int) })?.GetMethod?.Invoke(grid, new object[] { tile });
-            if (tileObj == null) return Hilliness.Flat;
-            var h = GetHillinessFromTileObject(tileObj);
-            return h ?? Hilliness.Flat;
-        }
-
-        /// <summary>Biome at this tile, or null if invalid. Same as Outposts: read from Find.WorldGrid[tile].biome via reflection (grid indexer returns tile, tile has biome).</summary>
-        public static BiomeDef GetBiome(int tile)
-        {
-            if (Find.WorldGrid == null || tile < 0 || tile >= Find.WorldGrid.TilesCount)
-                return null;
-            // Outposts: var biome = Find.WorldGrid[tileIdx].biome; we do the same by indexing then reading .biome from the boxed tile
             try
             {
-                object gridTile = Find.WorldGrid[tile];
-                if (gridTile != null)
-                {
-                    BiomeDef b = GetBiomeFromTileObject(gridTile);
-                    if (b != null) return b;
-                }
+                return grid[tile].hilliness;
+            }
+            catch { /* fall through */ }
+            try
+            {
+                object tileObj = grid[tile];
+                return GetHillinessFromTileObject(tileObj) ?? Hilliness.Flat;
+            }
+            catch { return Hilliness.Flat; }
+        }
+
+        /// <summary>Biome at this tile, or null if invalid. Prefers typed <see cref="Tile.PrimaryBiome"/>; reflection only as fallback.</summary>
+        public static BiomeDef GetBiome(int tile)
+        {
+            var grid = Find.WorldGrid;
+            if (grid == null || tile < 0 || tile >= grid.TilesCount)
+                return null;
+            try
+            {
+                Tile gridTile = grid[tile];
+                BiomeDef b = gridTile.PrimaryBiome;
+                if (b != null) return b;
             }
             catch { /* fall through */ }
             if (BiomeResolver != null) return BiomeResolver(tile);
@@ -90,36 +98,41 @@ namespace TSA_WorldDomination
             return string.IsNullOrEmpty(name) ? null : DefDatabase<BiomeDef>.GetNamedSilentFail(name);
         }
 
-        /// <summary>Read BiomeDef from a boxed Tile. Same as Outposts (tile.biome) and VOE (tile.PrimaryBiome). Tries biome, then PrimaryBiome.</summary>
+        private static PropertyInfo _cachedPrimaryBiomeProp;
+        private static FieldInfo _cachedBiomeField;
+        private static bool _biomeMembersResolved;
+
+        /// <summary>Read BiomeDef from a boxed Tile via cached PropertyInfo/FieldInfo (no GetMethods per call).</summary>
         private static BiomeDef GetBiomeFromTileObject(object tileObj)
         {
             if (tileObj == null) return null;
-            var t = tileObj.GetType();
-            foreach (var memberName in new[] { "biome", "Biome", "PrimaryBiome" })
+            EnsureBiomeMembers(tileObj.GetType());
+            try
             {
-                var prop = t.GetProperty(memberName, BindingFlags.Public | BindingFlags.Instance);
-                if (prop != null && typeof(BiomeDef).IsAssignableFrom(prop.PropertyType))
+                if (_cachedPrimaryBiomeProp != null)
                 {
-                    var v = prop.GetValue(tileObj);
+                    var v = _cachedPrimaryBiomeProp.GetValue(tileObj);
                     if (v is BiomeDef b) return b;
                 }
-                var field = t.GetField(memberName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                if (field != null && typeof(BiomeDef).IsAssignableFrom(field.FieldType))
+                if (_cachedBiomeField != null)
                 {
-                    var v = field.GetValue(tileObj);
+                    var v = _cachedBiomeField.GetValue(tileObj);
                     if (v is BiomeDef b) return b;
                 }
             }
-            foreach (var method in t.GetMethods(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if (method.GetParameters().Length != 0 || !typeof(BiomeDef).IsAssignableFrom(method.ReturnType)) continue;
-                if (method.Name == "get_biome" || method.Name == "get_Biome" || method.Name == "get_PrimaryBiome")
-                {
-                    var v = method.Invoke(tileObj, null);
-                    if (v is BiomeDef b) return b;
-                }
-            }
+            catch { /* fall through */ }
             return null;
+        }
+
+        private static void EnsureBiomeMembers(Type tileType)
+        {
+            if (_biomeMembersResolved) return;
+            _biomeMembersResolved = true;
+            _cachedPrimaryBiomeProp = tileType.GetProperty("PrimaryBiome", BindingFlags.Public | BindingFlags.Instance)
+                ?? tileType.GetProperty("biome", BindingFlags.Public | BindingFlags.Instance)
+                ?? tileType.GetProperty("Biome", BindingFlags.Public | BindingFlags.Instance);
+            _cachedBiomeField = tileType.GetField("biome", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                ?? tileType.GetField("Biome", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
         /// <summary>Biome defName at this tile, or null.</summary>
@@ -272,35 +285,15 @@ namespace TSA_WorldDomination
             return h == Hilliness.Mountainous || h == Hilliness.Impassable;
         }
 
-        /// <summary>Hilliness at this tile. Same source as VOE: Find.WorldGrid[tile].hilliness. Tries direct read then fallbacks.</summary>
+        /// <summary>Hilliness at this tile. Prefers typed <see cref="Tile.hilliness"/>; reflection only as fallback.</summary>
         public static Hilliness GetHilliness(int tile)
         {
-            if (Find.WorldGrid == null || tile < 0 || tile >= Find.WorldGrid.TilesCount)
+            var grid = Find.WorldGrid;
+            if (grid == null || tile < 0 || tile >= grid.TilesCount)
                 return Hilliness.Flat;
             try
             {
-                // Mirror VOE: Find.WorldGrid[tile].hilliness (grid indexer returns tile, tile has .hilliness)
-                object grid = Find.WorldGrid;
-                var indexer = grid.GetType().GetProperty("Item", new[] { typeof(int) })?.GetGetMethod();
-                if (indexer != null)
-                {
-                    object gridTile = indexer.Invoke(grid, new object[] { tile });
-                    if (gridTile != null)
-                    {
-                        Hilliness? h = GetHillinessFromTileObject(gridTile);
-                        if (h.HasValue) return h.Value;
-                    }
-                }
-            }
-            catch { /* fall through */ }
-            try
-            {
-                object gridTile = Find.WorldGrid[tile];
-                if (gridTile != null)
-                {
-                    Hilliness? h = GetHillinessFromTileObject(gridTile);
-                    if (h.HasValue) return h.Value;
-                }
+                return grid[tile].hilliness;
             }
             catch { /* fall through */ }
             if (HillinessResolver != null) return HillinessResolver(tile);
@@ -308,46 +301,26 @@ namespace TSA_WorldDomination
             return _hillinessGetter != null ? _hillinessGetter(tile) : Hilliness.Flat;
         }
 
-        /// <summary>Read Hilliness from a boxed Tile. VOE uses Find.WorldGrid[tile].hilliness (lowercase). Tries by name then any member of type Hilliness.</summary>
+        private static FieldInfo _cachedHillinessField;
+        private static bool _hillinessMembersResolved;
+
+        /// <summary>Read Hilliness from a boxed Tile via cached FieldInfo (no GetProperties/GetFields scan per call).</summary>
         private static Hilliness? GetHillinessFromTileObject(object tileObj)
         {
             if (tileObj == null) return null;
-            var t = tileObj.GetType();
-
-            // 1) By name (VOE uses .hilliness lowercase)
-            foreach (var name in new[] { "hilliness", "Hilliness" })
-            {
-                var prop = t.GetProperty(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.IgnoreCase);
-                if (prop != null)
-                {
-                    var v = SafeGetValue(() => prop.GetValue(tileObj));
-                    if (TryParseHilliness(v, out Hilliness h)) return h;
-                }
-                var field = t.GetField(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.IgnoreCase);
-                if (field != null)
-                {
-                    var v = SafeGetValue(() => field.GetValue(tileObj));
-                    if (TryParseHilliness(v, out Hilliness h)) return h;
-                }
-            }
-
-            // 2) Any public instance property of type Hilliness (e.g. different framework/casing)
-            foreach (var prop in t.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if (prop.PropertyType != typeof(Hilliness) && !prop.PropertyType.IsEnum) continue;
-                var v = SafeGetValue(() => prop.GetValue(tileObj));
-                if (TryParseHilliness(v, out Hilliness h)) return h;
-            }
-
-            // 3) Any instance field of type Hilliness (public or private)
-            foreach (var field in t.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-            {
-                if (field.FieldType != typeof(Hilliness) && !field.FieldType.IsEnum) continue;
-                var v = SafeGetValue(() => field.GetValue(tileObj));
-                if (TryParseHilliness(v, out Hilliness h)) return h;
-            }
-
+            EnsureHillinessMembers(tileObj.GetType());
+            if (_cachedHillinessField == null) return null;
+            var v = SafeGetValue(() => _cachedHillinessField.GetValue(tileObj));
+            if (TryParseHilliness(v, out Hilliness h)) return h;
             return null;
+        }
+
+        private static void EnsureHillinessMembers(Type tileType)
+        {
+            if (_hillinessMembersResolved) return;
+            _hillinessMembersResolved = true;
+            _cachedHillinessField = tileType.GetField("hilliness", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                ?? tileType.GetField("Hilliness", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
         private static object SafeGetValue(Func<object> getter)

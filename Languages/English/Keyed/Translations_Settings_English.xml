@@ -925,7 +925,7 @@
   <TSA_WD_Experimental_MaraudMinStrengthTip>The raid's remaining strength after its win must be at least this much for it to be worth sending onward.</TSA_WD_Experimental_MaraudMinStrengthTip>
   <TSA_WD_Experimental_MaraudMaxChain>Max chained targets</TSA_WD_Experimental_MaraudMaxChain>
   <TSA_WD_Experimental_MaraudMaxChainTip>Caps how many victories in a row a single raid can chain into a new target before it must stop and disband.</TSA_WD_Experimental_MaraudMaxChainTip>
-  <TSA_WD_Experimental_HeaderSettlementAmbush>Settlement-launched ambush</TSA_WD_Experimental_HeaderSettlementAmbush>
+  <TSA_WD_Experimental_HeaderSettlementAmbush>NPC Interceptor/Rapid Response Caravans</TSA_WD_Experimental_HeaderSettlementAmbush>
   <TSA_WD_Experimental_SettlementAmbush>Experimental: settlement ambush of passing travelers</TSA_WD_Experimental_SettlementAmbush>
   <TSA_WD_Experimental_SettlementAmbushTip>When on, NPC settlements at the minimum ambush tier may launch an interception caravan at a hostile trader traveler, gift/bribe traveler, uninvolved raid, or real player caravan that passes within watch range. Player Rapid Response and mortar outposts are not this feature; they intercept through their own defense range. NPC-vs-NPC interception caravans can fire in early game. Interception against you waits for the Mid/Late stage gate unless you turn on "Allow target-of-opportunity, marauding and ambush from the start" below.</TSA_WD_Experimental_SettlementAmbushTip>
   <TSA_WD_Experimental_AmbushChancePct>Ambush chance (coin flip)</TSA_WD_Experimental_AmbushChancePct>

@@ -48,7 +48,7 @@
   <TSA_WD_GoodwillMsg_AlliedRaidRefund>Allied raid by {0} on {1} cancelled. Refunded {2} goodwill, now at {3}</TSA_WD_GoodwillMsg_AlliedRaidRefund>
   <TSA_WD_GoodwillMsg_ConquestGift>{0} established {1}. +{2} goodwill, now at {3}</TSA_WD_GoodwillMsg_ConquestGift>
   <TSA_WD_GoodwillMsg_SpyOpFailure>{0} at {1} failed. -{2} goodwill with {3}, now at {4}</TSA_WD_GoodwillMsg_SpyOpFailure>
-  <TSA_WD_GoodwillMsg_TraderCaravan>Trader caravan arrived at your settlement. +{1} goodwill with {0}, now at {2}</TSA_WD_GoodwillMsg_TraderCaravan>
+  <TSA_WD_GoodwillMsg_TraderCaravan>Trader caravan arrived at your settlement. {1} goodwill with {0}, now at {2}</TSA_WD_GoodwillMsg_TraderCaravan>
   <TSA_WD_GoodwillMsg_Embassy>Embassy {3}: {1} goodwill with {0}, now at {2}</TSA_WD_GoodwillMsg_Embassy>
   <TSA_WD_GoodwillMsg_OrderedRoadOrdered>Ordered {0} at {1} to build road to {2}. -{3} goodwill, now at {4}</TSA_WD_GoodwillMsg_OrderedRoadOrdered>
   <TSA_WD_GoodwillMsg_OrderedTraderOrdered>Ordered trader ({3}) from {0} at {1} to {2}. -{4} goodwill, now at {5}</TSA_WD_GoodwillMsg_OrderedTraderOrdered>

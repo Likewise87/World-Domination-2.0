@@ -44,6 +44,17 @@ namespace TSA_WorldDomination
         private Vector2 rightScrollPosition;
         private OutpostExpertRole? selectedRole;
 
+        private const int CacheRefreshInterval = 60;
+        private int lastCacheTick = -1;
+        private int cachedOutpostId = int.MinValue;
+        private int cachedOccupantFingerprint = int.MinValue;
+        private int cachedAssignmentFingerprint = int.MinValue;
+        private OutpostExpertRole? cachedSelectedRoleForOccupants;
+        private readonly List<OutpostExpertRole> cachedAvailableRoles = new List<OutpostExpertRole>(16);
+        private readonly List<Pawn> cachedOccupants = new List<Pawn>(32);
+        private int cachedHumanoids;
+        private int cachedMaxSlots;
+
         public WITab_Outpost_Experts()
         {
             size = new Vector2(1100f, 610f);
@@ -59,8 +70,10 @@ namespace TSA_WorldDomination
             WorldObject_WD_Outpost outpost = SelOutpost;
             if (outpost == null) return;
 
+            EnsureCacheFresh(outpost);
+
             if (selectedRole.HasValue
-                && !OutpostExpertUtility.IsRoleAvailableForOutpost(outpost, selectedRole.Value))
+                && !RoleIsCachedAvailable(selectedRole.Value))
                 selectedRole = null;
 
             Rect body = new Rect(0f, HeaderOffsetY, size.x, size.y - HeaderOffsetY).ContractedBy(10f);
@@ -118,8 +131,8 @@ namespace TSA_WorldDomination
             GUI.color = Color.white;
             ly += headerRowH + 2f;
 
-            int humanoids = OutpostExpertUtility.GetHumanoidOccupantCount(outpost);
-            int maxSlots = OutpostExpertUtility.GetMaxExpertSlots(outpost);
+            int humanoids = cachedHumanoids;
+            int maxSlots = cachedMaxSlots;
             string capacityText = "TSA_WD_Experts_CapacityMax".Translate(maxSlots).ToString();
             string capacityTooltip = "TSA_WD_Experts_CapacityTooltip".Translate(humanoids, maxSlots).ToString();
             Text.Font = GameFont.Tiny;
@@ -142,11 +155,9 @@ namespace TSA_WorldDomination
             Widgets.BeginScrollView(scrollOuter, ref leftScrollPosition, viewRect);
 
             float curY = 0f;
-            foreach (OutpostExpertRole role in Enum.GetValues(typeof(OutpostExpertRole)))
+            for (int i = 0; i < cachedAvailableRoles.Count; i++)
             {
-                if (!OutpostExpertUtility.IsRoleAvailableForOutpost(outpost, role))
-                    continue;
-
+                OutpostExpertRole role = cachedAvailableRoles[i];
                 bool isSelected = selectedRole.HasValue && role == selectedRole.Value;
                 float rowH = GetRoleRowHeight(outpost, role, isSelected, viewRect.width);
                 Rect rowRect = new Rect(0f, curY, viewRect.width, rowH + RowPadding);
@@ -176,19 +187,12 @@ namespace TSA_WorldDomination
             }
 
             OutpostExpertRole role = selectedRole.Value;
+            EnsureOccupantsForRole(outpost, role);
             string roleLabel = OutpostExpertUtility.GetRoleLabel(role);
             GUI.color = new Color(0.75f, 0.82f, 1f);
             Widgets.Label(new Rect(rx, ry, rw, 22f), "TSA_WD_Experts_ChoosePawnHeader".Translate(roleLabel));
             GUI.color = Color.white;
             ry += 24f;
-
-            var occupants = new List<Pawn>();
-            foreach (Pawn p in OutpostExpertUtility.GetAllHumanoidOccupants(outpost))
-                occupants.Add(p);
-
-            occupants.Sort((a, b) =>
-                OutpostExpertUtility.GetRoleSkillLevel(b, role)
-                    .CompareTo(OutpostExpertUtility.GetRoleSkillLevel(a, role)));
 
             Pawn currentAssignee = outpost.GetAssignedExpert(role);
             bool roleBlocked = OutpostExpertUtility.IsRoleBlockedByCapacity(outpost, role);
@@ -204,9 +208,7 @@ namespace TSA_WorldDomination
             }
 
             float scrollHeight = rightArea.yMax - ry;
-            float contentHeight = 8f;
-            foreach (Pawn pawn in occupants)
-                contentHeight += PawnRowHeight + PawnRowGap;
+            float contentHeight = 8f + cachedOccupants.Count * (PawnRowHeight + PawnRowGap);
             if (contentHeight < scrollHeight) contentHeight = scrollHeight;
 
             Rect scrollOuter = new Rect(rx, ry, rw, scrollHeight);
@@ -214,9 +216,9 @@ namespace TSA_WorldDomination
             Widgets.BeginScrollView(scrollOuter, ref rightScrollPosition, viewRect);
 
             float curY = 0f;
-            int rowIndex = 0;
-            foreach (Pawn pawn in occupants)
+            for (int rowIndex = 0; rowIndex < cachedOccupants.Count; rowIndex++)
             {
+                Pawn pawn = cachedOccupants[rowIndex];
                 OutpostExpertRole? otherRole = OutpostExpertUtility.GetAssignedRoleForPawn(outpost, pawn, role);
                 bool assignedElsewhere = otherRole.HasValue;
                 float rowTotalH = PawnRowHeight + PawnRowGap;
@@ -239,7 +241,6 @@ namespace TSA_WorldDomination
                     TryAssignPawn(outpost, role, pawn, otherRole);
 
                 curY += rowTotalH;
-                rowIndex++;
             }
 
             Widgets.EndScrollView();
@@ -257,13 +258,98 @@ namespace TSA_WorldDomination
         private float MeasureLeftScrollHeight(WorldObject_WD_Outpost outpost, float contentWidth)
         {
             float h = 4f;
-            foreach (OutpostExpertRole role in Enum.GetValues(typeof(OutpostExpertRole)))
+            for (int i = 0; i < cachedAvailableRoles.Count; i++)
             {
-                if (!OutpostExpertUtility.IsRoleAvailableForOutpost(outpost, role))
-                    continue;
+                OutpostExpertRole role = cachedAvailableRoles[i];
                 h += GetRoleRowHeight(outpost, role, selectedRole.HasValue && role == selectedRole.Value, contentWidth) + RowPadding;
             }
             return h;
+        }
+
+        private bool RoleIsCachedAvailable(OutpostExpertRole role)
+        {
+            for (int i = 0; i < cachedAvailableRoles.Count; i++)
+            {
+                if (cachedAvailableRoles[i] == role) return true;
+            }
+            return false;
+        }
+
+        private static int ComputeOccupantFingerprint(WorldObject_WD_Outpost outpost)
+        {
+            unchecked
+            {
+                int h = 17;
+                var occ = outpost?.Occupants;
+                if (occ == null) return h;
+                h = h * 31 + occ.Count;
+                for (int i = 0; i < occ.Count; i++)
+                {
+                    Pawn p = occ[i];
+                    if (p == null) continue;
+                    h = h * 31 + p.thingIDNumber;
+                }
+                return h;
+            }
+        }
+
+        private static int ComputeAssignmentFingerprint(WorldObject_WD_Outpost outpost)
+        {
+            unchecked
+            {
+                int h = 17;
+                foreach (OutpostExpertRole role in Enum.GetValues(typeof(OutpostExpertRole)))
+                {
+                    string id = outpost.GetExpertThingId(role);
+                    h = h * 31 + (id?.GetHashCode() ?? 0);
+                }
+                return h;
+            }
+        }
+
+        private void EnsureCacheFresh(WorldObject_WD_Outpost outpost)
+        {
+            int tick = Find.TickManager?.TicksGame ?? 0;
+            int occFp = ComputeOccupantFingerprint(outpost);
+            int assignFp = ComputeAssignmentFingerprint(outpost);
+            bool dirty = cachedOutpostId != outpost.ID
+                || cachedOccupantFingerprint != occFp
+                || cachedAssignmentFingerprint != assignFp
+                || tick - lastCacheTick >= CacheRefreshInterval;
+            if (!dirty) return;
+
+            lastCacheTick = tick;
+            cachedOutpostId = outpost.ID;
+            cachedOccupantFingerprint = occFp;
+            cachedAssignmentFingerprint = assignFp;
+            cachedHumanoids = OutpostExpertUtility.GetHumanoidOccupantCount(outpost);
+            cachedMaxSlots = OutpostExpertUtility.GetMaxExpertSlots(outpost);
+
+            cachedAvailableRoles.Clear();
+            foreach (OutpostExpertRole role in Enum.GetValues(typeof(OutpostExpertRole)))
+            {
+                if (OutpostExpertUtility.IsRoleAvailableForOutpost(outpost, role))
+                    cachedAvailableRoles.Add(role);
+            }
+
+            // Force occupant list rebuild next right-column draw.
+            cachedSelectedRoleForOccupants = null;
+        }
+
+        private void EnsureOccupantsForRole(WorldObject_WD_Outpost outpost, OutpostExpertRole role)
+        {
+            if (cachedSelectedRoleForOccupants.HasValue
+                && cachedSelectedRoleForOccupants.Value == role
+                && cachedOutpostId == outpost.ID)
+                return;
+
+            cachedSelectedRoleForOccupants = role;
+            cachedOccupants.Clear();
+            foreach (Pawn p in OutpostExpertUtility.GetAllHumanoidOccupants(outpost))
+                cachedOccupants.Add(p);
+            cachedOccupants.Sort((a, b) =>
+                OutpostExpertUtility.GetRoleSkillLevel(b, role)
+                    .CompareTo(OutpostExpertUtility.GetRoleSkillLevel(a, role)));
         }
 
         private static float MeasureRoleRowBaseHeight(WorldObject_WD_Outpost outpost, OutpostExpertRole role, float contentWidth)

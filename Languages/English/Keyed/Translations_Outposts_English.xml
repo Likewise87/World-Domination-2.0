@@ -2031,6 +2031,10 @@
   <TSA_WD_OutpostStats_Row_DefensiveStrengthTip>Current / maximum structural defensive strength.</TSA_WD_OutpostStats_Row_DefensiveStrengthTip>
   <TSA_WD_OutpostStats_Row_OffensiveRecovery>Daily offensive recovery</TSA_WD_OutpostStats_Row_OffensiveRecovery>
   <TSA_WD_OutpostStats_Row_DefensiveRecovery>Daily defensive recovery</TSA_WD_OutpostStats_Row_DefensiveRecovery>
+  <TSA_WD_OutpostStats_Row_AvgPollution>Avg pollution ({0} tiles)</TSA_WD_OutpostStats_Row_AvgPollution>
+  <TSA_WD_OutpostStats_Row_AvgPollutionTip>Mean tile pollution within {0} world tiles of this site (BFS hops). Clean tiles count as 0%. Includes land and water. Used for daily site pollution damage.</TSA_WD_OutpostStats_Row_AvgPollutionTip>
+  <TSA_WD_OutpostStats_Row_PollutionDamagePerDay>Pollution damage / day</TSA_WD_OutpostStats_Row_PollutionDamagePerDay>
+  <TSA_WD_OutpostStats_Row_PollutionDamagePerDayTip>Predicted strength lost per day from average pollution in the damage radius. Split between offense and defense. Zero when average pollution is below the ignore threshold, the feature is off, or this site is immune.</TSA_WD_OutpostStats_Row_PollutionDamagePerDayTip>
   <TSA_WD_OutpostStats_Row_OccupantHeal>Injury / infection heal rate</TSA_WD_OutpostStats_Row_OccupantHeal>
   <TSA_WD_OutpostStats_Row_PrisonerResistance>Prisoners Resistance Reduction per day</TSA_WD_OutpostStats_Row_PrisonerResistance>
   <TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Base>Prisoners Resistance Reduction for cum. Social {0}: -{1} per day</TSA_WD_OutpostStats_Row_PrisonerResistanceTip_Base>

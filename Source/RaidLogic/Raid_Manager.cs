@@ -239,9 +239,9 @@ namespace TSA_WorldDomination
                     float dist = WorldActions_Utils.GetDistance(attacker.Tile, po.Tile, manager);
                     if (dist > currentRaidRange) continue;
 
-                    if (po is Settlement s && s.HasMap)
+                        if (po is Settlement s && s.HasMap)
                         eval.pending.Add(new PendingRaidEvaluation.CandidateEntry { target = po, kind = PendingRaidEvaluation.CandidateKind.PlayerColony, dist = dist });
-                    else if (isSimulatedTarget)
+                        else if (isSimulatedTarget)
                         eval.pending.Add(new PendingRaidEvaluation.CandidateEntry { target = po, kind = PendingRaidEvaluation.CandidateKind.PlayerSimulated, dist = dist });
                 }
             }
@@ -446,6 +446,7 @@ namespace TSA_WorldDomination
                 traveler.ticksPerMove = WorldActions_Traveler.GetDropPodTicksPerMove();
                 traveler.originObject = attacker;
                 traveler.targetObject = target;
+                traveler.CaptureOriginalTargetIfUnset();
                 traveler.cachedTargetKind = targetKind;
                 traveler.isInvasionRaid = eval.isInvasionRaid;
                 traveler.beyondNormalAttackRange = eval.beyondNormalAttackRange;
@@ -480,6 +481,7 @@ namespace TSA_WorldDomination
                 traveler.mission = TravelerMission.Raid;
                 traveler.originObject = attacker;
                 traveler.targetObject = target;
+                traveler.CaptureOriginalTargetIfUnset();
                 traveler.cachedTargetKind = targetKind;
                 traveler.isInvasionRaid = eval.isInvasionRaid;
                 traveler.beyondNormalAttackRange = eval.beyondNormalAttackRange;
@@ -488,7 +490,7 @@ namespace TSA_WorldDomination
                 AdvancedBuildingEffects.ApplyNpcLandSpeed(traveler, attacker);
                 if (traveler.contributionFactors == null) traveler.contributionFactors = new Dictionary<WorldObject, float>();
 
-                Find.WorldObjects.Add(traveler);
+            Find.WorldObjects.Add(traveler);
                 traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(target.Tile, attacker));
 
                 var pollutionCheck = RaidPollutionPreCommit.EvaluateAndMaybeCancel(traveler, attacker, target, manager, seth);
@@ -519,8 +521,8 @@ namespace TSA_WorldDomination
                 finalEfficiency = finalGate.efficiency > 0f ? finalGate.efficiency : preGate.efficiency;
                 if (pathTicks >= 0f && TravelUtils.TryEfficiencyFromPathTravelTicks(pathTicks, seth, attacker.Faction, out float effFromPath))
                     finalEfficiency = effFromPath;
-                else
-                {
+                    else
+                    {
                     var est = TravelUtils.GetTravelStrengthEstimate(attacker.Tile, target.Tile, seth, attacker.Faction, WorldActions_Traveler.GetWalkingTicksPerMove());
                     pathTicks = est.Found ? est.TravelTicks : -1f;
                     if (est.Found) finalEfficiency = est.Efficiency;

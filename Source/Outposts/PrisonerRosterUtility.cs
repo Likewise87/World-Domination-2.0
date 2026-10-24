@@ -319,8 +319,26 @@ namespace TSA_WorldDomination
             return entry;
         }
 
-        private static void FillDestination(PrisonerRosterEntry entry, WorldComponent_PrisonerRecruitSchedule schedule)
+        /// <summary>
+        /// Re-read scheduled destinations onto cached roster rows so the Destination column
+        /// cannot drift from <see cref="WorldComponent_PrisonerRecruitSchedule"/> between full rebuilds.
+        /// Skips in-transit rows (those use caravan labels, not schedule).
+        /// </summary>
+        public static void RefreshDestinationsFromSchedule(List<PrisonerRosterEntry> rows)
         {
+            if (rows == null || rows.Count == 0) return;
+            var schedule = WorldComponent_PrisonerRecruitSchedule.Get();
+            for (int i = 0; i < rows.Count; i++)
+            {
+                PrisonerRosterEntry entry = rows[i];
+                if (entry == null || entry.isGroupHeader || entry.isInTransit) continue;
+                FillDestination(entry, schedule);
+            }
+        }
+
+        public static void FillDestination(PrisonerRosterEntry entry, WorldComponent_PrisonerRecruitSchedule schedule)
+        {
+            if (entry == null) return;
             // Travel mode belongs to the outpost holding the prisoner, not to the prisoner.
             entry.scheduledViaDropPod = entry.holdingOutpost != null
                 && PlayerPawnDropPodUtility.GetTravelViaDropPod(entry.holdingOutpost);
@@ -599,7 +617,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Soft assign for a newly captured prisoner when the prisoners-window auto toggle is on.
-        /// Same destination rules as manual Smart Assign; silent on miss.
+        /// Same destination rules as manual Smart Assign; silent on miss (WDVerbose when verbose logging on).
         /// </summary>
         public static bool TryAutoSmartAssignNewCapture(Pawn pawn, WorldObject_WD_Outpost holdingOutpost = null)
         {
@@ -608,14 +626,32 @@ namespace TSA_WorldDomination
             if (pawn == null || pawn.Destroyed || pawn.Dead) return false;
             if (pawn.RaceProps?.Humanlike != true) return false;
 
+            string thingId = pawn.ThingID ?? "";
+            string pawnLabel = pawn.LabelShortCap ?? pawn.LabelCap ?? thingId;
+            if (thingId.NullOrEmpty())
+            {
+                WDVerbose.Msg($"AutoSmartAssign miss: {pawnLabel} no ThingID");
+                return false;
+            }
+            // Idempotent: GuestTracker postfix + TryCaptureAsPrisoner may both run for the same captive.
+            if (schedule.TryGetDestId(thingId, out int existingDestId))
+            {
+                WDVerbose.Msg($"AutoSmartAssign skip: {pawnLabel} already scheduled destId={existingDestId}");
+                return false;
+            }
+
             Dictionary<SkillDef, List<WorldObject_WD_Outpost>> bySkill =
                 SmartAssignOutpostUtility.BuildOutpostsByRelevantSkill();
-            if (bySkill.Count == 0) return false;
+            if (bySkill.Count == 0)
+            {
+                WDVerbose.Msg($"AutoSmartAssign miss: {pawnLabel} no eligible outposts ({FormatTopSkills(pawn)})");
+                return false;
+            }
 
             var entry = new PrisonerRosterEntry
             {
                 pawn = pawn,
-                thingId = pawn.ThingID ?? ""
+                thingId = thingId
             };
             if (holdingOutpost != null && !holdingOutpost.Destroyed)
             {
@@ -624,19 +660,50 @@ namespace TSA_WorldDomination
             }
             else
             {
-                entry.mapParent = pawn.Map?.Parent as MapParent;
+                // Prefer Map, then MapHeld (carried / Capture Them: often not Spawned when status flips).
+                Map map = pawn.Map ?? pawn.MapHeld;
+                entry.mapParent = map?.Parent as MapParent;
                 if (entry.mapParent == null
                     || entry.mapParent.Destroyed
                     || entry.mapParent.Faction?.IsPlayer != true
                     || entry.mapParent is WorldObject_WD_Outpost)
+                {
+                    WDVerbose.Msg(
+                        $"AutoSmartAssign miss: {pawnLabel} bad mapParent={entry.mapParent?.LabelCap ?? "null"} spawned={pawn.Spawned} ({FormatTopSkills(pawn)})");
                     return false;
+                }
                 entry.isOutpostPrisoner = false;
             }
 
-            bool ok = TrySmartAssignOne(entry, bySkill, schedule);
-            if (ok)
+            bool ok = TrySmartAssignOne(entry, bySkill, schedule, out SkillDef matchedSkill, out WorldObject_WD_Outpost best);
+            if (ok && best != null)
+            {
+                WDVerbose.Msg(
+                    $"AutoSmartAssign match: {pawnLabel} skill={matchedSkill?.defName ?? "?"} → {best.LabelCap} ({best.def?.defName}) ({FormatTopSkills(pawn)})");
                 Window_Prisoners.InvalidateCache();
+            }
+            else
+            {
+                WDVerbose.Msg($"AutoSmartAssign miss: {pawnLabel} no skill match ({FormatTopSkills(pawn)})");
+            }
             return ok;
+        }
+
+        private static string FormatTopSkills(Pawn pawn, int take = 3)
+        {
+            if (pawn?.skills?.skills == null) return "skills=?";
+            List<SkillRecord> ranked = SmartAssignOutpostUtility.RankSkillsBestFirst(pawn);
+            if (ranked.Count == 0) return "skills=none";
+            var sb = new StringBuilder("skills=");
+            int n = Math.Min(take, ranked.Count);
+            for (int i = 0; i < n; i++)
+            {
+                SkillRecord sr = ranked[i];
+                if (sr?.def == null) continue;
+                if (i > 0) sb.Append(',');
+                sb.Append(sr.def.defName).Append('=').Append(sr.Level);
+            }
+            return sb.ToString();
         }
 
         private static bool TrySmartAssignOne(
@@ -644,6 +711,18 @@ namespace TSA_WorldDomination
             Dictionary<SkillDef, List<WorldObject_WD_Outpost>> bySkill,
             WorldComponent_PrisonerRecruitSchedule schedule)
         {
+            return TrySmartAssignOne(entry, bySkill, schedule, out _, out _);
+        }
+
+        private static bool TrySmartAssignOne(
+            PrisonerRosterEntry entry,
+            Dictionary<SkillDef, List<WorldObject_WD_Outpost>> bySkill,
+            WorldComponent_PrisonerRecruitSchedule schedule,
+            out SkillDef matchedSkill,
+            out WorldObject_WD_Outpost best)
+        {
+            matchedSkill = null;
+            best = null;
             Pawn pawn = entry?.pawn;
             if (pawn?.skills?.skills == null || entry.thingId.NullOrEmpty()) return false;
 
@@ -670,9 +749,12 @@ namespace TSA_WorldDomination
                     originTile,
                     bySkill,
                     currentOutpost: currentOutpost,
-                    out WorldObject_WD_Outpost? best)
+                    out best,
+                    out matchedSkill)
                 || best == null)
             {
+                best = null;
+                matchedSkill = null;
                 return false;
             }
 

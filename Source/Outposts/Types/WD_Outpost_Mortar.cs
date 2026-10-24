@@ -56,6 +56,8 @@ namespace TSA_WorldDomination
                 fire.Disable("TSA_WD_Mortar_ReasonCooldown".Translate());
             else if (!cache.hasShootingSkill)
                 fire.Disable("TSA_WD_Mortar_ReasonNoSkill".Translate());
+            else
+                fire.defaultIconColor = WorldOverlayLineMaterials.DarkCyanColor;
             yield return fire;
 
             yield return new Command_Action

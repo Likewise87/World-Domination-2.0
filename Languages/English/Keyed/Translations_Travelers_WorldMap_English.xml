@@ -330,10 +330,16 @@
   <TSA_WD_TravelerStats_Section_Force>Force</TSA_WD_TravelerStats_Section_Force>
   <TSA_WD_TravelerStats_Section_Ambush>Ambush</TSA_WD_TravelerStats_Section_Ambush>
   <TSA_WD_TravelerStats_Section_PlayerThreat>Player threat</TSA_WD_TravelerStats_Section_PlayerThreat>
+  <TSA_WD_TravelerStats_Section_Status>Status</TSA_WD_TravelerStats_Section_Status>
+  <TSA_WD_TravelerStats_Status_AtTurretDetour>Countering AT turret</TSA_WD_TravelerStats_Status_AtTurretDetour>
+  <TSA_WD_TravelerStats_Status_TargetOfOpportunity>Chose weaker settlement as target of opportunity</TSA_WD_TravelerStats_Status_TargetOfOpportunity>
+  <TSA_WD_TravelerStats_Status_Marauding>Continuing after victory (marauding)</TSA_WD_TravelerStats_Status_Marauding>
   <TSA_WD_TravelerStats_Row_Mission>Mission</TSA_WD_TravelerStats_Row_Mission>
   <TSA_WD_TravelerStats_Row_Faction>Faction</TSA_WD_TravelerStats_Row_Faction>
   <TSA_WD_TravelerStats_Row_Origin>Origin</TSA_WD_TravelerStats_Row_Origin>
   <TSA_WD_TravelerStats_Row_Destination>Destination</TSA_WD_TravelerStats_Row_Destination>
+  <TSA_WD_TravelerStats_Row_CurrentDestination>Current destination</TSA_WD_TravelerStats_Row_CurrentDestination>
+  <TSA_WD_TravelerStats_Row_OriginalDestination>Original destination</TSA_WD_TravelerStats_Row_OriginalDestination>
   <TSA_WD_TravelerStats_Row_Strength>Strength (current / initial)</TSA_WD_TravelerStats_Row_Strength>
   <TSA_WD_TravelerStats_Row_StrengthRemaining>Strength remaining</TSA_WD_TravelerStats_Row_StrengthRemaining>
   <TSA_WD_TravelerStats_Row_EtaDays>ETA (days)</TSA_WD_TravelerStats_Row_EtaDays>
@@ -359,4 +365,5 @@
   <TSA_WD_TravelerInventory_Empty>No cargo on this traveler.</TSA_WD_TravelerInventory_Empty>
   <TSA_WD_TravelerInventory_UpgradeLine>Upgrade: {0} (level {1})</TSA_WD_TravelerInventory_UpgradeLine>
   <TSA_WD_TravelerInventory_TypeChangeLine>Converting to: {0}</TSA_WD_TravelerInventory_TypeChangeLine>
+  <TSA_WD_TravelerInventory_HdrValue>Value</TSA_WD_TravelerInventory_HdrValue>
 </LanguageData>

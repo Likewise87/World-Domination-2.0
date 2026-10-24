@@ -583,7 +583,7 @@
   <TSA_WD_SmartSend_ColPawn>Colono</TSA_WD_SmartSend_ColPawn>
   <TSA_WD_SmartSend_ColOrigin>Origen</TSA_WD_SmartSend_ColOrigin>
   <TSA_WD_SmartSend_ColDestination>Destino</TSA_WD_SmartSend_ColDestination>
-  <TSA_WD_SmartSend_ColReason>Motivo</TSA_WD_SmartSend_ColReason>
+  <TSA_WD_SmartSend_ColReason>Razonamiento</TSA_WD_SmartSend_ColReason>
   <TSA_WD_SmartSend_SelectDest>Elegir</TSA_WD_SmartSend_SelectDest>
   <TSA_WD_SmartSend_ReasonOverrideDest>Cambio manual: {0}</TSA_WD_SmartSend_ReasonOverrideDest>
   <TSA_WD_SmartSend_ReasonSkill>Mejor habilidad: {0} = {1}</TSA_WD_SmartSend_ReasonSkill>
@@ -601,6 +601,9 @@
   <TSA_WD_SmartSend_OverrideTitle>Cambiar destino</TSA_WD_SmartSend_OverrideTitle>
   <TSA_WD_SmartSend_Reset>Restablecer asignación</TSA_WD_SmartSend_Reset>
   <TSA_WD_SmartSend_ReasonStay>Ya bien colocado (sin traslado).</TSA_WD_SmartSend_ReasonStay>
+  <TSA_WD_SmartSend_ReasonInconclusive>Inconcluso (sin traslado).</TSA_WD_SmartSend_ReasonInconclusive>
+  <TSA_WD_SmartSend_ReasonInconclusiveTip>Ningún puesto coincide, no está listo para viajar o no hay habilidades útiles para Envío inteligente. Usa Anular para elegir destino, o quita este peón.</TSA_WD_SmartSend_ReasonInconclusiveTip>
+  <TSA_WD_SmartSend_SectionStayOrInconclusive>Ya en ubicación óptima o inconcluso</TSA_WD_SmartSend_SectionStayOrInconclusive>
   <TSA_WD_SmartSend_SubtitleMixed>Enviando {0}. Se quedan: {1}.</TSA_WD_SmartSend_SubtitleMixed>
   <TSA_WD_PawnTransfer_DialogTitle>Elegir destino</TSA_WD_PawnTransfer_DialogTitle>
   <TSA_WD_PawnTransfer_DialogSubtitle>Trasladando {0} colono(s)</TSA_WD_PawnTransfer_DialogSubtitle>

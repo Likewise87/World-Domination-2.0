@@ -64,8 +64,6 @@ namespace TSA_WorldDomination
             if (Occupants.Contains(pawn)) return false;
             if (Prisoners.Contains(pawn)) return true;
 
-            bool wasAlreadyColonyPrisoner = pawn.IsPrisonerOfColony;
-
             pawn.ownership?.UnclaimAll();
             VehicleFrameworkOutpostDissolveCompat.TryEjectPawnFromHostingVehicle(pawn);
 
@@ -97,8 +95,10 @@ namespace TSA_WorldDomination
             NotePrisonerMaybeNeedsHealing(pawn);
             NotifyVirtualPawnsChanged();
             Window_Prisoners.InvalidateCache();
-            if (!wasAlreadyColonyPrisoner)
-                PrisonerRosterUtility.TryAutoSmartAssignNewCapture(pawn, this);
+            // Always attempt: defense-map CapturedBy was skipped by the GuestTracker patch historically
+            // when Parent was an outpost, then skipped again here via wasAlreadyColonyPrisoner.
+            // TryAutoSmartAssignNewCapture is a no-op if already scheduled or the toggle is off.
+            PrisonerRosterUtility.TryAutoSmartAssignNewCapture(pawn, this);
             return true;
         }
 

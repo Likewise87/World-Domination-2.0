@@ -925,7 +925,7 @@
   <TSA_WD_Experimental_MaraudMinStrengthTip>La fuerza restante de la incursión tras su victoria debe ser al menos esta para que valga la pena enviarla a continuar.</TSA_WD_Experimental_MaraudMinStrengthTip>
   <TSA_WD_Experimental_MaraudMaxChain>Máx. de objetivos encadenados</TSA_WD_Experimental_MaraudMaxChain>
   <TSA_WD_Experimental_MaraudMaxChainTip>Limita cuántas victorias seguidas puede encadenar una misma incursión hacia un nuevo objetivo antes de tener que detenerse y disolverse.</TSA_WD_Experimental_MaraudMaxChainTip>
-  <TSA_WD_Experimental_HeaderSettlementAmbush>Emboscada lanzada por asentamiento</TSA_WD_Experimental_HeaderSettlementAmbush>
+  <TSA_WD_Experimental_HeaderSettlementAmbush>Caravanas PNJ de intercepción / respuesta rápida</TSA_WD_Experimental_HeaderSettlementAmbush>
   <TSA_WD_Experimental_SettlementAmbush>Experimental: emboscada de asentamiento a viajeros de paso</TSA_WD_Experimental_SettlementAmbush>
   <TSA_WD_Experimental_SettlementAmbushTip>Si está activo, los asentamientos NPC del nivel mínimo de emboscada pueden lanzar una caravana de intercepción contra un viajero comerciante hostil, un viajero de regalo/soborno, una incursión no relacionada o una caravana real del jugador que pase dentro del alcance de vigilancia. La Respuesta Rápida y los morteros del jugador no son esta función; interceptan con su propio alcance de defensa. La intercepción PNJ contra PNJ puede activarse en la partida temprana. La intercepción contra ti espera la puerta Mid/Late salvo que actives abajo «Permitir objetivos de oportunidad, saqueo y emboscada desde el principio».</TSA_WD_Experimental_SettlementAmbushTip>
   <TSA_WD_Experimental_AmbushChancePct>Probabilidad de emboscada (moneda al aire)</TSA_WD_Experimental_AmbushChancePct>

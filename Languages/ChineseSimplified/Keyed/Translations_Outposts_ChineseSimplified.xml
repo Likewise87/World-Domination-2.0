@@ -185,7 +185,7 @@
   <TSA_WD_TakePrisoners_Label>俘获囚犯</TSA_WD_TakePrisoners_Label>
   <TSA_WD_TakePrisoners_Desc>启用后，此前哨在防守胜利时会俘获囚犯（自动结算与手动防御地图均适用）。关闭后，幸存敌人不会被收为前哨囚犯。</TSA_WD_TakePrisoners_Desc>
   <TSA_WD_AutoAdd_Message>商队已自动加入 {0}。</TSA_WD_AutoAdd_Message>
-    <TSA_WD_Biome_AnimalsPercent>{0} %</TSA_WD_Biome_AnimalsPercent>
+  <TSA_WD_Biome_AnimalsPercent>{0} %</TSA_WD_Biome_AnimalsPercent>
   <TSA_WD_Biome_FishPercent>{0} %</TSA_WD_Biome_FishPercent>
   <TSA_WD_Biome_ColFish>鱼类储量</TSA_WD_Biome_ColFish>
   <TSA_WD_Biome_ColAnimals>动物丰度</TSA_WD_Biome_ColAnimals>
@@ -1606,7 +1606,7 @@
   <TSA_WD_OutpostUpgrades_BenefitOccupantHeal>+{0}% 居民治疗速度</TSA_WD_OutpostUpgrades_BenefitOccupantHeal>
   <TSA_WD_OutpostUpgrades_BenefitTileFertility>+{0}% 肥力</TSA_WD_OutpostUpgrades_BenefitTileFertility>
   <TSA_WD_OutpostUpgrades_BenefitTileMining>+{0}% 采矿效率</TSA_WD_OutpostUpgrades_BenefitTileMining>
-    <TSA_WD_OutpostUpgrades_BenefitTileAnimals>+{0}% 动物丰度</TSA_WD_OutpostUpgrades_BenefitTileAnimals>
+  <TSA_WD_OutpostUpgrades_BenefitTileAnimals>+{0}% 动物丰度</TSA_WD_OutpostUpgrades_BenefitTileAnimals>
   <TSA_WD_OutpostUpgrades_BenefitTileFish>+{0}% 鱼类储量</TSA_WD_OutpostUpgrades_BenefitTileFish>
   <TSA_WD_OutpostUpgrades_BenefitMortarDamage>+{0} 迫击炮炮弹强度</TSA_WD_OutpostUpgrades_BenefitMortarDamage>
   <TSA_WD_OutpostUpgrades_BenefitMortarHit>+{0}% 迫击炮命中率</TSA_WD_OutpostUpgrades_BenefitMortarHit>
@@ -1904,6 +1904,10 @@
   <TSA_WD_OutpostStats_Row_OffensiveRecoveryTip>每天恢复的进攻实力。</TSA_WD_OutpostStats_Row_OffensiveRecoveryTip>
   <TSA_WD_OutpostStats_Row_DefensiveRecovery>每日防御恢复</TSA_WD_OutpostStats_Row_DefensiveRecovery>
   <TSA_WD_OutpostStats_Row_DefensiveRecoveryTip>每天恢复的防御实力。</TSA_WD_OutpostStats_Row_DefensiveRecoveryTip>
+  <TSA_WD_OutpostStats_Row_AvgPollution>平均污染（{0} 格）</TSA_WD_OutpostStats_Row_AvgPollution>
+  <TSA_WD_OutpostStats_Row_AvgPollutionTip>以本据点为中心、半径 {0} 世界格（BFS）内的平均地块污染。干净地块计为 0%。含陆地与水域。用于每日据点污染伤害。</TSA_WD_OutpostStats_Row_AvgPollutionTip>
+  <TSA_WD_OutpostStats_Row_PollutionDamagePerDay>每日污染伤害</TSA_WD_OutpostStats_Row_PollutionDamagePerDay>
+  <TSA_WD_OutpostStats_Row_PollutionDamagePerDayTip>按伤害半径内平均污染预测的每日实力损失，在进攻与防御间分摊。平均污染低于忽略阈值、功能关闭或据点免疫时为 0。</TSA_WD_OutpostStats_Row_PollutionDamagePerDayTip>
   <TSA_WD_OutpostStats_Row_OccupantHeal>伤势/感染愈合速度</TSA_WD_OutpostStats_Row_OccupantHeal>
   <TSA_WD_OutpostStats_Row_OccupantHealTip>驻防单位伤势/免疫愈合速率。限时状态（药劲、毒素等）按原版日速率另行消退。</TSA_WD_OutpostStats_Row_OccupantHealTip>
   <TSA_WD_OutpostStats_Row_PrisonerResistance>囚犯抵抗每日下降</TSA_WD_OutpostStats_Row_PrisonerResistance>

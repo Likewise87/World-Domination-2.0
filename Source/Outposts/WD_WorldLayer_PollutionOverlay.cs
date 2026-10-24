@@ -94,7 +94,7 @@ namespace TSA_WorldDomination
             foreach (PlanetTile tile in EnumerateTilesInRadius(grid, centerTile, OverlayRadius))
             {
                 Tile tileInfo = grid[tile];
-                if (tileInfo == null || tileInfo.WaterCovered)
+                if (tileInfo == null)
                     continue;
 
                 int band = GetCachedBand(tile);

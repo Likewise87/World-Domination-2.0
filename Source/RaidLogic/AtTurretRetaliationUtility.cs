@@ -137,6 +137,7 @@ namespace TSA_WorldDomination
             if (traveler.Faction == null || turret.Faction == null) return false;
             if (!WorldActions_Utils.SafeHostileTo(traveler.Faction, turret.Faction)) return false;
 
+            traveler.CaptureOriginalTargetIfUnset();
             traveler.preTurretDetourTarget = traveler.targetObject;
             traveler.preTurretDetourCachedKind = traveler.cachedTargetKind;
             traveler.preTurretDetourDestTileId = traveler.pather.destTile.Valid

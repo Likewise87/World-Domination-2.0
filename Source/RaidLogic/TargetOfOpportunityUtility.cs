@@ -211,6 +211,7 @@ namespace TSA_WorldDomination
         private static void ApplyRetarget(WorldObject_Traveler traveler, WorldObject candidate, WorldComponent_SettlementWatchIndex watchIndex)
         {
             WorldObject oldTarget = traveler.targetObject;
+            traveler.CaptureOriginalTargetIfUnset();
 
             if (traveler.playerColonyRaidCooldownReservationTick > 0
                 && oldTarget is Settlement oldPlayerSettlement

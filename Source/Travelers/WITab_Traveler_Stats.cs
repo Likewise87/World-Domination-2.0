@@ -134,6 +134,9 @@ namespace TSA_WorldDomination
             var snap = new OutpostStatsSnapshot();
             if (traveler == null) return snap;
 
+            OutpostStatsSection status = BuildStatusSection(traveler);
+            if (status != null)
+                snap.Sections.Add(status);
             snap.Sections.Add(BuildRouteSection(traveler));
             snap.Sections.Add(BuildForceSection(traveler));
             snap.Sections.Add(BuildAmbushSection(traveler));
@@ -143,13 +146,49 @@ namespace TSA_WorldDomination
             return snap;
         }
 
+        /// <summary>
+        /// Mid-travel detours / retargets as yellow full-width status lines (Stats chrome via <see cref="OutpostStatRow.LabelColor"/>).
+        /// </summary>
+        private static OutpostStatsSection BuildStatusSection(WorldObject_Traveler traveler)
+        {
+            if (traveler == null) return null;
+            var section = new OutpostStatsSection
+            {
+                Title = "TSA_WD_TravelerStats_Section_Status".Translate(),
+                FullWidth = true
+            };
+
+            if (traveler.isTurretDetour)
+                AddStatusBanner(section, "TSA_WD_TravelerStats_Status_AtTurretDetour");
+            if (traveler.targetOfOpportunityRetargets > 0)
+                AddStatusBanner(section, "TSA_WD_TravelerStats_Status_TargetOfOpportunity");
+            if (traveler.maraudingChainCount > 0)
+                AddStatusBanner(section, "TSA_WD_TravelerStats_Status_Marauding");
+
+            return section.Rows.Count > 0 ? section : null;
+        }
+
+        private static void AddStatusBanner(OutpostStatsSection section, string labelKey)
+        {
+            section.Rows.Add(new OutpostStatRow
+            {
+                Label = labelKey.Translate().ToString(),
+                Value = " ",
+                LabelColor = Color.yellow,
+                WrapValue = true
+            });
+        }
+
         private static OutpostStatsSection BuildRouteSection(WorldObject_Traveler traveler)
         {
             var section = new OutpostStatsSection { Title = "TSA_WD_TravelerStats_Section_Route".Translate() };
             Add(section, "TSA_WD_TravelerStats_Row_Mission", traveler.mission.ToString());
             Add(section, "TSA_WD_TravelerStats_Row_Faction", traveler.Faction?.Name ?? "?");
             Add(section, "TSA_WD_TravelerStats_Row_Origin", traveler.originObject?.LabelCap ?? "?");
-            Add(section, "TSA_WD_TravelerStats_Row_Destination", traveler.targetObject?.LabelCap ?? "?");
+            string currentDest = FormatEndpointLabel(traveler.targetObject);
+            string originalDest = FormatEndpointLabel(traveler.originalTargetObject ?? traveler.targetObject);
+            Add(section, "TSA_WD_TravelerStats_Row_CurrentDestination", currentDest);
+            Add(section, "TSA_WD_TravelerStats_Row_OriginalDestination", originalDest);
             if (IsRaidLikeMission(traveler))
             {
                 Add(section, "TSA_WD_TravelerStats_Row_RaidTargetKind",
@@ -245,6 +284,12 @@ namespace TSA_WorldDomination
         {
             if (!IsRaidLikeMission(traveler)) return false;
             return PlayerWdRaidDispatchUtil.IsPlayerBoundRaidTarget(traveler.targetObject);
+        }
+
+        private static string FormatEndpointLabel(WorldObject endpoint)
+        {
+            if (!TravelerEndpointUtility.IsLiveEndpoint(endpoint)) return "?";
+            return endpoint.LabelCap;
         }
 
         private static string ClassifyRaidTarget(WorldObject target)

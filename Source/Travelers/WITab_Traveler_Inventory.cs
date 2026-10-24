@@ -23,12 +23,18 @@ namespace TSA_WorldDomination
             public bool hasQuality;
             public string qualityLabel;
             public int count;
+            public string valueLabel;
             public bool isUnique;
         }
 
         private Vector2 scrollPosition;
         private float scrollViewHeight;
         private readonly List<Row> rows = new List<Row>(16);
+
+        private const int CacheRefreshInterval = 60;
+        private int lastCacheTick = -1;
+        private int cachedTravelerId = int.MinValue;
+        private int cachedCargoFingerprint = int.MinValue;
 
         private const float TabHeaderConsumedHeight = 38f;
         private const float TableHeaderHeight = 28f;
@@ -38,7 +44,10 @@ namespace TSA_WorldDomination
         private const float ColType = 100f;
         private const float ColQuality = 90f;
         private const float ColCount = 56f;
+        private const float ColValue = 72f;
         private const float RowRightPad = 10f;
+        private const float FixedColsWidth =
+            ColItemIcon + ColType + ColQuality + ColCount + ColValue + RowRightPad;
 
         public WITab_Traveler_Inventory()
         {
@@ -55,7 +64,7 @@ namespace TSA_WorldDomination
         {
             if (!(SelObject is WorldObject_Traveler traveler) || traveler.Destroyed) return;
 
-            RebuildRows(traveler);
+            RebuildRowsIfNeeded(traveler);
 
             Rect body = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
             Text.Font = GameFont.Medium;
@@ -90,28 +99,33 @@ namespace TSA_WorldDomination
                 y += 28f;
             }
 
-            Rect scrollOuter = new Rect(body.x, y, body.width, body.yMax - y);
-            float contentWidth = scrollOuter.width - OutpostTabStatsUi.ScrollbarRightPadding;
-            float itemW = Mathf.Max(80f, contentWidth - ColItemIcon - ColType - ColQuality - ColCount - RowRightPad);
+            float contentWidth = body.width - OutpostTabStatsUi.ScrollbarRightPadding;
+            float itemW = Mathf.Max(80f, contentWidth - FixedColsWidth);
 
             if (rows.Count == 0)
             {
+                Rect emptyRect = new Rect(body.x, y, body.width, body.yMax - y);
                 Text.Anchor = TextAnchor.MiddleCenter;
                 GUI.color = new Color(1f, 1f, 1f, 0.55f);
-                Widgets.Label(scrollOuter, "TSA_WD_TravelerInventory_Empty".Translate());
+                Widgets.Label(emptyRect, "TSA_WD_TravelerInventory_Empty".Translate());
                 GUI.color = Color.white;
                 Text.Anchor = TextAnchor.UpperLeft;
                 return;
             }
 
-            scrollViewHeight = TableHeaderHeight + rows.Count * RowHeight + 8f;
+            // Header pinned above the list — same chrome as Window_AllPlayerPawns / Warehouse.
+            DrawTableHeader(body.x, y, contentWidth, itemW);
+            Widgets.DrawLineHorizontal(body.x, y + TableHeaderHeight, contentWidth);
+
+            float listTop = y + TableHeaderHeight + 4f;
+            Rect scrollOuter = new Rect(body.x, listTop, body.width, body.yMax - listTop);
+            scrollViewHeight = rows.Count * RowHeight + 8f;
             if (scrollViewHeight < scrollOuter.height)
                 scrollViewHeight = scrollOuter.height;
             Rect viewRect = new Rect(0f, 0f, contentWidth, scrollViewHeight);
 
             Widgets.BeginScrollView(scrollOuter, ref scrollPosition, viewRect);
-            DrawHeader(0f, itemW, contentWidth);
-            float rowY = TableHeaderHeight;
+            float rowY = 0f;
             for (int i = 0; i < rows.Count; i++)
             {
                 DrawRow(contentWidth, rowY, i, rows[i], itemW);
@@ -120,22 +134,38 @@ namespace TSA_WorldDomination
             Widgets.EndScrollView();
         }
 
-        private void DrawHeader(float y, float itemW, float width)
+        private void DrawTableHeader(float x, float y, float width, float itemW)
         {
-            Rect headerRect = new Rect(0f, y, width, TableHeaderHeight);
-            Widgets.DrawHighlight(headerRect);
             Text.Font = GameFont.Tiny;
-            Text.Anchor = TextAnchor.MiddleCenter;
-            float x = ColItemIcon;
-            Widgets.Label(new Rect(x, y, itemW, TableHeaderHeight), "TSA_WD_Armory_HdrItem".Translate());
-            x += itemW;
-            Widgets.Label(new Rect(x, y, ColType, TableHeaderHeight), "TSA_WD_Armory_HdrType".Translate());
-            x += ColType;
-            Widgets.Label(new Rect(x, y, ColQuality, TableHeaderHeight), "TSA_WD_Armory_HdrQuality".Translate());
-            x += ColQuality;
-            Widgets.Label(new Rect(x, y, ColCount, TableHeaderHeight), "TSA_WD_Armory_HdrCount".Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
+            GUI.color = Color.gray;
+            float curX = x + ColItemIcon;
+
+            LabelAnchored(new Rect(curX, y, itemW, TableHeaderHeight),
+                "TSA_WD_Armory_HdrItem".Translate(), TextAnchor.MiddleLeft);
+            curX += itemW;
+            LabelAnchored(new Rect(curX, y, ColType, TableHeaderHeight),
+                "TSA_WD_Armory_HdrType".Translate(), TextAnchor.MiddleCenter);
+            curX += ColType;
+            LabelAnchored(new Rect(curX, y, ColQuality, TableHeaderHeight),
+                "TSA_WD_Armory_HdrQuality".Translate(), TextAnchor.MiddleCenter);
+            curX += ColQuality;
+            LabelAnchored(new Rect(curX, y, ColCount, TableHeaderHeight),
+                "TSA_WD_Armory_HdrCount".Translate(), TextAnchor.MiddleCenter);
+            curX += ColCount;
+            LabelAnchored(new Rect(curX, y, ColValue, TableHeaderHeight),
+                "TSA_WD_TravelerInventory_HdrValue".Translate(), TextAnchor.MiddleCenter);
+
+            GUI.color = Color.white;
             Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.UpperLeft;
+        }
+
+        private static void LabelAnchored(Rect rect, string text, TextAnchor anchor)
+        {
+            TextAnchor prev = Text.Anchor;
+            Text.Anchor = anchor;
+            Widgets.Label(rect, text.Truncate(rect.width - 4f));
+            Text.Anchor = prev;
         }
 
         private void DrawRow(float width, float y, int rowIndex, Row row, float itemW)
@@ -178,8 +208,75 @@ namespace TSA_WorldDomination
                 (row.hasQuality ? row.qualityLabel : "").Truncate(ColQuality - 6f));
             curX += ColQuality;
             Widgets.Label(new Rect(curX, y, ColCount, RowHeight), row.count.ToString());
+            curX += ColCount;
+            Widgets.Label(new Rect(curX, y, ColValue, RowHeight), row.valueLabel ?? "");
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
+        }
+
+        private static int ComputeCargoFingerprint(WorldObject_Traveler traveler)
+        {
+            unchecked
+            {
+                int h = 17;
+                if (traveler is WorldObject_Traveler_Outpost_Delivery delivery)
+                {
+                    h = h * 31 + Mathf.RoundToInt(delivery.deliveryVirtualFood * 1000f);
+                    h = HashStockList(h, delivery.deliveryItems);
+                    ThingOwner<Thing> u = delivery.CargoUniques;
+                    if (u != null)
+                    {
+                        h = h * 31 + u.Count;
+                        for (int i = 0; i < u.Count; i++)
+                        {
+                            Thing t = u[i];
+                            if (t == null) continue;
+                            h = h * 31 + t.thingIDNumber;
+                            h = h * 31 + t.stackCount;
+                        }
+                    }
+                }
+                if (traveler is WorldObject_Traveler_SettlementBuy buy)
+                    h = HashStockList(h, buy.paymentItems);
+                if (traveler is WorldObject_Traveler_SettlementGift gift)
+                    h = HashStockList(h, gift.paymentItems);
+                if (traveler is WorldObject_Traveler_SettlementBribe bribe)
+                    h = HashStockList(h, bribe.paymentItems);
+                if (traveler is WorldObject_Traveler_DiplomacyNegotiate negotiate)
+                    h = HashStockList(h, negotiate.paymentItems);
+                if (traveler is WorldObject_Traveler_RapidResponseDropPod rr)
+                    h = HashStockList(h, rr.deliveryItems);
+                return h;
+            }
+        }
+
+        private static int HashStockList(int h, List<ThingDefCountClass> items)
+        {
+            if (items == null) return h * 31;
+            h = h * 31 + items.Count;
+            for (int i = 0; i < items.Count; i++)
+            {
+                ThingDefCountClass e = items[i];
+                if (e?.thingDef == null) continue;
+                h = h * 31 + e.thingDef.shortHash;
+                h = h * 31 + e.count;
+            }
+            return h;
+        }
+
+        private void RebuildRowsIfNeeded(WorldObject_Traveler traveler)
+        {
+            int tick = Find.TickManager?.TicksGame ?? 0;
+            int fp = ComputeCargoFingerprint(traveler);
+            if (cachedTravelerId == traveler.ID
+                && cachedCargoFingerprint == fp
+                && tick - lastCacheTick < CacheRefreshInterval)
+                return;
+
+            lastCacheTick = tick;
+            cachedTravelerId = traveler.ID;
+            cachedCargoFingerprint = fp;
+            RebuildRows(traveler);
         }
 
         private void RebuildRows(WorldObject_Traveler traveler)
@@ -195,7 +292,8 @@ namespace TSA_WorldDomination
                         isVirtualFood = true,
                         itemLabel = "TSA_WD_WarehouseTab_VirtualFood".Translate(),
                         typeLabel = OutpostArmoryUtility.TypeFilterLabel(ArmoryTypeFilter.Food),
-                        count = Mathf.RoundToInt(delivery.deliveryVirtualFood)
+                        count = Mathf.RoundToInt(delivery.deliveryVirtualFood),
+                        valueLabel = "-"
                     });
                 }
                 AppendStockRows(delivery.deliveryItems);
@@ -223,6 +321,7 @@ namespace TSA_WorldDomination
                 if (e?.thingDef == null || e.count <= 0) continue;
                 ArmoryTypeFilter kind = OutpostArmoryUtility.TypeFilterFor(e.thingDef);
                 bool hasQuality = e.thingDef.HasComp(typeof(CompQuality));
+                float mv = SettlementBuyUtility.MarketValueOf(e);
                 rows.Add(new Row
                 {
                     stock = e,
@@ -231,7 +330,8 @@ namespace TSA_WorldDomination
                     typeLabel = OutpostArmoryUtility.TypeFilterLabel(kind),
                     hasQuality = hasQuality,
                     qualityLabel = hasQuality ? e.quality.GetLabel().CapitalizeFirst() : "",
-                    count = e.count
+                    count = e.count,
+                    valueLabel = FormatMarketValue(mv)
                 });
             }
         }
@@ -245,6 +345,8 @@ namespace TSA_WorldDomination
                 if (t?.def == null || t.Destroyed) continue;
                 ArmoryTypeFilter kind = OutpostArmoryUtility.TypeFilterFor(t.def);
                 bool hasQuality = t.TryGetQuality(out QualityCategory q);
+                int stack = Mathf.Max(1, t.stackCount);
+                float mv = Mathf.Max(0f, t.GetStatValue(StatDefOf.MarketValue)) * stack;
                 rows.Add(new Row
                 {
                     unique = t,
@@ -253,7 +355,8 @@ namespace TSA_WorldDomination
                     typeLabel = OutpostArmoryUtility.TypeFilterLabel(kind),
                     hasQuality = hasQuality,
                     qualityLabel = hasQuality ? q.GetLabel().CapitalizeFirst() : "",
-                    count = Mathf.Max(1, t.stackCount),
+                    count = stack,
+                    valueLabel = FormatMarketValue(mv),
                     isUnique = true
                 });
             }
@@ -269,6 +372,12 @@ namespace TSA_WorldDomination
                     return stuffAdj.CapitalizeFirst() + " " + def.LabelCap;
             }
             return def.LabelCap;
+        }
+
+        private static string FormatMarketValue(float marketValue)
+        {
+            if (marketValue <= 0.001f) return "0";
+            return Mathf.RoundToInt(marketValue).ToString();
         }
     }
 }

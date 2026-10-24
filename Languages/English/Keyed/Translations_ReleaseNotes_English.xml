@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_57_Title>More Bugfixes and Polish</TSA_WD_Update_2_3_57_Title>
+  <TSA_WD_Update_2_3_57_Body><![CDATA[
+<size=16><b>2.3.57 - More Bugfixes and Polish</b></size>\n
+<color=#00FFFFFF>Release date: October 24th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• Decontamination caravans can now target water tiles. Previously outposts and settlements could slowly get destroyed if an adjacent water tile was polluted and they could do nothing about it.\n
+• Nearby pollution and the resulting daily damage are now shown on the Stats tab.\n
+• The assignment UI for smart-assigning prisoners to where they should go after recruitment should now display properly.\n
+• WD caravans now show both their current and their original destination (for example when they take a target of opportunity or retaliate against an AT turret).\n
+• Vehicle caravans from Vehicles Framework should now properly be able to travel over WD bridges on the world map.\n
+• Fixed a performance issue when having the WD World tile info tab open.\n
+]]></TSA_WD_Update_2_3_57_Body>
   <TSA_WD_Update_2_3_56_Title>Mostly Bugfixes</TSA_WD_Update_2_3_56_Title>
   <TSA_WD_Update_2_3_56_Body><![CDATA[
 <size=16><b>2.3.56 - Mostly Bugfixes</b></size>\n

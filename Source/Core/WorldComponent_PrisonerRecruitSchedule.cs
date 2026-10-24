@@ -14,12 +14,16 @@ namespace TSA_WorldDomination
         private HashSet<int> smartAssignExcludedOutpostIds = new HashSet<int>();
         /// <summary>When true, newly captured colony/outpost prisoners get Smart Assign destinations automatically.</summary>
         public bool autoSmartAssignNewPrisoners;
+        /// <summary>Bumps when any prisoner destination mapping changes. UI uses this to refresh dest cells without a full roster rebuild every frame.</summary>
+        public int DestinationRevision { get; private set; }
         private List<string> tmpKeys;
         private List<int> tmpValues;
         private int lastPruneTick = -99999;
         private const int PruneIntervalTicks = 2500;
 
         private static WorldComponent_PrisonerRecruitSchedule cached;
+
+        private void BumpDestinationRevision() => DestinationRevision++;
 
         public WorldComponent_PrisonerRecruitSchedule(World world) : base(world)
         {
@@ -45,6 +49,7 @@ namespace TSA_WorldDomination
         {
             if (thingId.NullOrEmpty() || outpost == null || outpost.Destroyed) return;
             destOutpostIdByThingId[thingId] = outpost.ID;
+            BumpDestinationRevision();
         }
 
         /// <summary>
@@ -74,11 +79,14 @@ namespace TSA_WorldDomination
         {
             if (thingIds == null || outpost == null || outpost.Destroyed) return;
             int id = outpost.ID;
+            bool any = false;
             foreach (string tid in thingIds)
             {
                 if (tid.NullOrEmpty()) continue;
                 destOutpostIdByThingId[tid] = id;
+                any = true;
             }
+            if (any) BumpDestinationRevision();
         }
 
         public void SetDestColony(string thingId, MapParent colony)
@@ -86,6 +94,7 @@ namespace TSA_WorldDomination
             if (thingId.NullOrEmpty() || colony == null || colony.Destroyed) return;
             if (colony.Faction == null || !colony.Faction.IsPlayer || !colony.HasMap) return;
             destOutpostIdByThingId[thingId] = colony.ID;
+            BumpDestinationRevision();
         }
 
         public void SetDestColonyForMany(IEnumerable<string> thingIds, MapParent colony)
@@ -93,29 +102,35 @@ namespace TSA_WorldDomination
             if (thingIds == null || colony == null || colony.Destroyed) return;
             if (colony.Faction == null || !colony.Faction.IsPlayer || !colony.HasMap) return;
             int id = colony.ID;
+            bool any = false;
             foreach (string tid in thingIds)
             {
                 if (tid.NullOrEmpty()) continue;
                 destOutpostIdByThingId[tid] = id;
+                any = true;
             }
+            if (any) BumpDestinationRevision();
         }
 
         public void Clear(string thingId)
         {
             if (thingId.NullOrEmpty()) return;
-            destOutpostIdByThingId.Remove(thingId);
+            bool removed = destOutpostIdByThingId.Remove(thingId);
             viaDropPodThingIds.Remove(thingId);
+            if (removed) BumpDestinationRevision();
         }
 
         public void ClearMany(IEnumerable<string> thingIds)
         {
             if (thingIds == null) return;
+            bool any = false;
             foreach (string tid in thingIds)
             {
                 if (tid.NullOrEmpty()) continue;
-                destOutpostIdByThingId.Remove(tid);
+                if (destOutpostIdByThingId.Remove(tid)) any = true;
                 viaDropPodThingIds.Remove(tid);
             }
+            if (any) BumpDestinationRevision();
         }
 
         public bool TryGetDestId(string thingId, out int destId)
@@ -148,6 +163,7 @@ namespace TSA_WorldDomination
                 smartAssignExcludedOutpostIds.Add(newId);
                 changed++;
             }
+            if (changed > 0) BumpDestinationRevision();
             return changed;
         }
 
@@ -235,6 +251,7 @@ namespace TSA_WorldDomination
 
         public void PruneInvalid()
         {
+            bool destChanged = false;
             if (destOutpostIdByThingId.Count > 0)
             {
                 var drop = new List<string>();
@@ -244,7 +261,10 @@ namespace TSA_WorldDomination
                         drop.Add(kv.Key);
                 }
                 for (int i = 0; i < drop.Count; i++)
+                {
                     destOutpostIdByThingId.Remove(drop[i]);
+                    destChanged = true;
+                }
             }
 
             if (smartAssignExcludedOutpostIds.Count > 0)
@@ -258,6 +278,8 @@ namespace TSA_WorldDomination
                 for (int i = 0; i < dropIds.Count; i++)
                     smartAssignExcludedOutpostIds.Remove(dropIds[i]);
             }
+
+            if (destChanged) BumpDestinationRevision();
         }
 
         public override void ExposeData()

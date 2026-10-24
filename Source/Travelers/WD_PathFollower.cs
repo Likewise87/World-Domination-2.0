@@ -141,6 +141,28 @@ namespace TSA_WorldDomination
                         return;
                     }
                 }
+                else if (traveler.mission == TravelerMission.Decontamination)
+                {
+                    // Water worksites: force water pathing regardless of allowCaravansTravelOverWater.
+                    bool dryVanilla = hasVanillaPath
+                        && !WorldActions_Roads.RoadBuildingPathTouchesUnbridgedWater(curPath);
+                    if (!dryVanilla)
+                    {
+                        WD_DevPerformanceSpikeLog.Msg(
+                            $"Traveler.WaterPath TRY decontam traveler=\"{traveler.Label}\" fromTile={traveler.Tile} toTile={destTile.tileId} vanillaFound={hasVanillaPath}");
+                        if (TravelerWaterPathing.TryBuildFallbackPath(traveler.Tile, destTile, out var decontamWaterPath)
+                            && decontamWaterPath != null
+                            && decontamWaterPath.Count > 1)
+                        {
+                            curPath?.ReleaseToPool();
+                            curPath = null;
+                            fallbackPathNodes = decontamWaterPath;
+                            fallbackPathIndex = 0;
+                        }
+                        WD_DevPerformanceSpikeLog.Msg(
+                            $"Traveler.WaterPath RESULT decontam traveler=\"{traveler.Label}\" ok={(fallbackPathNodes != null)} nodes={(fallbackPathNodes?.Count ?? 0)}");
+                    }
+                }
                 else
                 {
                     List<PlanetTile> waterPath = null;
@@ -323,8 +345,7 @@ namespace TSA_WorldDomination
                         || traveler.mission == TravelerMission.SpikeTrap
                         || traveler.mission == TravelerMission.NpcFortify
                         || traveler.mission == TravelerMission.NpcAtTurret
-                        || traveler.mission == TravelerMission.AtTurret
-                        || traveler.mission == TravelerMission.Decontamination)
+                        || traveler.mission == TravelerMission.AtTurret)
                     && Find.WorldGrid.InBounds(destTileId) && Find.WorldGrid[destTileId].WaterCovered
                     && !WorldComponent_WdBridges.IsBridgedWaterTile(destTileId))
                 {

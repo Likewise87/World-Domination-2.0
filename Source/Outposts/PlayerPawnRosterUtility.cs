@@ -1328,23 +1328,26 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Smart-assign matching outposts for free pawns (soft load/distance score, batch provisional banner raw).
-        /// Returns move assignments; alreadyPlaced lists pawns that should stay at their current outpost.
-        /// failed = unmatched / not travel-ready / no skills.
+        /// Returns move assignments; alreadyPlaced = stay at current outpost; inconclusive = no match / not ready.
+        /// failed = inconclusive count (legacy callers).
         /// </summary>
         public static List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> SmartAssignDestinations(
             List<PlayerPawnRosterEntry> selected,
             out int failed,
-            out List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> alreadyPlaced)
+            out List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> alreadyPlaced,
+            out List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> inconclusive)
         {
             failed = 0;
             alreadyPlaced = new List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment>();
+            inconclusive = new List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment>();
             var result = new List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment>();
             if (selected == null || selected.Count == 0) return result;
 
             Dictionary<SkillDef, List<WorldObject_WD_Outpost>> bySkill = SmartAssignOutpostUtility.BuildOutpostsByRelevantSkill();
             if (bySkill.Count == 0)
             {
-                failed = selected.Count;
+                for (int i = 0; i < selected.Count; i++)
+                    AddInconclusive(selected[i], inconclusive, ref failed);
                 return result;
             }
 
@@ -1355,12 +1358,12 @@ namespace TSA_WorldDomination
                 PlayerPawnRosterEntry entry = selected[i];
                 if (!PlayerPawnTransferUtility.IsMovableTransferEntry(entry))
                 {
-                    failed++;
+                    AddInconclusive(entry, inconclusive, ref failed);
                     continue;
                 }
                 if (!PlayerPawnTransferUtility.IsCapableOfImmediateTransfer(entry.pawn))
                 {
-                    failed++;
+                    AddInconclusive(entry, inconclusive, ref failed);
                     continue;
                 }
 
@@ -1371,7 +1374,7 @@ namespace TSA_WorldDomination
                     fromTile = entry.mapParent.Tile;
                 else
                 {
-                    failed++;
+                    AddInconclusive(entry, inconclusive, ref failed);
                     continue;
                 }
 
@@ -1384,7 +1387,7 @@ namespace TSA_WorldDomination
                         provisionalBannerRaw)
                     || dest == null)
                 {
-                    failed++;
+                    AddInconclusive(entry, inconclusive, ref failed);
                     continue;
                 }
 
@@ -1411,7 +1414,7 @@ namespace TSA_WorldDomination
             return result;
         }
 
-        /// <summary>Overload without alreadyPlaced list.</summary>
+        /// <summary>Overload without alreadyPlaced / inconclusive lists.</summary>
         public static List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> SmartAssignDestinations(
             List<PlayerPawnRosterEntry> selected,
             out int failed)
@@ -1419,7 +1422,64 @@ namespace TSA_WorldDomination
             return SmartAssignDestinations(
                 selected,
                 out failed,
+                out List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> _,
                 out List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> _);
+        }
+
+        /// <summary>Compatibility overload without inconclusive list.</summary>
+        public static List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> SmartAssignDestinations(
+            List<PlayerPawnRosterEntry> selected,
+            out int failed,
+            out List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> alreadyPlaced)
+        {
+            return SmartAssignDestinations(
+                selected,
+                out failed,
+                out alreadyPlaced,
+                out List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> _);
+        }
+
+        private static void AddInconclusive(
+            PlayerPawnRosterEntry entry,
+            List<PlayerPawnTransferUtility.PlayerPawnTransferAssignment> inconclusive,
+            ref int failed)
+        {
+            failed++;
+            if (entry?.pawn == null) return;
+            if (!TryBuildOriginDestination(entry, out PlayerPawnTransferDestination dest))
+                return;
+            inconclusive.Add(new PlayerPawnTransferUtility.PlayerPawnTransferAssignment
+            {
+                entry = entry,
+                destination = dest
+            });
+        }
+
+        private static bool TryBuildOriginDestination(
+            PlayerPawnRosterEntry entry,
+            out PlayerPawnTransferDestination dest)
+        {
+            dest = default;
+            if (entry == null) return false;
+            if (entry.sourceOutpost != null && !entry.sourceOutpost.Destroyed)
+            {
+                dest = new PlayerPawnTransferDestination
+                {
+                    kind = PlayerPawnTransferDestinationKind.Outpost,
+                    outpost = entry.sourceOutpost
+                };
+                return true;
+            }
+            if (entry.mapParent != null && !entry.mapParent.Destroyed)
+            {
+                dest = new PlayerPawnTransferDestination
+                {
+                    kind = PlayerPawnTransferDestinationKind.Colony,
+                    colony = entry.mapParent
+                };
+                return true;
+            }
+            return false;
         }
     }
 }

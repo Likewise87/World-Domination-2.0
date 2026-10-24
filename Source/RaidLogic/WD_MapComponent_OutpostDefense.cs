@@ -81,6 +81,9 @@ namespace TSA_WorldDomination
         public bool IsActiveEncounterFor(WorldObject_WD_Outpost target)
             => encounterActive && !resolved && outpost != null && outpost == target;
 
+        /// <summary>Outpost this temporary defense map belongs to (may be null after teardown).</summary>
+        public WorldObject_WD_Outpost LinkedOutpost => outpost;
+
         /// <summary>Type-change Path B safety net (encounters should be gated off).</summary>
         public int RetargetOutpostIfMatches(WorldObject_WD_Outpost oldOutpost, WorldObject_WD_Outpost newOutpost)
         {

@@ -29,39 +29,53 @@ namespace TSA_WorldDomination
         {
             public string Label;
             public int TotalPct;
+            public string TotalPctLabel;
             public float BaseScore;
+            public string BaseScoreLabel;
             public string Tip;
-            public string MutatorLines;
-            public string UpgradeLines;
+            public string[] MutatorLineArr;
+            public string[] UpgradeLineArr;
+            public string NoMutatorsLabel;
         }
 
         private struct SpeciesRow
         {
             public string Label;
             public string SearchText;
-            public string YieldLine;
+            public string[] YieldLines;
             public Texture2D Icon;
             public Color? IconColor;
+            public float RowHeight;
         }
 
         private struct TileProductivityUiCache
         {
-            public int unityFrame;
             public int tileId;
             public int prodOutpostId;
             public float fertUpg, huntUpg, fishUpg, mineUpg;
             public bool raiseEcologyBaseline;
+            public int builtAtTick;
 
             public MetricData Fert, Animals, Fish, Mining;
             public List<SpeciesRow> Wildlife;
             public List<SpeciesRow> FishSpecies;
             public string FishEmptyReason;
+            public string WildlifeHeader;
+            public string FishHeader;
+            public string WildlifeNone;
+            public string FishNoneFallback;
+            public string SearchNoMatch;
+            public string WildlifeCountLabel;
+            public string FishCountLabel;
         }
 
         private TileProductivityUiCache cache;
         private LeftPanel selectedPanel = LeftPanel.Fertility;
         private Vector2 rightScrollPos;
         private string speciesSearchFilter = "";
+
+        /// <summary>Same shape as Stats tab: identity/fingerprint hold across frames; soft refresh on tick interval.</summary>
+        private const int CacheRefreshInterval = 60;
 
         private const float TabContentContract = 10f;
         private const float HeadlineRowHeight = 30f;
@@ -146,9 +160,9 @@ namespace TSA_WorldDomination
             return text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        private static float SpeciesRowHeight(SpeciesRow row)
+        private static float ComputeSpeciesRowHeight(string[] yieldLines)
         {
-            int formulaLines = string.IsNullOrEmpty(row.YieldLine) ? 0 : SplitLines(row.YieldLine).Length;
+            int formulaLines = yieldLines?.Length ?? 0;
             float h = SpeciesNameH;
             if (formulaLines > 0)
                 h += Outpost_Dialog_UI.ListRowFormulaTopPadding + formulaLines * SpeciesFormulaH;
@@ -161,9 +175,6 @@ namespace TSA_WorldDomination
             if (pct <= 60) return Color.yellow;
             return Color.green;
         }
-
-        private static string Pct(float f)
-            => "TSA_WD_TileProductivity_BasePct".Translate(Mathf.RoundToInt(f * 100f)).ToString();
 
         private static string PctInt(int pct)
             => "TSA_WD_TileProductivity_BasePct".Translate(pct).ToString();
@@ -187,15 +198,16 @@ namespace TSA_WorldDomination
             float fertUpg, float huntUpg, float fishUpg, float mineUpg, bool raiseEcologyBaseline)
         {
             int opId = prodOutpost?.ID ?? -1;
-            if (cache.unityFrame == Time.frameCount
+            int tick = Find.TickManager?.TicksGame ?? 0;
+            bool sameIdentity = cache.Wildlife != null
                 && cache.tileId == tile
                 && cache.prodOutpostId == opId
                 && Mathf.Approximately(cache.fertUpg, fertUpg)
                 && Mathf.Approximately(cache.huntUpg, huntUpg)
                 && Mathf.Approximately(cache.fishUpg, fishUpg)
                 && Mathf.Approximately(cache.mineUpg, mineUpg)
-                && cache.raiseEcologyBaseline == raiseEcologyBaseline
-                && cache.Wildlife != null)
+                && cache.raiseEcologyBaseline == raiseEcologyBaseline;
+            if (sameIdentity && tick - cache.builtAtTick < CacheRefreshInterval)
                 return;
 
             string fertUpgLines = prodOutpost != null
@@ -228,14 +240,16 @@ namespace TSA_WorldDomination
             foreach (HuntingAnimalOption opt in Outpost_Hunting.GetHuntingAnimalOptionsForTile(tile))
             {
                 if (opt.Kind == null) continue;
-                string yield = NormalizeYieldLine(Outpost_Hunting.GetHuntingPerSkillAtTileSummary(opt.Kind, huntFactor, biome));
+                string[] yieldLines = SplitLines(NormalizeYieldLine(
+                    Outpost_Hunting.GetHuntingPerSkillAtTileSummary(opt.Kind, huntFactor, biome)));
                 wildlife.Add(new SpeciesRow
                 {
                     Label = opt.Kind.LabelCap,
                     SearchText = opt.Kind.LabelCap,
-                    YieldLine = yield,
+                    YieldLines = yieldLines,
                     Icon = opt.Kind.race?.uiIcon,
-                    IconColor = opt.Kind.race?.graphicData?.color
+                    IconColor = opt.Kind.race?.graphicData?.color,
+                    RowHeight = ComputeSpeciesRowHeight(yieldLines)
                 });
             }
 
@@ -255,22 +269,25 @@ namespace TSA_WorldDomination
                         ? "TSA_WD_TileProductivity_FishUncommon".Translate().ToString()
                         : "TSA_WD_TileProductivity_FishCommon".Translate().ToString();
                     string label = opt.Fish.LabelCap + " (" + rarity + ")";
+                    string[] yieldLines = SplitLines(NormalizeYieldLine(
+                        Outpost_Fishing.GetFishPerSkillAtTileSummary(opt.Fish, tile, fishFactor)));
                     fishSpecies.Add(new SpeciesRow
                     {
                         Label = label,
                         SearchText = opt.Fish.LabelCap + " " + rarity,
-                        YieldLine = NormalizeYieldLine(Outpost_Fishing.GetFishPerSkillAtTileSummary(opt.Fish, tile, fishFactor)),
+                        YieldLines = yieldLines,
                         Icon = opt.Fish.uiIcon,
-                        IconColor = opt.Fish.graphicData?.color
+                        IconColor = opt.Fish.graphicData?.color,
+                        RowHeight = ComputeSpeciesRowHeight(yieldLines)
                     });
                 }
                 if (fishSpecies.Count == 0)
                     fishEmpty = "TSA_WD_TileProductivity_FishNone".Translate().ToString();
             }
 
+            string noMut = "TSA_WD_ProductivityTooltip_NoMutators".Translate().ToString();
             cache = new TileProductivityUiCache
             {
-                unityFrame = Time.frameCount,
                 tileId = tile,
                 prodOutpostId = opId,
                 fertUpg = fertUpg,
@@ -278,46 +295,60 @@ namespace TSA_WorldDomination
                 fishUpg = fishUpg,
                 mineUpg = mineUpg,
                 raiseEcologyBaseline = raiseEcologyBaseline,
+                builtAtTick = tick,
                 Fert = MakeMetric(
                     "TSA_WD_Biome_ColFertility".Translate(),
                     WorldTileProductivity.GetFarmingFertilityScore(tile, fertUpg, raiseEcologyBaseline),
                     WorldTileProductivity.GetFarmingBaseScore(tile),
                     WorldTileProductivity.GetFarmingFertilityTooltipText(tile, fertUpg, fertUpgLines, raiseEcologyBaseline),
-                    mutF, fertUpgLines),
+                    mutF, fertUpgLines, noMut),
                 Animals = MakeMetric(
                     "TSA_WD_Biome_ColAnimals".Translate(),
                     huntFactor,
                     WorldTileProductivity.GetHuntingBaseScore(tile),
                     WorldTileProductivity.GetHuntingScoreTooltipText(tile, huntUpg, huntUpgLines, raiseEcologyBaseline),
-                    mutH, huntUpgLines),
+                    mutH, huntUpgLines, noMut),
                 Fish = MakeMetric(
                     "TSA_WD_Biome_ColFish".Translate(),
                     fishFactor,
                     WorldTileProductivity.GetFishingBaseScore(tile),
                     WorldTileProductivity.GetFishingScoreTooltipText(tile, fishUpg, fishUpgLines),
-                    mutFish, fishUpgLines),
+                    mutFish, fishUpgLines, noMut),
                 Mining = MakeMetric(
                     "TSA_WD_Production_MiningEfficiency".Translate(),
                     WorldTileProductivity.GetMiningOutputMultiplier(tile, mineUpg),
                     WorldTileProductivity.GetMiningBaseScore(tile),
                     WorldTileProductivity.GetMiningEfficiencyTooltipText(tile, mineUpg, mineUpgLines),
-                    mutM, mineUpgLines),
+                    mutM, mineUpgLines, noMut),
                 Wildlife = wildlife,
                 FishSpecies = fishSpecies,
-                FishEmptyReason = fishEmpty
+                FishEmptyReason = fishEmpty,
+                WildlifeHeader = "TSA_WD_TileProductivity_WildlifeHeader".Translate().ToString(),
+                FishHeader = "TSA_WD_TileProductivity_FishHeader".Translate().ToString(),
+                WildlifeNone = "TSA_WD_TileProductivity_WildlifeNone".Translate().ToString(),
+                FishNoneFallback = "TSA_WD_TileProductivity_FishNone".Translate().ToString(),
+                SearchNoMatch = "TSA_WD_TileProductivity_SearchNoMatch".Translate().ToString(),
+                WildlifeCountLabel = wildlife.Count.ToString(),
+                FishCountLabel = fishSpecies.Count.ToString()
             };
         }
 
-        private static MetricData MakeMetric(string label, float total, float baseScore, string tip, string mutators, string upgrades)
+        private static MetricData MakeMetric(
+            string label, float total, float baseScore, string tip, string mutators, string upgrades, string noMutatorsLabel)
         {
+            int pct = Mathf.RoundToInt(total * 100f);
+            int basePct = Mathf.RoundToInt(baseScore * 100f);
             return new MetricData
             {
                 Label = label,
-                TotalPct = Mathf.RoundToInt(total * 100f),
+                TotalPct = pct,
+                TotalPctLabel = PctInt(pct),
                 BaseScore = baseScore,
+                BaseScoreLabel = PctInt(basePct),
                 Tip = tip,
-                MutatorLines = mutators ?? "",
-                UpgradeLines = upgrades ?? ""
+                MutatorLineArr = SplitLines(mutators ?? ""),
+                UpgradeLineArr = SplitLines(upgrades ?? ""),
+                NoMutatorsLabel = noMutatorsLabel
             };
         }
 
@@ -396,18 +427,18 @@ namespace TSA_WorldDomination
             GUI.color = Color.white;
             y += 24f;
 
-            y = DrawNavRow(left.x, y, w, LeftPanel.Fertility, cache.Fert.Label, PctInt(cache.Fert.TotalPct), PctColor(cache.Fert.TotalPct), 0);
-            y = DrawNavRow(left.x, y, w, LeftPanel.Animals, cache.Animals.Label, PctInt(cache.Animals.TotalPct), PctColor(cache.Animals.TotalPct), 1);
-            y = DrawNavRow(left.x, y, w, LeftPanel.Fish, cache.Fish.Label, PctInt(cache.Fish.TotalPct), PctColor(cache.Fish.TotalPct), 2);
-            y = DrawNavRow(left.x, y, w, LeftPanel.Mining, cache.Mining.Label, PctInt(cache.Mining.TotalPct), PctColor(cache.Mining.TotalPct), 3);
+            y = DrawNavRow(left.x, y, w, LeftPanel.Fertility, cache.Fert.Label, cache.Fert.TotalPctLabel, PctColor(cache.Fert.TotalPct), 0);
+            y = DrawNavRow(left.x, y, w, LeftPanel.Animals, cache.Animals.Label, cache.Animals.TotalPctLabel, PctColor(cache.Animals.TotalPct), 1);
+            y = DrawNavRow(left.x, y, w, LeftPanel.Fish, cache.Fish.Label, cache.Fish.TotalPctLabel, PctColor(cache.Fish.TotalPct), 2);
+            y = DrawNavRow(left.x, y, w, LeftPanel.Mining, cache.Mining.Label, cache.Mining.TotalPctLabel, PctColor(cache.Mining.TotalPct), 3);
             y += 6f;
             y = DrawNavRow(left.x, y, w, LeftPanel.AnimalsHere,
-                "TSA_WD_TileProductivity_WildlifeHeader".Translate().ToString(),
-                (cache.Wildlife?.Count ?? 0).ToString(),
+                cache.WildlifeHeader,
+                cache.WildlifeCountLabel,
                 Outpost_Dialog_UI.CycleTimerColor, 4);
             DrawNavRow(left.x, y, w, LeftPanel.FishHere,
-                "TSA_WD_TileProductivity_FishHeader".Translate().ToString(),
-                (cache.FishSpecies?.Count ?? 0).ToString(),
+                cache.FishHeader,
+                cache.FishCountLabel,
                 Outpost_Dialog_UI.CycleTimerColor, 5);
         }
 
@@ -418,7 +449,7 @@ namespace TSA_WorldDomination
             Widgets.Label(new Rect(x, y, w * 0.62f, Outpost_Dialog_UI.OutcomeLineH), m.Label);
             GUI.color = PctColor(m.TotalPct);
             Text.Anchor = TextAnchor.MiddleRight;
-            Widgets.Label(new Rect(x + w * 0.62f, y, w * 0.38f, Outpost_Dialog_UI.OutcomeLineH), PctInt(m.TotalPct));
+            Widgets.Label(new Rect(x + w * 0.62f, y, w * 0.38f, Outpost_Dialog_UI.OutcomeLineH), m.TotalPctLabel);
             GUI.color = Color.white;
             Text.Anchor = TextAnchor.UpperLeft;
             TooltipHandler.TipRegion(new Rect(x, y, w, Outpost_Dialog_UI.OutcomeLineH), m.Tip);
@@ -509,12 +540,11 @@ namespace TSA_WorldDomination
                     sy = DrawMetricDetail(0f, sy, sw, cache.Mining);
                     break;
                 case LeftPanel.AnimalsHere:
-                    sy = DrawSpeciesList(0f, sy, sw, cache.Wildlife,
-                        "TSA_WD_TileProductivity_WildlifeNone".Translate().ToString());
+                    sy = DrawSpeciesList(0f, sy, sw, cache.Wildlife, cache.WildlifeNone);
                     break;
                 case LeftPanel.FishHere:
                     sy = DrawSpeciesList(0f, sy, sw, cache.FishSpecies,
-                        cache.FishEmptyReason ?? "TSA_WD_TileProductivity_FishNone".Translate().ToString());
+                        cache.FishEmptyReason ?? cache.FishNoneFallback);
                     break;
             }
 
@@ -529,8 +559,8 @@ namespace TSA_WorldDomination
                 case LeftPanel.Animals: return cache.Animals.Label;
                 case LeftPanel.Fish: return cache.Fish.Label;
                 case LeftPanel.Mining: return cache.Mining.Label;
-                case LeftPanel.AnimalsHere: return "TSA_WD_TileProductivity_WildlifeHeader".Translate().ToString();
-                case LeftPanel.FishHere: return "TSA_WD_TileProductivity_FishHeader".Translate().ToString();
+                case LeftPanel.AnimalsHere: return cache.WildlifeHeader;
+                case LeftPanel.FishHere: return cache.FishHeader;
                 default: return "TSA_WD_TileProductivity_Breakdown".Translate().ToString();
             }
         }
@@ -556,7 +586,7 @@ namespace TSA_WorldDomination
                     for (int i = 0; i < rows.Count; i++)
                     {
                         if (!SpeciesMatchesSearch(rows[i])) continue;
-                        h += SpeciesRowHeight(rows[i]) + PanelPad;
+                        h += rows[i].RowHeight + PanelPad;
                         visible++;
                     }
                     if (visible == 0) h += SpeciesNameH;
@@ -565,8 +595,8 @@ namespace TSA_WorldDomination
                 default:
                 {
                     MetricData m = GetSelectedMetric();
-                    int mut = SplitLines(m.MutatorLines).Length;
-                    int upg = SplitLines(m.UpgradeLines).Length;
+                    int mut = m.MutatorLineArr?.Length ?? 0;
+                    int upg = m.UpgradeLineArr?.Length ?? 0;
                     // total box + base + modifiers header + mut lines + upgrades header + upg lines
                     float h = TotalBoxPad * 2f + DetailRowH + 6f;
                     h += DetailRowH; // base
@@ -607,7 +637,7 @@ namespace TSA_WorldDomination
             GUI.color = PctColor(m.TotalPct);
             Text.Anchor = TextAnchor.MiddleRight;
             Widgets.Label(new Rect(totalInner.x + totalInner.width * 0.55f, totalInner.y, totalInner.width * 0.45f, totalInner.height),
-                PctInt(m.TotalPct));
+                m.TotalPctLabel);
             GUI.color = Color.white;
             Text.Anchor = TextAnchor.UpperLeft;
             if (!string.IsNullOrEmpty(m.Tip))
@@ -617,16 +647,16 @@ namespace TSA_WorldDomination
             int zebra = 0;
             y = DrawDetailKeyValue(x, y, w, zebra++,
                 "TSA_WD_TileProductivity_BaseForTile".Translate().ToString(),
-                Pct(m.BaseScore));
+                m.BaseScoreLabel);
 
-            string[] muts = SplitLines(m.MutatorLines);
+            string[] muts = m.MutatorLineArr ?? Array.Empty<string>();
             y = DrawDetailKeyValue(x, y, w, zebra++,
                 "TSA_WD_TileProductivity_TileModifiers".Translate().ToString(),
-                muts.Length == 0 ? "TSA_WD_ProductivityTooltip_NoMutators".Translate().ToString() : "");
+                muts.Length == 0 ? m.NoMutatorsLabel : "");
             for (int i = 0; i < muts.Length; i++)
                 y = DrawDetailLine(x, y, w, zebra++, muts[i]);
 
-            string[] upgs = SplitLines(m.UpgradeLines);
+            string[] upgs = m.UpgradeLineArr ?? Array.Empty<string>();
             y = DrawDetailKeyValue(x, y, w, zebra++,
                 "TSA_WD_ProductivityTooltip_OutpostUpgradesHeader".Translate().ToString(),
                 "");
@@ -687,7 +717,7 @@ namespace TSA_WorldDomination
                 if (!SpeciesMatchesSearch(rows[i])) continue;
                 any = true;
                 SpeciesRow row = rows[i];
-                float rowH = SpeciesRowHeight(row);
+                float rowH = row.RowHeight;
                 Rect r = new Rect(x, y, w, rowH);
                 if (visibleIndex % 2 == 0) Widgets.DrawHighlight(r);
 
@@ -705,12 +735,12 @@ namespace TSA_WorldDomination
                 Widgets.Label(new Rect(iconX + SpeciesIcon + 8f, y, w - SpeciesIcon - 22f, SpeciesNameH), row.Label);
                 Text.Anchor = TextAnchor.UpperLeft;
 
-                if (!string.IsNullOrEmpty(row.YieldLine))
+                string[] lines = row.YieldLines;
+                if (lines != null && lines.Length > 0)
                 {
                     float fy = y + SpeciesNameH + Outpost_Dialog_UI.ListRowFormulaTopPadding;
                     Text.Font = GameFont.Tiny;
                     GUI.color = Color.gray;
-                    string[] lines = SplitLines(row.YieldLine);
                     for (int li = 0; li < lines.Length; li++)
                     {
                         Widgets.Label(new Rect(iconX + SpeciesIcon + 8f, fy, w - SpeciesIcon - 22f, SpeciesFormulaH), lines[li]);
@@ -731,8 +761,7 @@ namespace TSA_WorldDomination
                 Text.Font = GameFont.Small;
                 Text.Anchor = TextAnchor.MiddleLeft;
                 GUI.color = Outpost_Dialog_UI.TheoreticalLabelColor;
-                Widgets.Label(new Rect(x + 8f, y, w - 16f, SpeciesNameH),
-                    "TSA_WD_TileProductivity_SearchNoMatch".Translate().ToString());
+                Widgets.Label(new Rect(x + 8f, y, w - 16f, SpeciesNameH), cache.SearchNoMatch);
                 GUI.color = Color.white;
                 Text.Anchor = TextAnchor.UpperLeft;
                 y += SpeciesNameH;

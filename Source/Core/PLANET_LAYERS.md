@@ -92,9 +92,12 @@ Guidelines:
   layer) via `PlanetSurfaceWorldActions.PlanetTileForWdTravel`, never via `grid[int]`.
 - **Bridged water:** `WaterCovered` ocean/lake tiles that carry WD road bridges stay on the Ocean
   biome. Passability comes from `WorldComponent_WdBridges` + Harmony (`CalculatedMovementDifficultyAt`,
-  `SurfaceTile.Roads`), not biome mutation. Globe mesh: `WD_WorldLayer_BridgeRoads` draws full road
-  strips above water (`WorldDrawLayer_Roads` skips `WaterCovered`). Always resolve those tiles with
-  `PlanetTile` on the surface layer. Open ocean without a bridge remains impassable for land travel.
+  `SurfaceTile.Roads`), not biome mutation. When Vehicle Framework is active,
+  `VehicleFrameworkBridgePathingCompat` soft-patches VF's `WorldVehiclePathGrid` the same way and
+  refreshes VF path costs / reachability from `RecalculatePathCostsForTiles` (land cars do not use
+  vanilla `WorldPathGrid`). Globe mesh: `WD_WorldLayer_BridgeRoads` draws full road strips above
+  water (`WorldDrawLayer_Roads` skips `WaterCovered`). Always resolve those tiles with `PlanetTile`
+  on the surface layer. Open ocean without a bridge remains impassable for land travel.
 
 ## WD scope semantics
 

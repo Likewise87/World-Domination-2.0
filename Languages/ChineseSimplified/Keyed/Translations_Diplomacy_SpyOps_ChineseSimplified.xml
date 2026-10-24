@@ -48,7 +48,7 @@
   <TSA_WD_GoodwillMsg_AlliedRaidRefund>{0}对{1}的盟友袭击已取消。退还{2}好感，现为{3}</TSA_WD_GoodwillMsg_AlliedRaidRefund>
   <TSA_WD_GoodwillMsg_ConquestGift>{0}在{1}建立定居点。+{2}好感，现为{3}</TSA_WD_GoodwillMsg_ConquestGift>
   <TSA_WD_GoodwillMsg_SpyOpFailure>{1}的{0}失败。与{3}的好感-{2}，现为{4}</TSA_WD_GoodwillMsg_SpyOpFailure>
-  <TSA_WD_GoodwillMsg_TraderCaravan>商队抵达你的定居点。与{0}的好感+{1}，现为{2}</TSA_WD_GoodwillMsg_TraderCaravan>
+  <TSA_WD_GoodwillMsg_TraderCaravan>商队抵达你的定居点。与{0}的好感{1}，现为{2}</TSA_WD_GoodwillMsg_TraderCaravan>
   <TSA_WD_GoodwillMsg_Embassy>大使馆{3}：与{0}的好感{1}，现为{2}</TSA_WD_GoodwillMsg_Embassy>
   <TSA_WD_GoodwillMsg_OrderedRoadOrdered>命令{0}在{1}修建通往{2}的道路。-{3}好感，现为{4}</TSA_WD_GoodwillMsg_OrderedRoadOrdered>
   <TSA_WD_GoodwillMsg_OrderedTraderOrdered>命令{0}从{1}向{2}派出商人（{3}）。-{4}好感，现为{5}</TSA_WD_GoodwillMsg_OrderedTraderOrdered>

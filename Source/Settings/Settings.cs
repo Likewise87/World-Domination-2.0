@@ -393,7 +393,7 @@ namespace TSA_WorldDomination
         public const float DefSpikeTrapSpikeMaxHealth = 500f;
         public const float DefSpikeTrapCaltropsMaxHealth = 1000f;
         public const int DefSpikeTrapMaxTriggersPerTraveler = 3;
-        public const int DefMaxDecontaminationRange = 20;
+        public const int DefMaxDecontaminationRange = 15;
         public const float DefDecontaminationWork = 350f;
         public const float DefDecontaminationExpeditionStrength = 20f;
         public const float DefDecontaminationPollutionReductionPp = 40f;

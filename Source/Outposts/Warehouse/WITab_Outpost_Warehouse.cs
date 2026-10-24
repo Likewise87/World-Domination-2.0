@@ -84,6 +84,16 @@ namespace TSA_WorldDomination
         private List<StockRowView> filterBaseRows = new List<StockRowView>();
         private List<StockRowView> visibleRows = new List<StockRowView>();
 
+        private const int CacheRefreshInterval = 60;
+        private int lastCacheTick = -1;
+        private int cachedOutpostId = int.MinValue;
+        private int cachedStockFingerprint = int.MinValue;
+        private string cachedSortColumn;
+        private bool cachedSortAscending;
+        private string cachedItemSearch;
+        private ArmoryTypeFilter cachedTypeFilter;
+        private int cachedQualityFilter;
+
         private const float TabHeaderConsumedHeight = 38f;
         private const float TableHeaderHeight = 28f;
         private const float RowIconSize = 28f;
@@ -138,7 +148,7 @@ namespace TSA_WorldDomination
             if (comp == null) return;
 
             SyncSelectedCounts(outpost, comp);
-            RebuildVisibleRows(outpost, comp);
+            RebuildVisibleRowsIfNeeded(outpost, comp);
 
             Rect body = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
             Text.Font = GameFont.Medium;
@@ -184,6 +194,68 @@ namespace TSA_WorldDomination
             DrawFooterRows(body.x, footY, body.width, outpost, comp);
 
             PawnRosterHeaderFilter.DrawDropdownIfOpen();
+        }
+
+        private static int ComputeStockFingerprint(WorldObject_WD_Outpost outpost, CompOutpostWarehouse comp)
+        {
+            unchecked
+            {
+                int h = 17;
+                h = h * 31 + Outpost_Warehouse_Delivery.GetShippableVirtualFoodInt(outpost);
+                var items = comp?.storedItems;
+                if (items != null)
+                {
+                    h = h * 31 + items.Count;
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        var e = items[i];
+                        if (e?.thingDef == null) continue;
+                        h = h * 31 + (e.thingDef.shortHash);
+                        h = h * 31 + e.count;
+                        h = h * 31 + (int)e.quality;
+                        if (e.stuff != null) h = h * 31 + e.stuff.shortHash;
+                    }
+                }
+                ThingOwner<Thing> uniques = CompOutpostArmory.Get(outpost)?.Uniques;
+                if (uniques != null)
+                {
+                    h = h * 31 + uniques.Count;
+                    for (int i = 0; i < uniques.Count; i++)
+                    {
+                        Thing t = uniques[i];
+                        if (t?.def == null) continue;
+                        h = h * 31 + t.thingIDNumber;
+                        h = h * 31 + t.stackCount;
+                    }
+                }
+                return h;
+            }
+        }
+
+        private void RebuildVisibleRowsIfNeeded(WorldObject_WD_Outpost outpost, CompOutpostWarehouse comp)
+        {
+            int tick = Find.TickManager?.TicksGame ?? 0;
+            int fp = ComputeStockFingerprint(outpost, comp);
+            bool dirty = visibleRows == null
+                || cachedOutpostId != outpost.ID
+                || cachedStockFingerprint != fp
+                || cachedSortColumn != sortColumn
+                || cachedSortAscending != sortAscending
+                || cachedItemSearch != (itemSearchTerm ?? "")
+                || cachedTypeFilter != typeFilter
+                || cachedQualityFilter != qualityFilter
+                || tick - lastCacheTick >= CacheRefreshInterval;
+            if (!dirty) return;
+
+            lastCacheTick = tick;
+            cachedOutpostId = outpost.ID;
+            cachedStockFingerprint = fp;
+            cachedSortColumn = sortColumn;
+            cachedSortAscending = sortAscending;
+            cachedItemSearch = itemSearchTerm ?? "";
+            cachedTypeFilter = typeFilter;
+            cachedQualityFilter = qualityFilter;
+            RebuildVisibleRows(outpost, comp);
         }
 
         private void RebuildVisibleRows(WorldObject_WD_Outpost outpost, CompOutpostWarehouse comp)

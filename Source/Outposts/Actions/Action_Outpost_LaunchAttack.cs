@@ -576,6 +576,7 @@ namespace TSA_WorldDomination
                 traveler.mission = TravelerMission.Raid;
                 traveler.originObject = source;
                 traveler.targetObject = target;
+                traveler.CaptureOriginalTargetIfUnset();
                 traveler.raidOrderOutcome = outcome;
                 traveler.alliedRaidOrderGoodwillPaid = alliedGoodwillPaid;
                 traveler.alliedRaidOrderGoodwillRefunded = false;

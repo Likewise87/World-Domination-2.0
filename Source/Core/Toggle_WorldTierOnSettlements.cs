@@ -1314,10 +1314,12 @@ namespace TSA_WorldDomination
 
             Tile tileInfo = Find.WorldGrid[mouseTile];
             if (tileInfo == null) return;
-            // Bridged water: show movement-difficulty hover. Other overlays stay land-only.
+            // Bridged water: movement hover. Pollution overlay includes open water. Other overlays stay land-only.
             if (tileInfo.WaterCovered)
             {
-                if (!(showMovement && WorldComponent_WdBridges.IsBridgedWaterTile(mouseTile)))
+                bool allowWaterHover = (showPollution)
+                    || (showMovement && WorldComponent_WdBridges.IsBridgedWaterTile(mouseTile));
+                if (!allowWaterHover)
                     return;
             }
 

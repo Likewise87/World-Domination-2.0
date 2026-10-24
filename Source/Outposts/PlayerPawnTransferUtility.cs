@@ -553,11 +553,11 @@ namespace TSA_WorldDomination
                 if (e.sourceOutpost != null)
                 {
                     if (!byOutpost.TryGetValue(e.sourceOutpost, out var list))
-                    {
-                        list = new List<PlayerPawnRosterEntry>();
+                {
+                    list = new List<PlayerPawnRosterEntry>();
                         byOutpost[e.sourceOutpost] = list;
-                    }
-                    list.Add(e);
+                }
+                list.Add(e);
                 }
                 else if (e.mapParent != null)
                 {
@@ -572,8 +572,8 @@ namespace TSA_WorldDomination
 
             if (viaDropPod)
             {
-                foreach (var kv in byOutpost)
-                {
+            foreach (var kv in byOutpost)
+            {
                     if (!PlayerPawnDropPodUtility.InDropPodRange(kv.Key, destination.Tile))
                     {
                         Messages.Message("TSA_WD_PawnDropPod_OutOfRange".Translate(), MessageTypeDefOf.RejectInput, false);
@@ -1953,7 +1953,7 @@ namespace TSA_WorldDomination
             caravan.pather.StartPath(destTile, arrival, false, false);
 
             WorldObject destLog = destination.kind == PlayerPawnTransferDestinationKind.Outpost
-                ? destination.outpost!
+                    ? destination.outpost!
                 : destination.colony!;
             Find.World?.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
                 "TSA_WD_PawnTransfer_Log".Translate(movedCount, sourceLabel, destination.Label),
@@ -1962,21 +1962,21 @@ namespace TSA_WorldDomination
 
             if (showMessages)
             {
-                if (destination.kind == PlayerPawnTransferDestinationKind.Colony)
-                {
-                    Messages.Message(
-                        "TSA_WD_PawnTransfer_CaravanRoutedToColony".Translate(destination.Label),
-                        destination.colony,
-                        MessageTypeDefOf.TaskCompletion,
-                        false);
-                }
-                else
-                {
-                    Messages.Message(
-                        "TSA_WD_PawnTransfer_CaravanRoutedToOutpost".Translate(destination.Label),
-                        destination.outpost,
-                        MessageTypeDefOf.TaskCompletion,
-                        false);
+            if (destination.kind == PlayerPawnTransferDestinationKind.Colony)
+            {
+                Messages.Message(
+                    "TSA_WD_PawnTransfer_CaravanRoutedToColony".Translate(destination.Label),
+                    destination.colony,
+                    MessageTypeDefOf.TaskCompletion,
+                    false);
+            }
+            else
+            {
+                Messages.Message(
+                    "TSA_WD_PawnTransfer_CaravanRoutedToOutpost".Translate(destination.Label),
+                    destination.outpost,
+                    MessageTypeDefOf.TaskCompletion,
+                    false);
                 }
             }
 

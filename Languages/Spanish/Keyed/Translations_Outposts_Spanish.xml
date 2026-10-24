@@ -185,7 +185,7 @@
   <TSA_WD_TakePrisoners_Label>Tomar prisioneros</TSA_WD_TakePrisoners_Label>
   <TSA_WD_TakePrisoners_Desc>Si está activo, esta avanzadilla toma cautivos tras ganar una defensa, tanto en resolución automática como en un mapa de defensa manual. Si está desactivado, los enemigos supervivientes no se toman como prisioneros de la avanzadilla.</TSA_WD_TakePrisoners_Desc>
   <TSA_WD_AutoAdd_Message>Caravana añadida automáticamente a {0}.</TSA_WD_AutoAdd_Message>
-    <TSA_WD_Biome_AnimalsPercent>{0} %</TSA_WD_Biome_AnimalsPercent>
+  <TSA_WD_Biome_AnimalsPercent>{0} %</TSA_WD_Biome_AnimalsPercent>
   <TSA_WD_Biome_FishPercent>{0} %</TSA_WD_Biome_FishPercent>
   <TSA_WD_Biome_ColFish>Caladeros</TSA_WD_Biome_ColFish>
   <TSA_WD_Biome_ColAnimals>Abundancia animal</TSA_WD_Biome_ColAnimals>
@@ -200,7 +200,7 @@
   <TSA_WD_Biome_Tooltip_Biome>Bioma de esta casilla del mundo.\n\nAfecta fertilidad (densidad de plantas) y abundancia animal.</TSA_WD_Biome_Tooltip_Biome>
   <TSA_WD_Biome_Tooltip_Fertility>Puntuación de fertilidad para cultivo (0–100%).\n\nFórmula:\n- Fracción de temporada de cultivo (doceavos del año con temperatura media en un rango apto para cultivos, incluidos trópicos calurosos)\n- × densidad de plantas del bioma entre el mínimo y el máximo de todos los biomas cargados (los mejores biomas = 100%)\n- × penalización por colinas (Llano/Colinas pequeñas = 100%, Grandes = 80%, Montañoso = 50%, agua = 0%).</TSA_WD_Biome_Tooltip_Fertility>
   <TSA_WD_ProductivityTooltip_FertilityIntro>La puntuación de cultivo combina temporada de crecimiento, rango de densidad de plantas del bioma y relieve en un valor base. Los rasgos de casilla listados suman puntos porcentuales fijos (mutadores de Odyssey / Landmarks reconocidos por este mod).</TSA_WD_ProductivityTooltip_FertilityIntro>
-    <TSA_WD_ProductivityTooltip_HuntingIntro>La abundancia animal sitúa la densidad animal de este bioma frente a todos los biomas cargados y añade modificadores fijos por rasgos de casilla (mutadores) reconocidos por este mod.</TSA_WD_ProductivityTooltip_HuntingIntro>
+  <TSA_WD_ProductivityTooltip_HuntingIntro>La abundancia animal sitúa la densidad animal de este bioma frente a todos los biomas cargados y añade modificadores fijos por rasgos de casilla (mutadores) reconocidos por este mod.</TSA_WD_ProductivityTooltip_HuntingIntro>
   <TSA_WD_ProductivityTooltip_FishingIntro>La abundancia de peces sitúa la población máxima de peces de este bioma entre los biomas con peces, y añade modificadores fijos por rasgos de casilla (mutadores) reconocidos por este mod. Solo valen casillas costeras de océano.</TSA_WD_ProductivityTooltip_FishingIntro>
   <TSA_WD_ProductivityTooltip_NotCoastal>Esta casilla no es costa oceánica. Las avanzadillas de pesca necesitan tierra costera (no lagos ni agua abierta).</TSA_WD_ProductivityTooltip_NotCoastal>
   <TSA_WD_ProductivityTooltip_MiningIntro>La eficiencia minera parte del relieve de esta casilla (Llano=10%, Colinas pequeñas=50%, Colinas grandes=80%, Montañoso=100%, Impenetrable=0%) y suma puntos porcentuales fijos de rasgos de casilla del mundo (mutadores) que este mod reconoce.</TSA_WD_ProductivityTooltip_MiningIntro>
@@ -410,7 +410,7 @@
   <TSA_WD_EstablishOutpost_NoHumanlikesOnCaravan>Esta caravana no tiene colonos para asignar a la avanzadilla.</TSA_WD_EstablishOutpost_NoHumanlikesOnCaravan>
   <TSA_WD_Establish_BiomeNotAllowed>{0} no se puede construir en este bioma ({1}).</TSA_WD_Establish_BiomeNotAllowed>
   <TSA_WD_Establish_ConquestTierTooHigh>{0} es nivel {1}; solo puedes construir avanzadillas con nivel ≤ {2} en este asentamiento conquistado.</TSA_WD_Establish_ConquestTierTooHigh>
-    <TSA_WD_Establish_MinAnimalAbundance>La caza requiere al menos {0}% de abundancia animal (la casilla tiene {1}%).</TSA_WD_Establish_MinAnimalAbundance>
+  <TSA_WD_Establish_MinAnimalAbundance>La caza requiere al menos {0}% de abundancia animal (la casilla tiene {1}%).</TSA_WD_Establish_MinAnimalAbundance>
   <TSA_WD_Establish_MinFishAbundance>La pesca requiere al menos {0}% de abundancia de peces (la casilla tiene {1}%).</TSA_WD_Establish_MinFishAbundance>
   <TSA_WD_Establish_MinFertility>Las avanzadillas de cultivo requieren al menos {0}% de fertilidad (la casilla tiene {1}%).</TSA_WD_Establish_MinFertility>
   <TSA_WD_Establish_MinNearbySettlements>{0} requiere al menos {1} asentamientos de facciones neutrales o aliadas (no tuyas) dentro de {2} casillas. Encontrados: {3}.</TSA_WD_Establish_MinNearbySettlements>
@@ -419,7 +419,7 @@
   <TSA_WD_Establish_MinNearbySettlements_Embassy>{0} requiere al menos {1} asentamientos elegibles para embajada en {2} casillas. Encontrados: {3}.</TSA_WD_Establish_MinNearbySettlements_Embassy>
   <TSA_WD_Establish_MinPawns>{0} requiere al menos {1} colono(s) en la caravana (tienes {2}).</TSA_WD_Establish_MinPawns>
   <TSA_WD_Establish_MinSkill>Esta avanzadilla requiere al menos {0} de {1} para funcionar (tiene {2}).</TSA_WD_Establish_MinSkill>
-    <TSA_WD_Establish_NeedAnimals>Esta casilla no tiene fauna adecuada.</TSA_WD_Establish_NeedAnimals>
+  <TSA_WD_Establish_NeedAnimals>Esta casilla no tiene fauna adecuada.</TSA_WD_Establish_NeedAnimals>
   <TSA_WD_Establish_NeedCoast>Las avanzadillas de pesca necesitan una casilla costera oceánica (no lagos ni agua abierta).</TSA_WD_Establish_NeedCoast>
   <TSA_WD_Establish_NeedFishSpecies>Este bioma costero no tiene especies de peces de agua salada disponibles.</TSA_WD_Establish_NeedFishSpecies>
   <TSA_WD_Establish_NeedCost>La caravana necesita {0} {1} (tienes {2}).</TSA_WD_Establish_NeedCost>
@@ -720,7 +720,7 @@
   <TSA_WD_Recruiting_ClearConfirm>¿Detener el reclutamiento? No habrá nuevos colonos hasta que elijas Cualquiera o una habilidad otra vez.</TSA_WD_Recruiting_ClearConfirm>
   <TSA_WD_Production_Current>Produciendo actualmente: {0}</TSA_WD_Production_Current>
   <TSA_WD_Production_CurrentCycle>Ciclo actual: {0}</TSA_WD_Production_CurrentCycle>
-    <TSA_WD_Production_CurrentHunting>Cazando actualmente: {0}</TSA_WD_Production_CurrentHunting>
+  <TSA_WD_Production_CurrentHunting>Cazando actualmente: {0}</TSA_WD_Production_CurrentHunting>
   <TSA_WD_Production_CurrentFishing>Pescando actualmente: {0}</TSA_WD_Production_CurrentFishing>
   <TSA_WD_Production_Currently>Actualmente: {0}</TSA_WD_Production_Currently>
   <TSA_WD_Production_DeliveryAverageTooltip>La cantidad enviada al completar el ciclo se basa en la media de este valor durante todo el ciclo, no solo al final.</TSA_WD_Production_DeliveryAverageTooltip>
@@ -732,7 +732,7 @@
   <TSA_WD_Hunting_AnimalBaseline_Intro>Por punto de habilidad con 100% de eficiencia de casilla:</TSA_WD_Hunting_AnimalBaseline_Intro>
   <TSA_WD_Hunting_AnimalBaselineTooltip>Presupuesto {0} plata por punto Animal por entrega. Una pieza ≈ {1} plata (mercado: carne, cuero y lana juntos).\n{2}\nEntrega = base × eficiencia de casilla × Animal asignado × multiplicador de producción.</TSA_WD_Hunting_AnimalBaselineTooltip>
   <TSA_WD_Production_TooltipHunting_PerProduct>~{0} {1} por habilidad en esta casilla</TSA_WD_Production_TooltipHunting_PerProduct>
-    <TSA_WD_Hunting_RowBundleTooltip>{0} — cada entrega incluye todo lo siguiente: {1}.\n\n{2}</TSA_WD_Hunting_RowBundleTooltip>
+  <TSA_WD_Hunting_RowBundleTooltip>{0} — cada entrega incluye todo lo siguiente: {1}.\n\n{2}</TSA_WD_Hunting_RowBundleTooltip>
   <TSA_WD_Fishing_RowTooltip>{0}: ~{1} por punto Animal en esta casilla (antes del multiplicador de producción).</TSA_WD_Fishing_RowTooltip>
   <TSA_WD_Hunting_AnimalBaseline_Outpost>\n\nDef. de esta avanzadilla: ~{0} días/ciclo para ese cálculo; (÷30) = {1}.</TSA_WD_Hunting_AnimalBaseline_Outpost>
   <TSA_WD_Hunting_AnimalBaseline_OutputMult> La producción ×{0} aplica a las pilas finales.</TSA_WD_Hunting_AnimalBaseline_OutputMult>
@@ -741,7 +741,7 @@
   <TSA_WD_Hunting_FormulaLabel_BaselinePerKill>referencia por pieza</TSA_WD_Hunting_FormulaLabel_BaselinePerKill>
   <TSA_WD_Hunting_FormulaLabel_TileEfficiency>eficiencia del terreno</TSA_WD_Hunting_FormulaLabel_TileEfficiency>
   <TSA_WD_Hunting_FormulaLabel_OutpostAnimals>habilidad Animal de la avanzadilla</TSA_WD_Hunting_FormulaLabel_OutpostAnimals>
-    <TSA_WD_Production_Formula_AnimalAbundance>(Abundancia animal)</TSA_WD_Production_Formula_AnimalAbundance>
+  <TSA_WD_Production_Formula_AnimalAbundance>(Abundancia animal)</TSA_WD_Production_Formula_AnimalAbundance>
   <TSA_WD_Production_Formula_FishAbundance>(Caladeros)</TSA_WD_Production_Formula_FishAbundance>
   <TSA_WD_Production_Formula_Baseline>(Base)</TSA_WD_Production_Formula_Baseline>
   <TSA_WD_Production_Formula_Fertility>(Fertilidad)</TSA_WD_Production_Formula_Fertility>
@@ -828,7 +828,7 @@
   <TSA_WD_Production_TableHeader_Yield>Rendimiento al final del ciclo:</TSA_WD_Production_TableHeader_Yield>
   <TSA_WD_Production_TableHeader_YieldTooltip>Rendimiento final según la media de habilidad asignada a la colonia en el ciclo de producción actual</TSA_WD_Production_TableHeader_YieldTooltip>
   <TSA_WD_Production_TooltipFarming>Presupuesto {0} plata/hab por entrega. {6}: línea base según mercado.\nFertilidad del casilla del mundo ×{1} (0–1; misma puntuación que al fundar/seleccionar el outpost). La producción aplica además nivel, habilidad Plantas y un remapeo de rendimiento.\nTras modificadores del casillero: {2} {6} por habilidad.\nEsta entrega: {3} {4} × {2} → {5} {6} (cantidad final incluye multiplicador global de producción).</TSA_WD_Production_TooltipFarming>
-    <TSA_WD_Production_TooltipHunting>Presupuesto {0} plata por punto Animal por entrega (fijo). Eficiencia de caza en casilla: {1}.\n{2}\n\nProductos de este animal: {3}.\n\nVista previa de entrega (incluye multiplicador global de producción): {4}</TSA_WD_Production_TooltipHunting>
+  <TSA_WD_Production_TooltipHunting>Presupuesto {0} plata por punto Animal por entrega (fijo). Eficiencia de caza en casilla: {1}.\n{2}\n\nProductos de este animal: {3}.\n\nVista previa de entrega (incluye multiplicador global de producción): {4}</TSA_WD_Production_TooltipHunting>
   <TSA_WD_Production_TooltipFishing>Presupuesto {0} plata por punto Animal por entrega (fijo). Abundancia de peces en casilla: {1}.\n~{2} {3} por punto Animal en esta casilla.\n\nVista previa de entrega (incluye multiplicador global de producción): {4}</TSA_WD_Production_TooltipFishing>
   <TSA_WD_Production_TooltipMining>Presupuesto {0} plata/hab por entrega. {6}: base por mercado o deslizadores de minería.\nEficiencia de mina ×{1}. Tras el casillero: {2} {6} por habilidad.\nEsta entrega: {3} {4} × {2} → {5} {6} (cantidad final incluye multiplicador global de producción).</TSA_WD_Production_TooltipMining>
   <TSA_WD_Production_TooltipFabrication_Line1>{0} {1} (elegible) × {2} por habilidad → {3} {4} por ciclo (incluye multiplicador global de producción).</TSA_WD_Production_TooltipFabrication_Line1>
@@ -994,7 +994,7 @@
   <TSA_WD_Prod_FarmingSummary_None>Cultivando {0}. Sin rendimiento en {1} días</TSA_WD_Prod_FarmingSummary_None>
   <TSA_WD_Prod_MiningSummary>Minando {0}. Rendimiento {1} en {2} días</TSA_WD_Prod_MiningSummary>
   <TSA_WD_Prod_MiningSummary_None>Minando {0}. Sin rendimiento en {1} días</TSA_WD_Prod_MiningSummary_None>
-    <TSA_WD_Prod_HuntingSummary>Cazando {0}: rendimiento {1} en {2} días</TSA_WD_Prod_HuntingSummary>
+  <TSA_WD_Prod_HuntingSummary>Cazando {0}: rendimiento {1} en {2} días</TSA_WD_Prod_HuntingSummary>
   <TSA_WD_Prod_FishingSummary>Pescando {0}: rendimiento {1} en {2} días</TSA_WD_Prod_FishingSummary>
   <TSA_WD_Prod_RecruitingShort>Reclutando (~{0} reclutas)</TSA_WD_Prod_RecruitingShort>
   <TSA_WD_Prod_TradingShort>Comercio (plata de niveles cercanos)</TSA_WD_Prod_TradingShort>
@@ -1103,7 +1103,7 @@
   <TSA_WD_Req_CumSkill_None>Hab. acum.: —</TSA_WD_Req_CumSkill_None>
   <TSA_WD_Req_Fertility>Fertilidad = {0} %</TSA_WD_Req_Fertility>
   <TSA_WD_Req_FertilityMin>Fertilidad = {0} % (mín. {1} %)</TSA_WD_Req_FertilityMin>
-    <TSA_WD_Req_HuntingMin>Abundancia animal: {0} % (mín. {1}%)</TSA_WD_Req_HuntingMin>
+  <TSA_WD_Req_HuntingMin>Abundancia animal: {0} % (mín. {1}%)</TSA_WD_Req_HuntingMin>
   <TSA_WD_Req_FishingMin>Caladeros: {0} % (mín. {1}%)</TSA_WD_Req_FishingMin>
   <TSA_WD_Req_MinNearby>Asentamientos en radio: {0} / {1}</TSA_WD_Req_MinNearby>
   <TSA_WD_Req_MinPawns>Mín. colonos: {0} / {1}</TSA_WD_Req_MinPawns>
@@ -1123,7 +1123,7 @@
   <TSA_WD_Req_Tooltip_FertilityWater>Cultivo/tala requiere una casilla sin agua.</TSA_WD_Req_Tooltip_FertilityWater>
   <TSA_WD_Req_Tooltip_HuntingBelow>Abundancia animal por debajo del mínimo ({0}%).</TSA_WD_Req_Tooltip_HuntingBelow>
   <TSA_WD_Req_Tooltip_HuntingMet>La casilla cumple la abundancia animal mínima para caza.</TSA_WD_Req_Tooltip_HuntingMet>
-    <TSA_WD_Req_Tooltip_HuntingNone>La casilla tiene poca o ninguna fauna cazable.</TSA_WD_Req_Tooltip_HuntingNone>
+  <TSA_WD_Req_Tooltip_HuntingNone>La casilla tiene poca o ninguna fauna cazable.</TSA_WD_Req_Tooltip_HuntingNone>
   <TSA_WD_Req_Tooltip_FishingBelow>Abundancia de peces por debajo del mínimo ({0}%).</TSA_WD_Req_Tooltip_FishingBelow>
   <TSA_WD_Req_Tooltip_FishingMet>La casilla cumple la abundancia mínima de peces para pescar.</TSA_WD_Req_Tooltip_FishingMet>
   <TSA_WD_Req_Tooltip_FishingNotCoastal>La pesca necesita una casilla costera oceánica (no lagos ni agua abierta).</TSA_WD_Req_Tooltip_FishingNotCoastal>
@@ -1606,7 +1606,7 @@
   <TSA_WD_OutpostUpgrades_BenefitOccupantHeal>+{0}% velocidad de curación de ocupantes</TSA_WD_OutpostUpgrades_BenefitOccupantHeal>
   <TSA_WD_OutpostUpgrades_BenefitTileFertility>+{0}% Fertilidad</TSA_WD_OutpostUpgrades_BenefitTileFertility>
   <TSA_WD_OutpostUpgrades_BenefitTileMining>+{0}% Eficiencia minera</TSA_WD_OutpostUpgrades_BenefitTileMining>
-    <TSA_WD_OutpostUpgrades_BenefitTileAnimals>+{0}% Abundancia animal</TSA_WD_OutpostUpgrades_BenefitTileAnimals>
+  <TSA_WD_OutpostUpgrades_BenefitTileAnimals>+{0}% Abundancia animal</TSA_WD_OutpostUpgrades_BenefitTileAnimals>
   <TSA_WD_OutpostUpgrades_BenefitTileFish>+{0}% Caladeros</TSA_WD_OutpostUpgrades_BenefitTileFish>
   <TSA_WD_OutpostUpgrades_BenefitMortarDamage>+{0} fuerza del proyectil de mortero</TSA_WD_OutpostUpgrades_BenefitMortarDamage>
   <TSA_WD_OutpostUpgrades_BenefitMortarHit>+{0}% probabilidad de acierto del mortero</TSA_WD_OutpostUpgrades_BenefitMortarHit>
@@ -1904,6 +1904,10 @@
   <TSA_WD_OutpostStats_Row_OffensiveRecoveryTip>Fuerza ofensiva recuperada por día.</TSA_WD_OutpostStats_Row_OffensiveRecoveryTip>
   <TSA_WD_OutpostStats_Row_DefensiveRecovery>Recuperación defensiva diaria</TSA_WD_OutpostStats_Row_DefensiveRecovery>
   <TSA_WD_OutpostStats_Row_DefensiveRecoveryTip>Fuerza defensiva recuperada por día.</TSA_WD_OutpostStats_Row_DefensiveRecoveryTip>
+  <TSA_WD_OutpostStats_Row_AvgPollution>Contaminación media ({0} casillas)</TSA_WD_OutpostStats_Row_AvgPollution>
+  <TSA_WD_OutpostStats_Row_AvgPollutionTip>Contaminación media de casillas en un radio de {0} casillas mundiales (BFS). Las casillas limpias cuentan como 0%. Incluye tierra y agua. Se usa para el daño diario por contaminación del sitio.</TSA_WD_OutpostStats_Row_AvgPollutionTip>
+  <TSA_WD_OutpostStats_Row_PollutionDamagePerDay>Daño por contaminación / día</TSA_WD_OutpostStats_Row_PollutionDamagePerDay>
+  <TSA_WD_OutpostStats_Row_PollutionDamagePerDayTip>Fuerza prevista perdida por día según la contaminación media en el radio de daño. Se reparte entre ofensiva y defensiva. Cero si la media está bajo el umbral de ignorar, la función está desactivada o el sitio es inmune.</TSA_WD_OutpostStats_Row_PollutionDamagePerDayTip>
   <TSA_WD_OutpostStats_Row_OccupantHeal>Velocidad de curación de heridas / infecciones</TSA_WD_OutpostStats_Row_OccupantHeal>
   <TSA_WD_OutpostStats_Row_OccupantHealTip>Tasa de curación de heridas/inmunidad para ocupantes. Los efectos con temporizador (colocones, toxinas, etc.) se desgastan a ritmo vanilla por separado.</TSA_WD_OutpostStats_Row_OccupantHealTip>
   <TSA_WD_OutpostStats_Row_PrisonerResistance>Reducción de resistencia de prisioneros por día</TSA_WD_OutpostStats_Row_PrisonerResistance>

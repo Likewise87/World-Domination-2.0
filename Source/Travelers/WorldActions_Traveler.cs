@@ -1077,12 +1077,12 @@ namespace TSA_WorldDomination
             bool playerOrdered = traveler.playerOrderedTrader;
             if (!playerOrdered)
             {
-                int goodwill = Mathf.RoundToInt(seth.traderCaravanGoodwillGain);
-                if (goodwill > 0 && senderFaction != null && receiverFaction != null && senderFaction != receiverFaction)
+            int goodwill = Mathf.RoundToInt(seth.traderCaravanGoodwillGain);
+            if (goodwill > 0 && senderFaction != null && receiverFaction != null && senderFaction != receiverFaction)
                 {
                     if (senderFaction.IsPlayer || receiverFaction.IsPlayer)
-                    {
-                        senderFaction.TryAffectGoodwillWith(receiverFaction, goodwill);
+            {
+                senderFaction.TryAffectGoodwillWith(receiverFaction, goodwill);
                         GoodwillChangeNotifier.NotifyTraderCaravanArrival(senderFaction, receiverFaction, goodwill);
                     }
                     else
@@ -2121,20 +2121,20 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            Settlement newS = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
-            newS.Tile = traveler.Tile;
-            newS.SetFaction(traveler.Faction);
-            newS.Name = SettlementNameGenerator.GenerateSettlementName(newS);
-            Find.WorldObjects.Add(newS);
+                Settlement newS = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
+                newS.Tile = traveler.Tile;
+                newS.SetFaction(traveler.Faction);
+                newS.Name = SettlementNameGenerator.GenerateSettlementName(newS);
+                Find.WorldObjects.Add(newS);
             Outpost_EstablishmentRequirements.InvalidateNearbyCountCache();
 
-            var comp = newS.GetComponent<CompViralSpread>();
-            if (comp != null)
-            {
-                comp.SetState(SettlementTier.T1);
-                comp.strength = traveler.travelerStrength;
-                if (comp.strength < 10f) comp.strength = 10f;
-                comp.CheckTierUpdate();
+                var comp = newS.GetComponent<CompViralSpread>();
+                if (comp != null)
+                {
+                    comp.SetState(SettlementTier.T1);
+                    comp.strength = traveler.travelerStrength;
+                    if (comp.strength < 10f) comp.strength = 10f;
+                    comp.CheckTierUpdate();
                 if (traveler.isolationPressureExpand)
                     CompViralSpread.ApplyNpcSettlementFoundingShields(newS);
             }
@@ -2203,8 +2203,8 @@ namespace TSA_WorldDomination
                 && WorldActions_Roads.ShouldUpgradeRoad(
                     new PlanetTile(paveFrom, layer),
                     new PlanetTile(paveTo, layer),
-                    plannedRoad
-                );
+                plannedRoad
+            );
 
             var manager = Find.World.GetComponent<WorldComponent_SpreadManager>();
 
@@ -2244,7 +2244,7 @@ namespace TSA_WorldDomination
                 {
                     if (traveler.originObject is WorldObject_WD_Outpost
                         || ColonyWorldBuildUtility.IsPlayerColonyBuildActor(traveler.originObject))
-                        Messages.Message("TSA_WD_RoadSegmentComplete".Translate(traveler.originObject.LabelCap), MessageTypeDefOf.PositiveEvent);
+                    Messages.Message("TSA_WD_RoadSegmentComplete".Translate(traveler.originObject.LabelCap), MessageTypeDefOf.PositiveEvent);
                     WorldActions_Roads.RefreshOutpostRoadProjectVisualsAfterSegment(traveler.originObject);
                 }
             }

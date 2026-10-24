@@ -612,7 +612,7 @@
   <TSA_WD_SmartSend_ColPawn>Pawn</TSA_WD_SmartSend_ColPawn>
   <TSA_WD_SmartSend_ColOrigin>Origin</TSA_WD_SmartSend_ColOrigin>
   <TSA_WD_SmartSend_ColDestination>Destination</TSA_WD_SmartSend_ColDestination>
-  <TSA_WD_SmartSend_ColReason>Reason</TSA_WD_SmartSend_ColReason>
+  <TSA_WD_SmartSend_ColReason>Reasoning</TSA_WD_SmartSend_ColReason>
   <TSA_WD_SmartSend_SelectDest>Select</TSA_WD_SmartSend_SelectDest>
   <TSA_WD_SmartSend_ReasonOverrideDest>Manual override: {0}</TSA_WD_SmartSend_ReasonOverrideDest>
   <TSA_WD_SmartSend_ReasonSkill>Highest skill: {0} = {1}</TSA_WD_SmartSend_ReasonSkill>
@@ -630,6 +630,9 @@
   <TSA_WD_SmartSend_OverrideTitle>Override destination</TSA_WD_SmartSend_OverrideTitle>
   <TSA_WD_SmartSend_Reset>Reset smart assignment</TSA_WD_SmartSend_Reset>
   <TSA_WD_SmartSend_ReasonStay>Already well placed (no move).</TSA_WD_SmartSend_ReasonStay>
+  <TSA_WD_SmartSend_ReasonInconclusive>Inconclusive (no move).</TSA_WD_SmartSend_ReasonInconclusive>
+  <TSA_WD_SmartSend_ReasonInconclusiveTip>No matching outpost, not ready to travel, or no usable skills for Smart Send. Use Override to pick a destination, or remove this pawn.</TSA_WD_SmartSend_ReasonInconclusiveTip>
+  <TSA_WD_SmartSend_SectionStayOrInconclusive>Already at optimal location or inconclusive</TSA_WD_SmartSend_SectionStayOrInconclusive>
   <TSA_WD_SmartSend_SubtitleMixed>Sending {0}. Staying put: {1}.</TSA_WD_SmartSend_SubtitleMixed>
   <TSA_WD_PawnTransfer_DialogTitle>Choose destination</TSA_WD_PawnTransfer_DialogTitle>
   <TSA_WD_PawnTransfer_DialogSubtitle>Moving {0} pawn(s)</TSA_WD_PawnTransfer_DialogSubtitle>

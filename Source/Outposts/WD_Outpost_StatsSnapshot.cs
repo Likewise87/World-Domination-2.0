@@ -15,6 +15,8 @@ namespace TSA_WorldDomination
         public string Value = "";
         public string Tooltip = "";
         public Color? ValueColor;
+        /// <summary>When set, label text uses this color (e.g. yellow traveler status banners).</summary>
+        public Color? LabelColor;
         /// <summary>When set, value text wraps within the value column instead of truncating.</summary>
         public bool WrapValue;
     }
@@ -482,6 +484,8 @@ namespace TSA_WorldDomination
                     defRecBaseline, "F0", defRecBonuses, defRecResult, "F0"));
             MarkBoostedIf(defRecRow, defRecExpert > 1e-6f);
 
+            AppendCombatPollutionRows(section, worldObject, comp, settings);
+
             if (presentation == CombatStatsPresentation.PlayerOutpost && playerOutpost != null)
             {
                 WorldDominationSettings healSettings = WorldDominationMod.settings;
@@ -531,6 +535,44 @@ namespace TSA_WorldDomination
 
         private static OutpostStatsSection BuildCombatSection(WorldObject_WD_Outpost outpost, CompViralSpread comp)
             => BuildCombatSection(outpost, comp, CombatStatsPresentation.PlayerOutpost);
+
+        /// <summary>Site pollution average and predicted daily strength damage (player outposts + NPC settlements).</summary>
+        private static void AppendCombatPollutionRows(
+            OutpostStatsSection section,
+            WorldObject worldObject,
+            CompViralSpread comp,
+            WorldDominationSettings settings)
+        {
+            if (section == null || worldObject == null || comp == null) return;
+            if (settings == null || !settings.travelerPollutionDamageEnabled) return;
+            if (!SitePollutionDamage.IsEligibleSite(worldObject, comp)) return;
+
+            int radius = settings.pollutionDamageRadius;
+            float avg01 = 0f;
+            if (SitePollutionDamage.TryGetAveragePollution01(worldObject.Tile, radius, out float avg))
+                avg01 = avg;
+
+            int avgPp = Mathf.RoundToInt(avg01 * 100f);
+            float dailyDamage = settings.GetPollutionExitDamage(avg01);
+
+            var avgRow = new OutpostStatRow
+            {
+                Label = "TSA_WD_OutpostStats_Row_AvgPollution".Translate(radius).ToString(),
+                Value = avgPp + "%",
+                Tooltip = "TSA_WD_OutpostStats_Row_AvgPollutionTip".Translate(radius).ToString()
+            };
+            section.Rows.Add(avgRow);
+
+            var dmgRow = new OutpostStatRow
+            {
+                Label = "TSA_WD_OutpostStats_Row_PollutionDamagePerDay".Translate().ToString(),
+                Value = dailyDamage.ToString("F0"),
+                Tooltip = "TSA_WD_OutpostStats_Row_PollutionDamagePerDayTip".Translate().ToString()
+            };
+            if (dailyDamage > 0f)
+                dmgRow.ValueColor = Color.yellow;
+            section.Rows.Add(dmgRow);
+        }
 
         private static void AppendCombatRaidRows(
             OutpostStatsSection section,

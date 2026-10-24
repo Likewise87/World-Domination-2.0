@@ -583,7 +583,7 @@
   <TSA_WD_SmartSend_ColPawn>殖民者</TSA_WD_SmartSend_ColPawn>
   <TSA_WD_SmartSend_ColOrigin>来源</TSA_WD_SmartSend_ColOrigin>
   <TSA_WD_SmartSend_ColDestination>目的地</TSA_WD_SmartSend_ColDestination>
-  <TSA_WD_SmartSend_ColReason>原因</TSA_WD_SmartSend_ColReason>
+  <TSA_WD_SmartSend_ColReason>推理</TSA_WD_SmartSend_ColReason>
   <TSA_WD_SmartSend_SelectDest>选择</TSA_WD_SmartSend_SelectDest>
   <TSA_WD_SmartSend_ReasonOverrideDest>手动覆盖：{0}</TSA_WD_SmartSend_ReasonOverrideDest>
   <TSA_WD_SmartSend_ReasonSkill>最高技能：{0} = {1}</TSA_WD_SmartSend_ReasonSkill>
@@ -601,6 +601,9 @@
   <TSA_WD_SmartSend_OverrideTitle>覆盖目的地</TSA_WD_SmartSend_OverrideTitle>
   <TSA_WD_SmartSend_Reset>重置智能分配</TSA_WD_SmartSend_Reset>
   <TSA_WD_SmartSend_ReasonStay>已在合适位置（无需调动）。</TSA_WD_SmartSend_ReasonStay>
+  <TSA_WD_SmartSend_ReasonInconclusive>无法判定（不调动）。</TSA_WD_SmartSend_ReasonInconclusive>
+  <TSA_WD_SmartSend_ReasonInconclusiveTip>没有可匹配的前哨、尚未可立即旅行，或没有可用于智能派遣的技能。可用覆盖选择目的地，或移除此角色。</TSA_WD_SmartSend_ReasonInconclusiveTip>
+  <TSA_WD_SmartSend_SectionStayOrInconclusive>已在最佳位置或无法判定</TSA_WD_SmartSend_SectionStayOrInconclusive>
   <TSA_WD_SmartSend_SubtitleMixed>派出 {0} 名。留守 {1} 名。</TSA_WD_SmartSend_SubtitleMixed>
   <TSA_WD_PawnTransfer_DialogTitle>选择目的地</TSA_WD_PawnTransfer_DialogTitle>
   <TSA_WD_PawnTransfer_DialogSubtitle>调动 {0} 名殖民者</TSA_WD_PawnTransfer_DialogSubtitle>

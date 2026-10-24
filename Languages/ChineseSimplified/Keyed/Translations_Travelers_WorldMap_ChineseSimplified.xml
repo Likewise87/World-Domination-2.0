@@ -318,10 +318,16 @@
   <TSA_WD_TravelerStats_Section_Force>兵力</TSA_WD_TravelerStats_Section_Force>
   <TSA_WD_TravelerStats_Section_Ambush>伏击</TSA_WD_TravelerStats_Section_Ambush>
   <TSA_WD_TravelerStats_Section_PlayerThreat>对玩家威胁</TSA_WD_TravelerStats_Section_PlayerThreat>
+  <TSA_WD_TravelerStats_Section_Status>状态</TSA_WD_TravelerStats_Section_Status>
+  <TSA_WD_TravelerStats_Status_AtTurretDetour>正在对付 AT 炮塔</TSA_WD_TravelerStats_Status_AtTurretDetour>
+  <TSA_WD_TravelerStats_Status_TargetOfOpportunity>选择了较弱定居点作为机会目标</TSA_WD_TravelerStats_Status_TargetOfOpportunity>
+  <TSA_WD_TravelerStats_Status_Marauding>胜利后继续进攻（劫掠）</TSA_WD_TravelerStats_Status_Marauding>
   <TSA_WD_TravelerStats_Row_Mission>任务</TSA_WD_TravelerStats_Row_Mission>
   <TSA_WD_TravelerStats_Row_Faction>派系</TSA_WD_TravelerStats_Row_Faction>
   <TSA_WD_TravelerStats_Row_Origin>出发地</TSA_WD_TravelerStats_Row_Origin>
   <TSA_WD_TravelerStats_Row_Destination>目的地</TSA_WD_TravelerStats_Row_Destination>
+  <TSA_WD_TravelerStats_Row_CurrentDestination>当前目的地</TSA_WD_TravelerStats_Row_CurrentDestination>
+  <TSA_WD_TravelerStats_Row_OriginalDestination>原目的地</TSA_WD_TravelerStats_Row_OriginalDestination>
   <TSA_WD_TravelerStats_Row_Strength>强度（当前 / 初始）</TSA_WD_TravelerStats_Row_Strength>
   <TSA_WD_TravelerStats_Row_StrengthRemaining>剩余强度</TSA_WD_TravelerStats_Row_StrengthRemaining>
   <TSA_WD_TravelerStats_Row_EtaDays>预计抵达（天）</TSA_WD_TravelerStats_Row_EtaDays>
@@ -347,4 +353,5 @@
   <TSA_WD_TravelerInventory_Empty>这支旅行队没有货物。</TSA_WD_TravelerInventory_Empty>
   <TSA_WD_TravelerInventory_UpgradeLine>升级：{0}（等级 {1}）</TSA_WD_TravelerInventory_UpgradeLine>
   <TSA_WD_TravelerInventory_TypeChangeLine>转换为：{0}</TSA_WD_TravelerInventory_TypeChangeLine>
+  <TSA_WD_TravelerInventory_HdrValue>价值</TSA_WD_TravelerInventory_HdrValue>
 </LanguageData>

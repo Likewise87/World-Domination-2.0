@@ -133,25 +133,42 @@ namespace TSA_WorldDomination
                 if (zebraStriping && i % 2 == 0) Widgets.DrawHighlight(rowRect);
 
                 Text.Anchor = row.WrapValue ? TextAnchor.UpperLeft : TextAnchor.MiddleLeft;
-                if (row.WrapValue)
-                {
-                    Text.WordWrap = true;
-                    Widgets.Label(labelRect, row.Label ?? "");
-                }
-                else
-                    Widgets.Label(labelRect, (row.Label ?? "").Truncate(labelRect.width));
-
+                bool statusBanner = row.LabelColor.HasValue && string.IsNullOrWhiteSpace(row.Value);
                 Color prev = GUI.color;
-                if (row.ValueColor.HasValue) GUI.color = row.ValueColor.Value;
-                if (row.WrapValue)
+                if (row.LabelColor.HasValue) GUI.color = row.LabelColor.Value;
+                if (statusBanner)
                 {
-                    Text.WordWrap = true;
-                    Widgets.Label(valueRect, row.Value ?? "—");
+                    // Full-width yellow (or other) status line; skip empty value column / em-dash fallback.
+                    Rect bannerRect = new Rect(x + 4f, y, rowW - 8f, rowH);
+                    if (row.WrapValue)
+                    {
+                        Text.WordWrap = true;
+                        Widgets.Label(bannerRect, row.Label ?? "");
+                    }
+                    else
+                        Widgets.Label(bannerRect, (row.Label ?? "").Truncate(bannerRect.width));
                 }
                 else
                 {
-                    Text.Anchor = TextAnchor.MiddleRight;
-                    Widgets.Label(valueRect, (row.Value ?? "—").Truncate(valueRect.width));
+                    if (row.WrapValue)
+                    {
+                        Text.WordWrap = true;
+                        Widgets.Label(labelRect, row.Label ?? "");
+                    }
+                    else
+                        Widgets.Label(labelRect, (row.Label ?? "").Truncate(labelRect.width));
+                    GUI.color = prev;
+                    if (row.ValueColor.HasValue) GUI.color = row.ValueColor.Value;
+                    if (row.WrapValue)
+                    {
+                        Text.WordWrap = true;
+                        Widgets.Label(valueRect, row.Value ?? "—");
+                    }
+                    else
+                    {
+                        Text.Anchor = TextAnchor.MiddleRight;
+                        Widgets.Label(valueRect, (row.Value ?? "—").Truncate(valueRect.width));
+                    }
                 }
                 GUI.color = prev;
                 Text.Anchor = TextAnchor.UpperLeft;

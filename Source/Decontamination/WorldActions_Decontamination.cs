@@ -73,22 +73,136 @@ namespace TSA_WorldDomination
             return grid[tileId].pollution > 0.0001f;
         }
 
+        /// <summary>
+        /// Walkable for decontam corridors: land plus open/bridged water.
+        /// Do not reuse <see cref="WorldActions_RoadBlocks.IsFlatPathWalkable"/> (land/bridged only).
+        /// </summary>
+        public static bool IsDecontamPathWalkable(int tileId, PlanetLayer layer = null)
+        {
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null || tileId < 0 || !grid.InBounds(tileId)) return false;
+            layer ??= PlanetSurfaceWorldActions.WdSurfaceLayer ?? grid.Surface;
+            if (layer == null) return false;
+            if (grid[tileId].WaterCovered) return true;
+            PlanetTile pTile = new PlanetTile(tileId, layer);
+            return !Find.World.Impassable(pTile);
+        }
+
         public static bool IsValidWorkTile(int tileId)
         {
             // Scrub tiles may host settlements, colonies, or outposts (including the sending site).
             // Do not reuse road-block eligibility, which rejects occupied tiles.
-            if (!WorldActions_RoadBlocks.IsFlatPathWalkable(tileId)) return false;
+            if (!IsDecontamPathWalkable(tileId)) return false;
             return IsTilePolluted(tileId);
         }
 
         /// <summary>
-        /// Waypoint / destination click eligibility: land walkable. Settlements, colonies, and outposts
+        /// Waypoint / destination click eligibility: land or water walkable. Settlements, colonies, and outposts
         /// (including the originating outpost tile) are allowed; pollution is checked when filtering work tiles.
         /// </summary>
         public static bool IsValidPlanNode(int tileId)
         {
-            return WorldActions_RoadBlocks.IsFlatPathWalkable(tileId);
+            return IsDecontamPathWalkable(tileId);
         }
+
+        /// <summary>
+        /// Same success rule as decontam <see cref="WD_PathFollower.StartPath"/>: dry vanilla path, else forced water fallback.
+        /// Does not gate on <c>allowCaravansTravelOverWater</c>. Hop-BFS is not reachability.
+        /// </summary>
+        public static bool CanReachDecontamWorkTile(PlanetTile from, PlanetTile dest)
+        {
+            if (!from.Valid || !dest.Valid) return false;
+            if (from.tileId == dest.tileId) return true;
+            if (from.Layer != dest.Layer) return false;
+
+            using (WorldPath path = from.Layer.Pather.FindPath(from, dest, null))
+            {
+                if (path != null && path.Found && !WorldActions_Roads.RoadBuildingPathTouchesUnbridgedWater(path))
+                    return true;
+            }
+
+            return TravelerWaterPathing.TryBuildFallbackPath(from, dest, out var waterPath)
+                && waterPath != null
+                && waterPath.Count > 1;
+        }
+
+        /// <summary>
+        /// Uniform-cost hop path allowing open water (dest-first). Bounded like road-block hops (max 64).
+        /// </summary>
+        public static List<int> FindDecontamHopPathDestFirst(int startTileId, int endTileId)
+        {
+            if (startTileId == endTileId)
+                return new List<int> { startTileId };
+
+            WorldGrid grid = Find.WorldGrid;
+            PlanetLayer layer = PlanetSurfaceWorldActions.WdSurfaceLayer;
+            if (grid == null || layer == null) return null;
+            if (!grid.InBounds(startTileId) || !grid.InBounds(endTileId)) return null;
+
+            float direct = grid.ApproxDistanceInTiles(startTileId, endTileId);
+            int maxHops = Mathf.Max(8, Mathf.CeilToInt(direct * 3f) + 8);
+            if (maxHops > 64) maxHops = 64;
+
+            decontamHopPrev.Clear();
+            decontamHopHops.Clear();
+            decontamHopQueue.Clear();
+            decontamHopClosed.Clear();
+
+            decontamHopQueue.Enqueue(startTileId);
+            decontamHopPrev[startTileId] = -1;
+            decontamHopHops[startTileId] = 0;
+            decontamHopClosed.Add(startTileId);
+
+            bool found = false;
+            while (decontamHopQueue.Count > 0)
+            {
+                int cur = decontamHopQueue.Dequeue();
+                if (cur == endTileId)
+                {
+                    found = true;
+                    break;
+                }
+
+                int hops = decontamHopHops[cur];
+                if (hops >= maxHops)
+                    continue;
+
+                decontamHopNeighbors.Clear();
+                grid.GetTileNeighbors(cur, decontamHopNeighbors);
+                for (int i = 0; i < decontamHopNeighbors.Count; i++)
+                {
+                    PlanetTile npt = decontamHopNeighbors[i];
+                    if (!npt.Valid || npt.Layer != layer) continue;
+                    int next = npt.tileId;
+                    if (!grid.InBounds(next) || decontamHopClosed.Contains(next)) continue;
+                    if (!IsDecontamPathWalkable(next, layer)) continue;
+
+                    decontamHopClosed.Add(next);
+                    decontamHopPrev[next] = cur;
+                    decontamHopHops[next] = hops + 1;
+                    decontamHopQueue.Enqueue(next);
+                }
+            }
+
+            if (!found || !decontamHopPrev.ContainsKey(endTileId))
+                return null;
+
+            var destFirst = new List<int>();
+            for (int t = endTileId; t >= 0; t = decontamHopPrev[t])
+            {
+                destFirst.Add(t);
+                if (t == startTileId) break;
+            }
+            if (destFirst.Count < 1 || destFirst[destFirst.Count - 1] != startTileId)
+                return null;
+            return destFirst;
+        }
+
+        private static readonly Dictionary<int, int> decontamHopPrev = new Dictionary<int, int>(128);
+        private static readonly Dictionary<int, int> decontamHopHops = new Dictionary<int, int>(128);
+        private static readonly Queue<int> decontamHopQueue = new Queue<int>(128);
+        private static readonly HashSet<int> decontamHopClosed = new HashSet<int>();
+        private static readonly List<PlanetTile> decontamHopNeighbors = new List<PlanetTile>(8);
 
         public static List<int> FilterPlannedTilesFromClickedNodes(List<int> clickedNodes)
         {
@@ -111,7 +225,7 @@ namespace TSA_WorldDomination
                 int b = clickedNodes[i + 1];
                 if (a == b) continue;
 
-                List<int> pathDestFirst = WorldActions_RoadBlocks.FindFlatHopPathDestFirst(a, b);
+                List<int> pathDestFirst = FindDecontamHopPathDestFirst(a, b);
                 if (pathDestFirst == null || pathDestFirst.Count < 2) continue;
                 for (int n = pathDestFirst.Count - 1; n >= 0; n--)
                     TryAdd(pathDestFirst[n]);

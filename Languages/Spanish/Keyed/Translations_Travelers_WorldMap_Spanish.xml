@@ -318,10 +318,16 @@
   <TSA_WD_TravelerStats_Section_Force>Fuerza</TSA_WD_TravelerStats_Section_Force>
   <TSA_WD_TravelerStats_Section_Ambush>Emboscada</TSA_WD_TravelerStats_Section_Ambush>
   <TSA_WD_TravelerStats_Section_PlayerThreat>Amenaza al jugador</TSA_WD_TravelerStats_Section_PlayerThreat>
+  <TSA_WD_TravelerStats_Section_Status>Estado</TSA_WD_TravelerStats_Section_Status>
+  <TSA_WD_TravelerStats_Status_AtTurretDetour>Contrarrestando torreta AT</TSA_WD_TravelerStats_Status_AtTurretDetour>
+  <TSA_WD_TravelerStats_Status_TargetOfOpportunity>Eligió un asentamiento más débil como objetivo de oportunidad</TSA_WD_TravelerStats_Status_TargetOfOpportunity>
+  <TSA_WD_TravelerStats_Status_Marauding>Continuando tras la victoria (saqueo)</TSA_WD_TravelerStats_Status_Marauding>
   <TSA_WD_TravelerStats_Row_Mission>Misión</TSA_WD_TravelerStats_Row_Mission>
   <TSA_WD_TravelerStats_Row_Faction>Facción</TSA_WD_TravelerStats_Row_Faction>
   <TSA_WD_TravelerStats_Row_Origin>Origen</TSA_WD_TravelerStats_Row_Origin>
   <TSA_WD_TravelerStats_Row_Destination>Destino</TSA_WD_TravelerStats_Row_Destination>
+  <TSA_WD_TravelerStats_Row_CurrentDestination>Destino actual</TSA_WD_TravelerStats_Row_CurrentDestination>
+  <TSA_WD_TravelerStats_Row_OriginalDestination>Destino original</TSA_WD_TravelerStats_Row_OriginalDestination>
   <TSA_WD_TravelerStats_Row_Strength>Fuerza (actual / inicial)</TSA_WD_TravelerStats_Row_Strength>
   <TSA_WD_TravelerStats_Row_StrengthRemaining>Fuerza restante</TSA_WD_TravelerStats_Row_StrengthRemaining>
   <TSA_WD_TravelerStats_Row_EtaDays>ETA (días)</TSA_WD_TravelerStats_Row_EtaDays>
@@ -347,4 +353,5 @@
   <TSA_WD_TravelerInventory_Empty>Este viajero no lleva carga.</TSA_WD_TravelerInventory_Empty>
   <TSA_WD_TravelerInventory_UpgradeLine>Mejora: {0} (nivel {1})</TSA_WD_TravelerInventory_UpgradeLine>
   <TSA_WD_TravelerInventory_TypeChangeLine>Convirtiendo a: {0}</TSA_WD_TravelerInventory_TypeChangeLine>
+  <TSA_WD_TravelerInventory_HdrValue>Valor</TSA_WD_TravelerInventory_HdrValue>
 </LanguageData>

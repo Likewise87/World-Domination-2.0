@@ -1250,8 +1250,8 @@ namespace TSA_WorldDomination
             {
                 this.subType = "Excluded";
                 this.outpostInitialized = true;
-                return;
-            }
+                    return;
+                }
 
             if (string.IsNullOrEmpty(subType))
             {
@@ -1391,8 +1391,8 @@ namespace TSA_WorldDomination
 
             var spreadMgr = SpreadManager;
             if (spreadMgr != null && lastActionDay != spreadMgr.ActionDayOfYearId)
-            {
-                actionsTakenToday = 0;
+                {
+                    actionsTakenToday = 0;
                 lastActionDay = spreadMgr.ActionDayOfYearId;
             }
 
@@ -1431,11 +1431,11 @@ namespace TSA_WorldDomination
                                 && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
                                 && !ColonyWorldBuildRequirements.HasMaterialCostsForRoad(selectedRoadTier))
                                 break;
-                            if (WorldActions_Roads.LaunchRoadBuilderFromOutpost(parent))
+                        if (WorldActions_Roads.LaunchRoadBuilderFromOutpost(parent))
                             {
                                 roadProgress -= 1f;
-                                builderInField = true;
-                            }
+                            builderInField = true;
+                    }
                             else
                                 break;
                         }
@@ -1681,16 +1681,16 @@ namespace TSA_WorldDomination
                 return;
 
             float targetStr = GetOutpostOffensiveRegenTarget();
-            if (offensiveStrength > targetStr) offensiveStrength = targetStr;
-            else if (offensiveStrength < targetStr)
-            {
-                float mult = 1f;
-                if (parent is WorldObject_WD_Outpost outpost)
-                    mult += outpost.GetOutpostOffensiveRecoveryMultiplierBonus();
-                float gain = Mathf.Max(GetOutpostOffensiveRecoveryMinFlat(), targetStr * GetOutpostOffensiveRecoveryFraction()) * mult;
-                offensiveStrength = Mathf.Min(offensiveStrength + gain, targetStr);
-            }
-        }
+                    if (offensiveStrength > targetStr) offensiveStrength = targetStr;
+                    else if (offensiveStrength < targetStr)
+                    {
+                        float mult = 1f;
+                        if (parent is WorldObject_WD_Outpost outpost)
+                            mult += outpost.GetOutpostOffensiveRecoveryMultiplierBonus();
+                        float gain = Mathf.Max(GetOutpostOffensiveRecoveryMinFlat(), targetStr * GetOutpostOffensiveRecoveryFraction()) * mult;
+                        offensiveStrength = Mathf.Min(offensiveStrength + gain, targetStr);
+                    }
+                }
 
         /// <summary>NPC settlements: silent daily offensive climb toward tier soft cap (action-free).</summary>
         private void TickSettlementPassiveOffensiveGrowthDaily()
@@ -2592,8 +2592,8 @@ namespace TSA_WorldDomination
             {
                 int prisonerCount = playerOutpost.Prisoners.Count;
                 if (prisonerCount > 0)
-                {
-                    sb.AppendLine();
+            {
+                sb.AppendLine();
                     sb.Append("TSA_WD_Inspect_HoldsPrisoners".Translate(prisonerCount).ToString().Colorize(Color.yellow));
                 }
             }
@@ -2796,7 +2796,7 @@ namespace TSA_WorldDomination
             if (!WD_RadiusOverlayPrefs.TryResolve(parent, kind, out float radius, out _, out _))
                 return;
 
-            sb.AppendLine();
+                    sb.AppendLine();
             switch (kind)
             {
                 case WD_RadiusOverlayKind.Ally:
