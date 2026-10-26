@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: Raider Caravan -->
+  <TSA_WD_Traveler_Raid.label>突襲旅隊</TSA_WD_Traveler_Raid.label>
+  <!-- EN: Raider Drop Pods -->
+  <TSA_WD_Traveler_RaidDropPod.label>突襲運輸艙</TSA_WD_Traveler_RaidDropPod.label>
+  <!-- EN: Raider Gravship -->
+  <TSA_WD_Traveler_RaidGravship.label>突襲重力船</TSA_WD_Traveler_RaidGravship.label>
+  <!-- EN: Expansion Caravan -->
+  <TSA_WD_Traveler_Expansion.label>擴張旅隊</TSA_WD_Traveler_Expansion.label>
+  <!-- EN: Vanguard Caravan -->
+  <TSA_WD_Traveler_MassRelocation.label>先鋒旅隊</TSA_WD_Traveler_MassRelocation.label>
+  <!-- EN: Road Builder Caravan -->
+  <TSA_WD_Traveler_RoadBuilder.label>築路旅隊</TSA_WD_Traveler_RoadBuilder.label>
+  <!-- EN: Outpost Road Builder Caravan -->
+  <TSA_WD_Traveler_Outpost_RoadBuilder.label>哨站築路旅隊</TSA_WD_Traveler_Outpost_RoadBuilder.label>
+  <!-- EN: Outpost Road Block Crew -->
+  <TSA_WD_Traveler_Outpost_RoadBlock.label>哨站路障小隊</TSA_WD_Traveler_Outpost_RoadBlock.label>
+  <!-- EN: Outpost Spike Trap Crew -->
+  <TSA_WD_Traveler_Outpost_SpikeTrap.label>哨站尖刺陷阱小隊</TSA_WD_Traveler_Outpost_SpikeTrap.label>
+  <!-- EN: Outpost Decontamination Crew -->
+  <TSA_WD_Traveler_Outpost_Decontamination.label>哨站淨化小隊</TSA_WD_Traveler_Outpost_Decontamination.label>
+  <!-- EN: Outpost Raider Caravan -->
+  <TSA_WD_Traveler_Outpost_Raid.label>哨站突襲旅隊</TSA_WD_Traveler_Outpost_Raid.label>
+  <!-- EN: Outpost Delivery -->
+  <TSA_WD_Traveler_Outpost_Delivery.label>哨站配送</TSA_WD_Traveler_Outpost_Delivery.label>
+  <!-- EN: Trader Caravan -->
+  <TSA_WD_Traveler_Trader.label>商隊</TSA_WD_Traveler_Trader.label>
+  <!-- EN: Mortar Shell -->
+  <TSA_WD_Traveler_MortarStrike.label>迫擊砲彈</TSA_WD_Traveler_MortarStrike.label>
+  <!-- EN: AT Shell -->
+  <TSA_WD_Traveler_AT_Shell.label>反戰車砲彈</TSA_WD_Traveler_AT_Shell.label>
+  <!-- EN: Flak Shell -->
+  <TSA_WD_Traveler_FlakShell.label>防空砲彈</TSA_WD_Traveler_FlakShell.label>
+  <!-- EN: Rapid Response Caravan -->
+  <TSA_WD_Traveler_RapidResponseIntercept.label>快速反應旅隊</TSA_WD_Traveler_RapidResponseIntercept.label>
+  <!-- EN: Rapid Response Drop Pods -->
+  <TSA_WD_Traveler_RapidResponseDropPod.label>快速反應運輸艙</TSA_WD_Traveler_RapidResponseDropPod.label>
+  <!-- EN: Outpost Upgrade Caravan -->
+  <TSA_WD_Traveler_Outpost_Upgrade.label>哨站升級旅隊</TSA_WD_Traveler_Outpost_Upgrade.label>
+  <!-- EN: Settlement Purchase Caravan -->
+  <TSA_WD_Traveler_SettlementBuy.label>據點收購旅隊</TSA_WD_Traveler_SettlementBuy.label>
+  <!-- EN: Settlement Gift Caravan -->
+  <TSA_WD_Traveler_SettlementGift.label>據點贈禮旅隊</TSA_WD_Traveler_SettlementGift.label>
+  <!-- EN: Settlement Bribe Caravan -->
+  <TSA_WD_Traveler_SettlementBribe.label>據點賄賂旅隊</TSA_WD_Traveler_SettlementBribe.label>
+  <!-- EN: Diplomacy Negotiate Caravan -->
+  <TSA_WD_Traveler_DiplomacyNegotiate.label>外交談判旅隊</TSA_WD_Traveler_DiplomacyNegotiate.label>
+  <!-- EN: outpost defense -->
+  <TSA_WD_OutpostDefenseSite.label>哨站防衛戰</TSA_WD_OutpostDefenseSite.label>
+  <!-- EN: A temporary battlefield for defending a World Domination outpost. -->
+  <TSA_WD_OutpostDefenseSite.description>防衛World Domination哨站時的臨時戰場。</TSA_WD_OutpostDefenseSite.description>
+</LanguageData>

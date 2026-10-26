@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <TSA_WD_FirstOutpost_LetterLabelFailed>任務失敗：[resolvedQuestName]</TSA_WD_FirstOutpost_LetterLabelFailed>
+  <!-- EN: [faction_name] became hostile. The first-outpost request has failed. -->
+  <TSA_WD_FirstOutpost_LetterTextHostile>[faction_name]已轉為敵對。建立首座哨站的請求失敗了。</TSA_WD_FirstOutpost_LetterTextHostile>
+  <!-- EN: First outpost quest -->
+  <TSA_WD_Quest_EnableFirstOutpost>首座哨站任務</TSA_WD_Quest_EnableFirstOutpost>
+  <!-- EN: After 2-5 days, a nearby ally or neutral settlement may ask you to found your first WD outpost. Completing it grants goodwill. Off stops new offers; an active quest can still finish. -->
+  <TSA_WD_Quest_EnableFirstOutpostTip>開局2-5天後，附近的同盟或中立據點可能請你建立第一座WD哨站，完成可獲得友好度。關閉後不再發出新任務；進行中的任務仍可完成。</TSA_WD_Quest_EnableFirstOutpostTip>
+  <!-- EN: Common-enemy settlement quest -->
+  <TSA_WD_Quest_EnableCommonEnemySettlement>共同敵人據點任務</TSA_WD_Quest_EnableCommonEnemySettlement>
+  <!-- EN: After day 10, allies (or neutrals) may ask you to wipe or conquer a nearby town hostile to both of you. Credit only counts for your own outpost raids or fighting there in person. Allied raid orders and other factions wiping the town do not count. Off stops new offers; an active quest can still finish. -->
+  <TSA_WD_Quest_EnableCommonEnemySettlementTip>第10天起，同盟（或中立）派系可能請你剷除或征服附近一座與雙方皆敵對的城鎮。只有從你自己的哨站發動的突襲，或你親自前往作戰才算數；同盟突襲命令及其他派系剷除該城鎮都不算。關閉後不再發出新任務；進行中的任務仍可完成。</TSA_WD_Quest_EnableCommonEnemySettlementTip>
+  <!-- EN: Colony road-link quest -->
+  <TSA_WD_Quest_EnableColonyRoadLink>殖民地道路連通任務</TSA_WD_Quest_EnableColonyRoadLink>
+  <!-- EN: After day 10, a nearby ally or neutral town (within 30 tiles) may ask for a road between your colony and theirs. Connecting the towns by any road completes it once for good. Failures (timeout, hostility, or the town vanishing) can reissue after a few days. Off stops new offers; an active quest can still finish. -->
+  <TSA_WD_Quest_EnableColonyRoadLinkTip>第10天起，附近（30格內）的同盟或中立城鎮可能請求在你的殖民地與他們之間修一條路。以任何道路連通兩地即永久完成。失敗（逾時、轉為敵對或城鎮消失）後，數天後可能再次發出。關閉後不再發出新任務；進行中的任務仍可完成。</TSA_WD_Quest_EnableColonyRoadLinkTip>
+  <!-- EN: World Domination victory quest -->
+  <TSA_WD_Quest_EnableWorldDominationVictory>World Domination勝利任務</TSA_WD_Quest_EnableWorldDominationVictory>
+  <!-- EN: After 4-6 days, offers a long-term goal: hold the top WD ranking for 15 continuous days. Turning this on mid-game starts the quest immediately. Turning it off removes an active quest immediately. -->
+  <TSA_WD_Quest_EnableWorldDominationVictoryTip>開局4-6天後提供一個長期目標：連續15天保持WD排名第一。遊戲中途開啟會立即發出任務；關閉會立即移除進行中的任務。</TSA_WD_Quest_EnableWorldDominationVictoryTip>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <TSA_WD_ColonyRoadLink_LetterLabelFailed>任務失敗：[resolvedQuestName]</TSA_WD_ColonyRoadLink_LetterLabelFailed>
+  <!-- EN: [faction_name] became hostile. The road-link request has failed. -->
+  <TSA_WD_ColonyRoadLink_LetterTextHostile>[faction_name]已轉為敵對。道路連通的請求失敗了。</TSA_WD_ColonyRoadLink_LetterTextHostile>
+  <!-- EN: Quest expired: [resolvedQuestName] -->
+  <TSA_WD_ColonyRoadLink_LetterLabelExpired>任務逾期：[resolvedQuestName]</TSA_WD_ColonyRoadLink_LetterLabelExpired>
+  <!-- EN: Time ran out on the request from [faction_name] for a road to [askerSettlement_label]. -->
+  <TSA_WD_ColonyRoadLink_LetterTextExpired>[faction_name]請求修路通往[askerSettlement_label]，但時間已到。</TSA_WD_ColonyRoadLink_LetterTextExpired>
+  <!-- EN: Quest failed: {0} -->
+  <TSA_WD_ColonyRoadLink_LetterLabelSettlementGone>任務失敗：{0}</TSA_WD_ColonyRoadLink_LetterLabelSettlementGone>
+  <!-- EN: {0} wanted a road to {1}, but that town is gone. The request has failed. -->
+  <TSA_WD_ColonyRoadLink_LetterTextSettlementGone>{0}想要一條通往{1}的道路，但該城鎮已不存在。請求失敗了。</TSA_WD_ColonyRoadLink_LetterTextSettlementGone>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <TSA_WD_CommonEnemy_LetterLabelFailed>任務失敗：[resolvedQuestName]</TSA_WD_CommonEnemy_LetterLabelFailed>
+  <!-- EN: [faction_name] became hostile. The common-enemy request has failed. -->
+  <TSA_WD_CommonEnemy_LetterTextHostile>[faction_name]已轉為敵對。共同敵人的請求失敗了。</TSA_WD_CommonEnemy_LetterTextHostile>
+  <!-- EN: Quest expired: [resolvedQuestName] -->
+  <TSA_WD_CommonEnemy_LetterLabelExpired>任務逾期：[resolvedQuestName]</TSA_WD_CommonEnemy_LetterLabelExpired>
+  <!-- EN: Time ran out on the request from [faction_name] to take down [enemySettlement_label]. -->
+  <TSA_WD_CommonEnemy_LetterTextExpired>[faction_name]請求拿下[enemySettlement_label]，但時間已到。</TSA_WD_CommonEnemy_LetterTextExpired>
+  <!-- EN: Quest failed: {0} -->
+  <TSA_WD_CommonEnemy_LetterLabelTakenByOthers>任務失敗：{0}</TSA_WD_CommonEnemy_LetterLabelTakenByOthers>
+  <!-- EN: {0} wanted you to take down {1}, but someone else got there first. The request has failed. -->
+  <TSA_WD_CommonEnemy_LetterTextTakenByOthers>{0}希望你拿下{1}，但已有其他人搶先一步。請求失敗了。</TSA_WD_CommonEnemy_LetterTextTakenByOthers>
+  <!-- EN: {0}: {1} goodwill (now {2}). -->
+  <TSA_WD_QuestGoodwill_Loss>{0}：友好度{1}（目前{2}）。</TSA_WD_QuestGoodwill_Loss>
+  <!-- EN: {0}: {1} goodwill (now {2}). {3} -->
+  <TSA_WD_QuestGoodwill_LossWithReason>{0}：友好度{1}（目前{2}）。{3}</TSA_WD_QuestGoodwill_LossWithReason>
+  <!-- EN: {0} is targeting you -->
+  <TSA_WD_QuestRaidBias_LetterLabel>{0}正以你為目標</TSA_WD_QuestRaidBias_LetterLabel>
+  <!-- EN: {0} will prioritize raiding you for the next {1} days when they launch World Domination raids. -->
+  <TSA_WD_QuestRaidBias_LetterText>接下來{1}天內，{0}發動World Domination突襲時會優先突襲你。</TSA_WD_QuestRaidBias_LetterText>
+  <!-- EN: {0} prioritizing you ({1}d) -->
+  <TSA_WD_Alert_QuestRaidBias_PlayerTarget>{0}優先針對你（{1}天）</TSA_WD_Alert_QuestRaidBias_PlayerTarget>
+  <!-- EN: {0} prioritizing {1} ({2}d) -->
+  <TSA_WD_Alert_QuestRaidBias_Other>{0}優先針對{1}（{2}天）</TSA_WD_Alert_QuestRaidBias_Other>
+  <!-- EN: Active World Domination quest raid bias: -->
+  <TSA_WD_Alert_QuestRaidBias_DescHeader>生效中的World Domination任務突襲目標偏好：</TSA_WD_Alert_QuestRaidBias_DescHeader>
+  <!-- EN: {0} prioritizes {1} ({2} days left) -->
+  <TSA_WD_Alert_QuestRaidBias_DescLine>{0}優先針對{1}（剩餘{2}天）</TSA_WD_Alert_QuestRaidBias_DescLine>
+  <!-- EN: WD Leading: {0}/{1} Days -->
+  <TSA_WD_Alert_VictoryHold>WD領先：{0}/{1}天</TSA_WD_Alert_VictoryHold>
+  <!-- EN: You are the strongest World Domination faction. Hold that lead for {1} continuous days to win. Current streak: {0}. -->
+  <TSA_WD_Alert_VictoryHold_DescLeader>你是World Domination中最強的派系。連續保持領先{1}天即可獲勝。目前已連續：{0}天。</TSA_WD_Alert_VictoryHold_DescLeader>
+  <!-- EN: You are not the strongest faction right now. Your hold streak was {0} of {1} and will reset until you reclaim the lead. -->
+  <TSA_WD_Alert_VictoryHold_DescNotLeader>你目前不是最強的派系。你的連續領先紀錄為{0}/{1}天，在你重回領先之前會被重置。</TSA_WD_Alert_VictoryHold_DescNotLeader>
+  <!-- EN: World Domination -->
+  <TSA_WD_Victory_DialogTitle>World Domination</TSA_WD_Victory_DialogTitle>
+  <!-- EN: You held the top World Domination ranking for {0} continuous days. Keep playing, or watch the end credits. -->
+  <TSA_WD_Victory_DialogBody>你已連續{0}天保持World Domination排名第一。你可以繼續遊玩，或觀看片尾名單。</TSA_WD_Victory_DialogBody>
+  <!-- EN: Keep playing -->
+  <TSA_WD_Victory_KeepPlaying>繼續遊玩</TSA_WD_Victory_KeepPlaying>
+  <!-- EN: See credits -->
+  <TSA_WD_Victory_SeeCredits>觀看片尾名單</TSA_WD_Victory_SeeCredits>
+  <!-- EN: World Domination secured -->
+  <TSA_WD_Victory_KeepPlayingLetterLabel>已稱霸世界</TSA_WD_Victory_KeepPlayingLetterLabel>
+  <!-- EN: You chose to keep playing after securing world leadership. The victory will not trigger again on this save. -->
+  <TSA_WD_Victory_KeepPlayingLetterText>你在稱霸世界後選擇繼續遊玩。此存檔不會再次觸發勝利。</TSA_WD_Victory_KeepPlayingLetterText>
+  <!-- EN: Your settlements and outposts stand strongest on the planet. -->
+  <TSA_WD_Victory_CreditsIntro>你的據點與哨站屹立於這顆星球的頂點。</TSA_WD_Victory_CreditsIntro>
+  <!-- EN: World Domination is yours. The story continues if you want it to. -->
+  <TSA_WD_Victory_CreditsEnding>World Domination屬於你了。只要你願意，故事仍會繼續。</TSA_WD_Victory_CreditsEnding>
+  <!-- EN: Hold streak: {0} / {1} days -->
+  <TSA_WD_Victory_HoldProgress>連續領先：{0}/{1}天</TSA_WD_Victory_HoldProgress>
+</LanguageData>

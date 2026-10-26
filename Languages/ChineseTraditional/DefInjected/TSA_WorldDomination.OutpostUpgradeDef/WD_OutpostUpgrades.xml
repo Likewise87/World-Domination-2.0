@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: Palisade Walls -->
+  <TSA_WD_Upgrade_PalisadeWalls.label>木柵牆</TSA_WD_Upgrade_PalisadeWalls.label>
+  <!-- EN: Basic wooden perimeter walls. -->
+  <TSA_WD_Upgrade_PalisadeWalls.description>基礎的木製外圍牆。</TSA_WD_Upgrade_PalisadeWalls.description>
+  <!-- EN: Stone Wall -->
+  <TSA_WD_Upgrade_StoneWall.label>石牆</TSA_WD_Upgrade_StoneWall.label>
+  <!-- EN: Stone-reinforced walls replacing palisades. -->
+  <TSA_WD_Upgrade_StoneWall.description>以石材加固的牆，取代木柵牆。</TSA_WD_Upgrade_StoneWall.description>
+  <!-- EN: Spike Traps -->
+  <TSA_WD_Upgrade_SpikeTraps.label>尖刺陷阱</TSA_WD_Upgrade_SpikeTraps.label>
+  <!-- EN: A dense trap perimeter around the outpost. -->
+  <TSA_WD_Upgrade_SpikeTraps.description>環繞哨站的密集陷阱帶。</TSA_WD_Upgrade_SpikeTraps.description>
+  <!-- EN: IEDs -->
+  <TSA_WD_Upgrade_IEDs.label>地雷</TSA_WD_Upgrade_IEDs.label>
+  <!-- EN: Explosive traps at the gate approaches and wall corners on defense maps. -->
+  <TSA_WD_Upgrade_IEDs.description>在防守地圖的大門通道與牆角布置爆炸陷阱。</TSA_WD_Upgrade_IEDs.description>
+  <!-- EN: Auto Turrets -->
+  <TSA_WD_Upgrade_AutoTurrets.label>自動砲塔</TSA_WD_Upgrade_AutoTurrets.label>
+  <!-- EN: Automated perimeter defense turrets. -->
+  <TSA_WD_Upgrade_AutoTurrets.description>自動化的外圍防禦砲塔。</TSA_WD_Upgrade_AutoTurrets.description>
+  <!-- EN: Basic Hospital -->
+  <TSA_WD_Upgrade_BasicHospital.label>基礎醫院</TSA_WD_Upgrade_BasicHospital.label>
+  <!-- EN: Improves local treatment and force recovery. -->
+  <TSA_WD_Upgrade_BasicHospital.description>改善當地治療與部隊恢復。</TSA_WD_Upgrade_BasicHospital.description>
+  <!-- EN: Advanced Hospital -->
+  <TSA_WD_Upgrade_AdvancedHospital.label>高階醫院</TSA_WD_Upgrade_AdvancedHospital.label>
+  <!-- EN: Advanced medical infrastructure replacing the basic hospital. -->
+  <TSA_WD_Upgrade_AdvancedHospital.description>取代基礎醫院的高階醫療設施。</TSA_WD_Upgrade_AdvancedHospital.description>
+  <!-- EN: Mining Lift -->
+  <TSA_WD_Upgrade_MiningLift.label>採礦升降機</TSA_WD_Upgrade_MiningLift.label>
+  <!-- EN: Moves people and goods. -->
+  <TSA_WD_Upgrade_MiningLift.description>運送人員與物資。</TSA_WD_Upgrade_MiningLift.description>
+  <!-- EN: Improved Mining Lift -->
+  <TSA_WD_Upgrade_ImprovedMiningLift.label>改良採礦升降機</TSA_WD_Upgrade_ImprovedMiningLift.label>
+  <!-- EN: Moves people and goods even faster. -->
+  <TSA_WD_Upgrade_ImprovedMiningLift.description>更快速地運送人員與物資。</TSA_WD_Upgrade_ImprovedMiningLift.description>
+  <!-- EN: Advanced Mining Lift -->
+  <TSA_WD_Upgrade_AdvancedMiningLift.label>高階採礦升降機</TSA_WD_Upgrade_AdvancedMiningLift.label>
+  <!-- EN: Moves people and goods even faster. -->
+  <TSA_WD_Upgrade_AdvancedMiningLift.description>更快速地運送人員與物資。</TSA_WD_Upgrade_AdvancedMiningLift.description>
+  <!-- EN: Irrigation Canals -->
+  <TSA_WD_Upgrade_IrrigationCanals.label>灌溉渠</TSA_WD_Upgrade_IrrigationCanals.label>
+  <!-- EN: Channel water to fields to improve soil productivity. -->
+  <TSA_WD_Upgrade_IrrigationCanals.description>將水引入田地，提升土壤產能。</TSA_WD_Upgrade_IrrigationCanals.description>
+  <!-- EN: Industrial Irrigation -->
+  <TSA_WD_Upgrade_IrrigationIndustrial.label>工業灌溉</TSA_WD_Upgrade_IrrigationIndustrial.label>
+  <!-- EN: Irrigate fields automatically. -->
+  <TSA_WD_Upgrade_IrrigationIndustrial.description>自動灌溉田地。</TSA_WD_Upgrade_IrrigationIndustrial.description>
+  <!-- EN: Industrial Meat Hooks -->
+  <TSA_WD_Upgrade_IndustrialMeatHooks.label>工業肉鉤</TSA_WD_Upgrade_IndustrialMeatHooks.label>
+  <!-- EN: Easier transportation of carcasses and meat. -->
+  <TSA_WD_Upgrade_IndustrialMeatHooks.description>讓屍體與肉類更容易運送。</TSA_WD_Upgrade_IndustrialMeatHooks.description>
+  <!-- EN: Wooden Watch Tower -->
+  <TSA_WD_Upgrade_WoodenWatchTower.label>木製瞭望塔</TSA_WD_Upgrade_WoodenWatchTower.label>
+  <!-- EN: Allows hunters to see further. -->
+  <TSA_WD_Upgrade_WoodenWatchTower.description>讓獵人看得更遠。</TSA_WD_Upgrade_WoodenWatchTower.description>
+  <!-- EN: Improved Watch Tower -->
+  <TSA_WD_Upgrade_ImprovedWatchTower.label>改良瞭望塔</TSA_WD_Upgrade_ImprovedWatchTower.label>
+  <!-- EN: Allows hunters to see even further. -->
+  <TSA_WD_Upgrade_ImprovedWatchTower.description>讓獵人看得又更遠。</TSA_WD_Upgrade_ImprovedWatchTower.description>
+  <!-- EN: Advanced Watch Tower -->
+  <TSA_WD_Upgrade_AdvancedWatchTower.label>高階瞭望塔</TSA_WD_Upgrade_AdvancedWatchTower.label>
+  <!-- EN: Allows hunters to see very far. -->
+  <TSA_WD_Upgrade_AdvancedWatchTower.description>讓獵人看得非常遠。</TSA_WD_Upgrade_AdvancedWatchTower.description>
+  <!-- EN: Fishing Nets -->
+  <TSA_WD_Upgrade_FishingNets.label>漁網</TSA_WD_Upgrade_FishingNets.label>
+  <!-- EN: Coastal nets that raise fish catches and harden the shore camp. -->
+  <TSA_WD_Upgrade_FishingNets.description>沿岸漁網，提高漁獲並強化岸邊營地。</TSA_WD_Upgrade_FishingNets.description>
+  <!-- EN: Coastal Pier -->
+  <TSA_WD_Upgrade_CoastalPier.label>沿岸碼頭</TSA_WD_Upgrade_CoastalPier.label>
+  <!-- EN: A sturdier pier for deeper water and better hauls. -->
+  <TSA_WD_Upgrade_CoastalPier.description>更堅固的碼頭，能深入更深的水域，漁獲更好。</TSA_WD_Upgrade_CoastalPier.description>
+  <!-- EN: Trawler Gear -->
+  <TSA_WD_Upgrade_TrawlerGear.label>拖網漁具</TSA_WD_Upgrade_TrawlerGear.label>
+  <!-- EN: Heavy coastal gear for maximum catch and a tougher shoreline defense. -->
+  <TSA_WD_Upgrade_TrawlerGear.description>重型沿岸漁具，帶來最大漁獲並強化岸防。</TSA_WD_Upgrade_TrawlerGear.description>
+  <!-- EN: Anti-Air Gun -->
+  <TSA_WD_Upgrade_AntiAirGun.label>防空砲</TSA_WD_Upgrade_AntiAirGun.label>
+  <!-- EN: Unlocks automatic flak fire against hostile drop-pod raids. Uses the mortar's range, hit chance, and shell damage upgrades. Short separate cooldown. -->
+  <TSA_WD_Upgrade_AntiAirGun.description>解鎖對敵對運輸艙突襲的自動防空射擊。沿用迫擊砲的射程、命中率與砲彈傷害升級。有獨立的短冷卻。</TSA_WD_Upgrade_AntiAirGun.description>
+  <!-- EN: Targeting System -->
+  <TSA_WD_Upgrade_MortarTargetingSystem.label>瞄準系統</TSA_WD_Upgrade_MortarTargetingSystem.label>
+  <!-- EN: Makes the mortar reload faster and be more accurate. -->
+  <TSA_WD_Upgrade_MortarTargetingSystem.description>讓迫擊砲裝填更快、更精準。</TSA_WD_Upgrade_MortarTargetingSystem.description>
+  <!-- EN: Improved Shells -->
+  <TSA_WD_Upgrade_ImprovedMortarShells.label>改良砲彈</TSA_WD_Upgrade_ImprovedMortarShells.label>
+  <!-- EN: Increases damage of mortar and anti-air shells. -->
+  <TSA_WD_Upgrade_ImprovedMortarShells.description>提高迫擊砲彈與防空砲彈的傷害。</TSA_WD_Upgrade_ImprovedMortarShells.description>
+  <!-- EN: Advanced Shells -->
+  <TSA_WD_Upgrade_AdvancedMortarShells.label>高階砲彈</TSA_WD_Upgrade_AdvancedMortarShells.label>
+  <!-- EN: Further increases damage of mortar and anti-air shells. -->
+  <TSA_WD_Upgrade_AdvancedMortarShells.description>進一步提高迫擊砲彈與防空砲彈的傷害。</TSA_WD_Upgrade_AdvancedMortarShells.description>
+  <!-- EN: Advanced Microscopes -->
+  <TSA_WD_Upgrade_AdvancedMicroscopes.label>高階顯微鏡</TSA_WD_Upgrade_AdvancedMicroscopes.label>
+  <!-- EN: Precision optics and lab instruments that improve continuous research output at this outpost. -->
+  <TSA_WD_Upgrade_AdvancedMicroscopes.description>精密光學與實驗儀器，提高此哨站的持續研究產出。</TSA_WD_Upgrade_AdvancedMicroscopes.description>
+  <!-- EN: Advanced Lab Equipment -->
+  <TSA_WD_Upgrade_AdvancedLabEquipment.label>高階實驗設備</TSA_WD_Upgrade_AdvancedLabEquipment.label>
+  <!-- EN: High-precision lab gear that improves continuous research output at this outpost. -->
+  <TSA_WD_Upgrade_AdvancedLabEquipment.description>高精度實驗設備，提高此哨站的持續研究產出。</TSA_WD_Upgrade_AdvancedLabEquipment.description>
+  <!-- EN: Solar Arrays -->
+  <TSA_WD_Upgrade_PowerPlant_SolarArrays.label>太陽能板陣列</TSA_WD_Upgrade_PowerPlant_SolarArrays.label>
+  <!-- EN: Photovoltaic fields feeding the remote grid. -->
+  <TSA_WD_Upgrade_PowerPlant_SolarArrays.description>為遠端電網供電的太陽能發電場。</TSA_WD_Upgrade_PowerPlant_SolarArrays.description>
+  <!-- EN: Chemfuel Generators -->
+  <TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators.label>化合燃料發電機組</TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators.label>
+  <!-- EN: A bank of rugged chemfuel generators dedicated to remote export. -->
+  <TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators.description>一組耐用的化合燃料發電機，專供遠端輸電。</TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators.description>
+  <!-- EN: Advanced Grid Controls -->
+  <TSA_WD_Upgrade_PowerPlant_AdvancedGridControls.label>高階電網控制</TSA_WD_Upgrade_PowerPlant_AdvancedGridControls.label>
+  <!-- EN: Control hardware that improves transmission efficiency and load balancing. -->
+  <TSA_WD_Upgrade_PowerPlant_AdvancedGridControls.description>提升輸電效率與負載平衡的控制硬體。</TSA_WD_Upgrade_PowerPlant_AdvancedGridControls.description>
+  <!-- EN: Geothermal Power Plant -->
+  <TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant.label>地熱發電廠</TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant.label>
+  <!-- EN: Deep thermal infrastructure feeding a large remote power tap. -->
+  <TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant.description>深層地熱設施，為大型遠端供電接點供電。</TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant.description>
+  <!-- EN: Basic Barn -->
+  <TSA_WD_Upgrade_BasicBarn.label>基礎畜舍</TSA_WD_Upgrade_BasicBarn.label>
+  <!-- EN: A simple wooden barn that shelters livestock and improves usable grazing and pasture yield on this tile. -->
+  <TSA_WD_Upgrade_BasicBarn.description>簡易的木造畜舍，為牲畜遮風避雨，並提高此地塊可用的放牧量與牧場產量。</TSA_WD_Upgrade_BasicBarn.description>
+  <!-- EN: Insulated Barn -->
+  <TSA_WD_Upgrade_InsulatedBarn.label>保溫畜舍</TSA_WD_Upgrade_InsulatedBarn.label>
+  <!-- EN: Stone and steel barn walls with climate control that raise effective pasture fertility for healthier herds. -->
+  <TSA_WD_Upgrade_InsulatedBarn.description>石材與鋼鐵畜舍牆並配有溫控，提高牧場的有效肥沃度，讓畜群更健康。</TSA_WD_Upgrade_InsulatedBarn.description>
+  <!-- EN: Tech Barn -->
+  <TSA_WD_Upgrade_TechBarn.label>科技畜舍</TSA_WD_Upgrade_TechBarn.label>
+  <!-- EN: Industrial livestock infrastructure that maximizes pasture fertility and renewable animal product output. -->
+  <TSA_WD_Upgrade_TechBarn.description>工業化畜牧設施，將牧場肥沃度與可再生的畜產品產出推到最高。</TSA_WD_Upgrade_TechBarn.description>
+  <!-- EN: Logistics Network -->
+  <TSA_WD_Upgrade_Warehouse_LogisticsNetwork.label>物流網路</TSA_WD_Upgrade_Warehouse_LogisticsNetwork.label>
+  <!-- EN: Coordinated staging and routing that strengthens this warehouse's productivity aura for nearby producers. -->
+  <TSA_WD_Upgrade_Warehouse_LogisticsNetwork.description>協調集貨與路線規劃，增強此倉庫對附近生產者的生產力光環。</TSA_WD_Upgrade_Warehouse_LogisticsNetwork.description>
+  <!-- EN: Warehouse Forklifters -->
+  <TSA_WD_Upgrade_Warehouse_Forklifters.label>倉庫堆高機</TSA_WD_Upgrade_Warehouse_Forklifters.label>
+  <!-- EN: Heavy hauling is now facilitated by Forklifters. -->
+  <TSA_WD_Upgrade_Warehouse_Forklifters.description>現在有堆高機協助重物搬運。</TSA_WD_Upgrade_Warehouse_Forklifters.description>
+  <!-- EN: Tunnel Network -->
+  <TSA_WD_Upgrade_TunnelNetwork.label>隧道網路</TSA_WD_Upgrade_TunnelNetwork.label>
+  <!-- EN: Underground routes that extend ally pull range. Beyond the normal radius, only other outposts that also have Tunnel Network can join. -->
+  <TSA_WD_Upgrade_TunnelNetwork.description>地下通道延伸同盟召集範圍。超出一般半徑的部分，只有同樣擁有隧道網路的其他哨站能加入。</TSA_WD_Upgrade_TunnelNetwork.description>
+  <!-- EN: Silo -->
+  <TSA_WD_Upgrade_Silo.label>穀倉</TSA_WD_Upgrade_Silo.label>
+  <!-- EN: Large storage silos that increase this outpost's virtual food capacity. -->
+  <TSA_WD_Upgrade_Silo.description>大型儲糧倉，提高此哨站的虛擬食物容量。</TSA_WD_Upgrade_Silo.description>
+  <!-- EN: Hydroponics Basin -->
+  <TSA_WD_Upgrade_HydroponicsBasin.label>水耕植物盆</TSA_WD_Upgrade_HydroponicsBasin.label>
+  <!-- EN: Hydroponics infrastructure that adds a flat daily food output at this outpost. -->
+  <TSA_WD_Upgrade_HydroponicsBasin.description>水耕設施，為此哨站每日增加固定的食物產出。</TSA_WD_Upgrade_HydroponicsBasin.description>
+  <!-- EN: Decontamination Equipment -->
+  <TSA_WD_Upgrade_DecontaminationEquipment.label>淨化設備</TSA_WD_Upgrade_DecontaminationEquipment.label>
+  <!-- EN: Unlocks Decontamination Missions. Sends a crew to scrub pollution from world tiles. -->
+  <TSA_WD_Upgrade_DecontaminationEquipment.description>解鎖淨化任務。派出小隊清除世界地塊上的汙染。</TSA_WD_Upgrade_DecontaminationEquipment.description>
+  <!-- EN: Propaganda Printer -->
+  <TSA_WD_Upgrade_PropagandaPrinter.label>宣傳印刷機</TSA_WD_Upgrade_PropagandaPrinter.label>
+  <!-- EN: Leaflets and posters that soften captive resistance faster. Replaced by better propaganda gear on this line. -->
+  <TSA_WD_Upgrade_PropagandaPrinter.description>傳單與海報，更快削弱俘虜的反抗。會被此路線上更好的宣傳設備取代。</TSA_WD_Upgrade_PropagandaPrinter.description>
+  <!-- EN: Propaganda Radio -->
+  <TSA_WD_Upgrade_PropagandaRadio.label>宣傳電臺</TSA_WD_Upgrade_PropagandaRadio.label>
+  <!-- EN: Broadcast propaganda that breaks down prisoner resistance faster. Replaces the Propaganda Printer. -->
+  <TSA_WD_Upgrade_PropagandaRadio.description>廣播宣傳，更快瓦解俘虜的反抗。取代宣傳印刷機。</TSA_WD_Upgrade_PropagandaRadio.description>
+  <!-- EN: Re-education Center -->
+  <TSA_WD_Upgrade_ReEducationCenter.label>再教育中心</TSA_WD_Upgrade_ReEducationCenter.label>
+  <!-- EN: A dedicated facility that accelerates prisoner recruitment. Replaces Propaganda Radio on this line. -->
+  <TSA_WD_Upgrade_ReEducationCenter.description>加速招募俘虜的專用設施。取代此路線上的宣傳電臺。</TSA_WD_Upgrade_ReEducationCenter.description>
+  <!-- EN: Conversion Chair -->
+  <TSA_WD_Upgrade_ConversionChair.label>轉化椅</TSA_WD_Upgrade_ConversionChair.label>
+  <!-- EN: Makes unwavering prisoners recruitable and speeds resistance reduction. Stacks with the propaganda line. -->
+  <TSA_WD_Upgrade_ConversionChair.description>讓愚忠的俘虜也能被招募，並加快反抗下降。可與宣傳路線疊加。</TSA_WD_Upgrade_ConversionChair.description>
+  <!-- EN: Advanced Hydroponics Basin -->
+  <TSA_WD_Upgrade_AdvancedHydroponicsBasin.label>進階水耕植物盆</TSA_WD_Upgrade_AdvancedHydroponicsBasin.label>
+  <!-- EN: Expanded hydroponics that greatly increases flat daily food output at this outpost. Replaces the Hydroponics Basin on this line. -->
+  <TSA_WD_Upgrade_AdvancedHydroponicsBasin.description>擴充的水耕設施，大幅增加此哨站每日固定的食物產出。取代此路線上的水耕植物盆。</TSA_WD_Upgrade_AdvancedHydroponicsBasin.description>
+  <!-- EN: Terraforming -->
+  <TSA_WD_Upgrade_Terraforming.label>地貌改造</TSA_WD_Upgrade_Terraforming.label>
+  <!-- EN: Raises this outpost tile's fertility and animal abundance baselines to 100% when below (other upgrades still stack after). On build, clears pollution on this tile and nearby tiles within 2 tiles once. -->
+  <TSA_WD_Upgrade_Terraforming.description>將此哨站地塊的肥沃度與動物豐富度基準提高到100%（低於時；其他升級之後仍會疊加）。建成時一次性清除此地塊及周圍2格內地塊的汙染。</TSA_WD_Upgrade_Terraforming.description>
+</LanguageData>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: WD Outpost Delivery Spot -->
+  <TSA_WD_OutpostDeliverySpot.label>WD哨站配送點</TSA_WD_OutpostDeliverySpot.label>
+  <!-- EN: Designates where goods delivered from your World Domination outposts should land. Only one can exist per map. If none is placed, deliveries arrive at the map edge instead. -->
+  <TSA_WD_OutpostDeliverySpot.description>指定World Domination哨站送來的物資落地位置。每張地圖只能有一個。若未放置，物資會改送到地圖邊緣。</TSA_WD_OutpostDeliverySpot.description>
+</LanguageData>

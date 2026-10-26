@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: Steel Wall -->
+  <BOR_TSA_WD_Upgrade_SteelWall.label>鋼鐵牆</BOR_TSA_WD_Upgrade_SteelWall.label>
+  <!-- EN: Steel-reinforced stone walls. -->
+  <BOR_TSA_WD_Upgrade_SteelWall.description>以鋼鐵加固的石牆。</BOR_TSA_WD_Upgrade_SteelWall.description>
+  <!-- EN: Plasteel Wall Reinforcements -->
+  <BOR_TSA_WD_Upgrade_PlasteelWall.label>塑鋼牆加固</BOR_TSA_WD_Upgrade_PlasteelWall.label>
+  <!-- EN: Plasteel-reinforced steel walls. -->
+  <BOR_TSA_WD_Upgrade_PlasteelWall.description>以塑鋼加固的鋼鐵牆。</BOR_TSA_WD_Upgrade_PlasteelWall.description>
+  <!-- EN: Sunsteel Wall Reinforcements -->
+  <BOR_TSA_WD_Upgrade_SunsteelWall.label>日鋼牆加固</BOR_TSA_WD_Upgrade_SunsteelWall.label>
+  <!-- EN: Sunsteel-reinforced steel walls. -->
+  <BOR_TSA_WD_Upgrade_SunsteelWall.description>以日鋼加固的鋼鐵牆。</BOR_TSA_WD_Upgrade_SunsteelWall.description>
+  <!-- EN: Quasar Alloy Wall Reinforcements -->
+  <BOR_TSA_WD_Upgrade_QuasarAlloyWall.label>類星體合金牆加固</BOR_TSA_WD_Upgrade_QuasarAlloyWall.label>
+  <!-- EN: Quasar Alloy-reinforced steel walls. -->
+  <BOR_TSA_WD_Upgrade_QuasarAlloyWall.description>以類星體合金加固的鋼鐵牆。</BOR_TSA_WD_Upgrade_QuasarAlloyWall.description>
+  <!-- EN: Bear Traps -->
+  <BOR_TSA_WD_Upgrade_BearTraps.label>捕獸夾</BOR_TSA_WD_Upgrade_BearTraps.label>
+  <!-- EN: A dense bear trap perimeter around the outpost. -->
+  <BOR_TSA_WD_Upgrade_BearTraps.description>環繞哨站的密集捕獸夾帶。</BOR_TSA_WD_Upgrade_BearTraps.description>
+  <!-- EN: Plasteel Detectors -->
+  <BOR_TSA_WD_Upgrade_PlasteelTraps.label>塑鋼偵測器</BOR_TSA_WD_Upgrade_PlasteelTraps.label>
+  <!-- EN: A dense perimeter of detectors around the outpost. -->
+  <BOR_TSA_WD_Upgrade_PlasteelTraps.description>環繞哨站的密集偵測器帶。</BOR_TSA_WD_Upgrade_PlasteelTraps.description>
+  <!-- EN: Sunweave Nets -->
+  <BOR_TSA_WD_Upgrade_SunweaveTraps.label>日織布網</BOR_TSA_WD_Upgrade_SunweaveTraps.label>
+  <!-- EN: Surrounds the settlement with spring-loaded, unbreakable nets of Sunweave, catching the enemy unawares. -->
+  <BOR_TSA_WD_Upgrade_SunweaveTraps.description>以彈簧觸發、無法扯斷的日織布網包圍據點，讓敵人措手不及。</BOR_TSA_WD_Upgrade_SunweaveTraps.description>
+  <!-- EN: Quasar Alloy Weave Slicers -->
+  <BOR_TSA_WD_Upgrade_QuasarweaveTraps.label>類星體合金織線切割器</BOR_TSA_WD_Upgrade_QuasarweaveTraps.label>
+  <!-- EN: Surrounds the settlement with thin spiderwebs of razorsharp quasar alloy weave traps. -->
+  <BOR_TSA_WD_Upgrade_QuasarweaveTraps.description>以如蛛網般細密、鋒利無比的類星體合金織線陷阱包圍據點。</BOR_TSA_WD_Upgrade_QuasarweaveTraps.description>
+  <!-- EN: Advanced Gun-turrets -->
+  <BOR_TSA_WD_Upgrade_Adv_AutoTurrets.label>高階砲塔</BOR_TSA_WD_Upgrade_Adv_AutoTurrets.label>
+  <!-- EN: Mix of Spacer and Glitter-tech turrets. -->
+  <BOR_TSA_WD_Upgrade_Adv_AutoTurrets.description>太空科技與閃耀世界科技砲塔的混合配置。</BOR_TSA_WD_Upgrade_Adv_AutoTurrets.description>
+  <!-- EN: Defender-class Space Gun-turrets -->
+  <BOR_TSA_WD_Upgrade_AutoTurrets.label>防衛者級太空砲塔</BOR_TSA_WD_Upgrade_AutoTurrets.label>
+  <!-- EN: Automated perimeter defense turrets ripped from Solarite starships. -->
+  <BOR_TSA_WD_Upgrade_AutoTurrets.description>從Solarite星艦上拆下來的自動外圍防禦砲塔。</BOR_TSA_WD_Upgrade_AutoTurrets.description>
+  <!-- EN: Spacer Hospital -->
+  <BOR_TSA_WD_Upgrade_SpacerHospital.label>太空科技醫院</BOR_TSA_WD_Upgrade_SpacerHospital.label>
+  <!-- EN: Spacer-like medical infrastructure replacing the advanced hospital. -->
+  <BOR_TSA_WD_Upgrade_SpacerHospital.description>太空科技等級的醫療設施，取代高階醫院。</BOR_TSA_WD_Upgrade_SpacerHospital.description>
+  <!-- EN: Glitter Hospital -->
+  <BOR_TSA_WD_Upgrade_GlitterHospital.label>閃耀世界醫院</BOR_TSA_WD_Upgrade_GlitterHospital.label>
+  <!-- EN: Glitter-like medical infrastructure replacing the spacer hospital. -->
+  <BOR_TSA_WD_Upgrade_GlitterHospital.description>閃耀世界等級的醫療設施，取代太空科技醫院。</BOR_TSA_WD_Upgrade_GlitterHospital.description>
+  <!-- EN: Solar Hospital -->
+  <BOR_TSA_WD_Upgrade_SolarHospital.label>太陽級醫院</BOR_TSA_WD_Upgrade_SolarHospital.label>
+  <!-- EN: Improvement over the Glitter hospital, utilizing Solar-level technologies. -->
+  <BOR_TSA_WD_Upgrade_SolarHospital.description>閃耀世界醫院的進階版，運用太陽級科技。</BOR_TSA_WD_Upgrade_SolarHospital.description>
+  <!-- EN: Kwazaari Hospital -->
+  <BOR_TSA_WD_Upgrade_QuasarHospital.label>Kwazaari醫院</BOR_TSA_WD_Upgrade_QuasarHospital.label>
+  <!-- EN: Ultimate field-hospital using kwazaari first kwaed kits. -->
+  <BOR_TSA_WD_Upgrade_QuasarHospital.description>使用Kwazaari急救包的終極野戰醫院。</BOR_TSA_WD_Upgrade_QuasarHospital.description>
+  <!-- EN: Quantum Mining Lift -->
+  <BOR_TSA_WD_Upgrade_UltraMiningLift.label>量子採礦升降機</BOR_TSA_WD_Upgrade_UltraMiningLift.label>
+  <!-- EN: Moves people and goods fastest with Quantum Technology! -->
+  <BOR_TSA_WD_Upgrade_UltraMiningLift.description>以量子科技用最快速度運送人員與物資！</BOR_TSA_WD_Upgrade_UltraMiningLift.description>
+  <!-- EN: Solar Mining Lift -->
+  <BOR_TSA_WD_Upgrade_SolarMiningLift.label>太陽級採礦升降機</BOR_TSA_WD_Upgrade_SolarMiningLift.label>
+  <!-- EN: Yoinks people on Sunweave lines up and down. -->
+  <BOR_TSA_WD_Upgrade_SolarMiningLift.description>用日織布纜線把人咻地拉上拉下。</BOR_TSA_WD_Upgrade_SolarMiningLift.description>
+  <!-- EN: Kwazaari Mining Lift -->
+  <BOR_TSA_WD_Upgrade_QuasarMiningLift.label>Kwazaari採礦升降機</BOR_TSA_WD_Upgrade_QuasarMiningLift.label>
+  <!-- EN: Yoinks people on Quasar Alloy Weave lines up and down and sideways! -->
+  <BOR_TSA_WD_Upgrade_QuasarMiningLift.description>用類星體合金織線把人咻地拉上拉下，還能左右甩！</BOR_TSA_WD_Upgrade_QuasarMiningLift.description>
+  <!-- EN: Advanced Irrigation -->
+  <BOR_TSA_WD_Upgrade_IrrigationAdvanced.label>高階灌溉</BOR_TSA_WD_Upgrade_IrrigationAdvanced.label>
+  <!-- EN: Irrigate fields automatically and with style. -->
+  <BOR_TSA_WD_Upgrade_IrrigationAdvanced.description>自動灌溉田地，而且很有格調。</BOR_TSA_WD_Upgrade_IrrigationAdvanced.description>
+  <!-- EN: Glitter-like Irrigation -->
+  <BOR_TSA_WD_Upgrade_IrrigationUltra.label>閃耀世界級灌溉</BOR_TSA_WD_Upgrade_IrrigationUltra.label>
+  <!-- EN: Gliterrize fields automatically and with style. -->
+  <BOR_TSA_WD_Upgrade_IrrigationUltra.description>自動把田地閃耀化，而且很有格調。</BOR_TSA_WD_Upgrade_IrrigationUltra.description>
+  <!-- EN: Solar Tech Hydroponics -->
+  <BOR_TSA_WD_Upgrade_IrrigationSolar.label>太陽級科技水耕</BOR_TSA_WD_Upgrade_IrrigationSolar.label>
+  <!-- EN: Build Solar-tech Hydroponics. -->
+  <BOR_TSA_WD_Upgrade_IrrigationSolar.description>建造太陽級科技水耕設施。</BOR_TSA_WD_Upgrade_IrrigationSolar.description>
+  <!-- EN: Kwzaari Tech Hydroponics -->
+  <BOR_TSA_WD_Upgrade_IrrigationQuasar.label>Kwazaari科技水耕</BOR_TSA_WD_Upgrade_IrrigationQuasar.label>
+  <!-- EN: Build Kwazaari-tech Hydroponics. -->
+  <BOR_TSA_WD_Upgrade_IrrigationQuasar.description>建造Kwazaari科技水耕設施。</BOR_TSA_WD_Upgrade_IrrigationQuasar.description>
+  <!-- EN: Robo-fridges and Cooling -->
+  <BOR_TSA_WD_Upgrade_SpacerFridge.label>機器人冰箱與冷藏</BOR_TSA_WD_Upgrade_SpacerFridge.label>
+  <!-- EN: Electrification of the hunting business. -->
+  <BOR_TSA_WD_Upgrade_SpacerFridge.description>狩獵事業的電氣化。</BOR_TSA_WD_Upgrade_SpacerFridge.description>
+  <!-- EN: Automated Bait-trapping -->
+  <BOR_TSA_WD_Upgrade_Ultramation.label>自動誘餌捕獵</BOR_TSA_WD_Upgrade_Ultramation.label>
+  <!-- EN: Automation of the hunting business. -->
+  <BOR_TSA_WD_Upgrade_Ultramation.description>狩獵事業的自動化。</BOR_TSA_WD_Upgrade_Ultramation.description>
+  <!-- EN: Solar Mind Tricks -->
+  <BOR_TSA_WD_Upgrade_Solaration.label>太陽級心靈戲法</BOR_TSA_WD_Upgrade_Solaration.label>
+  <!-- EN: Psychification of the hunting business. -->
+  <BOR_TSA_WD_Upgrade_Solaration.description>狩獵事業的心靈化。</BOR_TSA_WD_Upgrade_Solaration.description>
+  <!-- EN: Kwazaari Hunting With Amogus -->
+  <BOR_TSA_WD_Upgrade_Kwazantification.label>Kwazaari與Amogus一起狩獵</BOR_TSA_WD_Upgrade_Kwazantification.label>
+  <!-- EN: Amongusification of the hunting business. -->
+  <BOR_TSA_WD_Upgrade_Kwazantification.description>狩獵事業的Among Us化。</BOR_TSA_WD_Upgrade_Kwazantification.description>
+  <!-- EN: Ultra Watch Tower -->
+  <BOR_TSA_WD_Upgrade_UltraWatchTower.label>超科技瞭望塔</BOR_TSA_WD_Upgrade_UltraWatchTower.label>
+  <!-- EN: Allows hunters to see very far when asleep even. -->
+  <BOR_TSA_WD_Upgrade_UltraWatchTower.description>讓獵人連睡覺時都能看得非常遠。</BOR_TSA_WD_Upgrade_UltraWatchTower.description>
+  <!-- EN: Solar Watch Tower -->
+  <BOR_TSA_WD_Upgrade_SolarWatchTower.label>太陽級瞭望塔</BOR_TSA_WD_Upgrade_SolarWatchTower.label>
+  <!-- EN: Allows hunters to control the hunting equipment when asleep. -->
+  <BOR_TSA_WD_Upgrade_SolarWatchTower.description>讓獵人在睡覺時也能操控狩獵設備。</BOR_TSA_WD_Upgrade_SolarWatchTower.description>
+  <!-- EN: Kwazaari Watch Tower -->
+  <BOR_TSA_WD_Upgrade_QuasarWatchTower.label>Kwazaari瞭望塔</BOR_TSA_WD_Upgrade_QuasarWatchTower.label>
+  <!-- EN: Allows hunters to control the hunt around the clock. -->
+  <BOR_TSA_WD_Upgrade_QuasarWatchTower.description>讓獵人全天候掌控狩獵。</BOR_TSA_WD_Upgrade_QuasarWatchTower.description>
+  <!-- EN: Solar-tech Power Plant -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_SolarPowerPlant.label>太陽級科技發電廠</BOR_TSA_WD_Upgrade_PowerPlant_SolarPowerPlant.label>
+  <!-- EN: Solar-tech Power Plant. -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_SolarPowerPlant.description>太陽級科技發電廠。</BOR_TSA_WD_Upgrade_PowerPlant_SolarPowerPlant.description>
+  <!-- EN: Kwazaari Power Plant -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_QuasarPowerPlant.label>Kwazaari發電廠</BOR_TSA_WD_Upgrade_PowerPlant_QuasarPowerPlant.label>
+  <!-- EN: Kwazaari Power Plant. -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_QuasarPowerPlant.description>Kwazaari發電廠。</BOR_TSA_WD_Upgrade_PowerPlant_QuasarPowerPlant.description>
+  <!-- EN: Glitter-Tech Barn -->
+  <BOR_TSA_WD_Upgrade_TechBarn_Ultra.label>閃耀世界科技畜舍</BOR_TSA_WD_Upgrade_TechBarn_Ultra.label>
+  <!-- EN: Cloning and autoamted-harvesting with maximum pleasurableness of life for the livestock. -->
+  <BOR_TSA_WD_Upgrade_TechBarn_Ultra.description>複製與自動化採收，同時讓牲畜享有最高的生活愉悅度。</BOR_TSA_WD_Upgrade_TechBarn_Ultra.description>
+  <!-- EN: Solar-Tech Barn -->
+  <BOR_TSA_WD_Upgrade_TechBarn_Solar.label>太陽級科技畜舍</BOR_TSA_WD_Upgrade_TechBarn_Solar.label>
+  <!-- EN: Solar-tech infrastructure with mechanoids and cowanoids milking chickenoids and laying eggnoids. -->
+  <BOR_TSA_WD_Upgrade_TechBarn_Solar.description>太陽級科技設施，由機械族和牛型機械替雞型機械擠奶、讓蛋型機械下蛋。</BOR_TSA_WD_Upgrade_TechBarn_Solar.description>
+  <!-- EN: Kwazaari-Tech Barn -->
+  <BOR_TSA_WD_Upgrade_TechBarn_Kwazaari.label>Kwazaari科技畜舍</BOR_TSA_WD_Upgrade_TechBarn_Kwazaari.label>
+  <!-- EN: Shit's crazy, press button get meat or milk iunno how this works man. -->
+  <BOR_TSA_WD_Upgrade_TechBarn_Kwazaari.description>這東西太扯了，按個按鈕就有肉或奶，我也不知道怎麼運作的啦老兄。</BOR_TSA_WD_Upgrade_TechBarn_Kwazaari.description>
+  <!-- EN: Intelligent Grid Controls -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_IntelligentGridControls.label>智慧電網控制</BOR_TSA_WD_Upgrade_PowerPlant_IntelligentGridControls.label>
+  <!-- EN: Automated control over power distribution, basically magic at this point. -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_IntelligentGridControls.description>自動化的配電控制，到這地步基本上就是魔法了。</BOR_TSA_WD_Upgrade_PowerPlant_IntelligentGridControls.description>
+  <!-- EN: Advanced Geothermal Power Plant -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_AdvancedGeothermalPowerPlant.label>高階地熱發電廠</BOR_TSA_WD_Upgrade_PowerPlant_AdvancedGeothermalPowerPlant.label>
+  <!-- EN: Deep thermal infrastructure feeding a large remote power tap. -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_AdvancedGeothermalPowerPlant.description>深層地熱設施，為大型遠端供電接點供電。</BOR_TSA_WD_Upgrade_PowerPlant_AdvancedGeothermalPowerPlant.description>
+  <!-- EN: Ultra Geothermal Power Plant -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_UltraGeothermalPowerPlant.label>超科技地熱發電廠</BOR_TSA_WD_Upgrade_PowerPlant_UltraGeothermalPowerPlant.label>
+  <!-- EN: Deep thermal infrastructure feeding a large remote power tap. -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_UltraGeothermalPowerPlant.description>深層地熱設施，為大型遠端供電接點供電。</BOR_TSA_WD_Upgrade_PowerPlant_UltraGeothermalPowerPlant.description>
+  <!-- EN: Solar geothermal Power Plant -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_BorAdvancedGeothermalPowerPlant.label>太陽級地熱發電廠</BOR_TSA_WD_Upgrade_PowerPlant_BorAdvancedGeothermalPowerPlant.label>
+  <!-- EN: solar-tech geothermal power plant. -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_BorAdvancedGeothermalPowerPlant.description>太陽級科技地熱發電廠。</BOR_TSA_WD_Upgrade_PowerPlant_BorAdvancedGeothermalPowerPlant.description>
+  <!-- EN: Advanced Solar Arrays -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_AdvancedSolarArrays.label>高階太陽能板陣列</BOR_TSA_WD_Upgrade_PowerPlant_AdvancedSolarArrays.label>
+  <!-- EN: Advanced solar panel arrays for remote power generation. -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_AdvancedSolarArrays.description>用於遠端發電的高階太陽能板陣列。</BOR_TSA_WD_Upgrade_PowerPlant_AdvancedSolarArrays.description>
+  <!-- EN: Ultratech Solar Arrays -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_UltraSolarArrays.label>超科技太陽能板陣列</BOR_TSA_WD_Upgrade_PowerPlant_UltraSolarArrays.label>
+  <!-- EN: Ultratech solar panel arrays for remote power generation. -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_UltraSolarArrays.description>用於遠端發電的超科技太陽能板陣列。</BOR_TSA_WD_Upgrade_PowerPlant_UltraSolarArrays.description>
+  <!-- EN: Solarite Solar Arrays -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_SolarSolarArrays.label>Solarite太陽能板陣列</BOR_TSA_WD_Upgrade_PowerPlant_SolarSolarArrays.label>
+  <!-- EN: Solarite solar panel arrays for remote power generation. -->
+  <BOR_TSA_WD_Upgrade_PowerPlant_SolarSolarArrays.description>用於遠端發電的Solarite太陽能板陣列。</BOR_TSA_WD_Upgrade_PowerPlant_SolarSolarArrays.description>
+  <!-- EN: Reinforced Deepchem Drill -->
+  <BOR_TSA_WD_Upgrade_DeepchemDrill_Tier1.label>強化深層化合物鑽機</BOR_TSA_WD_Upgrade_DeepchemDrill_Tier1.label>
+  <!-- EN: Reinforced Drill for improved deepchem extraction. -->
+  <BOR_TSA_WD_Upgrade_DeepchemDrill_Tier1.description>強化的鑽機，提升深層化合物開採量。</BOR_TSA_WD_Upgrade_DeepchemDrill_Tier1.description>
+  <!-- EN: Powered Deepchem Well -->
+  <BOR_TSA_WD_Upgrade_DeepchemDrill_Tier2.label>電動深層化合物井</BOR_TSA_WD_Upgrade_DeepchemDrill_Tier2.label>
+  <!-- EN: Powered drill for enhanced deepchem extraction. -->
+  <BOR_TSA_WD_Upgrade_DeepchemDrill_Tier2.description>電動鑽機，進一步提升深層化合物開採量。</BOR_TSA_WD_Upgrade_DeepchemDrill_Tier2.description>
+  <!-- EN: Automated Deepchem Well -->
+  <BOR_TSA_WD_Upgrade_DeepchemDrill_Tier3.label>自動化深層化合物井</BOR_TSA_WD_Upgrade_DeepchemDrill_Tier3.label>
+  <!-- EN: Automated drill for drastic improvement in deepchem extraction. -->
+  <BOR_TSA_WD_Upgrade_DeepchemDrill_Tier3.description>自動化鑽機，大幅提升深層化合物開採量。</BOR_TSA_WD_Upgrade_DeepchemDrill_Tier3.description>
+  <!-- EN: Sunsteel Deepchem Well -->
+  <BOR_TSA_WD_Upgrade_DeepchemDrill_Tier4.label>日鋼深層化合物井</BOR_TSA_WD_Upgrade_DeepchemDrill_Tier4.label>
+  <!-- EN: Sunsteel-reinforced drill for maximum deepchem extraction. -->
+  <BOR_TSA_WD_Upgrade_DeepchemDrill_Tier4.description>以日鋼加固的鑽機，帶來最大的深層化合物開採量。</BOR_TSA_WD_Upgrade_DeepchemDrill_Tier4.description>
+  <!-- EN: Kwazaari Deepchem Well -->
+  <BOR_TSA_WD_Upgrade_DeepchemDrill_Tier5.label>Kwazaari深層化合物井</BOR_TSA_WD_Upgrade_DeepchemDrill_Tier5.label>
+  <!-- EN: Kwazaari Alloy-reinforced drill for ultimate deepchem extraction. -->
+  <BOR_TSA_WD_Upgrade_DeepchemDrill_Tier5.description>以Kwazaari合金加固的鑽機，帶來終極的深層化合物開採量。</BOR_TSA_WD_Upgrade_DeepchemDrill_Tier5.description>
+  <!-- EN: Autoclave Automation -->
+  <BOR_TSA_WD_Upgrade_RawShaping_Tier1.label>高壓釜自動化</BOR_TSA_WD_Upgrade_RawShaping_Tier1.label>
+  <!-- EN: Automation of the autoclave for shaping raw resources. -->
+  <BOR_TSA_WD_Upgrade_RawShaping_Tier1.description>將用於原料塑形的高壓釜自動化。</BOR_TSA_WD_Upgrade_RawShaping_Tier1.description>
+  <!-- EN: Intermediate storage for raw substrate -->
+  <BOR_TSA_WD_Upgrade_RawShaping_Tier2.label>原料基質中繼倉儲</BOR_TSA_WD_Upgrade_RawShaping_Tier2.label>
+  <!-- EN: Enhanced storage solutions for raw substrate, improving autoclave efficiency. -->
+  <BOR_TSA_WD_Upgrade_RawShaping_Tier2.description>強化原料基質的倉儲方案，提升高壓釜效率。</BOR_TSA_WD_Upgrade_RawShaping_Tier2.description>
+  <!-- EN: Sunsteel Autoclave Enhancements -->
+  <BOR_TSA_WD_Upgrade_RawShaping_Tier3.label>日鋼高壓釜強化</BOR_TSA_WD_Upgrade_RawShaping_Tier3.label>
+  <!-- EN: Sunsteel-reinforced autoclave enhancements for shaping raw resources. -->
+  <BOR_TSA_WD_Upgrade_RawShaping_Tier3.description>以日鋼加固的高壓釜強化，用於原料塑形。</BOR_TSA_WD_Upgrade_RawShaping_Tier3.description>
+  <!-- EN: Kwazaari Autoclave Enhancements -->
+  <BOR_TSA_WD_Upgrade_RawShaping_Tier4.label>Kwazaari高壓釜強化</BOR_TSA_WD_Upgrade_RawShaping_Tier4.label>
+  <!-- EN: Kwazaari Alloy autoclave enhancements for shaping raw resources. -->
+  <BOR_TSA_WD_Upgrade_RawShaping_Tier4.description>以Kwazaari合金強化的高壓釜，用於原料塑形。</BOR_TSA_WD_Upgrade_RawShaping_Tier4.description>
+</LanguageData>
