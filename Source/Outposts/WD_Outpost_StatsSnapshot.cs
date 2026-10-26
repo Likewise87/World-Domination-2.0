@@ -715,7 +715,7 @@ namespace TSA_WorldDomination
                 && reg.Has(settlement, AdvancedBuildingDefOf.TSA_WD_AdvBuilding_AaTurret);
             if (!mortarEligible && !aaEligible) return;
 
-            TechLevel minTech = settings.npcT4MortarMinTechLevel;
+            TechLevel minTech = WdMedievalMode.EffectiveNpcArtilleryMinTech(settings);
             if (settlement.Faction?.def == null || settlement.Faction.def.techLevel < minTech)
                 return;
 

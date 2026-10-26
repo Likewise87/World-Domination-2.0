@@ -117,9 +117,14 @@ namespace TSA_WorldDomination
                 list.Add(buildTraps);
             }
 
-            var buildTurrets = Action_Outpost_AtTurrets.MakeBuildAtTurretMenuOption(outpost, comp);
-            buildTurrets.orderInPriority = 280;
-            list.Add(buildTurrets);
+            if (WdMedievalMode.IsAtTurretAllowed(AtTurretTier.Light)
+                || WdMedievalMode.IsAtTurretAllowed(AtTurretTier.Medium)
+                || WdMedievalMode.IsAtTurretAllowed(AtTurretTier.Heavy))
+            {
+                var buildTurrets = Action_Outpost_AtTurrets.MakeBuildAtTurretMenuOption(outpost, comp);
+                buildTurrets.orderInPriority = 280;
+                list.Add(buildTurrets);
+            }
 
             if (blocks || traps)
             {

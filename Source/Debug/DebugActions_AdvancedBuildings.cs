@@ -25,6 +25,11 @@ namespace TSA_WorldDomination
         {
             Settlement s = NpcSettlementAtMouse();
             if (s == null || def == null) return;
+            if (!WdMedievalMode.IsAdvancedBuildingAllowed(def))
+            {
+                Messages.Message(WdMedievalMode.MedievalBlockedReason, MessageTypeDefOf.RejectInput);
+                return;
+            }
             if (WorldComponent_AdvancedBuildings.Get()?.Has(s, def) == true)
             {
                 Messages.Message($"WD debug: {s.LabelCap} already owns a {def.LabelText}.", MessageTypeDefOf.RejectInput);

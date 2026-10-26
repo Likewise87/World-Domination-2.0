@@ -215,6 +215,28 @@ namespace TSA_WorldDomination
             }
             l.Gap(10f);
 
+            // --- Medieval mode (same chrome as presets; not inside presets collapsible) ---
+            {
+                const float medievalBoxPadX = 10f;
+                const float medievalBoxPadY = 6f;
+                float medievalContentH = 28f;
+                Rect medievalBox = l.GetRect(medievalContentH + medievalBoxPadY * 2f);
+                Outpost_Dialog_UI.DrawSelectedRowTint(medievalBox, true);
+                GUI.color = Color.white;
+                Widgets.DrawBox(medievalBox, 1);
+
+                Listing_Standard medievalListing = new Listing_Standard();
+                medievalListing.Begin(medievalBox.ContractedBy(medievalBoxPadX, medievalBoxPadY));
+                SettingsUI.DrawCheckbox(
+                    medievalListing,
+                    "TSA_WD_MedievalMode".Translate(),
+                    ref s.wdMedievalMode,
+                    "TSA_WD_MedievalModeTip".Translate(),
+                    defaultValue: WorldDominationSettings.DefWdMedievalMode);
+                medievalListing.End();
+            }
+            l.Gap(10f);
+
             // --- 1. General ---
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_HeaderGeneral".Translate(), ref generalExpanded, SettingsUI.SectionHeaderColor))
             {

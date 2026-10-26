@@ -1,3 +1,4 @@
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -622,9 +623,18 @@ namespace TSA_WorldDomination
                 "TSA_WD_Raid_DropPodChanceT3Tip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefDropPodRaidChanceT3);
             s.dropPodRaidChance = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_DropPodChance".Translate(), s.dropPodRaidChance, 0f, 1f,
                 "TSA_WD_Raid_DropPodChanceTip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefDropPodRaidChance);
-            SettingsUI.TechLevelDropdown(l, "TSA_WD_Raid_DropPodMinTech".Translate(), s.dropPodRaidMinTechLevel,
-                v => s.dropPodRaidMinTechLevel = v,
-                "TSA_WD_Raid_DropPodMinTechTip".Translate(), WorldDominationSettings.DefDropPodRaidMinTechLevel);
+            TechLevel dropPodDisplay = WdMedievalMode.EffectiveDropPodRaidMinTech(s);
+            string dropPodTip = "TSA_WD_Raid_DropPodMinTechTip".Translate();
+            if (WdMedievalMode.Active)
+                dropPodTip = dropPodTip + "\n\n" + "TSA_WD_Medieval_TechFlooredTip".Translate();
+            SettingsUI.TechLevelDropdown(l, "TSA_WD_Raid_DropPodMinTech".Translate(), dropPodDisplay,
+                v =>
+                {
+                    s.dropPodRaidMinTechLevel = WdMedievalMode.Active && v < WdMedievalMode.FloorCombatTechLevel
+                        ? WdMedievalMode.FloorCombatTechLevel
+                        : v;
+                },
+                dropPodTip, WorldDominationSettings.DefDropPodRaidMinTechLevel);
             s.dropPodRaidAttritionMult = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_DropPodAttritionMult".Translate(), s.dropPodRaidAttritionMult, 1f, 10f,
                 "TSA_WD_Raid_DropPodAttritionMultTip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefDropPodRaidAttritionMult);
             s.colonySiegeRaidChance = SettingsUI.LabeledSlider(l, "TSA_WD_Raid_ColonySiegeChance".Translate(), s.colonySiegeRaidChance, 0f, 1f,
@@ -713,9 +723,18 @@ namespace TSA_WorldDomination
                 WdEscalation.ThreatGateLabel,
                 "TSA_WD_Combat_GateT4MortarTip".Translate());
 
-            SettingsUI.TechLevelDropdown(l, "TSA_WD_T4Mortar_MinTech".Translate(), s.npcT4MortarMinTechLevel,
-                v => s.npcT4MortarMinTechLevel = v,
-                "TSA_WD_T4Mortar_MinTechTip".Translate(), WorldDominationSettings.DefNpcT4MortarMinTechLevel);
+            TechLevel mortarDisplay = WdMedievalMode.EffectiveNpcArtilleryMinTech(s);
+            string mortarTip = "TSA_WD_T4Mortar_MinTechTip".Translate();
+            if (WdMedievalMode.Active)
+                mortarTip = mortarTip + "\n\n" + "TSA_WD_Medieval_TechFlooredTip".Translate();
+            SettingsUI.TechLevelDropdown(l, "TSA_WD_T4Mortar_MinTech".Translate(), mortarDisplay,
+                v =>
+                {
+                    s.npcT4MortarMinTechLevel = WdMedievalMode.Active && v < WdMedievalMode.FloorCombatTechLevel
+                        ? WdMedievalMode.FloorCombatTechLevel
+                        : v;
+                },
+                mortarTip, WorldDominationSettings.DefNpcT4MortarMinTechLevel);
 
             SettingsUI.DrawCheckbox(l, "TSA_WD_T4Mortar_EnableAll".Translate(), ref s.enableNpcT4Mortar,
                 "TSA_WD_T4Mortar_EnableAllTooltip".Translate(),

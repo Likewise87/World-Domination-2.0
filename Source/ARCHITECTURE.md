@@ -254,6 +254,16 @@ directly name optional-mod types.
 
 If you add optional integration, update `OPTIONAL_MODS.md` in the same pass.
 
+## Medieval mode (`WdMedievalMode`)
+
+SSoT: `Source/Core/WdMedievalMode.cs`. Main checkbox `wdMedievalMode` (below Setting presets on the Main settings page).
+
+- **Content filter:** defs with `minTechLevel` above Medieval are hidden/blocked when Active (outposts, upgrades, AT turrets, NPC mortar/AA advanced buildings). Untagged = allowed. Do not `PatchOperationRemove` industrial defs.
+- **Tech floors:** `EffectiveDropPodRaidMinTech` / `EffectiveNpcArtilleryMinTech` raise Combat dropdowns to at least Industrial while Active (never lowers a stricter Spacer setting).
+- **Player travel UI:** `PlayerDropPodsAllowed` is false when Active; `OutpostDispatchMode.GetViaDropPod` and pawn drop-pod getters force land. Rapid Response outpost stays (land intercept); its drop-pod dispatch chrome is hidden.
+- **Mid-save:** toggle should work; no auto-cleanup of existing industrial sites (use debug tools). Tip recommends backup / fresh save.
+- **MO costs:** independent of the checkbox — `Patches/MO_WdCosts.xml` when Medieval Overhaul is loaded (allowlisted Steel → iron only). See `OPTIONAL_MODS.md`.
+
 ## GUI perf: never scan AllWorldObjects or DefDatabase per frame
 
 Right-side `Alert`s and world-map `WorldComponentOnGUI` run every frame; `AlertsReadout` re-checks active alerts continuously. Map float buttons and open dialogs are the same class of hot path. Do not walk `Find.WorldObjects.AllWorldObjects` or rediscover defs (`DefDatabase<T>.AllDefsListForReading`, category `DescendantThingDefs`, ammo-set walks) in these paths.

@@ -301,7 +301,9 @@ namespace TSA_WorldDomination
                 return FortifyPhase.Traps;
             if (NeedsBlockWork(centerTile, faction, blockKind, kitTier))
                 return FortifyPhase.Blocks;
-            if (NeedsAtWork(centerTile, faction, maxAt, builtBySettlement))
+            // Medieval mode: skip AT phase only; traps/blocks still complete the kit.
+            if (WdMedievalMode.IsAtTurretAllowed(AtTurretTier.Light)
+                && NeedsAtWork(centerTile, faction, maxAt, builtBySettlement))
                 return FortifyPhase.AtTurrets;
             return FortifyPhase.Complete;
         }

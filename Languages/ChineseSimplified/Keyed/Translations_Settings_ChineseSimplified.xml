@@ -819,6 +819,10 @@
   <TSA_WD_UpdateLog_EntryListHeader>全部更新</TSA_WD_UpdateLog_EntryListHeader>
 
   <TSA_WD_HeaderImportant>设置预设</TSA_WD_HeaderImportant>
+  <TSA_WD_MedievalMode>中世纪模式</TSA_WD_MedievalMode>
+  <TSA_WD_MedievalModeTip>用于中世纪 / 低科技流程（含 Medieval Overhaul）。隐藏工业级 WD 前哨、升级与反载具炮塔；将 NPC 空降舱与迫击炮/防空科技门槛抬到工业；隐藏玩家陆地/空降舱旅行界面并强制陆地。已放置的工业建筑不会移除。中途开关理论上可用；建议先备份或开新存档！</TSA_WD_MedievalModeTip>
+  <TSA_WD_Medieval_Blocked>中世纪模式下不可用。</TSA_WD_Medieval_Blocked>
+  <TSA_WD_Medieval_TechFlooredTip>中世纪模式将此项至少提高到工业，用于 NPC 袭击/炮兵。</TSA_WD_Medieval_TechFlooredTip>
   <TSA_WD_HeaderSettingPresets>设置预设</TSA_WD_HeaderSettingPresets>
   <TSA_WD_SettingsPreset_Warning>应用难度与性能预设。其他设置保持不变</TSA_WD_SettingsPreset_Warning>
   <TSA_WD_Important_TemplateWarning>应用难度与性能预设。其他设置保持不变</TSA_WD_Important_TemplateWarning>

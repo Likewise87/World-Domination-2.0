@@ -1072,6 +1072,8 @@ namespace TSA_WorldDomination
 
         // Main settings toggles
         public const bool DefShowAdvancedSettings = false;
+        /// <summary>Hide Industrial+ WD content, floor drop-pod/NPC artillery min tech, force land travel UI.</summary>
+        public const bool DefWdMedievalMode = false;
         // Update popup visibility (default ON)
         public const bool DefShowUpdatePopups = true;
         /// <summary>When true, writes extra <c>[WD Perf]</c> correlation lines to the log (food pulse, pathing, threat, etc.).</summary>
@@ -2287,6 +2289,13 @@ namespace TSA_WorldDomination
         /// <summary>When true, main settings window shows advanced hub rows and in-dialog advanced sections.</summary>
         public bool showAdvancedSettings = false;
 
+        /// <summary>
+        /// Medieval / low-tech playthrough mode. Filters Industrial+ content via <see cref="WdMedievalMode"/>,
+        /// floors drop-pod and NPC mortar/AA min tech to Industrial, and hides player drop-pod UI.
+        /// Do not toggle mid-save.
+        /// </summary>
+        public bool wdMedievalMode = DefWdMedievalMode;
+
         // --- Meta / UX state (last seen WD version for simple update popup) ---
         public bool showUpdatePopups = DefShowUpdatePopups;
         public bool verboseLogging = DefVerboseLogging;
@@ -2575,6 +2584,7 @@ namespace TSA_WorldDomination
         {
             base.ExposeData();
             Scribe_Values.Look(ref showAdvancedSettings, "showAdvancedSettings", DefShowAdvancedSettings);
+            Scribe_Values.Look(ref wdMedievalMode, "wdMedievalMode", DefWdMedievalMode);
             Scribe_Values.Look(ref performancePreset, "performancePreset", DefPerformancePreset);
             Scribe_Values.Look(ref difficultyPreset, "difficultyPreset", DefDifficultyPreset);
             Scribe_Values.Look(ref tier1Share, "tier1Share", DefTier1Share);
@@ -3886,6 +3896,7 @@ namespace TSA_WorldDomination
             ResetT4Mortar();
             performancePreset = DefPerformancePreset;
             difficultyPreset = DefDifficultyPreset;
+            wdMedievalMode = DefWdMedievalMode;
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -13,6 +13,7 @@ namespace TSA_WorldDomination
     {
         private static readonly HashSet<string> AbstractOutpostDefNames = new HashSet<string> { "TSA_WD_Outpost", "TSA_WD_Outpost_SimpleProduction" };
         public static readonly List<WorldObjectDef> List;
+        private static readonly List<WorldObjectDef> SelectableScratch = new List<WorldObjectDef>();
 
         static WD_OutpostSelectionCachedDefs()
         {
@@ -34,6 +35,20 @@ namespace TSA_WorldDomination
                 if (c != 0) return c;
                 return string.CompareOrdinal(a.defName, b.defName);
             });
+        }
+
+        /// <summary>Iterate-time filter for Medieval mode (do not bake into static ctor; settings load later).</summary>
+        public static List<WorldObjectDef> GetSelectable()
+        {
+            if (!WdMedievalMode.Active) return List;
+            SelectableScratch.Clear();
+            for (int i = 0; i < List.Count; i++)
+            {
+                WorldObjectDef d = List[i];
+                if (WdMedievalMode.IsOutpostAllowed(d))
+                    SelectableScratch.Add(d);
+            }
+            return SelectableScratch;
         }
     }
 
@@ -299,7 +314,7 @@ namespace TSA_WorldDomination
             cachedSkillsHeader = OutpostTranslationUtil.Key("TSA_WD_OutpostEstablish_Skills");
             cachedRequirementsHeader = OutpostTranslationUtil.Key("TSA_WD_OutpostEstablish_Requirements");
 
-            var defs = WD_OutpostSelectionCachedDefs.List;
+            var defs = WD_OutpostSelectionCachedDefs.GetSelectable();
             cachedRows = new EstablishmentRowCache[defs.Count];
 
             bool showCostColumn = fromCaravan != null || requirementsPreviewOnly || TreatAsGarrisonBackedEstablish;
@@ -763,7 +778,7 @@ namespace TSA_WorldDomination
             if (!cacheBuilt)
                 RebuildStringCache();
 
-            var defs = WD_OutpostSelectionCachedDefs.List;
+            var defs = WD_OutpostSelectionCachedDefs.GetSelectable();
             if (defs.Count == 0)
             {
                 Widgets.Label(new Rect(0, 0, inRect.width, 40f), "TSA_WD_SelectOutpost_NoDefs".Translate());
@@ -1071,7 +1086,7 @@ namespace TSA_WorldDomination
             if (establishmentFilter == filter) return;
             establishmentFilter = filter;
             rightScrollPos = Vector2.zero;
-            EnsureDefaultSelection(WD_OutpostSelectionCachedDefs.List);
+            EnsureDefaultSelection(WD_OutpostSelectionCachedDefs.GetSelectable());
         }
 
         private static string GetFilterLabel(EstablishmentTabFilter filter)
@@ -1218,7 +1233,7 @@ namespace TSA_WorldDomination
         private int FindDefIndex(string defName)
         {
             if (string.IsNullOrEmpty(defName)) return -1;
-            var defs = WD_OutpostSelectionCachedDefs.List;
+            var defs = WD_OutpostSelectionCachedDefs.GetSelectable();
             for (int i = 0; i < defs.Count; i++)
                 if (defs[i].defName == defName) return i;
             return -1;

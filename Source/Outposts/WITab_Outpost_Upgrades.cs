@@ -627,6 +627,7 @@ namespace TSA_WorldDomination
             {
                 OutpostUpgradeDef d = allDefs[i];
                 if (d == null || !d.AppliesToOutpost(wdef)) continue;
+                if (!WdMedievalMode.IsUpgradeAllowed(d)) continue;
                 string key = d.upgradeLineId ?? d.defName;
                 if (!byLine.TryGetValue(key, out List<OutpostUpgradeDef> list))
                 {
@@ -827,6 +828,11 @@ namespace TSA_WorldDomination
 
             if (outpost == null || upgrade == null) { result.reason = "TSA_WD_OutpostUpgrades_Invalid".Translate(); return result; }
             if (level <= 0) { result.reason = "TSA_WD_OutpostUpgrades_Invalid".Translate(); return result; }
+            if (!WdMedievalMode.IsUpgradeAllowed(upgrade))
+            {
+                result.reason = WdMedievalMode.MedievalBlockedReason;
+                return result;
+            }
             if (!string.IsNullOrEmpty(outpost.PendingUpgradeDefName)) { result.reason = "TSA_WD_OutpostUpgrades_InTransit".Translate(); return result; }
             if (!upgrade.AppliesToOutpost(outpost.def.defName)) { result.reason = "TSA_WD_OutpostUpgrades_Invalid".Translate(); return result; }
             if (outpost.GetUpgradeLevel(upgrade.defName) > 0)

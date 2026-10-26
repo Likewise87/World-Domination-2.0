@@ -55,13 +55,14 @@ namespace TSA_WorldDomination
         public static bool IsArtilleryEnabled(AdvancedBuildingDef def, Faction faction)
         {
             if (def == null || !def.IsArtillery) return false;
+            if (!WdMedievalMode.IsAdvancedBuildingAllowed(def)) return false;
             var seth = WorldDominationMod.settings;
             bool on = def.effect == AdvancedBuildingEffect.Mortar
                 ? (seth?.enableNpcT4Mortar ?? WorldDominationSettings.DefEnableNpcT4Mortar)
                 : (seth?.enableNpcT4AntiAir ?? WorldDominationSettings.DefEnableNpcT4AntiAir);
             if (!on) return false;
             if (faction == null || faction.IsPlayer) return false;
-            TechLevel minTech = seth?.npcT4MortarMinTechLevel ?? WorldDominationSettings.DefNpcT4MortarMinTechLevel;
+            TechLevel minTech = WdMedievalMode.EffectiveNpcArtilleryMinTech(seth);
             return faction.def == null || faction.def.techLevel >= minTech;
         }
 

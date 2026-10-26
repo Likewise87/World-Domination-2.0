@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_58_Title>中世纪模式</TSA_WD_Update_2_3_58_Title>
+  <TSA_WD_Update_2_3_58_Body><![CDATA[
+<size=16><b>2.3.58 - 中世纪模式</b></size>\n
+<color=#00FFFFFF>发布日期：2026年10月26日</color>\n
+------------------------------\n
+!!!改动仅适用于 1.7 版本!!!\n
+• 新功能：在 WD 主模组设置页的预设设置下方开启「中世纪模式」。会隐藏高科技前哨与升级，并阻止 NPC 建造反坦克炮塔、防空等工业战斗建筑。\n
+• 已放置的建筑不会自动移除。请用 WD 调试工具处理。\n
+• 中途打开该开关理论上可用。建议先备份，或开新存档更稳妥。\n
+• 另加入 XML 补丁：启用 Medieval Overhaul 时会调整前哨与升级的材料费用。\n
+• 请通过 Discord 反馈。这是第一版尝试！\n
+• 重要：地图生成不会改成中世纪定居点。若需要，请将 WD 2.0 与出色的 Custom Base Framework 模组一起使用。它仍会尊重定居点等级，并生成中世纪风格基地。\n
+]]></TSA_WD_Update_2_3_58_Body>
   <TSA_WD_Update_2_3_57_Title>更多修复与打磨</TSA_WD_Update_2_3_57_Title>
   <TSA_WD_Update_2_3_57_Body><![CDATA[
 <size=16><b>2.3.57 - 更多修复与打磨</b></size>\n

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Medieval Overhaul material alignment for WD medieval-allowed content only.
+  Steel → DankPyon_IronIngot (1:1). Do not blanket-replace Industrial-tagged defs.
+  WoodLog stays (MO relabels it to wood plank). Chemfuel on allowlisted defs: none today.
+-->
+<Patch>
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Medieval Overhaul</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+
+        <!-- Outpost establishmentCost: shorthand Steel element names -->
+        <li Class="PatchOperationSetName">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Embassy"]//establishmentCost/Steel</xpath>
+          <name>DankPyon_IronIngot</name>
+        </li>
+        <li Class="PatchOperationSetName">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_RapidResponse"]//establishmentCost/Steel</xpath>
+          <name>DankPyon_IronIngot</name>
+        </li>
+
+        <!-- Allowlisted upgrades: thingDef Steel → IronIngot -->
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_BasicHospital"]/cost/li[thingDef="Steel"]/thingDef</xpath>
+          <value><thingDef>DankPyon_IronIngot</thingDef></value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_WoodenWatchTower"]/cost/li[thingDef="Steel"]/thingDef</xpath>
+          <value><thingDef>DankPyon_IronIngot</thingDef></value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_FishingNets"]/cost/li[thingDef="Steel"]/thingDef</xpath>
+          <value><thingDef>DankPyon_IronIngot</thingDef></value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_CoastalPier"]/cost/li[thingDef="Steel"]/thingDef</xpath>
+          <value><thingDef>DankPyon_IronIngot</thingDef></value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_TrawlerGear"]/cost/li[thingDef="Steel"]/thingDef</xpath>
+          <value><thingDef>DankPyon_IronIngot</thingDef></value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_TunnelNetwork"]/cost/li[thingDef="Steel"]/thingDef</xpath>
+          <value><thingDef>DankPyon_IronIngot</thingDef></value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_Silo"]/cost/li[thingDef="Steel"]/thingDef</xpath>
+          <value><thingDef>DankPyon_IronIngot</thingDef></value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PropagandaPrinter"]/cost/li[thingDef="Steel"]/thingDef</xpath>
+          <value><thingDef>DankPyon_IronIngot</thingDef></value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ReEducationCenter"]/cost/li[thingDef="Steel"]/thingDef</xpath>
+          <value><thingDef>DankPyon_IronIngot</thingDef></value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ConversionChair"]/cost/li[thingDef="Steel"]/thingDef</xpath>
+          <value><thingDef>DankPyon_IronIngot</thingDef></value>
+        </li>
+
+      </operations>
+    </match>
+  </Operation>
+</Patch>

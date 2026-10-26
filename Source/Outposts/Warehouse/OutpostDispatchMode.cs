@@ -9,6 +9,7 @@ namespace TSA_WorldDomination
     {
         public static bool GetViaDropPod(WorldObject origin)
         {
+            if (!WdMedievalMode.PlayerDropPodsAllowed) return false;
             if (origin == null) return false;
             if (origin is WorldObject_WD_Outpost outpost)
             {
@@ -41,6 +42,11 @@ namespace TSA_WorldDomination
         /// <summary>Sets pod mode only when Transport Pods is researched; otherwise shows reject message.</summary>
         public static bool TrySetViaDropPod(WorldObject origin, bool viaDropPod)
         {
+            if (viaDropPod && !WdMedievalMode.PlayerDropPodsAllowed)
+            {
+                Messages.Message(WdMedievalMode.MedievalBlockedReason, MessageTypeDefOf.RejectInput);
+                return false;
+            }
             if (viaDropPod && !RapidResponseUtility.TransportPodsResearched())
             {
                 Messages.Message("TSA_WD_RapidResponse_DropPodsNeedResearch".Translate(), MessageTypeDefOf.RejectInput);

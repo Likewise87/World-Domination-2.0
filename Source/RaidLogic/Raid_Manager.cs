@@ -438,8 +438,13 @@ namespace TSA_WorldDomination
 
                 string travelerDef = useGravship ? "TSA_WD_Traveler_RaidGravship" : "TSA_WD_Traveler_RaidDropPod";
                 TravelerMission mission = useGravship ? TravelerMission.RaidGravship : TravelerMission.RaidDropPod;
-                traveler = (WorldObject_Traveler)WorldObjectMaker.MakeWorldObject(
-                    DefDatabase<WorldObjectDef>.GetNamed(travelerDef));
+                WorldObjectDef travelerWorldDef = DefDatabase<WorldObjectDef>.GetNamedSilentFail(travelerDef);
+                if (travelerWorldDef == null)
+                {
+                    Log.Error($"[TSA WD] Missing WorldObjectDef {travelerDef}; aborting aerial raid launch.");
+                    return;
+                }
+                traveler = (WorldObject_Traveler)WorldObjectMaker.MakeWorldObject(travelerWorldDef);
                 traveler.Tile = attacker.Tile;
                 traveler.SetFaction(attacker.Faction);
                 traveler.mission = mission;
@@ -667,7 +672,7 @@ namespace TSA_WorldDomination
             if (forceDropPod) return true;
             if (attComp == null || attacker?.Faction?.def == null || seth == null) return false;
             if (attComp.tier != SettlementTier.T3 && attComp.tier != SettlementTier.T4) return false;
-            if (attacker.Faction.def.techLevel < seth.dropPodRaidMinTechLevel) return false;
+            if (attacker.Faction.def.techLevel < WdMedievalMode.EffectiveDropPodRaidMinTech(seth)) return false;
             float chance = attComp.tier == SettlementTier.T3
                 ? seth.dropPodRaidChanceT3
                 : seth.dropPodRaidChance;
@@ -804,6 +809,9 @@ namespace TSA_WorldDomination
         public static bool DebugForceImmediateRaid(Settlement attacker, bool forceDropPod, out string failReason, bool forceGravship = false)
         {
             failReason = null;
+            // Medieval mode: force-drop-pod debug walks instead of launching pods.
+            if (forceDropPod && WdMedievalMode.Active)
+                forceDropPod = false;
             if (attacker == null || attacker.Destroyed || !attacker.Spawned)
             {
                 failReason = "invalid settlement";

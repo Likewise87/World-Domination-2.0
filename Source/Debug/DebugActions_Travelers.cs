@@ -432,6 +432,11 @@ namespace TSA_WorldDomination
         private static bool TryDebugSpawnAtTurret(int tile, Faction faction, AtTurretTier tier, out string failReason)
         {
             failReason = null;
+            if (!WdMedievalMode.IsAtTurretAllowed(tier))
+            {
+                failReason = WdMedievalMode.MedievalBlockedReason;
+                return false;
+            }
             if (faction == null)
             {
                 failReason = "WD debug: faction missing.";

@@ -53,6 +53,7 @@
 
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_IEDs</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>IEDs</label>
     <description>Explosive traps at the gate approaches and wall corners on defense maps.</description>
     <imagePath>UI/OutpostUpgrades/IED</imagePath>
@@ -72,6 +73,7 @@
 	<!-- Auto Turrets -->
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_AutoTurrets</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Auto Turrets</label>
     <description>Automated perimeter defense turrets.</description>
     <imagePath>UI/OutpostUpgrades/AutoTurret</imagePath>
@@ -109,6 +111,7 @@
 
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_AdvancedHospital</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Advanced Hospital</label>
     <description>Advanced medical infrastructure replacing the basic hospital.</description>
     <imagePath>UI/OutpostUpgrades/AdvancedHospital</imagePath>
@@ -130,6 +133,7 @@
 	<!-- Mining -->
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_MiningLift</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Mining Lift</label>
     <description>Moves people and goods.</description>
     <imagePath>UI/OutpostUpgrades/MiningLift</imagePath>
@@ -151,6 +155,7 @@
   
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_ImprovedMiningLift</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Improved Mining Lift</label>
     <description>Moves people and goods even faster.</description>
     <imagePath>UI/OutpostUpgrades/ImprovedMiningLift</imagePath>
@@ -174,6 +179,7 @@
   
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_AdvancedMiningLift</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Advanced Mining Lift</label>
     <description>Moves people and goods even faster.</description>
     <imagePath>UI/OutpostUpgrades/AdvancedMiningLift</imagePath>
@@ -218,6 +224,7 @@
   
     <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_IrrigationIndustrial</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Industrial Irrigation</label>
     <description>Irrigate fields automatically.</description>
     <imagePath>UI/OutpostUpgrades/IrrigationIndustrial</imagePath>
@@ -241,6 +248,7 @@
     <!-- Hunting -->
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_IndustrialMeatHooks</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Industrial Meat Hooks</label>
     <description>Easier transportation of carcasses and meat.</description>
     <imagePath>UI/OutpostUpgrades/IndustrialMeatHooks</imagePath>
@@ -284,6 +292,7 @@
   
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_ImprovedWatchTower</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Improved Watch Tower</label>
     <description>Allows hunters to see even further.</description>
     <imagePath>UI/OutpostUpgrades/ImprovedWatchTower</imagePath>
@@ -306,6 +315,7 @@
   
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_AdvancedWatchTower</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Advanced Watch Tower</label>
     <description>Allows hunters to see very far.</description>
     <imagePath>UI/OutpostUpgrades/AdvancedWatchTower</imagePath>
@@ -394,6 +404,7 @@
   <!-- Mortar outpost: -->
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_AntiAirGun</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Anti-Air Gun</label>
     <description>Unlocks automatic flak fire against hostile drop-pod raids. Uses the mortar's range, hit chance, and shell damage upgrades. Short separate cooldown.</description>
     <imagePath>UI/OutpostUpgrades/AntiAirGun</imagePath>
@@ -416,6 +427,7 @@
 
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_MortarTargetingSystem</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Targeting System</label>
     <description>Makes the mortar reload faster and be more accurate.</description>
     <imagePath>UI/OutpostUpgrades/TargetingSystem</imagePath>
@@ -438,6 +450,7 @@
   
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_ImprovedMortarShells</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Improved Shells</label>
     <description>Increases damage of mortar and anti-air shells.</description>
     <imagePath>UI/OutpostUpgrades/ImprovedMortarShells</imagePath>
@@ -460,6 +473,7 @@
   
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_AdvancedMortarShells</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Advanced Shells</label>
     <description>Further increases damage of mortar and anti-air shells.</description>
     <imagePath>UI/OutpostUpgrades/AdvancedMortarShell</imagePath>
@@ -483,6 +497,7 @@
   <!-- Research outpost -->
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_AdvancedMicroscopes</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Advanced Microscopes</label>
     <description>Precision optics and lab instruments that improve continuous research output at this outpost.</description>
     <imagePath>UI/OutpostUpgrades/AdvancedMicroscopes</imagePath>
@@ -504,6 +519,7 @@
   <!-- Research outpost (second lab line; stacks with Advanced Microscopes) -->
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_AdvancedLabEquipment</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Advanced Lab Equipment</label>
     <description>High-precision lab gear that improves continuous research output at this outpost.</description>
     <imagePath>UI/OutpostUpgrades/AdvancedLabEquipment</imagePath>
@@ -525,6 +541,7 @@
   <!-- Power plant outpost -->
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_PowerPlant_SolarArrays</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Solar Arrays</label>
     <description>Photovoltaic fields feeding the remote grid.</description>
 	<imagePath>UI/OutpostUpgrades/PowerPlant_SolarArrays</imagePath>
@@ -545,6 +562,7 @@
 
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Chemfuel Generators</label>
     <description>A bank of rugged chemfuel generators dedicated to remote export.</description>
 	<imagePath>UI/OutpostUpgrades/PowerPlant_ChemfuelGenerators</imagePath>
@@ -566,6 +584,7 @@
 
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_PowerPlant_AdvancedGridControls</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Advanced Grid Controls</label>
     <description>Control hardware that improves transmission efficiency and load balancing.</description>
 	<imagePath>UI/OutpostUpgrades/PowerPlant_AdvancedGridControls</imagePath>
@@ -586,6 +605,7 @@
 
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Geothermal Power Plant</label>
     <description>Deep thermal infrastructure feeding a large remote power tap.</description>
 	<imagePath>UI/OutpostUpgrades/PowerPlant_GeothermalPowerPlant</imagePath>
@@ -627,6 +647,7 @@
 
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_InsulatedBarn</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Insulated Barn</label>
     <description>Stone and steel barn walls with climate control that raise effective pasture fertility for healthier herds.</description>
     <imagePath>UI/OutpostUpgrades/InsulatedBarn</imagePath>
@@ -648,6 +669,7 @@
 
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_TechBarn</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Tech Barn</label>
     <description>Industrial livestock infrastructure that maximizes pasture fertility and renewable animal product output.</description>
     <imagePath>UI/OutpostUpgrades/TechBarn</imagePath>
@@ -671,6 +693,7 @@
   <!-- Warehouse outpost: aura % / radius -->
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_Warehouse_LogisticsNetwork</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Logistics Network</label>
     <description>Coordinated staging and routing that strengthens this warehouse's productivity aura for nearby producers.</description>
     <imagePath>UI/OutpostUpgrades/WarehouseLogisticsNetwork</imagePath>
@@ -692,6 +715,7 @@
 
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_Warehouse_Forklifters</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Warehouse Forklifters</label>
     <description>Heavy hauling is now facilitated by Forklifters.</description>
     <imagePath>UI/OutpostUpgrades/WarehouseForklifter</imagePath>
@@ -745,6 +769,7 @@
 
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_HydroponicsBasin</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Hydroponics Basin</label>
     <description>Hydroponics infrastructure that adds a flat daily food output at this outpost.</description>
     <imagePath>UI/OutpostUpgrades/HydroponicsBasin</imagePath>
@@ -763,6 +788,7 @@
 
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_AdvancedHydroponicsBasin</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Advanced Hydroponics Basin</label>
     <description>Expanded hydroponics that greatly increases flat daily food output at this outpost. Replaces the Hydroponics Basin on this line.</description>
     <imagePath>UI/OutpostUpgrades/Advanced_HydroponicsBasin</imagePath>
@@ -781,6 +807,7 @@
 
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_Terraforming</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Terraforming</label>
     <description>Raises this outpost tile's fertility and animal abundance baselines to 100% when below (other upgrades still stack after). On build, clears pollution on this tile and nearby tiles within 2 tiles once.</description>
     <imagePath>UI/OutpostUpgrades/TerraformingUpgrade</imagePath>
@@ -804,6 +831,7 @@
 
   <TSA_WorldDomination.OutpostUpgradeDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>TSA_WD_Upgrade_DecontaminationEquipment</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Decontamination Equipment</label>
     <description>Unlocks Decontamination Missions. Sends a crew to scrub pollution from world tiles.</description>
     <imagePath>UI/OutpostUpgrades/DecontaminationEquipment</imagePath>
@@ -839,6 +867,7 @@
 
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_PropagandaRadio</defName>
+    <minTechLevel>Industrial</minTechLevel>
     <label>Propaganda Radio</label>
     <description>Broadcast propaganda that breaks down prisoner resistance faster. Replaces the Propaganda Printer.</description>
     <imagePath>UI/OutpostUpgrades/PropagandaRadio</imagePath>

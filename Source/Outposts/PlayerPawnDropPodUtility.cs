@@ -93,25 +93,35 @@ namespace TSA_WorldDomination
         /// Land vs drop pod for ad-hoc player actions (transfer, smart send, remote establish).
         /// One global choice, set from the All Player Pawns toolbar. Session only, not scribed.
         /// </summary>
-        public static bool AdHocViaDropPod { get; private set; }
+        public static bool AdHocViaDropPod =>
+            WdMedievalMode.PlayerDropPodsAllowed && adHocViaDropPod;
 
-        public static void SetAdHocViaDropPod(bool value) => AdHocViaDropPod = value;
+        private static bool adHocViaDropPod;
+
+        public static void SetAdHocViaDropPod(bool value) =>
+            adHocViaDropPod = WdMedievalMode.PlayerDropPodsAllowed && value;
 
         /// <summary>Sets ad-hoc pod mode only when Transport Pods is researched; otherwise shows a reject message.</summary>
         public static bool TrySetAdHocViaDropPod(bool value)
         {
+            if (value && !WdMedievalMode.PlayerDropPodsAllowed)
+            {
+                Messages.Message(WdMedievalMode.MedievalBlockedReason, MessageTypeDefOf.RejectInput);
+                return false;
+            }
             if (value && !RapidResponseUtility.TransportPodsResearched())
             {
                 Messages.Message("TSA_WD_RapidResponse_DropPodsNeedResearch".Translate(), MessageTypeDefOf.RejectInput);
                 return false;
             }
-            AdHocViaDropPod = value;
+            adHocViaDropPod = value;
             return true;
         }
 
         /// <summary>Land vs drop pod for automated pawn sends from this origin (prisoner recruits, recruiting redirect).</summary>
         public static bool GetTravelViaDropPod(WorldObject origin)
         {
+            if (!WdMedievalMode.PlayerDropPodsAllowed) return false;
             if (origin is WorldObject_WD_Outpost outpost)
                 return outpost.pawnTravelViaDropPod;
             return CompPlayerDispatchMode.Get(origin)?.pawnTravelViaDropPod ?? false;
@@ -120,6 +130,7 @@ namespace TSA_WorldDomination
         public static void SetTravelViaDropPod(WorldObject origin, bool value)
         {
             if (origin == null) return;
+            if (value && !WdMedievalMode.PlayerDropPodsAllowed) value = false;
             if (origin is WorldObject_WD_Outpost outpost)
             {
                 outpost.pawnTravelViaDropPod = value;
@@ -133,6 +144,11 @@ namespace TSA_WorldDomination
         /// <summary>Sets pod mode only when Transport Pods is researched; otherwise shows a reject message.</summary>
         public static bool TrySetTravelViaDropPod(WorldObject origin, bool value)
         {
+            if (value && !WdMedievalMode.PlayerDropPodsAllowed)
+            {
+                Messages.Message(WdMedievalMode.MedievalBlockedReason, MessageTypeDefOf.RejectInput);
+                return false;
+            }
             if (value && !RapidResponseUtility.TransportPodsResearched())
             {
                 Messages.Message("TSA_WD_RapidResponse_DropPodsNeedResearch".Translate(), MessageTypeDefOf.RejectInput);
@@ -145,6 +161,11 @@ namespace TSA_WorldDomination
         public static void SetTravelViaDropPodMany(IEnumerable<WorldObject> origins, bool value)
         {
             if (origins == null) return;
+            if (value && !WdMedievalMode.PlayerDropPodsAllowed)
+            {
+                Messages.Message(WdMedievalMode.MedievalBlockedReason, MessageTypeDefOf.RejectInput);
+                return;
+            }
             if (value && !RapidResponseUtility.TransportPodsResearched())
             {
                 Messages.Message("TSA_WD_RapidResponse_DropPodsNeedResearch".Translate(), MessageTypeDefOf.RejectInput);
@@ -557,6 +578,7 @@ namespace TSA_WorldDomination
         /// <summary>Global ad-hoc travel mode as a warehouse-style land/drop-pod icon. Float menu on click, no label.</summary>
         public static void DrawAdHocModeIcon(Rect rect, bool allowDropPod = true, string disabledPodTip = null)
         {
+            if (!WdMedievalMode.PlayerDropPodsAllowed) return;
             bool researched = RapidResponseUtility.TransportPodsResearched();
             Rect iconRect = new Rect(
                 rect.x,
@@ -579,6 +601,7 @@ namespace TSA_WorldDomination
             Action setLand,
             Action setPod)
         {
+            if (!WdMedievalMode.PlayerDropPodsAllowed) return;
             bool researched = RapidResponseUtility.TransportPodsResearched();
             Rect iconRect = new Rect(
                 rect.x,
@@ -844,6 +867,7 @@ namespace TSA_WorldDomination
             bool enabled = true,
             string disabledTip = null)
         {
+            if (!WdMedievalMode.PlayerDropPodsAllowed) return;
             Color cyan = WorldOverlayLineMaterials.DarkCyanColor;
             bool hasOrigins = TryGetSharedTravelMode(origins, out bool viaPod, out bool modeMixed);
             bool interactive = enabled && hasOrigins;

@@ -672,6 +672,7 @@ namespace TSA_WorldDomination
             bool ignoreSettlementCap = false)
         {
             if (!IsTierBuildable(tier)) return null;
+            if (!WdMedievalMode.IsAtTurretAllowed(tier)) return null;
             if (faction == null) return null;
             if (tileId < 0 || Find.WorldGrid == null || !Find.WorldGrid.InBounds(tileId)) return null;
             if (faction.IsPlayer)

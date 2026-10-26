@@ -13,5 +13,10 @@ namespace TSA_WorldDomination
         public List<ResearchProjectDef> researchPrerequisites = new List<ResearchProjectDef>();
         /// <summary>When &gt;= 0, overrides settings-based min Construction for this build.</summary>
         public int minCumulativeConstructionSkill = -1;
+
+        /// <summary>
+        /// Minimum tech level for Medieval mode content filter (AT turrets). Unset = allowed under medieval.
+        /// </summary>
+        public TechLevel minTechLevel = TechLevel.Undefined;
     }
 }

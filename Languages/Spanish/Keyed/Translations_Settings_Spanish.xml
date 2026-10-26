@@ -824,6 +824,10 @@
   <TSA_WD_UpdateLog_EntryListHeader>Todas las actualizaciones</TSA_WD_UpdateLog_EntryListHeader>
 
   <TSA_WD_HeaderImportant>Presets de ajustes</TSA_WD_HeaderImportant>
+  <TSA_WD_MedievalMode>Modo medieval</TSA_WD_MedievalMode>
+  <TSA_WD_MedievalModeTip>Para partidas medievales / de baja tecnología (incluido Medieval Overhaul). Oculta puestos, mejoras y torretas AT industriales de WD; sube las puertas de tech de cápsulas y morteros/AA de PNJ a Industrial; oculta la UI de viaje terrestre vs cápsula del jugador y fuerza viaje terrestre. Los edificios industriales ya colocados no se eliminan. Activarlo a mitad de partida debería funcionar; mejor haz una copia de seguridad o empieza una partida nueva!</TSA_WD_MedievalModeTip>
+  <TSA_WD_Medieval_Blocked>No disponible en modo medieval.</TSA_WD_Medieval_Blocked>
+  <TSA_WD_Medieval_TechFlooredTip>El modo medieval fija esto como mínimo a Industrial para incursiones/artillería PNJ.</TSA_WD_Medieval_TechFlooredTip>
   <TSA_WD_HeaderSettingPresets>Presets de ajustes</TSA_WD_HeaderSettingPresets>
   <TSA_WD_SettingsPreset_Warning>Aplica presets de Dificultad y Rendimiento. El resto de ajustes no cambia</TSA_WD_SettingsPreset_Warning>
   <TSA_WD_Important_TemplateWarning>Aplica presets de Dificultad y Rendimiento. El resto de ajustes no cambia</TSA_WD_Important_TemplateWarning>

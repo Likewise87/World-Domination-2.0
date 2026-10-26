@@ -201,7 +201,8 @@ namespace TSA_WorldDomination
             if (seth == null || !seth.allowT3T4DropPodsOverWater) return false;
             if (attacker == null || target == null || attComp == null) return false;
             if (attComp.tier != SettlementTier.T3 && attComp.tier != SettlementTier.T4) return false;
-            if (attacker.Faction?.def == null || attacker.Faction.def.techLevel < seth.dropPodRaidMinTechLevel)
+            if (attacker.Faction?.def == null
+                || attacker.Faction.def.techLevel < WdMedievalMode.EffectiveDropPodRaidMinTech(seth))
                 return false;
             return !HasVanillaLandPath(attacker.Tile, target.Tile);
         }

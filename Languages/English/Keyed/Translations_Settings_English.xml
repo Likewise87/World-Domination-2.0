@@ -193,6 +193,10 @@
   <TSA_WD_DescCaravans>Travel attrition, water pathing for WD caravans, trader caravans, player colony trader spacing, outpost delivery costs, and storyteller trader blocking. Water pathing is also set by Setting presets → Performance.</TSA_WD_DescCaravans>
   <TSA_WD_DescExperimental>World actions and raid logic experiments, world-map icon zoom behavior, overlay hold key, NPC fortify travelers, traveler pollution damage, and pollution pathfinding toggles.</TSA_WD_DescExperimental>
   <TSA_WD_HeaderImportant>Setting presets</TSA_WD_HeaderImportant>
+  <TSA_WD_MedievalMode>Medieval mode</TSA_WD_MedievalMode>
+  <TSA_WD_MedievalModeTip>For medieval / low-tech playthroughs (including Medieval Overhaul). Hides industrial WD outposts, upgrades, and AT turrets; floors NPC drop-pod and mortar/AA tech gates to Industrial; hides player land vs drop-pod travel UI and forces land. Already placed industrial buildings are not removed. Mid-game toggle should work; better make a backup or start a fresh save!</TSA_WD_MedievalModeTip>
+  <TSA_WD_Medieval_Blocked>Not available in Medieval mode.</TSA_WD_Medieval_Blocked>
+  <TSA_WD_Medieval_TechFlooredTip>Medieval mode floors this to at least Industrial for NPC raids/artillery.</TSA_WD_Medieval_TechFlooredTip>
   <TSA_WD_HeaderSettingPresets>Setting presets</TSA_WD_HeaderSettingPresets>
   <TSA_WD_SettingsPreset_Warning>Apply Difficulty and Performance Presets. Other settings will remain unchanged</TSA_WD_SettingsPreset_Warning>
   <TSA_WD_Important_TemplateWarning>Apply Difficulty and Performance Presets. Other settings will remain unchanged</TSA_WD_Important_TemplateWarning>

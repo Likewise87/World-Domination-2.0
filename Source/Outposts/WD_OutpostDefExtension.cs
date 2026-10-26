@@ -188,6 +188,12 @@ namespace TSA_WorldDomination
         /// <summary>If true, omit from establish / requirements-preview menus. Def stays loaded for existing saves.</summary>
         public bool hideFromEstablishMenu;
 
+        /// <summary>
+        /// Minimum tech level for Medieval mode content filter. Unset/Neolithic = allowed under medieval.
+        /// Set Industrial (or higher) to hide when <see cref="WdMedievalMode"/> is active.
+        /// </summary>
+        public TechLevel minTechLevel = TechLevel.Undefined;
+
         /// <summary>Returns null if biome is allowed; otherwise returns a reason string. Same logic as Outposts mod: disallowed list wins, then allowed list if set.</summary>
         public string CanBuildInBiome(string biomeDefName, string biomeLabel, string outpostLabel)
         {

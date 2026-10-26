@@ -1241,7 +1241,8 @@ namespace TSA_WorldDomination
             PawnRosterPaintSelect.BeginFrame(this);
 
             Rect body = new Rect(0f, TabHeaderOffsetY, size.x, size.y - TabHeaderOffsetY).ContractedBy(10f);
-            bool showRrBar = SelOutpost.IsRapidResponseOutpost;
+            // Drop-pod dispatch chrome only; land intercept stays without this bar.
+            bool showRrBar = SelOutpost.IsRapidResponseOutpost && WdMedievalMode.PlayerDropPodsAllowed;
             float bottomReserve = showRrBar ? BottomBarHeight : 0f;
             Rect bottomBar = new Rect(body.x, body.yMax - BottomBarHeight, body.width, BottomBarHeight);
             Rect content = new Rect(body.x, body.y, body.width, body.height - bottomReserve - (showRrBar ? 6f : 0f));

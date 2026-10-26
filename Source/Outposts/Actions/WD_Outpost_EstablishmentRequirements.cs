@@ -563,6 +563,12 @@ namespace TSA_WorldDomination
         {
             reason = null;
 
+            if (!WdMedievalMode.IsOutpostAllowed(outpostDef))
+            {
+                reason = WdMedievalMode.MedievalBlockedReason;
+                return false;
+            }
+
             if (Find.WorldGrid == null || tile < 0 || tile >= Find.WorldGrid.TilesCount)
             {
                 reason = "Invalid tile.";
@@ -1001,6 +1007,11 @@ namespace TSA_WorldDomination
         public static bool CanEstablishAtForConquest(int tile, WorldObjectDef outpostDef, SettlementTier conquestTier, out string reason)
         {
             reason = null;
+            if (!WdMedievalMode.IsOutpostAllowed(outpostDef))
+            {
+                reason = WdMedievalMode.MedievalBlockedReason;
+                return false;
+            }
             if (Find.WorldGrid == null || tile < 0 || tile >= Find.WorldGrid.TilesCount)
             {
                 reason = "Invalid tile.";

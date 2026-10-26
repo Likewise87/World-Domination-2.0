@@ -46,6 +46,18 @@ namespace TSA_WorldDomination
         {
             Texture2D icon = BuildAtTurretIcon;
 
+            if (!WdMedievalMode.IsAtTurretAllowed(AtTurretTier.Light)
+                && !WdMedievalMode.IsAtTurretAllowed(AtTurretTier.Medium)
+                && !WdMedievalMode.IsAtTurretAllowed(AtTurretTier.Heavy))
+            {
+                return new FloatMenuOption(
+                    WdMedievalMode.MedievalBlockedReason,
+                    () => { },
+                    icon,
+                    Color.cyan)
+                { Disabled = true };
+            }
+
             Settlement owner = WorldActions_AtTurrets.ResolveBuiltBySettlement(outpost);
             if (owner == null)
             {
@@ -77,7 +89,7 @@ namespace TSA_WorldDomination
             {
                 string kindLabel = AtTurretUtility.LabelKey(comp.selectedAtTurretTier).Translate();
                 string insufficient = comp.GetInsufficientConstructionMessage();
-                string dest = comp.atTurretTargetName.NullOrEmpty() ? "…" : comp.atTurretTargetName;
+                string dest = comp.atTurretTargetName.NullOrEmpty() ? "ï¿½" : comp.atTurretTargetName;
                 string label = insufficient
                     ?? "TSA_WD_Inspect_AT_TurretStatus".Translate(
                         kindLabel,
@@ -106,12 +118,14 @@ namespace TSA_WorldDomination
         private static void OpenTierMenu(WorldObject outpost, CompViralSpread comp)
         {
             float totalConstruction = ColonyWorldBuildUtility.GetActorConstructionSkillRaw(outpost);
-            var opts = new List<FloatMenuOption>
-            {
-                MakeTierOption(outpost, comp, AtTurretTier.Light, totalConstruction),
-                MakeTierOption(outpost, comp, AtTurretTier.Medium, totalConstruction),
-                MakeTierOption(outpost, comp, AtTurretTier.Heavy, totalConstruction)
-            };
+            var opts = new List<FloatMenuOption>();
+            if (WdMedievalMode.IsAtTurretAllowed(AtTurretTier.Light))
+                opts.Add(MakeTierOption(outpost, comp, AtTurretTier.Light, totalConstruction));
+            if (WdMedievalMode.IsAtTurretAllowed(AtTurretTier.Medium))
+                opts.Add(MakeTierOption(outpost, comp, AtTurretTier.Medium, totalConstruction));
+            if (WdMedievalMode.IsAtTurretAllowed(AtTurretTier.Heavy))
+                opts.Add(MakeTierOption(outpost, comp, AtTurretTier.Heavy, totalConstruction));
+            if (opts.Count < 1) return;
             WdCascadingFloatMenu.OpenAsChild(opts, () => Action_Outpost_Build.BuildRootMenuOptions(outpost, comp));
         }
 

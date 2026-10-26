@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_58_Title>Modo medieval</TSA_WD_Update_2_3_58_Title>
+  <TSA_WD_Update_2_3_58_Body><![CDATA[
+<size=16><b>2.3.58 - Modo medieval</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 26 de octubre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Nueva función: activa el modo medieval bajo los presets en la página principal de ajustes de WD. Oculta puestos y mejoras de alta tecnología e impide que los PNJ construyan torretas AT, AA y edificios de combate industriales similares.\n
+• Los edificios ya colocados NO se eliminan automáticamente. Usa las herramientas de depuración de WD para eso.\n
+• Activar ese interruptor DEBERÍA funcionar a mitad de partida. Mejor haz una copia de seguridad o empieza una partida nueva.\n
+• También hay un parche XML que ajusta el coste de puestos y mejoras si Medieval Overhaul está activo.\n
+• Envía comentarios por Discord. ¡Es una primera versión!\n
+• Importante: la generación de mapas NO cambia a asentamientos medievales. Si quieres eso, usa WD 2.0 junto con el fantástico mod Custom Base Framework. Seguirá respetando el nivel del asentamiento y además generará bases medievales.\n
+]]></TSA_WD_Update_2_3_58_Body>
   <TSA_WD_Update_2_3_57_Title>Más correcciones y pulido</TSA_WD_Update_2_3_57_Title>
   <TSA_WD_Update_2_3_57_Body><![CDATA[
 <size=16><b>2.3.57 - Más correcciones y pulido</b></size>\n

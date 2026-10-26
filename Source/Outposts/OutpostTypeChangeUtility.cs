@@ -48,6 +48,11 @@ namespace TSA_WorldDomination
                 reason = "TSA_WD_TypeChange_Invalid".Translate();
                 return false;
             }
+            if (!WdMedievalMode.IsOutpostAllowed(newDef))
+            {
+                reason = WdMedievalMode.MedievalBlockedReason;
+                return false;
+            }
             if (outpost.def == newDef || outpost.def?.defName == newDef.defName)
             {
                 reason = "TSA_WD_TypeChange_SameType".Translate();

@@ -40,6 +40,12 @@ namespace TSA_WorldDomination
         /// <summary>Translation key for the player-facing name.</summary>
         public string labelKey;
 
+        /// <summary>
+        /// Minimum tech level for Medieval mode content filter. Unset/Neolithic = allowed under medieval.
+        /// Set Industrial on mortar/AA to hide from NPC pools when <see cref="WdMedievalMode"/> is active.
+        /// </summary>
+        public TechLevel minTechLevel = TechLevel.Undefined;
+
         public bool IsArtillery => category == AdvancedBuildingCategory.Artillery;
 
         public float WeightForTier(SettlementTier tier)

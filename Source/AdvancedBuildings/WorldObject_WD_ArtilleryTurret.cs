@@ -39,7 +39,7 @@ namespace TSA_WorldDomination
                 if (!WorldActions_Utils.CanNpcWdReactiveAction(Faction)) return false;
                 if (IsOrphan) return false;
                 if (!MasterToggleOn) return false;
-                TechLevel minTech = WorldDominationMod.settings?.npcT4MortarMinTechLevel ?? WorldDominationSettings.DefNpcT4MortarMinTechLevel;
+                TechLevel minTech = WdMedievalMode.EffectiveNpcArtilleryMinTech(WorldDominationMod.settings);
                 if (Faction.def != null && Faction.def.techLevel < minTech) return false;
                 return true;
             }

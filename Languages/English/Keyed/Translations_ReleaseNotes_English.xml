@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_58_Title>Medieval mode</TSA_WD_Update_2_3_58_Title>
+  <TSA_WD_Update_2_3_58_Body><![CDATA[
+<size=16><b>2.3.58 - Medieval mode</b></size>\n
+<color=#00FFFFFF>Release date: October 26th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• New Feature: Toggle on Medieval mode under the preset settings on the WD main mod settings page. It hides high-tech outposts and outpost upgrades and also prevents NPCs from building AT turrets, AA, and similar industrial combat buildings.\n
+• Already placed buildings WILL NOT be removed automatically. Use the WD debug tools for that.\n
+• Flipping that switch on SHOULD work mid-game. Better make a backup or start a fresh savegame.\n
+• Also added an XML patch that adjusts the cost of outposts and upgrades when Medieval Overhaul is active.\n
+• Please provide feedback via Discord. This is a first shot at it!\n
+• Important: Map generation IS NOT changed to medieval settlements. If you want that, use WD 2.0 alongside the amazing Custom Base Framework mod. It will still respect settlement tier while also spawning medieval-friendly bases.\n
+]]></TSA_WD_Update_2_3_58_Body>
   <TSA_WD_Update_2_3_57_Title>More Bugfixes and Polish</TSA_WD_Update_2_3_57_Title>
   <TSA_WD_Update_2_3_57_Body><![CDATA[
 <size=16><b>2.3.57 - More Bugfixes and Polish</b></size>\n

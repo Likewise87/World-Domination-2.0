@@ -139,6 +139,12 @@ namespace TSA_WorldDomination
         public string requiredResearch;
         public List<string> requiredResearches = new List<string>();
 
+        /// <summary>
+        /// Minimum tech level for Medieval mode content filter. Unset/Neolithic = allowed under medieval.
+        /// Set Industrial (or higher) to hide when <see cref="WdMedievalMode"/> is active.
+        /// </summary>
+        public TechLevel minTechLevel = TechLevel.Undefined;
+
         private static readonly List<OutpostUpgradeCostEntry> EmptyCostList = new List<OutpostUpgradeCostEntry>();
 
         /// <summary>When false, upgrade purchases skip material costs (default true).</summary>

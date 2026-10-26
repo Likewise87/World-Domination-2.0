@@ -22,6 +22,7 @@ namespace TSA_WorldDomination
         {
             if (settlement == null || settlement.Faction != Faction.OfPlayer) yield break;
             if (CompPlayerDispatchMode.Get(settlement) == null) yield break;
+            if (!WdMedievalMode.PlayerDropPodsAllowed) yield break;
             yield return MakeDispatchModeGizmo(settlement);
         }
 
@@ -29,6 +30,7 @@ namespace TSA_WorldDomination
         {
             if (warehouse == null || warehouse.Faction != Faction.OfPlayer) yield break;
             if (CompOutpostWarehouse.Get(warehouse) == null) yield break;
+            if (!WdMedievalMode.PlayerDropPodsAllowed) yield break;
             // Same SSoT as WITab_Outpost_Warehouse (OutpostDispatchMode → CompOutpostWarehouse.dispatchViaDropPod).
             yield return MakeDispatchModeGizmo(warehouse);
         }
