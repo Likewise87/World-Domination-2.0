@@ -1,0 +1,940 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  1.7-only (Defs17 loadFolders). Tags industrial WD content with minTechLevel for Medieval mode.
+  Do NOT put minTechLevel in root Defs/ — the frozen 1.6 DLL has no such fields and will XML-error.
+  Each op is Conditional so MayRequire defs (VCHE / BoR) missing offline do not error.
+-->
+<Patch>
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Fabrication"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Fabrication"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_BiofuelRefinery"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_BiofuelRefinery"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_DeepchemDrill"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_DeepchemDrill"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_RawShaping"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_RawShaping"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_DeepchemFactory"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_DeepchemFactory"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Mortar"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Mortar"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_PowerPlant"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_PowerPlant"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_DrugLab"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_DrugLab"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/WorldObjectDef[defName="BOR_TSA_WD_Outpost_DrugLab"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/WorldObjectDef[defName="BOR_TSA_WD_Outpost_DrugLab"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/WorldObjectDef[defName="BOR_TSA_WD_Outpost_Fabrication"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/WorldObjectDef[defName="BOR_TSA_WD_Outpost_Fabrication"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_IEDs"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_IEDs"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AutoTurrets"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AutoTurrets"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedHospital"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedHospital"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_MiningLift"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_MiningLift"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ImprovedMiningLift"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ImprovedMiningLift"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedMiningLift"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedMiningLift"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_IrrigationIndustrial"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_IrrigationIndustrial"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_IndustrialMeatHooks"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_IndustrialMeatHooks"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ImprovedWatchTower"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ImprovedWatchTower"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedWatchTower"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedWatchTower"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AntiAirGun"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AntiAirGun"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_MortarTargetingSystem"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_MortarTargetingSystem"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ImprovedMortarShells"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ImprovedMortarShells"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedMortarShells"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedMortarShells"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedMicroscopes"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedMicroscopes"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedLabEquipment"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedLabEquipment"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_SolarArrays"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_SolarArrays"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_AdvancedGridControls"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_AdvancedGridControls"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_InsulatedBarn"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_InsulatedBarn"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_TechBarn"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_TechBarn"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_Warehouse_LogisticsNetwork"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_Warehouse_LogisticsNetwork"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_Warehouse_Forklifters"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_Warehouse_Forklifters"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_HydroponicsBasin"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_HydroponicsBasin"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedHydroponicsBasin"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedHydroponicsBasin"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_Terraforming"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_Terraforming"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_DecontaminationEquipment"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_DecontaminationEquipment"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PropagandaRadio"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PropagandaRadio"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SteelWall"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SteelWall"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PlasteelWall"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PlasteelWall"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SunsteelWall"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SunsteelWall"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarAlloyWall"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarAlloyWall"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_BearTraps"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_BearTraps"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PlasteelTraps"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PlasteelTraps"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SunweaveTraps"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SunweaveTraps"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarweaveTraps"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarweaveTraps"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Adv_AutoTurrets"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Adv_AutoTurrets"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_AutoTurrets"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_AutoTurrets"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SpacerHospital"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SpacerHospital"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_GlitterHospital"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_GlitterHospital"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SolarHospital"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SolarHospital"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarHospital"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarHospital"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_UltraMiningLift"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_UltraMiningLift"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SolarMiningLift"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SolarMiningLift"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarMiningLift"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarMiningLift"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationAdvanced"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationAdvanced"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationUltra"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationUltra"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationSolar"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationSolar"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationQuasar"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationQuasar"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SpacerFridge"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SpacerFridge"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Ultramation"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Ultramation"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Solaration"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Solaration"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Kwazantification"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Kwazantification"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_UltraWatchTower"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_UltraWatchTower"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SolarWatchTower"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SolarWatchTower"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarWatchTower"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarWatchTower"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_SolarPowerPlant"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_SolarPowerPlant"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_QuasarPowerPlant"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_QuasarPowerPlant"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_TechBarn_Ultra"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_TechBarn_Ultra"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_TechBarn_Solar"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_TechBarn_Solar"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_TechBarn_Kwazaari"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_TechBarn_Kwazaari"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_IntelligentGridControls"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_IntelligentGridControls"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_AdvancedGeothermalPowerPlant"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_AdvancedGeothermalPowerPlant"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_UltraGeothermalPowerPlant"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_UltraGeothermalPowerPlant"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_BorAdvancedGeothermalPowerPlant"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_BorAdvancedGeothermalPowerPlant"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_AdvancedSolarArrays"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_AdvancedSolarArrays"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_UltraSolarArrays"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_UltraSolarArrays"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_SolarSolarArrays"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_SolarSolarArrays"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier1"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier1"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier2"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier2"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier3"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier3"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier4"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier4"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier5"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier5"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier1"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier1"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier2"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier2"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier3"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier3"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier4"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier4"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.AdvancedBuildingDef[defName="TSA_WD_AdvBuilding_MortarTurret"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.AdvancedBuildingDef[defName="TSA_WD_AdvBuilding_MortarTurret"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/TSA_WorldDomination.AdvancedBuildingDef[defName="TSA_WD_AdvBuilding_AaTurret"]</xpath>
+          <match Class="PatchOperationInsert">
+            <xpath>/Defs/TSA_WorldDomination.AdvancedBuildingDef[defName="TSA_WD_AdvBuilding_AaTurret"]/defName</xpath>
+            <order>Append</order>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_AT_Turret_Light"]</xpath>
+          <match Class="PatchOperationAdd">
+            <xpath>/Defs/WorldObjectDef[defName="TSA_WD_AT_Turret_Light"]/modExtensions/li[contains(@Class,'WdWorldBuildCostExtension')]</xpath>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_AT_Turret"]</xpath>
+          <match Class="PatchOperationAdd">
+            <xpath>/Defs/WorldObjectDef[defName="TSA_WD_AT_Turret"]/modExtensions/li[contains(@Class,'WdWorldBuildCostExtension')]</xpath>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_AT_Turret_Heavy"]</xpath>
+          <match Class="PatchOperationAdd">
+            <xpath>/Defs/WorldObjectDef[defName="TSA_WD_AT_Turret_Heavy"]/modExtensions/li[contains(@Class,'WdWorldBuildCostExtension')]</xpath>
+            <value>
+              <minTechLevel>Industrial</minTechLevel>
+            </value>
+          </match>
+        </li>
+    </operations>
+  </Operation>
+</Patch>

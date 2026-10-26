@@ -4,7 +4,6 @@
     <!-- walls -->
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_SteelWall</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Steel Wall</label>
         <description>Steel-reinforced stone walls.</description>
         <imagePath>UI/OutpostUpgrades/SteelWall_Icon</imagePath>
@@ -27,7 +26,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_PlasteelWall</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Plasteel Wall Reinforcements</label>
         <description>Plasteel-reinforced steel walls.</description>
         <imagePath>UI/OutpostUpgrades/PlasteelWall_Icon</imagePath>
@@ -50,7 +48,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_SunsteelWall</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Sunsteel Wall Reinforcements</label>
         <description>Sunsteel-reinforced steel walls.</description>
         <imagePath>UI/OutpostUpgrades/SunsteelWall_Icon</imagePath>
@@ -73,7 +70,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_QuasarAlloyWall</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Quasar Alloy Wall Reinforcements</label>
         <description>Quasar Alloy-reinforced steel walls.</description>
         <imagePath>UI/OutpostUpgrades/QuasarAlloyWall_Icon</imagePath>
@@ -98,7 +94,6 @@
     <!-- Traps -->
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_BearTraps</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Bear Traps</label>
         <description>A dense bear trap perimeter around the outpost.</description>
         <imagePath>UI/OutpostUpgrades/BearTrap_Icon</imagePath>
@@ -122,7 +117,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_PlasteelTraps</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Plasteel Detectors</label>
         <description>A dense perimeter of detectors around the outpost.</description>
         <imagePath>UI/OutpostUpgrades/PlasteelDetector_Icon</imagePath>
@@ -145,7 +139,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_SunweaveTraps</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Sunweave Nets</label>
         <description>Surrounds the settlement with spring-loaded, unbreakable nets of Sunweave, catching the enemy unawares.</description>
         <imagePath>UI/OutpostUpgrades/SunweaveNet_Icon</imagePath>
@@ -168,7 +161,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_QuasarweaveTraps</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Quasar Alloy Weave Slicers</label>
         <description>Surrounds the settlement with thin spiderwebs of razorsharp quasar alloy weave traps.</description>
         <imagePath>UI/OutpostUpgrades/QuasarSpiderweb_Icon</imagePath>
@@ -192,7 +184,6 @@
     <!-- Auto Turrets -->
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_Adv_AutoTurrets</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Advanced Gun-turrets</label>
         <description>Mix of Spacer and Glitter-tech turrets.</description>
         <imagePath>UI/OutpostUpgrades/AdvancedTurret_Icon</imagePath>
@@ -220,7 +211,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_AutoTurrets</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Defender-class Space Gun-turrets</label>
         <description>Automated perimeter defense turrets ripped from Solarite starships.</description>
         <imagePath>UI/OutpostUpgrades/DefenderTurret_Icon</imagePath>
@@ -245,7 +235,6 @@
     <!-- hospital -->
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_SpacerHospital</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Spacer Hospital</label>
         <description>Spacer-like medical infrastructure replacing the advanced hospital.</description>
         <imagePath>UI/OutpostUpgrades/SpacerHospital_Icon</imagePath>
@@ -272,7 +261,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_GlitterHospital</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Glitter Hospital</label>
         <description>Glitter-like medical infrastructure replacing the spacer hospital.</description>
         <imagePath>UI/OutpostUpgrades/UltraHospital_Icon</imagePath>
@@ -295,7 +283,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_SolarHospital</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Solar Hospital</label>
         <description>Improvement over the Glitter hospital, utilizing Solar-level technologies.</description>
         <imagePath>UI/OutpostUpgrades/SolarHospital_Icon</imagePath>
@@ -318,7 +305,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_QuasarHospital</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Kwazaari Hospital</label>
         <description>Ultimate field-hospital using kwazaari first kwaed kits.</description>
         <imagePath>UI/OutpostUpgrades/QuasarHospital_Icon</imagePath>
@@ -343,7 +329,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_UltraMiningLift</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Quantum Mining Lift</label>
         <description>Moves people and goods fastest with Quantum Technology!</description>
         <imagePath>UI/OutpostUpgrades/UltraLift_Icon</imagePath>
@@ -371,7 +356,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_SolarMiningLift</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Solar Mining Lift</label>
         <description>Yoinks people on Sunweave lines up and down.</description>
         <imagePath>UI/OutpostUpgrades/SolarLift_Icon</imagePath>
@@ -399,7 +383,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_QuasarMiningLift</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Kwazaari Mining Lift</label>
         <description>Yoinks people on Quasar Alloy Weave lines up and down and sideways!</description>
         <imagePath>UI/OutpostUpgrades/QuasarLift_Icon</imagePath>
@@ -428,7 +411,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_IrrigationAdvanced</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Advanced Irrigation</label>
         <description>Irrigate fields automatically and with style.</description>
         <imagePath>UI/OutpostUpgrades/SpacerIrrigation_Icon</imagePath>
@@ -455,7 +437,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_IrrigationUltra</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Glitter-like Irrigation</label>
         <description>Gliterrize fields automatically and with style.</description>
         <imagePath>UI/OutpostUpgrades/UltraIrrigation_Icon</imagePath>
@@ -482,7 +463,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_IrrigationSolar</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Solar Tech Hydroponics</label>
         <description>Build Solar-tech Hydroponics.</description>
         <imagePath>UI/OutpostUpgrades/SolarIrrigation_Icon</imagePath>
@@ -508,7 +488,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_IrrigationQuasar</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Kwzaari Tech Hydroponics</label>
         <description>Build Kwazaari-tech Hydroponics.</description>
         <imagePath>UI/OutpostUpgrades/QuasarIrrigation_Icon</imagePath>
@@ -534,7 +513,6 @@
     <!-- hunting -->
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_SpacerFridge</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Robo-fridges and Cooling</label>
         <description>Electrification of the hunting business.</description>
         <imagePath>UI/OutpostUpgrades/SpacerFridge_Icon</imagePath>
@@ -561,7 +539,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_Ultramation</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Automated Bait-trapping</label>
         <description>Automation of the hunting business.</description>
         <imagePath>UI/OutpostUpgrades/AutomatedBait_Icon</imagePath>
@@ -588,7 +565,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_Solaration</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Solar Mind Tricks</label>
         <description>Psychification of the hunting business.</description>
         <imagePath>UI/OutpostUpgrades/SolarHunting_Icon</imagePath>
@@ -615,7 +591,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_Kwazantification</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Kwazaari Hunting With Amogus</label>
         <description>Amongusification of the hunting business.</description>
         <imagePath>UI/OutpostUpgrades/QuasarHunting_Icon</imagePath>
@@ -644,7 +619,6 @@
     <!-- watchtower -->
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_UltraWatchTower</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Ultra Watch Tower</label>
         <description>Allows hunters to see very far when asleep even.</description>
         <imagePath>UI/OutpostUpgrades/UltraWatchtower_Icon</imagePath>
@@ -670,7 +644,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_SolarWatchTower</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Solar Watch Tower</label>
         <description>Allows hunters to control the hunting equipment when asleep.</description>
         <imagePath>UI/OutpostUpgrades/SolarWatchtower_Icon</imagePath>
@@ -696,7 +669,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_QuasarWatchTower</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Kwazaari Watch Tower</label>
         <description>Allows hunters to control the hunt around the clock.</description>
         <imagePath>UI/OutpostUpgrades/QuasarWatchtower_Icon</imagePath>
@@ -725,7 +697,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_PowerPlant_SolarPowerPlant</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Solar-tech Power Plant</label>
         <description>Solar-tech Power Plant.</description>
         <imagePath>UI/OutpostUpgrades/SolarPowerplant_Icon</imagePath>
@@ -752,7 +723,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_PowerPlant_QuasarPowerPlant</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Kwazaari Power Plant</label>
         <description>Kwazaari Power Plant.</description>
         <imagePath>UI/OutpostUpgrades/QuasarPowerplant_Icon</imagePath>
@@ -781,7 +751,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_TechBarn_Ultra</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Glitter-Tech Barn</label>
         <description>Cloning and autoamted-harvesting with maximum pleasurableness of life for the livestock.</description>
         <imagePath>UI/OutpostUpgrades/UltraBarn_Icon</imagePath>
@@ -809,7 +778,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_TechBarn_Solar</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Solar-Tech Barn</label>
         <description>Solar-tech infrastructure with mechanoids and cowanoids milking chickenoids and laying eggnoids.</description>
         <imagePath>UI/OutpostUpgrades/SolarBarn_Icon</imagePath>
@@ -837,7 +805,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_TechBarn_Kwazaari</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Kwazaari-Tech Barn</label>
         <description>Shit's crazy, press button get meat or milk iunno how this works man.</description>
         <imagePath>UI/OutpostUpgrades/QuasarBarn_Icon</imagePath>
@@ -866,7 +833,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_PowerPlant_IntelligentGridControls</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Intelligent Grid Controls</label>
         <description>Automated control over power distribution, basically magic at this point.</description>
         <imagePath>UI/OutpostUpgrades/IntelligentGrid_Icon</imagePath>
@@ -893,7 +859,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_PowerPlant_AdvancedGeothermalPowerPlant</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Advanced Geothermal Power Plant</label>
         <description>Deep thermal infrastructure feeding a large remote power tap.</description>
         <imagePath>UI/OutpostUpgrades/AdvancedGeothermal_Icon</imagePath>
@@ -919,7 +884,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_PowerPlant_UltraGeothermalPowerPlant</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Ultra Geothermal Power Plant</label>
         <description>Deep thermal infrastructure feeding a large remote power tap.</description>
         <imagePath>UI/OutpostUpgrades/UltraGeothermal_Icon</imagePath>
@@ -945,7 +909,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_PowerPlant_BorAdvancedGeothermalPowerPlant</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Solar geothermal Power Plant</label>
         <description>solar-tech geothermal power plant.</description>
         <imagePath>UI/OutpostUpgrades/SolarGeothermal_Icon</imagePath>
@@ -973,7 +936,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_PowerPlant_AdvancedSolarArrays</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Advanced Solar Arrays</label>
         <description>Advanced solar panel arrays for remote power generation.</description>
         <imagePath>UI/OutpostUpgrades/AdvancedArray_Icon</imagePath>
@@ -999,7 +961,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef>
         <defName>BOR_TSA_WD_Upgrade_PowerPlant_UltraSolarArrays</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Ultratech Solar Arrays</label>
         <description>Ultratech solar panel arrays for remote power generation.</description>
         <imagePath>UI/OutpostUpgrades/UltraArray_Icon</imagePath>
@@ -1025,7 +986,6 @@
 
     <TSA_WorldDomination.OutpostUpgradeDef MayRequireAnyOf="bambaryla.bor,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_PowerPlant_SolarSolarArrays</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Solarite Solar Arrays</label>
         <description>Solarite solar panel arrays for remote power generation.</description>
         <imagePath>UI/OutpostUpgrades/SolarArray_Icon</imagePath>
@@ -1053,7 +1013,6 @@
     <!-- Deepchem Drilling Outpost production line -->
     <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele">
         <defName>BOR_TSA_WD_Upgrade_DeepchemDrill_Tier1</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Reinforced Deepchem Drill</label>
         <description>Reinforced Drill for improved deepchem extraction.</description>
         <imagePath>UI/OutpostUpgrades/Deepchem_Well_Tier1</imagePath>
@@ -1078,7 +1037,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele">
         <defName>BOR_TSA_WD_Upgrade_DeepchemDrill_Tier2</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Powered Deepchem Well</label>
         <description>Powered drill for enhanced deepchem extraction.</description>
         <imagePath>UI/OutpostUpgrades/Deepchem_Well_Tier2</imagePath>
@@ -1104,7 +1062,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele">
         <defName>BOR_TSA_WD_Upgrade_DeepchemDrill_Tier3</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Automated Deepchem Well</label>
         <description>Automated drill for drastic improvement in deepchem extraction.</description>
         <imagePath>UI/OutpostUpgrades/Deepchem_Well_Tier3</imagePath>
@@ -1129,7 +1086,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_DeepchemDrill_Tier4</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Sunsteel Deepchem Well</label>
         <description>Sunsteel-reinforced drill for maximum deepchem extraction.</description>
         <imagePath>UI/OutpostUpgrades/Deepchem_Well_Tier4</imagePath>
@@ -1155,7 +1111,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_DeepchemDrill_Tier5</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Kwazaari Deepchem Well</label>
         <description>Kwazaari Alloy-reinforced drill for ultimate deepchem extraction.</description>
         <imagePath>UI/OutpostUpgrades/Deepchem_Well_Tier5</imagePath>
@@ -1183,7 +1138,6 @@
     <!-- Raw Resource Shaping Outpost production line -->
     <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele">
         <defName>BOR_TSA_WD_Upgrade_RawShaping_Tier1</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Autoclave Automation</label>
         <description>Automation of the autoclave for shaping raw resources.</description>
         <imagePath>UI/OutpostUpgrades/Autoclave_Tier1</imagePath>
@@ -1208,7 +1162,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele">
         <defName>BOR_TSA_WD_Upgrade_RawShaping_Tier2</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Intermediate storage for raw substrate</label>
         <description>Enhanced storage solutions for raw substrate, improving autoclave efficiency.</description>
         <imagePath>UI/OutpostUpgrades/Autoclave_Tier2</imagePath>
@@ -1234,7 +1187,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_RawShaping_Tier3</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Sunsteel Autoclave Enhancements</label>
         <description>Sunsteel-reinforced autoclave enhancements for shaping raw resources.</description>
         <imagePath>UI/OutpostUpgrades/Autoclave_Tier3</imagePath>
@@ -1260,7 +1212,6 @@
     </TSA_WorldDomination.OutpostUpgradeDef>
     <TSA_WorldDomination.OutpostUpgradeDef MayRequire="vanillaexpanded.vchemfuele,bambaryla.bor.redux">
         <defName>BOR_TSA_WD_Upgrade_RawShaping_Tier4</defName>
-        <minTechLevel>Industrial</minTechLevel>
         <label>Kwazaari Autoclave Enhancements</label>
         <description>Kwazaari Alloy autoclave enhancements for shaping raw resources.</description>
         <imagePath>UI/OutpostUpgrades/Autoclave_Tier4</imagePath>

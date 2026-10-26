@@ -16,7 +16,7 @@
     <expandingIconTexture>WorldObjects/Fortifications/AT_Gun_Light</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.WdWorldBuildCostExtension">
-        <minTechLevel>Industrial</minTechLevel><minCumulativeConstructionSkill>5</minCumulativeConstructionSkill>
+        <minCumulativeConstructionSkill>5</minCumulativeConstructionSkill>
         <researchPrerequisites>
           <li>Machining</li>
         </researchPrerequisites>
@@ -35,7 +35,7 @@
     <expandingIconTexture>WorldObjects/Fortifications/AT_Gun_Medium</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.WdWorldBuildCostExtension">
-        <minTechLevel>Industrial</minTechLevel><minCumulativeConstructionSkill>15</minCumulativeConstructionSkill>
+        <minCumulativeConstructionSkill>15</minCumulativeConstructionSkill>
         <researchPrerequisites>
           <li>MicroelectronicsBasics</li>
         </researchPrerequisites>
@@ -53,7 +53,7 @@
     <expandingIconTexture>WorldObjects/Fortifications/AT_Gun_Heavy</expandingIconTexture>
     <modExtensions>
       <li Class="TSA_WorldDomination.WdWorldBuildCostExtension">
-        <minTechLevel>Industrial</minTechLevel><minCumulativeConstructionSkill>25</minCumulativeConstructionSkill>
+        <minCumulativeConstructionSkill>25</minCumulativeConstructionSkill>
         <researchPrerequisites>
           <li>Fabrication</li>
         </researchPrerequisites>

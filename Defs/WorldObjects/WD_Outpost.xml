@@ -222,7 +222,6 @@
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>3</outpostTier>
-        <minTechLevel>Industrial</minTechLevel>
         <minPawnsToFound>1</minPawnsToFound>
         <requiredResearchProjectDefNames>
           <li>Fabrication</li>
@@ -254,7 +253,6 @@
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>2</outpostTier>
-        <minTechLevel>Industrial</minTechLevel>
         <minPawnsToFound>1</minPawnsToFound>
         <requiredResearchProjectDefNames> 
           <li>BiofuelRefining</li>
@@ -292,7 +290,6 @@
           <li>ExtremeDesert</li>
         </allowedBiomes>
         <outpostTier>2</outpostTier>
-        <minTechLevel>Industrial</minTechLevel>
         <minPawnsToFound>5</minPawnsToFound>
         <MinCumulativeSkill>
           <li><Construction>20</Construction></li>
@@ -330,7 +327,6 @@
           <li>ExtremeDesert</li>
         </allowedBiomes>
         <outpostTier>3</outpostTier>
-        <minTechLevel>Industrial</minTechLevel>
         <minPawnsToFound>5</minPawnsToFound>
         <MinCumulativeSkill>
           <li><Construction>20</Construction></li>
@@ -381,7 +377,6 @@
           <li>ExtremeDesert</li>
         </allowedBiomes>
         <outpostTier>2</outpostTier>
-        <minTechLevel>Industrial</minTechLevel>
         <minPawnsToFound>5</minPawnsToFound>
         <MinCumulativeSkill>
           <li><Construction>20</Construction></li>
@@ -458,7 +453,6 @@
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>3</outpostTier>
-        <minTechLevel>Industrial</minTechLevel>
         <minPawnsToFound>1</minPawnsToFound>
 		<requiredResearchProjectDefNames> 
           <li>Mortars</li>
@@ -572,7 +566,6 @@
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>1</outpostTier>
-        <minTechLevel>Industrial</minTechLevel>
         <minPawnsToFound>2</minPawnsToFound>
         <requiredResearchProjectDefNames>
           <li>Electricity</li>
@@ -624,7 +617,6 @@
     <modExtensions>
       <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
         <outpostTier>2</outpostTier>
-        <minTechLevel>Industrial</minTechLevel>
         <minPawnsToFound>1</minPawnsToFound>
         <requiredResearchProjectDefNames> 
           <li>DrugProduction</li>
@@ -658,7 +650,6 @@
         <modExtensions>
             <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
                 <outpostTier>3</outpostTier>
-        <minTechLevel>Industrial</minTechLevel>
                 <minPawnsToFound>1</minPawnsToFound>
                 <requiredResearchProjectDefNames>
                     <li>BOR_Research_Drugs_I</li>
@@ -732,7 +723,6 @@
         <modExtensions>
             <li Class="TSA_WorldDomination.OutpostDefExtension, TSA_WorldDomination">
                 <outpostTier>3</outpostTier>
-        <minTechLevel>Industrial</minTechLevel>
                 <minPawnsToFound>2</minPawnsToFound>
                 <requiredResearchProjectDefNames>
                     <li>BOR_Research_Production_I</li>

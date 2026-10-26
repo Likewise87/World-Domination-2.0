@@ -99,7 +99,6 @@
 
   <TSA_WorldDomination.AdvancedBuildingDef>
     <defName>TSA_WD_AdvBuilding_MortarTurret</defName>
-    <minTechLevel>Industrial</minTechLevel>
     <label>Mortar Turret</label>
     <labelKey>TSA_WD_AdvBuild_MortarTurret</labelKey>
     <category>Artillery</category>
@@ -111,7 +110,6 @@
 
   <TSA_WorldDomination.AdvancedBuildingDef>
     <defName>TSA_WD_AdvBuilding_AaTurret</defName>
-    <minTechLevel>Industrial</minTechLevel>
     <label>AA Turret</label>
     <labelKey>TSA_WD_AdvBuild_AaTurret</labelKey>
     <category>Artillery</category>

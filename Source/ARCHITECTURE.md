@@ -254,15 +254,20 @@ directly name optional-mod types.
 
 If you add optional integration, update `OPTIONAL_MODS.md` in the same pass.
 
+## Dual-version (1.6 / 1.7) — always
+
+Before shipping any Def XML or new C# field: read `Guardrails/DEFS_GUIDE.md` § Dual-version. Root `Defs/` is loaded on **both** game versions against a **frozen** `1.6/Assemblies` DLL. New fields/types belong in `Defs17/` (defs or patches) + `1.7/Assemblies` only. Do not bake 1.7-only XML nodes into root defs.
+
 ## Medieval mode (`WdMedievalMode`)
 
-SSoT: `Source/Core/WdMedievalMode.cs`. Main checkbox `wdMedievalMode` (below Setting presets on the Main settings page).
+SSoT: `Source/Core/WdMedievalMode.cs`. Main checkbox `wdMedievalMode` (below Setting presets on the Main settings page). **1.7-only** feature (C# lives in `1.7/Assemblies`).
 
 - **Content filter:** defs with `minTechLevel` above Medieval are hidden/blocked when Active (outposts, upgrades, AT turrets, NPC mortar/AA advanced buildings). Untagged = allowed. Do not `PatchOperationRemove` industrial defs.
+- **`minTechLevel` XML:** applied only via `Defs17/Patches/WD_Medieval_MinTechTags.xml` (not root `Defs/`) so 1.6 does not see unknown fields.
 - **Tech floors:** `EffectiveDropPodRaidMinTech` / `EffectiveNpcArtilleryMinTech` raise Combat dropdowns to at least Industrial while Active (never lowers a stricter Spacer setting).
 - **Player travel UI:** `PlayerDropPodsAllowed` is false when Active; `OutpostDispatchMode.GetViaDropPod` and pawn drop-pod getters force land. Rapid Response outpost stays (land intercept); its drop-pod dispatch chrome is hidden.
 - **Mid-save:** toggle should work; no auto-cleanup of existing industrial sites (use debug tools). Tip recommends backup / fresh save.
-- **MO costs:** independent of the checkbox — `Patches/MO_WdCosts.xml` when Medieval Overhaul is loaded (allowlisted Steel → iron only). See `OPTIONAL_MODS.md`.
+- **MO costs:** independent of the checkbox — root `Patches/MO_WdCosts.xml` when Medieval Overhaul is loaded (allowlisted Steel → iron only; safe on 1.6). See `OPTIONAL_MODS.md`.
 
 ## GUI perf: never scan AllWorldObjects or DefDatabase per frame
 
