@@ -42,6 +42,8 @@ namespace TSA_WorldDomination
         private static bool tipCacheMeetsMin;
         private static bool tipCacheStopped;
         private static bool tipCacheActiveCamp;
+        private static bool tipCacheIsLand;
+        private static string tipCacheLandReason;
         private static string tipCacheTooltip;
         private static string tipCacheDisableReason;
         private static string tipCacheDefaultName;
@@ -72,7 +74,7 @@ namespace TSA_WorldDomination
                 defaultDesc = tipCacheTooltip,
                 icon = cachedEstablishIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/EstablishOutpost", false) ?? ContentFinder<Texture2D>.Get("UI/Commands/Settle", false) ?? TexCommand.Replant,
                 defaultIconColor = WorldOverlayLineMaterials.DarkCyanColor,
-                meetsMinRadius = tipCacheMeetsMin && tipCacheStopped && !tipCacheActiveCamp,
+                meetsMinRadius = tipCacheMeetsMin && tipCacheStopped && !tipCacheActiveCamp && tipCacheIsLand,
                 tile = tipCacheTileId,
                 defaultName = tipCacheDefaultName,
                 tierFromCount = tipCacheTier,
@@ -118,6 +120,7 @@ namespace TSA_WorldDomination
             int minTiles = Outpost_EstablishmentRequirements.MinDistanceTiles;
             bool caravanStopped = Outpost_EstablishmentRequirements.CaravanFullyStoppedOnTileForEstablishment(caravan, tileId, out string stoppedReason);
             bool activeCamp = Outpost_EstablishmentRequirements.TileHasActiveCamp(tileId);
+            tipCacheIsLand = Outpost_EstablishmentRequirements.IsLandTileForEstablishment(tileId, out tipCacheLandReason);
 
             tipCacheMeetsMin = meetsMinRadius;
             tipCacheStopped = caravanStopped;
@@ -131,6 +134,8 @@ namespace TSA_WorldDomination
             if (string.IsNullOrEmpty(tipCacheDefaultName)) tipCacheDefaultName = "Outpost";
 
             string tooltip = "TSA_WD_EstablishOutpostTooltip".Translate(minTiles).ToString();
+            if (!tipCacheIsLand)
+                tooltip = (tipCacheLandReason ?? "TSA_WD_Establish_NeedLand".Translate().ToString()) + "\n\n" + tooltip;
             if (activeCamp)
                 tooltip = "TSA_WD_Establish_ActiveCamp".Translate() + "\n\n" + tooltip;
             if (!meetsMinRadius)
@@ -139,7 +144,9 @@ namespace TSA_WorldDomination
                 tooltip = (stoppedReason ?? "") + "\n\n" + tooltip;
             tipCacheTooltip = tooltip.TrimStart();
 
-            if (activeCamp)
+            if (!tipCacheIsLand)
+                tipCacheDisableReason = tipCacheLandReason ?? "TSA_WD_Establish_NeedLand".Translate();
+            else if (activeCamp)
                 tipCacheDisableReason = "TSA_WD_Establish_ActiveCamp".Translate();
             else if (!caravanStopped)
                 tipCacheDisableReason = stoppedReason;

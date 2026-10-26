@@ -499,6 +499,7 @@
   <TSA_WD_Establish_NeedFishSpecies>This coastal biome has no saltwater fish species available.</TSA_WD_Establish_NeedFishSpecies>
   <TSA_WD_Establish_NeedCost>Caravan needs {0} {1} (have {2}).</TSA_WD_Establish_NeedCost>
   <TSA_WD_Establish_NeedFertile>This tile is not suitable for farming (water or no plant growth).</TSA_WD_Establish_NeedFertile>
+  <TSA_WD_Establish_NeedLand>Outposts cannot be founded on water.</TSA_WD_Establish_NeedLand>
   <TSA_WD_Establish_NeedMining>Mining outposts require at least small hills.</TSA_WD_Establish_NeedMining>
   <TSA_WD_Establish_ResearchRequired>{0} requires the research &quot;{1}&quot; to be completed.</TSA_WD_Establish_ResearchRequired>
   <TSA_WD_Establish_TooClose>Too close to another settlement or outpost (minimum {0} tiles). Blocked by: {1}</TSA_WD_Establish_TooClose>

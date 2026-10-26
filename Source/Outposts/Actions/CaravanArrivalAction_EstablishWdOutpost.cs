@@ -73,6 +73,8 @@ namespace TSA_WorldDomination
         public static bool TryFinalizeFromCaravan(Caravan fromCaravan, int tile, WorldObjectDef outpostDef)
         {
             if (fromCaravan == null || fromCaravan.Destroyed || outpostDef == null) return false;
+            if (!Outpost_EstablishmentRequirements.IsLandTileForEstablishment(tile, out _))
+                return false;
             if (!Outpost_EstablishmentRequirements.TryDeductCost(fromCaravan, outpostDef))
                 return false;
 

@@ -550,6 +550,26 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
+        /// True if the tile is valid land for founding. Ocean/lake (including WD bridged water) is rejected;
+        /// bridged tiles stay <see cref="Tile.WaterCovered"/>.
+        /// </summary>
+        public static bool IsLandTileForEstablishment(int tile, out string reason)
+        {
+            reason = null;
+            if (Find.WorldGrid == null || tile < 0 || tile >= Find.WorldGrid.TilesCount)
+            {
+                reason = "Invalid tile.";
+                return false;
+            }
+            if (Find.WorldGrid[tile].WaterCovered)
+            {
+                reason = "TSA_WD_Establish_NeedLand".Translate();
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
         /// Returns true if the tile and caravan satisfy requirements for this outpost type. reason is set when false.
         /// <paramref name="requireFullyStopped"/> is false for drop-pod finalize: the founding caravan is spawned on the tile
         /// and may still look mid-move / have a stale destination to the stop helper.
@@ -569,11 +589,8 @@ namespace TSA_WorldDomination
                 return false;
             }
 
-            if (Find.WorldGrid == null || tile < 0 || tile >= Find.WorldGrid.TilesCount)
-            {
-                reason = "Invalid tile.";
+            if (!IsLandTileForEstablishment(tile, out reason))
                 return false;
-            }
 
             if (TileHasActiveCamp(tile))
             {
@@ -1012,11 +1029,8 @@ namespace TSA_WorldDomination
                 reason = WdMedievalMode.MedievalBlockedReason;
                 return false;
             }
-            if (Find.WorldGrid == null || tile < 0 || tile >= Find.WorldGrid.TilesCount)
-            {
-                reason = "Invalid tile.";
+            if (!IsLandTileForEstablishment(tile, out reason))
                 return false;
-            }
             if (TileHasActiveCamp(tile))
             {
                 reason = "TSA_WD_Establish_ActiveCamp".Translate();

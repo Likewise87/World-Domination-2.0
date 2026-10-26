@@ -424,6 +424,7 @@
   <TSA_WD_Establish_NeedFishSpecies>Este bioma costero no tiene especies de peces de agua salada disponibles.</TSA_WD_Establish_NeedFishSpecies>
   <TSA_WD_Establish_NeedCost>La caravana necesita {0} {1} (tienes {2}).</TSA_WD_Establish_NeedCost>
   <TSA_WD_Establish_NeedFertile>Esta casilla no es apta para cultivo (agua o sin crecimiento de plantas).</TSA_WD_Establish_NeedFertile>
+  <TSA_WD_Establish_NeedLand>No se pueden fundar avanzadillas en el agua.</TSA_WD_Establish_NeedLand>
   <TSA_WD_Establish_NeedMining>Las avanzadillas mineras requieren al menos colinas pequeñas.</TSA_WD_Establish_NeedMining>
   <TSA_WD_Establish_ResearchRequired>{0} requiere que la investigación &quot;{1}&quot; esté completada.</TSA_WD_Establish_ResearchRequired>
   <TSA_WD_Establish_TooClose>Demasiado cerca de otro asentamiento o avanzadilla (mínimo {0} casillas). Bloqueado por: {1}</TSA_WD_Establish_TooClose>

@@ -83,11 +83,14 @@ namespace TSA_WorldDomination
             tipCacheActiveCamp = Outpost_EstablishmentRequirements.TileHasActiveCamp(tile);
             tipCacheMeetsMin = Outpost_EstablishmentRequirements.MeetsMinDistanceOnly(tile, out tipCacheMinRadiusReason);
             tipCacheHasColony = Outpost_PowerPlant.GetPlayerColonyMap() != null;
+            bool isLand = Outpost_EstablishmentRequirements.IsLandTileForEstablishment(tile, out string landReason);
 
             string tooltip = "TSA_WD_TileFirstEstablish_GizmoTip".Translate(
                 Outpost_EstablishmentRequirements.MinDistanceTiles).ToString();
             if (tipCacheOccupied)
                 tooltip = "TSA_WD_TileFirstEstablish_Occupied".Translate() + "\n\n" + tooltip;
+            else if (!isLand)
+                tooltip = (landReason ?? "TSA_WD_Establish_NeedLand".Translate().ToString()) + "\n\n" + tooltip;
             else if (tipCacheActiveCamp)
                 tooltip = "TSA_WD_Establish_ActiveCamp".Translate() + "\n\n" + tooltip;
             else if (!tipCacheMeetsMin)
@@ -99,6 +102,8 @@ namespace TSA_WorldDomination
 
             if (tipCacheOccupied)
                 tipCacheDisableReason = "TSA_WD_TileFirstEstablish_Occupied".Translate();
+            else if (!isLand)
+                tipCacheDisableReason = landReason ?? "TSA_WD_Establish_NeedLand".Translate();
             else if (tipCacheActiveCamp)
                 tipCacheDisableReason = "TSA_WD_Establish_ActiveCamp".Translate();
             else if (!tipCacheMeetsMin)

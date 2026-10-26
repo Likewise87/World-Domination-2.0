@@ -424,6 +424,7 @@
   <TSA_WD_Establish_NeedFishSpecies>此沿岸生物群系没有可用的咸水鱼种。</TSA_WD_Establish_NeedFishSpecies>
   <TSA_WD_Establish_NeedCost>商队需要 {0} 个 {1}(当前 {2})。</TSA_WD_Establish_NeedCost>
   <TSA_WD_Establish_NeedFertile>此格不适合农耕(水域或无植物生长)。</TSA_WD_Establish_NeedFertile>
+  <TSA_WD_Establish_NeedLand>不能在水面上建立前哨站。</TSA_WD_Establish_NeedLand>
   <TSA_WD_Establish_NeedMining>采矿前哨站至少需要小丘地形。</TSA_WD_Establish_NeedMining>
   <TSA_WD_Establish_ResearchRequired>{0} 需要完成研究"{1}"。</TSA_WD_Establish_ResearchRequired>
   <TSA_WD_Establish_TooClose>距其他定居点或前哨站过近(最少 {0} 格)。阻挡者:{1}</TSA_WD_Establish_TooClose>
