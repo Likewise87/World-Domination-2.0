@@ -265,10 +265,26 @@ namespace TSA_WorldDomination
             getProjectileMethod ??= AccessTools.Method(GetCeUtilityType(), "GetProjectile", new[] { typeof(ThingDef) });
 
         private static MethodInfo GetGetShotAngleMethod() =>
-            getShotAngleMethod ??= AccessTools.Method(GetCeUtilityType(), "GetShotAngle");
+            getShotAngleMethod ??= AccessTools.Method(
+                GetCeUtilityType(),
+                "GetShotAngle",
+                new[] { typeof(float), typeof(float), typeof(float), typeof(bool), typeof(float) });
 
         private static MethodInfo GetLaunchProjectileMethod() =>
-            launchProjectileMethod ??= AccessTools.Method(GetCeUtilityType(), "LaunchProjectileCE");
+            launchProjectileMethod ??= AccessTools.Method(
+                GetCeUtilityType(),
+                "LaunchProjectileCE",
+                new[]
+                {
+                    typeof(ThingDef),
+                    typeof(Vector2),
+                    typeof(LocalTargetInfo),
+                    typeof(Thing),
+                    typeof(float),
+                    typeof(float),
+                    typeof(float),
+                    typeof(float)
+                });
 
         private static T GetFieldObject<T>(object obj, string fieldName) where T : class
         {

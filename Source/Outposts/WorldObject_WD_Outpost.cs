@@ -3564,6 +3564,24 @@ namespace TSA_WorldDomination
                         Log.Warning($"[TSA WD] OccupantNeedsHealing rescan failed for {LabelCap}: {e.Message}");
                     }
                 }
+                if (!prisonersNeedHealing && prisoners != null)
+                {
+                    try
+                    {
+                        for (int i = 0; i < prisoners.Count; i++)
+                        {
+                            if (Outpost_OccupantProgression.OccupantNeedsHealing(prisoners[i]))
+                            {
+                                prisonersNeedHealing = true;
+                                break;
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Warning($"[TSA WD] PrisonerNeedsHealing rescan failed for {LabelCap}: {e.Message}");
+                    }
+                }
                 OutpostExpertUtility.ValidateAssignments(this);
                 SyncExpertSlotUnlockBaseline();
                 GetComponent<CompViralSpread>()?.UpdateOutpostStrengthLogically();

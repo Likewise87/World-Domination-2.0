@@ -34,6 +34,8 @@ namespace TSA_WorldDomination
         public int ageYears;
         /// <summary>Summary health percent 0–100 (sortable Health column).</summary>
         public float healthPercent;
+        /// <summary>True when <see cref="Outpost_OccupantProgression.OccupantShowsHurtIcon"/> (active BleedRate).</summary>
+        public bool needsHealing;
         public MapParent mapParent;
         public WorldObject_WD_Outpost holdingOutpost;
         public Caravan holdingCaravan;
@@ -315,6 +317,7 @@ namespace TSA_WorldDomination
             entry.skillLevels = BuildSkillLevels(VirtualPawnSummary.FromPawn(p));
             entry.ageYears = p.ageTracker != null ? p.ageTracker.AgeBiologicalYears : 0;
             entry.healthPercent = OutpostStrengthBudgetUi.GetHealthPercent(p);
+            entry.needsHealing = Outpost_OccupantProgression.OccupantShowsHurtIcon(p);
             FillTraits(p, entry);
             return entry;
         }
@@ -546,6 +549,12 @@ namespace TSA_WorldDomination
                 return a.ageYears.CompareTo(b.ageYears);
             if (col == "Health")
                 return a.healthPercent.CompareTo(b.healthPercent);
+            if (col == "Hurt")
+            {
+                int ah = a.needsHealing ? 1 : 0;
+                int bh = b.needsHealing ? 1 : 0;
+                return ah.CompareTo(bh);
+            }
 
             SkillDef[] skills = PlayerPawnRosterUtility.AllSkillColumns;
             for (int i = 0; i < skills.Length; i++)

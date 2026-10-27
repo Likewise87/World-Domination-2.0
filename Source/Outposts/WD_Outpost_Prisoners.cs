@@ -619,6 +619,7 @@ namespace TSA_WorldDomination
                 if (recruit != null)
                     pawn.guest.SetExclusiveInteraction(recruit);
             }
+            NotePrisonerMaybeNeedsHealing(pawn);
             if (hadSchedule && schedule != null && !thingId.NullOrEmpty())
             {
                 if (scheduledOutpost != null && !scheduledOutpost.Destroyed)

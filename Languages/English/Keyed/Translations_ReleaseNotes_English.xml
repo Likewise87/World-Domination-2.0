@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_59_Title>Bugfixes as reported on Discord</TSA_WD_Update_2_3_59_Title>
+  <TSA_WD_Update_2_3_59_Body><![CDATA[
+<size=16><b>2.3.59 - Bugfixes as reported on Discord</b></size>\n
+<color=#00FFFFFF>Release date: October 27th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• Prisoners at outposts should now also show the bleeding icon if they are hurt. Also fixed an issue where prisoners would not heal over time after loading a savegame.\n
+• When using a Vehicle Framework vehicle caravan to attack a settlement and choosing Recruit Survivors after conquest, those pawns are now added more gracefully to the existing caravan. Fallback: create an extra caravan. Previously, there could be cases where your vehicle caravan would get deleted (vehicle caravans are very different from vanilla caravans).\n
+• When you raid a settlement in range of one of your artillery outposts, you may call in artillery support to shell the local map. With Combat Extended, this uses CE shells. There was a bug in the 1.7 version making those CE shells not spawn (stricter Harmony patch requirements). Fixed.\n
+• Fixed a bug where settlements could get their advanced buildings (silos, stables, etc.) duplicated when loading a savegame. Hardened the logic to protect against duplication.\n
+]]></TSA_WD_Update_2_3_59_Body>
   <TSA_WD_Update_2_3_58_Title>Medieval mode</TSA_WD_Update_2_3_58_Title>
   <TSA_WD_Update_2_3_58_Body><![CDATA[
 <size=16><b>2.3.58 - Medieval mode</b></size>\n

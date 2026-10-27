@@ -155,6 +155,7 @@ namespace TSA_WorldDomination
             };
             AddDlcBioOptions(prisoners);
             prisoners.Add(new PawnRosterColumnOption(PawnRosterColumnIds.Health, "TSA_WD_PawnRoster_ColHealth", false));
+            prisoners.Add(new PawnRosterColumnOption(PawnRosterColumnIds.Hurt, "TSA_WD_PawnRoster_ColHurt", true));
             AddSkillOptions(prisoners, prefixFullSkill: false, defaultOn: true);
             prisoners.Add(new PawnRosterColumnOption(PawnRosterColumnIds.Destination, "TSA_WD_Prisoners_ColDestination", true));
 

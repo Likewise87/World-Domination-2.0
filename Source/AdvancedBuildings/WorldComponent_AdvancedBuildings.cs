@@ -6,8 +6,10 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Live index of <see cref="WorldObject_WD_AdvancedBuilding"/> by tile and by owner settlement.
-    /// Rebuilt from world objects on FinalizeInit; buildings register themselves on spawn/remove.
+    /// Live registry of <see cref="WorldObject_WD_AdvancedBuilding"/> (<see cref="all"/> + tile index).
+    /// Ownership for slots/types/effects/wipe is always derived from live <c>builtBySettlement</c> on
+    /// <see cref="all"/> (AT-turret style) — never a denormalized owner map that can go stale on load.
+    /// Rebuilt from world objects on FinalizeInit; deferred + daily heal collapses same-type duplicates.
     /// Also owns deferred work that must never run during load (free T4 turret, legacy grant, orphan sweep).
     /// </summary>
     public class WorldComponent_AdvancedBuildings : WorldComponent
@@ -17,7 +19,6 @@ namespace TSA_WorldDomination
 
         private readonly List<WorldObject_WD_AdvancedBuilding> all = new List<WorldObject_WD_AdvancedBuilding>();
         private readonly Dictionary<int, WorldObject_WD_AdvancedBuilding> byTile = new Dictionary<int, WorldObject_WD_AdvancedBuilding>();
-        private readonly Dictionary<int, List<WorldObject_WD_AdvancedBuilding>> byOwnerId = new Dictionary<int, List<WorldObject_WD_AdvancedBuilding>>();
         private static readonly List<WorldObject_WD_AdvancedBuilding> EmptyList = new List<WorldObject_WD_AdvancedBuilding>();
 
         /// <summary>Bumped on any add/remove; UI caches key on this.</summary>
@@ -27,6 +28,7 @@ namespace TSA_WorldDomination
         private bool legacyArtilleryGrantDone;
         private bool legacyGrantPending;
         private bool bootstrapSweepPending;
+        private bool indexHealPending;
         private readonly List<Settlement> pendingFreeT4 = new List<Settlement>();
         private int lastOrphanSweepTick = -1;
 
@@ -57,6 +59,7 @@ namespace TSA_WorldDomination
             cachedWorld = world;
             RebuildIndex();
             pendingFreeT4.Clear();
+            indexHealPending = fromLoad;
             if (!fromLoad)
             {
                 legacyArtilleryGrantDone = true;
@@ -72,7 +75,6 @@ namespace TSA_WorldDomination
         {
             all.Clear();
             byTile.Clear();
-            byOwnerId.Clear();
             List<WorldObject> objs = Find.WorldObjects?.AllWorldObjects;
             if (objs != null)
             {
@@ -87,8 +89,10 @@ namespace TSA_WorldDomination
 
         public void Register(WorldObject_WD_AdvancedBuilding b)
         {
-            if (b == null || b.Destroyed || all.Contains(b)) return;
-            AddInternal(b);
+            if (b == null || b.Destroyed) return;
+            if (!all.Contains(b))
+                all.Add(b);
+            RefreshTileIndex(b);
             NotifyChanged();
         }
 
@@ -99,26 +103,21 @@ namespace TSA_WorldDomination
             int tile = b.Tile.tileId;
             if (byTile.TryGetValue(tile, out var atTile) && atTile == b)
                 byTile.Remove(tile);
-            foreach (var kv in byOwnerId)
-                kv.Value.Remove(b);
             NotifyChanged();
         }
 
         private void AddInternal(WorldObject_WD_AdvancedBuilding b)
         {
             all.Add(b);
-            if (b.Tile.tileId >= 0)
-                byTile[b.Tile.tileId] = b;
-            Settlement owner = b.builtBySettlement;
-            if (owner != null)
-            {
-                if (!byOwnerId.TryGetValue(owner.ID, out var list))
-                {
-                    list = new List<WorldObject_WD_AdvancedBuilding>(4);
-                    byOwnerId[owner.ID] = list;
-                }
-                list.Add(b);
-            }
+            RefreshTileIndex(b);
+        }
+
+        private void RefreshTileIndex(WorldObject_WD_AdvancedBuilding b)
+        {
+            if (b == null) return;
+            int tile = b.Tile.tileId;
+            if (tile >= 0)
+                byTile[tile] = b;
         }
 
         private void NotifyChanged()
@@ -138,29 +137,46 @@ namespace TSA_WorldDomination
 
         public bool HasAt(int tileId) => At(tileId) != null;
 
+        /// <summary>
+        /// Live ownership: walk <see cref="all"/> by current <c>builtBySettlement</c>.
+        /// Call sites are daily / inspect / ambush / selection — not every GUI frame.
+        /// </summary>
         public List<WorldObject_WD_AdvancedBuilding> OwnedBy(Settlement owner)
         {
             if (owner == null) return EmptyList;
-            return byOwnerId.TryGetValue(owner.ID, out var list) ? list : EmptyList;
+            var list = new List<WorldObject_WD_AdvancedBuilding>(4);
+            for (int i = 0; i < all.Count; i++)
+            {
+                var b = all[i];
+                if (b == null || b.Destroyed) continue;
+                if (b.builtBySettlement == owner)
+                    list.Add(b);
+            }
+            return list;
         }
 
         public int CountOwnedBy(Settlement owner)
         {
+            if (owner == null) return 0;
             int n = 0;
-            var list = OwnedBy(owner);
-            for (int i = 0; i < list.Count; i++)
-                if (list[i] != null && !list[i].Destroyed) n++;
+            for (int i = 0; i < all.Count; i++)
+            {
+                var b = all[i];
+                if (b != null && !b.Destroyed && b.builtBySettlement == owner)
+                    n++;
+            }
             return n;
         }
 
         public WorldObject_WD_AdvancedBuilding FindOwned(Settlement owner, AdvancedBuildingDef def)
         {
-            if (def == null) return null;
-            var list = OwnedBy(owner);
-            for (int i = 0; i < list.Count; i++)
+            if (owner == null || def == null) return null;
+            for (int i = 0; i < all.Count; i++)
             {
-                var b = list[i];
-                if (b != null && !b.Destroyed && b.BuildingDef == def) return b;
+                var b = all[i];
+                if (b == null || b.Destroyed) continue;
+                if (b.builtBySettlement == owner && b.BuildingDef == def)
+                    return b;
             }
             return null;
         }
@@ -169,11 +185,13 @@ namespace TSA_WorldDomination
 
         public bool HasEffect(Settlement owner, AdvancedBuildingEffect effect)
         {
-            var list = OwnedBy(owner);
-            for (int i = 0; i < list.Count; i++)
+            if (owner == null) return false;
+            for (int i = 0; i < all.Count; i++)
             {
-                var b = list[i];
-                if (b != null && !b.Destroyed && b.BuildingDef != null && b.BuildingDef.effect == effect)
+                var b = all[i];
+                if (b == null || b.Destroyed) continue;
+                if (b.builtBySettlement != owner) continue;
+                if (b.BuildingDef != null && b.BuildingDef.effect == effect)
                     return true;
             }
             return false;
@@ -181,12 +199,14 @@ namespace TSA_WorldDomination
 
         public int CountArtilleryOwnedBy(Settlement owner)
         {
+            if (owner == null) return 0;
             int n = 0;
-            var list = OwnedBy(owner);
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < all.Count; i++)
             {
-                var b = list[i];
-                if (b != null && !b.Destroyed && b.BuildingDef != null && b.BuildingDef.IsArtillery) n++;
+                var b = all[i];
+                if (b == null || b.Destroyed) continue;
+                if (b.builtBySettlement != owner) continue;
+                if (b.BuildingDef != null && b.BuildingDef.IsArtillery) n++;
             }
             return n;
         }
@@ -209,11 +229,11 @@ namespace TSA_WorldDomination
         public bool OwnerHasStable(Settlement owner)
         {
             if (owner == null) return false;
-            var list = OwnedBy(owner);
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < all.Count; i++)
             {
-                var b = list[i];
+                var b = all[i];
                 if (b == null || b.Destroyed) continue;
+                if (b.builtBySettlement != owner) continue;
                 AdvancedBuildingDef def = b.BuildingDef;
                 if (def != null && def.effect == AdvancedBuildingEffect.LandSpeedPct)
                     return true;
@@ -227,10 +247,9 @@ namespace TSA_WorldDomination
             if (owner == null) return;
             var list = OwnedBy(owner);
             if (list.Count == 0) return;
-            var doomed = new List<WorldObject_WD_AdvancedBuilding>(list);
-            for (int i = 0; i < doomed.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                var b = doomed[i];
+                var b = list[i];
                 if (b == null || b.Destroyed) continue;
                 b.suppressDestroyedLetter = true;
                 b.Destroy();
@@ -248,6 +267,13 @@ namespace TSA_WorldDomination
         {
             if (Find.TickManager == null) return;
             int now = Find.TickManager.TicksGame;
+
+            if (indexHealPending)
+            {
+                indexHealPending = false;
+                RebuildIndex();
+                DedupeOwnedTypes();
+            }
 
             if (legacyGrantPending)
             {
@@ -275,7 +301,9 @@ namespace TSA_WorldDomination
             if (now - lastOrphanSweepTick >= GenDate.TicksPerDay)
             {
                 lastOrphanSweepTick = now;
+                RebuildIndex();
                 RemoveOrphans();
+                DedupeOwnedTypes();
                 // Catches T4 foundings that skip the tier-change hook (conquest, pack-up, revolt, edits).
                 WorldActions_AdvancedBuildings.QueueBootstrapT4Grants(this);
             }
@@ -299,7 +327,71 @@ namespace TSA_WorldDomination
                 doomed[i].suppressDestroyedLetter = true;
                 doomed[i].Destroy();
             }
-            RebuildIndex();
+        }
+
+        /// <summary>
+        /// Same owner + same <see cref="AdvancedBuildingDef"/>: keep earliest <c>placedTick</c>
+        /// (tie-break lower world-object ID), destroy extras. Never call during load.
+        /// </summary>
+        private void DedupeOwnedTypes()
+        {
+            if (all.Count < 2) return;
+            // key: owner.ID ^ def shortHash in high bits via composite string avoided — use nested dict
+            var bestByOwnerDef = new Dictionary<int, Dictionary<AdvancedBuildingDef, WorldObject_WD_AdvancedBuilding>>();
+            List<WorldObject_WD_AdvancedBuilding> doomed = null;
+
+            for (int i = 0; i < all.Count; i++)
+            {
+                var b = all[i];
+                if (b == null || b.Destroyed) continue;
+                Settlement owner = b.builtBySettlement;
+                AdvancedBuildingDef def = b.BuildingDef;
+                if (owner == null || def == null) continue;
+
+                if (!bestByOwnerDef.TryGetValue(owner.ID, out var byDef))
+                {
+                    byDef = new Dictionary<AdvancedBuildingDef, WorldObject_WD_AdvancedBuilding>();
+                    bestByOwnerDef[owner.ID] = byDef;
+                }
+
+                if (!byDef.TryGetValue(def, out var keep) || keep == null || keep.Destroyed)
+                {
+                    byDef[def] = b;
+                    continue;
+                }
+
+                WorldObject_WD_AdvancedBuilding winner = PreferOlderBuilding(keep, b);
+                WorldObject_WD_AdvancedBuilding loser = winner == keep ? b : keep;
+                byDef[def] = winner;
+                doomed ??= new List<WorldObject_WD_AdvancedBuilding>();
+                if (!doomed.Contains(loser))
+                    doomed.Add(loser);
+            }
+
+            if (doomed == null) return;
+            for (int i = 0; i < doomed.Count; i++)
+            {
+                var b = doomed[i];
+                if (b == null || b.Destroyed) continue;
+                b.suppressDestroyedLetter = true;
+                b.Destroy();
+            }
+        }
+
+        private static WorldObject_WD_AdvancedBuilding PreferOlderBuilding(
+            WorldObject_WD_AdvancedBuilding a,
+            WorldObject_WD_AdvancedBuilding b)
+        {
+            int ta = a.placedTick;
+            int tb = b.placedTick;
+            if (ta >= 0 && tb >= 0)
+            {
+                if (ta < tb) return a;
+                if (tb < ta) return b;
+            }
+            else if (ta >= 0) return a;
+            else if (tb >= 0) return b;
+            return a.ID <= b.ID ? a : b;
         }
     }
 }

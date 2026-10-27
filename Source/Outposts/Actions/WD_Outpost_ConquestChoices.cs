@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Reflection;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -9,8 +8,6 @@ namespace TSA_WorldDomination
     /// <summary>Shared logic for the post-conquest choice menu (Recruit pawns / Give settlement to an ally).</summary>
     public static class WD_Outpost_ConquestChoices
     {
-        private static MethodInfo cachedMergeCaravansMethod;
-
         /// <summary>
         /// Generates conquest-founding-count player-faction recruits using the conquered faction's xenotypes and pawn kinds,
         /// then delivers them into the conquering caravan if present, otherwise as a caravan at the ruins tile.
@@ -46,24 +43,30 @@ namespace TSA_WorldDomination
             }
             if (pawns.Count == 0) return;
 
-            // Same safe path as the Recruiting outpost: first create a fully valid player caravan, then optionally merge.
+            // Valid temp caravan first, then forced join onto conquering caravan (never MergeCaravans —
+            // MaxBy pawn-count can Destroy a smaller Vehicle Framework VehicleCaravan and wipe vehicles).
             Caravan caravan = CaravanMaker.MakeCaravan(pawns, Faction.OfPlayer, tile, true);
             PlayerPawnTransferUtility.PackTravelPemmican(
                 caravan,
                 PlayerPawnTransferUtility.GetTravelPemmicanShortfall(caravan, pawns.Count));
 
             Caravan existing = FindCaravan(conqueringCaravanId);
-            if (TryMergeRecruitCaravanIntoExisting(caravan, existing))
+            int joined = TryJoinRecruitCaravanIntoExisting(caravan, existing);
+            if (joined > 0)
             {
-                Messages.Message("TSA_WD_Conquest_RecruitJoined".Translate(pawns.Count, existing.Label), existing, MessageTypeDefOf.NeutralEvent);
-                return;
+                Messages.Message("TSA_WD_Conquest_RecruitJoined".Translate(joined, existing.Label), existing, MessageTypeDefOf.NeutralEvent);
+                if (caravan == null || caravan.Destroyed || caravan.PawnsListForReading.Count == 0)
+                    return;
             }
+
+            if (caravan == null || caravan.Destroyed || caravan.PawnsListForReading.Count == 0)
+                return;
 
             MapParent home = Find.AnyPlayerHomeMap?.Parent;
             if (home != null)
                 caravan.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(home.Tile, caravan), null, false, false);
 
-            Messages.Message("TSA_WD_Conquest_RecruitArriving".Translate(pawns.Count), caravan, MessageTypeDefOf.NeutralEvent);
+            Messages.Message("TSA_WD_Conquest_RecruitArriving".Translate(caravan.PawnsListForReading.Count), caravan, MessageTypeDefOf.NeutralEvent);
         }
 
         /// <summary>Conquest recruits are scripted rewards generated as player pawns; only clear transient ownership/holder state before caravan use.</summary>
@@ -74,30 +77,73 @@ namespace TSA_WorldDomination
             pawn.holdingOwner?.Remove(pawn);
         }
 
-        private static bool TryMergeRecruitCaravanIntoExisting(Caravan recruitCaravan, Caravan existing)
+        /// <summary>
+        /// Move recruits (and remaining temp inventory) onto <paramref name="existing"/> via AddPawn / AddPawnOrItem,
+        /// then destroy the empty temp caravan. Keeps the conquering caravan instance (safe for VF VehicleCaravan).
+        /// Returns how many pawns joined; 0 means join failed (caller may path the temp caravan home).
+        /// </summary>
+        private static int TryJoinRecruitCaravanIntoExisting(Caravan recruitCaravan, Caravan existing)
         {
-            if (recruitCaravan == null || recruitCaravan.Destroyed) return false;
-            if (existing == null || existing.Destroyed) return false;
-            if (!existing.IsPlayerControlled || !recruitCaravan.IsPlayerControlled) return false;
-            if (existing.Faction != Faction.OfPlayer || recruitCaravan.Faction != Faction.OfPlayer) return false;
-            if (existing.Tile != recruitCaravan.Tile) return false;
+            if (recruitCaravan == null || recruitCaravan.Destroyed) return 0;
+            if (existing == null || existing.Destroyed) return 0;
+            if (!existing.IsPlayerControlled || !recruitCaravan.IsPlayerControlled) return 0;
+            if (existing.Faction != Faction.OfPlayer || recruitCaravan.Faction != Faction.OfPlayer) return 0;
+            if (existing.Tile != recruitCaravan.Tile) return 0;
 
-            try
+            var toMove = new List<Pawn>(recruitCaravan.PawnsListForReading);
+            if (toMove.Count == 0) return 0;
+
+            int joined = 0;
+            for (int i = 0; i < toMove.Count; i++)
             {
-                MethodInfo merge = cachedMergeCaravansMethod ?? (cachedMergeCaravansMethod = typeof(CaravanMergeUtility).GetMethod(
-                    "MergeCaravans",
-                    BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic,
-                    null,
-                    new[] { typeof(List<Caravan>) },
-                    null));
-                if (merge == null) return false;
+                Pawn p = toMove[i];
+                if (p == null || p.Destroyed || p.Dead) continue;
+                if (!recruitCaravan.ContainsPawn(p)) continue;
 
-                merge.Invoke(null, new object[] { new List<Caravan> { existing, recruitCaravan } });
-                return !existing.Destroyed && recruitCaravan.Destroyed;
+                recruitCaravan.RemovePawn(p);
+                existing.AddPawn(p, true);
+                if (existing.ContainsPawn(p) || existing.PawnsListForReading.Contains(p))
+                    joined++;
+                else if (!recruitCaravan.Destroyed && !recruitCaravan.ContainsPawn(p))
+                    recruitCaravan.AddPawn(p, true);
             }
-            catch
+
+            if (joined <= 0 || existing.Destroyed)
+                return 0;
+
+            TransferRemainingItems(recruitCaravan, existing);
+
+            if (!recruitCaravan.Destroyed
+                && recruitCaravan.PawnsListForReading.Count == 0
+                && (recruitCaravan.GetDirectlyHeldThings() == null || recruitCaravan.GetDirectlyHeldThings().Count == 0))
             {
-                return false;
+                recruitCaravan.Destroy();
+            }
+
+            return existing.Destroyed ? 0 : joined;
+        }
+
+        private static void TransferRemainingItems(Caravan from, Caravan to)
+        {
+            if (from == null || from.Destroyed || to == null || to.Destroyed) return;
+            ThingOwner directlyHeld = from.GetDirectlyHeldThings();
+            if (directlyHeld == null || directlyHeld.Count == 0) return;
+
+            var items = new List<Thing>(directlyHeld.Count);
+            for (int i = 0; i < directlyHeld.Count; i++)
+            {
+                Thing t = directlyHeld[i];
+                if (t != null && !(t is Pawn))
+                    items.Add(t);
+            }
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                Thing t = items[i];
+                if (t == null || t.Destroyed) continue;
+                if (!directlyHeld.Contains(t)) continue;
+                directlyHeld.Remove(t);
+                to.AddPawnOrItem(t, false);
             }
         }
 

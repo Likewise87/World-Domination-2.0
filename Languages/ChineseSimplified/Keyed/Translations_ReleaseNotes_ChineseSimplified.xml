@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_59_Title>Discord 反馈的错误修复</TSA_WD_Update_2_3_59_Title>
+  <TSA_WD_Update_2_3_59_Body><![CDATA[
+<size=16><b>2.3.59 - Discord 反馈的错误修复</b></size>\n
+<color=#00FFFFFF>发布日期：2026年10月27日</color>\n
+------------------------------\n
+!!!改动仅适用于 1.7 版本!!!\n
+• 前哨中的囚犯在受伤时应也会显示流血图标。并修复了读档后囚犯不会随时间恢复的问题。\n
+• 使用 Vehicle Framework 载具商队攻打定居点并在征服后选择「招募幸存者」时，这些小人现会更稳妥地加入现有商队。备选：另建一支商队。此前有时会把载具商队删掉（载具商队与原版商队差异很大）。\n
+• 袭击落在己方炮兵前哨射程内的定居点时，可呼叫炮火支援轰击本地地图。启用 Combat Extended 时会使用 CE 炮弹。1.7 版本曾有 CE 炮弹无法生成的错误（Harmony 补丁要求更严）。已修复。\n
+• 修复读档时定居点高级建筑（筒仓、马厩等）可能被复制的问题。已加固逻辑以防重复。\n
+]]></TSA_WD_Update_2_3_59_Body>
   <TSA_WD_Update_2_3_58_Title>中世纪模式</TSA_WD_Update_2_3_58_Title>
   <TSA_WD_Update_2_3_58_Body><![CDATA[
 <size=16><b>2.3.58 - 中世纪模式</b></size>\n

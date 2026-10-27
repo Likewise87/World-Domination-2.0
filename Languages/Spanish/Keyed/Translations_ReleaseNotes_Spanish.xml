@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_59_Title>Correcciones reportadas en Discord</TSA_WD_Update_2_3_59_Title>
+  <TSA_WD_Update_2_3_59_Body><![CDATA[
+<size=16><b>2.3.59 - Correcciones reportadas en Discord</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 27 de octubre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Los prisioneros en puestos ahora también deberían mostrar el icono de sangrado si están heridos. También se corrigió que no se curaran con el tiempo tras cargar una partida guardada.\n
+• Al usar una caravana de vehículos de Vehicle Framework para atacar un asentamiento y elegir Reclutar supervivientes tras la conquista, esos peones se añaden de forma más segura a la caravana existente. Alternativa: crear una caravana extra. Antes, en algunos casos se podía borrar tu caravana de vehículos (las caravanas de vehículos son muy distintas de las de vanilla).\n
+• Si asaltas un asentamiento al alcance de uno de tus puestos de artillería, puedes pedir apoyo de artillería para bombardear el mapa local. Con Combat Extended se usan proyectiles CE. Había un fallo en la versión 1.7 por el que esos proyectiles CE no aparecían (requisitos más estrictos del parche de Harmony). Corregido.\n
+• Corregido un fallo por el que los asentamientos podían duplicar edificios avanzados (silos, establos, etc.) al cargar una partida. Se reforzó la lógica para evitar duplicaciones.\n
+]]></TSA_WD_Update_2_3_59_Body>
   <TSA_WD_Update_2_3_58_Title>Modo medieval</TSA_WD_Update_2_3_58_Title>
   <TSA_WD_Update_2_3_58_Body><![CDATA[
 <size=16><b>2.3.58 - Modo medieval</b></size>\n

@@ -48,6 +48,7 @@ namespace TSA_WorldDomination
         private const float ToolbarBtnGap = 10f;
         private const float ColAge = 44f;
         private const float ColHealth = 56f;
+        private const float ColHurt = 56f;
         private const PawnRosterColumnWindow ColWindow = PawnRosterColumnWindow.Prisoners;
 
         private static readonly Vector2 PortraitSize = new Vector2(36f, 36f);
@@ -328,6 +329,8 @@ namespace TSA_WorldDomination
                 ClearSortToDefault();
             else if (!ColOn(PawnRosterColumnIds.Health) && sortColumn == "Health")
                 ClearSortToDefault();
+            else if (!ColOn(PawnRosterColumnIds.Hurt) && sortColumn == "Hurt")
+                ClearSortToDefault();
             else if (!ColOn(PawnRosterColumnIds.Destination) && sortColumn == "Destination")
                 ClearSortToDefault();
             else
@@ -364,6 +367,7 @@ namespace TSA_WorldDomination
             if (ColOn(PawnRosterColumnIds.Ideology)) w += ColIdeology;
             if (ColOn(PawnRosterColumnIds.Age)) w += ColAge;
             if (ColOn(PawnRosterColumnIds.Health)) w += ColHealth;
+            if (ColOn(PawnRosterColumnIds.Hurt)) w += ColHurt;
             SkillDef[] skills = PlayerPawnRosterUtility.AllSkillColumns;
             for (int i = 0; i < skills.Length; i++)
             {
@@ -568,6 +572,13 @@ namespace TSA_WorldDomination
                 Rect healthHdr = new Rect(curX, hRect.y, ColHealth, hRect.height);
                 DrawHeader(ref curX, ColHealth, "TSA_WD_PawnRoster_ColHealth".Translate(), "Health", hRect, TextAnchor.MiddleCenter);
                 TooltipHandler.TipRegion(healthHdr, "TSA_WD_PawnRoster_ColHealthTip".Translate());
+            }
+
+            if (ColOn(PawnRosterColumnIds.Hurt))
+            {
+                Rect hurtHdr = new Rect(curX, hRect.y, ColHurt, hRect.height);
+                DrawHeader(ref curX, ColHurt, "TSA_WD_PawnRoster_ColHurt".Translate(), "Hurt", hRect, TextAnchor.MiddleCenter);
+                TooltipHandler.TipRegion(hurtHdr, "TSA_WD_PawnCol_HurtTip".Translate());
             }
 
             SkillDef[] skills = PlayerPawnRosterUtility.AllSkillColumns;
@@ -833,6 +844,14 @@ namespace TSA_WorldDomination
                 Widgets.Label(new Rect(curX, y, ColHealth, RowHeight),
                     Mathf.RoundToInt(entry.healthPercent).ToString() + "%");
                 curX += ColHealth;
+            }
+
+            if (ColOn(PawnRosterColumnIds.Hurt))
+            {
+                Rect hurtCell = new Rect(curX, y, ColHurt, RowHeight);
+                if (entry.needsHealing)
+                    OutpostHealthUIUtils.DrawBleedingIconCentered(hurtCell, RowHeight);
+                curX += ColHurt;
             }
 
             Text.Font = GameFont.Small;
