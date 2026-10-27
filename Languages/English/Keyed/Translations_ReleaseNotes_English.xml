@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_60_Title>Outpost bleeding fix</TSA_WD_Update_2_3_60_Title>
+  <TSA_WD_Update_2_3_60_Body><![CDATA[
+<size=16><b>2.3.60 - Outpost bleeding fix</b></size>\n
+<color=#00FFFFFF>Release date: October 27th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• Outpost bleeding icon now matches the health tab for actively bleeding missing body parts (for example Burned off), for both outpost colonists and prisoners.\n
+• Outpost virtual care now bandages bleeding on colonists and prisoners so fresh missing parts stop bleeding over time. Colonists left behind during a manual defense still get care; deployed defenders use normal map medical. Missing parts are not restored.\n
+• Hardened the bleeding icon texture lookup so the column does not silently draw blank.\n
+]]></TSA_WD_Update_2_3_60_Body>
   <TSA_WD_Update_2_3_59_Title>Bugfixes as reported on Discord</TSA_WD_Update_2_3_59_Title>
   <TSA_WD_Update_2_3_59_Body><![CDATA[
 <size=16><b>2.3.59 - Bugfixes as reported on Discord</b></size>\n

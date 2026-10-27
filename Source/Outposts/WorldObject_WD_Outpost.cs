@@ -3191,7 +3191,8 @@ namespace TSA_WorldDomination
             int prodTimerStagger = (ID ^ (ID >> 8)) & 0x7FF;
 
             // Biological aging / heal / recruit (once per in-game day, staggered).
-            // Prisoner heal/recruit also runs during manual defense (no catch-up after).
+            // Virtual heal for remaining Occupants + prisoners also runs during manual defense
+            // (deployed defenders are extracted from Occupants and use map medical).
             if (Faction == Faction.OfPlayer && (ticksGame + prodTimerStagger) % GenDate.TicksPerDay == 0)
             {
                 if (!manualDefenseActive)
@@ -3202,7 +3203,6 @@ namespace TSA_WorldDomination
                         Outpost_OccupantProgression.TickOccupantsAbilitiesOneDay(this);
                         Outpost_OccupantProgression.TickOccupantsDisappearsOneDay(this);
                         Outpost_OccupantProgression.TickOccupantsMindHygieneOneDay(this);
-                        Outpost_OccupantProgression.TickOccupantsVirtualHealingOneDay(this);
                         Outpost_OccupantNeedsProgression.TickOccupantsNeedsOneDay(this);
                         Outpost_OccupantProgression.TickOccupantsPassiveAmmoOneDay(this);
                     }
@@ -3212,6 +3212,8 @@ namespace TSA_WorldDomination
                         Outpost_OccupantProgression.TickStoredVehiclesRepairOneDay(this);
                     }
                 }
+                if (Occupants.Count > 0)
+                    Outpost_OccupantProgression.TickOccupantsVirtualHealingOneDay(this);
                 if (Prisoners.Count > 0)
                 {
                     PruneInvalidPrisonersRuntime();

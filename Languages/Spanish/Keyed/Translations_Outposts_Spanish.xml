@@ -692,7 +692,7 @@
   <TSA_WD_PawnCol_DailyFood>Comida diaria\nnecesaria</TSA_WD_PawnCol_DailyFood>
   <TSA_WD_PawnCol_ResultingStrength>Fuerza\nresultante</TSA_WD_PawnCol_ResultingStrength>
   <TSA_WD_PawnCol_Hurt>¿Sangra?</TSA_WD_PawnCol_Hurt>
-  <TSA_WD_PawnCol_HurtTip>Muestra peones con heridas que están sangrando. No incluye lesiones permanentes ni cicatrices.</TSA_WD_PawnCol_HurtTip>
+  <TSA_WD_PawnCol_HurtTip>Muestra peones con sangrado activo (heridas o partes del cuerpo faltantes que siguen sangrando). No incluye lesiones permanentes ni cicatrices.</TSA_WD_PawnCol_HurtTip>
   <TSA_WD_PawnCol_Age>Edad</TSA_WD_PawnCol_Age>
   <TSA_WD_PawnCol_SortTooltip>Clic para ordenar. Otro clic invierte el orden.</TSA_WD_PawnCol_SortTooltip>
   <TSA_WD_PawnCol_XpSuffix>XP</TSA_WD_PawnCol_XpSuffix>

@@ -10,17 +10,41 @@ namespace TSA_WorldDomination
     public static class OutpostHealthUIUtils
     {
         public const float BleedingIconSize = 22f;
+        private const string BleedingIconContentPath = "UI/Icons/Medical/Bleeding";
 
         private static Texture2D cachedBleedingIcon;
+        private static bool bleedingIconResolved;
 
         static OutpostHealthUIUtils()
         {
-            FieldInfo field = typeof(HealthCardUtility).GetField("BleedingIcon", BindingFlags.NonPublic | BindingFlags.Static);
-            cachedBleedingIcon = field?.GetValue(null) as Texture2D;
+            // Best-effort warm; GetBleedingIcon lazy-resolves if HealthCardUtility was not ready yet.
+            TryResolveBleedingIcon();
         }
 
         /// <summary>Vanilla health-tab bleeding icon (same as pawn health UI).</summary>
-        public static Texture2D GetBleedingIcon() => cachedBleedingIcon;
+        public static Texture2D GetBleedingIcon()
+        {
+            if (!bleedingIconResolved || cachedBleedingIcon == null)
+                TryResolveBleedingIcon();
+            return cachedBleedingIcon;
+        }
+
+        private static void TryResolveBleedingIcon()
+        {
+            bleedingIconResolved = true;
+            try
+            {
+                FieldInfo field = typeof(HealthCardUtility).GetField("BleedingIcon", BindingFlags.NonPublic | BindingFlags.Static);
+                cachedBleedingIcon = field?.GetValue(null) as Texture2D;
+            }
+            catch
+            {
+                cachedBleedingIcon = null;
+            }
+
+            if (cachedBleedingIcon == null)
+                cachedBleedingIcon = ContentFinder<Texture2D>.Get(BleedingIconContentPath, false);
+        }
 
         public static void DrawBleedingIconCentered(Rect cell, float rowHeight, string tooltip = null)
         {

@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_60_Title>Corrección de sangrado en puestos</TSA_WD_Update_2_3_60_Title>
+  <TSA_WD_Update_2_3_60_Body><![CDATA[
+<size=16><b>2.3.60 - Corrección de sangrado en puestos</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 27 de octubre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• El icono de sangrado del puesto ahora coincide con la pestaña de salud para partes del cuerpo faltantes que siguen sangrando (por ejemplo Quemado), tanto en colonos del puesto como en prisioneros.\n
+• La atención virtual del puesto ahora venda el sangrado de colonos y prisioneros para que las partes faltantes recientes dejen de sangrar con el tiempo. Los colonos que quedan atrás en una defensa manual siguen recibiendo atención; los desplegados usan la medicina del mapa. Las partes faltantes no se restauran.\n
+• Se reforzó la búsqueda de la textura del icono de sangrado para que la columna no quede en blanco en silencio.\n
+]]></TSA_WD_Update_2_3_60_Body>
   <TSA_WD_Update_2_3_59_Title>Correcciones reportadas en Discord</TSA_WD_Update_2_3_59_Title>
   <TSA_WD_Update_2_3_59_Body><![CDATA[
 <size=16><b>2.3.59 - Correcciones reportadas en Discord</b></size>\n

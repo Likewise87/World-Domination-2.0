@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_60_Title>前哨流血修复</TSA_WD_Update_2_3_60_Title>
+  <TSA_WD_Update_2_3_60_Body><![CDATA[
+<size=16><b>2.3.60 - 前哨流血修复</b></size>\n
+<color=#00FFFFFF>发布日期：2026年10月27日</color>\n
+------------------------------\n
+!!!改动仅适用于 1.7 版本!!!\n
+• 前哨流血图标现与健康标签页一致：仍在流血的缺失肢体（例如「烧断」）也会显示，前哨殖民者与囚犯均适用。\n
+• 前哨虚拟医疗现会包扎流血，使新鲜缺失肢体随时间停止流血。手动防御中留在前哨的殖民者仍会得到护理；已部署防守者使用地图上的正常医疗。缺失肢体不会复原。\n
+• 加固流血图标贴图查找，避免该列静默空白。\n
+]]></TSA_WD_Update_2_3_60_Body>
   <TSA_WD_Update_2_3_59_Title>Discord 反馈的错误修复</TSA_WD_Update_2_3_59_Title>
   <TSA_WD_Update_2_3_59_Body><![CDATA[
 <size=16><b>2.3.59 - Discord 反馈的错误修复</b></size>\n

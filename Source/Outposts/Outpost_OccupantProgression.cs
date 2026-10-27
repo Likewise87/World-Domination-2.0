@@ -608,7 +608,7 @@ namespace TSA_WorldDomination
             }
         }
 
-        /// <summary>True when the bleeding icon should show: an actively bleeding wound only.</summary>
+        /// <summary>True when the bleeding icon should show: any hediff with active BleedRate (injuries, fresh missing parts, etc.).</summary>
         public static bool OccupantShowsHurtIcon(Pawn pawn)
         {
             List<Hediff> hediffs = pawn?.health?.hediffSet?.hediffs;
@@ -641,19 +641,13 @@ namespace TSA_WorldDomination
             {
                 // Severity can NRE on Hediff_ChemicalDependency when LinkedGene is not ready
                 if (hediff.Severity <= HediffRemoveSeverityThreshold) return false;
-                return hediff is Hediff_Injury injury && InjuryIsBleeding(injury);
+                return hediff.BleedRate > 1E-05f;
             }
             catch
             {
                 // Modded hediffs must not break the UI gate
             }
             return false;
-        }
-
-        private static bool InjuryIsBleeding(Hediff_Injury injury)
-        {
-            if (injury == null || injury.IsPermanent()) return false;
-            return injury.BleedRate > 1E-05f;
         }
 
         public static int CountOccupantsNeedingHealing(IReadOnlyList<Pawn> occupants)
@@ -682,6 +676,8 @@ namespace TSA_WorldDomination
                 {
                     // Severity can NRE on Hediff_ChemicalDependency when LinkedGene is not ready
                     if (hediff.Severity <= HediffRemoveSeverityThreshold) continue;
+                    if (hediff.BleedRate > 1E-05f)
+                        return true;
                     if (hediff is Hediff_Injury injury && !injury.IsPermanent())
                         return true;
                     if (IsBloodLoss(hediff))
@@ -710,6 +706,11 @@ namespace TSA_WorldDomination
                 if (hediff == null) continue;
                 try
                 {
+                    if (TryVirtuallyTendBleeding(hediff))
+                    {
+                        changed = true;
+                        continue;
+                    }
                     if (TryHealInjury(pawn, hediff, dailySeverityHeal))
                     {
                         changed = true;
@@ -760,6 +761,19 @@ namespace TSA_WorldDomination
             {
                 // Modded health trackers must not break the daily pass
             }
+        }
+
+        /// <summary>
+        /// Full-quality virtual bandage. Stops bleed on tendable hediffs (e.g. fresh MissingPart sets IsFresh false).
+        /// Does not restore missing body parts. Signature matches 1.7 <see cref="Hediff.Tended(float, float, int)"/>.
+        /// </summary>
+        private static bool TryVirtuallyTendBleeding(Hediff hediff)
+        {
+            if (hediff == null) return false;
+            if (hediff.BleedRate <= 1E-05f) return false;
+            if (!hediff.TendableNow()) return false;
+            hediff.Tended(1f, 1f);
+            return true;
         }
 
         private static bool TryHealInjury(Pawn pawn, Hediff hediff, float dailySeverityHeal)
