@@ -21,8 +21,8 @@
           <li>Machining</li>
         </researchPrerequisites>
         <cost>
-          <li><thingDef>Steel</thingDef><count>50</count></li>
-          <li><thingDef>ComponentIndustrial</thingDef><count>1</count></li>
+          <li><thingDef>Steel</thingDef><count>125</count></li>
+          <li><thingDef>ComponentIndustrial</thingDef><count>3</count></li>
         </cost>
       </li>
     </modExtensions>
@@ -40,8 +40,8 @@
           <li>MicroelectronicsBasics</li>
         </researchPrerequisites>
         <cost>
-          <li><thingDef>Steel</thingDef><count>60</count></li>
-          <li><thingDef>ComponentIndustrial</thingDef><count>2</count></li>
+          <li><thingDef>Steel</thingDef><count>150</count></li>
+          <li><thingDef>ComponentIndustrial</thingDef><count>6</count></li>
         </cost>
       </li>
     </modExtensions>
@@ -58,8 +58,8 @@
           <li>Fabrication</li>
         </researchPrerequisites>
         <cost>
-          <li><thingDef>Plasteel</thingDef><count>10</count></li>
-          <li><thingDef>ComponentIndustrial</thingDef><count>3</count></li>
+          <li><thingDef>Plasteel</thingDef><count>25</count></li>
+          <li><thingDef>ComponentIndustrial</thingDef><count>9</count></li>
         </cost>
       </li>
     </modExtensions>

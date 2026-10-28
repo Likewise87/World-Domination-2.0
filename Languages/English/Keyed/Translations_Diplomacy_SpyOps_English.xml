@@ -133,8 +133,8 @@
   <TSA_WD_Diplo_DesperationChanceTooltip>If Strategy fires after a settlement is lost in an overpowered cluster, the faction may Turtle (consolidate forces into a single settlement) or run a desperation raid (abandon settlements and rush the nearest target).\n\nA cluster is settlements of that faction linked within {0} tiles. Overpowered means hostile offense within {2} tiles of any site in the cluster is at least {1}% of the cluster's own offense.\n\nWhen this is on:\nStrong factions: never desperation, always Turtle\nNormal factions: {3}% desperation, {4}% Turtle\nWeak factions: {5}% desperation, {6}% Turtle\n\nStrong = at least {7}% of an equal share of living NPC strength (1/N)\nNormal = {8}% to {7}% of equal share\nWeak = below {8}% of equal share\n\nOff = Turtle only when Strategy fires.</TSA_WD_Diplo_DesperationChanceTooltip>
   <TSA_WD_Diplo_DesperationMaxShare>Weak strength share</TSA_WD_Diplo_DesperationMaxShare>
   <TSA_WD_Diplo_DesperationMaxShareTooltip>Legacy setting kept for save compatibility. Strategy now uses equal-share bands instead.</TSA_WD_Diplo_DesperationMaxShareTooltip>
-  <TSA_WD_Diplo_DesperationCooldown>Strategy cooldown</TSA_WD_Diplo_DesperationCooldown>
-  <TSA_WD_Diplo_DesperationCooldownTooltip>Days before the same faction can run Strategy on Settlement Loss again (Turtle or desperation). Not shared with war, revolt, or forward assault.</TSA_WD_Diplo_DesperationCooldownTooltip>
+  <TSA_WD_Diplo_DesperationCooldown>Desperation cooldown</TSA_WD_Diplo_DesperationCooldown>
+  <TSA_WD_Diplo_DesperationCooldownTooltip>Global days after a desperation raid before another can fire anywhere. Does not block Turtle. Not shared with war, revolt, or forward assault.</TSA_WD_Diplo_DesperationCooldownTooltip>
   <TSA_WD_Diplo_DesperationNotify>Notify when desperation raid launches</TSA_WD_Diplo_DesperationNotify>
   <TSA_WD_Diplo_DesperationNotifyTooltip>Send a letter when a desperation raid packs up and marches.</TSA_WD_Diplo_DesperationNotifyTooltip>
   <TSA_WD_Diplo_TriggerChance>Trigger chance</TSA_WD_Diplo_TriggerChance>

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
+using UnityEngine;
 using Verse;
 
 namespace TSA_WorldDomination
@@ -113,7 +114,10 @@ namespace TSA_WorldDomination
 
             if (traveler.maraudingChainCount >= seth.maraudingMaxChainedTargets) return false;
             if (traveler.totalTargetChanges >= seth.targetChangesMaxLifetime) return false;
-            if (traveler.travelerStrength < seth.maraudingMinSurvivingStrengthAbsolute) return false;
+
+            float lossPct = Mathf.Clamp01(seth.maraudingPostWinStrengthLossPct);
+            float projected = Mathf.Max(0f, traveler.travelerStrength * (1f - lossPct));
+            if (projected < seth.maraudingMinSurvivingStrengthAbsolute) return false;
             if (Rand.Value > seth.maraudingChanceToOccurPct) return false;
 
             var watchIndex = WorldComponent_SettlementWatchIndex.Get();
@@ -127,8 +131,11 @@ namespace TSA_WorldDomination
             var lookup = WorldActions_Utils.GetWorldObjectsWithCompByFaction();
             RaidLaunchTargetKind candidateKind = RaidLaunchGate.ClassifyTarget(best);
             float candidateRatio = RaidLaunchGate.EvaluateTravelerVsCandidateRatio(
-                traveler, best, candidateKind, lookup, manager, seth, out _);
+                traveler, best, candidateKind, lookup, manager, seth, projected, out _);
             if (candidateRatio < seth.minRaidRatio) return false;
+
+            // Accept: apply post-win tax, then retarget.
+            traveler.travelerStrength = projected;
 
             // Transport pods are one-shot: maraud continuations walk on land.
             if (traveler.mission == TravelerMission.RaidDropPod)

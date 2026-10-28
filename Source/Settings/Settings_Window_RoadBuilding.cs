@@ -319,9 +319,9 @@ namespace TSA_WorldDomination
             float defaultRange)
         {
             SettingsUI.DrawHeader(l, header);
-            work = SettingsUI.LabeledSlider(l, "TSA_WD_RoadBuilding_Work".Translate(), work, 100f, 3000f,
+            work = SettingsUI.LabeledSlider(l, "TSA_WD_RoadBuilding_Work".Translate(), work, 100f, 6000f,
                 "TSA_WD_RoadBuilding_AT_TurretWorkTip".Translate(), 25f, SliderFormat.Fixed0, defaultWork);
-            strength = SettingsUI.LabeledSlider(l, "TSA_WD_RoadBuilding_AT_TurretStrength".Translate(), strength, 10f, 300f,
+            strength = SettingsUI.LabeledSlider(l, "TSA_WD_RoadBuilding_AT_TurretStrength".Translate(), strength, 10f, 500f,
                 "TSA_WD_RoadBuilding_AT_TurretStrengthTip".Translate(), 5f, SliderFormat.Fixed0, defaultStrength);
             minConstruction = (int)SettingsUI.LabeledSlider(l, "TSA_WD_RoadBuilding_MinConstruction".Translate(), minConstruction, 0f, 60f,
                 "TSA_WD_RoadBuilding_MinConstructionTip".Translate(), 1f, SliderFormat.Fixed0, defaultMinConstruction);

@@ -1,4 +1,5 @@
 #nullable disable
+using System;
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
@@ -14,20 +15,24 @@ namespace TSA_WorldDomination
     public class Dialog_PawnRosterAdvancedFilter : Window
     {
         private const float TitleH = 30f;
-        private const float SubtitleH = 18f;
-        private const float RowH = 28f;
+        /// <summary>Row height matches All Player Pawns slate chrome (30).</summary>
+        private const float RowH = 30f;
         private const float IconBtn = 24f;
         private const float Gap = 6f;
-        private const float DirBtnW = 64f;
-        private const float LevelNumW = 22f;
+        private const float DirBtnW = 108f;
+        /// <summary>Number badge width; also the column the add <c>+</c> aligns to.</summary>
+        private const float LevelNumW = 30f;
+        private const float FilterTypeW = 140f;
         private const int OptionsRefreshFrames = 60;
 
-        /// <summary>Same as the window close X (<c>Widgets.CloseButtonFor</c>): 18px <see cref="TexButton.CloseXSmall"/>, untinted.</summary>
+        /// <summary>Same as the window close X (<c>Widgets.CloseButtonFor</c>): 18px <see cref="TexButton.CloseXSmall"/>.</summary>
         private const float CloseXSize = 18f;
         /// <summary>Space between the close X and the row's right edge.</summary>
         private const float CloseXRightInset = 6f;
         /// <summary>Space between the content and the vertical scrollbar.</summary>
         private const float ScrollbarGap = 6f;
+        /// <summary>Destructive remove tint (filter/sort clear X and Delete preset).</summary>
+        private static readonly Color RemoveTint = new Color(0.9f, 0.25f, 0.25f);
 
         private readonly IPawnRosterViewHost host;
         private readonly List<PawnRosterSortOption> sortOptions = new List<PawnRosterSortOption>();
@@ -37,13 +42,22 @@ namespace TSA_WorldDomination
         private readonly List<string> addableKeys = new List<string>();
         private int seenTraitRevision = -1;
         private Vector2 scroll;
-        private bool presetsExpanded = true;
         private bool sortExpanded = true;
         private bool filtersExpanded = true;
         private int optionsFrame = -9999;
 
         private static string buttonTip;
         public static string ButtonTip => buttonTip ??= "TSA_WD_AdvFilter_ButtonTip".Translate();
+
+        private static Texture2D savePresetIcon;
+        private static Texture2D overwritePresetIcon;
+        private static Texture2D presetPickerIcon;
+        private static Texture2D SavePresetIcon =>
+            savePresetIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Save", false) ?? TexButton.Save;
+        private static Texture2D OverwritePresetIcon =>
+            overwritePresetIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Overwrite", false) ?? TexButton.Paste;
+        private static Texture2D PresetPickerIcon =>
+            presetPickerIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Icon_ActionLog", false);
 
         public override Vector2 InitialSize => new Vector2(520f, 640f);
 
@@ -94,12 +108,13 @@ namespace TSA_WorldDomination
             }
 
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(0f, 0f, inRect.width, TitleH), "TSA_WD_AdvFilter_Title".Translate());
-            Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(0f, TitleH, inRect.width, SubtitleH), "TSA_WD_AdvFilter_Subtitle".Translate());
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(new Rect(0f, 0f, inRect.width - 36f, TitleH), "TSA_WD_AdvFilter_Title".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
 
-            float top = TitleH + SubtitleH + 6f;
+            // TitleH clears Medium (≥30); leave a small gap before the first section header.
+            float top = TitleH + 6f;
             Rect outRect = new Rect(0f, top, inRect.width, inRect.height - top);
             float viewH = 3 * 34f + 3 * RowH * 2f
                 + (sortExpanded ? (host.RosterView.Sort.Count + 2) * (RowH + 4f) : 0f)
@@ -110,9 +125,9 @@ namespace TSA_WorldDomination
             var listing = new Listing_Standard();
             listing.Begin(view);
 
-            if (SettingsUI.DrawCollapsibleHeader(listing, "TSA_WD_AdvFilter_Presets".Translate(), ref presetsExpanded,
-                    SettingsUI.SectionHeaderColor, "TSA_WD_AdvFilter_PresetsTip".Translate()))
-                DrawPresets(listing);
+            SettingsUI.DrawStaticSectionHeader(listing, "TSA_WD_AdvFilter_Presets".Translate(),
+                SettingsUI.SectionHeaderColor, "TSA_WD_AdvFilter_PresetsTip".Translate());
+            DrawPresets(listing);
 
             if (SettingsUI.DrawCollapsibleHeader(listing, "TSA_WD_AdvFilter_SortLevels".Translate(), ref sortExpanded,
                     SettingsUI.SectionHeaderColor, "TSA_WD_AdvFilter_SortLevelsTip".Translate()))
@@ -150,28 +165,48 @@ namespace TSA_WorldDomination
             if (selectedPreset != null && !all.Contains(selectedPreset))
                 selectedPreset = null;
 
-            Rect pickRect = listing.GetRect(RowH);
+            // Match All Player Pawns slate chrome height (ToolbarBtnHeight = 30).
+            const float pickH = 30f;
+            Rect row = listing.GetRect(pickH);
+            float iconsW = 4f * IconBtn + 3f * Gap;
+            // Same LevelNumW column as sort/filter number badges and the add + control.
+            Rect numSlot = new Rect(row.x, row.y, LevelNumW, pickH);
+            Rect pickRect = new Rect(numSlot.xMax + Gap, row.y, Mathf.Max(40f, row.width - LevelNumW - Gap - iconsW - Gap), pickH);
+            float iconY = row.y + (pickH - IconBtn) * 0.5f;
+            float ix = pickRect.xMax + Gap;
+            Rect saveRect = new Rect(ix, iconY, IconBtn, IconBtn);
+            Rect overwriteRect = new Rect(saveRect.xMax + Gap, iconY, IconBtn, IconBtn);
+            Rect renameRect = new Rect(overwriteRect.xMax + Gap, iconY, IconBtn, IconBtn);
+            Rect deleteRect = new Rect(renameRect.xMax + Gap, iconY, IconBtn, IconBtn);
+
             string pickLabel = selectedPreset != null
                 ? selectedPreset.name
                 : NoPresetSelectedText;
-            TooltipHandler.TipRegion(pickRect, "TSA_WD_AdvFilter_SelectPresetTip".Translate());
-            if (WorldDomination_UIUtils.ButtonTextWithIcon(pickRect, null, pickLabel.Truncate(pickRect.width - 12f))
-                && all.Count > 0)
+            string pickTip = "TSA_WD_AdvFilter_SelectPresetTip".Translate();
+            // Icon centered in the number column (same center as 1/2/3 badges and +).
+            Rect presetIconRect = new Rect(
+                numSlot.x + (LevelNumW - IconBtn) * 0.5f,
+                iconY,
+                IconBtn,
+                IconBtn);
+            TooltipHandler.TipRegion(numSlot, pickTip);
+            if (PresetPickerIcon != null)
+            {
+                GUI.DrawTexture(presetIconRect, PresetPickerIcon, ScaleMode.ScaleToFit, true, 0f,
+                    SettingsUI.SectionHeaderColor, 0f, 0f);
+            }
+            bool openMenu = all.Count > 0 && Widgets.ButtonInvisible(numSlot);
+            TooltipHandler.TipRegion(pickRect, pickTip);
+            if (DrawChromeButton(pickRect, pickLabel, null) && all.Count > 0)
+                openMenu = true;
+            if (openMenu)
             {
                 SoundDefOf.Click.PlayOneShotOnCamera();
                 OpenPresetMenu(all);
             }
 
-            listing.Gap(4f);
-            Rect row = listing.GetRect(RowH);
-            float btnW = (row.width - 3f * Gap) / 4f;
-            Rect saveRect = new Rect(row.x, row.y, btnW, RowH);
-            Rect overwriteRect = new Rect(saveRect.xMax + Gap, row.y, btnW, RowH);
-            Rect renameRect = new Rect(overwriteRect.xMax + Gap, row.y, btnW, RowH);
-            Rect deleteRect = new Rect(renameRect.xMax + Gap, row.y, btnW, RowH);
             bool has = selectedPreset != null;
-
-            if (DrawButton(saveRect, "TSA_WD_AdvFilter_SaveNew".Translate(), true, "TSA_WD_AdvFilter_SaveNewTip".Translate()))
+            if (DrawIcon(saveRect, SavePresetIcon, true, "TSA_WD_AdvFilter_SaveNewTip".Translate(), null))
             {
                 Find.WindowStack.Add(new Dialog_PawnRosterPresetName(
                     "TSA_WD_AdvFilter_SaveNewTitle".Translate(), "",
@@ -184,12 +219,12 @@ namespace TSA_WorldDomination
                         Messages.Message("TSA_WD_AdvFilter_Saved".Translate(created.name), MessageTypeDefOf.SilentInput, false);
                     }));
             }
-            if (DrawButton(overwriteRect, "TSA_WD_AdvFilter_Overwrite".Translate(), has, "TSA_WD_AdvFilter_OverwriteTip".Translate()))
+            if (DrawIcon(overwriteRect, OverwritePresetIcon, has, "TSA_WD_AdvFilter_OverwriteTip".Translate(), null))
             {
                 PawnRosterFilterPresets.Overwrite(selectedPreset, host);
                 Messages.Message("TSA_WD_AdvFilter_Saved".Translate(selectedPreset.name), MessageTypeDefOf.SilentInput, false);
             }
-            if (DrawButton(renameRect, "TSA_WD_AdvFilter_Rename".Translate(), has, "TSA_WD_AdvFilter_RenameTip".Translate()))
+            if (DrawIcon(renameRect, TexButton.Rename, has, "TSA_WD_AdvFilter_RenameTip".Translate(), null))
             {
                 PawnRosterFilterPreset target = selectedPreset;
                 Find.WindowStack.Add(new Dialog_PawnRosterPresetName(
@@ -201,7 +236,7 @@ namespace TSA_WorldDomination
                     },
                     n => PawnRosterFilterPresets.Rename(target, n)));
             }
-            if (DrawButton(deleteRect, "TSA_WD_AdvFilter_Delete".Translate(), has, null))
+            if (DrawIcon(deleteRect, TexButton.Delete, has, "TSA_WD_AdvFilter_Delete".Translate(), RemoveTint))
             {
                 PawnRosterFilterPreset doomed = selectedPreset;
                 Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
@@ -260,11 +295,10 @@ namespace TSA_WorldDomination
             {
                 PawnRosterSortLevel level = chain[i];
                 Rect row = listing.GetRect(RowH);
-                if (i % 2 == 0) Widgets.DrawHighlight(row);
                 float x = row.xMax;
 
                 Rect removeRect = CloseXRect(row);
-                x = removeRect.x - Gap - 4f;
+                x = removeRect.x - Gap;
                 float iconY = row.y + (RowH - IconBtn) * 0.5f;
                 Rect downRect = new Rect(x - IconBtn, iconY, IconBtn, IconBtn);
                 x = downRect.x - 2f;
@@ -273,24 +307,21 @@ namespace TSA_WorldDomination
                 Rect dirRect = new Rect(x - DirBtnW, row.y, DirBtnW, RowH);
                 x = dirRect.x - Gap;
                 Rect numRect = new Rect(row.x, row.y, LevelNumW, RowH);
-                Rect colRect = new Rect(numRect.xMax + 2f, row.y, x - numRect.xMax - 2f, RowH);
+                Rect colRect = new Rect(numRect.xMax + Gap, row.y, Mathf.Max(40f, x - numRect.xMax - Gap), RowH);
 
-                Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(numRect, (i + 1).ToString());
-                Text.Anchor = TextAnchor.UpperLeft;
+                DrawNumberBox(numRect, i + 1);
 
-                if (Widgets.ButtonText(colRect, LabelForSortId(level.Id).Truncate(colRect.width - 12f)))
+                if (DrawChromeButton(colRect, LabelForSortId(level.Id), null))
                     OpenColumnMenu(i);
 
-                if (PawnRosterHeaderFilter.DrawSlateChoice(dirRect,
+                if (DrawChromeButton(dirRect,
                         level.Ascending
                             ? "TSA_WD_AdvFilter_Asc".Translate().ToString()
                             : "TSA_WD_AdvFilter_Desc".Translate().ToString(),
-                        false,
-                        "TSA_WD_AdvFilter_DirTip".Translate()))
+                        "TSA_WD_AdvFilter_DirTip".Translate(),
+                        center: true))
                 {
                     chain.SetLevel(i, level.Id, !level.Ascending);
-                    SoundDefOf.Click.PlayOneShotOnCamera();
                     Changed();
                 }
 
@@ -313,11 +344,8 @@ namespace TSA_WorldDomination
                 listing.Gap(4f);
             }
 
-            Rect addRow = listing.GetRect(RowH);
-            Rect addRect = new Rect(addRow.x, addRow.y, 150f, RowH);
-            bool canAdd = chain.Count < PawnRosterSortChain.MaxLevels && FirstUnusedOption() != null;
-            if (DrawButton(addRect, "TSA_WD_AdvFilter_AddLevel".Translate(), canAdd, null))
-                OpenColumnMenu(-1);
+            DrawAddPlus(listing, chain.Count < PawnRosterSortChain.MaxLevels && FirstUnusedOption() != null,
+                "TSA_WD_AdvFilter_AddLevelTip".Translate(), () => OpenColumnMenu(-1));
             listing.Gap(8f);
         }
 
@@ -398,9 +426,9 @@ namespace TSA_WorldDomination
             {
                 string key = activeKeys[i];
                 string value = host.DescribeRosterFilter(key);
-                FilterLineClick click = DrawFilterLine(listing, FilterLabel(key), value, line++, out Rect lineRect);
+                FilterLineClick click = DrawFilterLine(listing, line++, FilterLabel(key), value, out Rect anchor);
                 if (click == FilterLineClick.Edit)
-                    OpenFilterEditor(key, lineRect);
+                    OpenFilterEditor(key, anchor);
                 else if (click == FilterLineClick.Clear)
                 {
                     view.ClearFilter(key);
@@ -410,10 +438,10 @@ namespace TSA_WorldDomination
             }
             if (traits)
             {
-                FilterLineClick click = DrawFilterLine(listing, FilterLabel(PawnRosterFilterKeys.Traits),
-                    PawnRosterTraitFilter.DescribeSelection(), line, out Rect lineRect);
+                FilterLineClick click = DrawFilterLine(listing, line, FilterLabel(PawnRosterFilterKeys.Traits),
+                    PawnRosterTraitFilter.DescribeSelection(), out Rect anchor);
                 if (click == FilterLineClick.Edit)
-                    OpenFilterEditor(PawnRosterFilterKeys.Traits, lineRect);
+                    OpenFilterEditor(PawnRosterFilterKeys.Traits, anchor);
                 else if (click == FilterLineClick.Clear)
                 {
                     PawnRosterTraitFilter.Clear();
@@ -423,23 +451,13 @@ namespace TSA_WorldDomination
             }
 
             listing.Gap(4f);
-            Rect clearRow = listing.GetRect(RowH);
-            Rect addRect = new Rect(clearRow.x, clearRow.y, 150f, RowH);
             CollectAddableFilterKeys();
-            if (DrawButton(addRect, "TSA_WD_AdvFilter_AddFilter".Translate(), addableKeys.Count > 0,
-                    "TSA_WD_AdvFilter_AddFilterTip".Translate()))
-                OpenAddFilterMenu(addRect);
-            Rect clearRect = new Rect(clearRow.xMax - 140f, clearRow.y, 140f, RowH);
-            if (DrawButton(clearRect, "TSA_WD_AdvFilter_ClearAll".Translate(), activeKeys.Count > 0 || traits, null))
+            Rect addAnchor = default;
+            DrawAddPlus(listing, addableKeys.Count > 0, "TSA_WD_AdvFilter_AddFilterTip".Translate(), () =>
             {
-                view.ClearFilters();
-                if (traits)
-                {
-                    PawnRosterTraitFilter.Clear();
-                    PawnRosterTraitFilter.InvalidateRosterCaches();
-                }
-                Changed();
-            }
+                // Anchor the filter editor near the number / + column.
+                OpenAddFilterMenu(addAnchor);
+            }, out addAnchor);
         }
 
         private static string FilterLabel(string key)
@@ -450,31 +468,67 @@ namespace TSA_WorldDomination
 
         private enum FilterLineClick { None, Edit, Clear }
 
-        private static FilterLineClick DrawFilterLine(Listing_Standard listing, string label, string value, int index, out Rect textRect)
+        private static FilterLineClick DrawFilterLine(
+            Listing_Standard listing, int index, string typeLabel, string value, out Rect typeRect)
         {
             Rect row = listing.GetRect(RowH);
-            if (index % 2 == 0) Widgets.DrawHighlight(row);
-            Rect x = CloseXRect(row);
-            textRect = new Rect(row.x, row.y, x.x - Gap - row.x, RowH);
-            if (Mouse.IsOver(textRect)) Widgets.DrawHighlight(textRect);
-            Rect labelRect = textRect.ContractedBy(6f, 0f);
-            Text.Font = GameFont.Small;
-            Text.Anchor = TextAnchor.MiddleLeft;
-            string text = label + ": " + (value.NullOrEmpty() ? "-" : value);
-            Widgets.Label(labelRect, text.Truncate(labelRect.width));
-            Text.Anchor = TextAnchor.UpperLeft;
-            TooltipHandler.TipRegion(textRect, Text.CalcSize(text).x > labelRect.width
-                ? text + "\n\n" + EditFilterTip
-                : EditFilterTip);
-            listing.Gap(2f);
-            if (DrawCloseX(x, "TSA_WD_AdvFilter_ClearFilterTip".Translate()))
+            Rect removeRect = CloseXRect(row);
+            Rect numRect = new Rect(row.x, row.y, LevelNumW, RowH);
+            float afterNum = numRect.xMax + Gap;
+            float valueRight = removeRect.x - Gap;
+            float typeW = Mathf.Min(FilterTypeW, Mathf.Max(80f, (valueRight - afterNum - Gap) * 0.38f));
+            typeRect = new Rect(afterNum, row.y, typeW, RowH);
+            Rect valueRect = new Rect(typeRect.xMax + Gap, row.y, Mathf.Max(40f, valueRight - typeRect.xMax - Gap), RowH);
+
+            DrawNumberBox(numRect, index + 1);
+
+            string typeText = typeLabel ?? "";
+            string valueText = value.NullOrEmpty() ? "-" : value;
+            bool editType = DrawChromeButton(typeRect, typeText, EditFilterTip);
+            bool editValue = DrawChromeButton(valueRect, valueText, EditFilterTip);
+
+            listing.Gap(4f);
+            if (DrawCloseX(removeRect, "TSA_WD_AdvFilter_ClearFilterTip".Translate()))
                 return FilterLineClick.Clear;
-            if (Widgets.ButtonInvisible(textRect))
-            {
-                SoundDefOf.Click.PlayOneShotOnCamera();
+            if (editType || editValue)
                 return FilterLineClick.Edit;
-            }
             return FilterLineClick.None;
+        }
+
+        private static void DrawNumberBox(Rect r, int number)
+        {
+            WorldDomination_UIUtils.DrawSlateNavChrome(r);
+            Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(r, number.ToString());
+            Text.Anchor = TextAnchor.UpperLeft;
+        }
+
+        private static bool DrawChromeButton(Rect r, string label, string tip, bool center = false)
+        {
+            if (!tip.NullOrEmpty()) TooltipHandler.TipRegion(r, tip);
+            string text = label ?? "";
+            float pad = center ? 8f : 16f;
+            return WorldDomination_UIUtils.ButtonTextWithIcon(
+                r, null, text.Truncate(Mathf.Max(8f, r.width - pad)), centerContents: center);
+        }
+
+        /// <summary>Plus control left-aligned to the number badge column (<see cref="LevelNumW"/>).</summary>
+        private static void DrawAddPlus(
+            Listing_Standard listing, bool enabled, string tip, Action onClick, out Rect slotRect)
+        {
+            Rect row = listing.GetRect(RowH);
+            slotRect = new Rect(row.x, row.y, LevelNumW, RowH);
+            float iconY = row.y + (RowH - IconBtn) * 0.5f;
+            float iconX = row.x + (LevelNumW - IconBtn) * 0.5f;
+            Rect iconRect = new Rect(iconX, iconY, IconBtn, IconBtn);
+            if (DrawIcon(iconRect, TexButton.Plus, enabled, tip, null))
+                onClick?.Invoke();
+        }
+
+        private static void DrawAddPlus(Listing_Standard listing, bool enabled, string tip, Action onClick)
+        {
+            DrawAddPlus(listing, enabled, tip, onClick, out _);
         }
 
         private static string editFilterTip;
@@ -688,7 +742,7 @@ namespace TSA_WorldDomination
         private static bool DrawCloseX(Rect r, string tip)
         {
             if (!tip.NullOrEmpty()) TooltipHandler.TipRegion(r, tip);
-            if (!Widgets.ButtonImage(r, TexButton.CloseXSmall)) return false;
+            if (!Widgets.ButtonImage(r, TexButton.CloseXSmall, RemoveTint)) return false;
             SoundDefOf.Click.PlayOneShotOnCamera();
             return true;
         }

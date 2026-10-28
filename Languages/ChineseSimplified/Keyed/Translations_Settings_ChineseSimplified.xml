@@ -96,7 +96,9 @@
   <TSA_WD_Combat_TurtleChance>每日几率</TSA_WD_Combat_TurtleChance>
   <TSA_WD_Combat_TurtleChanceTooltip>每日评估并为评分最高的受威胁集群发起龟缩集结的几率。</TSA_WD_Combat_TurtleChanceTooltip>
   <TSA_WD_Combat_TurtleCooldown>各派系冷却</TSA_WD_Combat_TurtleCooldown>
-  <TSA_WD_Combat_TurtleCooldownTooltip>同一派系再次集结前的天数。</TSA_WD_Combat_TurtleCooldownTooltip>
+  <TSA_WD_Combat_TurtleCooldownTooltip>同一派系再次集结前的天数（每日龟缩或定居点失守后的反应式龟缩）。</TSA_WD_Combat_TurtleCooldownTooltip>
+  <TSA_WD_Combat_DailyTurtleGlobalCooldown>每日龟缩全局冷却</TSA_WD_Combat_DailyTurtleGlobalCooldown>
+  <TSA_WD_Combat_DailyTurtleGlobalCooldownTooltip>主动每日龟缩事件之间的全局静默。不阻挡定居点失守后的反应式龟缩。</TSA_WD_Combat_DailyTurtleGlobalCooldownTooltip>
   <TSA_WD_Combat_TurtleMinCluster>最小集群规模</TSA_WD_Combat_TurtleMinCluster>
   <TSA_WD_Combat_TurtleMinClusterTooltip>连通集群至少需要这么多定居点才能集结。站点在 20 格内相连则同属一个集群。</TSA_WD_Combat_TurtleMinClusterTooltip>
   <TSA_WD_Combat_TurtleMaxPack>最多收缩外围数</TSA_WD_Combat_TurtleMaxPack>
@@ -924,6 +926,8 @@
   <TSA_WD_Experimental_MaraudMinStrengthTip>袭击获胜后剩余的实力必须达到这个数值，才值得继续派往下一个目标。</TSA_WD_Experimental_MaraudMinStrengthTip>
   <TSA_WD_Experimental_MaraudMaxChain>最大连锁目标数</TSA_WD_Experimental_MaraudMaxChain>
   <TSA_WD_Experimental_MaraudMaxChainTip>限制单次袭击在必须停止并解散前，最多可以连续获胜并连锁攻击多少个新目标。</TSA_WD_Experimental_MaraudMaxChainTip>
+  <TSA_WD_Experimental_MaraudPostWinLossPct>胜后兵力损失</TSA_WD_Experimental_MaraudPostWinLossPct>
+  <TSA_WD_Experimental_MaraudPostWinLossPctTip>胜利袭击继续劫掠时，按此比例扣除剩余兵力。是否继续的判断使用扣减后的兵力。</TSA_WD_Experimental_MaraudPostWinLossPctTip>
   <TSA_WD_Experimental_HeaderSettlementAmbush>NPC 拦截/快速反应商队</TSA_WD_Experimental_HeaderSettlementAmbush>
   <TSA_WD_Experimental_SettlementAmbush>实验：定居点伏击途经的远行队</TSA_WD_Experimental_SettlementAmbush>
   <TSA_WD_Experimental_SettlementAmbushTip>开启后，达到最低伏击等级的 NPC 定居点可能会对经过监视范围的敌对贸易远行队、礼物/贿赂远行队、无关袭击或真实玩家商队派出拦截商队。玩家的快速反应和迫击炮前哨不属于此功能，它们通过各自的防御射程拦截。NPC 互拦可在前期发生。针对你的拦截仍等待中期/后期阶段门，除非开启下方的「允许机会目标、劫掠与伏击从游戏一开始就生效」。</TSA_WD_Experimental_SettlementAmbushTip>

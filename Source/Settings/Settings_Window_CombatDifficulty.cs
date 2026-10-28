@@ -190,6 +190,8 @@ namespace TSA_WorldDomination
                 "TSA_WD_Experimental_MaraudMinStrengthTip".Translate(), 5f, SliderFormat.Fixed0, WorldDominationSettings.DefMaraudingMinSurvivingStrengthAbsolute);
             s.maraudingMaxChainedTargets = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_Experimental_MaraudMaxChain".Translate(), s.maraudingMaxChainedTargets, 0f, 10f,
                 "TSA_WD_Experimental_MaraudMaxChainTip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefMaraudingMaxChainedTargets));
+            s.maraudingPostWinStrengthLossPct = SettingsUI.LabeledSlider(l, "TSA_WD_Experimental_MaraudPostWinLossPct".Translate(), s.maraudingPostWinStrengthLossPct, 0f, 0.5f,
+                "TSA_WD_Experimental_MaraudPostWinLossPctTip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefMaraudingPostWinStrengthLossPct);
         }
 
         private void DrawAmbush(Listing_Standard l, WorldDominationSettings s)
@@ -307,16 +309,10 @@ namespace TSA_WorldDomination
             s.settlementLossStrategyFireChance = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_StrategyFireChance".Translate(), s.settlementLossStrategyFireChance, 0f, 1f,
                 "TSA_WD_Diplo_StrategyFireChanceTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefSettlementLossStrategyFireChance);
 
-            // UI is on/off; runtime still uses desperationChanceOnLoss (1 = designed bands, 0 = Turtle only).
-            bool desperationPossible = s.desperationChanceOnLoss > 0.001f;
-            SettingsUI.DrawCheckbox(l,
-                "TSA_WD_Diplo_DesperationChance".Translate(),
-                ref desperationPossible,
-                DesperationRaidPossibleTooltip(s),
-                defaultValue: WorldDominationSettings.DefDesperationChanceOnLoss > 0.001f);
-            s.desperationChanceOnLoss = desperationPossible ? 1f : 0f;
+            s.desperationChanceOnLoss = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_DesperationChance".Translate(), s.desperationChanceOnLoss, 0f, 1f,
+                DesperationRaidPossibleTooltip(s), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefDesperationChanceOnLoss);
 
-            s.desperationCooldownDays = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_DesperationCooldown".Translate(), s.desperationCooldownDays, 0.1f, 15f,
+            s.desperationCooldownDays = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_DesperationCooldown".Translate(), s.desperationCooldownDays, 0.1f, 60f,
                 "TSA_WD_Diplo_DesperationCooldownTooltip".Translate(), 0.1f, SliderFormat.Fixed1, WorldDominationSettings.DefDesperationCooldownDays);
         }
 
@@ -361,6 +357,8 @@ namespace TSA_WorldDomination
                 "TSA_WD_Combat_TurtleChanceTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefTurtleChance);
             s.turtleCooldownDays = SettingsUI.LabeledSlider(l, "TSA_WD_Combat_TurtleCooldown".Translate(), s.turtleCooldownDays, 0.1f, 30f,
                 "TSA_WD_Combat_TurtleCooldownTooltip".Translate(), 0.1f, SliderFormat.Fixed1, WorldDominationSettings.DefTurtleCooldownDays);
+            s.dailyTurtleGlobalCooldownDays = SettingsUI.LabeledSlider(l, "TSA_WD_Combat_DailyTurtleGlobalCooldown".Translate(), s.dailyTurtleGlobalCooldownDays, 0.1f, 30f,
+                "TSA_WD_Combat_DailyTurtleGlobalCooldownTooltip".Translate(), 0.1f, SliderFormat.Fixed1, WorldDominationSettings.DefDailyTurtleGlobalCooldownDays);
             s.turtleMinClusterSize = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_Combat_TurtleMinCluster".Translate(), s.turtleMinClusterSize, 2f, 10f,
                 "TSA_WD_Combat_TurtleMinClusterTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefTurtleMinClusterSize));
             s.turtleMaxPackSettlements = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_Combat_TurtleMaxPack".Translate(), s.turtleMaxPackSettlements, 1f, 10f,

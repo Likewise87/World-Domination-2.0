@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_62_Title>Equilibrio y corrección de errores</TSA_WD_Update_2_3_62_Title>
+  <TSA_WD_Update_2_3_62_Body><![CDATA[
+<size=16><b>2.3.62 - Equilibrio y corrección de errores</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 28 de octubre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Corregido un error por el que un asentamiento que delegaba su incursión a un aliado más cercano al jugador podía entrar en un bucle de errores.\n
+• Las torretas AT hacen aproximadamente 2,5x más de daño, pero cuestan más y tardan más en construirse. El mismo aumento de daño aplica a las torretas AT de PNJ.\n
+• Si un viajero hostil sigue saqueando tras conquistar un asentamiento, esa acción le cuesta un 15% de su fuerza actual. Esto debería debilitar a una sola bola de muerte que arrase el mapa entero.\n
+• Las acciones de tortuga tienen tiempos de reutilización más altos, así que deberían ocurrir con menos frecuencia.\n
+• Las incursiones de desesperación son mucho más raras.\n
+• El cálculo previo a la incursión ahora cuenta las torretas AT que defienden el objetivo, de modo que los atacantes solo se comprometen si la fuerza relativa es lo bastante alta.\n
+• Pulido del diálogo de Filtrado avanzado añadido hoy.\n
+]]></TSA_WD_Update_2_3_62_Body>
   <TSA_WD_Update_2_3_61_Title>Filtros avanzados para tablas de peones</TSA_WD_Update_2_3_61_Title>
   <TSA_WD_Update_2_3_61_Body><![CDATA[
 <size=16><b>2.3.61 - Filtros avanzados para tablas de peones</b></size>\n

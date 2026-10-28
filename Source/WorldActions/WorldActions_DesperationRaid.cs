@@ -11,7 +11,8 @@ namespace TSA_WorldDomination
     /// <summary>
     /// Strategy on Settlement Loss: on NPC settlement conquest loss, an eligible threatened cluster
     /// either Turtles (ally-radius consolidate / fortify-in-place) or packs for a desperation raid.
-    /// Shared per-faction CD on <c>desperationRaidCooldownByFaction</c>. Stage gate is player-controlled
+    /// Desperation uses a global CD (<c>desperationRaidCooldownUntil</c>). Reactive Turtle stamps faction turtle CD.
+    /// Stage gate is player-controlled
     /// (not difficulty presets). Cluster membership: connected component among V's remaining sites
     /// with edge ≤ <see cref="ClusterEdgeTiles"/>.
     /// </summary>
@@ -203,14 +204,10 @@ namespace TSA_WorldDomination
 
             if (forceDebug)
             {
+                manager.desperationRaidCooldownUntil = -1;
                 manager.desperationRaidCooldownByFaction?.Remove(victim.loadID);
                 manager.factionComebackCooldownByFaction?.Remove(victim.loadID);
-            }
-            else if (IsFactionOnDesperationCooldown(manager, victim, seth))
-            {
-                failReason = "cooldown";
-                WDVerbose.Msg($"SettlementLossStrategy skip reason=cooldown faction={victim.Name}");
-                return false;
+                manager.turtleCooldownByFaction?.Remove(victim.loadID);
             }
             else if (WorldActions_Revolt.IsFactionOnComebackCooldown(manager, victim))
             {
@@ -282,10 +279,18 @@ namespace TSA_WorldDomination
             bool chooseDesperation = forceDebug;
             if (!forceDebug)
             {
-                float pDesperation = ComputeDesperationChance(tmpFactionSettlements, seth);
-                chooseDesperation = Rand.Value < pDesperation;
-                WDVerbose.Msg(
-                    $"SettlementLossStrategy fork faction={victim.Name} pDesperation={pDesperation:F3} choose={(chooseDesperation ? "desperation" : "turtle")}");
+                if (IsDesperationOnCooldown(manager))
+                {
+                    chooseDesperation = false;
+                    WDVerbose.Msg($"SettlementLossStrategy fork faction={victim.Name} choose=turtle reason=desperation-global-cd");
+                }
+                else
+                {
+                    float pDesperation = ComputeDesperationChance(tmpFactionSettlements, seth);
+                    chooseDesperation = Rand.Value < pDesperation;
+                    WDVerbose.Msg(
+                        $"SettlementLossStrategy fork faction={victim.Name} pDesperation={pDesperation:F3} choose={(chooseDesperation ? "desperation" : "turtle")}");
+                }
             }
 
             if (!chooseDesperation)
@@ -296,7 +301,7 @@ namespace TSA_WorldDomination
                     WDVerbose.Msg($"SettlementLossStrategy abort turtle-failed faction={victim.Name}");
                     return false;
                 }
-                StampFactionStrategyCooldown(manager, victim, seth);
+                WorldActions_Turtle.StampFactionCooldown(manager, victim, seth);
                 failReason = null;
                 return true;
             }
@@ -407,7 +412,7 @@ namespace TSA_WorldDomination
                 return false;
             }
 
-            StampFactionStrategyCooldown(manager, victim, seth);
+            StampDesperationCooldown(manager, seth);
 
             string msg = "TSA_WD_Log_DesperationRaid_PackUp".Translate(victim.Name, launch.settlementsPacked, target.Label);
             manager.AddLog(new SpreadLogEntry(msg, target, null));
@@ -691,25 +696,32 @@ namespace TSA_WorldDomination
             return PickAggressorTarget(aggressor, fromTile, emptyCluster, manager, seth);
         }
 
-        private static bool IsFactionOnDesperationCooldown(WorldComponent_SpreadManager manager, Faction faction, WorldDominationSettings seth)
+        /// <summary>True while the global desperation CD (or any legacy per-faction entry) is still active.</summary>
+        public static bool IsDesperationOnCooldown(WorldComponent_SpreadManager manager)
         {
+            if (manager == null) return false;
+            int now = Find.TickManager.TicksGame;
+            if (manager.desperationRaidCooldownUntil > now) return true;
             if (manager.desperationRaidCooldownByFaction == null) return false;
-            if (!manager.desperationRaidCooldownByFaction.TryGetValue(faction.loadID, out int until)) return false;
-            return Find.TickManager.TicksGame < until;
+            foreach (var kv in manager.desperationRaidCooldownByFaction)
+            {
+                if (kv.Value > now) return true;
+            }
+            return false;
         }
 
-        /// <summary>Shared Strategy on Settlement Loss CD (Turtle or desperation outcome).</summary>
-        public static void StampFactionStrategyCooldown(WorldComponent_SpreadManager manager, Faction faction, WorldDominationSettings seth)
+        /// <summary>Global desperation-only CD. Does not block Turtle.</summary>
+        public static void StampDesperationCooldown(WorldComponent_SpreadManager manager, WorldDominationSettings seth)
         {
-            if (manager.desperationRaidCooldownByFaction == null)
-                manager.desperationRaidCooldownByFaction = new Dictionary<int, int>();
+            if (manager == null || seth == null) return;
             float days = Mathf.Max(0.1f, seth.desperationCooldownDays);
-            manager.desperationRaidCooldownByFaction[faction.loadID] =
+            manager.desperationRaidCooldownUntil =
                 Find.TickManager.TicksGame + CompViralSpread.CooldownTicksFromDays(days);
         }
 
-        private static void StampFactionDesperationCooldown(WorldComponent_SpreadManager manager, Faction faction, WorldDominationSettings seth) =>
-            StampFactionStrategyCooldown(manager, faction, seth);
+        /// <summary>Legacy alias — stamps global desperation CD (faction arg ignored).</summary>
+        public static void StampFactionStrategyCooldown(WorldComponent_SpreadManager manager, Faction faction, WorldDominationSettings seth) =>
+            StampDesperationCooldown(manager, seth);
     }
 
     /// <summary>Safety net for vanilla CheckDefeated leave paths that Remove without an explicit Notify.</summary>

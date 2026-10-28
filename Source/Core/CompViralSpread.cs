@@ -1126,7 +1126,15 @@ namespace TSA_WorldDomination
         }
 
         public float GetDeployableOffense() => IsPlayerMapSettlement ? 0f : Mathf.Max(0f, offensiveStrength);
-        public float GetTotalLocalDefensePower() => IsPlayerMapSettlement ? 0f : Mathf.Max(0f, offensiveStrength) + Mathf.Max(0f, defensiveStrength);
+        public float GetTotalLocalDefensePower()
+        {
+            if (IsPlayerMapSettlement) return 0f;
+            float local = Mathf.Max(0f, offensiveStrength) + Mathf.Max(0f, defensiveStrength);
+            // Owned AT turrets: damage/2 each (raid assess, desperation packing, inspect).
+            if (parent != null && !parent.Destroyed)
+                local += AtTurretUtility.SumOwnedDamageCredit(parent);
+            return local;
+        }
 
         public float GetBaseDefensiveStrength()
         {

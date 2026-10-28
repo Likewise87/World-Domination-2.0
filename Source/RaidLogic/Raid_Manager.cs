@@ -387,6 +387,15 @@ namespace TSA_WorldDomination
                 totalInvestedPower += available;
             }
 
+            if (totalInvestedPower <= 0f)
+            {
+                WDVerbose.Msg($"Raid finalize: attacker={attacker.LabelCap} has no available raid strength; aborting before launch");
+                manager.AddLog(new SpreadLogEntry("TSA_WD_Log_Raid_SkippedNoTarget".Translate(), attacker, null));
+                if (!eval.isInvasionRaid)
+                    AttemptGrowFallback(attacker, attComp, manager);
+                return;
+            }
+
             bool useGravship = ShouldLaunchGravshipRaid(attComp, attacker, seth, eval.forceGravship);
             bool useDropPod = !useGravship && ShouldLaunchDropPodRaid(attComp, attacker, seth, eval.forceDropPod);
             bool waterSubstituteDropPod = false;
@@ -644,7 +653,8 @@ namespace TSA_WorldDomination
                 string tip = Raid_ReinforcementLogic.BuildContribTooltip(contributed, currentBefore, garrison, retainFloor);
                 launchLog.attDetails.Add(display + Raid_ReinforcementLogic.DetailTooltipDelimiter + tip);
                 launchLog.contributionDNAKeys.Add(wo?.LabelCap ?? "Unknown");
-                launchLog.contributionDNAValues.Add(traveler.contributionFactors[wo]);
+                launchLog.contributionDNAValues.Add(
+                    traveler.contributionFactors.TryGetValue(wo, out float factor) ? factor : 0f);
             }
 
             traveler.raidAttackerList = fullAtkList;

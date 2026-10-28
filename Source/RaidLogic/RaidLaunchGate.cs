@@ -20,6 +20,8 @@ namespace TSA_WorldDomination
         public const float ColonyRaidRequiredRatioFresh = 0.7f;
         /// <summary>Subtracted from fresh ratio per quiet day since the colony was last picked as a WD raid target.</summary>
         public const float ColonyRaidQuietRatioStepPerDay = 0.2f;
+        /// <summary>Colony raids need at least this effective strength even after the quiet-day ratio decays to 0.</summary>
+        public const float MinColonyRaidEffectiveAtt = 50f;
 
         public struct GateResult
         {
@@ -122,7 +124,7 @@ namespace TSA_WorldDomination
                     ? requiredRatioOverride
                     : GetColonyRequiredRaidRatio(target.GetComponent<CompViralSpread>(), seth);
                 result.ratio = result.effectiveAtt / Mathf.Max(1f, result.defTotal);
-                result.passed = result.ratio >= result.requiredRatio;
+                result.passed = result.effectiveAtt >= MinColonyRaidEffectiveAtt && result.ratio >= result.requiredRatio;
                 return result;
             }
 
@@ -173,11 +175,28 @@ namespace TSA_WorldDomination
             Dictionary<Faction, List<WorldObject>> lookup,
             WorldComponent_SpreadManager manager,
             WorldDominationSettings seth,
+            out float defTotal) =>
+            EvaluateTravelerVsCandidateRatio(
+                traveler, candidate, kind, lookup, manager, seth,
+                traveler != null ? traveler.travelerStrength : 0f, out defTotal);
+
+        /// <summary>
+        /// Same as <see cref="EvaluateTravelerVsCandidateRatio(WorldObject_Traveler, WorldObject, RaidLaunchTargetKind, Dictionary{Faction, List{WorldObject}}, WorldComponent_SpreadManager, WorldDominationSettings, out float)"/>
+        /// but uses an explicit attacker power (e.g. post-maraud-tax projected strength).
+        /// </summary>
+        public static float EvaluateTravelerVsCandidateRatio(
+            WorldObject_Traveler traveler,
+            WorldObject candidate,
+            RaidLaunchTargetKind kind,
+            Dictionary<Faction, List<WorldObject>> lookup,
+            WorldComponent_SpreadManager manager,
+            WorldDominationSettings seth,
+            float attPower,
             out float defTotal)
         {
             defTotal = 1f;
             if (traveler == null || candidate == null || seth == null) return 0f;
-            float attPower = Mathf.Max(0f, traveler.travelerStrength);
+            attPower = Mathf.Max(0f, attPower);
             if (attPower <= 0f) return 0f;
 
             if (kind == RaidLaunchTargetKind.PlayerColony)

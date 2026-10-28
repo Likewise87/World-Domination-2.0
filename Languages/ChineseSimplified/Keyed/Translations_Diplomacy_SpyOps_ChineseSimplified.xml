@@ -131,8 +131,8 @@
   <TSA_WD_Diplo_DesperationChanceTooltip>若策略在被压制集群失去定居点后触发，该派系可能龟缩（把力量集中到一座定居点）或发动绝望突袭（放弃定居点并冲向最近目标）。\n\n集群：该派系在 {0} 格内相连的定居点。被压制：集群内任一站点 {2} 格内敌对进攻至少为本集群进攻的 {1}%。\n\n开启时：\n强势派系：从不绝望，始终龟缩\n普通派系：{3}% 绝望，{4}% 龟缩\n弱势派系：{5}% 绝望，{6}% 龟缩\n\n强势 = 至少达到现存 NPC 均分力量（1/N）的 {7}%\n普通 = 均分的 {8}% 到 {7}%\n弱势 = 低于均分的 {8}%\n\n关闭 = 策略触发时只龟缩。</TSA_WD_Diplo_DesperationChanceTooltip>
   <TSA_WD_Diplo_DesperationMaxShare>弱势力量占比</TSA_WD_Diplo_DesperationMaxShare>
   <TSA_WD_Diplo_DesperationMaxShareTooltip>为存档兼容保留的旧设置。策略现已改用均分份额段位。</TSA_WD_Diplo_DesperationMaxShareTooltip>
-  <TSA_WD_Diplo_DesperationCooldown>策略冷却</TSA_WD_Diplo_DesperationCooldown>
-  <TSA_WD_Diplo_DesperationCooldownTooltip>同一派系再次执行定居点失守策略（龟缩或绝望）前的天数。不与战争、叛乱或前锋突袭共享。</TSA_WD_Diplo_DesperationCooldownTooltip>
+  <TSA_WD_Diplo_DesperationCooldown>绝望冷却</TSA_WD_Diplo_DesperationCooldown>
+  <TSA_WD_Diplo_DesperationCooldownTooltip>一次绝望突袭后，全局多少天内不能再发动绝望突袭。不阻挡龟缩。不与战争、叛乱或前锋突袭共享。</TSA_WD_Diplo_DesperationCooldownTooltip>
   <TSA_WD_Diplo_DesperationNotify>绝望突袭发动时通知</TSA_WD_Diplo_DesperationNotify>
   <TSA_WD_Diplo_DesperationNotifyTooltip>绝望突袭撤出并进军时发送信件。</TSA_WD_Diplo_DesperationNotifyTooltip>
   <TSA_WD_Diplo_TriggerChance>触发概率</TSA_WD_Diplo_TriggerChance>

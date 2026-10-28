@@ -485,11 +485,11 @@ namespace TSA_WorldDomination
         /// <summary>After hard gates pass, chance Strategy on Settlement Loss actually fires (Turtle or desperation).</summary>
         public const float DefSettlementLossStrategyFireChance = 0.40f;
         /// <summary>Desperation likelihood multiplier after equal-share bands (1.0 = bands as designed; 0 = Turtle only).</summary>
-        public const float DefDesperationChanceOnLoss = 1f;
+        public const float DefDesperationChanceOnLoss = 0.30f;
         /// <summary>Legacy absolute share gate (hidden in UI; kept for save compat).</summary>
         public const float DefDesperationMaxStrengthShare = 0.15f;
-        /// <summary>Shared Strategy on Settlement Loss anti-spam CD (Turtle or desperation).</summary>
-        public const float DefDesperationCooldownDays = 2f;
+        /// <summary>Global cooldown after a desperation raid (does not block Turtle).</summary>
+        public const float DefDesperationCooldownDays = 30f;
         /// <summary>Relative to equal share: below this → dying band base desperation chance.</summary>
         public const float DefSettlementLossStrategyDyingRelative = 0.40f;
         /// <summary>Relative to equal share: below this (and at/above dying) → mid band.</summary>
@@ -497,8 +497,10 @@ namespace TSA_WorldDomination
         public const float DefSettlementLossStrategyDyingBaseChance = 0.20f;
         public const float DefSettlementLossStrategyMidBaseChance = 0.05f;
         public const bool DefEnableTurtle = true;
-        public const float DefTurtleChance = 0.35f;
-        public const float DefTurtleCooldownDays = 3f;
+        public const float DefTurtleChance = 0.25f;
+        public const float DefTurtleCooldownDays = 10f;
+        /// <summary>World-wide silence between daily (proactive) Turtle events only.</summary>
+        public const float DefDailyTurtleGlobalCooldownDays = 5f;
         public const int DefTurtleMaxPackSettlements = 4;
         public const int DefTurtleMinClusterSize = 2;
         public const int DefTurtleHostilePressureCount = 2;
@@ -805,6 +807,8 @@ namespace TSA_WorldDomination
         public const float DefMaraudingChanceToOccurPct = 0.50f;
         public const float DefMaraudingMinSurvivingStrengthAbsolute = 500f;
         public const int DefMaraudingMaxChainedTargets = 3;
+        /// <summary>Strength removed from the victorious traveler when a maraud continue is accepted (also used in the continue decision).</summary>
+        public const float DefMaraudingPostWinStrengthLossPct = 0.15f;
 
         // --- FEATURE C: SETTLEMENT-LAUNCHED AMBUSH (experimental) ---
         public const bool DefExperimentalSettlementAmbush = true;
@@ -840,9 +844,9 @@ namespace TSA_WorldDomination
         public const float DefAtTurretMediumMaxStrength = 100f;
         public const float DefAtTurretHeavyMaxStrength = 150f;
         /// <summary>AT Turret shell strength damage (Medium; Light/Heavy have their own defs).</summary>
-        public const float DefAtTurretLightDamage = 75f;
-        public const float DefAtTurretDamage = 100f;
-        public const float DefAtTurretHeavyDamage = 125f;
+        public const float DefAtTurretLightDamage = 160f;
+        public const float DefAtTurretDamage = 250f;
+        public const float DefAtTurretHeavyDamage = 400f;
         /// <summary>AT Turret reload after a shot (days). Medium uses DefAtTurretCooldownDays.</summary>
         public const float DefAtTurretLightCooldownDays = 0.35f;
         public const float DefAtTurretCooldownDays = 0.5f;
@@ -857,16 +861,17 @@ namespace TSA_WorldDomination
         public const float DefAtTurretHitChance51To75PctRange = 0.85f;
         /// <summary>AT Turret base hit chance 76–100% of max range.</summary>
         public const float DefAtTurretHitChance76To100PctRange = 0.70f;
-        /// <summary>AT Turret build work (Light / Medium / Heavy). Defaults are twice prior road-parity costs.</summary>
-        public const float DefAtTurretLightWork = 750f;
-        public const float DefAtTurretMediumWork = 1500f;
-        public const float DefAtTurretHeavyWork = 2250f;
+        /// <summary>AT Turret build work (Light / Medium / Heavy).</summary>
+        public const float DefAtTurretLightWork = 1200f;
+        public const float DefAtTurretMediumWork = 2000f;
+        public const float DefAtTurretHeavyWork = 3000f;
         public const int DefAtTurretLightMinConstruction = 15;
         public const int DefAtTurretMediumMinConstruction = 25;
         public const int DefAtTurretHeavyMinConstruction = 35;
+        /// <summary>Garrison strength spent to send the AT build crew (not raid assess / fight power).</summary>
         public const float DefAtTurretLightExpeditionStrength = 50f;
-        public const float DefAtTurretMediumExpeditionStrength = DefFallbackAsphaltRoadExpeditionStrength;
-        public const float DefAtTurretHeavyExpeditionStrength = 175f;
+        public const float DefAtTurretMediumExpeditionStrength = 100f;
+        public const float DefAtTurretHeavyExpeditionStrength = 150f;
         public const float DefRaidAllyLossMultiplier = 0.40f;
         /// <summary>Legacy ModConfig only. Field-lerp on clash/outpost defense removed; unused.</summary>
         public const float DefMaxRaidDays = 4.0f;
@@ -1551,6 +1556,7 @@ namespace TSA_WorldDomination
         public bool enableTurtle = DefEnableTurtle;
         public float turtleChance = DefTurtleChance;
         public float turtleCooldownDays = DefTurtleCooldownDays;
+        public float dailyTurtleGlobalCooldownDays = DefDailyTurtleGlobalCooldownDays;
         public int turtleMaxPackSettlements = DefTurtleMaxPackSettlements;
         public int turtleMinClusterSize = DefTurtleMinClusterSize;
         public int turtleHostilePressureCount = DefTurtleHostilePressureCount;
@@ -1823,6 +1829,7 @@ namespace TSA_WorldDomination
         public float maraudingChanceToOccurPct = DefMaraudingChanceToOccurPct;
         public float maraudingMinSurvivingStrengthAbsolute = DefMaraudingMinSurvivingStrengthAbsolute;
         public int maraudingMaxChainedTargets = DefMaraudingMaxChainedTargets;
+        public float maraudingPostWinStrengthLossPct = DefMaraudingPostWinStrengthLossPct;
 
         public bool experimentalSettlementAmbush = DefExperimentalSettlementAmbush;
         public float settlementAmbushChancePct = DefSettlementAmbushChancePct;
@@ -2805,6 +2812,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref enableTurtle, "enableTurtle", DefEnableTurtle);
             Scribe_Values.Look(ref turtleChance, "turtleChance", DefTurtleChance);
             Scribe_Values.Look(ref turtleCooldownDays, "turtleCooldownDays", DefTurtleCooldownDays);
+            Scribe_Values.Look(ref dailyTurtleGlobalCooldownDays, "dailyTurtleGlobalCooldownDays", DefDailyTurtleGlobalCooldownDays);
             Scribe_Values.Look(ref turtleMaxPackSettlements, "turtleMaxPackSettlements", DefTurtleMaxPackSettlements);
             Scribe_Values.Look(ref turtleMinClusterSize, "turtleMinClusterSize", DefTurtleMinClusterSize);
             Scribe_Values.Look(ref turtleHostilePressureCount, "turtleHostilePressureCount", DefTurtleHostilePressureCount);
@@ -3063,6 +3071,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref maraudingChanceToOccurPct, "maraudingChanceToOccurPct", DefMaraudingChanceToOccurPct);
             Scribe_Values.Look(ref maraudingMinSurvivingStrengthAbsolute, "maraudingMinSurvivingStrengthAbsolute", DefMaraudingMinSurvivingStrengthAbsolute);
             Scribe_Values.Look(ref maraudingMaxChainedTargets, "maraudingMaxChainedTargets", DefMaraudingMaxChainedTargets);
+            Scribe_Values.Look(ref maraudingPostWinStrengthLossPct, "maraudingPostWinStrengthLossPct", DefMaraudingPostWinStrengthLossPct);
             Scribe_Values.Look(ref experimentalSettlementAmbush, "experimentalSettlementAmbush", DefExperimentalSettlementAmbush);
             Scribe_Values.Look(ref settlementAmbushChancePct, "settlementAmbushChancePct", DefSettlementAmbushChancePct);
             Scribe_Values.Look(ref settlementAmbushMinStrengthRatio, "settlementAmbushMinStrengthRatio", DefSettlementAmbushMinStrengthRatio);
@@ -4875,6 +4884,7 @@ namespace TSA_WorldDomination
             enableTurtle = DefEnableTurtle;
             turtleChance = DefTurtleChance;
             turtleCooldownDays = DefTurtleCooldownDays;
+            dailyTurtleGlobalCooldownDays = DefDailyTurtleGlobalCooldownDays;
             turtleMaxPackSettlements = DefTurtleMaxPackSettlements;
             turtleMinClusterSize = DefTurtleMinClusterSize;
             turtleHostilePressureCount = DefTurtleHostilePressureCount;
@@ -4891,6 +4901,7 @@ namespace TSA_WorldDomination
             maraudingChanceToOccurPct = DefMaraudingChanceToOccurPct;
             maraudingMinSurvivingStrengthAbsolute = DefMaraudingMinSurvivingStrengthAbsolute;
             maraudingMaxChainedTargets = DefMaraudingMaxChainedTargets;
+            maraudingPostWinStrengthLossPct = DefMaraudingPostWinStrengthLossPct;
             experimentalSettlementAmbush = DefExperimentalSettlementAmbush;
             settlementAmbushChancePct = DefSettlementAmbushChancePct;
             settlementAmbushMinStrengthRatio = DefSettlementAmbushMinStrengthRatio;
@@ -5399,6 +5410,7 @@ namespace TSA_WorldDomination
             maraudingChanceToOccurPct = DefMaraudingChanceToOccurPct;
             maraudingMinSurvivingStrengthAbsolute = DefMaraudingMinSurvivingStrengthAbsolute;
             maraudingMaxChainedTargets = DefMaraudingMaxChainedTargets;
+            maraudingPostWinStrengthLossPct = DefMaraudingPostWinStrengthLossPct;
             experimentalSettlementAmbush = DefExperimentalSettlementAmbush;
             settlementAmbushChancePct = DefSettlementAmbushChancePct;
             settlementAmbushMinStrengthRatio = DefSettlementAmbushMinStrengthRatio;

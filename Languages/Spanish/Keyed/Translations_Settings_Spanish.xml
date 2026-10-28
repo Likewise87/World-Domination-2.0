@@ -96,7 +96,9 @@
   <TSA_WD_Combat_TurtleChance>Probabilidad diaria</TSA_WD_Combat_TurtleChance>
   <TSA_WD_Combat_TurtleChanceTooltip>Probabilidad diaria de evaluar y lanzar una consolidación para el grupo amenazado con mejor puntuación.</TSA_WD_Combat_TurtleChanceTooltip>
   <TSA_WD_Combat_TurtleCooldown>Enfriamiento por facción</TSA_WD_Combat_TurtleCooldown>
-  <TSA_WD_Combat_TurtleCooldownTooltip>Días antes de que la misma facción pueda consolidarse de nuevo.</TSA_WD_Combat_TurtleCooldownTooltip>
+  <TSA_WD_Combat_TurtleCooldownTooltip>Días antes de que la misma facción pueda consolidarse de nuevo (Turtle diario o Turtle reactivo tras perder un asentamiento).</TSA_WD_Combat_TurtleCooldownTooltip>
+  <TSA_WD_Combat_DailyTurtleGlobalCooldown>Enfriamiento global Turtle diario</TSA_WD_Combat_DailyTurtleGlobalCooldown>
+  <TSA_WD_Combat_DailyTurtleGlobalCooldownTooltip>Silencio mundial entre eventos Turtle diarios proactivos. No bloquea el Turtle reactivo tras perder un asentamiento.</TSA_WD_Combat_DailyTurtleGlobalCooldownTooltip>
   <TSA_WD_Combat_TurtleMinCluster>Tamaño mínimo del grupo</TSA_WD_Combat_TurtleMinCluster>
   <TSA_WD_Combat_TurtleMinClusterTooltip>Un grupo conectado necesita al menos esta cantidad de asentamientos para consolidarse. Los sitios se enlazan a 20 casillas o menos.</TSA_WD_Combat_TurtleMinClusterTooltip>
   <TSA_WD_Combat_TurtleMaxPack>Máx. periferias replegadas</TSA_WD_Combat_TurtleMaxPack>
@@ -929,6 +931,8 @@
   <TSA_WD_Experimental_MaraudMinStrengthTip>La fuerza restante de la incursión tras su victoria debe ser al menos esta para que valga la pena enviarla a continuar.</TSA_WD_Experimental_MaraudMinStrengthTip>
   <TSA_WD_Experimental_MaraudMaxChain>Máx. de objetivos encadenados</TSA_WD_Experimental_MaraudMaxChain>
   <TSA_WD_Experimental_MaraudMaxChainTip>Limita cuántas victorias seguidas puede encadenar una misma incursión hacia un nuevo objetivo antes de tener que detenerse y disolverse.</TSA_WD_Experimental_MaraudMaxChainTip>
+  <TSA_WD_Experimental_MaraudPostWinLossPct>Pérdida de fuerza tras victoria</TSA_WD_Experimental_MaraudPostWinLossPct>
+  <TSA_WD_Experimental_MaraudPostWinLossPctTip>Cuando una incursión victoriosa sigue saqueando, se elimina esta fracción de la fuerza restante. La decisión de continuar usa la fuerza tras esa pérdida.</TSA_WD_Experimental_MaraudPostWinLossPctTip>
   <TSA_WD_Experimental_HeaderSettlementAmbush>Caravanas PNJ de intercepción / respuesta rápida</TSA_WD_Experimental_HeaderSettlementAmbush>
   <TSA_WD_Experimental_SettlementAmbush>Experimental: emboscada de asentamiento a viajeros de paso</TSA_WD_Experimental_SettlementAmbush>
   <TSA_WD_Experimental_SettlementAmbushTip>Si está activo, los asentamientos NPC del nivel mínimo de emboscada pueden lanzar una caravana de intercepción contra un viajero comerciante hostil, un viajero de regalo/soborno, una incursión no relacionada o una caravana real del jugador que pase dentro del alcance de vigilancia. La Respuesta Rápida y los morteros del jugador no son esta función; interceptan con su propio alcance de defensa. La intercepción PNJ contra PNJ puede activarse en la partida temprana. La intercepción contra ti espera la puerta Mid/Late salvo que actives abajo «Permitir objetivos de oportunidad, saqueo y emboscada desde el principio».</TSA_WD_Experimental_SettlementAmbushTip>

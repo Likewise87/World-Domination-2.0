@@ -273,6 +273,28 @@ namespace TSA_WorldDomination
             return expanded;
         }
 
+        /// <summary>
+        /// Same chrome as an expanded <see cref="DrawCollapsibleHeader"/> (cyan bold label + gap line),
+        /// but not clickable and with no expand arrow. Body always follows.
+        /// </summary>
+        public static void DrawStaticSectionHeader(Listing_Standard l, string label, Color? color = null, string tip = null)
+        {
+            searchCurrentSectionLabel = label;
+            searchCurrentSectionTip = tip;
+
+            l.Gap(StandardGap);
+            Rect hr = l.GetRect(26f);
+            if (!tip.NullOrEmpty())
+                TooltipHandler.TipRegion(hr, tip);
+
+            Color hc = color ?? Color.white;
+            string hex = ColorUtility.ToHtmlStringRGBA(hc);
+            Text.Font = GameFont.Small;
+            Widgets.Label(hr, $"<b><color=#{hex}>{label}</color></b>");
+            l.GapLine(6f);
+            l.Gap(4f);
+        }
+
         /// <summary>Per-menu top bar: red Reset (left) + optional second left button + Expand all / Collapse all (right).</summary>
         public static void DrawMenuTopBar(Listing_Standard l, string resetLabel, Action onReset, Action expandAll, Action collapseAll,
             string secondaryLeftLabel = null, Action onSecondaryLeft = null, string secondaryLeftTip = null)

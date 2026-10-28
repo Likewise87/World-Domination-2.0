@@ -243,7 +243,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Blocks Turtle, Desperation, and Forward Assault for a revived rebel while they settle.
-        /// Duration = max(turtle, desperation, revolt) cooldown days.
+        /// Duration = max(turtle, revolt) cooldown days (desperation has its own global bag).
         /// </summary>
         public static void StampComebackCooldown(WorldComponent_SpreadManager manager, Faction faction)
         {
@@ -251,8 +251,8 @@ namespace TSA_WorldDomination
             var seth = WorldDominationMod.settings;
             if (seth == null) return;
 
-            float days = Mathf.Max(seth.turtleCooldownDays, seth.desperationCooldownDays);
-            days = Mathf.Max(days, seth.revoltCooldownDays);
+            // Desperation has its own global bag — do not inflate comeback lockout with its 30d Def.
+            float days = Mathf.Max(seth.turtleCooldownDays, seth.revoltCooldownDays);
             days = Mathf.Max(0.1f, days);
 
             if (manager.factionComebackCooldownByFaction == null)

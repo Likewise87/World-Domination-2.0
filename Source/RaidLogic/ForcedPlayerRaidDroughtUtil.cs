@@ -13,7 +13,7 @@ namespace TSA_WorldDomination
     public static class ForcedPlayerRaidDroughtUtil
     {
         private const int CheckIntervalTicks = 2500;
-        private const float MinRaidStrength = 50f;
+        private const float MinRaidStrength = RaidLaunchGate.MinColonyRaidEffectiveAtt;
 
         private static int lastCheckTick = -99999;
 

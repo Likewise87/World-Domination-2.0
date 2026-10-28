@@ -135,14 +135,20 @@ namespace TSA_WorldDomination
         public int forwardAssaultCooldownTick = -1;
         public int specialWorldEventCooldownTick = -1;
 
-        /// <summary>Per-faction desperation raid cooldown: faction loadID → ready-after tick.</summary>
+        /// <summary>Legacy per-faction desperation CD (still Looked for save compat; new stamps use <see cref="desperationRaidCooldownUntil"/>).</summary>
         public Dictionary<int, int> desperationRaidCooldownByFaction = new Dictionary<int, int>();
+
+        /// <summary>Global ready-after tick for desperation raids (Turtle does not stamp this).</summary>
+        public int desperationRaidCooldownUntil = -1;
 
         /// <summary>Per-faction Isolation Pressure cooldown: faction loadID → ready-after tick.</summary>
         public Dictionary<int, int> isolationPressureCooldownByFaction = new Dictionary<int, int>();
 
         /// <summary>Per-faction turtle consolidate cooldown: faction loadID → ready-after tick.</summary>
         public Dictionary<int, int> turtleCooldownByFaction = new Dictionary<int, int>();
+
+        /// <summary>Global ready-after tick for daily (proactive) Turtle only.</summary>
+        public int dailyTurtleCooldownUntil = -1;
 
         /// <summary>After revolt comeback: faction loadID → ready-after tick (blocks Turtle / Desperation / FA).</summary>
         public Dictionary<int, int> factionComebackCooldownByFaction = new Dictionary<int, int>();
@@ -775,8 +781,19 @@ namespace TSA_WorldDomination
                 if (pendingRaid.EvaluateNext())
                 {
                     WDVerbose.Msg($"Raid staggered eval finished: attacker={pendingRaid.attacker?.LabelCap ?? "?"} (see Raid assess / Raid finalize lines)");
-                    WorldActions_Raid.FinalizeRaid(pendingRaid);
+                    var finishedRaid = pendingRaid;
                     pendingRaid = null;
+                    try
+                    {
+                        WorldActions_Raid.FinalizeRaid(finishedRaid);
+                    }
+                    catch (Exception ex)
+                    {
+                        Settlement failedAttacker = finishedRaid.attacker;
+                        Log.ErrorOnce(
+                            $"[TSA WD] Raid finalize failed for {failedAttacker?.LabelCap ?? "?"}: {ex}",
+                            ("TSA_WD_RaidFinalizeFailed_" + (failedAttacker?.ID ?? 0)).GetHashCode());
+                    }
                 }
             }
 
@@ -1734,8 +1751,10 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref diplomacyFreezeTicks, "diplomacyFreezeTicks", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref playerBribeCeasefireTicksExpiry, "playerBribeCeasefireTicksExpiry", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref desperationRaidCooldownByFaction, "desperationRaidCooldownByFaction", LookMode.Value, LookMode.Value);
+            Scribe_Values.Look(ref desperationRaidCooldownUntil, "desperationRaidCooldownUntil", -1);
             Scribe_Collections.Look(ref isolationPressureCooldownByFaction, "isolationPressureCooldownByFaction", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref turtleCooldownByFaction, "turtleCooldownByFaction", LookMode.Value, LookMode.Value);
+            Scribe_Values.Look(ref dailyTurtleCooldownUntil, "dailyTurtleCooldownUntil", -1);
             Scribe_Collections.Look(ref factionComebackCooldownByFaction, "factionComebackCooldownByFaction", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref turtleGroups, "turtleGroups", LookMode.Value, LookMode.Deep);
             Scribe_Values.Look(ref assaultRallyNextGroupId, "assaultRallyNextGroupId", 1);
@@ -1806,7 +1825,21 @@ namespace TSA_WorldDomination
             if (assaultRallyNextGroupId < 1) assaultRallyNextGroupId = 1;
             if (vanguardNextGroupId < 1) vanguardNextGroupId = 1;
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
                 WorldActions_AssaultRally.EnsureNextGroupIdAfterLoad(this);
+                // Collapse legacy per-faction desperation CD into the global tick (keep dict for save compat).
+                if (desperationRaidCooldownByFaction != null && desperationRaidCooldownByFaction.Count > 0)
+                {
+                    int maxUntil = desperationRaidCooldownUntil;
+                    foreach (var kv in desperationRaidCooldownByFaction)
+                    {
+                        if (kv.Value > maxUntil)
+                            maxUntil = kv.Value;
+                    }
+                    if (maxUntil > desperationRaidCooldownUntil)
+                        desperationRaidCooldownUntil = maxUntil;
+                }
+            }
             if (questRaidBiasEntries == null) questRaidBiasEntries = new List<QuestRaidBiasEntry>();
             if (distanceCache == null) distanceCache = new Dictionary<long, int>();
             if (spaceTileCache == null) spaceTileCache = new HashSet<int>();

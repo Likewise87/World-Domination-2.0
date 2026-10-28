@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_62_Title>Balancing and bugfix</TSA_WD_Update_2_3_62_Title>
+  <TSA_WD_Update_2_3_62_Body><![CDATA[
+<size=16><b>2.3.62 - Balancing and bugfix</b></size>\n
+<color=#00FFFFFF>Release date: October 28th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• Fixed a bug where a settlement that handed its raid to a closer ally near the player could enter a loop of errors.\n
+• AT turrets deal roughly 2.5x more damage, but cost more and take longer to build. The same damage buff applies to NPC AT turrets.\n
+• If a hostile traveler keeps marauding after conquering a settlement, that costs 15% of its current strength. This should nerf a single deathball stomping the whole map.\n
+• Turtle actions have higher cooldowns, so they should happen less often.\n
+• Desperation raids are much rarer.\n
+• Pre-raid math now counts AT turrets defending the target, so attackers only commit when relative strength is high enough.\n
+• Polish for the Advanced Filter dialog added earlier today.\n
+]]></TSA_WD_Update_2_3_62_Body>
   <TSA_WD_Update_2_3_61_Title>Advanced filters for pawn tables</TSA_WD_Update_2_3_61_Title>
   <TSA_WD_Update_2_3_61_Body><![CDATA[
 <size=16><b>2.3.61 - Advanced filters for pawn tables</b></size>\n

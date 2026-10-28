@@ -279,6 +279,12 @@ namespace TSA_WorldDomination
                 return;
             }
 
+            if (IsDailyTurtleOnGlobalCooldown(manager))
+            {
+                WDVerbose.Msg("Turtle skip reason=daily-global-cd");
+                return;
+            }
+
             if (Rand.Value > Mathf.Clamp01(seth.turtleChance))
             {
                 WDVerbose.Msg("Turtle skip reason=chance");
@@ -422,6 +428,7 @@ namespace TSA_WorldDomination
                 launched[i].turtleExpectedCount = expected;
 
             StampFactionCooldown(manager, faction, seth);
+            StampDailyGlobalCooldown(manager, seth);
 
             manager.AddLog(new SpreadLogEntry(
                 "TSA_WD_Log_Turtle_PackUp".Translate(faction.Name, expected, primaryHub.Label),
@@ -1171,6 +1178,8 @@ namespace TSA_WorldDomination
                 if (s == null || s.Destroyed) continue;
                 var c = s.GetComponent<CompViralSpread>();
                 if (c != null) sum += Mathf.Max(0f, c.offensiveStrength);
+                // AT credit so guns make the cluster look harder to bully (pressure ratio).
+                sum += AtTurretUtility.SumOwnedDamageCredit(s);
             }
             return sum;
         }
@@ -1291,12 +1300,26 @@ namespace TSA_WorldDomination
             return Find.TickManager.TicksGame < until;
         }
 
-        private static void StampFactionCooldown(WorldComponent_SpreadManager manager, Faction faction, WorldDominationSettings seth)
+        private static bool IsDailyTurtleOnGlobalCooldown(WorldComponent_SpreadManager manager) =>
+            manager != null && manager.dailyTurtleCooldownUntil > Find.TickManager.TicksGame;
+
+        /// <summary>Faction Turtle CD (daily launch and reactive loss Turtle).</summary>
+        public static void StampFactionCooldown(WorldComponent_SpreadManager manager, Faction faction, WorldDominationSettings seth)
         {
+            if (manager == null || faction == null || seth == null) return;
             if (manager.turtleCooldownByFaction == null)
                 manager.turtleCooldownByFaction = new Dictionary<int, int>();
             float days = Mathf.Max(0.1f, seth.turtleCooldownDays);
             manager.turtleCooldownByFaction[faction.loadID] =
+                Find.TickManager.TicksGame + CompViralSpread.CooldownTicksFromDays(days);
+        }
+
+        /// <summary>World silence between daily (proactive) Turtle events only.</summary>
+        public static void StampDailyGlobalCooldown(WorldComponent_SpreadManager manager, WorldDominationSettings seth)
+        {
+            if (manager == null || seth == null) return;
+            float days = Mathf.Max(0.1f, seth.dailyTurtleGlobalCooldownDays);
+            manager.dailyTurtleCooldownUntil =
                 Find.TickManager.TicksGame + CompViralSpread.CooldownTicksFromDays(days);
         }
     }

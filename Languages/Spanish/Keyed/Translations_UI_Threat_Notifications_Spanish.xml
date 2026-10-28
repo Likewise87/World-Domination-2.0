@@ -494,13 +494,12 @@
   <TSA_WD_PawnRoster_ColGearTip>Armas y ropa equipadas. Pasa el ratón sobre un icono para ver el nombre del objeto.</TSA_WD_PawnRoster_ColGearTip>
   <TSA_WD_AdvFilter_ButtonTip>Filtrado avanzado: preajustes guardados, orden de varios niveles y resumen de filtros activos. Se resalta cuando esta vista difiere de la predeterminada.</TSA_WD_AdvFilter_ButtonTip>
   <TSA_WD_AdvFilter_Title>Filtrado avanzado</TSA_WD_AdvFilter_Title>
-  <TSA_WD_AdvFilter_Subtitle>Los cambios se aplican a la lista al instante.</TSA_WD_AdvFilter_Subtitle>
   <TSA_WD_AdvFilter_Presets>Preajustes</TSA_WD_AdvFilter_Presets>
   <TSA_WD_AdvFilter_PresetsTip>Combinaciones guardadas de orden y filtros. Los preajustes se comparten entre todas las listas de peones y todas las partidas. Se omiten los filtros que una lista no admite.</TSA_WD_AdvFilter_PresetsTip>
   <TSA_WD_AdvFilter_NoPresetSelected>Ningún preajuste seleccionado</TSA_WD_AdvFilter_NoPresetSelected>
   <TSA_WD_AdvFilter_SelectPresetTip>Elige un preajuste para cargar sus niveles de orden y filtros en esta lista.</TSA_WD_AdvFilter_SelectPresetTip>
   <TSA_WD_AdvFilter_Overwrite>Sobrescribir</TSA_WD_AdvFilter_Overwrite>
-  <TSA_WD_AdvFilter_OverwriteTip>Guarda los niveles de orden y filtros actuales de esta lista en el preajuste elegido.</TSA_WD_AdvFilter_OverwriteTip>
+  <TSA_WD_AdvFilter_OverwriteTip>Sobrescribir el preajuste seleccionado.</TSA_WD_AdvFilter_OverwriteTip>
   <TSA_WD_AdvFilter_Delete>Eliminar</TSA_WD_AdvFilter_Delete>
   <TSA_WD_AdvFilter_DeleteConfirm>¿Eliminar el preajuste "{0}"?</TSA_WD_AdvFilter_DeleteConfirm>
   <TSA_WD_AdvFilter_Rename>Renombrar</TSA_WD_AdvFilter_Rename>
@@ -516,6 +515,7 @@
   <TSA_WD_AdvFilter_SortLevelsTip>Las filas se ordenan por el primer nivel, los empates por el siguiente, y así sucesivamente. El nombre siempre decide el último empate.</TSA_WD_AdvFilter_SortLevelsTip>
   <TSA_WD_AdvFilter_SortDefault>Orden predeterminado (sin niveles de orden).</TSA_WD_AdvFilter_SortDefault>
   <TSA_WD_AdvFilter_AddLevel>Añadir nivel</TSA_WD_AdvFilter_AddLevel>
+  <TSA_WD_AdvFilter_AddLevelTip>Añadir un nivel de orden.</TSA_WD_AdvFilter_AddLevelTip>
   <TSA_WD_AdvFilter_Asc>Ascendente</TSA_WD_AdvFilter_Asc>
   <TSA_WD_AdvFilter_Desc>Descendente</TSA_WD_AdvFilter_Desc>
   <TSA_WD_AdvFilter_DirTip>Cambia la dirección del orden.</TSA_WD_AdvFilter_DirTip>
@@ -527,7 +527,7 @@
   <TSA_WD_AdvFilter_NoFilters>No hay filtros activos.</TSA_WD_AdvFilter_NoFilters>
   <TSA_WD_AdvFilter_ClearAll>Borrar todo</TSA_WD_AdvFilter_ClearAll>
   <TSA_WD_AdvFilter_AddFilter>Añadir filtro</TSA_WD_AdvFilter_AddFilter>
-  <TSA_WD_AdvFilter_AddFilterTip>Añade un filtro que esta lista admite. Su columna se activa si está oculta.</TSA_WD_AdvFilter_AddFilterTip>
+  <TSA_WD_AdvFilter_AddFilterTip>Añadir un filtro. Su columna se activa si está oculta.</TSA_WD_AdvFilter_AddFilterTip>
   <TSA_WD_AdvFilter_EditFilterTip>Haz clic para cambiar este filtro.</TSA_WD_AdvFilter_EditFilterTip>
   <TSA_WD_AdvFilter_ClearFilterTip>Borra este filtro.</TSA_WD_AdvFilter_ClearFilterTip>
   <TSA_WD_AdvFilter_KeySource>Origen</TSA_WD_AdvFilter_KeySource>

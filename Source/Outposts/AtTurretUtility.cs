@@ -171,6 +171,34 @@ namespace TSA_WorldDomination
             return count;
         }
 
+        /// <summary>
+        /// Raid / Turtle assess credit: each owned live AT with strength &gt; 0 contributes
+        /// <c>GetAtTurretDamage(tier) / 2</c>. Ownership matches count helpers (site / settlement).
+        /// </summary>
+        public static float SumOwnedDamageCredit(WorldObject site)
+        {
+            if (site == null || site.Destroyed) return 0f;
+            float sum = 0f;
+            IReadOnlyList<WorldObject_AT_Turret> live = WorldObject_AT_Turret.LiveTurrets;
+            var seth = WorldDominationMod.settings;
+            for (int i = 0; i < live.Count; i++)
+            {
+                WorldObject_AT_Turret t = live[i];
+                if (t == null || t.Destroyed || t.strength <= 0f) continue;
+                bool match;
+                if (t.builtBySite != null)
+                    match = t.builtBySite == site;
+                else
+                    match = t.builtBySettlement == site;
+                if (!match) continue;
+                float dmg = seth != null
+                    ? seth.GetAtTurretDamage(t.tier)
+                    : WorldDominationSettings.GetAtTurretDamageDefault(t.tier);
+                sum += dmg * 0.5f;
+            }
+            return sum;
+        }
+
         public static bool IsPlayerBuildSite(WorldObject site) =>
             site != null
             && !site.Destroyed
