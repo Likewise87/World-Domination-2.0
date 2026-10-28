@@ -429,7 +429,7 @@ namespace TSA_WorldDomination
             return counted == 0 ? -1f : sum / counted;
         }
 
-        private static int ComparePrimaryForOutpostTable(VirtualPawnSummary a, VirtualPawnSummary b, OutpostPawnTableSortColumn column, WorldObject_WD_Outpost outpost)
+        internal static int ComparePrimaryForOutpostTable(VirtualPawnSummary a, VirtualPawnSummary b, OutpostPawnTableSortColumn column, WorldObject_WD_Outpost outpost)
         {
             if (a == null && b == null) return 0;
             if (a == null) return -1;

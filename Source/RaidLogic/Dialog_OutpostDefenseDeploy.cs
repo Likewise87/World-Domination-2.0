@@ -9,17 +9,10 @@ using Verse.Sound;
 namespace TSA_WorldDomination
 {
     /// <summary>Pick which outpost occupants deploy for manual defense under an offensive-strength budget. Shows gear and combat stats.</summary>
-    public class Dialog_OutpostDefenseDeploy : Window
+    public class Dialog_OutpostDefenseDeploy : Window, IPawnRosterViewHost
     {
-        private enum DeploySortColumn
-        {
-            Name,
-            Gear,
-            Shooting,
-            Melee,
-            Health,
-            Strength
-        }
+        private const PawnRosterColumnWindow ColWindow = PawnRosterColumnWindow.DefenseDeploy;
+        private const float ViewControlsH = 30f;
 
         private readonly WorldObject_WD_Outpost outpost;
         private readonly WorldObject_Traveler traveler;
@@ -32,10 +25,22 @@ namespace TSA_WorldDomination
         private readonly HashSet<int> selectedIds = new HashSet<int>();
         private Vector2 scrollPosition;
         private bool resolved;
-        private string nameSearchTerm = "";
-        private DeploySortColumn sortColumn = DeploySortColumn.Strength;
-        private bool sortAscending;
+        private readonly PawnRosterViewState view = PawnRosterViewStateStore.For(ColWindow);
+        private readonly Dictionary<Pawn, PawnRosterRowData> rosterData = new Dictionary<Pawn, PawnRosterRowData>();
+        private readonly Action<string> onSort;
+        private int builtViewRevision = -1;
+        private int builtTraitRevision = -1;
+        private string nameSearchTerm
+        {
+            get => view.GetString(PawnRosterFilterKeys.Name);
+            set => view.SetString(PawnRosterFilterKeys.Name, value);
+        }
         private const float HeaderHeight = 36f;
+
+        private static float FixedColumnsWidth =>
+            OutpostStrengthBudgetUi.ColIconDeploy
+            + PawnRosterBudgetTable.ColumnsWidth(ColWindow)
+            + OutpostStrengthBudgetUi.ColAction;
 
         public override Vector2 InitialSize => new Vector2(890f, 660f);
 
@@ -51,6 +56,8 @@ namespace TSA_WorldDomination
             this.isSkirmishFollowUp = isSkirmishFollowUp;
             enforceBudget = OutpostStrengthBudget.DefenseDeployBudgetEnabled;
             available = OutpostStrengthBudget.GetAvailableForDefense(outpost);
+            onSort = ToggleSort;
+            view.SetDefaultSort(PawnRosterBudgetTable.DefaultSortId, false);
             CollectCandidates();
             RebuildVisibleRows();
             SelectDefaultFill();
@@ -77,64 +84,50 @@ namespace TSA_WorldDomination
 
         private void RebuildVisibleRows()
         {
-            visibleRows.Clear();
-            string search = string.IsNullOrEmpty(nameSearchTerm) ? null : nameSearchTerm.Trim().ToLowerInvariant();
+            builtViewRevision = view.Revision;
+            builtTraitRevision = PawnRosterTraitFilter.Revision;
+            PawnRosterBudgetTable.BuildRows(candidates, visibleRows, p => p, view, rosterData);
+        }
+
+        private void RebuildIfViewChanged()
+        {
+            if (builtViewRevision != view.Revision || builtTraitRevision != PawnRosterTraitFilter.Revision)
+                RebuildVisibleRows();
+        }
+
+        public PawnRosterColumnWindow RosterWindow => ColWindow;
+        public PawnRosterViewState RosterView => view;
+        public bool RosterHostOpen => IsOpen;
+        public void CollectRosterSortOptions(List<PawnRosterSortOption> into) =>
+            PawnRosterBudgetTable.CollectSortOptions(ColWindow, into);
+        public bool SupportsRosterFilter(string key) =>
+            PawnRosterViewUtil.IsCommonFilterKey(key) || key == PawnRosterFilterKeys.Traits;
+        public string DescribeRosterFilter(string key) => PawnRosterViewUtil.DescribeFilter(view, key);
+        public void OnRosterViewChanged() => builtViewRevision = -1;
+
+        public void CollectRosterPawns(List<Pawn> into)
+        {
             for (int i = 0; i < candidates.Count; i++)
             {
-                Pawn p = candidates[i];
-                if (p == null) continue;
-                if (search != null)
-                {
-                    string label = p.LabelShortCap ?? "";
-                    if (!label.ToLowerInvariant().Contains(search))
-                        continue;
-                }
-                visibleRows.Add(p);
-            }
-            SortVisibleRows();
-        }
-
-        private void SortVisibleRows()
-        {
-            visibleRows.Sort((a, b) =>
-            {
-                int cmp = CompareDeploy(a, b, sortColumn);
-                if (cmp == 0)
-                    cmp = string.Compare(a?.LabelShortCap, b?.LabelShortCap, StringComparison.OrdinalIgnoreCase);
-                return sortAscending ? cmp : -cmp;
-            });
-        }
-
-        private static int CompareDeploy(Pawn a, Pawn b, DeploySortColumn col)
-        {
-            switch (col)
-            {
-                case DeploySortColumn.Name:
-                    return string.Compare(a?.LabelShortCap, b?.LabelShortCap, StringComparison.OrdinalIgnoreCase);
-                case DeploySortColumn.Gear:
-                    return CountGear(a).CompareTo(CountGear(b));
-                case DeploySortColumn.Shooting:
-                    return OutpostStrengthBudgetUi.GetSkillLevel(a, SkillDefOf.Shooting)
-                        .CompareTo(OutpostStrengthBudgetUi.GetSkillLevel(b, SkillDefOf.Shooting));
-                case DeploySortColumn.Melee:
-                    return OutpostStrengthBudgetUi.GetSkillLevel(a, SkillDefOf.Melee)
-                        .CompareTo(OutpostStrengthBudgetUi.GetSkillLevel(b, SkillDefOf.Melee));
-                case DeploySortColumn.Health:
-                    return OutpostStrengthBudgetUi.GetHealthPercent(a)
-                        .CompareTo(OutpostStrengthBudgetUi.GetHealthPercent(b));
-                default:
-                    return OutpostStrengthBudget.GetPawnCost(a).CompareTo(OutpostStrengthBudget.GetPawnCost(b));
+                if (candidates[i] != null) into.Add(candidates[i]);
             }
         }
 
-        private static int CountGear(Pawn pawn)
+        private void OnColumnsChanged()
         {
-            int n = 0;
-            if (pawn?.equipment?.AllEquipmentListForReading != null)
-                n += pawn.equipment.AllEquipmentListForReading.Count;
-            if (pawn?.apparel?.WornApparel != null)
-                n += pawn.apparel.WornApparel.Count;
-            return n;
+            view.Sort.RemoveWhere(id => PawnRosterColumnCatalog.HasOption(ColWindow, id) && !PlayerPawnRosterUtility.ColVisible(ColWindow, id));
+            builtViewRevision = -1;
+        }
+
+        private void RestoreDefaultView()
+        {
+            view.Reset();
+            scrollPosition = Vector2.zero;
+            PlayerPawnRosterUtility.ResetSkillDisplayOptions(ColWindow);
+            WorldComponent_PawnRosterColumnPrefs.Get()?.ResetToDefaults(ColWindow);
+            PawnRosterTraitFilter.Clear();
+            PawnRosterHeaderFilter.CloseDropdown();
+            builtViewRevision = -1;
         }
 
         private void SelectDefaultFill()
@@ -212,16 +205,25 @@ namespace TSA_WorldDomination
                 tipKey: "TSA_WD_StrengthBudget_DeployMeterTip");
             y += Outpost_Dialog_UI.OutcomeBoxGap;
 
+            PlayerPawnRosterUtility.DrawRosterViewControls(
+                y, ViewControlsH, inRect.width, ColWindow, RestoreDefaultView,
+                () => Find.WindowStack.Add(new Dialog_PawnRosterColumns(ColWindow, OnColumnsChanged)),
+                this);
+            y += ViewControlsH + 4f;
+            RebuildIfViewChanged();
+
             float rowH = OutpostStrengthBudgetUi.DeployRowHeight;
             float tableBottom = inRect.height - OutpostStrengthBudgetUi.BottomH - 8f;
             // Match scroll-view content width so header and rows share the same column X.
             const float scrollBarW = 16f;
-            float tableWidth = Mathf.Max(200f, inRect.width - scrollBarW);
-            float nameW = Mathf.Max(80f, tableWidth - OutpostStrengthBudgetUi.DeployFixedColumnsWidth);
+            float fixedW = FixedColumnsWidth;
+            float tableWidth = Mathf.Max(Mathf.Max(200f, inRect.width - scrollBarW), fixedW + 80f);
+            float nameW = Mathf.Max(80f, tableWidth - fixedW);
 
             float listTop = y + HeaderHeight + 4f;
-            Rect headerRect = new Rect(0f, y, tableWidth, HeaderHeight);
-            DrawSortableTableHeader(headerRect, nameW);
+            GUI.BeginGroup(new Rect(0f, y, inRect.width, HeaderHeight));
+            DrawSortableTableHeader(new Rect(-scrollPosition.x, 0f, tableWidth, HeaderHeight), nameW);
+            GUI.EndGroup();
             Widgets.DrawLineHorizontal(0f, y + HeaderHeight, inRect.width);
 
             Rect listOut = new Rect(0f, listTop, inRect.width, Mathf.Max(40f, tableBottom - listTop));
@@ -230,7 +232,7 @@ namespace TSA_WorldDomination
             Widgets.BeginScrollView(listOut, ref scrollPosition, listView);
             used = CurrentUsed();
             for (int i = 0; i < visibleRows.Count; i++)
-                DrawRow(0f, i * rowH, tableWidth, visibleRows[i], used);
+                DrawRow(0f, i * rowH, tableWidth, nameW, visibleRows[i], used);
             Widgets.EndScrollView();
 
             used = CurrentUsed();
@@ -257,7 +259,7 @@ namespace TSA_WorldDomination
             PawnRosterHeaderFilter.DrawFilterableHeader(
                 ref curX, hRect.y, nameW, hRect.height,
                 "TSA_WD_StrengthBudget_ColName".Translate(),
-                sortColumn == DeploySortColumn.Name, sortAscending,
+                view.Sort.HeaderSorted(PawnRosterColumnIds.Name), view.Sort.IsAscending(PawnRosterColumnIds.Name),
                 TextAnchor.MiddleCenter,
                 !nameSearchTerm.NullOrEmpty(),
                 "TSA_WD_AllPlayerPawns_SearchName".Translate(),
@@ -268,40 +270,20 @@ namespace TSA_WorldDomination
                     () => nameSearchTerm,
                     v => { nameSearchTerm = v ?? ""; RebuildVisibleRows(); },
                     () => { nameSearchTerm = ""; RebuildVisibleRows(); }),
-                () => ToggleSort(DeploySortColumn.Name));
-            DrawSortableHeader(ref curX, hRect, OutpostStrengthBudgetUi.ColGear, "TSA_WD_StrengthBudget_ColGear".Translate(), DeploySortColumn.Gear, TextAnchor.MiddleLeft);
-            DrawSortableHeader(ref curX, hRect, OutpostStrengthBudgetUi.ColShoot, "TSA_WD_StrengthBudget_ColShooting".Translate(), DeploySortColumn.Shooting, TextAnchor.MiddleCenter);
-            DrawSortableHeader(ref curX, hRect, OutpostStrengthBudgetUi.ColMelee, "TSA_WD_StrengthBudget_ColMelee".Translate(), DeploySortColumn.Melee, TextAnchor.MiddleCenter);
-            DrawSortableHeader(ref curX, hRect, OutpostStrengthBudgetUi.ColHealth, "TSA_WD_StrengthBudget_ColHealth".Translate(), DeploySortColumn.Health, TextAnchor.MiddleCenter);
-            DrawSortableHeader(ref curX, hRect, OutpostStrengthBudgetUi.ColStrengthDeploy, "TSA_WD_StrengthBudget_ColStrength".Translate(), DeploySortColumn.Strength, TextAnchor.MiddleCenter);
+                () => ToggleSort(PawnRosterColumnIds.Name));
+            PawnRosterBudgetTable.DrawHeaders(ref curX, hRect, ColWindow, view.Sort, onSort, withTips: false);
             GUI.color = Color.white;
             Text.Font = GameFont.Small;
         }
 
-        private void DrawSortableHeader(ref float curX, Rect hRect, float width, string label, DeploySortColumn col, TextAnchor anchor)
+        private void ToggleSort(string id)
         {
-            Rect headerRect = new Rect(curX, hRect.y, width, hRect.height);
-            if (Mouse.IsOver(headerRect)) Widgets.DrawHighlight(headerRect);
-            string text = label + (sortColumn == col ? (sortAscending ? " ▲" : " ▼") : "");
-            OutpostStrengthBudgetUi.LabelAnchored(headerRect, text.Truncate(width - 4f), anchor);
-            if (Widgets.ButtonInvisible(headerRect))
-                ToggleSort(col);
-            curX += width;
-        }
-
-        private void ToggleSort(DeploySortColumn col)
-        {
-            if (sortColumn == col) sortAscending = !sortAscending;
-            else
-            {
-                sortColumn = col;
-                sortAscending = col == DeploySortColumn.Name || col == DeploySortColumn.Gear;
-            }
-            SortVisibleRows();
+            view.Sort.ClickFromHeader(id, PawnRosterBudgetTable.FirstClickAscending(ColWindow, id));
+            RebuildVisibleRows();
             SoundDefOf.Click.PlayOneShotOnCamera();
         }
 
-        private void DrawRow(float x, float y, float width, Pawn pawn, float currentUsed)
+        private void DrawRow(float x, float y, float width, float nameW, Pawn pawn, float currentUsed)
         {
             if (pawn == null) return;
             bool selected = selectedIds.Contains(pawn.thingIDNumber);
@@ -323,7 +305,6 @@ namespace TSA_WorldDomination
             OutpostStrengthBudgetUi.DrawPawnPortrait(portraitRect, pawn);
             curX += OutpostStrengthBudgetUi.ColIconDeploy;
 
-            float nameW = Mathf.Max(80f, width - OutpostStrengthBudgetUi.DeployFixedColumnsWidth);
             Color prev = GUI.color;
             if (selected) GUI.color = OutpostStrengthBudgetUi.SelectedTint;
             OutpostStrengthBudgetUi.LabelAnchored(
@@ -333,35 +314,11 @@ namespace TSA_WorldDomination
             GUI.color = prev;
             curX += nameW;
 
-            Rect gearRect = new Rect(curX, y + 4f, OutpostStrengthBudgetUi.ColGear - 4f, rowH - 8f);
-            bool gearClicked = OutpostStrengthBudgetUi.DrawEquippedItemIcons(gearRect, pawn);
-            curX += OutpostStrengthBudgetUi.ColGear;
-
-            if (selected) GUI.color = OutpostStrengthBudgetUi.SelectedTint;
-            OutpostStrengthBudgetUi.LabelAnchored(
-                new Rect(curX, y, OutpostStrengthBudgetUi.ColShoot, rowH),
-                OutpostStrengthBudgetUi.GetSkillLevel(pawn, SkillDefOf.Shooting).ToString(),
-                TextAnchor.MiddleCenter);
-            curX += OutpostStrengthBudgetUi.ColShoot;
-
-            OutpostStrengthBudgetUi.LabelAnchored(
-                new Rect(curX, y, OutpostStrengthBudgetUi.ColMelee, rowH),
-                OutpostStrengthBudgetUi.GetSkillLevel(pawn, SkillDefOf.Melee).ToString(),
-                TextAnchor.MiddleCenter);
-            curX += OutpostStrengthBudgetUi.ColMelee;
-
-            OutpostStrengthBudgetUi.LabelAnchored(
-                new Rect(curX, y, OutpostStrengthBudgetUi.ColHealth, rowH),
-                OutpostStrengthBudgetUi.GetHealthPercent(pawn).ToString("F0") + "%",
-                TextAnchor.MiddleCenter);
-            curX += OutpostStrengthBudgetUi.ColHealth;
-
-            OutpostStrengthBudgetUi.LabelAnchored(
-                new Rect(curX, y, OutpostStrengthBudgetUi.ColStrengthDeploy, rowH),
-                cost.ToString("F0"),
-                TextAnchor.MiddleCenter);
-            GUI.color = prev;
-            curX += OutpostStrengthBudgetUi.ColStrengthDeploy;
+            bool gearClicked = PawnRosterBudgetTable.DrawCells(
+                ref curX, y, rowH, ColWindow, pawn, cost,
+                selected ? OutpostStrengthBudgetUi.SelectedTint : prev,
+                withTips: false, strengthTip: null,
+                PawnRosterRowData.ForPawn(rosterData, pawn));
 
             Rect actionCol = new Rect(curX, y, OutpostStrengthBudgetUi.ColAction, rowH);
             Rect btn = new Rect(actionCol.x + 4f, y + (rowH - 28f) / 2f, OutpostStrengthBudgetUi.ColAction - 8f, 28f);

@@ -43,24 +43,60 @@ namespace TSA_WorldDomination
         public static PawnRosterTraitFilterMode Mode
         {
             get => mode;
-            set => mode = value;
+            set
+            {
+                if (mode == value) return;
+                mode = value;
+                Revision++;
+            }
         }
 
+        /// <summary>Bumps on every selection / mode change (dirty check for roster caches).</summary>
+        public static int Revision { get; private set; }
+
         public static bool IsActive => selectedKeys.Count > 0;
+
+        public static int SelectedCount => selectedKeys.Count;
 
         public static bool IsSelected(string key) => !key.NullOrEmpty() && selectedKeys.Contains(key);
 
         public static void SetSelected(string key, bool on)
         {
             if (key.NullOrEmpty()) return;
-            if (on) selectedKeys.Add(key);
-            else selectedKeys.Remove(key);
+            bool changed = on ? selectedKeys.Add(key) : selectedKeys.Remove(key);
+            if (changed) Revision++;
+        }
+
+        public static void CopySelectedKeys(List<string> into)
+        {
+            into.Clear();
+            foreach (string key in selectedKeys)
+                into.Add(key);
+        }
+
+        /// <summary>Display labels of the selected trait degrees, joined for the Active filters list.</summary>
+        public static string DescribeSelection()
+        {
+            if (selectedKeys.Count == 0) return "";
+            var labels = new List<string>(selectedKeys.Count);
+            foreach (string key in selectedKeys)
+            {
+                if (!TryParseKey(key, out TraitDef def, out int degree)) continue;
+                TraitDegreeData data = def.DataAtDegree(degree);
+                labels.Add(data != null ? data.LabelCap.ToString() : def.LabelCap.ToString());
+            }
+            string joiner = mode == PawnRosterTraitFilterMode.And
+                ? " + "
+                : " / ";
+            return string.Join(joiner, labels);
         }
 
         public static void Clear()
         {
+            if (selectedKeys.Count == 0 && mode == PawnRosterTraitFilterMode.Or) return;
             selectedKeys.Clear();
             mode = PawnRosterTraitFilterMode.Or;
+            Revision++;
         }
 
         public static bool FilterApplies(PawnRosterColumnWindow window) =>
@@ -132,6 +168,7 @@ namespace TSA_WorldDomination
 
         public static void InvalidateRosterCaches()
         {
+            Revision++;
             Window_AllPlayerPawns.InvalidateCache();
             Window_Prisoners.InvalidateCache();
             WITab_Outpost_Pawns.InvalidateCache();

@@ -56,7 +56,7 @@ Main tab: `MainTabWindow_WorldDomination` (`UI/Window_MainDashboard.cs`). `Windo
 | Helper | File | Use for |
 |--------|------|---------|
 | `PawnRosterHeaderFilter.DrawFilterableHeader` | `UI/PawnRosterHeaderFilter.cs` | Column headers. Pass `onFilterClick` for a filter icon; pass null to sort (or label-only) without the glyph. |
-| `PlayerPawnRosterUtility.DrawRosterViewControls` | `Outposts/PlayerPawnRosterUtility.cs` | Restore + columns + highlight icons |
+| `PlayerPawnRosterUtility.DrawRosterViewControls` | `Outposts/PlayerPawnRosterUtility.cs` | Restore + columns + Advanced Filtering + highlight icons (pass the `IPawnRosterViewHost` as the last argument) |
 | `WorldDomination_UIUtils` | `UI/Window_Utils.cs` | Restore-view icon, slate `ButtonTextWithIcon`, `JumpToWorldObjectOnMap` |
 | `RaidUIUtils` | `UI/Window_Utils.cs` | Raid power boxes, win-chance bar, forecast |
 | `SettlementCaravanDealUi` | `Outposts/Actions/SettlementCaravanLootUtility.cs` | Buy/gift/bribe tables |
@@ -68,12 +68,29 @@ Restore default view: `WorldDomination_UIUtils.DrawTitleRestoreDefaultView`. Too
 
 Column sets differ. Chrome must not be copied again.
 
+### Column registry (single source of truth)
+
+Nine pawn tables share one column registry (`UI/PawnRoster/`): APP All Player Pawns, REM Remote Establish, PRS Prisoners, OUT Outpost Pawns tab, ARM Outpost Armory, WDR Strength Withdraw, DEP Defense Deploy, SMS Smart Send confirm, CAR Add Caravan Pawns. Each has a `PawnRosterColumnWindow` value and a Columns button.
+
+- `PawnRosterColumnRegistry` defines every common column once (label, width, cell, compare, first-click direction). `PawnRosterSurface` says what a window's rows can provide (capabilities) and which common columns it already draws itself (`IsNative`). Allowed columns minus native ones are **extras**, appended after the window's own columns via `ExtrasWidth` / `DrawExtraHeaders` / `DrawExtraCells`.
+- Default views are unchanged: native columns keep their defaults, every extra defaults to off. `PawnRosterColumnPrefs` builds the per-window option list; `WorldComponent_PawnRosterColumnPrefs` saves it (additive Scribe keys). OutpostContext special columns stay OUT-only.
+- Row data for extras comes from `PawnRosterRowData` (lazy per row: `entry.RosterData`, or `PawnRosterRowData.ForPawn(cache, pawn)` with a cache cleared at rebuild). Never build it per frame.
+- WDR and DEP share `PawnRosterBudgetTable` (Gear / Shooting / Melee / Health / Strength + extras, headers, cells, compare, `BuildRows`).
+
+### View state, multi-sort, Advanced Filtering
+
+- `PawnRosterViewState` (via `PawnRosterViewStateStore.For(window)`) holds filters (string/int keys in `PawnRosterFilterKeys`) and a `PawnRosterSortChain`. Dialog filter fields are thin properties over it. Rebuild rows when `view.Revision` or `PawnRosterTraitFilter.Revision` changes; do not re-filter every frame.
+- `PawnRosterSortChain`: up to 4 levels. A header click (`ClickFromHeader`) flips the primary or replaces the chain with one level; there is no Shift+click. Extra levels are only added in the Advanced Filtering dialog. Name is always the final tiebreak, and a Name level is compared centrally. Headers pass `Sort.HeaderSorted(id), Sort.IsAscending(id)` to `DrawFilterableHeader` (level badge when multi-level) or use `Sort.ArrowFor(id)` for local labels. Windows with a non-empty default order call `view.SetDefaultSort` so the Advanced Filtering icon is only tinted when the player changed something.
+- Hosts implement `IPawnRosterViewHost` (`CollectRosterSortOptions`, `SupportsRosterFilter`, `DescribeRosterFilter`, `OnRosterViewChanged`, `RosterHostOpen`). `Dialog_PawnRosterAdvancedFilter` edits presets, sort levels and filters live: picking a preset applies it (no Apply button), Save as new / Rename open `Dialog_PawnRosterPresetName`, and Add filter / clicking a filter line open the same editors as the headers (`OpenTextDropdown`, `OpenChoiceDropdown`, trait dialog) fed by `CollectRosterPawns`. Star values: APP / REM store `PlayerPawnStarFilter`, all others the 0..2 `OutpostPawnStarFilter` subset (`PawnRosterViewUtil.UsesPlayerStarFilter`). In `OnColumnsChanged`, drop sort levels for hidden columns: `Sort.RemoveWhere(id => PawnRosterColumnCatalog.HasOption(window, id) && !visible(id))`. Restore default view calls `view.Reset()`.
+- Presets (`PawnRosterFilterPreset`) are global in `WorldDominationSettings.pawnRosterFilterPresets` and call `settings.Write()` on every change. Applying skips filters the target window does not support.
+- OUT compares cached row values only (no live pawn reads in compare).
+
 - `UI/Window_AllPlayerPawns.cs` — viewport-culls rows with `lastScrollViewportHeight` (only draw Y in the scroll band). Prefer the same for any new long hub table; see ARCHITECTURE “GUI perf” hub-list bullet.
 - `UI/Window_Prisoners.cs` — toolbar has a label-less auto Smart Assign checkbox between Smart Assign and the gear; when on, newly captured colony/outpost prisoners get a scheduled destination (persisted on `WorldComponent_PrisonerRecruitSchedule.autoSmartAssignNewPrisoners`, default off).
 - `UI/Window_RemoteEstablishPawns.cs` — tile-first founding picker; uses `PawnRosterColumnWindow.RemoteEstablish` + `DrawRosterViewControls` (same chrome as All Player Pawns; Confirm + ad-hoc travel strip instead of Transfer / Establish).
 - `Outposts/WITab_Outpost_Pawns.cs`
 
-Extend `DrawRosterViewControls` / `DrawFilterableHeader`. Do not start a fifth copy.
+Extend `DrawRosterViewControls` / `DrawFilterableHeader` and the column registry. Do not start another copy; a new pawn table gets a `PawnRosterColumnWindow` value, a `PawnRosterSurface` entry, and implements `IPawnRosterViewHost`.
 
 ## Pawn travel mode controls
 
@@ -110,8 +127,8 @@ Leftover local headers (leave unless touching that window): `Window_FactionDetai
 ## Session state trap
 
 - Diplomacy: `searchTerm`, `sortColumn`, `sortAscending` are **static** (survive close).
-- All Player Pawns: filters and sort are **static**.
-- Outpost Armory: `pawnSearchTerm`, `itemSearchTerm`, `typeFilter`, `sortColumn`, `sortAscending` are **static**.
+- Pawn rosters: view state (filters + sort chain) survives close for APP, PRS, ARM, SMS and resets on open for REM, OUT, WDR, DEP, CAR (`PawnRosterSurface.ViewStatePersists`).
+- Outpost Armory: store-side `itemSearchTerm`, `typeFilter` and store sort are **static** fields (pawn side uses the roster view state).
 - World Stats: `nameFilter`, `sortColumn`, and `sortAscending` are **static**.
 
 Match the window you are editing. Do not assume all hubs share one pattern.

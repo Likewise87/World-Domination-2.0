@@ -490,6 +490,47 @@
   <TSA_WD_PawnRoster_ColShooting>射击</TSA_WD_PawnRoster_ColShooting>
   <TSA_WD_PawnRoster_ColMelee>近战</TSA_WD_PawnRoster_ColMelee>
   <TSA_WD_PawnRoster_ColStrength>战力</TSA_WD_PawnRoster_ColStrength>
+  <TSA_WD_PawnRoster_ColGear>装备</TSA_WD_PawnRoster_ColGear>
+  <TSA_WD_PawnRoster_ColGearTip>已装备的武器和服装。悬停图标可查看物品名称。</TSA_WD_PawnRoster_ColGearTip>
+  <TSA_WD_AdvFilter_ButtonTip>高级筛选：已保存的预设、多级排序以及当前筛选概览。当此视图与默认不同时高亮显示。</TSA_WD_AdvFilter_ButtonTip>
+  <TSA_WD_AdvFilter_Title>高级筛选</TSA_WD_AdvFilter_Title>
+  <TSA_WD_AdvFilter_Subtitle>更改会立即应用到列表。</TSA_WD_AdvFilter_Subtitle>
+  <TSA_WD_AdvFilter_Presets>预设</TSA_WD_AdvFilter_Presets>
+  <TSA_WD_AdvFilter_PresetsTip>已保存的排序与筛选组合。预设在所有角色列表和所有存档之间共享。列表不支持的筛选会被跳过。</TSA_WD_AdvFilter_PresetsTip>
+  <TSA_WD_AdvFilter_NoPresetSelected>未选择预设</TSA_WD_AdvFilter_NoPresetSelected>
+  <TSA_WD_AdvFilter_SelectPresetTip>选择一个预设，将其排序级别和筛选载入此列表。</TSA_WD_AdvFilter_SelectPresetTip>
+  <TSA_WD_AdvFilter_Overwrite>覆盖</TSA_WD_AdvFilter_Overwrite>
+  <TSA_WD_AdvFilter_OverwriteTip>将此列表当前的排序级别和筛选保存到所选预设。</TSA_WD_AdvFilter_OverwriteTip>
+  <TSA_WD_AdvFilter_Delete>删除</TSA_WD_AdvFilter_Delete>
+  <TSA_WD_AdvFilter_DeleteConfirm>删除预设"{0}"？</TSA_WD_AdvFilter_DeleteConfirm>
+  <TSA_WD_AdvFilter_Rename>重命名</TSA_WD_AdvFilter_Rename>
+  <TSA_WD_AdvFilter_RenameTip>重命名所选预设。</TSA_WD_AdvFilter_RenameTip>
+  <TSA_WD_AdvFilter_RenameTitle>重命名预设</TSA_WD_AdvFilter_RenameTitle>
+  <TSA_WD_AdvFilter_SaveNew>另存为新预设</TSA_WD_AdvFilter_SaveNew>
+  <TSA_WD_AdvFilter_SaveNewTip>将此列表当前的排序级别和筛选保存为新预设。</TSA_WD_AdvFilter_SaveNewTip>
+  <TSA_WD_AdvFilter_SaveNewTitle>保存预设</TSA_WD_AdvFilter_SaveNewTitle>
+  <TSA_WD_AdvFilter_SaveBtn>保存</TSA_WD_AdvFilter_SaveBtn>
+  <TSA_WD_AdvFilter_NameTaken>已存在同名预设。</TSA_WD_AdvFilter_NameTaken>
+  <TSA_WD_AdvFilter_Saved>预设"{0}"已保存。</TSA_WD_AdvFilter_Saved>
+  <TSA_WD_AdvFilter_SortLevels>排序级别</TSA_WD_AdvFilter_SortLevels>
+  <TSA_WD_AdvFilter_SortLevelsTip>各行先按第一级排序，相同时按下一级，依此类推。名称始终是最后的排序依据。</TSA_WD_AdvFilter_SortLevelsTip>
+  <TSA_WD_AdvFilter_SortDefault>默认顺序（无排序级别）。</TSA_WD_AdvFilter_SortDefault>
+  <TSA_WD_AdvFilter_AddLevel>添加级别</TSA_WD_AdvFilter_AddLevel>
+  <TSA_WD_AdvFilter_Asc>升序</TSA_WD_AdvFilter_Asc>
+  <TSA_WD_AdvFilter_Desc>降序</TSA_WD_AdvFilter_Desc>
+  <TSA_WD_AdvFilter_DirTip>切换排序方向。</TSA_WD_AdvFilter_DirTip>
+  <TSA_WD_AdvFilter_MoveUp>上移</TSA_WD_AdvFilter_MoveUp>
+  <TSA_WD_AdvFilter_MoveDown>下移</TSA_WD_AdvFilter_MoveDown>
+  <TSA_WD_AdvFilter_RemoveLevel>移除级别</TSA_WD_AdvFilter_RemoveLevel>
+  <TSA_WD_AdvFilter_ActiveFilters>当前筛选</TSA_WD_AdvFilter_ActiveFilters>
+  <TSA_WD_AdvFilter_ActiveFiltersTip>当前正在缩小此列表的筛选。列筛选仅在其列可见时生效。</TSA_WD_AdvFilter_ActiveFiltersTip>
+  <TSA_WD_AdvFilter_NoFilters>没有启用的筛选。</TSA_WD_AdvFilter_NoFilters>
+  <TSA_WD_AdvFilter_ClearAll>全部清除</TSA_WD_AdvFilter_ClearAll>
+  <TSA_WD_AdvFilter_AddFilter>添加筛选</TSA_WD_AdvFilter_AddFilter>
+  <TSA_WD_AdvFilter_AddFilterTip>添加此列表支持的筛选。若其列被隐藏，会自动显示。</TSA_WD_AdvFilter_AddFilterTip>
+  <TSA_WD_AdvFilter_EditFilterTip>点击以修改此筛选。</TSA_WD_AdvFilter_EditFilterTip>
+  <TSA_WD_AdvFilter_ClearFilterTip>清除此筛选。</TSA_WD_AdvFilter_ClearFilterTip>
+  <TSA_WD_AdvFilter_KeySource>来源</TSA_WD_AdvFilter_KeySource>
   <TSA_WD_PawnRoster_ColRelevant>相关技能</TSA_WD_PawnRoster_ColRelevant>
   <TSA_WD_PawnRoster_ColConstruction>建造</TSA_WD_PawnRoster_ColConstruction>
   <TSA_WD_PawnRoster_ColDailyFood>每日食物</TSA_WD_PawnRoster_ColDailyFood>

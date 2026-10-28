@@ -9,7 +9,7 @@ using Verse.Sound;
 namespace TSA_WorldDomination
 {
     [StaticConstructorOnStartup]
-    public class Window_Prisoners : Window
+    public class Window_Prisoners : Window, IPawnRosterViewHost
     {
         private const float RowHeight = 58f;
         private const float HeaderHeight = 28f;
@@ -65,13 +65,36 @@ namespace TSA_WorldDomination
         private static readonly Color KickOutFill = new Color(0.38f, 0.12f, 0.14f, 0.92f);
 
         private Vector2 scrollPos;
-        private static string sortColumn = PrisonerRosterUtility.DefaultSortColumn;
-        private static bool sortAscending = true;
-        private static string pawnSearchTerm = "";
-        private static PrisonerRosterSourceFilter sourceFilter = PrisonerRosterSourceFilter.All;
-        private static string xenotypeFilter = "";
-        private static string psycastFilter = "";
-        private static string ideoFilter = "";
+        private static PawnRosterViewState View => PawnRosterViewStateStore.For(ColWindow);
+        private static PawnRosterSortChain Sort => View.Sort;
+        private static string sortColumn => Sort.PrimaryOr(PrisonerRosterUtility.DefaultSortColumn);
+        private static bool sortAscending => Sort.PrimaryAscendingOr(true);
+        private static string pawnSearchTerm
+        {
+            get => View.GetString(PawnRosterFilterKeys.Name);
+            set => View.SetString(PawnRosterFilterKeys.Name, value);
+        }
+        private static PrisonerRosterSourceFilter sourceFilter
+        {
+            get => (PrisonerRosterSourceFilter)View.GetInt(PawnRosterFilterKeys.Source);
+            set => View.SetInt(PawnRosterFilterKeys.Source, (int)value);
+        }
+        private static string xenotypeFilter
+        {
+            get => View.GetString(PawnRosterFilterKeys.Xenotype);
+            set => View.SetString(PawnRosterFilterKeys.Xenotype, value);
+        }
+        private static string psycastFilter
+        {
+            get => View.GetString(PawnRosterFilterKeys.Psycasts);
+            set => View.SetString(PawnRosterFilterKeys.Psycasts, value);
+        }
+        private static string ideoFilter
+        {
+            get => View.GetString(PawnRosterFilterKeys.Ideology);
+            set => View.SetString(PawnRosterFilterKeys.Ideology, value);
+        }
+        private readonly Action<string> onExtraSort;
         private int lastUpdateTick = -9999;
         private List<PrisonerRosterEntry> cachedList = new List<PrisonerRosterEntry>();
         private readonly HashSet<string> selectedThingIds = new HashSet<string>();
@@ -88,12 +111,44 @@ namespace TSA_WorldDomination
             draggable = false;
             preventCameraMotion = false;
             forcePause = false;
+            onExtraSort = SetSort;
         }
 
         public static void InvalidateCache()
         {
             cacheInvalidated = true;
             WITab_Outpost_Pawns.InvalidateCache();
+        }
+
+        public PawnRosterColumnWindow RosterWindow => ColWindow;
+        public PawnRosterViewState RosterView => View;
+        public bool RosterHostOpen => IsOpen;
+
+        public void CollectRosterSortOptions(List<PawnRosterSortOption> into)
+        {
+            PawnRosterViewUtil.AddUnique(into, "LocationName", "TSA_WD_AllPlayerPawns_ColLocation".Translate());
+            PawnRosterViewUtil.AddUnique(into, "Name", "TSA_WD_PawnCol_PawnName".Translate());
+            PawnRosterViewUtil.AddCatalogSortOptions(ColWindow, into);
+        }
+
+        public bool SupportsRosterFilter(string key) =>
+            key == PawnRosterFilterKeys.Name || key == PawnRosterFilterKeys.Source
+            || key == PawnRosterFilterKeys.Xenotype || key == PawnRosterFilterKeys.Psycasts
+            || key == PawnRosterFilterKeys.Ideology || key == PawnRosterFilterKeys.Traits;
+
+        public string DescribeRosterFilter(string key) => PawnRosterViewUtil.DescribeFilter(View, key);
+
+        public void OnRosterViewChanged() => lastUpdateTick = -9999;
+
+        public void CollectRosterPawns(List<Pawn> into)
+        {
+            List<PrisonerRosterEntry> all = PrisonerRosterUtility.BuildRoster(
+                null, sortColumn, sortAscending, PrisonerRosterSourceFilter.All, Sort);
+            for (int i = 0; i < all.Count; i++)
+            {
+                PrisonerRosterEntry e = all[i];
+                if (e != null && !e.isGroupHeader && e.pawn != null) into.Add(e.pawn);
+            }
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -175,7 +230,8 @@ namespace TSA_WorldDomination
                 selectedRect.x - ToolbarBtnGap,
                 ColWindow,
                 RestoreDefaultView,
-                () => Find.WindowStack.Add(new Dialog_PawnRosterColumns(ColWindow, OnColumnsChanged)));
+                () => Find.WindowStack.Add(new Dialog_PawnRosterColumns(ColWindow, OnColumnsChanged)),
+                this);
 
             string transitBlockTip = selectionHasTransit
                 ? "TSA_WD_Prisoners_InTransitActionsDisabledTip".Translate()
@@ -296,13 +352,7 @@ namespace TSA_WorldDomination
 
         private void RestoreDefaultView()
         {
-            sortColumn = PrisonerRosterUtility.DefaultSortColumn;
-            sortAscending = true;
-            pawnSearchTerm = "";
-            sourceFilter = PrisonerRosterSourceFilter.All;
-            xenotypeFilter = "";
-            psycastFilter = "";
-            ideoFilter = "";
+            View.Reset();
             scrollPos = Vector2.zero;
             lastUpdateTick = -9999;
             PlayerPawnRosterUtility.ResetSkillDisplayOptions(ColWindow);
@@ -313,45 +363,8 @@ namespace TSA_WorldDomination
 
         private void OnColumnsChanged()
         {
-            if (!ColOn(PawnRosterColumnIds.Interaction) && sortColumn == "Interaction")
-                ClearSortToDefault();
-            else if (!ColOn(PawnRosterColumnIds.Resistance) && sortColumn == "Resistance")
-                ClearSortToDefault();
-            else if (!ColOn(PawnRosterColumnIds.Traits) && sortColumn == "Traits")
-                ClearSortToDefault();
-            else if (!ColOn(PawnRosterColumnIds.Xenotype) && sortColumn == "Xenotype")
-                ClearSortToDefault();
-            else if (!ColOn(PawnRosterColumnIds.Psycasts) && sortColumn == "Psycasts")
-                ClearSortToDefault();
-            else if (!ColOn(PawnRosterColumnIds.Ideology) && sortColumn == "Ideology")
-                ClearSortToDefault();
-            else if (!ColOn(PawnRosterColumnIds.Age) && sortColumn == "Age")
-                ClearSortToDefault();
-            else if (!ColOn(PawnRosterColumnIds.Health) && sortColumn == "Health")
-                ClearSortToDefault();
-            else if (!ColOn(PawnRosterColumnIds.Hurt) && sortColumn == "Hurt")
-                ClearSortToDefault();
-            else if (!ColOn(PawnRosterColumnIds.Destination) && sortColumn == "Destination")
-                ClearSortToDefault();
-            else
-            {
-                SkillDef[] skills = PlayerPawnRosterUtility.AllSkillColumns;
-                for (int i = 0; i < skills.Length; i++)
-                {
-                    if (sortColumn == skills[i].defName && !ColOn(PawnRosterColumnIds.Skill(skills[i])))
-                    {
-                        ClearSortToDefault();
-                        break;
-                    }
-                }
-            }
+            Sort.RemoveWhere(id => PawnRosterColumnCatalog.HasOption(ColWindow, id) && !ColOn(id));
             lastUpdateTick = -9999;
-        }
-
-        private static void ClearSortToDefault()
-        {
-            sortColumn = PrisonerRosterUtility.DefaultSortColumn;
-            sortAscending = true;
         }
 
         private static bool ColOn(string id) => PlayerPawnRosterUtility.ColVisible(ColWindow, id);
@@ -375,6 +388,7 @@ namespace TSA_WorldDomination
                     w += ColSkill;
             }
             if (ColOn(PawnRosterColumnIds.Destination)) w += ColDest;
+            w += PawnRosterColumnRegistry.ExtrasWidth(ColWindow);
             return w;
         }
 
@@ -385,7 +399,7 @@ namespace TSA_WorldDomination
             bool applyIdeology = true)
         {
             string nameSearchLower = string.IsNullOrEmpty(pawnSearchTerm) ? null : pawnSearchTerm.ToLowerInvariant();
-            var list = PrisonerRosterUtility.BuildRoster(nameSearchLower, sortColumn, sortAscending, source);
+            var list = PrisonerRosterUtility.BuildRoster(nameSearchLower, sortColumn, sortAscending, source, Sort);
             PawnRosterTraitFilter.ApplyToPrisonerRows(list);
             if (applyXenotype && ColOn(PawnRosterColumnIds.Xenotype))
                 PawnRosterTraitFilter.ApplyXenotypeToPrisonerRows(list, xenotypeFilter);
@@ -459,7 +473,7 @@ namespace TSA_WorldDomination
             PawnRosterHeaderFilter.DrawFilterableHeader(
                 ref curX, hRect.y, ColLocName, HeaderHeight,
                 "TSA_WD_AllPlayerPawns_ColLocation".Translate(),
-                sortColumn == "Location", sortAscending,
+                Sort.HeaderSorted("LocationName"), Sort.IsAscending("LocationName"),
                 TextAnchor.MiddleLeft,
                 sourceFilter != PrisonerRosterSourceFilter.All,
                 "TSA_WD_FilterBySource".Translate(),
@@ -471,14 +485,14 @@ namespace TSA_WorldDomination
                         sourceFilter = f;
                         lastUpdateTick = -9999;
                     }, BuildCurrentRoster(PrisonerRosterSourceFilter.All, applyXenotype: true))),
-                () => SetSort("Location"));
+                () => SetSort("LocationName"));
             DrawSelectAllHeader(ref curX, hRect);
             curX += ColReorder;
             curX += ColPortrait;
             PawnRosterHeaderFilter.DrawFilterableHeader(
                 ref curX, hRect.y, ColName, HeaderHeight,
                 "TSA_WD_PawnCol_PawnName".Translate(),
-                sortColumn == "Name", sortAscending,
+                Sort.HeaderSorted("Name"), Sort.IsAscending("Name"),
                 TextAnchor.MiddleCenter,
                 !pawnSearchTerm.NullOrEmpty(),
                 "TSA_WD_AllPlayerPawns_SearchName".Translate(),
@@ -499,7 +513,7 @@ namespace TSA_WorldDomination
                 PawnRosterTraitFilter.DrawTraitsHeader(
                     ref curX, hRect.y, ColTraits, HeaderHeight,
                     "TSA_WD_Prisoners_ColTraits".Translate(),
-                    sortColumn == "Traits", sortAscending,
+                    Sort.HeaderSorted("Traits"), Sort.IsAscending("Traits"),
                     TextAnchor.MiddleCenter,
                     () => SetSort("Traits"));
             }
@@ -508,7 +522,7 @@ namespace TSA_WorldDomination
                 PawnRosterHeaderFilter.DrawFilterableHeader(
                     ref curX, hRect.y, ColXenotype, HeaderHeight,
                     "TSA_WD_PawnRoster_ColXenotype".Translate(),
-                    sortColumn == "Xenotype", sortAscending,
+                    Sort.HeaderSorted("Xenotype"), Sort.IsAscending("Xenotype"),
                     TextAnchor.MiddleCenter,
                     !xenotypeFilter.NullOrEmpty(),
                     "TSA_WD_FilterByXenotype".Translate(),
@@ -527,7 +541,7 @@ namespace TSA_WorldDomination
                 PawnRosterHeaderFilter.DrawFilterableHeader(
                     ref curX, hRect.y, ColPsycasts, HeaderHeight,
                     "TSA_WD_PawnRoster_ColPsycasts".Translate(),
-                    sortColumn == "Psycasts", sortAscending,
+                    Sort.HeaderSorted("Psycasts"), Sort.IsAscending("Psycasts"),
                     TextAnchor.MiddleCenter,
                     !psycastFilter.NullOrEmpty(),
                     "TSA_WD_FilterByPsycast".Translate(),
@@ -546,7 +560,7 @@ namespace TSA_WorldDomination
                 PawnRosterHeaderFilter.DrawFilterableHeader(
                     ref curX, hRect.y, ColIdeology, HeaderHeight,
                     "TSA_WD_PawnRoster_ColIdeology".Translate(),
-                    sortColumn == "Ideology", sortAscending,
+                    Sort.HeaderSorted("Ideology"), Sort.IsAscending("Ideology"),
                     TextAnchor.MiddleCenter,
                     !ideoFilter.NullOrEmpty(),
                     "TSA_WD_FilterByIdeology".Translate(),
@@ -592,6 +606,7 @@ namespace TSA_WorldDomination
 
             if (ColOn(PawnRosterColumnIds.Destination))
                 DrawHeader(ref curX, ColDest, "TSA_WD_Prisoners_ColDestination".Translate(), "Destination", hRect, TextAnchor.MiddleLeft);
+            PawnRosterColumnRegistry.DrawExtraHeaders(ref curX, hRect.y, HeaderHeight, ColWindow, Sort, onExtraSort);
             GUI.color = Color.white;
             Text.Font = GameFont.Small;
         }
@@ -672,7 +687,7 @@ namespace TSA_WorldDomination
             Rect headerRect = new Rect(curX, hRect.y, width, hRect.height);
             if (Mouse.IsOver(headerRect)) Widgets.DrawHighlight(headerRect);
             Text.Anchor = anchor;
-            string headerText = label + (sortColumn == tag ? (sortAscending ? " ▲" : " ▼") : "");
+            string headerText = label + Sort.ArrowFor(tag);
             Widgets.Label(headerRect, headerText.Truncate(width - 4f));
             if (Widgets.ButtonInvisible(headerRect)) SetSort(tag);
             curX += width;
@@ -680,8 +695,8 @@ namespace TSA_WorldDomination
 
         private void SetSort(string col)
         {
-            if (sortColumn == col) sortAscending = !sortAscending;
-            else { sortColumn = col; sortAscending = true; }
+            Sort.ClickFromHeader(col,
+                !PawnRosterColumnRegistry.IsExtra(ColWindow, col) || PawnRosterColumnRegistry.FirstClickAscending(col));
             lastUpdateTick = -9999;
             SoundDefOf.Click.PlayOneShotOnCamera();
         }
@@ -876,7 +891,12 @@ namespace TSA_WorldDomination
                     OpenScheduleDialog(new List<string> { entry.thingId });
                     SoundDefOf.Click.PlayOneShotOnCamera();
                 }
+                curX += ColDest;
             }
+
+            if (PawnRosterColumnRegistry.AnyVisibleExtra(ColWindow)
+                && PawnRosterColumnRegistry.DrawExtraCells(ref curX, y, RowHeight, ColWindow, entry.RosterData))
+                lastUpdateTick = -9999;
 
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;

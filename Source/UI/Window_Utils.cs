@@ -709,6 +709,8 @@ namespace TSA_WorldDomination
                 ?? ContentFinder<Texture2D>.Get("UI/Commands/Settle", false);
         public static Texture2D RosterKickOutIcon =>
             rosterKickOutIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/KickOut", false);
+        public static Texture2D RosterAdvancedFilterIcon =>
+            rosterAdvancedFilterIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/AdvancedFilter", false);
 
         private static Texture2D rosterResetViewIcon;
         private static Texture2D rosterColumnPickerIcon;
@@ -717,6 +719,7 @@ namespace TSA_WorldDomination
         private static Texture2D rosterSmartIcon;
         private static Texture2D rosterEstablishOutpostIcon;
         private static Texture2D rosterKickOutIcon;
+        private static Texture2D rosterAdvancedFilterIcon;
 
         /// <summary>Icon-only button; tooltip is the former button label. Optional <paramref name="iconTint"/> tints the icon.</summary>
         public static bool ButtonIconOnly(Rect rect, Texture2D icon, string tooltip, Color? iconTint = null)

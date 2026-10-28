@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_61_Title>Advanced filters for pawn tables</TSA_WD_Update_2_3_61_Title>
+  <TSA_WD_Update_2_3_61_Body><![CDATA[
+<size=16><b>2.3.61 - Advanced filters for pawn tables</b></size>\n
+<color=#00FFFFFF>Release date: October 28th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• New QOL feature: every WD table where you can see or select pawns now has an Advanced Filter option. It lets you sort and group by multiple columns, for example "descending by Animals skill, then descending by Plants skill, then sorted by location". Examples of such windows: All Player Pawns, Prisoners, Outpost Pawns and more. You can also add and edit filters from there.\n
+• These settings can be saved as presets. Presets belong to the mod as a whole, not to a specific save game.\n
+• Any column can now optionally be added in any of those windows. Previously, some columns like pawn health were only available in some dialogs.\n
+]]></TSA_WD_Update_2_3_61_Body>
   <TSA_WD_Update_2_3_60_Title>Outpost bleeding fix</TSA_WD_Update_2_3_60_Title>
   <TSA_WD_Update_2_3_60_Body><![CDATA[
 <size=16><b>2.3.60 - Outpost bleeding fix</b></size>\n

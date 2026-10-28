@@ -11,7 +11,7 @@ using Verse.Sound;
 namespace TSA_WorldDomination
 {
     /// <summary>Inspector tab: virtual pawns in a clear table. Vanilla PortraitsCache.Get (headgear + clothes on), name, skills, strength, select-for-removal + bulk remove. Click opens Dialog_InfoCard.</summary>
-    public class WITab_Outpost_Pawns : WITab
+    public class WITab_Outpost_Pawns : WITab, IPawnRosterViewHost
     {
         private Vector2 scrollPosition;
         private float scrollViewHeight = 120f;
@@ -62,16 +62,108 @@ namespace TSA_WorldDomination
         private static readonly Vector2 PortraitSize = new Vector2(31f, 31f);
         private static readonly Color RecruitingRowTint = new Color(1f, 0.55f, 0.15f, 0.21f);
 
-        private OutpostPawnTableSortColumn sortColumn = OutpostPawnTableSortColumn.Default;
-        private bool sortAscending = true;
-        private bool useDefaultGrouping = true;
-        private PlayerPawnTypeFilter pawnTypeFilter = PlayerPawnTypeFilter.All;
-        private string pawnSearchTerm = "";
-        private OutpostPawnStarFilter starFilter = OutpostPawnStarFilter.All;
-        private PawnRosterJoinedFilter joinedFilter = PawnRosterJoinedFilter.All;
-        private string xenotypeFilter = "";
-        private string psycastFilter = "";
-        private string ideoFilter = "";
+        private readonly PawnRosterViewState view = PawnRosterViewStateStore.For(ColWindow);
+        private Action<string> onExtraSort;
+        private PawnRosterSortChain Sort => view.Sort;
+        private bool useDefaultGrouping => Sort.IsEmpty;
+        private OutpostPawnTableSortColumn sortColumn => SortColumnForId(Sort.PrimaryOr(null));
+        private bool sortAscending => Sort.PrimaryAscendingOr(true);
+        private PlayerPawnTypeFilter pawnTypeFilter
+        {
+            get => (PlayerPawnTypeFilter)view.GetInt(PawnRosterFilterKeys.Type);
+            set => view.SetInt(PawnRosterFilterKeys.Type, (int)value);
+        }
+        private string pawnSearchTerm
+        {
+            get => view.GetString(PawnRosterFilterKeys.Name);
+            set => view.SetString(PawnRosterFilterKeys.Name, value);
+        }
+        private OutpostPawnStarFilter starFilter
+        {
+            get => (OutpostPawnStarFilter)view.GetInt(PawnRosterFilterKeys.Star);
+            set => view.SetInt(PawnRosterFilterKeys.Star, (int)value);
+        }
+        private PawnRosterJoinedFilter joinedFilter
+        {
+            get => (PawnRosterJoinedFilter)view.GetInt(PawnRosterFilterKeys.New);
+            set => view.SetInt(PawnRosterFilterKeys.New, (int)value);
+        }
+        private string xenotypeFilter
+        {
+            get => view.GetString(PawnRosterFilterKeys.Xenotype);
+            set => view.SetString(PawnRosterFilterKeys.Xenotype, value);
+        }
+        private string psycastFilter
+        {
+            get => view.GetString(PawnRosterFilterKeys.Psycasts);
+            set => view.SetString(PawnRosterFilterKeys.Psycasts, value);
+        }
+        private string ideoFilter
+        {
+            get => view.GetString(PawnRosterFilterKeys.Ideology);
+            set => view.SetString(PawnRosterFilterKeys.Ideology, value);
+        }
+
+        private static readonly Func<string, bool> IsRelevantSortId = id => id == RelevantId || id == RelevantXpId;
+        private const string RelevantId = PawnRosterColumnIds.Relevant;
+        private const string RelevantXpId = "RelevantXp";
+
+        /// <summary>Sort-chain id for an enum column (catalog ids; full skills use <c>Skill_</c> ids).</summary>
+        private static string IdForSortColumn(OutpostPawnTableSortColumn col)
+        {
+            switch (col)
+            {
+                case OutpostPawnTableSortColumn.Default: return null;
+                case OutpostPawnTableSortColumn.PawnType: return PawnRosterColumnIds.Type;
+                case OutpostPawnTableSortColumn.Starred: return PawnRosterColumnIds.Star;
+                case OutpostPawnTableSortColumn.RelevantCombined: return RelevantId;
+                case OutpostPawnTableSortColumn.RelevantXp: return RelevantXpId;
+                case OutpostPawnTableSortColumn.Shooting:
+                case OutpostPawnTableSortColumn.Melee:
+                case OutpostPawnTableSortColumn.Construction:
+                    return col.ToString();
+            }
+            SkillDef skill = VirtualPawnSummary.SkillDefForSortColumn(col);
+            return skill != null ? PawnRosterColumnIds.FullSkill(skill) : col.ToString();
+        }
+
+        /// <summary>Built on first use: <see cref="SkillDefOf"/> is not bound when the tab is constructed.</summary>
+        private static Dictionary<string, OutpostPawnTableSortColumn> sortColumnById;
+        private static string[] idBySortColumn;
+
+        /// <summary>Cached <see cref="IdForSortColumn"/> (no per-frame enum ToString).</summary>
+        private static string IdFor(OutpostPawnTableSortColumn col)
+        {
+            if (idBySortColumn == null)
+            {
+                Array values = Enum.GetValues(typeof(OutpostPawnTableSortColumn));
+                var ids = new string[values.Length];
+                foreach (OutpostPawnTableSortColumn c in values)
+                    ids[(int)c] = IdForSortColumn(c);
+                idBySortColumn = ids;
+            }
+            int i = (int)col;
+            return i >= 0 && i < idBySortColumn.Length ? idBySortColumn[i] : null;
+        }
+
+        /// <summary>Enum column for a chain id; <see cref="OutpostPawnTableSortColumn.Default"/> for empty / registry extras.</summary>
+        private static OutpostPawnTableSortColumn SortColumnForId(string id)
+        {
+            if (id == null) return OutpostPawnTableSortColumn.Default;
+            if (sortColumnById == null)
+            {
+                var map = new Dictionary<string, OutpostPawnTableSortColumn>(StringComparer.Ordinal);
+                foreach (OutpostPawnTableSortColumn col in Enum.GetValues(typeof(OutpostPawnTableSortColumn)))
+                {
+                    string colId = IdForSortColumn(col);
+                    if (colId != null) map[colId] = col;
+                }
+                sortColumnById = map;
+            }
+            return sortColumnById.TryGetValue(id, out OutpostPawnTableSortColumn found)
+                ? found
+                : OutpostPawnTableSortColumn.Default;
+        }
 
         private static string hdrNoPawns, hdrName, hdrAge, hdrMelee, hdrStrength, hdrSortTip,
             hdrSelectColumnTip, hdrXpSuffix, hdrRelevantXp, hdrHunt,
@@ -89,9 +181,8 @@ namespace TSA_WorldDomination
         private int lastCacheTick = -1;
         private static bool cacheInvalidated;
         private WorldObject_WD_Outpost cachedOutpost = null!;
-        private OutpostPawnTableSortColumn cachedSortCol;
-        private bool cachedSortAsc;
-        private bool cachedUseDefaultGrouping;
+        private int cachedViewRevision = -1;
+        private int cachedTraitRevision = -1;
         private PlayerPawnTypeFilter cachedTypeFilter = PlayerPawnTypeFilter.All;
         private string cachedNameFilter = "";
         private OutpostPawnStarFilter cachedStarFilter;
@@ -139,8 +230,24 @@ namespace TSA_WorldDomination
             GroupHeader
         }
 
-        private class CachedPawnRow
+        private class CachedPawnRow : IPawnRosterRow
         {
+            private PawnRosterRowData rosterData;
+            public PawnRosterRowData RosterData => PawnRosterRowData.Get(ref rosterData, pawn, summary, RoleFor(rowKind));
+
+            private static PlayerPawnOutpostRole RoleFor(OutpostPawnRowKind kind)
+            {
+                switch (kind)
+                {
+                    case OutpostPawnRowKind.Occupant: return PlayerPawnOutpostRole.Occupant;
+                    case OutpostPawnRowKind.StoredTransport: return PlayerPawnOutpostRole.StoredTransport;
+                    case OutpostPawnRowKind.StoredMechanoid: return PlayerPawnOutpostRole.StoredMechanoid;
+                    case OutpostPawnRowKind.Shuttle: return PlayerPawnOutpostRole.StoredShuttle;
+                    case OutpostPawnRowKind.Prisoner: return PlayerPawnOutpostRole.Prisoner;
+                    default: return PlayerPawnOutpostRole.None;
+                }
+            }
+
             public Pawn pawn = null!;
             public Building_PassengerShuttle shuttle = null!;
             public VirtualPawnSummary summary = null!;
@@ -235,7 +342,8 @@ namespace TSA_WorldDomination
         {
             if (row != null && row.rowKind == OutpostPawnRowKind.Prisoner)
                 return PrisonerRowHeight;
-            if (ColOn(PawnRosterColumnIds.Traits) || ColOn(PawnRosterColumnIds.Psycasts))
+            if (ColOn(PawnRosterColumnIds.Traits) || ColOn(PawnRosterColumnIds.Psycasts)
+                || PawnRosterColumnRegistry.AnyVisibleTallExtra(ColWindow))
                 return TallRowHeight;
             return RowHeight;
         }
@@ -290,18 +398,15 @@ namespace TSA_WorldDomination
 
         private void OnColumnsChanged()
         {
-            if (!IsCurrentSortColumnVisible())
-            {
-                useDefaultGrouping = true;
-                sortColumn = OutpostPawnTableSortColumn.Default;
-                sortAscending = true;
-            }
+            Sort.RemoveWhere(id => !IsSortColumnVisible(id));
             lastCacheTick = -1;
         }
 
-        private bool IsCurrentSortColumnVisible()
+        private static bool IsSortColumnVisible(string id)
         {
-            switch (sortColumn)
+            if (PawnRosterColumnCatalog.HasOption(ColWindow, id))
+                return ColOn(id);
+            switch (SortColumnForId(id))
             {
                 case OutpostPawnTableSortColumn.Traits:
                     return ColOn(PawnRosterColumnIds.Traits);
@@ -345,16 +450,7 @@ namespace TSA_WorldDomination
 
         private void RestoreDefaultView()
         {
-            useDefaultGrouping = true;
-            sortColumn = OutpostPawnTableSortColumn.Default;
-            sortAscending = true;
-            pawnTypeFilter = PlayerPawnTypeFilter.All;
-            pawnSearchTerm = "";
-            starFilter = OutpostPawnStarFilter.All;
-            joinedFilter = PawnRosterJoinedFilter.All;
-            xenotypeFilter = "";
-            psycastFilter = "";
-            ideoFilter = "";
+            view.Reset();
             scrollPosition = Vector2.zero;
             lastCacheTick = -1;
             PlayerPawnRosterUtility.ResetSkillDisplayOptions(ColWindow);
@@ -399,6 +495,7 @@ namespace TSA_WorldDomination
                         w += ColSkill;
                 }
             }
+            w += PawnRosterColumnRegistry.ExtrasWidth(ColWindow);
             return w;
         }
 
@@ -435,9 +532,8 @@ namespace TSA_WorldDomination
             int prisonerCount = outpost.Prisoners?.Count ?? 0;
             bool dirty = cachedRows == null
                 || cachedOutpost != outpost
-                || cachedSortCol != sortColumn
-                || cachedSortAsc != sortAscending
-                || cachedUseDefaultGrouping != useDefaultGrouping
+                || cachedViewRevision != view.Revision
+                || cachedTraitRevision != PawnRosterTraitFilter.Revision
                 || cachedTypeFilter != pawnTypeFilter
                 || !string.Equals(cachedNameFilter, nameFilter, StringComparison.Ordinal)
                 || cachedStarFilter != starFilter
@@ -470,17 +566,11 @@ namespace TSA_WorldDomination
 
             cachedRelevantDefs = WorldObject_WD_Outpost.GetRelevantSkillDefsForPawnsTab(outpost);
 
-            if ((sortColumn == OutpostPawnTableSortColumn.RelevantCombined
-                    || sortColumn == OutpostPawnTableSortColumn.RelevantXp)
-                && cachedRelevantDefs.Count == 0)
-            {
-                sortColumn = OutpostPawnTableSortColumn.Default;
-                useDefaultGrouping = true;
-            }
+            if (cachedRelevantDefs.Count == 0)
+                Sort.RemoveWhere(IsRelevantSortId);
 
-            cachedSortCol = sortColumn;
-            cachedSortAsc = sortAscending;
-            cachedUseDefaultGrouping = useDefaultGrouping;
+            cachedViewRevision = view.Revision;
+            cachedTraitRevision = PawnRosterTraitFilter.Revision;
 
             if (cachedRelevantDefs.Count == 1)
                 cachedRelHeader = cachedRelevantDefs[0].LabelCap;
@@ -1079,8 +1169,56 @@ namespace TSA_WorldDomination
             return row;
         }
 
+        private static readonly Func<CachedPawnRow, string> RowName = r => r.nameLabel;
+
+        /// <summary>One chain level, ascending, no name fallback (the chain adds Name last).</summary>
+        private int CompareRowsForChain(CachedPawnRow a, CachedPawnRow b, string id, WorldObject_WD_Outpost outpost)
+        {
+            if (PawnRosterColumnRegistry.IsExtra(ColWindow, id))
+                return PawnRosterColumnRegistry.Compare(id, a.RosterData, b.RosterData);
+            OutpostPawnTableSortColumn col = SortColumnForId(id);
+            switch (col)
+            {
+                case OutpostPawnTableSortColumn.Default:
+                case OutpostPawnTableSortColumn.Name:
+                    return 0;
+                case OutpostPawnTableSortColumn.PawnType:
+                    return string.Compare(a.typeLabel, b.typeLabel, StringComparison.OrdinalIgnoreCase);
+                case OutpostPawnTableSortColumn.Starred:
+                    return (a.isStarred ? 1 : 0).CompareTo(b.isStarred ? 1 : 0);
+                case OutpostPawnTableSortColumn.New:
+                    return a.daysSinceJoin.CompareTo(b.daysSinceJoin);
+                case OutpostPawnTableSortColumn.Resistance:
+                    return a.resistanceValue.CompareTo(b.resistanceValue);
+                case OutpostPawnTableSortColumn.Traits:
+                    return string.Compare(a.traitsTip, b.traitsTip, StringComparison.OrdinalIgnoreCase);
+                case OutpostPawnTableSortColumn.Xenotype:
+                    return string.Compare(a.xenotypeDisplay, b.xenotypeDisplay, StringComparison.OrdinalIgnoreCase);
+                case OutpostPawnTableSortColumn.Psycasts:
+                    return string.Compare(a.psycastsDisplay, b.psycastsDisplay, StringComparison.OrdinalIgnoreCase);
+                case OutpostPawnTableSortColumn.Ideology:
+                    return string.Compare(a.ideologyDisplay, b.ideologyDisplay, StringComparison.OrdinalIgnoreCase);
+                case OutpostPawnTableSortColumn.Hurt:
+                    return (a.needsHealing ? 1 : 0).CompareTo(b.needsHealing ? 1 : 0);
+                case OutpostPawnTableSortColumn.RelevantXp:
+                    return VirtualPawnSummary.RelevantXpSortKey(a.pawn, cachedRelevantDefs)
+                        .CompareTo(VirtualPawnSummary.RelevantXpSortKey(b.pawn, cachedRelevantDefs));
+            }
+            // Sparse rows (animals/vehicles/shuttles) sort below summarized pawns on skill-like columns.
+            if (a.summary == null && b.summary == null) return 0;
+            if (a.summary == null) return -1;
+            if (b.summary == null) return 1;
+            return VirtualPawnSummary.ComparePrimaryForOutpostTable(a.summary, b.summary, col, outpost);
+        }
+
         private void SortCachedRows(WorldObject_WD_Outpost outpost)
         {
+            if (PlayerPawnRosterUtility.ChainNeedsMultiSort(Sort, ColWindow))
+            {
+                Sort.Sort(cachedRows, (a, b, id) => CompareRowsForChain(a, b, id, outpost), RowName);
+                return;
+            }
+
             if (useDefaultGrouping || sortColumn == OutpostPawnTableSortColumn.Default)
             {
                 cachedRows.Sort((a, b) =>
@@ -1284,7 +1422,8 @@ namespace TSA_WorldDomination
                 selectedRect.x - ToolbarBtnGap,
                 ColWindow,
                 RestoreDefaultView,
-                () => Find.WindowStack.Add(new Dialog_PawnRosterColumns(ColWindow, OnColumnsChanged)));
+                () => Find.WindowStack.Add(new Dialog_PawnRosterColumns(ColWindow, OnColumnsChanged)),
+                this);
 
             // Armory is outpost-wide (not selection-scoped), so it sits with the view controls,
             // immediately left of the skill-highlight pen.
@@ -1965,8 +2104,8 @@ namespace TSA_WorldDomination
                 PawnRosterHeaderFilter.DrawFilterableHeader(
                     ref x, curY, ColPawnType, HeaderHeight,
                     "",
-                    !useDefaultGrouping && sortColumn == OutpostPawnTableSortColumn.PawnType,
-                    sortAscending,
+                    Sort.HeaderSorted(IdFor(OutpostPawnTableSortColumn.PawnType)),
+                    Sort.IsAscending(IdFor(OutpostPawnTableSortColumn.PawnType)),
                     TextAnchor.MiddleCenter,
                     pawnTypeFilter != PlayerPawnTypeFilter.All,
                     "TSA_WD_FilterByType".Translate(),
@@ -1985,8 +2124,8 @@ namespace TSA_WorldDomination
                 PawnRosterHeaderFilter.DrawFilterableHeader(
                     ref x, curY, colNameWidth, HeaderHeight,
                     hdrName,
-                    !useDefaultGrouping && sortColumn == OutpostPawnTableSortColumn.Name,
-                    sortAscending,
+                    Sort.HeaderSorted(IdFor(OutpostPawnTableSortColumn.Name)),
+                    Sort.IsAscending(IdFor(OutpostPawnTableSortColumn.Name)),
                     TextAnchor.MiddleLeft,
                     !pawnSearchTerm.NullOrEmpty(),
                     "TSA_WD_AllPlayerPawns_SearchName".Translate(),
@@ -2004,8 +2143,8 @@ namespace TSA_WorldDomination
                 PawnRosterHeaderFilter.DrawFilterableHeader(
                     ref x, curY, ColStar, HeaderHeight,
                     "",
-                    !useDefaultGrouping && sortColumn == OutpostPawnTableSortColumn.Starred,
-                    sortAscending,
+                    Sort.HeaderSorted(IdFor(OutpostPawnTableSortColumn.Starred)),
+                    Sort.IsAscending(IdFor(OutpostPawnTableSortColumn.Starred)),
                     TextAnchor.MiddleCenter,
                     starFilter != OutpostPawnStarFilter.All,
                     hdrStarTip,
@@ -2024,8 +2163,8 @@ namespace TSA_WorldDomination
                 PawnRosterHeaderFilter.DrawFilterableHeader(
                     ref x, curY, ColNew, HeaderHeight,
                     null,
-                    !useDefaultGrouping && sortColumn == OutpostPawnTableSortColumn.New,
-                    sortAscending,
+                    Sort.HeaderSorted(IdFor(OutpostPawnTableSortColumn.New)),
+                    Sort.IsAscending(IdFor(OutpostPawnTableSortColumn.New)),
                     TextAnchor.MiddleCenter,
                     joinedFilter != PawnRosterJoinedFilter.All,
                     "TSA_WD_FilterByNew".Translate(),
@@ -2053,8 +2192,8 @@ namespace TSA_WorldDomination
                 PawnRosterTraitFilter.DrawTraitsHeader(
                     ref x, curY, ColTraits, HeaderHeight,
                     hdrTraits,
-                    !useDefaultGrouping && sortColumn == OutpostPawnTableSortColumn.Traits,
-                    sortAscending,
+                    Sort.HeaderSorted(IdFor(OutpostPawnTableSortColumn.Traits)),
+                    Sort.IsAscending(IdFor(OutpostPawnTableSortColumn.Traits)),
                     TextAnchor.MiddleCenter,
                     () => ToggleSort(OutpostPawnTableSortColumn.Traits));
             }
@@ -2063,8 +2202,8 @@ namespace TSA_WorldDomination
                 PawnRosterHeaderFilter.DrawFilterableHeader(
                     ref x, curY, ColXenotype, HeaderHeight,
                     "TSA_WD_PawnRoster_ColXenotype".Translate(),
-                    !useDefaultGrouping && sortColumn == OutpostPawnTableSortColumn.Xenotype,
-                    sortAscending,
+                    Sort.HeaderSorted(IdFor(OutpostPawnTableSortColumn.Xenotype)),
+                    Sort.IsAscending(IdFor(OutpostPawnTableSortColumn.Xenotype)),
                     TextAnchor.MiddleCenter,
                     !xenotypeFilter.NullOrEmpty(),
                     "TSA_WD_FilterByXenotype".Translate(),
@@ -2083,8 +2222,8 @@ namespace TSA_WorldDomination
                 PawnRosterHeaderFilter.DrawFilterableHeader(
                     ref x, curY, ColPsycasts, HeaderHeight,
                     "TSA_WD_PawnRoster_ColPsycasts".Translate(),
-                    !useDefaultGrouping && sortColumn == OutpostPawnTableSortColumn.Psycasts,
-                    sortAscending,
+                    Sort.HeaderSorted(IdFor(OutpostPawnTableSortColumn.Psycasts)),
+                    Sort.IsAscending(IdFor(OutpostPawnTableSortColumn.Psycasts)),
                     TextAnchor.MiddleCenter,
                     !psycastFilter.NullOrEmpty(),
                     "TSA_WD_FilterByPsycast".Translate(),
@@ -2103,8 +2242,8 @@ namespace TSA_WorldDomination
                 PawnRosterHeaderFilter.DrawFilterableHeader(
                     ref x, curY, ColIdeology, HeaderHeight,
                     "TSA_WD_PawnRoster_ColIdeology".Translate(),
-                    !useDefaultGrouping && sortColumn == OutpostPawnTableSortColumn.Ideology,
-                    sortAscending,
+                    Sort.HeaderSorted(IdFor(OutpostPawnTableSortColumn.Ideology)),
+                    Sort.IsAscending(IdFor(OutpostPawnTableSortColumn.Ideology)),
                     TextAnchor.MiddleCenter,
                     !ideoFilter.NullOrEmpty(),
                     "TSA_WD_FilterByIdeology".Translate(),
@@ -2152,6 +2291,8 @@ namespace TSA_WorldDomination
                 }
             }
 
+            if (onExtraSort == null) onExtraSort = ToggleExtraSort;
+            PawnRosterColumnRegistry.DrawExtraHeaders(ref x, curY, HeaderHeight, ColWindow, Sort, onExtraSort);
             GUI.color = Color.white;
             curY += HeaderHeight;
         }
@@ -2378,15 +2519,55 @@ namespace TSA_WorldDomination
 
         private void ToggleSort(OutpostPawnTableSortColumn col)
         {
-            useDefaultGrouping = false;
-            if (sortColumn == col)
-                sortAscending = !sortAscending;
-            else
-            {
-                sortColumn = col;
-                sortAscending = true;
-            }
+            string id = IdFor(col);
+            if (id == null) return;
+            Sort.ClickFromHeader(id);
             lastCacheTick = -1;
+        }
+
+        private void ToggleExtraSort(string id)
+        {
+            Sort.ClickFromHeader(id, PawnRosterColumnRegistry.FirstClickAscending(id));
+            lastCacheTick = -1;
+            SoundDefOf.Click.PlayOneShotOnCamera();
+        }
+
+        public PawnRosterColumnWindow RosterWindow => ColWindow;
+        public PawnRosterViewState RosterView => view;
+        public bool RosterHostOpen => WorldRendererUtility.WorldRendered
+            && SelOutpost != null
+            && Find.World?.UI?.inspectPane?.OpenTabType == GetType();
+
+        public void CollectRosterSortOptions(List<PawnRosterSortOption> into)
+        {
+            EnsureHeaderLabels();
+            PawnRosterViewUtil.AddUnique(into, PawnRosterColumnIds.Name, hdrName);
+            if (cachedRelevantDefs != null && cachedRelevantDefs.Count > 0 && ColOn(PawnRosterColumnIds.Relevant))
+            {
+                PawnRosterViewUtil.AddUnique(into, RelevantId, cachedRelHeader ?? hdrRelevantXp);
+                PawnRosterViewUtil.AddUnique(into, RelevantXpId, cachedXpHeaderLabel ?? hdrRelevantXp);
+            }
+            PawnRosterViewUtil.AddCatalogSortOptions(ColWindow, into);
+        }
+
+        public bool SupportsRosterFilter(string key) =>
+            key == PawnRosterFilterKeys.Name || key == PawnRosterFilterKeys.Type || key == PawnRosterFilterKeys.Star
+            || key == PawnRosterFilterKeys.New || key == PawnRosterFilterKeys.Xenotype
+            || key == PawnRosterFilterKeys.Psycasts || key == PawnRosterFilterKeys.Ideology
+            || key == PawnRosterFilterKeys.Traits;
+
+        public string DescribeRosterFilter(string key) => PawnRosterViewUtil.DescribeFilter(view, key);
+
+        public void OnRosterViewChanged() => lastCacheTick = -1;
+
+        public void CollectRosterPawns(List<Pawn> into)
+        {
+            List<Pawn>? occ = SelOutpost?.Occupants;
+            if (occ == null) return;
+            for (int i = 0; i < occ.Count; i++)
+            {
+                if (occ[i] != null) into.Add(occ[i]);
+            }
         }
 
         private void DrawRelevantXpHeader(ref float x, float curY)
@@ -2398,7 +2579,7 @@ namespace TSA_WorldDomination
         {
             Rect r = new Rect(x, curY, width, HeaderHeight);
             if (Mouse.IsOver(r)) Widgets.DrawHighlight(r);
-            string arrow = (!useDefaultGrouping && sortColumn == column) ? (sortAscending ? " ?" : " ?") : "";
+            string arrow = Sort.ArrowFor(IdFor(column));
             string[] lines = (label ?? "").Split('\n');
             if (lines.Length == 0) lines = new[] { "" };
             if (lines.Length == 1) lines = new[] { lines[0], "" };
@@ -2428,7 +2609,7 @@ namespace TSA_WorldDomination
         {
             Rect r = new Rect(x, curY, width, HeaderHeight);
             if (Mouse.IsOver(r)) Widgets.DrawHighlight(r);
-            string arrow = (!useDefaultGrouping && sortColumn == column) ? (sortAscending ? " ?" : " ?") : "";
+            string arrow = Sort.ArrowFor(IdFor(column));
             string fullText = (label ?? "") + arrow;
             if (Text.CalcSize(fullText).x > width - 2f)
                 fullText = (label ?? "").Truncate(width - 18f) + arrow;
@@ -2678,6 +2859,12 @@ namespace TSA_WorldDomination
                             string fallback = row.sparseSkills || row.summary == null ? "?" : level.ToString();
                             DrawOutpostSkillCell(ref x, curY, rowH, row, skills[si], fallback, best);
                         }
+                    }
+                    if (PawnRosterColumnRegistry.AnyVisibleExtra(ColWindow)
+                        && PawnRosterColumnRegistry.DrawExtraCells(ref x, curY, rowH, ColWindow, row.RosterData))
+                    {
+                        row.isStarred = row.RosterData.isStarred;
+                        lastCacheTick = -1;
                     }
                     Text.Anchor = TextAnchor.UpperLeft;
                     GUI.color = prevGui;

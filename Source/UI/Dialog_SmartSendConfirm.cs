@@ -13,8 +13,12 @@ namespace TSA_WorldDomination
     /// Launch rows first; stay/inconclusive under a group header when both sections are non-empty.
     /// </summary>
     [StaticConstructorOnStartup]
-    public class Dialog_SmartSendConfirm : Window
+    public class Dialog_SmartSendConfirm : Window, IPawnRosterViewHost
     {
+        private const PawnRosterColumnWindow ColWindow = PawnRosterColumnWindow.SmartSend;
+        private const string SortOrigin = "Origin";
+        private const string SortDest = "Dest";
+        private const string SortReason = "Reason";
         private const float RowHeight = 56f;
         private const float HeaderHeight = 28f;
         private const float GroupHeaderHeight = 28f;
@@ -60,12 +64,34 @@ namespace TSA_WorldDomination
         private string cachedColDest;
         private string cachedColReason;
 
-        private static string sortColumn = "Pawn";
-        private static bool sortAscending = true;
-        private static string originFilter = "";
-        private static string pawnFilter = "";
-        private static string destFilter = "";
-        private static string reasonFilter = "";
+        private static PawnRosterViewState View => PawnRosterViewStateStore.For(ColWindow);
+        private static PawnRosterSortChain Sort => View.Sort;
+        private readonly Func<RowVm, RowVm, string, int> compareRows;
+        private readonly Func<RowVm, string> rowName = r => r.pawnName;
+        private readonly Action<string> onExtraSort;
+        private int builtViewRevision = -1;
+        private int builtTraitRevision = -1;
+
+        private static string originFilter
+        {
+            get => View.GetString(PawnRosterFilterKeys.Origin);
+            set => View.SetString(PawnRosterFilterKeys.Origin, value);
+        }
+        private static string pawnFilter
+        {
+            get => View.GetString(PawnRosterFilterKeys.Name);
+            set => View.SetString(PawnRosterFilterKeys.Name, value);
+        }
+        private static string destFilter
+        {
+            get => View.GetString(PawnRosterFilterKeys.Destination);
+            set => View.SetString(PawnRosterFilterKeys.Destination, value);
+        }
+        private static string reasonFilter
+        {
+            get => View.GetString(PawnRosterFilterKeys.Reason);
+            set => View.SetString(PawnRosterFilterKeys.Reason, value);
+        }
 
         private struct RowSnapshot
         {
@@ -138,6 +164,9 @@ namespace TSA_WorldDomination
             cachedColPawn = "TSA_WD_SmartSend_ColPawn".Translate();
             cachedColDest = "TSA_WD_SmartSend_ColDestination".Translate();
             cachedColReason = "TSA_WD_SmartSend_ColReason".Translate();
+            compareRows = CompareRows;
+            onExtraSort = ToggleSort;
+            View.SetDefaultSort(PawnRosterColumnIds.Name, true);
 
             CaptureSnapshot(assignments, stayAssignments, inconclusiveAssignments);
             RestoreFromSnapshot();
@@ -168,15 +197,20 @@ namespace TSA_WorldDomination
             float bottomBlockH = ButtonHeight + 8f;
             float topBlockH = TitleHeight + 4f + SubtitleHeight + 6f;
 
-            Text.Font = GameFont.Medium;
             float modeW = PlayerPawnDropPodUtility.ModeIconSize;
-            float titleRight = inRect.width - ResetBtnWidth - ToolbarBtnGap - modeW - ToolbarBtnGap;
-            Widgets.Label(new Rect(0f, 0f, Mathf.Max(80f, titleRight), TitleHeight),
-                "TSA_WD_PawnDropPod_SmartSendTitle".Translate());
-
             Rect resetRect = new Rect(inRect.width - ResetBtnWidth, 1f, ResetBtnWidth, 30f);
             Rect modeRect = new Rect(resetRect.x - ToolbarBtnGap - modeW, 1f, modeW, 30f);
             PlayerPawnDropPodUtility.DrawAdHocModeIcon(modeRect);
+            float titleRight = PlayerPawnRosterUtility.DrawRosterViewControls(
+                1f, 30f, modeRect.x - ToolbarBtnGap, ColWindow, RestoreDefaultView,
+                () => Find.WindowStack.Add(new Dialog_PawnRosterColumns(ColWindow, OnColumnsChanged)),
+                this) - ToolbarBtnGap;
+            if (builtViewRevision != View.Revision || builtTraitRevision != PawnRosterTraitFilter.Revision)
+                RebuildFiltered();
+
+            Text.Font = GameFont.Medium;
+            Widgets.Label(new Rect(0f, 0f, Mathf.Max(80f, titleRight), TitleHeight),
+                "TSA_WD_PawnDropPod_SmartSendTitle".Translate());
             if (WorldDomination_UIUtils.ButtonTextWithIcon(resetRect, null, cachedResetLabel, centerContents: true))
             {
                 RestoreFromSnapshot();
@@ -190,7 +224,8 @@ namespace TSA_WorldDomination
             float tableAreaH = Mathf.Max(80f, inRect.height - bottomBlockH - tableTop - 8f);
 
             float fixedLeft = ColRemove + ColOriginIcon + ColOriginName + ColPortrait + ColPawnName
-                + ColDestIcon + ColDest + ColOverrideGap + TablePad;
+                + ColDestIcon + ColDest + ColOverrideGap + TablePad
+                + PawnRosterColumnRegistry.ExtrasWidth(ColWindow);
             float reasonWidth = Mathf.Max(ColReasonMin, inRect.width - fixedLeft);
 
             Rect headerRect = new Rect(0f, tableTop, inRect.width, HeaderHeight);
@@ -369,6 +404,8 @@ namespace TSA_WorldDomination
 
         private void RebuildFiltered()
         {
+            builtViewRevision = View.Revision;
+            builtTraitRevision = PawnRosterTraitFilter.Revision;
             var launch = new List<RowVm>();
             var stay = new List<RowVm>();
             for (int i = 0; i < rows.Count; i++)
@@ -411,23 +448,75 @@ namespace TSA_WorldDomination
             if (!reasonFilter.NullOrEmpty()
                 && (r.reasonText == null || r.reasonText.IndexOf(reasonFilter, StringComparison.OrdinalIgnoreCase) < 0))
                 return false;
+            if (r.entry != null && !PawnRosterViewUtil.PassesCommonFilters(View, r.entry.RosterData, checkName: false))
+                return false;
             return true;
         }
 
         private void SortRows(List<RowVm> list)
         {
-            bool asc = sortAscending;
-            list.Sort((a, b) =>
+            Sort.Sort(list, compareRows, rowName);
+        }
+
+        private static int CompareRows(RowVm a, RowVm b, string id)
+        {
+            switch (id)
             {
-                int cmp = sortColumn switch
-                {
-                    "Origin" => string.Compare(a.originLabel, b.originLabel, StringComparison.OrdinalIgnoreCase),
-                    "Dest" => string.Compare(a.destLabel, b.destLabel, StringComparison.OrdinalIgnoreCase),
-                    "Reason" => string.Compare(a.reasonText, b.reasonText, StringComparison.OrdinalIgnoreCase),
-                    _ => string.Compare(a.pawnName, b.pawnName, StringComparison.OrdinalIgnoreCase)
-                };
-                return asc ? cmp : -cmp;
-            });
+                case SortOrigin: return string.Compare(a.originLabel, b.originLabel, StringComparison.OrdinalIgnoreCase);
+                case SortDest: return string.Compare(a.destLabel, b.destLabel, StringComparison.OrdinalIgnoreCase);
+                case SortReason: return string.Compare(a.reasonText, b.reasonText, StringComparison.OrdinalIgnoreCase);
+            }
+            if (PawnRosterColumnRegistry.IsExtra(ColWindow, id) && a.entry != null && b.entry != null)
+                return PawnRosterColumnRegistry.Compare(id, a.entry.RosterData, b.entry.RosterData);
+            return 0;
+        }
+
+        public PawnRosterColumnWindow RosterWindow => ColWindow;
+        public PawnRosterViewState RosterView => View;
+        public bool RosterHostOpen => IsOpen;
+
+        public void CollectRosterSortOptions(List<PawnRosterSortOption> into)
+        {
+            PawnRosterViewUtil.AddUnique(into, SortOrigin, cachedColOrigin);
+            PawnRosterViewUtil.AddUnique(into, PawnRosterColumnIds.Name, cachedColPawn);
+            PawnRosterViewUtil.AddUnique(into, SortDest, cachedColDest);
+            PawnRosterViewUtil.AddUnique(into, SortReason, cachedColReason);
+            PawnRosterViewUtil.AddCatalogSortOptions(ColWindow, into);
+        }
+
+        public bool SupportsRosterFilter(string key) =>
+            PawnRosterViewUtil.IsCommonFilterKey(key)
+            || key == PawnRosterFilterKeys.Origin
+            || key == PawnRosterFilterKeys.Destination
+            || key == PawnRosterFilterKeys.Reason
+            || key == PawnRosterFilterKeys.Traits;
+
+        public string DescribeRosterFilter(string key) => PawnRosterViewUtil.DescribeFilter(View, key);
+        public void OnRosterViewChanged() => builtViewRevision = -1;
+
+        public void CollectRosterPawns(List<Pawn> into)
+        {
+            for (int i = 0; i < rows.Count; i++)
+            {
+                if (rows[i]?.pawn != null) into.Add(rows[i].pawn);
+            }
+        }
+
+        private void OnColumnsChanged()
+        {
+            Sort.RemoveWhere(id => PawnRosterColumnCatalog.HasOption(ColWindow, id) && !PlayerPawnRosterUtility.ColVisible(ColWindow, id));
+            builtViewRevision = -1;
+        }
+
+        private void RestoreDefaultView()
+        {
+            View.Reset();
+            scrollPos = Vector2.zero;
+            PlayerPawnRosterUtility.ResetSkillDisplayOptions(ColWindow);
+            WorldComponent_PawnRosterColumnPrefs.Get()?.ResetToDefaults(ColWindow);
+            PawnRosterTraitFilter.Clear();
+            PawnRosterHeaderFilter.CloseDropdown();
+            builtViewRevision = -1;
         }
 
         private static PlanetTile ResolveFromTile(PlayerPawnRosterEntry entry)
@@ -637,7 +726,7 @@ namespace TSA_WorldDomination
             PawnRosterHeaderFilter.DrawFilterableHeader(
                 ref curX, y, ColOriginIcon + ColOriginName, HeaderHeight,
                 cachedColOrigin,
-                sortColumn == "Origin", sortAscending,
+                Sort.HeaderSorted(SortOrigin), Sort.IsAscending(SortOrigin),
                 TextAnchor.MiddleLeft,
                 !originFilter.NullOrEmpty(),
                 "TSA_WD_AllPlayerPawns_SearchLocation".Translate(),
@@ -648,12 +737,12 @@ namespace TSA_WorldDomination
                     () => originFilter,
                     v => { originFilter = v ?? ""; RebuildFiltered(); },
                     () => { originFilter = ""; RebuildFiltered(); }),
-                () => ToggleSort("Origin"));
+                () => ToggleSort(SortOrigin));
 
             PawnRosterHeaderFilter.DrawFilterableHeader(
                 ref curX, y, ColPortrait + ColPawnName, HeaderHeight,
                 cachedColPawn,
-                sortColumn == "Pawn", sortAscending,
+                Sort.HeaderSorted(PawnRosterColumnIds.Name), Sort.IsAscending(PawnRosterColumnIds.Name),
                 TextAnchor.MiddleLeft,
                 !pawnFilter.NullOrEmpty(),
                 "TSA_WD_AllPlayerPawns_SearchName".Translate(),
@@ -664,12 +753,12 @@ namespace TSA_WorldDomination
                     () => pawnFilter,
                     v => { pawnFilter = v ?? ""; RebuildFiltered(); },
                     () => { pawnFilter = ""; RebuildFiltered(); }),
-                () => ToggleSort("Pawn"));
+                () => ToggleSort(PawnRosterColumnIds.Name));
 
             PawnRosterHeaderFilter.DrawFilterableHeader(
                 ref curX, y, ColDestIcon + ColDest, HeaderHeight,
                 cachedColDest,
-                sortColumn == "Dest", sortAscending,
+                Sort.HeaderSorted(SortDest), Sort.IsAscending(SortDest),
                 TextAnchor.MiddleLeft,
                 !destFilter.NullOrEmpty(),
                 "TSA_WD_AllPlayerPawns_SearchLocation".Translate(),
@@ -680,14 +769,15 @@ namespace TSA_WorldDomination
                     () => destFilter,
                     v => { destFilter = v ?? ""; RebuildFiltered(); },
                     () => { destFilter = ""; RebuildFiltered(); }),
-                () => ToggleSort("Dest"));
+                () => ToggleSort(SortDest));
 
             curX += ColOverrideGap;
+            PawnRosterColumnRegistry.DrawExtraHeaders(ref curX, y, HeaderHeight, ColWindow, Sort, onExtraSort);
 
             PawnRosterHeaderFilter.DrawFilterableHeader(
                 ref curX, y, reasonWidth, HeaderHeight,
                 cachedColReason,
-                sortColumn == "Reason", sortAscending,
+                Sort.HeaderSorted(SortReason), Sort.IsAscending(SortReason),
                 TextAnchor.MiddleLeft,
                 !reasonFilter.NullOrEmpty(),
                 "TSA_WD_AllPlayerPawns_SearchName".Translate(),
@@ -698,13 +788,13 @@ namespace TSA_WorldDomination
                     () => reasonFilter,
                     v => { reasonFilter = v ?? ""; RebuildFiltered(); },
                     () => { reasonFilter = ""; RebuildFiltered(); }),
-                () => ToggleSort("Reason"));
+                () => ToggleSort(SortReason));
         }
 
         private void ToggleSort(string col)
         {
-            if (sortColumn == col) sortAscending = !sortAscending;
-            else { sortColumn = col; sortAscending = true; }
+            bool firstAsc = !PawnRosterColumnRegistry.IsExtra(ColWindow, col) || PawnRosterColumnRegistry.FirstClickAscending(col);
+            Sort.ClickFromHeader(col, firstAsc);
             RebuildFiltered();
             SoundDefOf.Click.PlayOneShotOnCamera();
         }
@@ -805,6 +895,14 @@ namespace TSA_WorldDomination
                 OpenOverridePicker(rowIndex);
             }
             curX += ColDest + ColOverrideGap;
+
+            if (row.entry != null && PawnRosterColumnRegistry.AnyVisibleExtra(ColWindow))
+            {
+                PawnRosterColumnRegistry.DrawExtraCells(ref curX, y, RowHeight, ColWindow, row.entry.RosterData);
+                Text.Font = GameFont.Tiny;
+            }
+            else
+                curX += PawnRosterColumnRegistry.ExtrasWidth(ColWindow);
 
             Rect reasonRect = new Rect(curX, y, reasonWidth - 4f, RowHeight);
             Text.Anchor = TextAnchor.MiddleLeft;

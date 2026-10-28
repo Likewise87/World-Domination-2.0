@@ -519,6 +519,47 @@
   <TSA_WD_PawnRoster_ColShooting>Shooting</TSA_WD_PawnRoster_ColShooting>
   <TSA_WD_PawnRoster_ColMelee>Melee</TSA_WD_PawnRoster_ColMelee>
   <TSA_WD_PawnRoster_ColStrength>Strength</TSA_WD_PawnRoster_ColStrength>
+  <TSA_WD_PawnRoster_ColGear>Gear</TSA_WD_PawnRoster_ColGear>
+  <TSA_WD_PawnRoster_ColGearTip>Equipped weapons and apparel. Hover an icon for the item name.</TSA_WD_PawnRoster_ColGearTip>
+  <TSA_WD_AdvFilter_ButtonTip>Advanced filtering: saved presets, multi-level sorting and an overview of active filters. Highlighted while this view differs from its default.</TSA_WD_AdvFilter_ButtonTip>
+  <TSA_WD_AdvFilter_Title>Advanced Filtering</TSA_WD_AdvFilter_Title>
+  <TSA_WD_AdvFilter_Subtitle>Changes apply to the list immediately.</TSA_WD_AdvFilter_Subtitle>
+  <TSA_WD_AdvFilter_Presets>Presets</TSA_WD_AdvFilter_Presets>
+  <TSA_WD_AdvFilter_PresetsTip>Saved sort and filter combinations. Presets are shared by all pawn lists and all saves. Filters a list does not support are skipped.</TSA_WD_AdvFilter_PresetsTip>
+  <TSA_WD_AdvFilter_NoPresetSelected>No preset selected</TSA_WD_AdvFilter_NoPresetSelected>
+  <TSA_WD_AdvFilter_SelectPresetTip>Pick a preset to load its sort levels and filters into this list.</TSA_WD_AdvFilter_SelectPresetTip>
+  <TSA_WD_AdvFilter_Overwrite>Overwrite</TSA_WD_AdvFilter_Overwrite>
+  <TSA_WD_AdvFilter_OverwriteTip>Save this list's current sort levels and filters into the selected preset.</TSA_WD_AdvFilter_OverwriteTip>
+  <TSA_WD_AdvFilter_Delete>Delete</TSA_WD_AdvFilter_Delete>
+  <TSA_WD_AdvFilter_DeleteConfirm>Delete preset "{0}"?</TSA_WD_AdvFilter_DeleteConfirm>
+  <TSA_WD_AdvFilter_Rename>Rename</TSA_WD_AdvFilter_Rename>
+  <TSA_WD_AdvFilter_RenameTip>Rename the selected preset.</TSA_WD_AdvFilter_RenameTip>
+  <TSA_WD_AdvFilter_RenameTitle>Rename preset</TSA_WD_AdvFilter_RenameTitle>
+  <TSA_WD_AdvFilter_SaveNew>Save as new</TSA_WD_AdvFilter_SaveNew>
+  <TSA_WD_AdvFilter_SaveNewTip>Save this list's current sort levels and filters as a new preset.</TSA_WD_AdvFilter_SaveNewTip>
+  <TSA_WD_AdvFilter_SaveNewTitle>Save preset</TSA_WD_AdvFilter_SaveNewTitle>
+  <TSA_WD_AdvFilter_SaveBtn>Save</TSA_WD_AdvFilter_SaveBtn>
+  <TSA_WD_AdvFilter_NameTaken>A preset with this name already exists.</TSA_WD_AdvFilter_NameTaken>
+  <TSA_WD_AdvFilter_Saved>Preset "{0}" saved.</TSA_WD_AdvFilter_Saved>
+  <TSA_WD_AdvFilter_SortLevels>Sort levels</TSA_WD_AdvFilter_SortLevels>
+  <TSA_WD_AdvFilter_SortLevelsTip>Rows are sorted by the first level, ties by the next level, and so on. Name is always the final tiebreak.</TSA_WD_AdvFilter_SortLevelsTip>
+  <TSA_WD_AdvFilter_SortDefault>Default order (no sort levels).</TSA_WD_AdvFilter_SortDefault>
+  <TSA_WD_AdvFilter_AddLevel>Add level</TSA_WD_AdvFilter_AddLevel>
+  <TSA_WD_AdvFilter_Asc>Ascending</TSA_WD_AdvFilter_Asc>
+  <TSA_WD_AdvFilter_Desc>Descending</TSA_WD_AdvFilter_Desc>
+  <TSA_WD_AdvFilter_DirTip>Toggle sort direction.</TSA_WD_AdvFilter_DirTip>
+  <TSA_WD_AdvFilter_MoveUp>Move up</TSA_WD_AdvFilter_MoveUp>
+  <TSA_WD_AdvFilter_MoveDown>Move down</TSA_WD_AdvFilter_MoveDown>
+  <TSA_WD_AdvFilter_RemoveLevel>Remove level</TSA_WD_AdvFilter_RemoveLevel>
+  <TSA_WD_AdvFilter_ActiveFilters>Active filters</TSA_WD_AdvFilter_ActiveFilters>
+  <TSA_WD_AdvFilter_ActiveFiltersTip>Filters currently narrowing this list. Column filters only apply while their column is visible.</TSA_WD_AdvFilter_ActiveFiltersTip>
+  <TSA_WD_AdvFilter_NoFilters>No filters active.</TSA_WD_AdvFilter_NoFilters>
+  <TSA_WD_AdvFilter_ClearAll>Clear all</TSA_WD_AdvFilter_ClearAll>
+  <TSA_WD_AdvFilter_AddFilter>Add filter</TSA_WD_AdvFilter_AddFilter>
+  <TSA_WD_AdvFilter_AddFilterTip>Add a filter this list supports. Its column is turned on if it is hidden.</TSA_WD_AdvFilter_AddFilterTip>
+  <TSA_WD_AdvFilter_EditFilterTip>Click to change this filter.</TSA_WD_AdvFilter_EditFilterTip>
+  <TSA_WD_AdvFilter_ClearFilterTip>Clear this filter.</TSA_WD_AdvFilter_ClearFilterTip>
+  <TSA_WD_AdvFilter_KeySource>Source</TSA_WD_AdvFilter_KeySource>
   <TSA_WD_PawnRoster_ColRelevant>Relevant skills</TSA_WD_PawnRoster_ColRelevant>
   <TSA_WD_PawnRoster_ColConstruction>Construction</TSA_WD_PawnRoster_ColConstruction>
   <TSA_WD_PawnRoster_ColDailyFood>Daily food</TSA_WD_PawnRoster_ColDailyFood>

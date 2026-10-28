@@ -16,8 +16,13 @@ namespace TSA_WorldDomination
         InTransit
     }
 
-    public class PrisonerRosterEntry
+    public class PrisonerRosterEntry : IPawnRosterRow
     {
+        private PawnRosterRowData rosterData;
+
+        /// <summary>Registry column values, built on first use per roster rebuild.</summary>
+        public PawnRosterRowData RosterData => PawnRosterRowData.Get(ref rosterData, pawn, null, PlayerPawnOutpostRole.Prisoner);
+
         public Pawn pawn;
         public string thingId = "";
         public string nameLabel = "";
@@ -72,7 +77,8 @@ namespace TSA_WorldDomination
             string nameSearchLower,
             string sortColumn,
             bool sortAscending,
-            PrisonerRosterSourceFilter sourceFilter)
+            PrisonerRosterSourceFilter sourceFilter,
+            PawnRosterSortChain chain = null)
         {
             var colonyRows = new List<PrisonerRosterEntry>();
             var outpostRows = new List<PrisonerRosterEntry>();
@@ -114,13 +120,22 @@ namespace TSA_WorldDomination
                     || !e.nameLabel.ToLowerInvariant().Contains(nameSearchLower));
             }
 
-            SortRows(colonyRows, sortColumn, sortAscending);
-            // Default Name sort keeps outpost queue order so recruit priority stays visible.
-            if (sortColumn == DefaultSortColumn && sortAscending)
-                SortOutpostRowsByQueue(outpostRows);
+            if (PlayerPawnRosterUtility.ChainNeedsMultiSort(chain, PawnRosterColumnWindow.Prisoners))
+            {
+                SortRowsByChain(colonyRows, chain);
+                SortRowsByChain(outpostRows, chain);
+                SortRowsByChain(transitRows, chain);
+            }
             else
-                SortRows(outpostRows, sortColumn, sortAscending);
-            SortRows(transitRows, sortColumn, sortAscending);
+            {
+                SortRows(colonyRows, sortColumn, sortAscending);
+                // Default Name sort keeps outpost queue order so recruit priority stays visible.
+                if (sortColumn == DefaultSortColumn && sortAscending)
+                    SortOutpostRowsByQueue(outpostRows);
+                else
+                    SortRows(outpostRows, sortColumn, sortAscending);
+                SortRows(transitRows, sortColumn, sortAscending);
+            }
 
             if (sourceFilter == PrisonerRosterSourceFilter.InTransit)
                 return transitRows;
@@ -527,7 +542,22 @@ namespace TSA_WorldDomination
             });
         }
 
-        private static int Compare(PrisonerRosterEntry a, PrisonerRosterEntry b, string col)
+        private static void SortRowsByChain(List<PrisonerRosterEntry> rows, PawnRosterSortChain chain)
+        {
+            chain.Sort(rows,
+                (a, b, id) =>
+                {
+                    if (PawnRosterColumnRegistry.IsExtra(PawnRosterColumnWindow.Prisoners, id))
+                        return PawnRosterColumnRegistry.Compare(id, a.RosterData, b.RosterData);
+                    return id == "Name" ? 0 : Compare(a, b, id, nameFallback: false);
+                },
+                e => e.nameLabel);
+        }
+
+        private static int Compare(PrisonerRosterEntry a, PrisonerRosterEntry b, string col) =>
+            Compare(a, b, col, nameFallback: true);
+
+        private static int Compare(PrisonerRosterEntry a, PrisonerRosterEntry b, string col, bool nameFallback)
         {
             if (col == "Location" || col == "LocationName")
                 return string.Compare(a.locationLabel, b.locationLabel, StringComparison.OrdinalIgnoreCase);
@@ -565,7 +595,9 @@ namespace TSA_WorldDomination
                 return av.CompareTo(bv);
             }
 
-            return string.Compare(a.nameLabel, b.nameLabel, StringComparison.OrdinalIgnoreCase);
+            return nameFallback
+                ? string.Compare(a.nameLabel, b.nameLabel, StringComparison.OrdinalIgnoreCase)
+                : 0;
         }
 
         public static List<PrisonerRosterEntry> ResolveSelected(List<PrisonerRosterEntry> list, HashSet<string> selectedThingIds)

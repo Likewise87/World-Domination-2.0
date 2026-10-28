@@ -630,6 +630,8 @@ namespace TSA_WorldDomination
         public HashSet<string> manualBlockStorytellerRaids = new HashSet<string>();
         /// <summary>Ordered favorite tool labels for <see cref="Dialog_WdWorldDebug"/> (cross-save ModSettings).</summary>
         public List<string> wdDebugFavoriteIds = new List<string>();
+        /// <summary>Advanced Filtering presets shared by every pawn roster window.</summary>
+        public List<PawnRosterFilterPreset> pawnRosterFilterPresets = new List<PawnRosterFilterPreset>();
         /// <summary>When storyteller picks a Storyteller-column-blocked faction: drop the raid or swap to an allowed faction.</summary>
         public const WdStorytellerBlockedRaidMode DefStorytellerBlockedRaidMode = WdStorytellerBlockedRaidMode.DropInvalid;
         /// <summary>Legacy ModSettings only — SSoT is <see cref="WorldComponent_WdFactionScope"/>.</summary>
@@ -3504,6 +3506,7 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref manualAllowStorytellerRaids, "manualAllowStorytellerRaids", LookMode.Value);
             Scribe_Collections.Look(ref manualBlockStorytellerRaids, "manualBlockStorytellerRaids", LookMode.Value);
             Scribe_Collections.Look(ref wdDebugFavoriteIds, "wdDebugFavoriteIds", LookMode.Value);
+            Scribe_Collections.Look(ref pawnRosterFilterPresets, "pawnRosterFilterPresets", LookMode.Deep);
             Scribe_Values.Look(ref storytellerBlockedRaidMode, "storytellerBlockedRaidMode", DefStorytellerBlockedRaidMode);
             if (manualExcludeFromWdActions == null) manualExcludeFromWdActions = new HashSet<string>();
             if (manualExcludeFromWdBaseGen == null) manualExcludeFromWdBaseGen = new HashSet<string>();
@@ -3511,6 +3514,8 @@ namespace TSA_WorldDomination
             if (manualAllowStorytellerRaids == null) manualAllowStorytellerRaids = new HashSet<string>();
             if (manualBlockStorytellerRaids == null) manualBlockStorytellerRaids = new HashSet<string>();
             if (wdDebugFavoriteIds == null) wdDebugFavoriteIds = new List<string>();
+            if (pawnRosterFilterPresets == null) pawnRosterFilterPresets = new List<PawnRosterFilterPreset>();
+            pawnRosterFilterPresets.RemoveAll(p => p == null);
 
             if (raidOutcomes == null || raidOutcomes.Count == 0) InitializeDefaults();
 

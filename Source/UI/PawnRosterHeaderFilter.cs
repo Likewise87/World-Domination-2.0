@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
@@ -60,6 +60,20 @@ namespace TSA_WorldDomination
         private static int openedOnFrame = -1;
 
         public static bool IsDropdownOpen => dropdownOpen;
+
+        private static int pendingSortLevel;
+        private static readonly string[] SortArrowsAsc = { " ▲", " ▲1", " ▲2", " ▲3", " ▲4" };
+        private static readonly string[] SortArrowsDesc = { " ▼", " ▼1", " ▼2", " ▼3", " ▼4" };
+
+        /// <summary>Level badge for the next <see cref="DrawFilterableHeader"/> call (0 = none). Consumed by that call.</summary>
+        public static void SetPendingSortLevel(int level) => pendingSortLevel = level;
+
+        /// <summary>Cached " ▲" / " ▼2" style suffix; <paramref name="level"/> 0 omits the number.</summary>
+        public static string SortArrowText(bool ascending, int level)
+        {
+            int i = level >= 0 && level < SortArrowsAsc.Length ? level : 0;
+            return ascending ? SortArrowsAsc[i] : SortArrowsDesc[i];
+        }
 
         private static Vector2 dropdownListScroll;
 
@@ -159,6 +173,8 @@ namespace TSA_WorldDomination
             Texture2D columnIcon = null,
             string columnIconTip = null)
         {
+            int sortLevel = pendingSortLevel;
+            pendingSortLevel = 0;
             Rect headerRect = new Rect(curX, y, width, height);
             const float gap = 2f;
             const float edgePad = 2f;
@@ -180,7 +196,7 @@ namespace TSA_WorldDomination
                 }
                 else if (!label.NullOrEmpty())
                 {
-                    string arrow = isSorted ? (sortAscending ? " ▲" : " ▼") : "";
+                    string arrow = isSorted ? SortArrowText(sortAscending, sortLevel) : "";
                     string headerText = label + arrow;
                     float maxTextW = Mathf.Max(8f, width - edgePad * 2f);
                     if (Text.CalcSize(headerText).x > maxTextW)
@@ -230,7 +246,7 @@ namespace TSA_WorldDomination
             }
             else
             {
-                string arrow = isSorted ? (sortAscending ? " ▲" : " ▼") : "";
+                string arrow = isSorted ? SortArrowText(sortAscending, sortLevel) : "";
                 string headerText = label + arrow;
                 float maxTextW = Mathf.Max(8f, width - icon - gap - edgePad * 2f);
                 float textW = Text.CalcSize(headerText).x;

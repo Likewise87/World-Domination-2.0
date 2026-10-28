@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_61_Title>Filtros avanzados para tablas de peones</TSA_WD_Update_2_3_61_Title>
+  <TSA_WD_Update_2_3_61_Body><![CDATA[
+<size=16><b>2.3.61 - Filtros avanzados para tablas de peones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 28 de octubre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Nueva mejora de calidad de vida: todas las tablas de WD donde puedes ver o seleccionar peones tienen ahora una opción de Filtrado avanzado. Permite ordenar y agrupar por varias columnas, por ejemplo "descendente por habilidad de Animales, luego descendente por Plantas y después ordenado por ubicación". Ejemplos de estas ventanas: Todos los peones del jugador, Prisioneros, Peones del puesto y más. También puedes añadir y editar filtros desde ahí.\n
+• Estos ajustes se pueden guardar como preajustes. Los preajustes pertenecen al mod en su conjunto, no a una partida guardada concreta.\n
+• Ahora se puede añadir opcionalmente cualquier columna en cualquiera de esas ventanas. Antes, algunas columnas como la salud del peón solo estaban disponibles en algunos diálogos.\n
+]]></TSA_WD_Update_2_3_61_Body>
   <TSA_WD_Update_2_3_60_Title>Corrección de sangrado en puestos</TSA_WD_Update_2_3_60_Title>
   <TSA_WD_Update_2_3_60_Body><![CDATA[
 <size=16><b>2.3.60 - Corrección de sangrado en puestos</b></size>\n

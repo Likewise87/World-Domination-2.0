@@ -10,7 +10,11 @@ namespace TSA_WorldDomination
         OutpostPawns,
         Prisoners,
         RemoteEstablish,
-        OutpostArmory
+        OutpostArmory,
+        StrengthWithdraw,
+        DefenseDeploy,
+        SmartSend,
+        AddCaravanPawns
     }
 
     /// <summary>Stable column ids for roster visibility prefs (per window, per save).</summary>
@@ -44,6 +48,8 @@ namespace TSA_WorldDomination
         public const string Mass = "Mass";
         /// <summary>Armory-only, CE: carry bulk cur/cap.</summary>
         public const string Bulk = "Bulk";
+        /// <summary>Equipped weapon + worn apparel icons.</summary>
+        public const string Gear = "Gear";
 
         /// <summary>Full skill-grid id (outpost tab), distinct from dedicated combat cols.</summary>
         public static string FullSkill(SkillDef skill) => "Skill_" + (skill?.defName ?? "");
@@ -72,7 +78,15 @@ namespace TSA_WorldDomination
         private static List<PawnRosterColumnOption> outpostPawns;
         private static List<PawnRosterColumnOption> prisoners;
         private static List<PawnRosterColumnOption> outpostArmory;
+        private static List<PawnRosterColumnOption> strengthWithdraw;
+        private static List<PawnRosterColumnOption> defenseDeploy;
+        private static List<PawnRosterColumnOption> smartSend;
+        private static List<PawnRosterColumnOption> addCaravanPawns;
 
+        /// <summary>
+        /// Window's own columns (defaults unchanged) followed by every registry common column the
+        /// surface allows but does not draw natively (default off).
+        /// </summary>
         public static IReadOnlyList<PawnRosterColumnOption> OptionsFor(PawnRosterColumnWindow window)
         {
             EnsureBuilt();
@@ -81,11 +95,26 @@ namespace TSA_WorldDomination
                 case PawnRosterColumnWindow.OutpostPawns: return outpostPawns;
                 case PawnRosterColumnWindow.Prisoners: return prisoners;
                 case PawnRosterColumnWindow.OutpostArmory: return outpostArmory;
+                case PawnRosterColumnWindow.StrengthWithdraw: return strengthWithdraw;
+                case PawnRosterColumnWindow.DefenseDeploy: return defenseDeploy;
+                case PawnRosterColumnWindow.SmartSend: return smartSend;
+                case PawnRosterColumnWindow.AddCaravanPawns: return addCaravanPawns;
                 case PawnRosterColumnWindow.RemoteEstablish:
                 case PawnRosterColumnWindow.AllPlayerPawns:
                 default:
                     return allPlayerPawns;
             }
+        }
+
+        public static bool HasOption(PawnRosterColumnWindow window, string id)
+        {
+            IReadOnlyList<PawnRosterColumnOption> opts = OptionsFor(window);
+            for (int i = 0; i < opts.Count; i++)
+            {
+                if (opts[i].Id == id)
+                    return true;
+            }
+            return false;
         }
 
         public static bool DefaultVisible(PawnRosterColumnWindow window, string id)
@@ -186,6 +215,54 @@ namespace TSA_WorldDomination
                 PawnRosterColumnOption opt = outpostArmory[i];
                 if (opt.Id == PawnRosterColumnIds.Shooting || opt.Id == PawnRosterColumnIds.Melee)
                     outpostArmory[i] = new PawnRosterColumnOption(opt.Id, opt.LabelKey, true);
+            }
+
+            // Formerly fixed columns: now toggleable, all default on so the layout is unchanged.
+            strengthWithdraw = BuildStrengthBudgetOptions();
+            defenseDeploy = BuildStrengthBudgetOptions();
+            smartSend = new List<PawnRosterColumnOption>();
+            addCaravanPawns = new List<PawnRosterColumnOption>
+            {
+                new PawnRosterColumnOption(PawnRosterColumnIds.Type, "TSA_WD_AllPlayerPawns_ColPawnType", true),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Age, "TSA_WD_PawnRoster_ColAge", true),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Shooting, "TSA_WD_PawnRoster_ColShooting", true),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Melee, "TSA_WD_PawnRoster_ColMelee", true),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Strength, "TSA_WD_PawnRoster_ColStrength", true),
+            };
+
+            AppendRegistryExtras(allPlayerPawns, PawnRosterColumnWindow.AllPlayerPawns);
+            AppendRegistryExtras(outpostPawns, PawnRosterColumnWindow.OutpostPawns);
+            AppendRegistryExtras(prisoners, PawnRosterColumnWindow.Prisoners);
+            AppendRegistryExtras(outpostArmory, PawnRosterColumnWindow.OutpostArmory);
+            AppendRegistryExtras(strengthWithdraw, PawnRosterColumnWindow.StrengthWithdraw);
+            AppendRegistryExtras(defenseDeploy, PawnRosterColumnWindow.DefenseDeploy);
+            AppendRegistryExtras(smartSend, PawnRosterColumnWindow.SmartSend);
+            AppendRegistryExtras(addCaravanPawns, PawnRosterColumnWindow.AddCaravanPawns);
+        }
+
+        private static List<PawnRosterColumnOption> BuildStrengthBudgetOptions() =>
+            new List<PawnRosterColumnOption>
+            {
+                new PawnRosterColumnOption(PawnRosterColumnIds.Gear, "TSA_WD_PawnRoster_ColGear", true),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Shooting, "TSA_WD_PawnRoster_ColShooting", true),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Melee, "TSA_WD_PawnRoster_ColMelee", true),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Health, "TSA_WD_PawnRoster_ColHealth", true),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Strength, "TSA_WD_PawnRoster_ColStrength", true),
+            };
+
+        private static void AppendRegistryExtras(List<PawnRosterColumnOption> list, PawnRosterColumnWindow window)
+        {
+            IReadOnlyList<PawnRosterColumnDef> extras = PawnRosterColumnRegistry.ExtrasFor(window);
+            for (int i = 0; i < extras.Count; i++)
+            {
+                PawnRosterColumnDef def = extras[i];
+                bool present = false;
+                for (int j = 0; j < list.Count; j++)
+                {
+                    if (list[j].Id == def.Id) { present = true; break; }
+                }
+                if (!present)
+                    list.Add(new PawnRosterColumnOption(def.Id, def.LabelKey, false));
             }
         }
 
