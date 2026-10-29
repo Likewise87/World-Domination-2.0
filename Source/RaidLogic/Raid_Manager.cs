@@ -324,7 +324,11 @@ namespace TSA_WorldDomination
 
             // Colony: faction intent from scheduler, launch from nearest eligible same-faction executor.
             bool colonyRaidHandedOff = false;
-            if (targetKind == RaidLaunchTargetKind.PlayerColony && !eval.isInvasionRaid && !eval.skipColonyExecutorHandoff)
+            if (targetKind == RaidLaunchTargetKind.PlayerColony
+                && !eval.isInvasionRaid
+                && !eval.skipColonyExecutorHandoff
+                && seth != null
+                && seth.enableColonyRaidExecutorHandoff)
             {
                 Settlement executor = RaidColonyExecutor.SelectExecutor(
                     attacker,
@@ -981,7 +985,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Dev: force the clicked settlement to target a player map colony, then run normal finalize
-        /// (experimental executor handoff applies when the toggle is on).
+        /// (<see cref="WorldDominationSettings.enableColonyRaidExecutorHandoff"/> gates executor handoff).
         /// </summary>
         public static bool DebugForceColonyRaidForExecutorHandoff(Settlement scheduler, out string failReason, out bool handedOff)
         {

@@ -184,6 +184,8 @@
   <TSA_WD_Raid_AllowOutpostTooltip>启用后,NPC 定居点可对范围内你的前哨站发动模拟袭击。</TSA_WD_Raid_AllowOutpostTooltip>
   <TSA_WD_Raid_AllowPlayer>允许玩家殖民地遭袭</TSA_WD_Raid_AllowPlayer>
   <TSA_WD_Raid_AllowPlayerTooltip>启用后,范围内 NPC 定居点可对你的殖民地地图发动真实袭击。</TSA_WD_Raid_AllowPlayerTooltip>
+  <TSA_WD_Raid_EnableColonyExecutorHandoff>将殖民地袭击委托给更近的同阵营定居点</TSA_WD_Raid_EnableColonyExecutorHandoff>
+  <TSA_WD_Raid_EnableColonyExecutorHandoffTip>远处定居点选定你的殖民地时,把出击交给仍通过殖民地强度门槛、且更近的同阵营定居点。关闭后:由选定你的定居点自行出击。</TSA_WD_Raid_EnableColonyExecutorHandoffTip>
   <TSA_WD_Raid_AllyRadius>盟友拉动半径</TSA_WD_Raid_AllyRadius>
   <TSA_WD_Raid_AllyRadiusTooltip>同阵营与外交盟友邻居可加入进攻或防守的基础世界格半径。中期/后期可提高基础值。隧道网络另加外环，仅拉动同样拥有隧道网络的前哨。</TSA_WD_Raid_AllyRadiusTooltip>
   <TSA_WD_Raid_CdPlayer>玩家袭击冷却</TSA_WD_Raid_CdPlayer>

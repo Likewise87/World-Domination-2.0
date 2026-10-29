@@ -33,6 +33,16 @@ namespace TSA_WorldDomination
                 savedTarget = newOutpost;
                 n++;
             }
+            if (ReferenceEquals(savedOriginalTarget, oldOutpost))
+            {
+                savedOriginalTarget = newOutpost;
+                n++;
+            }
+            if (ReferenceEquals(savedPreTurretDetourTarget, oldOutpost))
+            {
+                savedPreTurretDetourTarget = newOutpost;
+                n++;
+            }
             return n;
         }
         private float savedInitialStrength;
@@ -49,6 +59,11 @@ namespace TSA_WorldDomination
         private int savedDesperationWaitUntilTick = -1;
         private bool savedDesperationIsHost;
         private int savedDesperationAggressorFactionId = -1;
+        private WorldObject savedOriginalTarget;
+        private RaidLaunchTargetKind savedCachedTargetKind = RaidLaunchTargetKind.NPC;
+        private bool savedIsTurretDetour;
+        private WorldObject savedPreTurretDetourTarget;
+        private bool goodwillGrantedOnWin;
 
         private bool encounterActive = false;
         private bool playerHasWon = false;
@@ -234,6 +249,11 @@ namespace TSA_WorldDomination
             this.savedDesperationWaitUntilTick = traveler.desperationWaitUntilTick;
             this.savedDesperationIsHost = traveler.desperationIsHost;
             this.savedDesperationAggressorFactionId = traveler.desperationAggressorFactionId;
+            this.savedOriginalTarget = traveler.originalTargetObject;
+            this.savedCachedTargetKind = traveler.cachedTargetKind;
+            this.savedIsTurretDetour = traveler.isTurretDetour;
+            this.savedPreTurretDetourTarget = traveler.preTurretDetourTarget;
+            this.goodwillGrantedOnWin = false;
 
             this.encounterActive = true;
             this.startTick = Find.TickManager.TicksGame;
@@ -298,6 +318,15 @@ namespace TSA_WorldDomination
                     playerHasWon = true;
                     encounterActive = false;
                     aerialLeaveInProgress = false;
+                    NpcRaidKillGoodwillUtility.TryRewardFromSnapshot(
+                        enemyFaction,
+                        travelerStrength,
+                        savedTarget,
+                        savedOriginalTarget,
+                        savedCachedTargetKind,
+                        savedIsTurretDetour,
+                        savedPreTurretDetourTarget,
+                        ref goodwillGrantedOnWin);
                     if (IsCampClash)
                         DiscardEncounterLeftovers();
                     else
@@ -746,6 +775,11 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref savedMission, "savedMission", TravelerMission.Expansion);
             Scribe_References.Look(ref savedOrigin, "savedOrigin");
             Scribe_References.Look(ref savedTarget, "savedTarget");
+            Scribe_References.Look(ref savedOriginalTarget, "savedOriginalTarget");
+            Scribe_Values.Look(ref savedCachedTargetKind, "savedCachedTargetKind", RaidLaunchTargetKind.NPC);
+            Scribe_Values.Look(ref savedIsTurretDetour, "savedIsTurretDetour", false);
+            Scribe_References.Look(ref savedPreTurretDetourTarget, "savedPreTurretDetourTarget");
+            Scribe_Values.Look(ref goodwillGrantedOnWin, "goodwillGrantedOnWin", false);
             Scribe_Values.Look(ref savedInitialStrength, "savedInitialStrength", 0f);
             Scribe_Values.Look(ref savedPackUpRequiresRefound, "savedPackUpRequiresRefound", false);
             Scribe_Values.Look(ref savedPackUpOriginLabel, "savedPackUpOriginLabel");

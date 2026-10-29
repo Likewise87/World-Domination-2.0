@@ -184,6 +184,8 @@
   <TSA_WD_Raid_AllowOutpostTooltip>If enabled, NPC settlements can launch simulated raids against your Outposts in range.</TSA_WD_Raid_AllowOutpostTooltip>
   <TSA_WD_Raid_AllowPlayer>Allow Player Colony to be Raided</TSA_WD_Raid_AllowPlayer>
   <TSA_WD_Raid_AllowPlayerTooltip>If enabled, NPC settlements within range can launch actual raids against your colony map.</TSA_WD_Raid_AllowPlayerTooltip>
+  <TSA_WD_Raid_EnableColonyExecutorHandoff>Delegate colony raids to closer same-faction settlements</TSA_WD_Raid_EnableColonyExecutorHandoff>
+  <TSA_WD_Raid_EnableColonyExecutorHandoffTip>When a far settlement picks your colony, hand the launch to a nearer same-faction settlement that still passes the colony strength gate. Off: the settlement that picked you launches itself.</TSA_WD_Raid_EnableColonyExecutorHandoffTip>
   <TSA_WD_Raid_AllyRadius>Ally pull radius</TSA_WD_Raid_AllyRadius>
   <TSA_WD_Raid_AllyRadiusTooltip>Base world-tile radius for same-faction and allied-faction neighbors that can join attacks or defenses. Mid/Late Game can raise the base. Tunnel Network adds an outer ring that only pulls other outposts with Tunnel Network.</TSA_WD_Raid_AllyRadiusTooltip>
   <TSA_WD_Raid_CdPlayer>Player Raid Cooldown</TSA_WD_Raid_CdPlayer>

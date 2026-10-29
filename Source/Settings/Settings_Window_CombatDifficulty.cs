@@ -462,6 +462,12 @@ namespace TSA_WorldDomination
                     "TSA_WD_Raid_AllowOutpostTooltip".Translate(),
                     defaultValue: WorldDominationSettings.DefAllowPlayerOutpostRaid);
 
+                SettingsUI.DrawCheckbox(l,
+                    "TSA_WD_Raid_EnableColonyExecutorHandoff".Translate(),
+                    ref s.enableColonyRaidExecutorHandoff,
+                    "TSA_WD_Raid_EnableColonyExecutorHandoffTip".Translate(),
+                    defaultValue: WorldDominationSettings.DefEnableColonyRaidExecutorHandoff);
+
                 s.maxPlayerWdRaidsPerDay = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_Raid_MaxPerDay".Translate(), s.maxPlayerWdRaidsPerDay, 1f, 10f,
                     "TSA_WD_Raid_MaxPerDayTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefMaxPlayerWdRaidsPerDay));
                 s.maxPlayerWdRaidsPer4Days = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_Raid_MaxPer4Days".Translate(), s.maxPlayerWdRaidsPer4Days, 1f, 20f,

@@ -7,8 +7,9 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Experimental colony raids: when a settlement notices the colony, pick the nearest same-faction
-    /// settlement that still passes the colony strength gate to actually launch (faction intent, local execution).
+    /// Colony raids: when a settlement notices the colony, pick the nearest same-faction settlement that
+    /// still passes the colony strength gate to actually launch (faction intent, local execution).
+    /// Gated by <see cref="WorldDominationSettings.enableColonyRaidExecutorHandoff"/>.
     /// </summary>
     public static class RaidColonyExecutor
     {
@@ -16,7 +17,7 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Returns the best executor for a player-colony raid, or <paramref name="scheduler"/> when none better / none eligible.
-        /// Caller must only invoke when experimental colony gate is active.
+        /// Caller must only invoke when <see cref="WorldDominationSettings.enableColonyRaidExecutorHandoff"/> is on.
         /// <paramref name="executorAllies"/> is set for the returned settlement (including scheduler when it wins).
         /// </summary>
         public static Settlement SelectExecutor(

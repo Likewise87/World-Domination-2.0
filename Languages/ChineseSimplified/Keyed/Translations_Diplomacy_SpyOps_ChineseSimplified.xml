@@ -44,6 +44,7 @@
   <TSA_WD_Diplo_ConquestAllyGiftGoodwillTooltip>征服后将定居点废墟赠予盟友或中立派系时获得的好感。</TSA_WD_Diplo_ConquestAllyGiftGoodwillTooltip>
   <TSA_WD_GoodwillMsg_Trade>与{0}交易。{1}好感，现为{2}</TSA_WD_GoodwillMsg_Trade>
   <TSA_WD_GoodwillMsg_QuestReward>来自{0}的任务奖励。{1}好感，现为{2}</TSA_WD_GoodwillMsg_QuestReward>
+  <TSA_WD_GoodwillMsg_NpcTravelerKillAssist>拦截了前往{3}的旅行队。与{0}的好感{1}，现为{2}</TSA_WD_GoodwillMsg_NpcTravelerKillAssist>
   <TSA_WD_GoodwillMsg_AlliedRaidOrdered>命令盟友{0}袭击{1}。-{2}好感，现为{3}</TSA_WD_GoodwillMsg_AlliedRaidOrdered>
   <TSA_WD_GoodwillMsg_AlliedRaidRefund>{0}对{1}的盟友袭击已取消。退还{2}好感，现为{3}</TSA_WD_GoodwillMsg_AlliedRaidRefund>
   <TSA_WD_GoodwillMsg_ConquestGift>{0}在{1}建立定居点。+{2}好感，现为{3}</TSA_WD_GoodwillMsg_ConquestGift>

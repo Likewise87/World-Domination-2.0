@@ -285,6 +285,26 @@ namespace TSA_WorldDomination
                 MessageTypeDefOf.PositiveEvent);
         }
 
+        /// <summary>Player wiped a WD traveler that was bound for an NPC settlement.</summary>
+        public static void NotifyNpcTravelerKillAssist(Faction faction, WorldObject protectedSettlement, int change)
+        {
+            if (change <= 0 || faction == null)
+                return;
+
+            if (!TryAffectPlayerGoodwill(faction, change, out int now))
+                return;
+
+            GlobalTargetInfo look = protectedSettlement != null ? protectedSettlement : GlobalTargetInfo.Invalid;
+            Messages.Message(
+                "TSA_WD_GoodwillMsg_NpcTravelerKillAssist".Translate(
+                    FactionLabel(faction),
+                    FormatSigned(change),
+                    now,
+                    TargetLabel(protectedSettlement)),
+                look,
+                MessageTypeDefOf.PositiveEvent);
+        }
+
         private static void Post(string text, Faction faction, MessageTypeDef type)
         {
             Messages.Message(text, type);

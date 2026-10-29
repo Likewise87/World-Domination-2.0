@@ -184,6 +184,8 @@
   <TSA_WD_Raid_AllowOutpostTooltip>Si está activo, asentamientos NPC pueden lanzar incursiones simuladas contra tus avanzadillas en alcance.</TSA_WD_Raid_AllowOutpostTooltip>
   <TSA_WD_Raid_AllowPlayer>Permitir que asalten tu colonia</TSA_WD_Raid_AllowPlayer>
   <TSA_WD_Raid_AllowPlayerTooltip>Si está activo, asentamientos NPC en alcance pueden lanzar incursiones reales contra el mapa de tu colonia.</TSA_WD_Raid_AllowPlayerTooltip>
+  <TSA_WD_Raid_EnableColonyExecutorHandoff>Delegar incursiones a la colonia a asentamientos cercanos de la misma facción</TSA_WD_Raid_EnableColonyExecutorHandoff>
+  <TSA_WD_Raid_EnableColonyExecutorHandoffTip>Cuando un asentamiento lejano elige tu colonia, cede el lanzamiento a uno más cercano de la misma facción que aún pase la puerta de fuerza de colonia. Desactivado: lanza el asentamiento que te eligió.</TSA_WD_Raid_EnableColonyExecutorHandoffTip>
   <TSA_WD_Raid_AllyRadius>Radio de atracción aliada</TSA_WD_Raid_AllyRadius>
   <TSA_WD_Raid_AllyRadiusTooltip>Radio base en casillas del mundo para vecinos de la misma facción y aliados diplomáticos que pueden unirse a ataques o defensas. Mid/Late Game puede subir la base. La Red de túneles añade un anillo exterior que solo atrae otros puestos con Red de túneles.</TSA_WD_Raid_AllyRadiusTooltip>
   <TSA_WD_Raid_CdPlayer>Enfriamiento de incursión al jugador</TSA_WD_Raid_CdPlayer>

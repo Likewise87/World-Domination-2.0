@@ -194,6 +194,8 @@ namespace TSA_WorldDomination
         public int preTurretDetourDestTileId = -1;
         /// <summary>Original <see cref="cachedTargetKind"/> saved with the AT Turret detour.</summary>
         public RaidLaunchTargetKind preTurretDetourCachedKind = RaidLaunchTargetKind.NPC;
+        /// <summary>Idempotency: player already received NPC-kill-assist goodwill for wiping this traveler.</summary>
+        public bool npcKillGoodwillGranted;
         public List<WorldObject> raidAttackerList = new List<WorldObject>();
         public List<string> raidAttackerDetails = new List<string>();
         /// <summary>Structured attacker breakdown for resolution Details (icon rows). Parallel to <see cref="raidAttackerDetails"/>.</summary>
@@ -653,6 +655,8 @@ namespace TSA_WorldDomination
                 if (assaultArtillerySupport && mission == TravelerMission.MortarStrike)
                     WD_AssaultArtillerySupport.NotifyAssaultShellRemoved(this);
                 PlayerWdRaidDispatchUtil.NotifyDestroyedBeforeContact(this);
+                if (destroyedByFaction?.IsPlayer == true)
+                    NpcRaidKillGoodwillUtility.TryRewardPlayerForKillingTraveler(this, playerAttributed: true);
             }
             base.Destroy();
         }
@@ -1447,6 +1451,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref totalTargetChanges, "totalTargetChanges", 0);
             Scribe_Values.Look(ref lastOpportunityEvalTick, "lastOpportunityEvalTick", -99999);
             Scribe_Values.Look(ref isTurretDetour, "isTurretDetour", false);
+            Scribe_Values.Look(ref npcKillGoodwillGranted, "npcKillGoodwillGranted", false);
             // Legacy single-flag saves: treat as proximity + hit budget fully spent.
             bool legacyAtTurretDetourConsumed = false;
             Scribe_Values.Look(ref legacyAtTurretDetourConsumed, "atTurretDetourConsumed", false);

@@ -300,7 +300,10 @@ namespace TSA_WorldDomination
             {
                 // Never leave StopDead + live traveler if arrival/dialog path threw or skipped Destroy.
                 if (traveler != null && !traveler.Destroyed)
+                {
+                    NpcRaidKillGoodwillUtility.TryRewardPlayerForKillingTraveler(traveler, playerAttributed: true);
                     traveler.Destroy();
+                }
             }
 
             return true;
@@ -371,7 +374,10 @@ namespace TSA_WorldDomination
             finally
             {
                 if (traveler != null && !traveler.Destroyed)
+                {
+                    NpcRaidKillGoodwillUtility.TryRewardPlayerForKillingTraveler(traveler, playerAttributed: true);
                     traveler.Destroy();
+                }
             }
 
             return true;

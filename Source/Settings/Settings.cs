@@ -753,6 +753,8 @@ namespace TSA_WorldDomination
         // --- WORLD RAIDS PAGE ---
         public const bool DefAllowPlayerRaid = true;
         public const bool DefAllowPlayerOutpostRaid = true;
+        /// <summary>When true, colony-targeting raids may hand launch to a nearer same-faction settlement (RaidColonyExecutor).</summary>
+        public const bool DefEnableColonyRaidExecutorHandoff = true;
         public const float DefCdPlayerRaidDays = 5.0f;
         /// <summary>Global cap: max WD world raids targeting player (colonies + outposts) in a 1-day window.</summary>
         public const int DefMaxPlayerWdRaidsPerDay = 1;
@@ -809,6 +811,8 @@ namespace TSA_WorldDomination
         public const int DefMaraudingMaxChainedTargets = 3;
         /// <summary>Strength removed from the victorious traveler when a maraud continue is accepted (also used in the continue decision).</summary>
         public const float DefMaraudingPostWinStrengthLossPct = 0.15f;
+        /// <summary>Goodwill granted per 500 traveler strength when the player wipes a WD traveler bound for an NPC settlement.</summary>
+        public const float DefNpcRaidKillGoodwillPer500Strength = 1f;
 
         // --- FEATURE C: SETTLEMENT-LAUNCHED AMBUSH (experimental) ---
         public const bool DefExperimentalSettlementAmbush = true;
@@ -1725,6 +1729,8 @@ namespace TSA_WorldDomination
 
         public bool allowPlayerRaid = DefAllowPlayerRaid;
         public bool allowPlayerOutpostRaid = DefAllowPlayerOutpostRaid;
+        /// <summary>When true, colony-targeting raids may hand launch to a nearer same-faction settlement (RaidColonyExecutor).</summary>
+        public bool enableColonyRaidExecutorHandoff = DefEnableColonyRaidExecutorHandoff;
         /// <summary>Player home settlement: days before another WD world raid can target it again; same value seeds initial colony shield.</summary>
         public float cooldownPlayerRaidDays = DefCdPlayerRaidDays;
         /// <summary>Global max WD world raids against player colonies + outposts per day (1–10).</summary>
@@ -1830,6 +1836,7 @@ namespace TSA_WorldDomination
         public float maraudingMinSurvivingStrengthAbsolute = DefMaraudingMinSurvivingStrengthAbsolute;
         public int maraudingMaxChainedTargets = DefMaraudingMaxChainedTargets;
         public float maraudingPostWinStrengthLossPct = DefMaraudingPostWinStrengthLossPct;
+        public float npcRaidKillGoodwillPer500Strength = DefNpcRaidKillGoodwillPer500Strength;
 
         public bool experimentalSettlementAmbush = DefExperimentalSettlementAmbush;
         public float settlementAmbushChancePct = DefSettlementAmbushChancePct;
@@ -2974,6 +2981,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref maxRaidPoints, "maxRaidPoints", DefMaxRaidPoints);
 
             Scribe_Values.Look(ref allowPlayerRaid, "allowPlayerRaid", DefAllowPlayerRaid);
+            Scribe_Values.Look(ref enableColonyRaidExecutorHandoff, "enableColonyRaidExecutorHandoff", DefEnableColonyRaidExecutorHandoff);
             Scribe_Values.Look(ref allowPlayerOutpostRaid, "allowPlayerOutpostRaid", DefAllowPlayerOutpostRaid);
             Scribe_Values.Look(ref cooldownPlayerRaidDays, "cooldownPlayerRaidDays", DefCdPlayerRaidDays);
             Scribe_Values.Look(ref maxPlayerWdRaidsPerDay, "maxPlayerWdRaidsPerDay", DefMaxPlayerWdRaidsPerDay);
@@ -3072,6 +3080,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref maraudingMinSurvivingStrengthAbsolute, "maraudingMinSurvivingStrengthAbsolute", DefMaraudingMinSurvivingStrengthAbsolute);
             Scribe_Values.Look(ref maraudingMaxChainedTargets, "maraudingMaxChainedTargets", DefMaraudingMaxChainedTargets);
             Scribe_Values.Look(ref maraudingPostWinStrengthLossPct, "maraudingPostWinStrengthLossPct", DefMaraudingPostWinStrengthLossPct);
+            Scribe_Values.Look(ref npcRaidKillGoodwillPer500Strength, "npcRaidKillGoodwillPer500Strength", DefNpcRaidKillGoodwillPer500Strength);
             Scribe_Values.Look(ref experimentalSettlementAmbush, "experimentalSettlementAmbush", DefExperimentalSettlementAmbush);
             Scribe_Values.Look(ref settlementAmbushChancePct, "settlementAmbushChancePct", DefSettlementAmbushChancePct);
             Scribe_Values.Look(ref settlementAmbushMinStrengthRatio, "settlementAmbushMinStrengthRatio", DefSettlementAmbushMinStrengthRatio);
@@ -4738,6 +4747,7 @@ namespace TSA_WorldDomination
         {
             allowPlayerRaid = DefAllowPlayerRaid;
             allowPlayerOutpostRaid = DefAllowPlayerOutpostRaid;
+            enableColonyRaidExecutorHandoff = DefEnableColonyRaidExecutorHandoff;
             cooldownPlayerRaidDays = DefCdPlayerRaidDays;
             maxPlayerWdRaidsPerDay = DefMaxPlayerWdRaidsPerDay;
             maxPlayerWdRaidsPer4Days = DefMaxPlayerWdRaidsPer4Days;
@@ -4902,6 +4912,7 @@ namespace TSA_WorldDomination
             maraudingMinSurvivingStrengthAbsolute = DefMaraudingMinSurvivingStrengthAbsolute;
             maraudingMaxChainedTargets = DefMaraudingMaxChainedTargets;
             maraudingPostWinStrengthLossPct = DefMaraudingPostWinStrengthLossPct;
+            npcRaidKillGoodwillPer500Strength = DefNpcRaidKillGoodwillPer500Strength;
             experimentalSettlementAmbush = DefExperimentalSettlementAmbush;
             settlementAmbushChancePct = DefSettlementAmbushChancePct;
             settlementAmbushMinStrengthRatio = DefSettlementAmbushMinStrengthRatio;
@@ -5241,6 +5252,7 @@ namespace TSA_WorldDomination
         {
             allowPlayerRaid = DefAllowPlayerRaid;
             allowPlayerOutpostRaid = DefAllowPlayerOutpostRaid;
+            enableColonyRaidExecutorHandoff = DefEnableColonyRaidExecutorHandoff;
             cooldownPlayerRaidDays = DefCdPlayerRaidDays;
             maxPlayerWdRaidsPerDay = DefMaxPlayerWdRaidsPerDay;
             maxPlayerWdRaidsPer4Days = DefMaxPlayerWdRaidsPer4Days;
@@ -5411,6 +5423,7 @@ namespace TSA_WorldDomination
             maraudingMinSurvivingStrengthAbsolute = DefMaraudingMinSurvivingStrengthAbsolute;
             maraudingMaxChainedTargets = DefMaraudingMaxChainedTargets;
             maraudingPostWinStrengthLossPct = DefMaraudingPostWinStrengthLossPct;
+            npcRaidKillGoodwillPer500Strength = DefNpcRaidKillGoodwillPer500Strength;
             experimentalSettlementAmbush = DefExperimentalSettlementAmbush;
             settlementAmbushChancePct = DefSettlementAmbushChancePct;
             settlementAmbushMinStrengthRatio = DefSettlementAmbushMinStrengthRatio;
