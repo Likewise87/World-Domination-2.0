@@ -58,7 +58,7 @@
   <TSA_WD_Combat_HeaderT4Hardware>NPC 迫击炮塔 / 防空炮塔硬件</TSA_WD_Combat_HeaderT4Hardware>
   <TSA_WD_Combat_HeaderT4HardwareTip>启用系统并调整射程、伤害与精度。对玩家开火时机在“威胁时机”中设置。</TSA_WD_Combat_HeaderT4HardwareTip>
   <TSA_WD_Combat_T4TimingNote>对玩家开火时机由上方威胁时机门控制（不再使用单独的中/后期勾选项）。</TSA_WD_Combat_T4TimingNote>
-  <TSA_WD_Combat_HeaderGoodwillDrain>好感度流失</TSA_WD_Combat_HeaderGoodwillDrain>
+  <TSA_WD_Combat_HeaderGoodwillDrain>好感度流失与获得</TSA_WD_Combat_HeaderGoodwillDrain>
   <TSA_WD_Combat_GateWhen>激活时机</TSA_WD_Combat_GateWhen>
   <TSA_WD_Combat_GateOpportunity>机会（机会目标 / 劫掠 / 伏击）</TSA_WD_Combat_GateOpportunity>
   <TSA_WD_Combat_GateOpportunityTip>机会目标、胜利后劫掠与针对你的定居点伏击的阶段门（NPC 互拦的拦截商队单独处理，前期即可）。</TSA_WD_Combat_GateOpportunityTip>
@@ -954,8 +954,8 @@
   <TSA_WD_Experimental_OutpostArmoryTip>开启后，每个前哨都会保留一个散装仓库，可存放武器、护甲、药品、毒品、食物与弹药。通过商队或投送舱抵达的装备将被存入而非销毁，你可以在人员标签页的"军械库"按钮中把它们分发给驻守人员。关闭后恢复为丢弃抵达的装备；已存入的物品仍保留在存档中。默认开启。</TSA_WD_Experimental_OutpostArmoryTip>
   <TSA_WD_Experimental_DisableVanillaCaravanIncidents>禁用原版商队旅途事件</TSA_WD_Experimental_DisableVanillaCaravanIncidents>
   <TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip>开启后，屏蔽旅途中商队的随机原版故事叙述者事件：伏击、狂暴动物伏击、商队遭遇、勒索，以及商队疾病。不影响 WD 定居点伏击、快速反应或旅行者交战。默认关闭。</TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip>
-  <TSA_WD_Experimental_NpcRaidKillGoodwillPer500>击杀以其他派系为目标的旅行者时，每 500 兵力获得的好感</TSA_WD_Experimental_NpcRaidKillGoodwillPer500>
-  <TSA_WD_Experimental_NpcRaidKillGoodwillPer500Tip>当你消灭一支前往其他派系定居点的 WD 旅行者时，与该派系获得好感。按旅行者兵力缩放（500 兵力 = 此数值，1000 = 两倍）。设为 0 关闭。AT 炮塔改道与咽喉拦截在适用时仍记入原定居点。</TSA_WD_Experimental_NpcRaidKillGoodwillPer500Tip>
+  <TSA_WD_Experimental_NpcRaidKillGoodwillPer500>击杀以其他派系为目标的旅行者时，每 500 兵力获得的好感增益</TSA_WD_Experimental_NpcRaidKillGoodwillPer500>
+  <TSA_WD_Experimental_NpcRaidKillGoodwillPer500Tip>好感增益：当你消灭一支前往其他派系定居点的 WD 旅行者时，该派系对你获得好感。按旅行者兵力缩放（500 兵力 = 此数值，1000 = 两倍）。设为 0 关闭。AT 炮塔改道与咽喉拦截在适用时仍记入原定居点。</TSA_WD_Experimental_NpcRaidKillGoodwillPer500Tip>
   <TSA_WD_Experimental_OutpostWithdrawStrengthBudget>实验：前哨撤离兵力预算</TSA_WD_Experimental_OutpostWithdrawStrengthBudget>
   <TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>开启后，撤离使用当前未封顶的进攻兵力，并允许 5% 的确认余量。若所选殖民者超过该预算，会弹出选择：组建商队、留在前哨或标记失去。关闭后，调动不再做该兵力检查。</TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip>
   <TSA_WD_Experimental_OutpostDefenseDeployBudget>实验：前哨手动防御部署兵力预算</TSA_WD_Experimental_OutpostDefenseDeployBudget>

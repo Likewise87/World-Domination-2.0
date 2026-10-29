@@ -112,12 +112,6 @@ namespace TSA_WorldDomination
                     ref s.experimentalDisableVanillaCaravanIncidents,
                     "TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip".Translate(),
                     defaultValue: WorldDominationSettings.DefExperimentalDisableVanillaCaravanIncidents);
-
-                s.npcRaidKillGoodwillPer500Strength = SettingsUI.LabeledSlider(l,
-                    "TSA_WD_Experimental_NpcRaidKillGoodwillPer500".Translate(),
-                    s.npcRaidKillGoodwillPer500Strength, 0f, 5f,
-                    "TSA_WD_Experimental_NpcRaidKillGoodwillPer500Tip".Translate(),
-                    1f, SliderFormat.Fixed0, WorldDominationSettings.DefNpcRaidKillGoodwillPer500Strength);
             }
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Notify_HeaderWorldMapIcons".Translate(), ref iconsExpanded, SettingsUI.SectionHeaderColor))

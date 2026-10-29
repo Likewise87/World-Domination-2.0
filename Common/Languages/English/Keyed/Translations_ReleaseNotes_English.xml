@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_63_Title>Goodwill for helping others</TSA_WD_Update_2_3_63_Title>
+  <TSA_WD_Update_2_3_63_Body><![CDATA[
+<size=16><b>2.3.63 - Goodwill for helping others</b></size>\n
+<color=#00FFFFFF>Release date: October 29th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• New Feature: When Faction A launches a WD raid on Faction B and you intercept that caravan, you now gain goodwill with Faction B. Default: 1 goodwill per 500 strength of the intercepted caravan. Configurable under Economic Difficulty.\n
+• New settings toggle: When a far-away settlement picks you as a target, that raid can still be delegated to a same-faction settlement nearby. You can turn this off near the top of Combat Difficulty.\n
+• Changed folder structure a bit to align with RimWorld best practices (no gameplay impact).\n
+]]></TSA_WD_Update_2_3_63_Body>
   <TSA_WD_Update_2_3_62_Title>Balancing and bugfix</TSA_WD_Update_2_3_62_Title>
   <TSA_WD_Update_2_3_62_Body><![CDATA[
 <size=16><b>2.3.62 - Balancing and bugfix</b></size>\n

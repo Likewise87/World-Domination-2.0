@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_63_Title>帮助他人获得好感</TSA_WD_Update_2_3_63_Title>
+  <TSA_WD_Update_2_3_63_Body><![CDATA[
+<size=16><b>2.3.63 - 帮助他人获得好感</b></size>\n
+<color=#00FFFFFF>发布日期：2026年10月29日</color>\n
+------------------------------\n
+!!!改动仅适用于 1.7 版本!!!\n
+• 新功能：当派系 A 对派系 B 发动 WD 袭击、而你拦截了该旅行队时，现在会与派系 B 获得好感。默认：每拦截旅行队 500 兵力获得 1 点好感。可在「经济难度」中配置。\n
+• 新设置开关：远处定居点选定你为目标时，袭击仍可委托给附近的同阵营定居点。可在「战斗难度」顶部附近关闭。\n
+• 文件夹结构略作调整，以更符合 RimWorld 惯例（不影响玩法）。\n
+]]></TSA_WD_Update_2_3_63_Body>
   <TSA_WD_Update_2_3_62_Title>平衡与错误修复</TSA_WD_Update_2_3_62_Title>
   <TSA_WD_Update_2_3_62_Body><![CDATA[
 <size=16><b>2.3.62 - 平衡与错误修复</b></size>\n

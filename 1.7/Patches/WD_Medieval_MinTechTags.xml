@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-  1.7-only (Defs17 loadFolders). Tags industrial WD content with minTechLevel for Medieval mode.
-  Do NOT put minTechLevel in root Defs/ — the frozen 1.6 DLL has no such fields and will XML-error.
+  1.7-only (loadFolders 1.7/Patches). Tags industrial WD content with minTechLevel for Medieval mode.
+  Do NOT put minTechLevel in Common/Defs/ — the frozen 1.6 DLL has no such fields and will XML-error.
   Each op is Conditional so MayRequire defs (VCHE / BoR) missing offline do not error.
 -->
 <Patch>

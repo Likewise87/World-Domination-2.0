@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
-  <!-- 1.7-only (Defs17 loadFolders): WITab types live in 1.7/Assemblies. -->
+  <!-- 1.7-only (loadFolders 1.7/Patches): WITab types live in 1.7/Assemblies. -->
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/WorldObjectDef[@Name="TSA_WD_TravelerBase"]</xpath>
     <value>

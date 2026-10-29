@@ -10,7 +10,7 @@ The committed strength leaves the outpost while the operation is underway. Do no
 
 ## Build menu
 
-The **Build** menu starts world projects from an outpost. Construction speed scales with cumulative Construction skill, while an Engineer expert can improve speed and planning radius. Most projects send a crew and spend offensive strength plus materials from the colony map and warehouse outposts (XML costs in `Defs/WorldBuild/`). Clearing projects do not spend materials. Cancelling a crew after launch does not normally refund strength or materials.
+The **Build** menu starts world projects from an outpost. Construction speed scales with cumulative Construction skill, while an Engineer expert can improve speed and planning radius. Most projects send a crew and spend offensive strength plus materials from the colony map and warehouse outposts (XML costs in `Common/Defs/WorldBuild/`). Clearing projects do not spend materials. Cancelling a crew after launch does not normally refund strength or materials.
 
 ### Roads
 

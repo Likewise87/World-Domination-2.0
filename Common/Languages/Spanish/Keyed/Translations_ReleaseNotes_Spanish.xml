@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_63_Title>Buena voluntad por ayudar a otros</TSA_WD_Update_2_3_63_Title>
+  <TSA_WD_Update_2_3_63_Body><![CDATA[
+<size=16><b>2.3.63 - Buena voluntad por ayudar a otros</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 29 de octubre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Nueva función: cuando la facción A lanza una incursión WD contra la facción B y tú interceptas esa caravana, ahora ganas buena voluntad con la facción B. Por defecto: 1 de buena voluntad por cada 500 de fuerza de la caravana interceptada. Configurable en Dificultad económica.\n
+• Nuevo interruptor de ajustes: cuando un asentamiento lejano te elige como objetivo, esa incursión aún puede delegarse a un asentamiento cercano de la misma facción. Puedes desactivarlo cerca de la parte superior de Dificultad de combate.\n
+• Se cambió un poco la estructura de carpetas para alinearla con las buenas prácticas de RimWorld (sin impacto en el juego).\n
+]]></TSA_WD_Update_2_3_63_Body>
   <TSA_WD_Update_2_3_62_Title>Equilibrio y corrección de errores</TSA_WD_Update_2_3_62_Title>
   <TSA_WD_Update_2_3_62_Body><![CDATA[
 <size=16><b>2.3.62 - Equilibrio y corrección de errores</b></size>\n

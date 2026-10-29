@@ -1,5 +1,5 @@
 <Defs>
-  <!-- 1.7-only (loadFolders Defs17): must live under Defs17/Defs/ so RimWorld loads it. worldObjectClass exists in 1.7/Assemblies, not the frozen 1.6 DLL. -->
+  <!-- 1.7-only (loadFolders 1.7/Defs): worldObjectClass exists in 1.7/Assemblies, not the frozen 1.6 DLL. -->
   <WorldObjectDef ParentName="TSA_WD_TravelerBase">
     <defName>TSA_WD_Traveler_Outpost_TypeChange</defName>
     <label>Outpost Conversion Caravan</label>

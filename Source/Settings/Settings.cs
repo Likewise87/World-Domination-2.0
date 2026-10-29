@@ -4912,7 +4912,6 @@ namespace TSA_WorldDomination
             maraudingMinSurvivingStrengthAbsolute = DefMaraudingMinSurvivingStrengthAbsolute;
             maraudingMaxChainedTargets = DefMaraudingMaxChainedTargets;
             maraudingPostWinStrengthLossPct = DefMaraudingPostWinStrengthLossPct;
-            npcRaidKillGoodwillPer500Strength = DefNpcRaidKillGoodwillPer500Strength;
             experimentalSettlementAmbush = DefExperimentalSettlementAmbush;
             settlementAmbushChancePct = DefSettlementAmbushChancePct;
             settlementAmbushMinStrengthRatio = DefSettlementAmbushMinStrengthRatio;
@@ -4933,6 +4932,7 @@ namespace TSA_WorldDomination
             upkeepSilverPerOccupant = DefUpkeepSilverPerOccupant;
             upkeepIntervalDays = DefUpkeepIntervalDays;
             OutpostSkillScaling.ResetToDefaults(this);
+            npcRaidKillGoodwillPer500Strength = DefNpcRaidKillGoodwillPer500Strength;
             enableGoodwillDrain = DefEnableGoodwillDrain;
             goodwillDrainIntervalDays = DefGoodwillDrainIntervalDays;
             midGameGoodwillDrainAmount = DefMidGameGoodwillDrainAmount;
@@ -5423,7 +5423,6 @@ namespace TSA_WorldDomination
             maraudingMinSurvivingStrengthAbsolute = DefMaraudingMinSurvivingStrengthAbsolute;
             maraudingMaxChainedTargets = DefMaraudingMaxChainedTargets;
             maraudingPostWinStrengthLossPct = DefMaraudingPostWinStrengthLossPct;
-            npcRaidKillGoodwillPer500Strength = DefNpcRaidKillGoodwillPer500Strength;
             experimentalSettlementAmbush = DefExperimentalSettlementAmbush;
             settlementAmbushChancePct = DefSettlementAmbushChancePct;
             settlementAmbushMinStrengthRatio = DefSettlementAmbushMinStrengthRatio;

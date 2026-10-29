@@ -210,6 +210,12 @@ namespace TSA_WorldDomination
             if (!SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Combat_HeaderGoodwillDrain".Translate(), ref goodwillExpanded, SettingsUI.SectionHeaderColor))
                 return;
 
+            s.npcRaidKillGoodwillPer500Strength = SettingsUI.LabeledSlider(l,
+                "TSA_WD_Experimental_NpcRaidKillGoodwillPer500".Translate(),
+                s.npcRaidKillGoodwillPer500Strength, 0f, 5f,
+                "TSA_WD_Experimental_NpcRaidKillGoodwillPer500Tip".Translate(),
+                1f, SliderFormat.Fixed0, WorldDominationSettings.DefNpcRaidKillGoodwillPer500Strength);
+
             l.CheckboxLabeled("TSA_WD_Difficulty_EnableGoodwillDrain".Translate(), ref s.enableGoodwillDrain,
                 SettingsUI.TooltipWithDefault("TSA_WD_Difficulty_EnableGoodwillDrainTooltip".Translate(), WorldDominationSettings.DefEnableGoodwillDrain));
 

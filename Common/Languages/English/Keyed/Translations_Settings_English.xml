@@ -61,7 +61,7 @@
   <TSA_WD_Combat_HeaderT4HardwareTip>Enable systems and tune range, damage, and accuracy. When they may fire at the player is set under Threat timing.</TSA_WD_Combat_HeaderT4HardwareTip>
   <TSA_WD_Combat_HeaderT4Requirements>Tech requirements</TSA_WD_Combat_HeaderT4Requirements>
   <TSA_WD_Combat_T4TimingNote>Player-targeting timing is controlled by the Threat timing gates above (not separate Mid/Late checkboxes).</TSA_WD_Combat_T4TimingNote>
-  <TSA_WD_Combat_HeaderGoodwillDrain>Goodwill drain</TSA_WD_Combat_HeaderGoodwillDrain>
+  <TSA_WD_Combat_HeaderGoodwillDrain>Goodwill drain and gain</TSA_WD_Combat_HeaderGoodwillDrain>
   <TSA_WD_Combat_GateWhen>Activates</TSA_WD_Combat_GateWhen>
   <TSA_WD_Combat_GateOpportunity>Opportunity (ToO / maraud / ambush)</TSA_WD_Combat_GateOpportunity>
   <TSA_WD_Combat_GateOpportunityTip>Stage gate for target-of-opportunity, marauding after conquest, and settlement ambush against you (NPC-vs-NPC interception caravans are separate and can run early).</TSA_WD_Combat_GateOpportunityTip>
@@ -961,8 +961,8 @@
   <TSA_WD_Experimental_OutpostArmoryTip>When on, every outpost keeps a loose store for weapons, armor, medicine, drugs, food and ammo. Gear arriving by caravan or drop pod is stored instead of destroyed, and you can hand it to occupants from the Armory button on the Pawns tab. Turn off to go back to discarding arriving gear. Anything already stored stays in the save. On by default.</TSA_WD_Experimental_OutpostArmoryTip>
   <TSA_WD_Experimental_DisableVanillaCaravanIncidents>Disable vanilla caravan travel incidents</TSA_WD_Experimental_DisableVanillaCaravanIncidents>
   <TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip>When on, blocks random vanilla storyteller events on traveling caravans: ambush, manhunter ambush, caravan meeting, payment demand, and caravan disease. Does not affect WD settlement ambush, Rapid Response, or traveler clashes. Off by default.</TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip>
-  <TSA_WD_Experimental_NpcRaidKillGoodwillPer500>Goodwill per 500 strength defeating a traveler targeting another faction</TSA_WD_Experimental_NpcRaidKillGoodwillPer500>
-  <TSA_WD_Experimental_NpcRaidKillGoodwillPer500Tip>When you wipe a WD traveler that was bound for another faction's settlement, gain goodwill with that faction. Scales with traveler strength (500 strength = this many points, 1000 = twice). 0 disables. AT detours and choke intercepts still credit the original settlement when applicable.</TSA_WD_Experimental_NpcRaidKillGoodwillPer500Tip>
+  <TSA_WD_Experimental_NpcRaidKillGoodwillPer500>Goodwill gain per 500 strength defeating a traveler targeting another faction</TSA_WD_Experimental_NpcRaidKillGoodwillPer500>
+  <TSA_WD_Experimental_NpcRaidKillGoodwillPer500Tip>Goodwill gain: when you wipe a WD traveler bound for another faction's settlement, that faction gains goodwill with you. Scales with traveler strength (500 strength = this many points, 1000 = twice). 0 disables. AT detours and choke intercepts still credit the original settlement when applicable.</TSA_WD_Experimental_NpcRaidKillGoodwillPer500Tip>
   <TSA_WD_Experimental_T4GravshipRaids>Experimental: T4 gravship raids</TSA_WD_Experimental_T4GravshipRaids>
   <TSA_WD_Experimental_T4GravshipRaidsTip>When on, tier-4 settlements may launch ballistic gravship raid travelers at the player. Requires Odyssey and the Gravship Raids Workshop mod (sk.gravshipraids). Without those mods the option has no effect. Off by default.</TSA_WD_Experimental_T4GravshipRaidsTip>
   <TSA_WD_Experimental_GravshipRaidChanceT4>T4 gravship raid chance</TSA_WD_Experimental_GravshipRaidChanceT4>
