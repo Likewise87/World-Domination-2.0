@@ -2164,16 +2164,19 @@ namespace TSA_WorldDomination
         /// <summary>Adds pemmican stacks to a caravan inventory (respects stack limit).</summary>
         public static void PackTravelPemmican(Caravan caravan, int pemmican)
         {
-            if (caravan == null || pemmican <= 0 || ThingDefOf.Pemmican == null) return;
+                        if (caravan == null || pemmican <= 0 || ThingDefOf.Pemmican == null) return;
             int remaining = pemmican;
-            int stackLimit = ThingDefOf.Pemmican.stackLimit;
+            int stackLimit = Mathf.Max(1, ThingDefOf.Pemmican.stackLimit);
             while (remaining > 0)
             {
                 Thing food = ThingMaker.MakeThing(ThingDefOf.Pemmican);
                 if (food == null) break;
-                food.stackCount = Mathf.Min(remaining, stackLimit);
+                int count = Mathf.Min(remaining, stackLimit);
+                food.stackCount = count;
+                // AddPawnOrItem may merge food into an existing pemmican stack; a fully absorbed
+                // Thing is destroyed with stackCount 0, so subtract what was created, not food.stackCount.
                 caravan.AddPawnOrItem(food, false);
-                remaining -= food.stackCount;
+                remaining -= count;
             }
         }
 
