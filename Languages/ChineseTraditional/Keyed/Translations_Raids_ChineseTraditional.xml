@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: ally -->
+  <TSA_WD_AlliedFaction>同盟</TSA_WD_AlliedFaction>
+  <!-- EN: Attack and award to player (-{0} goodwill. Current goodwill: {1}) -->
+  <TSA_WD_AlliedRaidOrder_AwardToPlayer>進攻並交給玩家（友好度-{0}。目前友好度：{1}）</TSA_WD_AlliedRaidOrder_AwardToPlayer>
+  <!-- EN: Attack and claim for themselves (-{0} goodwill. Current goodwill: {1}) -->
+  <TSA_WD_AlliedRaidOrder_ClaimForAlly>進攻並由對方佔領（友好度-{0}。目前友好度：{1}）</TSA_WD_AlliedRaidOrder_ClaimForAlly>
+  <!-- EN: Attack and destroy (-{0} goodwill. Current goodwill: {1}) -->
+  <TSA_WD_AlliedRaidOrder_DestroyTurret>進攻並摧毀（友好度-{0}。目前友好度：{1}）</TSA_WD_AlliedRaidOrder_DestroyTurret>
+  <!-- EN: RAID: Aborted (launch ratio {0}x below minimum {1}x). No strength committed. -->
+  <TSA_WD_Log_Raid_Aborted_BelowMinRatio>突襲：已中止（出擊比例{0}×低於最低要求{1}×）。未投入任何戰力。</TSA_WD_Log_Raid_Aborted_BelowMinRatio>
+  <!-- EN: {0} cancelled a raid on {1}: the route would lose about {2} strength to pollution. -->
+  <TSA_WD_Log_Raid_Aborted_Pollution>{0}取消了對{1}的突襲：該路線會因汙染損失約{2}戰力。</TSA_WD_Log_Raid_Aborted_Pollution>
+  <!-- EN: Costs {0} goodwill. You have {1}; at least {2} goodwill must remain. -->
+  <TSA_WD_AlliedRaidOrder_DisabledGoodwill>需花費{0}友好度。你目前有{1}；至少須保留{2}友好度。</TSA_WD_AlliedRaidOrder_DisabledGoodwill>
+  <!-- EN: Success probability is below the configured minimum. -->
+  <TSA_WD_AlliedRaidOrder_DisabledLowWinChance>成功機率低於設定的最低值。</TSA_WD_AlliedRaidOrder_DisabledLowWinChance>
+  <!-- EN: Ask this allied settlement to launch a raid against one of its enemies. -->
+  <TSA_WD_AlliedRaidOrder_GizmoDesc>請這個同盟據點對它的某個敵人發動突襲。</TSA_WD_AlliedRaidOrder_GizmoDesc>
+  <!-- EN: Order Allied Raid -->
+  <TSA_WD_AlliedRaidOrder_GizmoLabel>下令同盟突襲</TSA_WD_AlliedRaidOrder_GizmoLabel>
+  <!-- EN: {0} has launched a raid against {1}. -->
+  <TSA_WD_AlliedRaidOrder_Launched>{0}已對{1}發動突襲。</TSA_WD_AlliedRaidOrder_Launched>
+  <!-- EN: Costs {0} goodwill. You have {1}; at least {2} goodwill must remain. -->
+  <TSA_WD_AlliedRaidOrder_NotEnoughGoodwill>需花費{0}友好度。你目前有{1}；至少須保留{2}友好度。</TSA_WD_AlliedRaidOrder_NotEnoughGoodwill>
+  <!-- EN: Allied raid order from {0} -->
+  <TSA_WD_AlliedRaidOrder_PreviewTitle>向{0}下達的同盟突襲命令</TSA_WD_AlliedRaidOrder_PreviewTitle>
+  <!-- EN: Success probability is below the required {0}. Improve the odds before launching. -->
+  <TSA_WD_AlliedRaidOrder_WinChanceTooLow>成功機率低於要求的{0}。請先提高勝算再發動。</TSA_WD_AlliedRaidOrder_WinChanceTooLow>
+  <!-- EN: Ally -->
+  <TSA_WD_Ally>同盟</TSA_WD_Ally>
+  <!-- EN: Projected Attack Force -->
+  <TSA_WD_AttackerPower>預估進攻兵力</TSA_WD_AttackerPower>
+  <!-- EN: Attackers -->
+  <TSA_WD_Attackers>進攻方</TSA_WD_Attackers>
+  <!-- EN: Contributed {0} Strength -->
+  <TSA_WD_ContribStrength>貢獻{0}戰力</TSA_WD_ContribStrength>
+  <!-- EN: Click to exclude this ally from the raid. -->
+  <TSA_WD_RaidForce_ClickExclude>點擊將此同盟排除在突襲之外。</TSA_WD_RaidForce_ClickExclude>
+  <!-- EN: Click to include this ally in the raid. -->
+  <TSA_WD_RaidForce_ClickInclude>點擊將此同盟加入突襲。</TSA_WD_RaidForce_ClickInclude>
+  <!-- EN: Supporting allies -->
+  <TSA_WD_RaidForce_SupportingAllies>支援的同盟</TSA_WD_RaidForce_SupportingAllies>
+  <!-- EN: Click to select or clear all supporting allies. -->
+  <TSA_WD_RaidForce_SelectAllAlliesTip>點擊以全選或清除所有支援的同盟。</TSA_WD_RaidForce_SelectAllAlliesTip>
+  <!-- EN: Defender -->
+  <TSA_WD_Defender>防守方</TSA_WD_Defender>
+  <!-- EN: Defender Power -->
+  <TSA_WD_DefenderPower>防守方戰力</TSA_WD_DefenderPower>
+  <!-- EN: Execute Raid -->
+  <TSA_WD_ExecuteRaid>執行突襲</TSA_WD_ExecuteRaid>
+  <!-- EN: Expedition Force -->
+  <TSA_WD_ExpeditionForce>遠征部隊</TSA_WD_ExpeditionForce>
+  <!-- EN: Fully Wiped Out -->
+  <TSA_WD_ForceNeutralized>全軍覆沒</TSA_WD_ForceNeutralized>
+  <!-- EN: Expedition -->
+  <TSA_WD_Header_Raid>遠征</TSA_WD_Header_Raid>
+  <!-- EN: Caravan clash lost. {0} has broken off and is continuing its mission. -->
+  <TSA_WD_InterceptionFailed>旅隊交戰失利。{0}已脫離戰鬥並繼續執行任務。</TSA_WD_InterceptionFailed>
+  <!-- EN: Caravan clash lost. Your caravan fled. {0} is continuing its mission. -->
+  <TSA_WD_InterceptionFled>旅隊交戰失利。你的旅隊已撤逃。{0}繼續執行任務。</TSA_WD_InterceptionFled>
+  <!-- EN: Caravan clash won! Hostile forces have been eliminated and their mission is over. -->
+  <TSA_WD_InterceptionVictory>旅隊交戰勝利！敵對部隊已被消滅，其任務就此結束。</TSA_WD_InterceptionVictory>
+  <!-- EN: Camp defense lost. {0} has broken off and is continuing its mission. -->
+  <TSA_WD_CampClashFailed>營地防守失利。{0}已脫離戰鬥並繼續執行任務。</TSA_WD_CampClashFailed>
+  <!-- EN: Camp defense lost. Your force fled. {0} is continuing its mission. -->
+  <TSA_WD_CampClashFled>營地防守失利。你的部隊已撤逃。{0}繼續執行任務。</TSA_WD_CampClashFled>
+  <!-- EN: Camp defense won! Hostile forces have been eliminated and their mission is over. -->
+  <TSA_WD_CampClashVictory>營地防守勝利！敵對部隊已被消滅，其任務就此結束。</TSA_WD_CampClashVictory>
+  <!-- EN: Outpost Under Attack -->
+  <TSA_WD_OutpostDefense_ChoiceTitle>哨站遭受攻擊</TSA_WD_OutpostDefense_ChoiceTitle>
+  <!-- EN: {0} is under attack by {1}. Choose whether to auto-resolve the raid or fight it manually on a temporary map. -->
+  <TSA_WD_OutpostDefense_ChoiceText>{0}正遭到{1}攻擊。請選擇自動結算這次突襲，或在臨時地圖上手動作戰。</TSA_WD_OutpostDefense_ChoiceText>
+  <!-- EN: Skirmishes Going Badly -->
+  <TSA_WD_OutpostDefense_SkirmishTitle>初步交鋒情勢不利</TSA_WD_OutpostDefense_SkirmishTitle>
+  <!-- EN: Your outpost lost {0} strength and some pawns got hurt. -->
+  <TSA_WD_OutpostDefense_SkirmishLossBanner>你的哨站損失了{0}戰力，部分角色受傷。</TSA_WD_OutpostDefense_SkirmishLossBanner>
+  <!-- EN: The initial skirmishes at {0} have not gone in your favor against {1}. Some defenders are wounded and the outpost's fighting strength is reduced. What do you do? -->
+  <TSA_WD_OutpostDefense_SkirmishText>在{0}與{1}的初步交鋒對你不利。部分防守者受傷，哨站戰力下降。你要怎麼做？</TSA_WD_OutpostDefense_SkirmishText>
+  <!-- EN: Skirmishes going badly -->
+  <TSA_WD_OutpostDefense_SkirmishLetter_Label>初步交鋒情勢不利</TSA_WD_OutpostDefense_SkirmishLetter_Label>
+  <!-- EN: The first clashes at {0} went poorly against {1}. Some defenders are wounded and garrison strength is down. Choose how to continue the defense. -->
+  <TSA_WD_OutpostDefense_SkirmishLetter_Text>在{0}與{1}的初次交戰進展不順。部分防守者受傷，駐軍戰力下降。請選擇如何繼續防守。</TSA_WD_OutpostDefense_SkirmishLetter_Text>
+  <!-- EN: Skirmishes at {0} went poorly against {1}. Defenders wounded; outpost strength reduced. -->
+  <TSA_WD_OutpostDefense_SkirmishLog>在{0}與{1}的交鋒進展不順。防守者受傷；哨站戰力下降。</TSA_WD_OutpostDefense_SkirmishLog>
+  <!-- EN: Attacker strength: {0} -->
+  <TSA_WD_OutpostDefense_AttackerStrength>進攻方戰力：{0}</TSA_WD_OutpostDefense_AttackerStrength>
+  <!-- EN: Defender strength: {0} -->
+  <TSA_WD_OutpostDefense_DefenderStrength>防守方戰力：{0}</TSA_WD_OutpostDefense_DefenderStrength>
+  <!-- EN: Defender ratio: {0}x -->
+  <TSA_WD_OutpostDefense_DefenderRatio>防守比例：{0}x</TSA_WD_OutpostDefense_DefenderRatio>
+  <!-- EN: Relative strength of your defending forces vs. the attacking forces. -->
+  <TSA_WD_OutpostDefense_DefenderRatioTip>你的防守部隊相對於進攻部隊的戰力比。</TSA_WD_OutpostDefense_DefenderRatioTip>
+  <!-- EN: This outpost is locked while a manual defense is underway. -->
+  <TSA_WD_OutpostDefense_FrozenDuringManualDefense>手動防守進行期間，此哨站已鎖定。</TSA_WD_OutpostDefense_FrozenDuringManualDefense>
+  <!-- EN: Join defense -->
+  <TSA_WD_OutpostDefense_JoinBattle>加入防守</TSA_WD_OutpostDefense_JoinBattle>
+  <!-- EN: Enter the temporary battlefield defending {0}. Extra fighters return as a caravan when the battle ends. -->
+  <TSA_WD_OutpostDefense_JoinBattleDesc>進入防守{0}的臨時戰場。戰鬥結束後，額外加入的戰鬥人員會以旅隊形式返回。</TSA_WD_OutpostDefense_JoinBattleDesc>
+  <!-- EN: Defense win likelihood: {0} -->
+  <TSA_WD_OutpostDefense_DefenderWinChance>防守勝算：{0}</TSA_WD_OutpostDefense_DefenderWinChance>
+  <!-- EN: Go to outpost -->
+  <TSA_WD_OutpostDefense_GoToOutpost>前往哨站</TSA_WD_OutpostDefense_GoToOutpost>
+  <!-- EN: View defenders -->
+  <TSA_WD_OutpostDefense_ViewDefenders>查看防守者</TSA_WD_OutpostDefense_ViewDefenders>
+  <!-- EN: Defenders at {0} -->
+  <TSA_WD_OutpostDefense_DefendersTitle>{0}的防守者</TSA_WD_OutpostDefense_DefendersTitle>
+  <!-- EN: Click a defender to inspect skills, health, equipment, and apparel. -->
+  <TSA_WD_OutpostDefense_DefendersHint>點擊防守者以查看技能、健康、裝備與衣物。</TSA_WD_OutpostDefense_DefendersHint>
+  <!-- EN: Combat strength: {0} -->
+  <TSA_WD_OutpostDefense_PawnStrength>戰鬥戰力：{0}</TSA_WD_OutpostDefense_PawnStrength>
+  <!-- EN: Unarmed -->
+  <TSA_WD_OutpostDefense_Unarmed>赤手空拳</TSA_WD_OutpostDefense_Unarmed>
+  <!-- EN: {0} apparel item(s) -->
+  <TSA_WD_OutpostDefense_ApparelCount>{0}件衣物</TSA_WD_OutpostDefense_ApparelCount>
+  <!-- EN: No apparel -->
+  <TSA_WD_OutpostDefense_NoApparel>無衣物</TSA_WD_OutpostDefense_NoApparel>
+  <!-- EN: No equipped items -->
+  <TSA_WD_OutpostDefense_NoEquipmentIcons>無裝備物品</TSA_WD_OutpostDefense_NoEquipmentIcons>
+  <!-- EN: Auto-resolve -->
+  <TSA_WD_OutpostDefense_AutoResolve>自動結算</TSA_WD_OutpostDefense_AutoResolve>
+  <!-- EN: Fight manually -->
+  <TSA_WD_OutpostDefense_FightManually>手動作戰</TSA_WD_OutpostDefense_FightManually>
+  <!-- EN: Enemies arriving in 15 seconds -->
+  <TSA_WD_OutpostDefense_Letter_Label>敵人將於15秒後抵達</TSA_WD_OutpostDefense_Letter_Label>
+  <!-- EN: {0} is being attacked by {1}. Your outpost occupants have deployed to a temporary battlefield. Enemies will arrive in about 15 seconds. -->
+  <TSA_WD_OutpostDefense_Letter_Text>{0}正遭到{1}攻擊。你的哨站駐員已部署到臨時戰場。敵人約15秒後抵達。</TSA_WD_OutpostDefense_Letter_Text>
+  <!-- EN: Enemies arriving now -->
+  <TSA_WD_OutpostDefense_LetterImmediate_Label>敵人即將抵達</TSA_WD_OutpostDefense_LetterImmediate_Label>
+  <!-- EN: {0} is being attacked by {1}. Your outpost occupants have deployed to a temporary battlefield. Enemies are arriving immediately. -->
+  <TSA_WD_OutpostDefense_LetterImmediate_Text>{0}正遭到{1}攻擊。你的哨站駐員已部署到臨時戰場。敵人立即抵達。</TSA_WD_OutpostDefense_LetterImmediate_Text>
+  <!-- EN: Outpost raid -->
+  <TSA_WD_OutpostDefense_RaidLabel>哨站突襲</TSA_WD_OutpostDefense_RaidLabel>
+  <!-- EN: Outpost defense won. {0} survivor(s) returned to {1}. -->
+  <TSA_WD_OutpostDefense_Victory>哨站防守勝利。{0}名倖存者已返回{1}。</TSA_WD_OutpostDefense_Victory>
+  <!-- EN: Outpost defense lost. Applying simulated raid defeat to {0}. -->
+  <TSA_WD_OutpostDefense_Defeat>哨站防守失敗。對{0}套用模擬突襲的失敗結果。</TSA_WD_OutpostDefense_Defeat>
+  <!-- EN: Outpost Defense Won -->
+  <TSA_WD_OutpostDefense_VictoryLetter_Label>哨站防守勝利</TSA_WD_OutpostDefense_VictoryLetter_Label>
+  <!-- EN: Your defenders at {0} defeated the attack by {1} on the temporary battlefield.\n\n{2} surviving defender(s) returned to the outpost. -->
+  <TSA_WD_OutpostDefense_VictoryLetter_Text>你在{0}的防守者於臨時戰場上擊退了{1}的攻擊。\n\n{2}名倖存的防守者已返回哨站。</TSA_WD_OutpostDefense_VictoryLetter_Text>
+  <!-- EN: Outpost Defense Lost -->
+  <TSA_WD_OutpostDefense_DefeatLetter_Label>哨站防守失敗</TSA_WD_OutpostDefense_DefeatLetter_Label>
+  <!-- EN: Your defenders at {0} were defeated by {1}.\n\nThe outpost raid has been resolved as a lost defense. -->
+  <TSA_WD_OutpostDefense_DefeatLetter_Text>你在{0}的防守者被{1}擊敗了。\n\n此次哨站突襲已判定為防守失敗。</TSA_WD_OutpostDefense_DefeatLetter_Text>
+  <!-- EN: Retreating garrison -->
+  <TSA_WD_OutpostRetreat_Letter_Label>駐軍撤退</TSA_WD_OutpostRetreat_Letter_Label>
+  <!-- EN: Some defenders escaped from {0} before it fell. {1} colonists retreated in a caravan. -->
+  <TSA_WD_OutpostRetreat_Letter_Text>部分防守者在{0}陷落前逃出。{1}名殖民者以旅隊形式撤退。</TSA_WD_OutpostRetreat_Letter_Text>
+  <!-- EN: Could not create a manual defense map for {0}; returning defenders. -->
+  <TSA_WD_OutpostDefense_MapFailed>無法為{0}建立手動防守地圖；防守者將返回。</TSA_WD_OutpostDefense_MapFailed>
+  <!-- EN: {0} extra pawn(s) returned from the temporary battlefield as a caravan at {1}. -->
+  <TSA_WD_OutpostDefense_ExtraPawnsReturned>{0}名額外角色已從臨時戰場以旅隊形式返回{1}。</TSA_WD_OutpostDefense_ExtraPawnsReturned>
+  <!-- EN: The raid on {0} by {1} failed to form. Defenders returned to the outpost. -->
+  <TSA_WD_OutpostDefense_RaidFailedToForm>{1}對{0}的突襲未能成形。防守者已返回哨站。</TSA_WD_OutpostDefense_RaidFailedToForm>
+  <!-- EN: You cannot leave the map until this fight is over. -->
+  <TSA_WD_TempEncounter_EdgeExitBlocked>這場戰鬥結束前，你無法離開地圖。</TSA_WD_TempEncounter_EdgeExitBlocked>
+  <!-- EN: Launch Attack -->
+  <TSA_WD_LaunchExpedition>發動攻擊</TSA_WD_LaunchExpedition>
+  <!-- EN: Dispatch a strike force from this outpost to raid a nearby enemy settlement or AT turret. -->
+  <TSA_WD_LaunchExpeditionDesc>從此哨站派出突擊部隊，突襲附近的敵方據點或 反戰車砲塔。</TSA_WD_LaunchExpeditionDesc>
+  <!-- EN: Incoming Raid: {0} -->
+  <TSA_WD_Letter_IncomingRaid_Label>突襲來襲：{0}</TSA_WD_Letter_IncomingRaid_Label>
+  <!-- EN: A hostile expedition from {0} has been launched! They are traveling across the world map to raid {1}.\n\nYou have time to prepare your defenses or intercept them on the world map before they arrive. -->
+  <TSA_WD_Letter_IncomingRaid_Text>來自{0}的敵對遠征隊已出發！他們正穿越世界地圖，準備突襲{1}。\n\n在他們抵達前，你還有時間準備防禦，或在世界地圖上攔截他們。</TSA_WD_Letter_IncomingRaid_Text>
+  <!-- EN: WD raid on colony launched: {0} ({1}) -->
+  <TSA_WD_Letter_IncomingRaid_Colony_Label>WD對殖民地的突襲已出發：{0}（{1}）</TSA_WD_Letter_IncomingRaid_Colony_Label>
+  <!-- EN: A hostile expedition from {0} is heading for your colony {1} across the world map.\n\nExpected raid points on arrival: {2}\nEstimated arrival in {3} days.\n\nYou have time to prepare defenses at {1} or intercept them on the world map before they arrive. -->
+  <TSA_WD_Letter_IncomingRaid_Colony_Text>來自{0}的敵對遠征隊正穿越世界地圖，前往你的殖民地{1}。\n\n抵達時預計突襲點數：{2}\n預計{3}天後抵達。\n\n在他們抵達前，你還有時間在{1}準備防禦，或在世界地圖上攔截他們。</TSA_WD_Letter_IncomingRaid_Colony_Text>
+  <!-- EN: WD raid on colony launched: {0} ({1}) -->
+  <TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Label>WD對殖民地的突襲已出發：{0}（{1}）</TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Label>
+  <!-- EN: {0} has dispatched a force from {1} against your colony {2}.\n\nExpected raid points on arrival: {3}\nEstimated arrival in {4} days.\n\nYou have time to prepare defenses at {2} or intercept them on the world map before they arrive. -->
+  <TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Text>{0}已從{1}派出部隊進攻你的殖民地{2}。\n\n抵達時預計突襲點數：{3}\n預計{4}天後抵達。\n\n在他們抵達前，你還有時間在{2}準備防禦，或在世界地圖上攔截他們。</TSA_WD_Letter_IncomingRaid_Colony_Dispatch_Text>
+  <!-- EN: WD Drop Raid incoming -->
+  <TSA_WD_Letter_IncomingDropRaid_Label>WD空降突襲來襲</TSA_WD_Letter_IncomingDropRaid_Label>
+  <!-- EN: Drop pods from {0} are inbound on your colony {1}.\n\nExpected raid points on arrival: {2}\nEstimated arrival in {3} days. -->
+  <TSA_WD_Letter_IncomingDropRaid_Text>來自{0}的運輸艙正飛往你的殖民地{1}。\n\n抵達時預計突襲點數：{2}\n預計{3}天後抵達。</TSA_WD_Letter_IncomingDropRaid_Text>
+  <!-- EN: WD Drop Raid incoming ({0}) -->
+  <TSA_WD_Letter_IncomingDropRaid_Dispatch_Label>WD空降突襲來襲（{0}）</TSA_WD_Letter_IncomingDropRaid_Dispatch_Label>
+  <!-- EN: {0} has dispatched drop pods from {1} against your colony {2}.\n\nExpected raid points on arrival: {3}\nEstimated arrival in {4} days. -->
+  <TSA_WD_Letter_IncomingDropRaid_Dispatch_Text>{0}已從{1}派出運輸艙進攻你的殖民地{2}。\n\n抵達時預計突襲點數：{3}\n預計{4}天後抵達。</TSA_WD_Letter_IncomingDropRaid_Dispatch_Text>
+  <!-- EN: WD raid on {0} launched ({1}) -->
+  <TSA_WD_Letter_IncomingRaid_Outpost_Label>WD對{0}的突襲已出發（{1}）</TSA_WD_Letter_IncomingRaid_Outpost_Label>
+  <!-- EN: A hostile expedition from {0} is heading for your outpost {1} across the world map.\n\nExpected raid points on arrival: {2}\nOutpost strength: {3}\nDefense win likelihood (auto-resolve): {4}\nEstimated arrival in {5} days.\n\nYou have time to prepare defenses or intercept them on the world map before they arrive. -->
+  <TSA_WD_Letter_IncomingRaid_Outpost_Text>來自{0}的敵對遠征隊正穿越世界地圖，前往你的哨站{1}。\n\n抵達時預計突襲點數：{2}\n哨站戰力：{3}\n防守勝算（自動結算）：{4}\n預計{5}天後抵達。\n\n在他們抵達前，你還有時間準備防禦，或在世界地圖上攔截他們。</TSA_WD_Letter_IncomingRaid_Outpost_Text>
+  <!-- EN: Beyond its normal range. -->
+  <TSA_WD_Letter_Raid_BeyondNormalRange>已超出其正常範圍。</TSA_WD_Letter_Raid_BeyondNormalRange>
+  <!-- EN: Raid party destroyed -->
+  <TSA_WD_Letter_RaidPartyDestroyed_Label>突襲隊伍已被消滅</TSA_WD_Letter_RaidPartyDestroyed_Label>
+  <!-- EN: A raid from {0} headed for {1} was destroyed on the world map before it arrived. -->
+  <TSA_WD_Letter_RaidPartyDestroyed_Text>一支來自{0}、前往{1}的突襲隊伍，在抵達之前已於世界地圖上被消滅。</TSA_WD_Letter_RaidPartyDestroyed_Text>
+  <!-- EN: Jump to attacker -->
+  <TSA_WD_Letter_IncomingRaid_JumpAttacker>跳至進攻方</TSA_WD_Letter_IncomingRaid_JumpAttacker>
+  <!-- EN: Jump to target -->
+  <TSA_WD_Letter_IncomingRaid_JumpTarget>跳至目標</TSA_WD_Letter_IncomingRaid_JumpTarget>
+  <!-- EN: Outpost Defended -->
+  <TSA_WD_Letter_OutpostDefended_Label>哨站守住了</TSA_WD_Letter_OutpostDefended_Label>
+  <!-- EN: {0} successfully repelled an attack by {1}. -->
+  <TSA_WD_Letter_OutpostDefended_Text>{0}成功擊退了{1}的攻擊。</TSA_WD_Letter_OutpostDefended_Text>
+  <!-- EN: {0} prisoner(s) were taken and held at the outpost. -->
+  <TSA_WD_Letter_OutpostDefended_Captives>已俘獲{0}名俘虜，關押在哨站中。</TSA_WD_Letter_OutpostDefended_Captives>
+  <!-- EN: Outpost Raided -->
+  <TSA_WD_Letter_OutpostRaided_Label>哨站遭突襲</TSA_WD_Letter_OutpostRaided_Label>
+  <!-- EN: {0} was overrun by {1}. Personnel lost. -->
+  <TSA_WD_Letter_OutpostRaided_Text>{0}被{1}攻陷。人員全數損失。</TSA_WD_Letter_OutpostRaided_Text>
+  <!-- EN: WD Raid: {0} -->
+  <TSA_WD_Letter_RaidPlayer_Label>WD突襲：{0}</TSA_WD_Letter_RaidPlayer_Label>
+  <!-- EN: An assault has been launched from the world map by {0}. -->
+  <TSA_WD_Letter_RaidPlayer_Text>{0}從世界地圖發動了一次攻擊。</TSA_WD_Letter_RaidPlayer_Text>
+  <!-- EN: WD raid on colony: {0} ({1}) -->
+  <TSA_WD_Letter_RaidPlayer_Colony_Label>WD突襲殖民地：{0}（{1}）</TSA_WD_Letter_RaidPlayer_Colony_Label>
+  <!-- EN: Raiders from {0} have arrived at your colony {1} and are attacking.\n\nRespond on the map immediately. -->
+  <TSA_WD_Letter_RaidPlayer_Colony_Text>來自{0}的侵略者已抵達你的殖民地{1}並發動攻擊。\n\n請立即在地圖上應對。</TSA_WD_Letter_RaidPlayer_Colony_Text>
+  <!-- EN: Attempted Raid Analysis -->
+  <TSA_WD_Log_AttemptHeader>突襲嘗試分析</TSA_WD_Log_AttemptHeader>
+  <!-- EN: Expedition Aborted -->
+  <TSA_WD_Log_AttemptHeader_Aborted>遠征已中止</TSA_WD_Log_AttemptHeader_Aborted>
+  <!-- EN: Expedition Launched -->
+  <TSA_WD_Log_AttemptHeader_Launched>遠征已出發</TSA_WD_Log_AttemptHeader_Launched>
+  <!-- EN: {0} ({2}): strength {1} -->
+  <TSA_WD_Log_Clash_Detail>{0}（{2}）：戰力{1}</TSA_WD_Log_Clash_Detail>
+  <!-- EN: RAID: Allied settlement {0} launched a raid against {1}. -->
+  <TSA_WD_Log_AlliedRaidLaunchedByPlayer>突襲：同盟據點{0}對{1}發動突襲。</TSA_WD_Log_AlliedRaidLaunchedByPlayer>
+  <!-- EN: RAID: Your outpost {0} launched a raid against {1}. -->
+  <TSA_WD_Log_PlayerRaidLaunched>突襲：你的哨站{0}對{1}發動突襲。</TSA_WD_Log_PlayerRaidLaunched>
+  <!-- EN: {0} mission cancelled: target destroyed or invalid. -->
+  <TSA_WD_Log_RaidCancelled>{0}任務已取消：目標已被摧毀或無效。</TSA_WD_Log_RaidCancelled>
+  <!-- EN: {0} (debug path) cancelled: destination became invalid. -->
+  <TSA_WD_Log_DebugRaidCancelled>{0}（除錯路徑）已取消：目的地已失效。</TSA_WD_Log_DebugRaidCancelled>
+  <!-- EN: RAID: Aborted (target no longer valid or destroyed). -->
+  <TSA_WD_Log_Raid_Aborted>突襲：已中止（目標已失效或已被摧毀）。</TSA_WD_Log_Raid_Aborted>
+  <!-- EN: RAID: Aborted (attacker in space). -->
+  <TSA_WD_Log_Raid_AbortedSpace>突襲：已中止（進攻方位於太空）。</TSA_WD_Log_Raid_AbortedSpace>
+  <!-- EN: This expedition was aborted before combat. -->
+  <TSA_WD_Log_Raid_Aborted_Detail>這次遠征在交戰前就已中止。</TSA_WD_Log_Raid_Aborted_Detail>
+  <!-- EN: RAID: Aborted (same faction). -->
+  <TSA_WD_Log_Raid_Aborted_SameFaction>突襲：已中止（同一派系）。</TSA_WD_Log_Raid_Aborted_SameFaction>
+  <!-- EN: RAID: Aborted (target despawned). -->
+  <TSA_WD_Log_Raid_Aborted_TargetDespawned>突襲：已中止（目標已消失）。</TSA_WD_Log_Raid_Aborted_TargetDespawned>
+  <!-- EN: RAID: Aborted (target no longer exists). -->
+  <TSA_WD_Log_Raid_Aborted_TargetNull>突襲：已中止（目標已不存在）。</TSA_WD_Log_Raid_Aborted_TargetNull>
+  <!-- EN: RAID: Aborted ({0} and {1} are no longer at war). Committed strength refunded. -->
+  <TSA_WD_Log_Raid_Aborted_NoLongerHostile>突襲：已中止（{0}與{1}已不再交戰）。投入的戰力已退還。</TSA_WD_Log_Raid_Aborted_NoLongerHostile>
+  <!-- EN: Garrison at {0}: {1} strength. -->
+  <TSA_WD_Log_Raid_DefBase>{0}的駐軍：{1}戰力。</TSA_WD_Log_Raid_DefBase>
+  <!-- EN: {0} ({1}) provided +{2} defense power. (Raw: {3}, Eff: {4}% over {5} tiles). -->
+  <TSA_WD_Log_Raid_DefContrib>{0}（{1}）提供+{2}防禦戰力。（原始：{3}，有效：{4}%，距離{5}格）。</TSA_WD_Log_Raid_DefContrib>
+  <!-- EN: RAID: {0} dispatched a raid against {1}. -->
+  <TSA_WD_Log_Raid_ExpeditionLaunched>突襲：{0}對{1}派出突襲。</TSA_WD_Log_Raid_ExpeditionLaunched>
+  <!-- EN: Raid expedition launched against {0}. -->
+  <TSA_WD_RaidExpeditionLaunched>已對{0}發動突襲遠征。</TSA_WD_RaidExpeditionLaunched>
+  <!-- EN: {0} dispatched a raid from {1} against {2}. -->
+  <TSA_WD_Log_Raid_FactionDispatch>{0}從{1}派出突襲，目標為{2}。</TSA_WD_Log_Raid_FactionDispatch>
+  <!-- EN: RAID: Colony chosen as target; delegated to a closer ally. -->
+  <TSA_WD_Log_Raid_ColonyDelegated>突襲：選定殖民地為目標，已委派給較近的同盟。</TSA_WD_Log_Raid_ColonyDelegated>
+  <!-- EN: RAID: Attackers were repelled. -->
+  <TSA_WD_Log_Raid_Failed>突襲：進攻方遭到擊退。</TSA_WD_Log_Raid_Failed>
+  <!-- EN: Raid intercepted: {0} walked into fortress {1} (original target: {2}). -->
+  <TSA_WD_Log_Raid_ChokeIntercept>突襲遭攔截：{0}闖入了要塞{1}（原目標：{2}）。</TSA_WD_Log_Raid_ChokeIntercept>
+  <!-- EN: Raid intercepted: {0} walked into colony {1} (original target: {2}). -->
+  <TSA_WD_Log_Raid_ChokeInterceptColony>突襲遭攔截：{0}闖入了殖民地{1}（原目標：{2}）。</TSA_WD_Log_Raid_ChokeInterceptColony>
+  <!-- EN: {0} picked a target of opportunity: {1} -> {2}. -->
+  <TSA_WD_Log_TargetOfOpportunity>{0}選擇了一個機會目標：{1} -&gt; {2}。</TSA_WD_Log_TargetOfOpportunity>
+  <!-- EN: {0} keeps marauding after victory: {1} -> {2}. -->
+  <TSA_WD_Log_Marauding>{0}勝利後繼續劫掠：{1} -&gt; {2}。</TSA_WD_Log_Marauding>
+  <!-- EN: {0} diverted to assault AT Turret {2} (was targeting {1}). -->
+  <TSA_WD_Log_AT_TurretProximityDetour>{0}改道攻擊 反戰車砲塔{2}（原目標為{1}）。</TSA_WD_Log_AT_TurretProximityDetour>
+  <!-- EN: {0} diverted to assault AT Turret {2} after being shelled (was targeting {1}). -->
+  <TSA_WD_Log_AT_TurretHitDetour>{0}遭砲擊後改道攻擊 反戰車砲塔{2}（原目標為{1}）。</TSA_WD_Log_AT_TurretHitDetour>
+  <!-- EN: {0} ({1}) clashes with {2} ({3}). -->
+  <TSA_WD_Log_AT_TurretClash>{0}（{1}）與{2}（{3}）交戰。</TSA_WD_Log_AT_TurretClash>
+  <!-- EN: {0} destroyed {1} and continues with {2} strength. -->
+  <TSA_WD_Log_AT_TurretClash_TravelerWon>{0}摧毀了{1}，並以{2}戰力繼續前進。</TSA_WD_Log_AT_TurretClash_TravelerWon>
+  <!-- EN: {0} destroyed {1} and remains at {2} strength. -->
+  <TSA_WD_Log_AT_TurretClash_TurretWon>{0}摧毀了{1}，剩餘{2}戰力。</TSA_WD_Log_AT_TurretClash_TurretWon>
+  <!-- EN: {0} and {1} destroyed each other. -->
+  <TSA_WD_Log_AT_TurretClash_Mutual>{0}與{1}同歸於盡。</TSA_WD_Log_AT_TurretClash_Mutual>
+  <!-- EN: {0} resumes original target: {1}. -->
+  <TSA_WD_Log_AT_TurretResume>{0}恢復原目標：{1}。</TSA_WD_Log_AT_TurretResume>
+  <!-- EN: {0} ambushes a passing {1}: {2}. -->
+  <TSA_WD_Log_SettlementAmbush>{0}伏擊了路過的{1}：{2}。</TSA_WD_Log_SettlementAmbush>
+  <!-- EN: {0}'s interceptor stopped the pursuit. The target escaped. -->
+  <TSA_WD_Log_SettlementAmbushPursuitStopped>{0}的攔截部隊停止了追擊。目標已逃脫。</TSA_WD_Log_SettlementAmbushPursuitStopped>
+  <!-- EN: Target escaped. Interceptor stopped the pursuit. -->
+  <TSA_WD_Message_SettlementAmbushPursuitStopped>目標已逃脫。攔截部隊停止追擊。</TSA_WD_Message_SettlementAmbushPursuitStopped>
+  <!-- EN: caravan -->
+  <TSA_WD_TargetKind_Caravan>旅隊</TSA_WD_TargetKind_Caravan>
+  <!-- EN: trader caravan -->
+  <TSA_WD_TargetKind_TraderCaravan>商隊</TSA_WD_TargetKind_TraderCaravan>
+  <!-- EN: gift caravan -->
+  <TSA_WD_TargetKind_GiftCaravan>贈禮旅隊</TSA_WD_TargetKind_GiftCaravan>
+  <!-- EN: bribe caravan -->
+  <TSA_WD_TargetKind_BribeCaravan>賄賂旅隊</TSA_WD_TargetKind_BribeCaravan>
+  <!-- EN: supply caravan -->
+  <TSA_WD_TargetKind_SupplyCaravan>補給旅隊</TSA_WD_TargetKind_SupplyCaravan>
+  <!-- EN: upgrade caravan -->
+  <TSA_WD_TargetKind_UpgradeCaravan>升級旅隊</TSA_WD_TargetKind_UpgradeCaravan>
+  <!-- EN: raid -->
+  <TSA_WD_TargetKind_Raid>突襲</TSA_WD_TargetKind_Raid>
+  <!-- EN: interceptor -->
+  <TSA_WD_TargetKind_Interceptor>攔截部隊</TSA_WD_TargetKind_Interceptor>
+  <!-- EN: Raid diverted -->
+  <TSA_WD_Letter_RaidDivertedFromPlayer_Label>突襲轉向</TSA_WD_Letter_RaidDivertedFromPlayer_Label>
+  <!-- EN: {0} spotted a target of opportunity and diverted away from you to attack {1} instead. -->
+  <TSA_WD_Letter_RaidDivertedFromPlayer_Text>{0}發現了機會目標，轉而離開你去攻擊{1}。</TSA_WD_Letter_RaidDivertedFromPlayer_Text>
+  <!-- EN: RAID: Attack on player colony. -->
+  <TSA_WD_Log_Raid_PlayerAttack>突襲：進攻玩家殖民地。</TSA_WD_Log_Raid_PlayerAttack>
+  <!-- EN: RAID: {0} skipped (available raid power {1}; minimum 50 required). -->
+  <TSA_WD_Log_Raid_SkippedLowRaidPower>突襲：{0}已略過（可用突襲戰力{1}；至少需要50）。</TSA_WD_Log_Raid_SkippedLowRaidPower>
+  <!-- EN: RAID: {0} skipped (strength {1}; needs {2} to launch raids at this tier). -->
+  <TSA_WD_Log_Raid_SkippedLowStrength>突襲：{0}已略過（戰力{1}；此等級需要{2}才能發動突襲）。</TSA_WD_Log_Raid_SkippedLowStrength>
+  <!-- EN: RAID: skipped (no valid target in range). -->
+  <TSA_WD_Log_Raid_SkippedNoTarget>突襲：已略過（範圍內沒有有效目標）。</TSA_WD_Log_Raid_SkippedNoTarget>
+  <!-- EN: Band {0} picked. -->
+  <TSA_WD_Log_Raid_BandPicked>選定區段{0}。</TSA_WD_Log_Raid_BandPicked>
+  <!-- EN: Band {0} picked but no valid target. Fallback Band {1}. -->
+  <TSA_WD_Log_Raid_BandFallback>選定區段{0}但無有效目標。退而選擇區段{1}。</TSA_WD_Log_Raid_BandFallback>
+  <!-- EN: Outpost incident at {0}: lost {1} defensive strength ({2} → {3}). -->
+  <TSA_WD_Log_OutpostIncident>{0}發生哨站事件：損失{1}防禦戰力（{2} → {3}）。</TSA_WD_Log_OutpostIncident>
+  <!-- EN: Outpost incident destroyed {0}: lost {1} strength (offense {2}, defense {3}). Ruins remain. -->
+  <TSA_WD_Log_OutpostIncident_Destroyed>哨站事件摧毀了{0}：損失{1}戰力（進攻{2}，防禦{3}）。留下廢墟。</TSA_WD_Log_OutpostIncident_Destroyed>
+  <!-- EN: Outpost incident: {0} -->
+  <TSA_WD_Letter_OutpostIncident_Label>哨站事件：{0}</TSA_WD_Letter_OutpostIncident_Label>
+  <!-- EN: A minor world incident has reduced defensive strength at {0} by {1}. -->
+  <TSA_WD_Letter_OutpostIncident_Text>一起小型世界事件使{0}的防禦戰力減少了{1}。</TSA_WD_Letter_OutpostIncident_Text>
+  <!-- EN: Outpost destroyed: {0} -->
+  <TSA_WD_Letter_OutpostIncidentDestroyed_Label>哨站已被摧毀：{0}</TSA_WD_Letter_OutpostIncidentDestroyed_Label>
+  <!-- EN: A world incident wiped out {0} (lost {1} strength). Ruins remain for a while and block new outposts nearby. -->
+  <TSA_WD_Letter_OutpostIncidentDestroyed_Text>一起世界事件摧毀了{0}（損失{1}戰力）。廢墟會殘留一段時間，期間附近無法建立新哨站。</TSA_WD_Letter_OutpostIncidentDestroyed_Text>
+  <!-- EN: RAID: {0} was conquered. -->
+  <TSA_WD_Log_Raid_Successful>突襲：{0}已被征服。</TSA_WD_Log_Raid_Successful>
+  <!-- EN: Garrison retain floor: {0} Strength -->
+  <TSA_WD_MinGarrisonCap>駐軍保留下限：{0}戰力</TSA_WD_MinGarrisonCap>
+  <!-- EN: Garrison retain (%) -->
+  <TSA_WD_Raid_GarrisonRetain>駐軍保留（%）</TSA_WD_Raid_GarrisonRetain>
+  <!-- EN: Settlements and outposts always keep at least this percentage of their maximum strength at home when sending a raid, trader caravan, or building crew (roads, roadblocks, spike traps, fortify). Tier max for settlements, occupant max for outposts. Decontamination crews are exempt. Primary attackers and allies use the same rule for raids. -->
+  <TSA_WD_Raid_GarrisonRetainTooltip>據點與哨站在派出突襲、商隊或施工隊（道路、路障、尖刺陷阱、設防）時，至少會在本地保留最大戰力的此百分比。據點以等級上限計算，哨站以駐員上限計算。淨化小隊不受限制。主要進攻方與同盟發動突襲時也套用相同規則。</TSA_WD_Raid_GarrisonRetainTooltip>
+  <!-- EN: Of {0} Current Strength -->
+  <TSA_WD_OfCurrentStrength>佔目前戰力{0}</TSA_WD_OfCurrentStrength>
+  <!-- EN: Of {0} Current Off. Strength -->
+  <TSA_WD_OfCurrentOffStrength>佔目前進攻戰力{0}</TSA_WD_OfCurrentOffStrength>
+  <!-- EN: Strength at Arrival -->
+  <TSA_WD_PredictedEfficiency>抵達時戰力</TSA_WD_PredictedEfficiency>
+  <!-- EN: Primary -->
+  <TSA_WD_Primary>主要</TSA_WD_Primary>
+  <!-- EN: Primary Attacker -->
+  <TSA_WD_PrimaryAttacker>主要進攻方</TSA_WD_PrimaryAttacker>
+  <!-- EN: Raid Analysis -->
+  <TSA_WD_RaidAnalysis>突襲分析</TSA_WD_RaidAnalysis>
+  <!-- EN: Raid Analysis (Preview) -->
+  <TSA_WD_RaidAnalysis_OutpostPreview>突襲分析（預覽）</TSA_WD_RaidAnalysis_OutpostPreview>
+  <!-- EN: Defeat -->
+  <TSA_WD_RaidDet_Defeat>失敗</TSA_WD_RaidDet_Defeat>
+  <!-- EN: Victory -->
+  <TSA_WD_RaidDet_Victory>勝利</TSA_WD_RaidDet_Victory>
+  <!-- EN: Raid: {0} -->
+  <TSA_WD_RaidLabel>突襲：{0}</TSA_WD_RaidLabel>
+  <!-- EN: Raid points: x{0} -->
+  <TSA_WD_RaidPointsMult>突襲點數：x{0}</TSA_WD_RaidPointsMult>
+  <!-- EN: Raid Resolved -->
+  <TSA_WD_RaidResolution_Header>突襲結算</TSA_WD_RaidResolution_Header>
+  <!-- EN: Allow Player Outposts to be Raided -->
+  <TSA_WD_Raid_AllowOutpost>允許玩家哨站遭到突襲</TSA_WD_Raid_AllowOutpost>
+  <!-- EN: If enabled, NPC settlements can launch simulated raids against your Outposts in range. -->
+  <TSA_WD_Raid_AllowOutpostTooltip>啟用後，範圍內的NPC據點可對你的哨站發動模擬突襲。</TSA_WD_Raid_AllowOutpostTooltip>
+  <!-- EN: Allow Player Colony to be Raided -->
+  <TSA_WD_Raid_AllowPlayer>允許玩家殖民地遭到突襲</TSA_WD_Raid_AllowPlayer>
+  <!-- EN: If enabled, NPC settlements within range can launch actual raids against your colony map. -->
+  <TSA_WD_Raid_AllowPlayerTooltip>啟用後，範圍內的NPC據點可對你的殖民地地圖發動實際突襲。</TSA_WD_Raid_AllowPlayerTooltip>
+  <!-- EN: Ally pull radius -->
+  <TSA_WD_Raid_AllyRadius>同盟召集半徑</TSA_WD_Raid_AllyRadius>
+  <!-- EN: Base world-tile radius for same-faction and allied-faction neighbors that can join attacks or defenses. Mid/Late Game can raise the base. Tunnel Network adds an outer ring that only pulls other outposts with Tunnel Network. -->
+  <TSA_WD_Raid_AllyRadiusTooltip>可加入進攻或防守的同派系與同盟派系鄰居的基礎世界地塊半徑。中期／後期階段可提高基礎值。「隧道網路」會增加一圈外環，只召集同樣擁有隧道網路的其他哨站。</TSA_WD_Raid_AllyRadiusTooltip>
+  <!-- EN: Player Raid Cooldown -->
+  <TSA_WD_Raid_CdPlayer>玩家突襲冷卻</TSA_WD_Raid_CdPlayer>
+  <!-- EN: How many days must pass before your colony can be targeted again by a world-triggered raid. -->
+  <TSA_WD_Raid_CdPlayerTooltip>你的殖民地再次成為世界突襲目標前必須經過的天數。</TSA_WD_Raid_CdPlayerTooltip>
+  <!-- EN: Max player WD raids per day -->
+  <TSA_WD_Raid_MaxPerDay>每天針對玩家的WD突襲上限</TSA_WD_Raid_MaxPerDay>
+  <!-- EN: Global limit on World Domination world raids against your colonies and outposts combined in any 1-day window. Stacks on top of per-colony and per-outpost raid cooldowns. Does not affect storyteller raids. -->
+  <TSA_WD_Raid_MaxPerDayTooltip>任意1天內，World Domination世界突襲對你的殖民地與哨站合計的全域上限。與各殖民地、各哨站的突襲冷卻疊加。不影響故事敘述者的突襲。</TSA_WD_Raid_MaxPerDayTooltip>
+  <!-- EN: Max player WD raids per 4 days -->
+  <TSA_WD_Raid_MaxPer4Days>每4天針對玩家的WD突襲上限</TSA_WD_Raid_MaxPer4Days>
+  <!-- EN: Global limit on World Domination world raids against your colonies and outposts combined in any 4-day window. Cannot be lower than the per-day limit. Stacks on top of per-target cooldowns. Does not affect storyteller raids. -->
+  <TSA_WD_Raid_MaxPer4DaysTooltip>任意4天內，World Domination世界突襲對你的殖民地與哨站合計的全域上限。不能低於每天上限。與各目標的冷卻疊加。不影響故事敘述者的突襲。</TSA_WD_Raid_MaxPer4DaysTooltip>
+  <!-- EN: Max player WD raids per 7 days -->
+  <TSA_WD_Raid_MaxPer7Days>每7天針對玩家的WD突襲上限</TSA_WD_Raid_MaxPer7Days>
+  <!-- EN: Global limit on World Domination world raids against your colonies and outposts combined in any 7-day window. Cannot be lower than the per-4-day limit. Stacks on top of per-target cooldowns. Does not affect storyteller raids. -->
+  <TSA_WD_Raid_MaxPer7DaysTooltip>任意7天內，World Domination世界突襲對你的殖民地與哨站合計的全域上限。不能低於每4天上限。與各目標的冷卻疊加。不影響故事敘述者的突襲。</TSA_WD_Raid_MaxPer7DaysTooltip>
+  <!-- EN: Player raiding is currently disabled. -->
+  <TSA_WD_Raid_DisabledPlayer>對玩家的突襲目前已停用。</TSA_WD_Raid_DisabledPlayer>
+  <!-- EN: Battle Outcome Tiers (Auto-Balancing) -->
+  <TSA_WD_Raid_HeaderOutcome>戰鬥結果等級（自動平衡）</TSA_WD_Raid_HeaderOutcome>
+  <!-- EN: World Raids on Player Colony -->
+  <TSA_WD_Raid_HeaderPlayer>對玩家殖民地的世界突襲</TSA_WD_Raid_HeaderPlayer>
+  <!-- EN: World Raid Simulation Parameters -->
+  <TSA_WD_Raid_HeaderSim>世界突襲模擬參數</TSA_WD_Raid_HeaderSim>
+  <!-- EN: Pre-raid exact path and travel cost calculation -->
+  <TSA_WD_Raid_TravelPrepExactPct>突襲前精確路徑與移動成本計算</TSA_WD_Raid_TravelPrepExactPct>
+  <!-- EN: Share of raid/trader destination prep assessments that use full world pathfinding (FindPath). 0% always uses the crow-flies heuristic (often the biggest performance gain on huge worlds). 100% always pathfinds. In between, a deterministic cadence uses exact pathing that share of the time. Prep can understate mountain/sea detours (e.g. real path 4× longer), so a raid may launch that arrives weaker: acceptable fog of war, not a bug. Launch still uses a real path. Also managed by Setting presets → Performance when you use those packs. -->
+  <TSA_WD_Raid_TravelPrepExactPctTip>突襲／商人目的地準備評估中，使用完整世界尋路（FindPath）的比例。0%一律使用直線距離估算（在超大世界上通常是最大的效能提升）。100%一律尋路。介於兩者之間時，會以固定節奏在該比例的次數中使用精確尋路。準備階段可能低估繞過山脈／海洋的距離（例如實際路徑長4倍），因此突襲抵達時可能較弱：這是可接受的戰爭迷霧，不是bug。實際出發時仍使用真實路徑。使用設定預設集時，也會由「設定預設集 → 效能」管理。</TSA_WD_Raid_TravelPrepExactPctTip>
+  <!-- EN: Strength Attrition (% per hour) -->
+  <TSA_WD_Raid_LossPerHour>戰力耗損（每小時%）</TSA_WD_Raid_LossPerHour>
+  <!-- EN: The percentage of current strength lost every hour during travel. The longer a raid force is on the road, the more strength they lose. -->
+  <TSA_WD_Raid_LossPerHourTooltip>移動期間每小時損失的目前戰力百分比。突襲部隊在路上的時間越長，損失的戰力就越多。</TSA_WD_Raid_LossPerHourTooltip>
+  <!-- EN: Max Travel Duration (Days) -->
+  <TSA_WD_Raid_MaxTravelDays>最長移動時間（天）</TSA_WD_Raid_MaxTravelDays>
+  <!-- EN: The hard limit for how long a WD Traveler (Raid, Expansion, Road Building Caravan) can remain in the field. If a caravan reaches this limit before hitting its target, the mission is aborted and the force is lost. -->
+  <TSA_WD_Raid_MaxTravelDaysTooltip>WD旅行者（突襲、擴張、築路旅隊）可在野外停留的硬性上限。若旅隊在抵達目標前達到此上限，任務即中止，部隊全數損失。</TSA_WD_Raid_MaxTravelDaysTooltip>
+  <!-- EN: Raid arrival styles -->
+  <TSA_WD_Raid_HeaderArrivalStyles>突襲抵達方式</TSA_WD_Raid_HeaderArrivalStyles>
+  <!-- EN: T3 drop-pod raid chance -->
+  <TSA_WD_Raid_DropPodChanceT3>T3空降突襲機率</TSA_WD_Raid_DropPodChanceT3>
+  <!-- EN: When a tier-3 settlement launches a raid and meets the tech gate, this is the chance it uses ballistic drop pods instead of a walking caravan. Same attrition formula as T4 drop pods. -->
+  <TSA_WD_Raid_DropPodChanceT3Tip>3級據點發動突襲且符合科技門檻時，改用彈道式運輸艙而非步行旅隊的機率。耗損公式與T4運輸艙相同。</TSA_WD_Raid_DropPodChanceT3Tip>
+  <!-- EN: T4 drop-pod raid chance -->
+  <TSA_WD_Raid_DropPodChance>T4空降突襲機率</TSA_WD_Raid_DropPodChance>
+  <!-- EN: When a tier-4 settlement launches a raid and meets the tech gate, this is the chance it uses ballistic drop pods instead of a walking caravan. Launch gate, letter, and arrival strength all use the same drop-pod attrition formula. -->
+  <TSA_WD_Raid_DropPodChanceTip>4級據點發動突襲且符合科技門檻時，改用彈道式運輸艙而非步行旅隊的機率。出發門檻、信件與抵達戰力都使用相同的運輸艙耗損公式。</TSA_WD_Raid_DropPodChanceTip>
+  <!-- EN: Drop-pod raids: min tech level -->
+  <TSA_WD_Raid_DropPodMinTech>空降突襲：最低科技等級</TSA_WD_Raid_DropPodMinTech>
+  <!-- EN: Only factions at this tech level or higher may launch drop-pod raids. Neolithic allows essentially all factions. -->
+  <TSA_WD_Raid_DropPodMinTechTip>只有達到此科技等級以上的派系才能發動空降突襲。選「原始部落」基本上等於所有派系皆可。</TSA_WD_Raid_DropPodMinTechTip>
+  <!-- EN: Drop-pod attrition multiplier -->
+  <TSA_WD_Raid_DropPodAttritionMult>空降耗損倍率</TSA_WD_Raid_DropPodAttritionMult>
+  <!-- EN: Multiplies strength loss per hour for drop-pod raids. Attrition uses crow-flies distance (ignore terrain) and is applied at launch so gate, letter, and traveler strength match. -->
+  <TSA_WD_Raid_DropPodAttritionMultTip>空降突襲每小時戰力損失的倍率。耗損以直線距離計算（忽略地形），並在出發時套用，讓門檻、信件與旅行者戰力一致。</TSA_WD_Raid_DropPodAttritionMultTip>
+  <!-- EN: Colony siege chance (walk raids) -->
+  <TSA_WD_Raid_ColonySiegeChance>殖民地圍攻機率（步行突襲）</TSA_WD_Raid_ColonySiegeChance>
+  <!-- EN: When a normal (walking) raid caravan from a T3 or T4 settlement arrives at your colony, chance the map raid uses the Siege strategy. Drop-pod raids never roll siege. -->
+  <TSA_WD_Raid_ColonySiegeChanceTip>來自T3或T4據點的一般（步行）突襲旅隊抵達你的殖民地時，地圖突襲採用圍攻策略的機率。空降突襲不會判定圍攻。</TSA_WD_Raid_ColonySiegeChanceTip>
+  <!-- EN: Min Strength Ratio -->
+  <TSA_WD_Raid_MinRatio>最低戰力比</TSA_WD_Raid_MinRatio>
+  <!-- EN: Minimum strength advantage required for an NPC to consider a raid on an outpost or NPC settlement viable. Raids on your colony use a separate storyteller-points gate: attackers need at least 0.7× those points, then −0.2× per quiet day (floor 0). Quiet means days since a WD raid last launched at the colony. When a settlement would raid the colony, the nearest same-faction settlement that still passes that gate launches instead. -->
+  <TSA_WD_Raid_MinRatioTooltip>NPC認定對哨站或NPC據點的突襲可行所需的最低戰力優勢。對你殖民地的突襲則使用另一個故事敘述者點數門檻：進攻方至少需要該點數的0.7×，每個平靜日再−0.2×（下限0）。平靜日指距離上次WD突襲對該殖民地出發的天數。當某據點要突襲殖民地時，會改由仍通過該門檻、最近的同派系據點出發。</TSA_WD_Raid_MinRatioTooltip>
+  <!-- EN: Raze Chance -->
+  <TSA_WD_Raid_RazeChance>夷平機率</TSA_WD_Raid_RazeChance>
+  <!-- EN: Chance that a successful automatic NPC raid razes the target instead of founding a conqueror settlement. Razed tiles leave timed ruins that block new settlements and outposts nearby until they clear. -->
+  <TSA_WD_Raid_RazeChanceTooltip>NPC自動突襲成功時，夷平目標而非建立征服者據點的機率。被夷平的地塊會留下限時廢墟，在消失前阻擋附近建立新據點與哨站。</TSA_WD_Raid_RazeChanceTooltip>
+  <!-- EN: Ruin linger (days) -->
+  <TSA_WD_Raid_RuinLingerDays>廢墟殘留（天）</TSA_WD_Raid_RuinLingerDays>
+  <!-- EN: How long WD settlement ruins remain on the map after a raze. They use the same neighbor blocking distance as settlements and outposts, then despawn. -->
+  <TSA_WD_Raid_RuinLingerDaysTooltip>WD據點廢墟在夷平後留在地圖上的時間。它們使用與據點、哨站相同的鄰近阻擋距離，之後便會消失。</TSA_WD_Raid_RuinLingerDaysTooltip>
+  <!-- EN: Reset this Page to Defaults -->
+  <TSA_WD_Raid_Reset>將此頁重設為預設值</TSA_WD_Raid_Reset>
+  <!-- EN: Target Search Range -->
+  <TSA_WD_Raid_TargetRad>目標搜尋範圍</TSA_WD_Raid_TargetRad>
+  <!-- EN: Max distance (in tiles) a settlement will look to find a target. -->
+  <TSA_WD_Raid_TargetRadTooltip>據點尋找目標時的最大距離（格）。</TSA_WD_Raid_TargetRadTooltip>
+  <!-- EN: NPC Attack Range -->
+  <TSA_WD_Raid_AttackRangeHeader>NPC攻擊範圍</TSA_WD_Raid_AttackRangeHeader>
+  <!-- EN: T1 baseline range -->
+  <TSA_WD_Raid_T1AttackRange>T1基準範圍</TSA_WD_Raid_T1AttackRange>
+  <!-- EN: Base attack search radius (tiles) for tier 1 NPC settlements, before Mid/Late and settlement age. -->
+  <TSA_WD_Raid_T1AttackRangeTooltip>1級NPC據點的基礎攻擊搜尋半徑（格），未計中期／後期與據點年齡。</TSA_WD_Raid_T1AttackRangeTooltip>
+  <!-- EN: T2 baseline range -->
+  <TSA_WD_Raid_T2AttackRange>T2基準範圍</TSA_WD_Raid_T2AttackRange>
+  <!-- EN: Base attack search radius (tiles) for tier 2 NPC settlements, before Mid/Late and settlement age. -->
+  <TSA_WD_Raid_T2AttackRangeTooltip>2級NPC據點的基礎攻擊搜尋半徑（格），未計中期／後期與據點年齡。</TSA_WD_Raid_T2AttackRangeTooltip>
+  <!-- EN: T3 baseline range -->
+  <TSA_WD_Raid_T3AttackRange>T3基準範圍</TSA_WD_Raid_T3AttackRange>
+  <!-- EN: Base attack search radius (tiles) for tier 3 NPC settlements, before Mid/Late and settlement age. -->
+  <TSA_WD_Raid_T3AttackRangeTooltip>3級NPC據點的基礎攻擊搜尋半徑（格），未計中期／後期與據點年齡。</TSA_WD_Raid_T3AttackRangeTooltip>
+  <!-- EN: T4 baseline range -->
+  <TSA_WD_Raid_T4AttackRange>T4基準範圍</TSA_WD_Raid_T4AttackRange>
+  <!-- EN: Base attack search radius (tiles) for tier 4 NPC settlements, before Mid/Late and settlement age. -->
+  <TSA_WD_Raid_T4AttackRangeTooltip>4級NPC據點的基礎攻擊搜尋半徑（格），未計中期／後期與據點年齡。</TSA_WD_Raid_T4AttackRangeTooltip>
+  <!-- EN: Settlement age range bonus -->
+  <TSA_WD_Raid_AttackRangeTimeBonus>據點年齡範圍加成</TSA_WD_Raid_AttackRangeTimeBonus>
+  <!-- EN: Maximum percentage added to that settlement's attack range after it ages to Days to max age. Tier changes do not reset age. Scales from founding day 0 to Days to max age. -->
+  <TSA_WD_Raid_AttackRangeTimeBonusTooltip>據點年齡達到「達到最大年齡天數」後，攻擊範圍增加的最大百分比。等級變化不會重置年齡。從建立當天（第0天）起線性增加至「達到最大年齡天數」。</TSA_WD_Raid_AttackRangeTimeBonusTooltip>
+  <!-- EN: Days to max age bonus -->
+  <TSA_WD_Raid_AttackRangeDaysToMax>達到最大年齡加成天數</TSA_WD_Raid_AttackRangeDaysToMax>
+  <!-- EN: In-game days of settlement age until its attack range reaches the full age bonus. -->
+  <TSA_WD_Raid_AttackRangeDaysToMaxTooltip>據點攻擊範圍達到完整年齡加成所需的遊戲內天數。</TSA_WD_Raid_AttackRangeDaysToMaxTooltip>
+  <!-- EN: Player outpost attack range -->
+  <TSA_WD_Raid_PlayerOutpostAttackRange>玩家哨站攻擊範圍</TSA_WD_Raid_PlayerOutpostAttackRange>
+  <!-- EN: Max distance (tiles) when manually launching raids from player outposts. Does not affect NPC settlement range. -->
+  <TSA_WD_Raid_PlayerOutpostAttackRangeTooltip>從玩家哨站手動發動突襲時的最大距離（格）。不影響NPC據點的範圍。</TSA_WD_Raid_PlayerOutpostAttackRangeTooltip>
+  <!-- EN: Force Breakdown -->
+  <TSA_WD_ReinforcementBreakdown>兵力明細</TSA_WD_ReinforcementBreakdown>
+  <!-- EN: Reinforcements: {0} -->
+  <TSA_WD_ReinforcementsArrived>援軍：{0}</TSA_WD_ReinforcementsArrived>
+  <!-- EN: Enemy Reinforcements in ({0}) -->
+  <TSA_WD_ReinforcementsIncoming_Label>敵方援軍（{0}）</TSA_WD_ReinforcementsIncoming_Label>
+  <!-- EN: {0} forces have been diverted to support the defense and are estimated to arrive in {1}. -->
+  <TSA_WD_ReinforcementsIncoming_Text>{0}的部隊已轉往支援防守，預計{1}後抵達。</TSA_WD_ReinforcementsIncoming_Text>
+  <!-- EN: Efficiency After Travel -->
+  <TSA_WD_ResultingEfficiencyFactor>移動後效率</TSA_WD_ResultingEfficiencyFactor>
+  <!-- EN: Exceeds max travel days ({0} > {1}) -->
+  <TSA_WD_TravelExceedsMaxDays>超過最長移動天數（{0} &gt; {1}）</TSA_WD_TravelExceedsMaxDays>
+  <!-- EN: same faction -->
+  <TSA_WD_SameFaction>同一派系</TSA_WD_SameFaction>
+  <!-- EN: Cannot be Raided -->
+  <TSA_WD_Status_DefShielded>無法被突襲</TSA_WD_Status_DefShielded>
+  <!-- EN: Can be Raided -->
+  <TSA_WD_Status_DefVulnerable>可被突襲</TSA_WD_Status_DefVulnerable>
+  <!-- EN: Colony can be raided -->
+  <TSA_WD_Status_ColonyDefVulnerable>殖民地可被突襲</TSA_WD_Status_ColonyDefVulnerable>
+  <!-- EN: Cannot launch Raids -->
+  <TSA_WD_Status_RaidCooldown>無法發動突襲</TSA_WD_Status_RaidCooldown>
+  <!-- EN: Can Raid -->
+  <TSA_WD_Status_RaidReady>可發動突襲</TSA_WD_Status_RaidReady>
+  <!-- EN: Strength after: {0} -->
+  <TSA_WD_StrengthAfter>戰後戰力：{0}</TSA_WD_StrengthAfter>
+  <!-- EN: Target -->
+  <TSA_WD_Target>目標</TSA_WD_Target>
+  <!-- EN: Success Probability -->
+  <TSA_WD_WinChance>成功機率</TSA_WD_WinChance>
+  <!-- EN: Decisive victory -->
+  <TSA_WD_Margin_AttWinDecisive>決定性勝利</TSA_WD_Margin_AttWinDecisive>
+  <!-- EN: Normal victory -->
+  <TSA_WD_Margin_AttWinNormal>一般勝利</TSA_WD_Margin_AttWinNormal>
+  <!-- EN: Close victory -->
+  <TSA_WD_Margin_AttWinClose>險勝</TSA_WD_Margin_AttWinClose>
+  <!-- EN: Decisive defeat -->
+  <TSA_WD_Margin_DefWinDecisive>決定性失敗</TSA_WD_Margin_DefWinDecisive>
+  <!-- EN: Normal defeat -->
+  <TSA_WD_Margin_DefWinNormal>一般失敗</TSA_WD_Margin_DefWinNormal>
+  <!-- EN: Close defeat -->
+  <TSA_WD_Margin_DefWinClose>惜敗</TSA_WD_Margin_DefWinClose>
+  <!-- EN: Clean sweep; defenders routed. -->
+  <TSA_WD_MarginFlavor_AttWinDecisive>完勝；防守方潰散。</TSA_WD_MarginFlavor_AttWinDecisive>
+  <!-- EN: Target taken with moderate losses. -->
+  <TSA_WD_MarginFlavor_AttWinNormal>以中等損失拿下目標。</TSA_WD_MarginFlavor_AttWinNormal>
+  <!-- EN: Hard-fought win; heavy casualties on both sides. -->
+  <TSA_WD_MarginFlavor_AttWinClose>苦戰獲勝；雙方皆傷亡慘重。</TSA_WD_MarginFlavor_AttWinClose>
+  <!-- EN: Attackers routed; most strength lost. -->
+  <TSA_WD_MarginFlavor_DefWinDecisive>進攻方潰散；大部分戰力損失。</TSA_WD_MarginFlavor_DefWinDecisive>
+  <!-- EN: Attackers repelled with significant losses. -->
+  <TSA_WD_MarginFlavor_DefWinNormal>進攻方遭擊退，損失慘重。</TSA_WD_MarginFlavor_DefWinNormal>
+  <!-- EN: Tactical retreat; most of the expedition survives. -->
+  <TSA_WD_MarginFlavor_DefWinClose>戰術撤退；遠征隊大多倖存。</TSA_WD_MarginFlavor_DefWinClose>
+  <!-- EN: Win type if victorious -->
+  <TSA_WD_RaidForecast_WinType>若勝利的勝利類型</TSA_WD_RaidForecast_WinType>
+  <!-- EN: Loss type if raid fails -->
+  <TSA_WD_RaidForecast_LossType>若突襲失敗的失敗類型</TSA_WD_RaidForecast_LossType>
+  <!-- EN: Win type if defense holds -->
+  <TSA_WD_RaidForecast_DefWinType>若守住防線的勝利類型</TSA_WD_RaidForecast_DefWinType>
+  <!-- EN: Loss type if defense fails -->
+  <TSA_WD_RaidForecast_DefLossType>若防守失敗的失敗類型</TSA_WD_RaidForecast_DefLossType>
+  <!-- EN: Likelihood: {0}% -->
+  <TSA_WD_RaidForecast_SegmentLikelihood>可能性：{0}%</TSA_WD_RaidForecast_SegmentLikelihood>
+  <!-- EN: Strength loss: {0}% -->
+  <TSA_WD_RaidForecast_SegmentStrengthLoss>戰力損失：{0}%</TSA_WD_RaidForecast_SegmentStrengthLoss>
+  <!-- EN: retreated -->
+  <TSA_WD_RaidLog_Retreated>已撤退</TSA_WD_RaidLog_Retreated>
+  <!-- EN: Attacker Victory -->
+  <TSA_WD_RaidResolution_AttackerVictory>進攻方勝利</TSA_WD_RaidResolution_AttackerVictory>
+  <!-- EN: Attacker Defeat -->
+  <TSA_WD_RaidResolution_AttackerDefeat>進攻方失敗</TSA_WD_RaidResolution_AttackerDefeat>
+  <!-- EN: Defender Victory -->
+  <TSA_WD_RaidResolution_DefenderVictory>防守方勝利</TSA_WD_RaidResolution_DefenderVictory>
+  <!-- EN: Defender Defeat -->
+  <TSA_WD_RaidResolution_DefenderDefeat>防守方失敗</TSA_WD_RaidResolution_DefenderDefeat>
+  <!-- EN: {0}: -{1}% strength -->
+  <TSA_WD_RaidResolution_MarginLoss>{0}：戰力-{1}%</TSA_WD_RaidResolution_MarginLoss>
+  <!-- EN: Attacker strength lost: {0}% -->
+  <TSA_WD_RaidResolution_AttLoss>進攻方戰力損失：{0}%</TSA_WD_RaidResolution_AttLoss>
+  <!-- EN: Defender strength lost: {0}% -->
+  <TSA_WD_RaidResolution_DefLoss>防守方戰力損失：{0}%</TSA_WD_RaidResolution_DefLoss>
+  <!-- EN: Order Road for Player -->
+  <TSA_WD_OrderedRoad_GizmoLabel>委託為玩家修路</TSA_WD_OrderedRoad_GizmoLabel>
+  <!-- EN: Pay goodwill to have this settlement build a road toward a destination you choose. -->
+  <TSA_WD_OrderedRoad_GizmoDesc>支付友好度，讓此據點朝你選擇的目的地修建道路。</TSA_WD_OrderedRoad_GizmoDesc>
+  <!-- EN: Already building a road for you. -->
+  <TSA_WD_OrderedRoad_AlreadyBuilding>已在為你修建道路。</TSA_WD_OrderedRoad_AlreadyBuilding>
+  <!-- EN: Settlement is busy with another road project. -->
+  <TSA_WD_OrderedRoad_SettlementBusy>此據點正忙於另一項道路工程。</TSA_WD_OrderedRoad_SettlementBusy>
+  <!-- EN: Building road to {0} ({1}%) -->
+  <TSA_WD_OrderedRoad_Status>正修建通往{0}的道路（{1}%）</TSA_WD_OrderedRoad_Status>
+  <!-- EN: Cancel the player-ordered road. Unbuilt segments refund goodwill. -->
+  <TSA_WD_OrderedRoad_CancelDesc>取消玩家委託的道路。未建成的路段會退還友好度。</TSA_WD_OrderedRoad_CancelDesc>
+  <!-- EN: Order road from {0} -->
+  <TSA_WD_OrderedRoad_PreviewTitle>向{0}委託修路</TSA_WD_OrderedRoad_PreviewTitle>
+  <!-- EN: Road project -->
+  <TSA_WD_OrderedRoad_PreviewSectionProject>道路工程</TSA_WD_OrderedRoad_PreviewSectionProject>
+  <!-- EN: Goodwill -->
+  <TSA_WD_OrderedRoad_PreviewSectionCost>友好度</TSA_WD_OrderedRoad_PreviewSectionCost>
+  <!-- EN: Destination -->
+  <TSA_WD_OrderedRoad_PreviewLabelTarget>目的地</TSA_WD_OrderedRoad_PreviewLabelTarget>
+  <!-- EN: Road type -->
+  <TSA_WD_OrderedRoad_PreviewLabelRoadType>道路類型</TSA_WD_OrderedRoad_PreviewLabelRoadType>
+  <!-- EN: Segments to build -->
+  <TSA_WD_OrderedRoad_PreviewLabelSegments>待建路段</TSA_WD_OrderedRoad_PreviewLabelSegments>
+  <!-- EN: Est. days per segment -->
+  <TSA_WD_OrderedRoad_PreviewLabelDaysPerSegment>每路段預估天數</TSA_WD_OrderedRoad_PreviewLabelDaysPerSegment>
+  <!-- EN: Goodwill per segment -->
+  <TSA_WD_OrderedRoad_PreviewLabelPerSegment>每路段友好度</TSA_WD_OrderedRoad_PreviewLabelPerSegment>
+  <!-- EN: Total upfront cost -->
+  <TSA_WD_OrderedRoad_PreviewLabelTotal>預付總成本</TSA_WD_OrderedRoad_PreviewLabelTotal>
+  <!-- EN: {0} goodwill -->
+  <TSA_WD_OrderedRoad_PreviewTotalValue>{0}友好度</TSA_WD_OrderedRoad_PreviewTotalValue>
+  <!-- EN: Current goodwill -->
+  <TSA_WD_OrderedRoad_PreviewLabelCurrentGoodwill>目前友好度</TSA_WD_OrderedRoad_PreviewLabelCurrentGoodwill>
+  <!-- EN: Cannot afford -->
+  <TSA_WD_OrderedRoad_PreviewLabelCannotAfford>負擔不起</TSA_WD_OrderedRoad_PreviewLabelCannotAfford>
+  <!-- EN: Costs {0} goodwill. You have {1}; at least {2} goodwill must remain. -->
+  <TSA_WD_OrderedRoad_PreviewCannotAfford>需花費{0}友好度。你目前有{1}；至少須保留{2}友好度。</TSA_WD_OrderedRoad_PreviewCannotAfford>
+  <!-- EN: Confirm order -->
+  <TSA_WD_OrderedRoad_Confirm>確認委託</TSA_WD_OrderedRoad_Confirm>
+  <!-- EN: {0} will build a road toward {1}. -->
+  <TSA_WD_OrderedRoad_Started>{0}將朝{1}修建道路。</TSA_WD_OrderedRoad_Started>
+  <!-- EN: Cancel ordered road? -->
+  <TSA_WD_OrderedRoad_CancelTitle>要取消委託的道路嗎？</TSA_WD_OrderedRoad_CancelTitle>
+  <!-- EN: {0} of {1} segments built. -->
+  <TSA_WD_OrderedRoad_CancelBuilt>已建成{0}／{1}個路段。</TSA_WD_OrderedRoad_CancelBuilt>
+  <!-- EN: Refund: {0} goodwill ({1} unbuilt segments). -->
+  <TSA_WD_OrderedRoad_CancelRefund>退還：{0}友好度（{1}個未建成路段）。</TSA_WD_OrderedRoad_CancelRefund>
+  <!-- EN: Cancel road -->
+  <TSA_WD_OrderedRoad_CancelConfirm>取消道路</TSA_WD_OrderedRoad_CancelConfirm>
+  <!-- EN: Cancelled road order at {0}. -->
+  <TSA_WD_OrderedRoad_Cancelled>已取消{0}的道路委託。</TSA_WD_OrderedRoad_Cancelled>
+  <!-- EN: At least one settlement of this faction is building a road for you. -->
+  <TSA_WD_OrderedRoad_FactionActiveTooltip>此派系至少有一個據點正在為你修路。</TSA_WD_OrderedRoad_FactionActiveTooltip>
+  <!-- EN: This settlement is {0}. {1} roads require a {2} settlement or higher. -->
+  <TSA_WD_OrderedRoad_TierGateTooltip>此據點為{0}。{1}需要{2}或更高等級的據點。</TSA_WD_OrderedRoad_TierGateTooltip>
+  <!-- EN: Order Trader Caravan -->
+  <TSA_WD_OrderedTrader_GizmoLabel>委託商隊</TSA_WD_OrderedTrader_GizmoLabel>
+  <!-- EN: Pay goodwill to send a trader caravan from this settlement to your nearest colony with a map. -->
+  <TSA_WD_OrderedTrader_GizmoDesc>支付友好度，讓此據點派出商隊前往你最近且有地圖的殖民地。</TSA_WD_OrderedTrader_GizmoDesc>
+  <!-- EN: No player colony with a loaded map found. -->
+  <TSA_WD_OrderedTrader_NoColony>找不到已載入地圖的玩家殖民地。</TSA_WD_OrderedTrader_NoColony>
+  <!-- EN: This faction has no caravan trader types. -->
+  <TSA_WD_OrderedTrader_NoKinds>此派系沒有旅隊商人類型。</TSA_WD_OrderedTrader_NoKinds>
+  <!-- EN: Your colony is on trader cooldown ({0} days left). -->
+  <TSA_WD_OrderedTrader_ColonyOnCooldown>你的殖民地正處於商人冷卻中（剩餘{0}天）。</TSA_WD_OrderedTrader_ColonyOnCooldown>
+  <!-- EN: Needs {0} goodwill (you have {1}; at least {2} must remain). -->
+  <TSA_WD_OrderedTrader_DisabledGoodwill>需要{0}友好度（你目前有{1}；至少須保留{2}）。</TSA_WD_OrderedTrader_DisabledGoodwill>
+  <!-- EN: Order trader from {0} -->
+  <TSA_WD_OrderedTrader_PreviewTitle>向{0}委託商人</TSA_WD_OrderedTrader_PreviewTitle>
+  <!-- EN: Order -->
+  <TSA_WD_OrderedTrader_PreviewSectionOrder>委託</TSA_WD_OrderedTrader_PreviewSectionOrder>
+  <!-- EN: Goodwill -->
+  <TSA_WD_OrderedTrader_PreviewSectionCost>友好度</TSA_WD_OrderedTrader_PreviewSectionCost>
+  <!-- EN: Trader type -->
+  <TSA_WD_OrderedTrader_PreviewLabelKind>商人類型</TSA_WD_OrderedTrader_PreviewLabelKind>
+  <!-- EN: Destination -->
+  <TSA_WD_OrderedTrader_PreviewLabelDestination>目的地</TSA_WD_OrderedTrader_PreviewLabelDestination>
+  <!-- EN: Total cost -->
+  <TSA_WD_OrderedTrader_PreviewLabelTotal>總成本</TSA_WD_OrderedTrader_PreviewLabelTotal>
+  <!-- EN: {0} goodwill -->
+  <TSA_WD_OrderedTrader_PreviewTotalValue>{0}友好度</TSA_WD_OrderedTrader_PreviewTotalValue>
+  <!-- EN: Current goodwill -->
+  <TSA_WD_OrderedTrader_PreviewLabelCurrentGoodwill>目前友好度</TSA_WD_OrderedTrader_PreviewLabelCurrentGoodwill>
+  <!-- EN: Cannot afford -->
+  <TSA_WD_OrderedTrader_PreviewLabelCannotAfford>負擔不起</TSA_WD_OrderedTrader_PreviewLabelCannotAfford>
+  <!-- EN: Costs {0} goodwill. You have {1}; at least {2} goodwill must remain. -->
+  <TSA_WD_OrderedTrader_PreviewCannotAfford>需花費{0}友好度。你目前有{1}；至少須保留{2}友好度。</TSA_WD_OrderedTrader_PreviewCannotAfford>
+  <!-- EN: Confirm order -->
+  <TSA_WD_OrderedTrader_Confirm>確認委託</TSA_WD_OrderedTrader_Confirm>
+  <!-- EN: {0} is sending a {2} caravan to {1}. -->
+  <TSA_WD_OrderedTrader_Started>{0}正派出{2}旅隊前往{1}。</TSA_WD_OrderedTrader_Started>
+  <!-- EN: Could not launch the trader caravan. -->
+  <TSA_WD_OrderedTrader_LaunchFailed>無法派出商隊。</TSA_WD_OrderedTrader_LaunchFailed>
+  <!-- EN: {0} is hostile — trader did not arrive at {1}. -->
+  <TSA_WD_OrderedTrader_SpawnSkippedHostile>{0}處於敵對狀態——商人未抵達{1}。</TSA_WD_OrderedTrader_SpawnSkippedHostile>
+  <!-- EN: {0} has no map — trader could not arrive. -->
+  <TSA_WD_OrderedTrader_SpawnSkippedNoMap>{0}沒有地圖——商人無法抵達。</TSA_WD_OrderedTrader_SpawnSkippedNoMap>
+  <!-- EN: Trader arrival at {0} failed. -->
+  <TSA_WD_OrderedTrader_SpawnFailed>商人抵達{0}失敗。</TSA_WD_OrderedTrader_SpawnFailed>
+  <!-- EN: {0} did not enter {2} because {1} traders are already visiting and the factions are hostile. Trade rewards still applied. -->
+  <TSA_WD_Trader_SpawnSkippedHostileVisitor>{0}沒有進入{2}，因為{1}的商人已在當地拜訪，且兩派系互相敵對。交易獎勵仍已套用。</TSA_WD_Trader_SpawnSkippedHostileVisitor>
+  <!-- EN: {0} sent ordered trader ({2}) to {1}. -->
+  <TSA_WD_Log_OrderedTraderLaunched>{0}已派出委託的商人（{2}）前往{1}。</TSA_WD_Log_OrderedTraderLaunched>
+</LanguageData>

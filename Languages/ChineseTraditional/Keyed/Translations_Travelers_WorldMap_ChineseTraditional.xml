@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: Action Log -->
+  <TSA_WD_ActionLog>行動紀錄</TSA_WD_ActionLog>
+  <!-- EN: Attrition -->
+  <TSA_WD_AttritionRate>耗損</TSA_WD_AttritionRate>
+  <!-- EN: day -->
+  <TSA_WD_Day>天</TSA_WD_Day>
+  <!-- EN: days -->
+  <TSA_WD_Days>天</TSA_WD_Days>
+  <!-- EN: Expansion Caravan -->
+  <TSA_WD_ExpansionCaravan>擴張旅隊</TSA_WD_ExpansionCaravan>
+  <!-- EN: Vanguard Caravan -->
+  <TSA_WD_MassRelocationCaravan>先鋒旅隊</TSA_WD_MassRelocationCaravan>
+  <!-- EN: Relief Cooldown: {0} days -->
+  <TSA_WD_Inspect_AidCD>救援冷卻：{0}天</TSA_WD_Inspect_AidCD>
+  <!-- EN: Attack range: {0} tiles -->
+  <TSA_WD_Inspect_AttackRange>攻擊範圍：{0}格</TSA_WD_Inspect_AttackRange>
+  <!-- EN: Attack range (Zeal): {0} tiles -->
+  <TSA_WD_Inspect_AttackRange_Zeal>攻擊範圍（狂熱）：{0}格</TSA_WD_Inspect_AttackRange_Zeal>
+  <!-- EN: Ally radius: {0} tiles -->
+  <TSA_WD_Inspect_AllyRadius>同盟半徑：{0}格</TSA_WD_Inspect_AllyRadius>
+  <!-- EN: Mortar range: {0} tiles -->
+  <TSA_WD_Inspect_MortarRadius>迫擊砲射程：{0}格</TSA_WD_Inspect_MortarRadius>
+  <!-- EN: Strength: {0} -->
+  <TSA_WD_Inspect_AT_TurretStrength>戰力：{0}</TSA_WD_Inspect_AT_TurretStrength>
+  <!-- EN: Damage: {0} -->
+  <TSA_WD_Inspect_AT_TurretDamage>傷害：{0}</TSA_WD_Inspect_AT_TurretDamage>
+  <!-- EN: Range: {0} tiles -->
+  <TSA_WD_Inspect_AT_TurretRange>射程：{0}格</TSA_WD_Inspect_AT_TurretRange>
+  <!-- EN: Built by: {0} -->
+  <TSA_WD_Inspect_AT_TurretBuilder>建造者：{0}</TSA_WD_Inspect_AT_TurretBuilder>
+  <!-- EN: AT Turret Cooldown: {0} days -->
+  <TSA_WD_Inspect_AT_TurretCD>反戰車砲塔冷卻：{0}天</TSA_WD_Inspect_AT_TurretCD>
+  <!-- EN: AT Turret: ready -->
+  <TSA_WD_Inspect_AT_TurretReady>反戰車砲塔：就緒</TSA_WD_Inspect_AT_TurretReady>
+  <!-- EN: {0} toward "{2}"\nProgress: {1}% -->
+  <TSA_WD_Inspect_AT_TurretStatus>{0}，目標「{2}」\n進度：{1}%</TSA_WD_Inspect_AT_TurretStatus>
+  <!-- EN: {0} crew en route to "{1}" (prep {2}%) -->
+  <TSA_WD_Inspect_AT_TurretStatus_InTransit>{0}小隊正前往「{1}」（準備{2}%）</TSA_WD_Inspect_AT_TurretStatus_InTransit>
+  <!-- EN: Set idle angle -->
+  <TSA_WD_AT_Turret_SetFacingLabel>設定待機角度</TSA_WD_AT_Turret_SetFacingLabel>
+  <!-- EN: Click a world tile to set this AT Turret's rest heading. The barrel stays on its last shot unless you set this. -->
+  <TSA_WD_AT_Turret_SetFacingDesc>點擊世界地塊以設定此 反戰車砲塔的待機朝向。除非設定此項，否則砲管會停留在最後一次射擊的方向。</TSA_WD_AT_Turret_SetFacingDesc>
+  <!-- EN: Click a tile to set the AT Turret resting facing. Right-click or Esc to cancel. -->
+  <TSA_WD_AT_Turret_SetFacingPrompt>點擊地塊以設定 反戰車砲塔的待機朝向。按右鍵或Esc取消。</TSA_WD_AT_Turret_SetFacingPrompt>
+  <!-- EN: AT Turret resting facing updated. -->
+  <TSA_WD_AT_Turret_SetFacingDone>反戰車砲塔待機朝向已更新。</TSA_WD_AT_Turret_SetFacingDone>
+  <!-- EN: AA range: {0} tiles -->
+  <TSA_WD_Inspect_AARadius>防空射程：{0}格</TSA_WD_Inspect_AARadius>
+  <!-- EN: Base {0} × Mid/Late {1}% × age {2}% -->
+  <TSA_WD_Inspect_AttackRangeBreakdown>基礎{0} × 中期／後期{1}% × 年資{2}%</TSA_WD_Inspect_AttackRangeBreakdown>
+  <!-- EN: Daily Actions: {0} / {1} -->
+  <TSA_WD_Inspect_DailyActions>每日行動：{0} / {1}</TSA_WD_Inspect_DailyActions>
+  <!-- EN: Potential Daily Actions: {0} / {1} -->
+  <TSA_WD_Inspect_DailyActionsRemaining>潛在每日行動：{0} / {1}</TSA_WD_Inspect_DailyActionsRemaining>
+  <!-- EN: Raid Protection: {0} days -->
+  <TSA_WD_Inspect_DefenseCD>突襲保護：{0}天</TSA_WD_Inspect_DefenseCD>
+  <!-- EN: Espionage Cooldown: {0} days -->
+  <TSA_WD_Inspect_EspionageCD>間諜冷卻：{0}天</TSA_WD_Inspect_EspionageCD>
+  <!-- EN: Incident Cooldown: {0} days -->
+  <TSA_WD_Inspect_IncidentCD>事件冷卻：{0}天</TSA_WD_Inspect_IncidentCD>
+  <!-- EN: Mortar Cooldown: {0} days -->
+  <TSA_WD_Inspect_MortarCD>迫擊砲冷卻：{0}天</TSA_WD_Inspect_MortarCD>
+  <!-- EN: Strength: {0} / {1} -->
+  <TSA_WD_Inspect_Outpost>戰力：{0} / {1}</TSA_WD_Inspect_Outpost>
+  <!-- EN: Off: {0}  Def: {1} -->
+  <TSA_WD_Inspect_OffDefLine>攻：{0}防：{1}</TSA_WD_Inspect_OffDefLine>
+  <!-- EN: Strength: {0}/{1} -->
+  <TSA_WD_Inspect_StrengthSimpleLine>戰力：{0}/{1}</TSA_WD_Inspect_StrengthSimpleLine>
+  <!-- EN: Strength: {0}/{1}, Humanoid Pawns: {2} -->
+  <TSA_WD_Inspect_StrengthWithHumanoidsLine>戰力：{0}/{1}，類人角色：{2}</TSA_WD_Inspect_StrengthWithHumanoidsLine>
+  <!-- EN: Strength: {0}/{1}, Offensive: {2}/{3}, Defensive: {4}/{5} -->
+  <TSA_WD_Inspect_StrengthCompactLine>戰力：{0}/{1}，攻擊：{2}/{3}，防禦：{4}/{5}</TSA_WD_Inspect_StrengthCompactLine>
+  <!-- EN: Strength {0}/{1}, Def. {2}/{3}, Off. {4}/{5} -->
+  <TSA_WD_Inspect_StrengthCombinedLine>戰力{0}/{1}，防{2}/{3}，攻{4}/{5}</TSA_WD_Inspect_StrengthCombinedLine>
+  <!-- EN: Daily Strength recovery: {0} (Def.), {1} (Off.) -->
+  <TSA_WD_Inspect_OutpostRecoveryLine>每日戰力恢復：{0}（防），{1}（攻）</TSA_WD_Inspect_OutpostRecoveryLine>
+  <!-- EN: Active Player Colony -->
+  <TSA_WD_Inspect_PlayerColony>現役玩家殖民地</TSA_WD_Inspect_PlayerColony>
+  <!-- EN: Holds {0} Prisoners -->
+  <TSA_WD_Inspect_HoldsPrisoners>關押{0}名俘虜</TSA_WD_Inspect_HoldsPrisoners>
+  <!-- EN: Road Construction: {0} ({1}%) to {2} -->
+  <TSA_WD_Inspect_RoadStatus>道路施工：{0}（{1}%），通往{2}</TSA_WD_Inspect_RoadStatus>
+  <!-- EN: Status: {0} crew in transit to {1} (prep {2}%)... -->
+  <TSA_WD_Inspect_RoadStatus_InTransit>狀態：{0}小隊正前往{1}（準備{2}%）...</TSA_WD_Inspect_RoadStatus_InTransit>
+  <!-- EN: Removing roads toward {0}: {1}% -->
+  <TSA_WD_Inspect_RoadClearStatus>拆除通往{0}的道路：{1}%</TSA_WD_Inspect_RoadClearStatus>
+  <!-- EN: Status: road-removal crew in transit to {0} (prep {1}%)... -->
+  <TSA_WD_Inspect_RoadClearStatus_InTransit>狀態：道路拆除隊正前往{0}（準備{1}%）...</TSA_WD_Inspect_RoadClearStatus_InTransit>
+  <!-- EN: Bridge Construction: {0}% to {1} -->
+  <TSA_WD_Inspect_BridgeStatus>橋梁施工：{0}%，通往{1}</TSA_WD_Inspect_BridgeStatus>
+  <!-- EN: Status: bridge crew in transit to {0} (prep {1}%)... -->
+  <TSA_WD_Inspect_BridgeStatus_InTransit>狀態：築橋隊正前往{0}（準備{1}%）...</TSA_WD_Inspect_BridgeStatus_InTransit>
+  <!-- EN: Removing bridge toward {0}: {1}% -->
+  <TSA_WD_Inspect_BridgeClearStatus>拆除通往{0}的橋梁：{1}%</TSA_WD_Inspect_BridgeClearStatus>
+  <!-- EN: Status: bridge-removal crew in transit to {0} (prep {1}%)... -->
+  <TSA_WD_Inspect_BridgeClearStatus_InTransit>狀態：橋梁拆除隊正前往{0}（準備{1}%）...</TSA_WD_Inspect_BridgeClearStatus_InTransit>
+  <!-- EN: Road Blocks -->
+  <TSA_WD_Inspect_RoadBlockBuild>路障</TSA_WD_Inspect_RoadBlockBuild>
+  <!-- EN: Clearing Road Blocks -->
+  <TSA_WD_Inspect_RoadBlockClear>清除路障</TSA_WD_Inspect_RoadBlockClear>
+  <!-- EN: {0}: {1}% toward {2} -->
+  <TSA_WD_Inspect_RoadBlockStatus>{0}：{1}%，目標{2}</TSA_WD_Inspect_RoadBlockStatus>
+  <!-- EN: {0}: crew in transit to {1} (prep {2}%)... -->
+  <TSA_WD_Inspect_RoadBlockStatus_InTransit>{0}：小隊正前往{1}（準備{2}%）...</TSA_WD_Inspect_RoadBlockStatus_InTransit>
+  <!-- EN: Road Block: +{0} movement cost -->
+  <TSA_WD_RoadBlock_MovementExplanation>路障：移動成本 +{0}</TSA_WD_RoadBlock_MovementExplanation>
+  <!-- EN: {0}: +{1} movement cost (HP {2}/{3}) -->
+  <TSA_WD_RoadBlock_TileInspect>{0}：移動成本 +{1}（耐久{2}/{3}）</TSA_WD_RoadBlock_TileInspect>
+  <!-- EN: A road block was destroyed by passing traffic. -->
+  <TSA_WD_RoadBlock_DestroyedByTraffic>一處路障被往來通行者摧毀了。</TSA_WD_RoadBlock_DestroyedByTraffic>
+  <!-- EN: Road block destroyed by {0} (damage {1}). -->
+  <TSA_WD_Log_RoadBlock_DestroyedByTraffic>路障被{0}摧毀（傷害{1}）。</TSA_WD_Log_RoadBlock_DestroyedByTraffic>
+  <!-- EN: Spike Traps -->
+  <TSA_WD_Inspect_SpikeTrapBuild>尖刺陷阱</TSA_WD_Inspect_SpikeTrapBuild>
+  <!-- EN: Clearing Spike Traps -->
+  <TSA_WD_Inspect_SpikeTrapClear>清除尖刺陷阱</TSA_WD_Inspect_SpikeTrapClear>
+  <!-- EN: {0}: {1}% toward {2} -->
+  <TSA_WD_Inspect_SpikeTrapStatus>{0}：{1}%，目標{2}</TSA_WD_Inspect_SpikeTrapStatus>
+  <!-- EN: {0}: crew in transit to {1} (prep {2}%)... -->
+  <TSA_WD_Inspect_SpikeTrapStatus_InTransit>{0}：小隊正前往{1}（準備{2}%）...</TSA_WD_Inspect_SpikeTrapStatus_InTransit>
+  <!-- EN: Decontamination -->
+  <TSA_WD_Inspect_DecontaminationBuild>淨化</TSA_WD_Inspect_DecontaminationBuild>
+  <!-- EN: {0}: {1}% toward {2} -->
+  <TSA_WD_Inspect_DecontaminationStatus>{0}：{1}%，目標{2}</TSA_WD_Inspect_DecontaminationStatus>
+  <!-- EN: {0}: crew in transit to {1} (prep {2}%)... -->
+  <TSA_WD_Inspect_DecontaminationStatus_InTransit>{0}：小隊正前往{1}（準備{2}%）...</TSA_WD_Inspect_DecontaminationStatus_InTransit>
+  <!-- EN: {0} triggered a spike trap (−{1} strength). -->
+  <TSA_WD_SpikeTrap_Triggered>{0}觸發了尖刺陷阱（戰力 −{1}）。</TSA_WD_SpikeTrap_Triggered>
+  <!-- EN: {0} triggered a spike trap (−{1} strength). The trap was destroyed. -->
+  <TSA_WD_SpikeTrap_TriggeredDestroyed>{0}觸發了尖刺陷阱（戰力 −{1}）。陷阱已損毀。</TSA_WD_SpikeTrap_TriggeredDestroyed>
+  <!-- EN: {0}: {1} dmg when hostiles pass (HP {2}/{3}) -->
+  <TSA_WD_SpikeTrap_TileInspect>{0}：敵人經過時造成{1}傷害（耐久{2}/{3}）</TSA_WD_SpikeTrap_TileInspect>
+  <!-- EN: Spike trap triggered by {0} (damage {1}). -->
+  <TSA_WD_Log_SpikeTrap_Triggered>尖刺陷阱被{0}觸發（傷害{1}）。</TSA_WD_Log_SpikeTrap_Triggered>
+  <!-- EN: {0} was destroyed by spike traps. -->
+  <TSA_WD_Log_SpikeTrap_DestroyedTraveler>{0}被尖刺陷阱消滅了。</TSA_WD_Log_SpikeTrap_DestroyedTraveler>
+  <!-- EN: {0} lost {1} strength leaving a polluted tile ({2}% pollution). -->
+  <TSA_WD_Log_Pollution_DamagedTraveler>{0}離開汙染地塊時損失了{1}戰力（汙染{2}%）。</TSA_WD_Log_Pollution_DamagedTraveler>
+  <!-- EN: {0} was destroyed by pollution. -->
+  <TSA_WD_Log_Pollution_DestroyedTraveler>{0}因汙染而被消滅。</TSA_WD_Log_Pollution_DestroyedTraveler>
+  <!-- EN: {0} lost {1} strength from nearby pollution (avg {2}%). -->
+  <TSA_WD_Log_Pollution_DamagedSite>{0}因附近汙染損失了{1}戰力（平均{2}%）。</TSA_WD_Log_Pollution_DamagedSite>
+  <!-- EN: {0} was destroyed by pollution. -->
+  <TSA_WD_Log_Pollution_DestroyedSite>{0}因汙染而被摧毀。</TSA_WD_Log_Pollution_DestroyedSite>
+  <!-- EN: {0} lost {1} strength from nearby pollution. -->
+  <TSA_WD_Message_OutpostPollutionDamage>{0}因附近汙染損失了{1}戰力。</TSA_WD_Message_OutpostPollutionDamage>
+  <!-- EN: Outpost destroyed by pollution -->
+  <TSA_WD_Letter_OutpostDestroyedByPollution_Label>哨站因汙染而毀滅</TSA_WD_Letter_OutpostDestroyedByPollution_Label>
+  <!-- EN: {0} has been abandoned. Nearby pollution reduced its strength to zero. All occupants were lost. Ruins remain for a while and block new outposts nearby. -->
+  <TSA_WD_Letter_OutpostDestroyedByPollution_Text>{0}已被放棄。附近的汙染使其戰力降至零，所有駐員皆已損失。廢墟會留存一段時間，並阻擋附近建立新哨站。</TSA_WD_Letter_OutpostDestroyedByPollution_Text>
+  <!-- EN: Pollution damage -->
+  <TSA_WD_Letter_PollutionDamage_Label>汙染傷害</TSA_WD_Letter_PollutionDamage_Label>
+  <!-- EN: {0} lost {1} strength after leaving a polluted world tile. Further pollution damage on this traveler will not send another letter. -->
+  <TSA_WD_Letter_PollutionDamage_Text>{0}離開受汙染的世界地塊後損失了{1}戰力。此旅行者之後再受到汙染傷害時不會再發送信件。</TSA_WD_Letter_PollutionDamage_Text>
+  <!-- EN: Road Block Builder Caravan -->
+  <TSA_WD_Traveler_Outpost_RoadBlock>路障建造旅隊</TSA_WD_Traveler_Outpost_RoadBlock>
+  <!-- EN: Trap Builder Caravan -->
+  <TSA_WD_Traveler_Outpost_SpikeTrap>陷阱建造旅隊</TSA_WD_Traveler_Outpost_SpikeTrap>
+  <!-- EN: Fortify Crew -->
+  <TSA_WD_Traveler_NpcFortify>設防小隊</TSA_WD_Traveler_NpcFortify>
+  <!-- EN: AT Turret Crew -->
+  <TSA_WD_Traveler_NpcAtTurret>反戰車砲塔小隊</TSA_WD_Traveler_NpcAtTurret>
+  <!-- EN: AT Turret Crew -->
+  <TSA_WD_Traveler_AtTurret>反戰車砲塔小隊</TSA_WD_Traveler_AtTurret>
+  <!-- EN: Decontamination Crew -->
+  <TSA_WD_Traveler_Outpost_Decontamination>淨化小隊</TSA_WD_Traveler_Outpost_Decontamination>
+  <!-- EN: {0} {1} -->
+  <TSA_WD_Inspect_Settlement>{0} {1}</TSA_WD_Inspect_Settlement>
+  <!-- EN: Jump to {0} -->
+  <TSA_WD_JumpToOutpost>跳至{0}</TSA_WD_JumpToOutpost>
+  <!-- EN: Caravan clash -->
+  <TSA_WD_Interception_Label>旅隊交戰</TSA_WD_Interception_Label>
+  <!-- EN: Caravan clash -->
+  <TSA_WD_Letter_Interception_Label>旅隊交戰</TSA_WD_Letter_Interception_Label>
+  <!-- EN: Your caravan has clashed with a {0} from {1}. Prepare for combat! -->
+  <TSA_WD_Letter_Interception_Text>你的旅隊與來自{1}的{0}發生交戰。準備戰鬥！</TSA_WD_Letter_Interception_Text>
+  <!-- EN: Camp attack -->
+  <TSA_WD_CampClash_Label>營地遇襲</TSA_WD_CampClash_Label>
+  <!-- EN: Camp under attack -->
+  <TSA_WD_Letter_CampClash_Label>營地遭到攻擊</TSA_WD_Letter_CampClash_Label>
+  <!-- EN: A {0} from {1} has walked onto your camp. Prepare for combat! -->
+  <TSA_WD_Letter_CampClash_Text>來自{1}的{0}闖進了你的營地。準備戰鬥！</TSA_WD_Letter_CampClash_Text>
+  <!-- EN: {0} was diverted into a fight at camp {1} (was headed for {2}). -->
+  <TSA_WD_Log_Raid_ChokeInterceptCamp>{0}被引入營地{1}的戰鬥（原本前往{2}）。</TSA_WD_Log_Raid_ChokeInterceptCamp>
+  <!-- EN: Player caravan won clash -->
+  <TSA_WD_Letter_PlayerCaravanClashWon_Label>玩家旅隊交戰獲勝</TSA_WD_Letter_PlayerCaravanClashWon_Label>
+  <!-- EN: Your caravan defeated {0} in a caravan clash. -->
+  <TSA_WD_Letter_PlayerCaravanClashWon_Text>你的旅隊在旅隊交戰中擊敗了{0}。</TSA_WD_Letter_PlayerCaravanClashWon_Text>
+  <!-- EN: Player caravan destroyed in clash -->
+  <TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>玩家旅隊在交戰中覆滅</TSA_WD_Letter_PlayerCaravanClashDestroyed_Label>
+  <!-- EN: Your caravan was defeated by {0}. The enemy caravan can continue its journey. -->
+  <TSA_WD_Letter_PlayerCaravanClashDestroyed_Text>你的旅隊被{0}擊敗。敵方旅隊可繼續其行程。</TSA_WD_Letter_PlayerCaravanClashDestroyed_Text>
+  <!-- EN: Rapid Response intercepted and defeated enemy -->
+  <TSA_WD_Letter_RapidResponseClashWon_Label>快速反應部隊攔截並擊敗敵人</TSA_WD_Letter_RapidResponseClashWon_Label>
+  <!-- EN: {0}'s Rapid Response force intercepted and defeated {1}. -->
+  <TSA_WD_Letter_RapidResponseClashWon_Text>{0}的快速反應部隊攔截並擊敗了{1}。</TSA_WD_Letter_RapidResponseClashWon_Text>
+  <!-- EN: Rapid Response intercepted enemy but lost -->
+  <TSA_WD_Letter_RapidResponseClashLost_Label>快速反應部隊攔截敵人但落敗</TSA_WD_Letter_RapidResponseClashLost_Label>
+  <!-- EN: {OUTPOST}'s Rapid Response force intercepted {TARGET}, but was defeated. Enemy caravan continues with {AFTER} strength (was {BEFORE}). -->
+  <TSA_WD_Letter_RapidResponseClashLost_Text>{OUTPOST}的快速反應部隊攔截了{TARGET}，但被擊敗。敵方旅隊以{AFTER}戰力繼續前進（原為{BEFORE}）。</TSA_WD_Letter_RapidResponseClashLost_Text>
+  <!-- EN: Settlement Destroyed -->
+  <TSA_WD_Letter_MajorInc_Label>據點被摧毀</TSA_WD_Letter_MajorInc_Label>
+  <!-- EN: A major incident has completely destroyed the settlement {0} near you. Ruins remain for a while and block new settlements nearby. -->
+  <TSA_WD_Letter_MajorInc_Text>一起重大事件徹底摧毀了你附近的據點{0}。廢墟會留存一段時間，並阻擋附近建立新據點。</TSA_WD_Letter_MajorInc_Text>
+  <!-- EN: Settlement Obliterated -->
+  <TSA_WD_Letter_MinorInc_Label>據點被抹除</TSA_WD_Letter_MinorInc_Label>
+  <!-- EN: A minor incident has completely wiped out the settlement {0} near you. Ruins remain for a while and block new settlements nearby. -->
+  <TSA_WD_Letter_MinorInc_Text>一起小型事件徹底抹除了你附近的據點{0}。廢墟會留存一段時間，並阻擋附近建立新據點。</TSA_WD_Letter_MinorInc_Text>
+  <!-- EN: Settlement founded nearby -->
+  <TSA_WD_Letter_NewSettlement_Label>附近建立了新據點</TSA_WD_Letter_NewSettlement_Label>
+  <!-- EN: {1} has founded {0} near you. -->
+  <TSA_WD_Letter_NewSettlement_Text>{1}在你附近建立了{0}。</TSA_WD_Letter_NewSettlement_Text>
+  <!-- EN: Settlement Captured -->
+  <TSA_WD_Letter_SettlementCaptured_Label>據點被攻佔</TSA_WD_Letter_SettlementCaptured_Label>
+  <!-- EN: {0} captured {1} from {2}. -->
+  <TSA_WD_Letter_SettlementCaptured_Text>{0}從{2}手中奪取了{1}。</TSA_WD_Letter_SettlementCaptured_Text>
+  <!-- EN: Settlement razed nearby -->
+  <TSA_WD_Letter_SettlementRazed_Label>附近據點被夷平</TSA_WD_Letter_SettlementRazed_Label>
+  <!-- EN: {0} was raided by {1} and razed. Ruins remain for a while and block new settlements nearby. -->
+  <TSA_WD_Letter_SettlementRazed_Text>{0}遭到{1}突襲並被夷平。廢墟會留存一段時間，並阻擋附近建立新據點。</TSA_WD_Letter_SettlementRazed_Text>
+  <!-- EN: settlement ruins -->
+  <TSA_WD_SettlementRuin_Label>據點廢墟</TSA_WD_SettlementRuin_Label>
+  <!-- EN: {0} (ruins) -->
+  <TSA_WD_SettlementRuin_LabelNamed>{0}（廢墟）</TSA_WD_SettlementRuin_LabelNamed>
+  <!-- EN: Ruins clear in {0} days -->
+  <TSA_WD_SettlementRuin_InspectClearIn>廢墟將在{0}天後清除</TSA_WD_SettlementRuin_InspectClearIn>
+  <!-- EN: {0} was razed in the process. -->
+  <TSA_WD_PlayerConquestRazed_Message>{0}在過程中被夷平了。</TSA_WD_PlayerConquestRazed_Message>
+  <!-- EN: Settlement razed -->
+  <TSA_WD_Letter_PlayerConquestRazed_Label>據點被夷平</TSA_WD_Letter_PlayerConquestRazed_Label>
+  <!-- EN: {0} was razed in the process. Ruins remain for a while and block new settlements nearby. -->
+  <TSA_WD_Letter_PlayerConquestRazed_Text>{0}在過程中被夷平了。廢墟會留存一段時間，並阻擋附近建立新據點。</TSA_WD_Letter_PlayerConquestRazed_Text>
+  <!-- EN: MAJOR INCIDENT: Settlement destroyed. Strength {0} → {1}. -->
+  <TSA_WD_Log_MajorInc_Obliterated>重大事件：據點被摧毀。戰力{0} → {1}。</TSA_WD_Log_MajorInc_Obliterated>
+  <!-- EN: MAJOR INCIDENT: Lost {0} strength ({1} → {2}). Downgraded to {3}. -->
+  <TSA_WD_Log_MajorInc_Downgrade>重大事件：損失{0}戰力（{1} → {2}）。降級為{3}。</TSA_WD_Log_MajorInc_Downgrade>
+  <!-- EN: MAJOR INCIDENT: Lost {0} strength ({1} → {2}). -->
+  <TSA_WD_Log_MajorInc_Standard>重大事件：損失{0}戰力（{1} → {2}）。</TSA_WD_Log_MajorInc_Standard>
+  <!-- EN: MINOR INCIDENT: Settlement destroyed. Strength {0} → {1}. -->
+  <TSA_WD_Log_MinorInc_Obliterated>小型事件：據點被摧毀。戰力{0} → {1}。</TSA_WD_Log_MinorInc_Obliterated>
+  <!-- EN: MINOR INCIDENT: Lost {0} strength ({1} → {2}). Downgraded to {3}. -->
+  <TSA_WD_Log_MinorInc_Downgrade>小型事件：損失{0}戰力（{1} → {2}）。降級為{3}。</TSA_WD_Log_MinorInc_Downgrade>
+  <!-- EN: MINOR INCIDENT: Lost {0} strength ({1} → {2}). -->
+  <TSA_WD_Log_MinorInc_Standard>小型事件：損失{0}戰力（{1} → {2}）。</TSA_WD_Log_MinorInc_Standard>
+  <!-- EN: Faction Re-emergence -->
+  <TSA_WD_Letter_Revolt_Label>派系再起</TSA_WD_Letter_Revolt_Label>
+  <!-- EN: Political upheaval! The defeated faction {0} has returned, seizing control of: {1}. Lost to the uprising: {2}. -->
+  <TSA_WD_Letter_Revolt_Text>政治動盪！已被擊敗的派系{0}捲土重來，奪取了：{1}。在起事中失去：{2}。</TSA_WD_Letter_Revolt_Text>
+  <!-- EN: Vanguard forces underway -->
+  <TSA_WD_Letter_Vanguard_Label>先鋒部隊出動</TSA_WD_Letter_Vanguard_Label>
+  <!-- EN: {0} has packed settlements into {1} Vanguard columns. Each home leaves as its own caravan; nearby forces rally, then dig in on your front. Stop them before they fortify. -->
+  <TSA_WD_Letter_Vanguard_Text>{0}已將據點打包成{1}支先鋒縱隊。每個據點各自以旅隊出發；附近兵力會先集結，再於你的前線紮營。在他們完成設防前阻止他們。</TSA_WD_Letter_Vanguard_Text>
+  <!-- EN: Invasion forces underway -->
+  <TSA_WD_Letter_Invasion_Label>入侵部隊出動</TSA_WD_Letter_Invasion_Label>
+  <!-- EN: {0} has launched {1} coordinated invasion raids at your colonies and outposts from far settlements. Their homes remain. Prepare defenses. -->
+  <TSA_WD_Letter_Invasion_Text>{0}已從遠方據點對你的殖民地與哨站發動{1}次協同入侵突襲。他們的據點仍會保留。準備防禦。</TSA_WD_Letter_Invasion_Text>
+  <!-- EN: {0} Desperate Attack -->
+  <TSA_WD_Letter_DesperationRaid_Label>{0}孤注一擲攻擊</TSA_WD_Letter_DesperationRaid_Label>
+  <!-- EN: They are deserting their settlements and rushing toward {0}. -->
+  <TSA_WD_Letter_DesperationRaid_Text>他們正放棄自己的據點，衝向{0}。</TSA_WD_Letter_DesperationRaid_Text>
+  <!-- EN: Desperation rally -->
+  <TSA_WD_DesperationRallyCaravan>孤注一擲集結</TSA_WD_DesperationRallyCaravan>
+  <!-- EN: Invasion rally -->
+  <TSA_WD_InvasionRallyCaravan>入侵集結</TSA_WD_InvasionRallyCaravan>
+  <!-- EN: Desperation Host -->
+  <TSA_WD_DesperationHostCaravan>孤注一擲大軍</TSA_WD_DesperationHostCaravan>
+  <!-- EN: Invasion Host -->
+  <TSA_WD_InvasionHostCaravan>入侵大軍</TSA_WD_InvasionHostCaravan>
+  <!-- EN: DESPERATION: {0} packs {1} settlements toward {2}. -->
+  <TSA_WD_Log_DesperationRaid_PackUp>孤注一擲：{0}將{1}個據點打包前往{2}。</TSA_WD_Log_DesperationRaid_PackUp>
+  <!-- EN: DESPERATION: {0} abandoned home → rally tile {1}. -->
+  <TSA_WD_Log_DesperationRaid_PackRally>孤注一擲：{0}放棄據點 → 集結地塊{1}。</TSA_WD_Log_DesperationRaid_PackRally>
+  <!-- EN: DESPERATION: {0} abandoned home → assault on {1}. -->
+  <TSA_WD_Log_DesperationRaid_PackRaid>孤注一擲：{0}放棄據點 → 進攻{1}。</TSA_WD_Log_DesperationRaid_PackRaid>
+  <!-- EN: DESPERATION: {0} marches on {1}. -->
+  <TSA_WD_Log_DesperationRaid_LaunchRaid>孤注一擲：{0}向{1}進軍。</TSA_WD_Log_DesperationRaid_LaunchRaid>
+  <!-- EN: DESPERATION: {0} aborted; remounting near destination. -->
+  <TSA_WD_Log_DesperationRallyCancelled>孤注一擲：{0}已中止；在目的地附近重新整隊。</TSA_WD_Log_DesperationRallyCancelled>
+  <!-- EN: INVASION: {0} aborted; remounting near destination. -->
+  <TSA_WD_Log_InvasionRallyCancelled>入侵：{0}已中止；在目的地附近重新整隊。</TSA_WD_Log_InvasionRallyCancelled>
+  <!-- EN: Turtle consolidation -->
+  <TSA_WD_TurtleConsolidateCaravan>龜縮集結</TSA_WD_TurtleConsolidateCaravan>
+  <!-- EN: TURTLE: {0} pulls {1} settlements into {2} to dig in. -->
+  <TSA_WD_Log_Turtle_PackUp>龜縮：{0}將{1}個據點撤入{2}據守。</TSA_WD_Log_Turtle_PackUp>
+  <!-- EN: TURTLE: {0} abandoned home → consolidating into {1}. -->
+  <TSA_WD_Log_Turtle_PackLeaf>龜縮：{0}放棄據點 → 集結至{1}。</TSA_WD_Log_Turtle_PackLeaf>
+  <!-- EN: TURTLE: {0} raises fortifications with the consolidated strength. -->
+  <TSA_WD_Log_Turtle_Fortify>龜縮：{0}以集結的戰力構築防禦工事。</TSA_WD_Log_Turtle_Fortify>
+  <!-- EN: TURTLE: {0} aborted; strength returned. -->
+  <TSA_WD_Log_TurtleCancelled>龜縮：{0}已中止；戰力已歸還。</TSA_WD_Log_TurtleCancelled>
+  <!-- EN: {0} Consolidation -->
+  <TSA_WD_Letter_Turtle_Label>{0}集結固守</TSA_WD_Letter_Turtle_Label>
+  <!-- EN: They are abandoning outlying settlements and consolidating their strength into {0}, then fortifying it. -->
+  <TSA_WD_Letter_Turtle_Text>他們正放棄外圍據點，將戰力集中到{0}，並加以設防。</TSA_WD_Letter_Turtle_Text>
+  <!-- EN: Daily action at {0}: No weighted action available (all action weights are zero). -->
+  <TSA_WD_Log_ActionNoWeights>{0}的每日行動：沒有可用的加權行動（所有行動權重皆為零）。</TSA_WD_Log_ActionNoWeights>
+  <!-- EN: Action skipped for {0}: No active settlements available. -->
+  <TSA_WD_Log_ActionSkip>{0}略過行動：沒有可用的有效據點。</TSA_WD_Log_ActionSkip>
+  <!-- EN: Details -->
+  <TSA_WD_Log_BtnDetails>詳細資訊</TSA_WD_Log_BtnDetails>
+  <!-- EN: EXPAND: Success. {0} founded new T1 {1}. -->
+  <TSA_WD_Log_ExpandSuccess>擴張：成功。{0}建立了新的T1據點{1}。</TSA_WD_Log_ExpandSuccess>
+  <!-- EN: VANGUARD: {0} aborted; remounting near destination. -->
+  <TSA_WD_Log_MassRelocationCancelled>先鋒：{0}已中止；在目的地附近重新整隊。</TSA_WD_Log_MassRelocationCancelled>
+  <!-- EN: VANGUARD: {0} packs into {1} columns toward your front. -->
+  <TSA_WD_Log_ForwardAssault_Vanguard>先鋒：{0}打包成{1}支縱隊，向你的前線推進。</TSA_WD_Log_ForwardAssault_Vanguard>
+  <!-- EN: INVASION: {0} launches {1} coordinated raids on your holdings. -->
+  <TSA_WD_Log_ForwardAssault_Invasion>入侵：{0}對你的領地發動{1}次協同突襲。</TSA_WD_Log_ForwardAssault_Invasion>
+  <!-- EN: VANGUARD: {0} abandoned home → tile {1}. -->
+  <TSA_WD_Log_ForwardAssault_PackUpVanguard>先鋒：{0}放棄據點 → 地塊{1}。</TSA_WD_Log_ForwardAssault_PackUpVanguard>
+  <!-- EN: INVASION: {0} marches on {1}. -->
+  <TSA_WD_Log_ForwardAssault_PackUpInvasion>入侵：{0}向{1}進軍。</TSA_WD_Log_ForwardAssault_PackUpInvasion>
+  <!-- EN: INVASION: {0} abandoned home → rally tile {1}. -->
+  <TSA_WD_Log_ForwardAssault_PackRally>入侵：{0}放棄據點 → 集結地塊{1}。</TSA_WD_Log_ForwardAssault_PackRally>
+  <!-- EN: INVASION: {0} marches on {1}. -->
+  <TSA_WD_Log_ForwardAssault_InvasionRallyRaid>入侵：{0}向{1}進軍。</TSA_WD_Log_ForwardAssault_InvasionRallyRaid>
+  <!-- EN: (launched under min strength ratio) -->
+  <TSA_WD_Log_ForwardAssault_RatioBypass>（在低於最低戰力比的情況下發動）</TSA_WD_Log_ForwardAssault_RatioBypass>
+  <!-- EN: VANGUARD: Founded {0}. -->
+  <TSA_WD_Log_ForwardAssault_VanguardFounded>先鋒：建立了{0}。</TSA_WD_Log_ForwardAssault_VanguardFounded>
+  <!-- EN: VANGUARD: Reinforcements absorbed into an existing dig-in ({0}). -->
+  <TSA_WD_Log_ForwardAssault_VanguardAbsorbed>先鋒：增援已併入既有的據守點（{0}）。</TSA_WD_Log_ForwardAssault_VanguardAbsorbed>
+  <!-- EN: VANGUARD: {0} found {1} on reserved tile (diverting to raid). -->
+  <TSA_WD_Log_ForwardAssault_BlockedRaid>先鋒：{0}在保留地塊上發現{1}（改為發動突襲）。</TSA_WD_Log_ForwardAssault_BlockedRaid>
+  <!-- EN: VANGUARD: {0} remounted as {1}. -->
+  <TSA_WD_Log_ForwardAssault_Refound>先鋒：{0}重新整隊為{1}。</TSA_WD_Log_ForwardAssault_Refound>
+  <!-- EN: CONQUEST: {0} founded {1} ({2}) after a successful raid. -->
+  <TSA_WD_Log_ConquestSettlementFounded>征服：{0}在突襲成功後建立了{1}（{2}）。</TSA_WD_Log_ConquestSettlementFounded>
+  <!-- EN: {0} mission cancelled: Tile occupied or saturated. -->
+  <TSA_WD_Log_ExpansionCancelled>{0}任務取消：地塊已被佔用或已飽和。</TSA_WD_Log_ExpansionCancelled>
+  <!-- EN: EXPANSION ATTEMPT: {0} dispatched settlers to establish a new colony. -->
+  <TSA_WD_Log_ExpeditionLaunched>擴張嘗試：{0}派出拓荒者建立新聚落。</TSA_WD_Log_ExpeditionLaunched>
+  <!-- EN: ISOLATION PRESSURE: {0} forced to found {1} settlement(s) near you. -->
+  <TSA_WD_Log_IsolationPressure>孤立壓力：{0}被迫在你附近建立{1}個據點。</TSA_WD_Log_IsolationPressure>
+  <!-- EN: EXPAND: {0} skipped (world NPC settlement count {1} at cap {2}). -->
+  <TSA_WD_Log_Expand_SkippedGlobalCap>擴張：{0}略過（世界NPC據點數{1}已達上限{2}）。</TSA_WD_Log_Expand_SkippedGlobalCap>
+  <!-- EN: EXPAND: {0} skipped (no valid tile in range for a new settlement). -->
+  <TSA_WD_Log_Expand_SkippedNoValidTile>擴張：{0}略過（範圍內沒有可建立新據點的有效地塊）。</TSA_WD_Log_Expand_SkippedNoValidTile>
+  <!-- EN: GROW: Strength {0} -> {1} -->
+  <TSA_WD_Log_Grow>成長：戰力{0} -&gt; {1}</TSA_WD_Log_Grow>
+  <!-- EN: GROW: {0} at local strength cap; cannot upgrade; expansion on cooldown. -->
+  <TSA_WD_Log_Grow_NoChange_ExpandCooldown>成長：{0}已達本地戰力上限；無法升級；擴張冷卻中。</TSA_WD_Log_Grow_NoChange_ExpandCooldown>
+  <!-- EN: GROW: {0} at local strength cap; cannot upgrade; expansion roll failed (success chance {1}). -->
+  <TSA_WD_Log_Grow_NoChange_ExpandRoll>成長：{0}已達本地戰力上限；無法升級；擴張擲骰失敗（成功機率{1}）。</TSA_WD_Log_Grow_NoChange_ExpandRoll>
+  <!-- EN: Action -->
+  <TSA_WD_Log_HeaderAction>行動</TSA_WD_Log_HeaderAction>
+  <!-- EN: Actor A -->
+  <TSA_WD_Log_HeaderActor>行動者A</TSA_WD_Log_HeaderActor>
+  <!-- EN: Actor B -->
+  <TSA_WD_Log_HeaderTarget>行動者B</TSA_WD_Log_HeaderTarget>
+  <!-- EN: Timestamp -->
+  <TSA_WD_Log_HeaderTime>時間</TSA_WD_Log_HeaderTime>
+  <!-- EN: Mission aborted: Destination no longer valid. -->
+  <TSA_WD_Log_MissionAborted_TargetInvalid>任務中止：目的地已失效。</TSA_WD_Log_MissionAborted_TargetInvalid>
+  <!-- EN: REVOLT: {0} was liberated from {1}. Strength: {2} -> {3}{4} -->
+  <TSA_WD_Log_Revolt_Entry>叛亂：{0}已從{1}手中解放。戰力：{2} -&gt; {3}{4}</TSA_WD_Log_Revolt_Entry>
+  <!-- EN:  (Downgraded to {0}) -->
+  <TSA_WD_Log_Revolt_TierDrop>（降級為{0}）</TSA_WD_Log_Revolt_TierDrop>
+  <!-- EN: {0} has exceeded its maximum travel time or ran out of supplies and was lost. -->
+  <TSA_WD_Log_TravelerExpired>{0}超過最長行程時間或補給耗盡，已經失散。</TSA_WD_Log_TravelerExpired>
+  <!-- EN: {0} lost its route and could not continue; mission aborted. -->
+  <TSA_WD_Log_TravelerAborted_Stranded>{0}迷失路線而無法繼續；任務中止。</TSA_WD_Log_TravelerAborted_Stranded>
+  <!-- EN: TRADER: {0} skipped (trader cooldown). -->
+  <TSA_WD_Log_Trader_SkippedCooldown>商人：{0}略過（商人冷卻中）。</TSA_WD_Log_Trader_SkippedCooldown>
+  <!-- EN: TRADER: {0} skipped (sending a caravan would break garrison: cost {1}, floor {2}, current strength {3}). -->
+  <TSA_WD_Log_Trader_SkippedGarrison>商人：{0}略過（派出旅隊會使駐軍不足：花費{1}，下限{2}，目前戰力{3}）。</TSA_WD_Log_Trader_SkippedGarrison>
+  <!-- EN: TRADER: {0} skipped (traveler def missing; intended destination {1}). -->
+  <TSA_WD_Log_Trader_SkippedNoDef>商人：{0}略過（缺少旅行者def；原定目的地{1}）。</TSA_WD_Log_Trader_SkippedNoDef>
+  <!-- EN: TRADER: {0} skipped (no valid neutral or allied settlement in range). -->
+  <TSA_WD_Log_Trader_SkippedNoTarget>商人：{0}略過（範圍內沒有有效的中立或同盟據點）。</TSA_WD_Log_Trader_SkippedNoTarget>
+  <!-- EN: TRADER: Caravan launched from {0} to {1}. -->
+  <TSA_WD_Log_TraderLaunched>商人：商隊從{0}出發前往{1}。</TSA_WD_Log_TraderLaunched>
+  <!-- EN: TRADE: WD trader caravan completed from {0} to {1}. -->
+  <TSA_WD_Log_TraderTrade_Header>貿易：WD商隊已完成從{0}到{1}的行程。</TSA_WD_Log_TraderTrade_Header>
+  <!-- EN: TRADE: {0} seized a trader caravan ({1}); receiver trade reward applied. -->
+  <TSA_WD_Log_TraderTrade_HeaderIntercept>貿易：{0}奪取了一支商隊（{1}）；已套用接收方的貿易獎勵。</TSA_WD_Log_TraderTrade_HeaderIntercept>
+  <!-- EN: {0}: {1} -->
+  <TSA_WD_Log_TraderTrade_Line>{0}：{1}</TSA_WD_Log_TraderTrade_Line>
+  <!-- EN: Sender ({0}) -->
+  <TSA_WD_Log_TraderTrade_RoleSender>發送方（{0}）</TSA_WD_Log_TraderTrade_RoleSender>
+  <!-- EN: Receiver ({0}) -->
+  <TSA_WD_Log_TraderTrade_RoleReceiver>接收方（{0}）</TSA_WD_Log_TraderTrade_RoleReceiver>
+  <!-- EN: Interceptor ({0}) -->
+  <TSA_WD_Log_TraderTrade_RoleInterceptor>攔截方（{0}）</TSA_WD_Log_TraderTrade_RoleInterceptor>
+  <!-- EN: offensive strength increased (no tier upgrade on this trade). -->
+  <TSA_WD_Log_TraderTrade_OutcomeStrength>進攻戰力增加（此次貿易未提升據點等級）。</TSA_WD_Log_TraderTrade_OutcomeStrength>
+  <!-- EN: offensive strength increased and settlement tier upgraded (trade path; ignores same-tier neighbor requirements). -->
+  <TSA_WD_Log_TraderTrade_OutcomeUpgrade>進攻戰力增加且據點等級提升（貿易途徑；忽略同等級鄰近據點的條件）。</TSA_WD_Log_TraderTrade_OutcomeUpgrade>
+  <!-- EN: {0}: no settlement strength applied (not a WD settlement / excluded). -->
+  <TSA_WD_Log_TraderTrade_NoStrengthLine>{0}：未套用據點戰力（非WD據點／已排除）。</TSA_WD_Log_TraderTrade_NoStrengthLine>
+  <!-- EN: TRADER: Caravan arrived from {0} at {1}. -->
+  <TSA_WD_Log_TraderArrived>商人：來自{0}的商隊抵達{1}。</TSA_WD_Log_TraderArrived>
+  <!-- EN: OUTPOST UPGRADE: Caravan launched from {0} to {1} for {2} (level {3}). -->
+  <TSA_WD_Log_OutpostUpgradeLaunched>哨站升級：旅隊從{0}出發前往{1}，進行{2}（等級{3}）。</TSA_WD_Log_OutpostUpgradeLaunched>
+  <!-- EN: OUTPOST UPGRADE: {0} completed upgrade {1} (level {2}). -->
+  <TSA_WD_Log_OutpostUpgradeApplied>哨站升級：{0}完成升級{1}（等級{2}）。</TSA_WD_Log_OutpostUpgradeApplied>
+  <!-- EN: OUTPOST UPGRADE: {0} failed to apply pending upgrade on arrival. -->
+  <TSA_WD_Log_OutpostUpgradeApplyFailed>哨站升級：{0}抵達後未能套用待處理的升級。</TSA_WD_Log_OutpostUpgradeApplyFailed>
+  <!-- EN: UPGRADE: {0} -> {1} ({2} other same-tier faction settlements in range; requires {3}, excluding this settlement) -->
+  <TSA_WD_Log_Upgrade>升級：{0} -&gt; {1}（範圍內有{2}個同派系同等級據點；需要{3}個，不含此據點）</TSA_WD_Log_Upgrade>
+  <!-- EN: Tile {0} -->
+  <TSA_WD_Log_TileActor>地塊{0}</TSA_WD_Log_TileActor>
+  <!-- EN: {0} sent a fortify crew toward tile {1}. -->
+  <TSA_WD_Log_Fortify>{0}派出設防小隊前往地塊{1}。</TSA_WD_Log_Fortify>
+  <!-- EN: {0} ordered fortify via {1} toward tile {2}. -->
+  <TSA_WD_Log_Fortify_Delegated>{0}經由{1}下令設防，目標地塊{2}。</TSA_WD_Log_Fortify_Delegated>
+  <!-- EN: {0} finished a road block at tile {1}. -->
+  <TSA_WD_Log_Fortify_RoadBlockComplete>{0}在地塊{1}完成了一處路障。</TSA_WD_Log_Fortify_RoadBlockComplete>
+  <!-- EN: {0} finished a spike trap at tile {1}. -->
+  <TSA_WD_Log_Fortify_SpikeTrapComplete>{0}在地塊{1}完成了一處尖刺陷阱。</TSA_WD_Log_Fortify_SpikeTrapComplete>
+  <!-- EN: {0} finished an AT Turret at tile {1}. -->
+  <TSA_WD_Log_Fortify_AT_TurretComplete>{0}在地塊{1}完成了一座 反戰車砲塔。</TSA_WD_Log_Fortify_AT_TurretComplete>
+  <!-- EN: {0} sent an AT Turret crew toward tile {1}. -->
+  <TSA_WD_Log_Fortify_DedicatedAtTurret>{0}派出 反戰車砲塔小隊前往地塊{1}。</TSA_WD_Log_Fortify_DedicatedAtTurret>
+  <!-- EN: {0} finished an AT Turret at tile {1}. -->
+  <TSA_WD_Log_AT_TurretBuilt>{0}在地塊{1}完成了一座 反戰車砲塔。</TSA_WD_Log_AT_TurretBuilt>
+  <!-- EN: AT Turret kill -->
+  <TSA_WD_AT_Turret_DestroyedTarget_Label>反戰車砲塔擊殺</TSA_WD_AT_Turret_DestroyedTarget_Label>
+  <!-- EN: {0} destroyed {1}. -->
+  <TSA_WD_AT_Turret_DestroyedTarget_Text>{0}摧毀了{1}。</TSA_WD_AT_Turret_DestroyedTarget_Text>
+  <!-- EN: AT Turret hit -->
+  <TSA_WD_AT_Turret_DamagedTarget_Label>反戰車砲塔命中</TSA_WD_AT_Turret_DamagedTarget_Label>
+  <!-- EN: {0} hit {1} ({2} → {3} strength). -->
+  <TSA_WD_AT_Turret_DamagedTarget_Text>{0}命中了{1}（戰力{2} → {3}）。</TSA_WD_AT_Turret_DamagedTarget_Text>
+  <!-- EN: AT Turret destroyed your force -->
+  <TSA_WD_AT_Turret_NpcKilledYou_Label>反戰車砲塔摧毀了你的部隊</TSA_WD_AT_Turret_NpcKilledYou_Label>
+  <!-- EN: {0} destroyed your {1}. -->
+  <TSA_WD_AT_Turret_NpcKilledYou_Text>{0}摧毀了你的{1}。</TSA_WD_AT_Turret_NpcKilledYou_Text>
+  <!-- EN: AT Turret hit your force -->
+  <TSA_WD_AT_Turret_NpcDamagedYou_Label>反戰車砲塔命中你的部隊</TSA_WD_AT_Turret_NpcDamagedYou_Label>
+  <!-- EN: {0} hit your {1} ({2} → {3} strength). -->
+  <TSA_WD_AT_Turret_NpcDamagedYou_Text>{0}命中了你的{1}（戰力{2} → {3}）。</TSA_WD_AT_Turret_NpcDamagedYou_Text>
+  <!-- EN: AT Turret destroyed your caravan -->
+  <TSA_WD_AT_Turret_NpcCaravanDestroyed_Label>反戰車砲塔摧毀了你的旅隊</TSA_WD_AT_Turret_NpcCaravanDestroyed_Label>
+  <!-- EN: {0} destroyed your {1}. -->
+  <TSA_WD_AT_Turret_NpcCaravanDestroyed_Text>{0}摧毀了你的{1}。</TSA_WD_AT_Turret_NpcCaravanDestroyed_Text>
+  <!-- EN: {0} destroyed your empty {1}. -->
+  <TSA_WD_AT_Turret_NpcCaravanEmptyDestroyed_Text>{0}摧毀了你空無一人的{1}。</TSA_WD_AT_Turret_NpcCaravanEmptyDestroyed_Text>
+  <!-- EN: {0} wiped out your {1}. The following pawns died:\n\n{2} -->
+  <TSA_WD_AT_Turret_NpcCaravanWiped_Text>{0}全滅了你的{1}。以下角色已死亡：\n\n{2}</TSA_WD_AT_Turret_NpcCaravanWiped_Text>
+  <!-- EN: AT Turret hit your caravan -->
+  <TSA_WD_AT_Turret_NpcCaravanWounded_Label>反戰車砲塔命中你的旅隊</TSA_WD_AT_Turret_NpcCaravanWounded_Label>
+  <!-- EN: {0} hit your {1} ({2} killed, {3} wounded). -->
+  <TSA_WD_AT_Turret_NpcCaravanWounded_Text>{0}命中了你的{1}（{2}死亡，{3}受傷）。</TSA_WD_AT_Turret_NpcCaravanWounded_Text>
+  <!-- EN: {0} hit your {1} ({2} killed, {3} wounded). The following pawns died:\n\n{4} -->
+  <TSA_WD_AT_Turret_NpcCaravanWounded_WithNames_Text>{0}命中了你的{1}（{2}死亡，{3}受傷）。以下角色已死亡：\n\n{4}</TSA_WD_AT_Turret_NpcCaravanWounded_WithNames_Text>
+  <!-- EN: {0} hit {1} -->
+  <TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label>{0}命中{1}</TSA_WD_AT_Turret_NpcCaravanPawnsKilled_Label>
+  <!-- EN: {0} wiped {1} -->
+  <TSA_WD_AT_Turret_NpcCaravanPawnsWiped_Label>{0}全滅{1}</TSA_WD_AT_Turret_NpcCaravanPawnsWiped_Label>
+  <!-- EN: AT Turret destroyed -->
+  <TSA_WD_AT_Turret_PlayerDestroyed_Label>反戰車砲塔被摧毀</TSA_WD_AT_Turret_PlayerDestroyed_Label>
+  <!-- EN: Your {0} was destroyed. -->
+  <TSA_WD_AT_Turret_PlayerDestroyed_Text>你的{0}已被摧毀。</TSA_WD_AT_Turret_PlayerDestroyed_Text>
+  <!-- EN: Your {0} was destroyed by {1}. -->
+  <TSA_WD_AT_Turret_PlayerDestroyedBy_Text>你的{0}被{1}摧毀了。</TSA_WD_AT_Turret_PlayerDestroyedBy_Text>
+  <!-- EN: Your caravan overran {0}. -->
+  <TSA_WD_AT_Turret_PlayerOverran_Text>你的旅隊攻陷了{0}。</TSA_WD_AT_Turret_PlayerOverran_Text>
+  <!-- EN: {0} missed {1}. -->
+  <TSA_WD_AT_Turret_Miss_Text>{0}未擊中{1}。</TSA_WD_AT_Turret_Miss_Text>
+  <!-- EN: Action Log (Last 500) -->
+  <TSA_WD_Log_WindowTitle>行動紀錄（最近500筆）</TSA_WD_Log_WindowTitle>
+  <!-- EN: Raider Caravan -->
+  <TSA_WD_RaiderCaravan>突襲旅隊</TSA_WD_RaiderCaravan>
+  <!-- EN: Raider Drop Pods -->
+  <TSA_WD_RaiderDropPods>突襲運輸艙</TSA_WD_RaiderDropPods>
+  <!-- EN: Raider Gravship -->
+  <TSA_WD_RaiderGravship>突襲重力船</TSA_WD_RaiderGravship>
+  <!-- EN: Trader Caravan -->
+  <TSA_WD_TraderCaravan>商隊</TSA_WD_TraderCaravan>
+  <!-- EN: Road Builder Caravan -->
+  <TSA_WD_RoadBuilderCaravan>築路旅隊</TSA_WD_RoadBuilderCaravan>
+  <!-- EN: Bridge Builder Caravan -->
+  <TSA_WD_BridgeBuilderCaravan>築橋旅隊</TSA_WD_BridgeBuilderCaravan>
+  <!-- EN: Bridge Teardown Caravan -->
+  <TSA_WD_BridgeDeconstructCaravan>拆橋旅隊</TSA_WD_BridgeDeconstructCaravan>
+  <!-- EN: Settlement Buyer Caravan -->
+  <TSA_WD_SettlementBuyerCaravan>據點購買旅隊</TSA_WD_SettlementBuyerCaravan>
+  <!-- EN: Diplomacy Negotiate Caravan -->
+  <TSA_WD_DiplomacyNegotiateCaravan>外交談判旅隊</TSA_WD_DiplomacyNegotiateCaravan>
+  <!-- EN: Traveler Caravan -->
+  <TSA_WD_TravelerCaravan>旅行者旅隊</TSA_WD_TravelerCaravan>
+  <!-- EN: Outpost Delivery Caravan -->
+  <TSA_WD_Traveler_Outpost_Delivery>哨站配送旅隊</TSA_WD_Traveler_Outpost_Delivery>
+  <!-- EN: Outpost Upgrade Caravan -->
+  <TSA_WD_Traveler_Outpost_Upgrade>哨站升級旅隊</TSA_WD_Traveler_Outpost_Upgrade>
+  <!-- EN: Strength at Arrival -->
+  <TSA_WD_StrengthAtArrival>抵達時戰力</TSA_WD_StrengthAtArrival>
+  <!-- EN: Strength -->
+  <TSA_WD_StrengthAtDeparture>戰力</TSA_WD_StrengthAtDeparture>
+  <!-- EN: Resting to recover strength -->
+  <TSA_WD_Traveller_AttritionResting>休整中以恢復戰力</TSA_WD_Traveller_AttritionResting>
+  <!-- EN: Time since Departure -->
+  <TSA_WD_TimeSinceDeparture>出發後經過時間</TSA_WD_TimeSinceDeparture>
+  <!-- EN: Total estimated travel time -->
+  <TSA_WD_TimeToDestination>預估總行程時間</TSA_WD_TimeToDestination>
+  <!-- EN: Attack caravan -->
+  <TSA_WD_Traveler_AttackCaravan>攻擊旅隊</TSA_WD_Traveler_AttackCaravan>
+  <!-- EN: Cancel pursuit -->
+  <TSA_WD_Traveler_CancelChase>取消追擊</TSA_WD_Traveler_CancelChase>
+  <!-- EN: Stops pursuit and halts your caravan. Other movement orders do not end pursuit—you must use this button to stop following the target. -->
+  <TSA_WD_Traveler_CancelChase_Desc>停止追擊並讓你的旅隊停下。其他移動命令不會結束追擊——必須使用此按鈕才能停止跟隨目標。</TSA_WD_Traveler_CancelChase_Desc>
+  <!-- EN: Move here -->
+  <TSA_WD_Traveler_MoveHere>移動到此</TSA_WD_Traveler_MoveHere>
+  <!-- EN: Destination -->
+  <TSA_WD_Traveller_Destination>目的地</TSA_WD_Traveller_Destination>
+  <!-- EN: Origin -->
+  <TSA_WD_Traveller_Origin>出發地</TSA_WD_Traveller_Origin>
+  <!-- EN: Unknown -->
+  <TSA_WD_Traveller_Unknown>未知</TSA_WD_Traveller_Unknown>
+  <!-- EN: Total travel time -->
+  <TSA_WD_Traveller_TotalExpectedTravelTime>總行程時間</TSA_WD_Traveller_TotalExpectedTravelTime>
+  <!-- EN: Relationship -->
+  <TSA_WD_Traveller_DiploStatus>關係</TSA_WD_Traveller_DiploStatus>
+  <!-- EN: Expansion Zeal -->
+  <TSA_WD_ZealAttritionBuff>擴張狂熱</TSA_WD_ZealAttritionBuff>
+  <!-- EN: Faction: {0} -->
+  <TS_WD_Log_FactionLabel>派系：{0}</TS_WD_Log_FactionLabel>
+  <!-- EN: Logging Camp -->
+  <TSA_WD_SubType_Logging>伐木營地</TSA_WD_SubType_Logging>
+  <!-- EN: Mining Camp -->
+  <TSA_WD_SubType_Mining>採礦營地</TSA_WD_SubType_Mining>
+  <!-- EN: Farming Camp -->
+  <TSA_WD_SubType_Farming>農耕營地</TSA_WD_SubType_Farming>
+  <!-- EN: Camp -->
+  <TSA_WD_SubType_Camp>營地</TSA_WD_SubType_Camp>
+  <!-- EN: Refuge -->
+  <TSA_WD_SubType_Refuge>避難所</TSA_WD_SubType_Refuge>
+  <!-- EN: Production Village -->
+  <TSA_WD_SubType_Production>生產村落</TSA_WD_SubType_Production>
+  <!-- EN: Prison Village -->
+  <TSA_WD_SubType_Slavery>監獄村落</TSA_WD_SubType_Slavery>
+  <!-- EN: Prison Village -->
+  <TSA_WD_SubType_Prison>監獄村落</TSA_WD_SubType_Prison>
+  <!-- EN: Town -->
+  <TSA_WD_SubType_Fortress>城鎮</TSA_WD_SubType_Fortress>
+  <!-- EN: Vanguard -->
+  <TSA_WD_SubType_Vanguard>先鋒</TSA_WD_SubType_Vanguard>
+  <!-- EN: Citadel -->
+  <TSA_WD_SubType_Citadel>要塞</TSA_WD_SubType_Citadel>
+  <!-- EN: Settlement -->
+  <TSA_WD_SubType_Generic>據點</TSA_WD_SubType_Generic>
+  <!-- EN: DEBUG raid caravan (500) -->
+  <TSA_WD_DebugRaidTravelerLabel>DEBUG突襲旅隊（500）</TSA_WD_DebugRaidTravelerLabel>
+  <!-- EN: WD debug: Click START tile. Spawns a hostile raid traveler (500 str); destination is random ~10 tiles away with a valid path; despawns on arrival (mortar interception applies). -->
+  <TSA_WD_DebugRaidPickStart>WD除錯：點擊起點地塊。會生成一支敵對突襲旅行者（戰力500）；目的地為約10格外、有有效路徑的隨機地點；抵達後消失（會套用迫擊砲攔截）。</TSA_WD_DebugRaidPickStart>
+  <!-- EN: WD debug: Could not find a valid random destination (~10 tiles) with a path from the clicked tile. Try another start tile. -->
+  <TSA_WD_DebugRaidNoPath>WD除錯：從點擊的地塊找不到有路徑可達的有效隨機目的地（約10格）。請換個起點地塊。</TSA_WD_DebugRaidNoPath>
+  <!-- EN: WD debug: Spawned {0} raid traveler tiles {1} → {2}. -->
+  <TSA_WD_DebugRaidSpawned>WD除錯：已生成{0}突襲旅行者，地塊{1} → {2}。</TSA_WD_DebugRaidSpawned>
+  <!-- EN: WD debug: No non-player faction hostile to the colony was found. -->
+  <TSA_WD_DebugRaidNoHostileFaction>WD除錯：找不到與殖民地敵對的非玩家派系。</TSA_WD_DebugRaidNoHostileFaction>
+  <!-- EN: WD debug: Click a player outpost. Spawns a real hostile raid caravan (500 str) about 4 tiles away and sends it to attack that outpost. -->
+  <TSA_WD_DebugOutpostRaidPickTarget>WD除錯：點擊一個玩家哨站。會在約4格外生成一支真正的敵對突襲旅隊（戰力500），並派其攻擊該哨站。</TSA_WD_DebugOutpostRaidPickTarget>
+  <!-- EN: WD debug: Clicked tile does not contain a player outpost. -->
+  <TSA_WD_DebugOutpostRaidNoOutpost>WD除錯：點擊的地塊上沒有玩家哨站。</TSA_WD_DebugOutpostRaidNoOutpost>
+  <!-- EN: WD debug: Could not find a valid start tile about 4 tiles away with a path to this outpost. -->
+  <TSA_WD_DebugOutpostRaidNoStart>WD除錯：找不到約4格外、有路徑可達此哨站的有效起點地塊。</TSA_WD_DebugOutpostRaidNoStart>
+  <!-- EN: WD debug: Spawned {0} outpost raid traveler from tile {1} toward {2}. -->
+  <TSA_WD_DebugOutpostRaidSpawned>WD除錯：已生成{0}哨站突襲旅行者，從地塊{1}前往{2}。</TSA_WD_DebugOutpostRaidSpawned>
+  <!-- EN: Silo -->
+  <TSA_WD_AdvBuild_Silo>糧倉</TSA_WD_AdvBuild_Silo>
+  <!-- EN: Hospital -->
+  <TSA_WD_AdvBuild_Hospital>醫院</TSA_WD_AdvBuild_Hospital>
+  <!-- EN: Watch Tower -->
+  <TSA_WD_AdvBuild_WatchTower>瞭望塔</TSA_WD_AdvBuild_WatchTower>
+  <!-- EN: Stable -->
+  <TSA_WD_AdvBuild_Stable>馬廄</TSA_WD_AdvBuild_Stable>
+  <!-- EN: Mortar Turret -->
+  <TSA_WD_AdvBuild_MortarTurret>迫擊砲塔</TSA_WD_AdvBuild_MortarTurret>
+  <!-- EN: AA Turret -->
+  <TSA_WD_AdvBuild_AaTurret>防空砲塔</TSA_WD_AdvBuild_AaTurret>
+  <!-- EN: {0} of {1} -->
+  <TSA_WD_AdvBuild_LabelWithOwner>{1}的{0}</TSA_WD_AdvBuild_LabelWithOwner>
+  <!-- EN: Built by {0} ({1}) -->
+  <TSA_WD_AdvBuild_Inspect_BuiltBy>建造者：{0}（{1}）</TSA_WD_AdvBuild_Inspect_BuiltBy>
+  <!-- EN: Owner lost. This building will be removed. -->
+  <TSA_WD_AdvBuild_Inspect_OwnerLost>擁有者已失去。此建築將被移除。</TSA_WD_AdvBuild_Inspect_OwnerLost>
+  <!-- EN: none -->
+  <TSA_WD_AdvBuild_Inspect_None>無</TSA_WD_AdvBuild_Inspect_None>
+  <!-- EN: Buildings ({1}/{2}): {0} -->
+  <TSA_WD_AdvBuild_Inspect_SettlementBuildings>建築（{1}/{2}）：{0}</TSA_WD_AdvBuild_Inspect_SettlementBuildings>
+  <!-- EN: Defended: hostile raids must beat its strength to destroy it. Mortar hits wear it down; it never regenerates. -->
+  <TSA_WD_AdvBuild_Inspect_ArtilleryVulnerable>有防禦：敵對突襲必須擊敗其戰力才能摧毀它。迫擊砲命中會削弱它；它永遠不會恢復。</TSA_WD_AdvBuild_Inspect_ArtilleryVulnerable>
+  <!-- EN: Undefended: any hostile caravan that crosses this tile, or a single mortar hit, destroys it. -->
+  <TSA_WD_AdvBuild_Inspect_EconomicVulnerable>無防禦：任何經過此地塊的敵對旅隊，或一發迫擊砲命中，都會摧毀它。</TSA_WD_AdvBuild_Inspect_EconomicVulnerable>
+  <!-- EN: Too new to shell: {0} left -->
+  <TSA_WD_AdvBuild_Inspect_Grace>新建中，暫不可砲擊：剩餘{0}</TSA_WD_AdvBuild_Inspect_Grace>
+  <!-- EN: Inactive (disabled in settings, or the owner's tech level is too low) -->
+  <TSA_WD_AdvBuild_Inspect_Inactive>未啟用（已在設定中停用，或擁有者的科技等級太低）</TSA_WD_AdvBuild_Inspect_Inactive>
+  <!-- EN: Reloading: {0} -->
+  <TSA_WD_AdvBuild_Inspect_Cooldown>裝填中：{0}</TSA_WD_AdvBuild_Inspect_Cooldown>
+  <!-- EN: Ready to fire -->
+  <TSA_WD_AdvBuild_Inspect_Ready>可以開火</TSA_WD_AdvBuild_Inspect_Ready>
+  <!-- EN: Fires mortar shells at hostile travelers and targets within {0} tiles. -->
+  <TSA_WD_AdvBuild_Provides_Mortar>向{0}格內的敵對旅行者與目標發射迫擊砲彈。</TSA_WD_AdvBuild_Provides_Mortar>
+  <!-- EN: Engages hostile drop pods, gravships, transport pods and mortar shells within {0} tiles. -->
+  <TSA_WD_AdvBuild_Provides_AntiAir>迎擊{0}格內的敵對運輸艙、重力船與迫擊砲彈。</TSA_WD_AdvBuild_Provides_AntiAir>
+  <!-- EN: Owner max offensive strength +{0}% ({1} to {2}). -->
+  <TSA_WD_AdvBuild_Boost_Silo>擁有者進攻戰力上限+{0}%（{1}→{2}）。</TSA_WD_AdvBuild_Boost_Silo>
+  <!-- EN: Owner offensive and defensive recovery +{0}% (now {1} / {2} per day). -->
+  <TSA_WD_AdvBuild_Boost_Hospital>擁有者進攻與防禦恢復+{0}%（目前每日{1} / {2}）。</TSA_WD_AdvBuild_Boost_Hospital>
+  <!-- EN: Owner attack range +{0}% ({1} to {2} tiles). -->
+  <TSA_WD_AdvBuild_Boost_WatchTower>擁有者攻擊範圍+{0}%（{1}→{2}格）。</TSA_WD_AdvBuild_Boost_WatchTower>
+  <!-- EN: Land caravans from the owner move {0}% faster. -->
+  <TSA_WD_AdvBuild_Boost_Stable>擁有者的陸路旅隊移動速度加快{0}%。</TSA_WD_AdvBuild_Boost_Stable>
+  <!-- EN: Benefit: Max Settlement Strength +{0}% -->
+  <TSA_WD_AdvBuild_Benefit_Silo>效果：據點戰力上限+{0}%</TSA_WD_AdvBuild_Benefit_Silo>
+  <!-- EN: Benefit: Settlement Recovery +{0}% -->
+  <TSA_WD_AdvBuild_Benefit_Hospital>效果：據點恢復+{0}%</TSA_WD_AdvBuild_Benefit_Hospital>
+  <!-- EN: Benefit: Attack Range +{0}% -->
+  <TSA_WD_AdvBuild_Benefit_WatchTower>效果：攻擊範圍+{0}%</TSA_WD_AdvBuild_Benefit_WatchTower>
+  <!-- EN: Benefit: Land Caravan Speed +{0}% -->
+  <TSA_WD_AdvBuild_Benefit_Stable>效果：陸路旅隊速度+{0}%</TSA_WD_AdvBuild_Benefit_Stable>
+  <!-- EN: Watch Tower: +{0}% -->
+  <TSA_WD_AdvBuild_AttackRangeWatchTowerTip>瞭望塔：+{0}%</TSA_WD_AdvBuild_AttackRangeWatchTowerTip>
+  <!-- EN: Too new to shell ({0} left). -->
+  <TSA_WD_AdvBuild_ReasonShellGrace>新建中，暫不可砲擊（剩餘{0}）。</TSA_WD_AdvBuild_ReasonShellGrace>
+  <!-- EN: {1} destroyed {0}. -->
+  <TSA_WD_AdvBuild_Msg_PlayerDestroyed>{1}摧毀了{0}。</TSA_WD_AdvBuild_Msg_PlayerDestroyed>
+  <!-- EN: {0} sent a crew to build a {1}. -->
+  <TSA_WD_AdvBuild_Log_BuilderLaunched>{0}派出小隊建造{1}。</TSA_WD_AdvBuild_Log_BuilderLaunched>
+  <!-- EN: {0} built a {1}. -->
+  <TSA_WD_AdvBuild_Log_Built>{0}建成了{1}。</TSA_WD_AdvBuild_Log_Built>
+  <!-- EN: {0} was destroyed. -->
+  <TSA_WD_AdvBuild_Log_Destroyed>{0}已被摧毀。</TSA_WD_AdvBuild_Log_Destroyed>
+  <!-- EN: {0} was destroyed by {1}. -->
+  <TSA_WD_AdvBuild_Log_DestroyedBy>{0}被{1}摧毀。</TSA_WD_AdvBuild_Log_DestroyedBy>
+  <!-- EN: {0} raised a {1} on reaching tier 4. -->
+  <TSA_WD_AdvBuild_Log_FreeArtillery>{0}升到4級時架設了{1}。</TSA_WD_AdvBuild_Log_FreeArtillery>
+  <!-- EN: Building crew -->
+  <TSA_WD_Traveler_AdvancedBuilder>建造小隊</TSA_WD_Traveler_AdvancedBuilder>
+  <!-- EN: Strength: {0}/{1} -->
+  <TSA_WD_AdvBuild_Inspect_Strength>戰力：{0}/{1}</TSA_WD_AdvBuild_Inspect_Strength>
+  <!-- EN: Faction: {0} -->
+  <TSA_WD_AdvBuild_Inspect_Faction>派系：{0}</TSA_WD_AdvBuild_Inspect_Faction>
+  <!-- EN: Built by Settlement: {0} -->
+  <TSA_WD_AdvBuild_Inspect_BuiltBySettlement>建造據點：{0}</TSA_WD_AdvBuild_Inspect_BuiltBySettlement>
+  <!-- EN: Reloading: {0} Days -->
+  <TSA_WD_AdvBuild_Inspect_ReloadingDays>裝填中：{0}天</TSA_WD_AdvBuild_Inspect_ReloadingDays>
+  <!-- EN: Protection from being shelled: {0} Days -->
+  <TSA_WD_AdvBuild_Inspect_ShellProtectionDays>免受砲擊保護：{0}天</TSA_WD_AdvBuild_Inspect_ShellProtectionDays>
+  <!-- EN: Stats -->
+  <TSA_WD_TravelerStats_TabLabel>數值</TSA_WD_TravelerStats_TabLabel>
+  <!-- EN: Route -->
+  <TSA_WD_TravelerStats_Section_Route>路線</TSA_WD_TravelerStats_Section_Route>
+  <!-- EN: Force -->
+  <TSA_WD_TravelerStats_Section_Force>兵力</TSA_WD_TravelerStats_Section_Force>
+  <!-- EN: Ambush -->
+  <TSA_WD_TravelerStats_Section_Ambush>伏擊</TSA_WD_TravelerStats_Section_Ambush>
+  <!-- EN: Player threat -->
+  <TSA_WD_TravelerStats_Section_PlayerThreat>對玩家的威脅</TSA_WD_TravelerStats_Section_PlayerThreat>
+  <!-- EN: Mission -->
+  <TSA_WD_TravelerStats_Row_Mission>任務</TSA_WD_TravelerStats_Row_Mission>
+  <!-- EN: Faction -->
+  <TSA_WD_TravelerStats_Row_Faction>派系</TSA_WD_TravelerStats_Row_Faction>
+  <!-- EN: Origin -->
+  <TSA_WD_TravelerStats_Row_Origin>出發地</TSA_WD_TravelerStats_Row_Origin>
+  <!-- EN: Destination -->
+  <TSA_WD_TravelerStats_Row_Destination>目的地</TSA_WD_TravelerStats_Row_Destination>
+  <!-- EN: Strength (current / initial) -->
+  <TSA_WD_TravelerStats_Row_Strength>戰力（目前／初始）</TSA_WD_TravelerStats_Row_Strength>
+  <!-- EN: Strength remaining -->
+  <TSA_WD_TravelerStats_Row_StrengthRemaining>剩餘戰力</TSA_WD_TravelerStats_Row_StrengthRemaining>
+  <!-- EN: ETA (days) -->
+  <TSA_WD_TravelerStats_Row_EtaDays>預計抵達（天）</TSA_WD_TravelerStats_Row_EtaDays>
+  <!-- EN: Travel mode -->
+  <TSA_WD_TravelerStats_Row_TravelMode>移動方式</TSA_WD_TravelerStats_Row_TravelMode>
+  <!-- EN: Resting from attrition -->
+  <TSA_WD_TravelerStats_Row_AttritionResting>休整中（暫停耗損）</TSA_WD_TravelerStats_Row_AttritionResting>
+  <!-- EN: Land -->
+  <TSA_WD_TravelerStats_Mode_Land>陸路</TSA_WD_TravelerStats_Mode_Land>
+  <!-- EN: Drop pod -->
+  <TSA_WD_TravelerStats_Mode_DropPod>運輸艙</TSA_WD_TravelerStats_Mode_DropPod>
+  <!-- EN: Gravship -->
+  <TSA_WD_TravelerStats_Mode_Gravship>重力船</TSA_WD_TravelerStats_Mode_Gravship>
+  <!-- EN: Ambush visibility -->
+  <TSA_WD_TravelerStats_Row_AmbushRangeBand>伏擊可見範圍</TSA_WD_TravelerStats_Row_AmbushRangeBand>
+  <!-- EN: {0} of {1} tiles -->
+  <TSA_WD_TravelerStats_Row_AmbushRangeBandValue>{0}／{1}格</TSA_WD_TravelerStats_Row_AmbushRangeBandValue>
+  <!-- EN: How far settlements can spot this traveler for ambush. Weaker parties are only seen nearby. Trader and Expansion parties count as stronger for spotting. -->
+  <TSA_WD_TravelerStats_Row_AmbushRangeBandTip>據點能在多遠的距離發現此旅行者並發動伏擊。較弱的隊伍只會在近距離被發現。商人與擴張隊伍在被發現的判定上視為較強。</TSA_WD_TravelerStats_Row_AmbushRangeBandTip>
+  <!-- EN: Can be ambushed -->
+  <TSA_WD_TravelerStats_Row_CanBeAmbushed>可被伏擊</TSA_WD_TravelerStats_Row_CanBeAmbushed>
+  <!-- EN: Raid target -->
+  <TSA_WD_TravelerStats_Row_RaidTargetKind>突襲目標</TSA_WD_TravelerStats_Row_RaidTargetKind>
+  <!-- EN: Beyond normal range -->
+  <TSA_WD_TravelerStats_Row_BeyondNormalRange>超出正常範圍</TSA_WD_TravelerStats_Row_BeyondNormalRange>
+  <!-- EN: Counts toward raid caps -->
+  <TSA_WD_TravelerStats_Row_CapStamped>計入突襲上限</TSA_WD_TravelerStats_Row_CapStamped>
+  <!-- EN: Reached player contact -->
+  <TSA_WD_TravelerStats_Row_Contacted>已與玩家接觸</TSA_WD_TravelerStats_Row_Contacted>
+  <!-- EN: Yes -->
+  <TSA_WD_TravelerStats_Yes>是</TSA_WD_TravelerStats_Yes>
+  <!-- EN: No -->
+  <TSA_WD_TravelerStats_No>否</TSA_WD_TravelerStats_No>
+  <!-- EN: Colony -->
+  <TSA_WD_TravelerStats_RaidTarget_Colony>殖民地</TSA_WD_TravelerStats_RaidTarget_Colony>
+  <!-- EN: Outpost -->
+  <TSA_WD_TravelerStats_RaidTarget_Outpost>哨站</TSA_WD_TravelerStats_RaidTarget_Outpost>
+  <!-- EN: Settlement -->
+  <TSA_WD_TravelerStats_RaidTarget_Settlement>據點</TSA_WD_TravelerStats_RaidTarget_Settlement>
+  <!-- EN: Inventory -->
+  <TSA_WD_TravelerInventory_TabLabel>貨物</TSA_WD_TravelerInventory_TabLabel>
+  <!-- EN: No cargo on this traveler. -->
+  <TSA_WD_TravelerInventory_Empty>此旅行者沒有攜帶貨物。</TSA_WD_TravelerInventory_Empty>
+  <!-- EN: Upgrade: {0} (level {1}) -->
+  <TSA_WD_TravelerInventory_UpgradeLine>升級：{0}（等級{1}）</TSA_WD_TravelerInventory_UpgradeLine>
+  <!-- EN: Converting to: {0} -->
+  <TSA_WD_TravelerInventory_TypeChangeLine>轉換為：{0}</TSA_WD_TravelerInventory_TypeChangeLine>
+</LanguageData>

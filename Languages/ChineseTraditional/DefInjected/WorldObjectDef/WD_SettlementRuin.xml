@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: settlement ruins -->
+  <TSA_WD_SettlementRuin.label>據點廢墟</TSA_WD_SettlementRuin.label>
+  <!-- EN: Temporary ruins left after a settlement was razed. Blocks new settlements and outposts nearby until cleared. -->
+  <TSA_WD_SettlementRuin.description>據點被夷平後留下的臨時廢墟。清除前，附近無法建立新的據點與哨站。</TSA_WD_SettlementRuin.description>
+</LanguageData>

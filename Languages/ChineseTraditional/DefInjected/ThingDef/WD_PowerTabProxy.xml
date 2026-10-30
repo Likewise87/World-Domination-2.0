@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: WD remote power -->
+  <TSA_WD_RemotePowerTabSource.label>WD遠端電力</TSA_WD_RemotePowerTabSource.label>
+  <!-- EN: Abstract remote power supplied by World Domination power plant outposts. -->
+  <TSA_WD_RemotePowerTabSource.description>由World Domination發電廠哨站供應的抽象遠端電力。</TSA_WD_RemotePowerTabSource.description>
+</LanguageData>

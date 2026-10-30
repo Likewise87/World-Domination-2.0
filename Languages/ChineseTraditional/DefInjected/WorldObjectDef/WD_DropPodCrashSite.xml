@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: drop pod crash site -->
+  <TSA_WD_DropPodCrashSite.label>運輸艙墜毀點</TSA_WD_DropPodCrashSite.label>
+  <!-- EN: A temporary crash site from anti-air fire against player drop pods. -->
+  <TSA_WD_DropPodCrashSite.description>玩家的運輸艙遭防空火力擊落後形成的臨時墜毀點。</TSA_WD_DropPodCrashSite.description>
+</LanguageData>

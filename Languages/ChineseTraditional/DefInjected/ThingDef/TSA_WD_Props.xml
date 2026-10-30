@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: hay bale -->
+  <TSA_WD_Hayball_2a.label>牧草捆</TSA_WD_Hayball_2a.label>
+  <!-- EN: A large roll of hay. -->
+  <TSA_WD_Hayball_2a.description>一大捆牧草。</TSA_WD_Hayball_2a.description>
+  <!-- EN: hay bale -->
+  <TSA_WD_Hayball_3a.label>牧草捆</TSA_WD_Hayball_3a.label>
+  <!-- EN: A large roll of hay. -->
+  <TSA_WD_Hayball_3a.description>一大捆牧草。</TSA_WD_Hayball_3a.description>
+  <!-- EN: hay bale -->
+  <TSA_WD_Hayball_4a.label>牧草捆</TSA_WD_Hayball_4a.label>
+  <!-- EN: A large roll of hay. -->
+  <TSA_WD_Hayball_4a.description>一大捆牧草。</TSA_WD_Hayball_4a.description>
+  <!-- EN: hay bale -->
+  <TSA_WD_Hayball_5a.label>牧草捆</TSA_WD_Hayball_5a.label>
+  <!-- EN: A large roll of hay. -->
+  <TSA_WD_Hayball_5a.description>一大捆牧草。</TSA_WD_Hayball_5a.description>
+  <!-- EN: mining wagon -->
+  <TSA_WD_Wagon_1a.label>礦車</TSA_WD_Wagon_1a.label>
+  <!-- EN: A stationary wagon loaded with mined stone or ore. -->
+  <TSA_WD_Wagon_1a.description>一輛停放不動、裝滿開採石材或礦石的礦車。</TSA_WD_Wagon_1a.description>
+  <!-- EN: mining wagon -->
+  <TSA_WD_Wagon_2a.label>礦車</TSA_WD_Wagon_2a.label>
+  <!-- EN: A stationary wagon loaded with mined stone or ore. -->
+  <TSA_WD_Wagon_2a.description>一輛停放不動、裝滿開採石材或礦石的礦車。</TSA_WD_Wagon_2a.description>
+  <!-- EN: mining wagon -->
+  <TSA_WD_Wagon_3a.label>礦車</TSA_WD_Wagon_3a.label>
+  <!-- EN: A stationary wagon loaded with mined stone or ore. -->
+  <TSA_WD_Wagon_3a.description>一輛停放不動、裝滿開採石材或礦石的礦車。</TSA_WD_Wagon_3a.description>
+  <!-- EN: mining wagon -->
+  <TSA_WD_Wagon_5a.label>礦車</TSA_WD_Wagon_5a.label>
+  <!-- EN: A stationary wagon loaded with mined stone or ore. -->
+  <TSA_WD_Wagon_5a.description>一輛停放不動、裝滿開採石材或礦石的礦車。</TSA_WD_Wagon_5a.description>
+  <!-- EN: wooden crate -->
+  <TSA_WD_Box_1a.label>木箱</TSA_WD_Box_1a.label>
+  <!-- EN: A wooden storage crate. -->
+  <TSA_WD_Box_1a.description>木製儲物箱。</TSA_WD_Box_1a.description>
+  <!-- EN: wooden crate -->
+  <TSA_WD_Box_2a.label>木箱</TSA_WD_Box_2a.label>
+  <!-- EN: A wooden storage crate. -->
+  <TSA_WD_Box_2a.description>木製儲物箱。</TSA_WD_Box_2a.description>
+  <!-- EN: wooden crate -->
+  <TSA_WD_Box_3a.label>木箱</TSA_WD_Box_3a.label>
+  <!-- EN: A wooden storage crate. -->
+  <TSA_WD_Box_3a.description>木製儲物箱。</TSA_WD_Box_3a.description>
+  <!-- EN: wooden crate -->
+  <TSA_WD_Box_4a.label>木箱</TSA_WD_Box_4a.label>
+  <!-- EN: A wooden storage crate. -->
+  <TSA_WD_Box_4a.description>木製儲物箱。</TSA_WD_Box_4a.description>
+  <!-- EN: wooden crate -->
+  <TSA_WD_Box_5a.label>木箱</TSA_WD_Box_5a.label>
+  <!-- EN: A wooden storage crate. -->
+  <TSA_WD_Box_5a.description>木製儲物箱。</TSA_WD_Box_5a.description>
+  <!-- EN: crate pallet -->
+  <TSA_WD_BoxPallet_1a.label>木箱棧板</TSA_WD_BoxPallet_1a.label>
+  <!-- EN: A wooden pallet stacked with storage crates. -->
+  <TSA_WD_BoxPallet_1a.description>堆滿儲物箱的木製棧板。</TSA_WD_BoxPallet_1a.description>
+  <!-- EN: crate pallet -->
+  <TSA_WD_BoxPallet_2a.label>木箱棧板</TSA_WD_BoxPallet_2a.label>
+  <!-- EN: A wooden pallet stacked with storage crates. -->
+  <TSA_WD_BoxPallet_2a.description>堆滿儲物箱的木製棧板。</TSA_WD_BoxPallet_2a.description>
+  <!-- EN: crate pallet -->
+  <TSA_WD_BoxPallet_3a.label>木箱棧板</TSA_WD_BoxPallet_3a.label>
+  <!-- EN: A pallet of industrial storage crates. -->
+  <TSA_WD_BoxPallet_3a.description>一板工業儲物箱。</TSA_WD_BoxPallet_3a.description>
+  <!-- EN: wooden cart -->
+  <TSA_WD_Cart_5a.label>木推車</TSA_WD_Cart_5a.label>
+  <!-- EN: A wooden cart. -->
+  <TSA_WD_Cart_5a.description>一輛木製推車。</TSA_WD_Cart_5a.description>
+  <!-- EN: wooden cart -->
+  <TSA_WD_Cart_6a.label>木推車</TSA_WD_Cart_6a.label>
+  <!-- EN: A wooden cart. -->
+  <TSA_WD_Cart_6a.description>一輛木製推車。</TSA_WD_Cart_6a.description>
+  <!-- EN: wooden cart -->
+  <TSA_WD_Cart_7a.label>木推車</TSA_WD_Cart_7a.label>
+  <!-- EN: A wooden cart. -->
+  <TSA_WD_Cart_7a.description>一輛木製推車。</TSA_WD_Cart_7a.description>
+  <!-- EN: wooden cart -->
+  <TSA_WD_Cart_8a.label>木推車</TSA_WD_Cart_8a.label>
+  <!-- EN: A wooden cart. -->
+  <TSA_WD_Cart_8a.description>一輛木製推車。</TSA_WD_Cart_8a.description>
+  <!-- EN: wooden cart -->
+  <TSA_WD_Cart_9a.label>木推車</TSA_WD_Cart_9a.label>
+  <!-- EN: A wooden cart. -->
+  <TSA_WD_Cart_9a.description>一輛木製推車。</TSA_WD_Cart_9a.description>
+  <!-- EN: wooden cart -->
+  <TSA_WD_Cart_10a.label>木推車</TSA_WD_Cart_10a.label>
+  <!-- EN: A wooden cart. -->
+  <TSA_WD_Cart_10a.description>一輛木製推車。</TSA_WD_Cart_10a.description>
+  <!-- EN: wooden cart -->
+  <TSA_WD_Cart_11a.label>木推車</TSA_WD_Cart_11a.label>
+  <!-- EN: A wooden cart. -->
+  <TSA_WD_Cart_11a.description>一輛木製推車。</TSA_WD_Cart_11a.description>
+  <!-- EN: wooden cart -->
+  <TSA_WD_Cart_12a.label>木推車</TSA_WD_Cart_12a.label>
+  <!-- EN: A wooden cart. -->
+  <TSA_WD_Cart_12a.description>一輛木製推車。</TSA_WD_Cart_12a.description>
+</LanguageData>
