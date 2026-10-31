@@ -177,6 +177,8 @@
   <TSA_WD_Notify_NpcMortarHitNpcTooltip>Receive a letter when an enemy mortar fires at another NPC (settlement, caravan, or traveler), or when enemy anti-air destroys another NPC's airborne target (including mortar shells). Can be noisy.</TSA_WD_Notify_NpcMortarHitNpcTooltip>
   <TSA_WD_Notify_WarehouseGoodsArrived>Notify when goods arrive at a Warehouse Outpost</TSA_WD_Notify_WarehouseGoodsArrived>
   <TSA_WD_Notify_WarehouseGoodsArrivedTooltip>Receive a notification when goods are deposited into one of your Warehouse Outposts.</TSA_WD_Notify_WarehouseGoodsArrivedTooltip>
+  <TSA_WD_Notify_WarehouseFull>Notify when a Warehouse is full</TSA_WD_Notify_WarehouseFull>
+  <TSA_WD_Notify_WarehouseFullTooltip>Receive a letter when a delivery overflows a Warehouse Outpost and the excess is sent to your colony.</TSA_WD_Notify_WarehouseFullTooltip>
   <TSA_WD_Notify_OutpostDeliveryToColonyArrived>Notify when outpost deliveries arrive at your colony</TSA_WD_Notify_OutpostDeliveryToColonyArrived>
   <TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>Receive a letter when an outpost delivery reaches a player colony map and drops its goods.</TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>
   <TSA_WD_Notify_PrisonerRecruitedUnderway>Notify when an outpost prisoner is recruited and leaves</TSA_WD_Notify_PrisonerRecruitedUnderway>

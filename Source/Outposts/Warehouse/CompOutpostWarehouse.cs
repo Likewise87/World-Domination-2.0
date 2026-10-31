@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
+using UnityEngine;
 using Verse;
 
 namespace TSA_WorldDomination
@@ -30,6 +31,28 @@ namespace TSA_WorldDomination
         /// <summary>Set in <see cref="Initialize"/> for newly created warehouses; cleared on load so cleared destinations stay cleared.</summary>
         private bool pendingApplyDefaultColonyShipDest;
 
+        /// <summary>Dated food slots; see <see cref="WarehouseFoodLot"/>. Empty when spoilage is disabled.</summary>
+        public List<WarehouseFoodLot> foodLots = new List<WarehouseFoodLot>();
+        /// <summary>Day the fridge lost power, or -1 while it is cold. Refrigerated food spoils <see cref="FridgeOutageDays"/> days after this.</summary>
+        public int fridgeOutageStartDay = -1;
+        /// <summary>Goods that did not fit; runtime only. Sent to the colony by <see cref="FlushOverflow"/>.</summary>
+        private readonly List<ThingDefCountClass> pendingOverflow = new List<ThingDefCountClass>();
+
+        /// <summary>Days a refrigerated stack survives without power before it is lost.</summary>
+        public const int FridgeOutageDays = 3;
+        private const int MaintainIntervalTicks = 250;
+
+        public static bool CapacityEnabled =>
+            WorldDominationMod.settings?.warehouseCapacityEnabled ?? WorldDominationSettings.DefWarehouseCapacityEnabled;
+
+        public static bool SpoilageEnabled =>
+            WorldDominationMod.settings?.warehouseFoodSpoilageEnabled ?? WorldDominationSettings.DefWarehouseFoodSpoilageEnabled;
+
+        public static int SpoilDays =>
+            Mathf.Clamp(Mathf.RoundToInt(WorldDominationMod.settings?.warehouseFoodSpoilDays ?? WorldDominationSettings.DefWarehouseFoodSpoilDays), 5, 60);
+
+        private WorldObject_WD_Outpost Outpost => parent as WorldObject_WD_Outpost;
+
         public override void Initialize(WorldObjectCompProperties props)
         {
             base.Initialize(props);
@@ -49,6 +72,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref autoShipFood, "autoShipFood", false);
             Scribe_Values.Look(ref autoShipDrugs, "autoShipDrugs", false);
             Scribe_Values.Look(ref autoShipMedicine, "autoShipMedicine", false);
+            Scribe_Collections.Look(ref foodLots, "foodLots", LookMode.Deep);
+            Scribe_Values.Look(ref fridgeOutageStartDay, "fridgeOutageStartDay", -1);
             if (Scribe.mode == LoadSaveMode.LoadingVars)
                 pendingApplyDefaultColonyShipDest = false;
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
@@ -57,6 +82,9 @@ namespace TSA_WorldDomination
                     storedItems = new List<ThingDefCountClass>();
                 else
                     PruneUnusableMinifiedStock(storedItems);
+                // Old saves have no lots: existing food becomes one lot dated today.
+                foodLots = foodLots ?? new List<WarehouseFoodLot>();
+                foodLots.RemoveAll(l => l == null || l.def == null || l.count <= 0);
             }
         }
 
@@ -78,10 +106,338 @@ namespace TSA_WorldDomination
         public override void CompTick()
         {
             base.CompTick();
-            if (!autoShipEnabled) return;
             if (parent == null || parent.Destroyed) return;
+            if (parent.IsHashIntervalTick(MaintainIntervalTicks))
+                Maintain();
+            if (!autoShipEnabled) return;
             if (!parent.IsHashIntervalTick(GenDate.TicksPerDay)) return;
             TryAutoShipEntireStock();
+        }
+
+        // ---- Capacity ----
+
+        /// <summary>Base capacity setting plus built warehouse upgrades, in kg.</summary>
+        public float CapacityKg =>
+            (WorldDominationMod.settings?.warehouseCapacityKg ?? WorldDominationSettings.DefWarehouseCapacityKg)
+            + (Outpost?.GetWarehouseCapacityBonusKg() ?? 0f);
+
+        public float UsedMassKg
+        {
+            get
+            {
+                float total = 0f;
+                if (storedItems == null) return total;
+                for (int i = 0; i < storedItems.Count; i++)
+                {
+                    var e = storedItems[i];
+                    if (e?.thingDef == null || e.count <= 0) continue;
+                    total += RowUnitMass(e) * e.count;
+                }
+                return total;
+            }
+        }
+
+        public float FreeMassKg => Mathf.Max(0f, CapacityKg - UsedMassKg);
+
+        private static float RowUnitMass(ThingDefCountClass e) =>
+            e.thingDef.GetStatValueAbstract(StatDefOf.Mass, e.stuff);
+
+        /// <summary>How many units of <paramref name="row"/> still fit (whole units).</summary>
+        public int FitCount(ThingDefCountClass row)
+        {
+            if (row?.thingDef == null || row.count <= 0) return 0;
+            if (!CapacityEnabled) return row.count;
+            float unit = RowUnitMass(row);
+            if (unit <= 0.0001f) return row.count;
+            float free = CapacityKg - UsedMassKg;
+            if (free <= 0f) return 0;
+            return Mathf.Min(row.count, Mathf.FloorToInt(free / unit + 0.0001f));
+        }
+
+        /// <summary>
+        /// Stores as much of <paramref name="row"/> as fits and queues the rest as overflow. Returns the
+        /// stored count. Call <see cref="FlushOverflow"/> once the whole delivery is in.
+        /// </summary>
+        public int DepositRowCapped(ThingDefCountClass row)
+        {
+            if (row?.thingDef == null || row.count <= 0) return 0;
+            if (IsUnusableMinifiedDef(row.thingDef)) return 0;
+            if (storedItems == null) storedItems = new List<ThingDefCountClass>();
+
+            int fit = FitCount(row);
+            if (fit > 0)
+                MergeCount(storedItems, PlainStockRow(row, fit));
+            if (fit < row.count)
+                MergeCount(pendingOverflow, PlainStockRow(row, row.count - fit));
+            if (fit > 0 && IsSpoilingFood(row.thingDef))
+                ReconcileFoodLots();
+            return fit;
+        }
+
+        /// <summary>
+        /// Sends queued overflow straight to the colony and sends the "Warehouse is filled" letter.
+        /// No-op when nothing is queued.
+        /// </summary>
+        public void FlushOverflow()
+        {
+            if (pendingOverflow.Count == 0) return;
+            var sent = new List<ThingDefCountClass>(pendingOverflow);
+            pendingOverflow.Clear();
+
+            SettlementBuyUtility.RefundItems(null, sent);
+
+            if (!(WorldDominationMod.settings?.notifyWarehouseFull ?? WorldDominationSettings.DefNotifyWarehouseFull))
+                return;
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine("TSA_WD_Warehouse_Full_Letter".Translate(parent.LabelCap, Mathf.RoundToInt(CapacityKg)));
+            for (int i = 0; i < sent.Count; i++)
+                sb.AppendLine("- " + sent[i].thingDef.LabelCap + " " + sent[i].count + "x");
+            Find.LetterStack.ReceiveLetter(
+                "TSA_WD_Warehouse_Full_LetterLabel".Translate(parent.LabelCap),
+                sb.ToString().TrimEnd(), LetterDefOf.NegativeEvent, parent);
+        }
+
+        // ---- Food lots, spoilage, fridge ----
+
+        /// <summary>Food that gets a dated slot: ingestibles with a rot timer.</summary>
+        public static bool IsSpoilingFood(ThingDef def)
+        {
+            if (def == null || !def.IsIngestible) return false;
+            CompProperties_Rottable rot = def.GetCompProperties<CompProperties_Rottable>();
+            return rot != null && rot.daysToRotStart < 1000f;
+        }
+
+        /// <summary>Fridge capacity (kg of food) from built upgrades.</summary>
+        public float FridgeCapacityKg => SpoilageEnabled ? (Outpost?.GetFridgeCapacityKg() ?? 0f) : 0f;
+
+        public float FridgeUsedKg
+        {
+            get
+            {
+                float total = 0f;
+                for (int i = 0; i < foodLots.Count; i++)
+                {
+                    var l = foodLots[i];
+                    if (l.refrigerated) total += l.def.GetStatValueAbstract(StatDefOf.Mass) * l.count;
+                }
+                return total;
+            }
+        }
+
+        /// <summary>False while the warehouse has fridges but no power.</summary>
+        public bool FridgePowered
+        {
+            get
+            {
+                WorldObject_WD_Outpost o = Outpost;
+                return o == null || FridgeCapacityKg <= 0f || o.IsPowered;
+            }
+        }
+
+        public int DaysUntilSpoil(WarehouseFoodLot lot)
+        {
+            if (lot == null) return 0;
+            if (lot.refrigerated)
+                return fridgeOutageStartDay < 0 ? int.MaxValue : Mathf.Max(0, fridgeOutageStartDay + FridgeOutageDays - GenDate.DaysPassed);
+            return Mathf.Max(0, lot.arrivalDay + SpoilDays - GenDate.DaysPassed);
+        }
+
+        /// <summary>
+        /// Brings <see cref="foodLots"/> in line with <see cref="storedItems"/>. Surplus in the store is a
+        /// new arrival dated today; a shortfall is a withdrawal, taken oldest dated lot first and
+        /// refrigerated food last. Then fills the fridge with the oldest food.
+        /// </summary>
+        public void ReconcileFoodLots()
+        {
+            if (foodLots == null) foodLots = new List<WarehouseFoodLot>();
+            if (!SpoilageEnabled)
+            {
+                foodLots.Clear();
+                fridgeOutageStartDay = -1;
+                return;
+            }
+
+            int today = GenDate.DaysPassed;
+            var storeTotals = new Dictionary<ThingDef, int>();
+            if (storedItems != null)
+            {
+                for (int i = 0; i < storedItems.Count; i++)
+                {
+                    var e = storedItems[i];
+                    if (e?.thingDef == null || e.count <= 0 || !IsSpoilingFood(e.thingDef)) continue;
+                    storeTotals.TryGetValue(e.thingDef, out int n);
+                    storeTotals[e.thingDef] = n + e.count;
+                }
+            }
+
+            var lotTotals = new Dictionary<ThingDef, int>();
+            for (int i = 0; i < foodLots.Count; i++)
+            {
+                lotTotals.TryGetValue(foodLots[i].def, out int n);
+                lotTotals[foodLots[i].def] = n + foodLots[i].count;
+            }
+
+            foreach (var kv in storeTotals)
+            {
+                lotTotals.TryGetValue(kv.Key, out int inLots);
+                if (kv.Value > inLots)
+                    AddLot(kv.Key, kv.Value - inLots, today, false);
+            }
+            foreach (var kv in lotTotals)
+            {
+                storeTotals.TryGetValue(kv.Key, out int inStore);
+                if (inStore < kv.Value)
+                    TrimLots(kv.Key, kv.Value - inStore);
+            }
+
+            RebalanceFridge(today);
+            foodLots.RemoveAll(l => l.count <= 0);
+        }
+
+        private void AddLot(ThingDef def, int count, int day, bool refrigerated)
+        {
+            for (int i = 0; i < foodLots.Count; i++)
+            {
+                var l = foodLots[i];
+                if (l.def == def && l.refrigerated == refrigerated && (refrigerated || l.arrivalDay == day))
+                {
+                    l.count += count;
+                    return;
+                }
+            }
+            foodLots.Add(new WarehouseFoodLot { def = def, count = count, arrivalDay = day, refrigerated = refrigerated });
+        }
+
+        /// <summary>Removes <paramref name="amount"/> of <paramref name="def"/> from lots: oldest dated first, fridge last.</summary>
+        private void TrimLots(ThingDef def, int amount)
+        {
+            while (amount > 0)
+            {
+                WarehouseFoodLot pick = null;
+                for (int i = 0; i < foodLots.Count; i++)
+                {
+                    var l = foodLots[i];
+                    if (l.def != def || l.count <= 0) continue;
+                    if (pick == null
+                        || (pick.refrigerated && !l.refrigerated)
+                        || (pick.refrigerated == l.refrigerated && l.arrivalDay < pick.arrivalDay))
+                        pick = l;
+                }
+                if (pick == null) return;
+                int take = Mathf.Min(pick.count, amount);
+                pick.count -= take;
+                amount -= take;
+            }
+        }
+
+        /// <summary>Moves the oldest dated food into free fridge space; pushes food out if the fridge shrank.</summary>
+        private void RebalanceFridge(int today)
+        {
+            float cap = FridgeCapacityKg;
+            float used = FridgeUsedKg;
+
+            // Fridge shrank (or was removed): excess goes back to dated lots, dated today.
+            for (int i = 0; i < foodLots.Count && used > cap + 0.001f; i++)
+            {
+                var l = foodLots[i];
+                if (!l.refrigerated || l.count <= 0) continue;
+                float unit = l.def.GetStatValueAbstract(StatDefOf.Mass);
+                int move = unit <= 0.0001f ? l.count : Mathf.Min(l.count, Mathf.CeilToInt((used - cap) / unit));
+                l.count -= move;
+                used -= unit * move;
+                AddLot(l.def, move, today, false);
+            }
+
+            while (cap - used > 0.001f)
+            {
+                WarehouseFoodLot oldest = null;
+                for (int i = 0; i < foodLots.Count; i++)
+                {
+                    var l = foodLots[i];
+                    if (l.refrigerated || l.count <= 0) continue;
+                    if (oldest == null || l.arrivalDay < oldest.arrivalDay) oldest = l;
+                }
+                if (oldest == null) break;
+                float unit = oldest.def.GetStatValueAbstract(StatDefOf.Mass);
+                int fit = unit <= 0.0001f ? oldest.count : Mathf.Min(oldest.count, Mathf.FloorToInt((cap - used) / unit + 0.0001f));
+                if (fit <= 0) break;
+                oldest.count -= fit;
+                used += unit * fit;
+                AddLot(oldest.def, fit, today, true);
+                foodLots.RemoveAll(l => l.count <= 0);
+            }
+        }
+
+        /// <summary>Periodic upkeep: ledger sync, fridge power watch, and spoilage.</summary>
+        public void Maintain()
+        {
+            if (parent == null || parent.Destroyed) return;
+            if (pendingOverflow.Count > 0) FlushOverflow();
+            ReconcileFoodLots();
+            if (!SpoilageEnabled) return;
+
+            int today = GenDate.DaysPassed;
+            bool hasFridgeFood = false;
+            for (int i = 0; i < foodLots.Count; i++)
+                if (foodLots[i].refrigerated) { hasFridgeFood = true; break; }
+
+            if (FridgePowered)
+            {
+                fridgeOutageStartDay = -1;
+            }
+            else if (hasFridgeFood)
+            {
+                if (fridgeOutageStartDay < 0)
+                {
+                    fridgeOutageStartDay = today;
+                    NotifySpoilage("TSA_WD_Warehouse_FridgeNoPower", parent.LabelCap, FridgeOutageDays);
+                }
+            }
+            else
+            {
+                fridgeOutageStartDay = -1;
+            }
+
+            int spoiled = 0;
+            var spoiledLines = new List<string>();
+            for (int i = foodLots.Count - 1; i >= 0; i--)
+            {
+                var l = foodLots[i];
+                bool spoils = l.refrigerated
+                    ? fridgeOutageStartDay >= 0 && today - fridgeOutageStartDay >= FridgeOutageDays
+                    : today - l.arrivalDay >= SpoilDays;
+                if (!spoils) continue;
+                int removed = RemoveFromStore(l.def, l.count);
+                spoiled += removed;
+                spoiledLines.Add(l.def.LabelCap + " " + removed + "x");
+                foodLots.RemoveAt(i);
+            }
+            if (spoiled > 0)
+            {
+                if (!foodLots.Exists(l => l.refrigerated))
+                    fridgeOutageStartDay = -1;
+                NotifySpoilage("TSA_WD_Warehouse_FoodSpoiled", parent.LabelCap, string.Join(", ", spoiledLines));
+            }
+        }
+
+        private void NotifySpoilage(string key, params NamedArgument[] args)
+        {
+            Messages.Message(key.Translate(args), parent, MessageTypeDefOf.NegativeEvent, false);
+        }
+
+        private int RemoveFromStore(ThingDef def, int amount)
+        {
+            int remaining = amount;
+            for (int i = 0; i < storedItems.Count && remaining > 0; i++)
+            {
+                var e = storedItems[i];
+                if (e?.thingDef != def || e.count <= 0) continue;
+                int take = Mathf.Min(e.count, remaining);
+                e.count -= take;
+                remaining -= take;
+            }
+            PruneEmpty(storedItems);
+            return amount - remaining;
         }
 
         /// <summary>
@@ -218,6 +574,7 @@ namespace TSA_WorldDomination
                 remaining -= take;
             }
             PruneEmpty(storedItems);
+            ReconcileFoodLots();
             return amount - remaining;
         }
 
@@ -235,6 +592,7 @@ namespace TSA_WorldDomination
                 remaining -= take;
             }
             PruneEmpty(storedItems);
+            ReconcileFoodLots();
             return amount - remaining;
         }
 
@@ -281,7 +639,7 @@ namespace TSA_WorldDomination
                 if (entry?.thingDef == null || entry.count <= 0) continue;
                 // Abstract minified-crate defs are unrecoverable in def+count storage; never keep them.
                 if (IsUnusableMinifiedDef(entry.thingDef)) continue;
-                MergeCount(storedItems, PlainStockRow(entry, entry.count));
+                DepositRowCapped(entry);
             }
         }
 
@@ -337,6 +695,7 @@ namespace TSA_WorldDomination
                 SubtractCountMatching(storedItems, r);
             }
             PruneEmpty(storedItems);
+            ReconcileFoodLots();
             return true;
         }
 

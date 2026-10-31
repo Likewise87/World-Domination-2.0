@@ -63,7 +63,7 @@ namespace TSA_WorldDomination
             bool roadBusy = comp.roadTargetTile != -1;
             bool blockBusy = WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp);
             bool trapBusy = WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp);
-            bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp);
+            bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp) || WorldActions_Powerline.HasActiveProject(comp);
 
             if (decontamBusy)
             {

@@ -71,6 +71,8 @@ namespace TSA_WorldDomination
             if (outpost == null || !outpost.IsRapidResponseOutpost) return "";
             if (!outpost.RapidResponseActive)
                 return "TSA_WD_RapidResponse_InspectOff".Translate().ToString();
+            if (!outpost.IsPowered)
+                return "TSA_WD_RapidResponse_InspectNoPower".Translate().ToString();
             MissionMask m = outpost.RapidResponseMask;
             if (m == MissionMask.All)
                 return "TSA_WD_RapidResponse_InspectAllCaravans".Translate().ToString();
@@ -241,6 +243,8 @@ namespace TSA_WorldDomination
         {
             if (origin == null || origin.Destroyed || target == null || target.Destroyed) return false;
             if (!origin.IsRapidResponseOutpost || origin.Faction == null || target.Faction == null) return false;
+            // Rapid Response deploys by drop pod: no power, no launch.
+            if (!origin.IsPowered) return false;
             if (!WorldActions_Utils.SafeHostileTo(origin.Faction, target.Faction)) return false;
             if (!IsEligibleAutoInterceptTarget(target, origin.RapidResponseRaidTargetMask)) return false;
             if (HasActiveInterceptFrom(origin, target)) return false;

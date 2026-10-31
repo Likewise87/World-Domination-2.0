@@ -935,23 +935,29 @@ namespace TSA_WorldDomination
                         }
                         if (IsRemoteEstablish)
                         {
-                            RemoteOutpostEstablishUtility.LaunchAfterOptionalCarryConfirm(
-                                tile, def, remoteEstablishOrigin, remoteEstablishEntries,
-                                onSuccess: () => Close(),
-                                onFail: fail => Messages.Message(
-                                    fail ?? "TSA_WD_RemoteEstablish_Failed".Translate(),
-                                    MessageTypeDefOf.RejectInput, false),
-                                onCancel: () =>
-                                {
-                                    // Back to All Player Pawns so the player can change who is sent.
-                                    Close();
-                                    Find.WindowStack.Add(new Window_AllPlayerPawns());
-                                },
-                                viaDropPod: PlayerPawnDropPodUtility.AdHocViaDropPod);
+                            Outpost_EstablishmentSupplyCheck.ConfirmThen(tile, def, cachedRemotePawns, () =>
+                                RemoteOutpostEstablishUtility.LaunchAfterOptionalCarryConfirm(
+                                    tile, def, remoteEstablishOrigin, remoteEstablishEntries,
+                                    onSuccess: () => Close(),
+                                    onFail: fail => Messages.Message(
+                                        fail ?? "TSA_WD_RemoteEstablish_Failed".Translate(),
+                                        MessageTypeDefOf.RejectInput, false),
+                                    onCancel: () =>
+                                    {
+                                        // Back to All Player Pawns so the player can change who is sent.
+                                        Close();
+                                        Find.WindowStack.Add(new Window_AllPlayerPawns());
+                                    },
+                                    viaDropPod: PlayerPawnDropPodUtility.AdHocViaDropPod));
                             return;
                         }
-                        FinalizeOutpost(def);
-                        Close();
+                        Outpost_EstablishmentSupplyCheck.ConfirmThen(
+                            tile, def, fromCaravan?.PawnsListForReading,
+                            () =>
+                            {
+                                FinalizeOutpost(def);
+                                Close();
+                            });
                     });
             }
             else

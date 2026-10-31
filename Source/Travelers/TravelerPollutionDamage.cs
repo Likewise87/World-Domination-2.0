@@ -68,6 +68,7 @@ namespace TSA_WorldDomination
                 case TravelerMission.NpcFortify:
                 case TravelerMission.NpcAtTurret:
                 case TravelerMission.AtTurret:
+                case TravelerMission.PowerLine:
                     return s.pollutionDamageConstruction;
                 case TravelerMission.Trader:
                 case TravelerMission.OutpostDelivery:

@@ -120,8 +120,26 @@ namespace TSA_WorldDomination
         /// <summary>Additive warehouse aura radius in world tiles per built level.</summary>
         public float warehouseAuraRadiusBonus;
 
+        /// <summary>Extra warehouse storage capacity in kg per built level (warehouses only).</summary>
+        public float warehouseCapacityBonusKg;
+
+        /// <summary>Refrigerated food capacity in kg per built level (warehouses only). Needs power via <see cref="powerWattsNeed"/>.</summary>
+        public float fridgeCapacityKg;
+
         /// <summary>Flat remote colony power bonus per built level, in watts.</summary>
         public float remotePowerWattsBonus;
+
+        /// <summary>
+        /// Extra watts this upgrade draws from the outpost power grid per built level, on top of the base outpost demand
+        /// (<see cref="WorldDominationSettings.outpostPowerDemandBase"/>). Default 0; set in XML on any upgrade that should need power. Negative values offset the need (self-produced power); the total never drops below 0.
+        /// </summary>
+        public float powerWattsNeed;
+
+        /// <summary>
+        /// Extra virtual tooling per day this upgrade needs per built level, on top of the base outpost need
+        /// (<see cref="WorldDominationSettings.toolingDemandBase"/>). Default 0: set it in XML so an advanced mine needs more than a basic one. Negative values self-produce tooling: the stockpile fills even with no generator.
+        /// </summary>
+        public float toolingNeed;
 
         /// <summary>Flat percentage-point bonus per built level to Rapid Response offensive strength cap (0.10 = +10%).</summary>
         public float rapidResponseOffensiveStrengthBonus;
@@ -208,7 +226,8 @@ namespace TSA_WorldDomination
                 }
                 return worldObjectDefName == "TSA_WD_Outpost_DrugLab";
             }
-            if (warehouseAuraBonus > 0f || warehouseAuraRadiusBonus > 0f)
+            if (warehouseAuraBonus > 0f || warehouseAuraRadiusBonus > 0f
+                || warehouseCapacityBonusKg > 0f || fridgeCapacityKg > 0f)
             {
                 var wod = DefDatabase<WorldObjectDef>.GetNamedSilentFail(worldObjectDefName);
                 return Outpost_Production_Utils.IsWarehouseOutpost(wod);

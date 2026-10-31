@@ -579,6 +579,12 @@ namespace TSA_WorldDomination
         public bool atTurretBuilderInField;
         public int lastAtTurretProgressTick = -1;
 
+        // --- Powerline project (single tile; one per outpost; mutex with the other world builds) ---
+        public int powerlinePlannedTile = -1;
+        public float powerlineProgress;
+        public bool powerlineBuilderInField;
+        public int lastPowerlineProgressTick = -1;
+
         // --- Decontamination project (mutex with road / road-block / spike-trap) ---
         public List<int> decontamPlannedTiles = new List<int>();
         public List<int> decontamClickedNodes = new List<int>();
@@ -675,6 +681,12 @@ namespace TSA_WorldDomination
             atTurretBuilderInField = false;
         }
 
+        /// <summary>Called when a powerline crew from this outpost is destroyed (arrived or cancelled).</summary>
+        public void NotifyPowerlineCrewReturned()
+        {
+            powerlineBuilderInField = false;
+        }
+
         /// <summary>Called when a decontamination crew from this outpost is destroyed (arrived or cancelled).</summary>
         public void NotifyDecontaminationCrewReturned()
         {
@@ -759,6 +771,16 @@ namespace TSA_WorldDomination
                 }
             }
 
+            if (WorldActions_Powerline.HasActiveProject(this) && !powerlineBuilderInField)
+            {
+                float cost = WorldActions_Powerline.GetExpeditionStrengthCost();
+                if (powerlineProgress >= 1f && !WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, cost))
+                {
+                    projectLabel = "TSA_WD_Powerline_Label".Translate().ToString();
+                    return true;
+                }
+            }
+
             // Decontamination intentionally ignores garrison retain — only the raw expedition cost matters.
             if (WorldActions_Decontamination.HasActiveDecontaminationProject(this) && !decontamBuilderInField)
             {
@@ -833,6 +855,14 @@ namespace TSA_WorldDomination
                 return true;
             }
 
+            if (WorldActions_Powerline.HasActiveProject(this) && !powerlineBuilderInField
+                && powerlineProgress >= 1f
+                && !WorldActions_Powerline.HasMaterials())
+            {
+                projectLabel = "TSA_WD_Powerline_Label".Translate().ToString();
+                return true;
+            }
+
             return false;
         }
 
@@ -890,6 +920,8 @@ namespace TSA_WorldDomination
                     WorldActions_SpikeTraps.ClearSpikeTrapProject(this);
                 if (WorldActions_AtTurrets.HasActiveAtTurretProject(this))
                     WorldActions_AtTurrets.ClearAtTurretProject(this);
+                if (WorldActions_Powerline.HasActiveProject(this))
+                    WorldActions_Powerline.ClearProject(this);
                 if (WorldActions_Decontamination.HasActiveDecontaminationProject(this))
                     WorldActions_Decontamination.ClearDecontaminationProject(this);
                 if (WorldActions_BuildBridge.HasActiveBridgeProject(this))
@@ -982,6 +1014,10 @@ namespace TSA_WorldDomination
             dest.atTurretProgress = atTurretProgress;
             dest.atTurretBuilderInField = atTurretBuilderInField;
 
+            dest.powerlinePlannedTile = powerlinePlannedTile;
+            dest.powerlineProgress = powerlineProgress;
+            dest.powerlineBuilderInField = powerlineBuilderInField;
+
             dest.decontamPlannedTiles = CloneIntList(decontamPlannedTiles);
             dest.decontamClickedNodes = CloneIntList(decontamClickedNodes);
             dest.decontamCachedPathTiles = CloneIntList(decontamCachedPathTiles);
@@ -1016,6 +1052,9 @@ namespace TSA_WorldDomination
             atTurretPlannedTiles = null;
             atTurretProgress = 0f;
             atTurretBuilderInField = false;
+            powerlinePlannedTile = -1;
+            powerlineProgress = 0f;
+            powerlineBuilderInField = false;
             decontamPlannedTiles = null;
             decontamClickedNodes = null;
             decontamCachedPathTiles = null;
@@ -1606,6 +1645,40 @@ namespace TSA_WorldDomination
                         }
                         if (atTurretProgress > 1f)
                             atTurretProgress = 1f;
+                    }
+                }
+            }
+
+            if (WorldActions_Powerline.HasActiveProject(this) && IsOutpost)
+            {
+                int nowTickPl = Find.TickManager.TicksGame;
+                if (lastPowerlineProgressTick < 0)
+                    lastPowerlineProgressTick = nowTickPl;
+                else if (nowTickPl - lastPowerlineProgressTick >= RoadProgressUpdateIntervalTicks)
+                {
+                    int dtPl = nowTickPl - lastPowerlineProgressTick;
+                    dtPl = Mathf.Min(dtPl, MaxRoadProgressCatchUpTicks);
+                    lastPowerlineProgressTick = nowTickPl;
+                    float workSpeedPl = WorldActions_Roads.GetRoadProgressWorkSpeed(parent);
+                    if (workSpeedPl > 0f)
+                    {
+                        powerlineProgress += workSpeedPl / WorldActions_Powerline.GetProgressRequiredTicks() * dtPl;
+                        while (powerlineProgress >= 1f && !powerlineBuilderInField)
+                        {
+                            if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_Powerline.GetExpeditionStrengthCost()))
+                                break;
+                            if (!WorldActions_Powerline.HasMaterials())
+                                break;
+                            if (WorldActions_Powerline.LaunchCrewFromOutpost(parent))
+                            {
+                                powerlineProgress -= 1f;
+                                powerlineBuilderInField = true;
+                            }
+                            else
+                                break;
+                        }
+                        if (powerlineProgress > 1f)
+                            powerlineProgress = 1f;
                     }
                 }
             }
@@ -2394,6 +2467,12 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref selectedAtTurretTier, "selectedAtTurretTier", AtTurretTier.Medium);
             Scribe_Values.Look(ref atTurretBuilderInField, "atTurretBuilderInField", false);
             Scribe_Values.Look(ref lastAtTurretProgressTick, "lastAtTurretProgressTick", -1);
+            Scribe_Values.Look(ref powerlinePlannedTile, "powerlinePlannedTile", -1);
+            Scribe_Values.Look(ref powerlineProgress, "powerlineProgress", 0f);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && powerlineProgress > 1f)
+                powerlineProgress = 1f;
+            Scribe_Values.Look(ref powerlineBuilderInField, "powerlineBuilderInField", false);
+            Scribe_Values.Look(ref lastPowerlineProgressTick, "lastPowerlineProgressTick", -1);
 
             Scribe_Collections.Look(ref decontamPlannedTiles, "decontamPlannedTiles", LookMode.Value);
             if (Scribe.mode == LoadSaveMode.PostLoadInit && decontamPlannedTiles == null)
@@ -2437,6 +2516,11 @@ namespace TSA_WorldDomination
                 && atTurretBuilderInField
                 && !WorldActions_AtTurrets.HasActiveAtTurretCrewFrom(parent))
                 atTurretBuilderInField = false;
+            if (Scribe.mode == LoadSaveMode.PostLoadInit
+                && WorldActions_Powerline.HasActiveProject(this)
+                && powerlineBuilderInField
+                && !WorldActions_Powerline.HasActiveCrewFrom(parent))
+                powerlineBuilderInField = false;
             if (Scribe.mode == LoadSaveMode.PostLoadInit
                 && WorldActions_Decontamination.HasActiveDecontaminationProject(this)
                 && decontamBuilderInField
@@ -2769,6 +2853,24 @@ namespace TSA_WorldDomination
                         sb.Append("TSA_WD_Inspect_AT_TurretStatus_InTransit".Translate(turretLabel, dest, turretPct));
                     else
                         sb.Append("TSA_WD_Inspect_AT_TurretStatus".Translate(turretLabel, turretPct, dest));
+                }
+            }
+            else if (WorldActions_Powerline.HasActiveProject(this))
+            {
+                sb.AppendLine();
+                string dest = powerlinePlannedTile.ToString();
+                string insufficient = GetInsufficientConstructionMessage();
+                if (insufficient != null)
+                {
+                    sb.Append(insufficient.Colorize(Color.red));
+                }
+                else
+                {
+                    string plPct = (Mathf.Min(1f, powerlineProgress) * 100f).ToString("F0");
+                    if (powerlineBuilderInField)
+                        sb.Append("TSA_WD_Inspect_PowerlineStatus_InTransit".Translate(dest, plPct));
+                    else
+                        sb.Append("TSA_WD_Inspect_PowerlineStatus".Translate(plPct, dest));
                 }
             }
             else if (WorldActions_Decontamination.HasActiveDecontaminationProject(this))

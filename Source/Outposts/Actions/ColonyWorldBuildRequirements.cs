@@ -186,6 +186,7 @@ namespace TSA_WorldDomination
             || mission == TravelerMission.RoadBlock
             || mission == TravelerMission.SpikeTrap
             || mission == TravelerMission.AtTurret
+            || mission == TravelerMission.PowerLine
             || mission == TravelerMission.BridgeBuilding;
 
         /// <summary>

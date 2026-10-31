@@ -19,12 +19,23 @@ Every outpost receives a small universal base production. Farming and Hunting Ou
 
 Occupants consume food each day. When current food reaches zero and the outpost is still not receiving a positive pulse, starvation checks can kill an occupant.
 
-Use the **Food** tab and the **Food Supply Radius** overlay to see:
+Use the **Supply** tab (Food page) and the **Food Supply Radius** overlay to see:
 
 - current / max storage
 - local production and demand
 - who this site can supply
 - who is already sending food here
+
+## Supply outposts or deliver to the colony
+
+Each Farming, Hunting, Fishing and Ranch Outpost has a **Food** gizmo with two exclusive roles:
+
+| Role | Effect |
+| --- | --- |
+| Supply outposts (default) | Surplus virtual food can feed other outposts in range. No food is delivered to the colony. |
+| Deliver to colony | The production cycle ships physical food to the colony. The outpost only feeds itself and sends nothing to other outposts. |
+
+The role follows the same rule as the production choice: a change applies at once until the cycle locks (after its first quarter), and from the next cycle after that. If food logistics is switched off, output always goes to the colony.
 
 ## Network design
 

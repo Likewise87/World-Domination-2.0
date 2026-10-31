@@ -122,7 +122,7 @@ namespace TSA_WorldDomination
 				for (int i = 0; i < outposts.Count; i++)
 				{
 					WorldObject_WD_Outpost outpost = outposts[i];
-					float watts = Outpost_PowerPlant.GetRemotePowerWatts(outpost) / netCount;
+					float watts = Outpost_PowerPlant.GetColonyPowerWatts(outpost) / netCount;
 					if (watts <= 0f)
 						continue;
 
@@ -206,7 +206,7 @@ namespace TSA_WorldDomination
 			for (int i = 0; i < outposts.Count; i++)
 			{
 				WorldObject_WD_Outpost outpost = outposts[i];
-				if (outpost != null && !outpost.Destroyed && Outpost_PowerPlant.GetRemotePowerWatts(outpost) > 0f)
+				if (outpost != null && !outpost.Destroyed && Outpost_PowerPlant.GetColonyPowerWatts(outpost) > 0f)
 					result.Add(outpost);
 			}
 			return result;

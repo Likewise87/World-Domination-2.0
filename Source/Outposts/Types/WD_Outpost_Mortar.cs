@@ -579,6 +579,9 @@ namespace TSA_WorldDomination
             float expert = OutpostExpertUtility.GetStrategistAttackRangeBonusFraction(origin);
             if (expert > 0f)
                 r *= 1f + expert;
+            // No power: shorter range (default half). Applied last so upgrades and experts scale down too.
+            if (origin != null && !origin.IsPowered)
+                r = Mathf.Max(1f, r * OutpostPowerGrid.UnpoweredRangeFactor);
             return r;
         }
 

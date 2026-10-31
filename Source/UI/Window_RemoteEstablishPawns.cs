@@ -325,14 +325,16 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            RemoteOutpostEstablishUtility.LaunchAfterOptionalCarryConfirm(
-                tile, outpostDef, origin, entries,
-                onSuccess: () => Close(),
-                onFail: launchFail => Messages.Message(
-                    launchFail ?? "TSA_WD_RemoteEstablish_Failed".Translate(),
-                    MessageTypeDefOf.RejectInput, false),
-                onCancel: null,
-                viaDropPod: PlayerPawnDropPodUtility.AdHocViaDropPod);
+            Outpost_EstablishmentSupplyCheck.ConfirmThen(
+                tile, outpostDef, RemoteOutpostEstablishUtility.CollectPawns(entries),
+                () => RemoteOutpostEstablishUtility.LaunchAfterOptionalCarryConfirm(
+                    tile, outpostDef, origin, entries,
+                    onSuccess: () => Close(),
+                    onFail: launchFail => Messages.Message(
+                        launchFail ?? "TSA_WD_RemoteEstablish_Failed".Translate(),
+                        MessageTypeDefOf.RejectInput, false),
+                    onCancel: null,
+                    viaDropPod: PlayerPawnDropPodUtility.AdHocViaDropPod));
         }
 
         private static void DrawHorizontallyScrolledSection(Rect viewport, float scrollX, float contentWidth, Action<float> draw)

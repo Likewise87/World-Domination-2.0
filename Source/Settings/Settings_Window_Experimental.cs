@@ -108,6 +108,22 @@ namespace TSA_WorldDomination
                     "TSA_WD_Experimental_OutpostArmoryTip".Translate(),
                     defaultValue: WorldDominationSettings.DefExperimentalOutpostArmory);
 
+                bool powerBefore = s.enableOutpostPowerRequirement;
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Power_Enable".Translate(),
+                    ref s.enableOutpostPowerRequirement,
+                    "TSA_WD_Power_EnableTooltip".Translate(),
+                    defaultValue: WorldDominationSettings.DefEnableOutpostPowerRequirement);
+                if (powerBefore != s.enableOutpostPowerRequirement)
+                    OutpostPowerGrid.MarkDirty();
+
+                bool toolingBefore = s.enableOutpostTooling;
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Tooling_Enable".Translate(),
+                    ref s.enableOutpostTooling,
+                    "TSA_WD_Tooling_EnableTooltip".Translate(),
+                    defaultValue: WorldDominationSettings.DefEnableOutpostTooling);
+                if (toolingBefore != s.enableOutpostTooling)
+                    OutpostTooling.MarkDirty();
+
                 SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_DisableVanillaCaravanIncidents".Translate(),
                     ref s.experimentalDisableVanillaCaravanIncidents,
                     "TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip".Translate(),

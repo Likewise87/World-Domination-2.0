@@ -268,7 +268,11 @@ namespace TSA_WorldDomination
                     m += OutpostExpertUtility.GetCombinedProductionBonus(outpost);
                 m += OutpostWarehouseAuraUtility.GetBestWarehouseAuraBonus(outpost);
             }
-            return Mathf.Clamp(m, 0.01f, 4f);
+            m = Mathf.Clamp(m, 0.01f, 4f);
+            // No power: reduced output (default 50%) on top of every other bonus.
+            if (outpost != null)
+                m *= outpost.PowerEffectiveness * outpost.ToolingFactor;
+            return Mathf.Max(0.0001f, m);
         }
 
         private static string ProductionFormulaTag(string key, string fallback)

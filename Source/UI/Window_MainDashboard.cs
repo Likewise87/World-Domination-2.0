@@ -921,6 +921,7 @@ namespace TSA_WorldDomination
             || mission == TravelerMission.NpcFortify
             || mission == TravelerMission.NpcAtTurret
             || mission == TravelerMission.AtTurret
+            || mission == TravelerMission.PowerLine
             || mission == TravelerMission.MassRelocation
             || mission == TravelerMission.DesperationRally;
 

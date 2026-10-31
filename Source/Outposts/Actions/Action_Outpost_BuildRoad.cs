@@ -116,7 +116,8 @@ namespace TSA_WorldDomination
                 || WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp)
                 || WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp)
                 || WorldActions_Decontamination.HasActiveDecontaminationProject(comp)
-                || WorldActions_AtTurrets.HasActiveAtTurretProject(comp))
+                || WorldActions_AtTurrets.HasActiveAtTurretProject(comp)
+                || WorldActions_Powerline.HasActiveProject(comp))
             {
                 return new FloatMenuOption("TSA_WD_CancelCurrentProjectFirst".Translate(), () => { }, icon, Color.white)
                 {
@@ -159,7 +160,8 @@ namespace TSA_WorldDomination
             if (WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp)
                 || WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp)
                 || WorldActions_Decontamination.HasActiveDecontaminationProject(comp)
-                || WorldActions_AtTurrets.HasActiveAtTurretProject(comp))
+                || WorldActions_AtTurrets.HasActiveAtTurretProject(comp)
+                || WorldActions_Powerline.HasActiveProject(comp))
             {
                 return new FloatMenuOption("TSA_WD_CancelCurrentProjectFirst".Translate(), () => { }, icon, Color.white)
                 {

@@ -126,7 +126,8 @@ namespace TSA_WorldDomination
             || WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp)
             || WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp)
             || WorldActions_AtTurrets.HasActiveAtTurretProject(comp)
-            || WorldActions_Decontamination.HasActiveDecontaminationProject(comp);
+            || WorldActions_Decontamination.HasActiveDecontaminationProject(comp)
+            || WorldActions_Powerline.HasActiveProject(comp);
 
         private static string BuildBridgeTooltip(WorldObject actor)
         {

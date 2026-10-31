@@ -60,7 +60,7 @@ namespace TSA_WorldDomination
             bool roadBusy = comp.roadTargetTile != -1 || WorldActions_BuildBridge.HasActiveBridgeProject(comp);
             bool blockBusy = WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp);
             bool trapBusy = WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp);
-            bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp);
+            bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp) || WorldActions_Powerline.HasActiveProject(comp);
 
             if (blockBusy && !comp.roadBlockIsClearing)
             {
@@ -179,7 +179,7 @@ namespace TSA_WorldDomination
             bool roadBusy = comp.roadTargetTile != -1 || WorldActions_BuildBridge.HasActiveBridgeProject(comp);
             bool blockBusy = WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp);
             bool trapBusy = WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp);
-            bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp);
+            bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp) || WorldActions_Powerline.HasActiveProject(comp);
 
             if (blockBusy && comp.roadBlockIsClearing)
             {

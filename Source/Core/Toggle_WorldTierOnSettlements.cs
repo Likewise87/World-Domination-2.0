@@ -23,7 +23,7 @@ namespace TSA_WorldDomination
     public enum WD_OutpostWorldMapLabelMode
     {
         Off,
-        Food,
+        Supply,
         Strength,
         RaidCooldown,
         Name
@@ -75,7 +75,7 @@ namespace TSA_WorldDomination
         // PLAYER_UNDERLAY begin
         public static bool ShowPlayerUnderlays = false;
         // PLAYER_UNDERLAY end
-        public static WD_OutpostWorldMapLabelMode OutpostWorldMapLabelMode = WD_OutpostWorldMapLabelMode.Food;
+        public static WD_OutpostWorldMapLabelMode OutpostWorldMapLabelMode = WD_OutpostWorldMapLabelMode.Supply;
         public static WD_ProductivityOverlayMode ProductivityOverlayMode = WD_ProductivityOverlayMode.Off;
         private bool productivityOverlayLayerChecked;
         private bool movementDifficultyOverlayLayerChecked;
@@ -214,7 +214,7 @@ namespace TSA_WorldDomination
 
             AddMenuSectionHeader(options, "TSA_WD_WorldMap_SectionOutpostLabels");
             AddOutpostLabelModeOption(options, WD_OutpostWorldMapLabelMode.Name);
-            AddOutpostLabelModeOption(options, WD_OutpostWorldMapLabelMode.Food, FoodLabelModeEnabled());
+            AddOutpostLabelModeOption(options, WD_OutpostWorldMapLabelMode.Supply, SupplyLabelModeEnabled());
             AddOutpostLabelModeOption(options, WD_OutpostWorldMapLabelMode.Strength);
             AddOutpostLabelModeOption(options, WD_OutpostWorldMapLabelMode.RaidCooldown);
 
@@ -476,8 +476,8 @@ namespace TSA_WorldDomination
             {
                 case WD_OutpostWorldMapLabelMode.Name:
                     return "TSA_WD_OutpostWorldMapLabel_NameTip";
-                case WD_OutpostWorldMapLabelMode.Food:
-                    return "TSA_WD_OutpostWorldMapLabel_FoodTip";
+                case WD_OutpostWorldMapLabelMode.Supply:
+                    return "TSA_WD_OutpostWorldMapLabel_SupplyTip";
                 case WD_OutpostWorldMapLabelMode.Strength:
                     return "TSA_WD_OutpostWorldMapLabel_StrengthTip";
                 case WD_OutpostWorldMapLabelMode.RaidCooldown:
@@ -487,8 +487,9 @@ namespace TSA_WorldDomination
             }
         }
 
-        private static bool FoodLabelModeEnabled()
-            => WorldDominationMod.settings == null || WorldDominationMod.settings.foodLogisticsActive;
+        private static bool SupplyLabelModeEnabled()
+            => WorldDominationMod.settings == null || WorldDominationMod.settings.foodLogisticsActive
+            || OutpostTooling.Enabled || OutpostPowerGrid.Enabled;
 
         public static string GetOutpostLabelModeLabel(WD_OutpostWorldMapLabelMode mode)
         {
@@ -496,8 +497,8 @@ namespace TSA_WorldDomination
             {
                 case WD_OutpostWorldMapLabelMode.Name:
                     return "TSA_WD_OutpostWorldMapLabel_Name".Translate().ToString();
-                case WD_OutpostWorldMapLabelMode.Food:
-                    return "TSA_WD_OutpostWorldMapLabel_Food".Translate().ToString();
+                case WD_OutpostWorldMapLabelMode.Supply:
+                    return "TSA_WD_OutpostWorldMapLabel_Supply".Translate().ToString();
                 case WD_OutpostWorldMapLabelMode.Strength:
                     return "TSA_WD_OutpostWorldMapLabel_Strength".Translate().ToString();
                 case WD_OutpostWorldMapLabelMode.RaidCooldown:
@@ -847,7 +848,7 @@ namespace TSA_WorldDomination
             bool legacyShowFoodTexts = legacyShowVisuals;
             Scribe_Values.Look(ref legacyShowFoodTexts, "ShowWDFoodTexts", legacyShowVisuals);
             Scribe_Values.Look(ref OutpostWorldMapLabelMode, "WD_OutpostWorldMapLabelMode",
-                legacyShowFoodTexts ? WD_OutpostWorldMapLabelMode.Food : WD_OutpostWorldMapLabelMode.Off);
+                legacyShowFoodTexts ? WD_OutpostWorldMapLabelMode.Supply : WD_OutpostWorldMapLabelMode.Off);
             Scribe_Values.Look(ref ProductivityOverlayMode, "WD_ProductivityOverlayMode", WD_ProductivityOverlayMode.Off);
             Scribe_Values.Look(ref ShowEstablishmentBlockedOverlay, "WD_ShowCaravanEstablishmentBlockedOverlay", false);
             if (Scribe.mode == LoadSaveMode.LoadingVars)
@@ -1197,7 +1198,7 @@ namespace TSA_WorldDomination
             {
                 WD_OutpostWorldMapLabelMode.Off,
                 WD_OutpostWorldMapLabelMode.Name,
-                WD_OutpostWorldMapLabelMode.Food,
+                WD_OutpostWorldMapLabelMode.Supply,
                 WD_OutpostWorldMapLabelMode.Strength,
                 WD_OutpostWorldMapLabelMode.RaidCooldown,
             };
@@ -1213,7 +1214,7 @@ namespace TSA_WorldDomination
             for (int step = 1; step <= order.Length; step++)
             {
                 WD_OutpostWorldMapLabelMode next = order[(idx + step) % order.Length];
-                if (next == WD_OutpostWorldMapLabelMode.Food && !FoodLabelModeEnabled())
+                if (next == WD_OutpostWorldMapLabelMode.Supply && !SupplyLabelModeEnabled())
                     continue;
                 SetOutpostWorldMapLabelMode(next);
                 return;

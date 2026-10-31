@@ -58,7 +58,7 @@ namespace TSA_WorldDomination
                 if (pair.Obj == null || pair.Logi == null) continue;
                 if (!LogisticsModeUtil.IsSmartMode(pair.Logi.mode)) continue;
                 if (!Outpost_Production_Utils.IsFoodProducerOutpost(pair.Obj.def)) continue;
-                float budget = Mathf.Max(0f, manager.GetDailyProduction(pair.Obj) - manager.GetDailyDemand(pair.Obj));
+                float budget = manager.GetFoodExportBudget(pair.Obj);
                 hubsScratch.Add(new HubState
                 {
                     Obj = pair.Obj,
