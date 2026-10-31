@@ -19,6 +19,7 @@ namespace TSA_WorldDomination
         private static Texture2D cachedMortarIcon;
         private static Texture2D cachedConfigureIcon;
         private static Texture2D cachedConfigureAaIcon;
+        private static Texture2D cachedCancelIcon;
 
         /// <summary>Per-outpost cache for the Launch gizmo's ready-state strings; refreshed every
         /// <see cref="FireGizmoCacheLifetimeTicks"/> ticks (no sub-second staleness that matters). RimWorld re-queries
@@ -30,6 +31,8 @@ namespace TSA_WorldDomination
             public bool onCooldown;
             public float cooldownDaysLeft;
             public bool hasShootingSkill;
+            public bool hasMission;
+            public string missionTargetLabel;
             public string desc;
         }
 
@@ -45,20 +48,38 @@ namespace TSA_WorldDomination
             var comp = outpost.GetComponent<CompViralSpread>();
             FireGizmoCache cache = GetOrRefreshFireGizmoCache(outpost, comp);
 
-            Command_Action fire = new Command_Action
+            Command_Action select = new Command_Action
             {
-                defaultLabel = "TSA_WD_Mortar_LaunchLabel".Translate(),
+                defaultLabel = "TSA_WD_Mortar_SelectTargetLabel".Translate(),
                 defaultDesc = cache.desc,
                 icon = cachedMortarIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/ShootMortar", false) ?? TexCommand.Attack,
                 action = () => StartMortarTargeting(outpost)
             };
-            if (cache.onCooldown)
-                fire.Disable("TSA_WD_Mortar_ReasonCooldown".Translate());
-            else if (!cache.hasShootingSkill)
-                fire.Disable("TSA_WD_Mortar_ReasonNoSkill".Translate());
+            if (!cache.hasShootingSkill)
+                select.Disable("TSA_WD_Mortar_ReasonNoSkill".Translate());
             else
-                fire.defaultIconColor = WorldOverlayLineMaterials.DarkCyanColor;
-            yield return fire;
+                select.defaultIconColor = WorldOverlayLineMaterials.DarkCyanColor;
+            yield return select;
+
+            if (outpost.HasMortarFireMission)
+            {
+                yield return new Command_Action
+                {
+                    defaultLabel = "TSA_WD_Mortar_CancelMissionLabel".Translate(),
+                    defaultDesc = "TSA_WD_Mortar_CancelMissionDesc".Translate(),
+                    icon = cachedCancelIcon ??= ContentFinder<Texture2D>.Get("UI/Designators/Cancel", false)
+                        ?? TexCommand.ClearPrioritizedWork,
+                    action = () =>
+                    {
+                        outpost.ClearMortarFireMission();
+                        Messages.Message(
+                            "TSA_WD_Mortar_MissionCancelled".Translate(),
+                            outpost,
+                            MessageTypeDefOf.TaskCompletion,
+                            false);
+                    }
+                };
+            }
 
             yield return new Command_Action
             {
@@ -71,7 +92,8 @@ namespace TSA_WorldDomination
                 onHover = () =>
                 {
                     // Legacy hop rings only; fill mode uses dedicated Mortar/AA hover gizmos.
-                    if (!WD_RadiusOverlayMode.UseHopRadiusRings || outpost == null || outpost.Destroyed) return;
+                    if (outpost == null || outpost.Destroyed || outpost.HasMortarFireMission) return;
+                    if (!WD_RadiusOverlayMode.UseHopRadiusRings) return;
                     PlanetLayer layer = PlanetSurfaceWorldActions.LayerOf(outpost);
                     PlanetTile tile = new PlanetTile(outpost.Tile, layer);
                     float mortarRange = MortarFireUtils.GetPlayerMortarMaxRangeTiles(outpost);
@@ -111,21 +133,36 @@ namespace TSA_WorldDomination
 
             cache.onCooldown = onCooldown;
             cache.hasShootingSkill = bestShooting > 0f;
+            cache.hasMission = outpost.HasMortarFireMission;
+            cache.missionTargetLabel = cache.hasMission
+                ? (outpost.MortarFireMissionTarget?.LabelCap ?? "?")
+                : null;
 
-            if (onCooldown && comp != null)
+            if (!cache.hasShootingSkill)
+            {
+                cache.desc = "TSA_WD_Mortar_SelectTargetDescNoSkill".Translate().ToString();
+            }
+            else if (cache.hasMission && onCooldown && comp != null)
             {
                 cache.cooldownDaysLeft = (comp.mortarCooldownTick - tick) / 60000f;
-                cache.desc = "TSA_WD_Mortar_LaunchDescCooldown".Translate(cache.cooldownDaysLeft.ToString("F1")).ToString();
+                cache.desc = "TSA_WD_Mortar_SelectTargetDescMissionCooldown".Translate(
+                    cache.missionTargetLabel,
+                    cache.cooldownDaysLeft.ToString("F1")).ToString();
             }
-            else if (!cache.hasShootingSkill)
+            else if (cache.hasMission)
             {
-                cache.desc = "TSA_WD_Mortar_LaunchDescNoSkill".Translate().ToString();
+                cache.desc = "TSA_WD_Mortar_SelectTargetDescMissionReady".Translate(cache.missionTargetLabel).ToString();
+            }
+            else if (onCooldown && comp != null)
+            {
+                cache.cooldownDaysLeft = (comp.mortarCooldownTick - tick) / 60000f;
+                cache.desc = "TSA_WD_Mortar_SelectTargetDescCooldown".Translate(cache.cooldownDaysLeft.ToString("F1")).ToString();
             }
             else
             {
                 float dmg = MortarFireUtils.GetPlayerMortarShellDamage(outpost);
                 float range = MortarFireUtils.GetPlayerMortarConfiguredMaxRangeTiles(outpost);
-                cache.desc = "TSA_WD_Mortar_LaunchDesc".Translate(
+                cache.desc = "TSA_WD_Mortar_SelectTargetDesc".Translate(
                     range.ToString("F0"),
                     dmg.ToString("F0"),
                     bestShooting.ToString("F0"),
@@ -146,7 +183,6 @@ namespace TSA_WorldDomination
         private static void StartMortarTargeting(WorldObject_WD_Outpost source)
         {
             CameraJumper.TryJump(source.Tile);
-            var seth = WorldDominationMod.settings;
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             float range = MortarFireUtils.GetPlayerMortarConfiguredMaxRangeTiles(source);
 
@@ -162,7 +198,7 @@ namespace TSA_WorldDomination
                         return false;
                     }
                     if (!MortarFireUtils.IsValidMortarManualTarget(wo, source, manager, range)) return false;
-                    MortarFireUtils.FireManualAtWorldTarget(source, wo);
+                    CommitMortarFireMission(source, wo);
                     return true;
                 },
                 false, null, false,
@@ -186,6 +222,107 @@ namespace TSA_WorldDomination
                     return MortarFireUtils.IsValidMortarManualTarget(target.WorldObject, source, manager, range);
                 }
             );
+        }
+
+        /// <summary>Store mission; fire immediately if the tube is ready.</summary>
+        public static void CommitMortarFireMission(WorldObject_WD_Outpost origin, WorldObject target)
+        {
+            if (origin == null || target == null || origin.Destroyed || target.Destroyed) return;
+            origin.SetMortarFireMission(target);
+            var comp = origin.GetComponent<CompViralSpread>();
+            if (comp != null && !comp.IsMortarOnCooldown)
+                MortarFireUtils.FireManualAtWorldTarget(origin, target);
+            else
+            {
+                Messages.Message(
+                    "TSA_WD_Mortar_MissionQueued".Translate(target.LabelCap),
+                    origin,
+                    MessageTypeDefOf.TaskCompletion,
+                    false);
+            }
+        }
+
+        /// <summary>Validate queued mission every tick; fire when cooldown ends.</summary>
+        public static void TickMortarFireMission(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null || outpost.Destroyed || !outpost.IsMortarOutpost) return;
+            if (!outpost.HasMortarFireMission) return;
+
+            WorldObject target = outpost.MortarFireMissionTarget;
+            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            float range = MortarFireUtils.GetPlayerMortarConfiguredMaxRangeTiles(outpost);
+
+            if (outpost.GetHighestVirtualPawnSkill(SkillDefOf.Shooting) <= 0f)
+            {
+                ClearMissionWithReason(outpost, "TSA_WD_Mortar_MissionClearedNoSkill");
+                return;
+            }
+            if (!MortarFireUtils.IsValidMortarManualTarget(target, outpost, manager, range))
+            {
+                ClearMissionWithReason(outpost, "TSA_WD_Mortar_MissionClearedInvalid");
+                return;
+            }
+
+            var comp = outpost.GetComponent<CompViralSpread>();
+            if (comp == null || comp.IsMortarOnCooldown) return;
+            MortarFireUtils.FireManualAtWorldTarget(outpost, target);
+        }
+
+        private static void ClearMissionWithReason(WorldObject_WD_Outpost outpost, string reasonKey)
+        {
+            outpost.ClearMortarFireMission();
+            Messages.Message(reasonKey.Translate(), outpost, MessageTypeDefOf.RejectInput, false);
+        }
+
+        /// <summary>Selection overlay: red aim chord + star marker on the mission target tile.</summary>
+        public static void DrawFireMissionOverlay(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null || !outpost.HasMortarFireMission) return;
+            if (WorldComponent_WDVisualizerToggle.IsWorldTargeterActive()) return;
+            if (WD_WorldMapZoomUtil.IsZoomedTooFarOut(WD_WorldMapZoomUtil.TravelerPathHideAltitudePercent))
+                return;
+
+            WorldObject target = outpost.MortarFireMissionTarget;
+            if (target == null || target.Destroyed) return;
+
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null) return;
+
+            int fromTile = outpost.Tile.tileId;
+            int toTile = target.Tile.tileId;
+            if (fromTile < 0 || toTile < 0) return;
+
+            float lift = GenDraw_WorldLineSmooth.GetPathLineLift();
+            if (fromTile != toTile)
+            {
+                GenDraw_WorldLineSmooth.DrawSmoothWorldLine(
+                    fromTile, toTile, grid, WorldOverlayLineMaterials.AffiliationHostile, 1f, lift);
+            }
+            DrawFireMissionTargetStar(toTile);
+        }
+
+        private static void DrawFireMissionTargetStar(int tileId)
+        {
+            if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null || !grid.InBounds(tileId)) return;
+
+            Vector3 center = grid.GetTileCenter(tileId);
+            Vector3 n = center.normalized;
+            center += n * 0.08f;
+            Vector3 tangent = Vector3.Cross(n, Vector3.up);
+            if (tangent.sqrMagnitude < 1e-6f)
+                tangent = Vector3.Cross(n, Vector3.right);
+            tangent.Normalize();
+            Vector3 bitangent = Vector3.Cross(n, tangent).normalized;
+            float arm = grid.AverageTileSize * 0.32f;
+            Material mat = WorldOverlayLineMaterials.RadiusRedMarker;
+            GenDraw.DrawWorldLineBetween(center + tangent * arm, center - tangent * arm, mat, 1.35f);
+            GenDraw.DrawWorldLineBetween(center + bitangent * arm, center - bitangent * arm, mat, 1.35f);
+            Vector3 d1 = (tangent + bitangent).normalized * arm;
+            Vector3 d2 = (tangent - bitangent).normalized * arm;
+            GenDraw.DrawWorldLineBetween(center + d1, center - d1, mat, 1.35f);
+            GenDraw.DrawWorldLineBetween(center + d2, center - d2, mat, 1.35f);
         }
     }
 
@@ -250,6 +387,7 @@ namespace TSA_WorldDomination
             bool hit = RollMortarHit(dist, maxRange, bestShooting, seth, hitBonus);
 
             ApplyPlayerMortarCooldown(comp, origin);
+            origin.ClearMortarFireMission(notifyCache: false);
             WD_Outpost_Mortar.InvalidateFireGizmoCache(origin);
             WorldActions_Traveler.SpawnMortarTraveler(origin, target, damage, guaranteedHit: hit, aimTileIdOverride: aimTile);
 

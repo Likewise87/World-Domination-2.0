@@ -54,6 +54,8 @@ Do not call COMMIT from SELECT gates (`BulkRemovalSelectionIsAllowedWithExtra` f
 
 **Player Ideo assign (Ideology DLC active only):** `ApplyPlayerPrimaryIdeoIfActive` sets the pawn to `Faction.OfPlayer.ideos.PrimaryIdeo` via `SetIdeo`. Call sites: `RecruitPrisonersBatch` (after `SetFaction`) and `Outpost_Recruiting.GenerateRecruitPawn` (Recruiting outpost production and conquest founding pawns). No-op when Ideology is inactive or there is no primary Ideo.
 
+**Cheap Combat kind band:** `Outpost_Recruiting.BuildPawnKindPoolFromFaction` keeps only humanlike Combat options with `Cost <= cheapestCost * CheapKindCostBandFactor` (1.20). Shared by recruiting, conquest founding workers, and virtual captives (`OutpostPrisonerUtility.GenerateVirtualCaptivesFromEnemyLosses` rolls that pool via `GenerateHostilePawn`; no full-strength raid group). Manual defense map harvest is unchanged.
+
 ## Outpost Armory (loose gear)
 
 SSoT: `CompOutpostArmory` + `OutpostArmoryUtility` (`Outposts/Armory/`). Opt-out experimental setting `experimentalOutpostArmory`. The Type filter shared by the Armory dialog and All Player Gear (`ArmoryTypeFilter`: Guns / Bows / Melee / Grenades / Ammo / Armor / Headgear / Torso / Legs / Medicine / Drugs / Food / Other) is owned by `OutpostArmoryUtility.TypeFilterFor` (single display kind), `MatchesTypeFilter` (Headgear / Torso / Legs match by apparel coverage and overlap) and `BuildTypeFilterChoices`. Armor is the vanilla `ApparelArmor` category tree (helmets plus body armor). UI must not re-classify.
@@ -121,6 +123,8 @@ When `gateThreatAttritionRest` passes (`WdEscalation.PassesGate`, Def FromMid), 
 ### Traveler travel speeds (settings)
 
 Caravans settings own walking TPM (`walkingTravelerTicksPerMove`), drop-pod TPM, and Interception Caravan travel mult. `WorldActions_Traveler.GetWalkingTicksPerMove()` is the SSoT for land spawn TPM and prep/attrition estimates (`TravelUtils.ResolveTicksPerMove(0)` and raid/trader prep). `WorldObject_Traveler.DefaultTicksPerMove` (2200) is only the settings Def. Interception Caravans (player Rapid Response and NPC settlement ambush) use that walking getter × RR mult × 0.90. Mortar/AA shell TPM stay on the Mortar, Anti Air and Rapid Response Logic settings page.
+
+**Player mortar fire mission:** `WorldObject_WD_Outpost.mortarFireMissionTarget` (scribed). Select Target gizmo (`WD_Outpost_Mortar`) queues a hostile world target while on cooldown and fires via `FireManualAtWorldTarget` when ready. While queued, auto ground mortar (`InterceptorFire`) and assault support from that outpost yield the shared `mortarCooldownTick` tube; AA stays on `antiAirCooldownTick`. Selection overlay: aim chord + star (`DrawFireMissionOverlay`); sticky radius fills gated in `WD_RadiusOverlayPrefs.DrawSelectDrivenIfNeeded`.
 
 ## Caravan clash (player vs traveler)
 
@@ -251,6 +255,7 @@ directly name optional-mod types.
 - **XML:** `MayRequire`, `IfModActive` in `loadFolders.xml`, conditional `Patches/*.xml`.
 - **C#:** `Source/Compat/*Compat.cs` — reflection + `ModLister` guards; never `using OptionalMod` in shipped code.
 - **Pattern doc:** `Guardrails/OPTIONAL_MODS.md` (settlement storage scatter = base explicit lists + VFEPD-only category patch).
+- **IRBM** (`kazepsi.irbm`): `Compat/IrbmWdCompat.cs` — AI strategic target pool includes player outposts; vaporize warheads deal ≥1500 outpost strength (utility 200); blocks IRBM hard-Destroy on outposts.
 
 If you add optional integration, update `OPTIONAL_MODS.md` in the same pass.
 

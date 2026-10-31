@@ -14,8 +14,27 @@
 命中率使用前哨设置中的距离分段,再加上最佳射手每级射击技能 {2} 的 1 个百分点加成。
 
 冷却由驻地射击技能总和 {3} 缩短:每点 −2% 时长,可与升级叠加(最低为基础天数的 25%)。</TSA_WD_Mortar_LaunchDesc>
-  <TSA_WD_Mortar_LaunchDescCooldown>迫击炮正在装填——剩余 {0} 天可用。</TSA_WD_Mortar_LaunchDescCooldown>
+  <TSA_WD_Mortar_LaunchDescCooldown>迫击炮正在装填。剩余 {0} 天可用。</TSA_WD_Mortar_LaunchDescCooldown>
   <TSA_WD_Mortar_LaunchDescNoSkill>该前哨没有可用的射击技能。</TSA_WD_Mortar_LaunchDescNoSkill>
+  <TSA_WD_Mortar_SelectTargetLabel>选择迫击炮目标</TSA_WD_Mortar_SelectTargetLabel>
+  <TSA_WD_Mortar_SelectTargetDesc>在 {0} 格内选择敌对聚居地、玩家商队或 WD 旅行者。
+
+命中时造成 {1} 强度伤害。命中率使用距离分段,再加上最佳射手每级射击技能 {2} 的 1 个百分点加成。冷却由驻地射击技能总和 {3} 缩短。
+
+若迫击炮正在装填,任务会排队并在就绪后发射。排队期间,该前哨的自动迫击炮与突击支援暂停(防空不受影响)。</TSA_WD_Mortar_SelectTargetDesc>
+  <TSA_WD_Mortar_SelectTargetDescCooldown>迫击炮正在装填(剩余约 {0} 天)。选择目标可排队火力任务。自动迫击炮与突击支援会保持暂停,直到发射或取消。</TSA_WD_Mortar_SelectTargetDescCooldown>
+  <TSA_WD_Mortar_SelectTargetDescNoSkill>该前哨没有可用的射击技能。</TSA_WD_Mortar_SelectTargetDescNoSkill>
+  <TSA_WD_Mortar_SelectTargetDescMissionCooldown>已对 {0} 排队火力任务。装填结束后发射(约 {1} 天)。自动迫击炮与突击支援已暂停。可再次选择以更换目标,或取消任务。</TSA_WD_Mortar_SelectTargetDescMissionCooldown>
+  <TSA_WD_Mortar_SelectTargetDescMissionReady>已对 {0} 排队火力任务。迫击炮已就绪,即将发射。可再次选择以更换目标,或取消任务。</TSA_WD_Mortar_SelectTargetDescMissionReady>
+  <TSA_WD_Mortar_CancelMissionLabel>取消火力任务</TSA_WD_Mortar_CancelMissionLabel>
+  <TSA_WD_Mortar_CancelMissionDesc>清除排队目标。该前哨的自动迫击炮与突击支援恢复。</TSA_WD_Mortar_CancelMissionDesc>
+  <TSA_WD_Mortar_MissionQueued>已对 {0} 排队火力任务。迫击炮就绪后将发射。</TSA_WD_Mortar_MissionQueued>
+  <TSA_WD_Mortar_MissionCancelled>火力任务已取消。</TSA_WD_Mortar_MissionCancelled>
+  <TSA_WD_Mortar_MissionClearedInvalid>火力任务已清除:目标不再有效(已毁、超出射程或不再敌对)。</TSA_WD_Mortar_MissionClearedInvalid>
+  <TSA_WD_Mortar_MissionClearedNoSkill>火力任务已清除:该前哨没有射击技能。</TSA_WD_Mortar_MissionClearedNoSkill>
+  <TSA_WD_Inspect_MortarMissionCooldown>火力任务: {0}(剩余 {1} 天就绪)</TSA_WD_Inspect_MortarMissionCooldown>
+  <TSA_WD_Inspect_MortarMissionReady>火力任务: {0}(就绪后发射)</TSA_WD_Inspect_MortarMissionReady>
+  <TSA_WD_AssaultArtillery_FireMissionQueued>已有排队火力任务。请先在世界地图取消,再从此前哨使用突击支援。</TSA_WD_AssaultArtillery_FireMissionQueued>
   <TSA_WD_Mortar_ReasonCooldown>冷却中</TSA_WD_Mortar_ReasonCooldown>
   <TSA_WD_Mortar_ReasonNoSkill>需要至少一名拥有射击技能的成员</TSA_WD_Mortar_ReasonNoSkill>
 
@@ -345,4 +364,10 @@
   <TSA_WD_AssaultArtillery_Inbound>{0} 来袭。炮弹 {1} 秒后到达。</TSA_WD_AssaultArtillery_Inbound>
   <TSA_WD_AssaultArtillery_ShellShotDown>你的炮火支援炮弹被击落。</TSA_WD_AssaultArtillery_ShellShotDown>
   <TSA_WD_AssaultArtillery_NoShells>未找到迫击炮弹定义。请检查是否有模组替换了原版炮弹。</TSA_WD_AssaultArtillery_NoShells>
+
+  <!-- IRBM strategic missile → WD outpost strength -->
+  <TSA_WD_Irbm_OutpostHit_Label>战略导弹打击</TSA_WD_Irbm_OutpostHit_Label>
+  <TSA_WD_Irbm_OutpostHit_Text>{0} 用战略导弹打击了你的前哨 {1}。强度损伤：{2}。剩余强度：{3}。</TSA_WD_Irbm_OutpostHit_Text>
+  <TSA_WD_Irbm_OutpostDestroyed_Label>前哨被导弹摧毁</TSA_WD_Irbm_OutpostDestroyed_Label>
+  <TSA_WD_Irbm_OutpostDestroyed_Text>{0} 用战略导弹摧毁了你的前哨 {1}（原强度 {2}）。所有驻员损失。</TSA_WD_Irbm_OutpostDestroyed_Text>
 </LanguageData>

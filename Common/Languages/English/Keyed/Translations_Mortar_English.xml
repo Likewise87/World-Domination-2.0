@@ -17,8 +17,27 @@ If the shell hits, it deals {1} strength.
 Hit chance uses your range-band settings from the outpost options, plus one percentage point per Shooting level of the best shooter ({2}).
 
 Cooldown is shortened by total garrison Shooting ({3}): each point is −2% duration, stacking with upgrades (minimum 25% of base days).</TSA_WD_Mortar_LaunchDesc>
-  <TSA_WD_Mortar_LaunchDescCooldown>Mortar is reloading — ready in {0} days.</TSA_WD_Mortar_LaunchDescCooldown>
+  <TSA_WD_Mortar_LaunchDescCooldown>Mortar is reloading. Ready in {0} days.</TSA_WD_Mortar_LaunchDescCooldown>
   <TSA_WD_Mortar_LaunchDescNoSkill>No shooting skill available at this outpost.</TSA_WD_Mortar_LaunchDescNoSkill>
+  <TSA_WD_Mortar_SelectTargetLabel>Select mortar target</TSA_WD_Mortar_SelectTargetLabel>
+  <TSA_WD_Mortar_SelectTargetDesc>Pick a hostile settlement, player caravan, or WD traveler within {0} tiles.
+
+If the shell hits, it deals {1} strength. Hit chance uses range-band settings plus one percentage point per Shooting level of the best shooter ({2}). Cooldown shortens with total garrison Shooting ({3}).
+
+If the mortar is reloading, the mission is queued and fires when ready. While a fire mission is queued, auto mortar and assault support from this outpost are paused (Anti-Air is unaffected).</TSA_WD_Mortar_SelectTargetDesc>
+  <TSA_WD_Mortar_SelectTargetDescCooldown>Mortar is reloading (ready in {0} days). Select a target to queue a fire mission. Auto mortar and assault support stay paused until it fires or you cancel.</TSA_WD_Mortar_SelectTargetDescCooldown>
+  <TSA_WD_Mortar_SelectTargetDescNoSkill>No shooting skill available at this outpost.</TSA_WD_Mortar_SelectTargetDescNoSkill>
+  <TSA_WD_Mortar_SelectTargetDescMissionCooldown>Fire mission queued on {0}. Fires when reload finishes (about {1} days). Auto mortar and assault support are paused. Select again to retarget, or cancel the mission.</TSA_WD_Mortar_SelectTargetDescMissionCooldown>
+  <TSA_WD_Mortar_SelectTargetDescMissionReady>Fire mission queued on {0}. Mortar is ready and will fire shortly. Select again to retarget, or cancel the mission.</TSA_WD_Mortar_SelectTargetDescMissionReady>
+  <TSA_WD_Mortar_CancelMissionLabel>Cancel fire mission</TSA_WD_Mortar_CancelMissionLabel>
+  <TSA_WD_Mortar_CancelMissionDesc>Clears the queued target. Auto mortar and assault support from this outpost resume.</TSA_WD_Mortar_CancelMissionDesc>
+  <TSA_WD_Mortar_MissionQueued>Fire mission queued on {0}. The mortar will fire when ready.</TSA_WD_Mortar_MissionQueued>
+  <TSA_WD_Mortar_MissionCancelled>Fire mission cancelled.</TSA_WD_Mortar_MissionCancelled>
+  <TSA_WD_Mortar_MissionClearedInvalid>Fire mission cleared: target is no longer valid (destroyed, out of range, or not hostile).</TSA_WD_Mortar_MissionClearedInvalid>
+  <TSA_WD_Mortar_MissionClearedNoSkill>Fire mission cleared: no shooting skill at this outpost.</TSA_WD_Mortar_MissionClearedNoSkill>
+  <TSA_WD_Inspect_MortarMissionCooldown>Fire mission: {0} (ready in {1} days)</TSA_WD_Inspect_MortarMissionCooldown>
+  <TSA_WD_Inspect_MortarMissionReady>Fire mission: {0} (firing when ready)</TSA_WD_Inspect_MortarMissionReady>
+  <TSA_WD_AssaultArtillery_FireMissionQueued>Fire mission queued. Cancel it on the world map before using assault support from this outpost.</TSA_WD_AssaultArtillery_FireMissionQueued>
   <TSA_WD_Mortar_ReasonCooldown>On cooldown</TSA_WD_Mortar_ReasonCooldown>
   <TSA_WD_Mortar_ReasonNoSkill>Requires at least one pawn with shooting skill</TSA_WD_Mortar_ReasonNoSkill>
 
@@ -350,4 +369,10 @@ Cooldown is shortened by total garrison Shooting ({3}): each point is −2% dura
   <TSA_WD_AssaultArtillery_Inbound>{0} inbound. Shell arrives in {1} seconds.</TSA_WD_AssaultArtillery_Inbound>
   <TSA_WD_AssaultArtillery_ShellShotDown>Your artillery support shells were shot down.</TSA_WD_AssaultArtillery_ShellShotDown>
   <TSA_WD_AssaultArtillery_NoShells>No mortar shell defs found. Check for mods that replace vanilla shells.</TSA_WD_AssaultArtillery_NoShells>
+
+  <!-- IRBM strategic missile → WD outpost strength -->
+  <TSA_WD_Irbm_OutpostHit_Label>Strategic missile strike</TSA_WD_Irbm_OutpostHit_Label>
+  <TSA_WD_Irbm_OutpostHit_Text>{0} struck your outpost {1} with a strategic missile. Strength damage: {2}. Remaining strength: {3}.</TSA_WD_Irbm_OutpostHit_Text>
+  <TSA_WD_Irbm_OutpostDestroyed_Label>Outpost destroyed by missile</TSA_WD_Irbm_OutpostDestroyed_Label>
+  <TSA_WD_Irbm_OutpostDestroyed_Text>{0} vaporized your outpost {1} with a strategic missile (strength was {2}). All occupants lost.</TSA_WD_Irbm_OutpostDestroyed_Text>
 </LanguageData>

@@ -457,7 +457,7 @@
   <TSA_WD_Recruiting_Inspect_Any>{0} recluta(s)</TSA_WD_Recruiting_Inspect_Any>
   <TSA_WD_Recruiting_Inspect_None>Ninguno (reclutamiento detenido)</TSA_WD_Recruiting_Inspect_None>
   <TSA_WD_Gizmo_Trading>Comercio: {0}</TSA_WD_Gizmo_Trading>
-  <TSA_WD_Gizmo_Embassy>{0}</TSA_WD_Gizmo_Embassy>
+  <TSA_WD_Gizmo_Embassy>Generando {0} de buena voluntad</TSA_WD_Gizmo_Embassy>
   <TSA_WD_Gizmo_Scavenging>Recuperación (botín aleatorio)</TSA_WD_Gizmo_Scavenging>
   <TSA_WD_Log_Road_SkippedCooldown>CARRETERA: {0} omitida (enfriamiento de construcción).</TSA_WD_Log_Road_SkippedCooldown>
   <TSA_WD_Log_Road_SkippedLaunchFailed>CARRETERA: {0} omitida (no se pudo iniciar la ruta hacia {1}).</TSA_WD_Log_Road_SkippedLaunchFailed>

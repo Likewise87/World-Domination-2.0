@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_64_Title>迫击炮队列、IRBM 支持、招募</TSA_WD_Update_2_3_64_Title>
+  <TSA_WD_Update_2_3_64_Body><![CDATA[
+<size=16><b>2.3.64 - 迫击炮队列、IRBM 支持、招募</b></size>\n
+<color=#00FFFFFF>发布日期：2026年10月31日</color>\n
+------------------------------\n
+!!!改动仅适用于 1.7 版本!!!\n
+• 新功能：现在可为炮兵前哨选择迫击炮轰炸目标。火力任务会在冷却结束后执行。此前只能在迫击炮就绪时手动下达开火命令。\n
+• 招募/俘虏削弱：WD 生成的小人应只使用更便宜/较弱的 pawnkind。影响招募前哨、自动结算前哨防御产生的囚犯，以及征服定居点后获得的小人。\n
+• IRBM 支持：InterRim Ballistic Missile 模组的导弹现在应能瞄准 WD 前哨（尚未充分测试，但初步尝试看起来可用）。\n
+]]></TSA_WD_Update_2_3_64_Body>
   <TSA_WD_Update_2_3_63_Title>帮助他人获得好感</TSA_WD_Update_2_3_63_Title>
   <TSA_WD_Update_2_3_63_Body><![CDATA[
 <size=16><b>2.3.63 - 帮助他人获得好感</b></size>\n

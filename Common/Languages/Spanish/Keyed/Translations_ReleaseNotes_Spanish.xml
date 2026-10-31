@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_64_Title>Cola de mortero, soporte IRBM, reclutas</TSA_WD_Update_2_3_64_Title>
+  <TSA_WD_Update_2_3_64_Body><![CDATA[
+<size=16><b>2.3.64 - Cola de mortero, soporte IRBM, reclutas</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 31 de octubre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Nueva función: ahora puedes seleccionar un objetivo para que tus puestos de artillería lo bombardeen con morteros. Las misiones de fuego se ejecutan cuando termina el enfriamiento. Antes tenías que dar la orden manualmente cada vez que el mortero estaba listo.\n
+• Ajuste de reclutas/prisioneros: los peones generados por WD deberían usar solo pawnkinds más baratos/débiles. Afecta a puestos de reclutamiento, prisioneros de defensas de puesto resueltas automáticamente y peones tras conquistar un asentamiento.\n
+• Soporte IRBM: los misiles del mod InterRim Ballistic Missile deberían poder apuntar a puestos WD (no está del todo probado, pero las primeras pruebas parecieron funcionar).\n
+]]></TSA_WD_Update_2_3_64_Body>
   <TSA_WD_Update_2_3_63_Title>Buena voluntad por ayudar a otros</TSA_WD_Update_2_3_63_Title>
   <TSA_WD_Update_2_3_63_Body><![CDATA[
 <size=16><b>2.3.63 - Buena voluntad por ayudar a otros</b></size>\n

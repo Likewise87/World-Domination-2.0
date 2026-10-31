@@ -457,7 +457,7 @@
   <TSA_WD_Recruiting_Inspect_Any>{0} 名殖民者</TSA_WD_Recruiting_Inspect_Any>
   <TSA_WD_Recruiting_Inspect_None>无（已停止招募）</TSA_WD_Recruiting_Inspect_None>
   <TSA_WD_Gizmo_Trading>贸易:{0}</TSA_WD_Gizmo_Trading>
-  <TSA_WD_Gizmo_Embassy>{0}</TSA_WD_Gizmo_Embassy>
+  <TSA_WD_Gizmo_Embassy>正在获得 {0} 好感</TSA_WD_Gizmo_Embassy>
   <TSA_WD_Gizmo_Scavenging>拾荒（随机战利品）</TSA_WD_Gizmo_Scavenging>
   <TSA_WD_Log_Road_SkippedCooldown>筑路:{0} 已跳过(筑路冷却中)。</TSA_WD_Log_Road_SkippedCooldown>
   <TSA_WD_Log_Road_SkippedLaunchFailed>筑路:{0} 已跳过(无法开始向 {1} 的路线)。</TSA_WD_Log_Road_SkippedLaunchFailed>

@@ -24,6 +24,12 @@ namespace TSA_WorldDomination
         /// <summary>Minimum effective level on the selected priority skill for each recruit.</summary>
         public const int PrioritySkillMinLevel = 5;
 
+        /// <summary>
+        /// Eligible Combat kinds: Cost at most cheapest faction Combat option × this factor (cheapest + 20%).
+        /// Shared by recruiting, conquest founding, and virtual captives.
+        /// </summary>
+        public const float CheapKindCostBandFactor = 1.20f;
+
         public struct XenotypePoolEntry
         {
             public XenotypeDef Xenotype;
@@ -43,7 +49,9 @@ namespace TSA_WorldDomination
         private static readonly List<PawnKindPoolEntry> pawnKindFactionTempScratch = new List<PawnKindPoolEntry>();
         private static readonly List<XenotypeChance> factionXenotypeScratch = new List<XenotypeChance>();
         private static readonly Dictionary<PawnKindDef, float> pawnKindWeightScratch = new Dictionary<PawnKindDef, float>();
+        private static readonly Dictionary<PawnKindDef, float> pawnKindCostScratch = new Dictionary<PawnKindDef, float>();
         private static readonly Dictionary<PawnKindDef, float> pawnKindAccumScratch = new Dictionary<PawnKindDef, float>();
+        private static readonly List<PawnKindDef> pawnKindFilterScratch = new List<PawnKindDef>();
 
         /// <summary>Total Social at outpost (effective, for running average capacity).</summary>
         public static float GetDeliveryDrivingCapacity(WorldObject_WD_Outpost outpost)
@@ -159,9 +167,10 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Humanlike pawn kinds from this faction's Combat pawn-group makers only.
-        /// Weight = selectionWeight / cost so expensive elites stay rare like raid generation.
-        /// Used by recruiting, conquest founding, and auto-resolve captives.
+        /// Humanlike pawn kinds from this faction's Combat pawn-group makers only, restricted to the
+        /// cheap Cost band (cheapest option Cost × <see cref="CheapKindCostBandFactor"/>).
+        /// Weight = selectionWeight / cost within that band.
+        /// Used by recruiting, conquest founding, and virtual captives.
         /// </summary>
         public static void BuildPawnKindPoolFromFaction(Faction faction, List<PawnKindPoolEntry> pool)
         {
@@ -169,6 +178,7 @@ namespace TSA_WorldDomination
             if (pool == null) return;
 
             pawnKindWeightScratch.Clear();
+            pawnKindCostScratch.Clear();
             FactionDef def = faction?.def;
             bool addedCombat = false;
             if (def != null)
@@ -187,9 +197,11 @@ namespace TSA_WorldDomination
                 }
 
                 // No Combat makers (unusual): fall back to basic member only.
-                if (!addedCombat)
-                    AddPawnKindWeight(def.basicMemberKind, 1f);
+                if (!addedCombat && def.basicMemberKind != null)
+                    AddPawnKindWeight(def.basicMemberKind, 1f, Mathf.Max(1f, def.basicMemberKind.combatPower));
             }
+
+            ApplyCheapKindCostBand(def);
 
             float total = 0f;
             foreach (var kv in pawnKindWeightScratch)
@@ -205,6 +217,49 @@ namespace TSA_WorldDomination
                 pool.Add(new PawnKindPoolEntry { Kind = kv.Key, Weight = kv.Value / total });
 
             pool.Sort((a, b) => b.Weight.CompareTo(a.Weight));
+        }
+
+        /// <summary>
+        /// Drops kinds whose min Combat option Cost exceeds cheapest × <see cref="CheapKindCostBandFactor"/>.
+        /// Empty after filter → basicMemberKind if recruitable, else clear for Colonist fallback.
+        /// </summary>
+        private static void ApplyCheapKindCostBand(FactionDef def)
+        {
+            if (pawnKindWeightScratch.Count == 0) return;
+
+            float cheapestCost = float.MaxValue;
+            foreach (var kv in pawnKindCostScratch)
+            {
+                if (kv.Value < cheapestCost)
+                    cheapestCost = kv.Value;
+            }
+
+            if (cheapestCost >= float.MaxValue)
+            {
+                // Weights without costs (should not happen): treat as already eligible.
+                return;
+            }
+
+            float maxCost = cheapestCost * CheapKindCostBandFactor;
+            pawnKindFilterScratch.Clear();
+            foreach (var kv in pawnKindWeightScratch)
+            {
+                if (!pawnKindCostScratch.TryGetValue(kv.Key, out float cost) || cost > maxCost)
+                    pawnKindFilterScratch.Add(kv.Key);
+            }
+
+            for (int i = 0; i < pawnKindFilterScratch.Count; i++)
+            {
+                PawnKindDef kind = pawnKindFilterScratch[i];
+                pawnKindWeightScratch.Remove(kind);
+                pawnKindCostScratch.Remove(kind);
+            }
+
+            if (pawnKindWeightScratch.Count > 0) return;
+
+            PawnKindDef basic = def?.basicMemberKind;
+            if (IsRecruitableFactionPawnKind(basic))
+                AddPawnKindWeight(basic, 1f, Mathf.Max(1f, basic.combatPower));
         }
 
         /// <summary>
@@ -297,17 +352,26 @@ namespace TSA_WorldDomination
                 if (opt?.kind == null) continue;
                 float selection = Mathf.Max(0.01f, opt.selectionWeight);
                 float cost = Mathf.Max(1f, opt.Cost);
-                AddPawnKindWeight(opt.kind, selection / cost);
+                AddPawnKindWeight(opt.kind, selection / cost, cost);
             }
         }
 
-        private static void AddPawnKindWeight(PawnKindDef kind, float weight)
+        private static void AddPawnKindWeight(PawnKindDef kind, float weight, float cost)
         {
             if (!IsRecruitableFactionPawnKind(kind) || weight <= 0f) return;
             if (pawnKindWeightScratch.TryGetValue(kind, out float existing))
                 pawnKindWeightScratch[kind] = existing + weight;
             else
                 pawnKindWeightScratch[kind] = weight;
+
+            float clampedCost = Mathf.Max(1f, cost);
+            if (pawnKindCostScratch.TryGetValue(kind, out float existingCost))
+            {
+                if (clampedCost < existingCost)
+                    pawnKindCostScratch[kind] = clampedCost;
+            }
+            else
+                pawnKindCostScratch[kind] = clampedCost;
         }
 
         /// <summary>Humanlike non-animal kinds suitable for a player colonist recruit.</summary>
@@ -681,6 +745,50 @@ namespace TSA_WorldDomination
             ApplyPrioritySkillFloor(p, prioritySkill);
             OutpostPawnIdeologyUtil.ApplyPlayerPrimaryIdeoIfActive(p);
             WorldComponent_PlayerPawnJoinTimes.Get()?.NoteJoinedPlayerFaction(p);
+            return p;
+        }
+
+        /// <summary>
+        /// Enemy-faction pawn from a cheap-band Combat kind (virtual captives). No player ideo / join-time.
+        /// </summary>
+        public static Pawn GenerateHostilePawn(Faction faction, XenotypeDef xenotype, PawnKindDef pawnKind)
+        {
+            if (faction == null || faction.IsPlayer) return null;
+            PawnKindDef kind = IsRecruitableFactionPawnKind(pawnKind) ? pawnKind : (faction.def?.basicMemberKind ?? PawnKindDefOf.Colonist);
+            if (!IsRecruitableFactionPawnKind(kind))
+                kind = PawnKindDefOf.Colonist;
+
+            Pawn p;
+            if (ModsConfig.BiotechActive && xenotype != null)
+            {
+                var req = new PawnGenerationRequest(
+                    kind,
+                    faction,
+                    PawnGenerationContext.NonPlayer,
+                    -1,
+                    forceGenerateNewPawn: true,
+                    canGeneratePawnRelations: false,
+                    mustBeCapableOfViolence: true,
+                    forbidAnyTitle: true,
+                    forcedXenotype: xenotype);
+                p = PawnGenerator.GeneratePawn(req);
+            }
+            else
+            {
+                var baselineReq = new PawnGenerationRequest(
+                    kind,
+                    faction,
+                    PawnGenerationContext.NonPlayer,
+                    -1,
+                    forceGenerateNewPawn: true,
+                    canGeneratePawnRelations: false,
+                    mustBeCapableOfViolence: true,
+                    forbidAnyTitle: true);
+                p = PawnGenerator.GeneratePawn(baselineReq);
+            }
+
+            if (p == null && kind != PawnKindDefOf.Colonist)
+                return GenerateHostilePawn(faction, xenotype, PawnKindDefOf.Colonist);
             return p;
         }
 

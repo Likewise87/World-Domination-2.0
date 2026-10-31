@@ -125,10 +125,10 @@ namespace TSA_WorldDomination
             iconColor = Color.white;
             if (isEmbassy)
             {
-                string delivery = Outpost_Embassy.GetInspectProductLine(outpost);
-                label = "TSA_WD_Gizmo_Embassy".Translate(delivery).ToString();
+                int goodwill = Outpost_Embassy.GetExpectedGoodwillForGizmo(outpost);
+                label = "TSA_WD_Gizmo_Embassy".Translate(goodwill.ToString()).ToString();
                 if (label == "TSA_WD_Gizmo_Embassy" || label.Contains("TSA_WD_"))
-                    label = string.IsNullOrEmpty(delivery) ? "Embassy" : delivery;
+                    label = "Generating " + goodwill + " Goodwill";
                 icon = cachedEmbassyIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/ManageRelationships", false) ?? TexCommand.Replant;
                 iconColor = WorldOverlayLineMaterials.DarkCyanColor;
             }

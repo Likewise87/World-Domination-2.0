@@ -28,9 +28,15 @@ namespace TSA_WorldDomination
         private int rapidResponseRaidTargetMaskRaw = (int)(RaidTargetMask.Player | RaidTargetMask.Allies);
         private float mortarRangeOverride = -1f;
         private float antiAirRangeOverride = -1f;
+        /// <summary>Queued manual mortar fire mission target (null = none). Reserves the tube vs auto/assault.</summary>
+        private WorldObject mortarFireMissionTarget;
         /// <summary>Absolute in-game day last granted research event Intellectual XP (-1 = never).</summary>
         private int lastResearchSkillXpDay = -1;
         public bool MortarDefenseActive => mortarDefenseActive;
+        public bool HasMortarFireMission =>
+            mortarFireMissionTarget != null && !mortarFireMissionTarget.Destroyed;
+        public WorldObject MortarFireMissionTarget =>
+            HasMortarFireMission ? mortarFireMissionTarget : null;
         public MissionMask MortarDefenseMask => (MissionMask)mortarDefenseMaskRaw;
         public bool AntiAirDefenseActive => antiAirDefenseActive;
         public AntiAirGroupLetter AntiAirGroup => (AntiAirGroupLetter)antiAirGroupRaw;
@@ -52,6 +58,20 @@ namespace TSA_WorldDomination
         {
             mortarDefenseActive = on;
             RefreshInterceptorRegistration();
+        }
+
+        public void SetMortarFireMission(WorldObject target)
+        {
+            mortarFireMissionTarget = target;
+            WD_Outpost_Mortar.InvalidateFireGizmoCache(this);
+        }
+
+        public void ClearMortarFireMission(bool notifyCache = true)
+        {
+            if (mortarFireMissionTarget == null) return;
+            mortarFireMissionTarget = null;
+            if (notifyCache)
+                WD_Outpost_Mortar.InvalidateFireGizmoCache(this);
         }
         public void SetMortarDefenseMask(MissionMask mask) => mortarDefenseMaskRaw = (int)mask;
         public void SetMortarRaidTargetMask(RaidTargetMask mask) => mortarRaidTargetMaskRaw = (int)mask;
@@ -190,7 +210,10 @@ namespace TSA_WorldDomination
             if (IsMortarOutpost)
             {
                 if (GetHighestVirtualPawnSkill(SkillDefOf.Shooting) <= 0f) return false;
-                bool mortarReady = mortarDefenseActive && comp != null && !comp.IsMortarOnCooldown;
+                bool mortarReady = mortarDefenseActive
+                    && !HasMortarFireMission
+                    && comp != null
+                    && !comp.IsMortarOnCooldown;
                 bool aaReady = antiAirDefenseActive
                     && AntiAirFireUtils.HasAntiAirUpgrade(this)
                     && comp != null
@@ -213,6 +236,7 @@ namespace TSA_WorldDomination
                     AntiAirFireUtils.TryEngageDropPod(this, target);
                 return;
             }
+            if (HasMortarFireMission) return;
             if (!mortarDefenseActive) return;
             if (!RapidResponseUtility.IsEligibleAutoInterceptTarget(target, MortarRaidTargetMask)) return;
             MortarFireUtils.FireDefensiveAtTraveler(this, target, approxTileDist);
@@ -2613,6 +2637,12 @@ namespace TSA_WorldDomination
                 return;
             }
 
+            if (IsMortarOutpost && HasMortarFireMission)
+            {
+                WD_Outpost_Mortar.DrawFireMissionOverlay(this);
+                return;
+            }
+
             // Rapid response select ring (legacy). Fills use the Rapid Response hover gizmo instead.
             if (WD_RadiusOverlayMode.UseHopRadiusRings && IsRapidResponseOutpost)
             {
@@ -2668,7 +2698,18 @@ namespace TSA_WorldDomination
             if (IsMortarOutpost)
             {
                 var mortarComp = GetComponent<CompViralSpread>();
-                if (mortarComp != null && mortarComp.IsMortarOnCooldown)
+                if (HasMortarFireMission)
+                {
+                    string targetLabel = MortarFireMissionTarget?.LabelCap ?? "?";
+                    if (mortarComp != null && mortarComp.IsMortarOnCooldown)
+                    {
+                        float daysLeft = (mortarComp.mortarCooldownTick - Find.TickManager.TicksGame) / 60000f;
+                        baseStr += "\n" + "TSA_WD_Inspect_MortarMissionCooldown".Translate(targetLabel, daysLeft.ToString("F1")).Colorize(Color.cyan);
+                    }
+                    else
+                        baseStr += "\n" + "TSA_WD_Inspect_MortarMissionReady".Translate(targetLabel).Colorize(Color.cyan);
+                }
+                else if (mortarComp != null && mortarComp.IsMortarOnCooldown)
                 {
                     float daysLeft = (mortarComp.mortarCooldownTick - Find.TickManager.TicksGame) / 60000f;
                     baseStr += "\n" + "TSA_WD_Inspect_MortarCD".Translate(daysLeft.ToString("F1")).Colorize(Color.cyan);
@@ -3173,6 +3214,7 @@ namespace TSA_WorldDomination
             if (IsMortarOutpost || IsRapidResponseOutpost)
             {
                 WorldComponent_InterceptionScheduler.Current?.UnregisterInterceptor(this);
+                ClearMortarFireMission(notifyCache: false);
                 WD_Outpost_Mortar.InvalidateFireGizmoCache(this);
             }
             if (IsPowerPlantOutpost)
@@ -3187,6 +3229,8 @@ namespace TSA_WorldDomination
         protected override void Tick()
         {
             base.Tick();
+            if (IsMortarOutpost && mortarFireMissionTarget != null)
+                WD_Outpost_Mortar.TickMortarFireMission(this);
             int ticksGame = Find.TickManager.TicksGame;
             int prodTimerStagger = (ID ^ (ID >> 8)) & 0x7FF;
 
@@ -3432,6 +3476,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref dropPodFallbackToLand, "dropPodFallbackToLand", true);
             Scribe_Values.Look(ref pawnTravelViaDropPod, "pawnTravelViaDropPod", false);
             Scribe_Values.Look(ref mortarDefenseActive, "mortarDefenseActive", false);
+            Scribe_References.Look(ref mortarFireMissionTarget, "mortarFireMissionTarget");
             Scribe_Values.Look(ref mortarDefenseMaskRaw, "mortarDefenseMaskRaw", (int)MissionMask.All);
             Scribe_Values.Look(ref antiAirDefenseActive, "antiAirDefenseActive", true);
             Scribe_Values.Look(ref antiAirGroupRaw, "antiAirGroupRaw", (int)AntiAirGroupLetter.Off);
@@ -3710,6 +3755,7 @@ namespace TSA_WorldDomination
                 antiAirDefenseActive = false;
                 mortarRangeOverride = -1f;
                 antiAirRangeOverride = -1f;
+                ClearMortarFireMission();
             }
 
             bool wasRr = Outpost_Production_Utils.IsRapidResponseOutpost(oldDef);

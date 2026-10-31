@@ -14,8 +14,27 @@ Si el proyectil impacta, aplica {1} de fuerza.
 La probabilidad de acierto usa las bandas de alcance de las opciones del puesto, más un punto porcentual por nivel de Disparo del mejor tirador ({2}).
 
 El enfriamiento se acorta con la suma de Disparo de la guarnición ({3}): −2% de duración por punto, acumulable con mejoras (mín. 25% de los días base).</TSA_WD_Mortar_LaunchDesc>
-  <TSA_WD_Mortar_LaunchDescCooldown>El mortero se está recargando — listo en {0} días.</TSA_WD_Mortar_LaunchDescCooldown>
+  <TSA_WD_Mortar_LaunchDescCooldown>El mortero se está recargando. Listo en {0} días.</TSA_WD_Mortar_LaunchDescCooldown>
   <TSA_WD_Mortar_LaunchDescNoSkill>No hay habilidad de Disparo disponible en el puesto.</TSA_WD_Mortar_LaunchDescNoSkill>
+  <TSA_WD_Mortar_SelectTargetLabel>Seleccionar objetivo de mortero</TSA_WD_Mortar_SelectTargetLabel>
+  <TSA_WD_Mortar_SelectTargetDesc>Elige un asentamiento hostil, una caravana del jugador o un viajero WD en un radio de {0} casillas.
+
+Si el proyectil impacta, aplica {1} de fuerza. La probabilidad de acierto usa las bandas de alcance más un punto porcentual por nivel de Disparo del mejor tirador ({2}). El enfriamiento se acorta con la suma de Disparo de la guarnición ({3}).
+
+Si el mortero se está recargando, la misión se encola y dispara cuando esté listo. Mientras haya una misión en cola, el mortero automático y el apoyo de asalto de este puesto quedan en pausa (el antiaéreo no se ve afectado).</TSA_WD_Mortar_SelectTargetDesc>
+  <TSA_WD_Mortar_SelectTargetDescCooldown>El mortero se está recargando (listo en {0} días). Selecciona un objetivo para encolar una misión de fuego. El mortero automático y el apoyo de asalto siguen en pausa hasta que dispare o canceles.</TSA_WD_Mortar_SelectTargetDescCooldown>
+  <TSA_WD_Mortar_SelectTargetDescNoSkill>No hay habilidad de Disparo disponible en el puesto.</TSA_WD_Mortar_SelectTargetDescNoSkill>
+  <TSA_WD_Mortar_SelectTargetDescMissionCooldown>Misión de fuego encolada sobre {0}. Dispara al terminar la recarga (unos {1} días). El mortero automático y el apoyo de asalto están en pausa. Vuelve a seleccionar para cambiar de objetivo, o cancela la misión.</TSA_WD_Mortar_SelectTargetDescMissionCooldown>
+  <TSA_WD_Mortar_SelectTargetDescMissionReady>Misión de fuego encolada sobre {0}. El mortero está listo y disparará en breve. Vuelve a seleccionar para cambiar de objetivo, o cancela la misión.</TSA_WD_Mortar_SelectTargetDescMissionReady>
+  <TSA_WD_Mortar_CancelMissionLabel>Cancelar misión de fuego</TSA_WD_Mortar_CancelMissionLabel>
+  <TSA_WD_Mortar_CancelMissionDesc>Borra el objetivo encolado. El mortero automático y el apoyo de asalto de este puesto se reanudan.</TSA_WD_Mortar_CancelMissionDesc>
+  <TSA_WD_Mortar_MissionQueued>Misión de fuego encolada sobre {0}. El mortero disparará cuando esté listo.</TSA_WD_Mortar_MissionQueued>
+  <TSA_WD_Mortar_MissionCancelled>Misión de fuego cancelada.</TSA_WD_Mortar_MissionCancelled>
+  <TSA_WD_Mortar_MissionClearedInvalid>Misión de fuego anulada: el objetivo ya no es válido (destruido, fuera de alcance o no hostil).</TSA_WD_Mortar_MissionClearedInvalid>
+  <TSA_WD_Mortar_MissionClearedNoSkill>Misión de fuego anulada: no hay habilidad de Disparo en el puesto.</TSA_WD_Mortar_MissionClearedNoSkill>
+  <TSA_WD_Inspect_MortarMissionCooldown>Misión de fuego: {0} (listo en {1} días)</TSA_WD_Inspect_MortarMissionCooldown>
+  <TSA_WD_Inspect_MortarMissionReady>Misión de fuego: {0} (disparará cuando esté listo)</TSA_WD_Inspect_MortarMissionReady>
+  <TSA_WD_AssaultArtillery_FireMissionQueued>Hay una misión de fuego encolada. Cancélala en el mapa mundial antes de usar apoyo de asalto desde este puesto.</TSA_WD_AssaultArtillery_FireMissionQueued>
   <TSA_WD_Mortar_ReasonCooldown>En enfriamiento</TSA_WD_Mortar_ReasonCooldown>
   <TSA_WD_Mortar_ReasonNoSkill>Requiere al menos un colono con habilidad de Disparo</TSA_WD_Mortar_ReasonNoSkill>
 
@@ -345,4 +364,10 @@ El enfriamiento se acorta con la suma de Disparo de la guarnición ({3}): −2% 
   <TSA_WD_AssaultArtillery_Inbound>{0} en camino. El proyectil llega en {1} segundos.</TSA_WD_AssaultArtillery_Inbound>
   <TSA_WD_AssaultArtillery_ShellShotDown>Tus proyectiles de apoyo de artillería fueron derribados.</TSA_WD_AssaultArtillery_ShellShotDown>
   <TSA_WD_AssaultArtillery_NoShells>No se encontraron definiciones de proyectiles de mortero. Comprueba si algún mod sustituye los proyectiles vanilla.</TSA_WD_AssaultArtillery_NoShells>
+
+  <!-- IRBM strategic missile → WD outpost strength -->
+  <TSA_WD_Irbm_OutpostHit_Label>Impacto de misil estratégico</TSA_WD_Irbm_OutpostHit_Label>
+  <TSA_WD_Irbm_OutpostHit_Text>{0} golpeó tu avanzada {1} con un misil estratégico. Daño a la fuerza: {2}. Fuerza restante: {3}.</TSA_WD_Irbm_OutpostHit_Text>
+  <TSA_WD_Irbm_OutpostDestroyed_Label>Avanzada destruida por misil</TSA_WD_Irbm_OutpostDestroyed_Label>
+  <TSA_WD_Irbm_OutpostDestroyed_Text>{0} vaporizó tu avanzada {1} con un misil estratégico (la fuerza era {2}). Se perdieron todos los ocupantes.</TSA_WD_Irbm_OutpostDestroyed_Text>
 </LanguageData>

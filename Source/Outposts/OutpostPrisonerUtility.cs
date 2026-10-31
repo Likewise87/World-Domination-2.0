@@ -81,8 +81,8 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Virtual captives from a defeated enemy strength pool (outpost defense or Rapid Response win).
-        /// Count uses the existing strength/loss formula; pawn quality comes from a Combat pawn group
-        /// generated at full <paramref name="enemyInitialStrength"/> (same affordability as a real raid).
+        /// Count uses the existing strength/loss formula; kinds roll from the enemy faction's cheap Combat
+        /// band (<see cref="Outpost_Recruiting.CheapKindCostBandFactor"/>), not a full-strength raid group.
         /// </summary>
         public static int GenerateVirtualCaptivesFromEnemyLosses(
             WorldObject_WD_Outpost outpost,
@@ -102,97 +102,38 @@ namespace TSA_WorldDomination
                 desired = 1;
             if (desired <= 0) return 0;
 
-            List<Pawn> group = TryGenerateCombatGroupAtStrength(enemyFaction, enemyInitialStrength);
-            if (group == null || group.Count == 0) return 0;
+            Outpost_Recruiting.BuildPawnKindPoolFromFaction(enemyFaction, captivePawnKindPoolScratch);
+            Outpost_Recruiting.BuildXenotypePoolFromFaction(enemyFaction, captiveXenotypePoolScratch);
 
-            combatCaptiveCandidatesScratch.Clear();
-            for (int i = 0; i < group.Count; i++)
-            {
-                Pawn p = group[i];
-                if (IsOutpostCapturable(p))
-                    combatCaptiveCandidatesScratch.Add(p);
-            }
-
-            // Shuffle candidates so we do not always prefer generation order (often elites first).
-            for (int i = combatCaptiveCandidatesScratch.Count - 1; i > 0; i--)
-            {
-                int j = Rand.RangeInclusive(0, i);
-                Pawn tmp = combatCaptiveCandidatesScratch[i];
-                combatCaptiveCandidatesScratch[i] = combatCaptiveCandidatesScratch[j];
-                combatCaptiveCandidatesScratch[j] = tmp;
-            }
-
-            int take = Mathf.Min(desired, combatCaptiveCandidatesScratch.Count);
             int captured = 0;
-            for (int i = 0; i < take; i++)
+            for (int i = 0; i < desired; i++)
             {
-                Pawn pawn = combatCaptiveCandidatesScratch[i];
-                if (outpost.TryCaptureAsPrisoner(pawn))
+                PawnKindDef kind = Outpost_Recruiting.RollPawnKindFromPool(captivePawnKindPoolScratch);
+                XenotypeDef xenotype = Outpost_Recruiting.RollXenotypeFromPool(captiveXenotypePoolScratch);
+                Pawn pawn = Outpost_Recruiting.GenerateHostilePawn(enemyFaction, xenotype, kind);
+                if (pawn == null || pawn.Destroyed)
+                    continue;
+
+                if (!IsOutpostCapturable(pawn) || !outpost.TryCaptureAsPrisoner(pawn))
                 {
-                    // Battle captives: multiple wounds (armor ignored) so they look fought, not fresh.
-                    WD_OutpostDefenseSkirmishUtility.ApplySkirmishInjuries(pawn);
-                    outpost.NotePrisonerMaybeNeedsHealing(pawn);
-                    captured++;
+                    if (pawn != null && !pawn.Destroyed)
+                        pawn.Destroy(DestroyMode.Vanish);
+                    continue;
                 }
+
+                // Battle captives: multiple wounds (armor ignored) so they look fought, not fresh.
+                WD_OutpostDefenseSkirmishUtility.ApplySkirmishInjuries(pawn);
+                outpost.NotePrisonerMaybeNeedsHealing(pawn);
+                captured++;
             }
 
-            // Discard the rest of the synthetic raid group (and any failed captures).
-            for (int i = 0; i < group.Count; i++)
-            {
-                Pawn p = group[i];
-                if (p == null || p.Destroyed) continue;
-                if (outpost.Prisoners != null && outpost.Prisoners.Contains(p)) continue;
-                p.Destroy(DestroyMode.Vanish);
-            }
-
-            combatCaptiveCandidatesScratch.Clear();
             return captured;
         }
 
-        private static readonly List<Pawn> combatCaptiveCandidatesScratch = new List<Pawn>(32);
-        private static readonly List<Pawn> combatGroupScratch = new List<Pawn>(64);
-
-        /// <summary>
-        /// Combat pawn group at full enemy strength (floor: faction min Combat points), matching real raid generation.
-        /// </summary>
-        private static List<Pawn> TryGenerateCombatGroupAtStrength(Faction faction, float strength)
-        {
-            combatGroupScratch.Clear();
-            if (faction?.def == null) return combatGroupScratch;
-
-            float points = Mathf.Max(0f, strength);
-            float minPoints = faction.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Combat) * 1.05f;
-            if (minPoints > 0f)
-                points = Mathf.Max(points, minPoints);
-            if (points <= 0f) return combatGroupScratch;
-
-            try
-            {
-                var parms = new PawnGroupMakerParms
-                {
-                    groupKind = PawnGroupKindDefOf.Combat,
-                    points = points,
-                    faction = faction
-                };
-                foreach (Pawn p in PawnGroupMakerUtility.GeneratePawns(parms))
-                {
-                    if (p != null && !p.Destroyed)
-                        combatGroupScratch.Add(p);
-                }
-            }
-            catch
-            {
-                for (int i = 0; i < combatGroupScratch.Count; i++)
-                {
-                    Pawn p = combatGroupScratch[i];
-                    if (p != null && !p.Destroyed)
-                        p.Destroy(DestroyMode.Vanish);
-                }
-                combatGroupScratch.Clear();
-            }
-
-            return combatGroupScratch;
-        }
+        private static readonly List<Outpost_Recruiting.PawnKindPoolEntry> captivePawnKindPoolScratch =
+            new List<Outpost_Recruiting.PawnKindPoolEntry>(16);
+        private static readonly List<Outpost_Recruiting.XenotypePoolEntry> captiveXenotypePoolScratch =
+            new List<Outpost_Recruiting.XenotypePoolEntry>(16);
 
         /// <summary>
         /// Player Rapid Response intercept win: deposit virtual captives at the origin RR outpost.

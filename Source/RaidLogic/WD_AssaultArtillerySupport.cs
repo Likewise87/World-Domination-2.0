@@ -17,6 +17,7 @@ namespace TSA_WorldDomination
         public int ScatterRadius;
         public bool OnCooldown;
         public bool NoShootingSkill;
+        public bool FireMissionQueued;
         public float CooldownDaysLeft;
         public WD_AssaultArtillerySupport.ShellUnlockTier Tier;
         /// <summary>Prebuilt at menu refresh - do not Translate every GUI frame.</summary>
@@ -24,7 +25,7 @@ namespace TSA_WorldDomination
         public string CachedTip = string.Empty;
 
         public bool IsSelectable =>
-            IsGhostRelay || (Outpost != null && !OnCooldown && !NoShootingSkill);
+            IsGhostRelay || (Outpost != null && !OnCooldown && !NoShootingSkill && !FireMissionQueued);
 
         public string DisplayLabel =>
             IsGhostRelay
@@ -257,6 +258,7 @@ namespace TSA_WorldDomination
                 CompViralSpread? comp = outpost.GetComponent<CompViralSpread>();
                 bool onCooldown = comp != null && comp.IsMortarOnCooldown;
                 bool noSkill = outpost.GetHighestVirtualPawnSkill(SkillDefOf.Shooting) <= 0f;
+                bool fireMission = outpost.HasMortarFireMission;
                 float cdLeft = onCooldown && comp != null
                     ? (comp.mortarCooldownTick - tick) / 60000f
                     : 0f;
@@ -269,6 +271,7 @@ namespace TSA_WorldDomination
                     ScatterRadius = GetAssaultScatterRadius(outpost, dist, maxRange),
                     OnCooldown = onCooldown,
                     NoShootingSkill = noSkill,
+                    FireMissionQueued = fireMission,
                     CooldownDaysLeft = cdLeft,
                     Tier = GetShellTier(outpost)
                 };
@@ -296,6 +299,16 @@ namespace TSA_WorldDomination
             if (entry.Outpost == null)
             {
                 entry.CachedTip = string.Empty;
+                return;
+            }
+            if (entry.FireMissionQueued)
+            {
+                entry.CachedTip = "TSA_WD_AssaultArtillery_FireMissionQueued".Translate().ToString();
+                return;
+            }
+            if (entry.NoShootingSkill)
+            {
+                entry.CachedTip = "TSA_WD_AssaultArtillery_NoShootingSkill".Translate().ToString();
                 return;
             }
             entry.CachedTip = "TSA_WD_AssaultArtillery_OutpostRowTip".Translate(
@@ -605,7 +618,18 @@ namespace TSA_WorldDomination
             // Selectable state) already gate repeat fire from the same support source.
             if (support == null || !support.IsSelectable)
             {
-                denyReason = "TSA_WD_AssaultArtillery_SelectOutpost".Translate();
+                if (support != null && support.FireMissionQueued)
+                    denyReason = "TSA_WD_AssaultArtillery_FireMissionQueued".Translate();
+                else
+                    denyReason = "TSA_WD_AssaultArtillery_SelectOutpost".Translate();
+                return false;
+            }
+
+            if (!support.IsGhostRelay
+                && support.Outpost != null
+                && support.Outpost.HasMortarFireMission)
+            {
+                denyReason = "TSA_WD_AssaultArtillery_FireMissionQueued".Translate();
                 return false;
             }
 

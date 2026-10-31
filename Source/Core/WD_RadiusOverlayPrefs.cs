@@ -272,6 +272,8 @@ namespace TSA_WorldDomination
             {
                 if (Dialog_OutpostRangeAdjust.TryGetPreview(outpost, out _, out _)) return;
                 if (Dialog_OutpostArtilleryConfigure.TryGetPreview(outpost, out _, out _, out _, out _)) return;
+                // Queued fire mission owns selection overlays (aim line + marker only).
+                if (outpost.IsMortarOutpost && outpost.HasMortarFireMission) return;
             }
 
             if (worldObject is WorldObject_AT_Turret atTurret

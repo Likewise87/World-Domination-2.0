@@ -372,6 +372,13 @@ namespace TSA_WorldDomination
                 + Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
         }
 
+        /// <summary>Short gizmo label amount only (no Expert/Warehouse multiplier suffix).</summary>
+        public static int GetExpectedGoodwillForGizmo(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null) return 0;
+            return ComputeExpectedGoodwillTotal(outpost, outpost.GetCapacityForYieldPreview());
+        }
+
         public static string GetProductionSummaryLine(WorldObject_WD_Outpost outpost)
         {
             if (outpost == null) return "";
