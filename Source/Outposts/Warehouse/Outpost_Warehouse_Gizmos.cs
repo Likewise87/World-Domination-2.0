@@ -29,6 +29,12 @@ namespace TSA_WorldDomination
 
             if (!Outpost_Warehouse_Delivery.UsesItemDeliveryTraveler(outpost.def)) yield break;
 
+            // Supplying outposts (food) or generating tooling make virtual output only: nothing is delivered.
+            if (Outpost_Production_Utils.IsFoodProducerOutpost(outpost.def)
+                && outpost.GetFoodOutputRoleForCurrentCycle() == FoodOutputRole.SupplyOutposts)
+                yield break;
+            if (OutpostTooling.IsGenerator(outpost)) yield break;
+
             WorldObject deliveryDest = Outpost_Warehouse_Delivery.ResolveDisplayDeliveryTarget(outpost);
             string destLabel = Outpost_Warehouse_Delivery.GetDestinationLabel(deliveryDest);
 

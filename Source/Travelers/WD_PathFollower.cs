@@ -345,7 +345,8 @@ namespace TSA_WorldDomination
                         || traveler.mission == TravelerMission.SpikeTrap
                         || traveler.mission == TravelerMission.NpcFortify
                         || traveler.mission == TravelerMission.NpcAtTurret
-                        || traveler.mission == TravelerMission.AtTurret)
+                        || traveler.mission == TravelerMission.AtTurret
+                        || traveler.mission == TravelerMission.PowerLine)
                     && Find.WorldGrid.InBounds(destTileId) && Find.WorldGrid[destTileId].WaterCovered
                     && !WorldComponent_WdBridges.IsBridgedWaterTile(destTileId))
                 {

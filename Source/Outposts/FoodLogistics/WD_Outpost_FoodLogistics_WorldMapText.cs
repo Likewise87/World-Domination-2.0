@@ -13,12 +13,16 @@ namespace TSA_WorldDomination
         private static readonly Color ShadowColor = new Color(0, 0, 0, 0.7f);
         /// <summary>Constant "raidable" label; translated once instead of per outpost per frame.</summary>
         private static string cachedRaidableLabel;
-        /// <summary>Net line cached until <see cref="WorldComponent_LogisticsManager.LogisticsNetDisplayGeneration"/> changes; food line until displayed F0 food/max changes.</summary>
-        private readonly Dictionary<int, (string netLabel, Color netColor, int netGen)> netLabelCache
-            = new Dictionary<int, (string, Color, int)>();
-        private readonly Dictionary<int, (string foodLabel, Color foodColor, int foodRounded, int maxFoodRounded)> foodLabelCache
-            = new Dictionary<int, (string, Color, int, int)>();
+        /// <summary>Supply lines (F food, T tooling, P power) cached per outpost for a short bucket of ticks.</summary>
+        private readonly Dictionary<int, SupplyLabelCache> supplyLabelCache = new Dictionary<int, SupplyLabelCache>();
         private readonly Dictionary<int, StrengthLabelCache> strengthLabelCache = new Dictionary<int, StrengthLabelCache>();
+
+        private sealed class SupplyLabelCache
+        {
+            public int RefreshBucket = -1;
+            public readonly List<string> Lines = new List<string>(3);
+            public readonly List<Color> Colors = new List<Color>(3);
+        }
 
         private struct StrengthLabelCache
         {
@@ -40,8 +44,7 @@ namespace TSA_WorldDomination
 
             WD_OutpostWorldMapLabelMode mode = WorldComponent_WDVisualizerToggle.OutpostWorldMapLabelMode;
             if (mode == WD_OutpostWorldMapLabelMode.Off) return;
-            if (mode == WD_OutpostWorldMapLabelMode.Food
-                && (WorldDominationMod.settings == null || !WorldDominationMod.settings.foodLogisticsActive))
+            if (mode == WD_OutpostWorldMapLabelMode.Supply && !AnySupplyActive())
                 return;
 
             if (Event.current.type != EventType.Repaint) return;
@@ -67,8 +70,8 @@ namespace TSA_WorldDomination
                     case WD_OutpostWorldMapLabelMode.Name:
                         DrawOutpostNameLabel(wo, screenPos, yOffset, bottomStripHeight);
                         break;
-                    case WD_OutpostWorldMapLabelMode.Food:
-                        DrawFoodLabels(wo, nodes[i].Logi, screenPos, yOffset, bottomStripHeight);
+                    case WD_OutpostWorldMapLabelMode.Supply:
+                        DrawSupplyLabels(wo, nodes[i].Logi, screenPos, yOffset, bottomStripHeight);
                         break;
                     case WD_OutpostWorldMapLabelMode.Strength:
                     case WD_OutpostWorldMapLabelMode.RaidCooldown:
@@ -92,57 +95,125 @@ namespace TSA_WorldDomination
             return cachedManager?.GetCachedPlayerLogisticsNodes();
         }
 
-        private void DrawFoodLabels(
+        private static bool AnySupplyActive() =>
+            WorldDominationMod.settings == null
+            || WorldDominationMod.settings.foodLogisticsActive
+            || OutpostTooling.Enabled
+            || OutpostPowerGrid.Enabled;
+
+        private static Color StockColor(float pct) =>
+            pct <= 0.12f ? Color.red
+            : pct >= 0.70f ? Color.green
+            : (pct >= 0.13f && pct <= 0.19f) ? Color.yellow
+            : Color.white;
+
+        private static string SignedF1(float v) => (v >= 0f ? "+" : "") + v.ToString("F1");
+
+        private void DrawSupplyLabels(
             WorldObject_WD_Outpost wo,
             CompOutpostLogistics logi,
             Vector2 screenPos,
             float yOffset,
             float bottomStripHeight)
         {
+            int bucket = Find.TickManager.TicksGame / 60;
+            if (!supplyLabelCache.TryGetValue(wo.ID, out SupplyLabelCache cache))
+            {
+                cache = new SupplyLabelCache();
+                supplyLabelCache[wo.ID] = cache;
+            }
+            if (cache.RefreshBucket != bucket)
+            {
+                cache.RefreshBucket = bucket;
+                cache.Lines.Clear();
+                cache.Colors.Clear();
+                BuildFoodLine(wo, logi, cache);
+                BuildToolingLine(wo, cache);
+                BuildPowerLine(wo, cache);
+            }
+            if (cache.Lines.Count == 0) return;
+            DrawMultiLineLabel(screenPos, yOffset, bottomStripHeight, cache.Lines, cache.Colors);
+        }
+
+        private void BuildFoodLine(WorldObject_WD_Outpost wo, CompOutpostLogistics logi, SupplyLabelCache cache)
+        {
             if (logi == null || cachedManager == null) return;
-
+            if (WorldDominationMod.settings != null && !WorldDominationMod.settings.foodLogisticsActive) return;
             float maxFood = CompOutpostLogistics.GetEffectiveMaxFoodFor(wo);
-            int woId = wo.ID;
-            string netLabel;
-            Color netColor;
-            int netDisplayGen = cachedManager.LogisticsNetDisplayGeneration;
-            if (netLabelCache.TryGetValue(woId, out var netCached) && netCached.netGen == netDisplayGen)
+            float net = cachedManager.GetLogisticsNetDailyForOutpost(wo);
+            float pct = maxFood > 0.001f ? logi.currentFood / maxFood : 0f;
+            cache.Lines.Add("F " + Mathf.RoundToInt(logi.currentFood) + "/" + Mathf.RoundToInt(maxFood) + " " + SignedF1(net));
+            cache.Colors.Add(net < -0.05f && pct < 0.7f ? Color.red : StockColor(pct));
+        }
+
+        private static void BuildToolingLine(WorldObject_WD_Outpost wo, SupplyLabelCache cache)
+        {
+            if (!OutpostTooling.Enabled) return;
+            if (OutpostTooling.IsGenerator(wo))
             {
-                netLabel = netCached.netLabel;
-                netColor = netCached.netColor;
+                float output = OutpostTooling.GetGeneratorOutput(wo);
+                cache.Lines.Add("T " + OutpostTooling.GetGeneratorUsed(wo).ToString("F0") + "/" + output.ToString("F0"));
+                cache.Colors.Add(output > 0.01f ? Color.cyan : Color.red);
+                return;
             }
-            else
+            if (!OutpostTooling.RequiresTooling(wo)) return;
+            float max = OutpostTooling.MaxPerOutpost;
+            float net = OutpostTooling.GetNetPerDay(wo);
+            cache.Lines.Add("T " + Mathf.RoundToInt(wo.currentTooling) + "/" + Mathf.RoundToInt(max) + " " + SignedF1(net));
+            cache.Colors.Add(OutpostTooling.IsTooled(wo) ? StockColor(wo.currentTooling / max) : Color.red);
+        }
+
+        private static void BuildPowerLine(WorldObject_WD_Outpost wo, SupplyLabelCache cache)
+        {
+            if (!OutpostPowerGrid.Enabled) return;
+            if (wo.IsPowerPlantOutpost)
             {
-                float totalNet = cachedManager.GetLogisticsNetDailyForOutpost(wo);
-                string netSign = totalNet >= 0 ? "+" : "";
-                netLabel = string.Concat(netSign, totalNet.ToString("F1"));
-                netColor = totalNet < 0f ? Color.red : (totalNet > 0f ? Color.green : Color.white);
-                netLabelCache[woId] = (netLabel, netColor, netDisplayGen);
+                float capacity = Outpost_PowerPlant.GetRemotePowerWatts(wo);
+                if (wo.PowerRole == PowerOutputRole.SupplyOutposts)
+                    cache.Lines.Add("P " + OutpostPowerGrid.GetPlantUsedWatts(wo).ToString("F0") + "/" + capacity.ToString("F0"));
+                else
+                    cache.Lines.Add("P " + capacity.ToString("F0"));
+                cache.Colors.Add(Color.cyan);
+                return;
+            }
+            if (!OutpostPowerGrid.RequiresPower(wo)) return;
+            OutpostPowerGrid.TryGetStatus(wo, out OutpostPowerStatus status);
+            cache.Lines.Add("P " + status.supplied.ToString("F0") + "/" + status.demand.ToString("F0"));
+            cache.Colors.Add(OutpostPowerGrid.IsPowered(wo) ? Color.green : Color.red);
+        }
+
+        private static void DrawMultiLineLabel(
+            Vector2 screenPos,
+            float yOffset,
+            float bottomStripHeight,
+            List<string> lines,
+            List<Color> colors)
+        {
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.MiddleCenter;
+
+            // Keep the last line where the two-line labels end; extra lines grow upward.
+            float top = yOffset - 12f * Mathf.Max(0, lines.Count - 2);
+            float bottom = screenPos.y + top + 12f * (lines.Count - 1) + 20f;
+            if (bottom > (float)UI.screenHeight - bottomStripHeight)
+            {
+                Text.Anchor = TextAnchor.UpperLeft;
+                Text.Font = GameFont.Small;
+                return;
             }
 
-            string foodLabel;
-            Color foodColor;
-            int foodRounded = Mathf.RoundToInt(logi.currentFood);
-            int maxFoodRounded = Mathf.RoundToInt(maxFood);
-            if (foodLabelCache.TryGetValue(woId, out var foodCached)
-                && foodCached.foodRounded == foodRounded
-                && foodCached.maxFoodRounded == maxFoodRounded)
+            for (int i = 0; i < lines.Count; i++)
             {
-                foodLabel = foodCached.foodLabel;
-                foodColor = foodCached.foodColor;
-            }
-            else
-            {
-                foodLabel = string.Concat(foodRounded.ToString(), "/", maxFoodRounded.ToString());
-                float foodPct = maxFood > 0.001f ? logi.currentFood / maxFood : 0f;
-                foodColor = foodPct <= 0.12f ? Color.red
-                    : foodPct >= 0.70f ? Color.green
-                    : (foodPct >= 0.13f && foodPct <= 0.19f) ? Color.yellow
-                    : Color.white;
-                foodLabelCache[woId] = (foodLabel, foodColor, foodRounded, maxFoodRounded);
+                Rect rect = new Rect(screenPos.x - 70f, screenPos.y + top + 12f * i, 140f, 20f);
+                GUI.color = ShadowColor;
+                Widgets.Label(new Rect(rect.x + 1f, rect.y + 1f, rect.width, rect.height), lines[i]);
+                GUI.color = colors[i];
+                Widgets.Label(rect, lines[i]);
             }
 
-            DrawTwoLineLabel(screenPos, yOffset, bottomStripHeight, netLabel, netColor, foodLabel, foodColor);
+            GUI.color = Color.white;
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
         }
 
         private void DrawStrengthLabels(

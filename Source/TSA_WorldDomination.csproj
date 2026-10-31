@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<!-- RimWorld 1.7 / Waylith runs net10.0. 1.6 ships a frozen DLL under 1.6/Assemblies. -->
+		<!-- RimWorld 1.7 / Waylith runs net10.0. -->
 		<TargetFramework>net10.0</TargetFramework>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<LangVersion>latest</LangVersion>
@@ -11,7 +11,7 @@
 		<DebugType>portable</DebugType>
 		<GenerateDependencyFile>false</GenerateDependencyFile>
 		<!-- Game assemblies live at the RimWorld install root (no RimWorldWin64_Data/Managed). -->
-		<RimWorldDir>C:\Steam\steamapps\common\RimWorld</RimWorldDir>
+		<RimWorldDir Condition="'$(RimWorldDir)' == ''">$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\..\..'))</RimWorldDir>
 	</PropertyGroup>
 	<ItemGroup>
 	  <None Include="RaidLogic\Reinforcements_Physical.cs" />

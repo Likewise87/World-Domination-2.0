@@ -1,8 +1,8 @@
 # Food and logistics
 
-Outpost occupants consume virtual food. This resource is tracked as a number at each outpost rather than as physical meals in inventory. For the short concept overview, see [Outpost food](../concepts/outpost-food.md). Open the **Food** tab to inspect current storage, maximum capacity, daily production, local demand, incoming supply, outgoing allocations, and projected net change.
+Outpost occupants consume virtual food. This resource is tracked as a number at each outpost rather than as physical meals in inventory. For the short concept overview, see [Outpost food](../concepts/outpost-food.md). Open the **Supply** tab (Food page) to inspect current storage, maximum capacity, daily production, local demand, incoming supply, outgoing allocations, and projected net change.
 
-## Reading the Food tab
+## Reading the Supply tab
 
 - **Current / max food** is the stored reserve. Surplus is wasted when storage is full.
 - **Daily food net** includes local production, local consumption, food sent to other sites, and food received from them.
@@ -48,11 +48,20 @@ Food can move only between eligible sites within the configured food logistics r
 
 Keep a positive daily net and a stored buffer at border outposts. A route that exactly balances at zero has no protection against population transfers, lost producers, or setting changes.
 
+### Tooling and Power pages
+
+The **Supply** tab also covers tooling and power. Buttons under the title switch between **Food**, **Tooling** and **Power**; only the resources that apply to the selected outpost are shown. Tooling and Power work like Food:
+
+- **Producers** (tooling generators, power plants set to supply outposts) have a **Smart / Manual** switch, **Reset allocation**, an **Unassigned** row (output not sent anywhere) and a list of outposts in range with **+/-** amounts. Hold Ctrl or Shift for larger steps. Power moves in steps of 100 W, tooling in steps of 1 per day. The role button at the top switches between supplying the colony and supplying outposts.
+- **Smart** splits output automatically, nearest outposts first. **Manual** sends only what you assign. Switching to Manual keeps the current numbers, and changing any amount switches to Manual.
+- **Consumers** show a summary on the left (stock, need, arriving, net, status) and the list of sources that currently supply them.
+- A Manual power plant gives an outpost power only when the full need is assigned. Outposts reached through a powerline appear in the list like any other.
+
 ## Warehouse routing
 
 Virtual food logistics and physical item logistics are separate:
 
-- The Food tab moves abstract food between in-range outposts.
+- The Supply tab (Food page) moves abstract food between in-range outposts.
 - A Warehouse Outpost stores physical items delivered by production cycles or shipments.
 
 To route a production outpost's goods into storage, choose **Set delivery destination** and select a player warehouse. Clearing that destination restores delivery to the nearest colony. In the warehouse, set a separate **ship destination** for outbound stock, then ship selected goods by land or drop pod. Daily auto-shipping can send the entire stock when the warehouse has enough offensive strength.

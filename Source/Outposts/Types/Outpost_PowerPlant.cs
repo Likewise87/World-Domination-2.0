@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -17,6 +18,15 @@ namespace TSA_WorldDomination
             return Mathf.Max(0f, Outpost_Production_Utils.ApplyExpertAndWarehouseYieldMultipliers(watts, outpost));
         }
 
+        /// <summary>Watts this plant adds to the colony's power nets (zero while it supplies outposts instead).</summary>
+        public static float GetColonyPowerWatts(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null) return 0f;
+            // With the outpost power rule off there is no grid to supply, so every plant feeds the colony.
+            if (OutpostPowerGrid.Enabled && outpost.PowerRole != PowerOutputRole.SupplyColony) return 0f;
+            return GetRemotePowerWatts(outpost);
+        }
+
         public static float GetTotalRemotePowerWatts()
         {
             var comp = Find.World?.GetComponent<WorldComponent_OutpostPowerPlant>();
@@ -33,7 +43,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < all.Count; i++)
             {
                 if (all[i] is WorldObject_WD_Outpost outpost)
-                    total += GetRemotePowerWatts(outpost);
+                    total += GetColonyPowerWatts(outpost);
             }
             return total;
         }
@@ -78,9 +88,20 @@ namespace TSA_WorldDomination
         {
             float watts = GetRemotePowerWatts(outpost);
             string formatted = FormatWatts(watts);
-            string line = HasPlayerColonyMap()
-                ? "TSA_WD_PowerPlant_Inspect".Translate(formatted)
-                : "TSA_WD_PowerPlant_InspectNoColony".Translate(formatted);
+            string line;
+            if (outpost.PowerRole == PowerOutputRole.SupplyOutposts)
+            {
+                line = "TSA_WD_PowerPlant_InspectOutposts".Translate(
+                    formatted,
+                    FormatWatts(OutpostPowerGrid.GetPlantUsedWatts(outpost)),
+                    OutpostPowerGrid.GetPlantServedCount(outpost).ToString());
+            }
+            else
+            {
+                line = HasPlayerColonyMap()
+                    ? "TSA_WD_PowerPlant_Inspect".Translate(formatted)
+                    : "TSA_WD_PowerPlant_InspectNoColony".Translate(formatted);
+            }
             return line + Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
         }
 
@@ -111,7 +132,44 @@ namespace TSA_WorldDomination
         public static void NotifyRemotePowerDirty()
         {
             Find.World?.GetComponent<WorldComponent_OutpostPowerPlant>()?.NotifyDirty();
+            OutpostPowerGrid.MarkDirty();
         }
+
+        private static Texture2D cachedRoleIcon;
+
+        /// <summary>Colony vs outposts switch. No production cycle on power plants, so it applies immediately.</summary>
+        public static IEnumerable<Gizmo> GetGizmos(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null || outpost.Faction != Faction.OfPlayer || !outpost.IsPowerPlantOutpost) yield break;
+            if (!OutpostPowerGrid.Enabled) yield break;
+
+            PowerOutputRole current = outpost.PowerRole;
+            yield return new Command_Action
+            {
+                defaultLabel = "TSA_WD_PowerRole_GizmoLabel".Translate(RoleLabel(current)).ToString(),
+                defaultDesc = "TSA_WD_PowerRole_GizmoDesc".Translate(
+                    OutpostPowerGrid.BaseDemandWatts.ToString("F0"),
+                    OutpostPowerGrid.SupplyRangeTiles.ToString("F0"),
+                    OutpostPowerGrid.PowerlineRangeBonusTiles.ToString("F0")).ToString(),
+                icon = cachedRoleIcon ??= ContentFinder<Texture2D>.Get("WorldObjects/Outposts/WD_Outpost_Powerplant", false)
+                    ?? ContentFinder<Texture2D>.Get("UI/Commands/Config", false)
+                    ?? TexCommand.Replant,
+                action = delegate
+                {
+                    var options = new List<FloatMenuOption>();
+                    foreach (PowerOutputRole role in System.Enum.GetValues(typeof(PowerOutputRole)))
+                    {
+                        PowerOutputRole r = role;
+                        string label = RoleLabel(r) + (r == outpost.PowerRole ? " " + "TSA_WD_FoodRole_CurrentTag".Translate().ToString() : "");
+                        options.Add(new FloatMenuOption(label, delegate { outpost.SetPowerRole(r); }));
+                    }
+                    Find.WindowStack.Add(new FloatMenu(options));
+                }
+            };
+        }
+
+        private static string RoleLabel(PowerOutputRole role) =>
+            ("TSA_WD_PowerRole_" + role).Translate().ToString();
     }
 
     public class WorldComponent_OutpostPowerPlant : WorldComponent

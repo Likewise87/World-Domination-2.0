@@ -12,6 +12,8 @@ namespace TSA_WorldDomination
         private bool establishmentExpanded;
         private bool productionExpanded;
         private bool foodExpanded;
+        private bool powerExpanded;
+        private bool toolingExpanded;
         private bool conquestExpanded;
 
         public override Vector2 InitialSize => new Vector2(850f, 750f);
@@ -29,7 +31,7 @@ namespace TSA_WorldDomination
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
             float contentWidth = contentRect.width - 24f;
-            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2300f);
+            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 3000f);
 
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
 
@@ -38,8 +40,8 @@ namespace TSA_WorldDomination
             var s = WorldDominationMod.settings;
             bool advanced = s.showAdvancedSettings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => { s.ResetOutpost(); s.ResetFoodLogistics(); },
-                () => { generalExpanded = establishmentExpanded = productionExpanded = foodExpanded = conquestExpanded = true; },
-                () => { generalExpanded = establishmentExpanded = productionExpanded = foodExpanded = conquestExpanded = false; });
+                () => { generalExpanded = establishmentExpanded = productionExpanded = foodExpanded = powerExpanded = toolingExpanded = conquestExpanded = true; },
+                () => { generalExpanded = establishmentExpanded = productionExpanded = foodExpanded = powerExpanded = toolingExpanded = conquestExpanded = false; });
             SettingsUI.DrawSettingsSearchBar(l);
 
             // --- GENERAL SETTINGS ---
@@ -113,6 +115,22 @@ namespace TSA_WorldDomination
             if (Mathf.Abs(prevAuraPct - s.warehouseAuraBonusPct) > 1e-6f
                 || Mathf.Abs(prevAuraRad - s.warehouseAuraRadiusTiles) > 1e-6f)
                 OutpostWarehouseAuraUtility.InvalidateCache();
+            l.CheckboxLabeled("TSA_WD_Outpost_WarehouseCapacityEnabled".Translate(), ref s.warehouseCapacityEnabled,
+                SettingsUI.TooltipWithDefault("TSA_WD_Outpost_WarehouseCapacityEnabledTooltip".Translate(), WorldDominationSettings.DefWarehouseCapacityEnabled));
+            if (s.warehouseCapacityEnabled)
+            {
+                s.warehouseCapacityKg = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_WarehouseCapacityKg".Translate(), s.warehouseCapacityKg, 1000f, 100000f,
+                    "TSA_WD_Outpost_WarehouseCapacityKgTooltip".Translate(), 1000f, SliderFormat.Fixed0, WorldDominationSettings.DefWarehouseCapacityKg);
+                s.warehouseCapacityKg = Mathf.Round(s.warehouseCapacityKg / 1000f) * 1000f;
+            }
+            l.CheckboxLabeled("TSA_WD_Outpost_WarehouseFoodSpoilageEnabled".Translate(), ref s.warehouseFoodSpoilageEnabled,
+                SettingsUI.TooltipWithDefault("TSA_WD_Outpost_WarehouseFoodSpoilageEnabledTooltip".Translate(), WorldDominationSettings.DefWarehouseFoodSpoilageEnabled));
+            if (s.warehouseFoodSpoilageEnabled)
+            {
+                s.warehouseFoodSpoilDays = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_WarehouseFoodSpoilDays".Translate(), s.warehouseFoodSpoilDays, 5f, 60f,
+                    "TSA_WD_Outpost_WarehouseFoodSpoilDaysTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefWarehouseFoodSpoilDays);
+                s.warehouseFoodSpoilDays = Mathf.Round(s.warehouseFoodSpoilDays);
+            }
             bool embassyHostilesBefore = s.embassyMayGainGoodwillWithHostiles;
             l.CheckboxLabeled("TSA_WD_Outpost_EmbassyHostileGoodwill".Translate(), ref s.embassyMayGainGoodwillWithHostiles,
                 SettingsUI.TooltipWithDefault("TSA_WD_Outpost_EmbassyHostileGoodwillTooltip".Translate(), WorldDominationSettings.DefEmbassyMayGainGoodwillWithHostiles));
@@ -204,6 +222,10 @@ namespace TSA_WorldDomination
                     "TSA_WD_Food_ProdPerOutpostBase".Translate(), s.foodProductionPerOutpostBase, 0f, 20f,
                     "TSA_WD_Food_ProdPerOutpostBaseTooltip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefFoodProductionPerOutpostBase);
 
+                s.foodProductionPerSkill = SettingsUI.LabeledSlider(l,
+                    "TSA_WD_Food_ProdPerSkill".Translate(), s.foodProductionPerSkill, 0.05f, 3f,
+                    "TSA_WD_Food_ProdPerSkillTooltip".Translate(), 0.05f, SliderFormat.Fixed2, WorldDominationSettings.DefFoodProductionPerSkill);
+
                 s.virtualFoodTileMultiplierFloor = SettingsUI.LabeledSlider(l,
                     "TSA_WD_Food_VirtualTileMinMult".Translate(), s.virtualFoodTileMultiplierFloor, 0f, 1f,
                     "TSA_WD_Food_VirtualTileMinMultTooltip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefVirtualFoodTileMultiplierFloor);
@@ -224,6 +246,67 @@ namespace TSA_WorldDomination
                 l.Label("  <i>" + "TSA_WD_Food_DisabledWarning".Translate() + "</i>");
                 GUI.color = Color.white;
             }
+            }
+
+            l.Gap(12f);
+
+            // --- Outpost power grid ---
+            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Power_Header".Translate(), ref powerExpanded, SettingsUI.SectionHeaderColor))
+            {
+                if (!s.enableOutpostPowerRequirement)
+                {
+                    GUI.color = Color.gray;
+                    l.Label("  <i>" + "TSA_WD_Supply_EnableHint".Translate() + "</i>");
+                    GUI.color = Color.white;
+                }
+                else
+                {
+                    s.outpostPowerDemandBase = SettingsUI.LabeledSlider(l,
+                        "TSA_WD_Power_DemandBase".Translate(), s.outpostPowerDemandBase, 0f, 10000f,
+                        "TSA_WD_Power_DemandBaseTooltip".Translate(), 100f, SliderFormat.Fixed0, WorldDominationSettings.DefOutpostPowerDemandBase);
+                    s.unpoweredEffectiveness = SettingsUI.LabeledSlider(l,
+                        "TSA_WD_Power_UnpoweredEffectiveness".Translate(), s.unpoweredEffectiveness, 0f, 1f,
+                        "TSA_WD_Power_UnpoweredEffectivenessTooltip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefUnpoweredEffectiveness);
+                    s.unpoweredRangeFactor = SettingsUI.LabeledSlider(l,
+                        "TSA_WD_Power_UnpoweredRange".Translate(), s.unpoweredRangeFactor, 0.1f, 1f,
+                        "TSA_WD_Power_UnpoweredRangeTooltip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefUnpoweredRangeFactor);
+                    s.unpoweredAntiAirAccuracyLoss = SettingsUI.LabeledSlider(l,
+                        "TSA_WD_Power_UnpoweredAaLoss".Translate(), s.unpoweredAntiAirAccuracyLoss, 0f, 1f,
+                        "TSA_WD_Power_UnpoweredAaLossTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefUnpoweredAntiAirAccuracyLoss);
+                    s.powerlineRangeBonusTiles = SettingsUI.LabeledSlider(l,
+                        "TSA_WD_Power_PowerlineBonus".Translate(), s.powerlineRangeBonusTiles, 0f, 20f,
+                        "TSA_WD_Power_PowerlineBonusTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefPowerlineRangeBonusTiles);
+                    s.powerlineWork = SettingsUI.LabeledSlider(l,
+                        "TSA_WD_Power_PowerlineWork".Translate(), s.powerlineWork, 100f, 10000f,
+                        "TSA_WD_Power_PowerlineWorkTooltip".Translate(), 50f, SliderFormat.Fixed0, WorldDominationSettings.DefPowerlineWork);
+                    s.powerlineExpeditionStrength = SettingsUI.LabeledSlider(l,
+                        "TSA_WD_Power_PowerlineStrength".Translate(), s.powerlineExpeditionStrength, 1f, 500f,
+                        "TSA_WD_Power_PowerlineStrengthTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefPowerlineExpeditionStrength);
+                }
+            }
+
+            l.Gap(12f);
+
+            // --- Outpost tooling ---
+            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Tooling_Header".Translate(), ref toolingExpanded, SettingsUI.SectionHeaderColor))
+            {
+                if (!s.enableOutpostTooling)
+                {
+                    GUI.color = Color.gray;
+                    l.Label("  <i>" + "TSA_WD_Supply_EnableHint".Translate() + "</i>");
+                    GUI.color = Color.white;
+                }
+                else
+                {
+                    s.untooledOutputPenalty = SettingsUI.LabeledSlider(l,
+                        "TSA_WD_Tooling_Penalty".Translate(), s.untooledOutputPenalty, 0f, 1f,
+                        "TSA_WD_Tooling_PenaltyTooltip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefUntooledOutputPenalty);
+                    s.maxToolingPerOutpost = SettingsUI.LabeledSlider(l,
+                        "TSA_WD_Tooling_Max".Translate(), s.maxToolingPerOutpost, 20f, 2000f,
+                        "TSA_WD_Tooling_MaxTooltip".Translate(), 10f, SliderFormat.Fixed0, WorldDominationSettings.DefMaxToolingPerOutpost);
+                    if (l.ButtonText("TSA_WD_ToolingValues_Open".Translate()))
+                        Find.WindowStack.Add(new Dialog_ToolingValues());
+                }
             }
 
             l.Gap(18f);

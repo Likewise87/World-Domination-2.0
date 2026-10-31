@@ -297,7 +297,9 @@ namespace TSA_WorldDomination
                 result.need += costPer;
 
                 LaunchMode mode;
-                if (costPer <= 0 || remaining >= costPer)
+                // Unpowered Rapid Response outposts cannot launch pods at all.
+                bool podsOffline = origin is WorldObject_WD_Outpost rrOrigin && rrOrigin.IsRapidResponseOutpost && !rrOrigin.IsPowered;
+                if (!podsOffline && (costPer <= 0 || remaining >= costPer))
                 {
                     mode = LaunchMode.Pod;
                     if (costPer > 0) remaining -= costPer;

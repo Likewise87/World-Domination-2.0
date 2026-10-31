@@ -16,7 +16,7 @@ RimWorld mod by **TSA**. If [Rim War](https://steamcommunity.com/sharedfiles/fil
 
 ## Requirements
 
-- RimWorld 1.6
+- RimWorld 1.7
 - [Harmony](https://steamcommunity.com/workshop/filedetails/?id=2009463077)
 - [Vanilla Expanded Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=2023507013)
 

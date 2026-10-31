@@ -4,7 +4,7 @@ Use this page to prepare the mod list, create the world, and identify the contro
 
 ## Requirements and load order
 
-- RimWorld **1.6**
+- RimWorld **1.7**
 - [**Harmony**](https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077)
 - [**Vanilla Expanded Framework**](https://steamcommunity.com/sharedfiles/filedetails/?id=2023507013) (Needed for Dynamic Base Generation)
 - [**Vanilla Furniture Expanded - Props and Decor**](https://steamcommunity.com/sharedfiles/filedetails/?id=2102143149) (Makes Bases prettier)

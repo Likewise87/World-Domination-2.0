@@ -21,6 +21,13 @@ namespace TSA_WorldDomination
         AllToColony = 4,
     }
 
+    /// <summary>Where a food producer's output goes. Exclusive: virtual food for nearby outposts, or physical food delivered to the colony.</summary>
+    public enum FoodOutputRole
+    {
+        SupplyOutposts = 0,
+        DeliverToColony = 1,
+    }
+
     public static class LogisticsModeUtil
     {
         /// <summary>True for Smart (incl. legacy Equal/FullyFeed before normalize) and AllToColony.</summary>
@@ -327,6 +334,48 @@ namespace TSA_WorldDomination
                     action = delegate { logiComp.ConvertInventoryToVirtualFood(); }
                 };
             }
+
+            if (outpost is WorldObject_WD_Outpost wdOutpost && Outpost_Production_Utils.IsFoodProducerOutpost(wdOutpost.def))
+                yield return MakeFoodRoleGizmo(wdOutpost);
+        }
+
+        private static string FoodRoleLabel(FoodOutputRole role) =>
+            ("TSA_WD_FoodRole_" + role).Translate().ToString();
+
+        private static Gizmo MakeFoodRoleGizmo(WorldObject_WD_Outpost outpost)
+        {
+            FoodOutputRole selected = outpost.SelectedFoodOutputRole;
+            FoodOutputRole inForce = outpost.GetFoodOutputRoleForCurrentCycle();
+            string desc = "TSA_WD_FoodRole_GizmoDesc".Translate().ToString();
+            if (inForce != selected)
+                desc += "\n\n" + "TSA_WD_FoodRole_PendingNextCycle".Translate(FoodRoleLabel(inForce), FoodRoleLabel(selected)).ToString();
+            else if (outpost.IsSelectionLockedForThisCycle)
+                desc += "\n\n" + "TSA_WD_FoodRole_LockedNote".Translate().ToString();
+
+            return new Command_Action
+            {
+                defaultLabel = "TSA_WD_FoodRole_GizmoLabel".Translate(FoodRoleLabel(selected)).ToString(),
+                defaultDesc = desc,
+                icon = cachedConvertFoodIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/ConvertFood", false) ?? TexCommand.Replant,
+                action = delegate
+                {
+                    var options = new List<FloatMenuOption>();
+                    foreach (FoodOutputRole role in Enum.GetValues(typeof(FoodOutputRole)))
+                    {
+                        FoodOutputRole r = role;
+                        string label = FoodRoleLabel(r) + (r == selected ? " " + "TSA_WD_FoodRole_CurrentTag".Translate().ToString() : "");
+                        options.Add(new FloatMenuOption(label, delegate
+                        {
+                            if (outpost.SelectedFoodOutputRole == r) return;
+                            outpost.SetSelectedFoodOutputRole(r);
+                            if (outpost.GetFoodOutputRoleForCurrentCycle() != r)
+                                Messages.Message("TSA_WD_FoodRole_AppliesNextCycle".Translate(outpost.LabelCap, FoodRoleLabel(r)),
+                                    outpost, MessageTypeDefOf.NeutralEvent, false);
+                        }));
+                    }
+                    Find.WindowStack.Add(new FloatMenu(options));
+                }
+            };
         }
     }
 
@@ -624,6 +673,16 @@ namespace TSA_WorldDomination
             return manualOutgoingSumBySourceTile != null && manualOutgoingSumBySourceTile.TryGetValue(tile, out float v) ? v : 0f;
         }
 
+        /// <summary>Daily surplus a node may send to others. Zero for food producers set to deliver to the colony (they only feed themselves).</summary>
+        public float GetFoodExportBudget(WorldObject obj)
+        {
+            if (obj is WorldObject_WD_Outpost op
+                && Outpost_Production_Utils.IsFoodProducerOutpost(op.def)
+                && op.GetFoodOutputRoleForCurrentCycle() != FoodOutputRole.SupplyOutposts)
+                return 0f;
+            return Mathf.Max(0f, GetDailyProduction(obj) - GetDailyDemand(obj));
+        }
+
         public float GetDistributionBudgetForSourceTile(int sourceTile)
         {
             RebuildPlayerLogisticsRegistryIfNeeded();
@@ -631,7 +690,7 @@ namespace TSA_WorldDomination
             {
                 var node = playerLogisticsNodesOrdered[i];
                 if (node.Obj.Tile == sourceTile)
-                    return Mathf.Max(0f, GetDailyProduction(node.Obj) - GetDailyDemand(node.Obj));
+                    return GetFoodExportBudget(node.Obj);
             }
             return 0f;
         }
@@ -1169,9 +1228,10 @@ namespace TSA_WorldDomination
             {
                 float totalSkill = Outpost_Production_Utils.IsFarmingOutpost(op.def) ? op.TotalPlantsSkill() : op.TotalHuntingSkill();
                 float effective = effectiveVirtualFoodTileOverride ?? GetVirtualFoodEffectiveTileMultiplier(op);
+                float perSkill = s?.foodProductionPerSkill ?? WorldDominationSettings.DefFoodProductionPerSkill;
                 // Base production is flat (any tile), tile efficiency only scales the skill-based food on top.
-                float raw = baseProd + totalSkill * effective;
-                return raw * OutpostWarehouseAuraUtility.GetSoftProductionBonusMultiplier(op);
+                float raw = baseProd + totalSkill * perSkill * effective;
+                return raw * OutpostWarehouseAuraUtility.GetSoftProductionBonusMultiplier(op) * op.PowerEffectiveness * op.ToolingFactor;
             }
             return baseProd;
         }

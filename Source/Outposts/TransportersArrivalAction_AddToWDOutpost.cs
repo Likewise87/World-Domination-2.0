@@ -121,6 +121,13 @@ namespace TSA_WorldDomination
             foreach (Thing thing in nonPawns)
             {
                 if (thing == null || thing.Destroyed) continue;
+                thing.holdingOwner?.Remove(thing);
+                int toolingItems = OutpostTooling.TryAbsorb(outpost, thing);
+                if (toolingItems > 0)
+                {
+                    Messages.Message("TSA_WD_Pod_ToolingAdded".Translate(toolingItems, thing.def.label, outpost.LabelCap), outpost, MessageTypeDefOf.TaskCompletion, false);
+                    if (thing.Destroyed) continue;
+                }
                 if (OutpostStorageUtility.TryStoreThing(outpost, thing))
                 {
                     storedThings++;
@@ -129,6 +136,7 @@ namespace TSA_WorldDomination
                 Messages.Message("TSA_WD_PodArrival_ItemNotStored".Translate(thing.Label), MessageTypeDefOf.NeutralEvent);
                 OutpostStorageUtility.RefundUnstoredThing(thing);
             }
+            CompOutpostWarehouse.Get(outpost)?.FlushOverflow();
             if (storedThings > 0)
                 Messages.Message(
                     (isWarehouse ? "TSA_WD_Warehouse_PodDeposit" : "TSA_WD_Armory_PodDeposit").Translate(storedThings, outpost.LabelCap),

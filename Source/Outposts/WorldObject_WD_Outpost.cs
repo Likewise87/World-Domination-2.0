@@ -409,6 +409,17 @@ namespace TSA_WorldDomination
         /// <summary>Academy: <see cref="SkillDef.defName"/> locked for the current production cycle.</summary>
         private string lockedAcademySkillDefName;
         private bool lockedForThisCycle;
+        /// <summary>Food producers: <see cref="FoodOutputRole"/> chosen via gizmo (applies immediately until the cycle locks, then next cycle).</summary>
+        /// <summary>Power outposts: true = supplies other outposts, false = supplies the colony (default, legacy behaviour).</summary>
+        private bool powerSuppliesOutposts;
+        private int selectedFoodOutputRoleRaw;
+        /// <summary>Food producers: role locked together with the production selection for the current cycle.</summary>
+        private int lockedFoodOutputRoleRaw;
+        /// <summary>Mining / production outposts: <see cref="ToolingOutputRole"/> chosen via gizmo (same lock rule as the food role).</summary>
+        private int selectedToolingRoleRaw;
+        private int lockedToolingRoleRaw;
+        /// <summary>Virtual tooling stockpile (like virtual food). Drains by the daily need, filled by generator outposts in range.</summary>
+        public float currentTooling;
         /// <summary>Academy: selected skill to teach (<see cref="SkillDef.defName"/>).</summary>
         private string selectedAcademySkillDefName;
 
@@ -1418,6 +1429,7 @@ namespace TSA_WorldDomination
         {
             RebuildVirtualPawnsCache();
             cachedProductionTicksInterval = -1;
+            OutpostTooling.MarkDirty();
             InvalidateInspectCache();
             OutpostExpertUtility.ValidateAssignments(this);
             TryAutoAssignExpertsAfterSlotUnlock();
@@ -1658,6 +1670,10 @@ namespace TSA_WorldDomination
             foreach (var g in Action_Outpost_Build.GetGizmos(this))
                 yield return g;
             foreach (var g in OutpostLogisticsGizmos.GetGizmos(this))
+                yield return g;
+            foreach (var g in Outpost_PowerPlant.GetGizmos(this))
+                yield return g;
+            foreach (var g in OutpostToolingGizmos.GetGizmos(this))
                 yield return g;
 
             if (!IsMortarOutpost && !IsRapidResponseOutpost && !Outpost_Production_Utils.IsWarehouseOutpost(def) && !IsResearchOutpost && !IsPowerPlantOutpost)
@@ -2343,6 +2359,7 @@ namespace TSA_WorldDomination
                 OutpostStorageUtility.RefundUnstoredThing(thing, caravan);
                 invDestroyed++;
             }
+            GetComponent<CompOutpostWarehouse>()?.FlushOverflow();
             if (invStored > 0)
             {
                 WDVerbose.Msg($"Outpost dissolve: stored {invStored} caravan inventory thing(s)");
@@ -2593,6 +2610,13 @@ namespace TSA_WorldDomination
             if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             if (!Find.WorldSelector.IsSelected(this) || def == null) return;
 
+            if (IsPowerPlantOutpost && OutpostPowerGrid.Enabled && PowerRole == PowerOutputRole.SupplyOutposts)
+            {
+                PlanetLayer powerLayer = PlanetSurfaceWorldActions.LayerOf(this);
+                WorldMapRadiusVisual.DrawApproxRadiusRing(
+                    new PlanetTile(Tile, powerLayer), OutpostPowerGrid.SupplyRangeTiles, WorldOverlayLineMaterials.LogisticsDarkCyan);
+            }
+
             if (Dialog_OutpostRangeAdjust.TryGetPreview(this, out OutpostRangeAdjustMode previewMode, out float previewRadius))
             {
                 OutpostCoverageFillKind fillKind = previewMode == OutpostRangeAdjustMode.RapidResponse
@@ -2671,6 +2695,12 @@ namespace TSA_WorldDomination
                 baseStr = typeLine + "\n" + baseStr;
             else
                 baseStr = typeLine;
+            string powerStatusLine = GetPowerStatusLine();
+            if (!string.IsNullOrEmpty(powerStatusLine))
+                baseStr += "\n" + powerStatusLine;
+            string toolingStatusLine = GetToolingStatusLine();
+            if (!string.IsNullOrEmpty(toolingStatusLine))
+                baseStr += "\n" + toolingStatusLine;
             if (IsResearchOutpost)
             {
                 string researchLine = Outpost_Research.GetInspectProductLine(this);
@@ -2838,6 +2868,20 @@ namespace TSA_WorldDomination
                 timeLine = "TSA_WD_Outpost_Delivery_Paused".Translate();
                 return;
             }
+            if (Outpost_Production_Utils.IsFoodProducerOutpost(def)
+                && GetFoodOutputRoleForCurrentCycle() == FoodOutputRole.SupplyOutposts)
+            {
+                productLine = "TSA_WD_FoodRole_InspectSupplying".Translate().ToString();
+                timeLine = "-";
+                return;
+            }
+            if (GetToolingRoleForCurrentCycle() == ToolingOutputRole.GenerateTooling)
+            {
+                productLine = "TSA_WD_Tooling_InspectProduct".Translate(
+                    OutpostTooling.GetGeneratorOutput(this).ToString("F0")).ToString();
+                timeLine = "-";
+                return;
+            }
             float avgCap = GetCapacityForYieldPreview();
             if (Outpost_Production_Utils.IsRecruitingOutpost(def))
                 productLine = Outpost_Recruiting.GetInspectProductLine(this);
@@ -2934,6 +2978,189 @@ namespace TSA_WorldDomination
             if (lockedForThisCycle && !string.IsNullOrEmpty(lockedProductionDefName))
                 return DefDatabase<ThingDef>.GetNamedSilentFail(lockedProductionDefName);
             return SelectedProductionDef;
+        }
+
+        // --- Outpost power grid ---
+
+        public PowerOutputRole PowerRole =>
+            powerSuppliesOutposts ? PowerOutputRole.SupplyOutposts : PowerOutputRole.SupplyColony;
+
+        /// <summary>Power plants only. No production cycle to wait for, so the switch is immediate.</summary>
+        public void SetPowerRole(PowerOutputRole role)
+        {
+            if (!IsPowerPlantOutpost || PowerRole == role) return;
+            powerSuppliesOutposts = role == PowerOutputRole.SupplyOutposts;
+            InvalidateInspectCache();
+            Outpost_PowerPlant.NotifyRemotePowerDirty();
+        }
+
+        /// <summary>True when the outpost has power, or does not need any (power plants, warehouses, power rule disabled).</summary>
+        public bool IsPowered => OutpostPowerGrid.IsPowered(this);
+
+        /// <summary>1 when powered, otherwise the unpowered multiplier (default 50%).</summary>
+        public float PowerEffectiveness => OutpostPowerGrid.GetEffectiveness(this);
+
+        /// <summary>Σ <see cref="OutpostUpgradeDef.powerWattsNeed"/> × built level.</summary>
+        public float GetBuiltUpgradePowerWattsNeed()
+        {
+            if (builtUpgradeLevels == null || builtUpgradeLevels.Count == 0) return 0f;
+            float total = 0f;
+            foreach (var kv in builtUpgradeLevels)
+            {
+                if (kv.Value <= 0) continue;
+                var def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(kv.Key);
+                if (def != null) total += def.powerWattsNeed * kv.Value;
+            }
+            return total;
+        }
+
+        private string GetPowerStatusLine()
+        {
+            if (!OutpostPowerGrid.Enabled || !OutpostPowerGrid.RequiresPower(this)) return null;
+            if (!OutpostPowerGrid.TryGetStatus(this, out OutpostPowerStatus status)) return null;
+            if (status.powered)
+            {
+                return status.demand <= 0.01f
+                    ? null
+                    : "TSA_WD_Power_InspectPowered".Translate(Outpost_PowerPlant.FormatWatts(status.demand)).Colorize(Color.green);
+            }
+            return "TSA_WD_Power_InspectUnpowered".Translate(
+                Outpost_PowerPlant.FormatWatts(status.demand),
+                Mathf.RoundToInt(OutpostPowerGrid.UnpoweredEffectiveness * 100f).ToString()).Colorize(Color.yellow);
+        }
+
+        // --- Outpost tooling ---
+
+        private static ToolingOutputRole ToolingRoleFromRaw(int raw) =>
+            raw == (int)ToolingOutputRole.GenerateTooling ? ToolingOutputRole.GenerateTooling : ToolingOutputRole.DeliverToColony;
+
+        public ToolingOutputRole SelectedToolingRole => ToolingRoleFromRaw(selectedToolingRoleRaw);
+
+        /// <summary>Tooling role in force this cycle (locked with the production selection). Always Deliver when tooling is off or the type cannot generate.</summary>
+        public ToolingOutputRole GetToolingRoleForCurrentCycle()
+        {
+            if (!OutpostTooling.Enabled || !OutpostTooling.CanGenerate(def))
+                return ToolingOutputRole.DeliverToColony;
+            return lockedForThisCycle ? ToolingRoleFromRaw(lockedToolingRoleRaw) : SelectedToolingRole;
+        }
+
+        /// <summary>Set the tooling role. Same rule as production: immediate until the cycle locks, otherwise from the next cycle.</summary>
+        public void SetSelectedToolingRole(ToolingOutputRole role)
+        {
+            if (!OutpostTooling.CanGenerate(def)) return;
+            if (selectedToolingRoleRaw == (int)role) return;
+            selectedToolingRoleRaw = (int)role;
+
+            // Back to colony delivery with a product already picked: start a fresh cycle (no instant payout from an idle timer).
+            if (role == ToolingOutputRole.DeliverToColony
+                && GetToolingRoleForCurrentCycle() == ToolingOutputRole.DeliverToColony
+                && productionTicksLeft <= 0
+                && !string.IsNullOrEmpty(selectedProductionDefName))
+            {
+                productionTicksLeft = GetProductionTicksIntervalCached();
+                deliveryCapacityRunningSum = 0f;
+                deliveryCapacitySampleCount = 0;
+                AddAdHocDeliveryCapacitySample();
+                RecomputeProductionRequirementCache();
+            }
+            NotifyToolingRoleChanged();
+        }
+
+        private void NotifyToolingRoleChanged()
+        {
+            InvalidateInspectCache();
+            OutpostTooling.MarkDirty();
+        }
+
+        /// <summary>1 when tooled (or tooling does not apply), otherwise 1 minus the untooled penalty (default 34% output).</summary>
+        public float ToolingFactor => OutpostTooling.GetOutputFactor(this);
+
+        /// <summary>Σ <see cref="OutpostUpgradeDef.toolingNeed"/> × built level.</summary>
+        public float GetBuiltUpgradeToolingNeed()
+        {
+            if (builtUpgradeLevels == null || builtUpgradeLevels.Count == 0) return 0f;
+            float total = 0f;
+            foreach (var kv in builtUpgradeLevels)
+            {
+                if (kv.Value <= 0) continue;
+                var def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(kv.Key);
+                if (def != null) total += def.toolingNeed * kv.Value;
+            }
+            return total;
+        }
+
+        private string GetToolingStatusLine()
+        {
+            if (!OutpostTooling.Enabled) return null;
+            if (OutpostTooling.IsGenerator(this))
+            {
+                float output = OutpostTooling.GetGeneratorOutput(this);
+                return "TSA_WD_Tooling_InspectGenerating".Translate(
+                    output.ToString("F0"),
+                    OutpostTooling.GetGeneratorUsed(this).ToString("F0"),
+                    OutpostTooling.GetGeneratorServedCount(this).ToString()).Colorize(Color.cyan);
+            }
+            if (!OutpostTooling.RequiresTooling(this)) return null;
+            if (!OutpostTooling.TryGetStatus(this, out OutpostToolingStatus status)) return null;
+            if (status.demand <= 0.01f) return null;
+            float net = status.supplied - status.demand;
+            string netStr = (net >= 0f ? "+" : "") + net.ToString("F0");
+            if (status.tooled)
+            {
+                return "TSA_WD_Tooling_InspectTooled".Translate(
+                    currentTooling.ToString("F0"),
+                    OutpostTooling.MaxPerOutpost.ToString("F0"),
+                    netStr).Colorize(Color.green);
+            }
+            return "TSA_WD_Tooling_InspectUntooled".Translate(
+                status.demand.ToString("F0"),
+                status.supplied.ToString("F0"),
+                Mathf.RoundToInt((1f - OutpostTooling.UntooledPenalty) * 100f).ToString()).Colorize(Color.yellow);
+        }
+
+        private static FoodOutputRole FoodOutputRoleFromRaw(int raw) =>
+            raw == (int)FoodOutputRole.DeliverToColony ? FoodOutputRole.DeliverToColony : FoodOutputRole.SupplyOutposts;
+
+        /// <summary>Food role picked in the gizmo (pre-lock). Always Supply for non-food outposts.</summary>
+        public FoodOutputRole SelectedFoodOutputRole => FoodOutputRoleFromRaw(selectedFoodOutputRoleRaw);
+
+        /// <summary>Food role in force this cycle (locked with the production selection). With food logistics disabled there is nothing to supply, so output always goes to the colony.</summary>
+        public FoodOutputRole GetFoodOutputRoleForCurrentCycle()
+        {
+            if (WorldDominationMod.settings != null && !WorldDominationMod.settings.foodLogisticsActive)
+                return FoodOutputRole.DeliverToColony;
+            return lockedForThisCycle ? FoodOutputRoleFromRaw(lockedFoodOutputRoleRaw) : SelectedFoodOutputRole;
+        }
+
+        /// <summary>Set the food role. Same rule as production: takes effect now until the cycle locks, otherwise from the next cycle.</summary>
+        public void SetSelectedFoodOutputRole(FoodOutputRole role)
+        {
+            if (!Outpost_Production_Utils.IsFoodProducerOutpost(def)) return;
+            if (selectedFoodOutputRoleRaw == (int)role) return;
+            selectedFoodOutputRoleRaw = (int)role;
+
+            // Back to colony delivery with a product already picked: start a fresh cycle (no instant payout from an idle timer).
+            if (role == FoodOutputRole.DeliverToColony
+                && GetFoodOutputRoleForCurrentCycle() == FoodOutputRole.DeliverToColony
+                && productionTicksLeft <= 0
+                && !string.IsNullOrEmpty(selectedProductionDefName))
+            {
+                productionTicksLeft = GetProductionTicksIntervalCached();
+                deliveryCapacityRunningSum = 0f;
+                deliveryCapacitySampleCount = 0;
+                AddAdHocDeliveryCapacitySample();
+                RecomputeProductionRequirementCache();
+            }
+            NotifyFoodOutputRoleChanged();
+        }
+
+        private void NotifyFoodOutputRoleChanged()
+        {
+            InvalidateInspectCache();
+            var manager = Find.World?.GetComponent<WorldComponent_LogisticsManager>();
+            if (manager == null) return;
+            manager.NotifyFoodLogisticsInputsChanged();
+            manager.ClampManualAssignmentsForSourceBudget(Tile);
         }
 
         /// <summary>Scavenging tier actively producing this cycle (locked when lockedForThisCycle, else selected). Null when no tier has been selected.</summary>
@@ -3050,6 +3277,7 @@ namespace TSA_WorldDomination
 
         public void SetSelectedProduction(ThingDef def)
         {
+            OutpostTooling.MarkDirty();
             selectedProductionDefName = def?.defName;
             selectedPawnKindDefName = null;
             selectedFishDefName = null;
@@ -3182,6 +3410,8 @@ namespace TSA_WorldDomination
         {
             base.PostAdd();
             ReinforcementNeighborCache.BumpGeneration();
+            OutpostPowerGrid.MarkDirty();
+            OutpostTooling.MarkDirty();
             if (suppressBootstrapHooks) return;
             RunTypeChangeBootstrapHooks();
         }
@@ -3208,6 +3438,8 @@ namespace TSA_WorldDomination
         public override void PostRemove()
         {
             ReinforcementNeighborCache.BumpGeneration();
+            OutpostPowerGrid.MarkDirty();
+            OutpostTooling.MarkDirty();
             // Safety net: Destroy() is the normal hook, but PostRemove can also be reached directly.
             if (!typeChangeShellRemoval)
                 CompOutpostArmory.Get(this)?.ClearAndDestroyAll();
@@ -3314,6 +3546,8 @@ namespace TSA_WorldDomination
                     lockedFishDefName = selectedFishDefName;
                     lockedScavengingKindRaw = selectedScavengingKindRaw;
                     lockedAcademySkillDefName = selectedAcademySkillDefName;
+                    lockedFoodOutputRoleRaw = selectedFoodOutputRoleRaw;
+                    lockedToolingRoleRaw = selectedToolingRoleRaw;
                     lockedForThisCycle = true;
                 }
 
@@ -3337,7 +3571,15 @@ namespace TSA_WorldDomination
             float avg = deliveryCapacitySampleCount > 0 ? deliveryCapacityRunningSum / deliveryCapacitySampleCount : 0f;
             deliveryCapacityRunningSum = 0f;
             deliveryCapacitySampleCount = 0;
+            bool isFoodProducer = Outpost_Production_Utils.IsFoodProducerOutpost(def);
+            FoodOutputRole finishedCycleFoodRole = GetFoodOutputRoleForCurrentCycle();
+            ToolingOutputRole finishedCycleToolingRole = GetToolingRoleForCurrentCycle();
             lockedForThisCycle = false;
+            // A role change picked after the lock point takes effect now, so logistics must re-read it.
+            if (isFoodProducer && finishedCycleFoodRole != GetFoodOutputRoleForCurrentCycle())
+                NotifyFoodOutputRoleChanged();
+            if (finishedCycleToolingRole != GetToolingRoleForCurrentCycle())
+                NotifyToolingRoleChanged();
 
             // Start new cycle with one weighted slice so inspect/UI match driving capacity until more ticks accumulate.
             float initialCapacity = Outpost_Production.GetDeliveryDrivingCapacity(this);
@@ -3386,6 +3628,13 @@ namespace TSA_WorldDomination
                 Outpost_Academy.TryCompleteProductionCycle(this);
                 return;
             }
+
+            // Supplying outposts only make virtual food: no delivery and no cycle timer until switched back to the colony.
+            if (isFoodProducer && finishedCycleFoodRole != FoodOutputRole.DeliverToColony)
+                return;
+            // Generating tooling: the output is virtual, no delivery and no cycle timer until switched back.
+            if (finishedCycleToolingRole == ToolingOutputRole.GenerateTooling)
+                return;
 
             List<ThingDefCountClass> items = Outpost_Production.GetCurrentDeliveryItems(this, avg);
             if (items == null || items.Count == 0) return;
@@ -3450,6 +3699,12 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref selectedRecruitPrioritySkillDefName, "selectedRecruitPrioritySkillDefName");
             Scribe_Values.Look(ref recruitingHalted, "recruitingHalted", false);
             Scribe_Values.Look(ref lockedForThisCycle, "lockedForThisCycle", false);
+            Scribe_Values.Look(ref powerSuppliesOutposts, "powerSuppliesOutposts", false);
+            Scribe_Values.Look(ref selectedFoodOutputRoleRaw, "selectedFoodOutputRoleRaw", 0);
+            Scribe_Values.Look(ref lockedFoodOutputRoleRaw, "lockedFoodOutputRoleRaw", 0);
+            Scribe_Values.Look(ref selectedToolingRoleRaw, "selectedToolingRoleRaw", 0);
+            Scribe_Values.Look(ref lockedToolingRoleRaw, "lockedToolingRoleRaw", 0);
+            Scribe_Values.Look(ref currentTooling, "currentTooling", 0f);
             Scribe_Values.Look(ref deliveryCapacityRunningSum, "deliveryCapacityRunningSum", 0f);
             Scribe_Values.Look(ref deliveryCapacitySampleCount, "deliveryCapacitySampleCount", 0);
             List<string> autoAddBlockedList = null;
@@ -3742,6 +3997,11 @@ namespace TSA_WorldDomination
             selectedRecruitPrioritySkillDefName = null;
             recruitingHalted = false;
             lockedForThisCycle = false;
+            selectedFoodOutputRoleRaw = 0;
+            lockedFoodOutputRoleRaw = 0;
+            selectedToolingRoleRaw = 0;
+            lockedToolingRoleRaw = 0;
+            powerSuppliesOutposts = false;
             productionTicksLeft = 0;
             deliveryCapacityRunningSum = 0f;
             deliveryCapacitySampleCount = 0;
@@ -3795,11 +4055,15 @@ namespace TSA_WorldDomination
         {
             if (builtUpgradeLevels == null || builtUpgradeLevels.Count == 0) return 0f;
             float total = 0f;
+            bool powered = IsPowered;
             foreach (var kv in builtUpgradeLevels)
             {
                 if (kv.Value <= 0) continue;
                 var def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(kv.Key);
-                if (def != null) total += def.defensiveStrengthBonus;
+                if (def == null) continue;
+                // Automatic turrets are electric: no power, no defensive strength from them.
+                if (!powered && def.category == OutpostUpgradeCategory.AutoTurrets) continue;
+                total += def.defensiveStrengthBonus;
             }
             return total;
         }
@@ -4155,6 +4419,34 @@ namespace TSA_WorldDomination
             return total;
         }
 
+        /// <summary>Σ <see cref="OutpostUpgradeDef.warehouseCapacityBonusKg"/> × built level.</summary>
+        public float GetWarehouseCapacityBonusKg()
+        {
+            if (builtUpgradeLevels == null || builtUpgradeLevels.Count == 0) return 0f;
+            float total = 0f;
+            foreach (var kv in builtUpgradeLevels)
+            {
+                if (kv.Value <= 0) continue;
+                var def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(kv.Key);
+                if (def != null) total += def.warehouseCapacityBonusKg * kv.Value;
+            }
+            return total;
+        }
+
+        /// <summary>Σ <see cref="OutpostUpgradeDef.fridgeCapacityKg"/> × built level.</summary>
+        public float GetFridgeCapacityKg()
+        {
+            if (builtUpgradeLevels == null || builtUpgradeLevels.Count == 0) return 0f;
+            float total = 0f;
+            foreach (var kv in builtUpgradeLevels)
+            {
+                if (kv.Value <= 0) continue;
+                var def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(kv.Key);
+                if (def != null) total += def.fridgeCapacityKg * kv.Value;
+            }
+            return total;
+        }
+
         /// <summary>Σ <see cref="OutpostUpgradeDef.remotePowerWattsBonus"/> × built level (flat remote colony watts).</summary>
         public float GetRemotePowerUpgradeBonus()
         {
@@ -4249,6 +4541,12 @@ namespace TSA_WorldDomination
             compSpread?.UpdateOutpostStrengthLogically();
             if (defUpgrade.allyPullRadiusBonus > 0f)
                 ReinforcementNeighborCache.BumpGeneration();
+            if (defUpgrade.powerWattsNeed != 0f)
+                OutpostPowerGrid.MarkDirty();
+            if (defUpgrade.fridgeCapacityKg > 0f || defUpgrade.warehouseCapacityBonusKg > 0f)
+                GetComponent<CompOutpostWarehouse>()?.Maintain();
+            if (defUpgrade.toolingNeed != 0f)
+                OutpostTooling.MarkDirty();
             if (WorldDominationMod.settings?.foodLogisticsActive == true && GetComponent<CompOutpostLogistics>() != null)
                 Find.World?.GetComponent<WorldComponent_LogisticsManager>()?.NotifyFoodLogisticsInputsChanged();
             if (IsPowerPlantOutpost)

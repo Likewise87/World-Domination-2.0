@@ -240,10 +240,15 @@ namespace TSA_WorldDomination
         public static float GetAntiAirVsMortarHitChance(WorldObject origin)
         {
             var seth = WorldDominationMod.settings;
-            if (origin is WorldObject_WD_Outpost)
-                return Mathf.Clamp01(seth?.antiAirVsMortarHitChance ?? WorldDominationSettings.DefAntiAirVsMortarHitChance);
+            if (origin is WorldObject_WD_Outpost outpost)
+                return Mathf.Clamp01(seth?.antiAirVsMortarHitChance ?? WorldDominationSettings.DefAntiAirVsMortarHitChance)
+                    * UnpoweredAccuracyMultiplier(outpost);
             return Mathf.Clamp01(seth?.npcAntiAirVsMortarHitChance ?? WorldDominationSettings.DefNpcAntiAirVsMortarHitChance);
         }
+
+        /// <summary>1 when powered; otherwise 1 minus the unpowered accuracy loss (default 33%).</summary>
+        public static float UnpoweredAccuracyMultiplier(WorldObject_WD_Outpost outpost) =>
+            outpost == null || outpost.IsPowered ? 1f : 1f - OutpostPowerGrid.UnpoweredAntiAirAccuracyLoss;
 
         /// <summary>Base Anti-Air hit chance for pods/aerials from distance band (fraction of AA max range). Mortar shells use <see cref="GetAntiAirVsMortarHitChance"/> instead.</summary>
         public static float BandBaseAntiAirHitChance(float distance, float maxRange, WorldDominationSettings seth, bool useNpcBands)
@@ -672,7 +677,9 @@ namespace TSA_WorldDomination
         {
             var seth = WorldDominationMod.settings;
             bool useNpc = !(origin is WorldObject_WD_Outpost);
-            return RollAntiAirHit(rangeTiles, maxRange, bestShooting, seth, useNpc);
+            if (!RollAntiAirHit(rangeTiles, maxRange, bestShooting, seth, useNpc))
+                return false;
+            return Rand.Chance(UnpoweredAccuracyMultiplier(origin as WorldObject_WD_Outpost));
         }
 
         private static bool IsShooterReady(WorldObject origin, out CompViralSpread comp, out float bestShooting)

@@ -117,7 +117,8 @@ namespace TSA_WorldDomination
             float experts = OutpostExpertUtility.GetCombinedProductionBonus(outpost);
             float settingsMult = WorldDominationMod.settings?.outpostResearchSpeedMultiplier
                 ?? WorldDominationSettings.DefOutpostResearchSpeedMultiplier;
-            return VanillaResearchPointsPerTick * speed * SimpleResearchBenchSpeedFactor * diff * efficiency * (1f + experts) * Mathf.Max(0f, settingsMult);
+            return VanillaResearchPointsPerTick * speed * SimpleResearchBenchSpeedFactor * diff * efficiency * (1f + experts) * Mathf.Max(0f, settingsMult)
+                * outpost.PowerEffectiveness;
         }
 
         public static float GetPointsPerDay(WorldObject_WD_Outpost outpost)

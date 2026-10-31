@@ -30,7 +30,50 @@
   <TSA_LogisticsMode_Equal>Equal</TSA_LogisticsMode_Equal>
   <TSA_LogisticsMode_FullyFeed>Feed</TSA_LogisticsMode_FullyFeed>
   <TSA_LogisticsMode_Manual>Manual</TSA_LogisticsMode_Manual>
-  <TSA_LogisticsTab>Food</TSA_LogisticsTab>
+  <TSA_LogisticsTab>Supply</TSA_LogisticsTab>
+  <TSA_Supply_Food>Food</TSA_Supply_Food>
+  <TSA_Supply_Tooling>Tooling</TSA_Supply_Tooling>
+  <TSA_Supply_Power>Power</TSA_Supply_Power>
+  <TSA_Supply_SectionTooling>Tooling summary</TSA_Supply_SectionTooling>
+  <TSA_Supply_SectionPower>Power summary</TSA_Supply_SectionPower>
+  <TSA_Supply_Unassigned>Unassigned</TSA_Supply_Unassigned>
+  <TSA_Supply_UnassignedTip>Output that is not sent to any outpost.</TSA_Supply_UnassignedTip>
+  <TSA_Supply_SmartTip>Smart: output is split automatically, nearest outposts first.</TSA_Supply_SmartTip>
+  <TSA_Supply_ManualTip>Manual: only the amounts you assign below are sent. Outposts without an assignment get nothing from this outpost.</TSA_Supply_ManualTip>
+  <TSA_Supply_ResetTip>Switch to Manual and clear everything this outpost sends to other outposts.</TSA_Supply_ResetTip>
+  <TSA_Supply_ReceivingTooling>Receiving Tooling From:</TSA_Supply_ReceivingTooling>
+  <TSA_Supply_ReceivingPower>Receiving Power From:</TSA_Supply_ReceivingPower>
+  <TSA_Supply_NoSourcesTooling>No tooling generator is sending to this {0}.</TSA_Supply_NoSourcesTooling>
+  <TSA_Supply_NoSourcesPower>No power plant is sending to this {0}.</TSA_Supply_NoSourcesPower>
+  <TSA_Supply_NoRecipients>No outposts in range of this {0}.</TSA_Supply_NoRecipients>
+  <TSA_Supply_PlantNotSupplying>This power plant supplies the colony. Switch it to supply outposts to allocate its power here.</TSA_Supply_PlantNotSupplying>
+  <TSA_Supply_PerDay>{0}/day</TSA_Supply_PerDay>
+  <TSA_Supply_Watts>{0} W</TSA_Supply_Watts>
+  <TSA_Supply_ToolingInfo>Stock {0}/{1} - need {2}/day</TSA_Supply_ToolingInfo>
+  <TSA_Supply_PowerInfo>Needs {0} W - receives {1} W</TSA_Supply_PowerInfo>
+  <TSA_Supply_ToolingBudget>Output {0}</TSA_Supply_ToolingBudget>
+  <TSA_Supply_PowerBudget>Capacity {0}</TSA_Supply_PowerBudget>
+  <TSA_Supply_Row_Role>Role</TSA_Supply_Row_Role>
+  <TSA_Supply_Row_Output>Tooling output</TSA_Supply_Row_Output>
+  <TSA_Supply_Row_OutputTip>Tooling generated per day from the selected product.</TSA_Supply_Row_OutputTip>
+  <TSA_Supply_Row_Sent>Sent to outposts</TSA_Supply_Row_Sent>
+  <TSA_Supply_Row_Unassigned>Unassigned</TSA_Supply_Row_Unassigned>
+  <TSA_Supply_Row_Served>Outposts served</TSA_Supply_Row_Served>
+  <TSA_Supply_Row_Stock>Tooling stock</TSA_Supply_Row_Stock>
+  <TSA_Supply_Row_StockTip>Current stockpile and the maximum an outpost can hold. Output is cut when it runs empty.</TSA_Supply_Row_StockTip>
+  <TSA_Supply_Row_Need>Need per day</TSA_Supply_Row_Need>
+  <TSA_Supply_Row_Arriving>Arriving per day</TSA_Supply_Row_Arriving>
+  <TSA_Supply_Row_ArrivingTip>Tooling sent to this outpost by generators. It can exceed the need while the stockpile refills.</TSA_Supply_Row_ArrivingTip>
+  <TSA_Supply_Row_Net>Net per day</TSA_Supply_Row_Net>
+  <TSA_Supply_Row_Status>Status</TSA_Supply_Row_Status>
+  <TSA_Supply_StatusTooled>Tooled</TSA_Supply_StatusTooled>
+  <TSA_Supply_StatusUntooled>Out of tooling (-{0}% output)</TSA_Supply_StatusUntooled>
+  <TSA_Supply_Row_Capacity>Capacity</TSA_Supply_Row_Capacity>
+  <TSA_Supply_Row_PowerNeed>Power need</TSA_Supply_Row_PowerNeed>
+  <TSA_Supply_Row_PowerNeedTip>Base demand {0} W plus {1} W from built upgrades.</TSA_Supply_Row_PowerNeedTip>
+  <TSA_Supply_Row_Received>Power received</TSA_Supply_Row_Received>
+  <TSA_Supply_StatusPowered>Powered</TSA_Supply_StatusPowered>
+  <TSA_Supply_StatusUnpowered>Unpowered ({0}% effectiveness)</TSA_Supply_StatusUnpowered>
   <TSA_WD_Logistics_GamePaused>Game paused</TSA_WD_Logistics_GamePaused>
   <TSA_Logistics_AvailableForDistribution_Label>Local Food Balance:</TSA_Logistics_AvailableForDistribution_Label>
   <TSA_Logistics_AvailableForDistribution_Tooltip_BaseProd>Base production of any outpost: {0}</TSA_Logistics_AvailableForDistribution_Tooltip_BaseProd>
@@ -192,6 +235,7 @@
   <TSA_WD_Pod_ReinforceDefense>Reinforce {0} defense (transport pods)</TSA_WD_Pod_ReinforceDefense>
   <TSA_WD_Pod_ReinforcedDefense>Transport pods landed as reinforcements on {0}'s temporary battlefield.</TSA_WD_Pod_ReinforcedDefense>
   <TSA_WD_Pod_AddedPawn>{0} joined {1} from transport pods.</TSA_WD_Pod_AddedPawn>
+  <TSA_WD_Pod_ToolingAdded>{0}x {1} converted to tooling at {2}.</TSA_WD_Pod_ToolingAdded>
   <TSA_WD_PodArrival_ItemNotStored>Cannot store {0} in this outpost (WD outposts only hold colonists as virtual pawns). Item lost.</TSA_WD_PodArrival_ItemNotStored>
   <TSA_WD_AutoAdd_Desc>When enabled, caravans whose destination is this outpost are automatically added when they stop. Resting or pausing here while bound elsewhere does not.</TSA_WD_AutoAdd_Desc>
   <TSA_WD_AutoAdd_Label>Auto-Add Arrivals</TSA_WD_AutoAdd_Label>
@@ -518,6 +562,88 @@
   <TSA_WD_Food_MaxFoodPerOutpostTooltip>Maximum virtual food storage capacity per outpost. Warehouse outposts always use at least 500.</TSA_WD_Food_MaxFoodPerOutpostTooltip>
   <TSA_WD_Food_MaxRange>Max Support Radius</TSA_WD_Food_MaxRange>
   <TSA_WD_Food_MaxRangeTooltip>The maximum tile distance a Farming/Hunting hub can assign food. Recipients in range receive the full assigned amount.</TSA_WD_Food_MaxRangeTooltip>
+  <TSA_WD_FoodRole_SupplyOutposts>Supply outposts</TSA_WD_FoodRole_SupplyOutposts>
+  <TSA_WD_FoodRole_DeliverToColony>Deliver to colony</TSA_WD_FoodRole_DeliverToColony>
+  <TSA_WD_FoodRole_GizmoLabel>Food: {0}</TSA_WD_FoodRole_GizmoLabel>
+  <TSA_WD_FoodRole_GizmoDesc>Choose where this outpost's food goes. It cannot do both.\n\nSupply outposts: surplus virtual food feeds other outposts in logistics range. Nothing is delivered to the colony, so there is no product to choose and the Production button is hidden.\nDeliver to colony: the production cycle ships physical food to the colony. The outpost only feeds itself and sends nothing to other outposts.\n\nLike the production choice, a change made after the first quarter of a cycle applies from the next cycle.</TSA_WD_FoodRole_GizmoDesc>
+  <TSA_WD_FoodRole_PendingNextCycle>This cycle is already locked to: {0}. Switches to {1} when the next cycle starts.</TSA_WD_FoodRole_PendingNextCycle>
+  <TSA_WD_FoodRole_LockedNote>This cycle is locked. Changes apply from the next cycle.</TSA_WD_FoodRole_LockedNote>
+  <TSA_WD_FoodRole_CurrentTag>(current)</TSA_WD_FoodRole_CurrentTag>
+  <TSA_WD_FoodRole_AppliesNextCycle>{0}: switching to "{1}" applies from the next production cycle.</TSA_WD_FoodRole_AppliesNextCycle>
+  <TSA_WD_FoodRole_InspectSupplying>Supplying nearby outposts</TSA_WD_FoodRole_InspectSupplying>
+  <TSA_WD_Tooling_Header>Outpost tooling</TSA_WD_Tooling_Header>
+  <TSA_WD_Tooling_Enable>Outposts need tooling</TSA_WD_Tooling_Enable>
+  <TSA_WD_Tooling_EnableTooltip>When on, working outposts (mining, farming, hunting, fishing, ranch, production) keep a tooling stockpile, like virtual food. It drains by their daily need and is filled by mining outposts set to generate tooling. An empty stockpile cuts output. Turn off to ignore tooling entirely.</TSA_WD_Tooling_EnableTooltip>
+  <TSA_WD_Tooling_DemandBase>Base tooling need per outpost (per day)</TSA_WD_Tooling_DemandBase>
+  <TSA_WD_Tooling_DemandBaseTooltip>Tooling units each working outpost uses per day. Upgrades can add their own need (toolingNeed in the upgrade XML, default 0).</TSA_WD_Tooling_DemandBaseTooltip>
+  <TSA_WD_Tooling_Penalty>Output lost without tooling</TSA_WD_Tooling_Penalty>
+  <TSA_WD_Tooling_PenaltyTooltip>Share of item output and virtual food an outpost loses while its tooling need is not covered (default 66%).</TSA_WD_Tooling_PenaltyTooltip>
+  <TSA_WD_Tooling_Max>Tooling stockpile per outpost</TSA_WD_Tooling_Max>
+  <TSA_WD_Tooling_MaxTooltip>Maximum tooling an outpost can store. The stockpile drains by the daily need and refills from generator outposts in range.</TSA_WD_Tooling_MaxTooltip>
+  <TSA_WD_ToolingValues_Open>Tooling values...</TSA_WD_ToolingValues_Open>
+  <TSA_WD_ToolingValues_Title>Tooling values</TSA_WD_ToolingValues_Title>
+  <TSA_WD_ToolingValues_Intro>How much tooling one item is worth, as a ratio (default wood 1, steel 2, plasteel 3). A generating outpost makes (items per cycle x value) / cycle days tooling per day. Add any item, for example a pickaxe worth 50 wood.</TSA_WD_ToolingValues_Intro>
+  <TSA_WD_ToolingValues_Add>Add item...</TSA_WD_ToolingValues_Add>
+  <TSA_WD_ToolingValues_PickerTitle>Add a tooling item</TSA_WD_ToolingValues_PickerTitle>
+  <TSA_WD_ToolingValues_RowTooltip>Tooling units per item. 0 means the item gives no tooling.</TSA_WD_ToolingValues_RowTooltip>
+  <TSA_WD_ToolingValues_ResetItem>Reset {0} to {1}</TSA_WD_ToolingValues_ResetItem>
+  <TSA_WD_ToolingValues_RemoveItem>Remove {0}</TSA_WD_ToolingValues_RemoveItem>
+  <TSA_WD_ToolingRole_DeliverToColony>Deliver to colony</TSA_WD_ToolingRole_DeliverToColony>
+  <TSA_WD_ToolingRole_GenerateTooling>Generate tooling</TSA_WD_ToolingRole_GenerateTooling>
+  <TSA_WD_ToolingRole_GizmoLabel>Output: {0}</TSA_WD_ToolingRole_GizmoLabel>
+  <TSA_WD_ToolingRole_GizmoDesc>Choose where this outpost's output goes. It cannot do both.\n\nDeliver to colony: the production cycle ships the physical items to the colony. The outpost itself needs tooling.\nGenerate tooling: nothing is delivered. The output is turned into virtual tooling (item count x item value, per day) that fills the stockpiles of working outposts within {1} tiles. This outpost needs no tooling itself. Items without a tooling value give nothing.\n\nEvery working outpost uses {0} tooling per day plus upgrade needs from its stockpile; when it is empty, output drops by {2}%.\n\nLike the production choice, a change made after the first quarter of a cycle applies from the next cycle.</TSA_WD_ToolingRole_GizmoDesc>
+  <TSA_WD_Tooling_InspectGenerating>Generating tooling: {0}/day ({1} used, {2} outposts supplied)</TSA_WD_Tooling_InspectGenerating>
+  <TSA_WD_Tooling_InspectTooled>Tooling: {0}/{1} ({2}/day)</TSA_WD_Tooling_InspectTooled>
+  <TSA_WD_Tooling_InspectUntooled>Tooling stockpile empty: needs {0}/day, {1}/day arriving. Output at {2}%.</TSA_WD_Tooling_InspectUntooled>
+  <TSA_WD_Tooling_InspectProduct>Generating tooling ({0}/day)</TSA_WD_Tooling_InspectProduct>
+  <TSA_WD_Power_Header>Outpost power grid</TSA_WD_Power_Header>
+  <TSA_WD_Power_Enable>Outposts need power</TSA_WD_Power_Enable>
+  <TSA_WD_Power_EnableTooltip>When on, every player outpost (except power plants and warehouses) needs watts from a power outpost set to supply outposts. Unpowered outposts work at reduced effectiveness. Turn off to ignore power entirely.</TSA_WD_Power_EnableTooltip>
+  <TSA_WD_Power_DemandBase>Base power need per outpost (W)</TSA_WD_Power_DemandBase>
+  <TSA_WD_Power_DemandBaseTooltip>Watts each outpost draws from the grid. Upgrades can add their own need (powerWattsNeed in the upgrade XML, default 0).</TSA_WD_Power_DemandBaseTooltip>
+  <TSA_WD_Power_UnpoweredEffectiveness>Unpowered effectiveness</TSA_WD_Power_UnpoweredEffectiveness>
+  <TSA_WD_Power_UnpoweredEffectivenessTooltip>Output multiplier for an unpowered outpost: item production, virtual food and research.</TSA_WD_Power_UnpoweredEffectivenessTooltip>
+  <TSA_WD_Power_UnpoweredRange>Unpowered range</TSA_WD_Power_UnpoweredRange>
+  <TSA_WD_Power_UnpoweredRangeTooltip>Range multiplier for an unpowered outpost: mortar range and recruiting/trading radius.</TSA_WD_Power_UnpoweredRangeTooltip>
+  <TSA_WD_Power_UnpoweredAaLoss>Unpowered anti-air accuracy loss</TSA_WD_Power_UnpoweredAaLoss>
+  <TSA_WD_Power_UnpoweredAaLossTooltip>Share of anti-air hit chance lost while the outpost has no power.</TSA_WD_Power_UnpoweredAaLossTooltip>
+  <TSA_WD_Power_PowerlineBonus>Powerline reach (tiles)</TSA_WD_Power_PowerlineBonus>
+  <TSA_WD_Power_PowerlineBonusTooltip>Radius of the power range a powerline tower adds around itself. A tower can only be built inside the existing power range, so the covered area never has gaps.</TSA_WD_Power_PowerlineBonusTooltip>
+  <TSA_WD_Power_PowerlineWork>Powerline build work</TSA_WD_Power_PowerlineWork>
+  <TSA_WD_Power_PowerlineWorkTooltip>Construction work for one powerline, same scale as an AT turret (default 1500). Higher takes longer.</TSA_WD_Power_PowerlineWorkTooltip>
+  <TSA_WD_Power_PowerlineStrength>Powerline crew strength</TSA_WD_Power_PowerlineStrength>
+  <TSA_WD_Power_PowerlineStrengthTooltip>Expedition strength the powerline crew carries. The outpost must be able to spare it.</TSA_WD_Power_PowerlineStrengthTooltip>
+  <TSA_WD_Power_InspectPowered>Powered ({0})</TSA_WD_Power_InspectPowered>
+  <TSA_WD_Power_InspectUnpowered>No power: needs {0}. Working at {1}% effectiveness.</TSA_WD_Power_InspectUnpowered>
+  <TSA_WD_PowerPlant_InspectOutposts>Supplying outposts: {1} of {0} used, {2} outposts powered</TSA_WD_PowerPlant_InspectOutposts>
+  <TSA_WD_PowerRole_SupplyColony>Supply colony</TSA_WD_PowerRole_SupplyColony>
+  <TSA_WD_PowerRole_SupplyOutposts>Supply outposts</TSA_WD_PowerRole_SupplyOutposts>
+  <TSA_WD_PowerRole_GizmoLabel>Power: {0}</TSA_WD_PowerRole_GizmoLabel>
+  <TSA_WD_PowerRole_GizmoDesc>Choose where this power outpost's watts go. It cannot do both.\n\nSupply colony: adds its watts to the colony's power nets.\nSupply outposts: splits its watts between player outposts in range ({1} tiles, plus powerlines). Each outpost needs {0} W plus upgrade needs, and can be fed by several plants. Outposts that cannot be fully powered work at reduced effectiveness.\n\nPowerlines (Build menu, one per outpost) add a {2}-tile radius of power range around themselves, chained from the plant's range with no gaps.</TSA_WD_PowerRole_GizmoDesc>
+  <TSA_WD_RapidResponse_InspectNoPower>No power: drop pods offline</TSA_WD_RapidResponse_InspectNoPower>
+  <TSA_WD_Powerline_Label>Powerline</TSA_WD_Powerline_Label>
+  <TSA_WD_Traveler_PowerLine>Powerline crew</TSA_WD_Traveler_PowerLine>
+  <TSA_WD_Powerline_Inspect>Powerline: adds a {0}-tile radius of power range around it.</TSA_WD_Powerline_Inspect>
+  <TSA_WD_Inspect_PowerlineStatus>Powerline: {0}% progress, building at tile {1}</TSA_WD_Inspect_PowerlineStatus>
+  <TSA_WD_Inspect_PowerlineStatus_InTransit>Powerline: crew on the way to tile {0} ({1}% progress)</TSA_WD_Inspect_PowerlineStatus_InTransit>
+  <TSA_WD_Log_Powerline_Built>{0} raised a powerline at tile {1}.</TSA_WD_Log_Powerline_Built>
+  <TSA_WD_Powerline_Cancel>Cancel powerline</TSA_WD_Powerline_Cancel>
+  <TSA_WD_Powerline_CancelDesc>Cancel the powerline project. A crew already on the way is recalled and its materials returned.</TSA_WD_Powerline_CancelDesc>
+  <TSA_WD_Powerline_Cancelled>{0}: powerline project cancelled.</TSA_WD_Powerline_Cancelled>
+  <TSA_WD_Powerline_OnePerOutpost>This outpost already supports a powerline</TSA_WD_Powerline_OnePerOutpost>
+  <TSA_WD_Powerline_TooClose>Too close to another powerline (they must be more than 5 tiles apart).</TSA_WD_Powerline_TooClose>
+  <TSA_WD_Powerline_NeedsPowerRange>Powerlines must be built inside the current power range (a supplying power outpost's range or another powerline's radius).</TSA_WD_Powerline_NeedsPowerRange>
+  <TSA_WD_Powerline_TargetSet>Powerline project started.</TSA_WD_Powerline_TargetSet>
+  <TSA_WD_Powerline_Dismantle>Dismantle</TSA_WD_Powerline_Dismantle>
+  <TSA_WD_Powerline_DismantleDesc>Remove this powerline. Materials are not refunded.</TSA_WD_Powerline_DismantleDesc>
+  <TSA_WD_Powerline_Dismantled>Powerline dismantled.</TSA_WD_Powerline_Dismantled>
+  <TSA_WD_Powerline_Build>Build powerline</TSA_WD_Powerline_Build>
+  <TSA_WD_Powerline_BuildDesc>Build a powerline tower with a crew (like an AT turret). It adds a {0}-tile radius of power range around itself, and must be placed inside the current power range so coverage has no gaps. One per outpost, and no two within {1} tiles of each other. Crew strength {2}, about {3} days of work.</TSA_WD_Powerline_BuildDesc>
+  <TSA_WD_Powerline_TargetPrompt>Choose a tile for the powerline.</TSA_WD_Powerline_TargetPrompt>
+  <TSA_WD_Powerline_InvalidTile>Powerlines need an empty land tile.</TSA_WD_Powerline_InvalidTile>
+  <TSA_WD_Powerline_Built>Powerline built.</TSA_WD_Powerline_Built>
+  <TSA_WD_Food_ProdPerSkill>Daily Food per Skill Point (Farming/Hunting)</TSA_WD_Food_ProdPerSkill>
+  <TSA_WD_Food_ProdPerSkillTooltip>Virtual food produced per day for each effective skill point at Farming/Hunting/Fishing/Ranch outposts, before the tile multiplier. Lower values make food producers support fewer outposts.</TSA_WD_Food_ProdPerSkillTooltip>
   <TSA_WD_Food_ProdPerOutpostBase>Daily Food Production per Outpost (base)</TSA_WD_Food_ProdPerOutpostBase>
   <TSA_WD_Food_ProdPerOutpostBaseTooltip>Fixed daily virtual food granted to every outpost (any type). Farming/Hunting outposts add skill-based production on top.</TSA_WD_Food_ProdPerOutpostBaseTooltip>
   <TSA_WD_Food_VirtualTileMinMult>Minimum virtual food tile multiplier</TSA_WD_Food_VirtualTileMinMult>
@@ -641,6 +767,28 @@
   <TSA_WD_Outpost_WarehouseAuraBonusTooltip>Productivity bonus from a player warehouse to nearby eligible producers (goods, virtual food, academy XP). Only the best warehouse in range applies. Research outposts are not affected.</TSA_WD_Outpost_WarehouseAuraBonusTooltip>
   <TSA_WD_Outpost_WarehouseAuraRadius>Warehouse aura radius</TSA_WD_Outpost_WarehouseAuraRadius>
   <TSA_WD_Outpost_WarehouseAuraRadiusTooltip>World-tile radius of a warehouse productivity aura. Shown as a purple ring when the warehouse is selected.</TSA_WD_Outpost_WarehouseAuraRadiusTooltip>
+  <TSA_WD_Outpost_WarehouseCapacityEnabled>Limit warehouse capacity</TSA_WD_Outpost_WarehouseCapacityEnabled>
+  <TSA_WD_Outpost_WarehouseCapacityEnabledTooltip>When on, a warehouse holds a limited mass of goods. Anything beyond the limit is sent straight to your colony and you get a letter.</TSA_WD_Outpost_WarehouseCapacityEnabledTooltip>
+  <TSA_WD_Outpost_WarehouseCapacityKg>Warehouse capacity (kg)</TSA_WD_Outpost_WarehouseCapacityKg>
+  <TSA_WD_Outpost_WarehouseCapacityKgTooltip>Base mass a warehouse can hold, in kilograms. 20000 kg is 20 tonnes. Warehouse upgrades add to this.</TSA_WD_Outpost_WarehouseCapacityKgTooltip>
+  <TSA_WD_Outpost_WarehouseFoodSpoilageEnabled>Warehouse food spoils</TSA_WD_Outpost_WarehouseFoodSpoilageEnabled>
+  <TSA_WD_Outpost_WarehouseFoodSpoilageEnabledTooltip>When on, each food delivery to a warehouse gets its own slot with an arrival day, and spoils after the set number of days. Industrial fridge upgrades keep food from spoiling while powered. When off, warehouse food never spoils and fridges do nothing.</TSA_WD_Outpost_WarehouseFoodSpoilageEnabledTooltip>
+  <TSA_WD_Outpost_WarehouseFoodSpoilDays>Warehouse food spoils after (days)</TSA_WD_Outpost_WarehouseFoodSpoilDays>
+  <TSA_WD_Outpost_WarehouseFoodSpoilDaysTooltip>Days until a food slot in a warehouse spoils. The same for all food. Deliveries on the same day share a slot.</TSA_WD_Outpost_WarehouseFoodSpoilDaysTooltip>
+  <TSA_WD_Warehouse_Full_LetterLabel>Warehouse is filled: {0}</TSA_WD_Warehouse_Full_LetterLabel>
+  <TSA_WD_Warehouse_Full_Letter>{0} is full ({1} kg capacity). The goods that did not fit were sent straight to your colony:</TSA_WD_Warehouse_Full_Letter>
+  <TSA_WD_Warehouse_FoodSpoiled>Spoiled in {0}: {1}.</TSA_WD_Warehouse_FoodSpoiled>
+  <TSA_WD_Warehouse_FridgeNoPower>The fridges at {0} have lost power. Refrigerated food will spoil in {1} days unless power is restored.</TSA_WD_Warehouse_FridgeNoPower>
+  <TSA_WD_WarehouseTab_Capacity>Capacity: {0} / {1} kg</TSA_WD_WarehouseTab_Capacity>
+  <TSA_WD_WarehouseTab_Fridge>Fridges: {0} / {1} kg - {2}</TSA_WD_WarehouseTab_Fridge>
+  <TSA_WD_WarehouseTab_FridgeCold>cold</TSA_WD_WarehouseTab_FridgeCold>
+  <TSA_WD_WarehouseTab_FridgeWarm>NO POWER, spoils in {0} days</TSA_WD_WarehouseTab_FridgeWarm>
+  <TSA_WD_WarehouseTab_LotRefrigerated>refrigerated, does not spoil</TSA_WD_WarehouseTab_LotRefrigerated>
+  <TSA_WD_WarehouseTab_LotSpoilsIn>spoils in {0} days</TSA_WD_WarehouseTab_LotSpoilsIn>
+  <TSA_WD_WarehouseTab_LotFridgePrefix>[Fridge]</TSA_WD_WarehouseTab_LotFridgePrefix>
+  <TSA_WD_WarehouseTab_LotsMore>...and {0} more food slots</TSA_WD_WarehouseTab_LotsMore>
+  <TSA_WD_OutpostUpgrades_BenefitWarehouseCapacity>+{0} kg warehouse capacity</TSA_WD_OutpostUpgrades_BenefitWarehouseCapacity>
+  <TSA_WD_OutpostUpgrades_BenefitFridgeCapacity>{0} kg refrigerated food (needs power)</TSA_WD_OutpostUpgrades_BenefitFridgeCapacity>
   <TSA_WD_Outpost_EmbassyHostileGoodwill>Embassies may gain goodwill with hostile factions</TSA_WD_Outpost_EmbassyHostileGoodwill>
   <TSA_WD_Outpost_EmbassyHostileGoodwillTooltip>When enabled, embassy cycles can improve goodwill with temporarily hostile factions in range (helping restore peace). Permanently hostile factions are never included.</TSA_WD_Outpost_EmbassyHostileGoodwillTooltip>
   <TSA_WD_Outpost_Inspect_Producing>Producing: {0} x{1}. Ready in {2}</TSA_WD_Outpost_Inspect_Producing>
@@ -1249,6 +1397,11 @@
   <TSA_WD_RemoteEstablish_CarryTooHeavy>These pawns cannot carry the establish materials.\n\nPayload: {0} kg\nCan carry: {1} kg\nShort by: {2} kg\n\nSend them anyway?</TSA_WD_RemoteEstablish_CarryTooHeavy>
   <TSA_WD_RemoteEstablish_InvalidSelection>Select colony or outpost pawns to establish an outpost.</TSA_WD_RemoteEstablish_InvalidSelection>
   <TSA_WD_RemoteEstablish_Launched>Caravan sent to found {0}.</TSA_WD_RemoteEstablish_Launched>
+  <TSA_WD_Supply_NoPower>Power: Not enough power for another outpost.</TSA_WD_Supply_NoPower>
+  <TSA_WD_Supply_NoFood>Food: The outpost will starve without outside deliveries.</TSA_WD_Supply_NoFood>
+  <TSA_WD_Supply_NoTooling>Tooling: The outpost will not be efficient without outside deliveries.</TSA_WD_Supply_NoTooling>
+  <TSA_WD_Supply_Continue>Continue</TSA_WD_Supply_Continue>
+  <TSA_WD_Supply_Cancel>Cancel</TSA_WD_Supply_Cancel>
   <TSA_WD_RemoteEstablish_Failed>Could not establish the outpost.\n{0}</TSA_WD_RemoteEstablish_Failed>
   <TSA_WD_RemoteEstablish_ArrivalLabel>establish {0}</TSA_WD_RemoteEstablish_ArrivalLabel>
   <TSA_WD_RemoteEstablish_ArrivalReport>Founding {0}.</TSA_WD_RemoteEstablish_ArrivalReport>
@@ -2114,7 +2267,7 @@
   <TSA_WD_OutpostStats_Row_FoodProductionTip>Total virtual food produced per day at this outpost (base food production plus any food-hub bonus).</TSA_WD_OutpostStats_Row_FoodProductionTip>
   <TSA_WD_OutpostStats_Row_FoodProductionBaseLine>Base Production: +{0}</TSA_WD_OutpostStats_Row_FoodProductionBaseLine>
   <TSA_WD_OutpostStats_Row_FoodProductionUpgradeLine>Outpost Upgrades: +{0}</TSA_WD_OutpostStats_Row_FoodProductionUpgradeLine>
-  <TSA_WD_OutpostStats_Row_FoodProductionHubTip>Food hub: base food production + ({1} effective {0} skill × {3}% {4}) = {2} total per day. Raw skill: {5}. Base food production is unaffected by tile efficiency.</TSA_WD_OutpostStats_Row_FoodProductionHubTip>
+  <TSA_WD_OutpostStats_Row_FoodProductionHubTip>Food hub: base food production + ({1} effective {0} skill × {6} food per skill × {3}% {4}) = {2} total per day. Raw skill: {5}. Base food production is unaffected by tile efficiency.</TSA_WD_OutpostStats_Row_FoodProductionHubTip>
   <TSA_WD_OutpostStats_Row_FoodProductionBaseOnlyTip>This outpost is not a food hub; skill and tile do not add production. Base food production still includes outpost upgrades. Local demand: {1} eating pawns × {0} food/day each.</TSA_WD_OutpostStats_Row_FoodProductionBaseOnlyTip>
   <TSA_WD_OutpostStats_Row_FoodNetLocal>Local food balance</TSA_WD_OutpostStats_Row_FoodNetLocal>
   <TSA_WD_OutpostStats_Row_FoodNetLocalTip>Food balance of this outpost in isolation, without food provided by surrounding outposts.\n\nOnly non-food-producing outposts can receive food from farming, hunting, fishing, and ranch outposts.</TSA_WD_OutpostStats_Row_FoodNetLocalTip>

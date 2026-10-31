@@ -41,6 +41,8 @@ namespace TSA_WorldDomination
                 yield return g;
             foreach (var g in Action_Outpost_AtTurrets.GetGizmos(outpost))
                 yield return g;
+            foreach (var g in Action_Outpost_Powerline.GetGizmos(outpost))
+                yield return g;
             foreach (var g in Action_Outpost_Decontamination.GetGizmos(outpost))
                 yield return g;
         }
@@ -124,6 +126,13 @@ namespace TSA_WorldDomination
                 var buildTurrets = Action_Outpost_AtTurrets.MakeBuildAtTurretMenuOption(outpost, comp);
                 buildTurrets.orderInPriority = 280;
                 list.Add(buildTurrets);
+            }
+
+            var buildPowerline = Action_Outpost_Powerline.MakeBuildPowerlineMenuOption(outpost, comp);
+            if (buildPowerline != null)
+            {
+                buildPowerline.orderInPriority = 270;
+                list.Add(buildPowerline);
             }
 
             if (blocks || traps)

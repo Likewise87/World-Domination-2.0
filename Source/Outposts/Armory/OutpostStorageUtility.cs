@@ -96,13 +96,16 @@ namespace TSA_WorldDomination
                     continue;
                 }
 
+                int storedCount = row.count;
                 if (wh != null)
-                    wh.TryDeposit(new List<ThingDefCountClass> { row });
+                    storedCount = wh.DepositRowCapped(row);
                 else
                     armory.DepositStockRow(row);
-                stored.Add(CompOutpostWarehouse.PlainStockRow(row, row.count));
+                if (storedCount > 0)
+                    stored.Add(CompOutpostWarehouse.PlainStockRow(row, storedCount));
             }
 
+            wh?.FlushOverflow();
             if (homeless != null)
                 SettlementBuyUtility.RefundItems(null, homeless);
             return stored;

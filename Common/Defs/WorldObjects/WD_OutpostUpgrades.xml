@@ -711,6 +711,155 @@
     </cost>
   </TSA_WorldDomination.OutpostUpgradeDef>
 
+  <!-- Warehouse storage racking: each tier replaces the previous one, so warehouseCapacityBonusKg is the line total. -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_Warehouse_Racking1</defName>
+    <label>Pallet Racking</label>
+    <description>Steel shelving and pallet bays. Adds 10 tonnes of warehouse capacity.</description>
+    <imagePath>UI/OutpostUpgrades/WarehouseForklifter</imagePath>
+    <category>Warehouse</category>
+    <upgradeLineId>Line_WarehouseRacking</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Warehouse</li>
+    </allowedOutpostDefNames>
+    <warehouseCapacityBonusKg>10000</warehouseCapacityBonusKg>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>150</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_Warehouse_Racking2</defName>
+    <label>High-Bay Racking</label>
+    <description>Tall racking served by forklifts. Raises the capacity bonus to 30 tonnes.</description>
+    <imagePath>UI/OutpostUpgrades/WarehouseForklifter</imagePath>
+    <category>Warehouse</category>
+    <upgradeLineId>Line_WarehouseRacking</upgradeLineId>
+    <lineTier>2</lineTier>
+    <requiresPreviousLineTier>true</requiresPreviousLineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Warehouse</li>
+    </allowedOutpostDefNames>
+    <warehouseCapacityBonusKg>30000</warehouseCapacityBonusKg>
+    <requiredResearch>MicroelectronicsBasics</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>400</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>10</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_Warehouse_Racking3</defName>
+    <label>Automated Storage</label>
+    <description>Robotic storage and retrieval. Raises the capacity bonus to 60 tonnes.</description>
+    <imagePath>UI/OutpostUpgrades/WarehouseLogisticsNetwork</imagePath>
+    <category>Warehouse</category>
+    <upgradeLineId>Line_WarehouseRacking</upgradeLineId>
+    <lineTier>3</lineTier>
+    <requiresPreviousLineTier>true</requiresPreviousLineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Warehouse</li>
+    </allowedOutpostDefNames>
+    <warehouseCapacityBonusKg>60000</warehouseCapacityBonusKg>
+    <requiredResearch>AdvancedFabrication</requiredResearch>
+    <cost>
+      <li><thingDef>Plasteel</thingDef><count>100</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>20</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <!-- Industrial fridges: 1 tonne of refrigerated food per tier; tiers replace each other, so capacity and powerWattsNeed are line totals. -->
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_Warehouse_Fridge1</defName>
+    <label>Industrial Fridge</label>
+    <description>A powered cold room. Holds 1 tonne of food that does not spoil while powered. If power is cut, the stack spoils in 3 days unless power returns.</description>
+    <imagePath>UI/OutpostUpgrades/WarehouseLogisticsNetwork</imagePath>
+    <category>Warehouse</category>
+    <upgradeLineId>Line_WarehouseFridge</upgradeLineId>
+    <lineTier>1</lineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Warehouse</li>
+    </allowedOutpostDefNames>
+    <fridgeCapacityKg>1000</fridgeCapacityKg>
+    <powerWattsNeed>300</powerWattsNeed>
+    <requiredResearch>Electricity</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>150</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>4</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_Warehouse_Fridge2</defName>
+    <label>Industrial Fridge Bank II</label>
+    <description>A second cold room. Total refrigerated capacity 2 tonnes. Draws more power.</description>
+    <imagePath>UI/OutpostUpgrades/WarehouseLogisticsNetwork</imagePath>
+    <category>Warehouse</category>
+    <upgradeLineId>Line_WarehouseFridge</upgradeLineId>
+    <lineTier>2</lineTier>
+    <requiresPreviousLineTier>true</requiresPreviousLineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Warehouse</li>
+    </allowedOutpostDefNames>
+    <fridgeCapacityKg>2000</fridgeCapacityKg>
+    <powerWattsNeed>750</powerWattsNeed>
+    <requiredResearch>MicroelectronicsBasics</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>200</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>8</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_Warehouse_Fridge3</defName>
+    <label>Industrial Fridge Bank III</label>
+    <description>A third cold room. Total refrigerated capacity 3 tonnes. Draws more power.</description>
+    <imagePath>UI/OutpostUpgrades/WarehouseLogisticsNetwork</imagePath>
+    <category>Warehouse</category>
+    <upgradeLineId>Line_WarehouseFridge</upgradeLineId>
+    <lineTier>3</lineTier>
+    <requiresPreviousLineTier>true</requiresPreviousLineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Warehouse</li>
+    </allowedOutpostDefNames>
+    <fridgeCapacityKg>3000</fridgeCapacityKg>
+    <powerWattsNeed>1350</powerWattsNeed>
+    <requiredResearch>Fabrication</requiredResearch>
+    <cost>
+      <li><thingDef>Steel</thingDef><count>300</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>12</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
+  <TSA_WorldDomination.OutpostUpgradeDef>
+    <defName>TSA_WD_Upgrade_Warehouse_Fridge4</defName>
+    <label>Industrial Fridge Bank IV</label>
+    <description>A fourth cold room with advanced compressors. Total refrigerated capacity 4 tonnes. Draws the most power.</description>
+    <imagePath>UI/OutpostUpgrades/WarehouseLogisticsNetwork</imagePath>
+    <category>Warehouse</category>
+    <upgradeLineId>Line_WarehouseFridge</upgradeLineId>
+    <lineTier>4</lineTier>
+    <requiresPreviousLineTier>true</requiresPreviousLineTier>
+    <outpostApplicability>Whitelist</outpostApplicability>
+    <allowedOutpostDefNames>
+      <li>TSA_WD_Outpost_Warehouse</li>
+    </allowedOutpostDefNames>
+    <fridgeCapacityKg>4000</fridgeCapacityKg>
+    <powerWattsNeed>2100</powerWattsNeed>
+    <requiredResearch>AdvancedFabrication</requiredResearch>
+    <cost>
+      <li><thingDef>Plasteel</thingDef><count>60</count></li>
+      <li><thingDef>ComponentIndustrial</thingDef><count>16</count></li>
+    </cost>
+  </TSA_WorldDomination.OutpostUpgradeDef>
+
   <TSA_WorldDomination.OutpostUpgradeDef>
     <defName>TSA_WD_Upgrade_TunnelNetwork</defName>
     <label>Tunnel Network</label>

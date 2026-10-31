@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- Powerline: built from any player outpost's Build menu. Extends power plant reach by
+       powerlineRangeBonusTiles (mod setting). Build cost / research live on WdWorldBuildCostExtension. -->
+  <WorldObjectDef>
+    <defName>TSA_WD_Powerline</defName>
+    <label>powerline</label>
+    <description>A pylon line that extends the reach of power outposts supplying other outposts.</description>
+    <worldObjectClass>TSA_WorldDomination.WorldObject_WD_Powerline, TSA_WorldDomination</worldObjectClass>
+    <selectable>true</selectable>
+    <expandingIcon>true</expandingIcon>
+    <expandingIconTexture>WorldObjects/Fortifications/WD_Powerline</expandingIconTexture>
+    <texture>World/WorldObjects/Settlements/Settlement</texture>
+    <modExtensions>
+      <li Class="TSA_WorldDomination.WdWorldBuildCostExtension">
+        <minCumulativeConstructionSkill>5</minCumulativeConstructionSkill>
+        <researchPrerequisites>
+          <li>Electricity</li>
+        </researchPrerequisites>
+        <cost>
+          <li><thingDef>Steel</thingDef><count>40</count></li>
+          <li><thingDef>ComponentIndustrial</thingDef><count>1</count></li>
+        </cost>
+      </li>
+    </modExtensions>
+  </WorldObjectDef>
+</Defs>

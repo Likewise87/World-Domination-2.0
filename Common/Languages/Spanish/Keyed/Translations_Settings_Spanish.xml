@@ -598,8 +598,8 @@
   <TSA_WD_OutpostWorldMapLabel_Off>Desactivado</TSA_WD_OutpostWorldMapLabel_Off>
   <TSA_WD_OutpostWorldMapLabel_Name>Nombre</TSA_WD_OutpostWorldMapLabel_Name>
   <TSA_WD_OutpostWorldMapLabel_NameTip>Muestra el nombre de la avanzadilla.</TSA_WD_OutpostWorldMapLabel_NameTip>
-  <TSA_WD_OutpostWorldMapLabel_Food>Comida</TSA_WD_OutpostWorldMapLabel_Food>
-  <TSA_WD_OutpostWorldMapLabel_FoodTip>Muestra la comida actual/máxima y el cambio neto por día.</TSA_WD_OutpostWorldMapLabel_FoodTip>
+  <TSA_WD_OutpostWorldMapLabel_Supply>Suministros</TSA_WD_OutpostWorldMapLabel_Supply>
+  <TSA_WD_OutpostWorldMapLabel_SupplyTip>Muestra comida (F), herramientas (T) y energía (P) por puesto avanzado.</TSA_WD_OutpostWorldMapLabel_SupplyTip>
   <TSA_WD_OutpostWorldMapLabel_Strength>Fuerza</TSA_WD_OutpostWorldMapLabel_Strength>
   <TSA_WD_OutpostWorldMapLabel_StrengthTip>Muestra la fuerza actual/máxima y el cambio neto por día.</TSA_WD_OutpostWorldMapLabel_StrengthTip>
   <TSA_WD_OutpostWorldMapLabel_RaidCooldown>Enfriamiento de incursión</TSA_WD_OutpostWorldMapLabel_RaidCooldown>

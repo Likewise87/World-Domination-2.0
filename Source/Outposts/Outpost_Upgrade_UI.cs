@@ -127,6 +127,8 @@ namespace TSA_WorldDomination
             if (def.productionEfficiencyBonus > 0f) n++;
             if (def.warehouseAuraBonus > 0f) n++;
             if (def.warehouseAuraRadiusBonus > 0f) n++;
+            if (def.warehouseCapacityBonusKg > 0f) n++;
+            if (def.fridgeCapacityKg > 0f) n++;
             if (def.remotePowerWattsBonus > 0f) n++;
             if (def.rapidResponseOffensiveStrengthBonus > 0f) n++;
             if (def.allyPullRadiusBonus > 0f) n++;
@@ -193,6 +195,10 @@ namespace TSA_WorldDomination
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitWarehouseAura", (def.warehouseAuraBonus * 100f).ToString("F0")));
             if (def.warehouseAuraRadiusBonus > 0f)
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitWarehouseAuraRadius", def.warehouseAuraRadiusBonus.ToString("F0")));
+            if (def.warehouseCapacityBonusKg > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitWarehouseCapacity", def.warehouseCapacityBonusKg.ToString("F0")));
+            if (def.fridgeCapacityKg > 0f)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitFridgeCapacity", def.fridgeCapacityKg.ToString("F0")));
             if (def.remotePowerWattsBonus > 0f)
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitRemotePower", Outpost_PowerPlant.FormatWatts(def.remotePowerWattsBonus)));
             if (def.rapidResponseOffensiveStrengthBonus > 0f)
@@ -808,6 +814,14 @@ namespace TSA_WorldDomination
                     Key("TSA_WD_OutpostUpgrades_BenefitWarehouseAuraRadius", def.warehouseAuraRadiusBonus.ToString("F0")),
                     benefitColor,
                     ResolveBenefitTooltip(outpost, def, benefitsActive, UpgradeBenefitKind.WarehouseAuraRadius));
+            if (def.warehouseCapacityBonusKg > 0f)
+                y = DrawBenefitLine(x, y, w,
+                    Key("TSA_WD_OutpostUpgrades_BenefitWarehouseCapacity", def.warehouseCapacityBonusKg.ToString("F0")),
+                    benefitColor, null);
+            if (def.fridgeCapacityKg > 0f)
+                y = DrawBenefitLine(x, y, w,
+                    Key("TSA_WD_OutpostUpgrades_BenefitFridgeCapacity", def.fridgeCapacityKg.ToString("F0")),
+                    benefitColor, null);
             if (def.remotePowerWattsBonus > 0f)
                 y = DrawBenefitLine(x, y, w,
                     Key("TSA_WD_OutpostUpgrades_BenefitRemotePower", Outpost_PowerPlant.FormatWatts(def.remotePowerWattsBonus)),

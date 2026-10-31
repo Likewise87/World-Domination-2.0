@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- Virtual tooling value of items. Values are ratios (default plasteel 3 : steel 2 : wood 1).
+       Add your own, for example:
+         <TSA_WorldDomination.WdToolingValueDef>
+           <defName>TSA_WD_Tooling_MyPickaxe</defName>
+           <thingDef>MyPickaxe</thingDef>
+           <value>50</value>
+         </TSA_WorldDomination.WdToolingValueDef>
+       Players can also change values or add items in Settings > Outposts > Outpost tooling. -->
+
+  <TSA_WorldDomination.WdToolingValueDef>
+    <defName>TSA_WD_Tooling_WoodLog</defName>
+    <thingDef>WoodLog</thingDef>
+    <value>1</value>
+  </TSA_WorldDomination.WdToolingValueDef>
+
+  <TSA_WorldDomination.WdToolingValueDef>
+    <defName>TSA_WD_Tooling_Steel</defName>
+    <thingDef>Steel</thingDef>
+    <value>2</value>
+  </TSA_WorldDomination.WdToolingValueDef>
+
+  <TSA_WorldDomination.WdToolingValueDef>
+    <defName>TSA_WD_Tooling_Plasteel</defName>
+    <thingDef>Plasteel</thingDef>
+    <value>3</value>
+  </TSA_WorldDomination.WdToolingValueDef>
+</Defs>

@@ -224,6 +224,14 @@ namespace TSA_WorldDomination
         {
             if (outpost == null || outpost.Faction != Faction.OfPlayer) yield break;
 
+            // Supplying outposts produce virtual food only: there is no product to choose.
+            if (Outpost_Production_Utils.IsFoodProducerOutpost(outpost.def)
+                && outpost.GetFoodOutputRoleForCurrentCycle() == FoodOutputRole.SupplyOutposts)
+                yield break;
+            // Generating tooling is virtual too: no product to choose.
+            if (OutpostTooling.IsGenerator(outpost))
+                yield break;
+
             bool isRecruiting = Outpost_Production_Utils.IsRecruitingOutpost(outpost.def);
 
             string label;

@@ -601,8 +601,8 @@
   <TSA_WD_OutpostWorldMapLabel_Off>关闭</TSA_WD_OutpostWorldMapLabel_Off>
   <TSA_WD_OutpostWorldMapLabel_Name>名称</TSA_WD_OutpostWorldMapLabel_Name>
   <TSA_WD_OutpostWorldMapLabel_NameTip>显示前哨站名称。</TSA_WD_OutpostWorldMapLabel_NameTip>
-  <TSA_WD_OutpostWorldMapLabel_Food>食物</TSA_WD_OutpostWorldMapLabel_Food>
-  <TSA_WD_OutpostWorldMapLabel_FoodTip>显示当前/最大食物及每日净变化。</TSA_WD_OutpostWorldMapLabel_FoodTip>
+  <TSA_WD_OutpostWorldMapLabel_Supply>补给</TSA_WD_OutpostWorldMapLabel_Supply>
+  <TSA_WD_OutpostWorldMapLabel_SupplyTip>显示每个前哨的食物(F)、工具(T)和电力(P)。</TSA_WD_OutpostWorldMapLabel_SupplyTip>
   <TSA_WD_OutpostWorldMapLabel_Strength>实力</TSA_WD_OutpostWorldMapLabel_Strength>
   <TSA_WD_OutpostWorldMapLabel_StrengthTip>显示当前/最大实力及每日净变化。</TSA_WD_OutpostWorldMapLabel_StrengthTip>
   <TSA_WD_OutpostWorldMapLabel_RaidCooldown>袭击冷却</TSA_WD_OutpostWorldMapLabel_RaidCooldown>

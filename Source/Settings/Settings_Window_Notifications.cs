@@ -197,6 +197,11 @@ namespace TSA_WorldDomination
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_WarehouseGoodsArrivedTooltip".Translate(), WorldDominationSettings.DefNotifyWarehouseGoodsArrived));
 
                 l.CheckboxLabeled(
+                    "TSA_WD_Notify_WarehouseFull".Translate(),
+                    ref s.notifyWarehouseFull,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_WarehouseFullTooltip".Translate(), WorldDominationSettings.DefNotifyWarehouseFull));
+
+                l.CheckboxLabeled(
                     "TSA_WD_Notify_OutpostDeliveryToColonyArrived".Translate(),
                     ref s.notifyOutpostDeliveryToColonyArrived,
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip".Translate(), WorldDominationSettings.DefNotifyOutpostDeliveryToColonyArrived));

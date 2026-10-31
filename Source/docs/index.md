@@ -38,6 +38,8 @@ Construction and logistics appear on the world map as travelers. A project can t
     - [World generation](concepts/world-generation.md)
     - [Strength and tiers](concepts/strength-and-tiers.md)
     - [Outpost food](concepts/outpost-food.md)
+    - [Outpost power](concepts/outpost-power.md)
+    - [Outpost tooling](concepts/outpost-tooling.md)
     - [World actions, weights and cooldowns](concepts/world-actions.md)
     - [Fortifications](concepts/fortifications.md)
     - [Mortars, anti-air and AT turrets](concepts/world-weapons.md)

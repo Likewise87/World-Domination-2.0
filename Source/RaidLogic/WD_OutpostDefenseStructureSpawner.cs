@@ -89,7 +89,8 @@ namespace TSA_WorldDomination
             // Map props stay spike traps / mini turrets for now; visuals can differentiate later.
             bool hasTraps = OutpostUpgradeUtility.GetHighestBuiltLineTier(outpost, UpgradeLineTraps) > 0;
             bool hasIeds = outpost.GetUpgradeLevel(UpgradeIeds) > 0;
-            bool hasTurrets = OutpostUpgradeUtility.GetHighestBuiltLineTier(outpost, UpgradeLineAutoTurrets) > 0;
+            // Automatic turrets need power: an unpowered outpost fields no turret emplacements.
+            bool hasTurrets = OutpostUpgradeUtility.GetHighestBuiltLineTier(outpost, UpgradeLineAutoTurrets) > 0 && outpost.IsPowered;
 
             if (wallTier <= 0 && !hasTraps && !hasIeds && !hasTurrets)
                 return;

@@ -65,10 +65,56 @@ namespace TSA_WorldDomination
 
         public WITab_Outpost_Logistics() { this.size = new Vector2(860f, 560f); this.labelKey = "TSA_LogisticsTab"; }
 
-        public override bool IsVisible =>
-            WorldDominationMod.settings.foodLogisticsActive &&
-            SelOutpost != null &&
-            SelOutpost.Faction == Faction.OfPlayer;
+        // Supply tab: Food | Tooling | Power pages. Only resources that apply to the selected outpost are offered.
+        private SupplyResource currentResource = SupplyResource.Food;
+        private readonly List<SupplyResource> applicableResources = new List<SupplyResource>(3);
+        private Vector2 supplyScroll;
+        private float supplyScrollViewHeight;
+        private Vector2 supplyConsumerScroll;
+        private float supplyConsumerScrollViewHeight;
+        private int supplySectionTick = -999999;
+        private WorldObject_WD_Outpost supplySectionSel;
+        private SupplyResource supplySectionRes;
+        private OutpostStatsSection cachedSupplySection;
+        private int supplyRecipientsTick = -999999;
+        private WorldObject_WD_Outpost supplyRecipientsSel;
+        private SupplyResource supplyRecipientsRes;
+        private readonly List<WorldObject_WD_Outpost> supplyRecipients = new List<WorldObject_WD_Outpost>(16);
+
+        public override bool IsVisible
+        {
+            get
+            {
+                WorldObject_WD_Outpost sel = SelOutpost;
+                if (sel == null || sel.Faction != Faction.OfPlayer) return false;
+                return WorldDominationMod.settings.foodLogisticsActive || IsToolingApplicable(sel) || IsPowerApplicable(sel);
+            }
+        }
+
+        private static bool IsToolingApplicable(WorldObject_WD_Outpost o) =>
+            OutpostTooling.Enabled && (OutpostTooling.RequiresTooling(o) || OutpostTooling.CanGenerate(o.def));
+
+        private static bool IsPowerApplicable(WorldObject_WD_Outpost o) =>
+            OutpostPowerGrid.Enabled && (o.IsPowerPlantOutpost || OutpostPowerGrid.RequiresPower(o));
+
+        private void RefreshApplicableResources()
+        {
+            applicableResources.Clear();
+            WorldObject_WD_Outpost sel = SelOutpost;
+            if (sel == null) return;
+            if (WorldDominationMod.settings.foodLogisticsActive) applicableResources.Add(SupplyResource.Food);
+            if (IsToolingApplicable(sel)) applicableResources.Add(SupplyResource.Tooling);
+            if (IsPowerApplicable(sel)) applicableResources.Add(SupplyResource.Power);
+            if (applicableResources.Count > 0 && !applicableResources.Contains(currentResource))
+                currentResource = applicableResources[0];
+        }
+
+        private bool IsSupplyProducer(SupplyResource res)
+        {
+            if (res == SupplyResource.Food) return Outpost_Production_Utils.IsFoodProducerOutpost(SelOutpost.def);
+            if (res == SupplyResource.Tooling) return OutpostTooling.IsGenerator(SelOutpost);
+            return SelOutpost.IsPowerPlantOutpost;
+        }
 
         public WorldObject_WD_Outpost SelOutpost => base.SelObject as WorldObject_WD_Outpost;
         private CompOutpostLogistics _cachedLogi;
@@ -184,12 +230,15 @@ namespace TSA_WorldDomination
         protected override void FillTab()
         {
             EnsureStaticInit();
-            if (Logi == null) return;
+            if (SelOutpost == null) return;
+            RefreshApplicableResources();
+            if (applicableResources.Count == 0) return;
             var manager = Find.World.GetComponent<WorldComponent_LogisticsManager>();
-            bool isProducer = SelOutpost != null && Outpost_Production_Utils.IsFoodProducerOutpost(SelOutpost.def);
+            bool foodPage = currentResource == SupplyResource.Food;
+            bool isProducer = foodPage && Outpost_Production_Utils.IsFoodProducerOutpost(SelOutpost.def);
 
             // Producers need extra room for the recipient +/- table; receivers are lighter.
-            this.size = new Vector2(isProducer ? 940f : 860f, 560f);
+            this.size = new Vector2(IsSupplyProducer(currentResource) ? 940f : 860f, 560f);
 
             Rect body = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
 
@@ -208,7 +257,7 @@ namespace TSA_WorldDomination
             string biomeLabel = null;
             string biomeTip = null;
             Color biomeColor = Color.white;
-            if (TryGetFoodProducerTileStat(SelOutpost, out biomeLabel, out biomeTip, out int biomePct))
+            if (foodPage && TryGetFoodProducerTileStat(SelOutpost, out biomeLabel, out biomeTip, out int biomePct))
             {
                 headerSlotW = 175f;
                 biomeColor = biomePct <= 30 ? Color.red : (biomePct <= 60 ? Color.yellow : Color.green);
@@ -231,7 +280,53 @@ namespace TSA_WorldDomination
             Widgets.DrawLineHorizontal(body.x, body.y + 32f, body.width);
 
             float contentY = body.y + TabHeaderConsumedHeight;
-            float contentH = body.height - TabHeaderConsumedHeight;
+            if (applicableResources.Count > 1)
+            {
+                DrawResourceSwitcher(new Rect(body.x, contentY, body.width, 26f));
+                contentY += 30f;
+            }
+            float contentH = body.yMax - contentY;
+
+            switch (currentResource)
+            {
+                case SupplyResource.Tooling:
+                    DrawSupplyPage(body, contentY, contentH, leftColW, rightX, rightW, SupplyResource.Tooling);
+                    break;
+                case SupplyResource.Power:
+                    DrawSupplyPage(body, contentY, contentH, leftColW, rightX, rightW, SupplyResource.Power);
+                    break;
+                default:
+                    DrawFoodPage(body, contentY, contentH, leftColW, rightX, rightW, manager, isProducer);
+                    break;
+            }
+        }
+
+        private void DrawResourceSwitcher(Rect rect)
+        {
+            const float btnW = 110f;
+            float x = rect.x;
+            foreach (SupplyResource res in applicableResources)
+            {
+                Rect btn = new Rect(x, rect.y, btnW, rect.height);
+                bool selected = res == currentResource;
+                if (selected) GUI.color = new Color(0.75f, 0.9f, 1f);
+                if (Widgets.ButtonText(btn, ("TSA_Supply_" + res).Translate()) && !selected)
+                {
+                    currentResource = res;
+                    supplyScroll = Vector2.zero;
+                    supplyConsumerScroll = Vector2.zero;
+                    supplySectionTick = -999999;
+                    supplyRecipientsTick = -999999;
+                }
+                GUI.color = Color.white;
+                x += btnW + 6f;
+            }
+        }
+
+        private void DrawFoodPage(Rect body, float contentY, float contentH, float leftColW, float rightX, float rightW,
+            WorldComponent_LogisticsManager manager, bool isProducer)
+        {
+            if (Logi == null) return;
 
             // --- Left column: DR banner (food producers) + food summary ---
             float leftY = contentY;
@@ -250,6 +345,103 @@ namespace TSA_WorldDomination
                 DrawProducerColumn(rightRect, manager);
             else
                 DrawReceiverColumn(rightRect, manager);
+        }
+
+        private void DrawSupplyPage(Rect body, float contentY, float contentH, float leftColW, float rightX, float rightW, SupplyResource res)
+        {
+            int now = Find.TickManager.TicksGame;
+            if (cachedSupplySection == null || supplySectionSel != SelOutpost || supplySectionRes != res
+                || now - supplySectionTick >= LogisticsRefreshThrottleTicks)
+            {
+                supplySectionTick = now;
+                supplySectionSel = SelOutpost;
+                supplySectionRes = res;
+                cachedSupplySection = res == SupplyResource.Tooling
+                    ? OutpostSupplySections.BuildToolingSection(SelOutpost)
+                    : OutpostSupplySections.BuildPowerSection(SelOutpost);
+            }
+            OutpostTabStatsUi.DrawSectionColumn(body.x, contentY, leftColW, cachedSupplySection);
+
+            float dividerX = body.x + leftColW + ColumnGap * 0.5f;
+            Widgets.DrawLineVertical(dividerX, contentY, contentH);
+
+            Rect rightRect = new Rect(rightX, contentY, rightW, contentH);
+            bool tooling = res == SupplyResource.Tooling;
+            if (IsSupplyProducer(res))
+            {
+                EnsureSupplyRecipients(res);
+                SupplyProducerSpec spec = tooling ? BuildToolingSpec() : BuildPowerSpec();
+                SupplyTabUi.DrawProducerColumn(rightRect, spec, supplyRecipients, ref supplyScroll, ref supplyScrollViewHeight);
+                return;
+            }
+
+            // Consumers: incoming sources. Tooling-capable outposts also get the role switch here.
+            string roleLabel = null;
+            Action roleClick = null;
+            if (tooling && OutpostTooling.CanGenerate(SelOutpost.def))
+            {
+                WorldObject_WD_Outpost sel = SelOutpost;
+                roleLabel = ("TSA_WD_ToolingRole_" + sel.SelectedToolingRole).Translate().ToString();
+                roleClick = () => SupplyTabUi.OpenToolingRoleMenu(sel);
+            }
+            SupplyTabUi.DrawConsumerColumn(rightRect, res, SelOutpost,
+                (tooling ? "TSA_Supply_ReceivingTooling" : "TSA_Supply_ReceivingPower").Translate().ToString(),
+                tooling ? (Func<float, string>)OutpostSupplySections.PerDay : OutpostSupplySections.Watts,
+                (tooling ? "TSA_Supply_NoSourcesTooling" : "TSA_Supply_NoSourcesPower").Translate(SelOutpost.def.LabelCap).ToString(),
+                roleLabel, roleClick, ref supplyConsumerScroll, ref supplyConsumerScrollViewHeight);
+        }
+
+        private void EnsureSupplyRecipients(SupplyResource res)
+        {
+            int now = Find.TickManager.TicksGame;
+            if (supplyRecipientsSel == SelOutpost && supplyRecipientsRes == res && now - supplyRecipientsTick < LogisticsTabWorldScanIntervalTicks)
+                return;
+            supplyRecipientsTick = now;
+            supplyRecipientsSel = SelOutpost;
+            supplyRecipientsRes = res;
+            if (res == SupplyResource.Tooling) OutpostTooling.GetRecipients(SelOutpost, supplyRecipients);
+            else OutpostPowerGrid.GetRecipients(SelOutpost, supplyRecipients);
+        }
+
+        private SupplyProducerSpec BuildToolingSpec()
+        {
+            WorldObject_WD_Outpost sel = SelOutpost;
+            return new SupplyProducerSpec
+            {
+                resource = SupplyResource.Tooling,
+                source = sel,
+                baseStep = 1f,
+                format = v => v.ToString("F0"),
+                info = o => "TSA_Supply_ToolingInfo".Translate(o.currentTooling.ToString("F1"), OutpostTooling.MaxPerOutpost.ToString("F0"),
+                    OutpostTooling.GetDemand(o).ToString("F1")).ToString(),
+                net = OutpostTooling.GetNetPerDay,
+                roleLabel = ("TSA_WD_ToolingRole_" + sel.SelectedToolingRole).Translate().ToString(),
+                roleClick = () => SupplyTabUi.OpenToolingRoleMenu(sel),
+                sourceInfo = "TSA_Supply_ToolingBudget".Translate(OutpostSupplySections.PerDay(SupplyAllocations.GetBudget(SupplyResource.Tooling, sel))).ToString()
+            };
+        }
+
+        private SupplyProducerSpec BuildPowerSpec()
+        {
+            WorldObject_WD_Outpost sel = SelOutpost;
+            return new SupplyProducerSpec
+            {
+                resource = SupplyResource.Power,
+                source = sel,
+                baseStep = 100f,
+                format = v => v.ToString("F0"),
+                info = o =>
+                {
+                    OutpostPowerGrid.TryGetStatus(o, out OutpostPowerStatus st);
+                    return "TSA_Supply_PowerInfo".Translate(st.demand.ToString("F0"), st.supplied.ToString("F0")).ToString();
+                },
+                net = o => OutpostPowerGrid.TryGetStatus(o, out OutpostPowerStatus st) ? st.supplied - st.demand : 0f,
+                roleLabel = ("TSA_WD_PowerRole_" + sel.PowerRole).Translate().ToString(),
+                roleClick = () => SupplyTabUi.OpenPowerRoleMenu(sel),
+                supplying = sel.PowerRole == PowerOutputRole.SupplyOutposts,
+                notSupplyingMessage = "TSA_Supply_PlantNotSupplying".Translate().ToString(),
+                sourceInfo = "TSA_Supply_PowerBudget".Translate(OutpostSupplySections.Watts(SupplyAllocations.GetBudget(SupplyResource.Power, sel))).ToString()
+            };
         }
 
         private OutpostStatsSection EnsureFoodSectionFresh(WorldComponent_LogisticsManager manager)

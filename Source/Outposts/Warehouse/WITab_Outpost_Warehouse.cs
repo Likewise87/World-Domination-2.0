@@ -159,7 +159,8 @@ namespace TSA_WorldDomination
 
             float footerBlock =
                 FooterRowHeight * 2f + FooterGap * 3f + FooterTipHeight + 4f;
-            float listY = body.y + TabHeaderConsumedHeight;
+            float statusH = DrawCapacityAndFoodBlock(body.x, body.y + TabHeaderConsumedHeight - 2f, body.width, comp);
+            float listY = body.y + TabHeaderConsumedHeight + statusH;
             float headerY = listY;
             float tableInnerW = body.width;
             float itemW = Mathf.Max(120f, tableInnerW - FixedColsWidth);
@@ -194,6 +195,64 @@ namespace TSA_WorldDomination
             DrawFooterRows(body.x, footY, body.width, outpost, comp);
 
             PawnRosterHeaderFilter.DrawDropdownIfOpen();
+        }
+
+        private const int MaxFoodLotLines = 4;
+        private const float StatusLineH = 20f;
+
+        /// <summary>Capacity bar, fridge status and the soonest-spoiling food slots. Returns the height used.</summary>
+        private static float DrawCapacityAndFoodBlock(float x, float y, float width, CompOutpostWarehouse comp)
+        {
+            float startY = y;
+            if (CompOutpostWarehouse.CapacityEnabled)
+            {
+                float used = comp.UsedMassKg;
+                float cap = Mathf.Max(1f, comp.CapacityKg);
+                Rect bar = new Rect(x, y, width, StatusLineH);
+                Widgets.FillableBar(bar, Mathf.Clamp01(used / cap));
+                LabelAnchored(bar, "TSA_WD_WarehouseTab_Capacity".Translate(used.ToString("F0"), cap.ToString("F0")), TextAnchor.MiddleCenter);
+                y += StatusLineH + 2f;
+            }
+
+            if (CompOutpostWarehouse.SpoilageEnabled)
+            {
+                comp.ReconcileFoodLots();
+                var lots = new List<WarehouseFoodLot>(comp.foodLots);
+                lots.Sort((a, b) => comp.DaysUntilSpoil(a).CompareTo(comp.DaysUntilSpoil(b)));
+
+                float fridgeCap = comp.FridgeCapacityKg;
+                if (fridgeCap > 0f)
+                {
+                    string state = comp.FridgePowered
+                        ? "TSA_WD_WarehouseTab_FridgeCold".Translate().ToString()
+                        : "TSA_WD_WarehouseTab_FridgeWarm".Translate(Mathf.Max(0, comp.fridgeOutageStartDay + CompOutpostWarehouse.FridgeOutageDays - GenDate.DaysPassed)).ToString();
+                    LabelAnchored(new Rect(x, y, width, StatusLineH),
+                        "TSA_WD_WarehouseTab_Fridge".Translate(comp.FridgeUsedKg.ToString("F0"), fridgeCap.ToString("F0"), state),
+                        TextAnchor.MiddleLeft);
+                    y += StatusLineH;
+                }
+
+                int shown = 0;
+                for (int i = 0; i < lots.Count && shown < MaxFoodLotLines; i++, shown++)
+                {
+                    WarehouseFoodLot lot = lots[i];
+                    string when = lot.refrigerated && comp.fridgeOutageStartDay < 0
+                        ? "TSA_WD_WarehouseTab_LotRefrigerated".Translate().ToString()
+                        : "TSA_WD_WarehouseTab_LotSpoilsIn".Translate(comp.DaysUntilSpoil(lot)).ToString();
+                    string prefix = lot.refrigerated ? "TSA_WD_WarehouseTab_LotFridgePrefix".Translate().ToString() + " " : "";
+                    LabelAnchored(new Rect(x, y, width, StatusLineH),
+                        prefix + lot.def.LabelCap + " - " + when + " - " + lot.count,
+                        TextAnchor.MiddleLeft);
+                    y += StatusLineH;
+                }
+                if (lots.Count > shown)
+                {
+                    LabelAnchored(new Rect(x, y, width, StatusLineH),
+                        "TSA_WD_WarehouseTab_LotsMore".Translate(lots.Count - shown), TextAnchor.MiddleLeft);
+                    y += StatusLineH;
+                }
+            }
+            return y - startY + 2f;
         }
 
         private static int ComputeStockFingerprint(WorldObject_WD_Outpost outpost, CompOutpostWarehouse comp)

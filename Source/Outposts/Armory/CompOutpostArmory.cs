@@ -176,6 +176,12 @@ namespace TSA_WorldDomination
         {
             if (row?.thingDef == null || row.count <= 0) return;
             if (CompOutpostWarehouse.IsUnusableMinifiedDef(row.thingDef)) return;
+            CompOutpostWarehouse wh = SharedWarehouse;
+            if (wh != null)
+            {
+                wh.DepositRowCapped(row);
+                return;
+            }
             CompOutpostWarehouse.MergeCount(Stock, CompOutpostWarehouse.PlainStockRow(row, row.count));
         }
 
@@ -194,6 +200,7 @@ namespace TSA_WorldDomination
                 remaining -= take;
             }
             CompOutpostWarehouse.PruneEmpty(rows);
+            SharedWarehouse?.ReconcileFoodLots();
             return amount - remaining;
         }
 

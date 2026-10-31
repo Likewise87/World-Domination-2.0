@@ -677,8 +677,9 @@
   <TSA_WD_OutpostWorldMapLabel_Off>Off</TSA_WD_OutpostWorldMapLabel_Off>
   <TSA_WD_OutpostWorldMapLabel_Name>Name</TSA_WD_OutpostWorldMapLabel_Name>
   <TSA_WD_OutpostWorldMapLabel_NameTip>Shows the outpost name.</TSA_WD_OutpostWorldMapLabel_NameTip>
-  <TSA_WD_OutpostWorldMapLabel_Food>Food</TSA_WD_OutpostWorldMapLabel_Food>
-  <TSA_WD_OutpostWorldMapLabel_FoodTip>Shows the current/maximum food and net change per day.</TSA_WD_OutpostWorldMapLabel_FoodTip>
+  <TSA_WD_Supply_EnableHint>Turn this on in Experimental settings.</TSA_WD_Supply_EnableHint>
+  <TSA_WD_OutpostWorldMapLabel_Supply>Supply</TSA_WD_OutpostWorldMapLabel_Supply>
+  <TSA_WD_OutpostWorldMapLabel_SupplyTip>Shows food (F), tooling (T) and power (P) per outpost: current/maximum or received/needed, plus net per day where it applies.</TSA_WD_OutpostWorldMapLabel_SupplyTip>
   <TSA_WD_OutpostWorldMapLabel_Strength>Strength</TSA_WD_OutpostWorldMapLabel_Strength>
   <TSA_WD_OutpostWorldMapLabel_StrengthTip>Shows the current/max strength and net change per day.</TSA_WD_OutpostWorldMapLabel_StrengthTip>
   <TSA_WD_OutpostWorldMapLabel_RaidCooldown>Raid cooldown</TSA_WD_OutpostWorldMapLabel_RaidCooldown>

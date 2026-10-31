@@ -1023,7 +1023,8 @@ namespace TSA_WorldDomination
                     dailyProd.ToString("F1"),
                     tilePct.ToString(),
                     tileStatLabel,
-                    totalSkillRaw.ToString("F0")).ToString();
+                    totalSkillRaw.ToString("F0"),
+                    (settings?.foodProductionPerSkill ?? WorldDominationSettings.DefFoodProductionPerSkill).ToString("F2")).ToString();
                 if (extra == extraKey || extra.Contains("TSA_WD_"))
                     extra = "Food hub: base food production + (" + totalSkillEff.ToString("F0") + " effective " + skillName
                         + " � " + tilePct + "% " + tileStatLabel + ") = " + dailyProd.ToString("F1") + " total."
@@ -1916,6 +1917,11 @@ namespace TSA_WorldDomination
                 return false;
 
             if (outpost.IsRapidResponseOutpost || outpost.IsResearchOutpost)
+                return false;
+
+            // Food producers set to supply outposts don't produce a selectable good.
+            if (Outpost_Production_Utils.IsFoodProducerOutpost(def)
+                && outpost.GetFoodOutputRoleForCurrentCycle() == FoodOutputRole.SupplyOutposts)
                 return false;
 
             if (Outpost_Production_Utils.IsScavengingOutpost(def))

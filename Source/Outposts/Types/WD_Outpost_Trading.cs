@@ -455,7 +455,11 @@ namespace TSA_WorldDomination
         {
             if (outpost?.def == null) return 12;
             var ext = outpost.def.GetModExtension<OutpostDefExtension>();
-            return ext != null && ext.minNearbyRadiusTiles > 0 ? ext.minNearbyRadiusTiles : 12;
+            int radius = ext != null && ext.minNearbyRadiusTiles > 0 ? ext.minNearbyRadiusTiles : 12;
+            // No power: recruiting and trading reach a shorter radius.
+            if (!outpost.IsPowered)
+                radius = Mathf.Max(1, Mathf.RoundToInt(radius * OutpostPowerGrid.UnpoweredRangeFactor));
+            return radius;
         }
 
         /// <summary>Sum silver from contributing partners (top <see cref="MaxContributingPartnersPerFaction"/> per faction).</summary>
