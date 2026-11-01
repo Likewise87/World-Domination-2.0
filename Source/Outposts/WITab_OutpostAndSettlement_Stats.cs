@@ -288,6 +288,11 @@ namespace TSA_WorldDomination
                     h = h * 397 + BucketFloat(outpost.GetBuiltUpgradeAllyPullRadiusBonus());
                     h = h * 397 + BucketFloat(outpost.GetBuiltUpgradePrisonerRecruitSpeedBonus(), 100f);
                     h = h * 397 + (outpost.HasBuiltUnwaveringRecruitUnlock() ? 1 : 0);
+                    h = h * 397 + OutpostPowerGrid.PowerStateGeneration;
+                    h = h * 397 + (OutpostPowerGrid.Enabled ? 1 : 0);
+                    h = h * 397 + (OutpostPowerGrid.IsPowered(outpost) ? 1 : 0);
+                    h = h * 397 + BucketFloat(OutpostPowerGrid.GetPowerDemandWatts(outpost), 0.1f);
+                    h = h * 397 + BucketFloat(OutpostPowerGrid.GetSuppliedWatts(outpost), 0.1f);
                 }
                 else
                 {

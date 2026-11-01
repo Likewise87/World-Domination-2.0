@@ -17,6 +17,7 @@ namespace TSA_WorldDomination
         Health,
         Hurt,
         Traits,
+        Hediffs,
         Xenotype,
         Psycasts,
         Ideology,
@@ -157,14 +158,14 @@ namespace TSA_WorldDomination
             return false;
         }
 
-        /// <summary>True if any visible extra needs three-line rows (Traits / Psycasts).</summary>
+        /// <summary>True if any visible extra needs three-line rows (Traits / Hediffs / Psycasts).</summary>
         public static bool AnyVisibleTallExtra(PawnRosterColumnWindow window)
         {
             IReadOnlyList<PawnRosterColumnDef> extras = ExtrasFor(window);
             for (int i = 0; i < extras.Count; i++)
             {
                 PawnRosterColumnKind k = extras[i].Kind;
-                if ((k == PawnRosterColumnKind.Traits || k == PawnRosterColumnKind.Psycasts)
+                if ((k == PawnRosterColumnKind.Traits || k == PawnRosterColumnKind.Hediffs || k == PawnRosterColumnKind.Psycasts)
                     && PlayerPawnRosterUtility.ColVisible(window, extras[i].Id))
                     return true;
             }
@@ -200,17 +201,29 @@ namespace TSA_WorldDomination
                 Rect hdr = new Rect(curX, y, def.Width, height);
                 bool sorted = sort != null && sort.HeaderSorted(def.Id);
                 bool asc = sort == null || sort.IsAscending(def.Id);
-                PawnRosterHeaderFilter.DrawFilterableHeader(
-                    ref curX, y, def.Width, height,
-                    def.Label, sorted, asc,
-                    TextAnchor.MiddleCenter,
-                    false, null, null, null);
+                if (def.Kind == PawnRosterColumnKind.Hediffs)
+                {
+                    PawnRosterHediffFilter.DrawHediffsHeader(
+                        ref curX, y, def.Width, height,
+                        def.Label, sorted, asc, TextAnchor.MiddleCenter,
+                        onSort != null ? () => onSort(def.Id) : null);
+                }
+                else
+                {
+                    PawnRosterHeaderFilter.DrawFilterableHeader(
+                        ref curX, y, def.Width, height,
+                        def.Label, sorted, asc,
+                        TextAnchor.MiddleCenter,
+                        false, null, null, null);
+                    if (onSort != null)
+                    {
+                        if (Mouse.IsOver(hdr)) Widgets.DrawHighlight(hdr);
+                        if (Widgets.ButtonInvisible(hdr))
+                            onSort(def.Id);
+                    }
+                }
                 if (!def.Tip.NullOrEmpty())
                     TooltipHandler.TipRegion(hdr, def.Tip);
-                if (onSort == null) continue;
-                if (Mouse.IsOver(hdr)) Widgets.DrawHighlight(hdr);
-                if (Widgets.ButtonInvisible(hdr))
-                    onSort(def.Id);
             }
         }
 
@@ -286,6 +299,9 @@ namespace TSA_WorldDomination
                 case PawnRosterColumnKind.Traits:
                     PrisonerRosterUtility.DrawTraitsCell(cell.ContractedBy(2f), d.traitsDisplay, d.traitsTip);
                     break;
+                case PawnRosterColumnKind.Hediffs:
+                    PrisonerRosterUtility.DrawTraitsCell(cell.ContractedBy(2f), d.hediffsDisplay, d.hediffsTip);
+                    break;
                 case PawnRosterColumnKind.Xenotype:
                     PrisonerRosterUtility.DrawTraitsCell(cell.ContractedBy(2f), d.xenotypeDisplay, d.xenotypeTip);
                     break;
@@ -351,6 +367,8 @@ namespace TSA_WorldDomination
                 case PawnRosterColumnKind.Hurt: return a.needsHealing.CompareTo(b.needsHealing);
                 case PawnRosterColumnKind.Traits:
                     return string.Compare(a.traitsTip, b.traitsTip, StringComparison.OrdinalIgnoreCase);
+                case PawnRosterColumnKind.Hediffs:
+                    return string.Compare(a.hediffsTip, b.hediffsTip, StringComparison.OrdinalIgnoreCase);
                 case PawnRosterColumnKind.Xenotype:
                     return string.Compare(a.xenotypeDisplay, b.xenotypeDisplay, StringComparison.OrdinalIgnoreCase);
                 case PawnRosterColumnKind.Psycasts:
@@ -407,6 +425,8 @@ namespace TSA_WorldDomination
                     "TSA_WD_PawnCol_HurtTip", 48f, PawnRosterColumnKind.Hurt),
                 new PawnRosterColumnDef(PawnRosterColumnIds.Traits, "TSA_WD_Prisoners_ColTraits", null,
                     PawnRosterTraitFilter.ColWidth, PawnRosterColumnKind.Traits),
+                new PawnRosterColumnDef(PawnRosterColumnIds.Hediffs, "TSA_WD_PawnRoster_ColHediffs", null,
+                    PawnRosterHediffFilter.ColWidth, PawnRosterColumnKind.Hediffs),
                 new PawnRosterColumnDef(PawnRosterColumnIds.Xenotype, "TSA_WD_PawnRoster_ColXenotype", null, 100f,
                     PawnRosterColumnKind.Xenotype),
                 new PawnRosterColumnDef(PawnRosterColumnIds.Psycasts, "TSA_WD_PawnRoster_ColPsycasts", null, 110f,

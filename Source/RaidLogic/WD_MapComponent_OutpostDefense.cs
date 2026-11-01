@@ -27,6 +27,10 @@ namespace TSA_WorldDomination
         private List<WorldObject> contributionKeys = new List<WorldObject>();
         private List<float> contributionValues = new List<float>();
         private List<Pawn> borrowedPawns = new List<Pawn>();
+        /// <summary>Parallel to <see cref="borrowedPawns"/>: home outpost for each borrowed humanlike.</summary>
+        private List<WorldObject_WD_Outpost> borrowedPawnHomes = new List<WorldObject_WD_Outpost>();
+        /// <summary>Player support outposts that lent real pawns; skip virtual ally loss on shared resolve.</summary>
+        private List<WorldObject_WD_Outpost> realSupportDonors = new List<WorldObject_WD_Outpost>();
         private List<Pawn> borrowedStoredTransportPawns = new List<Pawn>();
         private List<Pawn> borrowedMechanoids = new List<Pawn>();
         private bool encounterActive;
@@ -104,6 +108,28 @@ namespace TSA_WorldDomination
                 interceptRrOrigin = newOutpost;
                 n++;
             }
+            if (borrowedPawnHomes != null)
+            {
+                for (int i = 0; i < borrowedPawnHomes.Count; i++)
+                {
+                    if (ReferenceEquals(borrowedPawnHomes[i], oldOutpost))
+                    {
+                        borrowedPawnHomes[i] = newOutpost;
+                        n++;
+                    }
+                }
+            }
+            if (realSupportDonors != null)
+            {
+                for (int i = 0; i < realSupportDonors.Count; i++)
+                {
+                    if (ReferenceEquals(realSupportDonors[i], oldOutpost))
+                    {
+                        realSupportDonors[i] = newOutpost;
+                        n++;
+                    }
+                }
+            }
             return n;
         }
 
@@ -157,7 +183,14 @@ namespace TSA_WorldDomination
         private bool IsWithinPostLoadGrace()
             => postLoadGraceUntilTick >= 0 && Find.TickManager.TicksGame < postLoadGraceUntilTick;
 
-        public void BeginEncounter(WorldObject_Traveler traveler, WorldObject_WD_Outpost targetOutpost, List<Pawn> defenders, List<Pawn> storedTransportPawns, List<Pawn> mechanoidPawns = null)
+        public void BeginEncounter(
+            WorldObject_Traveler traveler,
+            WorldObject_WD_Outpost targetOutpost,
+            List<Pawn> defenders,
+            List<WorldObject_WD_Outpost> defenderHomes,
+            List<Pawn> storedTransportPawns,
+            List<Pawn> mechanoidPawns = null,
+            List<WorldObject_WD_Outpost> supportDonors = null)
         {
             travelerDef = traveler.def;
             enemyFaction = traveler.Faction;
@@ -188,6 +221,9 @@ namespace TSA_WorldDomination
             }
 
             borrowedPawns = defenders != null ? new List<Pawn>(defenders) : new List<Pawn>();
+            borrowedPawnHomes = defenderHomes != null ? new List<WorldObject_WD_Outpost>(defenderHomes) : new List<WorldObject_WD_Outpost>();
+            realSupportDonors = supportDonors != null ? new List<WorldObject_WD_Outpost>(supportDonors) : new List<WorldObject_WD_Outpost>();
+            RepairBorrowedHomesParity();
             borrowedStoredTransportPawns = storedTransportPawns != null ? new List<Pawn>(storedTransportPawns) : new List<Pawn>();
             borrowedMechanoids = mechanoidPawns != null ? new List<Pawn>(mechanoidPawns) : new List<Pawn>();
             encounterActive = true;
@@ -486,7 +522,7 @@ namespace TSA_WorldDomination
 
             outpost?.ReturnManualDefenseStoredTransportPawns(SurvivingBorrowedStoredTransportPawns());
             outpost?.ReturnManualDefenseMechanoids(SurvivingBorrowedMechanoids());
-            outpost?.ReturnManualDefensePawns(SurvivingBorrowedPawns());
+            ReturnBorrowedPawnsByHome();
             ReturnInterceptRrPawns();
             outpost?.ClearManualDefenseActive();
         }
@@ -572,7 +608,7 @@ namespace TSA_WorldDomination
             // Return borrowed defenders first so they are off the map before we scan for extras.
             outpost?.ReturnManualDefenseStoredTransportPawns(SurvivingBorrowedStoredTransportPawns());
             outpost?.ReturnManualDefenseMechanoids(SurvivingBorrowedMechanoids());
-            int returned = outpost?.ReturnManualDefensePawns(SurvivingBorrowedPawns()) ?? 0;
+            int returned = ReturnBorrowedPawnsByHome();
             ReturnInterceptRrPawns();
             AbsorbExtraPlayerForceIntoOutpost();
             int captivesTaken = 0;
@@ -882,7 +918,98 @@ namespace TSA_WorldDomination
         {
             WorldObject_Traveler traveler = RecreateTransientTraveler();
             if (traveler == null) return;
-            Raid_Simulated.ResolvePlayerOutpostRaidArrival(traveler, Find.World.GetComponent<WorldComponent_SpreadManager>(), attackerWon, suppressOutpostLetter: true);
+            HashSet<WorldObject> skipAllyVirtualLoss = BuildRealSupportSkipSet();
+            Raid_Simulated.ResolvePlayerOutpostRaidArrival(
+                traveler,
+                Find.World.GetComponent<WorldComponent_SpreadManager>(),
+                attackerWon,
+                suppressOutpostLetter: true,
+                allowSkirmishRetry: true,
+                skipAllyVirtualLoss: skipAllyVirtualLoss);
+        }
+
+        private HashSet<WorldObject> BuildRealSupportSkipSet()
+        {
+            var set = new HashSet<WorldObject>();
+            if (realSupportDonors == null) return set;
+            for (int i = 0; i < realSupportDonors.Count; i++)
+            {
+                WorldObject_WD_Outpost donor = realSupportDonors[i];
+                if (donor != null && !donor.Destroyed)
+                    set.Add(donor);
+            }
+            return set;
+        }
+
+        /// <summary>Return surviving borrowed humanlikes to their home outposts; clears primary ManualDefenseActive.</summary>
+        private int ReturnBorrowedPawnsByHome()
+        {
+            RepairBorrowedHomesParity();
+            List<Pawn> survivors = SurvivingBorrowedPawns();
+            int returned = 0;
+            for (int i = 0; i < survivors.Count; i++)
+            {
+                Pawn pawn = survivors[i];
+                WorldObject_WD_Outpost home = ResolveBorrowedHome(pawn);
+                if (home == null || home.Destroyed)
+                    home = outpost;
+                if (home == null || home.Destroyed) continue;
+
+                pawn.GetCaravan()?.RemovePawn(pawn);
+                if (pawn.Spawned) pawn.DeSpawn();
+                Outpost_OccupantProgression.TryRefreshOccupantHealthState(pawn);
+                if (home == outpost)
+                {
+                    if (home.AddPawn(pawn, null))
+                        returned++;
+                }
+                else if (home.ReturnDefenseSupportPawns(new List<Pawn> { pawn }) > 0)
+                {
+                    returned++;
+                }
+            }
+
+            outpost?.ClearManualDefenseActive();
+            return returned;
+        }
+
+        private WorldObject_WD_Outpost ResolveBorrowedHome(Pawn pawn)
+        {
+            if (pawn == null || borrowedPawns == null || borrowedPawnHomes == null) return outpost;
+            for (int i = 0; i < borrowedPawns.Count; i++)
+            {
+                if (borrowedPawns[i] != pawn) continue;
+                if (i < borrowedPawnHomes.Count && borrowedPawnHomes[i] != null && !borrowedPawnHomes[i].Destroyed)
+                    return borrowedPawnHomes[i];
+                return outpost;
+            }
+            return outpost;
+        }
+
+        private void RepairBorrowedHomesParity(bool logMismatch = false)
+        {
+            if (borrowedPawns == null) borrowedPawns = new List<Pawn>();
+            if (borrowedPawnHomes == null) borrowedPawnHomes = new List<WorldObject_WD_Outpost>();
+            if (realSupportDonors == null) realSupportDonors = new List<WorldObject_WD_Outpost>();
+
+            bool mismatched = borrowedPawnHomes.Count != borrowedPawns.Count;
+            if (mismatched && logMismatch)
+                Log.Warning($"[TSA WD] Outpost defense borrowedPawnHomes length {borrowedPawnHomes.Count} != borrowedPawns {borrowedPawns.Count}; repairing with attacked outpost fallback.");
+
+            while (borrowedPawnHomes.Count < borrowedPawns.Count)
+                borrowedPawnHomes.Add(outpost);
+            while (borrowedPawnHomes.Count > borrowedPawns.Count)
+                borrowedPawnHomes.RemoveAt(borrowedPawnHomes.Count - 1);
+
+            for (int i = 0; i < borrowedPawnHomes.Count; i++)
+            {
+                if (borrowedPawnHomes[i] == null || borrowedPawnHomes[i].Destroyed)
+                {
+                    if (logMismatch)
+                        Log.Warning($"[TSA WD] Outpost defense missing home for borrowed pawn index {i}; falling back to attacked outpost.");
+                    borrowedPawnHomes[i] = outpost;
+                }
+            }
         }
 
         private WorldObject_Traveler RecreateTransientTraveler()
@@ -984,6 +1111,8 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref contributionKeys, "contributionKeys", LookMode.Reference);
             Scribe_Collections.Look(ref contributionValues, "contributionValues", LookMode.Value);
             Scribe_Collections.Look(ref borrowedPawns, "borrowedPawns", LookMode.Reference);
+            Scribe_Collections.Look(ref borrowedPawnHomes, "borrowedPawnHomes", LookMode.Reference);
+            Scribe_Collections.Look(ref realSupportDonors, "realSupportDonors", LookMode.Reference);
             Scribe_Collections.Look(ref borrowedStoredTransportPawns, "borrowedStoredTransportPawns", LookMode.Reference);
             Scribe_Collections.Look(ref borrowedMechanoids, "borrowedMechanoids", LookMode.Reference);
             Scribe_Collections.Look(ref interceptRrPawns, "interceptRrPawns", LookMode.Reference);
@@ -1008,9 +1137,13 @@ namespace TSA_WorldDomination
             if (contributionKeys == null) contributionKeys = new List<WorldObject>();
             if (contributionValues == null) contributionValues = new List<float>();
             if (borrowedPawns == null) borrowedPawns = new List<Pawn>();
+            if (borrowedPawnHomes == null) borrowedPawnHomes = new List<WorldObject_WD_Outpost>();
+            if (realSupportDonors == null) realSupportDonors = new List<WorldObject_WD_Outpost>();
             if (borrowedStoredTransportPawns == null) borrowedStoredTransportPawns = new List<Pawn>();
             if (borrowedMechanoids == null) borrowedMechanoids = new List<Pawn>();
             if (interceptRrPawns == null) interceptRrPawns = new List<Pawn>();
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+                RepairBorrowedHomesParity(logMismatch: true);
             if (Scribe.mode == LoadSaveMode.PostLoadInit && encounterActive && !resolved)
             {
                 postLoadGraceUntilTick = Find.TickManager.TicksGame + 300;

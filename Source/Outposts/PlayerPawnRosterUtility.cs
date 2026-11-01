@@ -1192,6 +1192,12 @@ namespace TSA_WorldDomination
                 PrisonerRosterUtility.FormatTraits(b.pawn, out _, out string tb);
                 return string.Compare(ta, tb, StringComparison.OrdinalIgnoreCase);
             }
+            if (sortColumn == PawnRosterColumnIds.Hediffs)
+            {
+                PrisonerRosterUtility.FormatHediffs(a.pawn, out _, out string ha);
+                PrisonerRosterUtility.FormatHediffs(b.pawn, out _, out string hb);
+                return string.Compare(ha, hb, StringComparison.OrdinalIgnoreCase);
+            }
             if (sortColumn == "Xenotype")
                 return PawnRosterTraitFilter.CompareXenotype(a.pawn, b.pawn);
             if (sortColumn == "Psycasts")

@@ -16,6 +16,7 @@ namespace TSA_WorldDomination
         private bool skillExpanded = true;
         private bool goodwillExpanded = true;
         private bool bribeExpanded = true;
+        private bool outpostPowerExpanded = true;
         private float previewRaw = 100f;
         private bool bandsSanitized;
 
@@ -32,7 +33,7 @@ namespace TSA_WorldDomination
 
         private void SetAllExpanded(bool expanded)
         {
-            upkeepExpanded = skillExpanded = goodwillExpanded = bribeExpanded = expanded;
+            upkeepExpanded = skillExpanded = goodwillExpanded = bribeExpanded = outpostPowerExpanded = expanded;
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -63,12 +64,41 @@ namespace TSA_WorldDomination
             SettingsUI.DrawSettingsSearchBar(l);
 
             DrawUpkeep(l, s);
+            DrawOutpostPower(l, s);
             DrawSkillScaling(l, s);
             DrawGoodwillDrain(l, s);
             DrawBribeRates(l, s);
 
             l.End();
             Widgets.EndScrollView();
+        }
+
+        private void DrawOutpostPower(Listing_Standard l, WorldDominationSettings s)
+        {
+            if (!SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Experimental_HeaderOutpostPower".Translate(), ref outpostPowerExpanded, SettingsUI.SectionHeaderColor))
+                return;
+
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_EnableOutpostPower".Translate(),
+                ref s.enableOutpostPowerRequirement,
+                "TSA_WD_Experimental_EnableOutpostPowerTip".Translate(),
+                defaultValue: WorldDominationSettings.DefEnableOutpostPowerRequirement);
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Notify_OutpostUnpowered".Translate(),
+                ref s.notifyOutpostUnpowered,
+                "TSA_WD_Notify_OutpostUnpoweredTip".Translate(),
+                defaultValue: true);
+            if (s.enableOutpostPowerRequirement)
+            {
+                s.maxPowerSupplyRange = (int)SettingsUI.LabeledSlider(l,
+                    "TSA_WD_Experimental_PowerSupplyRange".Translate(),
+                    s.maxPowerSupplyRange, 5f, 50f,
+                    "TSA_WD_Experimental_PowerSupplyRangeTip".Translate(),
+                    1f, SliderFormat.Fixed0, WorldDominationSettings.DefMaxPowerSupplyRange);
+                s.unpoweredRangeFactor = SettingsUI.LabeledSlider(l,
+                    "TSA_WD_Experimental_UnpoweredRangeFactor".Translate(),
+                    s.unpoweredRangeFactor, 0.05f, 1f,
+                    "TSA_WD_Experimental_UnpoweredRangeFactorTip".Translate(),
+                    defaultValue: WorldDominationSettings.DefUnpoweredRangeFactor);
+            }
         }
 
         private void DrawUpkeep(Listing_Standard l, WorldDominationSettings s)

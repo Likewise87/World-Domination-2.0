@@ -46,6 +46,18 @@ namespace TSA_WorldDomination
             return Mathf.Max(0f, comp?.strength ?? 0f);
         }
 
+        /// <summary>
+        /// Budget for a supporting outpost lending pawns to manual defense: same detach pool as auto-resolve allies
+        /// (<see cref="WorldActions_Utils.GetAvailableRaidStrength"/>).
+        /// </summary>
+        public static float GetAvailableForSupportDefense(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null || outpost.Destroyed) return 0f;
+            return WorldActions_Utils.GetAvailableRaidStrength(
+                outpost.GetComponent<CompViralSpread>(),
+                WorldDominationMod.settings);
+        }
+
         /// <summary>Same contribution as composition max (<see cref="WorldObject_WD_Outpost.GetTargetStrength"/>).</summary>
         public static float GetPawnCost(Pawn pawn)
         {

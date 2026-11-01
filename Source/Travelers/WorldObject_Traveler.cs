@@ -862,6 +862,16 @@ namespace TSA_WorldDomination
 
             TryRetryDeferredRaidArrival(delta);
 
+            // Rare mid-travel diplomacy: raid columns (incl. Invasion) dissolve+refund if no longer hostile.
+            if (IsRaidMission(mission)
+                && this.IsHashIntervalTick(2500, delta)
+                && !Destroyed)
+            {
+                var hostMgr = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+                Raid_Simulated.TryAbortAndDestroyIfNoLongerHostile(this, originObject, targetObject, hostMgr);
+                if (Destroyed) return;
+            }
+
             if (!IsShellMission(mission)
                 && (pather == null || !pather.moving)
                 && this.IsHashIntervalTick(TravelerMotionGuard.StrandedHealHashInterval, delta))

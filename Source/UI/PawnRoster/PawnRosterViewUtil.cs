@@ -55,6 +55,8 @@ namespace TSA_WorldDomination
             }
             if (PawnRosterTraitFilter.IsActive)
                 changed |= EnsureVisible(prefs, window, PawnRosterColumnIds.Traits);
+            if (PawnRosterHediffFilter.IsActive)
+                changed |= EnsureVisible(prefs, window, PawnRosterColumnIds.Hediffs);
             return changed;
         }
 
@@ -182,6 +184,8 @@ namespace TSA_WorldDomination
                 return false;
             if (PawnRosterTraitFilter.FilterApplies(w) && !PawnRosterTraitFilter.Matches(d.pawn))
                 return false;
+            if (PawnRosterHediffFilter.FilterApplies(w) && !PawnRosterHediffFilter.Matches(d.pawn))
+                return false;
             return true;
         }
 
@@ -193,6 +197,7 @@ namespace TSA_WorldDomination
             || key == PawnRosterFilterKeys.New
             || key == PawnRosterFilterKeys.Xenotype
             || key == PawnRosterFilterKeys.Psycasts
-            || key == PawnRosterFilterKeys.Ideology;
+            || key == PawnRosterFilterKeys.Ideology
+            || key == PawnRosterFilterKeys.Hediffs;
     }
 }

@@ -9,7 +9,7 @@ using Verse.Sound;
 
 namespace TSA_WorldDomination
 {
-    public class WITab_Outpost_Logistics : WITab
+    public partial class WITab_Outpost_Logistics : WITab
     {
         private Vector2 scrollPosition;
         private float scrollViewHeight;
@@ -52,6 +52,8 @@ namespace TSA_WorldDomination
 
         /// <summary>Headline (medium) + horizontal rule + gap before the two-column body. Matches the Stats tab.</summary>
         private const float TabHeaderConsumedHeight = 38f;
+        /// <summary>Space between Food/Electricity TabDrawer tabs and the logistics headline.</summary>
+        private const float TabsToHeadlineGap = 12f;
         private const float ColumnGap = 20f;
         private const float LeftColumnFraction = 0.46f;
         private const float RightColumnBoost = 80f;
@@ -66,9 +68,9 @@ namespace TSA_WorldDomination
         public WITab_Outpost_Logistics() { this.size = new Vector2(860f, 560f); this.labelKey = "TSA_LogisticsTab"; }
 
         public override bool IsVisible =>
-            WorldDominationMod.settings.foodLogisticsActive &&
-            SelOutpost != null &&
-            SelOutpost.Faction == Faction.OfPlayer;
+            SelOutpost != null
+            && SelOutpost.Faction == Faction.OfPlayer
+            && ((WorldDominationMod.settings?.foodLogisticsActive ?? false) || OutpostPowerGrid.Enabled);
 
         public WorldObject_WD_Outpost SelOutpost => base.SelObject as WorldObject_WD_Outpost;
         private CompOutpostLogistics _cachedLogi;
@@ -171,6 +173,25 @@ namespace TSA_WorldDomination
             return netNum.Colorize(net > 0.1f ? Color.green : (net < -0.1f ? Color.red : Color.yellow));
         }
 
+        /// <summary>
+        /// Destination power balance (supplied - demand) left of +/-.
+        /// Color by demand fill: red 0-50%, yellow above 50% to under 100%, green at 100%+.
+        /// </summary>
+        private static string FormatPowerBalanceColored(float supplied, float demand)
+        {
+            float balance = supplied - demand;
+            string netNum = balance > 0.05f
+                ? ("+" + Outpost_PowerPlant.FormatWatts(balance))
+                : Outpost_PowerPlant.FormatWatts(balance);
+            float ratio = demand <= OutpostPowerGrid.DemandEpsilon
+                ? (supplied > OutpostPowerGrid.DemandEpsilon ? 1f : 0f)
+                : supplied / demand;
+            Color c = ratio >= 1f - 0.0001f
+                ? Color.green
+                : (ratio > 0.5f ? Color.yellow : Color.red);
+            return netNum.Colorize(c);
+        }
+
         /// <summary>Shared column geometry for Keep row and destination rows (matches scroll content width).</summary>
         private static void GetProducerRowLayout(float rowWidth, out float nameX, out float nameW, out float netX, out float ctrlX, out float ctrlW)
         {
@@ -184,14 +205,39 @@ namespace TSA_WorldDomination
         protected override void FillTab()
         {
             EnsureStaticInit();
-            if (Logi == null) return;
+            bool foodOn = WorldDominationMod.settings?.foodLogisticsActive ?? false;
+            bool powerOn = OutpostPowerGrid.Enabled;
+            bool isFoodProducer = SelOutpost != null && Outpost_Production_Utils.IsFoodProducerOutpost(SelOutpost.def);
+            bool isPowerPlant = SelOutpost != null && SelOutpost.IsPowerPlantOutpost;
+            bool wide = (logisticsPane == LogisticsPane.Food && isFoodProducer)
+                || (logisticsPane == LogisticsPane.Electricity && isPowerPlant);
+            this.size = new Vector2(wide ? 940f : 860f, 600f);
+
+            Rect outer = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
+            if (powerOn && !foodOn)
+                logisticsPane = LogisticsPane.Electricity;
+            else if (!powerOn)
+                logisticsPane = LogisticsPane.Food;
+
+            // Form-Caravan style tabs along the top of the content rect (draw upward).
+            Rect body = outer;
+            if (foodOn && powerOn)
+            {
+                // Leave headroom so TabDrawer tabs are not clipped by the WITab edge.
+                body.yMin += TabDrawer.TabHeight;
+                DrawLogisticsPaneTabs(body, foodOn, powerOn);
+                body.yMin += TabsToHeadlineGap;
+            }
+
+            if (logisticsPane == LogisticsPane.Electricity && powerOn)
+            {
+                FillTabElectricity(body);
+                return;
+            }
+
+            if (!foodOn || Logi == null) return;
             var manager = Find.World.GetComponent<WorldComponent_LogisticsManager>();
-            bool isProducer = SelOutpost != null && Outpost_Production_Utils.IsFoodProducerOutpost(SelOutpost.def);
-
-            // Producers need extra room for the recipient +/- table; receivers are lighter.
-            this.size = new Vector2(isProducer ? 940f : 860f, 560f);
-
-            Rect body = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
+            bool isProducer = isFoodProducer;
 
             // Column geometry first so the header fertility/abundance slot can share the table's right edge.
             float leftColW = Mathf.Max(200f, body.width * LeftColumnFraction - RightColumnBoost);

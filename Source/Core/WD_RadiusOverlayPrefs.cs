@@ -20,7 +20,9 @@ namespace TSA_WorldDomination
         /// <summary>AT Turret attack-range overlay (Attack / Off). Player-owned for now; NPCs may get placement later.</summary>
         AtTurret = 7,
         /// <summary>NPC Mortar / AA Turret fire-range overlay (Attack / Off).</summary>
-        ArtilleryTurret = 8
+        ArtilleryTurret = 8,
+        /// <summary>Power plant outpost supply reach (Power / Off). Purple fill; default on.</summary>
+        PowerPlant = 9
     }
 
     public enum WD_RadiusOverlayKind : byte
@@ -32,7 +34,9 @@ namespace TSA_WorldDomination
         AA = 4,
         Food = 5,
         People = 6,
-        Warehouse = 7
+        Warehouse = 7,
+        /// <summary>Power plant logistics-range supply overlay.</summary>
+        Power = 8
     }
 
     /// <summary>Global-per-category radius overlay toggle state (mod settings).</summary>
@@ -49,6 +53,7 @@ namespace TSA_WorldDomination
         public static WD_RadiusOverlayKind rapidResponse = WD_RadiusOverlayKind.Off;
         public static WD_RadiusOverlayKind atTurret = WD_RadiusOverlayKind.Attack;
         public static WD_RadiusOverlayKind artilleryTurret = WD_RadiusOverlayKind.Attack;
+        public static WD_RadiusOverlayKind powerPlant = WD_RadiusOverlayKind.Power;
 
         private static int suppressFillFrame = -1;
 
@@ -77,6 +82,7 @@ namespace TSA_WorldDomination
                     return npcSettlementT4;
                 case WD_RadiusOverlayCategory.AtTurret: return atTurret;
                 case WD_RadiusOverlayCategory.ArtilleryTurret: return artilleryTurret;
+                case WD_RadiusOverlayCategory.PowerPlant: return powerPlant;
                 default:
                     if (npcSettlement == WD_RadiusOverlayKind.Mortar || npcSettlement == WD_RadiusOverlayKind.AA)
                         return WD_RadiusOverlayKind.Attack;
@@ -119,6 +125,9 @@ namespace TSA_WorldDomination
                         kind = WD_RadiusOverlayKind.Attack;
                     artilleryTurret = kind;
                     break;
+                case WD_RadiusOverlayCategory.PowerPlant:
+                    powerPlant = kind;
+                    break;
                 default:
                     // Lower-tier NPCs only support Attack / Ally / Off.
                     if (kind == WD_RadiusOverlayKind.Mortar || kind == WD_RadiusOverlayKind.AA)
@@ -148,6 +157,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref rapidResponse, "WD_RadiusOverlay_RapidResponse", WD_RadiusOverlayKind.Off);
             Scribe_Values.Look(ref atTurret, "WD_RadiusOverlay_AtTurret", WD_RadiusOverlayKind.Attack);
             Scribe_Values.Look(ref artilleryTurret, "WD_RadiusOverlay_ArtilleryTurret", WD_RadiusOverlayKind.Attack);
+            Scribe_Values.Look(ref powerPlant, "WD_RadiusOverlay_PowerPlant", WD_RadiusOverlayKind.Power);
 
             // Pre-T4-split saves may have stored Mortar/AA on the shared NPC slot.
             if (Scribe.mode == LoadSaveMode.LoadingVars
@@ -169,6 +179,7 @@ namespace TSA_WorldDomination
             rapidResponse = WD_RadiusOverlayKind.Off;
             atTurret = WD_RadiusOverlayKind.Attack;
             artilleryTurret = WD_RadiusOverlayKind.Attack;
+            powerPlant = WD_RadiusOverlayKind.Power;
         }
 
         public static WD_RadiusOverlayKind DefaultKind(WD_RadiusOverlayCategory category)
@@ -183,6 +194,7 @@ namespace TSA_WorldDomination
                 case WD_RadiusOverlayCategory.NpcSettlementT4: return WD_RadiusOverlayKind.Attack;
                 case WD_RadiusOverlayCategory.AtTurret: return WD_RadiusOverlayKind.Attack;
                 case WD_RadiusOverlayCategory.ArtilleryTurret: return WD_RadiusOverlayKind.Attack;
+                case WD_RadiusOverlayCategory.PowerPlant: return WD_RadiusOverlayKind.Power;
                 default: return WD_RadiusOverlayKind.Attack;
             }
         }
@@ -226,6 +238,11 @@ namespace TSA_WorldDomination
                 if (Outpost_Production_Utils.IsWarehouseOutpost(outpost.def))
                 {
                     category = WD_RadiusOverlayCategory.Warehouse;
+                    return true;
+                }
+                if (Outpost_Production_Utils.IsPowerPlantOutpost(outpost.def))
+                {
+                    category = WD_RadiusOverlayCategory.PowerPlant;
                     return true;
                 }
                 if (Outpost_Production_Utils.IsRecruitingOutpost(outpost.def)
@@ -447,6 +464,14 @@ namespace TSA_WorldDomination
                         return radius > 0f;
                     }
                     return false;
+                }
+
+                case WD_RadiusOverlayKind.Power:
+                {
+                    radius = WorldDominationMod.settings?.maxPowerSupplyRange ?? 0;
+                    fillKind = OutpostCoverageFillKind.Purple;
+                    hopMat = WorldOverlayLineMaterials.RecruitTradingRadiusRing;
+                    return radius > 0f;
                 }
 
                 case WD_RadiusOverlayKind.Mortar:

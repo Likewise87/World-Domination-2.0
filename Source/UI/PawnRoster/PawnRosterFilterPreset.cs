@@ -17,6 +17,8 @@ namespace TSA_WorldDomination
         public Dictionary<string, string> filters = new Dictionary<string, string>();
         public List<string> traitKeys = new List<string>();
         public PawnRosterTraitFilterMode traitMode = PawnRosterTraitFilterMode.Or;
+        public List<string> hediffKeys = new List<string>();
+        public PawnRosterHediffFilterMode hediffMode = PawnRosterHediffFilterMode.Or;
         /// <summary>Encoded "canonicalId|1" sort levels.</summary>
         public List<string> sortLevels = new List<string>();
 
@@ -26,12 +28,15 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref filters, "filters", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref traitKeys, "traitKeys", LookMode.Value);
             Scribe_Values.Look(ref traitMode, "traitMode", PawnRosterTraitFilterMode.Or);
+            Scribe_Collections.Look(ref hediffKeys, "hediffKeys", LookMode.Value);
+            Scribe_Values.Look(ref hediffMode, "hediffMode", PawnRosterHediffFilterMode.Or);
             Scribe_Collections.Look(ref sortLevels, "sortLevels", LookMode.Value);
             if (Scribe.mode == LoadSaveMode.LoadingVars || Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 name ??= "";
                 filters ??= new Dictionary<string, string>();
                 traitKeys ??= new List<string>();
+                hediffKeys ??= new List<string>();
                 sortLevels ??= new List<string>();
             }
         }
@@ -111,6 +116,8 @@ namespace TSA_WorldDomination
             view.ExportFilters(preset.filters);
             PawnRosterTraitFilter.CopySelectedKeys(preset.traitKeys);
             preset.traitMode = PawnRosterTraitFilter.Mode;
+            PawnRosterHediffFilter.CopySelectedKeys(preset.hediffKeys);
+            preset.hediffMode = PawnRosterHediffFilter.Mode;
             preset.sortLevels.Clear();
             for (int i = 0; i < view.Sort.Count; i++)
             {
@@ -157,8 +164,17 @@ namespace TSA_WorldDomination
                     PawnRosterTraitFilter.SetSelected(preset.traitKeys[i], true);
             }
 
+            if (host.SupportsRosterFilter(PawnRosterFilterKeys.Hediffs))
+            {
+                PawnRosterHediffFilter.Clear();
+                PawnRosterHediffFilter.Mode = preset.hediffMode;
+                for (int i = 0; i < preset.hediffKeys.Count; i++)
+                    PawnRosterHediffFilter.SetSelected(preset.hediffKeys[i], true);
+            }
+
             PawnRosterViewUtil.EnsureColumnsForView(host);
             PawnRosterTraitFilter.InvalidateRosterCaches();
+            PawnRosterHediffFilter.InvalidateRosterCaches();
             host.OnRosterViewChanged();
         }
 

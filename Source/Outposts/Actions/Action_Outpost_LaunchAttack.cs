@@ -96,6 +96,11 @@ namespace TSA_WorldDomination
                         Find.WindowStack.Add(new Dialog_OutpostRaidMath(source, wo, alliedOrder));
                         return true;
                     }
+                    if (IsRaidTargetCandidate(wo))
+                    {
+                        WorldActions_Utils.NotifyNotHostileTarget();
+                        return false;
+                    }
                     return false;
                 },
                 false, null, false,
@@ -117,18 +122,25 @@ namespace TSA_WorldDomination
                     if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(target.Tile)) return false;
                     float dist = WorldActions_Utils.GetDistance(source.Tile, target.Tile, manager);
                     if (dist <= range && target.HasWorldObject)
-                        return IsValidHostileRaidTarget(target.WorldObject, attackerFaction);
+                        return IsRaidTargetCandidate(target.WorldObject);
                     return false;
                 }
             );
         }
 
+        /// <summary>Settlement / AT / advanced building (no hostility). WorldTargeter click candidates.</summary>
+        private static bool IsRaidTargetCandidate(WorldObject wo)
+        {
+            if (wo == null || wo.Destroyed) return false;
+            return wo is Settlement || wo is WorldObject_AT_Turret || wo is WorldObject_WD_AdvancedBuilding;
+        }
+
         /// <summary>Hostile settlement or hostile AT turret on the planet surface (range is checked by the caller).</summary>
         private static bool IsValidHostileRaidTarget(WorldObject wo, Faction attackerFaction)
         {
-            if (wo == null || wo.Destroyed || wo.Faction == null || attackerFaction == null) return false;
+            if (!IsRaidTargetCandidate(wo) || wo.Faction == null || attackerFaction == null) return false;
             if (!WorldActions_Utils.SafeHostileTo(wo.Faction, attackerFaction)) return false;
-            return wo is Settlement || wo is WorldObject_AT_Turret || wo is WorldObject_WD_AdvancedBuilding;
+            return true;
         }
     }
 

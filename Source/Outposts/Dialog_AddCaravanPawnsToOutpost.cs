@@ -50,6 +50,7 @@ namespace TSA_WorldDomination
         private int builtPawnCount = -1;
         private int builtViewRevision = -1;
         private int builtTraitRevision = -1;
+        private int builtHediffRevision = -1;
         private Vector2 scrollPos;
         private float scrollViewHeight = 120f;
         private float lastScrollViewportHeight = 400f;
@@ -101,7 +102,9 @@ namespace TSA_WorldDomination
         }
 
         public bool SupportsRosterFilter(string key) =>
-            PawnRosterViewUtil.IsCommonFilterKey(key) || key == PawnRosterFilterKeys.Traits;
+            PawnRosterViewUtil.IsCommonFilterKey(key)
+            || key == PawnRosterFilterKeys.Traits
+            || key == PawnRosterFilterKeys.Hediffs;
 
         public string DescribeRosterFilter(string key) => PawnRosterViewUtil.DescribeFilter(view, key);
         public void OnRosterViewChanged() => builtViewRevision = -1;
@@ -165,6 +168,7 @@ namespace TSA_WorldDomination
             if (pawnCount == builtPawnCount
                 && builtViewRevision == view.Revision
                 && builtTraitRevision == PawnRosterTraitFilter.Revision
+                && builtHediffRevision == PawnRosterHediffFilter.Revision
                 && Time.frameCount - builtFrame < RebuildIntervalFrames)
                 return;
             RebuildRows(selectAll: false);
@@ -575,6 +579,7 @@ namespace TSA_WorldDomination
             builtFrame = Time.frameCount;
             builtViewRevision = view.Revision;
             builtTraitRevision = PawnRosterTraitFilter.Revision;
+            builtHediffRevision = PawnRosterHediffFilter.Revision;
             if (selectAll)
                 selectedThingIds.Clear();
 

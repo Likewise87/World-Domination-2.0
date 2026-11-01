@@ -897,8 +897,7 @@ namespace TSA_WorldDomination
             outpost.ClearExpertFromAllRoles(pawn.ThingID);
             outpost.SetExpertThingId(role, pawn.ThingID);
             outpost.InvalidateInspectCachePublic();
-            if (Outpost_Production_Utils.IsPowerPlantOutpost(outpost.def))
-                Outpost_PowerPlant.NotifyRemotePowerDirty();
+            OutpostPowerGrid.NotifyOutpostPowerDirty(outpost);
             if (Outpost_Production_Utils.IsWarehouseOutpost(outpost.def)
                 || OutpostExpertUtility.IsProductionBonusRole(role))
                 OutpostWarehouseAuraUtility.InvalidateCache();
@@ -947,13 +946,11 @@ namespace TSA_WorldDomination
         public static void ClearExpert(WorldObject_WD_Outpost outpost, OutpostExpertRole role)
         {
             if (outpost == null) return;
-            bool wasPower = Outpost_Production_Utils.IsPowerPlantOutpost(outpost.def);
             bool wasWarehouse = Outpost_Production_Utils.IsWarehouseOutpost(outpost.def);
             bool prodRole = IsProductionBonusRole(role);
             outpost.SetExpertThingId(role, null);
             outpost.InvalidateInspectCachePublic();
-            if (wasPower)
-                Outpost_PowerPlant.NotifyRemotePowerDirty();
+            OutpostPowerGrid.NotifyOutpostPowerDirty(outpost);
             if (wasWarehouse || prodRole)
                 OutpostWarehouseAuraUtility.InvalidateCache();
         }

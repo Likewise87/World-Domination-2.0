@@ -17,6 +17,7 @@ namespace TSA_WorldDomination
         New,
         Resistance,
         Traits,
+        Hediffs,
         Xenotype,
         Psycasts,
         Ideology,

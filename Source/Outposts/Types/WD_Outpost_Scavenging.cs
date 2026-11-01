@@ -337,7 +337,12 @@ namespace TSA_WorldDomination
             var maybe = GetEffectiveKind(outpost);
             if (!maybe.HasValue)
                 return "TSA_WD_Production_TooltipScavenging_None".Translate().Resolve();
-            ScavengingKind kind = maybe.Value;
+            return GetProductionTooltip(outpost, maybe.Value);
+        }
+
+        /// <summary>Per-tier production tooltip (dialog rows use the row's kind, not only the effective selection).</summary>
+        public static string GetProductionTooltip(WorldObject_WD_Outpost outpost, ScavengingKind kind)
+        {
             int n = outpost?.WorkerPawnCount ?? 0;
             float perPawn = GetMarketValuePerPawn(kind);
             float mv = GetEffectiveDeliveryMarketValue(outpost, kind);
@@ -366,7 +371,7 @@ namespace TSA_WorldDomination
             return line + Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusSuffix(outpost);
         }
 
-        /// <summary>Dynamic inspect line including current pawn-based value. Empty when no tier is selected so the inspect pane falls back to "None selected".</summary>
+        /// <summary>Short inspect product fragment (wrapped by ProducingLine with ready-time). Empty when no tier is selected.</summary>
         public static string GetInspectProductLine(WorldObject_WD_Outpost outpost)
         {
             var maybe = GetEffectiveKind(outpost);
@@ -374,12 +379,7 @@ namespace TSA_WorldDomination
             ScavengingKind kind = maybe.Value;
             float mv = GetEffectiveDeliveryMarketValue(outpost, kind);
             string kindLabel = GetKindShortLabel(kind);
-            return "TSA_WD_Prod_ScavengingInspect_Kind".Translate(
-                kindLabel,
-                mv.ToString("F0"),
-                (outpost?.WorkerPawnCount ?? 0).ToString(),
-                GetMarketValuePerPawn(kind).ToString("F0")).Resolve()
-                + Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusSuffix(outpost);
+            return "TSA_WD_Prod_ScavengingInspect_Kind".Translate(kindLabel, mv.ToString("F0")).Resolve();
         }
 
         /// <summary>Yield preview for a specific tier (used by the 3 option rows in the production dialog).</summary>

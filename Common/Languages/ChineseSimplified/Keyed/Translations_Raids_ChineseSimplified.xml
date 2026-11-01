@@ -61,6 +61,8 @@
   <TSA_WD_OutpostDefense_NoEquipmentIcons>无已装备物品</TSA_WD_OutpostDefense_NoEquipmentIcons>
   <TSA_WD_OutpostDefense_AutoResolve>自动结算</TSA_WD_OutpostDefense_AutoResolve>
   <TSA_WD_OutpostDefense_FightManually>手动战斗</TSA_WD_OutpostDefense_FightManually>
+  <TSA_WD_OutpostDefense_DeploySection_Target>{0}（受袭目标）</TSA_WD_OutpostDefense_DeploySection_Target>
+  <TSA_WD_OutpostDefense_DeploySection_Support>{0}（支援前哨）</TSA_WD_OutpostDefense_DeploySection_Support>
   <TSA_WD_OutpostDefense_Letter_Label>敌人将在 15 秒后抵达</TSA_WD_OutpostDefense_Letter_Label>
   <TSA_WD_OutpostDefense_Letter_Text>{0} 正遭到 {1} 攻击。前哨人员已部署到临时战场。敌人将在约 15 秒后抵达。</TSA_WD_OutpostDefense_Letter_Text>
   <TSA_WD_OutpostDefense_LetterImmediate_Label>敌人正在抵达</TSA_WD_OutpostDefense_LetterImmediate_Label>
@@ -121,6 +123,7 @@
   <TSA_WD_Log_Raid_Aborted_TargetDespawned>袭击: 已中止（目标已消失）。</TSA_WD_Log_Raid_Aborted_TargetDespawned>
   <TSA_WD_Log_Raid_Aborted_TargetNull>袭击: 已中止（目标已不存在）。</TSA_WD_Log_Raid_Aborted_TargetNull>
   <TSA_WD_Log_Raid_Aborted_NoLongerHostile>袭击: 已中止（{0} 与 {1} 不再处于战争状态）。已退还投入实力。</TSA_WD_Log_Raid_Aborted_NoLongerHostile>
+  <TSA_WD_Target_NotHostile>无效目标。只能选择敌对目标。</TSA_WD_Target_NotHostile>
   <TSA_WD_Log_Raid_DefBase>{0} 守军:{1} 强度。</TSA_WD_Log_Raid_DefBase>
   <TSA_WD_Log_Raid_DefContrib>{0}({1})提供 +{2} 防守力量。(原始:{3},效率:{4}%,距离 {5} 格)。</TSA_WD_Log_Raid_DefContrib>
   <TSA_WD_Log_Raid_ExpeditionLaunched>袭击: {0} 对 {1} 派出了袭击。</TSA_WD_Log_Raid_ExpeditionLaunched>

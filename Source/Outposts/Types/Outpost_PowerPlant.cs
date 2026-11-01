@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -6,7 +7,9 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>Power plant outposts provide abstract, always-on watts to the player's single colony map.</summary>
+    /// <summary>
+    /// Power plant outposts generate remote watts. Outpost assignments leave Keep residual for colony Harmony inject.
+    /// </summary>
     public static class Outpost_PowerPlant
     {
         public static float GetRemotePowerWatts(WorldObject_WD_Outpost outpost)
@@ -15,6 +18,13 @@ namespace TSA_WorldDomination
             if (!Outpost_Production_Utils.TryGetPowerPlantExtension(outpost.def, out var ext)) return 0f;
             float watts = Mathf.Max(0f, ext.remotePowerWatts + outpost.GetRemotePowerUpgradeBonus());
             return Mathf.Max(0f, Outpost_Production_Utils.ApplyExpertAndWarehouseYieldMultipliers(watts, outpost));
+        }
+
+        /// <summary>Watts this plant contributes to colony PowerNets (Keep residual after outpost links).</summary>
+        public static float GetColonyFacingRemotePowerWatts(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null || !outpost.IsPowerPlantOutpost) return 0f;
+            return OutpostPowerGrid.GetColonyKeepWatts(outpost);
         }
 
         public static float GetTotalRemotePowerWatts()
@@ -33,7 +43,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < all.Count; i++)
             {
                 if (all[i] is WorldObject_WD_Outpost outpost)
-                    total += GetRemotePowerWatts(outpost);
+                    total += GetColonyFacingRemotePowerWatts(outpost);
             }
             return total;
         }
@@ -65,6 +75,8 @@ namespace TSA_WorldDomination
         internal static float GetRemotePowerWattsForPowerNetUncached(PowerNet net)
         {
             if (net?.Map == null) return 0f;
+            if (!OutpostPowerGrid.GetColonyReceivesRemotePower() && OutpostPowerGrid.Enabled)
+                return 0f;
             Map? colony = GetPlayerColonyMap();
             if (colony == null || net.Map != colony) return 0f;
             float totalWatts = GetTotalRemotePowerWatts();
@@ -78,16 +90,47 @@ namespace TSA_WorldDomination
         {
             float watts = GetRemotePowerWatts(outpost);
             string formatted = FormatWatts(watts);
-            string line = HasPlayerColonyMap()
-                ? "TSA_WD_PowerPlant_Inspect".Translate(formatted)
-                : "TSA_WD_PowerPlant_InspectNoColony".Translate(formatted);
+            string line;
+            if (!HasPlayerColonyMap())
+                line = "TSA_WD_PowerPlant_InspectNoColony".Translate(formatted);
+            else if (OutpostPowerGrid.Enabled)
+            {
+                float keep = OutpostPowerGrid.GetColonyKeepWatts(outpost);
+                line = "TSA_WD_PowerPlant_InspectSplit".Translate(
+                    formatted,
+                    FormatWatts(Mathf.Max(0f, watts - keep)),
+                    FormatWatts(keep));
+                if (line.Contains("TSA_WD_"))
+                    line = formatted + " generated (" + FormatWatts(watts - keep) + " to outposts, " + FormatWatts(keep) + " to colony)";
+            }
+            else
+                line = "TSA_WD_PowerPlant_Inspect".Translate(formatted);
             return line + Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
         }
 
         public static string GetOverviewProductLine(WorldObject_WD_Outpost outpost)
         {
-            return "TSA_WD_PowerPlant_OverviewProduct".Translate(FormatWatts(GetRemotePowerWatts(outpost)))
-                + Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
+            float watts = GetRemotePowerWatts(outpost);
+            string product;
+            if (OutpostPowerGrid.Enabled)
+            {
+                float keep = OutpostPowerGrid.GetColonyKeepWatts(outpost);
+                product = "TSA_WD_PowerPlant_OverviewProductSplit".Translate(
+                    FormatWatts(watts),
+                    FormatWatts(Mathf.Max(0f, watts - keep)),
+                    FormatWatts(keep));
+                if (product.Contains("TSA_WD_"))
+                    product = FormatWatts(watts) + " (" + FormatWatts(watts - keep) + " outposts / " + FormatWatts(keep) + " colony)";
+            }
+            else
+                product = "TSA_WD_PowerPlant_OverviewProduct".Translate(FormatWatts(watts));
+            return product + Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
+        }
+
+        public static IEnumerable<Gizmo> GetGizmos(WorldObject_WD_Outpost outpost)
+        {
+            // XOR colony/outposts gizmo removed; allocation is on the Logistics Electricity tab.
+            yield break;
         }
 
         public static string GetOverviewTimeLine()
@@ -146,10 +189,6 @@ namespace TSA_WorldDomination
             return cachedTotalWatts;
         }
 
-        /// <summary>
-        /// Fast path for PowerNet Harmony: when cache is fresh and total remote watts is 0, skip map/net work.
-        /// When dirty, refreshes once then returns per-net watts (may still be 0).
-        /// </summary>
         public bool TryGetRemoteWattsOrZero(PowerNet net, out float watts)
         {
             watts = 0f;
@@ -193,6 +232,8 @@ namespace TSA_WorldDomination
         private void EnsureTotalWattsFresh()
         {
             if (!wattsDirty) return;
+            // Refresh outpost allocation first so Keep watts are current.
+            Find.World?.GetComponent<WorldComponent_OutpostPowerGrid>()?.EnsureAllocationFresh();
             cachedTotalWatts = Outpost_PowerPlant.ComputeTotalRemotePowerWattsUncached();
             cachedColonyMap = Outpost_PowerPlant.GetPlayerColonyMap();
             cachedNetCount = -1;

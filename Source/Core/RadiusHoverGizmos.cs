@@ -32,6 +32,8 @@ namespace TSA_WorldDomination
         private static Texture2D cachedPeopleOff;
         private static Texture2D cachedWarehouseOn;
         private static Texture2D cachedWarehouseOff;
+        private static Texture2D cachedPowerOn;
+        private static Texture2D cachedPowerOff;
         private static Texture2D cachedMortarOn;
         private static Texture2D cachedMortarOff;
         private static Texture2D cachedAaOn;
@@ -140,6 +142,21 @@ namespace TSA_WorldDomination
                     + "\n\n"
                     + "TSA_WD_Gizmo_WarehouseAuraBoostLine".Translate(auraPct.ToString("F0")).ToString();
                 yield return cmd;
+            }
+
+            if (category == WD_RadiusOverlayCategory.PowerPlant
+                && (WorldDominationMod.settings?.maxPowerSupplyRange ?? 0) > 0)
+            {
+                yield return MakeToggle(
+                    category,
+                    WD_RadiusOverlayKind.Power,
+                    "TSA_WD_Gizmo_ShowPowerSupplyRadius",
+                    "TSA_WD_Gizmo_ShowPowerSupplyRadiusDesc",
+                    (WorldDominationMod.settings?.maxPowerSupplyRange ?? 0).ToString("F0"),
+                    ref cachedPowerOn,
+                    ref cachedPowerOff,
+                    "UI/Commands/DesirePower",
+                    TexCommand.DesirePower);
             }
         }
 
@@ -286,6 +303,7 @@ namespace TSA_WorldDomination
             unchecked
             {
                 int h = s.maxLogisticsRange.GetHashCode();
+                h = h * 31 + s.maxPowerSupplyRange.GetHashCode();
                 h = h * 31 + s.mortarHitChance0To50PctRange.GetHashCode();
                 h = h * 31 + s.mortarHitChance51To75PctRange.GetHashCode();
                 h = h * 31 + s.mortarHitChance76To100PctRange.GetHashCode();

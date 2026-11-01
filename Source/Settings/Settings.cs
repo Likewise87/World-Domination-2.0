@@ -410,9 +410,9 @@ namespace TSA_WorldDomination
         public const int DefFallbackDirtRoadMinConstruction = 5;
         public const int DefFallbackStoneRoadMinConstruction = 15;
         public const int DefFallbackAsphaltRoadMinConstruction = 25;
-        public const float DefFallbackDirtRoadWinterReduction = 0.15f;
-        public const float DefFallbackStoneRoadWinterReduction = 0.30f;
-        public const float DefFallbackAsphaltRoadWinterReduction = 0.50f;
+        public const float DefFallbackDirtRoadWinterReduction = 0.30f;
+        public const float DefFallbackStoneRoadWinterReduction = 0.50f;
+        public const float DefFallbackAsphaltRoadWinterReduction = 0.75f;
         public const float DefMinorIncSev = 150f;
         public const float DefMajorIncSev = 450f;
         public const int DefLocalMaxT1 = 5;
@@ -1102,8 +1102,16 @@ namespace TSA_WorldDomination
         /// <summary>Warehouse virtual food pool floor when the global outpost max is lower (other outposts keep <see cref="DefMaxFoodPerOutpost"/>).</summary>
         public const float DefMaxFoodPerWarehouse = 500f;
         public const int DefMaxLogisticsRange = 25;
+        /// <summary>Power plant → outpost supply reach in tiles (independent of food logistics range).</summary>
+        public const int DefMaxPowerSupplyRange = 20;
         /// <summary>Default and minimum (0–1) virtual food tile multiplier floor for farming/hunting hubs; effective mult = max(raw, floor). Slider cannot go below this.</summary>
         public const float DefVirtualFoodTileMultiplierFloor = 0.80f;
+        /// <summary>Economic Difficulty (default on; Easy difficulty preset off): outposts with powerDemandWatts need in-range plants set to SupplyOutposts (see OutpostPowerGrid). Medieval forces off.</summary>
+        public const bool DefEnableOutpostPowerRequirement = true;
+        /// <summary>Range multiplier while an outpost requires power and is unpowered (0.05–1). Applies to trade/recruit/embassy/mortar/AA/RR/warehouse aura.</summary>
+        public const float DefUnpoweredRangeFactor = 0.70f;
+        /// <summary>Legacy Look-only (AA accuracy loss removed; unpowered AA uses range factor instead).</summary>
+        public const float DefUnpoweredAntiAirAccuracyLoss = 0.5f;
 
         // --- NOTIFICATIONS PAGE ---
         public const bool DefNotifyNewSettlement = true;
@@ -2117,7 +2125,11 @@ namespace TSA_WorldDomination
         public float foodProductionPerOutpostBase = DefFoodProductionPerOutpostBase;
         public float maxFoodPerOutpost = DefMaxFoodPerOutpost;
         public int maxLogisticsRange = DefMaxLogisticsRange;
+        public int maxPowerSupplyRange = DefMaxPowerSupplyRange;
         public float virtualFoodTileMultiplierFloor = DefVirtualFoodTileMultiplierFloor;
+        public bool enableOutpostPowerRequirement = DefEnableOutpostPowerRequirement;
+        public float unpoweredRangeFactor = DefUnpoweredRangeFactor;
+        public float unpoweredAntiAirAccuracyLoss = DefUnpoweredAntiAirAccuracyLoss;
 
         public bool notifyNewSettlement = DefNotifyNewSettlement;
         public bool notifyNpcConquestSettlement = DefNotifyNpcConquestSettlement;
@@ -2132,6 +2144,7 @@ namespace TSA_WorldDomination
         public bool notifyConstructionInsufficientMaterials = DefNotifyConstructionInsufficientMaterials;
         public bool notifyBridgeDeconstructBlocked = DefNotifyBridgeDeconstructBlocked;
         public bool notifyOutpostNoProduction = DefNotifyOutpostNoProduction;
+        public bool notifyOutpostUnpowered = true;
         public bool notifyOutpostUnusedExperts = DefNotifyOutpostUnusedExperts;
         public bool notifyLateGameActive = DefNotifyLateGameActive;
         public bool notifyMidGameActive = DefNotifyMidGameActive;
@@ -3296,7 +3309,11 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref foodProductionPerOutpostBase, "foodProductionPerOutpostBase", DefFoodProductionPerOutpostBase);
             Scribe_Values.Look(ref maxFoodPerOutpost, "maxFoodPerOutpost", DefMaxFoodPerOutpost);
             Scribe_Values.Look(ref maxLogisticsRange, "maxLogisticsRange", DefMaxLogisticsRange);
+            Scribe_Values.Look(ref maxPowerSupplyRange, "maxPowerSupplyRange", DefMaxPowerSupplyRange);
             Scribe_Values.Look(ref virtualFoodTileMultiplierFloor, "virtualFoodTileMultiplierFloor", DefVirtualFoodTileMultiplierFloor);
+            Scribe_Values.Look(ref enableOutpostPowerRequirement, "enableOutpostPowerRequirement", DefEnableOutpostPowerRequirement);
+            Scribe_Values.Look(ref unpoweredRangeFactor, "unpoweredRangeFactor", DefUnpoweredRangeFactor);
+            Scribe_Values.Look(ref unpoweredAntiAirAccuracyLoss, "unpoweredAntiAirAccuracyLoss", DefUnpoweredAntiAirAccuracyLoss);
 
             Scribe_Values.Look(ref notifyNewSettlement, "notifyNewSettlement", DefNotifyNewSettlement);
             Scribe_Values.Look(ref notifyNpcConquestSettlement, "notifyNpcConquestSettlement", DefNotifyNpcConquestSettlement);
@@ -3311,6 +3328,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref notifyConstructionInsufficientMaterials, "notifyConstructionInsufficientMaterials", DefNotifyConstructionInsufficientMaterials);
             Scribe_Values.Look(ref notifyBridgeDeconstructBlocked, "notifyBridgeDeconstructBlocked", DefNotifyBridgeDeconstructBlocked);
             Scribe_Values.Look(ref notifyOutpostNoProduction, "notifyOutpostNoProduction", DefNotifyOutpostNoProduction);
+            Scribe_Values.Look(ref notifyOutpostUnpowered, "notifyOutpostUnpowered", true);
             Scribe_Values.Look(ref notifyOutpostUnusedExperts, "notifyOutpostUnusedExperts", DefNotifyOutpostUnusedExperts);
             Scribe_Values.Look(ref notifyLateGameActive, "notifyLateGameActive", DefNotifyLateGameActive);
             Scribe_Values.Look(ref notifyMidGameActive, "notifyMidGameActive", DefNotifyMidGameActive);
@@ -4001,6 +4019,7 @@ namespace TSA_WorldDomination
                 && enableMidGameAllyRadiusScaling == (preset != WDSettingsDifficultyPreset.Easy)
                 && enableLateGameAllyRadiusScaling == (preset != WDSettingsDifficultyPreset.Easy)
                 && dropPodTransportCostComponents == (preset != WDSettingsDifficultyPreset.Easy)
+                && enableOutpostPowerRequirement == (preset != WDSettingsDifficultyPreset.Easy)
                 && forceRaidDroughtEnabled == (preset == WDSettingsDifficultyPreset.Hard)
                 && forceRaidDroughtQuietDays == DefForceRaidDroughtQuietDays
                 && forceRaidDroughtAllowBeyondRange == DefForceRaidDroughtAllowBeyondRange
@@ -4143,6 +4162,12 @@ namespace TSA_WorldDomination
             enableLateGameAllyRadiusScaling = allyRadiusScale;
             // Easy: free player drop-pod launches. Medium/Hard: charge components.
             dropPodTransportCostComponents = preset != WDSettingsDifficultyPreset.Easy;
+            // Easy: outpost power requirement off. Medium/Hard: on (child knobs reset to Defs).
+            enableOutpostPowerRequirement = preset != WDSettingsDifficultyPreset.Easy;
+            unpoweredRangeFactor = DefUnpoweredRangeFactor;
+            maxPowerSupplyRange = DefMaxPowerSupplyRange;
+            unpoweredAntiAirAccuracyLoss = DefUnpoweredAntiAirAccuracyLoss;
+            notifyOutpostUnpowered = true;
             // Hard: force raid drought on. Easy/Medium: off. Child knobs always reset to Defs.
             forceRaidDroughtEnabled = preset == WDSettingsDifficultyPreset.Hard;
             forceRaidDroughtQuietDays = DefForceRaidDroughtQuietDays;
@@ -4924,13 +4949,18 @@ namespace TSA_WorldDomination
             WorldComponent_SettlementWatchIndex.Get()?.Invalidate();
         }
 
-        /// <summary>Economic Difficulty page: upkeep, skill DR, goodwill drain, bribe stage rates.</summary>
+        /// <summary>Economic Difficulty page: upkeep, outpost power, skill DR, goodwill drain, bribe stage rates.</summary>
         public void ResetEconomicDifficulty()
         {
             enableOutpostUpkeep = DefEnableOutpostUpkeep;
             dropPodTransportCostComponents = DefDropPodTransportCostComponents;
             upkeepSilverPerOccupant = DefUpkeepSilverPerOccupant;
             upkeepIntervalDays = DefUpkeepIntervalDays;
+            enableOutpostPowerRequirement = DefEnableOutpostPowerRequirement;
+            unpoweredRangeFactor = DefUnpoweredRangeFactor;
+            unpoweredAntiAirAccuracyLoss = DefUnpoweredAntiAirAccuracyLoss;
+            maxPowerSupplyRange = DefMaxPowerSupplyRange;
+            notifyOutpostUnpowered = true;
             OutpostSkillScaling.ResetToDefaults(this);
             npcRaidKillGoodwillPer500Strength = DefNpcRaidKillGoodwillPer500Strength;
             enableGoodwillDrain = DefEnableGoodwillDrain;
@@ -5492,6 +5522,7 @@ namespace TSA_WorldDomination
             notifyConstructionInsufficientMaterials = DefNotifyConstructionInsufficientMaterials;
             notifyBridgeDeconstructBlocked = DefNotifyBridgeDeconstructBlocked;
             notifyOutpostNoProduction = DefNotifyOutpostNoProduction;
+            notifyOutpostUnpowered = true;
             notifyOutpostUnusedExperts = DefNotifyOutpostUnusedExperts;
             notifyLateGameActive = DefNotifyLateGameActive;
             notifyMidGameActive = DefNotifyMidGameActive;

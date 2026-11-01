@@ -1,8 +1,8 @@
 # Food and logistics
 
-Outpost occupants consume virtual food. This resource is tracked as a number at each outpost rather than as physical meals in inventory. For the short concept overview, see [Outpost food](../concepts/outpost-food.md). Open the **Food** tab to inspect current storage, maximum capacity, daily production, local demand, incoming supply, outgoing allocations, and projected net change.
+Outpost occupants consume virtual food. This resource is tracked as a number at each outpost rather than as physical meals in inventory. For the short concept overview, see [Outpost food](../concepts/outpost-food.md). Open the **Logistics** tab (Food / Electricity panes) to inspect food storage and nets, or power plant watt links.
 
-## Reading the Food tab
+## Reading the Food pane
 
 - **Current / max food** is the stored reserve. Surplus is wasted when storage is full.
 - **Daily food net** includes local production, local consumption, food sent to other sites, and food received from them.
@@ -41,6 +41,10 @@ Use Smart for a connected network that should adapt automatically when occupants
 **Keep here** is the producer's undistributed virtual food. It remains available to fill that producer's own reserve. In Smart mode, the system assigns each participating producer an equal share of the remaining surplus before equalizing recipient nets.
 
 An optional **All to colony** strategy sends all available production from that hub only to the player's mapped colony, ignoring other outposts and prioritizing colonies at the top of the destination list.
+
+## Electricity pane
+
+Power plants generate remote watts. Assign watts to demanding outposts with the same Smart / Manual / Keep / +/- pattern as food. **Keep** is unassigned generation and always feeds the colony power grid (no colony destination row). Smart fills each reachable outpost to full demand before the next, then leaves the rest as Keep. Manual lets you prioritize one outpost over another. Reach uses the same logistics radius as food. Partial supply reduces production via a lerp between the unpowered factor and full output; combat systems still need full power.
 
 ## Range and network design
 

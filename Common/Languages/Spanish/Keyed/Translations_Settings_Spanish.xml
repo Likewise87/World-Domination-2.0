@@ -21,7 +21,7 @@
   <TSA_WD_BtnCombatDifficulty>Dificultad de combate</TSA_WD_BtnCombatDifficulty>
   <TSA_WD_DescCombatDifficulty>Dificultad Mid/Late Game, puertas de amenaza, presión de incursiones, bonos de combate, estilos de llegada, guarnición y hardware T4.</TSA_WD_DescCombatDifficulty>
   <TSA_WD_BtnEconomicDifficulty>Dificultad económica</TSA_WD_BtnEconomicDifficulty>
-  <TSA_WD_DescEconomicDifficulty>Mantenimiento de puestos, rendimiento decreciente de habilidades, drenaje de buena voluntad y tasas de soborno.</TSA_WD_DescEconomicDifficulty>
+  <TSA_WD_DescEconomicDifficulty>Mantenimiento de puestos, energía de avanzadillas, rendimiento decreciente de habilidades, drenaje de buena voluntad y tasas de soborno.</TSA_WD_DescEconomicDifficulty>
   <TSA_WD_Settings_Search>Buscar</TSA_WD_Settings_Search>
   <TSA_WD_Settings_SearchTip>Filtra controles de esta página por etiqueta o tooltip. Si coincide un encabezado de sección, se muestra toda esa sección.</TSA_WD_Settings_SearchTip>
   <TSA_WD_ThreatGate_Never>Nunca</TSA_WD_ThreatGate_Never>
@@ -853,9 +853,9 @@
   <TSA_WD_Important_Diff_Easy>Dificultad fácil</TSA_WD_Important_Diff_Easy>
   <TSA_WD_Important_Diff_Medium>Dificultad media</TSA_WD_Important_Diff_Medium>
   <TSA_WD_Important_Diff_Hard>Dificultad difícil</TSA_WD_Important_Diff_Hard>
-  <TSA_WD_Important_Diff_EasyDesc>Enfriamientos de incursión más largos, menos incursiones, límite del narrador más débil (50–150%), menor peso de incursión. Mid Game y Late Game no se activan. Coste de componentes de transporte por cápsula desactivado.</TSA_WD_Important_Diff_EasyDesc>
-  <TSA_WD_Important_Diff_MediumDesc>Presión de incursión por defecto. Mid Game al 8% de cuota o 4.000 de fuerza de avanzadillas; Late Game al 14% o 7.500. Morteros/AA T4 contra ti solo en Late Game.</TSA_WD_Important_Diff_MediumDesc>
-  <TSA_WD_Important_Diff_HardDesc>Enfriamientos más cortos, más incursiones, límite del narrador más fuerte (100–300%), mayor peso de incursión. Misma sincronización Mid Game / Late Game que Medio, pero Late Game golpea más duro y morteros/AA T4 contra ti ya están activos en Mid Game.</TSA_WD_Important_Diff_HardDesc>
+  <TSA_WD_Important_Diff_EasyDesc>Enfriamientos de incursión más largos, menos incursiones, límite del narrador más débil (50–150%), menor peso de incursión. Mid Game y Late Game no se activan. Coste de componentes de transporte por cápsula desactivado. Requisito de energía de avanzadillas desactivado.</TSA_WD_Important_Diff_EasyDesc>
+  <TSA_WD_Important_Diff_MediumDesc>Presión de incursión por defecto. Mid Game al 8% de cuota o 4.000 de fuerza de avanzadillas; Late Game al 14% o 7.500. Morteros/AA T4 contra ti solo en Late Game. Requisito de energía de avanzadillas activado.</TSA_WD_Important_Diff_MediumDesc>
+  <TSA_WD_Important_Diff_HardDesc>Enfriamientos más cortos, más incursiones, límite del narrador más fuerte (100–300%), mayor peso de incursión. Misma sincronización Mid Game / Late Game que Medio, pero Late Game golpea más duro y morteros/AA T4 contra ti ya están activos en Mid Game. Requisito de energía de avanzadillas activado.</TSA_WD_Important_Diff_HardDesc>
 
   <TSA_WD_SkillScaling_Reset>Restablecer escalado de habilidad</TSA_WD_SkillScaling_Reset>
   <TSA_WD_SkillScaling_Intro>Decide si sumar puntos de habilidad como Plantas en una avanzadilla agrícola debe aumentar la producción sin límite, o si debe haber rendimientos decrecientes a partir de ciertos umbrales. Los requisitos de fundación siguen usando la habilidad bruta.</TSA_WD_SkillScaling_Intro>
@@ -957,6 +957,15 @@
   <TSA_WD_Experimental_OutpostCePassiveAmmoTip>Con Combat Extended activo, los colonos de avanzada con arma a distancia primaria acumulan su munición básica (FMJ, flechas de piedra, cohetes simples) a {0} cargadores por día, hasta {1} cargadores en el inventario. Gratis y un poco tramposo. Desactívalo para deshabilitarlo. Activado por defecto.</TSA_WD_Experimental_OutpostCePassiveAmmoTip>
   <TSA_WD_Experimental_OutpostArmory>Armería de avanzada</TSA_WD_Experimental_OutpostArmory>
   <TSA_WD_Experimental_OutpostArmoryTip>Cuando está activado, cada avanzada mantiene un almacén suelto para armas, armaduras, medicina, drogas, comida y munición. El equipo que llega en caravana o cápsula se guarda en lugar de destruirse, y puedes repartirlo entre los ocupantes desde el botón Armería de la pestaña Personajes. Desactívalo para volver a descartar el equipo entrante. Lo ya guardado permanece en la partida. Activado por defecto.</TSA_WD_Experimental_OutpostArmoryTip>
+  <TSA_WD_Experimental_HeaderOutpostPower>Energía de avanzadas</TSA_WD_Experimental_HeaderOutpostPower>
+  <TSA_WD_Experimental_EnableOutpostPower>Exigir energía en avanzadas</TSA_WD_Experimental_EnableOutpostPower>
+  <TSA_WD_Experimental_EnableOutpostPowerTip>Cuando está activo, las avanzadas con demanda necesitan vatios de plantas en modo avanzadas (radio de suministro eléctrico). Sin energía reducen producción según XML y acortan alcances (comercio, reclutamiento, embajada, mortero, AA, respuesta rápida, aura de almacén). El modo medieval lo fuerza a off. Activado por defecto.</TSA_WD_Experimental_EnableOutpostPowerTip>
+  <TSA_WD_Experimental_PowerSupplyRange>Radio de suministro eléctrico</TSA_WD_Experimental_PowerSupplyRange>
+  <TSA_WD_Experimental_PowerSupplyRangeTip>Distancia máxima en casillas a la que una planta en modo avanzadas puede alimentar otras avanzadas. Independiente del radio de logística de comida. Por defecto 20.</TSA_WD_Experimental_PowerSupplyRangeTip>
+  <TSA_WD_Experimental_UnpoweredRangeFactor>Factor de alcance sin energía</TSA_WD_Experimental_UnpoweredRangeFactor>
+  <TSA_WD_Experimental_UnpoweredRangeFactorTip>Multiplica el alcance de comercio, reclutamiento, embajada, mortero, antiaéreo, interceptación de respuesta rápida y aura de almacén mientras la avanzada no tiene energía. Por defecto 0.70.</TSA_WD_Experimental_UnpoweredRangeFactorTip>
+  <TSA_WD_Notify_OutpostUnpowered>Alerta: avanzada sin energía</TSA_WD_Notify_OutpostUnpowered>
+  <TSA_WD_Notify_OutpostUnpoweredTip>Muestra una alerta cuando una avanzada del jugador necesita energía y no está plenamente abastecida.</TSA_WD_Notify_OutpostUnpoweredTip>
   <TSA_WD_Experimental_DisableVanillaCaravanIncidents>Desactivar incidentes de viaje de caravana vanilla</TSA_WD_Experimental_DisableVanillaCaravanIncidents>
   <TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip>Cuando está activado, bloquea eventos aleatorios del narrador en caravanas en viaje: emboscada, emboscada de manhunters, encuentro de caravana, exigencia de pago y enfermedad en caravana. No afecta emboscadas de asentamiento WD, respuesta rápida ni choques de viajeros. Desactivado por defecto.</TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip>
   <TSA_WD_Experimental_NpcRaidKillGoodwillPer500>Ganancia de buena voluntad por 500 de fuerza al derrotar un viajero que apunta a otra facción</TSA_WD_Experimental_NpcRaidKillGoodwillPer500>

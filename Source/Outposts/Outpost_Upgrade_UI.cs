@@ -28,6 +28,7 @@ namespace TSA_WorldDomination
         WarehouseAuraBonus,
         WarehouseAuraRadius,
         RemotePower,
+        PowerDemand,
         RapidResponseOffense,
         AllyPullRadius,
         FoodStorageMax,
@@ -128,6 +129,7 @@ namespace TSA_WorldDomination
             if (def.warehouseAuraBonus > 0f) n++;
             if (def.warehouseAuraRadiusBonus > 0f) n++;
             if (def.remotePowerWattsBonus > 0f) n++;
+            // powerDemandWatts is a cost, not a benefit (see DrawCostSection).
             if (def.rapidResponseOffensiveStrengthBonus > 0f) n++;
             if (def.allyPullRadiusBonus > 0f) n++;
             if (def.foodStorageMaxBonus > 0f) n++;
@@ -309,6 +311,8 @@ namespace TSA_WorldDomination
                     return Key("TSA_WD_OutpostUpgradeImpact_WarehouseAuraRadius");
                 case UpgradeBenefitKind.RemotePower:
                     return Key("TSA_WD_OutpostUpgradeImpact_RemotePower");
+                case UpgradeBenefitKind.PowerDemand:
+                    return Key("TSA_WD_OutpostUpgradeImpact_PowerDemand");
                 case UpgradeBenefitKind.RapidResponseOffense:
                     return Key("TSA_WD_OutpostUpgradeImpact_RapidResponseOffense");
                 case UpgradeBenefitKind.AllyPullRadius:
@@ -575,6 +579,8 @@ namespace TSA_WorldDomination
                     return def.warehouseAuraRadiusBonus;
                 case UpgradeBenefitKind.RemotePower:
                     return def.remotePowerWattsBonus;
+                case UpgradeBenefitKind.PowerDemand:
+                    return def.powerDemandWatts;
                 case UpgradeBenefitKind.RapidResponseOffense:
                     return def.rapidResponseOffensiveStrengthBonus;
                 case UpgradeBenefitKind.AllyPullRadius:
@@ -621,7 +627,7 @@ namespace TSA_WorldDomination
 
         private static string FormatBenefitContribution(float value, UpgradeBenefitKind kind)
         {
-            if (kind == UpgradeBenefitKind.RemotePower)
+            if (kind == UpgradeBenefitKind.RemotePower || kind == UpgradeBenefitKind.PowerDemand)
                 return (value >= 0f ? "+" : "") + Outpost_PowerPlant.FormatWatts(value);
             if (kind == UpgradeBenefitKind.WarehouseAuraRadius)
                 return (value >= 0f ? "+" : "") + value.ToString("F0") + " tiles";
@@ -921,7 +927,18 @@ namespace TSA_WorldDomination
             if (def == null)
                 return y;
 
-            return DrawCostList(def.GetEffectiveCost(), availabilityByDefName, x, y, w, greyedOut);
+            y = DrawCostList(def.GetEffectiveCost(), availabilityByDefName, x, y, w, greyedOut);
+            if (def.powerDemandWatts > 0f)
+            {
+                Color lineColor = greyedOut ? Color.gray : new Color(1f, 0.85f, 0.35f);
+                string powerCost = Key("TSA_WD_OutpostUpgrades_CostPowerDemand",
+                    Outpost_PowerPlant.FormatWatts(def.powerDemandWatts));
+                Rect rect = new Rect(x, y, w, DetailCostLineH);
+                LabelAnchored(rect, powerCost.Colorize(lineColor), TextAnchor.UpperLeft);
+                TooltipHandler.TipRegion(rect, Key("TSA_WD_OutpostUpgrades_CostPowerDemandTip"));
+                y += DetailCostLineH;
+            }
+            return y;
         }
 
         public static float DrawResearchSection(float x, float y, float w, OutpostUpgradeDef def, bool greyedOut)
@@ -1020,6 +1037,8 @@ namespace TSA_WorldDomination
                 if (costLines == 0) costLines = 1;
             }
             h += costLines * DetailCostLineH;
+            if (def.powerDemandWatts > 0f)
+                h += DetailCostLineH;
             h += DetailSectionGap;
             h += DetailLineH; // research header
             h += Mathf.Max(1, OutpostUpgradeUtility.CountResearchRequirements(def)) * DetailCostLineH;

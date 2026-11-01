@@ -38,6 +38,7 @@ namespace TSA_WorldDomination
         private readonly Action<string> onSort;
         private int builtViewRevision = -1;
         private int builtTraitRevision = -1;
+        private int builtHediffRevision = -1;
         private string nameSearchTerm
         {
             get => view.GetString(PawnRosterFilterKeys.Name);
@@ -115,12 +116,15 @@ namespace TSA_WorldDomination
         {
             builtViewRevision = view.Revision;
             builtTraitRevision = PawnRosterTraitFilter.Revision;
+            builtHediffRevision = PawnRosterHediffFilter.Revision;
             PawnRosterBudgetTable.BuildRows(entries, visibleRows, e => e?.pawn, view, rosterData);
         }
 
         private void RebuildIfViewChanged()
         {
-            if (builtViewRevision != view.Revision || builtTraitRevision != PawnRosterTraitFilter.Revision)
+            if (builtViewRevision != view.Revision
+                || builtTraitRevision != PawnRosterTraitFilter.Revision
+                || builtHediffRevision != PawnRosterHediffFilter.Revision)
                 RebuildVisibleRows();
         }
 
@@ -130,7 +134,9 @@ namespace TSA_WorldDomination
         public void CollectRosterSortOptions(List<PawnRosterSortOption> into) =>
             PawnRosterBudgetTable.CollectSortOptions(ColWindow, into);
         public bool SupportsRosterFilter(string key) =>
-            PawnRosterViewUtil.IsCommonFilterKey(key) || key == PawnRosterFilterKeys.Traits;
+            PawnRosterViewUtil.IsCommonFilterKey(key)
+            || key == PawnRosterFilterKeys.Traits
+            || key == PawnRosterFilterKeys.Hediffs;
         public string DescribeRosterFilter(string key) => PawnRosterViewUtil.DescribeFilter(view, key);
         public void OnRosterViewChanged() => builtViewRevision = -1;
 

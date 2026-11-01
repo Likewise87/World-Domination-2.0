@@ -450,12 +450,13 @@ namespace TSA_WorldDomination
             }
         }
 
-        /// <summary>Radius (tiles) for nearby NPC settlements; from def extension minNearbyRadiusTiles, default 12.</summary>
+        /// <summary>Radius (tiles) for nearby NPC settlements; from def extension minNearbyRadiusTiles, default 12. Shrinks when unpowered.</summary>
         public static int GetNearbyRadiusTiles(WorldObject_WD_Outpost outpost)
         {
             if (outpost?.def == null) return 12;
             var ext = outpost.def.GetModExtension<OutpostDefExtension>();
-            return ext != null && ext.minNearbyRadiusTiles > 0 ? ext.minNearbyRadiusTiles : 12;
+            int raw = ext != null && ext.minNearbyRadiusTiles > 0 ? ext.minNearbyRadiusTiles : 12;
+            return OutpostPowerGrid.ApplyUnpoweredRadius(outpost, raw);
         }
 
         /// <summary>Sum silver from contributing partners (top <see cref="MaxContributingPartnersPerFaction"/> per faction).</summary>

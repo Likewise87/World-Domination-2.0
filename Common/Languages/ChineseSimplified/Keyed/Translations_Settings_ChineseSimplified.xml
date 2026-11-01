@@ -21,7 +21,7 @@
   <TSA_WD_BtnCombatDifficulty>战斗难度</TSA_WD_BtnCombatDifficulty>
   <TSA_WD_DescCombatDifficulty>中/后期游戏难度、威胁时机门、对玩家的袭击压力、阶段战斗加成、抵达方式、驻军与敌方 T4 迫击炮/防空硬件。</TSA_WD_DescCombatDifficulty>
   <TSA_WD_BtnEconomicDifficulty>经济难度</TSA_WD_BtnEconomicDifficulty>
-  <TSA_WD_DescEconomicDifficulty>前哨维护、技能收益递减、好感度流失与各阶段贿赂银币比率。</TSA_WD_DescEconomicDifficulty>
+  <TSA_WD_DescEconomicDifficulty>前哨维护、前哨供电、技能收益递减、好感度流失与各阶段贿赂银币比率。</TSA_WD_DescEconomicDifficulty>
   <TSA_WD_Settings_Search>搜索</TSA_WD_Settings_Search>
   <TSA_WD_Settings_SearchTip>按标签或提示文字过滤本页控件。匹配分区标题时显示该整块分区。清空搜索框可显示全部。</TSA_WD_Settings_SearchTip>
   <TSA_WD_ThreatGate_Never>永不</TSA_WD_ThreatGate_Never>
@@ -848,9 +848,9 @@
   <TSA_WD_Important_Diff_Easy>简单难度</TSA_WD_Important_Diff_Easy>
   <TSA_WD_Important_Diff_Medium>中等难度</TSA_WD_Important_Diff_Medium>
   <TSA_WD_Important_Diff_Hard>困难难度</TSA_WD_Important_Diff_Hard>
-  <TSA_WD_Important_Diff_EasyDesc>更长的袭击冷却、更少袭击、更弱的叙事者钳制（50–150%）、更低袭击权重。中期游戏与后期游戏永不激活。运输舱出行零件消耗关闭。</TSA_WD_Important_Diff_EasyDesc>
-  <TSA_WD_Important_Diff_MediumDesc>默认袭击压力。中期游戏为 8% 占比或 4,000 前哨实力；后期游戏为 14% 或 7,500。对你的 T4 迫击炮/防空仅在后期游戏开启。</TSA_WD_Important_Diff_MediumDesc>
-  <TSA_WD_Important_Diff_HardDesc>更短冷却、允许更多袭击、更强叙事者钳制（100–300%）、更高袭击权重。中期游戏与后期游戏时机与中等相同，但后期游戏打击更重，且对你的 T4 迫击炮/防空在中期游戏已启用。</TSA_WD_Important_Diff_HardDesc>
+  <TSA_WD_Important_Diff_EasyDesc>更长的袭击冷却、更少袭击、更弱的叙事者钳制（50–150%）、更低袭击权重。中期游戏与后期游戏永不激活。运输舱出行零件消耗关闭。前哨供电要求关闭。</TSA_WD_Important_Diff_EasyDesc>
+  <TSA_WD_Important_Diff_MediumDesc>默认袭击压力。中期游戏为 8% 占比或 4,000 前哨实力；后期游戏为 14% 或 7,500。对你的 T4 迫击炮/防空仅在后期游戏开启。前哨供电要求开启。</TSA_WD_Important_Diff_MediumDesc>
+  <TSA_WD_Important_Diff_HardDesc>更短冷却、允许更多袭击、更强叙事者钳制（100–300%）、更高袭击权重。中期游戏与后期游戏时机与中等相同，但后期游戏打击更重，且对你的 T4 迫击炮/防空在中期游戏已启用。前哨供电要求开启。</TSA_WD_Important_Diff_HardDesc>
 
   <TSA_WD_SkillScaling_Reset>重置技能缩放</TSA_WD_SkillScaling_Reset>
   <TSA_WD_SkillScaling_Intro>决定像“种植”技能堆在农业前哨上是否应无限提高产量，还是在某些阈值之后递减。建站要求仍使用原始技能。</TSA_WD_SkillScaling_Intro>
@@ -952,6 +952,15 @@
   <TSA_WD_Experimental_OutpostCePassiveAmmoTip>启用 Combat Extended 时，携带远程主武器的前哨殖民者会缓慢囤积该武器的基础弹药（全金属被甲弹、石箭头、简易火箭），每天 {0} 个弹匣，库存上限 {1} 个弹匣。免费且略偏作弊。关闭可禁用。默认开启。</TSA_WD_Experimental_OutpostCePassiveAmmoTip>
   <TSA_WD_Experimental_OutpostArmory>前哨军械库</TSA_WD_Experimental_OutpostArmory>
   <TSA_WD_Experimental_OutpostArmoryTip>开启后，每个前哨都会保留一个散装仓库，可存放武器、护甲、药品、毒品、食物与弹药。通过商队或投送舱抵达的装备将被存入而非销毁，你可以在人员标签页的"军械库"按钮中把它们分发给驻守人员。关闭后恢复为丢弃抵达的装备；已存入的物品仍保留在存档中。默认开启。</TSA_WD_Experimental_OutpostArmoryTip>
+  <TSA_WD_Experimental_HeaderOutpostPower>前哨电力</TSA_WD_Experimental_HeaderOutpostPower>
+  <TSA_WD_Experimental_EnableOutpostPower>要求前哨供电</TSA_WD_Experimental_EnableOutpostPower>
+  <TSA_WD_Experimental_EnableOutpostPowerTip>开启后，有电力需求的前哨需要前哨模式电厂在供电范围内供电。未通电时按 XML 系数降低产出，并缩短射程（贸易、招募、使馆、迫击炮、防空、快速反应、仓库光环）。中世纪模式强制关闭。默认开启。</TSA_WD_Experimental_EnableOutpostPowerTip>
+  <TSA_WD_Experimental_PowerSupplyRange>供电范围</TSA_WD_Experimental_PowerSupplyRange>
+  <TSA_WD_Experimental_PowerSupplyRangeTip>前哨模式电厂可为其他前哨供电的最大格数。与食物后勤范围独立。默认 20。</TSA_WD_Experimental_PowerSupplyRangeTip>
+  <TSA_WD_Experimental_UnpoweredRangeFactor>未通电射程系数</TSA_WD_Experimental_UnpoweredRangeFactor>
+  <TSA_WD_Experimental_UnpoweredRangeFactorTip>未通电时乘以贸易、招募、使馆、迫击炮、防空、快速反应拦截与仓库光环射程。默认 0.70。</TSA_WD_Experimental_UnpoweredRangeFactorTip>
+  <TSA_WD_Notify_OutpostUnpowered>警报：前哨未通电</TSA_WD_Notify_OutpostUnpowered>
+  <TSA_WD_Notify_OutpostUnpoweredTip>当玩家前哨需要电力且未完全供电时显示右侧警报。</TSA_WD_Notify_OutpostUnpoweredTip>
   <TSA_WD_Experimental_DisableVanillaCaravanIncidents>禁用原版商队旅途事件</TSA_WD_Experimental_DisableVanillaCaravanIncidents>
   <TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip>开启后，屏蔽旅途中商队的随机原版故事叙述者事件：伏击、狂暴动物伏击、商队遭遇、勒索，以及商队疾病。不影响 WD 定居点伏击、快速反应或旅行者交战。默认关闭。</TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip>
   <TSA_WD_Experimental_NpcRaidKillGoodwillPer500>击杀以其他派系为目标的旅行者时，每 500 兵力获得的好感增益</TSA_WD_Experimental_NpcRaidKillGoodwillPer500>

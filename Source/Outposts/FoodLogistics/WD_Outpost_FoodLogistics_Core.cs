@@ -1171,9 +1171,11 @@ namespace TSA_WorldDomination
                 float effective = effectiveVirtualFoodTileOverride ?? GetVirtualFoodEffectiveTileMultiplier(op);
                 // Base production is flat (any tile), tile efficiency only scales the skill-based food on top.
                 float raw = baseProd + totalSkill * effective;
-                return raw * OutpostWarehouseAuraUtility.GetSoftProductionBonusMultiplier(op);
+                return raw
+                    * OutpostWarehouseAuraUtility.GetSoftProductionBonusMultiplier(op)
+                    * OutpostPowerGrid.GetProductionPowerFactor(op);
             }
-            return baseProd;
+            return baseProd * OutpostPowerGrid.GetProductionPowerFactor(op);
         }
 
         private static float ComputeDailyDemandUncached(WorldObject obj)

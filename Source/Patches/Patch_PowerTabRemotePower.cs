@@ -102,6 +102,10 @@ namespace TSA_WorldDomination
 				if (__result == null || SelThing == null)
 					return;
 
+				// XOR: when feature on and plants feed outposts only, do not inject colony Power Tab rows.
+				if (OutpostPowerGrid.Enabled && !OutpostPowerGrid.GetColonyReceivesRemotePower())
+					return;
+
 				IDictionary dict = __result as IDictionary;
 				if (dict == null)
 					return;
@@ -122,7 +126,7 @@ namespace TSA_WorldDomination
 				for (int i = 0; i < outposts.Count; i++)
 				{
 					WorldObject_WD_Outpost outpost = outposts[i];
-					float watts = Outpost_PowerPlant.GetRemotePowerWatts(outpost) / netCount;
+					float watts = Outpost_PowerPlant.GetColonyFacingRemotePowerWatts(outpost) / netCount;
 					if (watts <= 0f)
 						continue;
 
@@ -206,7 +210,8 @@ namespace TSA_WorldDomination
 			for (int i = 0; i < outposts.Count; i++)
 			{
 				WorldObject_WD_Outpost outpost = outposts[i];
-				if (outpost != null && !outpost.Destroyed && Outpost_PowerPlant.GetRemotePowerWatts(outpost) > 0f)
+				if (outpost != null && !outpost.Destroyed
+					&& Outpost_PowerPlant.GetColonyFacingRemotePowerWatts(outpost) > 0f)
 					result.Add(outpost);
 			}
 			return result;

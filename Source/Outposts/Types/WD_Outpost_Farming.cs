@@ -65,7 +65,7 @@ namespace TSA_WorldDomination
             float tileYieldMult = Outpost_Production_Utils.GetFarmingTileProductionFactor(outpost);
             float effective = GetOutputPerSkillPoint(outpost, crop);
             float capacity = outpost.GetCapacityForYieldPreview();
-            int totalItems = Outpost_Production_Utils.ScaleOutputStackCount(Mathf.Max(0, Mathf.RoundToInt(capacity * effective)));
+            int totalItems = Outpost_Production_Utils.ScaleOutputStackCount(Mathf.Max(0, Mathf.RoundToInt(capacity * effective)), outpost);
             string key = "TSA_WD_Production_TooltipFarming";
             string t = key.Translate(cropBaseline.ToString("F1"), fert01.ToString("F2"), effective.ToString("F2"), capacity.ToString("F0"), SkillDefOf.Plants.label, totalItems.ToString(), crop.LabelCap).ToString();
             if (t == key || t.Contains("TSA_WD_")) t = "Base output: " + cropBaseline.ToString("F1") + " per skill (from crop; potato harvest-difficulty benchmark = 1.00, this crop " + harvestDifficulty.ToString("F2") + ").\nWorld tile fertility (0–" + WorldTileProductivity.ProductivityScoreCap.ToString("F1") + " scale; can exceed 1 with mutators): " + fert01.ToString("F2") + " (same as outpost selection).\nEffective: " + effective.ToString("F2") + " per skill.\nTotal (incl. global output multiplier): " + capacity.ToString("F0") + " Plants Skill × " + effective.ToString("F2") + " → " + totalItems + " " + crop.LabelCap;

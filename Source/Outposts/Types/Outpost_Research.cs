@@ -117,7 +117,8 @@ namespace TSA_WorldDomination
             float experts = OutpostExpertUtility.GetCombinedProductionBonus(outpost);
             float settingsMult = WorldDominationMod.settings?.outpostResearchSpeedMultiplier
                 ?? WorldDominationSettings.DefOutpostResearchSpeedMultiplier;
-            return VanillaResearchPointsPerTick * speed * SimpleResearchBenchSpeedFactor * diff * efficiency * (1f + experts) * Mathf.Max(0f, settingsMult);
+            float power = OutpostPowerGrid.GetProductionPowerFactor(outpost);
+            return VanillaResearchPointsPerTick * speed * SimpleResearchBenchSpeedFactor * diff * efficiency * (1f + experts) * Mathf.Max(0f, settingsMult) * power;
         }
 
         public static float GetPointsPerDay(WorldObject_WD_Outpost outpost)
@@ -142,6 +143,8 @@ namespace TSA_WorldDomination
                 h = h * 31 + Mathf.RoundToInt(GetDifficultyResearchFactor() * 10000f);
                 h = h * 31 + (GetActiveResearchProject()?.shortHash ?? 0);
                 h = h * 31 + (CanResearchNow(outpost, out _) ? 1 : 0);
+                h = h * 31 + Mathf.RoundToInt(OutpostPowerGrid.GetProductionPowerFactor(outpost) * 1000f);
+                h = h * 31 + OutpostPowerGrid.PowerStateGeneration;
                 return h;
             }
         }
@@ -253,7 +256,9 @@ namespace TSA_WorldDomination
             string t = key.Translate(ptsDay.ToString("F0")).ToString();
             if (t == key || t.Contains("TSA_WD_Research_StatsSummary"))
                 t = "Contributes " + ptsDay.ToString("F0") + " research per day";
-            return t;
+            var sb = new System.Text.StringBuilder(t);
+            Outpost_Production_Utils.AppendUnpoweredProductionFactorSuffix(sb, outpost);
+            return sb.ToString();
         }
 
         /// <summary>Detailed research math for the Stats-tab summary mouseover.</summary>

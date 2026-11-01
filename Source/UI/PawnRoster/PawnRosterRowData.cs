@@ -33,6 +33,8 @@ namespace TSA_WorldDomination
         public bool needsHealing;
         public string traitsDisplay = "";
         public string traitsTip = "";
+        public string hediffsDisplay = "";
+        public string hediffsTip = "";
         public string xenotypeDisplay = "";
         public string xenotypeTip = "";
         public string psycastsDisplay = "";
@@ -93,6 +95,7 @@ namespace TSA_WorldDomination
             d.needsHealing = Outpost_OccupantProgression.OccupantShowsHurtIcon(pawn);
 
             PrisonerRosterUtility.FormatTraits(pawn, out d.traitsDisplay, out d.traitsTip);
+            PrisonerRosterUtility.FormatHediffs(pawn, out d.hediffsDisplay, out d.hediffsTip);
             PawnRosterTraitFilter.FormatXenotype(pawn, out d.xenotypeDisplay, out d.xenotypeTip);
             PawnRosterTraitFilter.FormatPsycasts(pawn, out d.psycastsDisplay, out d.psycastsTip);
             PawnRosterTraitFilter.FormatIdeology(pawn, out d.ideologyDisplay, out d.ideologyTip);

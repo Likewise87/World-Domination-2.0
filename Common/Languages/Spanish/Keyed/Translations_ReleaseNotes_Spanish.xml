@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_65_Title>Necesidades de energía de puestos, mejor defensa y más</TSA_WD_Update_2_3_65_Title>
+  <TSA_WD_Update_2_3_65_Body><![CDATA[
+<size=16><b>2.3.65 - Necesidades de energía de puestos, mejor defensa y más</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 1 de noviembre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Nueva función: los puestos necesitan energía para trabajar a plena eficiencia. Solo las centrales en alcance pueden suministrarla. La demanda y la penalización sin energía varían por tipo de puesto. Las mejoras pueden aumentar la demanda. La pestaña Comida del puesto pasa a llamarse Logística, con subpestañas de Comida y Electricidad. Configurable en Dificultad económica (activado por defecto; el preset Fácil lo desactiva). La demanda por puesto y mejora es XML, así que puedes parchearla.\n
+• Nueva función: al defender un puesto manualmente (no en resolución automática), puedes traer peones de puestos cercanos igual que se tira de fuerza virtual en auto-resolve. Al elegir quién entra, puedes abrir el arsenal de cada puesto participante para cambiar su equipo.\n
+• Nueva función: las tablas de peones (Peones del puesto, Todos los peones del jugador, Prisioneros y el resto de esa familia) pueden mostrar una columna Heridas. Lista hediffs visibles de tus peones y sirve sobre todo para filtrar (por ejemplo miembros perdidos u otras heridas graves). Oculta por defecto; actívala en Columnas o Filtrado avanzado.\n
+• Limpieza miscelánea y correcciones de errores.\n
+]]></TSA_WD_Update_2_3_65_Body>
   <TSA_WD_Update_2_3_64_Title>Cola de mortero, soporte IRBM, reclutas</TSA_WD_Update_2_3_64_Title>
   <TSA_WD_Update_2_3_64_Body><![CDATA[
 <size=16><b>2.3.64 - Cola de mortero, soporte IRBM, reclutas</b></size>\n

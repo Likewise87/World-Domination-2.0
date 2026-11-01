@@ -91,6 +91,10 @@
   <TSA_WD_Dash_EscalationTip_T4AaOff>Torretas AA enemigas vs tus cápsulas y proyectiles: apagado</TSA_WD_Dash_EscalationTip_T4AaOff>
   <TSA_WD_Dash_EscalationTip_InterceptOn>Caravanas de interceptación NPC vs tus caravanas y viajeros: activo</TSA_WD_Dash_EscalationTip_InterceptOn>
   <TSA_WD_Dash_EscalationTip_InterceptOff>Caravanas de interceptación NPC vs tus caravanas y viajeros: apagado</TSA_WD_Dash_EscalationTip_InterceptOff>
+  <TSA_WD_Dash_EscalationTip_VanguardOn>Vanguardia: facciones lejanas pueden empacar asentamientos y atrincherarse cerca de tu frente: activo</TSA_WD_Dash_EscalationTip_VanguardOn>
+  <TSA_WD_Dash_EscalationTip_VanguardOff>Vanguardia: facciones lejanas pueden empacar asentamientos y atrincherarse cerca de tu frente: apagado</TSA_WD_Dash_EscalationTip_VanguardOff>
+  <TSA_WD_Dash_EscalationTip_InvasionOn>Invasión: facciones lejanas pueden atacarte con varias incursiones coordinadas más allá del alcance normal: activo</TSA_WD_Dash_EscalationTip_InvasionOn>
+  <TSA_WD_Dash_EscalationTip_InvasionOff>Invasión: facciones lejanas pueden atacarte con varias incursiones coordinadas más allá del alcance normal: apagado</TSA_WD_Dash_EscalationTip_InvasionOff>
   <TSA_WD_Dash_EscalationTip_IncidentsOn>Incidentes en avanzadillas: {0} de fuerza perdida, {1}% de probabilidad al día</TSA_WD_Dash_EscalationTip_IncidentsOn>
   <TSA_WD_Dash_EscalationTip_IncidentsOff>Incidentes en avanzadillas: apagado</TSA_WD_Dash_EscalationTip_IncidentsOff>
   <TSA_WD_Dash_EscalationTip_Goodwill>Drenaje de buena voluntad: -{0} cada {1} días</TSA_WD_Dash_EscalationTip_Goodwill>
@@ -484,6 +488,21 @@
   <TSA_WD_TraitFilter_CountPct>{0} ({1}%)</TSA_WD_TraitFilter_CountPct>
   <TSA_WD_TraitFilter_CountTip>{0} peones tienen este rasgo. Eso es el {1}% de tu población.</TSA_WD_TraitFilter_CountTip>
   <TSA_WD_TraitFilter_ButtonTip>Filtrar filas por rasgo. Solo aplica mientras la columna Rasgos esté visible.</TSA_WD_TraitFilter_ButtonTip>
+  <TSA_WD_PawnRoster_ColHediffs>Heridas</TSA_WD_PawnRoster_ColHediffs>
+  <TSA_WD_HediffFilter_Title>Filtrar por heridas</TSA_WD_HediffFilter_Title>
+  <TSA_WD_HediffFilter_Subtitle>Oculta filas que no coincidan. Los recuentos incluyen todos los humanoides del jugador (colonia, puestos, caravanas, prisioneros). Solo se listan hediffs presentes en esos peones.</TSA_WD_HediffFilter_Subtitle>
+  <TSA_WD_HediffFilter_Search>Buscar heridas...</TSA_WD_HediffFilter_Search>
+  <TSA_WD_HediffFilter_Or>O</TSA_WD_HediffFilter_Or>
+  <TSA_WD_HediffFilter_OrTip>Coincide con peones que tengan cualquier herida o hediff seleccionado.</TSA_WD_HediffFilter_OrTip>
+  <TSA_WD_HediffFilter_And>Y</TSA_WD_HediffFilter_And>
+  <TSA_WD_HediffFilter_AndTip>Coincide con peones que tengan todas las heridas o hediffs seleccionados.</TSA_WD_HediffFilter_AndTip>
+  <TSA_WD_HediffFilter_Logic>Lógica del filtro:</TSA_WD_HediffFilter_Logic>
+  <TSA_WD_HediffFilter_Clear>Borrar selección</TSA_WD_HediffFilter_Clear>
+  <TSA_WD_HediffFilter_FoundHeader>{0} heridas en {1} peones</TSA_WD_HediffFilter_FoundHeader>
+  <TSA_WD_HediffFilter_FoundTip>Hediffs visibles presentes en al menos un humanoide del jugador.</TSA_WD_HediffFilter_FoundTip>
+  <TSA_WD_HediffFilter_CountPct>{0} ({1}%)</TSA_WD_HediffFilter_CountPct>
+  <TSA_WD_HediffFilter_CountTip>{0} peones tienen este hediff. Eso es el {1}% de tu población.</TSA_WD_HediffFilter_CountTip>
+  <TSA_WD_HediffFilter_ButtonTip>Filtrar filas por herida o hediff. Solo aplica mientras la columna Heridas esté visible.</TSA_WD_HediffFilter_ButtonTip>
   <TSA_WD_PawnRoster_ColPortrait>Retrato</TSA_WD_PawnRoster_ColPortrait>
   <TSA_WD_PawnRoster_ColSelect>Seleccionar</TSA_WD_PawnRoster_ColSelect>
   <TSA_WD_PawnRoster_ColReorder>Reordenar</TSA_WD_PawnRoster_ColReorder>

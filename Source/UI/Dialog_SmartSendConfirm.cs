@@ -71,6 +71,7 @@ namespace TSA_WorldDomination
         private readonly Action<string> onExtraSort;
         private int builtViewRevision = -1;
         private int builtTraitRevision = -1;
+        private int builtHediffRevision = -1;
 
         private static string originFilter
         {
@@ -205,7 +206,9 @@ namespace TSA_WorldDomination
                 1f, 30f, modeRect.x - ToolbarBtnGap, ColWindow, RestoreDefaultView,
                 () => Find.WindowStack.Add(new Dialog_PawnRosterColumns(ColWindow, OnColumnsChanged)),
                 this) - ToolbarBtnGap;
-            if (builtViewRevision != View.Revision || builtTraitRevision != PawnRosterTraitFilter.Revision)
+            if (builtViewRevision != View.Revision
+                || builtTraitRevision != PawnRosterTraitFilter.Revision
+                || builtHediffRevision != PawnRosterHediffFilter.Revision)
                 RebuildFiltered();
 
             Text.Font = GameFont.Medium;
@@ -406,6 +409,7 @@ namespace TSA_WorldDomination
         {
             builtViewRevision = View.Revision;
             builtTraitRevision = PawnRosterTraitFilter.Revision;
+            builtHediffRevision = PawnRosterHediffFilter.Revision;
             var launch = new List<RowVm>();
             var stay = new List<RowVm>();
             for (int i = 0; i < rows.Count; i++)
@@ -489,7 +493,8 @@ namespace TSA_WorldDomination
             || key == PawnRosterFilterKeys.Origin
             || key == PawnRosterFilterKeys.Destination
             || key == PawnRosterFilterKeys.Reason
-            || key == PawnRosterFilterKeys.Traits;
+            || key == PawnRosterFilterKeys.Traits
+            || key == PawnRosterFilterKeys.Hediffs;
 
         public string DescribeRosterFilter(string key) => PawnRosterViewUtil.DescribeFilter(View, key);
         public void OnRosterViewChanged() => builtViewRevision = -1;

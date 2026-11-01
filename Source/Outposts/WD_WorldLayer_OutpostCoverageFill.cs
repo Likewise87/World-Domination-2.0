@@ -206,6 +206,15 @@ namespace TSA_WorldDomination
                 return radius > 0;
             }
 
+            if (Outpost_Production_Utils.IsPowerPlantOutpost(outpost.def))
+            {
+                var settings = WorldDominationMod.settings;
+                if (settings == null) return false;
+                radius = settings.maxPowerSupplyRange;
+                kind = OutpostCoverageFillKind.Purple;
+                return radius > 0;
+            }
+
             return false;
         }
 

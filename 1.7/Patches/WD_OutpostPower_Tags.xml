@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  1.7-only (loadFolders 1.7/Patches). Fair outpost power demand vs 1000 W plant + unpoweredOutputFactor.
+  Do NOT put powerDemandWatts / unpoweredOutputFactor in Common/Defs/ — frozen 1.6 DLL has no such fields.
+  Each op is its own root Conditional (not Always-Sequence) so one failed match cannot abort later defs.
+  Soft default unpoweredOutputFactor is 0.75 (C#); heavy/military set 0.5 explicitly.
+-->
+<Patch>
+  <!-- Soft extractive: 250 W / 0.75 -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Farming"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Farming"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>250</powerDemandWatts>
+    <unpoweredOutputFactor>0.75</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Hunting"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Hunting"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>250</powerDemandWatts>
+    <unpoweredOutputFactor>0.75</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Fishing"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Fishing"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>250</powerDemandWatts>
+    <unpoweredOutputFactor>0.75</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Ranch"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Ranch"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>250</powerDemandWatts>
+    <unpoweredOutputFactor>0.75</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Scavenging"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Scavenging"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>250</powerDemandWatts>
+    <unpoweredOutputFactor>0.75</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <!-- Soft social: 400 W / 0.75 -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Recruiting"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Recruiting"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>400</powerDemandWatts>
+    <unpoweredOutputFactor>0.75</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Trading"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Trading"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>400</powerDemandWatts>
+    <unpoweredOutputFactor>0.75</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Embassy"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Embassy"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>400</powerDemandWatts>
+    <unpoweredOutputFactor>0.75</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Academy"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Academy"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>400</powerDemandWatts>
+    <unpoweredOutputFactor>0.75</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <!-- Light industrial: Mining/DrugLab 400/0.7; Biofuel 500/0.7; RawShaping 600/0.5 -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Mining"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Mining"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>400</powerDemandWatts>
+    <unpoweredOutputFactor>0.7</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_DrugLab"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_DrugLab"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>400</powerDemandWatts>
+    <unpoweredOutputFactor>0.7</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="BOR_TSA_WD_Outpost_DrugLab"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="BOR_TSA_WD_Outpost_DrugLab"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>400</powerDemandWatts>
+    <unpoweredOutputFactor>0.7</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_BiofuelRefinery"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_BiofuelRefinery"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>500</powerDemandWatts>
+    <unpoweredOutputFactor>0.7</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_RawShaping"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_RawShaping"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>600</powerDemandWatts>
+    <unpoweredOutputFactor>0.5</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <!-- Heavy industrial / Research: 600 W / 0.5 -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Fabrication"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Fabrication"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>600</powerDemandWatts>
+    <unpoweredOutputFactor>0.5</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="BOR_TSA_WD_Outpost_Fabrication"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="BOR_TSA_WD_Outpost_Fabrication"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>600</powerDemandWatts>
+    <unpoweredOutputFactor>0.5</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_DeepchemDrill"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_DeepchemDrill"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>600</powerDemandWatts>
+    <unpoweredOutputFactor>0.5</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_DeepchemFactory"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_DeepchemFactory"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>600</powerDemandWatts>
+    <unpoweredOutputFactor>0.5</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Research"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Research"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>600</powerDemandWatts>
+    <unpoweredOutputFactor>0.5</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <!-- Military: Artillery 750 W / 0.5; Rapid Response 300 W (range nerf only) -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Mortar"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Mortar"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>750</powerDemandWatts>
+    <unpoweredOutputFactor>0.5</unpoweredOutputFactor>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_RapidResponse"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_RapidResponse"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>300</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <!-- Power plant: 0 demand (supplier). Warehouse: 200 W (aura range nerf when unpowered). -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_PowerPlant"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_PowerPlant"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Warehouse"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Warehouse"]/modExtensions/li[contains(@Class,'OutpostDefExtension')]/outpostTier</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>200</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+</Patch>

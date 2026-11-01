@@ -61,7 +61,7 @@ namespace TSA_WorldDomination
             float tileFactor = Outpost_Production_Utils.GetMiningTileProductionFactor(outpost);
             float effective = GetOutputPerSkillPoint(outpost, ore);
             float capacity = outpost.GetCapacityForYieldPreview();
-            int totalItems = Outpost_Production_Utils.ScaleOutputStackCount(Mathf.Max(0, Mathf.RoundToInt(capacity * effective)));
+            int totalItems = Outpost_Production_Utils.ScaleOutputStackCount(Mathf.Max(0, Mathf.RoundToInt(capacity * effective)), outpost);
             string key = "TSA_WD_Production_TooltipMining";
             string t = key.Translate(miningBaseline.ToString("F1"), tileFactor.ToString("F2"), effective.ToString("F2"), capacity.ToString("F0"), SkillDefOf.Mining.label, totalItems.ToString(), ore.LabelCap).ToString();
             if (t == key || t.Contains("TSA_WD_")) t = "Base output: " + miningBaseline.ToString("F1") + " per skill (from ore).\nMining efficiency uses hilliness baseline on the tile plus world tile mutators (ore-rich, junkyard, VEE mining modifiers, etc.), capped at " + WorldTileProductivity.ProductivityScoreCap.ToString("F1") + ".\nEffective: " + effective.ToString("F2") + " per skill.\nTotal (incl. global output multiplier): " + capacity.ToString("F0") + " Mining Skill × " + effective.ToString("F2") + " → " + totalItems + " " + ore.LabelCap;

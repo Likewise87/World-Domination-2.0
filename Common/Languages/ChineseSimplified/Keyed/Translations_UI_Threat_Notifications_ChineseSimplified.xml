@@ -91,6 +91,10 @@
   <TSA_WD_Dash_EscalationTip_T4AaOff>敌方防空炮塔攻击你的空投与弹体：关</TSA_WD_Dash_EscalationTip_T4AaOff>
   <TSA_WD_Dash_EscalationTip_InterceptOn>NPC拦截商队可袭击你的商队与旅行者：开</TSA_WD_Dash_EscalationTip_InterceptOn>
   <TSA_WD_Dash_EscalationTip_InterceptOff>NPC拦截商队可袭击你的商队与旅行者：关</TSA_WD_Dash_EscalationTip_InterceptOff>
+  <TSA_WD_Dash_EscalationTip_VanguardOn>先锋：远方派系可能打包定居点并在你的前线附近扎营：开</TSA_WD_Dash_EscalationTip_VanguardOn>
+  <TSA_WD_Dash_EscalationTip_VanguardOff>先锋：远方派系可能打包定居点并在你的前线附近扎营：关</TSA_WD_Dash_EscalationTip_VanguardOff>
+  <TSA_WD_Dash_EscalationTip_InvasionOn>入侵：远方派系可能以多次协同突袭越过正常攻击范围打击你：开</TSA_WD_Dash_EscalationTip_InvasionOn>
+  <TSA_WD_Dash_EscalationTip_InvasionOff>入侵：远方派系可能以多次协同突袭越过正常攻击范围打击你：关</TSA_WD_Dash_EscalationTip_InvasionOff>
   <TSA_WD_Dash_EscalationTip_IncidentsOn>前哨事件：损失 {0} 实力，每日 {1}% 概率</TSA_WD_Dash_EscalationTip_IncidentsOn>
   <TSA_WD_Dash_EscalationTip_IncidentsOff>前哨事件：关</TSA_WD_Dash_EscalationTip_IncidentsOff>
   <TSA_WD_Dash_EscalationTip_Goodwill>好感流失：每 {1} 天 -{0}</TSA_WD_Dash_EscalationTip_Goodwill>
@@ -484,6 +488,21 @@
   <TSA_WD_TraitFilter_CountPct>{0}（{1}%）</TSA_WD_TraitFilter_CountPct>
   <TSA_WD_TraitFilter_CountTip>{0} 名殖民者有此特性。占人口的 {1}%。</TSA_WD_TraitFilter_CountTip>
   <TSA_WD_TraitFilter_ButtonTip>按特性筛选行。仅在“特性”列可见时生效。</TSA_WD_TraitFilter_ButtonTip>
+  <TSA_WD_PawnRoster_ColHediffs>伤病</TSA_WD_PawnRoster_ColHediffs>
+  <TSA_WD_HediffFilter_Title>按伤病筛选</TSA_WD_HediffFilter_Title>
+  <TSA_WD_HediffFilter_Subtitle>隐藏不匹配的行。计数包含所有玩家类人（殖民地、前哨、商队、囚犯）。仅列出这些单位当前拥有的可见伤病。</TSA_WD_HediffFilter_Subtitle>
+  <TSA_WD_HediffFilter_Search>搜索伤病...</TSA_WD_HediffFilter_Search>
+  <TSA_WD_HediffFilter_Or>或</TSA_WD_HediffFilter_Or>
+  <TSA_WD_HediffFilter_OrTip>匹配拥有任一已选伤病的殖民者。</TSA_WD_HediffFilter_OrTip>
+  <TSA_WD_HediffFilter_And>且</TSA_WD_HediffFilter_And>
+  <TSA_WD_HediffFilter_AndTip>匹配拥有全部已选伤病的殖民者。</TSA_WD_HediffFilter_AndTip>
+  <TSA_WD_HediffFilter_Logic>筛选逻辑：</TSA_WD_HediffFilter_Logic>
+  <TSA_WD_HediffFilter_Clear>清除选择</TSA_WD_HediffFilter_Clear>
+  <TSA_WD_HediffFilter_FoundHeader>{0} 项伤病，共 {1} 人</TSA_WD_HediffFilter_FoundHeader>
+  <TSA_WD_HediffFilter_FoundTip>至少一名玩家类人拥有的可见伤病。</TSA_WD_HediffFilter_FoundTip>
+  <TSA_WD_HediffFilter_CountPct>{0}（{1}%）</TSA_WD_HediffFilter_CountPct>
+  <TSA_WD_HediffFilter_CountTip>{0} 名殖民者有此伤病。占人口的 {1}%。</TSA_WD_HediffFilter_CountTip>
+  <TSA_WD_HediffFilter_ButtonTip>按伤病筛选行。仅在“伤病”列可见时生效。</TSA_WD_HediffFilter_ButtonTip>
   <TSA_WD_PawnRoster_ColPortrait>头像</TSA_WD_PawnRoster_ColPortrait>
   <TSA_WD_PawnRoster_ColSelect>选择</TSA_WD_PawnRoster_ColSelect>
   <TSA_WD_PawnRoster_ColReorder>排序</TSA_WD_PawnRoster_ColReorder>

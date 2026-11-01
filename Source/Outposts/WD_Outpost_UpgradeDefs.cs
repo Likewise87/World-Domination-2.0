@@ -123,6 +123,13 @@ namespace TSA_WorldDomination
         /// <summary>Flat remote colony power bonus per built level, in watts.</summary>
         public float remotePowerWattsBonus;
 
+        /// <summary>
+        /// Extra power draw per built level when outpost power requirement is enabled.
+        /// Values via 1.7/Patches only — never bake into Common Defs.
+        /// Walls/Traps/PowerPlant stay 0; other categories use fair per-level watts.
+        /// </summary>
+        public float powerDemandWatts;
+
         /// <summary>Flat percentage-point bonus per built level to Rapid Response offensive strength cap (0.10 = +10%).</summary>
         public float rapidResponseOffensiveStrengthBonus;
 

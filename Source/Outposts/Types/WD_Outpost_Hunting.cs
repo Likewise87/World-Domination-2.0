@@ -186,7 +186,7 @@ namespace TSA_WorldDomination
             var displayItems = new List<ThingDefCountClass>();
             foreach (var tc in items)
                 if (tc?.thingDef != null) displayItems.Add(new ThingDefCountClass(tc.thingDef, tc.count));
-            Outpost_Production_Utils.ApplyOutputMultiplierToDeliveryItems(displayItems);
+            Outpost_Production_Utils.ApplyOutputMultiplierToDeliveryItems(displayItems, outpost);
             var deliveryParts = new List<string>();
             foreach (var tc in displayItems)
                 if (tc?.thingDef != null) deliveryParts.Add(tc.count + " " + tc.thingDef.LabelCap);

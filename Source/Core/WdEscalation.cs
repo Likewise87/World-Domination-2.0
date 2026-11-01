@@ -269,6 +269,8 @@ namespace TSA_WorldDomination
             bool t4Mortar = CanTargetPlayerWithT4Mortar(seth, stage);
             bool t4Aa = CanTargetPlayerWithT4AntiAir(seth, stage);
             bool playerAmbushOn = PassesGate(seth.gateThreatAmbush, stage);
+            bool vanguardOn = seth.enableForwardAssault && PassesGate(seth.gateThreatVanguard, stage);
+            bool invasionOn = seth.enableForwardAssault && PassesGate(seth.gateThreatInvasion, stage);
             bool incidentsOn = OutpostIncidentsEnabled(seth, stage);
             float incidentSev = GetOutpostIncidentSeverity(seth, stage);
             float incidentChance = GetOutpostIncidentDailyChance(seth, stage);
@@ -295,6 +297,10 @@ namespace TSA_WorldDomination
             sb.AppendLine((playerAmbushOn
                 ? "TSA_WD_Dash_EscalationTip_InterceptOn"
                 : "TSA_WD_Dash_EscalationTip_InterceptOff").Translate().ToString());
+            if (vanguardOn)
+                sb.AppendLine("TSA_WD_Dash_EscalationTip_VanguardOn".Translate().ToString());
+            if (invasionOn)
+                sb.AppendLine("TSA_WD_Dash_EscalationTip_InvasionOn".Translate().ToString());
 
             if (incidentsOn)
                 sb.AppendLine("TSA_WD_Dash_EscalationTip_IncidentsOn".Translate(

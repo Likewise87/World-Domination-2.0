@@ -13,9 +13,9 @@ Each road type exposes the same five controls.
 
 | Road type | Movement difficulty | Work per segment | Dispatch strength | Min. Construction | Winter penalty reduction |
 |---|---:|---:|---:|---:|---:|
-| Dirt road | 0.70 | 250 | 50 | 5 | 15% |
-| Stone road | 0.50 | 375 | 80 | 15 | 30% |
-| Asphalt road | 0.30 | 500 | 125 | 25 | 50% |
+| Dirt road | 0.70 | 250 | 50 | 5 | 30% |
+| Stone road | 0.50 | 375 | 80 | 15 | 50% |
+| Asphalt road | 0.30 | 500 | 125 | 25 | 75% |
 
 Movement difficulty multiplies world path difficulty, so lower values are faster. Work is abstract project work. Dispatch strength is deducted when a road-builder traveler launches. Minimum Construction is the cumulative outpost requirement.
 

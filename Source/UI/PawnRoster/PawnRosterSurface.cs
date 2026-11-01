@@ -88,19 +88,22 @@ namespace TSA_WorldDomination
                 case PawnRosterColumnWindow.RemoteEstablish:
                     AddAll(set, PawnRosterColumnIds.Type, PawnRosterColumnIds.Star, PawnRosterColumnIds.New,
                         PawnRosterColumnIds.Age, PawnRosterColumnIds.Health, PawnRosterColumnIds.Traits,
+                        PawnRosterColumnIds.Hediffs,
                         PawnRosterColumnIds.Xenotype, PawnRosterColumnIds.Psycasts, PawnRosterColumnIds.Ideology);
                     AddSkills(set);
                     break;
                 case PawnRosterColumnWindow.Prisoners:
                     AddAll(set, PawnRosterColumnIds.Age, PawnRosterColumnIds.Health, PawnRosterColumnIds.Hurt,
-                        PawnRosterColumnIds.Traits, PawnRosterColumnIds.Xenotype, PawnRosterColumnIds.Psycasts,
+                        PawnRosterColumnIds.Traits, PawnRosterColumnIds.Hediffs,
+                        PawnRosterColumnIds.Xenotype, PawnRosterColumnIds.Psycasts,
                         PawnRosterColumnIds.Ideology);
                     AddSkills(set);
                     break;
                 case PawnRosterColumnWindow.OutpostPawns:
                     // Skills are native as Shooting/Melee plus Skill_* full-grid ids.
                     AddAll(set, PawnRosterColumnIds.Type, PawnRosterColumnIds.Star, PawnRosterColumnIds.New,
-                        PawnRosterColumnIds.Age, PawnRosterColumnIds.Traits, PawnRosterColumnIds.Xenotype,
+                        PawnRosterColumnIds.Age, PawnRosterColumnIds.Traits, PawnRosterColumnIds.Hediffs,
+                        PawnRosterColumnIds.Xenotype,
                         PawnRosterColumnIds.Psycasts, PawnRosterColumnIds.Ideology, PawnRosterColumnIds.Strength,
                         PawnRosterColumnIds.Hurt);
                     AddSkills(set);
@@ -108,6 +111,7 @@ namespace TSA_WorldDomination
                 case PawnRosterColumnWindow.OutpostArmory:
                     AddAll(set, PawnRosterColumnIds.Type, PawnRosterColumnIds.Star, PawnRosterColumnIds.New,
                         PawnRosterColumnIds.Age, PawnRosterColumnIds.Health, PawnRosterColumnIds.Traits,
+                        PawnRosterColumnIds.Hediffs,
                         PawnRosterColumnIds.Xenotype, PawnRosterColumnIds.Psycasts, PawnRosterColumnIds.Ideology,
                         PawnRosterColumnIds.Mass, PawnRosterColumnIds.Bulk);
                     AddSkills(set);

@@ -41,6 +41,7 @@ namespace TSA_WorldDomination
         private readonly List<Pawn> population = new List<Pawn>();
         private readonly List<string> addableKeys = new List<string>();
         private int seenTraitRevision = -1;
+        private int seenHediffRevision = -1;
         private Vector2 scroll;
         private bool sortExpanded = true;
         private bool filtersExpanded = true;
@@ -87,7 +88,9 @@ namespace TSA_WorldDomination
             if (host?.RosterView == null) return false;
             PawnRosterViewState v = host.RosterView;
             if (v.HasActiveFilters || !v.SortIsDefault) return true;
-            return PawnRosterTraitFilter.IsActive && host.SupportsRosterFilter(PawnRosterFilterKeys.Traits);
+            if (PawnRosterTraitFilter.IsActive && host.SupportsRosterFilter(PawnRosterFilterKeys.Traits))
+                return true;
+            return PawnRosterHediffFilter.IsActive && host.SupportsRosterFilter(PawnRosterFilterKeys.Hediffs);
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -105,6 +108,11 @@ namespace TSA_WorldDomination
             {
                 if (seenTraitRevision >= 0) Changed();
                 seenTraitRevision = PawnRosterTraitFilter.Revision;
+            }
+            if (seenHediffRevision != PawnRosterHediffFilter.Revision)
+            {
+                if (seenHediffRevision >= 0) Changed();
+                seenHediffRevision = PawnRosterHediffFilter.Revision;
             }
 
             Text.Font = GameFont.Medium;
@@ -401,6 +409,7 @@ namespace TSA_WorldDomination
             host.RosterView.CollectActiveKeys(activeKeys);
             int n = activeKeys.Count;
             if (PawnRosterTraitFilter.IsActive && host.SupportsRosterFilter(PawnRosterFilterKeys.Traits)) n++;
+            if (PawnRosterHediffFilter.IsActive && host.SupportsRosterFilter(PawnRosterFilterKeys.Hediffs)) n++;
             return n;
         }
 
@@ -409,7 +418,8 @@ namespace TSA_WorldDomination
             PawnRosterViewState view = host.RosterView;
             view.CollectActiveKeys(activeKeys);
             bool traits = PawnRosterTraitFilter.IsActive && host.SupportsRosterFilter(PawnRosterFilterKeys.Traits);
-            if (activeKeys.Count == 0 && !traits)
+            bool hediffs = PawnRosterHediffFilter.IsActive && host.SupportsRosterFilter(PawnRosterFilterKeys.Hediffs);
+            if (activeKeys.Count == 0 && !traits && !hediffs)
             {
                 Rect info = listing.GetRect(24f);
                 GUI.color = Color.gray;
@@ -438,7 +448,7 @@ namespace TSA_WorldDomination
             }
             if (traits)
             {
-                FilterLineClick click = DrawFilterLine(listing, line, FilterLabel(PawnRosterFilterKeys.Traits),
+                FilterLineClick click = DrawFilterLine(listing, line++, FilterLabel(PawnRosterFilterKeys.Traits),
                     PawnRosterTraitFilter.DescribeSelection(), out Rect anchor);
                 if (click == FilterLineClick.Edit)
                     OpenFilterEditor(PawnRosterFilterKeys.Traits, anchor);
@@ -446,6 +456,19 @@ namespace TSA_WorldDomination
                 {
                     PawnRosterTraitFilter.Clear();
                     PawnRosterTraitFilter.InvalidateRosterCaches();
+                    Changed();
+                }
+            }
+            if (hediffs)
+            {
+                FilterLineClick click = DrawFilterLine(listing, line, FilterLabel(PawnRosterFilterKeys.Hediffs),
+                    PawnRosterHediffFilter.DescribeSelection(), out Rect anchor);
+                if (click == FilterLineClick.Edit)
+                    OpenFilterEditor(PawnRosterFilterKeys.Hediffs, anchor);
+                else if (click == FilterLineClick.Clear)
+                {
+                    PawnRosterHediffFilter.Clear();
+                    PawnRosterHediffFilter.InvalidateRosterCaches();
                     Changed();
                 }
             }
@@ -541,8 +564,8 @@ namespace TSA_WorldDomination
             PawnRosterFilterKeys.Name, PawnRosterFilterKeys.Type, PawnRosterFilterKeys.Star, PawnRosterFilterKeys.New,
             PawnRosterFilterKeys.LocationType, PawnRosterFilterKeys.LocationName, PawnRosterFilterKeys.Source,
             PawnRosterFilterKeys.Origin, PawnRosterFilterKeys.Destination, PawnRosterFilterKeys.Reason,
-            PawnRosterFilterKeys.Traits, PawnRosterFilterKeys.Xenotype, PawnRosterFilterKeys.Psycasts,
-            PawnRosterFilterKeys.Ideology
+            PawnRosterFilterKeys.Traits, PawnRosterFilterKeys.Hediffs, PawnRosterFilterKeys.Xenotype,
+            PawnRosterFilterKeys.Psycasts, PawnRosterFilterKeys.Ideology
         };
 
         /// <summary>Supported, not yet active filters whose DLC is loaded.</summary>
@@ -554,7 +577,11 @@ namespace TSA_WorldDomination
             {
                 string key = FilterKeyOrder[i];
                 if (!host.SupportsRosterFilter(key) || !FilterDlcActive(key)) continue;
-                bool active = key == PawnRosterFilterKeys.Traits ? PawnRosterTraitFilter.IsActive : view.HasFilter(key);
+                bool active = key == PawnRosterFilterKeys.Traits
+                    ? PawnRosterTraitFilter.IsActive
+                    : key == PawnRosterFilterKeys.Hediffs
+                        ? PawnRosterHediffFilter.IsActive
+                        : view.HasFilter(key);
                 if (!active) addableKeys.Add(key);
             }
         }
@@ -603,6 +630,9 @@ namespace TSA_WorldDomination
             {
                 case PawnRosterFilterKeys.Traits:
                     Find.WindowStack.Add(new Dialog_PawnRosterTraitFilter());
+                    return;
+                case PawnRosterFilterKeys.Hediffs:
+                    Find.WindowStack.Add(new Dialog_PawnRosterHediffFilter());
                     return;
                 case PawnRosterFilterKeys.Type:
                     PawnRosterHeaderFilter.OpenChoiceDropdown(anchor, title,

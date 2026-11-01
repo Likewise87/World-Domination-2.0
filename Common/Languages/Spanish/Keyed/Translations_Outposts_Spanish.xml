@@ -22,6 +22,7 @@
   <TSA_WD_OutpostStarvationDeath>{0}: {1} ha muerto de hambre en el puesto avanzado.</TSA_WD_OutpostStarvationDeath>
   <TSA_FoodSupplyConvertResult>Suministro de comida: {0}/{1}</TSA_FoodSupplyConvertResult>
   <TSA_IncomingSupplyLines>Recibiendo comida de:</TSA_IncomingSupplyLines>
+  <TSA_IncomingPowerSupplyLines>Recibiendo electricidad de:</TSA_IncomingPowerSupplyLines>
   <TSA_Logistics_IsolatedProducer>Ninguna avanzadilla en alcance a la que este {0} pueda enviar comida virtual.</TSA_Logistics_IsolatedProducer>
   <TSA_Logistics_IsolatedConsumer>Ninguna avanzadilla productora de comida en alcance para abastecer a este {0}.</TSA_Logistics_IsolatedConsumer>
   <TSA_LogisticsMode_AllToColony>Todo a colonia</TSA_LogisticsMode_AllToColony>
@@ -782,8 +783,8 @@
   <TSA_WD_Production_ScavengingPawnTooltip>Número de colonos en este puesto. Cada colono añade {0} de plata de valor de mercado objetivo por entrega (para el nivel de recuperación seleccionado); el tiempo de producción es fijo.</TSA_WD_Production_ScavengingPawnTooltip>
   <TSA_WD_Production_ScavengingYieldPreview>{0} colonos × {1} → ~{2} valor de mercado</TSA_WD_Production_ScavengingYieldPreview>
   <TSA_WD_Production_ScavengingYieldSummary>{0} objetos por un valor de ~{1} de plata</TSA_WD_Production_ScavengingYieldSummary>
-  <TSA_WD_Prod_ScavengingInspect>Suministros aleatorios (~{0} valor de mercado; {1} colonos × {2})</TSA_WD_Prod_ScavengingInspect>
-  <TSA_WD_Prod_ScavengingInspect_Kind>Suministros {0} aleatorios (~{1} valor de mercado; {2} colonos × {3})</TSA_WD_Prod_ScavengingInspect_Kind>
+  <TSA_WD_Prod_ScavengingInspect>Suministros aleatorios ({0} valor de mercado)</TSA_WD_Prod_ScavengingInspect>
+  <TSA_WD_Prod_ScavengingInspect_Kind>Suministros {0} aleatorios ({1} valor de mercado)</TSA_WD_Prod_ScavengingInspect_Kind>
   <TSA_WD_Gizmo_Scavenging_Kind>Recuperación ({0})</TSA_WD_Gizmo_Scavenging_Kind>
   <TSA_WD_Scavenging_KindLabel_Basic>Buscar objetos básicos</TSA_WD_Scavenging_KindLabel_Basic>
   <TSA_WD_Scavenging_KindLabel_Uncommon>Buscar objetos poco comunes</TSA_WD_Scavenging_KindLabel_Uncommon>
@@ -1091,7 +1092,13 @@
   <TSA_WD_StrengthBudget_StrengthStayTip>{0} de fuerza no cuenta mientras se quede en la avanzadilla.</TSA_WD_StrengthBudget_StrengthStayTip>
   <TSA_WD_StrengthBudget_StrengthLostTip>{0} de fuerza no cuenta mientras esté marcado como perdido.</TSA_WD_StrengthBudget_StrengthLostTip>
   <TSA_WD_StrengthBudget_DeployTitle>Desplegar defensores</TSA_WD_StrengthBudget_DeployTitle>
-  <TSA_WD_StrengthBudget_DeployBanner>Solo esta fuerza ofensiva puede combatir. Los peones no seleccionados no participarán en la batalla.</TSA_WD_StrengthBudget_DeployBanner>
+  <TSA_WD_StrengthBudget_DeployBanner>Despliega peones según el presupuesto de fuerza ofensiva disponible por puesto.</TSA_WD_StrengthBudget_DeployBanner>
+  <TSA_WD_OutpostDefense_DeploySupportBanner>Se pueden traer peones de {0} puesto(s) cercano(s) de apoyo.</TSA_WD_OutpostDefense_DeploySupportBanner>
+  <TSA_WD_OutpostDefense_OutpostsLabel>Avanzadillas</TSA_WD_OutpostDefense_OutpostsLabel>
+  <TSA_WD_OutpostDefense_SmartSelect>Selección inteligente</TSA_WD_OutpostDefense_SmartSelect>
+  <TSA_WD_OutpostDefense_SmartSelectTip>Selecciona los peones más fuertes de todos los puestos listados hasta llenar el presupuesto de cada uno.</TSA_WD_OutpostDefense_SmartSelectTip>
+  <TSA_WD_OutpostDefense_DeselectAll>Deseleccionar todo</TSA_WD_OutpostDefense_DeselectAll>
+  <TSA_WD_OutpostDefense_DeselectAllTip>Vacía la selección de despliegue de todos los puestos.</TSA_WD_OutpostDefense_DeselectAllTip>
   <TSA_WD_StrengthBudget_Deploy>Desplegar</TSA_WD_StrengthBudget_Deploy>
   <TSA_WD_StrengthBudget_Deploying>Elegido</TSA_WD_StrengthBudget_Deploying>
   <TSA_WD_RemoveBulk_NeedOneNonSlave>El puesto debe conservar siempre al menos un colono que no sea esclavo.</TSA_WD_RemoveBulk_NeedOneNonSlave>
@@ -1252,8 +1259,44 @@
   <TSA_WD_Research_EfficiencyWithUpgrades>{0}% eficiencia ({1}% base + {2}pp mejoras)</TSA_WD_Research_EfficiencyWithUpgrades>
   <TSA_WD_PowerPlant_Inspect>Proporciona {0} de energía remota a tu colonia.</TSA_WD_PowerPlant_Inspect>
   <TSA_WD_PowerPlant_InspectNoColony>Energía remota disponible: {0} (sin mapa de colonia).</TSA_WD_PowerPlant_InspectNoColony>
+  <TSA_WD_PowerPlant_InspectSupplyOutposts>Proporciona {0} a avanzadas cercanas (no a la colonia).</TSA_WD_PowerPlant_InspectSupplyOutposts>
   <TSA_WD_PowerPlant_OverviewProduct>{0} de energía remota</TSA_WD_PowerPlant_OverviewProduct>
+  <TSA_WD_PowerPlant_OverviewProductOutposts>{0} a avanzadas</TSA_WD_PowerPlant_OverviewProductOutposts>
   <TSA_WD_PowerPlant_OverviewAlways>Siempre activo</TSA_WD_PowerPlant_OverviewAlways>
+  <TSA_WD_PowerPlant_Gizmo_RoleColony>Rol de energía: Colonia</TSA_WD_PowerPlant_Gizmo_RoleColony>
+  <TSA_WD_PowerPlant_Gizmo_RoleColonyDesc>Esta planta alimenta las redes de la colonia. Clic para suministrar avanzadas cercanas.</TSA_WD_PowerPlant_Gizmo_RoleColonyDesc>
+  <TSA_WD_PowerPlant_Gizmo_RoleOutposts>Rol de energía: Avanzadas</TSA_WD_PowerPlant_Gizmo_RoleOutposts>
+  <TSA_WD_PowerPlant_Gizmo_RoleOutpostsDesc>Esta planta alimenta la red de avanzadas en el radio de suministro eléctrico. Clic para suministrar la colonia.</TSA_WD_PowerPlant_Gizmo_RoleOutpostsDesc>
+  <TSA_WD_OutpostPower_InspectPowered>Energía: {0} / {1} (con energía)</TSA_WD_OutpostPower_InspectPowered>
+  <TSA_WD_OutpostPower_InspectUnpowered>Energía: {0} / {1} (sin energía)</TSA_WD_OutpostPower_InspectUnpowered>
+  <TSA_WD_OutpostPower_StatusPowered>Con energía</TSA_WD_OutpostPower_StatusPowered>
+  <TSA_WD_OutpostPower_StatusUnpowered>Sin energía</TSA_WD_OutpostPower_StatusUnpowered>
+  <TSA_WD_OutpostStats_Section_Power>Energía</TSA_WD_OutpostStats_Section_Power>
+  <TSA_WD_OutpostStats_Row_PowerDemand>Demanda</TSA_WD_OutpostStats_Row_PowerDemand>
+  <TSA_WD_OutpostStats_Row_PowerDemandTip>Vatios que necesita esta avanzada de plantas en modo avanzadas.</TSA_WD_OutpostStats_Row_PowerDemandTip>
+  <TSA_WD_OutpostStats_Row_PowerSupplied>Suministrado</TSA_WD_OutpostStats_Row_PowerSupplied>
+  <TSA_WD_OutpostStats_Row_PowerSuppliedTip>Vatios asignados a esta avanzada desde plantas en rango.</TSA_WD_OutpostStats_Row_PowerSuppliedTip>
+  <TSA_WD_OutpostStats_Row_PowerStatus>Estado</TSA_WD_OutpostStats_Row_PowerStatus>
+  <TSA_WD_OutpostStats_Row_PowerStatusTip>Solo está plenamente alimentada si el suministro cubre la demanda. El suministro parcial no escala la producción.</TSA_WD_OutpostStats_Row_PowerStatusTip>
+  <TSA_WD_OutpostStats_Row_UnpoweredFactor>Salida sin energía</TSA_WD_OutpostStats_Row_UnpoweredFactor>
+  <TSA_WD_OutpostStats_Row_UnpoweredFactorTip>Producción e investigación se multiplican por este valor sin energía (XML de la avanzada).</TSA_WD_OutpostStats_Row_UnpoweredFactorTip>
+  <TSA_WD_OutpostStats_Row_PowerRole>Rol de la planta</TSA_WD_OutpostStats_Row_PowerRole>
+  <TSA_WD_OutpostStats_Row_PowerRoleTip>Colonia alimenta redes del mapa. Avanzadas alimenta la red de avanzadas.</TSA_WD_OutpostStats_Row_PowerRoleTip>
+  <TSA_WD_OutpostStats_Row_PowerRoleColony>Colonia</TSA_WD_OutpostStats_Row_PowerRoleColony>
+  <TSA_WD_OutpostStats_Row_PowerRoleOutposts>Avanzadas</TSA_WD_OutpostStats_Row_PowerRoleOutposts>
+  <TSA_WD_OutpostStats_Row_PowerGeneration>Generación</TSA_WD_OutpostStats_Row_PowerGeneration>
+  <TSA_WD_OutpostStats_Row_PowerGenerationTip>Vatios que genera esta planta antes del enrutado por rol.</TSA_WD_OutpostStats_Row_PowerGenerationTip>
+  <TSA_WD_Production_Formula_Unpowered>(Sin energía)</TSA_WD_Production_Formula_Unpowered>
+  <TSA_WD_Letter_OutpostPowerUnpoweredLabel>Las avanzadas necesitan energía</TSA_WD_Letter_OutpostPowerUnpoweredLabel>
+  <TSA_WD_Letter_OutpostPowerUnpoweredText>La energía de avanzadas está activa. Las avanzadas sin energía producen menos y pierden algo de alcance de combate hasta que una planta en modo avanzadas las cubra dentro del radio de suministro eléctrico. Cambia el rol en una planta o desactiva la función en Experimental.</TSA_WD_Letter_OutpostPowerUnpoweredText>
+  <TSA_WD_Alert_OutpostUnpowered>Avanzada sin energía</TSA_WD_Alert_OutpostUnpowered>
+  <TSA_WD_Alert_OutpostUnpoweredDescHeader>Estas avanzadas necesitan energía de una planta en modo avanzadas:</TSA_WD_Alert_OutpostUnpoweredDescHeader>
+  <TSA_WD_Alert_OutpostUnpoweredDescLine>- {0}</TSA_WD_Alert_OutpostUnpoweredDescLine>
+  <TSA_WD_RapidResponse_DropPodsUnpowered>Las cápsulas necesitan energía en esta avanzada.</TSA_WD_RapidResponse_DropPodsUnpowered>
+  <TSA_WD_OutpostUpgrades_BenefitPowerDemand>Demanda de energía +{0}</TSA_WD_OutpostUpgrades_BenefitPowerDemand>
+  <TSA_WD_OutpostUpgrades_CostPowerDemand>Demanda de energía +{0}</TSA_WD_OutpostUpgrades_CostPowerDemand>
+  <TSA_WD_OutpostUpgrades_CostPowerDemandTip>Electricidad continua que esta mejora añade a la demanda del puesto (suministrada por centrales).</TSA_WD_OutpostUpgrades_CostPowerDemandTip>
+  <TSA_WD_OutpostUpgradeImpact_PowerDemand>Demanda de energía</TSA_WD_OutpostUpgradeImpact_PowerDemand>
   <!-- Armería de avanzada -->
   <TSA_WD_Armory_OpenButton>Armería</TSA_WD_Armory_OpenButton>
   <TSA_WD_Armory_OpenButtonTip>Reparte armas, armaduras, medicina, drogas, comida y munición almacenadas entre los ocupantes de esta avanzada.</TSA_WD_Armory_OpenButtonTip>
@@ -2066,8 +2109,10 @@
   <TSA_WD_OutpostStats_Row_RecruitsPerCycleTip>Base Social (1 por 10) más bonificación por niveles vecinos.</TSA_WD_OutpostStats_Row_RecruitsPerCycleTip>
   <TSA_WD_OutpostStats_Row_ScavengingWorkers>Trabajadores expedicionarios</TSA_WD_OutpostStats_Row_ScavengingWorkers>
   <TSA_WD_OutpostStats_Row_ScavengingWorkersTip>Ocupantes y mecanoides para expediciones.</TSA_WD_OutpostStats_Row_ScavengingWorkersTip>
-  <TSA_WD_OutpostStats_Row_ScavengingYield>{0} colonos guarnecidos → ~{1} valor ({2})</TSA_WD_OutpostStats_Row_ScavengingYield>
+  <TSA_WD_OutpostStats_Row_ScavengingYield>Rendimiento objetivo</TSA_WD_OutpostStats_Row_ScavengingYield>
+  <TSA_WD_OutpostStats_Row_ScavengingYieldValue>{0} colonos guarnecidos → ~{1} valor ({2})</TSA_WD_OutpostStats_Row_ScavengingYieldValue>
   <TSA_WD_OutpostStats_Row_ScavengingYieldTip>Valor de mercado objetivo por ciclo según trabajadores y nivel de saqueo seleccionado.</TSA_WD_OutpostStats_Row_ScavengingYieldTip>
+  <TSA_WD_OutpostStats_Row_ScavengingYieldMath>{0} × {1} plata/colono = {2} valor de mercado base objetivo por ciclo.</TSA_WD_OutpostStats_Row_ScavengingYieldMath>
   <TSA_WD_OutpostStats_Row_AcademySkill>Habilidad en entrenamiento</TSA_WD_OutpostStats_Row_AcademySkill>
   <TSA_WD_OutpostStats_Row_AcademySkillTip>Habilidad que entrena esta Academia en el ciclo actual.</TSA_WD_OutpostStats_Row_AcademySkillTip>
   <TSA_WD_OutpostStats_Row_ResearchPointsDay>Puntos investigación / día</TSA_WD_OutpostStats_Row_ResearchPointsDay>

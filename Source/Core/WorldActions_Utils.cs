@@ -631,6 +631,12 @@ namespace TSA_WorldDomination
             return rel != null && rel.kind == FactionRelationKind.Hostile;
         }
 
+        /// <summary>WorldTargeter reject: standard reject beep via <see cref="MessageTypeDefOf.RejectInput"/>.</summary>
+        public static void NotifyNotHostileTarget()
+        {
+            Messages.Message("TSA_WD_Target_NotHostile".Translate(), MessageTypeDefOf.RejectInput, false);
+        }
+
         public static string GetRelationshipLabel(Faction other)
         {
             if (other == null) return "---";

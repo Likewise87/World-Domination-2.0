@@ -1,0 +1,945 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  1.7-only. OutpostUpgradeDef powerDemandWatts by category (Walls/Traps/PowerPlant = 0).
+  Do NOT bake into Common/Defs — frozen 1.6 DLL has no field.
+  Each op is its own root Conditional (not Always-Sequence) so one failed match cannot abort later defs.
+  Conditional so MayRequire / BoR defs missing offline do not error.
+-->
+<Patch>
+  <!-- Walls / Traps / PowerPlant — 0 W -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_BearTraps"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_BearTraps"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PlasteelTraps"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PlasteelTraps"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PlasteelWall"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PlasteelWall"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_AdvancedGeothermalPowerPlant"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_AdvancedGeothermalPowerPlant"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_AdvancedSolarArrays"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_AdvancedSolarArrays"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_BorAdvancedGeothermalPowerPlant"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_BorAdvancedGeothermalPowerPlant"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_IntelligentGridControls"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_IntelligentGridControls"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_QuasarPowerPlant"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_QuasarPowerPlant"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_SolarPowerPlant"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_SolarPowerPlant"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_SolarSolarArrays"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_SolarSolarArrays"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_UltraGeothermalPowerPlant"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_UltraGeothermalPowerPlant"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_UltraSolarArrays"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_PowerPlant_UltraSolarArrays"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarAlloyWall"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarAlloyWall"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarweaveTraps"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarweaveTraps"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SteelWall"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SteelWall"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SunsteelWall"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SunsteelWall"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SunweaveTraps"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SunweaveTraps"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_DecontaminationEquipment"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_DecontaminationEquipment"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_IEDs"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_IEDs"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PalisadeWalls"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PalisadeWalls"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_AdvancedGridControls"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_AdvancedGridControls"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_ChemfuelGenerators"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_GeothermalPowerPlant"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_SolarArrays"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PowerPlant_SolarArrays"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_SpikeTraps"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_SpikeTraps"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_StoneWall"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_StoneWall"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_TunnelNetwork"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_TunnelNetwork"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <!-- Soft extractive / multi-tier lines — 50×lineTier (base soft singles stay 50) -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationAdvanced"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationAdvanced"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>150</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationQuasar"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationQuasar"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>300</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationSolar"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationSolar"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>250</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationUltra"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_IrrigationUltra"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>200</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Kwazantification"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Kwazantification"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>50</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarWatchTower"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarWatchTower"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>300</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SolarWatchTower"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SolarWatchTower"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>250</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Solaration"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Solaration"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>50</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SpacerFridge"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SpacerFridge"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_TechBarn_Kwazaari"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_TechBarn_Kwazaari"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>300</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_TechBarn_Solar"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_TechBarn_Solar"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>250</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_TechBarn_Ultra"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_TechBarn_Ultra"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>200</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_UltraWatchTower"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_UltraWatchTower"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>200</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Ultramation"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Ultramation"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>150</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedWatchTower"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedWatchTower"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>150</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_BasicBarn"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_BasicBarn"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>50</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_CoastalPier"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_CoastalPier"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>50</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_FishingNets"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_FishingNets"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>50</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ImprovedWatchTower"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ImprovedWatchTower"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_IndustrialMeatHooks"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_IndustrialMeatHooks"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>50</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_InsulatedBarn"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_InsulatedBarn"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_IrrigationCanals"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_IrrigationCanals"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>50</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_IrrigationIndustrial"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_IrrigationIndustrial"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_TechBarn"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_TechBarn"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>150</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_TrawlerGear"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_TrawlerGear"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>50</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_WoodenWatchTower"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_WoodenWatchTower"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>50</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <!-- Recruitment — ConversionChair 75; Propaganda line 50×tier -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ConversionChair"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ConversionChair"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>75</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PropagandaPrinter"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PropagandaPrinter"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>50</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PropagandaRadio"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PropagandaRadio"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ReEducationCenter"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ReEducationCenter"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>150</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <!-- Hospital scaled 50×tier (Basic 50 → Glitter 200); warehouse/mortar/turrets flat 100 -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Adv_AutoTurrets"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_Adv_AutoTurrets"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_AutoTurrets"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_AutoTurrets"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_GlitterHospital"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_GlitterHospital"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>200</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarHospital"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarHospital"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>300</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SolarHospital"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SolarHospital"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>250</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SpacerHospital"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SpacerHospital"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>150</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedHospital"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedHospital"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedMortarShells"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedMortarShells"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AntiAirGun"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AntiAirGun"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AutoTurrets"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AutoTurrets"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_BasicHospital"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_BasicHospital"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>50</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ImprovedMortarShells"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ImprovedMortarShells"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_MortarTargetingSystem"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_MortarTargetingSystem"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_Warehouse_Forklifters"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_Warehouse_Forklifters"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_Warehouse_LogisticsNetwork"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_Warehouse_LogisticsNetwork"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <!-- Production / Mining / RawShaping — 50×lineTier (Silo 0) -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarMiningLift"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_QuasarMiningLift"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>300</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier1"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier1"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>50</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier2"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier2"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier3"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier3"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>150</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier4"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_RawShaping_Tier4"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>200</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SolarMiningLift"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_SolarMiningLift"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>250</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_UltraMiningLift"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_UltraMiningLift"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>200</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedHydroponicsBasin"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedHydroponicsBasin"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedMiningLift"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedMiningLift"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>150</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_HydroponicsBasin"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_HydroponicsBasin"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>50</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ImprovedMiningLift"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ImprovedMiningLift"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_MiningLift"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_MiningLift"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>50</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_Silo"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_Silo"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>0</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_Terraforming"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_Terraforming"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>150</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <!-- Research flat 200; Deepchem 50×lineTier -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier1"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier1"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>50</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier2"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier2"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>100</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier3"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier3"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>150</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier4"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier4"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>200</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier5"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="BOR_TSA_WD_Upgrade_DeepchemDrill_Tier5"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>250</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedLabEquipment"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedLabEquipment"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>200</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedMicroscopes"]</xpath>
+    <match Class="PatchOperationInsert">
+    <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_AdvancedMicroscopes"]/label</xpath>
+    <order>Append</order>
+    <value>
+    <powerDemandWatts>200</powerDemandWatts>
+    </value>
+    </match>
+    </Operation>
+</Patch>

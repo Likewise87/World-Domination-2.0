@@ -61,6 +61,8 @@
   <TSA_WD_OutpostDefense_NoEquipmentIcons>Sin objetos equipados</TSA_WD_OutpostDefense_NoEquipmentIcons>
   <TSA_WD_OutpostDefense_AutoResolve>Resolver automáticamente</TSA_WD_OutpostDefense_AutoResolve>
   <TSA_WD_OutpostDefense_FightManually>Combatir manualmente</TSA_WD_OutpostDefense_FightManually>
+  <TSA_WD_OutpostDefense_DeploySection_Target>{0} (Objetivo atacado)</TSA_WD_OutpostDefense_DeploySection_Target>
+  <TSA_WD_OutpostDefense_DeploySection_Support>{0} (Puesto de apoyo)</TSA_WD_OutpostDefense_DeploySection_Support>
   <TSA_WD_OutpostDefense_Letter_Label>Enemigos en 15 segundos</TSA_WD_OutpostDefense_Letter_Label>
   <TSA_WD_OutpostDefense_Letter_Text>{0} está siendo atacada por {1}. Los ocupantes de la avanzadilla se han desplegado en un campo de batalla temporal. Los enemigos llegarán en unos 15 segundos.</TSA_WD_OutpostDefense_Letter_Text>
   <TSA_WD_OutpostDefense_LetterImmediate_Label>Enemigos llegando ahora</TSA_WD_OutpostDefense_LetterImmediate_Label>
@@ -121,6 +123,7 @@
   <TSA_WD_Log_Raid_Aborted_TargetDespawned>INCURSIÓN: Abortada (objetivo desaparecido).</TSA_WD_Log_Raid_Aborted_TargetDespawned>
   <TSA_WD_Log_Raid_Aborted_TargetNull>INCURSIÓN: Abortada (objetivo inexistente).</TSA_WD_Log_Raid_Aborted_TargetNull>
   <TSA_WD_Log_Raid_Aborted_NoLongerHostile>INCURSIÓN: Abortada ({0} y {1} ya no están en guerra). Fuerza comprometida reembolsada.</TSA_WD_Log_Raid_Aborted_NoLongerHostile>
+  <TSA_WD_Target_NotHostile>Objetivo no válido. Solo se pueden seleccionar hostiles.</TSA_WD_Target_NotHostile>
   <TSA_WD_Log_Raid_DefBase>Guarnición en {0}: {1} de fuerza.</TSA_WD_Log_Raid_DefBase>
   <TSA_WD_Log_Raid_DefContrib>{0} ({1}) aportó +{2} de defensa. (Bruto: {3}, Efic: {4}% en {5} casillas).</TSA_WD_Log_Raid_DefContrib>
   <TSA_WD_Log_Raid_ExpeditionLaunched>INCURSIÓN: {0} envió una incursión contra {1}.</TSA_WD_Log_Raid_ExpeditionLaunched>

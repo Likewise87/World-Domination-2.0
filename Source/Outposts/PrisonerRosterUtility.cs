@@ -447,6 +447,36 @@ namespace TSA_WorldDomination
                 }
             }
 
+            FormatLabelList(labels, out display, out tip);
+        }
+
+        /// <summary>Visible hediffs on the pawn (unique labels, sorted). Used by the Hediffs roster column.</summary>
+        public static void FormatHediffs(Pawn pawn, out string display, out string tip)
+        {
+            var labels = new List<string>();
+            var seen = new HashSet<string>();
+            List<Hediff> hediffs = pawn?.health?.hediffSet?.hediffs;
+            if (hediffs != null)
+            {
+                for (int i = 0; i < hediffs.Count; i++)
+                {
+                    Hediff h = hediffs[i];
+                    if (h?.def == null || !h.Visible) continue;
+                    string key = h.def.defName;
+                    if (key.NullOrEmpty() || !seen.Add(key)) continue;
+                    string label = h.LabelCap;
+                    if (label.NullOrEmpty())
+                        label = h.def.LabelCap;
+                    if (label.NullOrEmpty()) continue;
+                    labels.Add(label);
+                }
+            }
+            labels.Sort(System.StringComparer.OrdinalIgnoreCase);
+            FormatLabelList(labels, out display, out tip);
+        }
+
+        private static void FormatLabelList(List<string> labels, out string display, out string tip)
+        {
             int count = labels.Count;
             if (count == 0)
             {
@@ -567,6 +597,12 @@ namespace TSA_WorldDomination
                 return a.resistance.CompareTo(b.resistance);
             if (col == "Traits")
                 return string.Compare(a.traitsTip, b.traitsTip, StringComparison.OrdinalIgnoreCase);
+            if (col == PawnRosterColumnIds.Hediffs)
+            {
+                PrisonerRosterUtility.FormatHediffs(a.pawn, out _, out string ha);
+                PrisonerRosterUtility.FormatHediffs(b.pawn, out _, out string hb);
+                return string.Compare(ha, hb, StringComparison.OrdinalIgnoreCase);
+            }
             if (col == "Xenotype")
                 return PawnRosterTraitFilter.CompareXenotype(a.pawn, b.pawn);
             if (col == "Psycasts")

@@ -102,7 +102,7 @@ namespace TSA_WorldDomination
         public float movementCostMultiplier = 0.5f;
         public float workPerSegment = 250f;
         public float expeditionStrengthCost = 50f;
-        public float winterPenaltyReduction = 0.15f;
+        public float winterPenaltyReduction = 0.30f;
         public int minCumulativeConstructionSkill = 5;
         public List<ResearchProjectDef> researchPrerequisites = new List<ResearchProjectDef>();
         public List<OutpostUpgradeCostEntry> cost = new List<OutpostUpgradeCostEntry>();

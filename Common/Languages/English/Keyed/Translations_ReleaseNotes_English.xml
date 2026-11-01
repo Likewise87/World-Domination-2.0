@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_65_Title>Outpost energy needs, better Outpost defense &amp; more</TSA_WD_Update_2_3_65_Title>
+  <TSA_WD_Update_2_3_65_Body><![CDATA[
+<size=16><b>2.3.65 - Outpost energy needs, better Outpost defense & more</b></size>\n
+<color=#00FFFFFF>Release date: November 1st 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• New feature: Outposts need energy to work at full efficiency. Only Power Plant outposts in range can supply it. Demand and the unpowered penalty vary by outpost type. Outpost upgrades can raise demand. The outpost Food tab is now Logistics, with Food and Electricity sub-tabs. Configurable under Economic Difficulty (on by default; Easy difficulty preset turns it off). Demand per outpost and upgrade is XML-based so you can patch it.\n
+• New feature: When manually defending an outpost (not auto-resolve), you can pull in pawns from nearby outposts the same way virtual strength is pulled for auto-resolve. While picking who joins, you can open each participating outpost's armory to change loadouts.\n
+• New feature: Pawn tables (Outpost Pawns, All Player Pawns, Prisoners, and the rest of that family) can show an Injuries column. It lists visible hediffs found on your pawns and is meant mainly for filtering (for example missing limbs or other serious injuries). Hidden by default; enable it via Columns or Advanced Filtering.\n
+• Misc clean-up and bug fixes.\n
+]]></TSA_WD_Update_2_3_65_Body>
   <TSA_WD_Update_2_3_64_Title>Mortar queue, IRBM support, Recruits</TSA_WD_Update_2_3_64_Title>
   <TSA_WD_Update_2_3_64_Body><![CDATA[
 <size=16><b>2.3.64 - Mortar queue, IRBM support, Recruits</b></size>\n

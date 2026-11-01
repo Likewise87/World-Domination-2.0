@@ -123,11 +123,12 @@ namespace TSA_WorldDomination
             return Mathf.Max(1f, WorldDominationMod.settings?.rapidResponseAutoInterceptRange ?? WorldDominationSettings.DefRapidResponseAutoInterceptRange);
         }
 
-        /// <summary>Effective auto-intercept range (respects per-outpost shrink override).</summary>
+        /// <summary>Effective auto-intercept range (respects per-outpost shrink override and unpowered range factor).</summary>
         public static float GetRangeTiles(WorldObject_WD_Outpost outpost)
         {
             float max = GetConfiguredMaxRangeTiles();
             if (outpost == null) return max;
+            max = OutpostPowerGrid.ApplyUnpoweredRange(outpost, max);
             float ov = outpost.RapidResponseRangeOverride;
             if (ov < 0f) return max;
             float min = Mathf.Min(Dialog_OutpostRangeAdjust.MinTiles, max);

@@ -61,6 +61,8 @@
   <TSA_WD_OutpostDefense_NoEquipmentIcons>No equipped items</TSA_WD_OutpostDefense_NoEquipmentIcons>
   <TSA_WD_OutpostDefense_AutoResolve>Auto-resolve</TSA_WD_OutpostDefense_AutoResolve>
   <TSA_WD_OutpostDefense_FightManually>Fight manually</TSA_WD_OutpostDefense_FightManually>
+  <TSA_WD_OutpostDefense_DeploySection_Target>{0} (Attacker Target)</TSA_WD_OutpostDefense_DeploySection_Target>
+  <TSA_WD_OutpostDefense_DeploySection_Support>{0} (Supporting Outpost)</TSA_WD_OutpostDefense_DeploySection_Support>
   <TSA_WD_OutpostDefense_Letter_Label>Enemies arriving in 15 seconds</TSA_WD_OutpostDefense_Letter_Label>
   <TSA_WD_OutpostDefense_Letter_Text>{0} is being attacked by {1}. Your outpost occupants have deployed to a temporary battlefield. Enemies will arrive in about 15 seconds.</TSA_WD_OutpostDefense_Letter_Text>
   <TSA_WD_OutpostDefense_LetterImmediate_Label>Enemies arriving now</TSA_WD_OutpostDefense_LetterImmediate_Label>
@@ -121,6 +123,7 @@
   <TSA_WD_Log_Raid_Aborted_TargetDespawned>RAID: Aborted (target despawned).</TSA_WD_Log_Raid_Aborted_TargetDespawned>
   <TSA_WD_Log_Raid_Aborted_TargetNull>RAID: Aborted (target no longer exists).</TSA_WD_Log_Raid_Aborted_TargetNull>
   <TSA_WD_Log_Raid_Aborted_NoLongerHostile>RAID: Aborted ({0} and {1} are no longer at war). Committed strength refunded.</TSA_WD_Log_Raid_Aborted_NoLongerHostile>
+  <TSA_WD_Target_NotHostile>Not a valid target. Only hostiles can be selected.</TSA_WD_Target_NotHostile>
   <TSA_WD_Log_Raid_DefBase>Garrison at {0}: {1} strength.</TSA_WD_Log_Raid_DefBase>
   <TSA_WD_Log_Raid_DefContrib>{0} ({1}) provided +{2} defense power. (Raw: {3}, Eff: {4}% over {5} tiles).</TSA_WD_Log_Raid_DefContrib>
   <TSA_WD_Log_Raid_ExpeditionLaunched>RAID: {0} dispatched a raid against {1}.</TSA_WD_Log_Raid_ExpeditionLaunched>

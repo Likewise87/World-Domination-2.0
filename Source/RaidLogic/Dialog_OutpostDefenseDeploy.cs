@@ -8,41 +8,77 @@ using Verse.Sound;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>Pick which outpost occupants deploy for manual defense under an offensive-strength budget. Shows gear and combat stats.</summary>
+    /// <summary>
+    /// Pick which outpost occupants deploy for manual defense under per-section offensive-strength budgets.
+    /// Target outpost plus nearby player supporting outposts as tabs (one roster visible at a time).
+    /// </summary>
     public class Dialog_OutpostDefenseDeploy : Window, IPawnRosterViewHost
     {
         private const PawnRosterColumnWindow ColWindow = PawnRosterColumnWindow.DefenseDeploy;
         private const float ViewControlsH = 30f;
+        private const float SectionMeterH = 30f;
+        private const float HeaderHeight = 36f;
+        private const float ColSelect = 36f;
+        private const float ArmoryBtnWidth = 120f;
+        private const float SmartSelectBtnWidth = 160f;
+        private const float DeselectBtnWidth = 130f;
+        private const float ToolbarBtnGap = 8f;
+        private const float TabBarH = 28f;
+        private const float TabPadX = 12f;
+        private const float TabGap = 4f;
+        private const float MaxTabW = 220f;
+        private const float MinTabW = 80f;
+
+        private sealed class DeploySection
+        {
+            public WorldObject_WD_Outpost source;
+            public bool isTarget;
+            public float available;
+            public readonly List<Pawn> candidates = new List<Pawn>();
+            public readonly List<Pawn> visibleRows = new List<Pawn>();
+            public string cachedHeaderLabel;
+            public string cachedTabLabel;
+        }
 
         private readonly WorldObject_WD_Outpost outpost;
         private readonly WorldObject_Traveler traveler;
         private readonly WorldComponent_SpreadManager manager;
         private readonly bool isSkirmishFollowUp;
         private readonly bool enforceBudget;
-        private readonly float available;
-        private readonly List<Pawn> candidates = new List<Pawn>();
-        private readonly List<Pawn> visibleRows = new List<Pawn>();
-        private readonly HashSet<int> selectedIds = new HashSet<int>();
+        private readonly List<DeploySection> sections = new List<DeploySection>();
+        private readonly HashSet<string> selectedThingIds = new HashSet<string>();
         private Vector2 scrollPosition;
+        private Vector2 tabScrollPosition;
+        private int selectedSectionIndex;
         private bool resolved;
+        private bool armoryDirty;
         private readonly PawnRosterViewState view = PawnRosterViewStateStore.For(ColWindow);
         private readonly Dictionary<Pawn, PawnRosterRowData> rosterData = new Dictionary<Pawn, PawnRosterRowData>();
         private readonly Action<string> onSort;
+        private readonly List<Pawn> leaveBehindScratch = new List<Pawn>();
+        private readonly List<Pawn> smartSelectScratch = new List<Pawn>();
+        private readonly List<float> tabWidths = new List<float>();
         private int builtViewRevision = -1;
         private int builtTraitRevision = -1;
+        private int builtHediffRevision = -1;
+        private string cachedBanner;
         private string nameSearchTerm
         {
             get => view.GetString(PawnRosterFilterKeys.Name);
             set => view.SetString(PawnRosterFilterKeys.Name, value);
         }
-        private const float HeaderHeight = 36f;
 
         private static float FixedColumnsWidth =>
-            OutpostStrengthBudgetUi.ColIconDeploy
-            + PawnRosterBudgetTable.ColumnsWidth(ColWindow)
-            + OutpostStrengthBudgetUi.ColAction;
+            ColSelect
+            + OutpostStrengthBudgetUi.ColIconDeploy
+            + PawnRosterBudgetTable.ColumnsWidth(ColWindow);
 
-        public override Vector2 InitialSize => new Vector2(890f, 660f);
+        private DeploySection ActiveSection =>
+            sections.Count == 0
+                ? null
+                : sections[Mathf.Clamp(selectedSectionIndex, 0, sections.Count - 1)];
+
+        public override Vector2 InitialSize => new Vector2(920f, 720f);
 
         public Dialog_OutpostDefenseDeploy(
             WorldObject_Traveler traveler,
@@ -55,10 +91,10 @@ namespace TSA_WorldDomination
             this.manager = manager;
             this.isSkirmishFollowUp = isSkirmishFollowUp;
             enforceBudget = OutpostStrengthBudget.DefenseDeployBudgetEnabled;
-            available = OutpostStrengthBudget.GetAvailableForDefense(outpost);
             onSort = ToggleSort;
             view.SetDefaultSort(PawnRosterBudgetTable.DefaultSortId, false);
-            CollectCandidates();
+            cachedBanner = "TSA_WD_StrengthBudget_DeployBanner".Translate();
+            BuildSectionsOnce();
             RebuildVisibleRows();
             SelectDefaultFill();
             doCloseX = true;
@@ -69,16 +105,65 @@ namespace TSA_WorldDomination
             closeOnCancel = false;
         }
 
-        private void CollectCandidates()
+        private void BuildSectionsOnce()
         {
-            candidates.Clear();
-            List<Pawn> occ = outpost?.Occupants;
+            sections.Clear();
+            selectedSectionIndex = 0;
+            var target = new DeploySection
+            {
+                source = outpost,
+                isTarget = true,
+                available = OutpostStrengthBudget.GetAvailableForDefense(outpost),
+                cachedHeaderLabel = "TSA_WD_OutpostDefense_DeploySection_Target".Translate(outpost?.LabelCap ?? "Outpost"),
+                cachedTabLabel = outpost?.LabelCap ?? "Outpost"
+            };
+            CollectOccupants(outpost, target.candidates);
+            sections.Add(target);
+
+            List<WorldObject_WD_Outpost> supports = WD_OutpostDefenseEncounterUtility.CollectPlayerSupportOutposts(
+                outpost, traveler, manager);
+            for (int i = 0; i < supports.Count; i++)
+            {
+                WorldObject_WD_Outpost donor = supports[i];
+                if (donor == null || donor.Destroyed) continue;
+                var section = new DeploySection
+                {
+                    source = donor,
+                    isTarget = false,
+                    available = OutpostStrengthBudget.GetAvailableForSupportDefense(donor),
+                    cachedHeaderLabel = "TSA_WD_OutpostDefense_DeploySection_Support".Translate(donor.LabelCap),
+                    cachedTabLabel = donor.LabelCap
+                };
+                CollectOccupants(donor, section.candidates);
+                if (section.candidates.Count == 0) continue;
+                sections.Add(section);
+            }
+
+            RebuildTabWidths();
+        }
+
+        private void RebuildTabWidths()
+        {
+            tabWidths.Clear();
+            Text.Font = GameFont.Small;
+            for (int i = 0; i < sections.Count; i++)
+            {
+                string label = sections[i].cachedTabLabel ?? sections[i].cachedHeaderLabel ?? "?";
+                float w = Mathf.Clamp(Text.CalcSize(label).x + TabPadX * 2f, MinTabW, MaxTabW);
+                tabWidths.Add(w);
+            }
+        }
+
+        private static void CollectOccupants(WorldObject_WD_Outpost source, List<Pawn> into)
+        {
+            into.Clear();
+            List<Pawn> occ = source?.Occupants;
             if (occ == null) return;
             for (int i = 0; i < occ.Count; i++)
             {
                 Pawn p = occ[i];
                 if (p == null || p.Destroyed || p.Dead) continue;
-                candidates.Add(p);
+                into.Add(p);
             }
         }
 
@@ -86,13 +171,41 @@ namespace TSA_WorldDomination
         {
             builtViewRevision = view.Revision;
             builtTraitRevision = PawnRosterTraitFilter.Revision;
-            PawnRosterBudgetTable.BuildRows(candidates, visibleRows, p => p, view, rosterData);
+            builtHediffRevision = PawnRosterHediffFilter.Revision;
+            for (int i = 0; i < sections.Count; i++)
+            {
+                DeploySection section = sections[i];
+                PawnRosterBudgetTable.BuildRows(section.candidates, section.visibleRows, p => p, view, rosterData);
+            }
         }
 
         private void RebuildIfViewChanged()
         {
-            if (builtViewRevision != view.Revision || builtTraitRevision != PawnRosterTraitFilter.Revision)
+            if (builtViewRevision != view.Revision
+                || builtTraitRevision != PawnRosterTraitFilter.Revision
+                || builtHediffRevision != PawnRosterHediffFilter.Revision)
                 RebuildVisibleRows();
+        }
+
+        private void RefreshAfterArmoryIfNeeded()
+        {
+            if (!armoryDirty) return;
+            if (IsOutpostArmoryOpen()) return;
+            rosterData.Clear();
+            armoryDirty = false;
+            builtViewRevision = -1;
+        }
+
+        private static bool IsOutpostArmoryOpen()
+        {
+            var windows = Find.WindowStack?.Windows;
+            if (windows == null) return false;
+            for (int i = 0; i < windows.Count; i++)
+            {
+                if (windows[i] is Dialog_OutpostArmory)
+                    return true;
+            }
+            return false;
         }
 
         public PawnRosterColumnWindow RosterWindow => ColWindow;
@@ -101,15 +214,21 @@ namespace TSA_WorldDomination
         public void CollectRosterSortOptions(List<PawnRosterSortOption> into) =>
             PawnRosterBudgetTable.CollectSortOptions(ColWindow, into);
         public bool SupportsRosterFilter(string key) =>
-            PawnRosterViewUtil.IsCommonFilterKey(key) || key == PawnRosterFilterKeys.Traits;
+            PawnRosterViewUtil.IsCommonFilterKey(key)
+            || key == PawnRosterFilterKeys.Traits
+            || key == PawnRosterFilterKeys.Hediffs;
         public string DescribeRosterFilter(string key) => PawnRosterViewUtil.DescribeFilter(view, key);
         public void OnRosterViewChanged() => builtViewRevision = -1;
 
         public void CollectRosterPawns(List<Pawn> into)
         {
-            for (int i = 0; i < candidates.Count; i++)
+            for (int s = 0; s < sections.Count; s++)
             {
-                if (candidates[i] != null) into.Add(candidates[i]);
+                List<Pawn> candidates = sections[s].candidates;
+                for (int i = 0; i < candidates.Count; i++)
+                {
+                    if (candidates[i] != null) into.Add(candidates[i]);
+                }
             }
         }
 
@@ -132,42 +251,194 @@ namespace TSA_WorldDomination
 
         private void SelectDefaultFill()
         {
-            selectedIds.Clear();
+            selectedThingIds.Clear();
+            DeploySection target = sections.Count > 0 ? sections[0] : null;
+            if (target == null || !target.isTarget) return;
+
             if (!enforceBudget)
             {
-                for (int i = 0; i < candidates.Count; i++)
+                for (int i = 0; i < target.candidates.Count; i++)
                 {
-                    Pawn p = candidates[i];
-                    if (p == null) continue;
-                    selectedIds.Add(p.thingIDNumber);
+                    Pawn p = target.candidates[i];
+                    if (p?.ThingID == null) continue;
+                    selectedThingIds.Add(p.ThingID);
                 }
                 return;
             }
 
             float used = 0f;
-            // Fill by strength descending regardless of current UI sort.
-            var byStrength = new List<Pawn>(candidates);
+            var byStrength = new List<Pawn>(target.candidates);
             byStrength.Sort((a, b) => OutpostStrengthBudget.GetPawnCost(b).CompareTo(OutpostStrengthBudget.GetPawnCost(a)));
             for (int i = 0; i < byStrength.Count; i++)
             {
                 Pawn p = byStrength[i];
+                if (p?.ThingID == null) continue;
                 float cost = OutpostStrengthBudget.GetPawnCost(p);
-                if (used + cost > available + 0.05f) continue;
-                selectedIds.Add(p.thingIDNumber);
+                if (used + cost > target.available + 0.05f) continue;
+                selectedThingIds.Add(p.ThingID);
                 used += cost;
             }
         }
 
-        private float CurrentUsed()
+        private void SmartSelectAllSections()
         {
-            float used = 0f;
-            for (int i = 0; i < candidates.Count; i++)
+            selectedThingIds.Clear();
+            smartSelectScratch.Clear();
+            for (int s = 0; s < sections.Count; s++)
             {
-                Pawn p = candidates[i];
-                if (p == null || !selectedIds.Contains(p.thingIDNumber)) continue;
+                List<Pawn> candidates = sections[s].candidates;
+                for (int i = 0; i < candidates.Count; i++)
+                {
+                    Pawn p = candidates[i];
+                    if (p?.ThingID != null) smartSelectScratch.Add(p);
+                }
+            }
+
+            smartSelectScratch.Sort((a, b) => OutpostStrengthBudget.GetPawnCost(b).CompareTo(OutpostStrengthBudget.GetPawnCost(a)));
+
+            var usedBySection = new Dictionary<DeploySection, float>();
+            for (int s = 0; s < sections.Count; s++)
+                usedBySection[sections[s]] = 0f;
+
+            for (int i = 0; i < smartSelectScratch.Count; i++)
+            {
+                Pawn pawn = smartSelectScratch[i];
+                DeploySection section = FindSectionForPawn(pawn);
+                if (section == null || pawn.ThingID == null) continue;
+
+                float cost = OutpostStrengthBudget.GetPawnCost(pawn);
+                float used = usedBySection[section];
+                if (enforceBudget && !OutpostStrengthBudget.IsUnderBudget(used + cost, section.available))
+                    continue;
+
+                selectedThingIds.Add(pawn.ThingID);
+                if (!section.isTarget)
+                {
+                    FillSelectedScratch(section);
+                    if (!OutpostPawnIdeologyUtil.BulkRemovalSelectionIsAllowed(section.source, leaveBehindScratch))
+                    {
+                        selectedThingIds.Remove(pawn.ThingID);
+                        continue;
+                    }
+                }
+
+                usedBySection[section] = used + cost;
+            }
+
+            SoundDefOf.Click.PlayOneShotOnCamera();
+        }
+
+        private void DeselectAll()
+        {
+            selectedThingIds.Clear();
+            SoundDefOf.Click.PlayOneShotOnCamera();
+        }
+
+        private DeploySection FindSectionForPawn(Pawn pawn)
+        {
+            if (pawn == null) return null;
+            for (int s = 0; s < sections.Count; s++)
+            {
+                List<Pawn> candidates = sections[s].candidates;
+                for (int i = 0; i < candidates.Count; i++)
+                {
+                    if (candidates[i] == pawn) return sections[s];
+                }
+            }
+            return null;
+        }
+
+        private float SectionUsed(DeploySection section)
+        {
+            if (section == null) return 0f;
+            float used = 0f;
+            for (int i = 0; i < section.candidates.Count; i++)
+            {
+                Pawn p = section.candidates[i];
+                if (p?.ThingID == null || !selectedThingIds.Contains(p.ThingID)) continue;
                 used += OutpostStrengthBudget.GetPawnCost(p);
             }
             return used;
+        }
+
+        private bool SectionUnderBudget(DeploySection section)
+        {
+            if (section == null) return true;
+            if (!enforceBudget) return true;
+            return OutpostStrengthBudget.IsUnderBudget(SectionUsed(section), section.available);
+        }
+
+        private bool AllSectionsUnderBudget()
+        {
+            for (int i = 0; i < sections.Count; i++)
+            {
+                if (!SectionUnderBudget(sections[i])) return false;
+            }
+            return true;
+        }
+
+        private int TargetSelectedCount()
+        {
+            if (sections.Count == 0 || !sections[0].isTarget) return 0;
+            int n = 0;
+            List<Pawn> candidates = sections[0].candidates;
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                Pawn p = candidates[i];
+                if (p?.ThingID != null && selectedThingIds.Contains(p.ThingID)) n++;
+            }
+            return n;
+        }
+
+        private bool SupportLeaveBehindOk()
+        {
+            for (int s = 0; s < sections.Count; s++)
+            {
+                DeploySection section = sections[s];
+                if (section.isTarget) continue;
+                FillSelectedScratch(section);
+                if (leaveBehindScratch.Count == 0) continue;
+                if (!OutpostPawnIdeologyUtil.BulkRemovalSelectionIsAllowed(section.source, leaveBehindScratch))
+                    return false;
+            }
+            return true;
+        }
+
+        private bool TryGetSupportLeaveBehindReject(out string reject)
+        {
+            reject = null;
+            for (int s = 0; s < sections.Count; s++)
+            {
+                DeploySection section = sections[s];
+                if (section.isTarget) continue;
+                FillSelectedScratch(section);
+                if (leaveBehindScratch.Count == 0) continue;
+                if (OutpostPawnIdeologyUtil.TryGetBulkRemovalRejectReason(section.source, leaveBehindScratch, out reject))
+                    return true;
+            }
+            return false;
+        }
+
+        private void FillSelectedScratch(DeploySection section)
+        {
+            leaveBehindScratch.Clear();
+            if (section == null) return;
+            for (int i = 0; i < section.candidates.Count; i++)
+            {
+                Pawn p = section.candidates[i];
+                if (p?.ThingID != null && selectedThingIds.Contains(p.ThingID))
+                    leaveBehindScratch.Add(p);
+            }
+        }
+
+        private bool CanSelectPawn(DeploySection section, Pawn pawn, bool currentlySelected)
+        {
+            if (section == null || pawn == null) return false;
+            if (currentlySelected) return true;
+            if (!enforceBudget) return true;
+            float used = SectionUsed(section);
+            float cost = OutpostStrengthBudget.GetPawnCost(pawn);
+            return OutpostStrengthBudget.IsUnderBudget(used + cost, section.available);
         }
 
         public override void PostClose()
@@ -183,6 +454,9 @@ namespace TSA_WorldDomination
             if (PawnRosterHeaderFilter.TryCloseDropdownOnCancel())
                 return;
 
+            RefreshAfterArmoryIfNeeded();
+            PawnRosterPaintSelect.BeginFrame(this);
+
             float y = 0f;
             Text.Font = GameFont.Medium;
             OutpostStrengthBudgetUi.LabelAnchored(
@@ -192,58 +466,121 @@ namespace TSA_WorldDomination
             y += Outpost_Dialog_UI.DialogTitleRowAdvance;
             Text.Font = GameFont.Small;
 
-            string banner = "TSA_WD_StrengthBudget_DeployBanner".Translate();
-            float bannerH = Mathf.Max(OutpostStrengthBudgetUi.BoxLineH, Text.CalcHeight(banner, inRect.width));
-            OutpostStrengthBudgetUi.LabelAnchored(new Rect(0f, y, inRect.width, bannerH), banner, TextAnchor.MiddleCenter);
-            y += bannerH + 8f;
+            float bannerH = Mathf.Max(OutpostStrengthBudgetUi.BoxLineH, Text.CalcHeight(cachedBanner, inRect.width));
+            OutpostStrengthBudgetUi.LabelAnchored(
+                new Rect(0f, y, inRect.width, bannerH), cachedBanner, TextAnchor.MiddleCenter);
+            y += bannerH + 6f;
 
-            float used = CurrentUsed();
-            bool under = !enforceBudget || OutpostStrengthBudget.IsUnderBudget(used, available);
-            Color meterColor = under ? Color.white : ColorLibrary.RedReadable;
-            string meter = "TSA_WD_StrengthBudget_DeployingMeter".Translate(used.ToString("F0"), available.ToString("F0"));
-            y = OutpostStrengthBudgetUi.DrawMeterBox(0f, y, inRect.width, meter, meterColor,
-                tipKey: "TSA_WD_StrengthBudget_DeployMeterTip");
-            y += Outpost_Dialog_UI.OutcomeBoxGap;
+            float toolbarRight = inRect.width;
+            Rect deselectBtn = new Rect(
+                toolbarRight - DeselectBtnWidth,
+                y,
+                DeselectBtnWidth,
+                ViewControlsH);
+            Rect smartBtn = new Rect(
+                deselectBtn.x - ToolbarBtnGap - SmartSelectBtnWidth,
+                y,
+                SmartSelectBtnWidth,
+                ViewControlsH);
+
+            bool showOutpostTabs = sections.Count > 1;
+            if (showOutpostTabs)
+            {
+                string outpostsLabel = "TSA_WD_OutpostDefense_OutpostsLabel".Translate();
+                float outpostsLabelW = Mathf.Max(72f, Text.CalcSize(outpostsLabel).x + 4f);
+                OutpostStrengthBudgetUi.LabelAnchored(
+                    new Rect(0f, y, outpostsLabelW, ViewControlsH),
+                    outpostsLabel,
+                    TextAnchor.MiddleLeft);
+            }
+
+            TooltipHandler.TipRegion(smartBtn, "TSA_WD_OutpostDefense_SmartSelectTip".Translate());
+            TooltipHandler.TipRegion(deselectBtn, "TSA_WD_OutpostDefense_DeselectAllTip".Translate());
+            if (WorldDomination_UIUtils.ButtonTextWithIcon(
+                smartBtn,
+                WorldDomination_UIUtils.RosterSmartIcon,
+                "TSA_WD_OutpostDefense_SmartSelect".Translate()))
+            {
+                SmartSelectAllSections();
+            }
+            if (Widgets.ButtonText(deselectBtn, "TSA_WD_OutpostDefense_DeselectAll".Translate()))
+                DeselectAll();
 
             PlayerPawnRosterUtility.DrawRosterViewControls(
-                y, ViewControlsH, inRect.width, ColWindow, RestoreDefaultView,
+                y, ViewControlsH, smartBtn.x - ToolbarBtnGap, ColWindow, RestoreDefaultView,
                 () => Find.WindowStack.Add(new Dialog_PawnRosterColumns(ColWindow, OnColumnsChanged)),
                 this);
             y += ViewControlsH + 4f;
             RebuildIfViewChanged();
 
+            if (showOutpostTabs)
+            {
+                Widgets.DrawLineHorizontal(0f, y, inRect.width);
+                y += 6f;
+                y = DrawOutpostTabBar(new Rect(0f, y, inRect.width, TabBarH));
+                y += 6f;
+            }
+
+            DeploySection section = ActiveSection;
+            if (section == null) return;
+
             float rowH = OutpostStrengthBudgetUi.DeployRowHeight;
             float tableBottom = inRect.height - OutpostStrengthBudgetUi.BottomH - 8f;
-            // Match scroll-view content width so header and rows share the same column X.
             const float scrollBarW = 16f;
             float fixedW = FixedColumnsWidth;
             float tableWidth = Mathf.Max(Mathf.Max(200f, inRect.width - scrollBarW), fixedW + 80f);
             float nameW = Mathf.Max(80f, tableWidth - fixedW);
 
-            float listTop = y + HeaderHeight + 4f;
-            GUI.BeginGroup(new Rect(0f, y, inRect.width, HeaderHeight));
-            DrawSortableTableHeader(new Rect(-scrollPosition.x, 0f, tableWidth, HeaderHeight), nameW);
-            GUI.EndGroup();
-            Widgets.DrawLineHorizontal(0f, y + HeaderHeight, inRect.width);
+            float used = SectionUsed(section);
+            bool under = SectionUnderBudget(section);
+            bool showMeter = enforceBudget;
+            bool showArmory = OutpostArmoryUtility.FeatureEnabled && section.source != null;
+            if (showMeter || showArmory)
+            {
+                float curX = 0f;
+                if (showArmory)
+                {
+                    Rect armoryRect = new Rect(curX, y, ArmoryBtnWidth, SectionMeterH);
+                    DrawArmoryButton(armoryRect, section.source);
+                    curX = armoryRect.xMax + ToolbarBtnGap;
+                }
 
+                if (showMeter)
+                {
+                    Color meterColor = under ? Color.white : ColorLibrary.RedReadable;
+                    string meter = "TSA_WD_StrengthBudget_DeployingMeter".Translate(used.ToString("F0"), section.available.ToString("F0"));
+                    float meterW = Mathf.Max(120f, inRect.width - curX);
+                    GUI.color = meterColor;
+                    OutpostStrengthBudgetUi.LabelAnchored(
+                        new Rect(curX, y, meterW, SectionMeterH), meter, TextAnchor.MiddleLeft);
+                    GUI.color = Color.white;
+                }
+
+                y += SectionMeterH + 2f;
+            }
+
+            DrawSortableTableHeader(new Rect(0f, y, tableWidth, HeaderHeight), nameW, section);
+            Widgets.DrawLineHorizontal(0f, y + HeaderHeight, inRect.width);
+            y += HeaderHeight + 4f;
+
+            float listTop = y;
             Rect listOut = new Rect(0f, listTop, inRect.width, Mathf.Max(40f, tableBottom - listTop));
-            float viewH = visibleRows.Count * rowH + 4f;
+            float viewH = section.visibleRows.Count * rowH + 4f;
             Rect listView = new Rect(0f, 0f, tableWidth, Mathf.Max(listOut.height, viewH));
             Widgets.BeginScrollView(listOut, ref scrollPosition, listView);
-            used = CurrentUsed();
-            for (int i = 0; i < visibleRows.Count; i++)
-                DrawRow(0f, i * rowH, tableWidth, nameW, visibleRows[i], used);
+            for (int i = 0; i < section.visibleRows.Count; i++)
+                DrawRow(0f, i * rowH, tableWidth, nameW, section.visibleRows[i], section);
             Widgets.EndScrollView();
 
-            used = CurrentUsed();
-            under = (!enforceBudget || OutpostStrengthBudget.IsUnderBudget(used, available)) && selectedIds.Count > 0;
-
+            bool canFight = TargetSelectedCount() > 0 && AllSectionsUnderBudget() && SupportLeaveBehindOk();
             Rect btnRow = new Rect(0f, inRect.height - OutpostStrengthBudgetUi.BottomH, inRect.width, 36f);
             if (Widgets.ButtonText(btnRow.LeftHalf().ContractedBy(2f), "TSA_WD_Conquest_Back".Translate()))
                 Close();
 
             Rect fightRect = btnRow.RightHalf().ContractedBy(2f);
-            GUI.enabled = under;
+            if (!canFight && Mouse.IsOver(fightRect) && TryGetSupportLeaveBehindReject(out string leaveReject) && !leaveReject.NullOrEmpty())
+                TooltipHandler.TipRegion(fightRect, leaveReject);
+            GUI.enabled = canFight;
             if (Widgets.ButtonText(fightRect, "TSA_WD_OutpostDefense_FightManually".Translate()))
                 ConfirmFight();
             GUI.enabled = true;
@@ -251,11 +588,93 @@ namespace TSA_WorldDomination
             PawnRosterHeaderFilter.DrawDropdownIfOpen();
         }
 
-        private void DrawSortableTableHeader(Rect hRect, float nameW)
+        /// <summary>
+        /// Horizontal outpost tabs. Scrolls when labels do not fit (many nearby supports).
+        /// </summary>
+        private float DrawOutpostTabBar(Rect barRect)
+        {
+            if (tabWidths.Count != sections.Count)
+                RebuildTabWidths();
+
+            float totalW = 0f;
+            for (int i = 0; i < tabWidths.Count; i++)
+                totalW += tabWidths[i] + (i > 0 ? TabGap : 0f);
+
+            bool needScroll = totalW > barRect.width + 0.5f;
+            // Slightly taller bar when scrolling so the horizontal scrollbar has room.
+            Rect outer = needScroll
+                ? new Rect(barRect.x, barRect.y, barRect.width, barRect.height + 16f)
+                : barRect;
+            Rect viewRect = new Rect(0f, 0f, needScroll ? totalW : outer.width, TabBarH);
+
+            if (needScroll)
+                tabScrollPosition = GUI.BeginScrollView(outer, tabScrollPosition, viewRect, true, false);
+            else
+                GUI.BeginGroup(outer);
+
+            float x = 0f;
+            Text.Font = GameFont.Small;
+            for (int i = 0; i < sections.Count; i++)
+            {
+                float w = tabWidths[i];
+                Rect tabRect = new Rect(x, 0f, w, TabBarH);
+                bool selected = i == selectedSectionIndex;
+                if (selected)
+                    Widgets.DrawHighlightSelected(tabRect);
+                else
+                    Widgets.DrawHighlightIfMouseover(tabRect);
+
+                Widgets.DrawBox(tabRect, 1);
+                string label = sections[i].cachedTabLabel ?? sections[i].cachedHeaderLabel ?? "?";
+                OutpostStrengthBudgetUi.LabelAnchored(tabRect, label.Truncate(w - 8f), TextAnchor.MiddleCenter);
+                TooltipHandler.TipRegion(tabRect, sections[i].cachedHeaderLabel);
+
+                if (Widgets.ButtonInvisible(tabRect))
+                {
+                    selectedSectionIndex = i;
+                    scrollPosition = Vector2.zero;
+                    SoundDefOf.Click.PlayOneShotOnCamera();
+                }
+
+                x += w + TabGap;
+            }
+
+            if (needScroll)
+                GUI.EndScrollView();
+            else
+                GUI.EndGroup();
+
+            return outer.yMax;
+        }
+
+        private void DrawArmoryButton(Rect rect, WorldObject_WD_Outpost source)
+        {
+            bool enabled = OutpostArmoryUtility.CanMutate(source);
+            if (!enabled) GUI.color = new Color(1f, 1f, 1f, 0.45f);
+            bool clicked = WorldDomination_UIUtils.ButtonTextWithIcon(
+                rect,
+                Dialog_OutpostArmoryAssets.ArmoryIcon,
+                "TSA_WD_Armory_OpenButton".Translate());
+            GUI.color = Color.white;
+
+            TooltipHandler.TipRegion(rect, enabled
+                ? "TSA_WD_Armory_OpenButtonTip".Translate()
+                : "TSA_WD_Armory_FailManualDefense".Translate());
+
+            if (clicked && enabled)
+            {
+                armoryDirty = true;
+                Find.WindowStack.Add(new Dialog_OutpostArmory(source));
+            }
+        }
+
+        private void DrawSortableTableHeader(Rect hRect, float nameW, DeploySection section)
         {
             Text.Font = GameFont.Tiny;
             GUI.color = Color.gray;
-            float curX = hRect.x + OutpostStrengthBudgetUi.ColIconDeploy;
+            float curX = hRect.x;
+            DrawSelectAllHeader(ref curX, hRect, section);
+            curX += OutpostStrengthBudgetUi.ColIconDeploy;
             PawnRosterHeaderFilter.DrawFilterableHeader(
                 ref curX, hRect.y, nameW, hRect.height,
                 "TSA_WD_StrengthBudget_ColName".Translate(),
@@ -276,6 +695,69 @@ namespace TSA_WorldDomination
             Text.Font = GameFont.Small;
         }
 
+        private void DrawSelectAllHeader(ref float curX, Rect hRect, DeploySection section)
+        {
+            Rect selHdr = new Rect(curX, hRect.y, ColSelect, hRect.height);
+            if (Mouse.IsOver(selHdr)) Widgets.DrawHighlight(selHdr);
+
+            int visible = section?.visibleRows.Count ?? 0;
+            bool allSelected = visible > 0 && AreAllVisibleSelected(section);
+            float box = 18f;
+            float cx = selHdr.x + (ColSelect - box) * 0.5f;
+            float cy = selHdr.y + (hRect.height - box) * 0.5f;
+            Widgets.CheckboxDraw(cx, cy, allSelected, visible == 0, box);
+
+            TooltipHandler.TipRegion(selHdr, "TSA_WD_PawnCol_SelectColumnTip".Translate());
+            if (visible > 0 && Widgets.ButtonInvisible(selHdr))
+            {
+                ToggleSelectAllVisible(section);
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
+            curX += ColSelect;
+        }
+
+        private bool AreAllVisibleSelected(DeploySection section)
+        {
+            if (section == null) return false;
+            int visible = 0;
+            for (int i = 0; i < section.visibleRows.Count; i++)
+            {
+                Pawn p = section.visibleRows[i];
+                if (p?.ThingID == null) continue;
+                visible++;
+                if (!selectedThingIds.Contains(p.ThingID)) return false;
+            }
+            return visible > 0;
+        }
+
+        private void ToggleSelectAllVisible(DeploySection section)
+        {
+            if (section == null) return;
+            if (AreAllVisibleSelected(section))
+            {
+                for (int i = 0; i < section.visibleRows.Count; i++)
+                {
+                    Pawn p = section.visibleRows[i];
+                    if (p?.ThingID != null) selectedThingIds.Remove(p.ThingID);
+                }
+                return;
+            }
+
+            for (int i = 0; i < section.visibleRows.Count; i++)
+            {
+                Pawn p = section.visibleRows[i];
+                if (p?.ThingID == null) continue;
+                if (!CanSelectPawn(section, p, currentlySelected: false)) continue;
+                selectedThingIds.Add(p.ThingID);
+                if (!section.isTarget)
+                {
+                    FillSelectedScratch(section);
+                    if (!OutpostPawnIdeologyUtil.BulkRemovalSelectionIsAllowed(section.source, leaveBehindScratch))
+                        selectedThingIds.Remove(p.ThingID);
+                }
+            }
+        }
+
         private void ToggleSort(string id)
         {
             view.Sort.ClickFromHeader(id, PawnRosterBudgetTable.FirstClickAscending(ColWindow, id));
@@ -283,18 +765,36 @@ namespace TSA_WorldDomination
             SoundDefOf.Click.PlayOneShotOnCamera();
         }
 
-        private void DrawRow(float x, float y, float width, float nameW, Pawn pawn, float currentUsed)
+        private void DrawRow(float x, float y, float width, float nameW, Pawn pawn, DeploySection section)
         {
-            if (pawn == null) return;
-            bool selected = selectedIds.Contains(pawn.thingIDNumber);
-            float cost = OutpostStrengthBudget.GetPawnCost(pawn);
-            bool canSelect = selected || !enforceBudget || OutpostStrengthBudget.IsUnderBudget(currentUsed + cost, available);
+            if (pawn == null || section == null || pawn.ThingID == null) return;
+            bool selected = selectedThingIds.Contains(pawn.ThingID);
+            bool canSelect = CanSelectPawn(section, pawn, selected);
             float rowH = OutpostStrengthBudgetUi.DeployRowHeight;
+            float cost = OutpostStrengthBudget.GetPawnCost(pawn);
 
             Rect rowRect = new Rect(x, y, width, rowH);
             Outpost_Dialog_UI.DrawSelectedRowTint(rowRect, selected);
 
             float curX = x;
+            Rect selRect = new Rect(curX, y, ColSelect, rowH);
+            float box = 24f;
+            float cx = curX + (ColSelect - box) * 0.5f;
+            float cy = y + (rowH - box) * 0.5f;
+            bool nowSelected = PawnRosterPaintSelect.Draw(
+                this, selRect, cx, cy, box, pawn.ThingID, selectedThingIds, canSelect);
+            if (nowSelected != selected)
+            {
+                if (nowSelected && !section.isTarget)
+                {
+                    FillSelectedScratch(section);
+                    if (!OutpostPawnIdeologyUtil.BulkRemovalSelectionIsAllowed(section.source, leaveBehindScratch))
+                        selectedThingIds.Remove(pawn.ThingID);
+                }
+                selected = selectedThingIds.Contains(pawn.ThingID);
+            }
+            curX += ColSelect;
+
             float contentY = y + rowH / 2f;
             float portrait = OutpostStrengthBudgetUi.DeployPortraitSize;
             Rect portraitRect = new Rect(
@@ -303,6 +803,7 @@ namespace TSA_WorldDomination
                 portrait,
                 portrait);
             OutpostStrengthBudgetUi.DrawPawnPortrait(portraitRect, pawn);
+            float portraitColX = curX;
             curX += OutpostStrengthBudgetUi.ColIconDeploy;
 
             Color prev = GUI.color;
@@ -320,49 +821,55 @@ namespace TSA_WorldDomination
                 withTips: false, strengthTip: null,
                 PawnRosterRowData.ForPawn(rosterData, pawn));
 
-            Rect actionCol = new Rect(curX, y, OutpostStrengthBudgetUi.ColAction, rowH);
-            Rect btn = new Rect(actionCol.x + 4f, y + (rowH - 28f) / 2f, OutpostStrengthBudgetUi.ColAction - 8f, 28f);
-            string label = selected
-                ? "TSA_WD_StrengthBudget_Deploying".Translate()
-                : "TSA_WD_StrengthBudget_Deploy".Translate();
-            if (!canSelect && !selected) GUI.enabled = false;
-            bool btnClicked = Widgets.ButtonText(btn, label);
-            GUI.enabled = true;
-            if (btnClicked)
-                Toggle(pawn, selected, canSelect);
-
             OutpostStrengthBudgetUi.FinishDeploySelectedRow(rowRect, selected);
 
-            if (!gearClicked && !btnClicked && Widgets.ButtonInvisible(rowRect))
+            // Info-card hit starts at the portrait so checkboxes stay usable.
+            Rect infoHit = new Rect(portraitColX, y, width - (portraitColX - x), rowH);
+            if (!gearClicked && Widgets.ButtonInvisible(infoHit))
                 Find.WindowStack.Add(new Dialog_InfoCard(pawn));
-        }
-
-        private void Toggle(Pawn pawn, bool selected, bool canSelect)
-        {
-            if (pawn == null) return;
-            if (selected)
-                selectedIds.Remove(pawn.thingIDNumber);
-            else if (canSelect)
-                selectedIds.Add(pawn.thingIDNumber);
         }
 
         private void ConfirmFight()
         {
             if (resolved) return;
+            if (!SupportLeaveBehindOk()) return;
+
+            DeploySection target = sections.Count > 0 ? sections[0] : null;
+            if (target == null || !target.isTarget) return;
+
             var deploy = new List<Pawn>();
-            for (int i = 0; i < candidates.Count; i++)
+            for (int i = 0; i < target.candidates.Count; i++)
             {
-                Pawn p = candidates[i];
-                if (p == null || !selectedIds.Contains(p.thingIDNumber)) continue;
+                Pawn p = target.candidates[i];
+                if (p?.ThingID == null || !selectedThingIds.Contains(p.ThingID)) continue;
                 deploy.Add(p);
             }
             if (deploy.Count == 0) return;
+
+            var supports = new List<KeyValuePair<WorldObject_WD_Outpost, List<Pawn>>>();
+            for (int s = 1; s < sections.Count; s++)
+            {
+                DeploySection section = sections[s];
+                if (section.isTarget || section.source == null) continue;
+                var list = new List<Pawn>();
+                for (int i = 0; i < section.candidates.Count; i++)
+                {
+                    Pawn p = section.candidates[i];
+                    if (p?.ThingID == null || !selectedThingIds.Contains(p.ThingID)) continue;
+                    list.Add(p);
+                }
+                if (list.Count == 0) continue;
+                supports.Add(new KeyValuePair<WorldObject_WD_Outpost, List<Pawn>>(section.source, list));
+            }
+
+            if (!AllSectionsUnderBudget()) return;
 
             resolved = true;
             int raidDelay = isSkirmishFollowUp ? 0 : 900;
             outpost?.ClearPendingSkirmishDefense();
             Close(doCloseSound: false);
-            if (!WD_OutpostDefenseEncounterUtility.StartManualDefenseEncounter(traveler, outpost, raidDelay, deploy))
+            if (!WD_OutpostDefenseEncounterUtility.StartManualDefenseEncounter(
+                    traveler, outpost, raidDelay, deploy, supports.Count > 0 ? supports : null))
                 Raid_Simulated.ResolvePlayerOutpostRaidArrival(traveler, manager, allowSkirmishRetry: false);
         }
     }

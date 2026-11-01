@@ -86,7 +86,8 @@ namespace TSA_WorldDomination
         {
             if (outpost?.def == null) return 12;
             var ext = outpost.def.GetModExtension<OutpostDefExtension>();
-            return ext != null && ext.minNearbyRadiusTiles > 0 ? ext.minNearbyRadiusTiles : 12;
+            int raw = ext != null && ext.minNearbyRadiusTiles > 0 ? ext.minNearbyRadiusTiles : 12;
+            return OutpostPowerGrid.ApplyUnpoweredRadius(outpost, raw);
         }
 
         /// <summary>Piecewise-linear Social multiplier; floored at 0.50 below Social 10.</summary>

@@ -29,6 +29,8 @@ namespace TSA_WorldDomination
             cacheByReceiverId.Clear();
             cacheTick = -1;
             Find.World?.GetComponent<WorldComponent_LogisticsManager>()?.NotifyFoodLogisticsInputsChanged();
+            // Plant watts use warehouse aura multipliers; keep remote + outpost grid in sync.
+            OutpostPowerGrid.NotifyOutpostPowerDirty(null);
         }
 
         public static bool ReceiverCanGetWarehouseAura(WorldObject_WD_Outpost receiver)
@@ -46,6 +48,7 @@ namespace TSA_WorldDomination
             var s = WorldDominationMod.settings;
             float r = s?.warehouseAuraRadiusTiles ?? WorldDominationSettings.DefWarehouseAuraRadiusTiles;
             r += warehouse.GetWarehouseAuraRadiusUpgradeBonus();
+            r = OutpostPowerGrid.ApplyUnpoweredRange(warehouse, Mathf.Max(0f, r));
             return Mathf.Max(0f, r);
         }
 

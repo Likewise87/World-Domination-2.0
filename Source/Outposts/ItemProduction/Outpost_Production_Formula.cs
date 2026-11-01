@@ -21,9 +21,11 @@ namespace TSA_WorldDomination
         {
             if (outpost?.def == null) return "";
 
+            if (Outpost_Production_Utils.IsScavengingOutpost(outpost.def))
+                return Outpost_Scavenging.GetProductionTooltip(outpost);
+
             if (Outpost_Production_Utils.IsRecruitingOutpost(outpost.def)
                 || Outpost_Production_Utils.IsTradingOutpost(outpost.def)
-                || Outpost_Production_Utils.IsScavengingOutpost(outpost.def)
                 || Outpost_Production_Utils.IsAcademyOutpost(outpost.def))
                 return "";
 

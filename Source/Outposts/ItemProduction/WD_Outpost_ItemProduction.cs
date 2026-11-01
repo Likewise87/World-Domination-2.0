@@ -42,6 +42,8 @@ namespace TSA_WorldDomination
                 h = h * 31 + (o.SelectedAcademySkillDefName?.GetHashCode() ?? 0);
                 h = h * 31 + (o.LockedAcademySkillDefName?.GetHashCode() ?? 0);
                 h = h * 31 + (o.IsSelectionLockedForThisCycle ? 1 : 0);
+                h = h * 31 + (OutpostPowerGrid.IsPowered(o) ? 1 : 0);
+                h = h * 31 + OutpostPowerGrid.PowerStateGeneration;
                 return h;
             }
         }

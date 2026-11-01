@@ -13,7 +13,7 @@
     <movementCostMultiplier>0.70</movementCostMultiplier>
     <workPerSegment>250</workPerSegment>
     <expeditionStrengthCost>50</expeditionStrengthCost>
-    <winterPenaltyReduction>0.15</winterPenaltyReduction>
+    <winterPenaltyReduction>0.30</winterPenaltyReduction>
     <minCumulativeConstructionSkill>5</minCumulativeConstructionSkill>
     <researchPrerequisites />
     <cost />
@@ -28,7 +28,7 @@
     <movementCostMultiplier>0.50</movementCostMultiplier>
     <workPerSegment>375</workPerSegment>
     <expeditionStrengthCost>80</expeditionStrengthCost>
-    <winterPenaltyReduction>0.30</winterPenaltyReduction>
+    <winterPenaltyReduction>0.50</winterPenaltyReduction>
     <minCumulativeConstructionSkill>15</minCumulativeConstructionSkill>
     <researchPrerequisites>
       <li>Machining</li>
@@ -51,7 +51,7 @@
     <movementCostMultiplier>0.30</movementCostMultiplier>
     <workPerSegment>500</workPerSegment>
     <expeditionStrengthCost>125</expeditionStrengthCost>
-    <winterPenaltyReduction>0.50</winterPenaltyReduction>
+    <winterPenaltyReduction>0.75</winterPenaltyReduction>
     <minCumulativeConstructionSkill>25</minCumulativeConstructionSkill>
     <researchPrerequisites>
       <li>MicroelectronicsBasics</li>

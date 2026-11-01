@@ -27,6 +27,7 @@ namespace TSA_WorldDomination
         public const string Interaction = "Interaction";
         public const string Resistance = "Resistance";
         public const string Traits = "Traits";
+        public const string Hediffs = "Hediffs";
         public const string Xenotype = "Xenotype";
         public const string Psycasts = "Psycasts";
         public const string Ideology = "Ideology";
@@ -140,6 +141,7 @@ namespace TSA_WorldDomination
                 new PawnRosterColumnOption(PawnRosterColumnIds.Age, "TSA_WD_PawnRoster_ColAge", false),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Health, "TSA_WD_PawnRoster_ColHealth", false),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Traits, "TSA_WD_Prisoners_ColTraits", false),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Hediffs, "TSA_WD_PawnRoster_ColHediffs", false),
             };
             AddDlcBioOptions(allPlayerPawns);
             AddSkillOptions(allPlayerPawns, prefixFullSkill: false, defaultOn: true);
@@ -154,6 +156,7 @@ namespace TSA_WorldDomination
                 new PawnRosterColumnOption(PawnRosterColumnIds.Select, "TSA_WD_PawnRoster_ColSelect", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Resistance, "TSA_WD_Prisoners_ColResistance", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Traits, "TSA_WD_Prisoners_ColTraits", true),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Hediffs, "TSA_WD_PawnRoster_ColHediffs", false),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Age, "TSA_WD_PawnRoster_ColAge", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Shooting, "TSA_WD_PawnRoster_ColShooting", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Melee, "TSA_WD_PawnRoster_ColMelee", true),
@@ -180,6 +183,7 @@ namespace TSA_WorldDomination
                 new PawnRosterColumnOption(PawnRosterColumnIds.Interaction, "TSA_WD_Prisoners_ColInteraction", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Resistance, "TSA_WD_Prisoners_ColResistance", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Traits, "TSA_WD_Prisoners_ColTraits", true),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Hediffs, "TSA_WD_PawnRoster_ColHediffs", false),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Age, "TSA_WD_PawnRoster_ColAge", false),
             };
             AddDlcBioOptions(prisoners);
@@ -198,6 +202,7 @@ namespace TSA_WorldDomination
                 new PawnRosterColumnOption(PawnRosterColumnIds.Age, "TSA_WD_PawnRoster_ColAge", false),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Health, "TSA_WD_PawnRoster_ColHealth", true),
                 new PawnRosterColumnOption(PawnRosterColumnIds.Traits, "TSA_WD_Prisoners_ColTraits", false),
+                new PawnRosterColumnOption(PawnRosterColumnIds.Hediffs, "TSA_WD_PawnRoster_ColHediffs", false),
             };
             AddDlcBioOptions(outpostArmory);
             outpostArmory.Add(new PawnRosterColumnOption(

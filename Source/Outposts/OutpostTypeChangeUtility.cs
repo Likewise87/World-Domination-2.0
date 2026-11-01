@@ -535,10 +535,9 @@ namespace TSA_WorldDomination
             logistics?.NotifyLogisticsTopologyChanged();
             logistics?.NotifyFoodLogisticsInputsChanged();
             OutpostWarehouseAuraUtility.InvalidateCache();
-            if (outpost.IsPowerPlantOutpost)
-                Outpost_PowerPlant.NotifyRemotePowerDirty();
+            // Always dirty power (Path A leaving a plant previously skipped NotifyRemotePowerDirty).
+            OutpostPowerGrid.NotifyOutpostPowerTopologyChanged();
             ReinforcementNeighborCache.BumpGeneration();
-            WdPlayerOutpostCache.Invalidate();
             outpost.InvalidateInspectCache();
             Window_OutpostOverview.InvalidateCache();
         }

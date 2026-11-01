@@ -227,7 +227,7 @@ namespace TSA_WorldDomination
             var displayItems = new List<ThingDefCountClass>();
             foreach (var tc in items)
                 if (tc?.thingDef != null) displayItems.Add(new ThingDefCountClass(tc.thingDef, tc.count));
-            Outpost_Production_Utils.ApplyOutputMultiplierToDeliveryItems(displayItems);
+            Outpost_Production_Utils.ApplyOutputMultiplierToDeliveryItems(displayItems, outpost);
             string deliveryStr = displayItems.Count > 0
                 ? displayItems[0].count + " " + displayItems[0].thingDef.LabelCap
                 : "TSA_WD_Text_EmDash".Translate().ToString();

@@ -421,7 +421,7 @@ namespace TSA_WorldDomination
                                 TooltipSkill = Outpost_Scavenging.GetKindRequirementTooltip(kind),
                                 TooltipBaseline = null,
                                 TooltipEfficiency = null,
-                                TooltipFormula = Outpost_Scavenging.GetProductionTooltip(outpost),
+                                TooltipFormula = Outpost_Scavenging.GetProductionTooltip(outpost, kind),
                                 DisabledTooltip = disabled,
                                 RowHeight = baseRowSimple
                             });
@@ -1310,7 +1310,10 @@ namespace TSA_WorldDomination
                         GUI.color = Color.white;
                         Text.Font = GameFont.Small;
 
-                        TooltipHandler.TipRegion(formulaRect, BuildFormulaTooltip(row.Formula));
+                        string formulaTip = !string.IsNullOrEmpty(row.TooltipFormula)
+                            ? row.TooltipFormula
+                            : BuildFormulaTooltip(row.Formula);
+                        TooltipHandler.TipRegion(formulaRect, formulaTip);
                     }
 
                     Outpost_Dialog_UI.FinishSelectableListRow(rowRect, isSelected);

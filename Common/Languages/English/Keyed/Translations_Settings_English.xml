@@ -23,7 +23,7 @@
   <TSA_WD_BtnCombatDifficulty>Combat Difficulty</TSA_WD_BtnCombatDifficulty>
   <TSA_WD_DescCombatDifficulty>Mid/Late Game difficulty, threat timing gates, raid pressure on the player, stage combat bonuses, arrival styles, garrison scaling, and NPC T4 mortar/AA hardware.</TSA_WD_DescCombatDifficulty>
   <TSA_WD_BtnEconomicDifficulty>Economic Difficulty</TSA_WD_BtnEconomicDifficulty>
-  <TSA_WD_DescEconomicDifficulty>Outpost upkeep, skill diminishing returns, goodwill drain, and bribe silver rates by escalation stage.</TSA_WD_DescEconomicDifficulty>
+  <TSA_WD_DescEconomicDifficulty>Outpost upkeep, outpost power, skill diminishing returns, goodwill drain, and bribe silver rates by escalation stage.</TSA_WD_DescEconomicDifficulty>
   <TSA_WD_Settings_Search>Search</TSA_WD_Settings_Search>
   <TSA_WD_Settings_SearchTip>Filter controls on this page by label or tooltip text. Matching a section header shows that whole section. Clear the box to show everything again.</TSA_WD_Settings_SearchTip>
   <TSA_WD_ThreatGate_Never>Never</TSA_WD_ThreatGate_Never>
@@ -222,9 +222,9 @@
   <TSA_WD_Important_Diff_Easy>Easy Difficulty</TSA_WD_Important_Diff_Easy>
   <TSA_WD_Important_Diff_Medium>Medium Difficulty</TSA_WD_Important_Diff_Medium>
   <TSA_WD_Important_Diff_Hard>Hard Difficulty</TSA_WD_Important_Diff_Hard>
-  <TSA_WD_Important_Diff_EasyDesc>Longer raid cooldowns, fewer raids, weaker storyteller clamp (50–150%), raid weight 100. Threat stage gates Never (ToO, T4 vs you, Vanguard/Invasion, desperation, strong war). Mid/Late escalation off. Outpost skill diminishing returns off. Drop pod transport component cost off.</TSA_WD_Important_Diff_EasyDesc>
-  <TSA_WD_Important_Diff_MediumDesc>Default raid pressure and raid weight 200. Threat stage gates From Mid. Mid Game at 8% share or 4,000 outpost strength; Late Game at 14% or 7,500. Outpost skill diminishing returns on with default bands. Drop pod transport component cost on.</TSA_WD_Important_Diff_MediumDesc>
-  <TSA_WD_Important_Diff_HardDesc>Shorter cooldowns, more raids allowed, stronger storyteller clamp (100–300%), raid weight 200 (same as Medium). Threat stage gates Always. Same Mid/Late timing as Medium, but Late Game hits harder. Outpost skill diminishing returns on with default bands. Drop pod transport component cost on.</TSA_WD_Important_Diff_HardDesc>
+  <TSA_WD_Important_Diff_EasyDesc>Longer raid cooldowns, fewer raids, weaker storyteller clamp (50–150%), raid weight 100. Threat stage gates Never (ToO, T4 vs you, Vanguard/Invasion, desperation, strong war). Mid/Late escalation off. Outpost skill diminishing returns off. Drop pod transport component cost off. Outpost power requirement off.</TSA_WD_Important_Diff_EasyDesc>
+  <TSA_WD_Important_Diff_MediumDesc>Default raid pressure and raid weight 200. Threat stage gates From Mid. Mid Game at 8% share or 4,000 outpost strength; Late Game at 14% or 7,500. Outpost skill diminishing returns on with default bands. Drop pod transport component cost on. Outpost power requirement on.</TSA_WD_Important_Diff_MediumDesc>
+  <TSA_WD_Important_Diff_HardDesc>Shorter cooldowns, more raids allowed, stronger storyteller clamp (100–300%), raid weight 200 (same as Medium). Threat stage gates Always. Same Mid/Late timing as Medium, but Late Game hits harder. Outpost skill diminishing returns on with default bands. Drop pod transport component cost on. Outpost power requirement on.</TSA_WD_Important_Diff_HardDesc>
   <TSA_WD_PlayerArtillery_Reset>Reset this page to Defaults</TSA_WD_PlayerArtillery_Reset>
   <TSA_WD_FacDet_BtnView>View</TSA_WD_FacDet_BtnView>
   <TSA_WD_FacDet_HeaderName>Settlement Name</TSA_WD_FacDet_HeaderName>
@@ -959,6 +959,15 @@
   <TSA_WD_Experimental_OutpostCePassiveAmmoTip>When Combat Extended is active, outpost colonists with a ranged primary slowly stockpile its basic ammo (FMJ, stone arrows, simple rockets) at {0} magazines per day, up to {1} magazines in their inventory. Free and a bit cheaty. Turn off to disable. On by default.</TSA_WD_Experimental_OutpostCePassiveAmmoTip>
   <TSA_WD_Experimental_OutpostArmory>Outpost armory</TSA_WD_Experimental_OutpostArmory>
   <TSA_WD_Experimental_OutpostArmoryTip>When on, every outpost keeps a loose store for weapons, armor, medicine, drugs, food and ammo. Gear arriving by caravan or drop pod is stored instead of destroyed, and you can hand it to occupants from the Armory button on the Pawns tab. Turn off to go back to discarding arriving gear. Anything already stored stays in the save. On by default.</TSA_WD_Experimental_OutpostArmoryTip>
+  <TSA_WD_Experimental_HeaderOutpostPower>Outpost power</TSA_WD_Experimental_HeaderOutpostPower>
+  <TSA_WD_Experimental_EnableOutpostPower>Require outpost power</TSA_WD_Experimental_EnableOutpostPower>
+  <TSA_WD_Experimental_EnableOutpostPowerTip>When on, outposts with a power demand need watts from Power Plants set to supply outposts (within power supply range). Unpowered outposts cut production by their XML factor and shrink ranges (trade, recruit, embassy, mortar, AA, Rapid Response, warehouse aura). Medieval mode forces this off. On by default.</TSA_WD_Experimental_EnableOutpostPowerTip>
+  <TSA_WD_Experimental_PowerSupplyRange>Power supply range</TSA_WD_Experimental_PowerSupplyRange>
+  <TSA_WD_Experimental_PowerSupplyRangeTip>Max tile distance a Power Plant set to supply outposts can feed other outposts. Independent of food logistics range. Default 20.</TSA_WD_Experimental_PowerSupplyRangeTip>
+  <TSA_WD_Experimental_UnpoweredRangeFactor>Unpowered range factor</TSA_WD_Experimental_UnpoweredRangeFactor>
+  <TSA_WD_Experimental_UnpoweredRangeFactorTip>Multiplies trade, recruit, embassy, mortar, anti-air, Rapid Response intercept, and warehouse aura ranges while the outpost is unpowered. Default 0.70.</TSA_WD_Experimental_UnpoweredRangeFactorTip>
+  <TSA_WD_Notify_OutpostUnpowered>Alert: outpost unpowered</TSA_WD_Notify_OutpostUnpowered>
+  <TSA_WD_Notify_OutpostUnpoweredTip>Show a right-side alert when a player outpost needs power and is not fully supplied.</TSA_WD_Notify_OutpostUnpoweredTip>
   <TSA_WD_Experimental_DisableVanillaCaravanIncidents>Disable vanilla caravan travel incidents</TSA_WD_Experimental_DisableVanillaCaravanIncidents>
   <TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip>When on, blocks random vanilla storyteller events on traveling caravans: ambush, manhunter ambush, caravan meeting, payment demand, and caravan disease. Does not affect WD settlement ambush, Rapid Response, or traveler clashes. Off by default.</TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip>
   <TSA_WD_Experimental_NpcRaidKillGoodwillPer500>Goodwill gain per 500 strength defeating a traveler targeting another faction</TSA_WD_Experimental_NpcRaidKillGoodwillPer500>

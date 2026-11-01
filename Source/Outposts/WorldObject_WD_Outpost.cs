@@ -1042,6 +1042,47 @@ namespace TSA_WorldDomination
         public List<Pawn> ExtractManualDefensePawns(IReadOnlyList<Pawn> onlyThese = null)
         {
             if (manualDefenseActive) return new List<Pawn>();
+            var extracted = ExtractOccupantsForDefense(onlyThese, requireFilter: false);
+            if (extracted.Count > 0)
+            {
+                manualDefenseActive = true;
+                NotifyVirtualPawnsChanged();
+            }
+            return extracted;
+        }
+
+        /// <summary>
+        /// Borrow selected occupants for another outpost's manual defense map.
+        /// Does not set <see cref="ManualDefenseActive"/> (donor keeps ticking).
+        /// </summary>
+        public List<Pawn> ExtractDefenseSupportPawns(IReadOnlyList<Pawn> onlyThese)
+        {
+            if (manualDefenseActive) return new List<Pawn>();
+            var extracted = ExtractOccupantsForDefense(onlyThese, requireFilter: true);
+            if (extracted.Count > 0)
+                NotifyVirtualPawnsChanged();
+            return extracted;
+        }
+
+        /// <summary>Return support-detachment survivors without clearing this outpost's manual-defense flag.</summary>
+        public int ReturnDefenseSupportPawns(IEnumerable<Pawn> pawns)
+        {
+            int returned = 0;
+            if (pawns == null) return 0;
+            foreach (Pawn pawn in pawns)
+            {
+                if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
+                pawn.GetCaravan()?.RemovePawn(pawn);
+                if (pawn.Spawned) pawn.DeSpawn();
+                Outpost_OccupantProgression.TryRefreshOccupantHealthState(pawn);
+                if (AddPawn(pawn, null))
+                    returned++;
+            }
+            return returned;
+        }
+
+        private List<Pawn> ExtractOccupantsForDefense(IReadOnlyList<Pawn> onlyThese, bool requireFilter)
+        {
             var extracted = new List<Pawn>();
             HashSet<int> filter = null;
             if (onlyThese != null && onlyThese.Count > 0)
@@ -1053,6 +1094,8 @@ namespace TSA_WorldDomination
                     if (want != null) filter.Add(want.thingIDNumber);
                 }
             }
+            if (requireFilter && (filter == null || filter.Count == 0))
+                return extracted;
 
             List<Pawn> list = Occupants;
             for (int i = list.Count - 1; i >= 0; i--)
@@ -1067,12 +1110,6 @@ namespace TSA_WorldDomination
                 if (Faction == Faction.OfPlayer && p.Faction != Faction.OfPlayer)
                     p.SetFaction(Faction.OfPlayer);
                 extracted.Add(p);
-            }
-
-            if (extracted.Count > 0)
-            {
-                manualDefenseActive = true;
-                NotifyVirtualPawnsChanged();
             }
             return extracted;
         }
@@ -1198,8 +1235,7 @@ namespace TSA_WorldDomination
                 // Loose armory stock dies with the outpost; retreating pawns keep only worn/carried gear.
                 CompOutpostArmory.Get(this)?.ClearAndDestroyAll();
             }
-            if (IsPowerPlantOutpost)
-                Outpost_PowerPlant.NotifyRemotePowerDirty();
+            OutpostPowerGrid.NotifyOutpostPowerTopologyChanged();
             bool wasWarehouse = Outpost_Production_Utils.IsWarehouseOutpost(def);
             base.Destroy();
             if (wasWarehouse)
@@ -1666,6 +1702,8 @@ namespace TSA_WorldDomination
                     yield return g;
             }
             foreach (var g in Outpost_Warehouse_Gizmos.GetGizmos(this))
+                yield return g;
+            foreach (var g in Outpost_PowerPlant.GetGizmos(this))
                 yield return g;
 
             foreach (var g in AllyRadiusGizmo.Get(this))
@@ -2671,6 +2709,9 @@ namespace TSA_WorldDomination
                 baseStr = typeLine + "\n" + baseStr;
             else
                 baseStr = typeLine;
+            string powerStatus = OutpostPowerGrid.FormatInspectPowerLine(this);
+            if (!string.IsNullOrEmpty(powerStatus))
+                baseStr += "\n" + powerStatus;
             if (IsResearchOutpost)
             {
                 string researchLine = Outpost_Research.GetInspectProductLine(this);
@@ -3193,8 +3234,7 @@ namespace TSA_WorldDomination
                 WD_Outpost_RapidResponse.ApplyEstablishmentDefaults(this);
             if (ShouldRegisterAsInterceptor())
                 WorldComponent_InterceptionScheduler.Current?.RegisterInterceptor(this);
-            if (IsPowerPlantOutpost)
-                Outpost_PowerPlant.NotifyRemotePowerDirty();
+            OutpostPowerGrid.NotifyOutpostPowerTopologyChanged();
             if (Outpost_Production_Utils.IsWarehouseOutpost(def) && Faction == Faction.OfPlayer)
             {
                 CompOutpostWarehouse.Get(this)?.TryApplyDefaultColonyShipDestination();
@@ -3217,8 +3257,7 @@ namespace TSA_WorldDomination
                 ClearMortarFireMission(notifyCache: false);
                 WD_Outpost_Mortar.InvalidateFireGizmoCache(this);
             }
-            if (IsPowerPlantOutpost)
-                Outpost_PowerPlant.NotifyRemotePowerDirty();
+            OutpostPowerGrid.NotifyOutpostPowerTopologyChanged();
             if (Outpost_Production_Utils.IsWarehouseOutpost(def))
                 OutpostWarehouseAuraUtility.InvalidateCache();
             if (Faction == Faction.OfPlayer && GetComponent<CompOutpostLogistics>() != null)
@@ -3423,6 +3462,26 @@ namespace TSA_WorldDomination
         /// <summary>Land vs drop pod for automated pawn sends from this outpost (prisoner recruits, recruiting redirect).</summary>
         public bool pawnTravelViaDropPod;
 
+        /// <summary>Power plant Smart/Manual watt allocation (food-parity). Ignored for non-plants.</summary>
+        private byte powerLogisticsModeRaw = (byte)LogisticsMode.Smart;
+
+        public LogisticsMode PowerLogisticsMode
+        {
+            get => LogisticsModeUtil.Normalize((LogisticsMode)powerLogisticsModeRaw);
+            set
+            {
+                byte next = (byte)LogisticsModeUtil.Normalize(value);
+                if (powerLogisticsModeRaw == next) return;
+                powerLogisticsModeRaw = next;
+                OutpostPowerGrid.NotifyOutpostPowerTopologyChanged();
+            }
+        }
+
+        public void SetPowerLogisticsMode(LogisticsMode mode)
+        {
+            PowerLogisticsMode = mode;
+        }
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -3475,6 +3534,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref itemDeliveryTargetWorldObjectId, "itemDeliveryTargetWorldObjectId", -1);
             Scribe_Values.Look(ref dropPodFallbackToLand, "dropPodFallbackToLand", true);
             Scribe_Values.Look(ref pawnTravelViaDropPod, "pawnTravelViaDropPod", false);
+            Scribe_Values.Look(ref powerLogisticsModeRaw, "powerLogisticsModeRaw", (byte)LogisticsMode.Smart);
             Scribe_Values.Look(ref mortarDefenseActive, "mortarDefenseActive", false);
             Scribe_References.Look(ref mortarFireMissionTarget, "mortarFireMissionTarget");
             Scribe_Values.Look(ref mortarDefenseMaskRaw, "mortarDefenseMaskRaw", (int)MissionMask.All);
@@ -3794,12 +3854,15 @@ namespace TSA_WorldDomination
         public float GetOutpostUpgradeDefensiveBonus()
         {
             if (builtUpgradeLevels == null || builtUpgradeLevels.Count == 0) return 0f;
+            bool skipAutoTurrets = OutpostPowerGrid.IsUnpoweredForNerfs(this);
             float total = 0f;
             foreach (var kv in builtUpgradeLevels)
             {
                 if (kv.Value <= 0) continue;
                 var def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(kv.Key);
-                if (def != null) total += def.defensiveStrengthBonus;
+                if (def == null) continue;
+                if (skipAutoTurrets && def.upgradeLineId == "AutoTurrets") continue;
+                total += def.defensiveStrengthBonus;
             }
             return total;
         }
@@ -4251,8 +4314,7 @@ namespace TSA_WorldDomination
                 ReinforcementNeighborCache.BumpGeneration();
             if (WorldDominationMod.settings?.foodLogisticsActive == true && GetComponent<CompOutpostLogistics>() != null)
                 Find.World?.GetComponent<WorldComponent_LogisticsManager>()?.NotifyFoodLogisticsInputsChanged();
-            if (IsPowerPlantOutpost)
-                Outpost_PowerPlant.NotifyRemotePowerDirty();
+            OutpostPowerGrid.NotifyOutpostPowerDirty(this);
             if (Outpost_Production_Utils.IsWarehouseOutpost(def)
                 && (defUpgrade.warehouseAuraBonus > 0f || defUpgrade.warehouseAuraRadiusBonus > 0f))
                 OutpostWarehouseAuraUtility.InvalidateCache();

@@ -221,6 +221,7 @@ namespace TSA_WorldDomination
         private static readonly Func<Pawn, string> PawnName = p => p?.LabelShortCap;
         private int pawnListViewRevision = -1;
         private int pawnListTraitRevision = -1;
+        private int pawnListHediffRevision = -1;
         private int pawnListRowsRevision = -1;
         private int pawnListFrame = -9999;
         private int pawnListOccupantCount = -1;
@@ -275,7 +276,7 @@ namespace TSA_WorldDomination
             key == PawnRosterFilterKeys.Name || key == PawnRosterFilterKeys.Type || key == PawnRosterFilterKeys.Star
             || key == PawnRosterFilterKeys.New || key == PawnRosterFilterKeys.Xenotype
             || key == PawnRosterFilterKeys.Psycasts || key == PawnRosterFilterKeys.Ideology
-            || key == PawnRosterFilterKeys.Traits;
+            || key == PawnRosterFilterKeys.Traits || key == PawnRosterFilterKeys.Hediffs;
 
         public string DescribeRosterFilter(string key) => PawnRosterViewUtil.DescribeFilter(View, key);
 
@@ -425,6 +426,7 @@ namespace TSA_WorldDomination
             PlayerPawnRosterUtility.ResetSkillDisplayOptions(ColWindow);
             WorldComponent_PawnRosterColumnPrefs.Get()?.ResetToDefaults(ColWindow);
             PawnRosterTraitFilter.Clear();
+            PawnRosterHediffFilter.Clear();
             PawnRosterHeaderFilter.CloseDropdown();
         }
 
@@ -441,7 +443,8 @@ namespace TSA_WorldDomination
         }
 
         private float EffectivePawnRowH() =>
-            ColOn(PawnRosterColumnIds.Traits) || ColOn(PawnRosterColumnIds.Psycasts)
+            ColOn(PawnRosterColumnIds.Traits) || ColOn(PawnRosterColumnIds.Hediffs)
+                || ColOn(PawnRosterColumnIds.Psycasts)
                 || PawnRosterColumnRegistry.AnyVisibleTallExtra(ColWindow)
                 ? PawnRowHTall
                 : PawnRowH;
@@ -455,6 +458,7 @@ namespace TSA_WorldDomination
             if (ColOn(PawnRosterColumnIds.Age)) w += ColAge;
             if (ColOn(PawnRosterColumnIds.Health)) w += ColHealth;
             if (ColOn(PawnRosterColumnIds.Traits)) w += ColTraits;
+            if (ColOn(PawnRosterColumnIds.Hediffs)) w += ColTraits;
             if (ColOn(PawnRosterColumnIds.Xenotype)) w += ColXenotype;
             if (ColOn(PawnRosterColumnIds.Psycasts)) w += ColPsycasts;
             if (ColOn(PawnRosterColumnIds.Ideology)) w += ColIdeology;
@@ -659,6 +663,16 @@ namespace TSA_WorldDomination
                     Sort.HeaderSorted("Traits"), Sort.IsAscending("Traits"),
                     TextAnchor.MiddleCenter,
                     () => SetPawnSort("Traits"));
+            }
+
+            if (ColOn(PawnRosterColumnIds.Hediffs))
+            {
+                PawnRosterHediffFilter.DrawHediffsHeader(
+                    ref curX, headerRect.y, ColTraits, HeaderHeight,
+                    "TSA_WD_PawnRoster_ColHediffs".Translate(),
+                    Sort.HeaderSorted(PawnRosterColumnIds.Hediffs), Sort.IsAscending(PawnRosterColumnIds.Hediffs),
+                    TextAnchor.MiddleCenter,
+                    () => SetPawnSort(PawnRosterColumnIds.Hediffs));
             }
 
             if (ColOn(PawnRosterColumnIds.Xenotype))
@@ -1135,12 +1149,14 @@ namespace TSA_WorldDomination
             int frame = Time.frameCount;
             if (pawnListViewRevision == View.Revision
                 && pawnListTraitRevision == PawnRosterTraitFilter.Revision
+                && pawnListHediffRevision == PawnRosterHediffFilter.Revision
                 && pawnListRowsRevision == rowsRevision
                 && pawnListOccupantCount == occupantCount
                 && frame - pawnListFrame < PawnListRefreshFrames)
                 return;
             pawnListViewRevision = View.Revision;
             pawnListTraitRevision = PawnRosterTraitFilter.Revision;
+            pawnListHediffRevision = PawnRosterHediffFilter.Revision;
             pawnListRowsRevision = rowsRevision;
             pawnListOccupantCount = occupantCount;
             pawnListFrame = frame;
@@ -1150,6 +1166,7 @@ namespace TSA_WorldDomination
             List<Pawn> occupants = outpost.Occupants;
             string pawnFilter = string.IsNullOrEmpty(pawnSearchTerm) ? null : pawnSearchTerm.ToLowerInvariant();
             bool traitFilter = PawnRosterTraitFilter.FilterApplies(ColWindow);
+            bool hediffFilter = PawnRosterHediffFilter.FilterApplies(ColWindow);
             var fav = WorldComponent_PlayerPawnFavorites.Get();
             if (occupants != null)
             {
@@ -1176,6 +1193,7 @@ namespace TSA_WorldDomination
                             PlayerPawnRosterUtility.GetDaysSinceJoin(p), joinedFilter))
                         continue;
                     if (traitFilter && !PawnRosterTraitFilter.Matches(p)) continue;
+                    if (hediffFilter && !PawnRosterHediffFilter.Matches(p)) continue;
                     if (ColOn(PawnRosterColumnIds.Xenotype)
                         && !xenotypeFilter.NullOrEmpty()
                         && !PawnRosterTraitFilter.MatchesXenotype(p, xenotypeFilter))
@@ -1273,6 +1291,12 @@ namespace TSA_WorldDomination
                     PrisonerRosterUtility.FormatTraits(a, out _, out string ta);
                     PrisonerRosterUtility.FormatTraits(b, out _, out string tb);
                     return string.Compare(ta, tb, StringComparison.OrdinalIgnoreCase);
+                }
+                case PawnRosterColumnIds.Hediffs:
+                {
+                    PrisonerRosterUtility.FormatHediffs(a, out _, out string ha);
+                    PrisonerRosterUtility.FormatHediffs(b, out _, out string hb);
+                    return string.Compare(ha, hb, StringComparison.OrdinalIgnoreCase);
                 }
                 case "Xenotype":
                     return PawnRosterTraitFilter.CompareXenotype(a, b);
@@ -1413,6 +1437,14 @@ namespace TSA_WorldDomination
                 PrisonerRosterUtility.FormatTraits(pawn, out string traitsDisplay, out string traitsTip);
                 Rect traitsRect = new Rect(x + 2f, rect.y + 2f, ColTraits - 4f, rowH - 4f);
                 PrisonerRosterUtility.DrawTraitsCell(traitsRect, traitsDisplay, traitsTip);
+                x += ColTraits;
+            }
+
+            if (ColOn(PawnRosterColumnIds.Hediffs))
+            {
+                PrisonerRosterUtility.FormatHediffs(pawn, out string hediffsDisplay, out string hediffsTip);
+                Rect hediffsRect = new Rect(x + 2f, rect.y + 2f, ColTraits - 4f, rowH - 4f);
+                PrisonerRosterUtility.DrawTraitsCell(hediffsRect, hediffsDisplay, hediffsTip);
                 x += ColTraits;
             }
 

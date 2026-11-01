@@ -93,7 +93,7 @@ namespace TSA_WorldDomination
             float expert = OutpostExpertUtility.GetStrategistAttackRangeBonusFraction(origin);
             if (expert > 0f)
                 r *= 1f + expert;
-            return r;
+            return OutpostPowerGrid.ApplyUnpoweredRange(origin, r);
         }
 
         /// <summary>Effective AA range (respects per-outpost shrink override).</summary>
@@ -262,21 +262,34 @@ namespace TSA_WorldDomination
                         return Mathf.Clamp01(s?.npcAntiAirHitChance76To100PctRange ?? WorldDominationSettings.DefNpcAntiAirHitChance76To100PctRange);
                 }
             }
+            float chance;
             switch (band)
             {
                 case 0:
-                    return Mathf.Clamp01(s?.antiAirHitChance0To50PctRange ?? WorldDominationSettings.DefAntiAirHitChance0To50PctRange);
+                    chance = Mathf.Clamp01(s?.antiAirHitChance0To50PctRange ?? WorldDominationSettings.DefAntiAirHitChance0To50PctRange);
+                    break;
                 case 1:
-                    return Mathf.Clamp01(s?.antiAirHitChance51To75PctRange ?? WorldDominationSettings.DefAntiAirHitChance51To75PctRange);
+                    chance = Mathf.Clamp01(s?.antiAirHitChance51To75PctRange ?? WorldDominationSettings.DefAntiAirHitChance51To75PctRange);
+                    break;
                 default:
-                    return Mathf.Clamp01(s?.antiAirHitChance76To100PctRange ?? WorldDominationSettings.DefAntiAirHitChance76To100PctRange);
+                    chance = Mathf.Clamp01(s?.antiAirHitChance76To100PctRange ?? WorldDominationSettings.DefAntiAirHitChance76To100PctRange);
+                    break;
             }
+            return chance;
         }
 
         /// <summary>Anti-Air hit vs pods/aerials: AA band base + best shooter flat (+1 pp per Shooting level). No mortar hit upgrades.</summary>
         public static bool RollAntiAirHit(float distance, float maxRange, float bestShootingSkill, WorldDominationSettings seth, bool useNpcBands)
         {
             float baseHit = BandBaseAntiAirHitChance(distance, maxRange, seth, useNpcBands);
+            float fromBest = Mathf.Max(0f, bestShootingSkill) * WorldDominationSettings.MortarHitFlatBonusPerBestShootingLevel;
+            return Rand.Value < Mathf.Clamp01(baseHit + fromBest);
+        }
+
+        /// <summary>Player outpost AA roll (unpowered only shrinks AA range via <see cref="GetPlayerAntiAirConfiguredMaxRangeTiles"/>).</summary>
+        public static bool RollAntiAirHit(WorldObject_WD_Outpost origin, float distance, float maxRange, float bestShootingSkill, WorldDominationSettings seth)
+        {
+            float baseHit = BandBaseAntiAirHitChance(distance, maxRange, seth, useNpcBands: false);
             float fromBest = Mathf.Max(0f, bestShootingSkill) * WorldDominationSettings.MortarHitFlatBonusPerBestShootingLevel;
             return Rand.Value < Mathf.Clamp01(baseHit + fromBest);
         }
@@ -671,8 +684,9 @@ namespace TSA_WorldDomination
         private static bool RollBandedHit(WorldObject origin, float rangeTiles, float maxRange, float bestShooting)
         {
             var seth = WorldDominationMod.settings;
-            bool useNpc = !(origin is WorldObject_WD_Outpost);
-            return RollAntiAirHit(rangeTiles, maxRange, bestShooting, seth, useNpc);
+            if (origin is WorldObject_WD_Outpost playerOp)
+                return RollAntiAirHit(playerOp, rangeTiles, maxRange, bestShooting, seth);
+            return RollAntiAirHit(rangeTiles, maxRange, bestShooting, seth, useNpcBands: true);
         }
 
         private static bool IsShooterReady(WorldObject origin, out CompViralSpread comp, out float bestShooting)

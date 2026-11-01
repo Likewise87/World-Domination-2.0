@@ -182,6 +182,19 @@ namespace TSA_WorldDomination
         /// <summary>Power plant outposts: base remote power supplied to the player's colony in watts. Must be &gt; 0 for power-plant behaviour.</summary>
         public float remotePowerWatts;
 
+        /// <summary>
+        /// Watts this outpost type draws when outpost power requirement is enabled. 0 = does not require power
+        /// (Power Plant). Values are inserted via 1.7/Patches only — never bake into Common Defs.
+        /// </summary>
+        public float powerDemandWatts;
+
+        /// <summary>
+        /// When feature on and outpost is not fully powered, production/research/soft-yield outputs multiply by this.
+        /// Default 0.75 (soft/primary). Heavy industry / military override to 0.5 via 1.7/Patches.
+        /// Not used for radius/AA/turrets/RR (those use separate binary gates).
+        /// </summary>
+        public float unpoweredOutputFactor = 0.75f;
+
         /// <summary>When false, this outpost does not assign cumulative skill to physical-goods production (stats UI shows N/A). Default true.</summary>
         public bool usesPhysicalGoodsProductionSkill = true;
 

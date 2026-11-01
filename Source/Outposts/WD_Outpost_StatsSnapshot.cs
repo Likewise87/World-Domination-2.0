@@ -56,6 +56,9 @@ namespace TSA_WorldDomination
                 {
                     snap.Sections.Add(BuildProductionSection(playerOutpost, fullWidth: true));
                 }
+                OutpostStatsSection powerSection = BuildPowerSection(playerOutpost);
+                if (powerSection != null)
+                    snap.Sections.Add(powerSection);
                 snap.Sections.Add(BuildCombatSection(worldObject, comp, CombatStatsPresentation.PlayerOutpost, fullWidth: true));
                 snap.Sections.Add(BuildPawnsSection(playerOutpost));
                 snap.Sections.Add(BuildFoodSection(playerOutpost, manager, logi, logisticsActive));
@@ -958,6 +961,72 @@ namespace TSA_WorldDomination
             return section;
         }
 
+        /// <summary>Public so the Logistics Electricity tab can reuse the Stats power breakdown.</summary>
+        public static OutpostStatsSection BuildPowerSectionForTab(WorldObject_WD_Outpost outpost)
+            => BuildPowerSection(outpost);
+
+        private static OutpostStatsSection BuildPowerSection(WorldObject_WD_Outpost outpost)
+        {
+            if (!OutpostPowerGrid.Enabled || outpost == null) return null;
+            float demand = OutpostPowerGrid.GetPowerDemandWatts(outpost);
+            if (demand <= OutpostPowerGrid.DemandEpsilon && !outpost.IsPowerPlantOutpost)
+                return null;
+
+            var section = new OutpostStatsSection
+            {
+                Title = "TSA_WD_OutpostStats_Section_Power".Translate().ToString()
+            };
+            if (demand > OutpostPowerGrid.DemandEpsilon)
+            {
+                float supplied = OutpostPowerGrid.GetSuppliedWatts(outpost);
+                bool powered = OutpostPowerGrid.IsPowered(outpost);
+                AddRow(section, "TSA_WD_OutpostStats_Row_PowerDemand", Outpost_PowerPlant.FormatWatts(demand), "TSA_WD_OutpostStats_Row_PowerDemandTip");
+                AddRow(section, "TSA_WD_OutpostStats_Row_PowerSupplied", Outpost_PowerPlant.FormatWatts(supplied), "TSA_WD_OutpostStats_Row_PowerSuppliedTip");
+                string status;
+                Color statusColor;
+                if (powered)
+                {
+                    status = "TSA_WD_OutpostPower_StatusPowered".Translate().ToString();
+                    statusColor = Color.cyan;
+                }
+                else if (OutpostPowerGrid.IsPartiallyPowered(outpost))
+                {
+                    status = "TSA_WD_OutpostPower_StatusPartial".Translate().ToString();
+                    if (status.Contains("TSA_WD_")) status = "Partial";
+                    statusColor = Color.yellow;
+                }
+                else
+                {
+                    status = "TSA_WD_OutpostPower_StatusUnpowered".Translate().ToString();
+                    statusColor = Color.yellow;
+                }
+                AddRow(section, "TSA_WD_OutpostStats_Row_PowerStatus", status, "TSA_WD_OutpostStats_Row_PowerStatusTip", statusColor);
+                float pf = OutpostPowerGrid.GetProductionPowerFactor(outpost);
+                if (pf < 0.999f)
+                {
+                    AddRow(section, "TSA_WD_OutpostStats_Row_UnpoweredFactor",
+                        pf.ToString("P0"),
+                        "TSA_WD_OutpostStats_Row_UnpoweredFactorTip");
+                }
+            }
+            if (outpost.IsPowerPlantOutpost)
+            {
+                float gen = Outpost_PowerPlant.GetRemotePowerWatts(outpost);
+                float keep = OutpostPowerGrid.GetColonyKeepWatts(outpost);
+                string mode = LogisticsModeUtil.IsSmartMode(outpost.PowerLogisticsMode)
+                    ? "TSA_LogisticsMode_Smart".Translate().ToString()
+                    : "TSA_LogisticsMode_Manual".Translate().ToString();
+                AddRow(section, "TSA_WD_OutpostStats_Row_PowerRole", mode, "TSA_WD_OutpostStats_Row_PowerRoleTip");
+                AddRow(section, "TSA_WD_OutpostStats_Row_PowerGeneration",
+                    Outpost_PowerPlant.FormatWatts(gen),
+                    "TSA_WD_OutpostStats_Row_PowerGenerationTip");
+                AddRow(section, "TSA_WD_OutpostStats_Row_PowerKeepColony",
+                    Outpost_PowerPlant.FormatWatts(keep),
+                    "TSA_WD_OutpostStats_Row_PowerKeepColonyTip");
+            }
+            return section.Rows.Count > 0 ? section : null;
+        }
+
         /// <summary>Public so the Food tab can render the identical food breakdown in its left column.</summary>
         public static OutpostStatsSection BuildFoodSection(
             WorldObject_WD_Outpost outpost,
@@ -1377,13 +1446,17 @@ namespace TSA_WorldDomination
             float totalMv = Outpost_Scavenging.GetEffectiveDeliveryMarketValue(outpost, tier);
             string tierLabel = Outpost_Scavenging.GetKindShortLabel(tier);
 
-            string yieldKey = "TSA_WD_OutpostStats_Row_ScavengingYield";
-            string yieldVal = yieldKey.Translate(workers.ToString(), totalMv.ToString("F0"), tierLabel).ToString();
-            if (yieldVal == yieldKey || yieldVal.Contains("TSA_WD_"))
-                yieldVal = workers + " garrisoned pawns ? ~" + totalMv.ToString("F0") + " value (" + tierLabel + ")";
+            string yieldValKey = "TSA_WD_OutpostStats_Row_ScavengingYieldValue";
+            string yieldVal = yieldValKey.Translate(workers.ToString(), totalMv.ToString("F0"), tierLabel).ToString();
+            if (yieldVal == yieldValKey || yieldVal.Contains("TSA_WD_"))
+                yieldVal = workers + " garrisoned pawns → ~" + totalMv.ToString("F0") + " value (" + tierLabel + ")";
+            string mathKey = "TSA_WD_OutpostStats_Row_ScavengingYieldMath";
+            string mathLine = mathKey.Translate(workers.ToString(), perPawn.ToString("F0"), rawMv.ToString("F0")).ToString();
+            if (mathLine == mathKey || mathLine.Contains("TSA_WD_"))
+                mathLine = workers + " × " + perPawn.ToString("F0") + " silver/pawn = " + rawMv.ToString("F0") + " base target market value per cycle.";
             string yieldTip = Outpost_Scavenging.GetKindRequirementTooltip(tier)
                 + "\n\n"
-                + workers + " � " + perPawn.ToString("F0") + " silver/pawn = " + rawMv.ToString("F0") + " base target market value per cycle."
+                + mathLine
                 + Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusSuffix(outpost);
             string softTip = Outpost_Production_Utils.BuildGlobalAndSoftProductionBonusTooltip(outpost);
             if (!string.IsNullOrEmpty(softTip))
@@ -2149,7 +2222,7 @@ namespace TSA_WorldDomination
             var row = new OutpostStatRow
             {
                 Label = labelKey.Translate().ToString(),
-                Value = value ?? "�",
+                Value = value ?? "—",
                 Tooltip = tip ?? ""
             };
             section.Rows.Add(row);

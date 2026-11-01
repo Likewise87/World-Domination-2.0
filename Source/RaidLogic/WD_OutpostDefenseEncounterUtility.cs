@@ -12,20 +12,58 @@ namespace TSA_WorldDomination
         private const int OutsideWallRaidDelayTicks = 600;
 
         public static bool StartManualDefenseEncounter(WorldObject_Traveler traveler, WorldObject_WD_Outpost outpost, int raidArrivalDelayTicks = 900)
-            => StartManualDefenseEncounter(traveler, outpost, raidArrivalDelayTicks, onlyTheseOccupants: null);
+            => StartManualDefenseEncounter(traveler, outpost, raidArrivalDelayTicks, onlyTheseOccupants: null, supportSelections: null);
 
         public static bool StartManualDefenseEncounter(
             WorldObject_Traveler traveler,
             WorldObject_WD_Outpost outpost,
             int raidArrivalDelayTicks,
             IReadOnlyList<Pawn> onlyTheseOccupants)
+            => StartManualDefenseEncounter(traveler, outpost, raidArrivalDelayTicks, onlyTheseOccupants, supportSelections: null);
+
+        /// <summary>
+        /// Start manual defense. <paramref name="supportSelections"/> maps supporting player outposts to selected occupants
+        /// (player-only; extracted without ManualDefenseActive on donors).
+        /// </summary>
+        public static bool StartManualDefenseEncounter(
+            WorldObject_Traveler traveler,
+            WorldObject_WD_Outpost outpost,
+            int raidArrivalDelayTicks,
+            IReadOnlyList<Pawn> onlyTheseOccupants,
+            IReadOnlyList<KeyValuePair<WorldObject_WD_Outpost, List<Pawn>>> supportSelections)
         {
             if (traveler == null || outpost == null || outpost.Destroyed || !outpost.HasLivingManualDefensePawns())
                 return false;
 
-            List<Pawn> defenders = outpost.ExtractManualDefensePawns(onlyTheseOccupants);
-            if (defenders == null || defenders.Count == 0)
+            List<Pawn> primaryDefenders = outpost.ExtractManualDefensePawns(onlyTheseOccupants);
+            if (primaryDefenders == null || primaryDefenders.Count == 0)
                 return false;
+
+            var allDefenders = new List<Pawn>(primaryDefenders);
+            var defenderHomes = new List<WorldObject_WD_Outpost>(primaryDefenders.Count);
+            for (int i = 0; i < primaryDefenders.Count; i++)
+                defenderHomes.Add(outpost);
+
+            var supportDonors = new List<WorldObject_WD_Outpost>();
+            if (supportSelections != null)
+            {
+                for (int s = 0; s < supportSelections.Count; s++)
+                {
+                    WorldObject_WD_Outpost donor = supportSelections[s].Key;
+                    List<Pawn> wanted = supportSelections[s].Value;
+                    if (donor == null || donor.Destroyed || donor == outpost || donor.ManualDefenseActive) continue;
+                    if (wanted == null || wanted.Count == 0) continue;
+                    List<Pawn> extracted = donor.ExtractDefenseSupportPawns(wanted);
+                    if (extracted == null || extracted.Count == 0) continue;
+                    supportDonors.Add(donor);
+                    for (int i = 0; i < extracted.Count; i++)
+                    {
+                        allDefenders.Add(extracted[i]);
+                        defenderHomes.Add(donor);
+                    }
+                }
+            }
+
             List<Pawn> storedTransport = outpost.ExtractManualDefenseStoredTransportPawns();
             List<Pawn> mechanoids = outpost.ExtractManualDefenseMechanoids();
             int arrivalDelay = Mathf.Max(0, raidArrivalDelayTicks);
@@ -35,9 +73,10 @@ namespace TSA_WorldDomination
                 Map map = GenerateDedicatedEncounterMap(outpost.Tile);
                 if (map == null)
                 {
-                    outpost.ReturnManualDefensePawns(defenders);
+                    ReturnExtractedDefendersByHome(allDefenders, allDefenders, defenderHomes, outpost);
                     outpost.ReturnManualDefenseStoredTransportPawns(storedTransport);
                     outpost.ReturnManualDefenseMechanoids(mechanoids);
+                    outpost.ClearManualDefenseActive();
                     Messages.Message("TSA_WD_OutpostDefense_MapFailed".Translate(outpost.LabelCap), MessageTypeDefOf.NegativeEvent);
                     return;
                 }
@@ -49,9 +88,13 @@ namespace TSA_WorldDomination
                     map, storedTransport, out List<Pawn> failedStoredTransport, out bool anyTransportOutsideWalls);
                 outpost.ReturnManualDefenseStoredTransportPawns(failedStoredTransport);
 
-                List<Pawn> spawnedDefenders = SpawnDefenders(map, defenders, out List<Pawn> failedDefenders, out _);
-                for (int i = 0; i < failedDefenders.Count; i++)
-                    outpost.AddPawn(failedDefenders[i], null!);
+                List<Pawn> spawnedDefenders = SpawnDefenders(map, allDefenders, out List<Pawn> failedDefenders, out _);
+                ReturnExtractedDefendersByHome(failedDefenders, allDefenders, defenderHomes, outpost);
+
+                // Keep homes aligned with successfully spawned defenders.
+                var spawnedHomes = new List<WorldObject_WD_Outpost>(spawnedDefenders.Count);
+                for (int i = 0; i < spawnedDefenders.Count; i++)
+                    spawnedHomes.Add(FindHomeForPawn(spawnedDefenders[i], allDefenders, defenderHomes, outpost));
 
                 List<Pawn> spawnedMechanoids = SpawnDefenders(map, mechanoids, out List<Pawn> failedMechanoids, out _);
                 outpost.ReturnManualDefenseMechanoids(failedMechanoids);
@@ -81,7 +124,14 @@ namespace TSA_WorldDomination
                 }
 
                 WD_MapComponent_OutpostDefense tracker = GetOrAddTracker(map);
-                tracker.BeginEncounter(traveler, outpost, spawnedDefenders, spawnedStoredTransport, spawnedMechanoids);
+                tracker.BeginEncounter(
+                    traveler,
+                    outpost,
+                    spawnedDefenders,
+                    spawnedHomes,
+                    spawnedStoredTransport,
+                    spawnedMechanoids,
+                    supportDonors);
                 PlayerWdRaidDispatchUtil.NotifyPlayerContact(traveler);
 
                 float points = ComputeRaidPoints(traveler, map);
@@ -155,6 +205,78 @@ namespace TSA_WorldDomination
                 map.components.Add(tracker);
             }
             return tracker;
+        }
+
+        /// <summary>
+        /// Nearby player WD outposts eligible to lend occupants (same ally radius as auto-resolve; player outposts only).
+        /// Snapshot immediately — <see cref="Raid_ReinforcementLogic.GetReinforcements"/> reuses a scratch list.
+        /// </summary>
+        public static List<WorldObject_WD_Outpost> CollectPlayerSupportOutposts(
+            WorldObject_WD_Outpost target,
+            WorldObject attacker,
+            WorldComponent_SpreadManager manager)
+        {
+            var result = new List<WorldObject_WD_Outpost>();
+            if (target == null || target.Destroyed) return result;
+            var seth = WorldDominationMod.settings;
+            var lookup = WorldActions_Utils.GetWorldObjectsWithCompByFaction();
+            Faction attackerFaction = attacker?.Faction;
+            var excluded = attackerFaction != null ? new List<Faction> { attackerFaction } : null;
+            float radius = AllyRadiusUtil.GetEffective(target, seth, manager);
+            var raw = Raid_ReinforcementLogic.GetReinforcements(target, attacker, radius, lookup, manager, excluded);
+            var allies = new List<WorldObject>(raw);
+            for (int i = 0; i < allies.Count; i++)
+            {
+                if (allies[i] is not WorldObject_WD_Outpost donor) continue;
+                if (donor.Destroyed || donor == target) continue;
+                if (donor.Faction != Faction.OfPlayer) continue;
+                if (donor.ManualDefenseActive) continue;
+                result.Add(donor);
+            }
+            return result;
+        }
+
+        private static WorldObject_WD_Outpost FindHomeForPawn(
+            Pawn pawn,
+            List<Pawn> allDefenders,
+            List<WorldObject_WD_Outpost> defenderHomes,
+            WorldObject_WD_Outpost fallback)
+        {
+            if (pawn == null || allDefenders == null || defenderHomes == null) return fallback;
+            for (int i = 0; i < allDefenders.Count; i++)
+            {
+                if (allDefenders[i] != pawn) continue;
+                if (i < defenderHomes.Count && defenderHomes[i] != null && !defenderHomes[i].Destroyed)
+                    return defenderHomes[i];
+                return fallback;
+            }
+            return fallback;
+        }
+
+        private static void ReturnExtractedDefendersByHome(
+            List<Pawn> pawns,
+            List<Pawn> allDefenders,
+            List<WorldObject_WD_Outpost> defenderHomes,
+            WorldObject_WD_Outpost fallbackHome)
+        {
+            if (pawns == null || pawns.Count == 0) return;
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                Pawn pawn = pawns[i];
+                if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
+                WorldObject_WD_Outpost home = FindHomeForPawn(pawn, allDefenders, defenderHomes, fallbackHome);
+                if (home == null || home.Destroyed)
+                    home = fallbackHome;
+                if (home == null || home.Destroyed) continue;
+
+                pawn.GetCaravan()?.RemovePawn(pawn);
+                if (pawn.Spawned) pawn.DeSpawn();
+                Outpost_OccupantProgression.TryRefreshOccupantHealthState(pawn);
+                if (home == fallbackHome)
+                    home.AddPawn(pawn, null!);
+                else
+                    home.ReturnDefenseSupportPawns(new List<Pawn> { pawn });
+            }
         }
 
         private static List<Pawn> SpawnDefenders(

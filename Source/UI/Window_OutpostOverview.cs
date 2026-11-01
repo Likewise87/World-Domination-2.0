@@ -45,7 +45,7 @@ namespace TSA_WorldDomination
 
         private static bool s_overviewStringsInit;
         private static string s_ovTitle;
-        private static string s_hdrName, s_hdrDist, s_hdrPawns, s_hdrNonhumanPawns, s_hdrFood, s_hdrStrength, s_hdrUpgrades, s_hdrRoad, s_hdrStatus, s_hdrProduces, s_hdrOutput, s_hdrExperts, s_hdrStores;
+        private static string s_hdrName, s_hdrDist, s_hdrPawns, s_hdrNonhumanPawns, s_hdrFood, s_hdrPower, s_hdrStrength, s_hdrUpgrades, s_hdrRoad, s_hdrStatus, s_hdrProduces, s_hdrOutput, s_hdrExperts, s_hdrStores;
         private static string s_tipHdrName, s_tipHdrDist, s_tipHdrNonhumanPawns, s_tipHdrFood, s_tipHdrRoad, s_tipHdrStatus, s_tipHdrOutput, s_tipHdrStores;
         private static string s_tipNonhumanMechanoids, s_tipNonhumanAnimals, s_tipNonhumanVehicles;
         private static string s_ovRenameTip, s_ovStrengthTip, s_ovNone;
@@ -87,6 +87,10 @@ namespace TSA_WorldDomination
             public string NonhumanPawnCountStr;
             public string NonhumanTooltip;
             public string FoodDisplayColorized;
+            public float PowerSupplied;
+            public float PowerDemand;
+            public string PowerDisplayColorized;
+            public string PowerTooltip;
             public string StrengthLine1Colorized;
             public List<string> UpgradeLabelsColorized;
             public string UpgradesMoreStr;
@@ -159,6 +163,8 @@ namespace TSA_WorldDomination
                 s_hdrPawns = "TSA_WD_Outpost_Pawns".Translate();
                 s_hdrNonhumanPawns = "TSA_WD_OutpostOverview_HdrNonhuman".Translate();
                 s_hdrFood = "TSA_WD_OutpostOverview_HdrFood".Translate();
+                s_hdrPower = "TSA_WD_OutpostOverview_HdrPower".Translate();
+                if (s_hdrPower.Contains("TSA_WD_")) s_hdrPower = "Power";
                 s_hdrStrength = "TSA_WD_Outpost_Strength".Translate();
                 s_hdrUpgrades = "TSA_WD_Outpost_Upgrades".Translate();
                 s_hdrRoad = "TSA_WD_OutpostOverview_HdrProject".Translate();
@@ -195,6 +201,7 @@ namespace TSA_WorldDomination
             float colPawns = 55f;
             float colNonhumanPawns = 85f;
             float colFood = 76f;
+            float colPower = 100f;
             float colStrength = 89f;
             float colUpgrades = 175f;
             float colRoad = 110f;
@@ -204,7 +211,7 @@ namespace TSA_WorldDomination
             float colExperts = 100f;
             float colStores = 150f;
             float contentWidth = colIcon + colPadding
-                + colName + colDist + colPawns + colNonhumanPawns + colExperts + colFood
+                + colName + colDist + colPawns + colNonhumanPawns + colExperts + colFood + colPower
                 + colStrength + colUpgrades + colRoad + colCooldown
                 + colWhat + colWhen + colStores;
             contentWidth = Mathf.Max(contentWidth, inRect.width - 16f);
@@ -235,6 +242,7 @@ namespace TSA_WorldDomination
             DrawHeader(ref curX, colNonhumanPawns, s_hdrNonhumanPawns, "NonhumanPawns", hRect, s_tipHdrNonhumanPawns);
             DrawHeader(ref curX, colExperts, s_hdrExperts, "Experts", hRect);
             DrawHeader(ref curX, colFood, s_hdrFood, "Food", hRect, s_tipHdrFood);
+            DrawHeader(ref curX, colPower, s_hdrPower, "Power", hRect);
             DrawHeader(ref curX, colStrength, s_hdrStrength, "Strength", hRect);
             DrawHeader(ref curX, colUpgrades, s_hdrUpgrades, "Upgrades", hRect);
             DrawHeader(ref curX, colRoad, s_hdrRoad, "Road", hRect, s_tipHdrRoad);
@@ -364,6 +372,34 @@ namespace TSA_WorldDomination
                     string netSign = net >= 0 ? "+" : "";
                     Color fCol = net > 0.1f ? Color.green : (net < -0.1f ? Color.red : Color.yellow);
                     string foodDisplayColorized = $"{netSign}{net:F1}\n({foodCurrent:F0}/{maxFood:F0})".Colorize(fCol);
+                    float powerSupplied = 0f;
+                    float powerDemand = 0f;
+                    string powerDisplayColorized = "—".Colorize(Color.gray);
+                    string powerTooltip = null;
+                    if (OutpostPowerGrid.Enabled)
+                    {
+                        if (o.IsPowerPlantOutpost)
+                        {
+                            powerSupplied = Outpost_PowerPlant.GetRemotePowerWatts(o);
+                            powerDemand = 0f;
+                            powerDisplayColorized = Outpost_PowerPlant.FormatWatts(powerSupplied).Colorize(Color.green);
+                            powerTooltip = OutpostPowerGrid.BuildPowerBreakdownTooltip(o);
+                        }
+                        else
+                        {
+                            powerDemand = OutpostPowerGrid.GetPowerDemandWatts(o);
+                            powerSupplied = OutpostPowerGrid.GetSuppliedWatts(o);
+                            if (powerDemand > OutpostPowerGrid.DemandEpsilon)
+                            {
+                                string pLabel = Outpost_PowerPlant.FormatWatts(powerSupplied)
+                                    + " (" + Outpost_PowerPlant.FormatWatts(powerDemand) + ")";
+                                Color pCol = OutpostPowerGrid.IsPowered(o) ? Color.green
+                                    : (powerSupplied > OutpostPowerGrid.DemandEpsilon ? Color.yellow : Color.red);
+                                powerDisplayColorized = pLabel.Colorize(pCol);
+                                powerTooltip = OutpostPowerGrid.BuildPowerBreakdownTooltip(o);
+                            }
+                        }
+                    }
                     Color c1 = strCyan ? Color.cyan : Color.white;
                     string s1Colorized = s1?.Colorize(c1);
                     var upgradeLabelsColorized = new List<string>(upgrades.Count);
@@ -493,6 +529,10 @@ namespace TSA_WorldDomination
                         NonhumanPawnCountStr = nonhumanPawnCount.ToString(),
                         NonhumanTooltip = BuildNonhumanPawnTooltip(mechanoidCount, animalCount, vehicleCount),
                         FoodDisplayColorized = foodDisplayColorized,
+                        PowerSupplied = powerSupplied,
+                        PowerDemand = powerDemand,
+                        PowerDisplayColorized = powerDisplayColorized,
+                        PowerTooltip = powerTooltip,
                         StrengthLine1Colorized = s1Colorized,
                         UpgradeLabelsColorized = upgradeLabelsColorized,
                         UpgradesMoreStr = upgradesMoreStr,
@@ -674,6 +714,13 @@ namespace TSA_WorldDomination
                 // 5. Food Status
                 Widgets.Label(new Rect(rX, row.y, colFood, rowHeight), entry.FoodDisplayColorized);
                 rX += colFood;
+
+                // 5b. Power
+                Rect powerRect = new Rect(rX, row.y, colPower, rowHeight);
+                Widgets.Label(powerRect, entry.PowerDisplayColorized ?? "—");
+                if (!string.IsNullOrEmpty(entry.PowerTooltip))
+                    TooltipHandler.TipRegion(powerRect, entry.PowerTooltip);
+                rX += colPower;
 
                 // 6. Strength (compact; detailed split on tooltip)
                 Rect strColRect = new Rect(rX, row.y, colStrength, rowHeight);
@@ -902,6 +949,7 @@ namespace TSA_WorldDomination
                     "Pawns" => a.PawnCount.CompareTo(b.PawnCount),
                     "NonhumanPawns" => a.NonhumanPawnCount.CompareTo(b.NonhumanPawnCount),
                     "Food" => a.FoodNet.CompareTo(b.FoodNet),
+                    "Power" => a.PowerDemand.CompareTo(b.PowerDemand),
                     "Strength" => a.CachedStrength.CompareTo(b.CachedStrength),
                     "Upgrades" => (a.UpgradeLabels?.Count ?? 0).CompareTo(b.UpgradeLabels?.Count ?? 0),
                     "Road" => GetConstructionProjectProgress(a.Comp).CompareTo(GetConstructionProjectProgress(b.Comp)),

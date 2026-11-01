@@ -90,6 +90,8 @@ namespace TSA_WorldDomination
             bool hasTraps = OutpostUpgradeUtility.GetHighestBuiltLineTier(outpost, UpgradeLineTraps) > 0;
             bool hasIeds = outpost.GetUpgradeLevel(UpgradeIeds) > 0;
             bool hasTurrets = OutpostUpgradeUtility.GetHighestBuiltLineTier(outpost, UpgradeLineAutoTurrets) > 0;
+            if (OutpostPowerGrid.IsUnpoweredForNerfs(outpost))
+                hasTurrets = false;
 
             if (wallTier <= 0 && !hasTraps && !hasIeds && !hasTurrets)
                 return;

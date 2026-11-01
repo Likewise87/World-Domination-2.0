@@ -23,7 +23,7 @@ namespace TSA_WorldDomination
         private const float PawnPortraitSize = 32f;
         private const float SmallLabelFloor = 24f;
         private const float TinyLabelFloor = 15f;
-        private const float RoleLineGap = 2f;
+        private const float RoleLineGap = 0f;
         private const float RoleRowMinHeight = 54f;
         private static readonly Color NoneAssignedColor = new Color(1f, 0.92f, 0.35f);
         private static readonly Color NoneAssignedBlockedColor = new Color(0.55f, 0.55f, 0.55f);
@@ -357,9 +357,11 @@ namespace TSA_WorldDomination
             float benefitReserve = BenefitLabelMaxWidth + BenefitColumnGap + ListRowRightMargin;
             float textW = Mathf.Max(1f, contentWidth - RoleRowLeftColW - benefitReserve);
             GetRoleDetailLine(outpost, role, out _, out string detail);
-            float nameH = Mathf.Max(SmallLabelFloor, Text.LineHeightOf(GameFont.Small));
+            float nameDrawH = Mathf.Max(SmallLabelFloor, Text.LineHeightOf(GameFont.Small));
+            float nameStackH = Text.LineHeightOf(GameFont.Small);
+            if (nameStackH < 1f) nameStackH = nameDrawH;
             float detailH = MeasureRoleDetailHeight(detail, textW);
-            float textBlock = nameH + RoleLineGap + detailH;
+            float textBlock = nameStackH + RoleLineGap + detailH;
             return Mathf.Max(RoleRowMinHeight, PortraitSize + 12f, textBlock + 10f);
         }
 
@@ -395,9 +397,12 @@ namespace TSA_WorldDomination
             float benefitReserve = BenefitLabelMaxWidth + BenefitColumnGap + ListRowRightMargin;
             float textW = Mathf.Max(1f, rect.width - RoleRowLeftColW - benefitReserve);
             GetRoleDetailLine(outpost, role, out Pawn assigned, out string detailLine);
-            float nameH = Mathf.Max(SmallLabelFloor, Text.LineHeightOf(GameFont.Small));
+            float nameDrawH = Mathf.Max(SmallLabelFloor, Text.LineHeightOf(GameFont.Small));
+            // Stack on natural Small line height so the 24px label floor does not become empty gap under the glyphs.
+            float nameStackH = Text.LineHeightOf(GameFont.Small);
+            if (nameStackH < 1f) nameStackH = nameDrawH;
             float detailH = MeasureRoleDetailHeight(detailLine, textW);
-            float textBlockH = nameH + RoleLineGap + detailH;
+            float textBlockH = nameStackH + RoleLineGap + detailH;
             float baseH = Mathf.Max(RoleRowMinHeight, PortraitSize + 12f, textBlockH + 10f);
             float contentY = rect.y + (baseH - PortraitSize) * 0.5f;
             string roleLabel = OutpostExpertUtility.GetRoleLabel(role);
@@ -435,13 +440,13 @@ namespace TSA_WorldDomination
             float textTop = rect.y + (baseH - textBlockH) * 0.5f;
 
             Text.Font = GameFont.Small;
-            Text.Anchor = TextAnchor.MiddleLeft;
+            Text.Anchor = TextAnchor.UpperLeft;
             GUI.color = Color.white;
-            Widgets.Label(new Rect(rect.x + midX, textTop, textW, nameH), roleLabel);
+            Widgets.Label(new Rect(rect.x + midX, textTop, textW, nameDrawH), roleLabel);
 
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.UpperLeft;
-            float lineY = textTop + nameH + RoleLineGap;
+            float lineY = textTop + nameStackH + RoleLineGap;
             if (assigned != null)
             {
                 GUI.color = Outpost_Dialog_UI.OutcomeValueColor;

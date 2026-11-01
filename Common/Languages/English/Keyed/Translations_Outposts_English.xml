@@ -22,6 +22,7 @@
   <TSA_WD_OutpostStarvationDeath>{0}: {1} has died of starvation at the outpost.</TSA_WD_OutpostStarvationDeath>
   <TSA_FoodSupplyConvertResult>Food Supply: {0}/{1}</TSA_FoodSupplyConvertResult>
   <TSA_IncomingSupplyLines>Receiving Food From:</TSA_IncomingSupplyLines>
+  <TSA_IncomingPowerSupplyLines>Receiving Electricity From:</TSA_IncomingPowerSupplyLines>
   <TSA_Logistics_IsolatedProducer>No outposts in range that this {0} can send virtual food to.</TSA_Logistics_IsolatedProducer>
   <TSA_Logistics_IsolatedConsumer>No food producing outpost in range to provide for this {0}.</TSA_Logistics_IsolatedConsumer>
   <TSA_LogisticsMode_AllToColony>All to colony</TSA_LogisticsMode_AllToColony>
@@ -30,7 +31,11 @@
   <TSA_LogisticsMode_Equal>Equal</TSA_LogisticsMode_Equal>
   <TSA_LogisticsMode_FullyFeed>Feed</TSA_LogisticsMode_FullyFeed>
   <TSA_LogisticsMode_Manual>Manual</TSA_LogisticsMode_Manual>
-  <TSA_LogisticsTab>Food</TSA_LogisticsTab>
+  <TSA_LogisticsTab>Logistics</TSA_LogisticsTab>
+  <TSA_LogisticsPane_Food>Food</TSA_LogisticsPane_Food>
+  <TSA_LogisticsPane_Electricity>Electricity</TSA_LogisticsPane_Electricity>
+  <TSA_Logistics_KeepHereColony>Keep (colony)</TSA_Logistics_KeepHereColony>
+  <TSA_Logistics_KeepHereColonyTip>Watts not assigned to outposts feed the colony power grid.</TSA_Logistics_KeepHereColonyTip>
   <TSA_WD_Logistics_GamePaused>Game paused</TSA_WD_Logistics_GamePaused>
   <TSA_Logistics_AvailableForDistribution_Label>Local Food Balance:</TSA_Logistics_AvailableForDistribution_Label>
   <TSA_Logistics_AvailableForDistribution_Tooltip_BaseProd>Base production of any outpost: {0}</TSA_Logistics_AvailableForDistribution_Tooltip_BaseProd>
@@ -860,8 +865,8 @@
   <TSA_WD_Production_ScavengingPawnTooltip>Colonist count at this outpost. Each pawn adds {0} silver of target market value per delivery (for the selected scavenging tier); production time is fixed.</TSA_WD_Production_ScavengingPawnTooltip>
   <TSA_WD_Production_ScavengingYieldPreview>{0} pawns × {1} → ~{2} market value</TSA_WD_Production_ScavengingYieldPreview>
   <TSA_WD_Production_ScavengingYieldSummary>{0} items worth ~{1} silver</TSA_WD_Production_ScavengingYieldSummary>
-  <TSA_WD_Prod_ScavengingInspect>Random supplies (~{0} market value; {1} pawns × {2})</TSA_WD_Prod_ScavengingInspect>
-  <TSA_WD_Prod_ScavengingInspect_Kind>Random {0} supplies (~{1} market value; {2} pawns × {3})</TSA_WD_Prod_ScavengingInspect_Kind>
+  <TSA_WD_Prod_ScavengingInspect>Random supplies ({0} market value)</TSA_WD_Prod_ScavengingInspect>
+  <TSA_WD_Prod_ScavengingInspect_Kind>Random {0} supplies ({1} market value)</TSA_WD_Prod_ScavengingInspect_Kind>
   <TSA_WD_Gizmo_Scavenging_Kind>Scavenging ({0})</TSA_WD_Gizmo_Scavenging_Kind>
   <TSA_WD_Scavenging_KindLabel_Basic>Search for basic items</TSA_WD_Scavenging_KindLabel_Basic>
   <TSA_WD_Scavenging_KindLabel_Uncommon>Search for uncommon items</TSA_WD_Scavenging_KindLabel_Uncommon>
@@ -1165,7 +1170,13 @@
   <TSA_WD_StrengthBudget_StrengthStayTip>{0} strength not counted while left at the outpost.</TSA_WD_StrengthBudget_StrengthStayTip>
   <TSA_WD_StrengthBudget_StrengthLostTip>{0} strength not counted while marked lost.</TSA_WD_StrengthBudget_StrengthLostTip>
   <TSA_WD_StrengthBudget_DeployTitle>Deploy defenders</TSA_WD_StrengthBudget_DeployTitle>
-  <TSA_WD_StrengthBudget_DeployBanner>Only this much offensive strength can fight. Unselected pawns will not participate in the battle.</TSA_WD_StrengthBudget_DeployBanner>
+  <TSA_WD_StrengthBudget_DeployBanner>Deploy pawns based on the available budget of offensive strength per outpost.</TSA_WD_StrengthBudget_DeployBanner>
+  <TSA_WD_OutpostDefense_DeploySupportBanner>Pawns from {0} nearby outpost(s) can be pulled in to support.</TSA_WD_OutpostDefense_DeploySupportBanner>
+  <TSA_WD_OutpostDefense_OutpostsLabel>Outposts</TSA_WD_OutpostDefense_OutpostsLabel>
+  <TSA_WD_OutpostDefense_SmartSelect>Smart Select</TSA_WD_OutpostDefense_SmartSelect>
+  <TSA_WD_OutpostDefense_SmartSelectTip>Select the strongest pawns across all listed outposts until each outpost budget is full.</TSA_WD_OutpostDefense_SmartSelectTip>
+  <TSA_WD_OutpostDefense_DeselectAll>Deselect all</TSA_WD_OutpostDefense_DeselectAll>
+  <TSA_WD_OutpostDefense_DeselectAllTip>Clear the deploy selection for every outpost.</TSA_WD_OutpostDefense_DeselectAllTip>
   <TSA_WD_StrengthBudget_Deploy>Deploy</TSA_WD_StrengthBudget_Deploy>
   <TSA_WD_StrengthBudget_Deploying>Selected</TSA_WD_StrengthBudget_Deploying>
   <TSA_WD_RemoveBulk_NeedOneNonSlave>The outpost must always keep at least one colonist who is not a slave.</TSA_WD_RemoveBulk_NeedOneNonSlave>
@@ -1326,8 +1337,59 @@
   <TSA_WD_Research_EfficiencyWithUpgrades>{0}% efficiency ({1}% base + {2}pp upgrades)</TSA_WD_Research_EfficiencyWithUpgrades>
   <TSA_WD_PowerPlant_Inspect>Provides {0} remote power to your colony.</TSA_WD_PowerPlant_Inspect>
   <TSA_WD_PowerPlant_InspectNoColony>Remote power available: {0} (no colony map).</TSA_WD_PowerPlant_InspectNoColony>
+  <TSA_WD_PowerPlant_InspectSupplyOutposts>Provides {0} to nearby outposts (not the colony).</TSA_WD_PowerPlant_InspectSupplyOutposts>
   <TSA_WD_PowerPlant_OverviewProduct>{0} remote power</TSA_WD_PowerPlant_OverviewProduct>
+  <TSA_WD_PowerPlant_OverviewProductOutposts>{0} to outposts</TSA_WD_PowerPlant_OverviewProductOutposts>
   <TSA_WD_PowerPlant_OverviewAlways>Always on</TSA_WD_PowerPlant_OverviewAlways>
+  <TSA_WD_PowerPlant_Gizmo_RoleColony>Power role: Colony</TSA_WD_PowerPlant_Gizmo_RoleColony>
+  <TSA_WD_PowerPlant_Gizmo_RoleColonyDesc>This plant feeds your colony power nets. Click to switch it to supply nearby outposts instead.</TSA_WD_PowerPlant_Gizmo_RoleColonyDesc>
+  <TSA_WD_PowerPlant_Gizmo_RoleOutposts>Power role: Outposts</TSA_WD_PowerPlant_Gizmo_RoleOutposts>
+  <TSA_WD_PowerPlant_Gizmo_RoleOutpostsDesc>This plant feeds the outpost power grid within power supply range. Click to switch it to supply the colony instead.</TSA_WD_PowerPlant_Gizmo_RoleOutpostsDesc>
+  <TSA_WD_OutpostPower_InspectPowered>Power: {0} / {1} (powered)</TSA_WD_OutpostPower_InspectPowered>
+  <TSA_WD_OutpostPower_InspectUnpowered>Power: {0} / {1} (unpowered)</TSA_WD_OutpostPower_InspectUnpowered>
+  <TSA_WD_OutpostPower_InspectPartial>Power: {0} / {1} (partial)</TSA_WD_OutpostPower_InspectPartial>
+  <TSA_WD_OutpostPower_StatusPartial>Partial</TSA_WD_OutpostPower_StatusPartial>
+  <TSA_WD_OutpostPower_Tip_PlantGen>Generating {0}</TSA_WD_OutpostPower_Tip_PlantGen>
+  <TSA_WD_OutpostPower_Tip_ToOutpost>→ {0}: {1}</TSA_WD_OutpostPower_Tip_ToOutpost>
+  <TSA_WD_OutpostPower_Tip_KeepColony>Keep (colony): {0}</TSA_WD_OutpostPower_Tip_KeepColony>
+  <TSA_WD_OutpostPower_Tip_BaseDemand>Base demand: {0}</TSA_WD_OutpostPower_Tip_BaseDemand>
+  <TSA_WD_OutpostPower_Tip_UpgradeDemand>Upgrade {0} ×{1}: {2}</TSA_WD_OutpostPower_Tip_UpgradeDemand>
+  <TSA_WD_OutpostPower_Tip_TotalDemand>Total demand: {0}</TSA_WD_OutpostPower_Tip_TotalDemand>
+  <TSA_WD_OutpostPower_Tip_Supplied>Supplied: {0}</TSA_WD_OutpostPower_Tip_Supplied>
+  <TSA_WD_OutpostOverview_HdrPower>Power</TSA_WD_OutpostOverview_HdrPower>
+  <TSA_WD_Production_Formula_Power>(Power)</TSA_WD_Production_Formula_Power>
+  <TSA_WD_PowerPlant_InspectSplit>{0} generated ({1} to outposts, {2} to colony)</TSA_WD_PowerPlant_InspectSplit>
+  <TSA_WD_PowerPlant_OverviewProductSplit>{0} ({1} outposts / {2} colony)</TSA_WD_PowerPlant_OverviewProductSplit>
+  <TSA_WD_OutpostStats_Row_PowerKeepColony>To colony</TSA_WD_OutpostStats_Row_PowerKeepColony>
+  <TSA_WD_OutpostStats_Row_PowerKeepColonyTip>Unassigned generation feeding colony power nets.</TSA_WD_OutpostStats_Row_PowerKeepColonyTip>
+  <TSA_WD_OutpostPower_StatusPowered>Powered</TSA_WD_OutpostPower_StatusPowered>
+  <TSA_WD_OutpostPower_StatusUnpowered>Unpowered</TSA_WD_OutpostPower_StatusUnpowered>
+  <TSA_WD_OutpostStats_Section_Power>Power</TSA_WD_OutpostStats_Section_Power>
+  <TSA_WD_OutpostStats_Row_PowerDemand>Demand</TSA_WD_OutpostStats_Row_PowerDemand>
+  <TSA_WD_OutpostStats_Row_PowerDemandTip>Watts this outpost needs from Power Plants set to supply outposts.</TSA_WD_OutpostStats_Row_PowerDemandTip>
+  <TSA_WD_OutpostStats_Row_PowerSupplied>Supplied</TSA_WD_OutpostStats_Row_PowerSupplied>
+  <TSA_WD_OutpostStats_Row_PowerSuppliedTip>Watts currently allocated to this outpost from plants in range.</TSA_WD_OutpostStats_Row_PowerSuppliedTip>
+  <TSA_WD_OutpostStats_Row_PowerStatus>Status</TSA_WD_OutpostStats_Row_PowerStatus>
+  <TSA_WD_OutpostStats_Row_PowerStatusTip>Fully powered only when supplied watts meet demand. Partial supply does not scale output.</TSA_WD_OutpostStats_Row_PowerStatusTip>
+  <TSA_WD_OutpostStats_Row_UnpoweredFactor>Unpowered output</TSA_WD_OutpostStats_Row_UnpoweredFactor>
+  <TSA_WD_OutpostStats_Row_UnpoweredFactorTip>Production and research multiply by this while unpowered (from outpost XML).</TSA_WD_OutpostStats_Row_UnpoweredFactorTip>
+  <TSA_WD_OutpostStats_Row_PowerRole>Allocation</TSA_WD_OutpostStats_Row_PowerRole>
+  <TSA_WD_OutpostStats_Row_PowerRoleTip>Smart fills outpost demand first. Manual lets you set watt links. Keep residual feeds the colony.</TSA_WD_OutpostStats_Row_PowerRoleTip>
+  <TSA_WD_OutpostStats_Row_PowerRoleColony>Colony</TSA_WD_OutpostStats_Row_PowerRoleColony>
+  <TSA_WD_OutpostStats_Row_PowerRoleOutposts>Outposts</TSA_WD_OutpostStats_Row_PowerRoleOutposts>
+  <TSA_WD_OutpostStats_Row_PowerGeneration>Generation</TSA_WD_OutpostStats_Row_PowerGeneration>
+  <TSA_WD_OutpostStats_Row_PowerGenerationTip>Watts this plant generates before role routing.</TSA_WD_OutpostStats_Row_PowerGenerationTip>
+  <TSA_WD_Production_Formula_Unpowered>(Unpowered)</TSA_WD_Production_Formula_Unpowered>
+  <TSA_WD_Letter_OutpostPowerUnpoweredLabel>Outposts need power</TSA_WD_Letter_OutpostPowerUnpoweredLabel>
+  <TSA_WD_Letter_OutpostPowerUnpoweredText>Outpost power is on. Unpowered outposts produce less and lose some combat range until a Power Plant set to supply outposts covers them within power supply range. Toggle the plant role on a Power Plant, or turn the feature off under Experimental settings.</TSA_WD_Letter_OutpostPowerUnpoweredText>
+  <TSA_WD_Alert_OutpostUnpowered>Outpost unpowered</TSA_WD_Alert_OutpostUnpowered>
+  <TSA_WD_Alert_OutpostUnpoweredDescHeader>These outposts need power from a Power Plant set to supply outposts:</TSA_WD_Alert_OutpostUnpoweredDescHeader>
+  <TSA_WD_Alert_OutpostUnpoweredDescLine>- {0}</TSA_WD_Alert_OutpostUnpoweredDescLine>
+  <TSA_WD_RapidResponse_DropPodsUnpowered>Drop pods need power at this outpost.</TSA_WD_RapidResponse_DropPodsUnpowered>
+  <TSA_WD_OutpostUpgrades_BenefitPowerDemand>Power demand +{0}</TSA_WD_OutpostUpgrades_BenefitPowerDemand>
+  <TSA_WD_OutpostUpgrades_CostPowerDemand>Power demand +{0}</TSA_WD_OutpostUpgrades_CostPowerDemand>
+  <TSA_WD_OutpostUpgrades_CostPowerDemandTip>Ongoing electricity this upgrade adds to the outpost's power demand (supplied by Power Plants).</TSA_WD_OutpostUpgrades_CostPowerDemandTip>
+  <TSA_WD_OutpostUpgradeImpact_PowerDemand>Power demand</TSA_WD_OutpostUpgradeImpact_PowerDemand>
   <!-- Outpost Armory: loose gear store and its two-column dialog -->
   <TSA_WD_Armory_OpenButton>Armory</TSA_WD_Armory_OpenButton>
   <TSA_WD_Armory_OpenButtonTip>Hand stored weapons, armor, medicine, drugs, food and ammo to the occupants of this outpost.</TSA_WD_Armory_OpenButtonTip>
@@ -2086,6 +2148,8 @@
   <TSA_WD_Gizmo_ShowWarehouseRadius>Warehouse Radius</TSA_WD_Gizmo_ShowWarehouseRadius>
   <TSA_WD_Gizmo_ShowWarehouseRadiusDesc>Toggle warehouse aura ({0} tiles) for all warehouses.</TSA_WD_Gizmo_ShowWarehouseRadiusDesc>
   <TSA_WD_Gizmo_WarehouseAuraBoostLine>Production boost to nearby Outposts: {0}%</TSA_WD_Gizmo_WarehouseAuraBoostLine>
+  <TSA_WD_Gizmo_ShowPowerSupplyRadius>Power Supply Radius</TSA_WD_Gizmo_ShowPowerSupplyRadius>
+  <TSA_WD_Gizmo_ShowPowerSupplyRadiusDesc>Toggle power supply range ({0} tiles) for all power plants.</TSA_WD_Gizmo_ShowPowerSupplyRadiusDesc>
   <TSA_WD_Gizmo_ShowMortarRadius>Mortar Radius</TSA_WD_Gizmo_ShowMortarRadius>
   <TSA_WD_Gizmo_ShowMortarRadiusDesc>Toggle mortar range ({0} tiles) for this site type.</TSA_WD_Gizmo_ShowMortarRadiusDesc>
   <TSA_WD_Gizmo_MortarRadiusBandsLegend>Color bands (base hit chance before shooter skill):\nRed = 0–50% of max range. Highest accuracy ({0}% base hit).\nOrange = 51–75% of max range ({1}% base hit).\nYellow = 76–100% of max range ({2}% base hit).</TSA_WD_Gizmo_MortarRadiusBandsLegend>
@@ -2192,8 +2256,10 @@
   <TSA_WD_OutpostStats_Row_RecruitsPerCycleTip>Social base (1 per 10) plus neighbor tier bonus.</TSA_WD_OutpostStats_Row_RecruitsPerCycleTip>
   <TSA_WD_OutpostStats_Row_ScavengingWorkers>Scavenging workers</TSA_WD_OutpostStats_Row_ScavengingWorkers>
   <TSA_WD_OutpostStats_Row_ScavengingWorkersTip>Occupants plus mechanoids available for scavenging.</TSA_WD_OutpostStats_Row_ScavengingWorkersTip>
-  <TSA_WD_OutpostStats_Row_ScavengingYield>{0} garrisoned pawns → ~{1} value ({2})</TSA_WD_OutpostStats_Row_ScavengingYield>
+  <TSA_WD_OutpostStats_Row_ScavengingYield>Target yield</TSA_WD_OutpostStats_Row_ScavengingYield>
+  <TSA_WD_OutpostStats_Row_ScavengingYieldValue>{0} garrisoned pawns → ~{1} value ({2})</TSA_WD_OutpostStats_Row_ScavengingYieldValue>
   <TSA_WD_OutpostStats_Row_ScavengingYieldTip>Target market value per delivery cycle from garrisoned workers at the selected scavenging tier.</TSA_WD_OutpostStats_Row_ScavengingYieldTip>
+  <TSA_WD_OutpostStats_Row_ScavengingYieldMath>{0} × {1} silver/pawn = {2} base target market value per cycle.</TSA_WD_OutpostStats_Row_ScavengingYieldMath>
   <TSA_WD_OutpostStats_Row_AcademySkill>Training skill</TSA_WD_OutpostStats_Row_AcademySkill>
   <TSA_WD_OutpostStats_Row_AcademySkillTip>Skill being trained at this Academy outpost for the current cycle.</TSA_WD_OutpostStats_Row_AcademySkillTip>
   <TSA_WD_OutpostStats_Row_ResearchPointsDay>Research points / day</TSA_WD_OutpostStats_Row_ResearchPointsDay>

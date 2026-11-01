@@ -257,7 +257,7 @@ namespace TSA_WorldDomination
             return Mathf.Clamp(WorldDominationMod.settings?.outpostProductionOutputMultiplier ?? WorldDominationSettings.DefOutpostProductionOutputMultiplier, 0.01f, 4f);
         }
 
-        /// <summary>Global production output multiplier plus flat upgrade / expert / warehouse percentage points for this outpost.</summary>
+        /// <summary>Global production output multiplier plus flat upgrade / expert / warehouse percentage points for this outpost, then binary power factor.</summary>
         public static float GetEffectiveProductionOutputMultiplier(WorldObject_WD_Outpost outpost)
         {
             float m = ClampedProductionOutputMultiplier();
@@ -268,7 +268,10 @@ namespace TSA_WorldDomination
                     m += OutpostExpertUtility.GetCombinedProductionBonus(outpost);
                 m += OutpostWarehouseAuraUtility.GetBestWarehouseAuraBonus(outpost);
             }
-            return Mathf.Clamp(m, 0.01f, 4f);
+            m = Mathf.Clamp(m, 0.01f, 4f);
+            if (outpost != null)
+                m *= OutpostPowerGrid.GetProductionPowerFactor(outpost);
+            return Mathf.Max(0.01f, m);
         }
 
         private static string ProductionFormulaTag(string key, string fallback)
@@ -312,9 +315,11 @@ namespace TSA_WorldDomination
             if (warehouse > 0.001f)
                 sb.Append(" × ").Append((1f + warehouse).ToString("F2")).Append(" ")
                     .Append(ProductionFormulaTag("TSA_WD_Production_Formula_WarehouseBonus", "(Warehouse Bonus)"));
+
+            AppendUnpoweredProductionFactorSuffix(sb, outpost);
         }
 
-        /// <summary>Suffix for soft bonuses (virtual food / academy XP): experts + warehouse only.</summary>
+        /// <summary>Suffix for soft bonuses (virtual food / academy XP): experts + warehouse only. Power factor omitted for Academy XP paths that call this; food/research append via their own hooks.</summary>
         public static string BuildSoftProductionBonusSuffix(WorldObject_WD_Outpost outpost)
         {
             var sb = new System.Text.StringBuilder();
@@ -337,6 +342,25 @@ namespace TSA_WorldDomination
             if (warehouse > 0.001f)
                 sb.Append(" × ").Append((1f + warehouse).ToString("F2")).Append(" ")
                     .Append(ProductionFormulaTag("TSA_WD_Production_Formula_WarehouseBonus", "(Warehouse Bonus)"));
+        }
+
+        /// <summary>Soft suffix plus binary unpowered factor (recruiting/trading/embassy/scavenging/food inspect).</summary>
+        public static void AppendSoftProductionBonusSuffixWithPower(System.Text.StringBuilder sb, WorldObject_WD_Outpost outpost)
+        {
+            AppendSoftProductionBonusSuffix(sb, outpost);
+            AppendUnpoweredProductionFactorSuffix(sb, outpost);
+        }
+
+        public static void AppendUnpoweredProductionFactorSuffix(System.Text.StringBuilder sb, WorldObject_WD_Outpost outpost)
+        {
+            if (sb == null || outpost == null) return;
+            float pf = OutpostPowerGrid.GetProductionPowerFactor(outpost);
+            if (pf >= 0.999f) return;
+            // Partial supply uses (Power); fully unpowered keeps (Unpowered) for clarity.
+            string tag = pf <= OutpostPowerGrid.GetUnpoweredOutputFactor(outpost) + 0.001f
+                ? ProductionFormulaTag("TSA_WD_Production_Formula_Unpowered", "(Unpowered)")
+                : ProductionFormulaTag("TSA_WD_Production_Formula_Power", "(Power)");
+            sb.Append(" × ").Append(pf.ToString("F2")).Append(" ").Append(tag);
         }
 
         /// <summary>Tooltip explaining global, upgrade, expert, and warehouse output factors on production formulas.</summary>
@@ -511,8 +535,8 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Expert then warehouse aura as sequential multipliers (never production-efficiency Upgrade).
-        /// Used by Recruiting / Trading / Embassy / Scavenging / Power (and similar soft yields).
+        /// Expert then warehouse aura as sequential multipliers (never production-efficiency Upgrade),
+        /// then binary outpost power factor. Used by Recruiting / Trading / Embassy / Scavenging / Power.
         /// </summary>
         public static float ApplyExpertAndWarehouseYieldMultipliers(float value, WorldObject_WD_Outpost outpost)
         {
@@ -529,6 +553,7 @@ namespace TSA_WorldDomination
                 if (aura > 0f)
                     value *= 1f + aura;
             }
+            value *= OutpostPowerGrid.GetProductionPowerFactor(outpost);
             return value;
         }
 
@@ -559,7 +584,7 @@ namespace TSA_WorldDomination
             if (Mathf.Abs(global - 1f) > 0.02f)
                 sb.Append(" × ").Append(global.ToString("F2")).Append(" ")
                     .Append(ProductionFormulaTag("TSA_WD_Production_Formula_GlobalOutput", "(Global Output)"));
-            AppendSoftProductionBonusSuffix(sb, outpost);
+            AppendSoftProductionBonusSuffixWithPower(sb, outpost);
         }
 
         public static string BuildGlobalAndSoftProductionBonusSuffix(WorldObject_WD_Outpost outpost)

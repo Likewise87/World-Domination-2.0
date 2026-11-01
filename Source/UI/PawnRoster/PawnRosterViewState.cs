@@ -30,6 +30,8 @@ namespace TSA_WorldDomination
         public const string Reason = "Reason";
         /// <summary>Pseudo key for the global trait filter (lives in <see cref="PawnRosterTraitFilter"/>).</summary>
         public const string Traits = "Traits";
+        /// <summary>Pseudo key for the global hediff filter (lives in <see cref="PawnRosterHediffFilter"/>).</summary>
+        public const string Hediffs = "Hediffs";
 
         public static readonly string[] All =
         {
@@ -52,6 +54,7 @@ namespace TSA_WorldDomination
                 case Psycasts: return PawnRosterColumnIds.Psycasts;
                 case Ideology: return PawnRosterColumnIds.Ideology;
                 case Traits: return PawnRosterColumnIds.Traits;
+                case Hediffs: return PawnRosterColumnIds.Hediffs;
                 default: return null;
             }
         }
@@ -74,6 +77,7 @@ namespace TSA_WorldDomination
                 case Destination: return "TSA_WD_SmartSend_ColDestination";
                 case Reason: return "TSA_WD_SmartSend_ColReason";
                 case Traits: return "TSA_WD_Prisoners_ColTraits";
+                case Hediffs: return "TSA_WD_PawnRoster_ColHediffs";
                 default: return null;
             }
         }

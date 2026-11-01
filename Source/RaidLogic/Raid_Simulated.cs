@@ -48,6 +48,25 @@ namespace TSA_WorldDomination
             return true;
         }
 
+        /// <summary>
+        /// Mid-travel / single-shot: abort+refund via <see cref="TryAbortIfNoLongerHostile"/> then Destroy
+        /// so a later tick cannot double-refund DNA.
+        /// </summary>
+        public static bool TryAbortAndDestroyIfNoLongerHostile(
+            WorldObject_Traveler traveler,
+            WorldObject attacker,
+            WorldObject target,
+            WorldComponent_SpreadManager manager,
+            Faction defenderFactionOverride = null)
+        {
+            if (traveler == null || traveler.Destroyed) return false;
+            if (!TryAbortIfNoLongerHostile(traveler, attacker, target, manager, defenderFactionOverride))
+                return false;
+            if (!traveler.Destroyed)
+                traveler.Destroy();
+            return true;
+        }
+
         /// <summary>Returns true when Feature B marauding accepted a new target and the traveler should be kept alive by the caller instead of destroyed.</summary>
         public static bool ExecuteTravelerRaid(WorldObject_Traveler traveler, WorldComponent_SpreadManager manager)
         {
@@ -503,7 +522,8 @@ namespace TSA_WorldDomination
             WorldComponent_SpreadManager manager,
             bool? forcedAttackerWon = null,
             bool suppressOutpostLetter = false,
-            bool allowSkirmishRetry = true)
+            bool allowSkirmishRetry = true,
+            HashSet<WorldObject> skipAllyVirtualLoss = null)
         {
             var seth = WorldDominationMod.settings;
             WorldObject attacker = TravelerEndpointUtility.GetRaidAttackerContext(traveler);
@@ -583,7 +603,8 @@ namespace TSA_WorldDomination
                 defStrengthsBefore[wo] = wo.GetComponent<CompViralSpread>()?.GetTotalLocalDefensePower() ?? 0f;
 
             // Primary loses a fraction of its whole battlefield (unless conquered); allies risk only their committed detachment.
-            ApplyDefenderLosses(defSnap, target, won, defLossPct, seth);
+            // Manual map fights that borrowed real support pawns skip virtual ally loss for those donors.
+            ApplyDefenderLosses(defSnap, target, won, defLossPct, seth, skipAllyVirtualLoss);
 
             if (!won && targetComp != null)
             {
@@ -705,13 +726,24 @@ namespace TSA_WorldDomination
         /// while each ally only loses the detachment it committed (<c>defLossPct * committed</c>) instead of a fraction of its
         /// entire garrison.
         /// </summary>
-        private static void ApplyDefenderLosses(RaidDefenderSnapshot defSnap, WorldObject target, bool won, float defLossPct, WorldDominationSettings seth)
+        private static void ApplyDefenderLosses(
+            RaidDefenderSnapshot defSnap,
+            WorldObject target,
+            bool won,
+            float defLossPct,
+            WorldDominationSettings seth,
+            HashSet<WorldObject> skipAllyVirtualLoss = null)
         {
             if (defSnap == null) return;
             if (!won)
                 target?.GetComponent<CompViralSpread>()?.ReduceStrength(defLossPct, true);
             foreach (var a in defSnap.allies)
-                a.obj?.GetComponent<CompViralSpread>()?.ReduceOffensiveByAmount(defLossPct * a.committed, true);
+            {
+                if (a.obj == null) continue;
+                if (skipAllyVirtualLoss != null && skipAllyVirtualLoss.Contains(a.obj))
+                    continue;
+                a.obj.GetComponent<CompViralSpread>()?.ReduceOffensiveByAmount(defLossPct * a.committed, true);
+            }
         }
 
         /// <summary>Before/after rows for the final raid log. Both sides use the SAME metric (total local defense power) so deltas are honest; a conquered target reports 0 after.</summary>

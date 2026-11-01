@@ -197,9 +197,17 @@ namespace TSA_WorldDomination
                             MessageTypeDefOf.RejectInput, false);
                         return false;
                     }
-                    if (!MortarFireUtils.IsValidMortarManualTarget(wo, source, manager, range)) return false;
-                    CommitMortarFireMission(source, wo);
-                    return true;
+                    if (MortarFireUtils.IsValidMortarManualTarget(wo, source, manager, range))
+                    {
+                        CommitMortarFireMission(source, wo);
+                        return true;
+                    }
+                    if (MortarFireUtils.IsMortarManualTargetCandidate(wo, source, manager, range))
+                    {
+                        WorldActions_Utils.NotifyNotHostileTarget();
+                        return false;
+                    }
+                    return false;
                 },
                 false, null, false,
                 () =>
@@ -215,11 +223,12 @@ namespace TSA_WorldDomination
                     if (!target.IsValid || target.Tile < 0) return false;
                     if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(target.Tile)) return false;
                     if (!target.HasWorldObject) return false;
-                    // Let the click through so the "just built" reason is shown instead of a silent reject.
-                    if (target.WorldObject is WorldObject_WD_AdvancedBuilding graced && graced.IsInShellGrace
-                        && graced.Faction != null && WorldActions_Utils.SafeHostileTo(graced.Faction, Faction.OfPlayer))
+                    // Candidate (type+range) so non-hostiles are clickable and get a reject beep+message.
+                    // Shell-grace buildings also clickable for the grace reason message.
+                    WorldObject wo = target.WorldObject;
+                    if (wo is WorldObject_WD_AdvancedBuilding graced && graced.IsInShellGrace)
                         return true;
-                    return MortarFireUtils.IsValidMortarManualTarget(target.WorldObject, source, manager, range);
+                    return MortarFireUtils.IsMortarManualTargetCandidate(wo, source, manager, range);
                 }
             );
         }
@@ -330,17 +339,30 @@ namespace TSA_WorldDomination
     /// player outpost shots and NPC tier-4 settlements.</summary>
     public static class MortarFireUtils
     {
-        /// <summary>Hostile settlement, AT Turret, caravan, or <see cref="WorldObject_Traveler"/> within mortar range.</summary>
-        public static bool IsValidMortarManualTarget(WorldObject wo, WorldObject_WD_Outpost source, WorldComponent_SpreadManager manager, float? rangeOverride = null)
+        /// <summary>
+        /// Settlement / AT / advanced building / caravan / traveler in mortar range (no hostility check).
+        /// Used by WorldTargeter so non-hostiles can be clicked for reject feedback.
+        /// </summary>
+        public static bool IsMortarManualTargetCandidate(WorldObject wo, WorldObject_WD_Outpost source, WorldComponent_SpreadManager manager, float? rangeOverride = null)
         {
             if (wo == null || wo.Destroyed || source == null || source.Destroyed) return false;
             if (wo == source) return false;
-            var seth = WorldDominationMod.settings;
-            float range = rangeOverride ?? MortarFireUtils.GetPlayerMortarConfiguredMaxRangeTiles(source);
+            float range = rangeOverride ?? GetPlayerMortarConfiguredMaxRangeTiles(source);
             float dist = manager != null
                 ? WorldActions_Utils.GetDistance(source.Tile, wo.Tile, manager)
                 : Find.WorldGrid.ApproxDistanceInTiles(source.Tile, wo.Tile);
             if (dist > range) return false;
+            return wo is Settlement
+                || wo is WorldObject_AT_Turret
+                || wo is WorldObject_WD_AdvancedBuilding
+                || wo is Caravan
+                || wo is WorldObject_Traveler;
+        }
+
+        /// <summary>Hostile settlement, AT Turret, caravan, or <see cref="WorldObject_Traveler"/> within mortar range.</summary>
+        public static bool IsValidMortarManualTarget(WorldObject wo, WorldObject_WD_Outpost source, WorldComponent_SpreadManager manager, float? rangeOverride = null)
+        {
+            if (!IsMortarManualTargetCandidate(wo, source, manager, rangeOverride)) return false;
             switch (wo)
             {
                 case Settlement s:
@@ -569,7 +591,7 @@ namespace TSA_WorldDomination
             return Mathf.Max(0f, d);
         }
 
-        /// <summary>Settings + upgrade bonuses + Strategist expert % (no per-outpost shrink).</summary>
+        /// <summary>Settings + upgrade bonuses + Strategist expert % (no per-outpost shrink). Unpowered range factor when power required.</summary>
         public static float GetPlayerMortarConfiguredMaxRangeTiles(WorldObject_WD_Outpost origin)
         {
             var seth = WorldDominationMod.settings;
@@ -579,7 +601,7 @@ namespace TSA_WorldDomination
             float expert = OutpostExpertUtility.GetStrategistAttackRangeBonusFraction(origin);
             if (expert > 0f)
                 r *= 1f + expert;
-            return r;
+            return OutpostPowerGrid.ApplyUnpoweredRange(origin, r);
         }
 
         /// <summary>Effective mortar range (respects per-outpost shrink override).</summary>
