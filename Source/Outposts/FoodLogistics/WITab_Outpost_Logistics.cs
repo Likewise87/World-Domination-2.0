@@ -116,6 +116,8 @@ namespace TSA_WorldDomination
             base.OnOpen();
             Find.World?.GetComponent<WorldComponent_LogisticsManager>()
                 ?.TryReconcileSmartFromFingerprint("food tab open");
+            Find.World?.GetComponent<WorldComponent_OutpostPowerGrid>()
+                ?.TryReconcileSmartFromFingerprint("power tab open");
         }
 
         private static void LabelAnchored(Rect rect, string text, TextAnchor anchor)

@@ -301,6 +301,10 @@ namespace TSA_WorldDomination
         private float watchRangeFactor;
         private int watchMaxPowerSupplyRange;
         private bool smartDirty = true;
+        /// <summary>Soft fingerprint after last Smart complete (plant budgets / demand / modes — not link watts).</summary>
+        private long lastSmartCompletedSoftFingerprint = long.MinValue;
+        /// <summary>True after explicit <see cref="MarkDirty"/> until Smart complete; heal path leaves this false.</summary>
+        private bool smartDirtyFromExplicitNotify;
 
         public WorldComponent_OutpostPowerGrid(World world) : base(world) { }
 
@@ -316,6 +320,10 @@ namespace TSA_WorldDomination
             int tick = Find.TickManager.TicksGame;
             if (tick % 60 == 0)
                 TickPowerSettingsSnapshot();
+            if (tick % 250 == 0)
+                TryReconcileSmartFromFingerprint("power tick");
+            if (smartDirty)
+                CompleteSmartPowerRefreshNow();
             if (dirty || tick % 250 == 0)
             {
                 EnsureAllocationFresh();
@@ -327,6 +335,7 @@ namespace TSA_WorldDomination
         {
             dirty = true;
             smartDirty = true;
+            smartDirtyFromExplicitNotify = true;
         }
 
         public void NotifyManualLinksChanged()
@@ -489,8 +498,99 @@ namespace TSA_WorldDomination
             return "#" + tileId;
         }
 
+        /// <summary>
+        /// Food-parity: rewrite Smart plant links when dirty. Safe to call before allocation cache rebuild.
+        /// Defers while not Playing so early PowerNet callers cannot clear dirty after an empty pass.
+        /// </summary>
+        public void CompleteSmartPowerRefreshNow()
+        {
+            if (!smartDirty) return;
+            if (Current.ProgramState != ProgramState.Playing) return;
+
+            bool wasHeal = !smartDirtyFromExplicitNotify;
+            if (Prefs.DevMode && wasHeal)
+                Log.Message("[TSA WD] Smart power fingerprint heal (no explicit dirty since last complete).");
+
+            if (OutpostPowerGrid.Enabled)
+                RunSmartAssignment();
+
+            smartDirty = false;
+            smartDirtyFromExplicitNotify = false;
+            lastSmartCompletedSoftFingerprint = ComputeSmartSoftFingerprint();
+            dirty = true;
+        }
+
+        /// <summary>
+        /// Compare soft fingerprint to last Smart complete. On mismatch, rewrite Smart links (food heal parity).
+        /// </summary>
+        public void TryReconcileSmartFromFingerprint(string reason)
+        {
+            if (Current.ProgramState != ProgramState.Playing) return;
+            if (!OutpostPowerGrid.Enabled) return;
+            if (!AnySmartPowerPlant()) return;
+
+            long soft = ComputeSmartSoftFingerprint();
+            if (soft == lastSmartCompletedSoftFingerprint)
+                return;
+
+            smartDirty = true;
+            CompleteSmartPowerRefreshNow();
+            if (Prefs.DevMode)
+                Log.Message($"[TSA WD] Smart power reconciled ({reason}).");
+        }
+
+        private bool AnySmartPowerPlant()
+        {
+            IReadOnlyList<WorldObject_WD_Outpost> list = WdPlayerOutpostCache.PlayerOutposts;
+            for (int i = 0; i < list.Count; i++)
+            {
+                WorldObject_WD_Outpost op = list[i];
+                if (op == null || op.Destroyed || op.Faction != Faction.OfPlayer) continue;
+                if (!op.IsPowerPlantOutpost) continue;
+                if (LogisticsModeUtil.IsSmartMode(op.PowerLogisticsMode))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>Plant budgets / consumer demand / modes / counts — excludes link watt rows (food soft-FP parity).</summary>
+        private long ComputeSmartSoftFingerprint()
+        {
+            IReadOnlyList<WorldObject_WD_Outpost> list = WdPlayerOutpostCache.PlayerOutposts;
+            int n = 0;
+            int plantPacked = 0;
+            int demandPacked = 0;
+            int modePacked = 0;
+            for (int i = 0; i < list.Count; i++)
+            {
+                WorldObject_WD_Outpost op = list[i];
+                if (op == null || op.Destroyed || op.Faction != Faction.OfPlayer) continue;
+                n++;
+                if (op.IsPowerPlantOutpost)
+                {
+                    float budget = Outpost_PowerPlant.GetRemotePowerWatts(op);
+                    plantPacked = unchecked(plantPacked + op.ID * 31 + Mathf.RoundToInt(budget));
+                    modePacked ^= op.ID * 17 + (int)LogisticsModeUtil.Normalize(op.PowerLogisticsMode) * 31;
+                }
+                float demand = OutpostPowerGrid.GetPowerDemandWatts(op);
+                if (demand > OutpostPowerGrid.DemandEpsilon)
+                    demandPacked = unchecked(demandPacked + op.ID * 13 + Mathf.RoundToInt(demand));
+            }
+            unchecked
+            {
+                return (uint)n ^ ((long)plantPacked << 8) ^ demandPacked ^ ((long)modePacked << 16);
+            }
+        }
+
         public void EnsureAllocationFresh()
         {
+            // Defer while loading: WdPlayerOutpostCache is empty outside Playing; clearing dirty here
+            // would skip the first real Smart pass (food never runs Smart from early Harmony callers).
+            if (Current.ProgramState != ProgramState.Playing) return;
+
+            if (smartDirty)
+                CompleteSmartPowerRefreshNow();
+
             if (!dirty) return;
             dirty = false;
             suppliedByOutpostId.Clear();
@@ -498,12 +598,6 @@ namespace TSA_WorldDomination
 
             if (!OutpostPowerGrid.Enabled)
                 return;
-
-            if (smartDirty)
-            {
-                RunSmartAssignment();
-                smartDirty = false;
-            }
 
             var plants = new List<WorldObject_WD_Outpost>(8);
             IReadOnlyList<WorldObject_WD_Outpost> list = WdPlayerOutpostCache.PlayerOutposts;
@@ -725,6 +819,15 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref unpoweredLetterSent, "wdOutpostPowerUnpoweredLetterSent", false);
             Scribe_Collections.Look(ref powerManualLinks, "powerManualLinks", LookMode.Deep);
             if (powerManualLinks == null) powerManualLinks = new List<PowerLogisticsLink>();
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
+            {
+                // Food logistics LoadingVars parity: force Smart rewrite after load; reset heal baseline.
+                dirty = true;
+                smartDirty = true;
+                smartDirtyFromExplicitNotify = true;
+                lastSmartCompletedSoftFingerprint = long.MinValue;
+                settingsWatchInit = false;
+            }
         }
     }
 
