@@ -41,6 +41,23 @@ namespace TSA_WorldDomination
         /// <summary>Bumped on every NotifyOutpostPowerDirty so Stats fingerprints refresh.</summary>
         public static int PowerStateGeneration { get; private set; }
 
+        /// <summary>
+        /// Above zero while a power plant's budget is being worked out (<see cref="Outpost_PowerPlant.GetRemotePowerWatts"/>).
+        /// A plant's budget includes the warehouse aura, and the warehouse aura radius is cut when the warehouse is
+        /// unpowered, which needs the allocation, which needs the plant budgets. While this is set, unpowered range
+        /// nerfs are skipped so that loop cannot start (it overflowed the stack when a plant sat inside a warehouse aura).
+        /// </summary>
+        private static int plantBudgetDepth;
+
+        public static bool ComputingPlantBudget => plantBudgetDepth > 0;
+
+        internal static void BeginPlantBudget() => plantBudgetDepth++;
+
+        internal static void EndPlantBudget()
+        {
+            if (plantBudgetDepth > 0) plantBudgetDepth--;
+        }
+
         public static bool Enabled
         {
             get
@@ -153,13 +170,13 @@ namespace TSA_WorldDomination
 
         public static int ApplyUnpoweredRadius(WorldObject_WD_Outpost outpost, int rawTiles)
         {
-            if (rawTiles <= 0 || !IsUnpoweredForNerfs(outpost)) return rawTiles;
+            if (rawTiles <= 0 || ComputingPlantBudget || !IsUnpoweredForNerfs(outpost)) return rawTiles;
             return Mathf.Max(1, Mathf.RoundToInt(rawTiles * GetUnpoweredRangeFactorClamped()));
         }
 
         public static float ApplyUnpoweredRange(WorldObject_WD_Outpost outpost, float rawTiles)
         {
-            if (rawTiles <= 0f || !IsUnpoweredForNerfs(outpost)) return rawTiles;
+            if (rawTiles <= 0f || ComputingPlantBudget || !IsUnpoweredForNerfs(outpost)) return rawTiles;
             return Mathf.Max(1f, rawTiles * GetUnpoweredRangeFactorClamped());
         }
 
@@ -301,6 +318,8 @@ namespace TSA_WorldDomination
         private float watchRangeFactor;
         private int watchMaxPowerSupplyRange;
         private bool smartDirty = true;
+        /// <summary>Re-entrancy guard: a nested call during <see cref="RunSmartAssignment"/> must not start another pass.</summary>
+        private bool smartRefreshRunning;
         /// <summary>Soft fingerprint after last Smart complete (plant budgets / demand / modes — not link watts).</summary>
         private long lastSmartCompletedSoftFingerprint = long.MinValue;
         /// <summary>True after explicit <see cref="MarkDirty"/> until Smart complete; heal path leaves this false.</summary>
@@ -504,15 +523,23 @@ namespace TSA_WorldDomination
         /// </summary>
         public void CompleteSmartPowerRefreshNow()
         {
-            if (!smartDirty) return;
+            if (!smartDirty || smartRefreshRunning) return;
             if (Current.ProgramState != ProgramState.Playing) return;
 
             bool wasHeal = !smartDirtyFromExplicitNotify;
             if (Prefs.DevMode && wasHeal)
                 Log.Message("[TSA WD] Smart power fingerprint heal (no explicit dirty since last complete).");
 
-            if (OutpostPowerGrid.Enabled)
-                RunSmartAssignment();
+            smartRefreshRunning = true;
+            try
+            {
+                if (OutpostPowerGrid.Enabled)
+                    RunSmartAssignment();
+            }
+            finally
+            {
+                smartRefreshRunning = false;
+            }
 
             smartDirty = false;
             smartDirtyFromExplicitNotify = false;
