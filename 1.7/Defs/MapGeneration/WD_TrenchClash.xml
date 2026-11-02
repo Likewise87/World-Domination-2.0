@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <GenStepDef>
+    <defName>WD_TrenchClashTerrain</defName>
+    <order>210</order>
+    <genStep Class="TSA_WorldDomination.GenStep_WD_TrenchClash"/>
+  </GenStepDef>
+
+  <MapGeneratorDef>
+    <defName>WD_TrenchClash</defName>
+    <genSteps>
+      <li>WD_TrenchClashTerrain</li>
+      <li>FindPlayerStartSpot</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+</Defs>

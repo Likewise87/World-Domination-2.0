@@ -31,6 +31,15 @@ namespace TSA_WorldDomination
             int raidArrivalDelayTicks,
             IReadOnlyList<Pawn> onlyTheseOccupants,
             IReadOnlyList<KeyValuePair<WorldObject_WD_Outpost, List<Pawn>>> supportSelections)
+            => StartManualDefenseEncounter(traveler, outpost, raidArrivalDelayTicks, onlyTheseOccupants, supportSelections, useTrenchCorridorMap: false);
+
+        public static bool StartManualDefenseEncounter(
+            WorldObject_Traveler traveler,
+            WorldObject_WD_Outpost outpost,
+            int raidArrivalDelayTicks,
+            IReadOnlyList<Pawn> onlyTheseOccupants,
+            IReadOnlyList<KeyValuePair<WorldObject_WD_Outpost, List<Pawn>>> supportSelections,
+            bool useTrenchCorridorMap)
         {
             if (traveler == null || outpost == null || outpost.Destroyed || !outpost.HasLivingManualDefensePawns())
                 return false;
@@ -70,7 +79,7 @@ namespace TSA_WorldDomination
 
             LongEventHandler.QueueLongEvent(delegate
             {
-                Map map = GenerateDedicatedEncounterMap(outpost.Tile);
+                Map map = GenerateDedicatedEncounterMap(outpost.Tile, useTrenchCorridorMap);
                 if (map == null)
                 {
                     ReturnExtractedDefendersByHome(allDefenders, allDefenders, defenderHomes, outpost);
@@ -81,7 +90,8 @@ namespace TSA_WorldDomination
                     return;
                 }
 
-                WD_OutpostDefenseStructureSpawner.SpawnDefenses(map, outpost);
+                if (!useTrenchCorridorMap)
+                    WD_OutpostDefenseStructureSpawner.SpawnDefenses(map, outpost);
 
                 // Vehicles first so large footprints claim clear ground before colonists fill the courtyard.
                 List<Pawn> spawnedStoredTransport = SpawnDefenders(
@@ -170,7 +180,7 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        private static Map GenerateDedicatedEncounterMap(int tile)
+        private static Map GenerateDedicatedEncounterMap(int tile, bool useTrenchCorridorMap = false)
         {
             WorldObjectDef siteDef = DefDatabase<WorldObjectDef>.GetNamedSilentFail("TSA_WD_OutpostDefenseSite");
             if (siteDef == null)
@@ -182,16 +192,27 @@ namespace TSA_WorldDomination
             MapParent site = (MapParent)WorldObjectMaker.MakeWorldObject(siteDef);
             site.Tile = tile;
             MapGeneratorDef generator = MapGeneratorDefOf.Encounter;
-            MapGeneratorDef kcsgGenerator = DefDatabase<MapGeneratorDef>.GetNamedSilentFail("KCSG_Base_Faction");
-            if (kcsgGenerator != null && Faction.OfPlayer?.def != null && KCSG_Integration_Patch.EnsureKcsgCustomGenOption(Faction.OfPlayer.def))
+            if (useTrenchCorridorMap)
             {
-                site.SetFaction(Faction.OfPlayer);
-                generator = kcsgGenerator;
+                MapGeneratorDef trenchGen = DefDatabase<MapGeneratorDef>.GetNamedSilentFail("WD_TrenchClash");
+                if (trenchGen != null)
+                    generator = trenchGen;
             }
             else
             {
-                site.SetFaction(null);
+                MapGeneratorDef kcsgGenerator = DefDatabase<MapGeneratorDef>.GetNamedSilentFail("KCSG_Base_Faction");
+                if (kcsgGenerator != null && Faction.OfPlayer?.def != null && KCSG_Integration_Patch.EnsureKcsgCustomGenOption(Faction.OfPlayer.def))
+                {
+                    site.SetFaction(Faction.OfPlayer);
+                    generator = kcsgGenerator;
+                }
+                else
+                {
+                    site.SetFaction(null);
+                }
             }
+            if (site.Faction == null && useTrenchCorridorMap)
+                site.SetFaction(null);
             Find.WorldObjects.Add(site);
             return MapGenerator.GenerateMap(Find.World.info.initialMapSize, site, generator, null, null);
         }

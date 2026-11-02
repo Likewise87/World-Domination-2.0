@@ -791,6 +791,8 @@ namespace TSA_WorldDomination
         public const bool DefExperimentalOutpostCePassiveAmmo = true;
         /// <summary>Experimental opt-out: outposts keep a loose gear store (see <see cref="CompOutpostArmory"/>).</summary>
         public const bool DefExperimentalOutpostArmory = true;
+        /// <summary>Player outpost/colony trench arms (world build + walk-over defense). Default off (ship dark until ready).</summary>
+        public const bool DefEnableTrenches = false;
         /// <summary>Experimental kill switch: block vanilla storyteller incidents targeting traveling caravans (ambush, meeting, demand, disease). Off by default.</summary>
         public const bool DefExperimentalDisableVanillaCaravanIncidents = false;
         /// <summary>Cheap per-event coin flip rolled before any strength math; also the primary performance throttle.</summary>
@@ -1832,6 +1834,7 @@ namespace TSA_WorldDomination
         public bool experimentalUnlimitedAssaultMortarSupport = DefExperimentalUnlimitedAssaultMortarSupport;
         public bool experimentalOutpostCePassiveAmmo = DefExperimentalOutpostCePassiveAmmo;
         public bool experimentalOutpostArmory = DefExperimentalOutpostArmory;
+        public bool enableTrenches = DefEnableTrenches;
         public bool experimentalDisableVanillaCaravanIncidents = DefExperimentalDisableVanillaCaravanIncidents;
         public float targetOfOpportunityEligibilityRollPct = DefTargetOfOpportunityEligibilityRollPct;
         public float targetOfOpportunityMinRatioAdvantage = DefTargetOfOpportunityMinRatioAdvantage;
@@ -3082,6 +3085,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref experimentalUnlimitedAssaultMortarSupport, "experimentalUnlimitedAssaultMortarSupport", DefExperimentalUnlimitedAssaultMortarSupport);
             Scribe_Values.Look(ref experimentalOutpostCePassiveAmmo, "experimentalOutpostCePassiveAmmo", DefExperimentalOutpostCePassiveAmmo);
             Scribe_Values.Look(ref experimentalOutpostArmory, "experimentalOutpostArmory", DefExperimentalOutpostArmory);
+            Scribe_Values.Look(ref enableTrenches, "enableTrenches", DefEnableTrenches);
             Scribe_Values.Look(ref experimentalDisableVanillaCaravanIncidents, "experimentalDisableVanillaCaravanIncidents", DefExperimentalDisableVanillaCaravanIncidents);
             Scribe_Values.Look(ref targetOfOpportunityEligibilityRollPct, "targetOfOpportunityEligibilityRollPct", DefTargetOfOpportunityEligibilityRollPct);
             Scribe_Values.Look(ref targetOfOpportunityMinRatioAdvantage, "targetOfOpportunityMinRatioAdvantage", DefTargetOfOpportunityMinRatioAdvantage);
@@ -5442,6 +5446,7 @@ namespace TSA_WorldDomination
             experimentalUnlimitedAssaultMortarSupport = DefExperimentalUnlimitedAssaultMortarSupport;
             experimentalOutpostCePassiveAmmo = DefExperimentalOutpostCePassiveAmmo;
             experimentalOutpostArmory = DefExperimentalOutpostArmory;
+            enableTrenches = DefEnableTrenches;
             experimentalDisableVanillaCaravanIncidents = DefExperimentalDisableVanillaCaravanIncidents;
             targetOfOpportunityEligibilityRollPct = DefTargetOfOpportunityEligibilityRollPct;
             targetOfOpportunityMinRatioAdvantage = DefTargetOfOpportunityMinRatioAdvantage;

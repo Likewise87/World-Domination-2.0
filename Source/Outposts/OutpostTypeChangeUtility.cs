@@ -236,6 +236,9 @@ namespace TSA_WorldDomination
             if (!Preflight(outpost, out reason))
                 return false;
 
+            // Trenches wipe on type-change (not transferred to the new type).
+            WorldActions_Trenches.WipeForOwner(outpost);
+
             Log.Message($"[WD TypeChange] start path={(pathB ? "B" : "A")} {oldDef?.defName}→{newDef.defName} id={outpost.ID} occ={occBefore} pris={prisBefore}");
 
             try

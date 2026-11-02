@@ -48,6 +48,10 @@
   <TSA_WD_Inspect_BridgeStatus_InTransit>Status: bridge crew in transit to {0} (prep {1}%)...</TSA_WD_Inspect_BridgeStatus_InTransit>
   <TSA_WD_Inspect_BridgeClearStatus>Removing bridge toward {0}: {1}%</TSA_WD_Inspect_BridgeClearStatus>
   <TSA_WD_Inspect_BridgeClearStatus_InTransit>Status: bridge-removal crew in transit to {0} (prep {1}%)...</TSA_WD_Inspect_BridgeClearStatus_InTransit>
+  <TSA_WD_Inspect_TrenchStatus>Trench dig: {0}% toward {1}</TSA_WD_Inspect_TrenchStatus>
+  <TSA_WD_Inspect_TrenchStatus_InTransit>Status: trench crew in transit to {0} (prep {1}%)...</TSA_WD_Inspect_TrenchStatus_InTransit>
+  <TSA_WD_Inspect_TrenchClearStatus>Removing trenches toward {0}: {1}%</TSA_WD_Inspect_TrenchClearStatus>
+  <TSA_WD_Inspect_TrenchClearStatus_InTransit>Status: trench-removal crew in transit to {0} (prep {1}%)...</TSA_WD_Inspect_TrenchClearStatus_InTransit>
   <TSA_WD_Inspect_RoadBlockBuild>Road Blocks</TSA_WD_Inspect_RoadBlockBuild>
   <TSA_WD_Inspect_RoadBlockClear>Clearing Road Blocks</TSA_WD_Inspect_RoadBlockClear>
   <TSA_WD_Inspect_RoadBlockStatus>{0}: {1}% toward {2}</TSA_WD_Inspect_RoadBlockStatus>

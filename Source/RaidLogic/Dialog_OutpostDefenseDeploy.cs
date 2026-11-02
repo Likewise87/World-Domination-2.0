@@ -80,16 +80,20 @@ namespace TSA_WorldDomination
 
         public override Vector2 InitialSize => new Vector2(920f, 720f);
 
+        private readonly bool isTrenchCorridor;
+
         public Dialog_OutpostDefenseDeploy(
             WorldObject_Traveler traveler,
             WorldObject_WD_Outpost outpost,
             WorldComponent_SpreadManager manager,
-            bool isSkirmishFollowUp)
+            bool isSkirmishFollowUp,
+            bool isTrenchCorridor = false)
         {
             this.traveler = traveler;
             this.outpost = outpost;
             this.manager = manager;
             this.isSkirmishFollowUp = isSkirmishFollowUp;
+            this.isTrenchCorridor = isTrenchCorridor;
             enforceBudget = OutpostStrengthBudget.DefenseDeployBudgetEnabled;
             onSort = ToggleSort;
             view.SetDefaultSort(PawnRosterBudgetTable.DefaultSortId, false);
@@ -869,7 +873,7 @@ namespace TSA_WorldDomination
             outpost?.ClearPendingSkirmishDefense();
             Close(doCloseSound: false);
             if (!WD_OutpostDefenseEncounterUtility.StartManualDefenseEncounter(
-                    traveler, outpost, raidDelay, deploy, supports.Count > 0 ? supports : null))
+                    traveler, outpost, raidDelay, deploy, supports.Count > 0 ? supports : null, isTrenchCorridor))
                 Raid_Simulated.ResolvePlayerOutpostRaidArrival(traveler, manager, allowSkirmishRetry: false);
         }
     }

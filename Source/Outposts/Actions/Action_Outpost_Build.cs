@@ -33,6 +33,8 @@ namespace TSA_WorldDomination
 
             foreach (var g in Action_Outpost_BuildRoad.GetGizmos(outpost))
                 yield return g;
+            foreach (var g in Action_Outpost_BuildTrench.GetGizmos(outpost))
+                yield return g;
             foreach (var g in Action_Outpost_BuildBridge.GetGizmos(outpost))
                 yield return g;
             foreach (var g in Action_Outpost_RoadBlocks.GetGizmos(outpost))
@@ -63,6 +65,8 @@ namespace TSA_WorldDomination
             };
 
             foreach (var g in Action_Outpost_BuildRoad.GetGizmos(colony))
+                yield return g;
+            foreach (var g in Action_Outpost_BuildTrench.GetGizmos(colony))
                 yield return g;
             foreach (var g in Action_Outpost_BuildBridge.GetGizmos(colony))
                 yield return g;
@@ -101,6 +105,16 @@ namespace TSA_WorldDomination
                 var removeRoads = Action_Outpost_BuildRoad.MakeRemoveRoadsMenuOption(outpost, comp);
                 removeRoads.orderInPriority = 160;
                 list.Add(removeRoads);
+            }
+
+            if (seth == null || seth.enableTrenches)
+            {
+                var buildTrench = Action_Outpost_BuildTrench.MakeBuildMenuOption(outpost, comp);
+                buildTrench.orderInPriority = 480;
+                list.Add(buildTrench);
+                var removeTrench = Action_Outpost_BuildTrench.MakeRemoveMenuOption(outpost, comp);
+                removeTrench.orderInPriority = 158;
+                list.Add(removeTrench);
             }
 
             if (blocks)

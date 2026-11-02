@@ -47,7 +47,8 @@ namespace TSA_WorldDomination
         public static FloatMenuOption MakeBuildSpikeTrapMenuOption(WorldObject outpost, CompViralSpread comp)
         {
             Texture2D icon = BuildSpikeTrapIcon;
-            bool roadBusy = comp.roadTargetTile != -1 || WorldActions_BuildBridge.HasActiveBridgeProject(comp);
+            bool roadBusy = comp.roadTargetTile != -1 || WorldActions_BuildBridge.HasActiveBridgeProject(comp)
+                || WorldActions_Trenches.HasActiveTrenchProject(comp);
             bool blockBusy = WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp);
             bool trapBusy = WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp);
             bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp);
@@ -167,7 +168,8 @@ namespace TSA_WorldDomination
         public static FloatMenuOption MakeClearSpikeTrapMenuOption(WorldObject outpost, CompViralSpread comp)
         {
             Texture2D icon = ClearSpikeTrapIcon;
-            bool roadBusy = comp.roadTargetTile != -1 || WorldActions_BuildBridge.HasActiveBridgeProject(comp);
+            bool roadBusy = comp.roadTargetTile != -1 || WorldActions_BuildBridge.HasActiveBridgeProject(comp)
+                || WorldActions_Trenches.HasActiveTrenchProject(comp);
             bool blockBusy = WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp);
             bool trapBusy = WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp);
             bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp);

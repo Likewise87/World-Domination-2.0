@@ -234,6 +234,111 @@ namespace TSA_WorldDomination
             DebugActions_FloatMenus.OpenCentered(opts);
         }
 
+        private static int pendingTrenchFromTile = -1;
+
+        public static void BeginPlaceTrench()
+        {
+            const string label = "Place trench";
+            if (TryToggleOff(label)) return;
+            CancelActive();
+            ActiveToolLabel = label;
+            pendingTrenchFromTile = -1;
+
+            Messages.Message(
+                "WD debug: click two neighboring trench tiles (one hub-adjacent for a new arm). Owner = nearest player outpost/colony. Esc to stop.",
+                MessageTypeDefOf.NeutralEvent);
+            Find.WorldTargeter.BeginTargeting(
+                target =>
+                {
+                    if (!TryGetSurfaceTile(target, out int tile)) return false;
+                    if (pendingTrenchFromTile < 0)
+                    {
+                        pendingTrenchFromTile = tile;
+                        Messages.Message("WD debug: click neighboring tile to place trench edge.", MessageTypeDefOf.NeutralEvent);
+                        return false;
+                    }
+
+                    int from = pendingTrenchFromTile;
+                    pendingTrenchFromTile = -1;
+                    WorldObject owner = FindNearestPlayerTrenchOwner(from, tile);
+                    if (owner == null)
+                    {
+                        Messages.Message("WD debug: no player outpost/colony nearby to own the trench.", MessageTypeDefOf.RejectInput);
+                        return false;
+                    }
+
+                    var trenches = WorldComponent_WdTrenches.Get();
+                    string fail = null;
+                    if (trenches == null || !trenches.TryAddEdge(from, tile, owner, out fail))
+                    {
+                        Messages.Message(
+                            fail.NullOrEmpty() ? "WD debug: could not place trench edge." : ("WD debug: " + fail),
+                            MessageTypeDefOf.RejectInput);
+                        return false;
+                    }
+
+                    Messages.Message($"WD debug: trench edge placed (owner {owner.LabelCap}).", MessageTypeDefOf.PositiveEvent);
+                    return false;
+                },
+                true,
+                null,
+                false,
+                null,
+                null,
+                t => TryGetSurfaceTile(t, out _));
+        }
+
+        public static void WipeTrenchAtMouse()
+        {
+            int tile = GenWorld.MouseTile();
+            if (tile < 0 || !PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(tile))
+            {
+                Messages.Message("WD debug: invalid tile.", MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            var trenches = WorldComponent_WdTrenches.Get();
+            if (trenches == null || !WorldComponent_WdTrenches.HasTrenchAt(tile))
+            {
+                Messages.Message("WD debug: no trench on that tile.", MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            if (WorldComponent_WdTrenches.TryGetOwnerAt(tile, out WorldObject owner) && owner != null)
+            {
+                trenches.WipeOwnedBy(owner);
+                Messages.Message($"WD debug: wiped all trenches owned by {owner.LabelCap}.", MessageTypeDefOf.PositiveEvent);
+            }
+            else
+            {
+                trenches.WipeEdgesTouchingTile(tile);
+                Messages.Message("WD debug: wiped trench edges touching tile.", MessageTypeDefOf.PositiveEvent);
+            }
+        }
+
+        private static WorldObject FindNearestPlayerTrenchOwner(int tileA, int tileB)
+        {
+            WorldObject best = null;
+            float bestDist = float.MaxValue;
+            var list = Find.WorldObjects?.AllWorldObjects;
+            if (list == null) return null;
+            for (int i = 0; i < list.Count; i++)
+            {
+                WorldObject o = list[i];
+                if (o == null || o.Destroyed || o.Faction != Faction.OfPlayer) continue;
+                if (o is not WorldObject_WD_Outpost && o is not Settlement) continue;
+                float d = Mathf.Min(
+                    Find.WorldGrid.ApproxDistanceInTiles(o.Tile, new PlanetTile(tileA)),
+                    Find.WorldGrid.ApproxDistanceInTiles(o.Tile, new PlanetTile(tileB)));
+                if (d < bestDist)
+                {
+                    bestDist = d;
+                    best = o;
+                }
+            }
+            return best;
+        }
+
         private static void BeginPlaceRoadTargeting(SettlementTier tier)
         {
             pendingRoadFromTile = -1;

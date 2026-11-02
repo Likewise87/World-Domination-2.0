@@ -9,7 +9,7 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    public enum TravelerMission { Expansion, Raid, RoadBuilding, RoadBlock, SpikeTrap, Decontamination, OutpostDelivery, Trader, OutpostUpgrade, OutpostTypeChange, MortarStrike, AntiAirStrike, RapidResponseIntercept, RapidResponseDropPod, DebugRaidTransit, RaidDropPod, RaidGravship, SettlementBuy, SettlementGift, SettlementBribe, RaidBribe, NpcFortify, DiplomacyNegotiate, AtTurret, NpcAtTurret, MassRelocation, DesperationRally, TurtleConsolidate, BridgeBuilding, BridgeDeconstruct }
+    public enum TravelerMission { Expansion, Raid, RoadBuilding, RoadBlock, SpikeTrap, Decontamination, OutpostDelivery, Trader, OutpostUpgrade, OutpostTypeChange, MortarStrike, AntiAirStrike, RapidResponseIntercept, RapidResponseDropPod, DebugRaidTransit, RaidDropPod, RaidGravship, SettlementBuy, SettlementGift, SettlementBribe, RaidBribe, NpcFortify, DiplomacyNegotiate, AtTurret, NpcAtTurret, MassRelocation, DesperationRally, TurtleConsolidate, BridgeBuilding, BridgeDeconstruct, TrenchBuilding, TrenchClearing }
     public enum RaidOrderOutcome { PlayerOutpostConquestMenu, AllyClaimsTarget, AllyAwardsToPlayer }
 
     public class WorldObject_Traveler : WorldObject
@@ -73,6 +73,12 @@ namespace TSA_WorldDomination
 
         /// <summary>True after the first pollution-exit warning for this traveler (one yellow letter max).</summary>
         public bool pollutionDamageWarned;
+
+        /// <summary>
+        /// Owner WorldObject IDs for which this column already resolved a trench Choice (Skip / Fight / Auto).
+        /// Covers all arms of that owner. Copied on <see cref="WD_MapComponent_CaravanClash"/> respawn.
+        /// </summary>
+        public List<int> trenchResolvedOwnerIds = new List<int>();
 
         public Dictionary<WorldObject, float> contributionFactors;
         public int spawnTick;
@@ -647,6 +653,9 @@ namespace TSA_WorldDomination
                     originObject.GetComponent<CompViralSpread>()?.NotifyAtTurretCrewReturned();
                 if (mission == TravelerMission.Decontamination && originObject != null && !originObject.Destroyed)
                     originObject.GetComponent<CompViralSpread>()?.NotifyDecontaminationCrewReturned();
+                if ((mission == TravelerMission.TrenchBuilding || mission == TravelerMission.TrenchClearing)
+                    && originObject != null && !originObject.Destroyed)
+                    WorldActions_Trenches.NotifyBuilderDestroyed(this);
                 if (mission == TravelerMission.TurtleConsolidate && !turtleLeafResolved && turtleGroupId > 0)
                     WorldActions_Turtle.NotifyTurtleTravelerDestroyedUnresolved(this);
                 WorldComponent_InterceptionScheduler.Current?.UnregisterTraveler(this);
@@ -1420,6 +1429,9 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref travelerStrength, "travelerStrength");
             Scribe_Values.Look(ref initialStrength, "initialStrength");
             Scribe_Values.Look(ref projectedArrivalStrength, "projectedArrivalStrength");
+            Scribe_Collections.Look(ref trenchResolvedOwnerIds, "trenchResolvedOwnerIds", LookMode.Value);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && trenchResolvedOwnerIds == null)
+                trenchResolvedOwnerIds = new List<int>();
             Scribe_Values.Look(ref attritionResting, "attritionResting", false);
             Scribe_Values.Look(ref attritionRestDestTile, "attritionRestDestTile", -1);
             Scribe_Values.Look(ref lastHostileFireTick, "lastHostileFireTick", -1);

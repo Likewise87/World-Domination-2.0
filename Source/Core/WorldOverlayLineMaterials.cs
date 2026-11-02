@@ -38,6 +38,12 @@ namespace TSA_WorldDomination
         public static readonly Material RecruitTradingRadiusRing = MaterialPool.MatFrom("UI/Overlays/ThingLine", ShaderDatabase.WorldOverlayTransparent, RecruitPurple, RenderQueue);
 
         public static readonly Material RoadOrange = MaterialPool.MatFrom("UI/Overlays/ThingLine", ShaderDatabase.WorldOverlayTransparent, ColorLibrary.Orange, RenderQueue);
+        /// <summary>Hard opaque dark-brown lines for trench X stakes outside the berms.</summary>
+        public static readonly Material TrenchWireBrown = MakeHardWorldLineMat(
+            new Color(0.14f, 0.08f, 0.03f, 1f), RenderQueue);
+        /// <summary>Hard opaque wood lines for trench ditch sleepers (browner, less orange).</summary>
+        public static readonly Material TrenchWoodPlank = MakeHardWorldLineMat(
+            new Color(0.48f, 0.30f, 0.14f, 1f), RenderQueue);
         /// <summary>Waypoint X / destination star for build projects; more opaque than corridor path lines.</summary>
         public static readonly Material RoadOrangeMarker = MakeAlwaysOnTopLineMat(
             new Color(ColorLibrary.Orange.r, ColorLibrary.Orange.g, ColorLibrary.Orange.b, 1f),
@@ -65,6 +71,22 @@ namespace TSA_WorldDomination
             {
                 renderQueue = renderQueue,
                 name = shared.name + "_AlwaysOnTop"
+            };
+            mat.SetInt(Shader.PropertyToID("_ZTest"), (int)CompareFunction.Always);
+            return mat;
+        }
+
+        /// <summary>
+        /// Crisp world lines: solid white tex (no soft ThingLine falloff) + ZTest Always.
+        /// Use thin widths so marks read as strokes, not blurry blobs.
+        /// </summary>
+        private static Material MakeHardWorldLineMat(Color color, int renderQueue)
+        {
+            Material shared = MaterialPool.MatFrom(BaseContent.WhiteTex, ShaderDatabase.Transparent, color, renderQueue);
+            Material mat = new Material(shared)
+            {
+                renderQueue = renderQueue,
+                name = "WD_HardWorldLine_" + color.ToString()
             };
             mat.SetInt(Shader.PropertyToID("_ZTest"), (int)CompareFunction.Always);
             return mat;

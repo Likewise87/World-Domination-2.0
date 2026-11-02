@@ -380,6 +380,8 @@ namespace TSA_WorldDomination
                     // Vanguard / Invasion rally columns, and Turtle migrants. Player colony tile does the same
                     // (map raid) with the same mission filter. Player Camp: clash on the existing map
                     // (resume traveler if the camp loses).
+                    if (Raid_Simulated.TryInterceptRaidAtTrench(traveler))
+                        return;
                     if (Raid_Simulated.TryInterceptRaidAtFortressOutpost(traveler))
                         return;
                     if (Raid_Simulated.TryInterceptRaidAtPlayerColony(traveler))

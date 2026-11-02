@@ -900,6 +900,8 @@
   <TSA_WD_Experimental_HeaderWorldActionsRaidLogic>世界行动与袭击逻辑</TSA_WD_Experimental_HeaderWorldActionsRaidLogic>
   <TSA_WD_Experimental_ColonyWorldBuild>实验：殖民地世界建造（道路 / 路障 / 陷阱）</TSA_WD_Experimental_ColonyWorldBuild>
   <TSA_WD_Experimental_ColonyWorldBuildTip>开启后，你的殖民地定居点获得青色“建造”指令（道路、路障、尖刺陷阱）。速度与解锁取决于殖民地地图上殖民者建造技能总和。无工程师加成，不消耗 WD 实力。关闭会取消殖民地进行中的建造项目。</TSA_WD_Experimental_ColonyWorldBuildTip>
+  <TSA_WD_Experimental_EnableTrenches>实验：战壕防御</TSA_WD_Experimental_EnableTrenches>
+  <TSA_WD_Experimental_EnableTrenchesTip>开启后，玩家前哨与殖民地可挖独占战壕支线（木材费用，尖端到枢纽拆除）。敌对纵队踩上你的战壕时可选战斗 / 自动（前哨）/ 跳过。关闭会清除全部玩家战壕并取消相关工程。</TSA_WD_Experimental_EnableTrenchesTip>
   <TSA_WD_Experimental_AT_TargetPlayerTravelers>NPC AT 炮塔攻击玩家 WD 远行队</TSA_WD_Experimental_AT_TargetPlayerTravelers>
   <TSA_WD_Experimental_AT_TargetPlayerTravelersTip>开启后，敌对 NPC AT 炮塔可向你的地面 WD 远行队开火（袭击、升级、交付、商队及其他非空中任务）。关闭后不再发起新交火；已在飞行中的炮弹仍会结算。</TSA_WD_Experimental_AT_TargetPlayerTravelersTip>
   <TSA_WD_Experimental_AT_TargetPlayerCaravans>敌方系统攻击玩家商队（AT / 迫击炮 / 伏击）</TSA_WD_Experimental_AT_TargetPlayerCaravans>

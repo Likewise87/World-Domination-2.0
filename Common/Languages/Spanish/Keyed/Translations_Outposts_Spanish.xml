@@ -2239,4 +2239,40 @@
   <TSA_WD_OutpostStats_Row_LandSpeedTip>Bono a la velocidad a pie de las caravanas que salen de este asentamiento. Un Establo aporta el bono; sin él es +0%.</TSA_WD_OutpostStats_Row_LandSpeedTip>
   <TSA_WD_OutpostStats_SiloMaxLine>Silo: {0} +{1}% = {2}</TSA_WD_OutpostStats_SiloMaxLine>
   <TSA_WD_OutpostStats_HospitalLine>Hospital: +{0}%</TSA_WD_OutpostStats_HospitalLine>
+
+  <!-- Trench defenses -->
+  <TSA_WD_BuildTrench>Construir trincheras</TSA_WD_BuildTrench>
+  <TSA_WD_BuildTrenchDesc>Excava brazos de trinchera exclusivos desde este sitio (radios en polilínea, máx. {0} casillas). Cuesta {1} madera por segmento. Las columnas hostiles que pisen tus trincheras abren un diálogo de defensa.</TSA_WD_BuildTrenchDesc>
+  <TSA_WD_RemoveTrench>Quitar trincheras</TSA_WD_RemoveTrench>
+  <TSA_WD_RemoveTrenchDesc>Quita brazos de trinchera solo de punta a hub (primero la punta exterior).</TSA_WD_RemoveTrenchDesc>
+  <TSA_WD_CancelTrench>Cancelar excavación</TSA_WD_CancelTrench>
+  <TSA_WD_CancelTrenchRemoval>Cancelar retirada de trincheras</TSA_WD_CancelTrenchRemoval>
+  <TSA_WD_CancelTrenchDesc>Aborta el proyecto de trincheras activo y llama a la cuadrilla.</TSA_WD_CancelTrenchDesc>
+  <TSA_WD_Trench_Disabled>Las trincheras están desactivadas en Ajustes experimentales.</TSA_WD_Trench_Disabled>
+  <TSA_WD_Trench_NeedPassableLand>Las trincheras requieren tierra transitable (sin agua ni terreno intransitable).</TSA_WD_Trench_NeedPassableLand>
+  <TSA_WD_Trench_NotOnHub>La casilla del hub no puede ser trinchera.</TSA_WD_Trench_NotOnHub>
+  <TSA_WD_Trench_AlreadyTrench>Esa casilla ya tiene trinchera.</TSA_WD_Trench_AlreadyTrench>
+  <TSA_WD_Trench_BlockedByRoad>No se pueden cavar trincheras en casillas con carretera.</TSA_WD_Trench_BlockedByRoad>
+  <TSA_WD_Trench_BlockedByFort>Quita fortificaciones antes de cavar trincheras.</TSA_WD_Trench_BlockedByFort>
+  <TSA_WD_Trench_BlockedByBridge>No se pueden cavar trincheras en casillas de puente.</TSA_WD_Trench_BlockedByBridge>
+  <TSA_WD_Trench_BlockedByWorldObject>Bloqueado por {0}.</TSA_WD_Trench_BlockedByWorldObject>
+  <TSA_WD_Trench_OutOfRange>Las trincheras deben quedar a {0} casillas del hub como máximo.</TSA_WD_Trench_OutOfRange>
+  <TSA_WD_Trench_TileReserved>Esta casilla está reservada por trincheras.</TSA_WD_Trench_TileReserved>
+  <TSA_WD_Trench_NoOwner>Sin dueño de trinchera válido.</TSA_WD_Trench_NoOwner>
+  <TSA_WD_Trench_BadEdge>Borde de trinchera inválido.</TSA_WD_Trench_BadEdge>
+  <TSA_WD_Trench_NotNeighbors>Los segmentos de trinchera deben unir casillas vecinas.</TSA_WD_Trench_NotNeighbors>
+  <TSA_WD_Trench_ForeignNetwork>Esa trinchera pertenece a otro sitio.</TSA_WD_Trench_ForeignNetwork>
+  <TSA_WD_Trench_MustTouchHub>Los brazos nuevos deben empezar con el primer segmento desde este sitio.</TSA_WD_Trench_MustTouchHub>
+  <TSA_WD_Trench_NoBranch>Las trincheras son solo polilíneas (sin ramificaciones).</TSA_WD_Trench_NoBranch>
+  <TSA_WD_Trench_NoMerge>Las trincheras no pueden fusionarse ni formar bucles.</TSA_WD_Trench_NoMerge>
+  <TSA_WD_Trench_NoTrench>No hay trinchera ahí.</TSA_WD_Trench_NoTrench>
+  <TSA_WD_Trench_RemoveTipOnly>Quita solo desde la punta del brazo hacia el hub.</TSA_WD_Trench_RemoveTipOnly>
+  <TSA_WD_Trench_NoneOwned>Este sitio no posee trincheras.</TSA_WD_Trench_NoneOwned>
+  <TSA_WD_Trench_InvalidPath>No se pudo planear una ruta de trinchera válida (tierra, exclusividad, sin ramificaciones).</TSA_WD_Trench_InvalidPath>
+  <TSA_WD_Trench_BuildStarted>Excavación de trincheras iniciada en {0}.</TSA_WD_Trench_BuildStarted>
+  <TSA_WD_Trench_RemovalStarted>Retirada de trincheras iniciada en {0}.</TSA_WD_Trench_RemovalStarted>
+  <TSA_WD_Trench_BuildComplete>Trincheras terminadas en {0}.</TSA_WD_Trench_BuildComplete>
+  <TSA_WD_Trench_ClearComplete>Retirada de trincheras terminada en {0}.</TSA_WD_Trench_ClearComplete>
+  <TSA_WD_Trench_Cancelled>Proyecto de trincheras cancelado en {0}.</TSA_WD_Trench_Cancelled>
+  <TSA_WD_Trench_MovementExplanation>Trincheras (+{0})</TSA_WD_Trench_MovementExplanation>
 </LanguageData>

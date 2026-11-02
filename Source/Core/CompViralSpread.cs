@@ -592,6 +592,17 @@ namespace TSA_WorldDomination
 
         public bool DecontamBuilderInField => decontamBuilderInField;
 
+        // --- Trench project (mutex with road / bridge / block / trap / AT / decontam) ---
+        public int trenchTargetTile = -1;
+        public float trenchProgress;
+        public bool trenchIsClearing;
+        public bool trenchBuilderInField;
+        public int trenchCachedWorkTile = -1;
+        public string trenchTargetName = string.Empty;
+        public List<int> cachedTrenchPathTiles = new List<int>();
+        public List<int> trenchWaypointTiles = new List<int>();
+        private int lastTrenchProgressTick = -1;
+
         /// <summary>Last <see cref="TickManager.TicksGame"/> when road progress was applied in batches; -1 = init on next batch.</summary>
         private int lastRoadProgressTick = -1;
         /// <summary>Last <see cref="TickManager.TicksGame"/> when daily strength regen fired; elapsed-tick gating replaces modulo alignment.</summary>
@@ -661,6 +672,12 @@ namespace TSA_WorldDomination
         public void NotifyRoadBlockCrewReturned()
         {
             roadBlockBuilderInField = false;
+        }
+
+        /// <summary>Called when a trench crew from this outpost/colony is destroyed (arrived or cancelled).</summary>
+        public void NotifyTrenchCrewReturned()
+        {
+            trenchBuilderInField = false;
         }
 
         /// <summary>Called when a spike-trap crew from this outpost is destroyed (arrived or cancelled).</summary>
@@ -770,6 +787,19 @@ namespace TSA_WorldDomination
                 }
             }
 
+            if (WorldActions_Trenches.HasActiveTrenchProject(this) && !trenchBuilderInField)
+            {
+                float cost = WorldActions_Roads.GetExpeditionStrengthCost(SettlementTier.T1);
+                if (trenchProgress >= 1f && !WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, cost))
+                {
+                    clearing = trenchIsClearing;
+                    projectLabel = trenchIsClearing
+                        ? "TSA_WD_RemoveTrench".Translate().ToString()
+                        : "TSA_WD_BuildTrench".Translate().ToString();
+                    return true;
+                }
+            }
+
             return false;
         }
 
@@ -830,6 +860,15 @@ namespace TSA_WorldDomination
                 && !ColonyWorldBuildRequirements.HasMaterialCostsForAtTurret(selectedAtTurretTier))
             {
                 projectLabel = AtTurretUtility.LabelKey(selectedAtTurretTier).Translate().ToString();
+                return true;
+            }
+
+            if (WorldActions_Trenches.HasActiveTrenchProject(this) && !trenchBuilderInField
+                && !trenchIsClearing
+                && trenchProgress >= 1f
+                && !ColonyWorldBuildMaterials.HasMaterialCosts(WorldActions_Trenches.GetWoodCostPerSegment(), out _))
+            {
+                projectLabel = "TSA_WD_BuildTrench".Translate().ToString();
                 return true;
             }
 
@@ -894,12 +933,15 @@ namespace TSA_WorldDomination
                     WorldActions_Decontamination.ClearDecontaminationProject(this);
                 if (WorldActions_BuildBridge.HasActiveBridgeProject(this))
                     WorldActions_BuildBridge.ClearBridgeProject(this);
+                if (WorldActions_Trenches.HasActiveTrenchProject(this))
+                    WorldActions_Trenches.ClearTrenchProject(this);
                 ClearNpcHybridCorridor();
             }
             if (parent is Settlement settlement)
             {
                 AtTurretUtility.DestroyTurretsBuiltBy(settlement);
                 WorldActions_NpcFortify.NotifyBuilderLost(settlement);
+                WorldActions_Trenches.WipeForOwner(settlement);
             }
             ReinforcementNeighborCache.BumpGeneration();
             base.PostDestroy();
@@ -1639,6 +1681,32 @@ namespace TSA_WorldDomination
                         }
                         if (decontamProgress > 1f)
                             decontamProgress = 1f;
+                    }
+                }
+            }
+
+            if (WorldActions_Trenches.HasActiveTrenchProject(this) && (IsOutpost || colonyWorldBuild))
+            {
+                int nowTickTr = Find.TickManager.TicksGame;
+                if (lastTrenchProgressTick < 0)
+                    lastTrenchProgressTick = nowTickTr;
+                else if (nowTickTr - lastTrenchProgressTick >= RoadProgressUpdateIntervalTicks)
+                {
+                    int dtTr = nowTickTr - lastTrenchProgressTick;
+                    dtTr = Mathf.Min(dtTr, MaxRoadProgressCatchUpTicks);
+                    lastTrenchProgressTick = nowTickTr;
+                    if (!trenchBuilderInField)
+                    {
+                        float workSpeedTr = WorldActions_Roads.GetRoadProgressWorkSpeed(parent);
+                        if (workSpeedTr > 0f)
+                        {
+                            float rateTr = workSpeedTr / (WorldActions_Roads.GetRoadProgressRequiredTicks(SettlementTier.T1));
+                            trenchProgress += rateTr * dtTr;
+                            if (trenchProgress > 1f)
+                                trenchProgress = 1f;
+                            if (trenchProgress >= 1f)
+                                WorldActions_Trenches.TickProject(this, parent);
+                        }
                     }
                 }
             }
@@ -2411,6 +2479,21 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref decontamCachedWorkTile, "decontamCachedWorkTile", -1);
             Scribe_Values.Look(ref decontamTargetName, "decontamTargetName", string.Empty);
             Scribe_Values.Look(ref decontamBuilderInField, "decontamBuilderInField", false);
+
+            Scribe_Values.Look(ref trenchTargetTile, "trenchTargetTile", -1);
+            Scribe_Values.Look(ref trenchProgress, "trenchProgress", 0f);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && trenchProgress > 1f)
+                trenchProgress = 1f;
+            Scribe_Values.Look(ref trenchIsClearing, "trenchIsClearing", false);
+            Scribe_Values.Look(ref trenchBuilderInField, "trenchBuilderInField", false);
+            Scribe_Values.Look(ref trenchCachedWorkTile, "trenchCachedWorkTile", -1);
+            Scribe_Values.Look(ref trenchTargetName, "trenchTargetName", string.Empty);
+            Scribe_Collections.Look(ref cachedTrenchPathTiles, "cachedTrenchPathTiles", LookMode.Value);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && cachedTrenchPathTiles == null)
+                cachedTrenchPathTiles = new List<int>();
+            Scribe_Collections.Look(ref trenchWaypointTiles, "trenchWaypointTiles", LookMode.Value);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && trenchWaypointTiles == null)
+                trenchWaypointTiles = new List<int>();
             Scribe_Values.Look(ref lastDecontamProgressTick, "lastDecontamProgressTick", -1);
 
             Scribe_Values.Look(ref redirectionTargetTile, "redirectionTargetTile", -1);
@@ -2788,6 +2871,31 @@ namespace TSA_WorldDomination
                         sb.Append("TSA_WD_Inspect_DecontaminationStatus_InTransit".Translate(scrubLabel, dest, scrubPct));
                     else
                         sb.Append("TSA_WD_Inspect_DecontaminationStatus".Translate(scrubLabel, scrubPct, dest));
+                }
+            }
+            else if (WorldActions_Trenches.HasActiveTrenchProject(this))
+            {
+                sb.AppendLine();
+                string dest = trenchTargetName.NullOrEmpty() ? "…" : trenchTargetName;
+                string insufficient = GetInsufficientConstructionMessage();
+                if (insufficient != null)
+                {
+                    sb.Append(insufficient.Colorize(Color.red));
+                }
+                else
+                {
+                    string pct = (Mathf.Min(1f, trenchProgress) * 100f).ToString("F0");
+                    if (trenchIsClearing)
+                    {
+                        if (trenchBuilderInField)
+                            sb.Append("TSA_WD_Inspect_TrenchClearStatus_InTransit".Translate(dest, pct));
+                        else
+                            sb.Append("TSA_WD_Inspect_TrenchClearStatus".Translate(dest, pct));
+                    }
+                    else if (trenchBuilderInField)
+                        sb.Append("TSA_WD_Inspect_TrenchStatus_InTransit".Translate(dest, pct));
+                    else
+                        sb.Append("TSA_WD_Inspect_TrenchStatus".Translate(pct, dest));
                 }
             }
         }

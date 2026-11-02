@@ -99,6 +99,7 @@ namespace TSA_WorldDomination
         {
             WorldGrid grid = Find.WorldGrid;
             if (grid == null || tileId < 0 || !grid.InBounds(tileId)) return false;
+            if (WorldComponent_WdTrenches.HasExclusiveTrenchAt(tileId)) return false;
             PlanetLayer layer = PlanetSurfaceWorldActions.WdSurfaceLayer ?? grid.Surface;
             if (layer == null) return false;
             PlanetTile pTile = new PlanetTile(tileId, layer);

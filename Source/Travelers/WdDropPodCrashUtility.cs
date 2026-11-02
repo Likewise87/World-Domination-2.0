@@ -98,6 +98,7 @@ namespace TSA_WorldDomination
         {
             if (tileId < 0 || !Find.WorldGrid.InBounds(tileId)) return false;
             if (Find.World.Impassable(tileId)) return false;
+            if (WorldComponent_WdTrenches.HasExclusiveTrenchAt(tileId)) return false;
 
             PlanetTile pt = PlanetSurfaceWorldActions.PlanetTileForWdTravel(tileId, null);
             foreach (WorldObject wo in Find.WorldObjects.ObjectsAt(pt))

@@ -41,6 +41,23 @@ namespace TSA_WorldDomination
         /// <summary>Bumped on every NotifyOutpostPowerDirty so Stats fingerprints refresh.</summary>
         public static int PowerStateGeneration { get; private set; }
 
+        /// <summary>
+        /// Above zero while a power plant's budget is being worked out (<see cref="Outpost_PowerPlant.GetRemotePowerWatts"/>).
+        /// A plant's budget includes the warehouse aura, and the warehouse aura radius is cut when the warehouse is
+        /// unpowered, which needs the allocation, which needs the plant budgets. While this is set, unpowered range
+        /// nerfs are skipped so that loop cannot start (it overflowed the stack when a plant sat inside a warehouse aura).
+        /// </summary>
+        private static int plantBudgetDepth;
+
+        public static bool ComputingPlantBudget => plantBudgetDepth > 0;
+
+        internal static void BeginPlantBudget() => plantBudgetDepth++;
+
+        internal static void EndPlantBudget()
+        {
+            if (plantBudgetDepth > 0) plantBudgetDepth--;
+        }
+
         public static bool Enabled
         {
             get
@@ -116,7 +133,30 @@ namespace TSA_WorldDomination
             return 0f;
         }
 
-        /// <summary>Colony inject watts from this plant (Keep = budget − outpost assignments). Full gen when feature off.</summary>
+        /// <summary>
+        /// Watts this plant must keep for its own demand (upgrades etc.) before any distribution.
+        /// Food-logistics parity: feed local first.
+        /// </summary>
+        public static float GetLocalReservedWatts(WorldObject_WD_Outpost plant)
+        {
+            if (plant == null || !plant.IsPowerPlantOutpost) return 0f;
+            float gen = Outpost_PowerPlant.GetRemotePowerWatts(plant);
+            if (!Enabled) return 0f;
+            return Mathf.Min(gen, GetPowerDemandWatts(plant));
+        }
+
+        /// <summary>
+        /// Watts available to send to other outposts or the colony after local demand is reserved.
+        /// </summary>
+        public static float GetDistributableWatts(WorldObject_WD_Outpost plant)
+        {
+            if (plant == null || !plant.IsPowerPlantOutpost) return 0f;
+            float gen = Outpost_PowerPlant.GetRemotePowerWatts(plant);
+            if (!Enabled) return gen;
+            return Mathf.Max(0f, gen - GetPowerDemandWatts(plant));
+        }
+
+        /// <summary>Colony inject watts from this plant (Keep = distributable − outpost assignments). Full gen when feature off.</summary>
         public static float GetColonyKeepWatts(WorldObject_WD_Outpost plant)
         {
             if (plant == null || !plant.IsPowerPlantOutpost) return 0f;
@@ -124,7 +164,7 @@ namespace TSA_WorldDomination
             var comp = Find.World?.GetComponent<WorldComponent_OutpostPowerGrid>();
             if (comp != null)
                 return comp.GetCachedColonyKeepWatts(plant);
-            return Outpost_PowerPlant.GetRemotePowerWatts(plant);
+            return GetDistributableWatts(plant);
         }
 
         /// <summary>
@@ -153,13 +193,13 @@ namespace TSA_WorldDomination
 
         public static int ApplyUnpoweredRadius(WorldObject_WD_Outpost outpost, int rawTiles)
         {
-            if (rawTiles <= 0 || !IsUnpoweredForNerfs(outpost)) return rawTiles;
+            if (rawTiles <= 0 || ComputingPlantBudget || !IsUnpoweredForNerfs(outpost)) return rawTiles;
             return Mathf.Max(1, Mathf.RoundToInt(rawTiles * GetUnpoweredRangeFactorClamped()));
         }
 
         public static float ApplyUnpoweredRange(WorldObject_WD_Outpost outpost, float rawTiles)
         {
-            if (rawTiles <= 0f || !IsUnpoweredForNerfs(outpost)) return rawTiles;
+            if (rawTiles <= 0f || ComputingPlantBudget || !IsUnpoweredForNerfs(outpost)) return rawTiles;
             return Mathf.Max(1f, rawTiles * GetUnpoweredRangeFactorClamped());
         }
 
@@ -241,8 +281,11 @@ namespace TSA_WorldDomination
             if (outpost.IsPowerPlantOutpost)
             {
                 float gen = Outpost_PowerPlant.GetRemotePowerWatts(outpost);
+                float local = GetLocalReservedWatts(outpost);
                 float keep = GetColonyKeepWatts(outpost);
                 sb.AppendLine("TSA_WD_OutpostPower_Tip_PlantGen".Translate(Outpost_PowerPlant.FormatWatts(gen)));
+                if (local > DemandEpsilon)
+                    sb.AppendLine("TSA_WD_OutpostPower_Tip_LocalReserve".Translate(Outpost_PowerPlant.FormatWatts(local)));
                 var comp = Find.World?.GetComponent<WorldComponent_OutpostPowerGrid>();
                 if (comp != null)
                 {
@@ -301,6 +344,8 @@ namespace TSA_WorldDomination
         private float watchRangeFactor;
         private int watchMaxPowerSupplyRange;
         private bool smartDirty = true;
+        /// <summary>Re-entrancy guard: a nested call during <see cref="RunSmartAssignment"/> must not start another pass.</summary>
+        private bool smartRefreshRunning;
         /// <summary>Soft fingerprint after last Smart complete (plant budgets / demand / modes — not link watts).</summary>
         private long lastSmartCompletedSoftFingerprint = long.MinValue;
         /// <summary>True after explicit <see cref="MarkDirty"/> until Smart complete; heal path leaves this false.</summary>
@@ -504,15 +549,23 @@ namespace TSA_WorldDomination
         /// </summary>
         public void CompleteSmartPowerRefreshNow()
         {
-            if (!smartDirty) return;
+            if (!smartDirty || smartRefreshRunning) return;
             if (Current.ProgramState != ProgramState.Playing) return;
 
             bool wasHeal = !smartDirtyFromExplicitNotify;
             if (Prefs.DevMode && wasHeal)
                 Log.Message("[TSA WD] Smart power fingerprint heal (no explicit dirty since last complete).");
 
-            if (OutpostPowerGrid.Enabled)
-                RunSmartAssignment();
+            smartRefreshRunning = true;
+            try
+            {
+                if (OutpostPowerGrid.Enabled)
+                    RunSmartAssignment();
+            }
+            finally
+            {
+                smartRefreshRunning = false;
+            }
 
             smartDirty = false;
             smartDirtyFromExplicitNotify = false;
@@ -568,7 +621,7 @@ namespace TSA_WorldDomination
                 n++;
                 if (op.IsPowerPlantOutpost)
                 {
-                    float budget = Outpost_PowerPlant.GetRemotePowerWatts(op);
+                    float budget = OutpostPowerGrid.GetDistributableWatts(op);
                     plantPacked = unchecked(plantPacked + op.ID * 31 + Mathf.RoundToInt(budget));
                     modePacked ^= op.ID * 17 + (int)LogisticsModeUtil.Normalize(op.PowerLogisticsMode) * 31;
                 }
@@ -613,8 +666,12 @@ namespace TSA_WorldDomination
             for (int p = 0; p < plants.Count; p++)
             {
                 WorldObject_WD_Outpost plant = plants[p];
-                float budget = Outpost_PowerPlant.GetRemotePowerWatts(plant);
-                float left = budget;
+                float gen = Outpost_PowerPlant.GetRemotePowerWatts(plant);
+                // Local first (food surplus parity): plant upgrades/AT consume generation before links/colony.
+                float self = OutpostPowerGrid.GetLocalReservedWatts(plant);
+                if (self > OutpostPowerGrid.DemandEpsilon)
+                    suppliedByOutpostId[plant.ID] = self;
+                float left = Mathf.Max(0f, gen - self);
                 int srcTile = plant.Tile.tileId;
 
                 for (int i = 0; i < powerManualLinks.Count; i++)
@@ -622,7 +679,7 @@ namespace TSA_WorldDomination
                     var link = powerManualLinks[i];
                     if (link.sourceTile != srcTile || link.assignment <= OutpostPowerGrid.DemandEpsilon) continue;
                     WorldObject_WD_Outpost consumer = FindConsumerAtTile(link.destTile);
-                    if (consumer == null || !OutpostPowerReach.InRange(plant, consumer)) continue;
+                    if (consumer == null || consumer == plant || !OutpostPowerReach.InRange(plant, consumer)) continue;
                     float demand = OutpostPowerGrid.GetPowerDemandWatts(consumer);
                     float have = suppliedByOutpostId.TryGetValue(consumer.ID, out float s) ? s : 0f;
                     float need = demand - have;
@@ -647,7 +704,8 @@ namespace TSA_WorldDomination
                 if (op == null || op.Destroyed || op.Faction != Faction.OfPlayer) continue;
                 if (!op.IsPowerPlantOutpost) continue;
                 if (!LogisticsModeUtil.IsSmartMode(op.PowerLogisticsMode)) continue;
-                float budget = Outpost_PowerPlant.GetRemotePowerWatts(op);
+                // Only surplus after local demand is distributable.
+                float budget = OutpostPowerGrid.GetDistributableWatts(op);
                 if (budget <= OutpostPowerGrid.DemandEpsilon) continue;
                 smartPlants.Add((op, budget));
                 ClearOutgoingFromTileSilent(op.Tile.tileId);
@@ -678,7 +736,11 @@ namespace TSA_WorldDomination
                 {
                     WorldObject_WD_Outpost consumer = consumers[c];
                     float demand = OutpostPowerGrid.GetPowerDemandWatts(consumer);
-                    float have = SumAssignedToTile(consumer.Tile.tileId);
+                    // Plants already cover themselves from generation; only external deficit is assignable.
+                    float selfCover = consumer.IsPowerPlantOutpost
+                        ? OutpostPowerGrid.GetLocalReservedWatts(consumer)
+                        : 0f;
+                    float have = SumAssignedToTile(consumer.Tile.tileId) + selfCover;
                     float need = demand - have;
                     if (need <= OutpostPowerGrid.DemandEpsilon) continue;
                     if (need > bestNeed)
@@ -693,6 +755,7 @@ namespace TSA_WorldDomination
                 for (int p = 0; p < smartPlants.Count; p++)
                 {
                     WorldObject_WD_Outpost plant = smartPlants[p].Plant;
+                    if (plant == best) continue;
                     if (!remaining.TryGetValue(plant.ID, out float left) || left <= OutpostPowerGrid.DemandEpsilon)
                         continue;
                     if (!OutpostPowerReach.InRange(plant, best)) continue;

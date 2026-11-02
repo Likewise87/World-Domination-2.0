@@ -385,6 +385,7 @@ namespace TSA_WorldDomination
         {
             if (tileId < 0) return false;
             if (WorldComponent_WdBridges.IsBridgedWaterTile(tileId)) return false;
+            if (WorldComponent_WdTrenches.HasExclusiveTrenchAt(tileId)) return false;
             if (!WorldActions_RoadBlocks.IsTileBaseEligibleForRoadBlock(tileId)) return false;
             if (WorldActions_Fortifications.HasFortificationAt(tileId)) return false;
             if (owner != null && WorldComponent_FortifyBlacklist.BlocksNpcFortify(tileId, owner.Faction)) return false;

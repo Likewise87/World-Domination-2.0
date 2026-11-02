@@ -77,6 +77,9 @@ namespace TSA_WorldDomination
             bonus = 0f;
             if (!ReceiverCanGetWarehouseAura(receiver)) return false;
 
+            // Plant budgets see warehouse radius without the unpowered nerf, so keep them out of the shared cache.
+            bool useCache = !OutpostPowerGrid.ComputingPlantBudget;
+
             int tick = Find.TickManager?.TicksGame ?? 0;
             if (tick != cacheTick)
             {
@@ -84,7 +87,7 @@ namespace TSA_WorldDomination
                 cacheByReceiverId.Clear();
             }
 
-            if (cacheByReceiverId.TryGetValue(receiver.ID, out CachedAura cached)
+            if (useCache && cacheByReceiverId.TryGetValue(receiver.ID, out CachedAura cached)
                 && cached.generation == cacheGeneration)
             {
                 bonus = cached.bonus;
@@ -133,12 +136,15 @@ namespace TSA_WorldDomination
                 }
             }
 
-            cacheByReceiverId[receiver.ID] = new CachedAura
+            if (useCache)
             {
-                generation = cacheGeneration,
-                bonus = best,
-                warehouseId = bestWh?.ID ?? -1
-            };
+                cacheByReceiverId[receiver.ID] = new CachedAura
+                {
+                    generation = cacheGeneration,
+                    bonus = best,
+                    warehouseId = bestWh?.ID ?? -1
+                };
+            }
             warehouse = bestWh;
             bonus = best;
             return best > 1e-6f;

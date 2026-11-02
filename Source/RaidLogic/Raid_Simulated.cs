@@ -280,6 +280,50 @@ namespace TSA_WorldDomination
         /// and are not intercepted here. Invasion attack marches already use <see cref="TravelerMission.Raid"/>.
         /// Returns true when the traveler was stopped / consumed for this hop.
         /// </summary>
+        /// <summary>
+        /// Hostile ground columns that step onto a player trench tile open Choice for that trench owner
+        /// (Skip once per owner / Fight / Auto for outposts). Traveler stays alive until Fight/Auto.
+        /// </summary>
+        public static bool TryInterceptRaidAtTrench(WorldObject_Traveler traveler)
+        {
+            if (traveler == null || traveler.Destroyed) return false;
+            if (!WorldComponent_WdTrenches.FeatureEnabled) return false;
+            if (!IsFortressChokeEligibleMission(traveler.mission)) return false;
+
+            Faction player = Faction.OfPlayerSilentFail;
+            if (player == null || traveler.Faction == null) return false;
+            if (!WorldActions_Utils.SafeHostileTo(traveler.Faction, player)) return false;
+
+            int tileId = traveler.Tile.tileId;
+            if (!WorldComponent_WdTrenches.HasTrenchAt(tileId)) return false;
+            if (!WorldComponent_WdTrenches.TryGetOwnerAt(tileId, out WorldObject owner) || owner == null || owner.Destroyed)
+                return false;
+            // Hub arrival stays normal outpost/colony defense; trench Choice is for arm tiles only.
+            if (owner.Tile.tileId == tileId) return false;
+
+            if (WdTrenchInterceptUtility.HasResolvedOwner(traveler, owner))
+                return false;
+            if (WdTrenchInterceptUtility.OwnerBusy(owner))
+                return false;
+
+            traveler.pather?.StopDead();
+            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+
+            if (owner is WorldObject_WD_Outpost outpost && outpost.Faction == Faction.OfPlayer)
+            {
+                Find.WindowStack.Add(new Dialog_OutpostDefenseChoice(traveler, outpost, manager, isSkirmishFollowUp: false, isTrenchIntercept: true));
+                return true;
+            }
+
+            if (owner is Settlement settlement && settlement.Faction == Faction.OfPlayer)
+            {
+                Find.WindowStack.Add(new Dialog_ColonyTrenchDefenseChoice(traveler, settlement, manager));
+                return true;
+            }
+
+            return false;
+        }
+
         public static bool TryInterceptRaidAtFortressOutpost(WorldObject_Traveler traveler)
         {
             if (traveler == null || traveler.Destroyed) return false;

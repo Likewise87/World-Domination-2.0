@@ -1373,6 +1373,11 @@ namespace TSA_WorldDomination
                 return HasRoadLink(fromTileId, toTileId);
             }
 
+            // Trenches are exclusive off-hub; hub roots may coexist with roads in other directions.
+            if (WorldComponent_WdTrenches.HasExclusiveTrenchAt(fromTileId)
+                || WorldComponent_WdTrenches.HasExclusiveTrenchAt(toTileId))
+                return false;
+
             RoadDef existing = grid.GetRoadDef(fromTileId, toTileId, visibleOnly: false);
             if (existing != null && existing.priority >= plannedRoad.priority)
                 return true;
@@ -1406,6 +1411,10 @@ namespace TSA_WorldDomination
                 Log.Warning($"TSA World Domination: ApplyRoadLink skipped non-adjacent tiles {a.tileId} ↔ {b.tileId}.");
                 return;
             }
+            // Trenches are exclusive off-hub: never pave over a trench arm tile.
+            if (WorldComponent_WdTrenches.HasExclusiveTrenchAt(a.tileId)
+                || WorldComponent_WdTrenches.HasExclusiveTrenchAt(b.tileId))
+                return;
 
             Find.WorldGrid.OverlayRoad(a.tileId, b.tileId, road);
             // Road wins over fortifications on the paved tiles (skip land banks when painting a bridge).

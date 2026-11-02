@@ -79,7 +79,8 @@ namespace TSA_WorldDomination
                 { Disabled = true };
             }
 
-            bool roadBusy = comp.roadTargetTile != -1 || WorldActions_BuildBridge.HasActiveBridgeProject(comp);
+            bool roadBusy = comp.roadTargetTile != -1 || WorldActions_BuildBridge.HasActiveBridgeProject(comp)
+                || WorldActions_Trenches.HasActiveTrenchProject(comp);
             bool blockBusy = WorldActions_RoadBlocks.HasActiveRoadBlockProject(comp);
             bool trapBusy = WorldActions_SpikeTraps.HasActiveSpikeTrapProject(comp);
             bool decontamBusy = WorldActions_Decontamination.HasActiveDecontaminationProject(comp);

@@ -61,6 +61,14 @@
   <TSA_WD_OutpostDefense_NoEquipmentIcons>无已装备物品</TSA_WD_OutpostDefense_NoEquipmentIcons>
   <TSA_WD_OutpostDefense_AutoResolve>自动结算</TSA_WD_OutpostDefense_AutoResolve>
   <TSA_WD_OutpostDefense_FightManually>手动战斗</TSA_WD_OutpostDefense_FightManually>
+  <TSA_WD_OutpostDefense_TrenchTitle>敌军踏上你的战壕</TSA_WD_OutpostDefense_TrenchTitle>
+  <TSA_WD_OutpostDefense_TrenchText>来自 {0} 的敌对纵队踏上了 {1} 所属的战壕。可在战壕走廊中战斗、在前哨自动结算，或对本纵队跳过此所有者。</TSA_WD_OutpostDefense_TrenchText>
+  <TSA_WD_OutpostDefense_SkipTrench>跳过</TSA_WD_OutpostDefense_SkipTrench>
+  <TSA_WD_ColonyTrench_Title>敌军踏上殖民地战壕</TSA_WD_ColonyTrench_Title>
+  <TSA_WD_ColonyTrench_Text>{0}：来自 {1} 的敌对纵队（实力 {2}）在你的战壕上。可用殖民地殖民者在走廊地图开战，或对本纵队跳过此所有者。</TSA_WD_ColonyTrench_Text>
+  <TSA_WD_ColonyTrench_NoMap>殖民地地图未加载；旅行者继续前进。</TSA_WD_ColonyTrench_NoMap>
+  <TSA_WD_ColonyTrench_NoPawns>没有可派出的殖民者；旅行者继续前进。</TSA_WD_ColonyTrench_NoPawns>
+  <TSA_WD_ColonyTrench_LeaveBehind>需在殖民地地图留下殖民者；旅行者继续前进。</TSA_WD_ColonyTrench_LeaveBehind>
   <TSA_WD_OutpostDefense_DeploySection_Target>{0}（受袭目标）</TSA_WD_OutpostDefense_DeploySection_Target>
   <TSA_WD_OutpostDefense_DeploySection_Support>{0}（支援前哨）</TSA_WD_OutpostDefense_DeploySection_Support>
   <TSA_WD_OutpostDefense_Letter_Label>敌人将在 15 秒后抵达</TSA_WD_OutpostDefense_Letter_Label>

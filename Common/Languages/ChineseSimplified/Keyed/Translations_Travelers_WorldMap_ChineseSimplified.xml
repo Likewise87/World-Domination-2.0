@@ -48,6 +48,10 @@
   <TSA_WD_Inspect_BridgeStatus_InTransit>状态: 建桥队伍正在前往 {0}（筹备 {1}%）…</TSA_WD_Inspect_BridgeStatus_InTransit>
   <TSA_WD_Inspect_BridgeClearStatus>正在拆除通往 {0} 的桥梁：{1}%</TSA_WD_Inspect_BridgeClearStatus>
   <TSA_WD_Inspect_BridgeClearStatus_InTransit>状态: 拆桥队伍正在前往 {0}（筹备 {1}%）…</TSA_WD_Inspect_BridgeClearStatus_InTransit>
+  <TSA_WD_Inspect_TrenchStatus>挖壕：{0}% 朝向 {1}</TSA_WD_Inspect_TrenchStatus>
+  <TSA_WD_Inspect_TrenchStatus_InTransit>状态：挖壕队伍正在前往 {0}（筹备 {1}%）…</TSA_WD_Inspect_TrenchStatus_InTransit>
+  <TSA_WD_Inspect_TrenchClearStatus>拆壕朝向 {0}：{1}%</TSA_WD_Inspect_TrenchClearStatus>
+  <TSA_WD_Inspect_TrenchClearStatus_InTransit>状态：拆壕队伍正在前往 {0}（筹备 {1}%）…</TSA_WD_Inspect_TrenchClearStatus_InTransit>
   <TSA_WD_Inspect_RoadBlockBuild>路障</TSA_WD_Inspect_RoadBlockBuild>
   <TSA_WD_Inspect_RoadBlockClear>清除路障</TSA_WD_Inspect_RoadBlockClear>
   <TSA_WD_Inspect_RoadBlockStatus>{0}：{1}% 至 {2}</TSA_WD_Inspect_RoadBlockStatus>

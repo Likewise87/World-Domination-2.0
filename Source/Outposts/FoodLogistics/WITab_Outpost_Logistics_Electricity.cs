@@ -166,7 +166,8 @@ namespace TSA_WorldDomination
         private void DrawPowerProducerColumn(Rect rightRect, WorldComponent_OutpostPowerGrid grid)
         {
             EnsurePowerDestCache();
-            float budget = Outpost_PowerPlant.GetRemotePowerWatts(SelOutpost);
+            // Only surplus after local demand is distributable (food Keep-local parity).
+            float budget = OutpostPowerGrid.GetDistributableWatts(SelOutpost);
             float outgoingFromHubAll = grid.GetOutgoingSumFromTile(SelOutpost.Tile.tileId);
             float keepHere = Mathf.Max(0f, budget - outgoingFromHubAll);
 

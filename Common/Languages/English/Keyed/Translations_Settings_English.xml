@@ -903,6 +903,8 @@
   <TSA_WD_Experimental_HeaderWorldActionsRaidLogic>World Actions &amp; Raid Logic</TSA_WD_Experimental_HeaderWorldActionsRaidLogic>
   <TSA_WD_Experimental_ColonyWorldBuild>Experimental: colony world Build (roads / blocks / traps)</TSA_WD_Experimental_ColonyWorldBuild>
   <TSA_WD_Experimental_ColonyWorldBuildTip>When on, your colony Settlement gets the cyan Build gizmo (roads, road blocks, spike traps). Speed and unlocks use the sum of Construction skill on colonists at the colony map. No Engineer bonus and no WD strength cost. Turning this off cancels active colony construction projects.</TSA_WD_Experimental_ColonyWorldBuildTip>
+  <TSA_WD_Experimental_EnableTrenches>Experimental: trench defenses</TSA_WD_Experimental_EnableTrenches>
+  <TSA_WD_Experimental_EnableTrenchesTip>When on, player outposts and the colony can dig exclusive trench arms (wood cost, tip-to-hub remove). Hostile columns that walk onto your trenches get Fight / Auto (outpost) / Skip. Turning this off wipes all player trenches and cancels trench projects.</TSA_WD_Experimental_EnableTrenchesTip>
   <TSA_WD_Experimental_PlayerConquestRaze>Experimental: player conquest can raze</TSA_WD_Experimental_PlayerConquestRaze>
   <TSA_WD_Experimental_PlayerConquestRazeTip>When on, wiping an NPC settlement yourself (or simulated conquest that would open the conquest menu) rolls the same Raze Chance as automatic NPC raids. On a raze, you get no recruit / gift / outpost opportunity, and timed ruins remain. Off by default.</TSA_WD_Experimental_PlayerConquestRazeTip>
   <TSA_WD_Experimental_AT_TargetPlayerTravelers>NPC AT Turrets target player WD travelers</TSA_WD_Experimental_AT_TargetPlayerTravelers>

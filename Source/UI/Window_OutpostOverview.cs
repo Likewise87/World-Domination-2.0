@@ -380,10 +380,24 @@ namespace TSA_WorldDomination
                     {
                         if (o.IsPowerPlantOutpost)
                         {
-                            powerSupplied = Outpost_PowerPlant.GetRemotePowerWatts(o);
-                            powerDemand = 0f;
-                            powerDisplayColorized = Outpost_PowerPlant.FormatWatts(powerSupplied).Colorize(Color.green);
+                            float gen = Outpost_PowerPlant.GetRemotePowerWatts(o);
+                            powerDemand = OutpostPowerGrid.GetPowerDemandWatts(o);
+                            powerSupplied = powerDemand > OutpostPowerGrid.DemandEpsilon
+                                ? OutpostPowerGrid.GetSuppliedWatts(o)
+                                : gen;
                             powerTooltip = OutpostPowerGrid.BuildPowerBreakdownTooltip(o);
+                            if (powerDemand > OutpostPowerGrid.DemandEpsilon)
+                            {
+                                string pLabel = Outpost_PowerPlant.FormatWatts(powerSupplied)
+                                    + " (" + Outpost_PowerPlant.FormatWatts(powerDemand) + ")";
+                                Color pCol = OutpostPowerGrid.IsPowered(o) ? Color.green
+                                    : (powerSupplied > OutpostPowerGrid.DemandEpsilon ? Color.yellow : Color.red);
+                                powerDisplayColorized = pLabel.Colorize(pCol);
+                            }
+                            else
+                            {
+                                powerDisplayColorized = Outpost_PowerPlant.FormatWatts(gen).Colorize(Color.green);
+                            }
                         }
                         else
                         {

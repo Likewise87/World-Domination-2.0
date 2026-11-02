@@ -61,6 +61,14 @@
   <TSA_WD_OutpostDefense_NoEquipmentIcons>No equipped items</TSA_WD_OutpostDefense_NoEquipmentIcons>
   <TSA_WD_OutpostDefense_AutoResolve>Auto-resolve</TSA_WD_OutpostDefense_AutoResolve>
   <TSA_WD_OutpostDefense_FightManually>Fight manually</TSA_WD_OutpostDefense_FightManually>
+  <TSA_WD_OutpostDefense_TrenchTitle>Enemy on your trenches</TSA_WD_OutpostDefense_TrenchTitle>
+  <TSA_WD_OutpostDefense_TrenchText>A hostile column from {0} has walked onto trenches owned by {1}. Fight them in a trench corridor, auto-resolve at the outpost, or skip this owner for the rest of this column's march.</TSA_WD_OutpostDefense_TrenchText>
+  <TSA_WD_OutpostDefense_SkipTrench>Skip</TSA_WD_OutpostDefense_SkipTrench>
+  <TSA_WD_ColonyTrench_Title>Enemy on colony trenches</TSA_WD_ColonyTrench_Title>
+  <TSA_WD_ColonyTrench_Text>{0}: hostile column from {1} (strength {2}) is on your trenches. Fight with colony pawns on a trench corridor map, or skip this owner for the rest of their march.</TSA_WD_ColonyTrench_Text>
+  <TSA_WD_ColonyTrench_NoMap>Colony map is not loaded; traveler resumes.</TSA_WD_ColonyTrench_NoMap>
+  <TSA_WD_ColonyTrench_NoPawns>No eligible colonists to send; traveler resumes.</TSA_WD_ColonyTrench_NoPawns>
+  <TSA_WD_ColonyTrench_LeaveBehind>Need to leave colonists on the colony map; traveler resumes.</TSA_WD_ColonyTrench_LeaveBehind>
   <TSA_WD_OutpostDefense_DeploySection_Target>{0} (Attacker Target)</TSA_WD_OutpostDefense_DeploySection_Target>
   <TSA_WD_OutpostDefense_DeploySection_Support>{0} (Supporting Outpost)</TSA_WD_OutpostDefense_DeploySection_Support>
   <TSA_WD_OutpostDefense_Letter_Label>Enemies arriving in 15 seconds</TSA_WD_OutpostDefense_Letter_Label>

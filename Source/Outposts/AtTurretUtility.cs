@@ -450,6 +450,7 @@ namespace TSA_WorldDomination
         {
             // AT turrets never on bridged water (blocks/traps may use that carve).
             if (WorldComponent_WdBridges.IsBridgedWaterTile(tileId)) return false;
+            if (WorldComponent_WdTrenches.HasExclusiveTrenchAt(tileId)) return false;
             if (!WorldActions_RoadBlocks.IsTileBaseEligibleForRoadBlock(tileId)) return false;
             if (WorldComponent_RoadBlocks.Get()?.HasBlockAt(tileId) == true) return false;
             if (WorldComponent_SpikeTraps.Get()?.HasTrapAt(tileId) == true) return false;
@@ -534,6 +535,7 @@ namespace TSA_WorldDomination
         public static bool IsEmptyTurretSite(int tileId, bool requireOffRoad = true)
         {
             if (WorldComponent_WdBridges.IsBridgedWaterTile(tileId)) return false;
+            if (WorldComponent_WdTrenches.HasExclusiveTrenchAt(tileId)) return false;
             if (!WorldActions_RoadBlocks.IsTileBaseEligibleForRoadBlock(tileId)) return false;
             if (requireOffRoad && TileHasRoad(tileId)) return false;
             if (WorldComponent_RoadBlocks.Get()?.HasBlockAt(tileId) == true) return false;

@@ -17,7 +17,16 @@ namespace TSA_WorldDomination
             if (outpost == null || outpost.Destroyed || outpost.Faction != Faction.OfPlayer) return 0f;
             if (!Outpost_Production_Utils.TryGetPowerPlantExtension(outpost.def, out var ext)) return 0f;
             float watts = Mathf.Max(0f, ext.remotePowerWatts + outpost.GetRemotePowerUpgradeBonus());
-            return Mathf.Max(0f, Outpost_Production_Utils.ApplyExpertAndWarehouseYieldMultipliers(watts, outpost));
+            // Warehouse aura range must not depend on power here: power depends on this budget (see ComputingPlantBudget).
+            OutpostPowerGrid.BeginPlantBudget();
+            try
+            {
+                return Mathf.Max(0f, Outpost_Production_Utils.ApplyExpertAndWarehouseYieldMultipliers(watts, outpost));
+            }
+            finally
+            {
+                OutpostPowerGrid.EndPlantBudget();
+            }
         }
 
         /// <summary>Watts this plant contributes to colony PowerNets (Keep residual after outpost links).</summary>

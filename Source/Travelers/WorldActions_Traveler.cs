@@ -94,6 +94,10 @@ namespace TSA_WorldDomination
                     if (prev < 0) return true;
                     return WorldActions_Roads.RoadBuilderMayCrossEdge(prev, traveler.Tile.tileId, traveler.Tile.Layer, plannedRoad);
 
+                case TravelerMission.TrenchBuilding:
+                case TravelerMission.TrenchClearing:
+                    return traveler.originObject != null && !traveler.originObject.Destroyed;
+
                 case TravelerMission.BridgeBuilding:
                 case TravelerMission.BridgeDeconstruct:
                     return traveler.originObject != null && !traveler.originObject.Destroyed;
@@ -236,6 +240,15 @@ namespace TSA_WorldDomination
                     break;
                 case TravelerMission.RoadBuilding:
                     ExecuteRoadPaving(traveler, previousTileId);
+                    if (traveler != null && !traveler.Destroyed)
+                    {
+                        ColonyWorldBuildRequirements.TryRefundUnappliedConstructionMaterials(traveler);
+                        traveler.Destroy();
+                    }
+                    break;
+                case TravelerMission.TrenchBuilding:
+                case TravelerMission.TrenchClearing:
+                    WorldActions_Trenches.ExecuteTrenchWork(traveler);
                     if (traveler != null && !traveler.Destroyed)
                     {
                         ColonyWorldBuildRequirements.TryRefundUnappliedConstructionMaterials(traveler);

@@ -342,6 +342,7 @@ namespace TSA_WorldDomination
             WorldComponent_RoadBlocks.Get()?.ClearBuiltBySettlement(settlement);
             WorldComponent_SpikeTraps.Get()?.ClearBuiltBySettlement(settlement);
             WorldComponent_AdvancedBuildings.Get()?.DestroyAllOwnedBy(settlement);
+            WorldActions_Trenches.WipeForOwner(settlement);
         }
 
         /// <summary>Kill live NPC fortify / AT crews whose origin is this settlement (no orphan placements after razing).</summary>

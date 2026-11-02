@@ -416,7 +416,11 @@ namespace TSA_WorldDomination
             PlanetLayer layer = PlanetSurfaceWorldActions.WdSurfaceLayer ?? grid.Surface;
             PlanetTile pt = new PlanetTile(tileId, layer);
             if (!grid[tileId].WaterCovered)
+            {
+                if (WorldComponent_WdTrenches.HasExclusiveTrenchAt(tileId))
+                    return false;
                 return !Find.World.Impassable(pt);
+            }
             if (allowUnbridgedWater)
                 return true;
             return WorldComponent_WdBridges.IsBridgedWaterTile(tileId);

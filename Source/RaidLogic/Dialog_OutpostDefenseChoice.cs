@@ -16,6 +16,7 @@ namespace TSA_WorldDomination
         private readonly WorldObject_WD_Outpost outpost;
         private readonly WorldComponent_SpreadManager manager;
         private readonly bool isSkirmishFollowUp;
+        private readonly bool isTrenchIntercept;
 
         private float attackerStrength;
         private float defenderStrength;
@@ -32,18 +33,20 @@ namespace TSA_WorldDomination
         private string cachedTitleLabel;
         private string cachedArrivalLine;
 
-        public override Vector2 InitialSize => new Vector2(650f, isSkirmishFollowUp ? 680f : 620f);
+        public override Vector2 InitialSize => new Vector2(650f, isSkirmishFollowUp || isTrenchIntercept ? 700f : 620f);
 
         public Dialog_OutpostDefenseChoice(
             WorldObject_Traveler traveler,
             WorldObject_WD_Outpost outpost,
             WorldComponent_SpreadManager manager,
-            bool isSkirmishFollowUp = false)
+            bool isSkirmishFollowUp = false,
+            bool isTrenchIntercept = false)
         {
             this.traveler = traveler;
             this.outpost = outpost;
             this.manager = manager;
             this.isSkirmishFollowUp = isSkirmishFollowUp;
+            this.isTrenchIntercept = isTrenchIntercept;
             doCloseX = false;
             doCloseButton = false;
             absorbInputAroundWindow = true;
@@ -68,9 +71,11 @@ namespace TSA_WorldDomination
             defDetails = new List<string>();
 
             var seth = WorldDominationMod.settings;
-            cachedTitleLabel = isSkirmishFollowUp
-                ? "TSA_WD_OutpostDefense_SkirmishTitle".Translate().ToString()
-                : "TSA_WD_OutpostDefense_ChoiceTitle".Translate().ToString();
+            cachedTitleLabel = isTrenchIntercept
+                ? "TSA_WD_OutpostDefense_TrenchTitle".Translate().ToString()
+                : isSkirmishFollowUp
+                    ? "TSA_WD_OutpostDefense_SkirmishTitle".Translate().ToString()
+                    : "TSA_WD_OutpostDefense_ChoiceTitle".Translate().ToString();
 
             float departed = traveler != null && traveler.initialStrength > 0f
                 ? traveler.initialStrength
@@ -193,13 +198,24 @@ namespace TSA_WorldDomination
             if (isSkirmishFollowUp)
                 DrawSkirmishLossBanner(listing);
 
-            listing.Label(isSkirmishFollowUp
-                ? "TSA_WD_OutpostDefense_SkirmishText".Translate(
-                    outpost?.LabelCap ?? "Outpost",
-                    traveler?.Faction?.Name ?? "Unknown")
-                : "TSA_WD_OutpostDefense_ChoiceText".Translate(
+            if (isTrenchIntercept)
+            {
+                listing.Label("TSA_WD_OutpostDefense_TrenchText".Translate(
                     outpost?.LabelCap ?? "Outpost",
                     traveler?.Faction?.Name ?? "Unknown"));
+            }
+            else if (isSkirmishFollowUp)
+            {
+                listing.Label("TSA_WD_OutpostDefense_SkirmishText".Translate(
+                    outpost?.LabelCap ?? "Outpost",
+                    traveler?.Faction?.Name ?? "Unknown"));
+            }
+            else
+            {
+                listing.Label("TSA_WD_OutpostDefense_ChoiceText".Translate(
+                    outpost?.LabelCap ?? "Outpost",
+                    traveler?.Faction?.Name ?? "Unknown"));
+            }
             listing.Gap(8f);
 
             Rect powers = listing.GetRect(70f);
@@ -232,24 +248,71 @@ namespace TSA_WorldDomination
                 GoToOutpost();
 
             listing.Gap(8f);
-            Rect actionRow = listing.GetRect(42f);
-            float halfButtonWidth = (actionRow.width - 6f) / 2f;
-            Rect autoRect = new Rect(actionRow.x, actionRow.y, halfButtonWidth, actionRow.height);
-            Rect manualRect = new Rect(actionRow.x + halfButtonWidth + 6f, actionRow.y, halfButtonWidth, actionRow.height);
-            if (Widgets.ButtonText(autoRect, "TSA_WD_OutpostDefense_AutoResolve".Translate()))
+            if (isTrenchIntercept)
             {
-                bool allowSkirmish = !isSkirmishFollowUp;
-                outpost?.ClearPendingSkirmishDefense();
-                Close();
-                Raid_Simulated.ResolvePlayerOutpostRaidArrival(traveler, manager, allowSkirmishRetry: allowSkirmish);
+                Rect actionRow = listing.GetRect(42f);
+                float third = (actionRow.width - 12f) / 3f;
+                Rect autoRect = new Rect(actionRow.x, actionRow.y, third, actionRow.height);
+                Rect manualRect = new Rect(actionRow.x + third + 6f, actionRow.y, third, actionRow.height);
+                Rect skipRect = new Rect(actionRow.x + 2f * (third + 6f), actionRow.y, third, actionRow.height);
+                if (Widgets.ButtonText(autoRect, "TSA_WD_OutpostDefense_AutoResolve".Translate()))
+                {
+                    WdTrenchInterceptUtility.MarkResolved(traveler, outpost);
+                    outpost?.ClearPendingSkirmishDefense();
+                    Close();
+                    traveler.targetObject = outpost;
+                    Raid_Simulated.ResolvePlayerOutpostRaidArrival(traveler, manager, allowSkirmishRetry: false);
+                    if (traveler != null && !traveler.Destroyed)
+                    {
+                        traveler.suppressDestroyedWorldFx = true;
+                        traveler.Destroy();
+                    }
+                }
+                if (Widgets.ButtonText(manualRect, "TSA_WD_OutpostDefense_FightManually".Translate()))
+                {
+                    WdTrenchInterceptUtility.MarkResolved(traveler, outpost);
+                    Close();
+                    traveler.targetObject = outpost;
+                    Find.WindowStack.Add(new Dialog_OutpostDefenseDeploy(traveler, outpost, manager, isSkirmishFollowUp, isTrenchCorridor: true));
+                }
+                if (Widgets.ButtonText(skipRect, "TSA_WD_OutpostDefense_SkipTrench".Translate()))
+                {
+                    WdTrenchInterceptUtility.MarkResolved(traveler, outpost);
+                    Close();
+                    ResumeTravelerAfterTrenchSkip();
+                }
             }
-            if (Widgets.ButtonText(manualRect, "TSA_WD_OutpostDefense_FightManually".Translate()))
+            else
             {
-                Close();
-                Find.WindowStack.Add(new Dialog_OutpostDefenseDeploy(traveler, outpost, manager, isSkirmishFollowUp));
+                Rect actionRow = listing.GetRect(42f);
+                float halfButtonWidth = (actionRow.width - 6f) / 2f;
+                Rect autoRect = new Rect(actionRow.x, actionRow.y, halfButtonWidth, actionRow.height);
+                Rect manualRect = new Rect(actionRow.x + halfButtonWidth + 6f, actionRow.y, halfButtonWidth, actionRow.height);
+                if (Widgets.ButtonText(autoRect, "TSA_WD_OutpostDefense_AutoResolve".Translate()))
+                {
+                    bool allowSkirmish = !isSkirmishFollowUp;
+                    outpost?.ClearPendingSkirmishDefense();
+                    Close();
+                    Raid_Simulated.ResolvePlayerOutpostRaidArrival(traveler, manager, allowSkirmishRetry: allowSkirmish);
+                }
+                if (Widgets.ButtonText(manualRect, "TSA_WD_OutpostDefense_FightManually".Translate()))
+                {
+                    Close();
+                    Find.WindowStack.Add(new Dialog_OutpostDefenseDeploy(traveler, outpost, manager, isSkirmishFollowUp));
+                }
             }
 
             listing.End();
+        }
+
+        private void ResumeTravelerAfterTrenchSkip()
+        {
+            if (traveler == null || traveler.Destroyed) return;
+            WorldObject dest = traveler.targetObject;
+            if (TravelerEndpointUtility.IsLiveEndpoint(dest))
+                traveler.pather?.StartPath(dest.Tile);
+            else if (traveler.pather != null && traveler.pather.destTile.Valid)
+                traveler.pather.StartPath(traveler.pather.destTile);
         }
 
         private void DrawSkirmishLossBanner(Listing_Standard listing)

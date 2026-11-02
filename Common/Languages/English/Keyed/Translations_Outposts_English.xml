@@ -1350,6 +1350,7 @@
   <TSA_WD_OutpostPower_InspectPartial>Power: {0} / {1} (partial)</TSA_WD_OutpostPower_InspectPartial>
   <TSA_WD_OutpostPower_StatusPartial>Partial</TSA_WD_OutpostPower_StatusPartial>
   <TSA_WD_OutpostPower_Tip_PlantGen>Generating {0}</TSA_WD_OutpostPower_Tip_PlantGen>
+  <TSA_WD_OutpostPower_Tip_LocalReserve>Reserved for this outpost: {0}</TSA_WD_OutpostPower_Tip_LocalReserve>
   <TSA_WD_OutpostPower_Tip_ToOutpost>→ {0}: {1}</TSA_WD_OutpostPower_Tip_ToOutpost>
   <TSA_WD_OutpostPower_Tip_KeepColony>Keep (colony): {0}</TSA_WD_OutpostPower_Tip_KeepColony>
   <TSA_WD_OutpostPower_Tip_BaseDemand>Base demand: {0}</TSA_WD_OutpostPower_Tip_BaseDemand>
@@ -2298,4 +2299,40 @@
   <TSA_WD_OutpostStats_Row_LandSpeedTip>Bonus to the walking speed of caravans launched from this settlement. A Stable provides the bonus; without one the bonus is +0%.</TSA_WD_OutpostStats_Row_LandSpeedTip>
   <TSA_WD_OutpostStats_SiloMaxLine>Silo: {0} +{1}% = {2}</TSA_WD_OutpostStats_SiloMaxLine>
   <TSA_WD_OutpostStats_HospitalLine>Hospital: +{0}%</TSA_WD_OutpostStats_HospitalLine>
+
+  <!-- Trench defenses -->
+  <TSA_WD_BuildTrench>Build trenches</TSA_WD_BuildTrench>
+  <TSA_WD_BuildTrenchDesc>Dig exclusive trench arms from this site (polyline spokes, max {0} tiles). Costs {1} wood per segment. Hostile columns that walk onto your trenches open a defense Choice.</TSA_WD_BuildTrenchDesc>
+  <TSA_WD_RemoveTrench>Remove trenches</TSA_WD_RemoveTrench>
+  <TSA_WD_RemoveTrenchDesc>Remove trench arms tip-to-hub only (outermost tip first).</TSA_WD_RemoveTrenchDesc>
+  <TSA_WD_CancelTrench>Cancel trench dig</TSA_WD_CancelTrench>
+  <TSA_WD_CancelTrenchRemoval>Cancel trench removal</TSA_WD_CancelTrenchRemoval>
+  <TSA_WD_CancelTrenchDesc>Abort the active trench project and recall the crew.</TSA_WD_CancelTrenchDesc>
+  <TSA_WD_Trench_Disabled>Trenches are disabled in Experimental settings.</TSA_WD_Trench_Disabled>
+  <TSA_WD_Trench_NeedPassableLand>Trenches require passable land (no water or impassable).</TSA_WD_Trench_NeedPassableLand>
+  <TSA_WD_Trench_NotOnHub>The hub tile itself cannot be a trench.</TSA_WD_Trench_NotOnHub>
+  <TSA_WD_Trench_AlreadyTrench>That tile already has a trench.</TSA_WD_Trench_AlreadyTrench>
+  <TSA_WD_Trench_BlockedByRoad>Cannot dig trenches on road tiles.</TSA_WD_Trench_BlockedByRoad>
+  <TSA_WD_Trench_BlockedByFort>Clear fortifications before digging trenches.</TSA_WD_Trench_BlockedByFort>
+  <TSA_WD_Trench_BlockedByBridge>Cannot dig trenches on bridge tiles.</TSA_WD_Trench_BlockedByBridge>
+  <TSA_WD_Trench_BlockedByWorldObject>Blocked by {0}.</TSA_WD_Trench_BlockedByWorldObject>
+  <TSA_WD_Trench_OutOfRange>Trenches must stay within {0} tiles of the hub.</TSA_WD_Trench_OutOfRange>
+  <TSA_WD_Trench_TileReserved>This tile is reserved by trenches.</TSA_WD_Trench_TileReserved>
+  <TSA_WD_Trench_NoOwner>No valid trench owner.</TSA_WD_Trench_NoOwner>
+  <TSA_WD_Trench_BadEdge>Invalid trench edge.</TSA_WD_Trench_BadEdge>
+  <TSA_WD_Trench_NotNeighbors>Trench segments must connect neighboring tiles.</TSA_WD_Trench_NotNeighbors>
+  <TSA_WD_Trench_ForeignNetwork>That trench belongs to another site.</TSA_WD_Trench_ForeignNetwork>
+  <TSA_WD_Trench_MustTouchHub>New trench arms must start with the first segment from this site.</TSA_WD_Trench_MustTouchHub>
+  <TSA_WD_Trench_NoBranch>Trenches are polylines only (no branches).</TSA_WD_Trench_NoBranch>
+  <TSA_WD_Trench_NoMerge>Trenches cannot merge or form loops.</TSA_WD_Trench_NoMerge>
+  <TSA_WD_Trench_NoTrench>No trench there.</TSA_WD_Trench_NoTrench>
+  <TSA_WD_Trench_RemoveTipOnly>Remove from the tip of an arm toward the hub only.</TSA_WD_Trench_RemoveTipOnly>
+  <TSA_WD_Trench_NoneOwned>This site owns no trenches.</TSA_WD_Trench_NoneOwned>
+  <TSA_WD_Trench_InvalidPath>Could not plan a valid trench path (land, exclusivity, no branches).</TSA_WD_Trench_InvalidPath>
+  <TSA_WD_Trench_BuildStarted>Trench dig started at {0}.</TSA_WD_Trench_BuildStarted>
+  <TSA_WD_Trench_RemovalStarted>Trench removal started at {0}.</TSA_WD_Trench_RemovalStarted>
+  <TSA_WD_Trench_BuildComplete>Trenches finished at {0}.</TSA_WD_Trench_BuildComplete>
+  <TSA_WD_Trench_ClearComplete>Trench removal finished at {0}.</TSA_WD_Trench_ClearComplete>
+  <TSA_WD_Trench_Cancelled>Trench project cancelled at {0}.</TSA_WD_Trench_Cancelled>
+  <TSA_WD_Trench_MovementExplanation>Trenches (+{0})</TSA_WD_Trench_MovementExplanation>
 </LanguageData>

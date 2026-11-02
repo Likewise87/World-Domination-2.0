@@ -64,6 +64,7 @@ namespace TSA_WorldDomination
         private bool savedIsTurretDetour;
         private WorldObject savedPreTurretDetourTarget;
         private bool goodwillGrantedOnWin;
+        private List<int> savedTrenchResolvedOwnerIds = new List<int>();
 
         private bool encounterActive = false;
         private bool playerHasWon = false;
@@ -228,6 +229,9 @@ namespace TSA_WorldDomination
             this.travelerDef = traveler.def;
             this.enemyFaction = traveler.Faction;
             this.travelerStrength = traveler.travelerStrength;
+            savedTrenchResolvedOwnerIds.Clear();
+            if (traveler.trenchResolvedOwnerIds != null)
+                savedTrenchResolvedOwnerIds.AddRange(traveler.trenchResolvedOwnerIds);
             this.destinationTileId = (traveler.pather != null && traveler.pather.destTile != PlanetTile.Invalid)
                 ? traveler.pather.destTile.tileId
                 : -1;
@@ -585,6 +589,12 @@ namespace TSA_WorldDomination
             newTraveler.mission = savedMission;
             newTraveler.originObject = savedOrigin;
             newTraveler.targetObject = savedTarget;
+            if (savedTrenchResolvedOwnerIds != null && savedTrenchResolvedOwnerIds.Count > 0)
+            {
+                newTraveler.trenchResolvedOwnerIds ??= new List<int>();
+                newTraveler.trenchResolvedOwnerIds.Clear();
+                newTraveler.trenchResolvedOwnerIds.AddRange(savedTrenchResolvedOwnerIds);
+            }
             newTraveler.packUpRequiresRefound = savedPackUpRequiresRefound;
             newTraveler.packUpOriginLabel = savedPackUpOriginLabel;
             newTraveler.massRelocationDestTile = savedMassRelocationDestTile;
@@ -800,6 +810,8 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref interceptRrPawns, "interceptRrPawns", LookMode.Reference);
             Scribe_References.Look(ref interceptRrOrigin, "interceptRrOrigin");
             if (interceptRrPawns == null) interceptRrPawns = new List<Pawn>();
+            Scribe_Collections.Look(ref savedTrenchResolvedOwnerIds, "savedTrenchResolvedOwnerIds", LookMode.Value);
+            if (savedTrenchResolvedOwnerIds == null) savedTrenchResolvedOwnerIds = new List<int>();
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit && playerHasWon)
                 encounterActive = false;

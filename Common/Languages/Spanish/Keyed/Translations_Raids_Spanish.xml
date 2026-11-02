@@ -61,6 +61,14 @@
   <TSA_WD_OutpostDefense_NoEquipmentIcons>Sin objetos equipados</TSA_WD_OutpostDefense_NoEquipmentIcons>
   <TSA_WD_OutpostDefense_AutoResolve>Resolver automáticamente</TSA_WD_OutpostDefense_AutoResolve>
   <TSA_WD_OutpostDefense_FightManually>Combatir manualmente</TSA_WD_OutpostDefense_FightManually>
+  <TSA_WD_OutpostDefense_TrenchTitle>Enemigo en tus trincheras</TSA_WD_OutpostDefense_TrenchTitle>
+  <TSA_WD_OutpostDefense_TrenchText>Una columna hostil de {0} ha pisado trincheras de {1}. Combátelos en un corredor de trincheras, resuelve en automático en el puesto, o omite a este dueño el resto de la marcha de esta columna.</TSA_WD_OutpostDefense_TrenchText>
+  <TSA_WD_OutpostDefense_SkipTrench>Omitir</TSA_WD_OutpostDefense_SkipTrench>
+  <TSA_WD_ColonyTrench_Title>Enemigo en trincheras de la colonia</TSA_WD_ColonyTrench_Title>
+  <TSA_WD_ColonyTrench_Text>{0}: columna hostil de {1} (fuerza {2}) está en tus trincheras. Combate con colonos en un mapa de corredor, u omite a este dueño el resto de su marcha.</TSA_WD_ColonyTrench_Text>
+  <TSA_WD_ColonyTrench_NoMap>El mapa de la colonia no está cargado; el viajero continúa.</TSA_WD_ColonyTrench_NoMap>
+  <TSA_WD_ColonyTrench_NoPawns>No hay colonos elegibles; el viajero continúa.</TSA_WD_ColonyTrench_NoPawns>
+  <TSA_WD_ColonyTrench_LeaveBehind>Hay que dejar colonos en el mapa de la colonia; el viajero continúa.</TSA_WD_ColonyTrench_LeaveBehind>
   <TSA_WD_OutpostDefense_DeploySection_Target>{0} (Objetivo atacado)</TSA_WD_OutpostDefense_DeploySection_Target>
   <TSA_WD_OutpostDefense_DeploySection_Support>{0} (Puesto de apoyo)</TSA_WD_OutpostDefense_DeploySection_Support>
   <TSA_WD_OutpostDefense_Letter_Label>Enemigos en 15 segundos</TSA_WD_OutpostDefense_Letter_Label>

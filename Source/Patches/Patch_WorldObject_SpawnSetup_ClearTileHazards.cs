@@ -24,7 +24,12 @@ namespace TSA_WorldDomination
             WorldActions_RoadBlocks.ClearIfPresent(tileId);
             WorldActions_SpikeTraps.ClearIfPresent(tileId);
             // Founding pickers reject building tiles; this only catches quests / edits that land on one anyway.
+            // Never during load: SpawnSetup on the colony/outpost was wiping hub→neighbor trench roots.
             if (Scribe.mode != LoadSaveMode.Inactive || Current.ProgramState != ProgramState.Playing) return;
+
+            // Foreign MapParent claims a trench tile: wipe other owners' edges. Keep claimant's own network.
+            WorldComponent_WdTrenches.Get()?.WipeEdgesTouchingTileExceptOwner(tileId, __instance);
+
             WorldObject_WD_AdvancedBuilding building = WorldComponent_AdvancedBuildings.Get()?.At(tileId);
             if (building != null && !building.Destroyed)
                 AdvancedBuildingCombatUtility.DestroyBuilding(building, null);

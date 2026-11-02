@@ -48,6 +48,10 @@
   <TSA_WD_Inspect_BridgeStatus_InTransit>Estado: cuadrilla de puente en tránsito hacia {0} (prep. {1}%)...</TSA_WD_Inspect_BridgeStatus_InTransit>
   <TSA_WD_Inspect_BridgeClearStatus>Quitando puente hacia {0}: {1}%</TSA_WD_Inspect_BridgeClearStatus>
   <TSA_WD_Inspect_BridgeClearStatus_InTransit>Estado: cuadrilla de desmontaje en tránsito hacia {0} (prep. {1}%)...</TSA_WD_Inspect_BridgeClearStatus_InTransit>
+  <TSA_WD_Inspect_TrenchStatus>Excavación de trincheras: {0}% hacia {1}</TSA_WD_Inspect_TrenchStatus>
+  <TSA_WD_Inspect_TrenchStatus_InTransit>Estado: cuadrilla de trincheras en tránsito hacia {0} (prep. {1}%)...</TSA_WD_Inspect_TrenchStatus_InTransit>
+  <TSA_WD_Inspect_TrenchClearStatus>Quitando trincheras hacia {0}: {1}%</TSA_WD_Inspect_TrenchClearStatus>
+  <TSA_WD_Inspect_TrenchClearStatus_InTransit>Estado: cuadrilla de retirada de trincheras en tránsito hacia {0} (prep. {1}%)...</TSA_WD_Inspect_TrenchClearStatus_InTransit>
   <TSA_WD_Inspect_RoadBlockBuild>Bloqueos de carretera</TSA_WD_Inspect_RoadBlockBuild>
   <TSA_WD_Inspect_RoadBlockClear>Quitando bloqueos</TSA_WD_Inspect_RoadBlockClear>
   <TSA_WD_Inspect_RoadBlockStatus>{0}: {1}% hacia {2}</TSA_WD_Inspect_RoadBlockStatus>

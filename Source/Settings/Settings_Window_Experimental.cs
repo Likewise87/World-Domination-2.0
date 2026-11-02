@@ -56,6 +56,13 @@ namespace TSA_WorldDomination
                     ref s.experimentalColonyWorldBuild,
                     "TSA_WD_Experimental_ColonyWorldBuildTip".Translate(),
                     defaultValue: WorldDominationSettings.DefExperimentalColonyWorldBuild);
+                bool trenchesWas = s.enableTrenches;
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_EnableTrenches".Translate(),
+                    ref s.enableTrenches,
+                    "TSA_WD_Experimental_EnableTrenchesTip".Translate(),
+                    defaultValue: WorldDominationSettings.DefEnableTrenches);
+                if (trenchesWas && !s.enableTrenches)
+                    WorldActions_Trenches.OnFeatureDisabled();
                 SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_PlayerConquestRaze".Translate(),
                     ref s.experimentalPlayerConquestRaze,
                     "TSA_WD_Experimental_PlayerConquestRazeTip".Translate(),

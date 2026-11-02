@@ -212,12 +212,29 @@ namespace TSA_WorldDomination
             IReadOnlyList<Pawn> playerPawns,
             WorldObject_Traveler traveler,
             WorldObject origin = null)
+            => StartInterceptionEncounterDropPods(playerPawns, traveler, origin, forceTrenchCorridorMap: false);
+
+        /// <summary>
+        /// Colony trench walk-over fight: temp Ambush map with <c>WD_TrenchClash</c> layout.
+        /// Loss/flee respawns the traveler toward its saved destination (colony).
+        /// </summary>
+        public static void StartTrenchInterceptionEncounterDropPods(
+            IReadOnlyList<Pawn> playerPawns,
+            WorldObject_Traveler traveler,
+            WorldObject origin = null)
+            => StartInterceptionEncounterDropPods(playerPawns, traveler, origin, forceTrenchCorridorMap: true);
+
+        public static void StartInterceptionEncounterDropPods(
+            IReadOnlyList<Pawn> playerPawns,
+            WorldObject_Traveler traveler,
+            WorldObject origin,
+            bool forceTrenchCorridorMap)
         {
             if (playerPawns == null || playerPawns.Count == 0 || traveler == null || traveler.Destroyed) return;
 
             int tileId = traveler.Tile.tileId;
             Map loaded = RapidResponseUtility.MapAtTile(tileId);
-            if (loaded != null)
+            if (loaded != null && !forceTrenchCorridorMap)
             {
                 RapidResponseUtility.DropPawnsViaDropPods(playerPawns, loaded);
                 WdRrInterceptDropUtility.RegisterOnMap(loaded, origin, playerPawns);
@@ -245,10 +262,12 @@ namespace TSA_WorldDomination
                 if (!WorldComponent_WdBridges.IsBridgedWaterTile(fightTile))
                     AtTurretUtility.TryOverrunHostileAtTurretOnTile(fightTile, Faction.OfPlayer, traveler);
 
-                Map map = GetOrGenerateMapForTile(
-                    traveler.Tile,
-                    -1,
-                    GenStep_WD_BridgeClash.CameFromWorldTile(traveler));
+                Map map = forceTrenchCorridorMap
+                    ? GetOrGenerateTrenchClashMap(traveler.Tile)
+                    : GetOrGenerateMapForTile(
+                        traveler.Tile,
+                        -1,
+                        GenStep_WD_BridgeClash.CameFromWorldTile(traveler));
                 if (map == null)
                 {
                     ResumeTravelerAfterFailedClashEncounter(traveler);
@@ -662,6 +681,30 @@ namespace TSA_WorldDomination
                 if (bridge != null) return bridge;
             }
             return MapGeneratorDefOf.Encounter;
+        }
+
+        private static Map GetOrGenerateTrenchClashMap(PlanetTile tile)
+        {
+            if (!tile.Valid) return null;
+            if (OdysseyGravshipCaravanClashCompat.TileBlocksPlayerCaravanClash(tile))
+                return null;
+
+            MapGeneratorDef genDef = DefDatabase<MapGeneratorDef>.GetNamedSilentFail("WD_TrenchClash")
+                ?? MapGeneratorDefOf.Encounter;
+
+            Map existingAmbush = Current.Game.Maps.FirstOrDefault(m => m.Tile == tile && IsTemporaryClashAmbushMap(m));
+            if (existingAmbush != null) return existingAmbush;
+
+            MapParent existing = Find.WorldObjects.MapParentAt(tile);
+            if (existing != null)
+            {
+                if (existing.def == WorldObjectDefOf.Ambush)
+                    return MapGenerator.GenerateMap(Find.World.info.initialMapSize, existing, genDef, null, null);
+                return null;
+            }
+
+            MapParent site = CreateEncounterSite(tile);
+            return MapGenerator.GenerateMap(Find.World.info.initialMapSize, site, genDef, null, null);
         }
 
         private static Map FinishClashMap(Map map, PlanetTile tile)

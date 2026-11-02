@@ -2239,4 +2239,40 @@
   <TSA_WD_OutpostStats_Row_LandSpeedTip>从此定居点出发的商队步行速度加成。马厩提供该加成；没有马厩时为 +0%。</TSA_WD_OutpostStats_Row_LandSpeedTip>
   <TSA_WD_OutpostStats_SiloMaxLine>粮仓：{0} +{1}% = {2}</TSA_WD_OutpostStats_SiloMaxLine>
   <TSA_WD_OutpostStats_HospitalLine>医院：+{0}%</TSA_WD_OutpostStats_HospitalLine>
+
+  <!-- Trench defenses -->
+  <TSA_WD_BuildTrench>挖掘战壕</TSA_WD_BuildTrench>
+  <TSA_WD_BuildTrenchDesc>从此地挖出独占战壕支线（折线辐条，最多 {0} 格）。每段消耗 {1} 木材。敌对纵队踩上你的战壕时会弹出防御选择。</TSA_WD_BuildTrenchDesc>
+  <TSA_WD_RemoveTrench>拆除战壕</TSA_WD_RemoveTrench>
+  <TSA_WD_RemoveTrenchDesc>只能从支线尖端向枢纽拆除（先拆最外端）。</TSA_WD_RemoveTrenchDesc>
+  <TSA_WD_CancelTrench>取消挖壕</TSA_WD_CancelTrench>
+  <TSA_WD_CancelTrenchRemoval>取消拆壕</TSA_WD_CancelTrenchRemoval>
+  <TSA_WD_CancelTrenchDesc>中止进行中的战壕工程并召回施工队。</TSA_WD_CancelTrenchDesc>
+  <TSA_WD_Trench_Disabled>实验设置中已关闭战壕。</TSA_WD_Trench_Disabled>
+  <TSA_WD_Trench_NeedPassableLand>战壕需要可通行陆地（不可是水域或不可通行地）。</TSA_WD_Trench_NeedPassableLand>
+  <TSA_WD_Trench_NotOnHub>枢纽格本身不能是战壕。</TSA_WD_Trench_NotOnHub>
+  <TSA_WD_Trench_AlreadyTrench>该格已有战壕。</TSA_WD_Trench_AlreadyTrench>
+  <TSA_WD_Trench_BlockedByRoad>不能在道路格挖掘战壕。</TSA_WD_Trench_BlockedByRoad>
+  <TSA_WD_Trench_BlockedByFort>请先清除工事再挖战壕。</TSA_WD_Trench_BlockedByFort>
+  <TSA_WD_Trench_BlockedByBridge>不能在桥梁格挖掘战壕。</TSA_WD_Trench_BlockedByBridge>
+  <TSA_WD_Trench_BlockedByWorldObject>被 {0} 阻挡。</TSA_WD_Trench_BlockedByWorldObject>
+  <TSA_WD_Trench_OutOfRange>战壕必须在枢纽 {0} 格范围内。</TSA_WD_Trench_OutOfRange>
+  <TSA_WD_Trench_TileReserved>该格已被战壕占用。</TSA_WD_Trench_TileReserved>
+  <TSA_WD_Trench_NoOwner>没有有效的战壕所有者。</TSA_WD_Trench_NoOwner>
+  <TSA_WD_Trench_BadEdge>无效的战壕边。</TSA_WD_Trench_BadEdge>
+  <TSA_WD_Trench_NotNeighbors>战壕段必须连接相邻格。</TSA_WD_Trench_NotNeighbors>
+  <TSA_WD_Trench_ForeignNetwork>那条战壕属于其他地点。</TSA_WD_Trench_ForeignNetwork>
+  <TSA_WD_Trench_MustTouchHub>新支线的第一段必须从本地块出发。</TSA_WD_Trench_MustTouchHub>
+  <TSA_WD_Trench_NoBranch>战壕只能是折线（不能分叉）。</TSA_WD_Trench_NoBranch>
+  <TSA_WD_Trench_NoMerge>战壕不能合并或成环。</TSA_WD_Trench_NoMerge>
+  <TSA_WD_Trench_NoTrench>那里没有战壕。</TSA_WD_Trench_NoTrench>
+  <TSA_WD_Trench_RemoveTipOnly>只能从支线尖端向枢纽拆除。</TSA_WD_Trench_RemoveTipOnly>
+  <TSA_WD_Trench_NoneOwned>此地没有所属战壕。</TSA_WD_Trench_NoneOwned>
+  <TSA_WD_Trench_InvalidPath>无法规划有效战壕路径（陆地、独占、无分叉）。</TSA_WD_Trench_InvalidPath>
+  <TSA_WD_Trench_BuildStarted>{0} 已开始挖掘战壕。</TSA_WD_Trench_BuildStarted>
+  <TSA_WD_Trench_RemovalStarted>{0} 已开始拆除战壕。</TSA_WD_Trench_RemovalStarted>
+  <TSA_WD_Trench_BuildComplete>{0} 的战壕已完工。</TSA_WD_Trench_BuildComplete>
+  <TSA_WD_Trench_ClearComplete>{0} 的战壕拆除已完成。</TSA_WD_Trench_ClearComplete>
+  <TSA_WD_Trench_Cancelled>{0} 的战壕工程已取消。</TSA_WD_Trench_Cancelled>
+  <TSA_WD_Trench_MovementExplanation>战壕（+{0}）</TSA_WD_Trench_MovementExplanation>
 </LanguageData>
