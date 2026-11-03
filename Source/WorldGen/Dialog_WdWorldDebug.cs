@@ -428,7 +428,7 @@ namespace TSA_WorldDomination
                 "Click water-adjacent banks to place a stone bridge span.",
                 DebugDashKind.SelfManaged, WD_WorldDebugOps.BeginPlaceBridge);
             Add(fortsTools, "Place trench", IconConfig,
-                "Click two neighboring tiles to place a trench edge owned by the nearest player outpost/colony.",
+                "Click two neighboring tiles to place a trench edge owned by the nearest player outpost.",
                 DebugDashKind.SelfManaged, WD_WorldDebugOps.BeginPlaceTrench);
             Add(fortsTools, "Wipe trench owner", IconDelete,
                 "Click a trench tile to wipe all trenches owned by that arm's owner.",

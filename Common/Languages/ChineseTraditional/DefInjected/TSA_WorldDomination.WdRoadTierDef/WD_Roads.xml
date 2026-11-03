@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: dirt road -->
+  <TSA_WdRoad_Dirt.label>泥土路</TSA_WdRoad_Dirt.label>
+  <!-- EN: stone road -->
+  <TSA_WdRoad_Stone.label>石板路</TSA_WdRoad_Stone.label>
+  <!-- EN: asphalt road -->
+  <TSA_WdRoad_Asphalt.label>柏油路</TSA_WdRoad_Asphalt.label>
+</LanguageData>

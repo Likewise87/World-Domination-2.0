@@ -32,7 +32,11 @@ namespace TSA_WorldDomination
         /// <summary>Player support outposts that lent real pawns; skip virtual ally loss on shared resolve.</summary>
         private List<WorldObject_WD_Outpost> realSupportDonors = new List<WorldObject_WD_Outpost>();
         private List<Pawn> borrowedStoredTransportPawns = new List<Pawn>();
+        /// <summary>Parallel to <see cref="borrowedStoredTransportPawns"/>: home outpost for each hull/animal.</summary>
+        private List<WorldObject_WD_Outpost> borrowedStoredTransportHomes = new List<WorldObject_WD_Outpost>();
         private List<Pawn> borrowedMechanoids = new List<Pawn>();
+        /// <summary>Parallel to <see cref="borrowedMechanoids"/>: home outpost for each mech.</summary>
+        private List<WorldObject_WD_Outpost> borrowedMechanoidHomes = new List<WorldObject_WD_Outpost>();
         private bool encounterActive;
         private bool resolved;
         private bool mapRemovalQueued;
@@ -189,7 +193,9 @@ namespace TSA_WorldDomination
             List<Pawn> defenders,
             List<WorldObject_WD_Outpost> defenderHomes,
             List<Pawn> storedTransportPawns,
+            List<WorldObject_WD_Outpost> storedTransportHomes = null,
             List<Pawn> mechanoidPawns = null,
+            List<WorldObject_WD_Outpost> mechanoidHomes = null,
             List<WorldObject_WD_Outpost> supportDonors = null)
         {
             travelerDef = traveler.def;
@@ -225,7 +231,15 @@ namespace TSA_WorldDomination
             realSupportDonors = supportDonors != null ? new List<WorldObject_WD_Outpost>(supportDonors) : new List<WorldObject_WD_Outpost>();
             RepairBorrowedHomesParity();
             borrowedStoredTransportPawns = storedTransportPawns != null ? new List<Pawn>(storedTransportPawns) : new List<Pawn>();
+            borrowedStoredTransportHomes = storedTransportHomes != null
+                ? new List<WorldObject_WD_Outpost>(storedTransportHomes)
+                : new List<WorldObject_WD_Outpost>();
+            RepairStoreHomesParity(borrowedStoredTransportPawns, borrowedStoredTransportHomes);
             borrowedMechanoids = mechanoidPawns != null ? new List<Pawn>(mechanoidPawns) : new List<Pawn>();
+            borrowedMechanoidHomes = mechanoidHomes != null
+                ? new List<WorldObject_WD_Outpost>(mechanoidHomes)
+                : new List<WorldObject_WD_Outpost>();
+            RepairStoreHomesParity(borrowedMechanoids, borrowedMechanoidHomes);
             encounterActive = true;
             resolved = false;
             aerialLeaveInProgress = false;
@@ -520,8 +534,8 @@ namespace TSA_WorldDomination
 
             Log.Warning($"[TSA WD] Aborting outpost defense encounter ({reason}) for {outpost?.Label ?? "unknown"} — restoring defenders without destroying outpost.");
 
-            outpost?.ReturnManualDefenseStoredTransportPawns(SurvivingBorrowedStoredTransportPawns());
-            outpost?.ReturnManualDefenseMechanoids(SurvivingBorrowedMechanoids());
+            ReturnBorrowedStoredTransportByHome();
+            ReturnBorrowedMechanoidsByHome();
             ReturnBorrowedPawnsByHome();
             ReturnInterceptRrPawns();
             outpost?.ClearManualDefenseActive();
@@ -606,19 +620,26 @@ namespace TSA_WorldDomination
 
             string outpostLabel = outpost?.LabelCap ?? "Outpost";
             // Return borrowed defenders first so they are off the map before we scan for extras.
-            outpost?.ReturnManualDefenseStoredTransportPawns(SurvivingBorrowedStoredTransportPawns());
-            outpost?.ReturnManualDefenseMechanoids(SurvivingBorrowedMechanoids());
+            ReturnBorrowedStoredTransportByHome();
+            ReturnBorrowedMechanoidsByHome();
             int returned = ReturnBorrowedPawnsByHome();
             ReturnInterceptRrPawns();
             AbsorbExtraPlayerForceIntoOutpost();
             int captivesTaken = 0;
             if (outpost != null && !outpost.Destroyed)
                 captivesTaken = OutpostPrisonerUtility.HarvestCaptivesFromDefenseMap(outpost, map);
+
+            int lootStored = 0;
+            if (outpost != null && !outpost.Destroyed && map != null)
+                lootStored = OutpostDefenseLootUtility.SalvageMapIntoOutpostArmory(outpost, map);
+
             ResolveSharedOutpostRaid(attackerWon: false);
 
             string letterText = "TSA_WD_OutpostDefense_VictoryLetter_Text".Translate(outpostLabel, enemyFaction?.Name ?? "Unknown", returned);
             if (captivesTaken > 0)
                 letterText += "\n\n" + "TSA_WD_Letter_OutpostDefended_Captives".Translate(captivesTaken.ToString());
+            if (lootStored > 0)
+                letterText += "\n\n" + "TSA_WD_OutpostDefense_LootStored".Translate(lootStored.ToString(), outpostLabel);
             Find.LetterStack.ReceiveLetter(
                 "TSA_WD_OutpostDefense_VictoryLetter_Label".Translate(),
                 letterText,
@@ -986,6 +1007,66 @@ namespace TSA_WorldDomination
             return outpost;
         }
 
+        private void ReturnBorrowedStoredTransportByHome()
+        {
+            List<Pawn> survivors = SurvivingBorrowedStoredTransportPawns();
+            for (int i = 0; i < survivors.Count; i++)
+            {
+                Pawn pawn = survivors[i];
+                WorldObject_WD_Outpost home = ResolveStoreHome(
+                    pawn, borrowedStoredTransportPawns, borrowedStoredTransportHomes);
+                if (home == null || home.Destroyed) home = outpost;
+                if (home == null || home.Destroyed) continue;
+                if (pawn.Spawned) pawn.DeSpawn();
+                home.ReturnManualDefenseStoredTransportPawns(new List<Pawn> { pawn });
+            }
+        }
+
+        private void ReturnBorrowedMechanoidsByHome()
+        {
+            List<Pawn> survivors = SurvivingBorrowedMechanoids();
+            for (int i = 0; i < survivors.Count; i++)
+            {
+                Pawn pawn = survivors[i];
+                WorldObject_WD_Outpost home = ResolveStoreHome(
+                    pawn, borrowedMechanoids, borrowedMechanoidHomes);
+                if (home == null || home.Destroyed) home = outpost;
+                if (home == null || home.Destroyed) continue;
+                if (pawn.Spawned) pawn.DeSpawn();
+                home.ReturnManualDefenseMechanoids(new List<Pawn> { pawn });
+            }
+        }
+
+        private WorldObject_WD_Outpost ResolveStoreHome(
+            Pawn pawn,
+            List<Pawn> pawns,
+            List<WorldObject_WD_Outpost> homes)
+        {
+            if (pawn == null || pawns == null || homes == null) return outpost;
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                if (pawns[i] != pawn) continue;
+                if (i < homes.Count && homes[i] != null && !homes[i].Destroyed)
+                    return homes[i];
+                return outpost;
+            }
+            return outpost;
+        }
+
+        private void RepairStoreHomesParity(List<Pawn> pawns, List<WorldObject_WD_Outpost> homes)
+        {
+            if (pawns == null || homes == null) return;
+            while (homes.Count < pawns.Count)
+                homes.Add(outpost);
+            while (homes.Count > pawns.Count)
+                homes.RemoveAt(homes.Count - 1);
+            for (int i = 0; i < homes.Count; i++)
+            {
+                if (homes[i] == null || homes[i].Destroyed)
+                    homes[i] = outpost;
+            }
+        }
+
         private void RepairBorrowedHomesParity(bool logMismatch = false)
         {
             if (borrowedPawns == null) borrowedPawns = new List<Pawn>();
@@ -1114,7 +1195,9 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref borrowedPawnHomes, "borrowedPawnHomes", LookMode.Reference);
             Scribe_Collections.Look(ref realSupportDonors, "realSupportDonors", LookMode.Reference);
             Scribe_Collections.Look(ref borrowedStoredTransportPawns, "borrowedStoredTransportPawns", LookMode.Reference);
+            Scribe_Collections.Look(ref borrowedStoredTransportHomes, "borrowedStoredTransportHomes", LookMode.Reference);
             Scribe_Collections.Look(ref borrowedMechanoids, "borrowedMechanoids", LookMode.Reference);
+            Scribe_Collections.Look(ref borrowedMechanoidHomes, "borrowedMechanoidHomes", LookMode.Reference);
             Scribe_Collections.Look(ref interceptRrPawns, "interceptRrPawns", LookMode.Reference);
             Scribe_References.Look(ref interceptRrOrigin, "interceptRrOrigin");
             Scribe_Values.Look(ref encounterActive, "encounterActive", false);
@@ -1140,10 +1223,16 @@ namespace TSA_WorldDomination
             if (borrowedPawnHomes == null) borrowedPawnHomes = new List<WorldObject_WD_Outpost>();
             if (realSupportDonors == null) realSupportDonors = new List<WorldObject_WD_Outpost>();
             if (borrowedStoredTransportPawns == null) borrowedStoredTransportPawns = new List<Pawn>();
+            if (borrowedStoredTransportHomes == null) borrowedStoredTransportHomes = new List<WorldObject_WD_Outpost>();
             if (borrowedMechanoids == null) borrowedMechanoids = new List<Pawn>();
+            if (borrowedMechanoidHomes == null) borrowedMechanoidHomes = new List<WorldObject_WD_Outpost>();
             if (interceptRrPawns == null) interceptRrPawns = new List<Pawn>();
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
                 RepairBorrowedHomesParity(logMismatch: true);
+                RepairStoreHomesParity(borrowedStoredTransportPawns, borrowedStoredTransportHomes);
+                RepairStoreHomesParity(borrowedMechanoids, borrowedMechanoidHomes);
+            }
             if (Scribe.mode == LoadSaveMode.PostLoadInit && encounterActive && !resolved)
             {
                 postLoadGraceUntilTick = Find.TickManager.TicksGame + 300;

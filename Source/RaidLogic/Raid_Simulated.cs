@@ -282,7 +282,8 @@ namespace TSA_WorldDomination
         /// </summary>
         /// <summary>
         /// Hostile ground columns that step onto a player trench tile open Choice for that trench owner
-        /// (Skip once per owner / Fight / Auto for outposts). Traveler stays alive until Fight/Auto.
+        /// (Let them pass once per owner / Fight / Auto for outposts). Traveler stays parked until
+        /// Let them pass resumes or Fight/Auto despawn it (same destroy contract as normal outpost manual defense).
         /// </summary>
         public static bool TryInterceptRaidAtTrench(WorldObject_Traveler traveler)
         {
@@ -300,6 +301,9 @@ namespace TSA_WorldDomination
                 return false;
             // Hub arrival stays normal outpost/colony defense; trench Choice is for arm tiles only.
             if (owner.Tile.tileId == tileId) return false;
+            // Disconnected / orphan arms must not open Choice (prune should have removed them).
+            if (!WorldComponent_WdTrenches.IsConnectedToOwnerHubStatic(tileId, owner))
+                return false;
 
             if (WdTrenchInterceptUtility.HasResolvedOwner(traveler, owner))
                 return false;
@@ -309,15 +313,10 @@ namespace TSA_WorldDomination
             traveler.pather?.StopDead();
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
 
+            // Player trenches are outpost-owned only (NPC Settlement owners may plug in later).
             if (owner is WorldObject_WD_Outpost outpost && outpost.Faction == Faction.OfPlayer)
             {
                 Find.WindowStack.Add(new Dialog_OutpostDefenseChoice(traveler, outpost, manager, isSkirmishFollowUp: false, isTrenchIntercept: true));
-                return true;
-            }
-
-            if (owner is Settlement settlement && settlement.Faction == Faction.OfPlayer)
-            {
-                Find.WindowStack.Add(new Dialog_ColonyTrenchDefenseChoice(traveler, settlement, manager));
                 return true;
             }
 

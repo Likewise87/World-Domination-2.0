@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: AT Turret (Light) -->
+  <TSA_WD_AT_Turret_Light.label>反戰車砲塔（輕型）</TSA_WD_AT_Turret_Light.label>
+  <!-- EN: AT Turret -->
+  <TSA_WD_AT_Turret.label>反戰車砲塔</TSA_WD_AT_Turret.label>
+  <!-- EN: AT Turret (Heavy) -->
+  <TSA_WD_AT_Turret_Heavy.label>反戰車砲塔（重型）</TSA_WD_AT_Turret_Heavy.label>
+</LanguageData>

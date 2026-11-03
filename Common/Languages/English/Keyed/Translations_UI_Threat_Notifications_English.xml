@@ -233,6 +233,10 @@
   <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>Shows a silent, persistent alert on the right-side readout when a WD outpost has finished preparing a road, bridge segment, fortification, or AT segment but lacks materials to dispatch the crew. Click to jump to an affected outpost.</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
   <TSA_WD_Notify_BridgeDeconstructBlocked>Show letter when bridge teardown is blocked</TSA_WD_Notify_BridgeDeconstructBlocked>
   <TSA_WD_Notify_BridgeDeconstructBlockedTooltip>When a bridge teardown crew arrives and the span is occupied, show a yellow NeutralEvent letter naming the blocker. If off, only a message is shown.</TSA_WD_Notify_BridgeDeconstructBlockedTooltip>
+  <TSA_WD_Notify_RoadCancelledByTrench>Show letter when a road project is cancelled by a trench</TSA_WD_Notify_RoadCancelledByTrench>
+  <TSA_WD_Notify_RoadCancelledByTrenchTooltip>When a road crew cannot pave because the path hits an existing trench, cancel the project and show a blue NeutralEvent letter. If off, the project still cancels silently.</TSA_WD_Notify_RoadCancelledByTrenchTooltip>
+  <TSA_WD_Notify_TrenchCancelledByRoad>Show letter when a trench project is cancelled by a road</TSA_WD_Notify_TrenchCancelledByRoad>
+  <TSA_WD_Notify_TrenchCancelledByRoadTooltip>When a trench crew cannot dig because the path hits an existing road, cancel the project and show a blue NeutralEvent letter. If off, the project still cancels silently.</TSA_WD_Notify_TrenchCancelledByRoadTooltip>
   <TSA_WD_Alert_ConstructionInsufficientMaterials>WD: Construction waiting on materials</TSA_WD_Alert_ConstructionInsufficientMaterials>
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>These outposts are ready to dispatch a construction crew but lack materials:</TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>- {0}: {1}</TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>

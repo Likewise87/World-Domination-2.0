@@ -25,6 +25,8 @@
   <TSA_IncomingPowerSupplyLines>Recibiendo electricidad de:</TSA_IncomingPowerSupplyLines>
   <TSA_Logistics_IsolatedProducer>Ninguna avanzadilla en alcance a la que este {0} pueda enviar comida virtual.</TSA_Logistics_IsolatedProducer>
   <TSA_Logistics_IsolatedConsumer>Ninguna avanzadilla productora de comida en alcance para abastecer a este {0}.</TSA_Logistics_IsolatedConsumer>
+  <TSA_Logistics_IsolatedPowerProducer>Ninguna avanzadilla en alcance a la que este {0} pueda suministrar energía.</TSA_Logistics_IsolatedPowerProducer>
+  <TSA_Logistics_IsolatedPowerConsumer>Ninguna central en alcance para abastecer a este {0}.</TSA_Logistics_IsolatedPowerConsumer>
   <TSA_LogisticsMode_AllToColony>Todo a colonia</TSA_LogisticsMode_AllToColony>
   <TSA_LogisticsMode_Smart>Inteligente</TSA_LogisticsMode_Smart>
   <TSA_LogisticsMode_BiggestDeficit>Déficit</TSA_LogisticsMode_BiggestDeficit>
@@ -306,6 +308,8 @@
   <TSA_WD_InsufficientStrengthToBuild>Fuerza insuficiente para entregar {0}</TSA_WD_InsufficientStrengthToBuild>
   <TSA_WD_InsufficientMaterialsToBuild>Materiales insuficientes para entregar {0}</TSA_WD_InsufficientMaterialsToBuild>
   <TSA_WD_InsufficientStrengthToClear>Fuerza insuficiente para quitar {0}</TSA_WD_InsufficientStrengthToClear>
+  <TSA_WD_ProjectNoun_Trench>trinchera</TSA_WD_ProjectNoun_Trench>
+  <TSA_WD_ProjectNoun_Bridge>puente</TSA_WD_ProjectNoun_Bridge>
   <TSA_WD_BuildRoadDesc>Indica a esta avanzadilla que construya una red de carreteras hacia una casilla. La velocidad escala con la habilidad Construcción acumulada.\n\nMayús+clic para colocar puntos intermedios; clic sin Mayús para fijar el destino final.</TSA_WD_BuildRoadDesc>
   <TSA_WD_BuildRoadStatus>Construyendo hacia &quot;{0}&quot;\nProgreso: {1}%</TSA_WD_BuildRoadStatus>
   <TSA_WD_CancelRoad>Cancelar construcción de carretera</TSA_WD_CancelRoad>
@@ -1049,10 +1053,11 @@
   <TSA_WD_StrengthBudget_WithdrawCaption>Intentando retirar peones por valor de {0} de fuerza ofensiva de una avanzadilla que actualmente tiene {1}</TSA_WD_StrengthBudget_WithdrawCaption>
   <TSA_WD_StrengthBudget_WithdrawCaptionTip>No puedes retirar peones que valgan más fuerza ofensiva de la que tienes actualmente.</TSA_WD_StrengthBudget_WithdrawCaptionTip>
   <TSA_WD_StrengthBudget_NeedStayBehind>{0} más de fuerza ofensiva debe quedarse en la avanzadilla o marcarse como perdido.</TSA_WD_StrengthBudget_NeedStayBehind>
-  <TSA_WD_StrengthBudget_DeployingMeter>Despliegue: {0} / {1} fuerza ofensiva</TSA_WD_StrengthBudget_DeployingMeter>
+  <TSA_WD_StrengthBudget_DeployingMeter>{0} fuerza ofensiva desplegada de {1} disponible. Max. fuerza ofensiva del puesto: {2}</TSA_WD_StrengthBudget_DeployingMeter>
   <TSA_WD_StrengthBudget_MeterTip>La misma fuerza ofensiva que se usa para lanzar ataques desde esta avanzadilla.</TSA_WD_StrengthBudget_MeterTip>
   <TSA_WD_StrengthBudget_WithdrawMeterTip>Esta avanzadilla tiene {0} de fuerza of. Puedes retirar hasta {1} ({0} más {2} de margen).</TSA_WD_StrengthBudget_WithdrawMeterTip>
-  <TSA_WD_StrengthBudget_DeployMeterTip>Fuerza ofensiva actual de esta avanzadilla.</TSA_WD_StrengthBudget_DeployMeterTip>
+  <TSA_WD_StrengthBudget_DeployMeterTip>Fuerza ofensiva actual de esta avanzadilla frente a su máximo.</TSA_WD_StrengthBudget_DeployMeterTip>
+  <TSA_WD_StrengthBudget_DeployStoredTip>Vehículos, animales y mecanoides empiezan sin seleccionar. Márcalos para gastar fuerza ofensiva y llevarlos al combate.</TSA_WD_StrengthBudget_DeployStoredTip>
   <TSA_WD_StrengthBudget_PawnCost>Fuerza {0}</TSA_WD_StrengthBudget_PawnCost>
   <TSA_WD_StrengthBudget_FormCaravan>Formar caravana</TSA_WD_StrengthBudget_FormCaravan>
   <TSA_WD_StrengthBudget_FateCaravan>Caravana</TSA_WD_StrengthBudget_FateCaravan>
@@ -1152,6 +1157,11 @@
   <TSA_WD_Req_WaivedConquestResearch>La investigación no es necesaria al fundar desde un asentamiento conquistado.</TSA_WD_Req_WaivedConquestResearch>
   <TSA_WD_RoadAlreadyBuilt_Refunded>El equipo de {0} encontró la carretera ya terminada. Fuerza reembolsada.</TSA_WD_RoadAlreadyBuilt_Refunded>
   <TSA_WD_RoadAlreadyExists>Ya existe una carretera en esta casilla</TSA_WD_RoadAlreadyExists>
+  <TSA_WD_RoadBlockedByTrench>Esa ruta de carretera cruza una trinchera existente. Quita la trinchera o elige otra ruta.</TSA_WD_RoadBlockedByTrench>
+  <TSA_WD_Letter_RoadCancelledByTrench_Label>Proyecto de carretera cancelado</TSA_WD_Letter_RoadCancelledByTrench_Label>
+  <TSA_WD_Letter_RoadCancelledByTrench_Text>{0} canceló su misión de construcción de carretera porque la ruta estaba bloqueada por una trinchera.</TSA_WD_Letter_RoadCancelledByTrench_Text>
+  <TSA_WD_Letter_TrenchCancelledByRoad_Label>Proyecto de trinchera cancelado</TSA_WD_Letter_TrenchCancelledByRoad_Label>
+  <TSA_WD_Letter_TrenchCancelledByRoad_Text>{0} canceló su excavación de trinchera porque la ruta estaba bloqueada por una carretera.</TSA_WD_Letter_TrenchCancelledByRoad_Text>
   <TSA_WD_RoadAlreadyInProgress>Construcción ya en curso. Cancela el proyecto actual para fijar un nuevo objetivo.</TSA_WD_RoadAlreadyInProgress>
   <TSA_WD_RoadAsphalt>Carretera de asfalto</TSA_WD_RoadAsphalt>
   <TSA_WD_RoadAsphalt_Disabled>Carretera de asfalto (Se necesita {1} en Construcción, actual: {0})</TSA_WD_RoadAsphalt_Disabled>
@@ -1272,10 +1282,16 @@
   <TSA_WD_OutpostPower_StatusPowered>Con energía</TSA_WD_OutpostPower_StatusPowered>
   <TSA_WD_OutpostPower_StatusUnpowered>Sin energía</TSA_WD_OutpostPower_StatusUnpowered>
   <TSA_WD_OutpostStats_Section_Power>Energía</TSA_WD_OutpostStats_Section_Power>
-  <TSA_WD_OutpostStats_Row_PowerDemand>Demanda</TSA_WD_OutpostStats_Row_PowerDemand>
-  <TSA_WD_OutpostStats_Row_PowerDemandTip>Vatios que necesita esta avanzada de plantas en modo avanzadas.</TSA_WD_OutpostStats_Row_PowerDemandTip>
-  <TSA_WD_OutpostStats_Row_PowerSupplied>Suministrado</TSA_WD_OutpostStats_Row_PowerSupplied>
-  <TSA_WD_OutpostStats_Row_PowerSuppliedTip>Vatios asignados a esta avanzada desde plantas en rango.</TSA_WD_OutpostStats_Row_PowerSuppliedTip>
+  <TSA_WD_OutpostStats_Row_PowerDemand>Demanda local</TSA_WD_OutpostStats_Row_PowerDemand>
+  <TSA_WD_OutpostStats_Row_PowerDemandTip>Vatios que necesita esta avanzada para sus propios edificios y mejoras. Las centrales lo cubren con su propia generación.</TSA_WD_OutpostStats_Row_PowerDemandTip>
+  <TSA_WD_OutpostStats_Row_PowerSupplied>Suministro local</TSA_WD_OutpostStats_Row_PowerSupplied>
+  <TSA_WD_OutpostStats_Row_PowerSuppliedTip>Vatios que cubren la demanda local (desde plantas enlazadas, o generación propia en centrales).</TSA_WD_OutpostStats_Row_PowerSuppliedTip>
+  <TSA_WD_OutpostStats_Row_PowerKeepColony>Energía enviada a la colonia</TSA_WD_OutpostStats_Row_PowerKeepColony>
+  <TSA_WD_OutpostStats_Row_PowerKeepColonyTip>Generación sobrante tras demanda local y enlaces a avanzadas, que alimenta las redes de la colonia.</TSA_WD_OutpostStats_Row_PowerKeepColonyTip>
+  <TSA_WD_OutpostStats_Row_PowerSurplus>Excedente</TSA_WD_OutpostStats_Row_PowerSurplus>
+  <TSA_WD_OutpostStats_Row_PowerSurplusTip>Generación menos la demanda local de esta planta: vatios disponibles para avanzadas o la colonia.</TSA_WD_OutpostStats_Row_PowerSurplusTip>
+  <TSA_WD_OutpostStats_Row_PowerSentOutposts>Energía enviada a otras avanzadas</TSA_WD_OutpostStats_Row_PowerSentOutposts>
+  <TSA_WD_OutpostStats_Row_PowerSentOutpostsTip>Vatios realmente entregados a otras avanzadas desde esta planta.</TSA_WD_OutpostStats_Row_PowerSentOutpostsTip>
   <TSA_WD_OutpostStats_Row_PowerStatus>Estado</TSA_WD_OutpostStats_Row_PowerStatus>
   <TSA_WD_OutpostStats_Row_PowerStatusTip>Solo está plenamente alimentada si el suministro cubre la demanda. El suministro parcial no escala la producción.</TSA_WD_OutpostStats_Row_PowerStatusTip>
   <TSA_WD_OutpostStats_Row_UnpoweredFactor>Salida sin energía</TSA_WD_OutpostStats_Row_UnpoweredFactor>
@@ -1287,8 +1303,6 @@
   <TSA_WD_OutpostStats_Row_PowerGeneration>Generación</TSA_WD_OutpostStats_Row_PowerGeneration>
   <TSA_WD_OutpostStats_Row_PowerGenerationTip>Vatios que genera esta planta antes del enrutado por rol.</TSA_WD_OutpostStats_Row_PowerGenerationTip>
   <TSA_WD_Production_Formula_Unpowered>(Sin energía)</TSA_WD_Production_Formula_Unpowered>
-  <TSA_WD_Letter_OutpostPowerUnpoweredLabel>Las avanzadas necesitan energía</TSA_WD_Letter_OutpostPowerUnpoweredLabel>
-  <TSA_WD_Letter_OutpostPowerUnpoweredText>La energía de avanzadas está activa. Las avanzadas sin energía producen menos y pierden algo de alcance de combate hasta que una planta en modo avanzadas las cubra dentro del radio de suministro eléctrico. Cambia el rol en una planta o desactiva la función en Experimental.</TSA_WD_Letter_OutpostPowerUnpoweredText>
   <TSA_WD_Alert_OutpostUnpowered>Avanzada sin energía</TSA_WD_Alert_OutpostUnpowered>
   <TSA_WD_Alert_OutpostUnpoweredDescHeader>Estas avanzadas necesitan energía de una planta en modo avanzadas:</TSA_WD_Alert_OutpostUnpoweredDescHeader>
   <TSA_WD_Alert_OutpostUnpoweredDescLine>- {0}</TSA_WD_Alert_OutpostUnpoweredDescLine>
@@ -1604,6 +1618,8 @@
   <TSA_WD_OutpostUpgradeImpact_MortarRange>Alcance de mortero</TSA_WD_OutpostUpgradeImpact_MortarRange>
   <TSA_WD_OutpostUpgradeImpact_AssaultShells>Proyectiles de asalto</TSA_WD_OutpostUpgradeImpact_AssaultShells>
   <TSA_WD_OutpostUpgradeImpact_AntiAir>Antiaéreo</TSA_WD_OutpostUpgradeImpact_AntiAir>
+  <TSA_WD_OutpostUpgradeImpact_TrenchDefenseTurrets>Torretas de trinchera</TSA_WD_OutpostUpgradeImpact_TrenchDefenseTurrets>
+  <TSA_WD_OutpostUpgrades_BenefitTrenchDefenseTurrets>Añade torretas a los mapas de defensa de trinchera</TSA_WD_OutpostUpgrades_BenefitTrenchDefenseTurrets>
   <TSA_WD_OutpostUpgradeImpact_Decontamination>Descontaminación</TSA_WD_OutpostUpgradeImpact_Decontamination>
   <TSA_WD_OutpostUpgradeImpact_ResearchEfficiency>Eficiencia de investigación</TSA_WD_OutpostUpgradeImpact_ResearchEfficiency>
   <TSA_WD_OutpostUpgradeImpact_ProductionEfficiency>Producción</TSA_WD_OutpostUpgradeImpact_ProductionEfficiency>
@@ -2240,39 +2256,50 @@
   <TSA_WD_OutpostStats_SiloMaxLine>Silo: {0} +{1}% = {2}</TSA_WD_OutpostStats_SiloMaxLine>
   <TSA_WD_OutpostStats_HospitalLine>Hospital: +{0}%</TSA_WD_OutpostStats_HospitalLine>
 
-  <!-- Trench defenses -->
-  <TSA_WD_BuildTrench>Construir trincheras</TSA_WD_BuildTrench>
-  <TSA_WD_BuildTrenchDesc>Excava brazos de trinchera exclusivos desde este sitio (radios en polilínea, máx. {0} casillas). Cuesta {1} madera por segmento. Las columnas hostiles que pisen tus trincheras abren un diálogo de defensa.</TSA_WD_BuildTrenchDesc>
-  <TSA_WD_RemoveTrench>Quitar trincheras</TSA_WD_RemoveTrench>
+  <!-- Trench defenses — action labels: singular (match Construir carretera) -->
+  <TSA_WD_BuildTrench>Construir trinchera</TSA_WD_BuildTrench>
+  <TSA_WD_BuildTrenchDesc>Excava brazos de trinchera exclusivos desde este puesto (radios en polilínea, máx. {0} casillas). Cuesta {1} madera por segmento. Clic en una punta de trinchera para extenderla, Mayúsculas+clic para puntos, luego clic en una casilla vacía para terminar. Las columnas hostiles que pisen tus trincheras abren un diálogo de defensa.</TSA_WD_BuildTrenchDesc>
+  <TSA_WD_Trench_OutpostOnly>Las trincheras solo se pueden construir desde puestos de avanzada del jugador.</TSA_WD_Trench_OutpostOnly>
+  <TSA_WD_Trench_WaypointTip>Clic en punta o brazo medio para extender/ramificar · Mayúsculas+clic puntos · Clic en casilla vacía para cavar</TSA_WD_Trench_WaypointTip>
+  <TSA_WD_Trench_WaypointAdded>Punto {0} añadido. Mayúsculas+clic para más, o clic para confirmar destino.</TSA_WD_Trench_WaypointAdded>
+  <TSA_WD_Trench_TipSelected>Punto de trinchera seleccionado: haz clic en una casilla vacía para extender o ramificar (T).</TSA_WD_Trench_TipSelected>
+  <TSA_WD_Trench_NeedNewDig>Elige una casilla vacía más allá de una punta o brazo medio para extender/ramificar, o cava un brazo nuevo desde el puesto.</TSA_WD_Trench_NeedNewDig>
+  <TSA_WD_Trench_WaypointLabel>Puntos: {0} (Mayúsculas+clic para añadir, clic para terminar)</TSA_WD_Trench_WaypointLabel>
+  <TSA_WD_Trench_NoLoop>Las trincheras no pueden formar bucles ni repetir una casilla.</TSA_WD_Trench_NoLoop>
+  <TSA_WD_Trench_NoOverlap>Las trincheras no pueden solaparse ni unirse a otro brazo.</TSA_WD_Trench_NoOverlap>
+  <TSA_WD_RemoveTrench>Quitar trinchera</TSA_WD_RemoveTrench>
   <TSA_WD_RemoveTrenchDesc>Quita brazos de trinchera solo de punta a hub (primero la punta exterior).</TSA_WD_RemoveTrenchDesc>
-  <TSA_WD_CancelTrench>Cancelar excavación</TSA_WD_CancelTrench>
-  <TSA_WD_CancelTrenchRemoval>Cancelar retirada de trincheras</TSA_WD_CancelTrenchRemoval>
-  <TSA_WD_CancelTrenchDesc>Aborta el proyecto de trincheras activo y llama a la cuadrilla.</TSA_WD_CancelTrenchDesc>
+  <TSA_WD_CancelTrench>Cancelar excavación de trinchera</TSA_WD_CancelTrench>
+  <TSA_WD_CancelTrenchRemoval>Cancelar retirada de trinchera</TSA_WD_CancelTrenchRemoval>
+  <TSA_WD_CancelTrenchDesc>Aborta el proyecto de trinchera activo y llama a la cuadrilla.</TSA_WD_CancelTrenchDesc>
   <TSA_WD_Trench_Disabled>Las trincheras están desactivadas en Ajustes experimentales.</TSA_WD_Trench_Disabled>
   <TSA_WD_Trench_NeedPassableLand>Las trincheras requieren tierra transitable (sin agua ni terreno intransitable).</TSA_WD_Trench_NeedPassableLand>
   <TSA_WD_Trench_NotOnHub>La casilla del hub no puede ser trinchera.</TSA_WD_Trench_NotOnHub>
   <TSA_WD_Trench_AlreadyTrench>Esa casilla ya tiene trinchera.</TSA_WD_Trench_AlreadyTrench>
-  <TSA_WD_Trench_BlockedByRoad>No se pueden cavar trincheras en casillas con carretera.</TSA_WD_Trench_BlockedByRoad>
-  <TSA_WD_Trench_BlockedByFort>Quita fortificaciones antes de cavar trincheras.</TSA_WD_Trench_BlockedByFort>
-  <TSA_WD_Trench_BlockedByBridge>No se pueden cavar trincheras en casillas de puente.</TSA_WD_Trench_BlockedByBridge>
+  <TSA_WD_Trench_BlockedByRoad>No se puede cavar una trinchera en una casilla con carretera.</TSA_WD_Trench_BlockedByRoad>
+  <TSA_WD_Trench_BlockedByFort>Quita fortificaciones antes de cavar una trinchera.</TSA_WD_Trench_BlockedByFort>
+  <TSA_WD_Trench_BlockedByBridge>No se puede cavar una trinchera en una casilla de puente.</TSA_WD_Trench_BlockedByBridge>
   <TSA_WD_Trench_BlockedByWorldObject>Bloqueado por {0}.</TSA_WD_Trench_BlockedByWorldObject>
   <TSA_WD_Trench_OutOfRange>Las trincheras deben quedar a {0} casillas del hub como máximo.</TSA_WD_Trench_OutOfRange>
-  <TSA_WD_Trench_TileReserved>Esta casilla está reservada por trincheras.</TSA_WD_Trench_TileReserved>
+  <TSA_WD_Trench_TileReserved>Esta casilla está reservada por una trinchera.</TSA_WD_Trench_TileReserved>
   <TSA_WD_Trench_NoOwner>Sin dueño de trinchera válido.</TSA_WD_Trench_NoOwner>
   <TSA_WD_Trench_BadEdge>Borde de trinchera inválido.</TSA_WD_Trench_BadEdge>
   <TSA_WD_Trench_NotNeighbors>Los segmentos de trinchera deben unir casillas vecinas.</TSA_WD_Trench_NotNeighbors>
   <TSA_WD_Trench_ForeignNetwork>Esa trinchera pertenece a otro sitio.</TSA_WD_Trench_ForeignNetwork>
   <TSA_WD_Trench_MustTouchHub>Los brazos nuevos deben empezar con el primer segmento desde este sitio.</TSA_WD_Trench_MustTouchHub>
-  <TSA_WD_Trench_NoBranch>Las trincheras son solo polilíneas (sin ramificaciones).</TSA_WD_Trench_NoBranch>
+  <TSA_WD_Trench_NoBranch>No se puede cavar desde esa casilla de trinchera.</TSA_WD_Trench_NoBranch>
+  <TSA_WD_Trench_MaxDegree>Ese cruce ya tiene tres brazos (sin cruces en X).</TSA_WD_Trench_MaxDegree>
+  <TSA_WD_Trench_ArmTooClose>Deja al menos una casilla vacía entre brazos de trinchera separados.</TSA_WD_Trench_ArmTooClose>
   <TSA_WD_Trench_NoMerge>Las trincheras no pueden fusionarse ni formar bucles.</TSA_WD_Trench_NoMerge>
   <TSA_WD_Trench_NoTrench>No hay trinchera ahí.</TSA_WD_Trench_NoTrench>
   <TSA_WD_Trench_RemoveTipOnly>Quita solo desde la punta del brazo hacia el hub.</TSA_WD_Trench_RemoveTipOnly>
   <TSA_WD_Trench_NoneOwned>Este sitio no posee trincheras.</TSA_WD_Trench_NoneOwned>
-  <TSA_WD_Trench_InvalidPath>No se pudo planear una ruta de trinchera válida (tierra, exclusividad, sin ramificaciones).</TSA_WD_Trench_InvalidPath>
-  <TSA_WD_Trench_BuildStarted>Excavación de trincheras iniciada en {0}.</TSA_WD_Trench_BuildStarted>
-  <TSA_WD_Trench_RemovalStarted>Retirada de trincheras iniciada en {0}.</TSA_WD_Trench_RemovalStarted>
-  <TSA_WD_Trench_BuildComplete>Trincheras terminadas en {0}.</TSA_WD_Trench_BuildComplete>
-  <TSA_WD_Trench_ClearComplete>Retirada de trincheras terminada en {0}.</TSA_WD_Trench_ClearComplete>
-  <TSA_WD_Trench_Cancelled>Proyecto de trincheras cancelado en {0}.</TSA_WD_Trench_Cancelled>
-  <TSA_WD_Trench_MovementExplanation>Trincheras (+{0})</TSA_WD_Trench_MovementExplanation>
+  <TSA_WD_Trench_InvalidPath>No se pudo planear una ruta de trinchera válida (tierra, exclusividad, separación o límite de cruce).</TSA_WD_Trench_InvalidPath>
+  <TSA_WD_Trench_BuildStarted>Excavación de trinchera iniciada en {0}.</TSA_WD_Trench_BuildStarted>
+  <TSA_WD_Trench_RemovalStarted>Retirada de trinchera iniciada en {0}.</TSA_WD_Trench_RemovalStarted>
+  <TSA_WD_Trench_BuildComplete>Trinchera terminada en {0}.</TSA_WD_Trench_BuildComplete>
+  <TSA_WD_Trench_ClearComplete>Retirada de trinchera terminada en {0}.</TSA_WD_Trench_ClearComplete>
+  <TSA_WD_Trench_Cancelled>Proyecto de trinchera cancelado en {0}.</TSA_WD_Trench_Cancelled>
+  <TSA_WD_Trench_MovementExplanation>Trinchera (+{0})</TSA_WD_Trench_MovementExplanation>
+  <TSA_WD_Trench_TileInspect>Tiene trinchera perteneciente a {0}</TSA_WD_Trench_TileInspect>
 </LanguageData>

@@ -578,7 +578,7 @@ namespace TSA_WorldDomination
             if (Outpost_Production_Utils.IsTradingOutpost(outpost.def))
                 return new List<ThingDef> { ThingDefOf.Silver };
             if (Outpost_Production_Utils.IsScavengingOutpost(outpost.def))
-                return new List<ThingDef> { ThingDefOf.ComponentIndustrial };
+                return new List<ThingDef> { MedievalOverhaulCostsCompat.GetScavengingProductDef() };
             if (Outpost_Production_Utils.IsFarmingOutpost(outpost.def))
                 return Outpost_Farming.GetProducibleOptions(outpost);
             if (Outpost_Production_Utils.IsHuntingOutpost(outpost.def))

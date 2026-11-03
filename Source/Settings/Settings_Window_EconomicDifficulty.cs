@@ -78,10 +78,18 @@ namespace TSA_WorldDomination
             if (!SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Experimental_HeaderOutpostPower".Translate(), ref outpostPowerExpanded, SettingsUI.SectionHeaderColor))
                 return;
 
+            bool medievalLocksPower = s.wdMedievalMode;
+            bool prevGui = GUI.enabled;
+            if (medievalLocksPower)
+                GUI.enabled = false;
+            string powerTip = "TSA_WD_Experimental_EnableOutpostPowerTip".Translate();
+            if (medievalLocksPower)
+                powerTip = powerTip + "\n\n" + "TSA_WD_Experimental_EnableOutpostPower_MedievalLocked".Translate();
             SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_EnableOutpostPower".Translate(),
                 ref s.enableOutpostPowerRequirement,
-                "TSA_WD_Experimental_EnableOutpostPowerTip".Translate(),
+                powerTip,
                 defaultValue: WorldDominationSettings.DefEnableOutpostPowerRequirement);
+            GUI.enabled = prevGui;
             SettingsUI.DrawCheckbox(l, "TSA_WD_Notify_OutpostUnpowered".Translate(),
                 ref s.notifyOutpostUnpowered,
                 "TSA_WD_Notify_OutpostUnpoweredTip".Translate(),

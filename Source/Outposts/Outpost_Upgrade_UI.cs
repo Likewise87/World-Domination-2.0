@@ -22,6 +22,7 @@ namespace TSA_WorldDomination
         MortarRange,
         AssaultShellUnlock,
         AntiAirUnlock,
+        TrenchDefenseTurrets,
         DecontaminationUnlock,
         ResearchEfficiency,
         ProductionEfficiency,
@@ -123,12 +124,13 @@ namespace TSA_WorldDomination
             if (def.mortarRangeBonus > 0f) n++;
             if (WD_AssaultArtillerySupport.IsAssaultShellUnlockUpgrade(def)) n += 2;
             if (def.enablesAntiAir) n++;
+            if (def.enablesTrenchDefenseTurrets) n++;
             if (def.enablesDecontaminationCrew) n++;
             if (def.researchEfficiencyBonus > 0f) n++;
             if (def.productionEfficiencyBonus > 0f) n++;
             if (def.warehouseAuraBonus > 0f) n++;
             if (def.warehouseAuraRadiusBonus > 0f) n++;
-            if (def.remotePowerWattsBonus > 0f) n++;
+            if (OutpostPowerGrid.Enabled && def.remotePowerWattsBonus > 0f) n++;
             // powerDemandWatts is a cost, not a benefit (see DrawCostSection).
             if (def.rapidResponseOffensiveStrengthBonus > 0f) n++;
             if (def.allyPullRadiusBonus > 0f) n++;
@@ -185,6 +187,8 @@ namespace TSA_WorldDomination
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitAssaultShellsShort"));
             if (def.enablesAntiAir)
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock"));
+            if (def.enablesTrenchDefenseTurrets)
+                Add(Key("TSA_WD_OutpostUpgrades_BenefitTrenchDefenseTurrets"));
             if (def.enablesDecontaminationCrew)
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock"));
             if (def.researchEfficiencyBonus > 0f)
@@ -195,7 +199,7 @@ namespace TSA_WorldDomination
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitWarehouseAura", (def.warehouseAuraBonus * 100f).ToString("F0")));
             if (def.warehouseAuraRadiusBonus > 0f)
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitWarehouseAuraRadius", def.warehouseAuraRadiusBonus.ToString("F0")));
-            if (def.remotePowerWattsBonus > 0f)
+            if (OutpostPowerGrid.Enabled && def.remotePowerWattsBonus > 0f)
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitRemotePower", Outpost_PowerPlant.FormatWatts(def.remotePowerWattsBonus)));
             if (def.rapidResponseOffensiveStrengthBonus > 0f)
                 Add(Key("TSA_WD_OutpostUpgrades_BenefitRapidResponseOffense", (def.rapidResponseOffensiveStrengthBonus * 100f).ToString("F0")));
@@ -247,12 +251,13 @@ namespace TSA_WorldDomination
             if (def.mortarRangeBonus > 0f) into.Add(UpgradeBenefitKind.MortarRange);
             if (WD_AssaultArtillerySupport.IsAssaultShellUnlockUpgrade(def)) into.Add(UpgradeBenefitKind.AssaultShellUnlock);
             if (def.enablesAntiAir) into.Add(UpgradeBenefitKind.AntiAirUnlock);
+            if (def.enablesTrenchDefenseTurrets) into.Add(UpgradeBenefitKind.TrenchDefenseTurrets);
             if (def.enablesDecontaminationCrew) into.Add(UpgradeBenefitKind.DecontaminationUnlock);
             if (def.researchEfficiencyBonus > 0f) into.Add(UpgradeBenefitKind.ResearchEfficiency);
             if (def.productionEfficiencyBonus > 0f) into.Add(UpgradeBenefitKind.ProductionEfficiency);
             if (def.warehouseAuraBonus > 0f) into.Add(UpgradeBenefitKind.WarehouseAuraBonus);
             if (def.warehouseAuraRadiusBonus > 0f) into.Add(UpgradeBenefitKind.WarehouseAuraRadius);
-            if (def.remotePowerWattsBonus > 0f) into.Add(UpgradeBenefitKind.RemotePower);
+            if (OutpostPowerGrid.Enabled && def.remotePowerWattsBonus > 0f) into.Add(UpgradeBenefitKind.RemotePower);
             if (def.rapidResponseOffensiveStrengthBonus > 0f) into.Add(UpgradeBenefitKind.RapidResponseOffense);
             if (def.allyPullRadiusBonus > 0f) into.Add(UpgradeBenefitKind.AllyPullRadius);
             if (def.foodStorageMaxBonus > 0f) into.Add(UpgradeBenefitKind.FoodStorageMax);
@@ -299,6 +304,8 @@ namespace TSA_WorldDomination
                     return Key("TSA_WD_OutpostUpgradeImpact_AssaultShells");
                 case UpgradeBenefitKind.AntiAirUnlock:
                     return Key("TSA_WD_OutpostUpgradeImpact_AntiAir");
+                case UpgradeBenefitKind.TrenchDefenseTurrets:
+                    return Key("TSA_WD_OutpostUpgradeImpact_TrenchDefenseTurrets");
                 case UpgradeBenefitKind.DecontaminationUnlock:
                     return Key("TSA_WD_OutpostUpgradeImpact_Decontamination");
                 case UpgradeBenefitKind.ResearchEfficiency:
@@ -428,6 +435,10 @@ namespace TSA_WorldDomination
                         Key("TSA_WD_OutpostUpgrades_BenefitAssaultShellsShort")));
             }
 
+            if (outpost.HasBuiltTrenchDefenseTurrets())
+                lines.Add(MakeAggregateLine(UpgradeBenefitKind.TrenchDefenseTurrets,
+                    Key("TSA_WD_OutpostUpgrades_BenefitTrenchDefenseTurrets")));
+
             if (outpost.HasBuiltDecontaminationUnlock())
                 lines.Add(MakeAggregateLine(UpgradeBenefitKind.DecontaminationUnlock,
                     Key("TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock")));
@@ -457,7 +468,7 @@ namespace TSA_WorldDomination
                         Key("TSA_WD_OutpostUpgrades_BenefitWarehouseAuraRadius", auraRad.ToString("F0"))));
             }
 
-            if (outpost.IsPowerPlantOutpost)
+            if (OutpostPowerGrid.Enabled && outpost.IsPowerPlantOutpost)
             {
                 float power = outpost.GetRemotePowerUpgradeBonus();
                 if (power > 1e-6f)
@@ -567,6 +578,8 @@ namespace TSA_WorldDomination
                     return WD_AssaultArtillerySupport.IsAssaultShellUnlockUpgrade(def) ? 1f : 0f;
                 case UpgradeBenefitKind.AntiAirUnlock:
                     return def.enablesAntiAir ? 1f : 0f;
+                case UpgradeBenefitKind.TrenchDefenseTurrets:
+                    return def.enablesTrenchDefenseTurrets ? 1f : 0f;
                 case UpgradeBenefitKind.DecontaminationUnlock:
                     return def.enablesDecontaminationCrew ? 1f : 0f;
                 case UpgradeBenefitKind.ResearchEfficiency:
@@ -615,6 +628,7 @@ namespace TSA_WorldDomination
                 case UpgradeBenefitKind.FoodProductionFlat:
                 case UpgradeBenefitKind.AssaultShellUnlock:
                 case UpgradeBenefitKind.AntiAirUnlock:
+                case UpgradeBenefitKind.TrenchDefenseTurrets:
                 case UpgradeBenefitKind.DecontaminationUnlock:
                 case UpgradeBenefitKind.UnwaveringRecruitUnlock:
                 case UpgradeBenefitKind.EcologyBaselineFloor:
@@ -789,6 +803,11 @@ namespace TSA_WorldDomination
                     Key("TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock"),
                     benefitColor,
                     ResolveBenefitTooltip(outpost, def, benefitsActive, UpgradeBenefitKind.AntiAirUnlock));
+            if (def.enablesTrenchDefenseTurrets)
+                y = DrawBenefitLine(x, y, w,
+                    Key("TSA_WD_OutpostUpgrades_BenefitTrenchDefenseTurrets"),
+                    benefitColor,
+                    ResolveBenefitTooltip(outpost, def, benefitsActive, UpgradeBenefitKind.TrenchDefenseTurrets));
             if (def.enablesDecontaminationCrew)
                 y = DrawBenefitLine(x, y, w,
                     Key("TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock"),
@@ -814,7 +833,7 @@ namespace TSA_WorldDomination
                     Key("TSA_WD_OutpostUpgrades_BenefitWarehouseAuraRadius", def.warehouseAuraRadiusBonus.ToString("F0")),
                     benefitColor,
                     ResolveBenefitTooltip(outpost, def, benefitsActive, UpgradeBenefitKind.WarehouseAuraRadius));
-            if (def.remotePowerWattsBonus > 0f)
+            if (OutpostPowerGrid.Enabled && def.remotePowerWattsBonus > 0f)
                 y = DrawBenefitLine(x, y, w,
                     Key("TSA_WD_OutpostUpgrades_BenefitRemotePower", Outpost_PowerPlant.FormatWatts(def.remotePowerWattsBonus)),
                     benefitColor,
@@ -928,7 +947,7 @@ namespace TSA_WorldDomination
                 return y;
 
             y = DrawCostList(def.GetEffectiveCost(), availabilityByDefName, x, y, w, greyedOut);
-            if (def.powerDemandWatts > 0f)
+            if (OutpostPowerGrid.Enabled && def.powerDemandWatts > 0f)
             {
                 Color lineColor = greyedOut ? Color.gray : new Color(1f, 0.85f, 0.35f);
                 string powerCost = Key("TSA_WD_OutpostUpgrades_CostPowerDemand",
@@ -1037,7 +1056,7 @@ namespace TSA_WorldDomination
                 if (costLines == 0) costLines = 1;
             }
             h += costLines * DetailCostLineH;
-            if (def.powerDemandWatts > 0f)
+            if (OutpostPowerGrid.Enabled && def.powerDemandWatts > 0f)
                 h += DetailCostLineH;
             h += DetailSectionGap;
             h += DetailLineH; // research header

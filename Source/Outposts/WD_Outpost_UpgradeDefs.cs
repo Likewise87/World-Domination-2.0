@@ -99,6 +99,9 @@ namespace TSA_WorldDomination
         /// <summary>When true and built, unlocks AA flak auto-fire vs hostile <see cref="TravelerMission.RaidDropPod"/> (stats come from shared mortar upgrades).</summary>
         public bool enablesAntiAir;
 
+        /// <summary>When true and built, spawns auto / CE MG turrets on trench defense clash maps.</summary>
+        public bool enablesTrenchDefenseTurrets;
+
         /// <summary>When true and built, unlocks Decontamination Crew missions on the Build menu (Biotech pollution scrub).</summary>
         public bool enablesDecontaminationCrew;
 

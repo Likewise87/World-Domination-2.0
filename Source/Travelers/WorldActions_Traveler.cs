@@ -2223,6 +2223,13 @@ namespace TSA_WorldDomination
 
             if (stillNeedsWork)
             {
+                // ApplyRoadLink silently no-ops on exclusive trenches — cancel instead of redispatch forever.
+                if (WorldActions_Roads.RoadEdgeBlockedByExclusiveTrench(paveFrom, paveTo))
+                {
+                    WorldActions_Roads.CancelRoadProjectBlockedByTrench(traveler.originObject);
+                    return;
+                }
+
                 WorldActions_Roads.ApplyRoadLink(
                     new PlanetTile(paveTo, layer),
                     new PlanetTile(paveFrom, layer),

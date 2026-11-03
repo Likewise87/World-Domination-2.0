@@ -920,7 +920,15 @@ namespace TSA_WorldDomination
         public bool HasLivingManualDefensePawns()
         {
             if (manualDefenseActive) return true;
-            List<Pawn> list = Occupants;
+            if (HasLivingPawn(Occupants)) return true;
+            if (HasLivingPawn(StoredAnimalsAndVehicles)) return true;
+            if (HasLivingPawn(StoredMechanoids)) return true;
+            return false;
+        }
+
+        private static bool HasLivingPawn(List<Pawn> list)
+        {
+            if (list == null) return false;
             for (int i = 0; i < list.Count; i++)
             {
                 Pawn p = list[i];
@@ -928,6 +936,13 @@ namespace TSA_WorldDomination
                     return true;
             }
             return false;
+        }
+
+        public void SetManualDefenseActive()
+        {
+            if (manualDefenseActive) return;
+            manualDefenseActive = true;
+            NotifyVirtualPawnsChanged();
         }
 
         public bool BlocksAutoRaidResolution()
@@ -1114,23 +1129,12 @@ namespace TSA_WorldDomination
             return extracted;
         }
 
-        public List<Pawn> ExtractManualDefenseStoredTransportPawns()
+        /// <param name="onlyThese">
+        /// null = extract all; non-null = matching IDs only (empty list extracts nothing).
+        /// </param>
+        public List<Pawn> ExtractManualDefenseStoredTransportPawns(IReadOnlyList<Pawn> onlyThese = null)
         {
-            var extracted = new List<Pawn>();
-            List<Pawn> list = StoredAnimalsAndVehicles;
-            for (int i = list.Count - 1; i >= 0; i--)
-            {
-                Pawn p = list[i];
-                if (p == null || p.Destroyed || p.Dead) continue;
-                p.GetCaravan()?.RemovePawn(p);
-                p.holdingOwner?.Remove(p);
-                if (p.Spawned) p.DeSpawn();
-                list.RemoveAt(i);
-                if (Faction == Faction.OfPlayer && p.Faction != Faction.OfPlayer)
-                    p.SetFaction(Faction.OfPlayer);
-                extracted.Add(p);
-            }
-
+            var extracted = ExtractFromStoredList(StoredAnimalsAndVehicles, onlyThese, requireFilter: onlyThese != null);
             if (extracted.Count > 0)
             {
                 InvalidateInspectCache();
@@ -1139,14 +1143,40 @@ namespace TSA_WorldDomination
             return extracted;
         }
 
-        public List<Pawn> ExtractManualDefenseMechanoids()
+        /// <param name="onlyThese">
+        /// null = extract all; non-null = matching IDs only (empty list extracts nothing).
+        /// </param>
+        public List<Pawn> ExtractManualDefenseMechanoids(IReadOnlyList<Pawn> onlyThese = null)
+        {
+            var extracted = ExtractFromStoredList(StoredMechanoids, onlyThese, requireFilter: onlyThese != null);
+            if (extracted.Count > 0)
+                NotifyMechanoidsChanged();
+            return extracted;
+        }
+
+        private List<Pawn> ExtractFromStoredList(List<Pawn> list, IReadOnlyList<Pawn> onlyThese, bool requireFilter)
         {
             var extracted = new List<Pawn>();
-            List<Pawn> list = StoredMechanoids;
+            if (list == null) return extracted;
+
+            HashSet<int> filter = null;
+            if (onlyThese != null)
+            {
+                filter = new HashSet<int>();
+                for (int i = 0; i < onlyThese.Count; i++)
+                {
+                    Pawn want = onlyThese[i];
+                    if (want != null) filter.Add(want.thingIDNumber);
+                }
+            }
+            if (requireFilter && (filter == null || filter.Count == 0))
+                return extracted;
+
             for (int i = list.Count - 1; i >= 0; i--)
             {
                 Pawn p = list[i];
                 if (p == null || p.Destroyed || p.Dead) continue;
+                if (filter != null && !filter.Contains(p.thingIDNumber)) continue;
                 p.GetCaravan()?.RemovePawn(p);
                 p.holdingOwner?.Remove(p);
                 if (p.Spawned) p.DeSpawn();
@@ -1155,9 +1185,6 @@ namespace TSA_WorldDomination
                     p.SetFaction(Faction.OfPlayer);
                 extracted.Add(p);
             }
-
-            if (extracted.Count > 0)
-                NotifyMechanoidsChanged();
             return extracted;
         }
 
@@ -3116,7 +3143,7 @@ namespace TSA_WorldDomination
         public void SetSelectedScavenging(Outpost_Scavenging.ScavengingKind kind)
         {
             selectedScavengingKindRaw = (int)kind;
-            selectedProductionDefName = ThingDefOf.ComponentIndustrial?.defName;
+            selectedProductionDefName = MedievalOverhaulCostsCompat.GetScavengingProductDef()?.defName;
             selectedPawnKindDefName = null;
             selectedFishDefName = null;
             if (productionTicksLeft <= 0)
@@ -4064,6 +4091,19 @@ namespace TSA_WorldDomination
                 if (kv.Value <= 0) continue;
                 var def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(kv.Key);
                 if (def != null && def.enablesAntiAir) return true;
+            }
+            return false;
+        }
+
+        /// <summary>True if any built upgrade has <see cref="OutpostUpgradeDef.enablesTrenchDefenseTurrets"/>.</summary>
+        public bool HasBuiltTrenchDefenseTurrets()
+        {
+            if (builtUpgradeLevels == null || builtUpgradeLevels.Count == 0) return false;
+            foreach (var kv in builtUpgradeLevels)
+            {
+                if (kv.Value <= 0) continue;
+                var def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(kv.Key);
+                if (def != null && def.enablesTrenchDefenseTurrets) return true;
             }
             return false;
         }

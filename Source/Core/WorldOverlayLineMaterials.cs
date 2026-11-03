@@ -38,12 +38,18 @@ namespace TSA_WorldDomination
         public static readonly Material RecruitTradingRadiusRing = MaterialPool.MatFrom("UI/Overlays/ThingLine", ShaderDatabase.WorldOverlayTransparent, RecruitPurple, RenderQueue);
 
         public static readonly Material RoadOrange = MaterialPool.MatFrom("UI/Overlays/ThingLine", ShaderDatabase.WorldOverlayTransparent, ColorLibrary.Orange, RenderQueue);
-        /// <summary>Hard opaque dark-brown lines for trench X stakes outside the berms.</summary>
-        public static readonly Material TrenchWireBrown = MakeHardWorldLineMat(
-            new Color(0.14f, 0.08f, 0.03f, 1f), RenderQueue);
-        /// <summary>Hard opaque wood lines for trench ditch sleepers (browner, less orange).</summary>
-        public static readonly Material TrenchWoodPlank = MakeHardWorldLineMat(
-            new Color(0.48f, 0.30f, 0.14f, 1f), RenderQueue);
+        /// <summary>Barbed-wire obstacle quads beside trench berms (replaces drawn X stakes).</summary>
+        public static readonly Material TrenchBarbedWire = MaterialPool.MatFrom(
+            "WorldObjects/Trenches/BarbedWireObstacle_1",
+            ShaderDatabase.WorldOverlayTransparentLit,
+            Color.white,
+            RenderQueue);
+        /// <summary>Trench ditch sleeper / bridge quad (rotated to span across the trench).</summary>
+        public static readonly Material TrenchBridge = MaterialPool.MatFrom(
+            "WorldObjects/Trenches/Bridge",
+            ShaderDatabase.WorldOverlayTransparentLit,
+            Color.white,
+            RenderQueue);
         /// <summary>Waypoint X / destination star for build projects; more opaque than corridor path lines.</summary>
         public static readonly Material RoadOrangeMarker = MakeAlwaysOnTopLineMat(
             new Color(ColorLibrary.Orange.r, ColorLibrary.Orange.g, ColorLibrary.Orange.b, 1f),

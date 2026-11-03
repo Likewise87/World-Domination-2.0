@@ -791,7 +791,7 @@ namespace TSA_WorldDomination
         public const bool DefExperimentalOutpostCePassiveAmmo = true;
         /// <summary>Experimental opt-out: outposts keep a loose gear store (see <see cref="CompOutpostArmory"/>).</summary>
         public const bool DefExperimentalOutpostArmory = true;
-        /// <summary>Player outpost/colony trench arms (world build + walk-over defense). Default off (ship dark until ready).</summary>
+        /// <summary>Player outpost trench arms (world build + walk-over defense). Default off (ship dark until ready).</summary>
         public const bool DefEnableTrenches = false;
         /// <summary>Experimental kill switch: block vanilla storyteller incidents targeting traveling caravans (ambush, meeting, demand, disease). Off by default.</summary>
         public const bool DefExperimentalDisableVanillaCaravanIncidents = false;
@@ -1129,6 +1129,8 @@ namespace TSA_WorldDomination
         public const bool DefNotifyConstructionInsufficientStrength = true;
         public const bool DefNotifyConstructionInsufficientMaterials = true;
         public const bool DefNotifyBridgeDeconstructBlocked = true;
+        public const bool DefNotifyRoadCancelledByTrench = true;
+        public const bool DefNotifyTrenchCancelledByRoad = true;
         public const bool DefNotifyOutpostNoProduction = true;
         public const bool DefNotifyOutpostUnusedExperts = true;
         public const bool DefNotifyLateGameActive = true;
@@ -2146,6 +2148,8 @@ namespace TSA_WorldDomination
         public bool notifyConstructionInsufficientStrength = DefNotifyConstructionInsufficientStrength;
         public bool notifyConstructionInsufficientMaterials = DefNotifyConstructionInsufficientMaterials;
         public bool notifyBridgeDeconstructBlocked = DefNotifyBridgeDeconstructBlocked;
+        public bool notifyRoadCancelledByTrench = DefNotifyRoadCancelledByTrench;
+        public bool notifyTrenchCancelledByRoad = DefNotifyTrenchCancelledByRoad;
         public bool notifyOutpostNoProduction = DefNotifyOutpostNoProduction;
         public bool notifyOutpostUnpowered = true;
         public bool notifyOutpostUnusedExperts = DefNotifyOutpostUnusedExperts;
@@ -3331,6 +3335,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref notifyConstructionInsufficientStrength, "notifyConstructionInsufficientStrength", DefNotifyConstructionInsufficientStrength);
             Scribe_Values.Look(ref notifyConstructionInsufficientMaterials, "notifyConstructionInsufficientMaterials", DefNotifyConstructionInsufficientMaterials);
             Scribe_Values.Look(ref notifyBridgeDeconstructBlocked, "notifyBridgeDeconstructBlocked", DefNotifyBridgeDeconstructBlocked);
+            Scribe_Values.Look(ref notifyRoadCancelledByTrench, "notifyRoadCancelledByTrench", DefNotifyRoadCancelledByTrench);
+            Scribe_Values.Look(ref notifyTrenchCancelledByRoad, "notifyTrenchCancelledByRoad", DefNotifyTrenchCancelledByRoad);
             Scribe_Values.Look(ref notifyOutpostNoProduction, "notifyOutpostNoProduction", DefNotifyOutpostNoProduction);
             Scribe_Values.Look(ref notifyOutpostUnpowered, "notifyOutpostUnpowered", true);
             Scribe_Values.Look(ref notifyOutpostUnusedExperts, "notifyOutpostUnusedExperts", DefNotifyOutpostUnusedExperts);
@@ -5526,6 +5532,8 @@ namespace TSA_WorldDomination
             notifyConstructionInsufficientStrength = DefNotifyConstructionInsufficientStrength;
             notifyConstructionInsufficientMaterials = DefNotifyConstructionInsufficientMaterials;
             notifyBridgeDeconstructBlocked = DefNotifyBridgeDeconstructBlocked;
+            notifyRoadCancelledByTrench = DefNotifyRoadCancelledByTrench;
+            notifyTrenchCancelledByRoad = DefNotifyTrenchCancelledByRoad;
             notifyOutpostNoProduction = DefNotifyOutpostNoProduction;
             notifyOutpostUnpowered = true;
             notifyOutpostUnusedExperts = DefNotifyOutpostUnusedExperts;

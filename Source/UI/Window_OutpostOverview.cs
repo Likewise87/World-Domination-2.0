@@ -201,7 +201,8 @@ namespace TSA_WorldDomination
             float colPawns = 55f;
             float colNonhumanPawns = 85f;
             float colFood = 76f;
-            float colPower = 100f;
+            bool showPower = OutpostPowerGrid.Enabled;
+            float colPower = showPower ? 100f : 0f;
             float colStrength = 89f;
             float colUpgrades = 175f;
             float colRoad = 110f;
@@ -242,7 +243,8 @@ namespace TSA_WorldDomination
             DrawHeader(ref curX, colNonhumanPawns, s_hdrNonhumanPawns, "NonhumanPawns", hRect, s_tipHdrNonhumanPawns);
             DrawHeader(ref curX, colExperts, s_hdrExperts, "Experts", hRect);
             DrawHeader(ref curX, colFood, s_hdrFood, "Food", hRect, s_tipHdrFood);
-            DrawHeader(ref curX, colPower, s_hdrPower, "Power", hRect);
+            if (showPower)
+                DrawHeader(ref curX, colPower, s_hdrPower, "Power", hRect);
             DrawHeader(ref curX, colStrength, s_hdrStrength, "Strength", hRect);
             DrawHeader(ref curX, colUpgrades, s_hdrUpgrades, "Upgrades", hRect);
             DrawHeader(ref curX, colRoad, s_hdrRoad, "Road", hRect, s_tipHdrRoad);
@@ -729,12 +731,15 @@ namespace TSA_WorldDomination
                 Widgets.Label(new Rect(rX, row.y, colFood, rowHeight), entry.FoodDisplayColorized);
                 rX += colFood;
 
-                // 5b. Power
-                Rect powerRect = new Rect(rX, row.y, colPower, rowHeight);
-                Widgets.Label(powerRect, entry.PowerDisplayColorized ?? "—");
-                if (!string.IsNullOrEmpty(entry.PowerTooltip))
-                    TooltipHandler.TipRegion(powerRect, entry.PowerTooltip);
-                rX += colPower;
+                // 5b. Power (omitted when outpost power feature / Medieval forces off)
+                if (showPower)
+                {
+                    Rect powerRect = new Rect(rX, row.y, colPower, rowHeight);
+                    Widgets.Label(powerRect, entry.PowerDisplayColorized ?? "—");
+                    if (!string.IsNullOrEmpty(entry.PowerTooltip))
+                        TooltipHandler.TipRegion(powerRect, entry.PowerTooltip);
+                    rX += colPower;
+                }
 
                 // 6. Strength (compact; detailed split on tooltip)
                 Rect strColRect = new Rect(rX, row.y, colStrength, rowHeight);

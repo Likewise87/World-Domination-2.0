@@ -62,13 +62,8 @@
   <TSA_WD_OutpostDefense_AutoResolve>Resolver automáticamente</TSA_WD_OutpostDefense_AutoResolve>
   <TSA_WD_OutpostDefense_FightManually>Combatir manualmente</TSA_WD_OutpostDefense_FightManually>
   <TSA_WD_OutpostDefense_TrenchTitle>Enemigo en tus trincheras</TSA_WD_OutpostDefense_TrenchTitle>
-  <TSA_WD_OutpostDefense_TrenchText>Una columna hostil de {0} ha pisado trincheras de {1}. Combátelos en un corredor de trincheras, resuelve en automático en el puesto, o omite a este dueño el resto de la marcha de esta columna.</TSA_WD_OutpostDefense_TrenchText>
-  <TSA_WD_OutpostDefense_SkipTrench>Omitir</TSA_WD_OutpostDefense_SkipTrench>
-  <TSA_WD_ColonyTrench_Title>Enemigo en trincheras de la colonia</TSA_WD_ColonyTrench_Title>
-  <TSA_WD_ColonyTrench_Text>{0}: columna hostil de {1} (fuerza {2}) está en tus trincheras. Combate con colonos en un mapa de corredor, u omite a este dueño el resto de su marcha.</TSA_WD_ColonyTrench_Text>
-  <TSA_WD_ColonyTrench_NoMap>El mapa de la colonia no está cargado; el viajero continúa.</TSA_WD_ColonyTrench_NoMap>
-  <TSA_WD_ColonyTrench_NoPawns>No hay colonos elegibles; el viajero continúa.</TSA_WD_ColonyTrench_NoPawns>
-  <TSA_WD_ColonyTrench_LeaveBehind>Hay que dejar colonos en el mapa de la colonia; el viajero continúa.</TSA_WD_ColonyTrench_LeaveBehind>
+  <TSA_WD_OutpostDefense_TrenchText>Una caravana hostil de {1} ha cruzado la línea de trincheras de {0}. Puedes pelear en las trincheras o dejarlos pasar. Si los dejas pasar, no tendrás otra oportunidad de combatir cuando pisen otra casilla de trinchera del mismo puesto.</TSA_WD_OutpostDefense_TrenchText>
+  <TSA_WD_OutpostDefense_SkipTrench>Dejarles pasar</TSA_WD_OutpostDefense_SkipTrench>
   <TSA_WD_OutpostDefense_DeploySection_Target>{0} (Objetivo atacado)</TSA_WD_OutpostDefense_DeploySection_Target>
   <TSA_WD_OutpostDefense_DeploySection_Support>{0} (Puesto de apoyo)</TSA_WD_OutpostDefense_DeploySection_Support>
   <TSA_WD_OutpostDefense_Letter_Label>Enemigos en 15 segundos</TSA_WD_OutpostDefense_Letter_Label>
@@ -80,6 +75,7 @@
   <TSA_WD_OutpostDefense_Defeat>Defensa de avanzadilla perdida. Aplicando derrota simulada de incursión a {0}.</TSA_WD_OutpostDefense_Defeat>
   <TSA_WD_OutpostDefense_VictoryLetter_Label>Defensa de avanzadilla ganada</TSA_WD_OutpostDefense_VictoryLetter_Label>
   <TSA_WD_OutpostDefense_VictoryLetter_Text>Tus defensores en {0} derrotaron el ataque de {1} en el campo de batalla temporal.\n\n{2} defensor(es) superviviente(s) regresaron a la avanzadilla.</TSA_WD_OutpostDefense_VictoryLetter_Text>
+  <TSA_WD_OutpostDefense_LootStored>{0} objeto(s) recuperado(s) se guardaron en el arsenal de {1}.</TSA_WD_OutpostDefense_LootStored>
   <TSA_WD_OutpostDefense_DefeatLetter_Label>Defensa de avanzadilla perdida</TSA_WD_OutpostDefense_DefeatLetter_Label>
   <TSA_WD_OutpostDefense_DefeatLetter_Text>Tus defensores en {0} fueron derrotados por {1}.\n\nLa incursión contra la avanzadilla se ha resuelto como una defensa perdida.</TSA_WD_OutpostDefense_DefeatLetter_Text>
   <TSA_WD_OutpostRetreat_Letter_Label>Guarnición en retirada</TSA_WD_OutpostRetreat_Letter_Label>

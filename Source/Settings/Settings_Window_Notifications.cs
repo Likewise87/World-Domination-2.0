@@ -81,6 +81,16 @@ namespace TSA_WorldDomination
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_BridgeDeconstructBlockedTooltip".Translate(), WorldDominationSettings.DefNotifyBridgeDeconstructBlocked));
 
                 l.CheckboxLabeled(
+                    "TSA_WD_Notify_RoadCancelledByTrench".Translate(),
+                    ref s.notifyRoadCancelledByTrench,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_RoadCancelledByTrenchTooltip".Translate(), WorldDominationSettings.DefNotifyRoadCancelledByTrench));
+
+                l.CheckboxLabeled(
+                    "TSA_WD_Notify_TrenchCancelledByRoad".Translate(),
+                    ref s.notifyTrenchCancelledByRoad,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_TrenchCancelledByRoadTooltip".Translate(), WorldDominationSettings.DefNotifyTrenchCancelledByRoad));
+
+                l.CheckboxLabeled(
                     "TSA_WD_Notify_OutpostNoProduction".Translate(),
                     ref s.notifyOutpostNoProduction,
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_OutpostNoProductionTooltip".Translate(), WorldDominationSettings.DefNotifyOutpostNoProduction));

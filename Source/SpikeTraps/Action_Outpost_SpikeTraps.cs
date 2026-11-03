@@ -20,7 +20,7 @@ namespace TSA_WorldDomination
             cachedBuildIcon ??= ContentFinder<Texture2D>.Get("WorldObjects/Fortifications/WorldSpikeTrap", false) ?? TexCommand.Replant;
 
         public static Texture2D ClearSpikeTrapIcon =>
-            cachedRemoveIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Remove_WorldSpikeTrap", false) ?? TexCommand.Replant;
+            cachedRemoveIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Remove_Trap", false) ?? TexCommand.Replant;
 
         public static IEnumerable<Gizmo> GetGizmos(WorldObject outpost)
         {

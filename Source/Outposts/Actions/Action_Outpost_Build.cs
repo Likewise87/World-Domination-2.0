@@ -66,8 +66,6 @@ namespace TSA_WorldDomination
 
             foreach (var g in Action_Outpost_BuildRoad.GetGizmos(colony))
                 yield return g;
-            foreach (var g in Action_Outpost_BuildTrench.GetGizmos(colony))
-                yield return g;
             foreach (var g in Action_Outpost_BuildBridge.GetGizmos(colony))
                 yield return g;
             foreach (var g in Action_Outpost_RoadBlocks.GetGizmos(colony))
@@ -107,7 +105,8 @@ namespace TSA_WorldDomination
                 list.Add(removeRoads);
             }
 
-            if (seth == null || seth.enableTrenches)
+            // Player trenches are outpost-only (colony Build menu still offers roads/blocks/etc.).
+            if ((seth == null || seth.enableTrenches) && outpost is WorldObject_WD_Outpost)
             {
                 var buildTrench = Action_Outpost_BuildTrench.MakeBuildMenuOption(outpost, comp);
                 buildTrench.orderInPriority = 480;

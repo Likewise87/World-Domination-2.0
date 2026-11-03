@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Hand-maintained: keys WD uses in code but defines in no language (not covered by assemble.py). -->
+  <!-- Remove an entry here once WD ships its own English key (check_wd_translation.py will then list it as new). -->
+
+  <!-- WD_CaravanClashUtility: LongEventHandler text while a caravan clash / camp encounter map is generated. -->
+  <GeneratingArea>生成區域中</GeneratingArea>
+
+  <!-- DiplomacyNegotiateUtility, BecomeAlly: target pair is not neutral. Sibling: TSA_WD_Negotiate_WarNeedsNeutral. -->
+  <TSA_WD_Negotiate_AllyNeedsNeutral>他們與該派系並非中立關係（只能從中立轉為結盟）。</TSA_WD_Negotiate_AllyNeedsNeutral>
+
+  <!-- DiplomacyNegotiateUtility, BecomeAlly: {0} negotiator, {1} target, {2} = 75. Sibling: TSA_WD_Negotiate_TooWeakForWar. -->
+  <TSA_WD_Negotiate_TooWeakForAlly>只有在{0}的戰力至少達到{1}的{2}%時，你才能說服{0}與{1}結盟。</TSA_WD_Negotiate_TooWeakForAlly>
+
+  <!-- Patch_SabotageGizmo: log outcome when the saboteur is executed. Siblings: TSA_WD_Sab_LogInjured / LogClean. -->
+  <TSA_WD_Sab_LogKilled>失敗（遭處決）</TSA_WD_Sab_LogKilled>
+</LanguageData>

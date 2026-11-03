@@ -219,6 +219,10 @@
   <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>Muestra una alerta silenciosa y persistente en el panel lateral cuando una avanzadilla WD ha terminado de preparar un segmento de carretera, puente, fortificación o AT pero no tiene materiales para enviar la cuadrilla. Haz clic para ir a una afectada.</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
   <TSA_WD_Notify_BridgeDeconstructBlocked>Mostrar carta cuando el desmontaje de puente esta bloqueado</TSA_WD_Notify_BridgeDeconstructBlocked>
   <TSA_WD_Notify_BridgeDeconstructBlockedTooltip>Cuando una cuadrilla de desmontaje llega y el tramo esta ocupado, muestra una carta amarilla NeutralEvent con el bloqueador. Si esta desactivado, solo se muestra un mensaje.</TSA_WD_Notify_BridgeDeconstructBlockedTooltip>
+  <TSA_WD_Notify_RoadCancelledByTrench>Mostrar carta cuando un proyecto de carretera se cancela por una trinchera</TSA_WD_Notify_RoadCancelledByTrench>
+  <TSA_WD_Notify_RoadCancelledByTrenchTooltip>Cuando una cuadrilla no puede pavimentar porque la ruta choca con una trinchera existente, cancela el proyecto y muestra una carta azul NeutralEvent. Si esta desactivado, el proyecto se cancela en silencio.</TSA_WD_Notify_RoadCancelledByTrenchTooltip>
+  <TSA_WD_Notify_TrenchCancelledByRoad>Mostrar carta cuando un proyecto de trinchera se cancela por una carretera</TSA_WD_Notify_TrenchCancelledByRoad>
+  <TSA_WD_Notify_TrenchCancelledByRoadTooltip>Cuando una cuadrilla no puede cavar porque la ruta choca con una carretera existente, cancela el proyecto y muestra una carta azul NeutralEvent. Si esta desactivado, el proyecto se cancela en silencio.</TSA_WD_Notify_TrenchCancelledByRoadTooltip>
   <TSA_WD_Alert_ConstructionInsufficientMaterials>WD: Construcción esperando materiales</TSA_WD_Alert_ConstructionInsufficientMaterials>
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>Estas avanzadillas están listas para enviar una cuadrilla pero carecen de materiales:</TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>- {0}: {1}</TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>

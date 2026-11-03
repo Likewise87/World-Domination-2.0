@@ -674,7 +674,7 @@ namespace TSA_WorldDomination
             roadBlockBuilderInField = false;
         }
 
-        /// <summary>Called when a trench crew from this outpost/colony is destroyed (arrived or cancelled).</summary>
+        /// <summary>Called when a trench crew from this outpost is destroyed (arrived or cancelled).</summary>
         public void NotifyTrenchCrewReturned()
         {
             trenchBuilderInField = false;
@@ -720,9 +720,7 @@ namespace TSA_WorldDomination
                 if (bridgeProgress >= 1f && !WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, cost))
                 {
                     clearing = bridgeIsClearing;
-                    projectLabel = bridgeIsClearing
-                        ? "TSA_WD_DeconstructBridge".Translate().ToString()
-                        : "TSA_WD_BuildBridge".Translate().ToString();
+                    projectLabel = "TSA_WD_ProjectNoun_Bridge".Translate().ToString();
                     return true;
                 }
             }
@@ -793,9 +791,7 @@ namespace TSA_WorldDomination
                 if (trenchProgress >= 1f && !WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, cost))
                 {
                     clearing = trenchIsClearing;
-                    projectLabel = trenchIsClearing
-                        ? "TSA_WD_RemoveTrench".Translate().ToString()
-                        : "TSA_WD_BuildTrench".Translate().ToString();
+                    projectLabel = "TSA_WD_ProjectNoun_Trench".Translate().ToString();
                     return true;
                 }
             }
@@ -825,7 +821,7 @@ namespace TSA_WorldDomination
                 && bridgeProgress >= 1f
                 && !WorldActions_BuildBridge.HasMaterialCostsForBridge(1))
             {
-                projectLabel = "TSA_WD_BuildBridge".Translate().ToString();
+                projectLabel = "TSA_WD_ProjectNoun_Bridge".Translate().ToString();
                 return true;
             }
 
@@ -868,7 +864,7 @@ namespace TSA_WorldDomination
                 && trenchProgress >= 1f
                 && !ColonyWorldBuildMaterials.HasMaterialCosts(WorldActions_Trenches.GetWoodCostPerSegment(), out _))
             {
-                projectLabel = "TSA_WD_BuildTrench".Translate().ToString();
+                projectLabel = "TSA_WD_ProjectNoun_Trench".Translate().ToString();
                 return true;
             }
 
@@ -1685,7 +1681,8 @@ namespace TSA_WorldDomination
                 }
             }
 
-            if (WorldActions_Trenches.HasActiveTrenchProject(this) && (IsOutpost || colonyWorldBuild))
+            // Player trenches are outpost-only (colony world-build still runs roads/blocks/etc.).
+            if (WorldActions_Trenches.HasActiveTrenchProject(this) && IsOutpost)
             {
                 int nowTickTr = Find.TickManager.TicksGame;
                 if (lastTrenchProgressTick < 0)
@@ -2525,6 +2522,11 @@ namespace TSA_WorldDomination
                 && decontamBuilderInField
                 && !WorldActions_Decontamination.HasActiveDecontaminationCrewFrom(parent))
                 decontamBuilderInField = false;
+            if (Scribe.mode == LoadSaveMode.PostLoadInit
+                && WorldActions_Trenches.HasActiveTrenchProject(this)
+                && trenchBuilderInField
+                && !WorldActions_Trenches.HasActiveTrenchBuilderFrom(parent))
+                trenchBuilderInField = false;
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {

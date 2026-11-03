@@ -227,12 +227,15 @@ namespace TSA_WorldDomination
 
                 Listing_Standard medievalListing = new Listing_Standard();
                 medievalListing.Begin(medievalBox.ContractedBy(medievalBoxPadX, medievalBoxPadY));
+                bool prevMedieval = s.wdMedievalMode;
                 SettingsUI.DrawCheckbox(
                     medievalListing,
                     "TSA_WD_MedievalMode".Translate(),
                     ref s.wdMedievalMode,
                     "TSA_WD_MedievalModeTip".Translate(),
                     defaultValue: WorldDominationSettings.DefWdMedievalMode);
+                if (prevMedieval != s.wdMedievalMode)
+                    OutpostPowerGrid.NotifyOutpostPowerDirty(null);
                 medievalListing.End();
             }
             l.Gap(10f);

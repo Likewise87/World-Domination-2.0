@@ -19,7 +19,7 @@
   <TSA_WD_BtnUpdateNotes>Mostrar notas de actualización</TSA_WD_BtnUpdateNotes>
   <TSA_WD_BtnRaidMult>Multiplicador de puntos de incursión</TSA_WD_BtnRaidMult>
   <TSA_WD_BtnCombatDifficulty>Dificultad de combate</TSA_WD_BtnCombatDifficulty>
-  <TSA_WD_DescCombatDifficulty>Dificultad Mid/Late Game, puertas de amenaza, presión de incursiones, bonos de combate, estilos de llegada, guarnición y hardware T4.</TSA_WD_DescCombatDifficulty>
+  <TSA_WD_DescCombatDifficulty>Escalada Mid/Late, amenazas especiales (ToO, saqueo, emboscada, vanguardia/invasión, desesperación, tortuga, guerra), presión de incursiones y sequía, bonos de combate por etapa, estilos de llegada, guarniciones y mortero/AA T4 PNJ.</TSA_WD_DescCombatDifficulty>
   <TSA_WD_BtnEconomicDifficulty>Dificultad económica</TSA_WD_BtnEconomicDifficulty>
   <TSA_WD_DescEconomicDifficulty>Mantenimiento de puestos, energía de avanzadillas, rendimiento decreciente de habilidades, drenaje de buena voluntad y tasas de soborno.</TSA_WD_DescEconomicDifficulty>
   <TSA_WD_Settings_Search>Buscar</TSA_WD_Settings_Search>
@@ -155,23 +155,23 @@
   <TSA_WD_Daily_WeightRaid>Probabilidad de incursión</TSA_WD_Daily_WeightRaid>
   <TSA_WD_Daily_WeightRaidTip>Probabilidad de que un asentamiento ataque un asentamiento cercano o avanzadilla del jugador.</TSA_WD_Daily_WeightRaidTip>
   <TSA_WD_DescDailyActions>¿Cuántas acciones pueden realizar los asentamientos al día? ¿Qué probabilidad tiene cada tipo? ¿Qué enfriamientos aplicar tras una acción?</TSA_WD_DescDailyActions>
-  <TSA_WD_DescDiplomacy>Diplomacia aleatoria, probabilidad de revuelta, tope de buena voluntad y ajustes vanilla de buena voluntad, órdenes de incursión aliadas, carreteras ordenadas, compra de asentamientos, inversión de facción, y mejoras/penalizaciones de líder/rezagado/celera/coalición.</TSA_WD_DescDiplomacy>
+  <TSA_WD_DescDiplomacy>Diplomacia aleatoria, buena voluntad, revuelta, incursiones aliadas, carreteras/comerciantes ordenados, regalos/compra/negociación, sobornos e inversión, y mejoras de líder/rezagado/celo/coalición. Guerra fuerte, asalto adelantado y desesperación están en Dificultad de combate.</TSA_WD_DescDiplomacy>
   <TSA_WD_DescDisinformation>Probabilidades de éxito y fracaso, enfriamientos e impacto de habilidad en misiones de desinformación.</TSA_WD_DescDisinformation>
   <TSA_WD_DescGarrison>Qué tan fuertes son las guarniciones por nivel, y cuánto se debilitan cuando un asentamiento está agotado.</TSA_WD_DescGarrison>
   <TSA_WD_DescBaseGeneration>Ajustes del diseño KCSG cuando WD genera mapas de asalto a asentamientos y defensa de avanzadillas. La elegibilidad por facción en asaltos se configura en Configuración del mundo → Lealtades.</TSA_WD_DescBaseGeneration>
-  <TSA_WD_DescGrowthExpand>¿Qué rápido crecen los asentamientos? ¿Qué requisitos para subir de nivel? Distancia de expansión y límites de saturación.</TSA_WD_DescGrowthExpand>
+  <TSA_WD_DescGrowthExpand>Cuotas y límites de acciones diarias, crecimiento pasivo y máximo de asentamientos, distancia/saturación de expansión, bases defensivas de asentamiento y gravedad de incidentes.</TSA_WD_DescGrowthExpand>
   <TSA_WD_DescMiningBaselines>Configurar la cantidad base que una avanzadilla minera puede obtener por piedra/mineral según el nivel de habilidad de Minería.</TSA_WD_DescMiningBaselines>
   <TSA_WD_DescNotifications>Activar qué eventos de dominación mundial generan notificaciones.</TSA_WD_DescNotifications>
   <TSA_WD_DescOutpostFood>Consumo de comida, producción, alcance logístico y eficiencia de las avanzadillas.</TSA_WD_DescOutpostFood>
-  <TSA_WD_DescOutpostSettings>Requisitos de fundación, velocidad y cantidad de producción y logística de comida de las avanzadillas.</TSA_WD_DescOutpostSettings>
+  <TSA_WD_DescOutpostSettings>Interruptores de combate/construcción de puestos, espaciado y defensa, reglas de fundación, producción/academia/expertos, logística de comida y fundación tras conquista. Mortero/AA del jugador está en Artillería del jugador.</TSA_WD_DescOutpostSettings>
   <TSA_WD_DescUpdateNotes>Ver las notas de actualización y el registro de cambios de Dominación Mundial.</TSA_WD_DescUpdateNotes>
   <TSA_WD_DescRaidMult>Configurar cómo se multiplican los puntos de incursión, si tus avanzadillas pueden ser atacadas y si quieres incursiones del narrador.</TSA_WD_DescRaidMult>
   <TSA_WD_DescResetAll>Restaurar toda la configuración del mod a valores por defecto.</TSA_WD_DescResetAll>
   <TSA_WD_DescSabotage>Probabilidades de éxito y fracaso, enfriamientos e impacto de habilidad en misiones de sabotaje.</TSA_WD_DescSabotage>
   <TSA_WD_DescWorldGen>¿Qué probabilidad hay de que se creen asentamientos T1, T2, T3, T4 en la generación mundial inicial?</TSA_WD_DescWorldGen>
-  <TSA_WD_DescWorldRaids>Configura los resultados de incursiones simuladas: curvas de probabilidad de victoria, pérdidas y la ratio mínima de fuerza para atacar. La pérdida de fuerza en viaje está en Caravanas.</TSA_WD_DescWorldRaids>
-  <TSA_WD_DescCaravans>Desgaste por viaje, pathfinding acuático para caravanas WD, caravanas comerciales, espaciado de comerciantes en colonias del jugador, costes de entrega de avanzadillas y bloqueo de comerciantes del narrador. El pathfinding acuático también se configura en Presets de ajustes → Rendimiento.</TSA_WD_DescCaravans>
-  <TSA_WD_DescExperimental>Experimentos de acciones mundiales y lógica de incursión, zoom de iconos del mapa mundial, tecla de superposición, viajeros de fortificación PNJ, daño por contaminación a viajeros e interruptores de pathfinding por contaminación.</TSA_WD_DescExperimental>
+  <TSA_WD_DescWorldRaids>Resultados de incursiones simuladas (curvas de victoria, pérdidas), ratio mínima de ataque, radio de aliados, alcances de ataque PNJ, saqueo/ruinas y retención de guarnición. El desgaste en viaje está en Caravanas.</TSA_WD_DescWorldRaids>
+  <TSA_WD_DescCaravans>Velocidades de viajero, cápsula y respuesta rápida, desgaste y descanso, pathfinding acuático, caravanas comerciales (escolta/subida de nivel), buena voluntad por comercio, costes de entrega de puestos y bloqueo de comerciantes del narrador. El pathfinding acuático también se configura en Presets de ajustes → Rendimiento.</TSA_WD_DescCaravans>
+  <TSA_WD_DescExperimental>Interruptores experimentales (misiones, trincheras, armería, presupuestos de retirada/defensa), zoom de iconos del mapa mundial, tecla de superposición, ayudas de comida/UI de viaje y daño/pathfinding por contaminación de viajeros. La fortificación PNJ está en Acciones mundiales.</TSA_WD_DescExperimental>
   <TSA_WD_FacDet_BtnView>Ver</TSA_WD_FacDet_BtnView>
   <TSA_WD_FacDet_HeaderName>Nombre del asentamiento</TSA_WD_FacDet_HeaderName>
   <TSA_WD_FacDet_HeaderStrength>Fuerza</TSA_WD_FacDet_HeaderStrength>
@@ -525,7 +525,7 @@
   <TSA_WD_Outpost_ReqCost>Requerir coste de fundación</TSA_WD_Outpost_ReqCost>
   <TSA_WD_Outpost_ReqCost_Tooltip>Si se desactiva, las caravanas no necesitan pagar madera ni recursos personalizados al fundar avanzadillas.</TSA_WD_Outpost_ReqCost_Tooltip>
   <TSA_WD_ShowAdvanced>Mostrar configuración avanzada</TSA_WD_ShowAdvanced>
-  <TSA_WD_ShowAdvanced_Tooltip>Mostrar menús extra (Guarnición, Sabotaje, Desinformación, Valores base minería, Gen. mundial, Cambios diplomáticos permitidos) y más opciones en cada diálogo.</TSA_WD_ShowAdvanced_Tooltip>
+  <TSA_WD_ShowAdvanced_Tooltip>Mostrar Proyectos de construcción, Valores base minería, Sabotaje, Desinformación, Gen. mundial y Generación de bases, más opciones extra en cada diálogo.</TSA_WD_ShowAdvanced_Tooltip>
   <TSA_WD_Stats_H_Faction>Nombre de facción</TSA_WD_Stats_H_Faction>
   <TSA_WD_Stats_FactionDefeated>Derrotada</TSA_WD_Stats_FactionDefeated>
   <TSA_WD_Stats_FactionDefeatedTip>Esta facción puede volver según la probabilidad diaria de revuelta en el menú de ajustes Diplomacia, mejoras y penalizaciones.</TSA_WD_Stats_FactionDefeatedTip>
@@ -634,8 +634,8 @@
   <TSA_WD_WorldMap_ToggleCaravanBlockedTilesTip>Por defecto una avanzadilla necesita varias casillas libres respecto a asentamientos y otras avanzadillas. Con esta superposición, las casillas bloqueadas alrededor del cursor se traman con el color de la facción que las bloquea (gris oscuro si no hay). Si varias facciones se solapan, se elige una de forma coherente.</TSA_WD_WorldMap_ToggleCaravanBlockedTilesTip>
   <TSA_WD_WorldMap_ChangeNotes>Notas de cambios</TSA_WD_WorldMap_ChangeNotes>
   <TSA_WD_WorldMap_ChangeNotesTip>Abre el registro de actualizaciones de Dominación Mundial.</TSA_WD_WorldMap_ChangeNotesTip>
-  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>Bloqueos, trampas, AT y edificios</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
-  <TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>Activa o desactiva los iconos de bloqueos, trampas/abrojos y torretas AT en el mapa mundial. Los iconos de superposición también se ocultan al alejarse el zoom.</TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>Bloqueos, trampas, AT, edificios y trincheras</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>Activa o desactiva bloqueos, trampas/abrojos, torretas AT, edificios avanzados y trincheras en el mapa mundial. Los iconos de superposición también se ocultan al alejarse el zoom.</TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>
   <TSA_WD_WorldMap_ToggleFortifyBlacklist>Casillas bloqueadas para fortificación NPC</TSA_WD_WorldMap_ToggleFortifyBlacklist>
   <TSA_WD_WorldMap_ToggleFortifyBlacklistTip>Muestra casillas marcadas para que aliados (y neutrales si está activo) no coloquen bloqueos o trampas nuevas. Las existentes permanecen hasta Quitar fortificaciones. También se ven al usar las herramientas de marcar/quitar.</TSA_WD_WorldMap_ToggleFortifyBlacklistTip>
   <TSA_WD_WorldMap_NoFortifyMarks>Marcas sin fortificar</TSA_WD_WorldMap_NoFortifyMarks>
@@ -652,7 +652,7 @@
   <TSA_WD_WorldMap_TogglePlayerUnderlays>Resaltar jugador</TSA_WD_WorldMap_TogglePlayerUnderlays>
   <TSA_WD_WorldMap_TogglePlayerUnderlaysTip>Discos cian semitransparentes bajo tus colonias, puestos, caravanas y viajeros. El tamaño cambia con el zoom. Se ocultan al mismo zoom lejano que las etiquetas de nivel. Una estrella significa que ese puesto o colonia es objetivo de una caravana de asalto enemiga.</TSA_WD_WorldMap_TogglePlayerUnderlaysTip>
   <TSA_WD_BtnRoadBuilding>Proyectos de construcción</TSA_WD_BtnRoadBuilding>
-  <TSA_WD_DescRoadBuilding>Configura caminos, bloqueos y trampas de puestos y PNJ (alcances, trabajo, fuerza de expedición y valores de respaldo de caminos si Roads of the Rim no está activo).</TSA_WD_DescRoadBuilding>
+  <TSA_WD_DescRoadBuilding>Caminos, bloqueos, trampas de pinchos, torretas AT (construcción y combate) y descontaminación (alcances, trabajo, fuerza de expedición; respaldo de caminos RotR si ese mod está inactivo).</TSA_WD_DescRoadBuilding>
   <TSA_WD_RoadBuilding_Note>Movimiento / trabajo / Construcción mínima solo aplican si Roads of the Rim NO está activo. La reducción invernal siempre aplica (escribe winterFactor de RotR si ese mod está presente).</TSA_WD_RoadBuilding_Note>
     <TSA_WD_RoadBuilding_RoadsHeader>Caminos</TSA_WD_RoadBuilding_RoadsHeader>
   <TSA_WD_RoadBuilding_RoadRange>Alcance para construir caminos</TSA_WD_RoadBuilding_RoadRange>
@@ -906,7 +906,7 @@
   <TSA_WD_Experimental_ColonyWorldBuild>Experimental: construcción mundial desde la colonia (carreteras / bloqueos / trampas)</TSA_WD_Experimental_ColonyWorldBuild>
   <TSA_WD_Experimental_ColonyWorldBuildTip>Si está activo, tu asentamiento colonia obtiene el gizmo cian Construir (carreteras, bloqueos, trampas de pinchos). La velocidad y los desbloqueos usan la suma de Construcción de los colonos en el mapa. Sin bonus de Ingeniero y sin coste de fuerza WD. Desactivarlo cancela proyectos activos de la colonia.</TSA_WD_Experimental_ColonyWorldBuildTip>
   <TSA_WD_Experimental_EnableTrenches>Experimental: defensas de trincheras</TSA_WD_Experimental_EnableTrenches>
-  <TSA_WD_Experimental_EnableTrenchesTip>Si está activo, los puestos del jugador y la colonia pueden cavar brazos de trinchera exclusivos (coste de madera, retirada punta a hub). Las columnas hostiles que pisen tus trincheras obtienen Combatir / Auto (puesto) / Omitir. Desactivarlo borra todas las trincheras del jugador y cancela proyectos.</TSA_WD_Experimental_EnableTrenchesTip>
+  <TSA_WD_Experimental_EnableTrenchesTip>Si está activo, los puestos del jugador pueden cavar brazos de trinchera exclusivos (coste de madera, retirada punta a hub). Las columnas hostiles que pisen tus trincheras obtienen Combatir / Auto / Dejarles pasar. Desactivarlo borra todas las trincheras del jugador y cancela proyectos.</TSA_WD_Experimental_EnableTrenchesTip>
   <TSA_WD_Experimental_AT_TargetPlayerTravelers>Torretas AT NPC apuntan a viajeros WD del jugador</TSA_WD_Experimental_AT_TargetPlayerTravelers>
   <TSA_WD_Experimental_AT_TargetPlayerTravelersTip>Si está activo, las torretas AT NPC hostiles pueden disparar a tus viajeros WD terrestres (incursión, mejora, entrega, comerciante y otras misiones no aéreas). Desactivado impide nuevos disparos; los proyectiles en vuelo aún se resuelven.</TSA_WD_Experimental_AT_TargetPlayerTravelersTip>
   <TSA_WD_Experimental_AT_TargetPlayerCaravans>Sistemas enemigos apuntan a caravanas del jugador (AT / mortero / emboscada)</TSA_WD_Experimental_AT_TargetPlayerCaravans>

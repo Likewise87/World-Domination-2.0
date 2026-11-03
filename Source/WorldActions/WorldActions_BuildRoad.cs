@@ -15,7 +15,9 @@ namespace TSA_WorldDomination
         Completed,
         AbortedInvalidTarget,
         SettlementDestroyed,
-        FactionHostile
+        FactionHostile,
+        /// <summary>Unfinished corridor edge sits on an exclusive trench tile (cannot pave).</summary>
+        BlockedByTrench
     }
 
     [StaticConstructorOnStartup]
@@ -639,6 +641,15 @@ namespace TSA_WorldDomination
                 return false;
             }
 
+            // Next unfinished edge sits on a trench: cancel whole project (do not keep redispatching).
+            if (!comp.roadIsClearing
+                && TryGetFirstUnfinishedRoadEdge(comp.cachedRoadPathTiles, comp.selectedRoadTier, out int gapFrom, out int gapTo)
+                && RoadEdgeBlockedByExclusiveTrench(gapFrom, gapTo))
+            {
+                CancelRoadProjectBlockedByTrench(actor);
+                return false;
+            }
+
             // Player outposts / colony world-build use construction skill + research.
             // Player-ordered NPC settlements use tier-assumed construction and are capped at order time.
             bool needsColonyBuildGate = actor is WorldObject_WD_Outpost
@@ -676,7 +687,69 @@ namespace TSA_WorldDomination
 
             comp.cachedWorkTile = workTile;
             if (workTile == -1)
+            {
                 ClearRoadProject(comp, RoadProjectClearReason.Completed);
+                return;
+            }
+
+            if (!comp.roadIsClearing
+                && TryGetFirstUnfinishedRoadEdge(comp.cachedRoadPathTiles, comp.selectedRoadTier, out int gapFrom, out int gapTo)
+                && RoadEdgeBlockedByExclusiveTrench(gapFrom, gapTo))
+            {
+                CancelRoadProjectBlockedByTrench(origin);
+            }
+        }
+
+        /// <summary>Exclusive trench on either endpoint of a land-road edge (hub roots excluded via HasExclusiveTrenchAt).</summary>
+        public static bool RoadEdgeBlockedByExclusiveTrench(int fromTileId, int toTileId) =>
+            WorldComponent_WdTrenches.HasExclusiveTrenchAt(fromTileId)
+            || WorldComponent_WdTrenches.HasExclusiveTrenchAt(toTileId);
+
+        /// <summary>
+        /// True when any unfinished pave edge on the corridor touches an exclusive trench.
+        /// Existing trenches only — planned/future trenches are ignored.
+        /// </summary>
+        public static bool CorridorHasTrenchBlockedRoadWork(List<int> nodesDestFirst, SettlementTier tier)
+        {
+            if (nodesDestFirst == null || nodesDestFirst.Count < 2) return false;
+            PlanetLayer layer = PlanetSurfaceWorldActions.WdSurfaceLayer;
+            if (layer == null) return false;
+            RoadDef targetRoad = GetRoadDefByTier(tier);
+            if (targetRoad == null) return false;
+
+            for (int i = nodesDestFirst.Count - 1; i > 0; i--)
+            {
+                int from = nodesDestFirst[i];
+                int to = nodesDestFirst[i - 1];
+                if (IsBridgeOrWaterRoadEdge(from, to)) continue;
+                if (!ShouldUpgradeRoad(new PlanetTile(from, layer), new PlanetTile(to, layer), targetRoad))
+                    continue;
+                if (RoadEdgeBlockedByExclusiveTrench(from, to))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>Abort player-facing road dig with a blue letter; clears project and active builders.</summary>
+        public static void CancelRoadProjectBlockedByTrench(WorldObject actor)
+        {
+            if (actor == null || actor.Destroyed) return;
+            var comp = actor.GetComponent<CompViralSpread>();
+            if (comp == null || comp.roadTargetTile == -1) return;
+
+            string label = actor.LabelCap;
+            ClearRoadProject(comp, RoadProjectClearReason.BlockedByTrench);
+
+            if (actor.Faction == Faction.OfPlayer
+                && (WorldDominationMod.settings?.notifyRoadCancelledByTrench
+                    ?? WorldDominationSettings.DefNotifyRoadCancelledByTrench))
+            {
+                Find.LetterStack.ReceiveLetter(
+                    "TSA_WD_Letter_RoadCancelledByTrench_Label".Translate(),
+                    "TSA_WD_Letter_RoadCancelledByTrench_Text".Translate(label),
+                    LetterDefOf.NeutralEvent,
+                    actor);
+            }
         }
 
         public static void ClearRoadProject(CompViralSpread comp, RoadProjectClearReason reason)

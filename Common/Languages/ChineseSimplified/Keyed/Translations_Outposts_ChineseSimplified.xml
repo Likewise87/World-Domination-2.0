@@ -25,6 +25,8 @@
   <TSA_IncomingPowerSupplyLines>接收电力来自:</TSA_IncomingPowerSupplyLines>
   <TSA_Logistics_IsolatedProducer>范围内没有此{0}可以运送虚拟食物的前哨站。</TSA_Logistics_IsolatedProducer>
   <TSA_Logistics_IsolatedConsumer>范围内没有可为这个{0}提供食物的生产前哨站。</TSA_Logistics_IsolatedConsumer>
+  <TSA_Logistics_IsolatedPowerProducer>范围内没有此{0}可以供电的前哨站。</TSA_Logistics_IsolatedPowerProducer>
+  <TSA_Logistics_IsolatedPowerConsumer>范围内没有可为这个{0}供电的发电站。</TSA_Logistics_IsolatedPowerConsumer>
   <TSA_LogisticsMode_AllToColony>全部给殖民地</TSA_LogisticsMode_AllToColony>
   <TSA_LogisticsMode_Smart>智能</TSA_LogisticsMode_Smart>
   <TSA_LogisticsMode_BiggestDeficit>最大缺口</TSA_LogisticsMode_BiggestDeficit>
@@ -306,6 +308,8 @@
   <TSA_WD_InsufficientStrengthToBuild>实力不足以派出{0}</TSA_WD_InsufficientStrengthToBuild>
   <TSA_WD_InsufficientMaterialsToBuild>材料不足以派出{0}</TSA_WD_InsufficientMaterialsToBuild>
   <TSA_WD_InsufficientStrengthToClear>实力不足以清除{0}</TSA_WD_InsufficientStrengthToClear>
+  <TSA_WD_ProjectNoun_Trench>战壕</TSA_WD_ProjectNoun_Trench>
+  <TSA_WD_ProjectNoun_Bridge>桥梁</TSA_WD_ProjectNoun_Bridge>
   <TSA_WD_BuildRoadDesc>指示此前哨站开始向指定格子修建道路网。速度随累计建造技能缩放。\n\n按住Shift点击放置路径点；不按Shift点击以设定最终目的地。</TSA_WD_BuildRoadDesc>
   <TSA_WD_BuildRoadStatus>正在向"{0}"修建\n进度:{1}%</TSA_WD_BuildRoadStatus>
   <TSA_WD_CancelRoad>取消道路修建</TSA_WD_CancelRoad>
@@ -1049,10 +1053,11 @@
   <TSA_WD_StrengthBudget_WithdrawCaption>正试图从前哨撤走价值 {0} 进攻兵力的殖民者，该前哨当前拥有 {1}</TSA_WD_StrengthBudget_WithdrawCaption>
   <TSA_WD_StrengthBudget_WithdrawCaptionTip>你不能撤走价值超过当前进攻兵力的殖民者。</TSA_WD_StrengthBudget_WithdrawCaptionTip>
   <TSA_WD_StrengthBudget_NeedStayBehind>还需 {0} 进攻兵力留在前哨，或标记为失去。</TSA_WD_StrengthBudget_NeedStayBehind>
-  <TSA_WD_StrengthBudget_DeployingMeter>部署：{0} / {1} 进攻兵力</TSA_WD_StrengthBudget_DeployingMeter>
+  <TSA_WD_StrengthBudget_DeployingMeter>已部署进攻兵力 {0}，当前可用 {1}。前哨最大进攻兵力：{2}</TSA_WD_StrengthBudget_DeployingMeter>
   <TSA_WD_StrengthBudget_MeterTip>与从此前哨发动进攻所用的进攻兵力相同。</TSA_WD_StrengthBudget_MeterTip>
   <TSA_WD_StrengthBudget_WithdrawMeterTip>此外哨有 {0} 进攻兵力。最多可撤走 {1}（{0} 加上 {2} 余量）。</TSA_WD_StrengthBudget_WithdrawMeterTip>
-  <TSA_WD_StrengthBudget_DeployMeterTip>此外哨当前进攻兵力。</TSA_WD_StrengthBudget_DeployMeterTip>
+  <TSA_WD_StrengthBudget_DeployMeterTip>此外哨当前进攻兵力相对其上限。</TSA_WD_StrengthBudget_DeployMeterTip>
+  <TSA_WD_StrengthBudget_DeployStoredTip>载具、动物与机械体默认未勾选。勾选后才会消耗进攻兵力并参战。</TSA_WD_StrengthBudget_DeployStoredTip>
   <TSA_WD_StrengthBudget_PawnCost>兵力 {0}</TSA_WD_StrengthBudget_PawnCost>
   <TSA_WD_StrengthBudget_FormCaravan>组建商队</TSA_WD_StrengthBudget_FormCaravan>
   <TSA_WD_StrengthBudget_FateCaravan>商队</TSA_WD_StrengthBudget_FateCaravan>
@@ -1152,6 +1157,11 @@
   <TSA_WD_Req_WaivedConquestResearch>从被征服的据点建立时不需要研究。</TSA_WD_Req_WaivedConquestResearch>
   <TSA_WD_RoadAlreadyBuilt_Refunded>{0} 施工队发现道路已建成。实力已退还。</TSA_WD_RoadAlreadyBuilt_Refunded>
   <TSA_WD_RoadAlreadyExists>此格已有道路</TSA_WD_RoadAlreadyExists>
+  <TSA_WD_RoadBlockedByTrench>该道路路线穿过现有战壕。请先拆除战壕或另选路线。</TSA_WD_RoadBlockedByTrench>
+  <TSA_WD_Letter_RoadCancelledByTrench_Label>道路工程已取消</TSA_WD_Letter_RoadCancelledByTrench_Label>
+  <TSA_WD_Letter_RoadCancelledByTrench_Text>{0} 取消了道路修建任务，因为路线被战壕挡住。</TSA_WD_Letter_RoadCancelledByTrench_Text>
+  <TSA_WD_Letter_TrenchCancelledByRoad_Label>战壕工程已取消</TSA_WD_Letter_TrenchCancelledByRoad_Label>
+  <TSA_WD_Letter_TrenchCancelledByRoad_Text>{0} 取消了挖壕任务，因为路线被道路挡住。</TSA_WD_Letter_TrenchCancelledByRoad_Text>
   <TSA_WD_RoadAlreadyInProgress>施工已在进行。取消当前项目以设置新目标。</TSA_WD_RoadAlreadyInProgress>
   <TSA_WD_RoadAsphalt>沥青路</TSA_WD_RoadAsphalt>
   <TSA_WD_RoadAsphalt_Disabled>沥青路(需 {1} 建造技能,当前:{0})</TSA_WD_RoadAsphalt_Disabled>
@@ -1272,10 +1282,16 @@
   <TSA_WD_OutpostPower_StatusPowered>已通电</TSA_WD_OutpostPower_StatusPowered>
   <TSA_WD_OutpostPower_StatusUnpowered>未通电</TSA_WD_OutpostPower_StatusUnpowered>
   <TSA_WD_OutpostStats_Section_Power>电力</TSA_WD_OutpostStats_Section_Power>
-  <TSA_WD_OutpostStats_Row_PowerDemand>需求</TSA_WD_OutpostStats_Row_PowerDemand>
-  <TSA_WD_OutpostStats_Row_PowerDemandTip>此前哨从前哨模式电厂所需的瓦数。</TSA_WD_OutpostStats_Row_PowerDemandTip>
-  <TSA_WD_OutpostStats_Row_PowerSupplied>已供给</TSA_WD_OutpostStats_Row_PowerSupplied>
-  <TSA_WD_OutpostStats_Row_PowerSuppliedTip>范围内电厂分配给此前哨的瓦数。</TSA_WD_OutpostStats_Row_PowerSuppliedTip>
+  <TSA_WD_OutpostStats_Row_PowerDemand>本地需求</TSA_WD_OutpostStats_Row_PowerDemand>
+  <TSA_WD_OutpostStats_Row_PowerDemandTip>此前哨自身建筑与升级所需的瓦数。发电站用自身发电量覆盖。</TSA_WD_OutpostStats_Row_PowerDemandTip>
+  <TSA_WD_OutpostStats_Row_PowerSupplied>本地供给</TSA_WD_OutpostStats_Row_PowerSupplied>
+  <TSA_WD_OutpostStats_Row_PowerSuppliedTip>覆盖本地需求的瓦数（来自链接的发电站，或发电站自身发电）。</TSA_WD_OutpostStats_Row_PowerSuppliedTip>
+  <TSA_WD_OutpostStats_Row_PowerKeepColony>送往殖民地的电力</TSA_WD_OutpostStats_Row_PowerKeepColony>
+  <TSA_WD_OutpostStats_Row_PowerKeepColonyTip>满足本地需求并送达其他前哨后的剩余发电，注入殖民地电网。</TSA_WD_OutpostStats_Row_PowerKeepColonyTip>
+  <TSA_WD_OutpostStats_Row_PowerSurplus>盈余</TSA_WD_OutpostStats_Row_PowerSurplus>
+  <TSA_WD_OutpostStats_Row_PowerSurplusTip>发电量减去本站本地需求——可送往其他前哨或殖民地的瓦数。</TSA_WD_OutpostStats_Row_PowerSurplusTip>
+  <TSA_WD_OutpostStats_Row_PowerSentOutposts>送往其他前哨的电力</TSA_WD_OutpostStats_Row_PowerSentOutposts>
+  <TSA_WD_OutpostStats_Row_PowerSentOutpostsTip>本站实际送达其他前哨的瓦数。</TSA_WD_OutpostStats_Row_PowerSentOutpostsTip>
   <TSA_WD_OutpostStats_Row_PowerStatus>状态</TSA_WD_OutpostStats_Row_PowerStatus>
   <TSA_WD_OutpostStats_Row_PowerStatusTip>仅当供给满足需求时才算完全通电。部分供给不会按比例缩放产出。</TSA_WD_OutpostStats_Row_PowerStatusTip>
   <TSA_WD_OutpostStats_Row_UnpoweredFactor>未通电产出</TSA_WD_OutpostStats_Row_UnpoweredFactor>
@@ -1287,8 +1303,6 @@
   <TSA_WD_OutpostStats_Row_PowerGeneration>发电</TSA_WD_OutpostStats_Row_PowerGeneration>
   <TSA_WD_OutpostStats_Row_PowerGenerationTip>此电厂在角色路由前的发电量。</TSA_WD_OutpostStats_Row_PowerGenerationTip>
   <TSA_WD_Production_Formula_Unpowered>（未通电）</TSA_WD_Production_Formula_Unpowered>
-  <TSA_WD_Letter_OutpostPowerUnpoweredLabel>前哨需要电力</TSA_WD_Letter_OutpostPowerUnpoweredLabel>
-  <TSA_WD_Letter_OutpostPowerUnpoweredText>前哨电力已启用。未通电的前哨产出降低，并损失部分战斗射程，直到设为前哨模式的电厂在供电范围内覆盖它们。可在电厂上切换角色，或在实验设置中关闭此功能。</TSA_WD_Letter_OutpostPowerUnpoweredText>
   <TSA_WD_Alert_OutpostUnpowered>前哨未通电</TSA_WD_Alert_OutpostUnpowered>
   <TSA_WD_Alert_OutpostUnpoweredDescHeader>这些前哨需要来自前哨模式电厂的电力：</TSA_WD_Alert_OutpostUnpoweredDescHeader>
   <TSA_WD_Alert_OutpostUnpoweredDescLine>- {0}</TSA_WD_Alert_OutpostUnpoweredDescLine>
@@ -1604,6 +1618,8 @@
   <TSA_WD_OutpostUpgradeImpact_MortarRange>迫击炮射程</TSA_WD_OutpostUpgradeImpact_MortarRange>
   <TSA_WD_OutpostUpgradeImpact_AssaultShells>突击炮弹</TSA_WD_OutpostUpgradeImpact_AssaultShells>
   <TSA_WD_OutpostUpgradeImpact_AntiAir>防空</TSA_WD_OutpostUpgradeImpact_AntiAir>
+  <TSA_WD_OutpostUpgradeImpact_TrenchDefenseTurrets>战壕防御炮塔</TSA_WD_OutpostUpgradeImpact_TrenchDefenseTurrets>
+  <TSA_WD_OutpostUpgrades_BenefitTrenchDefenseTurrets>在战壕防御地图中添加炮塔</TSA_WD_OutpostUpgrades_BenefitTrenchDefenseTurrets>
   <TSA_WD_OutpostUpgradeImpact_Decontamination>消毒</TSA_WD_OutpostUpgradeImpact_Decontamination>
   <TSA_WD_OutpostUpgradeImpact_ResearchEfficiency>研究效率</TSA_WD_OutpostUpgradeImpact_ResearchEfficiency>
   <TSA_WD_OutpostUpgradeImpact_ProductionEfficiency>生产产出</TSA_WD_OutpostUpgradeImpact_ProductionEfficiency>
@@ -2241,12 +2257,20 @@
   <TSA_WD_OutpostStats_HospitalLine>医院：+{0}%</TSA_WD_OutpostStats_HospitalLine>
 
   <!-- Trench defenses -->
-  <TSA_WD_BuildTrench>挖掘战壕</TSA_WD_BuildTrench>
-  <TSA_WD_BuildTrenchDesc>从此地挖出独占战壕支线（折线辐条，最多 {0} 格）。每段消耗 {1} 木材。敌对纵队踩上你的战壕时会弹出防御选择。</TSA_WD_BuildTrenchDesc>
+  <TSA_WD_BuildTrench>修建战壕</TSA_WD_BuildTrench>
+  <TSA_WD_BuildTrenchDesc>从此前哨挖出独占战壕支线（折线辐条，最多 {0} 格）。每段消耗 {1} 木材。点击已有战壕尖端以延长该支线，Shift+点击设航点，再点击空地确认。敌对纵队踩上你的战壕时会弹出防御选择。</TSA_WD_BuildTrenchDesc>
+  <TSA_WD_Trench_OutpostOnly>战壕只能由玩家前哨建造。</TSA_WD_Trench_OutpostOnly>
+  <TSA_WD_Trench_WaypointTip>点击尖端或中段以延长/分叉 · Shift+点击航点 · 点击空地开挖</TSA_WD_Trench_WaypointTip>
+  <TSA_WD_Trench_WaypointAdded>已添加航点 {0}。继续 Shift+点击，或点击确认终点。</TSA_WD_Trench_WaypointAdded>
+  <TSA_WD_Trench_TipSelected>已选中战壕点：再点击空地以延长或分叉（T）。</TSA_WD_Trench_TipSelected>
+  <TSA_WD_Trench_NeedNewDig>请选择尖端或中段之外的空地以延长/分叉，或从前哨新挖一条支线。</TSA_WD_Trench_NeedNewDig>
+  <TSA_WD_Trench_WaypointLabel>航点：{0}（Shift+点击添加，点击完成）</TSA_WD_Trench_WaypointLabel>
+  <TSA_WD_Trench_NoLoop>战壕不能成环或重复经过同一格。</TSA_WD_Trench_NoLoop>
+  <TSA_WD_Trench_NoOverlap>战壕不能重叠或并入另一条支线。</TSA_WD_Trench_NoOverlap>
   <TSA_WD_RemoveTrench>拆除战壕</TSA_WD_RemoveTrench>
   <TSA_WD_RemoveTrenchDesc>只能从支线尖端向枢纽拆除（先拆最外端）。</TSA_WD_RemoveTrenchDesc>
-  <TSA_WD_CancelTrench>取消挖壕</TSA_WD_CancelTrench>
-  <TSA_WD_CancelTrenchRemoval>取消拆壕</TSA_WD_CancelTrenchRemoval>
+  <TSA_WD_CancelTrench>取消战壕挖掘</TSA_WD_CancelTrench>
+  <TSA_WD_CancelTrenchRemoval>取消战壕拆除</TSA_WD_CancelTrenchRemoval>
   <TSA_WD_CancelTrenchDesc>中止进行中的战壕工程并召回施工队。</TSA_WD_CancelTrenchDesc>
   <TSA_WD_Trench_Disabled>实验设置中已关闭战壕。</TSA_WD_Trench_Disabled>
   <TSA_WD_Trench_NeedPassableLand>战壕需要可通行陆地（不可是水域或不可通行地）。</TSA_WD_Trench_NeedPassableLand>
@@ -2263,16 +2287,19 @@
   <TSA_WD_Trench_NotNeighbors>战壕段必须连接相邻格。</TSA_WD_Trench_NotNeighbors>
   <TSA_WD_Trench_ForeignNetwork>那条战壕属于其他地点。</TSA_WD_Trench_ForeignNetwork>
   <TSA_WD_Trench_MustTouchHub>新支线的第一段必须从本地块出发。</TSA_WD_Trench_MustTouchHub>
-  <TSA_WD_Trench_NoBranch>战壕只能是折线（不能分叉）。</TSA_WD_Trench_NoBranch>
+  <TSA_WD_Trench_NoBranch>不能从该战壕格开挖。</TSA_WD_Trench_NoBranch>
+  <TSA_WD_Trench_MaxDegree>该交叉口已有三条支线（不允许 X 交叉）。</TSA_WD_Trench_MaxDegree>
+  <TSA_WD_Trench_ArmTooClose>分开的战壕支线之间至少留一格空地。</TSA_WD_Trench_ArmTooClose>
   <TSA_WD_Trench_NoMerge>战壕不能合并或成环。</TSA_WD_Trench_NoMerge>
   <TSA_WD_Trench_NoTrench>那里没有战壕。</TSA_WD_Trench_NoTrench>
   <TSA_WD_Trench_RemoveTipOnly>只能从支线尖端向枢纽拆除。</TSA_WD_Trench_RemoveTipOnly>
   <TSA_WD_Trench_NoneOwned>此地没有所属战壕。</TSA_WD_Trench_NoneOwned>
-  <TSA_WD_Trench_InvalidPath>无法规划有效战壕路径（陆地、独占、无分叉）。</TSA_WD_Trench_InvalidPath>
+  <TSA_WD_Trench_InvalidPath>无法规划有效战壕路径（陆地、独占、间距或交叉口限制）。</TSA_WD_Trench_InvalidPath>
   <TSA_WD_Trench_BuildStarted>{0} 已开始挖掘战壕。</TSA_WD_Trench_BuildStarted>
   <TSA_WD_Trench_RemovalStarted>{0} 已开始拆除战壕。</TSA_WD_Trench_RemovalStarted>
   <TSA_WD_Trench_BuildComplete>{0} 的战壕已完工。</TSA_WD_Trench_BuildComplete>
   <TSA_WD_Trench_ClearComplete>{0} 的战壕拆除已完成。</TSA_WD_Trench_ClearComplete>
   <TSA_WD_Trench_Cancelled>{0} 的战壕工程已取消。</TSA_WD_Trench_Cancelled>
   <TSA_WD_Trench_MovementExplanation>战壕（+{0}）</TSA_WD_Trench_MovementExplanation>
+  <TSA_WD_Trench_TileInspect>有属于 {0} 的战壕</TSA_WD_Trench_TileInspect>
 </LanguageData>

@@ -6,7 +6,7 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>Road-block then spike-trap lines on the world tile inspect pane.</summary>
+    /// <summary>Road-block, spike-trap, and trench lines on the world tile inspect pane.</summary>
     [HarmonyPatch(typeof(WorldInspectPane), "get_TileInspectString")]
     public static class Patch_WorldInspectPane_TileInspectString_TileHazards
     {
@@ -23,20 +23,39 @@ namespace TSA_WorldDomination
 
             string roadLine = TryFormatRoadBlockLine(tileId);
             string trapLine = TryFormatSpikeTrapLine(tileId);
-            if (roadLine == null && trapLine == null) return;
+            string trenchLine = TryFormatTrenchLine(tileId);
+            if (roadLine == null && trapLine == null && trenchLine == null) return;
 
             var sb = new StringBuilder(__result);
             if (!__result.EndsWith("\n"))
                 sb.AppendLine();
+            bool wrote = false;
             if (roadLine != null)
+            {
                 sb.Append(roadLine);
+                wrote = true;
+            }
             if (trapLine != null)
             {
-                if (roadLine != null)
-                    sb.AppendLine();
+                if (wrote) sb.AppendLine();
                 sb.Append(trapLine);
+                wrote = true;
+            }
+            if (trenchLine != null)
+            {
+                if (wrote) sb.AppendLine();
+                sb.Append(trenchLine);
             }
             __result = sb.ToString();
+        }
+
+        private static string TryFormatTrenchLine(int tileId)
+        {
+            if (!WorldComponent_WdTrenches.FeatureEnabled) return null;
+            if (!WorldComponent_WdTrenches.HasTrenchAt(tileId)) return null;
+            if (!WorldComponent_WdTrenches.TryGetOwnerAt(tileId, out WorldObject owner) || owner == null || owner.Destroyed)
+                return null;
+            return "TSA_WD_Trench_TileInspect".Translate(owner.LabelCap).ToString();
         }
 
         private static string TryFormatRoadBlockLine(int tileId)

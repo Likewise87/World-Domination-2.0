@@ -80,6 +80,7 @@
     <lineTier>1</lineTier>
     <outpostApplicability>All</outpostApplicability>
     <defensiveStrengthBonus>160</defensiveStrengthBonus>
+    <enablesTrenchDefenseTurrets>true</enablesTrenchDefenseTurrets>
     <requiredResearch>HeavyTurrets</requiredResearch>
     <cost>
       <li><thingDef>Steel</thingDef><count>300</count></li>

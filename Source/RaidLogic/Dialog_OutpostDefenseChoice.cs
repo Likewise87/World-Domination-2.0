@@ -59,6 +59,9 @@ namespace TSA_WorldDomination
         public bool IsForOutpost(WorldObject_WD_Outpost candidate)
             => outpost != null && candidate != null && outpost == candidate;
 
+        public bool IsForTraveler(WorldObject_Traveler candidate)
+            => traveler != null && candidate != null && traveler == candidate;
+
         private void CalculateDefenseMath()
         {
             attackerStrength = Mathf.Max(0f, traveler?.travelerStrength ?? 0f);
@@ -270,9 +273,12 @@ namespace TSA_WorldDomination
                 }
                 if (Widgets.ButtonText(manualRect, "TSA_WD_OutpostDefense_FightManually".Translate()))
                 {
-                    WdTrenchInterceptUtility.MarkResolved(traveler, outpost);
+                    // Keep the live column through Deploy (same contract as hub Fight). Early Destroy
+                    // made CameFromWorldTile return -1 (wrong trench hostile edge) and broke PostClose
+                    // cancel. MarkResolved waits until Deploy confirms so MotionGuard still parks here.
                     Close();
-                    traveler.targetObject = outpost;
+                    if (traveler != null && !traveler.Destroyed)
+                        traveler.targetObject = outpost;
                     Find.WindowStack.Add(new Dialog_OutpostDefenseDeploy(traveler, outpost, manager, isSkirmishFollowUp, isTrenchCorridor: true));
                 }
                 if (Widgets.ButtonText(skipRect, "TSA_WD_OutpostDefense_SkipTrench".Translate()))

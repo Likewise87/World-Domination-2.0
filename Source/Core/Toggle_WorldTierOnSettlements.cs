@@ -161,6 +161,7 @@ namespace TSA_WorldDomination
                 {
                     ShowRoadBlocksAndTraps = v;
                     Patch_WdWorldObjectNoExpandingIcon.NotifyIconModeChanged();
+                    WD_WorldLayer_Trenches.SetDirty();
                 }, tipKey: "TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip", hotkey: "R");
             // RELATION_UNDERLAY begin
             AddToggleMenuOption(options, "TSA_WD_WorldMap_ToggleRelationUnderlays", ShowRelationUnderlays,
@@ -1180,9 +1181,10 @@ namespace TSA_WorldDomination
                     ShowSettlementTierTexts = !ShowSettlementTierTexts;
                     NotifyWorldMapToggle("TSA_WD_WorldMap_ToggleTierTexts".Translate(), ShowSettlementTierTexts);
                     return;
-                case 3: // R - Road blocks, traps, and AT
+                case 3: // R - Road blocks, traps, AT, buildings, trenches
                     ShowRoadBlocksAndTraps = !ShowRoadBlocksAndTraps;
                     Patch_WdWorldObjectNoExpandingIcon.NotifyIconModeChanged();
+                    WD_WorldLayer_Trenches.SetDirty();
                     NotifyWorldMapToggle("TSA_WD_WorldMap_ToggleRoadBlocksAndTraps".Translate(), ShowRoadBlocksAndTraps);
                     return;
                 case 4: // T - cycle outpost world-map label mode

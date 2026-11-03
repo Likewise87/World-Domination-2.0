@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: Artillery Outpost -->
+  <TSA_WD_Mortar_OutpostLabel>砲兵哨站</TSA_WD_Mortar_OutpostLabel>
+  <!-- EN: A fortified artillery outpost that fires mortar shells at distant hostile settlements, and (when Auto Attack is enabled) intercepts passing enemy caravans. Shell strength is set in mod options and increased by outpost upgrades; accuracy uses the best shooter’s Shooting level; cooldown shortens with total Shooting across the garrison. -->
+  <TSA_WD_Mortar_OutpostDesc>一座設防的砲兵哨站，可向遠方的敵對據點發射迫擊砲彈，並（啟用自動攻擊時）攔截路過的敵方旅隊。砲彈威力於模組設定中設定，並可透過哨站升級提高；準度取決於最佳射手的射擊等級；冷卻時間隨駐軍射擊技能總和縮短。</TSA_WD_Mortar_OutpostDesc>
+  <!-- EN: Mortar Shell -->
+  <TSA_WD_Traveler_MortarStrike>迫擊砲彈</TSA_WD_Traveler_MortarStrike>
+  <!-- EN: AT Shell -->
+  <TSA_WD_Traveler_AT_Shell>反戰車砲彈</TSA_WD_Traveler_AT_Shell>
+  <!-- EN: Launch Mortar Strike -->
+  <TSA_WD_Mortar_LaunchLabel>發動迫擊砲轟擊</TSA_WD_Mortar_LaunchLabel>
+  <!-- EN: Pick a hostile settlement, caravan, or WD traveler within {0} tiles.\n\nIf the shell hits, it deals {1} strength.\n\nHit chance uses your range-band settings from the outpost options, plus one percentage point per Shooting level of the best shooter ({2}).\n\nCooldown is shortened by total garrison Shooting ({3}): each point is −2% duration, stacking with upgrades (minimum 25% of base days). -->
+  <TSA_WD_Mortar_LaunchDesc>選擇{0}格內的敵對據點、旅隊或WD旅行者。
+
+砲彈命中時造成{1}戰力傷害。
+
+命中率依哨站選項中的距離區段設定，再加上最佳射手每級射擊技能1個百分點（{2}）。
+
+冷卻時間依駐軍射擊技能總和（{3}）縮短：每點縮短2%時長，可與升級疊加（最低為基礎天數的25%）。</TSA_WD_Mortar_LaunchDesc>
+  <!-- EN: Mortar is reloading — ready in {0} days. -->
+  <TSA_WD_Mortar_LaunchDescCooldown>迫擊砲裝填中——{0}天後就緒。</TSA_WD_Mortar_LaunchDescCooldown>
+  <!-- EN: No shooting skill available at this outpost. -->
+  <TSA_WD_Mortar_LaunchDescNoSkill>此哨站沒有具射擊技能的角色。</TSA_WD_Mortar_LaunchDescNoSkill>
+  <!-- EN: On cooldown -->
+  <TSA_WD_Mortar_ReasonCooldown>冷卻中</TSA_WD_Mortar_ReasonCooldown>
+  <!-- EN: Requires at least one pawn with shooting skill -->
+  <TSA_WD_Mortar_ReasonNoSkill>需要至少一名具射擊技能的角色</TSA_WD_Mortar_ReasonNoSkill>
+  <!-- EN: Automatically fires at hostile caravans in range when not Off. Uses the same cooldown and combat rules as the launch gizmo: range bands, best shooter accuracy, upgrade hit bonuses, and Shooting-based cooldown reduction. -->
+  <TSA_WD_Mortar_AutoAttackDesc>未設為關閉時，自動向範圍內的敵對旅隊開火。冷卻與戰鬥規則與手動發射按鈕相同：距離區段、最佳射手準度、升級命中加成，以及依射擊技能縮短冷卻。</TSA_WD_Mortar_AutoAttackDesc>
+  <!-- EN: Auto Mortar Target Off -->
+  <TSA_WD_Mortar_AutoAttack_Off>迫擊砲自動目標：關閉</TSA_WD_Mortar_AutoAttack_Off>
+  <!-- EN: Auto Mortar Target All Caravans -->
+  <TSA_WD_Mortar_AutoAttack_AllCaravans>迫擊砲自動目標：所有旅隊</TSA_WD_Mortar_AutoAttack_AllCaravans>
+  <!-- EN: Auto Mortar Target Raider Caravans -->
+  <TSA_WD_Mortar_AutoAttack_RaiderCaravans>迫擊砲自動目標：侵略者旅隊</TSA_WD_Mortar_AutoAttack_RaiderCaravans>
+  <!-- EN: Auto Mortar Target Trader Caravans -->
+  <TSA_WD_Mortar_AutoAttack_TraderCaravans>迫擊砲自動目標：商隊</TSA_WD_Mortar_AutoAttack_TraderCaravans>
+  <!-- EN: Auto Mortar Target Expansion Caravans -->
+  <TSA_WD_Mortar_AutoAttack_ExpansionCaravans>迫擊砲自動目標：擴張旅隊</TSA_WD_Mortar_AutoAttack_ExpansionCaravans>
+  <!-- EN: Auto Mortar Target Road Caravans -->
+  <TSA_WD_Mortar_AutoAttack_RoadCaravans>迫擊砲自動目標：築路旅隊</TSA_WD_Mortar_AutoAttack_RoadCaravans>
+  <!-- EN: Auto Mortar Target {0} Caravans -->
+  <TSA_WD_Mortar_AutoAttack_GroupCaravans>迫擊砲自動目標：{0}旅隊</TSA_WD_Mortar_AutoAttack_GroupCaravans>
+  <!-- EN: Off -->
+  <TSA_WD_Mortar_AutoAttack_Menu_Off>關閉</TSA_WD_Mortar_AutoAttack_Menu_Off>
+  <!-- EN: All -->
+  <TSA_WD_Mortar_AutoAttack_Menu_All>全部</TSA_WD_Mortar_AutoAttack_Menu_All>
+  <!-- EN: Raiders -->
+  <TSA_WD_Mortar_AutoAttack_Menu_Raider>侵略者</TSA_WD_Mortar_AutoAttack_Menu_Raider>
+  <!-- EN: Traders -->
+  <TSA_WD_Mortar_AutoAttack_Menu_Trader>商人</TSA_WD_Mortar_AutoAttack_Menu_Trader>
+  <!-- EN: Expansion -->
+  <TSA_WD_Mortar_AutoAttack_Menu_Expansion>擴張</TSA_WD_Mortar_AutoAttack_Menu_Expansion>
+  <!-- EN: Road -->
+  <TSA_WD_Mortar_AutoAttack_Menu_Road>築路</TSA_WD_Mortar_AutoAttack_Menu_Road>
+  <!-- EN: Fortify -->
+  <TSA_WD_Mortar_AutoAttack_Menu_Fortify>設防</TSA_WD_Mortar_AutoAttack_Menu_Fortify>
+  <!-- EN: Supply -->
+  <TSA_WD_Mortar_AutoAttack_Menu_Logistics>補給</TSA_WD_Mortar_AutoAttack_Menu_Logistics>
+  <!-- EN: All -->
+  <TSA_WD_Mortar_Filter_All>全部</TSA_WD_Mortar_Filter_All>
+  <!-- EN: Raider -->
+  <TSA_WD_Mortar_Filter_Raider>侵略者</TSA_WD_Mortar_Filter_Raider>
+  <!-- EN: Expansion -->
+  <TSA_WD_Mortar_Filter_Expansion>擴張</TSA_WD_Mortar_Filter_Expansion>
+  <!-- EN: Road -->
+  <TSA_WD_Mortar_Filter_Road>築路</TSA_WD_Mortar_Filter_Road>
+  <!-- EN: Trader -->
+  <TSA_WD_Mortar_Filter_Trader>商人</TSA_WD_Mortar_Filter_Trader>
+  <!-- EN: Fortify -->
+  <TSA_WD_Mortar_Filter_Fortify>設防</TSA_WD_Mortar_Filter_Fortify>
+  <!-- EN: Supply -->
+  <TSA_WD_Mortar_Filter_Logistics>補給</TSA_WD_Mortar_Filter_Logistics>
+  <!-- EN: Mortar Hit -->
+  <TSA_WD_Mortar_Hit_Label>迫擊砲命中</TSA_WD_Mortar_Hit_Label>
+  <!-- EN: Mortar Hit: Strength {0} - -> {1} -->
+  <TSA_WD_Mortar_Hit_Settlement_Line>迫擊砲命中：戰力{0} --&gt; {1}</TSA_WD_Mortar_Hit_Settlement_Line>
+  <!-- EN: . Settlement destroyed -->
+  <TSA_WD_Mortar_Hit_DestroyedSuffix>。據點已被摧毀</TSA_WD_Mortar_Hit_DestroyedSuffix>
+  <!-- EN: . Force eliminated -->
+  <TSA_WD_Mortar_Hit_DestroyedMobileSuffix>。部隊已被殲滅</TSA_WD_Mortar_Hit_DestroyedMobileSuffix>
+  <!-- EN: . Outpost destroyed, all occupants lost -->
+  <TSA_WD_Mortar_Hit_DestroyedOutpostSuffix>。哨站已被摧毀，所有駐員皆已損失</TSA_WD_Mortar_Hit_DestroyedOutpostSuffix>
+  <!-- EN: A mortar shell from {0} destroyed the hostile {1}. -->
+  <TSA_WD_Mortar_Hit_Traveler_Text>來自{0}的迫擊砲彈摧毀了敵對的{1}。</TSA_WD_Mortar_Hit_Traveler_Text>
+  <!-- EN: Mortar destroyed target -->
+  <TSA_WD_Mortar_Destroyed_Label>迫擊砲摧毀目標</TSA_WD_Mortar_Destroyed_Label>
+  <!-- EN: Mortar from {0} destroyed {1}. -->
+  <TSA_WD_Mortar_Destroyed_Text>來自{0}的迫擊砲摧毀了{1}。</TSA_WD_Mortar_Destroyed_Text>
+  <!-- EN: caravan -->
+  <TSA_WD_Mortar_Destroyed_Caravan>旅隊</TSA_WD_Mortar_Destroyed_Caravan>
+  <!-- EN: {0} caravan -->
+  <TSA_WD_Mortar_Destroyed_CaravanWithFaction>{0}旅隊</TSA_WD_Mortar_Destroyed_CaravanWithFaction>
+  <!-- EN: {0} ({1}) -->
+  <TSA_WD_Mortar_AttackerWithFaction>{0}（{1}）</TSA_WD_Mortar_AttackerWithFaction>
+  <!-- EN: Mortar hit your forces -->
+  <TSA_WD_Mortar_HitOnYou_Label>迫擊砲擊中你的部隊</TSA_WD_Mortar_HitOnYou_Label>
+  <!-- EN: Mortar from {0} hit {1}. Strength {2} to {3}. -->
+  <TSA_WD_Mortar_HitOnYou_Text>來自{0}的迫擊砲擊中了{1}。戰力從{2}降至{3}。</TSA_WD_Mortar_HitOnYou_Text>
+  <!-- EN: Mortar destroyed your forces -->
+  <TSA_WD_Mortar_DestroyedYou_Label>迫擊砲摧毀了你的部隊</TSA_WD_Mortar_DestroyedYou_Label>
+  <!-- EN: Mortar from {0} destroyed {1}. -->
+  <TSA_WD_Mortar_DestroyedYou_Text>來自{0}的迫擊砲摧毀了{1}。</TSA_WD_Mortar_DestroyedYou_Text>
+  <!-- EN: Mortar strike: miss -->
+  <TSA_WD_Mortar_Miss_Label>迫擊砲轟擊：未命中</TSA_WD_Mortar_Miss_Label>
+  <!-- EN: A mortar shell from {0} fired at {1} fell wide of its mark. -->
+  <TSA_WD_Mortar_Miss_Text>{0}向{1}發射的迫擊砲彈偏離了目標。</TSA_WD_Mortar_Miss_Text>
+  <!-- EN: Mortar destroyed your caravan -->
+  <TSA_WD_Mortar_NpcCaravanDestroyed_Label>迫擊砲摧毀了你的旅隊</TSA_WD_Mortar_NpcCaravanDestroyed_Label>
+  <!-- EN: Mortar hit your caravan -->
+  <TSA_WD_Mortar_NpcCaravanWounded_Label>迫擊砲擊中你的旅隊</TSA_WD_Mortar_NpcCaravanWounded_Label>
+  <!-- EN: {0} mortar hit {1} -->
+  <TSA_WD_Mortar_NpcCaravanPawnsKilled_Label>{0}的迫擊砲擊中{1}</TSA_WD_Mortar_NpcCaravanPawnsKilled_Label>
+  <!-- EN: {0} mortar wiped {1} -->
+  <TSA_WD_Mortar_NpcCaravanPawnsWiped_Label>{0}的迫擊砲殲滅了{1}</TSA_WD_Mortar_NpcCaravanPawnsWiped_Label>
+  <!-- EN: {0} launched a mortar strike at {1} ({2} strength). -->
+  <TSA_WD_Log_MortarLaunched>{0}向{1}發動迫擊砲轟擊（{2}戰力）。</TSA_WD_Log_MortarLaunched>
+  <!-- EN: Mortar Turret -->
+  <TSA_WD_Outpost_HeaderMortar>迫擊砲塔</TSA_WD_Outpost_HeaderMortar>
+  <!-- EN: Artillery Outpost / Interception -->
+  <TSA_WD_Settings_Mortar_Section>砲兵哨站／攔截</TSA_WD_Settings_Mortar_Section>
+  <!-- EN: Artillery range (tiles) -->
+  <TSA_WD_Settings_MortarRange>砲擊射程（格）</TSA_WD_Settings_MortarRange>
+  <!-- EN: Maximum world distance (tiles) for manual mortar targeting and for defensive auto-fire range checks. -->
+  <TSA_WD_Settings_MortarRangeTooltip>手動指定迫擊砲目標，以及防禦性自動開火範圍檢查的最大世界距離（格）。</TSA_WD_Settings_MortarRangeTooltip>
+  <!-- EN: Artillery cooldown (days) -->
+  <TSA_WD_Settings_CooldownMortarDays>砲擊冷卻（天）</TSA_WD_Settings_CooldownMortarDays>
+  <!-- EN: Base days before a player artillery outpost or hostile T4 interceptor can fire again, before garrison Shooting (2% shorter per summed point, min 25% of this) and outpost upgrade reductions. -->
+  <TSA_WD_Settings_CooldownMortarDaysTooltip>玩家砲兵哨站或敵方T4攔截據點再次開火前的基礎天數，尚未計入駐軍射擊技能（總和每點縮短2%，最低為此值的25%）與哨站升級的縮減。</TSA_WD_Settings_CooldownMortarDaysTooltip>
+  <!-- EN: Base shell strength damage -->
+  <TSA_WD_Settings_MortarBaseShellDamage>基礎砲彈戰力傷害</TSA_WD_Settings_MortarBaseShellDamage>
+  <!-- EN: Strength removed on a hit before outpost upgrades. Upgrades add flat damage per built level via XML (mortarShellDamageBonus). Settlements split damage across offensive/defensive pools; caravans and WD travelers use one abstract pool. -->
+  <TSA_WD_Settings_MortarBaseShellDamageTooltip>命中時扣除的戰力（未計哨站升級）。升級會依XML（mortarShellDamageBonus）為每個已建等級增加固定傷害。據點的傷害會分攤到進攻／防禦兩個戰力池；旅隊與WD旅行者使用單一抽象戰力池。</TSA_WD_Settings_MortarBaseShellDamageTooltip>
+  <!-- EN: Hit chance at 0–50% of max range -->
+  <TSA_WD_Settings_MortarHitBand0To50>最大射程0–50%時的命中率</TSA_WD_Settings_MortarHitBand0To50>
+  <!-- EN: Base hit for 0-50% of max range. With the level-20 best shooter bonus (+20 pp), hit chance reaches 100% at half max range. Upgrades add mortar hit chance bonus. -->
+  <TSA_WD_Settings_MortarHitBand0To50Tooltip>最大射程0-50%的基礎命中率。加上20級最佳射手加成（+20個百分點），在最大射程一半時命中率可達100%。升級會增加迫擊砲命中率加成。</TSA_WD_Settings_MortarHitBand0To50Tooltip>
+  <!-- EN: Hit chance at 51–75% of max range -->
+  <TSA_WD_Settings_MortarHitBand51To75>最大射程51–75%時的命中率</TSA_WD_Settings_MortarHitBand51To75>
+  <!-- EN: Base for 51-75% of max range (tuned with the inner and outer bands so longer shots stay harder at the same skill). -->
+  <TSA_WD_Settings_MortarHitBand51To75Tooltip>最大射程51-75%的基礎值（與內外兩個區段一起調整，讓同樣技能下較遠的射擊仍較難命中）。</TSA_WD_Settings_MortarHitBand51To75Tooltip>
+  <!-- EN: Hit chance at 76–100% of max range -->
+  <TSA_WD_Settings_MortarHitBand76To100>最大射程76–100%時的命中率</TSA_WD_Settings_MortarHitBand76To100>
+  <!-- EN: Base for 76–100% of max range; best shooter still adds +1% per level and upgrades stack on top. -->
+  <TSA_WD_Settings_MortarHitBand76To100Tooltip>最大射程76–100%的基礎值；最佳射手仍每級+1%，升級加成另外疊加。</TSA_WD_Settings_MortarHitBand76To100Tooltip>
+  <!-- EN: Rapid Response outpost -->
+  <TSA_WD_Outpost_HeaderRapidResponse>快速反應哨站</TSA_WD_Outpost_HeaderRapidResponse>
+  <!-- EN: Rapid Response offensive strength bonus -->
+  <TSA_WD_Outpost_RapidResponseOffenseBonus>快速反應進攻戰力加成</TSA_WD_Outpost_RapidResponseOffenseBonus>
+  <!-- EN: Extra offensive strength cap for Rapid Response Outposts. Future upgrades add flat percentage points on top of this value. -->
+  <TSA_WD_Outpost_RapidResponseOffenseBonusTooltip>快速反應哨站額外的進攻戰力上限。日後的升級會在此值之上增加固定百分點。</TSA_WD_Outpost_RapidResponseOffenseBonusTooltip>
+  <!-- EN: Rapid Response offensive recovery bonus -->
+  <TSA_WD_Outpost_RapidResponseRecoveryBonus>快速反應進攻恢復加成</TSA_WD_Outpost_RapidResponseRecoveryBonus>
+  <!-- EN: Extra offensive recovery speed for Rapid Response Outposts. Future upgrades add flat percentage points on top of this value. -->
+  <TSA_WD_Outpost_RapidResponseRecoveryBonusTooltip>快速反應哨站額外的進攻戰力恢復速度。日後的升級會在此值之上增加固定百分點。</TSA_WD_Outpost_RapidResponseRecoveryBonusTooltip>
+  <!-- EN: Rapid Response auto-intercept range -->
+  <TSA_WD_Outpost_RapidResponseAutoRange>快速反應自動攔截範圍</TSA_WD_Outpost_RapidResponseAutoRange>
+  <!-- EN: Maximum world-tile distance for automatic Rapid Response virtual counter-caravans. Drawn as a purple ring while the outpost is selected. -->
+  <TSA_WD_Outpost_RapidResponseAutoRangeTooltip>快速反應自動派出虛擬反擊旅隊的最大世界地塊距離。選取哨站時以紫色圓環顯示。</TSA_WD_Outpost_RapidResponseAutoRangeTooltip>
+  <!-- EN: Rapid Response drop-pod range -->
+  <TSA_WD_Outpost_RapidResponseDropPodRange>快速反應運輸艙範圍</TSA_WD_Outpost_RapidResponseDropPodRange>
+  <!-- EN: Maximum world-tile distance for manual Rapid Response pawn drop-pod dispatch from the Pawns tab. -->
+  <TSA_WD_Outpost_RapidResponseDropPodRangeTooltip>從「角色」分頁手動以運輸艙派遣快速反應角色的最大世界地塊距離。</TSA_WD_Outpost_RapidResponseDropPodRangeTooltip>
+  <!-- EN: Interception Caravan travel time multiplier -->
+  <TSA_WD_Outpost_RapidResponseSpeedMult>攔截旅隊移動時間倍率</TSA_WD_Outpost_RapidResponseSpeedMult>
+  <!-- EN: Ticks per move multiplier for Interception Caravans (player Rapid Response and NPC settlement ambush). Relative to the walking traveler speed setting. Lower = faster. An extra ~10% chase edge still applies so they can catch targets moving at a similar pace. -->
+  <TSA_WD_Outpost_RapidResponseSpeedMultTooltip>攔截旅隊（玩家快速反應與NPC據點伏擊）每次移動所需tick的倍率，以步行旅行者速度設定為基準。越低越快。另外仍有約10%的追擊優勢，讓它們能追上速度相近的目標。</TSA_WD_Outpost_RapidResponseSpeedMultTooltip>
+  <!-- EN: Drop-pod travel ticks per tile -->
+  <TSA_WD_Settings_DropPodTicksPerMove>運輸艙每格移動tick數</TSA_WD_Settings_DropPodTicksPerMove>
+  <!-- EN: World ticks per tile for ballistic drop-pod travelers (raids, warehouse and colony deliveries, Rapid Response pawn pods, trade pods, and similar). Lower = faster. Does not affect land Interception Caravans (use the Interception Caravan travel time multiplier). -->
+  <TSA_WD_Settings_DropPodTicksPerMoveTooltip>彈道式運輸艙旅行者（突襲、倉庫與殖民地配送、快速反應角色運輸艙、貿易運輸艙等）每格所需的世界tick數。越低越快。不影響陸上的攔截旅隊（請使用攔截旅隊移動時間倍率）。</TSA_WD_Settings_DropPodTicksPerMoveTooltip>
+  <!-- EN: Mortar shell travel ticks per tile -->
+  <TSA_WD_Settings_MortarShellTicksPerMove>迫擊砲彈每格移動tick數</TSA_WD_Settings_MortarShellTicksPerMove>
+  <!-- EN: World ticks per tile for mortar shell travelers on the world map. Lower = faster shells. -->
+  <TSA_WD_Settings_MortarShellTicksPerMoveTooltip>世界地圖上迫擊砲彈旅行者每格所需的世界tick數。越低砲彈越快。</TSA_WD_Settings_MortarShellTicksPerMoveTooltip>
+  <!-- EN: Anti-Air flak travel ticks per tile -->
+  <TSA_WD_Settings_FlakShellTicksPerMove>防空防空砲彈每格移動tick數</TSA_WD_Settings_FlakShellTicksPerMove>
+  <!-- EN: World ticks per tile for Anti-Air flak shells. Lower = faster. Also used when leading moving targets. -->
+  <TSA_WD_Settings_FlakShellTicksPerMoveTooltip>防空防空砲彈每格所需的世界tick數。越低越快。也用於計算移動目標的提前量。</TSA_WD_Settings_FlakShellTicksPerMoveTooltip>
+  <!-- EN: Enemy settlement mortar damage -->
+  <TSA_WD_Settings_NpcMortarDamage>敵方據點迫擊砲傷害</TSA_WD_Settings_NpcMortarDamage>
+  <!-- EN: Strength removed from hostile tier-4 settlements when their defensive mortar hits a traveler or caravan. -->
+  <TSA_WD_Settings_NpcMortarDamageTooltip>敵對4級據點的防禦迫擊砲擊中旅行者或旅隊時扣除的戰力。</TSA_WD_Settings_NpcMortarDamageTooltip>
+  <!-- EN: Enemy settlement equivalent shooting skill -->
+  <TSA_WD_Settings_NpcMortarSkillEquivalent>敵方據點等效射擊技能</TSA_WD_Settings_NpcMortarSkillEquivalent>
+  <!-- EN: Treated as the settlement’s “best shooter” level: adds this many percentage points to hit (+1% per point) after distance bands. No outpost upgrades apply to NPC shots. -->
+  <TSA_WD_Settings_NpcMortarSkillEquivalentTooltip>視為該據點「最佳射手」的等級：在距離區段之後，命中率增加此數值的百分點（每點+1%）。NPC射擊不套用任何哨站升級。</TSA_WD_Settings_NpcMortarSkillEquivalentTooltip>
+  <!-- EN: Interception scan interval (seconds) -->
+  <TSA_WD_Settings_InterceptionScanIntervalSec>攔截掃描間隔（秒）</TSA_WD_Settings_InterceptionScanIntervalSec>
+  <!-- EN: Shared performance setting. Player artillery and Rapid Response outposts use this interval. Enemy T4 settlements use three times this interval (capped scans per cycle). -->
+  <TSA_WD_Settings_InterceptionScanIntervalSecTooltip>共用的效能設定。玩家砲兵哨站與快速反應哨站使用此間隔。敵方T4據點使用此間隔的三倍（每週期掃描次數有上限）。</TSA_WD_Settings_InterceptionScanIntervalSecTooltip>
+  <!-- EN: Reset artillery / interception tuning -->
+  <TSA_WD_Settings_ResetMortarInterception>重設砲擊／攔截調整</TSA_WD_Settings_ResetMortarInterception>
+  <!-- EN: Enemy artillery turrets -->
+  <TSA_WD_T4Mortar_Header>敵方砲塔</TSA_WD_T4Mortar_Header>
+  <!-- EN: Enemy Mortar Turrets fire -->
+  <TSA_WD_T4Mortar_EnableAll>敵方迫擊砲塔開火</TSA_WD_T4Mortar_EnableAll>
+  <!-- EN: Master toggle. NPC settlements build Mortar Turrets as advanced building projects (tier 3 on a 30% roll, one free turret on reaching tier 4). When on, these turrets fire at hostile NON-player WD travelers in range, and when none are in range they shell hostile targets nearby. Settlements themselves never fire. Whether turrets may also target YOU is set under Threat timing. -->
+  <TSA_WD_T4Mortar_EnableAllTooltip>總開關。NPC據點會把迫擊砲塔當作進階建築計畫來建造（3級時有30%機率，升到4級時免費獲得一座）。開啟時，這些砲塔會向範圍內的敵對「非玩家」WD旅行者開火；範圍內沒有目標時，則砲擊附近的敵對目標。據點本身永遠不會開火。砲塔是否也能以「你」為目標，在「威脅時機」中設定。</TSA_WD_T4Mortar_EnableAllTooltip>
+  <!-- EN: Artillery turrets: min tech level -->
+  <TSA_WD_T4Mortar_MinTech>砲塔：最低科技等級</TSA_WD_T4Mortar_MinTech>
+  <!-- EN: Only factions at this tech level or higher may build and fire Mortar and AA Turrets. Neolithic allows essentially all factions. -->
+  <TSA_WD_T4Mortar_MinTechTip>只有達到此科技等級以上的派系才能建造並使用迫擊砲塔與防空砲塔。選「原始部落」基本上等於所有派系皆可。</TSA_WD_T4Mortar_MinTechTip>
+  <!-- EN: May target your WD travelers and outposts -->
+  <TSA_WD_T4Mortar_TargetPlayer>可攻擊你的WD旅行者與哨站</TSA_WD_T4Mortar_TargetPlayer>
+  <!-- EN: When on, enemy Mortar Turrets may also fire at your WD caravans and outposts, but only while Late Game is active. With this off, they never target you in Late Game. Mid Game has its own toggle; turning Mid Game on forces this Late Game toggle on. -->
+  <TSA_WD_T4Mortar_TargetPlayerTooltip>開啟時，敵方迫擊砲塔也可能向你的WD旅隊與哨站開火，但僅限後期階段啟用期間。關閉時，後期階段絕不會以你為目標。中期階段有獨立的開關；開啟中期階段會強制開啟此後期開關。</TSA_WD_T4Mortar_TargetPlayerTooltip>
+  <!-- EN: Mortar Turret range (tiles) -->
+  <TSA_WD_T4Mortar_Range>迫擊砲塔射程（格）</TSA_WD_T4Mortar_Range>
+  <!-- EN: Maximum world distance (tiles) an enemy Mortar Turret can reach. Independent of the player artillery range. -->
+  <TSA_WD_T4Mortar_RangeTooltip>敵方迫擊砲塔能達到的最大世界距離（格）。與玩家砲擊射程分開設定。</TSA_WD_T4Mortar_RangeTooltip>
+  <!-- EN: Mortar Turret cooldown (days) -->
+  <TSA_WD_T4Mortar_Cooldown>迫擊砲塔冷卻（天）</TSA_WD_T4Mortar_Cooldown>
+  <!-- EN: Days between shots for an enemy Mortar Turret. Independent of the player artillery cooldown. -->
+  <TSA_WD_T4Mortar_CooldownTooltip>敵方迫擊砲塔每次射擊的間隔天數。與玩家砲擊冷卻分開設定。</TSA_WD_T4Mortar_CooldownTooltip>
+  <!-- EN: Hit chance at 0–50% of max range -->
+  <TSA_WD_T4Mortar_HitBand0To50>最大射程0–50%時的命中率</TSA_WD_T4Mortar_HitBand0To50>
+  <!-- EN: Base hit chance for Mortar Turret shots at 0–50% of max range, before the equivalent shooting-skill bonus. -->
+  <TSA_WD_T4Mortar_HitBand0To50Tooltip>迫擊砲塔在最大射程0–50%時的基礎命中率，未計等效射擊技能加成。</TSA_WD_T4Mortar_HitBand0To50Tooltip>
+  <!-- EN: Hit chance at 51–75% of max range -->
+  <TSA_WD_T4Mortar_HitBand51To75>最大射程51–75%時的命中率</TSA_WD_T4Mortar_HitBand51To75>
+  <!-- EN: Base hit chance for Mortar Turret shots at 51–75% of max range. -->
+  <TSA_WD_T4Mortar_HitBand51To75Tooltip>迫擊砲塔在最大射程51–75%時的基礎命中率。</TSA_WD_T4Mortar_HitBand51To75Tooltip>
+  <!-- EN: Hit chance at 76–100% of max range -->
+  <TSA_WD_T4Mortar_HitBand76To100>最大射程76–100%時的命中率</TSA_WD_T4Mortar_HitBand76To100>
+  <!-- EN: Base hit chance for Mortar Turret shots at 76–100% of max range. -->
+  <TSA_WD_T4Mortar_HitBand76To100Tooltip>迫擊砲塔在最大射程76–100%時的基礎命中率。</TSA_WD_T4Mortar_HitBand76To100Tooltip>
+  <!-- EN: Player artillery and Rapid Response outposts use it as-is. Enemy artillery turrets use three times this interval to save performance. -->
+  <TSA_WD_T4Mortar_ScanSharedNote>玩家砲兵哨站與快速反應哨站直接使用此值。敵方砲塔使用此間隔的三倍以節省效能。</TSA_WD_T4Mortar_ScanSharedNote>
+  <!-- EN: Enemy Mortar Turrets are disabled. -->
+  <TSA_WD_T4Mortar_DisabledHint>敵方迫擊砲塔已停用。</TSA_WD_T4Mortar_DisabledHint>
+  <!-- EN: Reset enemy artillery turret settings -->
+  <TSA_WD_T4Mortar_Reset>重設敵方砲塔設定</TSA_WD_T4Mortar_Reset>
+  <!-- EN: Food logistics -->
+  <TSA_WD_Food_Header>食物物流</TSA_WD_Food_Header>
+  <!-- EN: Mortar -->
+  <TSA_WD_MortarTab_Label>迫擊砲</TSA_WD_MortarTab_Label>
+  <!-- EN: Mortar stats -->
+  <TSA_WD_MortarTab_Headline>迫擊砲數據</TSA_WD_MortarTab_Headline>
+  <!-- EN: Strength damage / shot: {0} -->
+  <TSA_WD_MortarTab_DamageHeadline>每發戰力傷害：{0}</TSA_WD_MortarTab_DamageHeadline>
+  <!-- EN: Damage per Shot -->
+  <TSA_WD_MortarTab_HeaderDamageTitle>每發傷害</TSA_WD_MortarTab_HeaderDamageTitle>
+  <!-- EN: Cooldown -->
+  <TSA_WD_MortarTab_HeaderCooldownTitle>冷卻</TSA_WD_MortarTab_HeaderCooldownTitle>
+  <!-- EN: {0} days -->
+  <TSA_WD_MortarTab_HeaderCooldownValue>{0}天</TSA_WD_MortarTab_HeaderCooldownValue>
+  <!-- EN: Accuracy -->
+  <TSA_WD_MortarTab_HeaderAccuracyTitle>準度</TSA_WD_MortarTab_HeaderAccuracyTitle>
+  <!-- EN: 0-50 % range: {0}% -->
+  <TSA_WD_MortarTab_HeaderAccRange0_50>0-50%射程：{0}%</TSA_WD_MortarTab_HeaderAccRange0_50>
+  <!-- EN: 51-75 % range: {0}% -->
+  <TSA_WD_MortarTab_HeaderAccRange51_75>51-75%射程：{0}%</TSA_WD_MortarTab_HeaderAccRange51_75>
+  <!-- EN: 76-100 % range: {0}% -->
+  <TSA_WD_MortarTab_HeaderAccRange76_100>76-100%射程：{0}%</TSA_WD_MortarTab_HeaderAccRange76_100>
+  <!-- EN: Range -->
+  <TSA_WD_MortarTab_HeaderRangeTitle>射程</TSA_WD_MortarTab_HeaderRangeTitle>
+  <!-- EN: {0} tiles -->
+  <TSA_WD_MortarTab_HeaderRangeValue>{0}格</TSA_WD_MortarTab_HeaderRangeValue>
+  <!-- EN: Base (mod settings): {0} -->
+  <TSA_WD_MortarTab_HeaderBaseShell>基礎值（模組設定）：{0}</TSA_WD_MortarTab_HeaderBaseShell>
+  <!-- EN: Cooldown: {0} days -->
+  <TSA_WD_MortarTab_ReloadHeadline>冷卻：{0}天</TSA_WD_MortarTab_ReloadHeadline>
+  <!-- EN:  (Clamped) -->
+  <TSA_WD_MortarTab_CooldownClampedMark>（已達下限）</TSA_WD_MortarTab_CooldownClampedMark>
+  <!-- EN: Skill and upgrade reductions cannot shorten cooldown below {0}% of the base duration (minimum {1} days at current base). -->
+  <TSA_WD_MortarTab_CooldownClampTip>技能與升級的縮減無法讓冷卻低於基礎時長的{0}%（以目前基礎值計，最低{1}天）。</TSA_WD_MortarTab_CooldownClampTip>
+  <!-- EN: Accuracy at 0-50 % range: {0}% -->
+  <TSA_WD_MortarTab_AccuracyHeadline0_50>0-50%射程準度：{0}%</TSA_WD_MortarTab_AccuracyHeadline0_50>
+  <!-- EN: Accuracy at 51-75 % range: {0}% -->
+  <TSA_WD_MortarTab_AccuracyHeadline51_75>51-75%射程準度：{0}%</TSA_WD_MortarTab_AccuracyHeadline51_75>
+  <!-- EN: Accuracy at 76-100 % range: {0}% -->
+  <TSA_WD_MortarTab_AccuracyHeadline76_100>76-100%射程準度：{0}%</TSA_WD_MortarTab_AccuracyHeadline76_100>
+  <!-- EN: Base (mod settings): {0} tiles -->
+  <TSA_WD_MortarTab_HeaderBaseRangeTiles>基礎值（模組設定）：{0}格</TSA_WD_MortarTab_HeaderBaseRangeTiles>
+  <!-- EN: Accuracy -->
+  <TSA_WD_MortarTab_ColumnAccuracy>準度</TSA_WD_MortarTab_ColumnAccuracy>
+  <!-- EN: Range: {0} tiles -->
+  <TSA_WD_MortarTab_RangeHeadline>射程：{0}格</TSA_WD_MortarTab_RangeHeadline>
+  <!-- EN: Base value -->
+  <TSA_WD_MortarTab_SectionBaseValue>基礎值</TSA_WD_MortarTab_SectionBaseValue>
+  <!-- EN: Pawn modifiers -->
+  <TSA_WD_MortarTab_SectionPawnModifiers>角色修正</TSA_WD_MortarTab_SectionPawnModifiers>
+  <!-- EN: Outpost upgrades -->
+  <TSA_WD_MortarTab_SectionOutpostUpgrades>哨站升級</TSA_WD_MortarTab_SectionOutpostUpgrades>
+  <!-- EN: No relevant Outpost upgrades -->
+  <TSA_WD_MortarTab_NoRelevantOutpostUpgrade>沒有相關的哨站升級</TSA_WD_MortarTab_NoRelevantOutpostUpgrade>
+  <!-- EN: N/A -->
+  <TSA_WD_MortarTab_PawnModsDamageNone>不適用</TSA_WD_MortarTab_PawnModsDamageNone>
+  <!-- EN: N/A -->
+  <TSA_WD_MortarTab_PawnModsRangeNone>不適用</TSA_WD_MortarTab_PawnModsRangeNone>
+  <!-- EN: Base shell damage (mod settings): {0} -->
+  <TSA_WD_MortarTab_BaseDamageLine>基礎砲彈傷害（模組設定）：{0}</TSA_WD_MortarTab_BaseDamageLine>
+  <!-- EN: Base cooldown (mod settings): {0} days -->
+  <TSA_WD_MortarTab_BaseCooldownLine>基礎冷卻（模組設定）：{0}天</TSA_WD_MortarTab_BaseCooldownLine>
+  <!-- EN: Cum. Shooting skill {0}: −{1}% CD -->
+  <TSA_WD_MortarTab_ShootingCooldownLine>射擊技能總和{0}：冷卻−{1}%</TSA_WD_MortarTab_ShootingCooldownLine>
+  <!-- EN: Built upgrades (total): −{0}% duration -->
+  <TSA_WD_MortarTab_UpgradeCooldownTotalLine>已建升級（合計）：時長−{0}%</TSA_WD_MortarTab_UpgradeCooldownTotalLine>
+  <!-- EN: Effective duration multiplier: {0}% of base (see header cooldown). -->
+  <TSA_WD_MortarTab_MultiplierFloorLine>實際時長倍率：基礎值的{0}%（見標題列冷卻）。</TSA_WD_MortarTab_MultiplierFloorLine>
+  <!-- EN: Band bases (50% / 75% / 100% of max range): {0}% | {1}% | {2}% -->
+  <TSA_WD_MortarTab_BaseAccSummary>各區段基礎值（最大射程50%／75%／100%）：{0}% | {1}% | {2}%</TSA_WD_MortarTab_BaseAccSummary>
+  <!-- EN: At 0-50% of max range: {0}% -->
+  <TSA_WD_MortarTab_AccuracyBandBaseOnly50>最大射程0-50%：{0}%</TSA_WD_MortarTab_AccuracyBandBaseOnly50>
+  <!-- EN: At 51-75% of max range: {0}% -->
+  <TSA_WD_MortarTab_AccuracyBandBaseOnly75>最大射程51-75%：{0}%</TSA_WD_MortarTab_AccuracyBandBaseOnly75>
+  <!-- EN: At 76-100% of max range: {0}% -->
+  <TSA_WD_MortarTab_AccuracyBandBaseOnly100>最大射程76-100%：{0}%</TSA_WD_MortarTab_AccuracyBandBaseOnly100>
+  <!-- EN: Best Shooter (Shooting {0}): +{1}% hit (flat per level from mod) -->
+  <TSA_WD_MortarTab_BestShooterLine>最佳射手（射擊{0}）：命中+{1}%（模組設定的每級固定值）</TSA_WD_MortarTab_BestShooterLine>
+  <!-- EN: Best Shooter Lvl {0}: +{1}pp accuracy -->
+  <TSA_WD_MortarTab_BestShooterPpLine>最佳射手{0}級：準度+{1}個百分點</TSA_WD_MortarTab_BestShooterPpLine>
+  <!-- EN: Accuracy at 50% of max distance: {0}% -->
+  <TSA_WD_MortarTab_AccuracyAt50Pct>最大距離50%時的準度：{0}%</TSA_WD_MortarTab_AccuracyAt50Pct>
+  <!-- EN: Accuracy at 75% of max distance: {0}% -->
+  <TSA_WD_MortarTab_AccuracyAt75Pct>最大距離75%時的準度：{0}%</TSA_WD_MortarTab_AccuracyAt75Pct>
+  <!-- EN: Accuracy at 100% of max distance: {0}% -->
+  <TSA_WD_MortarTab_AccuracyAt100Pct>最大距離100%時的準度：{0}%</TSA_WD_MortarTab_AccuracyAt100Pct>
+  <!-- EN: Max range (mod settings): {0} world tiles -->
+  <TSA_WD_MortarTab_RangeDetailLine>最大射程（模組設定）：{0}世界地塊</TSA_WD_MortarTab_RangeDetailLine>
+  <!-- EN: {0}: +{1} shell damage -->
+  <TSA_WD_MortarTab_UpgradeShellDamage>{0}：砲彈傷害+{1}</TSA_WD_MortarTab_UpgradeShellDamage>
+  <!-- EN: {0}: −{1}% base duration -->
+  <TSA_WD_MortarTab_UpgradeCooldown>{0}：基礎時長−{1}%</TSA_WD_MortarTab_UpgradeCooldown>
+  <!-- EN: {0}: +{1}% hit chance -->
+  <TSA_WD_MortarTab_UpgradeHit>{0}：命中率+{1}%</TSA_WD_MortarTab_UpgradeHit>
+  <!-- EN: {0}: +{1}pp hit -->
+  <TSA_WD_MortarTab_UpgradeHitPp>{0}：命中+{1}個百分點</TSA_WD_MortarTab_UpgradeHitPp>
+  <!-- EN: {0}: +{1} max range tiles -->
+  <TSA_WD_MortarTab_UpgradeRange>{0}：最大射程+{1}格</TSA_WD_MortarTab_UpgradeRange>
+  <!-- EN: Flak Shell -->
+  <TSA_WD_Traveler_FlakShell>防空砲彈</TSA_WD_Traveler_FlakShell>
+  <!-- EN: Automatically fires at matching hostile caravans in range. With the Anti-Air Gun upgrade, also engages hostile drop-pod raids (separate short cooldown). -->
+  <TSA_WD_Mortar_AutoAttackDescWithAA>自動向範圍內符合條件的敵對旅隊開火。擁有防空砲升級時，也會迎擊敵對的運輸艙突襲（另有獨立的短冷卻）。</TSA_WD_Mortar_AutoAttackDescWithAA>
+  <!-- EN: Auto Anti Air On -->
+  <TSA_WD_AntiAir_Auto_On>自動防空：開啟</TSA_WD_AntiAir_Auto_On>
+  <!-- EN: Auto Anti Air Off -->
+  <TSA_WD_AntiAir_Auto_Off>自動防空：關閉</TSA_WD_AntiAir_Auto_Off>
+  <!-- EN: Auto Anti Air On/Off -->
+  <TSA_WD_AntiAir_Auto_Toggle>自動防空：開啟／關閉</TSA_WD_AntiAir_Auto_Toggle>
+  <!-- EN: When on, automatically engages hostile drop-pod raids, mortar shells, and transport pods in Anti-Air range. Separate from mortar auto-target; uses the Anti-Air cooldown. Red/orange/yellow rings show Anti-Air accuracy vs pods and aerials; mortar shells use a flat shot-down chance. -->
+  <TSA_WD_AntiAir_AutoDesc>開啟時，自動迎擊防空範圍內的敵對運輸艙突襲、迫擊砲彈與運輸艙。與迫擊砲自動目標分開運作，使用防空冷卻。紅／橘／黃圓環代表對運輸艙與飛行載具的防空準度；迫擊砲彈則使用固定的擊落機率。</TSA_WD_AntiAir_AutoDesc>
+  <!-- EN: {0} opened flak fire on {1} ({2} damage). -->
+  <TSA_WD_Log_AntiAirLaunched>{0}對{1}展開高射砲火（{2}傷害）。</TSA_WD_Log_AntiAirLaunched>
+  <!-- EN: Flak missed -->
+  <TSA_WD_AntiAir_Miss_Label>高射砲未命中</TSA_WD_AntiAir_Miss_Label>
+  <!-- EN: {0}'s flak barrage missed {1}. -->
+  <TSA_WD_AntiAir_Miss_Text>{0}的防空砲彈幕未擊中{1}。</TSA_WD_AntiAir_Miss_Text>
+  <!-- EN: Flak hit -->
+  <TSA_WD_AntiAir_Hit_Label>高射砲命中</TSA_WD_AntiAir_Hit_Label>
+  <!-- EN: {0}'s flak hit {1} ({2} → {3} strength, −{4}). -->
+  <TSA_WD_AntiAir_Hit_Text>{0}的高射砲擊中{1}（戰力{2} → {3}，−{4}）。</TSA_WD_AntiAir_Hit_Text>
+  <!-- EN: Drop pods destroyed -->
+  <TSA_WD_AntiAir_Hit_Destroyed_Label>運輸艙已被摧毀</TSA_WD_AntiAir_Hit_Destroyed_Label>
+  <!-- EN: {0}'s flak destroyed {1} (was {2} strength). -->
+  <TSA_WD_AntiAir_Hit_Destroyed_Text>{0}的高射砲摧毀了{1}（原本戰力{2}）。</TSA_WD_AntiAir_Hit_Destroyed_Text>
+  <!-- EN: Upgrade drop pod destroyed -->
+  <TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Label>升級運輸艙已被摧毀</TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Label>
+  <!-- EN: {0}'s anti-air shot down an outpost upgrade drop pod ({1}). The upgrade materials are lost. -->
+  <TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Text>{0}的防空砲火擊落了一個哨站升級運輸艙（{1}）。升級材料已損失。</TSA_WD_AntiAir_UpgradeDropPod_Destroyed_Text>
+  <!-- EN: Goods drop pod destroyed -->
+  <TSA_WD_AntiAir_GoodsDropPod_Destroyed_Label>貨物運輸艙已被摧毀</TSA_WD_AntiAir_GoodsDropPod_Destroyed_Label>
+  <!-- EN: {0}'s anti-air shot down a goods drop pod ({1}). The shipment is lost. -->
+  <TSA_WD_AntiAir_GoodsDropPod_Destroyed_Text>{0}的防空砲火擊落了一個貨物運輸艙（{1}）。該批貨物已損失。</TSA_WD_AntiAir_GoodsDropPod_Destroyed_Text>
+  <!-- EN: Drop pod pawns killed -->
+  <TSA_WD_AntiAir_RapidResponsePawnsKilled_Label>運輸艙內角色死亡</TSA_WD_AntiAir_RapidResponsePawnsKilled_Label>
+  <!-- EN: {0}'s anti-air destroyed a drop pod. The following pawns died:\n\n{1} -->
+  <TSA_WD_AntiAir_RapidResponsePawnsKilled_Text>{0}的防空砲火摧毀了一個運輸艙。以下角色死亡：\n\n{1}</TSA_WD_AntiAir_RapidResponsePawnsKilled_Text>
+  <!-- EN: Drop pods hit by anti-air -->
+  <TSA_WD_AntiAir_PawnPods_Outcome_Label>運輸艙遭防空砲火擊中</TSA_WD_AntiAir_PawnPods_Outcome_Label>
+  <!-- EN: {0}'s anti-air struck a drop-pod flight.\n\n{1} -->
+  <TSA_WD_AntiAir_PawnPods_Outcome_Text>{0}的防空砲火擊中了一批飛行中的運輸艙。\n\n{1}</TSA_WD_AntiAir_PawnPods_Outcome_Text>
+  <!-- EN: Died: -->
+  <TSA_WD_AntiAir_PawnPods_DiedHeader>死亡：</TSA_WD_AntiAir_PawnPods_DiedHeader>
+  <!-- EN: Crashed (wounded at crash site): -->
+  <TSA_WD_AntiAir_PawnPods_CrashedHeader>墜毀（於墜毀地點受傷）：</TSA_WD_AntiAir_PawnPods_CrashedHeader>
+  <!-- EN: {0}'s AA vs drop pods: {1} dead, {2} crashed, {3} still flying. -->
+  <TSA_WD_AntiAir_PawnPods_Resolved_Log>{0}的防空對運輸艙：{1}死亡，{2}墜毀，{3}仍在飛行。</TSA_WD_AntiAir_PawnPods_Resolved_Log>
+  <!-- EN: Mortar: ready -->
+  <TSA_WD_Inspect_MortarReady>迫擊砲：就緒</TSA_WD_Inspect_MortarReady>
+  <!-- EN: Anti-air: ready -->
+  <TSA_WD_Inspect_AntiAirReady>防空：就緒</TSA_WD_Inspect_AntiAirReady>
+  <!-- EN: Anti-air cooling down: {0}s -->
+  <TSA_WD_Inspect_AntiAirCD>防空冷卻中：{0}秒</TSA_WD_Inspect_AntiAirCD>
+  <!-- EN: Anti Air Turret -->
+  <TSA_WD_Outpost_HeaderAntiAir>防空砲塔</TSA_WD_Outpost_HeaderAntiAir>
+  <!-- EN: Anti-Air base damage -->
+  <TSA_WD_Settings_AntiAirBaseDamage>防空基礎傷害</TSA_WD_Settings_AntiAirBaseDamage>
+  <!-- EN: Strength removed from a hostile drop-pod raid on a successful flak hit, before mortar shell upgrades. -->
+  <TSA_WD_Settings_AntiAirBaseDamageTooltip>高射砲成功命中敵對運輸艙突襲時扣除的戰力，未計迫擊砲彈升級。</TSA_WD_Settings_AntiAirBaseDamageTooltip>
+  <!-- EN: Anti-Air cooldown (seconds) -->
+  <TSA_WD_Settings_CooldownAntiAirSeconds>防空冷卻（秒）</TSA_WD_Settings_CooldownAntiAirSeconds>
+  <!-- EN: Base seconds between Anti-Air engagements. Reduced by Shooting skill and mortar cooldown upgrades, then floored. -->
+  <TSA_WD_Settings_CooldownAntiAirSecondsTooltip>每次防空迎擊之間的基礎秒數。會依射擊技能與迫擊砲冷卻升級縮短，再套用下限。</TSA_WD_Settings_CooldownAntiAirSecondsTooltip>
+  <!-- EN: Anti-Air cooldown floor (seconds) -->
+  <TSA_WD_Settings_AntiAirCooldownFloorSeconds>防空冷卻下限（秒）</TSA_WD_Settings_AntiAirCooldownFloorSeconds>
+  <!-- EN: Minimum Anti-Air cooldown after skill and upgrade reductions. -->
+  <TSA_WD_Settings_AntiAirCooldownFloorSecondsTooltip>技能與升級縮減後的最低防空冷卻。</TSA_WD_Settings_AntiAirCooldownFloorSecondsTooltip>
+  <!-- EN: Anti-Air damage -->
+  <TSA_WD_OutpostStats_Row_AntiAirDamage>防空傷害</TSA_WD_OutpostStats_Row_AntiAirDamage>
+  <!-- EN: Flak resolver damage (base anti-air + shell upgrades). -->
+  <TSA_WD_OutpostStats_Row_AntiAirDamageTip>高射砲結算傷害（基礎防空 + 砲彈升級）。</TSA_WD_OutpostStats_Row_AntiAirDamageTip>
+  <!-- EN: Anti-Air cooldown (s) -->
+  <TSA_WD_OutpostStats_Row_AntiAirCooldown>防空冷卻（秒）</TSA_WD_OutpostStats_Row_AntiAirCooldown>
+  <!-- EN: Effective anti-air cooldown in seconds after cumulative Shooting and mortar cooldown upgrades (then absolute floor). -->
+  <TSA_WD_OutpostStats_Row_AntiAirCooldownTip>計入射擊技能總和與迫擊砲冷卻升級後的實際防空冷卻秒數（再套用絕對下限）。</TSA_WD_OutpostStats_Row_AntiAirCooldownTip>
+  <!-- EN: Anti-Air status -->
+  <TSA_WD_OutpostStats_Row_AntiAirStatus>防空狀態</TSA_WD_OutpostStats_Row_AntiAirStatus>
+  <!-- EN: Whether anti-air can fire now. -->
+  <TSA_WD_OutpostStats_Row_AntiAirStatusTip>防空目前是否可以開火。</TSA_WD_OutpostStats_Row_AntiAirStatusTip>
+  <!-- EN: Cooling down ({0}s) -->
+  <TSA_WD_OutpostStats_Value_AntiAirCooldown>冷卻中（{0}秒）</TSA_WD_OutpostStats_Value_AntiAirCooldown>
+  <!-- EN: Best shooter (Shooting {0}) -->
+  <TSA_WD_OutpostStats_Tip_BestShooter>最佳射手（射擊{0}）</TSA_WD_OutpostStats_Tip_BestShooter>
+  <!-- EN: Cumulative Shooting {0} -->
+  <TSA_WD_OutpostStats_Tip_CumShooting>射擊技能總和{0}</TSA_WD_OutpostStats_Tip_CumShooting>
+  <!-- EN: Absolute floor applied: {0}s (was {1}s before floor). -->
+  <TSA_WD_OutpostStats_Tip_AntiAirAbsFloor>已套用絕對下限：{0}秒（套用前為{1}秒）。</TSA_WD_OutpostStats_Tip_AntiAirAbsFloor>
+  <!-- EN: Accuracy 0-50% Anti-Air range -->
+  <TSA_WD_OutpostStats_Row_AntiAirAcc50>防空射程0-50%準度</TSA_WD_OutpostStats_Row_AntiAirAcc50>
+  <!-- EN: Accuracy 51-75% Anti-Air range -->
+  <TSA_WD_OutpostStats_Row_AntiAirAcc75>防空射程51-75%準度</TSA_WD_OutpostStats_Row_AntiAirAcc75>
+  <!-- EN: Accuracy 76-100% Anti-Air range -->
+  <TSA_WD_OutpostStats_Row_AntiAirAcc100>防空射程76-100%準度</TSA_WD_OutpostStats_Row_AntiAirAcc100>
+  <!-- EN: Anti-Air hit chance vs drop pods, transport pods, and aerials by distance band (fraction of Anti-Air max range). Band base plus best shooter (+1 pp per Shooting level). Mortar shells use the flat Anti-Air vs shells chance below. -->
+  <TSA_WD_OutpostStats_Row_AntiAirAccTip>依距離區段（防空最大射程的比例）計算的防空命中率，適用於運輸艙與飛行載具。區段基礎值加上最佳射手加成（每級射擊+1個百分點）。迫擊砲彈則使用下方固定的防空對砲彈機率。</TSA_WD_OutpostStats_Row_AntiAirAccTip>
+  <!-- EN: Letter group for AA exclusivity. Same letter may keep firing at a claimed target. Other letters are blocked. Off means ungrouped (never claims, never blocked). -->
+  <TSA_WD_AntiAir_GroupDesc>防空專屬目標的字母分組。同一字母可繼續射擊已鎖定的目標，其他字母則被阻擋。關閉代表不分組（不鎖定目標，也不會被阻擋）。</TSA_WD_AntiAir_GroupDesc>
+  <!-- EN: AA Group Off -->
+  <TSA_WD_AntiAir_Group_Off>防空分組：關閉</TSA_WD_AntiAir_Group_Off>
+  <!-- EN: AA Group A -->
+  <TSA_WD_AntiAir_Group_A>防空分組：A</TSA_WD_AntiAir_Group_A>
+  <!-- EN: AA Group B -->
+  <TSA_WD_AntiAir_Group_B>防空分組：B</TSA_WD_AntiAir_Group_B>
+  <!-- EN: AA Group C -->
+  <TSA_WD_AntiAir_Group_C>防空分組：C</TSA_WD_AntiAir_Group_C>
+  <!-- EN: AA Group D -->
+  <TSA_WD_AntiAir_Group_D>防空分組：D</TSA_WD_AntiAir_Group_D>
+  <!-- EN: Off (ungrouped) -->
+  <TSA_WD_AntiAir_Group_Menu_Off>關閉（不分組）</TSA_WD_AntiAir_Group_Menu_Off>
+  <!-- EN: Group A -->
+  <TSA_WD_AntiAir_Group_Menu_A>A組</TSA_WD_AntiAir_Group_Menu_A>
+  <!-- EN: Group B -->
+  <TSA_WD_AntiAir_Group_Menu_B>B組</TSA_WD_AntiAir_Group_Menu_B>
+  <!-- EN: Group C -->
+  <TSA_WD_AntiAir_Group_Menu_C>C組</TSA_WD_AntiAir_Group_Menu_C>
+  <!-- EN: Group D -->
+  <TSA_WD_AntiAir_Group_Menu_D>D組</TSA_WD_AntiAir_Group_Menu_D>
+  <!-- EN: Mortar shell destroyed -->
+  <TSA_WD_AntiAir_MortarShell_Destroyed_Label>迫擊砲彈已被摧毀</TSA_WD_AntiAir_MortarShell_Destroyed_Label>
+  <!-- EN: Anti-Air guns of your Outpost '{0}' have destroyed a mortar shell from the Settlement '{1}' of Faction '{2}'. -->
+  <TSA_WD_AntiAir_MortarShell_Destroyed_Text>你的哨站「{0}」的防空砲摧毀了派系「{2}」據點「{1}」發射的迫擊砲彈。</TSA_WD_AntiAir_MortarShell_Destroyed_Text>
+  <!-- EN: Anti-Air guns of '{0}' have destroyed a mortar shell from the Settlement '{1}' of Faction '{2}'. -->
+  <TSA_WD_AntiAir_MortarShell_Destroyed_Npc_Text>「{0}」的防空砲摧毀了派系「{2}」據點「{1}」發射的迫擊砲彈。</TSA_WD_AntiAir_MortarShell_Destroyed_Npc_Text>
+  <!-- EN: Flak missed mortar shell -->
+  <TSA_WD_AntiAir_MortarShell_Miss_Label>高射砲未擊中迫擊砲彈</TSA_WD_AntiAir_MortarShell_Miss_Label>
+  <!-- EN: {0}'s flak barrage missed a mortar shell from {1}. -->
+  <TSA_WD_AntiAir_MortarShell_Miss_Text>{0}的防空砲彈幕未擊中來自{1}的迫擊砲彈。</TSA_WD_AntiAir_MortarShell_Miss_Text>
+  <!-- EN: Mortar shell shot down -->
+  <TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Label>迫擊砲彈遭擊落</TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Label>
+  <!-- EN: A mortar shell from your outpost {0} was shot down by {1} ({2}). -->
+  <TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Text>你的哨站{0}發射的迫擊砲彈被{1}（{2}）擊落了。</TSA_WD_AntiAir_PlayerMortarShell_Destroyed_Text>
+  <!-- EN: Enemy flak missed your mortar shell -->
+  <TSA_WD_AntiAir_PlayerMortarShell_Miss_Label>敵方高射砲未擊中你的迫擊砲彈</TSA_WD_AntiAir_PlayerMortarShell_Miss_Label>
+  <!-- EN: Flak from {1} ({2}) missed a mortar shell from your outpost {0}. -->
+  <TSA_WD_AntiAir_PlayerMortarShell_Miss_Text>{1}（{2}）的高射砲未擊中你的哨站{0}發射的迫擊砲彈。</TSA_WD_AntiAir_PlayerMortarShell_Miss_Text>
+  <!-- EN: Transport pods destroyed -->
+  <TSA_WD_AntiAir_VanillaPods_Destroyed_Label>運輸艙已被摧毀</TSA_WD_AntiAir_VanillaPods_Destroyed_Label>
+  <!-- EN: {0}'s flak destroyed {1}. -->
+  <TSA_WD_AntiAir_VanillaPods_Destroyed_Text>{0}的高射砲摧毀了{1}。</TSA_WD_AntiAir_VanillaPods_Destroyed_Text>
+  <!-- EN: Transport pods wiped out -->
+  <TSA_WD_AntiAir_VanillaPods_Wiped_Label>運輸艙全滅</TSA_WD_AntiAir_VanillaPods_Wiped_Label>
+  <!-- EN: {0}'s flak destroyed {1}. The following pawns died:\n\n{2} -->
+  <TSA_WD_AntiAir_VanillaPods_Wiped_Text>{0}的高射砲摧毀了{1}。以下角色死亡：\n\n{2}</TSA_WD_AntiAir_VanillaPods_Wiped_Text>
+  <!-- EN: Transport pods hit -->
+  <TSA_WD_AntiAir_VanillaPods_Wounded_Label>運輸艙遭擊中</TSA_WD_AntiAir_VanillaPods_Wounded_Label>
+  <!-- EN: {0}'s flak hit {1}: {2} killed, {3} wounded. Survivors continue. -->
+  <TSA_WD_AntiAir_VanillaPods_Wounded_Text>{0}的高射砲擊中{1}：{2}人死亡，{3}人受傷。倖存者繼續前進。</TSA_WD_AntiAir_VanillaPods_Wounded_Text>
+  <!-- EN: {0}'s flak hit {1}: {2} killed, {3} wounded. Survivors continue. The following pawns died:\n\n{4} -->
+  <TSA_WD_AntiAir_VanillaPods_Wounded_WithNames_Text>{0}的高射砲擊中{1}：{2}人死亡，{3}人受傷。倖存者繼續前進。以下角色死亡：\n\n{4}</TSA_WD_AntiAir_VanillaPods_Wounded_WithNames_Text>
+  <!-- EN: Aerial vehicle shot down -->
+  <TSA_WD_AntiAir_VfAerial_Destroyed_Label>飛行載具遭擊落</TSA_WD_AntiAir_VfAerial_Destroyed_Label>
+  <!-- EN: {0}'s flak shot down {1}. -->
+  <TSA_WD_AntiAir_VfAerial_Destroyed_Text>{0}的高射砲擊落了{1}。</TSA_WD_AntiAir_VfAerial_Destroyed_Text>
+  <!-- EN: Anti-air flak -->
+  <TSA_WD_AntiAir_VfAerial_CrashReason>防空高射砲</TSA_WD_AntiAir_VfAerial_CrashReason>
+  <!-- EN: Your aerial vehicle might get intercepted by anti-air fire from {0}. Launch anyway? -->
+  <TSA_WD_AntiAir_VfAerial_AaWarning>你的飛行載具可能會遭到{0}的防空砲火攔截。仍要發射嗎？</TSA_WD_AntiAir_VfAerial_AaWarning>
+  <!-- EN: Your transport pods might get intercepted by anti-air fire from {0}. Launch anyway? -->
+  <TSA_WD_AntiAir_TransportPods_AaWarning>你的運輸艙可能會遭到{0}的防空砲火攔截。仍要發射嗎？</TSA_WD_AntiAir_TransportPods_AaWarning>
+  <!-- EN: Your shuttle might get intercepted by anti-air fire from {0}. Launch anyway? -->
+  <TSA_WD_AntiAir_Shuttle_AaWarning>你的太空梭可能會遭到{0}的防空砲火攔截。仍要發射嗎？</TSA_WD_AntiAir_Shuttle_AaWarning>
+  <!-- EN: Anti-Air range (tiles) -->
+  <TSA_WD_Settings_AntiAirRange>防空射程（格）</TSA_WD_Settings_AntiAirRange>
+  <!-- EN: Maximum world distance for Anti-Air engagements. Independent of mortar range. Red, orange, and yellow rings on the map are Anti-Air accuracy bands vs drop pods, transport pods, and aerials (not mortar shells). -->
+  <TSA_WD_Settings_AntiAirRangeTooltip>防空迎擊的最大世界距離，與迫擊砲射程分開設定。地圖上的紅、橘、黃圓環是對運輸艙與飛行載具的防空準度區段（不含迫擊砲彈）。</TSA_WD_Settings_AntiAirRangeTooltip>
+  <!-- EN: Anti-Air hit chance at 0–50% of max range -->
+  <TSA_WD_Settings_AntiAirHitBand0To50>最大射程0–50%時的防空命中率</TSA_WD_Settings_AntiAirHitBand0To50>
+  <!-- EN: Base Anti-Air hit vs drop pods, transport pods, and aerials at 0-50% of Anti-Air max range. Best shooter adds +1 percentage point per Shooting level. Does not apply to mortar shells. -->
+  <TSA_WD_Settings_AntiAirHitBand0To50Tooltip>在防空最大射程0-50%時，對運輸艙與飛行載具的基礎防空命中率。最佳射手每級射擊+1個百分點。不適用於迫擊砲彈。</TSA_WD_Settings_AntiAirHitBand0To50Tooltip>
+  <!-- EN: Anti-Air hit chance at 51–75% of max range -->
+  <TSA_WD_Settings_AntiAirHitBand51To75>最大射程51–75%時的防空命中率</TSA_WD_Settings_AntiAirHitBand51To75>
+  <!-- EN: Base Anti-Air hit vs pods and aerials at 51-75% of Anti-Air max range. Best shooter still adds +1% per level. Mortar shells use the flat Anti-Air vs shells chance instead. -->
+  <TSA_WD_Settings_AntiAirHitBand51To75Tooltip>在防空最大射程51-75%時，對運輸艙與飛行載具的基礎防空命中率。最佳射手仍每級+1%。迫擊砲彈則改用固定的防空對砲彈機率。</TSA_WD_Settings_AntiAirHitBand51To75Tooltip>
+  <!-- EN: Anti-Air hit chance at 76–100% of max range -->
+  <TSA_WD_Settings_AntiAirHitBand76To100>最大射程76–100%時的防空命中率</TSA_WD_Settings_AntiAirHitBand76To100>
+  <!-- EN: Base Anti-Air hit vs pods and aerials at 76–100% of Anti-Air max range. Best shooter still adds +1% per level. Mortar shells use the flat Anti-Air vs shells chance instead. -->
+  <TSA_WD_Settings_AntiAirHitBand76To100Tooltip>在防空最大射程76–100%時，對運輸艙與飛行載具的基礎防空命中率。最佳射手仍每級+1%。迫擊砲彈則改用固定的防空對砲彈機率。</TSA_WD_Settings_AntiAirHitBand76To100Tooltip>
+  <!-- EN: Anti-Air hit chance vs mortar shells -->
+  <TSA_WD_Settings_AntiAirVsMortarHitChance>防空對迫擊砲彈命中率</TSA_WD_Settings_AntiAirVsMortarHitChance>
+  <!-- EN: Flat chance to destroy a hostile mortar shell on an Anti-Air engage (after the reaction delay). Ignores Anti-Air range bands and shooter skill. -->
+  <TSA_WD_Settings_AntiAirVsMortarHitChanceTooltip>每次防空迎擊（反應延遲之後）摧毀敵對迫擊砲彈的固定機率。不受防空距離區段與射手技能影響。</TSA_WD_Settings_AntiAirVsMortarHitChanceTooltip>
+  <!-- EN: Mortar -->
+  <TSA_WD_OutpostStats_Section_Mortar>迫擊砲</TSA_WD_OutpostStats_Section_Mortar>
+  <!-- EN: Anti-Air Turret -->
+  <TSA_WD_OutpostStats_Section_AntiAir>防空砲塔</TSA_WD_OutpostStats_Section_AntiAir>
+  <!-- EN: Anti-Air range -->
+  <TSA_WD_OutpostStats_Row_AntiAirRange>防空射程</TSA_WD_OutpostStats_Row_AntiAirRange>
+  <!-- EN: Current anti-air range (may be set below max). -->
+  <TSA_WD_OutpostStats_Row_AntiAirRangeTip>目前的防空射程（可設定低於最大值）。</TSA_WD_OutpostStats_Row_AntiAirRangeTip>
+  <!-- EN: Anti-Air vs mortar shells -->
+  <TSA_WD_OutpostStats_Row_AntiAirVsMortar>防空對迫擊砲彈</TSA_WD_OutpostStats_Row_AntiAirVsMortar>
+  <!-- EN: Flat chance to destroy hostile mortar shells. Ignores Anti-Air range bands and shooter skill. -->
+  <TSA_WD_OutpostStats_Row_AntiAirVsMortarTip>摧毀敵對迫擊砲彈的固定機率。不受防空距離區段與射手技能影響。</TSA_WD_OutpostStats_Row_AntiAirVsMortarTip>
+  <!-- EN: Anti-Air group -->
+  <TSA_WD_OutpostStats_Row_AntiAirGroup>防空分組</TSA_WD_OutpostStats_Row_AntiAirGroup>
+  <!-- EN: Letter group for anti-air exclusivity (Off = ungrouped). -->
+  <TSA_WD_OutpostStats_Row_AntiAirGroupTip>防空專屬目標的字母分組（關閉 = 不分組）。</TSA_WD_OutpostStats_Row_AntiAirGroupTip>
+  <!-- EN: Accuracy 0-50% range -->
+  <TSA_WD_OutpostStats_Row_MortarAcc50>0-50%射程準度</TSA_WD_OutpostStats_Row_MortarAcc50>
+  <!-- EN: Accuracy 51-75% range -->
+  <TSA_WD_OutpostStats_Row_MortarAcc75>51-75%射程準度</TSA_WD_OutpostStats_Row_MortarAcc75>
+  <!-- EN: Accuracy 76-100% range -->
+  <TSA_WD_OutpostStats_Row_MortarAcc100>76-100%射程準度</TSA_WD_OutpostStats_Row_MortarAcc100>
+  <!-- EN: Band base hit chance + best shooter (+1pp/Shooting level) + hit-chance upgrades. -->
+  <TSA_WD_OutpostStats_Row_MortarAccTip>區段基礎命中率 + 最佳射手（每級射擊+1個百分點）+ 命中率升級。</TSA_WD_OutpostStats_Row_MortarAccTip>
+  <!-- EN: Hover for Mortar Range -->
+  <TSA_WD_T4_HoverMortarRange>懸停顯示迫擊砲射程</TSA_WD_T4_HoverMortarRange>
+  <!-- EN: Hover this command to draw this settlement's T4 mortar range on the world map. Not a toggle. -->
+  <TSA_WD_T4_HoverMortarRangeDesc>將滑鼠懸停在此指令上，即可在世界地圖上繪出此據點的T4迫擊砲射程。並非開關。</TSA_WD_T4_HoverMortarRangeDesc>
+  <!-- EN: Hover for AA Range -->
+  <TSA_WD_T4_HoverAARange>懸停顯示防空射程</TSA_WD_T4_HoverAARange>
+  <!-- EN: Hover this command to draw this settlement's T4 Anti-Air range on the world map. Red, orange, and yellow rings are Anti-Air accuracy bands vs pods and aerials (mortar shells use a flat shot-down chance). Not a toggle. -->
+  <TSA_WD_T4_HoverAARangeDesc>將滑鼠懸停在此指令上，即可在世界地圖上繪出此據點的T4防空射程。紅、橘、黃圓環是對運輸艙與飛行載具的防空準度區段（迫擊砲彈使用固定的擊落機率）。並非開關。</TSA_WD_T4_HoverAARangeDesc>
+  <!-- EN: Auto Mortar On -->
+  <TSA_WD_T4_AutoMortar_On>自動迫擊砲：開啟</TSA_WD_T4_AutoMortar_On>
+  <!-- EN: Auto Mortar Off -->
+  <TSA_WD_T4_AutoMortar_Off>自動迫擊砲：關閉</TSA_WD_T4_AutoMortar_Off>
+  <!-- EN: When on, this T4 settlement auto-fires its mortar at hostile ground targets in range. -->
+  <TSA_WD_T4_AutoMortar_Desc>開啟時，此T4據點會自動以迫擊砲射擊範圍內的敵對地面目標。</TSA_WD_T4_AutoMortar_Desc>
+  <!-- EN: Auto AA On -->
+  <TSA_WD_T4_AutoAA_On>自動防空：開啟</TSA_WD_T4_AutoAA_On>
+  <!-- EN: Auto AA Off -->
+  <TSA_WD_T4_AutoAA_Off>自動防空：關閉</TSA_WD_T4_AutoAA_Off>
+  <!-- EN: When on, this T4 settlement auto-engages hostile airborne targets in AA range. -->
+  <TSA_WD_T4_AutoAA_Desc>開啟時，此T4據點會自動迎擊防空範圍內的敵對空中目標。</TSA_WD_T4_AutoAA_Desc>
+  <!-- EN: Enemy AA Turrets fire -->
+  <TSA_WD_T4AA_EnableAll>敵方防空砲塔開火</TSA_WD_T4AA_EnableAll>
+  <!-- EN: Master toggle for NPC AA Turrets against hostile airborne targets. Settlements build AA Turrets as advanced building projects; settlements themselves never fire. -->
+  <TSA_WD_T4AA_EnableAllTooltip>NPC防空砲塔對敵對空中目標開火的總開關。據點會把防空砲塔當作進階建築計畫來建造；據點本身永遠不會開火。</TSA_WD_T4AA_EnableAllTooltip>
+  <!-- EN: AA may target your airborne assets -->
+  <TSA_WD_T4AA_TargetPlayer>防空可攻擊你的空中單位</TSA_WD_T4AA_TargetPlayer>
+  <!-- EN: When on, enemy AA Turrets may engage your drop pods and shells while Late Game is active. Mid Game has its own toggle; turning Mid Game on forces this Late Game toggle on. -->
+  <TSA_WD_T4AA_TargetPlayerTooltip>開啟時，敵方防空砲塔可在後期階段啟用期間迎擊你的運輸艙與砲彈。中期階段有獨立的開關；開啟中期階段會強制開啟此後期開關。</TSA_WD_T4AA_TargetPlayerTooltip>
+  <!-- EN: AA Turret range (tiles) -->
+  <TSA_WD_T4AA_Range>防空砲塔射程（格）</TSA_WD_T4AA_Range>
+  <!-- EN: Maximum engagement range for enemy AA Turrets. -->
+  <TSA_WD_T4AA_RangeTooltip>敵方防空砲塔的最大迎擊範圍。</TSA_WD_T4AA_RangeTooltip>
+  <!-- EN: AA Turret cooldown (seconds) -->
+  <TSA_WD_T4AA_Cooldown>防空砲塔冷卻（秒）</TSA_WD_T4AA_Cooldown>
+  <!-- EN: Seconds between AA Turret engagements. -->
+  <TSA_WD_T4AA_CooldownTooltip>防空砲塔每次迎擊之間的秒數。</TSA_WD_T4AA_CooldownTooltip>
+  <!-- EN: AA Turret damage -->
+  <TSA_WD_T4AA_Damage>防空砲塔傷害</TSA_WD_T4AA_Damage>
+  <!-- EN: Flak resolver damage for NPC AA Turrets. -->
+  <TSA_WD_T4AA_DamageTooltip>NPC防空砲塔的高射砲結算傷害。</TSA_WD_T4AA_DamageTooltip>
+  <!-- EN: AA Turret skill equivalent -->
+  <TSA_WD_T4AA_Skill>防空砲塔等效技能</TSA_WD_T4AA_Skill>
+  <!-- EN: Equivalent Shooting skill used for AA Turret hit bands vs drop pods, transport pods, and aerials (+1 percentage point per level). Does not affect the flat AA Turret chance vs mortar shells. -->
+  <TSA_WD_T4AA_SkillTooltip>防空砲塔對運輸艙與飛行載具的命中區段所用的等效射擊技能（每級+1個百分點）。不影響防空砲塔對迫擊砲彈的固定機率。</TSA_WD_T4AA_SkillTooltip>
+  <!-- EN: AA Turret hit chance at 0–50% of max range -->
+  <TSA_WD_T4AA_HitBand0To50>最大射程0–50%時的防空砲塔命中率</TSA_WD_T4AA_HitBand0To50>
+  <!-- EN: Base AA Turret hit vs pods and aerials at 0-50% of max range. Skill equivalent adds +1 percentage point per level. Does not apply to mortar shells. -->
+  <TSA_WD_T4AA_HitBand0To50Tooltip>在最大射程0-50%時，防空砲塔對運輸艙與飛行載具的基礎命中率。等效技能每級+1個百分點。不適用於迫擊砲彈。</TSA_WD_T4AA_HitBand0To50Tooltip>
+  <!-- EN: AA Turret hit chance at 51–75% of max range -->
+  <TSA_WD_T4AA_HitBand51To75>最大射程51–75%時的防空砲塔命中率</TSA_WD_T4AA_HitBand51To75>
+  <!-- EN: Base AA Turret hit vs pods and aerials at 51-75% of max range. Mortar shells use the flat AA Turret vs shells chance instead. -->
+  <TSA_WD_T4AA_HitBand51To75Tooltip>在最大射程51-75%時，防空砲塔對運輸艙與飛行載具的基礎命中率。迫擊砲彈則改用固定的防空砲塔對砲彈機率。</TSA_WD_T4AA_HitBand51To75Tooltip>
+  <!-- EN: AA Turret hit chance at 76–100% of max range -->
+  <TSA_WD_T4AA_HitBand76To100>最大射程76–100%時的防空砲塔命中率</TSA_WD_T4AA_HitBand76To100>
+  <!-- EN: Base AA Turret hit vs pods and aerials at 76–100% of max range. Mortar shells use the flat AA Turret vs shells chance instead. -->
+  <TSA_WD_T4AA_HitBand76To100Tooltip>在最大射程76–100%時，防空砲塔對運輸艙與飛行載具的基礎命中率。迫擊砲彈則改用固定的防空砲塔對砲彈機率。</TSA_WD_T4AA_HitBand76To100Tooltip>
+  <!-- EN: AA Turret hit chance vs mortar shells -->
+  <TSA_WD_T4AA_VsMortar>防空砲塔對迫擊砲彈命中率</TSA_WD_T4AA_VsMortar>
+  <!-- EN: Flat chance for an AA Turret to destroy a hostile mortar shell. Ignores range bands and skill equivalent. -->
+  <TSA_WD_T4AA_VsMortarTooltip>防空砲塔摧毀敵對迫擊砲彈的固定機率。不受距離區段與等效技能影響。</TSA_WD_T4AA_VsMortarTooltip>
+  <!-- EN: Unlocks anti-air turret vs. drop pods and shells -->
+  <TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>解鎖可對付運輸艙與砲彈的防空砲塔</TSA_WD_OutpostUpgrades_BenefitAntiAirUnlock>
+  <!-- EN: Unlocks Decontamination Missions -->
+  <TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>解鎖淨化任務</TSA_WD_OutpostUpgrades_BenefitDecontaminationUnlock>
+  <!-- EN: Adv. Settlement Assault Shells -->
+  <TSA_WD_OutpostUpgrades_BenefitAssaultShellsShort>進階據點攻堅砲彈</TSA_WD_OutpostUpgrades_BenefitAssaultShellsShort>
+  <!-- EN: Unlocks settlement assault shells -->
+  <TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockHeader>解鎖據點攻堅砲彈</TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockHeader>
+  <!-- EN: {0} -->
+  <TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockList>{0}</TSA_WD_OutpostUpgrades_BenefitAssaultShellsUnlockList>
+  <!-- EN: Artillery support. Call mortar fire from nearby outposts. -->
+  <TSA_WD_AssaultArtillery_ButtonTip>砲兵支援。呼叫附近哨站進行迫擊砲射擊。</TSA_WD_AssaultArtillery_ButtonTip>
+  <!-- EN: Artillery support -->
+  <TSA_WD_AssaultArtillery_Title>砲兵支援</TSA_WD_AssaultArtillery_Title>
+  <!-- EN: Supporting outposts -->
+  <TSA_WD_AssaultArtillery_ColumnOutposts>支援哨站</TSA_WD_AssaultArtillery_ColumnOutposts>
+  <!-- EN: Shell type -->
+  <TSA_WD_AssaultArtillery_ColumnShells>砲彈類型</TSA_WD_AssaultArtillery_ColumnShells>
+  <!-- EN: Choose ammo to use -->
+  <TSA_WD_AssaultArtillery_ColumnShellsFrom>選擇使用的彈藥</TSA_WD_AssaultArtillery_ColumnShellsFrom>
+  <!-- EN: Select a supporting outpost. -->
+  <TSA_WD_AssaultArtillery_SelectOutpost>選擇一座支援哨站。</TSA_WD_AssaultArtillery_SelectOutpost>
+  <!-- EN: ETA {0}s, spread {1} -->
+  <TSA_WD_AssaultArtillery_RowEtaSpread>預計{0}秒抵達，散佈{1}</TSA_WD_AssaultArtillery_RowEtaSpread>
+  <!-- EN: Distance: {0} tiles\nFirst shell ETA: {1}s\nSpread: {2} cells\nShells: {3} -->
+  <TSA_WD_AssaultArtillery_OutpostRowTip>距離：{0}格\n首發砲彈預計抵達：{1}秒\n散佈：{2}格\n砲彈：{3}</TSA_WD_AssaultArtillery_OutpostRowTip>
+  <!-- EN: Experimental relay -->
+  <TSA_WD_AssaultArtillery_GhostRelay>實驗性中繼</TSA_WD_AssaultArtillery_GhostRelay>
+  <!-- EN: Experimental: ignores range and cooldown. Uses best shell unlocks empire-wide. Minimum spread. -->
+  <TSA_WD_AssaultArtillery_GhostRelayTip>實驗性：無視射程與冷卻。使用全帝國範圍內最好的已解鎖砲彈。散佈最小。</TSA_WD_AssaultArtillery_GhostRelayTip>
+  <!-- EN: No garrison shooter. Cannot fire mortar support from this outpost. -->
+  <TSA_WD_AssaultArtillery_NoShootingSkill>沒有駐軍射手。無法從此哨站提供迫擊砲支援。</TSA_WD_AssaultArtillery_NoShootingSkill>
+  <!-- EN: Unlocks: high-explosive and smoke shells. -->
+  <TSA_WD_AssaultArtillery_Unlock_Basic>解鎖：高爆彈與煙霧彈。</TSA_WD_AssaultArtillery_Unlock_Basic>
+  <!-- EN: Unlocks improved shells: {0} -->
+  <TSA_WD_AssaultArtillery_Unlock_Improved>解鎖改良砲彈：{0}</TSA_WD_AssaultArtillery_Unlock_Improved>
+  <!-- EN: Unlocks advanced shells: {0} -->
+  <TSA_WD_AssaultArtillery_Unlock_Advanced>解鎖高階砲彈：{0}</TSA_WD_AssaultArtillery_Unlock_Advanced>
+  <!-- EN: No ready mortar outpost in range of this settlement. -->
+  <TSA_WD_AssaultArtillery_NoSupport>此據點範圍內沒有已就緒的迫擊砲哨站。</TSA_WD_AssaultArtillery_NoSupport>
+  <!-- EN: A strike is already inbound. -->
+  <TSA_WD_AssaultArtillery_StrikePending>已有一波轟擊正在來襲途中。</TSA_WD_AssaultArtillery_StrikePending>
+  <!-- EN: Artillery already inbound. Other ready outposts can still fire. -->
+  <TSA_WD_AssaultArtillery_StrikeInboundInfo>已有砲擊正在途中。其他已就緒的哨站仍可開火。</TSA_WD_AssaultArtillery_StrikeInboundInfo>
+  <!-- EN: Artillery support is only available on hostile settlement assault maps. -->
+  <TSA_WD_AssaultArtillery_NotAssaultMap>砲兵支援僅能在敵對據點的攻堅地圖上使用。</TSA_WD_AssaultArtillery_NotAssaultMap>
+  <!-- EN: Pick a valid cell on the map. -->
+  <TSA_WD_AssaultArtillery_InvalidCell>請選擇地圖上的有效格子。</TSA_WD_AssaultArtillery_InvalidCell>
+  <!-- EN: {0} inbound. Shell arrives in {1} seconds. -->
+  <TSA_WD_AssaultArtillery_Inbound>{0}來襲中。砲彈將於{1}秒後抵達。</TSA_WD_AssaultArtillery_Inbound>
+  <!-- EN: Your artillery support shells were shot down. -->
+  <TSA_WD_AssaultArtillery_ShellShotDown>你的砲兵支援砲彈遭到擊落。</TSA_WD_AssaultArtillery_ShellShotDown>
+  <!-- EN: No mortar shell defs found. Check for mods that replace vanilla shells. -->
+  <TSA_WD_AssaultArtillery_NoShells>找不到任何迫擊砲彈定義。請檢查是否有模組取代了原版砲彈。</TSA_WD_AssaultArtillery_NoShells>
+</LanguageData>

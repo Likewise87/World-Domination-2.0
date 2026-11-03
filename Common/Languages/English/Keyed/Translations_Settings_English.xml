@@ -21,7 +21,7 @@
   <TSA_WD_BtnLateGame>Mid Game and Late Game</TSA_WD_BtnLateGame>
   <TSA_WD_BtnT4Mortar>NPC artillery turrets</TSA_WD_BtnT4Mortar>
   <TSA_WD_BtnCombatDifficulty>Combat Difficulty</TSA_WD_BtnCombatDifficulty>
-  <TSA_WD_DescCombatDifficulty>Mid/Late Game difficulty, threat timing gates, raid pressure on the player, stage combat bonuses, arrival styles, garrison scaling, and NPC T4 mortar/AA hardware.</TSA_WD_DescCombatDifficulty>
+  <TSA_WD_DescCombatDifficulty>Mid/Late escalation, special threats (ToO, maraud, ambush, vanguard/invasion, desperation, turtle, war), player raid pressure and drought, stage combat bonuses, arrival styles, garrisons, and NPC T4 mortar/AA.</TSA_WD_DescCombatDifficulty>
   <TSA_WD_BtnEconomicDifficulty>Economic Difficulty</TSA_WD_BtnEconomicDifficulty>
   <TSA_WD_DescEconomicDifficulty>Outpost upkeep, outpost power, skill diminishing returns, goodwill drain, and bribe silver rates by escalation stage.</TSA_WD_DescEconomicDifficulty>
   <TSA_WD_Settings_Search>Search</TSA_WD_Settings_Search>
@@ -174,15 +174,15 @@
   <TSA_WD_Daily_CdTrader>Cooldown after Trader Caravan</TSA_WD_Daily_CdTrader>
   <TSA_WD_Daily_CdTraderTip>Days before this settlement can launch another trader caravan. Does not block other action types.</TSA_WD_Daily_CdTraderTip>
   <TSA_WD_DescDailyActions>Action likelihood weights, NPC fortify, and action cooldowns. Daily action counts and capacity are under Growth &amp; Expansion.</TSA_WD_DescDailyActions>
-  <TSA_WD_DescGrowthExpand>How quickly do settlements grow? Daily action shares and capacity per tier. Expansion distance and saturation caps.</TSA_WD_DescGrowthExpand>
-  <TSA_WD_DescDiplomacy>Random diplomacy, revolt chance, goodwill cap and vanilla goodwill tweaks, allied raid orders, ordered roads, buy settlement, faction investment, and leader/underdog/zeal/coalition buffs. Strong war, forward assault, and desperation live under Combat Difficulty.</TSA_WD_DescDiplomacy>
+  <TSA_WD_DescGrowthExpand>Daily action shares and caps, passive growth and max settlements, expansion distance/saturation, settlement defensive baselines, and incident severity.</TSA_WD_DescGrowthExpand>
+  <TSA_WD_DescDiplomacy>Random diplomacy, goodwill, revolt, allied raids, ordered roads/traders, gifts/buy/negotiate, bribes and investment, and leader/underdog/zeal/coalition buffs. Strong war, forward assault, and desperation are under Combat Difficulty.</TSA_WD_DescDiplomacy>
   <TSA_WD_DescDisinformation>Success and failure likelihoods, cooldowns, and skill impact for disinformation missions.</TSA_WD_DescDisinformation>
   <TSA_WD_DescGarrison>How strong settlement garrisons are by tier, and how much they weaken when a settlement is depleted.</TSA_WD_DescGarrison>
   <TSA_WD_DescBaseGeneration>KCSG layout tweaks when WD generates settlement assault and outpost defense maps. Per-faction assault eligibility is set in World Setup → Allegiances.</TSA_WD_DescBaseGeneration>
   <TSA_WD_DescMiningBaselines>Configure the baseline amount a Mining Outpost can get per stone/ore based on the Mining Skill level.</TSA_WD_DescMiningBaselines>
   <TSA_WD_DescNotifications>Toggle which world domination events generate notifications.</TSA_WD_DescNotifications>
   <TSA_WD_DescOutpostFood>Food consumption, production, logistics range, and efficiency for outposts.</TSA_WD_DescOutpostFood>
-  <TSA_WD_DescOutpostSettings>Outpost establishment, production, academy/experts, food logistics, and after-conquest founding. Player mortar/AA is under Player Artillery.</TSA_WD_DescOutpostSettings>
+  <TSA_WD_DescOutpostSettings>Outpost combat/build toggles, spacing and defense, establishment rules, production/academy/experts, food logistics, and after-conquest founding. Player mortar/AA is under Player Artillery.</TSA_WD_DescOutpostSettings>
   <TSA_WD_DescUpdateNotes>View the World Domination update notes and changelog.</TSA_WD_DescUpdateNotes>
   <TSA_WD_DescRaidMult>Configure how raid points are multiplied, whether your outposts may be attacked and whether you want storyteller raids.</TSA_WD_DescRaidMult>
   <TSA_WD_DescLateGame>Configure Mid Game and Late Game pushback once you grow strong: thresholds, biased raids, faster growth, expansion creep, goodwill drain, T4 mortars, outpost incidents, and enemy settlement interception caravans that can hit your caravans and travelers (NPC-vs-NPC interception already runs in early game).</TSA_WD_DescLateGame>
@@ -191,9 +191,9 @@
   <TSA_WD_DescResetAll>Restore all mod settings to defaults.</TSA_WD_DescResetAll>
   <TSA_WD_DescSabotage>Success and failure likelihoods, cooldowns, and skill impact for sabotage missions.</TSA_WD_DescSabotage>
   <TSA_WD_DescWorldGen>How likely shall it be for T1, T2, T3, T4 settlements to be created at initial world generation?</TSA_WD_DescWorldGen>
-  <TSA_WD_DescWorldRaids>Configure simulated raid outcomes: win chance curves, losses, and the minimum strength ratio needed to attack. Default curve favors defenders (~35% attacker win at equal strength). Travel strength loss while moving is under Caravans.</TSA_WD_DescWorldRaids>
-  <TSA_WD_DescCaravans>Travel attrition, water pathing for WD caravans, trader caravans, player colony trader spacing, outpost delivery costs, and storyteller trader blocking. Water pathing is also set by Setting presets → Performance.</TSA_WD_DescCaravans>
-  <TSA_WD_DescExperimental>World actions and raid logic experiments, world-map icon zoom behavior, overlay hold key, NPC fortify travelers, traveler pollution damage, and pollution pathfinding toggles.</TSA_WD_DescExperimental>
+  <TSA_WD_DescWorldRaids>Simulated raid outcomes (win curves, losses), min attack ratio, ally pull radius, NPC attack ranges, raze/ruins, and garrison retain. Travel attrition is under Caravans.</TSA_WD_DescWorldRaids>
+  <TSA_WD_DescCaravans>Traveler, drop-pod, and Rapid Response speeds, travel attrition and rest, water pathing, trader caravans (escort/tier-up), goodwill from trade, outpost delivery costs, and storyteller trader blocking. Water pathing is also set by Setting presets → Performance.</TSA_WD_DescCaravans>
+  <TSA_WD_DescExperimental>Experimental gameplay toggles (quests, trenches, armory, withdraw/defense budgets), world-map icon zoom, overlay hold key, travel-food/UI helpers, and traveler pollution damage/pathfinding. NPC fortify is under World Actions.</TSA_WD_DescExperimental>
   <TSA_WD_HeaderImportant>Setting presets</TSA_WD_HeaderImportant>
   <TSA_WD_MedievalMode>Medieval mode</TSA_WD_MedievalMode>
   <TSA_WD_MedievalModeTip>For medieval / low-tech playthroughs (including Medieval Overhaul). Hides industrial WD outposts, upgrades, and AT turrets; floors NPC drop-pod and mortar/AA tech gates to Industrial; hides player land vs drop-pod travel UI and forces land. Already placed industrial buildings are not removed. Mid-game toggle should work; better make a backup or start a fresh save!</TSA_WD_MedievalModeTip>
@@ -622,7 +622,7 @@
   <TSA_WD_Caravans_BlockStorytellerTradersTip>When enabled, storyteller-spawned trader caravans are blocked. WD trader caravans are still allowed.</TSA_WD_Caravans_BlockStorytellerTradersTip>
   <TSA_WD_Caravans_Reset>Reset this page to Defaults</TSA_WD_Caravans_Reset>
   <TSA_WD_ShowAdvanced>Show advanced settings</TSA_WD_ShowAdvanced>
-  <TSA_WD_ShowAdvanced_Tooltip>Show extra menus (NPC Artillery, Building Projects, Mining baselines, Sabotage, Disinformation, World Gen, Garrison) and more options inside each settings dialog.</TSA_WD_ShowAdvanced_Tooltip>
+  <TSA_WD_ShowAdvanced_Tooltip>Show Building Projects, Mining baselines, Sabotage, Disinformation, World Gen, and Base generation, plus extra options inside each settings dialog.</TSA_WD_ShowAdvanced_Tooltip>
   <TSA_WD_Stats_H_Faction>Faction Name</TSA_WD_Stats_H_Faction>
   <TSA_WD_Stats_FactionDefeated>Defeated</TSA_WD_Stats_FactionDefeated>
   <TSA_WD_Stats_FactionDefeatedTip>This faction may make a comeback based on the daily revolt chance in the Diplomacy, Buffs &amp; Debuffs mod settings menu.</TSA_WD_Stats_FactionDefeatedTip>
@@ -655,8 +655,8 @@
   <TSA_WD_WorldMap_ToggleStrengthTextsTip>Current Offensive Strength. Does NOT include Defensive Strength.</TSA_WD_WorldMap_ToggleStrengthTextsTip>
   <TSA_WD_WorldMap_ToggleSettlementTypeIcons>Settlement type icons</TSA_WD_WorldMap_ToggleSettlementTypeIcons>
   <TSA_WD_WorldMap_ToggleSettlementTypeIconsTip>On: subtype art. Off: faction icons.</TSA_WD_WorldMap_ToggleSettlementTypeIconsTip>
-  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>Road blocks, traps, AT, and buildings</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
-  <TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>Toggle road-block, spike-trap / caltrops, and AT Turret icons on the world map. Overlay icons also hide when zoomed out.</TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>Road blocks, traps, AT, buildings, and trenches</TSA_WD_WorldMap_ToggleRoadBlocksAndTraps>
+  <TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>Toggle road-block, spike-trap / caltrops, AT Turret, advanced building, and trench visuals on the world map. Overlay icons also hide when zoomed out.</TSA_WD_WorldMap_ToggleRoadBlocksAndTrapsTip>
   <TSA_WD_WorldMap_ToggleFortifyBlacklist>Blocked tiles for NPC Fortification</TSA_WD_WorldMap_ToggleFortifyBlacklist>
   <TSA_WD_WorldMap_ToggleFortifyBlacklistTip>Show tiles marked so allies (and neutrals if enabled) may not place new road blocks or traps. Existing forts stay until you Remove fortifications. Marks also show while using the mark/remove tools.</TSA_WD_WorldMap_ToggleFortifyBlacklistTip>
   <TSA_WD_WorldMap_NoFortifyMarks>No-fortify marks</TSA_WD_WorldMap_NoFortifyMarks>
@@ -773,7 +773,7 @@
   <TSA_WD_Notify_StrongFactionWar>Notify: strong-faction wars</TSA_WD_Notify_StrongFactionWar>
   <TSA_WD_Notify_StrongFactionWarTooltip>Letter when strong NPC factions cool an alliance to neutral or escalate from neutral to war.</TSA_WD_Notify_StrongFactionWarTooltip>
   <TSA_WD_BtnRoadBuilding>Building Projects</TSA_WD_BtnRoadBuilding>
-  <TSA_WD_DescRoadBuilding>Configure outpost and NPC road, road-block, and trap construction (ranges, work, expedition strength, and road fallbacks when Roads of the Rim is not active).</TSA_WD_DescRoadBuilding>
+  <TSA_WD_DescRoadBuilding>Roads, road blocks, spike traps, AT turrets (build and combat), and decontamination (ranges, work, expedition strength; RotR road fallbacks when that mod is off).</TSA_WD_DescRoadBuilding>
   <TSA_WD_RoadBuilding_Note>Road movement / work / min Construction apply only when Roads of the Rim is NOT active. Winter reduction always applies (writes RotR winterFactor when that mod is present).</TSA_WD_RoadBuilding_Note>
   <TSA_WD_RoadBuilding_RoadsHeader>Roads</TSA_WD_RoadBuilding_RoadsHeader>
   <TSA_WD_RoadBuilding_RoadRange>Range to build Roads</TSA_WD_RoadBuilding_RoadRange>
@@ -904,7 +904,7 @@
   <TSA_WD_Experimental_ColonyWorldBuild>Experimental: colony world Build (roads / blocks / traps)</TSA_WD_Experimental_ColonyWorldBuild>
   <TSA_WD_Experimental_ColonyWorldBuildTip>When on, your colony Settlement gets the cyan Build gizmo (roads, road blocks, spike traps). Speed and unlocks use the sum of Construction skill on colonists at the colony map. No Engineer bonus and no WD strength cost. Turning this off cancels active colony construction projects.</TSA_WD_Experimental_ColonyWorldBuildTip>
   <TSA_WD_Experimental_EnableTrenches>Experimental: trench defenses</TSA_WD_Experimental_EnableTrenches>
-  <TSA_WD_Experimental_EnableTrenchesTip>When on, player outposts and the colony can dig exclusive trench arms (wood cost, tip-to-hub remove). Hostile columns that walk onto your trenches get Fight / Auto (outpost) / Skip. Turning this off wipes all player trenches and cancels trench projects.</TSA_WD_Experimental_EnableTrenchesTip>
+  <TSA_WD_Experimental_EnableTrenchesTip>When on, player outposts can dig exclusive trench arms (wood cost, tip-to-hub remove). Hostile columns that walk onto your trenches get Fight / Auto / Let them pass. Turning this off wipes all player trenches and cancels trench projects.</TSA_WD_Experimental_EnableTrenchesTip>
   <TSA_WD_Experimental_PlayerConquestRaze>Experimental: player conquest can raze</TSA_WD_Experimental_PlayerConquestRaze>
   <TSA_WD_Experimental_PlayerConquestRazeTip>When on, wiping an NPC settlement yourself (or simulated conquest that would open the conquest menu) rolls the same Raze Chance as automatic NPC raids. On a raze, you get no recruit / gift / outpost opportunity, and timed ruins remain. Off by default.</TSA_WD_Experimental_PlayerConquestRazeTip>
   <TSA_WD_Experimental_AT_TargetPlayerTravelers>NPC AT Turrets target player WD travelers</TSA_WD_Experimental_AT_TargetPlayerTravelers>
@@ -964,6 +964,7 @@
   <TSA_WD_Experimental_HeaderOutpostPower>Outpost power</TSA_WD_Experimental_HeaderOutpostPower>
   <TSA_WD_Experimental_EnableOutpostPower>Require outpost power</TSA_WD_Experimental_EnableOutpostPower>
   <TSA_WD_Experimental_EnableOutpostPowerTip>When on, outposts with a power demand need watts from Power Plants set to supply outposts (within power supply range). Unpowered outposts cut production by their XML factor and shrink ranges (trade, recruit, embassy, mortar, AA, Rapid Response, warehouse aura). Medieval mode forces this off. On by default.</TSA_WD_Experimental_EnableOutpostPowerTip>
+  <TSA_WD_Experimental_EnableOutpostPower_MedievalLocked>Locked while Medieval mode is on (outpost power is forced off).</TSA_WD_Experimental_EnableOutpostPower_MedievalLocked>
   <TSA_WD_Experimental_PowerSupplyRange>Power supply range</TSA_WD_Experimental_PowerSupplyRange>
   <TSA_WD_Experimental_PowerSupplyRangeTip>Max tile distance a Power Plant set to supply outposts can feed other outposts. Independent of food logistics range. Default 20.</TSA_WD_Experimental_PowerSupplyRangeTip>
   <TSA_WD_Experimental_UnpoweredRangeFactor>Unpowered range factor</TSA_WD_Experimental_UnpoweredRangeFactor>

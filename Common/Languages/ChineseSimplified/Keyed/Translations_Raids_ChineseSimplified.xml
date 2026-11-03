@@ -62,13 +62,8 @@
   <TSA_WD_OutpostDefense_AutoResolve>自动结算</TSA_WD_OutpostDefense_AutoResolve>
   <TSA_WD_OutpostDefense_FightManually>手动战斗</TSA_WD_OutpostDefense_FightManually>
   <TSA_WD_OutpostDefense_TrenchTitle>敌军踏上你的战壕</TSA_WD_OutpostDefense_TrenchTitle>
-  <TSA_WD_OutpostDefense_TrenchText>来自 {0} 的敌对纵队踏上了 {1} 所属的战壕。可在战壕走廊中战斗、在前哨自动结算，或对本纵队跳过此所有者。</TSA_WD_OutpostDefense_TrenchText>
-  <TSA_WD_OutpostDefense_SkipTrench>跳过</TSA_WD_OutpostDefense_SkipTrench>
-  <TSA_WD_ColonyTrench_Title>敌军踏上殖民地战壕</TSA_WD_ColonyTrench_Title>
-  <TSA_WD_ColonyTrench_Text>{0}：来自 {1} 的敌对纵队（实力 {2}）在你的战壕上。可用殖民地殖民者在走廊地图开战，或对本纵队跳过此所有者。</TSA_WD_ColonyTrench_Text>
-  <TSA_WD_ColonyTrench_NoMap>殖民地地图未加载；旅行者继续前进。</TSA_WD_ColonyTrench_NoMap>
-  <TSA_WD_ColonyTrench_NoPawns>没有可派出的殖民者；旅行者继续前进。</TSA_WD_ColonyTrench_NoPawns>
-  <TSA_WD_ColonyTrench_LeaveBehind>需在殖民地地图留下殖民者；旅行者继续前进。</TSA_WD_ColonyTrench_LeaveBehind>
+  <TSA_WD_OutpostDefense_TrenchText>来自 {1} 的敌对商队已越过 {0} 的战壕线。你可以选择在战壕中交战，或放他们通过。若放行，当他们再踏上同一前哨的其他战壕格时，你不会再有交战机会。</TSA_WD_OutpostDefense_TrenchText>
+  <TSA_WD_OutpostDefense_SkipTrench>放行</TSA_WD_OutpostDefense_SkipTrench>
   <TSA_WD_OutpostDefense_DeploySection_Target>{0}（受袭目标）</TSA_WD_OutpostDefense_DeploySection_Target>
   <TSA_WD_OutpostDefense_DeploySection_Support>{0}（支援前哨）</TSA_WD_OutpostDefense_DeploySection_Support>
   <TSA_WD_OutpostDefense_Letter_Label>敌人将在 15 秒后抵达</TSA_WD_OutpostDefense_Letter_Label>
@@ -80,6 +75,7 @@
   <TSA_WD_OutpostDefense_Defeat>前哨防御失败。正在对 {0} 应用模拟袭击失败结果。</TSA_WD_OutpostDefense_Defeat>
   <TSA_WD_OutpostDefense_VictoryLetter_Label>前哨防御胜利</TSA_WD_OutpostDefense_VictoryLetter_Label>
   <TSA_WD_OutpostDefense_VictoryLetter_Text>{0} 的防守者在临时战场上击败了 {1} 的进攻。\n\n{2} 名幸存防守者已返回前哨。</TSA_WD_OutpostDefense_VictoryLetter_Text>
+  <TSA_WD_OutpostDefense_LootStored>{0} 件缴获物品已存入 {1} 的军械库。</TSA_WD_OutpostDefense_LootStored>
   <TSA_WD_OutpostDefense_DefeatLetter_Label>前哨防御失败</TSA_WD_OutpostDefense_DefeatLetter_Label>
   <TSA_WD_OutpostDefense_DefeatLetter_Text>{0} 的防守者被 {1} 击败。\n\n此前哨袭击已按防御失败结算。</TSA_WD_OutpostDefense_DefeatLetter_Text>
   <TSA_WD_OutpostRetreat_Letter_Label>撤退守军</TSA_WD_OutpostRetreat_Letter_Label>

@@ -62,13 +62,8 @@
   <TSA_WD_OutpostDefense_AutoResolve>Auto-resolve</TSA_WD_OutpostDefense_AutoResolve>
   <TSA_WD_OutpostDefense_FightManually>Fight manually</TSA_WD_OutpostDefense_FightManually>
   <TSA_WD_OutpostDefense_TrenchTitle>Enemy on your trenches</TSA_WD_OutpostDefense_TrenchTitle>
-  <TSA_WD_OutpostDefense_TrenchText>A hostile column from {0} has walked onto trenches owned by {1}. Fight them in a trench corridor, auto-resolve at the outpost, or skip this owner for the rest of this column's march.</TSA_WD_OutpostDefense_TrenchText>
-  <TSA_WD_OutpostDefense_SkipTrench>Skip</TSA_WD_OutpostDefense_SkipTrench>
-  <TSA_WD_ColonyTrench_Title>Enemy on colony trenches</TSA_WD_ColonyTrench_Title>
-  <TSA_WD_ColonyTrench_Text>{0}: hostile column from {1} (strength {2}) is on your trenches. Fight with colony pawns on a trench corridor map, or skip this owner for the rest of their march.</TSA_WD_ColonyTrench_Text>
-  <TSA_WD_ColonyTrench_NoMap>Colony map is not loaded; traveler resumes.</TSA_WD_ColonyTrench_NoMap>
-  <TSA_WD_ColonyTrench_NoPawns>No eligible colonists to send; traveler resumes.</TSA_WD_ColonyTrench_NoPawns>
-  <TSA_WD_ColonyTrench_LeaveBehind>Need to leave colonists on the colony map; traveler resumes.</TSA_WD_ColonyTrench_LeaveBehind>
+  <TSA_WD_OutpostDefense_TrenchText>A hostile caravan from {1} has crossed the trench line of {0}. You can choose to fight in the trenches or let them pass. Letting them pass means you won't get another fighting opportunity when they step onto another trench tile of the same outpost.</TSA_WD_OutpostDefense_TrenchText>
+  <TSA_WD_OutpostDefense_SkipTrench>Let them pass</TSA_WD_OutpostDefense_SkipTrench>
   <TSA_WD_OutpostDefense_DeploySection_Target>{0} (Attacker Target)</TSA_WD_OutpostDefense_DeploySection_Target>
   <TSA_WD_OutpostDefense_DeploySection_Support>{0} (Supporting Outpost)</TSA_WD_OutpostDefense_DeploySection_Support>
   <TSA_WD_OutpostDefense_Letter_Label>Enemies arriving in 15 seconds</TSA_WD_OutpostDefense_Letter_Label>
@@ -80,6 +75,7 @@
   <TSA_WD_OutpostDefense_Defeat>Outpost defense lost. Applying simulated raid defeat to {0}.</TSA_WD_OutpostDefense_Defeat>
   <TSA_WD_OutpostDefense_VictoryLetter_Label>Outpost Defense Won</TSA_WD_OutpostDefense_VictoryLetter_Label>
   <TSA_WD_OutpostDefense_VictoryLetter_Text>Your defenders at {0} defeated the attack by {1} on the temporary battlefield.\n\n{2} surviving defender(s) returned to the outpost.</TSA_WD_OutpostDefense_VictoryLetter_Text>
+  <TSA_WD_OutpostDefense_LootStored>{0} salvaged item(s) were stored in {1}'s armory.</TSA_WD_OutpostDefense_LootStored>
   <TSA_WD_OutpostDefense_DefeatLetter_Label>Outpost Defense Lost</TSA_WD_OutpostDefense_DefeatLetter_Label>
   <TSA_WD_OutpostDefense_DefeatLetter_Text>Your defenders at {0} were defeated by {1}.\n\nThe outpost raid has been resolved as a lost defense.</TSA_WD_OutpostDefense_DefeatLetter_Text>
   <TSA_WD_OutpostRetreat_Letter_Label>Retreating garrison</TSA_WD_OutpostRetreat_Letter_Label>

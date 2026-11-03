@@ -391,7 +391,7 @@ namespace TSA_WorldDomination
 
                     string itemLabel;
                     bool canProduce;
-                    if (isScavenging && def == ThingDefOf.ComponentIndustrial)
+                    if (isScavenging && MedievalOverhaulCostsCompat.IsScavengingProductDef(def))
                     {
                         foreach (var kind in Outpost_Scavenging.AllKinds)
                         {

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hand-maintained: assemble.py does not generate this file. Source: WD Defs/QuestScriptDefs/*.xml -->
+<LanguageData>
+
+  <!-- Quest_WD_FirstOutpost.xml -->
+  <TSA_WD_FirstOutpostIntro.questNameRules.rulesStrings>
+    <!-- EN: First outpost for [faction_name] | [faction_name]'s outpost request | Found an outpost -->
+    <li>questName->[faction_name]的首座哨站</li>
+    <li>questName->[faction_name]的哨站請求</li>
+    <li>questName->建立哨站</li>
+  </TSA_WD_FirstOutpostIntro.questNameRules.rulesStrings>
+  <TSA_WD_FirstOutpostIntro.questDescriptionRules.rulesStrings>
+    <!-- EN: [faction_name] asks you to found your first World Domination outpost anywhere on the world map.\n\nThe request stays open until you found an outpost. It fails if they become hostile or are destroyed. -->
+    <li>questDescription->[faction_name]請你在世界地圖上任意地點建立第一座World Domination哨站。\n\n在你建立哨站之前，這項請求會一直有效。若對方轉為敵對或被消滅，任務即失敗。</li>
+  </TSA_WD_FirstOutpostIntro.questDescriptionRules.rulesStrings>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <TSA_WD_FirstOutpostIntro.TSA_WD_FirstOutpost_LetterLabelFailed.slateRef>任務失敗：[resolvedQuestName]</TSA_WD_FirstOutpostIntro.TSA_WD_FirstOutpost_LetterLabelFailed.slateRef>
+  <!-- EN: [faction_name] became hostile. The first-outpost request has failed. -->
+  <TSA_WD_FirstOutpostIntro.TSA_WD_FirstOutpost_LetterTextHostile.slateRef>[faction_name]已轉為敵對。建立首座哨站的請求失敗了。</TSA_WD_FirstOutpostIntro.TSA_WD_FirstOutpost_LetterTextHostile.slateRef>
+
+  <!-- Quest_WD_ColonyRoadLink.xml -->
+  <TSA_WD_ColonyRoadLink.questNameRules.rulesStrings>
+    <!-- EN: Road to [askerSettlement_label] | Link with [askerSettlement_label] | [faction_name] road request -->
+    <li>questName->通往[askerSettlement_label]的道路</li>
+    <li>questName->與[askerSettlement_label]連通</li>
+    <li>questName->[faction_name]的修路請求</li>
+  </TSA_WD_ColonyRoadLink.questNameRules.rulesStrings>
+  <TSA_WD_ColonyRoadLink.questDescriptionRules.rulesStrings>
+    <!-- EN: [faction_name] wants a road between your colony and [askerSettlement_label]. Connect the two towns by road. How the road gets built does not matter.\n\nYou have 30 days. -->
+    <li>questDescription->[faction_name]希望在你的殖民地與[askerSettlement_label]之間有一條道路。用道路連通這兩座城鎮即可，道路如何建成並不重要。\n\n你有30天的時間。</li>
+  </TSA_WD_ColonyRoadLink.questDescriptionRules.rulesStrings>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <TSA_WD_ColonyRoadLink.TSA_WD_ColonyRoadLink_LetterLabelFailed.slateRef>任務失敗：[resolvedQuestName]</TSA_WD_ColonyRoadLink.TSA_WD_ColonyRoadLink_LetterLabelFailed.slateRef>
+  <!-- EN: [faction_name] became hostile. The road-link request has failed. -->
+  <TSA_WD_ColonyRoadLink.TSA_WD_ColonyRoadLink_LetterTextHostile.slateRef>[faction_name]已轉為敵對。道路連通的請求失敗了。</TSA_WD_ColonyRoadLink.TSA_WD_ColonyRoadLink_LetterTextHostile.slateRef>
+  <!-- EN: Quest expired: [resolvedQuestName] -->
+  <TSA_WD_ColonyRoadLink.TSA_WD_ColonyRoadLink_LetterLabelExpired.slateRef>任務逾期：[resolvedQuestName]</TSA_WD_ColonyRoadLink.TSA_WD_ColonyRoadLink_LetterLabelExpired.slateRef>
+  <!-- EN: Time ran out on the request from [faction_name] for a road to [askerSettlement_label]. -->
+  <TSA_WD_ColonyRoadLink.TSA_WD_ColonyRoadLink_LetterTextExpired.slateRef>[faction_name]請求修路通往[askerSettlement_label]，但時間已到。</TSA_WD_ColonyRoadLink.TSA_WD_ColonyRoadLink_LetterTextExpired.slateRef>
+
+  <!-- Quest_WD_CommonEnemySettlement.xml -->
+  <TSA_WD_CommonEnemySettlement.questNameRules.rulesStrings>
+    <!-- EN: Strike on [enemySettlement_label] | [faction_name] vs [enemySettlement_label] | Common enemy: [enemySettlement_label] -->
+    <li>questName->突擊[enemySettlement_label]</li>
+    <li>questName->[faction_name]對抗[enemySettlement_label]</li>
+    <li>questName->共同敵人：[enemySettlement_label]</li>
+  </TSA_WD_CommonEnemySettlement.questNameRules.rulesStrings>
+  <TSA_WD_CommonEnemySettlement.questDescriptionRules.rulesStrings>
+    <!-- EN: [faction_name] wants you to wipe out or conquer [enemySettlement_label], a shared enemy. Do it yourself: attack in person, or launch a raid from one of your World Domination outposts.\n\nAllied-settlement raid orders and unrelated faction attacks do not count. You have 8 days. -->
+    <li>questDescription->[faction_name]希望你剷除或征服雙方共同的敵人[enemySettlement_label]。必須由你自己完成：親自前往進攻，或從你的World Domination哨站發動突襲。\n\n同盟據點的突襲命令與無關派系的攻擊都不算數。你有8天的時間。</li>
+  </TSA_WD_CommonEnemySettlement.questDescriptionRules.rulesStrings>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <TSA_WD_CommonEnemySettlement.TSA_WD_CommonEnemy_LetterLabelFailed.slateRef>任務失敗：[resolvedQuestName]</TSA_WD_CommonEnemySettlement.TSA_WD_CommonEnemy_LetterLabelFailed.slateRef>
+  <!-- EN: [faction_name] became hostile. The common-enemy request has failed. -->
+  <TSA_WD_CommonEnemySettlement.TSA_WD_CommonEnemy_LetterTextHostile.slateRef>[faction_name]已轉為敵對。共同敵人的請求失敗了。</TSA_WD_CommonEnemySettlement.TSA_WD_CommonEnemy_LetterTextHostile.slateRef>
+  <!-- EN: Quest expired: [resolvedQuestName] -->
+  <TSA_WD_CommonEnemySettlement.TSA_WD_CommonEnemy_LetterLabelExpired.slateRef>任務逾期：[resolvedQuestName]</TSA_WD_CommonEnemySettlement.TSA_WD_CommonEnemy_LetterLabelExpired.slateRef>
+  <!-- EN: Time ran out on the request from [faction_name] to take down [enemySettlement_label]. -->
+  <TSA_WD_CommonEnemySettlement.TSA_WD_CommonEnemy_LetterTextExpired.slateRef>[faction_name]請求拿下[enemySettlement_label]，但時間已到。</TSA_WD_CommonEnemySettlement.TSA_WD_CommonEnemy_LetterTextExpired.slateRef>
+
+  <!-- Quest_WD_WorldDominationVictory.xml -->
+  <TSA_WD_WorldDominationVictory.questNameRules.rulesStrings>
+    <!-- EN: World Domination | Hold the planet | Strongest on the map -->
+    <li>questName->World Domination</li>
+    <li>questName->稱霸星球</li>
+    <li>questName->世界最強</li>
+  </TSA_WD_WorldDominationVictory.questNameRules.rulesStrings>
+  <TSA_WD_WorldDominationVictory.questDescriptionRules.rulesStrings>
+    <!-- EN: Become the strongest World Domination faction and hold that lead for 15 continuous days.\n\nYour ranking uses WD outposts only. If you lose the lead, the streak resets. There is no time limit. -->
+    <li>questDescription->成為World Domination中最強的派系，並連續保持領先15天。\n\n你的排名只計算WD哨站。若失去領先，連續天數會重置。沒有時間限制。</li>
+  </TSA_WD_WorldDominationVictory.questDescriptionRules.rulesStrings>
+
+</LanguageData>

@@ -16,7 +16,7 @@ namespace TSA_WorldDomination
     {
         private const PawnRosterColumnWindow ColWindow = PawnRosterColumnWindow.DefenseDeploy;
         private const float ViewControlsH = 30f;
-        private const float SectionMeterH = 30f;
+        private const float SectionMeterH = 44f;
         private const float HeaderHeight = 36f;
         private const float ColSelect = 36f;
         private const float ArmoryBtnWidth = 120f;
@@ -34,6 +34,7 @@ namespace TSA_WorldDomination
             public WorldObject_WD_Outpost source;
             public bool isTarget;
             public float available;
+            public float maxOffensive;
             public readonly List<Pawn> candidates = new List<Pawn>();
             public readonly List<Pawn> visibleRows = new List<Pawn>();
             public string cachedHeaderLabel;
@@ -82,6 +83,9 @@ namespace TSA_WorldDomination
 
         private readonly bool isTrenchCorridor;
 
+        public bool IsForTraveler(WorldObject_Traveler candidate)
+            => traveler != null && candidate != null && traveler == candidate;
+
         public Dialog_OutpostDefenseDeploy(
             WorldObject_Traveler traveler,
             WorldObject_WD_Outpost outpost,
@@ -97,7 +101,8 @@ namespace TSA_WorldDomination
             enforceBudget = OutpostStrengthBudget.DefenseDeployBudgetEnabled;
             onSort = ToggleSort;
             view.SetDefaultSort(PawnRosterBudgetTable.DefaultSortId, false);
-            cachedBanner = "TSA_WD_StrengthBudget_DeployBanner".Translate();
+            cachedBanner = "TSA_WD_StrengthBudget_DeployBanner".Translate()
+                + "\n" + "TSA_WD_StrengthBudget_DeployStoredTip".Translate();
             BuildSectionsOnce();
             RebuildVisibleRows();
             SelectDefaultFill();
@@ -118,10 +123,11 @@ namespace TSA_WorldDomination
                 source = outpost,
                 isTarget = true,
                 available = OutpostStrengthBudget.GetAvailableForDefense(outpost),
+                maxOffensive = Mathf.Max(0f, outpost?.GetComponent<CompViralSpread>()?.GetMaxOffensiveStrength() ?? 0f),
                 cachedHeaderLabel = "TSA_WD_OutpostDefense_DeploySection_Target".Translate(outpost?.LabelCap ?? "Outpost"),
                 cachedTabLabel = outpost?.LabelCap ?? "Outpost"
             };
-            CollectOccupants(outpost, target.candidates);
+            CollectDeployCandidates(outpost, target.candidates);
             sections.Add(target);
 
             List<WorldObject_WD_Outpost> supports = WD_OutpostDefenseEncounterUtility.CollectPlayerSupportOutposts(
@@ -135,10 +141,11 @@ namespace TSA_WorldDomination
                     source = donor,
                     isTarget = false,
                     available = OutpostStrengthBudget.GetAvailableForSupportDefense(donor),
+                    maxOffensive = Mathf.Max(0f, donor.GetComponent<CompViralSpread>()?.GetMaxOffensiveStrength() ?? 0f),
                     cachedHeaderLabel = "TSA_WD_OutpostDefense_DeploySection_Support".Translate(donor.LabelCap),
                     cachedTabLabel = donor.LabelCap
                 };
-                CollectOccupants(donor, section.candidates);
+                CollectDeployCandidates(donor, section.candidates);
                 if (section.candidates.Count == 0) continue;
                 sections.Add(section);
             }
@@ -158,17 +165,39 @@ namespace TSA_WorldDomination
             }
         }
 
-        private static void CollectOccupants(WorldObject_WD_Outpost source, List<Pawn> into)
+        private static void CollectDeployCandidates(WorldObject_WD_Outpost source, List<Pawn> into)
         {
             into.Clear();
-            List<Pawn> occ = source?.Occupants;
-            if (occ == null) return;
-            for (int i = 0; i < occ.Count; i++)
+            if (source == null) return;
+            var seen = new HashSet<int>();
+            AppendLiving(source.Occupants, into, seen);
+            AppendLiving(source.StoredAnimalsAndVehicles, into, seen);
+            AppendLiving(source.StoredMechanoids, into, seen);
+        }
+
+        private static void AppendLiving(List<Pawn> from, List<Pawn> into, HashSet<int> seen)
+        {
+            if (from == null) return;
+            for (int i = 0; i < from.Count; i++)
             {
-                Pawn p = occ[i];
+                Pawn p = from[i];
                 if (p == null || p.Destroyed || p.Dead) continue;
+                if (!seen.Add(p.thingIDNumber)) continue;
                 into.Add(p);
             }
+        }
+
+        /// <summary>Occupants only — stored animals/vehicles/mechs start deselected.</summary>
+        private static bool IsOccupantCandidate(WorldObject_WD_Outpost source, Pawn pawn)
+        {
+            if (source == null || pawn == null) return false;
+            List<Pawn> occ = source.Occupants;
+            if (occ == null) return false;
+            for (int i = 0; i < occ.Count; i++)
+            {
+                if (occ[i] == pawn) return true;
+            }
+            return false;
         }
 
         private void RebuildVisibleRows()
@@ -265,13 +294,20 @@ namespace TSA_WorldDomination
                 {
                     Pawn p = target.candidates[i];
                     if (p?.ThingID == null) continue;
+                    if (!IsOccupantCandidate(target.source, p)) continue;
                     selectedThingIds.Add(p.ThingID);
                 }
                 return;
             }
 
             float used = 0f;
-            var byStrength = new List<Pawn>(target.candidates);
+            var byStrength = new List<Pawn>();
+            for (int i = 0; i < target.candidates.Count; i++)
+            {
+                Pawn p = target.candidates[i];
+                if (p == null || !IsOccupantCandidate(target.source, p)) continue;
+                byStrength.Add(p);
+            }
             byStrength.Sort((a, b) => OutpostStrengthBudget.GetPawnCost(b).CompareTo(OutpostStrengthBudget.GetPawnCost(a)));
             for (int i = 0; i < byStrength.Count; i++)
             {
@@ -290,11 +326,14 @@ namespace TSA_WorldDomination
             smartSelectScratch.Clear();
             for (int s = 0; s < sections.Count; s++)
             {
-                List<Pawn> candidates = sections[s].candidates;
+                DeploySection section = sections[s];
+                List<Pawn> candidates = section.candidates;
                 for (int i = 0; i < candidates.Count; i++)
                 {
                     Pawn p = candidates[i];
-                    if (p?.ThingID != null) smartSelectScratch.Add(p);
+                    if (p?.ThingID == null) continue;
+                    if (!IsOccupantCandidate(section.source, p)) continue;
+                    smartSelectScratch.Add(p);
                 }
             }
 
@@ -449,8 +488,11 @@ namespace TSA_WorldDomination
         {
             PawnRosterHeaderFilter.CloseDropdown();
             base.PostClose();
-            if (!resolved && traveler != null && outpost != null && !outpost.Destroyed)
-                Find.WindowStack.Add(new Dialog_OutpostDefenseChoice(traveler, outpost, manager, isSkirmishFollowUp));
+            if (!resolved && traveler != null && !traveler.Destroyed && outpost != null && !outpost.Destroyed)
+            {
+                Find.WindowStack.Add(new Dialog_OutpostDefenseChoice(
+                    traveler, outpost, manager, isSkirmishFollowUp, isTrenchIntercept: isTrenchCorridor));
+            }
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -552,12 +594,19 @@ namespace TSA_WorldDomination
                 if (showMeter)
                 {
                     Color meterColor = under ? Color.white : ColorLibrary.RedReadable;
-                    string meter = "TSA_WD_StrengthBudget_DeployingMeter".Translate(used.ToString("F0"), section.available.ToString("F0"));
+                    string meter = "TSA_WD_StrengthBudget_DeployingMeter".Translate(
+                        used.ToString("F0"),
+                        section.available.ToString("F0"),
+                        section.maxOffensive.ToString("F0"));
                     float meterW = Mathf.Max(120f, inRect.width - curX);
+                    Rect meterRect = new Rect(curX, y, meterW, SectionMeterH);
                     GUI.color = meterColor;
-                    OutpostStrengthBudgetUi.LabelAnchored(
-                        new Rect(curX, y, meterW, SectionMeterH), meter, TextAnchor.MiddleLeft);
+                    OutpostStrengthBudgetUi.LabelAnchored(meterRect, meter, TextAnchor.MiddleLeft);
                     GUI.color = Color.white;
+                    TooltipHandler.TipRegion(
+                        meterRect,
+                        "TSA_WD_StrengthBudget_DeployMeterTip".Translate()
+                            + "\n\n" + "TSA_WD_StrengthBudget_DeployStoredTip".Translate());
                 }
 
                 y += SectionMeterH + 2f;
@@ -871,6 +920,8 @@ namespace TSA_WorldDomination
             resolved = true;
             int raidDelay = isSkirmishFollowUp ? 0 : 900;
             outpost?.ClearPendingSkirmishDefense();
+            if (isTrenchCorridor)
+                WdTrenchInterceptUtility.MarkResolved(traveler, outpost);
             Close(doCloseSound: false);
             if (!WD_OutpostDefenseEncounterUtility.StartManualDefenseEncounter(
                     traveler, outpost, raidDelay, deploy, supports.Count > 0 ? supports : null, isTrenchCorridor))

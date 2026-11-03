@@ -969,57 +969,79 @@ namespace TSA_WorldDomination
         {
             if (!OutpostPowerGrid.Enabled || outpost == null) return null;
             float demand = OutpostPowerGrid.GetPowerDemandWatts(outpost);
-            if (demand <= OutpostPowerGrid.DemandEpsilon && !outpost.IsPowerPlantOutpost)
+            bool isPlant = outpost.IsPowerPlantOutpost;
+            if (demand <= OutpostPowerGrid.DemandEpsilon && !isPlant)
                 return null;
 
             var section = new OutpostStatsSection
             {
                 Title = "TSA_WD_OutpostStats_Section_Power".Translate().ToString()
             };
-            if (demand > OutpostPowerGrid.DemandEpsilon)
-            {
-                float supplied = OutpostPowerGrid.GetSuppliedWatts(outpost);
-                bool powered = OutpostPowerGrid.IsPowered(outpost);
-                AddRow(section, "TSA_WD_OutpostStats_Row_PowerDemand", Outpost_PowerPlant.FormatWatts(demand), "TSA_WD_OutpostStats_Row_PowerDemandTip");
-                AddRow(section, "TSA_WD_OutpostStats_Row_PowerSupplied", Outpost_PowerPlant.FormatWatts(supplied), "TSA_WD_OutpostStats_Row_PowerSuppliedTip");
-                string status;
-                Color statusColor;
-                if (powered)
-                {
-                    status = "TSA_WD_OutpostPower_StatusPowered".Translate().ToString();
-                    statusColor = Color.cyan;
-                }
-                else if (OutpostPowerGrid.IsPartiallyPowered(outpost))
-                {
-                    status = "TSA_WD_OutpostPower_StatusPartial".Translate().ToString();
-                    if (status.Contains("TSA_WD_")) status = "Partial";
-                    statusColor = Color.yellow;
-                }
-                else
-                {
-                    status = "TSA_WD_OutpostPower_StatusUnpowered".Translate().ToString();
-                    statusColor = Color.yellow;
-                }
-                AddRow(section, "TSA_WD_OutpostStats_Row_PowerStatus", status, "TSA_WD_OutpostStats_Row_PowerStatusTip", statusColor);
-                float pf = OutpostPowerGrid.GetProductionPowerFactor(outpost);
-                if (pf < 0.999f)
-                {
-                    AddRow(section, "TSA_WD_OutpostStats_Row_UnpoweredFactor",
-                        pf.ToString("P0"),
-                        "TSA_WD_OutpostStats_Row_UnpoweredFactorTip");
-                }
-            }
-            if (outpost.IsPowerPlantOutpost)
+
+            // Plants: Generation first, then local demand/supply, status, surplus, sent to outposts, sent to colony.
+            if (isPlant)
             {
                 float gen = Outpost_PowerPlant.GetRemotePowerWatts(outpost);
-                float keep = OutpostPowerGrid.GetColonyKeepWatts(outpost);
-                string mode = LogisticsModeUtil.IsSmartMode(outpost.PowerLogisticsMode)
-                    ? "TSA_LogisticsMode_Smart".Translate().ToString()
-                    : "TSA_LogisticsMode_Manual".Translate().ToString();
-                AddRow(section, "TSA_WD_OutpostStats_Row_PowerRole", mode, "TSA_WD_OutpostStats_Row_PowerRoleTip");
                 AddRow(section, "TSA_WD_OutpostStats_Row_PowerGeneration",
                     Outpost_PowerPlant.FormatWatts(gen),
                     "TSA_WD_OutpostStats_Row_PowerGenerationTip");
+            }
+
+            if (demand > OutpostPowerGrid.DemandEpsilon || isPlant)
+            {
+                float supplied = OutpostPowerGrid.GetSuppliedWatts(outpost);
+                AddRow(section, "TSA_WD_OutpostStats_Row_PowerDemand",
+                    Outpost_PowerPlant.FormatWatts(demand),
+                    "TSA_WD_OutpostStats_Row_PowerDemandTip");
+                AddRow(section, "TSA_WD_OutpostStats_Row_PowerSupplied",
+                    Outpost_PowerPlant.FormatWatts(supplied),
+                    "TSA_WD_OutpostStats_Row_PowerSuppliedTip");
+
+                if (demand > OutpostPowerGrid.DemandEpsilon)
+                {
+                    bool powered = OutpostPowerGrid.IsPowered(outpost);
+                    string status;
+                    Color statusColor;
+                    if (powered)
+                    {
+                        status = "TSA_WD_OutpostPower_StatusPowered".Translate().ToString();
+                        statusColor = Color.cyan;
+                    }
+                    else if (OutpostPowerGrid.IsPartiallyPowered(outpost))
+                    {
+                        status = "TSA_WD_OutpostPower_StatusPartial".Translate().ToString();
+                        if (status.Contains("TSA_WD_")) status = "Partial";
+                        statusColor = Color.yellow;
+                    }
+                    else
+                    {
+                        status = "TSA_WD_OutpostPower_StatusUnpowered".Translate().ToString();
+                        statusColor = Color.yellow;
+                    }
+                    AddRow(section, "TSA_WD_OutpostStats_Row_PowerStatus", status, "TSA_WD_OutpostStats_Row_PowerStatusTip", statusColor);
+                    float pf = OutpostPowerGrid.GetProductionPowerFactor(outpost);
+                    if (pf < 0.999f)
+                    {
+                        AddRow(section, "TSA_WD_OutpostStats_Row_UnpoweredFactor",
+                            pf.ToString("P0"),
+                            "TSA_WD_OutpostStats_Row_UnpoweredFactorTip");
+                    }
+                }
+            }
+
+            if (isPlant)
+            {
+                float gen = Outpost_PowerPlant.GetRemotePowerWatts(outpost);
+                float keep = OutpostPowerGrid.GetColonyKeepWatts(outpost);
+                float local = OutpostPowerGrid.GetLocalReservedWatts(outpost);
+                float surplus = OutpostPowerGrid.GetDistributableWatts(outpost);
+                float sentOutposts = Mathf.Max(0f, gen - local - keep);
+                AddRow(section, "TSA_WD_OutpostStats_Row_PowerSurplus",
+                    Outpost_PowerPlant.FormatWatts(surplus),
+                    "TSA_WD_OutpostStats_Row_PowerSurplusTip");
+                AddRow(section, "TSA_WD_OutpostStats_Row_PowerSentOutposts",
+                    Outpost_PowerPlant.FormatWatts(sentOutposts),
+                    "TSA_WD_OutpostStats_Row_PowerSentOutpostsTip");
                 AddRow(section, "TSA_WD_OutpostStats_Row_PowerKeepColony",
                     Outpost_PowerPlant.FormatWatts(keep),
                     "TSA_WD_OutpostStats_Row_PowerKeepColonyTip");
@@ -1506,6 +1528,7 @@ namespace TSA_WorldDomination
 
         private static void AppendPowerPlantProductionRows(WorldObject_WD_Outpost outpost, OutpostStatsSection section)
         {
+            if (!OutpostPowerGrid.Enabled) return;
             string wattsTip = "TSA_WD_OutpostStats_Row_PowerWattsTip".Translate().ToString();
             string softTip = Outpost_Production_Utils.BuildSoftProductionBonusTooltip(outpost);
             if (!string.IsNullOrEmpty(softTip))

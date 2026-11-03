@@ -47,7 +47,7 @@ namespace TSA_WorldDomination
                 s_keepHereColony = "Keep (colony)";
             s_keepHereColonyTip = "TSA_Logistics_KeepHereColonyTip".Translate().ToString();
             if (s_keepHereColonyTip.Contains("TSA_Logistics_KeepHereColonyTip"))
-                s_keepHereColonyTip = "Watts not assigned to outposts feed the colony power grid.";
+                s_keepHereColonyTip = "Leftover after local demand and delivered links feed the colony power grid.";
             s_paneFood = "TSA_LogisticsPane_Food".Translate().ToString();
             if (s_paneFood.Contains("TSA_LogisticsPane_Food")) s_paneFood = "Food";
             s_paneElectricity = "TSA_LogisticsPane_Electricity".Translate().ToString();
@@ -146,6 +146,7 @@ namespace TSA_WorldDomination
             powerDestCacheGen = gen;
             powerDestCache.Clear();
             powerRowStrCache.Clear();
+            powerConsumerRowStrCache.Clear();
             if (SelOutpost == null) return;
             float maxRange = OutpostPowerReach.GetMaxRangeTiles();
             IReadOnlyList<WorldObject_WD_Outpost> list = WdPlayerOutpostCache.PlayerOutposts;
@@ -154,6 +155,8 @@ namespace TSA_WorldDomination
                 WorldObject_WD_Outpost op = list[i];
                 if (op == null || op.Destroyed || op == SelOutpost) continue;
                 if (op.Faction != Faction.OfPlayer) continue;
+                // Plants cover themselves from generation; never a power destination for other plants.
+                if (op.IsPowerPlantOutpost) continue;
                 if (OutpostPowerGrid.GetPowerDemandWatts(op) <= OutpostPowerGrid.DemandEpsilon) continue;
                 if (Find.WorldGrid.ApproxDistanceInTiles(SelOutpost.Tile, op.Tile) > maxRange) continue;
                 powerDestCache.Add(op);
@@ -168,8 +171,8 @@ namespace TSA_WorldDomination
             EnsurePowerDestCache();
             // Only surplus after local demand is distributable (food Keep-local parity).
             float budget = OutpostPowerGrid.GetDistributableWatts(SelOutpost);
-            float outgoingFromHubAll = grid.GetOutgoingSumFromTile(SelOutpost.Tile.tileId);
-            float keepHere = Mathf.Max(0f, budget - outgoingFromHubAll);
+            // ACTUAL colony Keep (matches left stats / PowerNet). +/- still gated on INTENT residual below.
+            float keepHere = grid.GetCachedColonyKeepWatts(SelOutpost);
 
             Text.Font = GameFont.Small;
             GUI.color = Widgets.SeparatorLabelColor;
@@ -198,7 +201,7 @@ namespace TSA_WorldDomination
             y += 24f;
 
             Rect listRect = new Rect(rightRect.x, y, rightRect.width, rightRect.yMax - y);
-            DrawPowerProducerInterface(listRect, grid, budget, outgoingFromHubAll);
+            DrawPowerProducerInterface(listRect, grid, budget);
         }
 
         private void DrawPowerKeepHereRow(Rect row, float keepAmount)
@@ -279,12 +282,11 @@ namespace TSA_WorldDomination
         private void DrawPowerProducerInterface(
             Rect listRect,
             WorldComponent_OutpostPowerGrid grid,
-            float budget,
-            float outgoingFromHubAll)
+            float budget)
         {
             if (powerDestCache.Count == 0)
             {
-                DrawIsolatedMessage(listRect, producer: true);
+                DrawIsolatedMessage(listRect, producer: true, power: true);
                 return;
             }
 
@@ -356,17 +358,17 @@ namespace TSA_WorldDomination
                 string rowKey = destTile.ToString();
                 Rect minusR = new Rect(ctrlX, btnY, AssignmentBtnW, 24f);
                 if (WdDragSelectButtons.ButtonText(minusR, "-", WdDragSelectButtons.Hash(rowKey, "minus")))
-                    AdjustPowerLink(grid, destTile, budget, outgoingFromHubAll, isMinus: true);
+                    AdjustPowerLink(grid, destTile, budget, isMinus: true);
 
                 val = grid.GetAssignment(SelOutpost.Tile.tileId, destTile);
                 LabelAnchored(new Rect(ctrlX + AssignmentBtnW, innerY, AssignmentValueW, row.height),
                     val.ToString("F0"), TextAnchor.MiddleCenter);
 
-                bool canAdd = outgoingFromHubAll + 1f < budget;
+                bool canAdd = grid.GetOutgoingSumFromTile(SelOutpost.Tile.tileId) + 1f < budget;
                 if (!canAdd) GUI.color = Color.gray;
                 Rect plusR = new Rect(ctrlX + ctrlW - AssignmentBtnW, btnY, AssignmentBtnW, 24f);
                 if (WdDragSelectButtons.ButtonText(plusR, "+", WdDragSelectButtons.Hash(rowKey, "plus"), active: canAdd) && canAdd)
-                    AdjustPowerLink(grid, destTile, budget, outgoingFromHubAll, isMinus: false);
+                    AdjustPowerLink(grid, destTile, budget, isMinus: false);
                 GUI.color = Color.white;
 
                 innerY += ProducerRowStep;
@@ -383,7 +385,6 @@ namespace TSA_WorldDomination
             WorldComponent_OutpostPowerGrid grid,
             int destTile,
             float budget,
-            float outgoingFromHubAll,
             bool isMinus)
         {
             if (SelOutpost == null || grid == null) return;
@@ -399,7 +400,8 @@ namespace TSA_WorldDomination
             }
             else
             {
-                float remaining = budget - outgoingFromHubAll;
+                // Food AdjustLink parity: re-read live outgoing so rapid +/- cannot overshoot.
+                float remaining = budget - grid.GetOutgoingSumFromTile(srcTile);
                 if (remaining <= 0.001f) return;
                 next = current + Mathf.Min(step, remaining);
             }
@@ -425,7 +427,7 @@ namespace TSA_WorldDomination
 
             if (lines.Count == 0)
             {
-                DrawIsolatedMessage(listRect, producer: false);
+                DrawIsolatedMessage(listRect, producer: false, power: true);
                 return;
             }
 

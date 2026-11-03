@@ -98,7 +98,7 @@ namespace TSA_WorldDomination
             var centerline = new IntVec3[steps];
             BuildCenterline(map, layout, center, along, perp, lateral, halfSteps, centerline);
             ResolveSpawnEnds(map, layout, centerline);
-            Log.Message(
+            WDVerbose.MsgNoTick(
                 $"[TSA WD] Identified Angle from world map {angleDeg:0.#}° (raw {rawAngle:0.#}°). " +
                 $"Player spawns {CompassLabel(map, layout.PlayerEnd)}. Enemy spawns {CompassLabel(map, layout.HostileEnd)}.");
 

@@ -87,6 +87,13 @@ namespace TSA_WorldDomination
         private static bool PassesMayRequire(WdMgTurretOption option)
         {
             if (option == null) return false;
+
+            // XML already resolved the ThingDef at load → MayRequire mod was present then.
+            // Do not re-check ModsConfig at pick time: trench map gen can run on a LongEvent
+            // worker where IsActive falsely returns false and would drop CE M240 options.
+            if (option.thingDef != null)
+                return true;
+
             if (!string.IsNullOrWhiteSpace(option.MayRequire))
             {
                 foreach (string raw in option.MayRequire.Split(','))

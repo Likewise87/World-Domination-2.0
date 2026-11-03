@@ -106,6 +106,7 @@
         <outpostApplicability>All</outpostApplicability>
         <requiresPreviousLineTier>false</requiresPreviousLineTier>
         <defensiveStrengthBonus>250</defensiveStrengthBonus>
+        <enablesTrenchDefenseTurrets>true</enablesTrenchDefenseTurrets>
         <requiredResearch>HeavyTurrets</requiredResearch>
         <cost>
             <li>

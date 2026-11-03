@@ -215,8 +215,7 @@ namespace TSA_WorldDomination
             sw.Stop();
             lastRebuildElapsedMs = sw.ElapsedMilliseconds;
             lastRebuildWatcherCount = watcherCount;
-            if (Prefs.DevMode)
-                Log.Message($"[TSA WD] SettlementWatchIndex rebuilt: watchers={watcherCount} tiles={watchersByTile.Count} in {lastRebuildElapsedMs}ms");
+            WDVerbose.Msg($"SettlementWatchIndex rebuilt: watchers={watcherCount} tiles={watchersByTile.Count} in {lastRebuildElapsedMs}ms");
         }
 
         private static float SafeRange(IDefensiveInterceptor ip)

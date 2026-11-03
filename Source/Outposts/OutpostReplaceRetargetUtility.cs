@@ -118,6 +118,7 @@ namespace TSA_WorldDomination
                 }
             }
 
+            WorldActions_Trenches.RemapOwner(oldOutpost, newOutpost);
             return changed;
         }
     }

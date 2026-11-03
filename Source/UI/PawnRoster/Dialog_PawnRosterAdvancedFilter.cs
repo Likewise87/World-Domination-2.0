@@ -12,6 +12,7 @@ namespace TSA_WorldDomination
     /// Presets, multi-level sort, and active filters for one roster window. Edits apply live to the host.
     /// Styled like <see cref="Dialog_PawnRosterTraitFilter"/>.
     /// </summary>
+    [StaticConstructorOnStartup]
     public class Dialog_PawnRosterAdvancedFilter : Window
     {
         private const float TitleH = 30f;

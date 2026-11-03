@@ -25,6 +25,8 @@
   <TSA_IncomingPowerSupplyLines>Receiving Electricity From:</TSA_IncomingPowerSupplyLines>
   <TSA_Logistics_IsolatedProducer>No outposts in range that this {0} can send virtual food to.</TSA_Logistics_IsolatedProducer>
   <TSA_Logistics_IsolatedConsumer>No food producing outpost in range to provide for this {0}.</TSA_Logistics_IsolatedConsumer>
+  <TSA_Logistics_IsolatedPowerProducer>No outposts in range that this {0} can supply power to.</TSA_Logistics_IsolatedPowerProducer>
+  <TSA_Logistics_IsolatedPowerConsumer>No power plant in range to supply this {0}.</TSA_Logistics_IsolatedPowerConsumer>
   <TSA_LogisticsMode_AllToColony>All to colony</TSA_LogisticsMode_AllToColony>
   <TSA_LogisticsMode_Smart>Smart</TSA_LogisticsMode_Smart>
   <TSA_LogisticsMode_BiggestDeficit>Smart</TSA_LogisticsMode_BiggestDeficit>
@@ -35,7 +37,7 @@
   <TSA_LogisticsPane_Food>Food</TSA_LogisticsPane_Food>
   <TSA_LogisticsPane_Electricity>Electricity</TSA_LogisticsPane_Electricity>
   <TSA_Logistics_KeepHereColony>Keep (colony)</TSA_Logistics_KeepHereColony>
-  <TSA_Logistics_KeepHereColonyTip>Watts not assigned to outposts feed the colony power grid.</TSA_Logistics_KeepHereColonyTip>
+  <TSA_Logistics_KeepHereColonyTip>Leftover after local demand and delivered links feed the colony power grid.</TSA_Logistics_KeepHereColonyTip>
   <TSA_WD_Logistics_GamePaused>Game paused</TSA_WD_Logistics_GamePaused>
   <TSA_Logistics_AvailableForDistribution_Label>Local Food Balance:</TSA_Logistics_AvailableForDistribution_Label>
   <TSA_Logistics_AvailableForDistribution_Tooltip_BaseProd>Base production of any outpost: {0}</TSA_Logistics_AvailableForDistribution_Tooltip_BaseProd>
@@ -323,9 +325,11 @@
   <TSA_WD_Log_BridgeDeconstructCancelled>{0} mission cancelled: bridge teardown aborted.</TSA_WD_Log_BridgeDeconstructCancelled>
   <TSA_WD_Log_BridgePathInvalidated>{0} mission cancelled: bridge path no longer valid.</TSA_WD_Log_BridgePathInvalidated>
   <TSA_WD_CancelCurrentProjectFirst>Cancel Current Project first</TSA_WD_CancelCurrentProjectFirst>
-  <TSA_WD_InsufficientStrengthToBuild>Insufficient Strength to Deliver {0}</TSA_WD_InsufficientStrengthToBuild>
-  <TSA_WD_InsufficientStrengthToClear>Insufficient Strength to Clear {0}</TSA_WD_InsufficientStrengthToClear>
-  <TSA_WD_InsufficientMaterialsToBuild>Insufficient Materials to Deliver {0}</TSA_WD_InsufficientMaterialsToBuild>
+  <TSA_WD_InsufficientStrengthToBuild>Insufficient Strength to deliver {0}</TSA_WD_InsufficientStrengthToBuild>
+  <TSA_WD_InsufficientStrengthToClear>Insufficient Strength to clear {0}</TSA_WD_InsufficientStrengthToClear>
+  <TSA_WD_InsufficientMaterialsToBuild>Insufficient Materials to deliver {0}</TSA_WD_InsufficientMaterialsToBuild>
+  <TSA_WD_ProjectNoun_Trench>trench</TSA_WD_ProjectNoun_Trench>
+  <TSA_WD_ProjectNoun_Bridge>bridge</TSA_WD_ProjectNoun_Bridge>
   <TSA_WD_BuildRoadDesc>Direct this outpost to begin constructing a road network towards a specific tile. Speed scales with cumulative Construction skill.\n\nShift+click to place waypoints; click without Shift to set the final destination.</TSA_WD_BuildRoadDesc>
   <TSA_WD_BuildRoadStatus>Currently building towards &quot;{0}&quot;\nProgress: {1}%</TSA_WD_BuildRoadStatus>
   <TSA_WD_CancelRoad>Cancel Road Construction</TSA_WD_CancelRoad>
@@ -1127,10 +1131,11 @@
   <TSA_WD_StrengthBudget_WithdrawCaption>Trying to withdraw pawns worth {0} Offensive Strength from an Outpost currently having {1}</TSA_WD_StrengthBudget_WithdrawCaption>
   <TSA_WD_StrengthBudget_WithdrawCaptionTip>You may not withdraw pawns worth more offensive strength than you currently have.</TSA_WD_StrengthBudget_WithdrawCaptionTip>
   <TSA_WD_StrengthBudget_NeedStayBehind>{0} more Offensive Strength must either stay behind at the outpost or be marked as Lost.</TSA_WD_StrengthBudget_NeedStayBehind>
-  <TSA_WD_StrengthBudget_DeployingMeter>Deploying: {0} / {1} offensive strength</TSA_WD_StrengthBudget_DeployingMeter>
+  <TSA_WD_StrengthBudget_DeployingMeter>{0} Offensive Strength deployed of {1} currently available. Max. Outpost Offensive Strength: {2}</TSA_WD_StrengthBudget_DeployingMeter>
   <TSA_WD_StrengthBudget_MeterTip>Same offensive strength used to launch attacks from this outpost.</TSA_WD_StrengthBudget_MeterTip>
   <TSA_WD_StrengthBudget_WithdrawMeterTip>This outpost has {0} Off. Strength. You may withdraw up to {1} ({0} plus {2} tolerance).</TSA_WD_StrengthBudget_WithdrawMeterTip>
-  <TSA_WD_StrengthBudget_DeployMeterTip>Current offensive strength of this outpost.</TSA_WD_StrengthBudget_DeployMeterTip>
+  <TSA_WD_StrengthBudget_DeployMeterTip>Current offensive strength of this outpost versus its maximum.</TSA_WD_StrengthBudget_DeployMeterTip>
+  <TSA_WD_StrengthBudget_DeployStoredTip>Vehicles, animals, and mechanoids start deselected. Check them to spend offensive strength and bring them into the fight.</TSA_WD_StrengthBudget_DeployStoredTip>
   <TSA_WD_StrengthBudget_PawnCost>Strength {0}</TSA_WD_StrengthBudget_PawnCost>
   <TSA_WD_StrengthBudget_FormCaravan>Form Caravan</TSA_WD_StrengthBudget_FormCaravan>
   <TSA_WD_StrengthBudget_FateCaravan>Caravan</TSA_WD_StrengthBudget_FateCaravan>
@@ -1230,6 +1235,11 @@
   <TSA_WD_Req_WaivedConquestResearch>Research is not required when founding from a conquered settlement.</TSA_WD_Req_WaivedConquestResearch>
   <TSA_WD_RoadAlreadyBuilt_Refunded>{0} construction crew found the road already finished. Strength refunded.</TSA_WD_RoadAlreadyBuilt_Refunded>
   <TSA_WD_RoadAlreadyExists>A road already exists at this tile</TSA_WD_RoadAlreadyExists>
+  <TSA_WD_RoadBlockedByTrench>That road path crosses an existing trench. Clear the trench or pick another route.</TSA_WD_RoadBlockedByTrench>
+  <TSA_WD_Letter_RoadCancelledByTrench_Label>Road project cancelled</TSA_WD_Letter_RoadCancelledByTrench_Label>
+  <TSA_WD_Letter_RoadCancelledByTrench_Text>{0} cancelled its road building mission because the path was blocked by a trench.</TSA_WD_Letter_RoadCancelledByTrench_Text>
+  <TSA_WD_Letter_TrenchCancelledByRoad_Label>Trench project cancelled</TSA_WD_Letter_TrenchCancelledByRoad_Label>
+  <TSA_WD_Letter_TrenchCancelledByRoad_Text>{0} cancelled its trench dig because the path was blocked by a road.</TSA_WD_Letter_TrenchCancelledByRoad_Text>
   <TSA_WD_RoadAlreadyInProgress>Construction already in progress. Cancel current project to set a new target.</TSA_WD_RoadAlreadyInProgress>
   <TSA_WD_RoadAsphalt>Asphalt Road</TSA_WD_RoadAsphalt>
   <TSA_WD_RoadAsphalt_Disabled>Asphalt Road (Need {1} Construction Skill, currently: {0})</TSA_WD_RoadAsphalt_Disabled>
@@ -1361,15 +1371,19 @@
   <TSA_WD_Production_Formula_Power>(Power)</TSA_WD_Production_Formula_Power>
   <TSA_WD_PowerPlant_InspectSplit>{0} generated ({1} to outposts, {2} to colony)</TSA_WD_PowerPlant_InspectSplit>
   <TSA_WD_PowerPlant_OverviewProductSplit>{0} ({1} outposts / {2} colony)</TSA_WD_PowerPlant_OverviewProductSplit>
-  <TSA_WD_OutpostStats_Row_PowerKeepColony>To colony</TSA_WD_OutpostStats_Row_PowerKeepColony>
-  <TSA_WD_OutpostStats_Row_PowerKeepColonyTip>Unassigned generation feeding colony power nets.</TSA_WD_OutpostStats_Row_PowerKeepColonyTip>
+  <TSA_WD_OutpostStats_Row_PowerKeepColony>Power sent to Colony</TSA_WD_OutpostStats_Row_PowerKeepColony>
+  <TSA_WD_OutpostStats_Row_PowerKeepColonyTip>Leftover generation after local demand and delivered outpost links, feeding colony power nets.</TSA_WD_OutpostStats_Row_PowerKeepColonyTip>
+  <TSA_WD_OutpostStats_Row_PowerSurplus>Surplus</TSA_WD_OutpostStats_Row_PowerSurplus>
+  <TSA_WD_OutpostStats_Row_PowerSurplusTip>Generation minus this plant's local demand — watts available to send to outposts or the colony.</TSA_WD_OutpostStats_Row_PowerSurplusTip>
+  <TSA_WD_OutpostStats_Row_PowerSentOutposts>Power sent to other Outposts</TSA_WD_OutpostStats_Row_PowerSentOutposts>
+  <TSA_WD_OutpostStats_Row_PowerSentOutpostsTip>Watts actually delivered to other outposts from this plant.</TSA_WD_OutpostStats_Row_PowerSentOutpostsTip>
   <TSA_WD_OutpostPower_StatusPowered>Powered</TSA_WD_OutpostPower_StatusPowered>
   <TSA_WD_OutpostPower_StatusUnpowered>Unpowered</TSA_WD_OutpostPower_StatusUnpowered>
   <TSA_WD_OutpostStats_Section_Power>Power</TSA_WD_OutpostStats_Section_Power>
-  <TSA_WD_OutpostStats_Row_PowerDemand>Demand</TSA_WD_OutpostStats_Row_PowerDemand>
-  <TSA_WD_OutpostStats_Row_PowerDemandTip>Watts this outpost needs from Power Plants set to supply outposts.</TSA_WD_OutpostStats_Row_PowerDemandTip>
-  <TSA_WD_OutpostStats_Row_PowerSupplied>Supplied</TSA_WD_OutpostStats_Row_PowerSupplied>
-  <TSA_WD_OutpostStats_Row_PowerSuppliedTip>Watts currently allocated to this outpost from plants in range.</TSA_WD_OutpostStats_Row_PowerSuppliedTip>
+  <TSA_WD_OutpostStats_Row_PowerDemand>Local Demand</TSA_WD_OutpostStats_Row_PowerDemand>
+  <TSA_WD_OutpostStats_Row_PowerDemandTip>Watts this outpost needs for its own buildings and upgrades. Power plants cover this from their own generation.</TSA_WD_OutpostStats_Row_PowerDemandTip>
+  <TSA_WD_OutpostStats_Row_PowerSupplied>Local Supply</TSA_WD_OutpostStats_Row_PowerSupplied>
+  <TSA_WD_OutpostStats_Row_PowerSuppliedTip>Watts currently covering this outpost's local demand (from linked plants, or from own generation on power plants).</TSA_WD_OutpostStats_Row_PowerSuppliedTip>
   <TSA_WD_OutpostStats_Row_PowerStatus>Status</TSA_WD_OutpostStats_Row_PowerStatus>
   <TSA_WD_OutpostStats_Row_PowerStatusTip>Fully powered only when supplied watts meet demand. Partial supply does not scale output.</TSA_WD_OutpostStats_Row_PowerStatusTip>
   <TSA_WD_OutpostStats_Row_UnpoweredFactor>Unpowered output</TSA_WD_OutpostStats_Row_UnpoweredFactor>
@@ -1381,9 +1395,7 @@
   <TSA_WD_OutpostStats_Row_PowerGeneration>Generation</TSA_WD_OutpostStats_Row_PowerGeneration>
   <TSA_WD_OutpostStats_Row_PowerGenerationTip>Watts this plant generates before role routing.</TSA_WD_OutpostStats_Row_PowerGenerationTip>
   <TSA_WD_Production_Formula_Unpowered>(Unpowered)</TSA_WD_Production_Formula_Unpowered>
-  <TSA_WD_Letter_OutpostPowerUnpoweredLabel>Outposts need power</TSA_WD_Letter_OutpostPowerUnpoweredLabel>
-  <TSA_WD_Letter_OutpostPowerUnpoweredText>Outpost power is on. Unpowered outposts produce less and lose some combat range until a Power Plant set to supply outposts covers them within power supply range. Toggle the plant role on a Power Plant, or turn the feature off under Experimental settings.</TSA_WD_Letter_OutpostPowerUnpoweredText>
-  <TSA_WD_Alert_OutpostUnpowered>Outpost unpowered</TSA_WD_Alert_OutpostUnpowered>
+  <TSA_WD_Alert_OutpostUnpowered>WD: Outpost w/o power</TSA_WD_Alert_OutpostUnpowered>
   <TSA_WD_Alert_OutpostUnpoweredDescHeader>These outposts need power from a Power Plant set to supply outposts:</TSA_WD_Alert_OutpostUnpoweredDescHeader>
   <TSA_WD_Alert_OutpostUnpoweredDescLine>- {0}</TSA_WD_Alert_OutpostUnpoweredDescLine>
   <TSA_WD_RapidResponse_DropPodsUnpowered>Drop pods need power at this outpost.</TSA_WD_RapidResponse_DropPodsUnpowered>
@@ -1730,7 +1742,9 @@
   <TSA_WD_OutpostUpgradeImpact_MortarRange>Mortar Range</TSA_WD_OutpostUpgradeImpact_MortarRange>
   <TSA_WD_OutpostUpgradeImpact_AssaultShells>Assault Shells</TSA_WD_OutpostUpgradeImpact_AssaultShells>
   <TSA_WD_OutpostUpgradeImpact_AntiAir>Anti-Air</TSA_WD_OutpostUpgradeImpact_AntiAir>
+  <TSA_WD_OutpostUpgradeImpact_TrenchDefenseTurrets>Trench Defense Turrets</TSA_WD_OutpostUpgradeImpact_TrenchDefenseTurrets>
   <TSA_WD_OutpostUpgradeImpact_Decontamination>Decontamination</TSA_WD_OutpostUpgradeImpact_Decontamination>
+  <TSA_WD_OutpostUpgrades_BenefitTrenchDefenseTurrets>Adds turrets to trench defense maps</TSA_WD_OutpostUpgrades_BenefitTrenchDefenseTurrets>
   <TSA_WD_OutpostUpgradeImpact_ResearchEfficiency>Research Efficiency</TSA_WD_OutpostUpgradeImpact_ResearchEfficiency>
   <TSA_WD_OutpostUpgradeImpact_ProductionEfficiency>Production Output</TSA_WD_OutpostUpgradeImpact_ProductionEfficiency>
   <TSA_WD_OutpostUpgradeImpact_WarehouseAura>Warehouse Aura</TSA_WD_OutpostUpgradeImpact_WarehouseAura>
@@ -2300,39 +2314,50 @@
   <TSA_WD_OutpostStats_SiloMaxLine>Silo: {0} +{1}% = {2}</TSA_WD_OutpostStats_SiloMaxLine>
   <TSA_WD_OutpostStats_HospitalLine>Hospital: +{0}%</TSA_WD_OutpostStats_HospitalLine>
 
-  <!-- Trench defenses -->
-  <TSA_WD_BuildTrench>Build trenches</TSA_WD_BuildTrench>
-  <TSA_WD_BuildTrenchDesc>Dig exclusive trench arms from this site (polyline spokes, max {0} tiles). Costs {1} wood per segment. Hostile columns that walk onto your trenches open a defense Choice.</TSA_WD_BuildTrenchDesc>
-  <TSA_WD_RemoveTrench>Remove trenches</TSA_WD_RemoveTrench>
+  <!-- Trench defenses — action labels: Title Case + singular (match Build Road / Cancel Road Construction) -->
+  <TSA_WD_BuildTrench>Build Trench</TSA_WD_BuildTrench>
+  <TSA_WD_BuildTrenchDesc>Dig exclusive trench arms from this outpost (polyline spokes, max {0} tiles). Costs {1} wood per segment. Click an existing trench tip to extend that arm, Shift+click for waypoints, then click an empty tile to finish. Hostile columns that walk onto your trenches open a defense choice.</TSA_WD_BuildTrenchDesc>
+  <TSA_WD_Trench_OutpostOnly>Trenches can only be built from player outposts.</TSA_WD_Trench_OutpostOnly>
+  <TSA_WD_Trench_WaypointTip>Click a tip or mid-arm to extend / branch · Shift+click waypoints · Click empty tile to dig</TSA_WD_Trench_WaypointTip>
+  <TSA_WD_Trench_WaypointAdded>Waypoint {0} added. Shift+click for more, or click to confirm destination.</TSA_WD_Trench_WaypointAdded>
+  <TSA_WD_Trench_TipSelected>Trench point selected: click an empty tile to extend or branch (T).</TSA_WD_Trench_TipSelected>
+  <TSA_WD_Trench_NeedNewDig>Pick an empty tile beyond a tip or mid-arm to extend/branch, or dig a new arm from the outpost.</TSA_WD_Trench_NeedNewDig>
+  <TSA_WD_Trench_WaypointLabel>Waypoints: {0} (Shift+click to add, click to finish)</TSA_WD_Trench_WaypointLabel>
+  <TSA_WD_Trench_NoLoop>Trenches cannot loop or revisit a tile.</TSA_WD_Trench_NoLoop>
+  <TSA_WD_Trench_NoOverlap>Trenches cannot overlap or merge into another trench arm.</TSA_WD_Trench_NoOverlap>
+  <TSA_WD_RemoveTrench>Remove Trench</TSA_WD_RemoveTrench>
   <TSA_WD_RemoveTrenchDesc>Remove trench arms tip-to-hub only (outermost tip first).</TSA_WD_RemoveTrenchDesc>
-  <TSA_WD_CancelTrench>Cancel trench dig</TSA_WD_CancelTrench>
-  <TSA_WD_CancelTrenchRemoval>Cancel trench removal</TSA_WD_CancelTrenchRemoval>
+  <TSA_WD_CancelTrench>Cancel Trench Dig</TSA_WD_CancelTrench>
+  <TSA_WD_CancelTrenchRemoval>Cancel Trench Removal</TSA_WD_CancelTrenchRemoval>
   <TSA_WD_CancelTrenchDesc>Abort the active trench project and recall the crew.</TSA_WD_CancelTrenchDesc>
   <TSA_WD_Trench_Disabled>Trenches are disabled in Experimental settings.</TSA_WD_Trench_Disabled>
   <TSA_WD_Trench_NeedPassableLand>Trenches require passable land (no water or impassable).</TSA_WD_Trench_NeedPassableLand>
   <TSA_WD_Trench_NotOnHub>The hub tile itself cannot be a trench.</TSA_WD_Trench_NotOnHub>
   <TSA_WD_Trench_AlreadyTrench>That tile already has a trench.</TSA_WD_Trench_AlreadyTrench>
-  <TSA_WD_Trench_BlockedByRoad>Cannot dig trenches on road tiles.</TSA_WD_Trench_BlockedByRoad>
-  <TSA_WD_Trench_BlockedByFort>Clear fortifications before digging trenches.</TSA_WD_Trench_BlockedByFort>
-  <TSA_WD_Trench_BlockedByBridge>Cannot dig trenches on bridge tiles.</TSA_WD_Trench_BlockedByBridge>
+  <TSA_WD_Trench_BlockedByRoad>Cannot dig a trench on a road tile.</TSA_WD_Trench_BlockedByRoad>
+  <TSA_WD_Trench_BlockedByFort>Clear fortifications before digging a trench.</TSA_WD_Trench_BlockedByFort>
+  <TSA_WD_Trench_BlockedByBridge>Cannot dig a trench on a bridge tile.</TSA_WD_Trench_BlockedByBridge>
   <TSA_WD_Trench_BlockedByWorldObject>Blocked by {0}.</TSA_WD_Trench_BlockedByWorldObject>
   <TSA_WD_Trench_OutOfRange>Trenches must stay within {0} tiles of the hub.</TSA_WD_Trench_OutOfRange>
-  <TSA_WD_Trench_TileReserved>This tile is reserved by trenches.</TSA_WD_Trench_TileReserved>
+  <TSA_WD_Trench_TileReserved>This tile is reserved by a trench.</TSA_WD_Trench_TileReserved>
   <TSA_WD_Trench_NoOwner>No valid trench owner.</TSA_WD_Trench_NoOwner>
   <TSA_WD_Trench_BadEdge>Invalid trench edge.</TSA_WD_Trench_BadEdge>
   <TSA_WD_Trench_NotNeighbors>Trench segments must connect neighboring tiles.</TSA_WD_Trench_NotNeighbors>
   <TSA_WD_Trench_ForeignNetwork>That trench belongs to another site.</TSA_WD_Trench_ForeignNetwork>
   <TSA_WD_Trench_MustTouchHub>New trench arms must start with the first segment from this site.</TSA_WD_Trench_MustTouchHub>
-  <TSA_WD_Trench_NoBranch>Trenches are polylines only (no branches).</TSA_WD_Trench_NoBranch>
+  <TSA_WD_Trench_NoBranch>Cannot dig from that trench tile.</TSA_WD_Trench_NoBranch>
+  <TSA_WD_Trench_MaxDegree>That junction already has three arms (no X junctions).</TSA_WD_Trench_MaxDegree>
+  <TSA_WD_Trench_ArmTooClose>Leave at least one empty tile between separate trench arms.</TSA_WD_Trench_ArmTooClose>
   <TSA_WD_Trench_NoMerge>Trenches cannot merge or form loops.</TSA_WD_Trench_NoMerge>
   <TSA_WD_Trench_NoTrench>No trench there.</TSA_WD_Trench_NoTrench>
   <TSA_WD_Trench_RemoveTipOnly>Remove from the tip of an arm toward the hub only.</TSA_WD_Trench_RemoveTipOnly>
   <TSA_WD_Trench_NoneOwned>This site owns no trenches.</TSA_WD_Trench_NoneOwned>
-  <TSA_WD_Trench_InvalidPath>Could not plan a valid trench path (land, exclusivity, no branches).</TSA_WD_Trench_InvalidPath>
+  <TSA_WD_Trench_InvalidPath>Could not plan a valid trench path (land, exclusivity, spacing, or junction limits).</TSA_WD_Trench_InvalidPath>
   <TSA_WD_Trench_BuildStarted>Trench dig started at {0}.</TSA_WD_Trench_BuildStarted>
   <TSA_WD_Trench_RemovalStarted>Trench removal started at {0}.</TSA_WD_Trench_RemovalStarted>
-  <TSA_WD_Trench_BuildComplete>Trenches finished at {0}.</TSA_WD_Trench_BuildComplete>
+  <TSA_WD_Trench_BuildComplete>Trench finished at {0}.</TSA_WD_Trench_BuildComplete>
   <TSA_WD_Trench_ClearComplete>Trench removal finished at {0}.</TSA_WD_Trench_ClearComplete>
   <TSA_WD_Trench_Cancelled>Trench project cancelled at {0}.</TSA_WD_Trench_Cancelled>
-  <TSA_WD_Trench_MovementExplanation>Trenches (+{0})</TSA_WD_Trench_MovementExplanation>
+  <TSA_WD_Trench_MovementExplanation>Trench (+{0})</TSA_WD_Trench_MovementExplanation>
+  <TSA_WD_Trench_TileInspect>Has trench belonging to {0}</TSA_WD_Trench_TileInspect>
 </LanguageData>

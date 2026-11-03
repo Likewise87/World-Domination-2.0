@@ -10,6 +10,11 @@ namespace TSA_WorldDomination
     {
         private const int FootprintClearanceCells = 2;
         private const int OutsideWallRaidDelayTicks = 600;
+        /// <summary>
+        /// Chebyshev standoff from trench corridor cells for VF / multi-cell footprints.
+        /// Kept tight behind the trench; footprint checks still clear wire/traps.
+        /// </summary>
+        private const int TrenchVehicleCorridorStandoff = 3;
 
         public static bool StartManualDefenseEncounter(WorldObject_Traveler traveler, WorldObject_WD_Outpost outpost, int raidArrivalDelayTicks = 900)
             => StartManualDefenseEncounter(traveler, outpost, raidArrivalDelayTicks, onlyTheseOccupants: null, supportSelections: null);
@@ -44,14 +49,35 @@ namespace TSA_WorldDomination
             if (traveler == null || outpost == null || outpost.Destroyed || !outpost.HasLivingManualDefensePawns())
                 return false;
 
-            List<Pawn> primaryDefenders = outpost.ExtractManualDefensePawns(onlyTheseOccupants);
-            if (primaryDefenders == null || primaryDefenders.Count == 0)
-                return false;
+            // null onlyThese = legacy "take everyone"; non-null = dialog selection (incl. empty = none).
+            bool selectionMode = onlyTheseOccupants != null;
 
-            var allDefenders = new List<Pawn>(primaryDefenders);
-            var defenderHomes = new List<WorldObject_WD_Outpost>(primaryDefenders.Count);
-            for (int i = 0; i < primaryDefenders.Count; i++)
-                defenderHomes.Add(outpost);
+            List<Pawn> primaryDefenders = outpost.ExtractManualDefensePawns(onlyTheseOccupants);
+            var allDefenders = new List<Pawn>();
+            var defenderHomes = new List<WorldObject_WD_Outpost>();
+            if (primaryDefenders != null)
+            {
+                for (int i = 0; i < primaryDefenders.Count; i++)
+                {
+                    allDefenders.Add(primaryDefenders[i]);
+                    defenderHomes.Add(outpost);
+                }
+            }
+
+            var storedTransport = new List<Pawn>();
+            var transportHomes = new List<WorldObject_WD_Outpost>();
+            var mechanoids = new List<Pawn>();
+            var mechanoidHomes = new List<WorldObject_WD_Outpost>();
+
+            List<Pawn> targetTransport = selectionMode
+                ? outpost.ExtractManualDefenseStoredTransportPawns(onlyTheseOccupants)
+                : outpost.ExtractManualDefenseStoredTransportPawns();
+            AppendWithHome(targetTransport, outpost, storedTransport, transportHomes);
+
+            List<Pawn> targetMechs = selectionMode
+                ? outpost.ExtractManualDefenseMechanoids(onlyTheseOccupants)
+                : outpost.ExtractManualDefenseMechanoids();
+            AppendWithHome(targetMechs, outpost, mechanoids, mechanoidHomes);
 
             var supportDonors = new List<WorldObject_WD_Outpost>();
             if (supportSelections != null)
@@ -62,29 +88,72 @@ namespace TSA_WorldDomination
                     List<Pawn> wanted = supportSelections[s].Value;
                     if (donor == null || donor.Destroyed || donor == outpost || donor.ManualDefenseActive) continue;
                     if (wanted == null || wanted.Count == 0) continue;
-                    List<Pawn> extracted = donor.ExtractDefenseSupportPawns(wanted);
-                    if (extracted == null || extracted.Count == 0) continue;
-                    supportDonors.Add(donor);
-                    for (int i = 0; i < extracted.Count; i++)
+
+                    List<Pawn> extractedOcc = donor.ExtractDefenseSupportPawns(wanted);
+                    bool anyFromDonor = false;
+                    if (extractedOcc != null)
                     {
-                        allDefenders.Add(extracted[i]);
-                        defenderHomes.Add(donor);
+                        for (int i = 0; i < extractedOcc.Count; i++)
+                        {
+                            allDefenders.Add(extractedOcc[i]);
+                            defenderHomes.Add(donor);
+                            anyFromDonor = true;
+                        }
                     }
+
+                    List<Pawn> donorTransport = donor.ExtractManualDefenseStoredTransportPawns(wanted);
+                    if (donorTransport != null && donorTransport.Count > 0)
+                    {
+                        AppendWithHome(donorTransport, donor, storedTransport, transportHomes);
+                        anyFromDonor = true;
+                    }
+
+                    List<Pawn> donorMechs = donor.ExtractManualDefenseMechanoids(wanted);
+                    if (donorMechs != null && donorMechs.Count > 0)
+                    {
+                        AppendWithHome(donorMechs, donor, mechanoids, mechanoidHomes);
+                        anyFromDonor = true;
+                    }
+
+                    if (anyFromDonor)
+                        supportDonors.Add(donor);
                 }
             }
 
-            List<Pawn> storedTransport = outpost.ExtractManualDefenseStoredTransportPawns();
-            List<Pawn> mechanoids = outpost.ExtractManualDefenseMechanoids();
+            if (allDefenders.Count == 0 && storedTransport.Count == 0 && mechanoids.Count == 0)
+                return false;
+
+            // Occupant extract sets the flag; vehicle/mech-only deploy must set it too.
+            if (!outpost.ManualDefenseActive)
+                outpost.SetManualDefenseActive();
+
             int arrivalDelay = Mathf.Max(0, raidArrivalDelayTicks);
+            // Trench corridor fights happen on the intercept arm tile; keep the fight site/icon there
+            // (not on the owning outpost hub). Normal outpost defense stays on the outpost tile.
+            PlanetTile encounterTile = outpost.Tile;
+            if (useTrenchCorridorMap && traveler != null)
+                encounterTile = traveler.Tile;
 
             LongEventHandler.QueueLongEvent(delegate
             {
-                Map map = GenerateDedicatedEncounterMap(outpost.Tile, useTrenchCorridorMap);
+                int hostileFrom = useTrenchCorridorMap && traveler != null
+                    ? GenStep_WD_BridgeClash.CameFromWorldTile(traveler)
+                    : -1;
+                // Player approach = owning outpost hub (same role as caravan CameFrom on bridge clashes).
+                int playerFrom = useTrenchCorridorMap && outpost != null && !outpost.Destroyed
+                    ? outpost.Tile.tileId
+                    : -1;
+                Map map = GenerateDedicatedEncounterMap(
+                    encounterTile,
+                    useTrenchCorridorMap,
+                    outpost,
+                    playerFromTile: playerFrom,
+                    hostileFromTile: hostileFrom);
                 if (map == null)
                 {
                     ReturnExtractedDefendersByHome(allDefenders, allDefenders, defenderHomes, outpost);
-                    outpost.ReturnManualDefenseStoredTransportPawns(storedTransport);
-                    outpost.ReturnManualDefenseMechanoids(mechanoids);
+                    ReturnStoredByHome(storedTransport, storedTransport, transportHomes, outpost, mechanoids: false);
+                    ReturnStoredByHome(mechanoids, mechanoids, mechanoidHomes, outpost, mechanoids: true);
                     outpost.ClearManualDefenseActive();
                     Messages.Message("TSA_WD_OutpostDefense_MapFailed".Translate(outpost.LabelCap), MessageTypeDefOf.NegativeEvent);
                     return;
@@ -92,27 +161,37 @@ namespace TSA_WorldDomination
 
                 if (!useTrenchCorridorMap)
                     WD_OutpostDefenseStructureSpawner.SpawnDefenses(map, outpost);
+                else
+                    GenStep_WD_TrenchClash.EnsureTrenchMapTurrets(map, outpost);
 
                 // Vehicles first so large footprints claim clear ground before colonists fill the courtyard.
                 List<Pawn> spawnedStoredTransport = SpawnDefenders(
                     map, storedTransport, out List<Pawn> failedStoredTransport, out bool anyTransportOutsideWalls);
-                outpost.ReturnManualDefenseStoredTransportPawns(failedStoredTransport);
+                ReturnStoredByHome(failedStoredTransport, storedTransport, transportHomes, outpost, mechanoids: false);
 
                 List<Pawn> spawnedDefenders = SpawnDefenders(map, allDefenders, out List<Pawn> failedDefenders, out _);
                 ReturnExtractedDefendersByHome(failedDefenders, allDefenders, defenderHomes, outpost);
 
-                // Keep homes aligned with successfully spawned defenders.
+                // Keep homes aligned with successfully spawned defenders / stores.
                 var spawnedHomes = new List<WorldObject_WD_Outpost>(spawnedDefenders.Count);
                 for (int i = 0; i < spawnedDefenders.Count; i++)
                     spawnedHomes.Add(FindHomeForPawn(spawnedDefenders[i], allDefenders, defenderHomes, outpost));
 
                 List<Pawn> spawnedMechanoids = SpawnDefenders(map, mechanoids, out List<Pawn> failedMechanoids, out _);
-                outpost.ReturnManualDefenseMechanoids(failedMechanoids);
+                ReturnStoredByHome(failedMechanoids, mechanoids, mechanoidHomes, outpost, mechanoids: true);
 
-                if (spawnedDefenders.Count == 0)
+                var spawnedTransportHomes = new List<WorldObject_WD_Outpost>(spawnedStoredTransport.Count);
+                for (int i = 0; i < spawnedStoredTransport.Count; i++)
+                    spawnedTransportHomes.Add(FindHomeForPawn(spawnedStoredTransport[i], storedTransport, transportHomes, outpost));
+
+                var spawnedMechHomes = new List<WorldObject_WD_Outpost>(spawnedMechanoids.Count);
+                for (int i = 0; i < spawnedMechanoids.Count; i++)
+                    spawnedMechHomes.Add(FindHomeForPawn(spawnedMechanoids[i], mechanoids, mechanoidHomes, outpost));
+
+                if (spawnedDefenders.Count == 0 && spawnedStoredTransport.Count == 0 && spawnedMechanoids.Count == 0)
                 {
-                    outpost.ReturnManualDefenseStoredTransportPawns(spawnedStoredTransport);
-                    outpost.ReturnManualDefenseMechanoids(spawnedMechanoids);
+                    ReturnStoredByHome(spawnedStoredTransport, storedTransport, transportHomes, outpost, mechanoids: false);
+                    ReturnStoredByHome(spawnedMechanoids, mechanoids, mechanoidHomes, outpost, mechanoids: true);
                     outpost.ClearManualDefenseActive();
                     MapParent parent = map.Parent;
                     if (Current.Game.Maps.Contains(map))
@@ -140,12 +219,23 @@ namespace TSA_WorldDomination
                     spawnedDefenders,
                     spawnedHomes,
                     spawnedStoredTransport,
+                    spawnedTransportHomes,
                     spawnedMechanoids,
+                    spawnedMechHomes,
                     supportDonors);
                 PlayerWdRaidDispatchUtil.NotifyPlayerContact(traveler);
 
                 float points = ComputeRaidPoints(traveler, map);
                 tracker.ScheduleRaidArrival(points, arrivalDelay);
+
+                // Same contract as normal outpost arrival (WorldActions_Traveler destroys after Choice opens):
+                // tracker holds a snapshot; leave no live world column for TravelerMotionGuard to repath.
+                // Trench intercept Manual previously left StopDead travelers alive → they resumed after victory.
+                if (traveler != null && !traveler.Destroyed)
+                {
+                    traveler.suppressDestroyedWorldFx = true;
+                    traveler.Destroy();
+                }
 
                 bool notifyArrival = WorldDominationMod.settings?.notifyRaidArrivalOutpost
                     ?? WorldDominationSettings.DefNotifyRaidArrivalOutpost;
@@ -180,7 +270,12 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        private static Map GenerateDedicatedEncounterMap(int tile, bool useTrenchCorridorMap = false)
+        private static Map GenerateDedicatedEncounterMap(
+            PlanetTile tile,
+            bool useTrenchCorridorMap = false,
+            WorldObject_WD_Outpost defendingOutpost = null,
+            int playerFromTile = -1,
+            int hostileFromTile = -1)
         {
             WorldObjectDef siteDef = DefDatabase<WorldObjectDef>.GetNamedSilentFail("TSA_WD_OutpostDefenseSite");
             if (siteDef == null)
@@ -214,7 +309,26 @@ namespace TSA_WorldDomination
             if (site.Faction == null && useTrenchCorridorMap)
                 site.SetFaction(null);
             Find.WorldObjects.Add(site);
-            return MapGenerator.GenerateMap(Find.World.info.initialMapSize, site, generator, null, null);
+
+            if (useTrenchCorridorMap)
+            {
+                WorldObject_WD_Outpost pending = defendingOutpost
+                    ?? GenStep_WD_TrenchClash.ResolveDefendingOutpost(tile);
+                GenStep_WD_TrenchClash.PushDefendingOutpost(pending);
+                GenStep_WD_TrenchClash.PushEncounterApproaches(playerFromTile, hostileFromTile);
+            }
+            try
+            {
+                return MapGenerator.GenerateMap(Find.World.info.initialMapSize, site, generator, null, null);
+            }
+            finally
+            {
+                if (useTrenchCorridorMap)
+                {
+                    GenStep_WD_TrenchClash.ClearDefendingOutpost();
+                    GenStep_WD_TrenchClash.ClearEncounterApproaches();
+                }
+            }
         }
 
         private static WD_MapComponent_OutpostDefense GetOrAddTracker(Map map)
@@ -255,6 +369,20 @@ namespace TSA_WorldDomination
                 result.Add(donor);
             }
             return result;
+        }
+
+        private static void AppendWithHome(
+            List<Pawn> extracted,
+            WorldObject_WD_Outpost home,
+            List<Pawn> intoPawns,
+            List<WorldObject_WD_Outpost> intoHomes)
+        {
+            if (extracted == null || extracted.Count == 0) return;
+            for (int i = 0; i < extracted.Count; i++)
+            {
+                intoPawns.Add(extracted[i]);
+                intoHomes.Add(home);
+            }
         }
 
         private static WorldObject_WD_Outpost FindHomeForPawn(
@@ -300,6 +428,31 @@ namespace TSA_WorldDomination
             }
         }
 
+        private static void ReturnStoredByHome(
+            List<Pawn> pawns,
+            List<Pawn> allStored,
+            List<WorldObject_WD_Outpost> homes,
+            WorldObject_WD_Outpost fallbackHome,
+            bool mechanoids)
+        {
+            if (pawns == null || pawns.Count == 0) return;
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                Pawn pawn = pawns[i];
+                if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
+                WorldObject_WD_Outpost home = FindHomeForPawn(pawn, allStored, homes, fallbackHome);
+                if (home == null || home.Destroyed)
+                    home = fallbackHome;
+                if (home == null || home.Destroyed) continue;
+
+                if (pawn.Spawned) pawn.DeSpawn();
+                if (mechanoids)
+                    home.ReturnManualDefenseMechanoids(new List<Pawn> { pawn });
+                else
+                    home.ReturnManualDefenseStoredTransportPawns(new List<Pawn> { pawn });
+            }
+        }
+
         private static List<Pawn> SpawnDefenders(
             Map map,
             List<Pawn> defenders,
@@ -312,6 +465,7 @@ namespace TSA_WorldDomination
             if (defenders == null) return spawned;
 
             IntVec3 settlementCenter = WD_OutpostDefenseMapUtility.GetSettlementCenter(map);
+            bool trenchMap = map.GetComponent<MapComponent_WdTrenchClashLayout>() != null;
 
             for (int i = 0; i < defenders.Count; i++)
             {
@@ -326,7 +480,8 @@ namespace TSA_WorldDomination
 
                     IntVec3 cell;
                     Rot4 rot = Rot4.North;
-                    if (NeedsFootprintSpawn(pawn))
+                    bool footprint = NeedsFootprintSpawn(pawn);
+                    if (footprint)
                     {
                         if (!TryFindFootprintSpawn(map, pawn, settlementCenter, out cell, out rot))
                         {
@@ -345,9 +500,12 @@ namespace TSA_WorldDomination
                     {
                         cell = FindDefenderSpawnCell(map);
                         GenSpawn.Spawn(pawn, cell, map);
+                        // Colonists placed into the trench start drafted; vehicles stay outside undrafted.
+                        if (trenchMap)
+                            GenStep_WD_TrenchClash.TryDraftTrenchColonist(pawn);
                     }
 
-                    if (NeedsFootprintSpawn(pawn)
+                    if (footprint
                         && Chebyshev(cell, settlementCenter) > WD_OutpostDefenseStructureSpawner.WallRingRadius)
                         anySpawnedOutsideWallRing = true;
 
@@ -388,6 +546,11 @@ namespace TSA_WorldDomination
             int wallR = WD_OutpostDefenseStructureSpawner.WallRingRadius;
             int outerR = WD_OutpostDefenseStructureSpawner.TankTrapRingRadius;
 
+            // Trench defense: vehicles stay outside the corridor (past wire / tank-trap belt).
+            var trench = map.GetComponent<MapComponent_WdTrenchClashLayout>();
+            if (trench?.CorridorCells != null && trench.CorridorCells.Count > 0)
+                return TryFindFootprintOutsideTrench(map, settlementCenter, size, pad, trench, out cell, out rot);
+
             if (TryFindFootprintInRect(
                     map, settlementCenter, size, pad,
                     WD_OutpostDefenseStructureSpawner.GetInnerClearRect(map),
@@ -426,6 +589,113 @@ namespace TSA_WorldDomination
                 out cell, out rot);
         }
 
+        /// <summary>
+        /// Clear multi-cell spawn past trench corridor + prop belt (wire / VVE traps), preferring the
+        /// map half opposite the hostile edge so vehicles sit behind the trench line.
+        /// </summary>
+        private static bool TryFindFootprintOutsideTrench(
+            Map map,
+            IntVec3 settlementCenter,
+            IntVec2 size,
+            int pad,
+            MapComponent_WdTrenchClashLayout trench,
+            out IntVec3 cell,
+            out Rot4 rot)
+        {
+            cell = IntVec3.Invalid;
+            rot = Rot4.North;
+            HashSet<IntVec3> avoidStandoff = BuildChebyshevExpandedSet(
+                map, trench.CorridorCells, TrenchVehicleCorridorStandoff);
+            HashSet<IntVec3> avoidCorridorOnly = BuildChebyshevExpandedSet(map, trench.CorridorCells, 0);
+
+            CellRect prefer = GetTrenchVehiclePreferRect(map, trench);
+            IntVec3 preferCenter = prefer.CenterCell;
+            if (TryFindFootprintInRect(
+                    map, preferCenter, size, pad, prefer,
+                    minChebyshev: 0,
+                    maxChebyshev: int.MaxValue,
+                    tries: 800,
+                    out cell, out rot,
+                    avoidStandoff))
+                return true;
+
+            CellRect whole = CellRect.WholeMap(map);
+            if (TryFindFootprintInRect(
+                    map, settlementCenter, size, pad, whole,
+                    minChebyshev: 0,
+                    maxChebyshev: int.MaxValue,
+                    tries: 1500,
+                    out cell, out rot,
+                    avoidStandoff))
+                return true;
+
+            // Last resort: still never on the corridor itself; FootprintAndPadClear rejects wire/traps.
+            return TryFindFootprintInRect(
+                map, settlementCenter, size, pad, whole,
+                minChebyshev: 0,
+                maxChebyshev: int.MaxValue,
+                tries: 1500,
+                out cell, out rot,
+                avoidCorridorOnly);
+        }
+
+        private static CellRect GetTrenchVehiclePreferRect(Map map, MapComponent_WdTrenchClashLayout trench)
+        {
+            CellRect whole = CellRect.WholeMap(map);
+            int margin = 2;
+            int w = Mathf.Max(1, whole.Width - margin * 2);
+            int h = Mathf.Max(1, whole.Height - margin * 2);
+            int halfW = Mathf.Max(1, w / 2);
+            int halfH = Mathf.Max(1, h / 2);
+            var o = (GenStep_WD_TrenchClash.WdOctant)Mathf.Clamp(trench.HostileOctant, 0, 7);
+
+            // Prefer the half opposite the hostile approach (player rear / behind the trench).
+            switch (o)
+            {
+                case GenStep_WD_TrenchClash.WdOctant.North:
+                case GenStep_WD_TrenchClash.WdOctant.NorthEast:
+                case GenStep_WD_TrenchClash.WdOctant.NorthWest:
+                    return new CellRect(whole.minX + margin, whole.minZ + margin, w, halfH);
+                case GenStep_WD_TrenchClash.WdOctant.South:
+                case GenStep_WD_TrenchClash.WdOctant.SouthEast:
+                case GenStep_WD_TrenchClash.WdOctant.SouthWest:
+                    return new CellRect(whole.minX + margin, whole.maxZ - halfH - margin + 1, w, halfH);
+                case GenStep_WD_TrenchClash.WdOctant.East:
+                    return new CellRect(whole.minX + margin, whole.minZ + margin, halfW, h);
+                case GenStep_WD_TrenchClash.WdOctant.West:
+                default:
+                    return new CellRect(whole.maxX - halfW - margin + 1, whole.minZ + margin, halfW, h);
+            }
+        }
+
+        private static HashSet<IntVec3> BuildChebyshevExpandedSet(Map map, List<IntVec3> seeds, int buffer)
+        {
+            var set = new HashSet<IntVec3>();
+            if (map == null || seeds == null || seeds.Count == 0) return set;
+            buffer = Mathf.Max(0, buffer);
+            for (int i = 0; i < seeds.Count; i++)
+            {
+                IntVec3 s = seeds[i];
+                if (!s.InBounds(map)) continue;
+                if (buffer == 0)
+                {
+                    set.Add(s);
+                    continue;
+                }
+                for (int dx = -buffer; dx <= buffer; dx++)
+                {
+                    for (int dz = -buffer; dz <= buffer; dz++)
+                    {
+                        if (Mathf.Max(Mathf.Abs(dx), Mathf.Abs(dz)) > buffer) continue;
+                        IntVec3 c = new IntVec3(s.x + dx, 0, s.z + dz);
+                        if (c.InBounds(map))
+                            set.Add(c);
+                    }
+                }
+            }
+            return set;
+        }
+
         private static bool TryFindFootprintInRect(
             Map map,
             IntVec3 settlementCenter,
@@ -436,7 +706,8 @@ namespace TSA_WorldDomination
             int maxChebyshev,
             int tries,
             out IntVec3 cell,
-            out Rot4 rot)
+            out Rot4 rot,
+            HashSet<IntVec3> avoidCells = null)
         {
             cell = IntVec3.Invalid;
             rot = Rot4.North;
@@ -449,11 +720,12 @@ namespace TSA_WorldDomination
                 if (!candidate.InBounds(map)) continue;
                 int d = Chebyshev(candidate, settlementCenter);
                 if (d < minChebyshev || d > maxChebyshev) continue;
+                if (avoidCells != null && avoidCells.Contains(candidate)) continue;
 
                 for (int r = 0; r < rotations.Length; r++)
                 {
                     Rot4 tryRot = rotations[r];
-                    if (!FootprintAndPadClear(map, candidate, tryRot, size, pad))
+                    if (!FootprintAndPadClear(map, candidate, tryRot, size, pad, avoidCells))
                         continue;
                     cell = candidate;
                     rot = tryRot;
@@ -463,13 +735,21 @@ namespace TSA_WorldDomination
             return false;
         }
 
-        private static bool FootprintAndPadClear(Map map, IntVec3 cell, Rot4 rot, IntVec2 size, int pad)
+        private static bool FootprintAndPadClear(
+            Map map,
+            IntVec3 cell,
+            Rot4 rot,
+            IntVec2 size,
+            int pad,
+            HashSet<IntVec3> avoidCells = null)
         {
             CellRect body = GenAdj.OccupiedRect(cell, rot, size);
             CellRect full = body.ExpandedBy(pad);
             foreach (IntVec3 c in full)
             {
                 if (!c.InBounds(map))
+                    return false;
+                if (avoidCells != null && avoidCells.Contains(c))
                     return false;
                 if (!IsClearSpawnCell(map, c))
                     return false;
@@ -493,6 +773,12 @@ namespace TSA_WorldDomination
 
         private static IntVec3 FindDefenderSpawnCell(Map map)
         {
+            var trench = map.GetComponent<MapComponent_WdTrenchClashLayout>();
+            List<IntVec3> trenchPool = GenStep_WD_TrenchClash.GetPlayerSpawnPool(trench);
+            if (trenchPool != null && trenchPool.Count > 0
+                && GenStep_WD_TrenchClash.TryPickStandableTrenchCell(map, trenchPool, out IntVec3 trenchCell))
+                return trenchCell;
+
             CellRect center = WD_OutpostDefenseStructureSpawner.GetInnerClearRect(map);
             for (int i = 0; i < 240; i++)
             {
@@ -570,6 +856,27 @@ namespace TSA_WorldDomination
 
             PawnsArrivalModeDef preferredArrival = parms.raidArrivalMode;
             WdRaidParmsUtility.EnsureFactionCompatibleRaidParms(parms, preferredArrival);
+
+            // Trench clash: EdgeWalkIn hostiles from the polarity-matched map edge (bridge-style).
+            if (parms.raidArrivalMode == null || parms.raidArrivalMode == PawnsArrivalModeDefOf.EdgeWalkIn)
+            {
+                int hostileFrom = GenStep_WD_BridgeClash.CameFromWorldTile(traveler);
+                int playerFrom = -1;
+                var trenchLayout = map.GetComponent<MapComponent_WdTrenchClashLayout>();
+                if (trenchLayout != null)
+                {
+                    WorldObject_WD_Outpost owner = GenStep_WD_TrenchClash.ResolveDefendingOutpost(map.Tile);
+                    if (owner != null && !owner.Destroyed)
+                        playerFrom = owner.Tile.tileId;
+                    GenStep_WD_TrenchClash.PreferHostileEdgeFromApproach(
+                        map, trenchLayout, hostileFrom, playerFromTile: playerFrom);
+                }
+                if (GenStep_WD_TrenchClash.TryGetHostileEdgeSpawn(map, out IntVec3 trenchEdge, out Rot4 trenchRot))
+                {
+                    parms.spawnCenter = trenchEdge;
+                    parms.spawnRotation = trenchRot;
+                }
+            }
 
             bool ok = false;
             Raid_OnPlayerColony.IsWorldDominationRaid = true;

@@ -89,7 +89,9 @@ namespace TSA_WorldDomination
             // Map props stay spike traps / mini turrets for now; visuals can differentiate later.
             bool hasTraps = OutpostUpgradeUtility.GetHighestBuiltLineTier(outpost, UpgradeLineTraps) > 0;
             bool hasIeds = outpost.GetUpgradeLevel(UpgradeIeds) > 0;
-            bool hasTurrets = OutpostUpgradeUtility.GetHighestBuiltLineTier(outpost, UpgradeLineAutoTurrets) > 0;
+            // Medieval: never spawn mini turrets even if an AutoTurrets upgrade somehow remains.
+            bool hasTurrets = !WdMedievalMode.Active
+                && OutpostUpgradeUtility.GetHighestBuiltLineTier(outpost, UpgradeLineAutoTurrets) > 0;
             if (OutpostPowerGrid.IsUnpoweredForNerfs(outpost))
                 hasTurrets = false;
 
@@ -998,6 +1000,9 @@ namespace TSA_WorldDomination
             CompRefuelable refuel = turret.TryGetComp<CompRefuelable>();
             if (refuel != null && refuel.Fuel <= 0f)
                 refuel.Refuel(refuel.Props.fuelCapacity);
+
+            // CE: fill CompAmmoUser magazine (same as settlement / trench MG nest spawn).
+            OutpostCeAmmoCompat.TryFillMagazineFull(turret);
         }
     }
 }

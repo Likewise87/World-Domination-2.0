@@ -245,7 +245,7 @@ namespace TSA_WorldDomination
             pendingTrenchFromTile = -1;
 
             Messages.Message(
-                "WD debug: click two neighboring trench tiles (one hub-adjacent for a new arm). Owner = nearest player outpost/colony. Esc to stop.",
+                "WD debug: click two neighboring trench tiles (one hub-adjacent for a new arm). Owner = nearest player outpost. Esc to stop.",
                 MessageTypeDefOf.NeutralEvent);
             Find.WorldTargeter.BeginTargeting(
                 target =>
@@ -263,7 +263,7 @@ namespace TSA_WorldDomination
                     WorldObject owner = FindNearestPlayerTrenchOwner(from, tile);
                     if (owner == null)
                     {
-                        Messages.Message("WD debug: no player outpost/colony nearby to own the trench.", MessageTypeDefOf.RejectInput);
+                        Messages.Message("WD debug: no player outpost nearby to own the trench.", MessageTypeDefOf.RejectInput);
                         return false;
                     }
 
@@ -320,13 +320,11 @@ namespace TSA_WorldDomination
         {
             WorldObject best = null;
             float bestDist = float.MaxValue;
-            var list = Find.WorldObjects?.AllWorldObjects;
-            if (list == null) return null;
+            IReadOnlyList<WorldObject_WD_Outpost> list = WdPlayerOutpostCache.PlayerOutposts;
             for (int i = 0; i < list.Count; i++)
             {
-                WorldObject o = list[i];
-                if (o == null || o.Destroyed || o.Faction != Faction.OfPlayer) continue;
-                if (o is not WorldObject_WD_Outpost && o is not Settlement) continue;
+                WorldObject_WD_Outpost o = list[i];
+                if (o == null || o.Destroyed) continue;
                 float d = Mathf.Min(
                     Find.WorldGrid.ApproxDistanceInTiles(o.Tile, new PlanetTile(tileA)),
                     Find.WorldGrid.ApproxDistanceInTiles(o.Tile, new PlanetTile(tileB)));

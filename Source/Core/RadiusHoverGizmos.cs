@@ -145,6 +145,7 @@ namespace TSA_WorldDomination
             }
 
             if (category == WD_RadiusOverlayCategory.PowerPlant
+                && OutpostPowerGrid.Enabled
                 && (WorldDominationMod.settings?.maxPowerSupplyRange ?? 0) > 0)
             {
                 yield return MakeToggle(

@@ -883,6 +883,11 @@ namespace TSA_WorldDomination
 
             if (!IsShellMission(mission)
                 && (pather == null || !pather.moving)
+                && this.IsHashIntervalTick(TravelerMotionGuard.TrenchChoiceReopenHashInterval, delta))
+                TravelerMotionGuard.TryReopenTrenchInterceptChoiceIfNeeded(this);
+
+            if (!IsShellMission(mission)
+                && (pather == null || !pather.moving)
                 && this.IsHashIntervalTick(TravelerMotionGuard.StrandedHealHashInterval, delta))
                 TravelerMotionGuard.TryHealStrandedMotion(this);
 

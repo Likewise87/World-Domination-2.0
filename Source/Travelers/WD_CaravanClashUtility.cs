@@ -215,7 +215,7 @@ namespace TSA_WorldDomination
             => StartInterceptionEncounterDropPods(playerPawns, traveler, origin, forceTrenchCorridorMap: false);
 
         /// <summary>
-        /// Colony trench walk-over fight: temp Ambush map with <c>WD_TrenchClash</c> layout.
+        /// Colony trench walk-over fight: real Encounter biome map with <c>WD_TrenchClash</c> corridor overlay.
         /// Loss/flee respawns the traveler toward its saved destination (colony).
         /// </summary>
         public static void StartTrenchInterceptionEncounterDropPods(
@@ -262,12 +262,21 @@ namespace TSA_WorldDomination
                 if (!WorldComponent_WdBridges.IsBridgedWaterTile(fightTile))
                     AtTurretUtility.TryOverrunHostileAtTurretOnTile(fightTile, Faction.OfPlayer, traveler);
 
+                // Bridge polarity: player approach (RR origin / caravan) first; hostile traveler previous as fallback.
+                int playerFrom = origin != null && !origin.Destroyed && origin.Tile.Valid
+                    ? origin.Tile.tileId
+                    : -1;
+                int hostileFrom = GenStep_WD_BridgeClash.CameFromWorldTile(traveler);
+
                 Map map = forceTrenchCorridorMap
-                    ? GetOrGenerateTrenchClashMap(traveler.Tile)
+                    ? GetOrGenerateTrenchClashMap(
+                        traveler.Tile,
+                        playerFromTile: playerFrom,
+                        hostileFromTile: hostileFrom)
                     : GetOrGenerateMapForTile(
                         traveler.Tile,
-                        -1,
-                        GenStep_WD_BridgeClash.CameFromWorldTile(traveler));
+                        playerFrom,
+                        hostileFrom);
                 if (map == null)
                 {
                     ResumeTravelerAfterFailedClashEncounter(traveler);
@@ -290,7 +299,19 @@ namespace TSA_WorldDomination
                 }
 
                 var tracker = GetOrAddClashTracker(map);
-                RapidResponseUtility.DropPawnsViaDropPods(playerPawns, map);
+                if (forceTrenchCorridorMap
+                    || map.GetComponent<MapComponent_WdTrenchClashLayout>() != null)
+                {
+                    var trenchLayout = map.GetComponent<MapComponent_WdTrenchClashLayout>();
+                    if (trenchLayout != null)
+                        GenStep_WD_TrenchClash.PreferHostileEdgeFromApproach(
+                            map, trenchLayout, hostileFrom, playerFromTile: playerFrom);
+                    GenStep_WD_TrenchClash.SpawnPawnsSpreadInTrench(playerPawns, map);
+                }
+                else
+                {
+                    RapidResponseUtility.DropPawnsViaDropPods(playerPawns, map);
+                }
                 WdRrInterceptDropUtility.RegisterOnMap(map, origin, playerPawns);
 
                 if (traveler.mission == TravelerMission.Trader)
@@ -524,6 +545,31 @@ namespace TSA_WorldDomination
 
         private static void EnterPlayerCaravanForClash(Caravan playerCaravan, Map map, WD_MapComponent_CaravanClash tracker)
         {
+            var trench = map.GetComponent<MapComponent_WdTrenchClashLayout>();
+            List<IntVec3> trenchPool = GenStep_WD_TrenchClash.GetPlayerSpawnPool(trench);
+            if (trenchPool != null && trenchPool.Count > 0)
+            {
+                var standable = new List<IntVec3>();
+                for (int i = 0; i < trenchPool.Count; i++)
+                {
+                    IntVec3 c = trenchPool[i];
+                    if (c.InBounds(map) && c.Standable(map) && !c.Fogged(map))
+                        standable.Add(c);
+                }
+                if (standable.Count > 0)
+                {
+                    standable.Shuffle();
+                    int idx = 0;
+                    CaravanEnterMapUtility.Enter(playerCaravan, map, _ =>
+                    {
+                        IntVec3 cell = standable[idx % standable.Count];
+                        idx++;
+                        return cell;
+                    });
+                    return;
+                }
+            }
+
             if (tracker != null && tracker.IsBridgeClash
                 && GenStep_WD_BridgeClash.TryFindStandableNear(map, GenStep_WD_BridgeClash.WestSpawnCell(map), out IntVec3 west))
             {
@@ -535,6 +581,13 @@ namespace TSA_WorldDomination
 
         private static void TryAssignInterceptionSpawn(Map map, IncidentParms parms)
         {
+            if (GenStep_WD_TrenchClash.TryGetHostileEdgeSpawn(map, out IntVec3 trenchEdge, out Rot4 trenchRot))
+            {
+                parms.spawnCenter = trenchEdge;
+                parms.spawnRotation = trenchRot;
+                return;
+            }
+
             var bridgeTracker = map.GetComponent<WD_MapComponent_CaravanClash>();
             if (bridgeTracker != null && bridgeTracker.IsBridgeClash
                 && GenStep_WD_BridgeClash.TryFindStandableNear(map, GenStep_WD_BridgeClash.EastSpawnCell(map), out IntVec3 east))
@@ -683,7 +736,10 @@ namespace TSA_WorldDomination
             return MapGeneratorDefOf.Encounter;
         }
 
-        private static Map GetOrGenerateTrenchClashMap(PlanetTile tile)
+        private static Map GetOrGenerateTrenchClashMap(
+            PlanetTile tile,
+            int playerFromTile = -1,
+            int hostileFromTile = -1)
         {
             if (!tile.Valid) return null;
             if (OdysseyGravshipCaravanClashCompat.TileBlocksPlayerCaravanClash(tile))
@@ -695,16 +751,34 @@ namespace TSA_WorldDomination
             Map existingAmbush = Current.Game.Maps.FirstOrDefault(m => m.Tile == tile && IsTemporaryClashAmbushMap(m));
             if (existingAmbush != null) return existingAmbush;
 
-            MapParent existing = Find.WorldObjects.MapParentAt(tile);
-            if (existing != null)
+            WorldObject_WD_Outpost pending = GenStep_WD_TrenchClash.ResolveDefendingOutpost(tile);
+            GenStep_WD_TrenchClash.PushDefendingOutpost(pending);
+            GenStep_WD_TrenchClash.PushEncounterApproaches(playerFromTile, hostileFromTile);
+            Map map;
+            try
             {
-                if (existing.def == WorldObjectDefOf.Ambush)
-                    return MapGenerator.GenerateMap(Find.World.info.initialMapSize, existing, genDef, null, null);
-                return null;
+                MapParent existing = Find.WorldObjects.MapParentAt(tile);
+                if (existing != null)
+                {
+                    if (existing.def != WorldObjectDefOf.Ambush)
+                        return null;
+                    map = MapGenerator.GenerateMap(Find.World.info.initialMapSize, existing, genDef, null, null);
+                }
+                else
+                {
+                    MapParent site = CreateEncounterSite(tile);
+                    map = MapGenerator.GenerateMap(Find.World.info.initialMapSize, site, genDef, null, null);
+                }
+            }
+            finally
+            {
+                GenStep_WD_TrenchClash.ClearDefendingOutpost();
+                GenStep_WD_TrenchClash.ClearEncounterApproaches();
             }
 
-            MapParent site = CreateEncounterSite(tile);
-            return MapGenerator.GenerateMap(Find.World.info.initialMapSize, site, genDef, null, null);
+            if (map != null && pending != null)
+                GenStep_WD_TrenchClash.EnsureTrenchMapTurrets(map, pending);
+            return map;
         }
 
         private static Map FinishClashMap(Map map, PlanetTile tile)

@@ -41,7 +41,11 @@ namespace TSA_WorldDomination
                 if (kind?.RaceProps == null) continue;
                 var products = new List<ThingDef>();
                 if (kind.RaceProps.meatDef != null) products.Add(kind.RaceProps.meatDef);
-                if (kind.RaceProps.leatherDef != null && !products.Contains(kind.RaceProps.leatherDef)) products.Add(kind.RaceProps.leatherDef);
+                if (kind.RaceProps.leatherDef != null)
+                {
+                    ThingDef leatherProduct = MedievalOverhaulHuntingCompat.ResolveHuntingLeatherProduct(kind.RaceProps.leatherDef);
+                    if (leatherProduct != null && !products.Contains(leatherProduct)) products.Add(leatherProduct);
+                }
                 ThingDef woolDef = GetWoolDefFromKind(kind);
                 if (woolDef != null && !products.Contains(woolDef)) products.Add(woolDef);
                 if (products.Count > 0)
@@ -93,7 +97,7 @@ namespace TSA_WorldDomination
             var y = Outpost_Baselines.GetAnimalYieldPerKill(kind);
             if (kind.RaceProps.meatDef == product)
                 return Outpost_Baselines.GetAnimalBaselineUnitsPerSkillForProduct(kind, y.MeatCount, biome);
-            if (kind.RaceProps.leatherDef == product)
+            if (MedievalOverhaulHuntingCompat.MatchesLeatherProduct(kind.RaceProps.leatherDef, product))
                 return Outpost_Baselines.GetAnimalBaselineUnitsPerSkillForProduct(kind, y.LeatherCount, biome);
             ThingDef wool = GetWoolDefFromKind(kind);
             if (wool == product)
@@ -116,7 +120,12 @@ namespace TSA_WorldDomination
             if (meatQty > 0 && kind.RaceProps.meatDef != null)
                 list.Add(new ThingDefCountClass(kind.RaceProps.meatDef, meatQty));
             if (leatherQty > 0 && kind.RaceProps.leatherDef != null)
-                list.Add(new ThingDefCountClass(kind.RaceProps.leatherDef, leatherQty));
+            {
+                ThingDef leatherProduct = MedievalOverhaulHuntingCompat.ResolveHuntingLeatherProduct(kind.RaceProps.leatherDef);
+                int deliveryLeather = MedievalOverhaulHuntingCompat.ScaleLeatherDeliveryCount(kind.RaceProps.leatherDef, leatherQty);
+                if (leatherProduct != null && deliveryLeather > 0)
+                    list.Add(new ThingDefCountClass(leatherProduct, deliveryLeather));
+            }
             ThingDef woolDef = GetWoolDefFromKind(kind);
             if (woolQty > 0 && woolDef != null)
                 list.Add(new ThingDefCountClass(woolDef, woolQty));
@@ -141,7 +150,8 @@ namespace TSA_WorldDomination
             }
 
             AddLine(kind.RaceProps.meatDef, yk.MeatCount);
-            AddLine(kind.RaceProps.leatherDef, yk.LeatherCount);
+            ThingDef leatherLine = MedievalOverhaulHuntingCompat.ResolveHuntingLeatherProduct(kind.RaceProps.leatherDef);
+            AddLine(leatherLine, yk.LeatherCount);
             ThingDef woolDef = GetWoolDefFromKind(kind);
             AddLine(woolDef, yk.WoolCount);
             return lines.Count > 0 ? string.Join("\n", lines) : "TSA_WD_Text_EmDash".Translate().ToString();
@@ -155,7 +165,11 @@ namespace TSA_WorldDomination
             BiomeDef biome = outpost != null ? WorldTileInfo.GetBiome(outpost.Tile) : null;
             var products = new List<string>();
             if (kind.RaceProps?.meatDef != null) products.Add(kind.RaceProps.meatDef.LabelCap);
-            if (kind.RaceProps?.leatherDef != null) products.Add(kind.RaceProps.leatherDef.LabelCap);
+            if (kind.RaceProps?.leatherDef != null)
+            {
+                ThingDef leatherProduct = MedievalOverhaulHuntingCompat.ResolveHuntingLeatherProduct(kind.RaceProps.leatherDef);
+                if (leatherProduct != null) products.Add(leatherProduct.LabelCap);
+            }
             ThingDef wool = GetWoolDefFromKind(kind);
             if (wool != null) products.Add(wool.LabelCap);
             string productList = products.Count > 0 ? string.Join(", ", products) : kind.LabelCap;
@@ -178,7 +192,11 @@ namespace TSA_WorldDomination
             float capacity = outpost.GetCapacityForYieldPreview();
             var products = new List<string>();
             if (kind.RaceProps?.meatDef != null) products.Add(kind.RaceProps.meatDef.LabelCap);
-            if (kind.RaceProps?.leatherDef != null) products.Add(kind.RaceProps.leatherDef.LabelCap);
+            if (kind.RaceProps?.leatherDef != null)
+            {
+                ThingDef leatherProduct = MedievalOverhaulHuntingCompat.ResolveHuntingLeatherProduct(kind.RaceProps.leatherDef);
+                if (leatherProduct != null) products.Add(leatherProduct.LabelCap);
+            }
             ThingDef wool = GetWoolDefFromKind(kind);
             if (wool != null) products.Add(wool.LabelCap);
             string productsStr = products.Count > 0 ? string.Join(", ", products) : kind.RaceProps?.meatDef?.LabelCap ?? "TSA_WD_Text_EmDash".Translate().ToString();

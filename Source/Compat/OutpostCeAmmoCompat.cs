@@ -132,6 +132,83 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
+        /// Soft-fill a CE turret/gun's current magazine to capacity (selected basic ammo).
+        /// Tries the thing itself, then a nested Gun if present. No-op without CE.
+        /// </summary>
+        public static bool TryFillMagazineFull(Thing thing)
+        {
+            if (!IsCeActive || thing == null) return false;
+            try
+            {
+                if (thing is ThingWithComps twc && TryFillAmmoUserMagazine(FindAmmoUserComp(twc)))
+                    return true;
+
+                ThingWithComps gun = TryGetNestedGun(thing);
+                return gun != null && TryFillAmmoUserMagazine(FindAmmoUserComp(gun));
+            }
+            catch (Exception ex)
+            {
+                Log.Warning($"[WD] CE magazine fill soft-fail: {ex.Message}");
+                return false;
+            }
+        }
+
+        private static bool TryFillAmmoUserMagazine(ThingComp ammoUser)
+        {
+            if (ammoUser == null) return false;
+            if (!IsUseAmmo(ammoUser)) return false;
+
+            object props = ammoUser.props;
+            if (props == null) return false;
+
+            object ammoSet = GetFieldValue(props, "ammoSet");
+            ThingDef ammo = GetPropertyValue(ammoUser, "CurrentAmmo") as ThingDef
+                ?? GetPropertyValue(ammoUser, "SelectedAmmo") as ThingDef
+                ?? GetFieldValue(ammoUser, "selectedAmmo") as ThingDef
+                ?? (ammoSet != null ? ResolveBasicAmmoDef(ammoSet) : null);
+            if (ammo == null) return false;
+
+            // Ensure CE knows which ammo is chambered before setting count.
+            TrySetPropertyOrField(ammoUser, "SelectedAmmo", "selectedAmmo", ammo);
+            TrySetPropertyOrField(ammoUser, "CurrentAmmo", "currentAmmo", ammo);
+
+            int magazineSize = GetIntField(props, "magazineSize", 0);
+            if (magazineSize <= 0)
+                magazineSize = GetIntProperty(ammoUser, "MagSize", 0);
+            if (magazineSize <= 0)
+                return false;
+
+            TrySetIntProperty(ammoUser, "CurMagCount", magazineSize);
+            return GetIntProperty(ammoUser, "CurMagCount", 0) > 0;
+        }
+
+        private static ThingWithComps TryGetNestedGun(Thing thing)
+        {
+            if (thing == null) return null;
+            if (thing is Building_TurretGun vanilla)
+                return vanilla.gun as ThingWithComps;
+
+            PropertyInfo prop = thing.GetType().GetProperty("Gun", Inst);
+            if (prop?.GetValue(thing) is ThingWithComps fromProp)
+                return fromProp;
+            FieldInfo field = thing.GetType().GetField("gun", Inst);
+            return field?.GetValue(thing) as ThingWithComps;
+        }
+
+        private static void TrySetPropertyOrField(object obj, string propertyName, string fieldName, object value)
+        {
+            if (obj == null || value == null) return;
+            PropertyInfo pi = obj.GetType().GetProperty(propertyName, Inst);
+            if (pi != null && pi.CanWrite)
+            {
+                try { pi.SetValue(obj, value); return; }
+                catch { /* fall through */ }
+            }
+            FieldInfo fi = obj.GetType().GetField(fieldName, Inst);
+            fi?.SetValue(obj, value);
+        }
+
+        /// <summary>
         /// Empties a CE weapon's magazine into <paramref name="credit"/> so the weapon itself stays an
         /// ordinary stacking item. No-op without CE or when the magazine is already empty.
         /// </summary>

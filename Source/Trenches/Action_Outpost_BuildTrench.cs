@@ -14,17 +14,18 @@ namespace TSA_WorldDomination
         private static Texture2D cachedCancelIcon;
 
         public static Texture2D BuildIcon =>
-            cachedBuildIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/BuildTrench", false)
+            cachedBuildIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Build_Trench", false)
                 ?? ContentFinder<Texture2D>.Get("UI/Commands/BuildRoad", false)
                 ?? TexCommand.Replant;
 
         public static Texture2D RemoveIcon =>
-            cachedRemoveIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/RemoveTrench", false)
+            cachedRemoveIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Remove_Trench", false)
                 ?? BuildIcon;
 
         public static IEnumerable<Gizmo> GetGizmos(WorldObject actor)
         {
-            if (actor == null || actor.Faction != Faction.OfPlayer) yield break;
+            // Player trenches are outpost-only (NPC Settlements may own later).
+            if (actor is not WorldObject_WD_Outpost || actor.Faction != Faction.OfPlayer) yield break;
             var comp = actor.GetComponent<CompViralSpread>();
             if (comp == null || comp.trenchTargetTile == -1) yield break;
 
@@ -47,9 +48,17 @@ namespace TSA_WorldDomination
         public static FloatMenuOption MakeBuildMenuOption(WorldObject actor, CompViralSpread comp)
         {
             Texture2D icon = BuildIcon;
+            if (actor is not WorldObject_WD_Outpost)
+            {
+                return new FloatMenuOption("TSA_WD_BuildTrench".Translate(), null, icon, Color.cyan)
+                {
+                    Disabled = true,
+                    tooltip = "TSA_WD_Trench_OutpostOnly".Translate()
+                };
+            }
             if (!WorldComponent_WdTrenches.FeatureEnabled)
             {
-                return new FloatMenuOption("TSA_WD_BuildTrench".Translate(), null, icon, Color.white)
+                return new FloatMenuOption("TSA_WD_BuildTrench".Translate(), null, icon, Color.cyan)
                 {
                     Disabled = true,
                     tooltip = "TSA_WD_Trench_Disabled".Translate()
@@ -57,30 +66,49 @@ namespace TSA_WorldDomination
             }
             if (comp.trenchTargetTile != -1)
             {
-                return new FloatMenuOption("TSA_WD_CancelCurrentProjectFirst".Translate(), () => { }, icon, Color.white)
+                return new FloatMenuOption("TSA_WD_CancelCurrentProjectFirst".Translate(), () => { }, icon, Color.cyan)
                 {
                     Disabled = true
                 };
             }
             if (HasBlockingProject(comp))
             {
-                return new FloatMenuOption("TSA_WD_CancelCurrentProjectFirst".Translate(), () => { }, icon, Color.white)
+                return new FloatMenuOption("TSA_WD_CancelCurrentProjectFirst".Translate(), () => { }, icon, Color.cyan)
                 {
                     Disabled = true
                 };
             }
 
-            return new FloatMenuOption("TSA_WD_BuildTrench".Translate(), () => StartTargeting(actor, comp, clearing: false), icon, Color.white)
+            var option = new FloatMenuOption(
+                "TSA_WD_BuildTrench".Translate(),
+                () => StartTargeting(actor, comp, clearing: false),
+                icon,
+                Color.cyan)
             {
                 tooltip = "TSA_WD_BuildTrenchDesc".Translate(
                     WorldComponent_WdTrenches.MaxBuildRadiusTiles.ToString(),
                     WorldComponent_WdTrenches.WoodPerSegment.ToString())
             };
+            // Top-level row shows wood-per-segment cost icons (same gate pattern as road/block kinds).
+            ColonyWorldBuildRequirements.ApplyGate(
+                option,
+                ColonyWorldBuildUtility.GetActorConstructionSkillRaw(actor),
+                minConstruction: 0,
+                requiredResearch: null,
+                WorldActions_Trenches.GetWoodCostPerSegment());
+            return option;
         }
 
         public static FloatMenuOption MakeRemoveMenuOption(WorldObject actor, CompViralSpread comp)
         {
             Texture2D icon = RemoveIcon;
+            if (actor is not WorldObject_WD_Outpost)
+            {
+                return new FloatMenuOption("TSA_WD_RemoveTrench".Translate(), null, icon, Color.white)
+                {
+                    Disabled = true
+                };
+            }
             if (!WorldComponent_WdTrenches.FeatureEnabled)
             {
                 return new FloatMenuOption("TSA_WD_RemoveTrench".Translate(), null, icon, Color.white)
@@ -149,38 +177,83 @@ namespace TSA_WorldDomination
 
         private static void StartTargeting(WorldObject actor, CompViralSpread comp, bool clearing)
         {
-            var waypoints = new List<int>();
+            if (actor is not WorldObject_WD_Outpost) return;
+            CameraJumper.TryJump(actor.Tile);
+
             float range = WorldComponent_WdTrenches.MaxBuildRadiusTiles;
+            PlanetLayer layer = PlanetSurfaceWorldActions.LayerOf(actor);
+            int hubTile = actor.Tile.tileId;
+
+            // Waypoints are legs after the forced hub start (road-style Shift+click).
+            var waypoints = new List<int>();
+            List<int> committedPath = null;
+            int previewMouseTile = int.MinValue;
+            List<int> previewLeg = null;
+            int previewThrottleFrame = 0;
+
+            int LastAnchor() => waypoints.Count > 0 ? waypoints[waypoints.Count - 1] : hubTile;
+
+            bool InRange(int tile) =>
+                Find.WorldGrid.ApproxDistanceInTiles(actor.Tile, new PlanetTile(tile)) <= range + 0.01f;
+
             Find.WorldTargeter.BeginTargeting(
                 target =>
                 {
                     if (target.Tile < 0) return false;
                     int tile = target.Tile.tileId;
-                    if (tile == actor.Tile.tileId) return false;
+                    if (tile == hubTile) return false;
+                    if (tile == LastAnchor()) return false;
 
                     bool shift = Event.current != null && Event.current.shift;
-                    if (Find.WorldGrid.ApproxDistanceInTiles(actor.Tile, target.Tile) > range)
+                    if (!InRange(tile))
                     {
-                        Messages.Message("TSA_WD_Trench_OutOfRange".Translate(range.ToString("F0")), MessageTypeDefOf.RejectInput);
+                        Messages.Message(
+                            "TSA_WD_Trench_OutOfRange".Translate(range.ToString("F0")),
+                            MessageTypeDefOf.RejectInput);
                         return false;
                     }
 
-                    if (shift)
+                    // Plain click on owned tip / branch point (deg 1–2) = waypoint (extend or T).
+                    bool treatAsWaypoint = shift || IsOwnedBranchPoint(actor, tile);
+                    if (treatAsWaypoint)
                     {
-                        var check = WorldComponent_WdTrenches.CanUseTileForTrench(tile, actor);
-                        if (!check.Accepted && !WorldComponent_WdTrenches.HasTrenchAt(tile))
+                        var probe = new List<int>();
+                        if (!WorldActions_Trenches.TryBuildTrenchPath(actor, tile, waypoints, probe, out string fail)
+                            || probe.Count < 2)
                         {
-                            Messages.Message(check.Reason, MessageTypeDefOf.RejectInput, false);
+                            Messages.Message(
+                                fail.NullOrEmpty() ? "TSA_WD_Trench_InvalidPath".Translate() : fail,
+                                MessageTypeDefOf.RejectInput,
+                                false);
                             return false;
                         }
+
                         waypoints.Add(tile);
+                        committedPath = probe;
+                        previewMouseTile = int.MinValue;
+                        previewLeg = null;
+                        Messages.Message(
+                            IsOwnedBranchPoint(actor, tile) && !shift
+                                ? "TSA_WD_Trench_TipSelected".Translate()
+                                : "TSA_WD_Trench_WaypointAdded".Translate(waypoints.Count),
+                            MessageTypeDefOf.TaskCompletion);
                         return false;
                     }
 
                     var path = new List<int>();
-                    if (!WorldActions_Trenches.TryBuildTrenchPath(actor, tile, waypoints, path) || path.Count < 2)
+                    if (!WorldActions_Trenches.TryBuildTrenchPath(actor, tile, waypoints, path, out string failReason)
+                        || path.Count < 2)
                     {
-                        Messages.Message("TSA_WD_Trench_InvalidPath".Translate(), MessageTypeDefOf.RejectInput, false);
+                        Messages.Message(
+                            failReason.NullOrEmpty() ? "TSA_WD_Trench_InvalidPath".Translate() : failReason,
+                            MessageTypeDefOf.RejectInput,
+                            false);
+                        return false;
+                    }
+
+                    if (!WorldActions_Trenches.PathHasNewDig(path))
+                    {
+                        Messages.Message("TSA_WD_Trench_NeedNewDig".Translate(), MessageTypeDefOf.RejectInput, false);
                         return false;
                     }
 
@@ -194,14 +267,77 @@ namespace TSA_WorldDomination
                     comp.trenchWaypointTiles ??= new List<int>();
                     comp.trenchWaypointTiles.Clear();
                     comp.trenchWaypointTiles.AddRange(waypoints);
-                    Messages.Message("TSA_WD_Trench_BuildStarted".Translate(actor.LabelCap), actor, MessageTypeDefOf.NeutralEvent);
+                    Messages.Message(
+                        "TSA_WD_Trench_BuildStarted".Translate(actor.LabelCap),
+                        actor,
+                        MessageTypeDefOf.NeutralEvent);
                     return true;
                 },
                 true,
                 BuildIcon,
                 false,
-                null,
-                null);
+                () =>
+                {
+                    WD_RadiusOverlayMode.DrawOrFill(
+                        new PlanetTile(hubTile, layer),
+                        range,
+                        OutpostCoverageFillKind.Orange,
+                        Action_Outpost_BuildRoad.RoadLineOrange);
+                    Action_Outpost_BuildRoad.DrawRoadPathFromCalculatedNodes(
+                        committedPath,
+                        Action_Outpost_BuildRoad.RoadLineOrange);
+                    Action_Outpost_BuildRoad.DrawWaypointMarkers(waypoints, layer);
+
+                    int mouseTile = GenWorld.MouseTile();
+                    int anchor = LastAnchor();
+                    if (mouseTile < 0 || mouseTile == hubTile || !InRange(mouseTile))
+                    {
+                        previewMouseTile = mouseTile;
+                        previewLeg = null;
+                    }
+                    else if (mouseTile != previewMouseTile && Time.frameCount - previewThrottleFrame >= 5)
+                    {
+                        previewMouseTile = mouseTile;
+                        previewThrottleFrame = Time.frameCount;
+                        var probe = new List<int>();
+                        previewLeg = WorldActions_Trenches.TryBuildTrenchPath(actor, mouseTile, waypoints, probe)
+                            ? probe
+                            : null;
+                    }
+
+                    Action_Outpost_BuildRoad.DrawRoadPathFromCalculatedNodes(
+                        previewLeg,
+                        Action_Outpost_BuildRoad.RoadLineOrange);
+                    if (mouseTile >= 0 && previewLeg != null && previewLeg.Count >= 2)
+                        Action_Outpost_BuildRoad.DrawOrangeStar(mouseTile);
+                },
+                _ =>
+                {
+                    if (waypoints.Count > 0)
+                        return "TSA_WD_Trench_WaypointLabel".Translate(waypoints.Count);
+                    return "TSA_WD_Trench_WaypointTip".Translate();
+                },
+                target =>
+                {
+                    if (!target.IsValid || target.Tile < 0) return false;
+                    int tile = target.Tile.tileId;
+                    if (tile == hubTile || tile == LastAnchor()) return false;
+                    if (!InRange(tile)) return false;
+                    PlanetTile pTile = new PlanetTile(tile, layer);
+                    if (Find.World.Impassable(pTile)) return false;
+                    return true;
+                });
+        }
+
+        /// <summary>Owned tip (deg 1) or mid-arm (deg 2) that can extend / T-branch.</summary>
+        private static bool IsOwnedBranchPoint(WorldObject hub, int tile)
+        {
+            if (hub == null || tile < 0 || tile == hub.Tile.tileId) return false;
+            var trenches = WorldComponent_WdTrenches.Get();
+            if (trenches == null || !WorldComponent_WdTrenches.HasTrenchAt(tile)) return false;
+            if (!trenches.TryGetOwner(tile, out WorldObject owner) || owner != hub) return false;
+            int deg = trenches.Degree(tile);
+            return deg >= 1 && deg < WorldComponent_WdTrenches.MaxArmDegree;
         }
 
         public static void DrawTrenchOverlayIfSelected(WorldObject worldObject)
@@ -211,9 +347,7 @@ namespace TSA_WorldDomination
             var comp = worldObject.GetComponent<CompViralSpread>();
             if (comp == null || !WorldActions_Trenches.HasActiveTrenchProject(comp)) return;
 
-            bool isPlayerOutpost = worldObject.Faction == Faction.OfPlayer && worldObject is WorldObject_WD_Outpost;
-            bool isColonyBuild = ColonyWorldBuildUtility.IsPlayerColonyBuildActor(worldObject);
-            if (!isPlayerOutpost && !isColonyBuild) return;
+            if (worldObject.Faction != Faction.OfPlayer || worldObject is not WorldObject_WD_Outpost) return;
 
             if (comp.cachedTrenchPathTiles != null && comp.cachedTrenchPathTiles.Count > 0)
             {

@@ -545,15 +545,26 @@ namespace TSA_WorldDomination
             rowStrCache[target.Tile] = rs;
         }
 
-        private void DrawIsolatedMessage(Rect listRect, bool producer)
+        private void DrawIsolatedMessage(Rect listRect, bool producer, bool power = false)
         {
             if (SelOutpost == null) return;
             string typeLabel = SelOutpost.def != null
                 ? SelOutpost.def.LabelCap.ToString()
                 : SelOutpost.LabelCap;
-            string msg = producer
-                ? "TSA_Logistics_IsolatedProducer".Translate(typeLabel).ToString()
-                : "TSA_Logistics_IsolatedConsumer".Translate(typeLabel).ToString();
+            string key = power
+                ? (producer ? "TSA_Logistics_IsolatedPowerProducer" : "TSA_Logistics_IsolatedPowerConsumer")
+                : (producer ? "TSA_Logistics_IsolatedProducer" : "TSA_Logistics_IsolatedConsumer");
+            string msg = key.Translate(typeLabel).ToString();
+            if (msg.Contains(key))
+            {
+                msg = power
+                    ? (producer
+                        ? "No outposts in range that this " + typeLabel + " can supply power to."
+                        : "No power plant in range to supply this " + typeLabel + ".")
+                    : (producer
+                        ? "No outposts in range that this " + typeLabel + " can send virtual food to."
+                        : "No food producing outpost in range to provide for this " + typeLabel + ".");
+            }
             GUI.color = Color.gray;
             float h = Mathf.Min(listRect.height, Mathf.Max(48f, Text.CalcHeight(msg, listRect.width)));
             Widgets.Label(new Rect(listRect.x, listRect.y, listRect.width, h), msg);

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
   Medieval Overhaul material alignment for WD medieval-allowed content only.
-  Steel → DankPyon_IronIngot (1:1). Do not blanket-replace Industrial-tagged defs.
+  Steel → DankPyon_IronIngot (1:1).
+  ComponentIndustrial → DankPyon_ComponentBasic (1:1) on the same medieval-visible allowlist.
+  Do not blanket-replace Industrial-tagged defs (Fabrication, Power, Auto Turrets, Mortar, etc.).
   WoodLog stays (MO relabels it to wood plank). Chemfuel on allowlisted defs: none today.
+  Independent of Main Medieval mode checkbox.
 -->
 <Patch>
   <Operation Class="PatchOperationFindMod">
@@ -20,6 +23,32 @@
         <li Class="PatchOperationSetName">
           <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_RapidResponse"]//establishmentCost/Steel</xpath>
           <name>DankPyon_IronIngot</name>
+        </li>
+
+        <!-- Outpost establishmentCost: shorthand ComponentIndustrial → ComponentBasic -->
+        <li Class="PatchOperationSetName">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Recruiting"]//establishmentCost/ComponentIndustrial</xpath>
+          <name>DankPyon_ComponentBasic</name>
+        </li>
+        <li Class="PatchOperationSetName">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Trading"]//establishmentCost/ComponentIndustrial</xpath>
+          <name>DankPyon_ComponentBasic</name>
+        </li>
+        <li Class="PatchOperationSetName">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Embassy"]//establishmentCost/ComponentIndustrial</xpath>
+          <name>DankPyon_ComponentBasic</name>
+        </li>
+        <li Class="PatchOperationSetName">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_RapidResponse"]//establishmentCost/ComponentIndustrial</xpath>
+          <name>DankPyon_ComponentBasic</name>
+        </li>
+        <li Class="PatchOperationSetName">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Academy"]//establishmentCost/ComponentIndustrial</xpath>
+          <name>DankPyon_ComponentBasic</name>
+        </li>
+        <li Class="PatchOperationSetName">
+          <xpath>/Defs/WorldObjectDef[defName="TSA_WD_Outpost_Research"]//establishmentCost/ComponentIndustrial</xpath>
+          <name>DankPyon_ComponentBasic</name>
         </li>
 
         <!-- Allowlisted upgrades: thingDef Steel → IronIngot -->
@@ -62,6 +91,36 @@
         <li Class="PatchOperationReplace">
           <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_ConversionChair"]/cost/li[thingDef="Steel"]/thingDef</xpath>
           <value><thingDef>DankPyon_IronIngot</thingDef></value>
+        </li>
+
+        <!-- Allowlisted medieval-visible upgrades: ComponentIndustrial → ComponentBasic -->
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_BasicHospital"]/cost/li[thingDef="ComponentIndustrial"]/thingDef</xpath>
+          <value><thingDef>DankPyon_ComponentBasic</thingDef></value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_IrrigationCanals"]/cost/li[thingDef="ComponentIndustrial"]/thingDef</xpath>
+          <value><thingDef>DankPyon_ComponentBasic</thingDef></value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_WoodenWatchTower"]/cost/li[thingDef="ComponentIndustrial"]/thingDef</xpath>
+          <value><thingDef>DankPyon_ComponentBasic</thingDef></value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_CoastalPier"]/cost/li[thingDef="ComponentIndustrial"]/thingDef</xpath>
+          <value><thingDef>DankPyon_ComponentBasic</thingDef></value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_TrawlerGear"]/cost/li[thingDef="ComponentIndustrial"]/thingDef</xpath>
+          <value><thingDef>DankPyon_ComponentBasic</thingDef></value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_TunnelNetwork"]/cost/li[thingDef="ComponentIndustrial"]/thingDef</xpath>
+          <value><thingDef>DankPyon_ComponentBasic</thingDef></value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/TSA_WorldDomination.OutpostUpgradeDef[defName="TSA_WD_Upgrade_PropagandaPrinter"]/cost/li[thingDef="ComponentIndustrial"]/thingDef</xpath>
+          <value><thingDef>DankPyon_ComponentBasic</thingDef></value>
         </li>
 
       </operations>

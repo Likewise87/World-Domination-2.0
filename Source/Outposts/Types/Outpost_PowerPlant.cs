@@ -97,12 +97,13 @@ namespace TSA_WorldDomination
 
         public static string GetInspectProductLine(WorldObject_WD_Outpost outpost)
         {
+            if (!OutpostPowerGrid.Enabled) return null;
             float watts = GetRemotePowerWatts(outpost);
             string formatted = FormatWatts(watts);
             string line;
             if (!HasPlayerColonyMap())
                 line = "TSA_WD_PowerPlant_InspectNoColony".Translate(formatted);
-            else if (OutpostPowerGrid.Enabled)
+            else
             {
                 float keep = OutpostPowerGrid.GetColonyKeepWatts(outpost);
                 line = "TSA_WD_PowerPlant_InspectSplit".Translate(
@@ -112,27 +113,20 @@ namespace TSA_WorldDomination
                 if (line.Contains("TSA_WD_"))
                     line = formatted + " generated (" + FormatWatts(watts - keep) + " to outposts, " + FormatWatts(keep) + " to colony)";
             }
-            else
-                line = "TSA_WD_PowerPlant_Inspect".Translate(formatted);
             return line + Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
         }
 
         public static string GetOverviewProductLine(WorldObject_WD_Outpost outpost)
         {
+            if (!OutpostPowerGrid.Enabled) return null;
             float watts = GetRemotePowerWatts(outpost);
-            string product;
-            if (OutpostPowerGrid.Enabled)
-            {
-                float keep = OutpostPowerGrid.GetColonyKeepWatts(outpost);
-                product = "TSA_WD_PowerPlant_OverviewProductSplit".Translate(
-                    FormatWatts(watts),
-                    FormatWatts(Mathf.Max(0f, watts - keep)),
-                    FormatWatts(keep));
-                if (product.Contains("TSA_WD_"))
-                    product = FormatWatts(watts) + " (" + FormatWatts(watts - keep) + " outposts / " + FormatWatts(keep) + " colony)";
-            }
-            else
-                product = "TSA_WD_PowerPlant_OverviewProduct".Translate(FormatWatts(watts));
+            float keep = OutpostPowerGrid.GetColonyKeepWatts(outpost);
+            string product = "TSA_WD_PowerPlant_OverviewProductSplit".Translate(
+                FormatWatts(watts),
+                FormatWatts(Mathf.Max(0f, watts - keep)),
+                FormatWatts(keep));
+            if (product.Contains("TSA_WD_"))
+                product = FormatWatts(watts) + " (" + FormatWatts(watts - keep) + " outposts / " + FormatWatts(keep) + " colony)";
             return product + Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
         }
 

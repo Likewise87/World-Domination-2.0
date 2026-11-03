@@ -47,18 +47,18 @@ namespace TSA_WorldDomination
         private static readonly Texture2D IconPlaceRoad =
             ContentFinder<Texture2D>.Get("UI/Commands/BuildRoad", false);
         private static readonly Texture2D IconRemoveFortify =
-            ContentFinder<Texture2D>.Get("UI/Commands/Remove_WorldSpikeTrap", false)
+            ContentFinder<Texture2D>.Get("UI/Commands/Remove_Trap", false)
             ?? ContentFinder<Texture2D>.Get("UI/Commands/Remove_RoadBlock", false);
         private static readonly Texture2D IconRemoveRoad =
             ContentFinder<Texture2D>.Get("UI/Commands/RemoveRoad", false)
             ?? ContentFinder<Texture2D>.Get("UI/Commands/Remove_RoadBlock", false);
         private static readonly Texture2D IconPlaceBridge =
-            ContentFinder<Texture2D>.Get("UI/Commands/BuildRoad", false)
-            ?? ContentFinder<Texture2D>.Get("UI/Commands/Build_Bridge", false)
+            ContentFinder<Texture2D>.Get("UI/Commands/Build_Bridge", false)
+            ?? ContentFinder<Texture2D>.Get("UI/Commands/BuildRoad", false)
             ?? TexCommand.Install;
         private static readonly Texture2D IconRemoveBridge =
-            ContentFinder<Texture2D>.Get("UI/Commands/RemoveRoad", false)
-            ?? ContentFinder<Texture2D>.Get("UI/Commands/Remove_RoadBlock", false)
+            ContentFinder<Texture2D>.Get("UI/Commands/Remove_Bridge", false)
+            ?? ContentFinder<Texture2D>.Get("UI/Commands/RemoveRoad", false)
             ?? TexButton.Delete;
         private static readonly Texture2D IconAdvBuilding =
             ContentFinder<Texture2D>.Get("WorldObjects/AdvancedBuildings/AdvWO_Silo", false)

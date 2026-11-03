@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: Silo -->
+  <TSA_WD_AdvWO_Silo.label>糧倉</TSA_WD_AdvWO_Silo.label>
+  <!-- EN: Hospital -->
+  <TSA_WD_AdvWO_Hospital.label>醫院</TSA_WD_AdvWO_Hospital.label>
+  <!-- EN: Watch Tower -->
+  <TSA_WD_AdvWO_WatchTower.label>瞭望塔</TSA_WD_AdvWO_WatchTower.label>
+  <!-- EN: Stable -->
+  <TSA_WD_AdvWO_Stable.label>馬廄</TSA_WD_AdvWO_Stable.label>
+  <!-- EN: Mortar Turret -->
+  <TSA_WD_AdvWO_MortarTurret.label>迫擊砲塔</TSA_WD_AdvWO_MortarTurret.label>
+  <!-- EN: AA Turret -->
+  <TSA_WD_AdvWO_AaTurret.label>防空砲塔</TSA_WD_AdvWO_AaTurret.label>
+</LanguageData>

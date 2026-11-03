@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_66_Title>Major update: Trenches!</TSA_WD_Update_2_3_66_Title>
+  <TSA_WD_Update_2_3_66_Body><![CDATA[
+<size=16><b>2.3.66 - Major update: Trenches!</b></size>\n
+<color=#00FFFFFF>Release date: November 3rd 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• New feature: Outposts can dig exclusive trench arms. Trenches belong to the outpost that built them. When a hostile column steps onto them, you can Fight in the trenches, Auto-resolve, or Let them pass.\n
+• Visually, trenches benefit a lot from Oomby's Trenches mod and Vehicles Expanded (tank traps). Highly recommended, but not required.\n
+• Thanks again to player Pesky for the trench icons!\n
+• Trenches may branch, but arms from different outposts cannot connect. You cannot build roads, road blocks, or similar on trench tiles. Establishing an outpost on a trench wipes that trench; any disconnected segments are destroyed too.\n
+• With the Auto Turrets upgrade (or a higher tier) at the owning outpost, trench clash maps get auto turrets. With Combat Extended, that includes static M240 MGs.\n
+• In Medieval mode, trench maps skip modern defenses and use cavalry spikes instead. Please tell me on Discord how that feels!\n
+• Medieval mode also hides electricity-related UI hints.\n
+• With Medieval Overhaul, Hunting outposts should produce processed leathers instead of raw hides, and the correct Medieval Overhaul components should be used for outposts.\n
+• Dropped weapons and other armory gear from an outpost or trench defense map now go into that outpost's armory.\n
+]]></TSA_WD_Update_2_3_66_Body>
   <TSA_WD_Update_2_3_65_Title>Outpost energy needs, better Outpost defense &amp; more</TSA_WD_Update_2_3_65_Title>
   <TSA_WD_Update_2_3_65_Body><![CDATA[
 <size=16><b>2.3.65 - Outpost energy needs, better Outpost defense & more</b></size>\n

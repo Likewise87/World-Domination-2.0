@@ -25,12 +25,12 @@ namespace TSA_WorldDomination
         private static Material CreateOrangeWorkCircleMat()
         {
             const int size = 64;
+            // Do not set hideFlags: Waylith/UnityStubs logs Object.hideFlags as a no-op stub.
             var tex = new Texture2D(size, size, TextureFormat.ARGB32, false)
             {
                 name = "TSA_WD_OrangeWorkCircle",
                 filterMode = FilterMode.Bilinear,
-                wrapMode = TextureWrapMode.Clamp,
-                hideFlags = HideFlags.HideAndDontSave
+                wrapMode = TextureWrapMode.Clamp
             };
             float mid = (size - 1) * 0.5f;
             float r = mid - 0.5f;
@@ -410,6 +410,11 @@ namespace TSA_WorldDomination
                             Messages.Message("TSA_WD_RoadAlreadyExists".Translate(), MessageTypeDefOf.RejectInput);
                             return false;
                         }
+                        if (WorldActions_Roads.CorridorHasTrenchBlockedRoadWork(fullPath, comp.selectedRoadTier))
+                        {
+                            Messages.Message("TSA_WD_RoadBlockedByTrench".Translate(), MessageTypeDefOf.RejectInput);
+                            return false;
+                        }
                         segmentCount = WorldActions_Roads.CountRoadWorkSegmentsOnTileList(fullPath, comp.selectedRoadTier);
                     }
 
@@ -561,7 +566,7 @@ namespace TSA_WorldDomination
             }
         }
 
-        private static void DrawWaypointMarkers(List<int> waypoints, PlanetLayer layer)
+        public static void DrawWaypointMarkers(List<int> waypoints, PlanetLayer layer)
         {
             if (waypoints == null || waypoints.Count == 0) return;
             for (int i = 0; i < waypoints.Count; i++)

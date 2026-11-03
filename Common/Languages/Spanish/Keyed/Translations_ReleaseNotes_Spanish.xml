@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_66_Title>¡Actualización mayor: trincheras!</TSA_WD_Update_2_3_66_Title>
+  <TSA_WD_Update_2_3_66_Body><![CDATA[
+<size=16><b>2.3.66 - ¡Actualización mayor: trincheras!</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 3 de noviembre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Nueva función: los puestos pueden cavar brazos de trinchera exclusivos. Las trincheras pertenecen al puesto que las construyó. Cuando una columna hostil pisa una, puedes Combatir en las trincheras, Auto-resolver o Dejarles pasar.\n
+• Visualmente, las trincheras ganan mucho con el mod Trenches de Oomby y Vehicles Expanded (trampas antitanque). Muy recomendable, pero no obligatorio.\n
+• ¡Gracias de nuevo al jugador Pesky por los iconos de las trincheras!\n
+• Las trincheras pueden ramificarse, pero los brazos de puestos distintos no pueden conectarse. No puedes construir carreteras, bloqueos ni similares en casillas de trinchera. Fundar un puesto sobre una trinchera la destruye; los segmentos desconectados también se destruyen.\n
+• Con la mejora Auto Turrets (o un nivel superior) en el puesto dueño, los mapas de choque en trinchera reciben torretas automáticas. Con Combat Extended, incluye ametralladoras M240 estáticas.\n
+• En modo medieval, los mapas de trinchera omiten defensas modernas y usan púas de caballería. ¡Cuéntame en Discord cómo se siente!\n
+• El modo medieval también oculta las pistas de IU relacionadas con la electricidad.\n
+• Con Medieval Overhaul, los puestos de caza deberían producir cueros procesados en lugar de pieles crudas, y usarse los componentes correctos de Medieval Overhaul en los puestos.\n
+• Las armas y el equipo de arsenal caídos en un mapa de defensa de puesto o trinchera ahora van al arsenal de ese puesto.\n
+]]></TSA_WD_Update_2_3_66_Body>
   <TSA_WD_Update_2_3_65_Title>Necesidades de energía de puestos, mejor defensa y más</TSA_WD_Update_2_3_65_Title>
   <TSA_WD_Update_2_3_65_Body><![CDATA[
 <size=16><b>2.3.65 - Necesidades de energía de puestos, mejor defensa y más</b></size>\n

@@ -10,6 +10,8 @@ namespace TSA_WorldDomination
     public static class Action_Outpost_BuildBridge
     {
         private static Texture2D cachedCancelIcon;
+        private static Texture2D cachedBuildBridgeIcon;
+        private static Texture2D cachedDeconstructBridgeIcon;
         private static readonly List<int> OverlayDrawScratch = new List<int>(16);
         private static readonly HashSet<int> SessionValid = new HashSet<int>(64);
         private static readonly HashSet<int> SessionReserved = new HashSet<int>(32);
@@ -19,8 +21,13 @@ namespace TSA_WorldDomination
         private static int sessionBuilderTile = -1;
         private static bool sessionClearing;
 
-        private static Texture2D BuildBridgeIcon => Action_Outpost_BuildRoad.BuildRoadIcon;
-        private static Texture2D DeconstructBridgeIcon => Action_Outpost_BuildRoad.RemoveRoadIcon;
+        private static Texture2D BuildBridgeIcon =>
+            cachedBuildBridgeIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Build_Bridge", false)
+                ?? Action_Outpost_BuildRoad.BuildRoadIcon;
+
+        private static Texture2D DeconstructBridgeIcon =>
+            cachedDeconstructBridgeIcon ??= ContentFinder<Texture2D>.Get("UI/Commands/Remove_Bridge", false)
+                ?? Action_Outpost_BuildRoad.RemoveRoadIcon;
 
         public static IEnumerable<Gizmo> GetGizmos(WorldObject outpost)
         {

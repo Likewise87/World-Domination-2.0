@@ -31,7 +31,7 @@ namespace TSA_WorldDomination
 
     /// <summary>
     /// SSoT for outpost power: Enabled gate, demand/factor resolvers, link allocation (Keep → colony),
-    /// dirty hub, one-shot letter. Production uses supplied/demand lerp; combat gates stay binary.
+    /// dirty hub. Production uses supplied/demand lerp; combat gates stay binary.
     /// </summary>
     public static class OutpostPowerGrid
     {
@@ -250,12 +250,6 @@ namespace TSA_WorldDomination
             NotifyOutpostPowerDirty(null);
         }
 
-        public static void TrySendUnpoweredLetterOnce()
-        {
-            var comp = Find.World?.GetComponent<WorldComponent_OutpostPowerGrid>();
-            comp?.TrySendUnpoweredLetterOnce();
-        }
-
         /// <summary>Inspect line when feature on and outpost has demand. Null/empty when N/A.</summary>
         public static string FormatInspectPowerLine(WorldObject_WD_Outpost outpost)
         {
@@ -338,7 +332,8 @@ namespace TSA_WorldDomination
         private bool dirty = true;
         private readonly Dictionary<int, float> suppliedByOutpostId = new Dictionary<int, float>(64);
         private readonly Dictionary<int, float> colonyKeepByPlantId = new Dictionary<int, float>(16);
-        private bool unpoweredLetterSent;
+        /// <summary>Per (srcTile, destTile) watts actually delivered in the last <see cref="EnsureAllocationFresh"/> pass.</summary>
+        private readonly Dictionary<long, float> deliveredByLinkKey = new Dictionary<long, float>(64);
         private bool settingsWatchInit;
         private bool watchEnable;
         private float watchRangeFactor;
@@ -370,10 +365,7 @@ namespace TSA_WorldDomination
             if (smartDirty)
                 CompleteSmartPowerRefreshNow();
             if (dirty || tick % 250 == 0)
-            {
                 EnsureAllocationFresh();
-                TrySendUnpoweredLetterOnce();
-            }
         }
 
         public void MarkDirty()
@@ -444,6 +436,7 @@ namespace TSA_WorldDomination
                 if (found != null)
                 {
                     powerManualLinks.Remove(found);
+                    ClampAssignmentsForSourceBudget(srcTile, notify: false);
                     NotifyManualLinksChanged();
                     return true;
                 }
@@ -463,8 +456,157 @@ namespace TSA_WorldDomination
                     assignment = watts
                 });
             }
+            ClampAssignmentsForSourceBudget(srcTile, notify: false);
             NotifyManualLinksChanged();
             return true;
+        }
+
+        private static long LinkKey(int srcTile, int destTile)
+            => ((long)srcTile << 32) ^ (uint)destTile;
+
+        /// <summary>Watts delivered on src→dest in the last allocation pass (0 if none).</summary>
+        public float GetDeliveredWatts(int srcTile, int destTile)
+        {
+            EnsureAllocationFresh();
+            return deliveredByLinkKey.TryGetValue(LinkKey(srcTile, destTile), out float w) ? w : 0f;
+        }
+
+        /// <summary>
+        /// Food-parity: collapse duplicate (src, dest) rows so outgoing sums match the UI.
+        /// </summary>
+        public bool MergeDuplicatePowerLinksFromSource(int sourceTile, bool notify = true)
+        {
+            var byDest = new Dictionary<int, List<PowerLogisticsLink>>();
+            for (int i = 0; i < powerManualLinks.Count; i++)
+            {
+                var l = powerManualLinks[i];
+                if (l.sourceTile != sourceTile) continue;
+                if (!byDest.TryGetValue(l.destTile, out var group))
+                {
+                    group = new List<PowerLogisticsLink>();
+                    byDest[l.destTile] = group;
+                }
+                group.Add(l);
+            }
+            bool changed = false;
+            foreach (var kv in byDest)
+            {
+                var group = kv.Value;
+                if (group.Count <= 1) continue;
+                float sum = 0f;
+                for (int i = 0; i < group.Count; i++)
+                    sum += group[i].assignment;
+                for (int i = 1; i < group.Count; i++)
+                {
+                    powerManualLinks.Remove(group[i]);
+                    changed = true;
+                }
+                float merged = Mathf.Max(0f, sum);
+                if (Mathf.Abs(group[0].assignment - merged) > 0.05f)
+                {
+                    group[0].assignment = merged;
+                    changed = true;
+                }
+            }
+            if (changed && notify)
+                NotifyManualLinksChanged();
+            return changed;
+        }
+
+        public bool MergeAllDuplicatePowerLinks(bool notify = true)
+        {
+            var sources = new HashSet<int>();
+            for (int i = 0; i < powerManualLinks.Count; i++)
+                sources.Add(powerManualLinks[i].sourceTile);
+            bool changed = false;
+            foreach (int src in sources)
+                changed |= MergeDuplicatePowerLinksFromSource(src, notify: false);
+            if (changed && notify)
+                NotifyManualLinksChanged();
+            return changed;
+        }
+
+        /// <summary>
+        /// Trim Manual source links so Σ assignment ≤ distributable (food ClampManualAssignmentsForSourceBudget).
+        /// Does not rewrite Smart plants (they clear+rebuild in <see cref="RunSmartAssignment"/>).
+        /// </summary>
+        public bool ClampAssignmentsForSourceBudget(int sourceTile, bool notify = true)
+        {
+            MergeDuplicatePowerLinksFromSource(sourceTile, notify: false);
+
+            WorldObject_WD_Outpost plant = FindPlantAtTile(sourceTile);
+            if (plant != null && LogisticsModeUtil.IsSmartMode(plant.PowerLogisticsMode))
+                return false;
+
+            float budget = plant != null ? OutpostPowerGrid.GetDistributableWatts(plant) : 0f;
+            float total = GetOutgoingSumFromTile(sourceTile);
+            if (total <= budget + OutpostPowerGrid.DemandEpsilon) return false;
+
+            float remaining = budget;
+            bool changed = false;
+            for (int i = 0; i < powerManualLinks.Count; i++)
+            {
+                PowerLogisticsLink link = powerManualLinks[i];
+                if (link.sourceTile != sourceTile || link.assignment <= OutpostPowerGrid.DemandEpsilon) continue;
+
+                float clamped = Mathf.Min(link.assignment, remaining);
+                if (clamped < OutpostPowerGrid.DemandEpsilon) clamped = 0f;
+                if (Mathf.Abs(link.assignment - clamped) > 0.05f)
+                {
+                    link.assignment = clamped;
+                    changed = true;
+                }
+                remaining = Mathf.Max(0f, remaining - link.assignment);
+            }
+
+            // Drop zeroed rows
+            if (changed)
+            {
+                for (int i = powerManualLinks.Count - 1; i >= 0; i--)
+                {
+                    var l = powerManualLinks[i];
+                    if (l.sourceTile == sourceTile && l.assignment <= OutpostPowerGrid.DemandEpsilon)
+                        powerManualLinks.RemoveAt(i);
+                }
+            }
+
+            if (changed && notify)
+                NotifyManualLinksChanged();
+            return changed;
+        }
+
+        /// <summary>Clamp every Manual plant source tile (skip Smart). Silent by default for alloc rebuild.</summary>
+        public bool ClampAllManualAssignmentsForSourceBudgets(bool notify = false)
+        {
+            var sources = new HashSet<int>();
+            for (int i = 0; i < powerManualLinks.Count; i++)
+            {
+                if (powerManualLinks[i].assignment > OutpostPowerGrid.DemandEpsilon)
+                    sources.Add(powerManualLinks[i].sourceTile);
+            }
+            bool changed = false;
+            foreach (int source in sources)
+                changed |= ClampAssignmentsForSourceBudget(source, notify: false);
+            if (changed && notify)
+                NotifyManualLinksChanged();
+            return changed;
+        }
+
+        /// <summary>Remove links whose destination tile is a power plant (plants are never external consumers).</summary>
+        private bool StripPowerPlantDestLinks(bool notify = false)
+        {
+            bool changed = false;
+            for (int i = powerManualLinks.Count - 1; i >= 0; i--)
+            {
+                var l = powerManualLinks[i];
+                WorldObject_WD_Outpost dest = FindPlantAtTile(l.destTile);
+                if (dest == null) continue;
+                powerManualLinks.RemoveAt(i);
+                changed = true;
+            }
+            if (changed && notify)
+                NotifyManualLinksChanged();
+            return changed;
         }
 
         public void ClearOutgoingFromTile(int sourceTile)
@@ -512,7 +654,8 @@ namespace TSA_WorldDomination
                 if (l.destTile != dest || l.assignment <= OutpostPowerGrid.DemandEpsilon) continue;
                 WorldObject_WD_Outpost src = FindPlantAtTile(l.sourceTile);
                 if (src == null) continue;
-                yield return (src, l.assignment);
+                float delivered = deliveredByLinkKey.TryGetValue(LinkKey(l.sourceTile, dest), out float d) ? d : 0f;
+                yield return (src, delivered);
             }
         }
 
@@ -648,9 +791,15 @@ namespace TSA_WorldDomination
             dirty = false;
             suppliedByOutpostId.Clear();
             colonyKeepByPlantId.Clear();
+            deliveredByLinkKey.Clear();
 
             if (!OutpostPowerGrid.Enabled)
                 return;
+
+            // Food pulse parity: trim Manual overshoot before delivery soft-caps (silent — avoid re-dirty mid-pass).
+            ClampAllManualAssignmentsForSourceBudgets(notify: false);
+            // Drop plant→plant links (plants never receive external power).
+            StripPowerPlantDestLinks(notify: false);
 
             var plants = new List<WorldObject_WD_Outpost>(8);
             IReadOnlyList<WorldObject_WD_Outpost> list = WdPlayerOutpostCache.PlayerOutposts;
@@ -688,6 +837,8 @@ namespace TSA_WorldDomination
                     if (give <= OutpostPowerGrid.DemandEpsilon) continue;
                     suppliedByOutpostId[consumer.ID] = have + give;
                     left -= give;
+                    long key = LinkKey(srcTile, link.destTile);
+                    deliveredByLinkKey[key] = (deliveredByLinkKey.TryGetValue(key, out float prev) ? prev : 0f) + give;
                 }
 
                 colonyKeepByPlantId[plant.ID] = Mathf.Max(0f, left);
@@ -723,6 +874,8 @@ namespace TSA_WorldDomination
             {
                 WorldObject_WD_Outpost op = list[i];
                 if (op == null || op.Destroyed || op.Faction != Faction.OfPlayer) continue;
+                // Plants cover local demand from own generation — never external power consumers.
+                if (op.IsPowerPlantOutpost) continue;
                 if (OutpostPowerGrid.GetPowerDemandWatts(op) > OutpostPowerGrid.DemandEpsilon)
                     consumers.Add(op);
             }
@@ -736,11 +889,7 @@ namespace TSA_WorldDomination
                 {
                     WorldObject_WD_Outpost consumer = consumers[c];
                     float demand = OutpostPowerGrid.GetPowerDemandWatts(consumer);
-                    // Plants already cover themselves from generation; only external deficit is assignable.
-                    float selfCover = consumer.IsPowerPlantOutpost
-                        ? OutpostPowerGrid.GetLocalReservedWatts(consumer)
-                        : 0f;
-                    float have = SumAssignedToTile(consumer.Tile.tileId) + selfCover;
+                    float have = SumAssignedToTile(consumer.Tile.tileId);
                     float need = demand - have;
                     if (need <= OutpostPowerGrid.DemandEpsilon) continue;
                     if (need > bestNeed)
@@ -818,38 +967,11 @@ namespace TSA_WorldDomination
             {
                 WorldObject_WD_Outpost op = list[i];
                 if (op == null || op.Destroyed || op.Tile.tileId != tileId) continue;
+                if (op.IsPowerPlantOutpost) continue;
                 if (OutpostPowerGrid.GetPowerDemandWatts(op) <= OutpostPowerGrid.DemandEpsilon) continue;
                 if (best == null || op.ID < best.ID) best = op;
             }
             return best;
-        }
-
-        public void TrySendUnpoweredLetterOnce()
-        {
-            if (unpoweredLetterSent) return;
-            if (!OutpostPowerGrid.Enabled) return;
-            if (Current.ProgramState != ProgramState.Playing) return;
-
-            EnsureAllocationFresh();
-            IReadOnlyList<WorldObject_WD_Outpost> list = WdPlayerOutpostCache.PlayerOutposts;
-            WorldObject_WD_Outpost first = null;
-            for (int i = 0; i < list.Count; i++)
-            {
-                WorldObject_WD_Outpost op = list[i];
-                if (op == null || op.Destroyed) continue;
-                if (!OutpostPowerGrid.RequiresPower(op)) continue;
-                if (OutpostPowerGrid.IsPowered(op)) continue;
-                first = op;
-                break;
-            }
-            if (first == null) return;
-
-            unpoweredLetterSent = true;
-            Find.LetterStack.ReceiveLetter(
-                "TSA_WD_Letter_OutpostPowerUnpoweredLabel".Translate(),
-                "TSA_WD_Letter_OutpostPowerUnpoweredText".Translate(),
-                LetterDefOf.NeutralEvent,
-                first);
         }
 
         private void TickPowerSettingsSnapshot()
@@ -879,12 +1001,12 @@ namespace TSA_WorldDomination
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref unpoweredLetterSent, "wdOutpostPowerUnpoweredLetterSent", false);
             Scribe_Collections.Look(ref powerManualLinks, "powerManualLinks", LookMode.Deep);
             if (powerManualLinks == null) powerManualLinks = new List<PowerLogisticsLink>();
             if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
-                // Food logistics LoadingVars parity: force Smart rewrite after load; reset heal baseline.
+                // Food logistics LoadingVars parity: merge dupes, force Smart rewrite after load; reset heal baseline.
+                MergeAllDuplicatePowerLinks(notify: false);
                 dirty = true;
                 smartDirty = true;
                 smartDirtyFromExplicitNotify = true;

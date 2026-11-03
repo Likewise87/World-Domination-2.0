@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- EN: Outpost -->
+  <TSA_WD_Outpost.label>哨站</TSA_WD_Outpost.label>
+  <!-- EN: Simple Production -->
+  <TSA_WD_Outpost_SimpleProduction.label>簡易生產</TSA_WD_Outpost_SimpleProduction.label>
+  <!-- EN: Farming Outpost -->
+  <TSA_WD_Outpost_Farming.label>農耕哨站</TSA_WD_Outpost_Farming.label>
+  <!-- EN: Hunting Outpost -->
+  <TSA_WD_Outpost_Hunting.label>狩獵哨站</TSA_WD_Outpost_Hunting.label>
+  <!-- EN: Fishing Outpost -->
+  <TSA_WD_Outpost_Fishing.label>漁業哨站</TSA_WD_Outpost_Fishing.label>
+  <!-- EN: Recruiting Outpost -->
+  <TSA_WD_Outpost_Recruiting.label>招募哨站</TSA_WD_Outpost_Recruiting.label>
+  <!-- EN: Trading Outpost -->
+  <TSA_WD_Outpost_Trading.label>貿易哨站</TSA_WD_Outpost_Trading.label>
+  <!-- EN: Embassy Outpost -->
+  <TSA_WD_Outpost_Embassy.label>大使館哨站</TSA_WD_Outpost_Embassy.label>
+  <!-- EN: Scavenging Outpost -->
+  <TSA_WD_Outpost_Scavenging.label>拾荒哨站</TSA_WD_Outpost_Scavenging.label>
+  <!-- EN: Mining Outpost -->
+  <TSA_WD_Outpost_Mining.label>採礦哨站</TSA_WD_Outpost_Mining.label>
+  <!-- EN: Fabrication Outpost -->
+  <TSA_WD_Outpost_Fabrication.label>精密製作哨站</TSA_WD_Outpost_Fabrication.label>
+  <!-- EN: Chemical Refinery -->
+  <TSA_WD_Outpost_BiofuelRefinery.label>化學精煉廠</TSA_WD_Outpost_BiofuelRefinery.label>
+  <!-- EN: Produces chemfuel, neutroamine, and dye. -->
+  <TSA_WD_Outpost_BiofuelRefinery.description>產出化合燃料、中性胺與染料。</TSA_WD_Outpost_BiofuelRefinery.description>
+  <!-- EN: Deepchem Drilling Outpost -->
+  <TSA_WD_Outpost_DeepchemDrill.label>深層化合物鑽探哨站</TSA_WD_Outpost_DeepchemDrill.label>
+  <!-- EN: Drills deepchem on desert tiles. Requires Vanilla Chemfuel Expanded. -->
+  <TSA_WD_Outpost_DeepchemDrill.description>在沙漠地塊鑽採深層化合物。需要Vanilla Chemfuel Expanded。</TSA_WD_Outpost_DeepchemDrill.description>
+  <!-- EN: Raw Resource Shaping Outpost -->
+  <TSA_WD_Outpost_RawShaping.label>原料塑形哨站</TSA_WD_Outpost_RawShaping.label>
+  <!-- EN: Produces plasteel, synthread, or hyperweave on desert tiles. -->
+  <TSA_WD_Outpost_RawShaping.description>在沙漠地塊產出塑鋼、合成纖維或超級布料。</TSA_WD_Outpost_RawShaping.description>
+  <!-- EN: Deepchem Factory Outpost -->
+  <TSA_WD_Outpost_DeepchemFactory.label>深層化合物工廠哨站</TSA_WD_Outpost_DeepchemFactory.label>
+  <!-- EN: Legacy chemical outpost from the Bambaryla addon. Produces neutroamine and dye. Prefer founding a Chemical Refinery for new outposts. -->
+  <TSA_WD_Outpost_DeepchemFactory.description>來自Bambaryla擴充的舊版化工哨站。產出中性胺與染料。新建哨站請優先選擇化學精煉廠。</TSA_WD_Outpost_DeepchemFactory.description>
+  <!-- EN: Ranch Outpost -->
+  <TSA_WD_Outpost_Ranch.label>牧場哨站</TSA_WD_Outpost_Ranch.label>
+  <!-- EN: Artillery Outpost -->
+  <TSA_WD_Outpost_Mortar.label>砲兵哨站</TSA_WD_Outpost_Mortar.label>
+  <!-- EN: Rapid Response Outpost -->
+  <TSA_WD_Outpost_RapidResponse.label>快速反應哨站</TSA_WD_Outpost_RapidResponse.label>
+  <!-- EN: Academy Outpost -->
+  <TSA_WD_Outpost_Academy.label>學院哨站</TSA_WD_Outpost_Academy.label>
+  <!-- EN: Research Outpost -->
+  <TSA_WD_Outpost_Research.label>研究哨站</TSA_WD_Outpost_Research.label>
+  <!-- EN: Power Plant Outpost -->
+  <TSA_WD_Outpost_PowerPlant.label>發電廠哨站</TSA_WD_Outpost_PowerPlant.label>
+  <!-- EN: Warehouse Outpost -->
+  <TSA_WD_Outpost_Warehouse.label>倉庫哨站</TSA_WD_Outpost_Warehouse.label>
+  <!-- EN: Drug Lab Outpost -->
+  <TSA_WD_Outpost_DrugLab.label>藥物實驗室哨站</TSA_WD_Outpost_DrugLab.label>
+  <!-- EN: Advanced Drug Lab Outpost -->
+  <BOR_TSA_WD_Outpost_DrugLab.label>高階藥物實驗室哨站</BOR_TSA_WD_Outpost_DrugLab.label>
+  <!-- EN: Advanced Fabrication Outpost -->
+  <BOR_TSA_WD_Outpost_Fabrication.label>高階精密製作哨站</BOR_TSA_WD_Outpost_Fabrication.label>
+</LanguageData>
