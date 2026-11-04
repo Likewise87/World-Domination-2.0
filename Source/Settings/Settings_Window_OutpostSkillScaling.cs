@@ -111,10 +111,10 @@ namespace TSA_WorldDomination
                     Rect left = new Rect(row.x, row.y, colW, row.height);
                     Rect right = new Rect(row.x + colW + gap, row.y, colW, row.height);
 
-                    TooltipHandler.TipRegion(left, SettingsUI.TooltipWithDefault(
+                    SettingsUI.TipRegion(left, SettingsUI.TooltipWithDefault(
                         "TSA_WD_SkillScaling_BandEndTip".Translate(),
                         OutpostSkillScaling.DefBandEnds[i], SliderFormat.Fixed0));
-                    TooltipHandler.TipRegion(right, SettingsUI.TooltipWithDefault(
+                    SettingsUI.TipRegion(right, SettingsUI.TooltipWithDefault(
                         "TSA_WD_SkillScaling_BandWeightTip".Translate(),
                         OutpostSkillScaling.DefBandWeights[i] * 100f, SliderFormat.Fixed0));
 

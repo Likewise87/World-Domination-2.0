@@ -23,22 +23,48 @@ namespace TSA_WorldDomination
             optionalTitle = null;
         }
 
-        public override void DoWindowContents(Rect inRect)
+        
+        private static Dialog_SabotageSettings embeddedHost;
+
+        public static void DrawEmbedded(Rect inRect)
+        {
+            if (embeddedHost == null) embeddedHost = new Dialog_SabotageSettings();
+            embeddedHost.DrawBody(inRect);
+        }
+public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
-            float contentWidth = contentRect.width - 24f;
+            DrawBody(contentRect);
+        }
+
+        private void DrawBody(Rect contentRect)
+        {
+            if (WdSettingsSearch.IsCollecting)
+            {
+                Listing_Standard l = new Listing_Standard();
+                l.Begin(contentRect);
+                DrawListing(l);
+                l.End();
+                return;
+            }
+
+            float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 1600f);
-
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(scrollViewRect);
+            DrawListing(listing);
+            listing.End();
+            Widgets.EndScrollView();
+        }
 
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(scrollViewRect);
-            var s = WorldDominationMod.settings;
+        private void DrawListing(Listing_Standard l)
+        {
+var s = WorldDominationMod.settings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetSabotage(),
                 () => { weightsExpanded = modifiersExpanded = savesExpanded = outcomeExpanded = simulationExpanded = true; },
                 () => { weightsExpanded = modifiersExpanded = savesExpanded = outcomeExpanded = simulationExpanded = false; });
-            SettingsUI.DrawSettingsSearchBar(l);
-
+            
             // ================= SECTION 1: BASE WEIGHTS =================
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Sab_HeaderWeights".Translate(), ref weightsExpanded, SettingsUI.SectionHeaderColor))
             {
@@ -103,8 +129,6 @@ namespace TSA_WorldDomination
             l.Gap(4f);
             DrawSimulation(l, "TSA_WD_Sab_SimLvl20".Translate(), 2, s);
             }
-            l.End();
-            Widgets.EndScrollView();
         }
 
         private void DrawSimulation(Listing_Standard l, string label, int tierLevel, WorldDominationSettings s)

@@ -22,35 +22,64 @@ namespace TSA_WorldDomination
             optionalTitle = null;
         }
 
-        public override void PreClose()
+        private static Dialog_RaidPointMultiplier embeddedHost;
+
+        public static void DrawEmbedded(Rect inRect)
         {
-            base.PreClose();
+            if (embeddedHost == null) embeddedHost = new Dialog_RaidPointMultiplier();
+            embeddedHost.DrawBody(inRect);
+        }
+        public static void ApplyOnSettingsClose()
+        {
             WorldDominationMod.settings?.NormalizeRaidClampFractions();
             if (Current.ProgramState != ProgramState.Playing) return;
             Find.World?.GetComponent<WorldComponent_SpreadManager>()?.Notify_WeightsChanged();
         }
 
-        public override void DoWindowContents(Rect inRect)
+        public override void PreClose()
+        {
+            base.PreClose();
+            ApplyOnSettingsClose();
+        }
+public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
-            float contentWidth = contentRect.width - 24f;
+            DrawBody(contentRect);
+        }
+
+        private void DrawBody(Rect contentRect)
+        {
+            if (WdSettingsSearch.IsCollecting)
+            {
+                Listing_Standard l = new Listing_Standard();
+                l.Begin(contentRect);
+                DrawListing(l);
+                l.End();
+                return;
+            }
+
+            float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2000f);
-
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(scrollViewRect);
+            DrawListing(listing);
+            listing.End();
+            Widgets.EndScrollView();
+        }
 
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(scrollViewRect);
-            var s = WorldDominationMod.settings;
+        private void DrawListing(Listing_Standard l)
+        {
+var s = WorldDominationMod.settings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetThreat(),
                 () => { playerRaidsExpanded = clampExpanded = true; },
                 () => { playerRaidsExpanded = clampExpanded = false; });
-            SettingsUI.DrawSettingsSearchBar(l);
-
+            
             // --- World Raids on player colony (top section) ---
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Raid_HeaderPlayer".Translate(), ref playerRaidsExpanded, SettingsUI.SectionHeaderColor))
             {
 
-            l.CheckboxLabeled("TSA_WD_Raid_AllowPlayer".Translate(), ref s.allowPlayerRaid,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Raid_AllowPlayer".Translate(), ref s.allowPlayerRaid,
                 SettingsUI.TooltipWithDefault("TSA_WD_Raid_AllowPlayerTooltip".Translate(), WorldDominationSettings.DefAllowPlayerRaid));
 
             if (s.allowPlayerRaid)
@@ -67,7 +96,7 @@ namespace TSA_WorldDomination
                 l.Gap(6f);
             }
 
-            l.CheckboxLabeled("TSA_WD_Raid_AllowOutpost".Translate(), ref s.allowPlayerOutpostRaid,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Raid_AllowOutpost".Translate(), ref s.allowPlayerOutpostRaid,
                 SettingsUI.TooltipWithDefault("TSA_WD_Raid_AllowOutpostTooltip".Translate(), WorldDominationSettings.DefAllowPlayerOutpostRaid));
 
             s.maxPlayerWdRaidsPerDay = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_Raid_MaxPerDay".Translate(), s.maxPlayerWdRaidsPerDay, 1f, 10f,
@@ -88,20 +117,17 @@ namespace TSA_WorldDomination
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Threat_HeaderWDClamp".Translate(), ref clampExpanded, SettingsUI.SectionHeaderColor))
             {
 
-            l.CheckboxLabeled(
-                "TS_WD_CaravanRaidAlwaysUseStrength".Translate(),
+            SettingsUI.DrawCheckbox(l, "TS_WD_CaravanRaidAlwaysUseStrength".Translate(),
                 ref s.alwaysUseStrengthAsRaidPoints,
                 SettingsUI.TooltipWithDefault("TS_WD_CaravanRaidAlwaysUseStrengthTooltip".Translate(), WorldDominationSettings.DefAlwaysUseStrengthAsRaidPoints));
 
-            l.CheckboxLabeled(
-                "TS_WD_OutpostDefenseAlwaysUseStrength".Translate(),
+            SettingsUI.DrawCheckbox(l, "TS_WD_OutpostDefenseAlwaysUseStrength".Translate(),
                 ref s.alwaysUseStrengthAsOutpostDefenseRaidPoints,
                 SettingsUI.TooltipWithDefault("TS_WD_OutpostDefenseAlwaysUseStrengthTooltip".Translate(), WorldDominationSettings.DefAlwaysUseStrengthAsOutpostDefenseRaidPoints));
 
             if (!s.alwaysUseStrengthAsRaidPoints)
             {
-                l.CheckboxLabeled(
-                    "TS_WD_RaidClamp_ScaleWithEscalation".Translate(),
+                SettingsUI.DrawCheckbox(l, "TS_WD_RaidClamp_ScaleWithEscalation".Translate(),
                     ref s.scaleRaidClampWithEscalation,
                     SettingsUI.TooltipWithDefault("TS_WD_RaidClamp_ScaleWithEscalationTooltip".Translate(), WorldDominationSettings.DefScaleRaidClampWithEscalation));
 
@@ -150,8 +176,6 @@ namespace TSA_WorldDomination
             s.maxRaidPoints = SettingsUI.LabeledSlider(l, "TS_WD_Threat_MaxPoints".Translate(), s.maxRaidPoints, 1000f, 20000f,
                 "TS_WD_Threat_MaxPointsTooltip".Translate(), 100f, SliderFormat.Fixed0, WorldDominationSettings.DefMaxRaidPoints);
             }
-            l.End();
-            Widgets.EndScrollView();
         }
     }
 }

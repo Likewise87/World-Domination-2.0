@@ -207,9 +207,9 @@
   <!-- EN: Paid {0} of {1} silver upkeep (shortfall below one colonist's rate). -->
   <TSA_WD_Upkeep_PartialPaidMsg>已支付{0}/{1}白銀維持費（差額不到一名殖民者的費用）。</TSA_WD_Upkeep_PartialPaidMsg>
   <!-- EN: Show outpost silver upkeep alert (right side) -->
-  <TSA_WD_Notify_OutpostUpkeep>顯示哨站白銀維持費警示（右側）</TSA_WD_Notify_OutpostUpkeep>
+  <TSA_WD_Notify_OutpostUpkeep>警報：哨站白銀維持費</TSA_WD_Notify_OutpostUpkeep>
   <!-- EN: Shows a right-side alert whenever silver upkeep is active (Need/Have and days left). Turns red when you do not have enough silver. Requires Experimental outpost silver upkeep and Mid/Late escalation. -->
-  <TSA_WD_Notify_OutpostUpkeepTooltip>白銀維持費生效期間，在右側持續顯示警示（需要／擁有與剩餘天數）。白銀不足時會轉為紅色。需要啟用實驗性的哨站白銀維持費，且處於中期／後期升級。</TSA_WD_Notify_OutpostUpkeepTooltip>
+  <TSA_WD_Notify_OutpostUpkeepTooltip>白銀維持費生效時，顯示需要／持有與剩餘天數。白銀不足時轉為紅色。需啟用實驗性哨站白銀維持費，且處於中期／後期升級。</TSA_WD_Notify_OutpostUpkeepTooltip>
   <!-- EN: Humanoid: {0} -->
   <TSA_WD_Dash_OutpostPawnTip_Humanoid>人形：{0}</TSA_WD_Dash_OutpostPawnTip_Humanoid>
   <!-- EN: Mechanoids: {0} -->
@@ -275,109 +275,109 @@
   <!-- EN: AT Turrets -->
   <TSA_WD_Notify_HeaderAtTurrets>反戰車砲塔</TSA_WD_Notify_HeaderAtTurrets>
   <!-- EN: Notify when your AT Turret kills a target -->
-  <TSA_WD_Notify_PlayerAtTurretKilledTarget>你的 反戰車砲塔擊殺目標時通知</TSA_WD_Notify_PlayerAtTurretKilledTarget>
+  <TSA_WD_Notify_PlayerAtTurretKilledTarget>信件：你的反戰車砲塔擊殺目標</TSA_WD_Notify_PlayerAtTurretKilledTarget>
   <!-- EN: Receive a letter when your AT Turret destroys a hostile traveler by shell or melee clash. -->
-  <TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>你的 反戰車砲塔以砲彈或近戰交鋒摧毀敵對旅行者時，收到信件。</TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>
+  <TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>當你的反戰車砲塔以砲彈或近戰交鋒摧毀敵對旅行者時。</TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>
   <!-- EN: Notify when your AT Turret damages a target -->
-  <TSA_WD_Notify_PlayerAtTurretDamagedTarget>你的 反戰車砲塔擊傷目標時通知</TSA_WD_Notify_PlayerAtTurretDamagedTarget>
+  <TSA_WD_Notify_PlayerAtTurretDamagedTarget>信件：你的反戰車砲塔擊傷目標</TSA_WD_Notify_PlayerAtTurretDamagedTarget>
   <!-- EN: Receive a letter when your AT Turret shells a hostile traveler that survives. Can be noisy. -->
-  <TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>你的 反戰車砲塔砲擊敵對旅行者但對方存活時，收到信件。可能較頻繁。</TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>
+  <TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>當你的反戰車砲塔砲擊敵對旅行者且對方仍存活時。可能較頻繁。</TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>
   <!-- EN: Notify when your AT Turret is destroyed -->
-  <TSA_WD_Notify_PlayerAtTurretDestroyed>你的 反戰車砲塔被摧毀時通知</TSA_WD_Notify_PlayerAtTurretDestroyed>
+  <TSA_WD_Notify_PlayerAtTurretDestroyed>信件：你的反戰車砲塔被摧毀</TSA_WD_Notify_PlayerAtTurretDestroyed>
   <!-- EN: Receive a letter when one of your AT Turrets is destroyed in combat. Ownership wipe when a settlement falls stays silent. -->
-  <TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>你的 反戰車砲塔在戰鬥中被摧毀時，收到信件。據點陷落時一併清除的所有權變更不會通知。</TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>
+  <TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>當你的反戰車砲塔在戰鬥中被摧毀時。據點陷落時一併清除的所有權變更保持靜默。</TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>
   <!-- EN: Notify when an enemy AT Turret damages your forces -->
-  <TSA_WD_Notify_NpcAtTurretDamagedPlayer>敵方 反戰車砲塔擊傷你的部隊時通知</TSA_WD_Notify_NpcAtTurretDamagedPlayer>
+  <TSA_WD_Notify_NpcAtTurretDamagedPlayer>信件：敵方反戰車砲塔擊傷你方</TSA_WD_Notify_NpcAtTurretDamagedPlayer>
   <!-- EN: Receive a letter when an enemy AT Turret shells one of your travelers or caravans and it survives. -->
-  <TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>敵方 反戰車砲塔砲擊你的旅行者或旅隊但其存活時，收到信件。</TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>
+  <TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>當敵方反戰車砲塔砲擊你的旅行者或旅隊且其仍存活時。</TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>
   <!-- EN: Notify when an enemy AT Turret kills your forces -->
-  <TSA_WD_Notify_NpcAtTurretKilledPlayer>敵方 反戰車砲塔擊殺你的部隊時通知</TSA_WD_Notify_NpcAtTurretKilledPlayer>
+  <TSA_WD_Notify_NpcAtTurretKilledPlayer>信件：敵方反戰車砲塔殲滅你方部隊</TSA_WD_Notify_NpcAtTurretKilledPlayer>
   <!-- EN: Receive a letter when an enemy AT Turret destroys one of your travelers or caravans by shell or melee clash. -->
-  <TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>敵方 反戰車砲塔以砲彈或近戰交鋒摧毀你的旅行者或旅隊時，收到信件。</TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>
+  <TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>當敵方反戰車砲塔以砲彈或近戰交鋒摧毀你的旅行者或旅隊時。</TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>
   <!-- EN: Notify when a WD Raid is launched at your Colony -->
-  <TSA_WD_Notify_IncomingRaidColony>WD突襲對你的殖民地發動時通知</TSA_WD_Notify_IncomingRaidColony>
+  <TSA_WD_Notify_IncomingRaidColony>信件：突襲指向殖民地</TSA_WD_Notify_IncomingRaidColony>
   <!-- EN: Receive a high-priority letter when a hostile expedition is launched against your colony. -->
-  <TSA_WD_Notify_IncomingRaidColonyTooltip>敵對突襲隊伍對你的殖民地發動時，收到高優先度信件。</TSA_WD_Notify_IncomingRaidColonyTooltip>
+  <TSA_WD_Notify_IncomingRaidColonyTooltip>敵對遠征對你的殖民地發動時的高優先度信件。</TSA_WD_Notify_IncomingRaidColonyTooltip>
   <!-- EN: Notify when a WD Raid arrives at your Colony -->
-  <TSA_WD_Notify_RaidArrivalColony>WD突襲抵達你的殖民地時通知</TSA_WD_Notify_RaidArrivalColony>
+  <TSA_WD_Notify_RaidArrivalColony>信件：突襲抵達殖民地</TSA_WD_Notify_RaidArrivalColony>
   <!-- EN: Receive a high-priority letter when a hostile expedition arrives and spawns on your colony map. -->
-  <TSA_WD_Notify_RaidArrivalColonyTooltip>敵對突襲隊伍抵達並出現在你的殖民地地圖時，收到高優先度信件。</TSA_WD_Notify_RaidArrivalColonyTooltip>
+  <TSA_WD_Notify_RaidArrivalColonyTooltip>敵對遠征抵達並出現在你的殖民地地圖時的高優先度信件。</TSA_WD_Notify_RaidArrivalColonyTooltip>
   <!-- EN: Notify when a WD Raid is launched at one of your Outposts -->
-  <TSA_WD_Notify_IncomingRaidOutpost>WD突襲對你的哨站發動時通知</TSA_WD_Notify_IncomingRaidOutpost>
+  <TSA_WD_Notify_IncomingRaidOutpost>信件：突襲指向哨站</TSA_WD_Notify_IncomingRaidOutpost>
   <!-- EN: Receive a high-priority letter when a hostile expedition is launched against one of your outposts. -->
-  <TSA_WD_Notify_IncomingRaidOutpostTooltip>敵對突襲隊伍對你的某個哨站發動時，收到高優先度信件。</TSA_WD_Notify_IncomingRaidOutpostTooltip>
+  <TSA_WD_Notify_IncomingRaidOutpostTooltip>敵對遠征對你的某個哨站發動時的高優先度信件。</TSA_WD_Notify_IncomingRaidOutpostTooltip>
   <!-- EN: Notify when a WD Raid arrives at one of your Outposts -->
-  <TSA_WD_Notify_RaidArrivalOutpost>WD突襲抵達你的哨站時通知</TSA_WD_Notify_RaidArrivalOutpost>
+  <TSA_WD_Notify_RaidArrivalOutpost>信件：突襲抵達哨站</TSA_WD_Notify_RaidArrivalOutpost>
   <!-- EN: Receive a high-priority letter when you open a manual outpost defense and the hostile expedition arrives on the encounter map. -->
-  <TSA_WD_Notify_RaidArrivalOutpostTooltip>你開啟哨站手動防禦，且敵對突襲隊伍抵達遭遇地圖時，收到高優先度信件。</TSA_WD_Notify_RaidArrivalOutpostTooltip>
+  <TSA_WD_Notify_RaidArrivalOutpostTooltip>你開啟哨站手動防禦且敵對遠征抵達遭遇地圖時的高優先度信件。</TSA_WD_Notify_RaidArrivalOutpostTooltip>
   <!-- EN: Notify when a raid diverts away from you -->
-  <TSA_WD_Notify_RaidDivertedFromPlayer>突襲從你身上轉向時通知</TSA_WD_Notify_RaidDivertedFromPlayer>
+  <TSA_WD_Notify_RaidDivertedFromPlayer>信件：突襲轉向離開你</TSA_WD_Notify_RaidDivertedFromPlayer>
   <!-- EN: Receive a letter when a raid that was headed at your colony or an outpost spots a target of opportunity and diverts to attack it instead. -->
-  <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>原本朝你的殖民地或哨站而來的突襲發現機會目標並轉而攻擊它時，收到信件。</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
+  <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>原本指向你的殖民地或哨站的突襲發現機會目標並改向攻擊時。</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
   <!-- EN: Notify when a raid party is destroyed before arrival -->
-  <TSA_WD_Notify_RaidPartyDestroyed>突襲隊伍在抵達前被消滅時通知</TSA_WD_Notify_RaidPartyDestroyed>
+  <TSA_WD_Notify_RaidPartyDestroyed>信件：突襲隊伍途中被殲滅</TSA_WD_Notify_RaidPartyDestroyed>
   <!-- EN: Receive a letter when a hostile raid headed at you is wiped out on the world map before it reaches you. -->
-  <TSA_WD_Notify_RaidPartyDestroyedTooltip>朝你而來的敵對突襲在抵達之前於世界地圖上被殲滅時發送信件。</TSA_WD_Notify_RaidPartyDestroyedTooltip>
+  <TSA_WD_Notify_RaidPartyDestroyedTooltip>衝著你而來的敵對突襲在世界地圖上被殲滅、尚未抵達時。</TSA_WD_Notify_RaidPartyDestroyedTooltip>
   <!-- EN: Notify when your mortar destroys a target -->
-  <TSA_WD_Notify_MortarHit>你的迫擊砲摧毀目標時通知</TSA_WD_Notify_MortarHit>
+  <TSA_WD_Notify_MortarHit>信件：迫擊砲摧毀目標</TSA_WD_Notify_MortarHit>
   <!-- EN: Receive a silent blue letter when your artillery outpost destroys a target. Partial hits only go to the action log. -->
-  <TSA_WD_Notify_MortarHitTooltip>你的砲兵哨站摧毀目標時，收到無音效的藍色信件。未摧毀目標的命中只記錄在行動日誌。</TSA_WD_Notify_MortarHitTooltip>
+  <TSA_WD_Notify_MortarHitTooltip>你的砲兵哨站摧毀目標時的無音效藍色信件。未完全摧毀的命中只記錄在行動日誌。</TSA_WD_Notify_MortarHitTooltip>
   <!-- EN: Notify when your mortar misses -->
-  <TSA_WD_Notify_MortarMiss>你的迫擊砲未命中時通知</TSA_WD_Notify_MortarMiss>
+  <TSA_WD_Notify_MortarMiss>信件：迫擊砲未命中</TSA_WD_Notify_MortarMiss>
   <!-- EN: Receive a silent blue letter when your artillery outpost misses. Off by default to reduce noise. -->
-  <TSA_WD_Notify_MortarMissTooltip>你的砲兵哨站未命中時，收到無音效的藍色信件。預設關閉以免訊息過多。</TSA_WD_Notify_MortarMissTooltip>
+  <TSA_WD_Notify_MortarMissTooltip>你的砲兵哨站未命中時的無音效藍色信件。可能較頻繁。</TSA_WD_Notify_MortarMissTooltip>
   <!-- EN: Notify when your anti-air fires -->
-  <TSA_WD_Notify_AntiAirHit>你的防空開火時通知</TSA_WD_Notify_AntiAirHit>
+  <TSA_WD_Notify_AntiAirHit>信件：你的防空開火</TSA_WD_Notify_AntiAirHit>
   <!-- EN: Receive a letter when your anti-air flak hits or misses a hostile airborne target. Hostile mortar shells use a separate setting below. -->
-  <TSA_WD_Notify_AntiAirHitTooltip>你的防空砲火命中或未命中敵對空中目標時，收到信件。敵對迫擊砲彈使用下方的獨立設定。</TSA_WD_Notify_AntiAirHitTooltip>
+  <TSA_WD_Notify_AntiAirHitTooltip>你的防空砲火命中或未命中敵對空中目標時。敵對迫擊砲彈見下方獨立設定。</TSA_WD_Notify_AntiAirHitTooltip>
   <!-- EN: Notify when your anti-air shoots down hostile mortar shells -->
-  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>你的防空擊落敵對迫擊砲彈時通知</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>
+  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>信件：防空對敵對迫擊砲彈</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>
   <!-- EN: Receive a letter when your flak destroys or misses a hostile mortar shell (e.g. "Mortar shell destroyed"). Can be noisy. -->
-  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>你的防空砲火摧毀或未命中敵對迫擊砲彈時，收到信件（例如「迫擊砲彈已摧毀」）。可能較頻繁。</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>
+  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>你的防空砲火摧毀或未命中敵對迫擊砲彈時。可能較頻繁。</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>
   <!-- EN: Notify when enemy mortars target you -->
-  <TSA_WD_Notify_NpcMortarHitPlayer>敵方迫擊砲以你為目標時通知</TSA_WD_Notify_NpcMortarHitPlayer>
+  <TSA_WD_Notify_NpcMortarHitPlayer>信件：敵方迫擊砲以你為目標</TSA_WD_Notify_NpcMortarHitPlayer>
   <!-- EN: Receive a letter when an enemy T4 settlement mortar fires at one of your WD outposts, caravans, or travelers. -->
-  <TSA_WD_Notify_NpcMortarHitPlayerTooltip>敵方T4據點迫擊砲向你的WD哨站、旅隊或旅行者開火時，收到信件。</TSA_WD_Notify_NpcMortarHitPlayerTooltip>
+  <TSA_WD_Notify_NpcMortarHitPlayerTooltip>敵方T4據點迫擊砲向你的WD哨站、旅隊或旅行者開火時。</TSA_WD_Notify_NpcMortarHitPlayerTooltip>
   <!-- EN: Notify when enemy anti-air targets your drop pods -->
-  <TSA_WD_Notify_T4AntiAirHitPlayer>敵方防空以你的運輸艙為目標時通知</TSA_WD_Notify_T4AntiAirHitPlayer>
+  <TSA_WD_Notify_T4AntiAirHitPlayer>信件：敵方防空以你的運輸艙為目標</TSA_WD_Notify_T4AntiAirHitPlayer>
   <!-- EN: Receive a letter when enemy T4 anti-air hits or misses your drop pods, transport pods, or other non-shell airborne targets. Mortar shells use a separate setting below. If colonists die in a shot-down pod, a who-died letter is always sent. -->
-  <TSA_WD_Notify_T4AntiAirHitPlayerTooltip>敵方T4防空命中或未命中你的運輸艙或其他非砲彈空中目標時，收到信件。迫擊砲彈使用下方的獨立設定。若有殖民者在被擊落的運輸艙中死亡，一律會發送死亡名單信件。</TSA_WD_Notify_T4AntiAirHitPlayerTooltip>
+  <TSA_WD_Notify_T4AntiAirHitPlayerTooltip>敵方T4防空命中或未命中你的運輸艙、空投艙或其他非砲彈空中目標時。迫擊砲彈見下方獨立設定。被擊落的艙內若有殖民者陣亡，一律另發陣亡名單信件。</TSA_WD_Notify_T4AntiAirHitPlayerTooltip>
   <!-- EN: Notify when enemy anti-air shoots down your mortar shells -->
-  <TSA_WD_Notify_PlayerMortarShellShotDown>敵方防空擊落你的迫擊砲彈時通知</TSA_WD_Notify_PlayerMortarShellShotDown>
+  <TSA_WD_Notify_PlayerMortarShellShotDown>信件：你的迫擊砲彈被擊落</TSA_WD_Notify_PlayerMortarShellShotDown>
   <!-- EN: Receive a neutral letter when enemy flak destroys or misses a mortar shell from one of your outposts. Can be noisy. -->
-  <TSA_WD_Notify_PlayerMortarShellShotDownTooltip>敵方防空砲火摧毀或未命中你哨站發射的迫擊砲彈時，收到中立信件。可能較頻繁。</TSA_WD_Notify_PlayerMortarShellShotDownTooltip>
+  <TSA_WD_Notify_PlayerMortarShellShotDownTooltip>敵方防空砲火摧毀或未命中你某哨站發射的迫擊砲彈時的中立信件。可能較頻繁。</TSA_WD_Notify_PlayerMortarShellShotDownTooltip>
   <!-- EN: Notify when enemies fire mortars at each other -->
-  <TSA_WD_Notify_NpcMortarHitNpc>敵方之間以迫擊砲互擊時通知</TSA_WD_Notify_NpcMortarHitNpc>
+  <TSA_WD_Notify_NpcMortarHitNpc>信件：NPC迫擊砲對NPC目標</TSA_WD_Notify_NpcMortarHitNpc>
   <!-- EN: Receive a letter when an enemy mortar fires at another NPC (settlement, caravan, or traveler), or when enemy anti-air destroys another NPC's airborne target (including mortar shells). Can be noisy. -->
-  <TSA_WD_Notify_NpcMortarHitNpcTooltip>敵方迫擊砲向其他NPC（據點、旅隊或旅行者）開火，或敵方防空摧毀其他NPC的空中目標（包含迫擊砲彈）時，收到信件。可能較頻繁。</TSA_WD_Notify_NpcMortarHitNpcTooltip>
+  <TSA_WD_Notify_NpcMortarHitNpcTooltip>敵方迫擊砲向其他NPC據點、旅行者或突襲部隊開火，或敵方防空摧毀其他NPC空中目標（含迫擊砲彈）時。可能較頻繁。</TSA_WD_Notify_NpcMortarHitNpcTooltip>
   <!-- EN: Notify when goods arrive at a Warehouse Outpost -->
-  <TSA_WD_Notify_WarehouseGoodsArrived>貨物抵達倉庫哨站時通知</TSA_WD_Notify_WarehouseGoodsArrived>
+  <TSA_WD_Notify_WarehouseGoodsArrived>訊息：倉庫貨物送達</TSA_WD_Notify_WarehouseGoodsArrived>
   <!-- EN: Receive a notification when goods are deposited into one of your Warehouse Outposts. -->
-  <TSA_WD_Notify_WarehouseGoodsArrivedTooltip>貨物存入你的某個倉庫哨站時，收到通知。</TSA_WD_Notify_WarehouseGoodsArrivedTooltip>
+  <TSA_WD_Notify_WarehouseGoodsArrivedTooltip>貨物存入你的某個倉庫哨站時。</TSA_WD_Notify_WarehouseGoodsArrivedTooltip>
   <!-- EN: Notify when outpost deliveries arrive at your colony -->
-  <TSA_WD_Notify_OutpostDeliveryToColonyArrived>哨站配送抵達殖民地時通知</TSA_WD_Notify_OutpostDeliveryToColonyArrived>
+  <TSA_WD_Notify_OutpostDeliveryToColonyArrived>信件：哨站配送抵達殖民地</TSA_WD_Notify_OutpostDeliveryToColonyArrived>
   <!-- EN: Receive a letter when an outpost delivery reaches a player colony map and drops its goods. -->
-  <TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>哨站配送抵達玩家殖民地地圖並卸下貨物時，收到信件。</TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>
+  <TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>哨站配送抵達玩家殖民地地圖並卸下貨物時。</TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>
   <!-- EN: Notify when an outpost prisoner is recruited and leaves -->
-  <TSA_WD_Notify_PrisonerRecruitedUnderway>哨站俘虜被招募並出發時通知</TSA_WD_Notify_PrisonerRecruitedUnderway>
+  <TSA_WD_Notify_PrisonerRecruitedUnderway>訊息：哨站俘虜已招募</TSA_WD_Notify_PrisonerRecruitedUnderway>
   <!-- EN: Show a message when an outpost prisoner finishes recruiting and starts traveling to their scheduled destination. -->
-  <TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>哨站俘虜完成招募並開始前往預定目的地時，顯示訊息。</TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>
+  <TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>哨站俘虜完成招募並開始前往預定目的地時。</TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>
   <!-- EN: Notify when a player caravan has a clash -->
-  <TSA_WD_Notify_PlayerCaravanClash>玩家旅隊發生交鋒時通知</TSA_WD_Notify_PlayerCaravanClash>
+  <TSA_WD_Notify_PlayerCaravanClash>信件：玩家旅隊交鋒</TSA_WD_Notify_PlayerCaravanClash>
   <!-- EN: Receive letters when one of your caravans enters or loses a WD caravan clash. -->
-  <TSA_WD_Notify_PlayerCaravanClashTooltip>你的旅隊進入或輸掉WD旅隊交鋒時，收到信件。</TSA_WD_Notify_PlayerCaravanClashTooltip>
+  <TSA_WD_Notify_PlayerCaravanClashTooltip>你的旅隊進入或輸掉WD旅隊交鋒時。</TSA_WD_Notify_PlayerCaravanClashTooltip>
   <!-- EN: Notify about Rapid Response caravan clashes -->
-  <TSA_WD_Notify_RapidResponseCaravanClash>快速反應旅隊交鋒通知</TSA_WD_Notify_RapidResponseCaravanClash>
+  <TSA_WD_Notify_RapidResponseCaravanClash>信件：快速反應旅隊交鋒</TSA_WD_Notify_RapidResponseCaravanClash>
   <!-- EN: Receive letters when a Rapid Response interceptor defeats an enemy caravan or is defeated. -->
-  <TSA_WD_Notify_RapidResponseCaravanClashTooltip>快速反應攔截隊擊敗敵方旅隊或被擊敗時，收到信件。</TSA_WD_Notify_RapidResponseCaravanClashTooltip>
+  <TSA_WD_Notify_RapidResponseCaravanClashTooltip>快速反應攔截隊擊敗敵方旅隊或被擊敗時。</TSA_WD_Notify_RapidResponseCaravanClashTooltip>
   <!-- EN: Notify when a traveler takes pollution damage -->
-  <TSA_WD_Notify_TravelerPollutionDamage>旅行者受到汙染傷害時通知</TSA_WD_Notify_TravelerPollutionDamage>
+  <TSA_WD_Notify_TravelerPollutionDamage>信件：旅行者汙染傷害</TSA_WD_Notify_TravelerPollutionDamage>
   <!-- EN: Receive one yellow letter the first time each of your WD travelers loses strength leaving a polluted tile. Later polluted tiles on the same traveler stay silent. -->
-  <TSA_WD_Notify_TravelerPollutionDamageTooltip>你的每個WD旅行者第一次因離開受汙染地塊而損失戰力時，收到一封黃色信件。同一旅行者之後經過的受汙染地塊不再通知。</TSA_WD_Notify_TravelerPollutionDamageTooltip>
+  <TSA_WD_Notify_TravelerPollutionDamageTooltip>每個WD旅行者首次因離開受汙染地塊損失戰力時的一封黃色信件。同一旅行者之後的受汙染地塊保持靜默。</TSA_WD_Notify_TravelerPollutionDamageTooltip>
   <!-- EN: Notify when an outpost takes pollution damage -->
-  <TSA_WD_Notify_OutpostPollutionDamage>哨站受到汙染傷害時通知</TSA_WD_Notify_OutpostPollutionDamage>
+  <TSA_WD_Notify_OutpostPollutionDamage>訊息：哨站汙染傷害</TSA_WD_Notify_OutpostPollutionDamage>
   <!-- EN: Show a message when one of your WD outposts loses strength from average pollution nearby (once per day when damage applies), and a letter if pollution wipes the outpost. Dev log always records these events. -->
-  <TSA_WD_Notify_OutpostPollutionDamageTooltip>你的WD哨站因附近平均汙染損失戰力時顯示訊息（造成傷害時每天一次）；若汙染使哨站覆滅則發送信件。開發者日誌一律會記錄這些事件。</TSA_WD_Notify_OutpostPollutionDamageTooltip>
+  <TSA_WD_Notify_OutpostPollutionDamageTooltip>WD哨站因附近平均汙染損失戰力時（有傷害時每天一次）。覆滅仍會發信。開發者日誌一律記錄這些事件。</TSA_WD_Notify_OutpostPollutionDamageTooltip>
   <!-- EN: Nearby world events -->
   <TSA_WD_Notify_HeaderNearby>附近世界事件</TSA_WD_Notify_HeaderNearby>
   <!-- EN: World threat actions -->
@@ -385,55 +385,55 @@
   <!-- EN: Letters for desperation raids, turtle consolidations, and strong-faction war shifts. Timing and enable gates live under Combat Difficulty. -->
   <TSA_WD_Notify_HeaderWorldThreatsTip>孤注一擲突襲、龜縮整併與強勢派系戰爭轉向的信件。時機與啟用條件位於「戰鬥難度」中。</TSA_WD_Notify_HeaderWorldThreatsTip>
   <!-- EN: Notify when a desperation raid launches -->
-  <TSA_WD_Notify_DesperationRaid>孤注一擲突襲發動時通知</TSA_WD_Notify_DesperationRaid>
+  <TSA_WD_Notify_DesperationRaid>信件：孤注一擲突襲發動</TSA_WD_Notify_DesperationRaid>
   <!-- EN: Letter when a weak faction packs nearby settlements and marches after a loss. -->
-  <TSA_WD_Notify_DesperationRaidTooltip>弱小派系在失利後集結附近據點並出兵時，發送信件。</TSA_WD_Notify_DesperationRaidTooltip>
+  <TSA_WD_Notify_DesperationRaidTooltip>弱小派系在失利後打包附近據點並出兵時。</TSA_WD_Notify_DesperationRaidTooltip>
   <!-- EN: Your outposts and raids -->
   <TSA_WD_Notify_HeaderOutpostsRaids>你的哨站與突襲</TSA_WD_Notify_HeaderOutpostsRaids>
   <!-- EN: Right-side alerts -->
-  <TSA_WD_Notify_HeaderAlerts>右側警示</TSA_WD_Notify_HeaderAlerts>
+  <TSA_WD_Notify_HeaderAlerts>警報</TSA_WD_Notify_HeaderAlerts>
   <!-- EN: Notification radius (tiles) -->
-  <TSA_WD_Notify_NotificationRadius>通知半徑（格）</TSA_WD_Notify_NotificationRadius>
+  <TSA_WD_Notify_NotificationRadius>附近信件半徑（格）</TSA_WD_Notify_NotificationRadius>
   <!-- EN: How far from your colony (or nearest outpost if you have no colony) a world event must be to send a Nearby world event letter. Does not affect your outposts, incoming raids, or diplomacy letters. -->
-  <TSA_WD_Notify_NotificationRadiusTooltip>世界事件與你的殖民地（若沒有殖民地則為最近的哨站）距離多近時，才會發送附近世界事件信件。不影響你的哨站、來襲突襲或外交信件。</TSA_WD_Notify_NotificationRadiusTooltip>
+  <TSA_WD_Notify_NotificationRadiusTooltip>世界事件須距你的殖民地（無殖民地時為最近哨站）在此格數內才會發送附近信件。不影響哨站、來襲突襲或外交信件。</TSA_WD_Notify_NotificationRadiusTooltip>
   <!-- EN: Notify when a settlement is founded nearby -->
-  <TSA_WD_Notify_NewSettlement>附近建立據點時通知</TSA_WD_Notify_NewSettlement>
+  <TSA_WD_Notify_NewSettlement>信件：附近建立據點</TSA_WD_Notify_NewSettlement>
   <!-- EN: Letter when a faction founds a new settlement by expansion within the notification radius. Does not cover conquest after an NPC raid. -->
-  <TSA_WD_Notify_NewSettlementTooltip>派系在通知半徑內透過擴張建立新據點時，發送信件。不包含NPC突襲後的征服。</TSA_WD_Notify_NewSettlementTooltip>
+  <TSA_WD_Notify_NewSettlementTooltip>派系在通知半徑內透過擴張建立新據點時。不含NPC突襲後的征服。</TSA_WD_Notify_NewSettlementTooltip>
   <!-- EN: Notify when a settlement is captured -->
-  <TSA_WD_Notify_NpcConquestSettlement>據點被攻佔時通知</TSA_WD_Notify_NpcConquestSettlement>
+  <TSA_WD_Notify_NpcConquestSettlement>信件：附近據點被攻佔</TSA_WD_Notify_NpcConquestSettlement>
   <!-- EN: Letter when an NPC raid wins and the attacker takes the settlement (replacement settlement on the tile) within the notification radius. -->
-  <TSA_WD_Notify_NpcConquestSettlementTooltip>通知半徑內NPC突襲獲勝、且進攻方奪取據點（在該地塊建立取代的據點）時，發送信件。</TSA_WD_Notify_NpcConquestSettlementTooltip>
+  <TSA_WD_Notify_NpcConquestSettlementTooltip>通知半徑內NPC突襲獲勝且進攻方奪取據點（在該地塊建立取代據點）時。</TSA_WD_Notify_NpcConquestSettlementTooltip>
   <!-- EN: Notify when a player outpost is destroyed -->
-  <TSA_WD_Notify_OutpostDestroyed>玩家哨站被摧毀時通知</TSA_WD_Notify_OutpostDestroyed>
+  <TSA_WD_Notify_OutpostDestroyed>信件：哨站被摧毀</TSA_WD_Notify_OutpostDestroyed>
   <!-- EN: Urgent letter when one of your outposts is lost in a simulated world raid or a manual defense map defeat. Fires at any distance. Does not cover mortar wipe or voluntary evacuate. -->
-  <TSA_WD_Notify_OutpostDestroyedTooltip>你的哨站在模擬世界突襲或手動防禦地圖戰敗中失守時，發送緊急信件。不論距離都會觸發。不包含迫擊砲消滅或主動撤離。</TSA_WD_Notify_OutpostDestroyedTooltip>
+  <TSA_WD_Notify_OutpostDestroyedTooltip>你的哨站在模擬世界突襲或手動防禦地圖戰敗中失守時的高優先度信件。任意距離。不含迫擊砲覆滅或主動撤離。</TSA_WD_Notify_OutpostDestroyedTooltip>
   <!-- EN: Reset this page to defaults -->
   <TSA_WD_Notify_Reset>將此頁重設為預設值</TSA_WD_Notify_Reset>
   <!-- EN: Notify when a settlement is destroyed nearby -->
-  <TSA_WD_Notify_SettlementRaided>附近據點被摧毀時通知</TSA_WD_Notify_SettlementRaided>
+  <TSA_WD_Notify_SettlementRaided>信件：附近據點被摧毀</TSA_WD_Notify_SettlementRaided>
   <!-- EN: Letter when a major or minor world incident completely wipes a settlement within the notification radius. Not for NPC raids. -->
-  <TSA_WD_Notify_SettlementRaidedTooltip>通知半徑內有重大或輕微世界事件徹底消滅據點時，發送信件。不適用於NPC突襲。</TSA_WD_Notify_SettlementRaidedTooltip>
+  <TSA_WD_Notify_SettlementRaidedTooltip>通知半徑內重大或輕微世界事件徹底消滅據點時。不適用於NPC突襲。</TSA_WD_Notify_SettlementRaidedTooltip>
   <!-- EN: Notify when a settlement is razed nearby -->
-  <TSA_WD_Notify_SettlementRazed>附近據點被夷平時通知</TSA_WD_Notify_SettlementRazed>
+  <TSA_WD_Notify_SettlementRazed>信件：附近據點被夷平</TSA_WD_Notify_SettlementRazed>
   <!-- EN: Letter when an NPC raid wins and the settlement is destroyed in the process (tile left empty) within the notification radius. -->
-  <TSA_WD_Notify_SettlementRazedTooltip>通知半徑內NPC突襲獲勝、且據點在過程中被摧毀（地塊變為空地）時，發送信件。</TSA_WD_Notify_SettlementRazedTooltip>
+  <TSA_WD_Notify_SettlementRazedTooltip>通知半徑內NPC突襲獲勝且據點在過程中被摧毀（地塊變空）時。</TSA_WD_Notify_SettlementRazedTooltip>
   <!-- EN: Turtle consolidate nearby -->
-  <TSA_WD_Notify_Turtle>附近龜縮整併</TSA_WD_Notify_Turtle>
+  <TSA_WD_Notify_Turtle>信件：附近龜縮整併</TSA_WD_Notify_Turtle>
   <!-- EN: Letter when a nearby faction consolidates its outer settlements into a hub and fortifies it, within the notification radius. -->
-  <TSA_WD_Notify_TurtleTooltip>通知半徑內的派系將外圍據點整併到核心據點並設防時，發送信件。</TSA_WD_Notify_TurtleTooltip>
+  <TSA_WD_Notify_TurtleTooltip>通知半徑內派系將外圍據點整併至核心並設防時。</TSA_WD_Notify_TurtleTooltip>
   <!-- EN: Show world threat alert (right side) -->
-  <TSA_WD_Notify_ThreatLevel>顯示世界威脅警示（右側）</TSA_WD_Notify_ThreatLevel>
+  <TSA_WD_Notify_ThreatLevel>警報：世界威脅</TSA_WD_Notify_ThreatLevel>
   <!-- EN: Shows a silent, persistent alert with Nearby and Far landing raid points (after storyteller clamp). Click jumps to the strongest Nearby hostile when present. -->
-  <TSA_WD_Notify_ThreatLevelTooltip>持續顯示一則無音效警示，列出附近與遠處的抵達突襲點數（經故事敘述者限制後）。有附近敵對勢力時，點擊會跳至最強的那一個。</TSA_WD_Notify_ThreatLevelTooltip>
+  <TSA_WD_Notify_ThreatLevelTooltip>無音效持續警報，顯示附近與遠處落地突襲點數（經故事敘述者限制後）。有附近敵對勢力時，點擊跳至最強者。</TSA_WD_Notify_ThreatLevelTooltip>
   <!-- EN: Show critical outpost food alert (right side) -->
-  <TSA_WD_Notify_CriticalFood>顯示哨站食物危急警示（右側）</TSA_WD_Notify_CriticalFood>
+  <TSA_WD_Notify_CriticalFood>警報：哨站食物危急</TSA_WD_Notify_CriticalFood>
   <!-- EN: Shows a silent, persistent alert on the right-side readout when at least one of your WD outposts has critical virtual food: negative stock, or at most 3 in-game days until empty while net food is negative. Stable or surplus outposts do not trigger this alert. Click to jump to the most severe outpost. Requires food logistics to be enabled. -->
-  <TSA_WD_Notify_CriticalFoodTooltip>至少有一個WD哨站的虛擬食物處於危急狀態時，在右側持續顯示無音效警示：存量為負，或食物淨收支為負且最多3個遊戲日內耗盡。穩定或有盈餘的哨站不會觸發此警示。點擊可跳至狀況最嚴重的哨站。需要啟用食物物流。</TSA_WD_Notify_CriticalFoodTooltip>
+  <TSA_WD_Notify_CriticalFoodTooltip>至少一個WD哨站虛擬食物危急時的無音效持續警報：存量為負，或淨收支為負且最多約3遊戲日內耗盡。穩定或有盈餘的哨站不觸發。點擊跳至最嚴重者。需啟用食物物流。</TSA_WD_Notify_CriticalFoodTooltip>
   <!-- EN: WD: Drop Pod Delivery in range of AA -->
-  <TSA_WD_Notify_DropPodDeliveryInAaRange>WD：運輸艙配送位於防空範圍內</TSA_WD_Notify_DropPodDeliveryInAaRange>
+  <TSA_WD_Notify_DropPodDeliveryInAaRange>警報：運輸艙配送位於防空範圍內</TSA_WD_Notify_DropPodDeliveryInAaRange>
   <!-- EN: Shows a right-side alert when one of your warehouses is set to drop pod delivery and sits within anti-air range of a hostile Tier 4 settlement with AA active. Checks the warehouse tile only (not the full flight path). Switch that warehouse to land delivery or clear the AA threat. -->
-  <TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>當你的某個倉庫設為運輸艙配送，且位於已啟用防空的敵對等級4據點防空範圍內時，在右側顯示警示。只檢查倉庫所在地塊（不檢查完整飛行路徑）。可將該倉庫改為陸路配送，或排除防空威脅。</TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>
+  <TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>倉庫使用運輸艙配送且位於已啟用防空的敵對T4據點防空範圍內時。只檢查倉庫地塊，不檢查完整航線。</TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>
   <!-- EN: WD: Drop Pod Delivery in range of AA -->
   <TSA_WD_Alert_DropPodDeliveryInAaRange>WD：運輸艙配送位於防空範圍內</TSA_WD_Alert_DropPodDeliveryInAaRange>
   <!-- EN: These warehouses use drop pod delivery while inside enemy AA Turret range: -->
@@ -441,9 +441,9 @@
   <!-- EN: - {0} -->
   <TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>- {0}</TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>
   <!-- EN: Show construction insufficient-strength alert (right side) -->
-  <TSA_WD_Notify_ConstructionInsufficientStrength>顯示建造戰力不足警示（右側）</TSA_WD_Notify_ConstructionInsufficientStrength>
+  <TSA_WD_Notify_ConstructionInsufficientStrength>警報：建造等待戰力</TSA_WD_Notify_ConstructionInsufficientStrength>
   <!-- EN: Shows a silent, persistent alert on the right-side readout when a WD outpost has finished preparing a road-block or trap segment but lacks the strength to dispatch the crew. Click to jump to an affected outpost. -->
-  <TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>WD哨站已準備好路障或陷阱路段，但戰力不足以派出小隊時，在右側持續顯示無音效警示。點擊可跳至受影響的哨站。</TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>
+  <TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>WD哨站已備好路障或陷阱段但戰力不足以派出小隊時的無音效持續警報。點擊跳至受影響哨站。</TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>
   <!-- EN: WD: Construction waiting on strength -->
   <TSA_WD_Alert_ConstructionInsufficientStrength>WD：建造等待戰力</TSA_WD_Alert_ConstructionInsufficientStrength>
   <!-- EN: These outposts are ready to dispatch a construction crew but lack strength: -->
@@ -451,21 +451,21 @@
   <!-- EN: - {0}: {1} -->
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>- {0}：{1}</TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>
   <!-- EN: Show construction insufficient-materials alert (right side) -->
-  <TSA_WD_Notify_ConstructionInsufficientMaterials>顯示建造材料不足警示（右側）</TSA_WD_Notify_ConstructionInsufficientMaterials>
+  <TSA_WD_Notify_ConstructionInsufficientMaterials>警報：建造等待材料</TSA_WD_Notify_ConstructionInsufficientMaterials>
   <!-- EN: Shows a silent, persistent alert on the right-side readout when a WD outpost has finished preparing a road, bridge segment, fortification, or AT segment but lacks materials to dispatch the crew. Click to jump to an affected outpost. -->
-  <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>WD哨站已準備好道路、橋段、防禦工事或AT路段，但材料不足以派出小隊時，在右側持續顯示無音效警示。點擊可跳至受影響的哨站。</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
+  <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>WD哨站已備好道路、橋段、防禦工事或AT段但材料不足以派出小隊時的無音效持續警報。點擊跳至受影響哨站。</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
   <!-- EN: Show letter when bridge teardown is blocked -->
-  <TSA_WD_Notify_BridgeDeconstructBlocked>拆除橋樑受阻時顯示信件</TSA_WD_Notify_BridgeDeconstructBlocked>
+  <TSA_WD_Notify_BridgeDeconstructBlocked>信件：拆橋受阻</TSA_WD_Notify_BridgeDeconstructBlocked>
   <!-- EN: When a bridge teardown crew arrives and the span is occupied, show a yellow NeutralEvent letter naming the blocker. If off, only a message is shown. -->
-  <TSA_WD_Notify_BridgeDeconstructBlockedTooltip>拆橋小隊抵達而橋段被佔用時，顯示一封點名阻擋者的黃色NeutralEvent信件。關閉時只顯示訊息。</TSA_WD_Notify_BridgeDeconstructBlockedTooltip>
+  <TSA_WD_Notify_BridgeDeconstructBlockedTooltip>拆橋小隊抵達且橋段被佔用時，黃色NeutralEvent信件點名阻擋者。關閉＝僅訊息。</TSA_WD_Notify_BridgeDeconstructBlockedTooltip>
   <!-- EN: Show letter when a road project is cancelled by a trench -->
-  <TSA_WD_Notify_RoadCancelledByTrench>道路工程因戰壕取消時顯示信件</TSA_WD_Notify_RoadCancelledByTrench>
+  <TSA_WD_Notify_RoadCancelledByTrench>信件：道路因戰壕取消</TSA_WD_Notify_RoadCancelledByTrench>
   <!-- EN: When a road crew cannot pave because the path hits an existing trench, cancel the project and show a blue NeutralEvent letter. If off, the project still cancels silently. -->
-  <TSA_WD_Notify_RoadCancelledByTrenchTooltip>築路隊因現有戰壕無法鋪路時取消工程，並顯示藍色 NeutralEvent 信件。關閉後仍會取消工程，但不發信。</TSA_WD_Notify_RoadCancelledByTrenchTooltip>
+  <TSA_WD_Notify_RoadCancelledByTrenchTooltip>築路隊因路徑遇到現有戰壕無法鋪路而取消工程並顯示藍色NeutralEvent信件。關閉＝仍取消工程但靜默。</TSA_WD_Notify_RoadCancelledByTrenchTooltip>
   <!-- EN: Show letter when a trench project is cancelled by a road -->
-  <TSA_WD_Notify_TrenchCancelledByRoad>戰壕工程因道路取消時顯示信件</TSA_WD_Notify_TrenchCancelledByRoad>
+  <TSA_WD_Notify_TrenchCancelledByRoad>信件：戰壕因道路取消</TSA_WD_Notify_TrenchCancelledByRoad>
   <!-- EN: When a trench crew cannot dig because the path hits an existing road, cancel the project and show a blue NeutralEvent letter. If off, the project still cancels silently. -->
-  <TSA_WD_Notify_TrenchCancelledByRoadTooltip>挖壕隊因現有道路無法施工時取消工程，並顯示藍色 NeutralEvent 信件。關閉後仍會取消工程，但不發信。</TSA_WD_Notify_TrenchCancelledByRoadTooltip>
+  <TSA_WD_Notify_TrenchCancelledByRoadTooltip>挖壕隊因路徑遇到現有道路無法施工而取消工程並顯示藍色NeutralEvent信件。關閉＝仍取消工程但靜默。</TSA_WD_Notify_TrenchCancelledByRoadTooltip>
   <!-- EN: WD: Construction waiting on materials -->
   <TSA_WD_Alert_ConstructionInsufficientMaterials>WD：建造等待材料</TSA_WD_Alert_ConstructionInsufficientMaterials>
   <!-- EN: These outposts are ready to dispatch a construction crew but lack materials: -->
@@ -473,13 +473,13 @@
   <!-- EN: - {0}: {1} -->
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>- {0}：{1}</TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>
   <!-- EN: Show outposts without production alert (right side) -->
-  <TSA_WD_Notify_OutpostNoProduction>顯示未選產出的哨站警示（右側）</TSA_WD_Notify_OutpostNoProduction>
+  <TSA_WD_Notify_OutpostNoProduction>警報：哨站未選產出</TSA_WD_Notify_OutpostNoProduction>
   <!-- EN: Shows a silent, persistent alert on the right-side readout when at least one of your WD outposts needs a production pick but has nothing selected. Mouseover lists all affected outposts. Click to jump to the first. -->
-  <TSA_WD_Notify_OutpostNoProductionTooltip>至少有一個WD哨站需要選擇產出但尚未選擇時，在右側持續顯示無音效警示。滑鼠移上可列出所有受影響的哨站。點擊可跳至第一個。</TSA_WD_Notify_OutpostNoProductionTooltip>
+  <TSA_WD_Notify_OutpostNoProductionTooltip>至少一個WD哨站需選產出但未選時的無音效持續警報。滑鼠移上列出受影響哨站。點擊跳至第一個。</TSA_WD_Notify_OutpostNoProductionTooltip>
   <!-- EN: Show outposts without experts alert (right side) -->
-  <TSA_WD_Notify_OutpostUnusedExperts>顯示專家欄位未滿的哨站警示（右側）</TSA_WD_Notify_OutpostUnusedExperts>
+  <TSA_WD_Notify_OutpostUnusedExperts>警報：哨站未用專家位</TSA_WD_Notify_OutpostUnusedExperts>
   <!-- EN: Shows a silent, persistent alert on the right-side readout when at least one of your WD outposts has unused expert slots. Mouseover lists all affected outposts with assigned/max. Click to jump to the first. -->
-  <TSA_WD_Notify_OutpostUnusedExpertsTooltip>至少有一個WD哨站有未使用的專家欄位時，在右側持續顯示無音效警示。滑鼠移上可列出所有受影響的哨站及已指派／上限。點擊可跳至第一個。</TSA_WD_Notify_OutpostUnusedExpertsTooltip>
+  <TSA_WD_Notify_OutpostUnusedExpertsTooltip>至少一個WD哨站有未用專家位時的無音效持續警報。滑鼠移上列出受影響哨站及已指派／上限。點擊跳至第一個。</TSA_WD_Notify_OutpostUnusedExpertsTooltip>
   <!-- EN: WD: Outposts w/o Production -->
   <TSA_WD_Alert_OutpostNoProduction>WD：未選產出的哨站</TSA_WD_Alert_OutpostNoProduction>
   <!-- EN: These outposts have nothing to produce selected: -->
@@ -493,13 +493,13 @@
   <!-- EN: - {0}: {1}/{2} experts -->
   <TSA_WD_Alert_OutpostUnusedExpertsDescLine>- {0}：專家{1}/{2}</TSA_WD_Alert_OutpostUnusedExpertsDescLine>
   <!-- EN: Show Mid Game alert (right side) -->
-  <TSA_WD_Notify_MidGameActive>顯示中期階段警示（右側）</TSA_WD_Notify_MidGameActive>
+  <TSA_WD_Notify_MidGameActive>警報：中期階段生效</TSA_WD_Notify_MidGameActive>
   <!-- EN: Shows a silent, persistent alert on the right-side readout while Mid Game is active (not Late Game). A red letter is also sent once when Mid Game first activates. -->
-  <TSA_WD_Notify_MidGameActiveTooltip>中期階段生效期間（非後期階段），在右側持續顯示無音效警示。中期階段首次生效時也會發送一次紅色信件。</TSA_WD_Notify_MidGameActiveTooltip>
+  <TSA_WD_Notify_MidGameActiveTooltip>中期階段生效期間（非後期）的無音效持續警報。中期階段首次生效時另發一封紅色信件。</TSA_WD_Notify_MidGameActiveTooltip>
   <!-- EN: Show Late Game alert (right side) -->
-  <TSA_WD_Notify_LateGameActive>顯示後期階段警示（右側）</TSA_WD_Notify_LateGameActive>
+  <TSA_WD_Notify_LateGameActive>警報：後期階段生效</TSA_WD_Notify_LateGameActive>
   <!-- EN: Shows a silent, persistent alert on the right-side readout while Late Game is active. A red letter is also sent once when Late Game first activates. -->
-  <TSA_WD_Notify_LateGameActiveTooltip>後期階段生效期間，在右側持續顯示無音效警示。後期階段首次生效時也會發送一次紅色信件。</TSA_WD_Notify_LateGameActiveTooltip>
+  <TSA_WD_Notify_LateGameActiveTooltip>後期階段生效期間的無音效持續警報。後期階段首次生效時另發一封紅色信件。</TSA_WD_Notify_LateGameActiveTooltip>
   <!-- EN: Inbound -->
   <TSA_WD_TargetingYou>來襲</TSA_WD_TargetingYou>
   <!-- EN: Attack-capable offensive strength: -->
@@ -649,9 +649,9 @@
   <!-- EN: Chance per day to attempt one outpost incident while Late Game is active. -->
   <TSA_WD_Difficulty_OutpostIncChanceTooltip>後期階段生效期間，每天嘗試發生一次哨站事件的機率。</TSA_WD_Difficulty_OutpostIncChanceTooltip>
   <!-- EN: Letter on outpost incident -->
-  <TSA_WD_Difficulty_NotifyOutpostInc>哨站事件時發送信件</TSA_WD_Difficulty_NotifyOutpostInc>
+  <TSA_WD_Difficulty_NotifyOutpostInc>信件：哨站事件</TSA_WD_Difficulty_NotifyOutpostInc>
   <!-- EN: Send a letter when an outpost incident reduces strength. -->
-  <TSA_WD_Difficulty_NotifyOutpostIncTooltip>哨站事件降低戰力時發送信件。</TSA_WD_Difficulty_NotifyOutpostIncTooltip>
+  <TSA_WD_Difficulty_NotifyOutpostIncTooltip>哨站事件降低戰力時。</TSA_WD_Difficulty_NotifyOutpostIncTooltip>
   <!-- EN: Periodic goodwill drain -->
   <TSA_WD_Difficulty_EnableGoodwillDrain>定期友好度流失</TSA_WD_Difficulty_EnableGoodwillDrain>
   <!-- EN: While Mid Game or Late Game is active, periodically reduce goodwill with non-permanent-enemy factions. Permanent enemies are skipped. One batch message per pulse; extra messages only when Ally/Neutral/Hostile flips. -->

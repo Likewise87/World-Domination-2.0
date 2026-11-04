@@ -26,6 +26,13 @@
   <TSA_WD_DescEconomicDifficulty>Outpost upkeep, outpost power, skill diminishing returns, goodwill drain, and bribe silver rates by escalation stage.</TSA_WD_DescEconomicDifficulty>
   <TSA_WD_Settings_Search>Search</TSA_WD_Settings_Search>
   <TSA_WD_Settings_SearchTip>Filter controls on this page by label or tooltip text. Matching a section header shows that whole section. Clear the box to show everything again.</TSA_WD_Settings_SearchTip>
+  <TSA_WD_Settings_SearchPlaceholder>Search all settings…</TSA_WD_Settings_SearchPlaceholder>
+  <TSA_WD_Settings_SearchTipGlobal>Search every settings page by label or tooltip. Click a result to jump there.</TSA_WD_Settings_SearchTipGlobal>
+  <TSA_WD_Settings_SearchNoResults>No matching settings.</TSA_WD_Settings_SearchNoResults>
+  <TSA_WD_Settings_HelpEmpty>Hover a setting for details.</TSA_WD_Settings_HelpEmpty>
+  <TSA_WD_Settings_NavOverview>Overview</TSA_WD_Settings_NavOverview>
+  <TSA_WD_Settings_NavOverviewDesc>Presets, medieval mode, advanced toggle, reset all, and update notes.</TSA_WD_Settings_NavOverviewDesc>
+  <TSA_WD_Settings_OverviewHint>Pick a page on the left. Use search above the list to find any setting across all pages.</TSA_WD_Settings_OverviewHint>
   <TSA_WD_ThreatGate_Never>Never</TSA_WD_ThreatGate_Never>
   <TSA_WD_ThreatGate_FromMid>From Mid</TSA_WD_ThreatGate_FromMid>
   <TSA_WD_ThreatGate_FromLate>From Late</TSA_WD_ThreatGate_FromLate>
@@ -178,7 +185,7 @@
   <TSA_WD_DescDiplomacy>Random diplomacy, goodwill, revolt (eligible gate and target seize range), allied raids, ordered roads/traders, gifts/buy/negotiate, bribes and investment, and leader/underdog/zeal/coalition buffs. Strong war, forward assault, and desperation are under Combat Difficulty.</TSA_WD_DescDiplomacy>
   <TSA_WD_DescDisinformation>Success and failure likelihoods, cooldowns, and skill impact for disinformation missions.</TSA_WD_DescDisinformation>
   <TSA_WD_DescGarrison>How strong settlement garrisons are by tier, and how much they weaken when a settlement is depleted.</TSA_WD_DescGarrison>
-  <TSA_WD_DescBaseGeneration>KCSG layout tweaks when WD generates settlement assault and outpost defense maps. Per-faction assault eligibility is set in World Setup → Allegiances.</TSA_WD_DescBaseGeneration>
+  <TSA_WD_DescBaseGeneration>By default WD takes over base generation when you attack enemy settlements (Tier 1 villages through Tier 4 fortresses). Per-faction MapGen is under the WD main tab, then Configure Scope. Custom Base Framework can replace WD and still respects tier.</TSA_WD_DescBaseGeneration>
   <TSA_WD_DescMiningBaselines>Configure the baseline amount a Mining Outpost can get per stone/ore based on the Mining Skill level.</TSA_WD_DescMiningBaselines>
   <TSA_WD_DescNotifications>Toggle which world domination events generate notifications.</TSA_WD_DescNotifications>
   <TSA_WD_DescOutpostFood>Food consumption, production, logistics range, and efficiency for outposts.</TSA_WD_DescOutpostFood>
@@ -196,7 +203,7 @@
   <TSA_WD_DescExperimental>Experimental gameplay toggles (quests, trenches, armory, withdraw/defense budgets), world-map icon zoom, overlay hold key, travel-food/UI helpers, and traveler pollution damage/pathfinding. NPC fortify is under World Actions.</TSA_WD_DescExperimental>
   <TSA_WD_HeaderImportant>Setting presets</TSA_WD_HeaderImportant>
   <TSA_WD_MedievalMode>Medieval mode</TSA_WD_MedievalMode>
-  <TSA_WD_MedievalModeTip>For medieval / low-tech playthroughs (including Medieval Overhaul). Hides industrial WD outposts, upgrades, and AT turrets; floors NPC drop-pod and mortar/AA tech gates to Industrial; hides player land vs drop-pod travel UI and forces land. Already placed industrial buildings are not removed. Mid-game toggle should work; better make a backup or start a fresh save!</TSA_WD_MedievalModeTip>
+  <TSA_WD_MedievalModeTip>Activate when using WD with Medieval Overhaul 2. It will hide industrial WD outposts, upgrades, and AT turrets; floor NPC drop-pod and mortar/AA tech gates to Industrial; hide player land vs drop-pod travel UI and force land. Already placed industrial buildings are not removed. Mid-game toggle should work; better make a backup or start a fresh save!</TSA_WD_MedievalModeTip>
   <TSA_WD_Medieval_Blocked>Not available in Medieval mode.</TSA_WD_Medieval_Blocked>
   <TSA_WD_Medieval_TechFlooredTip>Medieval mode floors this to at least Industrial for NPC raids/artillery.</TSA_WD_Medieval_TechFlooredTip>
   <TSA_WD_HeaderSettingPresets>Setting presets</TSA_WD_HeaderSettingPresets>
@@ -210,6 +217,7 @@
   <TSA_WD_Important_Difficulty>Difficulty</TSA_WD_Important_Difficulty>
   <TSA_WD_Important_DifficultyTip>Preset for raid pressure on you, storyteller strength clamp, daily raid weight, Combat Difficulty threat gates, and Mid/Late escalation. Click Apply to write only these values. Edit details in Combat Difficulty and Economic Difficulty.</TSA_WD_Important_DifficultyTip>
   <TSA_WD_SettingsPreset_Apply>Apply</TSA_WD_SettingsPreset_Apply>
+  <TSA_WD_SettingsPreset_ApplyTip>Click to apply the selected settings preset</TSA_WD_SettingsPreset_ApplyTip>
   <TSA_WD_SettingsPreset_Applied>Applied preset: {0}</TSA_WD_SettingsPreset_Applied>
   <TSA_WD_Settings_ExpandAll>Expand all</TSA_WD_Settings_ExpandAll>
   <TSA_WD_Settings_CollapseAll>Collapse all</TSA_WD_Settings_CollapseAll>
@@ -242,7 +250,7 @@
   <TSA_WD_Garrison_T2>Tier 2 (Town) Multiplier</TSA_WD_Garrison_T2>
   <TSA_WD_Garrison_T3>Tier 3 (City) Multiplier</TSA_WD_Garrison_T3>
   <TSA_WD_Garrison_T4>Tier 4 (Citadel) Multiplier</TSA_WD_Garrison_T4>
-  <TSA_WD_BaseGen_Intro>These options tweak WD/KCSG generation when it runs. Outpost defense maps always use WD layouts. NPC assault maps use WD only for factions with MapGen enabled in World Setup → Allegiances.</TSA_WD_BaseGen_Intro>
+  <TSA_WD_BaseGen_Intro>By default WD takes over base generation when you attack enemy settlements. That means Tier 1 settlements are small villages and Tier 4 settlements are real fortresses. Configure related specifics below.\n\nIn-game, open the WD main tab, then Configure Scope, to decide per faction whether WD should hijack base generation. If a faction is not covered by WD, the Tier 1 vs Tier 4 distinction is lost.\n\nIf you use the mod Custom Base Framework, it runs base generation instead of WD and still respects settlement tier.</TSA_WD_BaseGen_Intro>
   <TSA_WD_BaseGen_HeaderTerrainPrep>Terrain prep</TSA_WD_BaseGen_HeaderTerrainPrep>
   <TSA_WD_BaseGen_AdaptiveTerrainPrep>Adaptive terrain prep (swamp / rock)</TSA_WD_BaseGen_AdaptiveTerrainPrep>
   <TSA_WD_BaseGen_AdaptiveTerrainPrepTip>On settlement assault and outpost defense maps, scans the layout. If too much is unbuildable (mud, swamp, water, rock), converts only those blocked cells to the map's most common buildable terrain. Trees stay. If mostly fine, leaves nature as-is.</TSA_WD_BaseGen_AdaptiveTerrainPrepTip>
@@ -757,21 +765,21 @@
   <TSA_WD_Raid_NormalDefenderVictory>Normal Defender Victory</TSA_WD_Raid_NormalDefenderVictory>
   <TSA_WD_Raid_DecisiveDefenderVictory>Decisive Defender Victory</TSA_WD_Raid_DecisiveDefenderVictory>
   <!-- Notifications: per diplomacy / buff event letters -->
-  <TSA_WD_Notify_HeaderDiplomacyBuffs>WD diplomacy &amp; power-balance letters</TSA_WD_Notify_HeaderDiplomacyBuffs>
-  <TSA_WD_Notify_LeaderHandicap>Notify: world leader handicap</TSA_WD_Notify_LeaderHandicap>
-  <TSA_WD_Notify_LeaderHandicapTooltip>Letter when the dominant faction is hit with the temporary leader handicap.</TSA_WD_Notify_LeaderHandicapTooltip>
-  <TSA_WD_Notify_UnderdogBuff>Notify: underdog buff</TSA_WD_Notify_UnderdogBuff>
-  <TSA_WD_Notify_UnderdogBuffTooltip>Letter when a weak faction receives the temporary underdog buff.</TSA_WD_Notify_UnderdogBuffTooltip>
-  <TSA_WD_Notify_ExpansionistZeal>Notify: expansionist zeal</TSA_WD_Notify_ExpansionistZeal>
-  <TSA_WD_Notify_ExpansionistZealTooltip>Letter when a faction enters expansionist zeal (wider raid range, etc.).</TSA_WD_Notify_ExpansionistZealTooltip>
-  <TSA_WD_Notify_AntiLeaderCoalition>Notify: anti-leader coalition</TSA_WD_Notify_AntiLeaderCoalition>
-  <TSA_WD_Notify_AntiLeaderCoalitionTooltip>Letter when weaker factions form a coalition against an over-dominant leader.</TSA_WD_Notify_AntiLeaderCoalitionTooltip>
-  <TSA_WD_Notify_RandomDiplomacy>Notify: random diplomatic shifts</TSA_WD_Notify_RandomDiplomacy>
-  <TSA_WD_Notify_RandomDiplomacyTooltip>Letter when World Domination randomly changes a pair of NPC factions (war, peace, ally).</TSA_WD_Notify_RandomDiplomacyTooltip>
-  <TSA_WD_Notify_TradeAllyDiplomacy>Notify: allies from trade</TSA_WD_Notify_TradeAllyDiplomacy>
-  <TSA_WD_Notify_TradeAllyDiplomacyTooltip>Letter when two NPC factions become allies because WD trader goodwill crossed the ally threshold.</TSA_WD_Notify_TradeAllyDiplomacyTooltip>
-  <TSA_WD_Notify_StrongFactionWar>Notify: strong-faction wars</TSA_WD_Notify_StrongFactionWar>
-  <TSA_WD_Notify_StrongFactionWarTooltip>Letter when strong NPC factions cool an alliance to neutral or escalate from neutral to war.</TSA_WD_Notify_StrongFactionWarTooltip>
+  <TSA_WD_Notify_HeaderDiplomacyBuffs>Diplomacy and power-balance</TSA_WD_Notify_HeaderDiplomacyBuffs>
+  <TSA_WD_Notify_LeaderHandicap>Letter: world leader handicap</TSA_WD_Notify_LeaderHandicap>
+  <TSA_WD_Notify_LeaderHandicapTooltip>When the dominant faction receives the temporary leader handicap.</TSA_WD_Notify_LeaderHandicapTooltip>
+  <TSA_WD_Notify_UnderdogBuff>Letter: underdog buff</TSA_WD_Notify_UnderdogBuff>
+  <TSA_WD_Notify_UnderdogBuffTooltip>When a weak faction receives the temporary underdog (Nimble) buff.</TSA_WD_Notify_UnderdogBuffTooltip>
+  <TSA_WD_Notify_ExpansionistZeal>Letter: expansionist zeal</TSA_WD_Notify_ExpansionistZeal>
+  <TSA_WD_Notify_ExpansionistZealTooltip>When a faction enters expansionist zeal (wider raid range, lower travel attrition).</TSA_WD_Notify_ExpansionistZealTooltip>
+  <TSA_WD_Notify_AntiLeaderCoalition>Letter: anti-leader coalition</TSA_WD_Notify_AntiLeaderCoalition>
+  <TSA_WD_Notify_AntiLeaderCoalitionTooltip>When weaker factions form a coalition against an over-dominant leader.</TSA_WD_Notify_AntiLeaderCoalitionTooltip>
+  <TSA_WD_Notify_RandomDiplomacy>Letter: random diplomatic shift</TSA_WD_Notify_RandomDiplomacy>
+  <TSA_WD_Notify_RandomDiplomacyTooltip>When World Domination randomly changes a pair of NPC factions (war, peace, ally).</TSA_WD_Notify_RandomDiplomacyTooltip>
+  <TSA_WD_Notify_TradeAllyDiplomacy>Letter: allies from trade</TSA_WD_Notify_TradeAllyDiplomacy>
+  <TSA_WD_Notify_TradeAllyDiplomacyTooltip>When two NPC factions become allies because WD trader goodwill crossed the ally threshold.</TSA_WD_Notify_TradeAllyDiplomacyTooltip>
+  <TSA_WD_Notify_StrongFactionWar>Letter: strong-faction war shift</TSA_WD_Notify_StrongFactionWar>
+  <TSA_WD_Notify_StrongFactionWarTooltip>When strong NPC factions cool an alliance to neutral or escalate from neutral to war.</TSA_WD_Notify_StrongFactionWarTooltip>
   <TSA_WD_BtnRoadBuilding>Building Projects</TSA_WD_BtnRoadBuilding>
   <TSA_WD_DescRoadBuilding>Roads, road blocks, spike traps, AT turrets (build and combat), and decontamination (ranges, work, expedition strength; RotR road fallbacks when that mod is off).</TSA_WD_DescRoadBuilding>
   <TSA_WD_RoadBuilding_Note>Road movement / work / min Construction apply only when Roads of the Rim is NOT active. Winter reduction always applies (writes RotR winterFactor when that mod is present).</TSA_WD_RoadBuilding_Note>
@@ -886,7 +894,7 @@
   <TSA_WD_Pollution_EnableTravelerDamage>Pollution strength damage</TSA_WD_Pollution_EnableTravelerDamage>
   <TSA_WD_Pollution_EnableTravelerDamageTip>When on, eligible ground WD travelers lose strength leaving polluted tiles, and NPC settlements plus WD outposts take daily strength damage from average pollution nearby. Decontamination crews, airborne shells, and drop pods are unaffected. Use the type checkboxes to choose which caravans take exit damage. NPC settlements also send cheap decontamination crews every 12 hours.</TSA_WD_Pollution_EnableTravelerDamageTip>
   <TSA_WD_Pollution_WasterImmunity>Waster pirate pollution immunity</TSA_WD_Pollution_WasterImmunity>
-  <TSA_WD_Pollution_WasterImmunityTip>When on, PirateWaster factions skip traveler exit damage and site daily pollution damage. PirateWaster never runs NPC auto-decontamination (that skip is always on).</TSA_WD_Pollution_WasterImmunityTip>
+  <TSA_WD_Pollution_WasterImmunityTip>When on, pollution-adapted factions (PirateWaster, or any faction whose main xenotype has PollutionRush, such as buzzer swarms) skip traveler exit damage and site daily pollution damage. Those factions never run NPC auto-decontamination (that skip is always on).</TSA_WD_Pollution_WasterImmunityTip>
   <TSA_WD_Pollution_DamageRaiders>Raider caravans</TSA_WD_Pollution_DamageRaiders>
   <TSA_WD_Pollution_DamageRaidersTip>Ground raid and rapid-response caravans take pollution exit damage. Drop-pod raids stay exempt.</TSA_WD_Pollution_DamageRaidersTip>
   <TSA_WD_Pollution_DamageExpansion>Expansion caravans</TSA_WD_Pollution_DamageExpansion>

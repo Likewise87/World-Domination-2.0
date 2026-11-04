@@ -36,17 +36,44 @@ namespace TSA_WorldDomination
             upkeepExpanded = skillExpanded = goodwillExpanded = bribeExpanded = outpostPowerExpanded = expanded;
         }
 
-        public override void DoWindowContents(Rect inRect)
+        
+        private static Dialog_EconomicDifficultySettings embeddedHost;
+
+        public static void DrawEmbedded(Rect inRect)
+        {
+            if (embeddedHost == null) embeddedHost = new Dialog_EconomicDifficultySettings();
+            embeddedHost.DrawBody(inRect);
+        }
+public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
-            float contentWidth = contentRect.width - 24f;
+            DrawBody(contentRect);
+        }
+
+        private void DrawBody(Rect contentRect)
+        {
+            if (WdSettingsSearch.IsCollecting)
+            {
+                Listing_Standard l = new Listing_Standard();
+                l.Begin(contentRect);
+                DrawListing(l);
+                l.End();
+                return;
+            }
+
+            float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2800f);
-
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(scrollViewRect);
+            DrawListing(listing);
+            listing.End();
+            Widgets.EndScrollView();
+        }
 
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(scrollViewRect);
-            var s = WorldDominationMod.settings;
+        private void DrawListing(Listing_Standard l)
+        {
+var s = WorldDominationMod.settings;
             OutpostSkillScaling.EnsureArrays(s);
             if (!bandsSanitized)
             {
@@ -61,16 +88,12 @@ namespace TSA_WorldDomination
             },
                 () => SetAllExpanded(true),
                 () => SetAllExpanded(false));
-            SettingsUI.DrawSettingsSearchBar(l);
-
+            
             DrawUpkeep(l, s);
             DrawOutpostPower(l, s);
             DrawSkillScaling(l, s);
             DrawGoodwillDrain(l, s);
             DrawBribeRates(l, s);
-
-            l.End();
-            Widgets.EndScrollView();
         }
 
         private void DrawOutpostPower(Listing_Standard l, WorldDominationSettings s)
@@ -194,10 +217,10 @@ namespace TSA_WorldDomination
                 Rect left = new Rect(row.x, row.y, colW, row.height);
                 Rect right = new Rect(row.x + colW + gap, row.y, colW, row.height);
 
-                TooltipHandler.TipRegion(left, SettingsUI.TooltipWithDefault(
+                SettingsUI.TipRegion(left, SettingsUI.TooltipWithDefault(
                     "TSA_WD_SkillScaling_BandEndTip".Translate(),
                     OutpostSkillScaling.DefBandEnds[i], SliderFormat.Fixed0));
-                TooltipHandler.TipRegion(right, SettingsUI.TooltipWithDefault(
+                SettingsUI.TipRegion(right, SettingsUI.TooltipWithDefault(
                     "TSA_WD_SkillScaling_BandWeightTip".Translate(),
                     OutpostSkillScaling.DefBandWeights[i] * 100f, SliderFormat.Fixed0));
 
@@ -254,7 +277,7 @@ namespace TSA_WorldDomination
                 "TSA_WD_Experimental_NpcRaidKillGoodwillPer500Tip".Translate(),
                 1f, SliderFormat.Fixed0, WorldDominationSettings.DefNpcRaidKillGoodwillPer500Strength);
 
-            l.CheckboxLabeled("TSA_WD_Difficulty_EnableGoodwillDrain".Translate(), ref s.enableGoodwillDrain,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Difficulty_EnableGoodwillDrain".Translate(), ref s.enableGoodwillDrain,
                 SettingsUI.TooltipWithDefault("TSA_WD_Difficulty_EnableGoodwillDrainTooltip".Translate(), WorldDominationSettings.DefEnableGoodwillDrain));
 
             if (!s.enableGoodwillDrain)

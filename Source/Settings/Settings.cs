@@ -1034,7 +1034,7 @@ namespace TSA_WorldDomination
 
         /// <summary>When true, ground WD travelers take strength damage leaving polluted tiles.</summary>
         public const bool DefTravelerPollutionDamageEnabled = true;
-        /// <summary>When true, PirateWaster factions skip WD traveler exit and site daily pollution damage. NPC auto-decontam always skips PirateWaster.</summary>
+        /// <summary>When true, pollution-adapted factions (PirateWaster or majority PollutionRush xenotype) skip WD traveler exit and site daily pollution damage. NPC auto-decontam always skips those factions.</summary>
         public const bool DefWasterPollutionImmunityEnabled = true;
         public const bool DefPollutionDamageRaiders = true;
         public const bool DefPollutionDamageExpansion = false;

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>World Domination 2.0 — wordmark</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --silver: #d7dee8;
+      --red: #e1262a;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      width: auto;
+      height: auto;
+    }
+
+    .brand {
+      display: inline-block;
+      padding: 24px 32px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-family: "Orbitron", sans-serif;
+      font-weight: 800;
+      font-size: 72px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: var(--silver);
+      /* Soft glow only (no black shadow) so Playwright omit_background stays clean. */
+      text-shadow: 0 0 8px rgba(215, 222, 232, 0.25);
+      line-height: 1.1;
+    }
+
+    .brand h1 .dom {
+      color: var(--red);
+      text-shadow:
+        0 0 10px rgba(225, 38, 42, 0.75),
+        0 0 28px rgba(225, 38, 42, 0.35);
+    }
+  </style>
+</head>
+<body>
+  <header class="brand">
+    <h1>WORLD <span class="dom">DOMINATION</span> 2.0</h1>
+  </header>
+</body>
+</html>

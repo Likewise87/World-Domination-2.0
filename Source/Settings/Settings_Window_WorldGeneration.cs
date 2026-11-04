@@ -19,17 +19,44 @@ namespace TSA_WorldDomination
             optionalTitle = null;
         }
 
+        
+        private static Dialog_WorldGenSettings embeddedHost;
+
+        public static void DrawEmbedded(Rect inRect)
+        {
+            if (embeddedHost == null) embeddedHost = new Dialog_WorldGenSettings();
+            embeddedHost.DrawBody(inRect);
+        }
         public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
+            DrawBody(contentRect);
+        }
+
+        private void DrawBody(Rect contentRect)
+        {
+            if (WdSettingsSearch.IsCollecting)
+            {
+                Listing_Standard collect = new Listing_Standard();
+                collect.Begin(contentRect);
+                DrawListing(collect);
+                collect.End();
+                return;
+            }
+
             Listing_Standard l = new Listing_Standard();
             l.Begin(contentRect);
+            DrawListing(l);
+            l.End();
+        }
+
+        private void DrawListing(Listing_Standard l)
+        {
             var s = WorldDominationMod.settings;
 
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetWorldGen(),
                 () => { weightsExpanded = true; },
                 () => { weightsExpanded = false; });
-            SettingsUI.DrawSettingsSearchBar(l);
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Gen_HeaderWeights".Translate(), ref weightsExpanded, SettingsUI.SectionHeaderColor))
             {
             l.Gap(10f);
@@ -77,8 +104,6 @@ namespace TSA_WorldDomination
                 }
                 GUI.color = Color.white;
             }
-
-            l.End();
         }
     }
 }

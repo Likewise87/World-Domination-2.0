@@ -39,15 +39,6 @@ namespace TSA_WorldDomination
             optionalTitle = null;
         }
 
-        public override void PreClose()
-        {
-            base.PreClose();
-            WorldDominationMod.settings?.NormalizeEscalationConstraints();
-            WorldDominationMod.settings?.NormalizeRaidClampFractions();
-            if (Current.ProgramState != ProgramState.Playing) return;
-            Find.World?.GetComponent<WorldComponent_SpreadManager>()?.Notify_WeightsChanged();
-        }
-
         private void SetAllExpanded(bool expanded)
         {
             escalationExpanded = tooExpanded = maraudExpanded = ambushExpanded =
@@ -58,23 +49,63 @@ namespace TSA_WorldDomination
                 t4MortarFeatureExpanded = t4AaFeatureExpanded = expanded;
         }
 
+        
+        private static Dialog_CombatDifficultySettings embeddedHost;
+
+        public static void DrawEmbedded(Rect inRect)
+        {
+            if (embeddedHost == null) embeddedHost = new Dialog_CombatDifficultySettings();
+            embeddedHost.DrawBody(inRect);
+        }
+        public static void ApplyOnSettingsClose()
+        {
+            WorldDominationMod.settings?.NormalizeEscalationConstraints();
+            WorldDominationMod.settings?.NormalizeRaidClampFractions();
+            if (Current.ProgramState != ProgramState.Playing) return;
+            Find.World?.GetComponent<WorldComponent_SpreadManager>()?.Notify_WeightsChanged();
+        }
+
+        public override void PreClose()
+        {
+            base.PreClose();
+            ApplyOnSettingsClose();
+        }
+
         public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
-            float contentWidth = contentRect.width - 24f;
+            DrawBody(contentRect);
+        }
+
+        private void DrawBody(Rect contentRect)
+        {
+            if (WdSettingsSearch.IsCollecting)
+            {
+                Listing_Standard l = new Listing_Standard();
+                l.Begin(contentRect);
+                DrawListing(l);
+                l.End();
+                return;
+            }
+
+            float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 6200f);
-
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(scrollViewRect);
+            DrawListing(listing);
+            listing.End();
+            Widgets.EndScrollView();
+        }
 
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(scrollViewRect);
+        private void DrawListing(Listing_Standard l)
+        {
             var s = WorldDominationMod.settings;
 
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetCombatDifficulty(),
                 () => SetAllExpanded(true),
                 () => SetAllExpanded(false));
-            SettingsUI.DrawSettingsSearchBar(l);
-
+            
             DrawRaidPressure(l, s);
             DrawRaidDrought(l, s);
             DrawEscalationStages(l, s);
@@ -92,9 +123,6 @@ namespace TSA_WorldDomination
             DrawGarrison(l, s);
             DrawT4MortarFeature(l, s);
             DrawT4AntiAirFeature(l, s);
-
-            l.End();
-            Widgets.EndScrollView();
         }
 
         private static void ApplyGate(WorldDominationSettings s, System.Action apply)
@@ -831,7 +859,7 @@ namespace TSA_WorldDomination
 
             l.Gap(2f);
             Rect r = l.GetRect(24f);
-            TooltipHandler.TipRegion(r, SettingsUI.TooltipWithDefault(
+            SettingsUI.TipRegion(r, SettingsUI.TooltipWithDefault(
                 tip,
                 AmbushMinTierLabel(WorldDominationSettings.DefSettlementAmbushMinTier)));
             string suffix = AmbushMinTierLabel(current);
@@ -849,7 +877,7 @@ namespace TSA_WorldDomination
 
             l.Gap(2f);
             Rect r = l.GetRect(24f);
-            TooltipHandler.TipRegion(r, SettingsUI.TooltipWithDefault(
+            SettingsUI.TipRegion(r, SettingsUI.TooltipWithDefault(
                 tip,
                 (float)WorldDominationSettings.DefSettlementAmbushMaxConcurrent,
                 SliderFormat.Fixed0));

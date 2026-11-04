@@ -11,6 +11,7 @@ OUT = ROOT / "screenshots"
 
 PAGES = [
     "title-page.html",
+    "title-wordmark.html",
     "snapshot-overview.html",
     "outposts-overview.html",
     "outposts-details.html",
@@ -45,11 +46,28 @@ def main() -> None:
             page.goto(url, wait_until="load")
             page.evaluate("() => document.fonts.ready")
             page.wait_for_timeout(300)
-            locator = page.locator(".page")
-            if locator.count() > 0:
-                locator.first.screenshot(path=str(out_path), type="png")
+            if name == "title-wordmark.html":
+                # Transparent wordmark for in-game settings chrome.
+                page.locator(".brand").first.screenshot(
+                    path=str(out_path), type="png", omit_background=True
+                )
+                tex = (
+                    ROOT.parents[1]
+                    / "Common"
+                    / "Textures"
+                    / "UI"
+                    / "Settings"
+                    / "WD_BrandTitle.png"
+                )
+                tex.parent.mkdir(parents=True, exist_ok=True)
+                tex.write_bytes(out_path.read_bytes())
+                print(f"  also wrote {tex}")
             else:
-                page.screenshot(path=str(out_path), type="png", full_page=True)
+                locator = page.locator(".page")
+                if locator.count() > 0:
+                    locator.first.screenshot(path=str(out_path), type="png")
+                else:
+                    page.screenshot(path=str(out_path), type="png", full_page=True)
             print(f"  wrote {out_path.stat().st_size} bytes")
 
         browser.close()

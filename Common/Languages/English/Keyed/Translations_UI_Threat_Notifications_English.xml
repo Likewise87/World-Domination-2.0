@@ -107,8 +107,8 @@
   <TSA_WD_Upkeep_LeaveLetterText>{0} have decided to leave your company as you could not sustain their silver upkeep.</TSA_WD_Upkeep_LeaveLetterText>
   <TSA_WD_Upkeep_PaidMsg>Paid {0} silver upkeep for {1} outpost colonists.</TSA_WD_Upkeep_PaidMsg>
   <TSA_WD_Upkeep_PartialPaidMsg>Paid {0} of {1} silver upkeep (shortfall below one colonist's rate).</TSA_WD_Upkeep_PartialPaidMsg>
-  <TSA_WD_Notify_OutpostUpkeep>Show outpost silver upkeep alert (right side)</TSA_WD_Notify_OutpostUpkeep>
-  <TSA_WD_Notify_OutpostUpkeepTooltip>Shows a right-side alert whenever silver upkeep is active (Need/Have and days left). Turns red when you do not have enough silver. Requires Experimental outpost silver upkeep and Mid/Late escalation.</TSA_WD_Notify_OutpostUpkeepTooltip>
+  <TSA_WD_Notify_OutpostUpkeep>Alert: outpost silver upkeep</TSA_WD_Notify_OutpostUpkeep>
+  <TSA_WD_Notify_OutpostUpkeepTooltip>When silver upkeep is active, shows Need/Have and days left. Turns red when silver is insufficient. Requires Experimental outpost silver upkeep and Mid/Late escalation.</TSA_WD_Notify_OutpostUpkeepTooltip>
   <TSA_WD_Dash_OutpostPawnTip_Humanoid>Humanoid: {0}</TSA_WD_Dash_OutpostPawnTip_Humanoid>
   <TSA_WD_Dash_OutpostPawnTip_Mechanoid>Mechanoids: {0}</TSA_WD_Dash_OutpostPawnTip_Mechanoid>
   <TSA_WD_Dash_OutpostPawnTip_Animal>Animals: {0}</TSA_WD_Dash_OutpostPawnTip_Animal>
@@ -141,119 +141,119 @@
   <TSA_WD_Notify_AlwaysShowSettlementIconsTip>When on, settlements keep their upright map icons at every zoom and hide the tilted globe mesh. When off, vanilla zoom behavior returns (upright icons far out, globe mesh when zoomed in).</TSA_WD_Notify_AlwaysShowSettlementIconsTip>
   <TSA_WD_Notify_HeaderMortarAntiAir>Mortar and anti-air</TSA_WD_Notify_HeaderMortarAntiAir>
   <TSA_WD_Notify_HeaderAtTurrets>AT Turrets</TSA_WD_Notify_HeaderAtTurrets>
-  <TSA_WD_Notify_PlayerAtTurretKilledTarget>Notify when your AT Turret kills a target</TSA_WD_Notify_PlayerAtTurretKilledTarget>
-  <TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>Receive a letter when your AT Turret destroys a hostile traveler by shell or melee clash.</TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>
-  <TSA_WD_Notify_PlayerAtTurretDamagedTarget>Notify when your AT Turret damages a target</TSA_WD_Notify_PlayerAtTurretDamagedTarget>
-  <TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>Receive a letter when your AT Turret shells a hostile traveler that survives. Can be noisy.</TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>
-  <TSA_WD_Notify_PlayerAtTurretDestroyed>Notify when your AT Turret is destroyed</TSA_WD_Notify_PlayerAtTurretDestroyed>
-  <TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>Receive a letter when one of your AT Turrets is destroyed in combat. Ownership wipe when a settlement falls stays silent.</TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>
-  <TSA_WD_Notify_NpcAtTurretDamagedPlayer>Notify when an enemy AT Turret damages your forces</TSA_WD_Notify_NpcAtTurretDamagedPlayer>
-  <TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>Receive a letter when an enemy AT Turret shells one of your travelers or caravans and it survives.</TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>
-  <TSA_WD_Notify_NpcAtTurretKilledPlayer>Notify when an enemy AT Turret kills your forces</TSA_WD_Notify_NpcAtTurretKilledPlayer>
-  <TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>Receive a letter when an enemy AT Turret destroys one of your travelers or caravans by shell or melee clash.</TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>
-  <TSA_WD_Notify_IncomingRaidColony>Notify when a WD Raid is launched at your Colony</TSA_WD_Notify_IncomingRaidColony>
-  <TSA_WD_Notify_IncomingRaidColonyTooltip>Receive a high-priority letter when a hostile expedition is launched against your colony.</TSA_WD_Notify_IncomingRaidColonyTooltip>
-  <TSA_WD_Notify_RaidArrivalColony>Notify when a WD Raid arrives at your Colony</TSA_WD_Notify_RaidArrivalColony>
-  <TSA_WD_Notify_RaidArrivalColonyTooltip>Receive a high-priority letter when a hostile expedition arrives and spawns on your colony map.</TSA_WD_Notify_RaidArrivalColonyTooltip>
-  <TSA_WD_Notify_IncomingRaidOutpost>Notify when a WD Raid is launched at one of your Outposts</TSA_WD_Notify_IncomingRaidOutpost>
-  <TSA_WD_Notify_IncomingRaidOutpostTooltip>Receive a high-priority letter when a hostile expedition is launched against one of your outposts.</TSA_WD_Notify_IncomingRaidOutpostTooltip>
-  <TSA_WD_Notify_RaidArrivalOutpost>Notify when a WD Raid arrives at one of your Outposts</TSA_WD_Notify_RaidArrivalOutpost>
-  <TSA_WD_Notify_RaidArrivalOutpostTooltip>Receive a high-priority letter when you open a manual outpost defense and the hostile expedition arrives on the encounter map.</TSA_WD_Notify_RaidArrivalOutpostTooltip>
-  <TSA_WD_Notify_RaidDivertedFromPlayer>Notify when a raid diverts away from you</TSA_WD_Notify_RaidDivertedFromPlayer>
-  <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>Receive a letter when a raid that was headed at your colony or an outpost spots a target of opportunity and diverts to attack it instead.</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
-  <TSA_WD_Notify_RaidPartyDestroyed>Notify when a raid party is destroyed before arrival</TSA_WD_Notify_RaidPartyDestroyed>
-  <TSA_WD_Notify_RaidPartyDestroyedTooltip>Receive a letter when a hostile raid headed at you is wiped out on the world map before it reaches you.</TSA_WD_Notify_RaidPartyDestroyedTooltip>
-  <TSA_WD_Notify_MortarHit>Notify when your mortar destroys a target</TSA_WD_Notify_MortarHit>
-  <TSA_WD_Notify_MortarHitTooltip>Receive a silent blue letter when your artillery outpost destroys a target. Partial hits only go to the action log.</TSA_WD_Notify_MortarHitTooltip>
-  <TSA_WD_Notify_MortarMiss>Notify when your mortar misses</TSA_WD_Notify_MortarMiss>
-  <TSA_WD_Notify_MortarMissTooltip>Receive a silent blue letter when your artillery outpost misses. Off by default to reduce noise.</TSA_WD_Notify_MortarMissTooltip>
-  <TSA_WD_Notify_AntiAirHit>Notify when your anti-air fires</TSA_WD_Notify_AntiAirHit>
-  <TSA_WD_Notify_AntiAirHitTooltip>Receive a letter when your anti-air flak hits or misses a hostile airborne target. Hostile mortar shells use a separate setting below.</TSA_WD_Notify_AntiAirHitTooltip>
-  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>Notify when your anti-air shoots down hostile mortar shells</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>
-  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>Receive a letter when your flak destroys or misses a hostile mortar shell (e.g. "Mortar shell destroyed"). Can be noisy.</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>
-  <TSA_WD_Notify_NpcMortarHitPlayer>Notify when enemy mortars target you</TSA_WD_Notify_NpcMortarHitPlayer>
-  <TSA_WD_Notify_NpcMortarHitPlayerTooltip>Receive a letter when an enemy T4 settlement mortar fires at one of your WD outposts, caravans, or travelers.</TSA_WD_Notify_NpcMortarHitPlayerTooltip>
-  <TSA_WD_Notify_T4AntiAirHitPlayer>Notify when enemy anti-air targets your drop pods</TSA_WD_Notify_T4AntiAirHitPlayer>
-  <TSA_WD_Notify_T4AntiAirHitPlayerTooltip>Receive a letter when enemy T4 anti-air hits or misses your drop pods, transport pods, or other non-shell airborne targets. Mortar shells use a separate setting below. If colonists die in a shot-down pod, a who-died letter is always sent.</TSA_WD_Notify_T4AntiAirHitPlayerTooltip>
-  <TSA_WD_Notify_PlayerMortarShellShotDown>Notify when enemy anti-air shoots down your mortar shells</TSA_WD_Notify_PlayerMortarShellShotDown>
-  <TSA_WD_Notify_PlayerMortarShellShotDownTooltip>Receive a neutral letter when enemy flak destroys or misses a mortar shell from one of your outposts. Can be noisy.</TSA_WD_Notify_PlayerMortarShellShotDownTooltip>
-  <TSA_WD_Notify_NpcMortarHitNpc>Notify when enemies fire mortars at each other</TSA_WD_Notify_NpcMortarHitNpc>
-  <TSA_WD_Notify_NpcMortarHitNpcTooltip>Receive a letter when an enemy mortar fires at another NPC (settlement, caravan, or traveler), or when enemy anti-air destroys another NPC's airborne target (including mortar shells). Can be noisy.</TSA_WD_Notify_NpcMortarHitNpcTooltip>
-  <TSA_WD_Notify_WarehouseGoodsArrived>Notify when goods arrive at a Warehouse Outpost</TSA_WD_Notify_WarehouseGoodsArrived>
-  <TSA_WD_Notify_WarehouseGoodsArrivedTooltip>Receive a notification when goods are deposited into one of your Warehouse Outposts.</TSA_WD_Notify_WarehouseGoodsArrivedTooltip>
-  <TSA_WD_Notify_OutpostDeliveryToColonyArrived>Notify when outpost deliveries arrive at your colony</TSA_WD_Notify_OutpostDeliveryToColonyArrived>
-  <TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>Receive a letter when an outpost delivery reaches a player colony map and drops its goods.</TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>
-  <TSA_WD_Notify_PrisonerRecruitedUnderway>Notify when an outpost prisoner is recruited and leaves</TSA_WD_Notify_PrisonerRecruitedUnderway>
-  <TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>Show a message when an outpost prisoner finishes recruiting and starts traveling to their scheduled destination.</TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>
-  <TSA_WD_Notify_PlayerCaravanClash>Notify when a player caravan has a clash</TSA_WD_Notify_PlayerCaravanClash>
-  <TSA_WD_Notify_PlayerCaravanClashTooltip>Receive letters when one of your caravans enters or loses a WD caravan clash.</TSA_WD_Notify_PlayerCaravanClashTooltip>
-  <TSA_WD_Notify_RapidResponseCaravanClash>Notify about Rapid Response caravan clashes</TSA_WD_Notify_RapidResponseCaravanClash>
-  <TSA_WD_Notify_RapidResponseCaravanClashTooltip>Receive letters when a Rapid Response interceptor defeats an enemy caravan or is defeated.</TSA_WD_Notify_RapidResponseCaravanClashTooltip>
-  <TSA_WD_Notify_TravelerPollutionDamage>Notify when a traveler takes pollution damage</TSA_WD_Notify_TravelerPollutionDamage>
-  <TSA_WD_Notify_TravelerPollutionDamageTooltip>Receive one yellow letter the first time each of your WD travelers loses strength leaving a polluted tile. Later polluted tiles on the same traveler stay silent.</TSA_WD_Notify_TravelerPollutionDamageTooltip>
-  <TSA_WD_Notify_OutpostPollutionDamage>Notify when an outpost takes pollution damage</TSA_WD_Notify_OutpostPollutionDamage>
-  <TSA_WD_Notify_OutpostPollutionDamageTooltip>Show a message when one of your WD outposts loses strength from average pollution nearby (once per day when damage applies), and a letter if pollution wipes the outpost. Dev log always records these events.</TSA_WD_Notify_OutpostPollutionDamageTooltip>
+  <TSA_WD_Notify_PlayerAtTurretKilledTarget>Letter: your AT turret kills a target</TSA_WD_Notify_PlayerAtTurretKilledTarget>
+  <TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>When your AT turret destroys a hostile traveler by shell or melee clash.</TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>
+  <TSA_WD_Notify_PlayerAtTurretDamagedTarget>Letter: your AT turret damages a target</TSA_WD_Notify_PlayerAtTurretDamagedTarget>
+  <TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>When your AT turret shells a hostile traveler that survives. Can be noisy.</TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>
+  <TSA_WD_Notify_PlayerAtTurretDestroyed>Letter: your AT turret destroyed</TSA_WD_Notify_PlayerAtTurretDestroyed>
+  <TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>When one of your AT turrets is destroyed in combat. Ownership wipe when a settlement falls stays silent.</TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>
+  <TSA_WD_Notify_NpcAtTurretDamagedPlayer>Letter: enemy AT turret damages you</TSA_WD_Notify_NpcAtTurretDamagedPlayer>
+  <TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>When an enemy AT turret shells one of your travelers or caravans and it survives.</TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>
+  <TSA_WD_Notify_NpcAtTurretKilledPlayer>Letter: enemy AT turret kills your forces</TSA_WD_Notify_NpcAtTurretKilledPlayer>
+  <TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>When an enemy AT turret destroys one of your travelers or caravans by shell or melee clash.</TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>
+  <TSA_WD_Notify_IncomingRaidColony>Letter: raid launched at colony</TSA_WD_Notify_IncomingRaidColony>
+  <TSA_WD_Notify_IncomingRaidColonyTooltip>High-priority letter when a hostile expedition is launched against your colony.</TSA_WD_Notify_IncomingRaidColonyTooltip>
+  <TSA_WD_Notify_RaidArrivalColony>Letter: raid arrives at colony</TSA_WD_Notify_RaidArrivalColony>
+  <TSA_WD_Notify_RaidArrivalColonyTooltip>High-priority letter when a hostile expedition arrives and spawns on your colony map.</TSA_WD_Notify_RaidArrivalColonyTooltip>
+  <TSA_WD_Notify_IncomingRaidOutpost>Letter: raid launched at outpost</TSA_WD_Notify_IncomingRaidOutpost>
+  <TSA_WD_Notify_IncomingRaidOutpostTooltip>High-priority letter when a hostile expedition is launched against one of your outposts.</TSA_WD_Notify_IncomingRaidOutpostTooltip>
+  <TSA_WD_Notify_RaidArrivalOutpost>Letter: raid arrives at outpost</TSA_WD_Notify_RaidArrivalOutpost>
+  <TSA_WD_Notify_RaidArrivalOutpostTooltip>High-priority letter when you open a manual outpost defense and the hostile expedition arrives on the encounter map.</TSA_WD_Notify_RaidArrivalOutpostTooltip>
+  <TSA_WD_Notify_RaidDivertedFromPlayer>Letter: raid diverts away from you</TSA_WD_Notify_RaidDivertedFromPlayer>
+  <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>When a raid headed at your colony or an outpost spots a target of opportunity and diverts to attack it instead.</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
+  <TSA_WD_Notify_RaidPartyDestroyed>Letter: raid party destroyed en route</TSA_WD_Notify_RaidPartyDestroyed>
+  <TSA_WD_Notify_RaidPartyDestroyedTooltip>When a hostile raid headed at you is wiped out on the world map before it reaches you.</TSA_WD_Notify_RaidPartyDestroyedTooltip>
+  <TSA_WD_Notify_MortarHit>Letter: mortar destroys a target</TSA_WD_Notify_MortarHit>
+  <TSA_WD_Notify_MortarHitTooltip>Silent blue letter when your artillery outpost destroys a target. Partial hits go to the action log only.</TSA_WD_Notify_MortarHitTooltip>
+  <TSA_WD_Notify_MortarMiss>Letter: mortar misses</TSA_WD_Notify_MortarMiss>
+  <TSA_WD_Notify_MortarMissTooltip>Silent blue letter when your artillery outpost misses. Can be noisy.</TSA_WD_Notify_MortarMissTooltip>
+  <TSA_WD_Notify_AntiAirHit>Letter: your anti-air fires</TSA_WD_Notify_AntiAirHit>
+  <TSA_WD_Notify_AntiAirHitTooltip>When your anti-air flak hits or misses a hostile airborne target. Hostile mortar shells use a separate setting below.</TSA_WD_Notify_AntiAirHitTooltip>
+  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>Letter: anti-air vs hostile mortar shell</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>
+  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>When your flak destroys or misses a hostile mortar shell. Can be noisy.</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>
+  <TSA_WD_Notify_NpcMortarHitPlayer>Letter: enemy mortar targets you</TSA_WD_Notify_NpcMortarHitPlayer>
+  <TSA_WD_Notify_NpcMortarHitPlayerTooltip>When an enemy T4 settlement mortar fires at one of your WD outposts, caravans, or travelers.</TSA_WD_Notify_NpcMortarHitPlayerTooltip>
+  <TSA_WD_Notify_T4AntiAirHitPlayer>Letter: enemy anti-air targets your pods</TSA_WD_Notify_T4AntiAirHitPlayer>
+  <TSA_WD_Notify_T4AntiAirHitPlayerTooltip>When enemy T4 anti-air hits or misses your drop pods, transport pods, or other non-shell airborne targets. Mortar shells use a separate setting below. Colonist deaths in a shot-down pod always send a who-died letter.</TSA_WD_Notify_T4AntiAirHitPlayerTooltip>
+  <TSA_WD_Notify_PlayerMortarShellShotDown>Letter: your mortar shell shot down</TSA_WD_Notify_PlayerMortarShellShotDown>
+  <TSA_WD_Notify_PlayerMortarShellShotDownTooltip>Neutral letter when enemy flak destroys or misses a mortar shell from one of your outposts. Can be noisy.</TSA_WD_Notify_PlayerMortarShellShotDownTooltip>
+  <TSA_WD_Notify_NpcMortarHitNpc>Letter: NPC mortar vs NPC target</TSA_WD_Notify_NpcMortarHitNpc>
+  <TSA_WD_Notify_NpcMortarHitNpcTooltip>When an enemy mortar fires at another NPC settlement, traveler, or raid force, or when enemy anti-air destroys another NPC airborne target (including mortar shells). Can be noisy.</TSA_WD_Notify_NpcMortarHitNpcTooltip>
+  <TSA_WD_Notify_WarehouseGoodsArrived>Message: warehouse goods arrive</TSA_WD_Notify_WarehouseGoodsArrived>
+  <TSA_WD_Notify_WarehouseGoodsArrivedTooltip>When goods are deposited into one of your warehouse outposts.</TSA_WD_Notify_WarehouseGoodsArrivedTooltip>
+  <TSA_WD_Notify_OutpostDeliveryToColonyArrived>Letter: outpost delivery at colony</TSA_WD_Notify_OutpostDeliveryToColonyArrived>
+  <TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>When an outpost delivery reaches a player colony map and drops its goods.</TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>
+  <TSA_WD_Notify_PrisonerRecruitedUnderway>Message: outpost prisoner recruited</TSA_WD_Notify_PrisonerRecruitedUnderway>
+  <TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>When an outpost prisoner finishes recruiting and starts traveling to their scheduled destination.</TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>
+  <TSA_WD_Notify_PlayerCaravanClash>Letter: player caravan clash</TSA_WD_Notify_PlayerCaravanClash>
+  <TSA_WD_Notify_PlayerCaravanClashTooltip>When one of your caravans enters or loses a WD caravan clash.</TSA_WD_Notify_PlayerCaravanClashTooltip>
+  <TSA_WD_Notify_RapidResponseCaravanClash>Letter: Rapid Response caravan clash</TSA_WD_Notify_RapidResponseCaravanClash>
+  <TSA_WD_Notify_RapidResponseCaravanClashTooltip>When a Rapid Response interceptor defeats an enemy caravan or is defeated.</TSA_WD_Notify_RapidResponseCaravanClashTooltip>
+  <TSA_WD_Notify_TravelerPollutionDamage>Letter: traveler pollution damage</TSA_WD_Notify_TravelerPollutionDamage>
+  <TSA_WD_Notify_TravelerPollutionDamageTooltip>One yellow letter the first time each WD traveler loses strength leaving a polluted tile. Later polluted tiles on the same traveler stay silent.</TSA_WD_Notify_TravelerPollutionDamageTooltip>
+  <TSA_WD_Notify_OutpostPollutionDamage>Message: outpost pollution damage</TSA_WD_Notify_OutpostPollutionDamage>
+  <TSA_WD_Notify_OutpostPollutionDamageTooltip>When a WD outpost loses strength from average pollution nearby (once per day when damage applies). A wipe still sends a letter. Dev log always records these events.</TSA_WD_Notify_OutpostPollutionDamageTooltip>
   <TSA_WD_Notify_HeaderNearby>Nearby world events</TSA_WD_Notify_HeaderNearby>
   <TSA_WD_Notify_HeaderWorldThreats>World threat actions</TSA_WD_Notify_HeaderWorldThreats>
-  <TSA_WD_Notify_HeaderWorldThreatsTip>Letters for desperation raids, turtle consolidations, and strong-faction war shifts. Timing and enable gates live under Combat Difficulty.</TSA_WD_Notify_HeaderWorldThreatsTip>
-  <TSA_WD_Notify_DesperationRaid>Notify when a desperation raid launches</TSA_WD_Notify_DesperationRaid>
-  <TSA_WD_Notify_DesperationRaidTooltip>Letter when a weak faction packs nearby settlements and marches after a loss.</TSA_WD_Notify_DesperationRaidTooltip>
+  <TSA_WD_Notify_HeaderWorldThreatsTip>Letters for desperation raids, turtle consolidations, and strong-faction war. Enable gates and timing are under Combat Difficulty.</TSA_WD_Notify_HeaderWorldThreatsTip>
+  <TSA_WD_Notify_DesperationRaid>Letter: desperation raid launches</TSA_WD_Notify_DesperationRaid>
+  <TSA_WD_Notify_DesperationRaidTooltip>When a weak faction packs nearby settlements and marches after a loss.</TSA_WD_Notify_DesperationRaidTooltip>
   <TSA_WD_Notify_HeaderOutpostsRaids>Your outposts and raids</TSA_WD_Notify_HeaderOutpostsRaids>
-  <TSA_WD_Notify_HeaderAlerts>Right-side alerts</TSA_WD_Notify_HeaderAlerts>
-  <TSA_WD_Notify_NotificationRadius>Notification radius (tiles)</TSA_WD_Notify_NotificationRadius>
-  <TSA_WD_Notify_NotificationRadiusTooltip>How far from your colony (or nearest outpost if you have no colony) a world event must be to send a Nearby world event letter. Does not affect your outposts, incoming raids, or diplomacy letters.</TSA_WD_Notify_NotificationRadiusTooltip>
-  <TSA_WD_Notify_NewSettlement>Notify when a settlement is founded nearby</TSA_WD_Notify_NewSettlement>
-  <TSA_WD_Notify_NewSettlementTooltip>Letter when a faction founds a new settlement by expansion within the notification radius. Does not cover conquest after an NPC raid.</TSA_WD_Notify_NewSettlementTooltip>
-  <TSA_WD_Notify_NpcConquestSettlement>Notify when a settlement is captured</TSA_WD_Notify_NpcConquestSettlement>
-  <TSA_WD_Notify_NpcConquestSettlementTooltip>Letter when an NPC raid wins and the attacker takes the settlement (replacement settlement on the tile) within the notification radius.</TSA_WD_Notify_NpcConquestSettlementTooltip>
-  <TSA_WD_Notify_OutpostDestroyed>Notify when a player outpost is destroyed</TSA_WD_Notify_OutpostDestroyed>
-  <TSA_WD_Notify_OutpostDestroyedTooltip>Urgent letter when one of your outposts is lost in a simulated world raid or a manual defense map defeat. Fires at any distance. Does not cover mortar wipe or voluntary evacuate.</TSA_WD_Notify_OutpostDestroyedTooltip>
+  <TSA_WD_Notify_HeaderAlerts>Alerts</TSA_WD_Notify_HeaderAlerts>
+  <TSA_WD_Notify_NotificationRadius>Nearby letter radius (tiles)</TSA_WD_Notify_NotificationRadius>
+  <TSA_WD_Notify_NotificationRadiusTooltip>World events must be within this many tiles of your colony (or nearest outpost if you have no colony) to send a Nearby letter. Does not affect outposts, incoming raids, or diplomacy letters.</TSA_WD_Notify_NotificationRadiusTooltip>
+  <TSA_WD_Notify_NewSettlement>Letter: settlement founded nearby</TSA_WD_Notify_NewSettlement>
+  <TSA_WD_Notify_NewSettlementTooltip>When a faction founds a new settlement by expansion within the notification radius. Does not cover conquest after an NPC raid.</TSA_WD_Notify_NewSettlementTooltip>
+  <TSA_WD_Notify_NpcConquestSettlement>Letter: settlement captured nearby</TSA_WD_Notify_NpcConquestSettlement>
+  <TSA_WD_Notify_NpcConquestSettlementTooltip>When an NPC raid wins and the attacker takes the settlement (replacement settlement on the tile) within the notification radius.</TSA_WD_Notify_NpcConquestSettlementTooltip>
+  <TSA_WD_Notify_OutpostDestroyed>Letter: outpost destroyed</TSA_WD_Notify_OutpostDestroyed>
+  <TSA_WD_Notify_OutpostDestroyedTooltip>High-priority letter when one of your outposts is lost in a simulated world raid or a manual defense map defeat. Any distance. Does not cover mortar wipe or voluntary evacuate.</TSA_WD_Notify_OutpostDestroyedTooltip>
   <TSA_WD_Notify_Reset>Reset this page to defaults</TSA_WD_Notify_Reset>
-  <TSA_WD_Notify_SettlementRaided>Notify when a settlement is destroyed nearby</TSA_WD_Notify_SettlementRaided>
-  <TSA_WD_Notify_SettlementRaidedTooltip>Letter when a major or minor world incident completely wipes a settlement within the notification radius. Not for NPC raids.</TSA_WD_Notify_SettlementRaidedTooltip>
-  <TSA_WD_Notify_SettlementRazed>Notify when a settlement is razed nearby</TSA_WD_Notify_SettlementRazed>
-  <TSA_WD_Notify_SettlementRazedTooltip>Letter when an NPC raid wins and the settlement is destroyed in the process (tile left empty) within the notification radius.</TSA_WD_Notify_SettlementRazedTooltip>
-  <TSA_WD_Notify_Turtle>Turtle consolidate nearby</TSA_WD_Notify_Turtle>
-  <TSA_WD_Notify_TurtleTooltip>Letter when a nearby faction consolidates its outer settlements into a hub and fortifies it, within the notification radius.</TSA_WD_Notify_TurtleTooltip>
-  <TSA_WD_Notify_ThreatLevel>Show world threat alert (right side)</TSA_WD_Notify_ThreatLevel>
-  <TSA_WD_Notify_ThreatLevelTooltip>Shows a silent, persistent alert with Nearby and Far landing raid points (after storyteller clamp). Click jumps to the strongest Nearby hostile when present.</TSA_WD_Notify_ThreatLevelTooltip>
-  <TSA_WD_Notify_CriticalFood>Show critical outpost food alert (right side)</TSA_WD_Notify_CriticalFood>
-  <TSA_WD_Notify_CriticalFoodTooltip>Shows a silent, persistent alert on the right-side readout when at least one of your WD outposts has critical virtual food: negative stock, or at most 3 in-game days until empty while net food is negative. Stable or surplus outposts do not trigger this alert. Click to jump to the most severe outpost. Requires food logistics to be enabled.</TSA_WD_Notify_CriticalFoodTooltip>
-  <TSA_WD_Notify_DropPodDeliveryInAaRange>WD: Drop Pod Delivery in range of AA</TSA_WD_Notify_DropPodDeliveryInAaRange>
-  <TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>Shows a right-side alert when one of your warehouses is set to drop pod delivery and sits within anti-air range of a hostile Tier 4 settlement with AA active. Checks the warehouse tile only (not the full flight path). Switch that warehouse to land delivery or clear the AA threat.</TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>
+  <TSA_WD_Notify_SettlementRaided>Letter: settlement destroyed nearby</TSA_WD_Notify_SettlementRaided>
+  <TSA_WD_Notify_SettlementRaidedTooltip>When a major or minor world incident completely wipes a settlement within the notification radius. Not for NPC raids.</TSA_WD_Notify_SettlementRaidedTooltip>
+  <TSA_WD_Notify_SettlementRazed>Letter: settlement razed nearby</TSA_WD_Notify_SettlementRazed>
+  <TSA_WD_Notify_SettlementRazedTooltip>When an NPC raid wins and the settlement is destroyed in the process (tile left empty) within the notification radius.</TSA_WD_Notify_SettlementRazedTooltip>
+  <TSA_WD_Notify_Turtle>Letter: turtle consolidate nearby</TSA_WD_Notify_Turtle>
+  <TSA_WD_Notify_TurtleTooltip>When a nearby faction consolidates its outer settlements into a hub and fortifies it, within the notification radius.</TSA_WD_Notify_TurtleTooltip>
+  <TSA_WD_Notify_ThreatLevel>Alert: world threat</TSA_WD_Notify_ThreatLevel>
+  <TSA_WD_Notify_ThreatLevelTooltip>Silent, persistent alert with Nearby and Far landing raid points (after storyteller clamp). Click jumps to the strongest Nearby hostile when present.</TSA_WD_Notify_ThreatLevelTooltip>
+  <TSA_WD_Notify_CriticalFood>Alert: critical outpost food</TSA_WD_Notify_CriticalFood>
+  <TSA_WD_Notify_CriticalFoodTooltip>Silent, persistent alert when at least one WD outpost has critical virtual food: negative stock, or at most 3 in-game days until empty while net food is negative. Stable or surplus outposts do not trigger it. Click jumps to the most severe outpost. Requires food logistics.</TSA_WD_Notify_CriticalFoodTooltip>
+  <TSA_WD_Notify_DropPodDeliveryInAaRange>Alert: drop pod delivery in AA range</TSA_WD_Notify_DropPodDeliveryInAaRange>
+  <TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>When a warehouse uses drop pod delivery and sits within anti-air range of a hostile Tier 4 settlement with AA active. Checks the warehouse tile only, not the full flight path.</TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>
   <TSA_WD_Alert_DropPodDeliveryInAaRange>WD: Drop Pod Delivery in range of AA</TSA_WD_Alert_DropPodDeliveryInAaRange>
   <TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>These warehouses use drop pod delivery while inside enemy AA Turret range:</TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>
   <TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>- {0}</TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>
-  <TSA_WD_Notify_ConstructionInsufficientStrength>Show construction insufficient-strength alert (right side)</TSA_WD_Notify_ConstructionInsufficientStrength>
-  <TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>Shows a silent, persistent alert on the right-side readout when a WD outpost has finished preparing a road-block or trap segment but lacks the strength to dispatch the crew. Click to jump to an affected outpost.</TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>
+  <TSA_WD_Notify_ConstructionInsufficientStrength>Alert: construction waiting on strength</TSA_WD_Notify_ConstructionInsufficientStrength>
+  <TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>Silent, persistent alert when a WD outpost finished preparing a road-block or trap segment but lacks strength to dispatch the crew. Click jumps to an affected outpost.</TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>
   <TSA_WD_Alert_ConstructionInsufficientStrength>WD: Construction waiting on strength</TSA_WD_Alert_ConstructionInsufficientStrength>
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>These outposts are ready to dispatch a construction crew but lack strength:</TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>- {0}: {1}</TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>
-  <TSA_WD_Notify_ConstructionInsufficientMaterials>Show construction insufficient-materials alert (right side)</TSA_WD_Notify_ConstructionInsufficientMaterials>
-  <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>Shows a silent, persistent alert on the right-side readout when a WD outpost has finished preparing a road, bridge segment, fortification, or AT segment but lacks materials to dispatch the crew. Click to jump to an affected outpost.</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
-  <TSA_WD_Notify_BridgeDeconstructBlocked>Show letter when bridge teardown is blocked</TSA_WD_Notify_BridgeDeconstructBlocked>
-  <TSA_WD_Notify_BridgeDeconstructBlockedTooltip>When a bridge teardown crew arrives and the span is occupied, show a yellow NeutralEvent letter naming the blocker. If off, only a message is shown.</TSA_WD_Notify_BridgeDeconstructBlockedTooltip>
-  <TSA_WD_Notify_RoadCancelledByTrench>Show letter when a road project is cancelled by a trench</TSA_WD_Notify_RoadCancelledByTrench>
-  <TSA_WD_Notify_RoadCancelledByTrenchTooltip>When a road crew cannot pave because the path hits an existing trench, cancel the project and show a blue NeutralEvent letter. If off, the project still cancels silently.</TSA_WD_Notify_RoadCancelledByTrenchTooltip>
-  <TSA_WD_Notify_TrenchCancelledByRoad>Show letter when a trench project is cancelled by a road</TSA_WD_Notify_TrenchCancelledByRoad>
-  <TSA_WD_Notify_TrenchCancelledByRoadTooltip>When a trench crew cannot dig because the path hits an existing road, cancel the project and show a blue NeutralEvent letter. If off, the project still cancels silently.</TSA_WD_Notify_TrenchCancelledByRoadTooltip>
+  <TSA_WD_Notify_ConstructionInsufficientMaterials>Alert: construction waiting on materials</TSA_WD_Notify_ConstructionInsufficientMaterials>
+  <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>Silent, persistent alert when a WD outpost finished preparing a road, bridge segment, fortification, or AT segment but lacks materials to dispatch the crew. Click jumps to an affected outpost.</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
+  <TSA_WD_Notify_BridgeDeconstructBlocked>Letter: bridge teardown blocked</TSA_WD_Notify_BridgeDeconstructBlocked>
+  <TSA_WD_Notify_BridgeDeconstructBlockedTooltip>When a bridge teardown crew arrives and the span is occupied, a yellow NeutralEvent letter names the blocker. Off = message only.</TSA_WD_Notify_BridgeDeconstructBlockedTooltip>
+  <TSA_WD_Notify_RoadCancelledByTrench>Letter: road cancelled by trench</TSA_WD_Notify_RoadCancelledByTrench>
+  <TSA_WD_Notify_RoadCancelledByTrenchTooltip>When a road crew cannot pave because the path hits an existing trench, cancels the project and shows a blue NeutralEvent letter. Off = project still cancels silently.</TSA_WD_Notify_RoadCancelledByTrenchTooltip>
+  <TSA_WD_Notify_TrenchCancelledByRoad>Letter: trench cancelled by road</TSA_WD_Notify_TrenchCancelledByRoad>
+  <TSA_WD_Notify_TrenchCancelledByRoadTooltip>When a trench crew cannot dig because the path hits an existing road, cancels the project and shows a blue NeutralEvent letter. Off = project still cancels silently.</TSA_WD_Notify_TrenchCancelledByRoadTooltip>
   <TSA_WD_Alert_ConstructionInsufficientMaterials>WD: Construction waiting on materials</TSA_WD_Alert_ConstructionInsufficientMaterials>
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>These outposts are ready to dispatch a construction crew but lack materials:</TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>- {0}: {1}</TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>
-  <TSA_WD_Notify_OutpostNoProduction>Show outposts without production alert (right side)</TSA_WD_Notify_OutpostNoProduction>
-  <TSA_WD_Notify_OutpostNoProductionTooltip>Shows a silent, persistent alert on the right-side readout when at least one of your WD outposts needs a production pick but has nothing selected. Mouseover lists all affected outposts. Click to jump to the first.</TSA_WD_Notify_OutpostNoProductionTooltip>
-  <TSA_WD_Notify_OutpostUnusedExperts>Show outposts without experts alert (right side)</TSA_WD_Notify_OutpostUnusedExperts>
-  <TSA_WD_Notify_OutpostUnusedExpertsTooltip>Shows a silent, persistent alert on the right-side readout when at least one of your WD outposts has unused expert slots. Mouseover lists all affected outposts with assigned/max. Click to jump to the first.</TSA_WD_Notify_OutpostUnusedExpertsTooltip>
+  <TSA_WD_Notify_OutpostNoProduction>Alert: outposts without production</TSA_WD_Notify_OutpostNoProduction>
+  <TSA_WD_Notify_OutpostNoProductionTooltip>Silent, persistent alert when at least one WD outpost needs a production pick but has nothing selected. Mouseover lists affected outposts. Click jumps to the first.</TSA_WD_Notify_OutpostNoProductionTooltip>
+  <TSA_WD_Notify_OutpostUnusedExperts>Alert: outposts without experts</TSA_WD_Notify_OutpostUnusedExperts>
+  <TSA_WD_Notify_OutpostUnusedExpertsTooltip>Silent, persistent alert when at least one WD outpost has unused expert slots. Mouseover lists affected outposts with assigned/max. Click jumps to the first.</TSA_WD_Notify_OutpostUnusedExpertsTooltip>
   <TSA_WD_Alert_OutpostNoProduction>WD: Outposts w/o Production</TSA_WD_Alert_OutpostNoProduction>
   <TSA_WD_Alert_OutpostNoProductionDescHeader>These outposts have nothing to produce selected:</TSA_WD_Alert_OutpostNoProductionDescHeader>
   <TSA_WD_Alert_OutpostNoProductionDescLine>- {0}</TSA_WD_Alert_OutpostNoProductionDescLine>
   <TSA_WD_Alert_OutpostUnusedExperts>WD: Outposts w/o Experts</TSA_WD_Alert_OutpostUnusedExperts>
   <TSA_WD_Alert_OutpostUnusedExpertsDescHeader>These outposts have unused expert slots:</TSA_WD_Alert_OutpostUnusedExpertsDescHeader>
   <TSA_WD_Alert_OutpostUnusedExpertsDescLine>- {0}: {1}/{2} experts</TSA_WD_Alert_OutpostUnusedExpertsDescLine>
-  <TSA_WD_Notify_MidGameActive>Show Mid Game alert (right side)</TSA_WD_Notify_MidGameActive>
-  <TSA_WD_Notify_MidGameActiveTooltip>Shows a silent, persistent alert on the right-side readout while Mid Game is active (not Late Game). A red letter is also sent once when Mid Game first activates.</TSA_WD_Notify_MidGameActiveTooltip>
-  <TSA_WD_Notify_LateGameActive>Show Late Game alert (right side)</TSA_WD_Notify_LateGameActive>
-  <TSA_WD_Notify_LateGameActiveTooltip>Shows a silent, persistent alert on the right-side readout while Late Game is active. A red letter is also sent once when Late Game first activates.</TSA_WD_Notify_LateGameActiveTooltip>
+  <TSA_WD_Notify_MidGameActive>Alert: Mid Game active</TSA_WD_Notify_MidGameActive>
+  <TSA_WD_Notify_MidGameActiveTooltip>Silent, persistent alert while Mid Game is active (not Late Game). A one-shot red letter is also sent when Mid Game first activates.</TSA_WD_Notify_MidGameActiveTooltip>
+  <TSA_WD_Notify_LateGameActive>Alert: Late Game active</TSA_WD_Notify_LateGameActive>
+  <TSA_WD_Notify_LateGameActiveTooltip>Silent, persistent alert while Late Game is active. A one-shot red letter is also sent when Late Game first activates.</TSA_WD_Notify_LateGameActiveTooltip>
   <TSA_WD_TargetingYou>Inbound</TSA_WD_TargetingYou>
   <TSA_WD_ThreatBreakdownHeader>Attack-capable offensive strength:</TSA_WD_ThreatBreakdownHeader>
   <TSA_WD_WorldThreatTier_None>None</TSA_WD_WorldThreatTier_None>
@@ -328,8 +328,8 @@
   <TSA_WD_Difficulty_OutpostIncSevTooltip>Strength removed from both the offensive and defensive pools of the outpost.</TSA_WD_Difficulty_OutpostIncSevTooltip>
   <TSA_WD_Difficulty_OutpostIncChance>Daily outpost incident chance</TSA_WD_Difficulty_OutpostIncChance>
   <TSA_WD_Difficulty_OutpostIncChanceTooltip>Chance per day to attempt one outpost incident while Late Game is active.</TSA_WD_Difficulty_OutpostIncChanceTooltip>
-  <TSA_WD_Difficulty_NotifyOutpostInc>Letter on outpost incident</TSA_WD_Difficulty_NotifyOutpostInc>
-  <TSA_WD_Difficulty_NotifyOutpostIncTooltip>Send a letter when an outpost incident reduces strength.</TSA_WD_Difficulty_NotifyOutpostIncTooltip>
+  <TSA_WD_Difficulty_NotifyOutpostInc>Letter: outpost incident</TSA_WD_Difficulty_NotifyOutpostInc>
+  <TSA_WD_Difficulty_NotifyOutpostIncTooltip>When an outpost incident reduces strength.</TSA_WD_Difficulty_NotifyOutpostIncTooltip>
   <TSA_WD_Difficulty_EnableGoodwillDrain>Periodic goodwill drain</TSA_WD_Difficulty_EnableGoodwillDrain>
   <TSA_WD_Difficulty_EnableGoodwillDrainTooltip>While Mid Game or Late Game is active, periodically reduce goodwill with non-permanent-enemy factions. Permanent enemies are skipped. One batch message per pulse; extra messages only when Ally/Neutral/Hostile flips.</TSA_WD_Difficulty_EnableGoodwillDrainTooltip>
   <TSA_WD_Difficulty_GoodwillDrainInterval>Goodwill drain interval (days)</TSA_WD_Difficulty_GoodwillDrainInterval>

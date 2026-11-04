@@ -25,23 +25,49 @@ namespace TSA_WorldDomination
             optionalTitle = null;
         }
 
-        public override void DoWindowContents(Rect inRect)
+        
+        private static Dialog_GrowthSettings embeddedHost;
+
+        public static void DrawEmbedded(Rect inRect)
+        {
+            if (embeddedHost == null) embeddedHost = new Dialog_GrowthSettings();
+            embeddedHost.DrawBody(inRect);
+        }
+public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
-            float contentWidth = contentRect.width - 24f;
+            DrawBody(contentRect);
+        }
+
+        private void DrawBody(Rect contentRect)
+        {
+            if (WdSettingsSearch.IsCollecting)
+            {
+                Listing_Standard l = new Listing_Standard();
+                l.Begin(contentRect);
+                DrawListing(l);
+                l.End();
+                return;
+            }
+
+            float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2800f);
-
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(scrollViewRect);
+            DrawListing(listing);
+            listing.End();
+            Widgets.EndScrollView();
+        }
 
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(scrollViewRect);
-            var s = WorldDominationMod.settings;
+        private void DrawListing(Listing_Standard l)
+        {
+var s = WorldDominationMod.settings;
             bool advanced = s.showAdvancedSettings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetGrowth(),
                 () => { actionEconomyExpanded = growthExpanded = expansionExpanded = defensiveExpanded = incidentsExpanded = true; },
                 () => { actionEconomyExpanded = growthExpanded = expansionExpanded = defensiveExpanded = incidentsExpanded = false; });
-            SettingsUI.DrawSettingsSearchBar(l);
-
+            
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Growth_HeaderActionEconomy".Translate(), ref actionEconomyExpanded, SettingsUI.SectionHeaderColor))
             {
                 float[] tierVals = { s.tier1Share, s.tier2Share, s.tier3Share, s.tier4Share };
@@ -178,9 +204,6 @@ namespace TSA_WorldDomination
                 "TSA_WD_Growth_MajorIncTooltip".Translate(), 10.0f, SliderFormat.Fixed0, WorldDominationSettings.DefMajorIncSev);
             }
             }
-
-            l.End();
-            Widgets.EndScrollView();
         }
     }
 }

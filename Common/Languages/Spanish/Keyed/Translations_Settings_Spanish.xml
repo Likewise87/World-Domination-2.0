@@ -24,6 +24,13 @@
   <TSA_WD_DescEconomicDifficulty>Mantenimiento de puestos, energía de avanzadillas, rendimiento decreciente de habilidades, drenaje de buena voluntad y tasas de soborno.</TSA_WD_DescEconomicDifficulty>
   <TSA_WD_Settings_Search>Buscar</TSA_WD_Settings_Search>
   <TSA_WD_Settings_SearchTip>Filtra controles de esta página por etiqueta o tooltip. Si coincide un encabezado de sección, se muestra toda esa sección.</TSA_WD_Settings_SearchTip>
+  <TSA_WD_Settings_SearchPlaceholder>Buscar en todos los ajustes…</TSA_WD_Settings_SearchPlaceholder>
+  <TSA_WD_Settings_SearchTipGlobal>Busca en todas las páginas por etiqueta o tooltip. Haz clic en un resultado para ir allí.</TSA_WD_Settings_SearchTipGlobal>
+  <TSA_WD_Settings_SearchNoResults>No hay ajustes coincidentes.</TSA_WD_Settings_SearchNoResults>
+  <TSA_WD_Settings_HelpEmpty>Pasa el cursor por un ajuste para ver detalles.</TSA_WD_Settings_HelpEmpty>
+  <TSA_WD_Settings_NavOverview>Resumen</TSA_WD_Settings_NavOverview>
+  <TSA_WD_Settings_NavOverviewDesc>Presets, modo medieval, opciones avanzadas, restablecer todo y notas de actualización.</TSA_WD_Settings_NavOverviewDesc>
+  <TSA_WD_Settings_OverviewHint>Elige una página a la izquierda. Usa la búsqueda encima de la lista para encontrar cualquier ajuste.</TSA_WD_Settings_OverviewHint>
   <TSA_WD_ThreatGate_Never>Nunca</TSA_WD_ThreatGate_Never>
   <TSA_WD_ThreatGate_FromMid>Desde Mid</TSA_WD_ThreatGate_FromMid>
   <TSA_WD_ThreatGate_FromLate>Desde Late</TSA_WD_ThreatGate_FromLate>
@@ -158,7 +165,7 @@
   <TSA_WD_DescDiplomacy>Diplomacia aleatoria, buena voluntad, revuelta (umbral elegible y rango objetivo de toma), incursiones aliadas, carreteras/comerciantes ordenados, regalos/compra/negociación, sobornos e inversión, y mejoras de líder/rezagado/celo/coalición. Guerra fuerte, asalto adelantado y desesperación están en Dificultad de combate.</TSA_WD_DescDiplomacy>
   <TSA_WD_DescDisinformation>Probabilidades de éxito y fracaso, enfriamientos e impacto de habilidad en misiones de desinformación.</TSA_WD_DescDisinformation>
   <TSA_WD_DescGarrison>Qué tan fuertes son las guarniciones por nivel, y cuánto se debilitan cuando un asentamiento está agotado.</TSA_WD_DescGarrison>
-  <TSA_WD_DescBaseGeneration>Ajustes del diseño KCSG cuando WD genera mapas de asalto a asentamientos y defensa de avanzadillas. La elegibilidad por facción en asaltos se configura en Configuración del mundo → Lealtades.</TSA_WD_DescBaseGeneration>
+  <TSA_WD_DescBaseGeneration>Por defecto WD asume la generación de bases al atacar asentamientos enemigos (aldeas de nivel 1 hasta fortalezas de nivel 4). El MapGen por facción está en la pestaña principal WD, luego Config. alcance. Custom Base Framework puede sustituir a WD y también respeta el nivel.</TSA_WD_DescBaseGeneration>
   <TSA_WD_DescGrowthExpand>Cuotas y límites de acciones diarias, crecimiento pasivo y máximo de asentamientos, distancia/saturación de expansión, bases defensivas de asentamiento y gravedad de incidentes.</TSA_WD_DescGrowthExpand>
   <TSA_WD_DescMiningBaselines>Configurar la cantidad base que una avanzadilla minera puede obtener por piedra/mineral según el nivel de habilidad de Minería.</TSA_WD_DescMiningBaselines>
   <TSA_WD_DescNotifications>Activar qué eventos de dominación mundial generan notificaciones.</TSA_WD_DescNotifications>
@@ -570,21 +577,21 @@
   <TSA_WD_Raid_Col4Tip>Fuerza perdida por el atacante al perder.</TSA_WD_Raid_Col4Tip>
   <TSA_WD_Raid_Col5>Victoria defensor</TSA_WD_Raid_Col5>
   <TSA_WD_Raid_Col5Tip>Fuerza perdida por el defensor al ganar (defensa exitosa).</TSA_WD_Raid_Col5Tip>
-  <TSA_WD_Notify_HeaderDiplomacyBuffs>Cartas de diplomacia y equilibrio de poder (WD)</TSA_WD_Notify_HeaderDiplomacyBuffs>
-  <TSA_WD_Notify_LeaderHandicap>Notificar: penalización al líder mundial</TSA_WD_Notify_LeaderHandicap>
-  <TSA_WD_Notify_LeaderHandicapTooltip>Carta cuando la facción dominante recibe la penalización temporal de líder.</TSA_WD_Notify_LeaderHandicapTooltip>
-  <TSA_WD_Notify_UnderdogBuff>Notificar: beneficio al rezagado</TSA_WD_Notify_UnderdogBuff>
-  <TSA_WD_Notify_UnderdogBuffTooltip>Carta cuando una facción débil recibe el beneficio temporal de rezagado.</TSA_WD_Notify_UnderdogBuffTooltip>
-  <TSA_WD_Notify_ExpansionistZeal>Notificar: celo expansionista</TSA_WD_Notify_ExpansionistZeal>
-  <TSA_WD_Notify_ExpansionistZealTooltip>Carta cuando una facción entra en celo expansionista (mayor alcance de incursiones, etc.).</TSA_WD_Notify_ExpansionistZealTooltip>
-  <TSA_WD_Notify_AntiLeaderCoalition>Notificar: coalición anti-líder</TSA_WD_Notify_AntiLeaderCoalition>
-  <TSA_WD_Notify_AntiLeaderCoalitionTooltip>Carta cuando facciones más débiles forman coalición contra un líder demasiado dominante.</TSA_WD_Notify_AntiLeaderCoalitionTooltip>
-  <TSA_WD_Notify_RandomDiplomacy>Notificar: cambios diplomáticos aleatorios</TSA_WD_Notify_RandomDiplomacy>
-  <TSA_WD_Notify_RandomDiplomacyTooltip>Carta cuando World Domination cambia al azar la relación entre dos facciones NPC (guerra, paz, alianza).</TSA_WD_Notify_RandomDiplomacyTooltip>
-  <TSA_WD_Notify_TradeAllyDiplomacy>Notificar: aliados por comercio</TSA_WD_Notify_TradeAllyDiplomacy>
-  <TSA_WD_Notify_TradeAllyDiplomacyTooltip>Carta cuando dos facciones NPC se alían porque la buena voluntad de caravanas WD cruzó el umbral de alianza.</TSA_WD_Notify_TradeAllyDiplomacyTooltip>
-  <TSA_WD_Notify_StrongFactionWar>Notificar: guerras entre facciones fuertes</TSA_WD_Notify_StrongFactionWar>
-  <TSA_WD_Notify_StrongFactionWarTooltip>Carta cuando facciones NPC fuertes enfrían una alianza a neutral o pasan de neutral a guerra.</TSA_WD_Notify_StrongFactionWarTooltip>
+  <TSA_WD_Notify_HeaderDiplomacyBuffs>Diplomacia y equilibrio de poder</TSA_WD_Notify_HeaderDiplomacyBuffs>
+  <TSA_WD_Notify_LeaderHandicap>Carta: penalización al líder mundial</TSA_WD_Notify_LeaderHandicap>
+  <TSA_WD_Notify_LeaderHandicapTooltip>Cuando la facción dominante recibe la penalización temporal de líder.</TSA_WD_Notify_LeaderHandicapTooltip>
+  <TSA_WD_Notify_UnderdogBuff>Carta: beneficio al rezagado</TSA_WD_Notify_UnderdogBuff>
+  <TSA_WD_Notify_UnderdogBuffTooltip>Cuando una facción débil recibe el beneficio temporal Ágil (Nimble).</TSA_WD_Notify_UnderdogBuffTooltip>
+  <TSA_WD_Notify_ExpansionistZeal>Carta: celo expansionista</TSA_WD_Notify_ExpansionistZeal>
+  <TSA_WD_Notify_ExpansionistZealTooltip>Cuando una facción entra en celo expansionista (más alcance de incursiones, menor desgaste en viaje).</TSA_WD_Notify_ExpansionistZealTooltip>
+  <TSA_WD_Notify_AntiLeaderCoalition>Carta: coalición anti-líder</TSA_WD_Notify_AntiLeaderCoalition>
+  <TSA_WD_Notify_AntiLeaderCoalitionTooltip>Cuando facciones más débiles forman una coalición contra un líder demasiado dominante.</TSA_WD_Notify_AntiLeaderCoalitionTooltip>
+  <TSA_WD_Notify_RandomDiplomacy>Carta: cambio diplomático aleatorio</TSA_WD_Notify_RandomDiplomacy>
+  <TSA_WD_Notify_RandomDiplomacyTooltip>Cuando World Domination cambia al azar la relación entre dos facciones NPC (guerra, paz, alianza).</TSA_WD_Notify_RandomDiplomacyTooltip>
+  <TSA_WD_Notify_TradeAllyDiplomacy>Carta: aliados por comercio</TSA_WD_Notify_TradeAllyDiplomacy>
+  <TSA_WD_Notify_TradeAllyDiplomacyTooltip>Cuando dos facciones NPC se alían porque la buena voluntad de comerciantes WD cruzó el umbral de alianza.</TSA_WD_Notify_TradeAllyDiplomacyTooltip>
+  <TSA_WD_Notify_StrongFactionWar>Carta: cambio de guerra entre facciones fuertes</TSA_WD_Notify_StrongFactionWar>
+  <TSA_WD_Notify_StrongFactionWarTooltip>Cuando facciones NPC fuertes enfrían una alianza a neutral o escalan de neutral a guerra.</TSA_WD_Notify_StrongFactionWarTooltip>
   <TSA_WD_WorldMap_MenuTooltip>Herramientas del mapa de Dominación Mundial</TSA_WD_WorldMap_MenuTooltip>
   <TSA_WD_WorldMap_HotkeyLine>Tecla: {0}</TSA_WD_WorldMap_HotkeyLine>
   <TSA_WD_WorldMap_ToggleTierTexts>Etiquetas de nivel de asentamiento</TSA_WD_WorldMap_ToggleTierTexts>
@@ -747,7 +754,7 @@
   <TSA_WD_DescPlayerArtillery>Lógica de combate de mortero, antiaéreo y respuesta rápida de avanzadilla (daño, alcance, enfriamientos, bandas de acierto, fuerza de interceptación). Las velocidades de viaje (viajeros a pie, cápsulas y caravanas de interceptación) están en Caravanas y comercio.</TSA_WD_DescPlayerArtillery>
   <TSA_WD_Diplo_LaunchPodGiftStrengthPer100>Fuerza por regalo en cápsula por 100 de valor de mercado</TSA_WD_Diplo_LaunchPodGiftStrengthPer100>
   <TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>Fuerza extra concedida al instante a un asentamiento cuando le envías regalos por cápsula, repartida a partes iguales entre ofensiva y defensiva. Si un lado está lleno, el resto va al otro. La buena voluntad vanilla no cambia. No sube el nivel del asentamiento.</TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>
-  <TSA_WD_BaseGen_Intro>Estas opciones ajustan la generación WD/KCSG cuando se ejecuta. Los mapas de defensa de avanzadillas siempre usan diseños WD. Los asaltos a asentamientos NPC solo usan WD para facciones con MapGen activo en Configuración del mundo → Lealtades.</TSA_WD_BaseGen_Intro>
+  <TSA_WD_BaseGen_Intro>Por defecto WD asume la generación de bases cuando atacas asentamientos enemigos. Eso significa que los de nivel 1 son aldeas pequeñas y los de nivel 4 son fortalezas de verdad. Configura abajo los detalles relacionados.\n\nEn la partida, abre la pestaña principal WD y luego Config. alcance para decidir por facción si WD debe tomar la generación de bases. Si una facción no está cubierta por WD, se pierde la diferencia entre nivel 1 y nivel 4.\n\nSi usas el mod Custom Base Framework, ese mod genera las bases en lugar de WD y también respeta el nivel del asentamiento.</TSA_WD_BaseGen_Intro>
   <TSA_WD_BaseGen_HeaderTerrainPrep>Preparación del terreno</TSA_WD_BaseGen_HeaderTerrainPrep>
   <TSA_WD_BaseGen_AdaptiveTerrainPrep>Preparación adaptativa del terreno (pantano / roca)</TSA_WD_BaseGen_AdaptiveTerrainPrep>
   <TSA_WD_BaseGen_AdaptiveTerrainPrepTip>En mapas de asalto a asentamientos y defensa de avanzadillas, escanea el diseño. Si hay demasiado terreno no edificable (barro, pantano, agua, roca), convierte solo esas celdas bloqueadas al terreno edificable más común del mapa. Los árboles se quedan. Si está mayormente bien, deja la naturaleza como está.</TSA_WD_BaseGen_AdaptiveTerrainPrepTip>
@@ -827,7 +834,7 @@
 
   <TSA_WD_HeaderImportant>Presets de ajustes</TSA_WD_HeaderImportant>
   <TSA_WD_MedievalMode>Modo medieval</TSA_WD_MedievalMode>
-  <TSA_WD_MedievalModeTip>Para partidas medievales / de baja tecnología (incluido Medieval Overhaul). Oculta puestos, mejoras y torretas AT industriales de WD; sube las puertas de tech de cápsulas y morteros/AA de PNJ a Industrial; oculta la UI de viaje terrestre vs cápsula del jugador y fuerza viaje terrestre. Los edificios industriales ya colocados no se eliminan. Activarlo a mitad de partida debería funcionar; mejor haz una copia de seguridad o empieza una partida nueva!</TSA_WD_MedievalModeTip>
+  <TSA_WD_MedievalModeTip>Actívalo al usar WD con Medieval Overhaul 2. Ocultará puestos, mejoras y torretas AT industriales de WD; subirá las puertas de tech de cápsulas y morteros/AA de PNJ a Industrial; ocultará la UI de viaje terrestre vs cápsula del jugador y forzará viaje terrestre. Los edificios industriales ya colocados no se eliminan. Activarlo a mitad de partida debería funcionar; mejor haz una copia de seguridad o empieza una partida nueva!</TSA_WD_MedievalModeTip>
   <TSA_WD_Medieval_Blocked>No disponible en modo medieval.</TSA_WD_Medieval_Blocked>
   <TSA_WD_Medieval_TechFlooredTip>El modo medieval fija esto como mínimo a Industrial para incursiones/artillería PNJ.</TSA_WD_Medieval_TechFlooredTip>
   <TSA_WD_HeaderSettingPresets>Presets de ajustes</TSA_WD_HeaderSettingPresets>
@@ -841,6 +848,7 @@
   <TSA_WD_SettingsPreset_Custom>Personalizado</TSA_WD_SettingsPreset_Custom>
   <TSA_WD_SettingsPreset_CurrentlyApplied>Aplicado actualmente: {0}</TSA_WD_SettingsPreset_CurrentlyApplied>
   <TSA_WD_SettingsPreset_Apply>Aplicar</TSA_WD_SettingsPreset_Apply>
+  <TSA_WD_SettingsPreset_ApplyTip>Haz clic para aplicar el preset de ajustes seleccionado</TSA_WD_SettingsPreset_ApplyTip>
   <TSA_WD_SettingsPreset_Applied>Preset aplicado: {0}</TSA_WD_SettingsPreset_Applied>
   <TSA_WD_Settings_ExpandAll>Expandir todo</TSA_WD_Settings_ExpandAll>
   <TSA_WD_Settings_CollapseAll>Contraer todo</TSA_WD_Settings_CollapseAll>
@@ -888,7 +896,7 @@
   <TSA_WD_Pollution_EnableTravelerDamage>Daño por contaminación a la fuerza</TSA_WD_Pollution_EnableTravelerDamage>
   <TSA_WD_Pollution_EnableTravelerDamageTip>Si está activo, los viajeros WD terrestres elegibles pierden fuerza al salir de casillas contaminadas, y los asentamientos NPC más los puestos WD sufren daño diario por la contaminación media cercana. Tripulaciones de descontaminación, proyectiles aéreos y cápsulas no se ven afectados. Usa las casillas de tipo para elegir qué caravanas reciben daño. Los asentamientos NPC también envían cuadrillas baratas de descontaminación cada 12 horas.</TSA_WD_Pollution_EnableTravelerDamageTip>
   <TSA_WD_Pollution_WasterImmunity>Inmunidad waster a la contaminación</TSA_WD_Pollution_WasterImmunity>
-  <TSA_WD_Pollution_WasterImmunityTip>Si está activo, las facciones PirateWaster omiten el daño al salir y el daño diario del sitio. PirateWaster nunca hace descontaminación automática NPC (ese bloqueo es siempre).</TSA_WD_Pollution_WasterImmunityTip>
+  <TSA_WD_Pollution_WasterImmunityTip>Si está activo, las facciones adaptadas a la contaminación (PirateWaster, o cualquier facción cuyo xenotipo principal tenga PollutionRush, p. ej. enjambres buzzer) omiten el daño al salir y el daño diario del sitio. Esas facciones nunca hacen descontaminación automática NPC (ese bloqueo es siempre).</TSA_WD_Pollution_WasterImmunityTip>
   <TSA_WD_Pollution_DamageRaiders>Caravanas de asalto</TSA_WD_Pollution_DamageRaiders>
   <TSA_WD_Pollution_DamageRaidersTip>Las caravanas de asalto terrestres y de respuesta rápida reciben daño al salir de contaminación. Las cápsulas de asalto siguen exentas.</TSA_WD_Pollution_DamageRaidersTip>
   <TSA_WD_Pollution_DamageExpansion>Caravanas de expansión</TSA_WD_Pollution_DamageExpansion>

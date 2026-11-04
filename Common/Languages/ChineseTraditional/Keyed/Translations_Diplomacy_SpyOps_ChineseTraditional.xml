@@ -207,13 +207,13 @@
   <!-- EN: Daily Revolt Chance -->
   <TSA_WD_Diplo_RevoltChance>每日叛亂機率</TSA_WD_Diplo_RevoltChance>
   <!-- EN: Daily chance… Min eligible / Target min-max soft-fill -->
-  <TSA_WD_Diplo_RevoltChanceTooltip>每日一個已被擊敗的派系捲土重來的機率：主受害者池須達到「叛亂所需最低合格據點」，再依「目標據點（最小／最大）」從據點最多的NPC派系奪取；不足時盡量奪取現有數量。優先低等級據點。玩家領地絕不會被奪取。</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_RevoltChanceTooltip>每日一個已被擊敗的派系捲土重來的機率：主受害者池須達到「叛亂所需最低合格據點」，再依「目標據點（最小／最大）」從據點最多的大型帝國奪取（小派系不是受害者）。優先最多兩個鄰近集群（與龜縮相同的20格連通邊）。若集群無法擴大，則回退為舊的分散奪取。不足時盡量奪取。優先低等級據點。玩家領地絕不會被奪取。</TSA_WD_Diplo_RevoltChanceTooltip>
   <TSA_WD_Diplo_RevoltMinEligible>叛亂所需最低合格據點</TSA_WD_Diplo_RevoltMinEligible>
   <TSA_WD_Diplo_RevoltMinEligibleTooltip>硬門檻：主受害者派系（最大帝國，或除錯用種子派系）必須至少有這麼多合格的NPC據點，否則不會發生叛亂。合格＝未受保護且非玩家的WD據點。不可高於「目標據點（最小）」。受保護與玩家領地既不計入也不被奪取。</TSA_WD_Diplo_RevoltMinEligibleTooltip>
   <TSA_WD_Diplo_RevoltSettlementsMin>目標據點（最小）</TSA_WD_Diplo_RevoltSettlementsMin>
-  <TSA_WD_Diplo_RevoltSettlementsMinTooltip>叛亂觸發時擲出的奪取目標下限。不是保證數量：過合格門檻後，會盡量奪取至擲出的目標。取自據點最多的NPC派系（核心來自最大派系，其餘盡量來自第二、三名）。優先低等級。</TSA_WD_Diplo_RevoltSettlementsMinTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMinTooltip>叛亂觸發時擲出的奪取目標下限。不是保證數量：過合格門檻後，優先在大型帝國中奪取鄰近集群，再盡量補足至擲出的目標。不奪取小派系。優先低等級。</TSA_WD_Diplo_RevoltSettlementsMinTooltip>
   <TSA_WD_Diplo_RevoltSettlementsMax>目標據點（最大）</TSA_WD_Diplo_RevoltSettlementsMax>
-  <TSA_WD_Diplo_RevoltSettlementsMaxTooltip>叛亂觸發時擲出的奪取目標上限。須至少等於「目標據點（最小）」。若頂尖NPC派系合格據點不足，仍按現有數量盡量奪取。</TSA_WD_Diplo_RevoltSettlementsMaxTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMaxTooltip>叛亂觸發時擲出的奪取目標上限。須至少等於「目標據點（最小）」。集群偏好與不足補足僅針對大型帝國。</TSA_WD_Diplo_RevoltSettlementsMaxTooltip>
   <!-- EN: Revolt cooldown -->
   <TSA_WD_Diplo_RevoltCooldown>叛亂冷卻</TSA_WD_Diplo_RevoltCooldown>
   <!-- EN: Days before another revolt can fire after one succeeds. Ignored while Shared special event cooldown is on. -->
@@ -849,13 +849,13 @@
   <!-- EN: Purchased {0} from {1}. -->
   <TSA_WD_Log_SettlementBuyCompleted>已向{1}購得{0}。</TSA_WD_Log_SettlementBuyCompleted>
   <!-- EN: Settlement purchase completed -->
-  <TSA_WD_Notify_SettlementBuyCompleted>據點購買完成</TSA_WD_Notify_SettlementBuyCompleted>
+  <TSA_WD_Notify_SettlementBuyCompleted>信件：據點購買完成</TSA_WD_Notify_SettlementBuyCompleted>
   <!-- EN: Letter when payment arrives and the tile is cleared for your choice. -->
-  <TSA_WD_Notify_SettlementBuyCompletedTooltip>款項送達且該地塊可供你處置時發送信件。</TSA_WD_Notify_SettlementBuyCompletedTooltip>
+  <TSA_WD_Notify_SettlementBuyCompletedTooltip>款項送達且該地塊可供你選擇處置方式時。</TSA_WD_Notify_SettlementBuyCompletedTooltip>
   <!-- EN: Settlement purchase failed -->
-  <TSA_WD_Notify_SettlementBuyAborted>據點購買失敗</TSA_WD_Notify_SettlementBuyAborted>
+  <TSA_WD_Notify_SettlementBuyAborted>信件：據點購買失敗</TSA_WD_Notify_SettlementBuyAborted>
   <!-- EN: Letter when a purchase caravan is destroyed or the deal fails (tier change, settlement gone, relations, seller settlements). Explains the reason and whether payment was refunded. -->
-  <TSA_WD_Notify_SettlementBuyAbortedTooltip>購買旅隊被消滅或交易失敗（等級變動、據點消失、關係、賣方據點數）時發送信件，說明原因以及款項是否已退還。</TSA_WD_Notify_SettlementBuyAbortedTooltip>
+  <TSA_WD_Notify_SettlementBuyAbortedTooltip>購買旅隊被消滅或交易失敗（等級變動、據點消失、關係、賣方據點數）時。含退款狀態。</TSA_WD_Notify_SettlementBuyAbortedTooltip>
   <!-- EN: Negotiate -->
   <TSA_WD_Negotiate_Btn>談判</TSA_WD_Negotiate_Btn>
   <!-- EN: Declare War -->
@@ -995,17 +995,17 @@
   <!-- EN: {0} agreed to {1} {2}. -->
   <TSA_WD_Log_NegotiateCompleted>{0}同意{1}{2}。</TSA_WD_Log_NegotiateCompleted>
   <!-- EN: Diplomacy negotiate started -->
-  <TSA_WD_Notify_NegotiateStarted>外交談判開始</TSA_WD_Notify_NegotiateStarted>
+  <TSA_WD_Notify_NegotiateStarted>信件：外交談判已開始</TSA_WD_Notify_NegotiateStarted>
   <!-- EN: Letter when a negotiate payment caravan is launched (default off). -->
-  <TSA_WD_Notify_NegotiateStartedTooltip>派出談判付款旅隊時發送信件（預設關閉）。</TSA_WD_Notify_NegotiateStartedTooltip>
+  <TSA_WD_Notify_NegotiateStartedTooltip>派出談判付款旅隊時。</TSA_WD_Notify_NegotiateStartedTooltip>
   <!-- EN: Diplomacy negotiate completed -->
-  <TSA_WD_Notify_NegotiateCompleted>外交談判完成</TSA_WD_Notify_NegotiateCompleted>
+  <TSA_WD_Notify_NegotiateCompleted>信件：外交談判完成</TSA_WD_Notify_NegotiateCompleted>
   <!-- EN: Letter when payment arrives and the relation change is applied. -->
-  <TSA_WD_Notify_NegotiateCompletedTooltip>款項送達並套用關係變動時發送信件。</TSA_WD_Notify_NegotiateCompletedTooltip>
+  <TSA_WD_Notify_NegotiateCompletedTooltip>款項送達並套用關係變動時。</TSA_WD_Notify_NegotiateCompletedTooltip>
   <!-- EN: Diplomacy negotiate failed -->
-  <TSA_WD_Notify_NegotiateAborted>外交談判失敗</TSA_WD_Notify_NegotiateAborted>
+  <TSA_WD_Notify_NegotiateAborted>信件：外交談判失敗</TSA_WD_Notify_NegotiateAborted>
   <!-- EN: Letter when a negotiate caravan is destroyed or the deal fails. Explains the reason and whether payment was refunded. -->
-  <TSA_WD_Notify_NegotiateAbortedTooltip>談判旅隊被消滅或交易失敗時發送信件，說明原因以及款項是否已退還。</TSA_WD_Notify_NegotiateAbortedTooltip>
+  <TSA_WD_Notify_NegotiateAbortedTooltip>談判旅隊被消滅或交易失敗時。含退款狀態。</TSA_WD_Notify_NegotiateAbortedTooltip>
   <!-- EN: Send gift -->
   <TSA_WD_GiftSettlement_GizmoLabel>贈送禮物</TSA_WD_GiftSettlement_GizmoLabel>
   <!-- EN: Send a gift of goods from your nearest colony or warehouse. On arrival, goodwill rises and the settlement's faction gains strength from the gift value. -->
@@ -1251,27 +1251,27 @@
   <!-- EN: On a successful bribe, goodwill gained is payment market value divided by this number. Bribes cannot be paid with goodwill. Higher values mean a weaker bonus. World-map gift goodwill uses its own divisor under Gifts and purchases. -->
   <TSA_WD_Bribe_GoodwillBonusDivisorTip>賄賂成功時，獲得的友好度為款項市值除以此數值。賄賂不能用友好度支付。數值越高，加成越少。世界地圖贈禮的友好度使用「贈禮與購買」下的獨立除數。</TSA_WD_Bribe_GoodwillBonusDivisorTip>
   <!-- EN: Settlement bribe completed -->
-  <TSA_WD_Notify_BribeSettlementCompleted>據點賄賂完成</TSA_WD_Notify_BribeSettlementCompleted>
+  <TSA_WD_Notify_BribeSettlementCompleted>信件：停火賄賂完成</TSA_WD_Notify_BribeSettlementCompleted>
   <!-- EN: Letter when a ceasefire bribe arrives. Reminds you that in-flight raids are not recalled. -->
-  <TSA_WD_Notify_BribeSettlementCompletedTooltip>停火賄賂送達時發送信件，並提醒已在路上的突襲不會被召回。</TSA_WD_Notify_BribeSettlementCompletedTooltip>
+  <TSA_WD_Notify_BribeSettlementCompletedTooltip>停火賄賂送達時。已在路上的突襲不會被召回。</TSA_WD_Notify_BribeSettlementCompletedTooltip>
   <!-- EN: Settlement bribe failed -->
-  <TSA_WD_Notify_BribeSettlementAborted>據點賄賂失敗</TSA_WD_Notify_BribeSettlementAborted>
+  <TSA_WD_Notify_BribeSettlementAborted>信件：停火賄賂失敗</TSA_WD_Notify_BribeSettlementAborted>
   <!-- EN: Letter when a ceasefire bribe fails mid-route or becomes invalid (with refund when applicable). -->
-  <TSA_WD_Notify_BribeSettlementAbortedTooltip>停火賄賂在途中失敗或失效時發送信件（如適用則退款）。</TSA_WD_Notify_BribeSettlementAbortedTooltip>
+  <TSA_WD_Notify_BribeSettlementAbortedTooltip>停火賄賂在途中失敗或失效時（如適用則退款）。</TSA_WD_Notify_BribeSettlementAbortedTooltip>
   <!-- EN: Raid bribe completed -->
-  <TSA_WD_Notify_BribeRaidCompleted>突襲賄賂完成</TSA_WD_Notify_BribeRaidCompleted>
+  <TSA_WD_Notify_BribeRaidCompleted>信件：突襲賄賂完成</TSA_WD_Notify_BribeRaidCompleted>
   <!-- EN: Letter when a raid bribe arrives and dissolves that caravan. -->
-  <TSA_WD_Notify_BribeRaidCompletedTooltip>突襲賄賂送達並使該旅隊解散時發送信件。</TSA_WD_Notify_BribeRaidCompletedTooltip>
+  <TSA_WD_Notify_BribeRaidCompletedTooltip>突襲賄賂送達並使該旅隊解散時。</TSA_WD_Notify_BribeRaidCompletedTooltip>
   <!-- EN: Raid bribe failed -->
-  <TSA_WD_Notify_BribeRaidAborted>突襲賄賂失敗</TSA_WD_Notify_BribeRaidAborted>
+  <TSA_WD_Notify_BribeRaidAborted>信件：突襲賄賂失敗</TSA_WD_Notify_BribeRaidAborted>
   <!-- EN: Letter when a raid bribe fails (target gone, lost race, invalid deal) with refund when applicable. -->
-  <TSA_WD_Notify_BribeRaidAbortedTooltip>突襲賄賂失敗（目標消失、未能追上、交易無效）時發送信件，如適用則退款。</TSA_WD_Notify_BribeRaidAbortedTooltip>
+  <TSA_WD_Notify_BribeRaidAbortedTooltip>突襲賄賂失敗（目標消失、未能追上、交易無效；如適用則退款）。</TSA_WD_Notify_BribeRaidAbortedTooltip>
   <!-- EN: Bribe caravan intercepted -->
-  <TSA_WD_Notify_BribeLostInTransit>賄賂旅隊遭到攔截</TSA_WD_Notify_BribeLostInTransit>
+  <TSA_WD_Notify_BribeLostInTransit>信件：賄賂旅隊遭到攔截</TSA_WD_Notify_BribeLostInTransit>
   <!-- EN: Letter when a bribe caravan is destroyed and payment is lost (separate from abort/refund cases). -->
-  <TSA_WD_Notify_BribeLostInTransitTooltip>賄賂旅隊被消滅且款項損失時發送信件（與中止／退款的情況分開）。</TSA_WD_Notify_BribeLostInTransitTooltip>
+  <TSA_WD_Notify_BribeLostInTransitTooltip>賄賂旅隊被消滅且款項損失時（與中止／退款情形分開）。</TSA_WD_Notify_BribeLostInTransitTooltip>
   <!-- EN: Bribe ceasefire expired -->
-  <TSA_WD_Notify_BribeCeasefireExpired>賄賂停火到期</TSA_WD_Notify_BribeCeasefireExpired>
+  <TSA_WD_Notify_BribeCeasefireExpired>信件：賄賂停火到期</TSA_WD_Notify_BribeCeasefireExpired>
   <!-- EN: Letter when a faction's bribe ceasefire timer ends. -->
-  <TSA_WD_Notify_BribeCeasefireExpiredTooltip>派系的賄賂停火計時結束時發送信件。</TSA_WD_Notify_BribeCeasefireExpiredTooltip>
+  <TSA_WD_Notify_BribeCeasefireExpiredTooltip>某派系的賄賂停火計時結束時。</TSA_WD_Notify_BribeCeasefireExpiredTooltip>
 </LanguageData>

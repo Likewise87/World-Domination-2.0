@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_67_Title>Settings menu rework &amp; revolt</TSA_WD_Update_2_3_67_Title>
+  <TSA_WD_Update_2_3_67_Body><![CDATA[
+<size=16><b>2.3.67 - Settings menu rework & revolt</b></size>\n
+<color=#00FFFFFF>Release date: November 4th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• The settings menu has been reworked. It has a much cleaner look now and most importantly it supports a global search.\n
+• Revolt has been tuned (the event that lets defeated factions make a comeback). They should now prefer taking over several settlements in a cluster to boost survivability. In Diplomacy, Buffs & Debuffs you can configure the min and max settlements a revolt can seize.\n
+• Widened support for modded waster-like factions. Those factions no longer take pollution damage on the world map and no longer send decontamination caravans to scrub pollution.\n
+]]></TSA_WD_Update_2_3_67_Body>
   <TSA_WD_Update_2_3_66_Title>Major update: Trenches!</TSA_WD_Update_2_3_66_Title>
   <TSA_WD_Update_2_3_66_Body><![CDATA[
 <size=16><b>2.3.66 - Major update: Trenches!</b></size>\n

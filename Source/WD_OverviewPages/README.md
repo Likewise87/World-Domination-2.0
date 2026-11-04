@@ -15,6 +15,7 @@ Named boards:
 | Board | File |
 |-------|------|
 | Title | `title-page.png` |
+| Title wordmark (transparent, for settings UI) | `title-wordmark.png` → also `Common/Textures/UI/Settings/WD_BrandTitle.png` |
 | Snapshot | `snapshot-overview.png` |
 | Outposts | `outposts-overview.png`, `outposts-details.png` |
 | Upgrades (core + ungated Bambaryla) | `upgrades-overview.png`, `upgrades-details.png` |

@@ -26,22 +26,48 @@ namespace TSA_WorldDomination
             optionalTitle = null;
         }
 
-        public override void DoWindowContents(Rect inRect)
+        
+        private static Dialog_CaravansSettings embeddedHost;
+
+        public static void DrawEmbedded(Rect inRect)
+        {
+            if (embeddedHost == null) embeddedHost = new Dialog_CaravansSettings();
+            embeddedHost.DrawBody(inRect);
+        }
+public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
-            float contentWidth = contentRect.width - 24f;
+            DrawBody(contentRect);
+        }
+
+        private void DrawBody(Rect contentRect)
+        {
+            if (WdSettingsSearch.IsCollecting)
+            {
+                Listing_Standard l = new Listing_Standard();
+                l.Begin(contentRect);
+                DrawListing(l);
+                l.End();
+                return;
+            }
+
+            float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2300f);
-
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(scrollViewRect);
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(scrollViewRect);
+            DrawListing(listing);
+            listing.End();
+            Widgets.EndScrollView();
+        }
 
-            var s = WorldDominationMod.settings;
+        private void DrawListing(Listing_Standard l)
+        {
+var s = WorldDominationMod.settings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetCaravans(),
                 () => { travelExpanded = waterExpanded = traderExpanded = goodwillExpanded = deliveryExpanded = storytellerExpanded = true; },
                 () => { travelExpanded = waterExpanded = traderExpanded = goodwillExpanded = deliveryExpanded = storytellerExpanded = false; });
-            SettingsUI.DrawSettingsSearchBar(l);
-
+            
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Caravans_HeaderTravel".Translate(), ref travelExpanded, SettingsUI.SectionHeaderColor))
             {
             s.walkingTravelerTicksPerMove = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_WalkingTicksPerMove".Translate(), s.walkingTravelerTicksPerMove,
@@ -139,8 +165,7 @@ namespace TSA_WorldDomination
             l.Gap(12f);
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Growth_HeaderGoodwillFromTrade".Translate(), ref goodwillExpanded, SettingsUI.SectionHeaderColor))
             {
-            l.CheckboxLabeled(
-                "TSA_WD_Growth_GoodwillFromTrade".Translate(),
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Growth_GoodwillFromTrade".Translate(),
                 ref s.goodwillFromTradeEnabled,
                 SettingsUI.TooltipWithDefault("TSA_WD_Growth_GoodwillFromTradeTooltip".Translate(), WorldDominationSettings.DefGoodwillFromTradeEnabled)
             );
@@ -158,12 +183,9 @@ namespace TSA_WorldDomination
             l.Gap(12f);
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Caravans_HeaderStoryteller".Translate(), ref storytellerExpanded, SettingsUI.SectionHeaderColor))
             {
-            l.CheckboxLabeled("TSA_WD_Caravans_BlockStorytellerTraders".Translate(), ref s.blockStorytellerTradersOnlyWD,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Caravans_BlockStorytellerTraders".Translate(), ref s.blockStorytellerTradersOnlyWD,
                 SettingsUI.TooltipWithDefault("TSA_WD_Caravans_BlockStorytellerTradersTip".Translate(), WorldDominationSettings.DefBlockStorytellerTradersOnlyWD));
             }
-
-            l.End();
-            Widgets.EndScrollView();
         }
     }
 }

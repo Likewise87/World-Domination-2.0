@@ -23,17 +23,44 @@ namespace TSA_WorldDomination
             optionalTitle = null;
         }
 
-        public override void DoWindowContents(Rect inRect)
+        
+        private static Dialog_MiningBaselineSettings embeddedHost;
+
+        public static void DrawEmbedded(Rect inRect)
+        {
+            if (embeddedHost == null) embeddedHost = new Dialog_MiningBaselineSettings();
+            embeddedHost.DrawBody(inRect);
+        }
+public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
-            float contentWidth = contentRect.width - 24f;
+            DrawBody(contentRect);
+        }
+
+        private void DrawBody(Rect contentRect)
+        {
+            if (WdSettingsSearch.IsCollecting)
+            {
+                Listing_Standard l = new Listing_Standard();
+                l.Begin(contentRect);
+                DrawListing(l);
+                l.End();
+                return;
+            }
+
+            float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 1600f);
-
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(scrollViewRect);
+            DrawListing(listing);
+            listing.End();
+            Widgets.EndScrollView();
+        }
 
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(scrollViewRect);
-            var s = WorldDominationMod.settings;
+        private void DrawListing(Listing_Standard l)
+        {
+var s = WorldDominationMod.settings;
 
             string tooltip = "TSA_WD_MiningBaseline_Tooltip".Translate();
             if (tooltip.Contains("TSA_WD_")) tooltip = "Baseline quantity per Mining skill per cycle for this resource. Example: 10 baseline × 5 Mining Skill = 50 produced per cycle (before terrain efficiency).";
@@ -41,8 +68,7 @@ namespace TSA_WorldDomination
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetMiningBaselines(),
                 () => { baselinesExpanded = true; },
                 () => { baselinesExpanded = false; });
-            SettingsUI.DrawSettingsSearchBar(l);
-            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_MiningBaseline_Header".Translate(), ref baselinesExpanded, SettingsUI.SectionHeaderColor))
+                        if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_MiningBaseline_Header".Translate(), ref baselinesExpanded, SettingsUI.SectionHeaderColor))
             {
             l.Label(tooltip);
             l.Gap(SettingsUI.StandardGap);
@@ -75,9 +101,6 @@ namespace TSA_WorldDomination
                 s.miningBaselineMultiplierByDefName[defName] = newVal;
             }
             }
-
-            l.End();
-            Widgets.EndScrollView();
         }
     }
 }

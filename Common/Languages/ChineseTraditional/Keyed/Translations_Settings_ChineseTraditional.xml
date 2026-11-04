@@ -50,6 +50,13 @@
   <TSA_WD_Settings_Search>搜尋</TSA_WD_Settings_Search>
   <!-- EN: Filter controls on this page by label or tooltip text. Matching a section header shows that whole section. Clear the box to show everything again. -->
   <TSA_WD_Settings_SearchTip>依標籤或提示文字篩選本頁的控制項。符合區段標題時會顯示整個區段。清空搜尋框即可再次顯示全部內容。</TSA_WD_Settings_SearchTip>
+  <TSA_WD_Settings_SearchPlaceholder>搜尋全部設定…</TSA_WD_Settings_SearchPlaceholder>
+  <TSA_WD_Settings_SearchTipGlobal>依標籤或提示搜尋所有設定頁。點擊結果即可跳轉。</TSA_WD_Settings_SearchTipGlobal>
+  <TSA_WD_Settings_SearchNoResults>沒有符合的設定。</TSA_WD_Settings_SearchNoResults>
+  <TSA_WD_Settings_HelpEmpty>將滑鼠懸停在設定上可查看詳情。</TSA_WD_Settings_HelpEmpty>
+  <TSA_WD_Settings_NavOverview>總覽</TSA_WD_Settings_NavOverview>
+  <TSA_WD_Settings_NavOverviewDesc>預設、中世紀模式、進階開關、全部重設與更新說明。</TSA_WD_Settings_NavOverviewDesc>
+  <TSA_WD_Settings_OverviewHint>在左側選擇頁面。使用列表上方的搜尋可跨頁查找任意設定。</TSA_WD_Settings_OverviewHint>
   <!-- EN: Never -->
   <TSA_WD_ThreatGate_Never>永不</TSA_WD_ThreatGate_Never>
   <!-- EN: From Mid -->
@@ -351,7 +358,7 @@
   <!-- EN: How strong settlement garrisons are by tier, and how much they weaken when a settlement is depleted. -->
   <TSA_WD_DescGarrison>各等級據點駐軍的強度，以及據點耗損時削弱多少。</TSA_WD_DescGarrison>
   <!-- EN: KCSG layout tweaks when WD generates settlement assault and outpost defense maps. Per-faction assault eligibility is set in World Setup → Allegiances. -->
-  <TSA_WD_DescBaseGeneration>WD生成據點突擊與哨站防禦地圖時的KCSG配置調整。各派系是否可突擊在「世界設定 → 陣營」中設定。</TSA_WD_DescBaseGeneration>
+  <TSA_WD_DescBaseGeneration>預設情況下，你攻擊敵方據點時由WD接管基地生成（1級小村到4級要塞）。各派系MapGen在WD主分頁的「設定範圍」中設定。Custom Base Framework可取代WD，並同樣尊重等級。</TSA_WD_DescBaseGeneration>
   <!-- EN: Configure the baseline amount a Mining Outpost can get per stone/ore based on the Mining Skill level. -->
   <TSA_WD_DescMiningBaselines>依採礦技能等級，設定採礦哨站每種石材/礦石可獲得的基準量。</TSA_WD_DescMiningBaselines>
   <!-- EN: Toggle which world domination events generate notifications. -->
@@ -406,6 +413,8 @@
   <TSA_WD_Important_DifficultyTip>針對你的突襲壓力、故事敘述者戰力限制、每日突襲權重、戰鬥難度威脅門檻與中期/後期升級的預設集。點擊「套用」只會寫入這些數值。細項請在「戰鬥難度」與「經濟難度」中編輯。</TSA_WD_Important_DifficultyTip>
   <!-- EN: Apply -->
   <TSA_WD_SettingsPreset_Apply>套用</TSA_WD_SettingsPreset_Apply>
+  <!-- EN: Click to apply the selected settings preset -->
+  <TSA_WD_SettingsPreset_ApplyTip>點擊以套用所選設定預設集</TSA_WD_SettingsPreset_ApplyTip>
   <!-- EN: Applied preset: {0} -->
   <TSA_WD_SettingsPreset_Applied>已套用預設集：{0}</TSA_WD_SettingsPreset_Applied>
   <!-- EN: Expand all -->
@@ -471,7 +480,7 @@
   <!-- EN: Tier 4 (Citadel) Multiplier -->
   <TSA_WD_Garrison_T4>T4（要塞）倍率</TSA_WD_Garrison_T4>
   <!-- EN: These options tweak WD/KCSG generation when it runs. Outpost defense maps always use WD layouts. NPC assault maps use WD only for factions with MapGen enabled in World Setup → Allegiances. -->
-  <TSA_WD_BaseGen_Intro>這些選項會在WD/KCSG生成執行時調整生成結果。哨站防禦地圖一律使用WD配置。NPC突擊地圖只對在「世界設定 → 陣營」中啟用MapGen的派系使用WD。</TSA_WD_BaseGen_Intro>
+  <TSA_WD_BaseGen_Intro>預設情況下，你攻擊敵方據點時由WD接管基地生成。這表示1級據點是小村莊，4級據點是真正的要塞。下方可設定相關細節。\n\n遊戲中開啟WD主分頁，再開啟「設定範圍」，可依派系決定是否由WD接管基地生成。未被WD涵蓋的派系會失去1級與4級之間的差別。\n\n若使用模組Custom Base Framework，則由其代替WD執行基地生成，並同樣尊重據點等級。</TSA_WD_BaseGen_Intro>
   <!-- EN: Terrain prep -->
   <TSA_WD_BaseGen_HeaderTerrainPrep>地形整備</TSA_WD_BaseGen_HeaderTerrainPrep>
   <!-- EN: Adaptive terrain prep (swamp / rock) -->
@@ -1497,35 +1506,35 @@
   <!-- EN: Decisive Defender Victory -->
   <TSA_WD_Raid_DecisiveDefenderVictory>防守方大勝</TSA_WD_Raid_DecisiveDefenderVictory>
   <!-- EN: WD diplomacy & power-balance letters -->
-  <TSA_WD_Notify_HeaderDiplomacyBuffs>WD外交與勢力平衡信件</TSA_WD_Notify_HeaderDiplomacyBuffs>
+  <TSA_WD_Notify_HeaderDiplomacyBuffs>外交與勢力平衡</TSA_WD_Notify_HeaderDiplomacyBuffs>
   <!-- EN: Notify: world leader handicap -->
-  <TSA_WD_Notify_LeaderHandicap>通知：霸主懲罰</TSA_WD_Notify_LeaderHandicap>
+  <TSA_WD_Notify_LeaderHandicap>信件：世界霸主懲罰</TSA_WD_Notify_LeaderHandicap>
   <!-- EN: Letter when the dominant faction is hit with the temporary leader handicap. -->
-  <TSA_WD_Notify_LeaderHandicapTooltip>主導派系受到暫時性霸主懲罰時寄送信件。</TSA_WD_Notify_LeaderHandicapTooltip>
+  <TSA_WD_Notify_LeaderHandicapTooltip>主導派系獲得暫時性霸主減益時。</TSA_WD_Notify_LeaderHandicapTooltip>
   <!-- EN: Notify: underdog buff -->
-  <TSA_WD_Notify_UnderdogBuff>通知：弱勢方增益</TSA_WD_Notify_UnderdogBuff>
+  <TSA_WD_Notify_UnderdogBuff>信件：弱勢方增益</TSA_WD_Notify_UnderdogBuff>
   <!-- EN: Letter when a weak faction receives the temporary underdog buff. -->
-  <TSA_WD_Notify_UnderdogBuffTooltip>弱小派系獲得暫時性弱勢方增益時寄送信件。</TSA_WD_Notify_UnderdogBuffTooltip>
+  <TSA_WD_Notify_UnderdogBuffTooltip>弱小派系獲得暫時性弱勢方（靈活）增益時。</TSA_WD_Notify_UnderdogBuffTooltip>
   <!-- EN: Notify: expansionist zeal -->
-  <TSA_WD_Notify_ExpansionistZeal>通知：擴張狂熱</TSA_WD_Notify_ExpansionistZeal>
+  <TSA_WD_Notify_ExpansionistZeal>信件：擴張狂熱</TSA_WD_Notify_ExpansionistZeal>
   <!-- EN: Letter when a faction enters expansionist zeal (wider raid range, etc.). -->
-  <TSA_WD_Notify_ExpansionistZealTooltip>派系進入擴張狂熱（突襲範圍擴大等）時寄送信件。</TSA_WD_Notify_ExpansionistZealTooltip>
+  <TSA_WD_Notify_ExpansionistZealTooltip>派系進入擴張狂熱（更遠突襲範圍、更低旅行耗損）時。</TSA_WD_Notify_ExpansionistZealTooltip>
   <!-- EN: Notify: anti-leader coalition -->
-  <TSA_WD_Notify_AntiLeaderCoalition>通知：反霸主聯盟</TSA_WD_Notify_AntiLeaderCoalition>
+  <TSA_WD_Notify_AntiLeaderCoalition>信件：反霸主聯盟</TSA_WD_Notify_AntiLeaderCoalition>
   <!-- EN: Letter when weaker factions form a coalition against an over-dominant leader. -->
-  <TSA_WD_Notify_AntiLeaderCoalitionTooltip>較弱的派系組成聯盟對抗過度強勢的霸主時寄送信件。</TSA_WD_Notify_AntiLeaderCoalitionTooltip>
+  <TSA_WD_Notify_AntiLeaderCoalitionTooltip>較弱派系結成聯盟對抗過度強勢的霸主時。</TSA_WD_Notify_AntiLeaderCoalitionTooltip>
   <!-- EN: Notify: random diplomatic shifts -->
-  <TSA_WD_Notify_RandomDiplomacy>通知：隨機外交變化</TSA_WD_Notify_RandomDiplomacy>
+  <TSA_WD_Notify_RandomDiplomacy>信件：隨機外交變化</TSA_WD_Notify_RandomDiplomacy>
   <!-- EN: Letter when World Domination randomly changes a pair of NPC factions (war, peace, ally). -->
-  <TSA_WD_Notify_RandomDiplomacyTooltip>World Domination隨機改變一對NPC派系的關係（戰爭、和平、同盟）時寄送信件。</TSA_WD_Notify_RandomDiplomacyTooltip>
+  <TSA_WD_Notify_RandomDiplomacyTooltip>World Domination隨機改變一對NPC派系關係（戰爭、和平、同盟）時。</TSA_WD_Notify_RandomDiplomacyTooltip>
   <!-- EN: Notify: allies from trade -->
-  <TSA_WD_Notify_TradeAllyDiplomacy>通知：因交易結盟</TSA_WD_Notify_TradeAllyDiplomacy>
+  <TSA_WD_Notify_TradeAllyDiplomacy>信件：因交易結盟</TSA_WD_Notify_TradeAllyDiplomacy>
   <!-- EN: Letter when two NPC factions become allies because WD trader goodwill crossed the ally threshold. -->
-  <TSA_WD_Notify_TradeAllyDiplomacyTooltip>兩個NPC派系因WD商人友好度超過同盟門檻而結為同盟時寄送信件。</TSA_WD_Notify_TradeAllyDiplomacyTooltip>
+  <TSA_WD_Notify_TradeAllyDiplomacyTooltip>兩個NPC派系因WD商人友好度越過同盟門檻而成為盟友時。</TSA_WD_Notify_TradeAllyDiplomacyTooltip>
   <!-- EN: Notify: strong-faction wars -->
-  <TSA_WD_Notify_StrongFactionWar>通知：強權派系戰爭</TSA_WD_Notify_StrongFactionWar>
+  <TSA_WD_Notify_StrongFactionWar>信件：強權派系戰爭轉向</TSA_WD_Notify_StrongFactionWar>
   <!-- EN: Letter when strong NPC factions cool an alliance to neutral or escalate from neutral to war. -->
-  <TSA_WD_Notify_StrongFactionWarTooltip>強大NPC派系將同盟降溫為中立，或從中立升級為戰爭時寄送信件。</TSA_WD_Notify_StrongFactionWarTooltip>
+  <TSA_WD_Notify_StrongFactionWarTooltip>強勢NPC派系將同盟降為中立，或由中立升級為開戰時。</TSA_WD_Notify_StrongFactionWarTooltip>
   <!-- EN: Building Projects -->
   <TSA_WD_BtnRoadBuilding>建設專案</TSA_WD_BtnRoadBuilding>
   <!-- EN: Configure outpost and NPC road, road-block, and trap construction (ranges, work, expedition strength, and road fallbacks when Roads of the Rim is not active). -->
@@ -1751,7 +1760,7 @@
   <!-- EN: Waster pirate pollution immunity -->
   <TSA_WD_Pollution_WasterImmunity>荒地人海盜汙染免疫</TSA_WD_Pollution_WasterImmunity>
   <!-- EN: When on, PirateWaster factions skip traveler exit damage, site daily pollution damage, and NPC auto-decontamination. -->
-  <TSA_WD_Pollution_WasterImmunityTip>開啟後，PirateWaster派系不受旅行者離開傷害與地點每日汙染傷害影響。PirateWaster永不進行NPC自動淨化（該略過始終生效）。</TSA_WD_Pollution_WasterImmunityTip>
+  <TSA_WD_Pollution_WasterImmunityTip>開啟後，適應汙染的派系（PirateWaster，或主異種型帶有PollutionRush的派系，例如蜂鳴蟲群）不受旅行者離開傷害與地點每日汙染傷害影響。這些派系永不進行NPC自動淨化（該略過始終生效）。</TSA_WD_Pollution_WasterImmunityTip>
   <!-- EN: Raider caravans -->
   <TSA_WD_Pollution_DamageRaiders>突襲旅隊</TSA_WD_Pollution_DamageRaiders>
   <!-- EN: Ground raid and rapid-response caravans take pollution exit damage. Drop-pod raids stay exempt. -->

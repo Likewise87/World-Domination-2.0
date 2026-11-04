@@ -1728,7 +1728,7 @@ namespace TSA_WorldDomination
 
             if (IsSettlement
                 && WorldActions_Utils.CanNpcWdReactiveAction(parent.Faction)
-                && !PollutionImmunity.IsWasterPirateFaction(parent.Faction))
+                && !PollutionImmunity.IsPollutionAdaptedFaction(parent.Faction))
             {
                 if (lastNpcDecontamAssessTick < 0)
                     lastNpcDecontamAssessTick = ticksNow - (parent.ID % NpcAutoDecontamIntervalTicks);

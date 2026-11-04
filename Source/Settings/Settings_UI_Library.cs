@@ -22,6 +22,14 @@ namespace TSA_WorldDomination
         public const float ReserveBottomForCloseButton = 44f;
         /// <summary>Height used when drawing our own window title (one line, same style as main settings). Use with DrawWindowTitle; then content starts below this.</summary>
         public const float WindowTitleHeight = 28f;
+        /// <summary>Vanilla BeginScrollView scrollbar strip width.</summary>
+        public const float ScrollbarWidth = 16f;
+        /// <summary>Air between listing content and the scrollbar in the middle settings column.</summary>
+        public const float ScrollbarRightPad = 10f;
+
+        /// <summary>Inner scroll-view width: scrollbar strip + right gutter so controls are not flush to the bar.</summary>
+        public static float ScrollContentWidth(float outerWidth) =>
+            Mathf.Max(1f, outerWidth - ScrollbarWidth - ScrollbarRightPad);
 
         /// <summary>Shared label for per-page reset buttons on settings sub-menus opened from the main hub.</summary>
         public static string ResetPageToDefaultsLabel => "TSA_WD_ResetPageToDefaults".Translate();
@@ -32,6 +40,16 @@ namespace TSA_WorldDomination
         /// <summary>Filter text for settings detail dialogs (not the main hub). Cleared only by the user.</summary>
         public static string settingsSearchFilter;
 
+        /// <summary>
+        /// Shell hover-help state. Non-null while the 3-pane shell draws — cursor TipRegions are suppressed
+        /// (right column owns help). Null outside the shell (World Setup / Debug keep TipRegion-only).
+        /// </summary>
+        public static WdSettingsHelpState ActiveHelp;
+
+        /// <summary>Label to flash after a global-search jump. Cleared after timeout.</summary>
+        private static string highlightLabel;
+        private static int highlightUntilFrame;
+
         /// <summary>Label/tip of the collapsible section currently being drawn (used so a matching section header shows all of its controls).</summary>
         private static string searchCurrentSectionLabel;
         private static string searchCurrentSectionTip;
@@ -39,6 +57,68 @@ namespace TSA_WorldDomination
         /// <summary>True when the settings search box has a non-empty filter.</summary>
         public static bool IsSearchActive =>
             !settingsSearchFilter.NullOrEmpty() && settingsSearchFilter.Trim().Length > 0;
+
+        public static void SetHighlight(string label, int durationFrames = 180)
+        {
+            highlightLabel = label;
+            highlightUntilFrame = Time.frameCount + durationFrames;
+        }
+
+        public static void ClearHighlight()
+        {
+            highlightLabel = null;
+            highlightUntilFrame = 0;
+        }
+
+        /// <summary>Offer hover help when shell is active. Safe no-op when ActiveHelp is null.</summary>
+        public static void OfferHelp(string title, string body, string defaultLine = null)
+        {
+            if (WdSettingsSearch.IsCollecting) return;
+            if (ActiveHelp == null) return;
+            ActiveHelp.Offer(title, body, defaultLine);
+        }
+
+        /// <summary>
+        /// Cursor tip for settings controls. No-op while the 3-pane shell is active (right-column help
+        /// already shows the same text). Outside the shell, behaves like <see cref="TooltipHandler.TipRegion(Rect, string)"/>.
+        /// </summary>
+        public static void TipRegion(Rect rect, string tip)
+        {
+            if (ActiveHelp != null) return;
+            if (tip.NullOrEmpty()) return;
+            TooltipHandler.TipRegion(rect, tip);
+        }
+
+        private static void NoteControl(Rect r, string label, string tip)
+        {
+            if (WdSettingsSearch.IsCollecting) return;
+
+            bool hl = !highlightLabel.NullOrEmpty()
+                && !label.NullOrEmpty()
+                && string.Equals(label, highlightLabel, StringComparison.OrdinalIgnoreCase);
+            if (hl)
+            {
+                if (Time.frameCount > highlightUntilFrame)
+                    ClearHighlight();
+                else
+                {
+                    Color prev = GUI.color;
+                    GUI.color = new Color(1f, 0.85f, 0.2f, 0.28f);
+                    GUI.DrawTexture(r, BaseContent.WhiteTex);
+                    GUI.color = prev;
+                }
+            }
+
+            if (ActiveHelp != null && Mouse.IsOver(r) && (!label.NullOrEmpty() || !tip.NullOrEmpty()))
+                ActiveHelp.Offer(label, tip);
+        }
+
+        private static bool BeginControl(string label, string tip)
+        {
+            WdSettingsSearch.Register(label, tip);
+            if (WdSettingsSearch.IsCollecting) return false;
+            return SearchMatches(label, tip);
+        }
 
         private static bool TextMatchesFilter(string text, string q)
         {
@@ -81,7 +161,7 @@ namespace TSA_WorldDomination
             Rect r = l.GetRect(28f);
             string tip = "TSA_WD_Settings_SearchTip".Translate();
             if (!tip.NullOrEmpty())
-                TooltipHandler.TipRegion(r, tip);
+                SettingsUI.TipRegion(r, tip);
             Widgets.Label(r.LeftPart(0.22f), "TSA_WD_Settings_Search".Translate());
             settingsSearchFilter = Widgets.TextField(r.RightPart(0.78f), settingsSearchFilter ?? "");
             l.Gap(6f);
@@ -89,12 +169,14 @@ namespace TSA_WorldDomination
 
         public static float LabeledSlider(Listing_Standard l, string label, float val, float min, float max, string tooltip = null, float step = 0.1f, SliderFormat format = SliderFormat.Fixed1, float? defaultValue = null, SliderFormat? defaultFormat = null)
         {
-            if (!SearchMatches(label, tooltip))
+            if (!BeginControl(label, tooltip))
                 return val;
 
             l.Gap(2f);
             Rect r = l.GetRect(24f);
-            if (!tooltip.NullOrEmpty()) TooltipHandler.TipRegion(r, TooltipWithDefault(tooltip, defaultValue, defaultFormat ?? format));
+            string tip = tooltip.NullOrEmpty() ? null : TooltipWithDefault(tooltip, defaultValue, defaultFormat ?? format);
+            NoteControl(r, label, tip);
+            if (!tip.NullOrEmpty()) SettingsUI.TipRegion(r, tip);
 
             string displaySuffix = GetFormattedValue(val, format);
             Widgets.Label(r.LeftPart(0.5f), $"{label}: {displaySuffix.Colorize(Color.cyan)}");
@@ -115,7 +197,7 @@ namespace TSA_WorldDomination
             string leftCaption = null,
             string rightCaption = null)
         {
-            if (!SearchMatches(label, tooltip))
+            if (!BeginControl(label, tooltip))
                 return val;
 
             l.Gap(2f);
@@ -125,10 +207,11 @@ namespace TSA_WorldDomination
 
             Rect sliderRect = l.GetRect(22f);
             string tip = tooltip.NullOrEmpty() ? null : TooltipWithDefault(tooltip, defaultValue, format);
+            NoteControl(labelRect, label, tip);
             if (!tip.NullOrEmpty())
             {
-                TooltipHandler.TipRegion(labelRect, tip);
-                TooltipHandler.TipRegion(sliderRect, tip);
+                SettingsUI.TipRegion(labelRect, tip);
+                SettingsUI.TipRegion(sliderRect, tip);
             }
 
             return Widgets.HorizontalSlider(sliderRect, val, min, max, false, null, leftCaption, rightCaption, step);
@@ -136,13 +219,14 @@ namespace TSA_WorldDomination
 
         public static float WeightSlider(Listing_Standard l, string label, float val, float totalPool, float min, float max, string tooltip = null, float? defaultValue = null, bool showPercent = true)
         {
-            if (!SearchMatches(label, tooltip))
+            if (!BeginControl(label, tooltip))
                 return val;
 
             l.Gap(2f);
             Rect r = l.GetRect(24f);
-            if (!tooltip.NullOrEmpty()) TooltipHandler.TipRegion(r, TooltipWithDefault(tooltip, defaultValue, SliderFormat.Fixed0));
-
+            string tip = tooltip.NullOrEmpty() ? null : TooltipWithDefault(tooltip, defaultValue, SliderFormat.Fixed0);
+            NoteControl(r, label, tip);
+            if (!tip.NullOrEmpty()) SettingsUI.TipRegion(r, tip);
             string displaySuffix;
             if (showPercent && totalPool > 0f)
             {
@@ -166,13 +250,12 @@ namespace TSA_WorldDomination
             {
                 if (labels[i].NullOrEmpty()) continue;
                 string tip = tooltips != null && i < tooltips.Length ? tooltips[i] : null;
+                WdSettingsSearch.Register(labels[i], tip);
+                if (WdSettingsSearch.IsCollecting) continue;
                 if (SearchMatches(labels[i], tip))
-                {
                     anyVisible = true;
-                    break;
-                }
             }
-            if (!anyVisible) return;
+            if (WdSettingsSearch.IsCollecting || !anyVisible) return;
 
             l.Gap(4f);
             Rect rowRect = l.GetRect(height);
@@ -188,11 +271,14 @@ namespace TSA_WorldDomination
                     continue;
 
                 Rect colRect = new Rect(rowRect.x + (colWidth * i), rowRect.y, colWidth - 10f, rowRect.height);
+                string fullTip = null;
                 if (!tip.NullOrEmpty())
                 {
                     float? defaultValue = defaultValues != null && i < defaultValues.Length ? defaultValues[i] : (float?)null;
-                    TooltipHandler.TipRegion(colRect, TooltipWithDefault(tip, defaultValue, defaultFormat ?? format));
+                    fullTip = TooltipWithDefault(tip, defaultValue, defaultFormat ?? format);
+                    SettingsUI.TipRegion(colRect, fullTip);
                 }
+                NoteControl(colRect, labels[i], fullTip ?? tip);
 
                 string suffix = GetFormattedValue(values[i], format);
                 Widgets.Label(colRect.TopPart(0.6f), $"<b>{labels[i]}</b>: {suffix.Colorize(Color.cyan)}");
@@ -227,6 +313,11 @@ namespace TSA_WorldDomination
             // Track the active section so SearchMatches can show all controls when the header matches.
             searchCurrentSectionLabel = label;
             searchCurrentSectionTip = tip;
+            WdSettingsSearch.CollectSection = label;
+            WdSettingsSearch.Register(label, tip);
+
+            if (WdSettingsSearch.IsCollecting)
+                return true;
 
             // When searching, always open the section body so individual controls can filter themselves.
             bool searching = IsSearchActive;
@@ -243,7 +334,8 @@ namespace TSA_WorldDomination
                     Text.Font = GameFont.Small;
                     Widgets.Label(r, $"<b><color=#{colorHex}>▼  {label}</color></b>");
                     if (!tip.NullOrEmpty())
-                        TooltipHandler.TipRegion(r, tip);
+                        SettingsUI.TipRegion(r, tip);
+                    NoteControl(r, label, tip);
                     l.GapLine(6f);
                     l.Gap(4f);
                 }
@@ -253,8 +345,9 @@ namespace TSA_WorldDomination
             l.Gap(StandardGap);
             Rect hr = l.GetRect(26f);
             Widgets.DrawHighlightIfMouseover(hr);
+            NoteControl(hr, label, tip);
             if (!tip.NullOrEmpty())
-                TooltipHandler.TipRegion(hr, tip);
+                SettingsUI.TipRegion(hr, tip);
             if (Widgets.ButtonInvisible(hr))
                 expanded = !expanded;
 
@@ -285,7 +378,7 @@ namespace TSA_WorldDomination
             l.Gap(StandardGap);
             Rect hr = l.GetRect(26f);
             if (!tip.NullOrEmpty())
-                TooltipHandler.TipRegion(hr, tip);
+                SettingsUI.TipRegion(hr, tip);
 
             Color hc = color ?? Color.white;
             string hex = ColorUtility.ToHtmlStringRGBA(hc);
@@ -300,7 +393,7 @@ namespace TSA_WorldDomination
             string secondaryLeftLabel = null, Action onSecondaryLeft = null, string secondaryLeftTip = null)
         {
             if (onReset == null) return;
-            l.Gap(4f);
+            // No leading gap: top of Reset/Expand row must align with shell search + help column.
             Rect row = l.GetRect(30f);
             float gap = 16f;
             float sideBtnW = 110f;
@@ -340,7 +433,7 @@ namespace TSA_WorldDomination
             if (hasSecondary)
             {
                 if (!secondaryLeftTip.NullOrEmpty())
-                    TooltipHandler.TipRegion(secondaryRect, secondaryLeftTip);
+                    SettingsUI.TipRegion(secondaryRect, secondaryLeftTip);
                 if (Widgets.ButtonText(secondaryRect, secondaryLeftLabel))
                     onSecondaryLeft();
             }
@@ -406,7 +499,7 @@ namespace TSA_WorldDomination
 
             Rect row = l.GetRect(rowH);
             if (!tip.NullOrEmpty())
-                TooltipHandler.TipRegion(row, tip);
+                SettingsUI.TipRegion(row, tip);
 
             float col3x = row.xMax - applyW;
             float col2x = row.x + col1 + gap;
@@ -498,13 +591,14 @@ namespace TSA_WorldDomination
             string tooltip = null) where T : struct, Enum
         {
             if (setAndApply == null) return;
-            if (!SearchMatches(label, tooltip))
+            if (!BeginControl(label, tooltip))
                 return;
 
             l.Gap(2f);
             Rect r = l.GetRect(28f);
+            NoteControl(r, label, tooltip);
             if (!tooltip.NullOrEmpty())
-                TooltipHandler.TipRegion(r, tooltip);
+                SettingsUI.TipRegion(r, tooltip);
 
             string currentLabel = labelFor != null ? labelFor(current) : current.ToString();
             Widgets.Label(r.LeftPart(0.45f), $"{label}: {currentLabel.Colorize(Color.cyan)}");
@@ -534,13 +628,15 @@ namespace TSA_WorldDomination
         /// <summary>Checkbox row consistent with other settings UI (gap, rect height, tooltip). Optional rowHeight centers the 24px control vertically (e.g. 38f for main menu).</summary>
         public static void DrawCheckbox(Listing_Standard l, string label, ref bool value, string tooltip = null, float? rowHeight = null, bool? defaultValue = null)
         {
-            if (!SearchMatches(label, tooltip))
+            if (!BeginControl(label, tooltip))
                 return;
 
             l.Gap(2f);
             float h = rowHeight ?? 24f;
             Rect r = l.GetRect(h);
-            if (!tooltip.NullOrEmpty()) TooltipHandler.TipRegion(r, TooltipWithDefault(tooltip, defaultValue));
+            string tip = tooltip.NullOrEmpty() ? null : TooltipWithDefault(tooltip, defaultValue);
+            NoteControl(r, label, tip);
+            if (!tip.NullOrEmpty()) SettingsUI.TipRegion(r, tip);
             Rect inner = h > 24f ? new Rect(r.x, r.y + (h - 24f) / 2f, r.width, 24f) : r;
             Widgets.CheckboxLabeled(inner, label, ref value);
         }
@@ -613,18 +709,20 @@ namespace TSA_WorldDomination
             TechLevel? defaultValue = null)
         {
             if (set == null) return;
-            if (!SearchMatches(label, tooltip))
+            if (!BeginControl(label, tooltip))
                 return;
             l.Gap(2f);
             Rect r = l.GetRect(24f);
             string currentLabel = current.ToString();
+            string tip = null;
             if (!tooltip.NullOrEmpty())
             {
-                string tip = defaultValue.HasValue
+                tip = defaultValue.HasValue
                     ? TooltipWithDefault(tooltip, defaultValue.Value.ToString())
                     : tooltip;
-                TooltipHandler.TipRegion(r, tip);
+                SettingsUI.TipRegion(r, tip);
             }
+            NoteControl(r, label, tip ?? tooltip);
 
             Widgets.Label(r.LeftPart(0.55f), $"{label}: {currentLabel.Colorize(Color.cyan)}");
             if (Widgets.ButtonText(r.RightPart(0.45f), currentLabel))

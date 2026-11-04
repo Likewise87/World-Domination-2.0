@@ -107,8 +107,8 @@
   <TSA_WD_Upkeep_LeaveLetterText>{0} han decidido dejar tu compañía porque no pudiste sostener su mantenimiento de plata.</TSA_WD_Upkeep_LeaveLetterText>
   <TSA_WD_Upkeep_PaidMsg>Pagaste {0} de plata de mantenimiento por {1} colonos de avanzadilla.</TSA_WD_Upkeep_PaidMsg>
   <TSA_WD_Upkeep_PartialPaidMsg>Pagaste {0} de {1} de plata de mantenimiento (el faltante es menor que el coste de un colono).</TSA_WD_Upkeep_PartialPaidMsg>
-  <TSA_WD_Notify_OutpostUpkeep>Mostrar alerta de mantenimiento de plata (lateral)</TSA_WD_Notify_OutpostUpkeep>
-  <TSA_WD_Notify_OutpostUpkeepTooltip>Muestra una alerta lateral siempre que el mantenimiento de plata esté activo (Necesitas/Tienes y días restantes). Se pone roja si no tienes suficiente plata. Requiere el mantenimiento experimental y escalada Media/Tardía.</TSA_WD_Notify_OutpostUpkeepTooltip>
+  <TSA_WD_Notify_OutpostUpkeep>Alerta: mantenimiento de plata en avanzadillas</TSA_WD_Notify_OutpostUpkeep>
+  <TSA_WD_Notify_OutpostUpkeepTooltip>Cuando el mantenimiento de plata está activo, muestra Necesitas/Tienes y días restantes. Se pone roja si no hay plata suficiente. Requiere mantenimiento experimental de plata en avanzadillas y escalada Media/Tardía.</TSA_WD_Notify_OutpostUpkeepTooltip>
   <TSA_WD_Dash_OutpostPawnTip_Humanoid>Humanoides: {0}</TSA_WD_Dash_OutpostPawnTip_Humanoid>
   <TSA_WD_Dash_OutpostPawnTip_Mechanoid>Mecanoides: {0}</TSA_WD_Dash_OutpostPawnTip_Mechanoid>
   <TSA_WD_Dash_OutpostPawnTip_Animal>Animales: {0}</TSA_WD_Dash_OutpostPawnTip_Animal>
@@ -127,119 +127,119 @@
   <TSA_WD_Notify_AlwaysShowSettlementIconsTip>Si está activo, los asentamientos mantienen sus iconos verticales a cualquier zoom y ocultan la malla inclinada del globo. Si está desactivado, vuelve el zoom vanilla (iconos verticales de lejos, malla del globo al acercarse).</TSA_WD_Notify_AlwaysShowSettlementIconsTip>
   <TSA_WD_Notify_HeaderMortarAntiAir>Mortero y antiaéreo</TSA_WD_Notify_HeaderMortarAntiAir>
   <TSA_WD_Notify_HeaderAtTurrets>AT Turrets</TSA_WD_Notify_HeaderAtTurrets>
-  <TSA_WD_Notify_PlayerAtTurretKilledTarget>Notificar cuando tu AT Turret mata un objetivo</TSA_WD_Notify_PlayerAtTurretKilledTarget>
-  <TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>Recibir una carta cuando tu AT Turret destruye un viajero hostil por proyectil o combate cuerpo a cuerpo.</TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>
-  <TSA_WD_Notify_PlayerAtTurretDamagedTarget>Notificar cuando tu AT Turret daña un objetivo</TSA_WD_Notify_PlayerAtTurretDamagedTarget>
-  <TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>Recibir una carta cuando tu AT Turret hiere a un viajero hostil que sobrevive. Puede ser ruidoso.</TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>
-  <TSA_WD_Notify_PlayerAtTurretDestroyed>Notificar cuando destruyen tu AT Turret</TSA_WD_Notify_PlayerAtTurretDestroyed>
-  <TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>Recibir una carta cuando una de tus AT Turrets es destruida en combate. El borrado por pérdida del asentamiento permanece silencioso.</TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>
-  <TSA_WD_Notify_NpcAtTurretDamagedPlayer>Notificar cuando una AT Turret enemiga daña tus fuerzas</TSA_WD_Notify_NpcAtTurretDamagedPlayer>
-  <TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>Recibir una carta cuando una AT Turret enemiga dispara a uno de tus viajeros o caravanas y sobrevive.</TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>
-  <TSA_WD_Notify_NpcAtTurretKilledPlayer>Notificar cuando una AT Turret enemiga mata tus fuerzas</TSA_WD_Notify_NpcAtTurretKilledPlayer>
-  <TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>Recibir una carta cuando una AT Turret enemiga destruye uno de tus viajeros o caravanas por proyectil o combate cuerpo a cuerpo.</TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>
-  <TSA_WD_Notify_IncomingRaidColony>Notificar cuando una incursión WD se lance contra tu colonia</TSA_WD_Notify_IncomingRaidColony>
-  <TSA_WD_Notify_IncomingRaidColonyTooltip>Recibir carta de alta prioridad cuando se lance una expedición hostil contra tu colonia.</TSA_WD_Notify_IncomingRaidColonyTooltip>
-  <TSA_WD_Notify_RaidArrivalColony>Notificar cuando una incursión WD llegue a tu colonia</TSA_WD_Notify_RaidArrivalColony>
-  <TSA_WD_Notify_RaidArrivalColonyTooltip>Recibir carta de alta prioridad cuando una expedición hostil llegue y aparezca en el mapa de tu colonia.</TSA_WD_Notify_RaidArrivalColonyTooltip>
-  <TSA_WD_Notify_IncomingRaidOutpost>Notificar cuando una incursión WD se lance contra una de tus avanzadillas</TSA_WD_Notify_IncomingRaidOutpost>
-  <TSA_WD_Notify_IncomingRaidOutpostTooltip>Recibir carta de alta prioridad cuando se lance una expedición hostil contra una de tus avanzadillas.</TSA_WD_Notify_IncomingRaidOutpostTooltip>
-  <TSA_WD_Notify_RaidArrivalOutpost>Notificar cuando una incursión WD llegue a una de tus avanzadillas</TSA_WD_Notify_RaidArrivalOutpost>
-  <TSA_WD_Notify_RaidArrivalOutpostTooltip>Recibir carta de alta prioridad cuando abras una defensa manual de avanzadilla y la expedición hostil llegue al mapa de encuentro.</TSA_WD_Notify_RaidArrivalOutpostTooltip>
-  <TSA_WD_Notify_RaidDivertedFromPlayer>Notificar cuando una incursión se desvía de ti</TSA_WD_Notify_RaidDivertedFromPlayer>
-  <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>Recibir una carta cuando una incursión que se dirigía a tu colonia o a una avanzadilla detecte un objetivo de oportunidad y se desvíe para atacarlo en su lugar.</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
-  <TSA_WD_Notify_RaidPartyDestroyed>Notificar cuando un grupo de incursión es destruido antes de llegar</TSA_WD_Notify_RaidPartyDestroyed>
-  <TSA_WD_Notify_RaidPartyDestroyedTooltip>Recibir una carta cuando una incursión hostil dirigida a ti es aniquilada en el mapa mundial antes de alcanzarte.</TSA_WD_Notify_RaidPartyDestroyedTooltip>
-  <TSA_WD_Notify_MortarHit>Notificar cuando tu mortero destruye un objetivo</TSA_WD_Notify_MortarHit>
-  <TSA_WD_Notify_MortarHitTooltip>Recibir una carta azul silenciosa cuando tu puesto de artillería destruye un objetivo. Los impactos parciales solo van al registro de acciones.</TSA_WD_Notify_MortarHitTooltip>
-  <TSA_WD_Notify_MortarMiss>Notificar cuando tu mortero falla</TSA_WD_Notify_MortarMiss>
-  <TSA_WD_Notify_MortarMissTooltip>Recibir una carta azul silenciosa cuando tu puesto de artillería falla. Desactivado por defecto para reducir ruido.</TSA_WD_Notify_MortarMissTooltip>
-  <TSA_WD_Notify_AntiAirHit>Notificar cuando tu antiaéreo dispara</TSA_WD_Notify_AntiAirHit>
-  <TSA_WD_Notify_AntiAirHitTooltip>Recibir una carta cuando tu flak antiaéreo acierta o falla un objetivo aéreo hostil. Los proyectiles de mortero hostiles usan el ajuste de abajo.</TSA_WD_Notify_AntiAirHitTooltip>
-  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>Notificar cuando tu antiaéreo derribe proyectiles de mortero hostiles</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>
-  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>Recibir una carta cuando tu flak destruya o falle un proyectil de mortero hostil (p. ej. «Proyectil de mortero destruido»). Puede ser ruidoso.</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>
-  <TSA_WD_Notify_NpcMortarHitPlayer>Notificar cuando los morteros enemigos te apuntan</TSA_WD_Notify_NpcMortarHitPlayer>
-  <TSA_WD_Notify_NpcMortarHitPlayerTooltip>Recibir una carta cuando el mortero de un asentamiento T4 enemigo dispara a uno de tus puestos, caravanas o viajeros WD.</TSA_WD_Notify_NpcMortarHitPlayerTooltip>
-  <TSA_WD_Notify_T4AntiAirHitPlayer>Notificar cuando el antiaéreo enemigo apunta a tus cápsulas</TSA_WD_Notify_T4AntiAirHitPlayer>
-  <TSA_WD_Notify_T4AntiAirHitPlayerTooltip>Recibir una carta cuando el antiaéreo T4 enemigo acierta o falla tus cápsulas de transporte u otros objetivos aéreos que no sean proyectiles. Los proyectiles de mortero usan el ajuste de abajo. Si mueren colonos en una cápsula derribada, siempre se envía una carta con los nombres.</TSA_WD_Notify_T4AntiAirHitPlayerTooltip>
-  <TSA_WD_Notify_PlayerMortarShellShotDown>Notificar cuando el antiaéreo enemigo derribe tus proyectiles de mortero</TSA_WD_Notify_PlayerMortarShellShotDown>
-  <TSA_WD_Notify_PlayerMortarShellShotDownTooltip>Recibir una carta neutra cuando el flak enemigo destruya o falle un proyectil de mortero de una de tus avanzadillas. Puede ser ruidoso.</TSA_WD_Notify_PlayerMortarShellShotDownTooltip>
-  <TSA_WD_Notify_NpcMortarHitNpc>Notificar cuando enemigos se disparan morteros entre sí</TSA_WD_Notify_NpcMortarHitNpc>
-  <TSA_WD_Notify_NpcMortarHitNpcTooltip>Recibir una carta cuando un mortero enemigo dispara a otro NPC (asentamiento, caravana o viajero), o cuando el antiaéreo enemigo destruye un objetivo aéreo de otro NPC (incluidos proyectiles de mortero). Puede ser ruidoso.</TSA_WD_Notify_NpcMortarHitNpcTooltip>
-  <TSA_WD_Notify_WarehouseGoodsArrived>Notificar cuando lleguen bienes a una avanzadilla almacén</TSA_WD_Notify_WarehouseGoodsArrived>
-  <TSA_WD_Notify_WarehouseGoodsArrivedTooltip>Recibir una notificación cuando se depositen bienes en una de tus avanzadillas almacén.</TSA_WD_Notify_WarehouseGoodsArrivedTooltip>
-  <TSA_WD_Notify_OutpostDeliveryToColonyArrived>Notificar cuando las entregas de avanzadilla lleguen a tu colonia</TSA_WD_Notify_OutpostDeliveryToColonyArrived>
-  <TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>Recibir una carta cuando una entrega de avanzadilla llegue a un mapa de colonia del jugador y deje sus bienes.</TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>
-  <TSA_WD_Notify_PrisonerRecruitedUnderway>Notificar cuando un prisionero de avanzadilla es reclutado y parte</TSA_WD_Notify_PrisonerRecruitedUnderway>
-  <TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>Mostrar un mensaje cuando un prisionero de avanzadilla termina el reclutamiento y empieza a viajar a su destino programado.</TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>
-  <TSA_WD_Notify_PlayerCaravanClash>Notificar cuando una caravana del jugador tenga un enfrentamiento</TSA_WD_Notify_PlayerCaravanClash>
-  <TSA_WD_Notify_PlayerCaravanClashTooltip>Recibir cartas cuando una de tus caravanas entre o pierda un enfrentamiento de caravanas WD.</TSA_WD_Notify_PlayerCaravanClashTooltip>
-  <TSA_WD_Notify_RapidResponseCaravanClash>Notificar enfrentamientos de caravanas de respuesta rápida</TSA_WD_Notify_RapidResponseCaravanClash>
-  <TSA_WD_Notify_RapidResponseCaravanClashTooltip>Recibir cartas cuando una intercepción de respuesta rápida derrote a una caravana enemiga o sea derrotada.</TSA_WD_Notify_RapidResponseCaravanClashTooltip>
-  <TSA_WD_Notify_TravelerPollutionDamage>Notificar daño por contaminación a viajeros</TSA_WD_Notify_TravelerPollutionDamage>
-  <TSA_WD_Notify_TravelerPollutionDamageTooltip>Recibir una carta amarilla la primera vez que cada viajero WD pierde fuerza al salir de una casilla contaminada. Más casillas contaminadas del mismo viajero no envían otra carta.</TSA_WD_Notify_TravelerPollutionDamageTooltip>
-  <TSA_WD_Notify_OutpostPollutionDamage>Notificar daño por contaminación en puestos</TSA_WD_Notify_OutpostPollutionDamage>
-  <TSA_WD_Notify_OutpostPollutionDamageTooltip>Mostrar un mensaje cuando uno de tus puestos WD pierde fuerza por la contaminación media cercana (una vez al día cuando aplica daño), y una carta si la contaminación lo destruye. El registro de desarrollo siempre anota estos eventos.</TSA_WD_Notify_OutpostPollutionDamageTooltip>
+  <TSA_WD_Notify_PlayerAtTurretKilledTarget>Carta: tu torreta AT mata un objetivo</TSA_WD_Notify_PlayerAtTurretKilledTarget>
+  <TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>Cuando tu torreta AT destruye un viajero hostil por proyectil o combate cuerpo a cuerpo.</TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>
+  <TSA_WD_Notify_PlayerAtTurretDamagedTarget>Carta: tu torreta AT daña un objetivo</TSA_WD_Notify_PlayerAtTurretDamagedTarget>
+  <TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>Cuando tu torreta AT hiere a un viajero hostil que sobrevive. Puede ser ruidoso.</TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>
+  <TSA_WD_Notify_PlayerAtTurretDestroyed>Carta: tu torreta AT destruida</TSA_WD_Notify_PlayerAtTurretDestroyed>
+  <TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>Cuando una de tus torretas AT es destruida en combate. El borrado al caer un asentamiento sigue en silencio.</TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>
+  <TSA_WD_Notify_NpcAtTurretDamagedPlayer>Carta: torreta AT enemiga te daña</TSA_WD_Notify_NpcAtTurretDamagedPlayer>
+  <TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>Cuando una torreta AT enemiga dispara a uno de tus viajeros o caravanas y sobrevive.</TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>
+  <TSA_WD_Notify_NpcAtTurretKilledPlayer>Carta: torreta AT enemiga mata tus fuerzas</TSA_WD_Notify_NpcAtTurretKilledPlayer>
+  <TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>Cuando una torreta AT enemiga destruye uno de tus viajeros o caravanas por proyectil o combate cuerpo a cuerpo.</TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>
+  <TSA_WD_Notify_IncomingRaidColony>Carta: incursión lanzada contra la colonia</TSA_WD_Notify_IncomingRaidColony>
+  <TSA_WD_Notify_IncomingRaidColonyTooltip>Carta de alta prioridad cuando se lanza una expedición hostil contra tu colonia.</TSA_WD_Notify_IncomingRaidColonyTooltip>
+  <TSA_WD_Notify_RaidArrivalColony>Carta: incursión llega a la colonia</TSA_WD_Notify_RaidArrivalColony>
+  <TSA_WD_Notify_RaidArrivalColonyTooltip>Carta de alta prioridad cuando una expedición hostil llega y aparece en el mapa de tu colonia.</TSA_WD_Notify_RaidArrivalColonyTooltip>
+  <TSA_WD_Notify_IncomingRaidOutpost>Carta: incursión lanzada contra avanzadilla</TSA_WD_Notify_IncomingRaidOutpost>
+  <TSA_WD_Notify_IncomingRaidOutpostTooltip>Carta de alta prioridad cuando se lanza una expedición hostil contra una de tus avanzadillas.</TSA_WD_Notify_IncomingRaidOutpostTooltip>
+  <TSA_WD_Notify_RaidArrivalOutpost>Carta: incursión llega a avanzadilla</TSA_WD_Notify_RaidArrivalOutpost>
+  <TSA_WD_Notify_RaidArrivalOutpostTooltip>Carta de alta prioridad cuando abres una defensa manual de avanzadilla y la expedición hostil llega al mapa de encuentro.</TSA_WD_Notify_RaidArrivalOutpostTooltip>
+  <TSA_WD_Notify_RaidDivertedFromPlayer>Carta: incursión se desvía de ti</TSA_WD_Notify_RaidDivertedFromPlayer>
+  <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>Cuando una incursión hacia tu colonia o una avanzadilla detecta un objetivo de oportunidad y se desvía para atacarlo.</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
+  <TSA_WD_Notify_RaidPartyDestroyed>Carta: grupo de incursión destruido en ruta</TSA_WD_Notify_RaidPartyDestroyed>
+  <TSA_WD_Notify_RaidPartyDestroyedTooltip>Cuando una incursión hostil hacia ti es aniquilada en el mapa mundial antes de alcanzarte.</TSA_WD_Notify_RaidPartyDestroyedTooltip>
+  <TSA_WD_Notify_MortarHit>Carta: mortero destruye un objetivo</TSA_WD_Notify_MortarHit>
+  <TSA_WD_Notify_MortarHitTooltip>Carta azul silenciosa cuando tu puesto de artillería destruye un objetivo. Los impactos parciales solo van al registro de acciones.</TSA_WD_Notify_MortarHitTooltip>
+  <TSA_WD_Notify_MortarMiss>Carta: mortero falla</TSA_WD_Notify_MortarMiss>
+  <TSA_WD_Notify_MortarMissTooltip>Carta azul silenciosa cuando tu puesto de artillería falla. Puede ser ruidoso.</TSA_WD_Notify_MortarMissTooltip>
+  <TSA_WD_Notify_AntiAirHit>Carta: tu antiaéreo dispara</TSA_WD_Notify_AntiAirHit>
+  <TSA_WD_Notify_AntiAirHitTooltip>Cuando tu flak antiaéreo acierta o falla un objetivo aéreo hostil. Los proyectiles de mortero hostiles usan el ajuste de abajo.</TSA_WD_Notify_AntiAirHitTooltip>
+  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>Carta: antiaéreo vs proyectil de mortero hostil</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>
+  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>Cuando tu flak destruye o falla un proyectil de mortero hostil. Puede ser ruidoso.</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>
+  <TSA_WD_Notify_NpcMortarHitPlayer>Carta: mortero enemigo te apunta</TSA_WD_Notify_NpcMortarHitPlayer>
+  <TSA_WD_Notify_NpcMortarHitPlayerTooltip>Cuando el mortero de un asentamiento T4 enemigo dispara a una de tus avanzadillas WD, caravanas o viajeros.</TSA_WD_Notify_NpcMortarHitPlayerTooltip>
+  <TSA_WD_Notify_T4AntiAirHitPlayer>Carta: antiaéreo enemigo apunta a tus cápsulas</TSA_WD_Notify_T4AntiAirHitPlayer>
+  <TSA_WD_Notify_T4AntiAirHitPlayerTooltip>Cuando el antiaéreo T4 enemigo acierta o falla tus cápsulas de lanzamiento, cápsulas de transporte u otros objetivos aéreos que no sean proyectiles. Los proyectiles de mortero usan el ajuste de abajo. Si mueren colonos en una cápsula derribada, siempre se envía una carta de muertes.</TSA_WD_Notify_T4AntiAirHitPlayerTooltip>
+  <TSA_WD_Notify_PlayerMortarShellShotDown>Carta: tu proyectil de mortero derribado</TSA_WD_Notify_PlayerMortarShellShotDown>
+  <TSA_WD_Notify_PlayerMortarShellShotDownTooltip>Carta neutra cuando el flak enemigo destruye o falla un proyectil de mortero de una de tus avanzadillas. Puede ser ruidoso.</TSA_WD_Notify_PlayerMortarShellShotDownTooltip>
+  <TSA_WD_Notify_NpcMortarHitNpc>Carta: mortero NPC vs objetivo NPC</TSA_WD_Notify_NpcMortarHitNpc>
+  <TSA_WD_Notify_NpcMortarHitNpcTooltip>Cuando un mortero enemigo dispara a otro asentamiento NPC, viajero o fuerza de incursión, o cuando el antiaéreo enemigo destruye otro objetivo aéreo NPC (incluidos proyectiles de mortero). Puede ser ruidoso.</TSA_WD_Notify_NpcMortarHitNpcTooltip>
+  <TSA_WD_Notify_WarehouseGoodsArrived>Mensaje: bienes de almacén llegan</TSA_WD_Notify_WarehouseGoodsArrived>
+  <TSA_WD_Notify_WarehouseGoodsArrivedTooltip>Cuando se depositan bienes en una de tus avanzadillas almacén.</TSA_WD_Notify_WarehouseGoodsArrivedTooltip>
+  <TSA_WD_Notify_OutpostDeliveryToColonyArrived>Carta: entrega de avanzadilla en colonia</TSA_WD_Notify_OutpostDeliveryToColonyArrived>
+  <TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>Cuando una entrega de avanzadilla llega a un mapa de colonia del jugador y deja sus bienes.</TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>
+  <TSA_WD_Notify_PrisonerRecruitedUnderway>Mensaje: prisionero de avanzadilla reclutado</TSA_WD_Notify_PrisonerRecruitedUnderway>
+  <TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>Cuando un prisionero de avanzadilla termina el reclutamiento y empieza a viajar a su destino programado.</TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>
+  <TSA_WD_Notify_PlayerCaravanClash>Carta: enfrentamiento de caravanas del jugador</TSA_WD_Notify_PlayerCaravanClash>
+  <TSA_WD_Notify_PlayerCaravanClashTooltip>Cuando una de tus caravanas entra o pierde un enfrentamiento de caravanas WD.</TSA_WD_Notify_PlayerCaravanClashTooltip>
+  <TSA_WD_Notify_RapidResponseCaravanClash>Carta: enfrentamiento de caravana de respuesta rápida</TSA_WD_Notify_RapidResponseCaravanClash>
+  <TSA_WD_Notify_RapidResponseCaravanClashTooltip>Cuando un interceptor de respuesta rápida derrota a una caravana enemiga o es derrotado.</TSA_WD_Notify_RapidResponseCaravanClashTooltip>
+  <TSA_WD_Notify_TravelerPollutionDamage>Carta: daño por contaminación a viajeros</TSA_WD_Notify_TravelerPollutionDamage>
+  <TSA_WD_Notify_TravelerPollutionDamageTooltip>Carta amarilla la primera vez que cada viajero WD pierde fuerza al salir de una casilla contaminada. Más casillas contaminadas del mismo viajero siguen en silencio.</TSA_WD_Notify_TravelerPollutionDamageTooltip>
+  <TSA_WD_Notify_OutpostPollutionDamage>Mensaje: daño por contaminación en avanzadilla</TSA_WD_Notify_OutpostPollutionDamage>
+  <TSA_WD_Notify_OutpostPollutionDamageTooltip>Cuando una avanzadilla WD pierde fuerza por la contaminación media cercana (una vez al día cuando aplica daño). Un borrado total sigue enviando carta. El registro de desarrollo siempre anota estos eventos.</TSA_WD_Notify_OutpostPollutionDamageTooltip>
   <TSA_WD_Notify_HeaderNearby>Eventos mundiales cercanos</TSA_WD_Notify_HeaderNearby>
   <TSA_WD_Notify_HeaderWorldThreats>Acciones de amenaza mundial</TSA_WD_Notify_HeaderWorldThreats>
-  <TSA_WD_Notify_HeaderWorldThreatsTip>Cartas de incursiones de desesperación, consolidaciones defensivas y guerras entre facciones fuertes. Los tiempos y puertas están en Dificultad de combate.</TSA_WD_Notify_HeaderWorldThreatsTip>
-  <TSA_WD_Notify_DesperationRaid>Avisar al lanzar una incursión de desesperación</TSA_WD_Notify_DesperationRaid>
-  <TSA_WD_Notify_DesperationRaidTooltip>Carta cuando una facción débil abandona asentamientos cercanos y marcha tras una pérdida.</TSA_WD_Notify_DesperationRaidTooltip>
+  <TSA_WD_Notify_HeaderWorldThreatsTip>Cartas de incursiones de desesperación, consolidaciones defensivas y guerras entre facciones fuertes. Las puertas y tiempos están en Dificultad de combate.</TSA_WD_Notify_HeaderWorldThreatsTip>
+  <TSA_WD_Notify_DesperationRaid>Carta: incursión de desesperación lanzada</TSA_WD_Notify_DesperationRaid>
+  <TSA_WD_Notify_DesperationRaidTooltip>Cuando una facción débil abandona asentamientos cercanos y marcha tras una pérdida.</TSA_WD_Notify_DesperationRaidTooltip>
   <TSA_WD_Notify_HeaderOutpostsRaids>Tus avanzadillas e incursiones</TSA_WD_Notify_HeaderOutpostsRaids>
-  <TSA_WD_Notify_HeaderAlerts>Alertas del panel lateral</TSA_WD_Notify_HeaderAlerts>
-  <TSA_WD_Notify_NotificationRadius>Radio de notificación (casillas)</TSA_WD_Notify_NotificationRadius>
-  <TSA_WD_Notify_NotificationRadiusTooltip>Distancia desde tu colonia (o la avanzadilla más cercana si no tienes colonia) a la que debe estar un evento mundial para enviar una carta de evento cercano. No afecta a tus avanzadillas, incursiones entrantes ni cartas diplomáticas.</TSA_WD_Notify_NotificationRadiusTooltip>
-  <TSA_WD_Notify_NewSettlement>Notificar cuando se funde un asentamiento cerca</TSA_WD_Notify_NewSettlement>
-  <TSA_WD_Notify_NewSettlementTooltip>Carta cuando una facción funda un nuevo asentamiento por expansión dentro del radio de notificación. No cubre la conquista tras una incursión de una facción NPC.</TSA_WD_Notify_NewSettlementTooltip>
-  <TSA_WD_Notify_NpcConquestSettlement>Notificar cuando se captura un asentamiento</TSA_WD_Notify_NpcConquestSettlement>
-  <TSA_WD_Notify_NpcConquestSettlementTooltip>Carta cuando una incursión NPC gana y el atacante toma el asentamiento (asentamiento de reemplazo en la casilla) dentro del radio de notificación.</TSA_WD_Notify_NpcConquestSettlementTooltip>
-  <TSA_WD_Notify_OutpostDestroyed>Notificar cuando se destruya una avanzadilla del jugador</TSA_WD_Notify_OutpostDestroyed>
-  <TSA_WD_Notify_OutpostDestroyedTooltip>Carta urgente cuando pierdes una avanzadilla en una incursión mundial simulada o en una derrota manual en el mapa de defensa. Se activa a cualquier distancia. No cubre borrado por mortero ni evacuación voluntaria.</TSA_WD_Notify_OutpostDestroyedTooltip>
+  <TSA_WD_Notify_HeaderAlerts>Alertas</TSA_WD_Notify_HeaderAlerts>
+  <TSA_WD_Notify_NotificationRadius>Radio de cartas cercanas (casillas)</TSA_WD_Notify_NotificationRadius>
+  <TSA_WD_Notify_NotificationRadiusTooltip>Los eventos mundiales deben estar a esta distancia en casillas de tu colonia (o de la avanzadilla más cercana si no tienes colonia) para enviar una carta Cercana. No afecta avanzadillas, incursiones entrantes ni cartas diplomáticas.</TSA_WD_Notify_NotificationRadiusTooltip>
+  <TSA_WD_Notify_NewSettlement>Carta: asentamiento fundado cerca</TSA_WD_Notify_NewSettlement>
+  <TSA_WD_Notify_NewSettlementTooltip>Cuando una facción funda un nuevo asentamiento por expansión dentro del radio de notificación. No cubre la conquista tras una incursión NPC.</TSA_WD_Notify_NewSettlementTooltip>
+  <TSA_WD_Notify_NpcConquestSettlement>Carta: asentamiento capturado cerca</TSA_WD_Notify_NpcConquestSettlement>
+  <TSA_WD_Notify_NpcConquestSettlementTooltip>Cuando una incursión NPC gana y el atacante toma el asentamiento (asentamiento de reemplazo en la casilla) dentro del radio de notificación.</TSA_WD_Notify_NpcConquestSettlementTooltip>
+  <TSA_WD_Notify_OutpostDestroyed>Carta: avanzadilla destruida</TSA_WD_Notify_OutpostDestroyed>
+  <TSA_WD_Notify_OutpostDestroyedTooltip>Carta de alta prioridad cuando pierdes una avanzadilla en una incursión mundial simulada o en una derrota manual en el mapa de defensa. A cualquier distancia. No cubre borrado por mortero ni evacuación voluntaria.</TSA_WD_Notify_OutpostDestroyedTooltip>
   <TSA_WD_Notify_Reset>Restablecer esta página a valores por defecto</TSA_WD_Notify_Reset>
-  <TSA_WD_Notify_SettlementRaided>Notificar cuando se destruya un asentamiento cerca</TSA_WD_Notify_SettlementRaided>
-  <TSA_WD_Notify_SettlementRaidedTooltip>Carta cuando un incidente mayor o menor destruye por completo un asentamiento dentro del radio de notificación. No para incursiones NPC.</TSA_WD_Notify_SettlementRaidedTooltip>
-  <TSA_WD_Notify_SettlementRazed>Notificar cuando un asentamiento sea arrasado cerca</TSA_WD_Notify_SettlementRazed>
-  <TSA_WD_Notify_SettlementRazedTooltip>Carta cuando una incursión NPC gana y el asentamiento queda destruido en el proceso (casilla vacía) dentro del radio de notificación.</TSA_WD_Notify_SettlementRazedTooltip>
-  <TSA_WD_Notify_Turtle>Consolidación defensiva cercana</TSA_WD_Notify_Turtle>
-  <TSA_WD_Notify_TurtleTooltip>Carta cuando una facción cercana repliega sus asentamientos exteriores en un núcleo y lo fortifica, dentro del radio de notificación.</TSA_WD_Notify_TurtleTooltip>
-  <TSA_WD_Notify_ThreatLevel>Mostrar alerta de amenaza mundial (panel lateral)</TSA_WD_Notify_ThreatLevel>
-  <TSA_WD_Notify_ThreatLevelTooltip>Muestra una alerta silenciosa con puntos de aterrizaje Cercanos y Lejanos (tras el límite del narrador). El clic salta al hostil Cercano más fuerte si existe.</TSA_WD_Notify_ThreatLevelTooltip>
-  <TSA_WD_Notify_CriticalFood>Mostrar alerta de comida crítica en avanzadillas (lateral)</TSA_WD_Notify_CriticalFood>
-  <TSA_WD_Notify_CriticalFoodTooltip>Muestra una alerta silenciosa y persistente en el panel lateral cuando al menos una de tus avanzadillas WD tiene comida virtual crítica: stock negativo, o como máximo 3 días de juego hasta vaciarse mientras la comida neta sea negativa. Las avanzadillas estables o con superávit no activan esta alerta. Haz clic para ir a la más grave. Requiere logística de comida activada.</TSA_WD_Notify_CriticalFoodTooltip>
-  <TSA_WD_Notify_DropPodDeliveryInAaRange>WD: entrega por cápsula en alcance AA</TSA_WD_Notify_DropPodDeliveryInAaRange>
-  <TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>Muestra una alerta lateral cuando un almacén tuyo usa entrega por cápsula y está dentro del alcance antiaéreo de un asentamiento hostil Tier 4 con AA activo. Solo comprueba la casilla del almacén (no toda la ruta). Cambia a entrega por tierra o elimina la amenaza AA.</TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>
+  <TSA_WD_Notify_SettlementRaided>Carta: asentamiento destruido cerca</TSA_WD_Notify_SettlementRaided>
+  <TSA_WD_Notify_SettlementRaidedTooltip>Cuando un incidente mayor o menor destruye por completo un asentamiento dentro del radio de notificación. No para incursiones NPC.</TSA_WD_Notify_SettlementRaidedTooltip>
+  <TSA_WD_Notify_SettlementRazed>Carta: asentamiento arrasado cerca</TSA_WD_Notify_SettlementRazed>
+  <TSA_WD_Notify_SettlementRazedTooltip>Cuando una incursión NPC gana y el asentamiento queda destruido en el proceso (casilla vacía) dentro del radio de notificación.</TSA_WD_Notify_SettlementRazedTooltip>
+  <TSA_WD_Notify_Turtle>Carta: consolidación defensiva cerca</TSA_WD_Notify_Turtle>
+  <TSA_WD_Notify_TurtleTooltip>Cuando una facción cercana consolida sus asentamientos exteriores en un núcleo y lo fortifica, dentro del radio de notificación.</TSA_WD_Notify_TurtleTooltip>
+  <TSA_WD_Notify_ThreatLevel>Alerta: amenaza mundial</TSA_WD_Notify_ThreatLevel>
+  <TSA_WD_Notify_ThreatLevelTooltip>Alerta silenciosa y persistente con puntos de aterrizaje Cercanos y Lejanos (tras el límite del narrador). El clic salta al hostil Cercano más fuerte si existe.</TSA_WD_Notify_ThreatLevelTooltip>
+  <TSA_WD_Notify_CriticalFood>Alerta: comida crítica en avanzadillas</TSA_WD_Notify_CriticalFood>
+  <TSA_WD_Notify_CriticalFoodTooltip>Alerta silenciosa y persistente cuando al menos una avanzadilla WD tiene comida virtual crítica: stock negativo, o como máximo 3 días de juego hasta vaciarse mientras la comida neta sea negativa. Las avanzadillas estables o con superávit no la activan. Clic para ir a la más grave. Requiere logística de comida.</TSA_WD_Notify_CriticalFoodTooltip>
+  <TSA_WD_Notify_DropPodDeliveryInAaRange>Alerta: entrega por cápsula en alcance AA</TSA_WD_Notify_DropPodDeliveryInAaRange>
+  <TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>Cuando un almacén usa entrega por cápsula y está dentro del alcance antiaéreo de un asentamiento hostil Tier 4 con AA activo. Solo comprueba la casilla del almacén, no toda la ruta de vuelo.</TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>
   <TSA_WD_Alert_DropPodDeliveryInAaRange>WD: entrega por cápsula en alcance AA</TSA_WD_Alert_DropPodDeliveryInAaRange>
   <TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>Estos almacenes usan entrega por cápsula dentro del alcance de una Torreta AA enemiga:</TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>
   <TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>- {0}</TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>
-  <TSA_WD_Notify_ConstructionInsufficientStrength>Mostrar alerta de fuerza insuficiente para construcción (lateral)</TSA_WD_Notify_ConstructionInsufficientStrength>
-  <TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>Muestra una alerta silenciosa y persistente en el panel lateral cuando una avanzadilla WD ha terminado de preparar un segmento de bloqueo o trampa pero no tiene fuerza para enviar la cuadrilla. Haz clic para ir a una afectada.</TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>
+  <TSA_WD_Notify_ConstructionInsufficientStrength>Alerta: construcción esperando fuerza</TSA_WD_Notify_ConstructionInsufficientStrength>
+  <TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>Alerta silenciosa y persistente cuando una avanzadilla WD terminó de preparar un segmento de bloqueo o trampa pero no tiene fuerza para enviar la cuadrilla. Clic para ir a una afectada.</TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>
   <TSA_WD_Alert_ConstructionInsufficientStrength>WD: Construcción esperando fuerza</TSA_WD_Alert_ConstructionInsufficientStrength>
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>Estas avanzadillas están listas para enviar una cuadrilla pero carecen de fuerza:</TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>- {0}: {1}</TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>
-  <TSA_WD_Notify_ConstructionInsufficientMaterials>Mostrar alerta de materiales insuficientes para construcción (lateral)</TSA_WD_Notify_ConstructionInsufficientMaterials>
-  <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>Muestra una alerta silenciosa y persistente en el panel lateral cuando una avanzadilla WD ha terminado de preparar un segmento de carretera, puente, fortificación o AT pero no tiene materiales para enviar la cuadrilla. Haz clic para ir a una afectada.</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
-  <TSA_WD_Notify_BridgeDeconstructBlocked>Mostrar carta cuando el desmontaje de puente esta bloqueado</TSA_WD_Notify_BridgeDeconstructBlocked>
-  <TSA_WD_Notify_BridgeDeconstructBlockedTooltip>Cuando una cuadrilla de desmontaje llega y el tramo esta ocupado, muestra una carta amarilla NeutralEvent con el bloqueador. Si esta desactivado, solo se muestra un mensaje.</TSA_WD_Notify_BridgeDeconstructBlockedTooltip>
-  <TSA_WD_Notify_RoadCancelledByTrench>Mostrar carta cuando un proyecto de carretera se cancela por una trinchera</TSA_WD_Notify_RoadCancelledByTrench>
-  <TSA_WD_Notify_RoadCancelledByTrenchTooltip>Cuando una cuadrilla no puede pavimentar porque la ruta choca con una trinchera existente, cancela el proyecto y muestra una carta azul NeutralEvent. Si esta desactivado, el proyecto se cancela en silencio.</TSA_WD_Notify_RoadCancelledByTrenchTooltip>
-  <TSA_WD_Notify_TrenchCancelledByRoad>Mostrar carta cuando un proyecto de trinchera se cancela por una carretera</TSA_WD_Notify_TrenchCancelledByRoad>
-  <TSA_WD_Notify_TrenchCancelledByRoadTooltip>Cuando una cuadrilla no puede cavar porque la ruta choca con una carretera existente, cancela el proyecto y muestra una carta azul NeutralEvent. Si esta desactivado, el proyecto se cancela en silencio.</TSA_WD_Notify_TrenchCancelledByRoadTooltip>
+  <TSA_WD_Notify_ConstructionInsufficientMaterials>Alerta: construcción esperando materiales</TSA_WD_Notify_ConstructionInsufficientMaterials>
+  <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>Alerta silenciosa y persistente cuando una avanzadilla WD terminó de preparar un segmento de carretera, puente, fortificación o AT pero no tiene materiales para enviar la cuadrilla. Clic para ir a una afectada.</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
+  <TSA_WD_Notify_BridgeDeconstructBlocked>Carta: desmontaje de puente bloqueado</TSA_WD_Notify_BridgeDeconstructBlocked>
+  <TSA_WD_Notify_BridgeDeconstructBlockedTooltip>Cuando una cuadrilla de desmontaje llega y el tramo está ocupado, carta amarilla NeutralEvent con el bloqueador. Desactivado = solo mensaje.</TSA_WD_Notify_BridgeDeconstructBlockedTooltip>
+  <TSA_WD_Notify_RoadCancelledByTrench>Carta: carretera cancelada por trinchera</TSA_WD_Notify_RoadCancelledByTrench>
+  <TSA_WD_Notify_RoadCancelledByTrenchTooltip>Cuando una cuadrilla no puede pavimentar porque la ruta choca con una trinchera existente, cancela el proyecto y muestra carta azul NeutralEvent. Desactivado = el proyecto se cancela en silencio.</TSA_WD_Notify_RoadCancelledByTrenchTooltip>
+  <TSA_WD_Notify_TrenchCancelledByRoad>Carta: trinchera cancelada por carretera</TSA_WD_Notify_TrenchCancelledByRoad>
+  <TSA_WD_Notify_TrenchCancelledByRoadTooltip>Cuando una cuadrilla no puede cavar porque la ruta choca con una carretera existente, cancela el proyecto y muestra carta azul NeutralEvent. Desactivado = el proyecto se cancela en silencio.</TSA_WD_Notify_TrenchCancelledByRoadTooltip>
   <TSA_WD_Alert_ConstructionInsufficientMaterials>WD: Construcción esperando materiales</TSA_WD_Alert_ConstructionInsufficientMaterials>
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>Estas avanzadillas están listas para enviar una cuadrilla pero carecen de materiales:</TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>- {0}: {1}</TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>
-  <TSA_WD_Notify_OutpostNoProduction>Mostrar alerta de avanzadillas sin producción (lateral)</TSA_WD_Notify_OutpostNoProduction>
-  <TSA_WD_Notify_OutpostNoProductionTooltip>Muestra una alerta silenciosa y persistente en el panel lateral cuando al menos una de tus avanzadillas WD necesita elegir producción pero no tiene nada seleccionado. Al pasar el ratón se listan todas las afectadas. Haz clic para ir a la primera.</TSA_WD_Notify_OutpostNoProductionTooltip>
-  <TSA_WD_Notify_OutpostUnusedExperts>Mostrar alerta de avanzadillas sin expertos (lateral)</TSA_WD_Notify_OutpostUnusedExperts>
-  <TSA_WD_Notify_OutpostUnusedExpertsTooltip>Muestra una alerta silenciosa y persistente en el panel lateral cuando al menos una de tus avanzadillas WD tiene plazas de experto sin usar. Al pasar el ratón se listan todas con asignados/máximo. Haz clic para ir a la primera.</TSA_WD_Notify_OutpostUnusedExpertsTooltip>
+  <TSA_WD_Notify_OutpostNoProduction>Alerta: avanzadillas sin producción</TSA_WD_Notify_OutpostNoProduction>
+  <TSA_WD_Notify_OutpostNoProductionTooltip>Alerta silenciosa y persistente cuando al menos una avanzadilla WD necesita elegir producción pero no tiene nada seleccionado. Al pasar el ratón se listan las afectadas. Clic para ir a la primera.</TSA_WD_Notify_OutpostNoProductionTooltip>
+  <TSA_WD_Notify_OutpostUnusedExperts>Alerta: avanzadillas sin expertos</TSA_WD_Notify_OutpostUnusedExperts>
+  <TSA_WD_Notify_OutpostUnusedExpertsTooltip>Alerta silenciosa y persistente cuando al menos una avanzadilla WD tiene plazas de experto sin usar. Al pasar el ratón se listan con asignados/máximo. Clic para ir a la primera.</TSA_WD_Notify_OutpostUnusedExpertsTooltip>
   <TSA_WD_Alert_OutpostNoProduction>WD: Avanzadillas sin producción</TSA_WD_Alert_OutpostNoProduction>
   <TSA_WD_Alert_OutpostNoProductionDescHeader>Estas avanzadillas no tienen nada seleccionado para producir:</TSA_WD_Alert_OutpostNoProductionDescHeader>
   <TSA_WD_Alert_OutpostNoProductionDescLine>- {0}</TSA_WD_Alert_OutpostNoProductionDescLine>
   <TSA_WD_Alert_OutpostUnusedExperts>WD: Avanzadillas sin expertos</TSA_WD_Alert_OutpostUnusedExperts>
   <TSA_WD_Alert_OutpostUnusedExpertsDescHeader>Estas avanzadillas tienen plazas de experto sin usar:</TSA_WD_Alert_OutpostUnusedExpertsDescHeader>
   <TSA_WD_Alert_OutpostUnusedExpertsDescLine>- {0}: {1}/{2} expertos</TSA_WD_Alert_OutpostUnusedExpertsDescLine>
-  <TSA_WD_Notify_MidGameActive>Mostrar alerta de Mid Game (lateral)</TSA_WD_Notify_MidGameActive>
-  <TSA_WD_Notify_MidGameActiveTooltip>Muestra una alerta silenciosa y persistente en el panel lateral mientras Mid Game esté activo (no Late Game). También se envía una carta roja una vez al activarse Mid Game.</TSA_WD_Notify_MidGameActiveTooltip>
-  <TSA_WD_Notify_LateGameActive>Mostrar alerta de Late Game (lateral)</TSA_WD_Notify_LateGameActive>
-  <TSA_WD_Notify_LateGameActiveTooltip>Muestra una alerta silenciosa y persistente en el panel lateral mientras Late Game esté activo. También se envía una carta roja una vez al activarse Late Game.</TSA_WD_Notify_LateGameActiveTooltip>
+  <TSA_WD_Notify_MidGameActive>Alerta: Mid Game activo</TSA_WD_Notify_MidGameActive>
+  <TSA_WD_Notify_MidGameActiveTooltip>Alerta silenciosa y persistente mientras Mid Game esté activo (no Late Game). También se envía una carta roja única al activarse Mid Game.</TSA_WD_Notify_MidGameActiveTooltip>
+  <TSA_WD_Notify_LateGameActive>Alerta: Late Game activo</TSA_WD_Notify_LateGameActive>
+  <TSA_WD_Notify_LateGameActiveTooltip>Alerta silenciosa y persistente mientras Late Game esté activo. También se envía una carta roja única al activarse Late Game.</TSA_WD_Notify_LateGameActiveTooltip>
   <TSA_WD_TargetingYou>En camino</TSA_WD_TargetingYou>
   <TSA_WD_ThreatBreakdownHeader>Fuerza ofensiva con alcance:</TSA_WD_ThreatBreakdownHeader>
   <TSA_WD_ThreatLabel_Cat0>Amenaza global: baja</TSA_WD_ThreatLabel_Cat0>
@@ -299,8 +299,8 @@
   <TSA_WD_Difficulty_OutpostIncSevTooltip>Fuerza quitada tanto de la reserva ofensiva como de la defensiva de la avanzadilla.</TSA_WD_Difficulty_OutpostIncSevTooltip>
   <TSA_WD_Difficulty_OutpostIncChance>Probabilidad diaria de incidente</TSA_WD_Difficulty_OutpostIncChance>
   <TSA_WD_Difficulty_OutpostIncChanceTooltip>Probabilidad por día de un incidente mientras Late Game esté activo.</TSA_WD_Difficulty_OutpostIncChanceTooltip>
-  <TSA_WD_Difficulty_NotifyOutpostInc>Carta en incidente de avanzadilla</TSA_WD_Difficulty_NotifyOutpostInc>
-  <TSA_WD_Difficulty_NotifyOutpostIncTooltip>Enviar carta cuando un incidente reduce la fuerza de la avanzadilla.</TSA_WD_Difficulty_NotifyOutpostIncTooltip>
+  <TSA_WD_Difficulty_NotifyOutpostInc>Carta: incidente en avanzadilla</TSA_WD_Difficulty_NotifyOutpostInc>
+  <TSA_WD_Difficulty_NotifyOutpostIncTooltip>Cuando un incidente reduce la fuerza de la avanzadilla.</TSA_WD_Difficulty_NotifyOutpostIncTooltip>
   <TSA_WD_Difficulty_EnableGoodwillDrain>Drenaje periódico de buena voluntad</TSA_WD_Difficulty_EnableGoodwillDrain>
   <TSA_WD_Difficulty_EnableGoodwillDrainTooltip>Con Mid Game o Late Game activo, reduce periódicamente la buena voluntad con facciones que no sean enemigos permanentes. Los enemigos permanentes se omiten. Un mensaje por pulso; mensajes extra solo al cambiar Aliado/Neutral/Hostil.</TSA_WD_Difficulty_EnableGoodwillDrainTooltip>
   <TSA_WD_Difficulty_GoodwillDrainInterval>Intervalo de drenaje (días)</TSA_WD_Difficulty_GoodwillDrainInterval>

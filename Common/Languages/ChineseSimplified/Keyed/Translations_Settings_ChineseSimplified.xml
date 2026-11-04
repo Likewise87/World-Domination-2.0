@@ -24,6 +24,13 @@
   <TSA_WD_DescEconomicDifficulty>前哨维护、前哨供电、技能收益递减、好感度流失与各阶段贿赂银币比率。</TSA_WD_DescEconomicDifficulty>
   <TSA_WD_Settings_Search>搜索</TSA_WD_Settings_Search>
   <TSA_WD_Settings_SearchTip>按标签或提示文字过滤本页控件。匹配分区标题时显示该整块分区。清空搜索框可显示全部。</TSA_WD_Settings_SearchTip>
+  <TSA_WD_Settings_SearchPlaceholder>搜索全部设置…</TSA_WD_Settings_SearchPlaceholder>
+  <TSA_WD_Settings_SearchTipGlobal>按标签或提示搜索所有设置页。点击结果即可跳转。</TSA_WD_Settings_SearchTipGlobal>
+  <TSA_WD_Settings_SearchNoResults>没有匹配的设置。</TSA_WD_Settings_SearchNoResults>
+  <TSA_WD_Settings_HelpEmpty>将鼠标悬停在设置上可查看详情。</TSA_WD_Settings_HelpEmpty>
+  <TSA_WD_Settings_NavOverview>总览</TSA_WD_Settings_NavOverview>
+  <TSA_WD_Settings_NavOverviewDesc>预设、中世纪模式、高级开关、全部重置与更新说明。</TSA_WD_Settings_NavOverviewDesc>
+  <TSA_WD_Settings_OverviewHint>在左侧选择页面。使用列表上方的搜索可跨页查找任意设置。</TSA_WD_Settings_OverviewHint>
   <TSA_WD_ThreatGate_Never>永不</TSA_WD_ThreatGate_Never>
   <TSA_WD_ThreatGate_FromMid>从中期起</TSA_WD_ThreatGate_FromMid>
   <TSA_WD_ThreatGate_FromLate>从后期起</TSA_WD_ThreatGate_FromLate>
@@ -166,7 +173,7 @@
   <TSA_WD_DescDiplomacy>随机外交、好感、叛乱（合格门槛与目标夺取范围）、盟友袭击、有序筑路/商人、礼物/购买/谈判、贿赂与投资，以及领袖/弱势/狂热/联盟增益。强势战争、前沿突击与绝望见「战斗难度」。</TSA_WD_DescDiplomacy>
   <TSA_WD_DescDisinformation>虚假情报任务的成功/失败概率、冷却与技能影响。</TSA_WD_DescDisinformation>
   <TSA_WD_DescGarrison>各等级定居点驻军强度，以及定居点进攻实力耗尽时的最低缩放比例。</TSA_WD_DescGarrison>
-  <TSA_WD_DescBaseGeneration>WD 生成定居点袭击与前哨防御地图时的 KCSG 布局调整。各派系袭击资格在世界设置 → 派系关系 中配置。</TSA_WD_DescBaseGeneration>
+  <TSA_WD_DescBaseGeneration>默认情况下，你袭击敌方定居点时由 WD 接管基地生成（1 级小村到 4 级要塞）。各派系 MapGen 在 WD 主页签的“配置范围”中设置。Custom Base Framework 可替代 WD，并同样尊重等级。</TSA_WD_DescBaseGeneration>
   <TSA_WD_DescGrowthExpand>每日行动份额与上限、被动增长与定居点上限、扩张距离/饱和、定居点防御基准与事件强度。</TSA_WD_DescGrowthExpand>
   <TSA_WD_DescMiningBaselines>根据采矿技能等级配置采矿前哨每石头/矿石可获基准量。</TSA_WD_DescMiningBaselines>
   <TSA_WD_DescNotifications>切换哪些世界霸权事件生成通知。</TSA_WD_DescNotifications>
@@ -573,21 +580,21 @@
   <TSA_WD_Raid_Col4Tip>进攻方失败时损失的实力。</TSA_WD_Raid_Col4Tip>
   <TSA_WD_Raid_Col5>防守方胜利</TSA_WD_Raid_Col5>
   <TSA_WD_Raid_Col5Tip>防守方胜利时损失的实力(成功防守)。</TSA_WD_Raid_Col5Tip>
-  <TSA_WD_Notify_HeaderDiplomacyBuffs>WD 外交与实力平衡通知信件</TSA_WD_Notify_HeaderDiplomacyBuffs>
-  <TSA_WD_Notify_LeaderHandicap>通知:世界领袖减益</TSA_WD_Notify_LeaderHandicap>
-  <TSA_WD_Notify_LeaderHandicapTooltip>当主导阵营受到临时领袖减益时发送信件。</TSA_WD_Notify_LeaderHandicapTooltip>
-  <TSA_WD_Notify_UnderdogBuff>通知:弱势阵营增益</TSA_WD_Notify_UnderdogBuff>
-  <TSA_WD_Notify_UnderdogBuffTooltip>当弱势阵营获得临时弱势增益时发送信件。</TSA_WD_Notify_UnderdogBuffTooltip>
-  <TSA_WD_Notify_ExpansionistZeal>通知:扩张狂热</TSA_WD_Notify_ExpansionistZeal>
-  <TSA_WD_Notify_ExpansionistZealTooltip>当阵营进入扩张狂热(更远袭击范围等)时发送信件。</TSA_WD_Notify_ExpansionistZealTooltip>
-  <TSA_WD_Notify_AntiLeaderCoalition>通知:反领袖联盟</TSA_WD_Notify_AntiLeaderCoalition>
-  <TSA_WD_Notify_AntiLeaderCoalitionTooltip>当较弱阵营联合对抗过度主导的领袖时发送信件。</TSA_WD_Notify_AntiLeaderCoalitionTooltip>
-  <TSA_WD_Notify_RandomDiplomacy>通知:随机外交变化</TSA_WD_Notify_RandomDiplomacy>
-  <TSA_WD_Notify_RandomDiplomacyTooltip>当「世界霸权」随机改变一对 NPC 阵营关系（战争、和平、结盟）时发送信件。</TSA_WD_Notify_RandomDiplomacyTooltip>
-  <TSA_WD_Notify_TradeAllyDiplomacy>通知:贸易结盟</TSA_WD_Notify_TradeAllyDiplomacy>
-  <TSA_WD_Notify_TradeAllyDiplomacyTooltip>当两个 NPC 阵营因 WD 商队好感越过结盟门槛而成为盟友时发送信件。</TSA_WD_Notify_TradeAllyDiplomacyTooltip>
-  <TSA_WD_Notify_StrongFactionWar>通知:强势阵营互宣战</TSA_WD_Notify_StrongFactionWar>
-  <TSA_WD_Notify_StrongFactionWarTooltip>当强势 NPC 阵营将结盟降为中立，或由中立升级为开战时发送信件。</TSA_WD_Notify_StrongFactionWarTooltip>
+  <TSA_WD_Notify_HeaderDiplomacyBuffs>外交与实力平衡</TSA_WD_Notify_HeaderDiplomacyBuffs>
+  <TSA_WD_Notify_LeaderHandicap>信件：世界领袖减益</TSA_WD_Notify_LeaderHandicap>
+  <TSA_WD_Notify_LeaderHandicapTooltip>当主导派系获得临时世界领袖减益时。</TSA_WD_Notify_LeaderHandicapTooltip>
+  <TSA_WD_Notify_UnderdogBuff>信件：弱势阵营增益</TSA_WD_Notify_UnderdogBuff>
+  <TSA_WD_Notify_UnderdogBuffTooltip>当弱势派系获得临时弱势（灵活）增益时。</TSA_WD_Notify_UnderdogBuffTooltip>
+  <TSA_WD_Notify_ExpansionistZeal>信件：扩张狂热</TSA_WD_Notify_ExpansionistZeal>
+  <TSA_WD_Notify_ExpansionistZealTooltip>当派系进入扩张狂热（更远袭击范围、更低旅行损耗）时。</TSA_WD_Notify_ExpansionistZealTooltip>
+  <TSA_WD_Notify_AntiLeaderCoalition>信件：反领袖联盟</TSA_WD_Notify_AntiLeaderCoalition>
+  <TSA_WD_Notify_AntiLeaderCoalitionTooltip>当较弱派系结成联盟对抗过度主导的世界领袖时。</TSA_WD_Notify_AntiLeaderCoalitionTooltip>
+  <TSA_WD_Notify_RandomDiplomacy>信件：随机外交变化</TSA_WD_Notify_RandomDiplomacy>
+  <TSA_WD_Notify_RandomDiplomacyTooltip>当世界霸权随机改变一对 NPC 派系关系（战争、和平、结盟）时。</TSA_WD_Notify_RandomDiplomacyTooltip>
+  <TSA_WD_Notify_TradeAllyDiplomacy>信件：贸易结为盟友</TSA_WD_Notify_TradeAllyDiplomacy>
+  <TSA_WD_Notify_TradeAllyDiplomacyTooltip>当两个 NPC 派系因 WD 商队好感越过结盟门槛而成为盟友时。</TSA_WD_Notify_TradeAllyDiplomacyTooltip>
+  <TSA_WD_Notify_StrongFactionWar>信件：强势派系关系变化</TSA_WD_Notify_StrongFactionWar>
+  <TSA_WD_Notify_StrongFactionWarTooltip>当强势 NPC 派系将结盟降为中立，或由中立升级为开战时。</TSA_WD_Notify_StrongFactionWarTooltip>
   <TSA_WD_WorldMap_MenuTooltip>世界统治地图工具</TSA_WD_WorldMap_MenuTooltip>
   <TSA_WD_WorldMap_HotkeyLine>快捷键：{0}</TSA_WD_WorldMap_HotkeyLine>
   <TSA_WD_WorldMap_ToggleTierTexts>定居点等级标签</TSA_WD_WorldMap_ToggleTierTexts>
@@ -742,7 +749,7 @@
   <TSA_WD_DescPlayerArtillery>前哨迫击炮、防空与快速反应的战斗逻辑（伤害、射程、冷却、命中分段、拦截强度）。步行旅行者、空投舱与拦截商队的旅行速度在“商队与贸易”中设置。</TSA_WD_DescPlayerArtillery>
   <TSA_WD_Diplo_LaunchPodGiftStrengthPer100>发射舱礼物强度（每 100 市场价值）</TSA_WD_Diplo_LaunchPodGiftStrengthPer100>
   <TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>通过发射舱向定居点送礼物时立即获得的额外实力，均分给进攻与防御。若一侧已满，剩余加到另一侧。原版好感不变。不会提升定居点等级。</TSA_WD_Diplo_LaunchPodGiftStrengthPer100Tooltip>
-  <TSA_WD_BaseGen_Intro>这些选项在 WD/KCSG 生成运行时进行调整。前哨防御地图始终使用 WD 布局。NPC 袭击地图仅对在世界设置 → 派系关系 中启用 MapGen 的派系使用 WD。</TSA_WD_BaseGen_Intro>
+  <TSA_WD_BaseGen_Intro>默认情况下，你袭击敌方定居点时由 WD 接管基地生成。这意味着 1 级定居点是小村庄，4 级定居点是真正的要塞。下方可配置相关细节。\n\n游戏中打开 WD 主页签，再打开“配置范围”，可按派系决定是否由 WD 劫持基地生成。未被 WD 覆盖的派系会失去 1 级与 4 级之间的差别。\n\n若使用模组 Custom Base Framework，则由其代替 WD 运行基地生成，并同样尊重定居点等级。</TSA_WD_BaseGen_Intro>
   <TSA_WD_BaseGen_HeaderTerrainPrep>地形预处理</TSA_WD_BaseGen_HeaderTerrainPrep>
   <TSA_WD_BaseGen_AdaptiveTerrainPrep>自适应地形处理（沼泽 / 岩石）</TSA_WD_BaseGen_AdaptiveTerrainPrep>
   <TSA_WD_BaseGen_AdaptiveTerrainPrepTip>在定居点袭击与前哨防御地图上，扫描布局。若不可建造地面过多（泥、沼泽、水、岩石），则只将这些阻挡格转为地图上最常见的可建造地形。树木保留。若大多可用，则保持自然地形。</TSA_WD_BaseGen_AdaptiveTerrainPrepTip>
@@ -822,7 +829,7 @@
 
   <TSA_WD_HeaderImportant>设置预设</TSA_WD_HeaderImportant>
   <TSA_WD_MedievalMode>中世纪模式</TSA_WD_MedievalMode>
-  <TSA_WD_MedievalModeTip>用于中世纪 / 低科技流程（含 Medieval Overhaul）。隐藏工业级 WD 前哨、升级与反载具炮塔；将 NPC 空降舱与迫击炮/防空科技门槛抬到工业；隐藏玩家陆地/空降舱旅行界面并强制陆地。已放置的工业建筑不会移除。中途开关理论上可用；建议先备份或开新存档！</TSA_WD_MedievalModeTip>
+  <TSA_WD_MedievalModeTip>在与 Medieval Overhaul 2 一起使用 WD 时启用。将隐藏工业级 WD 前哨、升级与反载具炮塔；将 NPC 空降舱与迫击炮/防空科技门槛抬到工业；隐藏玩家陆地/空降舱旅行界面并强制陆地。已放置的工业建筑不会移除。中途开关理论上可用；建议先备份或开新存档！</TSA_WD_MedievalModeTip>
   <TSA_WD_Medieval_Blocked>中世纪模式下不可用。</TSA_WD_Medieval_Blocked>
   <TSA_WD_Medieval_TechFlooredTip>中世纪模式将此项至少提高到工业，用于 NPC 袭击/炮兵。</TSA_WD_Medieval_TechFlooredTip>
   <TSA_WD_HeaderSettingPresets>设置预设</TSA_WD_HeaderSettingPresets>
@@ -836,6 +843,7 @@
   <TSA_WD_SettingsPreset_Custom>自定义</TSA_WD_SettingsPreset_Custom>
   <TSA_WD_SettingsPreset_CurrentlyApplied>当前已应用：{0}</TSA_WD_SettingsPreset_CurrentlyApplied>
   <TSA_WD_SettingsPreset_Apply>应用</TSA_WD_SettingsPreset_Apply>
+  <TSA_WD_SettingsPreset_ApplyTip>点击以应用所选设置预设</TSA_WD_SettingsPreset_ApplyTip>
   <TSA_WD_SettingsPreset_Applied>已应用预设：{0}</TSA_WD_SettingsPreset_Applied>
   <TSA_WD_Settings_ExpandAll>全部展开</TSA_WD_Settings_ExpandAll>
   <TSA_WD_Settings_CollapseAll>全部折叠</TSA_WD_Settings_CollapseAll>
@@ -883,7 +891,7 @@
   <TSA_WD_Pollution_EnableTravelerDamage>污染力量伤害</TSA_WD_Pollution_EnableTravelerDamage>
   <TSA_WD_Pollution_EnableTravelerDamageTip>开启后，符合条件的地面 WD 旅行者离开受污染格子时会损失力量，NPC 定居点与 WD 前哨站也会因附近平均污染而每日损失力量。净化小队、空中炮弹与空降舱不受影响。用下方类型勾选框选择哪些商队承受离开伤害。NPC 定居点还会每 12 小时派出廉价净化小队。</TSA_WD_Pollution_EnableTravelerDamageTip>
   <TSA_WD_Pollution_WasterImmunity>废土海盗污染免疫</TSA_WD_Pollution_WasterImmunity>
-  <TSA_WD_Pollution_WasterImmunityTip>开启后，PirateWaster 派系跳过旅行者离开伤害与站点每日污染伤害。PirateWaster 永不进行 NPC 自动净化（该跳过始终生效）。</TSA_WD_Pollution_WasterImmunityTip>
+  <TSA_WD_Pollution_WasterImmunityTip>开启后，适应污染的派系（PirateWaster，或主异种型带有 PollutionRush 的派系，例如蜂鸣虫群）跳过旅行者离开伤害与站点每日污染伤害。这些派系永不进行 NPC 自动净化（该跳过始终生效）。</TSA_WD_Pollution_WasterImmunityTip>
   <TSA_WD_Pollution_DamageRaiders>袭击商队</TSA_WD_Pollution_DamageRaiders>
   <TSA_WD_Pollution_DamageRaidersTip>地面袭击与快速反应商队承受污染离开伤害。空降袭击仍豁免。</TSA_WD_Pollution_DamageRaidersTip>
   <TSA_WD_Pollution_DamageExpansion>扩张商队</TSA_WD_Pollution_DamageExpansion>

@@ -25,33 +25,59 @@ namespace TSA_WorldDomination
             optionalTitle = null;
         }
 
-        public override void DoWindowContents(Rect inRect)
+        
+        private static Dialog_FoodSettings embeddedHost;
+
+        public static void DrawEmbedded(Rect inRect)
+        {
+            if (embeddedHost == null) embeddedHost = new Dialog_FoodSettings();
+            embeddedHost.DrawBody(inRect);
+        }
+public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
-            float contentWidth = contentRect.width - 24f;
+            DrawBody(contentRect);
+        }
+
+        private void DrawBody(Rect contentRect)
+        {
+            if (WdSettingsSearch.IsCollecting)
+            {
+                Listing_Standard l = new Listing_Standard();
+                l.Begin(contentRect);
+                DrawListing(l);
+                l.End();
+                return;
+            }
+
+            float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2300f);
-
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(scrollViewRect);
+            DrawListing(listing);
+            listing.End();
+            Widgets.EndScrollView();
+        }
 
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(scrollViewRect);
-            var s = WorldDominationMod.settings;
+        private void DrawListing(Listing_Standard l)
+        {
+var s = WorldDominationMod.settings;
             bool advanced = s.showAdvancedSettings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => { s.ResetOutpost(); s.ResetFoodLogistics(); },
                 () => { generalExpanded = establishmentExpanded = productionExpanded = foodExpanded = conquestExpanded = true; },
                 () => { generalExpanded = establishmentExpanded = productionExpanded = foodExpanded = conquestExpanded = false; });
-            SettingsUI.DrawSettingsSearchBar(l);
-
+            
             // --- GENERAL SETTINGS ---
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Outpost_HeaderGeneral".Translate(), ref generalExpanded, SettingsUI.SectionHeaderColor))
             {
-            l.CheckboxLabeled("TSA_WD_Outpost_EnableLaunchAttack".Translate(), ref s.enableOutpostLaunchAttack,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_EnableLaunchAttack".Translate(), ref s.enableOutpostLaunchAttack,
                 SettingsUI.TooltipWithDefault("TSA_WD_Outpost_EnableLaunchAttackTooltip".Translate(), WorldDominationSettings.DefEnableOutpostLaunchAttack));
-            l.CheckboxLabeled("TSA_WD_Outpost_EnableBuildRoads".Translate(), ref s.enableOutpostBuildRoads,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_EnableBuildRoads".Translate(), ref s.enableOutpostBuildRoads,
                 SettingsUI.TooltipWithDefault("TSA_WD_Outpost_EnableBuildRoadsTooltip".Translate(), WorldDominationSettings.DefEnableOutpostBuildRoads));
-            l.CheckboxLabeled("TSA_WD_Outpost_EnableBuildRoadBlocks".Translate(), ref s.enableOutpostBuildRoadBlocks,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_EnableBuildRoadBlocks".Translate(), ref s.enableOutpostBuildRoadBlocks,
                 SettingsUI.TooltipWithDefault("TSA_WD_Outpost_EnableBuildRoadBlocksTooltip".Translate(), WorldDominationSettings.DefEnableOutpostBuildRoadBlocks));
-            l.CheckboxLabeled("TSA_WD_Outpost_EnableBuildTraps".Translate(), ref s.enableOutpostBuildTraps,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_EnableBuildTraps".Translate(), ref s.enableOutpostBuildTraps,
                 SettingsUI.TooltipWithDefault("TSA_WD_Outpost_EnableBuildTrapsTooltip".Translate(), WorldDominationSettings.DefEnableOutpostBuildTraps));
             s.outpostMinDistanceTiles = (int)SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_MinDistance".Translate(), (float)s.outpostMinDistanceTiles, 1f, 20f,
                 "TSA_WD_Outpost_MinDistanceTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefOutpostMinDistanceTiles);
@@ -64,13 +90,13 @@ namespace TSA_WorldDomination
             s.playerOutpostBaseDefensiveStrength = SettingsUI.LabeledSlider(l, "TSA_WD_Growth_PlayerOutpostDefensiveStrength".Translate(), s.playerOutpostBaseDefensiveStrength, 0f, 1000f,
                 "TSA_WD_Growth_PlayerOutpostDefensiveStrengthTooltip".Translate(), 10f, SliderFormat.Fixed0, WorldDominationSettings.DefPlayerOutpostBaseDefensiveStrength);
             bool pollutionEcologyBefore = s.pollutionEcologyPenaltyEnabled;
-            l.CheckboxLabeled("TSA_WD_Outpost_PollutionEcologyPenalty".Translate(), ref s.pollutionEcologyPenaltyEnabled,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_PollutionEcologyPenalty".Translate(), ref s.pollutionEcologyPenaltyEnabled,
                 SettingsUI.TooltipWithDefault("TSA_WD_Outpost_PollutionEcologyPenaltyTooltip".Translate(), WorldDominationSettings.DefPollutionEcologyPenaltyEnabled));
             if (pollutionEcologyBefore != s.pollutionEcologyPenaltyEnabled)
                 WD_WorldLayer_ProductivityOverlay.InvalidateAndDirtyIfActive();
-            l.CheckboxLabeled("TSA_WD_Outpost_UpgradesCostMaterials".Translate(), ref s.outpostUpgradesCostMaterials,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_UpgradesCostMaterials".Translate(), ref s.outpostUpgradesCostMaterials,
                 SettingsUI.TooltipWithDefault("TSA_WD_Outpost_UpgradesCostMaterialsTooltip".Translate(), WorldDominationSettings.DefOutpostUpgradesCostMaterials));
-            l.CheckboxLabeled("TSA_WD_Outpost_UpgradesRequireResearch".Translate(), ref s.outpostUpgradesRequireResearch,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_UpgradesRequireResearch".Translate(), ref s.outpostUpgradesRequireResearch,
                 SettingsUI.TooltipWithDefault("TSA_WD_Outpost_UpgradesRequireResearchTooltip".Translate(), WorldDominationSettings.DefOutpostUpgradesRequireResearch));
             }
             l.Gap(12f);
@@ -78,16 +104,16 @@ namespace TSA_WorldDomination
             // --- ESTABLISHMENT REQUIREMENTS ---
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Outpost_HeaderEstablishment".Translate(), ref establishmentExpanded, SettingsUI.SectionHeaderColor))
             {
-                l.CheckboxLabeled("TSA_WD_Outpost_ReqBiome".Translate(), ref s.outpostReqBiome, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqBiome_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqBiome));
-                l.CheckboxLabeled("TSA_WD_Outpost_ReqFertility".Translate(), ref s.outpostReqFertility, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqFertility_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqFertility));
-                l.CheckboxLabeled("TSA_WD_Outpost_ReqAnimals".Translate(), ref s.outpostReqAnimalAbundance, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqAnimals_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqAnimalAbundance));
-                l.CheckboxLabeled("TSA_WD_Outpost_ReqFish".Translate(), ref s.outpostReqFishAbundance, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqFish_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqFishAbundance));
-                l.CheckboxLabeled("TSA_WD_Outpost_ReqMining".Translate(), ref s.outpostReqMiningTerrain, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqMining_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqMiningTerrain));
-                l.CheckboxLabeled("TSA_WD_Outpost_ReqResearch".Translate(), ref s.outpostReqResearch, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqResearch_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqResearch));
-                l.CheckboxLabeled("TSA_WD_Outpost_ReqNearby".Translate(), ref s.outpostReqNearbySettlements, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqNearby_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqNearbySettlements));
-                l.CheckboxLabeled("TSA_WD_Outpost_ReqMinPawns".Translate(), ref s.outpostReqMinPawns, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqMinPawns_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqMinPawns));
-                l.CheckboxLabeled("TSA_WD_Outpost_ReqMinSkill".Translate(), ref s.outpostReqMinSkill, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqMinSkill_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqMinSkill));
-                l.CheckboxLabeled("TSA_WD_Outpost_ReqCost".Translate(), ref s.outpostReqCost, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqCost_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqCost));
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_ReqBiome".Translate(), ref s.outpostReqBiome, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqBiome_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqBiome));
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_ReqFertility".Translate(), ref s.outpostReqFertility, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqFertility_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqFertility));
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_ReqAnimals".Translate(), ref s.outpostReqAnimalAbundance, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqAnimals_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqAnimalAbundance));
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_ReqFish".Translate(), ref s.outpostReqFishAbundance, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqFish_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqFishAbundance));
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_ReqMining".Translate(), ref s.outpostReqMiningTerrain, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqMining_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqMiningTerrain));
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_ReqResearch".Translate(), ref s.outpostReqResearch, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqResearch_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqResearch));
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_ReqNearby".Translate(), ref s.outpostReqNearbySettlements, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqNearby_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqNearbySettlements));
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_ReqMinPawns".Translate(), ref s.outpostReqMinPawns, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqMinPawns_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqMinPawns));
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_ReqMinSkill".Translate(), ref s.outpostReqMinSkill, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqMinSkill_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqMinSkill));
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_ReqCost".Translate(), ref s.outpostReqCost, SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ReqCost_Tooltip".Translate(), WorldDominationSettings.DefOutpostReqCost));
             }
             l.Gap(12f);
 
@@ -114,13 +140,13 @@ namespace TSA_WorldDomination
                 || Mathf.Abs(prevAuraRad - s.warehouseAuraRadiusTiles) > 1e-6f)
                 OutpostWarehouseAuraUtility.InvalidateCache();
             bool embassyHostilesBefore = s.embassyMayGainGoodwillWithHostiles;
-            l.CheckboxLabeled("TSA_WD_Outpost_EmbassyHostileGoodwill".Translate(), ref s.embassyMayGainGoodwillWithHostiles,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_EmbassyHostileGoodwill".Translate(), ref s.embassyMayGainGoodwillWithHostiles,
                 SettingsUI.TooltipWithDefault("TSA_WD_Outpost_EmbassyHostileGoodwillTooltip".Translate(), WorldDominationSettings.DefEmbassyMayGainGoodwillWithHostiles));
             if (embassyHostilesBefore != s.embassyMayGainGoodwillWithHostiles)
                 Outpost_Embassy.ClearAllProbeCaches();
             s.outpostSilverValuePerSkillPerCycle = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_SilverValuePerSkill".Translate(), s.outpostSilverValuePerSkillPerCycle, 20f, 300f,
                 "TSA_WD_Outpost_SilverValuePerSkillTooltip".Translate(), 10f, SliderFormat.Fixed0, WorldDominationSettings.DefOutpostSilverValuePerSkillPerCycle);
-            l.CheckboxLabeled("TSA_WD_Outpost_ClampSkillsAtLevel20".Translate(), ref s.clampOutpostSkillsAtLevel20,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_ClampSkillsAtLevel20".Translate(), ref s.clampOutpostSkillsAtLevel20,
                 SettingsUI.TooltipWithDefault("TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip".Translate(), WorldDominationSettings.DefClampOutpostSkillsAtLevel20));
             s.outpostOccupantSkillXpPerProductionCycle = SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_OccupantSkillXpPerCycle".Translate(), s.outpostOccupantSkillXpPerProductionCycle, 0f, 20000f,
                 "TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip".Translate(), 50f, SliderFormat.Fixed0, WorldDominationSettings.DefOutpostOccupantSkillXpPerProductionCycle);
@@ -136,7 +162,7 @@ namespace TSA_WorldDomination
                 "TSA_WD_Outpost_AcademyMinTeacherSkillTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefAcademyMinTeacherSkill);
             s.academyTeachCapOffset = (int)SettingsUI.LabeledSlider(l, "TSA_WD_Outpost_AcademyTeachCapOffset".Translate(), s.academyTeachCapOffset, 0f, 20f,
                 "TSA_WD_Outpost_AcademyTeachCapOffsetTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefAcademyTeachCapOffset);
-            l.CheckboxLabeled("TSA_WD_Outpost_AcademyUseFlatDirectXp".Translate(), ref s.academyUseFlatDirectXp,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_AcademyUseFlatDirectXp".Translate(), ref s.academyUseFlatDirectXp,
                 SettingsUI.TooltipWithDefault("TSA_WD_Outpost_AcademyUseFlatDirectXpTooltip".Translate(), WorldDominationSettings.DefAcademyUseFlatDirectXp));
             l.Gap(8f);
             SettingsUI.DrawHeader(l, "TSA_WD_Outpost_HeaderExperts".Translate());
@@ -187,7 +213,7 @@ namespace TSA_WorldDomination
             // --- Food logistics ---
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Food_Header".Translate(), ref foodExpanded, SettingsUI.SectionHeaderColor))
             {
-            l.CheckboxLabeled("TSA_WD_Food_Active".Translate(), ref s.foodLogisticsActive,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Food_Active".Translate(), ref s.foodLogisticsActive,
                 SettingsUI.TooltipWithDefault("TSA_WD_Food_ActiveTooltip".Translate(), WorldDominationSettings.DefFoodLogisticsActive));
 
             if (s.foodLogisticsActive)
@@ -230,7 +256,7 @@ namespace TSA_WorldDomination
             // --- OUTPOST AFTER CONQUEST (bottom of scroll: virtual pawns when founding on ruins) ---
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Outpost_HeaderAfterConquest".Translate(), ref conquestExpanded, SettingsUI.SectionHeaderColor))
             {
-            l.CheckboxLabeled("TSA_WD_Outpost_AfterConquestEnabled".Translate(), ref s.outpostAfterConquestEnabled,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Outpost_AfterConquestEnabled".Translate(), ref s.outpostAfterConquestEnabled,
                 SettingsUI.TooltipWithDefault("TSA_WD_Outpost_AfterConquestEnabledTooltip".Translate(), WorldDominationSettings.DefOutpostAfterConquestEnabled));
             if (s.outpostAfterConquestEnabled)
             {
@@ -253,9 +279,6 @@ namespace TSA_WorldDomination
                 GUI.color = Color.white;
             }
             }
-
-            l.End();
-            Widgets.EndScrollView();
         }
     }
 }

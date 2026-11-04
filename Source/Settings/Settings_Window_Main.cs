@@ -8,19 +8,7 @@ namespace TSA_WorldDomination
     public class WorldDominationMod : Mod
     {
         public static WorldDominationSettings settings;
-        private static Vector2 mainSettingsScrollPosition;
         private static WorldDominationMod instance;
-        private static bool presetsExpanded = true;
-        private static bool generalExpanded = true;
-        private static bool outpostsExpanded = true;
-        private static bool playerInteractionsExpanded = true;
-        private static bool miscExpanded = true;
-
-        /// <summary>UI-only: preset chosen in dropdown before Apply (Performance).</summary>
-        private static WDSettingsPerformancePreset pendingPerformancePreset = WDSettingsPerformancePreset.Medium;
-        /// <summary>UI-only: preset chosen in dropdown before Apply (Difficulty).</summary>
-        private static WDSettingsDifficultyPreset pendingDifficultyPreset = WDSettingsDifficultyPreset.Medium;
-        private static bool presetUiSeeded;
 
         public WorldDominationMod(ModContentPack content) : base(content)
         {
@@ -42,6 +30,13 @@ namespace TSA_WorldDomination
             Find.WindowStack.Add(new Dialog_ModSettings(mod));
         }
 
+        /// <summary>Open mod settings focused on a specific page (used by deep-links).</summary>
+        public static void OpenModSettingsWindow(WdSettingsPage page)
+        {
+            WdSettingsShell.FocusPage(page);
+            OpenModSettingsWindow();
+        }
+
         /// <summary>Unified allegiance editor needs a loaded game (faction list). Block from main menu mod settings.</summary>
         public static void TryOpenAllegianceLockWindow()
         {
@@ -55,10 +50,45 @@ namespace TSA_WorldDomination
 
         public override string SettingsCategory() => "TSA_WD_Category".Translate();
 
+        /// <summary>
+        /// Flat settings-window fill (overview --bg-panel tone #0e121c). Slightly blue so it reads apart from pure black
+        /// and matches the previous nested-panel look as one coherent surface.
+        /// </summary>
+        public static readonly Color SettingsPageBg = new Color(14f / 255f, 18f / 255f, 28f / 255f, 1f);
+
+        /// <summary>Same outline as slate buttons (<see cref="WorldDomination_UIUtils"/> slate chrome).</summary>
+        public static readonly Color SettingsPageBorder = new Color(0.55f, 0.62f, 0.72f, 0.42f);
+
+        /// <summary>Inner padding once we own the full settings window surface.</summary>
+        public const float SettingsPagePad = 10f;
+
+        /// <summary>
+        /// Draws the WD 2.0 wordmark top-left inside <paramref name="rect"/> (aspect-fitted, left-aligned).
+        /// Returns the height used (0 when texture missing).
+        /// </summary>
+        public static float DrawSettingsBrandTitleTopLeft(Rect rect, float height = 40f)
+        {
+            Texture2D tex = WdSettingsChromeAssets.BrandTitle;
+            if (tex == null) return 0f;
+            float aspect = tex.width / (float)Mathf.Max(1, tex.height);
+            float drawH = Mathf.Min(height, rect.height);
+            float drawW = Mathf.Min(rect.width, drawH * aspect);
+            Widgets.DrawTextureFitted(new Rect(rect.x, rect.y, drawW, drawH), tex, 1f);
+            return drawH;
+        }
+
+        /// <summary>Draws the WD 2.0 wordmark fitted into <paramref name="rect"/>. No-op if the texture is missing.</summary>
+        public static void DrawSettingsBrandTitle(Rect rect)
+        {
+            if (WdSettingsChromeAssets.BrandTitle == null) return;
+            Widgets.DrawTextureFitted(rect, WdSettingsChromeAssets.BrandTitle, 1f);
+        }
+
         /// <summary>After settings are saved (window closed), invalidate cached derived values so changes like attack range and escalation take effect immediately in-game.</summary>
         public override void WriteSettings()
         {
             base.WriteSettings();
+            WdSettingsShell.OnSettingsWritten();
             if (Current.ProgramState != ProgramState.Playing) return;
             Find.World?.GetComponent<WorldComponent_SpreadManager>()?.NotifyInfluenceSettingsChanged();
             WorldComponent_InterceptionScheduler.Current?.NotifyAtTurretRangeSettingsChanged();
@@ -66,290 +96,87 @@ namespace TSA_WorldDomination
 
         public override void DoSettingsWindowContents(Rect inRect)
         {
-            float contentWidth = inRect.width - 24f;
-            float reserveTop = 0f;
-            float reserveBottom = SettingsUI.ReserveBottomForCloseButton;
-            Rect scrollOutRect = new Rect(inRect.x, inRect.y + reserveTop, inRect.width, inRect.height - reserveTop - reserveBottom);
-            var s = WorldDominationMod.settings;
-            // Fixed scroll content height: enough for all expanded hub sections (advanced + in-game).
-            // Do not bind this to Listing.CurHeight on Layout; that collapses to the viewport and clips Misc.
-            const float scrollContentH = 2500f;
-            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, scrollContentH);
+            // Fallback if InitialSize patch missed the host field name: grow once while we draw.
+            EnsureHostWindowExtraSize();
 
-            Widgets.BeginScrollView(scrollOutRect, ref mainSettingsScrollPosition, scrollViewRect);
-
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(scrollViewRect);
-            bool advanced = s.showAdvancedSettings;
-            int rowIndex = 0;
-
-            if (!presetUiSeeded)
+            // Hauler's Dream chrome takeover: suppress vanilla corner X + bottom Close (save still runs on
+            // PreClose), draw our own padded X, reclaim the close-button strip, and keep one flat fill.
+            Window win = Find.WindowStack?.currentlyDrawnWindow;
+            if (win != null)
             {
-                pendingPerformancePreset = s.performancePreset;
-                pendingDifficultyPreset = s.difficultyPreset;
-                presetUiSeeded = true;
+                win.draggable = true;
+                win.doCloseButton = false;
+                win.doCloseX = false;
             }
 
-            // --- Top toggles (single row): checkbox left, label right (avoids box-right ambiguity across cells) ---
-            {
-                const float topToggleRowH = 28f;
-                const float topToggleGap = 18f;
-                const float checkboxSize = 24f;
-                const float checkboxLabelGap = 6f;
-                Rect row = l.GetRect(topToggleRowH);
-                float cellW = (row.width - topToggleGap * 2f) / 3f;
+            // DoSettingsWindowContents is handed a rect below the vanilla SettingsCategory label (y≈40).
+            // Overdraw from y=0 so the redundant "World Domination" text never shows; extend past yMax to
+            // cover the strip the bottom Close button used to occupy.
+            float fullW = inRect.width;
+            float fillBottom = inRect.yMax + 32f;
+            Widgets.DrawBoxSolid(new Rect(0f, 0f, fullW, fillBottom), SettingsPageBg);
 
-                void DrawTopToggle(Rect cell, string label, ref bool value, string tip)
-                {
-                    TooltipHandler.TipRegion(cell, tip);
-                    float boxY = cell.y + (cell.height - checkboxSize) * 0.5f;
-                    Widgets.Checkbox(new Vector2(cell.x, boxY), ref value);
-                    TextAnchor prev = Text.Anchor;
-                    Text.Anchor = TextAnchor.MiddleLeft;
-                    Widgets.Label(new Rect(
-                        cell.x + checkboxSize + checkboxLabelGap,
-                        cell.y,
-                        Mathf.Max(0f, cell.width - checkboxSize - checkboxLabelGap),
-                        cell.height), label);
-                    Text.Anchor = prev;
-                }
+            const float pad = SettingsPagePad;
+            const float bandH = 52f;
+            const float brandH = 40f;
+            float innerW = Mathf.Max(1f, fullW - pad * 2f);
+            float brandY = pad + (bandH - brandH) * 0.5f;
 
-                DrawTopToggle(
-                    new Rect(row.x, row.y, cellW, row.height),
-                    "TSA_WD_ShowAdvanced".Translate(),
-                    ref s.showAdvancedSettings,
-                    SettingsUI.TooltipWithDefault(
-                        "TSA_WD_ShowAdvanced_Tooltip".Translate(), WorldDominationSettings.DefShowAdvancedSettings));
-                DrawTopToggle(
-                    new Rect(row.x + cellW + topToggleGap, row.y, cellW, row.height),
-                    "TSA_WD_ShowUpdatePopups".Translate(),
-                    ref s.showUpdatePopups,
-                    SettingsUI.TooltipWithDefault(
-                        "TSA_WD_ShowUpdatePopups_Tooltip".Translate(), WorldDominationSettings.DefShowUpdatePopups));
-                DrawTopToggle(
-                    new Rect(row.x + (cellW + topToggleGap) * 2f, row.y, cellW, row.height),
-                    "TSA_WD_VerboseLogging".Translate(),
-                    ref s.verboseLogging,
-                    SettingsUI.TooltipWithDefault(
-                        "TSA_WD_VerboseLogging_Tooltip".Translate(), WorldDominationSettings.DefVerboseLogging));
-            }
-            l.Gap(4f);
+            // Leave the top-right clear for the padded close X.
+            DrawSettingsBrandTitleTopLeft(
+                new Rect(pad, brandY, innerW - 36f, brandH), brandH);
 
-            SettingsUI.DrawMenuTopBar(l, "TSA_WD_BtnResetAll".Translate(),
-                () =>
-                {
-                    Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-                        "TSA_WD_ConfirmResetAll".Translate(),
-                        () =>
-                        {
-                            WorldDominationMod.settings.InitializeDefaults();
-                            pendingPerformancePreset = WorldDominationMod.settings.performancePreset;
-                            pendingDifficultyPreset = WorldDominationMod.settings.difficultyPreset;
-                        },
-                        destructive: true));
-                },
-                () =>
-                {
-                    presetsExpanded = generalExpanded = outpostsExpanded = playerInteractionsExpanded = miscExpanded = true;
-                },
-                () =>
-                {
-                    presetsExpanded = generalExpanded = outpostsExpanded = playerInteractionsExpanded = miscExpanded = false;
-                },
-                "TSA_WD_BtnUpdateNotes".Translate(),
-                () => Find.WindowStack.Add(new Dialog_WD_UpdateLog()),
-                "TSA_WD_DescUpdateNotes".Translate());
+            if (Widgets.CloseButtonFor(new Rect(pad, pad + 6f, innerW - 6f, 40f)))
+                win?.Close();
 
-            // --- Setting presets (independent packs; Apply only) ---
-            string perfApplied = ResolveAppliedPerformanceLabel(s);
-            string diffApplied = ResolveAppliedDifficultyLabel(s);
-            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_HeaderSettingPresets".Translate(), ref presetsExpanded, SettingsUI.SectionHeaderColor,
-                "TSA_WD_SettingsPreset_HeaderTip".Translate(perfApplied, diffApplied)))
-            {
-                // Blue selected tint + white outline (same as embassy best-partner / academy selected rows).
-                const float presetsBoxPadX = 10f;
-                const float presetsBoxPadY = 6f;
-                float presetsInnerW = Mathf.Max(1f, l.ColumnWidth - presetsBoxPadX * 2f);
-                float perfRowH = SettingsUI.EstimateSettingPresetRowHeight(PerformancePresetDesc(pendingPerformancePreset), presetsInnerW);
-                float diffRowH = SettingsUI.EstimateSettingPresetRowHeight(DifficultyPresetDesc(pendingDifficultyPreset), presetsInnerW);
-                float presetsContentH = perfRowH + 6f + diffRowH;
-                Rect presetsBox = l.GetRect(presetsContentH + presetsBoxPadY * 2f);
-                Outpost_Dialog_UI.DrawSelectedRowTint(presetsBox, true);
-                GUI.color = Color.white;
-                Widgets.DrawBox(presetsBox, 1);
+            float bodyTop = pad + bandH + 6f;
+            Rect shellRect = new Rect(pad, bodyTop, innerW, Mathf.Max(100f, fillBottom - pad - bodyTop));
+            WdSettingsShell.Draw(shellRect);
 
-                Listing_Standard presetsListing = new Listing_Standard();
-                presetsListing.Begin(presetsBox.ContractedBy(presetsBoxPadX, presetsBoxPadY));
-
-                SettingsUI.DrawSettingPresetRow(
-                    presetsListing,
-                    "",
-                    pendingPerformancePreset,
-                    "",
-                    PerformancePresetLabel,
-                    PerformancePresetDesc,
-                    preset => pendingPerformancePreset = preset,
-                    () =>
-                    {
-                        s.ApplyPerformancePreset(pendingPerformancePreset);
-                        Messages.Message("TSA_WD_SettingsPreset_Applied".Translate(PerformancePresetLabel(pendingPerformancePreset)), MessageTypeDefOf.TaskCompletion, false);
-                    },
-                    "TSA_WD_Important_PerformanceTip".Translate());
-                presetsListing.Gap(6f);
-
-                SettingsUI.DrawSettingPresetRow(
-                    presetsListing,
-                    "",
-                    pendingDifficultyPreset,
-                    "",
-                    DifficultyPresetLabel,
-                    DifficultyPresetDesc,
-                    preset => pendingDifficultyPreset = preset,
-                    () =>
-                    {
-                        s.ApplyDifficultyPreset(pendingDifficultyPreset);
-                        Messages.Message("TSA_WD_SettingsPreset_Applied".Translate(DifficultyPresetLabel(pendingDifficultyPreset)), MessageTypeDefOf.TaskCompletion, false);
-                    },
-                    "TSA_WD_Important_DifficultyTip".Translate());
-                presetsListing.End();
-            }
-            l.Gap(10f);
-
-            // --- Medieval mode (same chrome as presets; not inside presets collapsible) ---
-            {
-                const float medievalBoxPadX = 10f;
-                const float medievalBoxPadY = 6f;
-                float medievalContentH = 28f;
-                Rect medievalBox = l.GetRect(medievalContentH + medievalBoxPadY * 2f);
-                Outpost_Dialog_UI.DrawSelectedRowTint(medievalBox, true);
-                GUI.color = Color.white;
-                Widgets.DrawBox(medievalBox, 1);
-
-                Listing_Standard medievalListing = new Listing_Standard();
-                medievalListing.Begin(medievalBox.ContractedBy(medievalBoxPadX, medievalBoxPadY));
-                bool prevMedieval = s.wdMedievalMode;
-                SettingsUI.DrawCheckbox(
-                    medievalListing,
-                    "TSA_WD_MedievalMode".Translate(),
-                    ref s.wdMedievalMode,
-                    "TSA_WD_MedievalModeTip".Translate(),
-                    defaultValue: WorldDominationSettings.DefWdMedievalMode);
-                if (prevMedieval != s.wdMedievalMode)
-                    OutpostPowerGrid.NotifyOutpostPowerDirty(null);
-                medievalListing.End();
-            }
-            l.Gap(10f);
-
-            // --- 1. General ---
-            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_HeaderGeneral".Translate(), ref generalExpanded, SettingsUI.SectionHeaderColor))
-            {
-                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnNotifications".Translate(), "TSA_WD_DescNotifications".Translate(), () => Find.WindowStack.Add(new Dialog_NotificationSettings()));
-                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnCombatDifficulty".Translate(), "TSA_WD_DescCombatDifficulty".Translate(), () => Find.WindowStack.Add(new Dialog_CombatDifficultySettings()));
-                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnEconomicDifficulty".Translate(), "TSA_WD_DescEconomicDifficulty".Translate(), () => Find.WindowStack.Add(new Dialog_EconomicDifficultySettings()));
-                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnDailyActions".Translate(), "TSA_WD_DescDailyActions".Translate(), () => Find.WindowStack.Add(new Dialog_DailyActionsSettings()));
-                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnWorldRaids".Translate(), "TSA_WD_DescWorldRaids".Translate(), () => Find.WindowStack.Add(new Dialog_RaidSettings()));
-                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnGrowthExpand".Translate(), "TSA_WD_DescGrowthExpand".Translate(), () => Find.WindowStack.Add(new Dialog_GrowthSettings()));
-                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnDiplomacy".Translate(), "TSA_WD_DescDiplomacy".Translate(), () => Find.WindowStack.Add(new Dialog_DiplomacySettings()));
-            }
-
-            // --- 2. WD Outposts and Caravans/Travelers ---
-            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_HeaderOutposts".Translate(), ref outpostsExpanded, SettingsUI.SectionHeaderColor))
-            {
-                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnOutpostSettings".Translate(), "TSA_WD_DescOutpostSettings".Translate(), () => Find.WindowStack.Add(new Dialog_FoodSettings()));
-                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnPlayerArtillery".Translate(), "TSA_WD_DescPlayerArtillery".Translate(), () => Find.WindowStack.Add(new Dialog_PlayerArtillerySettings()));
-                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnCaravans".Translate(), "TSA_WD_DescCaravans".Translate(), () => Find.WindowStack.Add(new Dialog_CaravansSettings()));
-                if (advanced)
-                {
-                    SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnRoadBuilding".Translate(), "TSA_WD_DescRoadBuilding".Translate(), () => Find.WindowStack.Add(new Dialog_RoadBuildingSettings()));
-                    SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnMiningBaselines".Translate(), "TSA_WD_DescMiningBaselines".Translate(), () => Find.WindowStack.Add(new Dialog_MiningBaselineSettings()));
-                }
-            }
-
-            // --- 3. Manual Player Interactions ---
-            if (advanced)
-            {
-                if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_HeaderPlayerInteractions".Translate(), ref playerInteractionsExpanded, SettingsUI.SectionHeaderColor))
-                {
-                    SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnSabotage".Translate(), "TSA_WD_DescSabotage".Translate(), () => Find.WindowStack.Add(new Dialog_SabotageSettings()));
-                    SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnDisinformation".Translate(), "TSA_WD_DescDisinformation".Translate(), () => Find.WindowStack.Add(new Dialog_DisinformationSettings()));
-                }
-            }
-
-            // --- 4. Misc ---
-            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_HeaderMisc".Translate(), ref miscExpanded, SettingsUI.SectionHeaderColor))
-            {
-                if (advanced)
-                    SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnWorldGen".Translate(), "TSA_WD_DescWorldGen".Translate(), () => Find.WindowStack.Add(new Dialog_WorldGenSettings()));
-                if (advanced)
-                    SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnBaseGeneration".Translate(), "TSA_WD_DescBaseGeneration".Translate(),
-                        () => Find.WindowStack.Add(new Dialog_BaseGenerationSettings()));
-
-                SettingsUI.DrawMenuRow(l, rowIndex++, "TSA_WD_BtnExperimental".Translate(), "TSA_WD_DescExperimental".Translate(),
-                    () => Find.WindowStack.Add(new Dialog_ExperimentalSettings()));
-            }
-
-            l.End();
-            Widgets.EndScrollView();
+            // Slate outline on the owned page surface (drawn last so content cannot cover it).
+            // Dialog Postfix also strokes the outer ImmediateWindow rect.
+            Color prev = GUI.color;
+            GUI.color = SettingsPageBorder;
+            Widgets.DrawBox(new Rect(0f, 0f, fullW, fillBottom), 1);
+            GUI.color = prev;
         }
 
-        private static string ResolveAppliedPerformanceLabel(WorldDominationSettings s)
-        {
-            foreach (WDSettingsPerformancePreset p in Enum.GetValues(typeof(WDSettingsPerformancePreset)))
-            {
-                if (s.MatchesPerformancePreset(p))
-                    return PerformancePresetLabel(p);
-            }
-            return "TSA_WD_SettingsPreset_Custom".Translate();
-        }
+        private static Dialog_ModSettings widenedHost;
 
-        private static string ResolveAppliedDifficultyLabel(WorldDominationSettings s)
+        private static void EnsureHostWindowExtraSize()
         {
-            foreach (WDSettingsDifficultyPreset d in Enum.GetValues(typeof(WDSettingsDifficultyPreset)))
-            {
-                if (s.MatchesDifficultyPreset(d))
-                    return DifficultyPresetLabel(d);
-            }
-            return "TSA_WD_SettingsPreset_Custom".Translate();
-        }
+            Dialog_ModSettings host = Find.WindowStack?.WindowOfType<Dialog_ModSettings>();
+            if (host == null || ReferenceEquals(widenedHost, host)) return;
 
-        private static string PerformancePresetLabel(WDSettingsPerformancePreset p)
-        {
-            switch (p)
+            // InitialSize postfix already applied → window is already sized; just remember it.
+            // If not, grow the live rect (next frames use the larger area via Window layout).
+            const float extraW = Patch_Dialog_ModSettings_Width.ExtraWidth;
+            const float extraH = Patch_Dialog_ModSettings_Width.ExtraHeight;
+            Rect r = host.windowRect;
+            bool changed = false;
+            // Heuristic: vanilla host is typically ≤ ~920; if already expanded, skip width.
+            if (r.width < 1000f)
             {
-                case WDSettingsPerformancePreset.Low: return "TSA_WD_Important_Perf_Low".Translate();
-                case WDSettingsPerformancePreset.High: return "TSA_WD_Important_Perf_High".Translate();
-                default: return "TSA_WD_Important_Perf_Medium".Translate();
+                r.width += extraW;
+                r.x -= extraW * 0.5f;
+                if (r.x < 0f) r.x = 0f;
+                if (r.xMax > UI.screenWidth)
+                    r.x = Mathf.Max(0f, UI.screenWidth - r.width);
+                changed = true;
             }
-        }
-
-        private static string PerformancePresetDesc(WDSettingsPerformancePreset p)
-        {
-            switch (p)
+            // Vanilla host height is typically ~700; bump once if the InitialSize patch missed.
+            if (r.height < 780f)
             {
-                case WDSettingsPerformancePreset.Low: return "TSA_WD_Important_Perf_LowDesc".Translate();
-                case WDSettingsPerformancePreset.High: return "TSA_WD_Important_Perf_HighDesc".Translate();
-                default: return "TSA_WD_Important_Perf_MediumDesc".Translate();
+                r.height += extraH;
+                r.y -= extraH * 0.5f;
+                if (r.y < 0f) r.y = 0f;
+                if (r.yMax > UI.screenHeight)
+                    r.y = Mathf.Max(0f, UI.screenHeight - r.height);
+                changed = true;
             }
-        }
-
-        private static string DifficultyPresetLabel(WDSettingsDifficultyPreset d)
-        {
-            switch (d)
-            {
-                case WDSettingsDifficultyPreset.Easy: return "TSA_WD_Important_Diff_Easy".Translate();
-                case WDSettingsDifficultyPreset.Hard: return "TSA_WD_Important_Diff_Hard".Translate();
-                default: return "TSA_WD_Important_Diff_Medium".Translate();
-            }
-        }
-
-        private static string DifficultyPresetDesc(WDSettingsDifficultyPreset d)
-        {
-            switch (d)
-            {
-                case WDSettingsDifficultyPreset.Easy: return "TSA_WD_Important_Diff_EasyDesc".Translate();
-                case WDSettingsDifficultyPreset.Hard: return "TSA_WD_Important_Diff_HardDesc".Translate();
-                default: return "TSA_WD_Important_Diff_MediumDesc".Translate();
-            }
+            if (changed)
+                host.windowRect = r;
+            widenedHost = host;
         }
     }
 }

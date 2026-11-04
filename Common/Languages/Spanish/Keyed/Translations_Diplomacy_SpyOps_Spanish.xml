@@ -102,13 +102,13 @@
   <TSA_WD_Diplo_StrongFactionWar_Cool_Msg>Enfriamiento: '{0}' y '{1}' (entre las potencias más fuertes) terminan su alianza y pasan a neutral.</TSA_WD_Diplo_StrongFactionWar_Cool_Msg>
   <TSA_WD_Diplo_Reset>Restablecer esta página a valores por defecto</TSA_WD_Diplo_Reset>
   <TSA_WD_Diplo_RevoltChance>Probabilidad diaria de revuelta</TSA_WD_Diplo_RevoltChance>
-  <TSA_WD_Diplo_RevoltChanceTooltip>Probabilidad diaria de que una facción derrotada regrese si el grupo PNJ principal cumple el mínimo elegible, y luego tome hacia Asentamientos objetivo (mín/máx) de las facciones con más asentamientos. Rellena con lo disponible si hay menos. Prefiere niveles bajos. Nunca toma posesiones del jugador.</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_RevoltChanceTooltip>Probabilidad diaria de que una facción derrotada regrese si el grupo PNJ principal cumple el mínimo elegible, y luego tome hacia Asentamientos objetivo (mín/máx) de los imperios con más asentamientos (las facciones pequeñas no son víctimas). Prefiere hasta dos cúmulos cercanos (mismo borde de 20 casillas que Turtle). Si el cúmulo no crece, vuelve a la toma dispersa anterior. Rellena con lo disponible si hay menos. Prefiere niveles bajos. Nunca toma posesiones del jugador.</TSA_WD_Diplo_RevoltChanceTooltip>
   <TSA_WD_Diplo_RevoltMinEligible>Mín. asentamientos elegibles para revuelta</TSA_WD_Diplo_RevoltMinEligible>
   <TSA_WD_Diplo_RevoltMinEligibleTooltip>Umbral duro: la facción víctima principal (el imperio mayor, o la facción semilla en depuración) debe tener al menos este número de asentamientos PNJ elegibles o la revuelta no ocurre. Elegible = asentamientos WD no protegidos y no del jugador. No puede superar Asentamientos objetivo (mín). Protegidos y posesiones del jugador nunca cuentan ni se toman.</TSA_WD_Diplo_RevoltMinEligibleTooltip>
   <TSA_WD_Diplo_RevoltSettlementsMin>Asentamientos objetivo (mín)</TSA_WD_Diplo_RevoltSettlementsMin>
-  <TSA_WD_Diplo_RevoltSettlementsMinTooltip>Extremo bajo del objetivo de toma al disparar una revuelta. No es un mínimo garantizado: tras el umbral elegible, la revuelta toma tantos como pueda hasta el objetivo sorteado. Toma de las facciones PNJ con más asentamientos (núcleo de la mayor; resto de las dos siguientes si hay). Prefiere niveles bajos.</TSA_WD_Diplo_RevoltSettlementsMinTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMinTooltip>Extremo bajo del objetivo de toma al disparar una revuelta. No es un mínimo garantizado: tras el umbral elegible, prefiere cúmulos cercanos entre los imperios grandes, luego rellena hasta el objetivo sorteado. No toma facciones pequeñas. Prefiere niveles bajos.</TSA_WD_Diplo_RevoltSettlementsMinTooltip>
   <TSA_WD_Diplo_RevoltSettlementsMax>Asentamientos objetivo (máx)</TSA_WD_Diplo_RevoltSettlementsMax>
-  <TSA_WD_Diplo_RevoltSettlementsMaxTooltip>Extremo alto del objetivo de toma al disparar una revuelta. Debe ser al menos Asentamientos objetivo (mín). El relleno parcial sigue aplicando si hay menos elegibles entre las principales facciones PNJ.</TSA_WD_Diplo_RevoltSettlementsMaxTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMaxTooltip>Extremo alto del objetivo de toma al disparar una revuelta. Debe ser al menos Asentamientos objetivo (mín). Preferencia de cúmulos y relleno parcial solo entre los imperios grandes.</TSA_WD_Diplo_RevoltSettlementsMaxTooltip>
   <TSA_WD_Diplo_RevoltCooldown>Enfriamiento de revuelta</TSA_WD_Diplo_RevoltCooldown>
   <TSA_WD_Diplo_RevoltCooldownTooltip>Días antes de otra revuelta tras un éxito. Se ignora con el enfriamiento compartido.</TSA_WD_Diplo_RevoltCooldownTooltip>
   <TSA_WD_Diplo_ForwardAssaultEnable>Activar asalto adelantado (Vanguardia / Invasión)</TSA_WD_Diplo_ForwardAssaultEnable>
@@ -368,6 +368,10 @@
   <TSA_WD_FactionInvestment_UpgradeTip>La plata llena asentamientos de la misma facción en el alcance hasta el máximo de su nivel actual (el más cercano primero), luego compra subidas de nivel, luego vuelve a llenar, hasta que el presupuesto no pueda comprar más.</TSA_WD_FactionInvestment_UpgradeTip>
   <TSA_WD_FactionInvestment_UpgradeSuccessChance>Probabilidad de éxito al subir de nivel</TSA_WD_FactionInvestment_UpgradeSuccessChance>
   <TSA_WD_FactionInvestment_UpgradeSuccessChanceTip>Probabilidad de que una subida de nivel pagada con inversión tenga éxito. La plata se gasta en cualquier caso. Si falla, ese asentamiento no se vuelve a intentar en el resto de este regalo o compra.</TSA_WD_FactionInvestment_UpgradeSuccessChanceTip>
+  <TSA_WD_Notify_SettlementBuyCompleted>Carta: compra de asentamiento completada</TSA_WD_Notify_SettlementBuyCompleted>
+  <TSA_WD_Notify_SettlementBuyCompletedTooltip>Cuando llega el pago y la casilla queda lista para tu elección.</TSA_WD_Notify_SettlementBuyCompletedTooltip>
+  <TSA_WD_Notify_SettlementBuyAborted>Carta: compra de asentamiento fallida</TSA_WD_Notify_SettlementBuyAborted>
+  <TSA_WD_Notify_SettlementBuyAbortedTooltip>Cuando se destruye la caravana de compra o el trato falla (cambio de nivel, asentamiento desaparecido, relaciones, asentamientos del vendedor). Incluye el estado del reembolso.</TSA_WD_Notify_SettlementBuyAbortedTooltip>
 
   <TSA_WD_Negotiate_Btn>Negociar</TSA_WD_Negotiate_Btn>
   <TSA_WD_Negotiate_BtnWar>Declarar la guerra</TSA_WD_Negotiate_BtnWar>
@@ -438,12 +442,12 @@
   <TSA_WD_Negotiate_AskMaxTip>Precio máximo de negociación en la curva por fuerza.</TSA_WD_Negotiate_AskMaxTip>
   <TSA_WD_Log_NegotiateLaunched>{0} envió una caravana de negociación para que {1} {2} {3}.</TSA_WD_Log_NegotiateLaunched>
   <TSA_WD_Log_NegotiateCompleted>{0} aceptó {1} {2}.</TSA_WD_Log_NegotiateCompleted>
-  <TSA_WD_Notify_NegotiateStarted>Negociación diplomática iniciada</TSA_WD_Notify_NegotiateStarted>
-  <TSA_WD_Notify_NegotiateStartedTooltip>Carta al lanzar la caravana de pago de negociación (desactivado por defecto).</TSA_WD_Notify_NegotiateStartedTooltip>
-  <TSA_WD_Notify_NegotiateCompleted>Negociación diplomática completada</TSA_WD_Notify_NegotiateCompleted>
-  <TSA_WD_Notify_NegotiateCompletedTooltip>Carta cuando llega el pago y se aplica el cambio de relación.</TSA_WD_Notify_NegotiateCompletedTooltip>
-  <TSA_WD_Notify_NegotiateAborted>Negociación diplomática fallida</TSA_WD_Notify_NegotiateAborted>
-  <TSA_WD_Notify_NegotiateAbortedTooltip>Carta cuando se destruye la caravana o el trato falla. Explica el motivo y si se reembolsó el pago.</TSA_WD_Notify_NegotiateAbortedTooltip>
+  <TSA_WD_Notify_NegotiateStarted>Carta: negociación diplomática iniciada</TSA_WD_Notify_NegotiateStarted>
+  <TSA_WD_Notify_NegotiateStartedTooltip>Cuando se lanza la caravana de pago de negociación.</TSA_WD_Notify_NegotiateStartedTooltip>
+  <TSA_WD_Notify_NegotiateCompleted>Carta: negociación diplomática completada</TSA_WD_Notify_NegotiateCompleted>
+  <TSA_WD_Notify_NegotiateCompletedTooltip>Cuando llega el pago y se aplica el cambio de relación.</TSA_WD_Notify_NegotiateCompletedTooltip>
+  <TSA_WD_Notify_NegotiateAborted>Carta: negociación diplomática fallida</TSA_WD_Notify_NegotiateAborted>
+  <TSA_WD_Notify_NegotiateAbortedTooltip>Cuando se destruye la caravana de negociación o el trato falla. Incluye el estado del reembolso si aplica.</TSA_WD_Notify_NegotiateAbortedTooltip>
 
   <TSA_WD_GiftSettlement_GizmoLabel>Enviar regalo</TSA_WD_GiftSettlement_GizmoLabel>
   <TSA_WD_GiftSettlement_GizmoDesc>Envía un regalo de bienes desde tu colonia o almacén más cercano. Al llegar, sube la buena voluntad y la facción del asentamiento gana fuerza por el valor del regalo.</TSA_WD_GiftSettlement_GizmoDesc>
@@ -583,16 +587,16 @@
   <TSA_WD_Bribe_CaravanInvestRadiusTip>Casillas desde el asentamiento de origen usadas al invertir tras un soborno de incursión exitoso.</TSA_WD_Bribe_CaravanInvestRadiusTip>
   <TSA_WD_Bribe_GoodwillBonusDivisor>Plata por punto de bonus de buena voluntad</TSA_WD_Bribe_GoodwillBonusDivisor>
   <TSA_WD_Bribe_GoodwillBonusDivisorTip>Tras un soborno exitoso, la buena voluntad ganada es el valor de mercado del pago dividido por este número. Los sobornos no se pagan con buena voluntad. Valores más altos = bonus más débil. Los regalos del mapa mundial usan su propio divisor en Regalos y compras.</TSA_WD_Bribe_GoodwillBonusDivisorTip>
-  <TSA_WD_Notify_BribeSettlementCompleted>Soborno de asentamiento completado</TSA_WD_Notify_BribeSettlementCompleted>
-  <TSA_WD_Notify_BribeSettlementCompletedTooltip>Carta cuando llega un soborno de alto el fuego. Recuerda que las incursiones en camino no se retiran.</TSA_WD_Notify_BribeSettlementCompletedTooltip>
-  <TSA_WD_Notify_BribeSettlementAborted>Soborno de asentamiento fallido</TSA_WD_Notify_BribeSettlementAborted>
-  <TSA_WD_Notify_BribeSettlementAbortedTooltip>Carta cuando un soborno de alto el fuego falla en ruta o deja de ser válido (con reembolso si aplica).</TSA_WD_Notify_BribeSettlementAbortedTooltip>
-  <TSA_WD_Notify_BribeRaidCompleted>Soborno de incursión completado</TSA_WD_Notify_BribeRaidCompleted>
-  <TSA_WD_Notify_BribeRaidCompletedTooltip>Carta cuando un soborno de incursión llega y disuelve esa caravana.</TSA_WD_Notify_BribeRaidCompletedTooltip>
-  <TSA_WD_Notify_BribeRaidAborted>Soborno de incursión fallido</TSA_WD_Notify_BribeRaidAborted>
-  <TSA_WD_Notify_BribeRaidAbortedTooltip>Carta cuando un soborno de incursión falla (objetivo perdido, carrera perdida, trato inválido) con reembolso si aplica.</TSA_WD_Notify_BribeRaidAbortedTooltip>
-  <TSA_WD_Notify_BribeLostInTransit>Caravana de soborno interceptada</TSA_WD_Notify_BribeLostInTransit>
-  <TSA_WD_Notify_BribeLostInTransitTooltip>Carta cuando se destruye una caravana de soborno y se pierde el pago (aparte de abortos con reembolso).</TSA_WD_Notify_BribeLostInTransitTooltip>
-  <TSA_WD_Notify_BribeCeasefireExpired>Alto el fuego por soborno caducado</TSA_WD_Notify_BribeCeasefireExpired>
-  <TSA_WD_Notify_BribeCeasefireExpiredTooltip>Carta cuando termina el temporizador de alto el fuego por soborno de una facción.</TSA_WD_Notify_BribeCeasefireExpiredTooltip>
+  <TSA_WD_Notify_BribeSettlementCompleted>Carta: soborno de alto el fuego completado</TSA_WD_Notify_BribeSettlementCompleted>
+  <TSA_WD_Notify_BribeSettlementCompletedTooltip>Cuando llega un soborno de alto el fuego. Las incursiones ya en camino no se retiran.</TSA_WD_Notify_BribeSettlementCompletedTooltip>
+  <TSA_WD_Notify_BribeSettlementAborted>Carta: soborno de alto el fuego fallido</TSA_WD_Notify_BribeSettlementAborted>
+  <TSA_WD_Notify_BribeSettlementAbortedTooltip>Cuando un soborno de alto el fuego falla en ruta o deja de ser válido. Reembolso cuando aplica.</TSA_WD_Notify_BribeSettlementAbortedTooltip>
+  <TSA_WD_Notify_BribeRaidCompleted>Carta: soborno de incursión completado</TSA_WD_Notify_BribeRaidCompleted>
+  <TSA_WD_Notify_BribeRaidCompletedTooltip>Cuando un soborno de incursión llega y disuelve esa caravana.</TSA_WD_Notify_BribeRaidCompletedTooltip>
+  <TSA_WD_Notify_BribeRaidAborted>Carta: soborno de incursión fallido</TSA_WD_Notify_BribeRaidAborted>
+  <TSA_WD_Notify_BribeRaidAbortedTooltip>Cuando un soborno de incursión falla (objetivo desaparecido, carrera perdida, trato inválido). Reembolso cuando aplica.</TSA_WD_Notify_BribeRaidAbortedTooltip>
+  <TSA_WD_Notify_BribeLostInTransit>Carta: caravana de soborno interceptada</TSA_WD_Notify_BribeLostInTransit>
+  <TSA_WD_Notify_BribeLostInTransitTooltip>Cuando se destruye una caravana de soborno y se pierde el pago (aparte de abortos con reembolso).</TSA_WD_Notify_BribeLostInTransitTooltip>
+  <TSA_WD_Notify_BribeCeasefireExpired>Carta: alto el fuego por soborno caducado</TSA_WD_Notify_BribeCeasefireExpired>
+  <TSA_WD_Notify_BribeCeasefireExpiredTooltip>Cuando termina el temporizador de alto el fuego por soborno de una facción.</TSA_WD_Notify_BribeCeasefireExpiredTooltip>
 </LanguageData>

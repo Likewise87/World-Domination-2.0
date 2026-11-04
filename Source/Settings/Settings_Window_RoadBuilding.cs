@@ -26,25 +26,51 @@ namespace TSA_WorldDomination
             optionalTitle = null;
         }
 
-        public override void DoWindowContents(Rect inRect)
+        
+        private static Dialog_RoadBuildingSettings embeddedHost;
+
+        public static void DrawEmbedded(Rect inRect)
+        {
+            if (embeddedHost == null) embeddedHost = new Dialog_RoadBuildingSettings();
+            embeddedHost.DrawBody(inRect);
+        }
+public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
-            float contentWidth = contentRect.width - 24f;
+            DrawBody(contentRect);
+        }
+
+        private void DrawBody(Rect contentRect)
+        {
+            if (WdSettingsSearch.IsCollecting)
+            {
+                Listing_Standard l = new Listing_Standard();
+                l.Begin(contentRect);
+                DrawListing(l);
+                l.End();
+                return;
+            }
+
+            float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 4800f);
-
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(scrollViewRect);
+            DrawListing(listing);
+            listing.End();
+            Widgets.EndScrollView();
+        }
 
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(scrollViewRect);
-            WorldDominationSettings s = WorldDominationMod.settings;
+        private void DrawListing(Listing_Standard l)
+        {
+WorldDominationSettings s = WorldDominationMod.settings;
 
             l.Label("TSA_WD_RoadBuilding_Note".Translate());
             l.Gap(8f);
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () =>
             {
                 s.ResetRoadBuildingFallback();
-            SettingsUI.DrawSettingsSearchBar(l);
-                WorldActions_Roads.ApplyVanillaRoadMovementSettings();
+                            WorldActions_Roads.ApplyVanillaRoadMovementSettings();
                 WD_WorldLayer_MovementDifficultyOverlay.InvalidateAndDirtyIfActive();
             },
                 () => { roadsExpanded = roadBlocksExpanded = trapsExpanded = atTurretsExpanded = decontamExpanded = true; },
@@ -222,9 +248,6 @@ namespace TSA_WorldDomination
             {
                 WD_WorldLayer_MovementDifficultyOverlay.InvalidateAndDirtyIfActive();
             }
-
-            l.End();
-            Widgets.EndScrollView();
         }
 
         private static void DrawRoadSection(

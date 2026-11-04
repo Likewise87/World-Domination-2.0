@@ -104,13 +104,13 @@
   <TSA_WD_Diplo_StrongFactionWar_Cool_Msg>Cooling: '{0}' and '{1}' (among the strongest powers) end their alliance and become neutral.</TSA_WD_Diplo_StrongFactionWar_Cool_Msg>
   <TSA_WD_Diplo_Reset>Reset this page to defaults</TSA_WD_Diplo_Reset>
   <TSA_WD_Diplo_RevoltChance>Daily Revolt Chance</TSA_WD_Diplo_RevoltChance>
-  <TSA_WD_Diplo_RevoltChanceTooltip>Daily chance that a defeated faction returns if the primary NPC pool meets Min eligible, then seizes toward Target settlements (min/max) from the top factions by settlement count. Soft-fills when fewer towns are available. Prefers lower-tier settlements. Player holdings are never taken.</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_RevoltChanceTooltip>Daily chance that a defeated faction returns if the primary NPC pool meets Min eligible, then seizes toward Target settlements (min/max) from the top empires by settlement count (tiny factions are not victims). Prefers up to two nearby settlement clusters (same 20-tile membership edge as Turtle). If clustering cannot grow, falls back to the older scattered top-empire pick. Soft-fills when fewer towns are available. Prefers lower-tier settlements. Player holdings are never taken.</TSA_WD_Diplo_RevoltChanceTooltip>
   <TSA_WD_Diplo_RevoltMinEligible>Min eligible settlements for revolt</TSA_WD_Diplo_RevoltMinEligible>
   <TSA_WD_Diplo_RevoltMinEligibleTooltip>Hard gate: the primary victim faction (largest empire, or the seed faction in debug) must have at least this many eligible NPC settlements or the revolt does not occur. Eligible means WD settlements that are not protected and not player-owned. Cannot be higher than Target settlements (min). Protected settlements and player holdings are never counted or taken.</TSA_WD_Diplo_RevoltMinEligibleTooltip>
   <TSA_WD_Diplo_RevoltSettlementsMin>Target settlements (min)</TSA_WD_Diplo_RevoltSettlementsMin>
-  <TSA_WD_Diplo_RevoltSettlementsMinTooltip>Lower end of the rolled seize target when a revolt fires. Not a guaranteed floor: after the eligible gate passes, the revolt soft-fills with as many towns as it can up to the rolled target. Takes from the top NPC factions by settlement count (core from the largest, rest from the next two when possible). Prefers lower tiers.</TSA_WD_Diplo_RevoltSettlementsMinTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMinTooltip>Lower end of the rolled seize target when a revolt fires. Not a guaranteed floor: after the eligible gate passes, the revolt prefers nearby clusters among the top empires, then soft-fills up to the rolled target. Tiny factions are not seized. Prefers lower tiers.</TSA_WD_Diplo_RevoltSettlementsMinTooltip>
   <TSA_WD_Diplo_RevoltSettlementsMax>Target settlements (max)</TSA_WD_Diplo_RevoltSettlementsMax>
-  <TSA_WD_Diplo_RevoltSettlementsMaxTooltip>Upper end of the rolled seize target when a revolt fires. Must be at least Target settlements (min). Soft-fill still applies if fewer eligible towns exist across the top NPC factions.</TSA_WD_Diplo_RevoltSettlementsMaxTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMaxTooltip>Upper end of the rolled seize target when a revolt fires. Must be at least Target settlements (min). Soft-fill and cluster preference still apply among the top empires only.</TSA_WD_Diplo_RevoltSettlementsMaxTooltip>
   <TSA_WD_Diplo_RevoltCooldown>Revolt cooldown</TSA_WD_Diplo_RevoltCooldown>
   <TSA_WD_Diplo_RevoltCooldownTooltip>Days before another revolt can fire after one succeeds. Ignored while Shared special event cooldown is on.</TSA_WD_Diplo_RevoltCooldownTooltip>
   <TSA_WD_Diplo_ForwardAssaultEnable>Enable forward assault (Vanguard / Invasion)</TSA_WD_Diplo_ForwardAssaultEnable>
@@ -429,10 +429,10 @@
   <TSA_WD_FactionInvestment_UpgradeSuccessChanceTip>Chance that a paid investment tier-up succeeds. Silver is spent either way. On failure, that settlement is not tried again for the rest of this gift or purchase.</TSA_WD_FactionInvestment_UpgradeSuccessChanceTip>
   <TSA_WD_Log_SettlementBuyLaunched>{0} dispatched a purchase caravan to {1} ({2}).</TSA_WD_Log_SettlementBuyLaunched>
   <TSA_WD_Log_SettlementBuyCompleted>Purchased {0} from {1}.</TSA_WD_Log_SettlementBuyCompleted>
-  <TSA_WD_Notify_SettlementBuyCompleted>Settlement purchase completed</TSA_WD_Notify_SettlementBuyCompleted>
-  <TSA_WD_Notify_SettlementBuyCompletedTooltip>Letter when payment arrives and the tile is cleared for your choice.</TSA_WD_Notify_SettlementBuyCompletedTooltip>
-  <TSA_WD_Notify_SettlementBuyAborted>Settlement purchase failed</TSA_WD_Notify_SettlementBuyAborted>
-  <TSA_WD_Notify_SettlementBuyAbortedTooltip>Letter when a purchase caravan is destroyed or the deal fails (tier change, settlement gone, relations, seller settlements). Explains the reason and whether payment was refunded.</TSA_WD_Notify_SettlementBuyAbortedTooltip>
+  <TSA_WD_Notify_SettlementBuyCompleted>Letter: settlement purchase completed</TSA_WD_Notify_SettlementBuyCompleted>
+  <TSA_WD_Notify_SettlementBuyCompletedTooltip>When payment arrives and the tile is cleared for your choice.</TSA_WD_Notify_SettlementBuyCompletedTooltip>
+  <TSA_WD_Notify_SettlementBuyAborted>Letter: settlement purchase failed</TSA_WD_Notify_SettlementBuyAborted>
+  <TSA_WD_Notify_SettlementBuyAbortedTooltip>When a purchase caravan is destroyed or the deal fails (tier change, settlement gone, relations, seller settlements). Includes refund status.</TSA_WD_Notify_SettlementBuyAbortedTooltip>
 
   <TSA_WD_Negotiate_Btn>Negotiate</TSA_WD_Negotiate_Btn>
   <TSA_WD_Negotiate_BtnWar>Declare War</TSA_WD_Negotiate_BtnWar>
@@ -503,12 +503,12 @@
   <TSA_WD_Negotiate_AskMaxTip>Maximum negotiate ask on the strength pricing curve.</TSA_WD_Negotiate_AskMaxTip>
   <TSA_WD_Log_NegotiateLaunched>{0} dispatched a negotiate caravan for {1} to {2} {3}.</TSA_WD_Log_NegotiateLaunched>
   <TSA_WD_Log_NegotiateCompleted>{0} agreed to {1} {2}.</TSA_WD_Log_NegotiateCompleted>
-  <TSA_WD_Notify_NegotiateStarted>Diplomacy negotiate started</TSA_WD_Notify_NegotiateStarted>
-  <TSA_WD_Notify_NegotiateStartedTooltip>Letter when a negotiate payment caravan is launched (default off).</TSA_WD_Notify_NegotiateStartedTooltip>
-  <TSA_WD_Notify_NegotiateCompleted>Diplomacy negotiate completed</TSA_WD_Notify_NegotiateCompleted>
-  <TSA_WD_Notify_NegotiateCompletedTooltip>Letter when payment arrives and the relation change is applied.</TSA_WD_Notify_NegotiateCompletedTooltip>
-  <TSA_WD_Notify_NegotiateAborted>Diplomacy negotiate failed</TSA_WD_Notify_NegotiateAborted>
-  <TSA_WD_Notify_NegotiateAbortedTooltip>Letter when a negotiate caravan is destroyed or the deal fails. Explains the reason and whether payment was refunded.</TSA_WD_Notify_NegotiateAbortedTooltip>
+  <TSA_WD_Notify_NegotiateStarted>Letter: diplomacy negotiate started</TSA_WD_Notify_NegotiateStarted>
+  <TSA_WD_Notify_NegotiateStartedTooltip>When a negotiate payment caravan is launched.</TSA_WD_Notify_NegotiateStartedTooltip>
+  <TSA_WD_Notify_NegotiateCompleted>Letter: diplomacy negotiate completed</TSA_WD_Notify_NegotiateCompleted>
+  <TSA_WD_Notify_NegotiateCompletedTooltip>When payment arrives and the relation change is applied.</TSA_WD_Notify_NegotiateCompletedTooltip>
+  <TSA_WD_Notify_NegotiateAborted>Letter: diplomacy negotiate failed</TSA_WD_Notify_NegotiateAborted>
+  <TSA_WD_Notify_NegotiateAbortedTooltip>When a negotiate caravan is destroyed or the deal fails. Includes refund status.</TSA_WD_Notify_NegotiateAbortedTooltip>
 
   <TSA_WD_GiftSettlement_GizmoLabel>Send gift</TSA_WD_GiftSettlement_GizmoLabel>
   <TSA_WD_GiftSettlement_GizmoDesc>Send a gift of goods from your nearest colony or warehouse. On arrival, goodwill rises and the settlement's faction gains strength from the gift value.</TSA_WD_GiftSettlement_GizmoDesc>
@@ -635,16 +635,16 @@
   <TSA_WD_Bribe_CaravanInvestRadiusTip>Tiles from the raid launch settlement used when investing after a successful raid bribe.</TSA_WD_Bribe_CaravanInvestRadiusTip>
   <TSA_WD_Bribe_GoodwillBonusDivisor>Silver per goodwill bonus point</TSA_WD_Bribe_GoodwillBonusDivisor>
   <TSA_WD_Bribe_GoodwillBonusDivisorTip>On a successful bribe, goodwill gained is payment market value divided by this number. Bribes cannot be paid with goodwill. Higher values mean a weaker bonus. World-map gift goodwill uses its own divisor under Gifts and purchases.</TSA_WD_Bribe_GoodwillBonusDivisorTip>
-  <TSA_WD_Notify_BribeSettlementCompleted>Settlement bribe completed</TSA_WD_Notify_BribeSettlementCompleted>
-  <TSA_WD_Notify_BribeSettlementCompletedTooltip>Letter when a ceasefire bribe arrives. Reminds you that in-flight raids are not recalled.</TSA_WD_Notify_BribeSettlementCompletedTooltip>
-  <TSA_WD_Notify_BribeSettlementAborted>Settlement bribe failed</TSA_WD_Notify_BribeSettlementAborted>
-  <TSA_WD_Notify_BribeSettlementAbortedTooltip>Letter when a ceasefire bribe fails mid-route or becomes invalid (with refund when applicable).</TSA_WD_Notify_BribeSettlementAbortedTooltip>
-  <TSA_WD_Notify_BribeRaidCompleted>Raid bribe completed</TSA_WD_Notify_BribeRaidCompleted>
-  <TSA_WD_Notify_BribeRaidCompletedTooltip>Letter when a raid bribe arrives and dissolves that caravan.</TSA_WD_Notify_BribeRaidCompletedTooltip>
-  <TSA_WD_Notify_BribeRaidAborted>Raid bribe failed</TSA_WD_Notify_BribeRaidAborted>
-  <TSA_WD_Notify_BribeRaidAbortedTooltip>Letter when a raid bribe fails (target gone, lost race, invalid deal) with refund when applicable.</TSA_WD_Notify_BribeRaidAbortedTooltip>
-  <TSA_WD_Notify_BribeLostInTransit>Bribe caravan intercepted</TSA_WD_Notify_BribeLostInTransit>
-  <TSA_WD_Notify_BribeLostInTransitTooltip>Letter when a bribe caravan is destroyed and payment is lost (separate from abort/refund cases).</TSA_WD_Notify_BribeLostInTransitTooltip>
-  <TSA_WD_Notify_BribeCeasefireExpired>Bribe ceasefire expired</TSA_WD_Notify_BribeCeasefireExpired>
-  <TSA_WD_Notify_BribeCeasefireExpiredTooltip>Letter when a faction's bribe ceasefire timer ends.</TSA_WD_Notify_BribeCeasefireExpiredTooltip>
+  <TSA_WD_Notify_BribeSettlementCompleted>Letter: ceasefire bribe completed</TSA_WD_Notify_BribeSettlementCompleted>
+  <TSA_WD_Notify_BribeSettlementCompletedTooltip>When a ceasefire bribe arrives. In-flight raids are not recalled.</TSA_WD_Notify_BribeSettlementCompletedTooltip>
+  <TSA_WD_Notify_BribeSettlementAborted>Letter: ceasefire bribe failed</TSA_WD_Notify_BribeSettlementAborted>
+  <TSA_WD_Notify_BribeSettlementAbortedTooltip>When a ceasefire bribe fails mid-route or becomes invalid. Refund when applicable.</TSA_WD_Notify_BribeSettlementAbortedTooltip>
+  <TSA_WD_Notify_BribeRaidCompleted>Letter: raid bribe completed</TSA_WD_Notify_BribeRaidCompleted>
+  <TSA_WD_Notify_BribeRaidCompletedTooltip>When a raid bribe arrives and dissolves that caravan.</TSA_WD_Notify_BribeRaidCompletedTooltip>
+  <TSA_WD_Notify_BribeRaidAborted>Letter: raid bribe failed</TSA_WD_Notify_BribeRaidAborted>
+  <TSA_WD_Notify_BribeRaidAbortedTooltip>When a raid bribe fails (target gone, lost race, invalid deal). Refund when applicable.</TSA_WD_Notify_BribeRaidAbortedTooltip>
+  <TSA_WD_Notify_BribeLostInTransit>Letter: bribe caravan intercepted</TSA_WD_Notify_BribeLostInTransit>
+  <TSA_WD_Notify_BribeLostInTransitTooltip>When a bribe caravan is destroyed and payment is lost (separate from abort/refund cases).</TSA_WD_Notify_BribeLostInTransitTooltip>
+  <TSA_WD_Notify_BribeCeasefireExpired>Letter: bribe ceasefire expired</TSA_WD_Notify_BribeCeasefireExpired>
+  <TSA_WD_Notify_BribeCeasefireExpiredTooltip>When a faction's bribe ceasefire timer ends.</TSA_WD_Notify_BribeCeasefireExpiredTooltip>
 </LanguageData>

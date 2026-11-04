@@ -107,8 +107,8 @@
   <TSA_WD_Upkeep_LeaveLetterText>{0} 因你无法维持其银币维护而决定离开。</TSA_WD_Upkeep_LeaveLetterText>
   <TSA_WD_Upkeep_PaidMsg>已为 {1} 名前哨殖民者支付 {0} 银维护费。</TSA_WD_Upkeep_PaidMsg>
   <TSA_WD_Upkeep_PartialPaidMsg>已支付维护费 {0}/{1} 银（差额不足一名殖民者的费用）。</TSA_WD_Upkeep_PartialPaidMsg>
-  <TSA_WD_Notify_OutpostUpkeep>显示前哨银币维护警报（右侧）</TSA_WD_Notify_OutpostUpkeep>
-  <TSA_WD_Notify_OutpostUpkeepTooltip>在银币维护生效期间始终在右侧显示警报（需要/拥有与剩余天数）。银币不足时变为红色。需启用实验性前哨银币维护，且处于中期/后期升级。</TSA_WD_Notify_OutpostUpkeepTooltip>
+  <TSA_WD_Notify_OutpostUpkeep>警报：前哨银币维护</TSA_WD_Notify_OutpostUpkeep>
+  <TSA_WD_Notify_OutpostUpkeepTooltip>银币维护生效时显示需求/持有与剩余天数。银币不足时变红。需启用实验性前哨银币维护，且处于中期/后期升级。</TSA_WD_Notify_OutpostUpkeepTooltip>
   <TSA_WD_Dash_OutpostPawnTip_Humanoid>人形：{0}</TSA_WD_Dash_OutpostPawnTip_Humanoid>
   <TSA_WD_Dash_OutpostPawnTip_Mechanoid>机械体：{0}</TSA_WD_Dash_OutpostPawnTip_Mechanoid>
   <TSA_WD_Dash_OutpostPawnTip_Animal>动物：{0}</TSA_WD_Dash_OutpostPawnTip_Animal>
@@ -127,119 +127,119 @@
   <TSA_WD_Notify_AlwaysShowSettlementIconsTip>开启后，聚居地在任意缩放下保持直立地图图标，并隐藏倾斜的星球网格。关闭后恢复原版缩放（远处直立图标，拉近时为星球网格）。</TSA_WD_Notify_AlwaysShowSettlementIconsTip>
   <TSA_WD_Notify_HeaderMortarAntiAir>迫击炮与防空</TSA_WD_Notify_HeaderMortarAntiAir>
   <TSA_WD_Notify_HeaderAtTurrets>AT 炮塔</TSA_WD_Notify_HeaderAtTurrets>
-  <TSA_WD_Notify_PlayerAtTurretKilledTarget>当你的 AT 炮塔击杀目标时通知</TSA_WD_Notify_PlayerAtTurretKilledTarget>
-  <TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>当你的 AT 炮塔以炮弹或近战冲突摧毁敌对旅行者时收到信件。</TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>
-  <TSA_WD_Notify_PlayerAtTurretDamagedTarget>当你的 AT 炮塔击伤目标时通知</TSA_WD_Notify_PlayerAtTurretDamagedTarget>
-  <TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>当你的 AT 炮塔击中仍存活的敌对旅行者时收到信件。可能较吵。</TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>
-  <TSA_WD_Notify_PlayerAtTurretDestroyed>当你的 AT 炮塔被摧毁时通知</TSA_WD_Notify_PlayerAtTurretDestroyed>
-  <TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>当你的 AT 炮塔在战斗中被摧毁时收到信件。聚居地失陷时的清理保持静默。</TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>
-  <TSA_WD_Notify_NpcAtTurretDamagedPlayer>当敌方 AT 炮塔击伤你的部队时通知</TSA_WD_Notify_NpcAtTurretDamagedPlayer>
-  <TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>当敌方 AT 炮塔炮击你的旅行者或商队且其存活时收到信件。</TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>
-  <TSA_WD_Notify_NpcAtTurretKilledPlayer>当敌方 AT 炮塔击杀你的部队时通知</TSA_WD_Notify_NpcAtTurretKilledPlayer>
-  <TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>当敌方 AT 炮塔以炮弹或近战冲突摧毁你的旅行者或商队时收到信件。</TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>
-  <TSA_WD_Notify_IncomingRaidColony>当 WD 袭击针对你的殖民地时通知</TSA_WD_Notify_IncomingRaidColony>
-  <TSA_WD_Notify_IncomingRaidColonyTooltip>当敌对远征军对你的殖民地发动袭击时收到高优先级信件。</TSA_WD_Notify_IncomingRaidColonyTooltip>
-  <TSA_WD_Notify_RaidArrivalColony>当 WD 袭击抵达你的殖民地时通知</TSA_WD_Notify_RaidArrivalColony>
-  <TSA_WD_Notify_RaidArrivalColonyTooltip>当敌对远征军抵达并生成在你的殖民地地图上时收到高优先级信件。</TSA_WD_Notify_RaidArrivalColonyTooltip>
-  <TSA_WD_Notify_IncomingRaidOutpost>当 WD 袭击针对你的前哨站时通知</TSA_WD_Notify_IncomingRaidOutpost>
-  <TSA_WD_Notify_IncomingRaidOutpostTooltip>当敌对远征军对你的前哨站发动袭击时收到高优先级信件。</TSA_WD_Notify_IncomingRaidOutpostTooltip>
-  <TSA_WD_Notify_RaidArrivalOutpost>当 WD 袭击抵达你的前哨站时通知</TSA_WD_Notify_RaidArrivalOutpost>
-  <TSA_WD_Notify_RaidArrivalOutpostTooltip>当你打开手动前哨防御且敌对远征军抵达遭遇地图时收到高优先级信件。</TSA_WD_Notify_RaidArrivalOutpostTooltip>
-  <TSA_WD_Notify_RaidDivertedFromPlayer>当袭击转向偏离你时通知</TSA_WD_Notify_RaidDivertedFromPlayer>
-  <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>当原本冲着你的殖民地或前哨站而来的袭击发现了一个机会目标并转而攻击它时收到信件。</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
-  <TSA_WD_Notify_RaidPartyDestroyed>当袭击队伍在抵达前被摧毁时通知</TSA_WD_Notify_RaidPartyDestroyed>
-  <TSA_WD_Notify_RaidPartyDestroyedTooltip>当冲着你而来的敌对袭击在世界地图上被消灭、尚未抵达时收到信件。</TSA_WD_Notify_RaidPartyDestroyedTooltip>
-  <TSA_WD_Notify_MortarHit>你的迫击炮摧毁目标时通知</TSA_WD_Notify_MortarHit>
-  <TSA_WD_Notify_MortarHitTooltip>当你的火炮前哨摧毁目标时发送无声蓝色信件。未摧毁的命中只记入行动日志。</TSA_WD_Notify_MortarHitTooltip>
-  <TSA_WD_Notify_MortarMiss>你的迫击炮脱靶时通知</TSA_WD_Notify_MortarMiss>
-  <TSA_WD_Notify_MortarMissTooltip>当你的火炮前哨脱靶时发送无声蓝色信件。默认关闭以减少干扰。</TSA_WD_Notify_MortarMissTooltip>
-  <TSA_WD_Notify_AntiAirHit>你的防空开火时通知</TSA_WD_Notify_AntiAirHit>
-  <TSA_WD_Notify_AntiAirHitTooltip>当你的防空高射命中或未中敌对空中目标时发送信件。敌对迫击炮弹使用下方单独设置。</TSA_WD_Notify_AntiAirHitTooltip>
-  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>你的防空击落敌对迫击炮弹时通知</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>
-  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>当你的高射摧毁或未命中敌对迫击炮弹时发送信件（例如「迫击炮弹被摧毁」）。可能较吵。</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>
-  <TSA_WD_Notify_NpcMortarHitPlayer>敌方迫击炮瞄准你时通知</TSA_WD_Notify_NpcMortarHitPlayer>
-  <TSA_WD_Notify_NpcMortarHitPlayerTooltip>当敌方四级聚居地迫击炮向你的某个 WD 前哨、商队或旅行者开火时发送信件。</TSA_WD_Notify_NpcMortarHitPlayerTooltip>
-  <TSA_WD_Notify_T4AntiAirHitPlayer>敌方防空瞄准你的空投舱时通知</TSA_WD_Notify_T4AntiAirHitPlayer>
-  <TSA_WD_Notify_T4AntiAirHitPlayerTooltip>当敌方四级防空命中或未命中你的运输舱/空投舱或其他非炮弹空中目标时发送信件。迫击炮弹使用下方单独设置。若舱内殖民者阵亡，总会额外发送阵亡名单信件。</TSA_WD_Notify_T4AntiAirHitPlayerTooltip>
-  <TSA_WD_Notify_PlayerMortarShellShotDown>敌方防空击落你的迫击炮弹时通知</TSA_WD_Notify_PlayerMortarShellShotDown>
-  <TSA_WD_Notify_PlayerMortarShellShotDownTooltip>当敌方高射摧毁或未命中你某个前哨的迫击炮弹时发送中立信件。可能较吵。</TSA_WD_Notify_PlayerMortarShellShotDownTooltip>
-  <TSA_WD_Notify_NpcMortarHitNpc>敌对双方迫击炮交火时通知</TSA_WD_Notify_NpcMortarHitNpc>
-  <TSA_WD_Notify_NpcMortarHitNpcTooltip>当敌方迫击炮向另一个 NPC（聚居地、商队或旅行者）开火时，或敌方防空摧毁另一 NPC 的空中目标（含迫击炮弹）时发送信件。可能较吵。</TSA_WD_Notify_NpcMortarHitNpcTooltip>
-  <TSA_WD_Notify_WarehouseGoodsArrived>货物抵达仓库前哨站时通知</TSA_WD_Notify_WarehouseGoodsArrived>
-  <TSA_WD_Notify_WarehouseGoodsArrivedTooltip>当货物存入你的仓库前哨站时发送通知。</TSA_WD_Notify_WarehouseGoodsArrivedTooltip>
-  <TSA_WD_Notify_OutpostDeliveryToColonyArrived>前哨配送抵达殖民地时通知</TSA_WD_Notify_OutpostDeliveryToColonyArrived>
-  <TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>当前哨配送抵达玩家殖民地地图并投放货物时发送信件。</TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>
-  <TSA_WD_Notify_PrisonerRecruitedUnderway>前哨囚犯被招募并出发时通知</TSA_WD_Notify_PrisonerRecruitedUnderway>
-  <TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>当前哨囚犯完成招募并开始前往预定目的地时显示消息。</TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>
-  <TSA_WD_Notify_PlayerCaravanClash>玩家商队发生冲突时通知</TSA_WD_Notify_PlayerCaravanClash>
-  <TSA_WD_Notify_PlayerCaravanClashTooltip>当你的商队进入或输掉 WD 商队冲突时发送信件。</TSA_WD_Notify_PlayerCaravanClashTooltip>
-  <TSA_WD_Notify_RapidResponseCaravanClash>快速反应商队冲突通知</TSA_WD_Notify_RapidResponseCaravanClash>
-  <TSA_WD_Notify_RapidResponseCaravanClashTooltip>当快速反应拦截击败敌方商队或被击败时发送信件。</TSA_WD_Notify_RapidResponseCaravanClashTooltip>
-  <TSA_WD_Notify_TravelerPollutionDamage>旅行者受到污染伤害时通知</TSA_WD_Notify_TravelerPollutionDamage>
-  <TSA_WD_Notify_TravelerPollutionDamageTooltip>每个你的 WD 旅行者首次因离开受污染格子而损失力量时收到一封黄色信件。同一旅行者之后的污染伤害不再发信。</TSA_WD_Notify_TravelerPollutionDamageTooltip>
-  <TSA_WD_Notify_OutpostPollutionDamage>前哨站受到污染伤害时通知</TSA_WD_Notify_OutpostPollutionDamage>
-  <TSA_WD_Notify_OutpostPollutionDamageTooltip>当你的 WD 前哨站因附近平均污染损失力量时显示消息（有伤害时每天一次）；若污染摧毁前哨则发送信件。开发日志总会记录这些事件。</TSA_WD_Notify_OutpostPollutionDamageTooltip>
+  <TSA_WD_Notify_PlayerAtTurretKilledTarget>信件：你的 AT 炮塔击杀目标</TSA_WD_Notify_PlayerAtTurretKilledTarget>
+  <TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>当你的 AT 炮塔以炮弹或近战冲突摧毁敌对旅行者时。</TSA_WD_Notify_PlayerAtTurretKilledTargetTooltip>
+  <TSA_WD_Notify_PlayerAtTurretDamagedTarget>信件：你的 AT 炮塔击伤目标</TSA_WD_Notify_PlayerAtTurretDamagedTarget>
+  <TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>当你的 AT 炮塔炮击仍存活的敌对旅行者时。可能较吵。</TSA_WD_Notify_PlayerAtTurretDamagedTargetTooltip>
+  <TSA_WD_Notify_PlayerAtTurretDestroyed>信件：你的 AT 炮塔被摧毁</TSA_WD_Notify_PlayerAtTurretDestroyed>
+  <TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>当你的 AT 炮塔在战斗中被摧毁时。聚居地失陷时的所有权清理保持静默。</TSA_WD_Notify_PlayerAtTurretDestroyedTooltip>
+  <TSA_WD_Notify_NpcAtTurretDamagedPlayer>信件：敌方 AT 炮塔击伤你方</TSA_WD_Notify_NpcAtTurretDamagedPlayer>
+  <TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>当敌方 AT 炮塔炮击你的旅行者或商队且其仍存活时。</TSA_WD_Notify_NpcAtTurretDamagedPlayerTooltip>
+  <TSA_WD_Notify_NpcAtTurretKilledPlayer>信件：敌方 AT 炮塔歼灭你方部队</TSA_WD_Notify_NpcAtTurretKilledPlayer>
+  <TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>当敌方 AT 炮塔以炮弹或近战冲突摧毁你的旅行者或商队时。</TSA_WD_Notify_NpcAtTurretKilledPlayerTooltip>
+  <TSA_WD_Notify_IncomingRaidColony>信件：袭击已指向殖民地</TSA_WD_Notify_IncomingRaidColony>
+  <TSA_WD_Notify_IncomingRaidColonyTooltip>敌对远征军对你的殖民地发动袭击时的高优先级信件。</TSA_WD_Notify_IncomingRaidColonyTooltip>
+  <TSA_WD_Notify_RaidArrivalColony>信件：袭击抵达殖民地</TSA_WD_Notify_RaidArrivalColony>
+  <TSA_WD_Notify_RaidArrivalColonyTooltip>敌对远征军抵达并在你的殖民地地图上生成时的高优先级信件。</TSA_WD_Notify_RaidArrivalColonyTooltip>
+  <TSA_WD_Notify_IncomingRaidOutpost>信件：袭击已指向前哨</TSA_WD_Notify_IncomingRaidOutpost>
+  <TSA_WD_Notify_IncomingRaidOutpostTooltip>敌对远征军对你某个前哨发动袭击时的高优先级信件。</TSA_WD_Notify_IncomingRaidOutpostTooltip>
+  <TSA_WD_Notify_RaidArrivalOutpost>信件：袭击抵达前哨</TSA_WD_Notify_RaidArrivalOutpost>
+  <TSA_WD_Notify_RaidArrivalOutpostTooltip>你打开手动前哨防御且敌对远征军抵达遭遇地图时的高优先级信件。</TSA_WD_Notify_RaidArrivalOutpostTooltip>
+  <TSA_WD_Notify_RaidDivertedFromPlayer>信件：袭击转向离开你</TSA_WD_Notify_RaidDivertedFromPlayer>
+  <TSA_WD_Notify_RaidDivertedFromPlayerTooltip>原本指向你的殖民地或前哨的袭击发现机会目标并改向攻击时。</TSA_WD_Notify_RaidDivertedFromPlayerTooltip>
+  <TSA_WD_Notify_RaidPartyDestroyed>信件：袭击队伍途中被毁</TSA_WD_Notify_RaidPartyDestroyed>
+  <TSA_WD_Notify_RaidPartyDestroyedTooltip>冲着你而来的敌对袭击在世界地图上被消灭、尚未抵达时。</TSA_WD_Notify_RaidPartyDestroyedTooltip>
+  <TSA_WD_Notify_MortarHit>信件：迫击炮摧毁目标</TSA_WD_Notify_MortarHit>
+  <TSA_WD_Notify_MortarHitTooltip>你的火炮前哨摧毁目标时的无声蓝色信件。未摧毁的命中只记入行动日志。</TSA_WD_Notify_MortarHitTooltip>
+  <TSA_WD_Notify_MortarMiss>信件：迫击炮脱靶</TSA_WD_Notify_MortarMiss>
+  <TSA_WD_Notify_MortarMissTooltip>你的火炮前哨脱靶时的无声蓝色信件。可能较吵。</TSA_WD_Notify_MortarMissTooltip>
+  <TSA_WD_Notify_AntiAirHit>信件：你的防空开火</TSA_WD_Notify_AntiAirHit>
+  <TSA_WD_Notify_AntiAirHitTooltip>你的防空高射命中或未命中敌对空中目标时。敌对迫击炮弹见下方单独设置。</TSA_WD_Notify_AntiAirHitTooltip>
+  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>信件：防空对敌对迫击炮弹</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShell>
+  <TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>你的高射摧毁或未命中敌对迫击炮弹时。可能较吵。</TSA_WD_Notify_PlayerAntiAirVsHostileMortarShellTooltip>
+  <TSA_WD_Notify_NpcMortarHitPlayer>信件：敌方迫击炮瞄准你</TSA_WD_Notify_NpcMortarHitPlayer>
+  <TSA_WD_Notify_NpcMortarHitPlayerTooltip>敌方四级聚居地迫击炮向你的 WD 前哨、商队或旅行者开火时。</TSA_WD_Notify_NpcMortarHitPlayerTooltip>
+  <TSA_WD_Notify_T4AntiAirHitPlayer>信件：敌方防空瞄准你的空投舱</TSA_WD_Notify_T4AntiAirHitPlayer>
+  <TSA_WD_Notify_T4AntiAirHitPlayerTooltip>敌方四级防空命中或未命中你的空投舱、运输舱或其他非炮弹空中目标时。迫击炮弹见下方单独设置。被击落的舱内殖民者阵亡总会另发阵亡名单信件。</TSA_WD_Notify_T4AntiAirHitPlayerTooltip>
+  <TSA_WD_Notify_PlayerMortarShellShotDown>信件：你的迫击炮弹被击落</TSA_WD_Notify_PlayerMortarShellShotDown>
+  <TSA_WD_Notify_PlayerMortarShellShotDownTooltip>敌方高射摧毁或未命中你某个前哨的迫击炮弹时的中立信件。可能较吵。</TSA_WD_Notify_PlayerMortarShellShotDownTooltip>
+  <TSA_WD_Notify_NpcMortarHitNpc>信件：NPC 迫击炮对 NPC 目标</TSA_WD_Notify_NpcMortarHitNpc>
+  <TSA_WD_Notify_NpcMortarHitNpcTooltip>敌方迫击炮向另一 NPC 定居点、旅行者或袭击部队开火，或敌方防空摧毁另一 NPC 空中目标（含迫击炮弹）时。可能较吵。</TSA_WD_Notify_NpcMortarHitNpcTooltip>
+  <TSA_WD_Notify_WarehouseGoodsArrived>消息：仓库货物送达</TSA_WD_Notify_WarehouseGoodsArrived>
+  <TSA_WD_Notify_WarehouseGoodsArrivedTooltip>货物存入你的某个仓库前哨时。</TSA_WD_Notify_WarehouseGoodsArrivedTooltip>
+  <TSA_WD_Notify_OutpostDeliveryToColonyArrived>信件：前哨配送到殖民地</TSA_WD_Notify_OutpostDeliveryToColonyArrived>
+  <TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>前哨配送抵达玩家殖民地地图并投放货物时。</TSA_WD_Notify_OutpostDeliveryToColonyArrivedTooltip>
+  <TSA_WD_Notify_PrisonerRecruitedUnderway>消息：前哨囚犯已招募</TSA_WD_Notify_PrisonerRecruitedUnderway>
+  <TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>前哨囚犯完成招募并开始前往预定目的地时。</TSA_WD_Notify_PrisonerRecruitedUnderwayTooltip>
+  <TSA_WD_Notify_PlayerCaravanClash>信件：玩家商队冲突</TSA_WD_Notify_PlayerCaravanClash>
+  <TSA_WD_Notify_PlayerCaravanClashTooltip>你的商队进入或输掉 WD 商队冲突时。</TSA_WD_Notify_PlayerCaravanClashTooltip>
+  <TSA_WD_Notify_RapidResponseCaravanClash>信件：快速反应商队冲突</TSA_WD_Notify_RapidResponseCaravanClash>
+  <TSA_WD_Notify_RapidResponseCaravanClashTooltip>快速反应拦截击败敌方商队或被击败时。</TSA_WD_Notify_RapidResponseCaravanClashTooltip>
+  <TSA_WD_Notify_TravelerPollutionDamage>信件：旅行者污染伤害</TSA_WD_Notify_TravelerPollutionDamage>
+  <TSA_WD_Notify_TravelerPollutionDamageTooltip>每个 WD 旅行者首次因离开污染格损失力量时的一封黄色信件。同一旅行者后续污染格保持静默。</TSA_WD_Notify_TravelerPollutionDamageTooltip>
+  <TSA_WD_Notify_OutpostPollutionDamage>消息：前哨污染伤害</TSA_WD_Notify_OutpostPollutionDamage>
+  <TSA_WD_Notify_OutpostPollutionDamageTooltip>WD 前哨因附近平均污染损失实力时（有伤害时每天一次）。清场仍会发信件。开发日志总会记录。</TSA_WD_Notify_OutpostPollutionDamageTooltip>
   <TSA_WD_Notify_HeaderNearby>附近世界事件</TSA_WD_Notify_HeaderNearby>
   <TSA_WD_Notify_HeaderWorldThreats>世界威胁行动</TSA_WD_Notify_HeaderWorldThreats>
-  <TSA_WD_Notify_HeaderWorldThreatsTip>绝望突袭、龟缩集结与强势派系开战的信件。时机与启用门在“战斗难度”中设置。</TSA_WD_Notify_HeaderWorldThreatsTip>
-  <TSA_WD_Notify_DesperationRaid>绝望突袭发动时通知</TSA_WD_Notify_DesperationRaid>
-  <TSA_WD_Notify_DesperationRaidTooltip>弱小派系在损失后打包附近定居点并进军时发送信件。</TSA_WD_Notify_DesperationRaidTooltip>
+  <TSA_WD_Notify_HeaderWorldThreatsTip>绝望突袭、龟缩集结与强势派系战争的信件。启用条件与时机见战斗难度。</TSA_WD_Notify_HeaderWorldThreatsTip>
+  <TSA_WD_Notify_DesperationRaid>信件：绝望突袭已发动</TSA_WD_Notify_DesperationRaid>
+  <TSA_WD_Notify_DesperationRaidTooltip>弱势派系在失利后打包附近定居点并进军时。</TSA_WD_Notify_DesperationRaidTooltip>
   <TSA_WD_Notify_HeaderOutpostsRaids>你的前哨站与袭击</TSA_WD_Notify_HeaderOutpostsRaids>
-  <TSA_WD_Notify_HeaderAlerts>右侧警报</TSA_WD_Notify_HeaderAlerts>
-  <TSA_WD_Notify_NotificationRadius>通知半径（格）</TSA_WD_Notify_NotificationRadius>
-  <TSA_WD_Notify_NotificationRadiusTooltip>世界事件距离你的殖民地（若无殖民地则以最近前哨站为准）多远时才会发送附近世界事件信件。不影响你的前哨站、来袭袭击或外交信件。</TSA_WD_Notify_NotificationRadiusTooltip>
-  <TSA_WD_Notify_NewSettlement>附近有定居点建立时通知</TSA_WD_Notify_NewSettlement>
-  <TSA_WD_Notify_NewSettlementTooltip>当派系在通知半径内通过扩张建立新定居点时发送信件。不包括 NPC 突袭胜利后的征服建城。</TSA_WD_Notify_NewSettlementTooltip>
-  <TSA_WD_Notify_NpcConquestSettlement>定居点被攻占时通知</TSA_WD_Notify_NpcConquestSettlement>
-  <TSA_WD_Notify_NpcConquestSettlementTooltip>当 NPC 突袭胜利且进攻方在通知半径内占领该地块（建立替代定居点）时发送信件。</TSA_WD_Notify_NpcConquestSettlementTooltip>
-  <TSA_WD_Notify_OutpostDestroyed>当玩家前哨站被摧毁时通知</TSA_WD_Notify_OutpostDestroyed>
-  <TSA_WD_Notify_OutpostDestroyedTooltip>当你的前哨站在模拟世界袭击或手动防御地图战败中丢失时发送紧急信件。任意距离均会触发。不包括迫击炮清场或自愿撤离。</TSA_WD_Notify_OutpostDestroyedTooltip>
+  <TSA_WD_Notify_HeaderAlerts>警报</TSA_WD_Notify_HeaderAlerts>
+  <TSA_WD_Notify_NotificationRadius>附近信件半径（格）</TSA_WD_Notify_NotificationRadius>
+  <TSA_WD_Notify_NotificationRadiusTooltip>世界事件须距你的殖民地（无殖民地时距最近前哨）在此格数内才会发送附近信件。不影响前哨、来袭袭击或外交信件。</TSA_WD_Notify_NotificationRadiusTooltip>
+  <TSA_WD_Notify_NewSettlement>信件：附近新建定居点</TSA_WD_Notify_NewSettlement>
+  <TSA_WD_Notify_NewSettlementTooltip>派系在通知半径内通过扩张建立新定居点时。不含 NPC 突袭后的征服建城。</TSA_WD_Notify_NewSettlementTooltip>
+  <TSA_WD_Notify_NpcConquestSettlement>信件：附近定居点被攻占</TSA_WD_Notify_NpcConquestSettlement>
+  <TSA_WD_Notify_NpcConquestSettlementTooltip>NPC 突袭获胜且进攻方在通知半径内占领地块（建立替代定居点）时。</TSA_WD_Notify_NpcConquestSettlementTooltip>
+  <TSA_WD_Notify_OutpostDestroyed>信件：前哨被毁</TSA_WD_Notify_OutpostDestroyed>
+  <TSA_WD_Notify_OutpostDestroyedTooltip>你的前哨在模拟世界袭击或手动防御地图战败中丢失时的高优先级信件。任意距离。不含迫击炮清场或自愿撤离。</TSA_WD_Notify_OutpostDestroyedTooltip>
   <TSA_WD_Notify_Reset>将此页恢复为默认</TSA_WD_Notify_Reset>
-  <TSA_WD_Notify_SettlementRaided>附近有定居点被摧毁时通知</TSA_WD_Notify_SettlementRaided>
-  <TSA_WD_Notify_SettlementRaidedTooltip>当重大或轻微世界事件在通知半径内彻底摧毁一个定居点时发送信件。不适用于 NPC 袭击。</TSA_WD_Notify_SettlementRaidedTooltip>
-  <TSA_WD_Notify_SettlementRazed>附近有定居点被夷平时通知</TSA_WD_Notify_SettlementRazed>
-  <TSA_WD_Notify_SettlementRazedTooltip>当 NPC 袭击获胜并在此过程中摧毁定居点（格子变空）且在通知半径内时发送信件。</TSA_WD_Notify_SettlementRazedTooltip>
-  <TSA_WD_Notify_Turtle>附近龟缩集结</TSA_WD_Notify_Turtle>
-  <TSA_WD_Notify_TurtleTooltip>当附近派系将其外围定居点收缩至枢纽并设防，且处于通知半径内时发送信件。</TSA_WD_Notify_TurtleTooltip>
-  <TSA_WD_Notify_ThreatLevel>显示世界威胁警报（右侧）</TSA_WD_Notify_ThreatLevel>
-  <TSA_WD_Notify_ThreatLevelTooltip>在右侧显示静默警报，同时给出附近与远处落地袭击点数（叙事者钳制后）。点击会跳转到附近范围内最强的敌对定居点（若有）。</TSA_WD_Notify_ThreatLevelTooltip>
-  <TSA_WD_Notify_CriticalFood>显示前哨危急食物警报（右侧）</TSA_WD_Notify_CriticalFood>
-  <TSA_WD_Notify_CriticalFoodTooltip>当你至少有一个 WD 前哨的虚拟食物处于危急状态时，在右侧警报栏显示静默持续警报：库存为负，或在食物净值为负时最多约 3 个游戏日就会耗尽。食物收支持平或为正的前哨不会触发该警报。点击跳转到最严重的前哨。需要启用食物物流。</TSA_WD_Notify_CriticalFoodTooltip>
-  <TSA_WD_Notify_DropPodDeliveryInAaRange>WD：运输舱送货处于防空范围内</TSA_WD_Notify_DropPodDeliveryInAaRange>
-  <TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>当你的仓库设为运输舱送货，且位于敌对四级定居点（防空已开启）的防空射程内时，在右侧显示警报。只检查仓库所在格子（不检查整条航线）。可改回陆运，或清除防空威胁。</TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>
+  <TSA_WD_Notify_SettlementRaided>信件：附近定居点被毁</TSA_WD_Notify_SettlementRaided>
+  <TSA_WD_Notify_SettlementRaidedTooltip>重大或轻微世界事件在通知半径内彻底摧毁定居点时。不适用于 NPC 袭击。</TSA_WD_Notify_SettlementRaidedTooltip>
+  <TSA_WD_Notify_SettlementRazed>信件：附近定居点被夷平</TSA_WD_Notify_SettlementRazed>
+  <TSA_WD_Notify_SettlementRazedTooltip>NPC 袭击获胜并在此过程中摧毁定居点（格子变空），且在通知半径内时。</TSA_WD_Notify_SettlementRazedTooltip>
+  <TSA_WD_Notify_Turtle>信件：附近龟缩集结</TSA_WD_Notify_Turtle>
+  <TSA_WD_Notify_TurtleTooltip>附近派系将外围定居点收缩至枢纽并设防，且在通知半径内时。</TSA_WD_Notify_TurtleTooltip>
+  <TSA_WD_Notify_ThreatLevel>警报：世界威胁</TSA_WD_Notify_ThreatLevel>
+  <TSA_WD_Notify_ThreatLevelTooltip>静默持续警报，显示附近与远处落地袭击点数（叙事者钳制后）。点击跳转到附近最强敌对方（若有）。</TSA_WD_Notify_ThreatLevelTooltip>
+  <TSA_WD_Notify_CriticalFood>警报：前哨食物危急</TSA_WD_Notify_CriticalFood>
+  <TSA_WD_Notify_CriticalFoodTooltip>至少一个 WD 前哨虚拟食物危急时：库存为负，或食物净值为负且最多约 3 游戏日耗尽。收支持平或盈余的前哨不触发。点击跳转到最严重前哨。需启用食物物流。</TSA_WD_Notify_CriticalFoodTooltip>
+  <TSA_WD_Notify_DropPodDeliveryInAaRange>警报：运输舱送货处于防空范围</TSA_WD_Notify_DropPodDeliveryInAaRange>
+  <TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>仓库使用运输舱送货，且位于已启用防空的敌对四级定居点防空射程内时。只检查仓库格子，不检查整条航线。</TSA_WD_Notify_DropPodDeliveryInAaRangeTooltip>
   <TSA_WD_Alert_DropPodDeliveryInAaRange>WD：运输舱送货处于防空范围内</TSA_WD_Alert_DropPodDeliveryInAaRange>
   <TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>这些仓库使用运输舱送货，且处于敌方防空炮塔射程内：</TSA_WD_Alert_DropPodDeliveryInAaRangeDescHeader>
   <TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>- {0}</TSA_WD_Alert_DropPodDeliveryInAaRangeDescLine>
-  <TSA_WD_Notify_ConstructionInsufficientStrength>显示建造实力不足警报（右侧）</TSA_WD_Notify_ConstructionInsufficientStrength>
-  <TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>当前哨站已准备好路障/陷阱施工段，但实力不足以派出施工队时，在右侧警报栏显示静默持续警报。点击跳转到相关前哨。</TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>
+  <TSA_WD_Notify_ConstructionInsufficientStrength>警报：建造等待实力</TSA_WD_Notify_ConstructionInsufficientStrength>
+  <TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>WD 前哨已准备好路障或陷阱段但实力不足以派出施工队时的静默持续警报。点击跳转到相关前哨。</TSA_WD_Notify_ConstructionInsufficientStrengthTooltip>
   <TSA_WD_Alert_ConstructionInsufficientStrength>WD：建造等待实力</TSA_WD_Alert_ConstructionInsufficientStrength>
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>以下前哨已准备好派出施工队但实力不足：</TSA_WD_Alert_ConstructionInsufficientStrengthDescHeader>
   <TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>- {0}：{1}</TSA_WD_Alert_ConstructionInsufficientStrengthDescLine>
-  <TSA_WD_Notify_ConstructionInsufficientMaterials>显示建造材料不足警报（右侧）</TSA_WD_Notify_ConstructionInsufficientMaterials>
-  <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>当前哨站已准备好道路、桥梁段、工事或 AT 施工段，但材料不足以派出施工队时，在右侧警报栏显示静默持续警报。点击跳转到相关前哨。</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
-  <TSA_WD_Notify_BridgeDeconstructBlocked>拆桥受阻时显示信件</TSA_WD_Notify_BridgeDeconstructBlocked>
-  <TSA_WD_Notify_BridgeDeconstructBlockedTooltip>拆桥施工队抵达时若跨度被占用，显示黄色 NeutralEvent 信件并点名阻挡者。关闭后仅显示消息。</TSA_WD_Notify_BridgeDeconstructBlockedTooltip>
-  <TSA_WD_Notify_RoadCancelledByTrench>道路工程因战壕取消时显示信件</TSA_WD_Notify_RoadCancelledByTrench>
-  <TSA_WD_Notify_RoadCancelledByTrenchTooltip>筑路队因现有战壕无法铺路时取消工程，并显示蓝色 NeutralEvent 信件。关闭后仍会取消工程，但不发信。</TSA_WD_Notify_RoadCancelledByTrenchTooltip>
-  <TSA_WD_Notify_TrenchCancelledByRoad>战壕工程因道路取消时显示信件</TSA_WD_Notify_TrenchCancelledByRoad>
-  <TSA_WD_Notify_TrenchCancelledByRoadTooltip>挖壕队因现有道路无法施工时取消工程，并显示蓝色 NeutralEvent 信件。关闭后仍会取消工程，但不发信。</TSA_WD_Notify_TrenchCancelledByRoadTooltip>
+  <TSA_WD_Notify_ConstructionInsufficientMaterials>警报：建造等待材料</TSA_WD_Notify_ConstructionInsufficientMaterials>
+  <TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>WD 前哨已准备好道路、桥梁段、工事或 AT 段但材料不足以派出施工队时的静默持续警报。点击跳转到相关前哨。</TSA_WD_Notify_ConstructionInsufficientMaterialsTooltip>
+  <TSA_WD_Notify_BridgeDeconstructBlocked>信件：拆桥受阻</TSA_WD_Notify_BridgeDeconstructBlocked>
+  <TSA_WD_Notify_BridgeDeconstructBlockedTooltip>拆桥队抵达且桥段被占用时，黄色 NeutralEvent 信件点名阻挡者。关闭=仅消息。</TSA_WD_Notify_BridgeDeconstructBlockedTooltip>
+  <TSA_WD_Notify_RoadCancelledByTrench>信件：道路因战壕取消</TSA_WD_Notify_RoadCancelledByTrench>
+  <TSA_WD_Notify_RoadCancelledByTrenchTooltip>筑路队因路径遇现有战壕无法铺路而取消工程并显示蓝色 NeutralEvent 信件。关闭=仍取消工程但静默。</TSA_WD_Notify_RoadCancelledByTrenchTooltip>
+  <TSA_WD_Notify_TrenchCancelledByRoad>信件：战壕因道路取消</TSA_WD_Notify_TrenchCancelledByRoad>
+  <TSA_WD_Notify_TrenchCancelledByRoadTooltip>挖壕队因路径遇现有道路无法施工而取消工程并显示蓝色 NeutralEvent 信件。关闭=仍取消工程但静默。</TSA_WD_Notify_TrenchCancelledByRoadTooltip>
   <TSA_WD_Alert_ConstructionInsufficientMaterials>WD：建造等待材料</TSA_WD_Alert_ConstructionInsufficientMaterials>
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>以下前哨已准备好派出施工队但材料不足：</TSA_WD_Alert_ConstructionInsufficientMaterialsDescHeader>
   <TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>- {0}：{1}</TSA_WD_Alert_ConstructionInsufficientMaterialsDescLine>
-  <TSA_WD_Notify_OutpostNoProduction>显示未选生产前哨警报（右侧）</TSA_WD_Notify_OutpostNoProduction>
-  <TSA_WD_Notify_OutpostNoProductionTooltip>当你至少有一个 WD 前哨需要选择生产内容但尚未选择时，在右侧警报栏显示静默持续警报。悬停列出所有相关前哨。点击跳转到第一个。</TSA_WD_Notify_OutpostNoProductionTooltip>
-  <TSA_WD_Notify_OutpostUnusedExperts>显示未用专家位前哨警报（右侧）</TSA_WD_Notify_OutpostUnusedExperts>
-  <TSA_WD_Notify_OutpostUnusedExpertsTooltip>当你至少有一个 WD 前哨有未使用的专家位时，在右侧警报栏显示静默持续警报。悬停列出所有相关前哨及已分配/上限。点击跳转到第一个。</TSA_WD_Notify_OutpostUnusedExpertsTooltip>
+  <TSA_WD_Notify_OutpostNoProduction>警报：前哨未选生产</TSA_WD_Notify_OutpostNoProduction>
+  <TSA_WD_Notify_OutpostNoProductionTooltip>至少一个 WD 前哨需要选择生产但未选时的静默持续警报。悬停列出相关前哨。点击跳转到第一个。</TSA_WD_Notify_OutpostNoProductionTooltip>
+  <TSA_WD_Notify_OutpostUnusedExperts>警报：前哨未用专家位</TSA_WD_Notify_OutpostUnusedExperts>
+  <TSA_WD_Notify_OutpostUnusedExpertsTooltip>至少一个 WD 前哨有未使用专家位时的静默持续警报。悬停列出相关前哨及已分配/上限。点击跳转到第一个。</TSA_WD_Notify_OutpostUnusedExpertsTooltip>
   <TSA_WD_Alert_OutpostNoProduction>WD：未选生产的前哨</TSA_WD_Alert_OutpostNoProduction>
   <TSA_WD_Alert_OutpostNoProductionDescHeader>以下前哨尚未选择生产内容：</TSA_WD_Alert_OutpostNoProductionDescHeader>
   <TSA_WD_Alert_OutpostNoProductionDescLine>- {0}</TSA_WD_Alert_OutpostNoProductionDescLine>
   <TSA_WD_Alert_OutpostUnusedExperts>WD：未用专家位的前哨</TSA_WD_Alert_OutpostUnusedExperts>
   <TSA_WD_Alert_OutpostUnusedExpertsDescHeader>以下前哨有未使用的专家位：</TSA_WD_Alert_OutpostUnusedExpertsDescHeader>
   <TSA_WD_Alert_OutpostUnusedExpertsDescLine>- {0}：专家 {1}/{2}</TSA_WD_Alert_OutpostUnusedExpertsDescLine>
-  <TSA_WD_Notify_MidGameActive>显示中期游戏警报（右侧）</TSA_WD_Notify_MidGameActive>
-  <TSA_WD_Notify_MidGameActiveTooltip>中期游戏激活时（非后期游戏），在右侧警报栏显示静默持续警报。中期游戏首次激活时还会发送一封红色信件。</TSA_WD_Notify_MidGameActiveTooltip>
-  <TSA_WD_Notify_LateGameActive>显示后期游戏警报（右侧）</TSA_WD_Notify_LateGameActive>
-  <TSA_WD_Notify_LateGameActiveTooltip>后期游戏激活时，在右侧警报栏显示静默持续警报。后期游戏首次激活时还会发送一封红色信件。</TSA_WD_Notify_LateGameActiveTooltip>
+  <TSA_WD_Notify_MidGameActive>警报：中期游戏已激活</TSA_WD_Notify_MidGameActive>
+  <TSA_WD_Notify_MidGameActiveTooltip>中期游戏激活期间（非后期）的静默持续警报。中期游戏首次激活时另发一封红色信件。</TSA_WD_Notify_MidGameActiveTooltip>
+  <TSA_WD_Notify_LateGameActive>警报：后期游戏已激活</TSA_WD_Notify_LateGameActive>
+  <TSA_WD_Notify_LateGameActiveTooltip>后期游戏激活期间的静默持续警报。后期游戏首次激活时另发一封红色信件。</TSA_WD_Notify_LateGameActiveTooltip>
   <TSA_WD_TargetingYou>来袭</TSA_WD_TargetingYou>
   <TSA_WD_ThreatBreakdownHeader>可攻击进攻强度：</TSA_WD_ThreatBreakdownHeader>
   <TSA_WD_ThreatLabel_Cat0>全球威胁:低</TSA_WD_ThreatLabel_Cat0>
@@ -299,8 +299,8 @@
   <TSA_WD_Difficulty_OutpostIncSevTooltip>从前哨的进攻与防御实力中各扣除的数值。</TSA_WD_Difficulty_OutpostIncSevTooltip>
   <TSA_WD_Difficulty_OutpostIncChance>每日前哨事件概率</TSA_WD_Difficulty_OutpostIncChance>
   <TSA_WD_Difficulty_OutpostIncChanceTooltip>后期游戏激活时每天尝试一次前哨事件的概率。</TSA_WD_Difficulty_OutpostIncChanceTooltip>
-  <TSA_WD_Difficulty_NotifyOutpostInc>前哨事件时发送信件</TSA_WD_Difficulty_NotifyOutpostInc>
-  <TSA_WD_Difficulty_NotifyOutpostIncTooltip>前哨事件降低实力时发送通知信。</TSA_WD_Difficulty_NotifyOutpostIncTooltip>
+  <TSA_WD_Difficulty_NotifyOutpostInc>信件：前哨事件</TSA_WD_Difficulty_NotifyOutpostInc>
+  <TSA_WD_Difficulty_NotifyOutpostIncTooltip>前哨事件降低实力时。</TSA_WD_Difficulty_NotifyOutpostIncTooltip>
   <TSA_WD_Difficulty_EnableGoodwillDrain>周期性好感流失</TSA_WD_Difficulty_EnableGoodwillDrain>
   <TSA_WD_Difficulty_EnableGoodwillDrainTooltip>中期游戏或后期游戏激活时，周期性降低与非永久敌对派系的好感。永久敌人跳过。每次脉冲一条汇总消息；仅在盟友/中立/敌对关系翻转时额外提示。</TSA_WD_Difficulty_EnableGoodwillDrainTooltip>
   <TSA_WD_Difficulty_GoodwillDrainInterval>好感流失间隔（天）</TSA_WD_Difficulty_GoodwillDrainInterval>

@@ -42,27 +42,52 @@ namespace TSA_WorldDomination
                 revoltExpanded = sharedSpecialCdExpanded = expanded;
         }
 
-        public override void DoWindowContents(Rect inRect)
+        
+        private static Dialog_DiplomacySettings embeddedHost;
+
+        public static void DrawEmbedded(Rect inRect)
+        {
+            if (embeddedHost == null) embeddedHost = new Dialog_DiplomacySettings();
+            embeddedHost.DrawBody(inRect);
+        }
+public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
-            float contentWidth = contentRect.width - 24f;
+            DrawBody(contentRect);
+        }
+
+        private void DrawBody(Rect contentRect)
+        {
+            if (WdSettingsSearch.IsCollecting)
+            {
+                Listing_Standard l = new Listing_Standard();
+                l.Begin(contentRect);
+                DrawListing(l);
+                l.End();
+                return;
+            }
+
+            float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 3600f);
-
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(scrollViewRect);
+            DrawListing(listing);
+            listing.End();
+            Widgets.EndScrollView();
+        }
 
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(scrollViewRect);
-            var s = WorldDominationMod.settings;
+        private void DrawListing(Listing_Standard l)
+        {
+var s = WorldDominationMod.settings;
             bool advanced = s.showAdvancedSettings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetDiplomacy(),
                 () => SetAllExpanded(true),
                 () => SetAllExpanded(false));
-            SettingsUI.DrawSettingsSearchBar(l);
-
+            
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_Header".Translate(), ref relationsExpanded, SettingsUI.SectionHeaderColor))
             {
-                l.CheckboxLabeled(
-                    "TSA_WD_Diplo_RandomEnable".Translate(),
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Diplo_RandomEnable".Translate(),
                     ref s.enableRandomDiplomacy,
                     SettingsUI.TooltipWithDefault("TSA_WD_Diplo_RandomEnableTooltip".Translate(), WorldDominationSettings.DefEnableRandomDiplomacy)
                 );
@@ -119,8 +144,7 @@ namespace TSA_WorldDomination
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_SharedSpecialEventCooldownHeader".Translate(), ref sharedSpecialCdExpanded, SettingsUI.SectionHeaderColor))
             {
-                l.CheckboxLabeled(
-                    "TSA_WD_Diplo_SharedSpecialEventCooldown".Translate(),
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Diplo_SharedSpecialEventCooldown".Translate(),
                     ref s.useSharedSpecialEventCooldown,
                     SettingsUI.TooltipWithDefault("TSA_WD_Diplo_SharedSpecialEventCooldownTooltip".Translate(), WorldDominationSettings.DefUseSharedSpecialEventCooldown)
                 );
@@ -139,7 +163,7 @@ namespace TSA_WorldDomination
                 {
                     if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_Block_Leader".Translate(), ref leaderExpanded, SettingsUI.SectionHeaderColor))
                     {
-                        l.CheckboxLabeled("TSA_WD_Diplo_Enable".Translate(), ref s.enableLeaderHandicap,
+                        SettingsUI.DrawCheckbox(l, "TSA_WD_Diplo_Enable".Translate(), ref s.enableLeaderHandicap,
                             SettingsUI.TooltipWithDefault("TSA_WD_Diplo_LeaderHandicapTooltip".Translate(), WorldDominationSettings.DefEnableLeaderHandicap));
                         if (s.enableLeaderHandicap)
                         {
@@ -171,7 +195,7 @@ namespace TSA_WorldDomination
 
                     if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_Block_Underdog".Translate(), ref underdogExpanded, SettingsUI.SectionHeaderColor))
                     {
-                        l.CheckboxLabeled("TSA_WD_Diplo_Enable".Translate(), ref s.enableUnderdogBuff,
+                        SettingsUI.DrawCheckbox(l, "TSA_WD_Diplo_Enable".Translate(), ref s.enableUnderdogBuff,
                             SettingsUI.TooltipWithDefault("TSA_WD_Diplo_UnderdogBuffTooltip".Translate(), WorldDominationSettings.DefEnableUnderdogBuff));
                         if (s.enableUnderdogBuff)
                         {
@@ -209,7 +233,7 @@ namespace TSA_WorldDomination
 
                     if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_Block_Zeal".Translate(), ref zealExpanded, SettingsUI.SectionHeaderColor))
                     {
-                        l.CheckboxLabeled("TSA_WD_Diplo_Enable".Translate(), ref s.enableExpansionistZeal,
+                        SettingsUI.DrawCheckbox(l, "TSA_WD_Diplo_Enable".Translate(), ref s.enableExpansionistZeal,
                             SettingsUI.TooltipWithDefault("TSA_WD_Diplo_ExpansionistZealTooltip".Translate(), WorldDominationSettings.DefEnableExpansionistZeal));
                         if (s.enableExpansionistZeal)
                         {
@@ -229,7 +253,7 @@ namespace TSA_WorldDomination
 
                     if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_Block_Coalition".Translate(), ref coalitionExpanded, SettingsUI.SectionHeaderColor))
                     {
-                        l.CheckboxLabeled("TSA_WD_Diplo_Enable".Translate(), ref s.enableAntiLeaderCoalition,
+                        SettingsUI.DrawCheckbox(l, "TSA_WD_Diplo_Enable".Translate(), ref s.enableAntiLeaderCoalition,
                             SettingsUI.TooltipWithDefault("TSA_WD_Diplo_AntiLeaderTooltip".Translate(), WorldDominationSettings.DefEnableAntiLeaderCoalition));
                         if (s.enableAntiLeaderCoalition)
                         {
@@ -244,9 +268,6 @@ namespace TSA_WorldDomination
                     }
                 }
             }
-
-            l.End();
-            Widgets.EndScrollView();
         }
 
         private void DrawAlliedRaidOrderSettings(Listing_Standard l, WorldDominationSettings s)
@@ -273,7 +294,7 @@ namespace TSA_WorldDomination
             if (!SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Bribe_SettingsHeader".Translate(), ref factionBribeExpanded, SettingsUI.SectionHeaderColor))
                 return;
 
-            l.CheckboxLabeled("TSA_WD_Bribe_Enable".Translate(), ref s.enableFactionBribe,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Bribe_Enable".Translate(), ref s.enableFactionBribe,
                 SettingsUI.TooltipWithDefault("TSA_WD_Bribe_EnableTip".Translate(), WorldDominationSettings.DefEnableFactionBribe));
             if (!s.enableFactionBribe) return;
 
@@ -302,7 +323,7 @@ namespace TSA_WorldDomination
             if (!SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_FactionInvestment_SettingsHeader".Translate(), ref factionInvestmentExpanded, SettingsUI.SectionHeaderColor))
                 return;
 
-            l.CheckboxLabeled("TSA_WD_FactionInvestment_Enable".Translate(), ref s.enableFactionSettlementInvestment,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_FactionInvestment_Enable".Translate(), ref s.enableFactionSettlementInvestment,
                 SettingsUI.TooltipWithDefault("TSA_WD_FactionInvestment_EnableTip".Translate(), WorldDominationSettings.DefEnableFactionSettlementInvestment));
             if (!s.enableFactionSettlementInvestment) return;
 
@@ -332,7 +353,7 @@ namespace TSA_WorldDomination
 
             l.GapLine();
 
-            l.CheckboxLabeled("TSA_WD_BuySettlement_Enable".Translate(), ref s.enableSettlementBuy,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_BuySettlement_Enable".Translate(), ref s.enableSettlementBuy,
                 SettingsUI.TooltipWithDefault("TSA_WD_BuySettlement_EnableTip".Translate(), WorldDominationSettings.DefEnableSettlementBuy));
             if (!s.enableSettlementBuy) return;
 
@@ -355,7 +376,7 @@ namespace TSA_WorldDomination
             if (!SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Negotiate_SettingsHeader".Translate(), ref diplomacyNegotiateExpanded, SettingsUI.SectionHeaderColor))
                 return;
 
-            l.CheckboxLabeled("TSA_WD_Negotiate_Enable".Translate(), ref s.enableDiplomacyNegotiate,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Negotiate_Enable".Translate(), ref s.enableDiplomacyNegotiate,
                 SettingsUI.TooltipWithDefault("TSA_WD_Negotiate_EnableTip".Translate(), WorldDominationSettings.DefEnableDiplomacyNegotiate));
             if (!s.enableDiplomacyNegotiate) return;
 

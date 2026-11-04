@@ -23,17 +23,44 @@ namespace TSA_WorldDomination
             optionalTitle = null;
         }
 
-        public override void DoWindowContents(Rect inRect)
+        
+        private static Dialog_BaseGenerationSettings embeddedHost;
+
+        public static void DrawEmbedded(Rect inRect)
+        {
+            if (embeddedHost == null) embeddedHost = new Dialog_BaseGenerationSettings();
+            embeddedHost.DrawBody(inRect);
+        }
+public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
-            float contentWidth = contentRect.width - 24f;
+            DrawBody(contentRect);
+        }
+
+        private void DrawBody(Rect contentRect)
+        {
+            if (WdSettingsSearch.IsCollecting)
+            {
+                Listing_Standard l = new Listing_Standard();
+                l.Begin(contentRect);
+                DrawListing(l);
+                l.End();
+                return;
+            }
+
+            float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 1200f);
-
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(scrollViewRect);
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(scrollViewRect);
+            DrawListing(listing);
+            listing.End();
+            Widgets.EndScrollView();
+        }
 
-            var s = WorldDominationMod.settings;
+        private void DrawListing(Listing_Standard l)
+        {
+var s = WorldDominationMod.settings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetBaseGeneration(),
                 () =>
                 {
@@ -43,8 +70,7 @@ namespace TSA_WorldDomination
                 {
                     terrainPrepExpanded = rockAndSoilExpanded = layoutExtrasExpanded = afterGenerationExpanded = false;
                 });
-            SettingsUI.DrawSettingsSearchBar(l);
-
+            
             l.Label("TSA_WD_BaseGen_Intro".Translate());
             l.Gap(12f);
 
@@ -119,9 +145,6 @@ namespace TSA_WorldDomination
                     "TSA_WD_BaseGen_SilenceTurretsTip".Translate(),
                     defaultValue: WorldDominationSettings.DefKcsgSilenceDefeatedTurrets);
             }
-
-            l.End();
-            Widgets.EndScrollView();
         }
     }
 }

@@ -185,8 +185,34 @@ namespace TSA_WorldDomination
             int targetMin = seth.revoltSettlementsMin;
             int targetMax = seth.revoltSettlementsMax;
 
-            List<Settlement> firstPool;
-            List<Faction> topOthers;
+            if (!TryResolveVictimPools(byFaction, forcedSeed, minEligible, out List<Settlement> firstPool, out List<Faction> topOthers))
+                return false;
+
+            int want = Rand.RangeInclusive(targetMin, targetMax);
+
+            // Prefer up to two geographic clusters inside the top-empire universe (Turtle edge).
+            if (TryBuildClusteredTargets(firstPool, topOthers, byFaction, forcedSeed, want, out List<Settlement> clustered)
+                && clustered != null
+                && clustered.Count >= 1)
+            {
+                targets = clustered;
+                return true;
+            }
+
+            // Sparse / no real cluster growth: prior tier-weighted top-empire fill.
+            targets = BuildTargetsLegacy(firstPool, topOthers, byFaction, forcedSeed, want, targetMin);
+            return targets != null && targets.Count >= 1;
+        }
+
+        private static bool TryResolveVictimPools(
+            Dictionary<Faction, List<Settlement>> byFaction,
+            Settlement forcedSeed,
+            int minEligible,
+            out List<Settlement> firstPool,
+            out List<Faction> topOthers)
+        {
+            firstPool = null;
+            topOthers = null;
 
             if (forcedSeed != null)
             {
@@ -196,19 +222,114 @@ namespace TSA_WorldDomination
                     return false;
 
                 topOthers = RankNpcFactionsBySettlementCount(byFaction, 3, exclude: primary);
-            }
-            else
-            {
-                List<Faction> top = RankNpcFactionsBySettlementCount(byFaction, 3, exclude: null);
-                if (top.Count == 0) return false;
-                firstPool = byFaction[top[0]];
-                if (firstPool == null || firstPool.Count < minEligible) return false;
-                topOthers = new List<Faction>();
-                for (int i = 1; i < top.Count; i++)
-                    topOthers.Add(top[i]);
+                return true;
             }
 
-            int want = Rand.RangeInclusive(targetMin, targetMax);
+            List<Faction> top = RankNpcFactionsBySettlementCount(byFaction, 3, exclude: null);
+            if (top.Count == 0) return false;
+            firstPool = byFaction[top[0]];
+            if (firstPool == null || firstPool.Count < minEligible) return false;
+            topOthers = new List<Faction>();
+            for (int i = 1; i < top.Count; i++)
+                topOthers.Add(top[i]);
+            return true;
+        }
+
+        /// <summary>
+        /// Victim universe = primary + next top empires (tiny factions excluded).
+        /// Grow up to two Turtle-edge clusters; keep result if a cluster grew beyond the seed,
+        /// even when under <paramref name="want"/> (soft-fill). Fall back when growth fails.
+        /// </summary>
+        private static bool TryBuildClusteredTargets(
+            List<Settlement> firstPool,
+            List<Faction> topOthers,
+            Dictionary<Faction, List<Settlement>> byFaction,
+            Settlement forcedSeed,
+            int want,
+            out List<Settlement> targets)
+        {
+            targets = null;
+            if (want < 1 || firstPool == null) return false;
+
+            var universe = new List<Settlement>();
+            AppendUnique(universe, firstPool);
+            if (topOthers != null)
+            {
+                for (int i = 0; i < topOthers.Count; i++)
+                {
+                    if (!byFaction.TryGetValue(topOthers[i], out List<Settlement> list) || list == null)
+                        continue;
+                    AppendUnique(universe, list);
+                }
+            }
+            if (universe.Count < 1) return false;
+
+            float edge = WorldActions_Turtle.ClusterEdgeTiles;
+            var taken = new HashSet<Settlement>();
+            var result = new List<Settlement>();
+            bool grew = false;
+
+            Settlement seed1 = forcedSeed != null && universe.Contains(forcedSeed)
+                ? forcedSeed
+                : PickWeightedOne(firstPool);
+            if (seed1 == null || !universe.Contains(seed1))
+                seed1 = PickWeightedOne(universe);
+            if (seed1 == null) return false;
+
+            List<Settlement> cluster1 = CollectClusterComponent(seed1, universe, taken, edge);
+            if (cluster1.Count > 1)
+                grew = true;
+            taken.Add(seed1);
+            result.Add(seed1);
+            AppendTakenWeighted(result, taken, cluster1, want - result.Count);
+
+            if (result.Count < want)
+            {
+                var leftovers = new List<Settlement>();
+                for (int i = 0; i < universe.Count; i++)
+                {
+                    Settlement s = universe[i];
+                    if (s != null && !taken.Contains(s))
+                        leftovers.Add(s);
+                }
+                if (leftovers.Count > 0)
+                {
+                    Settlement seed2 = PickWeightedOnePreferring(leftovers, firstPool)
+                        ?? PickWeightedOne(leftovers);
+                    if (seed2 != null)
+                    {
+                        List<Settlement> cluster2 = CollectClusterComponent(seed2, leftovers, taken, edge);
+                        if (cluster2.Count > 1)
+                            grew = true;
+                        taken.Add(seed2);
+                        result.Add(seed2);
+                        AppendTakenWeighted(result, taken, cluster2, want - result.Count);
+                    }
+                }
+            }
+
+            // Keep a real cluster even if under want. Only reject when nothing grew and we needed more than a lone seed.
+            if (result.Count < 1) return false;
+            if (!grew && want > 1 && universe.Count > 1)
+                return false;
+
+            targets = result;
+            WDVerbose.Msg($"Revolt cluster pick count={result.Count}/{want} grew={grew} universe={universe.Count}");
+            return true;
+        }
+
+        /// <summary>Legacy seize: primary core then other top empires, then leftover primary.</summary>
+        private static List<Settlement> BuildTargetsLegacy(
+            List<Settlement> firstPool,
+            List<Faction> topOthers,
+            Dictionary<Faction, List<Settlement>> byFaction,
+            Settlement forcedSeed,
+            int want,
+            int targetMin)
+        {
+            var targets = new List<Settlement>();
+            if (firstPool == null || want < 1) return targets;
+
             int primaryCore = Mathf.Min(want, targetMin);
 
             if (forcedSeed != null)
@@ -232,9 +353,8 @@ namespace TSA_WorldDomination
                 targets.AddRange(TakeWeighted(firstPool, primaryCore));
             }
 
-            // Soft-fill remainder: prefer next top factions, then leftover primary towns.
             int remaining = want - targets.Count;
-            if (remaining > 0 && topOthers.Count > 0)
+            if (remaining > 0 && topOthers != null && topOthers.Count > 0)
             {
                 var pool = new List<Settlement>();
                 for (int i = 0; i < topOthers.Count; i++)
@@ -264,7 +384,93 @@ namespace TSA_WorldDomination
                 targets.AddRange(TakeWeighted(leftoverPrimary, remaining));
             }
 
-            return targets.Count >= 1;
+            WDVerbose.Msg($"Revolt legacy pick count={targets.Count}/{want}");
+            return targets;
+        }
+
+        private static void AppendUnique(List<Settlement> into, List<Settlement> from)
+        {
+            if (into == null || from == null) return;
+            for (int i = 0; i < from.Count; i++)
+            {
+                Settlement s = from[i];
+                if (s == null || into.Contains(s)) continue;
+                into.Add(s);
+            }
+        }
+
+        private static void AppendTakenWeighted(
+            List<Settlement> result,
+            HashSet<Settlement> taken,
+            List<Settlement> cluster,
+            int need)
+        {
+            if (need <= 0 || cluster == null || cluster.Count == 0) return;
+            List<Settlement> picked = TakeWeighted(cluster, need);
+            for (int i = 0; i < picked.Count; i++)
+            {
+                Settlement s = picked[i];
+                if (s == null || taken.Contains(s)) continue;
+                taken.Add(s);
+                result.Add(s);
+            }
+        }
+
+        /// <summary>Connected component from <paramref name="seed"/> among <paramref name="candidates"/> (edge ≤ Turtle cluster edge).</summary>
+        private static List<Settlement> CollectClusterComponent(
+            Settlement seed,
+            List<Settlement> candidates,
+            HashSet<Settlement> alreadyTaken,
+            float edgeTiles)
+        {
+            var component = new List<Settlement>();
+            if (seed == null || candidates == null || candidates.Count == 0) return component;
+            if (alreadyTaken != null && alreadyTaken.Contains(seed)) return component;
+
+            var seen = new HashSet<int>();
+            var q = new Queue<Settlement>();
+            q.Enqueue(seed);
+            seen.Add(seed.ID);
+
+            WorldGrid grid = Find.WorldGrid;
+            while (q.Count > 0)
+            {
+                Settlement cur = q.Dequeue();
+                if (cur == null) continue;
+                component.Add(cur);
+                if (grid == null) continue;
+                int curTile = cur.Tile.tileId;
+                for (int i = 0; i < candidates.Count; i++)
+                {
+                    Settlement other = candidates[i];
+                    if (other == null || seen.Contains(other.ID)) continue;
+                    if (alreadyTaken != null && alreadyTaken.Contains(other)) continue;
+                    float d = grid.ApproxDistanceInTiles(curTile, other.Tile.tileId);
+                    if (d > edgeTiles) continue;
+                    seen.Add(other.ID);
+                    q.Enqueue(other);
+                }
+            }
+            return component;
+        }
+
+        private static Settlement PickWeightedOne(List<Settlement> source)
+        {
+            List<Settlement> picked = TakeWeighted(source, 1);
+            return picked.Count > 0 ? picked[0] : null;
+        }
+
+        private static Settlement PickWeightedOnePreferring(List<Settlement> leftovers, List<Settlement> preferPool)
+        {
+            if (leftovers == null || leftovers.Count == 0 || preferPool == null) return null;
+            var preferred = new List<Settlement>();
+            for (int i = 0; i < leftovers.Count; i++)
+            {
+                Settlement s = leftovers[i];
+                if (s != null && preferPool.Contains(s))
+                    preferred.Add(s);
+            }
+            return preferred.Count > 0 ? PickWeightedOne(preferred) : null;
         }
 
         /// <summary>

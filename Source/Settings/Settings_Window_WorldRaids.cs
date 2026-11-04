@@ -26,37 +26,66 @@ namespace TSA_WorldDomination
             windowTitle = "TSA_WD_BtnWorldRaids".Translate();
             optionalTitle = null;
         }
-
-        public override void PreClose()
-        {
-            base.PreClose();
-            WorldDominationMod.settings?.InvalidateRaidOutcomesCache();
-        }
-
-        private void SetAllSectionsExpanded(bool expanded)
+private void SetAllSectionsExpanded(bool expanded)
         {
             simulationExpanded = rangeExpanded = expanded;
             winChanceExpanded = lossTablesExpanded = expanded;
             severityAttWinExpanded = severityAttLossExpanded = severityDefWinExpanded = severityDefLossExpanded = expanded;
         }
 
-        public override void DoWindowContents(Rect inRect)
+        
+        private static Dialog_RaidSettings embeddedHost;
+
+        public static void DrawEmbedded(Rect inRect)
+        {
+            if (embeddedHost == null) embeddedHost = new Dialog_RaidSettings();
+            embeddedHost.DrawBody(inRect);
+        }
+        public static void ApplyOnSettingsClose()
+        {
+            WorldDominationMod.settings?.InvalidateRaidOutcomesCache();
+        }
+
+        public override void PreClose()
+        {
+            base.PreClose();
+            ApplyOnSettingsClose();
+        }
+public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
-            float contentWidth = contentRect.width - 24f;
+            DrawBody(contentRect);
+        }
+
+        private void DrawBody(Rect contentRect)
+        {
+            if (WdSettingsSearch.IsCollecting)
+            {
+                Listing_Standard l = new Listing_Standard();
+                l.Begin(contentRect);
+                DrawListing(l);
+                l.End();
+                return;
+            }
+
+            float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 4500f);
-
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(scrollViewRect);
+            DrawListing(listing);
+            listing.End();
+            Widgets.EndScrollView();
+        }
 
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(scrollViewRect);
-            var s = WorldDominationMod.settings;
+        private void DrawListing(Listing_Standard l)
+        {
+var s = WorldDominationMod.settings;
             bool advanced = s.showAdvancedSettings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetRaids(),
                 () => SetAllSectionsExpanded(true),
                 () => SetAllSectionsExpanded(false));
-            SettingsUI.DrawSettingsSearchBar(l);
-
+            
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Raid_HeaderSim".Translate(), ref simulationExpanded, SettingsUI.SectionHeaderColor))
             {
             float prevAllyRad = s.raidAllyRadius;
@@ -120,9 +149,6 @@ namespace TSA_WorldDomination
             }
 
             DrawSection6LossTables(l, s, ref lossTablesExpanded);
-
-            l.End();
-            Widgets.EndScrollView();
         }
 
         private static void DrawSection1WinChance(Listing_Standard l, WorldDominationSettings s, ref bool expanded)

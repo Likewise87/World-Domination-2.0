@@ -22,46 +22,72 @@ namespace TSA_WorldDomination
             optionalTitle = null;
         }
 
-        public override void PreClose()
+        private static Dialog_LateGameSettings embeddedHost;
+
+        public static void DrawEmbedded(Rect inRect)
         {
-            base.PreClose();
+            if (embeddedHost == null) embeddedHost = new Dialog_LateGameSettings();
+            embeddedHost.DrawBody(inRect);
+        }
+        public static void ApplyOnSettingsClose()
+        {
             WorldDominationMod.settings?.NormalizeEscalationConstraints();
             if (Current.ProgramState != ProgramState.Playing) return;
             Find.World?.GetComponent<WorldComponent_SpreadManager>()?.Notify_WeightsChanged();
         }
 
-        public override void DoWindowContents(Rect inRect)
+        public override void PreClose()
+        {
+            base.PreClose();
+            ApplyOnSettingsClose();
+        }
+public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
-            float contentWidth = contentRect.width - 24f;
-            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2200f);
+            DrawBody(contentRect);
+        }
 
+        private void DrawBody(Rect contentRect)
+        {
+            if (WdSettingsSearch.IsCollecting)
+            {
+                Listing_Standard l = new Listing_Standard();
+                l.Begin(contentRect);
+                DrawListing(l);
+                l.End();
+                return;
+            }
+
+            float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
+            Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2000f);
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(scrollViewRect);
+            DrawListing(listing);
+            listing.End();
+            Widgets.EndScrollView();
+        }
 
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(scrollViewRect);
-            var s = WorldDominationMod.settings;
+        private void DrawListing(Listing_Standard l)
+        {
+var s = WorldDominationMod.settings;
 
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetLateGame(),
                 () => { midExpanded = lateExpanded = bribeCostExpanded = true; },
                 () => { midExpanded = lateExpanded = bribeCostExpanded = false; });
-            SettingsUI.DrawSettingsSearchBar(l);
-
-            l.CheckboxLabeled("TSA_WD_Difficulty_EnableLateGame".Translate(), ref s.enableLateGameScaling,
+            
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Difficulty_EnableLateGame".Translate(), ref s.enableLateGameScaling,
                 SettingsUI.TooltipWithDefault("TSA_WD_Difficulty_EnableLateGameTooltip".Translate(), WorldDominationSettings.DefEnableLateGameScaling));
 
             l.Gap(8f);
             DrawBribeCostSettings(l, s);
 
+            // DrawBody owns listing/scroll End — just stop drawing further controls.
             if (!s.enableLateGameScaling)
-            {
-                l.End();
-                Widgets.EndScrollView();
                 return;
-            }
 
             l.Gap(4f);
-            l.CheckboxLabeled("TSA_WD_Difficulty_EnableGoodwillDrain".Translate(), ref s.enableGoodwillDrain,
+            SettingsUI.DrawCheckbox(l, "TSA_WD_Difficulty_EnableGoodwillDrain".Translate(), ref s.enableGoodwillDrain,
                 SettingsUI.TooltipWithDefault("TSA_WD_Difficulty_EnableGoodwillDrainTooltip".Translate(), WorldDominationSettings.DefEnableGoodwillDrain));
 
             if (s.enableGoodwillDrain)
@@ -92,7 +118,7 @@ namespace TSA_WorldDomination
                 s.midGameAttackRangeBonusPct = SettingsUI.LabeledSlider(l, "TSA_WD_MidGame_AttackRangeBonus".Translate(), s.midGameAttackRangeBonusPct, 0f, 2f,
                     "TSA_WD_MidGame_AttackRangeBonusTooltip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefMidGameAttackRangeBonusPct);
 
-                l.CheckboxLabeled("TSA_WD_MidGame_ScaleAllyRadius".Translate(), ref s.enableMidGameAllyRadiusScaling,
+                SettingsUI.DrawCheckbox(l, "TSA_WD_MidGame_ScaleAllyRadius".Translate(), ref s.enableMidGameAllyRadiusScaling,
                     SettingsUI.TooltipWithDefault("TSA_WD_MidGame_ScaleAllyRadiusTooltip".Translate(), WorldDominationSettings.DefEnableMidGameAllyRadiusScaling));
                 if (s.enableMidGameAllyRadiusScaling)
                 {
@@ -107,7 +133,7 @@ namespace TSA_WorldDomination
                     "TSA_WD_MidGame_ExpandTilesTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefMidGameExpandTowardPlayerMaxTiles));
 
                 bool midMortar = s.enableMidGameT4SettlementMortar;
-                l.CheckboxLabeled("TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer".Translate(), ref midMortar,
+                SettingsUI.DrawCheckbox(l, "TSA_WD_MidGame_OnlyFireT4MortarsAtPlayer".Translate(), ref midMortar,
                     SettingsUI.TooltipWithDefault("TSA_WD_MidGame_T4Mortar_TargetPlayerTooltip".Translate(), WorldDominationSettings.DefEnableMidGameT4SettlementMortar));
                 if (midMortar != s.enableMidGameT4SettlementMortar)
                 {
@@ -116,7 +142,7 @@ namespace TSA_WorldDomination
                 }
 
                 bool midAa = s.enableMidGameT4SettlementAntiAir;
-                l.CheckboxLabeled("TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer".Translate(), ref midAa,
+                SettingsUI.DrawCheckbox(l, "TSA_WD_MidGame_OnlyFireT4AntiAirAtPlayer".Translate(), ref midAa,
                     SettingsUI.TooltipWithDefault("TSA_WD_MidGame_T4AA_TargetPlayerTooltip".Translate(), WorldDominationSettings.DefEnableMidGameT4SettlementAntiAir));
                 if (midAa != s.enableMidGameT4SettlementAntiAir)
                 {
@@ -124,7 +150,7 @@ namespace TSA_WorldDomination
                     s.NormalizeEscalationT4Flags();
                 }
 
-                l.CheckboxLabeled("TSA_WD_MidGame_EnableOutpostIncidents".Translate(), ref s.enableMidGameOutpostIncidents,
+                SettingsUI.DrawCheckbox(l, "TSA_WD_MidGame_EnableOutpostIncidents".Translate(), ref s.enableMidGameOutpostIncidents,
                     SettingsUI.TooltipWithDefault("TSA_WD_MidGame_EnableOutpostIncidentsTooltip".Translate(), WorldDominationSettings.DefEnableMidGameOutpostIncidents));
 
                 s.midGameOutpostIncidentSeverity = SettingsUI.LabeledSlider(l, "TSA_WD_MidGame_OutpostIncSev".Translate(), s.midGameOutpostIncidentSeverity, 10f, 500f,
@@ -165,7 +191,7 @@ namespace TSA_WorldDomination
                 s.lateGameAttackRangeBonusPct = SettingsUI.LabeledSlider(l, "TSA_WD_LateGame_AttackRangeBonus".Translate(), s.lateGameAttackRangeBonusPct, 0f, 2f,
                     "TSA_WD_LateGame_AttackRangeBonusTooltip".Translate(), 0.05f, SliderFormat.Percent, WorldDominationSettings.DefLateGameAttackRangeBonusPct);
 
-                l.CheckboxLabeled("TSA_WD_LateGame_ScaleAllyRadius".Translate(), ref s.enableLateGameAllyRadiusScaling,
+                SettingsUI.DrawCheckbox(l, "TSA_WD_LateGame_ScaleAllyRadius".Translate(), ref s.enableLateGameAllyRadiusScaling,
                     SettingsUI.TooltipWithDefault("TSA_WD_LateGame_ScaleAllyRadiusTooltip".Translate(), WorldDominationSettings.DefEnableLateGameAllyRadiusScaling));
                 if (s.enableLateGameAllyRadiusScaling)
                 {
@@ -180,7 +206,7 @@ namespace TSA_WorldDomination
                     "TSA_WD_Difficulty_ExpandTilesTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefLateGameExpandTowardPlayerMaxTiles));
 
                 bool lateMortar = s.enableT4SettlementMortar;
-                l.CheckboxLabeled("TSA_WD_LateGame_OnlyFireT4MortarsAtPlayer".Translate(), ref lateMortar,
+                SettingsUI.DrawCheckbox(l, "TSA_WD_LateGame_OnlyFireT4MortarsAtPlayer".Translate(), ref lateMortar,
                     SettingsUI.TooltipWithDefault("TSA_WD_T4Mortar_TargetPlayerTooltip".Translate(), WorldDominationSettings.DefEnableT4SettlementMortar));
                 if (lateMortar != s.enableT4SettlementMortar)
                 {
@@ -189,7 +215,7 @@ namespace TSA_WorldDomination
                 }
 
                 bool lateAa = s.enableT4SettlementAntiAir;
-                l.CheckboxLabeled("TSA_WD_LateGame_OnlyFireT4AntiAirAtPlayer".Translate(), ref lateAa,
+                SettingsUI.DrawCheckbox(l, "TSA_WD_LateGame_OnlyFireT4AntiAirAtPlayer".Translate(), ref lateAa,
                     SettingsUI.TooltipWithDefault("TSA_WD_T4AA_TargetPlayerTooltip".Translate(), WorldDominationSettings.DefEnableT4SettlementAntiAir));
                 if (lateAa != s.enableT4SettlementAntiAir)
                 {
@@ -197,7 +223,7 @@ namespace TSA_WorldDomination
                     s.NormalizeEscalationT4Flags();
                 }
 
-                l.CheckboxLabeled("TSA_WD_Difficulty_EnableOutpostIncidents".Translate(), ref s.enableOutpostIncidents,
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Difficulty_EnableOutpostIncidents".Translate(), ref s.enableOutpostIncidents,
                     SettingsUI.TooltipWithDefault("TSA_WD_Difficulty_EnableOutpostIncidentsTooltip".Translate(), WorldDominationSettings.DefEnableOutpostIncidents));
 
                 s.outpostIncidentSeverity = SettingsUI.LabeledSlider(l, "TSA_WD_Difficulty_OutpostIncSev".Translate(), s.outpostIncidentSeverity, 10f, 500f,
@@ -212,9 +238,6 @@ namespace TSA_WorldDomination
                         "TSA_WD_LateGame_GoodwillDrainAmountTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefLateGameGoodwillDrainAmount));
                 }
             }
-
-            l.End();
-            Widgets.EndScrollView();
         }
 
         private void DrawBribeCostSettings(Listing_Standard l, WorldDominationSettings s)

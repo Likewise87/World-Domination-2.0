@@ -102,13 +102,13 @@
   <TSA_WD_Diplo_StrongFactionWar_Cool_Msg>降温：“{0}”与“{1}”（最强势力之一）结束结盟并变为中立。</TSA_WD_Diplo_StrongFactionWar_Cool_Msg>
   <TSA_WD_Diplo_Reset>将此页恢复为默认</TSA_WD_Diplo_Reset>
   <TSA_WD_Diplo_RevoltChance>每日叛乱概率</TSA_WD_Diplo_RevoltChance>
-  <TSA_WD_Diplo_RevoltChanceTooltip>战败派系每日有概率回归：主受害者池须达到“最低合格定居点”门槛，再按“目标定居点（最小/最大）”从据点最多的 NPC 派系夺取；不足时按现有数量尽量夺取。更倾向低等级。永不夺取玩家领地。</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_RevoltChanceTooltip>战败派系每日有概率回归：主受害者池须达到“最低合格定居点”门槛，再按“目标定居点（最小/最大）”从据点最多的大型帝国夺取（小派系不是受害者）。优先夺取最多两个邻近集群（与龟缩相同的 20 格连通边）。若集群无法扩大，则回退为原先的分散夺取。不足时尽量夺取。更倾向低等级。永不夺取玩家领地。</TSA_WD_Diplo_RevoltChanceTooltip>
   <TSA_WD_Diplo_RevoltMinEligible>叛乱所需最低合格定居点</TSA_WD_Diplo_RevoltMinEligible>
   <TSA_WD_Diplo_RevoltMinEligibleTooltip>硬门槛：主受害者派系（最大帝国，或调试用种子派系）必须至少有这么多合格的 NPC 定居点，否则不会发生叛乱。合格=未受保护且非玩家的 WD 定居点。不可高于“目标定居点（最小）”。受保护与玩家领地既不计入也不被夺取。</TSA_WD_Diplo_RevoltMinEligibleTooltip>
   <TSA_WD_Diplo_RevoltSettlementsMin>目标定居点（最小）</TSA_WD_Diplo_RevoltSettlementsMin>
-  <TSA_WD_Diplo_RevoltSettlementsMinTooltip>叛乱触发时掷出的夺取目标下限。不是保证数量：过合格门槛后，会尽量夺取至掷出的目标。取自据点最多的 NPC 派系（核心来自最大派系，其余尽量来自第二、三名）。更倾向低等级。</TSA_WD_Diplo_RevoltSettlementsMinTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMinTooltip>叛乱触发时掷出的夺取目标下限。不是保证数量：过合格门槛后，优先在大型帝国中夺取邻近集群，再尽量补足至掷出的目标。不夺取小派系。更倾向低等级。</TSA_WD_Diplo_RevoltSettlementsMinTooltip>
   <TSA_WD_Diplo_RevoltSettlementsMax>目标定居点（最大）</TSA_WD_Diplo_RevoltSettlementsMax>
-  <TSA_WD_Diplo_RevoltSettlementsMaxTooltip>叛乱触发时掷出的夺取目标上限。须至少等于“目标定居点（最小）”。若顶尖 NPC 派系合格定居点不足，仍按现有数量尽量夺取。</TSA_WD_Diplo_RevoltSettlementsMaxTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMaxTooltip>叛乱触发时掷出的夺取目标上限。须至少等于“目标定居点（最小）”。集群偏好与不足补足仅针对大型帝国。</TSA_WD_Diplo_RevoltSettlementsMaxTooltip>
   <TSA_WD_Diplo_RevoltCooldown>叛乱冷却</TSA_WD_Diplo_RevoltCooldown>
   <TSA_WD_Diplo_RevoltCooldownTooltip>一次成功后，再次触发叛乱前等待的天数。启用共享特殊事件冷却时忽略。</TSA_WD_Diplo_RevoltCooldownTooltip>
   <TSA_WD_Diplo_ForwardAssaultEnable>启用前锋突击（先锋 / 入侵）</TSA_WD_Diplo_ForwardAssaultEnable>
@@ -368,6 +368,10 @@
   <TSA_WD_FactionInvestment_UpgradeTip>银币先将范围内同派系定居点填满至当前等级上限（由近到远），再购买升级，再继续填充，直到预算无法再购买更多为止。</TSA_WD_FactionInvestment_UpgradeTip>
   <TSA_WD_FactionInvestment_UpgradeSuccessChance>升级成功几率</TSA_WD_FactionInvestment_UpgradeSuccessChance>
   <TSA_WD_FactionInvestment_UpgradeSuccessChanceTip>已支付的投资升级成功的几率。无论成败都会消耗银币。失败后，该定居点在本次赠礼或购买中不再尝试升级。</TSA_WD_FactionInvestment_UpgradeSuccessChanceTip>
+  <TSA_WD_Notify_SettlementBuyCompleted>信件：定居点购买完成</TSA_WD_Notify_SettlementBuyCompleted>
+  <TSA_WD_Notify_SettlementBuyCompletedTooltip>付款送达且地块可供你选择处置方式时。</TSA_WD_Notify_SettlementBuyCompletedTooltip>
+  <TSA_WD_Notify_SettlementBuyAborted>信件：定居点购买失败</TSA_WD_Notify_SettlementBuyAborted>
+  <TSA_WD_Notify_SettlementBuyAbortedTooltip>购买商队被摧毁或交易失败（等级变化、定居点消失、关系、卖方定居点数量）时。含退款状态。</TSA_WD_Notify_SettlementBuyAbortedTooltip>
 
   <TSA_WD_Negotiate_Btn>谈判</TSA_WD_Negotiate_Btn>
   <TSA_WD_Negotiate_BtnWar>宣战</TSA_WD_Negotiate_BtnWar>
@@ -438,12 +442,12 @@
   <TSA_WD_Negotiate_AskMaxTip>实力定价曲线上的最高谈判要价。</TSA_WD_Negotiate_AskMaxTip>
   <TSA_WD_Log_NegotiateLaunched>{0} 派出谈判商队，使 {1} 对 {3} {2}。</TSA_WD_Log_NegotiateLaunched>
   <TSA_WD_Log_NegotiateCompleted>{0} 同意对 {2} {1}。</TSA_WD_Log_NegotiateCompleted>
-  <TSA_WD_Notify_NegotiateStarted>外交谈判已开始</TSA_WD_Notify_NegotiateStarted>
-  <TSA_WD_Notify_NegotiateStartedTooltip>派出谈判付款商队时发信（默认关闭）。</TSA_WD_Notify_NegotiateStartedTooltip>
-  <TSA_WD_Notify_NegotiateCompleted>外交谈判完成</TSA_WD_Notify_NegotiateCompleted>
-  <TSA_WD_Notify_NegotiateCompletedTooltip>付款送达并应用关系变更时发信。</TSA_WD_Notify_NegotiateCompletedTooltip>
-  <TSA_WD_Notify_NegotiateAborted>外交谈判失败</TSA_WD_Notify_NegotiateAborted>
-  <TSA_WD_Notify_NegotiateAbortedTooltip>谈判商队被摧毁或交易失败时发信。说明原因以及是否退款。</TSA_WD_Notify_NegotiateAbortedTooltip>
+  <TSA_WD_Notify_NegotiateStarted>信件：外交谈判已开始</TSA_WD_Notify_NegotiateStarted>
+  <TSA_WD_Notify_NegotiateStartedTooltip>派出谈判付款商队时。</TSA_WD_Notify_NegotiateStartedTooltip>
+  <TSA_WD_Notify_NegotiateCompleted>信件：外交谈判完成</TSA_WD_Notify_NegotiateCompleted>
+  <TSA_WD_Notify_NegotiateCompletedTooltip>付款送达并应用关系变更时。</TSA_WD_Notify_NegotiateCompletedTooltip>
+  <TSA_WD_Notify_NegotiateAborted>信件：外交谈判失败</TSA_WD_Notify_NegotiateAborted>
+  <TSA_WD_Notify_NegotiateAbortedTooltip>谈判商队被摧毁或交易失败时。含退款状态。</TSA_WD_Notify_NegotiateAbortedTooltip>
 
   <TSA_WD_GiftSettlement_GizmoLabel>送出礼物</TSA_WD_GiftSettlement_GizmoLabel>
   <TSA_WD_GiftSettlement_GizmoDesc>从最近的殖民地或仓库送出货物礼物。抵达后会提升好感，并按礼物价值增强该定居点所属派系的强度。</TSA_WD_GiftSettlement_GizmoDesc>
@@ -583,16 +587,16 @@
   <TSA_WD_Bribe_CaravanInvestRadiusTip>袭击贿赂成功后，以出发定居点为中心用于投资的格数。</TSA_WD_Bribe_CaravanInvestRadiusTip>
   <TSA_WD_Bribe_GoodwillBonusDivisor>每点好感奖励对应银</TSA_WD_Bribe_GoodwillBonusDivisor>
   <TSA_WD_Bribe_GoodwillBonusDivisorTip>贿赂成功时，好感 = 付款市场价值 ÷ 此数。贿赂不能用好感支付。数值越高，奖励越弱。世界地图礼物好感使用「礼物与购买」中的单独除数。</TSA_WD_Bribe_GoodwillBonusDivisorTip>
-  <TSA_WD_Notify_BribeSettlementCompleted>定居点贿赂完成</TSA_WD_Notify_BribeSettlementCompleted>
-  <TSA_WD_Notify_BribeSettlementCompletedTooltip>停火贿赂送达时发信。提醒在途袭击不会被召回。</TSA_WD_Notify_BribeSettlementCompletedTooltip>
-  <TSA_WD_Notify_BribeSettlementAborted>定居点贿赂失败</TSA_WD_Notify_BribeSettlementAborted>
-  <TSA_WD_Notify_BribeSettlementAbortedTooltip>停火贿赂中途失败或失效时发信（适用时退款）。</TSA_WD_Notify_BribeSettlementAbortedTooltip>
-  <TSA_WD_Notify_BribeRaidCompleted>袭击贿赂完成</TSA_WD_Notify_BribeRaidCompleted>
-  <TSA_WD_Notify_BribeRaidCompletedTooltip>袭击贿赂送达并解散该商队时发信。</TSA_WD_Notify_BribeRaidCompletedTooltip>
-  <TSA_WD_Notify_BribeRaidAborted>袭击贿赂失败</TSA_WD_Notify_BribeRaidAborted>
-  <TSA_WD_Notify_BribeRaidAbortedTooltip>袭击贿赂失败时发信（目标消失、未追上、交易无效；适用时退款）。</TSA_WD_Notify_BribeRaidAbortedTooltip>
-  <TSA_WD_Notify_BribeLostInTransit>贿赂商队被拦截</TSA_WD_Notify_BribeLostInTransit>
-  <TSA_WD_Notify_BribeLostInTransitTooltip>贿赂商队被摧毁且付款丢失时发信（与退款失败分开）。</TSA_WD_Notify_BribeLostInTransitTooltip>
-  <TSA_WD_Notify_BribeCeasefireExpired>贿赂停火到期</TSA_WD_Notify_BribeCeasefireExpired>
-  <TSA_WD_Notify_BribeCeasefireExpiredTooltip>某派系的贿赂停火计时结束时发信。</TSA_WD_Notify_BribeCeasefireExpiredTooltip>
+  <TSA_WD_Notify_BribeSettlementCompleted>信件：停火贿赂完成</TSA_WD_Notify_BribeSettlementCompleted>
+  <TSA_WD_Notify_BribeSettlementCompletedTooltip>停火贿赂送达时。在途袭击不会被召回。</TSA_WD_Notify_BribeSettlementCompletedTooltip>
+  <TSA_WD_Notify_BribeSettlementAborted>信件：停火贿赂失败</TSA_WD_Notify_BribeSettlementAborted>
+  <TSA_WD_Notify_BribeSettlementAbortedTooltip>停火贿赂中途失败或失效时（适用时退款）。</TSA_WD_Notify_BribeSettlementAbortedTooltip>
+  <TSA_WD_Notify_BribeRaidCompleted>信件：袭击贿赂完成</TSA_WD_Notify_BribeRaidCompleted>
+  <TSA_WD_Notify_BribeRaidCompletedTooltip>袭击贿赂送达并解散该商队时。</TSA_WD_Notify_BribeRaidCompletedTooltip>
+  <TSA_WD_Notify_BribeRaidAborted>信件：袭击贿赂失败</TSA_WD_Notify_BribeRaidAborted>
+  <TSA_WD_Notify_BribeRaidAbortedTooltip>袭击贿赂失败（目标消失、未追上、交易无效；适用时退款）。</TSA_WD_Notify_BribeRaidAbortedTooltip>
+  <TSA_WD_Notify_BribeLostInTransit>信件：贿赂商队被拦截</TSA_WD_Notify_BribeLostInTransit>
+  <TSA_WD_Notify_BribeLostInTransitTooltip>贿赂商队被摧毁且付款丢失时（与中止/退款情形分开）。</TSA_WD_Notify_BribeLostInTransitTooltip>
+  <TSA_WD_Notify_BribeCeasefireExpired>信件：贿赂停火已到期</TSA_WD_Notify_BribeCeasefireExpired>
+  <TSA_WD_Notify_BribeCeasefireExpiredTooltip>某派系的贿赂停火计时结束时。</TSA_WD_Notify_BribeCeasefireExpiredTooltip>
 </LanguageData>

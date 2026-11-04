@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_67_Title>Menú de ajustes renovado y revuelta</TSA_WD_Update_2_3_67_Title>
+  <TSA_WD_Update_2_3_67_Body><![CDATA[
+<size=16><b>2.3.67 - Menú de ajustes renovado y revuelta</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 4 de noviembre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• El menú de ajustes se ha renovado. Se ve más limpio y, sobre todo, admite búsqueda global.\n
+• La revuelta se ha ajustado (el evento que permite a facciones derrotadas volver). Ahora deberían preferir tomar varios asentamientos en un clúster para mejorar su supervivencia. En Diplomacia, buffs y debuffs puedes configurar el mínimo y máximo de asentamientos que una revuelta puede tomar.\n
+• Ampliado el soporte para facciones moddeadas tipo waster. Esas facciones ya no reciben daño por contaminación en el mapa mundial ni envían caravanas de descontaminación para limpiar la contaminación.\n
+]]></TSA_WD_Update_2_3_67_Body>
   <TSA_WD_Update_2_3_66_Title>¡Actualización mayor: trincheras!</TSA_WD_Update_2_3_66_Title>
   <TSA_WD_Update_2_3_66_Body><![CDATA[
 <size=16><b>2.3.66 - ¡Actualización mayor: trincheras!</b></size>\n

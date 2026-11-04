@@ -25,22 +25,48 @@ namespace TSA_WorldDomination
             optionalTitle = null;
         }
 
-        public override void DoWindowContents(Rect inRect)
+        
+        private static Dialog_ExperimentalSettings embeddedHost;
+
+        public static void DrawEmbedded(Rect inRect)
+        {
+            if (embeddedHost == null) embeddedHost = new Dialog_ExperimentalSettings();
+            embeddedHost.DrawBody(inRect);
+        }
+public override void DoWindowContents(Rect inRect)
         {
             Rect contentRect = SettingsUI.DrawWindowTitle(inRect, windowTitle);
-            float contentWidth = contentRect.width - 24f;
+            DrawBody(contentRect);
+        }
+
+        private void DrawBody(Rect contentRect)
+        {
+            if (WdSettingsSearch.IsCollecting)
+            {
+                Listing_Standard l = new Listing_Standard();
+                l.Begin(contentRect);
+                DrawListing(l);
+                l.End();
+                return;
+            }
+
+            float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 2200f);
-
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(scrollViewRect);
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(scrollViewRect);
+            DrawListing(listing);
+            listing.End();
+            Widgets.EndScrollView();
+        }
 
-            var s = WorldDominationMod.settings;
+        private void DrawListing(Listing_Standard l)
+        {
+var s = WorldDominationMod.settings;
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () => s.ResetExperimental(),
                 () => { worldActionsExpanded = iconsExpanded = controlsExpanded = pollutionExpanded = true; },
                 () => { worldActionsExpanded = iconsExpanded = controlsExpanded = pollutionExpanded = false; });
-            SettingsUI.DrawSettingsSearchBar(l);
-
+            
             SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_OutpostWithdrawStrengthBudget".Translate(),
                 ref s.experimentalOutpostWithdrawStrengthBudget,
                 "TSA_WD_Experimental_OutpostWithdrawStrengthBudgetTip".Translate(),
@@ -239,9 +265,6 @@ namespace TSA_WorldDomination
                     "TSA_WD_Pollution_PathPreCommitCancelTip".Translate(),
                     defaultValue: WorldDominationSettings.DefPollutionPathPreCommitCancelEnabled);
             }
-
-            l.End();
-            Widgets.EndScrollView();
         }
 
         private static void DrawWorldMapOverlayHoldKeyRow(Listing_Standard l, WorldDominationSettings s)
@@ -251,7 +274,7 @@ namespace TSA_WorldDomination
             string tip = SettingsUI.TooltipWithDefault(
                 "TSA_WD_WorldMapOverlayHoldKey_Tooltip".Translate(),
                 FormatOverlayHoldKey(WorldDominationSettings.DefWorldMapOverlayHoldKey));
-            TooltipHandler.TipRegion(row, tip);
+            SettingsUI.TipRegion(row, tip);
 
             Rect labelRect = new Rect(row.x, row.y, row.width - 110f, row.height);
             Rect btnRect = new Rect(row.xMax - 106f, row.y, 106f, row.height);
