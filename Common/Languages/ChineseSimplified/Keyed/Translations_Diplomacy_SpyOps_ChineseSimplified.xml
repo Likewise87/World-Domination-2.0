@@ -102,7 +102,13 @@
   <TSA_WD_Diplo_StrongFactionWar_Cool_Msg>降温：“{0}”与“{1}”（最强势力之一）结束结盟并变为中立。</TSA_WD_Diplo_StrongFactionWar_Cool_Msg>
   <TSA_WD_Diplo_Reset>将此页恢复为默认</TSA_WD_Diplo_Reset>
   <TSA_WD_Diplo_RevoltChance>每日叛乱概率</TSA_WD_Diplo_RevoltChance>
-  <TSA_WD_Diplo_RevoltChanceTooltip>战败派系每日有概率回归，并从定居点数量最多的 NPC 派系夺取 3 至 7 座定居点（至少 3 座来自第一名，其余来自第二、三名）。更倾向低等级定居点。永不夺取玩家领地。</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_RevoltChanceTooltip>战败派系每日有概率回归：主受害者池须达到“最低合格定居点”门槛，再按“目标定居点（最小/最大）”从据点最多的 NPC 派系夺取；不足时按现有数量尽量夺取。更倾向低等级。永不夺取玩家领地。</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_RevoltMinEligible>叛乱所需最低合格定居点</TSA_WD_Diplo_RevoltMinEligible>
+  <TSA_WD_Diplo_RevoltMinEligibleTooltip>硬门槛：主受害者派系（最大帝国，或调试用种子派系）必须至少有这么多合格的 NPC 定居点，否则不会发生叛乱。合格=未受保护且非玩家的 WD 定居点。不可高于“目标定居点（最小）”。受保护与玩家领地既不计入也不被夺取。</TSA_WD_Diplo_RevoltMinEligibleTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMin>目标定居点（最小）</TSA_WD_Diplo_RevoltSettlementsMin>
+  <TSA_WD_Diplo_RevoltSettlementsMinTooltip>叛乱触发时掷出的夺取目标下限。不是保证数量：过合格门槛后，会尽量夺取至掷出的目标。取自据点最多的 NPC 派系（核心来自最大派系，其余尽量来自第二、三名）。更倾向低等级。</TSA_WD_Diplo_RevoltSettlementsMinTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMax>目标定居点（最大）</TSA_WD_Diplo_RevoltSettlementsMax>
+  <TSA_WD_Diplo_RevoltSettlementsMaxTooltip>叛乱触发时掷出的夺取目标上限。须至少等于“目标定居点（最小）”。若顶尖 NPC 派系合格定居点不足，仍按现有数量尽量夺取。</TSA_WD_Diplo_RevoltSettlementsMaxTooltip>
   <TSA_WD_Diplo_RevoltCooldown>叛乱冷却</TSA_WD_Diplo_RevoltCooldown>
   <TSA_WD_Diplo_RevoltCooldownTooltip>一次成功后，再次触发叛乱前等待的天数。启用共享特殊事件冷却时忽略。</TSA_WD_Diplo_RevoltCooldownTooltip>
   <TSA_WD_Diplo_ForwardAssaultEnable>启用前锋突击（先锋 / 入侵）</TSA_WD_Diplo_ForwardAssaultEnable>

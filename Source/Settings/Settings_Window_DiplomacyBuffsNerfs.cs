@@ -101,6 +101,20 @@ namespace TSA_WorldDomination
                     s.revoltCooldownDays = SettingsUI.LabeledSlider(l, "TSA_WD_Diplo_RevoltCooldown".Translate(), s.revoltCooldownDays, 0.5f, 60f,
                         "TSA_WD_Diplo_RevoltCooldownTooltip".Translate(), 0.5f, SliderFormat.Fixed1, WorldDominationSettings.DefRevoltCooldownDays);
                 }
+                float cap = WorldDominationSettings.RevoltSettlementsSliderCap;
+                s.revoltMinEligibleSettlements = Mathf.RoundToInt(SettingsUI.LabeledSlider(l,
+                    "TSA_WD_Diplo_RevoltMinEligible".Translate(), s.revoltMinEligibleSettlements, 1f, cap,
+                    "TSA_WD_Diplo_RevoltMinEligibleTooltip".Translate(), 1f, SliderFormat.Fixed0,
+                    WorldDominationSettings.DefRevoltMinEligibleSettlements));
+                s.revoltSettlementsMin = Mathf.RoundToInt(SettingsUI.LabeledSlider(l,
+                    "TSA_WD_Diplo_RevoltSettlementsMin".Translate(), s.revoltSettlementsMin, 1f, cap,
+                    "TSA_WD_Diplo_RevoltSettlementsMinTooltip".Translate(), 1f, SliderFormat.Fixed0,
+                    WorldDominationSettings.DefRevoltSettlementsMin));
+                s.revoltSettlementsMax = Mathf.RoundToInt(SettingsUI.LabeledSlider(l,
+                    "TSA_WD_Diplo_RevoltSettlementsMax".Translate(), s.revoltSettlementsMax, 1f, cap,
+                    "TSA_WD_Diplo_RevoltSettlementsMaxTooltip".Translate(), 1f, SliderFormat.Fixed0,
+                    WorldDominationSettings.DefRevoltSettlementsMax));
+                s.NormalizeRevoltSettlementCounts();
             }
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Diplo_SharedSpecialEventCooldownHeader".Translate(), ref sharedSpecialCdExpanded, SettingsUI.SectionHeaderColor))

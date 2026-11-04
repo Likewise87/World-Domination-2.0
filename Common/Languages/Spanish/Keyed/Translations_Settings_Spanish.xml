@@ -155,7 +155,7 @@
   <TSA_WD_Daily_WeightRaid>Probabilidad de incursión</TSA_WD_Daily_WeightRaid>
   <TSA_WD_Daily_WeightRaidTip>Probabilidad de que un asentamiento ataque un asentamiento cercano o avanzadilla del jugador.</TSA_WD_Daily_WeightRaidTip>
   <TSA_WD_DescDailyActions>¿Cuántas acciones pueden realizar los asentamientos al día? ¿Qué probabilidad tiene cada tipo? ¿Qué enfriamientos aplicar tras una acción?</TSA_WD_DescDailyActions>
-  <TSA_WD_DescDiplomacy>Diplomacia aleatoria, buena voluntad, revuelta, incursiones aliadas, carreteras/comerciantes ordenados, regalos/compra/negociación, sobornos e inversión, y mejoras de líder/rezagado/celo/coalición. Guerra fuerte, asalto adelantado y desesperación están en Dificultad de combate.</TSA_WD_DescDiplomacy>
+  <TSA_WD_DescDiplomacy>Diplomacia aleatoria, buena voluntad, revuelta (umbral elegible y rango objetivo de toma), incursiones aliadas, carreteras/comerciantes ordenados, regalos/compra/negociación, sobornos e inversión, y mejoras de líder/rezagado/celo/coalición. Guerra fuerte, asalto adelantado y desesperación están en Dificultad de combate.</TSA_WD_DescDiplomacy>
   <TSA_WD_DescDisinformation>Probabilidades de éxito y fracaso, enfriamientos e impacto de habilidad en misiones de desinformación.</TSA_WD_DescDisinformation>
   <TSA_WD_DescGarrison>Qué tan fuertes son las guarniciones por nivel, y cuánto se debilitan cuando un asentamiento está agotado.</TSA_WD_DescGarrison>
   <TSA_WD_DescBaseGeneration>Ajustes del diseño KCSG cuando WD genera mapas de asalto a asentamientos y defensa de avanzadillas. La elegibilidad por facción en asaltos se configura en Configuración del mundo → Lealtades.</TSA_WD_DescBaseGeneration>
@@ -888,7 +888,7 @@
   <TSA_WD_Pollution_EnableTravelerDamage>Daño por contaminación a la fuerza</TSA_WD_Pollution_EnableTravelerDamage>
   <TSA_WD_Pollution_EnableTravelerDamageTip>Si está activo, los viajeros WD terrestres elegibles pierden fuerza al salir de casillas contaminadas, y los asentamientos NPC más los puestos WD sufren daño diario por la contaminación media cercana. Tripulaciones de descontaminación, proyectiles aéreos y cápsulas no se ven afectados. Usa las casillas de tipo para elegir qué caravanas reciben daño. Los asentamientos NPC también envían cuadrillas baratas de descontaminación cada 12 horas.</TSA_WD_Pollution_EnableTravelerDamageTip>
   <TSA_WD_Pollution_WasterImmunity>Inmunidad waster a la contaminación</TSA_WD_Pollution_WasterImmunity>
-  <TSA_WD_Pollution_WasterImmunityTip>Si está activo, las facciones PirateWaster omiten el daño al salir, el daño diario del sitio y la descontaminación automática NPC.</TSA_WD_Pollution_WasterImmunityTip>
+  <TSA_WD_Pollution_WasterImmunityTip>Si está activo, las facciones PirateWaster omiten el daño al salir y el daño diario del sitio. PirateWaster nunca hace descontaminación automática NPC (ese bloqueo es siempre).</TSA_WD_Pollution_WasterImmunityTip>
   <TSA_WD_Pollution_DamageRaiders>Caravanas de asalto</TSA_WD_Pollution_DamageRaiders>
   <TSA_WD_Pollution_DamageRaidersTip>Las caravanas de asalto terrestres y de respuesta rápida reciben daño al salir de contaminación. Las cápsulas de asalto siguen exentas.</TSA_WD_Pollution_DamageRaidersTip>
   <TSA_WD_Pollution_DamageExpansion>Caravanas de expansión</TSA_WD_Pollution_DamageExpansion>

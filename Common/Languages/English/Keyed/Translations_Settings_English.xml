@@ -175,7 +175,7 @@
   <TSA_WD_Daily_CdTraderTip>Days before this settlement can launch another trader caravan. Does not block other action types.</TSA_WD_Daily_CdTraderTip>
   <TSA_WD_DescDailyActions>Action likelihood weights, NPC fortify, and action cooldowns. Daily action counts and capacity are under Growth &amp; Expansion.</TSA_WD_DescDailyActions>
   <TSA_WD_DescGrowthExpand>Daily action shares and caps, passive growth and max settlements, expansion distance/saturation, settlement defensive baselines, and incident severity.</TSA_WD_DescGrowthExpand>
-  <TSA_WD_DescDiplomacy>Random diplomacy, goodwill, revolt, allied raids, ordered roads/traders, gifts/buy/negotiate, bribes and investment, and leader/underdog/zeal/coalition buffs. Strong war, forward assault, and desperation are under Combat Difficulty.</TSA_WD_DescDiplomacy>
+  <TSA_WD_DescDiplomacy>Random diplomacy, goodwill, revolt (eligible gate and target seize range), allied raids, ordered roads/traders, gifts/buy/negotiate, bribes and investment, and leader/underdog/zeal/coalition buffs. Strong war, forward assault, and desperation are under Combat Difficulty.</TSA_WD_DescDiplomacy>
   <TSA_WD_DescDisinformation>Success and failure likelihoods, cooldowns, and skill impact for disinformation missions.</TSA_WD_DescDisinformation>
   <TSA_WD_DescGarrison>How strong settlement garrisons are by tier, and how much they weaken when a settlement is depleted.</TSA_WD_DescGarrison>
   <TSA_WD_DescBaseGeneration>KCSG layout tweaks when WD generates settlement assault and outpost defense maps. Per-faction assault eligibility is set in World Setup → Allegiances.</TSA_WD_DescBaseGeneration>
@@ -886,7 +886,7 @@
   <TSA_WD_Pollution_EnableTravelerDamage>Pollution strength damage</TSA_WD_Pollution_EnableTravelerDamage>
   <TSA_WD_Pollution_EnableTravelerDamageTip>When on, eligible ground WD travelers lose strength leaving polluted tiles, and NPC settlements plus WD outposts take daily strength damage from average pollution nearby. Decontamination crews, airborne shells, and drop pods are unaffected. Use the type checkboxes to choose which caravans take exit damage. NPC settlements also send cheap decontamination crews every 12 hours.</TSA_WD_Pollution_EnableTravelerDamageTip>
   <TSA_WD_Pollution_WasterImmunity>Waster pirate pollution immunity</TSA_WD_Pollution_WasterImmunity>
-  <TSA_WD_Pollution_WasterImmunityTip>When on, PirateWaster factions skip traveler exit damage, site daily pollution damage, and NPC auto-decontamination.</TSA_WD_Pollution_WasterImmunityTip>
+  <TSA_WD_Pollution_WasterImmunityTip>When on, PirateWaster factions skip traveler exit damage and site daily pollution damage. PirateWaster never runs NPC auto-decontamination (that skip is always on).</TSA_WD_Pollution_WasterImmunityTip>
   <TSA_WD_Pollution_DamageRaiders>Raider caravans</TSA_WD_Pollution_DamageRaiders>
   <TSA_WD_Pollution_DamageRaidersTip>Ground raid and rapid-response caravans take pollution exit damage. Drop-pod raids stay exempt.</TSA_WD_Pollution_DamageRaidersTip>
   <TSA_WD_Pollution_DamageExpansion>Expansion caravans</TSA_WD_Pollution_DamageExpansion>

@@ -104,7 +104,13 @@
   <TSA_WD_Diplo_StrongFactionWar_Cool_Msg>Cooling: '{0}' and '{1}' (among the strongest powers) end their alliance and become neutral.</TSA_WD_Diplo_StrongFactionWar_Cool_Msg>
   <TSA_WD_Diplo_Reset>Reset this page to defaults</TSA_WD_Diplo_Reset>
   <TSA_WD_Diplo_RevoltChance>Daily Revolt Chance</TSA_WD_Diplo_RevoltChance>
-  <TSA_WD_Diplo_RevoltChanceTooltip>Daily chance that a defeated faction returns and seizes 3 to 7 settlements from the top NPC factions by settlement count (at least 3 from the largest, the rest from the next two). Prefers lower-tier settlements. Player holdings are never taken.</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_RevoltChanceTooltip>Daily chance that a defeated faction returns if the primary NPC pool meets Min eligible, then seizes toward Target settlements (min/max) from the top factions by settlement count. Soft-fills when fewer towns are available. Prefers lower-tier settlements. Player holdings are never taken.</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_RevoltMinEligible>Min eligible settlements for revolt</TSA_WD_Diplo_RevoltMinEligible>
+  <TSA_WD_Diplo_RevoltMinEligibleTooltip>Hard gate: the primary victim faction (largest empire, or the seed faction in debug) must have at least this many eligible NPC settlements or the revolt does not occur. Eligible means WD settlements that are not protected and not player-owned. Cannot be higher than Target settlements (min). Protected settlements and player holdings are never counted or taken.</TSA_WD_Diplo_RevoltMinEligibleTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMin>Target settlements (min)</TSA_WD_Diplo_RevoltSettlementsMin>
+  <TSA_WD_Diplo_RevoltSettlementsMinTooltip>Lower end of the rolled seize target when a revolt fires. Not a guaranteed floor: after the eligible gate passes, the revolt soft-fills with as many towns as it can up to the rolled target. Takes from the top NPC factions by settlement count (core from the largest, rest from the next two when possible). Prefers lower tiers.</TSA_WD_Diplo_RevoltSettlementsMinTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMax>Target settlements (max)</TSA_WD_Diplo_RevoltSettlementsMax>
+  <TSA_WD_Diplo_RevoltSettlementsMaxTooltip>Upper end of the rolled seize target when a revolt fires. Must be at least Target settlements (min). Soft-fill still applies if fewer eligible towns exist across the top NPC factions.</TSA_WD_Diplo_RevoltSettlementsMaxTooltip>
   <TSA_WD_Diplo_RevoltCooldown>Revolt cooldown</TSA_WD_Diplo_RevoltCooldown>
   <TSA_WD_Diplo_RevoltCooldownTooltip>Days before another revolt can fire after one succeeds. Ignored while Shared special event cooldown is on.</TSA_WD_Diplo_RevoltCooldownTooltip>
   <TSA_WD_Diplo_ForwardAssaultEnable>Enable forward assault (Vanguard / Invasion)</TSA_WD_Diplo_ForwardAssaultEnable>

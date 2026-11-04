@@ -206,8 +206,14 @@
   <TSA_WD_Diplo_Reset>將此頁重設為預設值</TSA_WD_Diplo_Reset>
   <!-- EN: Daily Revolt Chance -->
   <TSA_WD_Diplo_RevoltChance>每日叛亂機率</TSA_WD_Diplo_RevoltChance>
-  <!-- EN: Daily chance that a defeated faction returns and seizes 3 to 7 settlements from the top NPC factions by settlement count (at least 3 from the largest, the rest from the next two). Prefers lower-tier settlements. Player holdings are never taken. -->
-  <TSA_WD_Diplo_RevoltChanceTooltip>每日一個已被擊敗的派系捲土重來，從據點數量最多的NPC派系手中奪取3至7個據點的機率（至少3個來自最大派系，其餘來自接下來的兩個派系）。優先奪取等級較低的據點。玩家的領地絕不會被奪取。</TSA_WD_Diplo_RevoltChanceTooltip>
+  <!-- EN: Daily chance… Min eligible / Target min-max soft-fill -->
+  <TSA_WD_Diplo_RevoltChanceTooltip>每日一個已被擊敗的派系捲土重來的機率：主受害者池須達到「叛亂所需最低合格據點」，再依「目標據點（最小／最大）」從據點最多的NPC派系奪取；不足時盡量奪取現有數量。優先低等級據點。玩家領地絕不會被奪取。</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_RevoltMinEligible>叛亂所需最低合格據點</TSA_WD_Diplo_RevoltMinEligible>
+  <TSA_WD_Diplo_RevoltMinEligibleTooltip>硬門檻：主受害者派系（最大帝國，或除錯用種子派系）必須至少有這麼多合格的NPC據點，否則不會發生叛亂。合格＝未受保護且非玩家的WD據點。不可高於「目標據點（最小）」。受保護與玩家領地既不計入也不被奪取。</TSA_WD_Diplo_RevoltMinEligibleTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMin>目標據點（最小）</TSA_WD_Diplo_RevoltSettlementsMin>
+  <TSA_WD_Diplo_RevoltSettlementsMinTooltip>叛亂觸發時擲出的奪取目標下限。不是保證數量：過合格門檻後，會盡量奪取至擲出的目標。取自據點最多的NPC派系（核心來自最大派系，其餘盡量來自第二、三名）。優先低等級。</TSA_WD_Diplo_RevoltSettlementsMinTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMax>目標據點（最大）</TSA_WD_Diplo_RevoltSettlementsMax>
+  <TSA_WD_Diplo_RevoltSettlementsMaxTooltip>叛亂觸發時擲出的奪取目標上限。須至少等於「目標據點（最小）」。若頂尖NPC派系合格據點不足，仍按現有數量盡量奪取。</TSA_WD_Diplo_RevoltSettlementsMaxTooltip>
   <!-- EN: Revolt cooldown -->
   <TSA_WD_Diplo_RevoltCooldown>叛亂冷卻</TSA_WD_Diplo_RevoltCooldown>
   <!-- EN: Days before another revolt can fire after one succeeds. Ignored while Shared special event cooldown is on. -->

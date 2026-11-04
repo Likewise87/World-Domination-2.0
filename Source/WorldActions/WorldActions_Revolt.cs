@@ -27,7 +27,7 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Debug: force a real revolt (3-7 weighted) for a chosen rebel, seeded by a clicked settlement.
+        /// Debug: force a real revolt (settings target range, soft-fill) for a chosen rebel, seeded by a clicked settlement.
         /// Skips chance and special-event cooldown. Still stamps comeback CD and sends the revolt letter.
         /// </summary>
         public static bool DebugForceRevolt(Faction rebelFaction, Settlement seed, out string failReason)
@@ -62,14 +62,14 @@ namespace TSA_WorldDomination
             if (!ExecuteRevolt(rebelFaction, seed, stampSpecialEventCooldown: false))
             {
                 failReason =
-                    "WD debug: revolt failed (need at least 3 eligible towns on the seed faction, then fill to 3-7).";
+                    "WD debug: revolt failed (seed faction below min eligible, or no transferable towns).";
                 return false;
             }
             return true;
         }
 
         /// <summary>
-        /// Shared revolt execution: revive rebel, pick 3-7 targets, transfer, letter, comeback CD.
+        /// Shared revolt execution: revive rebel, pick targets in the settings target range (soft-fill), transfer, letter, comeback CD.
         /// When <paramref name="forcedSeed"/> is set, that settlement is forced into the set and its
         /// faction is the primary pool (instead of the largest empire).
         /// </summary>
@@ -85,7 +85,7 @@ namespace TSA_WorldDomination
             if (!TryBuildRevoltTargets(byFaction, forcedSeed, out List<Settlement> targets))
                 return false;
 
-            if (targets.Count < 3) return false;
+            if (targets.Count < 1) return false;
 
             rebelFaction.defeated = false;
             WDVerbose.Msg($"Revolt revive loadID={rebelFaction.loadID} name={rebelFaction.Name}");
@@ -178,6 +178,13 @@ namespace TSA_WorldDomination
             targets = new List<Settlement>();
             if (byFaction == null || byFaction.Count == 0) return false;
 
+            var seth = WorldDominationMod.settings;
+            if (seth == null) return false;
+            seth.NormalizeRevoltSettlementCounts();
+            int minEligible = seth.revoltMinEligibleSettlements;
+            int targetMin = seth.revoltSettlementsMin;
+            int targetMax = seth.revoltSettlementsMax;
+
             List<Settlement> firstPool;
             List<Faction> topOthers;
 
@@ -185,7 +192,7 @@ namespace TSA_WorldDomination
             {
                 Faction primary = forcedSeed.Faction;
                 if (primary == null || !byFaction.TryGetValue(primary, out firstPool)
-                    || firstPool == null || firstPool.Count < 3)
+                    || firstPool == null || firstPool.Count < minEligible)
                     return false;
 
                 topOthers = RankNpcFactionsBySettlementCount(byFaction, 3, exclude: primary);
@@ -195,31 +202,37 @@ namespace TSA_WorldDomination
                 List<Faction> top = RankNpcFactionsBySettlementCount(byFaction, 3, exclude: null);
                 if (top.Count == 0) return false;
                 firstPool = byFaction[top[0]];
-                if (firstPool == null || firstPool.Count < 3) return false;
+                if (firstPool == null || firstPool.Count < minEligible) return false;
                 topOthers = new List<Faction>();
                 for (int i = 1; i < top.Count; i++)
                     topOthers.Add(top[i]);
             }
 
-            int want = Rand.RangeInclusive(3, 7);
+            int want = Rand.RangeInclusive(targetMin, targetMax);
+            int primaryCore = Mathf.Min(want, targetMin);
 
             if (forcedSeed != null)
             {
                 targets.Add(forcedSeed);
-                var withoutSeed = new List<Settlement>();
-                for (int i = 0; i < firstPool.Count; i++)
+                int moreFromPrimary = Mathf.Max(0, primaryCore - targets.Count);
+                if (moreFromPrimary > 0)
                 {
-                    Settlement s = firstPool[i];
-                    if (s != null && s != forcedSeed)
-                        withoutSeed.Add(s);
+                    var withoutSeed = new List<Settlement>();
+                    for (int i = 0; i < firstPool.Count; i++)
+                    {
+                        Settlement s = firstPool[i];
+                        if (s != null && s != forcedSeed)
+                            withoutSeed.Add(s);
+                    }
+                    targets.AddRange(TakeWeighted(withoutSeed, moreFromPrimary));
                 }
-                targets.AddRange(TakeWeighted(withoutSeed, 2));
             }
             else
             {
-                targets.AddRange(TakeWeighted(firstPool, 3));
+                targets.AddRange(TakeWeighted(firstPool, primaryCore));
             }
 
+            // Soft-fill remainder: prefer next top factions, then leftover primary towns.
             int remaining = want - targets.Count;
             if (remaining > 0 && topOthers.Count > 0)
             {
@@ -238,7 +251,20 @@ namespace TSA_WorldDomination
                 targets.AddRange(TakeWeighted(pool, remaining));
             }
 
-            return targets.Count >= 3;
+            remaining = want - targets.Count;
+            if (remaining > 0)
+            {
+                var leftoverPrimary = new List<Settlement>();
+                for (int i = 0; i < firstPool.Count; i++)
+                {
+                    Settlement s = firstPool[i];
+                    if (s != null && !targets.Contains(s))
+                        leftoverPrimary.Add(s);
+                }
+                targets.AddRange(TakeWeighted(leftoverPrimary, remaining));
+            }
+
+            return targets.Count >= 1;
         }
 
         /// <summary>

@@ -433,6 +433,13 @@ namespace TSA_WorldDomination
 
         // --- DIPLOMACY PAGE ---
         public const float DefRevoltChance = 0.02f;
+        /// <summary>Primary-pool eligible settlements required before a revolt can fire.</summary>
+        public const int DefRevoltMinEligibleSettlements = 3;
+        /// <summary>Rolled target seize floor (soft-fill may take fewer after the eligible gate).</summary>
+        public const int DefRevoltSettlementsMin = 3;
+        /// <summary>Rolled target seize ceiling.</summary>
+        public const int DefRevoltSettlementsMax = 7;
+        public const int RevoltSettlementsSliderCap = 25;
         public const float DefDiplomacyChangeChance = 0.03f;
         public const bool DefEnableLeaderHandicap = true;
         public const bool DefEnableUnderdogBuff = true;
@@ -1027,7 +1034,7 @@ namespace TSA_WorldDomination
 
         /// <summary>When true, ground WD travelers take strength damage leaving polluted tiles.</summary>
         public const bool DefTravelerPollutionDamageEnabled = true;
-        /// <summary>When true, PirateWaster factions skip WD pollution damage and auto-decontam skip.</summary>
+        /// <summary>When true, PirateWaster factions skip WD traveler exit and site daily pollution damage. NPC auto-decontam always skips PirateWaster.</summary>
         public const bool DefWasterPollutionImmunityEnabled = true;
         public const bool DefPollutionDamageRaiders = true;
         public const bool DefPollutionDamageExpansion = false;
@@ -1512,6 +1519,9 @@ namespace TSA_WorldDomination
         public float playerOutpostBaseDefensiveStrength = DefPlayerOutpostBaseDefensiveStrength;
 
         public float revoltChance = DefRevoltChance;
+        public int revoltMinEligibleSettlements = DefRevoltMinEligibleSettlements;
+        public int revoltSettlementsMin = DefRevoltSettlementsMin;
+        public int revoltSettlementsMax = DefRevoltSettlementsMax;
         public float diplomacyChangeChance = DefDiplomacyChangeChance;
         public bool enableLeaderHandicap = DefEnableLeaderHandicap;
         public bool enableUnderdogBuff = DefEnableUnderdogBuff;
@@ -2785,6 +2795,11 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref playerOutpostBaseDefensiveStrength, "playerOutpostBaseDefensiveStrength", DefPlayerOutpostBaseDefensiveStrength);
 
             Scribe_Values.Look(ref revoltChance, "revoltChance", DefRevoltChance);
+            Scribe_Values.Look(ref revoltMinEligibleSettlements, "revoltMinEligibleSettlements", DefRevoltMinEligibleSettlements);
+            Scribe_Values.Look(ref revoltSettlementsMin, "revoltSettlementsMin", DefRevoltSettlementsMin);
+            Scribe_Values.Look(ref revoltSettlementsMax, "revoltSettlementsMax", DefRevoltSettlementsMax);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+                NormalizeRevoltSettlementCounts();
             Scribe_Values.Look(ref diplomacyChangeChance, "diplomacyChangeChance", DefDiplomacyChangeChance);
             Scribe_Values.Look(ref enableLeaderHandicap, "enableLeaderHandicap", DefEnableLeaderHandicap);
             Scribe_Values.Look(ref enableUnderdogBuff, "enableUnderdogBuff", DefEnableUnderdogBuff);
@@ -4628,6 +4643,9 @@ namespace TSA_WorldDomination
             strongFactionWarRequireMidOrLate = DefStrongFactionWarRequireMidOrLate;
             strongFactionWarCooldownDays = DefStrongFactionWarCooldownDays;
             revoltCooldownDays = DefRevoltCooldownDays;
+            revoltMinEligibleSettlements = DefRevoltMinEligibleSettlements;
+            revoltSettlementsMin = DefRevoltSettlementsMin;
+            revoltSettlementsMax = DefRevoltSettlementsMax;
             enableForwardAssault = DefEnableForwardAssault;
             forwardAssaultChance = DefForwardAssaultChance;
             forwardAssaultTopPct = DefForwardAssaultTopPct;
@@ -4643,6 +4661,7 @@ namespace TSA_WorldDomination
             enableExpansionistZeal = DefEnableExpansionistZeal;
             diplomacyChangeChance = DefDiplomacyChangeChance;
             revoltChance = DefRevoltChance;
+            NormalizeRevoltSettlementCounts();
             zealTriggerChance = DefZealTriggerChance;
             leaderHandicapTriggerChance = DefLeaderHandicapTriggerChance;
             underdogBuffTriggerChance = DefUnderdogBuffTriggerChance;
@@ -4831,6 +4850,21 @@ namespace TSA_WorldDomination
             maxFrac = Mathf.Clamp(maxFrac, 0.5f, 50f);
             if (minFrac > maxFrac)
                 maxFrac = minFrac;
+        }
+
+        /// <summary>1 ≤ eligible ≤ targetMin ≤ targetMax ≤ <see cref="RevoltSettlementsSliderCap"/>.</summary>
+        public void NormalizeRevoltSettlementCounts()
+        {
+            int cap = RevoltSettlementsSliderCap;
+            revoltMinEligibleSettlements = Mathf.Clamp(revoltMinEligibleSettlements, 1, cap);
+            revoltSettlementsMin = Mathf.Clamp(revoltSettlementsMin, 1, cap);
+            revoltSettlementsMax = Mathf.Clamp(revoltSettlementsMax, 1, cap);
+            if (revoltMinEligibleSettlements > revoltSettlementsMin)
+                revoltSettlementsMin = revoltMinEligibleSettlements;
+            if (revoltSettlementsMin > revoltSettlementsMax)
+                revoltSettlementsMax = revoltSettlementsMin;
+            if (revoltSettlementsMax > cap)
+                revoltSettlementsMax = cap;
         }
 
         /// <summary>Combat Difficulty page: escalation, threat gates, raid pressure, stage combat, arrival, garrison, T4 hardware, FA/desperation/war knobs.</summary>

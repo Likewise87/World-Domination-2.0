@@ -163,7 +163,7 @@
   <TSA_WD_Daily_CdTrader>贸易商队行动后冷却</TSA_WD_Daily_CdTrader>
   <TSA_WD_Daily_CdTraderTip>该定居点再次发起贸易商队前需要等待的天数。不会阻止其他行动类型。</TSA_WD_Daily_CdTraderTip>
   <TSA_WD_DescDailyActions>定居点每日可执行多少行动?各行动类型概率?行动后应用何种冷却?</TSA_WD_DescDailyActions>
-  <TSA_WD_DescDiplomacy>随机外交、好感、叛乱、盟友袭击、有序筑路/商人、礼物/购买/谈判、贿赂与投资，以及领袖/弱势/狂热/联盟增益。强势战争、前沿突击与绝望见「战斗难度」。</TSA_WD_DescDiplomacy>
+  <TSA_WD_DescDiplomacy>随机外交、好感、叛乱（合格门槛与目标夺取范围）、盟友袭击、有序筑路/商人、礼物/购买/谈判、贿赂与投资，以及领袖/弱势/狂热/联盟增益。强势战争、前沿突击与绝望见「战斗难度」。</TSA_WD_DescDiplomacy>
   <TSA_WD_DescDisinformation>虚假情报任务的成功/失败概率、冷却与技能影响。</TSA_WD_DescDisinformation>
   <TSA_WD_DescGarrison>各等级定居点驻军强度，以及定居点进攻实力耗尽时的最低缩放比例。</TSA_WD_DescGarrison>
   <TSA_WD_DescBaseGeneration>WD 生成定居点袭击与前哨防御地图时的 KCSG 布局调整。各派系袭击资格在世界设置 → 派系关系 中配置。</TSA_WD_DescBaseGeneration>
@@ -883,7 +883,7 @@
   <TSA_WD_Pollution_EnableTravelerDamage>污染力量伤害</TSA_WD_Pollution_EnableTravelerDamage>
   <TSA_WD_Pollution_EnableTravelerDamageTip>开启后，符合条件的地面 WD 旅行者离开受污染格子时会损失力量，NPC 定居点与 WD 前哨站也会因附近平均污染而每日损失力量。净化小队、空中炮弹与空降舱不受影响。用下方类型勾选框选择哪些商队承受离开伤害。NPC 定居点还会每 12 小时派出廉价净化小队。</TSA_WD_Pollution_EnableTravelerDamageTip>
   <TSA_WD_Pollution_WasterImmunity>废土海盗污染免疫</TSA_WD_Pollution_WasterImmunity>
-  <TSA_WD_Pollution_WasterImmunityTip>开启后，PirateWaster 派系跳过旅行者离开伤害、站点每日污染伤害以及 NPC 自动净化。</TSA_WD_Pollution_WasterImmunityTip>
+  <TSA_WD_Pollution_WasterImmunityTip>开启后，PirateWaster 派系跳过旅行者离开伤害与站点每日污染伤害。PirateWaster 永不进行 NPC 自动净化（该跳过始终生效）。</TSA_WD_Pollution_WasterImmunityTip>
   <TSA_WD_Pollution_DamageRaiders>袭击商队</TSA_WD_Pollution_DamageRaiders>
   <TSA_WD_Pollution_DamageRaidersTip>地面袭击与快速反应商队承受污染离开伤害。空降袭击仍豁免。</TSA_WD_Pollution_DamageRaidersTip>
   <TSA_WD_Pollution_DamageExpansion>扩张商队</TSA_WD_Pollution_DamageExpansion>

@@ -345,7 +345,7 @@
   <!-- EN: How quickly do settlements grow? Daily action shares and capacity per tier. Expansion distance and saturation caps. -->
   <TSA_WD_DescGrowthExpand>據點成長的速度有多快？各等級的每日行動配額與容量。擴張距離與飽和上限。</TSA_WD_DescGrowthExpand>
   <!-- EN: Random diplomacy, revolt chance, goodwill cap and vanilla goodwill tweaks, allied raid orders, ordered roads, buy settlement, faction investment, and leader/underdog/zeal/coalition buffs. Strong war, forward assault, and desperation live under Combat Difficulty. -->
-  <TSA_WD_DescDiplomacy>隨機外交、叛變機率、友好度上限與原版友好度調整、同盟突襲命令、委託修路、購買據點、派系投資，以及霸主/弱勢方/狂熱/聯盟增益。強權派系戰爭、前線攻勢與孤注一擲位於「戰鬥難度」。</TSA_WD_DescDiplomacy>
+  <TSA_WD_DescDiplomacy>隨機外交、叛變（合格門檻與目標奪取範圍）、友好度上限與原版友好度調整、同盟突襲命令、委託修路、購買據點、派系投資，以及霸主/弱勢方/狂熱/聯盟增益。強權派系戰爭、前線攻勢與孤注一擲位於「戰鬥難度」。</TSA_WD_DescDiplomacy>
   <!-- EN: Success and failure likelihoods, cooldowns, and skill impact for disinformation missions. -->
   <TSA_WD_DescDisinformation>假情報任務的成功與失敗可能性、冷卻與技能影響。</TSA_WD_DescDisinformation>
   <!-- EN: How strong settlement garrisons are by tier, and how much they weaken when a settlement is depleted. -->
@@ -1751,7 +1751,7 @@
   <!-- EN: Waster pirate pollution immunity -->
   <TSA_WD_Pollution_WasterImmunity>荒地人海盜汙染免疫</TSA_WD_Pollution_WasterImmunity>
   <!-- EN: When on, PirateWaster factions skip traveler exit damage, site daily pollution damage, and NPC auto-decontamination. -->
-  <TSA_WD_Pollution_WasterImmunityTip>開啟後，PirateWaster派系不受旅行者離開傷害、地點每日汙染傷害影響，也不進行NPC自動淨化。</TSA_WD_Pollution_WasterImmunityTip>
+  <TSA_WD_Pollution_WasterImmunityTip>開啟後，PirateWaster派系不受旅行者離開傷害與地點每日汙染傷害影響。PirateWaster永不進行NPC自動淨化（該略過始終生效）。</TSA_WD_Pollution_WasterImmunityTip>
   <!-- EN: Raider caravans -->
   <TSA_WD_Pollution_DamageRaiders>突襲旅隊</TSA_WD_Pollution_DamageRaiders>
   <!-- EN: Ground raid and rapid-response caravans take pollution exit damage. Drop-pod raids stay exempt. -->

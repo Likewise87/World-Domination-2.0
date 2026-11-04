@@ -318,7 +318,8 @@ namespace TSA_WorldDomination
             var comp = settlement?.GetComponent<CompViralSpread>();
             if (comp == null || !comp.IsSettlement) return false;
             if (!WorldActions_Utils.CanNpcWdReactiveAction(settlement.Faction)) return false;
-            if (PollutionImmunity.IsImmune(settlement)) return false;
+            // PirateWaster never auto-scrubs (lore); independent of the damage-immunity setting.
+            if (PollutionImmunity.IsWasterPirateFaction(settlement)) return false;
 
             var s = WorldDominationMod.settings;
             if (s == null || !s.travelerPollutionDamageEnabled) return false;

@@ -19,7 +19,7 @@ World-model ownership (one colony, player-only outposts, NPC holdings = Settleme
 | `Buildings/` | Map buildings tied to WD |
 | `Compat/` | Optional-mod bridges (reflection only; see `Guardrails/OPTIONAL_MODS.md`) |
 | `Debug/` | Dev helpers; Playing world debug UI is `Dialog_WdWorldDebug` (Dev Tools → WD Debug Tools; Expand/Collapse all; Fortifications+roads; Create raid wizards; Quests). SSS layout stays `Dialog_WdWorldSetup` + `WD_WorldSetupTools` (no raid/CD kit). Change Settlement Owner destroys+recreates the town (`CompViralSpread.ApplyCopiedSettlementState`), respawns owned AT/advanced buildings, and restamps road blocks/spike traps — not a soft `SetFaction`. |
-| `Decontamination/` | Decontamination flow. NPC auto-scrub gated by `WorldActions_Utils.CanNpcWdReactiveAction` (Configure Scope WD Actions). |
+| `Decontamination/` | Decontamination flow. NPC auto-scrub gated by `WorldActions_Utils.CanNpcWdReactiveAction` (Configure Scope WD Actions). `PirateWaster` never NPC auto-scrubs (`PollutionImmunity.IsWasterPirateFaction`); pollution damage immunity stays settings-gated via `IsImmune`. |
 | `Guardrails/` | Developer guardrails and Cursor rules (do not ship to players) |
 | `dev/` | Local one-off scripts only (not guardrails) |
 

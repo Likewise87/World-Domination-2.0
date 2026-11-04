@@ -516,7 +516,7 @@ namespace TSA_WorldDomination
                 "Force a random diplomacy buff/nerf change.",
                 DebugDashKind.Instant, DebugActions_Travelers.ForceRandomDiplomacyChange);
             Add(miscTools, "Trigger revolt", IconConfig,
-                "Pick rebel faction (defeated labeled), then click a seed settlement for a real 3-7 revolt.",
+                "Pick rebel faction (defeated labeled), then click a seed settlement for a real revolt (settings target range, soft-fill).",
                 DebugDashKind.SelfManaged, DebugActions_Settlements.BeginTriggerRevolt);
             Add(miscTools, "Defeat Faction", IconConfig,
                 "Click an NPC WD settlement: destroy all of that faction's towns and mark defeated.",

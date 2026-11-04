@@ -102,7 +102,13 @@
   <TSA_WD_Diplo_StrongFactionWar_Cool_Msg>Enfriamiento: '{0}' y '{1}' (entre las potencias más fuertes) terminan su alianza y pasan a neutral.</TSA_WD_Diplo_StrongFactionWar_Cool_Msg>
   <TSA_WD_Diplo_Reset>Restablecer esta página a valores por defecto</TSA_WD_Diplo_Reset>
   <TSA_WD_Diplo_RevoltChance>Probabilidad diaria de revuelta</TSA_WD_Diplo_RevoltChance>
-  <TSA_WD_Diplo_RevoltChanceTooltip>Probabilidad diaria de que una facción derrotada regrese y tome de 3 a 7 asentamientos de las facciones PNJ con más asentamientos (al menos 3 de la mayor; el resto de las dos siguientes). Prefiere asentamientos de nivel bajo. Nunca toma posesiones del jugador.</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_RevoltChanceTooltip>Probabilidad diaria de que una facción derrotada regrese si el grupo PNJ principal cumple el mínimo elegible, y luego tome hacia Asentamientos objetivo (mín/máx) de las facciones con más asentamientos. Rellena con lo disponible si hay menos. Prefiere niveles bajos. Nunca toma posesiones del jugador.</TSA_WD_Diplo_RevoltChanceTooltip>
+  <TSA_WD_Diplo_RevoltMinEligible>Mín. asentamientos elegibles para revuelta</TSA_WD_Diplo_RevoltMinEligible>
+  <TSA_WD_Diplo_RevoltMinEligibleTooltip>Umbral duro: la facción víctima principal (el imperio mayor, o la facción semilla en depuración) debe tener al menos este número de asentamientos PNJ elegibles o la revuelta no ocurre. Elegible = asentamientos WD no protegidos y no del jugador. No puede superar Asentamientos objetivo (mín). Protegidos y posesiones del jugador nunca cuentan ni se toman.</TSA_WD_Diplo_RevoltMinEligibleTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMin>Asentamientos objetivo (mín)</TSA_WD_Diplo_RevoltSettlementsMin>
+  <TSA_WD_Diplo_RevoltSettlementsMinTooltip>Extremo bajo del objetivo de toma al disparar una revuelta. No es un mínimo garantizado: tras el umbral elegible, la revuelta toma tantos como pueda hasta el objetivo sorteado. Toma de las facciones PNJ con más asentamientos (núcleo de la mayor; resto de las dos siguientes si hay). Prefiere niveles bajos.</TSA_WD_Diplo_RevoltSettlementsMinTooltip>
+  <TSA_WD_Diplo_RevoltSettlementsMax>Asentamientos objetivo (máx)</TSA_WD_Diplo_RevoltSettlementsMax>
+  <TSA_WD_Diplo_RevoltSettlementsMaxTooltip>Extremo alto del objetivo de toma al disparar una revuelta. Debe ser al menos Asentamientos objetivo (mín). El relleno parcial sigue aplicando si hay menos elegibles entre las principales facciones PNJ.</TSA_WD_Diplo_RevoltSettlementsMaxTooltip>
   <TSA_WD_Diplo_RevoltCooldown>Enfriamiento de revuelta</TSA_WD_Diplo_RevoltCooldown>
   <TSA_WD_Diplo_RevoltCooldownTooltip>Días antes de otra revuelta tras un éxito. Se ignora con el enfriamiento compartido.</TSA_WD_Diplo_RevoltCooldownTooltip>
   <TSA_WD_Diplo_ForwardAssaultEnable>Activar asalto adelantado (Vanguardia / Invasión)</TSA_WD_Diplo_ForwardAssaultEnable>
