@@ -36,10 +36,13 @@ namespace TSA_WorldDomination
             var seth = WorldDominationMod.settings;
             seth.GetOrderedRoadGoodwillCostBreakdown(roadTier, selection.SegmentCount, out perSegmentRate, out totalCost);
             float workSpeed = WorldActions_Roads.GetAssumedConstructionForSettlementTier(comp.tier);
-            float ticks = workSpeed > 0.01f
-                ? WorldActions_Roads.GetRoadProgressRequiredTicks(roadTier) / workSpeed
-                : -1f;
-            estDaysPerSegment = ticks > 0f ? ticks / GenDate.TicksPerDay : -1f;
+            float requiredTicks = WorldActions_Roads.GetRoadProgressRequiredTicks(roadTier);
+            if (requiredTicks <= 0f)
+                estDaysPerSegment = 0f;
+            else if (workSpeed > 0.01f)
+                estDaysPerSegment = (requiredTicks / workSpeed) / GenDate.TicksPerDay;
+            else
+                estDaysPerSegment = -1f;
 
             BuildSections();
         }

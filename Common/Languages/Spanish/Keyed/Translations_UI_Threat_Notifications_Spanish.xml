@@ -179,6 +179,8 @@
   <TSA_WD_Notify_TravelerPollutionDamageTooltip>Carta amarilla la primera vez que cada viajero WD pierde fuerza al salir de una casilla contaminada. Más casillas contaminadas del mismo viajero siguen en silencio.</TSA_WD_Notify_TravelerPollutionDamageTooltip>
   <TSA_WD_Notify_OutpostPollutionDamage>Mensaje: daño por contaminación en avanzadilla</TSA_WD_Notify_OutpostPollutionDamage>
   <TSA_WD_Notify_OutpostPollutionDamageTooltip>Cuando una avanzadilla WD pierde fuerza por la contaminación media cercana (una vez al día cuando aplica daño). Un borrado total sigue enviando carta. El registro de desarrollo siempre anota estos eventos.</TSA_WD_Notify_OutpostPollutionDamageTooltip>
+  <TSA_WD_Notify_SettlementDestroyedByPollution>Carta: asentamiento destruido por contaminación</TSA_WD_Notify_SettlementDestroyedByPollution>
+  <TSA_WD_Notify_SettlementDestroyedByPollutionTooltip>Cuando un asentamiento NPC es borrado porque la contaminación cercana redujo su fuerza a cero (dentro del radio de cartas cercanas). Quedan ruinas un tiempo.</TSA_WD_Notify_SettlementDestroyedByPollutionTooltip>
   <TSA_WD_Notify_HeaderNearby>Eventos mundiales cercanos</TSA_WD_Notify_HeaderNearby>
   <TSA_WD_Notify_HeaderWorldThreats>Acciones de amenaza mundial</TSA_WD_Notify_HeaderWorldThreats>
   <TSA_WD_Notify_HeaderWorldThreatsTip>Cartas de incursiones de desesperación, consolidaciones defensivas y guerras entre facciones fuertes. Las puertas y tiempos están en Dificultad de combate.</TSA_WD_Notify_HeaderWorldThreatsTip>

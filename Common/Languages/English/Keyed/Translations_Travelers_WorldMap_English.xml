@@ -79,6 +79,8 @@
   <TSA_WD_Message_OutpostPollutionDamage>{0} lost {1} strength from nearby pollution.</TSA_WD_Message_OutpostPollutionDamage>
   <TSA_WD_Letter_OutpostDestroyedByPollution_Label>Outpost destroyed by pollution</TSA_WD_Letter_OutpostDestroyedByPollution_Label>
   <TSA_WD_Letter_OutpostDestroyedByPollution_Text>{0} has been abandoned. Nearby pollution reduced its strength to zero. All occupants were lost. Ruins remain for a while and block new outposts nearby.</TSA_WD_Letter_OutpostDestroyedByPollution_Text>
+  <TSA_WD_Letter_SettlementDestroyedByPollution_Label>Settlement destroyed by pollution</TSA_WD_Letter_SettlementDestroyedByPollution_Label>
+  <TSA_WD_Letter_SettlementDestroyedByPollution_Text>{0} has collapsed. Nearby pollution reduced its strength to zero. Advanced buildings and fortifications are gone. Ruins remain for a while.</TSA_WD_Letter_SettlementDestroyedByPollution_Text>
   <TSA_WD_Letter_PollutionDamage_Label>Pollution damage</TSA_WD_Letter_PollutionDamage_Label>
   <TSA_WD_Letter_PollutionDamage_Text>{0} lost {1} strength after leaving a polluted world tile. Further pollution damage on this traveler will not send another letter.</TSA_WD_Letter_PollutionDamage_Text>
   <TSA_WD_Traveler_Outpost_RoadBlock>Road Block Builder Caravan</TSA_WD_Traveler_Outpost_RoadBlock>

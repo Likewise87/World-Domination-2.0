@@ -252,7 +252,7 @@ namespace TSA_WorldDomination
             var s = WorldDominationMod.settings;
             float work = s != null ? s.GetFallbackRoadWork(tier) : WorldDominationSettings.DefFallbackDirtRoadWork;
             float movement = s != null ? s.GetFallbackRoadMovement(tier) : WorldDominationSettings.DefFallbackDirtRoadMovement;
-            float strength = s != null ? s.GetFallbackRoadExpeditionStrength(tier) : WorldDominationSettings.DefFallbackDirtRoadExpeditionStrength;
+            float strength = WorldActions_Roads.GetExpeditionStrengthCost(tier);
             string timeStr = "-";
             if (actor != null)
             {
@@ -261,6 +261,13 @@ namespace TSA_WorldDomination
             }
             if (ColonyWorldBuildUtility.IsPlayerColonyBuildActor(actor))
                 strength = 0f;
+            if (strength <= 0f)
+            {
+                return "TSA_WD_RoadKindTooltip_NoStrength".Translate(
+                    work.ToString("F0"),
+                    movement.ToString("0.##"),
+                    timeStr);
+            }
             return "TSA_WD_RoadKindTooltip".Translate(
                 work.ToString("F0"),
                 movement.ToString("0.##"),

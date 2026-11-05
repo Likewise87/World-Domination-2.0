@@ -332,13 +332,15 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Builder settlement razed or captured: remove its road blocks, traps, and abort in-flight fortify crews.
+        /// Builder settlement razed, captured, or removed: nuke its advanced buildings, AT turrets,
+        /// road blocks, traps, trenches, and abort in-flight fortify crews.
         /// Always on; legacy <c>fortifyClearOnBuilderLoss</c> is still scribed but no longer read.
         /// </summary>
         public static void NotifyBuilderLost(Settlement settlement)
         {
             if (settlement == null) return;
             DestroyActiveNpcFortifyCrewsFrom(settlement);
+            AtTurretUtility.DestroyTurretsBuiltBy(settlement);
             WorldComponent_RoadBlocks.Get()?.ClearBuiltBySettlement(settlement);
             WorldComponent_SpikeTraps.Get()?.ClearBuiltBySettlement(settlement);
             WorldComponent_AdvancedBuildings.Get()?.DestroyAllOwnedBy(settlement);

@@ -127,7 +127,7 @@ var s = WorldDominationMod.settings;
             // 2. Nearby world events (radius-gated)
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_Notify_HeaderNearby".Translate(), ref nearbyExpanded, SettingsUI.SectionHeaderColor))
             {
-                s.notificationRadiusTiles = SettingsUI.LabeledSlider(l, "TSA_WD_Notify_NotificationRadius".Translate(), s.notificationRadiusTiles, 1f, 500f,
+                s.notificationRadiusTiles = SettingsUI.LabeledSlider(l, "TSA_WD_Notify_NotificationRadius".Translate(), s.notificationRadiusTiles, 1f, 250f,
                     "TSA_WD_Notify_NotificationRadiusTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefNotificationRadiusTiles);
 
                 SettingsUI.DrawCheckbox(l, "TSA_WD_Notify_NewSettlement".Translate(),
@@ -262,6 +262,10 @@ var s = WorldDominationMod.settings;
                 SettingsUI.DrawCheckbox(l, "TSA_WD_Notify_OutpostPollutionDamage".Translate(),
                     ref s.notifyOutpostPollutionDamage,
                     SettingsUI.TooltipWithDefault("TSA_WD_Notify_OutpostPollutionDamageTooltip".Translate(), WorldDominationSettings.DefNotifyOutpostPollutionDamage));
+
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Notify_SettlementDestroyedByPollution".Translate(),
+                    ref s.notifySettlementDestroyedByPollution,
+                    SettingsUI.TooltipWithDefault("TSA_WD_Notify_SettlementDestroyedByPollutionTooltip".Translate(), WorldDominationSettings.DefNotifySettlementDestroyedByPollution));
             }
 
             // 4. Mortar and anti-air

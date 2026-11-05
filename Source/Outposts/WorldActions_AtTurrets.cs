@@ -72,7 +72,8 @@ namespace TSA_WorldDomination
         public static float GetExpeditionStrengthCost(AtTurretTier tier)
         {
             var s = WorldDominationMod.settings;
-            return Mathf.Max(1f, s != null ? s.GetAtTurretExpeditionStrength(tier) : WorldDominationSettings.DefAtTurretMediumExpeditionStrength);
+            float cost = Mathf.Max(1f, s != null ? s.GetAtTurretExpeditionStrength(tier) : WorldDominationSettings.DefAtTurretMediumExpeditionStrength);
+            return s != null ? s.ScaleWorldBuildStrengthCost(cost) : cost;
         }
 
         public static float GetMaxRange()

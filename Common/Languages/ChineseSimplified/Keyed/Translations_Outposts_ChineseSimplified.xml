@@ -2181,6 +2181,7 @@
   <TSA_WD_AT_TurretTier_RequiresSettlementTier>{0}（需要 {1}）</TSA_WD_AT_TurretTier_RequiresSettlementTier>
   <TSA_WD_AT_TurretTier_Disabled>{0}（建造 {1}/{2}）</TSA_WD_AT_TurretTier_Disabled>
   <TSA_WD_AT_TurretTierTooltip>实力消耗：{1}\n预计天数：{2}</TSA_WD_AT_TurretTierTooltip>
+  <TSA_WD_AT_TurretTierTooltip_NoStrength>预计天数：{1}</TSA_WD_AT_TurretTierTooltip_NoStrength>
   <TSA_WD_AT_Turret_TargetPrompt>点击空闲可通行地块放置 AT 炮塔。按住 Shift 点击可多选。</TSA_WD_AT_Turret_TargetPrompt>
   <TSA_WD_AT_Turret_TargetSet>已设定 AT 炮塔工程（{0} 格）。</TSA_WD_AT_Turret_TargetSet>
   <TSA_WD_AT_Turret_InvalidTile>需要无定居点、前哨、路障、刺钉陷阱或已有 AT 炮塔的可通行地块。</TSA_WD_AT_Turret_InvalidTile>
@@ -2198,7 +2199,8 @@
   <TSA_WD_DecontaminationBuildTargetSet>已设定净化工程（{0}个污染格）。</TSA_WD_DecontaminationBuildTargetSet>
   <TSA_WD_DecontaminationBuildTip>点击任意可通行格开始。Shift+点击添加航点。仅净化路径上的污染格。</TSA_WD_DecontaminationBuildTip>
   <TSA_WD_DecontaminationKind_Disabled>{0}（建造 {1}/{2}）</TSA_WD_DecontaminationKind_Disabled>
-  <TSA_WD_DecontaminationTooltip>工作量: {0}\n污染减少: −{1}百分点\n预计天数/格: {2}\n力量消耗: {3}\n最低建造: {4}</TSA_WD_DecontaminationTooltip>
+  <TSA_WD_DecontaminationTooltip>工作量: {0}\n污染减少: -{1}百分点\n预计天数/格: {2}\n力量消耗: {3}\n最低建造: {4}</TSA_WD_DecontaminationTooltip>
+  <TSA_WD_DecontaminationTooltip_NoStrength>工作量: {0}\n污染减少: -{1}百分点\n预计天数/格: {2}\n最低建造: {3}</TSA_WD_DecontaminationTooltip_NoStrength>
   <TSA_WD_ClearSpikeTraps>移除陷阱</TSA_WD_ClearSpikeTraps>
   <TSA_WD_ClearSpikeTrapsDesc>移除已有的刺钉陷阱。</TSA_WD_ClearSpikeTrapsDesc>
   <TSA_WD_CancelSpikeTraps>取消刺钉陷阱</TSA_WD_CancelSpikeTraps>

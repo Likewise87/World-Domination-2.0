@@ -156,7 +156,7 @@ namespace TSA_WorldDomination
             var s = WorldDominationMod.settings;
             float work = s != null ? s.GetRoadBlockWork(kind) : WorldDominationSettings.DefRoadBlockNormalWork;
             float penalty = s != null ? s.GetRoadBlockFlatPenalty(kind) : WorldDominationSettings.DefRoadBlockNormalFlatPenalty;
-            float strength = s != null ? s.GetRoadBlockExpeditionStrength(kind) : WorldDominationSettings.DefRoadBlockNormalExpeditionStrength;
+            float strength = WorldActions_RoadBlocks.GetExpeditionStrengthCost(kind);
             float hp = s != null ? s.GetRoadBlockMaxHealth(kind) : WorldDominationSettings.DefRoadBlockNormalMaxHealth;
             string timeStr = "-";
             if (actor != null)
@@ -166,6 +166,14 @@ namespace TSA_WorldDomination
             }
             if (ColonyWorldBuildUtility.IsPlayerColonyBuildActor(actor))
                 strength = 0f;
+            if (strength <= 0f)
+            {
+                return "TSA_WD_RoadBlockKindTooltip_NoStrength".Translate(
+                    work.ToString("F0"),
+                    penalty.ToString("0.#"),
+                    timeStr,
+                    hp.ToString("F0"));
+            }
             return "TSA_WD_RoadBlockKindTooltip".Translate(
                 work.ToString("F0"),
                 penalty.ToString("0.#"),

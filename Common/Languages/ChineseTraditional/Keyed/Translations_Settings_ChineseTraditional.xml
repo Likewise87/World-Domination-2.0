@@ -1536,11 +1536,25 @@
   <!-- EN: Letter when strong NPC factions cool an alliance to neutral or escalate from neutral to war. -->
   <TSA_WD_Notify_StrongFactionWarTooltip>強勢NPC派系將同盟降為中立，或由中立升級為開戰時。</TSA_WD_Notify_StrongFactionWarTooltip>
   <!-- EN: Building Projects -->
-  <TSA_WD_BtnRoadBuilding>建設專案</TSA_WD_BtnRoadBuilding>
-  <!-- EN: Configure outpost and NPC road, road-block, and trap construction (ranges, work, expedition strength, and road fallbacks when Roads of the Rim is not active). -->
-  <TSA_WD_DescRoadBuilding>設定哨站與NPC的道路、路障與陷阱建設（範圍、工作量、遠征戰力，以及未啟用Roads of the Rim時的道路備用設定）。</TSA_WD_DescRoadBuilding>
-  <!-- EN: Road movement / work / min Construction apply only when Roads of the Rim is NOT active. Winter reduction always applies (writes RotR winterFactor when that mod is present). -->
-  <TSA_WD_RoadBuilding_Note>道路移動/工作量/最低建造技能只在未啟用Roads of the Rim時套用。冬季減免一律套用（若有該模組則寫入RotR的winterFactor）。</TSA_WD_RoadBuilding_Note>
+  <TSA_WD_BtnBuildingProjects>建設專案</TSA_WD_BtnBuildingProjects>
+  <!-- EN: Settings for Building projects that can be executed by player Outposts and for the most part also by the Colony and NPC settlements. ... -->
+  <TSA_WD_DescBuildingProjects>建造專案設定：可由玩家哨站執行，多數情況下也適用於殖民地與NPC據點。全域費用倍率（戰力、材料、建造時間）；道路、橋樑、戰壕、路障、陷阱、反戰車砲塔（建造與戰鬥）及淨化。未啟用Roads of the Rim時使用道路移動備用值。</TSA_WD_DescBuildingProjects>
+  <!-- EN: Cost Multipliers -->
+  <TSA_WD_BuildingProjects_CostMultHeader>消耗倍率</TSA_WD_BuildingProjects_CostMultHeader>
+  <!-- EN: Strength cost multiplier -->
+  <TSA_WD_BuildingProjects_StrengthCostMult>戰力消耗倍率</TSA_WD_BuildingProjects_StrengthCostMult>
+  <!-- EN: Scales outpost strength for build and clear/deconstruct... -->
+  <TSA_WD_BuildingProjects_StrengthCostMultTip>縮放派出建造與清除/拆除小隊時消耗的哨站戰力（道路、橋樑、戰壕、路障、陷阱、反戰車砲塔、淨化）。下方各類型戰力滑桿為基數，本倍率疊乘其上。0% 時戰力免費，並在建造選單中隱藏。</TSA_WD_BuildingProjects_StrengthCostMultTip>
+  <!-- EN: Material cost multiplier -->
+  <TSA_WD_BuildingProjects_MaterialCostMult>材料消耗倍率</TSA_WD_BuildingProjects_MaterialCostMult>
+  <!-- EN: Scales material counts for build and clear/deconstruct... -->
+  <TSA_WD_BuildingProjects_MaterialCostMultTip>縮放世界建造材料數量（木材、零件、石磚等）。清除/拆除不消耗材料。不影響哨站升級。0% 時材料免費，並在建造選單中隱藏。</TSA_WD_BuildingProjects_MaterialCostMultTip>
+  <!-- EN: Building time multiplier -->
+  <TSA_WD_BuildingProjects_BuildTimeMult>建造時間倍率</TSA_WD_BuildingProjects_BuildTimeMult>
+  <!-- EN: Scales prep time for build and clear/deconstruct... -->
+  <TSA_WD_BuildingProjects_BuildTimeMultTip>縮放建造與清除/拆除的準備時間。下方各類型工作量滑桿為基數，本倍率疊乘時長。0% 時準備瞬間完成。不影響哨站升級。</TSA_WD_BuildingProjects_BuildTimeMultTip>
+  <!-- EN: Cost Multipliers always apply. Road movement values below apply only when Roads of the Rim is not active. ... -->
+  <TSA_WD_RoadBuilding_Note>費用倍率一律套用。下方道路移動值僅在未啟用Roads of the Rim時套用。工作量、戰力與最低建造技能一律作用於WD專案。冬季減免一律套用（若有該模組則寫入RotR的winterFactor）。清除/拆除消耗戰力與建造時間，不消耗材料。</TSA_WD_RoadBuilding_Note>
   <!-- EN: Roads -->
   <TSA_WD_RoadBuilding_RoadsHeader>道路</TSA_WD_RoadBuilding_RoadsHeader>
   <!-- EN: Range to build Roads -->
@@ -1579,16 +1593,16 @@
   <TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>{0}：冬季懲罰減免{1}%（此地塊目前不是冬季）</TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>
   <!-- EN: Work needed to build -->
   <TSA_WD_RoadBuilding_Work>建造所需工作量</TSA_WD_RoadBuilding_Work>
-  <!-- EN: Abstract work cost for one road segment (WD progress only, not vanilla Construction jobs). Progress rate equals total Construction skill in the outpost. Example: at Dirt Work 250, 1 Construction skill does 25 Work per day, so Dirt takes about 10 days at 1 skill or about 1 day at 10 skill. Higher Work values for Stone or Asphalt take proportionally longer. -->
-  <TSA_WD_RoadBuilding_WorkTip>一段道路的抽象工作量成本（僅計WD進度，不是原版的建造工作）。進度速率等於哨站內的建造技能總和。例如：泥土路工作量為250時，1點建造技能每天完成25工作量，因此1點技能約需10天，10點技能約需1天。石板路或柏油路的工作量較高，所需時間也按比例增加。</TSA_WD_RoadBuilding_WorkTip>
-  <!-- EN: Off. Strength deducted on Caravan dispatch -->
-  <TSA_WD_RoadBuilding_RoadStrength>派出旅隊時扣除的進攻戰力</TSA_WD_RoadBuilding_RoadStrength>
-  <!-- EN: Offensive strength removed from the outpost when a road-builder caravan is dispatched for one segment. Refunded if the launch fails immediately. -->
-  <TSA_WD_RoadBuilding_RoadStrengthTip>為一段道路派出修路旅隊時，從哨站扣除的進攻戰力。若出發立即失敗則退還。</TSA_WD_RoadBuilding_RoadStrengthTip>
+  <!-- EN: Abstract work cost for one road segment ... Final prep time also scales with the Building time multiplier. -->
+  <TSA_WD_RoadBuilding_WorkTip>一段道路的抽象工作量成本（僅計WD進度，不是原版的建造工作）。進度速率等於哨站內的建造技能總和。例如：泥土路工作量為250時，1點建造技能每天完成25工作量，因此1點技能約需10天，10點技能約需1天。石板路或柏油路的工作量較高，所需時間也按比例增加。最終準備時間還會乘以建造時間倍率。</TSA_WD_RoadBuilding_WorkTip>
+  <!-- EN: Strength deducted on crew dispatch -->
+  <TSA_WD_RoadBuilding_RoadStrength>派出小隊時扣除的戰力</TSA_WD_RoadBuilding_RoadStrength>
+  <!-- EN: Base offensive strength ... Multiplied by the Strength cost multiplier. -->
+  <TSA_WD_RoadBuilding_RoadStrengthTip>為一段道路派出修路小隊時，從哨站扣除的基礎進攻戰力（清除/拆除同樣適用）。再乘以戰力消耗倍率。若出發立即失敗則退還。</TSA_WD_RoadBuilding_RoadStrengthTip>
   <!-- EN: Min Construction skill needed to build -->
   <TSA_WD_RoadBuilding_MinConstruction>建造所需最低建造技能</TSA_WD_RoadBuilding_MinConstruction>
-  <!-- EN: Total Construction skill required in the outpost before this road type can be selected while Roads of the Rim is not active. -->
-  <TSA_WD_RoadBuilding_MinConstructionTip>未啟用Roads of the Rim時，哨站內需要的建造技能總和，才能選擇此道路類型。</TSA_WD_RoadBuilding_MinConstructionTip>
+  <!-- EN: Total Construction skill required ... in the WD build menu. -->
+  <TSA_WD_RoadBuilding_MinConstructionTip>哨站內需要的建造技能總和，才能在WD建造選單中選擇此道路類型。</TSA_WD_RoadBuilding_MinConstructionTip>
   <!-- EN: Reset outpost building projects to defaults -->
   <TSA_WD_RoadBuilding_Reset>將哨站建設專案重設為預設值</TSA_WD_RoadBuilding_Reset>
   <!-- EN: Road Blocks -->
@@ -1597,16 +1611,16 @@
   <TSA_WD_RoadBuilding_RoadBlockRange>建造路障範圍</TSA_WD_RoadBuilding_RoadBlockRange>
   <!-- EN: Maximum world-tile range for planning road-block build/clear polylines from an outpost. -->
   <TSA_WD_RoadBuilding_RoadBlockRangeTip>從哨站規劃路障建造/清除路線的最大世界地塊範圍。</TSA_WD_RoadBuilding_RoadBlockRangeTip>
-  <!-- EN: Abstract work cost for one road-block tile (build or clear). Same Construction progress rules as roads: rate = total Construction skill; relative Work vs Dirt road Work sets duration. -->
-  <TSA_WD_RoadBuilding_RoadBlockWorkTip>一個路障地塊（建造或清除）的抽象工作量成本。建造進度規則與道路相同：速率＝建造技能總和；相對於泥土路工作量的比例決定所需時間。</TSA_WD_RoadBuilding_RoadBlockWorkTip>
+  <!-- EN: Abstract work cost for one road-block tile (build or clear). ... Building time multiplier (including clear). -->
+  <TSA_WD_RoadBuilding_RoadBlockWorkTip>一個路障地塊（建造或清除）的抽象工作量成本。建造進度規則與道路相同：速率＝建造技能總和；相對於泥土路工作量的比例決定所需時間。最終準備時間還會乘以建造時間倍率（含清除）。</TSA_WD_RoadBuilding_RoadBlockWorkTip>
   <!-- EN: Movement cost penalty -->
   <TSA_WD_RoadBuilding_RoadBlockPenalty>移動成本懲罰</TSA_WD_RoadBuilding_RoadBlockPenalty>
   <!-- EN: Flat movement cost added after road multipliers when entering a blocked tile of this tier (all factions; ballistic travel ignores this). -->
   <TSA_WD_RoadBuilding_RoadBlockPenaltyTip>進入此等級的受阻地塊時，在道路倍率之後額外加上的固定移動成本（適用所有派系；彈道式移動不受影響）。</TSA_WD_RoadBuilding_RoadBlockPenaltyTip>
-  <!-- EN: Off. Strength deducted on Caravan dispatch -->
-  <TSA_WD_RoadBuilding_RoadBlockStrength>派出旅隊時扣除的進攻戰力</TSA_WD_RoadBuilding_RoadBlockStrength>
-  <!-- EN: Offensive strength removed from the outpost when a road-block caravan is dispatched for one tile. Refunded if the launch fails immediately. -->
-  <TSA_WD_RoadBuilding_RoadBlockStrengthTip>為一個地塊派出路障旅隊時，從哨站扣除的進攻戰力。若出發立即失敗則退還。</TSA_WD_RoadBuilding_RoadBlockStrengthTip>
+  <!-- EN: Strength deducted on crew dispatch -->
+  <TSA_WD_RoadBuilding_RoadBlockStrength>派出小隊時扣除的戰力</TSA_WD_RoadBuilding_RoadBlockStrength>
+  <!-- EN: Base offensive strength ... build or clear. Multiplied by the Strength cost multiplier. -->
+  <TSA_WD_RoadBuilding_RoadBlockStrengthTip>為一個地塊派出路障小隊時，從哨站扣除的基礎進攻戰力（建造或清除）。再乘以戰力消耗倍率。若出發立即失敗則退還。</TSA_WD_RoadBuilding_RoadBlockStrengthTip>
   <!-- EN: Max health -->
   <TSA_WD_RoadBuilding_MaxHealth>最大耐久度</TSA_WD_RoadBuilding_MaxHealth>
   <!-- EN: Hit points when placed or upgraded. Hostile travelers wear this by their strength when leaving the tile. -->
@@ -1617,12 +1631,12 @@
   <TSA_WD_RoadBuilding_SpikeTrapRange>建造陷阱範圍</TSA_WD_RoadBuilding_SpikeTrapRange>
   <!-- EN: Maximum world-tile range for planning trap build/clear polylines from an outpost. -->
   <TSA_WD_RoadBuilding_SpikeTrapRangeTip>從哨站規劃陷阱建造/清除路線的最大世界地塊範圍。</TSA_WD_RoadBuilding_SpikeTrapRangeTip>
-  <!-- EN: Abstract work cost for one trap tile (build or clear). Same Construction progress rules as roads: rate = total Construction skill; relative Work vs Dirt road Work sets duration. -->
-  <TSA_WD_RoadBuilding_SpikeTrapWorkTip>一個陷阱地塊（建造或清除）的抽象工作量成本。建造進度規則與道路相同：速率＝建造技能總和；相對於泥土路工作量的比例決定所需時間。</TSA_WD_RoadBuilding_SpikeTrapWorkTip>
-  <!-- EN: Off. Strength deducted on Caravan dispatch -->
-  <TSA_WD_RoadBuilding_SpikeTrapStrength>派出旅隊時扣除的進攻戰力</TSA_WD_RoadBuilding_SpikeTrapStrength>
-  <!-- EN: Offensive strength removed from the outpost when a trap caravan is dispatched for one tile. Refunded if the launch fails immediately. -->
-  <TSA_WD_RoadBuilding_SpikeTrapStrengthTip>為一個地塊派出陷阱旅隊時，從哨站扣除的進攻戰力。若出發立即失敗則退還。</TSA_WD_RoadBuilding_SpikeTrapStrengthTip>
+  <!-- EN: Abstract work cost for one trap tile (build or clear). ... Building time multiplier (including clear). -->
+  <TSA_WD_RoadBuilding_SpikeTrapWorkTip>一個陷阱地塊（建造或清除）的抽象工作量成本。建造進度規則與道路相同：速率＝建造技能總和；相對於泥土路工作量的比例決定所需時間。最終準備時間還會乘以建造時間倍率（含清除）。</TSA_WD_RoadBuilding_SpikeTrapWorkTip>
+  <!-- EN: Strength deducted on crew dispatch -->
+  <TSA_WD_RoadBuilding_SpikeTrapStrength>派出小隊時扣除的戰力</TSA_WD_RoadBuilding_SpikeTrapStrength>
+  <!-- EN: Base offensive strength ... build or clear. Multiplied by the Strength cost multiplier. -->
+  <TSA_WD_RoadBuilding_SpikeTrapStrengthTip>為一個地塊派出陷阱小隊時，從哨站扣除的基礎進攻戰力（建造或清除）。再乘以戰力消耗倍率。若出發立即失敗則退還。</TSA_WD_RoadBuilding_SpikeTrapStrengthTip>
   <!-- EN: Trap damage -->
   <TSA_WD_RoadBuilding_SpikeTrapDamage>陷阱傷害</TSA_WD_RoadBuilding_SpikeTrapDamage>
   <!-- EN: Strength removed from a hostile ground traveler when leaving a trapped tile. The trap also wears by traveler strength. -->
@@ -1633,30 +1647,30 @@
   <TSA_WD_RoadBuilding_SpikeTrapMaxTriggersTip>單一旅行者最多可觸發的陷阱數量。路徑上之後的陷阱會被忽略（不造成傷害，也不磨損）。</TSA_WD_RoadBuilding_SpikeTrapMaxTriggersTip>
   <!-- EN: AT Turrets -->
   <TSA_WD_RoadBuilding_AT_TurretsHeader>反戰車砲塔</TSA_WD_RoadBuilding_AT_TurretsHeader>
-  <!-- EN: Light, Medium, and Heavy are buildable. Settlements build by tier (Tier 1–2 Light, Tier 3 Medium, Tier 4 Heavy). Work is build time cost (defaults are twice prior road-parity costs). Expedition strength is crew cost, not gun HP. -->
-  <TSA_WD_RoadBuilding_AT_TurretsNote>可建造輕型、中型與重型。據點依等級建造（T1–2輕型、T3中型、T4重型）。工作量為建造時間成本（預設為先前與道路同等成本的兩倍）。遠征戰力是小隊成本，不是砲的耐久度。</TSA_WD_RoadBuilding_AT_TurretsNote>
-  <!-- EN: Abstract work cost for one AT Turret. Same Construction progress rules as roads. Defaults take about twice as long as the old road-matched costs. -->
-  <TSA_WD_RoadBuilding_AT_TurretWorkTip>一座 反戰車砲塔的抽象工作量成本。建造進度規則與道路相同。預設所需時間約為舊版比照道路成本的兩倍。</TSA_WD_RoadBuilding_AT_TurretWorkTip>
-  <!-- EN: Off. Strength deducted on Caravan dispatch -->
-  <TSA_WD_RoadBuilding_AT_TurretStrength>進攻戰力：派遣旅隊時扣除</TSA_WD_RoadBuilding_AT_TurretStrength>
-  <!-- EN: Offensive strength removed when an AT Turret crew is dispatched. Medium defaults match asphalt. -->
-  <TSA_WD_RoadBuilding_AT_TurretStrengthTip>派遣 反戰車砲塔小隊時扣除的進攻戰力。中型預設值與柏油路相同。</TSA_WD_RoadBuilding_AT_TurretStrengthTip>
+  <!-- EN: Light, Medium, and Heavy are buildable. ... Crew strength cost is scaled by Cost Multipliers; it is not gun HP. -->
+  <TSA_WD_RoadBuilding_AT_TurretsNote>可建造輕型、中型與重型。據點依等級建造（T1-2輕型、T3中型、T4重型）。工作量為建造時間成本（基礎工作量約為先前與道路同等成本的兩倍）。小隊戰力消耗會乘以費用倍率；不是砲的耐久度（耐久度用最大戰力滑桿）。</TSA_WD_RoadBuilding_AT_TurretsNote>
+  <!-- EN: Abstract work cost for one AT Turret. ... Building time multiplier (including deconstruct). -->
+  <TSA_WD_RoadBuilding_AT_TurretWorkTip>一座反戰車砲塔的抽象工作量成本。建造進度規則與道路相同。基礎工作量約為舊版比照道路成本的兩倍。最終準備時間還會乘以建造時間倍率（含拆除）。</TSA_WD_RoadBuilding_AT_TurretWorkTip>
+  <!-- EN: Strength deducted on crew dispatch -->
+  <TSA_WD_RoadBuilding_AT_TurretStrength>派出小隊時扣除的戰力</TSA_WD_RoadBuilding_AT_TurretStrength>
+  <!-- EN: Base offensive strength ... Multiplied by the Strength cost multiplier. Medium base matches asphalt. -->
+  <TSA_WD_RoadBuilding_AT_TurretStrengthTip>派出反戰車砲塔小隊時扣除的基礎進攻戰力（拆除同樣適用）。再乘以戰力消耗倍率。中型基礎與柏油路相同。</TSA_WD_RoadBuilding_AT_TurretStrengthTip>
   <!-- EN: Decontamination -->
   <TSA_WD_RoadBuilding_DecontaminationHeader>淨化</TSA_WD_RoadBuilding_DecontaminationHeader>
   <!-- EN: Range for Decontamination -->
   <TSA_WD_RoadBuilding_DecontaminationRange>淨化範圍</TSA_WD_RoadBuilding_DecontaminationRange>
   <!-- EN: Maximum world-tile range for planning decontamination polylines from an outpost. -->
   <TSA_WD_RoadBuilding_DecontaminationRangeTip>從哨站規劃淨化路線時的最大世界地塊距離。</TSA_WD_RoadBuilding_DecontaminationRangeTip>
-  <!-- EN: Abstract work cost for one polluted tile scrub. Same Construction progress rules as roads: rate = total Construction skill; relative Work vs Asphalt road Work sets duration. -->
-  <TSA_WD_RoadBuilding_DecontaminationWorkTip>淨化一個受汙染地塊的抽象工作量。建造進度規則與道路相同：速率＝建造技能總和；相對於柏油路工作量的比例決定所需時間。</TSA_WD_RoadBuilding_DecontaminationWorkTip>
+  <!-- EN: Abstract work cost for one polluted tile scrub. ... Building time multiplier. -->
+  <TSA_WD_RoadBuilding_DecontaminationWorkTip>淨化一個受汙染地塊的抽象工作量。建造進度規則與道路相同：速率＝建造技能總和；相對於柏油路工作量的比例決定所需時間。最終準備時間還會乘以建造時間倍率。</TSA_WD_RoadBuilding_DecontaminationWorkTip>
   <!-- EN: Strength cost (decontamination) -->
   <TSA_WD_RoadBuilding_DecontaminationStrength>戰力消耗（淨化）</TSA_WD_RoadBuilding_DecontaminationStrength>
-  <!-- EN: Offensive strength removed from the outpost when a decontamination caravan is dispatched for one tile. Refunded if the launch fails immediately. -->
-  <TSA_WD_RoadBuilding_DecontaminationStrengthTip>派出淨化旅隊處理一個地塊時，從哨站扣除的進攻戰力。若出發立即失敗則退還。</TSA_WD_RoadBuilding_DecontaminationStrengthTip>
+  <!-- EN: Base offensive strength ... Multiplied by the Strength cost multiplier. -->
+  <TSA_WD_RoadBuilding_DecontaminationStrengthTip>派出淨化小隊處理一個地塊時，從哨站扣除的基礎進攻戰力。再乘以戰力消耗倍率。若出發立即失敗則退還。</TSA_WD_RoadBuilding_DecontaminationStrengthTip>
   <!-- EN: Pollution reduction (pp) -->
   <TSA_WD_RoadBuilding_DecontaminationReduction>汙染減少量（百分點）</TSA_WD_RoadBuilding_DecontaminationReduction>
-  <!-- EN: Percentage points of world-tile pollution removed per scrub visit (20 = −20pp). -->
-  <TSA_WD_RoadBuilding_DecontaminationReductionTip>每次淨化造訪移除的世界地塊汙染百分點（20＝−20百分點）。</TSA_WD_RoadBuilding_DecontaminationReductionTip>
+  <!-- EN: Percentage points of world-tile pollution removed per scrub visit (20 = -20pp). -->
+  <TSA_WD_RoadBuilding_DecontaminationReductionTip>每次淨化造訪移除的世界地塊汙染百分點（20=-20百分點）。</TSA_WD_RoadBuilding_DecontaminationReductionTip>
   <!-- EN: Light road block -->
   <TSA_WD_RoadBlockLight>輕型路障</TSA_WD_RoadBlockLight>
   <!-- EN: Medium road block -->
@@ -1669,6 +1683,8 @@
   <TSA_WD_RoadBlockKind_Disabled>{0}（建造{1}/{2}）</TSA_WD_RoadBlockKind_Disabled>
   <!-- EN: Work: {0}\nCost penalty: +{1}\nEst. days/tile: {2}\nStrength cost: {3}\nMax HP: {4} -->
   <TSA_WD_RoadBlockKindTooltip>工作量：{0}\n路徑代價懲罰：+{1}\n預估天數/格：{2}\n戰力消耗：{3}\n最大HP：{4}</TSA_WD_RoadBlockKindTooltip>
+  <!-- EN: Work: {0}\nCost penalty: +{1}\nEst. days/tile: {2}\nMax HP: {3} -->
+  <TSA_WD_RoadBlockKindTooltip_NoStrength>工作量：{0}\n路徑代價懲罰：+{1}\n預估天數/格：{2}\n最大HP：{3}</TSA_WD_RoadBlockKindTooltip_NoStrength>
   <!-- EN: Spike trap -->
   <TSA_WD_SpikeTrapSpike>尖刺陷阱</TSA_WD_SpikeTrapSpike>
   <!-- EN: Caltrops -->
@@ -1677,8 +1693,12 @@
   <TSA_WD_SpikeTrapKind_Disabled>{0}（建造{1}/{2}）</TSA_WD_SpikeTrapKind_Disabled>
   <!-- EN: Work: {0}\nDamage: {1}\nEst. days/tile: {2}\nStrength cost: {3}\nMax HP: {4} -->
   <TSA_WD_SpikeTrapKindTooltip>工作量：{0}\n傷害：{1}\n預估天數/格：{2}\n戰力消耗：{3}\n最大HP：{4}</TSA_WD_SpikeTrapKindTooltip>
+  <!-- EN: Work: {0}\nDamage: {1}\nEst. days/tile: {2}\nMax HP: {3} -->
+  <TSA_WD_SpikeTrapKindTooltip_NoStrength>工作量：{0}\n傷害：{1}\n預估天數/格：{2}\n最大HP：{3}</TSA_WD_SpikeTrapKindTooltip_NoStrength>
   <!-- EN: Work: {0}\nCost mult: {1}\nEst. days/segment: {2}\nStrength cost: {3} -->
   <TSA_WD_RoadKindTooltip>工作量：{0}\n路徑代價倍率：{1}\n預估天數/段：{2}\n戰力消耗：{3}</TSA_WD_RoadKindTooltip>
+  <!-- EN: Work: {0}\nCost mult: {1}\nEst. days/segment: {2} -->
+  <TSA_WD_RoadKindTooltip_NoStrength>工作量：{0}\n路徑代價倍率：{1}\n預估天數/段：{2}</TSA_WD_RoadKindTooltip_NoStrength>
   <!-- EN: Requirements -->
   <TSA_WD_BuildReq_Header>需求</TSA_WD_BuildReq_Header>
   <!-- EN: Construction: {0} ({1}) -->
@@ -1936,7 +1956,7 @@
   <!-- EN: AT Turret strength (HP) -->
   <TSA_WD_Experimental_AT_TurretMaxStrength>反戰車砲塔戰力（HP）</TSA_WD_Experimental_AT_TurretMaxStrength>
   <!-- EN: Hit points when a new AT Turret of this type is built. Does not change guns already on the map. Separate from Road Building expedition strength. -->
-  <TSA_WD_Experimental_AT_TurretMaxStrengthTip>新建此類型 反戰車砲塔時的HP。不會改變地圖上已有的砲塔。與道路建設隊伍的戰力無關。</TSA_WD_Experimental_AT_TurretMaxStrengthTip>
+  <TSA_WD_Experimental_AT_TurretMaxStrengthTip>新建此類型 反戰車砲塔時的HP。不會改變地圖上已有的砲塔。與建設專案中的戰力消耗無關。</TSA_WD_Experimental_AT_TurretMaxStrengthTip>
   <!-- EN: AT Turret shell damage -->
   <TSA_WD_Experimental_AT_TurretDamage>反戰車砲塔砲彈傷害</TSA_WD_Experimental_AT_TurretDamage>
   <!-- EN: Strength damage dealt by an AT Turret shell on a hit. -->

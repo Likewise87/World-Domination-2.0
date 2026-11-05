@@ -118,8 +118,10 @@ namespace TSA_WorldDomination
                 liberatedNames.Add(target.Label);
                 lastTile = tile;
 
+                // Destroy (not Remove) so PostDestroy nukes the old town's advanced buildings / fortifications
+                // before the rebel settlement is created on the same tile.
                 WorldActions_DesperationRaid.SuppressLossNotify(target);
-                Find.WorldObjects.Remove(target);
+                target.Destroy();
 
                 Settlement newS = (Settlement)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Settlement);
                 newS.SetFaction(rebelFaction);

@@ -76,6 +76,8 @@
   <TSA_WD_Message_OutpostPollutionDamage>{0} 因附近污染损失了 {1} 力量。</TSA_WD_Message_OutpostPollutionDamage>
   <TSA_WD_Letter_OutpostDestroyedByPollution_Label>前哨因污染被摧毁</TSA_WD_Letter_OutpostDestroyedByPollution_Label>
   <TSA_WD_Letter_OutpostDestroyedByPollution_Text>{0} 已被废弃。附近污染将其力量降至零。所有驻员均已损失。废墟会残留一段时间，并阻止附近新建前哨。</TSA_WD_Letter_OutpostDestroyedByPollution_Text>
+  <TSA_WD_Letter_SettlementDestroyedByPollution_Label>聚落因污染被摧毁</TSA_WD_Letter_SettlementDestroyedByPollution_Label>
+  <TSA_WD_Letter_SettlementDestroyedByPollution_Text>{0} 已崩溃。附近污染将其力量降至零。高级建筑与防御工事已消失。废墟会残留一段时间。</TSA_WD_Letter_SettlementDestroyedByPollution_Text>
   <TSA_WD_Letter_PollutionDamage_Label>污染伤害</TSA_WD_Letter_PollutionDamage_Label>
   <TSA_WD_Letter_PollutionDamage_Text>{0} 离开受污染世界格后损失了 {1} 力量。该旅行者之后的污染伤害不会再发送信件。</TSA_WD_Letter_PollutionDamage_Text>
   <TSA_WD_Traveler_Outpost_RoadBlock>路障施工队</TSA_WD_Traveler_Outpost_RoadBlock>

@@ -44,7 +44,7 @@ Hostile raids and other travelers can lose strength to traps and AT fire before 
 
     NPC AT caps by tier default to **1 / 2 / 3 / 4**. Max traps triggered per traveler: **3**.
 
-    Full numbers: [Settings: World Actions](../settings/daily-actions.md) and [Settings: Road building](../settings/road-building.md).
+    Full numbers: [Settings: World Actions](../settings/daily-actions.md) and [Settings: Building Projects](../settings/road-building.md).
 
 ## Related chapters
 
@@ -53,4 +53,4 @@ Hostile raids and other travelers can lose strength to traps and AT fire before 
 - [Mortars, anti-air and AT turrets](world-weapons.md)
 - [Travelers](../travelers.md)
 - [World-map battles](../raids/world-map-battles.md)
-- [Settings: Road building](../settings/road-building.md)
+- [Settings: Building Projects](../settings/road-building.md)

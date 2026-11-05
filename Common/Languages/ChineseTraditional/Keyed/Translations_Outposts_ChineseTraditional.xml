@@ -804,6 +804,7 @@
   <TSA_WD_AT_TurretTier_Disabled>{0}（建造{1}/{2}）</TSA_WD_AT_TurretTier_Disabled>
   <!-- EN: Strength cost: {1}\nEst. days: {2} -->
   <TSA_WD_AT_TurretTierTooltip>戰力成本：{1}\n預估天數：{2}</TSA_WD_AT_TurretTierTooltip>
+  <TSA_WD_AT_TurretTierTooltip_NoStrength>預估天數：{1}</TSA_WD_AT_TurretTierTooltip_NoStrength>
   <!-- EN: Click a free passable tile to place an AT Turret. Shift-click to select multiple. -->
   <TSA_WD_AT_Turret_TargetPrompt>點擊空的可通行地塊以放置反戰車砲塔。Shift+點擊可多選。</TSA_WD_AT_Turret_TargetPrompt>
   <!-- EN: AT Turret project set ({0} tiles). -->
@@ -839,7 +840,8 @@
   <!-- EN: {0} (Construction {1}/{2}) -->
   <TSA_WD_DecontaminationKind_Disabled>{0}（建造{1}/{2}）</TSA_WD_DecontaminationKind_Disabled>
   <!-- EN: Work: {0}\nPollution scrub: −{1}pp\nEst. days/tile: {2}\nStrength cost: {3}\nMin Construction: {4} -->
-  <TSA_WD_DecontaminationTooltip>工作量：{0}\n汙染清除：−{1}pp\n每格預估天數：{2}\n戰力成本：{3}\n最低建造：{4}</TSA_WD_DecontaminationTooltip>
+  <TSA_WD_DecontaminationTooltip>工作量：{0}\n汙染清除：-{1}pp\n每格預估天數：{2}\n戰力成本：{3}\n最低建造：{4}</TSA_WD_DecontaminationTooltip>
+  <TSA_WD_DecontaminationTooltip_NoStrength>工作量：{0}\n汙染清除：-{1}pp\n每格預估天數：{2}\n最低建造：{3}</TSA_WD_DecontaminationTooltip_NoStrength>
   <!-- EN: Remove Traps -->
   <TSA_WD_ClearSpikeTraps>移除陷阱</TSA_WD_ClearSpikeTraps>
   <!-- EN: Remove existing spike traps. -->

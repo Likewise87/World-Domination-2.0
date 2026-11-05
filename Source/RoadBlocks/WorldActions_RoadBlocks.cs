@@ -47,7 +47,8 @@ namespace TSA_WorldDomination
         public static float GetExpeditionStrengthCost(RoadBlockKind kind)
         {
             var s = WorldDominationMod.settings;
-            return Mathf.Max(1f, s != null ? s.GetRoadBlockExpeditionStrength(kind) : WorldDominationSettings.DefRoadBlockNormalExpeditionStrength);
+            float cost = Mathf.Max(1f, s != null ? s.GetRoadBlockExpeditionStrength(kind) : WorldDominationSettings.DefRoadBlockNormalExpeditionStrength);
+            return s != null ? s.ScaleWorldBuildStrengthCost(cost) : cost;
         }
 
         public static float GetExpeditionStrengthCost()

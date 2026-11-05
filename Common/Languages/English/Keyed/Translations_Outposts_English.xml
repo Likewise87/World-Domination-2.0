@@ -409,6 +409,7 @@
   <TSA_WD_AT_TurretTier_RequiresSettlementTier>{0} (requires {1})</TSA_WD_AT_TurretTier_RequiresSettlementTier>
   <TSA_WD_AT_TurretTier_Disabled>{0} (Construction {1}/{2})</TSA_WD_AT_TurretTier_Disabled>
   <TSA_WD_AT_TurretTierTooltip>Strength cost: {1}\nEst. days: {2}</TSA_WD_AT_TurretTierTooltip>
+  <TSA_WD_AT_TurretTierTooltip_NoStrength>Est. days: {1}</TSA_WD_AT_TurretTierTooltip_NoStrength>
   <TSA_WD_AT_Turret_TargetPrompt>Click a free passable tile to place an AT Turret. Shift-click to select multiple.</TSA_WD_AT_Turret_TargetPrompt>
   <TSA_WD_AT_Turret_TargetSet>AT Turret project set ({0} tiles).</TSA_WD_AT_Turret_TargetSet>
   <TSA_WD_AT_Turret_InvalidTile>Need a passable tile without a settlement, outpost, road block, spike trap, or existing AT Turret.</TSA_WD_AT_Turret_InvalidTile>
@@ -426,7 +427,8 @@
   <TSA_WD_DecontaminationBuildTargetSet>Decontamination project set ({0} polluted tiles).</TSA_WD_DecontaminationBuildTargetSet>
   <TSA_WD_DecontaminationBuildTip>Click any passable tile to start. Shift+click waypoints. Only polluted tiles on the path are scrubbed.</TSA_WD_DecontaminationBuildTip>
   <TSA_WD_DecontaminationKind_Disabled>{0} (Construction {1}/{2})</TSA_WD_DecontaminationKind_Disabled>
-  <TSA_WD_DecontaminationTooltip>Work: {0}\nPollution scrub: −{1}pp\nEst. days/tile: {2}\nStrength cost: {3}\nMin Construction: {4}</TSA_WD_DecontaminationTooltip>
+  <TSA_WD_DecontaminationTooltip>Work: {0}\nPollution scrub: -{1}pp\nEst. days/tile: {2}\nStrength cost: {3}\nMin Construction: {4}</TSA_WD_DecontaminationTooltip>
+  <TSA_WD_DecontaminationTooltip_NoStrength>Work: {0}\nPollution scrub: -{1}pp\nEst. days/tile: {2}\nMin Construction: {3}</TSA_WD_DecontaminationTooltip_NoStrength>
   <TSA_WD_ClearSpikeTraps>Remove Traps</TSA_WD_ClearSpikeTraps>
   <TSA_WD_ClearSpikeTrapsDesc>Remove existing spike traps.</TSA_WD_ClearSpikeTrapsDesc>
   <TSA_WD_CancelSpikeTraps>Cancel Spike Traps</TSA_WD_CancelSpikeTraps>

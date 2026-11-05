@@ -59,12 +59,17 @@ namespace TSA_WorldDomination
 
         public static List<OutpostUpgradeCostEntry> GetWoodCostPerSegment()
         {
+            int wood = WorldComponent_WdTrenches.WoodPerSegment;
+            var s = WorldDominationMod.settings;
+            if (s != null)
+                wood = s.ScaleWorldBuildMaterialCount(wood);
+            if (wood <= 0) return ColonyWorldBuildMaterials.EmptyCostList;
             return new List<OutpostUpgradeCostEntry>
             {
                 new OutpostUpgradeCostEntry
                 {
                     thingDef = ThingDefOf.WoodLog,
-                    count = WorldComponent_WdTrenches.WoodPerSegment
+                    count = wood
                 }
             };
         }

@@ -34,9 +34,10 @@ namespace TSA_WorldDomination
         public static float GetExpeditionStrengthCost()
         {
             var s = WorldDominationMod.settings;
-            return Mathf.Max(1f, s != null
+            float cost = Mathf.Max(1f, s != null
                 ? s.GetDecontaminationExpeditionStrength()
                 : WorldDominationSettings.DefDecontaminationExpeditionStrength);
+            return s != null ? s.ScaleWorldBuildStrengthCost(cost) : cost;
         }
 
         /// <summary>Cumulative Construction skill required to launch a decontamination mission.</summary>

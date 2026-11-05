@@ -107,14 +107,22 @@ namespace TSA_WorldDomination
         {
             var s = WorldDominationMod.settings;
             float work = s != null ? s.GetDecontaminationWork() : WorldDominationSettings.DefDecontaminationWork;
-            float strength = s != null ? s.GetDecontaminationExpeditionStrength() : WorldDominationSettings.DefDecontaminationExpeditionStrength;
+            float strength = WorldActions_Decontamination.GetExpeditionStrengthCost();
             float reduction = s != null ? s.decontaminationPollutionReductionPp : WorldDominationSettings.DefDecontaminationPollutionReductionPp;
             int minC = WorldActions_Decontamination.GetMinConstruction();
-            string timeStr = "—";
+            string timeStr = "-";
             if (outpost != null)
             {
                 float days = WorldActions_Decontamination.GetEstimatedDaysPerSegment(outpost);
                 if (days >= 0f) timeStr = days.ToString("F2");
+            }
+            if (strength <= 0f)
+            {
+                return "TSA_WD_DecontaminationTooltip_NoStrength".Translate(
+                    work.ToString("F0"),
+                    reduction.ToString("F0"),
+                    timeStr,
+                    minC.ToString());
             }
             return "TSA_WD_DecontaminationTooltip".Translate(
                 work.ToString("F0"),

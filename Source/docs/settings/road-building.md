@@ -1,6 +1,12 @@
-# Road building settings
+# Building Projects settings
 
-This advanced page configures roads, road blocks, traps, AT Turrets, and decontamination projects. Road movement, work, and minimum Construction values are fallbacks used when Roads of the Rim is not active. Winter reduction is always applied.
+Settings for Building projects that can be executed by player Outposts and for the most part also by the Colony and NPC settlements. Global cost multipliers (strength, materials, build time) always apply. Covers roads, bridges, trenches, road blocks, traps, AT Turrets (build and combat), and decontamination. Road movement values below apply only when Roads of the Rim is not active; Work, strength, and min Construction always apply to WD projects. Winter reduction always applies. Clear/deconstruct use strength and build time, not materials.
+
+| Control | Default | What it changes |
+|---|---:|---|
+| Strength cost multiplier | 100% | Scales dispatch strength for build and clear/deconstruct (roads, bridges, trenches, blocks, traps, AT, decontamination). Per-type strength sliders below are bases. At 0% strength is free and hidden in the build menu. |
+| Material cost multiplier | 100% | Scales world-build material counts (not outpost upgrades). Clear/deconstruct stay free of materials. At 0% materials are free and hidden in the build menu. |
+| Building time multiplier | 100% | Scales prep duration for build and clear/deconstruct. Per-type Work sliders below are bases. At 0% prep is instant. |
 
 ## Roads
 

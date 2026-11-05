@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_68_Title>Tiny update. Building Projects cost modifiers</TSA_WD_Update_2_3_68_Title>
+  <TSA_WD_Update_2_3_68_Body><![CDATA[
+<size=16><b>2.3.68 - Tiny update. Building Projects cost modifiers</b></size>\n
+<color=#00FFFFFF>Release date: November 5th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• In the Building Projects mod settings menu, you can now modify the time to build things like roads, trenches, AT turrets, etc., as well as the material and strength cost via individual sliders.\n
+• As requested by a player via Discord (make sure to join!).\n
+]]></TSA_WD_Update_2_3_68_Body>
   <TSA_WD_Update_2_3_67_Title>Settings menu rework &amp; revolt</TSA_WD_Update_2_3_67_Title>
   <TSA_WD_Update_2_3_67_Body><![CDATA[
 <size=16><b>2.3.67 - Settings menu rework & revolt</b></size>\n

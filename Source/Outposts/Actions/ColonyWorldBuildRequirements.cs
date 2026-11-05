@@ -95,33 +95,75 @@ namespace TSA_WorldDomination
             return null;
         }
 
-        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForRoad(SettlementTier tier)
+        /// <summary>Unscaled Def costs (may alias Def XML lists — never mutate).</summary>
+        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForRoadUnscaled(SettlementTier tier)
         {
             WdRoadTierDef def = WdBiomeTableResolver.GetRoadTierDef(tier);
             if (def?.cost == null || def.cost.Count == 0) return EmptyCosts;
             return def.cost;
         }
 
-        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForRoadBlock(RoadBlockKind kind)
+        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForRoadBlockUnscaled(RoadBlockKind kind)
         {
             WdRoadBlockKindDef def = WdWorldBuildKindDefResolver.GetRoadBlock(kind);
             if (def?.cost == null || def.cost.Count == 0) return EmptyCosts;
             return def.cost;
         }
 
-        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForSpikeTrap(SpikeTrapKind kind)
+        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForSpikeTrapUnscaled(SpikeTrapKind kind)
         {
             WdSpikeTrapKindDef def = WdWorldBuildKindDefResolver.GetSpikeTrap(kind);
             if (def?.cost == null || def.cost.Count == 0) return EmptyCosts;
             return def.cost;
         }
 
-        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForAtTurret(AtTurretTier tier)
+        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForAtTurretUnscaled(AtTurretTier tier)
         {
             WdWorldBuildCostExtension ext = GetAtTurretBuildExtension(tier);
             if (ext?.cost == null || ext.cost.Count == 0) return EmptyCosts;
             return ext.cost;
         }
+
+        /// <summary>
+        /// World-build materials with Building Projects material mult applied.
+        /// At 100%: returns the unscaled list by reference (no alloc). Otherwise clones; never mutates Defs.
+        /// </summary>
+        public static List<OutpostUpgradeCostEntry> ApplyWorldBuildMaterialScale(List<OutpostUpgradeCostEntry> baseCosts)
+        {
+            var s = WorldDominationMod.settings;
+            float mult = s != null ? s.worldBuildMaterialCostMult : 1f;
+            if (mult <= 0f) return EmptyCosts;
+            if (baseCosts == null || baseCosts.Count == 0) return EmptyCosts;
+            if (s == null || Mathf.Approximately(mult, 1f)) return baseCosts;
+
+            var scaled = new List<OutpostUpgradeCostEntry>(baseCosts.Count);
+            for (int i = 0; i < baseCosts.Count; i++)
+            {
+                OutpostUpgradeCostEntry e = baseCosts[i];
+                if (e == null) continue;
+                int count = s.ScaleWorldBuildMaterialCount(e.count);
+                if (count <= 0) continue;
+                scaled.Add(new OutpostUpgradeCostEntry
+                {
+                    thingDef = e.thingDef,
+                    count = count,
+                    costMode = e.costMode
+                });
+            }
+            return scaled.Count > 0 ? scaled : EmptyCosts;
+        }
+
+        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForRoad(SettlementTier tier) =>
+            ApplyWorldBuildMaterialScale(GetMaterialCostsForRoadUnscaled(tier));
+
+        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForRoadBlock(RoadBlockKind kind) =>
+            ApplyWorldBuildMaterialScale(GetMaterialCostsForRoadBlockUnscaled(kind));
+
+        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForSpikeTrap(SpikeTrapKind kind) =>
+            ApplyWorldBuildMaterialScale(GetMaterialCostsForSpikeTrapUnscaled(kind));
+
+        public static List<OutpostUpgradeCostEntry> GetMaterialCostsForAtTurret(AtTurretTier tier) =>
+            ApplyWorldBuildMaterialScale(GetMaterialCostsForAtTurretUnscaled(tier));
 
         /// <summary>True when this actor pays world-build materials (player outpost or colony build site).</summary>
         public static bool ActorPaysWorldBuildMaterials(WorldObject actor)
@@ -131,17 +173,47 @@ namespace TSA_WorldDomination
                 || ColonyWorldBuildUtility.IsPlayerColonyBuildActor(actor);
         }
 
+        /// <summary>
+        /// Afford check without allocating at non-1 material mult (iterates unscaled base + scaled need).
+        /// </summary>
+        public static bool HasWorldBuildMaterials(List<OutpostUpgradeCostEntry> baseCosts)
+        {
+            var s = WorldDominationMod.settings;
+            float mult = s != null ? s.worldBuildMaterialCostMult : 1f;
+            if (mult <= 0f) return true;
+            if (baseCosts == null || baseCosts.Count == 0) return true;
+            if (s == null || Mathf.Approximately(mult, 1f))
+                return ColonyWorldBuildMaterials.HasMaterialCosts(baseCosts);
+
+            Map colonyMap = ColonyWorldBuildMaterials.GetColonyMap();
+            var warehouses = ColonyWorldBuildMaterials.GetContributingWarehouses();
+            if (colonyMap == null && (warehouses == null || warehouses.Count == 0))
+                return false;
+
+            for (int i = 0; i < baseCosts.Count; i++)
+            {
+                OutpostUpgradeCostEntry e = baseCosts[i];
+                if (e == null || e.count <= 0) continue;
+                if (e.thingDef == null && !ColonyWorldBuildMaterials.IsAnyStoneBlocksCost(e)) continue;
+                int need = s.ScaleWorldBuildMaterialCount(e.count);
+                if (need <= 0) continue;
+                int have = ColonyWorldBuildMaterials.CountHaveForCost(e);
+                if (have < need) return false;
+            }
+            return true;
+        }
+
         public static bool HasMaterialCostsForRoad(SettlementTier tier) =>
-            ColonyWorldBuildMaterials.HasMaterialCosts(GetMaterialCostsForRoad(tier));
+            HasWorldBuildMaterials(GetMaterialCostsForRoadUnscaled(tier));
 
         public static bool HasMaterialCostsForRoadBlock(RoadBlockKind kind) =>
-            ColonyWorldBuildMaterials.HasMaterialCosts(GetMaterialCostsForRoadBlock(kind));
+            HasWorldBuildMaterials(GetMaterialCostsForRoadBlockUnscaled(kind));
 
         public static bool HasMaterialCostsForSpikeTrap(SpikeTrapKind kind) =>
-            ColonyWorldBuildMaterials.HasMaterialCosts(GetMaterialCostsForSpikeTrap(kind));
+            HasWorldBuildMaterials(GetMaterialCostsForSpikeTrapUnscaled(kind));
 
         public static bool HasMaterialCostsForAtTurret(AtTurretTier tier) =>
-            ColonyWorldBuildMaterials.HasMaterialCosts(GetMaterialCostsForAtTurret(tier));
+            HasWorldBuildMaterials(GetMaterialCostsForAtTurretUnscaled(tier));
 
         public static bool TryDeductForRoad(SettlementTier tier, out string reason) =>
             ColonyWorldBuildMaterials.TryDeductMaterialCosts(GetMaterialCostsForRoad(tier), out reason);

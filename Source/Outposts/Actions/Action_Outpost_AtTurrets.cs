@@ -144,10 +144,12 @@ namespace TSA_WorldDomination
 
             float days = WorldActions_AtTurrets.GetEstimatedDaysPerAtTurret(outpost, tier);
             float strength = WorldActions_AtTurrets.GetExpeditionStrengthCost(tier);
-            string tip = "TSA_WD_AT_TurretTierTooltip".Translate(
-                label,
-                strength.ToString("F0"),
-                days > 0f ? days.ToString("F1") : "?");
+            if (ColonyWorldBuildUtility.IsPlayerColonyBuildActor(outpost))
+                strength = 0f;
+            string daysStr = days > 0f ? days.ToString("F1") : "?";
+            string tip = strength <= 0f
+                ? "TSA_WD_AT_TurretTierTooltip_NoStrength".Translate(label, daysStr).ToString()
+                : "TSA_WD_AT_TurretTierTooltip".Translate(label, strength.ToString("F0"), daysStr).ToString();
 
             var opt = new FloatMenuOption(
                 label,

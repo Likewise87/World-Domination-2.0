@@ -844,26 +844,30 @@ namespace TSA_WorldDomination
             return WaterScratch.Count;
         }
 
-        public static List<OutpostUpgradeCostEntry> GetBridgeMaterialCosts(int waterTiles)
+        /// <summary>Stone-road base × water × 2, before Building Projects material mult.</summary>
+        public static List<OutpostUpgradeCostEntry> GetBridgeMaterialCostsUnscaled(int waterTiles)
         {
             List<OutpostUpgradeCostEntry> baseCosts =
-                ColonyWorldBuildRequirements.GetMaterialCostsForRoad(BridgeRoadTier);
+                ColonyWorldBuildRequirements.GetMaterialCostsForRoadUnscaled(BridgeRoadTier);
             int scale = Mathf.Max(1, waterTiles) * 2;
             if (baseCosts == null || baseCosts.Count == 0) return ColonyWorldBuildMaterials.EmptyCostList;
-            var scaled = new List<OutpostUpgradeCostEntry>(baseCosts.Count);
+            var waterScaled = new List<OutpostUpgradeCostEntry>(baseCosts.Count);
             for (int i = 0; i < baseCosts.Count; i++)
             {
                 OutpostUpgradeCostEntry e = baseCosts[i];
                 if (e == null) continue;
-                scaled.Add(new OutpostUpgradeCostEntry
+                waterScaled.Add(new OutpostUpgradeCostEntry
                 {
                     thingDef = e.thingDef,
                     count = e.count * scale,
                     costMode = e.costMode
                 });
             }
-            return scaled;
+            return waterScaled;
         }
+
+        public static List<OutpostUpgradeCostEntry> GetBridgeMaterialCosts(int waterTiles) =>
+            ColonyWorldBuildRequirements.ApplyWorldBuildMaterialScale(GetBridgeMaterialCostsUnscaled(waterTiles));
 
         /// <summary>AnyStoneBlocks count charged for one water tile (2× stone-road segment).</summary>
         public static int GetBridgeAnyStoneBlocksPerWaterTile() =>
@@ -887,7 +891,7 @@ namespace TSA_WorldDomination
         }
 
         public static bool HasMaterialCostsForBridge(int waterTiles) =>
-            ColonyWorldBuildMaterials.HasMaterialCosts(GetBridgeMaterialCosts(waterTiles));
+            ColonyWorldBuildRequirements.HasWorldBuildMaterials(GetBridgeMaterialCostsUnscaled(waterTiles));
 
         /// <summary>True if another outpost's active bridge project already claims any water tile or bank of this span.</summary>
         public static bool IsSpanProjectLocked(List<int> fullChain, CompViralSpread exclude = null)

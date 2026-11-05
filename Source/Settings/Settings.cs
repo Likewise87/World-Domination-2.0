@@ -367,6 +367,12 @@ namespace TSA_WorldDomination
         public const int DefMaxRoadRange = 16;
         /// <summary>NPC faction road-building max tile range (<see cref="WorldActions_Roads"/>).</summary>
         public const int DefMaxRoadRangeNpc = 40;
+        /// <summary>Global multiplier for player world-build strength costs (Building Projects). 1 = 100%.</summary>
+        public const float DefWorldBuildStrengthCostMult = 1f;
+        /// <summary>Global multiplier for player world-build material counts (Building Projects). 1 = 100%.</summary>
+        public const float DefWorldBuildMaterialCostMult = 1f;
+        /// <summary>Global multiplier for player world-build prep duration (Building Projects). 1 = 100%.</summary>
+        public const float DefWorldBuildBuildTimeMult = 1f;
         public const int DefMaxRoadBlockRange = 10;
         // Road blocks — per tier (Light / Normal / Heavy). Legacy single-value defaults map to Normal.
         public const float DefRoadBlockLightFlatPenalty = 1.5f;
@@ -396,7 +402,7 @@ namespace TSA_WorldDomination
         public const int DefMaxDecontaminationRange = 15;
         public const float DefDecontaminationWork = 350f;
         public const float DefDecontaminationExpeditionStrength = 20f;
-        public const float DefDecontaminationPollutionReductionPp = 40f;
+        public const float DefDecontaminationPollutionReductionPp = 60f;
         public const float DefFallbackDirtRoadMovement = 0.7f;
         public const float DefFallbackStoneRoadMovement = 0.5f;
         public const float DefFallbackAsphaltRoadMovement = 0.3f;
@@ -1195,6 +1201,8 @@ namespace TSA_WorldDomination
         /// <summary>Yellow letter the first time a player WD traveler takes pollution exit damage. On by default.</summary>
         public const bool DefNotifyTravelerPollutionDamage = true;
         public const bool DefNotifyOutpostPollutionDamage = true;
+        /// <summary>Letter when an NPC settlement is wiped by pollution (radius-gated). On by default.</summary>
+        public const bool DefNotifySettlementDestroyedByPollution = true;
         public const bool DefNotifyPrisonerRecruitedUnderway = true;
         public const bool DefAlwaysShowOutpostTravelerIconsRegardlessOfZoom = true;
         public const bool DefAlwaysShowSettlementIconsRegardlessOfZoom = true;
@@ -1460,6 +1468,12 @@ namespace TSA_WorldDomination
         public int maxRoadRange = DefMaxRoadRange;
         /// <summary>NPC settlement road-building max tile range.</summary>
         public int maxRoadRangeNpc = DefMaxRoadRangeNpc;
+        /// <summary>0–4: scales world-build strength costs (roads, bridges, trenches, blocks, traps, AT, decontam).</summary>
+        public float worldBuildStrengthCostMult = DefWorldBuildStrengthCostMult;
+        /// <summary>0–4: scales world-build material counts (not outpost upgrades).</summary>
+        public float worldBuildMaterialCostMult = DefWorldBuildMaterialCostMult;
+        /// <summary>0–4: scales world-build prep duration (build and clear/deconstruct).</summary>
+        public float worldBuildBuildTimeMult = DefWorldBuildBuildTimeMult;
         public int maxRoadBlockRange = DefMaxRoadBlockRange;
         public float roadBlockLightFlatPenalty = DefRoadBlockLightFlatPenalty;
         public float roadBlockNormalFlatPenalty = DefRoadBlockNormalFlatPenalty;
@@ -2205,6 +2219,7 @@ namespace TSA_WorldDomination
         public bool notifyRapidResponseCaravanClash = DefNotifyRapidResponseCaravanClash;
         public bool notifyTravelerPollutionDamage = DefNotifyTravelerPollutionDamage;
         public bool notifyOutpostPollutionDamage = DefNotifyOutpostPollutionDamage;
+        public bool notifySettlementDestroyedByPollution = DefNotifySettlementDestroyedByPollution;
         public bool notifyPrisonerRecruitedUnderway = DefNotifyPrisonerRecruitedUnderway;
         public bool alwaysShowOutpostTravelerIconsRegardlessOfZoom = DefAlwaysShowOutpostTravelerIconsRegardlessOfZoom;
         public bool alwaysShowSettlementIconsRegardlessOfZoom = DefAlwaysShowSettlementIconsRegardlessOfZoom;
@@ -2584,8 +2599,32 @@ namespace TSA_WorldDomination
             return Mathf.Max(0f, dmg);
         }
 
+        /// <summary>Apply Building Projects strength cost multiplier. At 0% returns 0.</summary>
+        public float ScaleWorldBuildStrengthCost(float baseCost)
+        {
+            if (worldBuildStrengthCostMult <= 0f) return 0f;
+            return Mathf.Max(0f, baseCost * worldBuildStrengthCostMult);
+        }
+
+        /// <summary>Apply Building Projects material count multiplier. At 0% returns 0; nonzero mult never rounds a positive base to 0.</summary>
+        public int ScaleWorldBuildMaterialCount(int baseCount)
+        {
+            if (baseCount <= 0) return 0;
+            if (worldBuildMaterialCostMult <= 0f) return 0;
+            if (Mathf.Approximately(worldBuildMaterialCostMult, 1f)) return baseCount;
+            int n = Mathf.RoundToInt(baseCount * worldBuildMaterialCostMult);
+            return n < 1 ? 1 : n;
+        }
+
+        /// <summary>Apply Building Projects build-time multiplier to progress ticks. At 0% returns 0 (instant).</summary>
+        public float ScaleWorldBuildBuildTimeTicks(float baseTicks)
+        {
+            if (worldBuildBuildTimeMult <= 0f) return 0f;
+            return Mathf.Max(0f, baseTicks * worldBuildBuildTimeMult);
+        }
+
         /// <summary>Enforce Dirt≤Stone≤Asphalt and Light≤Normal≤Heavy / Spike≤Caltrops cascades.</summary>
-        public void ClampRoadBuildingCascades()
+        public void ClampBuildingProjectsCascades()
         {
             // Roads: work & strength
             if (fallbackStoneRoadWork < fallbackDirtRoadWork)
@@ -2697,6 +2736,9 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref expandMaxRadius, "expandMaxRadius", DefExpandMaxRad);
             Scribe_Values.Look(ref maxRoadRange, "maxRoadRange", DefMaxRoadRange);
             Scribe_Values.Look(ref maxRoadRangeNpc, "maxRoadRangeNpc", DefMaxRoadRangeNpc);
+            Scribe_Values.Look(ref worldBuildStrengthCostMult, "worldBuildStrengthCostMult", DefWorldBuildStrengthCostMult);
+            Scribe_Values.Look(ref worldBuildMaterialCostMult, "worldBuildMaterialCostMult", DefWorldBuildMaterialCostMult);
+            Scribe_Values.Look(ref worldBuildBuildTimeMult, "worldBuildBuildTimeMult", DefWorldBuildBuildTimeMult);
             Scribe_Values.Look(ref maxRoadBlockRange, "maxRoadBlockRange", DefMaxRoadBlockRange);
 
             // Per-tier road blocks (migrate legacy single-value keys onto Normal).
@@ -2776,7 +2818,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref fallbackAsphaltRoadWinterReduction, "fallbackAsphaltRoadWinterReduction", DefFallbackAsphaltRoadWinterReduction);
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
-                ClampRoadBuildingCascades();
+                ClampBuildingProjectsCascades();
 
             Scribe_Values.Look(ref minorIncidentSeverity, "minorIncidentSeverity", DefMinorIncSev);
             Scribe_Values.Look(ref majorIncidentSeverity, "majorIncidentSeverity", DefMajorIncSev);
@@ -3399,6 +3441,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref notifyRapidResponseCaravanClash, "notifyRapidResponseCaravanClash", DefNotifyRapidResponseCaravanClash);
             Scribe_Values.Look(ref notifyTravelerPollutionDamage, "notifyTravelerPollutionDamage", DefNotifyTravelerPollutionDamage);
             Scribe_Values.Look(ref notifyOutpostPollutionDamage, "notifyOutpostPollutionDamage", DefNotifyOutpostPollutionDamage);
+            Scribe_Values.Look(ref notifySettlementDestroyedByPollution, "notifySettlementDestroyedByPollution", DefNotifySettlementDestroyedByPollution);
             Scribe_Values.Look(ref notifyPrisonerRecruitedUnderway, "notifyPrisonerRecruitedUnderway", DefNotifyPrisonerRecruitedUnderway);
             Scribe_Values.Look(ref alwaysShowOutpostTravelerIconsRegardlessOfZoom, "alwaysShowOutpostTravelerIconsRegardlessOfZoom", DefAlwaysShowOutpostTravelerIconsRegardlessOfZoom);
             Scribe_Values.Look(ref alwaysShowSettlementIconsRegardlessOfZoom, "alwaysShowSettlementIconsRegardlessOfZoom", DefAlwaysShowSettlementIconsRegardlessOfZoom);
@@ -4441,7 +4484,7 @@ namespace TSA_WorldDomination
             decontaminationWork = DefDecontaminationWork;
             decontaminationExpeditionStrength = DefDecontaminationExpeditionStrength;
             decontaminationPollutionReductionPp = DefDecontaminationPollutionReductionPp;
-            ResetRoadBuildingFallback();
+            ResetBuildingProjects();
             minorIncidentSeverity = DefMinorIncSev;
             majorIncidentSeverity = DefMajorIncSev;
             localMaxT1 = DefLocalMaxT1;
@@ -4467,8 +4510,11 @@ namespace TSA_WorldDomination
             traderTierUpgradeChanceT3ToT4 = DefTraderTierUpgradeChanceT3ToT4;
         }
 
-        public void ResetRoadBuildingFallback()
+        public void ResetBuildingProjects()
         {
+            worldBuildStrengthCostMult = DefWorldBuildStrengthCostMult;
+            worldBuildMaterialCostMult = DefWorldBuildMaterialCostMult;
+            worldBuildBuildTimeMult = DefWorldBuildBuildTimeMult;
             // Prefer XML road-tier defaults when defs are loaded; otherwise keep compiled constants.
             WdRoadTierDef dirt = WdBiomeTableResolver.GetRoadTierDef(SettlementTier.T1);
             WdRoadTierDef stone = WdBiomeTableResolver.GetRoadTierDef(SettlementTier.T2);
@@ -5623,6 +5669,7 @@ namespace TSA_WorldDomination
             notifyRapidResponseCaravanClash = DefNotifyRapidResponseCaravanClash;
             notifyTravelerPollutionDamage = DefNotifyTravelerPollutionDamage;
             notifyOutpostPollutionDamage = DefNotifyOutpostPollutionDamage;
+            notifySettlementDestroyedByPollution = DefNotifySettlementDestroyedByPollution;
             notifyPrisonerRecruitedUnderway = DefNotifyPrisonerRecruitedUnderway;
         }
 

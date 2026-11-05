@@ -84,12 +84,12 @@ namespace TSA_WorldDomination
             if (s == null || !s.travelerPollutionDamageEnabled) return;
             if (!IsEligibleSite(comp.parent, comp)) return;
 
-            // Outpost already at ~0 offense: only wipe if pollution is actually present.
+            // Already at ~0 offense: only wipe if pollution is actually present.
             // Otherwise log diagnostics and leave it (regen / other systems may recover).
             // Do NOT attribute road/incident/raid zeroing to pollution.
-            if (comp.IsOutpost && comp.offensiveStrength <= DeadOffenseEpsilon)
+            if (comp.offensiveStrength <= DeadOffenseEpsilon)
             {
-                HandleOutpostAlreadyAtZeroOffense(comp, s);
+                HandleSiteAlreadyAtZeroOffense(comp, s);
                 return;
             }
 
@@ -117,13 +117,12 @@ namespace TSA_WorldDomination
             WDVerbose.Msg(
                 $"[WD] Site pollution dmg site={comp.parent.LabelCap} dmg={damage:F0} avgP={avg:F2} r={radius} " +
                 $"off {offBefore:F1}->{comp.offensiveStrength:F1} def {defBefore:F1}->{comp.defensiveStrength:F1} " +
-                FormatOutpostContext(comp));
+                FormatSiteContext(comp));
 
-            // Outpost "strength" is offensive; at 0 the site is dead (same as traveler wipe).
-            // Do not wait on residual defensiveStrength or next-day regen will revive it.
-            if (comp.IsOutpost && comp.offensiveStrength <= DeadOffenseEpsilon)
+            // Offense at 0 = dead site (settlement or outpost). Do not wait on residual defense.
+            if (comp.offensiveStrength <= DeadOffenseEpsilon)
             {
-                DestroyOutpostFromPollution(comp, manager, "pollution_damage", avg, radius);
+                DestroySiteFromPollution(comp, manager, "pollution_damage", avg, radius);
                 return;
             }
 
@@ -142,27 +141,28 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Called when daily pollution tick finds an outpost already at ~0 offense.
-        /// Wipes only if local pollution exists; otherwise logs and leaves the outpost alone.
+        /// Called when daily pollution tick finds a site already at ~0 offense.
+        /// Wipes only if local pollution exists; otherwise logs and leaves the site alone.
         /// </summary>
-        private static void HandleOutpostAlreadyAtZeroOffense(CompViralSpread comp, WorldDominationSettings s)
+        private static void HandleSiteAlreadyAtZeroOffense(CompViralSpread comp, WorldDominationSettings s)
         {
             int radius = s.pollutionDamageRadius;
             bool hasPollution = TryGetAveragePollution01(comp.parent.Tile, radius, out float avg);
-            string ctx = FormatOutpostContext(comp);
+            string ctx = FormatSiteContext(comp);
+            string kind = comp.IsOutpost ? "Outpost" : "Settlement";
 
             if (!hasPollution)
             {
                 Log.Warning(
-                    $"[WD] Outpost offense~0 on pollution tick but no local pollution — not wiping " +
+                    $"[WD] {kind} offense~0 on pollution tick but no local pollution — not wiping " +
                     $"(likely incident/raid/road/other). {ctx} r={radius}");
                 return;
             }
 
             WDVerbose.Msg(
-                $"[WD] Outpost offense~0 on pollution tick with local pollution — wiping husk. " +
+                $"[WD] {kind} offense~0 on pollution tick with local pollution — wiping husk. " +
                 $"{ctx} avgP={avg:F2} r={radius}");
-            DestroyOutpostFromPollution(
+            DestroySiteFromPollution(
                 comp,
                 Find.World?.GetComponent<WorldComponent_SpreadManager>(),
                 "husk_zero_offense",
@@ -170,25 +170,42 @@ namespace TSA_WorldDomination
                 radius);
         }
 
-        private static void DestroyOutpostFromPollution(
+        private static void DestroySiteFromPollution(
             CompViralSpread comp,
             WorldComponent_SpreadManager manager,
             string wipeReason,
             float avgPollution01,
             int radius)
         {
-            WorldObject site = comp?.parent;
-            if (site == null || site.Destroyed) return;
-            if (site is not WorldObject_WD_Outpost outpost) return;
+            if (comp?.parent == null || comp.parent.Destroyed) return;
 
+            if (comp.IsOutpost && comp.parent is WorldObject_WD_Outpost outpost)
+            {
+                DestroyOutpostFromPollution(outpost, comp, manager, wipeReason, avgPollution01, radius);
+                return;
+            }
+
+            if (comp.IsSettlement && comp.parent is Settlement settlement)
+            {
+                DestroySettlementFromPollution(settlement, comp, manager, wipeReason, avgPollution01, radius);
+            }
+        }
+
+        private static void DestroyOutpostFromPollution(
+            WorldObject_WD_Outpost outpost,
+            CompViralSpread comp,
+            WorldComponent_SpreadManager manager,
+            string wipeReason,
+            float avgPollution01,
+            int radius)
+        {
             string label = outpost.LabelCap;
             PlanetTile tile = outpost.Tile;
             Faction outpostFaction = outpost.Faction;
-            string ctx = FormatOutpostContext(comp);
+            string ctx = FormatSiteContext(comp);
 
             string destroyText = "TSA_WD_Log_Pollution_DestroyedSite".Translate(label);
             manager?.AddLog(new SpreadLogEntry(destroyText, outpost));
-            // Always log wipe details, even when player notifications are off.
             WDVerbose.Msg(
                 $"[WD] Pollution destroyed outpost={label} tile={tile.tileId} reason={wipeReason} " +
                 $"avgP={avgPollution01:F2} r={radius} {ctx}");
@@ -209,7 +226,46 @@ namespace TSA_WorldDomination
             WorldObject_WdSettlementRuin.Spawn(tile.tileId, label, outpostFaction);
         }
 
-        private static string FormatOutpostContext(CompViralSpread comp)
+        private static void DestroySettlementFromPollution(
+            Settlement settlement,
+            CompViralSpread comp,
+            WorldComponent_SpreadManager manager,
+            string wipeReason,
+            float avgPollution01,
+            int radius)
+        {
+            string label = settlement.LabelCap;
+            int tile = settlement.Tile;
+            Faction faction = settlement.Faction;
+            string ctx = FormatSiteContext(comp);
+
+            string destroyText = "TSA_WD_Log_Pollution_DestroyedSite".Translate(label);
+            manager?.AddLog(new SpreadLogEntry(destroyText, settlement));
+            WDVerbose.Msg(
+                $"[WD] Pollution destroyed settlement={label} tile={tile} reason={wipeReason} " +
+                $"avgP={avgPollution01:F2} r={radius} {ctx}");
+
+            var s = WorldDominationMod.settings;
+            if ((s?.notifySettlementDestroyedByPollution ?? true)
+                && WD_NotifyProximity.IsWithinPlayerNotificationRadius(tile))
+            {
+                Find.LetterStack.ReceiveLetter(
+                    "TSA_WD_Letter_SettlementDestroyedByPollution_Label".Translate(),
+                    "TSA_WD_Letter_SettlementDestroyedByPollution_Text".Translate(label),
+                    LetterDefOf.NegativeEvent,
+                    new GlobalTargetInfo(tile));
+            }
+
+            // Pollution wipe is disaster-style: do not start Strategy on Settlement Loss.
+            // Destroy (not Remove) so PostDestroy nukes advanced buildings / fortifications.
+            WorldActions_DesperationRaid.SuppressLossNotify(settlement);
+            settlement.Destroy();
+            WorldObject_WdSettlementRuin.Spawn(tile, label, faction);
+            WorldActions_Utils.TryMarkDefeatedIfNoSettlementsLeft(faction);
+            WorldActions_Utils.RefreshMap();
+        }
+
+        private static string FormatSiteContext(CompViralSpread comp)
         {
             if (comp?.parent == null) return "site=null";
             WorldObject site = comp.parent;

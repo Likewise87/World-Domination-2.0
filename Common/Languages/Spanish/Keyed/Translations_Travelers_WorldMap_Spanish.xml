@@ -79,6 +79,8 @@
   <TSA_WD_Message_OutpostPollutionDamage>{0} perdió {1} de fuerza por contaminación cercana.</TSA_WD_Message_OutpostPollutionDamage>
   <TSA_WD_Letter_OutpostDestroyedByPollution_Label>Avanzadilla destruida por contaminación</TSA_WD_Letter_OutpostDestroyedByPollution_Label>
   <TSA_WD_Letter_OutpostDestroyedByPollution_Text>{0} ha sido abandonada. La contaminación cercana redujo su fuerza a cero. Se perdieron todos los ocupantes. Quedan ruinas un tiempo y bloquean nuevas avanzadillas cerca.</TSA_WD_Letter_OutpostDestroyedByPollution_Text>
+  <TSA_WD_Letter_SettlementDestroyedByPollution_Label>Asentamiento destruido por contaminación</TSA_WD_Letter_SettlementDestroyedByPollution_Label>
+  <TSA_WD_Letter_SettlementDestroyedByPollution_Text>{0} se ha derrumbado. La contaminación cercana redujo su fuerza a cero. Los edificios avanzados y fortificaciones han desaparecido. Quedan ruinas un tiempo.</TSA_WD_Letter_SettlementDestroyedByPollution_Text>
   <TSA_WD_Letter_PollutionDamage_Label>Daño por contaminación</TSA_WD_Letter_PollutionDamage_Label>
   <TSA_WD_Letter_PollutionDamage_Text>{0} perdió {1} de fuerza tras salir de una casilla contaminada. El daño por contaminación posterior de este viajero no enviará otra carta.</TSA_WD_Letter_PollutionDamage_Text>
   <TSA_WD_Traveler_Outpost_RoadBlock>Cuadrilla de bloqueos</TSA_WD_Traveler_Outpost_RoadBlock>

@@ -47,7 +47,8 @@ namespace TSA_WorldDomination
         public static float GetExpeditionStrengthCost(SpikeTrapKind kind)
         {
             var s = WorldDominationMod.settings;
-            return Mathf.Max(1f, s != null ? s.GetSpikeTrapExpeditionStrength(kind) : WorldDominationSettings.DefSpikeTrapSpikeExpeditionStrength);
+            float cost = Mathf.Max(1f, s != null ? s.GetSpikeTrapExpeditionStrength(kind) : WorldDominationSettings.DefSpikeTrapSpikeExpeditionStrength);
+            return s != null ? s.ScaleWorldBuildStrengthCost(cost) : cost;
         }
 
         public static float GetExpeditionStrengthCost()

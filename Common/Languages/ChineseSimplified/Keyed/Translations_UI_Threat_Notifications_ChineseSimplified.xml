@@ -179,6 +179,8 @@
   <TSA_WD_Notify_TravelerPollutionDamageTooltip>每个 WD 旅行者首次因离开污染格损失力量时的一封黄色信件。同一旅行者后续污染格保持静默。</TSA_WD_Notify_TravelerPollutionDamageTooltip>
   <TSA_WD_Notify_OutpostPollutionDamage>消息：前哨污染伤害</TSA_WD_Notify_OutpostPollutionDamage>
   <TSA_WD_Notify_OutpostPollutionDamageTooltip>WD 前哨因附近平均污染损失实力时（有伤害时每天一次）。清场仍会发信件。开发日志总会记录。</TSA_WD_Notify_OutpostPollutionDamageTooltip>
+  <TSA_WD_Notify_SettlementDestroyedByPollution>信件：聚落因污染被摧毁</TSA_WD_Notify_SettlementDestroyedByPollution>
+  <TSA_WD_Notify_SettlementDestroyedByPollutionTooltip>当 NPC 聚落因附近污染将实力降至零而被清除时（在附近信件半径内）。废墟会残留一段时间。</TSA_WD_Notify_SettlementDestroyedByPollutionTooltip>
   <TSA_WD_Notify_HeaderNearby>附近世界事件</TSA_WD_Notify_HeaderNearby>
   <TSA_WD_Notify_HeaderWorldThreats>世界威胁行动</TSA_WD_Notify_HeaderWorldThreats>
   <TSA_WD_Notify_HeaderWorldThreatsTip>绝望突袭、龟缩集结与强势派系战争的信件。启用条件与时机见战斗难度。</TSA_WD_Notify_HeaderWorldThreatsTip>

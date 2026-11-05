@@ -3,10 +3,11 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    public class Dialog_RoadBuildingSettings : Window
+    public class Dialog_BuildingProjectsSettings : Window
     {
         private Vector2 scrollPosition;
         private readonly string windowTitle;
+        private bool costMultExpanded = true;
         private bool roadsExpanded = true;
         private bool roadBlocksExpanded = true;
         private bool trapsExpanded = true;
@@ -17,21 +18,21 @@ namespace TSA_WorldDomination
 
         public override Vector2 InitialSize => new Vector2(850f, 700f);
 
-        public Dialog_RoadBuildingSettings()
+        public Dialog_BuildingProjectsSettings()
         {
             doCloseButton = true;
             forcePause = true;
             closeOnClickedOutside = true;
-            windowTitle = "TSA_WD_BtnRoadBuilding".Translate();
+            windowTitle = "TSA_WD_BtnBuildingProjects".Translate();
             optionalTitle = null;
         }
 
         
-        private static Dialog_RoadBuildingSettings embeddedHost;
+        private static Dialog_BuildingProjectsSettings embeddedHost;
 
         public static void DrawEmbedded(Rect inRect)
         {
-            if (embeddedHost == null) embeddedHost = new Dialog_RoadBuildingSettings();
+            if (embeddedHost == null) embeddedHost = new Dialog_BuildingProjectsSettings();
             embeddedHost.DrawBody(inRect);
         }
 public override void DoWindowContents(Rect inRect)
@@ -69,12 +70,32 @@ WorldDominationSettings s = WorldDominationMod.settings;
             l.Gap(8f);
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () =>
             {
-                s.ResetRoadBuildingFallback();
-                            WorldActions_Roads.ApplyVanillaRoadMovementSettings();
+                s.ResetBuildingProjects();
+                WorldActions_Roads.ApplyVanillaRoadMovementSettings();
                 WD_WorldLayer_MovementDifficultyOverlay.InvalidateAndDirtyIfActive();
             },
-                () => { roadsExpanded = roadBlocksExpanded = trapsExpanded = atTurretsExpanded = decontamExpanded = true; },
-                () => { roadsExpanded = roadBlocksExpanded = trapsExpanded = atTurretsExpanded = decontamExpanded = false; });
+                () => { costMultExpanded = roadsExpanded = roadBlocksExpanded = trapsExpanded = atTurretsExpanded = decontamExpanded = true; },
+                () => { costMultExpanded = roadsExpanded = roadBlocksExpanded = trapsExpanded = atTurretsExpanded = decontamExpanded = false; });
+
+            if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_BuildingProjects_CostMultHeader".Translate(), ref costMultExpanded, SectionHeaderColor))
+            {
+                s.worldBuildStrengthCostMult = SettingsUI.LabeledSlider(l,
+                    "TSA_WD_BuildingProjects_StrengthCostMult".Translate(),
+                    s.worldBuildStrengthCostMult, 0f, 4f,
+                    "TSA_WD_BuildingProjects_StrengthCostMultTip".Translate(),
+                    0.05f, SliderFormat.Percent, WorldDominationSettings.DefWorldBuildStrengthCostMult);
+                s.worldBuildMaterialCostMult = SettingsUI.LabeledSlider(l,
+                    "TSA_WD_BuildingProjects_MaterialCostMult".Translate(),
+                    s.worldBuildMaterialCostMult, 0f, 4f,
+                    "TSA_WD_BuildingProjects_MaterialCostMultTip".Translate(),
+                    0.05f, SliderFormat.Percent, WorldDominationSettings.DefWorldBuildMaterialCostMult);
+                s.worldBuildBuildTimeMult = SettingsUI.LabeledSlider(l,
+                    "TSA_WD_BuildingProjects_BuildTimeMult".Translate(),
+                    s.worldBuildBuildTimeMult, 0f, 4f,
+                    "TSA_WD_BuildingProjects_BuildTimeMultTip".Translate(),
+                    0.05f, SliderFormat.Percent, WorldDominationSettings.DefWorldBuildBuildTimeMult);
+            }
+            l.Gap(8f);
 
             float oldDirtMovement = s.fallbackDirtRoadMovement;
             float oldStoneMovement = s.fallbackStoneRoadMovement;
@@ -240,7 +261,7 @@ WorldDominationSettings s = WorldDominationMod.settings;
                     "TSA_WD_RoadBuilding_DecontaminationReductionTip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefDecontaminationPollutionReductionPp);
             }
 
-            s.ClampRoadBuildingCascades();
+            s.ClampBuildingProjectsCascades();
 
             if (!Mathf.Approximately(oldLightPenalty, s.roadBlockLightFlatPenalty)
                 || !Mathf.Approximately(oldNormalPenalty, s.roadBlockNormalFlatPenalty)

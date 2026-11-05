@@ -378,6 +378,10 @@
   <TSA_WD_Notify_OutpostPollutionDamage>訊息：哨站汙染傷害</TSA_WD_Notify_OutpostPollutionDamage>
   <!-- EN: Show a message when one of your WD outposts loses strength from average pollution nearby (once per day when damage applies), and a letter if pollution wipes the outpost. Dev log always records these events. -->
   <TSA_WD_Notify_OutpostPollutionDamageTooltip>WD哨站因附近平均汙染損失戰力時（有傷害時每天一次）。覆滅仍會發信。開發者日誌一律記錄這些事件。</TSA_WD_Notify_OutpostPollutionDamageTooltip>
+  <!-- EN: Letter: settlement destroyed by pollution -->
+  <TSA_WD_Notify_SettlementDestroyedByPollution>信件：聚落因汙染而毀滅</TSA_WD_Notify_SettlementDestroyedByPollution>
+  <!-- EN: When an NPC settlement is wiped because nearby pollution reduced its strength to zero (within the nearby letter radius). Ruins remain for a while. -->
+  <TSA_WD_Notify_SettlementDestroyedByPollutionTooltip>當 NPC 聚落因附近汙染將戰力降至零而被清除時（在附近信件半徑內）。廢墟會留存一段時間。</TSA_WD_Notify_SettlementDestroyedByPollutionTooltip>
   <!-- EN: Nearby world events -->
   <TSA_WD_Notify_HeaderNearby>附近世界事件</TSA_WD_Notify_HeaderNearby>
   <!-- EN: World threat actions -->

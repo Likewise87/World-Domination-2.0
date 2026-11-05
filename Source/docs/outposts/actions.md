@@ -128,4 +128,4 @@ Overlay toggles apply to all player sites of the same relevant type. Use them wh
     | Normal road-block movement penalty | +2.5 |
     | Heavy road-block movement penalty | +4 |
 
-    Project work, offensive strength costs, damage, health, trigger limits, and feature availability are configurable. See [Settings: Outposts and food](../settings/outposts.md) and [Settings: Road building](../settings/road-building.md) for the complete current values.
+    Project work, offensive strength costs, damage, health, trigger limits, and feature availability are configurable. See [Settings: Outposts and food](../settings/outposts.md) and [Settings: Building Projects](../settings/road-building.md) for the complete current values.

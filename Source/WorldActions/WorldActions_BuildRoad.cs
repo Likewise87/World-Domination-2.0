@@ -186,7 +186,23 @@ namespace TSA_WorldDomination
         /// <summary>Ticks of progress work for one segment at <see cref="OutpostRoadReferenceConstructionSkill"/> cumulative Construction.</summary>
         public static float GetRoadProgressRequiredTicks(SettlementTier tier)
         {
-            return OutpostRoadReferenceConstructionSkill * GenDate.TicksPerDay * GetRoadTierDurationMultiplier(tier);
+            float ticks = OutpostRoadReferenceConstructionSkill * GenDate.TicksPerDay * GetRoadTierDurationMultiplier(tier);
+            var s = WorldDominationMod.settings;
+            return s != null ? s.ScaleWorldBuildBuildTimeTicks(ticks) : ticks;
+        }
+
+        /// <summary>
+        /// Accrue world-build prep progress. At 0% build-time mult (<paramref name="requiredTicks"/> &lt;= 0), completes instantly.
+        /// </summary>
+        public static void ApplyWorldBuildProgress(ref float progress, float workSpeed, float requiredTicks, float dt)
+        {
+            if (requiredTicks <= 0f)
+            {
+                progress = 1f;
+                return;
+            }
+            if (workSpeed <= 0f || dt <= 0f) return;
+            progress += (workSpeed / requiredTicks) * dt;
         }
 
         /// <summary>Localized label for the highest road tier this outpost can start (by cumulative Construction skill).</summary>
@@ -215,7 +231,9 @@ namespace TSA_WorldDomination
             float cost = WorldDominationMod.settings != null
                 ? WorldDominationMod.settings.GetFallbackRoadExpeditionStrength(roadTier)
                 : WorldDominationSettings.DefFallbackDirtRoadExpeditionStrength;
-            return Mathf.Max(1f, cost);
+            cost = Mathf.Max(1f, cost);
+            var s = WorldDominationMod.settings;
+            return s != null ? s.ScaleWorldBuildStrengthCost(cost) : cost;
         }
 
         /// <summary>Cumulative Construction skill used as work speed when filling road segment progress.</summary>

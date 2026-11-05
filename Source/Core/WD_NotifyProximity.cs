@@ -12,7 +12,7 @@ namespace TSA_WorldDomination
         {
             if (tile < 0 || Find.WorldGrid == null) return false;
             var seth = WorldDominationMod.settings;
-            float radius = Mathf.Clamp(seth?.notificationRadiusTiles ?? WorldDominationSettings.DefNotificationRadiusTiles, 1f, 500f);
+            float radius = Mathf.Clamp(seth?.notificationRadiusTiles ?? WorldDominationSettings.DefNotificationRadiusTiles, 1f, 250f);
 
             Settlement colony = InfluenceUtils.GetPlayerColony();
             if (colony != null && colony.Tile >= 0)

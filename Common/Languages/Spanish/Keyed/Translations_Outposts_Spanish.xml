@@ -2181,6 +2181,7 @@
   <TSA_WD_AT_TurretTier_RequiresSettlementTier>{0} (requiere {1})</TSA_WD_AT_TurretTier_RequiresSettlementTier>
   <TSA_WD_AT_TurretTier_Disabled>{0} (Construcción {1}/{2})</TSA_WD_AT_TurretTier_Disabled>
   <TSA_WD_AT_TurretTierTooltip>Coste de fuerza: {1}\nDías est.: {2}</TSA_WD_AT_TurretTierTooltip>
+  <TSA_WD_AT_TurretTierTooltip_NoStrength>Días est.: {1}</TSA_WD_AT_TurretTierTooltip_NoStrength>
   <TSA_WD_AT_Turret_TargetPrompt>Haz clic en una casilla libre y transitable para colocar una AT Turret. Mayús+clic para seleccionar varias.</TSA_WD_AT_Turret_TargetPrompt>
   <TSA_WD_AT_Turret_TargetSet>Proyecto de AT Turret fijado ({0} casillas).</TSA_WD_AT_Turret_TargetSet>
   <TSA_WD_AT_Turret_InvalidTile>Se necesita una casilla transitable sin asentamiento, puesto, bloqueo, trampa ni AT Turret existente.</TSA_WD_AT_Turret_InvalidTile>
@@ -2198,7 +2199,8 @@
   <TSA_WD_DecontaminationBuildTargetSet>Proyecto de descontaminación establecido ({0} casillas contaminadas).</TSA_WD_DecontaminationBuildTargetSet>
   <TSA_WD_DecontaminationBuildTip>Haz clic en cualquier casilla transitable para empezar. Shift+clic para waypoints. Solo se limpian casillas contaminadas de la ruta.</TSA_WD_DecontaminationBuildTip>
   <TSA_WD_DecontaminationKind_Disabled>{0} (Construcción {1}/{2})</TSA_WD_DecontaminationKind_Disabled>
-  <TSA_WD_DecontaminationTooltip>Trabajo: {0}\nReducción de contaminación: −{1} pp\nDías est./casilla: {2}\nCoste de fuerza: {3}\nConstrucción mín.: {4}</TSA_WD_DecontaminationTooltip>
+  <TSA_WD_DecontaminationTooltip>Trabajo: {0}\nReducción de contaminación: -{1} pp\nDías est./casilla: {2}\nCoste de fuerza: {3}\nConstrucción mín.: {4}</TSA_WD_DecontaminationTooltip>
+  <TSA_WD_DecontaminationTooltip_NoStrength>Trabajo: {0}\nReducción de contaminación: -{1} pp\nDías est./casilla: {2}\nConstrucción mín.: {3}</TSA_WD_DecontaminationTooltip_NoStrength>
   <TSA_WD_ClearSpikeTraps>Quitar trampas</TSA_WD_ClearSpikeTraps>
   <TSA_WD_ClearSpikeTrapsDesc>Elimina trampas de pinchos existentes.</TSA_WD_ClearSpikeTrapsDesc>
   <TSA_WD_CancelSpikeTraps>Cancelar trampas de pinchos</TSA_WD_CancelSpikeTraps>

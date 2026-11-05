@@ -193,6 +193,8 @@
   <TSA_WD_Notify_TravelerPollutionDamageTooltip>One yellow letter the first time each WD traveler loses strength leaving a polluted tile. Later polluted tiles on the same traveler stay silent.</TSA_WD_Notify_TravelerPollutionDamageTooltip>
   <TSA_WD_Notify_OutpostPollutionDamage>Message: outpost pollution damage</TSA_WD_Notify_OutpostPollutionDamage>
   <TSA_WD_Notify_OutpostPollutionDamageTooltip>When a WD outpost loses strength from average pollution nearby (once per day when damage applies). A wipe still sends a letter. Dev log always records these events.</TSA_WD_Notify_OutpostPollutionDamageTooltip>
+  <TSA_WD_Notify_SettlementDestroyedByPollution>Letter: settlement destroyed by pollution</TSA_WD_Notify_SettlementDestroyedByPollution>
+  <TSA_WD_Notify_SettlementDestroyedByPollutionTooltip>When an NPC settlement is wiped because nearby pollution reduced its strength to zero (within the nearby letter radius). Ruins remain for a while.</TSA_WD_Notify_SettlementDestroyedByPollutionTooltip>
   <TSA_WD_Notify_HeaderNearby>Nearby world events</TSA_WD_Notify_HeaderNearby>
   <TSA_WD_Notify_HeaderWorldThreats>World threat actions</TSA_WD_Notify_HeaderWorldThreats>
   <TSA_WD_Notify_HeaderWorldThreatsTip>Letters for desperation raids, turtle consolidations, and strong-faction war. Enable gates and timing are under Combat Difficulty.</TSA_WD_Notify_HeaderWorldThreatsTip>

@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_68_Title>小更新。建造项目费用调节</TSA_WD_Update_2_3_68_Title>
+  <TSA_WD_Update_2_3_68_Body><![CDATA[
+<size=16><b>2.3.68 - 小更新。建造项目费用调节</b></size>\n
+<color=#00FFFFFF>发布日期：2026年11月5日</color>\n
+------------------------------\n
+!!!改动仅适用于 1.7 版本!!!\n
+• 在「建造项目」模组设置中，现在可用独立滑条分别调整道路、战壕、反坦克炮塔等的建造时间，以及材料与实力消耗。\n
+• 应 Discord 玩家建议添加（记得加入！）。\n
+]]></TSA_WD_Update_2_3_68_Body>
   <TSA_WD_Update_2_3_67_Title>设置菜单重做与叛乱</TSA_WD_Update_2_3_67_Title>
   <TSA_WD_Update_2_3_67_Body><![CDATA[
 <size=16><b>2.3.67 - 设置菜单重做与叛乱</b></size>\n

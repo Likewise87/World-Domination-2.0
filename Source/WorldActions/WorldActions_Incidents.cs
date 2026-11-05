@@ -65,8 +65,9 @@ namespace TSA_WorldDomination
                 }
 
                 // Incident obliteration does not start Strategy on Settlement Loss (chip-damage / natural disaster).
+                // Must Destroy (not Remove) so CompViralSpread.PostDestroy nukes advanced buildings / fortifications.
                 WorldActions_DesperationRaid.SuppressLossNotify(s);
-                Find.WorldObjects.Remove(s);
+                s.Destroy();
                 // Same timed blocking ruins as raid raze (incident always razes; no conquest replacement).
                 WorldObject_WdSettlementRuin.Spawn(tile, originalName, faction);
                 WorldActions_Utils.TryMarkDefeatedIfNoSettlementsLeft(faction);

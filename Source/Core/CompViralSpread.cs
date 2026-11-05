@@ -935,9 +935,8 @@ namespace TSA_WorldDomination
             }
             if (parent is Settlement settlement)
             {
-                AtTurretUtility.DestroyTurretsBuiltBy(settlement);
+                // Single choke: advanced buildings, AT, blocks, traps, trenches, fortify crews.
                 WorldActions_NpcFortify.NotifyBuilderLost(settlement);
-                WorldActions_Trenches.WipeForOwner(settlement);
             }
             ReinforcementNeighborCache.BumpGeneration();
             base.PostDestroy();
@@ -1463,31 +1462,28 @@ namespace TSA_WorldDomination
                     dt = Mathf.Min(dt, MaxRoadProgressCatchUpTicks);
                     lastRoadProgressTick = nowTick;
                     float workSpeed = WorldActions_Roads.GetRoadProgressWorkSpeed(parent);
-                    if (workSpeed > 0f)
+                    float requiredTicks = WorldActions_Roads.GetRoadProgressRequiredTicks(selectedRoadTier);
+                    WorldActions_Roads.ApplyWorldBuildProgress(ref roadProgress, workSpeed, requiredTicks, dt);
+                    while (roadProgress >= 1f && !builderInField)
                     {
-                        float rate = workSpeed / WorldActions_Roads.GetRoadProgressRequiredTicks(selectedRoadTier);
-                        roadProgress += rate * dt;
-                        while (roadProgress >= 1f && !builderInField)
-                        {
-                            // Same gate as road blocks / traps: do not consume the ready segment while too weak to dispatch
-                            // (includes min garrison retain — builders must not empty the outpost).
-                            if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_Roads.GetExpeditionStrengthCost(selectedRoadTier)))
-                                break;
-                            if (!roadIsClearing
-                                && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
-                                && !ColonyWorldBuildRequirements.HasMaterialCostsForRoad(selectedRoadTier))
-                                break;
+                        // Same gate as road blocks / traps: do not consume the ready segment while too weak to dispatch
+                        // (includes min garrison retain — builders must not empty the outpost).
+                        if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_Roads.GetExpeditionStrengthCost(selectedRoadTier)))
+                            break;
+                        if (!roadIsClearing
+                            && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
+                            && !ColonyWorldBuildRequirements.HasMaterialCostsForRoad(selectedRoadTier))
+                            break;
                         if (WorldActions_Roads.LaunchRoadBuilderFromOutpost(parent))
-                            {
-                                roadProgress -= 1f;
+                        {
+                            roadProgress -= 1f;
                             builderInField = true;
-                    }
-                            else
-                                break;
                         }
-                        if (roadProgress > 1f)
-                            roadProgress = 1f;
+                        else
+                            break;
                     }
+                    if (roadProgress > 1f)
+                        roadProgress = 1f;
                 }
                 }
             }
@@ -1510,30 +1506,27 @@ namespace TSA_WorldDomination
                     dtBr = Mathf.Min(dtBr, MaxRoadProgressCatchUpTicks);
                     lastBridgeProgressTick = nowTickBr;
                     float workSpeedBr = WorldActions_Roads.GetRoadProgressWorkSpeed(parent);
-                    if (workSpeedBr > 0f)
+                    float requiredBr = WorldActions_Roads.GetRoadProgressRequiredTicks(WorldActions_BuildBridge.BridgeRoadTier);
+                    WorldActions_Roads.ApplyWorldBuildProgress(ref bridgeProgress, workSpeedBr, requiredBr, dtBr);
+                    while (bridgeProgress >= 1f && !bridgeBuilderInField)
                     {
-                        float rateBr = workSpeedBr / WorldActions_Roads.GetRoadProgressRequiredTicks(WorldActions_BuildBridge.BridgeRoadTier);
-                        bridgeProgress += rateBr * dtBr;
-                        while (bridgeProgress >= 1f && !bridgeBuilderInField)
+                        if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(
+                            this, WorldActions_Roads.GetExpeditionStrengthCost(WorldActions_BuildBridge.BridgeRoadTier)))
+                            break;
+                        if (!bridgeIsClearing
+                            && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
+                            && !WorldActions_BuildBridge.HasMaterialCostsForBridge(1))
+                            break;
+                        if (WorldActions_BuildBridge.LaunchBridgeSegmentCrew(parent))
                         {
-                            if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(
-                                this, WorldActions_Roads.GetExpeditionStrengthCost(WorldActions_BuildBridge.BridgeRoadTier)))
-                                break;
-                            if (!bridgeIsClearing
-                                && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
-                                && !WorldActions_BuildBridge.HasMaterialCostsForBridge(1))
-                                break;
-                            if (WorldActions_BuildBridge.LaunchBridgeSegmentCrew(parent))
-                            {
-                                bridgeProgress -= 1f;
-                                bridgeBuilderInField = true;
-                            }
-                            else
-                                break;
+                            bridgeProgress -= 1f;
+                            bridgeBuilderInField = true;
                         }
-                        if (bridgeProgress > 1f)
-                            bridgeProgress = 1f;
+                        else
+                            break;
                     }
+                    if (bridgeProgress > 1f)
+                        bridgeProgress = 1f;
                 }
             }
 
@@ -1548,30 +1541,27 @@ namespace TSA_WorldDomination
                     dtRb = Mathf.Min(dtRb, MaxRoadProgressCatchUpTicks);
                     lastRoadBlockProgressTick = nowTickRb;
                     float workSpeedRb = WorldActions_Roads.GetRoadProgressWorkSpeed(parent);
-                    if (workSpeedRb > 0f)
+                    float requiredRb = WorldActions_RoadBlocks.GetRoadBlockProgressRequiredTicks(selectedRoadBlockKind);
+                    WorldActions_Roads.ApplyWorldBuildProgress(ref roadBlockProgress, workSpeedRb, requiredRb, dtRb);
+                    while (roadBlockProgress >= 1f && !roadBlockBuilderInField)
                     {
-                        float rateRb = workSpeedRb / WorldActions_RoadBlocks.GetRoadBlockProgressRequiredTicks(selectedRoadBlockKind);
-                        roadBlockProgress += rateRb * dtRb;
-                        while (roadBlockProgress >= 1f && !roadBlockBuilderInField)
+                        if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_RoadBlocks.GetExpeditionStrengthCost(selectedRoadBlockKind)))
+                            break;
+                        if (!roadBlockIsClearing
+                            && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
+                            && !ColonyWorldBuildRequirements.HasMaterialCostsForRoadBlock(selectedRoadBlockKind))
+                            break;
+                        if (WorldActions_RoadBlocks.LaunchRoadBlockCrewFromOutpost(parent))
                         {
-                            if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_RoadBlocks.GetExpeditionStrengthCost(selectedRoadBlockKind)))
-                                break;
-                            if (!roadBlockIsClearing
-                                && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
-                                && !ColonyWorldBuildRequirements.HasMaterialCostsForRoadBlock(selectedRoadBlockKind))
-                                break;
-                            if (WorldActions_RoadBlocks.LaunchRoadBlockCrewFromOutpost(parent))
-                            {
-                                roadBlockProgress -= 1f;
-                                roadBlockBuilderInField = true;
-                            }
-                            else
-                                break;
+                            roadBlockProgress -= 1f;
+                            roadBlockBuilderInField = true;
                         }
-                        // Cap at 100% while waiting on strength, in transit, or any failed dispatch.
-                        if (roadBlockProgress > 1f)
-                            roadBlockProgress = 1f;
+                        else
+                            break;
                     }
+                    // Cap at 100% while waiting on strength, in transit, or any failed dispatch.
+                    if (roadBlockProgress > 1f)
+                        roadBlockProgress = 1f;
                 }
             }
 
@@ -1586,29 +1576,26 @@ namespace TSA_WorldDomination
                     dtSt = Mathf.Min(dtSt, MaxRoadProgressCatchUpTicks);
                     lastSpikeTrapProgressTick = nowTickSt;
                     float workSpeedSt = WorldActions_Roads.GetRoadProgressWorkSpeed(parent);
-                    if (workSpeedSt > 0f)
+                    float requiredSt = WorldActions_SpikeTraps.GetSpikeTrapProgressRequiredTicks(selectedSpikeTrapKind);
+                    WorldActions_Roads.ApplyWorldBuildProgress(ref spikeTrapProgress, workSpeedSt, requiredSt, dtSt);
+                    while (spikeTrapProgress >= 1f && !spikeTrapBuilderInField)
                     {
-                        float rateSt = workSpeedSt / WorldActions_SpikeTraps.GetSpikeTrapProgressRequiredTicks(selectedSpikeTrapKind);
-                        spikeTrapProgress += rateSt * dtSt;
-                        while (spikeTrapProgress >= 1f && !spikeTrapBuilderInField)
+                        if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_SpikeTraps.GetExpeditionStrengthCost(selectedSpikeTrapKind)))
+                            break;
+                        if (!spikeTrapIsClearing
+                            && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
+                            && !ColonyWorldBuildRequirements.HasMaterialCostsForSpikeTrap(selectedSpikeTrapKind))
+                            break;
+                        if (WorldActions_SpikeTraps.LaunchSpikeTrapCrewFromOutpost(parent))
                         {
-                            if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_SpikeTraps.GetExpeditionStrengthCost(selectedSpikeTrapKind)))
-                                break;
-                            if (!spikeTrapIsClearing
-                                && ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
-                                && !ColonyWorldBuildRequirements.HasMaterialCostsForSpikeTrap(selectedSpikeTrapKind))
-                                break;
-                            if (WorldActions_SpikeTraps.LaunchSpikeTrapCrewFromOutpost(parent))
-                            {
-                                spikeTrapProgress -= 1f;
-                                spikeTrapBuilderInField = true;
-                            }
-                            else
-                                break;
+                            spikeTrapProgress -= 1f;
+                            spikeTrapBuilderInField = true;
                         }
-                        if (spikeTrapProgress > 1f)
-                            spikeTrapProgress = 1f;
+                        else
+                            break;
                     }
+                    if (spikeTrapProgress > 1f)
+                        spikeTrapProgress = 1f;
                 }
             }
 
@@ -1623,28 +1610,25 @@ namespace TSA_WorldDomination
                     dtAt = Mathf.Min(dtAt, MaxRoadProgressCatchUpTicks);
                     lastAtTurretProgressTick = nowTickAt;
                     float workSpeedAt = WorldActions_Roads.GetRoadProgressWorkSpeed(parent);
-                    if (workSpeedAt > 0f)
+                    float requiredAt = WorldActions_AtTurrets.GetAtTurretProgressRequiredTicks(selectedAtTurretTier);
+                    WorldActions_Roads.ApplyWorldBuildProgress(ref atTurretProgress, workSpeedAt, requiredAt, dtAt);
+                    while (atTurretProgress >= 1f && !atTurretBuilderInField)
                     {
-                        float rateAt = workSpeedAt / WorldActions_AtTurrets.GetAtTurretProgressRequiredTicks(selectedAtTurretTier);
-                        atTurretProgress += rateAt * dtAt;
-                        while (atTurretProgress >= 1f && !atTurretBuilderInField)
+                        if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_AtTurrets.GetExpeditionStrengthCost(selectedAtTurretTier)))
+                            break;
+                        if (ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
+                            && !ColonyWorldBuildRequirements.HasMaterialCostsForAtTurret(selectedAtTurretTier))
+                            break;
+                        if (WorldActions_AtTurrets.LaunchAtTurretCrewFromOutpost(parent))
                         {
-                            if (!WorldActions_Utils.CanAffordExpeditionLeavingGarrison(this, WorldActions_AtTurrets.GetExpeditionStrengthCost(selectedAtTurretTier)))
-                                break;
-                            if (ColonyWorldBuildRequirements.ActorPaysWorldBuildMaterials(parent)
-                                && !ColonyWorldBuildRequirements.HasMaterialCostsForAtTurret(selectedAtTurretTier))
-                                break;
-                            if (WorldActions_AtTurrets.LaunchAtTurretCrewFromOutpost(parent))
-                            {
-                                atTurretProgress -= 1f;
-                                atTurretBuilderInField = true;
-                            }
-                            else
-                                break;
+                            atTurretProgress -= 1f;
+                            atTurretBuilderInField = true;
                         }
-                        if (atTurretProgress > 1f)
-                            atTurretProgress = 1f;
+                        else
+                            break;
                     }
+                    if (atTurretProgress > 1f)
+                        atTurretProgress = 1f;
                 }
             }
 
@@ -1659,25 +1643,22 @@ namespace TSA_WorldDomination
                     dtDc = Mathf.Min(dtDc, MaxRoadProgressCatchUpTicks);
                     lastDecontamProgressTick = nowTickDc;
                     float workSpeedDc = WorldActions_Roads.GetRoadProgressWorkSpeed(parent);
-                    if (workSpeedDc > 0f)
+                    float requiredDc = WorldActions_Decontamination.GetDecontaminationProgressRequiredTicks();
+                    WorldActions_Roads.ApplyWorldBuildProgress(ref decontamProgress, workSpeedDc, requiredDc, dtDc);
+                    while (decontamProgress >= 1f && !decontamBuilderInField)
                     {
-                        float rateDc = workSpeedDc / WorldActions_Decontamination.GetDecontaminationProgressRequiredTicks();
-                        decontamProgress += rateDc * dtDc;
-                        while (decontamProgress >= 1f && !decontamBuilderInField)
+                        if (strength < WorldActions_Decontamination.GetExpeditionStrengthCost())
+                            break;
+                        if (WorldActions_Decontamination.LaunchDecontaminationCrewFromOutpost(parent))
                         {
-                            if (strength < WorldActions_Decontamination.GetExpeditionStrengthCost())
-                                break;
-                            if (WorldActions_Decontamination.LaunchDecontaminationCrewFromOutpost(parent))
-                            {
-                                decontamProgress -= 1f;
-                                decontamBuilderInField = true;
-                            }
-                            else
-                                break;
+                            decontamProgress -= 1f;
+                            decontamBuilderInField = true;
                         }
-                        if (decontamProgress > 1f)
-                            decontamProgress = 1f;
+                        else
+                            break;
                     }
+                    if (decontamProgress > 1f)
+                        decontamProgress = 1f;
                 }
             }
 
@@ -1695,15 +1676,12 @@ namespace TSA_WorldDomination
                     if (!trenchBuilderInField)
                     {
                         float workSpeedTr = WorldActions_Roads.GetRoadProgressWorkSpeed(parent);
-                        if (workSpeedTr > 0f)
-                        {
-                            float rateTr = workSpeedTr / (WorldActions_Roads.GetRoadProgressRequiredTicks(SettlementTier.T1));
-                            trenchProgress += rateTr * dtTr;
-                            if (trenchProgress > 1f)
-                                trenchProgress = 1f;
-                            if (trenchProgress >= 1f)
-                                WorldActions_Trenches.TickProject(this, parent);
-                        }
+                        float requiredTr = WorldActions_Roads.GetRoadProgressRequiredTicks(SettlementTier.T1);
+                        WorldActions_Roads.ApplyWorldBuildProgress(ref trenchProgress, workSpeedTr, requiredTr, dtTr);
+                        if (trenchProgress > 1f)
+                            trenchProgress = 1f;
+                        if (trenchProgress >= 1f)
+                            WorldActions_Trenches.TickProject(this, parent);
                     }
                 }
             }
@@ -1784,7 +1762,6 @@ namespace TSA_WorldDomination
             }
             if (fid != fortifyBuilderFactionId)
             {
-                AtTurretUtility.DestroyTurretsBuiltBy(settlement);
                 WorldActions_NpcFortify.NotifyBuilderLost(settlement);
                 fortifyBuilderFactionId = fid;
             }

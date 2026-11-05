@@ -150,6 +150,10 @@
   <TSA_WD_Letter_OutpostDestroyedByPollution_Label>哨站因汙染而毀滅</TSA_WD_Letter_OutpostDestroyedByPollution_Label>
   <!-- EN: {0} has been abandoned. Nearby pollution reduced its strength to zero. All occupants were lost. Ruins remain for a while and block new outposts nearby. -->
   <TSA_WD_Letter_OutpostDestroyedByPollution_Text>{0}已被放棄。附近的汙染使其戰力降至零，所有駐員皆已損失。廢墟會留存一段時間，並阻擋附近建立新哨站。</TSA_WD_Letter_OutpostDestroyedByPollution_Text>
+  <!-- EN: Settlement destroyed by pollution -->
+  <TSA_WD_Letter_SettlementDestroyedByPollution_Label>聚落因汙染而毀滅</TSA_WD_Letter_SettlementDestroyedByPollution_Label>
+  <!-- EN: {0} has collapsed. Nearby pollution reduced its strength to zero. Advanced buildings and fortifications are gone. Ruins remain for a while. -->
+  <TSA_WD_Letter_SettlementDestroyedByPollution_Text>{0}已崩潰。附近的汙染使其戰力降至零。高級建築與防禦工事已消失。廢墟會留存一段時間。</TSA_WD_Letter_SettlementDestroyedByPollution_Text>
   <!-- EN: Pollution damage -->
   <TSA_WD_Letter_PollutionDamage_Label>汙染傷害</TSA_WD_Letter_PollutionDamage_Label>
   <!-- EN: {0} lost {1} strength after leaving a polluted world tile. Further pollution damage on this traveler will not send another letter. -->

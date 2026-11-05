@@ -60,7 +60,7 @@ Use mortar, AT, and anti-air overlays to paint accuracy bands and coverage befor
 
     AT Light / Medium / Heavy default ranges **4 / 5 / 6** tiles, damage **75 / 100 / 125**, cooldowns **0.35 / 0.5 / 0.75** days. Player caps: **50** global, **4** per site.
 
-    Full tables: [Settings: Player artillery](../settings/player-artillery.md), [Settings: T4 mortar (NPC)](../settings/t4-mortar.md), [Settings: Road building](../settings/road-building.md), [Settings: Late game](../settings/late-game.md).
+    Full tables: [Settings: Player artillery](../settings/player-artillery.md), [Settings: T4 mortar (NPC)](../settings/t4-mortar.md), [Settings: Building Projects](../settings/road-building.md), [Settings: Late game](../settings/late-game.md).
 
 ## Related chapters
 

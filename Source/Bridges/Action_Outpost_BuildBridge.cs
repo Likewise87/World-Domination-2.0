@@ -142,9 +142,12 @@ namespace TSA_WorldDomination
             if (ColonyWorldBuildUtility.IsPlayerColonyBuildActor(actor))
                 strength = 0f;
             int stonePerTile = WorldActions_BuildBridge.GetBridgeAnyStoneBlocksPerWaterTile();
-            return "TSA_WD_BuildBridgeDesc".Translate(WorldComponent_WdBridges.MaxWaterTiles)
-                + "\n\n" + "TSA_WD_BuildBridgeKindTip".Translate(stonePerTile)
-                + "\n" + "TSA_WD_BridgeCostTip".Translate(strength.ToString("F0"));
+            string tip = "TSA_WD_BuildBridgeDesc".Translate(WorldComponent_WdBridges.MaxWaterTiles).ToString();
+            if (stonePerTile > 0)
+                tip += "\n\n" + "TSA_WD_BuildBridgeKindTip".Translate(stonePerTile);
+            if (strength > 0f)
+                tip += (stonePerTile > 0 ? "\n" : "\n\n") + "TSA_WD_BridgeCostTip".Translate(strength.ToString("F0"));
+            return tip;
         }
 
         public static void StartBridgeTargeting(WorldObject source, CompViralSpread comp, bool deconstruct)

@@ -780,9 +780,16 @@
   <TSA_WD_Notify_TradeAllyDiplomacyTooltip>When two NPC factions become allies because WD trader goodwill crossed the ally threshold.</TSA_WD_Notify_TradeAllyDiplomacyTooltip>
   <TSA_WD_Notify_StrongFactionWar>Letter: strong-faction war shift</TSA_WD_Notify_StrongFactionWar>
   <TSA_WD_Notify_StrongFactionWarTooltip>When strong NPC factions cool an alliance to neutral or escalate from neutral to war.</TSA_WD_Notify_StrongFactionWarTooltip>
-  <TSA_WD_BtnRoadBuilding>Building Projects</TSA_WD_BtnRoadBuilding>
-  <TSA_WD_DescRoadBuilding>Roads, road blocks, spike traps, AT turrets (build and combat), and decontamination (ranges, work, expedition strength; RotR road fallbacks when that mod is off).</TSA_WD_DescRoadBuilding>
-  <TSA_WD_RoadBuilding_Note>Road movement / work / min Construction apply only when Roads of the Rim is NOT active. Winter reduction always applies (writes RotR winterFactor when that mod is present).</TSA_WD_RoadBuilding_Note>
+  <TSA_WD_BtnBuildingProjects>Building Projects</TSA_WD_BtnBuildingProjects>
+  <TSA_WD_DescBuildingProjects>Settings for Building projects that can be executed by player Outposts and for the most part also by the Colony and NPC settlements. Global cost multipliers (strength, materials, build time); roads, bridges, trenches, road blocks, traps, AT turrets (build and combat), and decontamination. Road movement fallbacks when Roads of the Rim is off.</TSA_WD_DescBuildingProjects>
+  <TSA_WD_BuildingProjects_CostMultHeader>Cost Multipliers</TSA_WD_BuildingProjects_CostMultHeader>
+  <TSA_WD_BuildingProjects_StrengthCostMult>Strength cost multiplier</TSA_WD_BuildingProjects_StrengthCostMult>
+  <TSA_WD_BuildingProjects_StrengthCostMultTip>Scales outpost strength spent to dispatch crews for build and clear/deconstruct (roads, bridges, trenches, road blocks, traps, AT turrets, decontamination). Per-type Strength sliders below are base values; this multiplies them. At 0% strength is free and hidden in the build menu.</TSA_WD_BuildingProjects_StrengthCostMultTip>
+  <TSA_WD_BuildingProjects_MaterialCostMult>Material cost multiplier</TSA_WD_BuildingProjects_MaterialCostMult>
+  <TSA_WD_BuildingProjects_MaterialCostMultTip>Scales material counts for world builds (wood, components, stone blocks, and so on). Clear/deconstruct stay free of materials. Does not affect outpost upgrades. At 0% materials are free and hidden in the build menu.</TSA_WD_BuildingProjects_MaterialCostMultTip>
+  <TSA_WD_BuildingProjects_BuildTimeMult>Building time multiplier</TSA_WD_BuildingProjects_BuildTimeMult>
+  <TSA_WD_BuildingProjects_BuildTimeMultTip>Scales how long world-build prep takes for build and clear/deconstruct. Per-type Work sliders below are base values; this multiplies duration. At 0% prep is instant. Does not affect outpost upgrades.</TSA_WD_BuildingProjects_BuildTimeMultTip>
+  <TSA_WD_RoadBuilding_Note>Cost Multipliers always apply. Road movement values below apply only when Roads of the Rim is not active. Work, strength, and min Construction always apply to WD projects. Winter reduction always applies (writes RotR winterFactor when that mod is present). Clear/deconstruct use strength and build time, not materials.</TSA_WD_RoadBuilding_Note>
   <TSA_WD_RoadBuilding_RoadsHeader>Roads</TSA_WD_RoadBuilding_RoadsHeader>
   <TSA_WD_RoadBuilding_RoadRange>Range to build Roads</TSA_WD_RoadBuilding_RoadRange>
   <TSA_WD_RoadBuilding_RoadRangeTip>Maximum world-tile range for planning road construction from an outpost (and NPC road attempts).</TSA_WD_RoadBuilding_RoadRangeTip>
@@ -802,56 +809,59 @@
   <TSA_WD_RoadBuilding_WinterReductionTerrainTip>{0}: winter penalty reduction {1}% (applied via Roads of the Rim)</TSA_WD_RoadBuilding_WinterReductionTerrainTip>
   <TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>{0}: winter penalty reduction {1}% (no winter on this tile right now)</TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>
   <TSA_WD_RoadBuilding_Work>Work needed to build</TSA_WD_RoadBuilding_Work>
-  <TSA_WD_RoadBuilding_WorkTip>Abstract work cost for one road segment (WD progress only, not vanilla Construction jobs). Progress rate equals total Construction skill in the outpost. Example: at Dirt Work 250, 1 Construction skill does 25 Work per day, so Dirt takes about 10 days at 1 skill or about 1 day at 10 skill. Higher Work values for Stone or Asphalt take proportionally longer.</TSA_WD_RoadBuilding_WorkTip>
-  <TSA_WD_RoadBuilding_RoadStrength>Off. Strength deducted on Caravan dispatch</TSA_WD_RoadBuilding_RoadStrength>
-  <TSA_WD_RoadBuilding_RoadStrengthTip>Offensive strength removed from the outpost when a road-builder caravan is dispatched for one segment. Refunded if the launch fails immediately.</TSA_WD_RoadBuilding_RoadStrengthTip>
+  <TSA_WD_RoadBuilding_WorkTip>Abstract work cost for one road segment (WD progress only, not vanilla Construction jobs). Progress rate equals total Construction skill in the outpost. Example: at Dirt Work 250, 1 Construction skill does 25 Work per day, so Dirt takes about 10 days at 1 skill or about 1 day at 10 skill. Higher Work values for Stone or Asphalt take proportionally longer. Final prep time also scales with the Building time multiplier.</TSA_WD_RoadBuilding_WorkTip>
+  <TSA_WD_RoadBuilding_RoadStrength>Strength deducted on crew dispatch</TSA_WD_RoadBuilding_RoadStrength>
+  <TSA_WD_RoadBuilding_RoadStrengthTip>Base offensive strength removed from the outpost when a road-builder crew is dispatched for one segment (also for clear/deconstruct). Multiplied by the Strength cost multiplier. Refunded if the launch fails immediately.</TSA_WD_RoadBuilding_RoadStrengthTip>
   <TSA_WD_RoadBuilding_MinConstruction>Min Construction skill needed to build</TSA_WD_RoadBuilding_MinConstruction>
-  <TSA_WD_RoadBuilding_MinConstructionTip>Total Construction skill required in the outpost before this road type can be selected while Roads of the Rim is not active.</TSA_WD_RoadBuilding_MinConstructionTip>
+  <TSA_WD_RoadBuilding_MinConstructionTip>Total Construction skill required in the outpost before this road type can be selected in the WD build menu.</TSA_WD_RoadBuilding_MinConstructionTip>
   <TSA_WD_RoadBuilding_Reset>Reset outpost building projects to defaults</TSA_WD_RoadBuilding_Reset>
   <TSA_WD_RoadBuilding_RoadBlocksHeader>Road Blocks</TSA_WD_RoadBuilding_RoadBlocksHeader>
   <TSA_WD_RoadBuilding_RoadBlockRange>Range to build Road Blocks</TSA_WD_RoadBuilding_RoadBlockRange>
   <TSA_WD_RoadBuilding_RoadBlockRangeTip>Maximum world-tile range for planning road-block build/clear polylines from an outpost.</TSA_WD_RoadBuilding_RoadBlockRangeTip>
-  <TSA_WD_RoadBuilding_RoadBlockWorkTip>Abstract work cost for one road-block tile (build or clear). Same Construction progress rules as roads: rate = total Construction skill; relative Work vs Dirt road Work sets duration.</TSA_WD_RoadBuilding_RoadBlockWorkTip>
+  <TSA_WD_RoadBuilding_RoadBlockWorkTip>Abstract work cost for one road-block tile (build or clear). Same Construction progress rules as roads: rate = total Construction skill; relative Work vs Dirt road Work sets duration. Final prep time also scales with the Building time multiplier (including clear).</TSA_WD_RoadBuilding_RoadBlockWorkTip>
   <TSA_WD_RoadBuilding_RoadBlockPenalty>Movement cost penalty</TSA_WD_RoadBuilding_RoadBlockPenalty>
   <TSA_WD_RoadBuilding_RoadBlockPenaltyTip>Flat movement cost added after road multipliers when entering a blocked tile of this tier (all factions; ballistic travel ignores this).</TSA_WD_RoadBuilding_RoadBlockPenaltyTip>
-  <TSA_WD_RoadBuilding_RoadBlockStrength>Off. Strength deducted on Caravan dispatch</TSA_WD_RoadBuilding_RoadBlockStrength>
-  <TSA_WD_RoadBuilding_RoadBlockStrengthTip>Offensive strength removed from the outpost when a road-block caravan is dispatched for one tile. Refunded if the launch fails immediately.</TSA_WD_RoadBuilding_RoadBlockStrengthTip>
+  <TSA_WD_RoadBuilding_RoadBlockStrength>Strength deducted on crew dispatch</TSA_WD_RoadBuilding_RoadBlockStrength>
+  <TSA_WD_RoadBuilding_RoadBlockStrengthTip>Base offensive strength removed from the outpost when a road-block crew is dispatched for one tile (build or clear). Multiplied by the Strength cost multiplier. Refunded if the launch fails immediately.</TSA_WD_RoadBuilding_RoadBlockStrengthTip>
   <TSA_WD_RoadBuilding_MaxHealth>Max health</TSA_WD_RoadBuilding_MaxHealth>
   <TSA_WD_RoadBuilding_MaxHealthTip>Hit points when placed or upgraded. Hostile travelers wear this by their strength when leaving the tile.</TSA_WD_RoadBuilding_MaxHealthTip>
   <TSA_WD_RoadBuilding_SpikeTrapsHeader>Traps</TSA_WD_RoadBuilding_SpikeTrapsHeader>
   <TSA_WD_RoadBuilding_SpikeTrapRange>Range to build Traps</TSA_WD_RoadBuilding_SpikeTrapRange>
   <TSA_WD_RoadBuilding_SpikeTrapRangeTip>Maximum world-tile range for planning trap build/clear polylines from an outpost.</TSA_WD_RoadBuilding_SpikeTrapRangeTip>
-  <TSA_WD_RoadBuilding_SpikeTrapWorkTip>Abstract work cost for one trap tile (build or clear). Same Construction progress rules as roads: rate = total Construction skill; relative Work vs Dirt road Work sets duration.</TSA_WD_RoadBuilding_SpikeTrapWorkTip>
-  <TSA_WD_RoadBuilding_SpikeTrapStrength>Off. Strength deducted on Caravan dispatch</TSA_WD_RoadBuilding_SpikeTrapStrength>
-  <TSA_WD_RoadBuilding_SpikeTrapStrengthTip>Offensive strength removed from the outpost when a trap caravan is dispatched for one tile. Refunded if the launch fails immediately.</TSA_WD_RoadBuilding_SpikeTrapStrengthTip>
+  <TSA_WD_RoadBuilding_SpikeTrapWorkTip>Abstract work cost for one trap tile (build or clear). Same Construction progress rules as roads: rate = total Construction skill; relative Work vs Dirt road Work sets duration. Final prep time also scales with the Building time multiplier (including clear).</TSA_WD_RoadBuilding_SpikeTrapWorkTip>
+  <TSA_WD_RoadBuilding_SpikeTrapStrength>Strength deducted on crew dispatch</TSA_WD_RoadBuilding_SpikeTrapStrength>
+  <TSA_WD_RoadBuilding_SpikeTrapStrengthTip>Base offensive strength removed from the outpost when a trap crew is dispatched for one tile (build or clear). Multiplied by the Strength cost multiplier. Refunded if the launch fails immediately.</TSA_WD_RoadBuilding_SpikeTrapStrengthTip>
   <TSA_WD_RoadBuilding_SpikeTrapDamage>Trap damage</TSA_WD_RoadBuilding_SpikeTrapDamage>
   <TSA_WD_RoadBuilding_SpikeTrapDamageTip>Strength removed from a hostile ground traveler when leaving a trapped tile. The trap also wears by traveler strength.</TSA_WD_RoadBuilding_SpikeTrapDamageTip>
   <TSA_WD_RoadBuilding_SpikeTrapMaxTriggers>Max traps per traveler</TSA_WD_RoadBuilding_SpikeTrapMaxTriggers>
   <TSA_WD_RoadBuilding_SpikeTrapMaxTriggersTip>How many traps a single traveler can trigger. Further traps on their path are ignored (no damage, no wear).</TSA_WD_RoadBuilding_SpikeTrapMaxTriggersTip>
   <TSA_WD_RoadBuilding_AT_TurretsHeader>AT Turrets</TSA_WD_RoadBuilding_AT_TurretsHeader>
-  <TSA_WD_RoadBuilding_AT_TurretsNote>Light, Medium, and Heavy are buildable. Settlements build by tier (Tier 1–2 Light, Tier 3 Medium, Tier 4 Heavy). Work is build time cost (defaults are twice prior road-parity costs). Expedition strength is crew cost, not gun HP.</TSA_WD_RoadBuilding_AT_TurretsNote>
-  <TSA_WD_RoadBuilding_AT_TurretWorkTip>Abstract work cost for one AT Turret. Same Construction progress rules as roads. Defaults take about twice as long as the old road-matched costs.</TSA_WD_RoadBuilding_AT_TurretWorkTip>
-  <TSA_WD_RoadBuilding_AT_TurretStrength>Off. Strength deducted on Caravan dispatch</TSA_WD_RoadBuilding_AT_TurretStrength>
-  <TSA_WD_RoadBuilding_AT_TurretStrengthTip>Offensive strength removed when an AT Turret crew is dispatched. Medium defaults match asphalt.</TSA_WD_RoadBuilding_AT_TurretStrengthTip>
+  <TSA_WD_RoadBuilding_AT_TurretsNote>Light, Medium, and Heavy are buildable. Settlements build by tier (Tier 1-2 Light, Tier 3 Medium, Tier 4 Heavy). Work is build time cost (base Work values are about twice prior road-parity costs). Crew strength cost is scaled by Cost Multipliers; it is not gun HP (use Max strength for that).</TSA_WD_RoadBuilding_AT_TurretsNote>
+  <TSA_WD_RoadBuilding_AT_TurretWorkTip>Abstract work cost for one AT Turret. Same Construction progress rules as roads. Base Work values take about twice as long as the old road-matched costs. Final prep time also scales with the Building time multiplier (including deconstruct).</TSA_WD_RoadBuilding_AT_TurretWorkTip>
+  <TSA_WD_RoadBuilding_AT_TurretStrength>Strength deducted on crew dispatch</TSA_WD_RoadBuilding_AT_TurretStrength>
+  <TSA_WD_RoadBuilding_AT_TurretStrengthTip>Base offensive strength removed when an AT Turret crew is dispatched (also for deconstruct). Multiplied by the Strength cost multiplier. Medium base matches asphalt.</TSA_WD_RoadBuilding_AT_TurretStrengthTip>
   <TSA_WD_RoadBuilding_DecontaminationHeader>Decontamination</TSA_WD_RoadBuilding_DecontaminationHeader>
   <TSA_WD_RoadBuilding_DecontaminationRange>Range for Decontamination</TSA_WD_RoadBuilding_DecontaminationRange>
   <TSA_WD_RoadBuilding_DecontaminationRangeTip>Maximum world-tile range for planning decontamination polylines from an outpost.</TSA_WD_RoadBuilding_DecontaminationRangeTip>
-  <TSA_WD_RoadBuilding_DecontaminationWorkTip>Abstract work cost for one polluted tile scrub. Same Construction progress rules as roads: rate = total Construction skill; relative Work vs Asphalt road Work sets duration.</TSA_WD_RoadBuilding_DecontaminationWorkTip>
+  <TSA_WD_RoadBuilding_DecontaminationWorkTip>Abstract work cost for one polluted tile scrub. Same Construction progress rules as roads: rate = total Construction skill; relative Work vs Asphalt road Work sets duration. Final prep time also scales with the Building time multiplier.</TSA_WD_RoadBuilding_DecontaminationWorkTip>
   <TSA_WD_RoadBuilding_DecontaminationStrength>Strength cost (decontamination)</TSA_WD_RoadBuilding_DecontaminationStrength>
-  <TSA_WD_RoadBuilding_DecontaminationStrengthTip>Offensive strength removed from the outpost when a decontamination caravan is dispatched for one tile. Refunded if the launch fails immediately.</TSA_WD_RoadBuilding_DecontaminationStrengthTip>
+  <TSA_WD_RoadBuilding_DecontaminationStrengthTip>Base offensive strength removed from the outpost when a decontamination crew is dispatched for one tile. Multiplied by the Strength cost multiplier. Refunded if the launch fails immediately.</TSA_WD_RoadBuilding_DecontaminationStrengthTip>
   <TSA_WD_RoadBuilding_DecontaminationReduction>Pollution reduction (pp)</TSA_WD_RoadBuilding_DecontaminationReduction>
-  <TSA_WD_RoadBuilding_DecontaminationReductionTip>Percentage points of world-tile pollution removed per scrub visit (20 = −20pp).</TSA_WD_RoadBuilding_DecontaminationReductionTip>
+  <TSA_WD_RoadBuilding_DecontaminationReductionTip>Percentage points of world-tile pollution removed per scrub visit (20 = -20pp).</TSA_WD_RoadBuilding_DecontaminationReductionTip>
   <TSA_WD_RoadBlockLight>Light road block</TSA_WD_RoadBlockLight>
   <TSA_WD_RoadBlockNormal>Medium road block</TSA_WD_RoadBlockNormal>
   <TSA_WD_RoadBlockHeavy>Heavy road block</TSA_WD_RoadBlockHeavy>
   <TSA_WD_RoadBlockGate>Gate</TSA_WD_RoadBlockGate>
   <TSA_WD_RoadBlockKind_Disabled>{0} (Construction {1}/{2})</TSA_WD_RoadBlockKind_Disabled>
   <TSA_WD_RoadBlockKindTooltip>Work: {0}\nCost penalty: +{1}\nEst. days/tile: {2}\nStrength cost: {3}\nMax HP: {4}</TSA_WD_RoadBlockKindTooltip>
+  <TSA_WD_RoadBlockKindTooltip_NoStrength>Work: {0}\nCost penalty: +{1}\nEst. days/tile: {2}\nMax HP: {3}</TSA_WD_RoadBlockKindTooltip_NoStrength>
   <TSA_WD_SpikeTrapSpike>Spike trap</TSA_WD_SpikeTrapSpike>
   <TSA_WD_SpikeTrapCaltrops>Caltrops</TSA_WD_SpikeTrapCaltrops>
   <TSA_WD_SpikeTrapKind_Disabled>{0} (Construction {1}/{2})</TSA_WD_SpikeTrapKind_Disabled>
   <TSA_WD_SpikeTrapKindTooltip>Work: {0}\nDamage: {1}\nEst. days/tile: {2}\nStrength cost: {3}\nMax HP: {4}</TSA_WD_SpikeTrapKindTooltip>
+  <TSA_WD_SpikeTrapKindTooltip_NoStrength>Work: {0}\nDamage: {1}\nEst. days/tile: {2}\nMax HP: {3}</TSA_WD_SpikeTrapKindTooltip_NoStrength>
   <TSA_WD_RoadKindTooltip>Work: {0}\nCost mult: {1}\nEst. days/segment: {2}\nStrength cost: {3}</TSA_WD_RoadKindTooltip>
+  <TSA_WD_RoadKindTooltip_NoStrength>Work: {0}\nCost mult: {1}\nEst. days/segment: {2}</TSA_WD_RoadKindTooltip_NoStrength>
   <TSA_WD_BuildReq_Header>Requirements</TSA_WD_BuildReq_Header>
   <TSA_WD_BuildReq_Construction>Construction: {0} ({1})</TSA_WD_BuildReq_Construction>
   <TSA_WD_BuildReq_ResearchNone>Research: none</TSA_WD_BuildReq_ResearchNone>
@@ -998,7 +1008,7 @@
   <TSA_WD_Experimental_AT_TurretPlayerPerSiteMax>AT Turrets per colony or outpost</TSA_WD_Experimental_AT_TurretPlayerPerSiteMax>
   <TSA_WD_Experimental_AT_TurretPlayerPerSiteMaxTip>Maximum AT Turrets attributed to one player colony or WD outpost. Each site has its own count toward this limit.</TSA_WD_Experimental_AT_TurretPlayerPerSiteMaxTip>
   <TSA_WD_Experimental_AT_TurretMaxStrength>AT Turret strength (HP)</TSA_WD_Experimental_AT_TurretMaxStrength>
-  <TSA_WD_Experimental_AT_TurretMaxStrengthTip>Hit points when a new AT Turret of this type is built. Does not change guns already on the map. Separate from Road Building expedition strength.</TSA_WD_Experimental_AT_TurretMaxStrengthTip>
+  <TSA_WD_Experimental_AT_TurretMaxStrengthTip>Hit points when a new AT Turret of this type is built. Does not change guns already on the map. Separate from Building Projects strength cost.</TSA_WD_Experimental_AT_TurretMaxStrengthTip>
   <TSA_WD_Experimental_AT_TurretDamage>AT Turret shell damage</TSA_WD_Experimental_AT_TurretDamage>
   <TSA_WD_Experimental_AT_TurretDamageTip>Strength damage dealt by an AT Turret shell on a hit.</TSA_WD_Experimental_AT_TurretDamageTip>
   <TSA_WD_Experimental_AT_TurretCooldown>AT Turret cooldown (days)</TSA_WD_Experimental_AT_TurretCooldown>

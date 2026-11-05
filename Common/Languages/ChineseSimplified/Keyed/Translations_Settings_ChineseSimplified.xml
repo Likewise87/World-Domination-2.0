@@ -661,9 +661,16 @@
   <TSA_WD_WorldMap_ToggleRelationUnderlaysRelativeTip>开启时（且已开启高亮关系），色盘按所选 NPC 定居点或旅行队显示敌对、中立或同盟。无有效选中时仍按你的殖民地显示。紫色袭击警告仍只针对威胁你的目标。</TSA_WD_WorldMap_ToggleRelationUnderlaysRelativeTip>
   <TSA_WD_WorldMap_TogglePlayerUnderlays>高亮玩家</TSA_WD_WorldMap_TogglePlayerUnderlays>
   <TSA_WD_WorldMap_TogglePlayerUnderlaysTip>在你的殖民地、前哨站、商队和旅行队下显示半透明青色圆盘。大小随缩放变化。与定居点等级标签在相同远距缩放时隐藏。星形表示该前哨站或殖民地正被敌方突袭商队作为目标。</TSA_WD_WorldMap_TogglePlayerUnderlaysTip>
-  <TSA_WD_BtnRoadBuilding>建设项目</TSA_WD_BtnRoadBuilding>
-  <TSA_WD_DescRoadBuilding>道路、路障、尖刺陷阱、反坦克炮塔（建造与战斗）及净化（范围、工作量、远征实力；未启用 Roads of the Rim 时的道路后备）。</TSA_WD_DescRoadBuilding>
-  <TSA_WD_RoadBuilding_Note>移动/工作量/最低建造仅在未启用 Roads of the Rim 时生效。冬季减免始终生效（若有 RotR 则写入 winterFactor）。</TSA_WD_RoadBuilding_Note>
+  <TSA_WD_BtnBuildingProjects>建设项目</TSA_WD_BtnBuildingProjects>
+  <TSA_WD_DescBuildingProjects>建造项目设置：可由玩家哨站执行，多数情况下也适用于殖民地与 NPC 定居点。全局费用倍率（实力、材料、建造时间）；道路、桥梁、战壕、路障、陷阱、反坦克炮塔（建造与战斗）及净化。未启用 Roads of the Rim 时使用道路移动后备值。</TSA_WD_DescBuildingProjects>
+  <TSA_WD_BuildingProjects_CostMultHeader>消耗倍率</TSA_WD_BuildingProjects_CostMultHeader>
+  <TSA_WD_BuildingProjects_StrengthCostMult>实力消耗倍率</TSA_WD_BuildingProjects_StrengthCostMult>
+  <TSA_WD_BuildingProjects_StrengthCostMultTip>缩放派出建造与清除/拆除小队时消耗的前哨实力（道路、桥梁、战壕、路障、陷阱、反坦克炮塔、净化）。下方各类型实力滑条为基数，本倍率叠乘其上。0% 时实力免费，并在建造菜单中隐藏。</TSA_WD_BuildingProjects_StrengthCostMultTip>
+  <TSA_WD_BuildingProjects_MaterialCostMult>材料消耗倍率</TSA_WD_BuildingProjects_MaterialCostMult>
+  <TSA_WD_BuildingProjects_MaterialCostMultTip>缩放世界建造材料数量（木材、零件、石砖等）。清除/拆除不消耗材料。不影响前哨升级。0% 时材料免费，并在建造菜单中隐藏。</TSA_WD_BuildingProjects_MaterialCostMultTip>
+  <TSA_WD_BuildingProjects_BuildTimeMult>建造时间倍率</TSA_WD_BuildingProjects_BuildTimeMult>
+  <TSA_WD_BuildingProjects_BuildTimeMultTip>缩放建造与清除/拆除的准备时间。下方各类型工作量滑条为基数，本倍率叠乘时长。0% 时准备瞬间完成。不影响前哨升级。</TSA_WD_BuildingProjects_BuildTimeMultTip>
+  <TSA_WD_RoadBuilding_Note>费用倍率始终生效。下方道路移动值仅在未启用 Roads of the Rim 时生效。工作量、实力与最低建造始终作用于 WD 项目。冬季减免始终生效（若有 RotR 则写入 winterFactor）。清除/拆除消耗实力与建造时间，不消耗材料。</TSA_WD_RoadBuilding_Note>
     <TSA_WD_RoadBuilding_RoadsHeader>道路</TSA_WD_RoadBuilding_RoadsHeader>
   <TSA_WD_RoadBuilding_RoadRange>修建道路范围</TSA_WD_RoadBuilding_RoadRange>
   <TSA_WD_RoadBuilding_RoadRangeTip>从前哨站规划道路修建的最大世界格距离（也用于 NPC 道路尝试）。</TSA_WD_RoadBuilding_RoadRangeTip>
@@ -683,56 +690,59 @@
   <TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>{0}：冬季惩罚降低 {1}%（此地块当前无冬季）</TSA_WD_RoadBuilding_WinterReductionTerrainTipInactive>
   <TSA_WD_RoadBuilding_WinterReductionTerrainTip>{0}：冬季惩罚降低 {1}%（由 Roads of the Rim 应用）</TSA_WD_RoadBuilding_WinterReductionTerrainTip>
   <TSA_WD_RoadBuilding_Work>建造所需工作量</TSA_WD_RoadBuilding_Work>
-  <TSA_WD_RoadBuilding_WorkTip>一条路段的抽象工作量（仅 WD 进度，非原版建造工作）。进度速度=前哨站累计建造技能。例如：土路工作量250时，1点建造技能每天贡献25工作量，土路约需10天（1技能）或约1天（10技能）。石路或沥青更高的工作量会按比例更久。</TSA_WD_RoadBuilding_WorkTip>
-  <TSA_WD_RoadBuilding_RoadStrength>派出商队时扣除的进攻实力</TSA_WD_RoadBuilding_RoadStrength>
-  <TSA_WD_RoadBuilding_RoadStrengthTip>派出修路商队铺设一段道路时，从前哨站扣除的进攻实力。若立即发射失败则退还。</TSA_WD_RoadBuilding_RoadStrengthTip>
+  <TSA_WD_RoadBuilding_WorkTip>一条路段的抽象工作量（仅 WD 进度，非原版建造工作）。进度速度=前哨站累计建造技能。例如：土路工作量250时，1点建造技能每天贡献25工作量，土路约需10天（1技能）或约1天（10技能）。石路或沥青更高的工作量会按比例更久。最终准备时间还会乘以建造时间倍率。</TSA_WD_RoadBuilding_WorkTip>
+  <TSA_WD_RoadBuilding_RoadStrength>派出小队时扣除的实力</TSA_WD_RoadBuilding_RoadStrength>
+  <TSA_WD_RoadBuilding_RoadStrengthTip>派出修路小队铺设一段道路时，从前哨站扣除的基础进攻实力（清除/拆除同样适用）。再乘以实力费用倍率。若立即发射失败则退还。</TSA_WD_RoadBuilding_RoadStrengthTip>
   <TSA_WD_RoadBuilding_MinConstruction>建造所需最低建造技能</TSA_WD_RoadBuilding_MinConstruction>
-  <TSA_WD_RoadBuilding_MinConstructionTip>未启用 Roads of the Rim 时，前哨站需要达到的总建造技能才能选择此道路类型。</TSA_WD_RoadBuilding_MinConstructionTip>
+  <TSA_WD_RoadBuilding_MinConstructionTip>前哨站需要达到的总建造技能，才能在 WD 建造菜单中选择此道路类型。</TSA_WD_RoadBuilding_MinConstructionTip>
   <TSA_WD_RoadBuilding_Reset>将前哨站建设项目重置为默认值</TSA_WD_RoadBuilding_Reset>
   <TSA_WD_RoadBuilding_RoadBlocksHeader>路障</TSA_WD_RoadBuilding_RoadBlocksHeader>
   <TSA_WD_RoadBuilding_RoadBlockRange>修建路障范围</TSA_WD_RoadBuilding_RoadBlockRange>
   <TSA_WD_RoadBuilding_RoadBlockRangeTip>从前哨站规划修建/清除路障折线的最大世界格距离。</TSA_WD_RoadBuilding_RoadBlockRangeTip>
-  <TSA_WD_RoadBuilding_RoadBlockWorkTip>一格路障的抽象工作量（修建或清除）。进度规则与道路相同：速度=建造技能；相对土路工作量决定时长。</TSA_WD_RoadBuilding_RoadBlockWorkTip>
+  <TSA_WD_RoadBuilding_RoadBlockWorkTip>一格路障的抽象工作量（修建或清除）。进度规则与道路相同：速度=建造技能；相对土路工作量决定时长。最终准备时间还会乘以建造时间倍率（含清除）。</TSA_WD_RoadBuilding_RoadBlockWorkTip>
   <TSA_WD_RoadBuilding_RoadBlockPenalty>移动代价惩罚</TSA_WD_RoadBuilding_RoadBlockPenalty>
   <TSA_WD_RoadBuilding_RoadBlockPenaltyTip>进入该等级路障格时，在道路倍率之后额外增加的平坦移动代价（所有派系；弹道旅行忽略）。</TSA_WD_RoadBuilding_RoadBlockPenaltyTip>
-  <TSA_WD_RoadBuilding_RoadBlockStrength>派出商队时扣除的进攻实力</TSA_WD_RoadBuilding_RoadBlockStrength>
-  <TSA_WD_RoadBuilding_RoadBlockStrengthTip>派出路障商队处理一格时，从前哨站扣除的进攻实力。若立即发射失败则退还。</TSA_WD_RoadBuilding_RoadBlockStrengthTip>
+  <TSA_WD_RoadBuilding_RoadBlockStrength>派出小队时扣除的实力</TSA_WD_RoadBuilding_RoadBlockStrength>
+  <TSA_WD_RoadBuilding_RoadBlockStrengthTip>派出路障小队处理一格时，从前哨站扣除的基础进攻实力（修建或清除）。再乘以实力费用倍率。若立即发射失败则退还。</TSA_WD_RoadBuilding_RoadBlockStrengthTip>
   <TSA_WD_RoadBuilding_MaxHealth>最大生命值</TSA_WD_RoadBuilding_MaxHealth>
   <TSA_WD_RoadBuilding_MaxHealthTip>放置或升级时的生命值。敌对旅行者离开格子时会按其实力磨损。</TSA_WD_RoadBuilding_MaxHealthTip>
   <TSA_WD_RoadBuilding_SpikeTrapsHeader>陷阱</TSA_WD_RoadBuilding_SpikeTrapsHeader>
   <TSA_WD_RoadBuilding_SpikeTrapRange>修建陷阱范围</TSA_WD_RoadBuilding_SpikeTrapRange>
   <TSA_WD_RoadBuilding_SpikeTrapRangeTip>从前哨站规划修建/清除刺钉陷阱折线的最大世界格距离。</TSA_WD_RoadBuilding_SpikeTrapRangeTip>
-  <TSA_WD_RoadBuilding_SpikeTrapWorkTip>一格陷阱的抽象工作量（修建或清除）。进度规则与道路相同：速度=建造技能；相对土路工作量决定时长。</TSA_WD_RoadBuilding_SpikeTrapWorkTip>
-  <TSA_WD_RoadBuilding_SpikeTrapStrength>派出商队时扣除的进攻实力</TSA_WD_RoadBuilding_SpikeTrapStrength>
-  <TSA_WD_RoadBuilding_SpikeTrapStrengthTip>派出陷阱商队处理一格时，从前哨站扣除的进攻实力。若立即发射失败则退还。</TSA_WD_RoadBuilding_SpikeTrapStrengthTip>
+  <TSA_WD_RoadBuilding_SpikeTrapWorkTip>一格陷阱的抽象工作量（修建或清除）。进度规则与道路相同：速度=建造技能；相对土路工作量决定时长。最终准备时间还会乘以建造时间倍率（含清除）。</TSA_WD_RoadBuilding_SpikeTrapWorkTip>
+  <TSA_WD_RoadBuilding_SpikeTrapStrength>派出小队时扣除的实力</TSA_WD_RoadBuilding_SpikeTrapStrength>
+  <TSA_WD_RoadBuilding_SpikeTrapStrengthTip>派出陷阱小队处理一格时，从前哨站扣除的基础进攻实力（修建或清除）。再乘以实力费用倍率。若立即发射失败则退还。</TSA_WD_RoadBuilding_SpikeTrapStrengthTip>
   <TSA_WD_RoadBuilding_SpikeTrapDamage>陷阱伤害</TSA_WD_RoadBuilding_SpikeTrapDamage>
   <TSA_WD_RoadBuilding_SpikeTrapDamageTip>敌对地面旅行者离开陷阱格时扣除的实力。陷阱也会按旅行者实力磨损。</TSA_WD_RoadBuilding_SpikeTrapDamageTip>
   <TSA_WD_RoadBuilding_SpikeTrapMaxTriggers>每旅行者最大触发数</TSA_WD_RoadBuilding_SpikeTrapMaxTriggers>
   <TSA_WD_RoadBuilding_SpikeTrapMaxTriggersTip>单个旅行者最多可触发多少个陷阱。之后路径上的陷阱会被忽略（无伤害、无磨损）。</TSA_WD_RoadBuilding_SpikeTrapMaxTriggersTip>
   <TSA_WD_RoadBuilding_AT_TurretsHeader>AT 炮塔</TSA_WD_RoadBuilding_AT_TurretsHeader>
-  <TSA_WD_RoadBuilding_AT_TurretsNote>轻型、中型、重型均可建造。聚居地按等级建造（T1–T2 轻型，T3 中型，T4 重型）。工作量为建造耗时成本（默认约为原先道路对齐成本的两倍）。远征实力是车队花费，不是炮塔生命值。</TSA_WD_RoadBuilding_AT_TurretsNote>
-  <TSA_WD_RoadBuilding_AT_TurretWorkTip>一座 AT 炮塔的抽象工作量。进度规则与道路相同。默认约为原先道路对齐成本的两倍。</TSA_WD_RoadBuilding_AT_TurretWorkTip>
-  <TSA_WD_RoadBuilding_AT_TurretStrength>派遣时扣除的进攻实力</TSA_WD_RoadBuilding_AT_TurretStrength>
-  <TSA_WD_RoadBuilding_AT_TurretStrengthTip>派遣 AT 炮塔车队时扣除的进攻实力。中型默认与沥青路一致。</TSA_WD_RoadBuilding_AT_TurretStrengthTip>
+  <TSA_WD_RoadBuilding_AT_TurretsNote>轻型、中型、重型均可建造。聚居地按等级建造（T1-T2 轻型，T3 中型，T4 重型）。工作量为建造耗时成本（基础工作量约为原先道路对齐成本的两倍）。小队实力费用会乘以费用倍率；不是炮塔生命值（生命值用最大实力滑条）。</TSA_WD_RoadBuilding_AT_TurretsNote>
+  <TSA_WD_RoadBuilding_AT_TurretWorkTip>一座 AT 炮塔的抽象工作量。进度规则与道路相同。基础工作量约为原先道路对齐成本的两倍。最终准备时间还会乘以建造时间倍率（含拆除）。</TSA_WD_RoadBuilding_AT_TurretWorkTip>
+  <TSA_WD_RoadBuilding_AT_TurretStrength>派出小队时扣除的实力</TSA_WD_RoadBuilding_AT_TurretStrength>
+  <TSA_WD_RoadBuilding_AT_TurretStrengthTip>派出 AT 炮塔小队时扣除的基础进攻实力（拆除同样适用）。再乘以实力费用倍率。中型基础与沥青路一致。</TSA_WD_RoadBuilding_AT_TurretStrengthTip>
   <TSA_WD_RoadBuilding_DecontaminationHeader>净化</TSA_WD_RoadBuilding_DecontaminationHeader>
   <TSA_WD_RoadBuilding_DecontaminationRange>净化范围</TSA_WD_RoadBuilding_DecontaminationRange>
   <TSA_WD_RoadBuilding_DecontaminationRangeTip>从前哨站规划净化路径的最大格距。</TSA_WD_RoadBuilding_DecontaminationRangeTip>
-  <TSA_WD_RoadBuilding_DecontaminationWorkTip>净化一格污染的抽象工作量。与道路相同：速率=累计建造技能；相对沥青道路工作量决定时长。</TSA_WD_RoadBuilding_DecontaminationWorkTip>
+  <TSA_WD_RoadBuilding_DecontaminationWorkTip>净化一格污染的抽象工作量。与道路相同：速率=累计建造技能；相对沥青道路工作量决定时长。最终准备时间还会乘以建造时间倍率。</TSA_WD_RoadBuilding_DecontaminationWorkTip>
   <TSA_WD_RoadBuilding_DecontaminationStrength>实力消耗（净化）</TSA_WD_RoadBuilding_DecontaminationStrength>
-  <TSA_WD_RoadBuilding_DecontaminationStrengthTip>派出净化商队净化一格时从前哨站扣除的进攻实力。若立即派出失败则退还。</TSA_WD_RoadBuilding_DecontaminationStrengthTip>
+  <TSA_WD_RoadBuilding_DecontaminationStrengthTip>派出净化小队净化一格时从前哨站扣除的基础进攻实力。再乘以实力费用倍率。若立即派出失败则退还。</TSA_WD_RoadBuilding_DecontaminationStrengthTip>
   <TSA_WD_RoadBuilding_DecontaminationReduction>污染减少（百分点）</TSA_WD_RoadBuilding_DecontaminationReduction>
-  <TSA_WD_RoadBuilding_DecontaminationReductionTip>每次净化访问减少的世界格污染百分点（20=−20百分点）。</TSA_WD_RoadBuilding_DecontaminationReductionTip>
+  <TSA_WD_RoadBuilding_DecontaminationReductionTip>每次净化访问减少的世界格污染百分点（20=-20百分点）。</TSA_WD_RoadBuilding_DecontaminationReductionTip>
   <TSA_WD_RoadBlockLight>轻型路障</TSA_WD_RoadBlockLight>
   <TSA_WD_RoadBlockNormal>中型路障</TSA_WD_RoadBlockNormal>
   <TSA_WD_RoadBlockHeavy>重型路障</TSA_WD_RoadBlockHeavy>
   <TSA_WD_RoadBlockGate>闸门</TSA_WD_RoadBlockGate>
   <TSA_WD_RoadBlockKind_Disabled>{0}（建造 {1}/{2}）</TSA_WD_RoadBlockKind_Disabled>
   <TSA_WD_RoadBlockKindTooltip>工作量：{0}\n代价惩罚：+{1}\n预计天数/格：{2}\n实力消耗：{3}\n最大 HP：{4}</TSA_WD_RoadBlockKindTooltip>
+  <TSA_WD_RoadBlockKindTooltip_NoStrength>工作量：{0}\n代价惩罚：+{1}\n预计天数/格：{2}\n最大 HP：{3}</TSA_WD_RoadBlockKindTooltip_NoStrength>
   <TSA_WD_SpikeTrapSpike>刺钉陷阱</TSA_WD_SpikeTrapSpike>
   <TSA_WD_SpikeTrapCaltrops>蒺藜</TSA_WD_SpikeTrapCaltrops>
   <TSA_WD_SpikeTrapKind_Disabled>{0}（建造 {1}/{2}）</TSA_WD_SpikeTrapKind_Disabled>
   <TSA_WD_SpikeTrapKindTooltip>工作量：{0}\n伤害：{1}\n预计天数/格：{2}\n实力消耗：{3}\n最大 HP：{4}</TSA_WD_SpikeTrapKindTooltip>
+  <TSA_WD_SpikeTrapKindTooltip_NoStrength>工作量：{0}\n伤害：{1}\n预计天数/格：{2}\n最大 HP：{3}</TSA_WD_SpikeTrapKindTooltip_NoStrength>
   <TSA_WD_RoadKindTooltip>工作量：{0}\n代价倍率：{1}\n预计天数/段：{2}\n实力消耗：{3}</TSA_WD_RoadKindTooltip>
+  <TSA_WD_RoadKindTooltip_NoStrength>工作量：{0}\n代价倍率：{1}\n预计天数/段：{2}</TSA_WD_RoadKindTooltip_NoStrength>
   <TSA_WD_BuildReq_Header>需求</TSA_WD_BuildReq_Header>
   <TSA_WD_BuildReq_Construction>建造：{0}（{1}）</TSA_WD_BuildReq_Construction>
   <TSA_WD_BuildReq_ResearchNone>研究：无</TSA_WD_BuildReq_ResearchNone>
@@ -981,7 +991,7 @@
   <TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>开启后，“手动战斗”按当前进攻兵力限制可部署的前哨殖民者。关闭后可任意选择，无预算上限。</TSA_WD_Experimental_OutpostDefenseDeployBudgetTip>
   <TSA_WD_Experimental_HeaderAtTurrets>反坦克炮</TSA_WD_Experimental_HeaderAtTurrets>
   <TSA_WD_Experimental_AT_TurretMaxStrength>AT 炮塔实力（生命值）</TSA_WD_Experimental_AT_TurretMaxStrength>
-  <TSA_WD_Experimental_AT_TurretMaxStrengthTip>新建该类型 AT 炮塔时的生命值。不会改变地图上已有炮塔。与道路建设中的远征实力无关。</TSA_WD_Experimental_AT_TurretMaxStrengthTip>
+  <TSA_WD_Experimental_AT_TurretMaxStrengthTip>新建该类型 AT 炮塔时的生命值。不会改变地图上已有炮塔。与建设项目中的实力消耗无关。</TSA_WD_Experimental_AT_TurretMaxStrengthTip>
   <TSA_WD_Experimental_AT_TurretDamage>AT 炮塔炮弹伤害</TSA_WD_Experimental_AT_TurretDamage>
   <TSA_WD_Experimental_AT_TurretDamageTip>AT 炮塔炮弹命中时造成的实力伤害。</TSA_WD_Experimental_AT_TurretDamageTip>
   <TSA_WD_Experimental_AT_TurretCooldown>AT 炮塔冷却（天）</TSA_WD_Experimental_AT_TurretCooldown>

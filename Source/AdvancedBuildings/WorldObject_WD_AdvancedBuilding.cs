@@ -52,13 +52,18 @@ namespace TSA_WorldDomination
 
         public bool IsArtillery => BuildingDef?.IsArtillery == true;
 
-        /// <summary>Owner gone, razed, or now another faction (cleanup runs on the daily sweep, never during load).</summary>
+        /// <summary>
+        /// Owner gone, razed/despawned, or now another faction.
+        /// Immediate wipe is <see cref="WorldActions_NpcFortify.NotifyBuilderLost"/> on settlement Destroy;
+        /// this remains the daily-sweep safety net (never during load).
+        /// </summary>
         public bool IsOrphan
         {
             get
             {
                 Settlement o = builtBySettlement;
-                if (o == null || o.Destroyed) return true;
+                // Destroyed OR merely removed from the world (legacy Remove-without-Destroy paths).
+                if (o == null || o.Destroyed || !o.Spawned) return true;
                 if (o.Faction == null || o.Faction != Faction) return true;
                 return false;
             }
