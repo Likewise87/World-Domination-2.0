@@ -170,6 +170,7 @@ namespace TSA_WorldDomination
                     stuff = CompOutpostWarehouse.ResolveStuffForDeposit(taken.def, taken.Stuff)
                 };
                 if (taken.TryGetQuality(out QualityCategory q)) row.quality = q;
+                WdStockExtrasTable.AttachVisualsFromThing(row, taken);
                 CompOutpostWarehouse.MergeCount(rows, row);
                 taken.Destroy(DestroyMode.Vanish);
             }

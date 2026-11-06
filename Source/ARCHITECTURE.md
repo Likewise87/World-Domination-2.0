@@ -165,7 +165,7 @@ Pick one and name it. Do not mix them.
 | Offense pool | `CompViralSpread.offensiveStrength` (alias `strength`) |
 | Deployable | `WorldActions_Utils.GetAvailableRaidStrength` = strength minus garrison retain. Wrappers: `GetDeployableOffense`, `RapidResponseUtility.GetDeployableStrength` |
 | Ranking total | `CompViralSpread.GetTotalLocalDefensePower` (offensive + defensive + owned AT damage/2). Summed in `WorldStatsUtils`. Equal-share relative strength: `RelativeToNpcEqualShare` / `GetLivingNpcStrengthTotals` (Strategy fork + leader/underdog/coalition) |
-| Storyteller points | `RaidLaunchGate.GetColonyStorytellerDefense` → `StorytellerUtility.DefaultThreatPointsNow`. Clamp: `RaidPointsHelper.ClampRaidPointsToStorytellerBand` |
+| Storyteller points | `RaidLaunchGate.GetColonyStorytellerDefense` → `StorytellerUtility.DefaultThreatPointsNow`. Clamp: `RaidPointsHelper.ClampRaidPointsToStorytellerBand` (global `alwaysUseStrengthAsRaidPoints` override; else Colony / OutpostAndTrenches / OpenMapClash scopes) |
 
 Attacker pool for gates: `RaidLaunchGate.SumAvailableAttPower` → `GetAvailableRaidStrength`.
 
@@ -284,6 +284,7 @@ Before shipping any Def XML or new C# field: read `Guardrails/DEFS_GUIDE.md` § 
 SSoT: `Source/Core/WdMedievalMode.cs`. Main checkbox `wdMedievalMode` (below Setting presets on the Main settings page). **1.7-only** feature (C# lives in `1.7/Assemblies`).
 
 - **Content filter:** defs with `minTechLevel` above Medieval are hidden/blocked when Active (outposts, upgrades, AT turrets, NPC mortar/AA advanced buildings). Untagged = allowed. Do not `PatchOperationRemove` industrial defs.
+- **World-build roads/blocks:** when Active, asphalt (T3/T4) and heavy road blocks are hidden (`IsRoadTierAllowed` / `IsRoadBlockKindAllowed`). Machining research gates for stone roads, bridges, caltrops, and medium road blocks remap at resolve time via `ColonyWorldBuildRequirements.EffectiveResearch` to `DankPyon_Engineering` (else `Smithing`). Does not mutate Def XML.
 - **`minTechLevel` XML:** applied only via `1.7/Patches/WD_Medieval_MinTechTags.xml` (not `Common/Defs/`) so 1.6 does not see unknown fields.
 - **Tech floors:** `EffectiveDropPodRaidMinTech` / `EffectiveNpcArtilleryMinTech` raise Combat dropdowns to at least Industrial while Active (never lowers a stricter Spacer setting).
 - **Player travel UI:** `PlayerDropPodsAllowed` is false when Active; `OutpostDispatchMode.GetViaDropPod` and pawn drop-pod getters force land. Rapid Response outpost stays (land intercept); its drop-pod dispatch chrome is hidden.

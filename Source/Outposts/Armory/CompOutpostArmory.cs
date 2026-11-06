@@ -92,6 +92,8 @@ namespace TSA_WorldDomination
         {
             base.PostExposeData();
             Scribe_Collections.Look(ref stock, "armoryStock", LookMode.Deep);
+            List<WdStockVisualRecord> visualSnap = null;
+            WdStockExtrasTable.ExposeVisualSnapshot(stock, ref visualSnap, "armoryStockVisuals");
             Scribe_Deep.Look(ref uniques, "armoryUniques", this);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
@@ -109,7 +111,7 @@ namespace TSA_WorldDomination
                     {
                         ThingDefCountClass row = stock[i];
                         if (row?.thingDef == null || row.count <= 0) continue;
-                        CompOutpostWarehouse.MergeCount(shared, CompOutpostWarehouse.PlainStockRow(row, row.count));
+                        CompOutpostWarehouse.MergeCount(shared, CompOutpostWarehouse.StockRowForStoreMerge(row, row.count));
                     }
                     stock.Clear();
                 }
@@ -176,7 +178,7 @@ namespace TSA_WorldDomination
         {
             if (row?.thingDef == null || row.count <= 0) return;
             if (CompOutpostWarehouse.IsUnusableMinifiedDef(row.thingDef)) return;
-            CompOutpostWarehouse.MergeCount(Stock, CompOutpostWarehouse.PlainStockRow(row, row.count));
+            CompOutpostWarehouse.MergeCount(Stock, CompOutpostWarehouse.StockRowForStoreMerge(row, row.count));
         }
 
         /// <summary>Removes up to <paramref name="amount"/> matching def+stuff+quality; returns how many came out.</summary>

@@ -289,9 +289,15 @@
   <TSA_WD_Threat_HeaderCalc>Absolute raid point limits</TSA_WD_Threat_HeaderCalc>
   <TSA_WD_Threat_HeaderWDClamp>Raid point clamping</TSA_WD_Threat_HeaderWDClamp>
   <TS_WD_CaravanRaidAlwaysUseStrength>Always use Strength as Raid points</TS_WD_CaravanRaidAlwaysUseStrength>
-  <TS_WD_CaravanRaidAlwaysUseStrengthTooltip>Strictly uses the raid points of a caravan when a raid on the colony happens or when your caravan clashes with a NPC caravan.</TS_WD_CaravanRaidAlwaysUseStrengthTooltip>
+  <TS_WD_CaravanRaidAlwaysUseStrengthTooltip>When on, colony raids, outpost defense, trench fights, and open-map clashes all use attacker or traveler strength as raid points with no storyteller band. When off, use the Clamp toggles below.</TS_WD_CaravanRaidAlwaysUseStrengthTooltip>
   <TS_WD_OutpostDefenseAlwaysUseStrength>Always use Strength for manual outpost defense</TS_WD_OutpostDefenseAlwaysUseStrength>
   <TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>When on, manual outpost defense map fights use traveler strength as raid points with no storyteller band clamp. When off, the same floor and ceiling as other WD raids apply. Colony raids and caravan clashes use the setting above.</TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>
+  <TS_WD_RaidClamp_ForColony>Clamp raid points for colony raids</TS_WD_RaidClamp_ForColony>
+  <TS_WD_RaidClamp_ForColonyTooltip>When on, raids on your colony stay within the storyteller floor and ceiling below. When off, the attacker's strength is used as raid points with no band.</TS_WD_RaidClamp_ForColonyTooltip>
+  <TS_WD_RaidClamp_ForOutpostAndTrenches>Clamp raid points for outpost defense and trench fights</TS_WD_RaidClamp_ForOutpostAndTrenches>
+  <TS_WD_RaidClamp_ForOutpostAndTrenchesTooltip>When on, outpost defense maps and trench corridor fights stay within the floor and ceiling below. When off, traveler strength is used as raid points with no band.</TS_WD_RaidClamp_ForOutpostAndTrenchesTooltip>
+  <TS_WD_RaidClamp_ForOpenMapClashes>Clamp raid points for open-map clashes</TS_WD_RaidClamp_ForOpenMapClashes>
+  <TS_WD_RaidClamp_ForOpenMapClashesTooltip>When on, ambushes, bridge fights, and camp clashes stay within the floor and ceiling below. When off, traveler strength is used as raid points with no band. Trader meetings still use normal trader guards.</TS_WD_RaidClamp_ForOpenMapClashesTooltip>
   <TSA_WD_Alert_MidGameActive>WD: Mid Game activated</TSA_WD_Alert_MidGameActive>
   <TSA_WD_Alert_MidGameActiveDesc>Your outpost strength has triggered Mid Game. Hostile settlements grow faster, gain more attack range, and bias raids toward you. Settlements expand toward your holdings, goodwill drifts down over time, and your outposts may suffer lighter attrition incidents. NPC interception caravans may ambush your caravans and travelers. T4 mortars and AA do not target you yet unless the Mid Game toggles are on.</TSA_WD_Alert_MidGameActiveDesc>
   <TSA_WD_Alert_LateGameActive>WD: Late Game activated</TSA_WD_Alert_LateGameActive>

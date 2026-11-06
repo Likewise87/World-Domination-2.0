@@ -257,9 +257,15 @@
   <TSA_WD_Threat_HeaderCalc>袭击点数绝对上下限</TSA_WD_Threat_HeaderCalc>
   <TSA_WD_Threat_HeaderWDClamp>袭击点数钳制</TSA_WD_Threat_HeaderWDClamp>
   <TS_WD_CaravanRaidAlwaysUseStrength>始终用强度作为袭击点数</TS_WD_CaravanRaidAlwaysUseStrength>
-  <TS_WD_CaravanRaidAlwaysUseStrengthTooltip>在殖民地遭袭击或你的商队与 NPC 商队发生冲突时，严格按商队/袭击方的强度作为袭击点数。</TS_WD_CaravanRaidAlwaysUseStrengthTooltip>
+  <TS_WD_CaravanRaidAlwaysUseStrengthTooltip>开启时，殖民地袭击、前哨防御、战壕战与开放地图冲突一律用攻击方或旅行者强度作为袭击点数，不受叙事者区间限制。关闭时，使用下方各项钳制开关。</TS_WD_CaravanRaidAlwaysUseStrengthTooltip>
   <TS_WD_OutpostDefenseAlwaysUseStrength>手动前哨防御始终使用实力</TS_WD_OutpostDefenseAlwaysUseStrength>
   <TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>开启时，手动前哨防御地图战使用旅行者实力作为袭击点数，不受叙事者区间钳制。关闭时，与其他 WD 袭击相同的最小/最大限制。殖民地袭击与商队冲突使用上方设置。</TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>
+  <TS_WD_RaidClamp_ForColony>钳制殖民地袭击点数</TS_WD_RaidClamp_ForColony>
+  <TS_WD_RaidClamp_ForColonyTooltip>开启时，袭击你殖民地的规模保持在下方叙事者下限与上限内。关闭时，直接用攻击方强度作为袭击点数，不套区间。</TS_WD_RaidClamp_ForColonyTooltip>
+  <TS_WD_RaidClamp_ForOutpostAndTrenches>钳制前哨防御与战壕战点数</TS_WD_RaidClamp_ForOutpostAndTrenches>
+  <TS_WD_RaidClamp_ForOutpostAndTrenchesTooltip>开启时，前哨防御地图与战壕走廊战保持在下方下限与上限内。关闭时，直接用旅行者强度作为袭击点数，不套区间。</TS_WD_RaidClamp_ForOutpostAndTrenchesTooltip>
+  <TS_WD_RaidClamp_ForOpenMapClashes>钳制开放地图冲突点数</TS_WD_RaidClamp_ForOpenMapClashes>
+  <TS_WD_RaidClamp_ForOpenMapClashesTooltip>开启时，伏击、桥梁战与营地冲突保持在下方下限与上限内。关闭时，直接用旅行者强度作为袭击点数，不套区间。商人会面仍使用常规商队护卫。</TS_WD_RaidClamp_ForOpenMapClashesTooltip>
   <TSA_WD_Alert_MidGameActive>WD：中期游戏已激活</TSA_WD_Alert_MidGameActive>
   <TSA_WD_Alert_MidGameActiveDesc>你的前哨实力已触发中期游戏。敌对定居点成长更快、攻击范围提高，并更倾向于袭击你。定居点会朝你的领地扩张，好感会随时间下降，你的前哨可能遭遇较轻的消耗事件。NPC拦截商队可伏击你的商队与旅行者。除非开启中期游戏相关开关，否则 T4 迫击炮与防空尚不会攻击你。</TSA_WD_Alert_MidGameActiveDesc>
   <TSA_WD_Alert_LateGameActive>WD：后期游戏已激活</TSA_WD_Alert_LateGameActive>

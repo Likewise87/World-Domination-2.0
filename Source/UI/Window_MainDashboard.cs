@@ -1002,7 +1002,7 @@ namespace TSA_WorldDomination
                 ? manager.WorldThreatBaseline
                 : SamplePrimaryColonyStorytellerBaseline();
             var seth = WorldDominationMod.settings;
-            if (seth == null || seth.alwaysUseStrengthAsRaidPoints)
+            if (seth == null || !RaidPointsHelper.IsStorytellerBandClampActive(WdRaidPointClampScope.Colony))
             {
                 return "TSA_WD_Dash_ThreatsTooltip_NoClamp".Translate(baseline.ToString("F0")).ToString();
             }

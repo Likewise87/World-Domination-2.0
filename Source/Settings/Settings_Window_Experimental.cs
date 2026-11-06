@@ -141,6 +141,11 @@ var s = WorldDominationMod.settings;
                     "TSA_WD_Experimental_OutpostArmoryTip".Translate(),
                     defaultValue: WorldDominationSettings.DefExperimentalOutpostArmory);
 
+                SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_RetainOutpostEquipmentColor".Translate(),
+                    ref s.experimentalRetainOutpostEquipmentColor,
+                    "TSA_WD_Experimental_RetainOutpostEquipmentColorTip".Translate(),
+                    defaultValue: WorldDominationSettings.DefExperimentalRetainOutpostEquipmentColor);
+
                 SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_DisableVanillaCaravanIncidents".Translate(),
                     ref s.experimentalDisableVanillaCaravanIncidents,
                     "TSA_WD_Experimental_DisableVanillaCaravanIncidentsTip".Translate(),

@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_69_Title>小更新。染色装备与中世纪研究</TSA_WD_Update_2_3_69_Title>
+  <TSA_WD_Update_2_3_69_Body><![CDATA[
+<size=16><b>2.3.69 - 小更新。染色装备与中世纪研究</b></size>\n
+<color=#00FFFFFF>发布日期：2026年11月6日</color>\n
+------------------------------\n
+!!!改动仅适用于 1.7 版本!!!\n
+• 启用中世纪模式后，石路、桥梁与铁蒺藜不再要求「机械加工」研究，而是改由 Medieval Overhaul 的「Engineering」研究解锁。\n
+• 染色与意识形态样式装备加入前哨军械库时，现在应能保留其外观身份。\n
+• 实力上限现可分别开关：殖民地防御、前哨与战壕防御，以及世界地图上的商队冲突。\n
+]]></TSA_WD_Update_2_3_69_Body>
   <TSA_WD_Update_2_3_68_Title>小更新。建造项目费用调节</TSA_WD_Update_2_3_68_Title>
   <TSA_WD_Update_2_3_68_Body><![CDATA[
 <size=16><b>2.3.68 - 小更新。建造项目费用调节</b></size>\n

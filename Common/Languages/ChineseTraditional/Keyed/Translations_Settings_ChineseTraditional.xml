@@ -1919,6 +1919,8 @@
   <TSA_WD_Experimental_OutpostCePassiveAmmoTip>啟用Combat Extended時，主武器為遠程武器的哨站殖民者會緩慢囤積其基本彈藥（全金屬被甲彈、石箭、簡易火箭），每天{0}個彈匣，物品欄最多{1}個彈匣。免費且有點作弊。關閉即可停用。預設開啟。</TSA_WD_Experimental_OutpostCePassiveAmmoTip>
   <!-- EN: Outpost armory -->
   <TSA_WD_Experimental_OutpostArmory>哨站軍械庫</TSA_WD_Experimental_OutpostArmory>
+  <TSA_WD_Experimental_RetainOutpostEquipmentColor>保留哨站裝備顏色</TSA_WD_Experimental_RetainOutpostEquipmentColor>
+  <TSA_WD_Experimental_RetainOutpostEquipmentColorTip>開啟後，染色或帶有意識形態樣式的裝備在存入軍械庫／倉庫，或在防禦後回收時會保留外觀。相同染料與樣式會堆疊。關閉後，新存入的物品只按類型／材料／品質合併，取出時失去顏色與樣式。預設開啟。</TSA_WD_Experimental_RetainOutpostEquipmentColorTip>
   <!-- EN: When on, every outpost keeps a loose store for weapons, armor, medicine, drugs, food and ammo. Gear arriving by caravan or drop pod is stored instead of destroyed, and you can hand it to occupants from the Armory button on the Pawns tab. Turn off to go back to discarding arriving gear. Anything already stored stays in the save. On by default. -->
   <TSA_WD_Experimental_OutpostArmoryTip>開啟後，每個哨站都會保有一個散裝倉庫，可存放武器、護甲、藥品、藥物、食物與彈藥。由旅隊或運輸艙抵達的裝備會被存放而非銷毀，你可以從「角色」分頁的「軍械庫」按鈕將其交給駐員。關閉後恢復為丟棄抵達的裝備。已存放的物品會保留在存檔中。預設開啟。</TSA_WD_Experimental_OutpostArmoryTip>
   <!-- EN: Disable vanilla caravan travel incidents -->

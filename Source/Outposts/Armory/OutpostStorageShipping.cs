@@ -71,7 +71,7 @@ namespace TSA_WorldDomination
                     if (want?.thingDef == null || want.count <= 0) continue;
                     int got = armory.WithdrawUpToMatching(want, want.count);
                     if (got > 0)
-                        withdrawn.Add(CompOutpostWarehouse.PlainStockRow(want, got));
+                        withdrawn.Add(CompOutpostWarehouse.StockRowForStoreMerge(want, got));
                     if (got < want.count)
                     {
                         RollBack(sender, armory, withdrawn, null, 0f);

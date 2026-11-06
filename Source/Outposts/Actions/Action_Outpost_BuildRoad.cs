@@ -227,22 +227,25 @@ namespace TSA_WorldDomination
                 ColonyWorldBuildRequirements.GetMaterialCostsForRoad(SettlementTier.T2));
             options.Add(stoneOption);
 
-            int asphaltMinConstruction = WorldActions_Roads.GetMinConstructionToBuildRoad(SettlementTier.T3);
-            var asphaltOption = new FloatMenuOption("TSA_WD_RoadAsphalt".Translate(), WdCascadingFloatMenu.WrapLeaf(() =>
+            if (WdMedievalMode.IsRoadTierAllowed(SettlementTier.T3))
             {
-                comp.selectedRoadTier = SettlementTier.T3;
-                StartRoadTargeting(outpost, comp);
-            }), roadIcon, Color.white)
-            {
-                tooltip = BuildRoadKindTooltip(outpost, SettlementTier.T3)
-            };
-            ColonyWorldBuildRequirements.ApplyGate(
-                asphaltOption,
-                totalConstruction,
-                asphaltMinConstruction,
-                ColonyWorldBuildRequirements.GetRequiredResearchForRoad(SettlementTier.T3),
-                ColonyWorldBuildRequirements.GetMaterialCostsForRoad(SettlementTier.T3));
-            options.Add(asphaltOption);
+                int asphaltMinConstruction = WorldActions_Roads.GetMinConstructionToBuildRoad(SettlementTier.T3);
+                var asphaltOption = new FloatMenuOption("TSA_WD_RoadAsphalt".Translate(), WdCascadingFloatMenu.WrapLeaf(() =>
+                {
+                    comp.selectedRoadTier = SettlementTier.T3;
+                    StartRoadTargeting(outpost, comp);
+                }), roadIcon, Color.white)
+                {
+                    tooltip = BuildRoadKindTooltip(outpost, SettlementTier.T3)
+                };
+                ColonyWorldBuildRequirements.ApplyGate(
+                    asphaltOption,
+                    totalConstruction,
+                    asphaltMinConstruction,
+                    ColonyWorldBuildRequirements.GetRequiredResearchForRoad(SettlementTier.T3),
+                    ColonyWorldBuildRequirements.GetMaterialCostsForRoad(SettlementTier.T3));
+                options.Add(asphaltOption);
+            }
 
             WdCascadingFloatMenu.OpenAsChild(options, () => Action_Outpost_Build.BuildRootMenuOptions(outpost, comp));
         }

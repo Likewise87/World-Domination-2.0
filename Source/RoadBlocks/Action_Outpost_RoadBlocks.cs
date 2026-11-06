@@ -123,9 +123,10 @@ namespace TSA_WorldDomination
             var options = new List<FloatMenuOption>
             {
                 MakeKindOption(outpost, comp, RoadBlockKind.Light, totalConstruction),
-                MakeKindOption(outpost, comp, RoadBlockKind.Normal, totalConstruction),
-                MakeKindOption(outpost, comp, RoadBlockKind.Heavy, totalConstruction)
+                MakeKindOption(outpost, comp, RoadBlockKind.Normal, totalConstruction)
             };
+            if (WdMedievalMode.IsRoadBlockKindAllowed(RoadBlockKind.Heavy))
+                options.Add(MakeKindOption(outpost, comp, RoadBlockKind.Heavy, totalConstruction));
             WdCascadingFloatMenu.OpenAsChild(options, () => Action_Outpost_Build.BuildRootMenuOptions(outpost, comp));
         }
 

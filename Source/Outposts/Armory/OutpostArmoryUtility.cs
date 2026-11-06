@@ -446,6 +446,7 @@ namespace TSA_WorldDomination
                 };
                 if (content.TryGetQuality(out QualityCategory q))
                     row.quality = q;
+                WdStockExtrasTable.AttachVisualsFromThing(row, content);
 
                 armory.DepositStockRow(row);
                 return true;
@@ -470,7 +471,10 @@ namespace TSA_WorldDomination
         public static Thing MakeFromStockRow(ThingDefCountClass row, int count)
         {
             if (row?.thingDef == null || count <= 0) return null;
-            return WorldActions_Traveler.MakeDeliveryThing(row.thingDef, count, row.stuff, row.quality);
+            Thing made = WorldActions_Traveler.MakeDeliveryThing(row.thingDef, count, row.stuff, row.quality);
+            if (made != null)
+                WdStockExtrasTable.ApplyVisualsToThing(made, row);
+            return made;
         }
 
         /// <summary>
@@ -587,7 +591,7 @@ namespace TSA_WorldDomination
             Thing made = MakeFromStockRow(row, taken);
             if (made == null)
             {
-                armory.DepositStockRow(new ThingDefCountClass(row.thingDef, taken) { stuff = row.stuff, quality = row.quality });
+                armory.DepositStockRow(CompOutpostWarehouse.CloneStockRowPreservingExtras(row, taken));
                 return false;
             }
 

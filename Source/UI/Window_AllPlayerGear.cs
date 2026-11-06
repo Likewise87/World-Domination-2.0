@@ -1512,7 +1512,7 @@ namespace TSA_WorldDomination
                 }
 
                 if (item.stockRow != null)
-                    rows.Add(CompOutpostWarehouse.PlainStockRow(item.stockRow, item.sendCount));
+                    rows.Add(CompOutpostWarehouse.StockRowForStoreMerge(item.stockRow, item.sendCount));
                 else if (item.thing != null && !item.thing.Destroyed)
                     uniques.Add(item.thing);
             }

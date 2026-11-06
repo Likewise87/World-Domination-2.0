@@ -1783,6 +1783,8 @@ namespace TSA_WorldDomination
         {
             base.ExposeData();
             Scribe_Collections.Look(ref deliveryItems, "deliveryItems", LookMode.Deep);
+            List<WdStockVisualRecord> visualSnap = null;
+            WdStockExtrasTable.ExposeVisualSnapshot(deliveryItems, ref visualSnap, "deliveryItemVisuals");
             Scribe_Values.Look(ref deliveryVirtualFood, "deliveryVirtualFood", 0f);
             Scribe_Values.Look(ref deliveryViaDropPod, "deliveryViaDropPod", false);
             Scribe_Deep.Look(ref cargoUniques, "cargoUniques", this);

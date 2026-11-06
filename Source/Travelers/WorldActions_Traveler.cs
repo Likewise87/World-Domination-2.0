@@ -969,13 +969,14 @@ namespace TSA_WorldDomination
                 ThingDefCountClass tc = items[i];
                 if (tc?.thingDef == null || tc.count <= 0) continue;
                 int remaining = tc.count;
-                int stackLimit = Mathf.Max(1, tc.thingDef.stackLimit);
                 while (remaining > 0)
                 {
-                    Thing t = ThingMaker.MakeThing(tc.thingDef);
-                    if (t == null) break;
-                    t.stackCount = Mathf.Min(remaining, stackLimit);
-                    remaining -= t.stackCount;
+                    int chunk = GetDeliveryChunkSize(tc.thingDef, remaining);
+                    if (chunk <= 0) break;
+                    remaining -= chunk;
+                    Thing t = MakeDeliveryThing(tc.thingDef, chunk, tc.stuff, tc.quality);
+                    if (t == null) continue;
+                    WdStockExtrasTable.ApplyVisualsToThing(t, tc);
                     list.Add(t);
                 }
             }
@@ -1346,6 +1347,7 @@ namespace TSA_WorldDomination
                     remaining -= chunk;
                     Thing t = MakeDeliveryThing(tc.thingDef, chunk, tc.stuff, tc.quality);
                     if (t == null) continue;
+                    WdStockExtrasTable.ApplyVisualsToThing(t, tc);
                     things.Add(t);
                     if (clusterTight)
                         TryPlaceDeliveryThing(t, ref nextCell, map, dropCell, lookAt, clusterTight: true);
@@ -1392,7 +1394,9 @@ namespace TSA_WorldDomination
                     if (chunk <= 0) break;
                     remaining -= chunk;
                     Thing t = MakeDeliveryThing(tc.thingDef, chunk, tc.stuff, tc.quality);
-                    if (t != null) things.Add(t);
+                    if (t == null) continue;
+                    WdStockExtrasTable.ApplyVisualsToThing(t, tc);
+                    things.Add(t);
                 }
             }
 

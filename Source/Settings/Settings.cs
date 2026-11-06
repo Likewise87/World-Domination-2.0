@@ -756,9 +756,13 @@ namespace TSA_WorldDomination
         public const float DefMidRaidClampMaxStorytellerFrac = 1.80f;
         public const float DefLateRaidClampMinStorytellerFrac = 1.00f;
         public const float DefLateRaidClampMaxStorytellerFrac = 2.30f;
-        /// <summary>When true, WD colony raids and caravan interception raids use attacker/caravan strength as raid points with no storyteller-band clamp (floor/ceiling sliders hidden).</summary>
+        /// <summary>Global override: strength = raid points for colony, outpost/trenches, and open-map clashes (hides per-scope Clamp toggles and fraction sliders).</summary>
         public const bool DefAlwaysUseStrengthAsRaidPoints = false;
+        /// <summary>Legacy outpost-only bypass; kept for save Look. Migrated into <see cref="clampRaidPointsForOutpostAndTrenches"/>.</summary>
         public const bool DefAlwaysUseStrengthAsOutpostDefenseRaidPoints = false;
+        public const bool DefClampRaidPointsForColony = true;
+        public const bool DefClampRaidPointsForOutpostAndTrenches = true;
+        public const bool DefClampRaidPointsForOpenMapClashes = true;
         /// <summary>Absolute clamps for reinforcements and other non-storyteller WD spawns that still use fixed points.</summary>
         public const int DefMinRaidPoints = 60;
         public const int DefMaxRaidPoints = 10000;
@@ -804,6 +808,8 @@ namespace TSA_WorldDomination
         public const bool DefExperimentalOutpostCePassiveAmmo = true;
         /// <summary>Experimental opt-out: outposts keep a loose gear store (see <see cref="CompOutpostArmory"/>).</summary>
         public const bool DefExperimentalOutpostArmory = true;
+        /// <summary>Experimental: stack and restore CompColorable dye + StyleDef on outpost armory/warehouse stock.</summary>
+        public const bool DefExperimentalRetainOutpostEquipmentColor = true;
         /// <summary>Player outpost trench arms (world build + walk-over defense). Default off (ship dark until ready).</summary>
         public const bool DefEnableTrenches = false;
         /// <summary>Experimental kill switch: block vanilla storyteller incidents targeting traveling caravans (ambush, meeting, demand, disease). Off by default.</summary>
@@ -1759,7 +1765,12 @@ namespace TSA_WorldDomination
         public float lateRaidClampMinStorytellerFraction = DefLateRaidClampMinStorytellerFrac;
         public float lateRaidClampMaxStorytellerFraction = DefLateRaidClampMaxStorytellerFrac;
         public bool alwaysUseStrengthAsRaidPoints = DefAlwaysUseStrengthAsRaidPoints;
+        /// <summary>Legacy; still scribed. Prefer <see cref="clampRaidPointsForOutpostAndTrenches"/> after migration.</summary>
         public bool alwaysUseStrengthAsOutpostDefenseRaidPoints = DefAlwaysUseStrengthAsOutpostDefenseRaidPoints;
+        public bool clampRaidPointsForColony = DefClampRaidPointsForColony;
+        public bool clampRaidPointsForOutpostAndTrenches = DefClampRaidPointsForOutpostAndTrenches;
+        public bool clampRaidPointsForOpenMapClashes = DefClampRaidPointsForOpenMapClashes;
+        public bool raidClampScopeFlagsMigrated;
         public float minRaidPoints = DefMinRaidPoints;
         public float maxRaidPoints = DefMaxRaidPoints;
 
@@ -1860,6 +1871,7 @@ namespace TSA_WorldDomination
         public bool experimentalUnlimitedAssaultMortarSupport = DefExperimentalUnlimitedAssaultMortarSupport;
         public bool experimentalOutpostCePassiveAmmo = DefExperimentalOutpostCePassiveAmmo;
         public bool experimentalOutpostArmory = DefExperimentalOutpostArmory;
+        public bool experimentalRetainOutpostEquipmentColor = DefExperimentalRetainOutpostEquipmentColor;
         public bool enableTrenches = DefEnableTrenches;
         public bool experimentalDisableVanillaCaravanIncidents = DefExperimentalDisableVanillaCaravanIncidents;
         public float targetOfOpportunityEligibilityRollPct = DefTargetOfOpportunityEligibilityRollPct;
@@ -3054,6 +3066,12 @@ namespace TSA_WorldDomination
                 NormalizeRaidClampFractions();
             Scribe_Values.Look(ref alwaysUseStrengthAsRaidPoints, "alwaysUseStrengthAsRaidPoints", DefAlwaysUseStrengthAsRaidPoints);
             Scribe_Values.Look(ref alwaysUseStrengthAsOutpostDefenseRaidPoints, "alwaysUseStrengthAsOutpostDefenseRaidPoints", DefAlwaysUseStrengthAsOutpostDefenseRaidPoints);
+            Scribe_Values.Look(ref clampRaidPointsForColony, "clampRaidPointsForColony", DefClampRaidPointsForColony);
+            Scribe_Values.Look(ref clampRaidPointsForOutpostAndTrenches, "clampRaidPointsForOutpostAndTrenches", DefClampRaidPointsForOutpostAndTrenches);
+            Scribe_Values.Look(ref clampRaidPointsForOpenMapClashes, "clampRaidPointsForOpenMapClashes", DefClampRaidPointsForOpenMapClashes);
+            Scribe_Values.Look(ref raidClampScopeFlagsMigrated, "raidClampScopeFlagsMigrated", false);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+                MigrateRaidClampScopeFlagsIfNeeded();
             Scribe_Values.Look(ref minRaidPoints, "minRaidPoints", DefMinRaidPoints);
             Scribe_Values.Look(ref maxRaidPoints, "maxRaidPoints", DefMaxRaidPoints);
 
@@ -3146,6 +3164,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref experimentalUnlimitedAssaultMortarSupport, "experimentalUnlimitedAssaultMortarSupport", DefExperimentalUnlimitedAssaultMortarSupport);
             Scribe_Values.Look(ref experimentalOutpostCePassiveAmmo, "experimentalOutpostCePassiveAmmo", DefExperimentalOutpostCePassiveAmmo);
             Scribe_Values.Look(ref experimentalOutpostArmory, "experimentalOutpostArmory", DefExperimentalOutpostArmory);
+            Scribe_Values.Look(ref experimentalRetainOutpostEquipmentColor, "experimentalRetainOutpostEquipmentColor", DefExperimentalRetainOutpostEquipmentColor);
             Scribe_Values.Look(ref enableTrenches, "enableTrenches", DefEnableTrenches);
             Scribe_Values.Look(ref experimentalDisableVanillaCaravanIncidents, "experimentalDisableVanillaCaravanIncidents", DefExperimentalDisableVanillaCaravanIncidents);
             Scribe_Values.Look(ref targetOfOpportunityEligibilityRollPct, "targetOfOpportunityEligibilityRollPct", DefTargetOfOpportunityEligibilityRollPct);
@@ -4873,12 +4892,29 @@ namespace TSA_WorldDomination
             lateRaidClampMaxStorytellerFraction = DefLateRaidClampMaxStorytellerFrac;
             alwaysUseStrengthAsRaidPoints = DefAlwaysUseStrengthAsRaidPoints;
             alwaysUseStrengthAsOutpostDefenseRaidPoints = DefAlwaysUseStrengthAsOutpostDefenseRaidPoints;
+            clampRaidPointsForColony = DefClampRaidPointsForColony;
+            clampRaidPointsForOutpostAndTrenches = DefClampRaidPointsForOutpostAndTrenches;
+            clampRaidPointsForOpenMapClashes = DefClampRaidPointsForOpenMapClashes;
+            raidClampScopeFlagsMigrated = true;
             minRaidPoints = DefMinRaidPoints;
             maxRaidPoints = DefMaxRaidPoints;
             forceRaidDroughtEnabled = DefForceRaidDroughtEnabled;
             forceRaidDroughtQuietDays = DefForceRaidDroughtQuietDays;
             forceRaidDroughtAllowBeyondRange = DefForceRaidDroughtAllowBeyondRange;
             NormalizeRaidClampFractions();
+        }
+
+        /// <summary>
+        /// One-shot: seed per-scope Clamp toggles from legacy outpost bypass.
+        /// Global alwaysUseStrength stays global and is not inverted into the three clamps.
+        /// </summary>
+        public void MigrateRaidClampScopeFlagsIfNeeded()
+        {
+            if (raidClampScopeFlagsMigrated) return;
+            clampRaidPointsForColony = DefClampRaidPointsForColony;
+            clampRaidPointsForOpenMapClashes = DefClampRaidPointsForOpenMapClashes;
+            clampRaidPointsForOutpostAndTrenches = !alwaysUseStrengthAsOutpostDefenseRaidPoints;
+            raidClampScopeFlagsMigrated = true;
         }
 
         /// <summary>Clamp each storyteller-fraction pair into slider ranges and ensure min ≤ max.</summary>
@@ -5532,6 +5568,7 @@ namespace TSA_WorldDomination
             experimentalUnlimitedAssaultMortarSupport = DefExperimentalUnlimitedAssaultMortarSupport;
             experimentalOutpostCePassiveAmmo = DefExperimentalOutpostCePassiveAmmo;
             experimentalOutpostArmory = DefExperimentalOutpostArmory;
+            experimentalRetainOutpostEquipmentColor = DefExperimentalRetainOutpostEquipmentColor;
             enableTrenches = DefEnableTrenches;
             experimentalDisableVanillaCaravanIncidents = DefExperimentalDisableVanillaCaravanIncidents;
             targetOfOpportunityEligibilityRollPct = DefTargetOfOpportunityEligibilityRollPct;

@@ -839,7 +839,7 @@
 
   <TSA_WD_HeaderImportant>设置预设</TSA_WD_HeaderImportant>
   <TSA_WD_MedievalMode>中世纪模式</TSA_WD_MedievalMode>
-  <TSA_WD_MedievalModeTip>在与 Medieval Overhaul 2 一起使用 WD 时启用。将隐藏工业级 WD 前哨、升级与反载具炮塔；将 NPC 空降舱与迫击炮/防空科技门槛抬到工业；隐藏玩家陆地/空降舱旅行界面并强制陆地。已放置的工业建筑不会移除。中途开关理论上可用；建议先备份或开新存档！</TSA_WD_MedievalModeTip>
+  <TSA_WD_MedievalModeTip>与 Medieval Overhaul（或类似低科技流程）一起使用。\n\n隐藏工业级 WD 内容：\n• 前哨、升级与反坦克炮塔\n• 沥青路与重型路障\n\n世界建造研究：\n• 石路、桥梁、蒺藜与中型路障改用「工程学」（若无该研究则用「锻造」），不再需要「机械加工」\n\n另外：\n• 将 NPC 空降舱与迫击炮/防空科技门槛抬到工业\n• 隐藏玩家陆地/空降舱旅行界面并强制陆地\n\n已放置的工业建筑不会移除。\n中途开启应该可用，但最好还是先备份存档</TSA_WD_MedievalModeTip>
   <TSA_WD_Medieval_Blocked>中世纪模式下不可用。</TSA_WD_Medieval_Blocked>
   <TSA_WD_Medieval_TechFlooredTip>中世纪模式将此项至少提高到工业，用于 NPC 袭击/炮兵。</TSA_WD_Medieval_TechFlooredTip>
   <TSA_WD_HeaderSettingPresets>设置预设</TSA_WD_HeaderSettingPresets>
@@ -972,6 +972,8 @@
   <TSA_WD_Experimental_OutpostCePassiveAmmoTip>启用 Combat Extended 时，携带远程主武器的前哨殖民者会缓慢囤积该武器的基础弹药（全金属被甲弹、石箭头、简易火箭），每天 {0} 个弹匣，库存上限 {1} 个弹匣。免费且略偏作弊。关闭可禁用。默认开启。</TSA_WD_Experimental_OutpostCePassiveAmmoTip>
   <TSA_WD_Experimental_OutpostArmory>前哨军械库</TSA_WD_Experimental_OutpostArmory>
   <TSA_WD_Experimental_OutpostArmoryTip>开启后，每个前哨都会保留一个散装仓库，可存放武器、护甲、药品、毒品、食物与弹药。通过商队或投送舱抵达的装备将被存入而非销毁，你可以在人员标签页的"军械库"按钮中把它们分发给驻守人员。关闭后恢复为丢弃抵达的装备；已存入的物品仍保留在存档中。默认开启。</TSA_WD_Experimental_OutpostArmoryTip>
+  <TSA_WD_Experimental_RetainOutpostEquipmentColor>保留前哨装备颜色</TSA_WD_Experimental_RetainOutpostEquipmentColor>
+  <TSA_WD_Experimental_RetainOutpostEquipmentColorTip>开启后，染色或带有意识形态样式的装备在存入军械库/仓库，或在防御后回收时会保留外观。相同染料与样式会堆叠。关闭后，新存入的物品只按类型/材料/品质合并，取出时丢失颜色与样式。默认开启。</TSA_WD_Experimental_RetainOutpostEquipmentColorTip>
   <TSA_WD_Experimental_HeaderOutpostPower>前哨电力</TSA_WD_Experimental_HeaderOutpostPower>
   <TSA_WD_Experimental_EnableOutpostPower>要求前哨供电</TSA_WD_Experimental_EnableOutpostPower>
   <TSA_WD_Experimental_EnableOutpostPowerTip>开启后，有电力需求的前哨需要前哨模式电厂在供电范围内供电。未通电时按 XML 系数降低产出，并缩短射程（贸易、招募、使馆、迫击炮、防空、快速反应、仓库光环）。中世纪模式强制关闭。默认开启。</TSA_WD_Experimental_EnableOutpostPowerTip>

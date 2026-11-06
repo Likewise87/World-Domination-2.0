@@ -40,6 +40,8 @@ namespace TSA_WorldDomination
         {
             base.PostExposeData();
             Scribe_Collections.Look(ref storedItems, "storedItems", LookMode.Deep);
+            List<WdStockVisualRecord> visualSnap = null;
+            WdStockExtrasTable.ExposeVisualSnapshot(storedItems, ref visualSnap, "storedItemVisuals");
             Scribe_Values.Look(ref shipDestinationWorldObjectId, "shipDestinationWorldObjectId", -1);
             Scribe_Values.Look(ref dispatchViaDropPod, "dispatchViaDropPod", false);
             Scribe_Values.Look(ref autoShipEnabled, "autoShipEnabled", false);
@@ -281,13 +283,25 @@ namespace TSA_WorldDomination
                 if (entry?.thingDef == null || entry.count <= 0) continue;
                 // Abstract minified-crate defs are unrecoverable in def+count storage; never keep them.
                 if (IsUnusableMinifiedDef(entry.thingDef)) continue;
-                MergeCount(storedItems, PlainStockRow(entry, entry.count));
+                MergeCount(storedItems, StockRowForStoreMerge(entry, entry.count));
             }
         }
 
         /// <summary>
-        /// Row with def+stuff+quality only. Store rows never carry <see cref="WdStockExtras"/>: those live
-        /// in a runtime-only table, and requests rebuilt from def+stuff+quality must still match.
+        /// Store merge: keep dye/StyleDef extras when present; otherwise plain def+stuff+quality so
+        /// abstract want-lists and payment probes do not leak taint/HP/biocode into stock.
+        /// </summary>
+        public static ThingDefCountClass StockRowForStoreMerge(ThingDefCountClass src, int count)
+        {
+            if (src == null) return null;
+            if (WdStockExtrasTable.HasVisualExtras(src))
+                return CloneStockRowPreservingExtras(src, count);
+            return PlainStockRow(src, count);
+        }
+
+        /// <summary>
+        /// Row with def+stuff+quality only (no <see cref="WdStockExtras"/>). Use for want-lists and
+        /// probes that must match by def+stuff+quality alone.
         /// </summary>
         public static ThingDefCountClass PlainStockRow(ThingDefCountClass src, int count)
         {
@@ -317,6 +331,7 @@ namespace TSA_WorldDomination
                 };
                 if (content.TryGetQuality(out QualityCategory q))
                     row.quality = q;
+                WdStockExtrasTable.AttachVisualsFromThing(row, content);
                 MergeCount(list, row);
             }
             TryDeposit(list);
@@ -383,17 +398,28 @@ namespace TSA_WorldDomination
             return colony;
         }
 
-        /// <summary>Stable UI/ship key for a stock row (def + stuff + quality + payment extras).</summary>
+        /// <summary>Stable UI/ship key for a stock row (def + stuff + quality + payment/visual extras).</summary>
         public static string StockKey(ThingDefCountClass e)
         {
             if (e?.thingDef == null) return "";
             bool worn = WdStockExtrasTable.GetWornByCorpse(e);
             bool bio = WdStockExtrasTable.GetBiocoded(e);
             int hp = WdStockExtrasTable.GetHitPoints(e);
+            string colorKey = "";
+            string styleKey = "";
+            if (WdStockExtrasTable.TryGet(e, out WdStockExtras extras))
+            {
+                if (extras.hasColor)
+                    colorKey = extras.color.r.ToString("F4") + "," + extras.color.g.ToString("F4") + ","
+                        + extras.color.b.ToString("F4") + "," + extras.color.a.ToString("F4");
+                styleKey = extras.styleDef?.defName ?? "";
+            }
             return e.thingDef.defName + "\0" + (e.stuff?.defName ?? "") + "\0" + ((int)e.quality).ToString()
                 + "\0" + (worn ? "1" : "0")
                 + "\0" + hp.ToString()
-                + "\0" + (bio ? "1" : "0");
+                + "\0" + (bio ? "1" : "0")
+                + "\0" + colorKey
+                + "\0" + styleKey;
         }
 
         public static bool SameStockIdentity(ThingDefCountClass a, ThingDefCountClass b)
@@ -405,7 +431,9 @@ namespace TSA_WorldDomination
                 return false;
             if (WdStockExtrasTable.GetBiocoded(a) != WdStockExtrasTable.GetBiocoded(b))
                 return false;
-            return WdStockExtrasTable.GetHitPoints(a) == WdStockExtrasTable.GetHitPoints(b);
+            if (WdStockExtrasTable.GetHitPoints(a) != WdStockExtrasTable.GetHitPoints(b))
+                return false;
+            return WdStockExtrasTable.SameVisualIdentity(a, b);
         }
 
         internal static void MergeCount(List<ThingDefCountClass> list, ThingDefCountClass add)

@@ -52,7 +52,7 @@ namespace TSA_WorldDomination
             if (map == null) return;
             if (attacker == null) return;
 
-            float raidPoints = RaidPointsHelper.ClampRaidPointsToStorytellerBand(attAgg, map);
+            float raidPoints = RaidPointsHelper.ClampRaidPointsToStorytellerBand(attAgg, map, WdRaidPointClampScope.Colony);
             LogColonyRaidPoints(attacker, target, map, attAgg, raidPoints);
             bool ok = ExecuteWdColonyRaidIncident(attacker, target, map, attAgg, raidPoints, manager, traveler);
             if (ok && traveler != null && traveler.isDesperationRaid)
@@ -77,7 +77,7 @@ namespace TSA_WorldDomination
             Map map = target.Map;
             if (map == null) return;
 
-            float raidPoints = RaidPointsHelper.ClampRaidPointsToStorytellerBand(attAgg, map);
+            float raidPoints = RaidPointsHelper.ClampRaidPointsToStorytellerBand(attAgg, map, WdRaidPointClampScope.Colony);
             bool ok = ExecuteWdColonyRaidIncidentFromFaction(
                 traveler.Faction,
                 traveler.packUpOriginLabel.NullOrEmpty() ? traveler.Label : traveler.packUpOriginLabel,
@@ -307,12 +307,16 @@ namespace TSA_WorldDomination
             string attackerLabel = attacker != null ? attacker.LabelCap.ToString() : "?";
             string targetLabel = target != null ? target.LabelCap.ToString() : "?";
 
-            if (!RaidPointsHelper.WdRaidPointsStorytellerBandClampActive())
+            if (!RaidPointsHelper.IsStorytellerBandClampActive(WdRaidPointClampScope.Colony))
             {
+                var seth = WorldDominationMod.settings;
+                string why = seth != null && seth.alwaysUseStrengthAsRaidPoints
+                    ? "Always use Strength as Raid points is ON: storyteller floor/ceiling are not applied."
+                    : "Clamp for colony raids is OFF: using attacker strength as raid points.";
                 Log.Message(
                     $"[TSA WD] Colony raid points ({attackerLabel} → {targetLabel}):" + "\n"
                     + $"  Attacker aggregate strength (arrival, post-decay): {attAgg:F0}" + "\n"
-                    + "  Always use Strength as Raid points is ON: storyteller floor/ceiling are not applied." + "\n"
+                    + $"  {why}" + "\n"
                     + $"  Raid points used for incident: {points:F0}");
                 return;
             }

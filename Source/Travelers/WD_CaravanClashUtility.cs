@@ -84,8 +84,8 @@ namespace TSA_WorldDomination
                 }
 
                 var tracker = GetOrAddClashTracker(map);
-                float points = ComputeInterceptionRaidPoints(traveler, map);
-                LogInterceptionRaidPoints(traveler, map, points);
+                float points = ComputeInterceptionRaidPoints(traveler, map, forceTrench: false);
+                LogInterceptionRaidPoints(traveler, map, points, forceTrench: false);
 
                 tracker.InterceptionRaidPending = true;
                 try
@@ -172,8 +172,8 @@ namespace TSA_WorldDomination
                         GenStep_WD_BridgeClash.CameFromWorldTile(traveler));
                 }
 
-                float points = ComputeInterceptionRaidPoints(traveler, map);
-                LogInterceptionRaidPoints(traveler, map, points);
+                float points = ComputeInterceptionRaidPoints(traveler, map, forceTrench: false);
+                LogInterceptionRaidPoints(traveler, map, points, forceTrench: false);
 
                 traveler.pather?.StopDead();
 
@@ -320,8 +320,8 @@ namespace TSA_WorldDomination
                     tracker.StoreAndDestroyTraveler(traveler);
                     if (!spawnedTraderForces)
                     {
-                        float traderFallbackPoints = ComputeInterceptionRaidPoints(traveler, map);
-                        LogInterceptionRaidPoints(traveler, map, traderFallbackPoints);
+                        float traderFallbackPoints = ComputeInterceptionRaidPoints(traveler, map, forceTrenchCorridorMap);
+                        LogInterceptionRaidPoints(traveler, map, traderFallbackPoints, forceTrenchCorridorMap);
                         tracker.InterceptionRaidPending = true;
                         try
                         {
@@ -337,8 +337,8 @@ namespace TSA_WorldDomination
                 }
                 else
                 {
-                    float points = ComputeInterceptionRaidPoints(traveler, map);
-                    LogInterceptionRaidPoints(traveler, map, points);
+                    float points = ComputeInterceptionRaidPoints(traveler, map, forceTrenchCorridorMap);
+                    LogInterceptionRaidPoints(traveler, map, points, forceTrenchCorridorMap);
                     tracker.StoreAndDestroyTraveler(traveler);
                     tracker.InterceptionRaidPending = true;
                     try
@@ -357,24 +357,30 @@ namespace TSA_WorldDomination
             }, "GeneratingArea", false, null);
         }
 
-        private static float ComputeInterceptionRaidPoints(WorldObject_Traveler traveler, Map map)
+        private static float ComputeInterceptionRaidPoints(WorldObject_Traveler traveler, Map map, bool forceTrench = false)
         {
-            return RaidPointsHelper.ClampRaidPointsToStorytellerBand(traveler?.travelerStrength ?? 0f, map);
+            WdRaidPointClampScope scope = RaidPointsHelper.ScopeForClashMap(map, forceTrench);
+            return RaidPointsHelper.ClampRaidPointsToStorytellerBand(traveler?.travelerStrength ?? 0f, map, scope);
         }
 
-        private static void LogInterceptionRaidPoints(WorldObject_Traveler traveler, Map map, float points)
+        private static void LogInterceptionRaidPoints(WorldObject_Traveler traveler, Map map, float points, bool forceTrench = false)
         {
             var seth = WorldDominationMod.settings;
             if (seth == null) return;
 
             float raw = traveler?.travelerStrength ?? 0f;
+            WdRaidPointClampScope scope = RaidPointsHelper.ScopeForClashMap(map, forceTrench);
 
-            if (!RaidPointsHelper.WdRaidPointsStorytellerBandClampActive())
+            if (!RaidPointsHelper.IsStorytellerBandClampActive(scope))
             {
+                string why = seth.alwaysUseStrengthAsRaidPoints
+                    ? "Always use Strength as Raid points is ON: storyteller floor/ceiling are not applied."
+                    : $"Clamp for scope {scope} is OFF: using traveler strength as raid points.";
                 WDVerbose.Msg(
                     "[TSA WD] Interception raid points:" + "\n"
+                    + $"  Scope: {scope}" + "\n"
                     + $"  Traveler strength: {raw:F0}" + "\n"
-                    + "  Always use Strength as Raid points is ON: storyteller floor/ceiling are not applied." + "\n"
+                    + $"  {why}" + "\n"
                     + $"  Raid points used for incident: {points:F0}");
                 return;
             }
@@ -402,6 +408,7 @@ namespace TSA_WorldDomination
 
             WDVerbose.Msg(
                 "[TSA WD] Interception raid points:" + "\n"
+                + $"  Scope: {scope}" + "\n"
                 + $"  Traveler strength: {raw:F0}" + "\n"
                 + $"  Storyteller threat baseline: {baseline:F0} ({baselineWhere})" + "\n"
                 + $"  Floor = baseline × {minFrac:0.###} = {floor:F0}" + "\n"
@@ -497,8 +504,8 @@ namespace TSA_WorldDomination
                 EnterPlayerCaravanForClash(playerCaravan, map, tracker);
                 if (!WD_TraderCaravanClash.SpawnTraderClashForces(map, traveler))
                 {
-                    float raidPoints = ComputeInterceptionRaidPoints(traveler, map);
-                    LogInterceptionRaidPoints(traveler, map, raidPoints);
+                    float raidPoints = ComputeInterceptionRaidPoints(traveler, map, forceTrench: false);
+                    LogInterceptionRaidPoints(traveler, map, raidPoints, forceTrench: false);
                     WDVerbose.Msg("[TSA WD] Trader interception: using RaidEnemy fallback (no trader pawn group for this faction).");
                     tracker.InterceptionRaidPending = true;
                     try

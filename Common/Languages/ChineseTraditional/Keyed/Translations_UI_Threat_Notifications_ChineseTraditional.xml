@@ -570,12 +570,24 @@
   <TSA_WD_Threat_HeaderWDClamp>突襲點數限制</TSA_WD_Threat_HeaderWDClamp>
   <!-- EN: Always use Strength as Raid points -->
   <TS_WD_CaravanRaidAlwaysUseStrength>一律以戰力作為突襲點數</TS_WD_CaravanRaidAlwaysUseStrength>
-  <!-- EN: Strictly uses the raid points of a caravan when a raid on the colony happens or when your caravan clashes with a NPC caravan. -->
-  <TS_WD_CaravanRaidAlwaysUseStrengthTooltip>殖民地遭到突襲，或你的旅隊與NPC旅隊交鋒時，嚴格以旅隊的戰力作為突襲點數。</TS_WD_CaravanRaidAlwaysUseStrengthTooltip>
+  <!-- EN: When on, colony raids, outpost defense, trench fights, and open-map clashes all use attacker or traveler strength as raid points with no storyteller band. When off, use the Clamp toggles below. -->
+  <TS_WD_CaravanRaidAlwaysUseStrengthTooltip>開啟時，殖民地突襲、哨站防禦、戰壕戰與開放地圖衝突一律以攻擊方或旅行者戰力作為突襲點數，不受故事敘述者區間限制。關閉時，使用下方各項鉗制開關。</TS_WD_CaravanRaidAlwaysUseStrengthTooltip>
   <!-- EN: Always use Strength for manual outpost defense -->
   <TS_WD_OutpostDefenseAlwaysUseStrength>哨站手動防禦一律使用戰力</TS_WD_OutpostDefenseAlwaysUseStrength>
   <!-- EN: When on, manual outpost defense map fights use traveler strength as raid points with no storyteller band clamp. When off, the same floor and ceiling as other WD raids apply. Colony raids and caravan clashes use the setting above. -->
   <TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>開啟後，哨站手動防禦地圖戰以旅行者戰力作為突襲點數，不受故事敘述者範圍限制。關閉時，套用與其他WD突襲相同的下限與上限。殖民地突襲與旅隊交鋒使用上方的設定。</TS_WD_OutpostDefenseAlwaysUseStrengthTooltip>
+  <!-- EN: Clamp raid points for colony raids -->
+  <TS_WD_RaidClamp_ForColony>鉗制殖民地突襲點數</TS_WD_RaidClamp_ForColony>
+  <!-- EN: When on, raids on your colony stay within the storyteller floor and ceiling below. When off, the attacker's strength is used as raid points with no band. -->
+  <TS_WD_RaidClamp_ForColonyTooltip>開啟時，襲擊你殖民地的規模維持在下方故事敘述者下限與上限內。關閉時，直接以攻擊方戰力作為突襲點數，不套區間。</TS_WD_RaidClamp_ForColonyTooltip>
+  <!-- EN: Clamp raid points for outpost defense and trench fights -->
+  <TS_WD_RaidClamp_ForOutpostAndTrenches>鉗制哨站防禦與戰壕戰點數</TS_WD_RaidClamp_ForOutpostAndTrenches>
+  <!-- EN: When on, outpost defense maps and trench corridor fights stay within the floor and ceiling below. When off, traveler strength is used as raid points with no band. -->
+  <TS_WD_RaidClamp_ForOutpostAndTrenchesTooltip>開啟時，哨站防禦地圖與戰壕走廊戰維持在下方下限與上限內。關閉時，直接以旅行者戰力作為突襲點數，不套區間。</TS_WD_RaidClamp_ForOutpostAndTrenchesTooltip>
+  <!-- EN: Clamp raid points for open-map clashes -->
+  <TS_WD_RaidClamp_ForOpenMapClashes>鉗制開放地圖衝突點數</TS_WD_RaidClamp_ForOpenMapClashes>
+  <!-- EN: When on, ambushes, bridge fights, and camp clashes stay within the floor and ceiling below. When off, traveler strength is used as raid points with no band. Trader meetings still use normal trader guards. -->
+  <TS_WD_RaidClamp_ForOpenMapClashesTooltip>開啟時，伏擊、橋樑戰與營地衝突維持在下方下限與上限內。關閉時，直接以旅行者戰力作為突襲點數，不套區間。商人會面仍使用一般商隊護衛。</TS_WD_RaidClamp_ForOpenMapClashesTooltip>
   <!-- EN: WD: Mid Game activated -->
   <TSA_WD_Alert_MidGameActive>WD：中期階段已啟動</TSA_WD_Alert_MidGameActive>
   <!-- EN: Your outpost strength has triggered Mid Game. Hostile settlements grow faster, gain more attack range, and bias raids toward you. Settlements expand toward your holdings, goodwill drifts down over time, and your outposts may suffer lighter attrition incidents. NPC interception caravans may ambush your caravans and travelers. T4 mortars and AA do not target you yet unless the Mid Game toggles are on. -->

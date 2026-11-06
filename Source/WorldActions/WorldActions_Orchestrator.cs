@@ -1453,7 +1453,7 @@ namespace TSA_WorldDomination
         /// <summary>Concise clamp note for the threat tooltip. Null when the storyteller-band clamp is off (raw strength is used).</summary>
         private static string BuildWorldThreatBreakdown(float baseline, WorldDominationSettings seth)
         {
-            if (seth == null || seth.alwaysUseStrengthAsRaidPoints) return null;
+            if (seth == null || !RaidPointsHelper.IsStorytellerBandClampActive(WdRaidPointClampScope.Colony)) return null;
             RaidPointsHelper.TryGetActiveClampPercents(out int minPct, out int maxPct, out string bandLabel);
             string lower = minPct + "%";
             string upper = maxPct + "%";

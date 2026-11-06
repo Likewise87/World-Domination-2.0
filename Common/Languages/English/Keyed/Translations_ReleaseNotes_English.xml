@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_69_Title>Tiny update. Dyed equipment and Medieval research</TSA_WD_Update_2_3_69_Title>
+  <TSA_WD_Update_2_3_69_Body><![CDATA[
+<size=16><b>2.3.69 - Tiny update. Dyed equipment and Medieval research</b></size>\n
+<color=#00FFFFFF>Release date: November 6th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• When activating medieval mode, stone roads, bridges and caltrops are no longer gated behind machining research but behind the medieval overhaul research "Engineering".\n
+• Dyed and ideology equipment should keep their identity now when being added to the Outpost armory.\n
+• Strength clamping can now be toggled individually for Colony Defenses, Outpost and Trench Defenses and Caravan Clashes on the world map.\n
+]]></TSA_WD_Update_2_3_69_Body>
   <TSA_WD_Update_2_3_68_Title>Tiny update. Building Projects cost modifiers</TSA_WD_Update_2_3_68_Title>
   <TSA_WD_Update_2_3_68_Body><![CDATA[
 <size=16><b>2.3.68 - Tiny update. Building Projects cost modifiers</b></size>\n

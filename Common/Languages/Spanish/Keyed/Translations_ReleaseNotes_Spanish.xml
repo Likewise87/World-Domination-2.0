@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_69_Title>Actualización pequeña. Equipo teñido e investigación medieval</TSA_WD_Update_2_3_69_Title>
+  <TSA_WD_Update_2_3_69_Body><![CDATA[
+<size=16><b>2.3.69 - Actualización pequeña. Equipo teñido e investigación medieval</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 6 de noviembre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Al activar el modo medieval, los caminos de piedra, puentes y abrojos ya no requieren la investigación de mecanizado, sino la investigación de Medieval Overhaul «Engineering».\n
+• El equipo teñido y con estilo de Ideología debería conservar su identidad al añadirse a la armería de avanzada.\n
+• El límite de fuerza se puede activar o desactivar por separado para defensas de colonia, defensas de avanzada y trincheras, y choques de caravana en el mapa mundial.\n
+]]></TSA_WD_Update_2_3_69_Body>
   <TSA_WD_Update_2_3_68_Title>Actualización pequeña. Modificadores de coste de proyectos de construcción</TSA_WD_Update_2_3_68_Title>
   <TSA_WD_Update_2_3_68_Body><![CDATA[
 <size=16><b>2.3.68 - Actualización pequeña. Modificadores de coste de proyectos de construcción</b></size>\n

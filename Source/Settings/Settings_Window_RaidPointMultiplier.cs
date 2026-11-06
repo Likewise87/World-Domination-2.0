@@ -121,53 +121,62 @@ var s = WorldDominationMod.settings;
                 ref s.alwaysUseStrengthAsRaidPoints,
                 SettingsUI.TooltipWithDefault("TS_WD_CaravanRaidAlwaysUseStrengthTooltip".Translate(), WorldDominationSettings.DefAlwaysUseStrengthAsRaidPoints));
 
-            SettingsUI.DrawCheckbox(l, "TS_WD_OutpostDefenseAlwaysUseStrength".Translate(),
-                ref s.alwaysUseStrengthAsOutpostDefenseRaidPoints,
-                SettingsUI.TooltipWithDefault("TS_WD_OutpostDefenseAlwaysUseStrengthTooltip".Translate(), WorldDominationSettings.DefAlwaysUseStrengthAsOutpostDefenseRaidPoints));
-
             if (!s.alwaysUseStrengthAsRaidPoints)
             {
-                SettingsUI.DrawCheckbox(l, "TS_WD_RaidClamp_ScaleWithEscalation".Translate(),
-                    ref s.scaleRaidClampWithEscalation,
-                    SettingsUI.TooltipWithDefault("TS_WD_RaidClamp_ScaleWithEscalationTooltip".Translate(), WorldDominationSettings.DefScaleRaidClampWithEscalation));
+                SettingsUI.DrawCheckbox(l, "TS_WD_RaidClamp_ForColony".Translate(),
+                    ref s.clampRaidPointsForColony,
+                    SettingsUI.TooltipWithDefault("TS_WD_RaidClamp_ForColonyTooltip".Translate(), WorldDominationSettings.DefClampRaidPointsForColony));
+                SettingsUI.DrawCheckbox(l, "TS_WD_RaidClamp_ForOutpostAndTrenches".Translate(),
+                    ref s.clampRaidPointsForOutpostAndTrenches,
+                    SettingsUI.TooltipWithDefault("TS_WD_RaidClamp_ForOutpostAndTrenchesTooltip".Translate(), WorldDominationSettings.DefClampRaidPointsForOutpostAndTrenches));
+                SettingsUI.DrawCheckbox(l, "TS_WD_RaidClamp_ForOpenMapClashes".Translate(),
+                    ref s.clampRaidPointsForOpenMapClashes,
+                    SettingsUI.TooltipWithDefault("TS_WD_RaidClamp_ForOpenMapClashesTooltip".Translate(), WorldDominationSettings.DefClampRaidPointsForOpenMapClashes));
 
-                bool showStageBands = s.scaleRaidClampWithEscalation && s.enableLateGameScaling;
-                if (s.scaleRaidClampWithEscalation && !s.enableLateGameScaling)
+                if (RaidPointsHelper.WdRaidPointsStorytellerBandClampActive())
                 {
-                    l.Gap(4f);
-                    GUI.color = Color.gray;
-                    l.Label("TS_WD_RaidClamp_EscalationOffHint".Translate());
-                    GUI.color = Color.white;
-                    l.Gap(4f);
+                    SettingsUI.DrawCheckbox(l, "TS_WD_RaidClamp_ScaleWithEscalation".Translate(),
+                        ref s.scaleRaidClampWithEscalation,
+                        SettingsUI.TooltipWithDefault("TS_WD_RaidClamp_ScaleWithEscalationTooltip".Translate(), WorldDominationSettings.DefScaleRaidClampWithEscalation));
+
+                    bool showStageBands = s.scaleRaidClampWithEscalation && s.enableLateGameScaling;
+                    if (s.scaleRaidClampWithEscalation && !s.enableLateGameScaling)
+                    {
+                        l.Gap(4f);
+                        GUI.color = Color.gray;
+                        l.Label("TS_WD_RaidClamp_EscalationOffHint".Translate());
+                        GUI.color = Color.white;
+                        l.Gap(4f);
+                    }
+
+                    if (showStageBands)
+                    {
+                        s.earlyRaidClampMinStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_RaidClamp_EarlyMin".Translate(), s.earlyRaidClampMinStorytellerFraction, 0.05f, 2f,
+                            "TS_WD_RaidClamp_EarlyMinTooltip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefEarlyRaidClampMinStorytellerFrac);
+                        s.earlyRaidClampMaxStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_RaidClamp_EarlyMax".Translate(), s.earlyRaidClampMaxStorytellerFraction, 0.5f, 50f,
+                            "TS_WD_RaidClamp_EarlyMaxTooltip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefEarlyRaidClampMaxStorytellerFrac);
+
+                        s.midRaidClampMinStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_RaidClamp_MidMin".Translate(), s.midRaidClampMinStorytellerFraction, 0.05f, 2f,
+                            "TS_WD_RaidClamp_MidMinTooltip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefMidRaidClampMinStorytellerFrac);
+                        s.midRaidClampMaxStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_RaidClamp_MidMax".Translate(), s.midRaidClampMaxStorytellerFraction, 0.5f, 50f,
+                            "TS_WD_RaidClamp_MidMaxTooltip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefMidRaidClampMaxStorytellerFrac);
+
+                        s.lateRaidClampMinStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_RaidClamp_LateMin".Translate(), s.lateRaidClampMinStorytellerFraction, 0.05f, 2f,
+                            "TS_WD_RaidClamp_LateMinTooltip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefLateRaidClampMinStorytellerFrac);
+                        s.lateRaidClampMaxStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_RaidClamp_LateMax".Translate(), s.lateRaidClampMaxStorytellerFraction, 0.5f, 50f,
+                            "TS_WD_RaidClamp_LateMaxTooltip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefLateRaidClampMaxStorytellerFrac);
+                    }
+                    else
+                    {
+                        s.caravanRaidPointsMinStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_CaravanRaidMinFrac".Translate(), s.caravanRaidPointsMinStorytellerFraction, 0.05f, 2f,
+                            "TS_WD_CaravanRaidMinFracTooltip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefCaravanRaidMinStorytellerFrac);
+
+                        s.caravanRaidPointsMaxStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_CaravanRaidMaxFrac".Translate(), s.caravanRaidPointsMaxStorytellerFraction, 0.5f, 50f,
+                            "TS_WD_CaravanRaidMaxFracTooltip".Translate(), 0.1f, SliderFormat.Multiplier, WorldDominationSettings.DefCaravanRaidMaxStorytellerFrac);
+                    }
+
+                    s.NormalizeRaidClampFractions();
                 }
-
-                if (showStageBands)
-                {
-                    s.earlyRaidClampMinStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_RaidClamp_EarlyMin".Translate(), s.earlyRaidClampMinStorytellerFraction, 0.05f, 2f,
-                        "TS_WD_RaidClamp_EarlyMinTooltip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefEarlyRaidClampMinStorytellerFrac);
-                    s.earlyRaidClampMaxStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_RaidClamp_EarlyMax".Translate(), s.earlyRaidClampMaxStorytellerFraction, 0.5f, 50f,
-                        "TS_WD_RaidClamp_EarlyMaxTooltip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefEarlyRaidClampMaxStorytellerFrac);
-
-                    s.midRaidClampMinStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_RaidClamp_MidMin".Translate(), s.midRaidClampMinStorytellerFraction, 0.05f, 2f,
-                        "TS_WD_RaidClamp_MidMinTooltip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefMidRaidClampMinStorytellerFrac);
-                    s.midRaidClampMaxStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_RaidClamp_MidMax".Translate(), s.midRaidClampMaxStorytellerFraction, 0.5f, 50f,
-                        "TS_WD_RaidClamp_MidMaxTooltip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefMidRaidClampMaxStorytellerFrac);
-
-                    s.lateRaidClampMinStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_RaidClamp_LateMin".Translate(), s.lateRaidClampMinStorytellerFraction, 0.05f, 2f,
-                        "TS_WD_RaidClamp_LateMinTooltip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefLateRaidClampMinStorytellerFrac);
-                    s.lateRaidClampMaxStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_RaidClamp_LateMax".Translate(), s.lateRaidClampMaxStorytellerFraction, 0.5f, 50f,
-                        "TS_WD_RaidClamp_LateMaxTooltip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefLateRaidClampMaxStorytellerFrac);
-                }
-                else
-                {
-                    s.caravanRaidPointsMinStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_CaravanRaidMinFrac".Translate(), s.caravanRaidPointsMinStorytellerFraction, 0.05f, 2f,
-                        "TS_WD_CaravanRaidMinFracTooltip".Translate(), 0.05f, SliderFormat.Multiplier, WorldDominationSettings.DefCaravanRaidMinStorytellerFrac);
-
-                    s.caravanRaidPointsMaxStorytellerFraction = SettingsUI.LabeledSlider(l, "TS_WD_CaravanRaidMaxFrac".Translate(), s.caravanRaidPointsMaxStorytellerFraction, 0.5f, 50f,
-                        "TS_WD_CaravanRaidMaxFracTooltip".Translate(), 0.1f, SliderFormat.Multiplier, WorldDominationSettings.DefCaravanRaidMaxStorytellerFrac);
-                }
-
-                s.NormalizeRaidClampFractions();
             }
 
             s.minRaidPoints = SettingsUI.LabeledSlider(l, "TS_WD_Threat_MinPoints".Translate(), s.minRaidPoints, 50f, 500f,

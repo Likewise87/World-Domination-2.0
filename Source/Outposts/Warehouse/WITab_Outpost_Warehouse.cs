@@ -898,7 +898,7 @@ namespace TSA_WorldDomination
                 string key = CompOutpostWarehouse.StockKey(e);
                 if (!selectedRowIds.Contains(key)) continue;
                 if (!selectedCounts.TryGetValue(key, out int pick) || pick <= 0) continue;
-                request.Add(CompOutpostWarehouse.PlainStockRow(e, Mathf.Min(pick, e.count)));
+                request.Add(CompOutpostWarehouse.StockRowForStoreMerge(e, Mathf.Min(pick, e.count)));
             }
             return request;
         }
@@ -950,7 +950,7 @@ namespace TSA_WorldDomination
                 string key = CompOutpostWarehouse.StockKey(e);
                 if (!selectedRowIds.Contains(key)) continue;
                 if (!selectedCounts.TryGetValue(key, out int pick) || pick <= 0) continue;
-                picks.Add(CompOutpostWarehouse.PlainStockRow(e, Mathf.Min(pick, e.count)));
+                picks.Add(CompOutpostWarehouse.StockRowForStoreMerge(e, Mathf.Min(pick, e.count)));
             }
 
             float applied = OutpostFoodConversion.ConvertRows(outpost, picks, out List<ThingDefCountClass> converted);

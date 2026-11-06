@@ -66,8 +66,6 @@ public override void DoWindowContents(Rect inRect)
         {
 WorldDominationSettings s = WorldDominationMod.settings;
 
-            l.Label("TSA_WD_RoadBuilding_Note".Translate());
-            l.Gap(8f);
             SettingsUI.DrawMenuTopBar(l, SettingsUI.ResetPageToDefaultsLabel, () =>
             {
                 s.ResetBuildingProjects();
@@ -76,6 +74,8 @@ WorldDominationSettings s = WorldDominationMod.settings;
             },
                 () => { costMultExpanded = roadsExpanded = roadBlocksExpanded = trapsExpanded = atTurretsExpanded = decontamExpanded = true; },
                 () => { costMultExpanded = roadsExpanded = roadBlocksExpanded = trapsExpanded = atTurretsExpanded = decontamExpanded = false; });
+            l.Label("TSA_WD_RoadBuilding_Note".Translate());
+            l.Gap(8f);
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_BuildingProjects_CostMultHeader".Translate(), ref costMultExpanded, SectionHeaderColor))
             {

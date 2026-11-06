@@ -55,6 +55,20 @@ namespace TSA_WorldDomination
             return IsAllowed(ext?.minTechLevel ?? TechLevel.Undefined);
         }
 
+        /// <summary>Asphalt (T3/T4) is industrial world-road content; hidden in Medieval mode.</summary>
+        public static bool IsRoadTierAllowed(SettlementTier tier)
+        {
+            if (!Active) return true;
+            return tier != SettlementTier.T3 && tier != SettlementTier.T4;
+        }
+
+        /// <summary>Heavy road blocks are industrial; hidden in Medieval mode.</summary>
+        public static bool IsRoadBlockKindAllowed(RoadBlockKind kind)
+        {
+            if (!Active) return true;
+            return kind != RoadBlockKind.Heavy;
+        }
+
         /// <summary>Player land-vs-pod UI and launches. False when medieval mode is on.</summary>
         public static bool PlayerDropPodsAllowed => !Active;
 

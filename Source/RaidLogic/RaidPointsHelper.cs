@@ -5,8 +5,17 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
+    /// <summary>Which WD fight type a storyteller-band raid-point clamp applies to.</summary>
+    public enum WdRaidPointClampScope
+    {
+        Colony,
+        OutpostAndTrenches,
+        OpenMapClash
+    }
+
     /// <summary>
     /// WD raid incidents: attacker strength clamped to a band around the current storyteller threat baseline for the map.
+    /// Global <c>alwaysUseStrengthAsRaidPoints</c> bypasses all scopes; else per-scope Clamp toggles.
     /// </summary>
     public static class RaidPointsHelper
     {
@@ -38,11 +47,36 @@ namespace TSA_WorldDomination
             return map.IsPlayerHome ? map : (BestPlayerHomeMapForRaidThreatBaseline() ?? map);
         }
 
-        /// <summary>False when settings demand raw strength as raid points (no storyteller band clamp).</summary>
+        /// <summary>
+        /// True when at least one per-scope Clamp is on and the global Always-use-Strength override is off
+        /// (fraction / escalation UI should show).
+        /// </summary>
         public static bool WdRaidPointsStorytellerBandClampActive()
         {
             var s = WorldDominationMod.settings;
-            return s != null && !s.alwaysUseStrengthAsRaidPoints;
+            if (s == null || s.alwaysUseStrengthAsRaidPoints) return false;
+            return s.clampRaidPointsForColony
+                || s.clampRaidPointsForOutpostAndTrenches
+                || s.clampRaidPointsForOpenMapClashes;
+        }
+
+        /// <summary>False when global override is on, or the matching per-scope Clamp toggle is off.</summary>
+        public static bool IsStorytellerBandClampActive(WdRaidPointClampScope scope)
+        {
+            var s = WorldDominationMod.settings;
+            if (s == null) return true;
+            if (s.alwaysUseStrengthAsRaidPoints) return false;
+            switch (scope)
+            {
+                case WdRaidPointClampScope.Colony:
+                    return s.clampRaidPointsForColony;
+                case WdRaidPointClampScope.OutpostAndTrenches:
+                    return s.clampRaidPointsForOutpostAndTrenches;
+                case WdRaidPointClampScope.OpenMapClash:
+                    return s.clampRaidPointsForOpenMapClashes;
+                default:
+                    return true;
+            }
         }
 
         /// <summary>
@@ -123,7 +157,7 @@ namespace TSA_WorldDomination
             };
         }
 
-        /// <summary>Active clamp as whole percents for tooltips/alerts.</summary>
+        /// <summary>Active clamp as whole percents for tooltips/alerts (colony-oriented display when any band is live).</summary>
         public static void TryGetActiveClampPercents(out int minPct, out int maxPct, out string bandLabel)
         {
             minPct = 0;
@@ -163,20 +197,30 @@ namespace TSA_WorldDomination
             ceiling = baselineThreat * maxStorytellerFraction;
         }
 
-        /// <summary>
-        /// Same WYSIWYG rule as <see cref="Raid_OnPlayerColony.HandleRaidOnPlayer"/>: clamp traveler/aggressor strength to
-        /// <c>[baseline × minFraction, baseline × maxFraction]</c> from mod settings. Uses <paramref name="map"/> for
-        /// baseline when it is a player home map; otherwise uses the strongest player home map so interception on
-        /// encounter tiles matches colony raids instead of tiny encounter-map baselines.
-        /// </summary>
+        /// <summary>Colony-scope overload (dashboard / letters that mean colony band).</summary>
         public static float ClampRaidPointsToStorytellerBand(float attackerStrength, Map map)
+            => ClampRaidPointsToStorytellerBand(attackerStrength, map, WdRaidPointClampScope.Colony);
+
+        /// <summary>
+        /// Clamp traveler/aggressor strength to <c>[baseline × minFraction, baseline × maxFraction]</c>
+        /// when the given scope still clamps. Global Always-use-Strength bypasses every scope.
+        /// Uses <paramref name="map"/> for baseline when it is a player home map; otherwise the strongest player home.
+        /// </summary>
+        public static float ClampRaidPointsToStorytellerBand(float attackerStrength, Map map, WdRaidPointClampScope scope)
         {
             if (map == null) return Mathf.Max(0f, attackerStrength);
-            var s = WorldDominationMod.settings;
-            if (s == null) return Mathf.Max(0f, attackerStrength);
-            if (s.alwaysUseStrengthAsRaidPoints) return Mathf.Max(0f, attackerStrength);
+            if (!IsStorytellerBandClampActive(scope)) return Mathf.Max(0f, attackerStrength);
             GetWdRaidPointClampBounds(map, out _, out _, out float lo, out float hi, out _, out _);
             return Mathf.Clamp(attackerStrength, lo, hi);
+        }
+
+        /// <summary>Open-map clash vs outpost/trench: trench corridor layout → OutpostAndTrenches.</summary>
+        public static WdRaidPointClampScope ScopeForClashMap(Map map, bool forceTrenchCorridor = false)
+        {
+            if (forceTrenchCorridor) return WdRaidPointClampScope.OutpostAndTrenches;
+            if (map != null && map.GetComponent<MapComponent_WdTrenchClashLayout>() != null)
+                return WdRaidPointClampScope.OutpostAndTrenches;
+            return WdRaidPointClampScope.OpenMapClash;
         }
     }
 }

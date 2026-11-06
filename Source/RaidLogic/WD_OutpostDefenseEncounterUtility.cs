@@ -809,11 +809,8 @@ namespace TSA_WorldDomination
         private static float ComputeRaidPoints(WorldObject_Traveler traveler, Map map)
         {
             float strength = Mathf.Max(0f, traveler?.travelerStrength ?? 0f);
-            var seth = WorldDominationMod.settings;
-            if (seth != null
-                && (seth.alwaysUseStrengthAsRaidPoints || seth.alwaysUseStrengthAsOutpostDefenseRaidPoints))
-                return strength;
-            return RaidPointsHelper.ClampRaidPointsToStorytellerBand(strength, map);
+            return RaidPointsHelper.ClampRaidPointsToStorytellerBand(
+                strength, map, WdRaidPointClampScope.OutpostAndTrenches);
         }
 
         /// <summary>

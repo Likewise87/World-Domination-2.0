@@ -73,6 +73,9 @@ namespace TSA_WorldDomination
         private static void TryAddTierOption(List<FloatMenuOption> options, Settlement settlement, CompViralSpread comp,
             SettlementTier tier, SettlementTier maxTier)
         {
+            if (!WdMedievalMode.IsRoadTierAllowed(tier))
+                return;
+
             string label = WorldActions_Roads.GetRoadTierLabel(tier);
             bool allowed = tier <= maxTier;
             if (allowed)

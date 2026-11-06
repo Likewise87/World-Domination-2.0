@@ -16,8 +16,23 @@ namespace TSA_WorldDomination
         public const string ResearchMachining = "Machining";
         public const string ResearchMicroelectronics = "MicroelectronicsBasics";
         public const string ResearchFabrication = "Fabrication";
+        public const string ResearchMedievalEngineering = "DankPyon_Engineering";
+        public const string ResearchSmithing = "Smithing";
 
         private static readonly List<OutpostUpgradeCostEntry> EmptyCosts = ColonyWorldBuildMaterials.EmptyCostList;
+
+        /// <summary>
+        /// When Medieval mode is active, Machining world-build gates resolve to MO Engineering
+        /// (or vanilla Smithing if Engineering is missing). Does not mutate Def XML.
+        /// </summary>
+        public static ResearchProjectDef EffectiveResearch(ResearchProjectDef project)
+        {
+            if (!WdMedievalMode.Active || project == null) return project;
+            if (project.defName != ResearchMachining) return project;
+            return FindResearch(ResearchMedievalEngineering)
+                ?? FindResearch(ResearchSmithing)
+                ?? project;
+        }
 
         public static ResearchProjectDef GetRequiredResearchForRoad(SettlementTier tier)
         {
@@ -27,14 +42,14 @@ namespace TSA_WorldDomination
                 for (int i = 0; i < def.researchPrerequisites.Count; i++)
                 {
                     ResearchProjectDef project = def.researchPrerequisites[i];
-                    if (project != null) return project;
+                    if (project != null) return EffectiveResearch(project);
                 }
             }
 
             if (tier == SettlementTier.T3 || tier == SettlementTier.T4)
-                return FindResearch(ResearchMicroelectronics);
+                return EffectiveResearch(FindResearch(ResearchMicroelectronics));
             if (tier == SettlementTier.T2)
-                return FindResearch(ResearchMachining);
+                return EffectiveResearch(FindResearch(ResearchMachining));
             return null;
         }
 
@@ -46,14 +61,14 @@ namespace TSA_WorldDomination
                 for (int i = 0; i < def.researchPrerequisites.Count; i++)
                 {
                     if (def.researchPrerequisites[i] != null)
-                        return def.researchPrerequisites[i];
+                        return EffectiveResearch(def.researchPrerequisites[i]);
                 }
             }
 
             if (kind == RoadBlockKind.Heavy)
-                return FindResearch(ResearchMicroelectronics);
+                return EffectiveResearch(FindResearch(ResearchMicroelectronics));
             if (kind == RoadBlockKind.Normal)
-                return FindResearch(ResearchMachining);
+                return EffectiveResearch(FindResearch(ResearchMachining));
             return null;
         }
 
@@ -65,12 +80,12 @@ namespace TSA_WorldDomination
                 for (int i = 0; i < def.researchPrerequisites.Count; i++)
                 {
                     if (def.researchPrerequisites[i] != null)
-                        return def.researchPrerequisites[i];
+                        return EffectiveResearch(def.researchPrerequisites[i]);
                 }
             }
 
             if (kind == SpikeTrapKind.Caltrops)
-                return FindResearch(ResearchMachining);
+                return EffectiveResearch(FindResearch(ResearchMachining));
             return null;
         }
 
@@ -82,16 +97,16 @@ namespace TSA_WorldDomination
                 for (int i = 0; i < ext.researchPrerequisites.Count; i++)
                 {
                     if (ext.researchPrerequisites[i] != null)
-                        return ext.researchPrerequisites[i];
+                        return EffectiveResearch(ext.researchPrerequisites[i]);
                 }
             }
 
             if (tier == AtTurretTier.Heavy)
-                return FindResearch(ResearchFabrication);
+                return EffectiveResearch(FindResearch(ResearchFabrication));
             if (tier == AtTurretTier.Medium)
-                return FindResearch(ResearchMicroelectronics);
+                return EffectiveResearch(FindResearch(ResearchMicroelectronics));
             if (tier == AtTurretTier.Light)
-                return FindResearch(ResearchMachining);
+                return EffectiveResearch(FindResearch(ResearchMachining));
             return null;
         }
 
@@ -294,6 +309,8 @@ namespace TSA_WorldDomination
 
         public static bool MeetsRoadRequirements(WorldObject actor, SettlementTier tier)
         {
+            if (!WdMedievalMode.IsRoadTierAllowed(tier)) return false;
+
             float skill = ColonyWorldBuildUtility.GetActorConstructionSkillRaw(actor);
             int minC = WorldActions_Roads.GetMinConstructionToBuildRoad(tier);
             if (!MeetsConstruction(skill, minC)) return false;
@@ -303,7 +320,7 @@ namespace TSA_WorldDomination
             {
                 for (int i = 0; i < def.researchPrerequisites.Count; i++)
                 {
-                    if (!IsResearchMet(def.researchPrerequisites[i])) return false;
+                    if (!IsResearchMet(EffectiveResearch(def.researchPrerequisites[i]))) return false;
                 }
                 return true;
             }
@@ -313,6 +330,8 @@ namespace TSA_WorldDomination
 
         public static bool MeetsRoadBlockRequirements(WorldObject actor, RoadBlockKind kind)
         {
+            if (!WdMedievalMode.IsRoadBlockKindAllowed(kind)) return false;
+
             float skill = ColonyWorldBuildUtility.GetActorConstructionSkillRaw(actor);
             int minC = WorldActions_RoadBlocks.GetMinConstruction(kind);
             return MeetsConstruction(skill, minC) && IsResearchMet(GetRequiredResearchForRoadBlock(kind));
