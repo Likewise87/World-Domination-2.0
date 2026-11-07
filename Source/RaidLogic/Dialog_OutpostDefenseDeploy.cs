@@ -488,7 +488,9 @@ namespace TSA_WorldDomination
         {
             PawnRosterHeaderFilter.CloseDropdown();
             base.PostClose();
-            if (!resolved && traveler != null && !traveler.Destroyed && outpost != null && !outpost.Destroyed)
+            // Hub raids Destroy() the traveler as soon as Choice opens; dialogs hold a snapshot.
+            // Do not require !traveler.Destroyed or Back/X never reopens Choice and the raid vanishes.
+            if (!resolved && traveler != null && outpost != null && !outpost.Destroyed)
             {
                 Find.WindowStack.Add(new Dialog_OutpostDefenseChoice(
                     traveler, outpost, manager, isSkirmishFollowUp, isTrenchIntercept: isTrenchCorridor));
