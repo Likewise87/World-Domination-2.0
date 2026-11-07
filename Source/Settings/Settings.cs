@@ -810,8 +810,8 @@ namespace TSA_WorldDomination
         public const bool DefExperimentalOutpostArmory = true;
         /// <summary>Experimental: stack and restore CompColorable dye + StyleDef on outpost armory/warehouse stock.</summary>
         public const bool DefExperimentalRetainOutpostEquipmentColor = true;
-        /// <summary>Player outpost trench arms (world build + walk-over defense). Default off (ship dark until ready).</summary>
-        public const bool DefEnableTrenches = false;
+        /// <summary>Player outpost trench arms (world build + walk-over defense). Default on.</summary>
+        public const bool DefEnableTrenches = true;
         /// <summary>Experimental kill switch: block vanilla storyteller incidents targeting traveling caravans (ambush, meeting, demand, disease). Off by default.</summary>
         public const bool DefExperimentalDisableVanillaCaravanIncidents = false;
         /// <summary>Cheap per-event coin flip rolled before any strength math; also the primary performance throttle.</summary>
@@ -1166,7 +1166,7 @@ namespace TSA_WorldDomination
         public const bool DefNotifyStrongFactionWar = true;
         public const bool DefNotifyDesperationRaid = true;
         public const bool DefNotifyTurtle = true;
-        public const int CurrentSettingsDataVersion = 6;
+        public const int CurrentSettingsDataVersion = 7;
         // SURGICAL: New Defaults for Incoming Raid Notifications
         public const bool DefNotifyIncomingRaidColony = true;
         public const bool DefNotifyIncomingRaidOutpost = true;
@@ -3659,6 +3659,8 @@ namespace TSA_WorldDomination
                     MigrateDailyActionWeightsV5();
                 if (settingsDataVersion < 6)
                     MigrateDailyActionWeightsV6();
+                if (settingsDataVersion < 7)
+                    MigrateEnableTrenchesV7();
                 settingsDataVersion = CurrentSettingsDataVersion;
             }
 
@@ -3785,6 +3787,12 @@ namespace TSA_WorldDomination
             weightAdvancedBuildings = DefWeightAdvancedBuildings;
             weightTrader = DefWeightTrader;
             cooldownAdvancedBuildingDays = DefCdAdvancedBuildingDays;
+        }
+
+        /// <summary>One-shot: trenches shipped dark; force on for existing configs when default flipped to true.</summary>
+        private void MigrateEnableTrenchesV7()
+        {
+            enableTrenches = DefEnableTrenches;
         }
 
         private void MigrateDiplomacyNotificationSettingsFromLegacy()
