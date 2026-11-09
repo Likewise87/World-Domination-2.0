@@ -47,6 +47,19 @@ namespace TSA_WorldDomination
         }
     }
 
+    /// <summary>One prepaid in-flight upgrade for an outpost (save-friendly bookkeeping entry).</summary>
+    public class PendingOutpostUpgradeEntry : IExposable
+    {
+        public string defName;
+        public int level = 1;
+
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref defName, "defName");
+            Scribe_Values.Look(ref level, "level", 1);
+        }
+    }
+
     public class OutpostUpgradeDef : Def
     {
         public string imagePath;

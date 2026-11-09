@@ -212,11 +212,12 @@ namespace TSA_WorldDomination
             Widgets.Label(selectedRect, "TSA_WD_AllInventory_Selected".Translate(selectedRowIds.Count.ToString()));
             Text.Anchor = TextAnchor.UpperLeft;
 
+            bool showPods = ToolbarShowsViaDropPod();
             PlayerPawnDropPodUtility.DrawGoodsDispatchModeIcon(
                 modeBtn,
-                viaDropPod,
-                () => viaDropPod = false,
-                () => viaDropPod = true);
+                showPods,
+                SetToolbarLand,
+                SetToolbarDropPod);
 
             TooltipHandler.TipRegion(sendBtn, "TSA_WD_AllInventory_SendTip".Translate());
             GUI.enabled = selectedRowIds.Count > 0;
@@ -1102,7 +1103,8 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            bool pods = viaDropPod;
+            // Dest chrome + AA must match reality: window static or any origin already on Drop Pod.
+            bool pods = SnapshotAnyViaDropPod(snapshot);
             WorldObject cameraOrigin = null;
             foreach (var kv in snapshot)
             {
@@ -1123,6 +1125,65 @@ namespace TSA_WorldDomination
                 "TSA_WD_Shipment_DestDialogTitle",
                 viaDropPod: pods,
                 launchCount: snapshot.Count));
+        }
+
+        /// <summary>
+        /// Window toolbar override, or the origin's persistent dispatch mode (colony/warehouse gizmos).
+        /// </summary>
+        private static bool EffectiveViaDropPod(WorldObject origin, bool windowViaDropPod) =>
+            windowViaDropPod || OutpostDispatchMode.GetViaDropPod(origin);
+
+        private static bool SnapshotAnyViaDropPod(Dictionary<WorldObject, List<LaunchItem>> snapshot)
+        {
+            if (viaDropPod) return true;
+            if (snapshot == null) return false;
+            foreach (var kv in snapshot)
+            {
+                if (OutpostDispatchMode.GetViaDropPod(kv.Key))
+                    return true;
+            }
+            return false;
+        }
+
+        private bool ToolbarShowsViaDropPod()
+        {
+            if (viaDropPod) return true;
+            for (int i = 0; i < cachedRows.Count; i++)
+            {
+                InventoryRow r = cachedRows[i];
+                if (r?.rowId == null || !selectedRowIds.Contains(r.rowId)) continue;
+                if (OutpostDispatchMode.GetViaDropPod(r.source))
+                    return true;
+            }
+            return false;
+        }
+
+        private void SetToolbarLand()
+        {
+            viaDropPod = false;
+            ApplyDispatchModeToSelectedSources(false);
+        }
+
+        private void SetToolbarDropPod()
+        {
+            viaDropPod = true;
+            ApplyDispatchModeToSelectedSources(true);
+        }
+
+        private void ApplyDispatchModeToSelectedSources(bool wantPods)
+        {
+            var seen = new HashSet<WorldObject>();
+            for (int i = 0; i < cachedRows.Count; i++)
+            {
+                InventoryRow r = cachedRows[i];
+                if (r?.rowId == null || !selectedRowIds.Contains(r.rowId)) continue;
+                WorldObject origin = r.source;
+                if (origin == null || !seen.Add(origin)) continue;
+                if (wantPods)
+                    OutpostDispatchMode.TrySetViaDropPod(origin, true);
+                else
+                    OutpostDispatchMode.SetViaDropPod(origin, false);
+            }
         }
 
         /// <summary>
@@ -1285,7 +1346,7 @@ namespace TSA_WorldDomination
             WorldObject destination,
             bool pods)
         {
-            int launched = LaunchSnapshot(remaining, destination, pods);
+            int launched = LaunchSnapshot(remaining, destination);
             if (launched <= 0)
             {
                 Messages.Message("TSA_WD_AllInventory_NothingPicked".Translate(), MessageTypeDefOf.RejectInput);
@@ -1422,23 +1483,24 @@ namespace TSA_WorldDomination
 
         private static int LaunchSnapshot(
             Dictionary<WorldObject, List<LaunchItem>> bySource,
-            WorldObject destination,
-            bool viaDropPod)
+            WorldObject destination)
         {
             int launched = 0;
             foreach (var kv in bySource)
             {
                 if (kv.Key == null || kv.Key == destination) continue;
+                // Window static + origin OutpostDispatchMode (dest/AA used SnapshotAnyViaDropPod separately).
+                bool pods = EffectiveViaDropPod(kv.Key, viaDropPod);
 
                 if (kv.Key is MapParent colony)
                 {
-                    if (TryLaunchColonySelection(colony, kv.Value, destination, viaDropPod))
+                    if (TryLaunchColonySelection(colony, kv.Value, destination, pods))
                         launched++;
                     continue;
                 }
 
                 if (!(kv.Key is WorldObject_WD_Outpost outpost)) continue;
-                if (TryLaunchOutpostSelection(outpost, kv.Value, destination, viaDropPod))
+                if (TryLaunchOutpostSelection(outpost, kv.Value, destination, pods))
                     launched++;
             }
             return launched;

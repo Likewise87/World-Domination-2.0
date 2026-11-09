@@ -105,13 +105,9 @@ namespace TSA_WorldDomination
                 line = "TSA_WD_PowerPlant_InspectNoColony".Translate(formatted);
             else
             {
-                float keep = OutpostPowerGrid.GetColonyKeepWatts(outpost);
-                line = "TSA_WD_PowerPlant_InspectSplit".Translate(
-                    formatted,
-                    FormatWatts(Mathf.Max(0f, watts - keep)),
-                    FormatWatts(keep));
+                line = "TSA_WD_PowerPlant_InspectGenerated".Translate(formatted);
                 if (line.Contains("TSA_WD_"))
-                    line = formatted + " generated (" + FormatWatts(watts - keep) + " to outposts, " + FormatWatts(keep) + " to colony)";
+                    line = formatted + " generated";
             }
             return line + Outpost_Production_Utils.BuildSoftProductionBonusSuffix(outpost);
         }

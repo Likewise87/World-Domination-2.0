@@ -28,7 +28,7 @@ All establishment checks default to **On**.
 | Require allowed biome for outpost type | Founding in biomes normally excluded by that outpost type. |
 | Require fertile tiles for farming outposts | Farming or logging outposts on low-fertility or water-covered tiles. |
 | Require animal abundance for hunting outposts | Hunting outposts on tiles with very few animals. |
-| Require fish stocks for fishing outposts | Fishing outposts on coastal tiles with low fish stocks. The coast requirement remains. |
+| Require fish stocks for fishing outposts | Fishing outposts on land tiles with low fish stocks. Open water is still disallowed. |
 | Require hills for mining outposts | Mining outposts on flat tiles. |
 | Require research for advanced outposts | Founding without the listed research projects. |
 | Require nearby neutral/allied settlements | Founding types with a nearby-settlement requirement in isolated regions. |

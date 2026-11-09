@@ -3475,7 +3475,9 @@ namespace TSA_WorldDomination
 
         /// <summary>Per-this-outpost upgrade progress (not empire-wide). Keys are <see cref="OutpostUpgradeDef.defName"/>; values are tier ownership flags (&gt;0 = built).</summary>
         private Dictionary<string, int> builtUpgradeLevels = new Dictionary<string, int>();
-        /// <summary>In-flight upgrade for this outpost only; cleared after <see cref="ApplyPendingUpgrade"/>.</summary>
+        /// <summary>Prepaid in-flight upgrades for this outpost; cleared per entry on arrival or loss.</summary>
+        private List<PendingOutpostUpgradeEntry> pendingUpgrades = new List<PendingOutpostUpgradeEntry>();
+        /// <summary>Legacy single-slot keys; forever Look'd and migrated into <see cref="pendingUpgrades"/> on load.</summary>
         private string pendingUpgradeDefName;
         private int pendingUpgradeLevel;
         /// <summary>In-flight type change target <see cref="WorldObjectDef.defName"/>; additive save key.</summary>
@@ -3556,8 +3558,11 @@ namespace TSA_WorldDomination
             }
 
             Scribe_Collections.Look(ref builtUpgradeLevels, "builtUpgradeLevels", LookMode.Value, LookMode.Value);
+            Scribe_Collections.Look(ref pendingUpgrades, "pendingUpgrades", LookMode.Deep);
             Scribe_Values.Look(ref pendingUpgradeDefName, "pendingUpgradeDefName");
             Scribe_Values.Look(ref pendingUpgradeLevel, "pendingUpgradeLevel", 0);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+                MigrateLegacyPendingUpgrade();
             Scribe_Values.Look(ref pendingTypeChangeDefName, "pendingTypeChangeDefName");
             Scribe_Values.Look(ref itemDeliveryTargetWorldObjectId, "itemDeliveryTargetWorldObjectId", -1);
             Scribe_Values.Look(ref dropPodFallbackToLand, "dropPodFallbackToLand", true);
@@ -3753,15 +3758,51 @@ namespace TSA_WorldDomination
         }
 
         public IReadOnlyDictionary<string, int> BuiltUpgradeLevels => builtUpgradeLevels;
-        public string PendingUpgradeDefName => pendingUpgradeDefName;
-        public int PendingUpgradeLevel => pendingUpgradeLevel;
+        public IReadOnlyList<PendingOutpostUpgradeEntry> PendingUpgrades => pendingUpgrades;
+        public int PendingUpgradeCount => pendingUpgrades?.Count ?? 0;
+        public bool HasPendingUpgrade => PendingUpgradeCount > 0;
+        /// <summary>First pending defName (compat / selection default). Prefer <see cref="IsUpgradePending"/> for checks.</summary>
+        public string PendingUpgradeDefName =>
+            pendingUpgrades != null && pendingUpgrades.Count > 0 ? pendingUpgrades[0]?.defName : null;
+        public int PendingUpgradeLevel =>
+            pendingUpgrades != null && pendingUpgrades.Count > 0 ? pendingUpgrades[0]?.level ?? 0 : 0;
         public string PendingTypeChangeDefName => pendingTypeChangeDefName;
+
+        public bool IsUpgradePending(string upgradeDefName)
+        {
+            if (string.IsNullOrEmpty(upgradeDefName) || pendingUpgrades == null) return false;
+            for (int i = 0; i < pendingUpgrades.Count; i++)
+            {
+                if (string.Equals(pendingUpgrades[i]?.defName, upgradeDefName, StringComparison.Ordinal))
+                    return true;
+            }
+            return false;
+        }
+
+        private void MigrateLegacyPendingUpgrade()
+        {
+            if (pendingUpgrades == null)
+                pendingUpgrades = new List<PendingOutpostUpgradeEntry>();
+            pendingUpgrades.RemoveAll(e => e == null || string.IsNullOrEmpty(e.defName) || e.level <= 0);
+            if (string.IsNullOrEmpty(pendingUpgradeDefName))
+                return;
+            if (!IsUpgradePending(pendingUpgradeDefName))
+            {
+                pendingUpgrades.Add(new PendingOutpostUpgradeEntry
+                {
+                    defName = pendingUpgradeDefName,
+                    level = pendingUpgradeLevel > 0 ? pendingUpgradeLevel : 1
+                });
+            }
+            pendingUpgradeDefName = null;
+            pendingUpgradeLevel = 0;
+        }
 
         public bool TryQueuePendingTypeChange(string targetDefName)
         {
             if (string.IsNullOrEmpty(targetDefName)) return false;
             if (!string.IsNullOrEmpty(pendingTypeChangeDefName)) return false;
-            if (!string.IsNullOrEmpty(pendingUpgradeDefName)) return false;
+            if (HasPendingUpgrade) return false;
             pendingTypeChangeDefName = targetDefName;
             return true;
         }
@@ -3807,11 +3848,17 @@ namespace TSA_WorldDomination
                 builtUpgradeLevels.Remove(remove[i]);
                 dropped++;
             }
-            if (!string.IsNullOrEmpty(pendingUpgradeDefName))
+            if (pendingUpgrades != null && pendingUpgrades.Count > 0)
             {
-                var pud = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(pendingUpgradeDefName);
-                if (pud == null || string.IsNullOrEmpty(newName) || !pud.AppliesToOutpost(newName))
-                    ClearPendingUpgrade();
+                for (int i = pendingUpgrades.Count - 1; i >= 0; i--)
+                {
+                    PendingOutpostUpgradeEntry pe = pendingUpgrades[i];
+                    var pud = pe != null
+                        ? DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(pe.defName)
+                        : null;
+                    if (pud == null || string.IsNullOrEmpty(newName) || !pud.AppliesToOutpost(newName))
+                        pendingUpgrades.RemoveAt(i);
+                }
             }
         }
 
@@ -4276,15 +4323,20 @@ namespace TSA_WorldDomination
         public bool TryQueuePendingUpgrade(string upgradeDefName, int targetLevel)
         {
             if (string.IsNullOrEmpty(upgradeDefName) || targetLevel <= 0) return false;
-            if (!string.IsNullOrEmpty(pendingUpgradeDefName)) return false;
-            pendingUpgradeDefName = upgradeDefName;
-            pendingUpgradeLevel = targetLevel;
+            if (pendingUpgrades == null)
+                pendingUpgrades = new List<PendingOutpostUpgradeEntry>();
+            pendingUpgrades.Add(new PendingOutpostUpgradeEntry
+            {
+                defName = upgradeDefName,
+                level = targetLevel
+            });
             return true;
         }
 
         public bool ClearPendingUpgrade()
         {
-            if (string.IsNullOrEmpty(pendingUpgradeDefName) && pendingUpgradeLevel <= 0) return false;
+            if (pendingUpgrades == null || pendingUpgrades.Count == 0) return false;
+            pendingUpgrades.Clear();
             pendingUpgradeDefName = null;
             pendingUpgradeLevel = 0;
             return true;
@@ -4292,30 +4344,79 @@ namespace TSA_WorldDomination
 
         public bool ClearPendingUpgradeIfMatches(string upgradeDefName, int level)
         {
-            if (string.IsNullOrEmpty(pendingUpgradeDefName)) return false;
-            if (!string.Equals(pendingUpgradeDefName, upgradeDefName, StringComparison.Ordinal)) return false;
-            if (level > 0 && pendingUpgradeLevel != level) return false;
-            return ClearPendingUpgrade();
-        }
-
-        public bool ApplyPendingUpgrade()
-        {
-            if (string.IsNullOrEmpty(pendingUpgradeDefName) || pendingUpgradeLevel <= 0) return false;
-            bool ok = ApplyUpgrade(pendingUpgradeDefName, pendingUpgradeLevel);
-            ClearPendingUpgrade();
-            return ok;
+            return TryRemovePendingEntry(upgradeDefName, level);
         }
 
         /// <summary>
-        /// Releases the "awaiting delivery" state when an upgrade traveler dies in transit. Materials
-        /// were already spent and are not refunded, matching the cargo rule for destroyed shipments.
-        /// Returns true when there actually was a pending upgrade to clear.
+        /// Apply the matching prepaid entry on traveler arrival. Clears that entry either way.
+        /// Skips apply (prepaid loss) when superseded by a higher built line tier, or when a
+        /// sequential predecessor was lost so <see cref="OutpostUpgradeUtility.TierEligibleForPurchase"/> fails.
         /// </summary>
+        public bool ApplyPendingUpgradeMatching(string upgradeDefName, int level)
+        {
+            if (!TryRemovePendingEntry(upgradeDefName, level, out int entryLevel))
+                return false;
+            int applyLevel = entryLevel > 0 ? entryLevel : level;
+            if (applyLevel <= 0) return false;
+
+            var defUpgrade = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(upgradeDefName);
+            if (defUpgrade == null) return false;
+
+            if (!string.IsNullOrEmpty(defUpgrade.upgradeLineId))
+            {
+                int hi = OutpostUpgradeUtility.GetHighestBuiltLineTier(this, defUpgrade.upgradeLineId);
+                if (defUpgrade.lineTier <= hi)
+                    return false;
+                if (!OutpostUpgradeUtility.TierEligibleForPurchase(defUpgrade, hi))
+                    return false;
+            }
+
+            return ApplyUpgrade(upgradeDefName, applyLevel);
+        }
+
+        /// <summary>Legacy single-slot apply: applies the first pending entry if any.</summary>
+        public bool ApplyPendingUpgrade()
+        {
+            if (pendingUpgrades == null || pendingUpgrades.Count == 0) return false;
+            PendingOutpostUpgradeEntry first = pendingUpgrades[0];
+            if (first == null || string.IsNullOrEmpty(first.defName)) return false;
+            return ApplyPendingUpgradeMatching(first.defName, first.level);
+        }
+
+        /// <summary>
+        /// Releases one matching "awaiting delivery" entry when an upgrade traveler dies in transit.
+        /// Materials were already spent and are not refunded. Other pending entries stay in flight.
+        /// </summary>
+        public bool ClearPendingUpgradeAfterLoss(string upgradeDefName, int level) =>
+            TryRemovePendingEntry(upgradeDefName, level);
+
+        /// <summary>Compat overload: clears first pending entry only (prefer the defName overload).</summary>
         public bool ClearPendingUpgradeAfterLoss()
         {
-            if (string.IsNullOrEmpty(pendingUpgradeDefName) && pendingUpgradeLevel <= 0) return false;
-            ClearPendingUpgrade();
-            return true;
+            if (pendingUpgrades == null || pendingUpgrades.Count == 0) return false;
+            PendingOutpostUpgradeEntry first = pendingUpgrades[0];
+            if (first == null) return false;
+            return TryRemovePendingEntry(first.defName, first.level);
+        }
+
+        private bool TryRemovePendingEntry(string upgradeDefName, int level) =>
+            TryRemovePendingEntry(upgradeDefName, level, out _);
+
+        private bool TryRemovePendingEntry(string upgradeDefName, int level, out int entryLevel)
+        {
+            entryLevel = 0;
+            if (string.IsNullOrEmpty(upgradeDefName) || pendingUpgrades == null) return false;
+            for (int i = 0; i < pendingUpgrades.Count; i++)
+            {
+                PendingOutpostUpgradeEntry e = pendingUpgrades[i];
+                if (e == null) continue;
+                if (!string.Equals(e.defName, upgradeDefName, StringComparison.Ordinal)) continue;
+                if (level > 0 && e.level != level) continue;
+                entryLevel = e.level;
+                pendingUpgrades.RemoveAt(i);
+                return true;
+            }
+            return false;
         }
 
         public bool ApplyUpgrade(string upgradeDefName, int level)

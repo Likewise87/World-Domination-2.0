@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_70_Title>Mejoras de avanzada por lotes y más</TSA_WD_Update_2_3_70_Title>
+  <TSA_WD_Update_2_3_70_Body><![CDATA[
+<size=16><b>2.3.70 - Mejoras de avanzada por lotes y más</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 9 de noviembre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Nueva función: ahora puedes enviar varias mejoras de avanzada en una sola caravana. Selecciona varias en el diálogo existente. Ese diálogo se ha ordenado y embellecido, separando grupos de objetos con espaciadores horizontales.\n
+• Nueva función: las avanzadas de pesca también se pueden colocar en casillas de río y lago. Antes solo en costa.\n
+• Corrección: el algoritmo de asignación inteligente de electricidad de la central (PowerPlant) no era fiable. Debería estar corregido.\n
+• Corrección: el equipo enviado desde All Player Gear no usaba cápsulas aunque esa opción estuviera seleccionada. Debería estar corregido.\n
+]]></TSA_WD_Update_2_3_70_Body>
   <TSA_WD_Update_2_3_69_Title>Actualización pequeña. Equipo teñido e investigación medieval</TSA_WD_Update_2_3_69_Title>
   <TSA_WD_Update_2_3_69_Body><![CDATA[
 <size=16><b>2.3.69 - Actualización pequeña. Equipo teñido e investigación medieval</b></size>\n

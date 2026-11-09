@@ -9,6 +9,7 @@ namespace TSA_WorldDomination
     /// <summary>
     /// Read-only Inventory tab for player-faction WD travelers.
     /// Reuses warehouse stock-row chrome (icon / type / quality / count); no shipping controls.
+    /// Upgrade travelers show prepaid cargo with the same chrome as the outpost upgrades confirm dialog.
     /// </summary>
     public class WITab_Traveler_Inventory : WITab
     {
@@ -27,9 +28,25 @@ namespace TSA_WorldDomination
             public bool isUnique;
         }
 
+        private sealed class UpgradeCargoCostLine
+        {
+            public ThingDef iconDef;
+            public string label;
+        }
+
+        private sealed class UpgradeCargoRow
+        {
+            public OutpostUpgradeDef def;
+            public string name;
+            public string impactSummary;
+            public readonly List<UpgradeCargoCostLine> costs = new List<UpgradeCargoCostLine>(4);
+        }
+
         private Vector2 scrollPosition;
+        private Vector2 upgradeScrollPosition;
         private float scrollViewHeight;
         private readonly List<Row> rows = new List<Row>(16);
+        private readonly List<UpgradeCargoRow> upgradeCargoRows = new List<UpgradeCargoRow>(8);
 
         private const int CacheRefreshInterval = 60;
         private int lastCacheTick = -1;
@@ -48,6 +65,18 @@ namespace TSA_WorldDomination
         private const float RowRightPad = 10f;
         private const float FixedColsWidth =
             ColItemIcon + ColType + ColQuality + ColCount + ColValue + RowRightPad;
+
+        // Upgrade cargo panel (matches Dialog_OutpostUpgradeBatchConfirm / upgrades tab).
+        private const float UpgradeLeadIconSize = 36f;
+        private const float UpgradeLeadGap = 8f;
+        private const float UpgradeCostColX = UpgradeLeadIconSize + UpgradeLeadGap;
+        private const float UpgradeCostIconSize = 20f;
+        private const float UpgradeCostLineH = 22f;
+        private const float UpgradeNameH = 26f;
+        private const float UpgradeSectionHeaderH = 26f;
+        private const float UpgradeSeparatorH = 8f;
+        private static readonly Color UpgradeCostTextColor = Color.gray;
+        private static readonly Color UpgradeSeparatorColor = new Color(1f, 1f, 1f, 0.22f);
 
         public WITab_Traveler_Inventory()
         {
@@ -75,16 +104,14 @@ namespace TSA_WorldDomination
             Widgets.DrawLineHorizontal(body.x, body.y + 32f, body.width);
 
             float y = body.y + TabHeaderConsumedHeight;
-            if (traveler is WorldObject_Traveler_Outpost_Upgrade upgrade)
+            bool isUpgradeTraveler = traveler is WorldObject_Traveler_Outpost_Upgrade;
+
+            if (isUpgradeTraveler && upgradeCargoRows.Count > 0)
             {
-                string upgradeLabel = DefDatabase<OutpostUpgradeDef>
-                    .GetNamedSilentFail(upgrade.upgradeDefName)?.LabelCap
-                    ?? upgrade.upgradeDefName
-                    ?? "?";
-                string line = "TSA_WD_TravelerInventory_UpgradeLine".Translate(
-                    upgradeLabel, upgrade.upgradeLevel.ToString()).ToString();
-                Widgets.Label(new Rect(body.x, y, body.width, 24f), line);
-                y += 28f;
+                // Upgrade cargo is the inventory; fill remaining height (goods table only if present).
+                float goodsReserve = rows.Count > 0 ? 140f : 0f;
+                float panelH = Mathf.Max(80f, body.yMax - y - goodsReserve);
+                y = DrawUpgradeCargoPanel(body.x, y, body.width, panelH);
             }
 
             if (traveler is WorldObject_Traveler_Outpost_TypeChange typeChange)
@@ -104,6 +131,8 @@ namespace TSA_WorldDomination
 
             if (rows.Count == 0)
             {
+                if (isUpgradeTraveler && upgradeCargoRows.Count > 0)
+                    return;
                 Rect emptyRect = new Rect(body.x, y, body.width, body.yMax - y);
                 Text.Anchor = TextAnchor.MiddleCenter;
                 GUI.color = new Color(1f, 1f, 1f, 0.55f);
@@ -166,6 +195,136 @@ namespace TSA_WorldDomination
             Text.Anchor = anchor;
             Widgets.Label(rect, text.Truncate(rect.width - 4f));
             Text.Anchor = prev;
+        }
+
+        private float DrawUpgradeCargoPanel(float x, float y, float width, float height)
+        {
+            float panelTop = y;
+            string header = upgradeCargoRows.Count <= 1
+                ? "TSA_WD_OutpostUpgrades_BatchListHeader".Translate().ToString()
+                : "TSA_WD_TravelerInventory_UpgradeBatchHeader".Translate(upgradeCargoRows.Count.ToString()).ToString();
+            y = DrawUpgradeSectionHeader(x, y, width, header);
+
+            float contentH = MeasureUpgradeCargoContentHeight(width - 16f);
+            float scrollH = Mathf.Max(40f, panelTop + height - y);
+            Rect scrollOuter = new Rect(x, y, width, scrollH);
+            Rect viewRect = new Rect(0f, 0f, width - 16f, Mathf.Max(contentH, scrollOuter.height));
+            Widgets.BeginScrollView(scrollOuter, ref upgradeScrollPosition, viewRect);
+            DrawUpgradeCargoScrollContent(viewRect.width);
+            Widgets.EndScrollView();
+            return scrollOuter.yMax;
+        }
+
+        private static float DrawUpgradeSectionHeader(float x, float y, float width, string label)
+        {
+            string hex = ColorUtility.ToHtmlStringRGBA(SettingsUI.SectionHeaderColor);
+            Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(new Rect(x, y, width, UpgradeSectionHeaderH), $"<b><color=#{hex}>{label}</color></b>");
+            Text.Anchor = TextAnchor.UpperLeft;
+            return y + UpgradeSectionHeaderH + 4f;
+        }
+
+        private float MeasureUpgradeCargoContentHeight(float width)
+        {
+            float h = 0f;
+            for (int i = 0; i < upgradeCargoRows.Count; i++)
+            {
+                if (i > 0) h += UpgradeSeparatorH;
+                h += MeasureUpgradeCargoBlockHeight(upgradeCargoRows[i]);
+            }
+            return h + 4f;
+        }
+
+        private static float MeasureUpgradeCargoBlockHeight(UpgradeCargoRow row)
+        {
+            if (row == null) return UpgradeLeadIconSize;
+            int costLines = Mathf.Max(1, row.costs.Count);
+            float impactH = string.IsNullOrEmpty(row.impactSummary) ? 0f : UpgradeCostLineH;
+            float textH = UpgradeNameH + costLines * UpgradeCostLineH + impactH;
+            return Mathf.Max(UpgradeLeadIconSize + 4f, textH);
+        }
+
+        private void DrawUpgradeCargoScrollContent(float width)
+        {
+            float curY = 0f;
+            for (int i = 0; i < upgradeCargoRows.Count; i++)
+            {
+                UpgradeCargoRow row = upgradeCargoRows[i];
+                if (row == null) continue;
+                if (i > 0)
+                {
+                    GUI.color = UpgradeSeparatorColor;
+                    Widgets.DrawLineHorizontal(0f, curY + UpgradeSeparatorH * 0.5f, width);
+                    GUI.color = Color.white;
+                    curY += UpgradeSeparatorH;
+                }
+                curY = DrawUpgradeCargoBlock(0f, curY, width, row);
+            }
+        }
+
+        private static float DrawUpgradeCargoBlock(float x, float y, float width, UpgradeCargoRow row)
+        {
+            float blockH = MeasureUpgradeCargoBlockHeight(row);
+            Rect iconRect = new Rect(x, y + 2f, UpgradeLeadIconSize, UpgradeLeadIconSize);
+            Texture2D icon = Outpost_Upgrade_UI.GetUpgradeIcon(row.def);
+            if (icon != null)
+                Outpost_Upgrade_UI.DrawTextureTopFit(iconRect.ContractedBy(1f), icon);
+
+            float textX = x + UpgradeCostColX;
+            float textW = width - UpgradeCostColX;
+            float ty = y;
+
+            Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(new Rect(textX, ty, textW, UpgradeNameH), row.name ?? "");
+            Text.Anchor = TextAnchor.UpperLeft;
+            ty += UpgradeNameH;
+
+            Text.Font = GameFont.Tiny;
+            if (row.costs.Count == 0)
+            {
+                GUI.color = UpgradeCostTextColor;
+                Widgets.Label(new Rect(textX, ty, textW, UpgradeCostLineH),
+                    "TSA_WD_OutpostUpgrades_NoCost".Translate());
+                GUI.color = Color.white;
+                ty += UpgradeCostLineH;
+            }
+            else
+            {
+                for (int i = 0; i < row.costs.Count; i++)
+                {
+                    UpgradeCargoCostLine c = row.costs[i];
+                    if (c == null) continue;
+                    Rect costIcon = new Rect(
+                        textX,
+                        ty + (UpgradeCostLineH - UpgradeCostIconSize) * 0.5f,
+                        UpgradeCostIconSize,
+                        UpgradeCostIconSize);
+                    if (c.iconDef != null)
+                        Widgets.ThingIcon(costIcon, c.iconDef);
+                    GUI.color = UpgradeCostTextColor;
+                    Text.Anchor = TextAnchor.MiddleLeft;
+                    Widgets.Label(
+                        new Rect(textX + UpgradeCostIconSize + 6f, ty, textW - UpgradeCostIconSize - 6f, UpgradeCostLineH),
+                        c.label ?? "");
+                    Text.Anchor = TextAnchor.UpperLeft;
+                    GUI.color = Color.white;
+                    ty += UpgradeCostLineH;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(row.impactSummary))
+            {
+                GUI.color = UpgradeCostTextColor;
+                Text.Anchor = TextAnchor.MiddleLeft;
+                Widgets.Label(new Rect(textX, ty, textW, UpgradeCostLineH), row.impactSummary);
+                Text.Anchor = TextAnchor.UpperLeft;
+                GUI.color = Color.white;
+            }
+
+            Text.Font = GameFont.Small;
+            return y + blockH;
         }
 
         private void DrawRow(float width, float y, int rowIndex, Row row, float itemW)
@@ -246,6 +405,18 @@ namespace TSA_WorldDomination
                     h = HashStockList(h, negotiate.paymentItems);
                 if (traveler is WorldObject_Traveler_RapidResponseDropPod rr)
                     h = HashStockList(h, rr.deliveryItems);
+                if (traveler is WorldObject_Traveler_Outpost_Upgrade upgrade)
+                {
+                    IReadOnlyList<PendingOutpostUpgradeEntry> cargo = upgrade.UpgradeCargo;
+                    h = h * 31 + cargo.Count;
+                    for (int i = 0; i < cargo.Count; i++)
+                    {
+                        PendingOutpostUpgradeEntry e = cargo[i];
+                        if (e == null) continue;
+                        h = h * 31 + (e.defName?.GetHashCode() ?? 0);
+                        h = h * 31 + e.level;
+                    }
+                }
                 return h;
             }
         }
@@ -282,6 +453,7 @@ namespace TSA_WorldDomination
         private void RebuildRows(WorldObject_Traveler traveler)
         {
             rows.Clear();
+            RebuildUpgradeCargoRows(traveler);
 
             if (traveler is WorldObject_Traveler_Outpost_Delivery delivery)
             {
@@ -310,6 +482,59 @@ namespace TSA_WorldDomination
                 AppendStockRows(negotiate.paymentItems);
             if (traveler is WorldObject_Traveler_RapidResponseDropPod rr)
                 AppendStockRows(rr.deliveryItems);
+        }
+
+        private void RebuildUpgradeCargoRows(WorldObject_Traveler traveler)
+        {
+            upgradeCargoRows.Clear();
+            if (!(traveler is WorldObject_Traveler_Outpost_Upgrade upgrade)) return;
+
+            IReadOnlyList<PendingOutpostUpgradeEntry> cargo = upgrade.UpgradeCargo;
+            for (int i = 0; i < cargo.Count; i++)
+            {
+                PendingOutpostUpgradeEntry e = cargo[i];
+                if (e == null || string.IsNullOrEmpty(e.defName)) continue;
+                OutpostUpgradeDef def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(e.defName);
+                var row = new UpgradeCargoRow { def = def };
+                if (def != null)
+                {
+                    string name = def.LabelCap;
+                    if (def.lineTier > 1)
+                        name += " (Lv " + def.lineTier + ")";
+                    row.name = name;
+                    row.impactSummary = Outpost_Upgrade_UI.FormatCompactImpactSummary(def);
+                    List<OutpostUpgradeCostEntry> costs = def.GetEffectiveCost();
+                    if (costs != null)
+                    {
+                        for (int c = 0; c < costs.Count; c++)
+                        {
+                            OutpostUpgradeCostEntry cost = costs[c];
+                            if (cost == null || cost.count <= 0) continue;
+                            if (!ColonyWorldBuildMaterials.IsAnyStoneBlocksCost(cost) && cost.thingDef == null)
+                                continue;
+                            row.costs.Add(new UpgradeCargoCostLine
+                            {
+                                iconDef = ColonyWorldBuildMaterials.GetCostIconThingDef(cost),
+                                label = FormatUpgradeCostLabel(cost)
+                            });
+                        }
+                    }
+                }
+                else
+                {
+                    row.name = e.defName;
+                    row.impactSummary = "";
+                }
+                upgradeCargoRows.Add(row);
+            }
+        }
+
+        private static string FormatUpgradeCostLabel(OutpostUpgradeCostEntry c)
+        {
+            if (c == null) return "";
+            if (c.thingDef == ThingDefOf.ComponentIndustrial)
+                return "TSA_WD_OutpostUpgrades_ComponentsLabel".Translate().ToString() + " x" + c.count;
+            return ColonyWorldBuildMaterials.GetCostDisplayLabel(c) + " x" + c.count;
         }
 
         private void AppendStockRows(List<ThingDefCountClass> items)

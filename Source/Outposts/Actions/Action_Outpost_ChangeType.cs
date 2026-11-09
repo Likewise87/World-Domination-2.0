@@ -33,7 +33,7 @@ namespace TSA_WorldDomination
                 cmd.Disable("TSA_WD_OutpostDefense_FrozenDuringManualDefense".Translate());
             else if (!string.IsNullOrEmpty(outpost.PendingTypeChangeDefName))
                 cmd.Disable("TSA_WD_TypeChange_AlreadyPending".Translate());
-            else if (!string.IsNullOrEmpty(outpost.PendingUpgradeDefName))
+            else if (outpost.HasPendingUpgrade)
                 cmd.Disable("TSA_WD_OutpostUpgrades_InTransit".Translate());
 
             yield return cmd;

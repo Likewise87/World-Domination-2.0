@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_70_Title>Batch Outpost Upgrades &amp; more</TSA_WD_Update_2_3_70_Title>
+  <TSA_WD_Update_2_3_70_Body><![CDATA[
+<size=16><b>2.3.70 - Batch Outpost Upgrades & more</b></size>\n
+<color=#00FFFFFF>Release date: November 9th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• New Feature: You may now send several outpost upgrades with a single caravan. Multi select desired upgrades in the existing dialog. That dialog has been made prettier and more structured, separating item groups with horizontal spacers.\n
+• New Feature: Fishing outposts can now also be placed on river and lake tiles. Previously, those were limited only to coast tiles.\n
+• Bugfix: The smart electricity allocation algorithm of the PowerPlant outpost didn't work reliably. Should be fixed now.\n
+• Bugfix: Equipment sent via the All Player Gear was not sent via drop-pod despite having that option selected. Should be fixed now.\n
+]]></TSA_WD_Update_2_3_70_Body>
   <TSA_WD_Update_2_3_69_Title>Tiny update. Dyed equipment and Medieval research</TSA_WD_Update_2_3_69_Title>
   <TSA_WD_Update_2_3_69_Body><![CDATA[
 <size=16><b>2.3.69 - Tiny update. Dyed equipment and Medieval research</b></size>\n

@@ -88,7 +88,11 @@ namespace TSA_WorldDomination
             { "Pollution_Increased", -0.10f },
         };
 
-        /// <summary>Additive fishing score per mutator <c>defName</c> (0.1f = +10pp). Odyssey fish population mutators.</summary>
+        /// <summary>
+        /// Fish-specific mutator offsets (0.1f = +10pp). Odyssey fish population + a few aquatic overrides.
+        /// General fauna / ecosystem mutators also apply via <see cref="EffectiveFishingMutatorScoreOffsets"/>;
+        /// land-animal-specific hunting mutators do not.
+        /// </summary>
         public static readonly Dictionary<string, float> MutatorFishingScoreOffsets = new Dictionary<string, float>
         {
             { "Fish_Decreased", -0.10f },
@@ -97,6 +101,56 @@ namespace TSA_WorldDomination
             { "VEE_RisingWaters", 0.05f },
             { "VEE_MarineSanctuary", 0.15f },
         };
+
+        /// <summary>
+        /// Hunting mutators that describe general fauna / ecosystem abundance (not a named land species or herd).
+        /// These reuse the hunting offset for fish stock. Excluded on purpose: Alphabeavers, Noble Steeds,
+        /// Migratory/Aggressive Herds, Natural Aerie, Rodent Plagues, Domesticated Escapees, Feral Kinship,
+        /// Wandering Companions, Increased Infestations, and weather/stench keys that are not fauna richness.
+        /// </summary>
+        private static readonly HashSet<string> HuntingMutatorsThatAlsoAffectFish = new HashSet<string>
+        {
+            "AnimalHabitat",
+            "AnimalLife_Decreased",
+            "AnimalLife_Increased",
+            "VEE_AbundantPredators",
+            "VEE_AbundantPrey",
+            "VEE_AnimaFauna",
+            "VEE_ColossalFauna",
+            "VEE_DistressedWildlife",
+            "VEE_Megafauna",
+            "VEE_Microfauna",
+            "VEE_NocturnalFauna",
+            "VEE_ReducedPredators",
+            "VEE_ReducedPrey",
+            "VEE_VenomousEcosystem",
+            "VEE_WastelandFauna",
+        };
+
+        private static Dictionary<string, float> cachedEffectiveFishingMutatorOffsets;
+
+        /// <summary>
+        /// Fishing score mutators: fish-specific keys, plus general fauna hunting offsets
+        /// (Animal Habitat, Colossal Fauna, Abundant Prey, …). Fish-specific keys win on conflict.
+        /// </summary>
+        public static Dictionary<string, float> EffectiveFishingMutatorScoreOffsets
+        {
+            get
+            {
+                if (cachedEffectiveFishingMutatorOffsets != null)
+                    return cachedEffectiveFishingMutatorOffsets;
+                var merged = new Dictionary<string, float>();
+                foreach (string key in HuntingMutatorsThatAlsoAffectFish)
+                {
+                    if (MutatorHuntingScoreOffsets.TryGetValue(key, out float huntingOffset))
+                        merged[key] = huntingOffset;
+                }
+                foreach (var kv in MutatorFishingScoreOffsets)
+                    merged[kv.Key] = kv.Value;
+                cachedEffectiveFishingMutatorOffsets = merged;
+                return merged;
+            }
+        }
 
         /// <summary>Additive farming fertility score per mutator <c>defName</c>. Odyssey + VEE <c>TileMutators_Plants.xml</c> / weather.</summary>
         public static readonly Dictionary<string, float> MutatorFarmingScoreOffsets = new Dictionary<string, float>
@@ -718,14 +772,16 @@ namespace TSA_WorldDomination
             return ClampProductivityScore(baseline + outpostUpgradeAdditive);
         }
 
-        /// <summary>Biome maxFishPopulation rank only (0–1). Non-coastal / water / zero population → 0.</summary>
+        /// <summary>Biome maxFishPopulation rank only (0–1). Water / no coast-lake-river / zero population → 0.</summary>
         public static float GetFishingBaseScore(int tile)
         {
             var grid = Find.WorldGrid;
             if (grid == null || tile < 0 || tile >= grid.TilesCount)
                 return 0f;
             Tile tileInfo = grid[tile];
-            if (tileInfo.WaterCovered || !tileInfo.IsCoastal)
+            if (tileInfo.WaterCovered)
+                return 0f;
+            if (!Outpost_Fishing.TileHasFishableWater(tile))
                 return 0f;
 
             float maxPop = tileInfo.MaxFishPopulation;
@@ -740,8 +796,9 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Fishing productivity for ocean-coast land tiles: MaxFishPopulation rank plus fish mutators (up to <see cref="ProductivityScoreCap"/>).
-        /// Non-coastal and water tiles return 0.
+        /// Fishing productivity for land tiles with coast / lake / river: MaxFishPopulation rank plus
+        /// fish and animal-abundance mutators (up to <see cref="ProductivityScoreCap"/>).
+        /// Water tiles and dry inland tiles return 0.
         /// </summary>
         /// <param name="outpostUpgradeAdditive">From built <see cref="OutpostUpgradeDef.tileFishAbundanceBonus"/>.</param>
         public static float GetFishingScore(int tile, float outpostUpgradeAdditive = 0f)
@@ -750,17 +807,19 @@ namespace TSA_WorldDomination
             if (grid == null || tile < 0 || tile >= grid.TilesCount)
                 return 0f;
             Tile tileInfo = grid[tile];
-            if (tileInfo.WaterCovered || !tileInfo.IsCoastal)
+            if (tileInfo.WaterCovered)
+                return 0f;
+            if (!Outpost_Fishing.TileHasFishableWater(tile))
                 return 0f;
 
             float score = GetFishingBaseScore(tile);
-            score += SumMutatorScoreOffsets(tileInfo, MutatorFishingScoreOffsets);
+            score += SumMutatorScoreOffsets(tileInfo, EffectiveFishingMutatorScoreOffsets);
             score += outpostUpgradeAdditive;
             score = ApplyPollutionEcologyMultiplier(score, tile);
             return ClampProductivityScore(score);
         }
 
-        /// <summary>Hover text for fishing score: coast gate, biome rank, mutators, total.</summary>
+        /// <summary>Hover text for fishing score: biome rank, mutators, total.</summary>
         public static string GetFishingScoreTooltipText(int tile, float outpostUpgradeAdditive = 0f, string outpostUpgradeDetailLines = null)
         {
             var grid = Find.WorldGrid;
@@ -769,10 +828,10 @@ namespace TSA_WorldDomination
             Tile tileInfo = grid[tile];
             if (tileInfo.WaterCovered)
                 return "TSA_WD_ProductivityTooltip_WaterTile".Translate().ToString();
-            if (!tileInfo.IsCoastal)
-                return "TSA_WD_ProductivityTooltip_NotCoastal".Translate().ToString();
+            if (!Outpost_Fishing.TileHasFishableWater(tile))
+                return "TSA_WD_TileProductivity_FishNeedLakeOrRiver".Translate().ToString();
             float baseScore = GetFishingBaseScore(tile);
-            float mutSum = SumMutatorScoreOffsets(tileInfo, MutatorFishingScoreOffsets);
+            float mutSum = SumMutatorScoreOffsets(tileInfo, EffectiveFishingMutatorScoreOffsets);
             float raw = ApplyPollutionEcologyMultiplier(baseScore + mutSum + outpostUpgradeAdditive, tile);
             float final = GetFishingScore(tile, outpostUpgradeAdditive);
             var sb = new StringBuilder();
@@ -780,7 +839,7 @@ namespace TSA_WorldDomination
             sb.AppendLine();
             sb.AppendLine("TSA_WD_ProductivityTooltip_Base".Translate(Mathf.RoundToInt(baseScore * 100f)).ToString());
             sb.AppendLine("TSA_WD_ProductivityTooltip_MutatorsHeader".Translate().ToString());
-            string mutBlock = BuildMutatorDetailLines(tileInfo, MutatorFishingScoreOffsets);
+            string mutBlock = BuildMutatorDetailLines(tileInfo, EffectiveFishingMutatorScoreOffsets);
             if (string.IsNullOrEmpty(mutBlock))
                 sb.AppendLine("TSA_WD_ProductivityTooltip_NoMutators".Translate().ToString());
             else

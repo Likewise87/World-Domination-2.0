@@ -4,17 +4,20 @@
   <TSA_AllocatedStatus>Asignado: {0} de {1} (Conservar aquí: {2}).</TSA_AllocatedStatus>
   <TSA_AllocationStrategy>Estrategia de asignación</TSA_AllocationStrategy>
   <TSA_AutoUpdateNote>\n\nSe recalcula cuando cambian avanzadillas, peones o ajustes de comida (con una comprobación silenciosa de huella en cada pulso de comida).</TSA_AutoUpdateNote>
+  <TSA_AutoUpdateNote_Power>\n\nSe recalcula cuando cambian avanzadillas o ajustes de energía (con una comprobación silenciosa de huella en cada pulso de energía).</TSA_AutoUpdateNote_Power>
   <TSA_Breakdown_Consumption>Consumo local</TSA_Breakdown_Consumption>
   <TSA_Breakdown_SkillBonus>Producción por habilidad</TSA_Breakdown_SkillBonus>
   <TSA_Breakdown_Title>Desglose de producción</TSA_Breakdown_Title>
   <TSA_Breakdown_TotalProd>Producción total</TSA_Breakdown_TotalProd>
   <TSA_ColonyLabel>Colonia</TSA_ColonyLabel>
   <TSA_DeficitTooltip>1) Cubre cada avanzadilla al alcance hasta un balance neto de ~0 (las peores escaseces primero), usando el excedente de todos los productores Smart en alcance juntos.\n2) Cada productor conserva una parte igual de su excedente restante (Conservar aquí).\n3) Reparte el resto subiendo primero los netos más bajos hasta igualarlos (mismo +X).</TSA_DeficitTooltip>
+  <TSA_PowerDeficitTooltip>1) Cubre cada avanzadilla al alcance hasta la demanda completa (las peores escaseces primero), usando el excedente de todas las centrales Smart en alcance juntos.\n2) La generación sobrante queda como Conservar y alimenta la red de la colonia.</TSA_PowerDeficitTooltip>
   <TSA_Logistics_KeepHere>Conservar aquí:</TSA_Logistics_KeepHere>
   <TSA_Logistics_KeepHereTip>La comida virtual que no se envía a otras avanzadillas queda como excedente del propio puesto productor.</TSA_Logistics_KeepHereTip>
   <TSA_Logistics_TotalNetTip>Su balance diario total de comida (todas las fuentes). El valor +/- es solo lo que envía este productor.</TSA_Logistics_TotalNetTip>
   <TSA_Logistics_ResetAllocation>Restablecer asignación</TSA_Logistics_ResetAllocation>
   <TSA_Logistics_ResetAllocationTip>Pasa a Manual y borra toda la comida enviada desde este puesto a otras avanzadillas. El excedente retenido se queda aquí.</TSA_Logistics_ResetAllocationTip>
+  <TSA_Logistics_ResetAllocationTip_Power>Pasa a Manual y borra toda la energía enviada desde esta central a otras avanzadillas. El Conservar residual sigue alimentando la colonia.</TSA_Logistics_ResetAllocationTip_Power>
   <TSA_DistroHub>Producción de comida</TSA_DistroHub>
   <TSA_EqualTooltip>Reparte la comida sobrante a partes iguales entre todas las avanzadillas en alcance con déficit.</TSA_EqualTooltip>
   <TSA_FeedTooltip>Prioriza las avanzadillas que pueden quedar al 100% satisfechas. El resto de comida se reparte entre las demás.</TSA_FeedTooltip>
@@ -54,6 +57,7 @@
   <TSA_OutpostInfoRow>Comida: {0}/{1}</TSA_OutpostInfoRow>
   <TSA_OutpostsInRange>Destinatarios en alcance</TSA_OutpostsInRange>
   <TSA_Logistics_SectionOtherOutposts>Distribuir excedente de comida a puestos en alcance:</TSA_Logistics_SectionOtherOutposts>
+  <TSA_Logistics_SectionOtherOutposts_Power>Distribuir excedente de energía a puestos en alcance:</TSA_Logistics_SectionOtherOutposts_Power>
   <TSA_ResourceReceiving>Suministro de comida</TSA_ResourceReceiving>
   <TSA_UnitsCount>{0} unidades</TSA_UnitsCount>
   <TSA_WD_AddToOutpost>Añadir a avanzadilla</TSA_WD_AddToOutpost>
@@ -204,8 +208,8 @@
   <TSA_WD_Biome_Tooltip_Fertility>Puntuación de fertilidad para cultivo (0–100%).\n\nFórmula:\n- Fracción de temporada de cultivo (doceavos del año con temperatura media en un rango apto para cultivos, incluidos trópicos calurosos)\n- × densidad de plantas del bioma entre el mínimo y el máximo de todos los biomas cargados (los mejores biomas = 100%)\n- × penalización por colinas (Llano/Colinas pequeñas = 100%, Grandes = 80%, Montañoso = 50%, agua = 0%).</TSA_WD_Biome_Tooltip_Fertility>
   <TSA_WD_ProductivityTooltip_FertilityIntro>La puntuación de cultivo combina temporada de crecimiento, rango de densidad de plantas del bioma y relieve en un valor base. Los rasgos de casilla listados suman puntos porcentuales fijos (mutadores de Odyssey / Landmarks reconocidos por este mod).</TSA_WD_ProductivityTooltip_FertilityIntro>
   <TSA_WD_ProductivityTooltip_HuntingIntro>La abundancia animal sitúa la densidad animal de este bioma frente a todos los biomas cargados y añade modificadores fijos por rasgos de casilla (mutadores) reconocidos por este mod.</TSA_WD_ProductivityTooltip_HuntingIntro>
-  <TSA_WD_ProductivityTooltip_FishingIntro>La abundancia de peces sitúa la población máxima de peces de este bioma entre los biomas con peces, y añade modificadores fijos por rasgos de casilla (mutadores) reconocidos por este mod. Solo valen casillas costeras de océano.</TSA_WD_ProductivityTooltip_FishingIntro>
-  <TSA_WD_ProductivityTooltip_NotCoastal>Esta casilla no es costa oceánica. Las avanzadillas de pesca necesitan tierra costera (no lagos ni agua abierta).</TSA_WD_ProductivityTooltip_NotCoastal>
+  <TSA_WD_ProductivityTooltip_FishingIntro>La abundancia de peces sitúa la población máxima de peces de este bioma entre los biomas con peces, y añade modificadores fijos por rasgos de casilla (mutadores) reconocidos por este mod. Valen casillas terrestres (costa o interior); el agua abierta no.</TSA_WD_ProductivityTooltip_FishingIntro>
+  <TSA_WD_ProductivityTooltip_NotCoastal>Esta casilla es agua abierta. Las avanzadillas de pesca necesitan una casilla terrestre (costa o interior).</TSA_WD_ProductivityTooltip_NotCoastal>
   <TSA_WD_ProductivityTooltip_MiningIntro>La eficiencia minera parte del relieve de esta casilla (Llano=10%, Colinas pequeñas=50%, Colinas grandes=80%, Montañoso=100%, Impenetrable=0%) y suma puntos porcentuales fijos de rasgos de casilla del mundo (mutadores) que este mod reconoce.</TSA_WD_ProductivityTooltip_MiningIntro>
   <TSA_WD_ProductivityTooltip_Base>Base: {0}%</TSA_WD_ProductivityTooltip_Base>
   <TSA_WD_ProductivityTooltip_MutatorsHeader>Rasgos de la casilla del mundo:</TSA_WD_ProductivityTooltip_MutatorsHeader>
@@ -232,8 +236,9 @@
   <TSA_WD_TileProductivity_WildlifeHeader>Animales aquí</TSA_WD_TileProductivity_WildlifeHeader>
   <TSA_WD_TileProductivity_WildlifeNone>No hay fauna cazable listada para este bioma.</TSA_WD_TileProductivity_WildlifeNone>
   <TSA_WD_TileProductivity_FishHeader>Peces aquí</TSA_WD_TileProductivity_FishHeader>
-  <TSA_WD_TileProductivity_FishNone>No hay especies de peces de agua salada disponibles.</TSA_WD_TileProductivity_FishNone>
-  <TSA_WD_TileProductivity_FishNotCoastal>No es costa oceánica (la pesca necesita tierra costera).</TSA_WD_TileProductivity_FishNotCoastal>
+  <TSA_WD_TileProductivity_FishNone>No hay especies de peces disponibles para esta casilla.</TSA_WD_TileProductivity_FishNone>
+  <TSA_WD_TileProductivity_FishNeedLakeOrRiver>Esta casilla no tiene costa, lago ni río.</TSA_WD_TileProductivity_FishNeedLakeOrRiver>
+  <TSA_WD_TileProductivity_FishNotCoastal>Agua abierta (la pesca necesita una casilla terrestre).</TSA_WD_TileProductivity_FishNotCoastal>
   <TSA_WD_TileProductivity_FishCommon>común</TSA_WD_TileProductivity_FishCommon>
   <TSA_WD_TileProductivity_FishUncommon>poco común</TSA_WD_TileProductivity_FishUncommon>
   <TSA_WD_TileProductivity_BasePct>{0}%</TSA_WD_TileProductivity_BasePct>
@@ -425,8 +430,9 @@
   <TSA_WD_Establish_MinPawns>{0} requiere al menos {1} colono(s) en la caravana (tienes {2}).</TSA_WD_Establish_MinPawns>
   <TSA_WD_Establish_MinSkill>Esta avanzadilla requiere al menos {0} de {1} para funcionar (tiene {2}).</TSA_WD_Establish_MinSkill>
   <TSA_WD_Establish_NeedAnimals>Esta casilla no tiene fauna adecuada.</TSA_WD_Establish_NeedAnimals>
-  <TSA_WD_Establish_NeedCoast>Las avanzadillas de pesca necesitan una casilla costera oceánica (no lagos ni agua abierta).</TSA_WD_Establish_NeedCoast>
-  <TSA_WD_Establish_NeedFishSpecies>Este bioma costero no tiene especies de peces de agua salada disponibles.</TSA_WD_Establish_NeedFishSpecies>
+  <TSA_WD_Establish_NeedCoast>Las avanzadillas de pesca necesitan una casilla terrestre (no agua abierta).</TSA_WD_Establish_NeedCoast>
+  <TSA_WD_Establish_NeedLakeOrRiver>Las avanzadillas de pesca necesitan costa, lago o río en la casilla.</TSA_WD_Establish_NeedLakeOrRiver>
+  <TSA_WD_Establish_NeedFishSpecies>Este bioma no tiene especies de peces disponibles para esta casilla (agua salada en costas, dulce en lagos y ríos).</TSA_WD_Establish_NeedFishSpecies>
   <TSA_WD_Establish_NeedCost>La caravana necesita {0} {1} (tienes {2}).</TSA_WD_Establish_NeedCost>
   <TSA_WD_Establish_NeedFertile>Esta casilla no es apta para cultivo (agua o sin crecimiento de plantas).</TSA_WD_Establish_NeedFertile>
   <TSA_WD_Establish_NeedLand>No se pueden fundar avanzadillas en el agua.</TSA_WD_Establish_NeedLand>
@@ -1139,8 +1145,9 @@
   <TSA_WD_Req_Tooltip_HuntingNone>La casilla tiene poca o ninguna fauna cazable.</TSA_WD_Req_Tooltip_HuntingNone>
   <TSA_WD_Req_Tooltip_FishingBelow>Abundancia de peces por debajo del mínimo ({0}%).</TSA_WD_Req_Tooltip_FishingBelow>
   <TSA_WD_Req_Tooltip_FishingMet>La casilla cumple la abundancia mínima de peces para pescar.</TSA_WD_Req_Tooltip_FishingMet>
-  <TSA_WD_Req_Tooltip_FishingNotCoastal>La pesca necesita una casilla costera oceánica (no lagos ni agua abierta).</TSA_WD_Req_Tooltip_FishingNotCoastal>
-  <TSA_WD_Req_Tooltip_FishingNone>Este bioma costero no tiene especies de peces de agua salada disponibles.</TSA_WD_Req_Tooltip_FishingNone>
+  <TSA_WD_Req_Tooltip_FishingNotCoastal>La pesca necesita una casilla terrestre (no agua abierta).</TSA_WD_Req_Tooltip_FishingNotCoastal>
+  <TSA_WD_Req_Tooltip_FishingNeedLakeOrRiver>La pesca necesita costa, lago o río en la casilla.</TSA_WD_Req_Tooltip_FishingNeedLakeOrRiver>
+  <TSA_WD_Req_Tooltip_FishingNone>Este bioma no tiene especies de peces disponibles para esta casilla (agua salada en costas, dulce en lagos y ríos).</TSA_WD_Req_Tooltip_FishingNone>
   <TSA_WD_Req_Tooltip_MinNearbyMet>Al menos {0} asentamientos o avanzadillas (no hostiles) dentro de {1} casillas.</TSA_WD_Req_Tooltip_MinNearbyMet>
   <TSA_WD_Req_Tooltip_MinNearbyMet_Recruiting>Al menos {0} asentamientos PNJ cercanos en {1} casillas (los vecinos hostiles cuentan como desertores).</TSA_WD_Req_Tooltip_MinNearbyMet_Recruiting>
   <TSA_WD_Req_Tooltip_MinNearbyMet_Trading>Al menos {0} asentamientos PNJ cercanos en {1} casillas (los vecinos hostiles cuentan para el mercado negro).</TSA_WD_Req_Tooltip_MinNearbyMet_Trading>
@@ -1235,7 +1242,7 @@
   <TSA_WD_Select_OutpostDefault>Avanzadilla</TSA_WD_Select_OutpostDefault>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Farming>Produce bienes de cultivos (comida, tela). Escala con la fertilidad del casillero del mapa. La eficiencia puede mejorarse con mejoras</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Farming>
     <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Hunting>Produce carne, cuero y lana. Escala con la abundancia de animales del casillero y la habilidad Animal. La eficiencia puede mejorarse con mejoras</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Hunting>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>Produce una especie de pez elegida. Escala con la abundancia de peces en costas oceánicas y la habilidad Animal. La eficiencia puede mejorarse con mejoras. Requiere Odyssey</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>Produce una especie de pez elegida. Escala con la abundancia de peces en casillas terrestres (costa o interior) y la habilidad Animal. La eficiencia puede mejorarse con mejoras. Requiere Odyssey</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>Recluta nuevos colonos cada ciclo. Escala con Social y hasta los 3 mejores socios cercanos por facción (los vecinos hostiles cuentan como desertores). Requiere asentamientos PNJ cercanos en rango</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>Produce plata cada ciclo. Escala con Social y hasta los 3 mejores socios cercanos por facción (los vecinos hostiles cuentan para el mercado negro). Requiere asentamientos PNJ cercanos en rango</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Embassy>Mejora la buena voluntad con facciones cercanas cada ciclo (Neutrales/Aliadas; hostiles si lo permiten los ajustes). Usa el nivel de asentamiento más alto por facción. Escala con Social</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Embassy>
@@ -1269,6 +1276,7 @@
   <TSA_WD_Research_EfficiencyWithUpgrades>{0}% eficiencia ({1}% base + {2}pp mejoras)</TSA_WD_Research_EfficiencyWithUpgrades>
   <TSA_WD_PowerPlant_Inspect>Proporciona {0} de energía remota a tu colonia.</TSA_WD_PowerPlant_Inspect>
   <TSA_WD_PowerPlant_InspectNoColony>Energía remota disponible: {0} (sin mapa de colonia).</TSA_WD_PowerPlant_InspectNoColony>
+  <TSA_WD_PowerPlant_InspectGenerated>{0} generados</TSA_WD_PowerPlant_InspectGenerated>
   <TSA_WD_PowerPlant_InspectSupplyOutposts>Proporciona {0} a avanzadas cercanas (no a la colonia).</TSA_WD_PowerPlant_InspectSupplyOutposts>
   <TSA_WD_PowerPlant_OverviewProduct>{0} de energía remota</TSA_WD_PowerPlant_OverviewProduct>
   <TSA_WD_PowerPlant_OverviewProductOutposts>{0} a avanzadas</TSA_WD_PowerPlant_OverviewProductOutposts>
@@ -1601,10 +1609,11 @@
   <TSA_WD_Outpost_TabHeadline>{0} ({1}, {2})</TSA_WD_Outpost_TabHeadline>
   <TSA_WD_OutpostUpgrades_TabHeadline>Mejoras del puesto ({0}, {1})</TSA_WD_OutpostUpgrades_TabHeadline>
   <TSA_WD_OutpostUpgrades_SearchPlaceholder>Filtrar mejoras por nombre...</TSA_WD_OutpostUpgrades_SearchPlaceholder>
-  <TSA_WD_OutpostUpgrades_FilterAll>Todas</TSA_WD_OutpostUpgrades_FilterAll>
-  <TSA_WD_OutpostUpgrades_FilterBuilt>Construidas</TSA_WD_OutpostUpgrades_FilterBuilt>
-  <TSA_WD_OutpostUpgrades_FilterNotBuilt>No construidas</TSA_WD_OutpostUpgrades_FilterNotBuilt>
-  <TSA_WD_OutpostUpgrades_FilterBuildable>Construible</TSA_WD_OutpostUpgrades_FilterBuildable>
+  <TSA_WD_OutpostUpgrades_FilterAll>Todas las mejoras</TSA_WD_OutpostUpgrades_FilterAll>
+  <TSA_WD_OutpostUpgrades_FilterBuilt>Todas las mejoras construidas</TSA_WD_OutpostUpgrades_FilterBuilt>
+  <TSA_WD_OutpostUpgrades_FilterNotBuilt>Todas las mejoras no construidas</TSA_WD_OutpostUpgrades_FilterNotBuilt>
+  <TSA_WD_OutpostUpgrades_FilterBuildable>Todas las mejoras construibles</TSA_WD_OutpostUpgrades_FilterBuildable>
+  <TSA_WD_OutpostUpgrades_FilterAllBonuses>Todos los bonus</TSA_WD_OutpostUpgrades_FilterAllBonuses>
   <TSA_WD_OutpostUpgradeImpact_Defensive>Fuerza defensiva</TSA_WD_OutpostUpgradeImpact_Defensive>
   <TSA_WD_OutpostUpgradeImpact_OffensiveRecovery>Recuperación ofensiva</TSA_WD_OutpostUpgradeImpact_OffensiveRecovery>
   <TSA_WD_OutpostUpgradeImpact_OccupantHeal>Curación de ocupantes</TSA_WD_OutpostUpgradeImpact_OccupantHeal>
@@ -1644,12 +1653,32 @@
   <TSA_WD_OutpostUpgrades_CannotBuy>No puedes comprar esta mejora.</TSA_WD_OutpostUpgrades_CannotBuy>
   <TSA_WD_OutpostUpgrades_NoCost>Sin coste</TSA_WD_OutpostUpgrades_NoCost>
   <TSA_WD_OutpostUpgrades_Invalid>Mejora no válida.</TSA_WD_OutpostUpgrades_Invalid>
-  <TSA_WD_OutpostUpgrades_InTransit>Ya hay una caravana de mejora en camino a este puesto.</TSA_WD_OutpostUpgrades_InTransit>
+  <TSA_WD_OutpostUpgrades_InTransit>Ya hay mejoras en tránsito hacia este puesto.</TSA_WD_OutpostUpgrades_InTransit>
   <TSA_WD_OutpostUpgrades_NoFurtherLevel>No hay más niveles disponibles.</TSA_WD_OutpostUpgrades_NoFurtherLevel>
   <TSA_WD_OutpostUpgrades_MissingResearch>Falta investigación: {0}</TSA_WD_OutpostUpgrades_MissingResearch>
   <TSA_WD_OutpostUpgrades_NoColonyMap>No hay mapa de colonia del jugador para pagar los costes.</TSA_WD_OutpostUpgrades_NoColonyMap>
   <TSA_WD_OutpostUpgrades_QueueFailed>No se pudo encolar la mejora.</TSA_WD_OutpostUpgrades_QueueFailed>
-  <TSA_WD_OutpostUpgrades_LaunchFailed>No se pudo lanzar la caravana de mejora.</TSA_WD_OutpostUpgrades_LaunchFailed>
+  <TSA_WD_OutpostUpgrades_LaunchFailed>No se pudo lanzar el viajero de mejora.</TSA_WD_OutpostUpgrades_LaunchFailed>
+  <TSA_WD_OutpostUpgrades_BuildSelected>Construir selección ({0})</TSA_WD_OutpostUpgrades_BuildSelected>
+  <TSA_WD_OutpostUpgrades_PendingCount>{0} mejoras en tránsito</TSA_WD_OutpostUpgrades_PendingCount>
+  <TSA_WD_OutpostUpgrades_BatchTitle>{0}: Construir mejoras seleccionadas</TSA_WD_OutpostUpgrades_BatchTitle>
+  <TSA_WD_OutpostUpgrades_BatchConfirm>Confirmar</TSA_WD_OutpostUpgrades_BatchConfirm>
+  <TSA_WD_OutpostUpgrades_BatchListHeader>Mejoras</TSA_WD_OutpostUpgrades_BatchListHeader>
+  <TSA_WD_OutpostUpgrades_BatchCostHeader>Coste</TSA_WD_OutpostUpgrades_BatchCostHeader>
+  <TSA_WD_OutpostUpgrades_BatchTotalHeader>Coste total</TSA_WD_OutpostUpgrades_BatchTotalHeader>
+  <TSA_WD_OutpostUpgrades_BatchPodHeader>Cápsulas de transporte</TSA_WD_OutpostUpgrades_BatchPodHeader>
+  <TSA_WD_OutpostUpgrades_BatchPodTitle>Transporte en cápsula</TSA_WD_OutpostUpgrades_BatchPodTitle>
+  <TSA_WD_OutpostUpgrades_BatchPodCost>Componentes x{0}</TSA_WD_OutpostUpgrades_BatchPodCost>
+  <TSA_WD_OutpostUpgrades_ComponentsLabel>Componentes</TSA_WD_OutpostUpgrades_ComponentsLabel>
+  <TSA_WD_OutpostUpgrades_BatchSameLineDropped>Selecciones de la misma línea descartadas (se conserva el nivel más alto): {0}</TSA_WD_OutpostUpgrades_BatchSameLineDropped>
+  <TSA_WD_OutpostUpgrades_BatchPodLaunches>Lanzamientos en cápsula: {0}</TSA_WD_OutpostUpgrades_BatchPodLaunches>
+  <TSA_WD_OutpostUpgrades_BatchNeedSelection>Selecciona una o más mejoras construibles.</TSA_WD_OutpostUpgrades_BatchNeedSelection>
+  <TSA_WD_OutpostUpgrades_SelectTip>Incluir esta mejora en el próximo pedido de construcción.</TSA_WD_OutpostUpgrades_SelectTip>
+  <TSA_WD_OutpostUpgrades_DeselectTip>Quitar esta mejora de la selección de construcción.</TSA_WD_OutpostUpgrades_DeselectTip>
+  <TSA_WD_OutpostUpgrades_SelectDisabledPending>No se puede cambiar la selección mientras hay mejoras en tránsito.</TSA_WD_OutpostUpgrades_SelectDisabledPending>
+  <TSA_WD_OutpostUpgrades_SelectDisabledSameLine>No se pueden seleccionar varias mejoras de la misma línea de mejoras.</TSA_WD_OutpostUpgrades_SelectDisabledSameLine>
+  <TSA_WD_OutpostUpgrades_SelectDisabled>No se puede seleccionar esta mejora ahora.</TSA_WD_OutpostUpgrades_SelectDisabled>
+  <TSA_WD_OutpostUpgrades_BuildSelectedTip>Confirmar y lanzar un viajero con {0} mejora(s) seleccionada(s).</TSA_WD_OutpostUpgrades_BuildSelectedTip>
   <TSA_WD_OutpostUpgrades_DropPodShortAfterBuy>Tras pagar esta mejora, no te quedarían suficientes componentes industriales para el envío en cápsula desde {0}. Cambia {0} a envío terrestre, o consigue más componentes.</TSA_WD_OutpostUpgrades_DropPodShortAfterBuy>
   <TSA_WD_OutpostUpgrades_NeedHave>Se necesitan {0} {1}, hay {2}.</TSA_WD_OutpostUpgrades_NeedHave>
   <TSA_WD_OutpostUpgrades_DeductFailed>No se pudo deducir el coste completo de recursos para {0}.</TSA_WD_OutpostUpgrades_DeductFailed>
@@ -1699,7 +1728,7 @@
   <TSA_WD_OutpostUpgrades_ChooseHeader>Elegir mejora:</TSA_WD_OutpostUpgrades_ChooseHeader>
   <TSA_WD_OutpostUpgrades_SelectedDetail>Mejora seleccionada:</TSA_WD_OutpostUpgrades_SelectedDetail>
   <TSA_WD_OutpostUpgrades_NoSelection>Selecciona una mejora de la lista.</TSA_WD_OutpostUpgrades_NoSelection>
-  <TSA_WD_OutpostUpgrades_PendingCaravan>Caravana en camino: {0}</TSA_WD_OutpostUpgrades_PendingCaravan>
+  <TSA_WD_OutpostUpgrades_PendingCaravan>Viajero en camino: {0}</TSA_WD_OutpostUpgrades_PendingCaravan>
   <TSA_WD_OutpostUpgrades_NoUpgradesDeployedYet>Aún no hay mejoras desplegadas</TSA_WD_OutpostUpgrades_NoUpgradesDeployedYet>
   <TSA_WD_OutpostUpgrades_NoBenefitsListed>Sin beneficios indicados</TSA_WD_OutpostUpgrades_NoBenefitsListed>
   <TSA_WD_OutpostUpgrades_BenefitContributorsNone>Ninguna mejora aporta a este beneficio.</TSA_WD_OutpostUpgrades_BenefitContributorsNone>

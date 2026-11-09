@@ -221,7 +221,7 @@ namespace TSA_WorldDomination
 
             string mutF = WorldTileProductivity.GetMutatorLinesForProductivity(tileInfo, WorldTileProductivity.MutatorFarmingScoreOffsets);
             string mutH = WorldTileProductivity.GetMutatorLinesForProductivity(tileInfo, WorldTileProductivity.MutatorHuntingScoreOffsets);
-            string mutFish = WorldTileProductivity.GetMutatorLinesForProductivity(tileInfo, WorldTileProductivity.MutatorFishingScoreOffsets);
+            string mutFish = WorldTileProductivity.GetMutatorLinesForProductivity(tileInfo, WorldTileProductivity.EffectiveFishingMutatorScoreOffsets);
             string mutM = WorldTileProductivity.GetMutatorLinesForProductivity(tileInfo, WorldTileProductivity.MutatorMiningScoreOffsets);
 
             string pollutionLine = WorldTileProductivity.GetPollutionEcologyModifierLine(tile);
@@ -258,8 +258,10 @@ namespace TSA_WorldDomination
             var grid = Find.WorldGrid;
             if (grid == null || tile < 0 || tile >= grid.TilesCount)
                 fishEmpty = "TSA_WD_TileProductivity_FishNone".Translate().ToString();
-            else if (!tileInfo.IsCoastal || tileInfo.WaterCovered)
+            else if (tileInfo.WaterCovered)
                 fishEmpty = "TSA_WD_TileProductivity_FishNotCoastal".Translate().ToString();
+            else if (!Outpost_Fishing.TileHasFishableWater(tile))
+                fishEmpty = "TSA_WD_TileProductivity_FishNeedLakeOrRiver".Translate().ToString();
             else
             {
                 foreach (FishingFishOption opt in Outpost_Fishing.GetFishingFishOptionsForTile(tile))

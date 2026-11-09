@@ -11,7 +11,7 @@ There are two ways to establish an outpost:
 
 The establishment window is the final authority on whether a type can be built. It lists the required occupants, cumulative skills, research, materials, biome conditions, local productivity, nearby settlements, and minimum distance from other sites. Requirements that do not apply to conquest, such as caravan materials, are identified in the interface.
 
-Choose the site before choosing the specialization. Farming depends on fertility, hunting on animal abundance, fishing on ocean-coast fish stocks, and mining on hilliness and tile modifiers. Recruiting, trading, and embassies need nearby neutral or allied settlements. See [Outpost types](types.md) for every specialization.
+Choose the site before choosing the specialization. Farming depends on fertility, hunting on animal abundance, fishing on fish stocks (coastal or inland land tiles), and mining on hilliness and tile modifiers. Recruiting, trading, and embassies need nearby neutral or allied settlements. See [Outpost types](types.md) for every specialization.
 
 ## Offensive and defensive strength
 

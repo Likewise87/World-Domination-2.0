@@ -880,10 +880,11 @@ namespace TSA_WorldDomination
                     consumers.Add(op);
             }
 
-            // Deficit-first: fully cover hungriest reachable outpost before the next.
-            while (true)
+            // Deficit-first: fully cover hungriest outpost before the next (food Smart parity).
+            // Unreachable hungriest consumers are skipped so other reachable sites still get watts.
+            while (consumers.Count > 0)
             {
-                WorldObject_WD_Outpost best = null;
+                int bestIdx = -1;
                 float bestNeed = 0f;
                 for (int c = 0; c < consumers.Count; c++)
                 {
@@ -895,28 +896,44 @@ namespace TSA_WorldDomination
                     if (need > bestNeed)
                     {
                         bestNeed = need;
-                        best = consumer;
+                        bestIdx = c;
                     }
                 }
-                if (best == null) break;
+                if (bestIdx < 0) break;
 
+                WorldObject_WD_Outpost best = consumers[bestIdx];
                 bool anyGive = false;
-                for (int p = 0; p < smartPlants.Count; p++)
+                while (bestNeed > OutpostPowerGrid.DemandEpsilon)
                 {
-                    WorldObject_WD_Outpost plant = smartPlants[p].Plant;
-                    if (plant == best) continue;
-                    if (!remaining.TryGetValue(plant.ID, out float left) || left <= OutpostPowerGrid.DemandEpsilon)
-                        continue;
-                    if (!OutpostPowerReach.InRange(plant, best)) continue;
-                    float give = Mathf.Min(bestNeed, left);
-                    if (give <= OutpostPowerGrid.DemandEpsilon) continue;
-                    AddAssignmentSilent(plant.Tile.tileId, best.Tile.tileId, give);
-                    remaining[plant.ID] = left - give;
+                    WorldObject_WD_Outpost richest = null;
+                    float richestLeft = 0f;
+                    for (int p = 0; p < smartPlants.Count; p++)
+                    {
+                        WorldObject_WD_Outpost plant = smartPlants[p].Plant;
+                        if (plant == best) continue;
+                        if (!remaining.TryGetValue(plant.ID, out float left) || left <= OutpostPowerGrid.DemandEpsilon)
+                            continue;
+                        if (!OutpostPowerReach.InRange(plant, best)) continue;
+                        if (left > richestLeft)
+                        {
+                            richestLeft = left;
+                            richest = plant;
+                        }
+                    }
+                    if (richest == null) break;
+
+                    float give = Mathf.Min(bestNeed, richestLeft);
+                    if (give <= OutpostPowerGrid.DemandEpsilon) break;
+                    AddAssignmentSilent(richest.Tile.tileId, best.Tile.tileId, give);
+                    remaining[richest.ID] = richestLeft - give;
                     bestNeed -= give;
                     anyGive = true;
-                    if (bestNeed <= OutpostPowerGrid.DemandEpsilon) break;
                 }
-                if (!anyGive) break;
+
+                // Covered or unreachable from remaining plants: drop so we never abort the whole pass.
+                consumers.RemoveAt(bestIdx);
+                if (!anyGive && bestNeed > OutpostPowerGrid.DemandEpsilon)
+                    continue;
             }
         }
 

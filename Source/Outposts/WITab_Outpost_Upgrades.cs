@@ -5,6 +5,7 @@ using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace TSA_WorldDomination
 {
@@ -15,11 +16,27 @@ namespace TSA_WorldDomination
         private const float ColGap = 18f;
         private const float SearchRowHeight = 28f;
         private const float SearchRowGap = 6f;
-        private const float StatusFilterButtonWidth = 130f;
-        private const float ImpactFilterButtonWidth = 180f;
+        /// <summary>Match the free-text search field height (UI_WINDOWS: Small ≥ 24).</summary>
+        private const float SlateButtonHeight = SearchRowHeight;
+        private const float StatusFilterButtonWidth = 175f;
+        private const float ImpactFilterButtonWidth = 175f;
         private const float FilterButtonGap = 8f;
         private const float IconColW = 56f;
         private const float IconPadding = 8f;
+
+        private static readonly Texture2D IconStatusFilter =
+            ContentFinder<Texture2D>.Get("UI/Commands/Build", false)
+            ?? ContentFinder<Texture2D>.Get("UI/Commands/BuildRoad", false);
+        private static readonly Texture2D IconImpactFilter =
+            ContentFinder<Texture2D>.Get("UI/Commands/AdvancedFilter", false)
+            ?? ContentFinder<Texture2D>.Get("UI/Commands/ColumnPicker", false);
+        /// <summary>Funnel texture is greyscale; Build status icon is already cyan in the asset.</summary>
+        private static readonly Color ImpactFilterIconCyan = WorldOverlayLineMaterials.DarkCyanColor;
+        private const float GroupSeparatorHeight = 8f;
+        private static readonly Color GroupSeparatorColor = new Color(1f, 1f, 1f, 0.22f);
+        private const float BatchConfirmButtonHeight = 32f;
+        private static readonly Color BatchConfirmIdleFill = new Color(0.32f, 0.32f, 0.34f);
+        private static readonly Color BatchConfirmReadyFill = new Color(0.22f, 0.55f, 0.28f);
 
         private Vector2 rightScrollPos;
         private Vector2 leftDetailScrollPos;
@@ -28,6 +45,14 @@ namespace TSA_WorldDomination
         private UpgradeBenefitKind? upgradeImpactFilter;
         private string selectedUpgradeDefName;
         private WorldObject_WD_Outpost selectionOutpost;
+        private readonly HashSet<string> batchSelectedDefNames = new HashSet<string>();
+        /// <summary>Unchecked defName → aggregate fail reason when adding it would exceed stock/pods.</summary>
+        private readonly Dictionary<string, string> batchCostBlockReasons = new Dictionary<string, string>();
+        private readonly List<string> batchCostScratchNames = new List<string>(16);
+        private readonly List<OutpostUpgradeDef> batchCostScratchDefs = new List<OutpostUpgradeDef>(16);
+        private int batchCostCacheSelectionHash = int.MinValue;
+        private int batchCostCacheRowsFingerprint = int.MinValue;
+        private int batchCostCacheRowsTick = int.MinValue;
 
         private List<List<OutpostUpgradeDef>> cachedUpgradeGroups;
         private string cachedUpgradeGroupsDefName;
@@ -36,6 +61,7 @@ namespace TSA_WorldDomination
         private int cachedRowsTick = -1;
         private int cachedRowsFingerprint;
         private static readonly List<UpgradeBenefitKind> ScratchBenefitKinds = new List<UpgradeBenefitKind>(8);
+        private const float BatchCheckboxSize = 24f;
 
         private static readonly Dictionary<string, List<List<OutpostUpgradeDef>>> UpgradeGroupsByOutpostDef =
             new Dictionary<string, List<List<OutpostUpgradeDef>>>();
@@ -43,6 +69,7 @@ namespace TSA_WorldDomination
         private struct CachedUpgradeRow
         {
             public OutpostUpgradeDef Def;
+            public int GroupIndex;
             public RowState State;
             public bool CanBuy;
             public bool IsPending;
@@ -125,12 +152,21 @@ namespace TSA_WorldDomination
             ly = Outpost_Upgrade_UI.DrawAggregateBenefitsBox(lx, ly, lw, outpost);
             ly += Outpost_Dialog_UI.OutcomeBoxGap;
 
-            if (!string.IsNullOrEmpty(outpost.PendingUpgradeDefName))
+            if (outpost.HasPendingUpgrade)
             {
-                var pendingDef = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(outpost.PendingUpgradeDefName);
-                string pendingLabel = pendingDef != null ? pendingDef.LabelCap : outpost.PendingUpgradeDefName;
                 GUI.color = new Color(0.95f, 0.75f, 0.35f);
-                string pendingLine = OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_PendingCaravan", pendingLabel);
+                string pendingLine;
+                if (outpost.PendingUpgradeCount == 1)
+                {
+                    string defName = outpost.PendingUpgradeDefName;
+                    var pendingDef = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(defName);
+                    string pendingLabel = pendingDef != null ? pendingDef.LabelCap : defName;
+                    pendingLine = OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_PendingCaravan", pendingLabel);
+                }
+                else
+                {
+                    pendingLine = OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_PendingCount", outpost.PendingUpgradeCount.ToString());
+                }
                 Rect pendingRect = new Rect(lx, ly, lw, Outpost_Dialog_UI.OutcomeLineH);
                 Widgets.Label(pendingRect, pendingLine);
                 GUI.color = Color.white;
@@ -162,7 +198,7 @@ namespace TSA_WorldDomination
                     0f, 0f, detailView.width, outpost, row.Def,
                     row.State.deployed, row.State.superseded, row.State.sequentialBlocked,
                     row.State.futureTier, row.State.showBuy, row.CanBuy, row.IsPending,
-                    row.Check, () => TryBuildUpgrade(outpost, row.Def));
+                    row.Check, onBuild: null);
             }
             else
             {
@@ -176,7 +212,6 @@ namespace TSA_WorldDomination
         private void DrawRightColumn(Rect rightArea, WorldObject_WD_Outpost outpost)
         {
             float y = rightArea.y;
-            const float itemSearchBarH = SearchRowHeight;
 
             GUI.color = new Color(0.75f, 0.82f, 1f);
             Widgets.Label(new Rect(rightArea.x, y, rightArea.width, Outpost_Upgrade_UI.RightColHeaderH), OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_ChooseHeader"));
@@ -184,9 +219,9 @@ namespace TSA_WorldDomination
             y += Outpost_Upgrade_UI.RightColHeaderH + 2f;
 
             float filterRowW = StatusFilterButtonWidth + FilterButtonGap + ImpactFilterButtonWidth;
-            Rect impactFilterRect = new Rect(rightArea.xMax - ImpactFilterButtonWidth, y, ImpactFilterButtonWidth, itemSearchBarH);
-            Rect filterRect = new Rect(impactFilterRect.x - FilterButtonGap - StatusFilterButtonWidth, y, StatusFilterButtonWidth, itemSearchBarH);
-            Rect searchRect = new Rect(rightArea.x, y, rightArea.width - filterRowW - FilterButtonGap, itemSearchBarH);
+            Rect impactFilterRect = new Rect(rightArea.xMax - ImpactFilterButtonWidth, y, ImpactFilterButtonWidth, SlateButtonHeight);
+            Rect filterRect = new Rect(impactFilterRect.x - FilterButtonGap - StatusFilterButtonWidth, y, StatusFilterButtonWidth, SlateButtonHeight);
+            Rect searchRect = new Rect(rightArea.x, y, rightArea.width - filterRowW - FilterButtonGap, SearchRowHeight);
 
             string oldSearch = upgradeSearchFilter;
             upgradeSearchFilter = Widgets.TextField(searchRect, upgradeSearchFilter);
@@ -204,7 +239,8 @@ namespace TSA_WorldDomination
                 GUI.color = Color.white;
             }
 
-            if (Widgets.ButtonText(filterRect, GetFilterLabel(upgradeFilter)))
+            if (WorldDomination_UIUtils.ButtonTextWithIcon(
+                    filterRect, IconStatusFilter, GetFilterLabel(upgradeFilter)))
             {
                 var opts = new List<FloatMenuOption>
                 {
@@ -214,14 +250,17 @@ namespace TSA_WorldDomination
                     new FloatMenuOption(OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_FilterBuildable"), () => SetFilter(UpgradeTabFilter.Buildable)),
                 };
                 Find.WindowStack.Add(new FloatMenu(opts));
+                SoundDefOf.Click.PlayOneShotOnCamera();
             }
 
             ClearImpactFilterIfUnavailable();
-            if (Widgets.ButtonText(impactFilterRect, GetImpactFilterButtonLabel(upgradeImpactFilter)))
+            if (WorldDomination_UIUtils.ButtonTextWithIcon(
+                    impactFilterRect, IconImpactFilter, GetImpactFilterButtonLabel(upgradeImpactFilter),
+                    iconTint: ImpactFilterIconCyan))
             {
                 var opts = new List<FloatMenuOption>
                 {
-                    new FloatMenuOption(OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_FilterAll"), () => SetImpactFilter(null)),
+                    new FloatMenuOption(OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_FilterAllBonuses"), () => SetImpactFilter(null)),
                 };
                 var present = CollectPresentImpactKinds();
                 present.Sort((a, b) => string.Compare(
@@ -234,27 +273,77 @@ namespace TSA_WorldDomination
                     opts.Add(new FloatMenuOption(Outpost_Upgrade_UI.GetImpactFilterLabel(kind), () => SetImpactFilter(kind)));
                 }
                 Find.WindowStack.Add(new FloatMenu(opts));
+                SoundDefOf.Click.PlayOneShotOnCamera();
             }
 
-            y += itemSearchBarH + SearchRowGap;
+            y += SearchRowHeight + SearchRowGap;
+
+            EnsureBatchCostBlockCache(outpost);
+            int batchCount = CountValidBatchSelection(outpost);
+            bool anyPending = outpost.HasPendingUpgrade;
+            string batchLabel = OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_BuildSelected", batchCount.ToString());
+            float batchBtnW = MeasureBatchConfirmButtonWidth(batchLabel) * 1.35f;
+            batchBtnW = Mathf.Clamp(batchBtnW, 260f, rightArea.width);
+            Rect batchRect = new Rect(
+                rightArea.x + (rightArea.width - batchBtnW) * 0.5f,
+                rightArea.yMax - BatchConfirmButtonHeight,
+                batchBtnW,
+                BatchConfirmButtonHeight);
+            bool canOpenBatch = !anyPending && batchCount > 0;
+            bool prevEnabled = GUI.enabled;
+            GUI.enabled = prevEnabled && canOpenBatch;
+            Color batchFill = canOpenBatch ? BatchConfirmReadyFill : BatchConfirmIdleFill;
+            if (WorldDomination_UIUtils.ButtonTextWithIcon(
+                    batchRect, null, batchLabel, centerContents: true, fill: batchFill, font: GameFont.Small))
+            {
+                TryOpenBatchConfirm(outpost);
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
+            GUI.enabled = prevEnabled;
+            if (anyPending)
+                TooltipHandler.TipRegion(batchRect, OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_InTransit"));
+            else if (batchCount <= 0)
+                TooltipHandler.TipRegion(batchRect, OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_BatchNeedSelection"));
+            else
+                TooltipHandler.TipRegion(batchRect, OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_BuildSelectedTip", batchCount.ToString()));
 
             List<CachedUpgradeRow> ordered = BuildOrderedVisibleRows(outpost);
             float scrollHeight = 8f;
-            foreach (var row in ordered)
+            int prevGroupForHeight = -1;
+            for (int oi = 0; oi < ordered.Count; oi++)
+            {
+                if (prevGroupForHeight >= 0 && ordered[oi].GroupIndex != prevGroupForHeight)
+                    scrollHeight += GroupSeparatorHeight;
                 scrollHeight += Outpost_Upgrade_UI.CompactRowHeight + Outpost_Upgrade_UI.CompactRowPadding;
+                prevGroupForHeight = ordered[oi].GroupIndex;
+            }
 
-            Rect scrollOuter = new Rect(rightArea.x, y, rightArea.width, rightArea.yMax - y);
+            float scrollBottom = batchRect.y - SearchRowGap;
+            Rect scrollOuter = new Rect(rightArea.x, y, rightArea.width, Mathf.Max(40f, scrollBottom - y));
             Rect viewRect = new Rect(0f, 0f, rightArea.width - 16f, Mathf.Max(scrollHeight, 1f));
             Widgets.BeginScrollView(scrollOuter, ref rightScrollPos, viewRect);
 
             float curY = 0f;
-            int visibleRow = 0;
+            int prevGroupIndex = -1;
+            float checkColW = BatchCheckboxSize + 8f;
 
             foreach (var row in ordered)
             {
+                // Rebuild after paint-drag selection mutations so later rows see updated aggregate blocks.
+                EnsureBatchCostBlockCache(outpost);
+
+                if (prevGroupIndex >= 0 && row.GroupIndex != prevGroupIndex)
+                {
+                    float sepY = curY + GroupSeparatorHeight * 0.5f;
+                    GUI.color = GroupSeparatorColor;
+                    Widgets.DrawLineHorizontal(IconPadding, sepY, viewRect.width - IconPadding * 2f);
+                    GUI.color = Color.white;
+                    curY += GroupSeparatorHeight;
+                }
+                prevGroupIndex = row.GroupIndex;
+
                 float rowH = Outpost_Upgrade_UI.CompactRowHeight + Outpost_Upgrade_UI.CompactRowPadding;
                 Rect rowRect = new Rect(0f, curY, viewRect.width, rowH);
-                if (visibleRow % 2 == 0) Widgets.DrawHighlight(rowRect);
 
                 Color? bg = Outpost_Upgrade_UI.GetRowBackground(
                     row.State.deployed, row.State.superseded, row.State.sequentialBlocked,
@@ -262,8 +351,11 @@ namespace TSA_WorldDomination
                 if (bg.HasValue)
                     Widgets.DrawBoxSolid(rowRect, bg.Value);
 
-                // Same light-red tint as production options that cannot be selected (materials / research / etc.).
-                Outpost_Dialog_UI.DrawUnmetRequirementsRowTint(rowRect, row.State.showBuy && !row.CanBuy);
+                // Same light-red tint as production options that cannot be selected (materials / research /
+                // missing previous chain tier / etc.).
+                Outpost_Dialog_UI.DrawUnmetRequirementsRowTint(
+                    rowRect,
+                    (row.State.showBuy && !row.CanBuy) || row.State.sequentialBlocked);
 
                 bool isSelected = row.Def != null && row.Def.defName == selectedUpgradeDefName;
                 if (isSelected)
@@ -286,7 +378,50 @@ namespace TSA_WorldDomination
                 if (row.Def != null && row.Def.lineTier > 1)
                     label += " (Lv " + row.Def.lineTier + ")";
 
-                float textW = viewRect.width - IconColW - 8f;
+                bool checkedNow = row.Def != null && batchSelectedDefNames.Contains(row.Def.defName);
+                bool sameLineBlocked = row.Def != null && !checkedNow && IsSameLineAlreadySelected(row.Def);
+                string batchCostBlockReason = null;
+                bool batchCostBlocked = row.Def != null
+                    && !checkedNow
+                    && batchCostBlockReasons.TryGetValue(row.Def.defName, out batchCostBlockReason);
+                bool canCheck = row.Def != null
+                    && row.State.showBuy
+                    && row.CanBuy
+                    && !anyPending
+                    && !row.IsPending
+                    && !sameLineBlocked
+                    && !batchCostBlocked;
+                Rect checkRect = new Rect(
+                    viewRect.width - checkColW,
+                    rowContentY + (Outpost_Upgrade_UI.CompactRowHeight - BatchCheckboxSize) * 0.5f,
+                    BatchCheckboxSize,
+                    BatchCheckboxSize);
+                if (!canCheck && checkedNow && row.Def != null)
+                {
+                    batchSelectedDefNames.Remove(row.Def.defName);
+                    InvalidateBatchCostBlockCache();
+                }
+                bool checkDraw = canCheck && checkedNow;
+                GUI.enabled = canCheck;
+                Widgets.Checkbox(checkRect.position, ref checkDraw, BatchCheckboxSize, disabled: !canCheck, paintable: true);
+                GUI.enabled = true;
+                if (canCheck && row.Def != null)
+                {
+                    if (checkDraw)
+                    {
+                        if (batchSelectedDefNames.Add(row.Def.defName))
+                            InvalidateBatchCostBlockCache();
+                    }
+                    else if (batchSelectedDefNames.Remove(row.Def.defName))
+                    {
+                        InvalidateBatchCostBlockCache();
+                    }
+                }
+                TooltipHandler.TipRegion(
+                    checkRect,
+                    GetBatchCheckboxTip(row, canCheck, checkDraw, anyPending, sameLineBlocked, batchCostBlocked, batchCostBlockReason));
+
+                float textW = viewRect.width - IconColW - checkColW - 4f;
                 Rect labelRect = new Rect(IconColW, rowContentY, textW, 22f);
                 Text.Anchor = TextAnchor.MiddleLeft;
                 Widgets.Label(labelRect, label);
@@ -304,35 +439,170 @@ namespace TSA_WorldDomination
                     Text.Font = GameFont.Small;
                 }
 
-                if (Mouse.IsOver(rowRect)) Widgets.DrawHighlight(rowRect);
+                if (Mouse.IsOver(rowRect) && !Mouse.IsOver(checkRect)) Widgets.DrawHighlight(rowRect);
                 if (isSelected)
                 {
                     GUI.color = Color.white;
                     Widgets.DrawBox(rowRect, 1);
                     GUI.color = Color.white;
                 }
-                if (Widgets.ButtonInvisible(rowRect) && row.Def != null)
+                Rect clickRect = new Rect(0f, curY, viewRect.width - checkColW, rowH);
+                if (Widgets.ButtonInvisible(clickRect) && row.Def != null)
                     selectedUpgradeDefName = row.Def.defName;
                 if (!string.IsNullOrEmpty(row.RowTooltip))
-                    TooltipHandler.TipRegion(rowRect, row.RowTooltip);
+                    TooltipHandler.TipRegion(clickRect, row.RowTooltip);
 
                 curY += rowH;
-                visibleRow++;
             }
 
             Widgets.EndScrollView();
         }
 
-        private void TryBuildUpgrade(WorldObject_WD_Outpost outpost, OutpostUpgradeDef def)
+        private int CountValidBatchSelection(WorldObject_WD_Outpost outpost)
         {
-            if (outpost == null || def == null) return;
-            const int purchaseLevel = 1;
-            if (!OutpostUpgradeUtility.TryPurchaseAndLaunch(outpost, def, purchaseLevel, out string failReason))
-                Messages.Message(failReason ?? OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_UnableBuy"), MessageTypeDefOf.RejectInput);
-            else
+            if (outpost == null || batchSelectedDefNames.Count == 0 || outpost.HasPendingUpgrade) return 0;
+            int n = 0;
+            foreach (string defName in batchSelectedDefNames)
             {
-                cachedRowsTick = -1;
+                CachedUpgradeRow? row = FindCachedRow(defName);
+                if (row.HasValue && row.Value.State.showBuy && row.Value.CanBuy && !row.Value.IsPending)
+                    n++;
             }
+            return n;
+        }
+
+        private void InvalidateBatchCostBlockCache()
+        {
+            batchCostCacheSelectionHash = int.MinValue;
+        }
+
+        private int ComputeBatchSelectionHash()
+        {
+            // Order-independent: HashSet iteration order is not stable across add/remove sequences.
+            unchecked
+            {
+                int h = batchSelectedDefNames.Count;
+                foreach (string name in batchSelectedDefNames)
+                    h ^= (name?.GetHashCode() ?? 0) * 397;
+                return h;
+            }
+        }
+
+        private void CollectBatchSelectionDefs(ICollection<string> defNames, List<OutpostUpgradeDef> into)
+        {
+            into.Clear();
+            if (defNames == null) return;
+            foreach (string defName in defNames)
+            {
+                CachedUpgradeRow? row = FindCachedRow(defName);
+                if (!row.HasValue || row.Value.Def == null) continue;
+                if (!row.Value.State.showBuy || !row.Value.CanBuy || row.Value.IsPending) continue;
+                into.Add(row.Value.Def);
+            }
+        }
+
+        private OutpostUpgradeUtility.BatchPurchaseCheck EvaluateBatchSelection(
+            WorldObject_WD_Outpost outpost, ICollection<string> defNames)
+        {
+            CollectBatchSelectionDefs(defNames, batchCostScratchDefs);
+            return OutpostUpgradeUtility.EvaluateBatchPurchase(outpost, batchCostScratchDefs);
+        }
+
+        /// <summary>
+        /// Preemptive aggregate affordability for multi-select: block unchecked rows that would tip
+        /// the current selection over stock/pods. Prunes the selection if live stock no longer covers it.
+        /// </summary>
+        private void EnsureBatchCostBlockCache(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null)
+            {
+                batchCostBlockReasons.Clear();
+                return;
+            }
+
+            int selHash = ComputeBatchSelectionHash();
+            if (batchCostCacheSelectionHash == selHash
+                && batchCostCacheRowsFingerprint == cachedRowsFingerprint
+                && batchCostCacheRowsTick == cachedRowsTick)
+                return;
+
+            batchCostBlockReasons.Clear();
+            batchCostCacheSelectionHash = selHash;
+            batchCostCacheRowsFingerprint = cachedRowsFingerprint;
+            batchCostCacheRowsTick = cachedRowsTick;
+
+            if (outpost.HasPendingUpgrade || batchSelectedDefNames.Count == 0)
+                return;
+
+            OutpostUpgradeUtility.BatchPurchaseCheck current = EvaluateBatchSelection(outpost, batchSelectedDefNames);
+            if (!current.canBuy)
+            {
+                batchSelectedDefNames.Clear();
+                batchCostCacheSelectionHash = ComputeBatchSelectionHash();
+                return;
+            }
+
+            for (int i = 0; i < cachedRows.Count; i++)
+            {
+                CachedUpgradeRow row = cachedRows[i];
+                if (row.Def == null) continue;
+                if (batchSelectedDefNames.Contains(row.Def.defName)) continue;
+                if (!row.State.showBuy || !row.CanBuy || row.IsPending) continue;
+                if (IsSameLineAlreadySelected(row.Def)) continue;
+
+                batchCostScratchNames.Clear();
+                foreach (string selectedName in batchSelectedDefNames)
+                    batchCostScratchNames.Add(selectedName);
+                batchCostScratchNames.Add(row.Def.defName);
+
+                OutpostUpgradeUtility.BatchPurchaseCheck tentative = EvaluateBatchSelection(outpost, batchCostScratchNames);
+                if (!tentative.canBuy)
+                {
+                    batchCostBlockReasons[row.Def.defName] = tentative.reason
+                        ?? OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_UnableBuy");
+                }
+            }
+        }
+
+        private void TryOpenBatchConfirm(WorldObject_WD_Outpost outpost)
+        {
+            if (outpost == null || outpost.HasPendingUpgrade) return;
+            EnsureBatchCostBlockCache(outpost);
+            CollectBatchSelectionDefs(batchSelectedDefNames, batchCostScratchDefs);
+            if (batchCostScratchDefs.Count == 0) return;
+
+            OutpostUpgradeUtility.BatchPurchaseCheck check =
+                OutpostUpgradeUtility.EvaluateBatchPurchase(outpost, batchCostScratchDefs);
+            if (!check.canBuy)
+            {
+                Messages.Message(check.reason ?? OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_UnableBuy"), MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            Find.WindowStack.Add(new Dialog_OutpostUpgradeBatchConfirm(outpost, check, () =>
+            {
+                batchSelectedDefNames.Clear();
+                InvalidateBatchCostBlockCache();
+                cachedRowsTick = -1;
+            }));
+        }
+
+        private static float MeasureSlateButtonWidth(string label)
+        {
+            Text.Font = GameFont.Small;
+            float labelW = Text.CalcSize(label ?? string.Empty).x;
+            return WorldDomination_UIUtils.SlateNavIconPad
+                + WorldDomination_UIUtils.SlateNavIconSize
+                + WorldDomination_UIUtils.SlateNavIconTextGap
+                + labelW
+                + WorldDomination_UIUtils.SlateNavIconPad;
+        }
+
+        private static float MeasureBatchConfirmButtonWidth(string label)
+        {
+            Text.Font = GameFont.Small;
+            float labelW = Text.CalcSize(label ?? string.Empty).x;
+            return WorldDomination_UIUtils.SlateNavIconPad * 2f + labelW;
         }
 
         private void EnsureCachedRows(WorldObject_WD_Outpost outpost, List<List<OutpostUpgradeDef>> groups)
@@ -358,8 +628,7 @@ namespace TSA_WorldDomination
                     OutpostUpgradeDef def = group[i];
                     if (def == null) continue;
                     RowState rs = ComputeRowState(outpost, def);
-                    bool isPending = !string.IsNullOrEmpty(outpost.PendingUpgradeDefName)
-                        && outpost.PendingUpgradeDefName == def.defName;
+                    bool isPending = outpost.IsUpgradePending(def.defName);
 
                     OutpostUpgradeUtility.PurchaseCheck check = default;
                     bool canBuy = false;
@@ -374,6 +643,7 @@ namespace TSA_WorldDomination
                     cachedRows.Add(new CachedUpgradeRow
                     {
                         Def = def,
+                        GroupIndex = gi,
                         State = rs,
                         CanBuy = canBuy,
                         IsPending = isPending,
@@ -401,6 +671,50 @@ namespace TSA_WorldDomination
             return null;
         }
 
+        private string GetBatchCheckboxTip(
+            CachedUpgradeRow row,
+            bool canCheck,
+            bool checkedNow,
+            bool anyPending,
+            bool sameLineBlocked,
+            bool batchCostBlocked,
+            string batchCostBlockReason)
+        {
+            if (canCheck)
+            {
+                return checkedNow
+                    ? OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_DeselectTip")
+                    : OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_SelectTip");
+            }
+            if (batchCostBlocked && !string.IsNullOrEmpty(batchCostBlockReason))
+                return batchCostBlockReason;
+            if (sameLineBlocked)
+                return OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_SelectDisabledSameLine");
+            if (anyPending || row.IsPending)
+                return OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_SelectDisabledPending");
+            if (!string.IsNullOrEmpty(row.RowTooltip))
+                return row.RowTooltip;
+            return OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_SelectDisabled");
+        }
+
+        /// <summary>True when another selected upgrade shares this def's <see cref="OutpostUpgradeDef.upgradeLineId"/>.</summary>
+        private bool IsSameLineAlreadySelected(OutpostUpgradeDef def)
+        {
+            if (def == null || batchSelectedDefNames.Count == 0) return false;
+            string lineId = string.IsNullOrEmpty(def.upgradeLineId) ? def.defName : def.upgradeLineId;
+            if (string.IsNullOrEmpty(lineId)) return false;
+            foreach (string selectedName in batchSelectedDefNames)
+            {
+                if (string.IsNullOrEmpty(selectedName) || selectedName == def.defName) continue;
+                OutpostUpgradeDef other = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(selectedName);
+                if (other == null) continue;
+                string otherLine = string.IsNullOrEmpty(other.upgradeLineId) ? other.defName : other.upgradeLineId;
+                if (string.Equals(lineId, otherLine, StringComparison.Ordinal))
+                    return true;
+            }
+            return false;
+        }
+
         private List<CachedUpgradeRow> BuildOrderedVisibleRows(WorldObject_WD_Outpost outpost)
         {
             var visible = new List<CachedUpgradeRow>();
@@ -418,6 +732,8 @@ namespace TSA_WorldDomination
             {
                 selectionOutpost = outpost;
                 selectedUpgradeDefName = null;
+                batchSelectedDefNames.Clear();
+                InvalidateBatchCostBlockCache();
             }
 
             if (!string.IsNullOrEmpty(selectedUpgradeDefName))
@@ -433,7 +749,7 @@ namespace TSA_WorldDomination
                 if (stillVisible) return;
             }
 
-            if (!string.IsNullOrEmpty(outpost.PendingUpgradeDefName))
+            if (outpost.HasPendingUpgrade && !string.IsNullOrEmpty(outpost.PendingUpgradeDefName))
             {
                 selectedUpgradeDefName = outpost.PendingUpgradeDefName;
                 return;
@@ -561,10 +877,10 @@ namespace TSA_WorldDomination
         private static string GetImpactFilterButtonLabel(UpgradeBenefitKind? kind)
         {
             string label = !kind.HasValue
-                ? OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_FilterAll")
+                ? OutpostTranslationUtil.Key("TSA_WD_OutpostUpgrades_FilterAllBonuses")
                 : Outpost_Upgrade_UI.GetImpactFilterLabel(kind.Value);
-            if (label != null && label.Length > 20)
-                return label.Substring(0, 17) + "...";
+            if (label != null && label.Length > 22)
+                return label.Substring(0, 19) + "...";
             return label;
         }
 
@@ -582,7 +898,17 @@ namespace TSA_WorldDomination
                         h = h * 31 + (kv.Key?.GetHashCode() ?? 0);
                         h = h * 31 + kv.Value;
                     }
-                h = h * 31 + (o.PendingUpgradeDefName?.GetHashCode() ?? 0);
+                h = h * 31 + o.PendingUpgradeCount;
+                IReadOnlyList<PendingOutpostUpgradeEntry> pending = o.PendingUpgrades;
+                if (pending != null)
+                {
+                    for (int i = 0; i < pending.Count; i++)
+                    {
+                        PendingOutpostUpgradeEntry e = pending[i];
+                        h = h * 31 + (e?.defName?.GetHashCode() ?? 0);
+                        h = h * 31 + (e?.level ?? 0);
+                    }
+                }
                 return h;
             }
         }
@@ -833,7 +1159,7 @@ namespace TSA_WorldDomination
                 result.reason = WdMedievalMode.MedievalBlockedReason;
                 return result;
             }
-            if (!string.IsNullOrEmpty(outpost.PendingUpgradeDefName)) { result.reason = "TSA_WD_OutpostUpgrades_InTransit".Translate(); return result; }
+            if (outpost.HasPendingUpgrade) { result.reason = "TSA_WD_OutpostUpgrades_InTransit".Translate(); return result; }
             if (!upgrade.AppliesToOutpost(outpost.def.defName)) { result.reason = "TSA_WD_OutpostUpgrades_Invalid".Translate(); return result; }
             if (outpost.GetUpgradeLevel(upgrade.defName) > 0)
             {
@@ -884,6 +1210,275 @@ namespace TSA_WorldDomination
 
             result.canBuy = !ignoreLineTierForPreview;
             return result;
+        }
+
+        public class BatchPurchaseCheck
+        {
+            public bool canBuy;
+            public string reason;
+            public List<OutpostUpgradeDef> accepted = new List<OutpostUpgradeDef>();
+            public List<string> droppedSameLineLabels = new List<string>();
+            public string sameLineDroppedNote;
+            public List<OutpostUpgradeCostEntry> aggregatedCost = new List<OutpostUpgradeCostEntry>();
+            public Dictionary<string, bool> costAvailableByDefName = new Dictionary<string, bool>();
+            public WorldObject origin;
+            public int launchCount;
+            public bool originUsesDropPod;
+        }
+
+        /// <summary>
+        /// Prepaid multi-select validation: same-line keeps highest tier only, then sequential sim from built hi,
+        /// one cumulative stock check, and pods for N launches.
+        /// </summary>
+        public static BatchPurchaseCheck EvaluateBatchPurchase(
+            WorldObject_WD_Outpost outpost,
+            IList<OutpostUpgradeDef> selectedDefs)
+        {
+            var result = new BatchPurchaseCheck();
+            if (outpost == null || selectedDefs == null || selectedDefs.Count == 0)
+            {
+                result.reason = "TSA_WD_OutpostUpgrades_Invalid".Translate();
+                return result;
+            }
+            if (outpost.HasPendingUpgrade)
+            {
+                result.reason = "TSA_WD_OutpostUpgrades_InTransit".Translate();
+                return result;
+            }
+
+            // Same upgradeLineId: keep highest lineTier only.
+            var byLine = new Dictionary<string, OutpostUpgradeDef>();
+            var noLine = new List<OutpostUpgradeDef>();
+            for (int i = 0; i < selectedDefs.Count; i++)
+            {
+                OutpostUpgradeDef def = selectedDefs[i];
+                if (def == null) continue;
+                if (string.IsNullOrEmpty(def.upgradeLineId))
+                {
+                    if (!noLine.Exists(d => d != null && d.defName == def.defName))
+                        noLine.Add(def);
+                    continue;
+                }
+                if (!byLine.TryGetValue(def.upgradeLineId, out OutpostUpgradeDef existing) || def.lineTier > existing.lineTier)
+                {
+                    if (existing != null && existing.defName != def.defName)
+                        result.droppedSameLineLabels.Add(existing.LabelCap);
+                    byLine[def.upgradeLineId] = def;
+                }
+                else if (existing != null && existing.defName != def.defName)
+                {
+                    result.droppedSameLineLabels.Add(def.LabelCap);
+                }
+            }
+
+            var candidates = new List<OutpostUpgradeDef>(byLine.Count + noLine.Count);
+            foreach (var kv in byLine)
+                candidates.Add(kv.Value);
+            candidates.AddRange(noLine);
+            candidates.Sort((a, b) =>
+            {
+                int c = string.CompareOrdinal(a.upgradeLineId ?? "", b.upgradeLineId ?? "");
+                if (c != 0) return c;
+                return a.lineTier.CompareTo(b.lineTier);
+            });
+
+            if (result.droppedSameLineLabels.Count > 0)
+            {
+                result.sameLineDroppedNote = "TSA_WD_OutpostUpgrades_BatchSameLineDropped".Translate(
+                    string.Join(", ", result.droppedSameLineLabels)).ToString();
+            }
+
+            var simHi = new Dictionary<string, int>();
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                OutpostUpgradeDef upgrade = candidates[i];
+                if (!WdMedievalMode.IsUpgradeAllowed(upgrade))
+                {
+                    result.reason = WdMedievalMode.MedievalBlockedReason;
+                    return result;
+                }
+                if (!upgrade.AppliesToOutpost(outpost.def.defName))
+                {
+                    result.reason = "TSA_WD_OutpostUpgrades_Invalid".Translate();
+                    return result;
+                }
+                if (outpost.GetUpgradeLevel(upgrade.defName) > 0)
+                {
+                    result.reason = "TSA_WD_OutpostUpgrades_AlreadyOwned".Translate();
+                    return result;
+                }
+
+                int hi = 0;
+                if (!string.IsNullOrEmpty(upgrade.upgradeLineId))
+                {
+                    if (!simHi.TryGetValue(upgrade.upgradeLineId, out hi))
+                    {
+                        hi = GetHighestBuiltLineTier(outpost, upgrade.upgradeLineId);
+                        simHi[upgrade.upgradeLineId] = hi;
+                    }
+                    if (!TierEligibleForPurchase(upgrade, hi))
+                    {
+                        result.reason = upgrade.requiresPreviousLineTier
+                            ? "TSA_WD_OutpostUpgrades_NotNextTier".Translate()
+                            : "TSA_WD_OutpostUpgrades_AlreadyHaveLineTier".Translate();
+                        return result;
+                    }
+                }
+
+                foreach (var req in GetResearchRequirements(upgrade))
+                {
+                    var rp = DefDatabase<ResearchProjectDef>.GetNamedSilentFail(req);
+                    if (rp != null && (Find.ResearchManager == null || Find.ResearchManager.GetProgress(rp) < rp.baseCost))
+                    {
+                        result.reason = "TSA_WD_OutpostUpgrades_MissingResearch".Translate(rp.LabelCap);
+                        return result;
+                    }
+                }
+
+                result.accepted.Add(upgrade);
+                if (!string.IsNullOrEmpty(upgrade.upgradeLineId))
+                    simHi[upgrade.upgradeLineId] = upgrade.lineTier;
+                MergeCostsInto(result.aggregatedCost, upgrade.GetEffectiveCost());
+            }
+
+            if (result.accepted.Count == 0)
+            {
+                result.reason = "TSA_WD_OutpostUpgrades_Invalid".Translate();
+                return result;
+            }
+
+            Map colonyMap = GetColonyMap();
+            var warehouses = GetContributingWarehouses(outpost.Tile);
+            if (colonyMap == null && warehouses.Count == 0)
+            {
+                result.reason = "TSA_WD_OutpostUpgrades_NoColonyMap".Translate();
+                return result;
+            }
+            if (!HasCost(colonyMap, warehouses, result.aggregatedCost, out result.reason, result.costAvailableByDefName))
+                return result;
+
+            result.origin = ResolveUpgradeOrigin(outpost, colonyMap, warehouses);
+            // One traveler carries the whole batch: one strength pool, one drop-pod launch.
+            result.launchCount = 1;
+            result.originUsesDropPod = result.origin != null
+                && OutpostDispatchMode.GetViaDropPod(result.origin)
+                && RapidResponseUtility.TransportPodsResearched();
+            if (!ColonyWorldBuildMaterials.WouldHavePodComponentsAfterCost(
+                    result.origin,
+                    ColonyWorldBuildMaterials.CountIndustrialComponentsInUpgradeCost(result.aggregatedCost),
+                    "TSA_WD_OutpostUpgrades_DropPodShortAfterBuy",
+                    out result.reason,
+                    result.originUsesDropPod ? result.launchCount : 0))
+                return result;
+
+            result.canBuy = true;
+            return result;
+        }
+
+        private static void MergeCostsInto(List<OutpostUpgradeCostEntry> dest, List<OutpostUpgradeCostEntry> src)
+        {
+            if (dest == null || src == null) return;
+            for (int i = 0; i < src.Count; i++)
+            {
+                OutpostUpgradeCostEntry c = src[i];
+                if (c == null || c.count <= 0) continue;
+                bool isStone = ColonyWorldBuildMaterials.IsAnyStoneBlocksCost(c);
+                if (!isStone && c.thingDef == null) continue;
+
+                OutpostUpgradeCostEntry match = null;
+                for (int j = 0; j < dest.Count; j++)
+                {
+                    OutpostUpgradeCostEntry d = dest[j];
+                    if (d == null) continue;
+                    bool dStone = ColonyWorldBuildMaterials.IsAnyStoneBlocksCost(d);
+                    if (isStone && dStone) { match = d; break; }
+                    if (!isStone && !dStone && d.thingDef == c.thingDef) { match = d; break; }
+                }
+                if (match != null)
+                    match.count += c.count;
+                else
+                {
+                    dest.Add(new OutpostUpgradeCostEntry
+                    {
+                        thingDef = c.thingDef,
+                        count = c.count,
+                        costMode = c.costMode
+                    });
+                }
+            }
+        }
+
+        public static bool TryPurchaseBatchAndLaunch(
+            WorldObject_WD_Outpost outpost,
+            BatchPurchaseCheck batch,
+            out string reason)
+        {
+            reason = null;
+            if (outpost == null || batch == null || !batch.canBuy || batch.accepted == null || batch.accepted.Count == 0)
+            {
+                reason = batch?.reason ?? "TSA_WD_OutpostUpgrades_Invalid".Translate();
+                return false;
+            }
+            // Re-validate against live state (window can stay open).
+            var live = EvaluateBatchPurchase(outpost, batch.accepted);
+            if (!live.canBuy)
+            {
+                reason = live.reason;
+                return false;
+            }
+
+            Map colonyMap = GetColonyMap();
+            var warehouses = GetContributingWarehouses(outpost.Tile);
+            if (!DeductCost(colonyMap, warehouses, live.aggregatedCost, out reason, out _))
+                return false;
+
+            WorldObject origin = live.origin;
+            var queued = new List<OutpostUpgradeDef>();
+            const int level = 1;
+            for (int i = 0; i < live.accepted.Count; i++)
+            {
+                OutpostUpgradeDef upgrade = live.accepted[i];
+                if (upgrade == null) continue;
+                if (!outpost.TryQueuePendingUpgrade(upgrade.defName, level))
+                {
+                    ClearQueuedPendingAndRefund(outpost, queued, live.aggregatedCost);
+                    reason = "TSA_WD_OutpostUpgrades_QueueFailed".Translate();
+                    return false;
+                }
+                queued.Add(upgrade);
+            }
+
+            if (queued.Count == 0)
+            {
+                ColonyWorldBuildMaterials.TryRefundMaterialCosts(live.aggregatedCost);
+                reason = "TSA_WD_OutpostUpgrades_Invalid".Translate();
+                return false;
+            }
+
+            if (origin == null || !WorldActions_Traveler.SpawnOutpostUpgradeTraveler(outpost, origin, queued, level))
+            {
+                ClearQueuedPendingAndRefund(outpost, queued, live.aggregatedCost);
+                reason = "TSA_WD_OutpostUpgrades_LaunchFailed".Translate();
+                return false;
+            }
+            return true;
+        }
+
+        private static void ClearQueuedPendingAndRefund(
+            WorldObject_WD_Outpost outpost,
+            List<OutpostUpgradeDef> queued,
+            List<OutpostUpgradeCostEntry> fullCost)
+        {
+            if (queued != null)
+            {
+                for (int i = 0; i < queued.Count; i++)
+                {
+                    OutpostUpgradeDef def = queued[i];
+                    if (def == null) continue;
+                    outpost.ClearPendingUpgradeIfMatches(def.defName, 1);
+                }
+            }
+            ColonyWorldBuildMaterials.TryRefundMaterialCosts(fullCost);
         }
 
         public static bool CanPurchaseUpgrade(WorldObject_WD_Outpost outpost, OutpostUpgradeDef upgrade, int level, out string reason)

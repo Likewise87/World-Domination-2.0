@@ -987,14 +987,39 @@ namespace TSA_WorldDomination
         {
             if (!(traveler.targetObject is WorldObject_WD_Outpost outpost)) return;
             traveler.upgradeResolved = true;
-            bool applied = outpost.ApplyPendingUpgrade();
+            IReadOnlyList<PendingOutpostUpgradeEntry> cargo = traveler.UpgradeCargo;
+            int applied = 0;
+            for (int i = 0; i < cargo.Count; i++)
+            {
+                PendingOutpostUpgradeEntry e = cargo[i];
+                if (e == null || string.IsNullOrEmpty(e.defName)) continue;
+                if (outpost.ApplyPendingUpgradeMatching(e.defName, e.level))
+                    applied++;
+            }
             var manager = Find.World.GetComponent<WorldComponent_SpreadManager>();
-            var upDef = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(traveler.upgradeDefName);
-            string upgradeLabel = upDef?.LabelCap ?? traveler.upgradeDefName;
-            if (applied)
-                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_OutpostUpgradeApplied".Translate(outpost.LabelCap, upgradeLabel, traveler.upgradeLevel.ToString()), traveler.originObject, outpost));
+            string upgradeLabel = traveler.FormatCargoLabels();
+            if (applied > 0)
+            {
+                if (cargo.Count <= 1)
+                {
+                    int level = cargo.Count > 0 && cargo[0] != null ? cargo[0].level : traveler.upgradeLevel;
+                    manager?.AddLog(new SpreadLogEntry(
+                        "TSA_WD_Log_OutpostUpgradeApplied".Translate(outpost.LabelCap, upgradeLabel, level.ToString()),
+                        traveler.originObject, outpost));
+                }
+                else
+                {
+                    manager?.AddLog(new SpreadLogEntry(
+                        "TSA_WD_Log_OutpostUpgradeBatchApplied".Translate(outpost.LabelCap, applied.ToString(), upgradeLabel),
+                        traveler.originObject, outpost));
+                }
+            }
             else
-                manager?.AddLog(new SpreadLogEntry("TSA_WD_Log_OutpostUpgradeApplyFailed".Translate(outpost.LabelCap), traveler.originObject, outpost));
+            {
+                manager?.AddLog(new SpreadLogEntry(
+                    "TSA_WD_Log_OutpostUpgradeApplyFailed".Translate(outpost.LabelCap),
+                    traveler.originObject, outpost));
+            }
         }
 
         private static void ExecuteOutpostTypeChangeArrival(WorldObject_Traveler_Outpost_TypeChange traveler)
@@ -1704,10 +1729,24 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        /// <param name="origin">Visual dispatch origin (the colony map parent or a contributing warehouse outpost). The traveler is symbolic and carries no cargo.</param>
+        /// <param name="origin">Visual dispatch origin (the colony map parent or a contributing warehouse outpost). Symbolic traveler; prepaid upgrades are listed as cargo.</param>
         public static bool SpawnOutpostUpgradeTraveler(WorldObject_WD_Outpost outpost, WorldObject origin, string upgradeDefName, int level)
         {
-            if (outpost == null || origin == null || string.IsNullOrEmpty(upgradeDefName) || level <= 0) return false;
+            if (string.IsNullOrEmpty(upgradeDefName) || level <= 0) return false;
+            var one = new List<PendingOutpostUpgradeEntry>
+            {
+                new PendingOutpostUpgradeEntry { defName = upgradeDefName, level = level }
+            };
+            return SpawnOutpostUpgradeTraveler(outpost, origin, one);
+        }
+
+        /// <summary>One traveler, one strength pool, one drop-pod component. Cargo may list many prepaid upgrades.</summary>
+        public static bool SpawnOutpostUpgradeTraveler(
+            WorldObject_WD_Outpost outpost,
+            WorldObject origin,
+            IList<PendingOutpostUpgradeEntry> cargo)
+        {
+            if (outpost == null || origin == null || cargo == null || cargo.Count == 0) return false;
             if (ReferenceEquals(outpost, origin) || outpost.Tile == origin.Tile) return false;
             var def = DefDatabase<WorldObjectDef>.GetNamedSilentFail("TSA_WD_Traveler_Outpost_Upgrade");
             if (def == null) return false;
@@ -1737,17 +1776,49 @@ namespace TSA_WorldDomination
             traveler.ticksPerMove = viaDropPod ? GetDropPodTicksPerMove() : GetWalkingTicksPerMove();
             traveler.travelerStrength = 100f;
             traveler.initialStrength = 100f;
-            traveler.upgradeDefName = upgradeDefName;
-            traveler.upgradeLevel = level;
+            traveler.SetUpgradeCargo(cargo);
+            if (traveler.UpgradeCargoCount == 0) return false;
             Find.WorldObjects.Add(traveler);
             traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(outpost.Tile, origin));
             if (traveler.Destroyed)
                 return false;
             if (viaDropPod)
                 AntiAirFireUtils.WakeAllForDropPod(traveler);
-            string upgradeLabel = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(upgradeDefName)?.LabelCap ?? upgradeDefName;
-            Find.World.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry("TSA_WD_Log_OutpostUpgradeLaunched".Translate(origin.LabelCap, outpost.LabelCap, upgradeLabel, level.ToString()), origin, outpost));
+
+            string upgradeLabel = traveler.FormatCargoLabels();
+            if (traveler.UpgradeCargoCount <= 1)
+            {
+                int level = traveler.upgradeLevel > 0 ? traveler.upgradeLevel : 1;
+                Find.World.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
+                    "TSA_WD_Log_OutpostUpgradeLaunched".Translate(origin.LabelCap, outpost.LabelCap, upgradeLabel, level.ToString()),
+                    origin, outpost));
+            }
+            else
+            {
+                Find.World.GetComponent<WorldComponent_SpreadManager>()?.AddLog(new SpreadLogEntry(
+                    "TSA_WD_Log_OutpostUpgradeBatchLaunched".Translate(
+                        origin.LabelCap, outpost.LabelCap, traveler.UpgradeCargoCount.ToString(), upgradeLabel),
+                    origin, outpost));
+            }
             return true;
+        }
+
+        public static bool SpawnOutpostUpgradeTraveler(
+            WorldObject_WD_Outpost outpost,
+            WorldObject origin,
+            IList<OutpostUpgradeDef> upgrades,
+            int level = 1)
+        {
+            if (upgrades == null || upgrades.Count == 0) return false;
+            var cargo = new List<PendingOutpostUpgradeEntry>(upgrades.Count);
+            int lvl = level > 0 ? level : 1;
+            for (int i = 0; i < upgrades.Count; i++)
+            {
+                OutpostUpgradeDef u = upgrades[i];
+                if (u == null || string.IsNullOrEmpty(u.defName)) continue;
+                cargo.Add(new PendingOutpostUpgradeEntry { defName = u.defName, level = lvl });
+            }
+            return SpawnOutpostUpgradeTraveler(outpost, origin, cargo);
         }
 
         private static bool OriginWantsTradeDropPod(WorldObject origin) =>

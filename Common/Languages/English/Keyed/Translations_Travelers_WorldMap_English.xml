@@ -203,7 +203,9 @@
   <TSA_WD_Log_TraderTrade_NoStrengthLine>{0}: no settlement strength applied (not a WD settlement / excluded).</TSA_WD_Log_TraderTrade_NoStrengthLine>
   <TSA_WD_Log_TraderArrived>TRADER: Caravan arrived from {0} at {1}.</TSA_WD_Log_TraderArrived>
   <TSA_WD_Log_OutpostUpgradeLaunched>OUTPOST UPGRADE: Caravan launched from {0} to {1} for {2} (level {3}).</TSA_WD_Log_OutpostUpgradeLaunched>
+  <TSA_WD_Log_OutpostUpgradeBatchLaunched>OUTPOST UPGRADE: Caravan launched from {0} to {1} carrying {2} upgrades ({3}).</TSA_WD_Log_OutpostUpgradeBatchLaunched>
   <TSA_WD_Log_OutpostUpgradeApplied>OUTPOST UPGRADE: {0} completed upgrade {1} (level {2}).</TSA_WD_Log_OutpostUpgradeApplied>
+  <TSA_WD_Log_OutpostUpgradeBatchApplied>OUTPOST UPGRADE: {0} completed {1} upgrades ({2}).</TSA_WD_Log_OutpostUpgradeBatchApplied>
   <TSA_WD_Log_OutpostUpgradeApplyFailed>OUTPOST UPGRADE: {0} failed to apply pending upgrade on arrival.</TSA_WD_Log_OutpostUpgradeApplyFailed>
   <TSA_WD_Log_Upgrade>UPGRADE: {0} -&gt; {1} ({2} other same-tier faction settlements in range; requires {3}, excluding this settlement)</TSA_WD_Log_Upgrade>
   <TSA_WD_Log_TileActor>Tile {0}</TSA_WD_Log_TileActor>
@@ -370,6 +372,7 @@
   <TSA_WD_TravelerInventory_TabLabel>Inventory</TSA_WD_TravelerInventory_TabLabel>
   <TSA_WD_TravelerInventory_Empty>No cargo on this traveler.</TSA_WD_TravelerInventory_Empty>
   <TSA_WD_TravelerInventory_UpgradeLine>Upgrade: {0} (level {1})</TSA_WD_TravelerInventory_UpgradeLine>
+  <TSA_WD_TravelerInventory_UpgradeBatchHeader>Upgrades in this shipment ({0}):</TSA_WD_TravelerInventory_UpgradeBatchHeader>
   <TSA_WD_TravelerInventory_TypeChangeLine>Converting to: {0}</TSA_WD_TravelerInventory_TypeChangeLine>
   <TSA_WD_TravelerInventory_HdrValue>Value</TSA_WD_TravelerInventory_HdrValue>
 </LanguageData>

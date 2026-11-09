@@ -429,9 +429,9 @@
   <!-- EN: Animal abundance ranks this biome's animal density among all loaded biomes, then adds flat modifiers from world tile features (mutators) this mod acknowledges. -->
   <TSA_WD_ProductivityTooltip_HuntingIntro>動物豐富度依此生態系統的動物密度在所有已載入生態系統中的排名計算，再加上本模組認可的世界地塊特徵（變異）的固定修正。</TSA_WD_ProductivityTooltip_HuntingIntro>
   <!-- EN: Fish stocks rank this biome's max fish population among biomes that have fish, then adds flat modifiers from world tile features (mutators) this mod acknowledges. Only ocean-coast land tiles qualify. -->
-  <TSA_WD_ProductivityTooltip_FishingIntro>魚類資源依此生態系統的最大魚類數量在有魚的生態系統中的排名計算，再加上本模組認可的世界地塊特徵（變異）的固定修正。僅限海岸陸地地塊。</TSA_WD_ProductivityTooltip_FishingIntro>
+  <TSA_WD_ProductivityTooltip_FishingIntro>魚類資源依此生態系統的最大魚類數量在有魚的生態系統中的排名計算，再加上本模組認可的世界地塊特徵（變異）的固定修正。陸地地塊可用（沿岸或內陸）；開闊水域不可。</TSA_WD_ProductivityTooltip_FishingIntro>
   <!-- EN: This tile is not an ocean coast. Fishing outposts need a coastal land tile (not lakes or open water). -->
-  <TSA_WD_ProductivityTooltip_NotCoastal>此地塊不是海岸。漁業哨站需要臨海的陸地地塊（湖泊或開放水域不算）。</TSA_WD_ProductivityTooltip_NotCoastal>
+  <TSA_WD_ProductivityTooltip_NotCoastal>此地塊是開闊水域。漁業哨站需要陸地地塊（沿岸或內陸）。</TSA_WD_ProductivityTooltip_NotCoastal>
   <!-- EN: Mining efficiency starts from hilliness on this tile (Flat=10%, Small hills=50%, Large hills=80%, Mountainous=100%, Impassable=0%), then adds flat percentage points from world tile features (mutators) this mod acknowledges. -->
   <TSA_WD_ProductivityTooltip_MiningIntro>採礦效率以此地塊的地勢起伏為起點（平地=10%，丘陵=50%，山丘=80%，山地=100%，無法通行=0%），再加上本模組認可的世界地塊特徵（變異）的固定百分點。</TSA_WD_ProductivityTooltip_MiningIntro>
   <!-- EN: Base: {0}% -->
@@ -485,9 +485,11 @@
   <!-- EN: Fish here -->
   <TSA_WD_TileProductivity_FishHeader>此處的魚類</TSA_WD_TileProductivity_FishHeader>
   <!-- EN: No saltwater fish species available. -->
-  <TSA_WD_TileProductivity_FishNone>沒有可用的海水魚種。</TSA_WD_TileProductivity_FishNone>
+  <TSA_WD_TileProductivity_FishNone>此地塊沒有可用的魚種。</TSA_WD_TileProductivity_FishNone>
+  <!-- EN: No coast, lake, or river on this tile. -->
+  <TSA_WD_TileProductivity_FishNeedLakeOrRiver>此地塊沒有海岸、湖泊或河流。</TSA_WD_TileProductivity_FishNeedLakeOrRiver>
   <!-- EN: Not an ocean coast (fishing needs a coastal land tile). -->
-  <TSA_WD_TileProductivity_FishNotCoastal>不是海岸（捕魚需要臨海的陸地地塊）。</TSA_WD_TileProductivity_FishNotCoastal>
+  <TSA_WD_TileProductivity_FishNotCoastal>開闊水域（捕魚需要陸地地塊）。</TSA_WD_TileProductivity_FishNotCoastal>
   <!-- EN: common -->
   <TSA_WD_TileProductivity_FishCommon>常見</TSA_WD_TileProductivity_FishCommon>
   <!-- EN: uncommon -->
@@ -997,9 +999,11 @@
   <!-- EN: This tile has no suitable wildlife. -->
   <TSA_WD_Establish_NeedAnimals>此地塊沒有合適的野生動物。</TSA_WD_Establish_NeedAnimals>
   <!-- EN: Fishing outposts need an ocean-coast land tile (not lakes or open water). -->
-  <TSA_WD_Establish_NeedCoast>漁業哨站需要臨海的陸地地塊（湖泊或開放水域不算）。</TSA_WD_Establish_NeedCoast>
-  <!-- EN: This coastal biome has no saltwater fish species available. -->
-  <TSA_WD_Establish_NeedFishSpecies>此沿海生態系統沒有可用的海水魚種。</TSA_WD_Establish_NeedFishSpecies>
+  <TSA_WD_Establish_NeedCoast>漁業哨站需要陸地地塊（開闊水域不算）。</TSA_WD_Establish_NeedCoast>
+  <!-- EN: Fishing outposts need a coast, lake, or river on the tile. -->
+  <TSA_WD_Establish_NeedLakeOrRiver>漁業哨站需要此地塊有海岸、湖泊或河流。</TSA_WD_Establish_NeedLakeOrRiver>
+  <!-- EN: This biome has no fish species available for this tile (saltwater on coasts, freshwater on lakes and rivers). -->
+  <TSA_WD_Establish_NeedFishSpecies>此生態系統在此地塊沒有可用魚種（沿岸海水、湖泊與河流淡水）。</TSA_WD_Establish_NeedFishSpecies>
   <!-- EN: Caravan needs {0} {1} (have {2}). -->
   <TSA_WD_Establish_NeedCost>旅隊需要{0}個{1}（目前{2}）。</TSA_WD_Establish_NeedCost>
   <!-- EN: This tile is not suitable for farming (water or no plant growth). -->
@@ -2398,9 +2402,11 @@
   <!-- EN: Tile meets minimum fish stocks for fishing. -->
   <TSA_WD_Req_Tooltip_FishingMet>地塊符合捕魚所需的最低魚類資源。</TSA_WD_Req_Tooltip_FishingMet>
   <!-- EN: Fishing needs an ocean-coast land tile (not lakes or open water). -->
-  <TSA_WD_Req_Tooltip_FishingNotCoastal>捕魚需要海岸陸地地塊（不含湖泊或開闊水域）。</TSA_WD_Req_Tooltip_FishingNotCoastal>
-  <!-- EN: This coastal biome has no saltwater fish species available. -->
-  <TSA_WD_Req_Tooltip_FishingNone>此海岸生態系統沒有可用的海水魚種。</TSA_WD_Req_Tooltip_FishingNone>
+  <TSA_WD_Req_Tooltip_FishingNotCoastal>捕魚需要陸地地塊（不含開闊水域）。</TSA_WD_Req_Tooltip_FishingNotCoastal>
+  <!-- EN: Fishing needs a coast, lake, or river on the tile. -->
+  <TSA_WD_Req_Tooltip_FishingNeedLakeOrRiver>捕魚需要此地塊有海岸、湖泊或河流。</TSA_WD_Req_Tooltip_FishingNeedLakeOrRiver>
+  <!-- EN: This biome has no fish species available for this tile (saltwater on coasts, freshwater on lakes and rivers). -->
+  <TSA_WD_Req_Tooltip_FishingNone>此生態系統在此地塊沒有可用魚種（沿岸海水、湖泊與河流淡水）。</TSA_WD_Req_Tooltip_FishingNone>
   <!-- EN: At least {0} settlements or outposts (non-hostile) within {1} tiles. -->
   <TSA_WD_Req_Tooltip_MinNearbyMet>{1}格內至少有{0}個據點或哨站（非敵對）。</TSA_WD_Req_Tooltip_MinNearbyMet>
   <!-- EN: At least {0} nearby NPC settlements within {1} tiles (hostile neighbors count as defector sources). -->
@@ -2580,7 +2586,7 @@
   <!-- EN: Produces meat, leather and wool. Scales with Animal abundance on the world tile and Animals skill. Efficiency can be boosted via Upgrades -->
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Hunting>生產肉類、皮革與羊毛。依世界地塊的動物豐富度與馴獸技能調整。效率可透過升級提升</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Hunting>
   <!-- EN: Produces one selected fish species. Scales with fish stocks on ocean-coast tiles and Animals skill. Efficiency can be boosted via Upgrades. Requires Odyssey -->
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>生產一種選定的魚類。依海岸地塊的魚類資源與馴獸技能調整。效率可透過升級提升。需要Odyssey</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>生產一種選定的魚類。依陸地地塊（沿岸或內陸）的魚類資源與馴獸技能調整。效率可透過升級提升。需要Odyssey</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>
   <!-- EN: Recruits new colonists each cycle. Scales with Social skill and up to the top 3 nearby partners per faction (hostile neighbors count as defectors). Needs nearby NPC settlements in range -->
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>每個週期招募新殖民者。依社交技能及每個派系最多前3個附近夥伴調整（敵對鄰居算作叛逃者）。範圍內需有附近的NPC據點</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>
   <!-- EN: Produces silver each cycle. Scales with Social skill and up to the top 3 nearby partners per faction (hostile neighbors count for black-market trade). Needs nearby NPC settlements in range -->
@@ -2647,6 +2653,7 @@
   <TSA_WD_PowerPlant_Inspect>為你的殖民地提供{0}遠端電力。</TSA_WD_PowerPlant_Inspect>
   <!-- EN: Remote power available: {0} (no colony map). -->
   <TSA_WD_PowerPlant_InspectNoColony>可用遠端電力：{0}（沒有殖民地地圖）。</TSA_WD_PowerPlant_InspectNoColony>
+  <TSA_WD_PowerPlant_InspectGenerated>已發電 {0}</TSA_WD_PowerPlant_InspectGenerated>
   <!-- EN: {0} remote power -->
   <TSA_WD_PowerPlant_OverviewProduct>{0}遠端電力</TSA_WD_PowerPlant_OverviewProduct>
   <!-- EN: Always on -->
@@ -3285,14 +3292,16 @@
   <TSA_WD_OutpostUpgrades_TabHeadline>哨站升級（{0}，{1}）</TSA_WD_OutpostUpgrades_TabHeadline>
   <!-- EN: Filter upgrades by name... -->
   <TSA_WD_OutpostUpgrades_SearchPlaceholder>依名稱篩選升級…</TSA_WD_OutpostUpgrades_SearchPlaceholder>
-  <!-- EN: All -->
-  <TSA_WD_OutpostUpgrades_FilterAll>全部</TSA_WD_OutpostUpgrades_FilterAll>
-  <!-- EN: Built -->
-  <TSA_WD_OutpostUpgrades_FilterBuilt>已建造</TSA_WD_OutpostUpgrades_FilterBuilt>
-  <!-- EN: Not built -->
-  <TSA_WD_OutpostUpgrades_FilterNotBuilt>未建造</TSA_WD_OutpostUpgrades_FilterNotBuilt>
-  <!-- EN: Buildable -->
-  <TSA_WD_OutpostUpgrades_FilterBuildable>可建造</TSA_WD_OutpostUpgrades_FilterBuildable>
+  <!-- EN: All upgrades -->
+  <TSA_WD_OutpostUpgrades_FilterAll>全部升級</TSA_WD_OutpostUpgrades_FilterAll>
+  <!-- EN: All built upgrades -->
+  <TSA_WD_OutpostUpgrades_FilterBuilt>全部已建造升級</TSA_WD_OutpostUpgrades_FilterBuilt>
+  <!-- EN: All not built upgrades -->
+  <TSA_WD_OutpostUpgrades_FilterNotBuilt>全部未建造升級</TSA_WD_OutpostUpgrades_FilterNotBuilt>
+  <!-- EN: All buildable upgrades -->
+  <TSA_WD_OutpostUpgrades_FilterBuildable>全部可建造升級</TSA_WD_OutpostUpgrades_FilterBuildable>
+  <!-- EN: All bonuses -->
+  <TSA_WD_OutpostUpgrades_FilterAllBonuses>全部加成</TSA_WD_OutpostUpgrades_FilterAllBonuses>
   <!-- EN: Defensive Strength -->
   <TSA_WD_OutpostUpgradeImpact_Defensive>防禦戰力</TSA_WD_OutpostUpgradeImpact_Defensive>
   <!-- EN: Offensive Strength Recovery -->
@@ -3367,8 +3376,8 @@
   <TSA_WD_OutpostUpgrades_NoCost>無成本</TSA_WD_OutpostUpgrades_NoCost>
   <!-- EN: Invalid upgrade. -->
   <TSA_WD_OutpostUpgrades_Invalid>無效的升級。</TSA_WD_OutpostUpgrades_Invalid>
-  <!-- EN: An upgrade caravan is already in transit to this outpost. -->
-  <TSA_WD_OutpostUpgrades_InTransit>已有一支升級旅隊正前往此哨站。</TSA_WD_OutpostUpgrades_InTransit>
+  <!-- EN: Upgrades are already in transit to this outpost. -->
+  <TSA_WD_OutpostUpgrades_InTransit>已有升級正運往此哨站。</TSA_WD_OutpostUpgrades_InTransit>
   <!-- EN: No further level available. -->
   <TSA_WD_OutpostUpgrades_NoFurtherLevel>沒有更高的等級。</TSA_WD_OutpostUpgrades_NoFurtherLevel>
   <!-- EN: Missing research: {0} -->
@@ -3377,8 +3386,48 @@
   <TSA_WD_OutpostUpgrades_NoColonyMap>找不到可支付費用的玩家殖民地地圖。</TSA_WD_OutpostUpgrades_NoColonyMap>
   <!-- EN: Could not queue the upgrade. -->
   <TSA_WD_OutpostUpgrades_QueueFailed>無法排入升級。</TSA_WD_OutpostUpgrades_QueueFailed>
-  <!-- EN: Could not launch the upgrade caravan. -->
+  <!-- EN: Could not launch the upgrade traveler. -->
   <TSA_WD_OutpostUpgrades_LaunchFailed>無法派出升級旅隊。</TSA_WD_OutpostUpgrades_LaunchFailed>
+  <!-- EN: Build selected ({0}) -->
+  <TSA_WD_OutpostUpgrades_BuildSelected>建造所選（{0}）</TSA_WD_OutpostUpgrades_BuildSelected>
+  <!-- EN: {0} upgrades in transit -->
+  <TSA_WD_OutpostUpgrades_PendingCount>{0} 項升級運送中</TSA_WD_OutpostUpgrades_PendingCount>
+  <!-- EN: {0}: Build selected upgrades -->
+  <TSA_WD_OutpostUpgrades_BatchTitle>{0}：建造所選升級</TSA_WD_OutpostUpgrades_BatchTitle>
+  <!-- EN: Confirm -->
+  <TSA_WD_OutpostUpgrades_BatchConfirm>確認</TSA_WD_OutpostUpgrades_BatchConfirm>
+  <!-- EN: Upgrades -->
+  <TSA_WD_OutpostUpgrades_BatchListHeader>升級</TSA_WD_OutpostUpgrades_BatchListHeader>
+  <!-- EN: Cost -->
+  <TSA_WD_OutpostUpgrades_BatchCostHeader>費用</TSA_WD_OutpostUpgrades_BatchCostHeader>
+  <!-- EN: Total cost -->
+  <TSA_WD_OutpostUpgrades_BatchTotalHeader>總費用</TSA_WD_OutpostUpgrades_BatchTotalHeader>
+  <!-- EN: Transport pods -->
+  <TSA_WD_OutpostUpgrades_BatchPodHeader>運輸艙</TSA_WD_OutpostUpgrades_BatchPodHeader>
+  <!-- EN: Drop-pod Transport -->
+  <TSA_WD_OutpostUpgrades_BatchPodTitle>運輸艙運送</TSA_WD_OutpostUpgrades_BatchPodTitle>
+  <!-- EN: Components x{0} -->
+  <TSA_WD_OutpostUpgrades_BatchPodCost>零件 x{0}</TSA_WD_OutpostUpgrades_BatchPodCost>
+  <!-- EN: Components -->
+  <TSA_WD_OutpostUpgrades_ComponentsLabel>零件</TSA_WD_OutpostUpgrades_ComponentsLabel>
+  <!-- EN: Same-line picks dropped (kept highest tier): {0} -->
+  <TSA_WD_OutpostUpgrades_BatchSameLineDropped>同線選項已捨棄（保留最高等級）：{0}</TSA_WD_OutpostUpgrades_BatchSameLineDropped>
+  <!-- EN: Drop-pod launches: {0} -->
+  <TSA_WD_OutpostUpgrades_BatchPodLaunches>運輸艙發射次數：{0}</TSA_WD_OutpostUpgrades_BatchPodLaunches>
+  <!-- EN: Select one or more buildable upgrades. -->
+  <TSA_WD_OutpostUpgrades_BatchNeedSelection>請選擇一項或多項可建造升級。</TSA_WD_OutpostUpgrades_BatchNeedSelection>
+  <!-- EN: Include this upgrade in the next build order. -->
+  <TSA_WD_OutpostUpgrades_SelectTip>將此升級加入下一次建造訂單。</TSA_WD_OutpostUpgrades_SelectTip>
+  <!-- EN: Remove this upgrade from the build selection. -->
+  <TSA_WD_OutpostUpgrades_DeselectTip>從建造選擇中移除此升級。</TSA_WD_OutpostUpgrades_DeselectTip>
+  <!-- EN: Cannot change selection while upgrades are in transit. -->
+  <TSA_WD_OutpostUpgrades_SelectDisabledPending>升級運送中時無法變更選擇。</TSA_WD_OutpostUpgrades_SelectDisabledPending>
+  <!-- EN: Cannot select several upgrades from the same upgrade line. -->
+  <TSA_WD_OutpostUpgrades_SelectDisabledSameLine>不能從同一升級線選擇多項升級。</TSA_WD_OutpostUpgrades_SelectDisabledSameLine>
+  <!-- EN: Cannot select this upgrade right now. -->
+  <TSA_WD_OutpostUpgrades_SelectDisabled>目前無法選擇此升級。</TSA_WD_OutpostUpgrades_SelectDisabled>
+  <!-- EN: Confirm and launch one traveler carrying {0} selected upgrade(s). -->
+  <TSA_WD_OutpostUpgrades_BuildSelectedTip>確認並派出一支旅隊，運送 {0} 項所選升級。</TSA_WD_OutpostUpgrades_BuildSelectedTip>
   <!-- EN: Need {0} {1}, have {2}. -->
   <TSA_WD_OutpostUpgrades_NeedHave>需要{0}{1}，目前有{2}。</TSA_WD_OutpostUpgrades_NeedHave>
   <!-- EN: Failed to deduct the full resource cost for {0}. -->
@@ -3475,7 +3524,7 @@
   <TSA_WD_OutpostUpgrades_SelectedDetail>已選升級：</TSA_WD_OutpostUpgrades_SelectedDetail>
   <!-- EN: Select an upgrade from the list. -->
   <TSA_WD_OutpostUpgrades_NoSelection>從清單中選擇一項升級。</TSA_WD_OutpostUpgrades_NoSelection>
-  <!-- EN: Caravan en route: {0} -->
+  <!-- EN: Traveler en route: {0} -->
   <TSA_WD_OutpostUpgrades_PendingCaravan>旅隊途中：{0}</TSA_WD_OutpostUpgrades_PendingCaravan>
   <!-- EN: No upgrades deployed yet -->
   <TSA_WD_OutpostUpgrades_NoUpgradesDeployedYet>尚未部署任何升級</TSA_WD_OutpostUpgrades_NoUpgradesDeployedYet>

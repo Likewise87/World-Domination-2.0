@@ -44,7 +44,7 @@ An optional **All to colony** strategy sends all available production from that 
 
 ## Electricity pane
 
-Power plants generate remote watts. Assign watts to demanding outposts with the same Smart / Manual / Keep / +/- pattern as food. **Keep** is unassigned generation and always feeds the colony power grid (no colony destination row). Smart fills each reachable outpost to full demand before the next, then leaves the rest as Keep. Manual lets you prioritize one outpost over another. Reach uses the same logistics radius as food. Partial supply reduces production via a lerp between the unpowered factor and full output; combat systems still need full power.
+Power plants generate remote watts. Assign watts to demanding outposts with the same Smart / Manual / Keep / +/- pattern as food. **Keep** is unassigned generation and always feeds the colony power grid (no colony destination row). Smart covers reachable demand first (worst shortages first, surplus from all Smart plants in range; prefers the richest plant for each give). Unreachable shortages are skipped so other sites still get power. There is no food-style water-fill: leftover watts stay as Keep for the colony. Manual lets you prioritize one outpost over another. Reach uses the power supply range setting (`maxPowerSupplyRange`), not the food logistics radius. Partial supply reduces production via a lerp between the unpowered factor and full output; combat systems still need full power.
 
 ## Range and network design
 

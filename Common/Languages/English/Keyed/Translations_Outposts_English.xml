@@ -4,17 +4,20 @@
   <TSA_AllocatedStatus>Allocated: {0} of {1} (Keep here: {2}).</TSA_AllocatedStatus>
   <TSA_AllocationStrategy>Allocation Strategy</TSA_AllocationStrategy>
   <TSA_AutoUpdateNote>\n\nRecalculates when outposts, pawns, or food settings change (with a quiet fingerprint check each food pulse).</TSA_AutoUpdateNote>
+  <TSA_AutoUpdateNote_Power>\n\nRecalculates when outposts or power settings change (with a quiet fingerprint check each power pulse).</TSA_AutoUpdateNote_Power>
   <TSA_Breakdown_Consumption>Local Consumption</TSA_Breakdown_Consumption>
   <TSA_Breakdown_SkillBonus>Skill-based production</TSA_Breakdown_SkillBonus>
   <TSA_Breakdown_Title>Production Breakdown</TSA_Breakdown_Title>
   <TSA_Breakdown_TotalProd>Total Production</TSA_Breakdown_TotalProd>
   <TSA_ColonyLabel>Colony</TSA_ColonyLabel>
   <TSA_DeficitTooltip>1) Cover every reachable outpost up to a net food balance of ~0 (worst shortages first), using surplus from all Smart producers in range together.\n2) Each producer keeps one equal share of its remaining surplus (Keep here).\n3) Water-fill the rest so recipient nets equalize (same +X), raising the lowest nets first.</TSA_DeficitTooltip>
+  <TSA_PowerDeficitTooltip>1) Cover every reachable outpost up to full demand (worst shortages first), using surplus from all Smart power plants in range together.\n2) Leftover generation stays as Keep and feeds the colony power grid.</TSA_PowerDeficitTooltip>
   <TSA_Logistics_KeepHere>Keep here:</TSA_Logistics_KeepHere>
   <TSA_Logistics_KeepHereTip>Virtual food that is not sent to other outposts will be surplus for the food producing outpost itself.</TSA_Logistics_KeepHereTip>
   <TSA_Logistics_TotalNetTip>Their total daily food net (all sources). The +/- value is only what this producer sends.</TSA_Logistics_TotalNetTip>
   <TSA_Logistics_ResetAllocation>Reset allocation</TSA_Logistics_ResetAllocation>
   <TSA_Logistics_ResetAllocationTip>Switch to Manual and clear all food sent from this outpost to other outposts. Kept surplus stays here.</TSA_Logistics_ResetAllocationTip>
+  <TSA_Logistics_ResetAllocationTip_Power>Switch to Manual and clear all power sent from this plant to other outposts. Residual Keep still feeds the colony.</TSA_Logistics_ResetAllocationTip_Power>
   <TSA_DistroHub>Food Production</TSA_DistroHub>
   <TSA_EqualTooltip>Distributes surplus food equally among all outposts in range that have a deficit.</TSA_EqualTooltip>
   <TSA_FeedTooltip>Prioritizes outposts that can be 100% satisfied. Remaining food is then shared among others.</TSA_FeedTooltip>
@@ -58,6 +61,7 @@
   <TSA_OutpostInfoRow>Food: {0}/{1}</TSA_OutpostInfoRow>
   <TSA_OutpostsInRange>Recipients in range</TSA_OutpostsInRange>
   <TSA_Logistics_SectionOtherOutposts>Distribute surplus food to outposts in range:</TSA_Logistics_SectionOtherOutposts>
+  <TSA_Logistics_SectionOtherOutposts_Power>Distribute surplus power to outposts in range:</TSA_Logistics_SectionOtherOutposts_Power>
   <TSA_ResourceReceiving>Food Supply</TSA_ResourceReceiving>
   <TSA_UnitsCount>{0} units</TSA_UnitsCount>
   <TSA_WD_AddToOutpost>Add to outpost</TSA_WD_AddToOutpost>
@@ -221,8 +225,8 @@
   <TSA_WD_Biome_Tooltip_Fertility>Farming fertility score (0–100%).\n\nFormula:\n- Growing season fraction (year twelfths with average temperature in a crop-friendly band, including hot tropics)\n- × biome plant density ranked between the lowest and highest plant-density biomes in your mod list (best biomes = 100%)\n- × hill penalty (Flat/Small hills = 100%, Large hills = 80%, Mountainous = 50%, water = 0%).</TSA_WD_Biome_Tooltip_Fertility>
   <TSA_WD_ProductivityTooltip_FertilityIntro>Farming score combines growing season, biome plant density rank, and hilliness into a base value. Listed tile features add flat percentage points (Odyssey / Landmarks mutators acknowledged by this mod).</TSA_WD_ProductivityTooltip_FertilityIntro>
   <TSA_WD_ProductivityTooltip_HuntingIntro>Animal abundance ranks this biome's animal density among all loaded biomes, then adds flat modifiers from world tile features (mutators) this mod acknowledges.</TSA_WD_ProductivityTooltip_HuntingIntro>
-  <TSA_WD_ProductivityTooltip_FishingIntro>Fish stocks rank this biome's max fish population among biomes that have fish, then adds flat modifiers from world tile features (mutators) this mod acknowledges. Only ocean-coast land tiles qualify.</TSA_WD_ProductivityTooltip_FishingIntro>
-  <TSA_WD_ProductivityTooltip_NotCoastal>This tile is not an ocean coast. Fishing outposts need a coastal land tile (not lakes or open water).</TSA_WD_ProductivityTooltip_NotCoastal>
+  <TSA_WD_ProductivityTooltip_FishingIntro>Fish stocks rank this biome's max fish population among biomes that have fish, then adds flat modifiers from world tile features (mutators) this mod acknowledges. Land tiles qualify (coastal or inland); open water does not.</TSA_WD_ProductivityTooltip_FishingIntro>
+  <TSA_WD_ProductivityTooltip_NotCoastal>This tile is open water. Fishing outposts need a land tile (coastal or inland).</TSA_WD_ProductivityTooltip_NotCoastal>
   <TSA_WD_ProductivityTooltip_MiningIntro>Mining efficiency starts from hilliness on this tile (Flat=10%, Small hills=50%, Large hills=80%, Mountainous=100%, Impassable=0%), then adds flat percentage points from world tile features (mutators) this mod acknowledges.</TSA_WD_ProductivityTooltip_MiningIntro>
   <TSA_WD_ProductivityTooltip_Base>Base: {0}%</TSA_WD_ProductivityTooltip_Base>
   <TSA_WD_ProductivityTooltip_MutatorsHeader>World tile features:</TSA_WD_ProductivityTooltip_MutatorsHeader>
@@ -249,8 +253,9 @@
   <TSA_WD_TileProductivity_WildlifeHeader>Animals here</TSA_WD_TileProductivity_WildlifeHeader>
   <TSA_WD_TileProductivity_WildlifeNone>No huntable wildlife listed for this biome.</TSA_WD_TileProductivity_WildlifeNone>
   <TSA_WD_TileProductivity_FishHeader>Fish here</TSA_WD_TileProductivity_FishHeader>
-  <TSA_WD_TileProductivity_FishNone>No saltwater fish species available.</TSA_WD_TileProductivity_FishNone>
-  <TSA_WD_TileProductivity_FishNotCoastal>Not an ocean coast (fishing needs a coastal land tile).</TSA_WD_TileProductivity_FishNotCoastal>
+  <TSA_WD_TileProductivity_FishNone>No fish species available for this tile.</TSA_WD_TileProductivity_FishNone>
+  <TSA_WD_TileProductivity_FishNeedLakeOrRiver>No coast, lake, or river on this tile.</TSA_WD_TileProductivity_FishNeedLakeOrRiver>
+  <TSA_WD_TileProductivity_FishNotCoastal>Open water (fishing needs a land tile).</TSA_WD_TileProductivity_FishNotCoastal>
   <TSA_WD_TileProductivity_FishCommon>common</TSA_WD_TileProductivity_FishCommon>
   <TSA_WD_TileProductivity_FishUncommon>uncommon</TSA_WD_TileProductivity_FishUncommon>
   <TSA_WD_TileProductivity_BasePct>{0}%</TSA_WD_TileProductivity_BasePct>
@@ -506,8 +511,9 @@
   <TSA_WD_Establish_MinPawns>{0} requires at least {1} pawn(s) in the caravan (have {2}).</TSA_WD_Establish_MinPawns>
   <TSA_WD_Establish_MinSkill>This outpost requires at least {0} {1} to operate (have {2}).</TSA_WD_Establish_MinSkill>
   <TSA_WD_Establish_NeedAnimals>This tile has no suitable wildlife.</TSA_WD_Establish_NeedAnimals>
-  <TSA_WD_Establish_NeedCoast>Fishing outposts need an ocean-coast land tile (not lakes or open water).</TSA_WD_Establish_NeedCoast>
-  <TSA_WD_Establish_NeedFishSpecies>This coastal biome has no saltwater fish species available.</TSA_WD_Establish_NeedFishSpecies>
+  <TSA_WD_Establish_NeedCoast>Fishing outposts need a land tile (not open water).</TSA_WD_Establish_NeedCoast>
+  <TSA_WD_Establish_NeedLakeOrRiver>Fishing outposts need a coast, lake, or river on the tile.</TSA_WD_Establish_NeedLakeOrRiver>
+  <TSA_WD_Establish_NeedFishSpecies>This biome has no fish species available for this tile (saltwater on coasts, freshwater on lakes and rivers).</TSA_WD_Establish_NeedFishSpecies>
   <TSA_WD_Establish_NeedCost>Caravan needs {0} {1} (have {2}).</TSA_WD_Establish_NeedCost>
   <TSA_WD_Establish_NeedFertile>This tile is not suitable for farming (water or no plant growth).</TSA_WD_Establish_NeedFertile>
   <TSA_WD_Establish_NeedLand>Outposts cannot be founded on water.</TSA_WD_Establish_NeedLand>
@@ -1219,8 +1225,9 @@
   <TSA_WD_Req_Tooltip_HuntingNone>Tile has little or no huntable wildlife.</TSA_WD_Req_Tooltip_HuntingNone>
   <TSA_WD_Req_Tooltip_FishingBelow>fish stocks below minimum ({0}%).</TSA_WD_Req_Tooltip_FishingBelow>
   <TSA_WD_Req_Tooltip_FishingMet>Tile meets minimum fish stocks for fishing.</TSA_WD_Req_Tooltip_FishingMet>
-  <TSA_WD_Req_Tooltip_FishingNotCoastal>Fishing needs an ocean-coast land tile (not lakes or open water).</TSA_WD_Req_Tooltip_FishingNotCoastal>
-  <TSA_WD_Req_Tooltip_FishingNone>This coastal biome has no saltwater fish species available.</TSA_WD_Req_Tooltip_FishingNone>
+  <TSA_WD_Req_Tooltip_FishingNotCoastal>Fishing needs a land tile (not open water).</TSA_WD_Req_Tooltip_FishingNotCoastal>
+  <TSA_WD_Req_Tooltip_FishingNeedLakeOrRiver>Fishing needs a coast, lake, or river on the tile.</TSA_WD_Req_Tooltip_FishingNeedLakeOrRiver>
+  <TSA_WD_Req_Tooltip_FishingNone>This biome has no fish species available for this tile (saltwater on coasts, freshwater on lakes and rivers).</TSA_WD_Req_Tooltip_FishingNone>
   <TSA_WD_Req_Tooltip_MinNearbyMet>At least {0} settlements or outposts (non-hostile) within {1} tiles.</TSA_WD_Req_Tooltip_MinNearbyMet>
   <TSA_WD_Req_Tooltip_MinNearbyMet_Recruiting>At least {0} nearby NPC settlements within {1} tiles (hostile neighbors count as defector sources).</TSA_WD_Req_Tooltip_MinNearbyMet_Recruiting>
   <TSA_WD_Req_Tooltip_MinNearbyMet_Trading>At least {0} nearby NPC settlements within {1} tiles (hostile neighbors count for black-market trade).</TSA_WD_Req_Tooltip_MinNearbyMet_Trading>
@@ -1315,7 +1322,7 @@
   <TSA_WD_Select_OutpostDefault>Outpost</TSA_WD_Select_OutpostDefault>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Farming>Produces goods from crops (food, cloth). Scales with the Fertility of the world tile it is placed on. Efficiency can be boosted via Upgrades</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Farming>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Hunting>Produces meat, leather and wool. Scales with Animal abundance on the world tile and Animals skill. Efficiency can be boosted via Upgrades</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Hunting>
-  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>Produces one selected fish species. Scales with fish stocks on ocean-coast tiles and Animals skill. Efficiency can be boosted via Upgrades. Requires Odyssey</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>
+  <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>Produces one selected fish species. Scales with fish stocks on land tiles (coastal or inland) and Animals skill. Efficiency can be boosted via Upgrades. Requires Odyssey</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Fishing>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>Recruits new colonists each cycle. Scales with Social skill and up to the top 3 nearby partners per faction (hostile neighbors count as defectors). Needs nearby NPC settlements in range</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Recruiting>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>Produces silver each cycle. Scales with Social skill and up to the top 3 nearby partners per faction (hostile neighbors count for black-market trade). Needs nearby NPC settlements in range</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Trading>
   <TSA_WD_OutpostTooltip_TSA_WD_Outpost_Embassy>Improves goodwill with nearby factions each cycle (Neutral/Ally; hostiles if settings allow). Uses the highest settlement tier per faction. Scales with Social skill</TSA_WD_OutpostTooltip_TSA_WD_Outpost_Embassy>
@@ -1371,7 +1378,7 @@
   <TSA_WD_OutpostPower_Tip_Supplied>Supplied: {0}</TSA_WD_OutpostPower_Tip_Supplied>
   <TSA_WD_OutpostOverview_HdrPower>Power</TSA_WD_OutpostOverview_HdrPower>
   <TSA_WD_Production_Formula_Power>(Power)</TSA_WD_Production_Formula_Power>
-  <TSA_WD_PowerPlant_InspectSplit>{0} generated ({1} to outposts, {2} to colony)</TSA_WD_PowerPlant_InspectSplit>
+  <TSA_WD_PowerPlant_InspectGenerated>{0} generated</TSA_WD_PowerPlant_InspectGenerated>
   <TSA_WD_PowerPlant_OverviewProductSplit>{0} ({1} outposts / {2} colony)</TSA_WD_PowerPlant_OverviewProductSplit>
   <TSA_WD_OutpostStats_Row_PowerKeepColony>Power sent to Colony</TSA_WD_OutpostStats_Row_PowerKeepColony>
   <TSA_WD_OutpostStats_Row_PowerKeepColonyTip>Leftover generation after local demand and delivered outpost links, feeding colony power nets.</TSA_WD_OutpostStats_Row_PowerKeepColonyTip>
@@ -1727,10 +1734,11 @@
   <TSA_WD_Outpost_TabHeadline>{0} ({1}, {2})</TSA_WD_Outpost_TabHeadline>
   <TSA_WD_OutpostUpgrades_TabHeadline>Outpost Upgrades ({0}, {1})</TSA_WD_OutpostUpgrades_TabHeadline>
   <TSA_WD_OutpostUpgrades_SearchPlaceholder>Filter upgrades by name...</TSA_WD_OutpostUpgrades_SearchPlaceholder>
-  <TSA_WD_OutpostUpgrades_FilterAll>All</TSA_WD_OutpostUpgrades_FilterAll>
-  <TSA_WD_OutpostUpgrades_FilterBuilt>Built</TSA_WD_OutpostUpgrades_FilterBuilt>
-  <TSA_WD_OutpostUpgrades_FilterNotBuilt>Not built</TSA_WD_OutpostUpgrades_FilterNotBuilt>
-  <TSA_WD_OutpostUpgrades_FilterBuildable>Buildable</TSA_WD_OutpostUpgrades_FilterBuildable>
+  <TSA_WD_OutpostUpgrades_FilterAll>All upgrades</TSA_WD_OutpostUpgrades_FilterAll>
+  <TSA_WD_OutpostUpgrades_FilterBuilt>All built upgrades</TSA_WD_OutpostUpgrades_FilterBuilt>
+  <TSA_WD_OutpostUpgrades_FilterNotBuilt>All not built upgrades</TSA_WD_OutpostUpgrades_FilterNotBuilt>
+  <TSA_WD_OutpostUpgrades_FilterBuildable>All buildable upgrades</TSA_WD_OutpostUpgrades_FilterBuildable>
+  <TSA_WD_OutpostUpgrades_FilterAllBonuses>All bonuses</TSA_WD_OutpostUpgrades_FilterAllBonuses>
   <TSA_WD_OutpostUpgradeImpact_Defensive>Defensive Strength</TSA_WD_OutpostUpgradeImpact_Defensive>
   <TSA_WD_OutpostUpgradeImpact_OffensiveRecovery>Offensive Strength Recovery</TSA_WD_OutpostUpgradeImpact_OffensiveRecovery>
   <TSA_WD_OutpostUpgradeImpact_OccupantHeal>Occupant Healing</TSA_WD_OutpostUpgradeImpact_OccupantHeal>
@@ -1770,12 +1778,32 @@
   <TSA_WD_OutpostUpgrades_CannotBuy>Cannot purchase this upgrade.</TSA_WD_OutpostUpgrades_CannotBuy>
   <TSA_WD_OutpostUpgrades_NoCost>No cost</TSA_WD_OutpostUpgrades_NoCost>
   <TSA_WD_OutpostUpgrades_Invalid>Invalid upgrade.</TSA_WD_OutpostUpgrades_Invalid>
-  <TSA_WD_OutpostUpgrades_InTransit>An upgrade caravan is already in transit to this outpost.</TSA_WD_OutpostUpgrades_InTransit>
+  <TSA_WD_OutpostUpgrades_InTransit>Upgrades are already in transit to this outpost.</TSA_WD_OutpostUpgrades_InTransit>
   <TSA_WD_OutpostUpgrades_NoFurtherLevel>No further level available.</TSA_WD_OutpostUpgrades_NoFurtherLevel>
   <TSA_WD_OutpostUpgrades_MissingResearch>Missing research: {0}</TSA_WD_OutpostUpgrades_MissingResearch>
   <TSA_WD_OutpostUpgrades_NoColonyMap>No player colony map found to pay costs from.</TSA_WD_OutpostUpgrades_NoColonyMap>
   <TSA_WD_OutpostUpgrades_QueueFailed>Could not queue the upgrade.</TSA_WD_OutpostUpgrades_QueueFailed>
-  <TSA_WD_OutpostUpgrades_LaunchFailed>Could not launch the upgrade caravan.</TSA_WD_OutpostUpgrades_LaunchFailed>
+  <TSA_WD_OutpostUpgrades_LaunchFailed>Could not launch the upgrade traveler.</TSA_WD_OutpostUpgrades_LaunchFailed>
+  <TSA_WD_OutpostUpgrades_BuildSelected>Build selected ({0})</TSA_WD_OutpostUpgrades_BuildSelected>
+  <TSA_WD_OutpostUpgrades_PendingCount>{0} upgrades in transit</TSA_WD_OutpostUpgrades_PendingCount>
+  <TSA_WD_OutpostUpgrades_BatchTitle>{0}: Build selected upgrades</TSA_WD_OutpostUpgrades_BatchTitle>
+  <TSA_WD_OutpostUpgrades_BatchConfirm>Confirm</TSA_WD_OutpostUpgrades_BatchConfirm>
+  <TSA_WD_OutpostUpgrades_BatchListHeader>Upgrades</TSA_WD_OutpostUpgrades_BatchListHeader>
+  <TSA_WD_OutpostUpgrades_BatchCostHeader>Cost</TSA_WD_OutpostUpgrades_BatchCostHeader>
+  <TSA_WD_OutpostUpgrades_BatchTotalHeader>Total cost</TSA_WD_OutpostUpgrades_BatchTotalHeader>
+  <TSA_WD_OutpostUpgrades_BatchPodHeader>Transport pods</TSA_WD_OutpostUpgrades_BatchPodHeader>
+  <TSA_WD_OutpostUpgrades_BatchPodTitle>Drop-pod Transport</TSA_WD_OutpostUpgrades_BatchPodTitle>
+  <TSA_WD_OutpostUpgrades_BatchPodCost>Components x{0}</TSA_WD_OutpostUpgrades_BatchPodCost>
+  <TSA_WD_OutpostUpgrades_ComponentsLabel>Components</TSA_WD_OutpostUpgrades_ComponentsLabel>
+  <TSA_WD_OutpostUpgrades_BatchSameLineDropped>Same-line picks dropped (kept highest tier): {0}</TSA_WD_OutpostUpgrades_BatchSameLineDropped>
+  <TSA_WD_OutpostUpgrades_BatchPodLaunches>Drop-pod launches: {0}</TSA_WD_OutpostUpgrades_BatchPodLaunches>
+  <TSA_WD_OutpostUpgrades_BatchNeedSelection>Select one or more buildable upgrades.</TSA_WD_OutpostUpgrades_BatchNeedSelection>
+  <TSA_WD_OutpostUpgrades_SelectTip>Include this upgrade in the next build order.</TSA_WD_OutpostUpgrades_SelectTip>
+  <TSA_WD_OutpostUpgrades_DeselectTip>Remove this upgrade from the build selection.</TSA_WD_OutpostUpgrades_DeselectTip>
+  <TSA_WD_OutpostUpgrades_SelectDisabledPending>Cannot change selection while upgrades are in transit.</TSA_WD_OutpostUpgrades_SelectDisabledPending>
+  <TSA_WD_OutpostUpgrades_SelectDisabledSameLine>Cannot select several upgrades from the same upgrade line.</TSA_WD_OutpostUpgrades_SelectDisabledSameLine>
+  <TSA_WD_OutpostUpgrades_SelectDisabled>Cannot select this upgrade right now.</TSA_WD_OutpostUpgrades_SelectDisabled>
+  <TSA_WD_OutpostUpgrades_BuildSelectedTip>Confirm and launch one traveler carrying {0} selected upgrade(s).</TSA_WD_OutpostUpgrades_BuildSelectedTip>
   <TSA_WD_OutpostUpgrades_DropPodShortAfterBuy>After paying for this upgrade, you would not have enough industrial components left for drop-pod delivery from {0}. Switch {0} to land delivery, or get more components.</TSA_WD_OutpostUpgrades_DropPodShortAfterBuy>
   <TSA_WD_OutpostUpgrades_NeedHave>Need {0} {1}, have {2}.</TSA_WD_OutpostUpgrades_NeedHave>
   <TSA_WD_OutpostUpgrades_DeductFailed>Failed to deduct the full resource cost for {0}.</TSA_WD_OutpostUpgrades_DeductFailed>
@@ -1825,7 +1853,7 @@
   <TSA_WD_OutpostUpgrades_ChooseHeader>Choose upgrade:</TSA_WD_OutpostUpgrades_ChooseHeader>
   <TSA_WD_OutpostUpgrades_SelectedDetail>Selected upgrade:</TSA_WD_OutpostUpgrades_SelectedDetail>
   <TSA_WD_OutpostUpgrades_NoSelection>Select an upgrade from the list.</TSA_WD_OutpostUpgrades_NoSelection>
-  <TSA_WD_OutpostUpgrades_PendingCaravan>Caravan en route: {0}</TSA_WD_OutpostUpgrades_PendingCaravan>
+  <TSA_WD_OutpostUpgrades_PendingCaravan>Traveler en route: {0}</TSA_WD_OutpostUpgrades_PendingCaravan>
   <TSA_WD_OutpostUpgrades_NoUpgradesDeployedYet>No upgrades deployed yet</TSA_WD_OutpostUpgrades_NoUpgradesDeployedYet>
   <TSA_WD_OutpostUpgrades_NoBenefitsListed>No benefits listed</TSA_WD_OutpostUpgrades_NoBenefitsListed>
   <TSA_WD_OutpostUpgrades_BenefitContributorsNone>No upgrades contribute to this benefit.</TSA_WD_OutpostUpgrades_BenefitContributorsNone>

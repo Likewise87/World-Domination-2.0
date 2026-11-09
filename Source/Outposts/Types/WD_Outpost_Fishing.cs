@@ -7,7 +7,7 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>One fishing option: fish ThingDef + commonality weight from biome saltwater pool.</summary>
+    /// <summary>One fishing option: fish ThingDef + commonality weight from biome salt or freshwater pool.</summary>
     public struct FishingFishOption
     {
         public ThingDef Fish;
@@ -15,14 +15,92 @@ namespace TSA_WorldDomination
         public bool IsUncommon;
     }
 
-    /// <summary>Fishing outpost production: saltwater fish options, delivery, skill gates, tooltips.</summary>
+    /// <summary>Fishing outpost production: salt/fresh fish options, delivery, skill gates, tooltips.</summary>
     public static class Outpost_Fishing
     {
         public const int MinAnimalsSkillUncommon = 8;
         public const int MinAnimalsSkillHighValue = 10;
         public const float HighValueMarketThreshold = 30f;
 
-        /// <summary>Saltwater fish for a fishing outpost's tile.</summary>
+        /// <summary>
+        /// True when a land tile itself has fishable water: ocean coast, a river link, or a lake/pond/river
+        /// mutator or landmark on this tile. Neighboring a Lake biome is not enough. Dry inland biomes that
+        /// merely list freshwater fishTypes do not qualify.
+        /// </summary>
+        public static bool TileHasFishableWater(int tile)
+        {
+            var grid = Find.WorldGrid;
+            if (grid == null || tile < 0 || tile >= grid.TilesCount) return false;
+            Tile tileInfo = grid[tile];
+            if (tileInfo.WaterCovered) return false;
+            if (tileInfo.IsCoastal) return true;
+            if (HasRiverLinks(tileInfo)) return true;
+            return HasLakeOrRiverFeature(tileInfo);
+        }
+
+        private static bool HasRiverLinks(Tile tileInfo)
+        {
+            if (tileInfo is not SurfaceTile surface) return false;
+            List<SurfaceTile.RiverLink> rivers = surface.Rivers ?? surface.potentialRivers;
+            return rivers != null && rivers.Count > 0;
+        }
+
+        private static bool HasLakeOrRiverFeature(Tile tileInfo)
+        {
+            if (tileInfo == null) return false;
+            if (tileInfo.Mutators != null)
+            {
+                foreach (TileMutatorDef m in tileInfo.Mutators)
+                {
+                    if (m == null) continue;
+                    if (IsLakeOrRiverMutatorDefName(m.defName) || IsLakeOrRiverMutatorWorker(m.Worker))
+                        return true;
+                }
+            }
+            Landmark landmark = tileInfo.Landmark;
+            if (landmark?.def != null && IsLakeOrRiverMutatorDefName(landmark.def.defName))
+                return true;
+            return false;
+        }
+
+        private static bool IsLakeOrRiverMutatorDefName(string defName)
+        {
+            if (string.IsNullOrEmpty(defName)) return false;
+            return defName == "Lakeshore"
+                || defName == "Lake"
+                || defName == "LakeWithIsland"
+                || defName == "LakeWithIslands"
+                || defName == "Pond"
+                || defName == "DryLake"
+                || defName == "ToxicLake"
+                || defName == "LavaLake"
+                || defName == "CaveLakes"
+                || defName == "River"
+                || defName == "RiverConfluence"
+                || defName == "Headwater"
+                || defName == "RiverIsland"
+                || defName == "RiverDelta";
+        }
+
+        private static bool IsLakeOrRiverMutatorWorker(TileMutatorWorker worker)
+        {
+            return worker is TileMutatorWorker_Lakeshore
+                || worker is TileMutatorWorker_Lake
+                || worker is TileMutatorWorker_LakeWithIsland
+                || worker is TileMutatorWorker_LakeWithIslands
+                || worker is TileMutatorWorker_Pond
+                || worker is TileMutatorWorker_DryLake
+                || worker is TileMutatorWorker_ToxicLake
+                || worker is TileMutatorWorker_LavaLake
+                || worker is TileMutatorWorker_CaveLakes
+                || worker is TileMutatorWorker_River
+                || worker is TileMutatorWorker_RiverConfluence
+                || worker is TileMutatorWorker_Headwater
+                || worker is TileMutatorWorker_RiverIsland
+                || worker is TileMutatorWorker_RiverDelta;
+        }
+
+        /// <summary>Fish options for a fishing outpost's tile (salt on coast, fresh inland).</summary>
         public static List<FishingFishOption> GetFishingFishOptions(WorldObject_WD_Outpost outpost)
         {
             if (outpost?.def == null || !Outpost_Production_Utils.IsFishingOutpost(outpost.def))
@@ -30,21 +108,33 @@ namespace TSA_WorldDomination
             return GetFishingFishOptionsForTile(outpost.Tile);
         }
 
-        /// <summary>Saltwater common + uncommon fish for a coastal tile biome. Empty if not coastal, water, or Odyssey fishTypes missing.</summary>
+        /// <summary>
+        /// Common + uncommon fish for a land tile with fishable water. Coastal → saltwater pools; inland lake/river → freshwater.
+        /// Empty if water-covered, no coast/lake/river, or Odyssey fishTypes missing / empty for that pool.
+        /// </summary>
         public static List<FishingFishOption> GetFishingFishOptionsForTile(int tile)
         {
             var list = new List<FishingFishOption>();
             var grid = Find.WorldGrid;
             if (grid == null || tile < 0 || tile >= grid.TilesCount) return list;
             Tile tileInfo = grid[tile];
-            if (tileInfo.WaterCovered || !tileInfo.IsCoastal) return list;
+            if (tileInfo.WaterCovered) return list;
+            if (!TileHasFishableWater(tile)) return list;
 
             BiomeDef biome = WorldTileInfo.GetBiome(tile);
             BiomeFishTypes types = biome?.fishTypes;
             if (types == null) return list;
 
-            AddFishChances(list, types.saltwater_Common, uncommon: false);
-            AddFishChances(list, types.saltwater_Uncommon, uncommon: true);
+            if (tileInfo.IsCoastal)
+            {
+                AddFishChances(list, types.saltwater_Common, uncommon: false);
+                AddFishChances(list, types.saltwater_Uncommon, uncommon: true);
+            }
+            else
+            {
+                AddFishChances(list, types.freshwater_Common, uncommon: false);
+                AddFishChances(list, types.freshwater_Uncommon, uncommon: true);
+            }
 
             list.Sort((a, b) =>
             {
@@ -72,23 +162,18 @@ namespace TSA_WorldDomination
             }
         }
 
-        public static bool HasAnySaltwaterFish(int tile)
+        /// <summary>True if the tile has fishable water and its salt (coast) or fresh (lake/river) fish pool has at least one species.</summary>
+        public static bool HasAnyFishForTile(int tile)
         {
-            BiomeDef biome = WorldTileInfo.GetBiome(tile);
-            BiomeFishTypes types = biome?.fishTypes;
-            if (types == null) return false;
-            if (types.saltwater_Common != null)
-            {
-                for (int i = 0; i < types.saltwater_Common.Count; i++)
-                    if (types.saltwater_Common[i]?.fishDef != null) return true;
-            }
-            if (types.saltwater_Uncommon != null)
-            {
-                for (int i = 0; i < types.saltwater_Uncommon.Count; i++)
-                    if (types.saltwater_Uncommon[i]?.fishDef != null) return true;
-            }
-            return false;
+            var grid = Find.WorldGrid;
+            if (grid == null || tile < 0 || tile >= grid.TilesCount) return false;
+            if (grid[tile].WaterCovered) return false;
+            if (!TileHasFishableWater(tile)) return false;
+            return GetFishingFishOptionsForTile(tile).Count > 0;
         }
+
+        /// <summary>Obsolete name kept for any external callers; routes to <see cref="HasAnyFishForTile"/>.</summary>
+        public static bool HasAnySaltwaterFish(int tile) => HasAnyFishForTile(tile);
 
         public static int GetMinAnimalsSkillForFish(ThingDef fish, WorldObject_WD_Outpost outpost)
         {

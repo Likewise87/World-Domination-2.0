@@ -850,14 +850,19 @@ namespace TSA_WorldDomination
             }
             else if (d.Contains("fishing"))
             {
-                if (tileInfo.WaterCovered || !tileInfo.IsCoastal)
+                if (tileInfo.WaterCovered)
                 {
                     reason = "TSA_WD_Establish_NeedCoast".Translate();
                     return false;
                 }
+                if (!Outpost_Fishing.TileHasFishableWater(tile))
+                {
+                    reason = "TSA_WD_Establish_NeedLakeOrRiver".Translate();
+                    return false;
+                }
                 if (EnforceFishAbundance)
                 {
-                    if (!Outpost_Fishing.HasAnySaltwaterFish(tile))
+                    if (!Outpost_Fishing.HasAnyFishForTile(tile))
                     {
                         reason = "TSA_WD_Establish_NeedFishSpecies".Translate();
                         return false;

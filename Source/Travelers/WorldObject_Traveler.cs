@@ -635,7 +635,15 @@ namespace TSA_WorldDomination
                 if (this is WorldObject_Traveler_Outpost_Upgrade upgradeTraveler
                     && upgradeTraveler.targetObject is WorldObject_WD_Outpost outpost
                     && !outpost.Destroyed)
-                    outpost.ClearPendingUpgradeIfMatches(upgradeTraveler.upgradeDefName, upgradeTraveler.upgradeLevel);
+                {
+                    IReadOnlyList<PendingOutpostUpgradeEntry> cargo = upgradeTraveler.UpgradeCargo;
+                    for (int i = 0; i < cargo.Count; i++)
+                    {
+                        PendingOutpostUpgradeEntry e = cargo[i];
+                        if (e == null || string.IsNullOrEmpty(e.defName)) continue;
+                        outpost.ClearPendingUpgradeIfMatches(e.defName, e.level);
+                    }
+                }
                 // Rapid-response strength is deducted at dispatch; refunds only via TravelerEndpointUtility (abort / surviving clash strength).
                 liveTravelers.RemoveAll(t => t == this);
                 ActiveCount = liveTravelers.Count;
@@ -1806,8 +1814,11 @@ namespace TSA_WorldDomination
     {
         public const string DropPodIconTexturePath = "WorldObjects/Travelers/DropPod_OutpostUpgrade";
 
+        /// <summary>Legacy single-slot fields; forever Look'd and mirrored from <see cref="cargoUpgrades"/>[0].</summary>
         public string upgradeDefName;
         public int upgradeLevel;
+        /// <summary>One or more prepaid upgrades this traveler delivers (batch = one traveler, many cargo lines).</summary>
+        private List<PendingOutpostUpgradeEntry> cargoUpgrades = new List<PendingOutpostUpgradeEntry>();
         /// <summary>When true, flies ballistic like goods drop pods and can be engaged by anti-air.</summary>
         public bool upgradeViaDropPod;
         /// <summary>Set once the upgrade has been applied, so Destroy knows this was not a loss.</summary>
@@ -1815,16 +1826,125 @@ namespace TSA_WorldDomination
 
         public bool UsesBallisticWorldFlight => upgradeViaDropPod;
 
+        public IReadOnlyList<PendingOutpostUpgradeEntry> UpgradeCargo
+        {
+            get
+            {
+                EnsureCargoFromLegacy();
+                return cargoUpgrades;
+            }
+        }
+
+        public int UpgradeCargoCount
+        {
+            get
+            {
+                EnsureCargoFromLegacy();
+                return cargoUpgrades.Count;
+            }
+        }
+
+        public void SetUpgradeCargo(IList<PendingOutpostUpgradeEntry> entries)
+        {
+            if (cargoUpgrades == null)
+                cargoUpgrades = new List<PendingOutpostUpgradeEntry>();
+            else
+                cargoUpgrades.Clear();
+            if (entries != null)
+            {
+                for (int i = 0; i < entries.Count; i++)
+                {
+                    PendingOutpostUpgradeEntry e = entries[i];
+                    if (e == null || string.IsNullOrEmpty(e.defName) || e.level <= 0) continue;
+                    cargoUpgrades.Add(new PendingOutpostUpgradeEntry
+                    {
+                        defName = e.defName,
+                        level = e.level
+                    });
+                }
+            }
+            SyncLegacyFieldsFromCargo();
+        }
+
+        public void SetUpgradeCargoFromDefs(IList<OutpostUpgradeDef> defs, int level = 1)
+        {
+            if (cargoUpgrades == null)
+                cargoUpgrades = new List<PendingOutpostUpgradeEntry>();
+            else
+                cargoUpgrades.Clear();
+            int lvl = level > 0 ? level : 1;
+            if (defs != null)
+            {
+                for (int i = 0; i < defs.Count; i++)
+                {
+                    OutpostUpgradeDef def = defs[i];
+                    if (def == null || string.IsNullOrEmpty(def.defName)) continue;
+                    cargoUpgrades.Add(new PendingOutpostUpgradeEntry
+                    {
+                        defName = def.defName,
+                        level = lvl
+                    });
+                }
+            }
+            SyncLegacyFieldsFromCargo();
+        }
+
+        public string FormatCargoLabels(string separator = ", ")
+        {
+            EnsureCargoFromLegacy();
+            if (cargoUpgrades.Count == 0) return upgradeDefName ?? "?";
+            var parts = new List<string>(cargoUpgrades.Count);
+            for (int i = 0; i < cargoUpgrades.Count; i++)
+            {
+                PendingOutpostUpgradeEntry e = cargoUpgrades[i];
+                if (e == null || string.IsNullOrEmpty(e.defName)) continue;
+                var def = DefDatabase<OutpostUpgradeDef>.GetNamedSilentFail(e.defName);
+                parts.Add(def != null ? def.LabelCap.Resolve() : e.defName);
+            }
+            return parts.Count > 0 ? string.Join(separator, parts) : (upgradeDefName ?? "?");
+        }
+
+        private void EnsureCargoFromLegacy()
+        {
+            if (cargoUpgrades == null)
+                cargoUpgrades = new List<PendingOutpostUpgradeEntry>();
+            if (cargoUpgrades.Count == 0 && !string.IsNullOrEmpty(upgradeDefName))
+            {
+                cargoUpgrades.Add(new PendingOutpostUpgradeEntry
+                {
+                    defName = upgradeDefName,
+                    level = upgradeLevel > 0 ? upgradeLevel : 1
+                });
+            }
+        }
+
+        private void SyncLegacyFieldsFromCargo()
+        {
+            if (cargoUpgrades != null && cargoUpgrades.Count > 0 && cargoUpgrades[0] != null)
+            {
+                upgradeDefName = cargoUpgrades[0].defName;
+                upgradeLevel = cargoUpgrades[0].level > 0 ? cargoUpgrades[0].level : 1;
+            }
+        }
+
         public override void Destroy()
         {
-            // Materials were deducted and pendingUpgradeDefName set at launch. Losing the traveler
-            // without clearing them would leave the outpost stuck "awaiting delivery" forever.
+            // Materials were deducted and pending entries set at launch. Losing the traveler
+            // clears every cargo line on this shipment (no refund).
             if (!upgradeResolved && targetObject is WorldObject_WD_Outpost outpost && !outpost.Destroyed)
             {
-                if (outpost.ClearPendingUpgradeAfterLoss() && Faction == Faction.OfPlayer)
+                EnsureCargoFromLegacy();
+                bool anyCleared = false;
+                for (int i = 0; i < cargoUpgrades.Count; i++)
                 {
-                    string upgradeLabel = DefDatabase<OutpostUpgradeDef>
-                        .GetNamedSilentFail(upgradeDefName)?.LabelCap ?? upgradeDefName ?? "?";
+                    PendingOutpostUpgradeEntry e = cargoUpgrades[i];
+                    if (e == null || string.IsNullOrEmpty(e.defName)) continue;
+                    if (outpost.ClearPendingUpgradeAfterLoss(e.defName, e.level))
+                        anyCleared = true;
+                }
+                if (anyCleared && Faction == Faction.OfPlayer)
+                {
+                    string upgradeLabel = FormatCargoLabels();
                     Find.LetterStack?.ReceiveLetter(
                         "TSA_WD_Armory_UpgradeLostLabel".Translate(),
                         "TSA_WD_Armory_UpgradeLost".Translate(upgradeLabel, outpost.LabelCap),
@@ -1847,10 +1967,19 @@ namespace TSA_WorldDomination
             base.ExposeData();
             Scribe_Values.Look(ref upgradeDefName, "upgradeDefName");
             Scribe_Values.Look(ref upgradeLevel, "upgradeLevel", 0);
+            Scribe_Collections.Look(ref cargoUpgrades, "cargoUpgrades", LookMode.Deep);
             Scribe_Values.Look(ref upgradeViaDropPod, "upgradeViaDropPod", false);
             Scribe_Values.Look(ref upgradeResolved, "upgradeResolved", false);
-            if (Scribe.mode == LoadSaveMode.PostLoadInit && upgradeViaDropPod)
-                InvalidateTravelerMaterialCache();
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                if (cargoUpgrades == null)
+                    cargoUpgrades = new List<PendingOutpostUpgradeEntry>();
+                cargoUpgrades.RemoveAll(e => e == null || string.IsNullOrEmpty(e.defName) || e.level <= 0);
+                EnsureCargoFromLegacy();
+                SyncLegacyFieldsFromCargo();
+                if (upgradeViaDropPod)
+                    InvalidateTravelerMaterialCache();
+            }
         }
     }
 

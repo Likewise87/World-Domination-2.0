@@ -398,8 +398,12 @@
   <TSA_WD_Log_TraderArrived>商人：來自{0}的商隊抵達{1}。</TSA_WD_Log_TraderArrived>
   <!-- EN: OUTPOST UPGRADE: Caravan launched from {0} to {1} for {2} (level {3}). -->
   <TSA_WD_Log_OutpostUpgradeLaunched>哨站升級：旅隊從{0}出發前往{1}，進行{2}（等級{3}）。</TSA_WD_Log_OutpostUpgradeLaunched>
+  <!-- EN: OUTPOST UPGRADE: Caravan launched from {0} to {1} carrying {2} upgrades ({3}). -->
+  <TSA_WD_Log_OutpostUpgradeBatchLaunched>哨站升級：旅隊從{0}出發前往{1}，運送{2}項升級（{3}）。</TSA_WD_Log_OutpostUpgradeBatchLaunched>
   <!-- EN: OUTPOST UPGRADE: {0} completed upgrade {1} (level {2}). -->
   <TSA_WD_Log_OutpostUpgradeApplied>哨站升級：{0}完成升級{1}（等級{2}）。</TSA_WD_Log_OutpostUpgradeApplied>
+  <!-- EN: OUTPOST UPGRADE: {0} completed {1} upgrades ({2}). -->
+  <TSA_WD_Log_OutpostUpgradeBatchApplied>哨站升級：{0}完成{1}項升級（{2}）。</TSA_WD_Log_OutpostUpgradeBatchApplied>
   <!-- EN: OUTPOST UPGRADE: {0} failed to apply pending upgrade on arrival. -->
   <TSA_WD_Log_OutpostUpgradeApplyFailed>哨站升級：{0}抵達後未能套用待處理的升級。</TSA_WD_Log_OutpostUpgradeApplyFailed>
   <!-- EN: UPGRADE: {0} -> {1} ({2} other same-tier faction settlements in range; requires {3}, excluding this settlement) -->
@@ -712,6 +716,8 @@
   <TSA_WD_TravelerInventory_Empty>此旅行者沒有攜帶貨物。</TSA_WD_TravelerInventory_Empty>
   <!-- EN: Upgrade: {0} (level {1}) -->
   <TSA_WD_TravelerInventory_UpgradeLine>升級：{0}（等級{1}）</TSA_WD_TravelerInventory_UpgradeLine>
+  <!-- EN: Upgrades in this shipment ({0}): -->
+  <TSA_WD_TravelerInventory_UpgradeBatchHeader>本趟運送的升級（{0}）：</TSA_WD_TravelerInventory_UpgradeBatchHeader>
   <!-- EN: Converting to: {0} -->
   <TSA_WD_TravelerInventory_TypeChangeLine>轉換為：{0}</TSA_WD_TravelerInventory_TypeChangeLine>
 </LanguageData>

@@ -100,17 +100,19 @@ namespace TSA_WorldDomination
             return lineY + 4f;
         }
 
-        public static float MeasureKeyValueRowsHeight(float width, OutpostStatsSection section)
+        public static float MeasureKeyValueRowsHeight(float width, OutpostStatsSection section, bool truncateText = true)
         {
             if (section?.Rows == null) return 0f;
             float rowW = width - ContentRightInset;
             float h = 0f;
             for (int i = 0; i < section.Rows.Count; i++)
-                h += GetRowHeight(rowW, section.Rows[i]);
+                h += GetRowHeight(rowW, section.Rows[i], truncateText);
             return h;
         }
 
-        public static float DrawKeyValueRows(float x, float y, float width, OutpostStatsSection section, bool zebraStriping = true)
+        public static float DrawKeyValueRows(
+            float x, float y, float width, OutpostStatsSection section,
+            bool zebraStriping = true, bool truncateText = true)
         {
             if (section?.Rows == null) return y;
             const float labelFrac = 0.48f;
@@ -122,8 +124,9 @@ namespace TSA_WorldDomination
                 float labelW = rowW * labelFrac;
                 Rect labelRect = new Rect(x + 4f, y, labelW - 8f, RowHeight);
                 Rect valueRect = new Rect(x + labelW, y, rowW - labelW - 4f, RowHeight);
-                float rowH = GetRowHeight(rowW, row);
-                if (row.WrapValue)
+                bool wrap = !truncateText || row.WrapValue;
+                float rowH = GetRowHeight(rowW, row, truncateText);
+                if (wrap)
                 {
                     labelRect.height = rowH;
                     valueRect.height = rowH;
@@ -132,7 +135,7 @@ namespace TSA_WorldDomination
                 Rect rowRect = new Rect(x, y, rowW, rowH);
                 if (zebraStriping && i % 2 == 0) Widgets.DrawHighlight(rowRect);
 
-                Text.Anchor = row.WrapValue ? TextAnchor.UpperLeft : TextAnchor.MiddleLeft;
+                Text.Anchor = wrap ? TextAnchor.UpperLeft : TextAnchor.MiddleLeft;
                 bool statusBanner = row.LabelColor.HasValue && string.IsNullOrWhiteSpace(row.Value);
                 Color prev = GUI.color;
                 if (row.LabelColor.HasValue) GUI.color = row.LabelColor.Value;
@@ -140,7 +143,7 @@ namespace TSA_WorldDomination
                 {
                     // Full-width yellow (or other) status line; skip empty value column / em-dash fallback.
                     Rect bannerRect = new Rect(x + 4f, y, rowW - 8f, rowH);
-                    if (row.WrapValue)
+                    if (wrap)
                     {
                         Text.WordWrap = true;
                         Widgets.Label(bannerRect, row.Label ?? "");
@@ -150,7 +153,7 @@ namespace TSA_WorldDomination
                 }
                 else
                 {
-                    if (row.WrapValue)
+                    if (wrap)
                     {
                         Text.WordWrap = true;
                         Widgets.Label(labelRect, row.Label ?? "");
@@ -159,9 +162,10 @@ namespace TSA_WorldDomination
                         Widgets.Label(labelRect, (row.Label ?? "").Truncate(labelRect.width));
                     GUI.color = prev;
                     if (row.ValueColor.HasValue) GUI.color = row.ValueColor.Value;
-                    if (row.WrapValue)
+                    if (wrap)
                     {
                         Text.WordWrap = true;
+                        Text.Anchor = TextAnchor.UpperRight;
                         Widgets.Label(valueRect, row.Value ?? "—");
                     }
                     else
@@ -180,9 +184,10 @@ namespace TSA_WorldDomination
             return y;
         }
 
-        private static float GetRowHeight(float rowW, OutpostStatRow row)
+        private static float GetRowHeight(float rowW, OutpostStatRow row, bool truncateText = true)
         {
-            if (row == null || !row.WrapValue)
+            if (row == null) return RowHeight;
+            if (truncateText && !row.WrapValue)
                 return RowHeight;
 
             const float labelFrac = 0.48f;
@@ -210,12 +215,13 @@ namespace TSA_WorldDomination
             return box.yMax;
         }
 
-        public static float DrawSectionColumn(float x, float y, float width, OutpostStatsSection section)
+        public static float DrawSectionColumn(
+            float x, float y, float width, OutpostStatsSection section, bool truncateText = true)
         {
             if (section == null) return y;
             if (!string.IsNullOrEmpty(section.Title))
                 y = DrawSectionHeader(x, y, width, section.Title);
-            return DrawKeyValueRows(x, y, width, section);
+            return DrawKeyValueRows(x, y, width, section, truncateText: truncateText);
         }
 
         /// <summary>Sections with <see cref="OutpostStatsSection.FullWidth"/> span the row; others are paired in two columns.</summary>

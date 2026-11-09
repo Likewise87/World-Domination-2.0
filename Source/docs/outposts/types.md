@@ -14,7 +14,7 @@ Produces meat, leather, and wool. Output scales with animal abundance on the wor
 
 ### Fishing Outpost
 
-Produces one selected fish species. Output scales with fish stocks on an ocean-coast land tile and the occupants' Animals skill. Fishing upgrades increase fish abundance and defense. **Odyssey is required.**
+Produces one selected fish species. Output scales with fish stocks on a land tile (coastal saltwater or inland freshwater) and the occupants' Animals skill. Fishing upgrades increase fish abundance and defense. **Odyssey is required.**
 
 ### Scavenging Outpost
 

@@ -337,7 +337,7 @@ namespace TSA_WorldDomination
                 case UpgradeBenefitKind.PollutionScrubOneOff:
                     return Key("TSA_WD_OutpostUpgradeImpact_PollutionScrubOneOff");
                 default:
-                    return Key("TSA_WD_OutpostUpgrades_FilterAll");
+                    return Key("TSA_WD_OutpostUpgrades_FilterAllBonuses");
             }
         }
 
@@ -1162,13 +1162,14 @@ namespace TSA_WorldDomination
             }
             else if (showBuy)
             {
-                GUI.enabled = canBuy;
-                if (Widgets.ButtonText(new Rect(x, y, w, BuildButtonH), Key("TSA_WD_OutpostUpgrades_ButtonBuild")))
-                    onBuild?.Invoke();
-                GUI.enabled = true;
+                // Build is only via multi-select + slate "Build selected" on the right list.
                 if (!canBuy && !string.IsNullOrEmpty(check.reason))
-                    TooltipHandler.TipRegion(new Rect(x, y, w, BuildButtonH), check.reason);
-                y += BuildButtonH + DetailSectionGap;
+                {
+                    GUI.color = new Color(0.95f, 0.75f, 0.35f);
+                    LabelAnchored(new Rect(x, y, w, Outpost_Dialog_UI.OutcomeLineH), check.reason, TextAnchor.MiddleCenter);
+                    GUI.color = Color.white;
+                    y += Outpost_Dialog_UI.OutcomeLineH + DetailSectionGap;
+                }
             }
 
             GUI.color = Outpost_Dialog_UI.TheoreticalLabelColor;

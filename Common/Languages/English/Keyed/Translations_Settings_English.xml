@@ -572,7 +572,7 @@
   <TSA_WD_Outpost_ReqAnimals>Require animal abundance for hunting outposts</TSA_WD_Outpost_ReqAnimals>
   <TSA_WD_Outpost_ReqAnimals_Tooltip>If disabled, hunting outposts may be founded on tiles with very few animals (or water-covered tiles).</TSA_WD_Outpost_ReqAnimals_Tooltip>
   <TSA_WD_Outpost_ReqFish>Require fish stocks for fishing outposts</TSA_WD_Outpost_ReqFish>
-  <TSA_WD_Outpost_ReqFish_Tooltip>If disabled, fishing outposts may be founded on coastal tiles with low fish stocks (coast requirement still applies).</TSA_WD_Outpost_ReqFish_Tooltip>
+  <TSA_WD_Outpost_ReqFish_Tooltip>If disabled, fishing outposts may be founded on land tiles with low fish stocks (open water is still disallowed).</TSA_WD_Outpost_ReqFish_Tooltip>
   <TSA_WD_Outpost_ReqMining>Require hills for mining outposts</TSA_WD_Outpost_ReqMining>
   <TSA_WD_Outpost_ReqMining_Tooltip>If disabled, mining outposts may be founded on flat tiles without hills.</TSA_WD_Outpost_ReqMining_Tooltip>
   <TSA_WD_Outpost_ReqResearch>Require research for advanced outposts</TSA_WD_Outpost_ReqResearch>
@@ -705,7 +705,7 @@
   <TSA_WD_WorldMap_OverlayAnimalAbundance>Animal Abundance</TSA_WD_WorldMap_OverlayAnimalAbundance>
   <TSA_WD_WorldMap_OverlayAnimalAbundanceTip>Shows animal abundance around the cursor. Useful for hunting outposts.\n\nColors (hover %):\n• Red: 0–35% (poor)\n• Orange/Yellow: 36–70%\n• Green: 71–100%\n• Purple: over 100% (best; mutators can push higher)\n\nOnly one tile overlay can be active; click again to turn it off.</TSA_WD_WorldMap_OverlayAnimalAbundanceTip>
   <TSA_WD_WorldMap_OverlayFishAbundance>Fish Stocks</TSA_WD_WorldMap_OverlayFishAbundance>
-  <TSA_WD_WorldMap_OverlayFishAbundanceTip>Shows fish stocks around the cursor. Useful for fishing outposts (ocean coasts only).\n\nColors (hover %):\n• Red: 0–35% (poor)\n• Orange/Yellow: 36–70%\n• Green: 71–100%\n• Purple: over 100% (best; mutators can push higher)\n\nOnly one tile overlay can be active; click again to turn it off.</TSA_WD_WorldMap_OverlayFishAbundanceTip>
+  <TSA_WD_WorldMap_OverlayFishAbundanceTip>Shows fish stocks around the cursor. Useful for fishing outposts on land tiles (coastal or inland).\n\nColors (hover %):\n• Red: 0–35% (poor)\n• Orange/Yellow: 36–70%\n• Green: 71–100%\n• Purple: over 100% (best; mutators can push higher)\n\nOnly one tile overlay can be active; click again to turn it off.</TSA_WD_WorldMap_OverlayFishAbundanceTip>
   <TSA_WD_WorldMap_OverlayMiningEfficiency>Mining Efficiency</TSA_WD_WorldMap_OverlayMiningEfficiency>
   <TSA_WD_WorldMap_OverlayMiningEfficiencyTip>Shows mining efficiency around the cursor. Useful for mining outposts.\n\nColors (hover %):\n• Red: 0–35% (poor)\n• Orange/Yellow: 36–70%\n• Green: 71–100%\n• Purple: over 100% (best; mutators can push higher)\n\nOnly one tile overlay can be active; click again to turn it off.</TSA_WD_WorldMap_OverlayMiningEfficiencyTip>
   <TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>Overlays do not take into account Outpost upgrades but only the world tile as is.</TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>

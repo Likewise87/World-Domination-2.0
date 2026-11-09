@@ -477,7 +477,7 @@
   <TSA_WD_Outpost_ReqAnimals>要求狩猎前哨有足够动物丰度</TSA_WD_Outpost_ReqAnimals>
   <TSA_WD_Outpost_ReqAnimals_Tooltip>关闭后,狩猎前哨可以建在动物极少(或被水覆盖)的格子上。</TSA_WD_Outpost_ReqAnimals_Tooltip>
   <TSA_WD_Outpost_ReqFish>要求钓鱼前哨有足够鱼类丰度</TSA_WD_Outpost_ReqFish>
-  <TSA_WD_Outpost_ReqFish_Tooltip>关闭后,钓鱼前哨可以建在鱼类丰度很低的沿岸格上(仍需沿岸)。</TSA_WD_Outpost_ReqFish_Tooltip>
+  <TSA_WD_Outpost_ReqFish_Tooltip>关闭后,钓鱼前哨可以建在鱼类丰度很低的陆地格上(开阔水域仍不可)。</TSA_WD_Outpost_ReqFish_Tooltip>
   <TSA_WD_Outpost_ReqMining>要求矿业前哨所在格子有丘陵</TSA_WD_Outpost_ReqMining>
   <TSA_WD_Outpost_ReqMining_Tooltip>关闭后,矿业前哨可以建在无丘陵的平原格子上。</TSA_WD_Outpost_ReqMining_Tooltip>
   <TSA_WD_Outpost_ReqResearch>要求完成高级前哨所需研究</TSA_WD_Outpost_ReqResearch>
@@ -628,7 +628,7 @@
   <TSA_WD_WorldMap_OverlayAnimalAbundance>动物丰度</TSA_WD_WorldMap_OverlayAnimalAbundance>
   <TSA_WD_WorldMap_OverlayAnimalAbundanceTip>显示光标附近的动物丰度。适合狩猎前哨站。\n\n颜色（悬停 %）：\n• 红：0–35%（差）\n• 橙/黄：36–70%\n• 绿：71–100%\n• 紫：超过 100%（最佳；突变可更高）\n\n同时只能开一层；再点一次关闭。</TSA_WD_WorldMap_OverlayAnimalAbundanceTip>
   <TSA_WD_WorldMap_OverlayFishAbundance>鱼类储量</TSA_WD_WorldMap_OverlayFishAbundance>
-  <TSA_WD_WorldMap_OverlayFishAbundanceTip>显示光标附近的鱼类丰度。适合钓鱼前哨站(仅海洋沿岸)。\n\n颜色（悬停 %）：\n• 红：0–35%（差）\n• 橙/黄：36–70%\n• 绿：71–100%\n• 紫：超过 100%（最佳；突变可更高）\n\n同时只能开一层；再点一次关闭。</TSA_WD_WorldMap_OverlayFishAbundanceTip>
+  <TSA_WD_WorldMap_OverlayFishAbundanceTip>显示光标附近的鱼类丰度。适合陆地格上的钓鱼前哨站(沿岸或内陆)。\n\n颜色（悬停 %）：\n• 红：0–35%（差）\n• 橙/黄：36–70%\n• 绿：71–100%\n• 紫：超过 100%（最佳；突变可更高）\n\n同时只能开一层；再点一次关闭。</TSA_WD_WorldMap_OverlayFishAbundanceTip>
   <TSA_WD_WorldMap_OverlayMiningEfficiency>采矿效率</TSA_WD_WorldMap_OverlayMiningEfficiency>
   <TSA_WD_WorldMap_OverlayMiningEfficiencyTip>显示光标附近的采矿效率。适合采矿前哨站。\n\n颜色（悬停 %）：\n• 红：0–35%（差）\n• 橙/黄：36–70%\n• 绿：71–100%\n• 紫：超过 100%（最佳；突变可更高）\n\n同时只能开一层；再点一次关闭。</TSA_WD_WorldMap_OverlayMiningEfficiencyTip>
   <TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>叠加层不考虑前哨站升级，仅反映世界格子本身的情况。</TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>

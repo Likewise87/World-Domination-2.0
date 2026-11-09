@@ -608,13 +608,15 @@ namespace TSA_WorldDomination
                         line.text = "TSA_WD_Req_FishingMin".Translate(fishPct, minFish).ToString();
                         bool tileOk = Find.WorldGrid != null && tile >= 0 && tile < Find.WorldGrid.TilesCount
                             && !Find.WorldGrid[tile].WaterCovered;
-                        bool coastalOk = tileOk && Find.WorldGrid[tile].IsCoastal;
-                        bool hasFish = coastalOk && Outpost_Fishing.HasAnySaltwaterFish(tile);
+                        bool hasWater = tileOk && Outpost_Fishing.TileHasFishableWater(tile);
+                        bool hasFish = hasWater && Outpost_Fishing.HasAnyFishForTile(tile);
                         line.met = hasFish && fishPct >= minFish;
                         if (line.met)
                             line.tooltip = "TSA_WD_Req_Tooltip_FishingMet".Translate().ToString();
-                        else if (!coastalOk)
+                        else if (!tileOk)
                             line.tooltip = "TSA_WD_Req_Tooltip_FishingNotCoastal".Translate().ToString();
+                        else if (!hasWater)
+                            line.tooltip = "TSA_WD_Req_Tooltip_FishingNeedLakeOrRiver".Translate().ToString();
                         else if (!hasFish)
                             line.tooltip = "TSA_WD_Req_Tooltip_FishingNone".Translate().ToString();
                         else
@@ -746,10 +748,11 @@ namespace TSA_WorldDomination
                     string dn = def?.defName?.ToLowerInvariant() ?? "";
                     if (dn.Contains("fishing"))
                     {
-                        bool coastalOk = Find.WorldGrid != null && tile >= 0 && tile < Find.WorldGrid.TilesCount
-                            && !Find.WorldGrid[tile].WaterCovered
-                            && Find.WorldGrid[tile].IsCoastal;
-                        if (coastalOk && !Outpost_EstablishmentRequirements.EnforceFishAbundance)
+                        bool landOk = Find.WorldGrid != null && tile >= 0 && tile < Find.WorldGrid.TilesCount
+                            && !Find.WorldGrid[tile].WaterCovered;
+                        bool waterOk = landOk && Outpost_Fishing.TileHasFishableWater(tile);
+                        // Coast / lake / river is always required; settings only waive the abundance % floor.
+                        if (waterOk && !Outpost_EstablishmentRequirements.EnforceFishAbundance)
                             MarkReqWaived(ref line, settingsTip);
                     }
                     else if (!Outpost_EstablishmentRequirements.EnforceAnimalAbundance)

@@ -221,10 +221,12 @@ namespace TSA_WorldDomination
             WorldObject origin,
             int componentsInMaterialCost,
             string shortAfterBuyKey,
-            out string reason)
+            out string reason,
+            int launchCount = 1)
         {
             reason = null;
-            int podNeed = PlayerPawnDropPodUtility.ComponentCostPerLaunch;
+            int perLaunch = PlayerPawnDropPodUtility.ComponentCostPerLaunch;
+            int podNeed = perLaunch * Mathf.Max(0, launchCount);
             if (podNeed <= 0) return true;
             if (origin == null) return true;
             if (!OutpostDispatchMode.GetViaDropPod(origin) || !RapidResponseUtility.TransportPodsResearched())

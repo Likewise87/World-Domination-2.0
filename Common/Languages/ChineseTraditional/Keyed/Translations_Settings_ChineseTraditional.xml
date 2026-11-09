@@ -1124,7 +1124,7 @@
   <!-- EN: Require fish stocks for fishing outposts -->
   <TSA_WD_Outpost_ReqFish>漁業哨站需要魚類資源</TSA_WD_Outpost_ReqFish>
   <!-- EN: If disabled, fishing outposts may be founded on coastal tiles with low fish stocks (coast requirement still applies). -->
-  <TSA_WD_Outpost_ReqFish_Tooltip>停用時，漁業哨站可建立在魚類資源偏低的沿海地塊上（仍須位於海岸）。</TSA_WD_Outpost_ReqFish_Tooltip>
+  <TSA_WD_Outpost_ReqFish_Tooltip>停用時，漁業哨站可建立在魚類資源偏低的陸地地塊上（開闊水域仍不可）。</TSA_WD_Outpost_ReqFish_Tooltip>
   <!-- EN: Require hills for mining outposts -->
   <TSA_WD_Outpost_ReqMining>採礦哨站需要丘陵</TSA_WD_Outpost_ReqMining>
   <!-- EN: If disabled, mining outposts may be founded on flat tiles without hills. -->
@@ -1390,7 +1390,7 @@
   <!-- EN: Fish Stocks -->
   <TSA_WD_WorldMap_OverlayFishAbundance>魚類資源</TSA_WD_WorldMap_OverlayFishAbundance>
   <!-- EN: Shows fish stocks around the cursor. Useful for fishing outposts (ocean coasts only).\n\nColors (hover %):\n• Red: 0–35% (poor)\n• Orange/Yellow: 36–70%\n• Green: 71–100%\n• Purple: over 100% (best; mutators can push higher)\n\nOnly one tile overlay can be active; click again to turn it off. -->
-  <TSA_WD_WorldMap_OverlayFishAbundanceTip>顯示滑鼠指標周圍的魚類資源。適合用於漁業哨站（僅限海洋沿岸）。\n\n顏色（懸停顯示 %）：\n• 紅色：0–35%（差）\n• 橙色/黃色：36–70%\n• 綠色：71–100%\n• 紫色：超過100%（最佳；地塊特性可使其更高）\n\n同時只能啟用一種地塊疊加層；再次點擊即可關閉。</TSA_WD_WorldMap_OverlayFishAbundanceTip>
+  <TSA_WD_WorldMap_OverlayFishAbundanceTip>顯示滑鼠指標周圍的魚類資源。適合用於陸地地塊上的漁業哨站（沿岸或內陸）。\n\n顏色（懸停顯示 %）：\n• 紅色：0–35%（差）\n• 橙色/黃色：36–70%\n• 綠色：71–100%\n• 紫色：超過100%（最佳；地塊特性可使其更高）\n\n同時只能啟用一種地塊疊加層；再次點擊即可關閉。</TSA_WD_WorldMap_OverlayFishAbundanceTip>
   <!-- EN: Mining Efficiency -->
   <TSA_WD_WorldMap_OverlayMiningEfficiency>採礦效率</TSA_WD_WorldMap_OverlayMiningEfficiency>
   <!-- EN: Shows mining efficiency around the cursor. Useful for mining outposts.\n\nColors (hover %):\n• Red: 0–35% (poor)\n• Orange/Yellow: 36–70%\n• Green: 71–100%\n• Purple: over 100% (best; mutators can push higher)\n\nOnly one tile overlay can be active; click again to turn it off. -->

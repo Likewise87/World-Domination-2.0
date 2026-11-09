@@ -518,7 +518,7 @@
   <TSA_WD_Outpost_ReqAnimals>Requerir abundancia de animales para avanzadillas de caza</TSA_WD_Outpost_ReqAnimals>
   <TSA_WD_Outpost_ReqAnimals_Tooltip>Si se desactiva, las avanzadillas de caza pueden fundarse en casillas con muy pocos animales (o cubiertas de agua).</TSA_WD_Outpost_ReqAnimals_Tooltip>
   <TSA_WD_Outpost_ReqFish>Requerir abundancia de peces para avanzadillas de pesca</TSA_WD_Outpost_ReqFish>
-  <TSA_WD_Outpost_ReqFish_Tooltip>Si se desactiva, las avanzadillas de pesca pueden fundarse en costas con baja abundancia de peces (sigue haciendo falta costa).</TSA_WD_Outpost_ReqFish_Tooltip>
+  <TSA_WD_Outpost_ReqFish_Tooltip>Si se desactiva, las avanzadillas de pesca pueden fundarse en casillas terrestres con baja abundancia de peces (el agua abierta sigue sin valer).</TSA_WD_Outpost_ReqFish_Tooltip>
   <TSA_WD_Outpost_ReqMining>Requerir colinas para avanzadillas mineras</TSA_WD_Outpost_ReqMining>
   <TSA_WD_Outpost_ReqMining_Tooltip>Si se desactiva, las avanzadillas mineras pueden fundarse en casillas llanas sin colinas.</TSA_WD_Outpost_ReqMining_Tooltip>
   <TSA_WD_Outpost_ReqResearch>Requerir investigación para avanzadillas avanzadas</TSA_WD_Outpost_ReqResearch>
@@ -625,7 +625,7 @@
   <TSA_WD_WorldMap_OverlayAnimalAbundance>Abundancia animal</TSA_WD_WorldMap_OverlayAnimalAbundance>
   <TSA_WD_WorldMap_OverlayAnimalAbundanceTip>Muestra la abundancia animal alrededor del cursor. Útil para caza.\n\nColores (% al pasar):\n• Rojo: 0–35% (pobre)\n• Naranja/Amarillo: 36–70%\n• Verde: 71–100%\n• Púrpura: más de 100% (mejor)\n\nSolo una superposición a la vez; clic de nuevo para apagar.</TSA_WD_WorldMap_OverlayAnimalAbundanceTip>
   <TSA_WD_WorldMap_OverlayFishAbundance>Caladeros</TSA_WD_WorldMap_OverlayFishAbundance>
-  <TSA_WD_WorldMap_OverlayFishAbundanceTip>Muestra la abundancia de peces alrededor del cursor. Útil para pesca (solo costas oceánicas).\n\nColores (% al pasar):\n• Rojo: 0–35% (pobre)\n• Naranja/Amarillo: 36–70%\n• Verde: 71–100%\n• Púrpura: más de 100% (mejor)\n\nSolo una superposición a la vez; clic de nuevo para apagar.</TSA_WD_WorldMap_OverlayFishAbundanceTip>
+  <TSA_WD_WorldMap_OverlayFishAbundanceTip>Muestra la abundancia de peces alrededor del cursor. Útil para pesca en casillas terrestres (costa o interior).\n\nColores (% al pasar):\n• Rojo: 0–35% (pobre)\n• Naranja/Amarillo: 36–70%\n• Verde: 71–100%\n• Púrpura: más de 100% (mejor)\n\nSolo una superposición a la vez; clic de nuevo para apagar.</TSA_WD_WorldMap_OverlayFishAbundanceTip>
   <TSA_WD_WorldMap_OverlayMiningEfficiency>Eficiencia minera</TSA_WD_WorldMap_OverlayMiningEfficiency>
   <TSA_WD_WorldMap_OverlayMiningEfficiencyTip>Muestra la eficiencia minera alrededor del cursor. Útil para minería.\n\nColores (% al pasar):\n• Rojo: 0–35% (pobre)\n• Naranja/Amarillo: 36–70%\n• Verde: 71–100%\n• Púrpura: más de 100% (mejor)\n\nSolo una superposición a la vez; clic de nuevo para apagar.</TSA_WD_WorldMap_OverlayMiningEfficiencyTip>
   <TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>Las superposiciones no tienen en cuenta las mejoras de los puestos de avanzada, solo la casilla del mundo tal cual.</TSA_WD_WorldMap_OverlayIgnoresOutpostUpgrades>

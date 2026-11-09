@@ -68,7 +68,7 @@ namespace TSA_WorldDomination
                 reason = "TSA_WD_TypeChange_AlreadyPending".Translate();
                 return false;
             }
-            if (!string.IsNullOrEmpty(outpost.PendingUpgradeDefName))
+            if (outpost.HasPendingUpgrade)
             {
                 reason = "TSA_WD_OutpostUpgrades_InTransit".Translate();
                 return false;

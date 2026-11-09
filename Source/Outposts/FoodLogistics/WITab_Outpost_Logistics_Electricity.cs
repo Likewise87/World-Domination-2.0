@@ -35,6 +35,9 @@ namespace TSA_WorldDomination
         private static string s_keepHereColonyTip;
         private static string s_paneFood;
         private static string s_paneElectricity;
+        private static string s_powerToggleTipSmart;
+        private static string s_powerDistributeTo;
+        private static string s_powerResetAllocationTip;
 
         private static void EnsurePowerStaticStrings()
         {
@@ -52,6 +55,23 @@ namespace TSA_WorldDomination
             if (s_paneFood.Contains("TSA_LogisticsPane_Food")) s_paneFood = "Food";
             s_paneElectricity = "TSA_LogisticsPane_Electricity".Translate().ToString();
             if (s_paneElectricity.Contains("TSA_LogisticsPane_Electricity")) s_paneElectricity = "Electricity";
+
+            string powerNote = "TSA_AutoUpdateNote_Power".Translate().ToString();
+            if (powerNote.Contains("TSA_AutoUpdateNote_Power"))
+                powerNote = "\n\nRecalculates when outposts or power settings change (with a quiet fingerprint check each power pulse).";
+            s_powerToggleTipSmart = "TSA_PowerDeficitTooltip".Translate().ToString();
+            if (s_powerToggleTipSmart.Contains("TSA_PowerDeficitTooltip"))
+            {
+                s_powerToggleTipSmart =
+                    "1) Cover every reachable outpost up to full demand (worst shortages first), using surplus from all Smart power plants in range together.\n2) Leftover generation stays as Keep and feeds the colony power grid.";
+            }
+            s_powerToggleTipSmart += powerNote;
+            s_powerDistributeTo = "TSA_Logistics_SectionOtherOutposts_Power".Translate().ToString();
+            if (s_powerDistributeTo.Contains("TSA_Logistics_SectionOtherOutposts_Power"))
+                s_powerDistributeTo = "Distribute surplus power to outposts in range:";
+            s_powerResetAllocationTip = "TSA_Logistics_ResetAllocationTip_Power".Translate().ToString();
+            if (s_powerResetAllocationTip.Contains("TSA_Logistics_ResetAllocationTip_Power"))
+                s_powerResetAllocationTip = "Switch to Manual and clear all power sent from this plant to other outposts. Residual Keep still feeds the colony.";
         }
 
         /// <summary>Vanilla Form-Caravan style tabs along the top edge of <paramref name="contentRect"/>.</summary>
@@ -86,8 +106,8 @@ namespace TSA_WorldDomination
 
             bool isPlant = SelOutpost.IsPowerPlantOutpost;
 
-            // Same column geometry as food FillTab (RightColumnBoost shrinks left, widens right for producer tables).
-            float leftColW = Mathf.Max(200f, body.width * LeftColumnFraction - RightColumnBoost);
+            // Keep left stats readable (no RightColumnBoost); long power labels wrap instead of truncating.
+            float leftColW = Mathf.Max(260f, body.width * LeftColumnFraction);
             float rightX = body.x + leftColW + ColumnGap;
             float rightW = body.width - leftColW - ColumnGap;
             Text.Font = GameFont.Medium;
@@ -102,7 +122,7 @@ namespace TSA_WorldDomination
             float contentH = body.height - TabHeaderConsumedHeight;
 
             var powerSection = EnsurePowerSectionFresh();
-            OutpostTabStatsUi.DrawSectionColumn(body.x, contentY, leftColW, powerSection);
+            OutpostTabStatsUi.DrawSectionColumn(body.x, contentY, leftColW, powerSection, truncateText: false);
 
             float dividerX = body.x + leftColW + ColumnGap * 0.5f;
             Widgets.DrawLineVertical(dividerX, contentY, contentH);
@@ -195,8 +215,9 @@ namespace TSA_WorldDomination
             DrawPowerKeepHereRow(keepRow, keepHere);
             y += ProducerRowStep;
 
+            EnsurePowerStaticStrings();
             GUI.color = Widgets.SeparatorLabelColor;
-            Widgets.Label(new Rect(rightRect.x, y, rightRect.width, 22f), s_distributeTo);
+            Widgets.Label(new Rect(rightRect.x, y, rightRect.width, 22f), s_powerDistributeTo);
             GUI.color = Color.white;
             y += 24f;
 
@@ -230,6 +251,7 @@ namespace TSA_WorldDomination
 
         private void DrawPowerSmartToggles(Rect rect, WorldComponent_OutpostPowerGrid grid)
         {
+            EnsurePowerStaticStrings();
             const float btnSize = 24f;
             const float labelGap = 4f;
             const float groupGap = 16f;
@@ -245,11 +267,12 @@ namespace TSA_WorldDomination
                 if (!smart)
                 {
                     SelOutpost.SetPowerLogisticsMode(LogisticsMode.Smart);
+                    grid.CompleteSmartPowerRefreshNow();
                     SoundDefOf.Click.PlayOneShotOnCamera();
                 }
             }
             LabelAnchored(new Rect(smartX + btnSize + labelGap, rect.y, smartLabelW, btnSize), s_toggleLblSmart, TextAnchor.MiddleLeft);
-            TooltipHandler.TipRegion(smartHit, s_toggleTipSmart);
+            TooltipHandler.TipRegion(smartHit, s_powerToggleTipSmart);
 
             float manualLabelW = Text.CalcSize(s_toggleLblManual).x;
             float manualGroupW = btnSize + labelGap + manualLabelW;
@@ -276,7 +299,7 @@ namespace TSA_WorldDomination
                 powerDestCacheTick = -999999;
                 SoundDefOf.Click.PlayOneShotOnCamera();
             }
-            TooltipHandler.TipRegion(resetRect, s_resetAllocationTip);
+            TooltipHandler.TipRegion(resetRect, s_powerResetAllocationTip);
         }
 
         private void DrawPowerProducerInterface(
