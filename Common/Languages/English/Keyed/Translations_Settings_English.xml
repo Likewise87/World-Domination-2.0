@@ -507,6 +507,8 @@
   <TSA_WD_FactionCol_BaseGen_Tooltip>Allow WD to control map generation for this faction when you attack one of their settlements. T1 settlements become tiny villages; T4 citadels become actual fortresses.</TSA_WD_FactionCol_BaseGen_Tooltip>
   <TSA_WD_FactionCol_BaseGen_RequiresWdActions>Requires WD Actions for this faction.</TSA_WD_FactionCol_BaseGen_RequiresWdActions>
   <TSA_WD_FactionCol_NA>N/A</TSA_WD_FactionCol_NA>
+  <TSA_WD_FactionColor_Tip>Left-click to pick this faction's color (world map, icons, travelers). Right-click to restore the default spectrum color.</TSA_WD_FactionColor_Tip>
+  <TSA_WD_FactionColor_DisabledTip>Defeated factions cannot change color.</TSA_WD_FactionColor_DisabledTip>
   <TSA_WD_FactionCol_StorytellerRaids>Storyteller</TSA_WD_FactionCol_StorytellerRaids>
   <TSA_WD_FactionCol_StorytellerRaids_Tooltip>May this faction spawn storyteller raids? Off by default. You may activate both WD Actions and Storyteller Raids so you may get raided through both ways.</TSA_WD_FactionCol_StorytellerRaids_Tooltip>
   <TSA_WD_StorytellerBlockedRaid_Drop>Drop invalid Storyteller Raids</TSA_WD_StorytellerBlockedRaid_Drop>

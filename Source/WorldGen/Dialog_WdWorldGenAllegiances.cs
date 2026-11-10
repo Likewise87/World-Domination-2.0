@@ -932,15 +932,26 @@ namespace TSA_WorldDomination
             return 0;
         }
 
+        private const float FactionColorSwatchSize = 14f;
+        private const float FactionColorSwatchGap = 4f;
+
         private static void DrawFactionChip(Rect rect, Faction faction, bool grayed)
         {
             float iconSize = 22f;
             Rect iconRect = new Rect(rect.x, rect.y + (rect.height - iconSize) / 2f, iconSize, iconSize);
-            Rect textRect = new Rect(iconRect.xMax + 6f, rect.y, rect.width - (iconSize + 6f), rect.height);
+            Rect swatchRect = new Rect(
+                iconRect.xMax + FactionColorSwatchGap,
+                rect.y + (rect.height - FactionColorSwatchSize) / 2f,
+                FactionColorSwatchSize,
+                FactionColorSwatchSize);
+            float afterIcons = swatchRect.xMax + 6f;
+            Rect textRect = new Rect(afterIcons, rect.y, Mathf.Max(0f, rect.xMax - afterIcons), rect.height);
 
             GUI.color = grayed ? Color.gray : faction.Color;
             Widgets.DrawTextureFitted(iconRect, faction.def.FactionIcon, 1f);
             GUI.color = Color.white;
+
+            DrawFactionColorSwatch(swatchRect, faction, grayed);
 
             Text.Anchor = TextAnchor.MiddleLeft;
             Text.Font = GameFont.Tiny;
@@ -952,6 +963,38 @@ namespace TSA_WorldDomination
             Widgets.Label(textRect, name.Truncate(textRect.width));
             Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.UpperLeft;
+        }
+
+        private static void DrawFactionColorSwatch(Rect swatchRect, Faction faction, bool grayed)
+        {
+            if (faction == null) return;
+
+            Color fill = grayed ? Color.gray : faction.Color;
+            Widgets.DrawBoxSolid(swatchRect, fill);
+            GUI.color = new Color(1f, 1f, 1f, 0.55f);
+            Widgets.DrawBox(swatchRect, 1);
+            GUI.color = Color.white;
+
+            if (grayed)
+            {
+                TooltipHandler.TipRegion(swatchRect, "TSA_WD_FactionColor_DisabledTip".Translate());
+                return;
+            }
+
+            TooltipHandler.TipRegion(swatchRect, "TSA_WD_FactionColor_Tip".Translate());
+            if (Mouse.IsOver(swatchRect)
+                && Event.current.type == EventType.MouseDown
+                && Event.current.button == 1)
+            {
+                Event.current.Use();
+                WdFactionColorUtil.Apply(faction, null);
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
+            else if (Widgets.ButtonInvisible(swatchRect))
+            {
+                Find.WindowStack.Add(new Dialog_WdFactionColorPicker(faction));
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
         }
     }
 }

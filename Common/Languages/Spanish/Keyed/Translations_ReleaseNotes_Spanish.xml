@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_71_Title>Selector de color para facciones</TSA_WD_Update_2_3_71_Title>
+  <TSA_WD_Update_2_3_71_Body><![CDATA[
+<size=16><b>2.3.71 - Selector de color para facciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 10 de noviembre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Nueva función: ve a la pestaña principal de WD > Configure Scope. Ahí puedes cambiar el color de cada facción con el selector de color. Se guarda por partida.\n
+]]></TSA_WD_Update_2_3_71_Body>
   <TSA_WD_Update_2_3_70_Title>Mejoras de avanzada por lotes y más</TSA_WD_Update_2_3_70_Title>
   <TSA_WD_Update_2_3_70_Body><![CDATA[
 <size=16><b>2.3.70 - Mejoras de avanzada por lotes y más</b></size>\n

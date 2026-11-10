@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_71_Title>派系颜色选择器</TSA_WD_Update_2_3_71_Title>
+  <TSA_WD_Update_2_3_71_Body><![CDATA[
+<size=16><b>2.3.71 - 派系颜色选择器</b></size>\n
+<color=#00FFFFFF>发布日期：2026年11月10日</color>\n
+------------------------------\n
+!!!改动仅适用于 1.7 版本!!!\n
+• 新功能：打开 WD 主标签 > Configure Scope，可用颜色选择器为各派系改色。按存档保存。\n
+]]></TSA_WD_Update_2_3_71_Body>
   <TSA_WD_Update_2_3_70_Title>批量前哨升级及其他</TSA_WD_Update_2_3_70_Title>
   <TSA_WD_Update_2_3_70_Body><![CDATA[
 <size=16><b>2.3.70 - 批量前哨升级及其他</b></size>\n

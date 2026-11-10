@@ -413,6 +413,8 @@
   <TSA_WD_FactionCol_BaseGen_Tooltip>进攻该派系定居点时，允许 WD 控制地图生成。T1 定居点会是小村庄，T4 要塞则是真正的堡垒。</TSA_WD_FactionCol_BaseGen_Tooltip>
   <TSA_WD_FactionCol_BaseGen_RequiresWdActions>需要该派系的 WD 行动。</TSA_WD_FactionCol_BaseGen_RequiresWdActions>
   <TSA_WD_FactionCol_NA>不适用</TSA_WD_FactionCol_NA>
+  <TSA_WD_FactionColor_Tip>左键选择该派系颜色（世界地图、图标、旅行队）。右键恢复默认色谱颜色。</TSA_WD_FactionColor_Tip>
+  <TSA_WD_FactionColor_DisabledTip>已覆灭的派系无法更改颜色。</TSA_WD_FactionColor_DisabledTip>
   <TSA_WD_FactionCol_StorytellerRaids>叙事者</TSA_WD_FactionCol_StorytellerRaids>
   <TSA_WD_FactionCol_StorytellerRaids_Tooltip>该派系是否可能产生叙事者袭击？默认关闭。可同时启用 WD 行动与叙事者袭击，从而通过两种方式遭到袭击。</TSA_WD_FactionCol_StorytellerRaids_Tooltip>
   <TSA_WD_StorytellerBlockedRaid_Drop>丢弃无效的叙事者袭击</TSA_WD_StorytellerBlockedRaid_Drop>

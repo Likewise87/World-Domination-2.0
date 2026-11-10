@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_71_Title>Color picker for factions</TSA_WD_Update_2_3_71_Title>
+  <TSA_WD_Update_2_3_71_Body><![CDATA[
+<size=16><b>2.3.71 - Color picker for factions</b></size>\n
+<color=#00FFFFFF>Release date: November 10th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• New Feature: Go to the WD Main Tab > Configure Scope. There you can change the color of each faction via color picker. Stored per save game.\n
+]]></TSA_WD_Update_2_3_71_Body>
   <TSA_WD_Update_2_3_70_Title>Batch Outpost Upgrades &amp; more</TSA_WD_Update_2_3_70_Title>
   <TSA_WD_Update_2_3_70_Body><![CDATA[
 <size=16><b>2.3.70 - Batch Outpost Upgrades & more</b></size>\n

@@ -405,6 +405,8 @@
   <TSA_WD_FactionCol_BaseGen_Tooltip>Permite que WD controle la generación del mapa de esta facción cuando atacas uno de sus asentamientos. Los asentamientos T1 serán aldeas pequeñas; las ciudadelas T4, fortalezas de verdad.</TSA_WD_FactionCol_BaseGen_Tooltip>
   <TSA_WD_FactionCol_BaseGen_RequiresWdActions>Requiere Acciones WD para esta facción.</TSA_WD_FactionCol_BaseGen_RequiresWdActions>
   <TSA_WD_FactionCol_NA>N/D</TSA_WD_FactionCol_NA>
+  <TSA_WD_FactionColor_Tip>Clic izquierdo para elegir el color de esta facción (mapa mundial, iconos, viajeros). Clic derecho para restaurar el color por defecto del espectro.</TSA_WD_FactionColor_Tip>
+  <TSA_WD_FactionColor_DisabledTip>Las facciones derrotadas no pueden cambiar de color.</TSA_WD_FactionColor_DisabledTip>
   <TSA_WD_FactionCol_StorytellerRaids>Narrador</TSA_WD_FactionCol_StorytellerRaids>
   <TSA_WD_FactionCol_StorytellerRaids_Tooltip>¿Puede esta facción enviar incursiones del narrador? Desactivado por defecto. Puedes activar Acciones WD e incursiones del narrador para recibir ataques por ambas vías.</TSA_WD_FactionCol_StorytellerRaids_Tooltip>
   <TSA_WD_StorytellerBlockedRaid_Drop>Descartar incursiones del narrador no válidas</TSA_WD_StorytellerBlockedRaid_Drop>
