@@ -382,7 +382,11 @@ namespace TSA_WorldDomination
                         if (SendBlockedKey(cachedRows[i]) == null)
                             selectedRowIds.Add(cachedRows[i].rowId);
                 }
-                else selectedRowIds.Clear();
+                else
+                {
+                    for (int i = 0; i < cachedRows.Count; i++)
+                        selectedRowIds.Remove(cachedRows[i].rowId);
+                }
             }
             curX += ColSelect;
         }
@@ -1073,8 +1077,9 @@ namespace TSA_WorldDomination
 
         private void PruneStaleState()
         {
+            // Prune against the full unfiltered collect so filter / MaxRows changes keep selection.
             var live = new HashSet<string>();
-            for (int i = 0; i < cachedRows.Count; i++) live.Add(cachedRows[i].rowId);
+            for (int i = 0; i < filterBaseRows.Count; i++) live.Add(filterBaseRows[i].rowId);
             selectedRowIds.RemoveWhere(id => !live.Contains(id));
 
             var stale = new List<string>();
@@ -1148,9 +1153,9 @@ namespace TSA_WorldDomination
         private bool ToolbarShowsViaDropPod()
         {
             if (viaDropPod) return true;
-            for (int i = 0; i < cachedRows.Count; i++)
+            for (int i = 0; i < filterBaseRows.Count; i++)
             {
-                InventoryRow r = cachedRows[i];
+                InventoryRow r = filterBaseRows[i];
                 if (r?.rowId == null || !selectedRowIds.Contains(r.rowId)) continue;
                 if (OutpostDispatchMode.GetViaDropPod(r.source))
                     return true;
@@ -1173,9 +1178,9 @@ namespace TSA_WorldDomination
         private void ApplyDispatchModeToSelectedSources(bool wantPods)
         {
             var seen = new HashSet<WorldObject>();
-            for (int i = 0; i < cachedRows.Count; i++)
+            for (int i = 0; i < filterBaseRows.Count; i++)
             {
-                InventoryRow r = cachedRows[i];
+                InventoryRow r = filterBaseRows[i];
                 if (r?.rowId == null || !selectedRowIds.Contains(r.rowId)) continue;
                 WorldObject origin = r.source;
                 if (origin == null || !seen.Add(origin)) continue;
@@ -1586,9 +1591,9 @@ namespace TSA_WorldDomination
         private Dictionary<WorldObject, List<InventoryRow>> GroupSelectionBySource()
         {
             var bySource = new Dictionary<WorldObject, List<InventoryRow>>();
-            for (int i = 0; i < cachedRows.Count; i++)
+            for (int i = 0; i < filterBaseRows.Count; i++)
             {
-                InventoryRow r = cachedRows[i];
+                InventoryRow r = filterBaseRows[i];
                 if (!selectedRowIds.Contains(r.rowId)) continue;
                 if (ResolveSendCount(r) <= 0) continue;
                 if (r.source == null || SendBlockedKey(r) != null) continue;
