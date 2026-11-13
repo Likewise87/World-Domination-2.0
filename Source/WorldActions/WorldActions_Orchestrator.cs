@@ -182,6 +182,8 @@ namespace TSA_WorldDomination
         public bool escalationLatchInited;
         /// <summary>Next Mid/Late outpost silver-upkeep deadline tick; -1 when inactive/cancelled.</summary>
         public int outpostUpkeepNextTick = -1;
+        /// <summary>Next Mid/Late goodwill drain pulse tick; -1 means due on next eligible daily budget.</summary>
+        public int goodwillDrainNextTick = -1;
         /// <summary>World total strength (includes player outposts) from the last full recompute; denominator for cheap refreshes.</summary>
         private float cachedWorldTotalStrength;
         public Dictionary<long, int> distanceCache = new Dictionary<long, int>();
@@ -1802,6 +1804,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref escalationLetterNotifiedStage, "escalationLetterNotifiedStage", WdEscalationStage.None);
             Scribe_Values.Look(ref escalationLatchInited, "escalationLatchInited", false);
             Scribe_Values.Look(ref outpostUpkeepNextTick, "outpostUpkeepNextTick", -1);
+            Scribe_Values.Look(ref goodwillDrainNextTick, "goodwillDrainNextTick", -1);
             Scribe_Values.Look(ref lastWorldThreatTier, "lastWorldThreatTier", WorldThreatTier.None);
 
             Scribe_Values.Look(ref ticksUntilNextAction, "ticksUntilNextAction", 0);

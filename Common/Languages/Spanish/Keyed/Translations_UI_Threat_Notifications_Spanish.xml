@@ -310,9 +310,9 @@
   <TSA_WD_Difficulty_NotifyOutpostInc>Carta: incidente en avanzadilla</TSA_WD_Difficulty_NotifyOutpostInc>
   <TSA_WD_Difficulty_NotifyOutpostIncTooltip>Cuando un incidente reduce la fuerza de la avanzadilla.</TSA_WD_Difficulty_NotifyOutpostIncTooltip>
   <TSA_WD_Difficulty_EnableGoodwillDrain>Drenaje periódico de buena voluntad</TSA_WD_Difficulty_EnableGoodwillDrain>
-  <TSA_WD_Difficulty_EnableGoodwillDrainTooltip>Con Mid Game o Late Game activo, reduce periódicamente la buena voluntad con facciones que no sean enemigos permanentes. Los enemigos permanentes se omiten. Un mensaje por pulso; mensajes extra solo al cambiar Aliado/Neutral/Hostil.</TSA_WD_Difficulty_EnableGoodwillDrainTooltip>
+  <TSA_WD_Difficulty_EnableGoodwillDrainTooltip>Requiere el interruptor maestro Mid/Late Game y una etapa Mid o Late activa. Reduce periódicamente la buena voluntad con facciones que no sean enemigos permanentes. Los enemigos permanentes se omiten. Un mensaje por pulso; mensajes extra solo al cambiar Aliado/Neutral/Hostil. La programación sobrevive al guardar/cargar.</TSA_WD_Difficulty_EnableGoodwillDrainTooltip>
   <TSA_WD_Difficulty_GoodwillDrainInterval>Intervalo de drenaje (días)</TSA_WD_Difficulty_GoodwillDrainInterval>
-  <TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>Días entre pulsos de drenaje de buena voluntad mientras Mid Game o Late Game esté activo.</TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>
+  <TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>Cadencia compartida Mid+Late: días entre pulsos de drenaje mientras el maestro Mid/Late Game esté activo y haya etapa Mid o Late. Cambiar este valor reinicia la cuenta desde ahora. La programación sobrevive al guardar/cargar.</TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>
   <TSA_WD_MidGame_Header>Mid Game</TSA_WD_MidGame_Header>
   <TSA_WD_MidGame_ShareThreshold>Cuota de fuerza del jugador para dificultad Mid-Game</TSA_WD_MidGame_ShareThreshold>
   <TSA_WD_MidGame_ShareThresholdTooltip>Mid Game se activa cuando tu fuerza total de avanzadillas alcanza esta fracción de la fuerza mundial.</TSA_WD_MidGame_ShareThresholdTooltip>

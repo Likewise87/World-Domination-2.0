@@ -238,6 +238,7 @@ SSoT: `WdEscalation` (`Core/WdEscalation.cs`) + latched state on `WorldComponent
 - **Letters**: one-shot `LetterDefOf.NegativeEvent` when notified floor rises; body from `BuildStageLetterText` (intro + `BuildActiveEffectsTooltip`). Debug Force Mid/Late always re-letters.
 - **Debug Force Early**: clears latch + caches to None. Next metrics pass may re-raise Mid/Late from thresholds (raise settings if you want to stay early).
 - Master switch off clears **cached** Mid/Late effects only; latch and letter floor stay.
+- **Goodwill drain**: `EscalationGoodwillDrain.TryPulse` from `CalculateDailyBudget`; interval from `goodwillDrainIntervalDays`; next pulse tick is scribed as `goodwillDrainNextTick` on the spread manager (not a process-static clock).
 
 ## Naming (UI vs code)
 

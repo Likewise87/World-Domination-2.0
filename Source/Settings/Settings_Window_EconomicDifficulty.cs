@@ -277,14 +277,20 @@ var s = WorldDominationMod.settings;
                 "TSA_WD_Experimental_NpcRaidKillGoodwillPer500Tip".Translate(),
                 1f, SliderFormat.Fixed0, WorldDominationSettings.DefNpcRaidKillGoodwillPer500Strength);
 
+            bool prevEnable = s.enableGoodwillDrain;
             SettingsUI.DrawCheckbox(l, "TSA_WD_Difficulty_EnableGoodwillDrain".Translate(), ref s.enableGoodwillDrain,
                 SettingsUI.TooltipWithDefault("TSA_WD_Difficulty_EnableGoodwillDrainTooltip".Translate(), WorldDominationSettings.DefEnableGoodwillDrain));
+            if (prevEnable != s.enableGoodwillDrain)
+                EscalationGoodwillDrain.RescheduleFromSettings();
 
             if (!s.enableGoodwillDrain)
                 return;
 
+            int prevInterval = s.goodwillDrainIntervalDays;
             s.goodwillDrainIntervalDays = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_Difficulty_GoodwillDrainInterval".Translate(), s.goodwillDrainIntervalDays, 1f, 60f,
                 "TSA_WD_Difficulty_GoodwillDrainIntervalTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefGoodwillDrainIntervalDays));
+            if (prevInterval != s.goodwillDrainIntervalDays)
+                EscalationGoodwillDrain.RescheduleFromSettings();
             s.midGameGoodwillDrainAmount = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_MidGame_GoodwillDrainAmount".Translate(), s.midGameGoodwillDrainAmount, 0f, 50f,
                 "TSA_WD_MidGame_GoodwillDrainAmountTooltip".Translate(), 1f, SliderFormat.Fixed0, WorldDominationSettings.DefMidGameGoodwillDrainAmount));
             s.lateGameGoodwillDrainAmount = Mathf.RoundToInt(SettingsUI.LabeledSlider(l, "TSA_WD_LateGame_GoodwillDrainAmount".Translate(), s.lateGameGoodwillDrainAmount, 0f, 50f,

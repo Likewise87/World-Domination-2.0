@@ -671,11 +671,11 @@
   <!-- EN: Periodic goodwill drain -->
   <TSA_WD_Difficulty_EnableGoodwillDrain>定期友好度流失</TSA_WD_Difficulty_EnableGoodwillDrain>
   <!-- EN: While Mid Game or Late Game is active, periodically reduce goodwill with non-permanent-enemy factions. Permanent enemies are skipped. One batch message per pulse; extra messages only when Ally/Neutral/Hostile flips. -->
-  <TSA_WD_Difficulty_EnableGoodwillDrainTooltip>中期或後期階段生效期間，定期降低與非永久敵對派系的友好度。永久敵對派系會略過。每次觸發只彙整成一則訊息；只有在同盟／中立／敵對關係轉變時才會額外發出訊息。</TSA_WD_Difficulty_EnableGoodwillDrainTooltip>
+  <TSA_WD_Difficulty_EnableGoodwillDrainTooltip>需要開啟中／後期遊戲總開關，且目前處於中期或後期階段。定期降低與非永久敵對派系的友好度。永久敵對派系會略過。每次觸發只彙整成一則訊息；只有在同盟／中立／敵對關係轉變時才會額外發出訊息。排程會隨存檔保存與載入。</TSA_WD_Difficulty_EnableGoodwillDrainTooltip>
   <!-- EN: Goodwill drain interval (days) -->
   <TSA_WD_Difficulty_GoodwillDrainInterval>友好度流失間隔（天）</TSA_WD_Difficulty_GoodwillDrainInterval>
   <!-- EN: Days between goodwill drain pulses while Mid Game or Late Game is active. -->
-  <TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>中期或後期階段生效期間，兩次友好度流失之間的天數。</TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>
+  <TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>中期與後期共用的間隔：在中／後期總開關開啟且處於中期或後期階段時，兩次友好度流失之間的天數。更改該值會從現在起重新計時。排程會隨存檔保存與載入。</TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>
   <!-- EN: Mid Game -->
   <TSA_WD_MidGame_Header>中期階段</TSA_WD_MidGame_Header>
   <!-- EN: Player Strength Share for Mid-Game Difficulty -->

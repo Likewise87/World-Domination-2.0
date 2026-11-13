@@ -339,9 +339,9 @@
   <TSA_WD_Difficulty_NotifyOutpostInc>Letter: outpost incident</TSA_WD_Difficulty_NotifyOutpostInc>
   <TSA_WD_Difficulty_NotifyOutpostIncTooltip>When an outpost incident reduces strength.</TSA_WD_Difficulty_NotifyOutpostIncTooltip>
   <TSA_WD_Difficulty_EnableGoodwillDrain>Periodic goodwill drain</TSA_WD_Difficulty_EnableGoodwillDrain>
-  <TSA_WD_Difficulty_EnableGoodwillDrainTooltip>While Mid Game or Late Game is active, periodically reduce goodwill with non-permanent-enemy factions. Permanent enemies are skipped. One batch message per pulse; extra messages only when Ally/Neutral/Hostile flips.</TSA_WD_Difficulty_EnableGoodwillDrainTooltip>
+  <TSA_WD_Difficulty_EnableGoodwillDrainTooltip>Requires Mid/Late Game master on, plus an active Mid or Late stage. Periodically reduce goodwill with non-permanent-enemy factions. Permanent enemies are skipped. One batch message per pulse; extra messages only when Ally/Neutral/Hostile flips. Schedule survives save/load.</TSA_WD_Difficulty_EnableGoodwillDrainTooltip>
   <TSA_WD_Difficulty_GoodwillDrainInterval>Goodwill drain interval (days)</TSA_WD_Difficulty_GoodwillDrainInterval>
-  <TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>Days between goodwill drain pulses while Mid Game or Late Game is active.</TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>
+  <TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>Shared Mid+Late cadence: days between goodwill drain pulses while Mid/Late Game master is on and a Mid or Late stage is active. Changing this value starts a fresh countdown from now. Schedule survives save/load.</TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>
   <TSA_WD_MidGame_Header>Mid Game</TSA_WD_MidGame_Header>
   <TSA_WD_MidGame_ShareThreshold>Player Strength Share for Mid-Game Difficulty</TSA_WD_MidGame_ShareThreshold>
   <TSA_WD_MidGame_ShareThresholdTooltip>Mid Game activates when your total outpost strength reaches this fraction of all world strength.</TSA_WD_MidGame_ShareThresholdTooltip>

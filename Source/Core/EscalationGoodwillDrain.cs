@@ -6,12 +6,27 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>Periodic Mid/Late goodwill drain while escalation is active.</summary>
+    /// <summary>Periodic Mid/Late goodwill drain while escalation is active. Schedule is scribed on the world component.</summary>
     public static class EscalationGoodwillDrain
     {
-        private static int lastPulseTick = -1;
+        /// <summary>Clear or set next pulse from settings UI (immediate reschedule).</summary>
+        public static void RescheduleFromSettings()
+        {
+            if (Current.ProgramState != ProgramState.Playing) return;
+            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            if (manager == null) return;
 
-        public static void ResetPulseClock() => lastPulseTick = -1;
+            var seth = WorldDominationMod.settings;
+            if (seth == null || !seth.enableGoodwillDrain)
+            {
+                manager.goodwillDrainNextTick = -1;
+                return;
+            }
+
+            int now = Find.TickManager?.TicksGame ?? 0;
+            int intervalDays = Mathf.Max(1, seth.goodwillDrainIntervalDays);
+            manager.goodwillDrainNextTick = now + intervalDays * GenDate.TicksPerDay;
+        }
 
         /// <summary>Call from the daily escalation path when metrics are fresh.</summary>
         public static void TryPulse(WorldComponent_SpreadManager manager)
@@ -25,11 +40,13 @@ namespace TSA_WorldDomination
             if (amount <= 0) return;
 
             int intervalDays = Mathf.Max(1, seth.goodwillDrainIntervalDays);
-            int intervalTicks = intervalDays * GenDate.TicksPerDay;
             int now = Find.TickManager?.TicksGame ?? 0;
-            if (lastPulseTick >= 0 && now - lastPulseTick < intervalTicks)
+            // nextTick < 0: first due pulse (legacy saves / never scheduled).
+            if (manager.goodwillDrainNextTick >= 0 && now < manager.goodwillDrainNextTick)
                 return;
-            lastPulseTick = now;
+
+            // Advance schedule before drain so a no-op faction pass still spaces pulses.
+            manager.goodwillDrainNextTick = now + intervalDays * GenDate.TicksPerDay;
 
             Faction player = Faction.OfPlayerSilentFail;
             if (player == null) return;
@@ -55,6 +72,10 @@ namespace TSA_WorldDomination
                 if (before != after)
                     kindFlips.Add((faction, before, after));
             }
+
+            WDVerbose.Msg(
+                $"GoodwillDrain pulse stage={stage} amount={amount} intervalDays={intervalDays} " +
+                $"drained={drainedFactions} nextTick={manager.goodwillDrainNextTick}");
 
             if (drainedFactions <= 0) return;
 

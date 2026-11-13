@@ -310,9 +310,9 @@
   <TSA_WD_Difficulty_NotifyOutpostInc>信件：前哨事件</TSA_WD_Difficulty_NotifyOutpostInc>
   <TSA_WD_Difficulty_NotifyOutpostIncTooltip>前哨事件降低实力时。</TSA_WD_Difficulty_NotifyOutpostIncTooltip>
   <TSA_WD_Difficulty_EnableGoodwillDrain>周期性好感流失</TSA_WD_Difficulty_EnableGoodwillDrain>
-  <TSA_WD_Difficulty_EnableGoodwillDrainTooltip>中期游戏或后期游戏激活时，周期性降低与非永久敌对派系的好感。永久敌人跳过。每次脉冲一条汇总消息；仅在盟友/中立/敌对关系翻转时额外提示。</TSA_WD_Difficulty_EnableGoodwillDrainTooltip>
+  <TSA_WD_Difficulty_EnableGoodwillDrainTooltip>需要开启中/后期游戏总开关，且当前处于中期或后期阶段。周期性降低与非永久敌对派系的好感。永久敌人跳过。每次脉冲一条汇总消息；仅在盟友/中立/敌对关系翻转时额外提示。日程会随存档保存与加载。</TSA_WD_Difficulty_EnableGoodwillDrainTooltip>
   <TSA_WD_Difficulty_GoodwillDrainInterval>好感流失间隔（天）</TSA_WD_Difficulty_GoodwillDrainInterval>
-  <TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>中期游戏或后期游戏激活时两次好感流失脉冲之间的天数。</TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>
+  <TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>中期与后期共用的间隔：在中/后期总开关开启且处于中期或后期阶段时，两次好感流失脉冲之间的天数。更改该值会从现在起重新计时。日程会随存档保存与加载。</TSA_WD_Difficulty_GoodwillDrainIntervalTooltip>
   <TSA_WD_MidGame_Header>中期游戏</TSA_WD_MidGame_Header>
   <TSA_WD_MidGame_ShareThreshold>中期难度的玩家战力占比</TSA_WD_MidGame_ShareThreshold>
   <TSA_WD_MidGame_ShareThresholdTooltip>当你的前哨总实力达到全球总实力的此比例时激活中期游戏。</TSA_WD_MidGame_ShareThresholdTooltip>
