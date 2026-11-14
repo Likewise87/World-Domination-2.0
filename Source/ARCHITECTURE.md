@@ -101,8 +101,8 @@ Also owns the once-per-day mothballed passes from `WorldObject_WD_Outpost.Tick`:
 
 | Source | When | Amount | Skills |
 |--------|------|--------|--------|
-| Production cycle payout | Successful recruiting / trading / embassy / scavenging / item delivery | Settings `outpostOccupantSkillXpPerProductionCycle` (Def 5000) via `ApplyPayoutSkillXp` | `GetRelevantSkillDefs` |
-| Academy lesson | Academy cycle complete | Academy lesson XP only — **no** `ApplyPayoutSkillXp` | Selected teaching skill |
+| Production daily pulse | Once per day while production timer running (same day stagger as aging; skip idle / requirement-paused / manual defense) | Settings `outpostOccupantSkillXpPerProductionCycle` (Def 5000) ÷ `GetProductionCycleDays` via `TickOccupantsProductionSkillXpOneDay` | `GetRelevantSkillDefs` |
+| Academy lesson | Academy cycle complete | Academy lesson XP only (not the production daily pulse) | Selected teaching skill |
 | Research | Once per active research day (`TickResearch` + `lastResearchSkillXpDay`) | Flat 500 | Intellectual |
 | Mortar | Committed ground shot (manual / defensive) | Flat 500 | Shooting |
 | Anti-air | Once per engagement volley (`AntiAirFireUtils.ExecuteEngage`) | Flat 500 | Shooting |

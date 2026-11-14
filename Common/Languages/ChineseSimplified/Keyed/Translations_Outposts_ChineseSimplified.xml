@@ -653,8 +653,8 @@
   <TSA_WD_Outpost_SilverValuePerSkillTooltip>每次交货固定，不因前哨周期 10 天或 100 天而改变。狩猎：一次交货可含肉、皮革/毛皮与羊毛（若动物产出）；每种产物基准/技能 =（预算÷单次击杀总银价）× 该产物每杀数量。种植/采矿：基准≈预算÷市价。再 × 地块效率 × 技能 × 产出倍率。</TSA_WD_Outpost_SilverValuePerSkillTooltip>
   <TSA_WD_Outpost_ClampSkillsAtLevel20>将前哨技能限制在 20 级</TSA_WD_Outpost_ClampSkillsAtLevel20>
   <TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>启用后，前哨计算会将高于 20 的技能视为 20。若使用 Endless Growth 类模组，请保持关闭，让更高技能等级完整贡献。</TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>
-  <TSA_WD_Outpost_OccupantSkillXpPerCycle>成功交货时每人相关技能经验</TSA_WD_Outpost_OccupantSkillXpPerCycle>
-  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>当货物实际发出时,为前哨每名殖民者的每种相关技能(种植、狩猎等)增加经验。设为 0 关闭。交货被阻止时不生效。</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
+  <TSA_WD_Outpost_OccupantSkillXpPerCycle>每个生产周期的驻员技能经验</TSA_WD_Outpost_OccupantSkillXpPerCycle>
+  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>一个完整生产周期内，前哨每名殖民者在每项相关技能（种植、狩猎等）获得的经验总值。在生产计时器运行期间按日分摊。设为 0 关闭。空闲、暂停或受阻的日子不发放。</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevel>前哨经验技能上限</TSA_WD_Outpost_OccupantSkillXpMaxLevel>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>技能达到该等级或更高时不再从前哨交货获得经验。</TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>
   <TSA_WD_Outpost_RecruitSocialXpPerResistance>每降低抗性的社交经验池</TSA_WD_Outpost_RecruitSocialXpPerResistance>

@@ -39,15 +39,33 @@ namespace TSA_WorldDomination
             return traveler?.originObject as WorldObject_WD_Outpost;
         }
 
-        /// <summary>After a successful production payout: grant settings XP to each relevant skill per occupant (skip if skill level &gt;= cap). Uses vanilla <see cref="SkillRecord.Learn"/> with <c>direct: false</c> so passions, traits, and global learning factor apply.</summary>
-        public static void ApplyPayoutSkillXp(WorldObject_WD_Outpost outpost)
+        /// <summary>
+        /// Once-per-day production skill XP while the production timer is running.
+        /// Amount = settings cycle total / <see cref="Outpost_Production_Utils.GetProductionCycleDays"/> so a full cycle still grants the configured total.
+        /// Skips Academy / warehouse / research / power plant, idle or requirement-paused timers, and scavenging (no relevant skills).
+        /// </summary>
+        public static void TickOccupantsProductionSkillXpOneDay(WorldObject_WD_Outpost outpost)
         {
             WorldDominationSettings settings = WorldDominationMod.settings;
             if (settings == null || outpost?.def == null) return;
-            float xpAmt = settings.outpostOccupantSkillXpPerProductionCycle;
-            if (xpAmt <= 0f) return;
+            if (outpost.Faction != Faction.OfPlayer) return;
+            if (outpost.ManualDefenseActive) return;
+            if (outpost.IsAcademyOutpost
+                || outpost.IsResearchOutpost
+                || outpost.IsPowerPlantOutpost
+                || Outpost_Production_Utils.IsWarehouseOutpost(outpost.def))
+                return;
+            if (outpost.ProductionTicksLeft <= 0) return;
+            if (!outpost.GetProductionPauseReason(out _)) return;
+
+            float cycleXp = settings.outpostOccupantSkillXpPerProductionCycle;
+            if (cycleXp <= 0f) return;
+
             List<SkillDef> skills = WorldObject_WD_Outpost.GetRelevantSkillDefs(outpost.def);
-            ApplySkillXp(outpost, xpAmt, skills);
+            if (skills == null || skills.Count == 0) return;
+
+            float cycleDays = Mathf.Max(0.01f, Outpost_Production_Utils.GetProductionCycleDays(outpost));
+            ApplySkillXp(outpost, cycleXp / cycleDays, skills);
         }
 
         /// <summary>Grant flat skill XP to each humanlike occupant (skip if skill level &gt;= settings cap). Passions / learning factor apply via <see cref="SkillRecord.Learn"/>.</summary>

@@ -1449,9 +1449,9 @@
   <!-- EN: When enabled, outpost math treats pawn skills above 20 as 20. Leave disabled for Endless Growth-style mods so higher skill levels can fully contribute. -->
   <TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>啟用時，哨站計算會將超過20的角色技能視為20。若使用Endless Growth類模組，請保持停用，讓更高技能等級能完整發揮作用。</TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>
   <!-- EN: Occupant skill XP per successful payout -->
-  <TSA_WD_Outpost_OccupantSkillXpPerCycle>每次成功產出的駐員技能經驗</TSA_WD_Outpost_OccupantSkillXpPerCycle>
+  <TSA_WD_Outpost_OccupantSkillXpPerCycle>每個生產週期的駐員技能經驗</TSA_WD_Outpost_OccupantSkillXpPerCycle>
   <!-- EN: Experience granted to each relevant outpost skill (farming, hunting, etc.) for every colonist at the outpost when a delivery actually launches. Set to 0 to disable. Does not apply while payout is blocked. -->
-  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>配送實際出發時，哨站內每名殖民者在每項相關哨站技能（種植、狩獵等）獲得的經驗值。設為0即停用。產出受阻時不適用。</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
+  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>一個完整生產週期內，哨站每名殖民者在每項相關技能（種植、狩獵等）獲得的經驗總值。在生產計時器運行期間按日分攤。設為0即停用。空閒、暫停或受阻的日子不發放。</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
   <!-- EN: Max skill level for outpost XP -->
   <TSA_WD_Outpost_OccupantSkillXpMaxLevel>哨站經驗的技能等級上限</TSA_WD_Outpost_OccupantSkillXpMaxLevel>
   <!-- EN: Pawns do not gain outpost payout XP in a skill once it is at this level or higher. -->

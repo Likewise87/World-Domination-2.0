@@ -653,8 +653,8 @@
   <TSA_WD_Outpost_SilverValuePerSkillTooltip>Fijo por entrega: no cambia si el ciclo es 10 o 100 días. Caza: cada entrega puede incluir carne, cuero/piel y lana (si el animal lo da); por producto, base/hab = (presupuesto ÷ plata total por pieza) × unidades de ese producto por pieza. Cultivos/minería: base ≈ presupuesto ÷ precio. Luego × casilla × habilidad × salida.</TSA_WD_Outpost_SilverValuePerSkillTooltip>
   <TSA_WD_Outpost_ClampSkillsAtLevel20>Limitar habilidades de avanzadilla al nivel 20</TSA_WD_Outpost_ClampSkillsAtLevel20>
   <TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>Si está activado, los cálculos de avanzadilla tratan las habilidades por encima de 20 como 20. Déjalo desactivado para mods tipo Endless Growth, de modo que los niveles superiores contribuyan por completo.</TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>
-  <TSA_WD_Outpost_OccupantSkillXpPerCycle>XP de habilidad por pago exitoso</TSA_WD_Outpost_OccupantSkillXpPerCycle>
-  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>Experiencia a cada habilidad relevante del puesto (cultivo, caza, etc.) para cada colono cuando la entrega se lanza de verdad. 0 para desactivar. No aplica si el pago está bloqueado.</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
+  <TSA_WD_Outpost_OccupantSkillXpPerCycle>XP de habilidad por ciclo de producción</TSA_WD_Outpost_OccupantSkillXpPerCycle>
+  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>Experiencia total a cada habilidad relevante del puesto (cultivo, caza, etc.) para cada colono en un ciclo de producción completo. Se reparte como fracción diaria mientras el temporizador de producción corre. 0 para desactivar. Los días inactivos, en pausa o bloqueados no otorgan nada.</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevel>Nivel máximo para XP del puesto</TSA_WD_Outpost_OccupantSkillXpMaxLevel>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>No se gana XP de pago en una habilidad si ya está en este nivel o superior.</TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>
   <TSA_WD_Outpost_RecruitSocialXpPerResistance>Reserva de XP Social por resistencia reducida</TSA_WD_Outpost_RecruitSocialXpPerResistance>

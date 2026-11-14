@@ -737,8 +737,8 @@
   <TSA_WD_Outpost_SilverValuePerSkillTooltip>Fixed per delivery—not stretched or shrunk when your outpost cycle is 10 vs 100 days. Hunting: each delivery can include meat, leather/fur, and wool (when the animal yields them); per product, baseline units/skill = (budget ÷ total silver per kill) × that product's count per kill. Crops/mining: baseline ≈ budget ÷ item market value. Then: baseline × tile efficiency × skill (× output slider).</TSA_WD_Outpost_SilverValuePerSkillTooltip>
   <TSA_WD_Outpost_ClampSkillsAtLevel20>Clamp outpost skills at level 20</TSA_WD_Outpost_ClampSkillsAtLevel20>
   <TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>When enabled, outpost math treats pawn skills above 20 as 20. Leave disabled for Endless Growth-style mods so higher skill levels can fully contribute.</TSA_WD_Outpost_ClampSkillsAtLevel20Tooltip>
-  <TSA_WD_Outpost_OccupantSkillXpPerCycle>Occupant skill XP per successful payout</TSA_WD_Outpost_OccupantSkillXpPerCycle>
-  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>Experience granted to each relevant outpost skill (farming, hunting, etc.) for every colonist at the outpost when a delivery actually launches. Set to 0 to disable. Does not apply while payout is blocked.</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
+  <TSA_WD_Outpost_OccupantSkillXpPerCycle>Occupant skill XP per production cycle</TSA_WD_Outpost_OccupantSkillXpPerCycle>
+  <TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>Total experience granted to each relevant outpost skill (farming, hunting, etc.) for every colonist over one full production cycle. Spread as a daily fraction while the production timer is running. Set to 0 to disable. Idle, paused, or blocked days grant nothing.</TSA_WD_Outpost_OccupantSkillXpPerCycleTooltip>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevel>Max skill level for outpost XP</TSA_WD_Outpost_OccupantSkillXpMaxLevel>
   <TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>Pawns do not gain outpost payout XP in a skill once it is at this level or higher.</TSA_WD_Outpost_OccupantSkillXpMaxLevelTooltip>
   <TSA_WD_Outpost_RecruitSocialXpPerResistance>Social XP pool per resistance reduced</TSA_WD_Outpost_RecruitSocialXpPerResistance>

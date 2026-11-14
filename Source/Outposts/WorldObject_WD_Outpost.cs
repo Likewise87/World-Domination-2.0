@@ -3316,6 +3316,7 @@ namespace TSA_WorldDomination
                         Outpost_OccupantProgression.TickOccupantsMindHygieneOneDay(this);
                         Outpost_OccupantNeedsProgression.TickOccupantsNeedsOneDay(this);
                         Outpost_OccupantProgression.TickOccupantsPassiveAmmoOneDay(this);
+                        Outpost_OccupantProgression.TickOccupantsProductionSkillXpOneDay(this);
                     }
                     if (StoredAnimalsAndVehicles.Count > 0)
                     {
@@ -3419,22 +3420,19 @@ namespace TSA_WorldDomination
             {
                 if (recruitingHalted) return;
                 productionTicksLeft = interval;
-                if (Outpost_Recruiting.Produce(this, avg))
-                    Outpost_OccupantProgression.ApplyPayoutSkillXp(this);
+                Outpost_Recruiting.Produce(this, avg);
                 return;
             }
             if (Outpost_Production_Utils.IsTradingOutpost(def))
             {
                 productionTicksLeft = interval;
-                if (Outpost_Trading.Produce(this, avg))
-                    Outpost_OccupantProgression.ApplyPayoutSkillXp(this);
+                Outpost_Trading.Produce(this, avg);
                 return;
             }
             if (Outpost_Production_Utils.IsEmbassyOutpost(def))
             {
                 productionTicksLeft = interval;
-                if (Outpost_Embassy.Produce(this, avg))
-                    Outpost_OccupantProgression.ApplyPayoutSkillXp(this);
+                Outpost_Embassy.Produce(this, avg);
                 return;
             }
 
@@ -3442,8 +3440,7 @@ namespace TSA_WorldDomination
             {
                 if (!HasSelectedScavengingKind) return; // no tier picked → no delivery, don't restart the timer
                 productionTicksLeft = interval;
-                if (Outpost_Scavenging.Produce(this, avg))
-                    Outpost_OccupantProgression.ApplyPayoutSkillXp(this);
+                Outpost_Scavenging.Produce(this, avg);
                 return;
             }
 
@@ -3464,7 +3461,6 @@ namespace TSA_WorldDomination
 
             productionTicksLeft = interval;
             WorldActions_Traveler.SpawnOutpostDeliveryTraveler(this, items);
-            Outpost_OccupantProgression.ApplyPayoutSkillXp(this);
         }
 
         /// <summary>Only for loading old saves that had "frozenPawns"; migrated into occupants then cleared.</summary>
