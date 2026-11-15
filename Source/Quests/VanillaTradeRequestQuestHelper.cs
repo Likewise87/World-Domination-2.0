@@ -68,6 +68,9 @@ namespace TSA_WorldDomination
     {
         public static void Prefix(WorldObject o)
         {
+            // Common-enemy first: credit silent Destroy (third-party artillery, sabotage, etc.)
+            // before other quests react. Non-player WD wipes already ended the quest via NotifySettlementRemoved.
+            WdCommonEnemySettlementQuestHelper.NotifySettlementWorldObjectRemoved(o);
             VanillaTradeRequestQuestHelper.FailIfSettlementLost(o);
         }
     }

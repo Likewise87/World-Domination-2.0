@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_72_Title>Niebla de guerra PNJ, carreteras Glitter y armamento</TSA_WD_Update_2_3_72_Title>
+  <TSA_WD_Update_2_3_72_Body><![CDATA[
+<size=16><b>2.3.72 - Niebla de guerra PNJ, carreteras Glitter y armamento</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 15 de noviembre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Nueva función: línea de visión y grafo de conocimiento de los PNJ. Hay que activarlo manualmente en el menú de ajustes "Intel". Al activarlo, las facciones PNJ ya no lo saben todo del mapa mundial y deben descubrir enemigos primero. Asentamientos y caravanas tienen distinta línea de visión (gizmo). Solo se puede asaltar objetivos descubiertos. Limitación conocida: si un asentamiento se destruye o cambia de dueño, las facciones lo saben automáticamente (p. ej. para que los morteros no disparen a un aliado por error).\n
+• Nueva función: expansión estratégica. Las facciones PNJ eligen con más inteligencia a qué casilla expandirse, evitando la línea de visión enemiga.\n
+• Nueva función: caravanas de exploración (Scout). Se envían a encontrar asentamientos y caravanas enemigos.\n
+• Nota: la facción del jugador sigue viendo y sabiendo todo por ahora. Feedback por Discord, por favor. El objetivo principal es que pequeños asentamientos T1 en medio de la nada puedan sobrevivir por no haber sido "vistos/encontrados" aún.\n
+• Nueva función: en el armamento puedes seleccionar peones e ítems concretos. Nuevas acciones masivas para quitar armas e inventario de peones seleccionados y para autoasignar armas, drogas, etc. (útil con muchos peones en avanzadas).\n
+• Nueva función: prisioneros, esclavos y mecanoides pueden enviarse por cápsulas sin escolta de peones normales (pedido por Discord).\n
+• Nueva función: tipo de carretera tardía "Glitter Road". Mejor que el asfalto, sobre todo contra la penalización de invierno. Cuesta plasteel.\n
+• La misión de destruir un asentamiento enemigo también se gana con sabotaje, desinformación o si lo destruyen artillería/misiles de un mod de terceros (reportado en Discord).\n
+• Ya enviado esta semana por hotfix: los peones ganan XP en avanzadas a diario, no solo al final del ciclo de producción.\n
+• Ya enviado esta semana por hotfix: el intervalo del drenaje de goodwill en ajustes no funcionaba. Corregido.\n
+]]></TSA_WD_Update_2_3_72_Body>
   <TSA_WD_Update_2_3_71_Title>Selector de color para facciones</TSA_WD_Update_2_3_71_Title>
   <TSA_WD_Update_2_3_71_Body><![CDATA[
 <size=16><b>2.3.71 - Selector de color para facciones</b></size>\n

@@ -37,6 +37,7 @@ namespace TSA_WorldDomination
         private static bool settlementsExpanded = true;
         private static bool fortsExpanded = true;
         private static bool raidsExpanded = true;
+        private static bool intelExpanded = true;
         private static bool progressionExpanded = true;
         private static bool questsExpanded = true;
         private static bool miscExpanded;
@@ -82,6 +83,7 @@ namespace TSA_WorldDomination
         private static List<DebugDashItem> settlementsTools;
         private static List<DebugDashItem> fortsTools;
         private static List<DebugDashItem> raidsTools;
+        private static List<DebugDashItem> intelTools;
         private static List<DebugDashItem> progressionTools;
         private static List<DebugDashItem> questsTools;
         private static List<DebugDashItem> miscTools;
@@ -172,6 +174,7 @@ namespace TSA_WorldDomination
             DrawSettlements(listing);
             DrawForts(listing);
             DrawRaids(listing);
+            DrawIntel(listing);
             DrawProgression(listing);
             DrawQuests(listing);
             DrawMisc(listing);
@@ -186,6 +189,7 @@ namespace TSA_WorldDomination
             settlementsExpanded = expanded;
             fortsExpanded = expanded;
             raidsExpanded = expanded;
+            intelExpanded = expanded;
             progressionExpanded = expanded;
             questsExpanded = expanded;
             miscExpanded = expanded;
@@ -221,6 +225,12 @@ namespace TSA_WorldDomination
         {
             if (!DrawSection(listing, "Raids and travelers", ref raidsExpanded)) return;
             DrawToolList(listing, raidsTools);
+        }
+
+        private static void DrawIntel(Listing_Standard listing)
+        {
+            if (!DrawSection(listing, "Intel", ref intelExpanded)) return;
+            DrawToolList(listing, intelTools);
         }
 
         private static void DrawProgression(Listing_Standard listing)
@@ -261,6 +271,7 @@ namespace TSA_WorldDomination
             h += SectionHeight(settlementsExpanded, settlementsTools?.Count ?? 6);
             h += SectionHeight(fortsExpanded, fortsTools?.Count ?? 12);
             h += SectionHeight(raidsExpanded, raidsTools?.Count ?? 9);
+            h += SectionHeight(intelExpanded, intelTools?.Count ?? 8);
             h += SectionHeight(progressionExpanded, progressionTools?.Count ?? 4);
             h += SectionHeight(questsExpanded, questsTools?.Count ?? 6);
             h += SectionHeight(miscExpanded, miscTools?.Count ?? 10);
@@ -370,6 +381,7 @@ namespace TSA_WorldDomination
             settlementsTools = new List<DebugDashItem>();
             fortsTools = new List<DebugDashItem>();
             raidsTools = new List<DebugDashItem>();
+            intelTools = new List<DebugDashItem>();
             progressionTools = new List<DebugDashItem>();
             questsTools = new List<DebugDashItem>();
             miscTools = new List<DebugDashItem>();
@@ -480,6 +492,28 @@ namespace TSA_WorldDomination
                 "Immediately destroy every spawned WD traveler.",
                 DebugDashKind.Instant, DebugActions_Travelers.DestroyAllActiveTravelers);
 
+            Add(intelTools, "Make site known to faction", IconConfig,
+                "Click a settlement/outpost, then pick To all factions or a single faction to Discover it.",
+                DebugDashKind.SelfManaged, WD_WorldDebugOps.BeginMakeSiteKnownToFaction);
+            Add(intelTools, "Make site unknown to faction", IconDelete,
+                "Click a settlement/outpost, then pick faction X to Forget it for X.",
+                DebugDashKind.SelfManaged, WD_WorldDebugOps.BeginMakeSiteUnknownToFaction);
+            Add(intelTools, "Clear knowledge of selected", IconDelete,
+                "Click a settlement or outpost to clear all factions' knowledge of that site.",
+                DebugDashKind.Click, WD_WorldDebugOps.ClearKnowledgeOfSelected);
+            Add(intelTools, "Clear faction intel", IconDelete,
+                "Wipe known sites/travelers/GotBurned for the player or a clicked site's faction.",
+                DebugDashKind.SelfManaged, WD_WorldDebugOps.BeginClearFactionIntel);
+            Add(intelTools, "Set/clear GotBurned", IconConfig,
+                "Stamp or clear GotBurned with the player as attacker vs a clicked site.",
+                DebugDashKind.SelfManaged, WD_WorldDebugOps.BeginSetOrClearGotBurned);
+            Add(intelTools, "Force scout from selected NPC settlement", IconAttack,
+                "Click an NPC settlement to spawn a nimble scout (ignores T2/cooldown gates).",
+                DebugDashKind.Click, WD_WorldDebugOps.ForceScoutFromSelectedNpcSettlement);
+            Add(intelTools, "Bootstrap intel now", IconConfig,
+                "Run SettlementIntel BootstrapAllFactions immediately.",
+                DebugDashKind.Instant, WD_WorldDebugOps.BootstrapIntelNow);
+
             Add(progressionTools, "Force Early Game", IconConfig,
                 "Force escalation stage to Early.",
                 DebugDashKind.Instant, DebugActions_Escalation.ForceEarlyGame);
@@ -512,6 +546,9 @@ namespace TSA_WorldDomination
                 "Complete active victory quest or open victory dialog.",
                 DebugDashKind.Instant, DebugActions_Quests.VictoryForceComplete);
 
+            Add(miscTools, "Force outpost type change", IconConfig,
+                "Click a player outpost, then pick a new outpost type (debug force apply).",
+                DebugDashKind.SelfManaged, WD_WorldDebugOps.BeginForceOutpostTypeChange);
             Add(miscTools, "Force random diplomacy change", IconConfig,
                 "Force a random diplomacy buff/nerf change.",
                 DebugDashKind.Instant, DebugActions_Travelers.ForceRandomDiplomacyChange);

@@ -87,6 +87,7 @@ namespace TSA_WorldDomination
                 SetRoadMovement("StoneRoad", s.GetFallbackRoadMovement(SettlementTier.T2));
                 SetRoadMovement("TSA_WD_StoneBridge", s.GetFallbackRoadMovement(SettlementTier.T2));
                 SetRoadMovement("AncientAsphaltRoad", s.GetFallbackRoadMovement(SettlementTier.T3));
+                SetRoadMovement("TSA_WD_GlitterRoad", s.GetFallbackRoadMovement(SettlementTier.T4));
             }
 
             ApplyRoadWinterReductionSettings();
@@ -104,6 +105,7 @@ namespace TSA_WorldDomination
             float dirt = s.GetFallbackRoadWinterReduction(SettlementTier.T1);
             float stone = s.GetFallbackRoadWinterReduction(SettlementTier.T2);
             float asphalt = s.GetFallbackRoadWinterReduction(SettlementTier.T3);
+            float glitter = s.GetFallbackRoadWinterReduction(SettlementTier.T4);
 
             if (RoadsOfTheRimActive)
             {
@@ -116,6 +118,7 @@ namespace TSA_WorldDomination
                 SetRotRWinterFactor("AncientAsphaltRoad", asphalt);
                 SetRotRWinterFactor("AsphaltRoad", asphalt);
                 SetRotRWinterFactor("AncientAsphaltHighway", asphalt);
+                SetRotRWinterFactor("TSA_WD_GlitterRoad", glitter);
             }
         }
 
@@ -126,6 +129,8 @@ namespace TSA_WorldDomination
             if (s == null) return 0f;
 
             string n = road.defName ?? "";
+            if (n.IndexOf("Glitter", System.StringComparison.OrdinalIgnoreCase) >= 0)
+                return s.GetFallbackRoadWinterReduction(SettlementTier.T4);
             if (n.IndexOf("Asphalt", System.StringComparison.OrdinalIgnoreCase) >= 0
                 || n.IndexOf("Highway", System.StringComparison.OrdinalIgnoreCase) >= 0)
                 return s.GetFallbackRoadWinterReduction(SettlementTier.T3);
@@ -174,11 +179,13 @@ namespace TSA_WorldDomination
                 : WorldDominationSettings.DefFallbackDirtRoadWork;
             float work = s != null
                 ? s.GetFallbackRoadWork(tier)
-                : (tier == SettlementTier.T3 || tier == SettlementTier.T4
-                    ? WorldDominationSettings.DefFallbackAsphaltRoadWork
-                    : tier == SettlementTier.T2
-                        ? WorldDominationSettings.DefFallbackStoneRoadWork
-                        : WorldDominationSettings.DefFallbackDirtRoadWork);
+                : (tier == SettlementTier.T4
+                    ? WorldDominationSettings.DefFallbackGlitterRoadWork
+                    : tier == SettlementTier.T3
+                        ? WorldDominationSettings.DefFallbackAsphaltRoadWork
+                        : tier == SettlementTier.T2
+                            ? WorldDominationSettings.DefFallbackStoneRoadWork
+                            : WorldDominationSettings.DefFallbackDirtRoadWork);
             if (dirtWork < 1f) dirtWork = 1f;
             return Mathf.Max(0.01f, work / dirtWork);
         }
@@ -208,6 +215,8 @@ namespace TSA_WorldDomination
         /// <summary>Localized label for the highest road tier this outpost can start (by cumulative Construction skill).</summary>
         public static string GetHighestBuildableRoadTierLabel(float totalConstruction)
         {
+            if (totalConstruction >= GetMinConstructionToBuildRoad(SettlementTier.T4))
+                return "TSA_WD_RoadGlitter".Translate().ToString();
             if (totalConstruction >= GetMinConstructionToBuildRoad(SettlementTier.T3))
                 return "TSA_WD_RoadAsphalt".Translate().ToString();
             if (totalConstruction >= GetMinConstructionToBuildRoad(SettlementTier.T2))
@@ -215,14 +224,26 @@ namespace TSA_WorldDomination
             return "TSA_WD_RoadDirt".Translate().ToString();
         }
 
-        /// <summary>Localized road tier label (dirt / stone / asphalt).</summary>
+        /// <summary>Localized road tier label (dirt / stone / asphalt / glitter).</summary>
         public static string GetRoadTierLabel(SettlementTier tier)
         {
-            if (tier == SettlementTier.T3 || tier == SettlementTier.T4)
+            if (tier == SettlementTier.T4)
+                return "TSA_WD_RoadGlitter".Translate().ToString();
+            if (tier == SettlementTier.T3)
                 return "TSA_WD_RoadAsphalt".Translate().ToString();
             if (tier == SettlementTier.T2)
                 return "TSA_WD_RoadStone".Translate().ToString();
             return "TSA_WD_RoadDirt".Translate().ToString();
+        }
+
+        /// <summary>NPC/ordered Glitter gate: faction tech ≥ settings min (default Spacer). Player uses research/materials instead.</summary>
+        public static bool FactionCanBuildGlitterRoads(Faction faction)
+        {
+            if (faction == null || faction.def == null) return false;
+            if (faction.IsPlayer) return true;
+            var s = WorldDominationMod.settings;
+            TechLevel min = s?.npcGlitterRoadMinTechLevel ?? WorldDominationSettings.DefNpcGlitterRoadMinTechLevel;
+            return faction.def.techLevel >= min;
         }
 
         /// <summary>Strength cost to dispatch one road-builder crew for this road tier (same basis as NPC road launches).</summary>
@@ -272,9 +293,11 @@ namespace TSA_WorldDomination
             };
         }
 
-        /// <summary>Highest road tier a settlement may build when ordered by the player.</summary>
-        public static SettlementTier GetMaxBuildableRoadTierForSettlement(SettlementTier settlementTier)
+        /// <summary>Highest road tier a settlement may auto-build or be ordered to build (Glitter needs T4 + Spacer tech gate).</summary>
+        public static SettlementTier GetMaxBuildableRoadTierForSettlement(SettlementTier settlementTier, Faction faction = null)
         {
+            if (settlementTier >= SettlementTier.T4 && FactionCanBuildGlitterRoads(faction))
+                return SettlementTier.T4;
             if (settlementTier >= SettlementTier.T3) return SettlementTier.T3;
             if (settlementTier == SettlementTier.T2) return SettlementTier.T2;
             return SettlementTier.T1;
@@ -451,9 +474,11 @@ namespace TSA_WorldDomination
                 return false;
             }
 
+            SettlementTier roadTier = GetMaxBuildableRoadTierForSettlement(comp.tier, actor.Faction);
+
             // Pure land corridor: FindPath OK, no water, hops within max range.
             bool pureLandOk = TryGetRoadCorridorWork(
-                    actor, target.Tile.tileId, comp.tier, allowBridgedWater: false, out _, out List<int> pureWork)
+                    actor, target.Tile.tileId, roadTier, allowBridgedWater: false, out _, out List<int> pureWork)
                 && CountPathHops(actor.Tile.tileId, target.Tile.tileId) <= seth.maxRoadRangeNpc;
             if (pureLandOk)
             {
@@ -481,7 +506,7 @@ namespace TSA_WorldDomination
             }
 
             // Land detour only if a land path within range still exists.
-            if (TryGetRoadCorridorWork(actor, target.Tile.tileId, comp.tier, allowBridgedWater: false, out _, out List<int> detourWork)
+            if (TryGetRoadCorridorWork(actor, target.Tile.tileId, roadTier, allowBridgedWater: false, out _, out List<int> detourWork)
                 && detourWork.Count > 0
                 && CountPathHops(actor.Tile.tileId, target.Tile.tileId) <= seth.maxRoadRangeNpc)
             {
@@ -545,7 +570,7 @@ namespace TSA_WorldDomination
                 && (comp.bridgeBuilderInField || WorldActions_BuildBridge.HasActiveBridgeCrewFrom(actor)))
                 return false;
 
-            SettlementTier tier = comp.tier;
+            SettlementTier tier = GetMaxBuildableRoadTierForSettlement(comp.tier, actor.Faction);
 
             // Phase 1: unfinished land road actor → start bank.
             if (TryGetRoadCorridorWork(actor, startBank, tier, allowBridgedWater: false, out _, out List<int> nearWork)
@@ -1061,7 +1086,8 @@ namespace TSA_WorldDomination
             bool allowBridgedWater)
         {
             var comp = actor.GetComponent<CompViralSpread>();
-            SettlementTier tier = comp != null ? comp.tier : SettlementTier.T1;
+            SettlementTier settlementTier = comp != null ? comp.tier : SettlementTier.T1;
+            SettlementTier tier = GetMaxBuildableRoadTierForSettlement(settlementTier, actor.Faction);
             float costNeeded = GetExpeditionStrengthCost(tier);
             string targetLabel = logTarget?.LabelCap ?? ("Tile " + destTileId);
             if (comp == null || costNeeded <= 0.01f)
@@ -1623,7 +1649,12 @@ namespace TSA_WorldDomination
                 return tierDef.roadDef;
 
             // Soft fallback if XML missing.
-            if (tier == SettlementTier.T3 || tier == SettlementTier.T4)
+            if (tier == SettlementTier.T4)
+            {
+                RoadDef glitter = DefDatabase<RoadDef>.GetNamedSilentFail("TSA_WD_GlitterRoad");
+                if (glitter != null) return glitter;
+            }
+            if (tier == SettlementTier.T3)
             {
                 RoadDef asphalt = DefDatabase<RoadDef>.GetNamedSilentFail("AncientAsphaltRoad");
                 if (asphalt != null) return asphalt;
@@ -1666,7 +1697,10 @@ namespace TSA_WorldDomination
             if (actor is WorldObject_WD_Outpost || (comp != null && comp.roadTargetTile != -1))
                 return GetRoadDefByTier(comp?.selectedRoadTier ?? SettlementTier.T1, factionTech);
 
-            return GetRoadDefByTier(comp?.tier ?? SettlementTier.T1, factionTech);
+            // NPC auto-build without an active project: cap by settlement tier + glitter tech gate.
+            SettlementTier settlementTier = comp?.tier ?? SettlementTier.T1;
+            SettlementTier roadTier = GetMaxBuildableRoadTierForSettlement(settlementTier, actor.Faction);
+            return GetRoadDefByTier(roadTier, factionTech);
         }
     }
 }

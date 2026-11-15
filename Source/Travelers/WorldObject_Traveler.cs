@@ -9,7 +9,7 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    public enum TravelerMission { Expansion, Raid, RoadBuilding, RoadBlock, SpikeTrap, Decontamination, OutpostDelivery, Trader, OutpostUpgrade, OutpostTypeChange, MortarStrike, AntiAirStrike, RapidResponseIntercept, RapidResponseDropPod, DebugRaidTransit, RaidDropPod, RaidGravship, SettlementBuy, SettlementGift, SettlementBribe, RaidBribe, NpcFortify, DiplomacyNegotiate, AtTurret, NpcAtTurret, MassRelocation, DesperationRally, TurtleConsolidate, BridgeBuilding, BridgeDeconstruct, TrenchBuilding, TrenchClearing }
+    public enum TravelerMission { Expansion, Raid, RoadBuilding, RoadBlock, SpikeTrap, Decontamination, OutpostDelivery, Trader, OutpostUpgrade, OutpostTypeChange, MortarStrike, AntiAirStrike, RapidResponseIntercept, RapidResponseDropPod, DebugRaidTransit, RaidDropPod, RaidGravship, SettlementBuy, SettlementGift, SettlementBribe, RaidBribe, NpcFortify, DiplomacyNegotiate, AtTurret, NpcAtTurret, MassRelocation, DesperationRally, TurtleConsolidate, BridgeBuilding, BridgeDeconstruct, TrenchBuilding, TrenchClearing, Scout }
     public enum RaidOrderOutcome { PlayerOutpostConquestMenu, AllyClaimsTarget, AllyAwardsToPlayer }
 
     public class WorldObject_Traveler : WorldObject
@@ -109,6 +109,14 @@ namespace TSA_WorldDomination
         public bool isSettlementAmbushSally;
         /// <summary>Feature C: when false, settlements will not ambush this traveler (rolled once at player-bound raid dispatch).</summary>
         public bool canBeAmbushed = true;
+        /// <summary>Settlement intel: durable column id (survives clash respawn). 0 = unset.</summary>
+        public int intelTrackId;
+        /// <summary>Settlement intel: fogged defender total stored at raid launch for GotBurned compare. -1 = unset.</summary>
+        public float intelAssessedDefTotal = -1f;
+        /// <summary>Nimble scout party (crack-fall + bearing avoid).</summary>
+        public bool isNimbleScout;
+        /// <summary>Extra ring/hop waypoints after the first scout target; 0 = finish on next arrival.</summary>
+        public int scoutExtraWaypointsLeft;
         /// <summary>TicksGame stamp from <see cref="WorldComponent_SpreadManager.RecordPlayerWdRaidLaunch"/>; -1 if none.</summary>
         public int playerWdRaidCapStampTick = -1;
         /// <summary>True after this raid reaches player colony / outpost defense / player clash (drought timer + no unstamp).</summary>
@@ -342,6 +350,7 @@ namespace TSA_WorldDomination
                     TravelerMission.Decontamination => "TSA_WD_Traveler_Outpost_Decontamination".Translate(),
                     TravelerMission.OutpostDelivery => "TSA_WD_Traveler_Outpost_Delivery".Translate(),
                     TravelerMission.Trader => "TSA_WD_TraderCaravan".Translate(),
+                    TravelerMission.Scout => "TSA_WD_ScoutCaravan".Translate(),
                     TravelerMission.OutpostUpgrade => "TSA_WD_Traveler_Outpost_Upgrade".Translate(),
                     TravelerMission.OutpostTypeChange => "TSA_WD_Traveler_Outpost_TypeChange".Translate(),
                     TravelerMission.MortarStrike => "TSA_WD_Traveler_MortarStrike".Translate(),
@@ -409,6 +418,8 @@ namespace TSA_WorldDomination
             foreach (Gizmo g in WD_Outpost_RapidResponse.GetTravelerGizmos(this))
                 yield return g;
             foreach (Gizmo g in Action_Settlement_Bribe.GetRaidGizmos(this))
+                yield return g;
+            foreach (Gizmo g in RadiusHoverGizmos.GetSightForTraveler(this))
                 yield return g;
         }
 
@@ -672,6 +683,8 @@ namespace TSA_WorldDomination
                 if (assaultArtillerySupport && mission == TravelerMission.MortarStrike)
                     WD_AssaultArtillerySupport.NotifyAssaultShellRemoved(this);
                 PlayerWdRaidDispatchUtil.NotifyDestroyedBeforeContact(this);
+                if (isNimbleScout)
+                    WorldActions_Scout.RecordScoutKillBearing(this);
                 if (destroyedByFaction?.IsPlayer == true)
                     NpcRaidKillGoodwillUtility.TryRewardPlayerForKillingTraveler(this, playerAttributed: true);
             }
@@ -767,6 +780,7 @@ namespace TSA_WorldDomination
         public override void DrawExtraSelectionOverlays()
         {
             base.DrawExtraSelectionOverlays();
+            WD_RadiusOverlayPrefs.DrawSelectDrivenIfNeeded(this);
             if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected()) return;
             // Path must live here — not in Draw(). When always-show-icon is on,
             // Patch_WdWorldObjectNoExpandingIcon skips both world-object draw layers,
@@ -1535,6 +1549,10 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref rapidResponseWinXpGranted, "rapidResponseWinXpGranted", false);
             Scribe_Values.Look(ref isSettlementAmbushSally, "isSettlementAmbushSally", false);
             Scribe_Values.Look(ref canBeAmbushed, "canBeAmbushed", true);
+            Scribe_Values.Look(ref intelTrackId, "intelTrackId", 0);
+            Scribe_Values.Look(ref intelAssessedDefTotal, "intelAssessedDefTotal", -1f);
+            Scribe_Values.Look(ref isNimbleScout, "isNimbleScout", false);
+            Scribe_Values.Look(ref scoutExtraWaypointsLeft, "scoutExtraWaypointsLeft", 0);
             Scribe_Values.Look(ref playerWdRaidCapStampTick, "playerWdRaidCapStampTick", -1);
             Scribe_Values.Look(ref playerRaidContacted, "playerRaidContacted", false);
             Scribe_Values.Look(ref beyondNormalAttackRange, "beyondNormalAttackRange", false);
@@ -2143,6 +2161,11 @@ namespace TSA_WorldDomination
         public List<Pawn> carriedPawns = new List<Pawn>();
         public WorldObjectDef establishOutpostDef;
         public List<ThingDefCountClass> deliveryItems = new List<ThingDefCountClass>();
+        /// <summary>
+        /// Fire-and-forget transfer: no free escort colonist in cargo. On abort / dead dest,
+        /// captives are freed and mechs lost instead of returning to origin as a player caravan.
+        /// </summary>
+        public bool unescortedFireAndForget;
 
         public bool UsesBallisticWorldFlight => true;
 
@@ -2154,6 +2177,7 @@ namespace TSA_WorldDomination
             Scribe_Defs.Look(ref establishOutpostDef, "establishOutpostDef");
             Scribe_Collections.Look(ref deliveryItems, "rrDeliveryItems", LookMode.Deep);
             if (deliveryItems == null) deliveryItems = new List<ThingDefCountClass>();
+            Scribe_Values.Look(ref unescortedFireAndForget, "unescortedFireAndForget", false);
         }
 
         public override void Destroy()
@@ -2166,6 +2190,12 @@ namespace TSA_WorldDomination
         public void ReturnCarriedPawnsToOrigin()
         {
             if (carriedPawns == null || carriedPawns.Count == 0) return;
+            if (unescortedFireAndForget)
+            {
+                WdRrInterceptDropUtility.DisposeUnescortedDropPodCargo(carriedPawns);
+                carriedPawns.Clear();
+                return;
+            }
             var originOutpost = originObject as WorldObject_WD_Outpost;
             if (originOutpost != null && !originOutpost.Destroyed)
             {

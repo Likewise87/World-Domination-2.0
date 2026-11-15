@@ -400,6 +400,14 @@ namespace TSA_WorldDomination
                     // Feature D: event-driven ground RR/mortar dispatch fast path (airborne/ballistic AA untouched).
                     WorldComponent_InterceptionScheduler.Current?.TryEventDrivenGroundIntercept(traveler, traveler.Tile.tileId);
                     if (traveler.Destroyed) return;
+                    // Settlement intel: settlements/caravans spot this traveler; scouts spot sites around themselves.
+                    if (WorldComponent_SettlementIntel.IsTracking())
+                    {
+                        WorldComponent_SettlementIntel.Get()?.TrySpotTravelerFromSettlementsAndCaravans(traveler);
+                        if (traveler.mission == TravelerMission.Scout && traveler.Faction != null)
+                            WorldActions_Scout.DiscoverSitesInScoutBubble(traveler.Faction, traveler.Tile.tileId);
+                    }
+                    if (traveler.Destroyed) return;
                 }
 
                 // BRANCHED HELPER: Validation (mortar shells fly a fixed ballistic arc; target validation only at arrival).

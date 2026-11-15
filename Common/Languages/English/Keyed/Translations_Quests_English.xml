@@ -7,7 +7,7 @@
   <TSA_WD_Quest_EnableFirstOutpostTip>After 2-5 days, a nearby ally or neutral settlement may ask you to found your first WD outpost. Completing it grants goodwill. Off stops new offers; an active quest can still finish.</TSA_WD_Quest_EnableFirstOutpostTip>
 
   <TSA_WD_Quest_EnableCommonEnemySettlement>Common-enemy settlement quest</TSA_WD_Quest_EnableCommonEnemySettlement>
-  <TSA_WD_Quest_EnableCommonEnemySettlementTip>After day 10, allies (or neutrals) may ask you to wipe or conquer a nearby town hostile to both of you. Credit only counts for your own outpost raids or fighting there in person. Allied raid orders and other factions wiping the town do not count. Off stops new offers; an active quest can still finish.</TSA_WD_Quest_EnableCommonEnemySettlementTip>
+  <TSA_WD_Quest_EnableCommonEnemySettlementTip>After day 10, allies (or neutrals) may ask you to wipe or conquer a nearby town hostile to both of you. Credit counts when you wipe the town yourself (outpost raid, fighting there, sabotage, shelling, and similar). Allied raid orders and other factions wiping the town do not count. Off stops new offers; an active quest can still finish.</TSA_WD_Quest_EnableCommonEnemySettlementTip>
 
   <TSA_WD_Quest_EnableColonyRoadLink>Colony road-link quest</TSA_WD_Quest_EnableColonyRoadLink>
   <TSA_WD_Quest_EnableColonyRoadLinkTip>After day 10, a nearby ally or neutral town (within 30 tiles) may ask for a road between your colony and theirs. Connecting the towns by any road completes it once for good. Failures (timeout, hostility, or the town vanishing) can reissue after a few days. Off stops new offers; an active quest can still finish.</TSA_WD_Quest_EnableColonyRoadLinkTip>

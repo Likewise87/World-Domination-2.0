@@ -23,7 +23,11 @@ namespace TSA_WorldDomination
             bool attackRangeBands = false,
             bool zealAttackInnerCyan = false,
             float accuracyBandMaxRange = -1f,
-            float allyInnerRadiusSplit = -1f)
+            float allyInnerRadiusSplit = -1f,
+            bool sightLosBands = false,
+            float sightFracT1 = 0.50f,
+            float sightFracT2 = 0.75f,
+            float sightFracT3 = 1.00f)
         {
             if (WD_RadiusOverlayMode.UseHopRadiusRings) return;
             if (!center.Valid || radius <= 0f) return;
@@ -31,7 +35,9 @@ namespace TSA_WorldDomination
             touchedFrame = Time.frameCount;
             if (!WorldComponent_WDVisualizerToggle.IsOutpostCoverageFillLayerRegisteredPublic())
                 WorldComponent_WDVisualizerToggle.EnsureOutpostCoverageFillLayerRegisteredPublic();
-            if (WD_WorldLayer_OutpostCoverageFill.TrySetTarget(center, radius, kind, accuracyBands, attackRangeBands, zealAttackInnerCyan, accuracyBandMaxRange, allyInnerRadiusSplit))
+            if (WD_WorldLayer_OutpostCoverageFill.TrySetTarget(
+                    center, radius, kind, accuracyBands, attackRangeBands, zealAttackInnerCyan,
+                    accuracyBandMaxRange, allyInnerRadiusSplit, sightLosBands, sightFracT1, sightFracT2, sightFracT3))
                 WorldComponent_WDVisualizerToggle.MarkOutpostCoverageFillDirtyPublic();
         }
 
@@ -43,11 +49,18 @@ namespace TSA_WorldDomination
             bool attackRangeBands = false,
             bool zealAttackInnerCyan = false,
             float accuracyBandMaxRange = -1f,
-            float allyInnerRadiusSplit = -1f)
+            float allyInnerRadiusSplit = -1f,
+            bool sightLosBands = false,
+            float sightFracT1 = 0.50f,
+            float sightFracT2 = 0.75f,
+            float sightFracT3 = 1.00f)
         {
             if (worldObject == null || worldObject.Destroyed) return;
             PlanetLayer layer = PlanetSurfaceWorldActions.LayerOf(worldObject);
-            Begin(new PlanetTile(worldObject.Tile, layer), radius, kind, accuracyBands, attackRangeBands, zealAttackInnerCyan, accuracyBandMaxRange, allyInnerRadiusSplit);
+            Begin(
+                new PlanetTile(worldObject.Tile, layer), radius, kind, accuracyBands, attackRangeBands,
+                zealAttackInnerCyan, accuracyBandMaxRange, allyInnerRadiusSplit,
+                sightLosBands, sightFracT1, sightFracT2, sightFracT3);
         }
 
         /// <summary>

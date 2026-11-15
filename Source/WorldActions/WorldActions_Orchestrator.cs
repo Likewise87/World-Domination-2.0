@@ -839,6 +839,8 @@ namespace TSA_WorldDomination
 
             // Single daily enumeration: all settlements and player outposts in scope. Reused for revolt, diplomacy, and action queue.
             dailySnapshot = DailyWorldSnapshot.Build();
+            if (WorldComponent_SettlementIntel.IsTracking())
+                WorldComponent_SettlementIntel.Get()?.DailyLosPass(dailySnapshot);
             var settlementsByFaction = dailySnapshot.SettlementsByFaction;
             var worldPowerStats = dailySnapshot.WorldPowerStats;
 
@@ -971,16 +973,29 @@ namespace TSA_WorldDomination
             bool developEligible = WorldActions_GrowthExpand.IsDevelopEligible(comp);
             bool fortifyEligible = WorldActions_NpcFortify.IsFortifyEligible(actor, comp);
 
+            bool intelTracking = WorldComponent_SettlementIntel.IsTracking();
+            bool intelActive = WorldComponent_SettlementIntel.IsActive(this);
+            bool scoutEligible = intelTracking && comp.tier >= SettlementTier.T2 && !comp.IsScoutOnCooldown;
+            bool scoutClear = scoutEligible
+                && WorldActions_Scout.IsScoutClearOfKnownHostiles(actor, comp, this);
+            float scoutClearMult = scoutClear
+                ? (seth.settlementIntelScoutClearWeightMult > 0f ? seth.settlementIntelScoutClearWeightMult : 1f)
+                : 1f;
+
             float wRaid = (!comp.IsRaidOnCooldown && !isRecovering) ? seth.weightRaid : 0f;
             float wMinor = (!comp.IsIncidentOnCooldown) ? seth.weightMinorIncident * incidentMult : 0f;
             float wMajor = (!comp.IsIncidentOnCooldown) ? seth.weightMajorIncident * incidentMult : 0f;
             float wDevelop = developEligible ? seth.weightGrow * developMult : 0f;
+            float wStrategicExpand = (intelActive && developEligible && !comp.IsExpansionOnCooldown)
+                ? seth.weightStrategicExpand * developMult
+                : 0f;
             float wBuildRoad = (!comp.IsRoadOnCooldown && !isRecovering) ? seth.weightBuildRoad : 0f;
             float wTrader = (!comp.IsTraderOnCooldown && !isRecovering) ? seth.weightTrader : 0f;
+            float wScout = scoutEligible ? seth.weightScout * scoutClearMult : 0f;
             float wFortify = fortifyEligible ? seth.weightFortify : 0f;
             float wAdvanced = WorldActions_AdvancedBuildings.GetDailyWeight(actor, comp, isRecovering, this);
 
-            float totalWeight = wRaid + wMinor + wMajor + wDevelop + wBuildRoad + wTrader + wFortify + wAdvanced;
+            float totalWeight = wRaid + wMinor + wMajor + wDevelop + wStrategicExpand + wBuildRoad + wTrader + wScout + wFortify + wAdvanced;
             if (totalWeight <= 0f)
             {
                 // Soft fail: no eligible action for this slot (silent).
@@ -1010,6 +1025,11 @@ namespace TSA_WorldDomination
                 WDVerbose.Msg($"DailyAction pick=develop faction={f.Name} actor={actor.LabelCap}");
                 WorldActions_GrowthExpand.AttemptDevelop(actor, comp, this);
             }
+            else if (rand < (cursor += wStrategicExpand))
+            {
+                WDVerbose.Msg($"DailyAction pick=strategicExpand faction={f.Name} actor={actor.LabelCap}");
+                WorldActions_GrowthExpand.AttemptStrategicExpand(actor, comp, this);
+            }
             else if (rand < (cursor += wBuildRoad))
             {
                 WDVerbose.Msg($"DailyAction pick=road faction={f.Name} actor={actor.LabelCap}");
@@ -1020,6 +1040,11 @@ namespace TSA_WorldDomination
                 WDVerbose.Msg($"DailyAction pick=trader faction={f.Name} actor={actor.LabelCap}");
                 WorldActions_TraderCaravan.AttemptTraderCaravan(actor, comp, this);
             }
+            else if (rand < (cursor += wScout))
+            {
+                WDVerbose.Msg($"DailyAction pick=scout faction={f.Name} actor={actor.LabelCap}");
+                WorldActions_Scout.AttemptScout(actor, comp, this);
+            }
             else if (rand < (cursor += wFortify))
             {
                 WDVerbose.Msg($"DailyAction pick=fortify faction={f.Name} actor={actor.LabelCap}");
@@ -1028,7 +1053,7 @@ namespace TSA_WorldDomination
                     // Kit complete / no launch: re-roll among other eligible weights (exclude Fortify).
                     TryFallbackDailyAction(
                         actor, comp, f, isRecovering,
-                        wRaid, wMinor, wMajor, wDevelop, wBuildRoad, wTrader, 0f, wAdvanced);
+                        wRaid, wMinor, wMajor, wDevelop, wStrategicExpand, wBuildRoad, wTrader, wScout, 0f, wAdvanced);
                 }
             }
             else
@@ -1038,7 +1063,7 @@ namespace TSA_WorldDomination
                 {
                     TryFallbackDailyAction(
                         actor, comp, f, isRecovering,
-                        wRaid, wMinor, wMajor, wDevelop, wBuildRoad, wTrader, wFortify, 0f);
+                        wRaid, wMinor, wMajor, wDevelop, wStrategicExpand, wBuildRoad, wTrader, wScout, wFortify, 0f);
                 }
             }
 
@@ -1058,12 +1083,14 @@ namespace TSA_WorldDomination
             float wMinor,
             float wMajor,
             float wDevelop,
+            float wStrategicExpand,
             float wBuildRoad,
             float wTrader,
+            float wScout,
             float wFortify,
             float wAdvanced)
         {
-            float total = wRaid + wMinor + wMajor + wDevelop + wBuildRoad + wTrader + wFortify + wAdvanced;
+            float total = wRaid + wMinor + wMajor + wDevelop + wStrategicExpand + wBuildRoad + wTrader + wScout + wFortify + wAdvanced;
             if (total <= 0f)
             {
                 WDVerbose.Msg($"DailyAction fortifyFallback=none faction={f?.Name} actor={actor?.LabelCap}");
@@ -1092,6 +1119,11 @@ namespace TSA_WorldDomination
                 WDVerbose.Msg($"DailyAction fortifyFallback=develop faction={f.Name} actor={actor.LabelCap}");
                 WorldActions_GrowthExpand.AttemptDevelop(actor, comp, this);
             }
+            else if (rand < (cursor += wStrategicExpand))
+            {
+                WDVerbose.Msg($"DailyAction fortifyFallback=strategicExpand faction={f.Name} actor={actor.LabelCap}");
+                WorldActions_GrowthExpand.AttemptStrategicExpand(actor, comp, this);
+            }
             else if (rand < (cursor += wBuildRoad))
             {
                 WDVerbose.Msg($"DailyAction fortifyFallback=road faction={f.Name} actor={actor.LabelCap}");
@@ -1101,6 +1133,11 @@ namespace TSA_WorldDomination
             {
                 WDVerbose.Msg($"DailyAction fortifyFallback=trader faction={f.Name} actor={actor.LabelCap}");
                 WorldActions_TraderCaravan.AttemptTraderCaravan(actor, comp, this);
+            }
+            else if (rand < (cursor += wScout))
+            {
+                WDVerbose.Msg($"DailyAction fortifyFallback=scout faction={f.Name} actor={actor.LabelCap}");
+                WorldActions_Scout.AttemptScout(actor, comp, this);
             }
             else if (rand < (cursor += wFortify))
             {

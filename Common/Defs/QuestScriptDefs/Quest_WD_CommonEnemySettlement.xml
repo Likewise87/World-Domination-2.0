@@ -18,7 +18,7 @@
 
     <questDescriptionRules>
       <rulesStrings>
-        <li>questDescription->[faction_name] wants you to wipe out or conquer [enemySettlement_label], a shared enemy. Do it yourself: attack in person, or launch a raid from one of your World Domination outposts.\n\nAllied-settlement raid orders and unrelated faction attacks do not count. You have 8 days.</li>
+        <li>questDescription->[faction_name] wants you to wipe out or conquer [enemySettlement_label], a shared enemy. Do it yourself: attack in person, launch a raid from one of your World Domination outposts, or wipe the town by other means (sabotage, shelling, and similar).\n\nAllied-settlement raid orders and unrelated faction attacks do not count. You have 8 days.</li>
       </rulesStrings>
     </questDescriptionRules>
 

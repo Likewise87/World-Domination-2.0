@@ -1083,14 +1083,35 @@ namespace TSA_WorldDomination
         public static bool IsNutritionFoodDef(ThingDef def) =>
             def?.ingestible != null && def.IsNutritionGivingIngestible && !def.IsDrug && !def.IsMedicine;
 
+        /// <summary>Matches Armory Food/Drugs/Ammo/Medicine consumable column.</summary>
+        public static bool IsFoodDrugsAmmoOrMedicine(ThingDef def)
+        {
+            if (def == null) return false;
+            if (IsAmmoDef(def)) return true;
+            if (def.IsMedicine || def.IsDrug) return true;
+            return def.ingestible != null && def.IsNutritionGivingIngestible;
+        }
+
+        /// <summary>Matches Armory Other Inventory column (pack items that are not consumables).</summary>
+        public static bool IsOtherInventoryDef(ThingDef def) =>
+            def != null && !IsFoodDrugsAmmoOrMedicine(def);
+
+        public static bool IsDrugDef(ThingDef def) => def != null && def.IsDrug;
+
+        /// <summary>DrugDesire degree -1 (teetotaler). Never auto-assign drugs to these pawns.</summary>
+        public static bool IsTeetotaler(Pawn pawn) =>
+            pawn?.story?.traits != null && pawn.story.traits.HasTrait(TraitDefOf.DrugDesire, -1);
+
         /// <summary>
-        /// Moves matching inventory stacks from every occupant into the armory. Snapshots first so
-        /// the container is never mutated while iterating.
+        /// Moves matching inventory stacks into the armory. Snapshots first so the container is
+        /// never mutated while iterating. When <paramref name="onlyPawns"/> is set, only those
+        /// pawns are scanned (otherwise every occupant).
         /// </summary>
         public static int StripInventoryMatching(
             WorldObject_WD_Outpost outpost,
             Predicate<ThingDef> match,
-            out string failReason)
+            out string failReason,
+            List<Pawn> onlyPawns = null)
         {
             failReason = null;
             if (!CanMutate(outpost))
@@ -1098,10 +1119,11 @@ namespace TSA_WorldDomination
                 failReason = "TSA_WD_Armory_FailManualDefense".Translate();
                 return 0;
             }
-            if (outpost?.Occupants == null || match == null) return 0;
+            if (match == null) return 0;
+            List<Pawn> occupants = onlyPawns ?? outpost?.Occupants;
+            if (occupants == null) return 0;
 
             var snapshot = new List<Pair<Pawn, Thing>>();
-            List<Pawn> occupants = outpost.Occupants;
             for (int i = 0; i < occupants.Count; i++)
             {
                 Pawn pawn = occupants[i];
@@ -1132,12 +1154,16 @@ namespace TSA_WorldDomination
         /// <summary>Soft cap per occupant when auto-assigning food from Armory stock.</summary>
         public const int AutoAssignFoodUnitsPerPawn = 10;
 
+        /// <summary>Soft cap per occupant when auto-assigning drugs from Armory stock.</summary>
+        public const int AutoAssignDrugUnitsPerPawn = 5;
+
         /// <summary>
-        /// Distribute nutrition food from armory stock evenly across occupants (round-robin one
-        /// unit at a time), up to <see cref="AutoAssignFoodUnitsPerPawn"/> each. Returns units
-        /// transferred.
+        /// Distribute nutrition food from armory stock evenly across pawns (round-robin one unit
+        /// at a time), up to <see cref="AutoAssignFoodUnitsPerPawn"/> each. When
+        /// <paramref name="onlyPawns"/> is set, only those pawns receive food.
         /// </summary>
-        public static int TryAutoAssignFoodFromStore(WorldObject_WD_Outpost outpost, out string failReason)
+        public static int TryAutoAssignFoodFromStore(
+            WorldObject_WD_Outpost outpost, out string failReason, List<Pawn> onlyPawns = null)
         {
             failReason = null;
             if (!CanMutate(outpost))
@@ -1145,13 +1171,13 @@ namespace TSA_WorldDomination
                 failReason = "TSA_WD_Armory_FailManualDefense".Translate();
                 return 0;
             }
-            if (outpost?.Occupants == null) return 0;
 
             var armory = CompOutpostArmory.Get(outpost);
             if (armory == null) return 0;
 
             var recipients = new List<Pawn>();
-            List<Pawn> occupants = outpost.Occupants;
+            List<Pawn> occupants = onlyPawns ?? outpost?.Occupants;
+            if (occupants == null) return 0;
             for (int i = 0; i < occupants.Count; i++)
             {
                 Pawn pawn = occupants[i];
@@ -1204,11 +1230,85 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// CE helper: give each occupant up to <see cref="OutpostCeAmmoCompat.AutoAssignMagazines"/>
-        /// full magazines from armory stock, then randomly dump leftover suitable ammo. Returns
-        /// total ammo units transferred.
+        /// Distribute drugs from armory stock evenly across non-teetotaler pawns (round-robin),
+        /// up to <see cref="AutoAssignDrugUnitsPerPawn"/> each. When <paramref name="onlyPawns"/>
+        /// is set, only those pawns are considered.
         /// </summary>
-        public static int TryAutoAssignAmmoFromStore(WorldObject_WD_Outpost outpost, out string failReason)
+        public static int TryAutoAssignDrugsFromStore(
+            WorldObject_WD_Outpost outpost, out string failReason, List<Pawn> onlyPawns = null)
+        {
+            failReason = null;
+            if (!CanMutate(outpost))
+            {
+                failReason = "TSA_WD_Armory_FailManualDefense".Translate();
+                return 0;
+            }
+
+            var armory = CompOutpostArmory.Get(outpost);
+            if (armory == null) return 0;
+
+            var recipients = new List<Pawn>();
+            List<Pawn> occupants = onlyPawns ?? outpost?.Occupants;
+            if (occupants == null) return 0;
+            for (int i = 0; i < occupants.Count; i++)
+            {
+                Pawn pawn = occupants[i];
+                if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
+                if (pawn.inventory?.innerContainer == null) continue;
+                if (IsTeetotaler(pawn)) continue;
+                recipients.Add(pawn);
+            }
+            if (recipients.Count == 0) return 0;
+
+            int[] given = new int[recipients.Count];
+            int totalGiven = 0;
+            int maxRounds = recipients.Count * AutoAssignDrugUnitsPerPawn + 8;
+            for (int round = 0; round < maxRounds; round++)
+            {
+                bool anyThisRound = false;
+                for (int i = 0; i < recipients.Count; i++)
+                {
+                    if (given[i] >= AutoAssignDrugUnitsPerPawn) continue;
+
+                    ThingDefCountClass row = FindAnyDrugStockRow(armory);
+                    if (row == null) return totalGiven;
+
+                    if (ClampAssignCount(recipients[i], row.thingDef, 1) < 1)
+                        continue;
+
+                    if (!TryGiveStockToPawn(outpost, recipients[i], row, 1, out _))
+                        continue;
+
+                    given[i]++;
+                    totalGiven++;
+                    anyThisRound = true;
+                }
+                if (!anyThisRound) break;
+            }
+            return totalGiven;
+        }
+
+        private static ThingDefCountClass FindAnyDrugStockRow(CompOutpostArmory armory)
+        {
+            if (armory == null) return null;
+            List<ThingDefCountClass> rows = armory.ArmoryRows();
+            for (int i = 0; i < rows.Count; i++)
+            {
+                ThingDefCountClass e = rows[i];
+                if (e?.thingDef == null || e.count <= 0) continue;
+                if (!IsDrugDef(e.thingDef)) continue;
+                return e;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// CE helper: give pawns up to <see cref="OutpostCeAmmoCompat.AutoAssignMagazines"/>
+        /// full magazines from armory stock, then randomly dump leftover suitable ammo among them.
+        /// When <paramref name="onlyPawns"/> is set, only those pawns are considered.
+        /// </summary>
+        public static int TryAutoAssignAmmoFromStore(
+            WorldObject_WD_Outpost outpost, out string failReason, List<Pawn> onlyPawns = null)
         {
             failReason = null;
             if (!OutpostCeAmmoCompat.IsCeActive) return 0;
@@ -1217,13 +1317,14 @@ namespace TSA_WorldDomination
                 failReason = "TSA_WD_Armory_FailManualDefense".Translate();
                 return 0;
             }
-            if (outpost?.Occupants == null) return 0;
 
             var armory = CompOutpostArmory.Get(outpost);
             if (armory == null) return 0;
 
+            List<Pawn> occupants = onlyPawns ?? outpost?.Occupants;
+            if (occupants == null) return 0;
+
             int unitsGiven = 0;
-            List<Pawn> occupants = outpost.Occupants;
             for (int i = 0; i < occupants.Count; i++)
             {
                 unitsGiven += AutoAssignAmmoForPawn(outpost, armory, occupants[i]);
@@ -1380,6 +1481,354 @@ namespace TSA_WorldDomination
                 Props = props;
                 AmmoDefs = ammoDefs;
             }
+        }
+
+        /// <summary>True for loose-store weapons eligible for Equipment Auto Assign (not grenades / ammo).</summary>
+        public static bool IsQuickEquipWeaponDef(ThingDef def)
+        {
+            if (def == null || !def.IsWeapon || IsAmmoDef(def)) return false;
+            if (IsGrenadeWeapon(def)) return false;
+            return def.IsMeleeWeapon || def.IsRangedWeapon;
+        }
+
+        /// <summary>Loose-store weapons and all apparel (armor and clothing) for Equipment Auto Assign.</summary>
+        public static bool IsQuickEquipStoreDef(ThingDef def) =>
+            IsQuickEquipWeaponDef(def) || (def != null && def.IsApparel);
+
+        /// <summary>
+        /// Greedy fill empty primary / free apparel layers on selected pawns from selected store rows and uniques.
+        /// Never strips. Pawn order uses the better of Melee vs Shooting (then the other skill). Weapon type
+        /// follows that better skill: Shooting higher → ranged first, Melee higher → melee first; only if
+        /// none of that type remain do we fall back. Apparel includes armor and clothing on free layers.
+        /// Within a type, highest silver MarketValue wins.
+        /// </summary>
+        public static int TryQuickEquip(
+            WorldObject_WD_Outpost outpost,
+            List<Pawn> selectedPawns,
+            List<ThingDefCountClass> selectedStock,
+            List<Thing> selectedUniques,
+            out int weaponsGiven,
+            out int apparelGiven,
+            out string failReason)
+        {
+            weaponsGiven = 0;
+            apparelGiven = 0;
+            failReason = null;
+            if (!CanMutate(outpost))
+            {
+                failReason = "TSA_WD_Armory_FailManualDefense".Translate();
+                return 0;
+            }
+            if (selectedPawns == null || selectedPawns.Count == 0) return 0;
+
+            var ranked = new List<(Pawn pawn, int primarySkill, int secondarySkill, bool preferMelee)>(selectedPawns.Count);
+            for (int i = 0; i < selectedPawns.Count; i++)
+            {
+                Pawn p = selectedPawns[i];
+                if (p == null || p.Destroyed || p.Dead || !p.RaceProps.Humanlike) continue;
+                int melee = p.skills?.GetSkill(SkillDefOf.Melee)?.Level ?? 0;
+                int shoot = p.skills?.GetSkill(SkillDefOf.Shooting)?.Level ?? 0;
+                // Better of the two decides type + priority. Equal → melee lean.
+                bool preferMelee = melee >= shoot;
+                int primary = preferMelee ? melee : shoot;
+                int secondary = preferMelee ? shoot : melee;
+                ranked.Add((p, primary, secondary, preferMelee));
+            }
+            // Better combat skill first so they claim the most expensive piece of their type.
+            ranked.Sort((a, b) =>
+            {
+                int cmp = b.primarySkill.CompareTo(a.primarySkill);
+                if (cmp != 0) return cmp;
+                cmp = b.secondarySkill.CompareTo(a.secondarySkill);
+                if (cmp != 0) return cmp;
+                return string.CompareOrdinal(a.pawn.LabelShort, b.pawn.LabelShort);
+            });
+
+            var stockPool = new List<(ThingDefCountClass row, int left, float silver)>();
+            if (selectedStock != null)
+            {
+                for (int i = 0; i < selectedStock.Count; i++)
+                {
+                    ThingDefCountClass row = selectedStock[i];
+                    if (row?.thingDef == null || row.count <= 0) continue;
+                    if (!IsQuickEquipStoreDef(row.thingDef)) continue;
+                    stockPool.Add((row, row.count, GearSilverValue(row)));
+                }
+            }
+
+            var uniquePool = new List<(Thing thing, float silver)>();
+            if (selectedUniques != null)
+            {
+                for (int i = 0; i < selectedUniques.Count; i++)
+                {
+                    Thing t = selectedUniques[i];
+                    if (t == null || t.Destroyed || t.def == null) continue;
+                    if (!IsQuickEquipStoreDef(t.def)) continue;
+                    uniquePool.Add((t, GearSilverValue(t)));
+                }
+            }
+
+            for (int pi = 0; pi < ranked.Count; pi++)
+            {
+                Pawn pawn = ranked[pi].pawn;
+                bool preferMelee = ranked[pi].preferMelee;
+
+                if (pawn.equipment != null && pawn.equipment.Primary == null)
+                {
+                    if (TryTakeBestWeaponFromPools(outpost, pawn, preferMelee, stockPool, uniquePool))
+                        weaponsGiven++;
+                }
+
+                while (TryGiveBestFreeApparelFromPools(outpost, pawn, stockPool, uniquePool))
+                    apparelGiven++;
+            }
+
+            return weaponsGiven + apparelGiven;
+        }
+
+        private static bool TryTakeBestWeaponFromPools(
+            WorldObject_WD_Outpost outpost,
+            Pawn pawn,
+            bool preferMelee,
+            List<(ThingDefCountClass row, int left, float silver)> stockPool,
+            List<(Thing thing, float silver)> uniquePool)
+        {
+            // Matching type first (Shooting-led → ranged, Melee-led → melee), then any leftover weapon.
+            if (TryTakeBestWeaponFromPoolsPass(outpost, pawn, preferMelee, stockPool, uniquePool, preferredOnly: true))
+                return true;
+            return TryTakeBestWeaponFromPoolsPass(outpost, pawn, preferMelee, stockPool, uniquePool, preferredOnly: false);
+        }
+
+        private static bool TryTakeBestWeaponFromPoolsPass(
+            WorldObject_WD_Outpost outpost,
+            Pawn pawn,
+            bool preferMelee,
+            List<(ThingDefCountClass row, int left, float silver)> stockPool,
+            List<(Thing thing, float silver)> uniquePool,
+            bool preferredOnly)
+        {
+            int bestStock = -1;
+            float bestStockSilver = float.MinValue;
+            for (int i = 0; i < stockPool.Count; i++)
+            {
+                if (stockPool[i].left <= 0) continue;
+                ThingDef def = stockPool[i].row.thingDef;
+                if (!WeaponEligibleForPass(def, preferMelee, preferredOnly)) continue;
+                float silver = stockPool[i].silver;
+                if (silver > bestStockSilver)
+                {
+                    bestStockSilver = silver;
+                    bestStock = i;
+                }
+            }
+
+            int bestUnique = -1;
+            float bestUniqueSilver = float.MinValue;
+            for (int i = 0; i < uniquePool.Count; i++)
+            {
+                Thing t = uniquePool[i].thing;
+                if (t == null || t.Destroyed) continue;
+                if (!WeaponEligibleForPass(t.def, preferMelee, preferredOnly)) continue;
+                float silver = uniquePool[i].silver;
+                if (silver > bestUniqueSilver)
+                {
+                    bestUniqueSilver = silver;
+                    bestUnique = i;
+                }
+            }
+
+            if (bestStock < 0 && bestUnique < 0) return false;
+
+            bool useUnique = bestUnique >= 0 && (bestStock < 0 || bestUniqueSilver >= bestStockSilver);
+            if (useUnique)
+            {
+                Thing t = uniquePool[bestUnique].thing;
+                var armory = CompOutpostArmory.Get(outpost);
+                if (armory?.Uniques == null || !armory.Uniques.Contains(t)) return false;
+                Thing taken = armory.Uniques.Take(t, t.stackCount > 0 ? t.stackCount : 1);
+                uniquePool.RemoveAt(bestUnique);
+                if (taken == null) return false;
+                return TryGiveUniqueToPawn(outpost, pawn, taken, out _);
+            }
+
+            ThingDefCountClass row = stockPool[bestStock].row;
+            if (!TryGiveStockToPawn(outpost, pawn, row, 1, out _)) return false;
+            var entry = stockPool[bestStock];
+            entry.left--;
+            stockPool[bestStock] = entry;
+            return true;
+        }
+
+        private static bool TryGiveBestFreeApparelFromPools(
+            WorldObject_WD_Outpost outpost,
+            Pawn pawn,
+            List<(ThingDefCountClass row, int left, float silver)> stockPool,
+            List<(Thing thing, float silver)> uniquePool)
+        {
+            int bestStock = -1;
+            float bestStockSilver = float.MinValue;
+            for (int i = 0; i < stockPool.Count; i++)
+            {
+                if (stockPool[i].left <= 0) continue;
+                ThingDef def = stockPool[i].row.thingDef;
+                if (def == null || !def.IsApparel) continue;
+                if (FindConflictingApparel(pawn, def).Count > 0) continue;
+                Thing probe = MakeFromStockRow(stockPool[i].row, 1);
+                if (probe == null) continue;
+                bool ok = CanReceiveThing(pawn, probe, out _);
+                if (!probe.Destroyed) probe.Destroy(DestroyMode.Vanish);
+                if (!ok) continue;
+                float silver = stockPool[i].silver;
+                if (silver > bestStockSilver)
+                {
+                    bestStockSilver = silver;
+                    bestStock = i;
+                }
+            }
+
+            int bestUnique = -1;
+            float bestUniqueSilver = float.MinValue;
+            for (int i = 0; i < uniquePool.Count; i++)
+            {
+                Thing t = uniquePool[i].thing;
+                if (t == null || t.Destroyed || t.def == null || !t.def.IsApparel) continue;
+                if (FindConflictingApparel(pawn, t.def).Count > 0) continue;
+                if (!CanReceiveThing(pawn, t, out _)) continue;
+                float silver = uniquePool[i].silver;
+                if (silver > bestUniqueSilver)
+                {
+                    bestUniqueSilver = silver;
+                    bestUnique = i;
+                }
+            }
+
+            if (bestStock < 0 && bestUnique < 0) return false;
+
+            bool useUnique = bestUnique >= 0 && (bestStock < 0 || bestUniqueSilver >= bestStockSilver);
+            if (useUnique)
+            {
+                Thing t = uniquePool[bestUnique].thing;
+                var armory = CompOutpostArmory.Get(outpost);
+                if (armory?.Uniques == null || !armory.Uniques.Contains(t)) return false;
+                Thing taken = armory.Uniques.Take(t, t.stackCount > 0 ? t.stackCount : 1);
+                uniquePool.RemoveAt(bestUnique);
+                if (taken == null) return false;
+                return TryGiveUniqueToPawn(outpost, pawn, taken, out _);
+            }
+
+            ThingDefCountClass row = stockPool[bestStock].row;
+            if (!TryGiveStockToPawn(outpost, pawn, row, 1, out _)) return false;
+            var entry = stockPool[bestStock];
+            entry.left--;
+            stockPool[bestStock] = entry;
+            return true;
+        }
+
+        private static bool WeaponEligibleForPass(ThingDef def, bool preferMelee, bool preferredOnly)
+        {
+            if (!IsQuickEquipWeaponDef(def)) return false;
+            if (!preferredOnly) return true;
+            return preferMelee ? def.IsMeleeWeapon : def.IsRangedWeapon;
+        }
+
+        /// <summary>Quality-aware market value (silver) for one stock unit.</summary>
+        private static float GearSilverValue(ThingDefCountClass row)
+        {
+            if (row?.thingDef == null) return 0f;
+            Thing probe = MakeFromStockRow(row, 1);
+            if (probe == null)
+                return Mathf.Max(0f, row.thingDef.GetStatValueAbstract(StatDefOf.MarketValue, row.stuff));
+            float silver = Mathf.Max(0f, probe.GetStatValue(StatDefOf.MarketValue));
+            if (!probe.Destroyed) probe.Destroy(DestroyMode.Vanish);
+            return silver;
+        }
+
+        private static float GearSilverValue(Thing thing)
+        {
+            if (thing?.def == null) return 0f;
+            return Mathf.Max(0f, thing.GetStatValue(StatDefOf.MarketValue));
+        }
+
+        /// <summary>Store equipment weapons from selected pawns. Returns pieces moved.</summary>
+        public static int TryQuickStripWeapons(WorldObject_WD_Outpost outpost, List<Pawn> selectedPawns, out string failReason)
+        {
+            failReason = null;
+            if (!CanMutate(outpost))
+            {
+                failReason = "TSA_WD_Armory_FailManualDefense".Translate();
+                return 0;
+            }
+            if (selectedPawns == null) return 0;
+
+            int moved = 0;
+            var snapshot = new List<Thing>(8);
+            for (int i = 0; i < selectedPawns.Count; i++)
+            {
+                Pawn pawn = selectedPawns[i];
+                if (pawn?.equipment == null) continue;
+                snapshot.Clear();
+                List<ThingWithComps> eq = pawn.equipment.AllEquipmentListForReading;
+                for (int e = 0; e < eq.Count; e++)
+                {
+                    ThingWithComps t = eq[e];
+                    if (t?.def == null || !t.def.IsWeapon || IsAmmoDef(t.def)) continue;
+                    snapshot.Add(t);
+                }
+                for (int e = 0; e < snapshot.Count; e++)
+                {
+                    if (TryStoreFromPawn(outpost, pawn, snapshot[e], snapshot[e].stackCount, out _))
+                        moved++;
+                }
+            }
+            return moved;
+        }
+
+        /// <summary>Store worn Armor-filter apparel from selected pawns. Returns pieces moved.</summary>
+        public static int TryQuickStripArmor(WorldObject_WD_Outpost outpost, List<Pawn> selectedPawns, out string failReason)
+        {
+            return TryQuickStripApparelFiltered(outpost, selectedPawns, armorOnly: true, out failReason);
+        }
+
+        /// <summary>Store worn non-armor apparel from selected pawns. Returns pieces moved.</summary>
+        public static int TryQuickStripApparel(WorldObject_WD_Outpost outpost, List<Pawn> selectedPawns, out string failReason)
+        {
+            return TryQuickStripApparelFiltered(outpost, selectedPawns, armorOnly: false, out failReason);
+        }
+
+        private static int TryQuickStripApparelFiltered(
+            WorldObject_WD_Outpost outpost, List<Pawn> selectedPawns, bool armorOnly, out string failReason)
+        {
+            failReason = null;
+            if (!CanMutate(outpost))
+            {
+                failReason = "TSA_WD_Armory_FailManualDefense".Translate();
+                return 0;
+            }
+            if (selectedPawns == null) return 0;
+
+            int moved = 0;
+            var snapshot = new List<Apparel>(12);
+            for (int i = 0; i < selectedPawns.Count; i++)
+            {
+                Pawn pawn = selectedPawns[i];
+                if (pawn?.apparel == null) continue;
+                snapshot.Clear();
+                List<Apparel> worn = pawn.apparel.WornApparel;
+                for (int a = 0; a < worn.Count; a++)
+                {
+                    Apparel ap = worn[a];
+                    if (ap?.def == null) continue;
+                    bool isArmor = IsArmorApparel(ap.def);
+                    if (armorOnly ? !isArmor : isArmor) continue;
+                    snapshot.Add(ap);
+                }
+                for (int a = 0; a < snapshot.Count; a++)
+                {
+                    if (TryStoreFromPawn(outpost, pawn, snapshot[a], 1, out _))
+                        moved++;
+                }
+            }
+            return moved;
         }
     }
 }

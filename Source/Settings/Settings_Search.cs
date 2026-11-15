@@ -11,6 +11,7 @@ namespace TSA_WorldDomination
         public string Label;
         public string Tooltip;
         public string Section;
+        public bool IsSection;
         public int Score;
     }
 
@@ -50,6 +51,23 @@ namespace TSA_WorldDomination
                 Label = label,
                 Tooltip = tooltip,
                 Section = CollectSection,
+                IsSection = false,
+                Score = 0
+            });
+        }
+
+        /// <summary>Register a collapsible section headline (not nested under another section in results).</summary>
+        public static void RegisterSection(string label, string tooltip = null)
+        {
+            if (!IsCollecting) return;
+            if (label.NullOrEmpty()) return;
+            Registry.Add(new WdSettingsSearchHit
+            {
+                Page = CollectPage,
+                Label = label,
+                Tooltip = tooltip,
+                Section = null,
+                IsSection = true,
                 Score = 0
             });
         }
@@ -179,7 +197,7 @@ namespace TSA_WorldDomination
                 Text.Font = GameFont.Small;
                 string pageName = WdSettingsPages.Get(hit.Page).LabelKey.Translate();
                 string line = hit.Label;
-                if (!hit.Section.NullOrEmpty())
+                if (!hit.IsSection && !hit.Section.NullOrEmpty())
                     line = hit.Section + " · " + line;
                 Widgets.Label(new Rect(row.x + 32f, row.y + 2f, row.width - 36f, 18f), line);
                 GUI.color = new Color(1f, 1f, 1f, 0.45f);

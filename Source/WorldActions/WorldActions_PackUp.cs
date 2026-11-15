@@ -244,7 +244,8 @@ namespace TSA_WorldDomination
             return best;
         }
 
-        public static List<WorldObject> CollectDistinctPlayerTargets()
+        /// <param name="observerFaction">When settlement intel is active, player outposts require Knows(observer, outpost). Colonies are always known.</param>
+        public static List<WorldObject> CollectDistinctPlayerTargets(Faction observerFaction = null)
         {
             var list = new List<WorldObject>();
             var settlements = Find.WorldObjects.Settlements;
@@ -258,11 +259,15 @@ namespace TSA_WorldDomination
             IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
             if (outposts != null)
             {
+                bool intelActive = WorldComponent_SettlementIntel.IsActive();
+                var intel = intelActive ? WorldComponent_SettlementIntel.Get() : null;
                 for (int i = 0; i < outposts.Count; i++)
                 {
                     WorldObject_WD_Outpost o = outposts[i];
                     if (o == null || o.Destroyed) continue;
                     if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(o)) continue;
+                    if (intel != null && observerFaction != null && !intel.Knows(observerFaction, o))
+                        continue;
                     list.Add(o);
                 }
             }

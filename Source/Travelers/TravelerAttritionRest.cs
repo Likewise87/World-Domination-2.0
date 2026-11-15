@@ -108,7 +108,8 @@ namespace TSA_WorldDomination
                 float dist = manager != null
                     ? (float)WorldActions_Utils.GetDistance(gunTileId, travelerTileId, manager)
                     : Find.WorldGrid.ApproxDistanceInTiles(gunTileId, travelerTileId);
-                if (dist <= gun.EffectiveRangeTiles)
+                if (dist <= gun.EffectiveRangeTiles
+                    && AtTurretUtility.CanEngageAtDistance(gun, traveler, dist))
                     return true;
             }
 

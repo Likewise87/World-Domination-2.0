@@ -1353,7 +1353,7 @@
   <!-- EN: {0} pawns being transferred without food. -->
   <TSA_WD_PawnTransfer_WithoutFoodPlural>{0}名角色在沒有食物的情況下被移送。</TSA_WD_PawnTransfer_WithoutFoodPlural>
   <!-- EN: Select at least one non-prisoner colonist to escort captives. -->
-  <TSA_WD_PawnTransfer_PrisonerNeedsEscort>請至少選擇一名非俘虜的殖民者押送俘虜。</TSA_WD_PawnTransfer_PrisonerNeedsEscort>
+  <TSA_WD_PawnTransfer_PrisonerNeedsEscort>陸路：請至少選擇一名非俘虜殖民者押送俘虜。以運輸艙送往玩家前哨或殖民地時無需護送。</TSA_WD_PawnTransfer_PrisonerNeedsEscort>
   <!-- EN: {0} is a prisoner and cannot lead the caravan. -->
   <TSA_WD_PawnTransfer_PrisonerCannotLead>{0}是俘虜，無法帶領旅隊。</TSA_WD_PawnTransfer_PrisonerCannotLead>
   <!-- EN: Captives cannot Exit here — send them to a colony or outpost that takes prisoners. -->

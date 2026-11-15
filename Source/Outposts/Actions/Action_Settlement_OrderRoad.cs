@@ -62,11 +62,12 @@ namespace TSA_WorldDomination
 
         private static void OpenRoadTierMenu(Settlement settlement, CompViralSpread comp)
         {
-            SettlementTier maxTier = WorldActions_Roads.GetMaxBuildableRoadTierForSettlement(comp.tier);
+            SettlementTier maxTier = WorldActions_Roads.GetMaxBuildableRoadTierForSettlement(comp.tier, settlement.Faction);
             var options = new List<FloatMenuOption>();
             TryAddTierOption(options, settlement, comp, SettlementTier.T1, maxTier);
             TryAddTierOption(options, settlement, comp, SettlementTier.T2, maxTier);
             TryAddTierOption(options, settlement, comp, SettlementTier.T3, maxTier);
+            TryAddTierOption(options, settlement, comp, SettlementTier.T4, maxTier);
             Find.WindowStack.Add(new FloatMenu(options));
         }
 
@@ -91,14 +92,25 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            SettlementTier requiredSettlementTier = MinSettlementTierForRoadTier(tier);
+            string tip;
+            if (tier == SettlementTier.T4
+                && comp.tier >= SettlementTier.T4
+                && !WorldActions_Roads.FactionCanBuildGlitterRoads(settlement.Faction))
+            {
+                tip = "TSA_WD_GlitterRoad_MinTechTip".Translate();
+            }
+            else
+            {
+                SettlementTier requiredSettlementTier = MinSettlementTierForRoadTier(tier);
+                tip = "TSA_WD_OrderedRoad_TierGateTooltip".Translate(
+                    Outpost_Trading.FormatTierShortLabel(comp.tier),
+                    label,
+                    Outpost_Trading.FormatTierShortLabel(requiredSettlementTier));
+            }
             var blocked = new FloatMenuOption(label, null)
             {
                 Disabled = true,
-                tooltip = "TSA_WD_OrderedRoad_TierGateTooltip".Translate(
-                    Outpost_Trading.FormatTierShortLabel(comp.tier),
-                    label,
-                    Outpost_Trading.FormatTierShortLabel(requiredSettlementTier))
+                tooltip = tip
             };
             options.Add(blocked);
         }
@@ -106,6 +118,7 @@ namespace TSA_WorldDomination
         /// <summary>Settlement tier required to order this road type (matches <see cref="WorldActions_Roads.GetMaxBuildableRoadTierForSettlement"/>).</summary>
         private static SettlementTier MinSettlementTierForRoadTier(SettlementTier roadTier)
         {
+            if (roadTier >= SettlementTier.T4) return SettlementTier.T4;
             if (roadTier >= SettlementTier.T3) return SettlementTier.T3;
             if (roadTier == SettlementTier.T2) return SettlementTier.T2;
             return SettlementTier.T1;

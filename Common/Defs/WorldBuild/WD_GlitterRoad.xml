@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Light-blue plasteel fill for Glitter roads (player / Spacer+ T4 NPC). -->
+  <RoadWorldLayerDef>
+    <defName>TSA_WD_GlitterDeck</defName>
+    <order>220</order>
+    <color>(0.55, 0.85, 1.0)</color>
+  </RoadWorldLayerDef>
+
+  <!-- Darker cyan outline so the strip reads on snow/ice biomes. -->
+  <RoadWorldLayerDef>
+    <defName>TSA_WD_GlitterOutline</defName>
+    <order>215</order>
+    <color>(0.28, 0.52, 0.72)</color>
+  </RoadWorldLayerDef>
+
+  <!-- Player/NPC-painted only. High tilesPerSegment blocks vanilla worldgen use. -->
+  <RoadDef>
+    <defName>TSA_WD_GlitterRoad</defName>
+    <label>glitter road</label>
+    <priority>55</priority>
+    <movementCostMultiplier>0.15</movementCostMultiplier>
+    <tilesPerSegment>99999</tilesPerSegment>
+    <pathingMode>Bulldoze</pathingMode>
+    <distortionFrequency>0.15</distortionFrequency>
+    <distortionIntensity>0.05</distortionIntensity>
+    <worldRenderSteps>
+      <li>
+        <layer>TSA_WD_GlitterOutline</layer>
+        <width>0.65</width>
+      </li>
+      <li>
+        <layer>TSA_WD_GlitterDeck</layer>
+        <width>0.40</width>
+      </li>
+    </worldRenderSteps>
+    <worldTransitionGroup>Glitter</worldTransitionGroup>
+  </RoadDef>
+
+</Defs>

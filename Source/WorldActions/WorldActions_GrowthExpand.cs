@@ -95,6 +95,20 @@ namespace TSA_WorldDomination
             => AttemptDevelop(s, comp, manager);
 
         /// <summary>
+        /// Settlement-intel Strategic Expand: sample K expand tiles and launch only if outside known-enemy T1 sight.
+        /// </summary>
+        public static bool AttemptStrategicExpand(WorldObject s, CompViralSpread comp, WorldComponent_SpreadManager manager)
+        {
+            if (s == null || comp == null || manager == null) return false;
+            if (!IsDevelopEligible(comp)) return false;
+            if (comp.IsExpansionOnCooldown) return false;
+            if (!(s is Settlement parent)) return false;
+            if (!WorldComponent_SettlementIntel.IsActive(manager)) return false;
+
+            return ExecuteExpansion(parent, comp, manager, strategicOnly: true);
+        }
+
+        /// <summary>
         /// Growth <c>localMaxT*</c> room for promoting <paramref name="fromTier"/> to the next tier
         /// within <see cref="WorldDominationSettings.expandMaxRadius"/> (same radius as Develop).
         /// </summary>
@@ -194,7 +208,7 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        private static bool ExecuteExpansion(Settlement parent, CompViralSpread parentComp, WorldComponent_SpreadManager manager)
+        private static bool ExecuteExpansion(Settlement parent, CompViralSpread parentComp, WorldComponent_SpreadManager manager, bool strategicOnly = false)
         {
             if (parent == null || parentComp == null) return false;
             var seth = WorldDominationMod.settings;
@@ -234,13 +248,21 @@ namespace TSA_WorldDomination
                 maxRadius = Mathf.Max(minRadius, (minRadius + maxRadius) / 2);
 
             int chosenTile = -1;
-            bool hasTile = biasTowardPlayer
-                ? TryFindExpandTileTowardPlayer(parent, minRadius, maxRadius, seth, manager, out chosenTile)
-                : TryFindExpandTileRandomEarly(parent, minRadius, maxRadius, seth, manager, out chosenTile);
+            bool hasTile;
+            if (strategicOnly)
+            {
+                hasTile = TryFindStrategicExpandTile(parent, minRadius, maxRadius, seth, manager, out chosenTile);
+            }
+            else
+            {
+                hasTile = biasTowardPlayer
+                    ? TryFindExpandTileTowardPlayer(parent, minRadius, maxRadius, seth, manager, out chosenTile)
+                    : TryFindExpandTileRandomEarly(parent, minRadius, maxRadius, seth, manager, out chosenTile);
 
-            // Mid/late corridor miss → same cheap random search as early game.
-            if (!hasTile && biasTowardPlayer)
-                hasTile = TryFindExpandTileRandomEarly(parent, minRadius, maxRadius, seth, manager, out chosenTile);
+                // Mid/late corridor miss → same cheap random search as early game.
+                if (!hasTile && biasTowardPlayer)
+                    hasTile = TryFindExpandTileRandomEarly(parent, minRadius, maxRadius, seth, manager, out chosenTile);
+            }
 
             if (!hasTile)
             {
@@ -255,7 +277,11 @@ namespace TSA_WorldDomination
             parentComp.CheckTierUpdate(false);
 
             // Log before pathing so a StartPath failure cannot swallow the dispatch entry.
-            manager.AddLog(new SpreadLogEntry("TSA_WD_Log_ExpeditionLaunched".Translate(parent.LabelCap), parent, chosenTile));
+            manager.AddLog(new SpreadLogEntry(
+                strategicOnly
+                    ? "TSA_WD_Log_StrategicExpeditionLaunched".Translate(parent.LabelCap)
+                    : "TSA_WD_Log_ExpeditionLaunched".Translate(parent.LabelCap),
+                parent, chosenTile));
 
             WorldObject_Traveler traveler = (WorldObject_Traveler)WorldObjectMaker.MakeWorldObject(DefDatabase<WorldObjectDef>.GetNamed("TSA_WD_Traveler_Expansion"));
             traveler.Tile = parent.Tile;
@@ -268,6 +294,43 @@ namespace TSA_WorldDomination
 
             Find.WorldObjects.Add(traveler);
             traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(chosenTile, parent));
+            return true;
+        }
+
+        /// <summary>Sample up to K expand candidates; keep the best tile outside known-enemy T1 sight.</summary>
+        private static bool TryFindStrategicExpandTile(
+            Settlement parent,
+            int minRadius,
+            int maxRadius,
+            WorldDominationSettings seth,
+            WorldComponent_SpreadManager manager,
+            out int chosenTile)
+        {
+            chosenTile = -1;
+            if (parent?.Faction == null) return false;
+            var intel = WorldComponent_SettlementIntel.Get();
+            if (intel == null) return false;
+
+            int samples = Mathf.Max(1, seth?.settlementIntelStrategicExpandSamples
+                ?? WorldDominationSettings.DefSettlementIntelStrategicExpandSamples);
+            float bestScore = float.MinValue;
+            int bestTile = -1;
+
+            for (int i = 0; i < samples; i++)
+            {
+                if (!TryFindExpandTileRandomEarly(parent, minRadius, maxRadius, seth, manager, out int tile))
+                    continue;
+                if (!intel.IsTileOutsideKnownEnemyT1Sight(parent.Faction, tile, out float score))
+                    continue;
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestTile = tile;
+                }
+            }
+
+            if (bestTile < 0) return false;
+            chosenTile = bestTile;
             return true;
         }
 

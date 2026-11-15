@@ -142,7 +142,8 @@ namespace TSA_WorldDomination
 
         public static WdRoadTierDef GetRoadTierDef(SettlementTier tier)
         {
-            string key = tier == SettlementTier.T3 || tier == SettlementTier.T4 ? "T3"
+            string key = tier == SettlementTier.T4 ? "T4"
+                : tier == SettlementTier.T3 ? "T3"
                 : tier == SettlementTier.T2 ? "T2" : "T1";
             return DefDatabase<WdRoadTierDef>.AllDefsListForReading
                 .FirstOrDefault(d => d != null && d.tier == key);

@@ -30,6 +30,10 @@ namespace TSA_WorldDomination
             var sched = WorldComponent_InterceptionScheduler.Current;
             Faction player = Faction.OfPlayerSilentFail;
             bool playerHostile = player != null && WorldActions_Utils.SafeHostileTo(player, iFaction);
+            bool intelActive = WorldComponent_SettlementIntel.IsActive(manager);
+            var intel = intelActive ? WorldComponent_SettlementIntel.Get() : null;
+            float scoutCrack = WorldDominationMod.settings?.settlementIntelScoutCrackFallChance
+                ?? WorldDominationSettings.DefSettlementIntelScoutCrackFallChance;
 
             bool Usable(WorldObject wo, out float d)
             {
@@ -61,14 +65,19 @@ namespace TSA_WorldDomination
             }
             if (best != null) return best;
 
-            // 2. Hostile expansion / trader travelers and player caravans.
+            // 2. Hostile expansion / trader / scout travelers and player caravans.
             if (sched != null)
             {
                 foreach (WorldObject_Traveler t in sched.RegisteredTravelers)
                 {
                     if (t == null || t.Destroyed || !t.Spawned) continue;
-                    if (t.mission != TravelerMission.Expansion && t.mission != TravelerMission.Trader) continue;
+                    if (t.mission != TravelerMission.Expansion
+                        && t.mission != TravelerMission.Trader
+                        && t.mission != TravelerMission.Scout)
+                        continue;
                     if (AntiAirFireUtils.IsAirborneAaTarget(t)) continue;
+                    if (intel != null && !intel.KnowsTraveler(iFaction, t)) continue;
+                    if (t.isNimbleScout && !iFaction.IsPlayer && Rand.Chance(scoutCrack)) continue;
                     if (!Usable(t, out float d) || d >= bestDist) continue;
                     bestDist = d;
                     best = t;
@@ -112,6 +121,7 @@ namespace TSA_WorldDomination
                 Settlement s = settlements[i];
                 if (s == null || s.Faction == null || s.Faction.IsPlayer) continue;
                 if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(s)) continue;
+                if (intel != null && !intel.Knows(iFaction, s)) continue;
                 if (!Usable(s, out float d) || d >= bestDist) continue;
                 bestDist = d;
                 best = s;
@@ -124,6 +134,7 @@ namespace TSA_WorldDomination
                     WorldObject_WD_Outpost o = outposts[i];
                     if (o == null || o.Faction != player) continue;
                     if (!WorldActions_Utils.IsWdSurfaceWorldObject(o)) continue;
+                    if (intel != null && !intel.Knows(iFaction, o)) continue;
                     if (!Usable(o, out float d) || d >= bestDist) continue;
                     bestDist = d;
                     best = o;

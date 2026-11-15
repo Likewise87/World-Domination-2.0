@@ -6,4 +6,7 @@
   <TSA_WdRoad_Stone.label>石板路</TSA_WdRoad_Stone.label>
   <!-- EN: asphalt road -->
   <TSA_WdRoad_Asphalt.label>柏油路</TSA_WdRoad_Asphalt.label>
+  <!-- EN: glitter road -->
+  <TSA_WdRoad_Glitter.label>閃光路</TSA_WdRoad_Glitter.label>
 </LanguageData>
+

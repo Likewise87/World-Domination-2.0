@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <TSA_WD_BtnIntelLos>Intel and Line of Sight</TSA_WD_BtnIntelLos>
+  <TSA_WD_DescIntelLos>Soft fog of war: discovery, MaxLOS rings, scouts, Strategic Expand, and Got Burned caution.</TSA_WD_DescIntelLos>
+
+  <TSA_WD_Intel_HeaderFeatureGate>Feature gate</TSA_WD_Intel_HeaderFeatureGate>
+  <TSA_WD_Intel_HeaderFeatureGateTip>Never turns the feature fully off. Any other value starts discovery and scouts on day 0, and fogs raid logic once the stage is reached.</TSA_WD_Intel_HeaderFeatureGateTip>
+  <TSA_WD_Intel_GateSettlementIntelTip>Never = feature off (perfect information, no scouts, no View gizmo). Always / From Mid / From Late: discovery and scouts from day 0; raid assess fog starts when that stage is reached.</TSA_WD_Intel_GateSettlementIntelTip>
+
+  <TSA_WD_Intel_HeaderTargetRings>Target size rings</TSA_WD_Intel_HeaderTargetRings>
+  <TSA_WD_Intel_HeaderTargetRingsTip>Fraction of an observer's MaxLOS at which each target class is spotted. Big targets use the outer edge; small targets only the inner rings. Shared by settlements, travelers, and scouts.</TSA_WD_Intel_HeaderTargetRingsTip>
+  <TSA_WD_Intel_RingFracT1>T1 target ring (fraction of MaxLOS)</TSA_WD_Intel_RingFracT1>
+  <TSA_WD_Intel_RingFracT1Tip>Smallest sites, weak travelers, AT turrets, and advanced buildings. Spotted only inside this fraction of MaxLOS.</TSA_WD_Intel_RingFracT1Tip>
+  <TSA_WD_Intel_RingFracT2>T2 target ring (fraction of MaxLOS)</TSA_WD_Intel_RingFracT2>
+  <TSA_WD_Intel_RingFracT2Tip>Medium sites and travelers of class T2.</TSA_WD_Intel_RingFracT2Tip>
+  <TSA_WD_Intel_RingFracT3>T3 target ring (fraction of MaxLOS)</TSA_WD_Intel_RingFracT3>
+  <TSA_WD_Intel_RingFracT3Tip>Large sites and travelers of class T3.</TSA_WD_Intel_RingFracT3Tip>
+  <TSA_WD_Intel_RingFracT4>T4 target ring (fraction of MaxLOS)</TSA_WD_Intel_RingFracT4>
+  <TSA_WD_Intel_RingFracT4Tip>Largest sites and travelers of class T4. Usually equal to MaxLOS.</TSA_WD_Intel_RingFracT4Tip>
+
+  <TSA_WD_Intel_HeaderSettlementLos>Settlement line of sight</TSA_WD_Intel_HeaderSettlementLos>
+  <TSA_WD_Intel_HeaderSettlementLosTip>Base sight is the tier attack-range baseline. It grows with settlement age and game stage up to the MaxLOS multiplier, and ignores zeal and attack-range bonuses.</TSA_WD_Intel_HeaderSettlementLosTip>
+  <TSA_WD_Intel_SettlementLosMaxMult>Settlement MaxLOS multiplier (late + max age)</TSA_WD_Intel_SettlementLosMaxMult>
+  <TSA_WD_Intel_SettlementLosMaxMultTip>At Late stage and maximum settlement age, MaxLOS reaches baseline times this value. Half of the growth comes from age, half from Mid/Late stage. Does not use zeal or attack-range bonuses.</TSA_WD_Intel_SettlementLosMaxMultTip>
+
+  <TSA_WD_Intel_HeaderTravelerLos>Traveler line of sight</TSA_WD_Intel_HeaderTravelerLos>
+  <TSA_WD_Intel_HeaderTravelerLosTip>Traveler MaxLOS and class come from departure strength (initialStrength). Attrition never changes class.</TSA_WD_Intel_HeaderTravelerLosTip>
+  <TSA_WD_Intel_TravelerMaxLosT1>T1 traveler MaxLOS (tiles)</TSA_WD_Intel_TravelerMaxLosT1>
+  <TSA_WD_Intel_TravelerMaxLosT1Tip>Maximum sight for the weakest traveler class.</TSA_WD_Intel_TravelerMaxLosT1Tip>
+  <TSA_WD_Intel_TravelerMaxLosT2>T2 traveler MaxLOS (tiles)</TSA_WD_Intel_TravelerMaxLosT2>
+  <TSA_WD_Intel_TravelerMaxLosT2Tip>Maximum sight for class T2 travelers.</TSA_WD_Intel_TravelerMaxLosT2Tip>
+  <TSA_WD_Intel_TravelerMaxLosT3>T3 traveler MaxLOS (tiles)</TSA_WD_Intel_TravelerMaxLosT3>
+  <TSA_WD_Intel_TravelerMaxLosT3Tip>Maximum sight for class T3 travelers.</TSA_WD_Intel_TravelerMaxLosT3Tip>
+  <TSA_WD_Intel_TravelerMaxLosT4>T4 traveler MaxLOS (tiles)</TSA_WD_Intel_TravelerMaxLosT4>
+  <TSA_WD_Intel_TravelerMaxLosT4Tip>Maximum sight for the strongest traveler class.</TSA_WD_Intel_TravelerMaxLosT4Tip>
+  <TSA_WD_Intel_TravelerStrengthT2>Class T2 from departure strength</TSA_WD_Intel_TravelerStrengthT2>
+  <TSA_WD_Intel_TravelerStrengthT2Tip>Travelers at or above this departure strength are class T2. Also the AT long-range fire threshold (outer accuracy band).</TSA_WD_Intel_TravelerStrengthT2Tip>
+  <TSA_WD_Intel_TravelerStrengthT3>Class T3 from departure strength</TSA_WD_Intel_TravelerStrengthT3>
+  <TSA_WD_Intel_TravelerStrengthT3Tip>Travelers at or above this departure strength are class T3.</TSA_WD_Intel_TravelerStrengthT3Tip>
+  <TSA_WD_Intel_TravelerStrengthT4>Class T4 from departure strength</TSA_WD_Intel_TravelerStrengthT4>
+  <TSA_WD_Intel_TravelerStrengthT4Tip>Travelers at or above this departure strength are class T4.</TSA_WD_Intel_TravelerStrengthT4Tip>
+  <TSA_WD_Intel_ScoutMaxLos>Scout MaxLOS (tiles)</TSA_WD_Intel_ScoutMaxLos>
+  <TSA_WD_Intel_ScoutMaxLosTip>Fixed MaxLOS for scout missions, independent of scout strength. With default rings, T1 targets are seen at half of this range.</TSA_WD_Intel_ScoutMaxLosTip>
+  <TSA_WD_Intel_PlayerCaravanMaxLos>Player caravan MaxLOS (tiles)</TSA_WD_Intel_PlayerCaravanMaxLos>
+  <TSA_WD_Intel_PlayerCaravanMaxLosTip>How far a real player caravan can spot hostile sites for the player discovery set (FoW prep). The player always has perfect gameplay information.</TSA_WD_Intel_PlayerCaravanMaxLosTip>
+
+  <TSA_WD_Intel_HeaderScoutsStrategic>Scouts and Strategic Expand</TSA_WD_Intel_HeaderScoutsStrategic>
+  <TSA_WD_Intel_HeaderScoutsStrategicTip>Scouts launch whenever the gate is configured (early game). Strategic Expand only when raid-logic fog is active.</TSA_WD_Intel_HeaderScoutsStrategicTip>
+  <TSA_WD_Intel_WeightScout>Scout action weight</TSA_WD_Intel_WeightScout>
+  <TSA_WD_Intel_WeightScoutTip>Daily-action weight for launching ring scouts. Same ballpark as Trader by default.</TSA_WD_Intel_WeightScoutTip>
+  <TSA_WD_Intel_ScoutClearWeightMult>Scout clear-area weight mult</TSA_WD_Intel_ScoutClearWeightMult>
+  <TSA_WD_Intel_ScoutClearWeightMultTip>When the settlement's attack ring has no known hostiles, scout weight is multiplied by this.</TSA_WD_Intel_ScoutClearWeightMultTip>
+  <TSA_WD_Intel_ScoutStrengthMin>Scout strength min</TSA_WD_Intel_ScoutStrengthMin>
+  <TSA_WD_Intel_ScoutStrengthMinTip>Minimum departure strength for a scout. Kept at or above the T2 class boundary so scouts stay long-range AT eligible.</TSA_WD_Intel_ScoutStrengthMinTip>
+  <TSA_WD_Intel_ScoutStrengthMax>Scout strength max</TSA_WD_Intel_ScoutStrengthMax>
+  <TSA_WD_Intel_ScoutStrengthMaxTip>Maximum departure strength for a scout.</TSA_WD_Intel_ScoutStrengthMaxTip>
+  <TSA_WD_Intel_ScoutCooldownDays>Scout cooldown (days)</TSA_WD_Intel_ScoutCooldownDays>
+  <TSA_WD_Intel_ScoutCooldownDaysTip>Per-settlement cooldown after launching a scout.</TSA_WD_Intel_ScoutCooldownDaysTip>
+  <TSA_WD_Intel_ScoutCrackFall>Scout crack-fall chance</TSA_WD_Intel_ScoutCrackFall>
+  <TSA_WD_Intel_ScoutCrackFallTip>Chance that an NPC interceptor treats a scout as a crack-faller and lets it through. Player intercepts are unchanged.</TSA_WD_Intel_ScoutCrackFallTip>
+  <TSA_WD_Intel_ScoutBearingAvoid>Scout bearing avoid (degrees)</TSA_WD_Intel_ScoutBearingAvoid>
+  <TSA_WD_Intel_ScoutBearingAvoidTip>Scouts avoid launching toward bearings that already have a known hostile within this cone.</TSA_WD_Intel_ScoutBearingAvoidTip>
+  <TSA_WD_Intel_WeightStrategicExpand>Strategic Expand weight</TSA_WD_Intel_WeightStrategicExpand>
+  <TSA_WD_Intel_WeightStrategicExpandTip>Daily-action weight for Strategic Expand (prefers tiles outside enemy sight). Only when raid-logic fog is active.</TSA_WD_Intel_WeightStrategicExpandTip>
+  <TSA_WD_Intel_StrategicExpandSamples>Strategic Expand samples</TSA_WD_Intel_StrategicExpandSamples>
+  <TSA_WD_Intel_StrategicExpandSamplesTip>How many candidate tiles Strategic Expand samples before picking.</TSA_WD_Intel_StrategicExpandSamplesTip>
+
+  <TSA_WD_Intel_HeaderGotBurned>Got Burned</TSA_WD_Intel_HeaderGotBurned>
+  <TSA_WD_Intel_HeaderGotBurnedTip>After a raid undercounts defenders, the next assess vs that primary inflates known defender strength (caution only).</TSA_WD_Intel_HeaderGotBurnedTip>
+  <TSA_WD_Intel_BurnedHiddenPct>GotBurned hidden strength inflate</TSA_WD_Intel_BurnedHiddenPct>
+  <TSA_WD_Intel_BurnedHiddenPctTip>After a raid undercounts defenders, the next assess vs that primary inflates known defender strength by this percent (caution only; no free neighbor discovery).</TSA_WD_Intel_BurnedHiddenPctTip>
+  <TSA_WD_Intel_GotBurnedDays>GotBurned duration (days)</TSA_WD_Intel_GotBurnedDays>
+  <TSA_WD_Intel_GotBurnedDaysTip>How long the GotBurned caution stamp lasts on a primary target before it expires.</TSA_WD_Intel_GotBurnedDaysTip>
+  <TSA_WD_Intel_BurnTriggerRatio>GotBurned trigger ratio</TSA_WD_Intel_BurnTriggerRatio>
+  <TSA_WD_Intel_BurnTriggerRatioTip>If true defender strength exceeds the fogged assess by this ratio, stamp GotBurned on the attacker.</TSA_WD_Intel_BurnTriggerRatioTip>
+
+  <TSA_WD_Gizmo_ShowSightRadius>Show line of sight</TSA_WD_Gizmo_ShowSightRadius>
+  <TSA_WD_Gizmo_ShowSightRadiusDesc>Draw golden MaxLOS fill with target-size discovery bands around this object. Small targets only inside the inner ring; medium farther out; big targets out to the outer edge.\n\nRange: {0}</TSA_WD_Gizmo_ShowSightRadiusDesc>
+  <TSA_WD_Gizmo_ShowSightRadiusDescPlayer>Draw golden MaxLOS fill with target-size discovery bands. The player always sees everything in gameplay; this only drives the intel view.\n\nRange: {0}</TSA_WD_Gizmo_ShowSightRadiusDescPlayer>
+  <TSA_WD_Gizmo_SightRadiusBandsLegend>Color bands (discoverable target size):\nRed = 0–{0}% of MaxLOS. All sizes (small / medium / big).\nOrange = {0}–{1}% of MaxLOS. Medium and big only.\nYellow = {1}–{2}% of MaxLOS. Big targets only.\nOuter gold edge = MaxLOS.</TSA_WD_Gizmo_SightRadiusBandsLegend>
+
+</LanguageData>

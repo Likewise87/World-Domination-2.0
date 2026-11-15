@@ -189,8 +189,9 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Call just before / when a quest target settlement is wiped or conquered.
+        /// Call just before a known non-player (or contested) wipe of the quest target.
         /// Player-attributed strikes succeed; otherwise someone else got there first.
+        /// WD NPC raids / incidents / revolt / pollution / NPC mortar must call this before <c>Destroy</c>.
         /// </summary>
         public static void NotifySettlementRemoved(Settlement? target)
         {
@@ -203,6 +204,23 @@ namespace TSA_WorldDomination
                 CompleteIfActive();
             else
                 FailTakenByOthersIfActive();
+        }
+
+        /// <summary>
+        /// <see cref="WorldObjectsHolder.Remove"/> of the tracked settlement (any Destroy path, including third-party artillery).
+        /// Credits the wipe: if a non-player WD path already failed the quest via <see cref="NotifySettlementRemoved"/>, this is a no-op.
+        /// </summary>
+        public static void NotifySettlementWorldObjectRemoved(WorldObject? o)
+        {
+            if (o is not Settlement target)
+                return;
+
+            QuestPart_WdTrackedSettlement? part = FindActiveTrackedPart();
+            if (part == null || part.settlement != target)
+                return;
+
+            part.playerAttributed = true;
+            CompleteIfActive();
         }
 
         /// <summary>
@@ -241,7 +259,9 @@ namespace TSA_WorldDomination
             if (!gone && !factionChanged)
                 return;
 
-            if (part.playerAttributed)
+            // Pure Destroy (player artillery mods, sabotage, WD mortar, buy): credit the wipe.
+            // Ownership change while the town still exists: someone else conquered it.
+            if (gone || part.playerAttributed)
                 CompleteIfActive();
             else
                 FailTakenByOthersIfActive();

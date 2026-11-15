@@ -567,6 +567,7 @@ namespace TSA_WorldDomination
         {
             if (origin == null || origin.Destroyed || target == null || target.Destroyed) return;
             if (origin.IsOnCooldown) return;
+            if (!AtTurretUtility.CanEngageAtDistance(origin, target, approxTileDist)) return;
 
             var seth = WorldDominationMod.settings;
             float fireRange = origin.EffectiveRangeTiles;
@@ -575,6 +576,7 @@ namespace TSA_WorldDomination
             int aimTile = MortarCaravanIntercept.ResolveMortarAimTileId(origin, target, fireRange);
 
             origin.ApplyCooldown();
+            AtTurretUtility.RevealEmplacementByFire(origin, target);
             float damage = seth != null
                 ? seth.GetAtTurretDamage(origin.tier)
                 : WorldObject_AT_Turret.DefaultDamage;

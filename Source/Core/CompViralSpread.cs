@@ -417,6 +417,10 @@ namespace TSA_WorldDomination
         /// <summary>Legacy save field; unused. Piggyback AT-on-road-block was removed.</summary>
         public bool fortifyTurretPending;
         public int traderCooldownTick = -1;     // Actor: Cannot launch trader caravans
+        /// <summary>Actor: Settlement intel scout launch cooldown (TicksGame ready-at).</summary>
+        public int scoutCooldownTick = -1;
+        /// <summary>Bearing (deg) of last scout kill relative to this settlement; -999 = unset.</summary>
+        public float lastScoutKillBearingDeg = -999f;
         /// <summary>Actor: Feature C origin ambush cooldown. This settlement cannot launch another ambush until Ready. Abort/refund of a chase does not clear it.</summary>
         public int ambushCooldownTick = -1;
         /// <summary>Target (player map colony): Earliest tick this settlement can be chosen again as a WD trader destination. Set when a trader is dispatched here.</summary>
@@ -1138,7 +1142,16 @@ namespace TSA_WorldDomination
         public bool IsFortifyOnCooldown => Find.TickManager.TicksGame < fortifyCooldownTick;
         public bool IsAdvancedBuildOnCooldown => Find.TickManager.TicksGame < advancedBuildCooldownTick;
         public bool IsTraderOnCooldown => Find.TickManager.TicksGame < traderCooldownTick;
+        public bool IsScoutOnCooldown => Find.TickManager.TicksGame < scoutCooldownTick;
         public bool IsAmbushOnCooldown => Find.TickManager.TicksGame < ambushCooldownTick;
+
+        /// <summary>Stamp scout launch cooldown from <see cref="WorldDominationSettings.settlementIntelScoutCooldownDays"/>.</summary>
+        public void StampScoutCooldown()
+        {
+            float days = WorldDominationMod.settings?.settlementIntelScoutCooldownDays
+                ?? WorldDominationSettings.DefSettlementIntelScoutCooldownDays;
+            scoutCooldownTick = Find.TickManager.TicksGame + CooldownTicksFromDays(days);
+        }
         public bool IsPlayerColonyWdTraderTargetOnCooldown => Find.TickManager.TicksGame < playerColonyWdTraderCooldownTick;
         public bool IsDefenseOnCooldown => Find.TickManager.TicksGame < defenseCooldownTick;
         public bool IsIncidentOnCooldown => Find.TickManager.TicksGame < incidentCooldownTick;
@@ -1147,6 +1160,44 @@ namespace TSA_WorldDomination
 
         public bool IsEspionageOnCooldown => Find.TickManager.TicksGame < espionageCooldownUntilTick;
         public bool IsAidOnCooldown => Find.TickManager.TicksGame < aidCooldownUntilTick;
+
+        /// <summary>Sabotage / disinformation alert spreads to same-faction settlements within this approx tile radius.</summary>
+        public const float EspionageCooldownRadiusTiles = 20f;
+
+        /// <summary>
+        /// Stamp espionage cooldown on this site and every same-faction settlement within <see cref="EspionageCooldownRadiusTiles"/>.
+        /// Never shortens an existing longer cooldown.
+        /// </summary>
+        public void ApplyEspionageCooldownWithFactionRadius(int untilTick)
+        {
+            WorldObject origin = parent;
+            Faction faction = origin?.Faction;
+            if (origin == null || faction == null)
+            {
+                if (untilTick > espionageCooldownUntilTick)
+                    espionageCooldownUntilTick = untilTick;
+                return;
+            }
+
+            PlanetTile originTile = origin.Tile;
+            List<Settlement> settlements = Find.WorldObjects.Settlements;
+            for (int i = 0; i < settlements.Count; i++)
+            {
+                Settlement s = settlements[i];
+                if (s == null || s.Destroyed || s.Faction != faction)
+                    continue;
+                if (!WorldActions_Utils.IsWdSurfaceWorldObject(s))
+                    continue;
+                if (Find.WorldGrid.ApproxDistanceInTiles(originTile, s.Tile) > EspionageCooldownRadiusTiles)
+                    continue;
+
+                CompViralSpread c = s.GetComponent<CompViralSpread>();
+                if (c == null)
+                    continue;
+                if (untilTick > c.espionageCooldownUntilTick)
+                    c.espionageCooldownUntilTick = untilTick;
+            }
+        }
 
         public bool IsSettlement => parent is Settlement;
         public bool IsOutpost => parent is WorldObject_WD_Outpost;
@@ -1170,6 +1221,16 @@ namespace TSA_WorldDomination
             // Owned AT turrets: damage/2 each (raid assess, desperation packing, inspect).
             if (parent != null && !parent.Destroyed)
                 local += AtTurretUtility.SumOwnedDamageCredit(parent);
+            return local;
+        }
+
+        /// <summary>Local defense using only AT credit known to <paramref name="viewer"/> (fogged raid assess).</summary>
+        public float GetTotalLocalDefensePowerFogged(Faction viewer)
+        {
+            if (IsPlayerMapSettlement) return 0f;
+            float local = Mathf.Max(0f, offensiveStrength) + Mathf.Max(0f, defensiveStrength);
+            if (parent != null && !parent.Destroyed)
+                local += AtTurretUtility.SumOwnedDamageCreditKnownTo(parent, viewer);
             return local;
         }
 
@@ -2299,6 +2360,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref fortifyBuilderFactionId, "fortifyBuilderFactionId", -1);
             Scribe_Values.Look(ref fortifyTurretPending, "fortifyTurretPending", false);
             Scribe_Values.Look(ref traderCooldownTick, "traderCooldownTick", -1);
+            Scribe_Values.Look(ref scoutCooldownTick, "scoutCooldownTick", -1);
+            Scribe_Values.Look(ref lastScoutKillBearingDeg, "lastScoutKillBearingDeg", -999f);
             Scribe_Values.Look(ref ambushCooldownTick, "ambushCooldownTick", -1);
             Scribe_Values.Look(ref playerColonyWdTraderCooldownTick, "playerColonyWdTraderCooldownTick", -1);
             Scribe_Values.Look(ref lastCaravanInterceptedTick, "lastCaravanInterceptedTick", -99999);

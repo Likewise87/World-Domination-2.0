@@ -107,6 +107,17 @@ namespace TSA_WorldDomination
                 return IsComplete;
             }
 
+            if (WorldComponent_SettlementIntel.IsActive(manager))
+            {
+                var intel = WorldComponent_SettlementIntel.Get();
+                // Knows already returns true for player colonies (IsAlwaysKnown).
+                if (intel != null && !intel.Knows(attacker.Faction, target))
+                {
+                    WDVerbose.Msg($"Raid assess {step}/{total} attacker={attacker.LabelCap} target={tgtLabel} → skip (unknown to attacker faction)");
+                    return IsComplete;
+                }
+            }
+
             var gate = RaidLaunchGate.Evaluate(attacker, target, (RaidLaunchTargetKind)entry.kind, attAllies, objectsWithComp, manager, seth);
             if (entry.kind == CandidateKind.PlayerColony)
             {
@@ -223,6 +234,10 @@ namespace TSA_WorldDomination
                 debugForce = debugForce
             };
 
+            var settlementIntel = WorldComponent_SettlementIntel.IsActive(manager)
+                ? WorldComponent_SettlementIntel.Get()
+                : null;
+
             if (seth.allowPlayerRaid && WorldActions_Utils.SafeHostileTo(attacker.Faction, Faction.OfPlayer)
                 && (debugForce || manager.CanAcceptPlayerWdRaid(seth)))
             {
@@ -234,6 +249,10 @@ namespace TSA_WorldDomination
 
                     bool isSimulatedTarget = po is WorldObject_WD_Outpost;
                     if (isSimulatedTarget && !seth.allowPlayerOutpostRaid) continue;
+
+                    // Player colonies are always known; outposts need Knows when intel is active.
+                    if (settlementIntel != null && !settlementIntel.Knows(attacker.Faction, po))
+                        continue;
 
                     // Player targets: settlement attack range only (no influence bubble).
                     float dist = WorldActions_Utils.GetDistance(attacker.Tile, po.Tile, manager);
@@ -257,6 +276,9 @@ namespace TSA_WorldDomination
 
                     var targetComp = obj.GetComponent<CompViralSpread>();
                     if (targetComp == null || targetComp.IsDefenseOnCooldown) continue;
+
+                    if (settlementIntel != null && !settlementIntel.Knows(attacker.Faction, obj))
+                        continue;
 
                     float dist = WorldActions_Utils.GetDistance(attacker.Tile, obj.Tile, manager);
                     if (dist > currentRaidRange) continue;
@@ -665,6 +687,22 @@ namespace TSA_WorldDomination
             traveler.raidAttackerDetails = new List<string>(launchLog.attDetails);
             traveler.raidAttackerForceRows = RaidForceLogRow.CloneList(launchLog.attForceRows);
             traveler.raidDefenderForceRows = RaidForceLogRow.CloneList(launchLog.defForceRows);
+
+            if (!traveler.Destroyed && WorldComponent_SettlementIntel.IsActive(manager))
+            {
+                var intel = WorldComponent_SettlementIntel.Get();
+                // Fogged assessed total for GotBurned compare at arrival (truth resolve still uses full BuildDefenders).
+                var fogSnap = Raid_MathSnapshot.BuildDefenders(
+                    target, attacker, attacker.Faction, eval.objectsWithComp, manager, seth, foggedAssess: true);
+                traveler.intelAssessedDefTotal = fogSnap.Total;
+                if (intel != null)
+                {
+                    if (attacker.Faction != null)
+                        intel.Discover(attacker.Faction, target);
+                    if (target.Faction != null)
+                        intel.Discover(target.Faction, attacker);
+                }
+            }
 
             manager.AddLog(launchLog);
             if (!traveler.Destroyed)

@@ -33,7 +33,7 @@ Applies to keyed strings used as `SpreadLogEntry.message` (Action Log Action col
 2. **Trailing period** on every full row line. Parenthetical suffixes and raid outcome chips are exceptions.
 3. **No em dashes; no arrows** (`→`, `->`, `-->`) in rows. Prefer `to`, parentheses, or `{0} to {1}`.
 4. **Active voice, actor first** when Actor A is that actor: `{0} skipped …`, `{0} dispatched …`.
-5. **Short category tags only** (same casing, colon, space): `RAID:`, `TRADER:`, `TRADE:`, `ROAD:`, `EXPAND:`, `GROW:`, `UPGRADE:`, `TURTLE:`, `VANGUARD:`, `INVASION:`, `DESPERATION:`, `CONQUEST:`, `REVOLT:`, `FORTIFY:`, `OUTPOST UPGRADE:`, `MAJOR INCIDENT:`, `MINOR INCIDENT:`, `ISOLATION:`. Drop long ALL-CAPS essays (`RAID ABORTED:`, `EXPANSION ATTEMPT:`, `ROAD BUILDING ATTEMPT:`, `ISOLATION PRESSURE:`).
+5. **Short category tags only** (same casing, colon, space): `RAID:`, `TRADER:`, `TRADE:`, `ROAD:`, `EXPAND:`, `GROW:`, `UPGRADE:`, `TURTLE:`, `VANGUARD:`, `INVASION:`, `DESPERATION:`, `CONQUEST:`, `REVOLT:`, `FORTIFY:`, `OUTPOST UPGRADE:`, `MAJOR INCIDENT:`, `MINOR INCIDENT:`, `ISOLATION:`, `SCOUT:`. Drop long ALL-CAPS essays (`RAID ABORTED:`, `EXPANSION ATTEMPT:`, `ROAD BUILDING ATTEMPT:`, `ISOLATION PRESSURE:`).
 6. **Skip template:** `TAG: {0} skipped (reason).` (lowercase `skipped`, reason in parentheses, trailing period).
 7. **NPC mobiles:** traveler / raid force / WD trader in prose. Do not write “Caravan is underway” for NPC raids. **Exception:** keep the established **Caravan clash** event label until interception letters are renamed in the same pass.
 8. **Band pick rows:** keep an English `Band ` substring in EN `TSA_WD_Log_Raid_BandPicked` / `BandFallback` (Action Log tiny-font heuristic). Historical scribed rows keep whatever text was stored at write time.
@@ -80,3 +80,9 @@ Write the mechanic only. Pass the `Def*` constant into the slider / `TooltipWith
 - Keep `{0}` / `{1}` placeholder order identical across EN, ES, and ZH for the same key.
 - When retiring a key, grep the codebase and remove dead references.
 - **Never bulk-replace translation / keyed XML text** (PowerShell `-replace`, sed across files, mass find-replace scripts, encoding-blind rewrite of whole language folders). That regularly corrupts UTF-8 (mojibake, `????`, broken Spanish/Chinese). Edit one string or one file at a time with a precise, encoding-safe edit (targeted `StrReplace` / editor replace of a single known line). After any translation edit, spot-check non-ASCII characters in ES/ZH.
+
+### Settlement intel (soft FoW) keys
+
+- Settings: `TSA_WD_Combat_HeaderSettlementIntel*` / `TSA_WD_Combat_GateSettlementIntelTip` / `TSA_WD_Combat_SettlementIntel*` in `Translations_Settings_English.xml`. Nested knobs only show when the gate ≠ Never; tooltips must not hardcode Def numbers (settings helpers append defaults).
+- Inspect tab: `TSA_WD_SettlementIntel_*` in `Translations_Outposts_English.xml` (tab label, sections Known to / Got Burned / Line of sight / sites and travelers in sight).
+- Traveler label: `TSA_WD_ScoutCaravan` in `Translations_Travelers_WorldMap_English.xml`. Say **scout traveler / Scout Caravan** (strength pool), not a pawn-bearing NPC caravan.

@@ -19,6 +19,11 @@ namespace TSA_WorldDomination
         public Color? LabelColor;
         /// <summary>When set, value text wraps within the value column instead of truncating.</summary>
         public bool WrapValue;
+        /// <summary>Optional leading world-object icon (settlement / outpost / traveler). Drawn tinted with <see cref="LabelIconColor"/>.</summary>
+        public Texture2D LabelIcon = null!;
+        public Color LabelIconColor = Color.white;
+        /// <summary>Optional tinted faction badge (after <see cref="LabelIcon"/> when both set).</summary>
+        public Faction LabelFaction = null!;
     }
 
     public sealed class OutpostStatsSection
@@ -203,6 +208,9 @@ namespace TSA_WorldDomination
             var roadTimeAsphalt = AddRowReturn(section, "TSA_WD_OutpostStats_Row_RoadTimeAsphalt",
                 FormatRoadSegmentDays(WorldActions_Roads.GetEstimatedDaysPerRoadSegment(outpost, SettlementTier.T3)),
                 "TSA_WD_OutpostStats_Row_RoadTimeAsphaltTip".Translate().ToString());
+            var roadTimeGlitter = AddRowReturn(section, "TSA_WD_OutpostStats_Row_RoadTimeGlitter",
+                FormatRoadSegmentDays(WorldActions_Roads.GetEstimatedDaysPerRoadSegment(outpost, SettlementTier.T4)),
+                "TSA_WD_OutpostStats_Row_RoadTimeGlitterTip".Translate().ToString());
             var roadTimeBlockLight = AddRowReturn(section, "TSA_WD_OutpostStats_Row_RoadTimeRoadBlockLight",
                 FormatRoadSegmentDays(WorldActions_RoadBlocks.GetEstimatedDaysPerRoadBlockSegment(outpost, RoadBlockKind.Light)),
                 "TSA_WD_OutpostStats_Row_RoadTimeRoadBlockTip".Translate().ToString());
@@ -232,6 +240,7 @@ namespace TSA_WorldDomination
                 MarkBoosted(roadTimeDirt);
                 MarkBoosted(roadTimeStone);
                 MarkBoosted(roadTimeAsphalt);
+                MarkBoosted(roadTimeGlitter);
                 MarkBoosted(roadTimeBlockLight);
                 MarkBoosted(roadTimeBlockNormal);
                 MarkBoosted(roadTimeBlockHeavy);

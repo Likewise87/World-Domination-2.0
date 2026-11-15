@@ -115,6 +115,18 @@ namespace TSA_WorldDomination
                 traveler.travelerStrength, traveler.mission, tileId, seth);
             if (settlement == null) return;
 
+            if (WorldComponent_SettlementIntel.IsActive(manager))
+            {
+                var intel = WorldComponent_SettlementIntel.Get();
+                if (intel != null && settlement.Faction != null && !intel.KnowsTraveler(settlement.Faction, traveler))
+                    return;
+            }
+
+            // Scout crack-fall: NPC ambushers often let nimble scouts slip past (player intercepts unchanged).
+            if (traveler.isNimbleScout && settlement.Faction?.IsPlayer != true
+                && Rand.Chance(seth.settlementIntelScoutCrackFallChance))
+                return;
+
             // Coin flip before any strength math, per Feature C ordering.
             if (Rand.Value > seth.settlementAmbushChancePct) return;
 

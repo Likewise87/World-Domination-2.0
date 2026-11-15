@@ -801,7 +801,7 @@
   <TSA_WD_PawnCol_SelectColumnTip>Select pawns, animals, and vehicles to remove from the outpost. Click the header checkbox to select or clear all shown. Use the button below to send them in one caravan.</TSA_WD_PawnCol_SelectColumnTip>
   <TSA_WD_Pawns_RemoveChosen>Remove pawns</TSA_WD_Pawns_RemoveChosen>
   <TSA_WD_Pawns_RemoveChosenTip>Remove all selected pawns, animals, and vehicles at once. They leave in a single caravan.</TSA_WD_Pawns_RemoveChosenTip>
-  <TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>Slaves, animals, vehicles, and mechanoids can only be removed if accompanied by at least 1 pawn.</TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>
+  <TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>On land travel, slaves, animals, vehicles, and mechanoids need at least one free colonist escort. Drop pods to a player outpost or colony can send prisoners, slaves, and mechanoids alone.</TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>
   <TSA_WD_Pawns_RemoveLastOccupantMechanoidsRemain>Cannot remove the last occupant while mechanoids remain at this outpost. Remove the mechanoids first or take them with you.</TSA_WD_Pawns_RemoveLastOccupantMechanoidsRemain>
   <TSA_WD_Producing>Producing {0}</TSA_WD_Producing>
   <TSA_WD_Producing_Hunting>Hunting {0}</TSA_WD_Producing_Hunting>
@@ -1252,6 +1252,9 @@
   <TSA_WD_RoadAlreadyInProgress>Construction already in progress. Cancel current project to set a new target.</TSA_WD_RoadAlreadyInProgress>
   <TSA_WD_RoadAsphalt>Asphalt Road</TSA_WD_RoadAsphalt>
   <TSA_WD_RoadAsphalt_Disabled>Asphalt Road (Need {1} Construction Skill, currently: {0})</TSA_WD_RoadAsphalt_Disabled>
+  <TSA_WD_RoadGlitter>Glitter Road</TSA_WD_RoadGlitter>
+  <TSA_WD_RoadGlitter_Disabled>Glitter Road (Need {1} Construction Skill, currently: {0})</TSA_WD_RoadGlitter_Disabled>
+
   <TSA_WD_RoadCancelled>Road construction at {0} has been halted.</TSA_WD_RoadCancelled>
   <TSA_WD_RoadDirt>Dirt Path</TSA_WD_RoadDirt>
   <TSA_WD_RoadDirt_Disabled>Dirt Path (Need {1} Construction Skill, currently: {0})</TSA_WD_RoadDirt_Disabled>
@@ -1436,18 +1439,18 @@
   <TSA_WD_Armory_ConvertFoodTip>Turn all stored physical food into this outpost's food pool. Anything over the pool cap stays in the Armory.</TSA_WD_Armory_ConvertFoodTip>
   <TSA_WD_Armory_ConvertFoodNone>No stored food to convert, or the food pool is already full.</TSA_WD_Armory_ConvertFoodNone>
   <TSA_WD_Armory_MenuFood>Food</TSA_WD_Armory_MenuFood>
-  <TSA_WD_Armory_MenuFoodTip>Food helpers: strip from pawns, assign from Armory stock, or convert stored food into the outpost food pool.</TSA_WD_Armory_MenuFoodTip>
+  <TSA_WD_Armory_MenuFoodTip>Food helpers for selected occupants: strip or assign from Armory stock (checked pawns only), or convert all stored food into the outpost food pool.</TSA_WD_Armory_MenuFoodTip>
   <TSA_WD_Armory_MenuAmmo>Ammo</TSA_WD_Armory_MenuAmmo>
-  <TSA_WD_Armory_MenuAmmoTip>Combat Extended ammo helpers: strip from pawns, or add from Armory stock.</TSA_WD_Armory_MenuAmmoTip>
+  <TSA_WD_Armory_MenuAmmoTip>Combat Extended ammo helpers for selected occupants: strip or add from Armory stock. Only checked pawns are affected.</TSA_WD_Armory_MenuAmmoTip>
   <TSA_WD_Armory_Menu_RemoveFood>Remove food from pawns</TSA_WD_Armory_Menu_RemoveFood>
-  <TSA_WD_Armory_Menu_RemoveFoodTip>Move all nutrition food from occupant inventories into the Armory. Drugs and medicine stay on the pawns.</TSA_WD_Armory_Menu_RemoveFoodTip>
+  <TSA_WD_Armory_Menu_RemoveFoodTip>Move nutrition food from selected occupants into the Armory. Drugs and medicine stay on the pawns. Only checked pawns are affected.</TSA_WD_Armory_Menu_RemoveFoodTip>
   <TSA_WD_Armory_Menu_AssignFood>Assign food to pawns</TSA_WD_Armory_Menu_AssignFood>
-  <TSA_WD_Armory_Menu_AssignFoodTip>Share Armory nutrition food evenly across occupants (up to 10 items each). Does not take food already carried by pawns.</TSA_WD_Armory_Menu_AssignFoodTip>
+  <TSA_WD_Armory_Menu_AssignFoodTip>Share Armory nutrition food evenly across selected occupants (up to 10 items each). Does not take food already carried. Only checked pawns receive food.</TSA_WD_Armory_Menu_AssignFoodTip>
   <TSA_WD_Armory_Menu_ConvertFood>Convert real food to outpost food</TSA_WD_Armory_Menu_ConvertFood>
   <TSA_WD_Armory_Menu_RemoveAmmo>Remove</TSA_WD_Armory_Menu_RemoveAmmo>
-  <TSA_WD_Armory_Menu_RemoveAmmoTip>Move all Combat Extended ammo from occupant inventories into the Armory. Does not unload magazines still in guns.</TSA_WD_Armory_Menu_RemoveAmmoTip>
+  <TSA_WD_Armory_Menu_RemoveAmmoTip>Move Combat Extended ammo from selected occupants into the Armory. Does not unload magazines still in guns. Only checked pawns are affected.</TSA_WD_Armory_Menu_RemoveAmmoTip>
   <TSA_WD_Armory_Menu_AddAmmo>Add</TSA_WD_Armory_Menu_AddAmmo>
-  <TSA_WD_Armory_Menu_AddAmmoTip>Give each occupant up to 4 full magazines of suitable ammo from Armory stock, then share any leftover among them. Mixes ammo types when several fit. Does not take ammo already carried by pawns.</TSA_WD_Armory_Menu_AddAmmoTip>
+  <TSA_WD_Armory_Menu_AddAmmoTip>Give each selected occupant up to 4 full magazines of suitable ammo from Armory stock, then share any leftover among them. Mixes ammo types when several fit. Does not take ammo already carried. Only checked pawns receive ammo.</TSA_WD_Armory_Menu_AddAmmoTip>
   <TSA_WD_Armory_RemovedFood>Moved food from {0} inventory stack(s) into the Armory.</TSA_WD_Armory_RemovedFood>
   <TSA_WD_Armory_RemovedFoodNone>No food in occupant inventories to move.</TSA_WD_Armory_RemovedFoodNone>
   <TSA_WD_Armory_AssignedFood>Assigned {0} food item(s) from Armory stock.</TSA_WD_Armory_AssignedFood>
@@ -1459,6 +1462,36 @@
   <TSA_WD_Armory_RightClickStoreTip>Right-click: move to Armory.</TSA_WD_Armory_RightClickStoreTip>
   <TSA_WD_Armory_OpenInventory>Open All Gear tab</TSA_WD_Armory_OpenInventory>
   <TSA_WD_Armory_OpenInventoryTip>Open the All Gear tab to quickly move gear between outposts and the colony.</TSA_WD_Armory_OpenInventoryTip>
+  <TSA_WD_Armory_Equipment>Equipment</TSA_WD_Armory_Equipment>
+  <TSA_WD_Armory_EquipmentTip>Actions apply to selected pawns and selected store gear only. Check occupants and store rows, then strip worn gear or inventory, or auto-assign checked weapons, apparel, and drugs.</TSA_WD_Armory_EquipmentTip>
+  <TSA_WD_Armory_Equipment_AutoAssign>Auto Assign Gear</TSA_WD_Armory_Equipment_AutoAssign>
+  <TSA_WD_Armory_Equipment_AutoAssignTip>Uses the better of Melee vs Shooting: that skill sets priority and weapon type (Shooting higher → ranged, Melee higher → melee). Within that type, the most expensive selected gear by silver goes to the highest-skilled occupants first. Falls back to the other weapon type only if none of the preferred type remain. Also fills free apparel layers with selected armor and clothing (highest silver first). Does not strip or replace worn gear. Only checked pawns and checked store gear are used.</TSA_WD_Armory_Equipment_AutoAssignTip>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugs>Auto Assign Drugs</TSA_WD_Armory_Equipment_AutoAssignDrugs>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugsTip>Share Armory drugs evenly across selected occupants (up to 5 items each). Skips pawns with the teetotaler trait. Only checked pawns receive drugs.</TSA_WD_Armory_Equipment_AutoAssignDrugsTip>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugsDone>Assigned {0} drug item(s) from Armory stock.</TSA_WD_Armory_Equipment_AutoAssignDrugsDone>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugsNone>No drugs assigned. Stock may be empty, selected pawns may be teetotalers, or they cannot carry more.</TSA_WD_Armory_Equipment_AutoAssignDrugsNone>
+  <TSA_WD_Armory_Equipment_StripWeapons>Strip weapons</TSA_WD_Armory_Equipment_StripWeapons>
+  <TSA_WD_Armory_Equipment_StripWeaponsTip>Move equipped weapons from selected occupants into the Armory. Only checked pawns are affected.</TSA_WD_Armory_Equipment_StripWeaponsTip>
+  <TSA_WD_Armory_Equipment_StripArmor>Strip armor</TSA_WD_Armory_Equipment_StripArmor>
+  <TSA_WD_Armory_Equipment_StripArmorTip>Move worn armor from selected occupants into the Armory. Only checked pawns are affected.</TSA_WD_Armory_Equipment_StripArmorTip>
+  <TSA_WD_Armory_Equipment_StripApparel>Strip apparel</TSA_WD_Armory_Equipment_StripApparel>
+  <TSA_WD_Armory_Equipment_StripApparelTip>Move worn non-armor apparel from selected occupants into the Armory. Only checked pawns are affected.</TSA_WD_Armory_Equipment_StripApparelTip>
+  <TSA_WD_Armory_Equipment_StripOtherInventory>Strip other inventory</TSA_WD_Armory_Equipment_StripOtherInventory>
+  <TSA_WD_Armory_Equipment_StripOtherInventoryTip>Move Other Inventory pack items from selected occupants into the Armory (not food, drugs, ammo, or medicine). Only checked pawns are affected.</TSA_WD_Armory_Equipment_StripOtherInventoryTip>
+  <TSA_WD_Armory_Equipment_StripDrugs>Strip drugs</TSA_WD_Armory_Equipment_StripDrugs>
+  <TSA_WD_Armory_Equipment_StripDrugsTip>Move drugs from selected occupants into the Armory. Only checked pawns are affected.</TSA_WD_Armory_Equipment_StripDrugsTip>
+  <TSA_WD_Armory_Equipment_EquipDone>Equipped {0} weapon(s) and {1} apparel piece(s).</TSA_WD_Armory_Equipment_EquipDone>
+  <TSA_WD_Armory_Equipment_EquipNone>Nothing equipped. Occupants may already be armed and clothed, or no free slots match the selected store gear.</TSA_WD_Armory_Equipment_EquipNone>
+  <TSA_WD_Armory_Equipment_StripWeaponsDone>Moved {0} weapon(s) into the Armory.</TSA_WD_Armory_Equipment_StripWeaponsDone>
+  <TSA_WD_Armory_Equipment_StripWeaponsNone>No equipped weapons to strip on the checked occupants.</TSA_WD_Armory_Equipment_StripWeaponsNone>
+  <TSA_WD_Armory_Equipment_StripArmorDone>Moved {0} armor piece(s) into the Armory.</TSA_WD_Armory_Equipment_StripArmorDone>
+  <TSA_WD_Armory_Equipment_StripArmorNone>No worn armor to strip on the checked occupants.</TSA_WD_Armory_Equipment_StripArmorNone>
+  <TSA_WD_Armory_Equipment_StripApparelDone>Moved {0} apparel piece(s) into the Armory.</TSA_WD_Armory_Equipment_StripApparelDone>
+  <TSA_WD_Armory_Equipment_StripApparelNone>No non-armor apparel to strip on the checked occupants.</TSA_WD_Armory_Equipment_StripApparelNone>
+  <TSA_WD_Armory_Equipment_StripOtherInventoryDone>Moved {0} other inventory stack(s) into the Armory.</TSA_WD_Armory_Equipment_StripOtherInventoryDone>
+  <TSA_WD_Armory_Equipment_StripOtherInventoryNone>No Other Inventory items to strip on the checked occupants.</TSA_WD_Armory_Equipment_StripOtherInventoryNone>
+  <TSA_WD_Armory_Equipment_StripDrugsDone>Moved {0} drug stack(s) into the Armory.</TSA_WD_Armory_Equipment_StripDrugsDone>
+  <TSA_WD_Armory_Equipment_StripDrugsNone>No drugs to strip on the checked occupants.</TSA_WD_Armory_Equipment_StripDrugsNone>
   <TSA_WD_Armory_ConvertedFood>Converted stored food into {0} outpost food.</TSA_WD_Armory_ConvertedFood>
   <TSA_WD_Armory_FailManualDefense>Gear cannot be moved while this outpost is defending itself.</TSA_WD_Armory_FailManualDefense>
   <TSA_WD_Armory_FailLocked>{0} is locked and cannot be removed.</TSA_WD_Armory_FailLocked>
@@ -1675,6 +1708,11 @@
   <TSA_WD_PawnDropPod_LackingMaterials>Pawn {0} from {1} could not be dispatched via drop pod. Lacking materials!</TSA_WD_PawnDropPod_LackingMaterials>
   <TSA_WD_PawnDropPod_LackingMaterialsGroup>{0} and {1} other(s) from {2} could not be dispatched via drop pod. Lacking materials!</TSA_WD_PawnDropPod_LackingMaterialsGroup>
   <TSA_WD_PawnDropPod_NoExitHere>Drop pods cannot Exit Here. Switch to Land.</TSA_WD_PawnDropPod_NoExitHere>
+  <TSA_WD_PawnDropPod_UnescortedSelectTip>Drop pod to a player outpost or colony: no free colonist escort required for prisoners, slaves, or mechanoids.</TSA_WD_PawnDropPod_UnescortedSelectTip>
+  <TSA_WD_PawnDropPod_UnescortedLostLabel>Unescorted drop pods lost</TSA_WD_PawnDropPod_UnescortedLostLabel>
+  <TSA_WD_PawnDropPod_UnescortedFreed>{0} prisoner(s)/slave(s) freed: destination was gone before arrival.</TSA_WD_PawnDropPod_UnescortedFreed>
+  <TSA_WD_PawnDropPod_UnescortedLostMechs>{0} mechanoid(s) lost: destination was gone before arrival.</TSA_WD_PawnDropPod_UnescortedLostMechs>
+  <TSA_WD_PawnDropPod_UnescortedLostFreedBoth>{0} prisoner(s)/slave(s) freed and {1} mechanoid(s) lost: destination was gone before arrival.</TSA_WD_PawnDropPod_UnescortedLostFreedBoth>
   <TSA_WD_PawnDropPod_OutOfRange>Destination is outside drop-pod range.</TSA_WD_PawnDropPod_OutOfRange>
   <TSA_WD_PawnDropPod_NoComponentDef>Industrial component def missing.</TSA_WD_PawnDropPod_NoComponentDef>
   <TSA_WD_PawnDropPod_SmartSendTitle>Smart Send</TSA_WD_PawnDropPod_SmartSendTitle>
@@ -1902,6 +1940,61 @@
   <TSA_WD_Academy_ChooseTraining>Choose training:</TSA_WD_Academy_ChooseTraining>
   <TSA_WD_Academy_SelectedSkill>Selected: {0}</TSA_WD_Academy_SelectedSkill>
 
+  <!-- Settlement Intel tab -->
+  <TSA_WD_SettlementIntel_TabLabel>Intel</TSA_WD_SettlementIntel_TabLabel>
+  <TSA_WD_SettlementIntel_Headline>Intel ({0})</TSA_WD_SettlementIntel_Headline>
+  <TSA_WD_SettlementIntel_Refresh>Refresh</TSA_WD_SettlementIntel_Refresh>
+  <TSA_WD_SettlementIntel_RefreshTooltip>Rebuild this tab's intel display now.</TSA_WD_SettlementIntel_RefreshTooltip>
+  <TSA_WD_SettlementIntel_Row_Tracking>Discovery and scouts active?</TSA_WD_SettlementIntel_Row_Tracking>
+  <TSA_WD_SettlementIntel_Row_TrackingTip>Whether discovery, scouts, and the View gizmo run. Starts when the gate is configured (not Never). Current setting: "{0}".</TSA_WD_SettlementIntel_Row_TrackingTip>
+  <TSA_WD_SettlementIntel_Row_Active>Intel used for Raid Logic?</TSA_WD_SettlementIntel_Row_Active>
+  <TSA_WD_SettlementIntel_Row_ActiveTip>Whether knowledge is used for fogged raid assess. Requires the configured stage to be reached. Current setting: "{0}".</TSA_WD_SettlementIntel_Row_ActiveTip>
+  <TSA_WD_ATIntel_TabLabel>Intel</TSA_WD_ATIntel_TabLabel>
+  <TSA_WD_ATIntel_Headline>Intel: {0}</TSA_WD_ATIntel_Headline>
+  <TSA_WD_SettlementIntel_Yes>Yes</TSA_WD_SettlementIntel_Yes>
+  <TSA_WD_SettlementIntel_No>No</TSA_WD_SettlementIntel_No>
+  <TSA_WD_SettlementIntel_DefeatedSuffix>[defeated]</TSA_WD_SettlementIntel_DefeatedSuffix>
+  <TSA_WD_SettlementIntel_Section_KnownTo>Known to</TSA_WD_SettlementIntel_Section_KnownTo>
+  <TSA_WD_SettlementIntel_Row_AlwaysKnown>Always known (player colony)</TSA_WD_SettlementIntel_Row_AlwaysKnown>
+  <TSA_WD_SettlementIntel_Row_AlwaysKnownTip>Player colonies with a map are always known to every faction. Soft intel cannot hide them.</TSA_WD_SettlementIntel_Row_AlwaysKnownTip>
+  <TSA_WD_SettlementIntel_Row_StickyOutpost>Sticky outpost</TSA_WD_SettlementIntel_Row_StickyOutpost>
+  <TSA_WD_SettlementIntel_StickyNote>Once discovered, stays known</TSA_WD_SettlementIntel_StickyNote>
+  <TSA_WD_SettlementIntel_Row_StickyOutpostTip>After a faction discovers this outpost, it stays known even if local defense later drops into a weaker sight band.</TSA_WD_SettlementIntel_Row_StickyOutpostTip>
+  <TSA_WD_SettlementIntel_KnownFactionYesTip>{0} knows this site (can consider it for NPC raids and related systems while intel is active).</TSA_WD_SettlementIntel_KnownFactionYesTip>
+  <TSA_WD_SettlementIntel_KnownFactionNoTip>{0} does not know this site yet. Discovery comes from line of sight, scouts, or combat.</TSA_WD_SettlementIntel_KnownFactionNoTip>
+  <TSA_WD_SettlementIntel_KnownFactionOwnerTip>{0} owns this site, so it always knows it.</TSA_WD_SettlementIntel_KnownFactionOwnerTip>
+  <TSA_WD_SettlementIntel_KnownFactionAlwaysTip>{0} knows this site because player colonies are always known.</TSA_WD_SettlementIntel_KnownFactionAlwaysTip>
+  <TSA_WD_SettlementIntel_Row_None>None</TSA_WD_SettlementIntel_Row_None>
+  <TSA_WD_SettlementIntel_Row_NoneTip>Nothing to list here.</TSA_WD_SettlementIntel_Row_NoneTip>
+  <TSA_WD_SettlementIntel_Section_GotBurned>Got Burned</TSA_WD_SettlementIntel_Section_GotBurned>
+  <TSA_WD_SettlementIntel_Row_DaysLeft>{0} days left</TSA_WD_SettlementIntel_Row_DaysLeft>
+  <TSA_WD_SettlementIntel_GotBurnedNoneTip>No faction currently has a Got Burned caution stamp against this site. That stamp appears after a raid undercounted defenders.</TSA_WD_SettlementIntel_GotBurnedNoneTip>
+  <TSA_WD_SettlementIntel_GotBurnedRowTip>{0} got burned attacking this site. For {1} more day(s), their next assess vs this primary inflates known defender strength (caution only; no free neighbor discovery).</TSA_WD_SettlementIntel_GotBurnedRowTip>
+  <TSA_WD_SettlementIntel_Section_Los>Line of sight</TSA_WD_SettlementIntel_Section_Los>
+  <TSA_WD_SettlementIntel_Row_BaselineR>Tier baseline</TSA_WD_SettlementIntel_Row_BaselineR>
+  <TSA_WD_SettlementIntel_Row_BaselineRTip>This settlement's tier attack-range baseline. MaxLOS grows from this with age and game stage (no zeal, no attack-range bonuses).</TSA_WD_SettlementIntel_Row_BaselineRTip>
+  <TSA_WD_SettlementIntel_Row_MaxLos>MaxLOS</TSA_WD_SettlementIntel_Row_MaxLos>
+  <TSA_WD_SettlementIntel_Row_MaxLosTip>Current maximum line of sight. Big targets can be seen out to this edge; small targets only inside the inner rings.</TSA_WD_SettlementIntel_Row_MaxLosTip>
+  <TSA_WD_SettlementIntel_Row_BandT1>T1 sight ring</TSA_WD_SettlementIntel_Row_BandT1>
+  <TSA_WD_SettlementIntel_Row_BandT1Tip>Max discover distance to a T1-class target from here: MaxLOS × {0}. Also covers AT turrets and advanced buildings.</TSA_WD_SettlementIntel_Row_BandT1Tip>
+  <TSA_WD_SettlementIntel_Row_BandT2>T2 sight ring</TSA_WD_SettlementIntel_Row_BandT2>
+  <TSA_WD_SettlementIntel_Row_BandT2Tip>Max discover distance to a T2-class target from here: MaxLOS × {0}.</TSA_WD_SettlementIntel_Row_BandT2Tip>
+  <TSA_WD_SettlementIntel_Row_BandT3>T3 sight ring</TSA_WD_SettlementIntel_Row_BandT3>
+  <TSA_WD_SettlementIntel_Row_BandT3Tip>Max discover distance to a T3-class target from here: MaxLOS × {0}.</TSA_WD_SettlementIntel_Row_BandT3Tip>
+  <TSA_WD_SettlementIntel_Row_BandT4>T4 sight ring</TSA_WD_SettlementIntel_Row_BandT4>
+  <TSA_WD_SettlementIntel_Row_BandT4Tip>Max discover distance to a T4-class target from here: MaxLOS × {0}. Largest targets are visible farthest.</TSA_WD_SettlementIntel_Row_BandT4Tip>
+  <TSA_WD_SettlementIntel_Section_SitesInSight>Settlements/Outposts in sight</TSA_WD_SettlementIntel_Section_SitesInSight>
+  <TSA_WD_SettlementIntel_SitesInSightNoneTip>No foreign settlements or outposts currently fall inside this settlement's tier-scaled sight bands.</TSA_WD_SettlementIntel_SitesInSightNoneTip>
+  <TSA_WD_SettlementIntel_SiteValue>{0}, {1} tiles</TSA_WD_SettlementIntel_SiteValue>
+  <TSA_WD_SettlementIntel_KindSettlement>Settlement</TSA_WD_SettlementIntel_KindSettlement>
+  <TSA_WD_SettlementIntel_KindOutpost>Outpost</TSA_WD_SettlementIntel_KindOutpost>
+  <TSA_WD_SettlementIntel_UnknownFaction>Unknown</TSA_WD_SettlementIntel_UnknownFaction>
+  <TSA_WD_SettlementIntel_SiteInSightTip>{0}: {1} ({2}). Distance {3} tiles (sight limit for its class: {4}, band {5}). Known to this site's faction: {6}.</TSA_WD_SettlementIntel_SiteInSightTip>
+  <TSA_WD_SettlementIntel_Section_TravelersInSight>Travelers in sight</TSA_WD_SettlementIntel_Section_TravelersInSight>
+  <TSA_WD_SettlementIntel_TravelersInSightNoneTip>No foreign WD travelers or player caravans are currently within this settlement's MaxLOS target rings.</TSA_WD_SettlementIntel_TravelersInSightNoneTip>
+  <TSA_WD_SettlementIntel_TravelerInSightTip>WD traveler {0} ({1}). Distance {2} tiles (spot range R = {3}). Already known to this settlement's faction: {4}.</TSA_WD_SettlementIntel_TravelerInSightTip>
+  <TSA_WD_SettlementIntel_CaravanInSightTip>Player caravan {0} ({1}). Distance {2} tiles (within settlement sight range R = {3}). Player caravans use vanilla visibility for targeting; this row is LOS context only.</TSA_WD_SettlementIntel_CaravanInSightTip>
+
   <!-- Outpost Stats tab -->
   <TSA_WD_OutpostStats_TabLabel>Stats</TSA_WD_OutpostStats_TabLabel>
   <TSA_WD_OutpostStats_Refresh>Refresh</TSA_WD_OutpostStats_Refresh>
@@ -2056,6 +2149,9 @@
   <TSA_WD_OutpostStats_Row_RoadTimeStoneTip>Estimated days to prepare one stone road segment or one bridge water tile at current cumulative Construction skill (progress bar fill only; excludes caravan travel).</TSA_WD_OutpostStats_Row_RoadTimeStoneTip>
   <TSA_WD_OutpostStats_Row_RoadTimeAsphalt>Time per asphalt segment</TSA_WD_OutpostStats_Row_RoadTimeAsphalt>
   <TSA_WD_OutpostStats_Row_RoadTimeAsphaltTip>Estimated days to prepare one asphalt road segment at current cumulative Construction skill (progress bar fill only; excludes caravan travel).</TSA_WD_OutpostStats_Row_RoadTimeAsphaltTip>
+  <TSA_WD_OutpostStats_Row_RoadTimeGlitter>Time per glitter segment</TSA_WD_OutpostStats_Row_RoadTimeGlitter>
+  <TSA_WD_OutpostStats_Row_RoadTimeGlitterTip>Estimated days to prepare one glitter road segment at current cumulative Construction skill (progress bar fill only; excludes caravan travel).</TSA_WD_OutpostStats_Row_RoadTimeGlitterTip>
+
   <TSA_WD_OutpostStats_Row_RoadTimeRoadBlockLight>Time per light road block</TSA_WD_OutpostStats_Row_RoadTimeRoadBlockLight>
   <TSA_WD_OutpostStats_Row_RoadTimeRoadBlockNormal>Time per medium road block</TSA_WD_OutpostStats_Row_RoadTimeRoadBlockNormal>
   <TSA_WD_OutpostStats_Row_RoadTimeRoadBlockHeavy>Time per heavy road block</TSA_WD_OutpostStats_Row_RoadTimeRoadBlockHeavy>
@@ -2198,7 +2294,7 @@
   <TSA_WD_Gizmo_ShowMortarRadius>Mortar Radius</TSA_WD_Gizmo_ShowMortarRadius>
   <TSA_WD_Gizmo_ShowMortarRadiusDesc>Toggle mortar range ({0} tiles) for this site type.</TSA_WD_Gizmo_ShowMortarRadiusDesc>
   <TSA_WD_Gizmo_MortarRadiusBandsLegend>Color bands (base hit chance before shooter skill):\nRed = 0–50% of max range. Highest accuracy ({0}% base hit).\nOrange = 51–75% of max range ({1}% base hit).\nYellow = 76–100% of max range ({2}% base hit).</TSA_WD_Gizmo_MortarRadiusBandsLegend>
-  <TSA_WD_Gizmo_AtTurretRadiusBandsLegend>Color bands (base hit chance before skill-equivalent):\nRed = 0–50% of max range. Highest accuracy ({0}% base hit).\nOrange = 51–75% of max range ({1}% base hit).\nYellow = 76–100% of max range ({2}% base hit).</TSA_WD_Gizmo_AtTurretRadiusBandsLegend>
+  <TSA_WD_Gizmo_AtTurretRadiusBandsLegend>Color bands (base hit chance before skill-equivalent):\nRed = 0–50% of max range. Highest accuracy ({0}% base hit).\nOrange = 51–75% of max range ({1}% base hit).\nYellow = 76–100% of max range ({2}% base hit). Outer band only engages travelers of class T2 or stronger (departure strength).</TSA_WD_Gizmo_AtTurretRadiusBandsLegend>
   <TSA_WD_Gizmo_ShowAARadius>AA Radius</TSA_WD_Gizmo_ShowAARadius>
   <TSA_WD_Gizmo_ShowAARadiusDesc>Toggle Anti-Air range ({0} tiles) for this site type.</TSA_WD_Gizmo_ShowAARadiusDesc>
   <TSA_WD_Gizmo_AARadiusBandsLegend>Color bands vs pods and aerials (base hit chance before shooter skill):\nRed = 0–50% of max range. Highest accuracy ({0}% base hit).\nOrange = 51–75% of max range ({1}% base hit).\nYellow = 76–100% of max range ({2}% base hit).\nMortar shells use a flat shot-down chance instead of these bands.</TSA_WD_Gizmo_AARadiusBandsLegend>

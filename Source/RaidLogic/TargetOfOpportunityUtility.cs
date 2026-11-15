@@ -186,6 +186,11 @@ namespace TSA_WorldDomination
             if (WorldActions_Utils.IsSpace(candidate)) return false;
             if (candidate.Faction == null) return false;
             if (!WorldActions_Utils.SafeHostileTo(traveler.Faction, candidate.Faction)) return false;
+            if (WorldComponent_SettlementIntel.IsActive())
+            {
+                var intel = WorldComponent_SettlementIntel.Get();
+                if (intel != null && !intel.Knows(traveler.Faction, candidate)) return false;
+            }
             if (watchIndex != null && watchIndex.IsUnderDogpileCooldown(candidate)) return false;
             var comp = candidate.GetComponent<CompViralSpread>();
             if (comp != null && comp.defenseCooldownTick > Find.TickManager.TicksGame) return false;
@@ -204,6 +209,11 @@ namespace TSA_WorldDomination
             if (candidate.Faction == null) return false;
             if (!WorldActions_Utils.SafeHostileTo(traveler.Faction, candidate.Faction)) return false;
             if (WorldActions_Utils.IsSpace(candidate)) return false;
+            if (WorldComponent_SettlementIntel.IsActive())
+            {
+                var intel = WorldComponent_SettlementIntel.Get();
+                if (intel != null && !intel.Knows(traveler.Faction, candidate)) return false;
+            }
 
             var watchIndex = WorldComponent_SettlementWatchIndex.Get();
             if (watchIndex != null && watchIndex.IsUnderDogpileCooldown(candidate)) return false;

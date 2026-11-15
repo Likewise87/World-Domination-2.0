@@ -604,7 +604,9 @@ namespace TSA_WorldDomination
                 new FloatMenuOption("TSA_WD_WorldSetup_RoadStone".Translate(),
                     () => BeginPlaceRoadTargeting(SettlementTier.T2)),
                 new FloatMenuOption("TSA_WD_WorldSetup_RoadAsphalt".Translate(),
-                    () => BeginPlaceRoadTargeting(SettlementTier.T3))
+                    () => BeginPlaceRoadTargeting(SettlementTier.T3)),
+                new FloatMenuOption("TSA_WD_WorldSetup_RoadGlitter".Translate(),
+                    () => BeginPlaceRoadTargeting(SettlementTier.T4))
             };
             DebugActions_FloatMenus.OpenCentered(opts);
         }

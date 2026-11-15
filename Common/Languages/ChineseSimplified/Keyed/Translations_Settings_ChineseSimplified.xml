@@ -319,6 +319,8 @@
   <TSA_WD_WorldSetup_RoadDirt>土路</TSA_WD_WorldSetup_RoadDirt>
   <TSA_WD_WorldSetup_RoadStone>石路</TSA_WD_WorldSetup_RoadStone>
   <TSA_WD_WorldSetup_RoadAsphalt>沥青路</TSA_WD_WorldSetup_RoadAsphalt>
+  <TSA_WD_WorldSetup_RoadGlitter>闪光路</TSA_WD_WorldSetup_RoadGlitter>
+
   <TSA_WD_WorldSetup_RoadDefMissing>找不到道路定义。</TSA_WD_WorldSetup_RoadDefMissing>
   <TSA_WD_WorldSetup_RoadNeedTwoTiles>请选择两个不同地块。</TSA_WD_WorldSetup_RoadNeedTwoTiles>
   <TSA_WD_WorldSetup_RoadNoPath>这两块地之间没有路径。</TSA_WD_WorldSetup_RoadNoPath>
@@ -683,6 +685,10 @@
   <TSA_WD_RoadBuilding_DirtRoad>土路</TSA_WD_RoadBuilding_DirtRoad>
   <TSA_WD_RoadBuilding_StoneRoad>石路</TSA_WD_RoadBuilding_StoneRoad>
   <TSA_WD_RoadBuilding_AsphaltRoad>沥青路</TSA_WD_RoadBuilding_AsphaltRoad>
+  <TSA_WD_RoadBuilding_GlitterRoad>闪光路</TSA_WD_RoadBuilding_GlitterRoad>
+  <TSA_WD_GlitterRoad_MinTech>闪光路：NPC最低科技等级</TSA_WD_GlitterRoad_MinTech>
+  <TSA_WD_GlitterRoad_MinTechTip>仅达到此科技等级及以上的非玩家派系可自动建造或被命令建造闪光路（还需要T4定居点）。默认超空间时代。玩家前哨站改用高级制造研究与材料。</TSA_WD_GlitterRoad_MinTechTip>
+
   <TSA_WD_RoadBuilding_Movement>移动代价乘数</TSA_WD_RoadBuilding_Movement>
   <TSA_WD_RoadBuilding_MovementTip>在未启用 Roads of the Rim 时，将该道路类型的世界路径移动代价乘以该值（写入原版道路定义）。数值越低移动越快。</TSA_WD_RoadBuilding_MovementTip>
   <TSA_WD_RoadBuilding_WinterReductionHeader>冬季移动惩罚减免</TSA_WD_RoadBuilding_WinterReductionHeader>

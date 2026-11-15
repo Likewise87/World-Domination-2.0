@@ -321,6 +321,18 @@ namespace TSA_WorldDomination
                     if (traveler != null && !traveler.Destroyed)
                         traveler.Destroy();
                     break;
+                case TravelerMission.Scout:
+                    if (traveler.Faction != null)
+                        WorldActions_Scout.DiscoverSitesInScoutBubble(traveler.Faction, traveler.Tile.tileId);
+                    if (traveler != null && !traveler.Destroyed)
+                    {
+                        // More chaotic waypoints before finish. Arrival is not a kill — no kill bearing stamp.
+                        if (WorldActions_Scout.TryContinueScoutMission(traveler))
+                            break;
+                        traveler.isNimbleScout = false;
+                        traveler.Destroy();
+                    }
+                    break;
                 case TravelerMission.OutpostUpgrade:
                     if (traveler is WorldObject_Traveler_Outpost_Upgrade upgradeTraveler)
                         ExecuteOutpostUpgradeArrival(upgradeTraveler);
@@ -776,6 +788,7 @@ namespace TSA_WorldDomination
             traveler.travelerStrength = pawns.Count;
             traveler.initialStrength = pawns.Count;
             traveler.carriedPawns = new List<Pawn>(pawns);
+            traveler.unescortedFireAndForget = !PlayerPawnTransferUtility.PawnListHasFreeEscort(pawns);
             if (deliveryItems != null && deliveryItems.Count > 0)
                 traveler.deliveryItems = new List<ThingDefCountClass>(deliveryItems);
             traveler.establishOutpostDef = establishOutpostDef;
@@ -810,10 +823,11 @@ namespace TSA_WorldDomination
             WorldObject target = traveler.targetObject;
             WorldObject originWo = traveler.originObject;
             int landTile = traveler.Tile.tileId;
+            bool unescorted = traveler.unescortedFireAndForget;
 
             void ReturnHome()
             {
-                WdRrInterceptDropUtility.ReturnPawnsToOrigin(originWo, removed, landTile);
+                WdRrInterceptDropUtility.ReturnPawnsToOrigin(originWo, removed, landTile, unescorted);
             }
 
             void DropOnMap(Map map, bool interceptTag)
@@ -821,7 +835,7 @@ namespace TSA_WorldDomination
                 if (target is Caravan targetCaravan && !targetCaravan.Destroyed)
                     CaravanEnterMapUtility.Enter(targetCaravan, map, CaravanEnterMode.Edge);
                 RapidResponseUtility.DropPawnsViaDropPods(removed, map);
-                if (interceptTag)
+                if (interceptTag && !unescorted)
                     WdRrInterceptDropUtility.RegisterOnMap(map, originWo, removed);
                 string label = map.Parent?.LabelCap ?? ("#" + landTile);
                 Messages.Message(
@@ -842,21 +856,49 @@ namespace TSA_WorldDomination
                 }
                 if (destOutpost.ManualDefenseActive)
                 {
+                    if (unescorted)
+                    {
+                        WdRrInterceptDropUtility.DisposeUnescortedDropPodCargo(removed);
+                        return;
+                    }
                     WdRrInterceptDropUtility.DumpPawnsAsCaravan(removed, destOutpost.Tile.tileId);
                     Messages.Message("TSA_WD_OutpostDefense_FrozenDuringManualDefense".Translate(), MessageTypeDefOf.RejectInput, false);
                     return;
                 }
                 int added = 0;
+                var failed = new List<Pawn>();
                 for (int i = 0; i < removed.Count; i++)
                 {
                     Pawn pawn = removed[i];
                     if (pawn == null || pawn.Destroyed || pawn.Dead) continue;
                     if (destOutpost.AddPawn(pawn, null!))
                         added++;
-                    else if (originWo is WorldObject_WD_Outpost originLive && !originLive.Destroyed)
+                    else if (!unescorted && originWo is WorldObject_WD_Outpost originLive && !originLive.Destroyed)
                         originLive.AddPawn(pawn, null!);
+                    else
+                        failed.Add(pawn);
                 }
+                if (failed.Count > 0)
+                    WdRrInterceptDropUtility.DisposeUnescortedDropPodCargo(failed);
                 Messages.Message("TSA_WD_RapidResponse_DropPodsArrived".Translate(added.ToString(), destOutpost.LabelCap), MessageTypeDefOf.NeutralEvent, false);
+                return;
+            }
+
+            // 1b. Live player colony map parent as target.
+            if (target is MapParent destColony
+                && !(destColony is WorldObject_WD_Outpost)
+                && destColony.Faction == Faction.OfPlayer
+                && !destColony.Destroyed
+                && destColony.HasMap)
+            {
+                DropOnMap(destColony.Map, interceptTag: false);
+                return;
+            }
+
+            // Unescorted fire-and-forget: intended player holding is gone — free/lose cargo; no player caravan.
+            if (unescorted)
+            {
+                WdRrInterceptDropUtility.DisposeUnescortedDropPodCargo(removed);
                 return;
             }
 

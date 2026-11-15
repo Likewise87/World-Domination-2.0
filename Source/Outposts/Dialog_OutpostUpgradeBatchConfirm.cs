@@ -8,6 +8,7 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>Confirm prepaid multi-select outpost upgrades with per-line costs, pods, and total.</summary>
+    [StaticConstructorOnStartup]
     public class Dialog_OutpostUpgradeBatchConfirm : Window
     {
         private const float SectionGap = 10f;

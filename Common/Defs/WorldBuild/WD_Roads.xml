@@ -42,7 +42,7 @@
     </cost>
   </TSA_WorldDomination.WdRoadTierDef>
 
-  <!-- Asphalt / T3-T4 -->
+  <!-- Asphalt / T3 -->
   <TSA_WorldDomination.WdRoadTierDef>
     <defName>TSA_WdRoad_Asphalt</defName>
     <label>asphalt road</label>
@@ -50,7 +50,7 @@
     <roadDef>AncientAsphaltRoad</roadDef>
     <movementCostMultiplier>0.30</movementCostMultiplier>
     <workPerSegment>500</workPerSegment>
-    <expeditionStrengthCost>125</expeditionStrengthCost>
+    <expeditionStrengthCost>100</expeditionStrengthCost>
     <winterPenaltyReduction>0.75</winterPenaltyReduction>
     <minCumulativeConstructionSkill>25</minCumulativeConstructionSkill>
     <researchPrerequisites>
@@ -62,4 +62,26 @@
     </cost>
   </TSA_WorldDomination.WdRoadTierDef>
 
+  <!-- Glitter / T4 (player + Spacer+ T4 NPC; medieval-hidden via IsRoadTierAllowed) -->
+  <TSA_WorldDomination.WdRoadTierDef>
+    <defName>TSA_WdRoad_Glitter</defName>
+    <label>glitter road</label>
+    <tier>T4</tier>
+    <roadDef>TSA_WD_GlitterRoad</roadDef>
+    <movementCostMultiplier>0.15</movementCostMultiplier>
+    <workPerSegment>650</workPerSegment>
+    <expeditionStrengthCost>125</expeditionStrengthCost>
+    <winterPenaltyReduction>0.9</winterPenaltyReduction>
+    <minCumulativeConstructionSkill>30</minCumulativeConstructionSkill>
+    <researchPrerequisites>
+      <li>AdvancedFabrication</li>
+    </researchPrerequisites>
+    <cost>
+      <li><thingDef>Plasteel</thingDef><count>5</count></li>
+      <li><thingDef>Steel</thingDef><count>10</count></li>
+      <li><thingDef>Chemfuel</thingDef><count>10</count></li>
+    </cost>
+  </TSA_WorldDomination.WdRoadTierDef>
+
 </Defs>
+

@@ -710,7 +710,7 @@
   <TSA_WD_PawnTransfer_Log>已下令调动：{0} 名殖民者从 {1} 前往 {2}</TSA_WD_PawnTransfer_Log>
   <TSA_WD_PawnTransfer_WithoutFood>殖民者调动时未携带食物。</TSA_WD_PawnTransfer_WithoutFood>
   <TSA_WD_PawnTransfer_WithoutFoodPlural>{0} 名殖民者调动时未携带食物。</TSA_WD_PawnTransfer_WithoutFoodPlural>
-  <TSA_WD_PawnTransfer_PrisonerNeedsEscort>请至少选择一名非囚犯殖民者护送俘虏。</TSA_WD_PawnTransfer_PrisonerNeedsEscort>
+  <TSA_WD_PawnTransfer_PrisonerNeedsEscort>陆路：请至少选择一名非囚犯殖民者护送俘虏。向玩家前哨或殖民地发射运输舱时无需护送。</TSA_WD_PawnTransfer_PrisonerNeedsEscort>
   <TSA_WD_PawnTransfer_PrisonerCannotLead>{0} 是囚犯，不能担任商队领队。</TSA_WD_PawnTransfer_PrisonerCannotLead>
   <TSA_WD_PawnTransfer_PrisonerNoExitHere>俘虏不能“在此离开”——请送往殖民地或接受囚犯的前哨。</TSA_WD_PawnTransfer_PrisonerNoExitHere>
   <TSA_WD_PawnTransfer_DestRefusesPrisoners>该前哨当前不接收囚犯。</TSA_WD_PawnTransfer_DestRefusesPrisoners>

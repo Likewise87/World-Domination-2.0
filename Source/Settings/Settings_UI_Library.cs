@@ -49,6 +49,10 @@ namespace TSA_WorldDomination
         /// <summary>Label to flash after a global-search jump. Cleared after timeout.</summary>
         private static string highlightLabel;
         private static int highlightUntilFrame;
+        /// <summary>Collapsible section to force-open for a search jump (section hit or parent of a control hit).</summary>
+        private static string expandSectionLabel;
+        private static float? pendingScrollY;
+        private static bool scrollAppliedForHighlight;
 
         /// <summary>Label/tip of the collapsible section currently being drawn (used so a matching section header shows all of its controls).</summary>
         private static string searchCurrentSectionLabel;
@@ -60,14 +64,49 @@ namespace TSA_WorldDomination
 
         public static void SetHighlight(string label, int durationFrames = 180)
         {
-            highlightLabel = label;
+            SetSearchJump(label, label, durationFrames);
+        }
+
+        /// <summary>Flash <paramref name="highlight"/> and force-expand <paramref name="expandSection"/> after a global-search result click.</summary>
+        public static void SetSearchJump(string highlight, string expandSection, int durationFrames = 180)
+        {
+            highlightLabel = highlight;
+            expandSectionLabel = expandSection;
             highlightUntilFrame = Time.frameCount + durationFrames;
+            pendingScrollY = null;
+            scrollAppliedForHighlight = false;
         }
 
         public static void ClearHighlight()
         {
             highlightLabel = null;
+            expandSectionLabel = null;
             highlightUntilFrame = 0;
+            pendingScrollY = null;
+            scrollAppliedForHighlight = false;
+        }
+
+        /// <summary>Apply one-shot scroll so the highlighted control/section is in view. Call immediately before <c>BeginScrollView</c>.</summary>
+        public static void ApplyPendingHighlightScroll(ref Vector2 scrollPosition, float viewportHeight, float contentHeight)
+        {
+            if (!pendingScrollY.HasValue || scrollAppliedForHighlight) return;
+            float y = pendingScrollY.Value - 28f;
+            float maxY = Mathf.Max(0f, contentHeight - Mathf.Max(1f, viewportHeight));
+            scrollPosition.y = Mathf.Clamp(y, 0f, maxY);
+            pendingScrollY = null;
+            scrollAppliedForHighlight = true;
+        }
+
+        private static bool ShouldForceExpandSection(string label)
+        {
+            if (label.NullOrEmpty()) return false;
+            if (!expandSectionLabel.NullOrEmpty()
+                && string.Equals(label, expandSectionLabel, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (!highlightLabel.NullOrEmpty()
+                && string.Equals(label, highlightLabel, StringComparison.OrdinalIgnoreCase))
+                return true;
+            return false;
         }
 
         /// <summary>Offer hover help when shell is active. Safe no-op when ActiveHelp is null.</summary>
@@ -106,6 +145,9 @@ namespace TSA_WorldDomination
                     GUI.color = new Color(1f, 0.85f, 0.2f, 0.28f);
                     GUI.DrawTexture(r, BaseContent.WhiteTex);
                     GUI.color = prev;
+                    // Capture content Y once so the next frame can scroll the hit into view.
+                    if (!scrollAppliedForHighlight && Event.current.type == EventType.Repaint)
+                        pendingScrollY = r.y;
                 }
             }
 
@@ -313,8 +355,9 @@ namespace TSA_WorldDomination
             // Track the active section so SearchMatches can show all controls when the header matches.
             searchCurrentSectionLabel = label;
             searchCurrentSectionTip = tip;
+            // Register as a section hit (Section=null) before becoming the parent for child controls.
+            WdSettingsSearch.RegisterSection(label, tip);
             WdSettingsSearch.CollectSection = label;
-            WdSettingsSearch.Register(label, tip);
 
             if (WdSettingsSearch.IsCollecting)
                 return true;
@@ -341,6 +384,9 @@ namespace TSA_WorldDomination
                 }
                 return true;
             }
+
+            if (ShouldForceExpandSection(label))
+                expanded = true;
 
             l.Gap(StandardGap);
             Rect hr = l.GetRect(26f);

@@ -206,7 +206,7 @@
   <TSA_WD_Dis_CombatSave>每战斗等级"杀出重围"加成</TSA_WD_Dis_CombatSave>
   <TSA_WD_Dis_CombatSaveTooltip>尝试失败时,每射击/近战技能等级(取较高者)将"致命"结果转为"受伤"的百分比概率。</TSA_WD_Dis_CombatSaveTooltip>
   <TSA_WD_Dis_Cooldown>谣言行动后冷却</TSA_WD_Dis_Cooldown>
-  <TSA_WD_Dis_CooldownTooltip>尝试后目标定居点保持高度戒备的时长。</TSA_WD_Dis_CooldownTooltip>
+  <TSA_WD_Dis_CooldownTooltip>尝试后，目标及同派系 20 格内定居点保持高度戒备的时长。</TSA_WD_Dis_CooldownTooltip>
   <TSA_WD_Dis_DisabledAlert>附近目标处于高度谍报戒备状态。</TSA_WD_Dis_DisabledAlert>
   <TSA_WD_Dis_FailureClean>当地人对谣言无动于衷,但你的间谍在当局警觉前成功撤离。</TSA_WD_Dis_FailureClean>
   <TSA_WD_Dis_FailureExecuted>他们因散布国家机密被捕,以间谍罪处决。</TSA_WD_Dis_FailureExecuted>
@@ -272,7 +272,7 @@
   <TSA_WD_Sab_CombatSave>每战斗等级"杀出重围"加成</TSA_WD_Sab_CombatSave>
   <TSA_WD_Sab_CombatSaveTooltip>每战斗等级(射击/近战)将"死亡/致命"结果转为"受伤"的概率。</TSA_WD_Sab_CombatSaveTooltip>
   <TSA_WD_Sab_Cooldown>尝试后冷却</TSA_WD_Sab_Cooldown>
-  <TSA_WD_Sab_CooldownTooltip>目标定居点保持高度戒备的天数,期间无法再次破坏。</TSA_WD_Sab_CooldownTooltip>
+  <TSA_WD_Sab_CooldownTooltip>目标及同派系 20 格内定居点保持高度戒备的天数，期间无法再次破坏或散播假情报。</TSA_WD_Sab_CooldownTooltip>
   <TSA_WD_Sab_DisabledAlert>所有附近目标均处于高度戒备。</TSA_WD_Sab_DisabledAlert>
   <TSA_WD_Sab_FailureClean>他们在被发现前成功撤入暗处。</TSA_WD_Sab_FailureClean>
   <TSA_WD_Sab_FailureExecuted>他们被当场抓获并立即处决。</TSA_WD_Sab_FailureExecuted>

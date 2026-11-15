@@ -311,6 +311,8 @@
   <TSA_WD_WorldSetup_RoadDirt>Camino de tierra</TSA_WD_WorldSetup_RoadDirt>
   <TSA_WD_WorldSetup_RoadStone>Camino de piedra</TSA_WD_WorldSetup_RoadStone>
   <TSA_WD_WorldSetup_RoadAsphalt>Camino de asfalto</TSA_WD_WorldSetup_RoadAsphalt>
+  <TSA_WD_WorldSetup_RoadGlitter>Camino glitter</TSA_WD_WorldSetup_RoadGlitter>
+
   <TSA_WD_WorldSetup_RoadDefMissing>No hay definición de camino.</TSA_WD_WorldSetup_RoadDefMissing>
   <TSA_WD_WorldSetup_RoadNeedTwoTiles>Elige dos casillas distintas.</TSA_WD_WorldSetup_RoadNeedTwoTiles>
   <TSA_WD_WorldSetup_RoadNoPath>No hay ruta entre esas casillas.</TSA_WD_WorldSetup_RoadNoPath>
@@ -680,6 +682,10 @@
   <TSA_WD_RoadBuilding_DirtRoad>Camino de tierra</TSA_WD_RoadBuilding_DirtRoad>
   <TSA_WD_RoadBuilding_StoneRoad>Camino de piedra</TSA_WD_RoadBuilding_StoneRoad>
   <TSA_WD_RoadBuilding_AsphaltRoad>Camino de asfalto</TSA_WD_RoadBuilding_AsphaltRoad>
+  <TSA_WD_RoadBuilding_GlitterRoad>Camino glitter</TSA_WD_RoadBuilding_GlitterRoad>
+  <TSA_WD_GlitterRoad_MinTech>Caminos glitter: tech mínima PNJ</TSA_WD_GlitterRoad_MinTech>
+  <TSA_WD_GlitterRoad_MinTechTip>Solo facciones no jugadoras con este nivel tecnológico o superior pueden auto-construir o recibir órdenes de caminos glitter (también requiere asentamiento T4). Spacer es el valor por defecto. Los puestos del jugador usan la investigación Fabricación avanzada y materiales.</TSA_WD_GlitterRoad_MinTechTip>
+
   <TSA_WD_RoadBuilding_Movement>Multiplicador de coste de movimiento</TSA_WD_RoadBuilding_Movement>
   <TSA_WD_RoadBuilding_MovementTip>Multiplicador de coste del viaje por mapa mundial de este tipo de camino si Roads of the Rim no está activo (se escribe en la def. vanilla). Más bajo = viaje más rápido.</TSA_WD_RoadBuilding_MovementTip>
   <TSA_WD_RoadBuilding_WinterReductionHeader>Reducción de penalización de movimiento invernal</TSA_WD_RoadBuilding_WinterReductionHeader>

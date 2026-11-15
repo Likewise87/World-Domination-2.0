@@ -46,8 +46,8 @@
     <li>questName->共同敵人：[enemySettlement_label]</li>
   </TSA_WD_CommonEnemySettlement.questNameRules.rulesStrings>
   <TSA_WD_CommonEnemySettlement.questDescriptionRules.rulesStrings>
-    <!-- EN: [faction_name] wants you to wipe out or conquer [enemySettlement_label], a shared enemy. Do it yourself: attack in person, or launch a raid from one of your World Domination outposts.\n\nAllied-settlement raid orders and unrelated faction attacks do not count. You have 8 days. -->
-    <li>questDescription->[faction_name]希望你剷除或征服雙方共同的敵人[enemySettlement_label]。必須由你自己完成：親自前往進攻，或從你的World Domination哨站發動突襲。\n\n同盟據點的突襲命令與無關派系的攻擊都不算數。你有8天的時間。</li>
+    <!-- EN: wipe yourself including sabotage/shelling; allied orders / unrelated factions do not count -->
+    <li>questDescription->[faction_name]希望你剷除或征服雙方共同的敵人[enemySettlement_label]。必須由你自己完成：親自前往進攻、從你的World Domination哨站發動突襲，或以其他方式摧毀該鎮（破壞、砲擊等）。\n\n同盟據點的突襲命令與無關派系的攻擊都不算數。你有8天的時間。</li>
   </TSA_WD_CommonEnemySettlement.questDescriptionRules.rulesStrings>
   <!-- EN: Quest failed: [resolvedQuestName] -->
   <TSA_WD_CommonEnemySettlement.TSA_WD_CommonEnemy_LetterLabelFailed.slateRef>任務失敗：[resolvedQuestName]</TSA_WD_CommonEnemySettlement.TSA_WD_CommonEnemy_LetterLabelFailed.slateRef>

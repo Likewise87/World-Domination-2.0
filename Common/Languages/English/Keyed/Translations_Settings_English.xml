@@ -406,6 +406,8 @@
   <TSA_WD_WorldSetup_RoadDirt>Dirt road</TSA_WD_WorldSetup_RoadDirt>
   <TSA_WD_WorldSetup_RoadStone>Stone road</TSA_WD_WorldSetup_RoadStone>
   <TSA_WD_WorldSetup_RoadAsphalt>Asphalt road</TSA_WD_WorldSetup_RoadAsphalt>
+  <TSA_WD_WorldSetup_RoadGlitter>Glitter road</TSA_WD_WorldSetup_RoadGlitter>
+
   <TSA_WD_WorldSetup_RoadDefMissing>No road definition found.</TSA_WD_WorldSetup_RoadDefMissing>
   <TSA_WD_WorldSetup_RoadNeedTwoTiles>Pick two different tiles.</TSA_WD_WorldSetup_RoadNeedTwoTiles>
   <TSA_WD_WorldSetup_RoadNoPath>No path between those tiles.</TSA_WD_WorldSetup_RoadNoPath>
@@ -802,6 +804,10 @@
   <TSA_WD_RoadBuilding_DirtRoad>Dirt road</TSA_WD_RoadBuilding_DirtRoad>
   <TSA_WD_RoadBuilding_StoneRoad>Stone road</TSA_WD_RoadBuilding_StoneRoad>
   <TSA_WD_RoadBuilding_AsphaltRoad>Asphalt road</TSA_WD_RoadBuilding_AsphaltRoad>
+  <TSA_WD_RoadBuilding_GlitterRoad>Glitter road</TSA_WD_RoadBuilding_GlitterRoad>
+  <TSA_WD_GlitterRoad_MinTech>Glitter roads: min NPC tech level</TSA_WD_GlitterRoad_MinTech>
+  <TSA_WD_GlitterRoad_MinTechTip>Only non-player factions at this tech level or higher may auto-build or be ordered to build Glitter roads (also requires a T4 settlement). Spacer is the default. Player outposts use Advanced Fabrication research and materials instead.</TSA_WD_GlitterRoad_MinTechTip>
+
   <TSA_WD_RoadBuilding_Movement>Movement cost multiplier</TSA_WD_RoadBuilding_Movement>
   <TSA_WD_RoadBuilding_MovementTip>Cost multiplier for world-path travel on this road type while Roads of the Rim is not active (written onto the vanilla road def). Lower = faster travel.</TSA_WD_RoadBuilding_MovementTip>
   <TSA_WD_RoadBuilding_WinterReductionHeader>Winter movement penalty reduction</TSA_WD_RoadBuilding_WinterReductionHeader>
@@ -920,6 +926,7 @@
   <TSA_WD_Pollution_BannerDamage>Will take damage from pollution</TSA_WD_Pollution_BannerDamage>
   <TSA_WD_Pollution_BannerRouteAltered>Route altered to avoid pollution</TSA_WD_Pollution_BannerRouteAltered>
   <TSA_WD_Msg_RaidCancelledPollution>Raid cancelled: the route would lose about {0} strength to pollution.</TSA_WD_Msg_RaidCancelledPollution>
+  <TSA_WD_Msg_AlliedRaidUnknownTarget>{0} does not know of {1}. Allied raid order cancelled.</TSA_WD_Msg_AlliedRaidUnknownTarget>
   <TSA_WD_Experimental_HeaderWorldActionsRaidLogic>World Actions &amp; Raid Logic</TSA_WD_Experimental_HeaderWorldActionsRaidLogic>
   <TSA_WD_Experimental_ColonyWorldBuild>Experimental: colony world Build (roads / blocks / traps)</TSA_WD_Experimental_ColonyWorldBuild>
   <TSA_WD_Experimental_ColonyWorldBuildTip>When on, your colony Settlement gets the cyan Build gizmo (roads, road blocks, spike traps). Speed and unlocks use the sum of Construction skill on colonists at the colony map. No Engineer bonus and no WD strength cost. Turning this off cancels active colony construction projects.</TSA_WD_Experimental_ColonyWorldBuildTip>

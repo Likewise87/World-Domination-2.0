@@ -8,9 +8,10 @@ namespace TSA_WorldDomination
     public static class OutpostTabStatsUi
     {
         public const float TabHeaderConsumedHeight = 38f;
-        /// <summary>Space reserved on the right of scroll content so values do not sit under the scrollbar.</summary>
-        public const float ScrollbarRightPadding = 32f;
-        private const float ContentRightInset = 8f;
+        /// <summary>Width of the vertical scrollbar strip. Content view width = outer − this (flush table, no dead gap).</summary>
+        public const float ScrollbarRightPadding = 16f;
+        /// <summary>Padding between right-aligned values and the row's right edge (inside the table, before the scrollbar).</summary>
+        private const float ContentRightInset = 12f;
         private const float SectionGap = 12f;
         private const float SectionColumnGap = 16f;
         private const float SectionHeaderHeight = 30f;
@@ -93,22 +94,24 @@ namespace TSA_WorldDomination
         {
             Text.Font = GameFont.Small;
             GUI.color = Widgets.SeparatorLabelColor;
-            Widgets.Label(new Rect(x, y, width - ContentRightInset, SectionHeaderHeight), title);
+            Widgets.Label(new Rect(x, y, width, SectionHeaderHeight), title);
             GUI.color = Color.white;
             float lineY = y + SectionHeaderHeight;
-            Widgets.DrawLineHorizontal(x, lineY, width - ContentRightInset);
+            Widgets.DrawLineHorizontal(x, lineY, width);
             return lineY + 4f;
         }
 
         public static float MeasureKeyValueRowsHeight(float width, OutpostStatsSection section, bool truncateText = true)
         {
             if (section?.Rows == null) return 0f;
-            float rowW = width - ContentRightInset;
             float h = 0f;
             for (int i = 0; i < section.Rows.Count; i++)
-                h += GetRowHeight(rowW, section.Rows[i], truncateText);
+                h += GetRowHeight(width, section.Rows[i], truncateText);
             return h;
         }
+
+        private const float RowIconSize = 18f;
+        private const float RowIconGap = 4f;
 
         public static float DrawKeyValueRows(
             float x, float y, float width, OutpostStatsSection section,
@@ -116,14 +119,16 @@ namespace TSA_WorldDomination
         {
             if (section?.Rows == null) return y;
             const float labelFrac = 0.48f;
-            float rowW = width - ContentRightInset;
+            // Zebra / hit area spans the full content width (meets the scrollbar). Value text keeps ContentRightInset padding.
+            float rowW = width;
             bool prevWrap = Text.WordWrap;
             for (int i = 0; i < section.Rows.Count; i++)
             {
                 OutpostStatRow row = section.Rows[i];
                 float labelW = rowW * labelFrac;
-                Rect labelRect = new Rect(x + 4f, y, labelW - 8f, RowHeight);
-                Rect valueRect = new Rect(x + labelW, y, rowW - labelW - 4f, RowHeight);
+                float iconPad = MeasureLabelIconPad(row);
+                Rect labelRect = new Rect(x + 4f + iconPad, y, Mathf.Max(8f, labelW - 8f - iconPad), RowHeight);
+                Rect valueRect = new Rect(x + labelW, y, Mathf.Max(8f, rowW - labelW - ContentRightInset), RowHeight);
                 bool wrap = !truncateText || row.WrapValue;
                 float rowH = GetRowHeight(rowW, row, truncateText);
                 if (wrap)
@@ -135,6 +140,8 @@ namespace TSA_WorldDomination
                 Rect rowRect = new Rect(x, y, rowW, rowH);
                 if (zebraStriping && i % 2 == 0) Widgets.DrawHighlight(rowRect);
 
+                DrawRowLabelIcons(x + 4f, y, rowH, row);
+
                 Text.Anchor = wrap ? TextAnchor.UpperLeft : TextAnchor.MiddleLeft;
                 bool statusBanner = row.LabelColor.HasValue && string.IsNullOrWhiteSpace(row.Value);
                 Color prev = GUI.color;
@@ -142,7 +149,7 @@ namespace TSA_WorldDomination
                 if (statusBanner)
                 {
                     // Full-width yellow (or other) status line; skip empty value column / em-dash fallback.
-                    Rect bannerRect = new Rect(x + 4f, y, rowW - 8f, rowH);
+                    Rect bannerRect = new Rect(x + 4f + iconPad, y, Mathf.Max(8f, rowW - ContentRightInset - 4f - iconPad), rowH);
                     if (wrap)
                     {
                         Text.WordWrap = true;
@@ -184,6 +191,35 @@ namespace TSA_WorldDomination
             return y;
         }
 
+        private static float MeasureLabelIconPad(OutpostStatRow row)
+        {
+            if (row == null) return 0f;
+            float pad = 0f;
+            if (row.LabelIcon != null)
+                pad += RowIconSize + RowIconGap;
+            if (row.LabelFaction?.def?.FactionIcon != null)
+                pad += RowIconSize + RowIconGap;
+            return pad;
+        }
+
+        private static void DrawRowLabelIcons(float x, float y, float rowH, OutpostStatRow row)
+        {
+            if (row == null) return;
+            float ix = x;
+            float iy = y + (rowH - RowIconSize) * 0.5f;
+            if (row.LabelIcon != null)
+            {
+                Rect r = new Rect(ix, iy, RowIconSize, RowIconSize);
+                GUI.DrawTexture(r, row.LabelIcon, ScaleMode.ScaleToFit, true, 0f, row.LabelIconColor, 0f, 0f);
+                ix += RowIconSize + RowIconGap;
+            }
+            if (row.LabelFaction?.def?.FactionIcon != null)
+            {
+                Rect r = new Rect(ix, iy, RowIconSize, RowIconSize);
+                WorldDomination_UIUtils.DrawFactionIconWithColor(r, row.LabelFaction);
+            }
+        }
+
         private static float GetRowHeight(float rowW, OutpostStatRow row, bool truncateText = true)
         {
             if (row == null) return RowHeight;
@@ -191,8 +227,8 @@ namespace TSA_WorldDomination
                 return RowHeight;
 
             const float labelFrac = 0.48f;
-            float labelW = rowW * labelFrac - 8f;
-            float valueW = rowW - rowW * labelFrac - 4f;
+            float labelW = rowW * labelFrac - 8f - MeasureLabelIconPad(row);
+            float valueW = rowW - rowW * labelFrac - ContentRightInset;
             bool prevWrap = Text.WordWrap;
             Text.WordWrap = true;
             float labelH = Text.CalcHeight(row.Label ?? "", labelW);
@@ -259,8 +295,10 @@ namespace TSA_WorldDomination
 
         public static float MeasureSectionHeight(OutpostStatsSection section)
         {
-            if (section?.Rows == null) return SectionHeaderHeight + 4f;
-            return SectionHeaderHeight + 4f + section.Rows.Count * RowHeight;
+            if (section?.Rows == null)
+                return string.IsNullOrEmpty(section?.Title) ? 0f : SectionHeaderHeight + 4f;
+            float h = string.IsNullOrEmpty(section.Title) ? 0f : SectionHeaderHeight + 4f;
+            return h + section.Rows.Count * RowHeight;
         }
 
         public static float MeasureContentHeight(OutpostStatsSnapshot snap, float width) =>

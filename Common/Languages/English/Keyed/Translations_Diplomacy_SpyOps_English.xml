@@ -208,7 +208,7 @@
   <TSA_WD_Dis_CombatSave>Fight your way out bonus per Combat Lvl</TSA_WD_Dis_CombatSave>
   <TSA_WD_Dis_CombatSaveTooltip>The percentage chance per Shooting/Melee Skill level (whichever is higher) to convert a 'Fatal' outcome into an 'Injury' when an attempt fails.</TSA_WD_Dis_CombatSaveTooltip>
   <TSA_WD_Dis_Cooldown>Cooldown after Disinformation Attempt</TSA_WD_Dis_Cooldown>
-  <TSA_WD_Dis_CooldownTooltip>Duration the target settlement remains on high alert after an attempt.</TSA_WD_Dis_CooldownTooltip>
+  <TSA_WD_Dis_CooldownTooltip>Duration the target and same-faction settlements within 20 tiles remain on high alert after an attempt.</TSA_WD_Dis_CooldownTooltip>
   <TSA_WD_Dis_DisabledAlert>Nearby targets are on high espionage alert.</TSA_WD_Dis_DisabledAlert>
   <TSA_WD_Dis_FailureClean>The locals were unimpressed by the rumors, but your spy managed to retreat before the authorities were alerted.</TSA_WD_Dis_FailureClean>
   <TSA_WD_Dis_FailureExecuted>They were caught spreading state secrets and executed for espionage.</TSA_WD_Dis_FailureExecuted>
@@ -274,7 +274,7 @@
   <TSA_WD_Sab_CombatSave>'Fight your way out' bonus per Combat Lvl</TSA_WD_Sab_CombatSave>
   <TSA_WD_Sab_CombatSaveTooltip>Chance per Combat level (Shooting/Melee) to convert a 'Death/Fatal' outcome into an 'Injury'.</TSA_WD_Sab_CombatSaveTooltip>
   <TSA_WD_Sab_Cooldown>Cooldown after Attempt</TSA_WD_Sab_Cooldown>
-  <TSA_WD_Sab_CooldownTooltip>Duration the target settlement remains on high alert in days, preventing further sabotage.</TSA_WD_Sab_CooldownTooltip>
+  <TSA_WD_Sab_CooldownTooltip>Duration the target and same-faction settlements within 20 tiles remain on high alert in days, preventing further sabotage or disinformation.</TSA_WD_Sab_CooldownTooltip>
   <TSA_WD_Sab_DisabledAlert>All nearby targets are on high alert.</TSA_WD_Sab_DisabledAlert>
   <TSA_WD_Sab_FailureClean>They managed to retreat into the shadows before being spotted.</TSA_WD_Sab_FailureClean>
   <TSA_WD_Sab_FailureExecuted>They were caught red-handed and executed on the spot.</TSA_WD_Sab_FailureExecuted>

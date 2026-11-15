@@ -406,19 +406,25 @@ namespace TSA_WorldDomination
         public const float DefFallbackDirtRoadMovement = 0.7f;
         public const float DefFallbackStoneRoadMovement = 0.5f;
         public const float DefFallbackAsphaltRoadMovement = 0.3f;
-        // Work defaults 250/375/500 preserve old 1:1.5:2 duration ratios when Work drives ticks.
+        public const float DefFallbackGlitterRoadMovement = 0.15f;
+        // Work defaults 250/375/500/650 preserve duration ratios when Work drives ticks.
         public const float DefFallbackDirtRoadWork = 250f;
         public const float DefFallbackStoneRoadWork = 375f;
         public const float DefFallbackAsphaltRoadWork = 500f;
+        public const float DefFallbackGlitterRoadWork = 650f;
         public const float DefFallbackDirtRoadExpeditionStrength = 50f;
         public const float DefFallbackStoneRoadExpeditionStrength = 80f;
-        public const float DefFallbackAsphaltRoadExpeditionStrength = 125f;
+        public const float DefFallbackAsphaltRoadExpeditionStrength = 100f;
+        public const float DefFallbackGlitterRoadExpeditionStrength = 125f;
         public const int DefFallbackDirtRoadMinConstruction = 5;
         public const int DefFallbackStoneRoadMinConstruction = 15;
         public const int DefFallbackAsphaltRoadMinConstruction = 25;
+        public const int DefFallbackGlitterRoadMinConstruction = 30;
         public const float DefFallbackDirtRoadWinterReduction = 0.30f;
         public const float DefFallbackStoneRoadWinterReduction = 0.50f;
         public const float DefFallbackAsphaltRoadWinterReduction = 0.75f;
+        public const float DefFallbackGlitterRoadWinterReduction = 0.9f;
+        public const TechLevel DefNpcGlitterRoadMinTechLevel = TechLevel.Spacer;
         public const float DefMinorIncSev = 150f;
         public const float DefMajorIncSev = 450f;
         public const int DefLocalMaxT1 = 5;
@@ -486,6 +492,33 @@ namespace TSA_WorldDomination
         public const WdThreatStageGate DefGateThreatStrongFactionWar = WdThreatStageGate.Always;
         public const WdThreatStageGate DefGateThreatIsolationPressure = WdThreatStageGate.Always;
         public const WdThreatStageGate DefGateThreatAttritionRest = WdThreatStageGate.FromMid;
+        public const WdThreatStageGate DefGateSettlementIntel = WdThreatStageGate.Never;
+        public const float DefIntelTargetRingFracT1 = 0.50f;
+        public const float DefIntelTargetRingFracT2 = 0.75f;
+        public const float DefIntelTargetRingFracT3 = 1.00f;
+        public const float DefIntelTargetRingFracT4 = 1.00f;
+        public const float DefIntelSettlementLosMaxMult = 2.00f;
+        public const float DefIntelTravelerMaxLosT1 = 4f;
+        public const float DefIntelTravelerMaxLosT2 = 5f;
+        public const float DefIntelTravelerMaxLosT3 = 6f;
+        public const float DefIntelTravelerMaxLosT4 = 8f;
+        public const float DefIntelTravelerStrengthT2 = 100f;
+        public const float DefIntelTravelerStrengthT3 = 400f;
+        public const float DefIntelTravelerStrengthT4 = 1000f;
+        public const float DefIntelScoutMaxLos = 8f;
+        public const float DefIntelPlayerCaravanMaxLos = 4f;
+        public const float DefSettlementIntelBurnedHiddenStrengthPct = 0.75f;
+        public const float DefSettlementIntelGotBurnedDays = 10f;
+        public const float DefSettlementIntelBurnTriggerRatio = 1.25f;
+        public const float DefSettlementIntelScoutStrengthMin = 100f;
+        public const float DefSettlementIntelScoutStrengthMax = 200f;
+        public const float DefSettlementIntelScoutCooldownDays = 3f;
+        public const float DefSettlementIntelScoutCrackFallChance = 0.70f;
+        public const float DefWeightScout = 50f;
+        public const float DefSettlementIntelScoutClearWeightMult = 2f;
+        public const float DefWeightStrategicExpand = 40f;
+        public const int DefSettlementIntelStrategicExpandSamples = 12;
+        public const float DefSettlementIntelScoutBearingAvoidDeg = 90f;
         public const float DefIsolationPressureChance = 0.40f;
         public const float DefIsolationPressureCooldownDays = 7f;
         public const int DefIsolationPressureMinTiles = 10;
@@ -1417,6 +1450,7 @@ namespace TSA_WorldDomination
         public float weightTrader = DefWeightTrader;
         public float weightFortify = DefWeightFortify;
         public float weightAdvancedBuildings = DefWeightAdvancedBuildings;
+        // weightScout / weightStrategicExpand declared with settlement intel fields
         /// <summary>Settings UI only. Does not change in-game action rolls.</summary>
         public bool includeDevelopWeightInPercentDisplay = DefIncludeDevelopWeightInPercentDisplay;
         /// <summary>Road-building actor cooldown days (legacy save name; growth has no cooldown).</summary>
@@ -1510,18 +1544,24 @@ namespace TSA_WorldDomination
         public float fallbackDirtRoadMovement = DefFallbackDirtRoadMovement;
         public float fallbackStoneRoadMovement = DefFallbackStoneRoadMovement;
         public float fallbackAsphaltRoadMovement = DefFallbackAsphaltRoadMovement;
+        public float fallbackGlitterRoadMovement = DefFallbackGlitterRoadMovement;
         public float fallbackDirtRoadWork = DefFallbackDirtRoadWork;
         public float fallbackStoneRoadWork = DefFallbackStoneRoadWork;
         public float fallbackAsphaltRoadWork = DefFallbackAsphaltRoadWork;
+        public float fallbackGlitterRoadWork = DefFallbackGlitterRoadWork;
         public float fallbackDirtRoadExpeditionStrength = DefFallbackDirtRoadExpeditionStrength;
         public float fallbackStoneRoadExpeditionStrength = DefFallbackStoneRoadExpeditionStrength;
         public float fallbackAsphaltRoadExpeditionStrength = DefFallbackAsphaltRoadExpeditionStrength;
+        public float fallbackGlitterRoadExpeditionStrength = DefFallbackGlitterRoadExpeditionStrength;
         public int fallbackDirtRoadMinConstruction = DefFallbackDirtRoadMinConstruction;
         public int fallbackStoneRoadMinConstruction = DefFallbackStoneRoadMinConstruction;
         public int fallbackAsphaltRoadMinConstruction = DefFallbackAsphaltRoadMinConstruction;
+        public int fallbackGlitterRoadMinConstruction = DefFallbackGlitterRoadMinConstruction;
         public float fallbackDirtRoadWinterReduction = DefFallbackDirtRoadWinterReduction;
         public float fallbackStoneRoadWinterReduction = DefFallbackStoneRoadWinterReduction;
         public float fallbackAsphaltRoadWinterReduction = DefFallbackAsphaltRoadWinterReduction;
+        public float fallbackGlitterRoadWinterReduction = DefFallbackGlitterRoadWinterReduction;
+        public TechLevel npcGlitterRoadMinTechLevel = DefNpcGlitterRoadMinTechLevel;
         public float minorIncidentSeverity = DefMinorIncSev;
         public float majorIncidentSeverity = DefMajorIncSev;
         public int localMaxT1 = DefLocalMaxT1;
@@ -1580,6 +1620,33 @@ namespace TSA_WorldDomination
         public WdThreatStageGate gateThreatStrongFactionWar = DefGateThreatStrongFactionWar;
         public WdThreatStageGate gateThreatIsolationPressure = DefGateThreatIsolationPressure;
         public WdThreatStageGate gateThreatAttritionRest = DefGateThreatAttritionRest;
+        public WdThreatStageGate gateSettlementIntel = DefGateSettlementIntel;
+        public float intelTargetRingFracT1 = DefIntelTargetRingFracT1;
+        public float intelTargetRingFracT2 = DefIntelTargetRingFracT2;
+        public float intelTargetRingFracT3 = DefIntelTargetRingFracT3;
+        public float intelTargetRingFracT4 = DefIntelTargetRingFracT4;
+        public float intelSettlementLosMaxMult = DefIntelSettlementLosMaxMult;
+        public float intelTravelerMaxLosT1 = DefIntelTravelerMaxLosT1;
+        public float intelTravelerMaxLosT2 = DefIntelTravelerMaxLosT2;
+        public float intelTravelerMaxLosT3 = DefIntelTravelerMaxLosT3;
+        public float intelTravelerMaxLosT4 = DefIntelTravelerMaxLosT4;
+        public float intelTravelerStrengthT2 = DefIntelTravelerStrengthT2;
+        public float intelTravelerStrengthT3 = DefIntelTravelerStrengthT3;
+        public float intelTravelerStrengthT4 = DefIntelTravelerStrengthT4;
+        public float intelScoutMaxLos = DefIntelScoutMaxLos;
+        public float intelPlayerCaravanMaxLos = DefIntelPlayerCaravanMaxLos;
+        public float settlementIntelBurnedHiddenStrengthPct = DefSettlementIntelBurnedHiddenStrengthPct;
+        public float settlementIntelGotBurnedDays = DefSettlementIntelGotBurnedDays;
+        public float settlementIntelBurnTriggerRatio = DefSettlementIntelBurnTriggerRatio;
+        public float settlementIntelScoutStrengthMin = DefSettlementIntelScoutStrengthMin;
+        public float settlementIntelScoutStrengthMax = DefSettlementIntelScoutStrengthMax;
+        public float settlementIntelScoutCooldownDays = DefSettlementIntelScoutCooldownDays;
+        public float settlementIntelScoutCrackFallChance = DefSettlementIntelScoutCrackFallChance;
+        public float weightScout = DefWeightScout;
+        public float settlementIntelScoutClearWeightMult = DefSettlementIntelScoutClearWeightMult;
+        public float weightStrategicExpand = DefWeightStrategicExpand;
+        public int settlementIntelStrategicExpandSamples = DefSettlementIntelStrategicExpandSamples;
+        public float settlementIntelScoutBearingAvoidDeg = DefSettlementIntelScoutBearingAvoidDeg;
         public float isolationPressureChance = DefIsolationPressureChance;
         public float isolationPressureCooldownDays = DefIsolationPressureCooldownDays;
         public int isolationPressureMinTiles = DefIsolationPressureMinTiles;
@@ -2381,11 +2448,12 @@ namespace TSA_WorldDomination
         /// <summary>Setting presets → Difficulty pack (last applied named preset). Apply only overwrites this pack's fields.</summary>
         public WDSettingsDifficultyPreset difficultyPreset = DefDifficultyPreset;
 
-        public float TotalWeight => weightGrow + weightRaid + weightMinorIncident + weightMajorIncident + weightBuildRoad + weightTrader + weightFortify + weightAdvancedBuildings;
+        public float TotalWeight => weightGrow + weightRaid + weightMinorIncident + weightMajorIncident + weightBuildRoad + weightTrader + weightFortify + weightAdvancedBuildings + weightScout + weightStrategicExpand;
 
         /// <summary>Settings-menu % pool: usual actions, optionally plus Develop (near-cap only in gameplay).</summary>
         public float WeightPercentDisplayPool =>
             weightRaid + weightMinorIncident + weightMajorIncident + weightBuildRoad + weightTrader + weightFortify + weightAdvancedBuildings
+            + weightScout + weightStrategicExpand
             + (includeDevelopWeightInPercentDisplay ? weightGrow : 0f);
         public float TotalSabWeight => weightSabSuccess + weightSabCleanFail + weightSabInjuredFail + weightSabFatalFail;
         public float TotalDisWeight => weightDisSuccess + weightDisCleanFail + weightDisInjuredFail + weightDisFatalFail;
@@ -2393,7 +2461,9 @@ namespace TSA_WorldDomination
 
         public float GetFallbackRoadMovement(SettlementTier roadTier)
         {
-            if (roadTier == SettlementTier.T3 || roadTier == SettlementTier.T4)
+            if (roadTier == SettlementTier.T4)
+                return Mathf.Clamp(fallbackGlitterRoadMovement, 0.05f, 2f);
+            if (roadTier == SettlementTier.T3)
                 return Mathf.Clamp(fallbackAsphaltRoadMovement, 0.05f, 2f);
             if (roadTier == SettlementTier.T2)
                 return Mathf.Clamp(fallbackStoneRoadMovement, 0.05f, 2f);
@@ -2402,7 +2472,9 @@ namespace TSA_WorldDomination
 
         public float GetFallbackRoadWinterReduction(SettlementTier roadTier)
         {
-            if (roadTier == SettlementTier.T3 || roadTier == SettlementTier.T4)
+            if (roadTier == SettlementTier.T4)
+                return Mathf.Clamp01(fallbackGlitterRoadWinterReduction);
+            if (roadTier == SettlementTier.T3)
                 return Mathf.Clamp01(fallbackAsphaltRoadWinterReduction);
             if (roadTier == SettlementTier.T2)
                 return Mathf.Clamp01(fallbackStoneRoadWinterReduction);
@@ -2411,7 +2483,9 @@ namespace TSA_WorldDomination
 
         public float GetFallbackRoadWork(SettlementTier roadTier)
         {
-            if (roadTier == SettlementTier.T3 || roadTier == SettlementTier.T4)
+            if (roadTier == SettlementTier.T4)
+                return Mathf.Max(1f, fallbackGlitterRoadWork);
+            if (roadTier == SettlementTier.T3)
                 return Mathf.Max(1f, fallbackAsphaltRoadWork);
             if (roadTier == SettlementTier.T2)
                 return Mathf.Max(1f, fallbackStoneRoadWork);
@@ -2420,7 +2494,9 @@ namespace TSA_WorldDomination
 
         public float GetFallbackRoadExpeditionStrength(SettlementTier roadTier)
         {
-            if (roadTier == SettlementTier.T3 || roadTier == SettlementTier.T4)
+            if (roadTier == SettlementTier.T4)
+                return Mathf.Max(1f, fallbackGlitterRoadExpeditionStrength);
+            if (roadTier == SettlementTier.T3)
                 return Mathf.Max(1f, fallbackAsphaltRoadExpeditionStrength);
             if (roadTier == SettlementTier.T2)
                 return Mathf.Max(1f, fallbackStoneRoadExpeditionStrength);
@@ -2429,7 +2505,9 @@ namespace TSA_WorldDomination
 
         public int GetFallbackRoadMinConstruction(SettlementTier roadTier)
         {
-            if (roadTier == SettlementTier.T3 || roadTier == SettlementTier.T4)
+            if (roadTier == SettlementTier.T4)
+                return Mathf.Max(0, fallbackGlitterRoadMinConstruction);
+            if (roadTier == SettlementTier.T3)
                 return Mathf.Max(0, fallbackAsphaltRoadMinConstruction);
             if (roadTier == SettlementTier.T2)
                 return Mathf.Max(0, fallbackStoneRoadMinConstruction);
@@ -2635,7 +2713,7 @@ namespace TSA_WorldDomination
             return Mathf.Max(0f, baseTicks * worldBuildBuildTimeMult);
         }
 
-        /// <summary>Enforce Dirt≤Stone≤Asphalt and Light≤Normal≤Heavy / Spike≤Caltrops cascades.</summary>
+        /// <summary>Enforce Dirt≤Stone≤Asphalt≤Glitter and Light≤Normal≤Heavy / Spike≤Caltrops cascades.</summary>
         public void ClampBuildingProjectsCascades()
         {
             // Roads: work & strength
@@ -2643,10 +2721,14 @@ namespace TSA_WorldDomination
                 fallbackStoneRoadWork = fallbackDirtRoadWork;
             if (fallbackAsphaltRoadWork < fallbackStoneRoadWork)
                 fallbackAsphaltRoadWork = fallbackStoneRoadWork;
+            if (fallbackGlitterRoadWork < fallbackAsphaltRoadWork)
+                fallbackGlitterRoadWork = fallbackAsphaltRoadWork;
             if (fallbackStoneRoadExpeditionStrength < fallbackDirtRoadExpeditionStrength)
                 fallbackStoneRoadExpeditionStrength = fallbackDirtRoadExpeditionStrength;
             if (fallbackAsphaltRoadExpeditionStrength < fallbackStoneRoadExpeditionStrength)
                 fallbackAsphaltRoadExpeditionStrength = fallbackStoneRoadExpeditionStrength;
+            if (fallbackGlitterRoadExpeditionStrength < fallbackAsphaltRoadExpeditionStrength)
+                fallbackGlitterRoadExpeditionStrength = fallbackAsphaltRoadExpeditionStrength;
 
             // Road blocks: work, strength, penalty, HP
             if (roadBlockNormalWork < roadBlockLightWork)
@@ -2816,18 +2898,24 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref fallbackDirtRoadMovement, "fallbackDirtRoadMovement", DefFallbackDirtRoadMovement);
             Scribe_Values.Look(ref fallbackStoneRoadMovement, "fallbackStoneRoadMovement", DefFallbackStoneRoadMovement);
             Scribe_Values.Look(ref fallbackAsphaltRoadMovement, "fallbackAsphaltRoadMovement", DefFallbackAsphaltRoadMovement);
+            Scribe_Values.Look(ref fallbackGlitterRoadMovement, "fallbackGlitterRoadMovement", DefFallbackGlitterRoadMovement);
             Scribe_Values.Look(ref fallbackDirtRoadWork, "fallbackDirtRoadWork", DefFallbackDirtRoadWork);
             Scribe_Values.Look(ref fallbackStoneRoadWork, "fallbackStoneRoadWork", DefFallbackStoneRoadWork);
             Scribe_Values.Look(ref fallbackAsphaltRoadWork, "fallbackAsphaltRoadWork", DefFallbackAsphaltRoadWork);
+            Scribe_Values.Look(ref fallbackGlitterRoadWork, "fallbackGlitterRoadWork", DefFallbackGlitterRoadWork);
             Scribe_Values.Look(ref fallbackDirtRoadExpeditionStrength, "fallbackDirtRoadExpeditionStrength", DefFallbackDirtRoadExpeditionStrength);
             Scribe_Values.Look(ref fallbackStoneRoadExpeditionStrength, "fallbackStoneRoadExpeditionStrength", DefFallbackStoneRoadExpeditionStrength);
             Scribe_Values.Look(ref fallbackAsphaltRoadExpeditionStrength, "fallbackAsphaltRoadExpeditionStrength", DefFallbackAsphaltRoadExpeditionStrength);
+            Scribe_Values.Look(ref fallbackGlitterRoadExpeditionStrength, "fallbackGlitterRoadExpeditionStrength", DefFallbackGlitterRoadExpeditionStrength);
             Scribe_Values.Look(ref fallbackDirtRoadMinConstruction, "fallbackDirtRoadMinConstruction", DefFallbackDirtRoadMinConstruction);
             Scribe_Values.Look(ref fallbackStoneRoadMinConstruction, "fallbackStoneRoadMinConstruction", DefFallbackStoneRoadMinConstruction);
             Scribe_Values.Look(ref fallbackAsphaltRoadMinConstruction, "fallbackAsphaltRoadMinConstruction", DefFallbackAsphaltRoadMinConstruction);
+            Scribe_Values.Look(ref fallbackGlitterRoadMinConstruction, "fallbackGlitterRoadMinConstruction", DefFallbackGlitterRoadMinConstruction);
             Scribe_Values.Look(ref fallbackDirtRoadWinterReduction, "fallbackDirtRoadWinterReduction", DefFallbackDirtRoadWinterReduction);
             Scribe_Values.Look(ref fallbackStoneRoadWinterReduction, "fallbackStoneRoadWinterReduction", DefFallbackStoneRoadWinterReduction);
             Scribe_Values.Look(ref fallbackAsphaltRoadWinterReduction, "fallbackAsphaltRoadWinterReduction", DefFallbackAsphaltRoadWinterReduction);
+            Scribe_Values.Look(ref fallbackGlitterRoadWinterReduction, "fallbackGlitterRoadWinterReduction", DefFallbackGlitterRoadWinterReduction);
+            Scribe_Values.Look(ref npcGlitterRoadMinTechLevel, "npcGlitterRoadMinTechLevel", DefNpcGlitterRoadMinTechLevel);
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
                 ClampBuildingProjectsCascades();
@@ -2890,6 +2978,33 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref gateThreatStrongFactionWar, "gateThreatStrongFactionWar", DefGateThreatStrongFactionWar);
             Scribe_Values.Look(ref gateThreatIsolationPressure, "gateThreatIsolationPressure", DefGateThreatIsolationPressure);
             Scribe_Values.Look(ref gateThreatAttritionRest, "gateThreatAttritionRest", DefGateThreatAttritionRest);
+            Scribe_Values.Look(ref gateSettlementIntel, "gateSettlementIntel", DefGateSettlementIntel);
+            Scribe_Values.Look(ref intelTargetRingFracT1, "intelTargetRingFracT1", DefIntelTargetRingFracT1);
+            Scribe_Values.Look(ref intelTargetRingFracT2, "intelTargetRingFracT2", DefIntelTargetRingFracT2);
+            Scribe_Values.Look(ref intelTargetRingFracT3, "intelTargetRingFracT3", DefIntelTargetRingFracT3);
+            Scribe_Values.Look(ref intelTargetRingFracT4, "intelTargetRingFracT4", DefIntelTargetRingFracT4);
+            Scribe_Values.Look(ref intelSettlementLosMaxMult, "intelSettlementLosMaxMult", DefIntelSettlementLosMaxMult);
+            Scribe_Values.Look(ref intelTravelerMaxLosT1, "intelTravelerMaxLosT1", DefIntelTravelerMaxLosT1);
+            Scribe_Values.Look(ref intelTravelerMaxLosT2, "intelTravelerMaxLosT2", DefIntelTravelerMaxLosT2);
+            Scribe_Values.Look(ref intelTravelerMaxLosT3, "intelTravelerMaxLosT3", DefIntelTravelerMaxLosT3);
+            Scribe_Values.Look(ref intelTravelerMaxLosT4, "intelTravelerMaxLosT4", DefIntelTravelerMaxLosT4);
+            Scribe_Values.Look(ref intelTravelerStrengthT2, "intelTravelerStrengthT2", DefIntelTravelerStrengthT2);
+            Scribe_Values.Look(ref intelTravelerStrengthT3, "intelTravelerStrengthT3", DefIntelTravelerStrengthT3);
+            Scribe_Values.Look(ref intelTravelerStrengthT4, "intelTravelerStrengthT4", DefIntelTravelerStrengthT4);
+            Scribe_Values.Look(ref intelScoutMaxLos, "intelScoutMaxLos", DefIntelScoutMaxLos);
+            Scribe_Values.Look(ref intelPlayerCaravanMaxLos, "intelPlayerCaravanMaxLos", DefIntelPlayerCaravanMaxLos);
+            Scribe_Values.Look(ref settlementIntelBurnedHiddenStrengthPct, "settlementIntelBurnedHiddenStrengthPct", DefSettlementIntelBurnedHiddenStrengthPct);
+            Scribe_Values.Look(ref settlementIntelGotBurnedDays, "settlementIntelGotBurnedDays", DefSettlementIntelGotBurnedDays);
+            Scribe_Values.Look(ref settlementIntelBurnTriggerRatio, "settlementIntelBurnTriggerRatio", DefSettlementIntelBurnTriggerRatio);
+            Scribe_Values.Look(ref settlementIntelScoutStrengthMin, "settlementIntelScoutStrengthMin", DefSettlementIntelScoutStrengthMin);
+            Scribe_Values.Look(ref settlementIntelScoutStrengthMax, "settlementIntelScoutStrengthMax", DefSettlementIntelScoutStrengthMax);
+            Scribe_Values.Look(ref settlementIntelScoutCooldownDays, "settlementIntelScoutCooldownDays", DefSettlementIntelScoutCooldownDays);
+            Scribe_Values.Look(ref settlementIntelScoutCrackFallChance, "settlementIntelScoutCrackFallChance", DefSettlementIntelScoutCrackFallChance);
+            Scribe_Values.Look(ref weightScout, "weightScout", DefWeightScout);
+            Scribe_Values.Look(ref settlementIntelScoutClearWeightMult, "settlementIntelScoutClearWeightMult", DefSettlementIntelScoutClearWeightMult);
+            Scribe_Values.Look(ref weightStrategicExpand, "weightStrategicExpand", DefWeightStrategicExpand);
+            Scribe_Values.Look(ref settlementIntelStrategicExpandSamples, "settlementIntelStrategicExpandSamples", DefSettlementIntelStrategicExpandSamples);
+            Scribe_Values.Look(ref settlementIntelScoutBearingAvoidDeg, "settlementIntelScoutBearingAvoidDeg", DefSettlementIntelScoutBearingAvoidDeg);
             Scribe_Values.Look(ref isolationPressureChance, "isolationPressureChance", DefIsolationPressureChance);
             Scribe_Values.Look(ref isolationPressureCooldownDays, "isolationPressureCooldownDays", DefIsolationPressureCooldownDays);
             Scribe_Values.Look(ref isolationPressureMinTiles, "isolationPressureMinTiles", DefIsolationPressureMinTiles);
@@ -4546,22 +4661,29 @@ namespace TSA_WorldDomination
             WdRoadTierDef dirt = WdBiomeTableResolver.GetRoadTierDef(SettlementTier.T1);
             WdRoadTierDef stone = WdBiomeTableResolver.GetRoadTierDef(SettlementTier.T2);
             WdRoadTierDef asphalt = WdBiomeTableResolver.GetRoadTierDef(SettlementTier.T3);
+            WdRoadTierDef glitter = WdBiomeTableResolver.GetRoadTierDef(SettlementTier.T4);
 
             fallbackDirtRoadMovement = dirt != null ? dirt.movementCostMultiplier : DefFallbackDirtRoadMovement;
             fallbackStoneRoadMovement = stone != null ? stone.movementCostMultiplier : DefFallbackStoneRoadMovement;
             fallbackAsphaltRoadMovement = asphalt != null ? asphalt.movementCostMultiplier : DefFallbackAsphaltRoadMovement;
+            fallbackGlitterRoadMovement = glitter != null ? glitter.movementCostMultiplier : DefFallbackGlitterRoadMovement;
             fallbackDirtRoadWork = dirt != null ? dirt.workPerSegment : DefFallbackDirtRoadWork;
             fallbackStoneRoadWork = stone != null ? stone.workPerSegment : DefFallbackStoneRoadWork;
             fallbackAsphaltRoadWork = asphalt != null ? asphalt.workPerSegment : DefFallbackAsphaltRoadWork;
+            fallbackGlitterRoadWork = glitter != null ? glitter.workPerSegment : DefFallbackGlitterRoadWork;
             fallbackDirtRoadExpeditionStrength = dirt != null ? dirt.expeditionStrengthCost : DefFallbackDirtRoadExpeditionStrength;
             fallbackStoneRoadExpeditionStrength = stone != null ? stone.expeditionStrengthCost : DefFallbackStoneRoadExpeditionStrength;
             fallbackAsphaltRoadExpeditionStrength = asphalt != null ? asphalt.expeditionStrengthCost : DefFallbackAsphaltRoadExpeditionStrength;
+            fallbackGlitterRoadExpeditionStrength = glitter != null ? glitter.expeditionStrengthCost : DefFallbackGlitterRoadExpeditionStrength;
             fallbackDirtRoadMinConstruction = dirt != null ? dirt.minCumulativeConstructionSkill : DefFallbackDirtRoadMinConstruction;
             fallbackStoneRoadMinConstruction = stone != null ? stone.minCumulativeConstructionSkill : DefFallbackStoneRoadMinConstruction;
             fallbackAsphaltRoadMinConstruction = asphalt != null ? asphalt.minCumulativeConstructionSkill : DefFallbackAsphaltRoadMinConstruction;
+            fallbackGlitterRoadMinConstruction = glitter != null ? glitter.minCumulativeConstructionSkill : DefFallbackGlitterRoadMinConstruction;
             fallbackDirtRoadWinterReduction = dirt != null ? dirt.winterPenaltyReduction : DefFallbackDirtRoadWinterReduction;
             fallbackStoneRoadWinterReduction = stone != null ? stone.winterPenaltyReduction : DefFallbackStoneRoadWinterReduction;
             fallbackAsphaltRoadWinterReduction = asphalt != null ? asphalt.winterPenaltyReduction : DefFallbackAsphaltRoadWinterReduction;
+            fallbackGlitterRoadWinterReduction = glitter != null ? glitter.winterPenaltyReduction : DefFallbackGlitterRoadWinterReduction;
+            npcGlitterRoadMinTechLevel = DefNpcGlitterRoadMinTechLevel;
             maxRoadRange = DefMaxRoadRange;
             maxRoadRangeNpc = DefMaxRoadRangeNpc;
             maxRoadBlockRange = DefMaxRoadBlockRange;
@@ -4955,6 +5077,68 @@ namespace TSA_WorldDomination
                 revoltSettlementsMax = revoltSettlementsMin;
             if (revoltSettlementsMax > cap)
                 revoltSettlementsMax = cap;
+        }
+
+        /// <summary>Intel and Line of Sight page: gate, rings, MaxLOS, scouts, Strategic Expand, Got Burned.</summary>
+        public void ResetIntelLos()
+        {
+            gateSettlementIntel = DefGateSettlementIntel;
+            intelTargetRingFracT1 = DefIntelTargetRingFracT1;
+            intelTargetRingFracT2 = DefIntelTargetRingFracT2;
+            intelTargetRingFracT3 = DefIntelTargetRingFracT3;
+            intelTargetRingFracT4 = DefIntelTargetRingFracT4;
+            intelSettlementLosMaxMult = DefIntelSettlementLosMaxMult;
+            intelTravelerMaxLosT1 = DefIntelTravelerMaxLosT1;
+            intelTravelerMaxLosT2 = DefIntelTravelerMaxLosT2;
+            intelTravelerMaxLosT3 = DefIntelTravelerMaxLosT3;
+            intelTravelerMaxLosT4 = DefIntelTravelerMaxLosT4;
+            intelTravelerStrengthT2 = DefIntelTravelerStrengthT2;
+            intelTravelerStrengthT3 = DefIntelTravelerStrengthT3;
+            intelTravelerStrengthT4 = DefIntelTravelerStrengthT4;
+            intelScoutMaxLos = DefIntelScoutMaxLos;
+            intelPlayerCaravanMaxLos = DefIntelPlayerCaravanMaxLos;
+            settlementIntelBurnedHiddenStrengthPct = DefSettlementIntelBurnedHiddenStrengthPct;
+            settlementIntelGotBurnedDays = DefSettlementIntelGotBurnedDays;
+            settlementIntelBurnTriggerRatio = DefSettlementIntelBurnTriggerRatio;
+            settlementIntelScoutStrengthMin = DefSettlementIntelScoutStrengthMin;
+            settlementIntelScoutStrengthMax = DefSettlementIntelScoutStrengthMax;
+            settlementIntelScoutCooldownDays = DefSettlementIntelScoutCooldownDays;
+            settlementIntelScoutCrackFallChance = DefSettlementIntelScoutCrackFallChance;
+            weightScout = DefWeightScout;
+            settlementIntelScoutClearWeightMult = DefSettlementIntelScoutClearWeightMult;
+            weightStrategicExpand = DefWeightStrategicExpand;
+            settlementIntelStrategicExpandSamples = DefSettlementIntelStrategicExpandSamples;
+            settlementIntelScoutBearingAvoidDeg = DefSettlementIntelScoutBearingAvoidDeg;
+            NormalizeIntelLosSliders();
+            SyncLegacyThreatFlagsFromGates();
+        }
+
+        /// <summary>Keep ring fracs non-decreasing and traveler class boundaries strictly increasing.</summary>
+        public void NormalizeIntelLosSliders()
+        {
+            intelTargetRingFracT1 = Mathf.Clamp(intelTargetRingFracT1, 0.10f, 1f);
+            intelTargetRingFracT2 = Mathf.Clamp(intelTargetRingFracT2, 0.10f, 1f);
+            intelTargetRingFracT3 = Mathf.Clamp(intelTargetRingFracT3, 0.10f, 1f);
+            intelTargetRingFracT4 = Mathf.Clamp(intelTargetRingFracT4, 0.10f, 1f);
+            if (intelTargetRingFracT2 < intelTargetRingFracT1) intelTargetRingFracT2 = intelTargetRingFracT1;
+            if (intelTargetRingFracT3 < intelTargetRingFracT2) intelTargetRingFracT3 = intelTargetRingFracT2;
+            if (intelTargetRingFracT4 < intelTargetRingFracT3) intelTargetRingFracT4 = intelTargetRingFracT3;
+
+            intelTravelerMaxLosT1 = Mathf.Max(1f, intelTravelerMaxLosT1);
+            intelTravelerMaxLosT2 = Mathf.Max(intelTravelerMaxLosT1, intelTravelerMaxLosT2);
+            intelTravelerMaxLosT3 = Mathf.Max(intelTravelerMaxLosT2, intelTravelerMaxLosT3);
+            intelTravelerMaxLosT4 = Mathf.Max(intelTravelerMaxLosT3, intelTravelerMaxLosT4);
+
+            intelTravelerStrengthT2 = Mathf.Max(1f, intelTravelerStrengthT2);
+            intelTravelerStrengthT3 = Mathf.Max(intelTravelerStrengthT2 + 1f, intelTravelerStrengthT3);
+            intelTravelerStrengthT4 = Mathf.Max(intelTravelerStrengthT3 + 1f, intelTravelerStrengthT4);
+
+            if (settlementIntelScoutStrengthMax < settlementIntelScoutStrengthMin)
+                settlementIntelScoutStrengthMax = settlementIntelScoutStrengthMin;
+            if (settlementIntelScoutStrengthMin < intelTravelerStrengthT2)
+                settlementIntelScoutStrengthMin = intelTravelerStrengthT2;
+            if (settlementIntelScoutStrengthMax < settlementIntelScoutStrengthMin)
+                settlementIntelScoutStrengthMax = settlementIntelScoutStrengthMin;
         }
 
         /// <summary>Combat Difficulty page: escalation, threat gates, raid pressure, stage combat, arrival, garrison, T4 hardware, FA/desperation/war knobs.</summary>

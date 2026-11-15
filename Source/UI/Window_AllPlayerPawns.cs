@@ -818,21 +818,25 @@ namespace TSA_WorldDomination
             }
             else
             {
-                // Free / non-slave outpost occupants first so slaves unlock for the same outpost.
+                bool podMode = PlayerPawnDropPodUtility.AdHocViaDropPod;
+                // Free / non-slave outpost occupants first so slaves unlock for the same outpost (land mode).
                 for (int i = 0; i < cachedList.Count; i++)
                 {
                     PlayerPawnRosterEntry e = cachedList[i];
                     if (!e.isMovable || e.thingId.NullOrEmpty()) continue;
-                    if (e.sourceOutpost != null && OutpostPawnIdeologyUtil.IsSlaveHumanlike(e.pawn)) continue;
+                    if (!podMode && e.sourceOutpost != null && OutpostPawnIdeologyUtil.IsSlaveHumanlike(e.pawn)) continue;
                     selectedThingIds.Add(e.thingId);
                 }
-                for (int i = 0; i < cachedList.Count; i++)
+                if (!podMode)
                 {
-                    PlayerPawnRosterEntry e = cachedList[i];
-                    if (!e.isMovable || e.thingId.NullOrEmpty()) continue;
-                    if (e.sourceOutpost == null || !OutpostPawnIdeologyUtil.IsSlaveHumanlike(e.pawn)) continue;
-                    if (OutpostPawnIdeologyUtil.CanToggleOutpostRemovalSelection(e.sourceOutpost, selectedThingIds, e.pawn))
-                        selectedThingIds.Add(e.thingId);
+                    for (int i = 0; i < cachedList.Count; i++)
+                    {
+                        PlayerPawnRosterEntry e = cachedList[i];
+                        if (!e.isMovable || e.thingId.NullOrEmpty()) continue;
+                        if (e.sourceOutpost == null || !OutpostPawnIdeologyUtil.IsSlaveHumanlike(e.pawn)) continue;
+                        if (OutpostPawnIdeologyUtil.CanToggleOutpostRemovalSelection(e.sourceOutpost, selectedThingIds, e.pawn))
+                            selectedThingIds.Add(e.thingId);
+                    }
                 }
                 PruneAllOutpostRemovalSelections();
             }
@@ -853,15 +857,22 @@ namespace TSA_WorldDomination
         private void PruneOutpostRemovalSelection(WorldObject_WD_Outpost outpost)
         {
             if (outpost == null) return;
-            OutpostPawnIdeologyUtil.PruneDependentRemovalSelection(outpost, selectedThingIds);
+            bool podMode = PlayerPawnDropPodUtility.AdHocViaDropPod
+                || PlayerPawnDropPodUtility.GetTravelViaDropPod(outpost);
+            if (!podMode)
+                OutpostPawnIdeologyUtil.PruneDependentRemovalSelection(outpost, selectedThingIds);
             if (OutpostPawnIdeologyUtil.SelectionIncludesNonSlaveOccupant(outpost, selectedThingIds))
                 return;
-            // Drop escort-dependent stored from this outpost when no free occupant remains selected.
+            // Drop escort-dependent stored when no free occupant remains (keep mechs in pod mode).
             for (int i = 0; i < cachedList.Count; i++)
             {
                 PlayerPawnRosterEntry e = cachedList[i];
                 if (e.sourceOutpost != outpost || e.thingId.NullOrEmpty()) continue;
                 if (e.pawn != null && outpost.Occupants != null && outpost.Occupants.Contains(e.pawn))
+                    continue;
+                if (podMode && e.outpostRole == PlayerPawnOutpostRole.StoredMechanoid)
+                    continue;
+                if (podMode && e.outpostRole == PlayerPawnOutpostRole.Prisoner)
                     continue;
                 selectedThingIds.Remove(e.thingId);
             }
@@ -935,14 +946,25 @@ namespace TSA_WorldDomination
             if (entry.isMovable && entry.sourceOutpost != null)
             {
                 bool wasSelected = selectedThingIds.Contains(entry.thingId);
-                bool canInteract = OutpostPawnIdeologyUtil.CanToggleOutpostRemovalSelection(
-                    entry.sourceOutpost,
-                    selectedThingIds,
-                    entry.pawn);
+                bool podMode = PlayerPawnDropPodUtility.AdHocViaDropPod
+                    || PlayerPawnDropPodUtility.GetTravelViaDropPod(entry.sourceOutpost);
+                bool canInteract = wasSelected
+                    || (podMode && (entry.outpostRole == PlayerPawnOutpostRole.Prisoner
+                        || entry.outpostRole == PlayerPawnOutpostRole.StoredMechanoid
+                        || OutpostPawnIdeologyUtil.IsSlaveHumanlike(entry.pawn)))
+                    || OutpostPawnIdeologyUtil.CanToggleOutpostRemovalSelection(
+                        entry.sourceOutpost,
+                        selectedThingIds,
+                        entry.pawn);
                 float cx = curX + (ColSelect - 24f) * 0.5f;
                 float cy = y + (rowH - 24f) * 0.5f;
                 if (!wasSelected && !canInteract)
                     TooltipHandler.TipRegion(selRect, "TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip".Translate());
+                else if (!wasSelected && podMode && !OutpostPawnIdeologyUtil.SelectionIncludesNonSlaveOccupant(entry.sourceOutpost, selectedThingIds)
+                    && (entry.outpostRole == PlayerPawnOutpostRole.Prisoner
+                        || entry.outpostRole == PlayerPawnOutpostRole.StoredMechanoid
+                        || OutpostPawnIdeologyUtil.IsSlaveHumanlike(entry.pawn)))
+                    TooltipHandler.TipRegion(selRect, "TSA_WD_PawnDropPod_UnescortedSelectTip".Translate());
                 bool nowSelected = PawnRosterPaintSelect.Draw(this, selRect, cx, cy, 24f, entry.thingId, selectedThingIds, canInteract);
                 if (nowSelected != wasSelected)
                     PruneOutpostRemovalSelection(entry.sourceOutpost);
@@ -951,11 +973,17 @@ namespace TSA_WorldDomination
                 && entry.locationKind == PlayerPawnLocationKind.Colony
                 && entry.mapParent != null)
             {
-                bool canInteract = PlayerPawnTransferUtility.ColonyBulkSelectionIsAllowedWithExtra(
-                    entry.mapParent,
-                    selectedThingIds,
-                    entry.pawn,
-                    cachedList);
+                bool podMode = PlayerPawnDropPodUtility.AdHocViaDropPod;
+                bool unescortedCargo = entry.pawn != null
+                    && (entry.pawn.IsPrisonerOfColony
+                        || OutpostPawnIdeologyUtil.IsSlaveHumanlike(entry.pawn)
+                        || entry.pawn.RaceProps?.IsMechanoid == true);
+                bool canInteract = (podMode && unescortedCargo)
+                    || PlayerPawnTransferUtility.ColonyBulkSelectionIsAllowedWithExtra(
+                        entry.mapParent,
+                        selectedThingIds,
+                        entry.pawn,
+                        cachedList);
                 float cx = curX + (ColSelect - 24f) * 0.5f;
                 float cy = y + (rowH - 24f) * 0.5f;
                 if (!selectedThingIds.Contains(entry.thingId) && !canInteract)
@@ -975,6 +1003,8 @@ namespace TSA_WorldDomination
                     else
                         TooltipHandler.TipRegion(selRect, "TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip".Translate());
                 }
+                else if (!selectedThingIds.Contains(entry.thingId) && podMode)
+                    TooltipHandler.TipRegion(selRect, "TSA_WD_PawnDropPod_UnescortedSelectTip".Translate());
                 PawnRosterPaintSelect.Draw(this, selRect, cx, cy, 24f, entry.thingId, selectedThingIds, canInteract);
             }
             else

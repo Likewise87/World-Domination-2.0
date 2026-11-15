@@ -22,7 +22,6 @@ namespace TSA_WorldDomination
         private WorldObject cachedWorldObject;
         private int cachedFingerprint = int.MinValue;
         private OutpostStatsSnapshot cachedSnapshot;
-        private bool forceRefreshRequested;
 
         private string searchFilter = "";
         private string searchNeedleLower = "";
@@ -62,17 +61,7 @@ namespace TSA_WorldDomination
             if (worldObject == null) return;
 
             Rect body = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
-            string headline = BuildHeadline(worldObject);
-            OutpostTabStatsUi.DrawHeadline(body, headline);
-
-            // Right-align with stats value columns (scrollbar pad + row inset; clears inspect-pane close X).
-            float tableRight = body.x + body.width - OutpostTabStatsUi.ScrollbarRightPadding - 8f;
-            const float refreshW = 70f;
-            Rect refreshRect = new Rect(tableRight - refreshW, body.y, refreshW, 24f);
-            if (Widgets.ButtonText(refreshRect, "TSA_WD_OutpostStats_Refresh".Translate()))
-                forceRefreshRequested = true;
-            if (Mouse.IsOver(refreshRect))
-                TooltipHandler.TipRegion(refreshRect, "TSA_WD_OutpostStats_RefreshTooltip".Translate());
+            OutpostTabStatsUi.DrawHeadline(body, BuildHeadline(worldObject));
 
             EnsureSnapshotFresh(worldObject);
             OutpostStatsSnapshot snap = cachedSnapshot;
@@ -174,14 +163,12 @@ namespace TSA_WorldDomination
         {
             int tick = Find.TickManager.TicksGame;
             int fp = ComputeFingerprint(worldObject);
-            bool dirty = forceRefreshRequested
-                || cachedWorldObject != worldObject
+            bool dirty = cachedWorldObject != worldObject
                 || cachedSnapshot == null
                 || tick - lastCacheTick >= CacheRefreshInterval
                 || fp != cachedFingerprint;
             if (!dirty) return;
 
-            forceRefreshRequested = false;
             lastCacheTick = tick;
             cachedWorldObject = worldObject;
             cachedFingerprint = fp;

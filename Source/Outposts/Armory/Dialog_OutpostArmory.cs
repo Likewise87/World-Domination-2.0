@@ -15,6 +15,7 @@ namespace TSA_WorldDomination
         internal static readonly Texture2D VirtualFoodIcon;
         internal static readonly Texture2D SendIcon;
         internal static readonly Texture2D AmmoIcon;
+        internal static readonly Texture2D TransferIcon;
 
         static Dialog_OutpostArmoryAssets()
         {
@@ -23,6 +24,8 @@ namespace TSA_WorldDomination
                 ?? TexCommand.Install;
             SendIcon = ContentFinder<Texture2D>.Get("UI/Commands/DeliveryDestination", false)
                 ?? TexCommand.Attack;
+            TransferIcon = ContentFinder<Texture2D>.Get("UI/Commands/Transfer", false)
+                ?? TexCommand.Install;
             AmmoIcon = ResolveCeAmmoIcon();
         }
 
@@ -99,6 +102,7 @@ namespace TSA_WorldDomination
         /// <summary>Apparel / weapons / food icons: 10% smaller than store icons, two rows per pawn.</summary>
         private const float GearIconSize = IconSize * 0.9f;
         private const float GearIconGap = 4f;
+        private const float ColSelect = 28f;
         private const float ColPortrait = 35f;
         /// <summary>Match <see cref="WITab_Outpost_Pawns"/> name floor (fixed here; spare width grows gear sections).</summary>
         private const float ColPawnName = 90f;
@@ -133,6 +137,7 @@ namespace TSA_WorldDomination
         private const float InventoryBtnLeftInset = 220f;
         private const float FoodMenuBtnWidth = 110f;
         private const float AmmoMenuBtnWidth = 110f;
+        private const float EquipmentBtnWidth = 130f;
 
         private const PawnRosterColumnWindow ColWindow = PawnRosterColumnWindow.OutpostArmory;
 
@@ -149,6 +154,8 @@ namespace TSA_WorldDomination
         private readonly List<StoreRow> storeRows = new List<StoreRow>();
         private readonly List<StoreRow> visibleStoreRows = new List<StoreRow>();
         private readonly List<Pawn> visiblePawns = new List<Pawn>();
+        private readonly HashSet<int> checkedPawnIds = new HashSet<int>();
+        private readonly HashSet<string> checkedStoreIds = new HashSet<string>();
         private readonly Dictionary<Pawn, List<ThingDefCountClass>> pawnInventory =
             new Dictionary<Pawn, List<ThingDefCountClass>>();
         private readonly Dictionary<Pawn, CarryLoadCache> pawnCarryLoad =
@@ -375,6 +382,7 @@ namespace TSA_WorldDomination
             }
 
             Rect foodBtn = new Rect(nextX - ToolbarBtnGap - FoodMenuBtnWidth, ActionStackTop, FoodMenuBtnWidth, ToolbarBtnHeight);
+            nextX = foodBtn.x;
             if (WorldDomination_UIUtils.ButtonTextWithIcon(
                     foodBtn,
                     Dialog_OutpostArmoryAssets.VirtualFoodIcon,
@@ -384,10 +392,21 @@ namespace TSA_WorldDomination
             }
             TooltipHandler.TipRegion(foodBtn, "TSA_WD_Armory_MenuFoodTip".Translate());
 
+            Rect equipmentBtn = new Rect(nextX - ToolbarBtnGap - EquipmentBtnWidth, ActionStackTop, EquipmentBtnWidth, ToolbarBtnHeight);
+            if (WorldDomination_UIUtils.ButtonTextWithIcon(
+                    equipmentBtn,
+                    Dialog_OutpostArmoryAssets.TransferIcon,
+                    "TSA_WD_Armory_Equipment".Translate(),
+                    iconTint: WorldOverlayLineMaterials.DarkCyanColor))
+            {
+                OpenEquipmentMenu();
+            }
+            TooltipHandler.TipRegion(equipmentBtn, "TSA_WD_Armory_EquipmentTip".Translate());
+
             PlayerPawnRosterUtility.DrawRosterViewControls(
                 ActionStackTop,
                 ToolbarBtnHeight,
-                foodBtn.x - ToolbarBtnGap,
+                equipmentBtn.x - ToolbarBtnGap,
                 ColWindow,
                 RestoreDefaultView,
                 () => Find.WindowStack.Add(new Dialog_PawnRosterColumns(ColWindow, OnColumnsChanged)),
@@ -487,7 +506,7 @@ namespace TSA_WorldDomination
             consumablesW = GearConsumablesPref;
             otherInvW = showOtherInv ? GearOtherPref : 0f;
 
-            float natural = ColPortrait + ColPawnName + ComputeMetaColumnsWidth()
+            float natural = ColSelect + ColPortrait + ColPawnName + ComputeMetaColumnsWidth()
                 + apparelW + weaponsW + consumablesW + otherInvW;
             float view = Mathf.Max(0f, viewportW);
             if (natural <= view + 0.5f)
@@ -510,18 +529,20 @@ namespace TSA_WorldDomination
         private void OpenFoodMenu()
         {
             bool canMutate = OutpostArmoryUtility.CanMutate(outpost);
+            bool anyPawn = CountCheckedVisiblePawns() > 0;
+            bool pawnOk = canMutate && anyPawn;
             bool canConvert = GetStoredFoodNutrition() > 0.01f && canMutate;
             var opts = new List<FloatMenuOption>
             {
                 new FloatMenuOption(
                     "TSA_WD_Armory_Menu_RemoveFood".Translate(),
-                    canMutate ? StripAllFood : null)
+                    pawnOk ? StripAllFood : null)
                 {
                     tooltip = "TSA_WD_Armory_Menu_RemoveFoodTip".Translate()
                 },
                 new FloatMenuOption(
                     "TSA_WD_Armory_Menu_AssignFood".Translate(),
-                    canMutate ? AssignFoodToPawns : null)
+                    pawnOk ? AssignFoodToPawns : null)
                 {
                     tooltip = "TSA_WD_Armory_Menu_AssignFoodTip".Translate()
                 },
@@ -540,19 +561,77 @@ namespace TSA_WorldDomination
         private void OpenAmmoMenu()
         {
             bool canMutate = OutpostArmoryUtility.CanMutate(outpost);
+            bool pawnOk = canMutate && CountCheckedVisiblePawns() > 0;
             var opts = new List<FloatMenuOption>
             {
                 new FloatMenuOption(
                     "TSA_WD_Armory_Menu_RemoveAmmo".Translate(),
-                    canMutate ? StripAllAmmo : null)
+                    pawnOk ? StripAllAmmo : null)
                 {
                     tooltip = "TSA_WD_Armory_Menu_RemoveAmmoTip".Translate()
                 },
                 new FloatMenuOption(
                     "TSA_WD_Armory_Menu_AddAmmo".Translate(),
-                    canMutate ? AutoAssignAmmo : null)
+                    pawnOk ? AutoAssignAmmo : null)
                 {
                     tooltip = "TSA_WD_Armory_Menu_AddAmmoTip".Translate()
+                }
+            };
+            Find.WindowStack.Add(new FloatMenu(opts));
+        }
+
+        private void OpenEquipmentMenu()
+        {
+            bool canMutate = OutpostArmoryUtility.CanMutate(outpost);
+            bool anyPawn = CountCheckedVisiblePawns() > 0;
+            bool anyGear = CountCheckedQuickEquipStore() > 0;
+            bool equipOk = canMutate && anyPawn && anyGear;
+            bool pawnOk = canMutate && anyPawn;
+            bool drugsOk = canMutate && CountCheckedDrugRecipients() > 0 && HasArmoryDrugStock();
+
+            var opts = new List<FloatMenuOption>
+            {
+                new FloatMenuOption(
+                    "TSA_WD_Armory_Equipment_AutoAssign".Translate(),
+                    equipOk ? BulkAutoAssignGear : null)
+                {
+                    tooltip = "TSA_WD_Armory_Equipment_AutoAssignTip".Translate()
+                },
+                new FloatMenuOption(
+                    "TSA_WD_Armory_Equipment_AutoAssignDrugs".Translate(),
+                    drugsOk ? BulkAutoAssignDrugs : null)
+                {
+                    tooltip = "TSA_WD_Armory_Equipment_AutoAssignDrugsTip".Translate()
+                },
+                new FloatMenuOption(
+                    "TSA_WD_Armory_Equipment_StripWeapons".Translate(),
+                    pawnOk ? BulkStripWeapons : null)
+                {
+                    tooltip = "TSA_WD_Armory_Equipment_StripWeaponsTip".Translate()
+                },
+                new FloatMenuOption(
+                    "TSA_WD_Armory_Equipment_StripArmor".Translate(),
+                    pawnOk ? BulkStripArmor : null)
+                {
+                    tooltip = "TSA_WD_Armory_Equipment_StripArmorTip".Translate()
+                },
+                new FloatMenuOption(
+                    "TSA_WD_Armory_Equipment_StripApparel".Translate(),
+                    pawnOk ? BulkStripApparel : null)
+                {
+                    tooltip = "TSA_WD_Armory_Equipment_StripApparelTip".Translate()
+                },
+                new FloatMenuOption(
+                    "TSA_WD_Armory_Equipment_StripOtherInventory".Translate(),
+                    pawnOk ? BulkStripOtherInventory : null)
+                {
+                    tooltip = "TSA_WD_Armory_Equipment_StripOtherInventoryTip".Translate()
+                },
+                new FloatMenuOption(
+                    "TSA_WD_Armory_Equipment_StripDrugs".Translate(),
+                    pawnOk ? BulkStripDrugs : null)
+                {
+                    tooltip = "TSA_WD_Armory_Equipment_StripDrugsTip".Translate()
                 }
             };
             Find.WindowStack.Add(new FloatMenu(opts));
@@ -572,11 +651,14 @@ namespace TSA_WorldDomination
             // Keep header columns aligned with horizontally scrolled body content.
             Rect headerRect = new Rect(0f, 0f, contentW, HeaderHeight);
             Widgets.BeginGroup(headerClip);
-            float curX = ColPortrait - pawnScroll.x;
+            float curX = -pawnScroll.x;
 
             // Match roster hubs: Tiny headers in a short HeaderHeight (UI_WINDOWS.md).
             Text.Font = GameFont.Tiny;
             GUI.color = Color.gray;
+
+            DrawSelectAllPawnsHeader(ref curX, headerRect.y);
+            curX += ColPortrait; // portrait has no header label
 
             if (ColOn(PawnRosterColumnIds.Type))
             {
@@ -985,9 +1067,11 @@ namespace TSA_WorldDomination
                 : 0f;
             bool needVScroll = contentH > listH;
             float usableW = rect.width - (needVScroll ? ScrollbarSize : 0f);
-            float itemW = Mathf.Max(100f, usableW - catW - qualityW - countW - 4f);
+            float itemW = Mathf.Max(100f, usableW - ColSelect - catW - qualityW - countW - 4f);
 
             Text.Font = GameFont.Tiny;
+
+            DrawSelectAllStoreHeader(ref curX, headerRect.y);
 
             PawnRosterHeaderFilter.DrawFilterableHeader(
                 ref curX, headerRect.y, catW, HeaderHeight,
@@ -1058,7 +1142,7 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            float contentW = itemW + catW + qualityW + countW;
+            float contentW = ColSelect + itemW + catW + qualityW + countW;
             BeginArmoryScrollView(listRect, ref storeScroll, contentW, contentH, out _);
 
             float y = 0f;
@@ -1357,6 +1441,8 @@ namespace TSA_WorldDomination
             Text.Font = GameFont.Tiny;
             float rowH = rect.height;
             float x = rect.x;
+
+            DrawPawnSelectCheckbox(ref x, rect.y, rowH, pawn);
 
             Rect portraitCell = new Rect(x, rect.y, ColPortrait, rowH);
             Texture portraitTex = PawnPortraitUIUtils.GetPortrait(pawn, PortraitSize);
@@ -1717,13 +1803,8 @@ namespace TSA_WorldDomination
             return 4;
         }
 
-        private static bool IsFoodDrugsAmmoOrMedicine(ThingDef def)
-        {
-            if (def == null) return false;
-            if (OutpostArmoryUtility.IsAmmoDef(def)) return true;
-            if (def.IsMedicine || def.IsDrug) return true;
-            return def.ingestible != null && def.IsNutritionGivingIngestible;
-        }
+        private static bool IsFoodDrugsAmmoOrMedicine(ThingDef def) =>
+            OutpostArmoryUtility.IsFoodDrugsAmmoOrMedicine(def);
 
         private void DrawDraggableInventoryIcon(Thing carried, Pawn pawn, ThingDefCountClass e, float x, float y)
         {
@@ -1866,8 +1947,9 @@ namespace TSA_WorldDomination
             if (Mouse.IsOver(rect)) Widgets.DrawLightHighlight(rect);
 
             Text.Font = GameFont.Tiny;
-            // Column order: Type | Count | Name (icon + label) | Quality
+            // Column order: Select | Type | Count | Name (icon + label) | Quality
             float x = rect.x;
+            DrawStoreSelectCheckbox(ref x, rect.y, rect.height, row);
             Text.Anchor = TextAnchor.MiddleCenter;
             Widgets.Label(new Rect(x, rect.y, catW, rect.height), row.TypeLabel.Truncate(catW - 4f));
             x += catW;
@@ -1886,7 +1968,7 @@ namespace TSA_WorldDomination
             Widgets.Label(labelRect, row.Label.Truncate(labelRect.width - 4f));
             GUI.color = Color.white;
             TooltipHandler.TipRegion(labelRect, taintTip != null ? row.Label + "\n\n" + taintTip : row.Label);
-            x = rect.x + catW + countW + itemW;
+            x = rect.x + ColSelect + catW + countW + itemW;
 
             Text.Anchor = TextAnchor.MiddleCenter;
             Widgets.Label(new Rect(x, rect.y, qualityW, rect.height),
@@ -2185,7 +2267,7 @@ namespace TSA_WorldDomination
         private void StripAllFood()
         {
             int moved = OutpostArmoryUtility.StripInventoryMatching(
-                outpost, OutpostArmoryUtility.IsNutritionFoodDef, out string fail);
+                outpost, OutpostArmoryUtility.IsNutritionFoodDef, out string fail, CollectCheckedPawns());
             if (!string.IsNullOrEmpty(fail))
             {
                 pendingMessage = fail;
@@ -2203,7 +2285,8 @@ namespace TSA_WorldDomination
 
         private void AssignFoodToPawns()
         {
-            int moved = OutpostArmoryUtility.TryAutoAssignFoodFromStore(outpost, out string fail);
+            int moved = OutpostArmoryUtility.TryAutoAssignFoodFromStore(
+                outpost, out string fail, CollectCheckedPawns());
             if (!string.IsNullOrEmpty(fail))
             {
                 pendingMessage = fail;
@@ -2222,7 +2305,7 @@ namespace TSA_WorldDomination
         private void StripAllAmmo()
         {
             int moved = OutpostArmoryUtility.StripInventoryMatching(
-                outpost, OutpostArmoryUtility.IsAmmoDef, out string fail);
+                outpost, OutpostArmoryUtility.IsAmmoDef, out string fail, CollectCheckedPawns());
             if (!string.IsNullOrEmpty(fail))
             {
                 pendingMessage = fail;
@@ -2240,7 +2323,8 @@ namespace TSA_WorldDomination
 
         private void AutoAssignAmmo()
         {
-            int units = OutpostArmoryUtility.TryAutoAssignAmmoFromStore(outpost, out string fail);
+            int units = OutpostArmoryUtility.TryAutoAssignAmmoFromStore(
+                outpost, out string fail, CollectCheckedPawns());
             if (!string.IsNullOrEmpty(fail))
             {
                 pendingMessage = fail;
@@ -2281,6 +2365,346 @@ namespace TSA_WorldDomination
             outpost.NotifyVirtualPawnsChanged();
             Window_OutpostOverview.InvalidateCache();
             Window_AllPlayerGear.InvalidateCache();
+        }
+
+        private static string StoreRowId(StoreRow row)
+        {
+            if (row == null) return "";
+            if (row.Unique != null) return "u:" + row.Unique.thingIDNumber;
+            if (row.Row != null) return "s:" + CompOutpostWarehouse.StockKey(row.Row);
+            return "";
+        }
+
+        private void DrawSelectAllPawnsHeader(ref float curX, float y)
+        {
+            bool allOn = visiblePawns.Count > 0 && CountCheckedVisiblePawns() >= visiblePawns.Count;
+            bool next = allOn;
+            Widgets.Checkbox(
+                new Vector2(curX + (ColSelect - 24f) * 0.5f, y + (HeaderHeight - 24f) * 0.5f),
+                ref next);
+            if (next != allOn)
+            {
+                if (next)
+                {
+                    for (int i = 0; i < visiblePawns.Count; i++)
+                    {
+                        Pawn p = visiblePawns[i];
+                        if (p != null) checkedPawnIds.Add(p.thingIDNumber);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < visiblePawns.Count; i++)
+                    {
+                        Pawn p = visiblePawns[i];
+                        if (p != null) checkedPawnIds.Remove(p.thingIDNumber);
+                    }
+                }
+            }
+            curX += ColSelect;
+        }
+
+        private void DrawSelectAllStoreHeader(ref float curX, float y)
+        {
+            bool allOn = visibleStoreRows.Count > 0 && CountCheckedVisibleStore() >= visibleStoreRows.Count;
+            bool next = allOn;
+            Widgets.Checkbox(
+                new Vector2(curX + (ColSelect - 24f) * 0.5f, y + (HeaderHeight - 24f) * 0.5f),
+                ref next);
+            if (next != allOn)
+            {
+                if (next)
+                {
+                    for (int i = 0; i < visibleStoreRows.Count; i++)
+                    {
+                        string id = StoreRowId(visibleStoreRows[i]);
+                        if (!string.IsNullOrEmpty(id)) checkedStoreIds.Add(id);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < visibleStoreRows.Count; i++)
+                    {
+                        string id = StoreRowId(visibleStoreRows[i]);
+                        if (!string.IsNullOrEmpty(id)) checkedStoreIds.Remove(id);
+                    }
+                }
+            }
+            curX += ColSelect;
+        }
+
+        private void DrawPawnSelectCheckbox(ref float x, float y, float rowH, Pawn pawn)
+        {
+            if (pawn == null)
+            {
+                x += ColSelect;
+                return;
+            }
+            int id = pawn.thingIDNumber;
+            bool on = checkedPawnIds.Contains(id);
+            bool next = on;
+            Widgets.Checkbox(new Vector2(x + (ColSelect - 24f) * 0.5f, y + (rowH - 24f) * 0.5f), ref next);
+            if (next != on)
+            {
+                if (next) checkedPawnIds.Add(id);
+                else checkedPawnIds.Remove(id);
+            }
+            x += ColSelect;
+        }
+
+        private void DrawStoreSelectCheckbox(ref float x, float y, float rowH, StoreRow row)
+        {
+            string id = StoreRowId(row);
+            bool on = !string.IsNullOrEmpty(id) && checkedStoreIds.Contains(id);
+            bool next = on;
+            Widgets.Checkbox(new Vector2(x + (ColSelect - 24f) * 0.5f, y + (rowH - 24f) * 0.5f), ref next);
+            if (next != on && !string.IsNullOrEmpty(id))
+            {
+                if (next) checkedStoreIds.Add(id);
+                else checkedStoreIds.Remove(id);
+            }
+            x += ColSelect;
+        }
+
+        private int CountCheckedVisiblePawns()
+        {
+            int n = 0;
+            for (int i = 0; i < visiblePawns.Count; i++)
+            {
+                Pawn p = visiblePawns[i];
+                if (p != null && checkedPawnIds.Contains(p.thingIDNumber)) n++;
+            }
+            return n;
+        }
+
+        private int CountCheckedVisibleStore()
+        {
+            int n = 0;
+            for (int i = 0; i < visibleStoreRows.Count; i++)
+            {
+                string id = StoreRowId(visibleStoreRows[i]);
+                if (!string.IsNullOrEmpty(id) && checkedStoreIds.Contains(id)) n++;
+            }
+            return n;
+        }
+
+        private int CountCheckedQuickEquipStore()
+        {
+            int n = 0;
+            for (int i = 0; i < storeRows.Count; i++)
+            {
+                StoreRow row = storeRows[i];
+                string id = StoreRowId(row);
+                if (string.IsNullOrEmpty(id) || !checkedStoreIds.Contains(id)) continue;
+                ThingDef def = row.Def;
+                if (OutpostArmoryUtility.IsQuickEquipStoreDef(def)) n++;
+            }
+            return n;
+        }
+
+        /// <summary>Checked occupants who can receive Auto Assign Drugs (not teetotalers).</summary>
+        private int CountCheckedDrugRecipients()
+        {
+            List<Pawn> pawns = CollectCheckedPawns();
+            int n = 0;
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                Pawn p = pawns[i];
+                if (p == null || p.Destroyed || p.Dead) continue;
+                if (OutpostArmoryUtility.IsTeetotaler(p)) continue;
+                n++;
+            }
+            return n;
+        }
+
+        private bool HasArmoryDrugStock()
+        {
+            var armory = CompOutpostArmory.Get(outpost);
+            if (armory == null) return false;
+            List<ThingDefCountClass> rows = armory.ArmoryRows();
+            for (int i = 0; i < rows.Count; i++)
+            {
+                ThingDefCountClass e = rows[i];
+                if (e?.thingDef == null || e.count <= 0) continue;
+                if (OutpostArmoryUtility.IsDrugDef(e.thingDef)) return true;
+            }
+            return false;
+        }
+
+        private List<Pawn> CollectCheckedPawns()
+        {
+            var list = new List<Pawn>();
+            for (int i = 0; i < visiblePawns.Count; i++)
+            {
+                Pawn p = visiblePawns[i];
+                if (p == null || p.Destroyed) continue;
+                if (!checkedPawnIds.Contains(p.thingIDNumber)) continue;
+                list.Add(p);
+            }
+            // Also include checked occupants not in the filtered visible list.
+            List<Pawn> occ = outpost?.Occupants;
+            if (occ != null)
+            {
+                for (int i = 0; i < occ.Count; i++)
+                {
+                    Pawn p = occ[i];
+                    if (p == null || p.Destroyed) continue;
+                    if (!checkedPawnIds.Contains(p.thingIDNumber)) continue;
+                    if (list.Contains(p)) continue;
+                    list.Add(p);
+                }
+            }
+            return list;
+        }
+
+        private void CollectCheckedQuickEquipGear(List<ThingDefCountClass> stock, List<Thing> uniques)
+        {
+            for (int i = 0; i < storeRows.Count; i++)
+            {
+                StoreRow row = storeRows[i];
+                string id = StoreRowId(row);
+                if (string.IsNullOrEmpty(id) || !checkedStoreIds.Contains(id)) continue;
+                if (!OutpostArmoryUtility.IsQuickEquipStoreDef(row.Def)) continue;
+                if (row.Unique != null && !row.Unique.Destroyed)
+                    uniques.Add(row.Unique);
+                else if (row.Row != null && row.Row.count > 0)
+                    stock.Add(row.Row);
+            }
+        }
+
+        private void RecheckAllQuickEquipStoreAfterStrip()
+        {
+            checkedStoreIds.Clear();
+            for (int i = 0; i < storeRows.Count; i++)
+            {
+                StoreRow row = storeRows[i];
+                if (!OutpostArmoryUtility.IsQuickEquipStoreDef(row.Def)) continue;
+                string id = StoreRowId(row);
+                if (!string.IsNullOrEmpty(id)) checkedStoreIds.Add(id);
+            }
+        }
+
+        private void BulkStripWeapons()
+        {
+            int moved = OutpostArmoryUtility.TryQuickStripWeapons(outpost, CollectCheckedPawns(), out string fail);
+            ReportBulkStrip(moved, fail,
+                "TSA_WD_Armory_Equipment_StripWeaponsDone",
+                "TSA_WD_Armory_Equipment_StripWeaponsNone",
+                recheckStore: true);
+        }
+
+        private void BulkStripArmor()
+        {
+            int moved = OutpostArmoryUtility.TryQuickStripArmor(outpost, CollectCheckedPawns(), out string fail);
+            ReportBulkStrip(moved, fail,
+                "TSA_WD_Armory_Equipment_StripArmorDone",
+                "TSA_WD_Armory_Equipment_StripArmorNone",
+                recheckStore: true);
+        }
+
+        private void BulkStripApparel()
+        {
+            int moved = OutpostArmoryUtility.TryQuickStripApparel(outpost, CollectCheckedPawns(), out string fail);
+            ReportBulkStrip(moved, fail,
+                "TSA_WD_Armory_Equipment_StripApparelDone",
+                "TSA_WD_Armory_Equipment_StripApparelNone",
+                recheckStore: false);
+        }
+
+        private void BulkStripOtherInventory()
+        {
+            int moved = OutpostArmoryUtility.StripInventoryMatching(
+                outpost, OutpostArmoryUtility.IsOtherInventoryDef, out string fail, CollectCheckedPawns());
+            ReportBulkStrip(moved, fail,
+                "TSA_WD_Armory_Equipment_StripOtherInventoryDone",
+                "TSA_WD_Armory_Equipment_StripOtherInventoryNone",
+                recheckStore: false);
+        }
+
+        private void BulkStripDrugs()
+        {
+            int moved = OutpostArmoryUtility.StripInventoryMatching(
+                outpost, OutpostArmoryUtility.IsDrugDef, out string fail, CollectCheckedPawns());
+            ReportBulkStrip(moved, fail,
+                "TSA_WD_Armory_Equipment_StripDrugsDone",
+                "TSA_WD_Armory_Equipment_StripDrugsNone",
+                recheckStore: false);
+        }
+
+        private void BulkAutoAssignGear()
+        {
+            var stock = new List<ThingDefCountClass>();
+            var uniques = new List<Thing>();
+            CollectCheckedQuickEquipGear(stock, uniques);
+            int total = OutpostArmoryUtility.TryQuickEquip(
+                outpost, CollectCheckedPawns(), stock, uniques,
+                out int weapons, out int apparel, out string fail);
+            if (!string.IsNullOrEmpty(fail))
+            {
+                Messages.Message(fail, outpost, MessageTypeDefOf.RejectInput, false);
+            }
+            else if (total <= 0)
+            {
+                Messages.Message("TSA_WD_Armory_Equipment_EquipNone".Translate(), outpost, MessageTypeDefOf.RejectInput, false);
+            }
+            else
+            {
+                Messages.Message(
+                    "TSA_WD_Armory_Equipment_EquipDone".Translate(weapons, apparel),
+                    outpost,
+                    MessageTypeDefOf.PositiveEvent,
+                    false);
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
+            NotifyChanged();
+        }
+
+        private void BulkAutoAssignDrugs()
+        {
+            int moved = OutpostArmoryUtility.TryAutoAssignDrugsFromStore(
+                outpost, out string fail, CollectCheckedPawns());
+            if (!string.IsNullOrEmpty(fail))
+            {
+                Messages.Message(fail, outpost, MessageTypeDefOf.RejectInput, false);
+            }
+            else if (moved <= 0)
+            {
+                Messages.Message("TSA_WD_Armory_Equipment_AutoAssignDrugsNone".Translate(), outpost, MessageTypeDefOf.RejectInput, false);
+            }
+            else
+            {
+                Messages.Message(
+                    "TSA_WD_Armory_Equipment_AutoAssignDrugsDone".Translate(moved),
+                    outpost,
+                    MessageTypeDefOf.PositiveEvent,
+                    false);
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
+            NotifyChanged();
+        }
+
+        private void ReportBulkStrip(int moved, string fail, string doneKey, string noneKey, bool recheckStore)
+        {
+            if (!string.IsNullOrEmpty(fail))
+            {
+                Messages.Message(fail, outpost, MessageTypeDefOf.RejectInput, false);
+            }
+            else if (moved <= 0)
+            {
+                Messages.Message(noneKey.Translate(), outpost, MessageTypeDefOf.RejectInput, false);
+            }
+            else
+            {
+                Messages.Message(doneKey.Translate(moved), outpost, MessageTypeDefOf.PositiveEvent, false);
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
+            NotifyChanged();
+            if (recheckStore)
+            {
+                // Rebuild immediately so Strip→Auto Assign can use newly stored weapons/armor.
+                if (rowsDirty) RebuildRows();
+                RecheckAllQuickEquipStoreAfterStrip();
+            }
         }
 
         private void RebuildRows()
@@ -2335,6 +2759,8 @@ namespace TSA_WorldDomination
                 }
             }
 
+            PruneBulkSelections();
+
             List<Pawn> occupants = outpost.Occupants;
             if (occupants == null) return;
             for (int i = 0; i < occupants.Count; i++)
@@ -2344,6 +2770,39 @@ namespace TSA_WorldDomination
                 pawnInventory[p] = VirtualPawnSummary.SnapshotPawnInventory(p);
                 pawnCarryLoad[p] = BuildCarryLoad(p);
             }
+        }
+
+        private void PruneBulkSelections()
+        {
+            if (checkedStoreIds.Count > 0)
+            {
+                var keep = new HashSet<string>();
+                for (int i = 0; i < storeRows.Count; i++)
+                {
+                    string id = StoreRowId(storeRows[i]);
+                    if (!string.IsNullOrEmpty(id) && checkedStoreIds.Contains(id))
+                        keep.Add(id);
+                }
+                checkedStoreIds.Clear();
+                foreach (string id in keep)
+                    checkedStoreIds.Add(id);
+            }
+
+            if (checkedPawnIds.Count == 0) return;
+            var keepPawns = new HashSet<int>();
+            List<Pawn> occ = outpost?.Occupants;
+            if (occ != null)
+            {
+                for (int i = 0; i < occ.Count; i++)
+                {
+                    Pawn p = occ[i];
+                    if (p != null && checkedPawnIds.Contains(p.thingIDNumber))
+                        keepPawns.Add(p.thingIDNumber);
+                }
+            }
+            checkedPawnIds.Clear();
+            foreach (int id in keepPawns)
+                checkedPawnIds.Add(id);
         }
 
         private CarryLoadCache BuildCarryLoad(Pawn pawn)

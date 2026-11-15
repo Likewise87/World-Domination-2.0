@@ -19,7 +19,6 @@ namespace TSA_WorldDomination
         private int lastCacheTick = -1;
         private WorldObject_Traveler cachedTraveler;
         private OutpostStatsSnapshot cachedSnapshot;
-        private bool forceRefreshRequested;
 
         private string searchFilter = "";
         private string searchNeedleLower = "";
@@ -44,14 +43,6 @@ namespace TSA_WorldDomination
 
             Rect body = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
             OutpostTabStatsUi.DrawHeadline(body, traveler.LabelCap);
-
-            float tableRight = body.x + body.width - OutpostTabStatsUi.ScrollbarRightPadding - 8f;
-            const float refreshW = 70f;
-            Rect refreshRect = new Rect(tableRight - refreshW, body.y, refreshW, 24f);
-            if (Widgets.ButtonText(refreshRect, "TSA_WD_OutpostStats_Refresh".Translate()))
-                forceRefreshRequested = true;
-            if (Mouse.IsOver(refreshRect))
-                TooltipHandler.TipRegion(refreshRect, "TSA_WD_OutpostStats_RefreshTooltip".Translate());
 
             EnsureSnapshotFresh(traveler);
             OutpostStatsSnapshot snap = cachedSnapshot;
@@ -114,12 +105,10 @@ namespace TSA_WorldDomination
         private void EnsureSnapshotFresh(WorldObject_Traveler traveler)
         {
             int now = Find.TickManager.TicksGame;
-            bool dirty = forceRefreshRequested
-                || cachedSnapshot == null
+            bool dirty = cachedSnapshot == null
                 || !ReferenceEquals(cachedTraveler, traveler)
                 || now - lastCacheTick >= CacheRefreshInterval;
             if (!dirty) return;
-            forceRefreshRequested = false;
             lastCacheTick = now;
             cachedTraveler = traveler;
             cachedSnapshot = TravelerStatsSnapshot.Build(traveler);

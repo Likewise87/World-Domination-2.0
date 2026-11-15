@@ -22,7 +22,9 @@ namespace TSA_WorldDomination
         /// <summary>NPC Mortar / AA Turret fire-range overlay (Attack / Off).</summary>
         ArtilleryTurret = 8,
         /// <summary>Power plant outpost supply reach (Power / Off). Purple fill; default on.</summary>
-        PowerPlant = 9
+        PowerPlant = 9,
+        /// <summary>WD traveler MaxLOS / sight rings (Sight / Off). Default Off.</summary>
+        WdTraveler = 10
     }
 
     public enum WD_RadiusOverlayKind : byte
@@ -36,7 +38,9 @@ namespace TSA_WorldDomination
         People = 6,
         Warehouse = 7,
         /// <summary>Power plant logistics-range supply overlay.</summary>
-        Power = 8
+        Power = 8,
+        /// <summary>Intel MaxLOS fill with target-ring lines.</summary>
+        Sight = 9
     }
 
     /// <summary>Global-per-category radius overlay toggle state (mod settings).</summary>
@@ -54,6 +58,7 @@ namespace TSA_WorldDomination
         public static WD_RadiusOverlayKind atTurret = WD_RadiusOverlayKind.Attack;
         public static WD_RadiusOverlayKind artilleryTurret = WD_RadiusOverlayKind.Attack;
         public static WD_RadiusOverlayKind powerPlant = WD_RadiusOverlayKind.Power;
+        public static WD_RadiusOverlayKind wdTraveler = WD_RadiusOverlayKind.Off;
 
         private static int suppressFillFrame = -1;
 
@@ -83,6 +88,7 @@ namespace TSA_WorldDomination
                 case WD_RadiusOverlayCategory.AtTurret: return atTurret;
                 case WD_RadiusOverlayCategory.ArtilleryTurret: return artilleryTurret;
                 case WD_RadiusOverlayCategory.PowerPlant: return powerPlant;
+                case WD_RadiusOverlayCategory.WdTraveler: return wdTraveler;
                 default:
                     if (npcSettlement == WD_RadiusOverlayKind.Mortar || npcSettlement == WD_RadiusOverlayKind.AA)
                         return WD_RadiusOverlayKind.Attack;
@@ -112,6 +118,7 @@ namespace TSA_WorldDomination
                 case WD_RadiusOverlayCategory.NpcSettlementT4:
                     if (kind == WD_RadiusOverlayKind.Mortar || kind == WD_RadiusOverlayKind.AA)
                         kind = WD_RadiusOverlayKind.Attack;
+                    // Attack / Ally / Sight / Off
                     npcSettlementT4 = kind;
                     break;
                 case WD_RadiusOverlayCategory.AtTurret:
@@ -128,8 +135,13 @@ namespace TSA_WorldDomination
                 case WD_RadiusOverlayCategory.PowerPlant:
                     powerPlant = kind;
                     break;
+                case WD_RadiusOverlayCategory.WdTraveler:
+                    if (kind != WD_RadiusOverlayKind.Off)
+                        kind = WD_RadiusOverlayKind.Sight;
+                    wdTraveler = kind;
+                    break;
                 default:
-                    // Lower-tier NPCs only support Attack / Ally / Off.
+                    // Lower-tier NPCs: Attack / Ally / Sight / Off.
                     if (kind == WD_RadiusOverlayKind.Mortar || kind == WD_RadiusOverlayKind.AA)
                         kind = WD_RadiusOverlayKind.Attack;
                     npcSettlement = kind;
@@ -158,6 +170,7 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref atTurret, "WD_RadiusOverlay_AtTurret", WD_RadiusOverlayKind.Attack);
             Scribe_Values.Look(ref artilleryTurret, "WD_RadiusOverlay_ArtilleryTurret", WD_RadiusOverlayKind.Attack);
             Scribe_Values.Look(ref powerPlant, "WD_RadiusOverlay_PowerPlant", WD_RadiusOverlayKind.Power);
+            Scribe_Values.Look(ref wdTraveler, "WD_RadiusOverlay_WdTraveler", WD_RadiusOverlayKind.Off);
 
             // Pre-T4-split saves may have stored Mortar/AA on the shared NPC slot.
             if (Scribe.mode == LoadSaveMode.LoadingVars
@@ -180,6 +193,7 @@ namespace TSA_WorldDomination
             atTurret = WD_RadiusOverlayKind.Attack;
             artilleryTurret = WD_RadiusOverlayKind.Attack;
             powerPlant = WD_RadiusOverlayKind.Power;
+            wdTraveler = WD_RadiusOverlayKind.Off;
         }
 
         public static WD_RadiusOverlayKind DefaultKind(WD_RadiusOverlayCategory category)
@@ -195,6 +209,7 @@ namespace TSA_WorldDomination
                 case WD_RadiusOverlayCategory.AtTurret: return WD_RadiusOverlayKind.Attack;
                 case WD_RadiusOverlayCategory.ArtilleryTurret: return WD_RadiusOverlayKind.Attack;
                 case WD_RadiusOverlayCategory.PowerPlant: return WD_RadiusOverlayKind.Power;
+                case WD_RadiusOverlayCategory.WdTraveler: return WD_RadiusOverlayKind.Off;
                 default: return WD_RadiusOverlayKind.Attack;
             }
         }
@@ -268,6 +283,12 @@ namespace TSA_WorldDomination
                 return true;
             }
 
+            if (worldObject is WorldObject_Traveler)
+            {
+                category = WD_RadiusOverlayCategory.WdTraveler;
+                return true;
+            }
+
             return false;
         }
 
@@ -338,6 +359,7 @@ namespace TSA_WorldDomination
                 || (kind == WD_RadiusOverlayKind.Attack
                     && (worldObject is WorldObject_AT_Turret || worldObject is WorldObject_WD_ArtilleryTurret));
             bool attackRangeBands = kind == WD_RadiusOverlayKind.Attack && worldObject is Settlement;
+            bool sightLosBands = kind == WD_RadiusOverlayKind.Sight;
             bool zealAttackInnerCyan = false;
             if (attackRangeBands && worldObject is Settlement settlement)
             {
@@ -364,12 +386,37 @@ namespace TSA_WorldDomination
                     accuracyBandMax = AntiAirFireUtils.GetNpcAntiAirMaxRangeTiles();
             }
 
+            float sightF1 = WorldComponent_SettlementIntel.GetTargetRingFrac(SettlementTier.T1);
+            float sightF2 = WorldComponent_SettlementIntel.GetTargetRingFrac(SettlementTier.T2);
+            float sightF3 = WorldComponent_SettlementIntel.GetTargetRingFrac(SettlementTier.T3);
+
             WD_RadiusOverlayMode.DrawOrFill(worldObject, radius, fillKind, hopMat,
                 accuracyBands: accuracyBands,
                 attackRangeBands: attackRangeBands,
                 zealAttackInnerCyan: zealAttackInnerCyan,
                 accuracyBandMaxRange: accuracyBandMax,
-                allyInnerRadiusSplit: allyInnerSplit);
+                allyInnerRadiusSplit: allyInnerSplit,
+                sightLosBands: sightLosBands,
+                sightFracT1: sightF1,
+                sightFracT2: sightF2,
+                sightFracT3: sightF3);
+
+            // Colored discovery rings + gold MaxLOS outline on top of the banded fill.
+            if (sightLosBands && !WD_RadiusOverlayMode.UseHopRadiusRings)
+            {
+                PlanetLayer layer = PlanetSurfaceWorldActions.LayerOf(worldObject);
+                var center = new PlanetTile(worldObject.Tile, layer);
+                float r1 = radius * sightF1;
+                float r2 = radius * sightF2;
+                float r3 = radius * sightF3;
+                if (r1 > 0.05f)
+                    WorldMapRadiusVisual.DrawApproxRadiusRing(center, r1, WorldOverlayLineMaterials.RadiusRed);
+                if (r2 > r1 + 0.05f)
+                    WorldMapRadiusVisual.DrawApproxRadiusRing(center, r2, WorldOverlayLineMaterials.RadiusOrange);
+                if (r3 > r2 + 0.05f && r3 < radius - 0.05f)
+                    WorldMapRadiusVisual.DrawApproxRadiusRing(center, r3, WorldOverlayLineMaterials.RadiusYellow);
+                WorldMapRadiusVisual.DrawApproxRadiusRing(center, radius, WorldOverlayLineMaterials.RadiusGold);
+            }
 
             if (kind == WD_RadiusOverlayKind.Mortar || kind == WD_RadiusOverlayKind.AA)
                 Patch_SettlementT4TurretGizmos.MarkTurretRangeHoverPublic();
@@ -432,6 +479,14 @@ namespace TSA_WorldDomination
 
                 case WD_RadiusOverlayKind.Attack:
                     return TryResolveAttack(worldObject, out radius, out fillKind, out hopMat);
+
+                case WD_RadiusOverlayKind.Sight:
+                {
+                    radius = WorldComponent_SettlementIntel.GetMaxLos(worldObject);
+                    fillKind = OutpostCoverageFillKind.Gold;
+                    hopMat = WorldOverlayLineMaterials.RadiusGold;
+                    return radius > 0f;
+                }
 
                 case WD_RadiusOverlayKind.Food:
                 {

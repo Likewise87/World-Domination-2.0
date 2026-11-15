@@ -309,6 +309,10 @@ namespace TSA_WorldDomination
                 Faction ruinFaction = settlement.Faction;
                 Faction shellFaction = shell.originObject?.Faction ?? shell.Faction;
                 WorldActions_DesperationRaid.NotifyNpcSettlementLost(settlement, shellFaction);
+                if (shellFaction != null && shellFaction.IsPlayer)
+                    WdCommonEnemySettlementQuestHelper.NotifyPlayerAttributedStrike(settlement);
+                else
+                    WdCommonEnemySettlementQuestHelper.NotifySettlementRemoved(settlement);
                 settlement.Destroy();
                 // Same timed scar as NPC raze / sabotage / pollution wipe.
                 WorldObject_WdSettlementRuin.Spawn(tile, originalName, ruinFaction);
@@ -602,6 +606,12 @@ namespace TSA_WorldDomination
                 Log.Error($"[TSA World Domination] Missing WorldObjectDef {defName}.");
                 return null;
             }
+
+            // Reveal-by-fire: AT / NPC mortar turret / AA turret discovering for the victim faction.
+            if (origin is WorldObject_AT_Turret
+                || origin is WorldObject_WD_MortarTurret
+                || origin is WorldObject_WD_AaTurret)
+                AtTurretUtility.RevealEmplacementByFire(origin, target);
 
             var traveler = (WorldObject_Traveler)WorldObjectMaker.MakeWorldObject(def);
             traveler.Tile = origin.Tile;

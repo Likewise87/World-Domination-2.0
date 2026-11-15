@@ -129,7 +129,11 @@ namespace TSA_WorldDomination
             }
 
             result.rawAttPower = SumAvailableAttPower(attacker, attAllies, seth);
-            var defSnap = Raid_MathSnapshot.BuildDefenders(target, attacker, attacker.Faction, lookup, manager, seth);
+            bool foggedAssess = WorldComponent_SettlementIntel.IsActive(manager)
+                && attacker.Faction != null
+                && !attacker.Faction.IsPlayer;
+            var defSnap = Raid_MathSnapshot.BuildDefenders(
+                target, attacker, attacker.Faction, lookup, manager, seth, foggedAssess: foggedAssess);
             result.defenders = defSnap;
             result.defTotal = defSnap.Total;
             float outpostDenom = result.defTotal > 0f ? result.defTotal : 1f;

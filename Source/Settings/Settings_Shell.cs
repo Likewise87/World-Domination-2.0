@@ -22,6 +22,7 @@ namespace TSA_WorldDomination
         private static bool registryDirty = true;
         private static WdSettingsPage? pendingJumpPage;
         private static string pendingHighlightLabel;
+        private static string pendingExpandSection;
 
         // Overview UI state (moved from hub)
         private static bool presetUiSeeded;
@@ -70,9 +71,10 @@ namespace TSA_WorldDomination
             {
                 selectedPage = pendingJumpPage.Value;
                 if (!pendingHighlightLabel.NullOrEmpty())
-                    SettingsUI.SetHighlight(pendingHighlightLabel);
+                    SettingsUI.SetSearchJump(pendingHighlightLabel, pendingExpandSection ?? pendingHighlightLabel);
                 pendingJumpPage = null;
                 pendingHighlightLabel = null;
+                pendingExpandSection = null;
                 searchQuery = "";
                 searchHits = null;
             }
@@ -208,6 +210,10 @@ namespace TSA_WorldDomination
                 {
                     pendingJumpPage = hit.Page;
                     pendingHighlightLabel = hit.Label;
+                    // Section hits expand themselves; control hits expand their parent section.
+                    pendingExpandSection = hit.IsSection || hit.Section.NullOrEmpty()
+                        ? hit.Label
+                        : hit.Section;
                 });
                 return;
             }

@@ -25,6 +25,8 @@ World-model ownership (one colony, player-only outposts, NPC holdings = Settleme
 
 Also: `RoadBlocks/`, `SpikeTraps/`, `WorldGen/`, `Quests/`, `Gizmos/`. There is no `Letters/` code folder; letter types live with their owners.
 
+**Common-enemy settlement quest** (`TSA_WD_CommonEnemySettlement`, `WdCommonEnemySettlementQuestHelper`): success on player-attributed outpost raid / on-map defeat / sabotage wipe / disinformation wipe, and on any `WorldObjectsHolder.Remove` of the tracked town that was not already failed as a non-player wipe (covers third-party artillery `Settlement.Destroy`, buy, player mortar). Non-player WD wipes (NPC/allied simulated raid, incident obliteration, revolt, pollution, NPC mortar) must call `NotifySettlementRemoved` before `Destroy` so the quest fails as taken-by-others.
+
 ## Who owns state
 
 | Class | File |
@@ -36,7 +38,7 @@ Also: `RoadBlocks/`, `SpikeTraps/`, `WorldGen/`, `Quests/`, `Gizmos/`. There is 
 
 | `CompOutpostArmory` | `Outposts/Armory/CompOutpostArmory.cs` (on every outpost) |
 
-Other WorldComponents: interception (`WorldActions/Interception/WorldComponent_InterceptionScheduler.cs`), logistics (`Outposts/FoodLogistics/WD_Outpost_FoodLogistics_Core.cs`), outpost power grid (`Outposts/OutpostPowerGrid.cs` + `WorldComponent_OutpostPowerGrid`), remote colony watts cache (`Outposts/Types/Outpost_PowerPlant.cs` + `WorldComponent_OutpostPowerPlant`), road blocks (`RoadBlocks/WorldComponent_RoadBlocks.cs`), traps (`SpikeTraps/WorldComponent_SpikeTraps.cs`), player pawn favorites (`Core/WorldComponent_PlayerPawnFavorites.cs`), Join Stamp (`Core/WorldComponent_PlayerPawnJoinTimes.cs`), roster column prefs (`UI/WorldComponent_PawnRosterColumnPrefs.cs`, per save; roster filter presets are global ModSettings in `WorldDominationSettings.pawnRosterFilterPresets`), drop-pod crash-evac ambush prime (`Travelers/WorldComponent_DropPodCrashEvac.cs`), faction Configure Scope + allegiance locks (`Core/WorldComponent_WdFactionScope.cs` — per save; ModSettings keys of the same names are legacy Look-only). Configure Scope can set live `Faction.color`; world/UI tint caches refresh via `WdFactionColorUtil` (`Core/WdFactionColorUtil.cs`).
+Other WorldComponents: settlement intel soft FoW (`RaidLogic/WorldComponent_SettlementIntel.cs`), interception (`WorldActions/Interception/WorldComponent_InterceptionScheduler.cs`), logistics (`Outposts/FoodLogistics/WD_Outpost_FoodLogistics_Core.cs`), outpost power grid (`Outposts/OutpostPowerGrid.cs` + `WorldComponent_OutpostPowerGrid`), remote colony watts cache (`Outposts/Types/Outpost_PowerPlant.cs` + `WorldComponent_OutpostPowerPlant`), road blocks (`RoadBlocks/WorldComponent_RoadBlocks.cs`), traps (`SpikeTraps/WorldComponent_SpikeTraps.cs`), player pawn favorites (`Core/WorldComponent_PlayerPawnFavorites.cs`), Join Stamp (`Core/WorldComponent_PlayerPawnJoinTimes.cs`), roster column prefs (`UI/WorldComponent_PawnRosterColumnPrefs.cs`, per save; roster filter presets are global ModSettings in `WorldDominationSettings.pawnRosterFilterPresets`), drop-pod crash-evac ambush prime (`Travelers/WorldComponent_DropPodCrashEvac.cs`), faction Configure Scope + allegiance locks (`Core/WorldComponent_WdFactionScope.cs` — per save; ModSettings keys of the same names are legacy Look-only). Configure Scope can set live `Faction.color`; world/UI tint caches refresh via `WdFactionColorUtil` (`Core/WdFactionColorUtil.cs`).
 
 ## Outpost power
 
@@ -88,6 +90,8 @@ Food is always stored as items. Nothing auto-converts on arrival or intake. `Out
 Grouping only works because `OutpostArmoryUtility.Normalize` heals to max hit points on deposit, which collapses `CompOutpostWarehouse.StockKey` down to `def + stuff + quality`. Taint and biocoding are never cleared anywhere: tainted or biocoded gear is irreplaceable and kept as a real Thing in `uniques` (repaired, otherwise unchanged). Biocoded items get a "biocoded" tag via `StoredThingTag`; tainted apparel has no label tag but is drawn in `TaintedColor` (yellow) with `TaintedTip` in the Armory and All Player Gear. Under CE, deposit also unloads the magazine (rounds credited as ammo stock) so guns stay stackable.
 
 Occupant moves are map-free: never `TryDropEquipment` (routes through `MapHeld`) and never `Wear(ap, dropReplacedApparel: true)` (silently destroys the replaced apparel when `pawn.Map == null`). Conflicting apparel goes to the store first.
+
+**Equipment** (toolbar float menu on `Dialog_OutpostArmory`, cyan Transfer icon): checkboxes on occupant and store rows; all strip/equip actions use the selection only. Menu order: Auto Assign Gear, Auto Assign Drugs, Strip weapons / armor / apparel / other inventory / drugs. `TryQuickEquip` fills empty primaries and free apparel layers from checked store weapons/apparel including clothing and armor (better of Melee vs Shooting sets priority and weapon type; within that type highest silver MarketValue; fall back to the other type only if none remain; never strips). `TryAutoAssignDrugsFromStore` shares armory drugs (up to 5 each) and skips teetotalers (`DrugDesire` degree -1). Other-inventory strip matches the Other Inventory column (not food/drugs/ammo/medicine). Food/Ammo remove and assign also use checked occupants only (`StripInventoryMatching` / `TryAutoAssignFoodFromStore` / `TryAutoAssignAmmoFromStore` with `onlyPawns`). Convert food remains whole-store.
 
 Teardown: `WorldObject_WD_Outpost.Destroy` / `PostRemove` call `ClearAndDestroyAll`; loose stock dies with the outpost and retreat caravans do not evacuate it.
 
@@ -155,6 +159,40 @@ Player-bound raid **targets** (colony / outpost) must be planet-surface only (`P
 **Mid-travel hostility abort:** `IsRaidMission` travelers (incl. Invasion) poll ~2500t via `Raid_Simulated.TryAbortAndDestroyIfNoLongerHostile` (refund DNA then Destroy; same SSoT as arrival/clash `TryAbortIfNoLongerHostile`). Turtle / DesperationRally / Vanguard not polled.
 
 SSoT types: `RaidCasualtyModel`, `RaidContribEntry` (`RaidLogic/Raid_MathSnapshot.cs`), `SettlementAttackRangeUtil` (`Core/SettlementAttackRangeUtil.cs`).
+
+### Settlement intel (soft FoW)
+
+Settings page: **Intel and Line of Sight** (`Settings_Window_IntelLos.cs`, gate `gateSettlementIntel`, Def **Never**).
+
+| Gate helper | Meaning |
+|-------------|---------|
+| `IsGateConfigured` / `IsTracking` | Gate ≠ Never. Discovery, scouts, prune, bootstrap, View gizmo. |
+| `IsActive` | `WdEscalation.PassesGate`. Fogged raid assess / Knows short-circuit off. |
+
+When `!IsActive`, `Knows` / `KnowsTraveler` short-circuit to true (perfect raid info). Player **as knower** also always returns true from `Knows` / `KnowsTraveler` (discovery sets still fill for UI). `IsDiscovered` / `IsTravelerDiscovered` are raw set lookups for tabs.
+
+| Piece | Owner |
+|-------|-------|
+| Discover sets, MaxLOS × ring sight, GotBurned, sticky outposts, daily LOS, Strategic Expand tile filter | `RaidLogic/WorldComponent_SettlementIntel.cs` |
+| Assess fog + GotBurned inflate; fogged primary AT credit | `Raid_Manager` / `Raid_MathSnapshot` / `Raid_Simulated` (`GetTotalLocalDefensePowerFogged` / `SumOwnedDamageCreditKnownTo`) |
+| Know gates on pick paths | Raid / ToO / PackUp / Desperation / allied launch / mortar site pick (`Knows`); mortar + NPC ambush/RR vs WD travelers (`KnowsTraveler`); **AT self-spot** skips `KnowsTraveler` |
+| Scout mission | `WorldActions_Scout.cs` (under `IsTracking`); ring between MaxLOS and raid range; scout MaxLOS × rings |
+| Strategic Expand | `AttemptStrategicExpand` + `weightStrategicExpand` (under `IsActive` only) |
+| AT outer fire band | `AtTurretUtility.CanEngageAtDistance` (76–100% needs traveler class T2+ from `initialStrength`) |
+| Inspect / debug | `WITab_SettlementIntel`, `WITab_AT_Intel` (1.7/Patches only), `Dialog_WdWorldDebug` Intel group |
+| View gizmo | `WD_RadiusOverlayKind.Sight` + `RadiusHoverGizmos` (`UI/Commands/View`) |
+
+**Sight:** `sightRange = MaxLOS(observer) × ringFrac(targetClass)`. Settlement MaxLOS = tier attack-range baseline × own LOS growth (age + Mid/Late, capped by `intelSettlementLosMaxMult`, Def 2×). No zeal / attack-range bonuses. Traveler class from `initialStrength` (Def 100 / 400 / 1000). Scout MaxLOS Def 8. Rings Def 0.50 / 0.75 / 1.00 / 1.00. ATs and advanced buildings use the T1 ring. Dist ≤ 1 always spotted.
+
+**Raid assess/resolve split:** while `IsActive`, launch assess uses fogged defender strength (known sites + known AT credit on primary; GotBurned may inflate). Resolve uses truth. Reveal-by-fire and raid arrival discover ATs for the victim / attacker.
+
+**Discovery sources:** daily LOS (settlements + outposts + ATs + advanced buildings); merged tile-exit traveler pass; scout bubble; combat / reveal-by-fire. No hot daily `AllWorldObjects` LOS scan.
+
+**Orchestrator:** `weightScout` under tracking (× clear mult; T2+); `weightStrategicExpand` under active only.
+
+**Scout crack-fall:** NPC interceptors may ignore `isNimbleScout` at `settlementIntelScoutCrackFallChance`. Player intercepts unchanged.
+
+**Parked:** ownership hand-over / faction FoW view (stage 3).
 
 ## Strength is not one number
 
@@ -285,7 +323,7 @@ Before shipping any Def XML or new C# field: read `Guardrails/DEFS_GUIDE.md` § 
 SSoT: `Source/Core/WdMedievalMode.cs`. Main checkbox `wdMedievalMode` (below Setting presets on the Main settings page). **1.7-only** feature (C# lives in `1.7/Assemblies`).
 
 - **Content filter:** defs with `minTechLevel` above Medieval are hidden/blocked when Active (outposts, upgrades, AT turrets, NPC mortar/AA advanced buildings). Untagged = allowed. Do not `PatchOperationRemove` industrial defs.
-- **World-build roads/blocks:** when Active, asphalt (T3/T4) and heavy road blocks are hidden (`IsRoadTierAllowed` / `IsRoadBlockKindAllowed`). Machining research gates for stone roads, bridges, caltrops, and medium road blocks remap at resolve time via `ColonyWorldBuildRequirements.EffectiveResearch` to `DankPyon_Engineering` (else `Smithing`). Does not mutate Def XML.
+- **World-build roads/blocks:** when Active, asphalt (T3), glitter (T4), and heavy road blocks are hidden (`IsRoadTierAllowed` / `IsRoadBlockKindAllowed`). Machining research gates for stone roads, bridges, caltrops, and medium road blocks remap at resolve time via `ColonyWorldBuildRequirements.EffectiveResearch` to `DankPyon_Engineering` (else `Smithing`). Does not mutate Def XML.
 - **`minTechLevel` XML:** applied only via `1.7/Patches/WD_Medieval_MinTechTags.xml` (not `Common/Defs/`) so 1.6 does not see unknown fields.
 - **Tech floors:** `EffectiveDropPodRaidMinTech` / `EffectiveNpcArtilleryMinTech` raise Combat dropdowns to at least Industrial while Active (never lowers a stricter Spacer setting).
 - **Player travel UI:** `PlayerDropPodsAllowed` is false when Active; `OutpostDispatchMode.GetViaDropPod` and pawn drop-pod getters force land. Rapid Response outpost stays (land intercept); its drop-pod dispatch chrome is hidden.

@@ -35,6 +35,7 @@ namespace TSA_WorldDomination
             float contentWidth = contentRect.width - 24f;
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 1200f);
 
+            SettingsUI.ApplyPendingHighlightScroll(ref scrollPosition, contentRect.height, scrollViewRect.height);
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
 
             Listing_Standard l = new Listing_Standard();

@@ -247,6 +247,26 @@ namespace TSA_WorldDomination
                 options.Add(asphaltOption);
             }
 
+            if (WdMedievalMode.IsRoadTierAllowed(SettlementTier.T4))
+            {
+                int glitterMinConstruction = WorldActions_Roads.GetMinConstructionToBuildRoad(SettlementTier.T4);
+                var glitterOption = new FloatMenuOption("TSA_WD_RoadGlitter".Translate(), WdCascadingFloatMenu.WrapLeaf(() =>
+                {
+                    comp.selectedRoadTier = SettlementTier.T4;
+                    StartRoadTargeting(outpost, comp);
+                }), roadIcon, Color.white)
+                {
+                    tooltip = BuildRoadKindTooltip(outpost, SettlementTier.T4)
+                };
+                ColonyWorldBuildRequirements.ApplyGate(
+                    glitterOption,
+                    totalConstruction,
+                    glitterMinConstruction,
+                    ColonyWorldBuildRequirements.GetRequiredResearchForRoad(SettlementTier.T4),
+                    ColonyWorldBuildRequirements.GetMaterialCostsForRoad(SettlementTier.T4));
+                options.Add(glitterOption);
+            }
+
             WdCascadingFloatMenu.OpenAsChild(options, () => Action_Outpost_Build.BuildRootMenuOptions(outpost, comp));
         }
 

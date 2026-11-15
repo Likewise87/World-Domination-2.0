@@ -14,6 +14,7 @@ Settings for Building projects that can be executed by player Outposts and for t
 |---|---:|---|
 | Player outpost road range | 16 tiles | Maximum planning range from player outposts. |
 | NPC road range | 40 tiles | Maximum range for NPC road attempts. |
+| Glitter roads: min NPC tech level | Spacer | Non-player factions at this tech or higher may auto-build or be ordered to pave Glitter (also needs a T4 settlement). Player uses Advanced Fabrication + materials instead. |
 
 Each road type exposes the same five controls.
 
@@ -21,11 +22,12 @@ Each road type exposes the same five controls.
 |---|---:|---:|---:|---:|---:|
 | Dirt road | 0.70 | 250 | 50 | 5 | 30% |
 | Stone road | 0.50 | 375 | 80 | 15 | 50% |
-| Asphalt road | 0.30 | 500 | 125 | 25 | 75% |
+| Asphalt road | 0.30 | 500 | 100 | 25 | 75% |
+| Glitter road | 0.15 | 650 | 125 | 30 | 90% |
 
-Movement difficulty multiplies world path difficulty, so lower values are faster. Work is abstract project work. Dispatch strength is deducted when a road-builder traveler launches. Minimum Construction is the cumulative outpost requirement.
+Movement difficulty multiplies world path difficulty, so lower values are faster. Work is abstract project work. Dispatch strength is deducted when a road-builder traveler launches. Minimum Construction is the cumulative outpost requirement. Glitter is medieval-hidden and uses `TSA_WD_GlitterRoad` (plasteel-cyan world layers).
 
-Player material costs (per tile) are XML-authored in `Common/Defs/WorldBuild/WD_Roads.xml`: Dirt free; Stone 30 any stone; Asphalt 20 steel + 20 chemfuel. Taken from the colony map and warehouse outposts when the crew launches.
+Player material costs (per tile) are XML-authored in `Common/Defs/WorldBuild/WD_Roads.xml`: Dirt free; Stone 30 any stone; Asphalt 20 steel + 20 chemfuel; Glitter 5 plasteel + 10 steel + 10 chemfuel (requires Advanced Fabrication). Taken from the colony map and warehouse outposts when the crew launches. NPC roads never pay materials.
 
 ## Road blocks
 

@@ -40,6 +40,8 @@ namespace TSA_WorldDomination
         private static Texture2D cachedAaOff;
         private static Texture2D cachedTurretAttackOn;
         private static Texture2D cachedTurretAttackOff;
+        private static Texture2D cachedSightOn;
+        private static Texture2D cachedSightOff;
 
         private static readonly Dictionary<long, string> descCache = new Dictionary<long, string>();
         private static int descCacheSettingsFingerprint = int.MinValue;
@@ -159,6 +161,9 @@ namespace TSA_WorldDomination
                     "UI/Commands/DesirePower",
                     TexCommand.DesirePower);
             }
+
+            foreach (Gizmo g in GetSightFor(outpost, category))
+                yield return g;
         }
 
         public static IEnumerable<Gizmo> GetAttackForSettlement(Settlement settlement)
@@ -181,6 +186,39 @@ namespace TSA_WorldDomination
                 "UI/Commands/AttackRadius",
                 TexCommand.Attack,
                 "\n\n" + "TSA_WD_Gizmo_AttackRadiusBandsLegend".Translate());
+
+            foreach (Gizmo g in GetSightFor(settlement, category))
+                yield return g;
+        }
+
+        public static IEnumerable<Gizmo> GetSightForTraveler(WorldObject_Traveler traveler)
+        {
+            if (traveler == null || traveler.Destroyed) yield break;
+            foreach (Gizmo g in GetSightFor(traveler, WD_RadiusOverlayCategory.WdTraveler))
+                yield return g;
+        }
+
+        private static IEnumerable<Gizmo> GetSightFor(WorldObject worldObject, WD_RadiusOverlayCategory category)
+        {
+            if (!WorldComponent_SettlementIntel.IsGateConfigured()) yield break;
+            float maxLos = WorldComponent_SettlementIntel.GetMaxLos(worldObject);
+            if (maxLos <= 0f) yield break;
+            bool playerOwned = worldObject.Faction?.IsPlayer == true;
+            string descKey = playerOwned
+                ? "TSA_WD_Gizmo_ShowSightRadiusDescPlayer"
+                : "TSA_WD_Gizmo_ShowSightRadiusDesc";
+            yield return MakeToggle(
+                category,
+                WD_RadiusOverlayKind.Sight,
+                "TSA_WD_Gizmo_ShowSightRadius",
+                descKey,
+                maxLos.ToString("F0"),
+                ref cachedSightOn,
+                ref cachedSightOff,
+                "UI/Commands/View",
+                TexCommand.Attack,
+                AppendSightLosBandsLegend(),
+                WorldOverlayLineMaterials.SightGoldColor);
         }
 
         public static IEnumerable<Gizmo> GetForAtTurret(WorldObject_AT_Turret turret)
@@ -253,11 +291,12 @@ namespace TSA_WorldDomination
             ref Texture2D cachedOff,
             string texPath,
             Texture2D fallback,
-            string extraDesc = null)
+            string extraDesc = null,
+            Color? iconColor = null)
         {
             Texture2D on = cachedOn ??= ContentFinder<Texture2D>.Get(texPath, false) ?? fallback;
             Texture2D off = cachedOff ??= ContentFinder<Texture2D>.Get(texPath + "_Off", false) ?? on;
-            return new Command_RadiusOverlayToggle
+            var cmd = new Command_RadiusOverlayToggle
             {
                 defaultLabel = labelKey.Translate(),
                 defaultDesc = GetCachedDesc(category, kind, descKey, rangeLabel, extraDesc),
@@ -266,6 +305,9 @@ namespace TSA_WorldDomination
                 isActive = () => WD_RadiusOverlayPrefs.IsActive(category, kind),
                 toggleAction = () => WD_RadiusOverlayPrefs.Toggle(category, kind)
             };
+            if (iconColor.HasValue)
+                cmd.defaultIconColor = iconColor.Value;
+            return cmd;
         }
 
         private static string GetCachedDesc(
@@ -320,6 +362,10 @@ namespace TSA_WorldDomination
                 h = h * 31 + s.atTurretHitChance0To50PctRange.GetHashCode();
                 h = h * 31 + s.atTurretHitChance51To75PctRange.GetHashCode();
                 h = h * 31 + s.atTurretHitChance76To100PctRange.GetHashCode();
+                h = h * 31 + s.intelTargetRingFracT1.GetHashCode();
+                h = h * 31 + s.intelTargetRingFracT2.GetHashCode();
+                h = h * 31 + s.intelTargetRingFracT3.GetHashCode();
+                h = h * 31 + s.intelTargetRingFracT4.GetHashCode();
                 return h;
             }
         }
@@ -380,6 +426,15 @@ namespace TSA_WorldDomination
             float band2 = s?.atTurretHitChance76To100PctRange ?? WorldDominationSettings.DefAtTurretHitChance76To100PctRange;
             return "\n\n" + "TSA_WD_Gizmo_AtTurretRadiusBandsLegend".Translate(
                 FormatHitPct(band0), FormatHitPct(band1), FormatHitPct(band2));
+        }
+
+        private static string AppendSightLosBandsLegend()
+        {
+            float f1 = WorldComponent_SettlementIntel.GetTargetRingFrac(SettlementTier.T1) * 100f;
+            float f2 = WorldComponent_SettlementIntel.GetTargetRingFrac(SettlementTier.T2) * 100f;
+            float f3 = WorldComponent_SettlementIntel.GetTargetRingFrac(SettlementTier.T3) * 100f;
+            return "\n\n" + "TSA_WD_Gizmo_SightRadiusBandsLegend".Translate(
+                f1.ToString("F0"), f2.ToString("F0"), f3.ToString("F0"));
         }
 
         private static string FormatHitPct(float chance01) =>

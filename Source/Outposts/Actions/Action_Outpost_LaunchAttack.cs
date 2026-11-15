@@ -572,6 +572,17 @@ namespace TSA_WorldDomination
 
             if (sourceComp == null || seth == null) return false;
             if (alliedOrder && winChance < Mathf.Clamp01(seth.alliedRaidOrderMinWinChance)) return false;
+            if (alliedOrder && WorldComponent_SettlementIntel.IsActive(manager))
+            {
+                Faction allyFaction = source?.Faction;
+                var intel = WorldComponent_SettlementIntel.Get();
+                if (intel != null && allyFaction != null && !intel.Knows(allyFaction, target))
+                {
+                    Messages.Message("TSA_WD_Msg_AlliedRaidUnknownTarget".Translate(source.LabelCap, target.LabelCap),
+                        MessageTypeDefOf.RejectInput, false);
+                    return false;
+                }
+            }
             int alliedGoodwillPaid = 0;
             if (alliedOrder && !TryPayAlliedRaidOrderCost(outcome, out alliedGoodwillPaid)) return false;
 

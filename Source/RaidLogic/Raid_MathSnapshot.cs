@@ -90,24 +90,32 @@ namespace TSA_WorldDomination
     /// </summary>
     public static class Raid_MathSnapshot
     {
-        /// <summary>Defender side for an (attacker -> target) raid. Pass the attacker world object so cross-faction allies are eligible.</summary>
+        /// <summary>Defender side for an (attacker -> target) raid. Pass the attacker world object so cross-faction allies are eligible.
+        /// When <paramref name="foggedAssess"/> and settlement intel is active, only known defender allies are counted and GotBurned may inflate Total.</summary>
         public static RaidDefenderSnapshot BuildDefenders(
             WorldObject target,
             WorldObject attacker,
             Faction attackerFaction,
             Dictionary<Faction, List<WorldObject>> lookup,
             WorldComponent_SpreadManager manager,
-            WorldDominationSettings seth)
+            WorldDominationSettings seth,
+            bool foggedAssess = false)
         {
             var snap = new RaidDefenderSnapshot { target = target };
             var targetComp = target?.GetComponent<CompViralSpread>();
 
+            bool fog = foggedAssess && WorldComponent_SettlementIntel.IsActive(manager);
+            WorldComponent_SettlementIntel intel = fog ? WorldComponent_SettlementIntel.Get() : null;
+
+            float primaryDefense = fog && targetComp != null
+                ? targetComp.GetTotalLocalDefensePowerFogged(attackerFaction)
+                : (targetComp?.GetTotalLocalDefensePower() ?? 0f);
             snap.primary = new RaidContribEntry
             {
                 obj = target,
                 role = RaidContribRole.DefenderPrimary,
                 currentOffensive = targetComp?.strength ?? 0f,
-                totalLocalDefense = targetComp?.GetTotalLocalDefensePower() ?? 0f,
+                totalLocalDefense = primaryDefense,
             };
             snap.primary.committed = snap.primary.totalLocalDefense;
             snap.Total = snap.primary.totalLocalDefense;
@@ -119,6 +127,8 @@ namespace TSA_WorldDomination
 
             foreach (var wo in defAllies)
             {
+                if (fog && intel != null && !intel.Knows(attackerFaction, wo))
+                    continue;
                 var c = wo.GetComponent<CompViralSpread>();
                 if (c == null) continue;
                 float available = WorldActions_Utils.GetAvailableRaidStrength(c, seth);
@@ -134,6 +144,10 @@ namespace TSA_WorldDomination
                 snap.allies.Add(entry);
                 snap.Total += available;
             }
+
+            if (fog && intel != null)
+                snap.Total = intel.ApplyGotBurnedInflate(attackerFaction, target, snap.Total);
+
             return snap;
         }
 

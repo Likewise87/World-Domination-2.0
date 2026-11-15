@@ -15,7 +15,9 @@ namespace TSA_WorldDomination
         Red = 3,
         Orange = 4,
         /// <summary>Tunnel Network annulus (deeper blue than base ally cyan).</summary>
-        CyanDeep = 5
+        CyanDeep = 5,
+        /// <summary>Intel MaxLOS / line-of-sight overlay (golden yellow).</summary>
+        Gold = 6
     }
 
     /// <summary>
@@ -48,6 +50,7 @@ namespace TSA_WorldDomination
         private const float AlphaAttackBand1 = 0.26f;
         private const float AlphaAttackBand2 = 0.24f;
         private const float AlphaAttackBand3 = 0.22f;
+        private const float AlphaGold = 0.22f;
 
         private static Material? purpleFillMaterial;
         private static Material? greenFillMaterial;
@@ -55,6 +58,7 @@ namespace TSA_WorldDomination
         private static Material? cyanDeepFillMaterial;
         private static Material? redFillMaterial;
         private static Material? orangeFillMaterial;
+        private static Material? goldFillMaterial;
         private static Material? accuracyBand0FillMaterial;
         private static Material? accuracyBand1FillMaterial;
         private static Material? accuracyBand2FillMaterial;
@@ -74,6 +78,11 @@ namespace TSA_WorldDomination
         private static float accuracyBandMaxRange;
         private static bool attackRangeBands;
         private static bool zealAttackInnerCyan;
+        /// <summary>Intel MaxLOS rings: tile color by target-size class (red T1 / orange T2 / yellow T3 / gold T4).</summary>
+        private static bool sightLosBands;
+        private static float sightRingFracT1 = 0.50f;
+        private static float sightRingFracT2 = 0.75f;
+        private static float sightRingFracT3 = 1.00f;
         /// <summary>When &gt; 0 and fill is Cyan: tiles beyond this use <see cref="OutpostCoverageFillKind.CyanDeep"/> (Tunnel annulus).</summary>
         private static float allyInnerRadiusSplit = -1f;
 
@@ -106,12 +115,36 @@ namespace TSA_WorldDomination
                     Color o = ColorLibrary.Orange;
                     return new Color(o.r, o.g, o.b, AlphaOrange);
                 }
+                case OutpostCoverageFillKind.Gold:
+                {
+                    Color g = WorldOverlayLineMaterials.SightGoldColor;
+                    return new Color(g.r, g.g, g.b, AlphaGold);
+                }
                 default:
                 {
                     Color p = WorldOverlayLineMaterials.RecruitPurple;
                     return new Color(p.r, p.g, p.b, AlphaPurple);
                 }
             }
+        }
+
+        /// <summary>
+        /// Sight MaxLOS band colors (same red → orange → yellow → pale progression as Attack).
+        /// Band 0 = T1 ring (all sizes); 1 = T2; 2 = T3; 3 = T4 / outer MaxLOS.
+        /// </summary>
+        public static Color GetSightLosBandFillColor(int bandIndex)
+            => GetAttackRangeBandFillColor(bandIndex, zealInnerCyan: false);
+
+        public static int GetSightLosBandIndex(float dist, float maxLos)
+        {
+            float r = Mathf.Max(1f, maxLos);
+            float t1 = r * Mathf.Clamp01(sightRingFracT1);
+            float t2 = r * Mathf.Clamp01(Mathf.Max(sightRingFracT1, sightRingFracT2));
+            float t3 = r * Mathf.Clamp01(Mathf.Max(sightRingFracT2, sightRingFracT3));
+            if (dist <= t1) return 0;
+            if (dist <= t2) return 1;
+            if (dist <= t3) return 2;
+            return 3;
         }
 
         /// <summary>
@@ -220,6 +253,7 @@ namespace TSA_WorldDomination
 
         /// <summary>Returns true if the target changed (caller should dirty the layer).</summary>
         /// <param name="allyInnerRadiusSplit">When &gt; 0 and <paramref name="kind"/> is Cyan, tiles beyond this use CyanDeep.</param>
+        /// <param name="sightLosBands">When true, tile color follows MaxLOS target-size rings (T1/T2/T3).</param>
         public static bool TrySetTarget(
             PlanetTile center,
             float radius,
@@ -228,7 +262,11 @@ namespace TSA_WorldDomination
             bool attackRangeBands = false,
             bool zealAttackInnerCyan = false,
             float accuracyBandMaxRange = -1f,
-            float allyInnerRadiusSplit = -1f)
+            float allyInnerRadiusSplit = -1f,
+            bool sightLosBands = false,
+            float sightFracT1 = 0.50f,
+            float sightFracT2 = 0.75f,
+            float sightFracT3 = 1.00f)
         {
             int r = Mathf.CeilToInt(radius);
             if (!center.Valid || r <= 0)
@@ -236,13 +274,20 @@ namespace TSA_WorldDomination
 
             float bandMax = accuracyBands && accuracyBandMaxRange > 0f ? accuracyBandMaxRange : -1f;
             float split = allyInnerRadiusSplit > 0f ? allyInnerRadiusSplit : -1f;
+            float f1 = Mathf.Clamp01(sightFracT1);
+            float f2 = Mathf.Clamp01(Mathf.Max(sightFracT1, sightFracT2));
+            float f3 = Mathf.Clamp01(Mathf.Max(sightFracT2, sightFracT3));
 
             if (hasTarget && centerTile == center && radiusTiles == r && fillKind == kind
                 && WD_WorldLayer_OutpostCoverageFill.accuracyBands == accuracyBands
                 && WD_WorldLayer_OutpostCoverageFill.attackRangeBands == attackRangeBands
                 && WD_WorldLayer_OutpostCoverageFill.zealAttackInnerCyan == zealAttackInnerCyan
+                && WD_WorldLayer_OutpostCoverageFill.sightLosBands == sightLosBands
                 && Mathf.Approximately(WD_WorldLayer_OutpostCoverageFill.accuracyBandMaxRange, bandMax)
-                && Mathf.Approximately(WD_WorldLayer_OutpostCoverageFill.allyInnerRadiusSplit, split))
+                && Mathf.Approximately(WD_WorldLayer_OutpostCoverageFill.allyInnerRadiusSplit, split)
+                && Mathf.Approximately(sightRingFracT1, f1)
+                && Mathf.Approximately(sightRingFracT2, f2)
+                && Mathf.Approximately(sightRingFracT3, f3))
                 return false;
 
             hasTarget = true;
@@ -254,6 +299,10 @@ namespace TSA_WorldDomination
             WD_WorldLayer_OutpostCoverageFill.attackRangeBands = attackRangeBands;
             WD_WorldLayer_OutpostCoverageFill.zealAttackInnerCyan = zealAttackInnerCyan;
             WD_WorldLayer_OutpostCoverageFill.allyInnerRadiusSplit = split;
+            WD_WorldLayer_OutpostCoverageFill.sightLosBands = sightLosBands;
+            sightRingFracT1 = f1;
+            sightRingFracT2 = f2;
+            sightRingFracT3 = f3;
             return true;
         }
 
@@ -266,12 +315,16 @@ namespace TSA_WorldDomination
             bool attackRangeBands = false,
             bool zealAttackInnerCyan = false,
             float accuracyBandMaxRange = -1f,
-            float allyInnerRadiusSplit = -1f)
+            float allyInnerRadiusSplit = -1f,
+            bool sightLosBands = false,
+            float sightFracT1 = 0.50f,
+            float sightFracT2 = 0.75f,
+            float sightFracT3 = 1.00f)
         {
             if (outpost == null || radius <= 0)
                 return ClearTarget();
             PlanetLayer layer = PlanetSurfaceWorldActions.LayerOf(outpost);
-            return TrySetTarget(new PlanetTile(outpost.Tile, layer), radius, kind, accuracyBands, attackRangeBands, zealAttackInnerCyan, accuracyBandMaxRange, allyInnerRadiusSplit);
+            return TrySetTarget(new PlanetTile(outpost.Tile, layer), radius, kind, accuracyBands, attackRangeBands, zealAttackInnerCyan, accuracyBandMaxRange, allyInnerRadiusSplit, sightLosBands, sightFracT1, sightFracT2, sightFracT3);
         }
 
         /// <summary>Returns true if a previous target was cleared.</summary>
@@ -286,6 +339,10 @@ namespace TSA_WorldDomination
             accuracyBandMaxRange = -1f;
             attackRangeBands = false;
             zealAttackInnerCyan = false;
+            sightLosBands = false;
+            sightRingFracT1 = 0.50f;
+            sightRingFracT2 = 0.75f;
+            sightRingFracT3 = 1.00f;
             allyInnerRadiusSplit = -1f;
             return true;
         }
@@ -340,6 +397,11 @@ namespace TSA_WorldDomination
                 {
                     int band = WD_TargetDistanceBandOrder.BandIndex(approxDist, bandMax);
                     mat = GetAttackRangeBandMaterial(band, zealAttackInnerCyan);
+                }
+                else if (sightLosBands)
+                {
+                    int band = GetSightLosBandIndex(approxDist, radiusTiles);
+                    mat = GetAttackRangeBandMaterial(band, zealInnerCyan: false);
                 }
                 else if (accuracyBands && fillKind == OutpostCoverageFillKind.Red)
                 {
@@ -403,6 +465,8 @@ namespace TSA_WorldDomination
                     return redFillMaterial ??= MakeFillMat(GetFillColor(kind));
                 case OutpostCoverageFillKind.Orange:
                     return orangeFillMaterial ??= MakeFillMat(GetFillColor(kind));
+                case OutpostCoverageFillKind.Gold:
+                    return goldFillMaterial ??= MakeFillMat(GetFillColor(kind));
                 default:
                     return purpleFillMaterial ??= MakeFillMat(GetFillColor(kind));
             }

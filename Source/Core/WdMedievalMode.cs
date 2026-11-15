@@ -55,7 +55,7 @@ namespace TSA_WorldDomination
             return IsAllowed(ext?.minTechLevel ?? TechLevel.Undefined);
         }
 
-        /// <summary>Asphalt (T3/T4) is industrial world-road content; hidden in Medieval mode.</summary>
+        /// <summary>Asphalt (T3) and Glitter (T4) are industrial world-road content; hidden in Medieval mode.</summary>
         public static bool IsRoadTierAllowed(SettlementTier tier)
         {
             if (!Active) return true;

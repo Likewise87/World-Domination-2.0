@@ -261,7 +261,7 @@ namespace TSA_WorldDomination
             }
 
             int towardTile = sources[0].Tile.tileId;
-            List<WorldObject> playerTargets = WorldActions_PackUp.CollectDistinctPlayerTargets();
+            List<WorldObject> playerTargets = WorldActions_PackUp.CollectDistinctPlayerTargets(sources[0]?.Faction);
             WorldObject front = WorldActions_PackUp.PickNearestPlayerTarget(towardTile, playerTargets);
 
             WorldGrid grid = Find.WorldGrid;

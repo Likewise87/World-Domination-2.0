@@ -65,6 +65,86 @@ namespace TSA_WorldDomination
             return true;
         }
 
+        /// <summary>Free non-slave escort for fire-and-forget rules (Ideology slaves count as cargo, not escorts).</summary>
+        public static bool IsFreeEscortHumanlike(Pawn pawn) =>
+            IsEscortHumanlike(pawn) && !OutpostPawnIdeologyUtil.IsSlaveHumanlike(pawn);
+
+        /// <summary>
+        /// Drop-pod transfers to a live player outpost/colony may carry prisoners, slaves, and mechs
+        /// without a free escort colonist (land caravans still require one).
+        /// </summary>
+        public static bool AllowsUnescortedDropPodCargo(PlayerPawnTransferDestination destination, bool viaDropPod)
+        {
+            if (!viaDropPod) return false;
+            if (destination.kind == PlayerPawnTransferDestinationKind.Outpost)
+            {
+                WorldObject_WD_Outpost op = destination.outpost;
+                return op != null && !op.Destroyed && op.Faction == Faction.OfPlayer;
+            }
+            if (destination.kind == PlayerPawnTransferDestinationKind.Colony)
+            {
+                MapParent colony = destination.colony;
+                return colony != null && !colony.Destroyed && colony.Faction == Faction.OfPlayer;
+            }
+            return false;
+        }
+
+        public static bool GroupHasFreeEscort(IReadOnlyList<PlayerPawnRosterEntry> group)
+        {
+            if (group == null) return false;
+            for (int i = 0; i < group.Count; i++)
+            {
+                Pawn p = group[i]?.pawn;
+                if (p != null && IsFreeEscortHumanlike(p))
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool PawnListHasFreeEscort(IReadOnlyList<Pawn> pawns)
+        {
+            if (pawns == null) return false;
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                if (IsFreeEscortHumanlike(pawns[i]))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Selection has no free escort and only cargo eligible for unescorted pods
+        /// (prisoners, Ideology slaves, mechanoids — not animals/vehicles/shuttles).
+        /// </summary>
+        public static bool GroupIsUnescortedDropPodEligible(IReadOnlyList<PlayerPawnRosterEntry> group)
+        {
+            if (group == null || group.Count == 0) return false;
+            if (GroupHasFreeEscort(group)) return false;
+            for (int i = 0; i < group.Count; i++)
+            {
+                PlayerPawnRosterEntry e = group[i];
+                if (e == null) return false;
+                if (e.outpostRole == PlayerPawnOutpostRole.StoredTransport
+                    || e.outpostRole == PlayerPawnOutpostRole.StoredShuttle)
+                    return false;
+                if (e.outpostRole == PlayerPawnOutpostRole.Prisoner
+                    || e.outpostRole == PlayerPawnOutpostRole.StoredMechanoid)
+                    continue;
+                if (e.outpostRole == PlayerPawnOutpostRole.Occupant
+                    && OutpostPawnIdeologyUtil.IsSlaveHumanlike(e.pawn))
+                    continue;
+                // Colony/map pawns without outpostRole: prisoners/slaves/mechs only.
+                Pawn p = e.pawn;
+                if (p == null) return false;
+                if (p.IsPrisonerOfColony || OutpostPawnIdeologyUtil.IsSlaveHumanlike(p))
+                    continue;
+                if (p.RaceProps?.IsMechanoid == true)
+                    continue;
+                return false;
+            }
+            return true;
+        }
+
         private static bool WouldLeaveMechanoidsWithoutOccupants(WorldObject_WD_Outpost outpost, int occupantsBeingRemoved)
         {
             if (outpost == null) return false;
@@ -183,9 +263,12 @@ namespace TSA_WorldDomination
 
         /// <summary>
         /// Join-all + ≥1 leader per origin. Passenger-only is allowed only when an outpost origin is fully emptied
-        /// (immobilized world caravan). Shows reject/immobilized tips.
+        /// (immobilized world caravan), or when <paramref name="allowUnescortedDropPod"/> and the group is
+        /// prisoners/slaves/mechs only. Shows reject/immobilized tips.
         /// </summary>
-        private static bool RejectIfTransferSelectionNotTravelValid(IReadOnlyList<PlayerPawnRosterEntry> selected)
+        private static bool RejectIfTransferSelectionNotTravelValid(
+            IReadOnlyList<PlayerPawnRosterEntry> selected,
+            bool allowUnescortedDropPod = false)
         {
             if (selected == null || selected.Count == 0) return false;
 
@@ -232,6 +315,8 @@ namespace TSA_WorldDomination
             {
                 if (GroupHasCaravanLeader(kv.Value))
                     continue;
+                if (allowUnescortedDropPod && GroupIsUnescortedDropPodEligible(kv.Value))
+                    continue;
                 if (GroupEmptiesOutpost(kv.Key, kv.Value))
                 {
                     anyImmobilizedEmptyEvacuate = true;
@@ -244,6 +329,8 @@ namespace TSA_WorldDomination
             foreach (var kv in byColony)
             {
                 if (GroupHasCaravanLeader(kv.Value))
+                    continue;
+                if (allowUnescortedDropPod && GroupIsUnescortedDropPodEligible(kv.Value))
                     continue;
                 Messages.Message("TSA_WD_PawnTransfer_EscortRequired".Translate(), MessageTypeDefOf.RejectInput, false);
                 return true;
@@ -276,7 +363,9 @@ namespace TSA_WorldDomination
         /// Same join/leader rules as <see cref="RejectIfTransferSelectionNotTravelValid"/>, but per resulting
         /// (origin, destination) caravan — Smart Assign can split one outpost across destinations.
         /// </summary>
-        private static bool RejectIfTransferAssignmentsNotTravelValid(IReadOnlyList<PlayerPawnTransferAssignment> assignments)
+        private static bool RejectIfTransferAssignmentsNotTravelValid(
+            IReadOnlyList<PlayerPawnTransferAssignment> assignments,
+            bool viaDropPod = false)
         {
             if (assignments == null || assignments.Count == 0) return false;
 
@@ -308,7 +397,7 @@ namespace TSA_WorldDomination
             foreach (var kv in byOutpostAll)
                 emptiesByOutpost[kv.Key] = GroupEmptiesOutpost(kv.Key, kv.Value);
 
-            var caravanGroups = new Dictionary<(int originKey, int destKey), List<PlayerPawnRosterEntry>>();
+            var caravanGroups = new Dictionary<(int originKey, int destKey), (List<PlayerPawnRosterEntry> list, PlayerPawnTransferDestination dest)>();
             for (int i = 0; i < assignments.Count; i++)
             {
                 PlayerPawnRosterEntry e = assignments[i].entry;
@@ -316,28 +405,32 @@ namespace TSA_WorldDomination
                 int originKey = e.sourceOutpost != null
                     ? e.sourceOutpost.ID
                     : e.mapParent != null ? unchecked((int)0x40000000) ^ e.mapParent.ID : -1;
-                int destKey = DestGroupKey(assignments[i].destination);
+                PlayerPawnTransferDestination dest = assignments[i].destination;
+                int destKey = DestGroupKey(dest);
                 var key = (originKey, destKey);
-                if (!caravanGroups.TryGetValue(key, out var list))
+                if (!caravanGroups.TryGetValue(key, out var bucket))
                 {
-                    list = new List<PlayerPawnRosterEntry>();
-                    caravanGroups[key] = list;
+                    bucket = (new List<PlayerPawnRosterEntry>(), dest);
+                    caravanGroups[key] = bucket;
                 }
-                list.Add(e);
+                bucket.list.Add(e);
             }
 
             bool anyImmobilized = false;
             foreach (var kv in caravanGroups)
             {
-                if (GroupHasCaravanLeader(kv.Value))
+                List<PlayerPawnRosterEntry> group = kv.Value.list;
+                if (GroupHasCaravanLeader(group))
+                    continue;
+                if (AllowsUnescortedDropPodCargo(kv.Value.dest, viaDropPod) && GroupIsUnescortedDropPodEligible(group))
                     continue;
 
                 WorldObject_WD_Outpost originOutpost = null;
-                for (int i = 0; i < kv.Value.Count; i++)
+                for (int i = 0; i < group.Count; i++)
                 {
-                    if (kv.Value[i].sourceOutpost != null)
+                    if (group[i].sourceOutpost != null)
                     {
-                        originOutpost = kv.Value[i].sourceOutpost;
+                        originOutpost = group[i].sourceOutpost;
                         break;
                     }
                 }
@@ -468,6 +561,8 @@ namespace TSA_WorldDomination
                 return;
             }
 
+            bool allowUnescortedDropPod = AllowsUnescortedDropPodCargo(destination, viaDropPod);
+
             if (viaDropPod)
             {
                 if (!RapidResponseUtility.TransportPodsResearched())
@@ -480,7 +575,8 @@ namespace TSA_WorldDomination
                     Messages.Message("TSA_WD_PawnDropPod_NoExitHere".Translate(), MessageTypeDefOf.RejectInput, false);
                     return;
                 }
-                if (SelectionIncludesStoredTransportOrMechs(selected))
+                // Animals / vehicles / shuttles still need a land caravan; mechs may pod unescorted to player holdings.
+                if (SelectionIncludesStoredAnimalsVehiclesOrShuttles(selected))
                 {
                     Messages.Message("TSA_WD_RapidResponse_DropPodsNoStoredTransport".Translate(), MessageTypeDefOf.RejectInput, false);
                     return;
@@ -496,7 +592,7 @@ namespace TSA_WorldDomination
                 }
             }
 
-            if (RejectIfTransferSelectionNotTravelValid(selected))
+            if (RejectIfTransferSelectionNotTravelValid(selected, allowUnescortedDropPod))
                 return;
 
             if (destination.kind != PlayerPawnTransferDestinationKind.ExitHere && destination.Tile < 0)
@@ -592,7 +688,7 @@ namespace TSA_WorldDomination
 
             foreach (var kv in byOutpost)
             {
-                if (!ValidateOutpostGroup(kv.Key, kv.Value, out string reject))
+                if (!ValidateOutpostGroup(kv.Key, kv.Value, out string reject, allowUnescortedDropPod))
                 {
                     Messages.Message(reject, MessageTypeDefOf.RejectInput, false);
                     return;
@@ -601,7 +697,7 @@ namespace TSA_WorldDomination
 
             foreach (var kv in byColony)
             {
-                if (!ValidateColonyGroup(kv.Key, kv.Value, out string reject))
+                if (!ValidateColonyGroup(kv.Key, kv.Value, out string reject, allowUnescortedDropPod))
                 {
                     Messages.Message(reject, MessageTypeDefOf.RejectInput, false);
                     return;
@@ -729,7 +825,8 @@ namespace TSA_WorldDomination
             run();
         }
 
-        private static bool SelectionIncludesStoredTransportOrMechs(IReadOnlyList<PlayerPawnRosterEntry> selected)
+        /// <summary>Animals, vehicles, or shuttles — still blocked from drop pods (mechs are allowed).</summary>
+        private static bool SelectionIncludesStoredAnimalsVehiclesOrShuttles(IReadOnlyList<PlayerPawnRosterEntry> selected)
         {
             if (selected == null) return false;
             for (int i = 0; i < selected.Count; i++)
@@ -737,7 +834,6 @@ namespace TSA_WorldDomination
                 PlayerPawnRosterEntry e = selected[i];
                 if (e == null) continue;
                 if (e.outpostRole == PlayerPawnOutpostRole.StoredTransport
-                    || e.outpostRole == PlayerPawnOutpostRole.StoredMechanoid
                     || e.outpostRole == PlayerPawnOutpostRole.StoredShuttle)
                     return true;
             }
@@ -773,6 +869,21 @@ namespace TSA_WorldDomination
             }
 
             var entries = new List<PlayerPawnRosterEntry>(assignments.Count);
+            // Pre-scan: animals/vehicles/shuttles cannot use drop pods (mechs may).
+            if (viaDropPod)
+            {
+                for (int i = 0; i < assignments.Count; i++)
+                {
+                    PlayerPawnRosterEntry pe = assignments[i].entry;
+                    if (pe == null) continue;
+                    if (pe.outpostRole == PlayerPawnOutpostRole.StoredTransport
+                        || pe.outpostRole == PlayerPawnOutpostRole.StoredShuttle)
+                    {
+                        Messages.Message("TSA_WD_RapidResponse_DropPodsNoStoredTransport".Translate(), MessageTypeDefOf.RejectInput, false);
+                        return false;
+                    }
+                }
+            }
             for (int i = 0; i < assignments.Count; i++)
             {
                 PlayerPawnRosterEntry e = assignments[i].entry;
@@ -827,12 +938,13 @@ namespace TSA_WorldDomination
                 entries.Add(e);
             }
 
-            if (RejectIfTransferAssignmentsNotTravelValid(assignments))
+            if (RejectIfTransferAssignmentsNotTravelValid(assignments, viaDropPod))
                 return false;
 
             // Cumulative leavers per origin (all dests combined).
             var byOutpostAll = new Dictionary<WorldObject_WD_Outpost, List<PlayerPawnRosterEntry>>();
             var byColonyAll = new Dictionary<MapParent, List<PlayerPawnRosterEntry>>();
+            bool allDestsAllowUnescorted = viaDropPod;
             for (int i = 0; i < entries.Count; i++)
             {
                 PlayerPawnRosterEntry e = entries[i];
@@ -855,10 +967,18 @@ namespace TSA_WorldDomination
                     list.Add(e);
                 }
             }
+            for (int i = 0; i < assignments.Count; i++)
+            {
+                if (!AllowsUnescortedDropPodCargo(assignments[i].destination, viaDropPod))
+                {
+                    allDestsAllowUnescorted = false;
+                    break;
+                }
+            }
 
             foreach (var kv in byOutpostAll)
             {
-                if (!ValidateOutpostGroup(kv.Key, kv.Value, out string reject))
+                if (!ValidateOutpostGroup(kv.Key, kv.Value, out string reject, allDestsAllowUnescorted))
                 {
                     Messages.Message(reject, MessageTypeDefOf.RejectInput, false);
                     return false;
@@ -867,7 +987,7 @@ namespace TSA_WorldDomination
 
             foreach (var kv in byColonyAll)
             {
-                if (!ValidateColonyGroup(kv.Key, kv.Value, out string reject))
+                if (!ValidateColonyGroup(kv.Key, kv.Value, out string reject, allDestsAllowUnescorted))
                 {
                     Messages.Message(reject, MessageTypeDefOf.RejectInput, false);
                     return false;
@@ -1149,7 +1269,20 @@ namespace TSA_WorldDomination
                 if (pod.Count > 0)
                     ExecuteOutpostGroupDropPod(kv.Key, pod, destination, destWo, destTile);
                 if (land.Count > 0)
-                    ExecuteOutpostGroupTransfer(kv.Key, land, destination);
+                {
+                    // Unescorted captive/mech groups cannot fall back to land caravan.
+                    if (GroupIsUnescortedDropPodEligible(land)
+                        && !ValidateOutpostGroup(kv.Key, land, out string landReject, allowUnescortedDropPod: false))
+                    {
+                        Messages.Message(
+                            landReject ?? "TSA_WD_PawnTransfer_PrisonerNeedsEscort".Translate(),
+                            MessageTypeDefOf.RejectInput,
+                            false);
+                        PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(CollectPawnsFromEntries(land), kv.Key);
+                    }
+                    else
+                        ExecuteOutpostGroupTransfer(kv.Key, land, destination);
+                }
                 if (abort.Count > 0)
                     PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(CollectPawnsFromEntries(abort), kv.Key);
             }
@@ -1162,7 +1295,19 @@ namespace TSA_WorldDomination
                 if (pod.Count > 0)
                     ExecuteColonyGroupDropPod(kv.Key, pod, destination, destWo, destTile);
                 if (land.Count > 0)
-                    ExecuteColonyGroupTransfer(kv.Key, land, destination);
+                {
+                    if (GroupIsUnescortedDropPodEligible(land)
+                        && !ValidateColonyGroup(kv.Key, land, out string landReject, allowUnescortedDropPod: false))
+                    {
+                        Messages.Message(
+                            landReject ?? "TSA_WD_PawnTransfer_PrisonerNeedsEscort".Translate(),
+                            MessageTypeDefOf.RejectInput,
+                            false);
+                        PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(CollectPawnsFromEntries(land), kv.Key);
+                    }
+                    else
+                        ExecuteColonyGroupTransfer(kv.Key, land, destination);
+                }
                 if (abort.Count > 0)
                     PlayerPawnDropPodUtility.NotifyLackingMaterialsGroup(CollectPawnsFromEntries(abort), kv.Key);
             }
@@ -1200,6 +1345,7 @@ namespace TSA_WorldDomination
             if (source == null || group == null || group.Count == 0) return;
             var occupants = new List<Pawn>();
             var captives = new List<Pawn>();
+            var mechs = new List<Pawn>();
             for (int i = 0; i < group.Count; i++)
             {
                 PlayerPawnRosterEntry entry = group[i];
@@ -1207,6 +1353,8 @@ namespace TSA_WorldDomination
                 if (p == null) continue;
                 if (entry.outpostRole == PlayerPawnOutpostRole.Prisoner && source.Prisoners.Contains(p))
                     captives.Add(p);
+                else if (entry.outpostRole == PlayerPawnOutpostRole.StoredMechanoid && source.StoredMechanoids.Contains(p))
+                    mechs.Add(p);
                 else if (entry.outpostRole == PlayerPawnOutpostRole.Occupant && source.Occupants.Contains(p))
                     occupants.Add(p);
             }
@@ -1222,6 +1370,11 @@ namespace TSA_WorldDomination
                 if (!source.TryDetachPrisonerForTransfer(captives[i], out Pawn detached)) continue;
                 if (detached != null && !detached.Destroyed && !detached.Dead)
                     removed.Add(detached);
+            }
+            for (int i = 0; i < mechs.Count; i++)
+            {
+                Pawn r = source.RemoveStoredMechanoid(mechs[i]);
+                if (r != null && !r.Destroyed && !r.Dead) removed.Add(r);
             }
             if (removed.Count == 0) return;
 
@@ -1283,9 +1436,13 @@ namespace TSA_WorldDomination
             WorldObject_WD_Outpost outpost,
             List<PlayerPawnRosterEntry> group,
             out string reject) =>
-            ValidateOutpostGroup(outpost, group, out reject);
+            ValidateOutpostGroup(outpost, group, out reject, allowUnescortedDropPod: false);
 
-        private static bool ValidateOutpostGroup(WorldObject_WD_Outpost outpost, List<PlayerPawnRosterEntry> group, out string reject)
+        private static bool ValidateOutpostGroup(
+            WorldObject_WD_Outpost outpost,
+            List<PlayerPawnRosterEntry> group,
+            out string reject,
+            bool allowUnescortedDropPod = false)
         {
             reject = null!;
             if (outpost != null && outpost.ManualDefenseActive)
@@ -1333,22 +1490,20 @@ namespace TSA_WorldDomination
                 }
             }
 
-            if (captives.Count > 0)
+            bool hasFreeEscort = false;
+            for (int i = 0; i < occupants.Count; i++)
             {
-                bool hasEscort = false;
-                for (int i = 0; i < occupants.Count; i++)
+                if (IsFreeEscortHumanlike(occupants[i]))
                 {
-                    if (IsEscortHumanlike(occupants[i]))
-                    {
-                        hasEscort = true;
-                        break;
-                    }
+                    hasFreeEscort = true;
+                    break;
                 }
-                if (!hasEscort)
-                {
-                    reject = "TSA_WD_PawnTransfer_PrisonerNeedsEscort".Translate();
-                    return false;
-                }
+            }
+
+            if (captives.Count > 0 && !hasFreeEscort && !allowUnescortedDropPod)
+            {
+                reject = "TSA_WD_PawnTransfer_PrisonerNeedsEscort".Translate();
+                return false;
             }
 
             if (shuttleCount > 0)
@@ -1369,19 +1524,30 @@ namespace TSA_WorldDomination
                 }
             }
 
-            if ((stored.Count > 0 || mechs.Count > 0) && occupants.Count == 0)
+            // Animals/vehicles always need an escort occupant. Mechs alone OK on unescorted pods.
+            if (stored.Count > 0 && occupants.Count == 0)
+            {
+                reject = "TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip".Translate();
+                return false;
+            }
+            if (mechs.Count > 0 && occupants.Count == 0 && !allowUnescortedDropPod)
             {
                 reject = "TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip".Translate();
                 return false;
             }
 
-            if (occupants.Count > 0 && OutpostPawnIdeologyUtil.TryGetBulkRemovalRejectReason(outpost, occupants, out string ideologyReject))
+            if (occupants.Count > 0
+                && OutpostPawnIdeologyUtil.TryGetBulkRemovalRejectReason(
+                    outpost, occupants, out string ideologyReject, waiveSlaveAccompaniment: allowUnescortedDropPod))
             {
                 reject = ideologyReject;
                 return false;
             }
 
-            if (WouldLeaveMechanoidsWithoutOccupants(outpost, occupants.Count))
+            // Block emptying occupants while mechs remain — unless this transfer also takes all mechs (pod).
+            bool removingAllMechs = mechs.Count > 0 && mechs.Count >= outpost.StoredMechanoidPawnCount;
+            if (WouldLeaveMechanoidsWithoutOccupants(outpost, occupants.Count)
+                && !(allowUnescortedDropPod && removingAllMechs))
             {
                 reject = "TSA_WD_Pawns_RemoveLastOccupantMechanoidsRemain".Translate();
                 return false;
@@ -1402,7 +1568,11 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>Colony transfer: leave ≥1 escort humanlike behind; non-humans/slaves need an escort leaver.</summary>
-        public static bool ValidateColonyLeavingPawns(MapParent mapParent, IReadOnlyList<Pawn> leaving, out string reject)
+        public static bool ValidateColonyLeavingPawns(
+            MapParent mapParent,
+            IReadOnlyList<Pawn> leaving,
+            out string reject,
+            bool allowUnescortedDropPod = false)
         {
             reject = null!;
             if (mapParent?.Map == null || leaving == null || leaving.Count == 0)
@@ -1447,7 +1617,7 @@ namespace TSA_WorldDomination
                 }
             }
 
-            if ((nonEscortLeaving > 0 || anySlaveLeaving) && nonSlaveEscortLeaving == 0)
+            if ((nonEscortLeaving > 0 || anySlaveLeaving) && nonSlaveEscortLeaving == 0 && !allowUnescortedDropPod)
             {
                 reject = "TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip".Translate();
                 return false;
@@ -1507,7 +1677,11 @@ namespace TSA_WorldDomination
             return ValidateColonyLeavingPawns(mapParent, leaving, out _);
         }
 
-        private static bool ValidateColonyGroup(MapParent mapParent, List<PlayerPawnRosterEntry> group, out string reject)
+        private static bool ValidateColonyGroup(
+            MapParent mapParent,
+            List<PlayerPawnRosterEntry> group,
+            out string reject,
+            bool allowUnescortedDropPod = false)
         {
             var leaving = new List<Pawn>(group.Count);
             for (int i = 0; i < group.Count; i++)
@@ -1515,12 +1689,12 @@ namespace TSA_WorldDomination
                 Pawn p = group[i].pawn;
                 if (p != null) leaving.Add(p);
             }
-            return ValidateColonyLeavingPawns(mapParent, leaving, out reject);
+            return ValidateColonyLeavingPawns(mapParent, leaving, out reject, allowUnescortedDropPod);
         }
 
         /// <summary>Public leave-behind / ideology checks for a colony group (remote establish, transfer).</summary>
         public static bool TryValidateColonyLeavingGroup(MapParent mapParent, List<PlayerPawnRosterEntry> group, out string reject) =>
-            ValidateColonyGroup(mapParent, group, out reject);
+            ValidateColonyGroup(mapParent, group, out reject, allowUnescortedDropPod: false);
 
         /// <summary>
         /// Manual add-to-outpost: leftover caravan must be empty or keep an escort; moving non-escorts/slaves need a free escort

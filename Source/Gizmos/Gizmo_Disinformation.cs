@@ -143,7 +143,8 @@ namespace TSA_WorldDomination
             if (comp.IsEspionageOnCooldown) return;
 
             var s = WorldDominationMod.settings;
-            comp.espionageCooldownUntilTick = Find.TickManager.TicksGame + Mathf.RoundToInt(s.disCooldownDays * 60000f);
+            comp.ApplyEspionageCooldownWithFactionRadius(
+                Find.TickManager.TicksGame + Mathf.RoundToInt(s.disCooldownDays * 60000f));
 
             int socialSkill = pawn.skills.GetSkill(SkillDefOf.Social).Level;
             int tier = (int)comp.tier;
@@ -206,6 +207,7 @@ namespace TSA_WorldDomination
                 Find.LetterStack.ReceiveLetter("TSA_WD_Dis_LetterCollapsedLabel".Translate(), "TSA_WD_Dis_LetterCollapsedText".Translate(pawn.LabelShort, originalName), LetterDefOf.PositiveEvent, new GlobalTargetInfo(tile));
                 manager?.AddLog(new SpreadLogEntry("TSA_WD_Dis_LogDestroyed".Translate(oldStr.ToString("F0")), caravan, settlement));
                 WorldActions_DesperationRaid.NotifyNpcSettlementLost(settlement, Faction.OfPlayer);
+                WdCommonEnemySettlementQuestHelper.NotifyPlayerDefeatOfTrackedSettlement(settlement);
                 // Destroy (not Remove) so PostDestroy nukes advanced buildings / fortifications.
                 settlement.Destroy();
                 WorldObject_WdSettlementRuin.Spawn(tile, originalName, faction);

@@ -2435,14 +2435,19 @@ namespace TSA_WorldDomination
                 return true;
 
             bool sel = selectedForRemovalThingIds.Contains(tid);
+            bool podMode = PlayerPawnDropPodUtility.GetTravelViaDropPod(SelOutpost);
             if (row.rowKind == OutpostPawnRowKind.Occupant)
             {
+                if (podMode && OutpostPawnIdeologyUtil.IsSlaveHumanlike(row.pawn))
+                    return true;
                 return OutpostPawnIdeologyUtil.CanToggleOutpostRemovalSelection(
                     SelOutpost,
                     selectedForRemovalThingIds,
                     row.pawn);
             }
-            // Animals / vehicles / mechs / shuttles need a free (non-slave) occupant escort in the selection.
+            // Mechs may leave alone via drop pod; animals / vehicles / shuttles still need a free escort.
+            if (podMode && row.rowKind == OutpostPawnRowKind.StoredMechanoid)
+                return true;
             return sel || OutpostPawnIdeologyUtil.SelectionIncludesNonSlaveOccupant(SelOutpost, selectedForRemovalThingIds);
         }
 
@@ -3175,13 +3180,15 @@ namespace TSA_WorldDomination
         {
             WorldObject_WD_Outpost outpost = SelOutpost;
             if (outpost == null) return;
-            OutpostPawnIdeologyUtil.PruneDependentRemovalSelection(outpost, selectedForRemovalThingIds);
+            bool podMode = PlayerPawnDropPodUtility.GetTravelViaDropPod(outpost);
+            if (!podMode)
+                OutpostPawnIdeologyUtil.PruneDependentRemovalSelection(outpost, selectedForRemovalThingIds);
             if (OutpostPawnIdeologyUtil.SelectionIncludesNonSlaveOccupant(outpost, selectedForRemovalThingIds))
                 return;
-            ClearEscortDependentStoredSelection(outpost);
+            ClearEscortDependentStoredSelection(outpost, keepMechs: podMode);
         }
 
-        private void ClearEscortDependentStoredSelection(WorldObject_WD_Outpost outpost)
+        private void ClearEscortDependentStoredSelection(WorldObject_WD_Outpost outpost, bool keepMechs = false)
         {
             if (outpost == null || selectedForRemovalThingIds.Count == 0) return;
             var stored = outpost.StoredAnimalsAndVehicles;
@@ -3194,14 +3201,17 @@ namespace TSA_WorldDomination
                         selectedForRemovalThingIds.Remove(p.ThingID);
                 }
             }
-            var mechs = outpost.StoredMechanoids;
-            if (mechs != null)
+            if (!keepMechs)
             {
-                for (int i = 0; i < mechs.Count; i++)
+                var mechs = outpost.StoredMechanoids;
+                if (mechs != null)
                 {
-                    Pawn p = mechs[i];
-                    if (p?.ThingID != null)
-                        selectedForRemovalThingIds.Remove(p.ThingID);
+                    for (int i = 0; i < mechs.Count; i++)
+                    {
+                        Pawn p = mechs[i];
+                        if (p?.ThingID != null)
+                            selectedForRemovalThingIds.Remove(p.ThingID);
+                    }
                 }
             }
             var shuttles = outpost.StoredPassengerShuttles;

@@ -206,7 +206,7 @@
   <TSA_WD_Dis_CombatSave>Bonificación "abrirse paso" por nivel de combate</TSA_WD_Dis_CombatSave>
   <TSA_WD_Dis_CombatSaveTooltip>Probabilidad porcentual por nivel de Disparo/Melee (el que sea mayor) de convertir un resultado "Fatal" en "Herida" al fallar.</TSA_WD_Dis_CombatSaveTooltip>
   <TSA_WD_Dis_Cooldown>Enfriamiento tras intento de desinformación</TSA_WD_Dis_Cooldown>
-  <TSA_WD_Dis_CooldownTooltip>Duración en que el asentamiento objetivo permanece en alerta máxima tras un intento.</TSA_WD_Dis_CooldownTooltip>
+  <TSA_WD_Dis_CooldownTooltip>Duración en que el objetivo y asentamientos de la misma facción en un radio de 20 casillas permanecen en alerta máxima tras un intento.</TSA_WD_Dis_CooldownTooltip>
   <TSA_WD_Dis_DisabledAlert>Los objetivos cercanos están en alerta máxima de espionaje.</TSA_WD_Dis_DisabledAlert>
   <TSA_WD_Dis_FailureClean>Los locales no hicieron caso a los rumores, pero tu espía logró retirarse antes de que alertaran a las autoridades.</TSA_WD_Dis_FailureClean>
   <TSA_WD_Dis_FailureExecuted>Los pillaron difundiendo secretos de estado y los ejecutaron por espionaje.</TSA_WD_Dis_FailureExecuted>
@@ -272,7 +272,7 @@
   <TSA_WD_Sab_CombatSave>Bonificación "abrirse paso" por nivel de combate</TSA_WD_Sab_CombatSave>
   <TSA_WD_Sab_CombatSaveTooltip>Probabilidad por nivel de combate (Disparo/Melee) de convertir "Muerte/Fatal" en "Herida".</TSA_WD_Sab_CombatSaveTooltip>
   <TSA_WD_Sab_Cooldown>Enfriamiento tras intento</TSA_WD_Sab_Cooldown>
-  <TSA_WD_Sab_CooldownTooltip>Días que el asentamiento objetivo permanece en alerta máxima, impidiendo más sabotajes.</TSA_WD_Sab_CooldownTooltip>
+  <TSA_WD_Sab_CooldownTooltip>Días que el objetivo y asentamientos de la misma facción en un radio de 20 casillas permanecen en alerta máxima, impidiendo más sabotaje o desinformación.</TSA_WD_Sab_CooldownTooltip>
   <TSA_WD_Sab_DisabledAlert>Todos los objetivos cercanos están en alerta máxima.</TSA_WD_Sab_DisabledAlert>
   <TSA_WD_Sab_FailureClean>Lograron retirarse a la sombra antes de ser vistos.</TSA_WD_Sab_FailureClean>
   <TSA_WD_Sab_FailureExecuted>Los pillaron con las manos en la masa y los ejecutaron en el acto.</TSA_WD_Sab_FailureExecuted>

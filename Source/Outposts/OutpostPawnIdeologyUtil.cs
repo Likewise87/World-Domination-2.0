@@ -184,10 +184,31 @@ namespace TSA_WorldDomination
         /// <summary>
         /// COMMIT reject tip for an invalid bulk removal set. False when allowed (no tip).
         /// Leave-behind → <c>TSA_WD_RemoveBulk_NeedOneNonSlave</c>; accompaniment → <c>TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip</c>.
+        /// When <paramref name="waiveSlaveAccompaniment"/> (unescorted drop-pod), slaves may leave without a free colonist in the batch;
+        /// leave-behind minimum non-slave on the outpost still applies.
         /// </summary>
-        public static bool TryGetBulkRemovalRejectReason(WorldObject_WD_Outpost outpost, IReadOnlyList<Pawn> toRemove, out string reject)
+        public static bool TryGetBulkRemovalRejectReason(
+            WorldObject_WD_Outpost outpost,
+            IReadOnlyList<Pawn> toRemove,
+            out string reject,
+            bool waiveSlaveAccompaniment = false)
         {
             reject = null;
+            if (waiveSlaveAccompaniment)
+            {
+                if (toRemove == null || toRemove.Count == 0)
+                {
+                    reject = "TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip".Translate();
+                    return true;
+                }
+                if (!BulkRemovalKeepsMinimumNonSlave(outpost, toRemove, out _))
+                {
+                    reject = "TSA_WD_RemoveBulk_NeedOneNonSlave".Translate();
+                    return true;
+                }
+                return false;
+            }
+
             if (BulkRemovalSelectionIsAllowed(outpost, toRemove))
                 return false;
 

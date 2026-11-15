@@ -143,8 +143,20 @@ namespace TSA_WorldDomination
             var objectsWithComp = WorldActions_Utils.GetWorldObjectsWithCompByFaction();
             float attAgg = traveler.travelerStrength;
 
+            if (attackerFaction != null)
+                AtTurretUtility.DiscoverOwnedAtsForAttacker(target, attackerFaction);
+
             var defSnap = Raid_MathSnapshot.BuildDefenders(target, attacker, attackerFaction, objectsWithComp, manager, seth);
             float defAgg = defSnap.Total;
+
+            // GotBurned: surprise stronger than fogged assess — caution only, do not Discover neighbors.
+            if (traveler.intelAssessedDefTotal >= 0f)
+            {
+                float burnTrigger = seth?.settlementIntelBurnTriggerRatio
+                    ?? WorldDominationSettings.DefSettlementIntelBurnTriggerRatio;
+                if (defAgg > traveler.intelAssessedDefTotal * burnTrigger)
+                    WorldComponent_SettlementIntel.Get()?.StampGotBurned(attackerFaction, target);
+            }
 
             List<WorldObject> fullDefList = new List<WorldObject> { target };
             foreach (var a in defSnap.allies) fullDefList.Add(a.obj);
@@ -605,6 +617,9 @@ namespace TSA_WorldDomination
             var objectsWithComp = WorldActions_Utils.GetWorldObjectsWithCompByFaction();
             var targetComp = target.GetComponent<CompViralSpread>();
             float effectiveAttAgg = traveler.travelerStrength;
+
+            if (attackerFaction != null)
+                AtTurretUtility.DiscoverOwnedAtsForAttacker(target, attackerFaction);
 
             var defSnap = Raid_MathSnapshot.BuildDefenders(target, attacker, attackerFaction, objectsWithComp, manager, seth);
             float finalDefAgg = defSnap.Total;

@@ -382,7 +382,7 @@ namespace TSA_WorldDomination
                 return false;
             }
 
-            WorldObject target = PickAggressorTarget(aggressor, centroid, tmpCluster, manager, seth);
+            WorldObject target = PickAggressorTarget(aggressor, centroid, tmpCluster, manager, seth, victim);
             if (target == null)
             {
                 failReason = $"no target for aggressor {aggressor.Name}";
@@ -595,11 +595,15 @@ namespace TSA_WorldDomination
             int centroid,
             List<Settlement> cluster,
             WorldComponent_SpreadManager manager,
-            WorldDominationSettings seth)
+            WorldDominationSettings seth,
+            Faction knower)
         {
             var candidates = new List<WorldObject>();
             CollectAggressorSites(aggressor, candidates);
             if (candidates.Count == 0) return null;
+
+            bool intelActive = WorldComponent_SettlementIntel.IsActive(manager);
+            var intel = intelActive ? WorldComponent_SettlementIntel.Get() : null;
 
             float clusterStr = 0f;
             for (int i = 0; i < cluster.Count; i++)
@@ -613,6 +617,8 @@ namespace TSA_WorldDomination
             for (int i = 0; i < candidates.Count; i++)
             {
                 WorldObject tgt = candidates[i];
+                if (intel != null && knower != null && !intel.Knows(knower, tgt))
+                    continue;
                 // Ignore origin/target settlement raid-protection CD (HasMap / defense CD still ok to attack).
                 float dist = centroid >= 0
                     ? Find.WorldGrid.ApproxDistanceInTiles(centroid, tgt.Tile.tileId)
@@ -693,7 +699,7 @@ namespace TSA_WorldDomination
             if (aggressor == null) return null;
             var seth = WorldDominationMod.settings;
             var emptyCluster = new List<Settlement>();
-            return PickAggressorTarget(aggressor, fromTile, emptyCluster, manager, seth);
+            return PickAggressorTarget(aggressor, fromTile, emptyCluster, manager, seth, victim);
         }
 
         /// <summary>True while the global desperation CD (or any legacy per-faction entry) is still active.</summary>

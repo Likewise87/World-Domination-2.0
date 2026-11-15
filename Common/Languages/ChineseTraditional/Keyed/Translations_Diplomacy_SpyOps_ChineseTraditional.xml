@@ -409,7 +409,7 @@
   <!-- EN: Cooldown after Disinformation Attempt -->
   <TSA_WD_Dis_Cooldown>散播假情報後的冷卻</TSA_WD_Dis_Cooldown>
   <!-- EN: Duration the target settlement remains on high alert after an attempt. -->
-  <TSA_WD_Dis_CooldownTooltip>行動後目標據點維持高度警戒的時間。</TSA_WD_Dis_CooldownTooltip>
+  <TSA_WD_Dis_CooldownTooltip>行動後，目標及同派系 20 格內據點維持高度警戒的時間。</TSA_WD_Dis_CooldownTooltip>
   <!-- EN: Nearby targets are on high espionage alert. -->
   <TSA_WD_Dis_DisabledAlert>附近的目標正處於高度反間諜警戒。</TSA_WD_Dis_DisabledAlert>
   <!-- EN: The locals were unimpressed by the rumors, but your spy managed to retreat before the authorities were alerted. -->
@@ -541,7 +541,7 @@
   <!-- EN: Cooldown after Attempt -->
   <TSA_WD_Sab_Cooldown>行動後冷卻</TSA_WD_Sab_Cooldown>
   <!-- EN: Duration the target settlement remains on high alert in days, preventing further sabotage. -->
-  <TSA_WD_Sab_CooldownTooltip>目標據點維持高度警戒的天數，期間無法再次破壞。</TSA_WD_Sab_CooldownTooltip>
+  <TSA_WD_Sab_CooldownTooltip>目標及同派系 20 格內據點維持高度警戒的天數，期間無法再次破壞或散播假情報。</TSA_WD_Sab_CooldownTooltip>
   <!-- EN: All nearby targets are on high alert. -->
   <TSA_WD_Sab_DisabledAlert>附近所有目標都處於高度警戒。</TSA_WD_Sab_DisabledAlert>
   <!-- EN: They managed to retreat into the shadows before being spotted. -->

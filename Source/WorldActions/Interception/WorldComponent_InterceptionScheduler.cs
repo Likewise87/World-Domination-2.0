@@ -267,6 +267,7 @@ namespace TSA_WorldDomination
                     ? (float)WorldActions_Utils.GetDistance(iTile.tileId, tTileId, manager)
                     : Find.WorldGrid.ApproxDistanceInTiles(iTile.tileId, tTileId);
                 if (dist > range) continue;
+                if (!AtTurretUtility.CanEngageAtDistance(gun, t, dist)) continue;
                 if (dist < bestTravelerDist)
                 {
                     bestTravelerDist = dist;
@@ -276,6 +277,7 @@ namespace TSA_WorldDomination
 
             if (bestTraveler != null)
             {
+                WorldComponent_SettlementIntel.Get()?.DiscoverTraveler(iFaction, bestTraveler);
                 ((IDefensiveInterceptor)gun).InterceptorFire(bestTraveler, bestTravelerDist);
                 return;
             }
@@ -296,6 +298,7 @@ namespace TSA_WorldDomination
                     ? (float)WorldActions_Utils.GetDistance(iTile.tileId, oTileId, manager)
                     : Find.WorldGrid.ApproxDistanceInTiles(iTile.tileId, oTileId);
                 if (dist > range) continue;
+                if (!AtTurretUtility.CanEngageAtDistance(gun, other, dist)) continue;
                 if (dist < bestAtDist)
                 {
                     bestAtDist = dist;
@@ -1161,12 +1164,35 @@ namespace TSA_WorldDomination
             }
             if (!isRapidResponse && inboundMortarTargetIdsScratch.Contains(t.ID)) return;
 
+            bool isAtTurret = self is WorldObject_AT_Turret;
+            if (!isAtTurret && WorldComponent_SettlementIntel.IsActive(manager))
+            {
+                var intel = WorldComponent_SettlementIntel.Get();
+                if (intel != null && !intel.KnowsTraveler(iFaction, t))
+                    return;
+            }
+
+            // Scout crack-fall for NPC interceptors only (player RR/mortar outposts unchanged).
+            if (t.isNimbleScout && !iFaction.IsPlayer)
+            {
+                float crack = WorldDominationMod.settings?.settlementIntelScoutCrackFallChance
+                    ?? WorldDominationSettings.DefSettlementIntelScoutCrackFallChance;
+                if (Rand.Chance(crack)) return;
+            }
+
             int tTileId = t.Tile.tileId;
             if (tTileId < 0) return;
             float dist = manager != null
                 ? (float)WorldActions_Utils.GetDistance(iTile.tileId, tTileId, manager)
                 : Find.WorldGrid.ApproxDistanceInTiles(iTile.tileId, tTileId);
             if (dist > range) return;
+
+            if (self is WorldObject_AT_Turret atGun
+                && !AtTurretUtility.CanEngageAtDistance(atGun, t, dist))
+                return;
+
+            if (isAtTurret && iFaction != null)
+                WorldComponent_SettlementIntel.Get()?.DiscoverTraveler(iFaction, t);
 
             long pairKey = MakePairKey(self.ID, t.ID);
             skipUntilByPair.Remove(pairKey);
@@ -1275,6 +1301,8 @@ namespace TSA_WorldDomination
                             skipUntilByPair[pairKey] = now + GenDate.TicksPerHour;
                             continue;
                         }
+                        if (!AtTurretUtility.CanEngageAtDistance(atGun, c, dist))
+                            continue;
 
                         skipUntilByPair.Remove(pairKey);
                         if (dist < bestCaravanDist)

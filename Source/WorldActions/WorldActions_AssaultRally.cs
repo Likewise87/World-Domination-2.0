@@ -576,7 +576,8 @@ namespace TSA_WorldDomination
             if (host.isDesperationRaid)
                 return WorldActions_DesperationRaid.RetargetAggressorSitePublic(
                     host.Faction, host.Tile.tileId, host.desperationAggressorFactionId);
-            return WorldActions_PackUp.PickNearestPlayerTarget(host.Tile.tileId, WorldActions_PackUp.CollectDistinctPlayerTargets());
+            return WorldActions_PackUp.PickNearestPlayerTarget(
+                host.Tile.tileId, WorldActions_PackUp.CollectDistinctPlayerTargets(host.Faction));
         }
 
         private static void PromoteGroupStragglersToRaid(

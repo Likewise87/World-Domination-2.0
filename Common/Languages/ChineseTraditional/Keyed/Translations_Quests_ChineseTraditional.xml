@@ -11,7 +11,7 @@
   <!-- EN: Common-enemy settlement quest -->
   <TSA_WD_Quest_EnableCommonEnemySettlement>共同敵人據點任務</TSA_WD_Quest_EnableCommonEnemySettlement>
   <!-- EN: After day 10, allies (or neutrals) may ask you to wipe or conquer a nearby town hostile to both of you. Credit only counts for your own outpost raids or fighting there in person. Allied raid orders and other factions wiping the town do not count. Off stops new offers; an active quest can still finish. -->
-  <TSA_WD_Quest_EnableCommonEnemySettlementTip>第10天起，同盟（或中立）派系可能請你剷除或征服附近一座與雙方皆敵對的城鎮。只有從你自己的哨站發動的突襲，或你親自前往作戰才算數；同盟突襲命令及其他派系剷除該城鎮都不算。關閉後不再發出新任務；進行中的任務仍可完成。</TSA_WD_Quest_EnableCommonEnemySettlementTip>
+  <TSA_WD_Quest_EnableCommonEnemySettlementTip>第10天起，同盟（或中立）派系可能請你剷除或征服附近一座與雙方皆敵對的城鎮。由你摧毀該鎮即算（WD哨站突襲、親自作戰、破壞、砲擊等）。同盟突襲命令及其他派系剷除該城鎮都不算。關閉後不再發出新任務；進行中的任務仍可完成。</TSA_WD_Quest_EnableCommonEnemySettlementTip>
   <!-- EN: Colony road-link quest -->
   <TSA_WD_Quest_EnableColonyRoadLink>殖民地道路連通任務</TSA_WD_Quest_EnableColonyRoadLink>
   <!-- EN: After day 10, a nearby ally or neutral town (within 30 tiles) may ask for a road between your colony and theirs. Connecting the towns by any road completes it once for good. Failures (timeout, hostility, or the town vanishing) can reissue after a few days. Off stops new offers; an active quest can still finish. -->

@@ -120,6 +120,7 @@ namespace TSA_WorldDomination
                 case TravelerMission.NpcFortify: return MissionMask.Fortify;
                 case TravelerMission.NpcAtTurret: return MissionMask.Fortify;
                 case TravelerMission.Trader:       return MissionMask.Trader;
+                case TravelerMission.Scout:        return MissionMask.Logistics;
                 case TravelerMission.OutpostDelivery: return MissionMask.Logistics;
                 case TravelerMission.OutpostUpgrade:  return MissionMask.Logistics;
                 default:                           return MissionMask.None;

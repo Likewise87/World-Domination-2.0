@@ -77,7 +77,7 @@ namespace TSA_WorldDomination
         {
             if (faction == null || sources == null || sources.Count < 1) return false;
 
-            List<WorldObject> targets = WorldActions_PackUp.CollectDistinctPlayerTargets();
+            List<WorldObject> targets = WorldActions_PackUp.CollectDistinctPlayerTargets(faction);
             if (targets.Count == 0)
             {
                 WDVerbose.Msg("ForwardAssault Invasion abort reason=no-player-targets");

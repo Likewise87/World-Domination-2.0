@@ -710,7 +710,7 @@
   <TSA_WD_PawnTransfer_Log>Traslado ordenado: {0} colono(s) de {1} a {2}</TSA_WD_PawnTransfer_Log>
   <TSA_WD_PawnTransfer_WithoutFood>Colono trasladado sin comida.</TSA_WD_PawnTransfer_WithoutFood>
   <TSA_WD_PawnTransfer_WithoutFoodPlural>{0} colonos trasladados sin comida.</TSA_WD_PawnTransfer_WithoutFoodPlural>
-  <TSA_WD_PawnTransfer_PrisonerNeedsEscort>Selecciona al menos un colonista no prisionero para escoltar a los cautivos.</TSA_WD_PawnTransfer_PrisonerNeedsEscort>
+  <TSA_WD_PawnTransfer_PrisonerNeedsEscort>Por tierra: selecciona al menos un colonista no prisionero para escoltar a los cautivos. Las cápsulas a un puesto o colonia del jugador no necesitan escolta.</TSA_WD_PawnTransfer_PrisonerNeedsEscort>
   <TSA_WD_PawnTransfer_PrisonerCannotLead>{0} es prisionero y no puede liderar la caravana.</TSA_WD_PawnTransfer_PrisonerCannotLead>
   <TSA_WD_PawnTransfer_PrisonerNoExitHere>Los cautivos no pueden Salir aquí: envíalos a una colonia o avanzada que acepte prisioneros.</TSA_WD_PawnTransfer_PrisonerNoExitHere>
   <TSA_WD_PawnTransfer_DestRefusesPrisoners>Esa avanzada no acepta prisioneros.</TSA_WD_PawnTransfer_DestRefusesPrisoners>

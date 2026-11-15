@@ -59,6 +59,10 @@ namespace TSA_WorldDomination
         private int savedDesperationWaitUntilTick = -1;
         private bool savedDesperationIsHost;
         private int savedDesperationAggressorFactionId = -1;
+        private int savedIntelTrackId;
+        private float savedIntelAssessedDefTotal = -1f;
+        private bool savedIsNimbleScout;
+        private int savedScoutExtraWaypointsLeft;
         private WorldObject savedOriginalTarget;
         private RaidLaunchTargetKind savedCachedTargetKind = RaidLaunchTargetKind.NPC;
         private bool savedIsTurretDetour;
@@ -253,6 +257,10 @@ namespace TSA_WorldDomination
             this.savedDesperationWaitUntilTick = traveler.desperationWaitUntilTick;
             this.savedDesperationIsHost = traveler.desperationIsHost;
             this.savedDesperationAggressorFactionId = traveler.desperationAggressorFactionId;
+            this.savedIntelTrackId = traveler.intelTrackId;
+            this.savedIntelAssessedDefTotal = traveler.intelAssessedDefTotal;
+            this.savedIsNimbleScout = traveler.isNimbleScout;
+            this.savedScoutExtraWaypointsLeft = traveler.scoutExtraWaypointsLeft;
             this.savedOriginalTarget = traveler.originalTargetObject;
             this.savedCachedTargetKind = traveler.cachedTargetKind;
             this.savedIsTurretDetour = traveler.isTurretDetour;
@@ -589,6 +597,10 @@ namespace TSA_WorldDomination
             newTraveler.mission = savedMission;
             newTraveler.originObject = savedOrigin;
             newTraveler.targetObject = savedTarget;
+            newTraveler.intelTrackId = savedIntelTrackId;
+            newTraveler.intelAssessedDefTotal = savedIntelAssessedDefTotal;
+            newTraveler.isNimbleScout = savedIsNimbleScout;
+            newTraveler.scoutExtraWaypointsLeft = savedScoutExtraWaypointsLeft;
             if (savedTrenchResolvedOwnerIds != null && savedTrenchResolvedOwnerIds.Count > 0)
             {
                 newTraveler.trenchResolvedOwnerIds ??= new List<int>();
@@ -804,6 +816,10 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref savedDesperationWaitUntilTick, "savedDesperationWaitUntilTick", -1);
             Scribe_Values.Look(ref savedDesperationIsHost, "savedDesperationIsHost", false);
             Scribe_Values.Look(ref savedDesperationAggressorFactionId, "savedDesperationAggressorFactionId", -1);
+            Scribe_Values.Look(ref savedIntelTrackId, "savedIntelTrackId", 0);
+            Scribe_Values.Look(ref savedIntelAssessedDefTotal, "savedIntelAssessedDefTotal", -1f);
+            Scribe_Values.Look(ref savedIsNimbleScout, "savedIsNimbleScout", false);
+            Scribe_Values.Look(ref savedScoutExtraWaypointsLeft, "savedScoutExtraWaypointsLeft", 0);
             Scribe_Values.Look(ref leftoversDiscarded, "leftoversDiscarded", false);
             Scribe_Values.Look(ref foughtOnPlayerAtTurret, "foughtOnPlayerAtTurret", false);
             Scribe_Values.Look(ref lootResolved, "lootResolved", false);

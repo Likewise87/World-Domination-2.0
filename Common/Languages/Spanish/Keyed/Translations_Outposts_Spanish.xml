@@ -717,7 +717,7 @@
   <TSA_WD_PawnCol_SelectColumnTip>Selecciona peones, animales y vehículos para sacarlos del puesto. Clic en la casilla del encabezado para seleccionar o quitar a todos los visibles. Usa el botón inferior para enviarlos en una sola caravana.</TSA_WD_PawnCol_SelectColumnTip>
   <TSA_WD_Pawns_RemoveChosen>Quitar elegidos</TSA_WD_Pawns_RemoveChosen>
   <TSA_WD_Pawns_RemoveChosenTip>Quita a la vez todos los peones, animales y vehículos seleccionados. Salen en una sola caravana.</TSA_WD_Pawns_RemoveChosenTip>
-  <TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>Los esclavos, animales, vehículos y mecanoides solo pueden retirarse si van acompañados de al menos 1 peón.</TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>
+  <TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>Por tierra, esclavos, animales, vehículos y mecanoides necesitan al menos un colonista libre de escolta. Las cápsulas a un puesto o colonia del jugador pueden enviar prisioneros, esclavos y mecanoides solos.</TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>
   <TSA_WD_Pawns_RemoveLastOccupantMechanoidsRemain>No puedes retirar al último ocupante mientras queden mecanoides en esta avanzadilla. Retíralos primero o llévalos contigo.</TSA_WD_Pawns_RemoveLastOccupantMechanoidsRemain>
   <TSA_WD_Producing>Produciendo {0}</TSA_WD_Producing>
   <TSA_WD_Producing_Hunting>Cazando {0}</TSA_WD_Producing_Hunting>
@@ -1172,6 +1172,9 @@
   <TSA_WD_RoadAlreadyInProgress>Construcción ya en curso. Cancela el proyecto actual para fijar un nuevo objetivo.</TSA_WD_RoadAlreadyInProgress>
   <TSA_WD_RoadAsphalt>Carretera de asfalto</TSA_WD_RoadAsphalt>
   <TSA_WD_RoadAsphalt_Disabled>Carretera de asfalto (Se necesita {1} en Construcción, actual: {0})</TSA_WD_RoadAsphalt_Disabled>
+  <TSA_WD_RoadGlitter>Carretera glitter</TSA_WD_RoadGlitter>
+  <TSA_WD_RoadGlitter_Disabled>Carretera glitter (Se necesita {1} en Construcción, actual: {0})</TSA_WD_RoadGlitter_Disabled>
+
   <TSA_WD_RoadCancelled>La construcción de carretera en {0} se ha detenido.</TSA_WD_RoadCancelled>
   <TSA_WD_RoadDirt>Sendero de tierra</TSA_WD_RoadDirt>
   <TSA_WD_RoadDirt_Disabled>Sendero de tierra (Se necesita {1} en Construcción, actual: {0})</TSA_WD_RoadDirt_Disabled>
@@ -1343,18 +1346,18 @@
   <TSA_WD_Armory_ConvertFoodTip>Convierte toda la comida física almacenada en la reserva de comida de esta avanzada. Lo que supere el tope se queda en la armería.</TSA_WD_Armory_ConvertFoodTip>
   <TSA_WD_Armory_ConvertFoodNone>No hay comida almacenada que convertir, o la reserva ya está llena.</TSA_WD_Armory_ConvertFoodNone>
   <TSA_WD_Armory_MenuFood>Comida</TSA_WD_Armory_MenuFood>
-  <TSA_WD_Armory_MenuFoodTip>Ayudas de comida: quitar de los peones, asignar desde el stock de la armería, o convertir comida almacenada a la reserva de la avanzada.</TSA_WD_Armory_MenuFoodTip>
+  <TSA_WD_Armory_MenuFoodTip>Ayudas de comida para ocupantes seleccionados: quitar o asignar desde el stock de la armería (solo peones marcados), o convertir toda la comida almacenada a la reserva de la avanzada.</TSA_WD_Armory_MenuFoodTip>
   <TSA_WD_Armory_MenuAmmo>Munición</TSA_WD_Armory_MenuAmmo>
-  <TSA_WD_Armory_MenuAmmoTip>Ayudas de munición de Combat Extended: quitar de los peones, o añadir desde el stock de la armería.</TSA_WD_Armory_MenuAmmoTip>
+  <TSA_WD_Armory_MenuAmmoTip>Ayudas de munición de Combat Extended para ocupantes seleccionados: quitar o añadir desde el stock de la armería. Solo afecta a peones marcados.</TSA_WD_Armory_MenuAmmoTip>
   <TSA_WD_Armory_Menu_RemoveFood>Quitar comida de los peones</TSA_WD_Armory_Menu_RemoveFood>
-  <TSA_WD_Armory_Menu_RemoveFoodTip>Mueve toda la comida nutritiva del inventario de los ocupantes a la armería. Drogas y medicinas se quedan en los peones.</TSA_WD_Armory_Menu_RemoveFoodTip>
+  <TSA_WD_Armory_Menu_RemoveFoodTip>Mueve la comida nutritiva de los ocupantes seleccionados a la armería. Drogas y medicinas se quedan en los peones. Solo afecta a peones marcados.</TSA_WD_Armory_Menu_RemoveFoodTip>
   <TSA_WD_Armory_Menu_AssignFood>Asignar comida a los peones</TSA_WD_Armory_Menu_AssignFood>
-  <TSA_WD_Armory_Menu_AssignFoodTip>Reparte la comida nutritiva de la armería equitativamente entre los ocupantes (hasta 10 ítems cada uno). No toma comida que ya lleven los peones.</TSA_WD_Armory_Menu_AssignFoodTip>
+  <TSA_WD_Armory_Menu_AssignFoodTip>Reparte la comida nutritiva de la armería equitativamente entre los ocupantes seleccionados (hasta 10 ítems cada uno). No toma comida que ya lleven. Solo los peones marcados reciben comida.</TSA_WD_Armory_Menu_AssignFoodTip>
   <TSA_WD_Armory_Menu_ConvertFood>Convertir comida real a comida de avanzada</TSA_WD_Armory_Menu_ConvertFood>
   <TSA_WD_Armory_Menu_RemoveAmmo>Quitar</TSA_WD_Armory_Menu_RemoveAmmo>
-  <TSA_WD_Armory_Menu_RemoveAmmoTip>Mueve toda la munición de Combat Extended del inventario de los ocupantes a la armería. No descarga cargadores aún en las armas.</TSA_WD_Armory_Menu_RemoveAmmoTip>
+  <TSA_WD_Armory_Menu_RemoveAmmoTip>Mueve la munición de Combat Extended de los ocupantes seleccionados a la armería. No descarga cargadores aún en las armas. Solo afecta a peones marcados.</TSA_WD_Armory_Menu_RemoveAmmoTip>
   <TSA_WD_Armory_Menu_AddAmmo>Añadir</TSA_WD_Armory_Menu_AddAmmo>
-  <TSA_WD_Armory_Menu_AddAmmoTip>Da a cada ocupante hasta 4 cargadores completos de munición adecuada desde el stock de la armería y reparte el resto entre ellos. Mezcla tipos cuando varios encajan. No toma munición que ya lleven los peones.</TSA_WD_Armory_Menu_AddAmmoTip>
+  <TSA_WD_Armory_Menu_AddAmmoTip>Da a cada ocupante seleccionado hasta 4 cargadores completos de munición adecuada desde el stock de la armería y reparte el resto entre ellos. Mezcla tipos cuando varios encajan. No toma munición que ya lleven. Solo los peones marcados reciben munición.</TSA_WD_Armory_Menu_AddAmmoTip>
   <TSA_WD_Armory_RemovedFood>Se movió comida de {0} pila(s) de inventario a la armería.</TSA_WD_Armory_RemovedFood>
   <TSA_WD_Armory_RemovedFoodNone>No hay comida en los inventarios de los ocupantes.</TSA_WD_Armory_RemovedFoodNone>
   <TSA_WD_Armory_AssignedFood>Se asignaron {0} alimento(s) desde el stock de la armería.</TSA_WD_Armory_AssignedFood>
@@ -1366,6 +1369,36 @@
   <TSA_WD_Armory_RightClickStoreTip>Clic derecho: mover a la armería.</TSA_WD_Armory_RightClickStoreTip>
   <TSA_WD_Armory_OpenInventory>Abrir pestaña Todo el equipo</TSA_WD_Armory_OpenInventory>
   <TSA_WD_Armory_OpenInventoryTip>Abre la pestaña Todo el equipo para mover equipo rápidamente entre avanzadas y la colonia.</TSA_WD_Armory_OpenInventoryTip>
+  <TSA_WD_Armory_Equipment>Equipo</TSA_WD_Armory_Equipment>
+  <TSA_WD_Armory_EquipmentTip>Las acciones solo afectan a peones y equipo del almacén seleccionados. Marca ocupantes y filas; luego retira equipo o inventario, o asigna armas, ropa/armadura y drogas marcadas.</TSA_WD_Armory_EquipmentTip>
+  <TSA_WD_Armory_Equipment_AutoAssign>Asignar equipo auto</TSA_WD_Armory_Equipment_AutoAssign>
+  <TSA_WD_Armory_Equipment_AutoAssignTip>Usa el mayor de Cuerpo a cuerpo vs Disparo: esa habilidad marca prioridad y tipo de arma (más Disparo → a distancia, más Cuerpo a cuerpo → melee). Dentro de ese tipo, el equipo seleccionado más caro en plata va a los más hábiles primero. Solo usa el otro tipo si no queda del preferido. También llena capas libres con armadura y ropa seleccionadas (mayor plata primero). No retira ni sustituye lo ya equipado. Solo usa peones y equipo marcados.</TSA_WD_Armory_Equipment_AutoAssignTip>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugs>Asignar drogas auto</TSA_WD_Armory_Equipment_AutoAssignDrugs>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugsTip>Reparte las drogas de la armería equitativamente entre los ocupantes seleccionados (hasta 5 ítems cada uno). Omite peones abstemios (teetotaler). Solo los peones marcados reciben drogas.</TSA_WD_Armory_Equipment_AutoAssignDrugsTip>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugsDone>Se asignaron {0} droga(s) desde el stock de la armería.</TSA_WD_Armory_Equipment_AutoAssignDrugsDone>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugsNone>No se asignaron drogas. Puede que no haya stock, que los peones sean abstemios, o que no puedan llevar más.</TSA_WD_Armory_Equipment_AutoAssignDrugsNone>
+  <TSA_WD_Armory_Equipment_StripWeapons>Quitar armas</TSA_WD_Armory_Equipment_StripWeapons>
+  <TSA_WD_Armory_Equipment_StripWeaponsTip>Mueve las armas equipadas de los ocupantes seleccionados a la Armería. Solo afecta a peones marcados.</TSA_WD_Armory_Equipment_StripWeaponsTip>
+  <TSA_WD_Armory_Equipment_StripArmor>Quitar armadura</TSA_WD_Armory_Equipment_StripArmor>
+  <TSA_WD_Armory_Equipment_StripArmorTip>Mueve la armadura puesta de los ocupantes seleccionados a la Armería. Solo afecta a peones marcados.</TSA_WD_Armory_Equipment_StripArmorTip>
+  <TSA_WD_Armory_Equipment_StripApparel>Quitar ropa</TSA_WD_Armory_Equipment_StripApparel>
+  <TSA_WD_Armory_Equipment_StripApparelTip>Mueve la ropa (no armadura) de los ocupantes seleccionados a la Armería. Solo afecta a peones marcados.</TSA_WD_Armory_Equipment_StripApparelTip>
+  <TSA_WD_Armory_Equipment_StripOtherInventory>Quitar otro inventario</TSA_WD_Armory_Equipment_StripOtherInventory>
+  <TSA_WD_Armory_Equipment_StripOtherInventoryTip>Mueve el Otro inventario de los ocupantes seleccionados a la Armería (no comida, drogas, munición ni medicinas). Solo afecta a peones marcados.</TSA_WD_Armory_Equipment_StripOtherInventoryTip>
+  <TSA_WD_Armory_Equipment_StripDrugs>Quitar drogas</TSA_WD_Armory_Equipment_StripDrugs>
+  <TSA_WD_Armory_Equipment_StripDrugsTip>Mueve las drogas de los ocupantes seleccionados a la Armería. Solo afecta a peones marcados.</TSA_WD_Armory_Equipment_StripDrugsTip>
+  <TSA_WD_Armory_Equipment_EquipDone>Equipado: {0} arma(s) y {1} prenda(s).</TSA_WD_Armory_Equipment_EquipDone>
+  <TSA_WD_Armory_Equipment_EquipNone>Nada equipado. Puede que ya estén armados y vestidos, o que ningún hueco libre coincida con el equipo seleccionado.</TSA_WD_Armory_Equipment_EquipNone>
+  <TSA_WD_Armory_Equipment_StripWeaponsDone>Se movieron {0} arma(s) a la Armería.</TSA_WD_Armory_Equipment_StripWeaponsDone>
+  <TSA_WD_Armory_Equipment_StripWeaponsNone>No hay armas equipadas que quitar en los ocupantes marcados.</TSA_WD_Armory_Equipment_StripWeaponsNone>
+  <TSA_WD_Armory_Equipment_StripArmorDone>Se movieron {0} pieza(s) de armadura a la Armería.</TSA_WD_Armory_Equipment_StripArmorDone>
+  <TSA_WD_Armory_Equipment_StripArmorNone>No hay armadura puesta que quitar en los ocupantes marcados.</TSA_WD_Armory_Equipment_StripArmorNone>
+  <TSA_WD_Armory_Equipment_StripApparelDone>Se movieron {0} prenda(s) a la Armería.</TSA_WD_Armory_Equipment_StripApparelDone>
+  <TSA_WD_Armory_Equipment_StripApparelNone>No hay ropa (no armadura) que quitar en los ocupantes marcados.</TSA_WD_Armory_Equipment_StripApparelNone>
+  <TSA_WD_Armory_Equipment_StripOtherInventoryDone>Se movieron {0} pila(s) de otro inventario a la Armería.</TSA_WD_Armory_Equipment_StripOtherInventoryDone>
+  <TSA_WD_Armory_Equipment_StripOtherInventoryNone>No hay Otro inventario que quitar en los ocupantes marcados.</TSA_WD_Armory_Equipment_StripOtherInventoryNone>
+  <TSA_WD_Armory_Equipment_StripDrugsDone>Se movieron {0} pila(s) de drogas a la Armería.</TSA_WD_Armory_Equipment_StripDrugsDone>
+  <TSA_WD_Armory_Equipment_StripDrugsNone>No hay drogas que quitar en los ocupantes marcados.</TSA_WD_Armory_Equipment_StripDrugsNone>
   <TSA_WD_Armory_ConvertedFood>Comida almacenada convertida en {0} de comida de avanzada.</TSA_WD_Armory_ConvertedFood>
   <TSA_WD_Armory_FailManualDefense>No se puede mover equipo mientras esta avanzada se está defendiendo.</TSA_WD_Armory_FailManualDefense>
   <TSA_WD_Armory_FailLocked>{0} está bloqueado y no se puede quitar.</TSA_WD_Armory_FailLocked>
@@ -1548,6 +1581,11 @@
   <TSA_WD_PawnDropPod_LackingMaterials>¡El peón {0} de {1} no pudo enviarse por cápsula. Faltan materiales!</TSA_WD_PawnDropPod_LackingMaterials>
   <TSA_WD_PawnDropPod_LackingMaterialsGroup>¡{0} y {1} más de {2} no pudieron enviarse por cápsula. Faltan materiales!</TSA_WD_PawnDropPod_LackingMaterialsGroup>
   <TSA_WD_PawnDropPod_NoExitHere>Las cápsulas no pueden Salir aquí — cambia a Tierra.</TSA_WD_PawnDropPod_NoExitHere>
+  <TSA_WD_PawnDropPod_UnescortedSelectTip>Cápsula a un puesto o colonia del jugador: prisioneros, esclavos y mecanoides no necesitan escolta de colonista libre.</TSA_WD_PawnDropPod_UnescortedSelectTip>
+  <TSA_WD_PawnDropPod_UnescortedLostLabel>Cápsulas sin escolta perdidas</TSA_WD_PawnDropPod_UnescortedLostLabel>
+  <TSA_WD_PawnDropPod_UnescortedFreed>{0} prisionero(s)/esclavo(s) liberados: el destino ya no existía a la llegada.</TSA_WD_PawnDropPod_UnescortedFreed>
+  <TSA_WD_PawnDropPod_UnescortedLostMechs>{0} mecanoide(s) perdidos: el destino ya no existía a la llegada.</TSA_WD_PawnDropPod_UnescortedLostMechs>
+  <TSA_WD_PawnDropPod_UnescortedLostFreedBoth>{0} prisionero(s)/esclavo(s) liberados y {1} mecanoide(s) perdidos: el destino ya no existía a la llegada.</TSA_WD_PawnDropPod_UnescortedLostFreedBoth>
   <TSA_WD_PawnDropPod_OutOfRange>El destino está fuera del alcance de las cápsulas.</TSA_WD_PawnDropPod_OutOfRange>
   <TSA_WD_PawnDropPod_NoComponentDef>Falta la def de componente industrial.</TSA_WD_PawnDropPod_NoComponentDef>
   <TSA_WD_PawnDropPod_SmartSendTitle>Envío inteligente</TSA_WD_PawnDropPod_SmartSendTitle>
@@ -1914,6 +1952,9 @@
   <TSA_WD_OutpostStats_Row_RoadTimeStoneTip>Días estimados para preparar un segmento de camino de piedra o una casilla de agua de puente con la Construcción acumulada actual (solo barra de progreso; sin viaje de caravana).</TSA_WD_OutpostStats_Row_RoadTimeStoneTip>
   <TSA_WD_OutpostStats_Row_RoadTimeAsphalt>Tiempo por segmento de asfalto</TSA_WD_OutpostStats_Row_RoadTimeAsphalt>
   <TSA_WD_OutpostStats_Row_RoadTimeAsphaltTip>Días estimados para preparar un segmento de camino de asfalto con la Construcción acumulada actual (solo barra de progreso; sin viaje de caravana).</TSA_WD_OutpostStats_Row_RoadTimeAsphaltTip>
+  <TSA_WD_OutpostStats_Row_RoadTimeGlitter>Tiempo por segmento glitter</TSA_WD_OutpostStats_Row_RoadTimeGlitter>
+  <TSA_WD_OutpostStats_Row_RoadTimeGlitterTip>Días estimados para preparar un segmento de camino glitter con la Construcción acumulada actual (solo barra de progreso; sin viaje de caravana).</TSA_WD_OutpostStats_Row_RoadTimeGlitterTip>
+
   <TSA_WD_OutpostStats_Row_RoadTimeRoadBlock>Tiempo por segmento de bloqueo</TSA_WD_OutpostStats_Row_RoadTimeRoadBlock>
   <TSA_WD_OutpostStats_Row_RoadTimeRoadBlockLight>Tiempo por bloqueo ligero</TSA_WD_OutpostStats_Row_RoadTimeRoadBlockLight>
   <TSA_WD_OutpostStats_Row_RoadTimeRoadBlockNormal>Tiempo por bloqueo medio</TSA_WD_OutpostStats_Row_RoadTimeRoadBlockNormal>
@@ -2052,7 +2093,7 @@
   <TSA_WD_Gizmo_ShowMortarRadius>Radio de mortero</TSA_WD_Gizmo_ShowMortarRadius>
   <TSA_WD_Gizmo_ShowMortarRadiusDesc>Activa o desactiva el alcance del mortero ({0} casillas) para este tipo de sitio.</TSA_WD_Gizmo_ShowMortarRadiusDesc>
   <TSA_WD_Gizmo_MortarRadiusBandsLegend>Bandas de color (acierto base antes de habilidad):\nRojo = 0–50% del alcance máximo. Mayor precisión ({0}% acierto base).\nNaranja = 51–75% del alcance máximo ({1}% acierto base).\nAmarillo = 76–100% del alcance máximo ({2}% acierto base).</TSA_WD_Gizmo_MortarRadiusBandsLegend>
-  <TSA_WD_Gizmo_AtTurretRadiusBandsLegend>Bandas de color (acierto base antes del equivalente de habilidad):\nRojo = 0–50% del alcance máximo. Mayor precisión ({0}% acierto base).\nNaranja = 51–75% del alcance máximo ({1}% acierto base).\nAmarillo = 76–100% del alcance máximo ({2}% acierto base).</TSA_WD_Gizmo_AtTurretRadiusBandsLegend>
+  <TSA_WD_Gizmo_AtTurretRadiusBandsLegend>Bandas de color (acierto base antes del equivalente de habilidad):\nRojo = 0–50% del alcance máximo. Mayor precisión ({0}% acierto base).\nNaranja = 51–75% del alcance máximo ({1}% acierto base).\nAmarillo = 76–100% del alcance máximo ({2}% acierto base). La banda exterior solo dispara a viajeros de clase T2 o superior (fuerza al salir).</TSA_WD_Gizmo_AtTurretRadiusBandsLegend>
   <TSA_WD_Gizmo_ShowAARadius>Radio AA</TSA_WD_Gizmo_ShowAARadius>
   <TSA_WD_Gizmo_ShowAARadiusDesc>Activa o desactiva el alcance antiaéreo ({0} casillas) para este tipo de sitio.</TSA_WD_Gizmo_ShowAARadiusDesc>
   <TSA_WD_Gizmo_AARadiusBandsLegend>Bandas de color vs cápsulas y aéreos (acierto base antes de habilidad):\nRojo = 0–50% del alcance máximo. Mayor precisión ({0}% acierto base).\nNaranja = 51–75% del alcance máximo ({1}% acierto base).\nAmarillo = 76–100% del alcance máximo ({2}% acierto base).\nLos proyectiles de mortero usan una probabilidad plana de derribo, no estas bandas.</TSA_WD_Gizmo_AARadiusBandsLegend>

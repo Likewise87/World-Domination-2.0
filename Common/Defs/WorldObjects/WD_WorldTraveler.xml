@@ -104,6 +104,13 @@
     <expandingIconTexture>WorldObjects/Travelers/Caravan_Trader</expandingIconTexture>
   </WorldObjectDef>
 
+  <WorldObjectDef ParentName="TSA_WD_TravelerBase">
+    <defName>TSA_WD_Traveler_Scout</defName>
+    <label>Scout Caravan</label>
+    <texture>WorldObjects/Travelers/Caravan_Scout</texture>
+    <expandingIconTexture>WorldObjects/Travelers/Caravan_Scout</expandingIconTexture>
+  </WorldObjectDef>
+
   <!-- Mortar shell: single ballistic hop (great-circle arc), very fast ticksPerMove, ignores terrain. -->
   <WorldObjectDef ParentName="TSA_WD_TravelerBase">
     <defName>TSA_WD_Traveler_MortarStrike</defName>

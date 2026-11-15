@@ -199,6 +199,83 @@ namespace TSA_WorldDomination
             return sum;
         }
 
+        /// <summary>AT damage credit for guns the viewer has discovered (fogged raid assess).</summary>
+        public static float SumOwnedDamageCreditKnownTo(WorldObject site, Faction viewer)
+        {
+            if (site == null || site.Destroyed) return 0f;
+            if (viewer == null) return SumOwnedDamageCredit(site);
+            var intel = WorldComponent_SettlementIntel.Get();
+            if (intel == null || !WorldComponent_SettlementIntel.IsActive())
+                return SumOwnedDamageCredit(site);
+
+            float sum = 0f;
+            IReadOnlyList<WorldObject_AT_Turret> live = WorldObject_AT_Turret.LiveTurrets;
+            var seth = WorldDominationMod.settings;
+            for (int i = 0; i < live.Count; i++)
+            {
+                WorldObject_AT_Turret t = live[i];
+                if (t == null || t.Destroyed || t.strength <= 0f) continue;
+                bool match;
+                if (t.builtBySite != null)
+                    match = t.builtBySite == site;
+                else
+                    match = t.builtBySettlement == site;
+                if (!match) continue;
+                if (!intel.Knows(viewer, t)) continue;
+                float dmg = seth != null
+                    ? seth.GetAtTurretDamage(t.tier)
+                    : WorldDominationSettings.GetAtTurretDamageDefault(t.tier);
+                sum += dmg * 0.5f;
+            }
+            return sum;
+        }
+
+        /// <summary>
+        /// Outer accuracy band (76-100% of configured max) only engages travelers of class T2+.
+        /// Player caravans, other ATs, and T1 travelers need the 75% band or closer.
+        /// </summary>
+        public static bool CanEngageAtDistance(WorldObject_AT_Turret gun, WorldObject target, float dist)
+        {
+            if (gun == null || gun.Destroyed || target == null || target.Destroyed) return false;
+            float bandMax = gun.GetConfiguredMaxRangeTiles();
+            if (bandMax <= 0f) return false;
+            if (dist > gun.EffectiveRangeTiles) return false;
+            int band = MortarFireUtils.GetAccuracyBandIndex(dist, bandMax);
+            if (band < 2) return true;
+            if (target is WorldObject_Traveler traveler)
+            {
+                SettlementTier cls = WorldComponent_SettlementIntel.GetSpotClass(traveler);
+                return cls >= SettlementTier.T2;
+            }
+            // Player caravans, other ATs, and any non-T2+ traveler: inner bands only.
+            return false;
+        }
+
+        /// <summary>Victim faction discovers the emplacement that just fired at them.</summary>
+        public static void RevealEmplacementByFire(WorldObject gun, WorldObject victim)
+        {
+            if (gun == null || gun.Destroyed || victim == null) return;
+            Faction victimFaction = victim.Faction;
+            if (victimFaction == null) return;
+            WorldComponent_SettlementIntel.Get()?.Discover(victimFaction, gun);
+        }
+
+        public static void DiscoverOwnedAtsForAttacker(WorldObject primary, Faction attacker)
+        {
+            if (primary == null || attacker == null) return;
+            var intel = WorldComponent_SettlementIntel.Get();
+            if (intel == null || !WorldComponent_SettlementIntel.IsTracking()) return;
+            IReadOnlyList<WorldObject_AT_Turret> live = WorldObject_AT_Turret.LiveTurrets;
+            for (int i = 0; i < live.Count; i++)
+            {
+                WorldObject_AT_Turret t = live[i];
+                if (t == null || t.Destroyed) continue;
+                bool match = t.builtBySite != null ? t.builtBySite == primary : t.builtBySettlement == primary;
+                if (!match) continue;
+                intel.Discover(attacker, t);
+            }
+        }
+
         public static bool IsPlayerBuildSite(WorldObject site) =>
             site != null
             && !site.Destroyed

@@ -1,3 +1,4 @@
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -54,6 +55,7 @@ public override void DoWindowContents(Rect inRect)
 
             float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 4800f);
+            SettingsUI.ApplyPendingHighlightScroll(ref scrollPosition, contentRect.height, scrollViewRect.height);
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
             Listing_Standard listing = new Listing_Standard();
             listing.Begin(scrollViewRect);
@@ -100,9 +102,11 @@ WorldDominationSettings s = WorldDominationMod.settings;
             float oldDirtMovement = s.fallbackDirtRoadMovement;
             float oldStoneMovement = s.fallbackStoneRoadMovement;
             float oldAsphaltMovement = s.fallbackAsphaltRoadMovement;
+            float oldGlitterMovement = s.fallbackGlitterRoadMovement;
             float oldDirtWinter = s.fallbackDirtRoadWinterReduction;
             float oldStoneWinter = s.fallbackStoneRoadWinterReduction;
             float oldAsphaltWinter = s.fallbackAsphaltRoadWinterReduction;
+            float oldGlitterWinter = s.fallbackGlitterRoadWinterReduction;
 
             if (SettingsUI.DrawCollapsibleHeader(l, "TSA_WD_RoadBuilding_RoadsHeader".Translate(), ref roadsExpanded, SectionHeaderColor))
             {
@@ -128,6 +132,11 @@ WorldDominationSettings s = WorldDominationMod.settings;
                 s.maxRoadRange = (int)roadRanges[0];
                 s.maxRoadRangeNpc = (int)roadRanges[1];
 
+                SettingsUI.TechLevelDropdown(l, "TSA_WD_GlitterRoad_MinTech".Translate(), s.npcGlitterRoadMinTechLevel,
+                    v => s.npcGlitterRoadMinTechLevel = v,
+                    "TSA_WD_GlitterRoad_MinTechTip".Translate(),
+                    WorldDominationSettings.DefNpcGlitterRoadMinTechLevel);
+
                 DrawRoadSection(l, "TSA_WD_RoadBuilding_DirtRoad".Translate(),
                     ref s.fallbackDirtRoadMovement, ref s.fallbackDirtRoadWork, ref s.fallbackDirtRoadExpeditionStrength,
                     ref s.fallbackDirtRoadMinConstruction, ref s.fallbackDirtRoadWinterReduction,
@@ -149,15 +158,24 @@ WorldDominationSettings s = WorldDominationMod.settings;
                     WorldDominationSettings.DefFallbackAsphaltRoadExpeditionStrength,
                     WorldDominationSettings.DefFallbackAsphaltRoadMinConstruction,
                     WorldDominationSettings.DefFallbackAsphaltRoadWinterReduction);
+                DrawRoadSection(l, "TSA_WD_RoadBuilding_GlitterRoad".Translate(),
+                    ref s.fallbackGlitterRoadMovement, ref s.fallbackGlitterRoadWork, ref s.fallbackGlitterRoadExpeditionStrength,
+                    ref s.fallbackGlitterRoadMinConstruction, ref s.fallbackGlitterRoadWinterReduction,
+                    WorldDominationSettings.DefFallbackGlitterRoadMovement, WorldDominationSettings.DefFallbackGlitterRoadWork,
+                    WorldDominationSettings.DefFallbackGlitterRoadExpeditionStrength,
+                    WorldDominationSettings.DefFallbackGlitterRoadMinConstruction,
+                    WorldDominationSettings.DefFallbackGlitterRoadWinterReduction);
             }
 
             bool roadMovementSettingsChanged =
                 !Mathf.Approximately(oldDirtMovement, s.fallbackDirtRoadMovement)
                 || !Mathf.Approximately(oldStoneMovement, s.fallbackStoneRoadMovement)
                 || !Mathf.Approximately(oldAsphaltMovement, s.fallbackAsphaltRoadMovement)
+                || !Mathf.Approximately(oldGlitterMovement, s.fallbackGlitterRoadMovement)
                 || !Mathf.Approximately(oldDirtWinter, s.fallbackDirtRoadWinterReduction)
                 || !Mathf.Approximately(oldStoneWinter, s.fallbackStoneRoadWinterReduction)
-                || !Mathf.Approximately(oldAsphaltWinter, s.fallbackAsphaltRoadWinterReduction);
+                || !Mathf.Approximately(oldAsphaltWinter, s.fallbackAsphaltRoadWinterReduction)
+                || !Mathf.Approximately(oldGlitterWinter, s.fallbackGlitterRoadWinterReduction);
             if (roadMovementSettingsChanged)
             {
                 WorldActions_Roads.ApplyVanillaRoadMovementSettings();

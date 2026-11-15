@@ -739,7 +739,7 @@
   <TSA_WD_PawnTransfer_Log>Transfer ordered: {0} pawn(s) from {1} to {2}</TSA_WD_PawnTransfer_Log>
   <TSA_WD_PawnTransfer_WithoutFood>Pawn being transferred without food.</TSA_WD_PawnTransfer_WithoutFood>
   <TSA_WD_PawnTransfer_WithoutFoodPlural>{0} pawns being transferred without food.</TSA_WD_PawnTransfer_WithoutFoodPlural>
-  <TSA_WD_PawnTransfer_PrisonerNeedsEscort>Select at least one non-prisoner colonist to escort captives.</TSA_WD_PawnTransfer_PrisonerNeedsEscort>
+  <TSA_WD_PawnTransfer_PrisonerNeedsEscort>Land travel: select at least one non-prisoner colonist to escort captives. Drop pods to a player outpost or colony do not need an escort.</TSA_WD_PawnTransfer_PrisonerNeedsEscort>
   <TSA_WD_PawnTransfer_PrisonerCannotLead>{0} is a prisoner and cannot lead the caravan.</TSA_WD_PawnTransfer_PrisonerCannotLead>
   <TSA_WD_PawnTransfer_PrisonerNoExitHere>Captives cannot Exit here — send them to a colony or outpost that takes prisoners.</TSA_WD_PawnTransfer_PrisonerNoExitHere>
   <TSA_WD_PawnTransfer_DestRefusesPrisoners>That outpost is not taking prisoners.</TSA_WD_PawnTransfer_DestRefusesPrisoners>

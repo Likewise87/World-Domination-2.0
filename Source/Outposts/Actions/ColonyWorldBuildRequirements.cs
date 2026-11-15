@@ -16,6 +16,7 @@ namespace TSA_WorldDomination
         public const string ResearchMachining = "Machining";
         public const string ResearchMicroelectronics = "MicroelectronicsBasics";
         public const string ResearchFabrication = "Fabrication";
+        public const string ResearchAdvancedFabrication = "AdvancedFabrication";
         public const string ResearchMedievalEngineering = "DankPyon_Engineering";
         public const string ResearchSmithing = "Smithing";
 
@@ -46,7 +47,9 @@ namespace TSA_WorldDomination
                 }
             }
 
-            if (tier == SettlementTier.T3 || tier == SettlementTier.T4)
+            if (tier == SettlementTier.T4)
+                return EffectiveResearch(FindResearch(ResearchAdvancedFabrication));
+            if (tier == SettlementTier.T3)
                 return EffectiveResearch(FindResearch(ResearchMicroelectronics));
             if (tier == SettlementTier.T2)
                 return EffectiveResearch(FindResearch(ResearchMachining));

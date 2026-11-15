@@ -717,7 +717,7 @@
   <TSA_WD_PawnCol_SelectColumnTip>选择要从前哨站移出的人员、动物和载具。点击表头复选框可全选或取消全选当前列表。使用下方按钮将他们一次性编入同一支远行队。</TSA_WD_PawnCol_SelectColumnTip>
   <TSA_WD_Pawns_RemoveChosen>移出所选</TSA_WD_Pawns_RemoveChosen>
   <TSA_WD_Pawns_RemoveChosenTip>一次性移出所有已选人员、动物和载具，他们将加入同一支远行队。</TSA_WD_Pawns_RemoveChosenTip>
-  <TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>奴隶、动物、载具和机械体只能在至少有 1 名人员陪同的情况下移出。</TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>
+  <TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>陆路时，奴隶、动物、载具和机械体需要至少 1 名自由殖民者护送。向玩家前哨或殖民地发射运输舱时，可单独运送囚犯、奴隶和机械体。</TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>
   <TSA_WD_Pawns_RemoveLastOccupantMechanoidsRemain>前哨站仍有机械体时,无法移走最后一名驻员。请先移走机械体或一并带走。</TSA_WD_Pawns_RemoveLastOccupantMechanoidsRemain>
   <TSA_WD_Producing>生产中 {0}</TSA_WD_Producing>
   <TSA_WD_Producing_Hunting>狩猎 {0}</TSA_WD_Producing_Hunting>
@@ -1172,6 +1172,9 @@
   <TSA_WD_RoadAlreadyInProgress>施工已在进行。取消当前项目以设置新目标。</TSA_WD_RoadAlreadyInProgress>
   <TSA_WD_RoadAsphalt>沥青路</TSA_WD_RoadAsphalt>
   <TSA_WD_RoadAsphalt_Disabled>沥青路(需 {1} 建造技能,当前:{0})</TSA_WD_RoadAsphalt_Disabled>
+  <TSA_WD_RoadGlitter>闪光路</TSA_WD_RoadGlitter>
+  <TSA_WD_RoadGlitter_Disabled>闪光路(需 {1} 建造技能,当前:{0})</TSA_WD_RoadGlitter_Disabled>
+
   <TSA_WD_RoadCancelled>{0} 的道路修建已停止。</TSA_WD_RoadCancelled>
   <TSA_WD_RoadDirt>土路</TSA_WD_RoadDirt>
   <TSA_WD_RoadDirt_Disabled>土路(需 {1} 建造技能,当前:{0})</TSA_WD_RoadDirt_Disabled>
@@ -1343,18 +1346,18 @@
   <TSA_WD_Armory_ConvertFoodTip>把所有存放的实体食物并入本前哨的食物储备。超出上限的部分留在军械库。</TSA_WD_Armory_ConvertFoodTip>
   <TSA_WD_Armory_ConvertFoodNone>没有可转换的存放食物，或食物储备已满。</TSA_WD_Armory_ConvertFoodNone>
   <TSA_WD_Armory_MenuFood>食物</TSA_WD_Armory_MenuFood>
-  <TSA_WD_Armory_MenuFoodTip>食物助手：从驻员卸下、从军械库分配，或把存放食物转为前哨食物储备。</TSA_WD_Armory_MenuFoodTip>
+  <TSA_WD_Armory_MenuFoodTip>针对已勾选驻员的食物助手：从军械库卸下或分配（仅已勾选驻员），或把全部存放食物转为前哨食物储备。</TSA_WD_Armory_MenuFoodTip>
   <TSA_WD_Armory_MenuAmmo>弹药</TSA_WD_Armory_MenuAmmo>
-  <TSA_WD_Armory_MenuAmmoTip>Combat Extended 弹药助手：从驻员卸下，或从军械库添加。</TSA_WD_Armory_MenuAmmoTip>
+  <TSA_WD_Armory_MenuAmmoTip>针对已勾选驻员的 Combat Extended 弹药助手：从军械库卸下或添加。只影响已勾选驻员。</TSA_WD_Armory_MenuAmmoTip>
   <TSA_WD_Armory_Menu_RemoveFood>从驻员卸下食物</TSA_WD_Armory_Menu_RemoveFood>
-  <TSA_WD_Armory_Menu_RemoveFoodTip>把驻员背包中的营养食物全部移入军械库。毒品与药品留在殖民者身上。</TSA_WD_Armory_Menu_RemoveFoodTip>
+  <TSA_WD_Armory_Menu_RemoveFoodTip>把已勾选驻员背包中的营养食物移入军械库。毒品与药品留在殖民者身上。只影响已勾选驻员。</TSA_WD_Armory_Menu_RemoveFoodTip>
   <TSA_WD_Armory_Menu_AssignFood>给驻员分配食物</TSA_WD_Armory_Menu_AssignFood>
-  <TSA_WD_Armory_Menu_AssignFoodTip>把军械库营养食物平均分给驻员（每人最多 10 件）。不会取走殖民者已携带的食物。</TSA_WD_Armory_Menu_AssignFoodTip>
+  <TSA_WD_Armory_Menu_AssignFoodTip>把军械库营养食物平均分给已勾选驻员（每人最多 10 件）。不会取走已携带的食物。只有已勾选驻员会收到食物。</TSA_WD_Armory_Menu_AssignFoodTip>
   <TSA_WD_Armory_Menu_ConvertFood>把实体食物转为前哨食物</TSA_WD_Armory_Menu_ConvertFood>
   <TSA_WD_Armory_Menu_RemoveAmmo>卸下</TSA_WD_Armory_Menu_RemoveAmmo>
-  <TSA_WD_Armory_Menu_RemoveAmmoTip>把驻员背包中的 Combat Extended 弹药全部移入军械库。不会卸载枪内弹匣。</TSA_WD_Armory_Menu_RemoveAmmoTip>
+  <TSA_WD_Armory_Menu_RemoveAmmoTip>把已勾选驻员背包中的 Combat Extended 弹药移入军械库。不会卸载枪内弹匣。只影响已勾选驻员。</TSA_WD_Armory_Menu_RemoveAmmoTip>
   <TSA_WD_Armory_Menu_AddAmmo>添加</TSA_WD_Armory_Menu_AddAmmo>
-  <TSA_WD_Armory_Menu_AddAmmoTip>从军械库库存给每位驻员最多 4 满匣合适弹药，再把剩余弹药分给他们。多种可用时混搭。不会取走殖民者已携带的弹药。</TSA_WD_Armory_Menu_AddAmmoTip>
+  <TSA_WD_Armory_Menu_AddAmmoTip>从军械库库存给每位已勾选驻员最多 4 满匣合适弹药，再把剩余弹药分给他们。多种可用时混搭。不会取走已携带的弹药。只有已勾选驻员会收到弹药。</TSA_WD_Armory_Menu_AddAmmoTip>
   <TSA_WD_Armory_RemovedFood>已将 {0} 组背包食物移入军械库。</TSA_WD_Armory_RemovedFood>
   <TSA_WD_Armory_RemovedFoodNone>驻员背包中没有可移动的食物。</TSA_WD_Armory_RemovedFoodNone>
   <TSA_WD_Armory_AssignedFood>已从军械库库存分配 {0} 份食物。</TSA_WD_Armory_AssignedFood>
@@ -1366,6 +1369,36 @@
   <TSA_WD_Armory_RightClickStoreTip>右键：移入军械库。</TSA_WD_Armory_RightClickStoreTip>
   <TSA_WD_Armory_OpenInventory>打开全部装备页</TSA_WD_Armory_OpenInventory>
   <TSA_WD_Armory_OpenInventoryTip>打开全部装备页，以便在前哨与殖民地之间快速转移装备。</TSA_WD_Armory_OpenInventoryTip>
+  <TSA_WD_Armory_Equipment>装备</TSA_WD_Armory_Equipment>
+  <TSA_WD_Armory_EquipmentTip>操作只作用于已勾选驻员与已勾选库存装备。勾选驻员与库存行，再卸下已穿戴装备或物品栏，或自动分配勾选的武器、服装/护甲与毒品。</TSA_WD_Armory_EquipmentTip>
+  <TSA_WD_Armory_Equipment_AutoAssign>自动分配装备</TSA_WD_Armory_Equipment_AutoAssign>
+  <TSA_WD_Armory_Equipment_AutoAssignTip>取近战与射击中较高者：该技能决定优先顺序与武器类型（射击更高→远程，近战更高→近战）。同类型内银币价值最高的已选装备优先给技能更高者。仅当偏好类型用尽时才改用另一类武器。也会把已选护甲与服装装入空闲服装层（银币价值优先）。不会卸下或替换已穿戴装备。只用已勾选驻员与已勾选库存。</TSA_WD_Armory_Equipment_AutoAssignTip>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugs>自动分配毒品</TSA_WD_Armory_Equipment_AutoAssignDrugs>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugsTip>把军械库毒品平均分给已勾选驻员（每人最多 5 件）。跳过禁欲者（teetotaler）特质驻员。只有已勾选驻员会收到毒品。</TSA_WD_Armory_Equipment_AutoAssignDrugsTip>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugsDone>已从军械库库存分配 {0} 件毒品。</TSA_WD_Armory_Equipment_AutoAssignDrugsDone>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugsNone>未分配任何毒品。可能库存为空、所选驻员是禁欲者，或无法再携带。</TSA_WD_Armory_Equipment_AutoAssignDrugsNone>
+  <TSA_WD_Armory_Equipment_StripWeapons>卸下武器</TSA_WD_Armory_Equipment_StripWeapons>
+  <TSA_WD_Armory_Equipment_StripWeaponsTip>将已勾选驻员已装备的武器移入军械库。只影响已勾选驻员。</TSA_WD_Armory_Equipment_StripWeaponsTip>
+  <TSA_WD_Armory_Equipment_StripArmor>卸下护甲</TSA_WD_Armory_Equipment_StripArmor>
+  <TSA_WD_Armory_Equipment_StripArmorTip>将已勾选驻员已穿戴的护甲移入军械库。只影响已勾选驻员。</TSA_WD_Armory_Equipment_StripArmorTip>
+  <TSA_WD_Armory_Equipment_StripApparel>卸下服装</TSA_WD_Armory_Equipment_StripApparel>
+  <TSA_WD_Armory_Equipment_StripApparelTip>将已勾选驻员已穿戴的非护甲服装移入军械库。只影响已勾选驻员。</TSA_WD_Armory_Equipment_StripApparelTip>
+  <TSA_WD_Armory_Equipment_StripOtherInventory>卸下其他物品</TSA_WD_Armory_Equipment_StripOtherInventory>
+  <TSA_WD_Armory_Equipment_StripOtherInventoryTip>将已勾选驻员的其他物品栏移入军械库（不含食物、毒品、弹药或药品）。只影响已勾选驻员。</TSA_WD_Armory_Equipment_StripOtherInventoryTip>
+  <TSA_WD_Armory_Equipment_StripDrugs>卸下毒品</TSA_WD_Armory_Equipment_StripDrugs>
+  <TSA_WD_Armory_Equipment_StripDrugsTip>将已勾选驻员身上的毒品移入军械库。只影响已勾选驻员。</TSA_WD_Armory_Equipment_StripDrugsTip>
+  <TSA_WD_Armory_Equipment_EquipDone>已装备 {0} 件武器与 {1} 件服装/护甲。</TSA_WD_Armory_Equipment_EquipDone>
+  <TSA_WD_Armory_Equipment_EquipNone>未装备任何物品。驻员可能已武装且穿戴齐全，或所选库存无法匹配空闲槽位。</TSA_WD_Armory_Equipment_EquipNone>
+  <TSA_WD_Armory_Equipment_StripWeaponsDone>已将 {0} 件武器移入军械库。</TSA_WD_Armory_Equipment_StripWeaponsDone>
+  <TSA_WD_Armory_Equipment_StripWeaponsNone>勾选驻员没有可卸下的已装备武器。</TSA_WD_Armory_Equipment_StripWeaponsNone>
+  <TSA_WD_Armory_Equipment_StripArmorDone>已将 {0} 件护甲移入军械库。</TSA_WD_Armory_Equipment_StripArmorDone>
+  <TSA_WD_Armory_Equipment_StripArmorNone>勾选驻员没有可卸下的护甲。</TSA_WD_Armory_Equipment_StripArmorNone>
+  <TSA_WD_Armory_Equipment_StripApparelDone>已将 {0} 件服装移入军械库。</TSA_WD_Armory_Equipment_StripApparelDone>
+  <TSA_WD_Armory_Equipment_StripApparelNone>勾选驻员没有可卸下的非护甲服装。</TSA_WD_Armory_Equipment_StripApparelNone>
+  <TSA_WD_Armory_Equipment_StripOtherInventoryDone>已将 {0} 组其他物品移入军械库。</TSA_WD_Armory_Equipment_StripOtherInventoryDone>
+  <TSA_WD_Armory_Equipment_StripOtherInventoryNone>勾选驻员没有可卸下的其他物品。</TSA_WD_Armory_Equipment_StripOtherInventoryNone>
+  <TSA_WD_Armory_Equipment_StripDrugsDone>已将 {0} 组毒品移入军械库。</TSA_WD_Armory_Equipment_StripDrugsDone>
+  <TSA_WD_Armory_Equipment_StripDrugsNone>勾选驻员没有可卸下的毒品。</TSA_WD_Armory_Equipment_StripDrugsNone>
   <TSA_WD_Armory_ConvertedFood>已把存放的食物转换为 {0} 点前哨食物。</TSA_WD_Armory_ConvertedFood>
   <TSA_WD_Armory_FailManualDefense>本前哨正在进行防御，无法搬运装备。</TSA_WD_Armory_FailManualDefense>
   <TSA_WD_Armory_FailLocked>{0} 已锁定，无法取下。</TSA_WD_Armory_FailLocked>
@@ -1548,6 +1581,11 @@
   <TSA_WD_PawnDropPod_LackingMaterials>来自 {1} 的殖民者 {0} 无法以运输舱派出。材料不足！</TSA_WD_PawnDropPod_LackingMaterials>
   <TSA_WD_PawnDropPod_LackingMaterialsGroup>来自 {2} 的 {0} 及其他 {1} 人无法以运输舱派出。材料不足！</TSA_WD_PawnDropPod_LackingMaterialsGroup>
   <TSA_WD_PawnDropPod_NoExitHere>运输舱不能在此退出 — 请改用陆路。</TSA_WD_PawnDropPod_NoExitHere>
+  <TSA_WD_PawnDropPod_UnescortedSelectTip>运输舱送往玩家前哨或殖民地时，囚犯、奴隶和机械体无需自由殖民者护送。</TSA_WD_PawnDropPod_UnescortedSelectTip>
+  <TSA_WD_PawnDropPod_UnescortedLostLabel>无护送运输舱损失</TSA_WD_PawnDropPod_UnescortedLostLabel>
+  <TSA_WD_PawnDropPod_UnescortedFreed>{0} 名囚犯/奴隶获释：到达前目的地已不存在。</TSA_WD_PawnDropPod_UnescortedFreed>
+  <TSA_WD_PawnDropPod_UnescortedLostMechs>{0} 个机械体损失：到达前目的地已不存在。</TSA_WD_PawnDropPod_UnescortedLostMechs>
+  <TSA_WD_PawnDropPod_UnescortedLostFreedBoth>{0} 名囚犯/奴隶获释，{1} 个机械体损失：到达前目的地已不存在。</TSA_WD_PawnDropPod_UnescortedLostFreedBoth>
   <TSA_WD_PawnDropPod_OutOfRange>目的地超出运输舱射程。</TSA_WD_PawnDropPod_OutOfRange>
   <TSA_WD_PawnDropPod_NoComponentDef>缺少工业零件定义。</TSA_WD_PawnDropPod_NoComponentDef>
   <TSA_WD_PawnDropPod_SmartSendTitle>智能派遣</TSA_WD_PawnDropPod_SmartSendTitle>
@@ -1914,6 +1952,9 @@
   <TSA_WD_OutpostStats_Row_RoadTimeStoneTip>按当前累计建造技能估算完成一段石路或一格桥面水域所需天数（仅进度条填充，不含商队行程）。</TSA_WD_OutpostStats_Row_RoadTimeStoneTip>
   <TSA_WD_OutpostStats_Row_RoadTimeAsphalt>沥青路段完工时间</TSA_WD_OutpostStats_Row_RoadTimeAsphalt>
   <TSA_WD_OutpostStats_Row_RoadTimeAsphaltTip>按当前累计建造技能估算完成一段沥青路所需天数（仅进度条填充，不含商队行程）。</TSA_WD_OutpostStats_Row_RoadTimeAsphaltTip>
+  <TSA_WD_OutpostStats_Row_RoadTimeGlitter>闪光路段完工时间</TSA_WD_OutpostStats_Row_RoadTimeGlitter>
+  <TSA_WD_OutpostStats_Row_RoadTimeGlitterTip>按当前累计建造技能估算完成一段闪光路所需天数（仅进度条填充，不含商队行程）。</TSA_WD_OutpostStats_Row_RoadTimeGlitterTip>
+
   <TSA_WD_OutpostStats_Row_RoadTimeRoadBlock>路障段完工时间</TSA_WD_OutpostStats_Row_RoadTimeRoadBlock>
   <TSA_WD_OutpostStats_Row_RoadTimeRoadBlockLight>轻型路障完工时间</TSA_WD_OutpostStats_Row_RoadTimeRoadBlockLight>
   <TSA_WD_OutpostStats_Row_RoadTimeRoadBlockNormal>中型路障完工时间</TSA_WD_OutpostStats_Row_RoadTimeRoadBlockNormal>

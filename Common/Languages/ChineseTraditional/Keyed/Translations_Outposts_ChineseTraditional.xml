@@ -1577,7 +1577,7 @@
   <!-- EN: Remove all selected pawns, animals, and vehicles at once. They leave in a single caravan. -->
   <TSA_WD_Pawns_RemoveChosenTip>一次移出所有選取的角色、動物與載具。他們會組成一支旅隊離開。</TSA_WD_Pawns_RemoveChosenTip>
   <!-- EN: Slaves, animals, vehicles, and mechanoids can only be removed if accompanied by at least 1 pawn. -->
-  <TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>奴隸、動物、載具與機械族必須有至少1名角色陪同才能移出。</TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>
+  <TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>陸路時，奴隸、動物、載具與機械族需要至少1名自由殖民者護送。以運輸艙送往玩家前哨或殖民地時，可單獨運送俘虜、奴隸與機械族。</TSA_WD_Pawns_RemoveSlaveAccompanimentRequiredTip>
   <!-- EN: Cannot remove the last occupant while mechanoids remain at this outpost. Remove the mechanoids first or take them with you. -->
   <TSA_WD_Pawns_RemoveLastOccupantMechanoidsRemain>哨站中仍有機械族時，無法移出最後一名駐員。請先移出機械族，或將其一併帶走。</TSA_WD_Pawns_RemoveLastOccupantMechanoidsRemain>
   <!-- EN: Producing {0} -->
@@ -2443,8 +2443,12 @@
   <TSA_WD_RoadAlreadyInProgress>已有施工進行中。請先取消目前的工程再設定新目標。</TSA_WD_RoadAlreadyInProgress>
   <!-- EN: Asphalt Road -->
   <TSA_WD_RoadAsphalt>柏油路</TSA_WD_RoadAsphalt>
+  <TSA_WD_RoadGlitter>閃光路</TSA_WD_RoadGlitter>
+
   <!-- EN: Asphalt Road (Need {1} Construction Skill, currently: {0}) -->
   <TSA_WD_RoadAsphalt_Disabled>柏油路（需要{1}建造技能，目前：{0}）</TSA_WD_RoadAsphalt_Disabled>
+  <TSA_WD_RoadGlitter_Disabled>閃光路（需要{1}建造技能，目前：{0}）</TSA_WD_RoadGlitter_Disabled>
+
   <!-- EN: Road construction at {0} has been halted. -->
   <TSA_WD_RoadCancelled>{0}的道路施工已停止。</TSA_WD_RoadCancelled>
   <!-- EN: Dirt Path -->
@@ -2705,29 +2709,29 @@
   <!-- EN: Food -->
   <TSA_WD_Armory_MenuFood>食物</TSA_WD_Armory_MenuFood>
   <!-- EN: Food helpers: strip from pawns, assign from Armory stock, or convert stored food into the outpost food pool. -->
-  <TSA_WD_Armory_MenuFoodTip>食物工具：從角色身上卸下、從軍械庫庫存分配，或將庫存食物轉入哨站食物池。</TSA_WD_Armory_MenuFoodTip>
+  <TSA_WD_Armory_MenuFoodTip>針對已勾選駐員的食物工具：從軍械庫卸下或分配（僅已勾選駐員），或將全部庫存食物轉入哨站食物池。</TSA_WD_Armory_MenuFoodTip>
   <!-- EN: Ammo -->
   <TSA_WD_Armory_MenuAmmo>彈藥</TSA_WD_Armory_MenuAmmo>
   <!-- EN: Combat Extended ammo helpers: strip from pawns, or add from Armory stock. -->
-  <TSA_WD_Armory_MenuAmmoTip>Combat Extended彈藥工具：從角色身上卸下，或從軍械庫庫存補充。</TSA_WD_Armory_MenuAmmoTip>
+  <TSA_WD_Armory_MenuAmmoTip>針對已勾選駐員的Combat Extended彈藥工具：從軍械庫卸下或補充。只影響已勾選駐員。</TSA_WD_Armory_MenuAmmoTip>
   <!-- EN: Remove food from pawns -->
   <TSA_WD_Armory_Menu_RemoveFood>從角色身上移除食物</TSA_WD_Armory_Menu_RemoveFood>
   <!-- EN: Move all nutrition food from occupant inventories into the Armory. Drugs and medicine stay on the pawns. -->
-  <TSA_WD_Armory_Menu_RemoveFoodTip>將駐員物品欄中所有提供營養的食物移到軍械庫。藥物與藥品留在角色身上。</TSA_WD_Armory_Menu_RemoveFoodTip>
+  <TSA_WD_Armory_Menu_RemoveFoodTip>將已勾選駐員物品欄中提供營養的食物移到軍械庫。藥物與藥品留在角色身上。只影響已勾選駐員。</TSA_WD_Armory_Menu_RemoveFoodTip>
   <!-- EN: Assign food to pawns -->
   <TSA_WD_Armory_Menu_AssignFood>分配食物給角色</TSA_WD_Armory_Menu_AssignFood>
   <!-- EN: Share Armory nutrition food evenly across occupants (up to 10 items each). Does not take food already carried by pawns. -->
-  <TSA_WD_Armory_Menu_AssignFoodTip>將軍械庫中提供營養的食物平均分給駐員（每人最多10件）。不會拿走角色已攜帶的食物。</TSA_WD_Armory_Menu_AssignFoodTip>
+  <TSA_WD_Armory_Menu_AssignFoodTip>將軍械庫中提供營養的食物平均分給已勾選駐員（每人最多10件）。不會拿走已攜帶的食物。只有已勾選駐員會收到食物。</TSA_WD_Armory_Menu_AssignFoodTip>
   <!-- EN: Convert real food to outpost food -->
   <TSA_WD_Armory_Menu_ConvertFood>將實體食物轉換為哨站食物</TSA_WD_Armory_Menu_ConvertFood>
   <!-- EN: Remove -->
   <TSA_WD_Armory_Menu_RemoveAmmo>移除</TSA_WD_Armory_Menu_RemoveAmmo>
   <!-- EN: Move all Combat Extended ammo from occupant inventories into the Armory. Does not unload magazines still in guns. -->
-  <TSA_WD_Armory_Menu_RemoveAmmoTip>將駐員物品欄中所有Combat Extended彈藥移到軍械庫。不會卸下仍在槍中的彈匣。</TSA_WD_Armory_Menu_RemoveAmmoTip>
+  <TSA_WD_Armory_Menu_RemoveAmmoTip>將已勾選駐員物品欄中的Combat Extended彈藥移到軍械庫。不會卸下仍在槍中的彈匣。只影響已勾選駐員。</TSA_WD_Armory_Menu_RemoveAmmoTip>
   <!-- EN: Add -->
   <TSA_WD_Armory_Menu_AddAmmo>補充</TSA_WD_Armory_Menu_AddAmmo>
   <!-- EN: Give each occupant up to 4 full magazines of suitable ammo from Armory stock, then share any leftover among them. Mixes ammo types when several fit. Does not take ammo already carried by pawns. -->
-  <TSA_WD_Armory_Menu_AddAmmoTip>從軍械庫庫存給每名駐員最多4個滿彈匣的合適彈藥，剩餘的再平均分給他們。有多種彈藥適用時會混合分配。不會拿走角色已攜帶的彈藥。</TSA_WD_Armory_Menu_AddAmmoTip>
+  <TSA_WD_Armory_Menu_AddAmmoTip>從軍械庫庫存給每名已勾選駐員最多4個滿彈匣的合適彈藥，剩餘的再平均分給他們。有多種彈藥適用時會混合分配。不會拿走已攜帶的彈藥。只有已勾選駐員會收到彈藥。</TSA_WD_Armory_Menu_AddAmmoTip>
   <!-- EN: Moved food from {0} inventory stack(s) into the Armory. -->
   <TSA_WD_Armory_RemovedFood>已將{0}組物品欄中的食物移到軍械庫。</TSA_WD_Armory_RemovedFood>
   <!-- EN: No food in occupant inventories to move. -->
@@ -2750,6 +2754,36 @@
   <TSA_WD_Armory_OpenInventory>開啟全部裝備分頁</TSA_WD_Armory_OpenInventory>
   <!-- EN: Open the All Gear tab to quickly move gear between outposts and the colony. -->
   <TSA_WD_Armory_OpenInventoryTip>開啟全部裝備分頁，快速在哨站與殖民地之間移動裝備。</TSA_WD_Armory_OpenInventoryTip>
+  <TSA_WD_Armory_Equipment>裝備</TSA_WD_Armory_Equipment>
+  <TSA_WD_Armory_EquipmentTip>操作只作用於已勾選駐員與已勾選庫存裝備。勾選駐員與庫存列，再卸下已穿戴裝備或物品欄，或自動分配勾選的武器、服裝/護甲與毒品。</TSA_WD_Armory_EquipmentTip>
+  <TSA_WD_Armory_Equipment_AutoAssign>自動分配裝備</TSA_WD_Armory_Equipment_AutoAssign>
+  <TSA_WD_Armory_Equipment_AutoAssignTip>取近戰與射擊中較高者：該技能決定優先順序與武器類型（射擊更高→遠程，近戰更高→近戰）。同類型內銀幣價值最高的已選裝備優先給技能更高者。僅當偏好類型用盡時才改用另一類武器。也會把已選護甲與服裝裝入空閒服裝層（銀幣價值優先）。不會卸下或替換已穿戴裝備。只用已勾選駐員與已勾選庫存。</TSA_WD_Armory_Equipment_AutoAssignTip>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugs>自動分配毒品</TSA_WD_Armory_Equipment_AutoAssignDrugs>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugsTip>將軍械庫毒品平均分給已勾選駐員（每人最多 5 件）。跳過禁慾者（teetotaler）特質駐員。只有已勾選駐員會收到毒品。</TSA_WD_Armory_Equipment_AutoAssignDrugsTip>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugsDone>已從軍械庫庫存分配 {0} 件毒品。</TSA_WD_Armory_Equipment_AutoAssignDrugsDone>
+  <TSA_WD_Armory_Equipment_AutoAssignDrugsNone>未分配任何毒品。可能庫存為空、所選駐員是禁慾者，或無法再攜帶。</TSA_WD_Armory_Equipment_AutoAssignDrugsNone>
+  <TSA_WD_Armory_Equipment_StripWeapons>卸下武器</TSA_WD_Armory_Equipment_StripWeapons>
+  <TSA_WD_Armory_Equipment_StripWeaponsTip>將已勾選駐員已裝備的武器移入軍械庫。只影響已勾選駐員。</TSA_WD_Armory_Equipment_StripWeaponsTip>
+  <TSA_WD_Armory_Equipment_StripArmor>卸下護甲</TSA_WD_Armory_Equipment_StripArmor>
+  <TSA_WD_Armory_Equipment_StripArmorTip>將已勾選駐員已穿戴的護甲移入軍械庫。只影響已勾選駐員。</TSA_WD_Armory_Equipment_StripArmorTip>
+  <TSA_WD_Armory_Equipment_StripApparel>卸下服裝</TSA_WD_Armory_Equipment_StripApparel>
+  <TSA_WD_Armory_Equipment_StripApparelTip>將已勾選駐員已穿戴的非護甲服裝移入軍械庫。只影響已勾選駐員。</TSA_WD_Armory_Equipment_StripApparelTip>
+  <TSA_WD_Armory_Equipment_StripOtherInventory>卸下其他物品欄</TSA_WD_Armory_Equipment_StripOtherInventory>
+  <TSA_WD_Armory_Equipment_StripOtherInventoryTip>將已勾選駐員的其他物品欄移入軍械庫（不含食物、毒品、彈藥或藥品）。只影響已勾選駐員。</TSA_WD_Armory_Equipment_StripOtherInventoryTip>
+  <TSA_WD_Armory_Equipment_StripDrugs>卸下毒品</TSA_WD_Armory_Equipment_StripDrugs>
+  <TSA_WD_Armory_Equipment_StripDrugsTip>將已勾選駐員身上的毒品移入軍械庫。只影響已勾選駐員。</TSA_WD_Armory_Equipment_StripDrugsTip>
+  <TSA_WD_Armory_Equipment_EquipDone>已裝備 {0} 件武器與 {1} 件服裝/護甲。</TSA_WD_Armory_Equipment_EquipDone>
+  <TSA_WD_Armory_Equipment_EquipNone>未裝備任何物品。駐員可能已武裝且穿戴齊全，或所選庫存無法匹配空閒槽位。</TSA_WD_Armory_Equipment_EquipNone>
+  <TSA_WD_Armory_Equipment_StripWeaponsDone>已將 {0} 件武器移入軍械庫。</TSA_WD_Armory_Equipment_StripWeaponsDone>
+  <TSA_WD_Armory_Equipment_StripWeaponsNone>勾選駐員沒有可卸下的已裝備武器。</TSA_WD_Armory_Equipment_StripWeaponsNone>
+  <TSA_WD_Armory_Equipment_StripArmorDone>已將 {0} 件護甲移入軍械庫。</TSA_WD_Armory_Equipment_StripArmorDone>
+  <TSA_WD_Armory_Equipment_StripArmorNone>勾選駐員沒有可卸下的護甲。</TSA_WD_Armory_Equipment_StripArmorNone>
+  <TSA_WD_Armory_Equipment_StripApparelDone>已將 {0} 件服裝移入軍械庫。</TSA_WD_Armory_Equipment_StripApparelDone>
+  <TSA_WD_Armory_Equipment_StripApparelNone>勾選駐員沒有可卸下的非護甲服裝。</TSA_WD_Armory_Equipment_StripApparelNone>
+  <TSA_WD_Armory_Equipment_StripOtherInventoryDone>已將 {0} 組其他物品移入軍械庫。</TSA_WD_Armory_Equipment_StripOtherInventoryDone>
+  <TSA_WD_Armory_Equipment_StripOtherInventoryNone>勾選駐員沒有可卸下的其他物品。</TSA_WD_Armory_Equipment_StripOtherInventoryNone>
+  <TSA_WD_Armory_Equipment_StripDrugsDone>已將 {0} 組毒品移入軍械庫。</TSA_WD_Armory_Equipment_StripDrugsDone>
+  <TSA_WD_Armory_Equipment_StripDrugsNone>勾選駐員沒有可卸下的毒品。</TSA_WD_Armory_Equipment_StripDrugsNone>
   <!-- EN: Converted stored food into {0} outpost food. -->
   <TSA_WD_Armory_ConvertedFood>已將庫存食物轉換為{0}哨站食物。</TSA_WD_Armory_ConvertedFood>
   <!-- EN: Gear cannot be moved while this outpost is defending itself. -->
@@ -3176,6 +3210,11 @@
   <TSA_WD_PawnDropPod_LackingMaterialsGroup>來自{2}的{0}與其他{1}人無法以運輸艙派出。材料不足！</TSA_WD_PawnDropPod_LackingMaterialsGroup>
   <!-- EN: Drop pods cannot Exit Here. Switch to Land. -->
   <TSA_WD_PawnDropPod_NoExitHere>運輸艙無法使用「從此離開」。請切換為陸路。</TSA_WD_PawnDropPod_NoExitHere>
+  <TSA_WD_PawnDropPod_UnescortedSelectTip>運輸艙送往玩家前哨或殖民地時，俘虜、奴隸與機械族無需自由殖民者護送。</TSA_WD_PawnDropPod_UnescortedSelectTip>
+  <TSA_WD_PawnDropPod_UnescortedLostLabel>無護送運輸艙損失</TSA_WD_PawnDropPod_UnescortedLostLabel>
+  <TSA_WD_PawnDropPod_UnescortedFreed>{0} 名俘虜/奴隸獲釋：抵達前目的地已不存在。</TSA_WD_PawnDropPod_UnescortedFreed>
+  <TSA_WD_PawnDropPod_UnescortedLostMechs>{0} 個機械族損失：抵達前目的地已不存在。</TSA_WD_PawnDropPod_UnescortedLostMechs>
+  <TSA_WD_PawnDropPod_UnescortedLostFreedBoth>{0} 名俘虜/奴隸獲釋，{1} 個機械族損失：抵達前目的地已不存在。</TSA_WD_PawnDropPod_UnescortedLostFreedBoth>
   <!-- EN: Destination is outside drop-pod range. -->
   <TSA_WD_PawnDropPod_OutOfRange>目的地超出運輸艙航程。</TSA_WD_PawnDropPod_OutOfRange>
   <!-- EN: Industrial component def missing. -->
@@ -3926,6 +3965,10 @@
   <TSA_WD_OutpostStats_Row_RoadTimeAsphalt>每段柏油路耗時</TSA_WD_OutpostStats_Row_RoadTimeAsphalt>
   <!-- EN: Estimated days to prepare one asphalt road segment at current cumulative Construction skill (progress bar fill only; excludes caravan travel). -->
   <TSA_WD_OutpostStats_Row_RoadTimeAsphaltTip>以目前累計建造技能準備一段柏油路的預估天數（僅進度條填滿時間；不含旅隊移動）。</TSA_WD_OutpostStats_Row_RoadTimeAsphaltTip>
+  <!-- EN: Time per glitter segment -->
+  <TSA_WD_OutpostStats_Row_RoadTimeGlitter>每段閃光路耗時</TSA_WD_OutpostStats_Row_RoadTimeGlitter>
+  <!-- EN: Estimated days to prepare one glitter road segment... -->
+  <TSA_WD_OutpostStats_Row_RoadTimeGlitterTip>以目前累計建造技能準備一段閃光路的預估天數（僅進度條填滿時間；不含旅隊移動）。</TSA_WD_OutpostStats_Row_RoadTimeGlitterTip>
   <!-- EN: Time per light road block -->
   <TSA_WD_OutpostStats_Row_RoadTimeRoadBlockLight>每個輕型路障耗時</TSA_WD_OutpostStats_Row_RoadTimeRoadBlockLight>
   <!-- EN: Time per medium road block -->

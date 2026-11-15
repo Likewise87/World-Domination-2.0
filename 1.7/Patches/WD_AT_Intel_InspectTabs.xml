@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+  <!-- 1.7-only: WITab_AT_Intel lives in 1.7/Assemblies only. Do not add to Common Defs. -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[@Name="TSA_WD_AT_TurretBase"]/inspectorTabs</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/WorldObjectDef[@Name="TSA_WD_AT_TurretBase"]</xpath>
+      <value>
+        <inspectorTabs>
+          <li>TSA_WorldDomination.WITab_AT_Intel, TSA_WorldDomination</li>
+        </inspectorTabs>
+      </value>
+    </nomatch>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/WorldObjectDef[@Name="TSA_WD_AT_TurretBase"]/inspectorTabs</xpath>
+      <value>
+        <li>TSA_WorldDomination.WITab_AT_Intel, TSA_WorldDomination</li>
+      </value>
+    </match>
+  </Operation>
+</Patch>

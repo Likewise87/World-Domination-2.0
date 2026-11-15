@@ -791,6 +791,8 @@
   <TSA_WD_WorldSetup_RoadStone>石板路</TSA_WD_WorldSetup_RoadStone>
   <!-- EN: Asphalt road -->
   <TSA_WD_WorldSetup_RoadAsphalt>柏油路</TSA_WD_WorldSetup_RoadAsphalt>
+  <TSA_WD_WorldSetup_RoadGlitter>閃光路</TSA_WD_WorldSetup_RoadGlitter>
+
   <!-- EN: No road definition found. -->
   <TSA_WD_WorldSetup_RoadDefMissing>找不到道路定義。</TSA_WD_WorldSetup_RoadDefMissing>
   <!-- EN: Pick two different tiles. -->
@@ -1577,6 +1579,10 @@
   <TSA_WD_RoadBuilding_StoneRoad>石板路</TSA_WD_RoadBuilding_StoneRoad>
   <!-- EN: Asphalt road -->
   <TSA_WD_RoadBuilding_AsphaltRoad>柏油路</TSA_WD_RoadBuilding_AsphaltRoad>
+  <TSA_WD_RoadBuilding_GlitterRoad>閃光路</TSA_WD_RoadBuilding_GlitterRoad>
+  <TSA_WD_GlitterRoad_MinTech>閃光路：NPC最低科技等級</TSA_WD_GlitterRoad_MinTech>
+  <TSA_WD_GlitterRoad_MinTechTip>只有達到此科技等級以上的非玩家派系才能自動建造或被命令建造閃光路（還需要T4定居點）。預設為超空間時代。玩家前哨站改用進階製造研究與材料。</TSA_WD_GlitterRoad_MinTechTip>
+
   <!-- EN: Movement cost multiplier -->
   <TSA_WD_RoadBuilding_Movement>移動成本倍率</TSA_WD_RoadBuilding_Movement>
   <!-- EN: Cost multiplier for world-path travel on this road type while Roads of the Rim is not active (written onto the vanilla road def). Lower = faster travel. -->

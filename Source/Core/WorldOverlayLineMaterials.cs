@@ -58,6 +58,14 @@ namespace TSA_WorldDomination
         public static readonly Material RadiusRed = MaterialPool.MatFrom("UI/Overlays/ThingLine", ShaderDatabase.WorldOverlayTransparent, Color.red, RenderQueue);
         /// <summary>Fire-mission target star (opaque red, ZTest Always like road markers).</summary>
         public static readonly Material RadiusRedMarker = MakeAlwaysOnTopLineMat(Color.red, RenderQueue);
+        public static readonly Material RadiusOrange = MaterialPool.MatFrom(
+            "UI/Overlays/ThingLine", ShaderDatabase.WorldOverlayTransparent, ColorLibrary.Orange, RenderQueue);
+        public static readonly Material RadiusYellow = MaterialPool.MatFrom(
+            "UI/Overlays/ThingLine", ShaderDatabase.WorldOverlayTransparent, Color.yellow, RenderQueue);
+        /// <summary>Intel MaxLOS / Sight outer hop ring and gizmo tint.</summary>
+        public static readonly Color SightGoldColor = new Color(1f, 0.82f, 0.20f, 1f);
+        public static readonly Material RadiusGold = MaterialPool.MatFrom(
+            "UI/Overlays/ThingLine", ShaderDatabase.WorldOverlayTransparent, SightGoldColor, RenderQueue);
         public static readonly Material RadiusCyan = MaterialPool.MatFrom("UI/Overlays/ThingLine", ShaderDatabase.WorldOverlayTransparent, Color.cyan, RenderQueue);
         /// <summary>Tunnel Network ally-radius outer hop ring (deeper blue than <see cref="RadiusCyan"/>).</summary>
         public static readonly Material RadiusCyanDeep = MaterialPool.MatFrom(

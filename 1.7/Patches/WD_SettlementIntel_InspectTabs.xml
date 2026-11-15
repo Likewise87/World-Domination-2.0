@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+  <!-- 1.7-only (loadFolders 1.7/Patches): WITab_SettlementIntel lives in 1.7/Assemblies only. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/WorldObjectDef[@Name="StaticWorldObjectBase"]/inspectorTabs</xpath>
+    <value>
+      <li>TSA_WorldDomination.WITab_SettlementIntel, TSA_WorldDomination</li>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/WorldObjectDef[@Name="TSA_WD_Outpost"]/inspectorTabs</xpath>
+    <value>
+      <li>TSA_WorldDomination.WITab_SettlementIntel, TSA_WorldDomination</li>
+    </value>
+  </Operation>
+</Patch>

@@ -172,6 +172,8 @@
   <TSA_WD_Log_ConquestSettlementFounded>CONQUEST: {0} founded {1} ({2}) after a successful raid.</TSA_WD_Log_ConquestSettlementFounded>
   <TSA_WD_Log_ExpansionCancelled>{0} mission cancelled: Tile occupied or saturated.</TSA_WD_Log_ExpansionCancelled>
   <TSA_WD_Log_ExpeditionLaunched>EXPANSION ATTEMPT: {0} dispatched settlers to establish a new colony.</TSA_WD_Log_ExpeditionLaunched>
+  <TSA_WD_Log_StrategicExpeditionLaunched>STRATEGIC EXPANSION: {0} dispatched settlers toward a safer frontier.</TSA_WD_Log_StrategicExpeditionLaunched>
+  <TSA_WD_Log_ScoutLaunched>SCOUT: {0} dispatched {1} scout caravan(s).</TSA_WD_Log_ScoutLaunched>
   <TSA_WD_Log_IsolationPressure>ISOLATION PRESSURE: {0} forced to found {1} settlement(s) near you.</TSA_WD_Log_IsolationPressure>
   <TSA_WD_Log_Expand_SkippedGlobalCap>EXPAND: {0} skipped (world NPC settlement count {1} at cap {2}).</TSA_WD_Log_Expand_SkippedGlobalCap>
   <TSA_WD_Log_Expand_SkippedNoValidTile>EXPAND: {0} skipped (no valid tile in range for a new settlement).</TSA_WD_Log_Expand_SkippedNoValidTile>
@@ -243,6 +245,7 @@
   <TSA_WD_RaiderDropPods>Raider Drop Pods</TSA_WD_RaiderDropPods>
   <TSA_WD_RaiderGravship>Raider Gravship</TSA_WD_RaiderGravship>
   <TSA_WD_TraderCaravan>Trader Caravan</TSA_WD_TraderCaravan>
+  <TSA_WD_ScoutCaravan>Scout Caravan</TSA_WD_ScoutCaravan>
   <TSA_WD_RoadBuilderCaravan>Road Builder Caravan</TSA_WD_RoadBuilderCaravan>
   <TSA_WD_BridgeBuilderCaravan>Bridge Builder Caravan</TSA_WD_BridgeBuilderCaravan>
   <TSA_WD_BridgeDeconstructCaravan>Bridge Teardown Caravan</TSA_WD_BridgeDeconstructCaravan>

@@ -259,6 +259,7 @@ namespace TSA_WorldDomination
             // Pollution wipe is disaster-style: do not start Strategy on Settlement Loss.
             // Destroy (not Remove) so PostDestroy nukes advanced buildings / fortifications.
             WorldActions_DesperationRaid.SuppressLossNotify(settlement);
+            WdCommonEnemySettlementQuestHelper.NotifySettlementRemoved(settlement);
             settlement.Destroy();
             WorldObject_WdSettlementRuin.Spawn(tile, label, faction);
             WorldActions_Utils.TryMarkDefeatedIfNoSettlementsLeft(faction);

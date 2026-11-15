@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_72_Title>NPC fog of war, Glitter Roads, Armory QOL</TSA_WD_Update_2_3_72_Title>
+  <TSA_WD_Update_2_3_72_Body><![CDATA[
+<size=16><b>2.3.72 - NPC fog of war, Glitter Roads, Armory QOL</b></size>\n
+<color=#00FFFFFF>Release date: November 15th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• New feature: NPC line of sight and knowledge graph. Requires manual activation via mod settings in the new menu "Intel". When activated, NPC factions will no longer know everything going on on the world map but need to discover enemies first. Settlements and caravans have different line of sight that can be toggled via gizmo. Only discovered targets can be raided. Known limitations: When a settlement is destroyed or changes its owner, factions will automatically know this (so e.g. mortars don't shoot at an ally by mistake).\n
+• New feature: Strategic Expansion. NPC factions may now more cleverly choose a tile to expand to, avoiding the line of sight of enemies.\n
+• New feature: Scout caravans. Those will now be sent out to find enemy settlements and caravans.\n
+• Note: The player faction still knows and sees everything for the time being. Please provide feedback via Discord. The main goal here is to allow small T1 settlements in the middle of nowhere to survive as those were simply "not seen/found" yet due to small size.\n
+• New feature: In the armory you may now select specific pawns and items. New bulk actions to remove all weapons and inventory from selected pawns and likewise to auto assign weapons and drugs etc. (for you guys having tons of pawns at outposts).\n
+• New feature: Prisoners, slaves and mechanoids can now be sent via drop pods without having to be escorted by regular pawns (as requested via Discord).\n
+• New feature: Added a late game road type "Glitter Road". Even better than asphalt roads, especially at mitigating the movement penalty from winter. But costs plasteel.\n
+• The quest where you are supposed to destroy an enemy settlement is now also won if you destroy the settlement via sabotage or disinformation action or when you e.g. shoot it via artillery or missile from a 3rd party mod (as reported via Discord).\n
+• Already shipped earlier this week via hotfix: Pawns gain XP at outposts on a daily basis now and not just at the end of a production cycle.\n
+• Already shipped earlier this week via hotfix: Goodwill drain time interval mod settings slider didn't work. Fixed now.\n
+]]></TSA_WD_Update_2_3_72_Body>
   <TSA_WD_Update_2_3_71_Title>Color picker for factions</TSA_WD_Update_2_3_71_Title>
   <TSA_WD_Update_2_3_71_Body><![CDATA[
 <size=16><b>2.3.71 - Color picker for factions</b></size>\n

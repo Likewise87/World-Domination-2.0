@@ -69,6 +69,7 @@ public override void DoWindowContents(Rect inRect)
 
             float contentWidth = SettingsUI.ScrollContentWidth(contentRect.width);
             Rect scrollViewRect = new Rect(0f, 0f, contentWidth, 3600f);
+            SettingsUI.ApplyPendingHighlightScroll(ref scrollPosition, contentRect.height, scrollViewRect.height);
             Widgets.BeginScrollView(contentRect, ref scrollPosition, scrollViewRect);
             Listing_Standard listing = new Listing_Standard();
             listing.Begin(scrollViewRect);
