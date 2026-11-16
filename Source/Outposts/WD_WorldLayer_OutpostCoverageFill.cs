@@ -78,8 +78,10 @@ namespace TSA_WorldDomination
         private static float accuracyBandMaxRange;
         private static bool attackRangeBands;
         private static bool zealAttackInnerCyan;
-        /// <summary>Intel MaxLOS rings: tile color by target-size class (red T1 / orange T2 / yellow T3 / gold T4).</summary>
+        /// <summary>Intel MaxLOS rings: tile color by target-size class (red T1 / orange T2 / yellow T3 / pale T4).</summary>
         private static bool sightLosBands;
+        /// <summary>True MaxLOS (ApproxDistance) used for keep-test and band edges; not the Ceil hop window.</summary>
+        private static float sightLogicRadius = -1f;
         private static float sightRingFracT1 = 0.50f;
         private static float sightRingFracT2 = 0.75f;
         private static float sightRingFracT3 = 1.00f;
@@ -277,6 +279,7 @@ namespace TSA_WorldDomination
             float f1 = Mathf.Clamp01(sightFracT1);
             float f2 = Mathf.Clamp01(Mathf.Max(sightFracT1, sightFracT2));
             float f3 = Mathf.Clamp01(Mathf.Max(sightFracT2, sightFracT3));
+            float sightR = sightLosBands && radius > 0f ? radius : -1f;
 
             if (hasTarget && centerTile == center && radiusTiles == r && fillKind == kind
                 && WD_WorldLayer_OutpostCoverageFill.accuracyBands == accuracyBands
@@ -285,6 +288,7 @@ namespace TSA_WorldDomination
                 && WD_WorldLayer_OutpostCoverageFill.sightLosBands == sightLosBands
                 && Mathf.Approximately(WD_WorldLayer_OutpostCoverageFill.accuracyBandMaxRange, bandMax)
                 && Mathf.Approximately(WD_WorldLayer_OutpostCoverageFill.allyInnerRadiusSplit, split)
+                && Mathf.Approximately(sightLogicRadius, sightR)
                 && Mathf.Approximately(sightRingFracT1, f1)
                 && Mathf.Approximately(sightRingFracT2, f2)
                 && Mathf.Approximately(sightRingFracT3, f3))
@@ -300,6 +304,7 @@ namespace TSA_WorldDomination
             WD_WorldLayer_OutpostCoverageFill.zealAttackInnerCyan = zealAttackInnerCyan;
             WD_WorldLayer_OutpostCoverageFill.allyInnerRadiusSplit = split;
             WD_WorldLayer_OutpostCoverageFill.sightLosBands = sightLosBands;
+            sightLogicRadius = sightR;
             sightRingFracT1 = f1;
             sightRingFracT2 = f2;
             sightRingFracT3 = f3;
@@ -340,6 +345,7 @@ namespace TSA_WorldDomination
             attackRangeBands = false;
             zealAttackInnerCyan = false;
             sightLosBands = false;
+            sightLogicRadius = -1f;
             sightRingFracT1 = 0.50f;
             sightRingFracT2 = 0.75f;
             sightRingFracT3 = 1.00f;
@@ -386,10 +392,13 @@ namespace TSA_WorldDomination
 
             // Include water and WD bridge decks — combat range overlays match ApproxDistance gameplay
             // (AT turrets / mortars can cover bridged water; land-only fills would under-show).
+            // Sight keep/bands use true MaxLOS float; other overlays keep the Ceil hop disk.
+            float keepRadius = sightLosBands && sightLogicRadius > 0f ? sightLogicRadius : radiusTiles;
+
             foreach (PlanetTile tile in EnumerateTilesInRadius(grid, centerTile, hopWindow))
             {
                 float approxDist = grid.ApproxDistanceInTiles(centerTile, tile);
-                if (approxDist > radiusTiles)
+                if (approxDist > keepRadius)
                     continue;
 
                 Material mat = solidMat;
@@ -400,7 +409,7 @@ namespace TSA_WorldDomination
                 }
                 else if (sightLosBands)
                 {
-                    int band = GetSightLosBandIndex(approxDist, radiusTiles);
+                    int band = GetSightLosBandIndex(approxDist, keepRadius);
                     mat = GetAttackRangeBandMaterial(band, zealInnerCyan: false);
                 }
                 else if (accuracyBands && fillKind == OutpostCoverageFillKind.Red)

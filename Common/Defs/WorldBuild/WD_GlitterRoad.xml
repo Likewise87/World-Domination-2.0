@@ -15,11 +15,13 @@
     <color>(0.28, 0.52, 0.72)</color>
   </RoadWorldLayerDef>
 
-  <!-- Player/NPC-painted only. High tilesPerSegment blocks vanilla worldgen use. -->
+  <!-- Player/NPC OverlayRoad only. ancientOnly excludes this from WorldGenStep_Roads
+       (vanilla picks RandomElement among !ancientOnly defs; tilesPerSegment is unused there). -->
   <RoadDef>
     <defName>TSA_WD_GlitterRoad</defName>
     <label>glitter road</label>
     <priority>55</priority>
+    <ancientOnly>true</ancientOnly>
     <movementCostMultiplier>0.15</movementCostMultiplier>
     <tilesPerSegment>99999</tilesPerSegment>
     <pathingMode>Bulldoze</pathingMode>

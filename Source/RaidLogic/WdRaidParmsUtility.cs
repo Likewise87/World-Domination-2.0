@@ -103,18 +103,21 @@ namespace TSA_WorldDomination
             List<Pawn> pawns = PawnGroupMakerUtility.GeneratePawns(pgmParms).ToList();
             if (pawns.Count == 0) return false;
 
-            if (!CellFinder.TryFindRandomEdgeCellWith(
-                    c => c.Standable(map) && !c.Fogged(map),
-                    map,
-                    CellFinder.EdgeRoadChance_Hostile,
-                    out IntVec3 spawnCell))
+            if (!WdEncounterSpawnCellUtility.TryFindValidatedEdgeCell(map, out IntVec3 spawnCell))
             {
                 if (!CellFinder.TryFindRandomEdgeCellWith(
-                        c => c.Standable(map),
+                        c => c.Standable(map) && !c.Fogged(map),
                         map,
                         CellFinder.EdgeRoadChance_Hostile,
                         out spawnCell))
-                    return false;
+                {
+                    if (!CellFinder.TryFindRandomEdgeCellWith(
+                            c => c.Standable(map),
+                            map,
+                            CellFinder.EdgeRoadChance_Hostile,
+                            out spawnCell))
+                        return false;
+                }
             }
 
             for (int i = 0; i < pawns.Count; i++)

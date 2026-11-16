@@ -78,6 +78,17 @@
   <TSA_WD_Gizmo_ShowSightRadius>Show line of sight</TSA_WD_Gizmo_ShowSightRadius>
   <TSA_WD_Gizmo_ShowSightRadiusDesc>Draw golden MaxLOS fill with target-size discovery bands around this object. Small targets only inside the inner ring; medium farther out; big targets out to the outer edge.\n\nRange: {0}</TSA_WD_Gizmo_ShowSightRadiusDesc>
   <TSA_WD_Gizmo_ShowSightRadiusDescPlayer>Draw golden MaxLOS fill with target-size discovery bands. The player always sees everything in gameplay; this only drives the intel view.\n\nRange: {0}</TSA_WD_Gizmo_ShowSightRadiusDescPlayer>
-  <TSA_WD_Gizmo_SightRadiusBandsLegend>Color bands (discoverable target size):\nRed = 0–{0}% of MaxLOS. All sizes (small / medium / big).\nOrange = {0}–{1}% of MaxLOS. Medium and big only.\nYellow = {1}–{2}% of MaxLOS. Big targets only.\nOuter gold edge = MaxLOS.</TSA_WD_Gizmo_SightRadiusBandsLegend>
+  <TSA_WD_Gizmo_SightRadiusBandsLegend>Color bands (discoverable target size):\nRed = 0–{0}% of MaxLOS. All sizes (small / medium / big).\nOrange = {0}–{1}% of MaxLOS. Medium and big only.\nYellow = {1}–{2}% of MaxLOS. Big targets only (outer MaxLOS).</TSA_WD_Gizmo_SightRadiusBandsLegend>
+
+  <TSA_WD_Log_Intel_Discovered>INTEL：{0} 发现了 {1}。</TSA_WD_Log_Intel_Discovered>
+
+  <TSA_WD_Intel_ViewWorldAs>以视角查看世界：{0}</TSA_WD_Intel_ViewWorldAs>
+  <TSA_WD_Intel_ViewAsPlayerShort>玩家</TSA_WD_Intel_ViewAsPlayerShort>
+  <TSA_WD_Intel_ViewAsPlayerSelected>{0}（已选）</TSA_WD_Intel_ViewAsPlayerSelected>
+  <TSA_WD_Intel_ViewAsFactionSelected>{0}（已选）</TSA_WD_Intel_ViewAsFactionSelected>
+  <TSA_WD_Intel_ViewAsFactionDefeated>{0}（已败北）</TSA_WD_Intel_ViewAsFactionDefeated>
+  <TSA_WD_Intel_ViewAsGateOff>情报门控为从不（功能关闭）</TSA_WD_Intel_ViewAsGateOff>
+  <TSA_WD_Intel_ViewAsPlayerTip>玩家视角显示完整世界地图（全部可见）。正常游戏。</TSA_WD_Intel_ViewAsPlayerTip>
+  <TSA_WD_Intel_ViewAsTip>仅会话内的世界地图叠加层。隐藏该派系尚未发现的据点与纵队。将已知但当前不在视线内的目标变暗。不改变玩法迷雾或袭击计算。选择玩家可恢复完整地图。</TSA_WD_Intel_ViewAsTip>
 
 </LanguageData>

@@ -19,6 +19,13 @@ namespace TSA_WorldDomination
         {
             new WD_UpdateEntry
             {
+                Version = "2.3.73",
+                TitleKey = "TSA_WD_Update_2_3_73_Title",
+                BodyKey = "TSA_WD_Update_2_3_73_Body",
+                ReleaseDate = "November 16th 2026"
+            },
+            new WD_UpdateEntry
+            {
                 Version = "2.3.72",
                 TitleKey = "TSA_WD_Update_2_3_72_Title",
                 BodyKey = "TSA_WD_Update_2_3_72_Body",

@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_73_Title>Ver el mapa mundial como facción y correcciones</TSA_WD_Update_2_3_73_Title>
+  <TSA_WD_Update_2_3_73_Body><![CDATA[
+<size=16><b>2.3.73 - Ver el mapa mundial como facción y correcciones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 16 de noviembre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Nueva función: ver el mapa mundial como una facción. Con el nuevo sistema simple de niebla de guerra puedes ver el mundo como una facción concreta. Oculta asentamientos, torretas AT, edificios avanzados y viajeros WD que aún no hayan descubierto.\n
+• Corrección: las nuevas carreteras Glitter podían aparecer en la generación inicial del mundo. Corregido.\n
+• Corrección: en mapas de emboscada/choque de WD, a veces los enemigos aparecían en una casilla desde la que no podían alcanzar al jugador. Corregido.\n
+]]></TSA_WD_Update_2_3_73_Body>
   <TSA_WD_Update_2_3_72_Title>Niebla de guerra PNJ, carreteras Glitter y armamento</TSA_WD_Update_2_3_72_Title>
   <TSA_WD_Update_2_3_72_Body><![CDATA[
 <size=16><b>2.3.72 - Niebla de guerra PNJ, carreteras Glitter y armamento</b></size>\n

@@ -229,6 +229,11 @@ namespace TSA_WorldDomination
         private void DrawOne(WorldObject wo, float half, float discSize)
         {
             if (wo == null || wo.Destroyed || !wo.Spawned) return;
+            if (WdFowDraw.IsActive)
+            {
+                var intel = WorldComponent_SettlementIntel.Get();
+                if (intel != null && intel.IsFowHidden(wo)) return;
+            }
 
             Faction fac = wo.Faction;
             if (fac == null || fac.def == null || fac.def.hidden || fac.defeated)

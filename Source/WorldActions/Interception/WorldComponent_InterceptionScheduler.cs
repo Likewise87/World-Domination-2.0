@@ -277,7 +277,7 @@ namespace TSA_WorldDomination
 
             if (bestTraveler != null)
             {
-                WorldComponent_SettlementIntel.Get()?.DiscoverTraveler(iFaction, bestTraveler);
+                WorldComponent_SettlementIntel.Get()?.DiscoverTraveler(iFaction, bestTraveler, gun);
                 ((IDefensiveInterceptor)gun).InterceptorFire(bestTraveler, bestTravelerDist);
                 return;
             }
@@ -1192,7 +1192,7 @@ namespace TSA_WorldDomination
                 return;
 
             if (isAtTurret && iFaction != null)
-                WorldComponent_SettlementIntel.Get()?.DiscoverTraveler(iFaction, t);
+                WorldComponent_SettlementIntel.Get()?.DiscoverTraveler(iFaction, t, self);
 
             long pairKey = MakePairKey(self.ID, t.ID);
             skipUntilByPair.Remove(pairKey);

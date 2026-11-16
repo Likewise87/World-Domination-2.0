@@ -22,10 +22,20 @@ namespace TSA_WorldDomination
         private static int nextIntelTrackId = 1;
         private bool bootstrappedThisSession;
         private WdEscalationStage lastSeenStage = WdEscalationStage.None;
+        /// <summary>Suppress Action Log / verbose rows during <see cref="BootstrapAllFactions"/> (seed noise).</summary>
+        private bool suppressDiscoveryLogging;
 
         // Settlement ID -> cached MaxLOS for the day (filled in DailyLosPass).
         private readonly Dictionary<int, float> cachedSettlementMaxLos = new Dictionary<int, float>();
         private int cachedMaxLosDay = -1;
+
+        // FoW view draw cache (hide/dim). Rebuilt on Version / view faction / short tick interval.
+        private readonly HashSet<int> fowHiddenIds = new HashSet<int>();
+        private readonly HashSet<int> fowDimIds = new HashSet<int>();
+        private int fowCacheVersion = -1;
+        private int fowCacheTick = -999;
+        private int fowCacheViewFactionId = int.MinValue;
+        private const int FowCacheIntervalTicks = 90;
 
         public WorldComponent_SettlementIntel(World world) : base(world) { }
 
@@ -65,6 +75,7 @@ namespace TSA_WorldDomination
         public override void WorldComponentTick()
         {
             if (Current.ProgramState != ProgramState.Playing) return;
+            WdFowDraw.ClearIfGateOff();
             if (!IsTracking()) return;
 
             var manager = Find.World.GetComponent<WorldComponent_SpreadManager>();
@@ -77,7 +88,10 @@ namespace TSA_WorldDomination
             }
 
             if (Find.TickManager.TicksGame % 60000 == 250)
+            {
                 PruneDestroyed();
+                EnsurePlayerKnowsAllSitesAndTravelers();
+            }
         }
 
         public override void ExposeData()
@@ -225,7 +239,7 @@ namespace TSA_WorldDomination
             return set.Contains(traveler.intelTrackId);
         }
 
-        public void Discover(Faction faction, WorldObject target)
+        public void Discover(Faction faction, WorldObject target, WorldObject observer = null)
         {
             if (faction == null || target == null || target.Destroyed) return;
             if (IsAlwaysKnown(target)) return;
@@ -239,10 +253,11 @@ namespace TSA_WorldDomination
                 if (target is WorldObject_WD_Outpost)
                     stickyOutpostIds.Add(target.ID);
                 Version++;
+                LogDiscovery(faction, target, observer);
             }
         }
 
-        public void DiscoverTraveler(Faction faction, WorldObject_Traveler traveler)
+        public void DiscoverTraveler(Faction faction, WorldObject_Traveler traveler, WorldObject observer = null)
         {
             if (faction == null || traveler == null || traveler.Destroyed) return;
             EnsureTravelerTrackId(traveler);
@@ -252,7 +267,37 @@ namespace TSA_WorldDomination
                 knownTravelers[faction.loadID] = set;
             }
             if (set.Add(traveler.intelTrackId))
+            {
                 Version++;
+                LogDiscovery(faction, traveler, observer);
+            }
+        }
+
+        private void LogDiscovery(Faction faction, WorldObject target, WorldObject observer)
+        {
+            if (suppressDiscoveryLogging || !IsTracking()) return;
+            if (target == null || target.Destroyed || faction == null) return;
+            if (target.Faction == faction) return;
+
+            WorldObject actor = observer != null && !observer.Destroyed ? observer : null;
+            string actorName = actor != null
+                ? actor.LabelCap
+                : (faction.Name ?? "---");
+            string targetName = target.LabelCap;
+            string msg = "TSA_WD_Log_Intel_Discovered".Translate(actorName, targetName).ToString();
+
+            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            if (manager != null)
+            {
+                SpreadLogEntry entry = actor != null
+                    ? new SpreadLogEntry(msg, actor, target)
+                    : new SpreadLogEntry(msg, null, target);
+                if (actor == null)
+                    entry.labelA = faction.Name ?? "---";
+                manager.AddLog(entry);
+            }
+
+            WDVerbose.Msg(msg);
         }
 
         public void ClearSiteKnowledge(WorldObject target)
@@ -344,6 +389,188 @@ namespace TSA_WorldDomination
         {
             if (target is Settlement s && s.Faction?.IsPlayer == true && s.HasMap)
                 return true;
+            return false;
+        }
+
+        // --- Faction FoW view (View intel as) ---
+
+        public void InvalidateFowDrawCache()
+        {
+            fowCacheVersion = -1;
+            fowCacheTick = -999;
+            fowCacheViewFactionId = int.MinValue;
+        }
+
+        /// <summary>Raw discovery visibility for FoW overlay (never uses raid Knows short-circuit).</summary>
+        public bool CanViewForFow(Faction view, WorldObject wo)
+        {
+            if (view == null || wo == null || wo.Destroyed) return false;
+            if (!WdFowDraw.IsFowTarget(wo)) return true;
+            if (wo.Faction == view) return true;
+            if (wo is WorldObject_Traveler traveler)
+                return IsTravelerDiscovered(view, traveler);
+            if (IsAlwaysKnown(wo)) return true;
+            return IsDiscovered(view, wo);
+        }
+
+        public bool IsFowHidden(WorldObject wo)
+        {
+            if (!WdFowDraw.IsActive || wo == null) return false;
+            EnsureFowDrawCacheFresh();
+            return fowHiddenIds.Contains(wo.ID);
+        }
+
+        public bool IsFowDimmed(WorldObject wo)
+        {
+            if (!WdFowDraw.IsActive || wo == null) return false;
+            EnsureFowDrawCacheFresh();
+            return fowDimIds.Contains(wo.ID);
+        }
+
+        public void EnsureFowDrawCacheFresh()
+        {
+            WdFowDraw.ClearIfGateOff();
+            if (!WdFowDraw.IsActive)
+            {
+                if (fowHiddenIds.Count > 0 || fowDimIds.Count > 0)
+                {
+                    fowHiddenIds.Clear();
+                    fowDimIds.Clear();
+                }
+                return;
+            }
+
+            Faction view = WdFowDraw.ViewFaction;
+            int tick = Find.TickManager?.TicksGame ?? 0;
+            int viewId = view?.loadID ?? int.MinValue;
+            if (fowCacheVersion == Version
+                && fowCacheViewFactionId == viewId
+                && tick - fowCacheTick >= 0
+                && tick - fowCacheTick < FowCacheIntervalTicks)
+                return;
+
+            fowCacheVersion = Version;
+            fowCacheTick = tick;
+            fowCacheViewFactionId = viewId;
+            RebuildFowDrawCache(view);
+        }
+
+        private void RebuildFowDrawCache(Faction view)
+        {
+            fowHiddenIds.Clear();
+            fowDimIds.Clear();
+            if (view == null) return;
+
+            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            var observers = new List<WorldObject>(64);
+            CollectFowObservers(view, manager, observers);
+
+            var worldObjects = Find.WorldObjects;
+            if (worldObjects?.Settlements != null)
+            {
+                List<Settlement> settlements = worldObjects.Settlements;
+                for (int i = 0; i < settlements.Count; i++)
+                    ClassifyFowTarget(view, settlements[i], observers, manager);
+            }
+
+            IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
+            for (int i = 0; i < outposts.Count; i++)
+                ClassifyFowTarget(view, outposts[i], observers, manager);
+
+            IReadOnlyList<WorldObject_AT_Turret> ats = WorldObject_AT_Turret.LiveTurrets;
+            if (ats != null)
+            {
+                for (int i = 0; i < ats.Count; i++)
+                    ClassifyFowTarget(view, ats[i], observers, manager);
+            }
+
+            var adv = WorldComponent_AdvancedBuildings.Get();
+            IReadOnlyList<WorldObject_WD_AdvancedBuilding> buildings = adv?.All;
+            if (buildings != null)
+            {
+                for (int i = 0; i < buildings.Count; i++)
+                    ClassifyFowTarget(view, buildings[i], observers, manager);
+            }
+
+            IReadOnlyList<WorldObject_Traveler> travelers = WorldObject_Traveler.LiveTravelers;
+            for (int i = 0; i < travelers.Count; i++)
+                ClassifyFowTarget(view, travelers[i], observers, manager);
+        }
+
+        private static void CollectFowObservers(Faction view, WorldComponent_SpreadManager manager, List<WorldObject> observers)
+        {
+            observers.Clear();
+            var snap = manager?.CurrentDailySnapshot;
+            if (snap?.SettlementsByFaction != null
+                && snap.SettlementsByFaction.TryGetValue(view, out List<Settlement> own)
+                && own != null)
+            {
+                for (int i = 0; i < own.Count; i++)
+                {
+                    Settlement s = own[i];
+                    if (s != null && !s.Destroyed)
+                        observers.Add(s);
+                }
+            }
+
+            if (view.IsPlayer)
+            {
+                IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
+                for (int i = 0; i < outposts.Count; i++)
+                {
+                    WorldObject_WD_Outpost o = outposts[i];
+                    if (o != null && !o.Destroyed)
+                        observers.Add(o);
+                }
+            }
+
+            IReadOnlyList<WorldObject_Traveler> travelers = WorldObject_Traveler.LiveTravelers;
+            for (int i = 0; i < travelers.Count; i++)
+            {
+                WorldObject_Traveler t = travelers[i];
+                if (t == null || t.Destroyed || t.Faction != view) continue;
+                if (WorldObject_Traveler.IsShellMission(t.mission)) continue;
+                observers.Add(t);
+            }
+        }
+
+        private void ClassifyFowTarget(
+            Faction view,
+            WorldObject wo,
+            List<WorldObject> observers,
+            WorldComponent_SpreadManager manager)
+        {
+            if (wo == null || wo.Destroyed || !WdFowDraw.IsFowTarget(wo)) return;
+            if (!CanViewForFow(view, wo))
+            {
+                fowHiddenIds.Add(wo.ID);
+                return;
+            }
+
+            // Own holdings and always-known stay bright.
+            if (wo.Faction == view || IsAlwaysKnown(wo))
+                return;
+
+            if (!IsInCurrentSightOfAnyObserver(wo, observers, manager))
+                fowDimIds.Add(wo.ID);
+        }
+
+        private static bool IsInCurrentSightOfAnyObserver(
+            WorldObject target,
+            List<WorldObject> observers,
+            WorldComponent_SpreadManager manager)
+        {
+            if (target == null || observers == null || observers.Count == 0) return false;
+            int targetTile = target.Tile.tileId;
+            for (int i = 0; i < observers.Count; i++)
+            {
+                WorldObject obs = observers[i];
+                if (obs == null || obs.Destroyed) continue;
+                float d = WorldActions_Utils.GetDistance(obs.Tile.tileId, targetTile, manager);
+                if (d <= 1f) return true;
+                float range = GetSightRange(obs, target);
+                if (range > 0f && d <= range) return true;
+            }
             return false;
         }
 
@@ -536,35 +763,113 @@ namespace TSA_WorldDomination
             var snap = manager.CurrentDailySnapshot ?? DailyWorldSnapshot.Build();
             if (snap?.SettlementsByFaction == null) return;
 
-            foreach (var kv in snap.SettlementsByFaction)
+            suppressDiscoveryLogging = true;
+            try
             {
-                Faction f = kv.Key;
-                if (f == null) continue;
-                List<Settlement> own = kv.Value;
-                if (own == null) continue;
-                for (int i = 0; i < own.Count; i++)
+                foreach (var kv in snap.SettlementsByFaction)
                 {
-                    Settlement self = own[i];
-                    if (self == null || self.Destroyed) continue;
-                    Discover(f, self);
-                    RunLosFromObserver(self, snap);
-                }
-            }
-
-            Faction player = Faction.OfPlayerSilentFail;
-            if (player != null && snap.PlayerOutposts != null)
-            {
-                for (int i = 0; i < snap.PlayerOutposts.Count; i++)
-                {
-                    var o = snap.PlayerOutposts[i];
-                    if (o != null)
+                    Faction f = kv.Key;
+                    if (f == null) continue;
+                    List<Settlement> own = kv.Value;
+                    if (own == null) continue;
+                    for (int i = 0; i < own.Count; i++)
                     {
-                        Discover(player, o);
-                        RunLosFromOutpost(o, snap);
+                        Settlement self = own[i];
+                        if (self == null || self.Destroyed) continue;
+                        Discover(f, self);
+                        RunLosFromObserver(self, snap);
                     }
                 }
+
+                Faction player = Faction.OfPlayerSilentFail;
+                if (player != null && snap.PlayerOutposts != null)
+                {
+                    for (int i = 0; i < snap.PlayerOutposts.Count; i++)
+                    {
+                        var o = snap.PlayerOutposts[i];
+                        if (o != null)
+                        {
+                            Discover(player, o);
+                            RunLosFromOutpost(o, snap);
+                        }
+                    }
+                }
+
+                // Temporary: player omniscience in discovery sets (player already sees everything in play).
+                EnsurePlayerKnowsAllSitesAndTravelers(player);
+            }
+            finally
+            {
+                suppressDiscoveryLogging = false;
             }
             Version++;
+        }
+
+        /// <summary>
+        /// Temporary: mark every settlement and WD traveler known to the player.
+        /// Player gameplay is still omniscient; this keeps discovery sets honest for FoW UI / future View-as-Player.
+        /// </summary>
+        public void EnsurePlayerKnowsAllSitesAndTravelers(Faction player = null)
+        {
+            player ??= Faction.OfPlayerSilentFail;
+            if (player == null) return;
+
+            bool prev = suppressDiscoveryLogging;
+            suppressDiscoveryLogging = true;
+            try
+            {
+                List<Settlement> settlements = Find.WorldObjects?.Settlements;
+                if (settlements != null)
+                {
+                    for (int i = 0; i < settlements.Count; i++)
+                    {
+                        Settlement s = settlements[i];
+                        if (s != null && !s.Destroyed)
+                            Discover(player, s);
+                    }
+                }
+
+                IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
+                for (int i = 0; i < outposts.Count; i++)
+                {
+                    if (outposts[i] != null && !outposts[i].Destroyed)
+                        Discover(player, outposts[i]);
+                }
+
+                IReadOnlyList<WorldObject_AT_Turret> ats = WorldObject_AT_Turret.LiveTurrets;
+                if (ats != null)
+                {
+                    for (int i = 0; i < ats.Count; i++)
+                    {
+                        if (ats[i] != null && !ats[i].Destroyed)
+                            Discover(player, ats[i]);
+                    }
+                }
+
+                var adv = WorldComponent_AdvancedBuildings.Get();
+                IReadOnlyList<WorldObject_WD_AdvancedBuilding> buildings = adv?.All;
+                if (buildings != null)
+                {
+                    for (int i = 0; i < buildings.Count; i++)
+                    {
+                        if (buildings[i] != null && !buildings[i].Destroyed)
+                            Discover(player, buildings[i]);
+                    }
+                }
+
+                IReadOnlyList<WorldObject_Traveler> travelers = WorldObject_Traveler.LiveTravelers;
+                for (int i = 0; i < travelers.Count; i++)
+                {
+                    WorldObject_Traveler t = travelers[i];
+                    if (t == null || t.Destroyed) continue;
+                    if (WorldObject_Traveler.IsShellMission(t.mission)) continue;
+                    DiscoverTraveler(player, t);
+                }
+            }
+            finally
+            {
+                suppressDiscoveryLogging = prev;
+            }
         }
 
         public void RunLosFromObserver(Settlement observer, DailyWorldSnapshot snap = null)
@@ -605,7 +910,7 @@ namespace TSA_WorldDomination
                         float d = WorldActions_Utils.GetDistance(observer.Tile, other.Tile, manager);
                         if (d > maxLos && d > 1f) continue;
                         if (d <= 1f || d <= GetSightRange(observer, other))
-                            Discover(f, other);
+                            Discover(f, other, observer);
                     }
                 }
             }
@@ -620,7 +925,7 @@ namespace TSA_WorldDomination
                     float d = WorldActions_Utils.GetDistance(observer.Tile, o.Tile, manager);
                     if (d > maxLos && d > 1f) continue;
                     if (d <= 1f || d <= GetSightRange(observer, o))
-                        Discover(f, o);
+                        Discover(f, o, observer);
                 }
             }
 
@@ -638,7 +943,7 @@ namespace TSA_WorldDomination
                 if (IsDiscovered(f, at)) continue;
                 float d = WorldActions_Utils.GetDistance(observer.Tile, at.Tile, manager);
                 if (d <= 1f || d <= t1Range)
-                    Discover(f, at);
+                    Discover(f, at, observer);
             }
 
             var registry = WorldComponent_AdvancedBuildings.Get();
@@ -651,7 +956,7 @@ namespace TSA_WorldDomination
                 if (IsDiscovered(f, b)) continue;
                 float d = WorldActions_Utils.GetDistance(observer.Tile, b.Tile, manager);
                 if (d <= 1f || d <= t1Range)
-                    Discover(f, b);
+                    Discover(f, b, observer);
             }
         }
 
@@ -678,12 +983,12 @@ namespace TSA_WorldDomination
                     {
                         float spotR = GetCachedSettlementMaxLos(s) * GetTargetRingFrac(travelerClass);
                         if (d <= 1f || d <= spotR)
-                            DiscoverTraveler(s.Faction, traveler);
+                            DiscoverTraveler(s.Faction, traveler, s);
                     }
                     if (traveler.Faction != null && !IsDiscovered(traveler.Faction, s))
                     {
                         if (d <= 1f || d <= GetSightRange(traveler, s))
-                            Discover(traveler.Faction, s);
+                            Discover(traveler.Faction, s, traveler);
                     }
                 }
             }
@@ -698,12 +1003,12 @@ namespace TSA_WorldDomination
                 {
                     float spotR = ComputeOutpostMaxLos(o) * GetTargetRingFrac(travelerClass);
                     if (d <= 1f || d <= spotR)
-                        DiscoverTraveler(o.Faction, traveler);
+                        DiscoverTraveler(o.Faction, traveler, o);
                 }
                 if (traveler.Faction != null && !IsDiscovered(traveler.Faction, o))
                 {
                     if (d <= 1f || d <= GetSightRange(traveler, o))
-                        Discover(traveler.Faction, o);
+                        Discover(traveler.Faction, o, traveler);
                 }
             }
 
@@ -718,7 +1023,7 @@ namespace TSA_WorldDomination
                     if (IsDiscovered(traveler.Faction, at)) continue;
                     float d = WorldActions_Utils.GetDistance(traveler.Tile, at.Tile, manager);
                     if (d <= 1f || d <= t1Range)
-                        Discover(traveler.Faction, at);
+                        Discover(traveler.Faction, at, traveler);
                 }
 
                 var registry = WorldComponent_AdvancedBuildings.Get();
@@ -732,7 +1037,7 @@ namespace TSA_WorldDomination
                         if (IsDiscovered(traveler.Faction, b)) continue;
                         float d = WorldActions_Utils.GetDistance(traveler.Tile, b.Tile, manager);
                         if (d <= 1f || d <= t1Range)
-                            Discover(traveler.Faction, b);
+                            Discover(traveler.Faction, b, traveler);
                     }
                 }
             }
@@ -748,13 +1053,13 @@ namespace TSA_WorldDomination
                 {
                     float spotR = GetMaxLos(other) * GetTargetRingFrac(travelerClass);
                     if (d <= 1f || d <= spotR)
-                        DiscoverTraveler(other.Faction, traveler);
+                        DiscoverTraveler(other.Faction, traveler, other);
                 }
                 if (traveler.Faction != null && !IsTravelerDiscovered(traveler.Faction, other))
                 {
                     float spotR = travelerMaxLos * GetTargetRingFrac(GetSpotClass(other));
                     if (d <= 1f || d <= spotR)
-                        DiscoverTraveler(traveler.Faction, other);
+                        DiscoverTraveler(traveler.Faction, other, traveler);
                 }
             }
 
@@ -772,7 +1077,7 @@ namespace TSA_WorldDomination
                     {
                         float spotR = caravanMax * GetTargetRingFrac(travelerClass);
                         if (d <= 1f || d <= spotR)
-                            DiscoverTraveler(c.Faction, traveler);
+                            DiscoverTraveler(c.Faction, traveler, c);
                     }
                     if (traveler.Faction != null)
                     {

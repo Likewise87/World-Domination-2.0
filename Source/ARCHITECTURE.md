@@ -64,6 +64,18 @@ SSoT: `OutpostPawnIdeologyUtil` (`Outposts/OutpostPawnIdeologyUtil.cs`).
 
 Do not call COMMIT from SELECT gates (`BulkRemovalSelectionIsAllowedWithExtra` forwards to SELECT only).
 
+### Unescorted drop-pod cargo (player holdings only)
+
+SSoT: `PlayerPawnTransferUtility` (`Outposts/PlayerPawnTransferUtility.cs`) + `WdRrInterceptDropUtility.DisposeUnescortedDropPodCargo` (`Travelers/WdRrInterceptDropUtility.cs`).
+
+| Rule | Detail |
+|------|--------|
+| **When** | `viaDropPod` **and** destination is a live **player** outpost or colony (`AllowsUnescortedDropPodCargo`). Land caravans still need a free escort. |
+| **Cargo** | Prisoners, Ideology slaves, and mechanoids only. Animals / vehicles / shuttles stay blocked without an escort. |
+| **SELECT / COMMIT** | Pod→player dest waives free-escort / slave-accompaniment gates in validate + ideology prune (`GroupIsUnescortedDropPodEligible`, `waiveSlaveAccompaniment`). WITab / All Player Pawns may select slave/mech-only groups in drop-pod mode. |
+| **Launch** | Rapid Response drop-pod spawn sets `WorldObject_Traveler.unescortedFireAndForget` when the pawn list has no free escort (`PawnListHasFreeEscort`). Scribed. |
+| **Abort / dead dest / AA** | Never `ReturnHome` / player caravan. Call `DisposeUnescortedDropPodCargo`: free captives to world (non-player), destroy mechs, letter `TSA_WD_PawnDropPod_Unescorted*`. Escorted pods keep the existing return/intercept paths. |
+
 **Player Ideo assign (Ideology DLC active only):** `ApplyPlayerPrimaryIdeoIfActive` sets the pawn to `Faction.OfPlayer.ideos.PrimaryIdeo` via `SetIdeo`. Call sites: `RecruitPrisonersBatch` (after `SetFaction`) and `Outpost_Recruiting.GenerateRecruitPawn` (Recruiting outpost production and conquest founding pawns). No-op when Ideology is inactive or there is no primary Ideo.
 
 **Cheap Combat kind band:** `Outpost_Recruiting.BuildPawnKindPoolFromFaction` keeps only humanlike Combat options with `Cost <= cheapestCost * CheapKindCostBandFactor` (1.20). Shared by recruiting, conquest founding workers, and virtual captives (`OutpostPrisonerUtility.GenerateVirtualCaptivesFromEnemyLosses` rolls that pool via `GenerateHostilePawn`; no full-strength raid group). Manual defense map harvest is unchanged.
@@ -142,7 +154,7 @@ Caravans settings own walking TPM (`walkingTravelerTicksPerMove`), drop-pod TPM,
 
 ## Caravan clash (player vs traveler)
 
-Temporary vanilla `Ambush` map + `WD_MapComponent_CaravanClash` tracker (`Travelers/WD_MapComponent_CaravanClash.cs`). Start: `WD_CaravanClashUtility.StartInterceptionEncounter`. Enemy lords on clash / camp clash / outpost-defense maps use fight-to-last via `WdRaidParmsUtility.ApplyFightToLastRaidParms` / `MakeFightToLastAssaultColonyLordJob` (`canKidnap` / `canSteal` / `canTimeoutOrFlee` false) so early leave cannot latch a false WD win. Win: notify only — player exits via vanilla reform caravan; enemy cleanup + Ambush destroy on `MapRemoved`. Defeat / unresolved map close: always `RespawnNewTraveler` when `encounterActive && !playerHasWon` (do not trust dying-map hostile lists), then Ambush teardown. Aerial/shuttle leave (Odyssey `PassengerShuttle` / VF aerial / pods): shared bus `Travelers/WD_TempEncounterAerialLeaveUtility.cs` fans launch + world-airborne hooks to clash and outpost defense (`CaravanClashAerialFleeHooks` + AA leave events). Clash: lose + pawns survive (`playerFled`); Ambush teardown waits until the escape craft leaves. Outpost defense (`RaidLogic/WD_MapComponent_OutpostDefense.cs`): same Phase A/B leave (standing = Spawned on-map borrowed); win absorbs extras + landed shuttle into the outpost; lose after flee keeps the map until craft is gone. Stored transport / VF on defense maps: footprint spawn with 2-cell pad (`WD_OutpostDefenseEncounterUtility`); if any hull lands outside the wall ring, attacker arrival gets +10s. No second clash while a loaded Ambush clash map occupies the tile (`TileHasBusyCaravanClashAmbush`). Mid-fight drafted map-edge auto-caravan exit is blocked on active clash and outpost-defense maps (`Patches/Patch_WdTempEncounterExitMap.cs` + `Travelers/WD_TempEncounterExitMapUtility.cs`) by denying leave actions — not by patching `ExitMapGrid.MapUsesExitGrid` (that getter is UI-hot via `ExitMapGridUpdate`). Colony homes and NPC settlement attacks stay vanilla. WD clash also suppresses vanilla `CaravansBattlefield.CheckWonBattle` for the Ambush tracker lifetime so empty pre-raid maps cannot latch WonBattle or double-letter after WD victory.
+Temporary vanilla `Ambush` map + `WD_MapComponent_CaravanClash` tracker (`Travelers/WD_MapComponent_CaravanClash.cs`). Start: `WD_CaravanClashUtility.StartInterceptionEncounter`. Hostile EdgeWalkIn spawns (clash, trader clash, bridge/trench, outpost defense) must pass `WdEncounterSpawnCellUtility` (standable, unfogged, reachability to player pawns; bridge/trench re-picks stay on-layout; empty/unreachable incident → validated manual spawn). Enemy lords on clash / camp clash / outpost-defense maps use fight-to-last via `WdRaidParmsUtility.ApplyFightToLastRaidParms` / `MakeFightToLastAssaultColonyLordJob` (`canKidnap` / `canSteal` / `canTimeoutOrFlee` false) so early leave cannot latch a false WD win. Win: notify only — player exits via vanilla reform caravan; enemy cleanup + Ambush destroy on `MapRemoved`. Defeat / unresolved map close: always `RespawnNewTraveler` when `encounterActive && !playerHasWon` (do not trust dying-map hostile lists), then Ambush teardown. Aerial/shuttle leave (Odyssey `PassengerShuttle` / VF aerial / pods): shared bus `Travelers/WD_TempEncounterAerialLeaveUtility.cs` fans launch + world-airborne hooks to clash and outpost defense (`CaravanClashAerialFleeHooks` + AA leave events). Clash: lose + pawns survive (`playerFled`); Ambush teardown waits until the escape craft leaves. Outpost defense (`RaidLogic/WD_MapComponent_OutpostDefense.cs`): same Phase A/B leave (standing = Spawned on-map borrowed); win absorbs extras + landed shuttle into the outpost; lose after flee keeps the map until craft is gone. Stored transport / VF on defense maps: footprint spawn with 2-cell pad (`WD_OutpostDefenseEncounterUtility`); if any hull lands outside the wall ring, attacker arrival gets +10s. No second clash while a loaded Ambush clash map occupies the tile (`TileHasBusyCaravanClashAmbush`). Mid-fight drafted map-edge auto-caravan exit is blocked on active clash and outpost-defense maps (`Patches/Patch_WdTempEncounterExitMap.cs` + `Travelers/WD_TempEncounterExitMapUtility.cs`) by denying leave actions — not by patching `ExitMapGrid.MapUsesExitGrid` (that getter is UI-hot via `ExitMapGridUpdate`). Colony homes and NPC settlement attacks stay vanilla. WD clash also suppresses vanilla `CaravansBattlefield.CheckWonBattle` for the Ambush tracker lifetime so empty pre-raid maps cannot latch WonBattle or double-letter after WD victory.
 
 **Player Camp walk-over:** same tracker on the existing Camp map (`StartCampClashEncounter` / `TryInterceptRaidAtPlayerCamp`). No Ambush site and no Ambush teardown. First fortress-choke-eligible hostile column with a living player pawn on the camp fights there; further walkers pass while `TileHasBusyCampClash`. Player win: traveler stays dead (leftovers discarded on Camp). Player loss / flee / camp map removed mid-fight: `RespawnNewTraveler` continues the mission. Bridged-water camps set `IsBridgeClash` for spawn steering and re-apply `ApplyEncounterApproaches` from the traveler’s last world tile.
 
@@ -173,7 +185,7 @@ When `!IsActive`, `Knows` / `KnowsTraveler` short-circuit to true (perfect raid 
 
 | Piece | Owner |
 |-------|-------|
-| Discover sets, MaxLOS × ring sight, GotBurned, sticky outposts, daily LOS, Strategic Expand tile filter | `RaidLogic/WorldComponent_SettlementIntel.cs` |
+| Discover sets, MaxLOS × ring sight, GotBurned, sticky outposts, daily LOS, Strategic Expand tile filter; Action Log `INTEL:` discovery rows (+ `WDVerbose` when verbose logging on; bootstrap suppressed) | `RaidLogic/WorldComponent_SettlementIntel.cs` |
 | Assess fog + GotBurned inflate; fogged primary AT credit | `Raid_Manager` / `Raid_MathSnapshot` / `Raid_Simulated` (`GetTotalLocalDefensePowerFogged` / `SumOwnedDamageCreditKnownTo`) |
 | Know gates on pick paths | Raid / ToO / PackUp / Desperation / allied launch / mortar site pick (`Knows`); mortar + NPC ambush/RR vs WD travelers (`KnowsTraveler`); **AT self-spot** skips `KnowsTraveler` |
 | Scout mission | `WorldActions_Scout.cs` (under `IsTracking`); ring between MaxLOS and raid range; scout MaxLOS × rings |
@@ -192,7 +204,9 @@ When `!IsActive`, `Knows` / `KnowsTraveler` short-circuit to true (perfect raid 
 
 **Scout crack-fall:** NPC interceptors may ignore `isNimbleScout` at `settlementIntelScoutCrackFallChance`. Player intercepts unchanged.
 
-**Parked:** ownership hand-over / faction FoW view (stage 3).
+**View World as (session FoW overlay):** WD world menu opens a float menu (Player first with faction icon tint = omniscient; then every non-hidden faction). `WdFowDraw.ViewFaction` null/player = full map; non-player = hide via `IsDiscovered` / `IsTravelerDiscovered` (not raid `Knows`) and dim known-but-out-of-LOS (`EnsureFowDrawCacheFresh`). While FoW active, targets draw ExpandingIcon-only. Temporary: `EnsurePlayerKnowsAllSitesAndTravelers` keeps player discovery sets filled (settlements + travelers). Gate Never clears the view. Does not change gameplay fog.
+
+**Parked:** ownership hand-over / inbound-raid decision on ownership change.
 
 ## Strength is not one number
 

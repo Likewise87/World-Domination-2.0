@@ -78,6 +78,17 @@
   <TSA_WD_Gizmo_ShowSightRadius>Show line of sight</TSA_WD_Gizmo_ShowSightRadius>
   <TSA_WD_Gizmo_ShowSightRadiusDesc>Draw golden MaxLOS fill with target-size discovery bands around this object. Small targets only inside the inner ring; medium farther out; big targets out to the outer edge.\n\nRange: {0}</TSA_WD_Gizmo_ShowSightRadiusDesc>
   <TSA_WD_Gizmo_ShowSightRadiusDescPlayer>Draw golden MaxLOS fill with target-size discovery bands. The player always sees everything in gameplay; this only drives the intel view.\n\nRange: {0}</TSA_WD_Gizmo_ShowSightRadiusDescPlayer>
-  <TSA_WD_Gizmo_SightRadiusBandsLegend>Color bands (discoverable target size):\nRed = 0–{0}% of MaxLOS. All sizes (small / medium / big).\nOrange = {0}–{1}% of MaxLOS. Medium and big only.\nYellow = {1}–{2}% of MaxLOS. Big targets only.\nOuter gold edge = MaxLOS.</TSA_WD_Gizmo_SightRadiusBandsLegend>
+  <TSA_WD_Gizmo_SightRadiusBandsLegend>Color bands (discoverable target size):\nRed = 0–{0}% of MaxLOS. All sizes (small / medium / big).\nOrange = {0}–{1}% of MaxLOS. Medium and big only.\nYellow = {1}–{2}% of MaxLOS. Big targets only (outer MaxLOS).</TSA_WD_Gizmo_SightRadiusBandsLegend>
+
+  <TSA_WD_Log_Intel_Discovered>INTEL: {0} discovered {1}.</TSA_WD_Log_Intel_Discovered>
+
+  <TSA_WD_Intel_ViewWorldAs>View World as: {0}</TSA_WD_Intel_ViewWorldAs>
+  <TSA_WD_Intel_ViewAsPlayerShort>Player</TSA_WD_Intel_ViewAsPlayerShort>
+  <TSA_WD_Intel_ViewAsPlayerSelected>{0} (selected)</TSA_WD_Intel_ViewAsPlayerSelected>
+  <TSA_WD_Intel_ViewAsFactionSelected>{0} (selected)</TSA_WD_Intel_ViewAsFactionSelected>
+  <TSA_WD_Intel_ViewAsFactionDefeated>{0} (defeated)</TSA_WD_Intel_ViewAsFactionDefeated>
+  <TSA_WD_Intel_ViewAsGateOff>Intel gate is Never (feature off)</TSA_WD_Intel_ViewAsGateOff>
+  <TSA_WD_Intel_ViewAsPlayerTip>Player view shows the full world map (everything visible). Normal play.</TSA_WD_Intel_ViewAsPlayerTip>
+  <TSA_WD_Intel_ViewAsTip>Session-only world map overlay. Hides sites and columns that faction has not discovered. Dims known sites outside current line of sight. Does not change gameplay fog or raid math. Choose Player to restore the full map.</TSA_WD_Intel_ViewAsTip>
 
 </LanguageData>

@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_73_Title>以派系视角查看世界地图与修复</TSA_WD_Update_2_3_73_Title>
+  <TSA_WD_Update_2_3_73_Body><![CDATA[
+<size=16><b>2.3.73 - 以派系视角查看世界地图与修复</b></size>\n
+<color=#00FFFFFF>发布日期：2026年11月16日</color>\n
+------------------------------\n
+!!!改动仅适用于 1.7 版本!!!\n
+• 新功能：以派系视角查看世界地图。配合新的简易战争迷雾，可按指定派系查看世界，并隐藏其尚未发现的定居点、AT 炮塔、高级建筑与 WD 旅行者。\n
+• 修复：新的闪光路（Glitter Road）可能出现在初始世界生成中，现已修复。\n
+• 修复：WD 伏击/冲突地图上，敌人偶尔生成在无法到达玩家的地块，现已修复。\n
+]]></TSA_WD_Update_2_3_73_Body>
   <TSA_WD_Update_2_3_72_Title>NPC 战争迷雾、闪光路与军械库体验</TSA_WD_Update_2_3_72_Title>
   <TSA_WD_Update_2_3_72_Body><![CDATA[
 <size=16><b>2.3.72 - NPC 战争迷雾、闪光路与军械库体验</b></size>\n

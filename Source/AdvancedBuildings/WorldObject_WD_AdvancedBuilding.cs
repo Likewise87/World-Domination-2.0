@@ -150,7 +150,8 @@ namespace TSA_WorldDomination
             {
                 Color c = Faction?.Color ?? Color.white;
                 c.a *= GlobeIconAlpha;
-                return c;
+                // Override bypasses WorldObject ExpandingIconColor Harmony; apply FoW dim here.
+                return WdFowDraw.ApplyIconColor(this, c);
             }
         }
 

@@ -405,7 +405,7 @@ namespace TSA_WorldDomination
                     {
                         WorldComponent_SettlementIntel.Get()?.TrySpotTravelerFromSettlementsAndCaravans(traveler);
                         if (traveler.mission == TravelerMission.Scout && traveler.Faction != null)
-                            WorldActions_Scout.DiscoverSitesInScoutBubble(traveler.Faction, traveler.Tile.tileId);
+                            WorldActions_Scout.DiscoverSitesInScoutBubble(traveler.Faction, traveler.Tile.tileId, traveler);
                     }
                     if (traveler.Destroyed) return;
                 }

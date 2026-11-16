@@ -78,6 +78,17 @@
   <TSA_WD_Gizmo_ShowSightRadius>Show line of sight</TSA_WD_Gizmo_ShowSightRadius>
   <TSA_WD_Gizmo_ShowSightRadiusDesc>Draw golden MaxLOS fill with target-size discovery bands around this object. Small targets only inside the inner ring; medium farther out; big targets out to the outer edge.\n\nRange: {0}</TSA_WD_Gizmo_ShowSightRadiusDesc>
   <TSA_WD_Gizmo_ShowSightRadiusDescPlayer>Draw golden MaxLOS fill with target-size discovery bands. The player always sees everything in gameplay; this only drives the intel view.\n\nRange: {0}</TSA_WD_Gizmo_ShowSightRadiusDescPlayer>
-  <TSA_WD_Gizmo_SightRadiusBandsLegend>Color bands (discoverable target size):\nRed = 0–{0}% of MaxLOS. All sizes (small / medium / big).\nOrange = {0}–{1}% of MaxLOS. Medium and big only.\nYellow = {1}–{2}% of MaxLOS. Big targets only.\nOuter gold edge = MaxLOS.</TSA_WD_Gizmo_SightRadiusBandsLegend>
+  <TSA_WD_Gizmo_SightRadiusBandsLegend>Color bands (discoverable target size):\nRed = 0–{0}% of MaxLOS. All sizes (small / medium / big).\nOrange = {0}–{1}% of MaxLOS. Medium and big only.\nYellow = {1}–{2}% of MaxLOS. Big targets only (outer MaxLOS).</TSA_WD_Gizmo_SightRadiusBandsLegend>
+
+  <TSA_WD_Log_Intel_Discovered>INTEL: {0} descubrió {1}.</TSA_WD_Log_Intel_Discovered>
+
+  <TSA_WD_Intel_ViewWorldAs>Ver mundo como: {0}</TSA_WD_Intel_ViewWorldAs>
+  <TSA_WD_Intel_ViewAsPlayerShort>Jugador</TSA_WD_Intel_ViewAsPlayerShort>
+  <TSA_WD_Intel_ViewAsPlayerSelected>{0} (seleccionado)</TSA_WD_Intel_ViewAsPlayerSelected>
+  <TSA_WD_Intel_ViewAsFactionSelected>{0} (seleccionado)</TSA_WD_Intel_ViewAsFactionSelected>
+  <TSA_WD_Intel_ViewAsFactionDefeated>{0} (derrotada)</TSA_WD_Intel_ViewAsFactionDefeated>
+  <TSA_WD_Intel_ViewAsGateOff>Puerta de intel en Nunca (función desactivada)</TSA_WD_Intel_ViewAsGateOff>
+  <TSA_WD_Intel_ViewAsPlayerTip>La vista de jugador muestra el mapa mundial completo (todo visible). Juego normal.</TSA_WD_Intel_ViewAsPlayerTip>
+  <TSA_WD_Intel_ViewAsTip>Superposición de mapa mundial solo de sesión. Oculta sitios y columnas que esa facción no ha descubierto. Atenúa sitios conocidos fuera de la línea de visión actual. No cambia la niebla de combate ni la matemática de incursiones. Elige Jugador para restaurar el mapa completo.</TSA_WD_Intel_ViewAsTip>
 
 </LanguageData>

@@ -146,6 +146,8 @@ namespace TSA_WorldDomination
                 options.Add(simulationOption);
             }
 
+            AddIntelFowViewMenuOptions(options);
+
             AddToggleMenuOption(options, "TSA_WD_WorldMap_ToggleTierTexts", ShowSettlementTierTexts,
                 v => ShowSettlementTierTexts = v, tipKey: "TSA_WD_WorldMap_ToggleTierTextsTip", hotkey: "E");
             AddToggleMenuOption(options, "TSA_WD_WorldMap_ToggleStrengthTexts", ShowSettlementStrengthTexts,
@@ -279,6 +281,84 @@ namespace TSA_WorldDomination
         {
             // Must have a non-null action: FloatMenu sorts null-action (disabled) rows to the bottom.
             options.Add(new FloatMenuOption(labelKey.Translate(), () => OpenWdWorldMapMenu()));
+        }
+
+        private static void AddIntelFowViewMenuOptions(List<FloatMenuOption> options)
+        {
+            bool gateOn = WorldComponent_SettlementIntel.IsGateConfigured();
+            string currentLabel = WdFowDraw.IsViewingAsPlayer
+                ? "TSA_WD_Intel_ViewAsPlayerShort".Translate().ToString()
+                : (WdFowDraw.ViewFaction?.Name ?? "TSA_WD_Intel_ViewAsPlayerShort".Translate().ToString());
+            string entryLabel = "TSA_WD_Intel_ViewWorldAs".Translate(currentLabel).ToString();
+
+            if (!gateOn)
+            {
+                var disabled = new FloatMenuOption(entryLabel, null);
+                disabled.tooltip = "TSA_WD_Intel_ViewAsGateOff".Translate();
+                options.Add(disabled);
+                return;
+            }
+
+            options.Add(new FloatMenuOption(entryLabel, OpenViewWorldAsFloatMenu)
+            {
+                tooltip = "TSA_WD_Intel_ViewAsTip".Translate()
+            });
+        }
+
+        private static void OpenViewWorldAsFloatMenu()
+        {
+            var opts = new List<FloatMenuOption>();
+            Faction player = Faction.OfPlayerSilentFail;
+            if (player != null)
+            {
+                string playerLabel = WdFowDraw.IsViewingAsPlayer
+                    ? "TSA_WD_Intel_ViewAsPlayerSelected".Translate(player.Name).ToString()
+                    : player.Name;
+                opts.Add(new FloatMenuOption(
+                    playerLabel,
+                    () => WdFowDraw.SetViewFaction(null),
+                    player.def?.FactionIcon,
+                    player.Color)
+                {
+                    tooltip = "TSA_WD_Intel_ViewAsPlayerTip".Translate()
+                });
+            }
+
+            List<Faction> factions = Find.FactionManager?.AllFactionsListForReading;
+            if (factions != null)
+            {
+                var ordered = new List<Faction>();
+                for (int i = 0; i < factions.Count; i++)
+                {
+                    Faction f = factions[i];
+                    if (f == null || f.IsPlayer || f.def == null || f.def.hidden || f.temporary) continue;
+                    ordered.Add(f);
+                }
+                ordered.Sort((a, b) => string.CompareOrdinal(a.Name, b.Name));
+
+                Faction current = WdFowDraw.ViewFaction;
+                for (int i = 0; i < ordered.Count; i++)
+                {
+                    Faction f = ordered[i];
+                    string name = f.defeated
+                        ? "TSA_WD_Intel_ViewAsFactionDefeated".Translate(f.Name).ToString()
+                        : f.Name;
+                    if (current == f)
+                        name = "TSA_WD_Intel_ViewAsFactionSelected".Translate(name).ToString();
+                    Faction captured = f;
+                    opts.Add(new FloatMenuOption(
+                        name,
+                        () => WdFowDraw.SetViewFaction(captured),
+                        captured.def?.FactionIcon,
+                        captured.Color)
+                    {
+                        tooltip = "TSA_WD_Intel_ViewAsTip".Translate()
+                    });
+                }
+            }
+
+            if (opts.Count == 0) return;
+            Find.WindowStack.Add(new FloatMenu(opts));
         }
 
         private static void AddProductivityOverlayToggle(List<FloatMenuOption> options, WD_ProductivityOverlayMode mode, string labelKey, string tipKey, string hotkey = null)

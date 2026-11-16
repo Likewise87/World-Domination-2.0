@@ -698,9 +698,9 @@ namespace TSA_WorldDomination
                 if (intel != null)
                 {
                     if (attacker.Faction != null)
-                        intel.Discover(attacker.Faction, target);
+                        intel.Discover(attacker.Faction, target, attacker);
                     if (target.Faction != null)
-                        intel.Discover(target.Faction, attacker);
+                        intel.Discover(target.Faction, attacker, target);
                 }
             }
 

@@ -873,8 +873,10 @@ namespace TSA_WorldDomination
                     parms.spawnCenter = trenchEdge;
                     parms.spawnRotation = trenchRot;
                 }
+                WdEncounterSpawnCellUtility.ApplyValidatedSpawnToParms(map, parms, parms.spawnCenter);
             }
 
+            Faction raidFaction = traveler?.Faction ?? parms.faction;
             bool ok = false;
             Raid_OnPlayerColony.IsWorldDominationRaid = true;
             try
@@ -886,21 +888,32 @@ namespace TSA_WorldDomination
                 Raid_OnPlayerColony.IsWorldDominationRaid = false;
             }
 
-            if (!ok)
+            // Pocket / empty-spawn recovery only for edge walk-in (drop arrivals resolve their own cells).
+            if (parms.raidArrivalMode == null || parms.raidArrivalMode == PawnsArrivalModeDefOf.EdgeWalkIn)
+            {
+                ok = WdEncounterSpawnCellUtility.EnsureReachableRaidOrManual(
+                    map,
+                    raidFaction,
+                    points,
+                    parms.raidStrategy,
+                    parms.customLetterLabel,
+                    ok);
+            }
+            else if (!ok)
             {
                 ok = WdRaidParmsUtility.TryManualAssaultSpawn(
                     map,
-                    traveler?.Faction ?? parms.faction,
+                    raidFaction,
                     points,
                     parms.raidStrategy,
                     parms.customLetterLabel);
-                if (Prefs.DevMode)
-                {
-                    Log.Warning("[TSA WD] Outpost defense raid incident failed; manual spawn fallback "
-                        + (ok ? "succeeded" : "also failed")
-                        + " faction=" + (parms.faction?.Name ?? "?")
-                        + " strategy=" + (parms.raidStrategy?.defName ?? "(null)"));
-                }
+            }
+
+            if (!ok && Prefs.DevMode)
+            {
+                Log.Warning("[TSA WD] Outpost defense raid incident failed; manual spawn fallback also failed"
+                    + " faction=" + (parms.faction?.Name ?? "?")
+                    + " strategy=" + (parms.raidStrategy?.defName ?? "(null)"));
             }
 
             return ok;

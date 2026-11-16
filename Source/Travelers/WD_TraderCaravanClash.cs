@@ -37,15 +37,32 @@ namespace TSA_WorldDomination
             }
             if (!playerStart.IsValid) playerStart = map.Center;
 
-            IntVec3 entryCell;
+            IntVec3 preferred = IntVec3.Invalid;
             var bridgeClash = map.GetComponent<WD_MapComponent_CaravanClash>();
             if (bridgeClash != null && bridgeClash.IsBridgeClash
-                && GenStep_WD_BridgeClash.TryFindStandableNear(map, GenStep_WD_BridgeClash.EastSpawnCell(map), out entryCell))
+                && GenStep_WD_BridgeClash.TryFindStandableNear(map, GenStep_WD_BridgeClash.EastSpawnCell(map), out preferred))
             {
                 // Opposite end of the granite bridge from the player.
             }
-            else if (!CellFinder.TryFindRandomEdgeCellWith(c => c.Standable(map) && (c - playerStart).LengthHorizontal > 30f, map, CellFinder.EdgeRoadChance_Neutral, out entryCell))
-                CellFinder.TryFindRandomEdgeCellWith(c => c.Standable(map), map, CellFinder.EdgeRoadChance_Neutral, out entryCell);
+            else if (!CellFinder.TryFindRandomEdgeCellWith(
+                         c => c.Standable(map) && (c - playerStart).LengthHorizontal > 30f,
+                         map,
+                         CellFinder.EdgeRoadChance_Neutral,
+                         out preferred))
+            {
+                CellFinder.TryFindRandomEdgeCellWith(
+                    c => c.Standable(map),
+                    map,
+                    CellFinder.EdgeRoadChance_Neutral,
+                    out preferred);
+            }
+
+            if (!WdEncounterSpawnCellUtility.TryValidateOrRepickHostileSpawn(
+                    map, preferred, out IntVec3 entryCell, out _))
+            {
+                if (!preferred.IsValid) return false;
+                entryCell = preferred;
+            }
 
             IncidentParms incidentParms = new IncidentParms
             {
@@ -68,11 +85,18 @@ namespace TSA_WorldDomination
                 return false;
             }
 
+            var anchors = new List<IntVec3>();
+            var reach = new List<IntVec3>();
+            WdEncounterSpawnCellUtility.CollectPlayerAnchors(map, anchors);
+            WdEncounterSpawnCellUtility.BuildReachAnchors(map, anchors, reach);
+
             foreach (Pawn p in list)
             {
                 if (p.needs?.food != null)
                     p.needs.food.CurLevel = p.needs.food.MaxLevel;
                 IntVec3 loc = CellFinder.RandomClosewalkCellNear(entryCell, map, SpawnRadius);
+                if (!WdEncounterSpawnCellUtility.IsValidHostileSpawn(map, loc, reach))
+                    loc = entryCell;
                 GenSpawn.Spawn(p, loc, map, WipeMode.Vanish);
             }
 

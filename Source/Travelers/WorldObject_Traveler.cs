@@ -706,7 +706,16 @@ namespace TSA_WorldDomination
             tweenFromTileId = tweenToTileId = Tile.tileId;
             if (spawnTick == 0) spawnTick = Find.TickManager.TicksGame;
             if (newlyLive)
+            {
                 WorldComponent_InterceptionScheduler.Current?.RegisterTraveler(this);
+                // Temporary player omniscience in discovery sets (shells excluded by DiscoverTraveler callers).
+                if (!IsShellMission(mission) && WorldComponent_SettlementIntel.IsTracking())
+                {
+                    Faction player = Faction.OfPlayerSilentFail;
+                    if (player != null)
+                        WorldComponent_SettlementIntel.Get()?.DiscoverTraveler(player, this);
+                }
+            }
 
             // --- SURGICAL: Capture Initial Strength if not set yet ---
             if (initialStrength <= 0) initialStrength = travelerStrength;

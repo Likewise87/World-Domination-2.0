@@ -464,15 +464,14 @@ namespace TSA_WorldDomination
             if (parms.raidArrivalMode == null || parms.raidArrivalMode == PawnsArrivalModeDefOf.EdgeWalkIn)
                 TryAssignInterceptionSpawn(map, parms);
 
-            if (!IncidentDefOf.RaidEnemy.Worker.TryExecute(parms))
-            {
-                WdRaidParmsUtility.TryManualAssaultSpawn(
-                    map,
-                    faction,
-                    points,
-                    parms.raidStrategy,
-                    parms.customLetterLabel);
-            }
+            bool incidentOk = IncidentDefOf.RaidEnemy.Worker.TryExecute(parms);
+            WdEncounterSpawnCellUtility.EnsureReachableRaidOrManual(
+                map,
+                faction,
+                points,
+                parms.raidStrategy,
+                parms.customLetterLabel,
+                incidentOk);
         }
 
         private static void StartTraderCaravanClashEncounter(Caravan playerCaravan, WorldObject_Traveler traveler)
@@ -588,65 +587,58 @@ namespace TSA_WorldDomination
 
         private static void TryAssignInterceptionSpawn(Map map, IncidentParms parms)
         {
+            IntVec3 preferred = IntVec3.Invalid;
+
             if (GenStep_WD_TrenchClash.TryGetHostileEdgeSpawn(map, out IntVec3 trenchEdge, out Rot4 trenchRot))
             {
-                parms.spawnCenter = trenchEdge;
+                preferred = trenchEdge;
                 parms.spawnRotation = trenchRot;
-                return;
             }
-
-            var bridgeTracker = map.GetComponent<WD_MapComponent_CaravanClash>();
-            if (bridgeTracker != null && bridgeTracker.IsBridgeClash
-                && GenStep_WD_BridgeClash.TryFindStandableNear(map, GenStep_WD_BridgeClash.EastSpawnCell(map), out IntVec3 east))
+            else
             {
-                parms.spawnCenter = east;
-                IntVec3 toward = GenStep_WD_BridgeClash.WestSpawnCell(map);
-                parms.spawnRotation = Rot4.FromAngleFlat((toward - east).ToVector3().AngleFlat());
-                return;
-            }
-
-            var playerCells = map.mapPawns.AllPawnsSpawned
-                .Where(p => p.Faction != null && p.Faction.IsPlayer)
-                .Select(p => p.Position)
-                .ToList();
-
-            if (playerCells.Count == 0)
-                return;
-
-            int sx = 0, sz = 0;
-            foreach (var c in playerCells)
-            {
-                sx += c.x;
-                sz += c.z;
-            }
-
-            var centroid = new IntVec3(sx / playerCells.Count, 0, sz / playerCells.Count);
-            CardinalEdge playerEdge = DominantCardinalEdge(centroid, map);
-            CardinalEdge opposite = OppositeCardinal(playerEdge);
-
-            var tryOrder = new List<CardinalEdge> { opposite };
-            foreach (var e in new[] { CardinalEdge.West, CardinalEdge.East, CardinalEdge.North, CardinalEdge.South }
-                         .Where(e => e != playerEdge && e != opposite)
-                         .OrderBy(_ => Rand.Value))
-            {
-                tryOrder.Add(e);
-            }
-
-            foreach (var edge in tryOrder)
-            {
-                if (TryFindEntryInBand(map, edge, EntryBandWidth, out IntVec3 cell) && cell.IsValid)
+                var bridgeTracker = map.GetComponent<WD_MapComponent_CaravanClash>();
+                if (bridgeTracker != null && bridgeTracker.IsBridgeClash
+                    && GenStep_WD_BridgeClash.TryFindStandableNear(map, GenStep_WD_BridgeClash.EastSpawnCell(map), out IntVec3 east))
                 {
-                    parms.spawnCenter = cell;
-                    parms.spawnRotation = DesiredRotFor(edge);
-                    return;
+                    preferred = east;
+                    IntVec3 toward = GenStep_WD_BridgeClash.WestSpawnCell(map);
+                    parms.spawnRotation = Rot4.FromAngleFlat((toward - east).ToVector3().AngleFlat());
                 }
             }
 
-            if (RCellFinder.TryFindRandomPawnEntryCell(out IntVec3 edgeCell, map, 0.35f, true,
-                    c => DominantCardinalEdge(c, map) != playerEdge))
+            if (!preferred.IsValid)
             {
-                parms.spawnCenter = edgeCell;
-                parms.spawnRotation = Rot4.FromAngleFlat((map.Center - edgeCell).ToVector3Shifted().AngleFlat());
+                // Prefer opposite-edge band from player centroid; validator may still re-pick.
+                var playerCells = new List<IntVec3>();
+                WdEncounterSpawnCellUtility.CollectPlayerAnchors(map, playerCells);
+                if (playerCells.Count > 0)
+                {
+                    int sx = 0, sz = 0;
+                    for (int i = 0; i < playerCells.Count; i++)
+                    {
+                        sx += playerCells[i].x;
+                        sz += playerCells[i].z;
+                    }
+                    var centroid = new IntVec3(sx / playerCells.Count, 0, sz / playerCells.Count);
+                    CardinalEdge playerEdge = DominantCardinalEdge(centroid, map);
+                    CardinalEdge opposite = OppositeCardinal(playerEdge);
+                    if (TryFindEntryInBand(map, opposite, EntryBandWidth, out IntVec3 bandCell) && bandCell.IsValid)
+                    {
+                        preferred = bandCell;
+                        parms.spawnRotation = DesiredRotFor(opposite);
+                    }
+                }
+            }
+
+            if (WdEncounterSpawnCellUtility.TryValidateOrRepickHostileSpawn(
+                    map, preferred, out IntVec3 cell, out Rot4 rot))
+            {
+                parms.spawnCenter = cell;
+                parms.spawnRotation = rot;
+            }
+            else if (preferred.IsValid)
+            {
+                parms.spawnCenter = preferred;
             }
         }
 
@@ -695,28 +687,22 @@ namespace TSA_WorldDomination
             var bandRect = CardinalBand(map, edge, band);
             if (bandRect.Area <= 0) return false;
 
-            bool InBand(IntVec3 c) => bandRect.Contains(c);
+            var anchors = new List<IntVec3>();
+            var reach = new List<IntVec3>();
+            WdEncounterSpawnCellUtility.CollectPlayerAnchors(map, anchors);
+            WdEncounterSpawnCellUtility.BuildReachAnchors(map, anchors, reach);
+
+            bool InBand(IntVec3 c) =>
+                bandRect.Contains(c) && WdEncounterSpawnCellUtility.IsValidHostileSpawn(map, c, reach);
             if (RCellFinder.TryFindRandomPawnEntryCell(out cell, map, 0.35f, true, InBand))
                 return true;
 
             for (int i = 0; i < 240; i++)
             {
                 var c = bandRect.RandomCell;
-                if (c.InBounds(map) && !c.Fogged(map) && c.Standable(map))
-                {
-                    cell = c;
-                    return true;
-                }
-            }
-
-            for (int i = 0; i < 480; i++)
-            {
-                var c = bandRect.RandomCell;
-                if (c.InBounds(map) && !c.Fogged(map) && c.Walkable(map))
-                {
-                    cell = c;
-                    return true;
-                }
+                if (!WdEncounterSpawnCellUtility.IsValidHostileSpawn(map, c, reach)) continue;
+                cell = c;
+                return true;
             }
 
             return false;

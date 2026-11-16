@@ -20,6 +20,21 @@ Rules:
 - Dictionaries of materials (`Dictionary<int, Material>`) are not flagged the same way, but if you add a bare `static Material` / `static Texture` / `static Texture2D` field, add the attribute.
 - Treat this warning as a regression, not as harmless noise. If a new static cached icon/texture/material is added, the owning type must get the attribute in the same pass.
 
+## Faction FoW view (View intel as)
+
+Session overlay (`WdFowDraw.ViewFaction`, WD world menu). Not ModSettings.
+
+| Rule | Behavior |
+|------|----------|
+| Active | Intel gate configured + **non-player** faction selected (`View World as` float menu; Player = omniscient) |
+| Hide | `SuppressWorldIcon` when `IsFowHidden` (raw `IsDiscovered` / `IsTravelerDiscovered`, never raid `Knows`) |
+| Force ExpandingIcon | While FoW active, FoW targets (settlement / outpost / AT / advanced / non-shell traveler) use ForceFixedIcon + Material skip so dim does not fight a full-bright mesh |
+| Dim | `WdFowDraw.ApplyIconColor` multiplies ExpandingIcon alpha (~0.40) for known-but-out-of-LOS; Harmony on `WorldObject.get_ExpandingIconColor` plus `WorldObject_WD_AdvancedBuilding` override (base postfix alone misses overrides) |
+| Ghosts | Relation/player underlays, settlement tier labels, outpost world-map labels skip hidden WOs |
+| Shells / caravans / roads | Not FoW targets (always visible) |
+
+Call `NotifyIconModeChanged` when the view faction changes. Cache rebuild: `WorldComponent_SettlementIntel.EnsureFowDrawCacheFresh` (Version + tick interval).
+
 ## WD outpost world-map icons (`Material` vs expanding)
 
 Vanilla draws world objects in two layers. Mixing their textures is what made outposts look "rotated" or stacked.

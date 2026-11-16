@@ -219,7 +219,7 @@ namespace TSA_WorldDomination
         /// <paramref name="tile"/> for <paramref name="faction"/>.
         /// Called on every scout tile exit and again on arrival.
         /// </summary>
-        public static void DiscoverSitesInScoutBubble(Faction faction, int tile)
+        public static void DiscoverSitesInScoutBubble(Faction faction, int tile, WorldObject observer = null)
         {
             if (faction == null || tile < 0) return;
             var intel = WorldComponent_SettlementIntel.Get();
@@ -240,7 +240,7 @@ namespace TSA_WorldDomination
                     WorldComponent_SettlementIntel.GetSightTier(s));
                 float d = WorldActions_Utils.GetDistance(tile, s.Tile.tileId, manager);
                 if (d <= 1f || d <= r)
-                    intel.Discover(faction, s);
+                    intel.Discover(faction, s, observer);
             }
 
             IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
@@ -253,7 +253,7 @@ namespace TSA_WorldDomination
                     WorldComponent_SettlementIntel.GetSightTier(o));
                 float d = WorldActions_Utils.GetDistance(tile, o.Tile.tileId, manager);
                 if (d <= 1f || d <= r)
-                    intel.Discover(faction, o);
+                    intel.Discover(faction, o, observer);
             }
 
             float t1R = scoutMax * WorldComponent_SettlementIntel.GetTargetRingFrac(SettlementTier.T1);
@@ -265,7 +265,7 @@ namespace TSA_WorldDomination
                 if (intel.IsDiscovered(faction, at)) continue;
                 float d = WorldActions_Utils.GetDistance(tile, at.Tile.tileId, manager);
                 if (d <= 1f || d <= t1R)
-                    intel.Discover(faction, at);
+                    intel.Discover(faction, at, observer);
             }
 
             var registry = WorldComponent_AdvancedBuildings.Get();
@@ -279,7 +279,7 @@ namespace TSA_WorldDomination
                     if (intel.IsDiscovered(faction, b)) continue;
                     float d = WorldActions_Utils.GetDistance(tile, b.Tile.tileId, manager);
                     if (d <= 1f || d <= t1R)
-                        intel.Discover(faction, b);
+                        intel.Discover(faction, b, observer);
                 }
             }
         }

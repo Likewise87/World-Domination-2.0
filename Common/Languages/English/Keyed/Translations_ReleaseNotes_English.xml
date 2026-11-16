@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_73_Title>View world map as Faction &amp; Bugfixes</TSA_WD_Update_2_3_73_Title>
+  <TSA_WD_Update_2_3_73_Body><![CDATA[
+<size=16><b>2.3.73 - View world map as Faction & Bugfixes</b></size>\n
+<color=#00FFFFFF>Release date: November 16th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• New feature: View world map as faction. With the new simple fog of war system you can now view the world as a specific faction. This will hide any settlements, AT turrets, advanced buildings and WD travelers they have not discovered yet.\n
+• Bugfix: The new Glitter Roads could appear in the initial world generation. Fixed that.\n
+• Bugfix: Fixed a rare issue where on a WD ambush/clash map enemies spawned on a tile from where they could not reach the player.\n
+]]></TSA_WD_Update_2_3_73_Body>
   <TSA_WD_Update_2_3_72_Title>NPC fog of war, Glitter Roads, Armory QOL</TSA_WD_Update_2_3_72_Title>
   <TSA_WD_Update_2_3_72_Body><![CDATA[
 <size=16><b>2.3.72 - NPC fog of war, Glitter Roads, Armory QOL</b></size>\n

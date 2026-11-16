@@ -257,7 +257,7 @@ namespace TSA_WorldDomination
             if (gun == null || gun.Destroyed || victim == null) return;
             Faction victimFaction = victim.Faction;
             if (victimFaction == null) return;
-            WorldComponent_SettlementIntel.Get()?.Discover(victimFaction, gun);
+            WorldComponent_SettlementIntel.Get()?.Discover(victimFaction, gun, victim);
         }
 
         public static void DiscoverOwnedAtsForAttacker(WorldObject primary, Faction attacker)
@@ -272,7 +272,7 @@ namespace TSA_WorldDomination
                 if (t == null || t.Destroyed) continue;
                 bool match = t.builtBySite != null ? t.builtBySite == primary : t.builtBySettlement == primary;
                 if (!match) continue;
-                intel.Discover(attacker, t);
+                intel.Discover(attacker, t, primary);
             }
         }
 

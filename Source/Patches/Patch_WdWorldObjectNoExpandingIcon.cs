@@ -41,6 +41,9 @@ namespace TSA_WorldDomination
             // Orbit / non-surface objects must keep vanilla layer visibility. Forcing expanding
             // icons + Close-zoom terrain-hide bypass makes space settlements pop onto the surface view.
             if (WorldActions_Utils.IsSpace(wo)) return false;
+            // FoW view: ExpandingIcon-only so dim alpha is not fighting a full-bright Material mesh.
+            if (WdFowDraw.IsActive && WdFowDraw.IsFowTarget(wo))
+                return true;
             var s = WorldDominationMod.settings;
             if (wo is WorldObject_WD_Outpost || wo is WorldObject_Traveler || wo is WorldObject_AT_Turret
                 || wo is WorldObject_WD_AdvancedBuilding)
@@ -81,6 +84,12 @@ namespace TSA_WorldDomination
         {
             if (HideShellAtFarZoom(wo) || HideAtTurretWhenFortificationsHidden(wo))
                 return true;
+            if (WdFowDraw.IsActive)
+            {
+                var intel = WorldComponent_SettlementIntel.Get();
+                if (intel != null && intel.IsFowHidden(wo))
+                    return true;
+            }
             // Orbit view: hide WD always-show icons only (do not blank every world object).
             if (!PlanetSurfaceWorldActions.IsPlanetSurfaceLayerSelected() && ForceFixedIcon(wo))
                 return true;
@@ -144,6 +153,7 @@ namespace TSA_WorldDomination
                     Texture2D tex = wo.ExpandingIcon;
                     if (tex == null) continue;
 
+                    // ExpandingIconColor already includes FoW dim (Harmony postfix / AdvancedBuilding override).
                     Color c = wo.ExpandingIconColor;
                     c.a *= transition;
                     GUI.color = c;
@@ -234,6 +244,20 @@ namespace TSA_WorldDomination
         /// <see cref="PlanetLayer.Origin"/> frame). Far-side icons keep vanilla hide so they do not show
         /// through the planet. Far/VeryFar zoom is unchanged (no bypass).
         /// </summary>
+        /// <summary>
+        /// Dim FoW-known-but-out-of-LOS icons. Types that override ExpandingIconColor
+        /// (e.g. advanced buildings) must also call <see cref="WdFowDraw.ApplyIconColor"/>.
+        /// </summary>
+        [HarmonyPatch(typeof(WorldObject), "get_ExpandingIconColor")]
+        public static class ExpandingIconColor_FowDim_Patch
+        {
+            [HarmonyPostfix]
+            public static void Postfix(WorldObject __instance, ref Color __result)
+            {
+                __result = WdFowDraw.ApplyIconColor(__instance, __result);
+            }
+        }
+
         [HarmonyPatch(typeof(WorldObjectSelectionUtility), nameof(WorldObjectSelectionUtility.HiddenBehindTerrainNow))]
         public static class HiddenBehindTerrainNow_Patch
         {

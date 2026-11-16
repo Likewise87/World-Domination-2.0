@@ -57,6 +57,11 @@ namespace TSA_WorldDomination
             {
                 if (!(nodes[i].Obj is WorldObject_WD_Outpost wo)) continue;
                 if (wo.Faction == null || !wo.Faction.IsPlayer) continue;
+                if (WdFowDraw.IsActive)
+                {
+                    var intel = WorldComponent_SettlementIntel.Get();
+                    if (intel != null && intel.IsFowHidden(wo)) continue;
+                }
                 if (!WorldObjectSelectionUtility.VisibleToCameraNow(wo)) continue;
 
                 Vector2 screenPos = WorldObjectSelectionUtility.ScreenPos(wo);

@@ -401,23 +401,6 @@ namespace TSA_WorldDomination
                 sightFracT2: sightF2,
                 sightFracT3: sightF3);
 
-            // Colored discovery rings + gold MaxLOS outline on top of the banded fill.
-            if (sightLosBands && !WD_RadiusOverlayMode.UseHopRadiusRings)
-            {
-                PlanetLayer layer = PlanetSurfaceWorldActions.LayerOf(worldObject);
-                var center = new PlanetTile(worldObject.Tile, layer);
-                float r1 = radius * sightF1;
-                float r2 = radius * sightF2;
-                float r3 = radius * sightF3;
-                if (r1 > 0.05f)
-                    WorldMapRadiusVisual.DrawApproxRadiusRing(center, r1, WorldOverlayLineMaterials.RadiusRed);
-                if (r2 > r1 + 0.05f)
-                    WorldMapRadiusVisual.DrawApproxRadiusRing(center, r2, WorldOverlayLineMaterials.RadiusOrange);
-                if (r3 > r2 + 0.05f && r3 < radius - 0.05f)
-                    WorldMapRadiusVisual.DrawApproxRadiusRing(center, r3, WorldOverlayLineMaterials.RadiusYellow);
-                WorldMapRadiusVisual.DrawApproxRadiusRing(center, radius, WorldOverlayLineMaterials.RadiusGold);
-            }
-
             if (kind == WD_RadiusOverlayKind.Mortar || kind == WD_RadiusOverlayKind.AA)
                 Patch_SettlementT4TurretGizmos.MarkTurretRangeHoverPublic();
         }
