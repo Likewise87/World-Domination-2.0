@@ -188,7 +188,7 @@ When `!IsActive`, `Knows` / `KnowsTraveler` short-circuit to true (perfect raid 
 | Discover sets, MaxLOS × ring sight, GotBurned, sticky outposts, daily LOS, Strategic Expand tile filter; Action Log `INTEL:` discovery rows (+ `WDVerbose` when verbose logging on; bootstrap suppressed) | `RaidLogic/WorldComponent_SettlementIntel.cs` |
 | Assess fog + GotBurned inflate; fogged primary AT credit | `Raid_Manager` / `Raid_MathSnapshot` / `Raid_Simulated` (`GetTotalLocalDefensePowerFogged` / `SumOwnedDamageCreditKnownTo`) |
 | Know gates on pick paths | Raid / ToO / PackUp / Desperation / allied launch / mortar site pick (`Knows`); mortar + NPC ambush/RR vs WD travelers (`KnowsTraveler`); **AT self-spot** skips `KnowsTraveler` |
-| Scout mission | `WorldActions_Scout.cs` (under `IsTracking`); ring between MaxLOS and raid range; scout MaxLOS × rings |
+| Scout mission | `WorldActions_Scout.cs` (under `IsTracking`); T1+; alive caps T1–T2:1 / T3–T4:2; bear-and-snap hops 0.5–2× attack range from current (land only); faction dest stamps + soft exclude + MaxLOS skip on `SettlementIntel`; scout MaxLOS × rings |
 | Strategic Expand | `AttemptStrategicExpand` + `weightStrategicExpand` (under `IsActive` only) |
 | AT outer fire band | `AtTurretUtility.CanEngageAtDistance` (76–100% needs traveler class T2+ from `initialStrength`) |
 | Inspect / debug | `WITab_SettlementIntel`, `WITab_AT_Intel` (1.7/Patches only), `Dialog_WdWorldDebug` Intel group |
@@ -200,7 +200,7 @@ When `!IsActive`, `Knows` / `KnowsTraveler` short-circuit to true (perfect raid 
 
 **Discovery sources:** daily LOS (settlements + outposts + ATs + advanced buildings); merged tile-exit traveler pass; scout bubble; combat / reveal-by-fire. No hot daily `AllWorldObjects` LOS scan.
 
-**Orchestrator:** `weightScout` under tracking (× clear mult; T2+); `weightStrategicExpand` under active only.
+**Orchestrator:** `weightScout` under tracking (× clear mult; T1+; zero when settlement at scout alive cap); `weightStrategicExpand` under active only.
 
 **Scout crack-fall:** NPC interceptors may ignore `isNimbleScout` at `settlementIntelScoutCrackFallChance`. Player intercepts unchanged.
 

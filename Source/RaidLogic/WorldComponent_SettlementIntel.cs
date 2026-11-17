@@ -18,6 +18,12 @@ namespace TSA_WorldDomination
         private HashSet<int> stickyOutpostIds = new HashSet<int>();
         private Dictionary<int, HashSet<int>> knownTravelers = new Dictionary<int, HashSet<int>>();
         private Dictionary<string, int> gotBurnedUntilTick = new Dictionary<string, int>();
+        /// <summary>Faction loadID → tileId → lastSeenTick for scout dest/arrival memory.</summary>
+        private Dictionary<int, Dictionary<int, int>> scoutTileLastSeen = new Dictionary<int, Dictionary<int, int>>();
+
+        private const int MaxScoutTilesPerFaction = 512;
+        private const float ScoutSoftExcludeRadius = 4f;
+        private const float ScoutSoftExcludeAgeDays = 20f;
 
         private static int nextIntelTrackId = 1;
         private bool bootstrappedThisSession;
@@ -67,6 +73,7 @@ namespace TSA_WorldDomination
             stickyOutpostIds ??= new HashSet<int>();
             knownTravelers ??= new Dictionary<int, HashSet<int>>();
             gotBurnedUntilTick ??= new Dictionary<string, int>();
+            scoutTileLastSeen ??= new Dictionary<int, Dictionary<int, int>>();
             if (fromLoad)
                 PruneDestroyed();
             Version++;
@@ -108,11 +115,16 @@ namespace TSA_WorldDomination
             List<int> travFactionValFlat = null;
             List<string> burnKeys = null;
             List<int> burnVals = null;
+            List<int> scoutFactionKeys = null;
+            List<int> scoutFactionValCounts = null;
+            List<int> scoutTileFlat = null;
+            List<int> scoutTickFlat = null;
 
             if (Scribe.mode == LoadSaveMode.Saving)
             {
                 FlattenIntHashSetDict(knownSites, out siteFactionKeys, out siteFactionValCounts, out siteFactionValFlat);
                 FlattenIntHashSetDict(knownTravelers, out travFactionKeys, out travFactionValCounts, out travFactionValFlat);
+                FlattenScoutTileDict(scoutTileLastSeen, out scoutFactionKeys, out scoutFactionValCounts, out scoutTileFlat, out scoutTickFlat);
                 burnKeys = new List<string>(gotBurnedUntilTick.Keys);
                 burnVals = new List<int>();
                 for (int i = 0; i < burnKeys.Count; i++)
@@ -127,11 +139,16 @@ namespace TSA_WorldDomination
             Scribe_Collections.Look(ref travFactionValFlat, "siTravFactionValFlat", LookMode.Value);
             Scribe_Collections.Look(ref burnKeys, "siBurnKeys", LookMode.Value);
             Scribe_Collections.Look(ref burnVals, "siBurnVals", LookMode.Value);
+            Scribe_Collections.Look(ref scoutFactionKeys, "siScoutFactionKeys", LookMode.Value);
+            Scribe_Collections.Look(ref scoutFactionValCounts, "siScoutFactionValCounts", LookMode.Value);
+            Scribe_Collections.Look(ref scoutTileFlat, "siScoutTileFlat", LookMode.Value);
+            Scribe_Collections.Look(ref scoutTickFlat, "siScoutTickFlat", LookMode.Value);
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 knownSites = RebuildIntHashSetDict(siteFactionKeys, siteFactionValCounts, siteFactionValFlat);
                 knownTravelers = RebuildIntHashSetDict(travFactionKeys, travFactionValCounts, travFactionValFlat);
+                scoutTileLastSeen = RebuildScoutTileDict(scoutFactionKeys, scoutFactionValCounts, scoutTileFlat, scoutTickFlat);
                 gotBurnedUntilTick = new Dictionary<string, int>();
                 if (burnKeys != null && burnVals != null)
                 {
@@ -335,6 +352,7 @@ namespace TSA_WorldDomination
             if (faction == null) return;
             knownSites.Remove(faction.loadID);
             knownTravelers.Remove(faction.loadID);
+            scoutTileLastSeen?.Remove(faction.loadID);
             string prefix = faction.loadID + ":";
             var remove = new List<string>();
             foreach (var k in gotBurnedUntilTick.Keys)
@@ -342,6 +360,122 @@ namespace TSA_WorldDomination
             for (int i = 0; i < remove.Count; i++)
                 gotBurnedUntilTick.Remove(remove[i]);
             Version++;
+        }
+
+        /// <summary>Stamp a scout destination/arrival tile for faction-shared revisit memory.</summary>
+        public void RecordScoutTileSeen(Faction faction, int tileId)
+        {
+            if (faction == null || tileId < 0) return;
+            scoutTileLastSeen ??= new Dictionary<int, Dictionary<int, int>>();
+            if (!scoutTileLastSeen.TryGetValue(faction.loadID, out var map) || map == null)
+            {
+                map = new Dictionary<int, int>();
+                scoutTileLastSeen[faction.loadID] = map;
+            }
+            map[tileId] = Find.TickManager.TicksGame;
+            if (map.Count > MaxScoutTilesPerFaction)
+                TrimOldestScoutTiles(map, MaxScoutTilesPerFaction / 2);
+        }
+
+        /// <summary>Ticks since last scout stamp, or int.MaxValue if never.</summary>
+        public int GetScoutTileAgeTicks(Faction faction, int tileId)
+        {
+            if (faction == null || tileId < 0) return int.MaxValue;
+            if (scoutTileLastSeen == null || !scoutTileLastSeen.TryGetValue(faction.loadID, out var map) || map == null)
+                return int.MaxValue;
+            if (!map.TryGetValue(tileId, out int tick))
+                return int.MaxValue;
+            return Mathf.Max(0, Find.TickManager.TicksGame - tick);
+        }
+
+        /// <summary>True when tile is within soft radius of a recently stamped scout dest.</summary>
+        public bool IsNearRecentScoutStamp(Faction faction, int tileId, float softRadius = -1f, float maxAgeDays = -1f)
+        {
+            if (faction == null || tileId < 0) return false;
+            if (scoutTileLastSeen == null || !scoutTileLastSeen.TryGetValue(faction.loadID, out var map) || map == null || map.Count == 0)
+                return false;
+            if (softRadius < 0f) softRadius = ScoutSoftExcludeRadius;
+            if (maxAgeDays < 0f) maxAgeDays = ScoutSoftExcludeAgeDays;
+            int maxAgeTicks = Mathf.RoundToInt(maxAgeDays * 60000f);
+            int now = Find.TickManager.TicksGame;
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null) return false;
+
+            foreach (var kv in map)
+            {
+                int age = now - kv.Value;
+                if (age < 0 || age > maxAgeTicks) continue;
+                float d = grid.ApproxDistanceInTiles(tileId, kv.Key);
+                if (d <= softRadius)
+                    return true;
+            }
+            return false;
+        }
+
+        private static void TrimOldestScoutTiles(Dictionary<int, int> map, int keep)
+        {
+            if (map == null || map.Count <= keep) return;
+            var entries = new List<KeyValuePair<int, int>>(map.Count);
+            foreach (var kv in map)
+                entries.Add(kv);
+            entries.Sort((a, b) => a.Value.CompareTo(b.Value));
+            int drop = map.Count - keep;
+            for (int i = 0; i < drop && i < entries.Count; i++)
+                map.Remove(entries[i].Key);
+        }
+
+        private static void FlattenScoutTileDict(
+            Dictionary<int, Dictionary<int, int>> dict,
+            out List<int> keys,
+            out List<int> counts,
+            out List<int> tiles,
+            out List<int> ticks)
+        {
+            keys = new List<int>();
+            counts = new List<int>();
+            tiles = new List<int>();
+            ticks = new List<int>();
+            if (dict == null) return;
+            foreach (var kv in dict)
+            {
+                keys.Add(kv.Key);
+                Dictionary<int, int> map = kv.Value;
+                if (map == null || map.Count == 0)
+                {
+                    counts.Add(0);
+                    continue;
+                }
+                counts.Add(map.Count);
+                foreach (var e in map)
+                {
+                    tiles.Add(e.Key);
+                    ticks.Add(e.Value);
+                }
+            }
+        }
+
+        private static Dictionary<int, Dictionary<int, int>> RebuildScoutTileDict(
+            List<int> keys,
+            List<int> counts,
+            List<int> tiles,
+            List<int> ticks)
+        {
+            var dict = new Dictionary<int, Dictionary<int, int>>();
+            if (keys == null || counts == null) return dict;
+            int idx = 0;
+            for (int i = 0; i < keys.Count && i < counts.Count; i++)
+            {
+                int n = Mathf.Max(0, counts[i]);
+                var map = new Dictionary<int, int>();
+                for (int j = 0; j < n; j++)
+                {
+                    if (tiles == null || ticks == null || idx >= tiles.Count || idx >= ticks.Count) break;
+                    map[tiles[idx]] = ticks[idx];
+                    idx++;
+                }
+                dict[keys[i]] = map;
+            }
+            return dict;
         }
 
         public void StampGotBurned(Faction attacker, WorldObject target)

@@ -55,6 +55,9 @@ namespace TSA_WorldDomination
 
             OutpostDataTracker.Register(ruins.Tile, factionBase.Name ?? factionBase.LabelCap, capturedTier);
 
+            // Vanilla CheckDefeated is skipped (return false); restore Ideology Recent Conquest / raid precepts.
+            IdeoUtility.Notify_PlayerRaidedSomeone(map.mapPawns.FreeColonistsSpawned);
+
             WorldActions_DesperationRaid.NotifyNpcSettlementLost(factionBase, Faction.OfPlayer);
             factionBase.Destroy();
             return false;

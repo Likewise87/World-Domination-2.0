@@ -323,7 +323,10 @@ namespace TSA_WorldDomination
                     break;
                 case TravelerMission.Scout:
                     if (traveler.Faction != null)
+                    {
                         WorldActions_Scout.DiscoverSitesInScoutBubble(traveler.Faction, traveler.Tile.tileId, traveler);
+                        WorldComponent_SettlementIntel.Get()?.RecordScoutTileSeen(traveler.Faction, traveler.Tile.tileId);
+                    }
                     if (traveler != null && !traveler.Destroyed)
                     {
                         // More chaotic waypoints before finish. Arrival is not a kill — no kill bearing stamp.

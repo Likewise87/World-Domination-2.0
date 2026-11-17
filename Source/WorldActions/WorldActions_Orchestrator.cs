@@ -975,7 +975,10 @@ namespace TSA_WorldDomination
 
             bool intelTracking = WorldComponent_SettlementIntel.IsTracking();
             bool intelActive = WorldComponent_SettlementIntel.IsActive(this);
-            bool scoutEligible = intelTracking && comp.tier >= SettlementTier.T2 && !comp.IsScoutOnCooldown;
+            bool scoutEligible = intelTracking
+                && comp.tier >= SettlementTier.T1
+                && !comp.IsScoutOnCooldown
+                && WorldActions_Scout.ScoutSlotsRemaining(actor, comp) > 0;
             bool scoutClear = scoutEligible
                 && WorldActions_Scout.IsScoutClearOfKnownHostiles(actor, comp, this);
             float scoutClearMult = scoutClear

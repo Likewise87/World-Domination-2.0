@@ -7,37 +7,73 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Settlement-intel nimble scouts: ring path at combat attack range, then 3–5 chaotic extra
-    /// waypoints; continuous spot bubble on each tile exit (plus arrival); anti-suicide bearing
-    /// avoid after a kill.
+    /// Settlement-intel nimble scouts: bear-and-snap hops (0.5–2× attack range from current),
+    /// faction dest memory, alive caps, continuous spot bubble; anti-suicide bearing avoid after a kill.
     /// </summary>
     public static class WorldActions_Scout
     {
         private const float UnsetKillBearing = -999f;
         private const int ExtraWaypointsMin = 3;
         private const int ExtraWaypointsMax = 5;
-        private static readonly List<int> ringScratch = new List<int>(128);
+        private const float HopDistMinMult = 0.5f;
+        private const float HopDistMaxMult = 2f;
+        private const int PickRetries = 8;
+        private const int PathRepicks = 2;
+        private static readonly List<PlanetTile> neighborScratch = new List<PlanetTile>(8);
+
+        public static int MaxAliveScouts(SettlementTier tier)
+        {
+            if (tier >= SettlementTier.T3) return 2;
+            return 1;
+        }
+
+        public static int CountAliveScouts(Settlement settlement)
+        {
+            if (settlement == null) return 0;
+            int n = 0;
+            IReadOnlyList<WorldObject_Traveler> live = WorldObject_Traveler.LiveTravelers;
+            for (int i = 0; i < live.Count; i++)
+            {
+                WorldObject_Traveler t = live[i];
+                if (t == null || t.Destroyed) continue;
+                if (t.mission != TravelerMission.Scout) continue;
+                if (t.originObject != settlement) continue;
+                n++;
+            }
+            return n;
+        }
+
+        public static int ScoutSlotsRemaining(Settlement settlement, CompViralSpread comp)
+        {
+            if (settlement == null || comp == null) return 0;
+            return Mathf.Max(0, MaxAliveScouts(comp.tier) - CountAliveScouts(settlement));
+        }
 
         public static bool AttemptScout(Settlement settlement, CompViralSpread comp, WorldComponent_SpreadManager manager)
         {
             if (settlement == null || comp == null || manager == null) return false;
-            if (comp.tier < SettlementTier.T2) return false;
+            if (comp.tier < SettlementTier.T1) return false;
             if (comp.IsScoutOnCooldown) return false;
-            return LaunchScoutsInternal(settlement, comp, manager, stampCooldown: true);
+            if (ScoutSlotsRemaining(settlement, comp) <= 0) return false;
+            return LaunchScoutsInternal(settlement, comp, manager, stampCooldown: true, ignoreAliveCap: false);
         }
 
-        /// <summary>Dev/debug: ignore T2+ and cooldown gates, still stamps CD on success.</summary>
+        /// <summary>Dev/debug: ignore tier, cooldown, and alive caps; still stamps CD on success.</summary>
         public static bool ForceScoutDebug(Settlement settlement)
         {
             if (settlement == null) return false;
             var comp = settlement.GetComponent<CompViralSpread>();
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             if (comp == null || manager == null) return false;
-            return LaunchScoutsInternal(settlement, comp, manager, stampCooldown: true);
+            return LaunchScoutsInternal(settlement, comp, manager, stampCooldown: true, ignoreAliveCap: true);
         }
 
         private static bool LaunchScoutsInternal(
-            Settlement settlement, CompViralSpread comp, WorldComponent_SpreadManager manager, bool stampCooldown)
+            Settlement settlement,
+            CompViralSpread comp,
+            WorldComponent_SpreadManager manager,
+            bool stampCooldown,
+            bool ignoreAliveCap)
         {
             if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(settlement)) return false;
 
@@ -51,33 +87,25 @@ namespace TSA_WorldDomination
                 return false;
             }
 
-            float combatRange = SettlementAttackRangeUtil.GetNpcSettlementAttackRangeWithZeal(settlement, seth, manager);
-            float maxLos = WorldComponent_SettlementIntel.ComputeSettlementMaxLos(settlement);
-            float ringLo = Mathf.Max(1f, maxLos);
-            float ringHi = Mathf.Max(ringLo, combatRange);
-            int ringDist = Mathf.Max(1, Mathf.RoundToInt(Rand.Range(ringLo, ringHi)));
-
+            float attackRange = SettlementAttackRangeUtil.GetNpcSettlementAttackRangeWithZeal(settlement, seth, manager);
             float avoidBearing = comp.lastScoutKillBearingDeg;
             float avoidDeg = seth.settlementIntelScoutBearingAvoidDeg;
             float firstBearing = PickInitialBearing(avoidBearing, avoidDeg);
 
-            int launches = comp.tier >= SettlementTier.T4 ? 2 : 1;
+            int slots = ignoreAliveCap ? 99 : ScoutSlotsRemaining(settlement, comp);
+            if (slots <= 0) return false;
+
+            int batch = comp.tier >= SettlementTier.T4 ? 2 : 1;
+            int launches = Mathf.Min(batch, slots);
             int launched = 0;
             for (int i = 0; i < launches; i++)
             {
                 float bearing = firstBearing + (i * 180f);
-                ringDist = Mathf.Max(1, Mathf.RoundToInt(Rand.Range(ringLo, ringHi)));
-                if (!TryPickRingTile(settlement, ringDist, bearing, avoidBearing, avoidDeg, out int destTile))
-                {
-                    WDVerbose.Msg($"AttemptScout: no ring tile bearing={bearing:F0} range={ringDist} {settlement.LabelCap}");
-                    continue;
-                }
-
                 float strMin = seth.settlementIntelScoutStrengthMin;
                 float strMax = Mathf.Max(strMin, seth.settlementIntelScoutStrengthMax);
                 float strength = Rand.Range(strMin, strMax);
 
-                if (!LaunchOneScout(settlement, comp, manager, def, destTile, strength))
+                if (!LaunchOneScout(settlement, comp, manager, def, strength, attackRange, bearing, avoidBearing, avoidDeg))
                     continue;
                 launched++;
             }
@@ -97,34 +125,58 @@ namespace TSA_WorldDomination
             CompViralSpread comp,
             WorldComponent_SpreadManager manager,
             WorldObjectDef def,
-            int destTile,
-            float strength)
+            float strength,
+            float attackRange,
+            float preferredBearing,
+            float avoidBearing,
+            float avoidDeg)
         {
-            var traveler = (WorldObject_Traveler)WorldObjectMaker.MakeWorldObject(def);
-            traveler.Tile = settlement.Tile;
-            traveler.SetFaction(settlement.Faction);
-            traveler.mission = TravelerMission.Scout;
-            traveler.isNimbleScout = true;
-            traveler.scoutExtraWaypointsLeft = Rand.RangeInclusive(ExtraWaypointsMin, ExtraWaypointsMax);
-            traveler.travelerStrength = strength;
-            traveler.initialStrength = strength;
-            traveler.originObject = settlement;
-            AdvancedBuildingEffects.ApplyNpcLandSpeed(traveler, settlement);
-            WorldComponent_SettlementIntel.Get()?.EnsureTravelerTrackId(traveler);
+            for (int repick = 0; repick < PathRepicks; repick++)
+            {
+                if (!TryPickScoutDestination(
+                        settlement.Tile.tileId,
+                        settlement,
+                        settlement.Faction,
+                        attackRange,
+                        preferredBearing,
+                        avoidBearing,
+                        avoidDeg,
+                        out int destTile))
+                {
+                    WDVerbose.Msg($"AttemptScout: no land hop dest for {settlement.LabelCap}");
+                    return false;
+                }
 
-            Find.WorldObjects.Add(traveler);
-            traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(destTile, settlement));
-            if (traveler.Destroyed)
-                return false;
+                var traveler = (WorldObject_Traveler)WorldObjectMaker.MakeWorldObject(def);
+                traveler.Tile = settlement.Tile;
+                traveler.SetFaction(settlement.Faction);
+                traveler.mission = TravelerMission.Scout;
+                traveler.isNimbleScout = true;
+                traveler.scoutExtraWaypointsLeft = Rand.RangeInclusive(ExtraWaypointsMin, ExtraWaypointsMax);
+                traveler.travelerStrength = strength;
+                traveler.initialStrength = strength;
+                traveler.originObject = settlement;
+                AdvancedBuildingEffects.ApplyNpcLandSpeed(traveler, settlement);
+                WorldComponent_SettlementIntel.Get()?.EnsureTravelerTrackId(traveler);
 
-            WDVerbose.Msg(
-                $"AttemptScout: launched str={strength:F0} dest={destTile} extras={traveler.scoutExtraWaypointsLeft} from {settlement.LabelCap}");
-            return true;
+                Find.WorldObjects.Add(traveler);
+                traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(destTile, settlement));
+                if (traveler.Destroyed)
+                {
+                    WDVerbose.Msg($"AttemptScout: path failed dest={destTile} from {settlement.LabelCap}; re-pick.");
+                    continue;
+                }
+
+                WorldComponent_SettlementIntel.Get()?.RecordScoutTileSeen(settlement.Faction, destTile);
+                WDVerbose.Msg(
+                    $"AttemptScout: launched str={strength:F0} dest={destTile} extras={traveler.scoutExtraWaypointsLeft} from {settlement.LabelCap}");
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
-        /// After an arrival discover pulse: if extras remain, path to a chaotic next waypoint and
-        /// return true (caller must not Destroy). Returns false when the mission should end.
+        /// After an arrival discover pulse: if extras remain, path to next hop and return true.
         /// </summary>
         public static bool TryContinueScoutMission(WorldObject_Traveler traveler)
         {
@@ -133,85 +185,199 @@ namespace TSA_WorldDomination
             if (!(traveler.originObject is Settlement origin) || origin.Destroyed) return false;
             if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(origin)) return false;
 
-            if (!TryPickChaosWaypoint(traveler, origin, out int destTile))
-            {
-                WDVerbose.Msg($"AttemptScout: no chaos waypoint left for {origin.LabelCap}; ending scout.");
-                return false;
-            }
-
-            traveler.scoutExtraWaypointsLeft--;
-            traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(destTile, origin));
-            if (traveler.Destroyed) return false;
-
-            WDVerbose.Msg(
-                $"AttemptScout: continue dest={destTile} extrasLeft={traveler.scoutExtraWaypointsLeft} from {origin.LabelCap}");
-            return true;
-        }
-
-        /// <summary>
-        /// Clever chaos: twist bearing around the origin ring, sometimes hop from the scout's
-        /// current tile, keep away from the kill-bearing cone when possible.
-        /// </summary>
-        private static bool TryPickChaosWaypoint(WorldObject_Traveler scout, Settlement origin, out int destTile)
-        {
-            destTile = -1;
             var seth = WorldDominationMod.settings;
-            if (seth == null) return false;
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            if (seth == null) return false;
 
-            float combatRange = SettlementAttackRangeUtil.GetNpcSettlementAttackRangeWithZeal(origin, seth, manager);
-            float maxLos = WorldComponent_SettlementIntel.ComputeSettlementMaxLos(origin);
-            float ringLo = Mathf.Max(1f, maxLos);
-            float ringHi = Mathf.Max(ringLo, combatRange);
-            int ringDist = Mathf.Max(1, Mathf.RoundToInt(Rand.Range(ringLo, ringHi)));
+            float attackRange = SettlementAttackRangeUtil.GetNpcSettlementAttackRangeWithZeal(origin, seth, manager);
             var originComp = origin.GetComponent<CompViralSpread>();
             float avoidBearing = originComp != null ? originComp.lastScoutKillBearingDeg : UnsetKillBearing;
             float avoidDeg = seth.settlementIntelScoutBearingAvoidDeg;
+            float twist = Rand.Range(70f, 170f) * (Rand.Bool ? 1f : -1f);
+            float bearing = Mathf.Repeat(BearingDeg(origin.Tile.tileId, traveler.Tile.tileId) + twist, 360f);
 
-            int fromId = origin.Tile.tileId;
-            int curId = scout.Tile.tileId;
-            float curBearing = BearingDeg(fromId, curId);
-
-            for (int attempt = 0; attempt < 10; attempt++)
+            for (int repick = 0; repick < PathRepicks; repick++)
             {
-                float twist = Rand.Range(70f, 170f) * (Rand.Bool ? 1f : -1f);
-                float bearing = Mathf.Repeat(curBearing + twist, 360f);
-
-                // Mix ring revisits (coverage around the settlement) with local hops (fill gaps).
-                if (Rand.Chance(0.4f))
+                if (!TryPickScoutDestination(
+                        traveler.Tile.tileId,
+                        origin,
+                        traveler.Faction,
+                        attackRange,
+                        bearing,
+                        avoidBearing,
+                        avoidDeg,
+                        out int destTile))
                 {
-                    int hop = Rand.RangeInclusive(Mathf.Max(2, ringDist / 3), Mathf.Max(3, ringDist));
-                    if (TryPickRingTileAround(scout.Tile, hop, bearing, avoidBearing, avoidDeg, out destTile)
-                        && destTile != curId)
-                        return true;
+                    WDVerbose.Msg($"AttemptScout: no chaos hop left for {origin.LabelCap}; ending scout.");
+                    return false;
                 }
-                else
+
+                traveler.scoutExtraWaypointsLeft--;
+                traveler.pather.StartPath(PlanetSurfaceWorldActions.PlanetTileForWdTravel(destTile, origin));
+                if (traveler.Destroyed)
                 {
-                    ringDist = Mathf.Max(1, Mathf.RoundToInt(Rand.Range(ringLo, ringHi)));
-                    int dist = Mathf.Max(1, ringDist + Rand.RangeInclusive(-2, 2));
-                    if (TryPickRingTileAround(origin.Tile, dist, bearing, avoidBearing, avoidDeg, out destTile)
-                        && destTile != curId)
-                        return true;
-                }
-            }
-
-            // Last resort: any other ring tile around the origin.
-            CollectRingTiles(origin.Tile, ringDist, ringScratch);
-            for (int i = 0; i < ringScratch.Count; i++)
-            {
-                int j = Rand.Range(i, ringScratch.Count);
-                int tmp = ringScratch[i];
-                ringScratch[i] = ringScratch[j];
-                ringScratch[j] = tmp;
-
-                int tile = ringScratch[i];
-                if (tile == curId) continue;
-                if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(new PlanetTile(tile, origin.Tile.Layer)))
+                    traveler.scoutExtraWaypointsLeft++;
                     continue;
-                destTile = tile;
+                }
+
+                WorldComponent_SettlementIntel.Get()?.RecordScoutTileSeen(traveler.Faction, destTile);
+                WDVerbose.Msg(
+                    $"AttemptScout: continue dest={destTile} extrasLeft={traveler.scoutExtraWaypointsLeft} from {origin.LabelCap}");
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Bear-and-snap: sample shorter-weighted dist in [0.5R, 2R], walk neighbors toward bearing,
+        /// validate land / band / MaxLOS / recent stamps. Best-of retries by stamp age.
+        /// </summary>
+        private static bool TryPickScoutDestination(
+            int fromTileId,
+            Settlement origin,
+            Faction faction,
+            float attackRange,
+            float preferredBearing,
+            float avoidBearing,
+            float avoidDeg,
+            out int chosenTile)
+        {
+            chosenTile = -1;
+            if (fromTileId < 0 || origin == null || attackRange <= 0f) return false;
+
+            float minDist = Mathf.Max(1f, attackRange * HopDistMinMult);
+            float maxDist = Mathf.Max(minDist, attackRange * HopDistMaxMult);
+            float originLos = WorldComponent_SettlementIntel.ComputeSettlementMaxLos(origin);
+
+            int bestTile = -1;
+            int bestAge = -1;
+
+            for (int attempt = 0; attempt < PickRetries; attempt++)
+            {
+                float bearing = preferredBearing;
+                if (attempt > 0)
+                    bearing = Mathf.Repeat(preferredBearing + Rand.Range(-90f, 90f), 360f);
+                if (HasKillBearing(avoidBearing) && Mathf.Abs(Mathf.DeltaAngle(bearing, avoidBearing)) < avoidDeg)
+                    bearing = Mathf.Repeat(avoidBearing + 180f + Rand.Range(-40f, 40f), 360f);
+
+                // Shorter-weighted: u^2 biases toward minDist.
+                float u = Rand.Value;
+                int steps = Mathf.Max(1, Mathf.RoundToInt(Mathf.Lerp(minDist, maxDist, u * u)));
+
+                int snapped = WalkBearingSteps(fromTileId, bearing, steps);
+                if (snapped < 0 || snapped == fromTileId) continue;
+                if (!IsValidScoutLandTile(snapped, origin.Tile.Layer)) continue;
+
+                WorldGrid grid = Find.WorldGrid;
+                if (grid == null) continue;
+                float approx = grid.ApproxDistanceInTiles(fromTileId, snapped);
+                if (approx < minDist * 0.75f || approx > maxDist * 1.25f) continue;
+
+                if (IsTileInSameFactionLos(snapped, origin, originLos, fromTileId, attackRange, maxDist))
+                    continue;
+
+                var intel = WorldComponent_SettlementIntel.Get();
+                if (intel != null && faction != null && intel.IsNearRecentScoutStamp(faction, snapped))
+                    continue;
+
+                int age = intel != null && faction != null
+                    ? intel.GetScoutTileAgeTicks(faction, snapped)
+                    : int.MaxValue;
+                if (age > bestAge)
+                {
+                    bestAge = age;
+                    bestTile = snapped;
+                }
+            }
+
+            if (bestTile < 0) return false;
+            chosenTile = bestTile;
+            return true;
+        }
+
+        private static bool IsValidScoutLandTile(int tileId, PlanetLayer layer)
+        {
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null || tileId < 0 || tileId >= grid.TilesCount) return false;
+            if (grid[tileId].WaterCovered) return false;
+            var pt = new PlanetTile(tileId, layer ?? PlanetSurfaceWorldActions.WdSurfaceLayer ?? grid.Surface);
+            return PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(pt);
+        }
+
+        private static bool IsTileInSameFactionLos(
+            int tileId,
+            Settlement origin,
+            float originLos,
+            int fromTileId,
+            float attackRange,
+            float maxHopDist)
+        {
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null || origin?.Faction == null) return false;
+
+            if (grid.ApproxDistanceInTiles(origin.Tile.tileId, tileId) <= originLos)
+                return true;
+
+            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            DailyWorldSnapshot snap = manager?.CurrentDailySnapshot;
+            List<Settlement> list = null;
+            if (snap?.SettlementsByFaction != null)
+                snap.SettlementsByFaction.TryGetValue(origin.Faction, out list);
+            if (list == null) return false;
+
+            float nearBudget = maxHopDist + originLos;
+            for (int i = 0; i < list.Count; i++)
+            {
+                Settlement s = list[i];
+                if (s == null || s.Destroyed || s == origin) continue;
+                if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(s)) continue;
+                float toScout = grid.ApproxDistanceInTiles(fromTileId, s.Tile.tileId);
+                float sLos = WorldComponent_SettlementIntel.ComputeSettlementMaxLos(s);
+                if (toScout > attackRange * HopDistMaxMult + sLos) continue;
+                if (toScout > nearBudget + sLos) continue;
+                if (grid.ApproxDistanceInTiles(s.Tile.tileId, tileId) <= sLos)
+                    return true;
+            }
+            return false;
+        }
+
+        private static int WalkBearingSteps(int fromTileId, float bearingDeg, int steps)
+        {
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null || fromTileId < 0 || steps < 1) return -1;
+
+            float rad = bearingDeg * Mathf.Deg2Rad;
+            Vector3 want = new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad));
+            int cur = fromTileId;
+            PlanetLayer layer = grid[fromTileId].Layer ?? PlanetSurfaceWorldActions.WdSurfaceLayer ?? grid.Surface;
+
+            for (int step = 0; step < steps; step++)
+            {
+                neighborScratch.Clear();
+                grid.GetTileNeighbors(new PlanetTile(cur, layer), neighborScratch);
+                if (neighborScratch.Count == 0) break;
+
+                Vector3 curCenter = grid.GetTileCenter(cur);
+                int best = -1;
+                float bestDot = float.MinValue;
+                for (int i = 0; i < neighborScratch.Count; i++)
+                {
+                    int n = neighborScratch[i].tileId;
+                    if (n < 0) continue;
+                    Vector3 delta = grid.GetTileCenter(n) - curCenter;
+                    delta.y = 0f;
+                    if (delta.sqrMagnitude < 0.0001f) continue;
+                    float dot = Vector3.Dot(delta.normalized, want);
+                    if (dot > bestDot)
+                    {
+                        bestDot = dot;
+                        best = n;
+                    }
+                }
+                if (best < 0) break;
+                cur = best;
+            }
+            return cur;
         }
 
         /// <summary>
@@ -346,97 +512,5 @@ namespace TSA_WorldDomination
 
         private static bool HasKillBearing(float bearing) =>
             !float.IsNaN(bearing) && bearing > UnsetKillBearing + 1f;
-
-        private static bool TryPickRingTile(
-            Settlement settlement,
-            int ringDist,
-            float preferredBearing,
-            float avoidBearing,
-            float avoidDeg,
-            out int chosenTile)
-        {
-            return TryPickRingTileAround(settlement.Tile, ringDist, preferredBearing, avoidBearing, avoidDeg, out chosenTile);
-        }
-
-        private static bool TryPickRingTileAround(
-            PlanetTile center,
-            int ringDist,
-            float preferredBearing,
-            float avoidBearing,
-            float avoidDeg,
-            out int chosenTile)
-        {
-            chosenTile = -1;
-            if (!center.Valid) return false;
-            CollectRingTiles(center, ringDist, ringScratch);
-            if (ringScratch.Count == 0 && ringDist > 1)
-                CollectRingTiles(center, ringDist - 1, ringScratch);
-            if (ringScratch.Count == 0) return false;
-
-            int fromId = center.tileId;
-            int best = -1;
-            float bestScore = float.MinValue;
-            int samples = Mathf.Min(ringScratch.Count, 24);
-            for (int i = 0; i < samples; i++)
-            {
-                int j = Rand.Range(i, ringScratch.Count);
-                int tmp = ringScratch[i];
-                ringScratch[i] = ringScratch[j];
-                ringScratch[j] = tmp;
-
-                int tile = ringScratch[i];
-                if (!PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(new PlanetTile(tile, center.Layer)))
-                    continue;
-
-                float bearing = BearingDeg(fromId, tile);
-                if (HasKillBearing(avoidBearing) && Mathf.Abs(Mathf.DeltaAngle(bearing, avoidBearing)) < avoidDeg)
-                    continue;
-
-                float score = -Mathf.Abs(Mathf.DeltaAngle(bearing, preferredBearing));
-                if (score > bestScore)
-                {
-                    bestScore = score;
-                    best = tile;
-                }
-            }
-
-            if (best < 0)
-            {
-                // Fall back: any ring tile, even if near kill bearing.
-                for (int i = 0; i < ringScratch.Count; i++)
-                {
-                    int tile = ringScratch[i];
-                    if (PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(new PlanetTile(tile, center.Layer)))
-                    {
-                        chosenTile = tile;
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            chosenTile = best;
-            return true;
-        }
-
-        private static void CollectRingTiles(PlanetTile center, int dist, List<int> into)
-        {
-            into.Clear();
-            WorldGrid grid = Find.WorldGrid;
-            if (grid == null || !center.Valid || dist < 1) return;
-            PlanetLayer layer = center.Layer ?? PlanetSurfaceWorldActions.WdSurfaceLayer ?? grid.Surface;
-            if (layer == null) return;
-
-            layer.Filler.FloodFill(
-                center,
-                pt => PlanetSurfaceWorldActions.IsPlanetSurfaceTileForWorldActions(pt),
-                (PlanetTile pt, int d) =>
-                {
-                    if (d > dist) return true;
-                    if (d == dist)
-                        into.Add(pt.tileId);
-                    return false;
-                });
-        }
     }
 }
