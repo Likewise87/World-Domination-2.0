@@ -60,12 +60,78 @@ namespace TSA_WorldDomination
 
             OutpostDataTracker.Register(ruins.Tile, factionBase.Name ?? factionBase.LabelCap, capturedTier);
 
-            // Vanilla CheckDefeated is skipped (return false); restore Ideology Recent Conquest / raid precepts.
-            IdeoUtility.Notify_PlayerRaidedSomeone(map.mapPawns.FreeColonistsSpawned);
+            // Vanilla CheckDefeated is skipped (return false). IdeoUtility no-ops on an empty raider
+            // list, and CheckDefeated often runs after colonists reformed a caravan / left the map.
+            NotifyIdeologyPlayerConquest(map, factionBase.Tile);
 
             WorldActions_DesperationRaid.NotifyNpcSettlementLost(factionBase, Faction.OfPlayer);
             factionBase.Destroy();
             return false;
+        }
+
+        private static readonly List<Pawn> conquestRaiderScratch = new List<Pawn>(32);
+
+        /// <summary>
+        /// Stamp Recent Conquest (<see cref="History.lastTickPlayerRaidedSomeone"/>) and Ideology
+        /// raid events. Always updates History even when no pawns remain on the map.
+        /// </summary>
+        private static void NotifyIdeologyPlayerConquest(Map map, PlanetTile tile)
+        {
+            conquestRaiderScratch.Clear();
+            CollectConquestRaiders(map, tile, conquestRaiderScratch);
+            if (conquestRaiderScratch.Count > 0)
+                IdeoUtility.Notify_PlayerRaidedSomeone(conquestRaiderScratch);
+
+            // IdeoUtility returns immediately when the list is empty — still set the mood clock.
+            if (Find.History.lastTickPlayerRaidedSomeone != Find.TickManager.TicksGame)
+            {
+                Find.History.Notify_PlayerRaidedSomeone();
+                if (ModsConfig.IdeologyActive)
+                    Find.HistoryEventsManager.RecordEvent(new HistoryEvent(HistoryEventDefOf.PlayerRaidedSomeone));
+            }
+            conquestRaiderScratch.Clear();
+        }
+
+        private static void CollectConquestRaiders(Map map, PlanetTile tile, List<Pawn> into)
+        {
+            if (map?.mapPawns != null)
+            {
+                IReadOnlyList<Pawn> spawned = map.mapPawns.FreeColonistsSpawned;
+                for (int i = 0; i < spawned.Count; i++)
+                {
+                    Pawn p = spawned[i];
+                    if (p != null && !p.Dead)
+                        into.Add(p);
+                }
+                if (into.Count == 0)
+                {
+                    IReadOnlyList<Pawn> all = map.mapPawns.AllPawnsSpawned;
+                    for (int i = 0; i < all.Count; i++)
+                    {
+                        Pawn p = all[i];
+                        if (p != null && !p.Dead && p.IsFreeColonist)
+                            into.Add(p);
+                    }
+                }
+            }
+
+            if (into.Count > 0) return;
+
+            List<Caravan> caravans = Find.WorldObjects?.Caravans;
+            if (caravans == null) return;
+            for (int i = 0; i < caravans.Count; i++)
+            {
+                Caravan c = caravans[i];
+                if (c == null || c.Destroyed || !c.IsPlayerControlled) continue;
+                if (c.Tile != tile) continue;
+                IReadOnlyList<Pawn> pawns = c.PawnsListForReading;
+                for (int j = 0; j < pawns.Count; j++)
+                {
+                    Pawn p = pawns[j];
+                    if (p != null && !p.Dead && p.IsFreeColonist)
+                        into.Add(p);
+                }
+            }
         }
     }
 
