@@ -122,7 +122,7 @@ namespace TSA_WorldDomination
             HashSet<Faction> present = null;
             foreach (Faction f in Find.FactionManager.AllFactionsVisible)
             {
-                if (f == null || f.IsPlayer || f.def == null || f.def.hidden || !f.defeated) continue;
+                if (f == null || f.def == null || f.IsPlayer || f.def.hidden || !f.defeated) continue;
                 if (!WorldActions_Utils.IsWdParticipant(f)) continue;
 
                 if (present == null)

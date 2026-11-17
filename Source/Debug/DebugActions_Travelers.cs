@@ -1246,7 +1246,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < list.Count; i++)
             {
                 Faction f = list[i];
-                if (f == null || f.IsPlayer || f.Hidden) continue;
+                if (f == null || f.def == null || f.IsPlayer || f.Hidden) continue;
                 return f;
             }
             return null;

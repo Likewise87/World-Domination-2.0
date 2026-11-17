@@ -181,7 +181,7 @@ namespace TSA_WorldDomination
             var all = Find.FactionManager.AllFactionsVisible;
             foreach (Faction f in all)
             {
-                if (f == null || f.IsPlayer || f.defeated || f.Hidden) continue;
+                if (f == null || f.def == null || f.IsPlayer || f.defeated || f.Hidden) continue;
                 if (f == conqueredFaction) continue;
                 if (!CanReceiveSurfaceSettlementGift(f)) continue;
                 FactionRelationKind playerRel = WorldActions_Utils.SafeRelationKindWith(f, player);

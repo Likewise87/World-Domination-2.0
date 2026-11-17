@@ -1220,7 +1220,7 @@ namespace TSA_WorldDomination
 
             foreach (Faction f in Find.FactionManager.AllFactionsVisible)
             {
-                if (f == null || f.IsPlayer || f.def.hidden || f.defeated) continue;
+                if (f == null || f.def == null || f.IsPlayer || f.def.hidden || f.defeated) continue;
                 goodwillRankScratch.Add((f, player.GoodwillWith(f)));
             }
             if (goodwillRankScratch.Count == 0) return;

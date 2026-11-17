@@ -331,7 +331,7 @@ namespace TSA_WorldDomination
                 for (int i = 0; i < factions.Count; i++)
                 {
                     Faction f = factions[i];
-                    if (f == null || f.IsPlayer || f.def == null || f.def.hidden || f.temporary) continue;
+                    if (f == null || f.def == null || f.IsPlayer || f.def.hidden || f.temporary) continue;
                     ordered.Add(f);
                 }
                 ordered.Sort((a, b) => string.CompareOrdinal(a.Name, b.Name));

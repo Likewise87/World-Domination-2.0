@@ -161,7 +161,7 @@ namespace TSA_WorldDomination
             if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(wo)) return player;
 
             Faction f = wo.Faction;
-            if (f == null || f.IsPlayer || f.def == null || f.def.hidden || f.defeated)
+            if (f == null || f.def == null || f.IsPlayer || f.def.hidden || f.defeated)
                 return player;
             return f;
         }

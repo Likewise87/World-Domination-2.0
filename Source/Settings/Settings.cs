@@ -5997,7 +5997,7 @@ namespace TSA_WorldDomination
         /// <summary>Factions that should never get WD diplomacy rolls when using Perm. Hostile lock.</summary>
         public static bool IsAllegianceLockPermanentHostile(Faction f)
         {
-            if (f == null || f.IsPlayer || f.def == null) return false;
+            if (f == null || f.def == null || f.IsPlayer) return false;
             if (f.def.permanentEnemy) return true;
             if (f.def.permanentEnemyToEveryoneExceptPlayer) return true;
             if (WorldActions_Utils.IsPermanentEnemyOfPlayer(f)) return true;

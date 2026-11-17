@@ -74,7 +74,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < threats.Count; i++)
             {
                 Faction f = threats[i].faction;
-                if (f == null || f.IsPlayer || f.def.hidden || f.defeated) continue;
+                if (f == null || f.def == null || f.IsPlayer || f.def.hidden || f.defeated) continue;
                 tmpSeenFactionIds.Add(f.loadID);
             }
             return tmpSeenFactionIds.Count;
@@ -129,7 +129,7 @@ namespace TSA_WorldDomination
             {
                 Settlement s = settlements[i];
                 if (!DailyWorldSnapshot.IsSettlementStillValid(s)) continue;
-                if (s.Faction == null || s.Faction.IsPlayer || s.Faction.def.hidden || s.Faction.defeated) continue;
+                if (s.Faction == null || s.Faction.def == null || s.Faction.IsPlayer || s.Faction.def.hidden || s.Faction.defeated) continue;
                 if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(s)) continue;
                 if (!WorldActions_Utils.IsWdParticipant(s.Faction)) continue;
                 if (!WorldActions_Utils.SafeHostileTo(s.Faction, Faction.OfPlayer)) continue;

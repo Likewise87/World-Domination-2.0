@@ -122,7 +122,7 @@ namespace TSA_WorldDomination
             for (int i = 0; i < factions.Count; i++)
             {
                 Faction f = factions[i];
-                if (f == null || f.IsPlayer || f.defeated || f.def == null || f.def.hidden)
+                if (f == null || f.def == null || f.IsPlayer || f.defeated || f.def.hidden)
                     continue;
                 if (!WorldActions_Utils.IsWdParticipant(f))
                     continue;

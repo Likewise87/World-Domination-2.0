@@ -312,6 +312,8 @@ Outpost expert slot unlock auto-assign (`autoAssignExpertsOnSlotUnlock`, default
 
 `HarmonyLoader` (`Travelers/DisableMemoryLeakWarning.cs`) scans the assembly for static `[HarmonyPatch]` classes. Settlement gizmos go through `Patch_SettlementGetGizmos` (`Patches/Patch_SettlementGetGizmos.cs`). Caravan gizmos go through `Patch_CaravanGetGizmos` (`Patches/Patch_CaravanGetGizmos.cs`). Do not add a second `Settlement.GetGizmos` or `Caravan.GetGizmos` postfix.
 
+**Null-def faction getters:** `Patches/Patch_Faction_IsPlayer.cs` Prefixes `Faction.IsPlayer` / `Faction.Hidden` so a surviving Faction with `def == null` (removed faction mod / corrupt load) returns non-player / hidden instead of NRE every tick. Prefer `WorldActions_Utils.SafeIsPlayer` on hot paths that already null-check; still guard `f.def` before reading other def fields. Defeat intercept (`Patch_InterceptDefeat`) compares to `Faction.OfPlayer` by reference and skips null-def.
+
 **Always-show world icons (do not regress):** `Patches/Patch_WdWorldObjectNoExpandingIcon.cs` keeps the upright ExpandingIcon at every zoom (no Material swap) for settlements / outposts / travelers / AT when the Experimental toggles are on. VeryClose blanks were a false `HiddenBehindTerrainNow` plus a wrong world-origin Dot (layer-origin facing + `TransitionPct` forced to 1); a remaining VeryClose blank with gates still saying would-draw is fixed by a `GUI.DrawTexture` re-blit after vanilla OnGUI that also applies `ExpandingIconRotation` (AT turrets, shells). Full rules and anti-patterns: `Core/WORLD_MAP_ICONS.md`. Do not “fix” Close/VeryClose by restoring Material for ForceFixedIcon objects.
 
 ## Optional mods (no assembly dependencies)

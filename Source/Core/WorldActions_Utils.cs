@@ -335,6 +335,14 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
+        /// Null-safe player check. Vanilla <see cref="Faction.IsPlayer"/> is <c>def.isPlayer</c>;
+        /// WD also Prefixes that getter (and <see cref="Faction.Hidden"/>) for null <c>def</c>.
+        /// Prefer this on tick / world-scan hot paths that already branch on def.
+        /// </summary>
+        public static bool SafeIsPlayer(Faction f) =>
+            f != null && f.def != null && f.IsPlayer;
+
+        /// <summary>
         /// Negotiate / diplomacy matrix / allegiance pair pool — auto gates only.
         /// Not the inverse of <see cref="IsWdParticipant"/> (ignores manual WD exclude).
         /// For WD sim filters that used to skip excluded factions: use <c>if (!IsWdParticipant(f)) continue</c>, not a bare rename.
@@ -366,7 +374,7 @@ namespace TSA_WorldDomination
         /// Player is never gated here (player is not an <see cref="IsWdParticipant"/>).
         /// </summary>
         public static bool CanNpcWdReactiveAction(Faction f)
-            => f != null && !f.IsPlayer && IsWdParticipant(f);
+            => f != null && f.def != null && !f.IsPlayer && IsWdParticipant(f);
 
         /// <summary>
         /// True if this faction has a traveler mid PackUp/Turtle/AssaultRally relocation that still needs to refound.
@@ -412,7 +420,7 @@ namespace TSA_WorldDomination
         /// </summary>
         public static bool TryMarkDefeatedIfNoSettlementsLeft(Faction f, int excludeSettlementId = -1)
         {
-            if (f == null || f.IsPlayer || f.defeated) return false;
+            if (f == null || f.def == null || f.IsPlayer || f.defeated) return false;
             if (!IsWdParticipant(f)) return false;
             if (HasActiveRefoundTraveler(f)) return false;
             if (CountWdSettlements(f, excludeSettlementId) > 0) return false;
@@ -429,7 +437,7 @@ namespace TSA_WorldDomination
             if (Find.FactionManager == null) return;
             foreach (Faction f in Find.FactionManager.AllFactionsVisible)
             {
-                if (f == null || f.IsPlayer || !f.defeated || f.def == null || f.def.hidden) continue;
+                if (f == null || f.def == null || f.IsPlayer || !f.defeated || f.def.hidden) continue;
                 if (CountWdSettlements(f) <= 0) continue;
                 f.defeated = false;
             }
@@ -444,7 +452,7 @@ namespace TSA_WorldDomination
             if (Find.FactionManager == null) return;
             foreach (Faction f in Find.FactionManager.AllFactionsVisible)
             {
-                if (f == null || f.IsPlayer || f.defeated || f.def == null || f.def.hidden) continue;
+                if (f == null || f.def == null || f.IsPlayer || f.defeated || f.def.hidden) continue;
                 TryMarkDefeatedIfNoSettlementsLeft(f);
             }
         }

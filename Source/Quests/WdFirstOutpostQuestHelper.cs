@@ -142,7 +142,7 @@ namespace TSA_WorldDomination
             foreach (var kv in snapshot.SettlementsByFaction)
             {
                 Faction f = kv.Key;
-                if (f == null || f.IsPlayer || f.defeated || f.def == null || f.def.hidden)
+                if (f == null || f.def == null || f.IsPlayer || f.defeated || f.def.hidden)
                     continue;
                 if (!WorldActions_Utils.IsWdParticipant(f))
                     continue;

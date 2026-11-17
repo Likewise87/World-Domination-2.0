@@ -114,7 +114,7 @@ namespace TSA_WorldDomination
             {
                 Settlement s = settlements[i];
                 if (s == null || s.Destroyed || !s.Spawned) continue;
-                if (s.Faction == null || s.Faction.IsPlayer || s.Faction.def.hidden) continue;
+                if (s.Faction == null || s.Faction.def == null || s.Faction.IsPlayer || s.Faction.def.hidden) continue;
                 if (!WorldActions_Utils.IsWdParticipant(s.Faction)) continue;
                 if (!WorldActions_Utils.SafeHostileTo(s.Faction, Faction.OfPlayer)) continue;
                 if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(s)) continue;

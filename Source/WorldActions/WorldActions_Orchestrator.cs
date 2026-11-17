@@ -1240,8 +1240,8 @@ namespace TSA_WorldDomination
             for (int si = 0; si < allSettlements.Count; si++)
             {
                 Settlement s = allSettlements[si];
-                if (s == null || s.Tile < 0 || s.Faction == null || s.Faction.IsPlayer) continue;
-                if (s.Faction.def == null || s.Faction.def.hidden || s.Faction.defeated) continue;
+                if (s == null || s.Tile < 0 || s.Faction == null || s.Faction.def == null || WorldActions_Utils.SafeIsPlayer(s.Faction)) continue;
+                if (s.Faction.def.hidden || s.Faction.defeated) continue;
                 if (!WorldActions_Utils.SafeHostileTo(s.Faction, player)) continue;
                 if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(s)) continue;
                 if (!CanReachAnyPlayerTarget(s, tempThreatPlayerColonyTargets, seth)) continue;
@@ -1342,8 +1342,8 @@ namespace TSA_WorldDomination
                 for (int si = 0; si < allSettlements.Count; si++)
                 {
                     Settlement s = allSettlements[si];
-                    if (s == null || s.Tile < 0 || s.Faction == null || s.Faction.IsPlayer) continue;
-                    if (s.Faction.def == null || s.Faction.def.hidden || s.Faction.defeated) continue;
+                    if (s == null || s.Tile < 0 || s.Faction == null || s.Faction.def == null || WorldActions_Utils.SafeIsPlayer(s.Faction)) continue;
+                    if (s.Faction.def.hidden || s.Faction.defeated) continue;
                     if (!WorldActions_Utils.SafeHostileTo(s.Faction, player)) continue;
                     if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(s)) continue;
                     if (!CanReachAnyPlayerTarget(s, tempThreatPlayerColonyTargets, seth)) continue;
@@ -1614,7 +1614,7 @@ namespace TSA_WorldDomination
         /// <summary>Restacks by refreshing expiry from now (no multiplicative duration stack).</summary>
         public void SetPlayerBribeCeasefire(Faction faction, int days)
         {
-            if (faction == null || faction.IsPlayer || days <= 0) return;
+            if (faction == null || faction.def == null || WorldActions_Utils.SafeIsPlayer(faction) || days <= 0) return;
             if (playerBribeCeasefireTicksExpiry == null)
                 playerBribeCeasefireTicksExpiry = new Dictionary<int, int>();
             int expiry = Find.TickManager.TicksGame + Mathf.Max(1, days) * 60000;
