@@ -16,7 +16,12 @@ namespace TSA_WorldDomination
         [HarmonyPriority(Priority.High)]
         public static bool Prefix(Settlement factionBase)
         {
-            if (factionBase == null || factionBase.Faction == null || factionBase.Faction.IsPlayer) return true;
+            // Faction.IsPlayer reads Faction.def — a settlement with a surviving Faction but null def
+            // (removed mod / corrupt load) NREs every TickInterval and freezes the world map.
+            // Match vanilla CheckDefeated: compare to OfPlayer by reference, never touch .def here.
+            if (factionBase == null) return true;
+            Faction faction = factionBase.Faction;
+            if (faction == null || faction.def == null || faction == Faction.OfPlayer) return true;
 
             // Vanilla TickInterval calls CheckDefeated on every trader settlement; Map==null is free.
             Map map = factionBase.Map;
