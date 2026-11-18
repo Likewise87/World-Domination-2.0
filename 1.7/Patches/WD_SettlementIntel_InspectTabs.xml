@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
-  <!-- 1.7-only (loadFolders 1.7/Patches): WITab_SettlementIntel lives in 1.7/Assemblies only. -->
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/WorldObjectDef[@Name="StaticWorldObjectBase"]/inspectorTabs</xpath>
-    <value>
-      <li>TSA_WorldDomination.WITab_SettlementIntel, TSA_WorldDomination</li>
-    </value>
+  <!-- 1.7-only: Intel lives under Stats (Main Stats / Intel panes). Remove legacy standalone Intel tabs if present. -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[@Name="StaticWorldObjectBase"]/inspectorTabs/li[text()="TSA_WorldDomination.WITab_SettlementIntel, TSA_WorldDomination"]</xpath>
+    <match Class="PatchOperationRemove">
+      <xpath>/Defs/WorldObjectDef[@Name="StaticWorldObjectBase"]/inspectorTabs/li[text()="TSA_WorldDomination.WITab_SettlementIntel, TSA_WorldDomination"]</xpath>
+    </match>
   </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/WorldObjectDef[@Name="TSA_WD_Outpost"]/inspectorTabs</xpath>
-    <value>
-      <li>TSA_WorldDomination.WITab_SettlementIntel, TSA_WorldDomination</li>
-    </value>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/WorldObjectDef[@Name="TSA_WD_Outpost"]/inspectorTabs/li[text()="TSA_WorldDomination.WITab_SettlementIntel, TSA_WorldDomination"]</xpath>
+    <match Class="PatchOperationRemove">
+      <xpath>/Defs/WorldObjectDef[@Name="TSA_WD_Outpost"]/inspectorTabs/li[text()="TSA_WorldDomination.WITab_SettlementIntel, TSA_WorldDomination"]</xpath>
+    </match>
   </Operation>
 </Patch>

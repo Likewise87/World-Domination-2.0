@@ -7,27 +7,44 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Inspect Stats tab for player WD outposts and NPC settlements (same UI; different snapshot sections).
+    /// Inspect Stats tab for player WD outposts, NPC settlements, and AT turrets.
+    /// Sub-panes: Main Stats / Intel (Intel when settlement-intel gate is configured), same TabDrawer pattern as Logistics Food/Electricity.
     /// </summary>
     public class WITab_OutpostAndSettlement_Stats : WITab
     {
+        private enum StatsPane : byte { Main = 0, Intel = 1 }
+
         private Vector2 scrollPosition;
+        private Vector2 intelScrollPosition;
         private float scrollViewHeight = 400f;
 
         private const int CacheRefreshInterval = 2500;
         private const float SearchBarH = 28f;
         private const float SearchBarGap = 6f;
+        private const float TabsToHeadlineGap = 12f;
+
+        private StatsPane statsPane;
+        private WorldObject paneDefaultedFor;
+        private readonly List<TabRecord> statsPaneTabs = new List<TabRecord>(2);
 
         private int lastCacheTick = -1;
         private WorldObject cachedWorldObject;
         private int cachedFingerprint = int.MinValue;
         private OutpostStatsSnapshot cachedSnapshot;
 
+        private int lastIntelCacheTick = -1;
+        private WorldObject cachedIntelWorldObject;
+        private int cachedIntelFingerprint = int.MinValue;
+        private OutpostStatsSnapshot cachedIntelSnapshot;
+
         private string searchFilter = "";
         private string searchNeedleLower = "";
         private readonly List<OutpostStatsSection> filteredSections = new List<OutpostStatsSection>(16);
         private OutpostStatsSnapshot filterSourceSnap;
         private string filterSourceNeedle = "";
+
+        private static string s_paneMain;
+        private static string s_paneIntel;
 
         public WITab_OutpostAndSettlement_Stats()
         {
@@ -42,6 +59,9 @@ namespace TSA_WorldDomination
             get
             {
                 WorldObject wo = SelObject;
+                if (wo is WorldObject_AT_Turret)
+                    return WorldComponent_SettlementIntel.IsGateConfigured();
+
                 if (wo?.GetComponent<CompViralSpread>() == null)
                     return false;
                 if (wo is WorldObject_WD_Outpost outpost)
@@ -52,16 +72,98 @@ namespace TSA_WorldDomination
             }
         }
 
-        private float HeaderConsumedHeight =>
+        private bool ShowIntelPane(WorldObject wo)
+        {
+            if (!WorldComponent_SettlementIntel.IsGateConfigured() || wo == null)
+                return false;
+            if (wo is WorldObject_AT_Turret)
+                return true;
+            if (wo.GetComponent<CompViralSpread>() == null)
+                return false;
+            return wo is Settlement || wo is WorldObject_WD_Outpost;
+        }
+
+        private float MainHeaderConsumedHeight =>
             OutpostTabStatsUi.TabHeaderConsumedHeight + SearchBarH + SearchBarGap;
+
+        private static void EnsurePaneLabels()
+        {
+            if (s_paneMain != null) return;
+            s_paneMain = "TSA_WD_StatsPane_Main".Translate().ToString();
+            if (s_paneMain.Contains("TSA_WD_StatsPane_Main")) s_paneMain = "Main Stats";
+            s_paneIntel = "TSA_WD_StatsPane_Intel".Translate().ToString();
+            if (s_paneIntel.Contains("TSA_WD_StatsPane_Intel")) s_paneIntel = "Intel";
+        }
 
         protected override void FillTab()
         {
             WorldObject worldObject = SelWorldObject;
             if (worldObject == null) return;
 
-            Rect body = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
+            bool intelOn = ShowIntelPane(worldObject);
+            if (!intelOn)
+                statsPane = StatsPane.Main;
+            else if (worldObject != paneDefaultedFor)
+            {
+                paneDefaultedFor = worldObject;
+                // AT has no CompViralSpread main snapshot; open on Intel. Settlements/outposts stay on Main.
+                statsPane = worldObject is WorldObject_AT_Turret ? StatsPane.Intel : StatsPane.Main;
+            }
+
+            size = worldObject is WorldObject_AT_Turret
+                ? new Vector2(500f, 500f)
+                : new Vector2(820f, 560f);
+
+            Rect outer = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
+            Rect body = outer;
+            if (intelOn)
+            {
+                body.yMin += TabDrawer.TabHeight;
+                DrawStatsPaneTabs(body);
+                body.yMin += TabsToHeadlineGap;
+            }
+
+            if (intelOn && statsPane == StatsPane.Intel)
+            {
+                FillIntelPane(body, worldObject);
+                return;
+            }
+
+            FillMainPane(body, worldObject);
+        }
+
+        private void DrawStatsPaneTabs(Rect contentRect)
+        {
+            EnsurePaneLabels();
+            statsPaneTabs.Clear();
+            statsPaneTabs.Add(new TabRecord(
+                s_paneMain,
+                () => statsPane = StatsPane.Main,
+                statsPane == StatsPane.Main));
+            statsPaneTabs.Add(new TabRecord(
+                s_paneIntel,
+                () => statsPane = StatsPane.Intel,
+                statsPane == StatsPane.Intel));
+            TabDrawer.DrawTabs(contentRect, statsPaneTabs);
+        }
+
+        private void FillMainPane(Rect body, WorldObject worldObject)
+        {
             OutpostTabStatsUi.DrawHeadline(body, BuildHeadline(worldObject));
+
+            if (worldObject is WorldObject_AT_Turret)
+            {
+                EnsureSnapshotFresh(worldObject);
+                // Empty main snapshot for AT: leave a short note under the headline.
+                Rect note = new Rect(
+                    body.x,
+                    body.y + OutpostTabStatsUi.TabHeaderConsumedHeight,
+                    body.width,
+                    40f);
+                Text.Font = GameFont.Small;
+                Widgets.Label(note, "TSA_WD_StatsPane_MainEmptyAt".Translate().ToString());
+                return;
+            }
 
             EnsureSnapshotFresh(worldObject);
             OutpostStatsSnapshot snap = cachedSnapshot;
@@ -75,9 +177,9 @@ namespace TSA_WorldDomination
 
             Rect scrollOuter = new Rect(
                 body.x,
-                body.y + HeaderConsumedHeight,
+                body.y + MainHeaderConsumedHeight,
                 body.width,
-                body.height - HeaderConsumedHeight);
+                body.height - MainHeaderConsumedHeight);
             float contentWidth = scrollOuter.width - OutpostTabStatsUi.ScrollbarRightPadding;
 
             float bannerExtra = 0f;
@@ -106,6 +208,28 @@ namespace TSA_WorldDomination
                 drawY = Outpost_Dialog_UI.DrawSkillDiminishingReturnsBanner(0f, drawY, contentWidth, wdDraw);
             OutpostTabStatsUi.DrawStatsLayout(0f, drawY, contentWidth, sections);
 
+            Widgets.EndScrollView();
+        }
+
+        private void FillIntelPane(Rect body, WorldObject worldObject)
+        {
+            OutpostTabStatsUi.DrawHeadline(body, BuildIntelHeadline(worldObject));
+
+            EnsureIntelSnapshotFresh(worldObject);
+            OutpostStatsSnapshot snap = cachedIntelSnapshot;
+            if (snap == null) return;
+
+            const float headerH = OutpostTabStatsUi.TabHeaderConsumedHeight;
+            Rect scrollOuter = new Rect(body.x, body.y + headerH, body.width, body.height - headerH);
+            float contentWidth = scrollOuter.width - OutpostTabStatsUi.ScrollbarRightPadding;
+
+            float h = OutpostTabStatsUi.MeasureContentHeight(snap.Sections, contentWidth);
+            if (h < scrollOuter.height)
+                h = scrollOuter.height;
+            Rect viewRect = new Rect(0f, 0f, contentWidth, h);
+
+            Widgets.BeginScrollView(scrollOuter, ref intelScrollPosition, viewRect);
+            OutpostTabStatsUi.DrawStatsLayout(0f, 0f, contentWidth, snap.Sections);
             Widgets.EndScrollView();
         }
 
@@ -155,8 +279,18 @@ namespace TSA_WorldDomination
         {
             if (worldObject is WorldObject_WD_Outpost outpost)
                 return OutpostTranslationUtil.TabHeadline(outpost, "TSA_WD_OutpostStats_TabLabel");
-
+            if (worldObject is WorldObject_AT_Turret)
+                return "TSA_WD_WorldObjectStats_Headline".Translate(worldObject.LabelCap).ToString();
             return "TSA_WD_WorldObjectStats_Headline".Translate(worldObject.LabelCap).ToString();
+        }
+
+        private static string BuildIntelHeadline(WorldObject worldObject)
+        {
+            if (worldObject is WorldObject_WD_Outpost outpost)
+                return OutpostTranslationUtil.TabHeadline(outpost, "TSA_WD_SettlementIntel_TabLabel");
+            if (worldObject is WorldObject_AT_Turret)
+                return "TSA_WD_ATIntel_Headline".Translate(worldObject.LabelCap).ToString();
+            return "TSA_WD_SettlementIntel_Headline".Translate(worldObject.LabelCap).ToString();
         }
 
         private void EnsureSnapshotFresh(WorldObject worldObject)
@@ -176,6 +310,22 @@ namespace TSA_WorldDomination
             filterSourceSnap = null;
         }
 
+        private void EnsureIntelSnapshotFresh(WorldObject worldObject)
+        {
+            int tick = Find.TickManager.TicksGame;
+            int fp = ComputeIntelFingerprint(worldObject);
+            if (cachedIntelSnapshot != null
+                && cachedIntelWorldObject == worldObject
+                && cachedIntelFingerprint == fp
+                && tick - lastIntelCacheTick < CacheRefreshInterval)
+                return;
+
+            lastIntelCacheTick = tick;
+            cachedIntelWorldObject = worldObject;
+            cachedIntelFingerprint = fp;
+            cachedIntelSnapshot = SettlementIntelSnapshot.Build(worldObject);
+        }
+
         private static int BucketFloat(float v, float scale = 1f) => Mathf.RoundToInt(v * scale);
 
         /// <summary>
@@ -187,6 +337,30 @@ namespace TSA_WorldDomination
             int now = Find.TickManager.TicksGame;
             if (endTick <= 0 || now >= endTick) return 0;
             return endTick ^ (((endTick - now) / 250) * 397);
+        }
+
+        private static int ComputeIntelFingerprint(WorldObject worldObject)
+        {
+            if (worldObject == null) return 0;
+            unchecked
+            {
+                int h = worldObject.ID;
+                var intel = WorldComponent_SettlementIntel.Get();
+                h = h * 397 + (intel?.Version ?? 0);
+                h = h * 397 + (WorldComponent_SettlementIntel.IsTracking() ? 1 : 0);
+                h = h * 397 + (WorldComponent_SettlementIntel.IsActive() ? 1 : 0);
+                h = h * 397 + (int)(WorldDominationMod.settings?.gateSettlementIntel ?? WdThreatStageGate.Never);
+                var mgr = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+                if (mgr != null)
+                    h = h * 397 + (int)mgr.cachedEscalationStage;
+                CompViralSpread comp = worldObject.GetComponent<CompViralSpread>();
+                if (comp != null)
+                    h = h * 397 + (int)comp.tier;
+                h = h * 397 + (Find.TickManager.TicksGame / 2500);
+                h = h * 397 + WorldObject_Traveler.LiveTravelers.Count;
+                h = h * 397 + (Find.WorldObjects?.Caravans?.Count ?? 0);
+                return h;
+            }
         }
 
         private static int ComputeFingerprint(WorldObject worldObject)

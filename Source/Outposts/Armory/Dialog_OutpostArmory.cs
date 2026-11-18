@@ -232,6 +232,8 @@ namespace TSA_WorldDomination
         private int pawnListRowsRevision = -1;
         private int pawnListFrame = -9999;
         private int pawnListOccupantCount = -1;
+        private int pawnListStoredTransportCount = -1;
+        private int pawnListStoredMechCount = -1;
         private int rowsRevision;
 
         private static string _starHeaderTip;
@@ -530,7 +532,9 @@ namespace TSA_WorldDomination
         {
             bool canMutate = OutpostArmoryUtility.CanMutate(outpost);
             bool anyPawn = CountCheckedVisiblePawns() > 0;
+            bool anyEquip = CountCheckedEquipTargets() > 0;
             bool pawnOk = canMutate && anyPawn;
+            bool equipOk = canMutate && anyEquip;
             bool canConvert = GetStoredFoodNutrition() > 0.01f && canMutate;
             var opts = new List<FloatMenuOption>
             {
@@ -542,7 +546,7 @@ namespace TSA_WorldDomination
                 },
                 new FloatMenuOption(
                     "TSA_WD_Armory_Menu_AssignFood".Translate(),
-                    pawnOk ? AssignFoodToPawns : null)
+                    equipOk ? AssignFoodToPawns : null)
                 {
                     tooltip = "TSA_WD_Armory_Menu_AssignFoodTip".Translate()
                 },
@@ -562,6 +566,7 @@ namespace TSA_WorldDomination
         {
             bool canMutate = OutpostArmoryUtility.CanMutate(outpost);
             bool pawnOk = canMutate && CountCheckedVisiblePawns() > 0;
+            bool equipOk = canMutate && CountCheckedEquipTargets() > 0;
             var opts = new List<FloatMenuOption>
             {
                 new FloatMenuOption(
@@ -572,7 +577,7 @@ namespace TSA_WorldDomination
                 },
                 new FloatMenuOption(
                     "TSA_WD_Armory_Menu_AddAmmo".Translate(),
-                    pawnOk ? AutoAssignAmmo : null)
+                    equipOk ? AutoAssignAmmo : null)
                 {
                     tooltip = "TSA_WD_Armory_Menu_AddAmmoTip".Translate()
                 }
@@ -584,8 +589,10 @@ namespace TSA_WorldDomination
         {
             bool canMutate = OutpostArmoryUtility.CanMutate(outpost);
             bool anyPawn = CountCheckedVisiblePawns() > 0;
+            bool anyEquip = CountCheckedEquipTargets() > 0;
             bool anyGear = CountCheckedQuickEquipStore() > 0;
-            bool equipOk = canMutate && anyPawn && anyGear;
+            bool equipOk = canMutate && anyEquip && anyGear;
+            bool stripEquipOk = canMutate && anyEquip;
             bool pawnOk = canMutate && anyPawn;
             bool drugsOk = canMutate && CountCheckedDrugRecipients() > 0 && HasArmoryDrugStock();
 
@@ -605,19 +612,19 @@ namespace TSA_WorldDomination
                 },
                 new FloatMenuOption(
                     "TSA_WD_Armory_Equipment_StripWeapons".Translate(),
-                    pawnOk ? BulkStripWeapons : null)
+                    stripEquipOk ? BulkStripWeapons : null)
                 {
                     tooltip = "TSA_WD_Armory_Equipment_StripWeaponsTip".Translate()
                 },
                 new FloatMenuOption(
                     "TSA_WD_Armory_Equipment_StripArmor".Translate(),
-                    pawnOk ? BulkStripArmor : null)
+                    stripEquipOk ? BulkStripArmor : null)
                 {
                     tooltip = "TSA_WD_Armory_Equipment_StripArmorTip".Translate()
                 },
                 new FloatMenuOption(
                     "TSA_WD_Armory_Equipment_StripApparel".Translate(),
-                    pawnOk ? BulkStripApparel : null)
+                    stripEquipOk ? BulkStripApparel : null)
                 {
                     tooltip = "TSA_WD_Armory_Equipment_StripApparelTip".Translate()
                 },
@@ -1230,12 +1237,16 @@ namespace TSA_WorldDomination
         private void RebuildVisiblePawnsIfNeeded()
         {
             int occupantCount = outpost.Occupants?.Count ?? 0;
+            int storedTransportCount = outpost.StoredAnimalsAndVehicles?.Count ?? 0;
+            int storedMechCount = outpost.StoredMechanoids?.Count ?? 0;
             int frame = Time.frameCount;
             if (pawnListViewRevision == View.Revision
                 && pawnListTraitRevision == PawnRosterTraitFilter.Revision
                 && pawnListHediffRevision == PawnRosterHediffFilter.Revision
                 && pawnListRowsRevision == rowsRevision
                 && pawnListOccupantCount == occupantCount
+                && pawnListStoredTransportCount == storedTransportCount
+                && pawnListStoredMechCount == storedMechCount
                 && frame - pawnListFrame < PawnListRefreshFrames)
                 return;
             pawnListViewRevision = View.Revision;
@@ -1243,55 +1254,55 @@ namespace TSA_WorldDomination
             pawnListHediffRevision = PawnRosterHediffFilter.Revision;
             pawnListRowsRevision = rowsRevision;
             pawnListOccupantCount = occupantCount;
+            pawnListStoredTransportCount = storedTransportCount;
+            pawnListStoredMechCount = storedMechCount;
             pawnListFrame = frame;
             rosterData.Clear();
 
             visiblePawns.Clear();
-            List<Pawn> occupants = outpost.Occupants;
+            var listed = new List<Pawn>();
+            OutpostArmoryUtility.AppendArmoryListedPawns(outpost, listed);
             string pawnFilter = string.IsNullOrEmpty(pawnSearchTerm) ? null : pawnSearchTerm.ToLowerInvariant();
             bool traitFilter = PawnRosterTraitFilter.FilterApplies(ColWindow);
             bool hediffFilter = PawnRosterHediffFilter.FilterApplies(ColWindow);
             var fav = WorldComponent_PlayerPawnFavorites.Get();
-            if (occupants != null)
+            for (int i = 0; i < listed.Count; i++)
             {
-                for (int i = 0; i < occupants.Count; i++)
+                Pawn p = listed[i];
+                if (p == null) continue;
+                if (pawnFilter != null && (p.LabelShortCap ?? "").ToLowerInvariant().IndexOf(pawnFilter, StringComparison.Ordinal) < 0)
+                    continue;
+                if (pawnTypeFilter != PlayerPawnTypeFilter.All)
                 {
-                    Pawn p = occupants[i];
-                    if (p == null) continue;
-                    if (pawnFilter != null && (p.LabelShortCap ?? "").ToLowerInvariant().IndexOf(pawnFilter, StringComparison.Ordinal) < 0)
+                    PlayerPawnSortCategory cat = PlayerPawnRosterUtility.ClassifyPawn(p);
+                    if (cat != PlayerPawnRosterUtility.ToSortCategory(pawnTypeFilter))
                         continue;
-                    if (pawnTypeFilter != PlayerPawnTypeFilter.All)
-                    {
-                        PlayerPawnSortCategory cat = PlayerPawnRosterUtility.ClassifyPawn(p);
-                        if (cat != PlayerPawnRosterUtility.ToSortCategory(pawnTypeFilter))
-                            continue;
-                    }
-                    if (starFilter != OutpostPawnStarFilter.All)
-                    {
-                        bool starred = fav?.IsStarred(p.ThingID) == true;
-                        if (starFilter == OutpostPawnStarFilter.Starred && !starred) continue;
-                        if (starFilter == OutpostPawnStarFilter.NotStarred && starred) continue;
-                    }
-                    if (joinedFilter != PawnRosterJoinedFilter.All
-                        && !PlayerPawnRosterUtility.PassesJoinedFilter(
-                            PlayerPawnRosterUtility.GetDaysSinceJoin(p), joinedFilter))
-                        continue;
-                    if (traitFilter && !PawnRosterTraitFilter.Matches(p)) continue;
-                    if (hediffFilter && !PawnRosterHediffFilter.Matches(p)) continue;
-                    if (ColOn(PawnRosterColumnIds.Xenotype)
-                        && !xenotypeFilter.NullOrEmpty()
-                        && !PawnRosterTraitFilter.MatchesXenotype(p, xenotypeFilter))
-                        continue;
-                    if (ColOn(PawnRosterColumnIds.Psycasts)
-                        && !psycastFilter.NullOrEmpty()
-                        && !PawnRosterTraitFilter.MatchesPsycast(p, psycastFilter))
-                        continue;
-                    if (ColOn(PawnRosterColumnIds.Ideology)
-                        && !ideoFilter.NullOrEmpty()
-                        && !PawnRosterTraitFilter.MatchesIdeology(p, ideoFilter))
-                        continue;
-                    visiblePawns.Add(p);
                 }
+                if (starFilter != OutpostPawnStarFilter.All)
+                {
+                    bool starred = fav?.IsStarred(p.ThingID) == true;
+                    if (starFilter == OutpostPawnStarFilter.Starred && !starred) continue;
+                    if (starFilter == OutpostPawnStarFilter.NotStarred && starred) continue;
+                }
+                if (joinedFilter != PawnRosterJoinedFilter.All
+                    && !PlayerPawnRosterUtility.PassesJoinedFilter(
+                        PlayerPawnRosterUtility.GetDaysSinceJoin(p), joinedFilter))
+                    continue;
+                if (traitFilter && !PawnRosterTraitFilter.Matches(p)) continue;
+                if (hediffFilter && !PawnRosterHediffFilter.Matches(p)) continue;
+                if (ColOn(PawnRosterColumnIds.Xenotype)
+                    && !xenotypeFilter.NullOrEmpty()
+                    && !PawnRosterTraitFilter.MatchesXenotype(p, xenotypeFilter))
+                    continue;
+                if (ColOn(PawnRosterColumnIds.Psycasts)
+                    && !psycastFilter.NullOrEmpty()
+                    && !PawnRosterTraitFilter.MatchesPsycast(p, psycastFilter))
+                    continue;
+                if (ColOn(PawnRosterColumnIds.Ideology)
+                    && !ideoFilter.NullOrEmpty()
+                    && !PawnRosterTraitFilter.MatchesIdeology(p, ideoFilter))
+                    continue;
+                visiblePawns.Add(p);
             }
 
             if (PlayerPawnRosterUtility.ChainNeedsMultiSort(Sort, ColWindow))
@@ -1622,16 +1633,27 @@ namespace TSA_WorldDomination
             float gearBlockH = GearIconSize * 2f + GearIconGap;
             float gearY = rect.y + Mathf.Max(0f, (rowH - gearBlockH) * 0.5f);
 
+            bool equipTarget = OutpostArmoryUtility.IsArmoryEquipTarget(pawn);
             Rect apparelCol = new Rect(x, rect.y, apparelW, rowH);
-            RegisterPawnDrop(apparelCol, pawn, toInventory: false);
-            DrawGearSectionBorder(x, rect.y, rowH);
-            DrawPawnSectionIcons(pawn, new Rect(x + GearSectionInnerPad, gearY, apparelW - GearSectionGap - GearSectionInnerPad, gearBlockH), PawnGearSection.EquippedApparel);
+            if (equipTarget)
+            {
+                RegisterPawnDrop(apparelCol, pawn, toInventory: false);
+                DrawGearSectionBorder(x, rect.y, rowH);
+                DrawPawnSectionIcons(pawn, new Rect(x + GearSectionInnerPad, gearY, apparelW - GearSectionGap - GearSectionInnerPad, gearBlockH), PawnGearSection.EquippedApparel);
+            }
+            else
+                DrawGearSectionBorder(x, rect.y, rowH);
             x += apparelW;
 
             Rect weaponsCol = new Rect(x, rect.y, weaponsW, rowH);
-            RegisterPawnDrop(weaponsCol, pawn, toInventory: false);
-            DrawGearSectionBorder(x, rect.y, rowH);
-            DrawPawnSectionIcons(pawn, new Rect(x + GearSectionInnerPad, gearY, weaponsW - GearSectionGap - GearSectionInnerPad, gearBlockH), PawnGearSection.EquippedWeapons);
+            if (equipTarget)
+            {
+                RegisterPawnDrop(weaponsCol, pawn, toInventory: false);
+                DrawGearSectionBorder(x, rect.y, rowH);
+                DrawPawnSectionIcons(pawn, new Rect(x + GearSectionInnerPad, gearY, weaponsW - GearSectionGap - GearSectionInnerPad, gearBlockH), PawnGearSection.EquippedWeapons);
+            }
+            else
+                DrawGearSectionBorder(x, rect.y, rowH);
             x += weaponsW;
 
             Rect consumablesCol = new Rect(x, rect.y, consumablesW, rowH);
@@ -2286,7 +2308,7 @@ namespace TSA_WorldDomination
         private void AssignFoodToPawns()
         {
             int moved = OutpostArmoryUtility.TryAutoAssignFoodFromStore(
-                outpost, out string fail, CollectCheckedPawns());
+                outpost, out string fail, CollectCheckedEquipTargets());
             if (!string.IsNullOrEmpty(fail))
             {
                 pendingMessage = fail;
@@ -2324,7 +2346,7 @@ namespace TSA_WorldDomination
         private void AutoAssignAmmo()
         {
             int units = OutpostArmoryUtility.TryAutoAssignAmmoFromStore(
-                outpost, out string fail, CollectCheckedPawns());
+                outpost, out string fail, CollectCheckedEquipTargets());
             if (!string.IsNullOrEmpty(fail))
             {
                 pendingMessage = fail;
@@ -2502,10 +2524,10 @@ namespace TSA_WorldDomination
             return n;
         }
 
-        /// <summary>Checked occupants who can receive Auto Assign Drugs (not teetotalers).</summary>
+        /// <summary>Checked equip targets who can receive Auto Assign Drugs (not teetotalers).</summary>
         private int CountCheckedDrugRecipients()
         {
-            List<Pawn> pawns = CollectCheckedPawns();
+            List<Pawn> pawns = CollectCheckedEquipTargets();
             int n = 0;
             for (int i = 0; i < pawns.Count; i++)
             {
@@ -2513,6 +2535,18 @@ namespace TSA_WorldDomination
                 if (p == null || p.Destroyed || p.Dead) continue;
                 if (OutpostArmoryUtility.IsTeetotaler(p)) continue;
                 n++;
+            }
+            return n;
+        }
+
+        private int CountCheckedEquipTargets()
+        {
+            int n = 0;
+            for (int i = 0; i < visiblePawns.Count; i++)
+            {
+                Pawn p = visiblePawns[i];
+                if (p == null || !checkedPawnIds.Contains(p.thingIDNumber)) continue;
+                if (OutpostArmoryUtility.IsArmoryEquipTarget(p)) n++;
             }
             return n;
         }
@@ -2541,18 +2575,29 @@ namespace TSA_WorldDomination
                 if (!checkedPawnIds.Contains(p.thingIDNumber)) continue;
                 list.Add(p);
             }
-            // Also include checked occupants not in the filtered visible list.
-            List<Pawn> occ = outpost?.Occupants;
-            if (occ != null)
+            // Also include checked Armory-listed pawns not in the filtered visible list.
+            var listed = new List<Pawn>();
+            OutpostArmoryUtility.AppendArmoryListedPawns(outpost, listed);
+            for (int i = 0; i < listed.Count; i++)
             {
-                for (int i = 0; i < occ.Count; i++)
-                {
-                    Pawn p = occ[i];
-                    if (p == null || p.Destroyed) continue;
-                    if (!checkedPawnIds.Contains(p.thingIDNumber)) continue;
-                    if (list.Contains(p)) continue;
+                Pawn p = listed[i];
+                if (p == null || p.Destroyed) continue;
+                if (!checkedPawnIds.Contains(p.thingIDNumber)) continue;
+                if (list.Contains(p)) continue;
+                list.Add(p);
+            }
+            return list;
+        }
+
+        private List<Pawn> CollectCheckedEquipTargets()
+        {
+            List<Pawn> all = CollectCheckedPawns();
+            var list = new List<Pawn>();
+            for (int i = 0; i < all.Count; i++)
+            {
+                Pawn p = all[i];
+                if (OutpostArmoryUtility.IsArmoryEquipTarget(p))
                     list.Add(p);
-                }
             }
             return list;
         }
@@ -2586,7 +2631,7 @@ namespace TSA_WorldDomination
 
         private void BulkStripWeapons()
         {
-            int moved = OutpostArmoryUtility.TryQuickStripWeapons(outpost, CollectCheckedPawns(), out string fail);
+            int moved = OutpostArmoryUtility.TryQuickStripWeapons(outpost, CollectCheckedEquipTargets(), out string fail);
             ReportBulkStrip(moved, fail,
                 "TSA_WD_Armory_Equipment_StripWeaponsDone",
                 "TSA_WD_Armory_Equipment_StripWeaponsNone",
@@ -2595,7 +2640,7 @@ namespace TSA_WorldDomination
 
         private void BulkStripArmor()
         {
-            int moved = OutpostArmoryUtility.TryQuickStripArmor(outpost, CollectCheckedPawns(), out string fail);
+            int moved = OutpostArmoryUtility.TryQuickStripArmor(outpost, CollectCheckedEquipTargets(), out string fail);
             ReportBulkStrip(moved, fail,
                 "TSA_WD_Armory_Equipment_StripArmorDone",
                 "TSA_WD_Armory_Equipment_StripArmorNone",
@@ -2604,7 +2649,7 @@ namespace TSA_WorldDomination
 
         private void BulkStripApparel()
         {
-            int moved = OutpostArmoryUtility.TryQuickStripApparel(outpost, CollectCheckedPawns(), out string fail);
+            int moved = OutpostArmoryUtility.TryQuickStripApparel(outpost, CollectCheckedEquipTargets(), out string fail);
             ReportBulkStrip(moved, fail,
                 "TSA_WD_Armory_Equipment_StripApparelDone",
                 "TSA_WD_Armory_Equipment_StripApparelNone",
@@ -2637,7 +2682,7 @@ namespace TSA_WorldDomination
             var uniques = new List<Thing>();
             CollectCheckedQuickEquipGear(stock, uniques);
             int total = OutpostArmoryUtility.TryQuickEquip(
-                outpost, CollectCheckedPawns(), stock, uniques,
+                outpost, CollectCheckedEquipTargets(), stock, uniques,
                 out int weapons, out int apparel, out string fail);
             if (!string.IsNullOrEmpty(fail))
             {
@@ -2662,7 +2707,7 @@ namespace TSA_WorldDomination
         private void BulkAutoAssignDrugs()
         {
             int moved = OutpostArmoryUtility.TryAutoAssignDrugsFromStore(
-                outpost, out string fail, CollectCheckedPawns());
+                outpost, out string fail, CollectCheckedEquipTargets());
             if (!string.IsNullOrEmpty(fail))
             {
                 Messages.Message(fail, outpost, MessageTypeDefOf.RejectInput, false);
@@ -2718,10 +2763,12 @@ namespace TSA_WorldDomination
             var armory = Armory;
             if (armory != null)
             {
-                List<ThingDefCountClass> stock = armory.ArmoryRows();
+                // Full Stock (gear + materials); type filter still sorts via IsArmoryItem buckets / Other.
+                List<ThingDefCountClass> stock = armory.Stock;
                 for (int i = 0; i < stock.Count; i++)
                 {
                     ThingDefCountClass e = stock[i];
+                    if (e?.thingDef == null || e.count <= 0) continue;
                     ArmoryTypeFilter kind = OutpostArmoryUtility.TypeFilterFor(e.thingDef);
                     bool hasQuality = e.thingDef.HasComp(typeof(CompQuality));
                     storeRows.Add(new StoreRow
@@ -2761,11 +2808,11 @@ namespace TSA_WorldDomination
 
             PruneBulkSelections();
 
-            List<Pawn> occupants = outpost.Occupants;
-            if (occupants == null) return;
-            for (int i = 0; i < occupants.Count; i++)
+            var listed = new List<Pawn>();
+            OutpostArmoryUtility.AppendArmoryListedPawns(outpost, listed);
+            for (int i = 0; i < listed.Count; i++)
             {
-                Pawn p = occupants[i];
+                Pawn p = listed[i];
                 if (p == null) continue;
                 pawnInventory[p] = VirtualPawnSummary.SnapshotPawnInventory(p);
                 pawnCarryLoad[p] = BuildCarryLoad(p);
@@ -2790,15 +2837,13 @@ namespace TSA_WorldDomination
 
             if (checkedPawnIds.Count == 0) return;
             var keepPawns = new HashSet<int>();
-            List<Pawn> occ = outpost?.Occupants;
-            if (occ != null)
+            var listed = new List<Pawn>();
+            OutpostArmoryUtility.AppendArmoryListedPawns(outpost, listed);
+            for (int i = 0; i < listed.Count; i++)
             {
-                for (int i = 0; i < occ.Count; i++)
-                {
-                    Pawn p = occ[i];
-                    if (p != null && checkedPawnIds.Contains(p.thingIDNumber))
-                        keepPawns.Add(p.thingIDNumber);
-                }
+                Pawn p = listed[i];
+                if (p != null && checkedPawnIds.Contains(p.thingIDNumber))
+                    keepPawns.Add(p.thingIDNumber);
             }
             checkedPawnIds.Clear();
             foreach (int id in keepPawns)

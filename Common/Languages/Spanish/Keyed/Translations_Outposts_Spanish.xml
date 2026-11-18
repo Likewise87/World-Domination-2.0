@@ -1417,8 +1417,9 @@
   <TSA_WD_Armory_CargoLost>Un envío con destino a {0} fue destruido en ruta. Su carga se ha perdido:</TSA_WD_Armory_CargoLost>
   <TSA_WD_Armory_UpgradeLostLabel>Envío de mejora perdido</TSA_WD_Armory_UpgradeLostLabel>
   <TSA_WD_Armory_UpgradeLost>El envío de {0} con destino a {1} fue destruido en ruta. Los materiales se han perdido y la mejora se puede volver a encargar.</TSA_WD_Armory_UpgradeLost>
-  <TSA_WD_Armory_HdrStores>Armería</TSA_WD_Armory_HdrStores>
-  <TSA_WD_Armory_HdrStoresTip>Lo que esta avanzada guarda en su armería, por categoría.</TSA_WD_Armory_HdrStoresTip>
+  <TSA_WD_Armory_HdrStores>Almacén</TSA_WD_Armory_HdrStores>
+  <TSA_WD_Armory_HdrStoresTip>Equipo y materiales guardados en esta avanzada. Se usan para mejoras, construcciones del mundo, compras y envíos de caravanas virtuales.</TSA_WD_Armory_HdrStoresTip>
+  <TSA_WD_Armory_StoresMoreTypes>y {0} tipos de objeto más</TSA_WD_Armory_StoresMoreTypes>
   <TSA_WD_Armory_StoresMore>+{0} más</TSA_WD_Armory_StoresMore>
   <TSA_WD_Armory_StoresTooltip>{0} objeto(s) almacenado(s).</TSA_WD_Armory_StoresTooltip>
   <TSA_WD_Armory_HdrItem>Objeto</TSA_WD_Armory_HdrItem>
@@ -1817,6 +1818,9 @@
 
   <!-- Pestaña Estadísticas de avanzadilla -->
   <TSA_WD_OutpostStats_TabLabel>Estadísticas</TSA_WD_OutpostStats_TabLabel>
+  <TSA_WD_StatsPane_Main>Estadísticas principales</TSA_WD_StatsPane_Main>
+  <TSA_WD_StatsPane_Intel>Intel</TSA_WD_StatsPane_Intel>
+  <TSA_WD_StatsPane_MainEmptyAt>Los detalles de combate de esta torreta AT están en la inspección del mundo. Usa el panel Intel para el descubrimiento.</TSA_WD_StatsPane_MainEmptyAt>
   <TSA_WD_OutpostStats_Refresh>Actualizar</TSA_WD_OutpostStats_Refresh>
   <TSA_WD_OutpostStats_RefreshTooltip>Reconstruye ahora la vista de estadísticas de esta pestaña. La mayoría de valores se actualizan solos al cambiar algo; úsalo si los números parecen desactualizados (por ejemplo tras instalar una mejora).</TSA_WD_OutpostStats_RefreshTooltip>
   <TSA_WD_OutpostStats_SearchPlaceholder>Filtrar por nombre…</TSA_WD_OutpostStats_SearchPlaceholder>

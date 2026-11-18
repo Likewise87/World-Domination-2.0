@@ -551,7 +551,8 @@
   <TSA_WD_ShowUpdatePopups>Show mod update popup</TSA_WD_ShowUpdatePopups>
   <TSA_WD_ShowUpdatePopups_Tooltip>When enabled, a small window appears once after you load a map when this mod has been updated to a new version.</TSA_WD_ShowUpdatePopups_Tooltip>
   <TSA_WD_WorldMapOverlayHoldKey>World map overlay hold key</TSA_WD_WorldMapOverlayHoldKey>
-  <TSA_WD_WorldMapOverlayHoldKey_Tooltip>Hold this key and press A for Your Pawns, X for the WD main tab, S for World Stats, D for Diplomacy, Y for Prisoners, F for Outpost Overview, G for Active Travelers, or V for All Gear. On the world map, also press 1–7 to toggle WD overlays (blocked tiles, fertility, animals, fish, mining, movement, pollution), or Q/W/E/R/T for Highlight Relationships, Highlight Player, settlement tier labels, road blocks and traps, and outpost labels.</TSA_WD_WorldMapOverlayHoldKey_Tooltip>
+  <TSA_WD_WorldMapOverlayHoldKey_Tooltip>Hold this key and press A for Your Pawns, X for the WD main tab, S for World Stats, D for Diplomacy, Y for Prisoners, F for Outpost Overview, G for Active Travelers, or V for All Gear. On the world map, also press 1–7 to toggle WD overlays (blocked tiles, fertility, animals, fish, mining, movement, pollution), or Q/W/E/R/T for Highlight Relationships, Highlight Player, settlement tier labels, road blocks and traps, and outpost labels. Choose None to unbind all of these chords.</TSA_WD_WorldMapOverlayHoldKey_Tooltip>
+  <TSA_WD_KeyUnbound>None</TSA_WD_KeyUnbound>
   <TSA_WD_VerboseLogging>Verbose logging</TSA_WD_VerboseLogging>
   <TSA_WD_VerboseLogging_Tooltip>When enabled, the mod writes extra correlation lines to the log ([WD] and [WD Perf]), e.g. food accounting, pathing, threat updates, and World Setup settlement recreation. Use for diagnosing stutter or placement issues.</TSA_WD_VerboseLogging_Tooltip>
   <TSA_WD_UpdatePopup_Open>Open</TSA_WD_UpdatePopup_Open>

@@ -3729,8 +3729,9 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref showUpdatePopups, "showUpdatePopups", DefShowUpdatePopups);
             Scribe_Values.Look(ref verboseLogging, "verboseLogging", DefVerboseLogging);
             Scribe_Values.Look(ref worldMapOverlayHoldKey, "worldMapOverlayHoldKey", DefWorldMapOverlayHoldKey);
+            // KeyCode.None = unbound (allowed). Legacy digit holds remap to default Left Alt.
             if (Scribe.mode == LoadSaveMode.LoadingVars
-                && (worldMapOverlayHoldKey == KeyCode.None || worldMapOverlayHoldKey == KeyCode.Alpha1
+                && (worldMapOverlayHoldKey == KeyCode.Alpha1
                     || worldMapOverlayHoldKey == KeyCode.Alpha2 || worldMapOverlayHoldKey == KeyCode.Alpha3
                     || worldMapOverlayHoldKey == KeyCode.Alpha4))
                 worldMapOverlayHoldKey = DefWorldMapOverlayHoldKey;

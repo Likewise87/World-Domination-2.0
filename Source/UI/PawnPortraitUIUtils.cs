@@ -9,6 +9,9 @@ namespace TSA_WorldDomination
     /// Portrait lookup for roster / outpost pawn lists.
     /// Do not cache <see cref="PortraitsCache.Get"/> results in a Dictionary: those textures are pooled
     /// RenderTextures and get reused for other pawns, which mixes faces across rows.
+    /// Humanlikes and non-humanlikes (animals, mechs) both use PortraitsCache so per-pawn colors apply;
+    /// uiIcon is fallback only. Non-humanlikes are never added to <see cref="FailedPortraitKeys"/> —
+    /// that set is session-sticky and would pin cold stored animals to uncolored icons.
     /// </summary>
     public static class PawnPortraitUIUtils
     {
@@ -41,14 +44,20 @@ namespace TSA_WorldDomination
         public static Texture? GetPortrait(Pawn pawn, Vector2 size, string? failKey = null)
         {
             if (pawn == null || pawn.Destroyed) return null;
-            if (pawn.RaceProps?.Humanlike != true)
-                return pawn.def?.uiIcon ?? pawn.kindDef?.race?.uiIcon;
 
-            if (string.IsNullOrEmpty(failKey))
-                failKey = BuildCacheKey(pawn, VirtualPawnSummary.FromPawn(pawn));
+            // VF vehicles have no usable PortraitsCache face; use VehicleDef / UIIconOverride (same as Outpost Pawns tab).
+            if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(pawn))
+                return VehicleFrameworkOutpostDissolveCompat.TryGetVehicleIcon(pawn) ?? GetFallbackIcon(pawn);
 
-            if (FailedPortraitKeys.Contains(failKey))
-                return GetFallbackIcon(pawn);
+            bool humanlike = pawn.RaceProps?.Humanlike == true;
+            if (humanlike)
+            {
+                if (string.IsNullOrEmpty(failKey))
+                    failKey = BuildCacheKey(pawn, VirtualPawnSummary.FromPawn(pawn));
+
+                if (FailedPortraitKeys.Contains(failKey))
+                    return GetFallbackIcon(pawn);
+            }
 
             EnsurePawnPortraitGraphics(pawn);
 
@@ -59,7 +68,9 @@ namespace TSA_WorldDomination
             if (tex != null)
                 return tex;
 
-            FailedPortraitKeys.Add(failKey);
+            // Only humanlikes join the sticky fail set; animals/mechs retry next frame.
+            if (humanlike && !string.IsNullOrEmpty(failKey))
+                FailedPortraitKeys.Add(failKey);
             return GetFallbackIcon(pawn);
         }
 

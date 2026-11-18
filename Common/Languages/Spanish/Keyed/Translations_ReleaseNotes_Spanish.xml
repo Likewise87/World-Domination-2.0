@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_74_Title>Correcciones y calidad de vida</TSA_WD_Update_2_3_74_Title>
+  <TSA_WD_Update_2_3_74_Body><![CDATA[
+<size=16><b>2.3.74 - Correcciones y calidad de vida</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 18 de noviembre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Nueva función: cualquier avanzada puede guardar cualquier objeto. Así también puedes quitar o añadir objetos a peones en la pestaña Armamento. Esa pestaña ahora también lista animales, mecanoides y vehículos de Vehicles Expanded, porque pueden llevar objetos que quieras descargar (o cargar).\n
+• Corrección: el código ya permitía mover prisioneros de avanzada a avanzada por cápsula sin escolta de peones normales, pero la interfaz no lo ofrecía. Corregido.\n
+• Corrección: el atajo de teclado (por defecto Alt izquierdo) para acciones de WD ahora se puede desasignar por completo. Otras teclas como Mayús derecho también funcionan bien.\n
+• Corrección: los retratos de animales deberían colorearse bien en todas las ventanas de WD.\n
+• La mayoría de esto se pidió o reportó por Discord. Únete al servidor.\n
+]]></TSA_WD_Update_2_3_74_Body>
   <TSA_WD_Update_2_3_73_Title>Ver el mapa mundial como facción y correcciones</TSA_WD_Update_2_3_73_Title>
   <TSA_WD_Update_2_3_73_Body><![CDATA[
 <size=16><b>2.3.73 - Ver el mapa mundial como facción y correcciones</b></size>\n

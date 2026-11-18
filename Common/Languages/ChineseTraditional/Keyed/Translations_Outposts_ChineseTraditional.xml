@@ -2820,10 +2820,12 @@
   <TSA_WD_Armory_UpgradeLostLabel>升級貨物遺失</TSA_WD_Armory_UpgradeLostLabel>
   <!-- EN: The {0} shipment bound for {1} was destroyed in transit. The materials are gone and the upgrade can be ordered again. -->
   <TSA_WD_Armory_UpgradeLost>運往{1}的{0}貨物在途中被摧毀。材料已損失，可以重新訂購該升級。</TSA_WD_Armory_UpgradeLost>
-  <!-- EN: Armory -->
-  <TSA_WD_Armory_HdrStores>軍械庫</TSA_WD_Armory_HdrStores>
-  <!-- EN: What this outpost holds in its armory, by category. -->
-  <TSA_WD_Armory_HdrStoresTip>此哨站軍械庫中依類別存放的物品。</TSA_WD_Armory_HdrStoresTip>
+  <!-- EN: Stores -->
+  <TSA_WD_Armory_HdrStores>庫存</TSA_WD_Armory_HdrStores>
+  <!-- EN: Gear and materials stored at this outpost. Used for upgrades, world builds, buys, and virtual caravan sends. -->
+  <TSA_WD_Armory_HdrStoresTip>此哨站存放的裝備與材料。用於升級、世界建造、購買與虛擬商隊運送。</TSA_WD_Armory_HdrStoresTip>
+  <!-- EN: and {0} more item types -->
+  <TSA_WD_Armory_StoresMoreTypes>以及另外 {0} 種物品</TSA_WD_Armory_StoresMoreTypes>
   <!-- EN: +{0} more -->
   <TSA_WD_Armory_StoresMore>+另外{0}項</TSA_WD_Armory_StoresMore>
   <!-- EN: {0} item(s) stored. -->
@@ -3661,6 +3663,9 @@
   <TSA_WD_Academy_SelectedSkill>已選：{0}</TSA_WD_Academy_SelectedSkill>
   <!-- EN: Stats -->
   <TSA_WD_OutpostStats_TabLabel>統計</TSA_WD_OutpostStats_TabLabel>
+  <TSA_WD_StatsPane_Main>主要統計</TSA_WD_StatsPane_Main>
+  <TSA_WD_StatsPane_Intel>情報</TSA_WD_StatsPane_Intel>
+  <TSA_WD_StatsPane_MainEmptyAt>此反坦克炮塔的戰鬥細節見世界檢視文字。請使用情報頁查看發現情況。</TSA_WD_StatsPane_MainEmptyAt>
   <!-- EN: Refresh -->
   <TSA_WD_OutpostStats_Refresh>重新整理</TSA_WD_OutpostStats_Refresh>
   <!-- EN: Rebuild this tab's stats display now. Most values update automatically when something changes; use this if the numbers look stale (for example after installing an upgrade). -->

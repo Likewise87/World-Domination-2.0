@@ -7,37 +7,27 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Colony map + all warehouse stock for payments (same pool as outpost upgrades).
+    /// Colony map + all outpost Stock for payments (same pool as outpost upgrades).
     /// Used by remote establish send and can be reused by upgrade purchase.
     /// </summary>
     public static class ColonyWarehouseStockUtility
     {
-        private static int warehouseCacheTick = -1;
-        private static List<WorldObject_WD_Outpost> warehouseCache;
+        private static int storeCacheTick = -1;
+        private static List<WorldObject_WD_Outpost> storeCache;
 
         public static Map GetColonyMap() => Find.AnyPlayerHomeMap;
 
-        /// <summary>All player warehouse outposts with a warehouse comp.</summary>
+        /// <summary>All player outposts with <see cref="CompOutpostArmory"/> (cached per tick).</summary>
         public static List<WorldObject_WD_Outpost> GetAllWarehouses()
         {
             int t = Find.TickManager?.TicksGame ?? 0;
-            if (warehouseCache != null && t == warehouseCacheTick)
-                return warehouseCache;
+            if (storeCache != null && t == storeCacheTick)
+                return storeCache;
 
-            var result = new List<WorldObject_WD_Outpost>();
-            if (Find.WorldObjects != null)
-            {
-                var all = Find.WorldObjects.AllWorldObjects;
-                for (int i = 0; i < all.Count; i++)
-                {
-                    if (!(all[i] is WorldObject_WD_Outpost wo) || !Outpost_Warehouse_Delivery.IsWarehouseOutpost(wo)) continue;
-                    if (CompOutpostWarehouse.Get(wo) == null) continue;
-                    result.Add(wo);
-                }
-            }
-            warehouseCache = result;
-            warehouseCacheTick = t;
-            return result;
+            // Same pool as upgrades / world build.
+            storeCache = ColonyWorldBuildMaterials.GetContributingWarehouses();
+            storeCacheTick = t;
+            return storeCache;
         }
 
         public static int CountOnMap(Map map, ThingDef def)
@@ -56,8 +46,8 @@ namespace TSA_WorldDomination
             int total = 0;
             for (int i = 0; i < warehouses.Count; i++)
             {
-                var comp = CompOutpostWarehouse.Get(warehouses[i]);
-                if (comp != null) total += comp.GetStoredCount(def);
+                CompOutpostArmory armory = CompOutpostArmory.Get(warehouses[i]);
+                if (armory != null) total += armory.GetStockCountOfDef(def);
             }
             return total;
         }
@@ -144,10 +134,9 @@ namespace TSA_WorldDomination
                 {
                     for (int w = 0; w < warehouses.Count && remaining > 0; w++)
                     {
-                        var comp = CompOutpostWarehouse.Get(warehouses[w]);
-                        if (comp == null) continue;
-                        int took = comp.WithdrawUpTo(c.thingDef, remaining);
-                        remaining -= took;
+                        CompOutpostArmory armory = CompOutpostArmory.Get(warehouses[w]);
+                        if (armory == null) continue;
+                        remaining -= armory.WithdrawUpTo(c.thingDef, remaining);
                     }
                 }
 
@@ -199,9 +188,9 @@ namespace TSA_WorldDomination
             {
                 for (int w = 0; w < warehouses.Count && remaining > 0; w++)
                 {
-                    var comp = CompOutpostWarehouse.Get(warehouses[w]);
-                    if (comp == null) continue;
-                    remaining -= comp.WithdrawUpTo(def, remaining);
+                    CompOutpostArmory armory = CompOutpostArmory.Get(warehouses[w]);
+                    if (armory == null) continue;
+                    remaining -= armory.WithdrawUpTo(def, remaining);
                 }
             }
 

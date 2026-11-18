@@ -199,6 +199,56 @@ namespace TSA_WorldDomination
             return amount - remaining;
         }
 
+        /// <summary>Removes up to <paramref name="amount"/> of <paramref name="def"/> (any stuff/quality).</summary>
+        public int WithdrawUpTo(ThingDef def, int amount)
+        {
+            if (def == null || amount <= 0) return 0;
+            List<ThingDefCountClass> rows = Stock;
+            int remaining = amount;
+            for (int i = 0; i < rows.Count && remaining > 0; i++)
+            {
+                var e = rows[i];
+                if (e?.thingDef != def || e.count <= 0) continue;
+                int take = e.count < remaining ? e.count : remaining;
+                e.count -= take;
+                remaining -= take;
+            }
+            CompOutpostWarehouse.PruneEmpty(rows);
+            return amount - remaining;
+        }
+
+        /// <summary>Total stone-block defs (defName starting with Blocks) in Stock.</summary>
+        public int GetStoredStoneBlocksCount()
+        {
+            List<ThingDefCountClass> rows = Stock;
+            int total = 0;
+            for (int i = 0; i < rows.Count; i++)
+            {
+                var e = rows[i];
+                if (e?.thingDef?.defName != null && e.thingDef.defName.StartsWith("Blocks") && e.count > 0)
+                    total += e.count;
+            }
+            return total;
+        }
+
+        /// <summary>Removes up to <paramref name="amount"/> of any stone-block defs.</summary>
+        public int WithdrawStoneBlocksUpTo(int amount)
+        {
+            if (amount <= 0) return 0;
+            List<ThingDefCountClass> rows = Stock;
+            int remaining = amount;
+            for (int i = 0; i < rows.Count && remaining > 0; i++)
+            {
+                var e = rows[i];
+                if (e?.thingDef?.defName == null || !e.thingDef.defName.StartsWith("Blocks") || e.count <= 0) continue;
+                int take = e.count < remaining ? e.count : remaining;
+                e.count -= take;
+                remaining -= take;
+            }
+            CompOutpostWarehouse.PruneEmpty(rows);
+            return amount - remaining;
+        }
+
         /// <summary>
         /// Wipes this comp's own rows and the uniques. Never touches the shared warehouse list, which
         /// belongs to <see cref="CompOutpostWarehouse"/>. Safe to call more than once.

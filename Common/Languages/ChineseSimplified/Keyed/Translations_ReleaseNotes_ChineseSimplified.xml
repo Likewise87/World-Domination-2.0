@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- 世界霸权版本更新说明 -->
+  <TSA_WD_Update_2_3_74_Title>修复与体验改进</TSA_WD_Update_2_3_74_Title>
+  <TSA_WD_Update_2_3_74_Body><![CDATA[
+<size=16><b>2.3.74 - 修复与体验改进</b></size>\n
+<color=#00FFFFFF>发布日期：2026年11月18日</color>\n
+------------------------------\n
+!!!改动仅适用于 1.7 版本!!!\n
+• 新功能：任意前哨均可存放任意物品。因此也可在军械库标签为小人卸下或装入物品。军械库现也会列出动物、机械体以及 Vehicles Expanded 载具，因为它们可能携带你想卸下（或装入）的物品。\n
+• 修复：代码本已支持囚犯在无普通小人护送时用空投在前哨间转移，但界面此前无法操作。现已修复。\n
+• 修复：WD 行动热键开关（默认左 Alt）现可完全取消绑定；右 Shift 等其他按键也可正常使用。\n
+• 修复：动物肖像应在所有 WD 窗口中正确着色。\n
+• 以上多数来自 Discord 反馈或请求。欢迎加入服务器。\n
+]]></TSA_WD_Update_2_3_74_Body>
   <TSA_WD_Update_2_3_73_Title>以派系视角查看世界地图与修复</TSA_WD_Update_2_3_73_Title>
   <TSA_WD_Update_2_3_73_Body><![CDATA[
 <size=16><b>2.3.73 - 以派系视角查看世界地图与修复</b></size>\n

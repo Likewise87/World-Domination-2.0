@@ -422,7 +422,7 @@ namespace TSA_WorldDomination
 
             Thing content = thing.GetInnerIfMinified() ?? thing;
             if (content?.def == null || content.Destroyed) return false;
-            if (!IsArmoryItem(content.def)) return false;
+            if (CompOutpostWarehouse.IsUnusableMinifiedDef(content.def)) return false;
 
             try
             {
@@ -1048,7 +1048,8 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
-        /// Overview column text: the two largest buckets inline, the full breakdown in the tooltip.
+        /// Overview column: up to three item-type lines by stack count, then "and N more item types".
+        /// Full type list in the tooltip.
         /// </summary>
         public static void FormatStoresSummary(WorldObject_WD_Outpost outpost, out string label, out string tooltip, out int total)
         {
@@ -1056,26 +1057,57 @@ namespace TSA_WorldDomination
             tooltip = null;
             total = 0;
 
-            Dictionary<ArmoryBucket, int> summary = GetStoresSummary(outpost);
-            if (summary.Count == 0) return;
+            var byDef = new Dictionary<ThingDef, int>();
+            CompOutpostArmory armory = CompOutpostArmory.Get(outpost);
+            if (armory != null)
+            {
+                List<ThingDefCountClass> stock = armory.Stock;
+                for (int i = 0; i < stock.Count; i++)
+                {
+                    ThingDefCountClass e = stock[i];
+                    if (e?.thingDef == null || e.count <= 0) continue;
+                    byDef.TryGetValue(e.thingDef, out int cur);
+                    byDef[e.thingDef] = cur + e.count;
+                }
 
-            var ordered = new List<KeyValuePair<ArmoryBucket, int>>(summary);
-            ordered.Sort((a, b) => b.Value.CompareTo(a.Value));
+                ThingOwner<Thing> uniques = armory.Uniques;
+                if (uniques != null)
+                {
+                    for (int i = 0; i < uniques.Count; i++)
+                    {
+                        Thing t = uniques[i];
+                        if (t?.def == null) continue;
+                        int n = t.stackCount > 0 ? t.stackCount : 1;
+                        byDef.TryGetValue(t.def, out int cur);
+                        byDef[t.def] = cur + n;
+                    }
+                }
+            }
 
-            var inline = new List<string>();
+            if (byDef.Count == 0) return;
+
+            var ordered = new List<KeyValuePair<ThingDef, int>>(byDef);
+            ordered.Sort((a, b) =>
+            {
+                int cmp = b.Value.CompareTo(a.Value);
+                if (cmp != 0) return cmp;
+                return string.CompareOrdinal(a.Key?.label, b.Key?.label);
+            });
+
+            var lines = new List<string>();
             var full = new List<string>();
             for (int i = 0; i < ordered.Count; i++)
             {
                 total += ordered[i].Value;
-                string part = ordered[i].Value.ToString() + " " + BucketLabel(ordered[i].Key);
+                string part = ordered[i].Value.ToString() + " " + ordered[i].Key.LabelCap;
                 full.Add(part);
-                if (i < 2) inline.Add(part);
+                if (i < 3) lines.Add(part);
             }
             if (total <= 0) return;
 
-            label = string.Join(", ", inline);
-            if (ordered.Count > 2)
-                label += " " + "TSA_WD_Armory_StoresMore".Translate((ordered.Count - 2).ToString());
+            label = string.Join("\n", lines);
+            if (ordered.Count > 3)
+                label += "\n" + "TSA_WD_Armory_StoresMoreTypes".Translate((ordered.Count - 3).ToString());
             tooltip = "TSA_WD_Armory_StoresTooltip".Translate(total.ToString()) + "\n\n" + string.Join("\n", full);
         }
 
@@ -1103,9 +1135,42 @@ namespace TSA_WorldDomination
             pawn?.story?.traits != null && pawn.story.traits.HasTrait(TraitDefOf.DrugDesire, -1);
 
         /// <summary>
+        /// Humanlikes that can wear/equip gear. Animals, vehicles, and mechanoids are inventory carriers only.
+        /// </summary>
+        public static bool IsArmoryEquipTarget(Pawn pawn)
+        {
+            if (pawn == null || pawn.Destroyed || pawn.Dead) return false;
+            if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(pawn)) return false;
+            if (pawn.RaceProps?.IsMechanoid == true) return false;
+            if (pawn.RaceProps?.Animal == true) return false;
+            return pawn.RaceProps?.Humanlike == true;
+        }
+
+        /// <summary>Append Occupants + stored animals/vehicles + stored mechanoids (no duplicates).</summary>
+        public static void AppendArmoryListedPawns(WorldObject_WD_Outpost outpost, List<Pawn> into)
+        {
+            if (outpost == null || into == null) return;
+            AppendPawnListUnique(outpost.Occupants, into);
+            AppendPawnListUnique(outpost.StoredAnimalsAndVehicles, into);
+            AppendPawnListUnique(outpost.StoredMechanoids, into);
+        }
+
+        private static void AppendPawnListUnique(List<Pawn> source, List<Pawn> into)
+        {
+            if (source == null) return;
+            for (int i = 0; i < source.Count; i++)
+            {
+                Pawn p = source[i];
+                if (p == null || p.Destroyed || p.Dead) continue;
+                if (into.Contains(p)) continue;
+                into.Add(p);
+            }
+        }
+
+        /// <summary>
         /// Moves matching inventory stacks into the armory. Snapshots first so the container is
         /// never mutated while iterating. When <paramref name="onlyPawns"/> is set, only those
-        /// pawns are scanned (otherwise every occupant).
+        /// pawns are scanned (otherwise every Armory-listed pawn including stored carriers).
         /// </summary>
         public static int StripInventoryMatching(
             WorldObject_WD_Outpost outpost,
@@ -1120,8 +1185,15 @@ namespace TSA_WorldDomination
                 return 0;
             }
             if (match == null) return 0;
-            List<Pawn> occupants = onlyPawns ?? outpost?.Occupants;
-            if (occupants == null) return 0;
+            List<Pawn> occupants;
+            if (onlyPawns != null)
+                occupants = onlyPawns;
+            else
+            {
+                occupants = new List<Pawn>();
+                AppendArmoryListedPawns(outpost, occupants);
+            }
+            if (occupants.Count == 0) return 0;
 
             var snapshot = new List<Pair<Pawn, Thing>>();
             for (int i = 0; i < occupants.Count; i++)

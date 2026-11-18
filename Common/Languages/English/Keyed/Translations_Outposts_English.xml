@@ -1510,8 +1510,9 @@
   <TSA_WD_Armory_CargoLost>A shipment bound for {0} was destroyed in transit. Its cargo is gone:</TSA_WD_Armory_CargoLost>
   <TSA_WD_Armory_UpgradeLostLabel>Upgrade shipment lost</TSA_WD_Armory_UpgradeLostLabel>
   <TSA_WD_Armory_UpgradeLost>The {0} shipment bound for {1} was destroyed in transit. The materials are gone and the upgrade can be ordered again.</TSA_WD_Armory_UpgradeLost>
-  <TSA_WD_Armory_HdrStores>Armory</TSA_WD_Armory_HdrStores>
-  <TSA_WD_Armory_HdrStoresTip>What this outpost holds in its armory, by category.</TSA_WD_Armory_HdrStoresTip>
+  <TSA_WD_Armory_HdrStores>Stores</TSA_WD_Armory_HdrStores>
+  <TSA_WD_Armory_HdrStoresTip>Gear and materials stored at this outpost. Used for upgrades, world builds, buys, and virtual caravan sends.</TSA_WD_Armory_HdrStoresTip>
+  <TSA_WD_Armory_StoresMoreTypes>and {0} more item types</TSA_WD_Armory_StoresMoreTypes>
   <TSA_WD_Armory_StoresMore>+{0} more</TSA_WD_Armory_StoresMore>
   <TSA_WD_Armory_StoresTooltip>{0} item(s) stored.</TSA_WD_Armory_StoresTooltip>
   <TSA_WD_Armory_HdrItem>Item</TSA_WD_Armory_HdrItem>
@@ -1997,6 +1998,9 @@
 
   <!-- Outpost Stats tab -->
   <TSA_WD_OutpostStats_TabLabel>Stats</TSA_WD_OutpostStats_TabLabel>
+  <TSA_WD_StatsPane_Main>Main Stats</TSA_WD_StatsPane_Main>
+  <TSA_WD_StatsPane_Intel>Intel</TSA_WD_StatsPane_Intel>
+  <TSA_WD_StatsPane_MainEmptyAt>Combat details for this AT turret are on the world inspect string. Use the Intel pane for discovery.</TSA_WD_StatsPane_MainEmptyAt>
   <TSA_WD_OutpostStats_Refresh>Refresh</TSA_WD_OutpostStats_Refresh>
   <TSA_WD_OutpostStats_RefreshTooltip>Rebuild this tab's stats display now. Most values update automatically when something changes; use this if the numbers look stale (for example after installing an upgrade).</TSA_WD_OutpostStats_RefreshTooltip>
   <TSA_WD_OutpostStats_SearchPlaceholder>Filter by name…</TSA_WD_OutpostStats_SearchPlaceholder>

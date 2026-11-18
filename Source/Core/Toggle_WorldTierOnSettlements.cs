@@ -416,7 +416,10 @@ namespace TSA_WorldDomination
         {
             if (string.IsNullOrEmpty(hotkeyLetter))
                 return tip ?? string.Empty;
-            string line = "TSA_WD_WorldMap_HotkeyLine".Translate(FormatWorldMapHoldHotkey(hotkeyLetter)).ToString();
+            string chord = FormatWorldMapHoldHotkey(hotkeyLetter);
+            if (string.IsNullOrEmpty(chord))
+                return tip ?? string.Empty;
+            string line = "TSA_WD_WorldMap_HotkeyLine".Translate(chord).ToString();
             if (string.IsNullOrEmpty(tip))
                 return line;
             return tip + "\n\n" + line;
@@ -426,6 +429,8 @@ namespace TSA_WorldDomination
         {
             KeyCode hold = WorldDominationMod.settings?.worldMapOverlayHoldKey
                 ?? WorldDominationSettings.DefWorldMapOverlayHoldKey;
+            if (hold == KeyCode.None)
+                return null;
             return FormatOverlayHoldKeyLabel(hold) + "+" + letterOrDigit;
         }
 
@@ -433,6 +438,7 @@ namespace TSA_WorldDomination
         {
             switch (key)
             {
+                case KeyCode.None: return "TSA_WD_KeyUnbound".Translate();
                 case KeyCode.LeftAlt: return "Left Alt";
                 case KeyCode.RightAlt: return "Right Alt";
                 case KeyCode.LeftControl: return "Left Ctrl";
@@ -1018,10 +1024,10 @@ namespace TSA_WorldDomination
         private static readonly HashSet<KeyCode> latchedActionKeys = new HashSet<KeyCode>();
 
         /// <summary>
-        /// Hold configured key (default Left Alt): on the world map, 1–7 / Q–T toggle overlays;
+        /// Hold configured key (default Left Alt; None = unbound): on the world map, 1–7 / Q–T toggle overlays;
         /// anywhere in play, A/X/S/D/Y/F/G/C/V open WD windows / world map (pawns, main tab, world stats, diplomacy, prisoners, outposts, travelers, world map, all gear).
         /// Uses held-key edge detection (RawKeys.GetKey on 1.7 when present) so each chord fires once
-        /// until the letter/digit is released. Clears IMGUI text focus before polling.
+        /// until the letter/digit is released. Skips while an IMGUI text field has keyboard focus.
         /// Safe to call from WorldComponentOnGUI and from hub DoWindowContents.
         /// </summary>
         public static void ProcessWindowAndOverlayHotkeys()
@@ -1047,11 +1053,11 @@ namespace TSA_WorldDomination
                 return;
             }
 
-            // Clear focus so swallowed Input paths (and any fallback) can see letter/digit keys.
+            // Do not steal keys from Mod Options search / text fields (letter hold keys especially).
             if (GUIUtility.keyboardControl != 0)
             {
-                GUIUtility.keyboardControl = 0;
-                GUI.FocusControl(null);
+                latchedActionKeys.Clear();
+                return;
             }
 
             // Window chords must work even while a force-paused hub (Diplomacy / World Stats) is open.
@@ -1128,19 +1134,8 @@ namespace TSA_WorldDomination
         private static bool TryConsumeActionKeyPair(KeyCode a, KeyCode b) =>
             TryConsumeActionKey(a) || TryConsumeActionKey(b);
 
-        /// <summary>
-        /// Left/Right Alt (or Ctrl/Shift) accept either side of the pair so "Alt" feels like a single modifier.
-        /// </summary>
-        private static bool IsOverlayHoldKeyPressed(KeyCode holdKey)
-        {
-            if (holdKey == KeyCode.LeftAlt || holdKey == KeyCode.RightAlt)
-                return OverlayKey(KeyCode.LeftAlt) || OverlayKey(KeyCode.RightAlt);
-            if (holdKey == KeyCode.LeftControl || holdKey == KeyCode.RightControl)
-                return OverlayKey(KeyCode.LeftControl) || OverlayKey(KeyCode.RightControl);
-            if (holdKey == KeyCode.LeftShift || holdKey == KeyCode.RightShift)
-                return OverlayKey(KeyCode.LeftShift) || OverlayKey(KeyCode.RightShift);
-            return OverlayKey(holdKey);
-        }
+        /// <summary>Exact KeyCode match only (Left Alt must not fire when Right Alt is bound).</summary>
+        private static bool IsOverlayHoldKeyPressed(KeyCode holdKey) => OverlayKey(holdKey);
 
         private static int OverlayHotkeySlotFromInput()
         {

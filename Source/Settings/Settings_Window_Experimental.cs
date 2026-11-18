@@ -299,19 +299,17 @@ var s = WorldDominationMod.settings;
 
         private static readonly KeyCode[] OverlayHoldKeyChoices =
         {
+            KeyCode.None,
             KeyCode.LeftAlt, KeyCode.RightAlt,
             KeyCode.LeftControl, KeyCode.RightControl,
-            KeyCode.LeftShift, KeyCode.RightShift,
-            KeyCode.A, KeyCode.B, KeyCode.C, KeyCode.D, KeyCode.E, KeyCode.F, KeyCode.G, KeyCode.H,
-            KeyCode.I, KeyCode.J, KeyCode.K, KeyCode.L, KeyCode.M, KeyCode.N, KeyCode.O, KeyCode.P,
-            KeyCode.Q, KeyCode.R, KeyCode.S, KeyCode.T, KeyCode.U, KeyCode.V, KeyCode.W, KeyCode.X,
-            KeyCode.Y, KeyCode.Z
+            KeyCode.LeftShift, KeyCode.RightShift
         };
 
         private static string FormatOverlayHoldKey(KeyCode key)
         {
             switch (key)
             {
+                case KeyCode.None: return "TSA_WD_KeyUnbound".Translate();
                 case KeyCode.LeftAlt: return "Left Alt";
                 case KeyCode.RightAlt: return "Right Alt";
                 case KeyCode.LeftControl: return "Left Ctrl";

@@ -7,36 +7,37 @@ using Verse;
 namespace TSA_WorldDomination
 {
     /// <summary>
-    /// Shared colony-map + warehouse stock check/deduct for outpost upgrades and player world builds.
+    /// Shared colony-map + outpost Stock check/deduct for outpost upgrades and player world builds.
+    /// Every player outpost with an armory store contributes (warehouse or not).
     /// </summary>
     public static class ColonyWorldBuildMaterials
     {
         private static readonly List<OutpostUpgradeCostEntry> EmptyCosts = new List<OutpostUpgradeCostEntry>();
-        private static int warehouseCacheTick = -1;
-        private static List<WorldObject_WD_Outpost> warehouseCache;
+        private static int storeCacheTick = -1;
+        private static List<WorldObject_WD_Outpost> storeCache;
 
         public static List<OutpostUpgradeCostEntry> EmptyCostList => EmptyCosts;
 
         public static Map GetColonyMap() => Find.AnyPlayerHomeMap;
 
-        /// <summary>All player warehouse outposts (cached per tick).</summary>
+        /// <summary>All player outposts with <see cref="CompOutpostArmory"/> (cached per tick).</summary>
         public static List<WorldObject_WD_Outpost> GetContributingWarehouses()
         {
             int t = Find.TickManager?.TicksGame ?? 0;
-            if (warehouseCache != null && t == warehouseCacheTick)
-                return warehouseCache;
+            if (storeCache != null && t == storeCacheTick)
+                return storeCache;
 
             var result = new List<WorldObject_WD_Outpost>();
             IReadOnlyList<WorldObject_WD_Outpost> outposts = WdPlayerOutpostCache.PlayerOutposts;
             for (int i = 0; i < outposts.Count; i++)
             {
                 WorldObject_WD_Outpost wo = outposts[i];
-                if (wo == null || wo.Destroyed || !Outpost_Warehouse_Delivery.IsWarehouseOutpost(wo)) continue;
-                if (CompOutpostWarehouse.Get(wo) == null) continue;
+                if (wo == null || wo.Destroyed) continue;
+                if (CompOutpostArmory.Get(wo) == null) continue;
                 result.Add(wo);
             }
-            warehouseCache = result;
-            warehouseCacheTick = t;
+            storeCache = result;
+            storeCacheTick = t;
             return result;
         }
 
@@ -177,11 +178,8 @@ namespace TSA_WorldDomination
                 remaining -= PlaceRefundOnMap(map, def, remaining);
             if (remaining > 0 && warehouses != null && warehouses.Count > 0)
             {
-                var deposit = new List<ThingDefCountClass>
-                {
-                    new ThingDefCountClass(def, remaining)
-                };
-                CompOutpostWarehouse.Get(warehouses[0])?.TryDeposit(deposit);
+                CompOutpostArmory armory = CompOutpostArmory.Get(warehouses[0]);
+                armory?.DepositStockRow(new ThingDefCountClass(def, remaining));
             }
         }
 
@@ -316,9 +314,11 @@ namespace TSA_WorldDomination
                 {
                     for (int i = 0; i < warehouses.Count && toRemove > 0; i++)
                     {
-                        var comp = CompOutpostWarehouse.Get(warehouses[i]);
-                        if (comp == null) continue;
-                        int took = isStone ? comp.WithdrawStoneBlocksUpTo(toRemove) : comp.WithdrawUpTo(c.thingDef, toRemove);
+                        CompOutpostArmory armory = CompOutpostArmory.Get(warehouses[i]);
+                        if (armory == null) continue;
+                        int took = isStone
+                            ? armory.WithdrawStoneBlocksUpTo(toRemove)
+                            : armory.WithdrawUpTo(c.thingDef, toRemove);
                         if (took > 0)
                             warehousesThatContributed.Add(warehouses[i]);
                         toRemove -= took;
@@ -388,8 +388,8 @@ namespace TSA_WorldDomination
             int total = 0;
             for (int i = 0; i < warehouses.Count; i++)
             {
-                var comp = CompOutpostWarehouse.Get(warehouses[i]);
-                if (comp != null) total += comp.GetStoredCount(def);
+                CompOutpostArmory armory = CompOutpostArmory.Get(warehouses[i]);
+                if (armory != null) total += armory.GetStockCountOfDef(def);
             }
             return total;
         }
@@ -400,8 +400,8 @@ namespace TSA_WorldDomination
             int total = 0;
             for (int i = 0; i < warehouses.Count; i++)
             {
-                var comp = CompOutpostWarehouse.Get(warehouses[i]);
-                if (comp != null) total += comp.GetStoredStoneBlocksCount();
+                CompOutpostArmory armory = CompOutpostArmory.Get(warehouses[i]);
+                if (armory != null) total += armory.GetStoredStoneBlocksCount();
             }
             return total;
         }

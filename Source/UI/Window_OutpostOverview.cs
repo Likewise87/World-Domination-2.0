@@ -210,7 +210,7 @@ namespace TSA_WorldDomination
             float colWhat = 175f;
             float colWhen = 130f;
             float colExperts = 100f;
-            float colStores = 150f;
+            float colStores = 180f;
             float contentWidth = colIcon + colPadding
                 + colName + colDist + colPawns + colNonhumanPawns + colExperts + colFood + colPower
                 + colStrength + colUpgrades + colRoad + colCooldown
@@ -508,7 +508,7 @@ namespace TSA_WorldDomination
                         assignedExpertTooltips.Add(
                             OutpostExpertUtility.BuildAssignedExpertIconTooltip(o, role, expert));
                     }
-                    float rowH = ComputeOverviewRowHeight(upgrades.Count);
+                    float rowH = ComputeOverviewRowHeight(upgrades.Count, storesLabel);
                     if (hasSkillDr)
                         rowH = Mathf.Max(rowH, 72f);
                     cachedList.Add(new OutpostEntry
@@ -899,9 +899,12 @@ namespace TSA_WorldDomination
                 if (entry.IsProductionPaused) GUI.color = Color.white;
                 rX += colWhen;
 
-                // 11. Stores: compact armory summary, full bucket breakdown in the tooltip.
+                // 11. Stores: up to 3 item types + more; full list in the tooltip.
                 Rect storesRect = new Rect(rX, row.y, colStores, rowHeight);
+                Text.Font = GameFont.Tiny;
+                Text.Anchor = TextAnchor.UpperLeft;
                 Widgets.Label(storesRect, entry.StoresLabel ?? s_ovNone);
+                Text.Font = GameFont.Small;
                 if (!string.IsNullOrEmpty(entry.StoresTooltip))
                     TooltipHandler.TipRegion(storesRect, entry.StoresTooltip);
                 rX += colStores;
@@ -1007,14 +1010,22 @@ namespace TSA_WorldDomination
             return list;
         }
 
-        private static float ComputeOverviewRowHeight(int upgradeLabelCount)
+        private static float ComputeOverviewRowHeight(int upgradeLabelCount, string storesLabel = null)
         {
             const float minH = 60f;
             float lineTiny = Text.LineHeightOf(GameFont.Tiny);
             float strBlock = 3f * (lineTiny * StrengthColumnLineHeightFactor) + 6f;
             int upLines = upgradeLabelCount <= 0 ? 1 : Mathf.Min(upgradeLabelCount, 4) + (upgradeLabelCount > 4 ? 1 : 0);
             float upBlock = 6f + upLines * lineTiny;
-            return Mathf.Max(minH, strBlock, upBlock);
+            int storeLines = 1;
+            if (!string.IsNullOrEmpty(storesLabel))
+            {
+                storeLines = 1;
+                for (int i = 0; i < storesLabel.Length; i++)
+                    if (storesLabel[i] == '\n') storeLines++;
+            }
+            float storesBlock = 4f + storeLines * Mathf.Max(15f, lineTiny);
+            return Mathf.Max(minH, strBlock, upBlock, storesBlock);
         }
 
         private int GetRoadTotalSteps(int start, int dest)

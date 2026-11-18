@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -6,122 +6,7 @@ using Verse;
 
 namespace TSA_WorldDomination
 {
-    /// <summary>
-    /// Settlement intel inspect tab (soft FoW). Patterned on <see cref="WITab_OutpostAndSettlement_Stats"/>
-    /// with a leaner snapshot (no search filter).
-    /// </summary>
-    public class WITab_SettlementIntel : WITab
-    {
-        private Vector2 scrollPosition;
-        private float scrollViewHeight = 320f;
-
-        private const int CacheRefreshInterval = 2500;
-
-        private int lastCacheTick = -1;
-        private WorldObject cachedWorldObject;
-        private int cachedFingerprint = int.MinValue;
-        private OutpostStatsSnapshot cachedSnapshot;
-
-        public WITab_SettlementIntel()
-        {
-            size = new Vector2(500f, 500f);
-            labelKey = "TSA_WD_SettlementIntel_TabLabel";
-        }
-
-        public WorldObject SelWorldObject => SelObject;
-
-        public override bool IsVisible
-        {
-            get
-            {
-                // Gate Never = feature fully off: hide tab everywhere (no DevMode exception).
-                if (!WorldComponent_SettlementIntel.IsGateConfigured())
-                    return false;
-                WorldObject wo = SelObject;
-                if (wo?.GetComponent<CompViralSpread>() == null)
-                    return false;
-                return wo is Settlement || wo is WorldObject_WD_Outpost;
-            }
-        }
-
-        protected override void FillTab()
-        {
-            WorldObject worldObject = SelWorldObject;
-            if (worldObject == null) return;
-
-            Rect body = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
-            OutpostTabStatsUi.DrawHeadline(body, BuildHeadline(worldObject));
-
-            EnsureSnapshotFresh(worldObject);
-            OutpostStatsSnapshot snap = cachedSnapshot;
-            if (snap == null) return;
-
-            const float headerH = OutpostTabStatsUi.TabHeaderConsumedHeight;
-            Rect scrollOuter = new Rect(body.x, body.y + headerH, body.width, body.height - headerH);
-            // Content = outer minus scrollbar strip only. Value padding is ContentRightInset inside the rows.
-            float contentWidth = scrollOuter.width - OutpostTabStatsUi.ScrollbarRightPadding;
-
-            scrollViewHeight = OutpostTabStatsUi.MeasureContentHeight(snap.Sections, contentWidth);
-            if (scrollViewHeight < scrollOuter.height)
-                scrollViewHeight = scrollOuter.height;
-            Rect viewRect = new Rect(0f, 0f, contentWidth, scrollViewHeight);
-
-            Widgets.BeginScrollView(scrollOuter, ref scrollPosition, viewRect);
-            OutpostTabStatsUi.DrawStatsLayout(0f, 0f, contentWidth, snap.Sections);
-            Widgets.EndScrollView();
-        }
-
-        private static string BuildHeadline(WorldObject worldObject)
-        {
-            if (worldObject is WorldObject_WD_Outpost outpost)
-                return OutpostTranslationUtil.TabHeadline(outpost, "TSA_WD_SettlementIntel_TabLabel");
-            return "TSA_WD_SettlementIntel_Headline".Translate(worldObject.LabelCap).ToString();
-        }
-
-        private void EnsureSnapshotFresh(WorldObject worldObject)
-        {
-            int tick = Find.TickManager.TicksGame;
-            int fp = ComputeFingerprint(worldObject);
-            bool dirty = cachedWorldObject != worldObject
-                || cachedSnapshot == null
-                || tick - lastCacheTick >= CacheRefreshInterval
-                || fp != cachedFingerprint;
-            if (!dirty) return;
-
-            lastCacheTick = tick;
-            cachedWorldObject = worldObject;
-            cachedFingerprint = fp;
-            cachedSnapshot = SettlementIntelSnapshot.Build(worldObject);
-        }
-
-        private static int ComputeFingerprint(WorldObject worldObject)
-        {
-            if (worldObject == null) return 0;
-            unchecked
-            {
-                int h = worldObject.ID;
-                var intel = WorldComponent_SettlementIntel.Get();
-                h = h * 397 + (intel?.Version ?? 0);
-                h = h * 397 + (WorldComponent_SettlementIntel.IsTracking() ? 1 : 0);
-                h = h * 397 + (WorldComponent_SettlementIntel.IsActive() ? 1 : 0);
-                h = h * 397 + (int)(WorldDominationMod.settings?.gateSettlementIntel ?? WdThreatStageGate.Never);
-                var mgr = Find.World?.GetComponent<WorldComponent_SpreadManager>();
-                if (mgr != null)
-                    h = h * 397 + (int)mgr.cachedEscalationStage;
-                CompViralSpread comp = worldObject.GetComponent<CompViralSpread>();
-                if (comp != null)
-                    h = h * 397 + (int)comp.tier;
-                // Day bucket so GotBurned days-left ticks down without waiting full cache interval.
-                h = h * 397 + (Find.TickManager.TicksGame / 2500);
-                // Traveler / caravan positions change often; refresh on shorter cadence via interval.
-                h = h * 397 + WorldObject_Traveler.LiveTravelers.Count;
-                h = h * 397 + (Find.WorldObjects?.Caravans?.Count ?? 0);
-                return h;
-            }
-        }
-    }
-
-    /// <summary>Lean sections for <see cref="WITab_SettlementIntel"/>.</summary>
+    /// <summary>Lean intel sections for the Stats tab Intel pane (<see cref="WITab_OutpostAndSettlement_Stats"/>).</summary>
     internal static class SettlementIntelSnapshot
     {
         private sealed class SightCandidate

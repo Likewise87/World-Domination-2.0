@@ -1077,8 +1077,10 @@
   <TSA_WD_ShowUpdatePopups_Tooltip>啟用時，本模組更新到新版本後，你載入地圖時會出現一次小視窗。</TSA_WD_ShowUpdatePopups_Tooltip>
   <!-- EN: World map overlay hold key -->
   <TSA_WD_WorldMapOverlayHoldKey>世界地圖疊加層按住鍵</TSA_WD_WorldMapOverlayHoldKey>
-  <!-- EN: Hold this key and press A for Your Pawns, X for the WD main tab, S for World Stats, D for Diplomacy, Y for Prisoners, F for Outpost Overview, G for Active Travelers, or V for All Gear. On the world map, also press 1–7 to toggle WD overlays (blocked tiles, fertility, animals, fish, mining, movement, pollution), or Q/W/E/R/T for Highlight Relationships, Highlight Player, settlement tier labels, road blocks and traps, and outpost labels. -->
-  <TSA_WD_WorldMapOverlayHoldKey_Tooltip>按住此鍵，再按A開啟你的角色、X開啟WD主分頁、S開啟世界統計、D開啟外交、Y開啟俘虜、F開啟哨站總覽、G開啟移動中的旅行者，或V開啟全部裝備。在世界地圖上，也可按1–7切換WD疊加層（受阻地塊、肥沃度、動物、魚類、採礦、移動、汙染），或按Q/W/E/R/T切換標示關係、標示玩家、據點等級標籤、路障與陷阱，以及哨站標籤。</TSA_WD_WorldMapOverlayHoldKey_Tooltip>
+  <!-- EN: Hold this key and press A for Your Pawns, X for the WD main tab, S for World Stats, D for Diplomacy, Y for Prisoners, F for Outpost Overview, G for Active Travelers, or V for All Gear. On the world map, also press 1–7 to toggle WD overlays (blocked tiles, fertility, animals, fish, mining, movement, pollution), or Q/W/E/R/T for Highlight Relationships, Highlight Player, settlement tier labels, road blocks and traps, and outpost labels. Choose None to unbind all of these chords. -->
+  <TSA_WD_WorldMapOverlayHoldKey_Tooltip>按住此鍵，再按A開啟你的角色、X開啟WD主分頁、S開啟世界統計、D開啟外交、Y開啟俘虜、F開啟哨站總覽、G開啟移動中的旅行者，或V開啟全部裝備。在世界地圖上，也可按1–7切換WD疊加層（受阻地塊、肥沃度、動物、魚類、採礦、移動、汙染），或按Q/W/E/R/T切換標示關係、標示玩家、據點等級標籤、路障與陷阱，以及哨站標籤。選擇「無」可解除所有這些快捷鍵。</TSA_WD_WorldMapOverlayHoldKey_Tooltip>
+  <!-- EN: None -->
+  <TSA_WD_KeyUnbound>無</TSA_WD_KeyUnbound>
   <!-- EN: Verbose logging -->
   <TSA_WD_VerboseLogging>詳細紀錄</TSA_WD_VerboseLogging>
   <!-- EN: When enabled, the mod writes extra correlation lines to the log ([WD] and [WD Perf]), e.g. food accounting, pathing, threat updates, and World Setup settlement recreation. Use for diagnosing stutter or placement issues. -->

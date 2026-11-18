@@ -7,9 +7,10 @@ namespace TSA_WorldDomination
 {
     /// <summary>
     /// Single intake for anything arriving at a player outpost (caravan dissolve, pod arrival, goods
-    /// delivery, refunds). Gear goes through <see cref="OutpostArmoryUtility.TryDeposit"/> (uniques,
-    /// Normalize, CE unload); on a warehouse, non-gear goods fall back to the warehouse list. Food is
-    /// always stored as items; it only becomes virtual food through <see cref="OutpostFoodConversion"/>.
+    /// delivery, refunds). Items go through <see cref="OutpostArmoryUtility.TryDeposit"/> (uniques,
+    /// Normalize, CE unload) into <see cref="CompOutpostArmory.Stock"/> (shared with warehouse when
+    /// present). Food is always stored as items; it only becomes virtual food through
+    /// <see cref="OutpostFoodConversion"/>.
     /// </summary>
     public static class OutpostStorageUtility
     {
@@ -66,14 +67,13 @@ namespace TSA_WorldDomination
             if (Outpost_Warehouse_Delivery.IsWarehouseOutpost(outpost))
                 return CompOutpostWarehouse.Get(outpost) != null;
             return OutpostArmoryUtility.FeatureEnabled
-                && CompOutpostArmory.Get(outpost) != null
-                && OutpostArmoryUtility.IsArmoryItem(def);
+                && CompOutpostArmory.Get(outpost) != null;
         }
 
         /// <summary>
         /// Banks abstract rows into the outpost store. Returns the rows actually stored, for letters.
-        /// Rows without a home (non-gear at a non-warehouse outpost, or the Armory switched off while
-        /// the cargo was in flight) are dropped at the home colony instead of being lost.
+        /// Rows without a home (Armory off / no store, or the cargo was in flight) are dropped at the
+        /// home colony instead of being lost.
         /// </summary>
         public static List<ThingDefCountClass> DepositRows(WorldObject_WD_Outpost outpost, List<ThingDefCountClass> rows)
         {

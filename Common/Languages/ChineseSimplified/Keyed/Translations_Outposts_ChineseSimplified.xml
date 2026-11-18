@@ -1417,8 +1417,9 @@
   <TSA_WD_Armory_CargoLost>一支前往 {0} 的运输队在途中被摧毁，所载货物全部损失：</TSA_WD_Armory_CargoLost>
   <TSA_WD_Armory_UpgradeLostLabel>升级运输队损失</TSA_WD_Armory_UpgradeLostLabel>
   <TSA_WD_Armory_UpgradeLost>前往 {1} 的 {0} 运输队在途中被摧毁。材料已损失，该升级可以重新下单。</TSA_WD_Armory_UpgradeLost>
-  <TSA_WD_Armory_HdrStores>军械库</TSA_WD_Armory_HdrStores>
-  <TSA_WD_Armory_HdrStoresTip>本前哨军械库按类别存放的物品。</TSA_WD_Armory_HdrStoresTip>
+  <TSA_WD_Armory_HdrStores>库存</TSA_WD_Armory_HdrStores>
+  <TSA_WD_Armory_HdrStoresTip>本前哨存放的装备与材料。用于升级、世界建造、购买与虚拟商队运送。</TSA_WD_Armory_HdrStoresTip>
+  <TSA_WD_Armory_StoresMoreTypes>以及另外 {0} 种物品</TSA_WD_Armory_StoresMoreTypes>
   <TSA_WD_Armory_StoresMore>还有 {0} 类</TSA_WD_Armory_StoresMore>
   <TSA_WD_Armory_StoresTooltip>共存放 {0} 件物品。</TSA_WD_Armory_StoresTooltip>
   <TSA_WD_Armory_HdrItem>物品</TSA_WD_Armory_HdrItem>
@@ -1817,6 +1818,9 @@
 
   <!-- 前哨统计标签页 -->
   <TSA_WD_OutpostStats_TabLabel>统计</TSA_WD_OutpostStats_TabLabel>
+  <TSA_WD_StatsPane_Main>主要统计</TSA_WD_StatsPane_Main>
+  <TSA_WD_StatsPane_Intel>情报</TSA_WD_StatsPane_Intel>
+  <TSA_WD_StatsPane_MainEmptyAt>该反坦克炮塔的战斗细节见世界检视文本。请使用情报页查看发现情况。</TSA_WD_StatsPane_MainEmptyAt>
   <TSA_WD_OutpostStats_Refresh>刷新</TSA_WD_OutpostStats_Refresh>
   <TSA_WD_OutpostStats_RefreshTooltip>立即重建此标签页的统计显示。多数数值会在有变化时自动更新；若数字看起来过时（例如刚安装升级后），可点此刷新。</TSA_WD_OutpostStats_RefreshTooltip>
   <TSA_WD_OutpostStats_SearchPlaceholder>按名称筛选…</TSA_WD_OutpostStats_SearchPlaceholder>

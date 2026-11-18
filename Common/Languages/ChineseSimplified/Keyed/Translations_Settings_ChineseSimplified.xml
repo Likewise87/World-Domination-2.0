@@ -457,7 +457,8 @@
   <TSA_WD_ShowUpdatePopups>显示模组更新提示</TSA_WD_ShowUpdatePopups>
   <TSA_WD_ShowUpdatePopups_Tooltip>启用后,当此模组更新到新版本且你加载地图时,会弹出一次简短提示窗口。</TSA_WD_ShowUpdatePopups_Tooltip>
   <TSA_WD_WorldMapOverlayHoldKey>世界地图叠加层按住键</TSA_WD_WorldMapOverlayHoldKey>
-  <TSA_WD_WorldMapOverlayHoldKey_Tooltip>按住此键并按 A 打开你的殖民者，按 X 打开 WD 主标签，按 S 打开世界统计，按 D 打开外交，按 Y 打开囚犯，按 F 打开前哨总览，按 G 打开活跃旅行者，按 V 打开全部装备。在世界地图上还可按 1–7 切换 WD 叠加层（禁建格、肥力、动物、鱼类、采矿、移动、污染）；按 Q/W/E/R/T 可切换关系高亮、玩家高亮、定居点等级标签、路障与陷阱，以及前哨标签。</TSA_WD_WorldMapOverlayHoldKey_Tooltip>
+  <TSA_WD_WorldMapOverlayHoldKey_Tooltip>按住此键并按 A 打开你的殖民者，按 X 打开 WD 主标签，按 S 打开世界统计，按 D 打开外交，按 Y 打开囚犯，按 F 打开前哨总览，按 G 打开活跃旅行者，按 V 打开全部装备。在世界地图上还可按 1–7 切换 WD 叠加层（禁建格、肥力、动物、鱼类、采矿、移动、污染）；按 Q/W/E/R/T 可切换关系高亮、玩家高亮、定居点等级标签、路障与陷阱，以及前哨标签。选择“无”可解除所有这些快捷键。</TSA_WD_WorldMapOverlayHoldKey_Tooltip>
+  <TSA_WD_KeyUnbound>无</TSA_WD_KeyUnbound>
   <TSA_WD_VerboseLogging>详细日志</TSA_WD_VerboseLogging>
   <TSA_WD_VerboseLogging_Tooltip>启用后，模组会向日志写入额外的关联诊断行（[WD] 与 [WD Perf]），例如食物结算、寻路、威胁更新以及世界设置中的定居点重建。用于排查卡顿或放置问题。</TSA_WD_VerboseLogging_Tooltip>
   <TSA_WD_UpdatePopup_Open>打开</TSA_WD_UpdatePopup_Open>

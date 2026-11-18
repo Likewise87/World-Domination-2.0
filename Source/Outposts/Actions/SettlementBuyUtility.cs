@@ -211,16 +211,7 @@ namespace TSA_WorldDomination
         public static List<WorldObject_WD_Outpost> GetContributingWarehouses(int settlementTile)
         {
             _ = settlementTile;
-            var result = new List<WorldObject_WD_Outpost>();
-            if (Find.WorldObjects == null) return result;
-            var all = Find.WorldObjects.AllWorldObjects;
-            for (int i = 0; i < all.Count; i++)
-            {
-                if (!(all[i] is WorldObject_WD_Outpost wo) || !Outpost_Warehouse_Delivery.IsWarehouseOutpost(wo)) continue;
-                if (CompOutpostWarehouse.Get(wo) == null) continue;
-                result.Add(wo);
-            }
-            return result;
+            return ColonyWorldBuildMaterials.GetContributingWarehouses();
         }
 
         public static List<ThingDefCountClass> BuildAvailablePool(int settlementTile)
@@ -245,11 +236,12 @@ namespace TSA_WorldDomination
             var warehouses = GetContributingWarehouses(settlementTile);
             for (int w = 0; w < warehouses.Count; w++)
             {
-                var comp = CompOutpostWarehouse.Get(warehouses[w]);
-                if (comp?.storedItems == null) continue;
-                for (int i = 0; i < comp.storedItems.Count; i++)
+                CompOutpostArmory armory = CompOutpostArmory.Get(warehouses[w]);
+                List<ThingDefCountClass> stock = armory?.Stock;
+                if (stock == null) continue;
+                for (int i = 0; i < stock.Count; i++)
                 {
-                    var e = comp.storedItems[i];
+                    var e = stock[i];
                     if (e?.thingDef == null || e.count <= 0 || !IsBuyPaymentThing(e.thingDef)) continue;
                     MergeStockRow(pool, CloneStockRow(e, e.count));
                 }
@@ -533,9 +525,9 @@ namespace TSA_WorldDomination
                 {
                     for (int w = 0; w < warehouses.Count && toRemove > 0; w++)
                     {
-                        var comp = CompOutpostWarehouse.Get(warehouses[w]);
-                        if (comp == null) continue;
-                        int took = comp.WithdrawUpToMatching(tc, toRemove);
+                        CompOutpostArmory armory = CompOutpostArmory.Get(warehouses[w]);
+                        if (armory == null) continue;
+                        int took = armory.WithdrawUpToMatching(tc, toRemove);
                         if (took > 0)
                             warehousesThatContributed.Add(warehouses[w]);
                         toRemove -= took;

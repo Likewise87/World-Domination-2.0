@@ -1150,11 +1150,13 @@ namespace TSA_WorldDomination
                 TooltipHandler.TipRegion(r, tip);
         }
 
-        /// <summary>Hold-key chord for WD window shortcuts (Experimental settings). E.g. Left Alt+D.</summary>
+        /// <summary>Hold-key chord for WD window shortcuts (Experimental settings). E.g. Left Alt+D. Unbound label when None.</summary>
         private static string FormatWdWindowHotkey(string letter)
         {
             KeyCode hold = WorldDominationMod.settings?.worldMapOverlayHoldKey
                 ?? WorldDominationSettings.DefWorldMapOverlayHoldKey;
+            if (hold == KeyCode.None)
+                return "TSA_WD_KeyUnbound".Translate();
             return FormatOverlayHoldKeyLabel(hold) + "+" + letter;
         }
 
@@ -1162,6 +1164,7 @@ namespace TSA_WorldDomination
         {
             switch (key)
             {
+                case KeyCode.None: return "TSA_WD_KeyUnbound".Translate();
                 case KeyCode.LeftAlt: return "Left Alt";
                 case KeyCode.RightAlt: return "Right Alt";
                 case KeyCode.LeftControl: return "Left Ctrl";

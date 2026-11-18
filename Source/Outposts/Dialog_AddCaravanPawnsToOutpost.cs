@@ -509,9 +509,7 @@ namespace TSA_WorldDomination
         private Texture? GetRowPortrait(Row row)
         {
             if (row.pawn == null) return null;
-            if (row.pawn.RaceProps?.Humanlike == true)
-                return PawnPortraitUIUtils.GetPortrait(row.pawn, PortraitSize, row.portraitKey);
-            return row.pawn.def?.uiIcon ?? row.pawn.kindDef?.race?.uiIcon;
+            return PawnPortraitUIUtils.GetPortrait(row.pawn, PortraitSize, row.portraitKey);
         }
 
         private void DrawBottomBar(Rect rect, bool parked, bool selectionOk, string parkedReason, string selectionReject)

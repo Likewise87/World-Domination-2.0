@@ -48,12 +48,14 @@ namespace TSA_WorldDomination
         private const float HeaderHeight = 36f;
         private const float ToolbarHeight = 48f;
         private const float TransferBtnWidth = 200f;
+        private const float KickIconBtnSize = WorldDomination_UIUtils.RosterIconBtnSize;
         private const float TravelBtnWidth = PlayerPawnDropPodUtility.ModeIconSize
             + PlayerPawnDropPodUtility.ModeFallbackGap
             + PlayerPawnDropPodUtility.FallbackCheckboxSize;
         private const float ArmoryBtnWidth = 120f;
         private const float SelectedLabelWidth = 130f;
         private const float ToolbarBtnGap = 10f;
+        private static readonly Color KickOutFill = new Color(0.38f, 0.12f, 0.14f, 0.92f);
         private const float ColSkillPad = 12f;
         private const PawnRosterColumnWindow ColWindow = PawnRosterColumnWindow.OutpostPawns;
         /// <summary>Inset so Transfer does not overlap the inspect-pane close X.</summary>
@@ -374,11 +376,8 @@ namespace TSA_WorldDomination
         private static Texture GetStoredTransportIcon(Pawn pawn)
         {
             if (pawn == null || pawn.Destroyed) return null!;
-            if (VehicleFrameworkOutpostDissolveCompat.IsVehicleFrameworkVehiclePawn(pawn))
-                return VehicleFrameworkOutpostDissolveCompat.TryGetVehicleIcon(pawn) ?? pawn.def?.uiIcon ?? null!;
-            if (pawn.RaceProps?.Humanlike == true)
-                return GetPortraitFor(pawn, BuildPortraitCacheKey(pawn, VirtualPawnSummary.FromPawn(pawn)));
-            return pawn.def?.uiIcon ?? pawn.kindDef?.race?.uiIcon ?? null!;
+            // Vehicles, animals, mechs: shared helper (VF icon early-out inside PawnPortraitUIUtils).
+            return GetPortraitFor(pawn, BuildPortraitCacheKey(pawn, VirtualPawnSummary.FromPawn(pawn)));
         }
 
         public WITab_Outpost_Pawns()
@@ -1455,11 +1454,27 @@ namespace TSA_WorldDomination
             bool hasPrisonerSelected = HasPrisonerSelection();
             bool onlyPrisonersSelected = hasPrisonerSelected && !hasNonPrisonerSelected;
             bool anyTransferableSelected = hasNonPrisonerSelected || hasPrisonerSelected;
+            bool viaDropPod = PlayerPawnDropPodUtility.GetTravelViaDropPod(SelOutpost);
+            // Pod mode: keep Transfer and add a compact Kick. Land + prisoners-only: Kick fills the Transfer slot.
+            bool showCompactKick = viaDropPod && hasPrisonerSelected;
+            bool kickOnlyInTransferSlot = !viaDropPod && onlyPrisonersSelected;
 
             Rect transferBtn = new Rect(content.width - TransferBtnWidth - TransferBtnRightInset, 4f, TransferBtnWidth, 30f);
-            bool showFallback = PlayerPawnDropPodUtility.GetTravelViaDropPod(SelOutpost);
+            float actionsLeft = transferBtn.x;
+            Rect kickIconBtn = default;
+            if (showCompactKick)
+            {
+                kickIconBtn = new Rect(
+                    transferBtn.x - ToolbarBtnGap - KickIconBtnSize,
+                    4f,
+                    KickIconBtnSize,
+                    30f);
+                actionsLeft = kickIconBtn.x;
+            }
+
+            bool showFallback = viaDropPod;
             float travelW = PlayerPawnDropPodUtility.ToolbarWidth(showFallback);
-            Rect travelBtn = new Rect(transferBtn.x - ToolbarBtnGap - travelW, 4f, travelW, 30f);
+            Rect travelBtn = new Rect(actionsLeft - ToolbarBtnGap - travelW, 4f, travelW, 30f);
             Text.Font = GameFont.Small;
             string selectedLabel = "TSA_WD_AllPlayerPawns_Selected".Translate(selectedCount.ToString());
             float selectedW = Mathf.Max(Text.CalcSize(selectedLabel).x + 8f, 80f);
@@ -1499,17 +1514,31 @@ namespace TSA_WorldDomination
                 "TSA_WD_Outpost_Pawns_ExpertsHint".Translate());
             GUI.color = Color.white;
 
-            if (onlyPrisonersSelected)
+            if (showCompactKick)
             {
-                TooltipHandler.TipRegion(transferBtn, "TSA_WD_Prisoners_LetGoSelectedTip".Translate());
-                Color prev = GUI.color;
-                GUI.color = new Color(0.95f, 0.35f, 0.35f);
-                if (Widgets.ButtonText(transferBtn, "TSA_WD_Prisoners_LetGoSelected".Translate()))
+                if (WorldDomination_UIUtils.ButtonIconOnly(
+                    kickIconBtn,
+                    WorldDomination_UIUtils.RosterKickOutIcon,
+                    "TSA_WD_Prisoners_LetGoSelectedTip".Translate(),
+                    new Color(0.95f, 0.45f, 0.45f)))
                 {
                     ConfirmLetGoSelectedPrisoners();
                     SoundDefOf.Click.PlayOneShotOnCamera();
                 }
-                GUI.color = prev;
+            }
+
+            if (kickOnlyInTransferSlot)
+            {
+                TooltipHandler.TipRegion(transferBtn, "TSA_WD_Prisoners_LetGoSelectedTip".Translate());
+                if (WorldDomination_UIUtils.ButtonTextWithIcon(
+                    transferBtn,
+                    WorldDomination_UIUtils.RosterKickOutIcon,
+                    "TSA_WD_Prisoners_LetGoSelected".Translate(),
+                    fill: KickOutFill))
+                {
+                    ConfirmLetGoSelectedPrisoners();
+                    SoundDefOf.Click.PlayOneShotOnCamera();
+                }
             }
             else
             {

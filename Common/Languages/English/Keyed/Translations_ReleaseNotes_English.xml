@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_74_Title>Bugfixes and QOL</TSA_WD_Update_2_3_74_Title>
+  <TSA_WD_Update_2_3_74_Body><![CDATA[
+<size=16><b>2.3.74 - Bugfixes and QOL</b></size>\n
+<color=#00FFFFFF>Release date: November 18th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• New feature: Any outpost may now hold any item. This allows you to also strip items from or add to pawns in the Armory tab. The Armory tab now also lists animals, mechs, and Vehicles Expanded vehicles, because those might carry items you want to unload (or load).\n
+• Bugfix: The code was already there to move prisoners from outpost to outpost via drop pod without a regular pawn escort. The UI had no way to do this yet. Fixed now.\n
+• Bugfix: The hotkey toggle (default Left Alt) for WD actions can now be fully unassigned. Other keys like Right Shift also work properly.\n
+• Bugfix: Animal portraits should now be colorized properly in all WD windows.\n
+• Most of those were flagged or requested via Discord. Make sure to join the server.\n
+]]></TSA_WD_Update_2_3_74_Body>
   <TSA_WD_Update_2_3_73_Title>View world map as Faction &amp; Bugfixes</TSA_WD_Update_2_3_73_Title>
   <TSA_WD_Update_2_3_73_Body><![CDATA[
 <size=16><b>2.3.73 - View world map as Faction & Bugfixes</b></size>\n
