@@ -255,6 +255,7 @@
   <TSA_WD_BtnCaravans>旅隊與交易</TSA_WD_BtnCaravans>
   <!-- EN: Experimental -->
   <TSA_WD_BtnExperimental>實驗性</TSA_WD_BtnExperimental>
+  <TSA_WD_BtnQuests>任務</TSA_WD_BtnQuests>
   <!-- EN: Mortar, Anti Air and Rapid Response Logic -->
   <TSA_WD_BtnPlayerArtillery>迫擊砲、防空與快速反應邏輯</TSA_WD_BtnPlayerArtillery>
   <!-- EN: World Domination -->
@@ -388,7 +389,8 @@
   <!-- EN: Travel attrition, water pathing for WD caravans, trader caravans, player colony trader spacing, outpost delivery costs, and storyteller trader blocking. Water pathing is also set by Setting presets → Performance. -->
   <TSA_WD_DescCaravans>移動耗損、WD旅隊的水路尋路、商隊、玩家殖民地商隊間隔、哨站配送費用，以及阻擋故事敘述者商人。水路尋路也可由「設定預設集 → 效能」設定。</TSA_WD_DescCaravans>
   <!-- EN: World actions and raid logic experiments, world-map icon zoom behavior, overlay hold key, NPC fortify travelers, traveler pollution damage, and pollution pathfinding toggles. -->
-  <TSA_WD_DescExperimental>世界行動與突襲邏輯實驗、世界地圖圖示縮放行為、疊加層按住鍵、NPC設防旅行者、旅行者汙染傷害，以及汙染尋路開關。</TSA_WD_DescExperimental>
+  <TSA_WD_DescExperimental>世界行動與突襲邏輯實驗、世界地圖圖示縮放行為、疊加層按住鍵、旅行者汙染傷害與尋路開關。任務開關見「任務」。</TSA_WD_DescExperimental>
+  <TSA_WD_DescQuests>啟用或停用 WD 任務發放（首座前哨、間諜行動、加固、共同敵人、殖民地道路連結，以及世界霸權勝利）。</TSA_WD_DescQuests>
   <!-- EN: Setting presets -->
   <TSA_WD_HeaderImportant>設定預設集</TSA_WD_HeaderImportant>
   <!-- EN: Setting presets -->
@@ -1209,6 +1211,20 @@
   <TSA_WD_Caravans_TierUpT3ToT4>T3升級為T4的機率</TSA_WD_Caravans_TierUpT3ToT4>
   <!-- EN: Same as T1 to T2, but for promotion from T3 to T4 when at the T3 strength ceiling. -->
   <TSA_WD_Caravans_TierUpT3ToT4Tip>與T1升T2相同，但適用於達到T3戰力上限時從T3提升為T4。</TSA_WD_Caravans_TierUpT3ToT4Tip>
+  <!-- EN: Trader infrastructure (at cap) -->
+  <TSA_WD_Caravans_HeaderTraderInfra>商隊基礎設施（達上限時）</TSA_WD_Caravans_HeaderTraderInfra>
+  <!-- EN: Infrastructure chance (T1) -->
+  <TSA_WD_Caravans_InfraT1>基礎設施機率（T1）</TSA_WD_Caravans_InfraT1>
+  <!-- EN: Additive with tier-up. After a successful WD trade at the T1 strength ceiling, this chance instantly places a tier-matched advanced building, or a Light AT turret if none can be placed. Rolls independently of tier promotion. -->
+  <TSA_WD_Caravans_InfraT1Tip>與等級提升疊加。WD交易成功且處於T1戰力上限時，以此機率立即放置符合等級的進階建築；若無法放置則改為輕型反戰車砲塔。與等級提升分開擲骰。</TSA_WD_Caravans_InfraT1Tip>
+  <!-- EN: Infrastructure chance (T2) -->
+  <TSA_WD_Caravans_InfraT2>基礎設施機率（T2）</TSA_WD_Caravans_InfraT2>
+  <!-- EN: Same as T1 infrastructure, for settlements at the T2 strength ceiling (Light AT fallback). -->
+  <TSA_WD_Caravans_InfraT2Tip>與T1基礎設施相同，適用於達T2戰力上限的據點（後備為輕型反戰車砲塔）。</TSA_WD_Caravans_InfraT2Tip>
+  <!-- EN: Infrastructure chance (T3) -->
+  <TSA_WD_Caravans_InfraT3>基礎設施機率（T3）</TSA_WD_Caravans_InfraT3>
+  <!-- EN: Same as T1 infrastructure, for settlements at the T3 strength ceiling (Medium AT fallback). -->
+  <TSA_WD_Caravans_InfraT3Tip>與T1基礎設施相同，適用於達T3戰力上限的據點（後備為中型反戰車砲塔）。</TSA_WD_Caravans_InfraT3Tip>
   <!-- EN: Trader caravan escort strength -->
   <TSA_WD_Caravans_HeaderTraderEscort>商隊護衛戰力</TSA_WD_Caravans_HeaderTraderEscort>
   <!-- EN: Escort strength floor (T1 sender) -->

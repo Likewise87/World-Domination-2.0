@@ -734,6 +734,8 @@ namespace TSA_WorldDomination
         public const bool DefExperimentalColonyWorldBuild = true;
         public const bool DefEnableFirstOutpostQuest = true;
         public const bool DefEnableCommonEnemySettlementQuest = true;
+        public const bool DefEnableSpyOpsSettlementQuest = true;
+        public const bool DefEnableFortifySettlementQuest = true;
         public const bool DefEnableColonyRoadLinkQuest = true;
         public const bool DefEnableWorldDominationVictoryQuest = true;
         public const bool DefEnableAtTurretTargetPlayerTravelers = true;
@@ -827,9 +829,9 @@ namespace TSA_WorldDomination
         /// <summary>Unified attacker/defender ally pull-in radius (tiles). Replaces legacy att/def radii.</summary>
         public const float DefRaidAllyRadius = 6f;
         public const float DefMinRaidRatio = 1.0f;
-        public const float DefRazeChance = 0.25f;
+        public const float DefRazeChance = 0.15f;
         /// <summary>Days a WD raze ruin blocks founding before despawning.</summary>
-        public const float DefRuinLingerDays = 5f;
+        public const float DefRuinLingerDays = 7f;
         /// <summary>Experimental: player map/simulated conquest can roll raze instead of the conquest opportunity menu.</summary>
         public const bool DefExperimentalPlayerConquestRaze = false;
 
@@ -1316,9 +1318,14 @@ namespace TSA_WorldDomination
         /// <summary>Per player map colony: minimum days between being picked as a WD trader destination. Starts when the trader is dispatched. 0 = no limit.</summary>
         public const float DefCooldownPlayerColonyTraderDays = 2f;
 
-        public const float DefTraderTierUpgradeChanceT1ToT2 = 0.25f;
+        public const float DefTraderTierUpgradeChanceT1ToT2 = 0.20f;
         public const float DefTraderTierUpgradeChanceT2ToT3 = 0.15f;
         public const float DefTraderTierUpgradeChanceT3ToT4 = 0.05f;
+
+        /// <summary>At-cap trade: additive chance to place a tier-matched advanced building (else AT turret). T4 / below-cap: never.</summary>
+        public const float DefTraderInfraChanceT1 = 0.20f;
+        public const float DefTraderInfraChanceT2 = 0.15f;
+        public const float DefTraderInfraChanceT3 = 0.10f;
 
         /// <summary>Trader-caravan escort strength floors, keyed by sending settlement's tier (interception/combat math only; does not change the flat resource cost deducted at launch).</summary>
         public const float DefTraderEscortFloorT1 = 75f;
@@ -1995,6 +2002,8 @@ namespace TSA_WorldDomination
         public float atTurretHeavyExpeditionStrength = DefAtTurretHeavyExpeditionStrength;
         public bool enableFirstOutpostQuest = DefEnableFirstOutpostQuest;
         public bool enableCommonEnemySettlementQuest = DefEnableCommonEnemySettlementQuest;
+        public bool enableSpyOpsSettlementQuest = DefEnableSpyOpsSettlementQuest;
+        public bool enableFortifySettlementQuest = DefEnableFortifySettlementQuest;
         public bool enableColonyRoadLinkQuest = DefEnableColonyRoadLinkQuest;
         public bool enableWorldDominationVictoryQuest = DefEnableWorldDominationVictoryQuest;
         public bool enableAtTurretTargetPlayerTravelers = DefEnableAtTurretTargetPlayerTravelers;
@@ -2365,6 +2374,10 @@ namespace TSA_WorldDomination
         public float traderTierUpgradeChanceT1ToT2 = DefTraderTierUpgradeChanceT1ToT2;
         public float traderTierUpgradeChanceT2ToT3 = DefTraderTierUpgradeChanceT2ToT3;
         public float traderTierUpgradeChanceT3ToT4 = DefTraderTierUpgradeChanceT3ToT4;
+
+        public float traderInfraChanceT1 = DefTraderInfraChanceT1;
+        public float traderInfraChanceT2 = DefTraderInfraChanceT2;
+        public float traderInfraChanceT3 = DefTraderInfraChanceT3;
 
         public float traderEscortFloorT1 = DefTraderEscortFloorT1;
         public float traderEscortFloorT2 = DefTraderEscortFloorT2;
@@ -3350,6 +3363,8 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref atTurretHeavyExpeditionStrength, "atTurretHeavyExpeditionStrength", DefAtTurretHeavyExpeditionStrength);
             Scribe_Values.Look(ref enableFirstOutpostQuest, "enableFirstOutpostQuest", DefEnableFirstOutpostQuest);
             Scribe_Values.Look(ref enableCommonEnemySettlementQuest, "enableCommonEnemySettlementQuest", DefEnableCommonEnemySettlementQuest);
+            Scribe_Values.Look(ref enableSpyOpsSettlementQuest, "enableSpyOpsSettlementQuest", DefEnableSpyOpsSettlementQuest);
+            Scribe_Values.Look(ref enableFortifySettlementQuest, "enableFortifySettlementQuest", DefEnableFortifySettlementQuest);
             Scribe_Values.Look(ref enableColonyRoadLinkQuest, "enableColonyRoadLinkQuest", DefEnableColonyRoadLinkQuest);
             Scribe_Values.Look(ref enableWorldDominationVictoryQuest, "enableWorldDominationVictoryQuest", DefEnableWorldDominationVictoryQuest);
             Scribe_Values.Look(ref enableAtTurretTargetPlayerTravelers, "enableAtTurretTargetPlayerTravelers", DefEnableAtTurretTargetPlayerTravelers);
@@ -3641,6 +3656,9 @@ namespace TSA_WorldDomination
             Scribe_Values.Look(ref traderTierUpgradeChanceT1ToT2, "traderTierUpgradeChanceT1ToT2", DefTraderTierUpgradeChanceT1ToT2);
             Scribe_Values.Look(ref traderTierUpgradeChanceT2ToT3, "traderTierUpgradeChanceT2ToT3", DefTraderTierUpgradeChanceT2ToT3);
             Scribe_Values.Look(ref traderTierUpgradeChanceT3ToT4, "traderTierUpgradeChanceT3ToT4", DefTraderTierUpgradeChanceT3ToT4);
+            Scribe_Values.Look(ref traderInfraChanceT1, "traderInfraChanceT1", DefTraderInfraChanceT1);
+            Scribe_Values.Look(ref traderInfraChanceT2, "traderInfraChanceT2", DefTraderInfraChanceT2);
+            Scribe_Values.Look(ref traderInfraChanceT3, "traderInfraChanceT3", DefTraderInfraChanceT3);
             Scribe_Values.Look(ref traderEscortFloorT1, "traderEscortFloorT1", DefTraderEscortFloorT1);
             Scribe_Values.Look(ref traderEscortFloorT2, "traderEscortFloorT2", DefTraderEscortFloorT2);
             Scribe_Values.Look(ref traderEscortFloorT3, "traderEscortFloorT3", DefTraderEscortFloorT3);
@@ -4141,6 +4159,7 @@ namespace TSA_WorldDomination
             ResetDisinformation();
             ResetFoodLogistics();
             ResetExperimental();
+            ResetQuests();
             ResetBaseGeneration();
             ResetNotifications();
             ResetWorldGen();
@@ -4651,6 +4670,9 @@ namespace TSA_WorldDomination
             traderTierUpgradeChanceT1ToT2 = DefTraderTierUpgradeChanceT1ToT2;
             traderTierUpgradeChanceT2ToT3 = DefTraderTierUpgradeChanceT2ToT3;
             traderTierUpgradeChanceT3ToT4 = DefTraderTierUpgradeChanceT3ToT4;
+            traderInfraChanceT1 = DefTraderInfraChanceT1;
+            traderInfraChanceT2 = DefTraderInfraChanceT2;
+            traderInfraChanceT3 = DefTraderInfraChanceT3;
         }
 
         public void ResetBuildingProjects()
@@ -5697,6 +5719,9 @@ namespace TSA_WorldDomination
             traderTierUpgradeChanceT1ToT2 = DefTraderTierUpgradeChanceT1ToT2;
             traderTierUpgradeChanceT2ToT3 = DefTraderTierUpgradeChanceT2ToT3;
             traderTierUpgradeChanceT3ToT4 = DefTraderTierUpgradeChanceT3ToT4;
+            traderInfraChanceT1 = DefTraderInfraChanceT1;
+            traderInfraChanceT2 = DefTraderInfraChanceT2;
+            traderInfraChanceT3 = DefTraderInfraChanceT3;
             traderEscortFloorT1 = DefTraderEscortFloorT1;
             traderEscortFloorT2 = DefTraderEscortFloorT2;
             traderEscortFloorT3 = DefTraderEscortFloorT3;
@@ -5753,6 +5778,16 @@ namespace TSA_WorldDomination
             virtualFoodTileMultiplierFloor = DefVirtualFoodTileMultiplierFloor;
         }
 
+        public void ResetQuests()
+        {
+            enableFirstOutpostQuest = DefEnableFirstOutpostQuest;
+            enableCommonEnemySettlementQuest = DefEnableCommonEnemySettlementQuest;
+            enableSpyOpsSettlementQuest = DefEnableSpyOpsSettlementQuest;
+            enableFortifySettlementQuest = DefEnableFortifySettlementQuest;
+            enableColonyRoadLinkQuest = DefEnableColonyRoadLinkQuest;
+            enableWorldDominationVictoryQuest = DefEnableWorldDominationVictoryQuest;
+        }
+
         public void ResetExperimental()
         {
             experimentalColonyWorldBuild = DefExperimentalColonyWorldBuild;
@@ -5789,10 +5824,6 @@ namespace TSA_WorldDomination
             experimentalT4GravshipRaids = DefExperimentalT4GravshipRaids;
             experimentalGravshipRaidChanceT4 = DefExperimentalGravshipRaidChanceT4;
             enableWorldMapSounds = DefEnableWorldMapSounds;
-            enableFirstOutpostQuest = DefEnableFirstOutpostQuest;
-            enableCommonEnemySettlementQuest = DefEnableCommonEnemySettlementQuest;
-            enableColonyRoadLinkQuest = DefEnableColonyRoadLinkQuest;
-            enableWorldDominationVictoryQuest = DefEnableWorldDominationVictoryQuest;
             enableAtTurretTargetPlayerTravelers = DefEnableAtTurretTargetPlayerTravelers;
             enableAtTurretTargetPlayerCaravans = DefEnableAtTurretTargetPlayerCaravans;
             minPlayerCaravanVisibilityToTarget = DefMinPlayerCaravanVisibilityToTarget;

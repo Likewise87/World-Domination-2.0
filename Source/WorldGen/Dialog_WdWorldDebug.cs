@@ -536,6 +536,12 @@ namespace TSA_WorldDomination
             Add(questsTools, "Capture settlement quest: force generate", IconConfig,
                 "Force the common-enemy settlement quest (ignores setting; needs asker + shared enemy town).",
                 DebugDashKind.Instant, DebugActions_Quests.CaptureSettlementForceGenerate);
+            Add(questsTools, "Spy-ops quest: force generate", IconConfig,
+                "Force the spy-ops intro quest (ignores setting; needs asker + shared enemy town).",
+                DebugDashKind.Instant, DebugActions_Quests.SpyOpsForceGenerate);
+            Add(questsTools, "Fortify quest: force generate", IconConfig,
+                "Force the fortify intro quest (ignores setting; needs asker + their land-reachable town).",
+                DebugDashKind.Instant, DebugActions_Quests.FortifyQuestForceGenerate);
             Add(questsTools, "Victory: force generate quest", IconConfig,
                 "Start / re-roll the World Domination victory quest.",
                 DebugDashKind.Instant, DebugActions_Quests.VictoryForceGenerateQuest);

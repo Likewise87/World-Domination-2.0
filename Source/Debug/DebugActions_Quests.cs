@@ -105,6 +105,52 @@ namespace TSA_WorldDomination
                     MessageTypeDefOf.RejectInput);
         }
 
+        public static void SpyOpsForceGenerate()
+        {
+            var gc = Current.Game?.GetComponent<GameComponent_WdSpyOpsSettlementQuest>();
+            if (gc != null)
+            {
+                gc.permanentlyDone = false;
+                gc.trackedQuestId = -1;
+                gc.offerAtTick = 0;
+            }
+
+            if (WdSpyOpsSettlementQuestHelper.AnyActive())
+            {
+                Messages.Message("WD debug: spy-ops quest already active.", MessageTypeDefOf.RejectInput);
+                return;
+            }
+            if (WdSpyOpsSettlementQuestHelper.GenerateQuest(ignoreSetting: true))
+                Messages.Message("WD debug: spy-ops quest generated.", MessageTypeDefOf.TaskCompletion);
+            else
+                Messages.Message(
+                    "WD debug: spy-ops quest generate failed (need asker + shared enemy town).",
+                    MessageTypeDefOf.RejectInput);
+        }
+
+        public static void FortifyQuestForceGenerate()
+        {
+            var gc = Current.Game?.GetComponent<GameComponent_WdFortifySettlementQuest>();
+            if (gc != null)
+            {
+                gc.permanentlyDone = false;
+                gc.trackedQuestId = -1;
+                gc.offerAtTick = 0;
+            }
+
+            if (WdFortifySettlementQuestHelper.AnyActive())
+            {
+                Messages.Message("WD debug: fortify quest already active.", MessageTypeDefOf.RejectInput);
+                return;
+            }
+            if (WdFortifySettlementQuestHelper.GenerateQuest(ignoreSetting: true))
+                Messages.Message("WD debug: fortify quest generated.", MessageTypeDefOf.TaskCompletion);
+            else
+                Messages.Message(
+                    "WD debug: fortify quest generate failed (need asker + their land-reachable town).",
+                    MessageTypeDefOf.RejectInput);
+        }
+
         public static void RaidBiasClickedToPlayer()
         {
             Faction attacker = FindFactionAtMouseTile();

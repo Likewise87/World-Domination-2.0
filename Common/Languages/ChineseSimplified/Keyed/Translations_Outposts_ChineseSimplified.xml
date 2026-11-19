@@ -709,6 +709,7 @@
   <TSA_WD_PawnCol_XpSuffix>经验</TSA_WD_PawnCol_XpSuffix>
   <TSA_WD_PawnCol_RelevantXpHeader>技能经验</TSA_WD_PawnCol_RelevantXpHeader>
   <TSA_WD_PawnCol_RelevantXpTooltip>距离下一级的进度（当前经验/升级所需）。相关技能：{0}。</TSA_WD_PawnCol_RelevantXpTooltip>
+  <TSA_WD_PawnCol_RelevantSkillXpPerDayTip>生产运行时，每名殖民者每天在{1}获得{0}经验（热情与学习因子生效；达到技能等级{2}后停止）。空闲、暂停或受阻的日子不发放。</TSA_WD_PawnCol_RelevantSkillXpPerDayTip>
   <TSA_WD_PawnDetails_Remove>从前哨站移出</TSA_WD_PawnDetails_Remove>
   <TSA_WD_PawnDetails_Skills>技能</TSA_WD_PawnDetails_Skills>
   <TSA_WD_PawnRow_Remove>移出</TSA_WD_PawnRow_Remove>
@@ -1164,11 +1165,11 @@
   <TSA_WD_Req_WaivedConquestResearch>从被征服的据点建立时不需要研究。</TSA_WD_Req_WaivedConquestResearch>
   <TSA_WD_RoadAlreadyBuilt_Refunded>{0} 施工队发现道路已建成。实力已退还。</TSA_WD_RoadAlreadyBuilt_Refunded>
   <TSA_WD_RoadAlreadyExists>此格已有道路</TSA_WD_RoadAlreadyExists>
-  <TSA_WD_RoadBlockedByTrench>该道路路线穿过现有战壕。请先拆除战壕或另选路线。</TSA_WD_RoadBlockedByTrench>
+  <TSA_WD_RoadBlockedByTrench>该道路沿战壕壕沟而行或交角过浅。仅可在共享格近直角穿越，或先拆除战壕/另选路线。</TSA_WD_RoadBlockedByTrench>
   <TSA_WD_Letter_RoadCancelledByTrench_Label>道路工程已取消</TSA_WD_Letter_RoadCancelledByTrench_Label>
-  <TSA_WD_Letter_RoadCancelledByTrench_Text>{0} 取消了道路修建任务，因为路线被战壕挡住。</TSA_WD_Letter_RoadCancelledByTrench_Text>
+  <TSA_WD_Letter_RoadCancelledByTrench_Text>{0} 取消了道路修建任务，因为路线沿战壕而行或无法干净穿越。</TSA_WD_Letter_RoadCancelledByTrench_Text>
   <TSA_WD_Letter_TrenchCancelledByRoad_Label>战壕工程已取消</TSA_WD_Letter_TrenchCancelledByRoad_Label>
-  <TSA_WD_Letter_TrenchCancelledByRoad_Text>{0} 取消了挖壕任务，因为路线被道路挡住。</TSA_WD_Letter_TrenchCancelledByRoad_Text>
+  <TSA_WD_Letter_TrenchCancelledByRoad_Text>{0} 取消了挖壕任务，因为路线沿道路而行或无法干净穿越。</TSA_WD_Letter_TrenchCancelledByRoad_Text>
   <TSA_WD_RoadAlreadyInProgress>施工已在进行。取消当前项目以设置新目标。</TSA_WD_RoadAlreadyInProgress>
   <TSA_WD_RoadAsphalt>沥青路</TSA_WD_RoadAsphalt>
   <TSA_WD_RoadAsphalt_Disabled>沥青路(需 {1} 建造技能,当前:{0})</TSA_WD_RoadAsphalt_Disabled>
@@ -1617,12 +1618,12 @@
   <TSA_WD_Status_ZealTip>增益：接下来 {0} 天袭击范围 +50%。</TSA_WD_Status_ZealTip>
   <TSA_WD_Status_IconInactive>当前未激活。可每日随机触发</TSA_WD_Status_IconInactive>
   <TSA_WD_Status_LeaderTitle>世界领袖减益</TSA_WD_Status_LeaderTitle>
-  <TSA_WD_Status_LeaderBlurb>使最强派系在一段时间内遭遇更多事件。</TSA_WD_Status_LeaderBlurb>
-  <TSA_WD_Status_LeaderActive>已激活。事件发生概率 {0}。效果还剩 {1} 天。</TSA_WD_Status_LeaderActive>
+  <TSA_WD_Status_LeaderBlurb>使最强派系在一段时间内遭遇更多事件，并缩小其盟友拉动半径。</TSA_WD_Status_LeaderBlurb>
+  <TSA_WD_Status_LeaderActive>已激活。事件发生概率 {0}。盟友拉动半径 {1}。效果还剩 {2} 天。</TSA_WD_Status_LeaderActive>
   <TSA_WD_Status_LeaderCooling>冷却中。{0} 天后可再次获得领袖减益。</TSA_WD_Status_LeaderCooling>
   <TSA_WD_Status_NimbleTitle>灵活增益</TSA_WD_Status_NimbleTitle>
-  <TSA_WD_Status_NimbleBlurb>使弱小派系获得暂时的发展加速,并可降低事件发生概率与事件造成的强度损失。</TSA_WD_Status_NimbleBlurb>
-  <TSA_WD_Status_NimbleActive>已激活。派系发展 {0}。事件概率 {1}。事件伤害 {2}。效果还剩 {3} 天。</TSA_WD_Status_NimbleActive>
+  <TSA_WD_Status_NimbleBlurb>使弱小派系获得暂时的发展加速，可降低事件发生概率与事件造成的强度损失，并扩大盟友拉动半径。</TSA_WD_Status_NimbleBlurb>
+  <TSA_WD_Status_NimbleActive>已激活。派系发展 {0}。事件概率 {1}。事件伤害 {2}。盟友拉动半径 {3}。效果还剩 {4} 天。</TSA_WD_Status_NimbleActive>
   <TSA_WD_Status_NimbleCooling>冷却中。{0} 天后可再次获得灵活增益。</TSA_WD_Status_NimbleCooling>
   <TSA_WD_Status_ExpansionistTitle>扩张主义增益</TSA_WD_Status_ExpansionistTitle>
   <TSA_WD_Status_ExpansionistBlurb>使派系获得暂时的袭击范围提升。</TSA_WD_Status_ExpansionistBlurb>
@@ -2072,6 +2073,8 @@
   <TSA_WD_AllyRadius_BreakdownLate>后期盟友缩放：+{0}%</TSA_WD_AllyRadius_BreakdownLate>
   <TSA_WD_AllyRadius_BreakdownLateOff>后期盟友缩放：本阶段关闭（不会回退到中期）</TSA_WD_AllyRadius_BreakdownLateOff>
   <TSA_WD_AllyRadius_BreakdownTunnel>隧道网络：+{0}（外环仅限隧道网络同伴）</TSA_WD_AllyRadius_BreakdownTunnel>
+  <TSA_WD_AllyRadius_BreakdownNimble>灵活增益：盟友拉动半径 {0}</TSA_WD_AllyRadius_BreakdownNimble>
+  <TSA_WD_AllyRadius_BreakdownLeader>世界领袖减益：盟友拉动半径 {0}</TSA_WD_AllyRadius_BreakdownLeader>
   <TSA_WD_AllyRadius_BreakdownResult>有效盟友拉动半径：{0}</TSA_WD_AllyRadius_BreakdownResult>
   <TSA_WD_OutpostStats_Row_FoodRadiusTip>此类前哨的食物物流范围（模组设置）。</TSA_WD_OutpostStats_Row_FoodRadiusTip>
   <TSA_WD_OutpostStats_Row_PeopleRadiusTip>招募、贸易与大使馆的附近聚居地半径。</TSA_WD_OutpostStats_Row_PeopleRadiusTip>
@@ -2352,7 +2355,7 @@
   <TSA_WD_Trench_NeedPassableLand>战壕需要可通行陆地（不可是水域或不可通行地）。</TSA_WD_Trench_NeedPassableLand>
   <TSA_WD_Trench_NotOnHub>枢纽格本身不能是战壕。</TSA_WD_Trench_NotOnHub>
   <TSA_WD_Trench_AlreadyTrench>该格已有战壕。</TSA_WD_Trench_AlreadyTrench>
-  <TSA_WD_Trench_BlockedByRoad>不能在道路格挖掘战壕。</TSA_WD_Trench_BlockedByRoad>
+  <TSA_WD_Trench_BlockedByRoad>不能沿道路挖掘或过浅汇合。仅可在共享格近直角穿越。</TSA_WD_Trench_BlockedByRoad>
   <TSA_WD_Trench_BlockedByFort>请先清除工事再挖战壕。</TSA_WD_Trench_BlockedByFort>
   <TSA_WD_Trench_BlockedByBridge>不能在桥梁格挖掘战壕。</TSA_WD_Trench_BlockedByBridge>
   <TSA_WD_Trench_BlockedByWorldObject>被 {0} 阻挡。</TSA_WD_Trench_BlockedByWorldObject>

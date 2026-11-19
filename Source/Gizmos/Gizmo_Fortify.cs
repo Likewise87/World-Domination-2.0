@@ -121,11 +121,14 @@ namespace TSA_WorldDomination
                 comp.strength += gain;
                 comp.CheckTierUpdate(true);
 
+                Settlement fortified = comp.parent as Settlement;
+                WdFortifySettlementQuestHelper.NotifySuccessfulFortify(fortified);
+
                 Find.LetterStack.ReceiveLetter("TSA_WD_Fort_LetterSuccessLabel".Translate(),
                     "TSA_WD_Fort_LetterSuccessText".Translate(pawn.LabelShort, comp.parent.Label, gain.ToString("F0")),
                     LetterDefOf.PositiveEvent, comp.parent);
 
-                manager?.AddLog(new SpreadLogEntry("TSA_WD_Fort_LogSuccess".Translate(oldStr.ToString("F0"), comp.strength.ToString("F0")), caravan, comp.parent as Settlement));
+                manager?.AddLog(new SpreadLogEntry("TSA_WD_Fort_LogSuccess".Translate(oldStr.ToString("F0"), comp.strength.ToString("F0")), caravan, fortified));
             }
             else
             {

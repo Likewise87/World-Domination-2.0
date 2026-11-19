@@ -392,6 +392,8 @@
   <TSA_WD_Log_TraderTrade_OutcomeStrength>進攻戰力增加（此次貿易未提升據點等級）。</TSA_WD_Log_TraderTrade_OutcomeStrength>
   <!-- EN: offensive strength increased and settlement tier upgraded (trade path; ignores same-tier neighbor requirements). -->
   <TSA_WD_Log_TraderTrade_OutcomeUpgrade>進攻戰力增加且據點等級提升（貿易途徑；忽略同等級鄰近據點的條件）。</TSA_WD_Log_TraderTrade_OutcomeUpgrade>
+  <!-- EN: {0} Also placed {1}. -->
+  <TSA_WD_Log_TraderTrade_OutcomeWithInfra>{0} 並放置了{1}。</TSA_WD_Log_TraderTrade_OutcomeWithInfra>
   <!-- EN: {0}: no settlement strength applied (not a WD settlement / excluded). -->
   <TSA_WD_Log_TraderTrade_NoStrengthLine>{0}：未套用據點戰力（非WD據點／已排除）。</TSA_WD_Log_TraderTrade_NoStrengthLine>
   <!-- EN: TRADER: Caravan arrived from {0} at {1}. -->

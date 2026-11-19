@@ -72,7 +72,7 @@
   <TSA_WD_Diplo_IncidentSeverity>事件强度损失乘数</TSA_WD_Diplo_IncidentSeverity>
   <TSA_WD_Diplo_IncidentWeight>事件发生概率乘数</TSA_WD_Diplo_IncidentWeight>
   <TSA_WD_Diplo_LeaderHandicap>启用霸主阵营惩罚(减益)</TSA_WD_Diplo_LeaderHandicap>
-  <TSA_WD_Diplo_LeaderHandicapTooltip>最强势阵营受内讧与后勤问题影响,事件发生频率增加。</TSA_WD_Diplo_LeaderHandicapTooltip>
+  <TSA_WD_Diplo_LeaderHandicapTooltip>最强势阵营受内讧与后勤问题影响，事件发生频率增加，并缩小盟友拉动半径。</TSA_WD_Diplo_LeaderHandicapTooltip>
   <TSA_WD_Diplo_LeaderHandicap_Label>减益:世界霸主</TSA_WD_Diplo_LeaderHandicap_Label>
   <TSA_WD_Diplo_LeaderHandicap_Msg>减益:"{0}"已成为主导阵营。因其规模,在接下来 {1} 天内将遭受更多事件。</TSA_WD_Diplo_LeaderHandicap_Msg>
   <TSA_WD_Diplo_LeaderIncidentSeverity>霸主:事件强度损失乘数</TSA_WD_Diplo_LeaderIncidentSeverity>
@@ -146,7 +146,7 @@
   <TSA_WD_Diplo_UnderdogActionShare>弱势方:每日行动份额乘数</TSA_WD_Diplo_UnderdogActionShare>
   <TSA_WD_Diplo_UnderdogActionShareTooltip>当弱势方增益生效时,该阵营的每日行动份额乘以此值(如 2 = 双倍行动)。</TSA_WD_Diplo_UnderdogActionShareTooltip>
   <TSA_WD_Diplo_UnderdogBuff>启用弱势方成长提升(增益)</TSA_WD_Diplo_UnderdogBuff>
-  <TSA_WD_Diplo_UnderdogBuffTooltip>最弱阵营变得小而灵活,在一段时间内获得成长速度提升。</TSA_WD_Diplo_UnderdogBuffTooltip>
+  <TSA_WD_Diplo_UnderdogBuffTooltip>战力低于平均份额的弱小 NPC 派系可获得「灵活」（可同时多个），在限时内成长更快、防御更强，并扩大盟友拉动半径。</TSA_WD_Diplo_UnderdogBuffTooltip>
   <TSA_WD_Diplo_UnderdogBuff_Label>增益:成长提升</TSA_WD_Diplo_UnderdogBuff_Label>
   <TSA_WD_Diplo_UnderdogBuff_Msg>增益:"{0}"因小而灵活,在接下来 {1} 天内将更快成长。</TSA_WD_Diplo_UnderdogBuff_Msg>
   <TSA_WD_Diplo_UnderdogBuff_MsgMulti>增益:{0}因小而灵活,在接下来 {1} 天内将更快成长。</TSA_WD_Diplo_UnderdogBuff_MsgMulti>

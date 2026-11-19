@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Notas de versión de Dominación Mundial -->
+  <TSA_WD_Update_2_3_75_Title>Expansión estratégica, cruce carretera&lt;&gt;trinchera y nuevas misiones</TSA_WD_Update_2_3_75_Title>
+  <TSA_WD_Update_2_3_75_Body><![CDATA[
+<size=16><b>2.3.75 - Expansión estratégica, cruce carretera<>trinchera y nuevas misiones</b></size>\n
+<color=#00FFFFFF>Fecha de lanzamiento: 19 de noviembre de 2026</color>\n
+------------------------------\n
+!!!Los cambios aplican solo a la versión 1.7!!!\n
+• Mejorada la Expansión estratégica para que las facciones encuentren mejor un lugar apartado al fundar un asentamiento nuevo fuera del alcance enemigo.\n
+• Nueva función: pocos sabían que puedes enviar un peón con alta Social junto a un asentamiento enemigo en el mapa mundial para Difundir desinformación (baja la fuerza del asentamiento y hasta puede destruirlo). Lo mismo con un peón de alta Fabricación para Sabotaje contra enemigos, y Fortificar en neutrales o aliados. Añadidas misiones introductorias únicas en los primeros 10–20 días que dan buena voluntad al completar esas acciones.\n
+• Corrección: la misión de construir carretera no contaba bien los puentes, o se ofrecía para un asentamiento ya conectado por carretera. Corregido.\n
+• En un comercio exitoso, las partes pueden recibir también un edificio avanzado (establo, silo, etc.) o una torreta AT.\n
+• Las carreteras ahora pueden cruzar trincheras en ángulo casi recto en una casilla compartida.\n
+• Corrección: al sacar todos los peones de una avanzada por cápsula, la avanzada vacía ahora se destruye correctamente, igual que por tierra.\n
+]]></TSA_WD_Update_2_3_75_Body>
   <TSA_WD_Update_2_3_74_Title>Correcciones y calidad de vida</TSA_WD_Update_2_3_74_Title>
   <TSA_WD_Update_2_3_74_Body><![CDATA[
 <size=16><b>2.3.74 - Correcciones y calidad de vida</b></size>\n

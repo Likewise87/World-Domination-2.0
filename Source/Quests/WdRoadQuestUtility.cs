@@ -34,6 +34,11 @@ namespace TSA_WorldDomination
             if (a.Layer != layer || b.Layer != layer)
                 return false;
 
+            // BFS only along GetRoadDef edges. Mark visited when enqueueing a road-reachable
+            // tile — never when merely scanning an adjacent tile without a road. Marking early
+            // made coastal water neighbors "visited" with no bridge link, so real bridge paths
+            // (and some land detours) never entered the queue; that both blocked quest success
+            // after bridging and let already-road-linked towns be offered.
             roadBfsQueue.Clear();
             roadBfsVisited.Clear();
             roadBfsQueue.Enqueue(a.tileId);
@@ -45,17 +50,20 @@ namespace TSA_WorldDomination
                 if (cur == b.tileId)
                     return true;
 
+                PlanetTile curPt = new PlanetTile(cur, layer);
                 roadBfsNeighbors.Clear();
-                grid.GetTileNeighbors(cur, roadBfsNeighbors);
+                grid.GetTileNeighbors(curPt, roadBfsNeighbors);
                 for (int i = 0; i < roadBfsNeighbors.Count; i++)
                 {
                     PlanetTile npt = roadBfsNeighbors[i];
                     if (!npt.Valid || npt.Layer != layer)
                         continue;
                     int next = npt.tileId;
-                    if (!roadBfsVisited.Add(next))
+                    if (roadBfsVisited.Contains(next))
                         continue;
-                    if (grid.GetRoadDef(cur, next, visibleOnly: false) == null)
+                    if (!WorldActions_Roads.HasRoadLink(curPt, npt))
+                        continue;
+                    if (!roadBfsVisited.Add(next))
                         continue;
                     roadBfsQueue.Enqueue(next);
                 }

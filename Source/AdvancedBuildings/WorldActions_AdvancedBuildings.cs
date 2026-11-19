@@ -269,6 +269,44 @@ namespace TSA_WorldDomination
             return baseW * GetSafetyMult(actor, comp, isRecovering, manager);
         }
 
+        /// <summary>
+        /// Trade arrival gift: instant Place from the daily BuildPool (no traveler, no advanced-build cooldown).
+        /// Returns false when no slot / empty pool / no tile.
+        /// </summary>
+        public static bool TryInstantPlaceFromPool(Settlement s, CompViralSpread comp, out AdvancedBuildingDef placedDef)
+        {
+            placedDef = null;
+            if (!IsNpcBuilderSettlement(s, comp) || !HasFreeSlot(s, comp)) return false;
+            if (!BuildPool(s, comp, preferArtillery: false, tmpPoolDefs, tmpPoolWeights)) return false;
+
+            while (tmpPoolDefs.Count > 0)
+            {
+                AdvancedBuildingDef def = PickWeighted(tmpPoolDefs, tmpPoolWeights);
+                if (def == null) return false;
+                if (!WdMedievalMode.IsAdvancedBuildingAllowed(def))
+                {
+                    int skip = tmpPoolDefs.IndexOf(def);
+                    if (skip < 0) return false;
+                    tmpPoolDefs.RemoveAt(skip);
+                    tmpPoolWeights.RemoveAt(skip);
+                    continue;
+                }
+                if (FindBuildTile(s, def, out int tile))
+                {
+                    if (Place(def, s, tile) != null)
+                    {
+                        placedDef = def;
+                        return true;
+                    }
+                }
+                int idx = tmpPoolDefs.IndexOf(def);
+                if (idx < 0) return false;
+                tmpPoolDefs.RemoveAt(idx);
+                tmpPoolWeights.RemoveAt(idx);
+            }
+            return false;
+        }
+
         // ---------- Attempt ----------
 
         public static bool Attempt(Settlement actor, CompViralSpread comp, WorldComponent_SpreadManager manager, bool isRecovering)

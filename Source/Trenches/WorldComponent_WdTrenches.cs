@@ -361,9 +361,8 @@ namespace TSA_WorldDomination
             if (HasTrenchAt(tileId))
                 return "TSA_WD_Trench_AlreadyTrench".Translate();
 
-            // Exclusive off-hub: no roads, forts, WOs (except travelers / own hub).
-            if (TileHasRoadLink(tileId))
-                return "TSA_WD_Trench_BlockedByRoad".Translate();
+            // Exclusive off-hub vs forts / bridges / WOs. Roads may share the tile only via a
+            // perpendicular-ish crossing (checked per edge in TryAddEdge / path validation).
             if (WorldActions_Fortifications.HasFortificationAt(tileId))
                 return "TSA_WD_Trench_BlockedByFort".Translate();
             if (WorldComponent_WdBridges.IsBridgedWaterTile(tileId))
@@ -398,6 +397,96 @@ namespace TSA_WorldDomination
             if (Find.WorldGrid == null || tileId < 0 || tileId >= Find.WorldGrid.TilesCount) return false;
             if (Find.WorldGrid[tileId] is not SurfaceTile st) return false;
             return st.potentialRoads != null && st.potentialRoads.Count > 0;
+        }
+
+        /// <summary>
+        /// Hex-friendly "perpendicular-ish": |dot| of world direction vectors at most this
+        /// (rejects near-collinear / shallow merges; ~60°+ separation).
+        /// </summary>
+        public const float CrossingMaxAbsDot = 0.5f;
+
+        /// <summary>True when trench edge from↔to conflicts with existing roads (same adjacency or non-crossing).</summary>
+        public static bool TrenchEdgeConflictsWithRoad(int from, int to)
+        {
+            if (from < 0 || to < 0 || from == to) return false;
+            if (WorldActions_Roads.HasRoadLink(from, to))
+                return true;
+            if (TileHasRoadLink(from) && !IsOwnerHubTile(from) && !TrenchMayCrossRoadTile(from, to))
+                return true;
+            if (TileHasRoadLink(to) && !IsOwnerHubTile(to) && !TrenchMayCrossRoadTile(to, from))
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// True when paving from↔to conflicts with exclusive trench arms (same adjacency as a trench edge,
+        /// or not perpendicular-ish to trench edges at an exclusive trench endpoint).
+        /// Hub roots are never exclusive (<see cref="HasExclusiveTrenchAt"/>).
+        /// </summary>
+        public static bool RoadEdgeConflictsWithTrench(int from, int to)
+        {
+            if (from < 0 || to < 0 || from == to) return false;
+            var trenches = Get();
+            if (trenches != null && trenches.HasEdge(from, to))
+                return true;
+            if (HasExclusiveTrenchAt(from) && !RoadMayCrossTrenchTile(from, to))
+                return true;
+            if (HasExclusiveTrenchAt(to) && !RoadMayCrossTrenchTile(to, from))
+                return true;
+            return false;
+        }
+
+        /// <summary>New trench neighbor at <paramref name="roadTile"/> is perpendicular-ish to every road link there.</summary>
+        public static bool TrenchMayCrossRoadTile(int roadTile, int trenchNeighbor)
+        {
+            if (Find.WorldGrid == null || roadTile < 0 || trenchNeighbor < 0) return false;
+            if (Find.WorldGrid[roadTile] is not SurfaceTile st || st.potentialRoads == null || st.potentialRoads.Count == 0)
+                return true;
+            Vector3 trenchDir = TileDirection(roadTile, trenchNeighbor);
+            if (trenchDir.sqrMagnitude < 1e-8f) return false;
+            for (int i = 0; i < st.potentialRoads.Count; i++)
+            {
+                int n = st.potentialRoads[i].neighbor.tileId;
+                if (n < 0 || n == roadTile) continue;
+                Vector3 roadDir = TileDirection(roadTile, n);
+                if (!DirectionsArePerpendicularish(trenchDir, roadDir))
+                    return false;
+            }
+            return true;
+        }
+
+        /// <summary>New road neighbor at <paramref name="trenchTile"/> is perpendicular-ish to every trench edge there.</summary>
+        public static bool RoadMayCrossTrenchTile(int trenchTile, int roadNeighbor)
+        {
+            var trenches = Get();
+            if (trenches == null) return true;
+            trenches.EnsureIndex();
+            if (!trenches.neighborsByTile.TryGetValue(trenchTile, out List<int> ns) || ns == null || ns.Count == 0)
+                return true;
+            Vector3 roadDir = TileDirection(trenchTile, roadNeighbor);
+            if (roadDir.sqrMagnitude < 1e-8f) return false;
+            for (int i = 0; i < ns.Count; i++)
+            {
+                Vector3 trenchDir = TileDirection(trenchTile, ns[i]);
+                if (!DirectionsArePerpendicularish(roadDir, trenchDir))
+                    return false;
+            }
+            return true;
+        }
+
+        public static bool DirectionsArePerpendicularish(Vector3 a, Vector3 b)
+        {
+            if (a.sqrMagnitude < 1e-8f || b.sqrMagnitude < 1e-8f) return false;
+            return Mathf.Abs(Vector3.Dot(a.normalized, b.normalized)) <= CrossingMaxAbsDot;
+        }
+
+        public static Vector3 TileDirection(int fromTileId, int toTileId)
+        {
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null || fromTileId < 0 || toTileId < 0) return Vector3.zero;
+            Vector3 d = grid.GetTileCenter(toTileId) - grid.GetTileCenter(fromTileId);
+            d.y = 0f;
+            return d.sqrMagnitude > 1e-8f ? d.normalized : Vector3.zero;
         }
 
         /// <summary>True if any other build system must refuse this tile because a trench occupies it.</summary>
@@ -443,6 +532,12 @@ namespace TSA_WorldDomination
             if (HasEdge(tileA, tileB))
             {
                 failReason = "TSA_WD_Trench_AlreadyTrench".Translate();
+                return false;
+            }
+            // Never dig the same adjacency as a road; off-hub road tiles only via perpendicular-ish crossing.
+            if (TrenchEdgeConflictsWithRoad(tileA, tileB))
+            {
+                failReason = "TSA_WD_Trench_BlockedByRoad".Translate();
                 return false;
             }
 

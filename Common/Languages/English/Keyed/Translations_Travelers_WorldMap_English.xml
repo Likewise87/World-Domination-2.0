@@ -202,6 +202,7 @@
   <TSA_WD_Log_TraderTrade_RoleInterceptor>Interceptor ({0})</TSA_WD_Log_TraderTrade_RoleInterceptor>
   <TSA_WD_Log_TraderTrade_OutcomeStrength>offensive strength increased (no tier upgrade on this trade).</TSA_WD_Log_TraderTrade_OutcomeStrength>
   <TSA_WD_Log_TraderTrade_OutcomeUpgrade>offensive strength increased and settlement tier upgraded (trade path; ignores same-tier neighbor requirements).</TSA_WD_Log_TraderTrade_OutcomeUpgrade>
+  <TSA_WD_Log_TraderTrade_OutcomeWithInfra>{0} Also placed {1}.</TSA_WD_Log_TraderTrade_OutcomeWithInfra>
   <TSA_WD_Log_TraderTrade_NoStrengthLine>{0}: no settlement strength applied (not a WD settlement / excluded).</TSA_WD_Log_TraderTrade_NoStrengthLine>
   <TSA_WD_Log_TraderArrived>TRADER: Caravan arrived from {0} at {1}.</TSA_WD_Log_TraderArrived>
   <TSA_WD_Log_OutpostUpgradeLaunched>OUTPOST UPGRADE: Caravan launched from {0} to {1} for {2} (level {3}).</TSA_WD_Log_OutpostUpgradeLaunched>

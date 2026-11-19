@@ -94,31 +94,6 @@ var s = WorldDominationMod.settings;
                     ref s.experimentalPlayerConquestRaze,
                     "TSA_WD_Experimental_PlayerConquestRazeTip".Translate(),
                     defaultValue: WorldDominationSettings.DefExperimentalPlayerConquestRaze);
-                SettingsUI.DrawCheckbox(l, "TSA_WD_Quest_EnableFirstOutpost".Translate(),
-                    ref s.enableFirstOutpostQuest,
-                    "TSA_WD_Quest_EnableFirstOutpostTip".Translate(),
-                    defaultValue: WorldDominationSettings.DefEnableFirstOutpostQuest);
-                SettingsUI.DrawCheckbox(l, "TSA_WD_Quest_EnableCommonEnemySettlement".Translate(),
-                    ref s.enableCommonEnemySettlementQuest,
-                    "TSA_WD_Quest_EnableCommonEnemySettlementTip".Translate(),
-                    defaultValue: WorldDominationSettings.DefEnableCommonEnemySettlementQuest);
-                SettingsUI.DrawCheckbox(l, "TSA_WD_Quest_EnableColonyRoadLink".Translate(),
-                    ref s.enableColonyRoadLinkQuest,
-                    "TSA_WD_Quest_EnableColonyRoadLinkTip".Translate(),
-                    defaultValue: WorldDominationSettings.DefEnableColonyRoadLinkQuest);
-                bool victoryQuestWas = s.enableWorldDominationVictoryQuest;
-                SettingsUI.DrawCheckbox(l, "TSA_WD_Quest_EnableWorldDominationVictory".Translate(),
-                    ref s.enableWorldDominationVictoryQuest,
-                    "TSA_WD_Quest_EnableWorldDominationVictoryTip".Translate(),
-                    defaultValue: WorldDominationSettings.DefEnableWorldDominationVictoryQuest);
-                if (Current.ProgramState == ProgramState.Playing
-                    && victoryQuestWas != s.enableWorldDominationVictoryQuest)
-                {
-                    if (s.enableWorldDominationVictoryQuest)
-                        WdWorldDominationVictoryQuestHelper.TryLaunchNowIfEligible();
-                    else
-                        WdWorldDominationVictoryQuestHelper.RemoveActiveIfAny();
-                }
 
                 SettingsUI.DrawCheckbox(l, "TSA_WD_Experimental_EnableWorldMapSounds".Translate(),
                     ref s.enableWorldMapSounds,

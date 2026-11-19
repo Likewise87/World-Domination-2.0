@@ -17,6 +17,17 @@ namespace TSA_WorldDomination
         StrengthAndTierUp
     }
 
+    /// <summary>Trader arrival reward: strength / optional tier-up, plus optional infra label when a building or AT was placed.</summary>
+    public struct TraderArrivalRewardResult
+    {
+        public TraderArrivalRewardOutcome Outcome;
+        /// <summary>Label of advanced building or AT placed this arrival; null if none.</summary>
+        public string InfraLabel;
+
+        public static TraderArrivalRewardResult None =>
+            new TraderArrivalRewardResult { Outcome = TraderArrivalRewardOutcome.NoEffect, InfraLabel = null };
+    }
+
     public class CompProperties_ViralSpread : WorldObjectCompProperties
     {
         public CompProperties_ViralSpread() => this.compClass = typeof(CompViralSpread);
@@ -2108,28 +2119,38 @@ namespace TSA_WorldDomination
             defensiveStrength += defensiveGain;
         }
 
-        /// <summary>WD trader arrival: flat strength reward, optional tier promotion at cap (respects regional localMaxT*; no Develop neighbor gate).</summary>
-        public TraderArrivalRewardOutcome ApplyTraderArrivalReward(float amount, float chanceT1ToT2, float chanceT2ToT3, float chanceT3ToT4)
+        /// <summary>
+        /// WD trader arrival: flat strength reward; at/near offensive cap may roll additive tier-up (regional localMaxT*; no Develop neighbor gate)
+        /// and additive infra (advanced building, else kit-tier AT). Chances use pre-promote tier; placement uses final tier.
+        /// </summary>
+        public TraderArrivalRewardResult ApplyTraderArrivalReward(
+            float amount,
+            float chanceT1ToT2,
+            float chanceT2ToT3,
+            float chanceT3ToT4,
+            float infraChanceT1,
+            float infraChanceT2,
+            float infraChanceT3)
         {
-            if (amount <= 0f) return TraderArrivalRewardOutcome.NoEffect;
-            if (IsPlayerMapSettlement) return TraderArrivalRewardOutcome.NoEffect;
+            if (amount <= 0f) return TraderArrivalRewardResult.None;
+            if (IsPlayerMapSettlement) return TraderArrivalRewardResult.None;
 
             if (IsOutpost)
             {
                 AddStrengthNoTierUpgrade(amount);
-                return TraderArrivalRewardOutcome.StrengthOnly;
+                return new TraderArrivalRewardResult { Outcome = TraderArrivalRewardOutcome.StrengthOnly };
             }
 
             if (!IsSettlement)
             {
                 AddStrengthNoTierUpgrade(amount);
-                return TraderArrivalRewardOutcome.StrengthOnly;
+                return new TraderArrivalRewardResult { Outcome = TraderArrivalRewardOutcome.StrengthOnly };
             }
 
             if (tier == SettlementTier.T4)
             {
                 AddStrengthNoTierUpgrade(amount);
-                return TraderArrivalRewardOutcome.StrengthOnly;
+                return new TraderArrivalRewardResult { Outcome = TraderArrivalRewardOutcome.StrengthOnly };
             }
 
             float tierMax = GetEffectiveOffensiveMaxForTier(tier);
@@ -2140,21 +2161,54 @@ namespace TSA_WorldDomination
             if (!atCap && !wouldExceed)
             {
                 AddStrengthNoTierUpgrade(amount);
-                return TraderArrivalRewardOutcome.StrengthOnly;
+                return new TraderArrivalRewardResult { Outcome = TraderArrivalRewardOutcome.StrengthOnly };
             }
 
-            float chance = tier == SettlementTier.T1 ? chanceT1ToT2 : (tier == SettlementTier.T2 ? chanceT2ToT3 : chanceT3ToT4);
-            chance = Mathf.Clamp01(chance);
-            if (Rand.Value < chance
-                && TryGetNextTraderTier(tier, out SettlementTier nextTier)
-                && WorldActions_GrowthExpand.CanPromoteNextTierRegionally(parent, tier))
-            {
+            SettlementTier tierBefore = tier;
+            float tierChance = tierBefore == SettlementTier.T1
+                ? chanceT1ToT2
+                : (tierBefore == SettlementTier.T2 ? chanceT2ToT3 : chanceT3ToT4);
+            float infraChance = tierBefore == SettlementTier.T1
+                ? infraChanceT1
+                : (tierBefore == SettlementTier.T2 ? infraChanceT2 : infraChanceT3);
+            tierChance = Mathf.Clamp01(tierChance);
+            infraChance = Mathf.Clamp01(infraChance);
+
+            SettlementTier nextTier = tierBefore;
+            bool wantTier = Rand.Value < tierChance
+                && TryGetNextTraderTier(tierBefore, out nextTier)
+                && WorldActions_GrowthExpand.CanPromoteNextTierRegionally(parent, tierBefore);
+            bool wantInfra = Rand.Value < infraChance;
+
+            if (wantTier)
                 PromoteSettlementTierForTraderArrival(nextTier, amount);
-                return TraderArrivalRewardOutcome.StrengthAndTierUp;
-            }
+            else
+                AddStrengthNoTierUpgrade(amount);
 
-            AddStrengthNoTierUpgrade(amount);
-            return TraderArrivalRewardOutcome.StrengthOnly;
+            var result = new TraderArrivalRewardResult
+            {
+                Outcome = wantTier
+                    ? TraderArrivalRewardOutcome.StrengthAndTierUp
+                    : TraderArrivalRewardOutcome.StrengthOnly
+            };
+
+            if (wantInfra && parent is Settlement settlement)
+                result.InfraLabel = TryPlaceTraderArrivalInfra(settlement);
+
+            return result;
+        }
+
+        /// <summary>Prefer tier-matched advanced building (instant); else one kit-tier AT. Null if neither placed.</summary>
+        private string TryPlaceTraderArrivalInfra(Settlement settlement)
+        {
+            if (WorldActions_AdvancedBuildings.TryInstantPlaceFromPool(settlement, this, out AdvancedBuildingDef adv)
+                && adv != null)
+                return adv.LabelText;
+
+            if (WorldActions_FortifyKit.TryPlaceOneAtTurretForSettlement(settlement, out AtTurretTier atTier))
+                return AtTurretUtility.LabelKey(atTier).Translate().ToString();
+
+            return null;
         }
 
         private static bool TryGetNextTraderTier(SettlementTier current, out SettlementTier next)

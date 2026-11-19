@@ -193,6 +193,7 @@
   <TSA_WD_Log_TraderTrade_RoleInterceptor>Interceptor ({0})</TSA_WD_Log_TraderTrade_RoleInterceptor>
   <TSA_WD_Log_TraderTrade_OutcomeStrength>fuerza ofensiva aumentada (sin ascenso de nivel en este comercio).</TSA_WD_Log_TraderTrade_OutcomeStrength>
   <TSA_WD_Log_TraderTrade_OutcomeUpgrade>fuerza ofensiva aumentada y nivel de asentamiento ascendido (comercio; ignora requisitos de vecinos del mismo nivel).</TSA_WD_Log_TraderTrade_OutcomeUpgrade>
+  <TSA_WD_Log_TraderTrade_OutcomeWithInfra>{0} También se colocó {1}.</TSA_WD_Log_TraderTrade_OutcomeWithInfra>
   <TSA_WD_Log_TraderTrade_NoStrengthLine>{0}: no se aplicó fuerza de asentamiento WD (no es asentamiento WD / excluido).</TSA_WD_Log_TraderTrade_NoStrengthLine>
   <TSA_WD_Log_TraderArrived>COMERCIANTE: Caravana llegó de {0} a {1}.</TSA_WD_Log_TraderArrived>
   <TSA_WD_Log_OutpostUpgradeLaunched>MEJORA DE PUESTO: Caravana lanzada de {0} a {1} para {2} (nivel {3}).</TSA_WD_Log_OutpostUpgradeLaunched>

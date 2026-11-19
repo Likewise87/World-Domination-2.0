@@ -231,6 +231,11 @@ namespace TSA_WorldDomination
                     failReason = report.Reason;
                     return false;
                 }
+                if (WorldComponent_WdTrenches.TrenchEdgeConflictsWithRoad(prev, tile))
+                {
+                    failReason = "TSA_WD_Trench_BlockedByRoad".Translate();
+                    return false;
+                }
 
                 // Same arm-gap rule as TryAddEdge (hex: touching the dig point's existing arm tiles is OK).
                 if (trenches.WouldViolateArmSeparation(tile, prev, hub.ID))
@@ -605,23 +610,17 @@ namespace TSA_WorldDomination
             traveler.Destroy();
         }
 
-        /// <summary>True when the next undug trench endpoint is already occupied by a road (existing roads only).</summary>
+        /// <summary>
+        /// True when the next undug trench edge conflicts with existing roads
+        /// (same adjacency, or non-perpendicular crossing on an off-hub road tile).
+        /// </summary>
         private static bool NextDigBlockedByExistingRoad(WorldObject hub, int from, int to)
         {
             if (hub == null) return false;
             // Walking an existing trench edge is never a dig.
             var trenches = WorldComponent_WdTrenches.Get();
             if (trenches != null && trenches.HasEdge(from, to)) return false;
-
-            // New dig lands on <paramref name="to"/> (and may leave <paramref name="from"/> when both empty).
-            if (!WorldComponent_WdTrenches.HasTrenchAt(to)
-                && WorldComponent_WdTrenches.TileHasRoadLink(to))
-                return true;
-            if (!WorldComponent_WdTrenches.HasTrenchAt(from)
-                && from != hub.Tile.tileId
-                && WorldComponent_WdTrenches.TileHasRoadLink(from))
-                return true;
-            return false;
+            return WorldComponent_WdTrenches.TrenchEdgeConflictsWithRoad(from, to);
         }
 
         /// <summary>Abort trench dig with a blue letter; clears project and active builders.</summary>

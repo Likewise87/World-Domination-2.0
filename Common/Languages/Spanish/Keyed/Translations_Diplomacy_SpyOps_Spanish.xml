@@ -72,7 +72,7 @@
   <TSA_WD_Diplo_IncidentSeverity>Multiplicador de pérdida de fuerza por incidente</TSA_WD_Diplo_IncidentSeverity>
   <TSA_WD_Diplo_IncidentWeight>Multiplicador de probabilidad de incidente</TSA_WD_Diplo_IncidentWeight>
   <TSA_WD_Diplo_LeaderHandicap>Activar penalización de facción dominante (penalización)</TSA_WD_Diplo_LeaderHandicap>
-  <TSA_WD_Diplo_LeaderHandicapTooltip>La facción más fuerte sufre conflictos internos y logística, aumentando la frecuencia de incidentes.</TSA_WD_Diplo_LeaderHandicapTooltip>
+  <TSA_WD_Diplo_LeaderHandicapTooltip>La facción más fuerte sufre conflictos internos y logística, aumentando la frecuencia de incidentes y reduciendo su radio de atracción aliada.</TSA_WD_Diplo_LeaderHandicapTooltip>
   <TSA_WD_Diplo_LeaderHandicap_Label>Penalización: Líder mundial</TSA_WD_Diplo_LeaderHandicap_Label>
   <TSA_WD_Diplo_LeaderHandicap_Msg>Penalización: "{0}" se ha convertido en la facción dominante. Por su tamaño sufrirá más incidentes en los próximos {1} días.</TSA_WD_Diplo_LeaderHandicap_Msg>
   <TSA_WD_Diplo_LeaderIncidentSeverity>Líder: multiplicador de pérdida de fuerza por incidente</TSA_WD_Diplo_LeaderIncidentSeverity>
@@ -146,7 +146,7 @@
   <TSA_WD_Diplo_UnderdogActionShare>Rezagado: multiplicador de cuota de acciones diarias</TSA_WD_Diplo_UnderdogActionShare>
   <TSA_WD_Diplo_UnderdogActionShareTooltip>Cuando la mejora de rezagado está activa, la cuota de acciones diarias de esa facción se multiplica por esto (ej. 2 = el doble de acciones).</TSA_WD_Diplo_UnderdogActionShareTooltip>
   <TSA_WD_Diplo_UnderdogBuff>Activar mejora de crecimiento del rezagado (mejora)</TSA_WD_Diplo_UnderdogBuff>
-  <TSA_WD_Diplo_UnderdogBuffTooltip>La facción más débil se vuelve pequeña y ágil, ganando velocidad de crecimiento durante un tiempo limitado.</TSA_WD_Diplo_UnderdogBuffTooltip>
+  <TSA_WD_Diplo_UnderdogBuffTooltip>Las facciones PNJ débiles por debajo de la cuota media pueden volverse Ágiles (varias a la vez), con más crecimiento, mejor defensa y mayor radio de atracción aliada durante un tiempo limitado.</TSA_WD_Diplo_UnderdogBuffTooltip>
   <TSA_WD_Diplo_UnderdogBuff_Label>Mejora: impulso de crecimiento</TSA_WD_Diplo_UnderdogBuff_Label>
   <TSA_WD_Diplo_UnderdogBuff_Msg>Mejora: "{0}" crecerá más rápido los próximos {1} días por ser pequeña y ágil.</TSA_WD_Diplo_UnderdogBuff_Msg>
   <TSA_WD_Diplo_UnderdogBuff_MsgMulti>Mejora: {0} crecerán más rápido los próximos {1} días por ser pequeñas y ágiles.</TSA_WD_Diplo_UnderdogBuff_MsgMulti>

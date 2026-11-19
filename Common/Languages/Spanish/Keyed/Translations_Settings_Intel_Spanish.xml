@@ -62,9 +62,9 @@
   <TSA_WD_Intel_ScoutBearingAvoid>Scout bearing avoid (degrees)</TSA_WD_Intel_ScoutBearingAvoid>
   <TSA_WD_Intel_ScoutBearingAvoidTip>Scouts avoid launching toward bearings that already have a known hostile within this cone.</TSA_WD_Intel_ScoutBearingAvoidTip>
   <TSA_WD_Intel_WeightStrategicExpand>Strategic Expand weight</TSA_WD_Intel_WeightStrategicExpand>
-  <TSA_WD_Intel_WeightStrategicExpandTip>Daily-action weight for Strategic Expand (prefers tiles outside enemy sight). Only when raid-logic fog is active.</TSA_WD_Intel_WeightStrategicExpandTip>
+  <TSA_WD_Intel_WeightStrategicExpandTip>Peso de acción diaria de Strategic Expand. Prefiere fundar en sitios seguros: fuera de la vista de enemigos cercanos, fuera de corredores geodésicos hacia los hostiles más próximos, y no hacia el jugador. Usa conocimiento perfecto de hostiles cercanos (no depende de la niebla de guerra).</TSA_WD_Intel_WeightStrategicExpandTip>
   <TSA_WD_Intel_StrategicExpandSamples>Strategic Expand samples</TSA_WD_Intel_StrategicExpandSamples>
-  <TSA_WD_Intel_StrategicExpandSamplesTip>How many candidate tiles Strategic Expand samples before picking.</TSA_WD_Intel_StrategicExpandSamplesTip>
+  <TSA_WD_Intel_StrategicExpandSamplesTip>Cuántas casillas candidatas muestra Strategic Expand antes de elegir el sitio más seguro.</TSA_WD_Intel_StrategicExpandSamplesTip>
 
   <TSA_WD_Intel_HeaderGotBurned>Got Burned</TSA_WD_Intel_HeaderGotBurned>
   <TSA_WD_Intel_HeaderGotBurnedTip>After a raid undercounts defenders, the next assess vs that primary inflates known defender strength (caution only).</TSA_WD_Intel_HeaderGotBurnedTip>

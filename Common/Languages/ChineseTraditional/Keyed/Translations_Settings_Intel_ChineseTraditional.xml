@@ -62,9 +62,9 @@
   <TSA_WD_Intel_ScoutBearingAvoid>Scout bearing avoid (degrees)</TSA_WD_Intel_ScoutBearingAvoid>
   <TSA_WD_Intel_ScoutBearingAvoidTip>Scouts avoid launching toward bearings that already have a known hostile within this cone.</TSA_WD_Intel_ScoutBearingAvoidTip>
   <TSA_WD_Intel_WeightStrategicExpand>Strategic Expand weight</TSA_WD_Intel_WeightStrategicExpand>
-  <TSA_WD_Intel_WeightStrategicExpandTip>Daily-action weight for Strategic Expand (prefers tiles outside enemy sight). Only when raid-logic fog is active.</TSA_WD_Intel_WeightStrategicExpandTip>
+  <TSA_WD_Intel_WeightStrategicExpandTip>戰略擴張的每日行動權重。優先在安全位置建城：避開附近敵人視野、避開通往最近敵對據點的測地走廊，且不朝玩家方向推進。對附近敵對據點使用完美情報（不依賴戰爭迷霧）。</TSA_WD_Intel_WeightStrategicExpandTip>
   <TSA_WD_Intel_StrategicExpandSamples>Strategic Expand samples</TSA_WD_Intel_StrategicExpandSamples>
-  <TSA_WD_Intel_StrategicExpandSamplesTip>How many candidate tiles Strategic Expand samples before picking.</TSA_WD_Intel_StrategicExpandSamplesTip>
+  <TSA_WD_Intel_StrategicExpandSamplesTip>戰略擴張在選定最安全建城點前採樣的候選地塊數量。</TSA_WD_Intel_StrategicExpandSamplesTip>
 
   <TSA_WD_Intel_HeaderGotBurned>Got Burned</TSA_WD_Intel_HeaderGotBurned>
   <TSA_WD_Intel_HeaderGotBurnedTip>After a raid undercounts defenders, the next assess vs that primary inflates known defender strength (caution only).</TSA_WD_Intel_HeaderGotBurnedTip>

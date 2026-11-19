@@ -743,10 +743,12 @@ namespace TSA_WorldDomination
             }
         }
 
-        /// <summary>Exclusive trench on either endpoint of a land-road edge (hub roots excluded via HasExclusiveTrenchAt).</summary>
+        /// <summary>
+        /// True when paving this land-road edge conflicts with trenches (same adjacency as a trench arm,
+        /// or not perpendicular-ish at an exclusive trench endpoint). Hub roots excluded via HasExclusiveTrenchAt.
+        /// </summary>
         public static bool RoadEdgeBlockedByExclusiveTrench(int fromTileId, int toTileId) =>
-            WorldComponent_WdTrenches.HasExclusiveTrenchAt(fromTileId)
-            || WorldComponent_WdTrenches.HasExclusiveTrenchAt(toTileId);
+            WorldComponent_WdTrenches.RoadEdgeConflictsWithTrench(fromTileId, toTileId);
 
         /// <summary>
         /// True when any unfinished pave edge on the corridor touches an exclusive trench.
@@ -1490,9 +1492,8 @@ namespace TSA_WorldDomination
                 return HasRoadLink(fromTileId, toTileId);
             }
 
-            // Trenches are exclusive off-hub; hub roots may coexist with roads in other directions.
-            if (WorldComponent_WdTrenches.HasExclusiveTrenchAt(fromTileId)
-                || WorldComponent_WdTrenches.HasExclusiveTrenchAt(toTileId))
+            // Same adjacency as a trench, or non-perpendicular crossing at an exclusive trench tile.
+            if (WorldComponent_WdTrenches.RoadEdgeConflictsWithTrench(fromTileId, toTileId))
                 return false;
 
             RoadDef existing = grid.GetRoadDef(fromTileId, toTileId, visibleOnly: false);
@@ -1528,9 +1529,8 @@ namespace TSA_WorldDomination
                 Log.Warning($"TSA World Domination: ApplyRoadLink skipped non-adjacent tiles {a.tileId} ↔ {b.tileId}.");
                 return;
             }
-            // Trenches are exclusive off-hub: never pave over a trench arm tile.
-            if (WorldComponent_WdTrenches.HasExclusiveTrenchAt(a.tileId)
-                || WorldComponent_WdTrenches.HasExclusiveTrenchAt(b.tileId))
+            // Never pave the trench ditch adjacency; off-hub trench tiles only via perpendicular-ish crossing.
+            if (WorldComponent_WdTrenches.RoadEdgeConflictsWithTrench(a.tileId, b.tileId))
                 return;
 
             Find.WorldGrid.OverlayRoad(a.tileId, b.tileId, road);

@@ -613,6 +613,7 @@ namespace TSA_WorldDomination
                     leaderActive
                         ? "TSA_WD_Status_LeaderActive".Translate(
                             FormatStatusMult(seth?.leaderIncidentWeightMult ?? WorldDominationSettings.DefLeaderIncidentWeightMult),
+                            FormatStatusMult(seth?.leaderAllyRadiusMult ?? WorldDominationSettings.DefLeaderAllyRadiusMult),
                             FormatStatusDays(leaderExpiry, ticksNow))
                         : leaderCooling
                             ? "TSA_WD_Status_LeaderCooling".Translate(FormatStatusDays(leaderCdUntil, ticksNow))
@@ -629,6 +630,7 @@ namespace TSA_WorldDomination
                             FormatStatusMult(seth?.underdogGrowthGainMult ?? WorldDominationSettings.DefUnderdogGrowthGainMult),
                             FormatStatusMult(seth?.underdogIncidentWeightMult ?? WorldDominationSettings.DefUnderdogIncidentWeightMult),
                             FormatStatusMult(seth?.underdogIncidentSeverityMult ?? WorldDominationSettings.DefUnderdogIncidentSeverityMult),
+                            FormatStatusMult(seth?.underdogAllyRadiusMult ?? WorldDominationSettings.DefUnderdogAllyRadiusMult),
                             FormatStatusDays(nimbleExpiry, ticksNow))
                         : nimbleCooling
                             ? "TSA_WD_Status_NimbleCooling".Translate(FormatStatusDays(underdogCdUntil, ticksNow))

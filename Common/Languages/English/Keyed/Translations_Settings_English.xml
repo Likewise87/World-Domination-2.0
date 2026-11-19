@@ -134,6 +134,7 @@
   <TSA_WD_BtnWorldRaids>World Map Raids</TSA_WD_BtnWorldRaids>
   <TSA_WD_BtnCaravans>Caravans &amp; Trade</TSA_WD_BtnCaravans>
   <TSA_WD_BtnExperimental>Experimental</TSA_WD_BtnExperimental>
+  <TSA_WD_BtnQuests>Quests</TSA_WD_BtnQuests>
   <TSA_WD_BtnPlayerArtillery>Mortar, Anti Air and Rapid Response Logic</TSA_WD_BtnPlayerArtillery>
   <TSA_WD_Category>World Domination</TSA_WD_Category>
   <TSA_WD_Settings_DefaultValue>Default: {0}</TSA_WD_Settings_DefaultValue>
@@ -200,7 +201,8 @@
   <TSA_WD_DescWorldGen>How likely shall it be for T1, T2, T3, T4 settlements to be created at initial world generation?</TSA_WD_DescWorldGen>
   <TSA_WD_DescWorldRaids>Simulated raid outcomes (win curves, losses), min attack ratio, ally pull radius, NPC attack ranges, raze/ruins, and garrison retain. Travel attrition is under Caravans.</TSA_WD_DescWorldRaids>
   <TSA_WD_DescCaravans>Traveler, drop-pod, and Rapid Response speeds, travel attrition and rest, water pathing, trader caravans (escort/tier-up), goodwill from trade, outpost delivery costs, and storyteller trader blocking. Water pathing is also set by Setting presets → Performance.</TSA_WD_DescCaravans>
-  <TSA_WD_DescExperimental>Experimental gameplay toggles (quests, trenches, armory, withdraw/defense budgets), world-map icon zoom, overlay hold key, travel-food/UI helpers, and traveler pollution damage/pathfinding. NPC fortify is under World Actions.</TSA_WD_DescExperimental>
+  <TSA_WD_DescExperimental>Experimental gameplay toggles (trenches, armory, withdraw/defense budgets), world-map icon zoom, overlay hold key, travel-food/UI helpers, and traveler pollution damage/pathfinding. NPC fortify is under World Actions. Quest offer toggles are under Quests.</TSA_WD_DescExperimental>
+  <TSA_WD_DescQuests>Enable or disable WD quest offers (first outpost, spy-ops, fortify, common enemy, colony road link, and World Domination victory).</TSA_WD_DescQuests>
   <TSA_WD_HeaderImportant>Setting presets</TSA_WD_HeaderImportant>
   <TSA_WD_MedievalMode>Medieval mode</TSA_WD_MedievalMode>
   <TSA_WD_MedievalModeTip>Use with Medieval Overhaul (or similar low-tech runs).\n\nHides industrial WD content:\n• Outposts, upgrades, and AT turrets\n• Asphalt roads and heavy road blocks\n\nWorld-build research:\n• Stone roads, bridges, caltrops, and medium road blocks use Engineering (or Smithing if that research is missing) instead of Machining\n\nAlso:\n• Floors NPC drop-pod and mortar/AA tech gates to Industrial\n• Hides player land vs drop-pod travel UI and forces land travel\n\nAlready placed industrial buildings are not removed.\nActivating this mid game should work, but still better backup your savegame first</TSA_WD_MedievalModeTip>
@@ -617,6 +619,13 @@
   <TSA_WD_Caravans_TierUpT2ToT3Tip>Same as T1 to T2, but for promotion from T2 to T3 when at the T2 strength ceiling.</TSA_WD_Caravans_TierUpT2ToT3Tip>
   <TSA_WD_Caravans_TierUpT3ToT4>Upgrade chance T3 to T4</TSA_WD_Caravans_TierUpT3ToT4>
   <TSA_WD_Caravans_TierUpT3ToT4Tip>Same as T1 to T2, but for promotion from T3 to T4 when at the T3 strength ceiling.</TSA_WD_Caravans_TierUpT3ToT4Tip>
+  <TSA_WD_Caravans_HeaderTraderInfra>Trader infrastructure (at cap)</TSA_WD_Caravans_HeaderTraderInfra>
+  <TSA_WD_Caravans_InfraT1>Infrastructure chance (T1)</TSA_WD_Caravans_InfraT1>
+  <TSA_WD_Caravans_InfraT1Tip>Additive with tier-up. After a successful WD trade at the T1 strength ceiling, this chance instantly places a tier-matched advanced building, or a Light AT turret if none can be placed. Rolls independently of tier promotion.</TSA_WD_Caravans_InfraT1Tip>
+  <TSA_WD_Caravans_InfraT2>Infrastructure chance (T2)</TSA_WD_Caravans_InfraT2>
+  <TSA_WD_Caravans_InfraT2Tip>Same as T1 infrastructure, for settlements at the T2 strength ceiling (Light AT fallback).</TSA_WD_Caravans_InfraT2Tip>
+  <TSA_WD_Caravans_InfraT3>Infrastructure chance (T3)</TSA_WD_Caravans_InfraT3>
+  <TSA_WD_Caravans_InfraT3Tip>Same as T1 infrastructure, for settlements at the T3 strength ceiling (Medium AT fallback).</TSA_WD_Caravans_InfraT3Tip>
   <TSA_WD_Caravans_HeaderTraderEscort>Trader caravan escort strength</TSA_WD_Caravans_HeaderTraderEscort>
   <TSA_WD_Caravans_EscortFloorT1>Escort strength floor (T1 sender)</TSA_WD_Caravans_EscortFloorT1>
   <TSA_WD_Caravans_EscortFloorT1Tip>Minimum combat/interception strength of a trader caravan sent by a T1 settlement, regardless of the flat strength cost deducted at launch. Keeps trade a meaningful, weighable target for ambush and interception instead of a uniform freebie.</TSA_WD_Caravans_EscortFloorT1Tip>

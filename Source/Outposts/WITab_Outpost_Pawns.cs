@@ -199,6 +199,8 @@ namespace TSA_WorldDomination
         private string cachedRelHeader = null!;
         private string cachedXpTooltip = null!;
         private string cachedXpHeaderLabel = null!;
+        /// <summary>Relevant skill column header tip (daily production XP); null → default sort tip.</summary>
+        private string cachedRelevantSkillTooltip = null!;
         /// <summary>Academy: effective teaching skill for cache invalidation (selection / cycle lock).</summary>
         private string cachedAcademyTeachingSkillKey = null!;
 
@@ -592,6 +594,7 @@ namespace TSA_WorldDomination
             else
                 cachedRelHeader = null!;
 
+            cachedRelevantSkillTooltip = null!;
             if (cachedRelevantDefs.Count > 0)
             {
                 string skillName = cachedRelevantDefs.Count == 1
@@ -604,6 +607,24 @@ namespace TSA_WorldDomination
                 cachedXpHeaderLabel = cachedRelevantDefs.Count == 1
                     ? cachedRelevantDefs[0].LabelCap + " " + hdrXpSuffix
                     : hdrRelevantXp;
+
+                if (Outpost_OccupantProgression.TryGetProductionSkillXpPerPawnPerDay(outpost, out float xpPerDay))
+                {
+                    int maxLv = WorldDominationMod.settings?.GetEffectiveOutpostSkillLevel(
+                        WorldDominationMod.settings.outpostOccupantSkillXpMaxLevel)
+                        ?? WorldDominationSettings.DefOutpostOccupantSkillXpMaxLevel;
+                    string tip = "TSA_WD_PawnCol_RelevantSkillXpPerDayTip".Translate(
+                        Mathf.RoundToInt(xpPerDay).ToString(),
+                        skillName,
+                        maxLv.ToString());
+                    if (!tip.Contains("TSA_WD_"))
+                        cachedRelevantSkillTooltip = tip;
+                    else
+                        cachedRelevantSkillTooltip =
+                            Mathf.RoundToInt(xpPerDay) + " XP/day in " + skillName
+                            + " for each colonist while production runs (passions apply; stops at level "
+                            + maxLv + ").";
+                }
             }
 
             if (cachedRows == null)
@@ -2361,7 +2382,14 @@ namespace TSA_WorldDomination
                 DrawSortableHeader(ref x, curY, ColStrength, hdrStrength, OutpostPawnTableSortColumn.Strength, true);
             if (cachedRelevantDefs != null && cachedRelevantDefs.Count > 0 && ColOn(PawnRosterColumnIds.Relevant))
             {
-                DrawSortableHeader(ref x, curY, ColSkill, (cachedRelHeader ?? "").Truncate(ColSkill), OutpostPawnTableSortColumn.RelevantCombined, true);
+                DrawSortableHeader(
+                    ref x,
+                    curY,
+                    ColSkill,
+                    (cachedRelHeader ?? "").Truncate(ColSkill),
+                    OutpostPawnTableSortColumn.RelevantCombined,
+                    true,
+                    cachedRelevantSkillTooltip);
                 DrawRelevantXpHeader(ref x, curY);
             }
             if (ColOn(PawnRosterColumnIds.Construction))

@@ -1558,6 +1558,7 @@
   <TSA_WD_PawnCol_XpSuffix>經驗</TSA_WD_PawnCol_XpSuffix>
   <!-- EN: Skills XP -->
   <TSA_WD_PawnCol_RelevantXpHeader>技能經驗</TSA_WD_PawnCol_RelevantXpHeader>
+  <TSA_WD_PawnCol_RelevantSkillXpPerDayTip>生產運行時，每名殖民者每天在{1}獲得{0}經驗（熱情與學習因子生效；達到技能等級{2}後停止）。閒置、暫停或受阻的日子不發放。</TSA_WD_PawnCol_RelevantSkillXpPerDayTip>
   <!-- EN: Progress toward the next level (current XP / XP required). Relevant skills: {0}. -->
   <TSA_WD_PawnCol_RelevantXpTooltip>距離下一級的進度（目前經驗 / 所需經驗）。相關技能：{0}。</TSA_WD_PawnCol_RelevantXpTooltip>
   <!-- EN: Remove from outpost -->
@@ -3271,18 +3272,18 @@
   <TSA_WD_Status_IconInactive>目前未生效。每天可能隨機觸發</TSA_WD_Status_IconInactive>
   <!-- EN: World leader debuff -->
   <TSA_WD_Status_LeaderTitle>世界霸主減益</TSA_WD_Status_LeaderTitle>
-  <!-- EN: Gives the strongest faction more incidents for a while. -->
-  <TSA_WD_Status_LeaderBlurb>讓最強的派系在一段時間內遭遇更多事件。</TSA_WD_Status_LeaderBlurb>
-  <!-- EN: Active. Incidents {0} more likely. Effect lasts {1} more days. -->
-  <TSA_WD_Status_LeaderActive>生效中。事件發生機率提高{0}。效果還會持續{1}天。</TSA_WD_Status_LeaderActive>
+  <!-- EN: Gives the strongest faction more incidents for a while, and shrinks its ally pull radius. -->
+  <TSA_WD_Status_LeaderBlurb>讓最強的派系在一段時間內遭遇更多事件，並縮小其同盟召集半徑。</TSA_WD_Status_LeaderBlurb>
+  <!-- EN: Active. Incidents {0} more likely. Ally pull radius {1}. Effect lasts {2} more days. -->
+  <TSA_WD_Status_LeaderActive>生效中。事件發生機率提高{0}。同盟召集半徑{1}。效果還會持續{2}天。</TSA_WD_Status_LeaderActive>
   <!-- EN: Cooling down. Can receive the leader handicap again in {0} days. -->
   <TSA_WD_Status_LeaderCooling>冷卻中。{0}天後可再次承受霸主懲罰。</TSA_WD_Status_LeaderCooling>
   <!-- EN: Nimble buff -->
   <TSA_WD_Status_NimbleTitle>靈活增益</TSA_WD_Status_NimbleTitle>
-  <!-- EN: Gives weak factions a temporary growth boost, and can reduce how often incidents hit them and how much strength those incidents remove. -->
-  <TSA_WD_Status_NimbleBlurb>讓弱小派系暫時獲得成長加成，並可能降低事件發生頻率與事件削減的戰力。</TSA_WD_Status_NimbleBlurb>
-  <!-- EN: Active. Growth {0}. Incident chance {1}. Incident damage {2}. Effect lasts {3} more days. -->
-  <TSA_WD_Status_NimbleActive>生效中。成長{0}。事件機率{1}。事件傷害{2}。效果還會持續{3}天。</TSA_WD_Status_NimbleActive>
+  <!-- EN: Gives weak factions a temporary growth boost, can reduce how often incidents hit them and how much strength those incidents remove, and widens ally pull radius. -->
+  <TSA_WD_Status_NimbleBlurb>讓弱小派系暫時獲得成長加成，可能降低事件發生頻率與事件削減的戰力，並擴大同盟召集半徑。</TSA_WD_Status_NimbleBlurb>
+  <!-- EN: Active. Growth {0}. Incident chance {1}. Incident damage {2}. Ally pull radius {3}. Effect lasts {4} more days. -->
+  <TSA_WD_Status_NimbleActive>生效中。成長{0}。事件機率{1}。事件傷害{2}。同盟召集半徑{3}。效果還會持續{4}天。</TSA_WD_Status_NimbleActive>
   <!-- EN: Cooling down. Can receive Nimble again in {0} days. -->
   <TSA_WD_Status_NimbleCooling>冷卻中。{0}天後可再次獲得靈活。</TSA_WD_Status_NimbleCooling>
   <!-- EN: Expansionist buff -->
@@ -4196,6 +4197,10 @@
   <TSA_WD_AllyRadius_BreakdownLateOff>後期同盟縮放：此階段關閉（不退回中期設定）</TSA_WD_AllyRadius_BreakdownLateOff>
   <!-- EN: Tunnel Network: +{0} (outer ring: Tunnel Network peers only) -->
   <TSA_WD_AllyRadius_BreakdownTunnel>隧道網路：+{0}（外環：僅限擁有隧道網路的哨站）</TSA_WD_AllyRadius_BreakdownTunnel>
+  <!-- EN: Nimble buff: ally pull radius {0} -->
+  <TSA_WD_AllyRadius_BreakdownNimble>靈活增益：同盟召集半徑 {0}</TSA_WD_AllyRadius_BreakdownNimble>
+  <!-- EN: World leader debuff: ally pull radius {0} -->
+  <TSA_WD_AllyRadius_BreakdownLeader>世界霸主減益：同盟召集半徑 {0}</TSA_WD_AllyRadius_BreakdownLeader>
   <!-- EN: Effective ally pull radius: {0} -->
   <TSA_WD_AllyRadius_BreakdownResult>有效同盟召集半徑：{0}</TSA_WD_AllyRadius_BreakdownResult>
   <!-- EN: Food logistics range for this outpost type (mod setting). -->

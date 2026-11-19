@@ -126,6 +126,7 @@
   <TSA_WD_BtnWorldRaids>Incursiones del mapa mundial</TSA_WD_BtnWorldRaids>
   <TSA_WD_BtnCaravans>Caravanas y comercio</TSA_WD_BtnCaravans>
   <TSA_WD_BtnExperimental>Experimental</TSA_WD_BtnExperimental>
+  <TSA_WD_BtnQuests>Misiones</TSA_WD_BtnQuests>
   <TSA_WD_BtnPlayerArtillery>Mortero, antiaéreo y lógica de respuesta rápida</TSA_WD_BtnPlayerArtillery>
   <TSA_WD_Category>Dominación Mundial</TSA_WD_Category>
   <TSA_WD_Daily_CapTip>Número máximo de acciones distintas (incursión, construir carretera, crecer, etc.) que este asentamiento puede iniciar en un solo día.</TSA_WD_Daily_CapTip>
@@ -178,7 +179,8 @@
   <TSA_WD_DescWorldGen>¿Qué probabilidad hay de que se creen asentamientos T1, T2, T3, T4 en la generación mundial inicial?</TSA_WD_DescWorldGen>
   <TSA_WD_DescWorldRaids>Resultados de incursiones simuladas (curvas de victoria, pérdidas), ratio mínima de ataque, radio de aliados, alcances de ataque PNJ, saqueo/ruinas y retención de guarnición. El desgaste en viaje está en Caravanas.</TSA_WD_DescWorldRaids>
   <TSA_WD_DescCaravans>Velocidades de viajero, cápsula y respuesta rápida, desgaste y descanso, pathfinding acuático, caravanas comerciales (escolta/subida de nivel), buena voluntad por comercio, costes de entrega de puestos y bloqueo de comerciantes del narrador. El pathfinding acuático también se configura en Presets de ajustes → Rendimiento.</TSA_WD_DescCaravans>
-  <TSA_WD_DescExperimental>Interruptores experimentales (misiones, trincheras, armería, presupuestos de retirada/defensa), zoom de iconos del mapa mundial, tecla de superposición, ayudas de comida/UI de viaje y daño/pathfinding por contaminación de viajeros. La fortificación PNJ está en Acciones mundiales.</TSA_WD_DescExperimental>
+  <TSA_WD_DescExperimental>Interruptores experimentales (trincheras, armería, presupuestos de retirada/defensa), zoom de iconos del mapa mundial, tecla de superposición, ayudas de comida/UI de viaje y daño/pathfinding por contaminación de viajeros. La fortificación PNJ está en Acciones mundiales. Las misiones WD están en Misiones.</TSA_WD_DescExperimental>
+  <TSA_WD_DescQuests>Activa o desactiva las ofertas de misiones WD (primer puesto, espionaje, fortificar, enemigo común, enlace de carretera a la colonia y victoria de Dominación Mundial).</TSA_WD_DescQuests>
   <TSA_WD_FacDet_BtnView>Ver</TSA_WD_FacDet_BtnView>
   <TSA_WD_FacDet_HeaderName>Nombre del asentamiento</TSA_WD_FacDet_HeaderName>
   <TSA_WD_FacDet_HeaderStrength>Fuerza</TSA_WD_FacDet_HeaderStrength>
@@ -472,6 +474,13 @@
   <TSA_WD_Caravans_TierUpT2ToT3Tip>Igual que T1 a T2, pero para ascender de T2 a T3 cuando se está en el techo de fuerza de T2.</TSA_WD_Caravans_TierUpT2ToT3Tip>
   <TSA_WD_Caravans_TierUpT3ToT4>Probabilidad de ascenso T3 a T4</TSA_WD_Caravans_TierUpT3ToT4>
   <TSA_WD_Caravans_TierUpT3ToT4Tip>Igual que T1 a T2, pero para ascender de T3 a T4 cuando se está en el techo de fuerza de T3.</TSA_WD_Caravans_TierUpT3ToT4Tip>
+  <TSA_WD_Caravans_HeaderTraderInfra>Infraestructura por comercio (techo de nivel)</TSA_WD_Caravans_HeaderTraderInfra>
+  <TSA_WD_Caravans_InfraT1>Probabilidad de infraestructura (T1)</TSA_WD_Caravans_InfraT1>
+  <TSA_WD_Caravans_InfraT1Tip>Aditiva al ascenso. Tras un comercio WD exitoso en el techo de fuerza T1, esta probabilidad coloca al instante un edificio avanzado acorde al nivel, o una torreta AT Ligera si no hay edificio posible. Se tira aparte del ascenso de nivel.</TSA_WD_Caravans_InfraT1Tip>
+  <TSA_WD_Caravans_InfraT2>Probabilidad de infraestructura (T2)</TSA_WD_Caravans_InfraT2>
+  <TSA_WD_Caravans_InfraT2Tip>Igual que la infraestructura T1, para asentamientos en el techo de fuerza T2 (reserva AT Ligera).</TSA_WD_Caravans_InfraT2Tip>
+  <TSA_WD_Caravans_InfraT3>Probabilidad de infraestructura (T3)</TSA_WD_Caravans_InfraT3>
+  <TSA_WD_Caravans_InfraT3Tip>Igual que la infraestructura T1, para asentamientos en el techo de fuerza T3 (reserva AT Media).</TSA_WD_Caravans_InfraT3Tip>
   <TSA_WD_Caravans_HeaderTraderEscort>Fuerza de escolta de comerciantes</TSA_WD_Caravans_HeaderTraderEscort>
   <TSA_WD_Caravans_EscortFloorT1>Mínimo de fuerza de escolta (remitente T1)</TSA_WD_Caravans_EscortFloorT1>
   <TSA_WD_Caravans_EscortFloorT1Tip>Fuerza mínima de combate/intercepción de una caravana comerciante enviada por un asentamiento T1, sin importar el coste plano deducido al lanzarla. Mantiene el comercio como un objetivo significativo y valorable para emboscadas e intercepciones en lugar de un blanco uniforme y gratuito.</TSA_WD_Caravans_EscortFloorT1Tip>

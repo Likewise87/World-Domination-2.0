@@ -147,7 +147,7 @@
   <!-- EN: Enable Dominant Faction Handicap (Debuff) -->
   <TSA_WD_Diplo_LeaderHandicap>啟用強勢派系懲罰（減益）</TSA_WD_Diplo_LeaderHandicap>
   <!-- EN: The strongest faction suffers from internal strife and logistical issues, increasing their incident frequency. -->
-  <TSA_WD_Diplo_LeaderHandicapTooltip>最強的派系會受內部紛爭與後勤問題所苦，事件發生頻率提高。</TSA_WD_Diplo_LeaderHandicapTooltip>
+  <TSA_WD_Diplo_LeaderHandicapTooltip>最強的派系會受內部紛爭與後勤問題所苦，事件發生頻率提高，並縮小同盟召集半徑。</TSA_WD_Diplo_LeaderHandicapTooltip>
   <!-- EN: Debuff: World Leader -->
   <TSA_WD_Diplo_LeaderHandicap_Label>減益：世界霸主</TSA_WD_Diplo_LeaderHandicap_Label>
   <!-- EN: Debuff: '{0}' has become the dominant faction. Due to their size they will suffer from more incidents in the next {1} days. -->
@@ -289,7 +289,7 @@
   <!-- EN: Enable Underdog Growth Boost (Buff) -->
   <TSA_WD_Diplo_UnderdogBuff>啟用弱勢派系成長加速（增益）</TSA_WD_Diplo_UnderdogBuff>
   <!-- EN: Weak NPC factions below equal-share strength can become Nimble (up to several at once), granting faster growth and stronger defense for a limited time. -->
-  <TSA_WD_Diplo_UnderdogBuffTooltip>戰力低於平均份額的弱小NPC派系可獲得「靈活」狀態（可同時有數個），在限定時間內成長更快、防禦更強。</TSA_WD_Diplo_UnderdogBuffTooltip>
+  <TSA_WD_Diplo_UnderdogBuffTooltip>戰力低於平均份額的弱小NPC派系可獲得「靈活」狀態（可同時有數個），在限定時間內成長更快、防禦更強，並擴大同盟召集半徑。</TSA_WD_Diplo_UnderdogBuffTooltip>
   <!-- EN: Buff: Growth Boost -->
   <TSA_WD_Diplo_UnderdogBuff_Label>增益：成長加速</TSA_WD_Diplo_UnderdogBuff_Label>
   <!-- EN: Buff: '{0}' will grow faster for the next {1} days thanks to being small and nimble. -->

@@ -228,6 +228,28 @@ namespace TSA_WorldDomination
             return dest;
         }
 
+        /// <summary>
+        /// Trade arrival fallback: place one kit-tier AT on prefer rings if under settlement/kit caps.
+        /// </summary>
+        public static bool TryPlaceOneAtTurretForSettlement(Settlement settlement, out AtTurretTier placedTier)
+        {
+            placedTier = AtTurretTier.Light;
+            if (settlement == null || settlement.Destroyed) return false;
+            Faction faction = settlement.Faction;
+            if (faction == null) return false;
+            var comp = settlement.GetComponent<CompViralSpread>();
+            SettlementTier kitTier = comp?.tier ?? SettlementTier.T1;
+            GetKit(kitTier, out _, out _, out AtTurretTier atTier, out int maxAt, faction);
+            placedTier = atTier;
+            if (!WdMedievalMode.IsAtTurretAllowed(atTier)) return false;
+            int centerTile = settlement.Tile.tileId;
+            int want = AdditionalAtWant(
+                maxAt, settlement, CountAtTurretsInAtRings(centerTile, faction), includeInFlight: false);
+            if (want <= 0) return false;
+            return PlaceAtOnPreferRings(
+                centerTile, faction, atTier, want: 1, settlement, settlement, exclude: null) > 0;
+        }
+
         public static void TryPlaceFortifyKit(
             int centerTile,
             Faction faction,

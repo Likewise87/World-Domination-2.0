@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- World Domination release notes -->
+  <TSA_WD_Update_2_3_75_Title>Strategic expansion, road&lt;&gt;trench crossing, new quests</TSA_WD_Update_2_3_75_Title>
+  <TSA_WD_Update_2_3_75_Body><![CDATA[
+<size=16><b>2.3.75 - Strategic expansion, road<>trench crossing, new quests</b></size>\n
+<color=#00FFFFFF>Release date: November 19th 2026</color>\n
+------------------------------\n
+!!!Changes apply to the 1.7 version only!!!\n
+• Improved Strategic Expansion so factions should do a better job finding a tugged-away spot for a new settlement outside of enemy range.\n
+• New feature: few players knew you can send a high-Social pawn next to an enemy settlement on the world map to Spread Disinformation (reduces settlement strength and may even destroy it). The same idea works with a high-Crafting pawn for Sabotage on enemies, and Fortify on neutral or allied settlements. Added one-off intro quests in the first 10–20 days that award goodwill when you perform those actions.\n
+• Bugfix: the Build Road quest could fail to count bridges, or be offered for a settlement already connected by road. Fixed.\n
+• On a successful trade, trading parties may now also receive an advanced building (stable, silo, etc.) or an AT turret.\n
+• Roads may now cross trenches at a near-right angle on a shared world tile.\n
+• Bugfix: removing all pawns from an outpost via drop pod now properly destroys the empty outpost, same as the land-travel path.\n
+]]></TSA_WD_Update_2_3_75_Body>
   <TSA_WD_Update_2_3_74_Title>Bugfixes and QOL</TSA_WD_Update_2_3_74_Title>
   <TSA_WD_Update_2_3_74_Body><![CDATA[
 <size=16><b>2.3.74 - Bugfixes and QOL</b></size>\n

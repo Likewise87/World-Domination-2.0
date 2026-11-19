@@ -74,7 +74,7 @@
   <TSA_WD_Diplo_IncidentSeverity>Incident strength loss multiplier</TSA_WD_Diplo_IncidentSeverity>
   <TSA_WD_Diplo_IncidentWeight>Incident likelihood multiplier</TSA_WD_Diplo_IncidentWeight>
   <TSA_WD_Diplo_LeaderHandicap>Enable Dominant Faction Handicap (Debuff)</TSA_WD_Diplo_LeaderHandicap>
-  <TSA_WD_Diplo_LeaderHandicapTooltip>The strongest faction suffers from internal strife and logistical issues, increasing their incident frequency.</TSA_WD_Diplo_LeaderHandicapTooltip>
+  <TSA_WD_Diplo_LeaderHandicapTooltip>The strongest faction suffers from internal strife and logistical issues, increasing their incident frequency and shrinking ally pull radius.</TSA_WD_Diplo_LeaderHandicapTooltip>
   <TSA_WD_Diplo_LeaderHandicap_Label>Debuff: World Leader</TSA_WD_Diplo_LeaderHandicap_Label>
   <TSA_WD_Diplo_LeaderHandicap_Msg>Debuff: '{0}' has become the dominant faction. Due to their size they will suffer from more incidents in the next {1} days.</TSA_WD_Diplo_LeaderHandicap_Msg>
   <TSA_WD_Diplo_LeaderIncidentSeverity>Leader: Incident strength loss multiplier</TSA_WD_Diplo_LeaderIncidentSeverity>
@@ -148,7 +148,7 @@
   <TSA_WD_Diplo_UnderdogActionShare>Underdog: Daily action share multiplier</TSA_WD_Diplo_UnderdogActionShare>
   <TSA_WD_Diplo_UnderdogActionShareTooltip>When underdog buff is active, that faction's share of daily actions is multiplied by this (e.g. 2 = twice as many actions).</TSA_WD_Diplo_UnderdogActionShareTooltip>
   <TSA_WD_Diplo_UnderdogBuff>Enable Underdog Growth Boost (Buff)</TSA_WD_Diplo_UnderdogBuff>
-  <TSA_WD_Diplo_UnderdogBuffTooltip>Weak NPC factions below equal-share strength can become Nimble (up to several at once), granting faster growth and stronger defense for a limited time.</TSA_WD_Diplo_UnderdogBuffTooltip>
+  <TSA_WD_Diplo_UnderdogBuffTooltip>Weak NPC factions below equal-share strength can become Nimble (up to several at once), granting faster growth, stronger defense, and a wider ally pull radius for a limited time.</TSA_WD_Diplo_UnderdogBuffTooltip>
   <TSA_WD_Diplo_UnderdogBuff_Label>Buff: Growth Boost</TSA_WD_Diplo_UnderdogBuff_Label>
   <TSA_WD_Diplo_UnderdogBuff_Msg>Buff: '{0}' will grow faster for the next {1} days thanks to being small and nimble.</TSA_WD_Diplo_UnderdogBuff_Msg>
   <TSA_WD_Diplo_UnderdogBuff_MsgMulti>Buff: {0} will grow faster for the next {1} days thanks to being small and nimble.</TSA_WD_Diplo_UnderdogBuff_MsgMulti>

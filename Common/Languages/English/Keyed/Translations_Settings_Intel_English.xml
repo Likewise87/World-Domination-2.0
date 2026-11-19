@@ -62,9 +62,9 @@
   <TSA_WD_Intel_ScoutBearingAvoid>Scout bearing avoid (degrees)</TSA_WD_Intel_ScoutBearingAvoid>
   <TSA_WD_Intel_ScoutBearingAvoidTip>Scouts avoid launching toward bearings that already have a known hostile within this cone.</TSA_WD_Intel_ScoutBearingAvoidTip>
   <TSA_WD_Intel_WeightStrategicExpand>Strategic Expand weight</TSA_WD_Intel_WeightStrategicExpand>
-  <TSA_WD_Intel_WeightStrategicExpandTip>Daily-action weight for Strategic Expand (prefers tiles outside enemy sight). Only when raid-logic fog is active.</TSA_WD_Intel_WeightStrategicExpandTip>
+  <TSA_WD_Intel_WeightStrategicExpandTip>Daily-action weight for Strategic Expand. Founding prefers safe tuck-away tiles: outside nearby enemy sight, off geodesic corridors to the nearest hostiles, and not toward the player. Uses perfect knowledge of nearby hostiles (not gated on raid-logic fog).</TSA_WD_Intel_WeightStrategicExpandTip>
   <TSA_WD_Intel_StrategicExpandSamples>Strategic Expand samples</TSA_WD_Intel_StrategicExpandSamples>
-  <TSA_WD_Intel_StrategicExpandSamplesTip>How many candidate tiles Strategic Expand samples before picking.</TSA_WD_Intel_StrategicExpandSamplesTip>
+  <TSA_WD_Intel_StrategicExpandSamplesTip>How many candidate tiles Strategic Expand samples before picking the safest tuck-away site.</TSA_WD_Intel_StrategicExpandSamplesTip>
 
   <TSA_WD_Intel_HeaderGotBurned>Got Burned</TSA_WD_Intel_HeaderGotBurned>
   <TSA_WD_Intel_HeaderGotBurnedTip>After a raid undercounts defenders, the next assess vs that primary inflates known defender strength (caution only).</TSA_WD_Intel_HeaderGotBurnedTip>

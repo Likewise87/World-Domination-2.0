@@ -1390,6 +1390,9 @@ namespace TSA_WorldDomination
                 Messages.Message("TSA_WD_PawnTransfer_CaravanFailed".Translate(), MessageTypeDefOf.NegativeEvent, false);
                 return;
             }
+            // Mirror land RemovePawns*AsCaravan / remote-establish pods: empty outpost after last occupants leave.
+            if (source.Occupants != null && source.Occupants.Count == 0 && !source.Destroyed)
+                source.Destroy();
             Window_Prisoners.InvalidateCache();
             WITab_Outpost_Pawns.InvalidateCache();
             Messages.Message(

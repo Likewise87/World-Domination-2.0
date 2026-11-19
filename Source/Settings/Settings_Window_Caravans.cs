@@ -151,6 +151,15 @@ var s = WorldDominationMod.settings;
                 "TSA_WD_Caravans_TierUpT3ToT4Tip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefTraderTierUpgradeChanceT3ToT4);
 
             l.Gap(10f);
+            SettingsUI.DrawHeader(l, "TSA_WD_Caravans_HeaderTraderInfra".Translate());
+            s.traderInfraChanceT1 = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_InfraT1".Translate(), s.traderInfraChanceT1, 0f, 1f,
+                "TSA_WD_Caravans_InfraT1Tip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefTraderInfraChanceT1);
+            s.traderInfraChanceT2 = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_InfraT2".Translate(), s.traderInfraChanceT2, 0f, 1f,
+                "TSA_WD_Caravans_InfraT2Tip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefTraderInfraChanceT2);
+            s.traderInfraChanceT3 = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_InfraT3".Translate(), s.traderInfraChanceT3, 0f, 1f,
+                "TSA_WD_Caravans_InfraT3Tip".Translate(), 0.01f, SliderFormat.Percent, WorldDominationSettings.DefTraderInfraChanceT3);
+
+            l.Gap(10f);
             SettingsUI.DrawHeader(l, "TSA_WD_Caravans_HeaderTraderEscort".Translate());
             s.traderEscortFloorT1 = SettingsUI.LabeledSlider(l, "TSA_WD_Caravans_EscortFloorT1".Translate(), s.traderEscortFloorT1, 10f, 500f,
                 "TSA_WD_Caravans_EscortFloorT1Tip".Translate(), 5f, SliderFormat.Fixed0, WorldDominationSettings.DefTraderEscortFloorT1);

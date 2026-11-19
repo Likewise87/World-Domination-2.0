@@ -141,8 +141,25 @@ namespace TSA_WorldDomination
             if (flat > 1e-6f)
                 sb.AppendLine("TSA_WD_AllyRadius_BreakdownTunnel".Translate(flat.ToString("F0")).ToString());
 
+            Faction f = primary?.Faction;
+            if (f != null && seth != null)
+            {
+                if (WorldActions_DiplomacyBuffsNerfs.IsActiveUnderdog(f, manager))
+                {
+                    sb.AppendLine("TSA_WD_AllyRadius_BreakdownNimble".Translate(
+                        FormatDiplomacyMult(seth.underdogAllyRadiusMult)).ToString());
+                }
+                else if (WorldActions_DiplomacyBuffsNerfs.IsActiveLeader(f, manager))
+                {
+                    sb.AppendLine("TSA_WD_AllyRadius_BreakdownLeader".Translate(
+                        FormatDiplomacyMult(seth.leaderAllyRadiusMult)).ToString());
+                }
+            }
+
             sb.Append("TSA_WD_AllyRadius_BreakdownResult".Translate(effective.ToString("F0")).ToString());
             return sb.ToString().TrimEnd();
         }
+
+        private static string FormatDiplomacyMult(float mult) => mult.ToString("0.#") + "×";
     }
 }

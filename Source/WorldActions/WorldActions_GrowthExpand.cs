@@ -95,7 +95,8 @@ namespace TSA_WorldDomination
             => AttemptDevelop(s, comp, manager);
 
         /// <summary>
-        /// Settlement-intel Strategic Expand: sample K expand tiles and launch only if outside known-enemy T1 sight.
+        /// Safe tug-away expand: sample K tiles outside hostile MaxLOS, off nearest-enemy geodesics, not toward the player.
+        /// Cheaty perfect knowledge of nearby hostiles (no intel gate / Knows).
         /// </summary>
         public static bool AttemptStrategicExpand(WorldObject s, CompViralSpread comp, WorldComponent_SpreadManager manager)
         {
@@ -103,7 +104,6 @@ namespace TSA_WorldDomination
             if (!IsDevelopEligible(comp)) return false;
             if (comp.IsExpansionOnCooldown) return false;
             if (!(s is Settlement parent)) return false;
-            if (!WorldComponent_SettlementIntel.IsActive(manager)) return false;
 
             return ExecuteExpansion(parent, comp, manager, strategicOnly: true);
         }
@@ -234,7 +234,8 @@ namespace TSA_WorldDomination
                 return false;
             }
 
-            bool biasTowardPlayer = manager != null && WdEscalation.IsMidOrLate(manager);
+            // Strategic Expand is safe tuck-away: full expand radius, never mid/late toward-player clamp.
+            bool biasTowardPlayer = !strategicOnly && manager != null && WdEscalation.IsMidOrLate(manager);
             int expandTiles = manager != null
                 ? WdEscalation.GetExpandTowardPlayerMaxTiles(WorldDominationMod.settings, manager.cachedEscalationStage)
                 : 0;
@@ -297,7 +298,23 @@ namespace TSA_WorldDomination
             return true;
         }
 
-        /// <summary>Sample up to K expand candidates; keep the best tile outside known-enemy T1 sight.</summary>
+        private const int StrategicExpandCorridorEnemyCount = 5;
+        private const float StrategicExpandCorridorHalfWidth = 1f;
+        private const float StrategicExpandTowardPlayerWeight = 1.5f;
+
+        private struct StrategicHostile
+        {
+            public int tile;
+            public float maxLos;
+            public float distToParent;
+        }
+
+        private static readonly List<StrategicHostile> strategicHostileScratch = new List<StrategicHostile>(64);
+        private static readonly List<StrategicHostile> strategicCorridorScratch = new List<StrategicHostile>(8);
+
+        /// <summary>
+        /// Sample up to K expand candidates; hard-reject MaxLOS disks; score clearance, geodesic corridors to closest 5, and toward-player.
+        /// </summary>
         private static bool TryFindStrategicExpandTile(
             Settlement parent,
             int minRadius,
@@ -308,8 +325,20 @@ namespace TSA_WorldDomination
         {
             chosenTile = -1;
             if (parent?.Faction == null) return false;
-            var intel = WorldComponent_SettlementIntel.Get();
-            if (intel == null) return false;
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null) return false;
+
+            CollectNearbyStrategicHostiles(parent, maxRadius);
+            BuildStrategicCorridorEndpoints();
+
+            int playerTile = -1;
+            float dParentPlayer = 0f;
+            Settlement colony = InfluenceUtils.GetPlayerColony();
+            if (colony != null && colony.Tile.Valid)
+            {
+                playerTile = colony.Tile.tileId;
+                dParentPlayer = grid.ApproxDistanceInTiles(parent.Tile.tileId, playerTile);
+            }
 
             int samples = Mathf.Max(1, seth?.settlementIntelStrategicExpandSamples
                 ?? WorldDominationSettings.DefSettlementIntelStrategicExpandSamples);
@@ -320,7 +349,7 @@ namespace TSA_WorldDomination
             {
                 if (!TryFindExpandTileRandomEarly(parent, minRadius, maxRadius, seth, manager, out int tile))
                     continue;
-                if (!intel.IsTileOutsideKnownEnemyT1Sight(parent.Faction, tile, out float score))
+                if (!TryScoreStrategicExpandTile(parent.Tile.tileId, tile, playerTile, dParentPlayer, out float score))
                     continue;
                 if (score > bestScore)
                 {
@@ -331,6 +360,108 @@ namespace TSA_WorldDomination
 
             if (bestTile < 0) return false;
             chosenTile = bestTile;
+            return true;
+        }
+
+        private static void CollectNearbyStrategicHostiles(Settlement parent, int maxRadius)
+        {
+            strategicHostileScratch.Clear();
+            if (parent?.Faction == null) return;
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null) return;
+
+            int parentTile = parent.Tile.tileId;
+            List<Settlement> settlements = Find.WorldObjects?.Settlements;
+            if (settlements == null) return;
+
+            for (int i = 0; i < settlements.Count; i++)
+            {
+                Settlement s = settlements[i];
+                if (s?.Faction == null || s.Faction == parent.Faction) continue;
+                if (!WorldActions_Utils.SafeHostileTo(s.Faction, parent.Faction)) continue;
+                if (!PlanetSurfaceWorldActions.IsPlanetSurfaceWorldObjectForWorldActions(s)) continue;
+
+                float maxLos = WorldComponent_SettlementIntel.GetMaxLos(s);
+                if (maxLos <= 0f) maxLos = WorldComponent_SettlementIntel.ComputeSettlementMaxLos(s);
+                float dist = grid.ApproxDistanceInTiles(parentTile, s.Tile.tileId);
+                if (dist > maxRadius + maxLos) continue;
+
+                strategicHostileScratch.Add(new StrategicHostile
+                {
+                    tile = s.Tile.tileId,
+                    maxLos = maxLos,
+                    distToParent = dist
+                });
+            }
+        }
+
+        private static void BuildStrategicCorridorEndpoints()
+        {
+            strategicCorridorScratch.Clear();
+            int n = strategicHostileScratch.Count;
+            if (n <= 0) return;
+
+            // Insertion-pick closest N without full sort alloc.
+            for (int i = 0; i < n; i++)
+            {
+                StrategicHostile h = strategicHostileScratch[i];
+                if (strategicCorridorScratch.Count < StrategicExpandCorridorEnemyCount)
+                {
+                    strategicCorridorScratch.Add(h);
+                    continue;
+                }
+
+                int worst = 0;
+                for (int j = 1; j < strategicCorridorScratch.Count; j++)
+                {
+                    if (strategicCorridorScratch[j].distToParent > strategicCorridorScratch[worst].distToParent)
+                        worst = j;
+                }
+                if (h.distToParent < strategicCorridorScratch[worst].distToParent)
+                    strategicCorridorScratch[worst] = h;
+            }
+        }
+
+        /// <summary>Hard-reject MaxLOS; score = clearance − corridor − towardPlayer.</summary>
+        private static bool TryScoreStrategicExpandTile(
+            int parentTile,
+            int candidateTile,
+            int playerTile,
+            float dParentPlayer,
+            out float score)
+        {
+            score = 0f;
+            WorldGrid grid = Find.WorldGrid;
+            if (grid == null || candidateTile < 0) return false;
+
+            float clearance = 100f;
+            for (int i = 0; i < strategicHostileScratch.Count; i++)
+            {
+                StrategicHostile h = strategicHostileScratch[i];
+                float d = grid.ApproxDistanceInTiles(h.tile, candidateTile);
+                if (d <= h.maxLos) return false;
+                float edge = d - h.maxLos;
+                if (edge < clearance) clearance = edge;
+            }
+
+            float corridorPenalty = 0f;
+            for (int i = 0; i < strategicCorridorScratch.Count; i++)
+            {
+                StrategicHostile h = strategicCorridorScratch[i];
+                float dParentCand = grid.ApproxDistanceInTiles(parentTile, candidateTile);
+                float dCandEnemy = grid.ApproxDistanceInTiles(candidateTile, h.tile);
+                float slack = Mathf.Abs(dParentCand + dCandEnemy - h.distToParent);
+                corridorPenalty += Mathf.Max(0f, StrategicExpandCorridorHalfWidth + 1f - slack);
+            }
+
+            float towardPlayerPenalty = 0f;
+            if (playerTile >= 0)
+            {
+                float dCandPlayer = grid.ApproxDistanceInTiles(candidateTile, playerTile);
+                towardPlayerPenalty = Mathf.Max(0f, dParentPlayer - dCandPlayer) * StrategicExpandTowardPlayerWeight;
+            }
+
+            score = clearance - corridorPenalty - towardPlayerPenalty;
             return true;
         }
 

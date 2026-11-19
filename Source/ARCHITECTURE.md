@@ -25,7 +25,13 @@ World-model ownership (one colony, player-only outposts, NPC holdings = Settleme
 
 Also: `RoadBlocks/`, `SpikeTraps/`, `WorldGen/`, `Quests/`, `Gizmos/`. There is no `Letters/` code folder; letter types live with their owners.
 
-**Common-enemy settlement quest** (`TSA_WD_CommonEnemySettlement`, `WdCommonEnemySettlementQuestHelper`): success on player-attributed outpost raid / on-map defeat / sabotage wipe / disinformation wipe, and on any `WorldObjectsHolder.Remove` of the tracked town that was not already failed as a non-player wipe (covers third-party artillery `Settlement.Destroy`, buy, player mortar). Non-player WD wipes (NPC/allied simulated raid, incident obliteration, revolt, pollution, NPC mortar) must call `NotifySettlementRemoved` before `Destroy` so the quest fails as taken-by-others.
+**Quest offer toggles** live on the **Quests** settings page (`Settings_Window_Quests.cs`, nav icon `UI/Commands/Bribe`), not Experimental.
+
+**Common-enemy settlement quest** (`TSA_WD_CommonEnemySettlement`, `WdCommonEnemySettlementQuestHelper`): first offer **day 20**, then reoffers 20–50 days. Success on player-attributed outpost raid / on-map defeat / sabotage wipe / disinformation wipe, and on any `WorldObjectsHolder.Remove` of the tracked town that was not already failed as a non-player wipe (covers third-party artillery `Settlement.Destroy`, buy, player mortar). Non-player WD wipes (NPC/allied simulated raid, incident obliteration, revolt, pollution, NPC mortar) must call `NotifySettlementRemoved` before `Destroy` so the quest fails as taken-by-others. Targets require sane land path from the player home tile.
+
+**Spy-ops intro quest** (`TSA_WD_SpyOpsSettlement`, `WdSpyOpsSettlementQuestHelper`, `GameComponent_WdSpyOpsSettlementQuest`): one offer after days 10–16. Success = successful sabotage or disinformation on the tracked shared-hostile town (strength damage enough; hooks in `Gizmo_Sabotage` / `Gizmo_Disinformation`). Any end → permanently done. Def under `1.7/Defs/QuestScriptDefs/`.
+
+**Fortify intro quest** (`TSA_WD_FortifySettlement`, `WdFortifySettlementQuestHelper`, `GameComponent_WdFortifySettlementQuest`): one offer after SpyOps ends (or SpyOps setting off). Success = successful Fortify on the asker's town (`Gizmo_Fortify`). Any end → permanently done. Def under `1.7/Defs/QuestScriptDefs/`.
 
 ## Who owns state
 
@@ -185,11 +191,11 @@ When `!IsActive`, `Knows` / `KnowsTraveler` short-circuit to true (perfect raid 
 
 | Piece | Owner |
 |-------|-------|
-| Discover sets, MaxLOS × ring sight, GotBurned, sticky outposts, daily LOS, Strategic Expand tile filter; Action Log `INTEL:` discovery rows (+ `WDVerbose` when verbose logging on; bootstrap suppressed) | `RaidLogic/WorldComponent_SettlementIntel.cs` |
+| Discover sets, MaxLOS × ring sight, GotBurned, sticky outposts, daily LOS; Action Log `INTEL:` discovery rows (+ `WDVerbose` when verbose logging on; bootstrap suppressed) | `RaidLogic/WorldComponent_SettlementIntel.cs` |
 | Assess fog + GotBurned inflate; fogged primary AT credit | `Raid_Manager` / `Raid_MathSnapshot` / `Raid_Simulated` (`GetTotalLocalDefensePowerFogged` / `SumOwnedDamageCreditKnownTo`) |
 | Know gates on pick paths | Raid / ToO / PackUp / Desperation / allied launch / mortar site pick (`Knows`); mortar + NPC ambush/RR vs WD travelers (`KnowsTraveler`); **AT self-spot** skips `KnowsTraveler` |
 | Scout mission | `WorldActions_Scout.cs` (under `IsTracking`); T1+; alive caps T1–T2:1 / T3–T4:2; bear-and-snap hops 0.5–2× attack range from current (land only); faction dest stamps + soft exclude + MaxLOS skip on `SettlementIntel`; scout MaxLOS × rings |
-| Strategic Expand | `AttemptStrategicExpand` + `weightStrategicExpand` (under `IsActive` only) |
+| Strategic Expand | `AttemptStrategicExpand` + `weightStrategicExpand` (safe tuck-away; not gated on intel). Cheaty nearby-hostile MaxLOS keep-out, geodesic corridors to closest 5 hostiles, soft not-toward-player; full expand radius (no mid/late toward-player clamp). Owner: `WorldActions_GrowthExpand` |
 | AT outer fire band | `AtTurretUtility.CanEngageAtDistance` (76–100% needs traveler class T2+ from `initialStrength`) |
 | Inspect / debug | Stats tab Intel pane (`WITab_OutpostAndSettlement_Stats` + `SettlementIntelSnapshot`; AT via 1.7/Patches), `Dialog_WdWorldDebug` Intel group |
 | View gizmo | `WD_RadiusOverlayKind.Sight` + `RadiusHoverGizmos` (`UI/Commands/View`) |
@@ -200,7 +206,7 @@ When `!IsActive`, `Knows` / `KnowsTraveler` short-circuit to true (perfect raid 
 
 **Discovery sources:** daily LOS (settlements + outposts + ATs + advanced buildings); merged tile-exit traveler pass; scout bubble; combat / reveal-by-fire. No hot daily `AllWorldObjects` LOS scan.
 
-**Orchestrator:** `weightScout` under tracking (× clear mult; T1+; zero when settlement at scout alive cap); `weightStrategicExpand` under active only.
+**Orchestrator:** `weightScout` under tracking (× clear mult; T1+; zero when settlement at scout alive cap); `weightStrategicExpand` whenever Develop-eligible and expand CD clear (independent of intel FoW).
 
 **Scout crack-fall:** NPC interceptors may ignore `isNimbleScout` at `settlementIntelScoutCrackFallChance`. Player intercepts unchanged.
 
@@ -278,7 +284,7 @@ SSoT: `NpcSettlementSubtypeUtil` (`Core/NpcSettlementSubtypeUtil.cs`), called fr
 - **Specialty gates:** Farming fertility ≥ 30%; Logging fertility ≥ 15%; Mining base score ≥ 0.5 (SmallHills+). Only enter the T1 pool when the tile passes.
 - **Layout resolve:** `Patch_KCSG` / `WdMgNestSpawner` build `TSA_{Tribal|Generic}_{tier}_{token}`. `LayoutTokenForSubtype` maps scribed `Slavery` → `Prison` SettlementLayoutDef names. Loot tables still key on `Slavery`.
 - **Display:** keyed `TSA_WD_SubType_*` (Slavery / Prison alias → Prison Village; Camp / Refuge / specialties / Fortress / Citadel / Vanguard / Generic) via `GetSubtypeInspectLabel`.
-- **Expand seed bias (early annulus only):** score ~3 ring tiles with `ExpandTileAttractiveness` (max fertility / hunting / mining), then one `TryFindFirstValidFromSeed` from the best. Mid/late toward-player and isolation stay first-valid. Landed tile’s `PickSubtype` sets the settlement type.
+- **Expand seed bias (early annulus only):** score ~3 ring tiles with `ExpandTileAttractiveness` (max fertility / hunting / mining), then one `TryFindFirstValidFromSeed` from the best. Mid/late toward-player and isolation stay first-valid. **Strategic Expand** samples the early finder at full expand radius, then scores safe tuck-away (MaxLOS / corridors / not toward player). Landed tile’s `PickSubtype` sets the settlement type.
 
 ## Mid / Late escalation
 
@@ -369,6 +375,10 @@ Read maintained/throttled registries instead:
 ## Settlement tier promotion
 
 SSoT for **promotion** (NPC settlements): Develop (`WorldActions_GrowthExpand.TryUpgrade`), Turtle deposit (`CompViralSpread.DepositStrengthWithRegionalPromotes`), and Gift/Buy/Bribe investment (`TryPromoteTierFromInvestment`). All share `CanPromoteNextTierRegionally` (`localMaxT*` within `expandMaxRadius`). Develop also requires same-tier neighbors. Strength refunds and `AddStrength` never promote (clamp to current tier max). `CheckTierUpdate` demotes only when asked. Pack-up founding via `SetState(massRelocationTier)` and worldgen are separate and can still place T4s without that regional gate.
+
+## Trader arrival rewards
+
+SSoT: `CompViralSpread.ApplyTraderArrivalReward` (sender + receiver on `ExecuteTraderArrival`; intercept loot uses receiver strength). Always applies flat strength. At/near offensive cap (T1–T3 only): independent rolls for **tier-up** (`traderTierUpgradeChance*`, defaults 20/15/5) and **infra** (`traderInfraChance*`, defaults 20/15/10). Tier-up still needs `CanPromoteNextTierRegionally` (no Develop neighbor gate). Infra chances use pre-promote tier; placement uses final tier: prefer instant advanced building via `WorldActions_AdvancedBuildings.TryInstantPlaceFromPool` (`BuildPool` + `Place`, no builder/cooldown), else one kit-tier AT via `WorldActions_FortifyKit.TryPlaceOneAtTurretForSettlement` (T1/T2 Light, T3 Medium). Outposts / player map / T4 / below-cap: strength only. Action Log via `LogTraderTradeParty` (`TraderArrivalRewardResult.InfraLabel`).
 
 ## Do not copy (sim)
 

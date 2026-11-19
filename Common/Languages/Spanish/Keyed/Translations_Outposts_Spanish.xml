@@ -709,6 +709,7 @@
   <TSA_WD_PawnCol_XpSuffix>XP</TSA_WD_PawnCol_XpSuffix>
   <TSA_WD_PawnCol_RelevantXpHeader>Hab. XP</TSA_WD_PawnCol_RelevantXpHeader>
   <TSA_WD_PawnCol_RelevantXpTooltip>Progreso hacia el siguiente nivel (XP actual / XP necesaria). Habilidades relevantes: {0}.</TSA_WD_PawnCol_RelevantXpTooltip>
+  <TSA_WD_PawnCol_RelevantSkillXpPerDayTip>{0} XP/día en {1} por cada colono mientras corre la producción (aplican pasiones y factor de aprendizaje; se detiene en el nivel {2}). Los días inactivos, en pausa o bloqueados no otorgan nada.</TSA_WD_PawnCol_RelevantSkillXpPerDayTip>
   <TSA_WD_PawnDetails_Remove>Quitar de la avanzadilla</TSA_WD_PawnDetails_Remove>
   <TSA_WD_PawnDetails_Skills>Habilidades</TSA_WD_PawnDetails_Skills>
   <TSA_WD_PawnRow_Remove>Quitar</TSA_WD_PawnRow_Remove>
@@ -1164,11 +1165,11 @@
   <TSA_WD_Req_WaivedConquestResearch>La investigación no es necesaria al fundar desde un asentamiento conquistado.</TSA_WD_Req_WaivedConquestResearch>
   <TSA_WD_RoadAlreadyBuilt_Refunded>El equipo de {0} encontró la carretera ya terminada. Fuerza reembolsada.</TSA_WD_RoadAlreadyBuilt_Refunded>
   <TSA_WD_RoadAlreadyExists>Ya existe una carretera en esta casilla</TSA_WD_RoadAlreadyExists>
-  <TSA_WD_RoadBlockedByTrench>Esa ruta de carretera cruza una trinchera existente. Quita la trinchera o elige otra ruta.</TSA_WD_RoadBlockedByTrench>
+  <TSA_WD_RoadBlockedByTrench>Esa ruta sigue una trinchera o se une demasiado en paralelo. Cruza solo en ángulo casi recto en una casilla compartida, o quita la trinchera / elige otra ruta.</TSA_WD_RoadBlockedByTrench>
   <TSA_WD_Letter_RoadCancelledByTrench_Label>Proyecto de carretera cancelado</TSA_WD_Letter_RoadCancelledByTrench_Label>
-  <TSA_WD_Letter_RoadCancelledByTrench_Text>{0} canceló su misión de construcción de carretera porque la ruta estaba bloqueada por una trinchera.</TSA_WD_Letter_RoadCancelledByTrench_Text>
+  <TSA_WD_Letter_RoadCancelledByTrench_Text>{0} canceló su misión de construcción de carretera porque la ruta seguía una trinchera o no podía cruzarla limpiamente.</TSA_WD_Letter_RoadCancelledByTrench_Text>
   <TSA_WD_Letter_TrenchCancelledByRoad_Label>Proyecto de trinchera cancelado</TSA_WD_Letter_TrenchCancelledByRoad_Label>
-  <TSA_WD_Letter_TrenchCancelledByRoad_Text>{0} canceló su excavación de trinchera porque la ruta estaba bloqueada por una carretera.</TSA_WD_Letter_TrenchCancelledByRoad_Text>
+  <TSA_WD_Letter_TrenchCancelledByRoad_Text>{0} canceló su excavación de trinchera porque la ruta seguía una carretera o no podía cruzarla limpiamente.</TSA_WD_Letter_TrenchCancelledByRoad_Text>
   <TSA_WD_RoadAlreadyInProgress>Construcción ya en curso. Cancela el proyecto actual para fijar un nuevo objetivo.</TSA_WD_RoadAlreadyInProgress>
   <TSA_WD_RoadAsphalt>Carretera de asfalto</TSA_WD_RoadAsphalt>
   <TSA_WD_RoadAsphalt_Disabled>Carretera de asfalto (Se necesita {1} en Construcción, actual: {0})</TSA_WD_RoadAsphalt_Disabled>
@@ -1617,12 +1618,12 @@
   <TSA_WD_Status_ZealTip>MEJORA: +50% de alcance de ataque de incursión durante los próximos {0} días.</TSA_WD_Status_ZealTip>
   <TSA_WD_Status_IconInactive>Actualmente inactivo. Puede activarse aleatoriamente cada día</TSA_WD_Status_IconInactive>
   <TSA_WD_Status_LeaderTitle>Penalización de líder mundial</TSA_WD_Status_LeaderTitle>
-  <TSA_WD_Status_LeaderBlurb>Da a la facción más fuerte más incidentes durante un tiempo.</TSA_WD_Status_LeaderBlurb>
-  <TSA_WD_Status_LeaderActive>Activo. Los incidentes son {0} más probables. El efecto dura {1} días más.</TSA_WD_Status_LeaderActive>
+  <TSA_WD_Status_LeaderBlurb>Da a la facción más fuerte más incidentes durante un tiempo, y reduce su radio de atracción aliada.</TSA_WD_Status_LeaderBlurb>
+  <TSA_WD_Status_LeaderActive>Activo. Los incidentes son {0} más probables. Radio de atracción aliada {1}. El efecto dura {2} días más.</TSA_WD_Status_LeaderActive>
   <TSA_WD_Status_LeaderCooling>En enfriamiento. Puede volver a recibir la desventaja en {0} días.</TSA_WD_Status_LeaderCooling>
   <TSA_WD_Status_NimbleTitle>Buff Ágil</TSA_WD_Status_NimbleTitle>
-  <TSA_WD_Status_NimbleBlurb>Da a facciones débiles un impulso temporal de crecimiento, y puede reducir la frecuencia de incidentes y la fuerza que restan.</TSA_WD_Status_NimbleBlurb>
-  <TSA_WD_Status_NimbleActive>Activo. Crecimiento {0}. Probabilidad de incidente {1}. Daño por incidente {2}. El efecto dura {3} días más.</TSA_WD_Status_NimbleActive>
+  <TSA_WD_Status_NimbleBlurb>Da a facciones débiles un impulso temporal de crecimiento, puede reducir la frecuencia de incidentes y la fuerza que restan, y amplía el radio de atracción aliada.</TSA_WD_Status_NimbleBlurb>
+  <TSA_WD_Status_NimbleActive>Activo. Crecimiento {0}. Probabilidad de incidente {1}. Daño por incidente {2}. Radio de atracción aliada {3}. El efecto dura {4} días más.</TSA_WD_Status_NimbleActive>
   <TSA_WD_Status_NimbleCooling>En enfriamiento. Puede volver a recibir Ágil en {0} días.</TSA_WD_Status_NimbleCooling>
   <TSA_WD_Status_ExpansionistTitle>Buff expansionista</TSA_WD_Status_ExpansionistTitle>
   <TSA_WD_Status_ExpansionistBlurb>Da a las facciones un impulso temporal de alcance de ataque.</TSA_WD_Status_ExpansionistBlurb>
@@ -2072,6 +2073,8 @@
   <TSA_WD_AllyRadius_BreakdownLate>Escalado aliado Late Game: +{0}%</TSA_WD_AllyRadius_BreakdownLate>
   <TSA_WD_AllyRadius_BreakdownLateOff>Escalado aliado Late Game: apagado en esta etapa (sin volver a Mid)</TSA_WD_AllyRadius_BreakdownLateOff>
   <TSA_WD_AllyRadius_BreakdownTunnel>Red de túneles: +{0} (anillo exterior: solo pares con Red de túneles)</TSA_WD_AllyRadius_BreakdownTunnel>
+  <TSA_WD_AllyRadius_BreakdownNimble>Buff Ágil: radio de atracción aliada {0}</TSA_WD_AllyRadius_BreakdownNimble>
+  <TSA_WD_AllyRadius_BreakdownLeader>Penalización de líder mundial: radio de atracción aliada {0}</TSA_WD_AllyRadius_BreakdownLeader>
   <TSA_WD_AllyRadius_BreakdownResult>Radio efectivo de atracción aliada: {0}</TSA_WD_AllyRadius_BreakdownResult>
   <TSA_WD_OutpostStats_Row_FoodRadiusTip>Alcance de logística de comida para este tipo de avanzadilla (ajuste del mod).</TSA_WD_OutpostStats_Row_FoodRadiusTip>
   <TSA_WD_OutpostStats_Row_PeopleRadiusTip>Radio de asentamientos cercanos para reclutamiento, comercio y embajada.</TSA_WD_OutpostStats_Row_PeopleRadiusTip>
@@ -2352,7 +2355,7 @@
   <TSA_WD_Trench_NeedPassableLand>Las trincheras requieren tierra transitable (sin agua ni terreno intransitable).</TSA_WD_Trench_NeedPassableLand>
   <TSA_WD_Trench_NotOnHub>La casilla del hub no puede ser trinchera.</TSA_WD_Trench_NotOnHub>
   <TSA_WD_Trench_AlreadyTrench>Esa casilla ya tiene trinchera.</TSA_WD_Trench_AlreadyTrench>
-  <TSA_WD_Trench_BlockedByRoad>No se puede cavar una trinchera en una casilla con carretera.</TSA_WD_Trench_BlockedByRoad>
+  <TSA_WD_Trench_BlockedByRoad>No se puede cavar a lo largo de una carretera ni unirse demasiado en paralelo. Cruza solo en ángulo casi recto en una casilla compartida.</TSA_WD_Trench_BlockedByRoad>
   <TSA_WD_Trench_BlockedByFort>Quita fortificaciones antes de cavar una trinchera.</TSA_WD_Trench_BlockedByFort>
   <TSA_WD_Trench_BlockedByBridge>No se puede cavar una trinchera en una casilla de puente.</TSA_WD_Trench_BlockedByBridge>
   <TSA_WD_Trench_BlockedByWorldObject>Bloqueado por {0}.</TSA_WD_Trench_BlockedByWorldObject>

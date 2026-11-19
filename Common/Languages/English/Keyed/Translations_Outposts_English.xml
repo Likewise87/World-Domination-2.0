@@ -793,6 +793,7 @@
   <TSA_WD_PawnCol_XpSuffix>XP</TSA_WD_PawnCol_XpSuffix>
   <TSA_WD_PawnCol_RelevantXpHeader>Skills XP</TSA_WD_PawnCol_RelevantXpHeader>
   <TSA_WD_PawnCol_RelevantXpTooltip>Progress toward the next level (current XP / XP required). Relevant skills: {0}.</TSA_WD_PawnCol_RelevantXpTooltip>
+  <TSA_WD_PawnCol_RelevantSkillXpPerDayTip>{0} XP/day in {1} for each colonist while production runs (passions and learning factor apply; stops at skill level {2}). Idle, paused, or blocked days grant nothing.</TSA_WD_PawnCol_RelevantSkillXpPerDayTip>
   <TSA_WD_PawnDetails_Remove>Remove from outpost</TSA_WD_PawnDetails_Remove>
   <TSA_WD_PawnDetails_Skills>Skills</TSA_WD_PawnDetails_Skills>
   <TSA_WD_PawnRow_Remove>Remove</TSA_WD_PawnRow_Remove>
@@ -1244,11 +1245,11 @@
   <TSA_WD_Req_WaivedConquestResearch>Research is not required when founding from a conquered settlement.</TSA_WD_Req_WaivedConquestResearch>
   <TSA_WD_RoadAlreadyBuilt_Refunded>{0} construction crew found the road already finished. Strength refunded.</TSA_WD_RoadAlreadyBuilt_Refunded>
   <TSA_WD_RoadAlreadyExists>A road already exists at this tile</TSA_WD_RoadAlreadyExists>
-  <TSA_WD_RoadBlockedByTrench>That road path crosses an existing trench. Clear the trench or pick another route.</TSA_WD_RoadBlockedByTrench>
+  <TSA_WD_RoadBlockedByTrench>That road path follows a trench ditch or merges too shallowly with one. Cross only at a near-right angle on a shared tile, or clear the trench / pick another route.</TSA_WD_RoadBlockedByTrench>
   <TSA_WD_Letter_RoadCancelledByTrench_Label>Road project cancelled</TSA_WD_Letter_RoadCancelledByTrench_Label>
-  <TSA_WD_Letter_RoadCancelledByTrench_Text>{0} cancelled its road building mission because the path was blocked by a trench.</TSA_WD_Letter_RoadCancelledByTrench_Text>
+  <TSA_WD_Letter_RoadCancelledByTrench_Text>{0} cancelled its road building mission because the path followed a trench ditch or could not cross it cleanly.</TSA_WD_Letter_RoadCancelledByTrench_Text>
   <TSA_WD_Letter_TrenchCancelledByRoad_Label>Trench project cancelled</TSA_WD_Letter_TrenchCancelledByRoad_Label>
-  <TSA_WD_Letter_TrenchCancelledByRoad_Text>{0} cancelled its trench dig because the path was blocked by a road.</TSA_WD_Letter_TrenchCancelledByRoad_Text>
+  <TSA_WD_Letter_TrenchCancelledByRoad_Text>{0} cancelled its trench dig because the path followed a road or could not cross it cleanly.</TSA_WD_Letter_TrenchCancelledByRoad_Text>
   <TSA_WD_RoadAlreadyInProgress>Construction already in progress. Cancel current project to set a new target.</TSA_WD_RoadAlreadyInProgress>
   <TSA_WD_RoadAsphalt>Asphalt Road</TSA_WD_RoadAsphalt>
   <TSA_WD_RoadAsphalt_Disabled>Asphalt Road (Need {1} Construction Skill, currently: {0})</TSA_WD_RoadAsphalt_Disabled>
@@ -1741,12 +1742,12 @@
   <TSA_WD_Status_ZealTip>BUFF: +50% raid attack range for the next {0} days.</TSA_WD_Status_ZealTip>
   <TSA_WD_Status_IconInactive>Currently inactive. Can be randomly triggered on a daily basis</TSA_WD_Status_IconInactive>
   <TSA_WD_Status_LeaderTitle>World leader debuff</TSA_WD_Status_LeaderTitle>
-  <TSA_WD_Status_LeaderBlurb>Gives the strongest faction more incidents for a while.</TSA_WD_Status_LeaderBlurb>
-  <TSA_WD_Status_LeaderActive>Active. Incidents {0} more likely. Effect lasts {1} more days.</TSA_WD_Status_LeaderActive>
+  <TSA_WD_Status_LeaderBlurb>Gives the strongest faction more incidents for a while, and shrinks its ally pull radius.</TSA_WD_Status_LeaderBlurb>
+  <TSA_WD_Status_LeaderActive>Active. Incidents {0} more likely. Ally pull radius {1}. Effect lasts {2} more days.</TSA_WD_Status_LeaderActive>
   <TSA_WD_Status_LeaderCooling>Cooling down. Can receive the leader handicap again in {0} days.</TSA_WD_Status_LeaderCooling>
   <TSA_WD_Status_NimbleTitle>Nimble buff</TSA_WD_Status_NimbleTitle>
-  <TSA_WD_Status_NimbleBlurb>Gives weak factions a temporary growth boost, and can reduce how often incidents hit them and how much strength those incidents remove.</TSA_WD_Status_NimbleBlurb>
-  <TSA_WD_Status_NimbleActive>Active. Growth {0}. Incident chance {1}. Incident damage {2}. Effect lasts {3} more days.</TSA_WD_Status_NimbleActive>
+  <TSA_WD_Status_NimbleBlurb>Gives weak factions a temporary growth boost, can reduce how often incidents hit them and how much strength those incidents remove, and widens ally pull radius.</TSA_WD_Status_NimbleBlurb>
+  <TSA_WD_Status_NimbleActive>Active. Growth {0}. Incident chance {1}. Incident damage {2}. Ally pull radius {3}. Effect lasts {4} more days.</TSA_WD_Status_NimbleActive>
   <TSA_WD_Status_NimbleCooling>Cooling down. Can receive Nimble again in {0} days.</TSA_WD_Status_NimbleCooling>
   <TSA_WD_Status_ExpansionistTitle>Expansionist buff</TSA_WD_Status_ExpansionistTitle>
   <TSA_WD_Status_ExpansionistBlurb>Gives factions a temporary attack range boost.</TSA_WD_Status_ExpansionistBlurb>
@@ -2271,6 +2272,8 @@
   <TSA_WD_AllyRadius_BreakdownLate>Late Game ally scale: +{0}%</TSA_WD_AllyRadius_BreakdownLate>
   <TSA_WD_AllyRadius_BreakdownLateOff>Late Game ally scale: off for this stage (no Mid fallback)</TSA_WD_AllyRadius_BreakdownLateOff>
   <TSA_WD_AllyRadius_BreakdownTunnel>Tunnel Network: +{0} (outer ring: Tunnel Network peers only)</TSA_WD_AllyRadius_BreakdownTunnel>
+  <TSA_WD_AllyRadius_BreakdownNimble>Nimble buff: ally pull radius {0}</TSA_WD_AllyRadius_BreakdownNimble>
+  <TSA_WD_AllyRadius_BreakdownLeader>World leader debuff: ally pull radius {0}</TSA_WD_AllyRadius_BreakdownLeader>
   <TSA_WD_AllyRadius_BreakdownResult>Effective ally pull radius: {0}</TSA_WD_AllyRadius_BreakdownResult>
   <TSA_WD_OutpostStats_Row_FoodRadiusTip>Food logistics range for this outpost type (mod setting).</TSA_WD_OutpostStats_Row_FoodRadiusTip>
   <TSA_WD_OutpostStats_Row_PeopleRadiusTip>Nearby-settlement radius for recruiting, trading, and embassy outposts.</TSA_WD_OutpostStats_Row_PeopleRadiusTip>
@@ -2464,7 +2467,7 @@
   <TSA_WD_Trench_NeedPassableLand>Trenches require passable land (no water or impassable).</TSA_WD_Trench_NeedPassableLand>
   <TSA_WD_Trench_NotOnHub>The hub tile itself cannot be a trench.</TSA_WD_Trench_NotOnHub>
   <TSA_WD_Trench_AlreadyTrench>That tile already has a trench.</TSA_WD_Trench_AlreadyTrench>
-  <TSA_WD_Trench_BlockedByRoad>Cannot dig a trench on a road tile.</TSA_WD_Trench_BlockedByRoad>
+  <TSA_WD_Trench_BlockedByRoad>Cannot dig along a road or merge too shallowly with one. Cross only at a near-right angle on a shared tile.</TSA_WD_Trench_BlockedByRoad>
   <TSA_WD_Trench_BlockedByFort>Clear fortifications before digging a trench.</TSA_WD_Trench_BlockedByFort>
   <TSA_WD_Trench_BlockedByBridge>Cannot dig a trench on a bridge tile.</TSA_WD_Trench_BlockedByBridge>
   <TSA_WD_Trench_BlockedByWorldObject>Blocked by {0}.</TSA_WD_Trench_BlockedByWorldObject>

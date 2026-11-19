@@ -195,6 +195,8 @@ namespace TSA_WorldDomination
 
         private static void HandleSuccess(CompViralSpread comp, Caravan caravan, Pawn pawn, Settlement settlement, WorldComponent_SpreadManager manager, WorldDominationSettings s)
         {
+            WdSpyOpsSettlementQuestHelper.NotifySuccessfulSpyOp(settlement);
+
             float damage = s.disBaseReduction + pawn.skills.GetSkill(SkillDefOf.Social).Level * s.disSkillReductionBonus;
             float oldStr = comp.strength;
             comp.strength -= damage;

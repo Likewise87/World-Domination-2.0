@@ -193,6 +193,7 @@
   <TSA_WD_Log_TraderTrade_RoleInterceptor>拦截方（{0}）</TSA_WD_Log_TraderTrade_RoleInterceptor>
   <TSA_WD_Log_TraderTrade_OutcomeStrength>进攻实力提升（本次交易未升级阶层）。</TSA_WD_Log_TraderTrade_OutcomeStrength>
   <TSA_WD_Log_TraderTrade_OutcomeUpgrade>进攻实力提升且定居点阶层已升级（贸易途径；不受同阶邻居要求限制）。</TSA_WD_Log_TraderTrade_OutcomeUpgrade>
+  <TSA_WD_Log_TraderTrade_OutcomeWithInfra>{0} 并放置了{1}。</TSA_WD_Log_TraderTrade_OutcomeWithInfra>
   <TSA_WD_Log_TraderTrade_NoStrengthLine>{0}：未应用 WD 定居点实力（非 WD 定居点或已排除）。</TSA_WD_Log_TraderTrade_NoStrengthLine>
   <TSA_WD_Log_TraderArrived>贸易商队:已从 {0} 抵达 {1}。</TSA_WD_Log_TraderArrived>
   <TSA_WD_Log_OutpostUpgradeLaunched>前哨升级:商队从 {0} 前往 {1},运送 {2}(等级 {3})。</TSA_WD_Log_OutpostUpgradeLaunched>

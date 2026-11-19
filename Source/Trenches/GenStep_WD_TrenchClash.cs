@@ -609,12 +609,20 @@ namespace TSA_WorldDomination
                 if (!painted.Add(c)) continue;
                 ClearCellForTrenchWork(c, map);
                 corridor.Add(c);
+                // GenStep_Roads (MapCommonBase) already stamped road terrain. Keep the crossing —
+                // do not bury it under ditch fill or rail fortifications.
+                if (IsRoadTerrain(c.GetTerrain(map)))
+                    continue;
                 if (Mathf.Abs(perpDist) >= halfW - 1f)
                     railCells.Add(c);
                 else
                     trenchFill.Add(c);
             }
         }
+
+        /// <summary>Vanilla road surfaces use the <c>Road</c> terrain tag (PackedDirt, asphalt, etc.).</summary>
+        private static bool IsRoadTerrain(TerrainDef terrain) =>
+            terrain != null && terrain.HasTag("Road");
 
         /// <summary>
         /// Prefer bridge perimeter rails on long sides (cardinal buckets or diagonal stair cells).
@@ -1065,6 +1073,8 @@ namespace TSA_WorldDomination
             {
                 IntVec3 c = trenchFill[i];
                 if (!c.InBounds(map) || c.GetFirstBuilding(map) != null) continue;
+                // Preserve crossing road band (safety if a road cell slipped into trenchFill).
+                if (IsRoadTerrain(c.GetTerrain(map))) continue;
                 ThingDef stuff = trench.MadeFromStuff ? GenStuff.DefaultStuffFor(trench) : null;
                 if (!TrySpawnBuilding(trench, stuff, c, map)) continue;
                 if (boardStrength == null) continue;

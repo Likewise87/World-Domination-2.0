@@ -597,11 +597,14 @@ namespace TSA_WorldDomination
             var seth = WorldDominationMod.settings;
             if (seth == null) return;
 
-            TraderArrivalRewardOutcome outcome = originComp.ApplyTraderArrivalReward(
+            TraderArrivalRewardResult outcome = originComp.ApplyTraderArrivalReward(
                 seth.traderCaravanReceiverRewardStrength,
                 seth.traderTierUpgradeChanceT1ToT2,
                 seth.traderTierUpgradeChanceT2ToT3,
-                seth.traderTierUpgradeChanceT3ToT4);
+                seth.traderTierUpgradeChanceT3ToT4,
+                seth.traderInfraChanceT1,
+                seth.traderInfraChanceT2,
+                seth.traderInfraChanceT3);
 
             var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
             if (manager == null) return;
@@ -1143,18 +1146,24 @@ namespace TSA_WorldDomination
             WorldObject target = traveler.targetObject;
 
             CompViralSpread senderComp = origin?.GetComponent<CompViralSpread>();
-            TraderArrivalRewardOutcome senderOutcome = senderComp?.ApplyTraderArrivalReward(
+            TraderArrivalRewardResult senderOutcome = senderComp?.ApplyTraderArrivalReward(
                 seth.traderCaravanSenderRewardStrength,
                 seth.traderTierUpgradeChanceT1ToT2,
                 seth.traderTierUpgradeChanceT2ToT3,
-                seth.traderTierUpgradeChanceT3ToT4) ?? TraderArrivalRewardOutcome.NoEffect;
+                seth.traderTierUpgradeChanceT3ToT4,
+                seth.traderInfraChanceT1,
+                seth.traderInfraChanceT2,
+                seth.traderInfraChanceT3) ?? TraderArrivalRewardResult.None;
 
             CompViralSpread receiverComp = target?.GetComponent<CompViralSpread>();
-            TraderArrivalRewardOutcome receiverOutcome = receiverComp?.ApplyTraderArrivalReward(
+            TraderArrivalRewardResult receiverOutcome = receiverComp?.ApplyTraderArrivalReward(
                 seth.traderCaravanReceiverRewardStrength,
                 seth.traderTierUpgradeChanceT1ToT2,
                 seth.traderTierUpgradeChanceT2ToT3,
-                seth.traderTierUpgradeChanceT3ToT4) ?? TraderArrivalRewardOutcome.NoEffect;
+                seth.traderTierUpgradeChanceT3ToT4,
+                seth.traderInfraChanceT1,
+                seth.traderInfraChanceT2,
+                seth.traderInfraChanceT3) ?? TraderArrivalRewardResult.None;
 
             Faction senderFaction = origin?.Faction;
             Faction receiverFaction = target?.Faction;
@@ -1236,17 +1245,20 @@ namespace TSA_WorldDomination
             }
         }
 
-        private static void LogTraderTradeParty(WorldComponent_SpreadManager manager, string roleTagged, TraderArrivalRewardOutcome outcome, WorldObject a, WorldObject b)
+        private static void LogTraderTradeParty(WorldComponent_SpreadManager manager, string roleTagged, TraderArrivalRewardResult result, WorldObject a, WorldObject b)
         {
-            if (outcome == TraderArrivalRewardOutcome.NoEffect)
-                manager.AddLog(new SpreadLogEntry("TSA_WD_Log_TraderTrade_NoStrengthLine".Translate(roleTagged), a, b));
-            else
+            if (result.Outcome == TraderArrivalRewardOutcome.NoEffect)
             {
-                string detail = outcome == TraderArrivalRewardOutcome.StrengthAndTierUp
-                    ? "TSA_WD_Log_TraderTrade_OutcomeUpgrade".Translate()
-                    : "TSA_WD_Log_TraderTrade_OutcomeStrength".Translate();
-                manager.AddLog(new SpreadLogEntry("TSA_WD_Log_TraderTrade_Line".Translate(roleTagged, detail), a, b));
+                manager.AddLog(new SpreadLogEntry("TSA_WD_Log_TraderTrade_NoStrengthLine".Translate(roleTagged), a, b));
+                return;
             }
+
+            string detail = result.Outcome == TraderArrivalRewardOutcome.StrengthAndTierUp
+                ? "TSA_WD_Log_TraderTrade_OutcomeUpgrade".Translate()
+                : "TSA_WD_Log_TraderTrade_OutcomeStrength".Translate();
+            if (!string.IsNullOrEmpty(result.InfraLabel))
+                detail = "TSA_WD_Log_TraderTrade_OutcomeWithInfra".Translate(detail, result.InfraLabel);
+            manager.AddLog(new SpreadLogEntry("TSA_WD_Log_TraderTrade_Line".Translate(roleTagged, detail), a, b));
         }
 
         private static void ExecuteOutpostDelivery(WorldObject_Traveler_Outpost_Delivery delivery)

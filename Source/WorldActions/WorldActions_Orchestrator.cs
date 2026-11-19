@@ -974,7 +974,6 @@ namespace TSA_WorldDomination
             bool fortifyEligible = WorldActions_NpcFortify.IsFortifyEligible(actor, comp);
 
             bool intelTracking = WorldComponent_SettlementIntel.IsTracking();
-            bool intelActive = WorldComponent_SettlementIntel.IsActive(this);
             bool scoutEligible = intelTracking
                 && comp.tier >= SettlementTier.T1
                 && !comp.IsScoutOnCooldown
@@ -989,7 +988,8 @@ namespace TSA_WorldDomination
             float wMinor = (!comp.IsIncidentOnCooldown) ? seth.weightMinorIncident * incidentMult : 0f;
             float wMajor = (!comp.IsIncidentOnCooldown) ? seth.weightMajorIncident * incidentMult : 0f;
             float wDevelop = developEligible ? seth.weightGrow * developMult : 0f;
-            float wStrategicExpand = (intelActive && developEligible && !comp.IsExpansionOnCooldown)
+            // Strategic Expand is safe tuck-away (cheaty nearby-hostile knowledge); not gated on intel FoW.
+            float wStrategicExpand = (developEligible && !comp.IsExpansionOnCooldown)
                 ? seth.weightStrategicExpand * developMult
                 : 0f;
             float wBuildRoad = (!comp.IsRoadOnCooldown && !isRecovering) ? seth.weightBuildRoad : 0f;

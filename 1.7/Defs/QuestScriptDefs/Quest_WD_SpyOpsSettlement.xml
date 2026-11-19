@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <QuestScriptDef>
+    <defName>TSA_WD_SpyOpsSettlement</defName>
+    <autoAccept>true</autoAccept>
+    <isRootSpecial>true</isRootSpecial>
+    <sendAvailableLetter>true</sendAvailableLetter>
+    <defaultChallengeRating>1</defaultChallengeRating>
+    <questAvailableLetterTextIsDescription>true</questAvailableLetterTextIsDescription>
+
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->Whispers against [enemySettlement_label]</li>
+        <li>questName->Weaken [enemySettlement_label]</li>
+        <li>questName->Spy work: [enemySettlement_label]</li>
+      </rulesStrings>
+    </questNameRules>
+
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->[faction_name] wants you to weaken [enemySettlement_label], a shared enemy, without needing to destroy it.\n\nSend a player caravan to an adjacent tile and use Spread Disinformation (scales with Social) or Sabotage (scales with Crafting). You have 8 days.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_GetWdSpyOpsQuestTargets">
+          <storeAskerAs>faction</storeAskerAs>
+          <storeSettlementAs>enemySettlement</storeSettlementAs>
+          <storeGoodwillAs>goodwillAmount</storeGoodwillAs>
+        </li>
+
+        <li Class="QuestNode_QuestUnique">
+          <tag>TSA_WD_SpyOpsSettlement</tag>
+        </li>
+
+        <li Class="QuestNode_WdSpyOpsGoodwillReward">
+          <faction>$faction</faction>
+          <amount>$goodwillAmount</amount>
+        </li>
+
+        <li Class="QuestNode_Letter">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <label TKey="TSA_WD_SpyOps_LetterLabelFailed">Quest failed: [resolvedQuestName]</label>
+          <text TKey="TSA_WD_SpyOps_LetterTextHostile">[faction_name] became hostile. The spy-ops request has failed.</text>
+        </li>
+        <li Class="QuestNode_End">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <outcome>Fail</outcome>
+        </li>
+
+        <li Class="QuestNode_Delay">
+          <delayTicks>480000</delayTicks>
+          <outSignalComplete>SpyOpsTimeout</outSignalComplete>
+        </li>
+        <li Class="QuestNode_Signal">
+          <inSignal>SpyOpsTimeout</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="TSA_WD_SpyOps_LetterLabelExpired">Quest expired: [resolvedQuestName]</label>
+                <text TKey="TSA_WD_SpyOps_LetterTextExpired">Time ran out on the request from [faction_name] to weaken [enemySettlement_label].</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>

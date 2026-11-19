@@ -40,32 +40,47 @@ namespace TSA_WorldDomination
         }
 
         /// <summary>
+        /// Nominal production-skill XP each colonist gains per day while the timer runs
+        /// (<c>outpostOccupantSkillXpPerProductionCycle</c> / cycle days). False when this outpost type
+        /// never grants that XP (academy / research / warehouse / power / scavenging / zero setting).
+        /// </summary>
+        public static bool TryGetProductionSkillXpPerPawnPerDay(WorldObject_WD_Outpost outpost, out float xpPerDay)
+        {
+            xpPerDay = 0f;
+            WorldDominationSettings settings = WorldDominationMod.settings;
+            if (settings == null || outpost?.def == null) return false;
+            if (outpost.IsAcademyOutpost
+                || outpost.IsResearchOutpost
+                || outpost.IsPowerPlantOutpost
+                || Outpost_Production_Utils.IsWarehouseOutpost(outpost.def))
+                return false;
+
+            float cycleXp = settings.outpostOccupantSkillXpPerProductionCycle;
+            if (cycleXp <= 0f) return false;
+
+            List<SkillDef> skills = WorldObject_WD_Outpost.GetRelevantSkillDefs(outpost.def);
+            if (skills == null || skills.Count == 0) return false;
+
+            float cycleDays = Mathf.Max(0.01f, Outpost_Production_Utils.GetProductionCycleDays(outpost));
+            xpPerDay = cycleXp / cycleDays;
+            return xpPerDay > 0f;
+        }
+
+        /// <summary>
         /// Once-per-day production skill XP while the production timer is running.
         /// Amount = settings cycle total / <see cref="Outpost_Production_Utils.GetProductionCycleDays"/> so a full cycle still grants the configured total.
         /// Skips Academy / warehouse / research / power plant, idle or requirement-paused timers, and scavenging (no relevant skills).
         /// </summary>
         public static void TickOccupantsProductionSkillXpOneDay(WorldObject_WD_Outpost outpost)
         {
-            WorldDominationSettings settings = WorldDominationMod.settings;
-            if (settings == null || outpost?.def == null) return;
-            if (outpost.Faction != Faction.OfPlayer) return;
+            if (outpost?.Faction != Faction.OfPlayer) return;
             if (outpost.ManualDefenseActive) return;
-            if (outpost.IsAcademyOutpost
-                || outpost.IsResearchOutpost
-                || outpost.IsPowerPlantOutpost
-                || Outpost_Production_Utils.IsWarehouseOutpost(outpost.def))
-                return;
             if (outpost.ProductionTicksLeft <= 0) return;
             if (!outpost.GetProductionPauseReason(out _)) return;
-
-            float cycleXp = settings.outpostOccupantSkillXpPerProductionCycle;
-            if (cycleXp <= 0f) return;
+            if (!TryGetProductionSkillXpPerPawnPerDay(outpost, out float xpPerDay)) return;
 
             List<SkillDef> skills = WorldObject_WD_Outpost.GetRelevantSkillDefs(outpost.def);
-            if (skills == null || skills.Count == 0) return;
-
-            float cycleDays = Mathf.Max(0.01f, Outpost_Production_Utils.GetProductionCycleDays(outpost));
-            ApplySkillXp(outpost, cycleXp / cycleDays, skills);
+            ApplySkillXp(outpost, xpPerDay, skills);
         }
 
         /// <summary>Grant flat skill XP to each humanlike occupant (skip if skill level &gt;= settings cap). Passions / learning factor apply via <see cref="SkillRecord.Learn"/>.</summary>

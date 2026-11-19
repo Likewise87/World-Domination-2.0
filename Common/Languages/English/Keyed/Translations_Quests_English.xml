@@ -6,8 +6,28 @@
   <TSA_WD_Quest_EnableFirstOutpost>First outpost quest</TSA_WD_Quest_EnableFirstOutpost>
   <TSA_WD_Quest_EnableFirstOutpostTip>After 2-5 days, a nearby ally or neutral settlement may ask you to found your first WD outpost. Completing it grants goodwill. Off stops new offers; an active quest can still finish.</TSA_WD_Quest_EnableFirstOutpostTip>
 
+  <TSA_WD_Quest_EnableSpyOpsSettlement>Spy-ops settlement quest</TSA_WD_Quest_EnableSpyOpsSettlement>
+  <TSA_WD_Quest_EnableSpyOpsSettlementTip>Once after days 10-16, an ally (or neutral) may ask you to weaken a shared-hostile town via player-caravan Spread Disinformation (Social) or Sabotage (Crafting) from an adjacent tile. Destroying the town is not required. Offered once only. Off stops the offer; an active quest can still finish.</TSA_WD_Quest_EnableSpyOpsSettlementTip>
+
+  <TSA_WD_Quest_EnableFortifySettlement>Fortify settlement quest</TSA_WD_Quest_EnableFortifySettlement>
+  <TSA_WD_Quest_EnableFortifySettlementTip>After the spy-ops intro ends (or if that quest is off), an ally or neutral may ask you to Fortify one of their towns with a player caravan from an adjacent tile (Crafting; adds defensive strength). Offered once only. Off stops the offer; an active quest can still finish.</TSA_WD_Quest_EnableFortifySettlementTip>
+
   <TSA_WD_Quest_EnableCommonEnemySettlement>Common-enemy settlement quest</TSA_WD_Quest_EnableCommonEnemySettlement>
-  <TSA_WD_Quest_EnableCommonEnemySettlementTip>After day 10, allies (or neutrals) may ask you to wipe or conquer a nearby town hostile to both of you. Credit counts when you wipe the town yourself (outpost raid, fighting there, sabotage, shelling, and similar). Allied raid orders and other factions wiping the town do not count. Off stops new offers; an active quest can still finish.</TSA_WD_Quest_EnableCommonEnemySettlementTip>
+  <TSA_WD_Quest_EnableCommonEnemySettlementTip>After day 20, allies (or neutrals) may ask you to wipe or conquer a nearby town hostile to both of you. Credit counts when you wipe the town yourself (outpost raid, fighting there, sabotage, shelling, and similar). Allied raid orders and other factions wiping the town do not count. Off stops new offers; an active quest can still finish.</TSA_WD_Quest_EnableCommonEnemySettlementTip>
+
+  <TSA_WD_SpyOps_LetterLabelFailed>Quest failed: [resolvedQuestName]</TSA_WD_SpyOps_LetterLabelFailed>
+  <TSA_WD_SpyOps_LetterTextHostile>[faction_name] became hostile. The spy-ops request has failed.</TSA_WD_SpyOps_LetterTextHostile>
+  <TSA_WD_SpyOps_LetterLabelExpired>Quest expired: [resolvedQuestName]</TSA_WD_SpyOps_LetterLabelExpired>
+  <TSA_WD_SpyOps_LetterTextExpired>Time ran out on the request from [faction_name] to weaken [enemySettlement_label].</TSA_WD_SpyOps_LetterTextExpired>
+  <TSA_WD_SpyOps_LetterLabelTargetGone>Quest failed: {0}</TSA_WD_SpyOps_LetterLabelTargetGone>
+  <TSA_WD_SpyOps_LetterTextTargetGone>{0} wanted you to weaken {1}, but that town is gone. The request has failed.</TSA_WD_SpyOps_LetterTextTargetGone>
+
+  <TSA_WD_FortifyQuest_LetterLabelFailed>Quest failed: [resolvedQuestName]</TSA_WD_FortifyQuest_LetterLabelFailed>
+  <TSA_WD_FortifyQuest_LetterTextHostile>[faction_name] became hostile. The fortify request has failed.</TSA_WD_FortifyQuest_LetterTextHostile>
+  <TSA_WD_FortifyQuest_LetterLabelExpired>Quest expired: [resolvedQuestName]</TSA_WD_FortifyQuest_LetterLabelExpired>
+  <TSA_WD_FortifyQuest_LetterTextExpired>Time ran out on the request from [faction_name] to fortify [allySettlement_label].</TSA_WD_FortifyQuest_LetterTextExpired>
+  <TSA_WD_FortifyQuest_LetterLabelTargetGone>Quest failed: {0}</TSA_WD_FortifyQuest_LetterLabelTargetGone>
+  <TSA_WD_FortifyQuest_LetterTextTargetGone>{0} wanted you to fortify {1}, but that town is gone. The request has failed.</TSA_WD_FortifyQuest_LetterTextTargetGone>
 
   <TSA_WD_Quest_EnableColonyRoadLink>Colony road-link quest</TSA_WD_Quest_EnableColonyRoadLink>
   <TSA_WD_Quest_EnableColonyRoadLinkTip>After day 10, a nearby ally or neutral town (within 30 tiles) may ask for a road between your colony and theirs. Connecting the towns by any road completes it once for good. Failures (timeout, hostility, or the town vanishing) can reissue after a few days. Off stops new offers; an active quest can still finish.</TSA_WD_Quest_EnableColonyRoadLinkTip>

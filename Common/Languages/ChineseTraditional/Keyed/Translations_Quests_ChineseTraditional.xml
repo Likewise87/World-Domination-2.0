@@ -8,10 +8,30 @@
   <TSA_WD_Quest_EnableFirstOutpost>首座哨站任務</TSA_WD_Quest_EnableFirstOutpost>
   <!-- EN: After 2-5 days, a nearby ally or neutral settlement may ask you to found your first WD outpost. Completing it grants goodwill. Off stops new offers; an active quest can still finish. -->
   <TSA_WD_Quest_EnableFirstOutpostTip>開局2-5天後，附近的同盟或中立據點可能請你建立第一座WD哨站，完成可獲得友好度。關閉後不再發出新任務；進行中的任務仍可完成。</TSA_WD_Quest_EnableFirstOutpostTip>
+  <!-- EN: Spy-ops settlement quest -->
+  <TSA_WD_Quest_EnableSpyOpsSettlement>據點間諜行動任務</TSA_WD_Quest_EnableSpyOpsSettlement>
+  <!-- EN: Once after days 10-16... -->
+  <TSA_WD_Quest_EnableSpyOpsSettlementTip>第10-16天只提供一次：同盟（或中立）可能請你削弱一座共同敵對城鎮。用玩家商隊走到相鄰地塊，使用散布假情報（社交）或破壞（手工）。不必摧毀該鎮。關閉後不再發出；進行中的任務仍可結束。</TSA_WD_Quest_EnableSpyOpsSettlementTip>
+  <!-- EN: Fortify settlement quest -->
+  <TSA_WD_Quest_EnableFortifySettlement>據點加固任務</TSA_WD_Quest_EnableFortifySettlement>
+  <!-- EN: After the spy-ops intro ends... -->
+  <TSA_WD_Quest_EnableFortifySettlementTip>間諜任務結束後（或該任務關閉時），同盟或中立可能請你用玩家商隊在相鄰地塊對其城鎮使用加固（手工；增加防禦力量）。只提供一次。關閉後不再發出；進行中的任務仍可結束。</TSA_WD_Quest_EnableFortifySettlementTip>
   <!-- EN: Common-enemy settlement quest -->
   <TSA_WD_Quest_EnableCommonEnemySettlement>共同敵人據點任務</TSA_WD_Quest_EnableCommonEnemySettlement>
-  <!-- EN: After day 10, allies (or neutrals) may ask you to wipe or conquer a nearby town hostile to both of you. Credit only counts for your own outpost raids or fighting there in person. Allied raid orders and other factions wiping the town do not count. Off stops new offers; an active quest can still finish. -->
-  <TSA_WD_Quest_EnableCommonEnemySettlementTip>第10天起，同盟（或中立）派系可能請你剷除或征服附近一座與雙方皆敵對的城鎮。由你摧毀該鎮即算（WD哨站突襲、親自作戰、破壞、砲擊等）。同盟突襲命令及其他派系剷除該城鎮都不算。關閉後不再發出新任務；進行中的任務仍可完成。</TSA_WD_Quest_EnableCommonEnemySettlementTip>
+  <!-- EN: After day 20... -->
+  <TSA_WD_Quest_EnableCommonEnemySettlementTip>第20天起，同盟（或中立）派系可能請你剷除或征服附近一座與雙方皆敵對的城鎮。由你摧毀該鎮即算（WD哨站突襲、親自作戰、破壞、砲擊等）。同盟突襲命令及其他派系剷除該城鎮都不算。關閉後不再發出新任務；進行中的任務仍可完成。</TSA_WD_Quest_EnableCommonEnemySettlementTip>
+  <TSA_WD_SpyOps_LetterLabelFailed>任務失敗：[resolvedQuestName]</TSA_WD_SpyOps_LetterLabelFailed>
+  <TSA_WD_SpyOps_LetterTextHostile>[faction_name]已轉為敵對。間諜行動請求失敗。</TSA_WD_SpyOps_LetterTextHostile>
+  <TSA_WD_SpyOps_LetterLabelExpired>任務過期：[resolvedQuestName]</TSA_WD_SpyOps_LetterLabelExpired>
+  <TSA_WD_SpyOps_LetterTextExpired>[faction_name]要求削弱[enemySettlement_label]的時限已到。</TSA_WD_SpyOps_LetterTextExpired>
+  <TSA_WD_SpyOps_LetterLabelTargetGone>任務失敗：{0}</TSA_WD_SpyOps_LetterLabelTargetGone>
+  <TSA_WD_SpyOps_LetterTextTargetGone>{0}希望你削弱{1}，但該城鎮已不存在。請求失敗。</TSA_WD_SpyOps_LetterTextTargetGone>
+  <TSA_WD_FortifyQuest_LetterLabelFailed>任務失敗：[resolvedQuestName]</TSA_WD_FortifyQuest_LetterLabelFailed>
+  <TSA_WD_FortifyQuest_LetterTextHostile>[faction_name]已轉為敵對。加固請求失敗。</TSA_WD_FortifyQuest_LetterTextHostile>
+  <TSA_WD_FortifyQuest_LetterLabelExpired>任務過期：[resolvedQuestName]</TSA_WD_FortifyQuest_LetterLabelExpired>
+  <TSA_WD_FortifyQuest_LetterTextExpired>[faction_name]要求加固[allySettlement_label]的時限已到。</TSA_WD_FortifyQuest_LetterTextExpired>
+  <TSA_WD_FortifyQuest_LetterLabelTargetGone>任務失敗：{0}</TSA_WD_FortifyQuest_LetterLabelTargetGone>
+  <TSA_WD_FortifyQuest_LetterTextTargetGone>{0}希望你加固{1}，但該城鎮已不存在。請求失敗。</TSA_WD_FortifyQuest_LetterTextTargetGone>
   <!-- EN: Colony road-link quest -->
   <TSA_WD_Quest_EnableColonyRoadLink>殖民地道路連通任務</TSA_WD_Quest_EnableColonyRoadLink>
   <!-- EN: After day 10, a nearby ally or neutral town (within 30 tiles) may ask for a road between your colony and theirs. Connecting the towns by any road completes it once for good. Failures (timeout, hostility, or the town vanishing) can reissue after a few days. Off stops new offers; an active quest can still finish. -->

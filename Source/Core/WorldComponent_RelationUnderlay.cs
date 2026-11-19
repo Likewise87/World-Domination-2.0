@@ -266,6 +266,8 @@ namespace TSA_WorldDomination
             questTargetSettlementIds.Clear();
             TryAddQuestTarget(WdColonyRoadLinkQuestHelper.FindActiveTrackedPart()?.settlement);
             TryAddQuestTarget(WdCommonEnemySettlementQuestHelper.FindActiveTrackedPart()?.settlement);
+            TryAddQuestTarget(WdSpyOpsSettlementQuestHelper.FindActiveTrackedPart()?.settlement);
+            TryAddQuestTarget(WdFortifySettlementQuestHelper.FindActiveTrackedPart()?.settlement);
         }
 
         private void TryAddQuestTarget(Settlement settlement)

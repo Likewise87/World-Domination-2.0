@@ -126,6 +126,7 @@
   <TSA_WD_BtnWorldRaids>世界地图袭击</TSA_WD_BtnWorldRaids>
   <TSA_WD_BtnCaravans>远行队与贸易</TSA_WD_BtnCaravans>
   <TSA_WD_BtnExperimental>实验性</TSA_WD_BtnExperimental>
+  <TSA_WD_BtnQuests>任务</TSA_WD_BtnQuests>
   <TSA_WD_BtnPlayerArtillery>迫击炮、防空与快速反应逻辑</TSA_WD_BtnPlayerArtillery>
   <TSA_WD_Category>世界霸权</TSA_WD_Category>
   <TSA_WD_Daily_CapTip>该定居点单日可发起的最大不同行动数(袭击、修路、发展等)。</TSA_WD_Daily_CapTip>
@@ -186,7 +187,8 @@
   <TSA_WD_DescWorldGen>初始世界生成时 T1、T2、T3、T4 定居点的生成概率?</TSA_WD_DescWorldGen>
   <TSA_WD_DescWorldRaids>模拟袭击结果（胜率曲线、损失）、最低进攻比、盟友拉动半径、NPC 攻击范围、洗劫/废墟与驻军保留。行进损耗见「远行队与贸易」。</TSA_WD_DescWorldRaids>
   <TSA_WD_DescCaravans>旅行者/空投舱/快速反应速度、行进损耗与休息、水路寻路、贸易商队（护卫/升级）、贸易好感、前哨配送成本及叙事者商人屏蔽。水路寻路也可在「设置预设 → 性能」中配置。</TSA_WD_DescCaravans>
-  <TSA_WD_DescExperimental>实验性玩法开关（任务、战壕、军械库、撤退/防御预算）、世界地图图标缩放、叠加层按住键、旅行食物/界面辅助，以及旅行者污染伤害/寻路。NPC 设防见「世界行动」。</TSA_WD_DescExperimental>
+  <TSA_WD_DescExperimental>实验性玩法开关（战壕、军械库、撤退/防御预算）、世界地图图标缩放、叠加层按住键、旅行食物/界面辅助，以及旅行者污染伤害/寻路。NPC 设防见「世界行动」。任务开关见「任务」。</TSA_WD_DescExperimental>
+  <TSA_WD_DescQuests>启用或禁用 WD 任务发放（首座前哨、间谍行动、加固、共同敌人、殖民地道路连接，以及世界霸权胜利）。</TSA_WD_DescQuests>
   <TSA_WD_FacDet_BtnView>查看</TSA_WD_FacDet_BtnView>
   <TSA_WD_FacDet_HeaderName>定居点名称</TSA_WD_FacDet_HeaderName>
   <TSA_WD_FacDet_HeaderStrength>实力</TSA_WD_FacDet_HeaderStrength>
@@ -522,6 +524,13 @@
   <TSA_WD_Caravans_TierUpT2ToT3Tip>与 T1→T2 相同，但在已达 T2 实力上限时用于升为 T3。</TSA_WD_Caravans_TierUpT2ToT3Tip>
   <TSA_WD_Caravans_TierUpT3ToT4>升级概率 T3 至 T4</TSA_WD_Caravans_TierUpT3ToT4>
   <TSA_WD_Caravans_TierUpT3ToT4Tip>与 T1→T2 相同，但在已达 T3 实力上限时用于升为 T4。</TSA_WD_Caravans_TierUpT3ToT4Tip>
+  <TSA_WD_Caravans_HeaderTraderInfra>贸易基础设施（达上限时）</TSA_WD_Caravans_HeaderTraderInfra>
+  <TSA_WD_Caravans_InfraT1>基础设施概率（T1）</TSA_WD_Caravans_InfraT1>
+  <TSA_WD_Caravans_InfraT1Tip>与阶层升级叠加。成功的 WD 贸易在 T1 实力上限时，按此概率立即放置匹配阶层的高级建筑；若无法放置则改为轻型反坦克炮塔。与阶层升级分开掷骰。</TSA_WD_Caravans_InfraT1Tip>
+  <TSA_WD_Caravans_InfraT2>基础设施概率（T2）</TSA_WD_Caravans_InfraT2>
+  <TSA_WD_Caravans_InfraT2Tip>与 T1 基础设施相同，适用于已达 T2 实力上限的定居点（后备为轻型反坦克炮塔）。</TSA_WD_Caravans_InfraT2Tip>
+  <TSA_WD_Caravans_InfraT3>基础设施概率（T3）</TSA_WD_Caravans_InfraT3>
+  <TSA_WD_Caravans_InfraT3Tip>与 T1 基础设施相同，适用于已达 T3 实力上限的定居点（后备为中型反坦克炮塔）。</TSA_WD_Caravans_InfraT3Tip>
   <TSA_WD_Caravans_HeaderTraderEscort>商队护卫实力</TSA_WD_Caravans_HeaderTraderEscort>
   <TSA_WD_Caravans_EscortFloorT1>护卫实力下限(T1 派出方)</TSA_WD_Caravans_EscortFloorT1>
   <TSA_WD_Caravans_EscortFloorT1Tip>由 T1 定居点派出的商队在战斗/拦截判定中的最低实力，与出发时扣除的固定实力成本无关。使贸易始终是一个有意义、需要权衡的伏击/拦截目标，而不是随处可见的免费目标。</TSA_WD_Caravans_EscortFloorT1Tip>

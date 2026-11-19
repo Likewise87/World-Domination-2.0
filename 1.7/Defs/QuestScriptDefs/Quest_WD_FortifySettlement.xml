@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <QuestScriptDef>
+    <defName>TSA_WD_FortifySettlement</defName>
+    <autoAccept>true</autoAccept>
+    <isRootSpecial>true</isRootSpecial>
+    <sendAvailableLetter>true</sendAvailableLetter>
+    <defaultChallengeRating>1</defaultChallengeRating>
+    <questAvailableLetterTextIsDescription>true</questAvailableLetterTextIsDescription>
+
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->Fortify [allySettlement_label]</li>
+        <li>questName->Aid for [allySettlement_label]</li>
+        <li>questName->Strengthen [allySettlement_label]</li>
+      </rulesStrings>
+    </questNameRules>
+
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->[faction_name] wants you to strengthen [allySettlement_label].\n\nSend a player caravan to an adjacent tile and use Fortify (scales with Crafting; adds defensive strength). You have 8 days.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_GetWdFortifyQuestTargets">
+          <storeAskerAs>faction</storeAskerAs>
+          <storeSettlementAs>allySettlement</storeSettlementAs>
+          <storeGoodwillAs>goodwillAmount</storeGoodwillAs>
+        </li>
+
+        <li Class="QuestNode_QuestUnique">
+          <tag>TSA_WD_FortifySettlement</tag>
+        </li>
+
+        <li Class="QuestNode_WdFortifyGoodwillReward">
+          <faction>$faction</faction>
+          <amount>$goodwillAmount</amount>
+        </li>
+
+        <li Class="QuestNode_Letter">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <label TKey="TSA_WD_FortifyQuest_LetterLabelFailed">Quest failed: [resolvedQuestName]</label>
+          <text TKey="TSA_WD_FortifyQuest_LetterTextHostile">[faction_name] became hostile. The fortify request has failed.</text>
+        </li>
+        <li Class="QuestNode_End">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <outcome>Fail</outcome>
+        </li>
+
+        <li Class="QuestNode_Delay">
+          <delayTicks>480000</delayTicks>
+          <outSignalComplete>FortifyQuestTimeout</outSignalComplete>
+        </li>
+        <li Class="QuestNode_Signal">
+          <inSignal>FortifyQuestTimeout</inSignal>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label TKey="TSA_WD_FortifyQuest_LetterLabelExpired">Quest expired: [resolvedQuestName]</label>
+                <text TKey="TSA_WD_FortifyQuest_LetterTextExpired">Time ran out on the request from [faction_name] to fortify [allySettlement_label].</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>
