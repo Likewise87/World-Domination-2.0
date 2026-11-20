@@ -90,5 +90,7 @@
   <TSA_WD_Intel_ViewAsGateOff>情报门控为从不（功能关闭）</TSA_WD_Intel_ViewAsGateOff>
   <TSA_WD_Intel_ViewAsPlayerTip>玩家视角显示完整世界地图（全部可见）。正常游戏。</TSA_WD_Intel_ViewAsPlayerTip>
   <TSA_WD_Intel_ViewAsTip>仅会话内的世界地图叠加层。隐藏该派系尚未发现的据点与纵队。将已知但当前不在视线内的目标变暗。不改变玩法迷雾或袭击计算。选择玩家可恢复完整地图。</TSA_WD_Intel_ViewAsTip>
+  <TSA_WD_Intel_ShowFogOfWar>显示战争迷雾</TSA_WD_Intel_ShowFogOfWar>
+  <TSA_WD_Intel_ShowFogOfWarTip>开启时，“以某派系查看世界”会将未见地块涂黑、将视线外的已探索地块变灰，并隐藏未发现的据点与地貌名称。关闭时仍记住所选派系，但地图完全可见。默认开启。仅本会话有效。</TSA_WD_Intel_ShowFogOfWarTip>
 
 </LanguageData>

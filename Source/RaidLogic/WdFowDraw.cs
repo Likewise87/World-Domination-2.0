@@ -19,9 +19,13 @@ namespace TSA_WorldDomination
         /// </summary>
         public static Faction ViewFaction;
 
-        /// <summary>True only when viewing as a non-player faction (FoW overlay on).</summary>
+        /// <summary>Session toggle (default on). When off, View World as still remembers the faction but draws the full map.</summary>
+        public static bool ShowFogOfWar = true;
+
+        /// <summary>True only when viewing as a non-player faction with FoW enabled.</summary>
         public static bool IsActive =>
-            ViewFaction != null
+            ShowFogOfWar
+            && ViewFaction != null
             && !ViewFaction.IsPlayer
             && WorldComponent_SettlementIntel.IsGateConfigured();
 
@@ -37,6 +41,16 @@ namespace TSA_WorldDomination
             return false;
         }
 
+        public static void SetShowFogOfWar(bool enabled)
+        {
+            if (ShowFogOfWar == enabled) return;
+            ShowFogOfWar = enabled;
+            var intel = WorldComponent_SettlementIntel.Get();
+            intel?.InvalidateFowDrawCache();
+            intel?.NotifyTileFowViewChanged();
+            Patch_WdWorldObjectNoExpandingIcon.NotifyIconModeChanged();
+        }
+
         public static void SetViewFaction(Faction faction)
         {
             if (faction != null && !WorldComponent_SettlementIntel.IsGateConfigured())
@@ -46,7 +60,9 @@ namespace TSA_WorldDomination
                 faction = null;
             if (ViewFaction == faction) return;
             ViewFaction = faction;
-            WorldComponent_SettlementIntel.Get()?.InvalidateFowDrawCache();
+            var intel = WorldComponent_SettlementIntel.Get();
+            intel?.InvalidateFowDrawCache();
+            intel?.NotifyTileFowViewChanged();
             Patch_WdWorldObjectNoExpandingIcon.NotifyIconModeChanged();
         }
 

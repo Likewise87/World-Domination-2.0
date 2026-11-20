@@ -32,8 +32,12 @@ Session overlay (`WdFowDraw.ViewFaction`, WD world menu). Not ModSettings.
 | Dim | `WdFowDraw.ApplyIconColor` multiplies ExpandingIcon alpha (~0.40) for known-but-out-of-LOS; Harmony on `WorldObject.get_ExpandingIconColor` plus `WorldObject_WD_AdvancedBuilding` override (base postfix alone misses overrides) |
 | Ghosts | Relation/player underlays, settlement tier labels, outpost world-map labels skip hidden WOs |
 | Shells / caravans / roads | Not FoW targets (always visible) |
+| Tile never seen | `WD_WorldLayer_FowIncognita` opaque black hexes (`WdFowTileMemory` explored bits) |
+| Tile explored, out of LOS | `WD_WorldLayer_FowShroud` semi-transparent black (~0.5a) |
+| Tile current LOS | Clear (verts collapsed); MutatorWorldIcons allowed |
+| MutatorWorldIcons | Optional Compat Prefix on `DrawTileMaterials`: skip unless FoW inactive or `IsTileCurrentlyVisibleForFow` |
 
-Call `NotifyIconModeChanged` when the view faction changes. Cache rebuild: `WorldComponent_SettlementIntel.EnsureFowDrawCacheFresh` (Version + tick interval).
+Call `NotifyIconModeChanged` when the view faction changes. Icon cache: `EnsureFowDrawCacheFresh`. Tile mesh: dirty queues + progressive `Regenerate` (RWE-style persistent verts); `NotifyTileFowViewChanged` on view switch.
 
 ## WD outpost world-map icons (`Material` vs expanding)
 

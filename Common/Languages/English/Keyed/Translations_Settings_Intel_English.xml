@@ -90,5 +90,7 @@
   <TSA_WD_Intel_ViewAsGateOff>Intel gate is Never (feature off)</TSA_WD_Intel_ViewAsGateOff>
   <TSA_WD_Intel_ViewAsPlayerTip>Player view shows the full world map (everything visible). Normal play.</TSA_WD_Intel_ViewAsPlayerTip>
   <TSA_WD_Intel_ViewAsTip>Session-only world map overlay. Hides sites and columns that faction has not discovered. Dims known sites outside current line of sight. Does not change gameplay fog or raid math. Choose Player to restore the full map.</TSA_WD_Intel_ViewAsTip>
+  <TSA_WD_Intel_ShowFogOfWar>Show fog of war</TSA_WD_Intel_ShowFogOfWar>
+  <TSA_WD_Intel_ShowFogOfWarTip>When on, View World as blacks out unseen tiles, greys explored tiles outside line of sight, and hides undiscovered sites and landform names. When off, the selected faction stays remembered but the map draws fully visible. Default on. Session only.</TSA_WD_Intel_ShowFogOfWarTip>
 
 </LanguageData>

@@ -448,6 +448,8 @@ namespace TSA_WorldDomination
                         intel.Discover(faction, b, observer);
                 }
             }
+
+            intel.TileFow.RevealTilesInRadius(faction, tile, scoutMax);
         }
 
         /// <summary>True when this settlement has no discovered hostiles inside its combat attack range.</summary>

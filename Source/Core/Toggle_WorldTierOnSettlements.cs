@@ -308,6 +308,16 @@ namespace TSA_WorldDomination
         private static void OpenViewWorldAsFloatMenu()
         {
             var opts = new List<FloatMenuOption>();
+            opts.Add(MakeCheckboxMenuOption(
+                "TSA_WD_Intel_ShowFogOfWar".Translate(),
+                WdFowDraw.ShowFogOfWar,
+                () =>
+                {
+                    WdFowDraw.SetShowFogOfWar(!WdFowDraw.ShowFogOfWar);
+                    OpenViewWorldAsFloatMenu();
+                },
+                "TSA_WD_Intel_ShowFogOfWarTip"));
+
             Faction player = Faction.OfPlayerSilentFail;
             if (player != null)
             {

@@ -42,6 +42,11 @@ namespace TSA_WorldDomination
         private int fowCacheTick = -999;
         private int fowCacheViewFactionId = int.MinValue;
         private const int FowCacheIntervalTicks = 90;
+        public const int FowCacheIntervalTicksPublic = FowCacheIntervalTicks;
+
+        /// <summary>Per-faction explored tiles + session visible bits for View World as tile FoW.</summary>
+        public readonly WdFowTileMemory TileFow = new WdFowTileMemory();
+        private bool tileFowSeeded;
 
         public WorldComponent_SettlementIntel(World world) : base(world) { }
 
@@ -74,6 +79,7 @@ namespace TSA_WorldDomination
             knownTravelers ??= new Dictionary<int, HashSet<int>>();
             gotBurnedUntilTick ??= new Dictionary<string, int>();
             scoutTileLastSeen ??= new Dictionary<int, Dictionary<int, int>>();
+            TileFow.EnsureTilesCount();
             if (fromLoad)
                 PruneDestroyed();
             Version++;
@@ -94,11 +100,20 @@ namespace TSA_WorldDomination
                 lastSeenStage = stage;
             }
 
+            if (!tileFowSeeded && bootstrappedThisSession)
+            {
+                SeedAllFactionTileExploration();
+                tileFowSeeded = true;
+            }
+
             if (Find.TickManager.TicksGame % 60000 == 250)
             {
                 PruneDestroyed();
                 EnsurePlayerKnowsAllSitesAndTravelers();
             }
+
+            if (WdFowDraw.IsActive)
+                TileFow.EnsureVisibleCacheFresh();
         }
 
         public override void ExposeData()
@@ -156,7 +171,10 @@ namespace TSA_WorldDomination
                         gotBurnedUntilTick[burnKeys[i]] = burnVals[i];
                 }
                 stickyOutpostIds ??= new HashSet<int>();
+                tileFowSeeded = false;
             }
+
+            TileFow.ExposeExplored();
         }
 
         private static void FlattenIntHashSetDict(
@@ -533,7 +551,21 @@ namespace TSA_WorldDomination
             fowCacheVersion = -1;
             fowCacheTick = -999;
             fowCacheViewFactionId = int.MinValue;
+            TileFow.InvalidateVisibleCache();
         }
+
+        /// <summary>O(1) tile LOS query for MutatorWorldIcons / draw gates.</summary>
+        public bool IsTileCurrentlyVisibleForFow(int tileId) =>
+            TileFow.IsTileCurrentlyVisibleForFow(tileId);
+
+        /// <summary>Begin progressive tile FoW mesh rebuild for the current View World as faction.</summary>
+        public void NotifyTileFowViewChanged()
+        {
+            TileFow.BeginViewFactionSwitch();
+        }
+
+        public void CollectFowObserversPublic(Faction view, WorldComponent_SpreadManager manager, List<WorldObject> observers) =>
+            CollectFowObservers(view, manager, observers);
 
         /// <summary>Raw discovery visibility for FoW overlay (never uses raid Knows short-circuit).</summary>
         public bool CanViewForFow(Faction view, WorldObject wo)
@@ -1014,6 +1046,7 @@ namespace TSA_WorldDomination
             float maxLos = GetCachedSettlementMaxLos(observer);
             cachedSettlementMaxLos[observer.ID] = maxLos;
             SpotSitesFromObserver(observer, f, maxLos, snap);
+            TileFow.RevealTilesInRadius(f, observer.Tile, maxLos);
         }
 
         public void RunLosFromOutpost(WorldObject_WD_Outpost observer, DailyWorldSnapshot snap = null)
@@ -1022,6 +1055,7 @@ namespace TSA_WorldDomination
             snap ??= Find.World.GetComponent<WorldComponent_SpreadManager>()?.CurrentDailySnapshot;
             float maxLos = ComputeOutpostMaxLos(observer);
             SpotSitesFromObserver(observer, observer.Faction, maxLos, snap);
+            TileFow.RevealTilesInRadius(observer.Faction, observer.Tile, maxLos);
         }
 
         private void SpotSitesFromObserver(WorldObject observer, Faction f, float maxLos, DailyWorldSnapshot snap)
@@ -1094,11 +1128,37 @@ namespace TSA_WorldDomination
             }
         }
 
+        private void SeedAllFactionTileExploration()
+        {
+            if (!IsTracking()) return;
+            var manager = Find.World?.GetComponent<WorldComponent_SpreadManager>();
+            var observers = new List<WorldObject>(64);
+            List<Faction> factions = Find.FactionManager?.AllFactionsListForReading;
+            if (factions == null) return;
+            for (int i = 0; i < factions.Count; i++)
+            {
+                Faction f = factions[i];
+                if (f == null || f.defeated || f.Hidden == true) continue;
+                CollectFowObservers(f, manager, observers);
+                TileFow.SeedFactionFromObservers(f, observers);
+            }
+        }
+
+        /// <summary>Reveal terrain tiles around a traveler for its faction (tile FoW memory).</summary>
+        public void RevealTilesFromTraveler(WorldObject_Traveler traveler)
+        {
+            if (traveler?.Faction == null || traveler.Destroyed) return;
+            float maxLos = GetMaxLos(traveler);
+            if (maxLos <= 0f) return;
+            TileFow.RevealTilesInRadius(traveler.Faction, traveler.Tile, maxLos);
+        }
+
         /// <summary>Merged tile-exit pass: settlements/outposts spot traveler; traveler spots sites; travelers spot each other.</summary>
         public void TrySpotTravelerFromSettlementsAndCaravans(WorldObject_Traveler traveler)
         {
             if (traveler == null || traveler.Destroyed || !IsTracking()) return;
             EnsureTravelerTrackId(traveler);
+            RevealTilesFromTraveler(traveler);
             var manager = Find.World.GetComponent<WorldComponent_SpreadManager>();
             float travelerMaxLos = GetMaxLos(traveler);
             SettlementTier travelerClass = GetSpotClass(traveler);

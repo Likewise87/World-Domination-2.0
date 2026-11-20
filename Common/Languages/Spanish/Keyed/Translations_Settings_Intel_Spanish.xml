@@ -90,5 +90,7 @@
   <TSA_WD_Intel_ViewAsGateOff>Puerta de intel en Nunca (función desactivada)</TSA_WD_Intel_ViewAsGateOff>
   <TSA_WD_Intel_ViewAsPlayerTip>La vista de jugador muestra el mapa mundial completo (todo visible). Juego normal.</TSA_WD_Intel_ViewAsPlayerTip>
   <TSA_WD_Intel_ViewAsTip>Superposición de mapa mundial solo de sesión. Oculta sitios y columnas que esa facción no ha descubierto. Atenúa sitios conocidos fuera de la línea de visión actual. No cambia la niebla de combate ni la matemática de incursiones. Elige Jugador para restaurar el mapa completo.</TSA_WD_Intel_ViewAsTip>
+  <TSA_WD_Intel_ShowFogOfWar>Mostrar niebla de guerra</TSA_WD_Intel_ShowFogOfWar>
+  <TSA_WD_Intel_ShowFogOfWarTip>Si está activada, Ver mundo como oscurece baldosas no vistas, atenúa las exploradas fuera de línea de visión y oculta sitios y nombres de accidentes geográficos no descubiertos. Si está desactivada, se recuerda la facción elegida pero el mapa se dibuja completamente visible. Activada por defecto. Solo de sesión.</TSA_WD_Intel_ShowFogOfWarTip>
 
 </LanguageData>
